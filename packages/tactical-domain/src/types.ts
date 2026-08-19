@@ -130,7 +130,13 @@ export type TacticalOutcome =
   | "RELATIONSHIP_CHANGED"
   | "NEXT_INTERACTION_AVAILABLE"
   | "PIVOT_ACCESS"
-  | "TURNOVER";
+  | "TURNOVER"
+  /**
+   * Bible S24/S47 vocabulary, added in HM-TACTICS-0.5: a recognised and
+   * attempted exploitation that a recovering defender pressures/closes
+   * (Bible S80) rather than an outright turnover.
+   */
+  | "PRESSURED_SOLUTION";
 
 // ---------------------------------------------------------------------------
 // DecisionQuality (Bible S46) -- analytical, not a permanent attribute
@@ -168,7 +174,34 @@ export type ResolutionTraceStep =
   | { step: "EXPLOITATION_EXECUTION"; quality: ExecutionQuality }
   | { step: "RELATIONSHIP_CHANGED"; relationship: RelationshipId }
   | { step: "NEXT_INTERACTION_AVAILABLE"; targetRelationship: RelationshipId }
-  | { step: "TACTICAL_OUTCOME"; outcome: TacticalOutcome };
+  | { step: "TACTICAL_OUTCOME"; outcome: TacticalOutcome }
+  // --- HM-TACTICS-0.5 additions: additive only, not used by the HM-TACTICS-0.4 deterministic resolver ---
+  /** Bible S60: what the Working Rule/manager intends H2 to do before any sampling. */
+  | { step: "TACTICAL_INTENT_SET"; response: H2Response }
+  /** Bible S60-S64: why the sampled response matched or deviated from tactical intent. */
+  | { step: "PLAYER_INTERPRETATION"; cause: string }
+  /** Bible S65-S66: the PERCEIVE/TIME/EXECUTE/RECOVER decomposition for one actor. */
+  | { step: "EXECUTION_COMPONENTS"; actor: "H2" | "H3"; components: ExecutionComponents }
+  /** Bible S72: V9 and M6 individual recognition of an existing TacticalOpportunity. */
+  | { step: "INDIVIDUAL_RECOGNITION"; v9Recognised: boolean; m6Recognised: boolean }
+  /** Bible S73: SharedRecognition -- a V9<->M6 relationship-level property, not a player attribute. */
+  | { step: "SHARED_RECOGNITION"; sharedInterpretation: boolean; sharedTiming: boolean; result: boolean }
+  /** Bible S77: the action selected from the set the TacticalOpportunity supports. */
+  | { step: "ACTION_SELECTED"; action: ExploitationAction; decisionQuality: DecisionQuality }
+  /** Bible S80: defence remains active after opportunity creation. */
+  | { step: "DEFENSIVE_RECOVERY"; recovered: boolean };
+
+/**
+ * PERCEIVE / TIME / EXECUTE / RECOVER functional decomposition of execution
+ * (Bible S65-S66). These are functional demands, not permanent player
+ * attributes, and must be able to produce distinct causal consequences.
+ */
+export interface ExecutionComponents {
+  perceive: ExecutionQuality;
+  time: ExecutionQuality;
+  execute: ExecutionQuality;
+  recover: ExecutionQuality;
+}
 
 export interface ResolutionTrace {
   interaction: "ATI-001 x TI-001";
