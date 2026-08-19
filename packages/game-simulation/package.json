@@ -1,0 +1,16 @@
+{
+  "name": "@handball-manager/game-simulation",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Fast Match Engine + fixture generator + league table for career/world simulation. Framework-free, separate from the detailed handball-engine/match-renderer 2D system.",
+  "main": "src/index.ts",
+  "scripts": {
+    "test": "tsc -p tsconfig.test.json && node --test .tmp/tests/rng.test.js .tmp/tests/fixtures.test.js .tmp/tests/matchEngine.test.js .tmp/tests/table.test.js .tmp/tests/season.test.js",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint ."
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "typescript": "^5.0.0"
+  }
+}
