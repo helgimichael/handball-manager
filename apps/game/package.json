@@ -11,6 +11,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@handball-manager/game-simulation": "*",
     "@handball-manager/handball-engine": "*",
     "@handball-manager/match-contract": "*",
     "@handball-manager/match-integration": "*",
