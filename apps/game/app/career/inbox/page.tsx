@@ -1,13 +1,21 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { useCareer } from "@/lib/career/CareerContext";
+import { destinationLabel, resolveDestinationHref } from "@/lib/career/destinations";
 
 export default function InboxPage() {
-  const { career } = useCareer();
+  const router = useRouter();
+  const { career, markInboxMessageRead } = useCareer();
   const messages = [...career.inbox].reverse();
   const [selectedId, setSelectedId] = useState(messages[0]?.id ?? "");
   const selected = messages.find((m) => m.id === selectedId) ?? messages[0];
+
+  function selectMessage(id: string) {
+    setSelectedId(id);
+    markInboxMessageRead(id);
+  }
 
   return (
     <div style={{ display: "grid", gridTemplateColumns: "320px 1fr", gap: 12, height: "100%" }}>
@@ -23,7 +31,7 @@ export default function InboxPage() {
             messages.map((m) => (
               <div
                 key={m.id}
-                onClick={() => setSelectedId(m.id)}
+                onClick={() => selectMessage(m.id)}
                 data-active={m.id === selected?.id}
                 className="hm-nav-item"
                 style={{
@@ -34,12 +42,16 @@ export default function InboxPage() {
                 }}
               >
                 <div style={{ display: "flex", justifyContent: "space-between", fontSize: "var(--hm-text-2xs)" }}>
-                  <span className="hm-text-muted">{m.category}</span>
+                  <span className="hm-text-muted">
+                    {m.category}
+                    {m.careerEventId ? " · Karriär" : ""}
+                  </span>
                   <span className="hm-text-muted">{m.date ? new Date(m.date).toLocaleDateString("sv-SE", { day: "2-digit", month: "2-digit" }) : ""}</span>
                 </div>
                 <div style={{ fontWeight: m.read ? 500 : 700, fontSize: "var(--hm-text-xs)", display: "flex", alignItems: "center", gap: 6 }}>
                   {!m.read ? <span style={{ width: 6, height: 6, borderRadius: "50%", background: "var(--hm-accent)", display: "inline-block" }} /> : null}
                   {m.subject}
+                  {m.actionRequired ? <span className="hm-badge hm-badge-warning" style={{ marginLeft: "auto" }}>ÅTGÄRD</span> : null}
                 </div>
                 <div className="hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
                   {m.preview}
@@ -70,6 +82,21 @@ export default function InboxPage() {
                 </p>
               ))}
             </div>
+            {selected.destinations && selected.destinations.length > 0 ? (
+              <div className="hm-panel-body" style={{ display: "flex", gap: 8, paddingTop: 0, flexWrap: "wrap" }}>
+                {selected.destinations.map((destination, i) => {
+                  const href = resolveDestinationHref(destination);
+                  if (!href) {
+                    return null; // Reserved destination with no live screen yet -- never render a dead button.
+                  }
+                  return (
+                    <button key={i} type="button" className="hm-btn hm-btn-sm hm-btn-primary" onClick={() => router.push(href)}>
+                      {destinationLabel(destination)}
+                    </button>
+                  );
+                })}
+              </div>
+            ) : null}
           </>
         ) : (
           <div className="hm-panel-body hm-text-muted">Inga meddelanden.</div>

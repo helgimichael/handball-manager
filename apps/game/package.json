@@ -8,7 +8,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "test": "node --import tsx --test lib/career/dateUtils.test.ts lib/career/careerEvents.test.ts lib/career/playerStatus.test.ts lib/career/careerTasks.test.ts lib/career/dailyTick.test.ts lib/career/continueController.test.ts lib/career/matchdayAction.test.ts lib/career/saveMigration.test.ts lib/career/inboxBridge.test.ts"
   },
   "dependencies": {
     "@handball-manager/game-simulation": "*",
@@ -26,6 +27,7 @@
     "@types/react-dom": "^19.0.0",
     "eslint": "^9.0.0",
     "eslint-config-next": "^16.0.0",
+    "tsx": "^4.0.0",
     "typescript": "^5.0.0"
   }
 }

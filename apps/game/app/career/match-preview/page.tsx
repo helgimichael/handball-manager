@@ -3,15 +3,16 @@
 import { useRouter } from "next/navigation";
 import { getClub, getSquad } from "@/lib/game-data";
 import { useCareer } from "@/lib/career/CareerContext";
-import { getNextEventDate, getNextPlayerFixture } from "@/lib/career/calendar";
+import { getNextPlayerFixture } from "@/lib/career/calendar";
+import { isAvailable, resolveStatusLabel } from "@/lib/career/playerStatus";
 import ClubCrest from "@/components/ClubCrest";
 
 export default function MatchPreviewPage() {
   const router = useRouter();
-  const { career, continueCareer } = useCareer();
+  const { career, playManagerFixture } = useCareer();
   const fixture = getNextPlayerFixture(career);
   const squad = getSquad();
-  const unavailable = squad.filter((p) => p.squadStatus === "Skadad" || p.squadStatus === "Avstängd");
+  const unavailable = squad.filter((p) => !isAvailable(career.playerStatuses, p.id));
 
   if (career.seasonComplete) {
     return (
@@ -29,28 +30,26 @@ export default function MatchPreviewPage() {
     );
   }
 
-  const isNextEvent = fixture.date === getNextEventDate(career);
+  // Career Rhythm's Continue Controller now stops exactly on the fixture's
+  // own date with an unresolved MATCHDAY_READY (Spec S11.2) -- that IS the
+  // matchday-ready condition, replacing the old jump-model's
+  // "is this the next fixture" comparison.
+  const isMatchdayReady = fixture.date === career.gameDate;
 
   function handlePlayMatch() {
-    const { simulatedResults, playerMatchdayReached } = continueCareer();
-    if (playerMatchdayReached) {
-      const result = simulatedResults.find((r) => r.homeClubId === career.playerClubId || r.awayClubId === career.playerClubId);
-      if (result) {
-        router.push(`/career/match-day/${result.fixtureId}`);
-        return;
-      }
+    const { result } = playManagerFixture();
+    if (result) {
+      router.push(`/career/match-day/${result.fixtureId}`);
+      return;
     }
     router.push("/career");
   }
 
   function handleQuickResult() {
-    const { simulatedResults, playerMatchdayReached } = continueCareer();
-    if (playerMatchdayReached) {
-      const result = simulatedResults.find((r) => r.homeClubId === career.playerClubId || r.awayClubId === career.playerClubId);
-      if (result) {
-        router.push(`/career/match-report/${result.fixtureId}`);
-        return;
-      }
+    const { result } = playManagerFixture();
+    if (result) {
+      router.push(`/career/match-report/${result.fixtureId}`);
+      return;
     }
     router.push("/career");
   }
@@ -76,7 +75,7 @@ export default function MatchPreviewPage() {
           <TeamColumn clubId={away.id} />
         </div>
         <div style={{ display: "flex", justifyContent: "center", gap: 10, paddingBottom: 20 }}>
-          {isNextEvent ? (
+          {isMatchdayReady ? (
             <>
               <button type="button" className="hm-btn hm-btn-primary" onClick={handlePlayMatch}>
                 SPELA MATCH →
@@ -110,7 +109,7 @@ export default function MatchPreviewPage() {
                     </td>
                     <td>{p.position}</td>
                     <td>
-                      <span className="hm-badge hm-badge-negative">{p.squadStatus}</span>
+                      <span className="hm-badge hm-badge-negative">{resolveStatusLabel(career.playerStatuses, p)}</span>
                     </td>
                   </tr>
                 ))}

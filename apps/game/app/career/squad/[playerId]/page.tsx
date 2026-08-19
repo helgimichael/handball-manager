@@ -4,6 +4,7 @@ import { useParams, useRouter } from "next/navigation";
 import { abilityStars, getPlayer, playerAge, positionLabel, potentialStars } from "@/lib/game-data";
 import { useCareer } from "@/lib/career/CareerContext";
 import { averageRating, emptyPlayerSeasonStats } from "@/lib/career/types";
+import { resolveStatusLabel } from "@/lib/career/playerStatus";
 import StarRating from "@/components/StarRating";
 import StatValue from "@/components/StatValue";
 
@@ -83,7 +84,7 @@ export default function PlayerProfilePage() {
               <MetricBlock label="Skott" value={seasonStats.shots} />
             )}
             <MetricBlock label="Fitness" value={`${player.fitnessPct}%`} />
-            <MetricBlock label="Status" value={player.squadStatus} />
+            <MetricBlock label="Status" value={resolveStatusLabel(career.playerStatuses, player)} />
           </div>
         </div>
 

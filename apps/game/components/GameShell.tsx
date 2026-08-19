@@ -7,6 +7,7 @@ import NavIcon, { type NavIconName } from "./NavIcon";
 import { getPlayerClub } from "@/lib/game-data";
 import { useCareer } from "@/lib/career/CareerContext";
 import { getNextEventDate } from "@/lib/career/calendar";
+import { formatGameDate } from "@/lib/career/dateUtils";
 
 type NavEntry = { href: string; label: string; icon: NavIconName; badge?: number };
 
@@ -27,13 +28,6 @@ function useNav(unread: number): readonly NavEntry[] {
   ];
 }
 
-function formatGameDate(iso: string): string {
-  const date = new Date(iso);
-  const days = ["Sön", "Mån", "Tis", "Ons", "Tors", "Fre", "Lör"];
-  const months = ["jan", "feb", "mar", "apr", "maj", "jun", "jul", "aug", "sep", "okt", "nov", "dec"];
-  return `${days[date.getDay()]} ${date.getDate()} ${months[date.getMonth()]} ${date.getFullYear()}`;
-}
-
 export default function GameShell({ children }: { children: ReactNode }) {
   const pathname = usePathname();
   const router = useRouter();
@@ -44,15 +38,14 @@ export default function GameShell({ children }: { children: ReactNode }) {
   const nextEventDate = getNextEventDate(career);
 
   function handleContinue() {
-    const { simulatedResults, playerMatchdayReached } = continueCareer();
-    if (playerMatchdayReached) {
-      const playerResult = simulatedResults.find(
-        (r) => r.homeClubId === career.playerClubId || r.awayClubId === career.playerClubId,
-      );
-      if (playerResult) {
-        router.push(`/career/match-report/${playerResult.fixtureId}`);
-        return;
-      }
+    const { events, stopReason } = continueCareer();
+    if (stopReason === "ACTION_REQUIRED_PENDING" || events.some((e) => e.type === "MATCHDAY_READY")) {
+      router.push("/career/match-preview");
+      return;
+    }
+    if (events.some((e) => e.priority === "IMPORTANT" || e.priority === "ACTION_REQUIRED")) {
+      router.push("/career/inbox");
+      return;
     }
     router.push("/career");
   }

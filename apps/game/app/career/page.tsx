@@ -14,8 +14,11 @@ export default function HomePage() {
   const club = getPlayerClub();
   const next = getNextPlayerFixture(career);
   const squad = getSquad();
-  const injured = squad.filter((p) => p.squadStatus === "Skadad");
+  const injured = squad.filter((p) => career.playerStatuses[p.id]?.availability === "INJURED");
   const messages = [...career.inbox].reverse().slice(0, 4);
+  const awaitingAttention = career.careerEvents.some(
+    (e) => (e.priority === "ACTION_REQUIRED" && !e.resolved) || (e.priority === "IMPORTANT" && !e.read),
+  );
 
   const table = getLiveStandings(career);
   const myPosition = table.findIndex((r) => r.clubId === club.id) + 1;
@@ -189,7 +192,10 @@ export default function HomePage() {
         {/* Inbox */}
         <div className="hm-panel">
           <div className="hm-panel-header">
-            <span className="hm-panel-title">Inkorg</span>
+            <span className="hm-panel-title">
+              Inkorg
+              {awaitingAttention ? <span className="hm-badge hm-badge-warning" style={{ marginLeft: 8 }}>VÄNTAR</span> : null}
+            </span>
             <button type="button" className="hm-btn hm-btn-sm hm-btn-ghost" onClick={() => router.push("/career/inbox")}>
               Visa alla →
             </button>
