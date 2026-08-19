@@ -22,7 +22,12 @@ export type ManagerProfile = {
   dateOfBirth: string;
 };
 
-export const CURRENT_SAVE_SCHEMA_VERSION = 2;
+// v3 (HM-GAME-0.3): CareerState gained Career Rhythm fields
+// (processedThroughDate, careerEvents, playerStatuses, tasks). See
+// career/saveMigration.ts for the CareerState-level backfill; this
+// constant only marks the save envelope as up to date once that
+// migration has run and been persisted.
+export const CURRENT_SAVE_SCHEMA_VERSION = 3;
 
 export type CareerSave = {
   saveId: string;
