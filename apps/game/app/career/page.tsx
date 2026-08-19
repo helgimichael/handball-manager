@@ -1,40 +1,33 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import {
-  ALLSVENSKAN_TABLE,
-  getClub,
-  getInboxMessages,
-  getNextFixture,
-  getPlayedFixtures,
-  getPlayerClub,
-  getSquad,
-} from "@/lib/game-data";
+import { getClub, getPlayerClub, getSquad } from "@/lib/game-data";
+import { useCareer } from "@/lib/career/CareerContext";
+import { getNextPlayerFixture } from "@/lib/career/calendar";
+import { getLiveStandings } from "@/lib/career/standings";
 import ClubCrest from "@/components/ClubCrest";
 import FormDots from "@/components/FormDots";
 
 export default function HomePage() {
   const router = useRouter();
+  const { career } = useCareer();
   const club = getPlayerClub();
-  const next = getNextFixture();
-  const recent = [...getPlayedFixtures()].reverse().slice(0, 5);
+  const next = getNextPlayerFixture(career);
   const squad = getSquad();
   const injured = squad.filter((p) => p.squadStatus === "Skadad");
-  const messages = getInboxMessages().slice(0, 4);
+  const messages = [...career.inbox].reverse().slice(0, 4);
 
-  const myRow = ALLSVENSKAN_TABLE.find((r) => r.clubId === club.id);
-  const myPosition = ALLSVENSKAN_TABLE.findIndex((r) => r.clubId === club.id) + 1;
-  const tableSlice = ALLSVENSKAN_TABLE.slice(0, 6);
+  const table = getLiveStandings(career);
+  const myPosition = table.findIndex((r) => r.clubId === club.id) + 1;
+  const tableSlice = table.slice(0, 6);
 
-  const recentForm = recent
-    .slice(0, 5)
-    .reverse()
-    .map((f) => {
-      const home = f.homeClubId === club.id;
-      const gf = home ? f.homeScore! : f.awayScore!;
-      const ga = home ? f.awayScore! : f.homeScore!;
-      return gf > ga ? "W" : gf < ga ? "L" : "D";
-    });
+  const form = (career.clubForm[club.id] ?? []).slice(-5) as ("W" | "D" | "L")[];
+
+  // Last 5 played fixtures overall (for the "recent results" panel).
+  const recentPlayed = career.fixtures
+    .filter((f) => (f.homeClubId === club.id || f.awayClubId === club.id) && career.results[f.id])
+    .sort((a, b) => (a.date < b.date ? 1 : -1))
+    .slice(0, 5);
 
   return (
     <div className="hm-grid" style={{ gridTemplateColumns: "1.4fr 1fr", alignItems: "start" }}>
@@ -42,15 +35,19 @@ export default function HomePage() {
         {/* Next match */}
         <div className="hm-panel">
           <div className="hm-panel-header">
-            <span className="hm-panel-title">Nästa match</span>
-            {next ? (
+            <span className="hm-panel-title">{career.seasonComplete ? "Säsongen avslutad" : "Nästa match"}</span>
+            {next && !career.seasonComplete ? (
               <button type="button" className="hm-btn hm-btn-sm hm-btn-primary" onClick={() => router.push("/career/match-preview")}>
                 Matchförhandsvisning →
               </button>
             ) : null}
           </div>
           <div className="hm-panel-body">
-            {next ? (
+            {career.seasonComplete ? (
+              <div>
+                Slutplacering: <strong>{myPosition}:a plats</strong> i Allsvenskan {career.seasonId}.
+              </div>
+            ) : next ? (
               <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 24 }}>
                 <TeamBlock clubId={next.homeClubId} />
                 <div style={{ textAlign: "center" }}>
@@ -72,40 +69,47 @@ export default function HomePage() {
         <div className="hm-panel">
           <div className="hm-panel-header">
             <span className="hm-panel-title">Senaste resultat</span>
-            <FormDots results={recentForm as ("W" | "D" | "L")[]} />
+            {form.length > 0 ? <FormDots results={form} /> : null}
           </div>
           <div className="hm-panel-body-flush">
-            <table className="hm-table">
-              <thead>
-                <tr>
-                  <th>Datum</th>
-                  <th>Match</th>
-                  <th>Resultat</th>
-                </tr>
-              </thead>
-              <tbody>
-                {recent.map((f) => {
-                  const home = getClub(f.homeClubId)!;
-                  const away = getClub(f.awayClubId)!;
-                  const isTumbaHome = f.homeClubId === club.id;
-                  const won = isTumbaHome ? f.homeScore! > f.awayScore! : f.awayScore! > f.homeScore!;
-                  const drawn = f.homeScore === f.awayScore;
-                  return (
-                    <tr key={f.id}>
-                      <td className="hm-text-muted">{new Date(f.date).toLocaleDateString("sv-SE", { day: "2-digit", month: "2-digit" })}</td>
-                      <td className="hm-td-strong">
-                        {home.shortName} – {away.shortName}
-                      </td>
-                      <td>
-                        <span className={`hm-badge ${drawn ? "hm-badge-warning" : won ? "hm-badge-positive" : "hm-badge-negative"}`}>
-                          {f.homeScore}–{f.awayScore}
-                        </span>
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
+            {recentPlayed.length === 0 ? (
+              <div className="hm-panel-body hm-text-muted">Inga matcher spelade ännu.</div>
+            ) : (
+              <table className="hm-table">
+                <thead>
+                  <tr>
+                    <th>Datum</th>
+                    <th>Match</th>
+                    <th>Resultat</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {recentPlayed.map((f) => {
+                    const home = getClub(f.homeClubId)!;
+                    const away = getClub(f.awayClubId)!;
+                    const r = career.results[f.id];
+                    const isHome = f.homeClubId === club.id;
+                    const own = isHome ? r.homeGoals : r.awayGoals;
+                    const opp = isHome ? r.awayGoals : r.homeGoals;
+                    const won = own > opp;
+                    const drawn = own === opp;
+                    return (
+                      <tr key={f.id}>
+                        <td className="hm-text-muted">{new Date(f.date).toLocaleDateString("sv-SE", { day: "2-digit", month: "2-digit" })}</td>
+                        <td className="hm-td-strong">
+                          {home.shortName} – {away.shortName}
+                        </td>
+                        <td>
+                          <span className={`hm-badge ${drawn ? "hm-badge-warning" : won ? "hm-badge-positive" : "hm-badge-negative"}`}>
+                            {r.homeGoals}–{r.awayGoals}
+                          </span>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            )}
           </div>
         </div>
 
@@ -169,12 +173,12 @@ export default function HomePage() {
                     </tr>
                   );
                 })}
-                {myPosition > 6 && myRow ? (
+                {myPosition > 6 ? (
                   <tr data-highlight="true">
                     <td>{myPosition}</td>
                     <td className="hm-td-strong">{club.shortName}</td>
-                    <td className="hm-table-num">{myRow.played}</td>
-                    <td className="hm-table-num hm-td-strong">{myRow.points}</td>
+                    <td className="hm-table-num">{table[myPosition - 1]?.played ?? 0}</td>
+                    <td className="hm-table-num hm-td-strong">{table[myPosition - 1]?.points ?? 0}</td>
                   </tr>
                 ) : null}
               </tbody>
@@ -191,23 +195,26 @@ export default function HomePage() {
             </button>
           </div>
           <div>
-            {messages.map((m) => (
-              <div
-                key={m.id}
-                onClick={() => router.push("/career/inbox")}
-                style={{
-                  padding: "8px 12px",
-                  borderBottom: "1px solid var(--hm-border-subtle)",
-                  cursor: "pointer",
-                }}
-              >
-                <div style={{ display: "flex", justifyContent: "space-between", fontSize: "var(--hm-text-2xs)" }}>
-                  <span className="hm-text-muted">{m.category}</span>
-                  <span className="hm-text-muted">{new Date(m.date).toLocaleDateString("sv-SE", { day: "2-digit", month: "2-digit" })}</span>
+            {messages.length === 0 ? (
+              <div className="hm-panel-body hm-text-muted">Inga meddelanden ännu.</div>
+            ) : (
+              messages.map((m) => (
+                <div
+                  key={m.id}
+                  onClick={() => router.push("/career/inbox")}
+                  style={{
+                    padding: "8px 12px",
+                    borderBottom: "1px solid var(--hm-border-subtle)",
+                    cursor: "pointer",
+                  }}
+                >
+                  <div style={{ display: "flex", justifyContent: "space-between", fontSize: "var(--hm-text-2xs)" }}>
+                    <span className="hm-text-muted">{m.category}</span>
+                  </div>
+                  <div style={{ fontSize: "var(--hm-text-xs)", fontWeight: m.read ? 500 : 700 }}>{m.subject}</div>
                 </div>
-                <div style={{ fontSize: "var(--hm-text-xs)", fontWeight: m.read ? 500 : 700 }}>{m.subject}</div>
-              </div>
-            ))}
+              ))
+            )}
           </div>
         </div>
       </div>

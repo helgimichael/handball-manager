@@ -1,14 +1,25 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { getClub, getNextFixture, getSquad } from "@/lib/game-data";
+import { getClub, getSquad } from "@/lib/game-data";
+import { useCareer } from "@/lib/career/CareerContext";
+import { getNextEventDate, getNextPlayerFixture } from "@/lib/career/calendar";
 import ClubCrest from "@/components/ClubCrest";
 
 export default function MatchPreviewPage() {
   const router = useRouter();
-  const fixture = getNextFixture();
+  const { career, continueCareer } = useCareer();
+  const fixture = getNextPlayerFixture(career);
   const squad = getSquad();
   const unavailable = squad.filter((p) => p.squadStatus === "Skadad" || p.squadStatus === "Avstängd");
+
+  if (career.seasonComplete) {
+    return (
+      <div className="hm-panel">
+        <div className="hm-panel-body hm-text-muted">Säsongen är avslutad — inga fler matcher att förhandsvisa.</div>
+      </div>
+    );
+  }
 
   if (!fixture) {
     return (
@@ -16,6 +27,32 @@ export default function MatchPreviewPage() {
         <div className="hm-panel-body hm-text-muted">Ingen kommande match schemalagd.</div>
       </div>
     );
+  }
+
+  const isNextEvent = fixture.date === getNextEventDate(career);
+
+  function handlePlayMatch() {
+    const { simulatedResults, playerMatchdayReached } = continueCareer();
+    if (playerMatchdayReached) {
+      const result = simulatedResults.find((r) => r.homeClubId === career.playerClubId || r.awayClubId === career.playerClubId);
+      if (result) {
+        router.push(`/career/match-day/${result.fixtureId}`);
+        return;
+      }
+    }
+    router.push("/career");
+  }
+
+  function handleQuickResult() {
+    const { simulatedResults, playerMatchdayReached } = continueCareer();
+    if (playerMatchdayReached) {
+      const result = simulatedResults.find((r) => r.homeClubId === career.playerClubId || r.awayClubId === career.playerClubId);
+      if (result) {
+        router.push(`/career/match-report/${result.fixtureId}`);
+        return;
+      }
+    }
+    router.push("/career");
   }
 
   const home = getClub(fixture.homeClubId)!;
@@ -38,10 +75,21 @@ export default function MatchPreviewPage() {
           </div>
           <TeamColumn clubId={away.id} />
         </div>
-        <div style={{ display: "flex", justifyContent: "center", paddingBottom: 20 }}>
-          <button type="button" className="hm-btn hm-btn-primary" onClick={() => router.push("/career/match-center")}>
-            GÅ TILL MATCH →
-          </button>
+        <div style={{ display: "flex", justifyContent: "center", gap: 10, paddingBottom: 20 }}>
+          {isNextEvent ? (
+            <>
+              <button type="button" className="hm-btn hm-btn-primary" onClick={handlePlayMatch}>
+                SPELA MATCH →
+              </button>
+              <button type="button" className="hm-btn" onClick={handleQuickResult}>
+                SNABBRESULTAT
+              </button>
+            </>
+          ) : (
+            <span className="hm-text-muted" style={{ fontSize: "var(--hm-text-xs)" }}>
+              Andra matcher i ligan spelas först — fortsätt via Fortsätt-knappen tills denna match är nästa händelse.
+            </span>
+          )}
         </div>
       </div>
 

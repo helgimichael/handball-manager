@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import GameShell from "@/components/GameShell";
 import { getActiveSave } from "@/lib/save/saveRepository";
+import { CareerProvider } from "@/lib/career/CareerContext";
 
 export default function CareerLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter();
@@ -36,5 +37,9 @@ export default function CareerLayout({ children }: { children: React.ReactNode }
     );
   }
 
-  return <GameShell>{children}</GameShell>;
+  return (
+    <CareerProvider>
+      <GameShell>{children}</GameShell>
+    </CareerProvider>
+  );
 }

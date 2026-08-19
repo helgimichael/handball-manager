@@ -27,15 +27,19 @@ import {
   advanceMatchSequence,
   type MatchSequenceState,
 } from "@handball-manager/match-integration";
-import { getClub, getNextFixture, getPlayerClub } from "@/lib/game-data";
+import { getClub, getPlayerClub } from "@/lib/game-data";
+import { useCareer } from "@/lib/career/CareerContext";
+import { getNextPlayerFixture } from "@/lib/career/calendar";
 import ClubCrest from "@/components/ClubCrest";
 
-// HM-GAME-0.1 Match Center: the existing HM-0.2E/HM-0.3/HM-0.4A live
-// SIM -> FIELD engine slice (unmodified), framed in manager-game chrome.
-// This is NOT a full match simulation -- it demonstrates the same
-// verified PASS/ATTACK/6:0-defense/goalkeeper bridge as apps/match-demo,
-// inside the actual game shell. apps/match-demo remains available
-// separately as the focused engine debug host.
+// 2D ENGINE PREVIEW -- the existing HM-0.2E/HM-0.3/HM-0.4A live SIM ->
+// FIELD engine slice (unmodified), framed in manager-game chrome. This
+// is NOT the official career match result: since HM-GAME-0.2A, official
+// league results come from the Fast Match Engine (packages/
+// game-simulation, driven from the career shell's CONTINUE/Match
+// Preview flow). This screen demonstrates the same verified PASS/
+// ATTACK/6:0-defense/goalkeeper bridge as apps/match-demo, inside the
+// actual game shell, and never writes to career state.
 
 function noop() {}
 
@@ -49,7 +53,8 @@ function createInitialRuntime(): SimulationRuntimeState {
 
 export default function MatchCenterPage() {
   const club = getPlayerClub();
-  const fixture = getNextFixture();
+  const { career } = useCareer();
+  const fixture = getNextPlayerFixture(career);
   const opponent = fixture ? getClub(fixture.homeClubId === club.id ? fixture.awayClubId : fixture.homeClubId) : null;
 
   const [runtime, setRuntime] = useState<SimulationRuntimeState>(createInitialRuntime);
@@ -168,6 +173,10 @@ export default function MatchCenterPage() {
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 12, height: "100%" }}>
       <div className="hm-panel">
+        <div className="hm-panel-header">
+          <span className="hm-panel-title">2D-motorförhandsvisning</span>
+          <span className="hm-badge hm-badge-warning">EJ OFFICIELLT MATCHRESULTAT</span>
+        </div>
         <div className="hm-panel-body" style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 32, padding: "12px 20px" }}>
           <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
             <ClubCrest shortName={club.shortName} primaryColor={club.primaryColor} size={28} />

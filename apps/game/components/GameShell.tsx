@@ -4,12 +4,13 @@ import { usePathname, useRouter } from "next/navigation";
 import type { ReactNode } from "react";
 import ClubCrest from "./ClubCrest";
 import NavIcon, { type NavIconName } from "./NavIcon";
-import { getPlayerClub, getUnreadCount, GAME_CURRENT_DATE } from "@/lib/game-data";
+import { getPlayerClub } from "@/lib/game-data";
+import { useCareer } from "@/lib/career/CareerContext";
+import { getNextEventDate } from "@/lib/career/calendar";
 
 type NavEntry = { href: string; label: string; icon: NavIconName; badge?: number };
 
-function useNav(): readonly NavEntry[] {
-  const unread = getUnreadCount();
+function useNav(unread: number): readonly NavEntry[] {
   return [
     { href: "/career", label: "Hem", icon: "home" },
     { href: "/career/inbox", label: "Inkorg", icon: "inbox", badge: unread || undefined },
@@ -36,8 +37,25 @@ function formatGameDate(iso: string): string {
 export default function GameShell({ children }: { children: ReactNode }) {
   const pathname = usePathname();
   const router = useRouter();
-  const nav = useNav();
+  const { career, continueCareer } = useCareer();
+  const unread = career.inbox.filter((m) => !m.read).length;
+  const nav = useNav(unread);
   const club = getPlayerClub();
+  const nextEventDate = getNextEventDate(career);
+
+  function handleContinue() {
+    const { simulatedResults, playerMatchdayReached } = continueCareer();
+    if (playerMatchdayReached) {
+      const playerResult = simulatedResults.find(
+        (r) => r.homeClubId === career.playerClubId || r.awayClubId === career.playerClubId,
+      );
+      if (playerResult) {
+        router.push(`/career/match-report/${playerResult.fixtureId}`);
+        return;
+      }
+    }
+    router.push("/career");
+  }
 
   return (
     <div className="hm-shell">
@@ -73,12 +91,15 @@ export default function GameShell({ children }: { children: ReactNode }) {
       <header className="hm-header">
         <div className="hm-header-title">
           <div className="hm-header-title-text">{club.name}</div>
-          <div className="hm-header-sub">{formatGameDate(GAME_CURRENT_DATE)}</div>
+          <div className="hm-header-sub">
+            {formatGameDate(career.gameDate)}
+            {career.seasonComplete ? " · Säsongen avslutad" : nextEventDate ? ` · Nästa: ${formatGameDate(nextEventDate)}` : ""}
+          </div>
         </div>
         <div className="hm-header-meta">
           <span>Manager: Du</span>
-          <button type="button" className="hm-btn hm-btn-primary" onClick={() => router.push("/career/schedule")}>
-            Fortsätt »
+          <button type="button" className="hm-btn hm-btn-primary" onClick={handleContinue} disabled={career.seasonComplete}>
+            {career.seasonComplete ? "Säsong klar" : "Fortsätt »"}
           </button>
         </div>
       </header>

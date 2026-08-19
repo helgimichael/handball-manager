@@ -4,11 +4,14 @@ import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { getSquad, playerAge, positionLabel } from "@/lib/game-data";
 import type { HandballPosition } from "@/lib/game-data";
+import { useCareer } from "@/lib/career/CareerContext";
+import { averageRating, emptyPlayerSeasonStats } from "@/lib/career/types";
 
-type SortKey = "name" | "position" | "age" | "form" | "fitness" | "morale" | "appearances" | "goals";
+type SortKey = "name" | "position" | "age" | "appearances" | "goals" | "rating" | "fitness" | "morale";
 
 export default function SquadPage() {
   const router = useRouter();
+  const { career } = useCareer();
   const squad = getSquad();
   const [positionFilter, setPositionFilter] = useState<HandballPosition | "ALL">("ALL");
   const [sortKey, setSortKey] = useState<SortKey>("position");
@@ -18,31 +21,33 @@ export default function SquadPage() {
   const rows = useMemo(() => {
     const filtered = positionFilter === "ALL" ? squad : squad.filter((p) => p.position === positionFilter);
     return [...filtered].sort((a, b) => {
+      const statsA = career.playerSeasonStats[a.id] ?? emptyPlayerSeasonStats(a.id);
+      const statsB = career.playerSeasonStats[b.id] ?? emptyPlayerSeasonStats(b.id);
       switch (sortKey) {
         case "name":
           return a.lastName.localeCompare(b.lastName);
         case "age":
           return playerAge(a.dateOfBirth) - playerAge(b.dateOfBirth);
-        case "form":
-          return b.form - a.form;
+        case "appearances":
+          return statsB.appearances - statsA.appearances;
+        case "goals":
+          return statsB.goals - statsA.goals;
+        case "rating":
+          return averageRating(statsB) - averageRating(statsA);
         case "fitness":
           return b.fitnessPct - a.fitnessPct;
         case "morale":
           return b.moralePct - a.moralePct;
-        case "appearances":
-          return b.appearances - a.appearances;
-        case "goals":
-          return b.goals - a.goals;
         default:
           return a.position.localeCompare(b.position);
       }
     });
-  }, [squad, positionFilter, sortKey]);
+  }, [squad, positionFilter, sortKey, career.playerSeasonStats]);
 
   return (
     <div className="hm-panel">
       <div className="hm-panel-header">
-        <span className="hm-panel-title">Trupp — IFK Tumba</span>
+        <span className="hm-panel-title">Trupp — IFK Tumba · {career.seasonId}</span>
         <div style={{ display: "flex", gap: 6 }}>
           {positions.map((p) => (
             <button
@@ -72,38 +77,41 @@ export default function SquadPage() {
               <th>Status</th>
               <th onClick={() => setSortKey("appearances")} style={{ cursor: "pointer" }} className="hm-table-num">M</th>
               <th onClick={() => setSortKey("goals")} style={{ cursor: "pointer" }} className="hm-table-num">Mål</th>
-              <th onClick={() => setSortKey("form")} style={{ cursor: "pointer" }} className="hm-table-num">Form</th>
+              <th onClick={() => setSortKey("rating")} style={{ cursor: "pointer" }} className="hm-table-num">Snittbetyg</th>
               <th onClick={() => setSortKey("fitness")} style={{ cursor: "pointer" }} className="hm-table-num">Fitness</th>
               <th onClick={() => setSortKey("morale")} style={{ cursor: "pointer" }} className="hm-table-num">Moral</th>
               <th>Kontrakt</th>
             </tr>
           </thead>
           <tbody>
-            {rows.map((p) => (
-              <tr key={p.id} data-clickable="true" onClick={() => router.push(`/career/squad/${p.id}`)}>
-                <td>
-                  <span className="hm-shirt-number">{p.shirtNumber}</span>
-                </td>
-                <td className="hm-td-strong">
-                  {p.firstName} {p.lastName}
-                </td>
-                <td title={positionLabel(p.position)}>{p.position}</td>
-                <td>{playerAge(p.dateOfBirth)}</td>
-                <td>
-                  <StatusBadge status={p.squadStatus} />
-                </td>
-                <td className="hm-table-num">{p.appearances}</td>
-                <td className="hm-table-num">{p.goals}</td>
-                <td className="hm-table-num">{p.form.toFixed(1)}</td>
-                <td className="hm-table-num">
-                  <Bar pct={p.fitnessPct} />
-                </td>
-                <td className="hm-table-num">
-                  <Bar pct={p.moralePct} />
-                </td>
-                <td className="hm-text-muted">{p.contractEndSeason}</td>
-              </tr>
-            ))}
+            {rows.map((p) => {
+              const stats = career.playerSeasonStats[p.id] ?? emptyPlayerSeasonStats(p.id);
+              return (
+                <tr key={p.id} data-clickable="true" onClick={() => router.push(`/career/squad/${p.id}`)}>
+                  <td>
+                    <span className="hm-shirt-number">{p.shirtNumber}</span>
+                  </td>
+                  <td className="hm-td-strong">
+                    {p.firstName} {p.lastName}
+                  </td>
+                  <td title={positionLabel(p.position)}>{p.position}</td>
+                  <td>{playerAge(p.dateOfBirth)}</td>
+                  <td>
+                    <StatusBadge status={p.squadStatus} />
+                  </td>
+                  <td className="hm-table-num">{stats.appearances}</td>
+                  <td className="hm-table-num">{stats.goals}</td>
+                  <td className="hm-table-num">{stats.appearances > 0 ? averageRating(stats).toFixed(1) : "—"}</td>
+                  <td className="hm-table-num">
+                    <Bar pct={p.fitnessPct} />
+                  </td>
+                  <td className="hm-table-num">
+                    <Bar pct={p.moralePct} />
+                  </td>
+                  <td className="hm-text-muted">{p.contractEndSeason}</td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>

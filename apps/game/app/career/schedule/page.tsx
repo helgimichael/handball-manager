@@ -1,16 +1,25 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { TUMBA_FIXTURES, getClub, getPlayerClub } from "@/lib/game-data";
+import { getClub, getPlayerClub } from "@/lib/game-data";
+import { useCareer } from "@/lib/career/CareerContext";
+import { getNextEventDate } from "@/lib/career/calendar";
 
 export default function SchedulePage() {
   const router = useRouter();
+  const { career } = useCareer();
   const club = getPlayerClub();
+  const nextEventDate = getNextEventDate(career);
+
+  const tumbaFixtures = career.fixtures
+    .filter((f) => f.homeClubId === club.id || f.awayClubId === club.id)
+    .sort((a, b) => (a.date < b.date ? -1 : 1));
 
   return (
     <div className="hm-panel">
       <div className="hm-panel-header">
-        <span className="hm-panel-title">Säsongsschema — Allsvenskan</span>
+        <span className="hm-panel-title">Säsongsschema — Allsvenskan {career.seasonId}</span>
+        <span className="hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)" }}>26 matcher</span>
       </div>
       <div className="hm-scroll-x">
         <table className="hm-table">
@@ -25,28 +34,32 @@ export default function SchedulePage() {
             </tr>
           </thead>
           <tbody>
-            {TUMBA_FIXTURES.map((f) => {
+            {tumbaFixtures.map((f) => {
               const home = f.homeClubId === club.id;
               const opponent = getClub(home ? f.awayClubId : f.homeClubId)!;
-              const isNext = f.status === "Kommande";
+              const result = career.results[f.id];
+              const isNext = !result && f.date === nextEventDate;
+              const played = Boolean(result);
               return (
                 <tr
                   key={f.id}
-                  data-clickable={isNext}
-                  data-highlight={isNext && f.id === TUMBA_FIXTURES.find((x) => x.status === "Kommande")?.id}
-                  onClick={() => isNext && router.push("/career/match-preview")}
+                  data-clickable="true"
+                  data-highlight={isNext}
+                  onClick={() => router.push(played ? `/career/match-report/${f.id}` : "/career/match-preview")}
                 >
                   <td>{f.round}</td>
                   <td>{new Date(f.date).toLocaleDateString("sv-SE", { weekday: "short", day: "2-digit", month: "2-digit" })}</td>
                   <td>{home ? "Hemma" : "Borta"}</td>
                   <td className="hm-td-strong">{opponent.name}</td>
                   <td>
-                    <span className={`hm-badge ${f.status === "Spelad" ? "hm-badge-neutral" : "hm-badge-positive"}`}>{f.status}</span>
+                    <span className={`hm-badge ${played ? "hm-badge-neutral" : isNext ? "hm-badge-positive" : "hm-badge-warning"}`}>
+                      {played ? "Spelad" : isNext ? "Nästa match" : "Kommande"}
+                    </span>
                   </td>
                   <td>
-                    {f.status === "Spelad" ? (
+                    {result ? (
                       <span className="hm-td-strong">
-                        {home ? f.homeScore : f.awayScore}–{home ? f.awayScore : f.homeScore}
+                        {home ? result.homeGoals : result.awayGoals}–{home ? result.awayGoals : result.homeGoals}
                       </span>
                     ) : (
                       <span className="hm-text-muted">—</span>

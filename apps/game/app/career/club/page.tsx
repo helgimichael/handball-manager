@@ -1,10 +1,15 @@
-import { ALLSVENSKAN_TABLE, getPlayerClub, getSquad, TUMBA_STAFF } from "@/lib/game-data";
+"use client";
+
+import { getPlayerClub, getSquad, TUMBA_STAFF } from "@/lib/game-data";
+import { useCareer } from "@/lib/career/CareerContext";
+import { getPlayerClubPosition } from "@/lib/career/standings";
 import ClubCrest from "@/components/ClubCrest";
 
 export default function ClubPage() {
+  const { career } = useCareer();
   const club = getPlayerClub();
   const squad = getSquad();
-  const position = ALLSVENSKAN_TABLE.findIndex((r) => r.clubId === club.id) + 1;
+  const position = getPlayerClubPosition(career);
 
   return (
     <div className="hm-grid" style={{ gridTemplateColumns: "1fr 1fr" }}>

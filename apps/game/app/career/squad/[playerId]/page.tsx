@@ -2,6 +2,8 @@
 
 import { useParams, useRouter } from "next/navigation";
 import { abilityStars, getPlayer, playerAge, positionLabel, potentialStars } from "@/lib/game-data";
+import { useCareer } from "@/lib/career/CareerContext";
+import { averageRating, emptyPlayerSeasonStats } from "@/lib/career/types";
 import StarRating from "@/components/StarRating";
 import StatValue from "@/components/StatValue";
 
@@ -9,6 +11,7 @@ export default function PlayerProfilePage() {
   const router = useRouter();
   const params = useParams<{ playerId: string }>();
   const player = getPlayer(params.playerId);
+  const { career } = useCareer();
 
   if (!player) {
     return (
@@ -18,6 +21,7 @@ export default function PlayerProfilePage() {
     );
   }
 
+  const seasonStats = career.playerSeasonStats[player.id] ?? emptyPlayerSeasonStats(player.id);
   const age = playerAge(player.dateOfBirth);
   const isWonderkid = age <= 19 && potentialStars(player) >= 5;
 
@@ -70,11 +74,15 @@ export default function PlayerProfilePage() {
             <span className="hm-panel-title">Översikt</span>
           </div>
           <div className="hm-panel-body" style={{ display: "flex", gap: 28 }}>
-            <MetricBlock label="Matcher" value={player.appearances} />
-            <MetricBlock label="Mål" value={player.goals} />
-            <MetricBlock label="Form" value={player.form.toFixed(1)} />
+            <MetricBlock label="Matcher" value={seasonStats.appearances} />
+            <MetricBlock label="Mål" value={seasonStats.goals} />
+            <MetricBlock label="Snittbetyg" value={seasonStats.appearances > 0 ? averageRating(seasonStats).toFixed(1) : "—"} />
+            {player.position === "MV" ? (
+              <MetricBlock label="Räddningar" value={`${seasonStats.saves}/${seasonStats.shotsFaced}`} />
+            ) : (
+              <MetricBlock label="Skott" value={seasonStats.shots} />
+            )}
             <MetricBlock label="Fitness" value={`${player.fitnessPct}%`} />
-            <MetricBlock label="Moral" value={`${player.moralePct}%`} />
             <MetricBlock label="Status" value={player.squadStatus} />
           </div>
         </div>
