@@ -1,0 +1,89 @@
+"use client";
+
+import { usePathname, useRouter } from "next/navigation";
+import type { ReactNode } from "react";
+import ClubCrest from "./ClubCrest";
+import NavIcon, { type NavIconName } from "./NavIcon";
+import { getPlayerClub, getUnreadCount, GAME_CURRENT_DATE } from "@/lib/game-data";
+
+type NavEntry = { href: string; label: string; icon: NavIconName; badge?: number };
+
+function useNav(): readonly NavEntry[] {
+  const unread = getUnreadCount();
+  return [
+    { href: "/career", label: "Hem", icon: "home" },
+    { href: "/career/inbox", label: "Inkorg", icon: "inbox", badge: unread || undefined },
+    { href: "/career/squad", label: "Trupp", icon: "squad" },
+    { href: "/career/tactics", label: "Taktik", icon: "tactics" },
+    { href: "/career/training", label: "Träning", icon: "training" },
+    { href: "/career/schedule", label: "Schema", icon: "schedule" },
+    { href: "/career/matches", label: "Matcher", icon: "matches" },
+    { href: "/career/scouting", label: "Scouting", icon: "scouting" },
+    { href: "/career/transfers", label: "Transfers", icon: "transfers" },
+    { href: "/career/staff", label: "Personal", icon: "staff" },
+    { href: "/career/club", label: "Klubb", icon: "club" },
+    { href: "/career/competitions", label: "Tävlingar", icon: "competitions" },
+  ];
+}
+
+function formatGameDate(iso: string): string {
+  const date = new Date(iso);
+  const days = ["Sön", "Mån", "Tis", "Ons", "Tors", "Fre", "Lör"];
+  const months = ["jan", "feb", "mar", "apr", "maj", "jun", "jul", "aug", "sep", "okt", "nov", "dec"];
+  return `${days[date.getDay()]} ${date.getDate()} ${months[date.getMonth()]} ${date.getFullYear()}`;
+}
+
+export default function GameShell({ children }: { children: ReactNode }) {
+  const pathname = usePathname();
+  const router = useRouter();
+  const nav = useNav();
+  const club = getPlayerClub();
+
+  return (
+    <div className="hm-shell">
+      <aside className="hm-sidebar">
+        <div className="hm-club-badge">
+          <ClubCrest shortName={club.shortName} primaryColor={club.primaryColor} size={32} />
+          <div>
+            <div className="hm-club-name">{club.name}</div>
+            <div className="hm-club-sub">Allsvenskan</div>
+          </div>
+        </div>
+        <div className="hm-nav-group">
+          {nav.map((item) => {
+            const active = pathname === item.href;
+            return (
+              <div
+                key={item.href}
+                className="hm-nav-item"
+                data-active={active}
+                onClick={() => router.push(item.href)}
+              >
+                <span className="hm-nav-icon">
+                  <NavIcon name={item.icon} />
+                </span>
+                <span>{item.label}</span>
+                {item.badge ? <span className="hm-nav-badge">{item.badge}</span> : null}
+              </div>
+            );
+          })}
+        </div>
+      </aside>
+
+      <header className="hm-header">
+        <div className="hm-header-title">
+          <div className="hm-header-title-text">{club.name}</div>
+          <div className="hm-header-sub">{formatGameDate(GAME_CURRENT_DATE)}</div>
+        </div>
+        <div className="hm-header-meta">
+          <span>Manager: Du</span>
+          <button type="button" className="hm-btn hm-btn-primary" onClick={() => router.push("/career/schedule")}>
+            Fortsätt »
+          </button>
+        </div>
+      </header>
+
+      <main className="hm-main">{children}</main>
+    </div>
+  );
+}

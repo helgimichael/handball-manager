@@ -1,0 +1,77 @@
+/*
+  Handball Manager design tokens.
+
+  Derived from the supplied reference screenshot (a Football-Manager-
+  style career screen): near-black navy app background, a slightly
+  distinct sidebar tone, dense data-table rows, a single strong violet
+  accent used sparingly (primary CTA, active nav, selected states),
+  gold/amber for shirt-number badges and ratings, green/red for
+  positive/negative match+form indicators. Typography is small and
+  condensed throughout — this is a data-dense desktop game UI, not a
+  spacious marketing page.
+*/
+
+:root {
+  /* Surfaces */
+  --hm-bg-app: #0b0f16;
+  --hm-bg-sidebar: #0d1119;
+  --hm-bg-header: #0d1119;
+  --hm-surface-1: #121826;
+  --hm-surface-2: #182032;
+  --hm-surface-3: #1e2740;
+  --hm-surface-hover: #1a2233;
+  --hm-surface-selected: #232c47;
+
+  /* Borders / dividers */
+  --hm-border-subtle: #1f2739;
+  --hm-border: #2a3450;
+  --hm-border-strong: #3a4666;
+
+  /* Text */
+  --hm-text-primary: #eef1f8;
+  --hm-text-secondary: #a7b0c4;
+  --hm-text-muted: #6b7590;
+  --hm-text-disabled: #4a5270;
+
+  /* Accent (primary interactive color) */
+  --hm-accent: #7c6cf0;
+  --hm-accent-strong: #9184f5;
+  --hm-accent-muted: #443a7a;
+  --hm-accent-text: #ffffff;
+
+  /* Semantic */
+  --hm-positive: #3fbf6f;
+  --hm-positive-muted: #1f3d2c;
+  --hm-warning: #e0b23c;
+  --hm-warning-muted: #4a3d1c;
+  --hm-negative: #e2555a;
+  --hm-negative-muted: #4a2426;
+  --hm-gold: #e0b23c;
+
+  /* Club identity accent slots (per-club, default fallback) */
+  --hm-club-primary: #e0b23c;
+  --hm-club-secondary: #0b0f16;
+
+  /* Typography */
+  --hm-font-sans: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --hm-font-condensed: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
+
+  --hm-text-2xs: 10.5px;
+  --hm-text-xs: 11.5px;
+  --hm-text-sm: 12.5px;
+  --hm-text-base: 13.5px;
+  --hm-text-md: 15px;
+  --hm-text-lg: 18px;
+  --hm-text-xl: 24px;
+  --hm-text-2xl: 34px;
+  --hm-text-3xl: 52px;
+
+  /* Layout */
+  --hm-nav-width: 208px;
+  --hm-header-height: 52px;
+  --hm-radius-sm: 3px;
+  --hm-radius-md: 5px;
+  --hm-radius-lg: 8px;
+  --hm-row-height: 30px;
+  --hm-shadow-panel: 0 1px 0 rgba(0, 0, 0, 0.4), 0 4px 16px rgba(0, 0, 0, 0.35);
+}
