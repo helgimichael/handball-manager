@@ -1,0 +1,190 @@
+.libraryPanelContent {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--ds-space-sm) * 1px);
+  height: 100%;
+  min-height: 0;
+  touch-action: pan-y;
+}
+
+.libraryTitle {
+  margin: 0;
+  font-size: calc(var(--ds-font-small) * 1px);
+  font-family: var(--ds-font-heading);
+  color: var(--ds-color-text);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.filterTabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: calc(var(--ds-space-xs) * 1px);
+}
+
+.filterTab {
+  border: 1px solid var(--ds-color-border);
+  background: var(--ds-color-surface);
+  color: var(--ds-color-text-secondary);
+  border-radius: var(--ds-radius-round);
+  padding: calc(var(--ds-space-xs) * 1px) calc(var(--ds-space-sm) * 1px);
+  font-size: calc(var(--ds-font-caption) * 1px);
+  cursor: pointer;
+  transition: background 120ms ease, color 120ms ease, border-color 120ms ease;
+}
+
+.filterTab[data-active="true"] {
+  background: var(--ds-color-accent);
+  border-color: var(--ds-color-accent);
+  color: var(--ds-color-background);
+}
+
+.filterTab:hover {
+  color: var(--ds-color-text);
+}
+
+.filterTab:disabled {
+  cursor: not-allowed;
+  opacity: 0.48;
+}
+
+.filterTab:disabled:hover {
+  color: var(--ds-color-text-secondary);
+}
+
+.searchInput {
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid var(--ds-color-border);
+  background: var(--ds-color-surface);
+  color: var(--ds-color-text);
+  border-radius: var(--ds-radius-sm);
+  padding: calc(var(--ds-space-xs) * 1px) calc(var(--ds-space-sm) * 1px);
+  font-size: calc(var(--ds-font-caption) * 1px);
+  font-family: var(--ds-font-body);
+}
+
+.searchInput:disabled {
+  cursor: not-allowed;
+  opacity: 0.58;
+}
+
+.cardList {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--ds-space-sm) * 1px);
+  overflow-y: auto;
+  min-height: 0;
+  overscroll-behavior: contain;
+  touch-action: pan-y;
+  -webkit-overflow-scrolling: touch;
+}
+
+.card {
+  display: flex;
+  gap: calc(var(--ds-space-sm) * 1px);
+  align-items: flex-start;
+  width: 100%;
+  box-sizing: border-box;
+  text-align: left;
+  border: 1px solid var(--ds-color-border);
+  background: var(--ds-color-surface);
+  border-radius: var(--ds-radius-md);
+  padding: calc(var(--ds-space-xs) * 1px);
+  cursor: pointer;
+  font-family: var(--ds-font-body);
+  transition: border-color 120ms ease, background 120ms ease;
+}
+
+.card:hover {
+  border-color: var(--ds-color-accent-muted);
+}
+
+.card[data-open="true"] {
+  border-color: var(--ds-color-accent);
+  background: var(--ds-color-surface-elevated);
+}
+
+.cardThumbnail {
+  flex-shrink: 0;
+  width: 56px;
+  height: 56px;
+  border-radius: var(--ds-radius-sm);
+  overflow: hidden;
+  background: var(--ds-color-background);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cardThumbnailImage {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.thumbnailCourt {
+  fill: #0a2a2b;
+  stroke: rgb(255 255 255 / 28%);
+  stroke-width: 0.35;
+}
+
+.thumbnailLine {
+  fill: none;
+  stroke: rgb(255 255 255 / 35%);
+  stroke-width: 0.25;
+}
+
+.thumbnailATTACKER {
+  fill: #ff1a3c;
+}
+
+.thumbnailDEFENDER {
+  fill: #12a9ff;
+}
+
+.thumbnailGOALKEEPER {
+  fill: #ffda00;
+}
+
+.thumbnailBALL {
+  fill: var(--ds-color-text);
+}
+
+.cardBody {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--ds-space-xs) * 1px);
+  min-width: 0;
+  flex: 1;
+}
+
+.cardHeaderRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: calc(var(--ds-space-xs) * 1px);
+}
+
+.favoriteToggle {
+  cursor: not-allowed;
+  color: var(--ds-color-text-muted);
+  font-size: calc(var(--ds-font-body) * 1px);
+  line-height: 1;
+  opacity: 0.48;
+}
+
+.cardTitle {
+  color: var(--ds-color-text);
+  font-size: calc(var(--ds-font-caption) * 1px);
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cardMeta {
+  color: var(--ds-color-text-muted);
+  font-size: calc(var(--ds-font-caption) * 1px);
+}

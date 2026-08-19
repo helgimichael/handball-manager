@@ -1,0 +1,14 @@
+/* Selection indicator: a thin dashed turquoise ring, unfilled, sized as a
+   ratio of the object's own radius (never a fixed meter offset) -- stays
+   proportional to the object and never reads as a second tactical
+   object, but carries a soft accent glow so a selected piece is
+   unambiguous even on a busy board. */
+.selectionRing {
+  fill: none;
+  stroke: var(--selection-stroke);
+  stroke-width: 0.06;
+  stroke-dasharray: 0.1 0.1;
+  vector-effect: non-scaling-stroke;
+  pointer-events: none;
+  filter: drop-shadow(0 0 0.1px var(--selection-stroke));
+}

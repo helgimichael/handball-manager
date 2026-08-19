@@ -1,0 +1,57 @@
+/* Strong neon look: a high-opacity, near-solid core (not a washed-out
+   tint) for a sharp readable silhouette, a full-saturation stroke for a
+   crisp edge. Colors AND stroke width come entirely from CSS variables
+   set inline by BoardObjectRenderer.tsx (see boardObjectDefinitions.ts)
+   -- never hardcoded here. One class serves every object type, including
+   the ball (a thin but non-zero stroke width, not a separate "no-stroke"
+   class).
+
+   v0.4 glow-state system: glow is now a real, mutually-exclusive state
+   machine, not an always-on effect --
+     normal   -> no glow at all (only the dark ambient shadow for depth)
+     hover    -> glow appears (this is the OLD always-on glow, moved here)
+     selected -> a STRONGER glow than hover
+     selected+hover -> selected wins, never doubled -- the selected rule
+                       below does not depend on :hover at all, and the
+                       hover rule is scoped to [data-selected="false"] so
+                       it can never apply at the same time as selected's.
+   The wrapper <g role="button" data-selected="..."> lives in
+   MasterCourt.tsx (its own CSS module) -- these plain element/attribute
+   selectors are not class-scoped, so they still match across module
+   boundaries against the locally-scoped .objectShape class token. */
+.objectShape {
+  stroke: var(--object-stroke);
+  stroke-width: var(--object-stroke-width);
+  fill: var(--object-fill);
+  vector-effect: non-scaling-stroke;
+  /* Normal state: dark ambient shadow only ("nuvarande skuggning"), no
+     colored glow. */
+  filter: drop-shadow(0 0.05px 0.06px rgba(0, 0, 0, 0.55));
+  transition: filter 150ms ease;
+}
+
+g[role="button"]:focus-visible .objectShape {
+  outline: none;
+  stroke: var(--ds-color-accent);
+  stroke-width: 0.08;
+}
+
+/* Hover: the glow that used to be always-on, now gated to hover AND only
+   when not selected (selected always takes priority). */
+g[role="button"][data-selected="false"]:hover:not(:focus-visible) .objectShape {
+  filter: drop-shadow(0 0.05px 0.06px rgba(0, 0, 0, 0.55)) drop-shadow(0 0 0.1px var(--object-glow))
+    drop-shadow(0 0 0.22px var(--object-glow));
+}
+
+/* Selected: a stronger glow than hover, applied unconditionally whenever
+   selected (independent of :hover), so selected+hover never doubles up --
+   there is only ONE glow rule active at a time for a selected object. */
+g[role="button"][data-selected="true"] .objectShape {
+  filter: drop-shadow(0 0.05px 0.06px rgba(0, 0, 0, 0.55)) drop-shadow(0 0 0.16px var(--object-glow))
+    drop-shadow(0 0 0.42px var(--object-glow)) drop-shadow(0 0 0.65px var(--object-glow));
+}
+
+g[role="button"][data-snap-candidate="true"] .objectShape {
+  filter: drop-shadow(0 0.05px 0.06px rgba(0, 0, 0, 0.55)) drop-shadow(0 0 0.16px var(--ds-color-accent))
+    drop-shadow(0 0 0.38px var(--ds-color-accent));
+}

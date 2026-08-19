@@ -1,0 +1,47 @@
+.hitStroke {
+  fill: none;
+  stroke: transparent;
+  cursor: pointer;
+}
+
+/* Interaction Polish v1: hover feedback for drawings -- .hitStroke is the
+   wide invisible pointer target, .visibleStroke is its adjacent sibling
+   in the DOM (see DrawingRenderer.tsx), so this reaches the visible line
+   whenever the pointer is anywhere over the (much wider) hit area. Same
+   drop-shadow-glow language as BoardObjectRenderer's hover/selected
+   states, just accent-colored since drawings don't carry a per-type
+   glow variable. Selected drawings keep their own .selectionHighlight
+   ring regardless -- this is purely a hover cue. */
+.hitStroke:hover + .visibleStroke {
+  filter: drop-shadow(0 0 0.08px var(--ds-color-accent)) drop-shadow(0 0 0.18px var(--ds-color-accent));
+}
+
+/* No vector-effect: non-scaling-stroke -- drawings are physical tactical
+   geometry (like .courtLine), meant to scale with zoom, not stay pinned
+   to a fixed screen-pixel width the way UI chrome (CalibrationHandle)
+   does. */
+.visibleStroke {
+  fill: none;
+  stroke-linecap: round;
+}
+
+/* Spatial Engine Epic I, Del 1 -- a filled triangle at the drawing's end
+   point, oriented along its direction of travel (see
+   getDrawingEndDirection). fill color comes from the drawing's own
+   style.color (inline style), same as .visibleStroke's stroke -- an
+   arrowhead is always the same color as its line, never a separate
+   design-system color. */
+.arrowhead {
+  stroke: none;
+}
+
+/* Selection marking -- same "ring, never a filled blob" language as
+   SelectionLayer.tsx, adapted to a stroked line: a faint, wider accent
+   stroke drawn behind the visible line. */
+.selectionHighlight {
+  fill: none;
+  stroke: var(--ds-color-accent);
+  stroke-width: 0.3;
+  stroke-linecap: round;
+  opacity: 0.35;
+}

@@ -1,0 +1,258 @@
+.panel {
+  border: 1px solid var(--ds-color-border);
+  border-radius: calc(var(--ds-radius-lg) * 1px);
+  background: var(--ds-color-surface);
+  color: var(--ds-color-text);
+  font-family: var(--ds-font-family);
+}
+
+.panel.subtle {
+  background: var(--ds-color-surface-subtle);
+}
+
+.panel.elevated {
+  border-color: var(--ds-color-border-strong);
+  background: var(--ds-color-surface-elevated);
+}
+
+.sectionHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: calc(var(--ds-space-md) * 1px);
+}
+
+.eyebrow {
+  display: block;
+  margin-bottom: calc(var(--ds-space-xs) * 1px);
+  color: var(--ds-color-accent);
+  font-size: calc(var(--ds-font-caption) * 1px);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.sectionTitle {
+  margin: 0;
+  color: var(--ds-color-text);
+  font-size: var(--dash-font-title, calc(var(--ds-font-heading) * 1px));
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.sectionSubtitle {
+  margin: 2px 0 0;
+  color: var(--ds-color-text-secondary);
+  font-size: var(--dash-font-meta, calc(var(--ds-font-caption) * 1px));
+  line-height: 1.4;
+}
+
+.sectionTrailing {
+  flex: 0 0 auto;
+  color: var(--ds-color-text-muted);
+  font-size: calc(var(--ds-font-caption) * 1px);
+}
+
+.statusBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: calc(var(--ds-space-xs) * 1px);
+  width: fit-content;
+  color: var(--ds-color-text-secondary);
+  font-size: calc(var(--ds-font-caption) * 1px);
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.statusDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--ds-color-text-muted);
+}
+
+.statusBadge.success {
+  color: var(--ds-color-success);
+}
+
+.statusBadge.success .statusDot {
+  background: var(--ds-color-success);
+  box-shadow: 0 0 9px var(--ds-color-success);
+}
+
+.statusBadge.warning {
+  color: var(--ds-color-warning);
+}
+
+.statusBadge.warning .statusDot {
+  background: var(--ds-color-warning);
+}
+
+.statusBadge.error {
+  color: var(--ds-color-error);
+}
+
+.statusBadge.error .statusDot {
+  background: var(--ds-color-error);
+}
+
+.progressHeader {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 5px;
+  color: var(--ds-color-text-muted);
+  font-size: calc(var(--ds-font-caption) * 1px);
+}
+
+.progressHeader strong {
+  color: var(--ds-color-text-secondary);
+  font-weight: 600;
+}
+
+.progressTrack {
+  height: 4px;
+  overflow: hidden;
+  border-radius: calc(var(--ds-radius-round) * 1px);
+  background: var(--ds-color-border);
+}
+
+.progressValue {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--ds-color-accent);
+}
+
+.button,
+.iconButton {
+  border: 1px solid var(--ds-color-border-strong);
+  border-radius: calc(var(--ds-radius-md) * 1px);
+  color: var(--ds-color-text);
+  font: inherit;
+  transition:
+    border-color 150ms ease,
+    background-color 150ms ease,
+    transform 150ms ease;
+}
+
+.button {
+  min-height: 36px;
+  padding: 0 calc(var(--ds-space-md) * 1px);
+  font-size: calc(var(--ds-font-small) * 1px);
+  font-weight: 700;
+}
+
+.button:hover:not(:disabled),
+.iconButton:hover:not(:disabled) {
+  border-color: var(--ds-color-accent);
+  transform: translateY(-1px);
+}
+
+.button:active:not(:disabled),
+.iconButton:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.button:disabled,
+.iconButton:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+  transform: none;
+}
+
+.button.primary {
+  border-color: var(--ds-color-accent);
+  background: var(--ds-color-accent);
+  color: var(--ds-color-background);
+}
+
+.button.primary:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--ds-color-accent) 88%, white);
+}
+
+.button.secondary,
+.iconButton {
+  background: var(--ds-color-surface-subtle);
+}
+
+.button.secondary:hover:not(:disabled),
+.iconButton:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--ds-color-accent) 8%, var(--ds-color-surface-subtle));
+}
+
+.iconButton {
+  display: inline-grid;
+  width: 36px;
+  height: 36px;
+  place-items: center;
+  padding: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .button,
+  .iconButton {
+    transition: none;
+  }
+
+  .button:hover:not(:disabled),
+  .iconButton:hover:not(:disabled),
+  .button:active:not(:disabled),
+  .iconButton:active:not(:disabled) {
+    transform: none;
+  }
+}
+
+.avatar {
+  position: relative;
+  display: inline-grid;
+  overflow: hidden;
+  flex: 0 0 auto;
+  place-items: center;
+  border: 1px solid var(--ds-color-border-strong);
+  border-radius: 50%;
+  background: var(--ds-color-accent-muted);
+  color: var(--ds-color-accent);
+  font-weight: 800;
+}
+
+.avatar.small {
+  width: 30px;
+  height: 30px;
+  font-size: calc(var(--ds-font-caption) * 1px);
+}
+
+.avatar.medium {
+  width: 38px;
+  height: 38px;
+  font-size: calc(var(--ds-font-small) * 1px);
+}
+
+.avatarImage {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transform-origin: center;
+}
+
+.divider {
+  display: block;
+  flex: 0 0 auto;
+  background: var(--ds-color-border);
+}
+
+.divider.horizontal {
+  width: 100%;
+  height: 1px;
+}
+
+.divider.vertical {
+  width: 1px;
+  height: 30px;
+}
+
+.button:disabled,
+.iconButton:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}

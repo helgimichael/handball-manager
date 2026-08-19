@@ -1,0 +1,28 @@
+.handleGroup {
+  cursor: grab;
+  touch-action: none;
+}
+
+.handleGroup:active {
+  cursor: grabbing;
+}
+
+.hitArea {
+  fill: transparent;
+  stroke: none;
+}
+
+.handle {
+  fill: var(--ds-color-accent);
+  stroke: var(--ds-color-background);
+  stroke-width: 0.02;
+  vector-effect: non-scaling-stroke;
+}
+
+/* Interaction Polish v1: hover feedback, same drop-shadow-glow language
+   as BoardObjectRenderer/DrawingRenderer's hover states -- .hitArea is
+   the wide invisible pointer target, so hovering it glows the visible
+   .handle inside the same group. */
+.handleGroup:hover .handle {
+  filter: drop-shadow(0 0 0.08px var(--ds-color-accent)) drop-shadow(0 0 0.18px var(--ds-color-accent));
+}

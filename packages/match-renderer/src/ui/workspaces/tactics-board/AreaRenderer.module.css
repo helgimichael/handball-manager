@@ -1,0 +1,27 @@
+.visibleShape {
+  cursor: pointer;
+  transition: filter 120ms ease;
+}
+
+/* Interaction Polish (Del 7) -- same drop-shadow-glow hover language as
+   DrawingRenderer's .hitStroke:hover + .visibleStroke and
+   BoardObjectRenderer's hover rule: a subtle accent glow, never a color
+   change (an Area's own fill/stroke color is user-facing information,
+   not something hover should alter). Not scoped to
+   [data-selected="false"] the way board objects are, since an Area has
+   no separate "glow intensity" distinction between hover and selected --
+   .selectionHighlight below already reads clearly on top of this. */
+.visibleShape:hover {
+  filter: drop-shadow(0 0 0.08px var(--ds-color-accent)) drop-shadow(0 0 0.18px var(--ds-color-accent));
+}
+
+/* Selection marking -- same "ring, never a filled blob" language as
+   SelectionLayer.tsx/DrawingRenderer.module.css's own selectionHighlight,
+   adapted to a closed shape: a faint, wider accent outline drawn behind
+   the visible fill/stroke. */
+.selectionHighlight {
+  fill: none;
+  stroke: var(--ds-color-accent);
+  stroke-width: 0.3;
+  opacity: 0.35;
+}

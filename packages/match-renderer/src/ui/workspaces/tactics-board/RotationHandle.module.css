@@ -1,0 +1,27 @@
+.handleGroup {
+  cursor: grab;
+  touch-action: none;
+}
+
+.handleGroup:active {
+  cursor: grabbing;
+}
+
+.connector {
+  stroke: color-mix(in srgb, var(--ds-color-accent) 55%, transparent);
+  stroke-width: 0.025;
+  vector-effect: non-scaling-stroke;
+}
+
+.hitArea {
+  fill: transparent;
+  stroke: none;
+}
+
+.handle {
+  fill: var(--ds-color-accent);
+  stroke: var(--ds-color-background);
+  stroke-width: 0.02;
+  vector-effect: non-scaling-stroke;
+  filter: drop-shadow(0 0 0.08px var(--ds-color-accent));
+}

@@ -1,0 +1,43 @@
+/* Anchored, out-of-flow popover -- position:fixed + a portal to
+   document.body, so its content can NEVER affect the workspace panel's
+   flex height or push the court down (see ZonePopover.tsx). A small,
+   solid STARKVIS control panel: same border-radius as the other
+   Taktiktavla panels (--ds-radius-lg), thin clear border, discrete
+   shadow, dark elevated surface so it visually pops as a floating
+   overlay rather than blending into the workspace panel behind it. */
+.popover {
+  position: fixed;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--ds-space-sm) * 1px);
+  min-width: 220px;
+  max-width: min(320px, calc(100vw - 16px));
+  padding: calc(var(--ds-space-sm) * 1.5px) calc(var(--ds-space-md) * 1px);
+  border: 1px solid var(--ds-color-border);
+  border-radius: calc(var(--ds-radius-lg) * 1px);
+  background: var(--ds-color-surface-elevated);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
+}
+
+/* Compact title, e.g. "Försvarszoner" -- no descriptive body text. */
+.heading {
+  color: var(--ds-color-text);
+  font-family: var(--ds-font-family);
+  font-size: calc(var(--ds-font-small) * 1px);
+  font-weight: 600;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: calc(var(--ds-space-sm) * 1px);
+}
+
+.divider {
+  height: 1px;
+  background: var(--ds-color-border);
+  border: none;
+  margin: calc(var(--ds-space-xs) * 1px) 0;
+}

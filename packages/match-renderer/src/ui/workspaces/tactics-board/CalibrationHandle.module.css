@@ -1,0 +1,20 @@
+.handleGroup {
+  cursor: grab;
+  touch-action: none;
+}
+
+.handleGroup:active {
+  cursor: grabbing;
+}
+
+.hitArea {
+  fill: transparent;
+  stroke: none;
+}
+
+.handle {
+  fill: var(--ds-color-warning);
+  stroke: var(--ds-color-background);
+  stroke-width: 0.02;
+  vector-effect: non-scaling-stroke;
+}

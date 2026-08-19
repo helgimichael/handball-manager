@@ -1,0 +1,202 @@
+.svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  cursor: default;
+  touch-action: none;
+  overscroll-behavior: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* v0.4: no explicit pan tool anymore -- a left-drag on the EMPTY court in
+   Markera (SELECT) mode pans (see MasterCourt.tsx), so the cursor hints
+   "grab" whenever that mode is active. Objects/handles override this
+   with their own explicit cursor (.boardObject, RotationHandle.module.css)
+   since an element's own cursor always wins over an inherited one. */
+.svg[data-select-mode="true"] {
+  cursor: grab;
+}
+
+.svg[data-select-mode="true"]:active {
+  cursor: grabbing;
+}
+
+.svg[data-placement-mode="true"],
+.svg[data-drawing-mode="true"] {
+  cursor: crosshair;
+}
+
+/* Dark STARKVIS-green floor -- reuses the existing surface token (the same
+   dark teal/green family already used across the design system) rather
+   than a new color value. */
+.floor {
+  fill: var(--ds-color-surface);
+}
+
+/* A slightly darker shade of the same floor color -- reads as "the goal
+   area" at a glance without ever looking like a separate colored zone
+   layer (those use the accent/turquoise family; this stays neutral). */
+.goalAreaFill {
+  fill: color-mix(in srgb, var(--ds-color-surface) 78%, black);
+}
+
+/* Goal net backdrop -- a light, slightly translucent tint (distinct from
+   the darker goalAreaFill) plus a subtle border so the net rectangle
+   itself is legible as "behind the goal", not just empty space. */
+.goalNetFill {
+  fill: color-mix(in srgb, var(--ds-color-text) 10%, transparent);
+  stroke: color-mix(in srgb, var(--ds-color-text) 35%, transparent);
+  stroke-width: 0.04;
+  vector-effect: non-scaling-stroke;
+}
+
+/* v0.4: pushed brighter/thicker again -- geometry unchanged, only
+   contrast/stroke-rendering, per spec section 1. Full-opacity white,
+   non-scaling stroke -- crisp and high-contrast at any zoom level,
+   including fully zoomed out on FULL_COURT. */
+.courtLine {
+  stroke: var(--ds-color-text);
+  stroke-width: 0.12;
+  fill: none;
+  /* EXPERIMENT: non-scaling-stroke removed. Court lines are physical
+     court geometry expressed in meter-based coordinates and should scale
+     with the court like the rest of the geometry, not stay pinned to a
+     fixed screen-pixel width. non-scaling-stroke is meant for
+     screen-oriented UI overlays (selection rings, rotation handles),
+     not court geometry. Revert if this doesn't visibly sharpen the arcs. */
+  opacity: 1;
+}
+
+.courtLine[data-thick="true"] {
+  stroke-width: 0.22;
+}
+
+.courtLine[data-dashed="true"] {
+  stroke-dasharray: 0.45 0.35;
+}
+
+/* Net hatch lines -- deliberately much thinner and lower-opacity than
+   real court lines so they read as a subtle texture, never competing
+   with the actual official lines. */
+.courtLine[data-hatch="true"] {
+  stroke-width: 0.03;
+  opacity: 0.4;
+}
+
+/* Symmetric, low-opacity "threat" heat gradient: V1/H1 (low) green,
+   V2/H2 (medium) amber, 3 (high) red -- same low opacity everywhere so
+   players and court lines always read more clearly than the overlay.
+   Reuses shared design tokens, never a one-off hardcoded hex. */
+.defensiveZone {
+  opacity: 0.15;
+  stroke: none;
+}
+
+.defensiveZone[data-threat="low"] {
+  fill: var(--ds-color-success);
+}
+
+.defensiveZone[data-threat="medium"] {
+  fill: var(--ds-color-warning);
+}
+
+.defensiveZone[data-threat="high"] {
+  fill: var(--ds-color-error);
+}
+
+/* Approved sketch: Överblick (clearly blue) -> Transportzon (clearly
+   green) -> Valsituation (clearly purple). Saturated base colors, not
+   pale pastels -- pastel fills read as grey/washed-out against the
+   dark green court, so these are deliberately vivid, with the low,
+   shared LOOK coming entirely from fill-opacity (never from desaturating
+   the color itself). These are DELIBERATELY local, hardcoded colors,
+   not design-system tokens -- same "local, not global" exception
+   already established for boardObjectDefinitions.ts's NEON_* constants;
+   see that file's own header comment for the precedent. Never reuse
+   these hexes anywhere else -- add a new local constant instead.
+   Data-tone attribute names (cool/neutral/warm) are unchanged from the
+   original accent/success/warning gradient to avoid an unrelated
+   rename; only the actual fill colors changed. fill-opacity (not
+   opacity) so a future stroke could be added without inheriting this
+   same transparency; no stroke currently -- never competes with the
+   court lines painted on top of it. */
+.transitionZone {
+  fill-opacity: 0.18;
+  stroke: none;
+}
+
+.transitionZone[data-tone="cool"] {
+  fill: #4f8cff;
+}
+
+.transitionZone[data-tone="neutral"] {
+  fill: #45d66b;
+}
+
+.transitionZone[data-tone="warm"] {
+  fill: #9b6dff;
+}
+
+/* Diskret, centered zone-name label -- faded, never selectable/clickable
+   (pointerEvents="none" in MasterCourt.tsx, user-select disabled here
+   too for belt-and-suspenders), sized in the SAME meter units as
+   everything else in the SVG so it scales with zoom/pan automatically,
+   never a fixed-pixel overlay. */
+.transitionZoneLabel {
+  font-family: var(--ds-font-family);
+  font-size: 1.1px;
+  font-weight: 600;
+  fill: var(--ds-color-text);
+  opacity: 0.35;
+  user-select: none;
+}
+
+/* Defensive zone name labels (H1/H2/3/V2/V1) -- same diskret/faded
+   pattern as .transitionZoneLabel above, but font-size is NOT set here:
+   it is calibrated per-label data (DefensiveZoneLabelTransform.fontSize)
+   and applied inline via the <text> element's own font-size attribute in
+   MasterCourt.tsx, per the calibration data model's own constraint (no
+   color/fontFamily/fontWeight/opacity in the stored calibration --
+   those stay here, in CSS, same as every other cosmetic-only rule). */
+.defensiveZoneLabel {
+  font-family: var(--ds-font-family);
+  font-weight: 600;
+  fill: var(--ds-color-text);
+  opacity: 0.35;
+  user-select: none;
+}
+
+/* ROOT CAUSE FIX: this <g role="button" tabIndex={0}> is the element that
+   actually RECEIVES focus (see MasterCourt.tsx) -- the browser draws its
+   own native focus ring directly on it (Chrome: "outline: <color> auto
+   5px") whenever it's focused, which is EVERY click (tabIndex elements
+   receive focus on click, not just keyboard Tab). That native outline is
+   a fixed CSS-pixel width applied to this element's own ~12px CSS
+   bounding box at typical render scale -- proportionally enormous, and
+   rendered in the browser's default focus-ring color (often a stark
+   light/dark ring depending on OS/browser theme), which is exactly the
+   "giant white/black ring" defect. Suppressing it HERE (on the actual
+   focus target) is the fix -- suppressing it on a descendant element (as
+   a previous version of this file mistakenly did, in
+   BoardObjectRenderer.module.css) has no effect, because the outline is
+   never drawn on the descendant in the first place. The small,
+   proportionate turquoise focus/selection indicators (a meter-scaled SVG
+   stroke and the dedicated .selectionRing element) remain the ONLY
+   visible focus/selection affordance -- see BoardObjectRenderer.tsx/.css. */
+.boardObject {
+  cursor: pointer;
+  touch-action: none;
+  outline: none;
+}
+
+.boardObject:active {
+  cursor: grabbing;
+}
+
+.playerActions {
+  pointer-events: none;
+}
+
+.playerStates {
+  pointer-events: none;
+}

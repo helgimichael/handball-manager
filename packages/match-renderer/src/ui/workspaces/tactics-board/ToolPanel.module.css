@@ -1,0 +1,198 @@
+.panel {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--ds-space-md) * 1px);
+  width: 168px;
+  flex-shrink: 0;
+}
+
+/* Matches the same laptop-width step as TacticsBoardWorkspace.module.css's
+   .libraryPanel -- both side panels narrow together so the layout stays
+   visually balanced instead of one panel shrinking and not the other. */
+@media (max-width: 1100px) {
+  .panel {
+    width: 100%;
+  }
+}
+
+@media (max-width: 760px) {
+  .panel {
+    width: 100%;
+  }
+}
+
+.group {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--ds-space-xs) * 1px);
+}
+
+.groupLabel {
+  color: var(--ds-color-text-muted);
+  font-size: calc(var(--ds-font-caption) * 1px);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+/* Every button in this panel (tool, delete-selected, rotation) shares the
+   same fixed height and transition timing so the whole panel reads as
+   one consistent control set, not several mismatched widgets. */
+.toolButton {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--ds-space-sm) * 1px);
+  height: 36px;
+  border: 1px solid var(--ds-color-border);
+  border-radius: calc(var(--ds-radius-md) * 1px);
+  background: var(--ds-color-surface-subtle);
+  color: var(--ds-color-text-secondary);
+  font-family: var(--ds-font-family);
+  font-size: calc(var(--ds-font-small) * 1px);
+  padding: 0 calc(var(--ds-space-sm) * 1px);
+  cursor: pointer;
+  text-align: left;
+  transition: border-color 120ms ease, background-color 120ms ease, color 120ms ease;
+}
+
+.toolButton:hover {
+  border-color: color-mix(in srgb, var(--ds-color-accent) 60%, var(--ds-color-border));
+  background: var(--ds-color-surface-elevated);
+}
+
+.toolButton[data-active="true"] {
+  border-color: var(--ds-color-accent);
+  background: var(--ds-color-accent-muted);
+  color: var(--ds-color-accent);
+}
+
+.toolButton:focus-visible {
+  outline: 2px solid var(--ds-color-accent);
+  outline-offset: 2px;
+}
+
+.icon {
+  display: inline-flex;
+  width: 1.2em;
+  justify-content: center;
+}
+
+/* Diskret sammanfattning ("Aktivt verktyg") -- läser samma
+   ObjectTypePreview som Spelobjekt-listan nedan. Interaction Polish v1:
+   same accent visual language as an active .toolButton
+   ([data-active="true"]), since this row communicates the exact same
+   thing (the currently active tool), just outside the collapsible
+   Verktyg section. */
+.activeToolSummary {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--ds-space-sm) * 1px);
+  height: 36px;
+  padding: 0 calc(var(--ds-space-sm) * 1px);
+  border: 1px solid var(--ds-color-accent);
+  border-radius: calc(var(--ds-radius-md) * 1px);
+  background: var(--ds-color-accent-muted);
+  color: var(--ds-color-accent);
+  font-size: calc(var(--ds-font-small) * 1px);
+  font-weight: 600;
+}
+
+.activeToolPreview {
+  width: 18px;
+  height: 18px;
+}
+
+.activeToolIcon {
+  display: inline-flex;
+  width: 1.2em;
+  justify-content: center;
+  color: var(--ds-color-accent);
+}
+
+.deleteSelectedButton {
+  display: flex;
+  align-items: center;
+  height: 30px;
+  border: 1px solid var(--ds-color-border);
+  border-radius: calc(var(--ds-radius-md) * 1px);
+  background: none;
+  color: var(--ds-color-error);
+  font-family: var(--ds-font-family);
+  font-size: calc(var(--ds-font-caption) * 1px);
+  padding: 0 calc(var(--ds-space-sm) * 1px);
+  cursor: pointer;
+  transition: border-color 120ms ease, background-color 120ms ease;
+}
+
+.deleteSelectedButton:not(:disabled):hover {
+  border-color: var(--ds-color-error);
+  background: color-mix(in srgb, var(--ds-color-error) 12%, transparent);
+}
+
+.deleteSelectedButton:disabled {
+  color: var(--ds-color-text-muted);
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.deleteSelectedButton:focus-visible {
+  outline: 2px solid var(--ds-color-accent);
+  outline-offset: 2px;
+}
+
+.shortcutGroup {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--ds-space-xs) * 1px);
+}
+
+.shortcutGroupTitle {
+  color: var(--ds-color-text-muted);
+  font-size: calc(var(--ds-font-caption) * 1px);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.shortcutList {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--ds-space-xs) * 1px);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.shortcutRow {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--ds-space-xs) * 1px);
+  flex-wrap: wrap;
+}
+
+.shortcutKeys {
+  display: inline-flex;
+  gap: 2px;
+  flex-shrink: 0;
+}
+
+/* A small, tydlig "tangentbricka" -- not running developer prose. */
+.kbd {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 4px;
+  border: 1px solid var(--ds-color-border-strong);
+  border-radius: calc(var(--ds-radius-sm) * 1px);
+  background: var(--ds-color-surface-elevated);
+  color: var(--ds-color-text);
+  font-family: var(--ds-font-family);
+  font-size: calc(var(--ds-font-caption) * 1px);
+  font-style: normal;
+  line-height: 1;
+}
+
+.shortcutDescription {
+  color: var(--ds-color-text-muted);
+  font-size: calc(var(--ds-font-caption) * 1px);
+}
