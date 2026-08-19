@@ -1,0 +1,248 @@
+// Career Event domain model (HM-GAME-0.3), per
+// docs/HANDBALL_MANAGER_CAREER_RHYTHM_SPEC_v0.1.md Sections 4, 14, 15.
+//
+// A CareerEvent describes something that happened in the game world. It
+// stores semantic data only -- no React components, no JSX, no
+// pre-rendered HTML (Spec S14, S37.14). The Inbox is a presentation layer
+// that CONSUMES these events (see inboxBridge.ts); it must never invent
+// world changes on its own (Spec S2.4, S28).
+
+export type CareerEventType =
+  | "TRAINING_COMPLETED"
+  | "TRAINING_REPORT"
+  | "PLAYER_STATUS_CHANGED"
+  | "PLAYER_INJURED"
+  | "SCOUT_REPORT_READY"
+  | "OPPONENT_REPORT_READY"
+  | "MATCH_PREPARATION_READY"
+  | "MATCHDAY_READY"
+  | "MATCH_COMPLETED"
+  | "COMPETITION_UPDATE"
+  | "STAFF_REPORT"
+  | "CLUB_NEWS";
+
+/** Spec S3: the three-tier priority model. */
+export type EventPriority = "INFORMATION" | "IMPORTANT" | "ACTION_REQUIRED";
+
+export type EntityType = "player" | "club" | "fixture" | "competition" | "task";
+
+export interface EntityRef {
+  entityType: EntityType;
+  entityId: string;
+}
+
+/**
+ * Spec S15: a typed deep-link destination, never a brittle raw href
+ * string. `ANALYSIS_HUB` and `OPPONENT_ANALYSIS` are reserved for a
+ * future milestone (Spec S33/S29) -- the type exists so events can name
+ * them, but no screen renders them yet (see destinations.ts).
+ */
+export type EventDestination =
+  | { route: "HOME" }
+  | { route: "INBOX" }
+  | { route: "PLAYER_PROFILE"; playerId: string }
+  | { route: "SQUAD" }
+  | { route: "TACTICS" }
+  | { route: "TRAINING" }
+  | { route: "SCHEDULE" }
+  | { route: "MATCH_PREVIEW" }
+  | { route: "MATCH_DAY"; fixtureId: string }
+  | { route: "MATCH_REPORT"; fixtureId: string }
+  | { route: "SCOUTING" }
+  | { route: "SCOUT_REPORT"; playerId: string }
+  | { route: "COMPETITION"; competitionId: string }
+  | { route: "CLUB" }
+  | { route: "ANALYSIS_HUB" }
+  | { route: "OPPONENT_ANALYSIS"; clubId: string };
+
+/** Spec S14: the CareerEvent shape. */
+export interface CareerEvent {
+  /** Stable/deterministic -- the deduplication key (Spec S27). Regenerating the same semantic event never produces a new id. */
+  id: string;
+  type: CareerEventType;
+  /** The game date this event pertains to. */
+  date: string;
+  priority: EventPriority;
+  /** Short semantic subject/title. Presentation text is rendered from this, not stored pre-rendered (Spec S14). */
+  subject: string;
+  summary: string;
+  primaryEntity?: EntityRef;
+  relatedEntities: EntityRef[];
+  destinations: EventDestination[];
+  requiresAction: boolean;
+  resolved: boolean;
+  read: boolean;
+  createdAtGameDate: string;
+}
+
+/** Spec S19: ACTION_REQUIRED and IMPORTANT both stop Continue in v0.1; INFORMATION never does on its own. */
+export function isStopWorthy(priority: EventPriority): boolean {
+  return priority === "ACTION_REQUIRED" || priority === "IMPORTANT";
+}
+
+function baseEvent(
+  id: string,
+  type: CareerEventType,
+  date: string,
+  priority: EventPriority,
+  subject: string,
+  summary: string,
+  destinations: EventDestination[],
+  options?: { primaryEntity?: EntityRef; relatedEntities?: EntityRef[] },
+): CareerEvent {
+  return {
+    id,
+    type,
+    date,
+    priority,
+    subject,
+    summary,
+    primaryEntity: options?.primaryEntity,
+    relatedEntities: options?.relatedEntities ?? [],
+    destinations,
+    requiresAction: priority === "ACTION_REQUIRED",
+    resolved: priority !== "ACTION_REQUIRED",
+    read: false,
+    createdAtGameDate: date,
+  };
+}
+
+// ---------------------------------------------------------------------------
+// Event builders -- one per CareerEventType, each producing a stable id.
+// ---------------------------------------------------------------------------
+
+export function buildTrainingCompletedEvent(date: string): CareerEvent {
+  return baseEvent(`TRAINING_COMPLETED:${date}`, "TRAINING_COMPLETED", date, "INFORMATION", "Träning genomförd", "Dagens träningspass genomfördes enligt plan.", []);
+}
+
+export function buildTrainingReportEvent(date: string): CareerEvent {
+  return baseEvent(
+    `TRAINING_REPORT:${date}`,
+    "TRAINING_REPORT",
+    date,
+    "IMPORTANT",
+    "Veckans träningsrapport",
+    "En sammanställning av veckans träning finns tillgänglig.",
+    [{ route: "TRAINING" }],
+  );
+}
+
+export function buildStaffReportEvent(date: string): CareerEvent {
+  return baseEvent(
+    `STAFF_REPORT:${date}`,
+    "STAFF_REPORT",
+    date,
+    "IMPORTANT",
+    "Rapport från tränarstaben",
+    "Tränarstaben har sammanställt en lägesrapport.",
+    [{ route: "SQUAD" }],
+  );
+}
+
+export function buildPlayerStatusChangedEvent(playerId: string, date: string, toAvailable: boolean): CareerEvent {
+  return baseEvent(
+    `PLAYER_STATUS_CHANGED:${date}:${playerId}`,
+    "PLAYER_STATUS_CHANGED",
+    date,
+    "IMPORTANT",
+    toAvailable ? "Spelare tillgänglig igen" : "Spelarstatus ändrad",
+    toAvailable ? "En spelare är åter tillgänglig för spel." : "En spelares tillgänglighet har ändrats.",
+    [{ route: "PLAYER_PROFILE", playerId }],
+    { primaryEntity: { entityType: "player", entityId: playerId } },
+  );
+}
+
+export function buildPlayerInjuredEvent(playerId: string, date: string): CareerEvent {
+  return baseEvent(
+    `PLAYER_INJURED:${date}:${playerId}`,
+    "PLAYER_INJURED",
+    date,
+    "IMPORTANT",
+    "Spelare skadad",
+    "En spelare har ådragit sig en skada.",
+    [{ route: "PLAYER_PROFILE", playerId }, { route: "SQUAD" }],
+    { primaryEntity: { entityType: "player", entityId: playerId } },
+  );
+}
+
+export function buildScoutReportReadyEvent(taskId: string, playerId: string, date: string): CareerEvent {
+  return baseEvent(
+    `SCOUT_REPORT_READY:${taskId}`,
+    "SCOUT_REPORT_READY",
+    date,
+    "IMPORTANT",
+    "Scoutingrapport klar",
+    "En scoutingbevakning har slutförts.",
+    [{ route: "SCOUT_REPORT", playerId }, { route: "SCOUTING" }],
+    { primaryEntity: { entityType: "player", entityId: playerId } },
+  );
+}
+
+export function buildOpponentReportReadyEvent(taskId: string, clubId: string, date: string): CareerEvent {
+  return baseEvent(
+    `OPPONENT_REPORT_READY:${taskId}`,
+    "OPPONENT_REPORT_READY",
+    date,
+    "IMPORTANT",
+    "Motståndaranalys klar",
+    "Analysen av nästa motståndare är klar.",
+    [{ route: "MATCH_PREVIEW" }],
+    { primaryEntity: { entityType: "club", entityId: clubId } },
+  );
+}
+
+export function buildMatchPreparationReadyEvent(fixtureId: string, date: string): CareerEvent {
+  return baseEvent(
+    `MATCH_PREPARATION_READY:${fixtureId}`,
+    "MATCH_PREPARATION_READY",
+    date,
+    "IMPORTANT",
+    "Matchförberedelser klara",
+    "Förberedelserna inför nästa match är klara.",
+    [{ route: "MATCH_PREVIEW" }, { route: "TACTICS" }],
+    { primaryEntity: { entityType: "fixture", entityId: fixtureId } },
+  );
+}
+
+export function buildMatchdayReadyEvent(fixtureId: string, date: string): CareerEvent {
+  return baseEvent(
+    `MATCHDAY_READY:${fixtureId}`,
+    "MATCHDAY_READY",
+    date,
+    "ACTION_REQUIRED",
+    "Matchdag",
+    "Dagens match väntar och måste spelas eller simuleras.",
+    [{ route: "MATCH_PREVIEW" }],
+    { primaryEntity: { entityType: "fixture", entityId: fixtureId } },
+  );
+}
+
+export function buildMatchCompletedEvent(fixtureId: string, competitionId: string, date: string): CareerEvent {
+  return baseEvent(
+    `MATCH_COMPLETED:${fixtureId}`,
+    "MATCH_COMPLETED",
+    date,
+    "IMPORTANT",
+    "Matchen är klar",
+    "Matchrapporten är tillgänglig.",
+    [{ route: "MATCH_REPORT", fixtureId }, { route: "SCHEDULE" }, { route: "COMPETITION", competitionId }],
+    { primaryEntity: { entityType: "fixture", entityId: fixtureId } },
+  );
+}
+
+export function buildCompetitionUpdateEvent(date: string, competitionId: string): CareerEvent {
+  return baseEvent(
+    `COMPETITION_UPDATE:${date}`,
+    "COMPETITION_UPDATE",
+    date,
+    "INFORMATION",
+    "Tabellen är uppdaterad",
+    "Resultat från andra lag har uppdaterat tabellen.",
+    [{ route: "COMPETITION", competitionId }],
+    { primaryEntity: { entityType: "competition", entityId: competitionId } },
+  );
+}
+
+export function buildClubNewsEvent(id: string, date: string, subject: string, summary: string): CareerEvent {
+  return baseEvent(`CLUB_NEWS:${id}:${date}`, "CLUB_NEWS", date, "INFORMATION", subject, summary, [{ route: "CLUB" }]);
+}

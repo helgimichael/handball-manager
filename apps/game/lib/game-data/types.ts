@@ -152,6 +152,17 @@ export type InboxMessage = {
   date: string;
   read: boolean;
   important: boolean;
+  /**
+   * HM-GAME-0.3 Career Rhythm additions -- all optional so pre-existing
+   * authored/mock messages (lib/game-data/inbox.ts) remain valid without
+   * changes. Present exactly when this message was generated from a live
+   * CareerEvent (see career/inboxBridge.ts), which visibly distinguishes
+   * real career state from presentation-QA mock content.
+   */
+  careerEventId?: string;
+  priority?: "INFORMATION" | "IMPORTANT" | "ACTION_REQUIRED";
+  actionRequired?: boolean;
+  destinations?: import("../career/careerEvents").EventDestination[];
 };
 
 export type ScoutedPlayer = {

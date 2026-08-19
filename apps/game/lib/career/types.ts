@@ -1,5 +1,8 @@
 import type { FastMatchResult } from "@handball-manager/game-simulation";
 import type { InboxMessage } from "../game-data";
+import type { CareerEvent } from "./careerEvents";
+import type { CareerTask } from "./careerTasks";
+import type { PlayerCareerStatus } from "./playerStatus";
 
 export type CareerFixture = {
   id: string;
@@ -54,6 +57,26 @@ export type CareerState = {
   /** Keyed by clubId, most recent result last, capped at 5 entries. */
   clubForm: Record<string, ClubFormEntry[]>;
   inbox: InboxMessage[];
+
+  // --- HM-GAME-0.3 Career Rhythm additions (career-state schema v3, see saveMigration.ts) ---
+
+  /** ISO date the season's fixtures begin -- immutable, used for periodic report/task cadence (never weekday-based). */
+  seasonStartDate: string;
+  /**
+   * The latest date for which the Daily World Tick (Spec S5/S21) has
+   * fully completed. `gameDate` is the date currently presented to the
+   * manager ("currentDate"); the two move together in v0.1 but are kept
+   * as distinct fields per the spec so exactly-once processing has an
+   * explicit, persisted boundary independent of any future "peek ahead"
+   * UI.
+   */
+  processedThroughDate: string;
+  /** The full semantic Career Event log (Spec S14). Source of truth Inbox messages are generated from -- see inboxBridge.ts. */
+  careerEvents: CareerEvent[];
+  /** Per-save player availability, keyed by playerId (Spec S7/S15). */
+  playerStatuses: Record<string, PlayerCareerStatus>;
+  /** Scheduled scouting/opponent-analysis tasks (Spec S16). */
+  tasks: CareerTask[];
 };
 
 export type CareerSaveEnvelope = {
