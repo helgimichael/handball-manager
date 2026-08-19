@@ -20,7 +20,13 @@ import {
 } from "@handball-manager/handball-engine/src/ui/simulationRuntime.ts";
 import { evaluateSixZeroDefense } from "@handball-manager/handball-engine/src/policies/defense/sixZeroDefensePolicy.ts";
 import { planFixedSteps, SIMULATION_DT_SECONDS } from "@handball-manager/handball-engine/src/simulation/fixedStep.ts";
-import { toMatchRenderSnapshot, snapshotToScene } from "@handball-manager/match-integration";
+import {
+  toMatchRenderSnapshot,
+  snapshotToScene,
+  createMatchSequence,
+  advanceMatchSequence,
+  type MatchSequenceState,
+} from "@handball-manager/match-integration";
 
 // HM-0.2E first live bridge (SIM runtime -> MatchRenderSnapshot ->
 // FIELD scene). This host is genuinely new code, not a copy of SIM's
@@ -33,12 +39,31 @@ import { toMatchRenderSnapshot, snapshotToScene } from "@handball-manager/match-
 // simulation clock; the only thing new here is the requestAnimationFrame
 // loop wiring a browser can drive, which cannot itself be "migrated"
 // since it did not exist in this reusable form in either source repo.
+//
+// HM-0.3 adds RUN SEQUENCE: CENTER_BACK (holds the ball in the
+// canonical scenario) passes to PIVOT, who then ATTACKs the central
+// V3_H3 gap -- SIM's own existing gap, whose SIX_ZERO_GAP_RESPONSIBILITIES
+// (L3/R3) sit either side of PIVOT's own home position (see the HM-0.3
+// report Section 2 trace of why HM-0.2E's bare PASS never triggered a
+// defensive reaction: observeDefensiveThreat only classifies
+// ACTIVE_ATTACK_THREAT when the ball carrier's own intent.type is
+// "ATTACK" -- mere possession is not enough). match-integration's
+// sequenceController.ts owns deciding WHICH existing SIM command to
+// dispatch next by observing state; this page only calls it once per
+// fixed step and dispatches whatever it returns through the same
+// executeRuntimeCommand/runSimulationTick pipeline already used by PLAY
+// and the manual PASS button. It never sets a position/velocity/intent
+// itself.
 
 function noop() {}
 
 function createInitialRuntime(): SimulationRuntimeState {
   return createSimulationRuntime(initialHalfCourt6v6State);
 }
+
+const SEQUENCE_PASSER_ID = "attack-attack-6-3"; // CENTER_BACK, holds the ball in the canonical scenario
+const SEQUENCE_RECEIVER_ID = "attack-attack-6-6"; // PIVOT
+const SEQUENCE_ATTACK_GAP_ID = "V3_H3"; // existing SIM gap, responsibility L3/R3
 
 export default function MatchDemoPage() {
   const [runtime, setRuntime] = useState<SimulationRuntimeState>(createInitialRuntime);
@@ -49,9 +74,32 @@ export default function MatchDemoPage() {
     runtimeRef.current = runtime;
   }, [runtime]);
 
+  const [sequence, setSequence] = useState<MatchSequenceState | null>(null);
+  const sequenceRef = useRef(sequence);
+  useEffect(() => {
+    sequenceRef.current = sequence;
+  }, [sequence]);
+
   const rafRef = useRef<number | null>(null);
   const lastFrameTimeRef = useRef<number | null>(null);
   const accumulatorRef = useRef(0);
+
+  // Shared by the rAF loop and the manual STEP button so both advance
+  // SIM identically: if a sequence is active, ask it (read-only) for the
+  // next command to dispatch through the existing runtime, then run one
+  // real fixed-step tick regardless.
+  const advanceOneFixedStep = useCallback((current: SimulationRuntimeState): SimulationRuntimeState => {
+    let next = current;
+    if (sequenceRef.current) {
+      const decision = advanceMatchSequence(sequenceRef.current, next.world);
+      sequenceRef.current = decision.sequence;
+      setSequence(decision.sequence);
+      if (decision.command) {
+        next = executeRuntimeCommand(next, decision.command, evaluateSixZeroDefense, 0, decision.command.type).runtime;
+      }
+    }
+    return runSimulationTick(next, SIMULATION_DT_SECONDS, evaluateSixZeroDefense).runtime;
+  }, []);
 
   // Stored in a ref (not called directly by name) so the rAF loop can
   // re-schedule itself without a self-referential useCallback, which
@@ -72,7 +120,7 @@ export default function MatchDemoPage() {
       if (plan.steps > 0) {
         let current = runtimeRef.current;
         for (let i = 0; i < plan.steps; i += 1) {
-          current = runSimulationTick(current, SIMULATION_DT_SECONDS, evaluateSixZeroDefense).runtime;
+          current = advanceOneFixedStep(current);
         }
         runtimeRef.current = current;
         setRuntime(current);
@@ -104,10 +152,10 @@ export default function MatchDemoPage() {
     if (isPlaying) {
       return;
     }
-    const next = runSimulationTick(runtimeRef.current, SIMULATION_DT_SECONDS, evaluateSixZeroDefense).runtime;
+    const next = advanceOneFixedStep(runtimeRef.current);
     runtimeRef.current = next;
     setRuntime(next);
-  }, [isPlaying]);
+  }, [isPlaying, advanceOneFixedStep]);
 
   const handleReset = useCallback(() => {
     if (rafRef.current !== null) {
@@ -117,10 +165,24 @@ export default function MatchDemoPage() {
     lastFrameTimeRef.current = null;
     accumulatorRef.current = 0;
     setIsPlaying(false);
+    sequenceRef.current = null;
+    setSequence(null);
     const next = createInitialRuntime();
     runtimeRef.current = next;
     setRuntime(next);
   }, []);
+
+  const handleRunSequence = useCallback(() => {
+    const definition = {
+      passerId: SEQUENCE_PASSER_ID,
+      receiverId: SEQUENCE_RECEIVER_ID,
+      attackGapId: SEQUENCE_ATTACK_GAP_ID as "V3_H3",
+    };
+    const next = createMatchSequence(definition);
+    sequenceRef.current = next;
+    setSequence(next);
+    handlePlay();
+  }, [handlePlay]);
 
   const handlePass = useCallback(() => {
     const world = runtimeRef.current.world;
@@ -186,8 +248,12 @@ export default function MatchDemoPage() {
         <button type="button" onClick={handlePass} disabled={!canPass}>
           PASS
         </button>
+        <button type="button" onClick={handleRunSequence} disabled={isPlaying}>
+          RUN SEQUENCE
+        </button>
         <span style={{ marginLeft: "1rem" }}>
           t={snapshot.simulationTime.toFixed(2)}s ball={snapshot.ball.status} possessor={snapshot.ball.possessorPlayerId ?? "-"}
+          {sequence ? ` sequence=${sequence.phase}` : ""}
         </span>
       </div>
       <div style={{ flex: 1, minHeight: 0, ...designSystemTheme }}>
