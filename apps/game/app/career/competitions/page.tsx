@@ -1,0 +1,121 @@
+"use client";
+
+import { useState } from "react";
+import { ALLSVENSKAN_TABLE, COMPETITIONS, NATIONS, getClub, getClubsByCompetition, getPlayerClub } from "@/lib/game-data";
+import ClubCrest from "@/components/ClubCrest";
+
+export default function CompetitionsPage() {
+  const club = getPlayerClub();
+  const [competitionId, setCompetitionId] = useState("swe-2");
+  const competition = COMPETITIONS.find((c) => c.id === competitionId)!;
+  const clubs = getClubsByCompetition(competitionId);
+  const table = competitionId === "swe-2" ? ALLSVENSKAN_TABLE : null;
+
+  return (
+    <div style={{ display: "grid", gridTemplateColumns: "220px 1fr", gap: 12, height: "100%" }}>
+      <div className="hm-panel">
+        <div className="hm-panel-header">
+          <span className="hm-panel-title">Tävlingar</span>
+        </div>
+        <div style={{ overflowY: "auto" }}>
+          {NATIONS.map((n) => (
+            <div key={n.code}>
+              <div className="hm-nav-group-label" style={{ padding: "8px 12px 2px" }}>{n.name}</div>
+              {COMPETITIONS.filter((c) => c.nation === n.code).map((c) => (
+                <div
+                  key={c.id}
+                  className="hm-nav-item"
+                  data-active={c.id === competitionId}
+                  style={{ borderRadius: 0 }}
+                  onClick={() => setCompetitionId(c.id)}
+                >
+                  <span>{c.name}</span>
+                  <span className="hm-text-muted" style={{ marginLeft: "auto", fontSize: "10px" }}>T{c.tier}</span>
+                </div>
+              ))}
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div className="hm-grid" style={{ gap: 12, alignContent: "start" }}>
+        <div className="hm-panel">
+          <div className="hm-panel-header">
+            <span className="hm-panel-title">
+              {competition.name}
+              {competition.officialName ? <span className="hm-text-muted" style={{ fontWeight: 500, marginLeft: 6 }}>({competition.officialName})</span> : null}
+            </span>
+            <span className="hm-badge hm-badge-neutral">{clubs.length} klubbar</span>
+          </div>
+          {table ? (
+            <div className="hm-scroll-x">
+              <table className="hm-table">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Klubb</th>
+                    <th className="hm-table-num">SM</th>
+                    <th className="hm-table-num">V</th>
+                    <th className="hm-table-num">O</th>
+                    <th className="hm-table-num">F</th>
+                    <th className="hm-table-num">GM</th>
+                    <th className="hm-table-num">IM</th>
+                    <th className="hm-table-num">P</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {table.map((row, i) => {
+                    const c = getClub(row.clubId)!;
+                    return (
+                      <tr key={row.clubId} data-highlight={c.id === club.id}>
+                        <td>{i + 1}</td>
+                        <td style={{ display: "flex", alignItems: "center", gap: 6 }} className={c.id === club.id ? "hm-td-strong" : ""}>
+                          <ClubCrest shortName={c.shortName} primaryColor={c.primaryColor} size={16} />
+                          {c.name}
+                        </td>
+                        <td className="hm-table-num">{row.played}</td>
+                        <td className="hm-table-num">{row.won}</td>
+                        <td className="hm-table-num">{row.drawn}</td>
+                        <td className="hm-table-num">{row.lost}</td>
+                        <td className="hm-table-num">{row.goalsFor}</td>
+                        <td className="hm-table-num">{row.goalsAgainst}</td>
+                        <td className="hm-table-num hm-td-strong">{row.points}</td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+          ) : (
+            <div className="hm-scroll-x">
+              <table className="hm-table">
+                <thead>
+                  <tr>
+                    <th>Klubb</th>
+                    <th>Stad</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {clubs.map((c) => (
+                    <tr key={c.id} className={c.playable ? "" : "hm-not-playable"}>
+                      <td style={{ display: "flex", alignItems: "center", gap: 6 }} className="hm-td-strong">
+                        <ClubCrest shortName={c.shortName} primaryColor={c.primaryColor} size={16} />
+                        {c.name}
+                      </td>
+                      <td>{c.city ?? "—"}</td>
+                      <td>{c.playable ? <span className="hm-badge hm-badge-positive">SPELBAR</span> : null}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+              <div className="hm-panel-body hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)" }}>
+                Tabell/resultat inte simulerade för denna liga i HM-GAME-0.1. {competition.sourceNote}
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
