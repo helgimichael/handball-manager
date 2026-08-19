@@ -1,0 +1,21 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noEmit": false,
+    "outDir": ".tmp/tests",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "target": "ES2022",
+    "lib": ["ES2022"],
+    "incremental": false,
+    "tsBuildInfoFile": ".tmp/tests/tsconfig.tsbuildinfo"
+  },
+  "include": [
+    "src/**/*.test.ts",
+    "src/canonicals/**/*.ts",
+    "src/domain/**/*.ts",
+    "src/simulation/**/*.ts",
+    "src/policies/**/*.ts",
+    "src/scenarios/**/*.ts"
+  ]
+}
