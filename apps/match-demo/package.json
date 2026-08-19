@@ -1,0 +1,30 @@
+{
+  "name": "@handball-manager/match-demo",
+  "version": "0.0.0",
+  "private": true,
+  "description": "HM-0.2E first live SIM -> FIELD bridge demo: the existing handball-engine runtime drives the existing match-renderer court via match-integration's adapters. Not the Handball Manager desktop app.",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@handball-manager/handball-engine": "*",
+    "@handball-manager/match-contract": "*",
+    "@handball-manager/match-integration": "*",
+    "@handball-manager/match-renderer": "*",
+    "next": "^16.0.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "eslint": "^9.0.0",
+    "eslint-config-next": "^16.0.0",
+    "typescript": "^5.0.0"
+  }
+}

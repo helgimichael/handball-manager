@@ -1,0 +1,22 @@
+{
+  "name": "@handball-manager/match-integration",
+  "version": "0.0.0",
+  "private": true,
+  "description": "The only packages allowed to import both @handball-manager/handball-engine (SIM) and @handball-manager/match-renderer (FIELD) -- but never from the same file. simAdapter.ts imports handball-engine + match-contract only; fieldAdapter.ts imports match-renderer + match-contract only.",
+  "main": "src/index.ts",
+  "scripts": {
+    "test": "node --import tsx --test src/simAdapter.test.ts src/fieldAdapter.test.ts",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint ."
+  },
+  "dependencies": {
+    "@handball-manager/handball-engine": "*",
+    "@handball-manager/match-contract": "*",
+    "@handball-manager/match-renderer": "*"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "tsx": "^4.0.0",
+    "typescript": "^5.0.0"
+  }
+}
