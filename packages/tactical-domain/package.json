@@ -1,0 +1,16 @@
+{
+  "name": "@handball-manager/tactical-domain",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Headless Tactical Domain model (HM-TACTICS-0.4), implementing the ATI-001 x TI-001 resolver from the Handball Manager Tactical Model Bible v0.3. Framework-free, no dependency on handball-engine, match-renderer, match-contract, match-integration or game-simulation.",
+  "main": "src/index.ts",
+  "scripts": {
+    "test": "tsc -p tsconfig.test.json && node --test .tmp/tests/ati001.test.js",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint ."
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "typescript": "^5.0.0"
+  }
+}
