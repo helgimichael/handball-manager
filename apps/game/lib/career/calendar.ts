@@ -2,10 +2,9 @@ import { simulateFixture, type FastMatchResult } from "@handball-manager/game-si
 import { getClubStrength } from "../game-data/clubStrength";
 import { buildTumbaMatchRoster } from "./tumbaRoster";
 import { buildPostMatchMessage, buildPreMatchMessage, buildSeasonCompleteMessage } from "./inboxEvents";
-import { averageRating, emptyPlayerSeasonStats, type CareerFixture, type CareerState, type ClubFormEntry, type PlayerSeasonStats } from "./types";
+import { applyMatchResultBookkeeping } from "./matchResultApplication";
+import { averageRating, type CareerFixture, type CareerState, type ClubFormEntry, type PlayerSeasonStats } from "./types";
 import { computeStandings } from "@handball-manager/game-simulation";
-
-const FORM_HISTORY_LENGTH = 5;
 
 export function getUnplayedFixtures(state: CareerState): readonly CareerFixture[] {
   return state.fixtures.filter((f) => !state.results[f.id]);
@@ -35,34 +34,6 @@ export function getLastPlayedPlayerFixture(state: CareerState): { fixture: Caree
     return undefined;
   }
   return { fixture, result: state.results[fixture.id] };
-}
-
-function pushForm(existing: readonly ClubFormEntry[] | undefined, entry: ClubFormEntry): ClubFormEntry[] {
-  const next = [...(existing ?? []), entry];
-  return next.slice(Math.max(0, next.length - FORM_HISTORY_LENGTH));
-}
-
-function applyPlayerContribution(
-  stats: Record<string, PlayerSeasonStats>,
-  playerId: string,
-  goals: number,
-  shots: number,
-  rating: number,
-  started: boolean,
-  saves?: number,
-  shotsFaced?: number,
-): void {
-  const current = stats[playerId] ?? emptyPlayerSeasonStats(playerId);
-  stats[playerId] = {
-    playerId,
-    appearances: current.appearances + 1,
-    starts: current.starts + (started ? 1 : 0),
-    goals: current.goals + goals,
-    shots: current.shots + shots,
-    saves: current.saves + (saves ?? 0),
-    shotsFaced: current.shotsFaced + (shotsFaced ?? 0),
-    ratingSum: current.ratingSum + rating,
-  };
 }
 
 /**
@@ -103,11 +74,7 @@ function simulateMatchday(state: CareerState, date: string): { state: CareerStat
     results[fixture.id] = result;
     producedResults.push(result);
 
-    // Club form for both sides.
-    const homeEntry: ClubFormEntry = result.homeGoals > result.awayGoals ? "W" : result.homeGoals < result.awayGoals ? "L" : "D";
-    const awayEntry: ClubFormEntry = result.awayGoals > result.homeGoals ? "W" : result.awayGoals < result.homeGoals ? "L" : "D";
-    clubForm[fixture.homeClubId] = pushForm(clubForm[fixture.homeClubId], homeEntry);
-    clubForm[fixture.awayClubId] = pushForm(clubForm[fixture.awayClubId], awayEntry);
+    applyMatchResultBookkeeping(result, clubForm, playerSeasonStats, state.playerClubId);
 
     if (isPlayerFixture) {
       // Both delivered together on the matchday CONTINUE, in reading
@@ -117,21 +84,6 @@ function simulateMatchday(state: CareerState, date: string): { state: CareerStat
       // click to hang a standalone pre-match notice on.
       newInboxMessages.push(buildPreMatchMessage(fixture, state.playerClubId));
       newInboxMessages.push(buildPostMatchMessage(fixture, result, state.playerClubId));
-
-      const isHome = fixture.homeClubId === state.playerClubId;
-      const contributions = isHome ? result.homePlayerContributions : result.awayPlayerContributions;
-      for (const contribution of contributions) {
-        applyPlayerContribution(
-          playerSeasonStats,
-          contribution.playerId,
-          contribution.goals,
-          contribution.shots,
-          contribution.rating,
-          contribution.started,
-          contribution.saves,
-          contribution.shotsFaced,
-        );
-      }
     }
   }
 
@@ -208,6 +160,77 @@ export function simulateEntireSeason(state: CareerState): CareerState {
     guard += 1;
   }
   return current;
+}
+
+// ---------------------------------------------------------------------------
+// HM-GAME-0.3 Career Rhythm additions -- used by dailyTick.ts/matchdayAction.ts.
+// The functions above (simulateMatchday/advanceToNextEvent/simulateEntireSeason)
+// are untouched legacy/debug utilities kept for QA fast-forwarding; normal
+// play now goes through the Daily World Tick + Continue Controller instead.
+// ---------------------------------------------------------------------------
+
+/** The manager club's own unplayed fixture on `date`, if any -- the MATCHDAY_READY trigger condition (Spec S11.2). */
+export function getPlayerFixtureOn(state: CareerState, date: string): CareerFixture | undefined {
+  return state.fixtures.find(
+    (f) => f.date === date && !state.results[f.id] && (f.homeClubId === state.playerClubId || f.awayClubId === state.playerClubId),
+  );
+}
+
+/**
+ * Simulates every fixture due on `date` that does NOT involve the
+ * manager's own club (Spec S11.1/S12: other clubs may be processed by
+ * ordinary Continue; the manager's own fixture must not be). Idempotent
+ * for the same reason simulateMatchday is: already-resulted fixtures are
+ * skipped.
+ */
+export function simulateAiFixturesForDate(state: CareerState, date: string): { state: CareerState; results: FastMatchResult[] } {
+  const dueFixtures = state.fixtures.filter(
+    (f) => f.date === date && !state.results[f.id] && f.homeClubId !== state.playerClubId && f.awayClubId !== state.playerClubId,
+  );
+  if (dueFixtures.length === 0) {
+    return { state, results: [] };
+  }
+
+  const results: Record<string, FastMatchResult> = { ...state.results };
+  const clubForm: Record<string, ClubFormEntry[]> = { ...state.clubForm };
+  const playerSeasonStats: Record<string, PlayerSeasonStats> = { ...state.playerSeasonStats };
+  const produced: FastMatchResult[] = [];
+
+  for (const fixture of dueFixtures) {
+    const result = simulateFixture(fixture, state.saveSeed, (clubId) => getClubStrength(clubId));
+    results[fixture.id] = result;
+    produced.push(result);
+    applyMatchResultBookkeeping(result, clubForm, playerSeasonStats, state.playerClubId);
+  }
+
+  return { state: { ...state, results, clubForm, playerSeasonStats }, results: produced };
+}
+
+/**
+ * Sets `seasonComplete` and appends the season-complete inbox message the
+ * first time every fixture (including, now, the manager's own -- see
+ * matchdayAction.ts) has a stored result. Idempotent/no-op once already
+ * complete or while fixtures remain.
+ */
+export function checkSeasonComplete(state: CareerState): CareerState {
+  if (state.seasonComplete || getUnplayedFixtures(state).length > 0) {
+    return state;
+  }
+  const table = computeStandings(
+    [...new Set(state.fixtures.flatMap((f) => [f.homeClubId, f.awayClubId]))],
+    Object.values(state.results).map((r) => ({
+      homeClubId: r.homeClubId,
+      awayClubId: r.awayClubId,
+      homeGoals: r.homeGoals,
+      awayGoals: r.awayGoals,
+    })),
+  );
+  const finalPosition = table.findIndex((row) => row.clubId === state.playerClubId) + 1;
+  return {
+    ...state,
+    seasonComplete: true,
+    inbox: [...state.inbox, buildSeasonCompleteMessage(finalPosition, state.seasonId)],
+  };
 }
 
 export { averageRating };

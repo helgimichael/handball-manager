@@ -1,5 +1,8 @@
 import { generateDoubleRoundRobin } from "@handball-manager/game-simulation";
 import { CLUBS, GAME_CURRENT_DATE } from "../game-data";
+import { addDays } from "./dateUtils";
+import { seedCareerTasks } from "./careerTasks";
+import { seedPlayerStatuses } from "./playerStatus";
 import type { CareerState } from "./types";
 
 const ALLSVENSKAN_COMPETITION_ID = "swe-2";
@@ -33,5 +36,12 @@ export function createNewCareerState(saveSeed: string, playerClubId: string): Ca
     playerSeasonStats: {},
     clubForm: {},
     inbox: [],
+    seasonStartDate: GAME_CURRENT_DATE,
+    // The first CONTINUE press should process the season's actual first
+    // day, so processedThroughDate starts one day BEHIND it.
+    processedThroughDate: addDays(GAME_CURRENT_DATE, -1),
+    careerEvents: [],
+    playerStatuses: seedPlayerStatuses(GAME_CURRENT_DATE),
+    tasks: seedCareerTasks(GAME_CURRENT_DATE),
   };
 }

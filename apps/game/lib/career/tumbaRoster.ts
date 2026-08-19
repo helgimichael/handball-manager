@@ -1,5 +1,6 @@
 import type { MatchRosterPlayer } from "@handball-manager/game-simulation";
 import { TUMBA_SQUAD, type PlayerMock } from "../game-data";
+import { isAvailable, type PlayerCareerStatus } from "./playerStatus";
 
 /**
  * Builds the matchday roster the Fast Match Engine distributes goals
@@ -21,8 +22,27 @@ function scoringWeightFor(player: PlayerMock): number {
   return (player.currentAbility / 10) * positionMultiplier;
 }
 
-export function buildTumbaMatchRoster(): MatchRosterPlayer[] {
-  const eligible = TUMBA_SQUAD.filter((p) => p.squadStatus === "Förstaval" || p.squadStatus === "Rotation");
+/**
+ * `playerStatuses` (HM-GAME-0.3): when provided, the per-save live
+ * availability slice overrides the static mock's `squadStatus` for
+ * eligibility -- so a Career Rhythm recovery (Skadad -> AVAILABLE)
+ * actually puts a player back in the matchday roster, and not merely in
+ * a cosmetic status label. Omitted for callers that predate Career
+ * Rhythm (falls back to the original squadStatus-only behaviour).
+ */
+export function buildTumbaMatchRoster(playerStatuses?: Record<string, PlayerCareerStatus>): MatchRosterPlayer[] {
+  const eligible = TUMBA_SQUAD.filter((p) => {
+    const baseEligible = p.squadStatus === "Förstaval" || p.squadStatus === "Rotation";
+    if (!playerStatuses || !playerStatuses[p.id]) {
+      return baseEligible;
+    }
+    if (!isAvailable(playerStatuses, p.id)) {
+      // A live INJURED/SUSPENDED/RECOVERING status always excludes, regardless of the static mock.
+      return false;
+    }
+    // Live AVAILABLE: recovers a stale Skadad/Avstängd mock status, but never grants eligibility to Ungdom.
+    return baseEligible || p.squadStatus === "Skadad" || p.squadStatus === "Avstängd";
+  });
   const outfield = eligible.filter((p) => p.position !== "MV");
 
   // Exactly ONE goalkeeper plays per match -- the Fast Match Engine
