@@ -11,7 +11,7 @@ import {
 } from "@handball-manager/match-renderer/src/ui/workspaces/tactics-board/geometry/HandballCourtGeometry.ts";
 import { DEFAULT_CAMERA } from "@handball-manager/match-renderer/src/ui/camera/Camera2D.ts";
 import { designSystemTheme } from "@handball-manager/match-renderer/src/ui/design-system/index.ts";
-import { initialHalfCourt6v6State } from "@handball-manager/handball-engine/src/scenarios/halfCourt6v6.ts";
+import { createHalfCourt6v6StateWithGoalkeeper } from "@handball-manager/handball-engine/src/scenarios/halfCourt6v6.ts";
 import {
   createSimulationRuntime,
   executeRuntimeCommand,
@@ -57,8 +57,14 @@ import {
 
 function noop() {}
 
+// HM-0.4A: the canonical live demo now includes the defense formation's
+// own goalkeeper (createHalfCourt6v6StateWithGoalkeeper, additional to
+// the existing 12 field players) -- not the goalkeeper-less
+// initialHalfCourt6v6State HM-0.2E/HM-0.3 used. Called fresh on every
+// RESET, same as before, so no goalkeeper state can leak or duplicate
+// across resets.
 function createInitialRuntime(): SimulationRuntimeState {
-  return createSimulationRuntime(initialHalfCourt6v6State);
+  return createSimulationRuntime(createHalfCourt6v6StateWithGoalkeeper());
 }
 
 const SEQUENCE_PASSER_ID = "attack-attack-6-3"; // CENTER_BACK, holds the ball in the canonical scenario

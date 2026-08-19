@@ -3,7 +3,7 @@ import type { CanonicalFormationDefinition, CanonicalFormationObject } from "../
 import { ZERO_VECTOR, distanceBetween } from "../domain/geometry/coordinates";
 import type { Ball } from "../domain/handball/ball";
 import { DEFAULT_MOVEMENT_PROFILE } from "../domain/handball/movement";
-import type { AttackRole, DefenseRole, Player, TeamId } from "../domain/handball/player";
+import type { AttackRole, DefenseRole, GoalkeeperRole, Player, TeamId } from "../domain/handball/player";
 
 export const DEFAULT_ATTACK_FORMATION_ID = "attack-6";
 export const DEFAULT_DEFENSE_FORMATION_ID = "defence-6-0";
@@ -32,7 +32,7 @@ function rotationToFacing(rotationDegrees: number) {
   return { x: Math.sin(radians), y: -Math.cos(radians) };
 }
 
-function createPlayer(input: Pick<Player, "id" | "team" | "role" | "position" | "facing">): Player {
+function createPlayer(input: Pick<Player, "id" | "team" | "kind" | "role" | "position" | "facing">): Player {
   return Object.freeze({
     ...input,
     velocity: ZERO_VECTOR,
@@ -93,6 +93,7 @@ export function fieldAttackFormationToPlayers(formationId: string): Player[] {
     createPlayer({
       id: `attack-${formation.id}-${index + 1}`,
       team: "ATTACK",
+      kind: "FIELD_PLAYER",
       role,
       position: object.position,
       facing: rotationToFacing(object.rotation)
@@ -111,11 +112,42 @@ export function fieldDefenseFormationToPlayers(formationId: string): Player[] {
     createPlayer({
       id: `defense-${formation.id}-${index + 1}`,
       team: "DEFENSE" satisfies TeamId,
+      kind: "FIELD_PLAYER",
       role: defenseRoleForIndex(index),
       position: object.position,
       facing: rotationToFacing(object.rotation)
     })
   );
+}
+
+/**
+ * The canonical formation data (canonicals/fieldHandball/formations.ts,
+ * itself a byte-identical copy of FIELD's own FormationLibrary.ts) has
+ * always included a GOALKEEPER object per defense formation -- HM-0.2D
+ * documented that fieldDefenseFormationToPlayers (above) discards it,
+ * because SIM's Player model had no goalkeeper case yet. HM-0.4A adds
+ * that case; this reads the SAME canonical object HM-0.2D already
+ * pointed at, rather than inventing a new coordinate.
+ */
+export function fieldDefenseFormationGoalkeeper(formationId: string): Player | null {
+  const formation = getCanonicalFormation(formationId);
+  if (!formation || formation.category !== "Defence") {
+    throw new Error(`Unknown canonical defense formation: ${formationId}.`);
+  }
+
+  const goalkeeperObject = getObjects(formation, "GOALKEEPER")[0];
+  if (!goalkeeperObject) {
+    return null;
+  }
+
+  return createPlayer({
+    id: `defense-${formation.id}-goalkeeper`,
+    team: "DEFENSE" satisfies TeamId,
+    kind: "GOALKEEPER",
+    role: "GOALKEEPER" satisfies GoalkeeperRole,
+    position: goalkeeperObject.position,
+    facing: rotationToFacing(goalkeeperObject.rotation)
+  });
 }
 
 export function fieldAttackFormationToBall(formationId: string, attackers: readonly Player[]): Ball {

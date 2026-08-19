@@ -14,11 +14,28 @@ export type AttackRole =
 
 export type DefenseRole = "L1" | "L2" | "L3" | "R3" | "R2" | "R1";
 
-export type PlayerRole = AttackRole | DefenseRole;
+export type GoalkeeperRole = "GOALKEEPER";
+
+export type PlayerRole = AttackRole | DefenseRole | GoalkeeperRole;
+
+/**
+ * Coarse simulated-entity category, orthogonal to `role`. The existing
+ * 6:0 defense policy (policies/defense/sixZeroDefensePolicy.ts) filters
+ * defenders by `role` membership in its fixed six-role
+ * SIX_ZERO_ROLE_ORDER list, which "GOALKEEPER" is never part of -- that
+ * filter already excludes a goalkeeper correctly without referencing
+ * `kind` at all. `kind` exists so the rest of the engine/adapters can
+ * ask "is this a goalkeeper" directly instead of comparing `role` to a
+ * string literal. Named PlayerKind to mirror
+ * @handball-manager/match-contract's MatchPlayerKind (HM-0.2D), the
+ * neutral render contract a goalkeeper maps onto (HM-0.4A).
+ */
+export type PlayerKind = "FIELD_PLAYER" | "GOALKEEPER";
 
 export type Player = {
   id: string;
   team: TeamId;
+  kind: PlayerKind;
   role: PlayerRole;
   position: MeterPoint;
   facing: MeterVector;

@@ -46,23 +46,24 @@ function mapSide(team: Player["team"]): MatchPlayerRenderState["side"] {
 }
 
 /**
- * SIM has no goalkeeper entity (see HM-0.2D report Section 2 and the
- * Goalkeeper Rule in the HM-0.2E brief): domain/handball/player.ts's
- * TeamId is only "ATTACK"|"DEFENSE" and DefenseRole is only the six
- * field-defender slots. Every SIM player is therefore always mapped to
- * kind "FIELD_PLAYER" -- this function exists as a single, explicit,
- * commented place recording that fact, rather than leaving the literal
- * "FIELD_PLAYER" unexplained at each call site.
+ * HM-0.4A: SIM's Player now carries its own `kind` field
+ * (domain/handball/player.ts's PlayerKind, "FIELD_PLAYER" |
+ * "GOALKEEPER") mirroring the contract's MatchPlayerKind directly --
+ * identity mapping, no inference needed. Before HM-0.4A this function
+ * unconditionally returned "FIELD_PLAYER" because SIM had no goalkeeper
+ * entity at all (see HM-0.2D report Section 2); that gap is now closed
+ * at the domain level, so the adapter only needs to pass the value
+ * through.
  */
-function mapKind(): MatchPlayerRenderState["kind"] {
-  return "FIELD_PLAYER";
+function mapKind(kind: Player["kind"]): MatchPlayerRenderState["kind"] {
+  return kind;
 }
 
 function mapPlayer(player: Player): MatchPlayerRenderState {
   return {
     id: player.id,
     side: mapSide(player.team),
-    kind: mapKind(),
+    kind: mapKind(player.kind),
     x: player.position.x,
     y: player.position.y,
     orientationDegrees: facingToRotationDegrees(player.facing),
