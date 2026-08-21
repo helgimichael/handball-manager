@@ -28,6 +28,15 @@ import {
   type TacticalInstruction,
   type TacticalInstructionStatus,
 } from "./tacticalInstruction";
+import {
+  applyShoutOverride,
+  resolveShoutStatus,
+  shoutDeliveryMinute,
+  shoutExpiryMinute,
+  type Shout,
+  type ShoutStatus,
+  type ShoutType,
+} from "./sidelineShout";
 
 export interface UseLiveMatchResult {
   view: LiveMatchView;
@@ -50,6 +59,11 @@ export interface UseLiveMatchResult {
   timeoutSecondsRemaining: number | null;
   /** No-op if an instruction is already pending or the match isn't currently in a TIMEOUT. Adopts faster than `issueInstruction` (see tacticalInstruction.ts). */
   issueTimeoutInstruction: (profile: TeamTacticalProfile) => void;
+  /** HM-COACHING-0.2: the one in-flight shout, if any (null once EXPIRED and reverted). */
+  pendingShout: Shout | null;
+  shoutStatus: ShoutStatus | null;
+  /** No-op if a shout is already pending/active (one at a time -- Spec: "must not stack") or the match isn't currently in play. */
+  issueShout: (type: ShoutType, baselineProfile: TeamTacticalProfile) => void;
 }
 
 /**
@@ -64,12 +78,27 @@ export interface UseLiveMatchResult {
  * pause/speed play no part in when adoption happens (Spec: "pause/speed
  * does not change tactical outcome").
  */
-export function useLiveMatch(result: FastMatchResult, onInstructionAdopted: (adoptionMinute: number, profile: TeamTacticalProfile) => void): UseLiveMatchResult {
+interface ShoutState {
+  shout: Shout;
+  /** The profile in effect when the shout was called -- captured once, at issue time, so expiry reverts to exactly this, regardless of anything else that happens meanwhile. */
+  baselineProfile: TeamTacticalProfile;
+  /** `applyShoutOverride(baselineProfile, shout.type)`, precomputed at issue time. */
+  overrideProfile: TeamTacticalProfile;
+}
+
+export function useLiveMatch(
+  result: FastMatchResult,
+  onInstructionAdopted: (adoptionMinute: number, profile: TeamTacticalProfile) => void,
+  onShoutDelivered: (deliveryMinute: number, overrideProfile: TeamTacticalProfile) => void,
+  onShoutExpired: (expiryMinute: number, baselineProfile: TeamTacticalProfile) => void,
+): UseLiveMatchResult {
   const [clock, setClock] = useState<LiveMatchClock>(() => kickoff(initLiveMatchClock()));
   const [instruction, setInstruction] = useState<TacticalInstruction | null>(null);
   const [timeoutSecondsRemaining, setTimeoutSecondsRemaining] = useState<number | null>(null);
+  const [shoutState, setShoutState] = useState<ShoutState | null>(null);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const appliedIssuedMinuteRef = useRef<number | null>(null);
+  const shoutPhaseRef = useRef<"NONE" | "DELIVERED" | "EXPIRED">("NONE");
 
   useEffect(() => {
     if (clock.speed === "PAUSED") {
@@ -140,6 +169,40 @@ export function useLiveMatch(result: FastMatchResult, onInstructionAdopted: (ado
     });
   }, [instruction, view.clockMinute, onInstructionAdopted]);
 
+  // HM-COACHING-0.2: shout delivery + automatic expiry. Both transitions
+  // are handled in ONE effect (rather than two separate ones, as the
+  // permanent-instruction effect above only needs) because a fast-
+  // forward (instantResult) can jump the clock straight past ACTIVE
+  // into EXPIRED in a single render -- in that case both the delivery
+  // splice and the revert splice must still happen, in order, rather
+  // than silently skipping the delivery. CareerContext's
+  // applyMidMatchTacticalChange uses a functional state update
+  // specifically so two such calls in the same microtask never race
+  // against a stale snapshot.
+  useEffect(() => {
+    if (!shoutState) {
+      return;
+    }
+    const status = resolveShoutStatus(shoutState.shout, view.clockMinute);
+    if (status === "PENDING" || shoutPhaseRef.current === "EXPIRED") {
+      return;
+    }
+    const wasUndelivered = shoutPhaseRef.current === "NONE";
+    shoutPhaseRef.current = status === "EXPIRED" ? "EXPIRED" : "DELIVERED";
+    const deliveryMinute = shoutDeliveryMinute(shoutState.shout);
+    const expiryMinute = shoutExpiryMinute(shoutState.shout);
+    const { overrideProfile, baselineProfile } = shoutState;
+    queueMicrotask(() => {
+      if (wasUndelivered) {
+        onShoutDelivered(deliveryMinute, overrideProfile);
+      }
+      if (status === "EXPIRED") {
+        onShoutExpired(expiryMinute, baselineProfile);
+        setShoutState(null);
+      }
+    });
+  }, [shoutState, view.clockMinute, onShoutDelivered, onShoutExpired]);
+
   return {
     view,
     speed: clock.speed,
@@ -161,6 +224,18 @@ export function useLiveMatch(result: FastMatchResult, onInstructionAdopted: (ado
       if (instruction) return;
       if (clock.phase !== "TIMEOUT") return;
       setInstruction({ issuedMinute: view.clockMinute, profile, deliveryMode: "TIMEOUT" });
+    },
+    pendingShout: shoutState?.shout ?? null,
+    shoutStatus: shoutState ? resolveShoutStatus(shoutState.shout, view.clockMinute) : null,
+    issueShout: (type, baselineProfile) => {
+      if (shoutState) return;
+      if (clock.phase !== "FIRST_HALF" && clock.phase !== "SECOND_HALF") return;
+      shoutPhaseRef.current = "NONE";
+      setShoutState({
+        shout: { type, issuedMinute: view.clockMinute },
+        baselineProfile,
+        overrideProfile: applyShoutOverride(baselineProfile, type),
+      });
     },
   };
 }

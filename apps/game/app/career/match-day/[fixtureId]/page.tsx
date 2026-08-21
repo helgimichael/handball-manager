@@ -10,6 +10,7 @@ import { useLiveMatch } from "@/lib/liveMatch/useLiveMatch";
 import type { PlaybackSpeed } from "@/lib/liveMatch/clock";
 import type { LiveTeamStats } from "@/lib/liveMatch/liveMatchView";
 import { instructionAdoptionMinute } from "@/lib/liveMatch/tacticalInstruction";
+import { SHOUT_TYPES, shoutDeliveryMinute, shoutExpiryMinute, shoutLabel } from "@/lib/liveMatch/sidelineShout";
 import {
   ATI001_USAGE_TENDENCY_VALUES,
   H2_RESPONSE_PREFERENCE_VALUES,
@@ -84,6 +85,26 @@ function LiveMatch({
     [applyMidMatchTacticalChange, fixture.id],
   );
 
+  // HM-COACHING-0.2: a shout's delivery/expiry each independently splice
+  // via the exact same career action a permanent instruction uses --
+  // the only difference is that expiry calls it a second time, later,
+  // with the baseline profile captured at the moment the shout was
+  // called, reverting the temporary override.
+  const handleShoutDelivered = useCallback(
+    (deliveryMinute: number, overrideProfile: TeamTacticalProfile) => {
+      applyMidMatchTacticalChange(fixture.id, deliveryMinute, overrideProfile);
+      setCurrentProfile(overrideProfile);
+    },
+    [applyMidMatchTacticalChange, fixture.id],
+  );
+  const handleShoutExpired = useCallback(
+    (expiryMinute: number, baselineProfile: TeamTacticalProfile) => {
+      applyMidMatchTacticalChange(fixture.id, expiryMinute, baselineProfile);
+      setCurrentProfile(baselineProfile);
+    },
+    [applyMidMatchTacticalChange, fixture.id],
+  );
+
   const {
     view,
     speed,
@@ -98,7 +119,10 @@ function LiveMatch({
     endTimeout,
     timeoutSecondsRemaining,
     issueTimeoutInstruction,
-  } = useLiveMatch(result, handleInstructionAdopted);
+    pendingShout,
+    shoutStatus,
+    issueShout,
+  } = useLiveMatch(result, handleInstructionAdopted, handleShoutDelivered, handleShoutExpired);
 
   const home = getClub(fixture.homeClubId)!;
   const away = getClub(fixture.awayClubId)!;
@@ -107,6 +131,7 @@ function LiveMatch({
   const isTimeout = view.phase === "TIMEOUT";
   const canIssueInstruction = !pendingInstruction && (view.phase === "FIRST_HALF" || view.phase === "SECOND_HALF");
   const canIssueTimeoutInstruction = !pendingInstruction && isTimeout;
+  const canIssueShout = !pendingShout && (view.phase === "FIRST_HALF" || view.phase === "SECOND_HALF");
 
   useEffect(() => {
     logRef.current?.scrollTo({ top: logRef.current.scrollHeight });
@@ -321,6 +346,42 @@ function LiveMatch({
           </div>
         </div>
       )}
+
+      {/* HM-COACHING-0.2: sideline shouts -- a small, TEMPORARY nudge (issued -> pending -> active -> expired) distinct from the permanent tactical instruction/timeout panels above. Never available during a TIMEOUT (that has its own dedicated coaching flow). */}
+      {!isTimeout ? (
+        <div className="hm-panel">
+          <div className="hm-panel-header">
+            <span className="hm-panel-title">Sidlinjerop</span>
+            {pendingShout ? (
+              <span className="hm-badge hm-badge-neutral">
+                {shoutLabel(pendingShout.type)} — {shoutStatus}
+                {shoutStatus === "PENDING" ? ` (aktiveras ${formatMatchMinute(shoutDeliveryMinute(pendingShout))})` : null}
+                {shoutStatus === "ACTIVE" ? ` (upphör ${formatMatchMinute(shoutExpiryMinute(pendingShout))})` : null}
+              </span>
+            ) : (
+              <span className="hm-badge hm-badge-neutral">INGET AKTIVT ROP</span>
+            )}
+          </div>
+          <div className="hm-panel-body" style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+            <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+              {SHOUT_TYPES.map((type) => (
+                <button
+                  key={type}
+                  type="button"
+                  className="hm-btn hm-btn-sm"
+                  disabled={!canIssueShout}
+                  onClick={() => issueShout(type, currentProfile)}
+                >
+                  {shoutLabel(type)}
+                </button>
+              ))}
+            </div>
+            <span className="hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)" }}>
+              Ett rop i taget -- upprepade rop staplar aldrig, och ett rop återgår alltid automatiskt till taktiken som gällde när det ropades.
+            </span>
+          </div>
+        </div>
+      ) : null}
 
       {/* Controls */}
       <div className="hm-panel">

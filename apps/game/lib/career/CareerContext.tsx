@@ -164,12 +164,24 @@ export function CareerProvider({ children }: { children: ReactNode }) {
   }
 
   function applyMidMatchTacticalChangeAction(fixtureId: string, adoptionMinute: number, profile: TeamTacticalProfile) {
-    const nextCareer = applyMidMatchTacticalChange(value!.career, fixtureId, adoptionMinute, profile);
-    if (nextCareer === value!.career) {
-      return;
-    }
-    saveCareerState(value!.save.saveId, nextCareer);
-    setValue({ save: value!.save, career: nextCareer });
+    // HM-COACHING-0.2: a shout's delivery and expiry can both fire back
+    // to back within the same microtask (e.g. the manager presses DIREKT
+    // RESULTAT while a shout is still pending -- see sidelineShout.ts's
+    // caller). Using the functional setValue form (rather than reading
+    // the `value` closure directly) means the second call always sees
+    // the first call's already-spliced result, instead of both computing
+    // against the same stale pre-splice snapshot.
+    setValue((current) => {
+      if (!current) {
+        return current;
+      }
+      const nextCareer = applyMidMatchTacticalChange(current.career, fixtureId, adoptionMinute, profile);
+      if (nextCareer === current.career) {
+        return current;
+      }
+      saveCareerState(current.save.saveId, nextCareer);
+      return { save: current.save, career: nextCareer };
+    });
   }
 
   return (

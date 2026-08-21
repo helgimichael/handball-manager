@@ -87,3 +87,54 @@ test("is a safe no-op when the fixture has no stored result, or the adoption min
   const pastFullTime = applyMidMatchTacticalChange(state, fixture.id, 60, ALTERNATE_PROFILE);
   assert.equal(pastFullTime, state);
 });
+
+// HM-COACHING-0.2: a shout composes two applyMidMatchTacticalChange
+// calls in sequence (delivery, then a later revert-to-baseline) --
+// exactly the pattern CareerContext's applyMidMatchTacticalChangeAction
+// now supports via a functional state update (see its own doc comment).
+// These tests exercise that composition directly at the pure-function
+// level, chaining the SECOND call's input state from the FIRST call's
+// output, the same way the functional update guarantees in the app.
+test("HM-COACHING-0.2: a shout's delivery + later expiry compose correctly -- prefix before delivery is untouched, and the post-expiry suffix uses the reverted (baseline) profile again", () => {
+  const { state, fixture, original } = playedFixture("midmatch-shout-compose-seed");
+  const baselineProfile = { ati001UsageTendency: "MEDIUM" as const, h2ResponsePreference: "H2_STEPS" as const, tacticalFamiliarity: "MEDIUM" as const };
+  const overrideProfile = { ...baselineProfile, ati001UsageTendency: "HIGH" as const };
+
+  const deliveryMinute = 15;
+  const expiryMinute = 21;
+
+  const afterDelivery = applyMidMatchTacticalChange(state, fixture.id, deliveryMinute, overrideProfile);
+  const afterExpiry = applyMidMatchTacticalChange(afterDelivery, fixture.id, expiryMinute, baselineProfile);
+
+  const finalResult = afterExpiry.results[fixture.id];
+
+  // Prefix before the shout was ever delivered is exactly the original, untouched.
+  const originalPrefix = original.events.filter((e) => e.minute < deliveryMinute);
+  const finalPrefix = finalResult.events.filter((e) => e.minute < deliveryMinute);
+  assert.deepEqual(finalPrefix, originalPrefix);
+
+  // The [delivery, expiry) window came from the override-splice's own suffix, preserved by the second splice's own prefix-preservation.
+  const deliveredWindow = afterDelivery.results[fixture.id].events.filter((e) => e.minute >= deliveryMinute && e.minute < expiryMinute);
+  const finalWindow = finalResult.events.filter((e) => e.minute >= deliveryMinute && e.minute < expiryMinute);
+  assert.deepEqual(finalWindow, deliveredWindow, "the active-shout window must survive the later revert-splice's own prefix preservation");
+
+  // And the post-expiry suffix differs from what the override-splice alone would have produced, since it was resimulated with the reverted baseline.
+  const overrideOnlySuffix = afterDelivery.results[fixture.id].events.filter((e) => e.minute >= expiryMinute);
+  const finalSuffix = finalResult.events.filter((e) => e.minute >= expiryMinute);
+  assert.notDeepEqual(finalSuffix, overrideOnlySuffix);
+});
+
+test("HM-COACHING-0.2: the same seed + same shout delivery/expiry timing always composes to the identical final result", () => {
+  const { state, fixture } = playedFixture("midmatch-shout-determinism-seed");
+  const baselineProfile = { ati001UsageTendency: "MEDIUM" as const, h2ResponsePreference: "H2_STEPS" as const, tacticalFamiliarity: "MEDIUM" as const };
+  const overrideProfile = { ...baselineProfile, h2ResponsePreference: "H2_HOLDS" as const };
+
+  function compose() {
+    const afterDelivery = applyMidMatchTacticalChange(state, fixture.id, 12, overrideProfile);
+    return applyMidMatchTacticalChange(afterDelivery, fixture.id, 17, baselineProfile);
+  }
+
+  const a = compose();
+  const b = compose();
+  assert.deepEqual(a.results[fixture.id], b.results[fixture.id]);
+});
