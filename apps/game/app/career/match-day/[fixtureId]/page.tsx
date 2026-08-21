@@ -35,6 +35,7 @@ const PHASE_LABEL: Record<string, string> = {
   FIRST_HALF: "Första halvlek",
   HALF_TIME: "Paus",
   SECOND_HALF: "Andra halvlek",
+  TIMEOUT: "Timeout",
   FULL_TIME: "Full tid",
 };
 
@@ -83,16 +84,29 @@ function LiveMatch({
     [applyMidMatchTacticalChange, fixture.id],
   );
 
-  const { view, speed, setSpeed, startSecondHalf, instantResult, pendingInstruction, instructionStatus, issueInstruction } = useLiveMatch(
-    result,
-    handleInstructionAdopted,
-  );
+  const {
+    view,
+    speed,
+    setSpeed,
+    startSecondHalf,
+    instantResult,
+    pendingInstruction,
+    instructionStatus,
+    issueInstruction,
+    canCallTimeout,
+    callTimeout,
+    endTimeout,
+    timeoutSecondsRemaining,
+    issueTimeoutInstruction,
+  } = useLiveMatch(result, handleInstructionAdopted);
 
   const home = getClub(fixture.homeClubId)!;
   const away = getClub(fixture.awayClubId)!;
   const isPlayerHome = fixture.homeClubId === playerClubId;
   const ownSquad = getCareerSquad(career);
+  const isTimeout = view.phase === "TIMEOUT";
   const canIssueInstruction = !pendingInstruction && (view.phase === "FIRST_HALF" || view.phase === "SECOND_HALF");
+  const canIssueTimeoutInstruction = !pendingInstruction && isTimeout;
 
   useEffect(() => {
     logRef.current?.scrollTo({ top: logRef.current.scrollHeight });
@@ -199,60 +213,114 @@ function LiveMatch({
         </table>
       </div>
 
-      {/* HM-TACTICS-0.7: in-match tactical adjustment (only the 3 HM-TACTICS-0.6A controls -- no timeout/shouts/7v6 here). */}
-      <div className="hm-panel">
-        <div className="hm-panel-header">
-          <span className="hm-panel-title">Taktisk justering (live)</span>
-          {pendingInstruction ? (
-            <span className="hm-badge hm-badge-neutral">
-              {instructionStatus} — adopteras {formatMatchMinute(instructionAdoptionMinute(pendingInstruction))}
-            </span>
-          ) : (
-            <span className="hm-badge hm-badge-neutral">AKTUELL</span>
-          )}
-        </div>
-        <div className="hm-panel-body" style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-          <SegmentedControl
-            label="ATI-001-benägenhet"
-            value={draftProfile.ati001UsageTendency}
-            options={ATI001_USAGE_TENDENCY_VALUES}
-            renderLabel={capabilityLevelLabel}
-            onChange={(v) => setDraftProfile((p) => ({ ...p, ati001UsageTendency: v }))}
-            disabled={!canIssueInstruction}
-          />
-          <SegmentedControl
-            label="H2-respons (TI-001)"
-            value={draftProfile.h2ResponsePreference}
-            options={H2_RESPONSE_PREFERENCE_VALUES}
-            renderLabel={h2ResponseLabel}
-            onChange={(v) => setDraftProfile((p) => ({ ...p, h2ResponsePreference: v }))}
-            disabled={!canIssueInstruction}
-          />
-          <SegmentedControl
-            label="Taktisk förtrogenhet"
-            value={draftProfile.tacticalFamiliarity}
-            options={TACTICAL_FAMILIARITY_VALUES}
-            renderLabel={capabilityLevelLabel}
-            onChange={(v) => setDraftProfile((p) => ({ ...p, tacticalFamiliarity: v }))}
-            disabled={!canIssueInstruction}
-          />
-          <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
-            <button
-              type="button"
-              className="hm-btn hm-btn-sm hm-btn-primary"
-              disabled={!canIssueInstruction}
-              onClick={() => issueInstruction(draftProfile)}
-            >
-              BEORDRA ÄNDRING
-            </button>
-            <span className="hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)" }}>
-              {pendingInstruction
-                ? `PENDING sedan ${formatMatchMinute(pendingInstruction.issuedMinute)} — instruktionen slår igenom vid ${formatMatchMinute(instructionAdoptionMinute(pendingInstruction))}, aldrig det redan spelade förloppet.`
-                : `CURRENT: gäller från matchstart${currentProfile !== career.tacticalProfile ? " (justerad under matchen)" : ""}.`}
-            </span>
+      {/* HM-COACHING-0.1: timeout opens a dedicated coaching panel -- the sideline tactical panel below is hidden while it's up, since only one delivery channel can be active at a time. */}
+      {isTimeout ? (
+        <div className="hm-panel">
+          <div className="hm-panel-header">
+            <span className="hm-panel-title">Timeout — coaching</span>
+            <span className="hm-badge hm-badge-neutral">{timeoutSecondsRemaining ?? 0}s kvar</span>
+          </div>
+          <div className="hm-panel-body" style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+            <SegmentedControl
+              label="ATI-001-benägenhet"
+              value={draftProfile.ati001UsageTendency}
+              options={ATI001_USAGE_TENDENCY_VALUES}
+              renderLabel={capabilityLevelLabel}
+              onChange={(v) => setDraftProfile((p) => ({ ...p, ati001UsageTendency: v }))}
+              disabled={!canIssueTimeoutInstruction}
+            />
+            <SegmentedControl
+              label="H2-respons (TI-001)"
+              value={draftProfile.h2ResponsePreference}
+              options={H2_RESPONSE_PREFERENCE_VALUES}
+              renderLabel={h2ResponseLabel}
+              onChange={(v) => setDraftProfile((p) => ({ ...p, h2ResponsePreference: v }))}
+              disabled={!canIssueTimeoutInstruction}
+            />
+            <SegmentedControl
+              label="Taktisk förtrogenhet"
+              value={draftProfile.tacticalFamiliarity}
+              options={TACTICAL_FAMILIARITY_VALUES}
+              renderLabel={capabilityLevelLabel}
+              onChange={(v) => setDraftProfile((p) => ({ ...p, tacticalFamiliarity: v }))}
+              disabled={!canIssueTimeoutInstruction}
+            />
+            <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
+              <button
+                type="button"
+                className="hm-btn hm-btn-sm hm-btn-primary"
+                disabled={!canIssueTimeoutInstruction}
+                onClick={() => issueTimeoutInstruction(draftProfile)}
+              >
+                BEORDRA ÄNDRING (TIMEOUT)
+              </button>
+              <button type="button" className="hm-btn hm-btn-sm" onClick={endTimeout}>
+                ÅTERUPPTA →
+              </button>
+              <span className="hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)" }}>
+                {pendingInstruction
+                  ? `${instructionStatus} — adopteras ${formatMatchMinute(instructionAdoptionMinute(pendingInstruction))} (snabbare än en vanlig sidlinjeinstruktion tack vare timeouten).`
+                  : "Ingen ändring beordrad under denna timeout -- matchtiden är fryst tills du återupptar."}
+              </span>
+            </div>
           </div>
         </div>
-      </div>
+      ) : (
+        /* HM-TACTICS-0.7: in-match tactical adjustment (only the 3 HM-TACTICS-0.6A controls -- no shouts/7v6/receptiveness here). */
+        <div className="hm-panel">
+          <div className="hm-panel-header">
+            <span className="hm-panel-title">Taktisk justering (live)</span>
+            {pendingInstruction ? (
+              <span className="hm-badge hm-badge-neutral">
+                {instructionStatus} — adopteras {formatMatchMinute(instructionAdoptionMinute(pendingInstruction))}
+              </span>
+            ) : (
+              <span className="hm-badge hm-badge-neutral">AKTUELL</span>
+            )}
+          </div>
+          <div className="hm-panel-body" style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+            <SegmentedControl
+              label="ATI-001-benägenhet"
+              value={draftProfile.ati001UsageTendency}
+              options={ATI001_USAGE_TENDENCY_VALUES}
+              renderLabel={capabilityLevelLabel}
+              onChange={(v) => setDraftProfile((p) => ({ ...p, ati001UsageTendency: v }))}
+              disabled={!canIssueInstruction}
+            />
+            <SegmentedControl
+              label="H2-respons (TI-001)"
+              value={draftProfile.h2ResponsePreference}
+              options={H2_RESPONSE_PREFERENCE_VALUES}
+              renderLabel={h2ResponseLabel}
+              onChange={(v) => setDraftProfile((p) => ({ ...p, h2ResponsePreference: v }))}
+              disabled={!canIssueInstruction}
+            />
+            <SegmentedControl
+              label="Taktisk förtrogenhet"
+              value={draftProfile.tacticalFamiliarity}
+              options={TACTICAL_FAMILIARITY_VALUES}
+              renderLabel={capabilityLevelLabel}
+              onChange={(v) => setDraftProfile((p) => ({ ...p, tacticalFamiliarity: v }))}
+              disabled={!canIssueInstruction}
+            />
+            <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
+              <button
+                type="button"
+                className="hm-btn hm-btn-sm hm-btn-primary"
+                disabled={!canIssueInstruction}
+                onClick={() => issueInstruction(draftProfile)}
+              >
+                BEORDRA ÄNDRING
+              </button>
+              <span className="hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)" }}>
+                {pendingInstruction
+                  ? `PENDING sedan ${formatMatchMinute(pendingInstruction.issuedMinute)} — instruktionen slår igenom vid ${formatMatchMinute(instructionAdoptionMinute(pendingInstruction))}, aldrig det redan spelade förloppet.`
+                  : `CURRENT: gäller från matchstart${currentProfile !== career.tacticalProfile ? " (justerad under matchen)" : ""}.`}
+              </span>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Controls */}
       <div className="hm-panel">
@@ -270,6 +338,10 @@ function LiveMatch({
                 FORTSÄTT
               </button>
             </>
+          ) : isTimeout ? (
+            <span className="hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)" }}>
+              Matchen är pausad under timeouten -- se coaching-panelen ovan.
+            </span>
           ) : (
             <>
               <SpeedButton current={speed} target="PAUSED" label="PAUS" onSelect={setSpeed} />
@@ -279,6 +351,9 @@ function LiveMatch({
               <SpeedButton current={speed} target="X8" label="8×" onSelect={setSpeed} />
               <button type="button" className="hm-btn hm-btn-sm hm-btn-primary" onClick={instantResult}>
                 DIREKT RESULTAT
+              </button>
+              <button type="button" className="hm-btn hm-btn-sm" disabled={!canCallTimeout} onClick={callTimeout}>
+                TA TIMEOUT
               </button>
             </>
           )}

@@ -54,7 +54,7 @@ test("mid-match (15:00) live stats do not already equal the final totals for a m
   let found = false;
   for (let seed = 0; seed < 30 && !found; seed += 1) {
     const result = simulateMatch(baseInput(seed));
-    const midClock: LiveMatchClock = { phase: "FIRST_HALF", clockMinute: 15, speed: "X1" };
+    const midClock: LiveMatchClock = { phase: "FIRST_HALF", clockMinute: 15, speed: "X1", timeoutsUsed: { firstHalf: 0, secondHalf: 0 } };
     const view = computeLiveMatchView(result, midClock);
     if (view.homeScore + view.awayScore < result.homeGoals + result.awayGoals) {
       found = true;
@@ -119,7 +119,7 @@ test("currentAttack reflects the side of the most recently revealed event, not a
   const earliestMinute = result.events[0].minute;
   const eventsAtEarliestMinute = result.events.filter((e) => e.minute === earliestMinute);
   const expectedSide = eventsAtEarliestMinute[eventsAtEarliestMinute.length - 1].side;
-  const clock: LiveMatchClock = { phase: "FIRST_HALF", clockMinute: earliestMinute, speed: "X1" };
+  const clock: LiveMatchClock = { phase: "FIRST_HALF", clockMinute: earliestMinute, speed: "X1", timeoutsUsed: { firstHalf: 0, secondHalf: 0 } };
   const view = computeLiveMatchView(result, clock);
   assert.equal(view.currentAttack, expectedSide);
 });

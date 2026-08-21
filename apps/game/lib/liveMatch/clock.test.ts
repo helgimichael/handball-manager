@@ -1,6 +1,17 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { initLiveMatchClock, kickoff, revealInstantly, setSpeed, startSecondHalf, tick } from "./clock";
+import {
+  MAX_TIMEOUTS_PER_HALF,
+  callTimeout,
+  canCallTimeout,
+  endTimeout,
+  initLiveMatchClock,
+  kickoff,
+  revealInstantly,
+  setSpeed,
+  startSecondHalf,
+  tick,
+} from "./clock";
 
 test("starts at 00:00, PRE_MATCH", () => {
   const clock = initLiveMatchClock();
@@ -83,8 +94,67 @@ test("setSpeed only takes effect during FIRST_HALF/SECOND_HALF", () => {
 });
 
 test("revealInstantly jumps straight to FULL_TIME/60:00 from any phase", () => {
-  assert.deepEqual(revealInstantly(), { phase: "FULL_TIME", clockMinute: 60, speed: "PAUSED" });
+  const expected = { phase: "FULL_TIME", clockMinute: 60, speed: "PAUSED", timeoutsUsed: { firstHalf: 0, secondHalf: 0 } };
+  assert.deepEqual(revealInstantly(), expected);
   const midMatch = tick(tick(kickoff(initLiveMatchClock())));
-  assert.deepEqual(revealInstantly(), { phase: "FULL_TIME", clockMinute: 60, speed: "PAUSED" });
+  assert.deepEqual(revealInstantly(), expected);
   void midMatch;
+});
+
+test("HM-COACHING-0.1: canCallTimeout is only true during FIRST_HALF/SECOND_HALF, up to MAX_TIMEOUTS_PER_HALF times", () => {
+  assert.equal(canCallTimeout(initLiveMatchClock()), false, "not yet kicked off");
+
+  let clock = kickoff(initLiveMatchClock());
+  assert.equal(canCallTimeout(clock), true);
+  for (let i = 0; i < MAX_TIMEOUTS_PER_HALF; i += 1) {
+    clock = callTimeout(clock);
+    assert.equal(clock.phase, "TIMEOUT");
+    clock = endTimeout(clock);
+    assert.equal(clock.phase, "FIRST_HALF");
+  }
+  assert.equal(canCallTimeout(clock), false, "this half's timeout budget is spent");
+
+  for (let i = 0; i < 30; i += 1) clock = tick(clock);
+  clock = startSecondHalf(clock);
+  assert.equal(canCallTimeout(clock), true, "the second half has its own separate budget");
+});
+
+test("HM-COACHING-0.1: callTimeout freezes clockMinute -- tick is a no-op during TIMEOUT", () => {
+  let clock = kickoff(initLiveMatchClock());
+  for (let i = 0; i < 12; i += 1) clock = tick(clock);
+  assert.equal(clock.clockMinute, 12);
+
+  clock = callTimeout(clock);
+  assert.equal(clock.phase, "TIMEOUT");
+  assert.equal(clock.speed, "PAUSED");
+  for (let i = 0; i < 5; i += 1) clock = tick(clock);
+  assert.equal(clock.clockMinute, 12, "simulated match time must not advance during a timeout");
+});
+
+test("HM-COACHING-0.1: endTimeout resumes exactly the half the timeout was called from, at the same clockMinute, at X1", () => {
+  let clock = kickoff(initLiveMatchClock());
+  for (let i = 0; i < 40; i += 1) clock = tick(clock); // into second half
+  clock = startSecondHalf(clock);
+  for (let i = 0; i < 5; i += 1) clock = tick(clock);
+  assert.equal(clock.clockMinute, 35);
+
+  clock = callTimeout(clock);
+  clock = endTimeout(clock);
+  assert.equal(clock.phase, "SECOND_HALF");
+  assert.equal(clock.clockMinute, 35);
+  assert.equal(clock.speed, "X1");
+});
+
+test("HM-COACHING-0.1: callTimeout/endTimeout are no-ops outside their valid phases", () => {
+  const preMatch = initLiveMatchClock();
+  assert.deepEqual(callTimeout(preMatch), preMatch);
+
+  let clock = kickoff(initLiveMatchClock());
+  assert.deepEqual(endTimeout(clock), clock, "endTimeout outside TIMEOUT is a no-op");
+
+  // spend this half's only timeout, then confirm a second call is a no-op
+  clock = callTimeout(clock);
+  clock = endTimeout(clock);
+  const spent = clock;
+  assert.deepEqual(callTimeout(spent), spent, "no timeouts left this half");
 });

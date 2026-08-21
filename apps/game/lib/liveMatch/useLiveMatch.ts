@@ -8,6 +8,9 @@ import { useEffect, useRef, useState } from "react";
 import type { FastMatchResult } from "@handball-manager/game-simulation";
 import type { TeamTacticalProfile } from "../career/teamTacticalProfile";
 import {
+  callTimeout as callTimeoutClock,
+  canCallTimeout,
+  endTimeout as endTimeoutClock,
   initLiveMatchClock,
   kickoff,
   revealInstantly,
@@ -18,7 +21,7 @@ import {
   type PlaybackSpeed,
 } from "./clock";
 import { computeLiveMatchView, type LiveMatchView } from "./liveMatchView";
-import { PLAYBACK_TICK_INTERVAL_MS } from "./pacing";
+import { PLAYBACK_TICK_INTERVAL_MS, TIMEOUT_DURATION_SECONDS } from "./pacing";
 import {
   instructionAdoptionMinute,
   resolveInstructionStatus,
@@ -35,8 +38,18 @@ export interface UseLiveMatchResult {
   /** HM-TACTICS-0.7: the one in-flight instruction, if any (null once ADOPTED and applied). */
   pendingInstruction: TacticalInstruction | null;
   instructionStatus: TacticalInstructionStatus | null;
-  /** No-op if an instruction is already pending (one at a time) or the match isn't currently in play. */
+  /** No-op if an instruction is already pending (one at a time) or the match isn't currently in play (i.e. not FIRST_HALF/SECOND_HALF -- this never fires during a TIMEOUT). */
   issueInstruction: (profile: TeamTacticalProfile) => void;
+  /** HM-COACHING-0.1: whether the manager could call a timeout right now (see clock.ts's canCallTimeout/MAX_TIMEOUTS_PER_HALF). */
+  canCallTimeout: boolean;
+  /** No-op if `canCallTimeout` is false. */
+  callTimeout: () => void;
+  /** Ends the current timeout early, resuming play immediately. No-op outside TIMEOUT. */
+  endTimeout: () => void;
+  /** Real-world seconds left in the current timeout countdown; null outside TIMEOUT. Presentation-only -- has no bearing on match determinism. */
+  timeoutSecondsRemaining: number | null;
+  /** No-op if an instruction is already pending or the match isn't currently in a TIMEOUT. Adopts faster than `issueInstruction` (see tacticalInstruction.ts). */
+  issueTimeoutInstruction: (profile: TeamTacticalProfile) => void;
 }
 
 /**
@@ -54,6 +67,7 @@ export interface UseLiveMatchResult {
 export function useLiveMatch(result: FastMatchResult, onInstructionAdopted: (adoptionMinute: number, profile: TeamTacticalProfile) => void): UseLiveMatchResult {
   const [clock, setClock] = useState<LiveMatchClock>(() => kickoff(initLiveMatchClock()));
   const [instruction, setInstruction] = useState<TacticalInstruction | null>(null);
+  const [timeoutSecondsRemaining, setTimeoutSecondsRemaining] = useState<number | null>(null);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const appliedIssuedMinuteRef = useRef<number | null>(null);
 
@@ -69,6 +83,36 @@ export function useLiveMatch(result: FastMatchResult, onInstructionAdopted: (ado
       if (timerRef.current) clearInterval(timerRef.current);
     };
   }, [clock.speed, clock.phase]);
+
+  // HM-COACHING-0.1: the 60 real-world-second timeout countdown. Purely
+  // presentational (see pacing.ts's TIMEOUT_DURATION_SECONDS doc) --
+  // simulated match time is already frozen by clock.ts's TIMEOUT phase
+  // regardless of how this countdown behaves.
+  useEffect(() => {
+    if (clock.phase !== "TIMEOUT") {
+      // Deferred to a microtask -- same reasoning as the other effects in
+      // this file: setState only ever fires from within a callback the
+      // effect registered, never directly in the effect body itself.
+      queueMicrotask(() => setTimeoutSecondsRemaining(null));
+      return;
+    }
+    queueMicrotask(() => setTimeoutSecondsRemaining(TIMEOUT_DURATION_SECONDS));
+    const interval = setInterval(() => {
+      setTimeoutSecondsRemaining((current) => (current === null ? null : Math.max(0, current - 1)));
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [clock.phase]);
+
+  useEffect(() => {
+    if (clock.phase !== "TIMEOUT" || timeoutSecondsRemaining !== 0) {
+      return;
+    }
+    // See the instruction-adoption effect below for why this is deferred
+    // to a microtask rather than calling setClock directly here.
+    queueMicrotask(() => {
+      setClock((current) => endTimeoutClock(current));
+    });
+  }, [clock.phase, timeoutSecondsRemaining]);
 
   const view = computeLiveMatchView(result, clock);
 
@@ -107,7 +151,16 @@ export function useLiveMatch(result: FastMatchResult, onInstructionAdopted: (ado
     issueInstruction: (profile) => {
       if (instruction) return;
       if (clock.phase !== "FIRST_HALF" && clock.phase !== "SECOND_HALF") return;
-      setInstruction({ issuedMinute: view.clockMinute, profile });
+      setInstruction({ issuedMinute: view.clockMinute, profile, deliveryMode: "SIDELINE" });
+    },
+    canCallTimeout: canCallTimeout(clock),
+    callTimeout: () => setClock((current) => callTimeoutClock(current)),
+    endTimeout: () => setClock((current) => endTimeoutClock(current)),
+    timeoutSecondsRemaining,
+    issueTimeoutInstruction: (profile) => {
+      if (instruction) return;
+      if (clock.phase !== "TIMEOUT") return;
+      setInstruction({ issuedMinute: view.clockMinute, profile, deliveryMode: "TIMEOUT" });
     },
   };
 }
