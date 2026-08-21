@@ -21,6 +21,7 @@ function useNav(unread: number, editorEnabled: boolean): readonly NavEntry[] {
     { href: "/career/training", label: "Träning", icon: "training" },
     { href: "/career/schedule", label: "Schema", icon: "schedule" },
     { href: "/career/matches", label: "Matcher", icon: "matches" },
+    { href: "/career/analysis", label: "Analys", icon: "analysis" },
     { href: "/career/scouting", label: "Scouting", icon: "scouting" },
     { href: "/career/transfers", label: "Transfers", icon: "transfers" },
     { href: "/career/staff", label: "Personal", icon: "staff" },
