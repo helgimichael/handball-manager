@@ -54,7 +54,7 @@ export default function GameShell({ children }: { children: ReactNode }) {
   const pathname = usePathname();
   const router = useRouter();
   const { career, continueCareer } = useCareer();
-  const unread = career.inbox.filter((m) => !m.read).length;
+  const unread = career.inbox.filter((m) => !m.read && !m.archived).length;
   const editorEnabled = useEditorEnabled();
   const nav = useNav(unread, editorEnabled);
   const club = getCareerClub(career);

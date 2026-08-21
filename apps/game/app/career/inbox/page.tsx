@@ -1,14 +1,21 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useCareer } from "@/lib/career/CareerContext";
+import { categoryLabel } from "@/lib/career/inboxBridge";
 import { destinationLabel, resolveDestinationHref } from "@/lib/career/destinations";
+import { filterInboxMessages, INBOX_FILTERS, type InboxFilterId } from "@/lib/career/inboxFilters";
 
 export default function InboxPage() {
   const router = useRouter();
-  const { career, markInboxMessageRead } = useCareer();
-  const messages = [...career.inbox].reverse();
+  const { career, markInboxMessageRead, archiveInboxMessage, unarchiveInboxMessage } = useCareer();
+  const [filter, setFilter] = useState<InboxFilterId>("ALL");
+
+  const messages = useMemo(() => {
+    return [...filterInboxMessages(career.inbox, filter)].reverse();
+  }, [career.inbox, filter]);
+
   const [selectedId, setSelectedId] = useState(messages[0]?.id ?? "");
   const selected = messages.find((m) => m.id === selectedId) ?? messages[0];
 
@@ -17,6 +24,8 @@ export default function InboxPage() {
     markInboxMessageRead(id);
   }
 
+  const canArchive = selected ? !(selected.actionRequired && !selected.resolved) : false;
+
   return (
     <div style={{ display: "grid", gridTemplateColumns: "320px 1fr", gap: 12, height: "100%" }}>
       <div className="hm-panel" style={{ display: "flex", flexDirection: "column" }}>
@@ -24,9 +33,28 @@ export default function InboxPage() {
           <span className="hm-panel-title">Inkorg</span>
           <span className="hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)" }}>{messages.length} meddelanden</span>
         </div>
+        <div style={{ display: "flex", flexWrap: "wrap", gap: 4, padding: "8px 10px", borderBottom: "1px solid var(--hm-border-subtle)" }}>
+          {INBOX_FILTERS.map((f) => (
+            <button
+              key={f.id}
+              type="button"
+              className="hm-btn hm-btn-sm"
+              style={{
+                fontSize: "var(--hm-text-2xs)",
+                padding: "3px 8px",
+                background: filter === f.id ? "var(--hm-accent)" : undefined,
+                borderColor: filter === f.id ? "var(--hm-accent)" : undefined,
+                color: filter === f.id ? "#fff" : undefined,
+              }}
+              onClick={() => setFilter(f.id)}
+            >
+              {f.label}
+            </button>
+          ))}
+        </div>
         <div style={{ overflowY: "auto" }}>
           {messages.length === 0 ? (
-            <div className="hm-panel-body hm-text-muted">Inga meddelanden ännu. Fortsätt för att komma igång med säsongen.</div>
+            <div className="hm-panel-body hm-text-muted">Inga meddelanden i denna vy.</div>
           ) : (
             messages.map((m) => (
               <div
@@ -43,15 +71,16 @@ export default function InboxPage() {
               >
                 <div style={{ display: "flex", justifyContent: "space-between", fontSize: "var(--hm-text-2xs)" }}>
                   <span className="hm-text-muted">
-                    {m.category}
+                    {categoryLabel(m.category)}
                     {m.careerEventId ? " · Karriär" : ""}
                   </span>
                   <span className="hm-text-muted">{m.date ? new Date(m.date).toLocaleDateString("sv-SE", { day: "2-digit", month: "2-digit" }) : ""}</span>
                 </div>
                 <div style={{ fontWeight: m.read ? 500 : 700, fontSize: "var(--hm-text-xs)", display: "flex", alignItems: "center", gap: 6 }}>
-                  {!m.read ? <span style={{ width: 6, height: 6, borderRadius: "50%", background: "var(--hm-accent)", display: "inline-block" }} /> : null}
+                  {!m.read ? <span style={{ width: 6, height: 6, borderRadius: "50%", background: "var(--hm-accent)", display: "inline-block", flexShrink: 0 }} /> : null}
                   {m.subject}
-                  {m.actionRequired ? <span className="hm-badge hm-badge-warning" style={{ marginLeft: "auto" }}>ÅTGÄRD</span> : null}
+                  {m.actionRequired && !m.resolved ? <span className="hm-badge hm-badge-warning" style={{ marginLeft: "auto" }}>ÅTGÄRD</span> : null}
+                  {m.archived ? <span className="hm-badge hm-badge-neutral" style={{ marginLeft: "auto" }}>ARKIVERAT</span> : null}
                 </div>
                 <div className="hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
                   {m.preview}
@@ -69,11 +98,13 @@ export default function InboxPage() {
               <div>
                 <div style={{ fontWeight: 700, fontSize: "var(--hm-text-sm)" }}>{selected.subject}</div>
                 <div className="hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)" }}>
-                  {selected.sender} · {selected.category}
+                  {selected.sender} · {categoryLabel(selected.category)}
                   {selected.date ? ` · ${new Date(selected.date).toLocaleDateString("sv-SE")}` : ""}
                 </div>
               </div>
-              {selected.important ? <span className="hm-badge hm-badge-warning">VIKTIGT</span> : null}
+              <div style={{ display: "flex", gap: 6, alignItems: "center" }}>
+                {selected.actionRequired && !selected.resolved ? <span className="hm-badge hm-badge-warning">ÅTGÄRD KRÄVS</span> : selected.important ? <span className="hm-badge hm-badge-warning">VIKTIGT</span> : null}
+              </div>
             </div>
             <div className="hm-panel-body" style={{ display: "flex", flexDirection: "column", gap: 10 }}>
               {selected.body.map((paragraph, i) => (
@@ -90,13 +121,35 @@ export default function InboxPage() {
                     return null; // Reserved destination with no live screen yet -- never render a dead button.
                   }
                   return (
-                    <button key={i} type="button" className="hm-btn hm-btn-sm hm-btn-primary" onClick={() => router.push(href)}>
+                    <button
+                      key={i}
+                      type="button"
+                      className={i === 0 ? "hm-btn hm-btn-sm hm-btn-primary" : "hm-btn hm-btn-sm"}
+                      onClick={() => router.push(href)}
+                    >
                       {destinationLabel(destination)}
                     </button>
                   );
                 })}
               </div>
             ) : null}
+            <div className="hm-panel-body" style={{ display: "flex", gap: 8, paddingTop: 0 }}>
+              {selected.archived ? (
+                <button type="button" className="hm-btn hm-btn-sm hm-btn-ghost" onClick={() => unarchiveInboxMessage(selected.id)}>
+                  Återställ från arkiv
+                </button>
+              ) : (
+                <button
+                  type="button"
+                  className="hm-btn hm-btn-sm hm-btn-ghost"
+                  disabled={!canArchive}
+                  title={canArchive ? undefined : "Kan inte arkiveras förrän den obligatoriska åtgärden är genomförd."}
+                  onClick={() => archiveInboxMessage(selected.id)}
+                >
+                  Arkivera
+                </button>
+              )}
+            </div>
           </>
         ) : (
           <div className="hm-panel-body hm-text-muted">Inga meddelanden.</div>

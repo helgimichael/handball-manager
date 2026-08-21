@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { COMPETITIONS, getClub } from "@/lib/game-data";
 import { useCareer } from "@/lib/career/CareerContext";
+import { categoryLabel } from "@/lib/career/inboxBridge";
 import { getCareerClub, getCareerSquad } from "@/lib/career/careerWorld";
 import { getNextPlayerFixture } from "@/lib/career/calendar";
 import { getLiveStandings } from "@/lib/career/standings";
@@ -17,7 +18,7 @@ export default function HomePage() {
   const next = getNextPlayerFixture(career);
   const squad = getCareerSquad(career);
   const injured = squad.filter((p) => career.playerStatuses[p.id]?.availability === "INJURED");
-  const messages = [...career.inbox].reverse().slice(0, 4);
+  const messages = [...career.inbox].filter((m) => !m.archived).reverse().slice(0, 4);
   const awaitingAttention = career.careerEvents.some(
     (e) => (e.priority === "ACTION_REQUIRED" && !e.resolved) || (e.priority === "IMPORTANT" && !e.read),
   );
@@ -217,9 +218,13 @@ export default function HomePage() {
                   }}
                 >
                   <div style={{ display: "flex", justifyContent: "space-between", fontSize: "var(--hm-text-2xs)" }}>
-                    <span className="hm-text-muted">{m.category}</span>
+                    <span className="hm-text-muted">{categoryLabel(m.category)}</span>
                   </div>
-                  <div style={{ fontSize: "var(--hm-text-xs)", fontWeight: m.read ? 500 : 700 }}>{m.subject}</div>
+                  <div style={{ fontSize: "var(--hm-text-xs)", fontWeight: m.read ? 500 : 700, display: "flex", alignItems: "center", gap: 6 }}>
+                    {!m.read ? <span style={{ width: 6, height: 6, borderRadius: "50%", background: "var(--hm-accent)", display: "inline-block", flexShrink: 0 }} /> : null}
+                    {m.subject}
+                    {m.actionRequired && !m.resolved ? <span className="hm-badge hm-badge-warning" style={{ marginLeft: "auto", fontSize: "9px" }}>ÅTGÄRD</span> : null}
+                  </div>
                 </div>
               ))
             )}
