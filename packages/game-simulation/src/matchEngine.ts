@@ -160,6 +160,44 @@ function buildPlayerContributions(
   });
 }
 
+/**
+ * Emits exactly the non-scoring flavour events (MISS/SAVE/TURNOVER/
+ * TWO_MIN/SEVEN_M) needed for `stats` to be exactly reconstructable by
+ * counting revealed events (HM-MATCH-0.1's live-stats hard gate: at full
+ * time, event-accumulated stats must equal FastMatchResult's stats).
+ * Never changes `stats` itself -- purely an additive presentation layer
+ * over already-computed final numbers.
+ *
+ *   non-scoring shots (this side)      = stats.shots - stats.goals
+ *   MISS count                         = non-scoring shots - stats.saves
+ *   SAVE count                         = stats.saves
+ *   TURNOVER / TWO_MIN count           = stats.turnovers / stats.twoMinuteSuspensions
+ *   SEVEN_M(GOAL) / SEVEN_M(MISS) count = stats.sevenMetreGoals / (stats.sevenMetreAttempts - stats.sevenMetreGoals)
+ *
+ * `stats.saves` is always <= non-scoring shots by construction in
+ * buildTeamStats (the saved fraction is capped well under 1), so MISS
+ * count can never go negative.
+ */
+function buildFlavourEvents(rng: Rng, side: "home" | "away", stats: TeamMatchStats): MatchEvent[] {
+  const events: MatchEvent[] = [];
+  const push = (type: MatchEvent["type"], sevenMetreOutcome?: MatchEvent["sevenMetreOutcome"]) => {
+    events.push({ minute: rng.nextInt(1, 60), side, type, sevenMetreOutcome });
+  };
+
+  const nonScoringShots = Math.max(0, stats.shots - stats.goals);
+  const missCount = Math.max(0, nonScoringShots - stats.saves);
+  for (let i = 0; i < missCount; i += 1) push("MISS");
+  for (let i = 0; i < stats.saves; i += 1) push("SAVE");
+  for (let i = 0; i < stats.turnovers; i += 1) push("TURNOVER");
+  for (let i = 0; i < stats.twoMinuteSuspensions; i += 1) push("TWO_MIN");
+
+  const sevenGoals = Math.min(stats.sevenMetreGoals, stats.sevenMetreAttempts);
+  for (let i = 0; i < sevenGoals; i += 1) push("SEVEN_M", "GOAL");
+  for (let i = 0; i < stats.sevenMetreAttempts - sevenGoals; i += 1) push("SEVEN_M", "MISS");
+
+  return events;
+}
+
 /** Builds an internally-consistent minute-by-minute event timeline whose GOAL event count exactly matches the final score. */
 function buildEventTimeline(
   rng: Rng,
@@ -167,6 +205,8 @@ function buildEventTimeline(
   awayGoals: number,
   homeGoalScorers: readonly string[],
   awayGoalScorers: readonly string[],
+  homeStats: TeamMatchStats,
+  awayStats: TeamMatchStats,
 ): MatchEvent[] {
   const events: MatchEvent[] = [];
 
@@ -218,19 +258,11 @@ function buildEventTimeline(
     }
   });
 
-  // A handful of non-scoring flavour events (SAVE/MISS/TURNOVER/TWO_MIN/
-  // SEVEN_M) interspersed for match-report texture -- these never
-  // affect the score and are not counted toward any statistic the
-  // report/tests assert on.
-  const flavourCount = rng.nextInt(14, 22);
-  const flavourTypes: MatchEvent["type"][] = ["SAVE", "MISS", "TURNOVER", "TWO_MIN"];
-  for (let i = 0; i < flavourCount; i += 1) {
-    events.push({
-      minute: rng.nextInt(1, 60),
-      side: rng.chance(0.5) ? "home" : "away",
-      type: flavourTypes[rng.nextInt(0, flavourTypes.length - 1)],
-    });
-  }
+  // Non-scoring flavour events (SAVE/MISS/TURNOVER/TWO_MIN/SEVEN_M),
+  // counted exactly to match homeStats/awayStats (HM-MATCH-0.1) -- never
+  // affects the score, but IS now exactly reconstructable per-stat.
+  events.push(...buildFlavourEvents(rng, "home", homeStats));
+  events.push(...buildFlavourEvents(rng, "away", awayStats));
 
   events.sort((a, b) => a.minute - b.minute);
   return events;
@@ -265,7 +297,15 @@ export function simulateMatch(input: SimulateMatchInput): FastMatchResult {
     return sequence;
   }
 
-  const events = buildEventTimeline(rng, homeGoals, awayGoals, expandScorers(homeGoalCounts), expandScorers(awayGoalCounts));
+  const events = buildEventTimeline(
+    rng,
+    homeGoals,
+    awayGoals,
+    expandScorers(homeGoalCounts),
+    expandScorers(awayGoalCounts),
+    homeStatsFinal,
+    awayStatsFinal,
+  );
 
   const homePlayerContributions = buildPlayerContributions(
     rng,

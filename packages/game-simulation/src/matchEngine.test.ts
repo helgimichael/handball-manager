@@ -165,6 +165,46 @@ test("no invalid NaN/negative stats anywhere in the result (10)", () => {
   }
 });
 
+test("HM-MATCH-0.1: flavour event counts exactly reconstruct final stats", () => {
+  for (let seed = 0; seed < 50; seed += 1) {
+    const r = simulateMatch(baseInput(seed));
+    for (const [side, stats] of [
+      ["home", r.homeStats],
+      ["away", r.awayStats],
+    ] as const) {
+      const of = (type: string) => r.events.filter((e) => e.side === side && e.type === type);
+      const saves = of("SAVE").length;
+      const misses = of("MISS").length;
+      const turnovers = of("TURNOVER").length;
+      const twoMin = of("TWO_MIN").length;
+      const sevenM = of("SEVEN_M");
+      const sevenGoals = sevenM.filter((e) => e.sevenMetreOutcome === "GOAL").length;
+      const sevenMisses = sevenM.filter((e) => e.sevenMetreOutcome === "MISS").length;
+
+      assert.equal(saves, stats.saves, `seed ${seed} ${side}: SAVE events must equal stats.saves`);
+      assert.equal(turnovers, stats.turnovers, `seed ${seed} ${side}: TURNOVER events must equal stats.turnovers`);
+      assert.equal(twoMin, stats.twoMinuteSuspensions, `seed ${seed} ${side}: TWO_MIN events must equal stats.twoMinuteSuspensions`);
+      assert.equal(sevenGoals, stats.sevenMetreGoals, `seed ${seed} ${side}: SEVEN_M GOAL events must equal stats.sevenMetreGoals`);
+      assert.equal(sevenGoals + sevenMisses, stats.sevenMetreAttempts, `seed ${seed} ${side}: SEVEN_M events must equal stats.sevenMetreAttempts`);
+      assert.equal(
+        misses + saves,
+        Math.max(0, stats.shots - stats.goals),
+        `seed ${seed} ${side}: MISS + SAVE events must equal non-scoring shots`,
+      );
+    }
+  }
+});
+
+test("HM-MATCH-0.1: flavour events never change the score (GOAL count still equals final score)", () => {
+  for (let seed = 0; seed < 20; seed += 1) {
+    const r = simulateMatch(baseInput(seed));
+    const homeGoalEvents = r.events.filter((e) => e.type === "GOAL" && e.side === "home").length;
+    const awayGoalEvents = r.events.filter((e) => e.type === "GOAL" && e.side === "away").length;
+    assert.equal(homeGoalEvents, r.homeGoals);
+    assert.equal(awayGoalEvents, r.awayGoals);
+  }
+});
+
 test("works with no roster supplied (AI-vs-AI abstract simulation)", () => {
   const input: SimulateMatchInput = {
     fixtureId: "f-2",

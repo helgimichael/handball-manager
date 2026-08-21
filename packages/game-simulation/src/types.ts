@@ -38,6 +38,14 @@ export type MatchEvent = {
   /** Running score snapshot AFTER this event, for GOAL events. */
   homeScoreAfter?: number;
   awayScoreAfter?: number;
+  /**
+   * HM-MATCH-0.1: present only for SEVEN_M events, distinguishing a
+   * converted penalty from a missed one. A SEVEN_M/GOAL event does not
+   * add its own extra score change -- the goal it represents is already
+   * one of the ordinary GOAL events in the timeline (Bible-equivalent
+   * invariant: total GOAL events always equal the final score).
+   */
+  sevenMetreOutcome?: "GOAL" | "MISS";
 };
 
 export type PlayerMatchContribution = {
