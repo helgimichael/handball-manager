@@ -18,6 +18,7 @@ import { positionLabel } from "@/lib/game-data";
 import type { HandballPosition } from "@/lib/game-data";
 import { useCareer } from "@/lib/career/CareerContext";
 import { getCareerSquad } from "@/lib/career/careerWorld";
+import SegmentedControl from "@/components/SegmentedControl";
 import {
   ATI001_USAGE_TENDENCY_VALUES,
   H2_RESPONSE_PREFERENCE_VALUES,
@@ -204,45 +205,6 @@ export default function TacticsPage() {
             </p>
           </div>
         </div>
-      </div>
-    </div>
-  );
-}
-
-function SegmentedControl<T extends string>({
-  label,
-  value,
-  options,
-  renderLabel,
-  onChange,
-}: {
-  label: string;
-  value: T;
-  options: readonly T[];
-  renderLabel: (option: T) => string;
-  onChange: (value: T) => void;
-}) {
-  return (
-    <div>
-      <div className="hm-eyebrow" style={{ marginBottom: 4 }}>
-        {label}
-      </div>
-      <div style={{ display: "flex", gap: 4, flexWrap: "wrap" }}>
-        {options.map((option) => (
-          <button
-            key={option}
-            type="button"
-            className="hm-btn hm-btn-sm"
-            style={{
-              background: option === value ? "var(--hm-accent)" : undefined,
-              borderColor: option === value ? "var(--hm-accent)" : undefined,
-              color: option === value ? "#fff" : undefined,
-            }}
-            onClick={() => onChange(option)}
-          >
-            {renderLabel(option)}
-          </button>
-        ))}
       </div>
     </div>
   );

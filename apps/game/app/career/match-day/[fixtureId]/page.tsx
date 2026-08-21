@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { getClub } from "@/lib/game-data";
 import { useCareer } from "@/lib/career/CareerContext";
@@ -9,7 +9,17 @@ import { commentaryLine, formatMatchMinute } from "@/lib/liveMatch/commentary";
 import { useLiveMatch } from "@/lib/liveMatch/useLiveMatch";
 import type { PlaybackSpeed } from "@/lib/liveMatch/clock";
 import type { LiveTeamStats } from "@/lib/liveMatch/liveMatchView";
+import { instructionAdoptionMinute } from "@/lib/liveMatch/tacticalInstruction";
+import {
+  ATI001_USAGE_TENDENCY_VALUES,
+  H2_RESPONSE_PREFERENCE_VALUES,
+  TACTICAL_FAMILIARITY_VALUES,
+  capabilityLevelLabel,
+  h2ResponseLabel,
+  type TeamTacticalProfile,
+} from "@/lib/career/teamTacticalProfile";
 import ClubCrest from "@/components/ClubCrest";
+import SegmentedControl from "@/components/SegmentedControl";
 
 // CM-style live text match (HM-MATCH-0.1). The match is already fully
 // simulated by the Fast Match Engine and applied to career state before
@@ -54,14 +64,35 @@ function LiveMatch({
   playerClubId: string;
 }) {
   const router = useRouter();
-  const { career } = useCareer();
-  const { view, speed, setSpeed, startSecondHalf, instantResult } = useLiveMatch(result);
+  const { career, applyMidMatchTacticalChange } = useCareer();
   const logRef = useRef<HTMLDivElement>(null);
+
+  // HM-TACTICS-0.7: the tactical profile actually in effect for THIS
+  // match. Match-scoped, not the season-persistent career.tacticalProfile
+  // (which stays exactly what the Tactics screen shows for future
+  // fixtures) -- an in-match tweak is not the same thing as redefining
+  // the manager's standing strategic identity.
+  const [currentProfile, setCurrentProfile] = useState<TeamTacticalProfile>(career.tacticalProfile);
+  const [draftProfile, setDraftProfile] = useState<TeamTacticalProfile>(career.tacticalProfile);
+
+  const handleInstructionAdopted = useCallback(
+    (adoptionMinute: number, profile: TeamTacticalProfile) => {
+      applyMidMatchTacticalChange(fixture.id, adoptionMinute, profile);
+      setCurrentProfile(profile);
+    },
+    [applyMidMatchTacticalChange, fixture.id],
+  );
+
+  const { view, speed, setSpeed, startSecondHalf, instantResult, pendingInstruction, instructionStatus, issueInstruction } = useLiveMatch(
+    result,
+    handleInstructionAdopted,
+  );
 
   const home = getClub(fixture.homeClubId)!;
   const away = getClub(fixture.awayClubId)!;
   const isPlayerHome = fixture.homeClubId === playerClubId;
   const ownSquad = getCareerSquad(career);
+  const canIssueInstruction = !pendingInstruction && (view.phase === "FIRST_HALF" || view.phase === "SECOND_HALF");
 
   useEffect(() => {
     logRef.current?.scrollTo({ top: logRef.current.scrollHeight });
@@ -166,6 +197,61 @@ function LiveMatch({
             })}
           </tbody>
         </table>
+      </div>
+
+      {/* HM-TACTICS-0.7: in-match tactical adjustment (only the 3 HM-TACTICS-0.6A controls -- no timeout/shouts/7v6 here). */}
+      <div className="hm-panel">
+        <div className="hm-panel-header">
+          <span className="hm-panel-title">Taktisk justering (live)</span>
+          {pendingInstruction ? (
+            <span className="hm-badge hm-badge-neutral">
+              {instructionStatus} — adopteras {formatMatchMinute(instructionAdoptionMinute(pendingInstruction))}
+            </span>
+          ) : (
+            <span className="hm-badge hm-badge-neutral">AKTUELL</span>
+          )}
+        </div>
+        <div className="hm-panel-body" style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+          <SegmentedControl
+            label="ATI-001-benägenhet"
+            value={draftProfile.ati001UsageTendency}
+            options={ATI001_USAGE_TENDENCY_VALUES}
+            renderLabel={capabilityLevelLabel}
+            onChange={(v) => setDraftProfile((p) => ({ ...p, ati001UsageTendency: v }))}
+            disabled={!canIssueInstruction}
+          />
+          <SegmentedControl
+            label="H2-respons (TI-001)"
+            value={draftProfile.h2ResponsePreference}
+            options={H2_RESPONSE_PREFERENCE_VALUES}
+            renderLabel={h2ResponseLabel}
+            onChange={(v) => setDraftProfile((p) => ({ ...p, h2ResponsePreference: v }))}
+            disabled={!canIssueInstruction}
+          />
+          <SegmentedControl
+            label="Taktisk förtrogenhet"
+            value={draftProfile.tacticalFamiliarity}
+            options={TACTICAL_FAMILIARITY_VALUES}
+            renderLabel={capabilityLevelLabel}
+            onChange={(v) => setDraftProfile((p) => ({ ...p, tacticalFamiliarity: v }))}
+            disabled={!canIssueInstruction}
+          />
+          <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
+            <button
+              type="button"
+              className="hm-btn hm-btn-sm hm-btn-primary"
+              disabled={!canIssueInstruction}
+              onClick={() => issueInstruction(draftProfile)}
+            >
+              BEORDRA ÄNDRING
+            </button>
+            <span className="hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)" }}>
+              {pendingInstruction
+                ? `PENDING sedan ${formatMatchMinute(pendingInstruction.issuedMinute)} — instruktionen slår igenom vid ${formatMatchMinute(instructionAdoptionMinute(pendingInstruction))}, aldrig det redan spelade förloppet.`
+                : `CURRENT: gäller från matchstart${currentProfile !== career.tacticalProfile ? " (justerad under matchen)" : ""}.`}
+            </span>
+          </div>
+        </div>
       </div>
 
       {/* Controls */}

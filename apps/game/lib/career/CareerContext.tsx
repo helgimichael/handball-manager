@@ -9,6 +9,7 @@ import { continueCareerRhythm, type ContinueStopReason } from "./continueControl
 import { archiveMessage, markMessageRead, unarchiveMessage } from "./inboxActions";
 import { playManagerFixture } from "./matchdayAction";
 import { migrateCareerState } from "./saveMigration";
+import { applyMidMatchTacticalChange } from "./tacticalMidMatchChange";
 import { updateTacticalProfile } from "./tacticalProfileActions";
 import type { TeamTacticalProfile } from "./teamTacticalProfile";
 import type { CareerEvent } from "./careerEvents";
@@ -35,6 +36,15 @@ type CareerContextValue = {
   unarchiveInboxMessage: (messageId: string) => void;
   /** Updates only the manager's TeamTacticalProfile (HM-TACTICS-0.6A), and persists. Not consumed by Fast Match yet. */
   updateTacticalProfile: (changes: Partial<TeamTacticalProfile>) => void;
+  /**
+   * HM-TACTICS-0.7: splices an ADOPTED in-match tactical instruction onto
+   * a fixture's already-stored FastMatchResult (preserving the prefix
+   * already revealed by Live Match) and persists. Callers must only
+   * invoke this once an instruction's headless adoption delay has
+   * elapsed (see lib/liveMatch/tacticalInstruction.ts) -- it does not
+   * itself gate on any delay.
+   */
+  applyMidMatchTacticalChange: (fixtureId: string, adoptionMinute: number, profile: TeamTacticalProfile) => void;
 };
 
 const CareerContext = createContext<CareerContextValue | null>(null);
@@ -153,6 +163,15 @@ export function CareerProvider({ children }: { children: ReactNode }) {
     setValue({ save: value!.save, career: nextCareer });
   }
 
+  function applyMidMatchTacticalChangeAction(fixtureId: string, adoptionMinute: number, profile: TeamTacticalProfile) {
+    const nextCareer = applyMidMatchTacticalChange(value!.career, fixtureId, adoptionMinute, profile);
+    if (nextCareer === value!.career) {
+      return;
+    }
+    saveCareerState(value!.save.saveId, nextCareer);
+    setValue({ save: value!.save, career: nextCareer });
+  }
+
   return (
     <CareerContext.Provider
       value={{
@@ -164,6 +183,7 @@ export function CareerProvider({ children }: { children: ReactNode }) {
         archiveInboxMessage,
         unarchiveInboxMessage,
         updateTacticalProfile: updateTacticalProfileAction,
+        applyMidMatchTacticalChange: applyMidMatchTacticalChangeAction,
       }}
     >
       {children}

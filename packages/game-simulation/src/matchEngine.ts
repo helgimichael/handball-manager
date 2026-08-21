@@ -65,9 +65,16 @@ function expectedGoals(
   return BASE_EXPECTED_GOALS + strengthDelta + homeAdvantage + formAdjustment;
 }
 
-function sampleTeamGoals(rng: Rng, expected: number, depth: number): number {
-  const stdDev = Math.max(1.8, GOAL_STD_DEV_BASE - depth * GOAL_STD_DEV_DEPTH_DAMPING);
-  return Math.round(nextGaussian(rng, expected, stdDev, MIN_TEAM_GOALS, MAX_TEAM_GOALS));
+/**
+ * `minGoals`/`maxGoals`/`stdDevScale` default to the full-60-minute
+ * calibration (MIN_TEAM_GOALS/MAX_TEAM_GOALS/1) -- every existing call
+ * site is unaffected. HM-TACTICS-0.7's segment simulation is the only
+ * caller that overrides them, scaling all three by a segment's duration
+ * fraction of a full match.
+ */
+function sampleTeamGoals(rng: Rng, expected: number, depth: number, minGoals = MIN_TEAM_GOALS, maxGoals = MAX_TEAM_GOALS, stdDevScale = 1): number {
+  const stdDev = Math.max(1.8 * stdDevScale, (GOAL_STD_DEV_BASE - depth * GOAL_STD_DEV_DEPTH_DAMPING) * stdDevScale);
+  return Math.round(nextGaussian(rng, expected, stdDev, minGoals, maxGoals));
 }
 
 function buildTeamStats(rng: Rng, goals: number, opponentGoalkeeperStrength: number): TeamMatchStats {
@@ -189,10 +196,10 @@ function buildPlayerContributions(
  * buildTeamStats (the saved fraction is capped well under 1), so MISS
  * count can never go negative.
  */
-function buildFlavourEvents(rng: Rng, side: "home" | "away", stats: TeamMatchStats): MatchEvent[] {
+function buildFlavourEvents(rng: Rng, side: "home" | "away", stats: TeamMatchStats, minuteMin = 1, minuteMax = 60): MatchEvent[] {
   const events: MatchEvent[] = [];
   const push = (type: MatchEvent["type"], sevenMetreOutcome?: MatchEvent["sevenMetreOutcome"]) => {
-    events.push({ minute: rng.nextInt(1, 60), side, type, sevenMetreOutcome });
+    events.push({ minute: rng.nextInt(minuteMin, minuteMax), side, type, sevenMetreOutcome });
   };
 
   const nonScoringShots = Math.max(0, stats.shots - stats.goals);
@@ -209,7 +216,25 @@ function buildFlavourEvents(rng: Rng, side: "home" | "away", stats: TeamMatchSta
   return events;
 }
 
-/** Builds an internally-consistent minute-by-minute event timeline whose GOAL event count exactly matches the final score. */
+/** Expands a goal-count map into an ordered scorer sequence for the event timeline. */
+function expandScorers(counts: Map<string, number>): string[] {
+  const sequence: string[] = [];
+  for (const [playerId, count] of counts) {
+    for (let i = 0; i < count; i += 1) {
+      sequence.push(playerId);
+    }
+  }
+  return sequence;
+}
+
+/**
+ * Builds an internally-consistent minute-by-minute event timeline whose
+ * GOAL event count exactly matches the final score. `minuteMin`/
+ * `minuteMax` default to the full match (1-60); `homeScoreStart`/
+ * `awayScoreStart` default to 0-0. HM-TACTICS-0.7's segment simulation
+ * is the only caller that overrides any of these -- every existing call
+ * site is byte-for-byte unaffected.
+ */
 function buildEventTimeline(
   rng: Rng,
   homeGoals: number,
@@ -218,6 +243,10 @@ function buildEventTimeline(
   awayGoalScorers: readonly string[],
   homeStats: TeamMatchStats,
   awayStats: TeamMatchStats,
+  minuteMin = 1,
+  minuteMax = 60,
+  homeScoreStart = 0,
+  awayScoreStart = 0,
 ): MatchEvent[] {
   const events: MatchEvent[] = [];
 
@@ -235,10 +264,10 @@ function buildEventTimeline(
     [sides[i], sides[j]] = [sides[j], sides[i]];
   }
 
-  const minutes = sides.map(() => rng.nextInt(1, 60)).sort((a, b) => a - b);
+  const minutes = sides.map(() => rng.nextInt(minuteMin, minuteMax)).sort((a, b) => a - b);
 
-  let homeScore = 0;
-  let awayScore = 0;
+  let homeScore = homeScoreStart;
+  let awayScore = awayScoreStart;
   let homeScorerIdx = 0;
   let awayScorerIdx = 0;
 
@@ -272,8 +301,8 @@ function buildEventTimeline(
   // Non-scoring flavour events (SAVE/MISS/TURNOVER/TWO_MIN/SEVEN_M),
   // counted exactly to match homeStats/awayStats (HM-MATCH-0.1) -- never
   // affects the score, but IS now exactly reconstructable per-stat.
-  events.push(...buildFlavourEvents(rng, "home", homeStats));
-  events.push(...buildFlavourEvents(rng, "away", awayStats));
+  events.push(...buildFlavourEvents(rng, "home", homeStats, minuteMin, minuteMax));
+  events.push(...buildFlavourEvents(rng, "away", awayStats, minuteMin, minuteMax));
 
   events.sort((a, b) => a.minute - b.minute);
   return events;
@@ -307,17 +336,6 @@ export function simulateMatch(input: SimulateMatchInput): FastMatchResult {
   const homeGoalCounts = input.homeRoster ? distributeGoalsToRoster(rng, homeGoals, input.homeRoster) : new Map<string, number>();
   const awayGoalCounts = input.awayRoster ? distributeGoalsToRoster(rng, awayGoals, input.awayRoster) : new Map<string, number>();
 
-  // Expand goal-count maps into an ordered scorer sequence for the event timeline.
-  function expandScorers(counts: Map<string, number>): string[] {
-    const sequence: string[] = [];
-    for (const [playerId, count] of counts) {
-      for (let i = 0; i < count; i += 1) {
-        sequence.push(playerId);
-      }
-    }
-    return sequence;
-  }
-
   const events = buildEventTimeline(
     rng,
     homeGoals,
@@ -350,6 +368,128 @@ export function simulateMatch(input: SimulateMatchInput): FastMatchResult {
     seed: input.seed,
     homeClubId: input.homeClubId,
     awayClubId: input.awayClubId,
+    homeGoals,
+    awayGoals,
+    homeStats: homeStatsFinal,
+    awayStats: awayStatsFinal,
+    events,
+    homePlayerContributions,
+    awayPlayerContributions,
+  };
+}
+
+// ---------------------------------------------------------------------------
+// HM-TACTICS-0.7: partial-match ("segment") simulation.
+//
+// Used ONLY when an in-match tactical instruction is adopted -- never by
+// the normal simulateMatch path above, which remains completely
+// untouched (Spec: "no instruction = existing HM-TACTICS-0.6 behavior").
+// A segment simulates a sub-duration of the match (e.g. minute 24-60)
+// in isolation, using its own seed and its own share of expected goals
+// scaled by the segment's fraction of a full 60-minute match. The
+// caller (apps/game/lib/liveMatch/tacticalMidMatchChange.ts) is
+// responsible for splicing this onto the untouched, already-revealed
+// prefix of the original result -- this function has no knowledge of
+// any "original" match and never regenerates one.
+// ---------------------------------------------------------------------------
+
+export type SimulateMatchSegmentInput = {
+  /** A seed distinct from the original match's seed (see the splicing module for its derivation) -- this is a genuinely separate sub-simulation, not a continuation of the original rng stream. */
+  seed: number;
+  /** Inclusive. Typically the instruction's adoption minute. */
+  startMinute: number;
+  /** Inclusive. Typically 60 (full time). */
+  endMinute: number;
+  homeClubId: string;
+  awayClubId: string;
+  homeStrength: ClubStrength;
+  awayStrength: ClubStrength;
+  homeFormAdjustment?: number;
+  awayFormAdjustment?: number;
+  homeTacticalAdjustment?: number;
+  awayTacticalAdjustment?: number;
+  homeRoster?: readonly MatchRosterPlayer[];
+  awayRoster?: readonly MatchRosterPlayer[];
+};
+
+export type MatchSegmentResult = {
+  homeGoals: number;
+  awayGoals: number;
+  /** This segment's own stats only -- the caller sums these with the preserved prefix's own tallied stats. */
+  homeStats: TeamMatchStats;
+  awayStats: TeamMatchStats;
+  /** Minutes fall within [startMinute, endMinute]. `homeScoreAfter`/`awayScoreAfter` on GOAL events are LOCAL to this segment (start counting from 0-0) -- the caller must add the prefix's carried-forward score before splicing. */
+  events: MatchEvent[];
+  homePlayerContributions: PlayerMatchContribution[];
+  awayPlayerContributions: PlayerMatchContribution[];
+};
+
+/** Simulates one sub-duration segment of a match in isolation. See the module note above for why/when this is used instead of simulateMatch. */
+export function simulateMatchSegment(input: SimulateMatchSegmentInput): MatchSegmentResult {
+  const rng = createRng(input.seed);
+  const duration = Math.max(0, input.endMinute - input.startMinute);
+  const durationFraction = Math.max(0, Math.min(1, duration / 60));
+
+  const homeExpectedFull = expectedGoals(
+    input.homeStrength,
+    input.awayStrength,
+    HOME_ADVANTAGE_GOALS,
+    (input.homeFormAdjustment ?? 0) + (input.homeTacticalAdjustment ?? 0),
+  );
+  const awayExpectedFull = expectedGoals(
+    input.awayStrength,
+    input.homeStrength,
+    -HOME_ADVANTAGE_GOALS * 0.3,
+    (input.awayFormAdjustment ?? 0) + (input.awayTacticalAdjustment ?? 0),
+  );
+
+  const minGoals = Math.round(MIN_TEAM_GOALS * durationFraction);
+  const maxGoals = Math.max(minGoals, Math.round(MAX_TEAM_GOALS * durationFraction));
+  const stdDevScale = Math.sqrt(durationFraction);
+
+  const homeGoals = sampleTeamGoals(rng, homeExpectedFull * durationFraction, input.homeStrength.depth, minGoals, maxGoals, stdDevScale);
+  const awayGoals = sampleTeamGoals(rng, awayExpectedFull * durationFraction, input.awayStrength.depth, minGoals, maxGoals, stdDevScale);
+
+  const homeStats = buildTeamStats(rng, homeGoals, input.awayStrength.goalkeeper);
+  const awayStats = buildTeamStats(rng, awayGoals, input.homeStrength.goalkeeper);
+  const homeStatsFinal: TeamMatchStats = { ...homeStats, shotsFaced: awayStats.shots };
+  const awayStatsFinal: TeamMatchStats = { ...awayStats, shotsFaced: homeStats.shots };
+
+  const homeGoalCounts = input.homeRoster ? distributeGoalsToRoster(rng, homeGoals, input.homeRoster) : new Map<string, number>();
+  const awayGoalCounts = input.awayRoster ? distributeGoalsToRoster(rng, awayGoals, input.awayRoster) : new Map<string, number>();
+
+  const events = buildEventTimeline(
+    rng,
+    homeGoals,
+    awayGoals,
+    expandScorers(homeGoalCounts),
+    expandScorers(awayGoalCounts),
+    homeStatsFinal,
+    awayStatsFinal,
+    Math.max(1, input.startMinute),
+    Math.max(input.startMinute, input.endMinute),
+    0,
+    0,
+  );
+
+  const homePlayerContributions = buildPlayerContributions(
+    rng,
+    input.homeRoster,
+    homeGoalCounts,
+    homeGoals,
+    homeStatsFinal.shotsFaced,
+    homeStatsFinal.saves,
+  );
+  const awayPlayerContributions = buildPlayerContributions(
+    rng,
+    input.awayRoster,
+    awayGoalCounts,
+    awayGoals,
+    awayStatsFinal.shotsFaced,
+    awayStatsFinal.saves,
+  );
+
+  return {
     homeGoals,
     awayGoals,
     homeStats: homeStatsFinal,
