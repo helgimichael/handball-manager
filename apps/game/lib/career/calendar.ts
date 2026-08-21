@@ -1,6 +1,7 @@
 import { simulateFixture, type FastMatchResult } from "@handball-manager/game-simulation";
 import { getClubStrength } from "../game-data/clubStrength";
-import { buildTumbaMatchRoster } from "./tumbaRoster";
+import { getCareerSquad } from "./careerWorld";
+import { buildMatchRoster } from "./tumbaRoster";
 import { buildPostMatchMessage, buildPreMatchMessage, buildSeasonCompleteMessage } from "./inboxEvents";
 import { applyMatchResultBookkeeping } from "./matchResultApplication";
 import { averageRating, type CareerFixture, type CareerState, type ClubFormEntry, type PlayerSeasonStats } from "./types";
@@ -58,7 +59,7 @@ function simulateMatchday(state: CareerState, date: string): { state: CareerStat
   const clubForm: Record<string, ClubFormEntry[]> = { ...state.clubForm };
   const newInboxMessages = [...state.inbox];
   const producedResults: FastMatchResult[] = [];
-  const tumbaRoster = buildTumbaMatchRoster();
+  const ownRoster = buildMatchRoster(getCareerSquad(state));
 
   for (const fixture of dueFixtures) {
     const isPlayerFixture = fixture.homeClubId === state.playerClubId || fixture.awayClubId === state.playerClubId;
@@ -68,7 +69,7 @@ function simulateMatchday(state: CareerState, date: string): { state: CareerStat
       state.saveSeed,
       (clubId) => getClubStrength(clubId),
       isPlayerFixture
-        ? (clubId) => (clubId === state.playerClubId ? tumbaRoster : undefined)
+        ? (clubId) => (clubId === state.playerClubId ? ownRoster : undefined)
         : undefined,
     );
     results[fixture.id] = result;

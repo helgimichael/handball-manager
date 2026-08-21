@@ -32,8 +32,10 @@ export type Club = {
   competitionId: string;
   name: string;
   shortName: string;
-  /** Only true for IFK Tumba in HM-GAME-0.1. */
+  /** True for IFK Tumba and every real-world-imported Handbollsligan club (HM-DATA-0.2). */
   playable: boolean;
+  /** HM-DATA-0.2: set for clubs whose squad is imported from data/real-world/ rather than authored as fiction. Undefined means mock (equivalent to "MOCK") -- a dev-only distinction, not shown prominently in the normal UI. */
+  dataSource?: "REAL_WORLD" | "MOCK";
   founded?: number;
   venue?: string;
   city?: string;
@@ -51,15 +53,26 @@ export type PlayerMock = {
   clubId: string;
   firstName: string;
   lastName: string;
-  shirtNumber: number;
+  /** null means unknown -- real-world import only, never faked for a mock player. */
+  shirtNumber: number | null;
   position: HandballPosition;
+  /** First secondary position, kept for existing single-value display call sites. */
   secondaryPosition?: HandballPosition;
+  /** HM-DATA-0.2: full secondary-position list as imported. May hold more than `secondaryPosition` alone can represent. */
+  secondaryPositions?: HandballPosition[];
   nationality: NationCode;
-  dateOfBirth: string; // ISO date
-  heightCm: number;
-  weightKg: number;
-  foot: "Vänsterhänt" | "Högerhänt";
+  /** HM-DATA-0.2: raw ISO-3166 codes as stored in the real-world database, preserved faithfully (display mapping is a separate concern -- see nationCodeLabel). Absent for mock players. */
+  nationalities?: string[] | null;
+  /** null means unknown (real-world import only). ISO date otherwise. */
+  dateOfBirth: string | null;
+  /** Used only when dateOfBirth is unknown but the birth year is. Never used to fabricate a full date. */
+  birthYear?: number | null;
+  heightCm: number | null;
+  weightKg: number | null;
+  foot: "Vänsterhänt" | "Högerhänt" | null;
   squadStatus: SquadStatus;
+  /** HM-DATA-0.2: "REAL_WORLD" for imported Handbollsligan players, undefined/"MOCK" for authored fiction (e.g. TUMBA_SQUAD). Dev-facing distinction only. */
+  dataSource?: "REAL_WORLD" | "MOCK";
   /** 1-200 hidden development scale -- see CA/PA note in players.ts. */
   currentAbility: number;
   potentialAbility: number;

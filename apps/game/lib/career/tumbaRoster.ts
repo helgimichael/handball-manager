@@ -1,11 +1,12 @@
 import type { MatchRosterPlayer } from "@handball-manager/game-simulation";
-import { TUMBA_SQUAD, type PlayerMock } from "../game-data";
+import type { PlayerMock } from "../game-data";
 import { isAvailable, type PlayerCareerStatus } from "./playerStatus";
 
 /**
  * Builds the matchday roster the Fast Match Engine distributes goals
- * across for IFK Tumba. Scope decision for HM-GAME-0.2A (documented
- * here, not silently assumed): every non-unavailable senior player
+ * across for one club's squad (HM-DATA-0.2: any club's snapshotted
+ * squad, not just IFK Tumba's). Scope decision for HM-GAME-0.2A
+ * (documented here, not silently assumed): every non-unavailable senior player
  * (squadStatus "Förstaval" or "Rotation") is included every match --
  * there is no bench-rotation/selection model yet, so every eligible
  * player registers an appearance each fixture. "Ungdom" prospects are
@@ -30,8 +31,8 @@ function scoringWeightFor(player: PlayerMock): number {
  * a cosmetic status label. Omitted for callers that predate Career
  * Rhythm (falls back to the original squadStatus-only behaviour).
  */
-export function buildTumbaMatchRoster(playerStatuses?: Record<string, PlayerCareerStatus>): MatchRosterPlayer[] {
-  const eligible = TUMBA_SQUAD.filter((p) => {
+export function buildMatchRoster(squad: readonly PlayerMock[], playerStatuses?: Record<string, PlayerCareerStatus>): MatchRosterPlayer[] {
+  const eligible = squad.filter((p) => {
     const baseEligible = p.squadStatus === "Förstaval" || p.squadStatus === "Rotation";
     if (!playerStatuses || !playerStatuses[p.id]) {
       return baseEligible;

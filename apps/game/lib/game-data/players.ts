@@ -180,15 +180,22 @@ export function getPlayer(id: string): PlayerMock | undefined {
   return TUMBA_SQUAD.find((p) => p.id === id);
 }
 
-export function playerAge(dateOfBirth: string): number {
-  const dob = new Date(dateOfBirth);
-  const today = new Date("2026-08-19");
-  let age = today.getFullYear() - dob.getFullYear();
-  const monthDiff = today.getMonth() - dob.getMonth();
-  if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < dob.getDate())) {
-    age -= 1;
+/** HM-DATA-0.2: dateOfBirth may be null for a real-world-imported player whose birth date isn't verified. Falls back to a birthYear-only estimate when given one; returns null (never a fabricated age) when neither is known. */
+export function playerAge(dateOfBirth: string | null, birthYear?: number | null): number | null {
+  if (dateOfBirth) {
+    const dob = new Date(dateOfBirth);
+    const today = new Date("2026-08-19");
+    let age = today.getFullYear() - dob.getFullYear();
+    const monthDiff = today.getMonth() - dob.getMonth();
+    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < dob.getDate())) {
+      age -= 1;
+    }
+    return age;
   }
-  return age;
+  if (birthYear) {
+    return 2026 - birthYear;
+  }
+  return null;
 }
 
 /**

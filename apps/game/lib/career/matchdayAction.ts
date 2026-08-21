@@ -12,9 +12,10 @@ import { simulateFixture, type FastMatchResult } from "@handball-manager/game-si
 import { getClubStrength } from "../game-data/clubStrength";
 import { checkSeasonComplete, getPlayerFixtureOn } from "./calendar";
 import { buildMatchCompletedEvent } from "./careerEvents";
+import { getCareerSquad } from "./careerWorld";
 import { careerEventToInboxMessage } from "./inboxBridge";
 import { applyMatchResultBookkeeping } from "./matchResultApplication";
-import { buildTumbaMatchRoster } from "./tumbaRoster";
+import { buildMatchRoster } from "./tumbaRoster";
 import type { CareerState, ClubFormEntry, PlayerSeasonStats } from "./types";
 
 export interface PlayManagerFixtureResult {
@@ -43,7 +44,7 @@ export function playManagerFixture(state: CareerState): PlayManagerFixtureResult
     return { state, result: null };
   }
 
-  const roster = buildTumbaMatchRoster(state.playerStatuses);
+  const roster = buildMatchRoster(getCareerSquad(state), state.playerStatuses);
   const result = simulateFixture(fixture, state.saveSeed, (clubId) => getClubStrength(clubId), (clubId) =>
     clubId === state.playerClubId ? roster : undefined,
   );

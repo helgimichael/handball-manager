@@ -8,7 +8,7 @@
 // injured/suspended player recovering on a scheduled date -- not a full
 // injury simulator (Spec S15: "Do not build a complete injury simulator").
 
-import { TUMBA_SQUAD, type PlayerMock } from "../game-data";
+import type { PlayerMock } from "../game-data";
 import { addDays } from "./dateUtils";
 
 export type PlayerAvailability = "AVAILABLE" | "INJURED" | "SUSPENDED" | "RECOVERING";
@@ -27,9 +27,9 @@ export interface PlayerCareerStatus {
  * PLAYER_STATUS_CHANGED recovery transition without inventing medical
  * realism (no severity model, no randomness).
  */
-export function seedPlayerStatuses(seasonStartDate: string): Record<string, PlayerCareerStatus> {
+export function seedPlayerStatuses(seasonStartDate: string, squad: readonly PlayerMock[]): Record<string, PlayerCareerStatus> {
   const statuses: Record<string, PlayerCareerStatus> = {};
-  for (const player of TUMBA_SQUAD as readonly PlayerMock[]) {
+  for (const player of squad) {
     if (player.squadStatus === "Skadad") {
       statuses[player.id] = { playerId: player.id, availability: "INJURED", returnDate: addDays(seasonStartDate, 21) };
     } else if (player.squadStatus === "Avstängd") {

@@ -1,5 +1,5 @@
 import type { FastMatchResult } from "@handball-manager/game-simulation";
-import type { InboxMessage } from "../game-data";
+import type { InboxMessage, PlayerMock } from "../game-data";
 import type { CareerEvent } from "./careerEvents";
 import type { CareerTask } from "./careerTasks";
 import type { PlayerCareerStatus } from "./playerStatus";
@@ -77,6 +77,20 @@ export type CareerState = {
   playerStatuses: Record<string, PlayerCareerStatus>;
   /** Scheduled scouting/opponent-analysis tasks (Spec S16). */
   tasks: CareerTask[];
+
+  // --- HM-DATA-0.2 addition (career-state schema v4, see saveMigration.ts) ---
+
+  /**
+   * Real-world-identity player snapshot, keyed by clubId, taken ONCE at
+   * career creation (newCareer.ts) for every real-world-backed club in
+   * this career's competition. This is the career's own copy: later
+   * Development Editor corrections to data/real-world/* never reach an
+   * already-running career (Spec: "editor changes affect only future new
+   * careers"). Clubs without real-world data (e.g. Allsvenskan mocks)
+   * simply have no entry here -- their squad still comes from the
+   * existing static game-data mock modules (TUMBA_SQUAD etc.).
+   */
+  worldSquads: Record<string, PlayerMock[]>;
 };
 
 export type CareerSaveEnvelope = {

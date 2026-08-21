@@ -10,6 +10,7 @@
 // earlier, otherwise the next CONTINUE would silently reprocess a date
 // the old system already simulated.
 
+import { TUMBA_SQUAD } from "../game-data";
 import { seedCareerTasks } from "./careerTasks";
 import { seedPlayerStatuses } from "./playerStatus";
 import type { CareerState } from "./types";
@@ -19,18 +20,31 @@ function needsCareerRhythmMigration(career: CareerState): boolean {
   return career.processedThroughDate === undefined;
 }
 
-/** Idempotent: already-migrated (schema v3) states pass through unchanged. */
+/** Idempotent: already-migrated states pass through unchanged, field by field. */
 export function migrateCareerState(career: CareerState): CareerState {
-  if (!needsCareerRhythmMigration(career)) {
-    return career;
+  let next = career;
+
+  if (needsCareerRhythmMigration(next)) {
+    const seasonStartDate = next.seasonStartDate ?? next.gameDate;
+    next = {
+      ...next,
+      seasonStartDate,
+      processedThroughDate: next.gameDate,
+      careerEvents: next.careerEvents ?? [],
+      // Pre-HM-DATA-0.2 saves were always IFK Tumba -- seed against its
+      // known mock squad, matching this save's actual player identities.
+      playerStatuses: next.playerStatuses ?? seedPlayerStatuses(seasonStartDate, TUMBA_SQUAD),
+      tasks: next.tasks ?? seedCareerTasks(seasonStartDate),
+    };
   }
-  const seasonStartDate = career.seasonStartDate ?? career.gameDate;
-  return {
-    ...career,
-    seasonStartDate,
-    processedThroughDate: career.gameDate,
-    careerEvents: career.careerEvents ?? [],
-    playerStatuses: career.playerStatuses ?? seedPlayerStatuses(seasonStartDate),
-    tasks: career.tasks ?? seedCareerTasks(seasonStartDate),
-  };
+
+  // HM-DATA-0.2 (career-state schema v4): additive, no other migration
+  // needed -- a save with no worldSquads simply had none snapshotted
+  // (pre-HM-DATA-0.2, or a club without real-world data at creation
+  // time); career-aware readers fall back to the legacy mock squad.
+  if (next.worldSquads === undefined) {
+    next = { ...next, worldSquads: {} };
+  }
+
+  return next;
 }

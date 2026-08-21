@@ -1,25 +1,46 @@
 import { generateDoubleRoundRobin } from "@handball-manager/game-simulation";
-import { CLUBS, GAME_CURRENT_DATE } from "../game-data";
+import { GAME_CURRENT_DATE, TUMBA_SQUAD, getClub, getClubsByCompetition } from "../game-data";
+import type { PlayerMock } from "../game-data";
 import { addDays } from "./dateUtils";
 import { seedCareerTasks } from "./careerTasks";
 import { seedPlayerStatuses } from "./playerStatus";
 import type { CareerState } from "./types";
 
-const ALLSVENSKAN_COMPETITION_ID = "swe-2";
+const FALLBACK_COMPETITION_ID = "swe-2"; // used only if playerClubId doesn't resolve to a known club
 
-export function createNewCareerState(saveSeed: string, playerClubId: string): CareerState {
-  const allsvenskanClubIds = CLUBS.filter((c) => c.competitionId === ALLSVENSKAN_COMPETITION_ID).map((c) => c.id);
+/**
+ * Pure, filesystem-free career constructor -- safe to call from client
+ * code (CareerContext.tsx runs this in the browser). `worldSquads` is
+ * the real-world player-identity snapshot for this competition, already
+ * resolved server-side (see gameWorld/serverSnapshot.ts, invoked via
+ * app/api/game-world/squad-snapshot before this function is called for a
+ * real-world-backed club). Defaults to `{}` for competitions with no
+ * real-world data (e.g. Allsvenskan/IFK Tumba), which is also what any
+ * caller that never fetches a snapshot gets -- the manager's own squad
+ * then falls back to the legacy TUMBA_SQUAD mock, exactly as before
+ * HM-DATA-0.2.
+ */
+export function createNewCareerState(
+  saveSeed: string,
+  playerClubId: string,
+  worldSquads: Record<string, PlayerMock[]> = {},
+): CareerState {
+  const playerClub = getClub(playerClubId);
+  const competitionId = playerClub?.competitionId ?? FALLBACK_COMPETITION_ID;
+  const clubIds = getClubsByCompetition(competitionId).map((c) => c.id);
 
   const generated = generateDoubleRoundRobin({
-    competitionId: ALLSVENSKAN_COMPETITION_ID,
-    clubIds: allsvenskanClubIds,
+    competitionId,
+    clubIds,
     seasonStartDate: GAME_CURRENT_DATE,
     daysBetweenRounds: 7,
   });
 
+  const playerSquad: readonly PlayerMock[] = worldSquads[playerClubId] ?? TUMBA_SQUAD;
+
   return {
     seasonId: "2026/27",
-    competitionId: ALLSVENSKAN_COMPETITION_ID,
+    competitionId,
     playerClubId,
     gameDate: GAME_CURRENT_DATE,
     seasonComplete: false,
@@ -41,7 +62,8 @@ export function createNewCareerState(saveSeed: string, playerClubId: string): Ca
     // day, so processedThroughDate starts one day BEHIND it.
     processedThroughDate: addDays(GAME_CURRENT_DATE, -1),
     careerEvents: [],
-    playerStatuses: seedPlayerStatuses(GAME_CURRENT_DATE),
+    playerStatuses: seedPlayerStatuses(GAME_CURRENT_DATE, playerSquad),
     tasks: seedCareerTasks(GAME_CURRENT_DATE),
+    worldSquads,
   };
 }
