@@ -9,31 +9,27 @@ import { useCareer } from "@/lib/career/CareerContext";
 import { getCareerClub } from "@/lib/career/careerWorld";
 import { getNextEventDate } from "@/lib/career/calendar";
 import { formatGameDate } from "@/lib/career/dateUtils";
+import { CAREER_NAV_ITEMS, resolveActiveNavId } from "@/lib/career/navigation";
+import { COMPETITIONS } from "@/lib/game-data";
 
-type NavEntry = { href: string; label: string; icon: NavIconName; badge?: number };
+type NavEntry = { id: string; href: string; label: string; icon: NavIconName; badge?: number };
 
 function useNav(unread: number, editorEnabled: boolean): readonly NavEntry[] {
-  const nav: NavEntry[] = [
-    { href: "/career", label: "Hem", icon: "home" },
-    { href: "/career/inbox", label: "Inkorg", icon: "inbox", badge: unread || undefined },
-    { href: "/career/squad", label: "Trupp", icon: "squad" },
-    { href: "/career/tactics", label: "Taktik", icon: "tactics" },
-    { href: "/career/training", label: "Träning", icon: "training" },
-    { href: "/career/schedule", label: "Schema", icon: "schedule" },
-    { href: "/career/matches", label: "Matcher", icon: "matches" },
-    { href: "/career/analysis", label: "Analys", icon: "analysis" },
-    { href: "/career/scouting", label: "Scouting", icon: "scouting" },
-    { href: "/career/transfers", label: "Transfers", icon: "transfers" },
-    { href: "/career/staff", label: "Personal", icon: "staff" },
-    { href: "/career/club", label: "Klubb", icon: "club" },
-    { href: "/career/competitions", label: "Tävlingar", icon: "competitions" },
-  ];
+  const nav: NavEntry[] = CAREER_NAV_ITEMS.map((item) => ({
+    id: item.id,
+    href: item.href,
+    label: item.label,
+    icon: item.icon,
+    badge: item.id === "inbox" ? unread || undefined : undefined,
+  }));
   // Development-only (HM-DATA-EDITOR-0.1): hiding this link is a
   // convenience, not the real guard -- /editor/* and /api/editor/* both
   // independently re-check the same flag server-side regardless of
-  // whether this item is rendered.
+  // whether this item is rendered. Kept out of CAREER_NAV_ITEMS entirely
+  // (Spec §32: derive dev visibility from the editor flag, never mix it
+  // into normal career navigation's source of truth).
   if (editorEnabled) {
-    nav.push({ href: "/editor", label: "Editor", icon: "editor" });
+    nav.push({ id: "editor", href: "/editor", label: "Editor", icon: "editor" });
   }
   return nav;
 }
@@ -58,7 +54,9 @@ export default function GameShell({ children }: { children: ReactNode }) {
   const editorEnabled = useEditorEnabled();
   const nav = useNav(unread, editorEnabled);
   const club = getCareerClub(career);
+  const competitionName = COMPETITIONS.find((c) => c.id === career.competitionId)?.name ?? "Ligan";
   const nextEventDate = getNextEventDate(career);
+  const activeNavId = resolveActiveNavId(pathname);
 
   function handleContinue() {
     const { events, stopReason } = continueCareer();
@@ -80,12 +78,12 @@ export default function GameShell({ children }: { children: ReactNode }) {
           <ClubCrest shortName={club.shortName} primaryColor={club.primaryColor} size={32} />
           <div>
             <div className="hm-club-name">{club.name}</div>
-            <div className="hm-club-sub">Allsvenskan</div>
+            <div className="hm-club-sub">{competitionName}</div>
           </div>
         </div>
         <div className="hm-nav-group">
           {nav.map((item) => {
-            const active = pathname === item.href;
+            const active = item.id === activeNavId || (item.id === "editor" && pathname.startsWith("/editor"));
             return (
               <div
                 key={item.href}
