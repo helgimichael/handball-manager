@@ -25,10 +25,13 @@ export type ManagerProfile = {
 // v3 (HM-GAME-0.3): CareerState gained Career Rhythm fields
 // (processedThroughDate, careerEvents, playerStatuses, tasks).
 // v4 (HM-DATA-0.2): CareerState gained `worldSquads` (the real-world
-// player-identity snapshot). See career/saveMigration.ts for the
-// CareerState-level backfill; this constant only marks the save
-// envelope as up to date once that migration has run and been persisted.
-export const CURRENT_SAVE_SCHEMA_VERSION = 4;
+// player-identity snapshot).
+// v5 (HM-GAME-0.4): InboxMessage gained `archived`/`resolved` and its
+// `category` moved from Swedish string literals to a typed English
+// model. See career/saveMigration.ts for the CareerState-level backfill;
+// this constant only marks the save envelope as up to date once that
+// migration has run and been persisted.
+export const CURRENT_SAVE_SCHEMA_VERSION = 5;
 
 export type CareerSave = {
   saveId: string;

@@ -153,7 +153,14 @@ export type Fixture = {
   awayScore?: number;
 };
 
-export type InboxCategory = "Assisterande tränare" | "Match" | "Träning" | "Spelare" | "Scouting" | "Styrelse" | "Kontrakt";
+/**
+ * HM-GAME-0.4: the Inbox's category model -- exactly one primary
+ * category per message, matching the manager-information domains the
+ * career actually has (never dozens of categories). Swedish display
+ * text is a separate presentation concern -- see career/inboxBridge.ts's
+ * categoryLabel().
+ */
+export type InboxCategory = "MATCH" | "ANALYSIS" | "SCOUTING" | "STAFF" | "MEDICAL" | "PLAYER" | "COMPETITION" | "CLUB" | "SYSTEM";
 
 export type InboxMessage = {
   id: string;
@@ -165,6 +172,22 @@ export type InboxMessage = {
   date: string;
   read: boolean;
   important: boolean;
+  /**
+   * HM-GAME-0.4: ACTIVE (default) messages show in the default Inbox;
+   * ARCHIVED ones are hidden from it but remain retrievable and keep
+   * their deep links/provenance -- never deleted (Spec §7).
+   */
+  archived: boolean;
+  /**
+   * HM-GAME-0.4: hard distinction from `read` (Spec §24). `read` means
+   * the manager viewed the message; `resolved` means the underlying
+   * required game action (if any) was actually completed. An
+   * INFORMATION/IMPORTANT message with nothing to resolve is always
+   * `resolved: true`; an ACTION_REQUIRED message starts `resolved: false`
+   * and only flips once the real action (e.g. playing the match) happens
+   * -- never merely by being opened.
+   */
+  resolved: boolean;
   /**
    * HM-GAME-0.3 Career Rhythm additions -- all optional so pre-existing
    * authored/mock messages (lib/game-data/inbox.ts) remain valid without

@@ -1,8 +1,6 @@
 import { simulateFixture, type FastMatchResult } from "@handball-manager/game-simulation";
 import { getClubStrength } from "../game-data/clubStrength";
-import { getCareerSquad } from "./careerWorld";
-import { buildMatchRoster } from "./tumbaRoster";
-import { buildPostMatchMessage, buildPreMatchMessage, buildSeasonCompleteMessage } from "./inboxEvents";
+import { buildSeasonCompleteMessage } from "./inboxEvents";
 import { applyMatchResultBookkeeping } from "./matchResultApplication";
 import { averageRating, type CareerFixture, type CareerState, type ClubFormEntry, type PlayerSeasonStats } from "./types";
 import { computeStandings } from "@handball-manager/game-simulation";
@@ -37,137 +35,15 @@ export function getLastPlayedPlayerFixture(state: CareerState): { fixture: Caree
   return { fixture, result: state.results[fixture.id] };
 }
 
-/**
- * Simulates every fixture scheduled on `date` (not just the player's
- * own club's fixture -- the world moves around the manager, per the
- * HM-GAME-0.2A brief's Section 12) and returns a new CareerState with
- * results/standings-inputs/player-stats/form/inbox all updated.
- *
- * Idempotent by construction: a fixture already present in
- * `state.results` is skipped (never re-simulated), so calling this
- * twice for the same date is always safe -- the "no duplicate
- * simulation" regression this pass requires.
- */
-function simulateMatchday(state: CareerState, date: string): { state: CareerState; results: FastMatchResult[] } {
-  const dueFixtures = state.fixtures.filter((f) => f.date === date && !state.results[f.id]);
-  if (dueFixtures.length === 0) {
-    return { state, results: [] };
-  }
-
-  const results: Record<string, FastMatchResult> = { ...state.results };
-  const playerSeasonStats: Record<string, PlayerSeasonStats> = { ...state.playerSeasonStats };
-  const clubForm: Record<string, ClubFormEntry[]> = { ...state.clubForm };
-  const newInboxMessages = [...state.inbox];
-  const producedResults: FastMatchResult[] = [];
-  const ownRoster = buildMatchRoster(getCareerSquad(state));
-
-  for (const fixture of dueFixtures) {
-    const isPlayerFixture = fixture.homeClubId === state.playerClubId || fixture.awayClubId === state.playerClubId;
-
-    const result = simulateFixture(
-      fixture,
-      state.saveSeed,
-      (clubId) => getClubStrength(clubId),
-      isPlayerFixture
-        ? (clubId) => (clubId === state.playerClubId ? ownRoster : undefined)
-        : undefined,
-    );
-    results[fixture.id] = result;
-    producedResults.push(result);
-
-    applyMatchResultBookkeeping(result, clubForm, playerSeasonStats, state.playerClubId);
-
-    if (isPlayerFixture) {
-      // Both delivered together on the matchday CONTINUE, in reading
-      // order: "today's the day" followed immediately by the result --
-      // CONTINUE jumps straight to the next relevant date (per the
-      // brief's preferred UX), so there is no separate "day before"
-      // click to hang a standalone pre-match notice on.
-      newInboxMessages.push(buildPreMatchMessage(fixture, state.playerClubId));
-      newInboxMessages.push(buildPostMatchMessage(fixture, result, state.playerClubId));
-    }
-  }
-
-  let nextState: CareerState = {
-    ...state,
-    gameDate: date,
-    results,
-    playerSeasonStats,
-    clubForm,
-    inbox: newInboxMessages,
-  };
-
-  const stillUnplayed = getUnplayedFixtures(nextState);
-  if (stillUnplayed.length === 0) {
-    const table = computeStandings(
-      [...new Set(nextState.fixtures.flatMap((f) => [f.homeClubId, f.awayClubId]))],
-      Object.values(nextState.results).map((r) => ({
-        homeClubId: r.homeClubId,
-        awayClubId: r.awayClubId,
-        homeGoals: r.homeGoals,
-        awayGoals: r.awayGoals,
-      })),
-    );
-    const finalPosition = table.findIndex((row) => row.clubId === state.playerClubId) + 1;
-    nextState = {
-      ...nextState,
-      seasonComplete: true,
-      inbox: [...nextState.inbox, buildSeasonCompleteMessage(finalPosition, state.seasonId)],
-    };
-  }
-
-  return { state: nextState, results: producedResults };
-}
-
-export type AdvanceResult = {
-  state: CareerState;
-  simulatedResults: FastMatchResult[];
-  /** True if the advance landed on and simulated the player's own fixture. */
-  playerMatchdayReached: boolean;
-};
-
-/**
- * The CONTINUE action: advances the calendar to the next relevant
- * event date (skipping quiet days in one jump, per the brief's
- * preferred UX -- the date model itself still moves in real day
- * increments internally via each fixture's own stored date, nothing is
- * faked), simulates every fixture due that date, and returns the
- * updated state. If the season is already complete, this is a no-op.
- */
-export function advanceToNextEvent(state: CareerState): AdvanceResult {
-  if (state.seasonComplete) {
-    return { state, simulatedResults: [], playerMatchdayReached: false };
-  }
-
-  const nextDate = getNextEventDate(state);
-  if (!nextDate) {
-    return { state, simulatedResults: [], playerMatchdayReached: false };
-  }
-
-  const { state: nextState, results } = simulateMatchday(state, nextDate);
-  const playerMatchdayReached = results.some(
-    (r) => r.homeClubId === state.playerClubId || r.awayClubId === state.playerClubId,
-  );
-
-  return { state: nextState, simulatedResults: results, playerMatchdayReached };
-}
-
-/** Debug-only utility (not exposed in normal player-facing UX) to fast-forward an entire season for QA. */
-export function simulateEntireSeason(state: CareerState): CareerState {
-  let current = state;
-  let guard = 0;
-  while (!current.seasonComplete && guard < 400) {
-    current = advanceToNextEvent(current).state;
-    guard += 1;
-  }
-  return current;
-}
-
 // ---------------------------------------------------------------------------
-// HM-GAME-0.3 Career Rhythm additions -- used by dailyTick.ts/matchdayAction.ts.
-// The functions above (simulateMatchday/advanceToNextEvent/simulateEntireSeason)
-// are untouched legacy/debug utilities kept for QA fast-forwarding; normal
-// play now goes through the Daily World Tick + Continue Controller instead.
+// HM-GAME-0.3 Career Rhythm -- used by dailyTick.ts/matchdayAction.ts.
+// (HM-GAME-0.4: this module previously also carried three pre-Career-
+// Rhythm debug utilities -- simulateMatchday/advanceToNextEvent/
+// simulateEntireSeason -- confirmed unreachable from any live code path
+// or test, and still referencing the pre-HM-GAME-0.4 Inbox category
+// model. Removed as dead code rather than patched to compile against
+// the new InboxCategory type; normal play has gone through the Daily
+// World Tick + Continue Controller since HM-GAME-0.3.)
 // ---------------------------------------------------------------------------
 
 /** The manager club's own unplayed fixture on `date`, if any -- the MATCHDAY_READY trigger condition (Spec S11.2). */
@@ -230,7 +106,7 @@ export function checkSeasonComplete(state: CareerState): CareerState {
   return {
     ...state,
     seasonComplete: true,
-    inbox: [...state.inbox, buildSeasonCompleteMessage(finalPosition, state.seasonId)],
+    inbox: [...state.inbox, buildSeasonCompleteMessage(finalPosition, state.seasonId, state.competitionId)],
   };
 }
 

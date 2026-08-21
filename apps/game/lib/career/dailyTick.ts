@@ -66,7 +66,7 @@ export function processDay(state: CareerState, date: string): DailyTickResult {
     next = { ...next, careerEvents: [...next.careerEvents, candidate] };
     events.push(candidate);
     if (candidate.type !== "TRAINING_COMPLETED") {
-      next = { ...next, inbox: [...next.inbox, careerEventToInboxMessage(candidate)] };
+      next = { ...next, inbox: [...next.inbox, careerEventToInboxMessage(candidate, next)] };
     }
   }
 

@@ -56,7 +56,11 @@ export function playManagerFixture(state: CareerState): PlayManagerFixtureResult
 
   const careerEvents = state.careerEvents.map((e) => (e.id === matchdayEventId ? { ...e, resolved: true, read: true } : e));
   const matchdayMessageId = `msg:${matchdayEventId}`;
-  const inbox = state.inbox.map((m) => (m.id === matchdayMessageId ? { ...m, read: true, actionRequired: false } : m));
+  // The MATCHDAY_READY message's underlying action is genuinely done now
+  // (the fixture was actually played/simulated) -- `resolved` flips
+  // alongside `actionRequired`, never merely because the message was
+  // read (Spec §23/§24: opening Match Preview =/= completing the match).
+  const inbox = state.inbox.map((m) => (m.id === matchdayMessageId ? { ...m, read: true, actionRequired: false, resolved: true } : m));
 
   let next: CareerState = { ...state, results, clubForm, playerSeasonStats, careerEvents, inbox };
 
@@ -65,7 +69,7 @@ export function playManagerFixture(state: CareerState): PlayManagerFixtureResult
     next = {
       ...next,
       careerEvents: [...next.careerEvents, completedEvent],
-      inbox: [...next.inbox, careerEventToInboxMessage(completedEvent)],
+      inbox: [...next.inbox, careerEventToInboxMessage(completedEvent, next)],
     };
   }
 

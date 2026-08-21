@@ -5,7 +5,6 @@ export * from "./clubs";
 export * from "./players";
 export * from "./clubStrength";
 export * from "./staff";
-export * from "./inbox";
 export * from "./scouting";
 export * from "./transfers";
 

@@ -33,9 +33,12 @@ export interface EntityRef {
 
 /**
  * Spec S15: a typed deep-link destination, never a brittle raw href
- * string. `ANALYSIS_HUB` and `OPPONENT_ANALYSIS` are reserved for a
- * future milestone (Spec S33/S29) -- the type exists so events can name
- * them, but no screen renders them yet (see destinations.ts).
+ * string. HM-GAME-0.4 wires the four ANALYSIS_* routes (previously
+ * reserved as `ANALYSIS_HUB`/`OPPONENT_ANALYSIS` in HM-GAME-0.3) into
+ * the Analysis Hub built in HM-ANALYSIS-0.1 -- see destinations.ts. None
+ * of them carry a clubId/fixtureId: Analysis Hub always derives the
+ * current opponent/last match dynamically from CareerState itself, so a
+ * destination never needs to (and must not) encode one.
  */
 export type EventDestination =
   | { route: "HOME" }
@@ -52,8 +55,10 @@ export type EventDestination =
   | { route: "SCOUT_REPORT"; playerId: string }
   | { route: "COMPETITION"; competitionId: string }
   | { route: "CLUB" }
-  | { route: "ANALYSIS_HUB" }
-  | { route: "OPPONENT_ANALYSIS"; clubId: string };
+  | { route: "ANALYSIS_OVERVIEW" }
+  | { route: "ANALYSIS_OPPONENT" }
+  | { route: "ANALYSIS_OUR_TEAM" }
+  | { route: "ANALYSIS_LAST_MATCH" };
 
 /** Spec S14: the CareerEvent shape. */
 export interface CareerEvent {
@@ -186,7 +191,7 @@ export function buildOpponentReportReadyEvent(taskId: string, clubId: string, da
     "IMPORTANT",
     "Motståndaranalys klar",
     "Analysen av nästa motståndare är klar.",
-    [{ route: "MATCH_PREVIEW" }],
+    [{ route: "ANALYSIS_OPPONENT" }],
     { primaryEntity: { entityType: "club", entityId: clubId } },
   );
 }
@@ -199,7 +204,7 @@ export function buildMatchPreparationReadyEvent(fixtureId: string, date: string)
     "IMPORTANT",
     "Matchförberedelser klara",
     "Förberedelserna inför nästa match är klara.",
-    [{ route: "MATCH_PREVIEW" }, { route: "TACTICS" }],
+    [{ route: "MATCH_PREVIEW" }, { route: "ANALYSIS_OPPONENT" }, { route: "TACTICS" }],
     { primaryEntity: { entityType: "fixture", entityId: fixtureId } },
   );
 }
@@ -224,8 +229,13 @@ export function buildMatchCompletedEvent(fixtureId: string, competitionId: strin
     date,
     "IMPORTANT",
     "Matchen är klar",
-    "Matchrapporten är tillgänglig.",
-    [{ route: "MATCH_REPORT", fixtureId }, { route: "SCHEDULE" }, { route: "COMPETITION", competitionId }],
+    "Matchrapporten och matchanalysen är tillgängliga.",
+    // HM-GAME-0.4 (Spec §12/§15): the manager can move straight from a
+    // completed match into either the raw report or Last Match Analysis
+    // -- Analysis Hub derives the latter instantly from the same stored
+    // FastMatchResult, so this is never a fake "analysis is processing"
+    // delay (Spec §29).
+    [{ route: "MATCH_REPORT", fixtureId }, { route: "ANALYSIS_LAST_MATCH" }, { route: "COMPETITION", competitionId }],
     { primaryEntity: { entityType: "fixture", entityId: fixtureId } },
   );
 }
