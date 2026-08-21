@@ -35,3 +35,78 @@ test("migrateCareerState is idempotent and a no-op (same reference) for an alrea
   const twice = migrateCareerState(once);
   assert.equal(twice, once);
 });
+
+test("HM-GAME-0.4: a pre-schema-v5 InboxMessage (old Swedish category, no archived/resolved) migrates safely", () => {
+  const fresh = createNewCareerState("seed-inbox-migration", TUMBA_CLUB_ID);
+  const legacyMessage = {
+    id: "msg:legacy-1",
+    category: "Match",
+    sender: "Assisterande tränare",
+    subject: "Gammalt meddelande",
+    preview: "x",
+    body: ["x"],
+    date: "2026-08-19",
+    read: true,
+    important: false,
+    careerEventId: "MATCH_COMPLETED:fx-legacy",
+  } as unknown as CareerState["inbox"][number];
+  const legacyEvent = {
+    id: "MATCH_COMPLETED:fx-legacy",
+    type: "MATCH_COMPLETED" as const,
+    date: "2026-08-19",
+    priority: "IMPORTANT" as const,
+    subject: "x",
+    summary: "x",
+    relatedEntities: [],
+    destinations: [],
+    requiresAction: false,
+    resolved: true,
+    read: true,
+    createdAtGameDate: "2026-08-19",
+  };
+  const v4: CareerState = { ...fresh, inbox: [legacyMessage], careerEvents: [legacyEvent] };
+
+  const migrated = migrateCareerState(v4);
+  const migratedMessage = migrated.inbox[0];
+
+  assert.equal(migratedMessage.category, "MATCH", "legacy Swedish category maps onto the new English category model");
+  assert.equal(migratedMessage.archived, false, "archived defaults to false");
+  assert.equal(migratedMessage.resolved, true, "resolved is backfilled from the linked CareerEvent's own resolved state");
+  assert.equal(migratedMessage.read, true, "existing read state is preserved exactly");
+  assert.equal(migrated.inbox.length, 1, "migration never duplicates messages");
+});
+
+test("HM-GAME-0.4: a legacy unresolved ACTION_REQUIRED message backfills resolved:false from its linked event, not a default true", () => {
+  const fresh = createNewCareerState("seed-inbox-migration-2", TUMBA_CLUB_ID);
+  const legacyMessage = {
+    id: "msg:legacy-action",
+    category: "Match",
+    sender: "Assisterande tränare",
+    subject: "Matchdag",
+    preview: "x",
+    body: ["x"],
+    date: "2026-08-19",
+    read: false,
+    important: true,
+    actionRequired: true,
+    careerEventId: "MATCHDAY_READY:fx-legacy",
+  } as unknown as CareerState["inbox"][number];
+  const legacyEvent = {
+    id: "MATCHDAY_READY:fx-legacy",
+    type: "MATCHDAY_READY" as const,
+    date: "2026-08-19",
+    priority: "ACTION_REQUIRED" as const,
+    subject: "x",
+    summary: "x",
+    relatedEntities: [],
+    destinations: [],
+    requiresAction: true,
+    resolved: false,
+    read: false,
+    createdAtGameDate: "2026-08-19",
+  };
+  const v4: CareerState = { ...fresh, inbox: [legacyMessage], careerEvents: [legacyEvent] };
+
+  const migrated = migrateCareerState(v4);
+  assert.equal(migrated.inbox[0].resolved, false);
+});
