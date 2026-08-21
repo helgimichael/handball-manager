@@ -10,7 +10,8 @@ export type NavIconName =
   | "transfers"
   | "staff"
   | "club"
-  | "competitions";
+  | "competitions"
+  | "editor";
 
 const PATHS: Record<NavIconName, string> = {
   home: "M2 7L8 2l6 5v6.5a.5.5 0 0 1-.5.5H10v-4H6v4H2.5a.5.5 0 0 1-.5-.5V7z",
@@ -25,6 +26,7 @@ const PATHS: Record<NavIconName, string> = {
   staff: "M8 2a2 2 0 1 1 0 4 2 2 0 0 1 0-4zM3 13c.5-3 2.3-4.5 5-4.5S12.5 10 13 13",
   club: "M8 1.5 13.5 4v4.5c0 3.5-2.4 5.7-5.5 6.5-3.1-.8-5.5-3-5.5-6.5V4z",
   competitions: "M4 2h8v2.5A3.5 3.5 0 0 1 8.5 8h-1A3.5 3.5 0 0 1 4 4.5zM2.5 2.5h1.5v2h-1a1 1 0 0 1-1-1zM13.5 2.5H12v2h1a1 1 0 0 0 1-1zM8 8v2.5M6 13.5h4v-1.2c0-.7-.5-1.3-1.2-1.3H7.2c-.7 0-1.2.6-1.2 1.3z",
+  editor: "M10.5 2.5l3 3-8 8H2.5v-3zM9 4l3 3",
 };
 
 export default function NavIcon({ name }: { name: NavIconName }) {
