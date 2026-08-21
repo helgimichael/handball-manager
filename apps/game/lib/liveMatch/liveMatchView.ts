@@ -45,7 +45,8 @@ export interface LiveMatchView {
   currentAttack: "home" | "away" | null;
 }
 
-function tallyTeamStats(events: readonly MatchEvent[], side: "home" | "away", otherSideShots: number): LiveTeamStats {
+/** Exported for reuse by lib/analysis's half-split selector (HM-ANALYSIS-0.1) -- the exact same event-tally formulas, not a duplicate. */
+export function tallyTeamStats(events: readonly MatchEvent[], side: "home" | "away", otherSideShots: number): LiveTeamStats {
   const sideEvents = events.filter((e) => e.side === side);
   const count = (type: MatchEvent["type"]) => sideEvents.filter((e) => e.type === type).length;
   const goals = count("GOAL");
