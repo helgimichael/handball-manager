@@ -35,6 +35,17 @@ export type SimulateMatchInput = {
   /** -1 (out of form) .. +1 (in form), applied as a small goal nudge. */
   homeFormAdjustment?: number;
   awayFormAdjustment?: number;
+  /**
+   * HM-TACTICS-0.6B: a small, bounded expected-goals nudge derived from
+   * an aggregate (never per-attack) ATI-001 x TI-001 tactical-domain
+   * sample, computed and bounded entirely outside this package (see
+   * apps/game/lib/career/tacticalMatchAdjustment.ts) -- this engine
+   * never imports tactical-domain and treats the value exactly like
+   * homeFormAdjustment/awayFormAdjustment: a plain additive number, not
+   * a tactical concept. Provisional/technical only, not handball truth.
+   */
+  homeTacticalAdjustment?: number;
+  awayTacticalAdjustment?: number;
   /** Only ever populated for the human-managed club (see Section 9 scope note in types.ts). */
   homeRoster?: readonly MatchRosterPlayer[];
   awayRoster?: readonly MatchRosterPlayer[];
@@ -271,8 +282,18 @@ function buildEventTimeline(
 export function simulateMatch(input: SimulateMatchInput): FastMatchResult {
   const rng = createRng(input.seed);
 
-  const homeExpected = expectedGoals(input.homeStrength, input.awayStrength, HOME_ADVANTAGE_GOALS, input.homeFormAdjustment ?? 0);
-  const awayExpected = expectedGoals(input.awayStrength, input.homeStrength, -HOME_ADVANTAGE_GOALS * 0.3, input.awayFormAdjustment ?? 0);
+  const homeExpected = expectedGoals(
+    input.homeStrength,
+    input.awayStrength,
+    HOME_ADVANTAGE_GOALS,
+    (input.homeFormAdjustment ?? 0) + (input.homeTacticalAdjustment ?? 0),
+  );
+  const awayExpected = expectedGoals(
+    input.awayStrength,
+    input.homeStrength,
+    -HOME_ADVANTAGE_GOALS * 0.3,
+    (input.awayFormAdjustment ?? 0) + (input.awayTacticalAdjustment ?? 0),
+  );
 
   const homeGoals = sampleTeamGoals(rng, homeExpected, input.homeStrength.depth);
   const awayGoals = sampleTeamGoals(rng, awayExpected, input.awayStrength.depth);

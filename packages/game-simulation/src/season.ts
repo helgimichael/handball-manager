@@ -5,6 +5,8 @@ import type { ClubStrength, FastMatchResult, MatchRosterPlayer } from "./types";
 
 export type StrengthLookup = (clubId: string) => ClubStrength;
 export type RosterLookup = (clubId: string, fixture: GeneratedFixture) => readonly MatchRosterPlayer[] | undefined;
+/** HM-TACTICS-0.6B: an optional, small, bounded expected-goals nudge per side, computed entirely outside this package (see apps/game/lib/career/tacticalMatchAdjustment.ts). Omit for AI-vs-AI fixtures, which remain unaffected. */
+export type TacticalAdjustment = { home?: number; away?: number };
 
 /**
  * Simulates one fixture with a seed deterministically derived from
@@ -16,13 +18,17 @@ export type RosterLookup = (clubId: string, fixture: GeneratedFixture) => readon
  * same fixture twice with the same seedPrefix always reproduces the
  * exact same result -- the property both the "no duplicate simulation"
  * and "persisted/resumed season matches uninterrupted season" HM-0.2A
- * regression requirements depend on.
+ * regression requirements depend on. This also holds with a
+ * `tacticalAdjustment` supplied: it is a plain deterministic number by
+ * the time it reaches here, so passing the same value again reproduces
+ * the same result.
  */
 export function simulateFixture(
   fixture: GeneratedFixture,
   seedPrefix: string,
   getStrength: StrengthLookup,
   getRoster?: RosterLookup,
+  tacticalAdjustment?: TacticalAdjustment,
 ): FastMatchResult {
   return simulateMatch({
     fixtureId: fixture.id,
@@ -33,6 +39,8 @@ export function simulateFixture(
     awayStrength: getStrength(fixture.awayClubId),
     homeRoster: getRoster?.(fixture.homeClubId, fixture),
     awayRoster: getRoster?.(fixture.awayClubId, fixture),
+    homeTacticalAdjustment: tacticalAdjustment?.home,
+    awayTacticalAdjustment: tacticalAdjustment?.away,
   });
 }
 
