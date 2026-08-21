@@ -9,6 +9,15 @@ import { getCareerClub, getCareerPlayer, getCareerSquad } from "./careerWorld";
 
 const HANDBOLLSLIGAN = "se_handbollsligan_herr";
 
+test("HM-TACTICS-0.6A: every new career receives a deterministic default TeamTacticalProfile", () => {
+  const a = createNewCareerState("tactical-default-seed", TUMBA_CLUB_ID);
+  const b = createNewCareerState("tactical-default-seed", TUMBA_CLUB_ID);
+  assert.deepEqual(a.tacticalProfile, b.tacticalProfile);
+  assert.equal(a.tacticalProfile.ati001UsageTendency, "MEDIUM");
+  assert.equal(a.tacticalProfile.h2ResponsePreference, "H2_STEPS");
+  assert.equal(a.tacticalProfile.tacticalFamiliarity, "MEDIUM");
+});
+
 test("HM-DATA-0.2: a career created for a real Handbollsligan club plays in Handbollsligan and snapshots real player identity", () => {
   const career = createNewCareerState("seed-1", "se_club_alingsas_hk", snapshotWorldSquads(HANDBOLLSLIGAN));
   assert.equal(career.competitionId, "se_handbollsligan_herr");

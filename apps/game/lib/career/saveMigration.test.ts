@@ -110,3 +110,22 @@ test("HM-GAME-0.4: a legacy unresolved ACTION_REQUIRED message backfills resolve
   const migrated = migrateCareerState(v4);
   assert.equal(migrated.inbox[0].resolved, false);
 });
+
+test("HM-TACTICS-0.6A: a pre-schema-v6 save (no tacticalProfile) migrates to the same deterministic default a new career gets", () => {
+  const fresh = createNewCareerState("seed-tactical-migration", TUMBA_CLUB_ID);
+  const v5 = { ...fresh } as CareerState;
+  delete (v5 as { tacticalProfile?: unknown }).tacticalProfile;
+
+  const migrated = migrateCareerState(v5);
+  assert.ok(migrated.tacticalProfile);
+  assert.equal(migrated.tacticalProfile.ati001UsageTendency, "MEDIUM");
+  assert.equal(migrated.tacticalProfile.h2ResponsePreference, "H2_STEPS");
+  assert.equal(migrated.tacticalProfile.tacticalFamiliarity, "MEDIUM");
+});
+
+test("HM-TACTICS-0.6A: migration never overwrites an existing tacticalProfile the player already customized", () => {
+  const fresh = createNewCareerState("seed-tactical-migration-2", TUMBA_CLUB_ID);
+  const customized: CareerState = { ...fresh, tacticalProfile: { ati001UsageTendency: "HIGH", h2ResponsePreference: "H2_STOPS", tacticalFamiliarity: "LOW" } };
+  const migrated = migrateCareerState(customized);
+  assert.deepEqual(migrated.tacticalProfile, customized.tacticalProfile);
+});
