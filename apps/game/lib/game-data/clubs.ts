@@ -13,22 +13,30 @@ function club(input: Omit<Club, "playable"> & { playable?: boolean }): Club {
   return { playable: false, ...input };
 }
 
-// --- Sweden, tier 1: Handbollsligan --- verified full 14-club list (sv.wikipedia.org).
+// --- Sweden, tier 1: Handbollsligan (2026/27) ---
+// HM-DATA-0.2: club ids/competitionId now match the verified real-world
+// database 1:1 (data/real-world/sweden/2026-27/handbollsligan/), rather
+// than the earlier placeholder swe1-* mock ids. Two of the original 14
+// mock entries ("Eskilstuna Guif", "VästeråsIrsta HF") had no matching
+// real-world club folder and were removed; two real clubs the mock list
+// was missing ("Lugi HF", "Skånela IF") were added. All 14 are `playable`
+// and `dataSource: "REAL_WORLD"` -- their squads are imported from real
+// player identity data, not invented.
 const SWE_1: Club[] = [
-  club({ id: "swe1-alingsas", competitionId: "swe-1", name: "Alingsås HK", shortName: "Alingsås", city: "Alingsås", primaryColor: "#c8102e", secondaryColor: "#111318" }),
-  club({ id: "swe1-amo", competitionId: "swe-1", name: "Amo HK", shortName: "Amo", city: "Amål", primaryColor: "#0b6e4f", secondaryColor: "#ffffff" }),
-  club({ id: "swe1-eskilstuna", competitionId: "swe-1", name: "Eskilstuna Guif", shortName: "Guif", city: "Eskilstuna", primaryColor: "#1b3a6b", secondaryColor: "#ffffff" }),
-  club({ id: "swe1-hammarby", competitionId: "swe-1", name: "Hammarby IF", shortName: "Hammarby", city: "Stockholm", primaryColor: "#0a7a3d", secondaryColor: "#ffffff" }),
-  club({ id: "swe1-karlskrona", competitionId: "swe-1", name: "HF Karlskrona", shortName: "Karlskrona", city: "Karlskrona", primaryColor: "#e2b13c", secondaryColor: "#111318" }),
-  club({ id: "swe1-malmo", competitionId: "swe-1", name: "HK Malmö", shortName: "Malmö", city: "Malmö", primaryColor: "#1e3a8a", secondaryColor: "#ffffff" }),
-  club({ id: "swe1-hallby", competitionId: "swe-1", name: "IF Hallby", shortName: "Hallby", city: "Kristianstad", primaryColor: "#111318", secondaryColor: "#e2b13c" }),
-  club({ id: "swe1-kristianstad", competitionId: "swe-1", name: "IFK Kristianstad", shortName: "Kristianstad", city: "Kristianstad", primaryColor: "#1e3a8a", secondaryColor: "#ffffff" }),
-  club({ id: "swe1-skovde", competitionId: "swe-1", name: "IFK Skövde", shortName: "Skövde", city: "Skövde", primaryColor: "#1e3a8a", secondaryColor: "#ffffff" }),
-  club({ id: "swe1-savehof", competitionId: "swe-1", name: "IK Sävehof", shortName: "Sävehof", city: "Göteborg", primaryColor: "#111318", secondaryColor: "#e2b13c" }),
-  club({ id: "swe1-helsingborg", competitionId: "swe-1", name: "OV Helsingborg", shortName: "OV Helsingborg", city: "Helsingborg", primaryColor: "#c8102e", secondaryColor: "#111318" }),
-  club({ id: "swe1-vasterasirsta", competitionId: "swe-1", name: "VästeråsIrsta HF", shortName: "V. Irsta", city: "Västerås", primaryColor: "#1b3a6b", secondaryColor: "#ffffff" }),
-  club({ id: "swe1-ystad", competitionId: "swe-1", name: "Ystads IF", shortName: "Ystad", city: "Ystad", primaryColor: "#111318", secondaryColor: "#e2b13c" }),
-  club({ id: "swe1-onnered", competitionId: "swe-1", name: "Önnereds HK", shortName: "Önnered", city: "Göteborg", primaryColor: "#0b6e4f", secondaryColor: "#ffffff" }),
+  club({ id: "se_club_alingsas_hk", competitionId: "se_handbollsligan_herr", dataSource: "REAL_WORLD", playable: true, name: "Alingsås HK", shortName: "Alingsås", city: "Alingsås", primaryColor: "#c8102e", secondaryColor: "#111318" }),
+  club({ id: "se_club_amo_hk", competitionId: "se_handbollsligan_herr", dataSource: "REAL_WORLD", playable: true, name: "Amo HK", shortName: "Amo", city: "Amål", primaryColor: "#0b6e4f", secondaryColor: "#ffffff" }),
+  club({ id: "se_club_hammarby_if_hf", competitionId: "se_handbollsligan_herr", dataSource: "REAL_WORLD", playable: true, name: "Hammarby IF HF", shortName: "Hammarby", city: "Stockholm", primaryColor: "#0a7a3d", secondaryColor: "#ffffff" }),
+  club({ id: "se_club_hf_karlskrona", competitionId: "se_handbollsligan_herr", dataSource: "REAL_WORLD", playable: true, name: "HF Karlskrona", shortName: "Karlskrona", city: "Karlskrona", primaryColor: "#e2b13c", secondaryColor: "#111318" }),
+  club({ id: "se_club_hk_malmo", competitionId: "se_handbollsligan_herr", dataSource: "REAL_WORLD", playable: true, name: "HK Malmö", shortName: "Malmö", city: "Malmö", primaryColor: "#1e3a8a", secondaryColor: "#ffffff" }),
+  club({ id: "se_club_if_hallby_hk", competitionId: "se_handbollsligan_herr", dataSource: "REAL_WORLD", playable: true, name: "IF Hallby HK", shortName: "Hallby", city: "Kristianstad", primaryColor: "#111318", secondaryColor: "#e2b13c" }),
+  club({ id: "se_club_ifk_kristianstad", competitionId: "se_handbollsligan_herr", dataSource: "REAL_WORLD", playable: true, name: "IFK Kristianstad", shortName: "Kristianstad", city: "Kristianstad", primaryColor: "#1e3a8a", secondaryColor: "#ffffff" }),
+  club({ id: "se_club_ifk_skovde_hk", competitionId: "se_handbollsligan_herr", dataSource: "REAL_WORLD", playable: true, name: "IFK Skövde HK", shortName: "Skövde", city: "Skövde", primaryColor: "#1e3a8a", secondaryColor: "#ffffff" }),
+  club({ id: "se_club_ik_savehof", competitionId: "se_handbollsligan_herr", dataSource: "REAL_WORLD", playable: true, name: "IK Sävehof", shortName: "Sävehof", city: "Göteborg", primaryColor: "#111318", secondaryColor: "#e2b13c" }),
+  club({ id: "se_club_lugi_hf", competitionId: "se_handbollsligan_herr", dataSource: "REAL_WORLD", playable: true, name: "Lugi HF", shortName: "Lugi", city: "Lund", primaryColor: "#111318", secondaryColor: "#e2b13c" }),
+  club({ id: "se_club_ov_helsingborg", competitionId: "se_handbollsligan_herr", dataSource: "REAL_WORLD", playable: true, name: "OV Helsingborg", shortName: "OV Helsingborg", city: "Helsingborg", primaryColor: "#c8102e", secondaryColor: "#111318" }),
+  club({ id: "se_club_skanela_if", competitionId: "se_handbollsligan_herr", dataSource: "REAL_WORLD", playable: true, name: "Skånela IF", shortName: "Skånela", city: "Sigtuna", primaryColor: "#0b6e4f", secondaryColor: "#111318" }),
+  club({ id: "se_club_ystads_if_hf", competitionId: "se_handbollsligan_herr", dataSource: "REAL_WORLD", playable: true, name: "Ystads IF HF", shortName: "Ystad", city: "Ystad", primaryColor: "#111318", secondaryColor: "#e2b13c" }),
+  club({ id: "se_club_onnereds_hk", competitionId: "se_handbollsligan_herr", dataSource: "REAL_WORLD", playable: true, name: "Önnereds HK", shortName: "Önnered", city: "Göteborg", primaryColor: "#0b6e4f", secondaryColor: "#ffffff" }),
 ];
 
 // --- Sweden, tier 2: Allsvenskan --- verified 14-club list including

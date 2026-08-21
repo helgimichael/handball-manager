@@ -12,11 +12,14 @@ import type { Competition } from "./types";
  */
 export const COMPETITIONS: readonly Competition[] = [
   {
-    id: "swe-1",
+    // HM-DATA-0.2: aligned to the real-world database's own competitionId
+    // (data/real-world/sweden/2026-27/handbollsligan/*/roster-*.json),
+    // rather than the earlier placeholder "swe-1".
+    id: "se_handbollsligan_herr",
     nation: "SWE",
     tier: 1,
     name: "Handbollsligan",
-    sourceNote: "Verified: Wikipedia/Sofascore, 2025/26 season, 14 clubs.",
+    sourceNote: "Verified: Wikipedia/Sofascore, 2025/26 season, 14 clubs. Club/player identity for 2026/27 imported from the verified real-world database (HM-DATA-0.2).",
   },
   {
     id: "swe-2",

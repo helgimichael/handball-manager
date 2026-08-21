@@ -12,7 +12,7 @@ export default function NewGamePage() {
   const router = useRouter();
   const [step, setStep] = useState(0);
   const [nations, setNations] = useState<NationCode[]>(["SWE"]);
-  const [competitionIds, setCompetitionIds] = useState<string[]>(["swe-1", "swe-2"]);
+  const [competitionIds, setCompetitionIds] = useState<string[]>(["se_handbollsligan_herr", "swe-2"]);
   const [clubId, setClubId] = useState<string>(TUMBA_CLUB_ID);
   const [managerName, setManagerName] = useState("");
   const [managerNationality, setManagerNationality] = useState<NationCode>("SWE");
@@ -44,7 +44,7 @@ export default function NewGamePage() {
   function canProceed(): boolean {
     if (step === 0) return nations.length > 0;
     if (step === 1) return competitionIds.length > 0;
-    if (step === 3) return clubId === TUMBA_CLUB_ID;
+    if (step === 3) return CLUBS.find((c) => c.id === clubId)?.playable === true;
     if (step === 4) return managerName.trim().length > 1;
     return true;
   }
@@ -166,7 +166,7 @@ export default function NewGamePage() {
 
             {step === 3 && (
               <>
-                <StepHeading title="Välj klubb" desc="Endast IFK Tumba är spelbar i denna version." />
+                <StepHeading title="Välj klubb" desc="Alla klubbar i Handbollsligan (verklig spelardatabas) samt IFK Tumba är spelbara." />
                 <div className="hm-scroll-x">
                   <table className="hm-table">
                     <thead>
@@ -175,6 +175,7 @@ export default function NewGamePage() {
                         <th>Klubb</th>
                         <th>Liga</th>
                         <th>Stad</th>
+                        <th>Data</th>
                         <th />
                       </tr>
                     </thead>
@@ -195,6 +196,13 @@ export default function NewGamePage() {
                             <td className="hm-td-strong">{c.name}</td>
                             <td>{comp?.name}</td>
                             <td>{c.city ?? "—"}</td>
+                            <td>
+                              {c.dataSource === "REAL_WORLD" ? (
+                                <span className="hm-badge hm-badge-neutral" title="Spelartrupp importerad från verklig data">REAL DATA</span>
+                              ) : (
+                                <span className="hm-badge hm-badge-neutral" style={{ opacity: 0.6 }}>MOCK</span>
+                              )}
+                            </td>
                             <td>
                               {c.playable ? (
                                 <span className="hm-badge hm-badge-positive">SPELBAR</span>
@@ -246,7 +254,7 @@ export default function NewGamePage() {
                   <SummaryRow label="Manager" value={managerName || "—"} />
                   <SummaryRow label="Nationalitet" value={NATIONS.find((n) => n.code === managerNationality)?.name ?? "—"} />
                   <SummaryRow label="Klubb" value={CLUBS.find((c) => c.id === clubId)?.name ?? "—"} />
-                  <SummaryRow label="Liga" value={COMPETITIONS.find((c) => c.id === "swe-2")?.name ?? "—"} />
+                  <SummaryRow label="Liga" value={COMPETITIONS.find((c) => c.id === CLUBS.find((c2) => c2.id === clubId)?.competitionId)?.name ?? "—"} />
                   <SummaryRow label="Startdatum" value={GAME_CURRENT_DATE} />
                   <SummaryRow label="Nationer i spelvärlden" value={String(nations.length)} />
                 </div>

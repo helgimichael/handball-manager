@@ -67,6 +67,13 @@ export function getAllsvenskanClubStrengths(): Readonly<Record<string, ClubStren
   return result;
 }
 
+// HM-DATA-0.2: every real-world Handbollsligan club (se_club_*) falls
+// through to this flat neutral default deliberately -- their real-world
+// data has no ability rating to derive a curated number from, and
+// inventing one from height/age/nationality/shirt number is explicitly
+// disallowed. This is the same "smallest deterministic neutral default"
+// principle as the Provisional Game Profile applied to individual real
+// players (see gameWorld/gameWorldAdapter.ts).
 export function getClubStrength(clubId: string): ClubStrength {
   const strengths = getAllsvenskanClubStrengths();
   return strengths[clubId] ?? { clubId, overall: 50, attack: 50, defense: 50, goalkeeper: 50, depth: 45 };
