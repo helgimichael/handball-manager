@@ -63,7 +63,12 @@ export default function MatchPreviewPage() {
     <div className="hm-grid" style={{ gap: 12 }}>
       <div className="hm-panel">
         <div className="hm-panel-header">
-          <span className="hm-panel-title">Matchförhandsvisning</span>
+          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+            <button type="button" className="hm-btn hm-btn-sm hm-btn-ghost" onClick={() => router.push("/career/schedule")}>
+              ← Schema
+            </button>
+            <span className="hm-panel-title">Matchförhandsvisning</span>
+          </div>
           <span className="hm-badge hm-badge-neutral">{competitionName} · Omgång {fixture.round}</span>
         </div>
         <div className="hm-panel-body" style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 40, padding: "28px" }}>

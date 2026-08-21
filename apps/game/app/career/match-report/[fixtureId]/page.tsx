@@ -3,7 +3,8 @@
 import { useParams, useRouter } from "next/navigation";
 import { COMPETITIONS, getClub } from "@/lib/game-data";
 import { useCareer } from "@/lib/career/CareerContext";
-import { getCareerPlayer } from "@/lib/career/careerWorld";
+import { getCareerClub, getCareerPlayer } from "@/lib/career/careerWorld";
+import { getLastPlayedPlayerFixture } from "@/lib/career/calendar";
 import { getLiveStandings } from "@/lib/career/standings";
 import ClubCrest from "@/components/ClubCrest";
 
@@ -32,6 +33,12 @@ export default function MatchReportPage() {
   const table = getLiveStandings(career);
   const position = table.findIndex((row) => row.clubId === career.playerClubId) + 1;
   const competitionName = COMPETITIONS.find((c) => c.id === career.competitionId)?.name ?? "Ligan";
+  const ownClub = getCareerClub(career);
+  // HM-UX-0.2 (Spec §35): Analysis Hub's Last Match view always derives
+  // the CURRENT latest completed match -- never an arbitrary historical
+  // one. Only offer "Öppna matchanalys" when this report IS that match;
+  // an older report reached via Schedule only ever gets Match Report.
+  const isCurrentLastMatch = getLastPlayedPlayerFixture(career)?.fixture.id === fixture.id;
 
   return (
     <div className="hm-grid" style={{ gap: 12 }}>
@@ -57,7 +64,7 @@ export default function MatchReportPage() {
       <div className="hm-grid" style={{ gridTemplateColumns: "1fr 1fr" }}>
         <div className="hm-panel">
           <div className="hm-panel-header">
-            <span className="hm-panel-title">Tumba — spelarbetyg</span>
+            <span className="hm-panel-title">{ownClub.shortName} — spelarbetyg</span>
           </div>
           <table className="hm-table">
             <thead>
@@ -118,7 +125,15 @@ export default function MatchReportPage() {
         </div>
       </div>
 
-      <div style={{ display: "flex", justifyContent: "center" }}>
+      <div style={{ display: "flex", justifyContent: "center", gap: 10 }}>
+        <button type="button" className="hm-btn" onClick={() => router.push("/career/schedule")}>
+          ← Schema
+        </button>
+        {isCurrentLastMatch ? (
+          <button type="button" className="hm-btn" onClick={() => router.push("/career/analysis/last-match")}>
+            Öppna matchanalys
+          </button>
+        ) : null}
         <button type="button" className="hm-btn hm-btn-primary" onClick={() => router.push("/career")}>
           FORTSÄTT →
         </button>

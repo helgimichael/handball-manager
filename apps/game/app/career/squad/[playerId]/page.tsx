@@ -69,8 +69,8 @@ export default function PlayerProfilePage() {
                 {player.secondaryPosition ? ` / ${positionLabel(player.secondaryPosition)}` : ""} · {age ?? "–"} år · {player.nationality} · {player.foot ?? "Okänd"}
               </div>
             </div>
-            <button type="button" className="hm-btn" onClick={() => router.back()}>
-              ← Tillbaka
+            <button type="button" className="hm-btn" onClick={() => router.push("/career/squad")}>
+              ← Trupp
             </button>
           </div>
         </div>
