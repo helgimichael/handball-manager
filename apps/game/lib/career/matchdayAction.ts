@@ -15,6 +15,7 @@ import { buildMatchCompletedEvent } from "./careerEvents";
 import { getCareerSquad } from "./careerWorld";
 import { careerEventToInboxMessage } from "./inboxBridge";
 import { applyMatchResultBookkeeping } from "./matchResultApplication";
+import { computeTacticalMatchAdjustment } from "./tacticalMatchAdjustment";
 import { buildMatchRoster } from "./tumbaRoster";
 import type { CareerState, ClubFormEntry, PlayerSeasonStats } from "./types";
 
@@ -45,8 +46,24 @@ export function playManagerFixture(state: CareerState): PlayManagerFixtureResult
   }
 
   const roster = buildMatchRoster(getCareerSquad(state), state.playerStatuses);
-  const result = simulateFixture(fixture, state.saveSeed, (clubId) => getClubStrength(clubId), (clubId) =>
-    clubId === state.playerClubId ? roster : undefined,
+  // HM-TACTICS-0.6B: a small, bounded, pre-match tactical adjustment
+  // derived from the manager's own TeamTacticalProfile -- computed once
+  // per fixture, exactly like a club strength lookup, never a per-attack
+  // simulation. AI-vs-AI fixtures (calendar.ts's simulateAiFixturesForDate)
+  // are untouched and never call this.
+  const tacticalAdjustment = computeTacticalMatchAdjustment(
+    state.saveSeed,
+    fixture.id,
+    state.playerClubId,
+    fixture.homeClubId,
+    state.tacticalProfile,
+  );
+  const result = simulateFixture(
+    fixture,
+    state.saveSeed,
+    (clubId) => getClubStrength(clubId),
+    (clubId) => (clubId === state.playerClubId ? roster : undefined),
+    { home: tacticalAdjustment.home, away: tacticalAdjustment.away },
   );
 
   const results: Record<string, FastMatchResult> = { ...state.results, [fixture.id]: result };
