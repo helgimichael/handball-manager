@@ -1,15 +1,17 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { getClub, getPlayerClub } from "@/lib/game-data";
+import { COMPETITIONS, getClub } from "@/lib/game-data";
 import { useCareer } from "@/lib/career/CareerContext";
+import { getCareerClub } from "@/lib/career/careerWorld";
 import { getNextEventDate } from "@/lib/career/calendar";
 
 export default function SchedulePage() {
   const router = useRouter();
   const { career } = useCareer();
-  const club = getPlayerClub();
+  const club = getCareerClub(career);
   const nextEventDate = getNextEventDate(career);
+  const competitionName = COMPETITIONS.find((c) => c.id === career.competitionId)?.name ?? "Ligan";
 
   const tumbaFixtures = career.fixtures
     .filter((f) => f.homeClubId === club.id || f.awayClubId === club.id)
@@ -18,7 +20,7 @@ export default function SchedulePage() {
   return (
     <div className="hm-panel">
       <div className="hm-panel-header">
-        <span className="hm-panel-title">Säsongsschema — Allsvenskan {career.seasonId}</span>
+        <span className="hm-panel-title">Säsongsschema — {competitionName} {career.seasonId}</span>
         <span className="hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)" }}>26 matcher</span>
       </div>
       <div className="hm-scroll-x">

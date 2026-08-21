@@ -14,8 +14,10 @@ import { designSystemTheme } from "@handball-manager/match-renderer/src/ui/desig
 import { createInitialScene } from "@handball-manager/match-renderer/src/ui/workspaces/tactics-board/scene/TacticsBoardScene.ts";
 import { createBoardObject, type BoardObject } from "@handball-manager/match-renderer/src/ui/workspaces/tactics-board/scene/BoardObject.ts";
 import { FORMATIONS } from "@handball-manager/match-renderer/src/ui/workspaces/tactics-board/library/FormationLibrary.ts";
-import { getSquad, positionLabel } from "@/lib/game-data";
+import { positionLabel } from "@/lib/game-data";
 import type { HandballPosition } from "@/lib/game-data";
+import { useCareer } from "@/lib/career/CareerContext";
+import { getCareerSquad } from "@/lib/career/careerWorld";
 
 function noop() {}
 
@@ -46,7 +48,8 @@ const TACTICS_SCENE = (() => {
 })();
 
 export default function TacticsPage() {
-  const squad = getSquad();
+  const { career } = useCareer();
+  const squad = getCareerSquad(career);
 
   const starters = useMemo(() => {
     const picked: typeof squad[number][] = [];
@@ -167,7 +170,7 @@ export default function TacticsPage() {
   );
 }
 
-function RosterRow({ player }: { player: ReturnType<typeof getSquad>[number] }) {
+function RosterRow({ player }: { player: ReturnType<typeof getCareerSquad>[number] }) {
   return (
     <div style={{ display: "flex", alignItems: "center", gap: 8, padding: "5px 12px", borderBottom: "1px solid var(--hm-border-subtle)" }}>
       <span className="hm-shirt-number">{player.shirtNumber}</span>

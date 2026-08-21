@@ -2,9 +2,10 @@
 
 import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
-import { getSquad, playerAge, positionLabel } from "@/lib/game-data";
+import { playerAge, positionLabel } from "@/lib/game-data";
 import type { HandballPosition } from "@/lib/game-data";
 import { useCareer } from "@/lib/career/CareerContext";
+import { getCareerClub, getCareerSquad } from "@/lib/career/careerWorld";
 import { averageRating, emptyPlayerSeasonStats } from "@/lib/career/types";
 
 type SortKey = "name" | "position" | "age" | "appearances" | "goals" | "rating" | "fitness" | "morale";
@@ -12,7 +13,8 @@ type SortKey = "name" | "position" | "age" | "appearances" | "goals" | "rating" 
 export default function SquadPage() {
   const router = useRouter();
   const { career } = useCareer();
-  const squad = getSquad();
+  const club = getCareerClub(career);
+  const squad = getCareerSquad(career);
   const [positionFilter, setPositionFilter] = useState<HandballPosition | "ALL">("ALL");
   const [sortKey, setSortKey] = useState<SortKey>("position");
 
@@ -27,7 +29,7 @@ export default function SquadPage() {
         case "name":
           return a.lastName.localeCompare(b.lastName);
         case "age":
-          return playerAge(a.dateOfBirth) - playerAge(b.dateOfBirth);
+          return (playerAge(a.dateOfBirth, a.birthYear) ?? 0) - (playerAge(b.dateOfBirth, b.birthYear) ?? 0);
         case "appearances":
           return statsB.appearances - statsA.appearances;
         case "goals":
@@ -47,7 +49,7 @@ export default function SquadPage() {
   return (
     <div className="hm-panel">
       <div className="hm-panel-header">
-        <span className="hm-panel-title">Trupp — IFK Tumba · {career.seasonId}</span>
+        <span className="hm-panel-title">Trupp — {club.name} · {career.seasonId}</span>
         <div style={{ display: "flex", gap: 6 }}>
           {positions.map((p) => (
             <button
@@ -89,13 +91,13 @@ export default function SquadPage() {
               return (
                 <tr key={p.id} data-clickable="true" onClick={() => router.push(`/career/squad/${p.id}`)}>
                   <td>
-                    <span className="hm-shirt-number">{p.shirtNumber}</span>
+                    <span className="hm-shirt-number">{p.shirtNumber ?? "–"}</span>
                   </td>
                   <td className="hm-td-strong">
                     {p.firstName} {p.lastName}
                   </td>
                   <td title={positionLabel(p.position)}>{p.position}</td>
-                  <td>{playerAge(p.dateOfBirth)}</td>
+                  <td>{playerAge(p.dateOfBirth, p.birthYear) ?? "–"}</td>
                   <td>
                     <StatusBadge status={p.squadStatus} />
                   </td>

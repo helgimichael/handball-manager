@@ -1,14 +1,15 @@
 "use client";
 
 import { useState } from "react";
-import { COMPETITIONS, NATIONS, getClub, getClubsByCompetition, getPlayerClub } from "@/lib/game-data";
+import { COMPETITIONS, NATIONS, getClub, getClubsByCompetition } from "@/lib/game-data";
 import { useCareer } from "@/lib/career/CareerContext";
+import { getCareerClub } from "@/lib/career/careerWorld";
 import { getLiveStandings } from "@/lib/career/standings";
 import ClubCrest from "@/components/ClubCrest";
 
 export default function CompetitionsPage() {
   const { career } = useCareer();
-  const club = getPlayerClub();
+  const club = getCareerClub(career);
   const [competitionId, setCompetitionId] = useState(career.competitionId);
   const competition = COMPETITIONS.find((c) => c.id === competitionId)!;
   const clubs = getClubsByCompetition(competitionId);

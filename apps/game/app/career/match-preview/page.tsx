@@ -1,8 +1,9 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { getClub, getSquad } from "@/lib/game-data";
+import { COMPETITIONS, getClub } from "@/lib/game-data";
 import { useCareer } from "@/lib/career/CareerContext";
+import { getCareerSquad } from "@/lib/career/careerWorld";
 import { getNextPlayerFixture } from "@/lib/career/calendar";
 import { isAvailable, resolveStatusLabel } from "@/lib/career/playerStatus";
 import ClubCrest from "@/components/ClubCrest";
@@ -11,7 +12,7 @@ export default function MatchPreviewPage() {
   const router = useRouter();
   const { career, playManagerFixture } = useCareer();
   const fixture = getNextPlayerFixture(career);
-  const squad = getSquad();
+  const squad = getCareerSquad(career);
   const unavailable = squad.filter((p) => !isAvailable(career.playerStatuses, p.id));
 
   if (career.seasonComplete) {
@@ -56,13 +57,14 @@ export default function MatchPreviewPage() {
 
   const home = getClub(fixture.homeClubId)!;
   const away = getClub(fixture.awayClubId)!;
+  const competitionName = COMPETITIONS.find((c) => c.id === career.competitionId)?.name ?? "Ligan";
 
   return (
     <div className="hm-grid" style={{ gap: 12 }}>
       <div className="hm-panel">
         <div className="hm-panel-header">
           <span className="hm-panel-title">Matchförhandsvisning</span>
-          <span className="hm-badge hm-badge-neutral">Allsvenskan · Omgång {fixture.round}</span>
+          <span className="hm-badge hm-badge-neutral">{competitionName} · Omgång {fixture.round}</span>
         </div>
         <div className="hm-panel-body" style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 40, padding: "28px" }}>
           <TeamColumn clubId={home.id} />

@@ -27,8 +27,9 @@ import {
   advanceMatchSequence,
   type MatchSequenceState,
 } from "@handball-manager/match-integration";
-import { getClub, getPlayerClub } from "@/lib/game-data";
+import { getClub } from "@/lib/game-data";
 import { useCareer } from "@/lib/career/CareerContext";
+import { getCareerClub } from "@/lib/career/careerWorld";
 import { getNextPlayerFixture } from "@/lib/career/calendar";
 import ClubCrest from "@/components/ClubCrest";
 
@@ -52,8 +53,8 @@ function createInitialRuntime(): SimulationRuntimeState {
 }
 
 export default function MatchCenterPage() {
-  const club = getPlayerClub();
   const { career } = useCareer();
+  const club = getCareerClub(career);
   const fixture = getNextPlayerFixture(career);
   const opponent = fixture ? getClub(fixture.homeClubId === club.id ? fixture.awayClubId : fixture.homeClubId) : null;
 

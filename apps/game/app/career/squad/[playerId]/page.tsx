@@ -1,8 +1,9 @@
 "use client";
 
 import { useParams, useRouter } from "next/navigation";
-import { abilityStars, getPlayer, playerAge, positionLabel, potentialStars } from "@/lib/game-data";
+import { abilityStars, playerAge, positionLabel, potentialStars } from "@/lib/game-data";
 import { useCareer } from "@/lib/career/CareerContext";
+import { getCareerPlayer } from "@/lib/career/careerWorld";
 import { averageRating, emptyPlayerSeasonStats } from "@/lib/career/types";
 import { resolveStatusLabel } from "@/lib/career/playerStatus";
 import StarRating from "@/components/StarRating";
@@ -11,8 +12,8 @@ import StatValue from "@/components/StatValue";
 export default function PlayerProfilePage() {
   const router = useRouter();
   const params = useParams<{ playerId: string }>();
-  const player = getPlayer(params.playerId);
   const { career } = useCareer();
+  const player = getCareerPlayer(career, params.playerId);
 
   if (!player) {
     return (
@@ -23,8 +24,8 @@ export default function PlayerProfilePage() {
   }
 
   const seasonStats = career.playerSeasonStats[player.id] ?? emptyPlayerSeasonStats(player.id);
-  const age = playerAge(player.dateOfBirth);
-  const isWonderkid = age <= 19 && potentialStars(player) >= 5;
+  const age = playerAge(player.dateOfBirth, player.birthYear);
+  const isWonderkid = age !== null && age <= 19 && potentialStars(player) >= 5;
 
   return (
     <div className="hm-grid" style={{ gridTemplateColumns: "2fr 1fr", alignItems: "start" }}>
@@ -52,15 +53,20 @@ export default function PlayerProfilePage() {
             </div>
             <div style={{ flex: 1 }}>
               <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                <span className="hm-shirt-number">{player.shirtNumber}</span>
+                <span className="hm-shirt-number">{player.shirtNumber ?? "–"}</span>
                 <span style={{ fontSize: "var(--hm-text-lg)", fontWeight: 800 }}>
                   {player.firstName} {player.lastName}
                 </span>
                 {isWonderkid ? <span className="hm-badge hm-badge-warning">TALANG</span> : null}
+                {player.dataSource === "REAL_WORLD" ? (
+                  <span className="hm-badge hm-badge-neutral" title="Importerad från verklig spelardata">
+                    REAL DATA
+                  </span>
+                ) : null}
               </div>
               <div className="hm-text-muted" style={{ fontSize: "var(--hm-text-xs)", marginTop: 2 }}>
                 {positionLabel(player.position)}
-                {player.secondaryPosition ? ` / ${positionLabel(player.secondaryPosition)}` : ""} · {age} år · {player.nationality} · {player.foot}
+                {player.secondaryPosition ? ` / ${positionLabel(player.secondaryPosition)}` : ""} · {age ?? "–"} år · {player.nationality} · {player.foot ?? "Okänd"}
               </div>
             </div>
             <button type="button" className="hm-btn" onClick={() => router.back()}>
@@ -157,7 +163,7 @@ export default function PlayerProfilePage() {
           <div className="hm-panel-body" style={{ display: "flex", flexDirection: "column", gap: 6 }}>
             <ContractRow label="Kontrakt t.o.m." value={player.contractEndSeason} />
             <ContractRow label="Lön / månad" value={`${player.wageSekPerMonth.toLocaleString("sv-SE")} kr`} />
-            <ContractRow label="Tröjnummer" value={String(player.shirtNumber)} />
+            <ContractRow label="Tröjnummer" value={player.shirtNumber !== null ? String(player.shirtNumber) : "Okänt"} />
           </div>
         </div>
 
@@ -167,10 +173,10 @@ export default function PlayerProfilePage() {
             <span className="hm-panel-title">Utveckling</span>
           </div>
           <div className="hm-panel-body" style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-            <ContractRow label="Längd" value={`${player.heightCm} cm`} />
-            <ContractRow label="Vikt" value={`${player.weightKg} kg`} />
-            <ContractRow label="Ålder" value={`${age} år`} />
-            <ContractRow label="Född" value={new Date(player.dateOfBirth).toLocaleDateString("sv-SE")} />
+            <ContractRow label="Längd" value={player.heightCm !== null ? `${player.heightCm} cm` : "Okänd"} />
+            <ContractRow label="Vikt" value={player.weightKg !== null ? `${player.weightKg} kg` : "Okänd"} />
+            <ContractRow label="Ålder" value={age !== null ? `${age} år` : "Okänd"} />
+            <ContractRow label="Född" value={player.dateOfBirth ? new Date(player.dateOfBirth).toLocaleDateString("sv-SE") : player.birthYear ? String(player.birthYear) : "Okänt"} />
           </div>
         </div>
       </div>

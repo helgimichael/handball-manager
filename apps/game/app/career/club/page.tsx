@@ -1,15 +1,17 @@
 "use client";
 
-import { getPlayerClub, getSquad, TUMBA_STAFF } from "@/lib/game-data";
+import { COMPETITIONS, TUMBA_STAFF } from "@/lib/game-data";
 import { useCareer } from "@/lib/career/CareerContext";
+import { getCareerClub, getCareerSquad } from "@/lib/career/careerWorld";
 import { getPlayerClubPosition } from "@/lib/career/standings";
 import ClubCrest from "@/components/ClubCrest";
 
 export default function ClubPage() {
   const { career } = useCareer();
-  const club = getPlayerClub();
-  const squad = getSquad();
+  const club = getCareerClub(career);
+  const squad = getCareerSquad(career);
   const position = getPlayerClubPosition(career);
+  const competitionName = COMPETITIONS.find((c) => c.id === career.competitionId)?.name ?? "Ligan";
 
   return (
     <div className="hm-grid" style={{ gridTemplateColumns: "1fr 1fr" }}>
@@ -22,7 +24,7 @@ export default function ClubPage() {
           <div>
             <div style={{ fontSize: "var(--hm-text-md)", fontWeight: 800 }}>{club.name}</div>
             <div className="hm-text-muted" style={{ fontSize: "var(--hm-text-xs)" }}>
-              Allsvenskan · {club.city} · Grundad {club.founded ?? "—"}
+              {competitionName} · {club.city} · Grundad {club.founded ?? "—"}
             </div>
           </div>
         </div>

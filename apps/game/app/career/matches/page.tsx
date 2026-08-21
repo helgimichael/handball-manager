@@ -1,13 +1,14 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { getClub, getPlayerClub } from "@/lib/game-data";
+import { getClub } from "@/lib/game-data";
 import { useCareer } from "@/lib/career/CareerContext";
+import { getCareerClub } from "@/lib/career/careerWorld";
 
 export default function MatchesPage() {
   const router = useRouter();
   const { career } = useCareer();
-  const club = getPlayerClub();
+  const club = getCareerClub(career);
 
   const played = career.fixtures
     .filter((f) => (f.homeClubId === club.id || f.awayClubId === club.id) && career.results[f.id])

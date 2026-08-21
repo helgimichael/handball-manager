@@ -1,8 +1,9 @@
 "use client";
 
 import { useParams, useRouter } from "next/navigation";
-import { getClub, getPlayer } from "@/lib/game-data";
+import { COMPETITIONS, getClub } from "@/lib/game-data";
 import { useCareer } from "@/lib/career/CareerContext";
+import { getCareerPlayer } from "@/lib/career/careerWorld";
 import { getLiveStandings } from "@/lib/career/standings";
 import ClubCrest from "@/components/ClubCrest";
 
@@ -30,13 +31,14 @@ export default function MatchReportPage() {
 
   const table = getLiveStandings(career);
   const position = table.findIndex((row) => row.clubId === career.playerClubId) + 1;
+  const competitionName = COMPETITIONS.find((c) => c.id === career.competitionId)?.name ?? "Ligan";
 
   return (
     <div className="hm-grid" style={{ gap: 12 }}>
       <div className="hm-panel">
         <div className="hm-panel-header">
           <span className="hm-panel-title">Matchrapport</span>
-          <span className="hm-badge hm-badge-neutral">Allsvenskan · Omgång {fixture.round}</span>
+          <span className="hm-badge hm-badge-neutral">{competitionName} · Omgång {fixture.round}</span>
         </div>
         <div className="hm-panel-body" style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 40, padding: "20px" }}>
           <TeamColumn clubId={home.id} />
@@ -68,7 +70,7 @@ export default function MatchReportPage() {
             </thead>
             <tbody>
               {ownContributions.map((c) => {
-                const player = getPlayer(c.playerId);
+                const player = getCareerPlayer(career, c.playerId);
                 return (
                   <tr key={c.playerId} data-highlight={c.playerId === bestPerformer?.playerId}>
                     <td className="hm-td-strong">
@@ -93,7 +95,7 @@ export default function MatchReportPage() {
               {bestPerformer ? (
                 <>
                   <div style={{ fontSize: "var(--hm-text-md)", fontWeight: 800 }}>
-                    {getPlayer(bestPerformer.playerId)?.firstName} {getPlayer(bestPerformer.playerId)?.lastName}
+                    {getCareerPlayer(career, bestPerformer.playerId)?.firstName} {getCareerPlayer(career, bestPerformer.playerId)?.lastName}
                   </div>
                   <div className="hm-text-muted" style={{ fontSize: "var(--hm-text-xs)" }}>
                     Betyg {bestPerformer.rating.toFixed(1)} · {bestPerformer.goals} mål
@@ -110,7 +112,7 @@ export default function MatchReportPage() {
             </div>
             <div className="hm-panel-body">
               <div style={{ fontSize: "var(--hm-text-md)", fontWeight: 800 }}>{position}:a plats</div>
-              <div className="hm-text-muted" style={{ fontSize: "var(--hm-text-xs)" }}>Allsvenskan, efter omgång {fixture.round}</div>
+              <div className="hm-text-muted" style={{ fontSize: "var(--hm-text-xs)" }}>{competitionName}, efter omgång {fixture.round}</div>
             </div>
           </div>
         </div>

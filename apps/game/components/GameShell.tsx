@@ -5,8 +5,8 @@ import { usePathname, useRouter } from "next/navigation";
 import type { ReactNode } from "react";
 import ClubCrest from "./ClubCrest";
 import NavIcon, { type NavIconName } from "./NavIcon";
-import { getPlayerClub } from "@/lib/game-data";
 import { useCareer } from "@/lib/career/CareerContext";
+import { getCareerClub } from "@/lib/career/careerWorld";
 import { getNextEventDate } from "@/lib/career/calendar";
 import { formatGameDate } from "@/lib/career/dateUtils";
 
@@ -56,7 +56,7 @@ export default function GameShell({ children }: { children: ReactNode }) {
   const unread = career.inbox.filter((m) => !m.read).length;
   const editorEnabled = useEditorEnabled();
   const nav = useNav(unread, editorEnabled);
-  const club = getPlayerClub();
+  const club = getCareerClub(career);
   const nextEventDate = getNextEventDate(career);
 
   function handleContinue() {

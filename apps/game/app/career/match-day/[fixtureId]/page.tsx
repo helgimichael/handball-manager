@@ -2,8 +2,9 @@
 
 import { useEffect, useRef } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { getClub, getPlayer, getSquad } from "@/lib/game-data";
+import { getClub } from "@/lib/game-data";
 import { useCareer } from "@/lib/career/CareerContext";
+import { getCareerPlayer, getCareerSquad } from "@/lib/career/careerWorld";
 import { commentaryLine, formatMatchMinute } from "@/lib/liveMatch/commentary";
 import { useLiveMatch } from "@/lib/liveMatch/useLiveMatch";
 import type { PlaybackSpeed } from "@/lib/liveMatch/clock";
@@ -53,13 +54,14 @@ function LiveMatch({
   playerClubId: string;
 }) {
   const router = useRouter();
+  const { career } = useCareer();
   const { view, speed, setSpeed, startSecondHalf, instantResult } = useLiveMatch(result);
   const logRef = useRef<HTMLDivElement>(null);
 
   const home = getClub(fixture.homeClubId)!;
   const away = getClub(fixture.awayClubId)!;
   const isPlayerHome = fixture.homeClubId === playerClubId;
-  const ownSquad = getSquad();
+  const ownSquad = getCareerSquad(career);
 
   useEffect(() => {
     logRef.current?.scrollTo({ top: logRef.current.scrollHeight });
@@ -118,7 +120,7 @@ function LiveMatch({
                 <span className="hm-text-muted" style={{ width: 40, fontVariantNumeric: "tabular-nums" }}>
                   {formatMatchMinute(event.minute)}
                 </span>
-                <span style={{ fontWeight: event.type === "GOAL" ? 700 : 400 }}>{commentaryLine(event, home.name, away.name)}</span>
+                <span style={{ fontWeight: event.type === "GOAL" ? 700 : 400 }}>{commentaryLine(event, home.name, away.name, (id) => getCareerPlayer(career, id))}</span>
               </div>
             ))}
           </div>
@@ -151,7 +153,7 @@ function LiveMatch({
           </thead>
           <tbody>
             {ownContributions.map((c) => {
-              const player = getPlayer(c.playerId) ?? ownSquad.find((p) => p.id === c.playerId);
+              const player = getCareerPlayer(career, c.playerId) ?? ownSquad.find((p) => p.id === c.playerId);
               const liveGoals = ownPlayerGoals[c.playerId] ?? 0;
               return (
                 <tr key={c.playerId}>

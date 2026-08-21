@@ -1,8 +1,9 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { getClub, getPlayerClub, getSquad } from "@/lib/game-data";
+import { COMPETITIONS, getClub } from "@/lib/game-data";
 import { useCareer } from "@/lib/career/CareerContext";
+import { getCareerClub, getCareerSquad } from "@/lib/career/careerWorld";
 import { getNextPlayerFixture } from "@/lib/career/calendar";
 import { getLiveStandings } from "@/lib/career/standings";
 import ClubCrest from "@/components/ClubCrest";
@@ -11,9 +12,10 @@ import FormDots from "@/components/FormDots";
 export default function HomePage() {
   const router = useRouter();
   const { career } = useCareer();
-  const club = getPlayerClub();
+  const club = getCareerClub(career);
+  const competitionName = COMPETITIONS.find((c) => c.id === career.competitionId)?.name ?? "Ligan";
   const next = getNextPlayerFixture(career);
-  const squad = getSquad();
+  const squad = getCareerSquad(career);
   const injured = squad.filter((p) => career.playerStatuses[p.id]?.availability === "INJURED");
   const messages = [...career.inbox].reverse().slice(0, 4);
   const awaitingAttention = career.careerEvents.some(
@@ -48,7 +50,7 @@ export default function HomePage() {
           <div className="hm-panel-body">
             {career.seasonComplete ? (
               <div>
-                Slutplacering: <strong>{myPosition}:a plats</strong> i Allsvenskan {career.seasonId}.
+                Slutplacering: <strong>{myPosition}:a plats</strong> i {competitionName} {career.seasonId}.
               </div>
             ) : next ? (
               <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 24 }}>
@@ -58,7 +60,7 @@ export default function HomePage() {
                     {new Date(next.date).toLocaleDateString("sv-SE", { weekday: "short", day: "numeric", month: "short" })}
                   </div>
                   <div style={{ fontSize: "var(--hm-text-lg)", fontWeight: 800, color: "var(--hm-text-muted)" }}>vs</div>
-                  <div className="hm-eyebrow">Allsvenskan · Omg {next.round}</div>
+                  <div className="hm-eyebrow">{competitionName} · Omg {next.round}</div>
                 </div>
                 <TeamBlock clubId={next.awayClubId} />
               </div>
@@ -149,7 +151,7 @@ export default function HomePage() {
         {/* League table snippet */}
         <div className="hm-panel">
           <div className="hm-panel-header">
-            <span className="hm-panel-title">Allsvenskan — tabell</span>
+            <span className="hm-panel-title">{competitionName} — tabell</span>
             <button type="button" className="hm-btn hm-btn-sm hm-btn-ghost" onClick={() => router.push("/career/competitions")}>
               Full tabell →
             </button>
