@@ -16,3 +16,30 @@ export function markMessageRead(state: CareerState, messageId: string): CareerSt
     : state.careerEvents;
   return { ...state, inbox, careerEvents };
 }
+
+/**
+ * Archives one message (Spec §7). Refuses (no-ops, same state reference)
+ * for an unresolved ACTION_REQUIRED message -- archiving must never hide
+ * a blocking game requirement (Spec §25). Callers that need to know
+ * whether the archive actually happened should compare the returned
+ * state by reference, matching this module's existing no-op convention.
+ */
+export function archiveMessage(state: CareerState, messageId: string): CareerState {
+  const message = state.inbox.find((m) => m.id === messageId);
+  if (!message || message.archived) {
+    return state;
+  }
+  if (message.actionRequired && !message.resolved) {
+    return state;
+  }
+  return { ...state, inbox: state.inbox.map((m) => (m.id === messageId ? { ...m, archived: true } : m)) };
+}
+
+/** Restores one archived message back to the active Inbox. No-ops if it wasn't archived or the id is unknown. */
+export function unarchiveMessage(state: CareerState, messageId: string): CareerState {
+  const message = state.inbox.find((m) => m.id === messageId);
+  if (!message || !message.archived) {
+    return state;
+  }
+  return { ...state, inbox: state.inbox.map((m) => (m.id === messageId ? { ...m, archived: false } : m)) };
+}

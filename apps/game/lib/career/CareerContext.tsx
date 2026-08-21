@@ -6,7 +6,7 @@ import { getClub, type PlayerMock } from "../game-data";
 import { getActiveSave, saveCareerState, type CareerSave } from "../save/saveRepository";
 import { createNewCareerState } from "./newCareer";
 import { continueCareerRhythm, type ContinueStopReason } from "./continueController";
-import { markMessageRead } from "./inboxActions";
+import { archiveMessage, markMessageRead, unarchiveMessage } from "./inboxActions";
 import { playManagerFixture } from "./matchdayAction";
 import { migrateCareerState } from "./saveMigration";
 import type { CareerEvent } from "./careerEvents";
@@ -27,6 +27,10 @@ type CareerContextValue = {
   playManagerFixture: () => { result: FastMatchResult | null };
   /** Marks one Inbox message (and its linked CareerEvent, if any) as read, and persists. */
   markInboxMessageRead: (messageId: string) => void;
+  /** Archives one Inbox message. No-ops (and the caller should not assume success) for an unresolved ACTION_REQUIRED message (Spec §25). */
+  archiveInboxMessage: (messageId: string) => void;
+  /** Restores one archived Inbox message to the active Inbox. */
+  unarchiveInboxMessage: (messageId: string) => void;
 };
 
 const CareerContext = createContext<CareerContextValue | null>(null);
@@ -121,6 +125,24 @@ export function CareerProvider({ children }: { children: ReactNode }) {
     setValue({ save: value!.save, career: nextCareer });
   }
 
+  function archiveInboxMessage(messageId: string) {
+    const nextCareer = archiveMessage(value!.career, messageId);
+    if (nextCareer === value!.career) {
+      return;
+    }
+    saveCareerState(value!.save.saveId, nextCareer);
+    setValue({ save: value!.save, career: nextCareer });
+  }
+
+  function unarchiveInboxMessage(messageId: string) {
+    const nextCareer = unarchiveMessage(value!.career, messageId);
+    if (nextCareer === value!.career) {
+      return;
+    }
+    saveCareerState(value!.save.saveId, nextCareer);
+    setValue({ save: value!.save, career: nextCareer });
+  }
+
   return (
     <CareerContext.Provider
       value={{
@@ -129,6 +151,8 @@ export function CareerProvider({ children }: { children: ReactNode }) {
         continueCareer,
         playManagerFixture: playManagerFixtureAction,
         markInboxMessageRead,
+        archiveInboxMessage,
+        unarchiveInboxMessage,
       }}
     >
       {children}
