@@ -18,6 +18,13 @@ import { positionLabel } from "@/lib/game-data";
 import type { HandballPosition } from "@/lib/game-data";
 import { useCareer } from "@/lib/career/CareerContext";
 import { getCareerSquad } from "@/lib/career/careerWorld";
+import {
+  ATI001_USAGE_TENDENCY_VALUES,
+  H2_RESPONSE_PREFERENCE_VALUES,
+  TACTICAL_FAMILIARITY_VALUES,
+  capabilityLevelLabel,
+  h2ResponseLabel,
+} from "@/lib/career/teamTacticalProfile";
 
 function noop() {}
 
@@ -48,8 +55,9 @@ const TACTICS_SCENE = (() => {
 })();
 
 export default function TacticsPage() {
-  const { career } = useCareer();
+  const { career, updateTacticalProfile } = useCareer();
   const squad = getCareerSquad(career);
+  const profile = career.tacticalProfile;
 
   const starters = useMemo(() => {
     const picked: typeof squad[number][] = [];
@@ -165,6 +173,76 @@ export default function TacticsPage() {
             ))}
           </div>
         </div>
+        <div className="hm-panel">
+          <div className="hm-panel-header">
+            <span className="hm-panel-title">Taktisk profil</span>
+          </div>
+          <div className="hm-panel-body" style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+            <SegmentedControl
+              label="ATI-001-benägenhet"
+              value={profile.ati001UsageTendency}
+              options={ATI001_USAGE_TENDENCY_VALUES}
+              renderLabel={capabilityLevelLabel}
+              onChange={(v) => updateTacticalProfile({ ati001UsageTendency: v })}
+            />
+            <SegmentedControl
+              label="H2-respons (TI-001)"
+              value={profile.h2ResponsePreference}
+              options={H2_RESPONSE_PREFERENCE_VALUES}
+              renderLabel={h2ResponseLabel}
+              onChange={(v) => updateTacticalProfile({ h2ResponsePreference: v })}
+            />
+            <SegmentedControl
+              label="Taktisk förtrogenhet"
+              value={profile.tacticalFamiliarity}
+              options={TACTICAL_FAMILIARITY_VALUES}
+              renderLabel={capabilityLevelLabel}
+              onChange={(v) => updateTacticalProfile({ tacticalFamiliarity: v })}
+            />
+            <p className="hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)", margin: 0 }}>
+              Påverkar ännu inte matchsimuleringen — plumbing inför framtida Fast Match-integration.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function SegmentedControl<T extends string>({
+  label,
+  value,
+  options,
+  renderLabel,
+  onChange,
+}: {
+  label: string;
+  value: T;
+  options: readonly T[];
+  renderLabel: (option: T) => string;
+  onChange: (value: T) => void;
+}) {
+  return (
+    <div>
+      <div className="hm-eyebrow" style={{ marginBottom: 4 }}>
+        {label}
+      </div>
+      <div style={{ display: "flex", gap: 4, flexWrap: "wrap" }}>
+        {options.map((option) => (
+          <button
+            key={option}
+            type="button"
+            className="hm-btn hm-btn-sm"
+            style={{
+              background: option === value ? "var(--hm-accent)" : undefined,
+              borderColor: option === value ? "var(--hm-accent)" : undefined,
+              color: option === value ? "#fff" : undefined,
+            }}
+            onClick={() => onChange(option)}
+          >
+            {renderLabel(option)}
+          </button>
+        ))}
       </div>
     </div>
   );
