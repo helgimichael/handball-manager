@@ -58,6 +58,21 @@ test("playManagerFixture is a safe no-op when there is no unplayed manager fixtu
   assert.equal(state, fresh);
 });
 
+test("HM-MATCH-0.1: Live Match and Instant Result use the identical pre-generated result (both paths call playManagerFixture once, nothing path-dependent)", () => {
+  // Both match-preview buttons (SPELA MATCH -> live match-day screen,
+  // SNABBRESULTAT -> straight to match-report) call this exact same
+  // function; simulate both starting from the identical pre-matchday
+  // state to prove there is no hidden path-dependent randomness.
+  const liveState = stateAtMatchday();
+  const instantState = stateAtMatchday();
+  assert.deepEqual(liveState, instantState, "both paths must start from the identical pre-matchday state");
+
+  const live = playManagerFixture(liveState);
+  const instant = playManagerFixture(instantState);
+  assert.deepEqual(live.result, instant.result, "Live Match and Instant Result must reveal the same FastMatchResult");
+  assert.deepEqual(live.state.results, instant.state.results);
+});
+
 test("playManagerFixture never re-simulates an already-played fixture (idempotent)", () => {
   const state = stateAtMatchday();
   const fixture = getPlayerFixtureOn(state, SEASON_START)!;
