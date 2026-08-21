@@ -31,7 +31,10 @@ export type ManagerProfile = {
 // model. See career/saveMigration.ts for the CareerState-level backfill;
 // this constant only marks the save envelope as up to date once that
 // migration has run and been persisted.
-export const CURRENT_SAVE_SCHEMA_VERSION = 5;
+// v6 (HM-TACTICS-0.6A): CareerState gained `tacticalProfile` (the
+// minimal TeamTacticalProfile prerequisite for future Fast Match
+// integration -- not consumed by Fast Match yet).
+export const CURRENT_SAVE_SCHEMA_VERSION = 6;
 
 export type CareerSave = {
   saveId: string;

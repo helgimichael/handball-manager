@@ -9,6 +9,8 @@ import { continueCareerRhythm, type ContinueStopReason } from "./continueControl
 import { archiveMessage, markMessageRead, unarchiveMessage } from "./inboxActions";
 import { playManagerFixture } from "./matchdayAction";
 import { migrateCareerState } from "./saveMigration";
+import { updateTacticalProfile } from "./tacticalProfileActions";
+import type { TeamTacticalProfile } from "./teamTacticalProfile";
 import type { CareerEvent } from "./careerEvents";
 import type { CareerState } from "./types";
 
@@ -31,6 +33,8 @@ type CareerContextValue = {
   archiveInboxMessage: (messageId: string) => void;
   /** Restores one archived Inbox message to the active Inbox. */
   unarchiveInboxMessage: (messageId: string) => void;
+  /** Updates only the manager's TeamTacticalProfile (HM-TACTICS-0.6A), and persists. Not consumed by Fast Match yet. */
+  updateTacticalProfile: (changes: Partial<TeamTacticalProfile>) => void;
 };
 
 const CareerContext = createContext<CareerContextValue | null>(null);
@@ -143,6 +147,12 @@ export function CareerProvider({ children }: { children: ReactNode }) {
     setValue({ save: value!.save, career: nextCareer });
   }
 
+  function updateTacticalProfileAction(changes: Partial<TeamTacticalProfile>) {
+    const nextCareer = updateTacticalProfile(value!.career, changes);
+    saveCareerState(value!.save.saveId, nextCareer);
+    setValue({ save: value!.save, career: nextCareer });
+  }
+
   return (
     <CareerContext.Provider
       value={{
@@ -153,6 +163,7 @@ export function CareerProvider({ children }: { children: ReactNode }) {
         markInboxMessageRead,
         archiveInboxMessage,
         unarchiveInboxMessage,
+        updateTacticalProfile: updateTacticalProfileAction,
       }}
     >
       {children}

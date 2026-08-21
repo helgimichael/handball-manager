@@ -3,6 +3,7 @@ import type { InboxMessage, PlayerMock } from "../game-data";
 import type { CareerEvent } from "./careerEvents";
 import type { CareerTask } from "./careerTasks";
 import type { PlayerCareerStatus } from "./playerStatus";
+import type { TeamTacticalProfile } from "./teamTacticalProfile";
 
 export type CareerFixture = {
   id: string;
@@ -91,6 +92,16 @@ export type CareerState = {
    * existing static game-data mock modules (TUMBA_SQUAD etc.).
    */
   worldSquads: Record<string, PlayerMock[]>;
+
+  // --- HM-TACTICS-0.6A addition (career-state schema v6, see saveMigration.ts) ---
+
+  /**
+   * The manager's own team-level tactical profile (Spec: minimal
+   * TeamTacticalProfile prerequisite for future Fast Match integration).
+   * Read-only plumbing in this milestone -- nothing in Fast Match, Live
+   * Match, or Analysis Hub consumes it yet.
+   */
+  tacticalProfile: TeamTacticalProfile;
 };
 
 export type CareerSaveEnvelope = {

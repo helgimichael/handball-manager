@@ -4,6 +4,7 @@ import type { PlayerMock } from "../game-data";
 import { addDays } from "./dateUtils";
 import { seedCareerTasks } from "./careerTasks";
 import { seedPlayerStatuses } from "./playerStatus";
+import { defaultTeamTacticalProfile } from "./teamTacticalProfile";
 import type { CareerState } from "./types";
 
 const FALLBACK_COMPETITION_ID = "swe-2"; // used only if playerClubId doesn't resolve to a known club
@@ -65,5 +66,6 @@ export function createNewCareerState(
     playerStatuses: seedPlayerStatuses(GAME_CURRENT_DATE, playerSquad),
     tasks: seedCareerTasks(GAME_CURRENT_DATE),
     worldSquads,
+    tacticalProfile: defaultTeamTacticalProfile(),
   };
 }

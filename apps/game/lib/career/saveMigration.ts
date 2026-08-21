@@ -13,6 +13,7 @@
 import { TUMBA_SQUAD, type InboxCategory, type InboxMessage } from "../game-data";
 import { seedCareerTasks } from "./careerTasks";
 import { seedPlayerStatuses } from "./playerStatus";
+import { defaultTeamTacticalProfile } from "./teamTacticalProfile";
 import type { CareerState } from "./types";
 
 // HM-GAME-0.4: InboxMessage.category was a set of Swedish string
@@ -85,6 +86,14 @@ export function migrateCareerState(career: CareerState): CareerState {
   );
   if (needsInboxMigration) {
     next = { ...next, inbox: next.inbox.map((m) => migrateInboxMessage(m, next.careerEvents)) };
+  }
+
+  // HM-TACTICS-0.6A (career-state schema v6): additive. An existing
+  // career simply never had a tactical profile to change -- it gets the
+  // same deterministic default a brand-new career would, never an
+  // invented/random one.
+  if (next.tacticalProfile === undefined) {
+    next = { ...next, tacticalProfile: defaultTeamTacticalProfile() };
   }
 
   return next;
