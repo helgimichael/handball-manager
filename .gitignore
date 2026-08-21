@@ -5,3 +5,11 @@ dist/
 .DS_Store
 .next/
 next-env.d.ts
+
+# Local-only env config (e.g. HM_EDITOR_ENABLED) -- never committed.
+.env
+.env.local
+.env.*.local
+
+# HM-DATA-EDITOR-0.1: single-backup-per-file safety copies created on save.
+*.bak

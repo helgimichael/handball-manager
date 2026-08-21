@@ -1,0 +1,48 @@
+[
+  {
+    "playerId": "test_player_alpha_00000001",
+    "firstName": "Alpha",
+    "lastName": "Testsson",
+    "fullName": "Alpha Testsson",
+    "aliases": [],
+    "dateOfBirth": "2000-01-15",
+    "birthYear": 2000,
+    "nationalities": [
+      "SE"
+    ],
+    "heightCm": 190,
+    "handedness": "RIGHT",
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_fixture_alpha"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "test_player_beta_00000002",
+    "firstName": "Beta",
+    "lastName": "Testsson",
+    "fullName": "Beta Testsson",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": 1998,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "fieldConfidence": {},
+    "sourceRefs": {
+      "identity": [
+        "src_fixture_beta"
+      ]
+    },
+    "dataNotes": [
+      "Fixture note for beta."
+    ]
+  }
+]

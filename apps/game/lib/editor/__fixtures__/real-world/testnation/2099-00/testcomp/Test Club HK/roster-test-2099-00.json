@@ -1,0 +1,50 @@
+[
+  {
+    "rosterEntryId": "test_roster_alpha",
+    "playerId": "test_player_alpha_00000001",
+    "clubId": "test_club_fixture",
+    "competitionId": "test_competition",
+    "season": "2099/00",
+    "snapshotDate": "2099-01-01",
+    "shirtNumber": 7,
+    "sourcePosition": "Höger back",
+    "primaryPosition": "H9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": "2099/00",
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_fixture_alpha"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "test_roster_beta",
+    "playerId": "test_player_beta_00000002",
+    "clubId": "test_club_fixture",
+    "competitionId": "test_competition",
+    "season": "2099/00",
+    "snapshotDate": "2099-01-01",
+    "shirtNumber": null,
+    "sourcePosition": "Målvakt",
+    "primaryPosition": "MV",
+    "secondaryPositions": [],
+    "rosterStatus": "UNCERTAIN",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "PARTIAL",
+    "sourceRefs": {
+      "roster": [
+        "src_fixture_beta"
+      ]
+    }
+  }
+]

@@ -1,0 +1,11 @@
+{
+  "milestone": "HM-DATA-EDITOR-0.1-TEST-FIXTURE",
+  "club": "Test Club HK",
+  "snapshotDate": "2099-01-01",
+  "files": [
+    "players-test.json",
+    "roster-test-2099-00.json",
+    "sources-test.json",
+    "qc-test.json"
+  ]
+}

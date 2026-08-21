@@ -1,0 +1,16 @@
+[
+  {
+    "sourceId": "src_fixture_alpha",
+    "sourceType": "CLUB_OFFICIAL",
+    "publisher": "Test Club HK",
+    "title": "Fixture roster page",
+    "url": "https://example.invalid/test-club/roster"
+  },
+  {
+    "sourceId": "src_fixture_beta",
+    "sourceType": "CLUB_OFFICIAL",
+    "publisher": "Test Club HK",
+    "title": "Fixture roster page",
+    "url": "https://example.invalid/test-club/roster"
+  }
+]
