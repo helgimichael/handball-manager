@@ -219,3 +219,27 @@ test("works with no roster supplied (AI-vs-AI abstract simulation)", () => {
   assert.equal(r.awayPlayerContributions.length, 0);
   assert.ok(r.homeGoals >= 16 && r.homeGoals <= 40);
 });
+
+test("HM-TACTICS-0.6B: homeTacticalAdjustment/awayTacticalAdjustment are optional and backward-compatible -- omitting them reproduces the exact pre-existing result", () => {
+  const withoutFields = simulateMatch(baseInput(999));
+  const withUndefinedFields: SimulateMatchInput = { ...baseInput(999), homeTacticalAdjustment: undefined, awayTacticalAdjustment: undefined };
+  assert.deepEqual(simulateMatch(withUndefinedFields), withoutFields);
+});
+
+test("HM-TACTICS-0.6B: a positive homeTacticalAdjustment averages MORE home goals than none, across many seeds -- combines additively with form, never replacing it", () => {
+  const SAMPLE_SEEDS = 40;
+  let plainTotal = 0;
+  let tacticalTotal = 0;
+  let formPlusTacticalTotal = 0;
+  let formOnlyTotal = 0;
+
+  for (let seed = 0; seed < SAMPLE_SEEDS; seed += 1) {
+    plainTotal += simulateMatch(baseInput(seed)).homeGoals;
+    tacticalTotal += simulateMatch({ ...baseInput(seed), homeTacticalAdjustment: 1.2 }).homeGoals;
+    formOnlyTotal += simulateMatch({ ...baseInput(seed), homeFormAdjustment: 1 }).homeGoals;
+    formPlusTacticalTotal += simulateMatch({ ...baseInput(seed), homeFormAdjustment: 1, homeTacticalAdjustment: 1.2 }).homeGoals;
+  }
+
+  assert.ok(tacticalTotal / SAMPLE_SEEDS > plainTotal / SAMPLE_SEEDS, "a positive tactical adjustment alone must average more home goals than none");
+  assert.ok(formPlusTacticalTotal / SAMPLE_SEEDS > formOnlyTotal / SAMPLE_SEEDS, "adding a positive tactical adjustment on top of form must average even more home goals than form alone -- additive, not replacing");
+});

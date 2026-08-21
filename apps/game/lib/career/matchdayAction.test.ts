@@ -8,8 +8,8 @@ import { TUMBA_CLUB_ID } from "../game-data";
 
 const SEASON_START = "2026-08-19";
 
-function stateAtMatchday() {
-  const fresh = createNewCareerState("matchday-action-seed", TUMBA_CLUB_ID);
+function stateAtMatchday(seed = "matchday-action-seed") {
+  const fresh = createNewCareerState(seed, TUMBA_CLUB_ID);
   return processDay(fresh, SEASON_START).state;
 }
 
@@ -83,4 +83,57 @@ test("playManagerFixture never re-simulates an already-played fixture (idempoten
   assert.equal(second.result, null, "the fixture is already resolved -- nothing left to simulate");
   const completedEvents = second.state.careerEvents.filter((e) => e.type === "MATCH_COMPLETED" && e.primaryEntity?.entityId === fixture.id);
   assert.equal(completedEvents.length, 1, "MATCH_COMPLETED must not duplicate");
+});
+
+test("HM-TACTICS-0.6B: changing the manager's TeamTacticalProfile before playing a fixture directionally shifts the manager's own goals across several seeded fixtures (never a claim of realistic percentages)", () => {
+  const SAMPLE_SEEDS = 15;
+  let lowGoalsTotal = 0;
+  let highGoalsTotal = 0;
+
+  for (let i = 0; i < SAMPLE_SEEDS; i += 1) {
+    const seed = `tactical-directional-${i}`;
+    const lowState = { ...stateAtMatchday(seed), tacticalProfile: { ati001UsageTendency: "LOW" as const, h2ResponsePreference: "H2_STEPS" as const, tacticalFamiliarity: "MEDIUM" as const } };
+    const highState = { ...stateAtMatchday(seed), tacticalProfile: { ati001UsageTendency: "HIGH" as const, h2ResponsePreference: "H2_STEPS" as const, tacticalFamiliarity: "MEDIUM" as const } };
+
+    const fixture = getPlayerFixtureOn(lowState, SEASON_START)!;
+    const isHome = fixture.homeClubId === TUMBA_CLUB_ID;
+
+    const lowResult = playManagerFixture(lowState).result!;
+    const highResult = playManagerFixture(highState).result!;
+
+    lowGoalsTotal += isHome ? lowResult.homeGoals : lowResult.awayGoals;
+    highGoalsTotal += isHome ? highResult.homeGoals : highResult.awayGoals;
+  }
+
+  assert.ok(
+    highGoalsTotal / SAMPLE_SEEDS > lowGoalsTotal / SAMPLE_SEEDS,
+    `HIGH ati001UsageTendency must average more manager goals than LOW across ${SAMPLE_SEEDS} seeded fixtures (low avg=${lowGoalsTotal / SAMPLE_SEEDS}, high avg=${highGoalsTotal / SAMPLE_SEEDS})`,
+  );
+});
+
+test("HM-TACTICS-0.6B: the same (save, fixture, tactical profile) always replays to the identical FastMatchResult", () => {
+  const state = stateAtMatchday("tactical-determinism-seed");
+  const a = playManagerFixture(state).result;
+  const b = playManagerFixture(state).result;
+  assert.deepEqual(a, b);
+});
+
+test("HM-TACTICS-0.6B: AI-vs-AI fixtures on the same matchday are completely unaffected by the manager's TeamTacticalProfile", () => {
+  const seed = "tactical-ai-unaffected-seed";
+  const defaultProfileState = createNewCareerState(seed, TUMBA_CLUB_ID);
+  const customProfileState = {
+    ...defaultProfileState,
+    tacticalProfile: { ati001UsageTendency: "HIGH" as const, h2ResponsePreference: "H2_STOPS" as const, tacticalFamiliarity: "HIGH" as const },
+  };
+
+  const defaultTickResult = processDay(defaultProfileState, SEASON_START).state;
+  const customTickResult = processDay(customProfileState, SEASON_START).state;
+
+  const aiFixtureIds = Object.keys(defaultTickResult.results).filter(
+    (id) => defaultTickResult.results[id].homeClubId !== TUMBA_CLUB_ID && defaultTickResult.results[id].awayClubId !== TUMBA_CLUB_ID,
+  );
+  assert.ok(aiFixtureIds.length > 0, "at least one AI-vs-AI fixture must be due on the season's first matchday");
+  for (const id of aiFixtureIds) {
+    assert.deepEqual(customTickResult.results[id], defaultTickResult.results[id], `AI fixture ${id} must be byte-identical regardless of the manager's tactical profile`);
+  }
 });
