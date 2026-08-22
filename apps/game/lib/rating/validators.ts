@@ -155,6 +155,27 @@ export function paRatingFromPotentialAnchor(anchor: string, confidence: AbilityC
   return { value: null, confidence, plausibleRange: { ...band } };
 }
 
+/**
+ * HM-RATINGS-0.2 MODEL ADDITION: merges two or more qualitative
+ * potential-anchor bands into one wider plausibleRange -- span [min of
+ * all mins, max of all maxes], never an average. Real calibration
+ * exposed a case this single-anchor helper could not honestly
+ * represent: a player whose expert assessment explicitly straddles two
+ * adjacent bands (e.g. "future ceiling VERY_HIGH_TO_EXTREME", not
+ * cleanly one or the other). Forcing a choice between the two named
+ * bands would discard real information from the source evidence; a
+ * single average would fabricate false precision. Falls back to
+ * `unassessedAbilityRating` only if NONE of the given anchors are
+ * recognized.
+ */
+export function paRatingFromPotentialAnchors(anchors: string[], confidence: AbilityConfidence = "MEDIUM"): AbilityRating {
+  const bands = anchors.map((a) => PA_PRIOR_BANDS[a]).filter((b): b is PlausibleRange => b !== undefined);
+  if (bands.length === 0) return unassessedAbilityRating(PA_MIN, PA_MAX);
+  const min = Math.min(...bands.map((b) => b.min));
+  const max = Math.max(...bands.map((b) => b.max));
+  return { value: null, confidence, plausibleRange: { min, max } };
+}
+
 // ---------------------------------------------------------------------------
 // Role proficiency: an AttackRole must never appear in the defence list
 // and vice versa (attack position/role and defensive position/role are

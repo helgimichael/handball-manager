@@ -326,8 +326,22 @@ export interface AbilityRating {
  * development environment, individual trajectory and expert evidence
  * may move the distribution"). Used only to seed a PLAUSIBLE RANGE for a
  * qualitative potential anchor, never to assign a final point value.
+ *
+ * HM-RATINGS-0.2 MODEL FIX: NORMAL_OR_UNCERTAIN_POTENTIAL was added
+ * after the first real calibration pass (Malte Haglund) exposed a gap
+ * -- the Sweden Anchors source uses this exact anchor specifically to
+ * REJECT an inflated potential read (a prestigious foreign academy
+ * pathway that user expert assessment explicitly does NOT read as
+ * HIGH_POTENTIAL). Without a band for it, a caller had no honest way to
+ * represent "evidence exists, but it does not support elevated
+ * potential" other than the fully-unassessed fallback, which would
+ * discard the anti-bias anchor entirely. The band is deliberately WIDE
+ * and centered below the other bands -- it represents genuine
+ * uncertainty around ordinary/uncertain ability, not a confident
+ * "medium" prior.
  */
 export const PA_PRIOR_BANDS: Record<string, PlausibleRange> = {
+  NORMAL_OR_UNCERTAIN_POTENTIAL: { min: 90, max: 145 },
   DEVELOPMENT_POTENTIAL: { min: 105, max: 140 },
   HIGH_POTENTIAL: { min: 140, max: 165 },
   VERY_HIGH_POTENTIAL: { min: 160, max: 180 },
