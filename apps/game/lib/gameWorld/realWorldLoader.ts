@@ -25,6 +25,8 @@ export interface RealWorldPlayer {
   firstName: string;
   lastName: string;
   fullName: string;
+  /** Alternate names the source data itself records (e.g. a shorter club-roster display name for a player whose official full name is longer) -- see the source `dataNotes` field for why a given alias exists. Empty when the source lists none. */
+  aliases: string[];
   dateOfBirth: string | null;
   birthYear: number | null;
   nationalities: string[] | null;
@@ -76,6 +78,7 @@ function loadOne(catalog: EditorCatalog, clubId: string): RealWorldClubSquad | n
       firstName: String(p.firstName ?? ""),
       lastName: String(p.lastName ?? ""),
       fullName: String(p.fullName ?? `${p.firstName ?? ""} ${p.lastName ?? ""}`.trim()),
+      aliases: Array.isArray(p.aliases) ? (p.aliases as string[]) : [],
       dateOfBirth: (p.dateOfBirth as string | null) ?? null,
       birthYear: (p.birthYear as number | null) ?? null,
       nationalities: (p.nationalities as string[] | null) ?? null,
