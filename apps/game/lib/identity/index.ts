@@ -3,3 +3,4 @@
 // this is a standalone domain boundary until HM-STAFF-DATA-0.1/HM-IDENTITY-0.2.
 export * from "./types";
 export * from "./validators";
+export * from "./resolver";

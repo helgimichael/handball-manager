@@ -1,0 +1,170 @@
+{
+  "clubId": "se_club_ik_savehof",
+  "sourceDocument": "IK Sävehof CLUB IDENTITY v0.1",
+  "evidenceReferences": [
+    {
+      "id": "ev-savehof-club-model-structural-identity",
+      "sourceDocument": "IK Sävehof CLUB IDENTITY v0.1",
+      "sourceType": "APPROVED_PROFILE_DOCX",
+      "locator": "CLUB MODEL / STRUCTURAL IDENTITY"
+    },
+    {
+      "id": "ev-savehof-tactical-flexibility",
+      "sourceDocument": "IK Sävehof CLUB IDENTITY v0.1",
+      "sourceType": "APPROVED_PROFILE_DOCX",
+      "locator": "TACTICAL FLEXIBILITY"
+    },
+    {
+      "id": "ev-savehof-development-recruitment-identity",
+      "sourceDocument": "IK Sävehof CLUB IDENTITY v0.1",
+      "sourceType": "APPROVED_PROFILE_DOCX",
+      "locator": "DEVELOPMENT / RECRUITMENT IDENTITY"
+    }
+  ],
+  "profile": {
+    "clubId": "se_club_ik_savehof",
+    "seasonReference": "2026/27",
+    "structuralIdentity": [],
+    "cultureIdentity": [
+      {
+        "id": "club-savehof-identity-clarity",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_ik_savehof",
+        "domain": "CULTURE",
+        "key": "clubIdentityClarity",
+        "value": "VERY_STRONG",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-savehof-club-model-structural-identity"
+        ]
+      }
+    ],
+    "tacticalHeritage": [
+      {
+        "id": "club-savehof-tactical-flexibility",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_ik_savehof",
+        "domain": "TACTICAL_FLEXIBILITY",
+        "key": "tacticalFlexibility",
+        "value": "VERY_HIGH",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-savehof-tactical-flexibility"
+        ],
+        "notes": "The long-term club identity is not locked to the exact style of the current squad -- Sävehof can play most styles and adapt its tactical expression to personnel."
+      },
+      {
+        "id": "club-savehof-system-adaptability",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_ik_savehof",
+        "domain": "TACTICAL_FLEXIBILITY",
+        "key": "systemAdaptability",
+        "value": "VERY_HIGH",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-savehof-tactical-flexibility"
+        ]
+      }
+    ],
+    "developmentIdentity": [
+      {
+        "id": "club-savehof-player-development",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_ik_savehof",
+        "domain": "DEVELOPMENT",
+        "key": "playerDevelopmentQuality",
+        "value": "ELITE",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-savehof-club-model-structural-identity"
+        ]
+      },
+      {
+        "id": "club-savehof-youth-production",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_ik_savehof",
+        "domain": "DEVELOPMENT",
+        "key": "youthProduction",
+        "value": "ELITE",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-savehof-club-model-structural-identity"
+        ]
+      },
+      {
+        "id": "club-savehof-talent-pipeline-depth",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_ik_savehof",
+        "domain": "DEVELOPMENT",
+        "key": "talentPipelineDepth",
+        "value": "EXCEPTIONAL",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-savehof-club-model-structural-identity"
+        ]
+      },
+      {
+        "id": "club-savehof-academy-scale",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_ik_savehof",
+        "domain": "DEVELOPMENT",
+        "key": "academyScale",
+        "value": "VERY_LARGE",
+        "evidenceClass": "VERIFIED_EXTERNAL_DATA",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-savehof-development-recruitment-identity"
+        ]
+      },
+      {
+        "id": "club-savehof-youth-to-senior-pathway",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_ik_savehof",
+        "domain": "DEVELOPMENT",
+        "key": "youthToSeniorPathway",
+        "value": "VERIFIED",
+        "evidenceClass": "VERIFIED_EXTERNAL_DATA",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-savehof-development-recruitment-identity"
+        ]
+      },
+      {
+        "id": "club-savehof-development-export-pathway",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_ik_savehof",
+        "domain": "DEVELOPMENT",
+        "key": "developmentToExportPathway",
+        "value": "VERIFIED",
+        "evidenceClass": "VERIFIED_EXTERNAL_DATA",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-savehof-development-recruitment-identity"
+        ]
+      }
+    ],
+    "recruitmentIdentity": [
+      {
+        "id": "club-savehof-recruitment-quality",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_ik_savehof",
+        "domain": "RECRUITMENT",
+        "key": "recruitmentQuality",
+        "value": "ELITE",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-savehof-club-model-structural-identity"
+        ]
+      }
+    ],
+    "financialStrategicIdentity": [],
+    "supporterEnvironmentIdentity": []
+  }
+}

@@ -1,0 +1,81 @@
+{
+  "clubId": "se_club_hk_malmo",
+  "season": "2026/27",
+  "sourceDocument": "HK Malmö CLUB IDENTITY v0.1",
+  "evidenceReferences": [
+    {
+      "id": "ev-hkmalmo-current-team-context-2026-27",
+      "sourceDocument": "HK Malmö CLUB IDENTITY v0.1",
+      "sourceType": "APPROVED_PROFILE_DOCX",
+      "locator": "CURRENT TEAM CONTEXT — 2026/27"
+    }
+  ],
+  "context": {
+    "clubId": "se_club_hk_malmo",
+    "season": "2026/27",
+    "organisationalClaims": [],
+    "financialClaims": [],
+    "squadClaims": [
+      {
+        "id": "season-hkmalmo-key-player-losses",
+        "subjectType": "SEASON_CONTEXT",
+        "subjectId": "se_club_hk_malmo",
+        "domain": "SQUAD_TRANSITION",
+        "key": "keyPlayerLosses",
+        "value": "HIGH",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "SEASON",
+        "season": "2026/27",
+        "sourceRefs": [
+          "ev-hkmalmo-current-team-context-2026-27"
+        ]
+      },
+      {
+        "id": "season-hkmalmo-squad-continuity",
+        "subjectType": "SEASON_CONTEXT",
+        "subjectId": "se_club_hk_malmo",
+        "domain": "SQUAD_TRANSITION",
+        "key": "squadContinuity",
+        "value": "LOW_TRANSITION",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "SEASON",
+        "season": "2026/27",
+        "sourceRefs": [
+          "ev-hkmalmo-current-team-context-2026-27"
+        ]
+      }
+    ],
+    "competitiveClaims": [
+      {
+        "id": "season-hkmalmo-relative-squad-strength",
+        "subjectType": "SEASON_CONTEXT",
+        "subjectId": "se_club_hk_malmo",
+        "domain": "COMPETITIVE",
+        "key": "relativeSquadStrengthVsPreviousSeason",
+        "value": "LOWER",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "SEASON",
+        "season": "2026/27",
+        "sourceRefs": [
+          "ev-hkmalmo-current-team-context-2026-27"
+        ]
+      }
+    ],
+    "transitionClaims": [
+      {
+        "id": "season-hkmalmo-coaching-demands-transition",
+        "subjectType": "SEASON_CONTEXT",
+        "subjectId": "se_club_hk_malmo",
+        "domain": "ORGANISATIONAL_TRANSITION",
+        "key": "coachingDemandsUnderTransition",
+        "value": "VERY_HIGH",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "SEASON",
+        "season": "2026/27",
+        "sourceRefs": [
+          "ev-hkmalmo-current-team-context-2026-27"
+        ]
+      }
+    ]
+  }
+}

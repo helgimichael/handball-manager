@@ -1,0 +1,76 @@
+{
+  "clubId": "se_club_ik_savehof",
+  "season": "2026/27",
+  "sourceDocument": "IK Sävehof CLUB IDENTITY v0.1",
+  "evidenceReferences": [
+    {
+      "id": "ev-savehof-current-team-profile",
+      "sourceDocument": "IK Sävehof CLUB IDENTITY v0.1",
+      "sourceType": "APPROVED_PROFILE_DOCX",
+      "locator": "CURRENT TEAM PROFILE — 2026/27"
+    }
+  ],
+  "context": {
+    "clubId": "se_club_ik_savehof",
+    "season": "2026/27",
+    "claims": [
+      {
+        "id": "squad-savehof-technical-skill",
+        "subjectType": "SQUAD",
+        "subjectId": "se_club_ik_savehof",
+        "domain": "SQUAD_COMPOSITION",
+        "key": "technicalSkill",
+        "value": "VERY_HIGH",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "CURRENT",
+        "season": "2026/27",
+        "sourceRefs": [
+          "ev-savehof-current-team-profile"
+        ]
+      },
+      {
+        "id": "squad-savehof-speed-mobility",
+        "subjectType": "SQUAD",
+        "subjectId": "se_club_ik_savehof",
+        "domain": "SQUAD_COMPOSITION",
+        "key": "speedMobilityProfile",
+        "value": "VERY_HIGH",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "CURRENT",
+        "season": "2026/27",
+        "sourceRefs": [
+          "ev-savehof-current-team-profile"
+        ]
+      },
+      {
+        "id": "squad-savehof-physical-profile",
+        "subjectType": "SQUAD",
+        "subjectId": "se_club_ik_savehof",
+        "domain": "SQUAD_COMPOSITION",
+        "key": "currentPhysicalProfile",
+        "value": "LIGHTER_LESS_PHYSICAL",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "CURRENT",
+        "season": "2026/27",
+        "sourceRefs": [
+          "ev-savehof-current-team-profile"
+        ]
+      },
+      {
+        "id": "squad-savehof-goalkeeper-strength",
+        "subjectType": "SQUAD",
+        "subjectId": "se_club_ik_savehof",
+        "domain": "SQUAD_COMPOSITION",
+        "key": "currentGoalkeeperStrength",
+        "value": "VERY_STRONG",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "CURRENT",
+        "season": "2026/27",
+        "sourceRefs": [
+          "ev-savehof-current-team-profile"
+        ],
+        "notes": "Season-specific player context -- should later be represented primarily through the actual goalkeeper's own player profile rather than as a permanent club attribute."
+      }
+    ]
+  }
+}

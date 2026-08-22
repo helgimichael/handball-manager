@@ -1,0 +1,81 @@
+{
+  "clubId": "se_club_ov_helsingborg",
+  "season": "2026/27",
+  "sourceDocument": "OV Helsingborg HK CLUB IDENTITY v0.1",
+  "evidenceReferences": [
+    {
+      "id": "ev-ovhelsingborg-current-team-context-2026-27",
+      "sourceDocument": "OV Helsingborg HK CLUB IDENTITY v0.1",
+      "sourceType": "APPROVED_PROFILE_DOCX",
+      "locator": "CURRENT TEAM CONTEXT — 2026/27"
+    }
+  ],
+  "context": {
+    "clubId": "se_club_ov_helsingborg",
+    "season": "2026/27",
+    "organisationalClaims": [],
+    "financialClaims": [],
+    "squadClaims": [
+      {
+        "id": "season-ov-squad-change",
+        "subjectType": "SEASON_CONTEXT",
+        "subjectId": "se_club_ov_helsingborg",
+        "domain": "SQUAD_TRANSITION",
+        "key": "teamSquadChange",
+        "value": "HIGH",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "SEASON",
+        "season": "2026/27",
+        "sourceRefs": [
+          "ev-ovhelsingborg-current-team-context-2026-27"
+        ]
+      }
+    ],
+    "competitiveClaims": [
+      {
+        "id": "season-ov-tactical-certainty",
+        "subjectType": "SEASON_CONTEXT",
+        "subjectId": "se_club_ov_helsingborg",
+        "domain": "COMPETITIVE",
+        "key": "tacticalCertainty",
+        "value": "LOW",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "SEASON",
+        "season": "2026/27",
+        "sourceRefs": [
+          "ev-ovhelsingborg-current-team-context-2026-27"
+        ]
+      },
+      {
+        "id": "season-ov-previous-season",
+        "subjectType": "SEASON_CONTEXT",
+        "subjectId": "se_club_ov_helsingborg",
+        "domain": "COMPETITIVE",
+        "key": "previousSeasonResult",
+        "value": "12TH_RETAINED_VIA_QUALIFICATION",
+        "evidenceClass": "VERIFIED_EXTERNAL_DATA",
+        "temporalScope": "SEASON",
+        "season": "2026/27",
+        "sourceRefs": [
+          "ev-ovhelsingborg-current-team-context-2026-27"
+        ]
+      }
+    ],
+    "transitionClaims": [
+      {
+        "id": "season-ov-head-coach-transition",
+        "subjectType": "SEASON_CONTEXT",
+        "subjectId": "se_club_ov_helsingborg",
+        "domain": "ORGANISATIONAL_TRANSITION",
+        "key": "headCoachTransition",
+        "value": "TONI_JOHANSSON_TO_MAGNUS_SIGLEV",
+        "evidenceClass": "VERIFIED_EXTERNAL_DATA",
+        "temporalScope": "SEASON",
+        "season": "2026/27",
+        "sourceRefs": [
+          "ev-ovhelsingborg-current-team-context-2026-27"
+        ]
+      }
+    ]
+  }
+}

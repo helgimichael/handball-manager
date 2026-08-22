@@ -1,0 +1,106 @@
+{
+  "clubId": "se_club_hk_malmo",
+  "sourceDocument": "HK Malmö CLUB IDENTITY v0.1",
+  "evidenceReferences": [
+    {
+      "id": "ev-hkmalmo-verified-club-statement",
+      "sourceDocument": "HK Malmö CLUB IDENTITY v0.1",
+      "sourceType": "APPROVED_PROFILE_DOCX",
+      "locator": "VERIFIED EXTERNAL CLUB STATEMENT"
+    },
+    {
+      "id": "ev-hkmalmo-defensive-identity",
+      "sourceDocument": "HK Malmö CLUB IDENTITY v0.1",
+      "sourceType": "APPROVED_PROFILE_DOCX",
+      "locator": "DEFENSIVE IDENTITY"
+    },
+    {
+      "id": "ev-hkmalmo-recruitment-development-identity",
+      "sourceDocument": "HK Malmö CLUB IDENTITY v0.1",
+      "sourceType": "APPROVED_PROFILE_DOCX",
+      "locator": "RECRUITMENT / DEVELOPMENT IDENTITY"
+    }
+  ],
+  "profile": {
+    "clubId": "se_club_hk_malmo",
+    "seasonReference": "2026/27",
+    "structuralIdentity": [],
+    "cultureIdentity": [],
+    "tacticalHeritage": [
+      {
+        "id": "club-hkmalmo-club-statement-toughness",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_hk_malmo",
+        "domain": "DEFENCE",
+        "key": "clubStatedDirection",
+        "value": "DEFENCE_TOUGHNESS_DISCIPLINE_FIGHT",
+        "evidenceClass": "VERIFIED_EXTERNAL_CLUB_STATEMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-hkmalmo-verified-club-statement"
+        ],
+        "notes": "February 2026 official signing announcement describing desired team characteristics -- proves the club STATED this ambition, not that it has been achieved."
+      },
+      {
+        "id": "club-hkmalmo-defensive-toughness",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_hk_malmo",
+        "domain": "DEFENCE",
+        "key": "defensiveToughness",
+        "value": "VERY_STRONG",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-hkmalmo-defensive-identity"
+        ]
+      },
+      {
+        "id": "club-hkmalmo-defensive-physicality",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_hk_malmo",
+        "domain": "DEFENCE",
+        "key": "defensivePhysicality",
+        "value": "STRONG",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-hkmalmo-defensive-identity"
+        ]
+      }
+    ],
+    "developmentIdentity": [
+      {
+        "id": "club-hkmalmo-current-youth-integration",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_hk_malmo",
+        "domain": "DEVELOPMENT",
+        "key": "currentYouthIntegration",
+        "value": "GROWING",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "CURRENT",
+        "sourceRefs": [
+          "ev-hkmalmo-recruitment-development-identity"
+        ],
+        "notes": "The user assesses this as now changing -- the club should not be stored as a permanently external-recruitment-only model."
+      }
+    ],
+    "recruitmentIdentity": [
+      {
+        "id": "club-hkmalmo-historical-external-recruitment",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_hk_malmo",
+        "domain": "RECRUITMENT",
+        "key": "historicalExternalRecruitment",
+        "value": "STRONG",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "HISTORICAL",
+        "sourceRefs": [
+          "ev-hkmalmo-recruitment-development-identity"
+        ],
+        "notes": "Historically relied heavily on external recruitment (often Denmark/Balkan countries) to build the senior squad. Both this and the CURRENT-scoped growing youth-integration claim above may remain true in their respective time scopes (Spec §19's own worked example)."
+      }
+    ],
+    "financialStrategicIdentity": [],
+    "supporterEnvironmentIdentity": []
+  }
+}

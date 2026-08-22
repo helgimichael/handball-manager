@@ -1,0 +1,130 @@
+{
+  "clubId": "se_club_alingsas_hk",
+  "sourceDocument": "Alingsås HK CLUB IDENTITY v0.1",
+  "evidenceReferences": [
+    {
+      "id": "ev-alingsas-tactical-domain-mapping",
+      "sourceDocument": "Alingsås HK CLUB IDENTITY v0.1",
+      "sourceType": "APPROVED_PROFILE_DOCX",
+      "locator": "TACTICAL DOMAIN MAPPING"
+    }
+  ],
+  "profile": {
+    "clubId": "se_club_alingsas_hk",
+    "seasonReference": "2026/27",
+    "structuralIdentity": [],
+    "cultureIdentity": [],
+    "tacticalHeritage": [
+      {
+        "id": "club-alingsas-transition-identity",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_alingsas_hk",
+        "domain": "TRANSITION",
+        "key": "transitionIdentity",
+        "value": "STRONG",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-alingsas-tactical-domain-mapping"
+        ]
+      },
+      {
+        "id": "club-alingsas-primary-formation",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_alingsas_hk",
+        "domain": "DEFENCE",
+        "key": "primaryFormation",
+        "value": "6:0",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-alingsas-tactical-domain-mapping"
+        ]
+      },
+      {
+        "id": "club-alingsas-alternative-formation",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_alingsas_hk",
+        "domain": "DEFENCE",
+        "key": "alternativeFormation",
+        "value": "5:1",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-alingsas-tactical-domain-mapping"
+        ]
+      },
+      {
+        "id": "club-alingsas-central-defence-strength",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_alingsas_hk",
+        "domain": "DEFENCE",
+        "key": "centralDefenceStrength",
+        "value": "STRONG",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-alingsas-tactical-domain-mapping"
+        ]
+      },
+      {
+        "id": "club-alingsas-gk-transition-initiation",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_alingsas_hk",
+        "domain": "TRANSITION",
+        "key": "goalkeeperTransitionInitiation",
+        "value": "STRONG",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-alingsas-tactical-domain-mapping"
+        ]
+      },
+      {
+        "id": "club-alingsas-wing-transition-usage",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_alingsas_hk",
+        "domain": "TRANSITION",
+        "key": "wingTransitionUsage",
+        "value": "STRONG",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-alingsas-tactical-domain-mapping"
+        ]
+      }
+    ],
+    "developmentIdentity": [
+      {
+        "id": "club-alingsas-player-development",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_alingsas_hk",
+        "domain": "DEVELOPMENT",
+        "key": "playerDevelopmentOrientation",
+        "value": "STRONG",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-alingsas-tactical-domain-mapping"
+        ]
+      }
+    ],
+    "recruitmentIdentity": [
+      {
+        "id": "club-alingsas-selective-recruitment",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_alingsas_hk",
+        "domain": "RECRUITMENT",
+        "key": "selectiveYouthRecruitment",
+        "value": "STRONG",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-alingsas-tactical-domain-mapping"
+        ]
+      }
+    ],
+    "financialStrategicIdentity": [],
+    "supporterEnvironmentIdentity": []
+  }
+}

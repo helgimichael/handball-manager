@@ -1,0 +1,61 @@
+{
+  "clubId": "se_club_hammarby_if_hf",
+  "season": "2026/27",
+  "sourceDocument": "Hammarby IF HF CLUB IDENTITY v0.1",
+  "evidenceReferences": [
+    {
+      "id": "ev-hammarby-coaching-development-identity",
+      "sourceDocument": "Hammarby IF HF CLUB IDENTITY v0.1",
+      "sourceType": "APPROVED_PROFILE_DOCX",
+      "locator": "COACHING / DEVELOPMENT IDENTITY"
+    }
+  ],
+  "context": {
+    "clubId": "se_club_hammarby_if_hf",
+    "season": "2026/27",
+    "claims": [
+      {
+        "id": "squad-hammarby-continuity",
+        "subjectType": "SQUAD",
+        "subjectId": "se_club_hammarby_if_hf",
+        "domain": "SQUAD_COMPOSITION",
+        "key": "squadContinuity",
+        "value": "STRONG",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "CURRENT",
+        "season": "2026/27",
+        "sourceRefs": [
+          "ev-hammarby-coaching-development-identity"
+        ]
+      },
+      {
+        "id": "squad-hammarby-experience",
+        "subjectType": "SQUAD",
+        "subjectId": "se_club_hammarby_if_hf",
+        "domain": "SQUAD_COMPOSITION",
+        "key": "squadExperience",
+        "value": "VERY_STRONG",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "CURRENT",
+        "season": "2026/27",
+        "sourceRefs": [
+          "ev-hammarby-coaching-development-identity"
+        ]
+      },
+      {
+        "id": "squad-hammarby-depth",
+        "subjectType": "SQUAD",
+        "subjectId": "se_club_hammarby_if_hf",
+        "domain": "SQUAD_COMPOSITION",
+        "key": "squadDepth",
+        "value": "VERY_STRONG",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "CURRENT",
+        "season": "2026/27",
+        "sourceRefs": [
+          "ev-hammarby-coaching-development-identity"
+        ]
+      }
+    ]
+  }
+}

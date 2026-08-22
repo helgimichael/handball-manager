@@ -1,0 +1,84 @@
+{
+  "clubId": "se_club_ov_helsingborg",
+  "sourceDocument": "OV Helsingborg HK CLUB IDENTITY v0.1",
+  "evidenceReferences": [
+    {
+      "id": "ev-ovhelsingborg-tactical-identity-2026-27",
+      "sourceDocument": "OV Helsingborg HK CLUB IDENTITY v0.1",
+      "sourceType": "APPROVED_PROFILE_DOCX",
+      "locator": "TACTICAL IDENTITY — 2026/27"
+    },
+    {
+      "id": "ev-ovhelsingborg-user-projection",
+      "sourceDocument": "OV Helsingborg HK CLUB IDENTITY v0.1",
+      "sourceType": "APPROVED_PROFILE_DOCX",
+      "locator": "USER PROJECTION"
+    }
+  ],
+  "profile": {
+    "clubId": "se_club_ov_helsingborg",
+    "seasonReference": "2026/27",
+    "structuralIdentity": [],
+    "cultureIdentity": [],
+    "tacticalHeritage": [
+      {
+        "id": "club-ov-current-attacking-identity",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_ov_helsingborg",
+        "domain": "ATTACK",
+        "key": "currentAttackingIdentity",
+        "value": "NOT_YET_ESTABLISHED",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "CURRENT",
+        "sourceRefs": [
+          "ev-ovhelsingborg-tactical-identity-2026-27"
+        ],
+        "notes": "The user explicitly states it is unclear how OV will play under the new head coach -- genuinely unestablished, not omitted."
+      },
+      {
+        "id": "club-ov-current-defensive-identity",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_ov_helsingborg",
+        "domain": "DEFENCE",
+        "key": "currentDefensiveIdentity",
+        "value": "NOT_YET_ESTABLISHED",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "CURRENT",
+        "sourceRefs": [
+          "ev-ovhelsingborg-tactical-identity-2026-27"
+        ]
+      },
+      {
+        "id": "club-ov-projected-attacking-tempo",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_ov_helsingborg",
+        "domain": "ATTACK",
+        "key": "projectedAttackingTempo",
+        "value": "HIGH",
+        "evidenceClass": "USER_PROJECTION",
+        "temporalScope": "PROJECTED",
+        "sourceRefs": [
+          "ev-ovhelsingborg-user-projection"
+        ],
+        "notes": "Because Siglev is Danish, the user projects OV may move toward faster handball resembling many Danish teams. Stored as a projection, never an observed 2026/27 fact."
+      },
+      {
+        "id": "club-ov-projected-defensive-depth",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_ov_helsingborg",
+        "domain": "DEFENCE",
+        "key": "projectedDefensiveDepth",
+        "value": "HIGH_MORE_OFFENSIVE",
+        "evidenceClass": "USER_PROJECTION",
+        "temporalScope": "PROJECTED",
+        "sourceRefs": [
+          "ev-ovhelsingborg-user-projection"
+        ]
+      }
+    ],
+    "developmentIdentity": [],
+    "recruitmentIdentity": [],
+    "financialStrategicIdentity": [],
+    "supporterEnvironmentIdentity": []
+  }
+}

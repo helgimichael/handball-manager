@@ -1,0 +1,241 @@
+{
+  "clubId": "se_club_hammarby_if_hf",
+  "sourceDocument": "Hammarby IF HF CLUB IDENTITY v0.1",
+  "evidenceReferences": [
+    {
+      "id": "ev-hammarby-attack-identity",
+      "sourceDocument": "Hammarby IF HF CLUB IDENTITY v0.1",
+      "sourceType": "APPROVED_PROFILE_DOCX",
+      "locator": "ATTACK IDENTITY"
+    },
+    {
+      "id": "ev-hammarby-tempo-identity",
+      "sourceDocument": "Hammarby IF HF CLUB IDENTITY v0.1",
+      "sourceType": "APPROVED_PROFILE_DOCX",
+      "locator": "TEMPO IDENTITY"
+    },
+    {
+      "id": "ev-hammarby-defensive-identity",
+      "sourceDocument": "Hammarby IF HF CLUB IDENTITY v0.1",
+      "sourceType": "APPROVED_PROFILE_DOCX",
+      "locator": "DEFENSIVE IDENTITY"
+    },
+    {
+      "id": "ev-hammarby-transition-restart-identity",
+      "sourceDocument": "Hammarby IF HF CLUB IDENTITY v0.1",
+      "sourceType": "APPROVED_PROFILE_DOCX",
+      "locator": "TRANSITION / RESTART IDENTITY"
+    },
+    {
+      "id": "ev-hammarby-coaching-development-identity",
+      "sourceDocument": "Hammarby IF HF CLUB IDENTITY v0.1",
+      "sourceType": "APPROVED_PROFILE_DOCX",
+      "locator": "COACHING / DEVELOPMENT IDENTITY"
+    },
+    {
+      "id": "ev-hammarby-supporter-home-identity",
+      "sourceDocument": "Hammarby IF HF CLUB IDENTITY v0.1",
+      "sourceType": "APPROVED_PROFILE_DOCX",
+      "locator": "SUPPORTER / HOME IDENTITY"
+    }
+  ],
+  "profile": {
+    "clubId": "se_club_hammarby_if_hf",
+    "seasonReference": "2026/27",
+    "structuralIdentity": [],
+    "cultureIdentity": [
+      {
+        "id": "club-hammarby-supporter-identity",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_hammarby_if_hf",
+        "domain": "CULTURE",
+        "key": "supporterIdentity",
+        "value": "VERY_STRONG",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-hammarby-supporter-home-identity"
+        ]
+      },
+      {
+        "id": "club-hammarby-home-support",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_hammarby_if_hf",
+        "domain": "CULTURE",
+        "key": "homeSupport",
+        "value": "VERY_STRONG",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-hammarby-supporter-home-identity"
+        ]
+      }
+    ],
+    "tacticalHeritage": [
+      {
+        "id": "club-hammarby-positional-complexity",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_hammarby_if_hf",
+        "domain": "ATTACK",
+        "key": "positionalAttackComplexity",
+        "value": "SIMPLE",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-hammarby-attack-identity"
+        ]
+      },
+      {
+        "id": "club-hammarby-offensive-execution",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_hammarby_if_hf",
+        "domain": "ATTACK",
+        "key": "offensiveExecution",
+        "value": "STRONG",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-hammarby-attack-identity"
+        ]
+      },
+      {
+        "id": "club-hammarby-technical-error-tendency",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_hammarby_if_hf",
+        "domain": "ATTACK",
+        "key": "technicalErrorTendency",
+        "value": "LOW",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-hammarby-attack-identity"
+        ]
+      },
+      {
+        "id": "club-hammarby-7v6-usage",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_hammarby_if_hf",
+        "domain": "ATTACK",
+        "key": "sevenVSixUsage",
+        "value": "VERY_HIGH",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-hammarby-attack-identity"
+        ]
+      },
+      {
+        "id": "club-hammarby-tempo-control-flexibility",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_hammarby_if_hf",
+        "domain": "TACTICAL_FLEXIBILITY",
+        "key": "tempoControlAsFlexibilityTool",
+        "value": "STRONG_IDENTITY",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-hammarby-attack-identity",
+          "ev-hammarby-tempo-identity"
+        ],
+        "notes": "Hammarby's core identity is control of match tempo (can raise or lower it per opponent/context) rather than a fixed FAST or SLOW preference."
+      },
+      {
+        "id": "club-hammarby-tempo-adaptability",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_hammarby_if_hf",
+        "domain": "TACTICAL_FLEXIBILITY",
+        "key": "tempoAdaptability",
+        "value": "VERY_STRONG",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-hammarby-tempo-identity"
+        ]
+      },
+      {
+        "id": "club-hammarby-primary-formation",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_hammarby_if_hf",
+        "domain": "DEFENCE",
+        "key": "primaryFormation",
+        "value": "6:0",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-hammarby-defensive-identity"
+        ]
+      },
+      {
+        "id": "club-hammarby-high-2-defenders",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_hammarby_if_hf",
+        "domain": "DEFENCE",
+        "key": "high2Defenders",
+        "value": "STRONG_IDENTITY",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-hammarby-defensive-identity"
+        ]
+      },
+      {
+        "id": "club-hammarby-defensive-steering",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_hammarby_if_hf",
+        "domain": "DEFENCE",
+        "key": "defensiveSteering",
+        "value": "TOWARD_CENTRE",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-hammarby-defensive-identity"
+        ]
+      },
+      {
+        "id": "club-hammarby-throwoff-pressure",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_hammarby_if_hf",
+        "domain": "TRANSITION",
+        "key": "throwOffPressure",
+        "value": "STRONG_IDENTITY",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-hammarby-transition-restart-identity"
+        ]
+      },
+      {
+        "id": "club-hammarby-throwoff-structure",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_hammarby_if_hf",
+        "domain": "TRANSITION",
+        "key": "throwOffStructure",
+        "value": "DOCUMENTED_2xM6_2x9M_V6_H6",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-hammarby-transition-restart-identity"
+        ]
+      }
+    ],
+    "developmentIdentity": [
+      {
+        "id": "club-hammarby-own-youth-pathway",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_hammarby_if_hf",
+        "domain": "DEVELOPMENT",
+        "key": "ownYouthToSeniorPathway",
+        "value": "LIMITED",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-hammarby-coaching-development-identity"
+        ],
+        "notes": "LIMITED in the current senior context -- this must not be converted into a claim that overall youth-development quality is poor; the user has not stated that."
+      }
+    ],
+    "recruitmentIdentity": [],
+    "financialStrategicIdentity": [],
+    "supporterEnvironmentIdentity": []
+  }
+}
