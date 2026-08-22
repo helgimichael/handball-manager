@@ -1,0 +1,95 @@
+{
+  "clubId": "se_club_ifk_skovde_hk",
+  "season": "2026/27",
+  "sourceDocument": "IFK Skövde HK CLUB IDENTITY v0.1",
+  "evidenceReferences": [
+    {
+      "id": "ev-skovde-current-team-context-2026-27",
+      "sourceDocument": "IFK Skövde HK CLUB IDENTITY v0.1",
+      "sourceType": "APPROVED_PROFILE_DOCX",
+      "locator": "CURRENT TEAM CONTEXT — 2026/27"
+    }
+  ],
+  "context": {
+    "clubId": "se_club_ifk_skovde_hk",
+    "season": "2026/27",
+    "organisationalClaims": [],
+    "financialClaims": [
+      {
+        "id": "season-skovde-financial-strength",
+        "subjectType": "SEASON_CONTEXT",
+        "subjectId": "se_club_ifk_skovde_hk",
+        "domain": "FINANCIAL",
+        "key": "currentFinancialStrength",
+        "value": "LIMITED",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "SEASON",
+        "season": "2026/27",
+        "sourceRefs": [
+          "ev-skovde-current-team-context-2026-27"
+        ]
+      },
+      {
+        "id": "season-skovde-external-recruitment-capacity",
+        "subjectType": "SEASON_CONTEXT",
+        "subjectId": "se_club_ifk_skovde_hk",
+        "domain": "FINANCIAL",
+        "key": "externalRecruitmentCapacity",
+        "value": "REDUCED_MORE_LIMITED",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "SEASON",
+        "season": "2026/27",
+        "sourceRefs": [
+          "ev-skovde-current-team-context-2026-27"
+        ]
+      }
+    ],
+    "squadClaims": [
+      {
+        "id": "season-skovde-youth-importance",
+        "subjectType": "SEASON_CONTEXT",
+        "subjectId": "se_club_ifk_skovde_hk",
+        "domain": "SQUAD_TRANSITION",
+        "key": "youthImportance",
+        "value": "HIGH",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "SEASON",
+        "season": "2026/27",
+        "sourceRefs": [
+          "ev-skovde-current-team-context-2026-27"
+        ]
+      }
+    ],
+    "competitiveClaims": [
+      {
+        "id": "season-skovde-previous-league-season",
+        "subjectType": "SEASON_CONTEXT",
+        "subjectId": "se_club_ifk_skovde_hk",
+        "domain": "COMPETITIVE",
+        "key": "previousLeagueSeason",
+        "value": "4TH_PLACE_2025_26",
+        "evidenceClass": "VERIFIED_EXTERNAL_DATA",
+        "temporalScope": "SEASON",
+        "season": "2026/27",
+        "sourceRefs": [
+          "ev-skovde-current-team-context-2026-27"
+        ]
+      },
+      {
+        "id": "season-skovde-top-flight-continuity",
+        "subjectType": "SEASON_CONTEXT",
+        "subjectId": "se_club_ifk_skovde_hk",
+        "domain": "COMPETITIVE",
+        "key": "topFlightContinuity",
+        "value": "37TH_CONSECUTIVE_SEASON",
+        "evidenceClass": "VERIFIED_EXTERNAL_DATA",
+        "temporalScope": "SEASON",
+        "season": "2026/27",
+        "sourceRefs": [
+          "ev-skovde-current-team-context-2026-27"
+        ]
+      }
+    ],
+    "transitionClaims": []
+  }
+}

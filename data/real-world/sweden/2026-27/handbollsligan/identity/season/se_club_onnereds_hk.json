@@ -1,0 +1,203 @@
+{
+  "clubId": "se_club_onnereds_hk",
+  "season": "2026/27",
+  "sourceDocument": "Önnereds HK CLUB IDENTITY v0.1",
+  "evidenceReferences": [
+    {
+      "id": "ev-onnered-organisation-current-crisis-context",
+      "sourceDocument": "Önnereds HK CLUB IDENTITY v0.1",
+      "sourceType": "APPROVED_PROFILE_DOCX",
+      "locator": "ORGANISATION / CURRENT CRISIS CONTEXT"
+    },
+    {
+      "id": "ev-onnered-user-expert-assessment-club-situation",
+      "sourceDocument": "Önnereds HK CLUB IDENTITY v0.1",
+      "sourceType": "APPROVED_PROFILE_DOCX",
+      "locator": "USER EXPERT ASSESSMENT — CLUB SITUATION"
+    },
+    {
+      "id": "ev-onnered-squad-building-2026-27",
+      "sourceDocument": "Önnereds HK CLUB IDENTITY v0.1",
+      "sourceType": "APPROVED_PROFILE_DOCX",
+      "locator": "SQUAD BUILDING — 2026/27"
+    },
+    {
+      "id": "ev-onnered-coaching-environment",
+      "sourceDocument": "Önnereds HK CLUB IDENTITY v0.1",
+      "sourceType": "APPROVED_PROFILE_DOCX",
+      "locator": "COACHING ENVIRONMENT"
+    },
+    {
+      "id": "ev-onnered-tactical-necessity",
+      "sourceDocument": "Önnereds HK CLUB IDENTITY v0.1",
+      "sourceType": "APPROVED_PROFILE_DOCX",
+      "locator": "TACTICAL NECESSITY"
+    },
+    {
+      "id": "ev-onnered-performance-variance-season-outlook",
+      "sourceDocument": "Önnereds HK CLUB IDENTITY v0.1",
+      "sourceType": "APPROVED_PROFILE_DOCX",
+      "locator": "PERFORMANCE VARIANCE / SEASON OUTLOOK"
+    }
+  ],
+  "context": {
+    "clubId": "se_club_onnereds_hk",
+    "season": "2026/27",
+    "organisationalClaims": [
+      {
+        "id": "season-onnered-organisational-stability",
+        "subjectType": "SEASON_CONTEXT",
+        "subjectId": "se_club_onnereds_hk",
+        "domain": "ORGANISATIONAL",
+        "key": "organisationalStability",
+        "value": "VERY_LOW",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "SEASON",
+        "season": "2026/27",
+        "sourceRefs": [
+          "ev-onnered-user-expert-assessment-club-situation"
+        ]
+      },
+      {
+        "id": "season-onnered-board-governance-stability",
+        "subjectType": "SEASON_CONTEXT",
+        "subjectId": "se_club_onnereds_hk",
+        "domain": "ORGANISATIONAL",
+        "key": "boardGovernanceStability",
+        "value": "VERY_LOW",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "SEASON",
+        "season": "2026/27",
+        "sourceRefs": [
+          "ev-onnered-user-expert-assessment-club-situation"
+        ],
+        "notes": "2026 board replacement is externally documented."
+      },
+      {
+        "id": "season-onnered-coaching-resource-level",
+        "subjectType": "SEASON_CONTEXT",
+        "subjectId": "se_club_onnereds_hk",
+        "domain": "ORGANISATIONAL",
+        "key": "coachingResourceLevel",
+        "value": "LOW",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "SEASON",
+        "season": "2026/27",
+        "sourceRefs": [
+          "ev-onnered-coaching-environment"
+        ],
+        "notes": "Comparatively inexpensive coaching team -- low expenditure is not interpreted as low coaching quality."
+      }
+    ],
+    "financialClaims": [
+      {
+        "id": "season-onnered-financial-stability",
+        "subjectType": "SEASON_CONTEXT",
+        "subjectId": "se_club_onnereds_hk",
+        "domain": "FINANCIAL",
+        "key": "financialStability",
+        "value": "VERY_LOW",
+        "evidenceClass": "VERIFIED_EXTERNAL_DATA",
+        "temporalScope": "SEASON",
+        "season": "2026/27",
+        "sourceRefs": [
+          "ev-onnered-organisation-current-crisis-context",
+          "ev-onnered-user-expert-assessment-club-situation"
+        ],
+        "notes": "Negative 2025/26 result, sponsor-income shortfall, July 2026 acute cash need (~SEK 1m), fundraiser raised SEK 326,000 plus a temporary loan; club states finances remain strained."
+      },
+      {
+        "id": "season-onnered-sponsor-stability",
+        "subjectType": "SEASON_CONTEXT",
+        "subjectId": "se_club_onnereds_hk",
+        "domain": "FINANCIAL",
+        "key": "sponsorStability",
+        "value": "LOW_UNCERTAIN",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "SEASON",
+        "season": "2026/27",
+        "sourceRefs": [
+          "ev-onnered-user-expert-assessment-club-situation"
+        ]
+      },
+      {
+        "id": "season-onnered-unpaid-salaries-claim",
+        "subjectType": "SEASON_CONTEXT",
+        "subjectId": "se_club_onnereds_hk",
+        "domain": "FINANCIAL",
+        "key": "reportedUnpaidSalaries",
+        "value": "REPORTED_NOT_VERIFIED",
+        "evidenceClass": "USER_EXPERT_REQUIRES_VERIFICATION",
+        "temporalScope": "SEASON",
+        "season": "2026/27",
+        "sourceRefs": [
+          "ev-onnered-user-expert-assessment-club-situation"
+        ],
+        "notes": "The user reports some players did not receive salaries during the previous season -- retained as requiring verification, never marked VERIFIED."
+      }
+    ],
+    "squadClaims": [],
+    "competitiveClaims": [
+      {
+        "id": "season-onnered-performance-variance",
+        "subjectType": "SEASON_CONTEXT",
+        "subjectId": "se_club_onnereds_hk",
+        "domain": "COMPETITIVE",
+        "key": "performanceVariance",
+        "value": "VERY_HIGH",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "SEASON",
+        "season": "2026/27",
+        "sourceRefs": [
+          "ev-onnered-performance-variance-season-outlook"
+        ]
+      },
+      {
+        "id": "season-onnered-season-uncertainty",
+        "subjectType": "SEASON_CONTEXT",
+        "subjectId": "se_club_onnereds_hk",
+        "domain": "COMPETITIVE",
+        "key": "seasonUncertainty",
+        "value": "EXTREME",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "SEASON",
+        "season": "2026/27",
+        "sourceRefs": [
+          "ev-onnered-performance-variance-season-outlook"
+        ],
+        "notes": "User's summary: 'rock and roll or a pancake' -- extreme uncertainty/variance, not a deterministic prediction."
+      }
+    ],
+    "transitionClaims": [
+      {
+        "id": "season-onnered-tactical-innovation-need",
+        "subjectType": "SEASON_CONTEXT",
+        "subjectId": "se_club_onnereds_hk",
+        "domain": "TACTICAL_ADAPTATION_NEED",
+        "key": "needForTacticalInnovation",
+        "value": "VERY_HIGH",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "SEASON",
+        "season": "2026/27",
+        "sourceRefs": [
+          "ev-onnered-tactical-necessity"
+        ],
+        "notes": "The current (financially constrained, young) squad cannot rely only on conventional Handbollsligan handball -- no specific unobserved tactical solution is invented."
+      },
+      {
+        "id": "season-onnered-tactical-variance-need",
+        "subjectType": "SEASON_CONTEXT",
+        "subjectId": "se_club_onnereds_hk",
+        "domain": "TACTICAL_ADAPTATION_NEED",
+        "key": "needForTacticalVariance",
+        "value": "VERY_HIGH",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "SEASON",
+        "season": "2026/27",
+        "sourceRefs": [
+          "ev-onnered-tactical-necessity"
+        ]
+      }
+    ]
+  }
+}

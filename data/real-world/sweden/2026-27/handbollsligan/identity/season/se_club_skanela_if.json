@@ -1,0 +1,82 @@
+{
+  "clubId": "se_club_skanela_if",
+  "season": "2026/27",
+  "sourceDocument": "Skånela IF CLUB IDENTITY v0.1",
+  "evidenceReferences": [
+    {
+      "id": "ev-skanela-current-team-context-2026-27",
+      "sourceDocument": "Skånela IF CLUB IDENTITY v0.1",
+      "sourceType": "APPROVED_PROFILE_DOCX",
+      "locator": "CURRENT TEAM CONTEXT — 2026/27"
+    }
+  ],
+  "context": {
+    "clubId": "se_club_skanela_if",
+    "season": "2026/27",
+    "organisationalClaims": [
+      {
+        "id": "season-skanela-league-status",
+        "subjectType": "SEASON_CONTEXT",
+        "subjectId": "se_club_skanela_if",
+        "domain": "ORGANISATIONAL",
+        "key": "leagueStatus",
+        "value": "NEWLY_PROMOTED_TO_HANDBOLLSLIGAN",
+        "evidenceClass": "VERIFIED_EXTERNAL_DATA",
+        "temporalScope": "SEASON",
+        "season": "2026/27",
+        "sourceRefs": [
+          "ev-skanela-current-team-context-2026-27"
+        ]
+      }
+    ],
+    "financialClaims": [
+      {
+        "id": "season-skanela-financial-muscle",
+        "subjectType": "SEASON_CONTEXT",
+        "subjectId": "se_club_skanela_if",
+        "domain": "FINANCIAL",
+        "key": "financialMuscleVsMajorClubs",
+        "value": "LIMITED",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "SEASON",
+        "season": "2026/27",
+        "sourceRefs": [
+          "ev-skanela-current-team-context-2026-27"
+        ]
+      }
+    ],
+    "squadClaims": [
+      {
+        "id": "season-skanela-squad-commitment",
+        "subjectType": "SEASON_CONTEXT",
+        "subjectId": "se_club_skanela_if",
+        "domain": "SQUAD_TRANSITION",
+        "key": "squadCommitment",
+        "value": "VERY_STRONG",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "SEASON",
+        "season": "2026/27",
+        "sourceRefs": [
+          "ev-skanela-current-team-context-2026-27"
+        ]
+      }
+    ],
+    "competitiveClaims": [
+      {
+        "id": "season-skanela-competitive-expectation",
+        "subjectType": "SEASON_CONTEXT",
+        "subjectId": "se_club_skanela_if",
+        "domain": "COMPETITIVE",
+        "key": "currentCompetitiveExpectation",
+        "value": "SURVIVAL_LOWER_TABLE_BATTLE",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "SEASON",
+        "season": "2026/27",
+        "sourceRefs": [
+          "ev-skanela-current-team-context-2026-27"
+        ]
+      }
+    ],
+    "transitionClaims": []
+  }
+}

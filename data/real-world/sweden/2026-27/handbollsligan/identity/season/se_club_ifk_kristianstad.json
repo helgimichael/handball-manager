@@ -1,0 +1,66 @@
+{
+  "clubId": "se_club_ifk_kristianstad",
+  "season": "2026/27",
+  "sourceDocument": "IFK Kristianstad CLUB IDENTITY v0.1",
+  "evidenceReferences": [
+    {
+      "id": "ev-ifkk-current-team-context-2026-27",
+      "sourceDocument": "IFK Kristianstad CLUB IDENTITY v0.1",
+      "sourceType": "APPROVED_PROFILE_DOCX",
+      "locator": "CURRENT TEAM CONTEXT — 2026/27"
+    }
+  ],
+  "context": {
+    "clubId": "se_club_ifk_kristianstad",
+    "season": "2026/27",
+    "organisationalClaims": [],
+    "financialClaims": [],
+    "squadClaims": [],
+    "competitiveClaims": [
+      {
+        "id": "season-ifkk-title-contention",
+        "subjectType": "SEASON_CONTEXT",
+        "subjectId": "se_club_ifk_kristianstad",
+        "domain": "COMPETITIVE",
+        "key": "titleContention",
+        "value": "TOP_3",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "SEASON",
+        "season": "2026/27",
+        "sourceRefs": [
+          "ev-ifkk-current-team-context-2026-27"
+        ]
+      },
+      {
+        "id": "season-ifkk-previous-season",
+        "subjectType": "SEASON_CONTEXT",
+        "subjectId": "se_club_ifk_kristianstad",
+        "domain": "COMPETITIVE",
+        "key": "previousSeason",
+        "value": "DOMESTIC_TREBLE_CONTEXT",
+        "evidenceClass": "VERIFIED_EXTERNAL_DATA",
+        "temporalScope": "SEASON",
+        "season": "2026/27",
+        "sourceRefs": [
+          "ev-ifkk-current-team-context-2026-27"
+        ]
+      }
+    ],
+    "transitionClaims": [
+      {
+        "id": "season-ifkk-head-coach-transition",
+        "subjectType": "SEASON_CONTEXT",
+        "subjectId": "se_club_ifk_kristianstad",
+        "domain": "ORGANISATIONAL_TRANSITION",
+        "key": "headCoachTransition",
+        "value": "ANDERS_HALLBERG_TO_BJORN_SATHERSTROM",
+        "evidenceClass": "VERIFIED_EXTERNAL_DATA",
+        "temporalScope": "SEASON",
+        "season": "2026/27",
+        "sourceRefs": [
+          "ev-ifkk-current-team-context-2026-27"
+        ]
+      }
+    ]
+  }
+}

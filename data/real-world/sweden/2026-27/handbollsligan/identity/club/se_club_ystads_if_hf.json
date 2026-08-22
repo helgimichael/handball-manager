@@ -1,0 +1,419 @@
+{
+  "clubId": "se_club_ystads_if_hf",
+  "sourceDocument": "Ystads IF HF CLUB IDENTITY v0.1",
+  "evidenceReferences": [
+    {
+      "id": "ev-ystad-user-expert-assessment-club-identity",
+      "sourceDocument": "Ystads IF HF CLUB IDENTITY v0.1",
+      "sourceType": "APPROVED_PROFILE_DOCX",
+      "locator": "USER EXPERT ASSESSMENT — CLUB IDENTITY"
+    },
+    {
+      "id": "ev-ystad-player-development-identity",
+      "sourceDocument": "Ystads IF HF CLUB IDENTITY v0.1",
+      "sourceType": "APPROVED_PROFILE_DOCX",
+      "locator": "PLAYER DEVELOPMENT IDENTITY"
+    },
+    {
+      "id": "ev-ystad-defensive-identity",
+      "sourceDocument": "Ystads IF HF CLUB IDENTITY v0.1",
+      "sourceType": "APPROVED_PROFILE_DOCX",
+      "locator": "DEFENSIVE IDENTITY"
+    },
+    {
+      "id": "ev-ystad-transition-identity",
+      "sourceDocument": "Ystads IF HF CLUB IDENTITY v0.1",
+      "sourceType": "APPROVED_PROFILE_DOCX",
+      "locator": "TRANSITION IDENTITY"
+    },
+    {
+      "id": "ev-ystad-attack-identity",
+      "sourceDocument": "Ystads IF HF CLUB IDENTITY v0.1",
+      "sourceType": "APPROVED_PROFILE_DOCX",
+      "locator": "ATTACK IDENTITY"
+    },
+    {
+      "id": "ev-ystad-mental-competitive-identity",
+      "sourceDocument": "Ystads IF HF CLUB IDENTITY v0.1",
+      "sourceType": "APPROVED_PROFILE_DOCX",
+      "locator": "MENTAL / COMPETITIVE IDENTITY"
+    },
+    {
+      "id": "ev-ystad-financial-strategic-identity",
+      "sourceDocument": "Ystads IF HF CLUB IDENTITY v0.1",
+      "sourceType": "APPROVED_PROFILE_DOCX",
+      "locator": "FINANCIAL / STRATEGIC IDENTITY"
+    }
+  ],
+  "profile": {
+    "clubId": "se_club_ystads_if_hf",
+    "seasonReference": "2026/27",
+    "structuralIdentity": [
+      {
+        "id": "club-ystad-club-stature",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_ystads_if_hf",
+        "domain": "STRUCTURAL",
+        "key": "clubStature",
+        "value": "ELITE",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-ystad-user-expert-assessment-club-identity"
+        ]
+      },
+      {
+        "id": "club-ystad-handball-tradition",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_ystads_if_hf",
+        "domain": "STRUCTURAL",
+        "key": "handballTradition",
+        "value": "ELITE",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-ystad-user-expert-assessment-club-identity"
+        ]
+      },
+      {
+        "id": "club-ystad-club-pride",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_ystads_if_hf",
+        "domain": "STRUCTURAL",
+        "key": "clubPride",
+        "value": "VERY_HIGH",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-ystad-user-expert-assessment-club-identity"
+        ]
+      },
+      {
+        "id": "club-ystad-legacy-importance",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_ystads_if_hf",
+        "domain": "STRUCTURAL",
+        "key": "legacyImportance",
+        "value": "VERY_HIGH",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-ystad-user-expert-assessment-club-identity"
+        ]
+      },
+      {
+        "id": "club-ystad-former-player-staff-continuity",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_ystads_if_hf",
+        "domain": "STRUCTURAL",
+        "key": "formerPlayerToStaffContinuity",
+        "value": "VERY_STRONG",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-ystad-user-expert-assessment-club-identity"
+        ]
+      }
+    ],
+    "cultureIdentity": [
+      {
+        "id": "club-ystad-competitive-confidence",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_ystads_if_hf",
+        "domain": "CULTURE",
+        "key": "competitiveConfidence",
+        "value": "ELITE",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-ystad-mental-competitive-identity"
+        ],
+        "notes": "The club/team is described as not afraid of any opponent."
+      },
+      {
+        "id": "club-ystad-opponent-intimidation-sensitivity",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_ystads_if_hf",
+        "domain": "CULTURE",
+        "key": "opponentIntimidationSensitivity",
+        "value": "VERY_LOW",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-ystad-mental-competitive-identity"
+        ]
+      },
+      {
+        "id": "club-ystad-big-game-mentality",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_ystads_if_hf",
+        "domain": "CULTURE",
+        "key": "bigGameMentality",
+        "value": "VERY_STRONG",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-ystad-mental-competitive-identity"
+        ]
+      }
+    ],
+    "tacticalHeritage": [
+      {
+        "id": "club-ystad-vaxelspel",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_ystads_if_hf",
+        "domain": "ATTACK",
+        "key": "vaxelspel",
+        "value": "CORE",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-ystad-attack-identity"
+        ]
+      },
+      {
+        "id": "club-ystad-physical-attack",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_ystads_if_hf",
+        "domain": "ATTACK",
+        "key": "physicalAttack",
+        "value": "VERY_HIGH",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-ystad-attack-identity"
+        ]
+      },
+      {
+        "id": "club-ystad-opponent-attrition",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_ystads_if_hf",
+        "domain": "ATTACK",
+        "key": "opponentAttrition",
+        "value": "HIGH",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-ystad-attack-identity"
+        ]
+      },
+      {
+        "id": "club-ystad-attack-tempo",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_ystads_if_hf",
+        "domain": "ATTACK",
+        "key": "attackTempo",
+        "value": "MODERATE_VARIABLE",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-ystad-attack-identity"
+        ]
+      },
+      {
+        "id": "club-ystad-7v6-willingness",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_ystads_if_hf",
+        "domain": "ATTACK",
+        "key": "sevenVSixWillingness",
+        "value": "ESTABLISHED_OPTION",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-ystad-attack-identity"
+        ]
+      },
+      {
+        "id": "club-ystad-primary-formation",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_ystads_if_hf",
+        "domain": "DEFENCE",
+        "key": "primaryFormation",
+        "value": "6:0",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-ystad-defensive-identity"
+        ],
+        "notes": "Traditional defensive base: a physically heavy 6:0 with large players centrally."
+      },
+      {
+        "id": "club-ystad-central-defensive-size",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_ystads_if_hf",
+        "domain": "DEFENCE",
+        "key": "centralDefensiveSize",
+        "value": "VERY_HIGH",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-ystad-defensive-identity"
+        ]
+      },
+      {
+        "id": "club-ystad-defensive-physicality",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_ystads_if_hf",
+        "domain": "DEFENCE",
+        "key": "defensivePhysicality",
+        "value": "VERY_HIGH",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-ystad-defensive-identity"
+        ]
+      },
+      {
+        "id": "club-ystad-central-compactness",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_ystads_if_hf",
+        "domain": "DEFENCE",
+        "key": "centralCompactness",
+        "value": "HIGH",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-ystad-defensive-identity"
+        ]
+      },
+      {
+        "id": "club-ystad-transition-physicality",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_ystads_if_hf",
+        "domain": "TRANSITION",
+        "key": "transitionPhysicality",
+        "value": "VERY_HIGH",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-ystad-transition-identity"
+        ],
+        "notes": "Powerful and heavy rather than necessarily built around maximum speed."
+      },
+      {
+        "id": "club-ystad-transition-power",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_ystads_if_hf",
+        "domain": "TRANSITION",
+        "key": "transitionPower",
+        "value": "VERY_HIGH",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-ystad-transition-identity"
+        ]
+      },
+      {
+        "id": "club-ystad-transition-tempo",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_ystads_if_hf",
+        "domain": "TRANSITION",
+        "key": "transitionTempo",
+        "value": "MODERATE_VARIABLE",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-ystad-transition-identity"
+        ]
+      }
+    ],
+    "developmentIdentity": [
+      {
+        "id": "club-ystad-youth-development-environment",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_ystads_if_hf",
+        "domain": "DEVELOPMENT",
+        "key": "youthDevelopmentEnvironment",
+        "value": "ELITE",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-ystad-player-development-identity"
+        ]
+      },
+      {
+        "id": "club-ystad-own-player-production",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_ystads_if_hf",
+        "domain": "DEVELOPMENT",
+        "key": "ownPlayerProduction",
+        "value": "ELITE",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-ystad-player-development-identity"
+        ]
+      },
+      {
+        "id": "club-ystad-young-player-opportunity",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_ystads_if_hf",
+        "domain": "DEVELOPMENT",
+        "key": "youngPlayerOpportunity",
+        "value": "VERY_STRONG",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-ystad-player-development-identity"
+        ]
+      },
+      {
+        "id": "club-ystad-development-reputation",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_ystads_if_hf",
+        "domain": "DEVELOPMENT",
+        "key": "developmentReputation",
+        "value": "ELITE",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-ystad-player-development-identity"
+        ]
+      }
+    ],
+    "recruitmentIdentity": [],
+    "financialStrategicIdentity": [
+      {
+        "id": "club-ystad-financial-stability",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_ystads_if_hf",
+        "domain": "FINANCIAL_STRATEGIC",
+        "key": "financialStability",
+        "value": "STRONG",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-ystad-financial-strategic-identity"
+        ]
+      },
+      {
+        "id": "club-ystad-financial-risk-tolerance",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_ystads_if_hf",
+        "domain": "FINANCIAL_STRATEGIC",
+        "key": "financialRiskTolerance",
+        "value": "LOW",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-ystad-financial-strategic-identity"
+        ]
+      },
+      {
+        "id": "club-ystad-long-term-squad-building",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_ystads_if_hf",
+        "domain": "FINANCIAL_STRATEGIC",
+        "key": "longTermSquadBuilding",
+        "value": "VERY_STRONG",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-ystad-financial-strategic-identity"
+        ],
+        "notes": "Patient, long-term construction preferred over risking finances to chase an immediate championship."
+      }
+    ],
+    "supporterEnvironmentIdentity": []
+  }
+}

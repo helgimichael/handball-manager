@@ -1,0 +1,109 @@
+{
+  "clubId": "se_club_hf_karlskrona",
+  "sourceDocument": "HF Karlskrona CLUB IDENTITY v0.1",
+  "evidenceReferences": [
+    {
+      "id": "ev-hfk-attack-identity",
+      "sourceDocument": "HF Karlskrona CLUB IDENTITY v0.1",
+      "sourceType": "APPROVED_PROFILE_DOCX",
+      "locator": "ATTACK IDENTITY"
+    },
+    {
+      "id": "ev-hfk-defensive-identity",
+      "sourceDocument": "HF Karlskrona CLUB IDENTITY v0.1",
+      "sourceType": "APPROVED_PROFILE_DOCX",
+      "locator": "DEFENSIVE IDENTITY"
+    }
+  ],
+  "profile": {
+    "clubId": "se_club_hf_karlskrona",
+    "seasonReference": "2026/27",
+    "structuralIdentity": [],
+    "cultureIdentity": [],
+    "tacticalHeritage": [
+      {
+        "id": "club-hfk-positional-attack",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_hf_karlskrona",
+        "domain": "ATTACK",
+        "key": "positionalAttack",
+        "value": "TRADITIONAL_STRUCTURED",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-hfk-attack-identity"
+        ]
+      },
+      {
+        "id": "club-hfk-vaxelspel",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_hf_karlskrona",
+        "domain": "ATTACK",
+        "key": "vaxelspel",
+        "value": "REGULAR_DOCUMENTED",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-hfk-attack-identity"
+        ]
+      },
+      {
+        "id": "club-hfk-over-zon-spel",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_hf_karlskrona",
+        "domain": "ATTACK",
+        "key": "overZonSpel",
+        "value": "REGULAR_DOCUMENTED",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-hfk-attack-identity"
+        ]
+      },
+      {
+        "id": "club-hfk-base-formation",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_hf_karlskrona",
+        "domain": "DEFENCE",
+        "key": "baseFormation",
+        "value": "6:0_PRIMARY",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-hfk-defensive-identity"
+        ]
+      },
+      {
+        "id": "club-hfk-defensive-depth",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_hf_karlskrona",
+        "domain": "DEFENCE",
+        "key": "defensiveDepth",
+        "value": "VARIABLE_CAN_BECOME_VERY_HIGH",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-hfk-defensive-identity"
+        ]
+      },
+      {
+        "id": "club-hfk-aggressive-high-6-0",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_hf_karlskrona",
+        "domain": "DEFENCE",
+        "key": "aggressiveHigh6v0",
+        "value": "DOCUMENTED",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-hfk-defensive-identity"
+        ],
+        "notes": "Can grow forward and at times approach the appearance of a 3:3 defence -- NOT stored as confirmation of a separate 3:3 formation."
+      }
+    ],
+    "developmentIdentity": [],
+    "recruitmentIdentity": [],
+    "financialStrategicIdentity": [],
+    "supporterEnvironmentIdentity": []
+  }
+}

@@ -1,0 +1,313 @@
+{
+  "clubId": "se_club_ifk_skovde_hk",
+  "sourceDocument": "IFK Skövde HK CLUB IDENTITY v0.1",
+  "evidenceReferences": [
+    {
+      "id": "ev-skovde-verified-development-context",
+      "sourceDocument": "IFK Skövde HK CLUB IDENTITY v0.1",
+      "sourceType": "APPROVED_PROFILE_DOCX",
+      "locator": "VERIFIED DEVELOPMENT CONTEXT"
+    },
+    {
+      "id": "ev-skovde-club-coaching-culture",
+      "sourceDocument": "IFK Skövde HK CLUB IDENTITY v0.1",
+      "sourceType": "APPROVED_PROFILE_DOCX",
+      "locator": "CLUB / COACHING CULTURE"
+    },
+    {
+      "id": "ev-skovde-player-development-recruitment-identity",
+      "sourceDocument": "IFK Skövde HK CLUB IDENTITY v0.1",
+      "sourceType": "APPROVED_PROFILE_DOCX",
+      "locator": "PLAYER DEVELOPMENT / RECRUITMENT IDENTITY"
+    },
+    {
+      "id": "ev-skovde-attack-identity",
+      "sourceDocument": "IFK Skövde HK CLUB IDENTITY v0.1",
+      "sourceType": "APPROVED_PROFILE_DOCX",
+      "locator": "ATTACK IDENTITY"
+    },
+    {
+      "id": "ev-skovde-defensive-identity",
+      "sourceDocument": "IFK Skövde HK CLUB IDENTITY v0.1",
+      "sourceType": "APPROVED_PROFILE_DOCX",
+      "locator": "DEFENSIVE IDENTITY"
+    }
+  ],
+  "profile": {
+    "clubId": "se_club_ifk_skovde_hk",
+    "seasonReference": "2026/27",
+    "structuralIdentity": [],
+    "cultureIdentity": [
+      {
+        "id": "club-skovde-club-attachment",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_ifk_skovde_hk",
+        "domain": "CULTURE",
+        "key": "clubAttachment",
+        "value": "VERY_STRONG",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-skovde-club-coaching-culture"
+        ],
+        "notes": "Defining cultural theme: 'heart for the club'."
+      },
+      {
+        "id": "club-skovde-club-loyalty-culture",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_ifk_skovde_hk",
+        "domain": "CULTURE",
+        "key": "clubLoyaltyCulture",
+        "value": "VERY_STRONG",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-skovde-club-coaching-culture"
+        ]
+      },
+      {
+        "id": "club-skovde-collective-identity",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_ifk_skovde_hk",
+        "domain": "CULTURE",
+        "key": "collectiveIdentity",
+        "value": "VERY_STRONG",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-skovde-club-coaching-culture"
+        ],
+        "notes": "'De tuggar på' -- a persistent, working and structured collective."
+      },
+      {
+        "id": "club-skovde-work-rate",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_ifk_skovde_hk",
+        "domain": "CULTURE",
+        "key": "workRate",
+        "value": "STRONG",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-skovde-club-coaching-culture"
+        ]
+      },
+      {
+        "id": "club-skovde-team-structure",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_ifk_skovde_hk",
+        "domain": "CULTURE",
+        "key": "teamStructure",
+        "value": "STRONG",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-skovde-club-coaching-culture"
+        ]
+      },
+      {
+        "id": "club-skovde-physical-profile",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_ifk_skovde_hk",
+        "domain": "CULTURE",
+        "key": "physicalProfile",
+        "value": "BIG_POWERFUL",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-skovde-club-coaching-culture"
+        ]
+      }
+    ],
+    "tacticalHeritage": [
+      {
+        "id": "club-skovde-vaxelspel",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_ifk_skovde_hk",
+        "domain": "ATTACK",
+        "key": "vaxelspel",
+        "value": "REGULAR_STRONG_IDENTITY",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-skovde-attack-identity"
+        ]
+      },
+      {
+        "id": "club-skovde-over-zone-ball-movement",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_ifk_skovde_hk",
+        "domain": "ATTACK",
+        "key": "overZoneBallMovement",
+        "value": "STRONG",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-skovde-attack-identity"
+        ]
+      },
+      {
+        "id": "club-skovde-ball-circulation-speed",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_ifk_skovde_hk",
+        "domain": "ATTACK",
+        "key": "ballCirculationSpeed",
+        "value": "HIGH",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-skovde-attack-identity"
+        ]
+      },
+      {
+        "id": "club-skovde-wing-utilization",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_ifk_skovde_hk",
+        "domain": "ATTACK",
+        "key": "wingUtilization",
+        "value": "STRONG",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-skovde-attack-identity"
+        ]
+      },
+      {
+        "id": "club-skovde-primary-formation",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_ifk_skovde_hk",
+        "domain": "DEFENCE",
+        "key": "primaryFormation",
+        "value": "6:0_HEAVY_PHYSICAL",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-skovde-defensive-identity"
+        ]
+      },
+      {
+        "id": "club-skovde-defensive-physicality",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_ifk_skovde_hk",
+        "domain": "DEFENCE",
+        "key": "defensivePhysicality",
+        "value": "VERY_STRONG",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-skovde-defensive-identity"
+        ]
+      },
+      {
+        "id": "club-skovde-defensive-structure",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_ifk_skovde_hk",
+        "domain": "DEFENCE",
+        "key": "defensiveStructure",
+        "value": "STRONG",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-skovde-defensive-identity"
+        ]
+      },
+      {
+        "id": "club-skovde-defensive-work-rate",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_ifk_skovde_hk",
+        "domain": "DEFENCE",
+        "key": "defensiveWorkRate",
+        "value": "STRONG",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-skovde-defensive-identity"
+        ]
+      },
+      {
+        "id": "club-skovde-physical-risk-tolerance",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_ifk_skovde_hk",
+        "domain": "DEFENCE",
+        "key": "physicalRiskTolerance",
+        "value": "HIGH",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-skovde-defensive-identity"
+        ]
+      },
+      {
+        "id": "club-skovde-two-minute-suspension-risk",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_ifk_skovde_hk",
+        "domain": "DEFENCE",
+        "key": "twoMinuteSuspensionRisk",
+        "value": "ELEVATED",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-skovde-defensive-identity"
+        ],
+        "notes": "ELEVATED suspension risk is not converted into LOW discipline -- describes physical risk, not general indiscipline."
+      }
+    ],
+    "developmentIdentity": [
+      {
+        "id": "club-skovde-active-youth-to-senior-pathway",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_ifk_skovde_hk",
+        "domain": "DEVELOPMENT",
+        "key": "activeYouthToSeniorPathway",
+        "value": "DOCUMENTED",
+        "evidenceClass": "VERIFIED_EXTERNAL_DATA",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-skovde-verified-development-context"
+        ]
+      },
+      {
+        "id": "club-skovde-own-academy-pathway",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_ifk_skovde_hk",
+        "domain": "DEVELOPMENT",
+        "key": "ownAcademyToSeniorPathway",
+        "value": "STRONG",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-skovde-player-development-recruitment-identity"
+        ]
+      },
+      {
+        "id": "club-skovde-external-player-development",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_ifk_skovde_hk",
+        "domain": "DEVELOPMENT",
+        "key": "externalPlayerDevelopment",
+        "value": "STRONG",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-skovde-player-development-recruitment-identity"
+        ]
+      },
+      {
+        "id": "club-skovde-player-improvement-environment",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_ifk_skovde_hk",
+        "domain": "DEVELOPMENT",
+        "key": "playerImprovementEnvironment",
+        "value": "STRONG",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-skovde-player-development-recruitment-identity"
+        ]
+      }
+    ],
+    "recruitmentIdentity": [],
+    "financialStrategicIdentity": [],
+    "supporterEnvironmentIdentity": []
+  }
+}

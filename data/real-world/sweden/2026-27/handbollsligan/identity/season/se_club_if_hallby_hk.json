@@ -1,0 +1,81 @@
+{
+  "clubId": "se_club_if_hallby_hk",
+  "season": "2026/27",
+  "sourceDocument": "IF Hallby HK CLUB IDENTITY v0.1",
+  "evidenceReferences": [
+    {
+      "id": "ev-hallby-current-team-context-2026-27",
+      "sourceDocument": "IF Hallby HK CLUB IDENTITY v0.1",
+      "sourceType": "APPROVED_PROFILE_DOCX",
+      "locator": "CURRENT TEAM CONTEXT - 2026/27"
+    }
+  ],
+  "context": {
+    "clubId": "se_club_if_hallby_hk",
+    "season": "2026/27",
+    "organisationalClaims": [],
+    "financialClaims": [
+      {
+        "id": "season-hallby-financial-constraints",
+        "subjectType": "SEASON_CONTEXT",
+        "subjectId": "se_club_if_hallby_hk",
+        "domain": "FINANCIAL",
+        "key": "financialConstraints",
+        "value": "HIGH",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "SEASON",
+        "season": "2026/27",
+        "sourceRefs": [
+          "ev-hallby-current-team-context-2026-27"
+        ]
+      },
+      {
+        "id": "season-hallby-staff-cost-reduction",
+        "subjectType": "SEASON_CONTEXT",
+        "subjectId": "se_club_if_hallby_hk",
+        "domain": "FINANCIAL",
+        "key": "staffCostReduction",
+        "value": "DOCUMENTED_BY_USER",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "SEASON",
+        "season": "2026/27",
+        "sourceRefs": [
+          "ev-hallby-current-team-context-2026-27"
+        ]
+      }
+    ],
+    "squadClaims": [
+      {
+        "id": "season-hallby-squad-rebuilding",
+        "subjectType": "SEASON_CONTEXT",
+        "subjectId": "se_club_if_hallby_hk",
+        "domain": "SQUAD_TRANSITION",
+        "key": "squadRebuilding",
+        "value": "HIGH",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "SEASON",
+        "season": "2026/27",
+        "sourceRefs": [
+          "ev-hallby-current-team-context-2026-27"
+        ]
+      }
+    ],
+    "competitiveClaims": [
+      {
+        "id": "season-hallby-relegation-risk",
+        "subjectType": "SEASON_CONTEXT",
+        "subjectId": "se_club_if_hallby_hk",
+        "domain": "COMPETITIVE",
+        "key": "relegationRisk",
+        "value": "HIGH",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "SEASON",
+        "season": "2026/27",
+        "sourceRefs": [
+          "ev-hallby-current-team-context-2026-27"
+        ]
+      }
+    ],
+    "transitionClaims": []
+  }
+}

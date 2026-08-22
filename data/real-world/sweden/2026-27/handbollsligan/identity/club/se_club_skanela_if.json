@@ -1,0 +1,254 @@
+{
+  "clubId": "se_club_skanela_if",
+  "sourceDocument": "Skånela IF CLUB IDENTITY v0.1",
+  "evidenceReferences": [
+    {
+      "id": "ev-skanela-verified-development-club-strategy",
+      "sourceDocument": "Skånela IF CLUB IDENTITY v0.1",
+      "sourceType": "APPROVED_PROFILE_DOCX",
+      "locator": "VERIFIED DEVELOPMENT / CLUB STRATEGY"
+    },
+    {
+      "id": "ev-skanela-club-culture-resource-model",
+      "sourceDocument": "Skånela IF CLUB IDENTITY v0.1",
+      "sourceType": "APPROVED_PROFILE_DOCX",
+      "locator": "CLUB CULTURE / RESOURCE MODEL"
+    },
+    {
+      "id": "ev-skanela-attack-identity",
+      "sourceDocument": "Skånela IF CLUB IDENTITY v0.1",
+      "sourceType": "APPROVED_PROFILE_DOCX",
+      "locator": "ATTACK IDENTITY"
+    },
+    {
+      "id": "ev-skanela-defensive-identity",
+      "sourceDocument": "Skånela IF CLUB IDENTITY v0.1",
+      "sourceType": "APPROVED_PROFILE_DOCX",
+      "locator": "DEFENSIVE IDENTITY"
+    },
+    {
+      "id": "ev-skanela-transition-identity",
+      "sourceDocument": "Skånela IF CLUB IDENTITY v0.1",
+      "sourceType": "APPROVED_PROFILE_DOCX",
+      "locator": "TRANSITION IDENTITY"
+    },
+    {
+      "id": "ev-skanela-home-supporter-identity-vikingahallen",
+      "sourceDocument": "Skånela IF CLUB IDENTITY v0.1",
+      "sourceType": "APPROVED_PROFILE_DOCX",
+      "locator": "HOME / SUPPORTER IDENTITY — VIKINGAHALLEN"
+    }
+  ],
+  "profile": {
+    "clubId": "se_club_skanela_if",
+    "seasonReference": "2026/27",
+    "structuralIdentity": [
+      {
+        "id": "club-skanela-bredd-och-elit-model",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_skanela_if",
+        "domain": "STRUCTURAL",
+        "key": "publishedClubModel",
+        "value": "BREDD_OCH_ELIT_HAND_I_HAND",
+        "evidenceClass": "VERIFIED_EXTERNAL_CLUB_STRATEGY",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-skanela-verified-development-club-strategy"
+        ],
+        "notes": "Children/youth are central to the association; senior teams compete as high as the organisation/economy sustainably allow. Own-youth-to-senior pathway and an external-young-recruit development route are both externally documented."
+      }
+    ],
+    "cultureIdentity": [
+      {
+        "id": "club-skanela-work-ethic",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_skanela_if",
+        "domain": "CULTURE",
+        "key": "workEthic",
+        "value": "VERY_STRONG",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-skanela-club-culture-resource-model"
+        ]
+      },
+      {
+        "id": "club-skanela-financial-risk-tolerance",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_skanela_if",
+        "domain": "CULTURE",
+        "key": "financialRiskTolerance",
+        "value": "LOW",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-skanela-club-culture-resource-model"
+        ]
+      },
+      {
+        "id": "club-skanela-resource-efficiency",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_skanela_if",
+        "domain": "CULTURE",
+        "key": "resourceEfficiency",
+        "value": "VERY_STRONG",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-skanela-club-culture-resource-model"
+        ]
+      },
+      {
+        "id": "club-skanela-player-commitment",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_skanela_if",
+        "domain": "CULTURE",
+        "key": "playerCommitment",
+        "value": "VERY_STRONG",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-skanela-club-culture-resource-model"
+        ]
+      },
+      {
+        "id": "club-skanela-home-environment",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_skanela_if",
+        "domain": "CULTURE",
+        "key": "homeEnvironment",
+        "value": "ELITE",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-skanela-home-supporter-identity-vikingahallen"
+        ],
+        "notes": "Vikingahallen (Märsta): one of Sweden's most difficult away venues -- small hall, frequently packed with local supporters."
+      },
+      {
+        "id": "club-skanela-home-court-difficulty",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_skanela_if",
+        "domain": "CULTURE",
+        "key": "homeCourtDifficulty",
+        "value": "ELITE",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-skanela-home-supporter-identity-vikingahallen"
+        ]
+      },
+      {
+        "id": "club-skanela-local-supporter-connection",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_skanela_if",
+        "domain": "CULTURE",
+        "key": "localSupporterConnection",
+        "value": "VERY_STRONG",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-skanela-home-supporter-identity-vikingahallen"
+        ]
+      }
+    ],
+    "tacticalHeritage": [
+      {
+        "id": "club-skanela-vaxelspel",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_skanela_if",
+        "domain": "ATTACK",
+        "key": "vaxelspel",
+        "value": "CORE",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-skanela-attack-identity"
+        ]
+      },
+      {
+        "id": "club-skanela-individual-tempo-power",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_skanela_if",
+        "domain": "ATTACK",
+        "key": "individualTempoPower",
+        "value": "HIGH",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-skanela-attack-identity"
+        ]
+      },
+      {
+        "id": "club-skanela-attacking-complexity",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_skanela_if",
+        "domain": "ATTACK",
+        "key": "attackingComplexity",
+        "value": "RELATIVELY_SIMPLE",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-skanela-attack-identity"
+        ],
+        "notes": "'Simple' describes clarity and recurring structure, not low quality."
+      },
+      {
+        "id": "club-skanela-primary-formation",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_skanela_if",
+        "domain": "DEFENCE",
+        "key": "primaryFormation",
+        "value": "6:0",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-skanela-defensive-identity"
+        ]
+      },
+      {
+        "id": "club-skanela-defensive-physicality",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_skanela_if",
+        "domain": "DEFENCE",
+        "key": "defensivePhysicality",
+        "value": "HIGH",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-skanela-defensive-identity"
+        ]
+      },
+      {
+        "id": "club-skanela-offensive-transition",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_skanela_if",
+        "domain": "TRANSITION",
+        "key": "offensiveTransition",
+        "value": "FAST",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-skanela-transition-identity"
+        ]
+      },
+      {
+        "id": "club-skanela-defensive-transition-retreat",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_skanela_if",
+        "domain": "TRANSITION",
+        "key": "defensiveTransitionRetreat",
+        "value": "STRONG",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-skanela-transition-identity"
+        ]
+      }
+    ],
+    "developmentIdentity": [],
+    "recruitmentIdentity": [],
+    "financialStrategicIdentity": [],
+    "supporterEnvironmentIdentity": []
+  }
+}

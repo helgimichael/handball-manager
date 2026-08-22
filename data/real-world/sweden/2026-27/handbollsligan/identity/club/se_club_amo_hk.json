@@ -1,0 +1,176 @@
+{
+  "clubId": "se_club_amo_hk",
+  "sourceDocument": "Amo HK CLUB IDENTITY v0.1",
+  "evidenceReferences": [
+    {
+      "id": "ev-amo-attack-identity",
+      "sourceDocument": "Amo HK CLUB IDENTITY v0.1",
+      "sourceType": "APPROVED_PROFILE_DOCX",
+      "locator": "ATTACK IDENTITY"
+    },
+    {
+      "id": "ev-amo-defensive-identity",
+      "sourceDocument": "Amo HK CLUB IDENTITY v0.1",
+      "sourceType": "APPROVED_PROFILE_DOCX",
+      "locator": "DEFENSIVE IDENTITY"
+    },
+    {
+      "id": "ev-amo-recruitment-development-model",
+      "sourceDocument": "Amo HK CLUB IDENTITY v0.1",
+      "sourceType": "APPROVED_PROFILE_DOCX",
+      "locator": "COACHING / DEVELOPMENT IDENTITY (Recruitment / development model)"
+    },
+    {
+      "id": "ev-amo-home-environment-identity",
+      "sourceDocument": "Amo HK CLUB IDENTITY v0.1",
+      "sourceType": "APPROVED_PROFILE_DOCX",
+      "locator": "HOME ENVIRONMENT IDENTITY"
+    }
+  ],
+  "profile": {
+    "clubId": "se_club_amo_hk",
+    "seasonReference": "2026/27",
+    "structuralIdentity": [],
+    "cultureIdentity": [
+      {
+        "id": "club-amo-small-community-identity",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_amo_hk",
+        "domain": "CULTURE",
+        "key": "smallCommunityClubIdentity",
+        "value": "STRONG",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-amo-home-environment-identity"
+        ]
+      },
+      {
+        "id": "club-amo-home-crowd-support",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_amo_hk",
+        "domain": "CULTURE",
+        "key": "homeCrowdSupport",
+        "value": "STRONG",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-amo-home-environment-identity"
+        ]
+      },
+      {
+        "id": "club-amo-home-performance-identity",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_amo_hk",
+        "domain": "CULTURE",
+        "key": "homePerformanceIdentity",
+        "value": "STRONG",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-amo-home-environment-identity"
+        ]
+      }
+    ],
+    "tacticalHeritage": [
+      {
+        "id": "club-amo-duel-oriented-attack",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_amo_hk",
+        "domain": "ATTACK",
+        "key": "duelOrientedAttack",
+        "value": "STRONG",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-amo-attack-identity"
+        ]
+      },
+      {
+        "id": "club-amo-hard-first-attack",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_amo_hk",
+        "domain": "ATTACK",
+        "key": "hardFirstAttack",
+        "value": "STRONG",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-amo-attack-identity"
+        ]
+      },
+      {
+        "id": "club-amo-vaxelspel-usage",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_amo_hk",
+        "domain": "ATTACK",
+        "key": "vaxelspelUsage",
+        "value": "HIGH_USAGE",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-amo-attack-identity"
+        ]
+      },
+      {
+        "id": "club-amo-defensive-physicality",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_amo_hk",
+        "domain": "DEFENCE",
+        "key": "defensivePhysicality",
+        "value": "VERY_STRONG",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-amo-defensive-identity"
+        ],
+        "notes": "The defence is described as rough, very tough and highly physical."
+      }
+    ],
+    "developmentIdentity": [
+      {
+        "id": "club-amo-own-youth-production",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_amo_hk",
+        "domain": "DEVELOPMENT",
+        "key": "ownYouthProduction",
+        "value": "LIMITED",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-amo-recruitment-development-model"
+        ]
+      }
+    ],
+    "recruitmentIdentity": [
+      {
+        "id": "club-amo-external-recruitment-orientation",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_amo_hk",
+        "domain": "RECRUITMENT",
+        "key": "externalRecruitmentOrientation",
+        "value": "STRONG",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-amo-recruitment-development-model"
+        ]
+      },
+      {
+        "id": "club-amo-nordic-recruitment",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_amo_hk",
+        "domain": "RECRUITMENT",
+        "key": "nordicNorthernEuropeanRecruitment",
+        "value": "STRONG",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-amo-recruitment-development-model"
+        ]
+      }
+    ],
+    "financialStrategicIdentity": [],
+    "supporterEnvironmentIdentity": []
+  }
+}

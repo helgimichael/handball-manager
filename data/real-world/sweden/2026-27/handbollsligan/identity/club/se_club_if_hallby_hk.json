@@ -1,0 +1,255 @@
+{
+  "clubId": "se_club_if_hallby_hk",
+  "sourceDocument": "IF Hallby HK CLUB IDENTITY v0.1",
+  "evidenceReferences": [
+    {
+      "id": "ev-hallby-attack-identity",
+      "sourceDocument": "IF Hallby HK CLUB IDENTITY v0.1",
+      "sourceType": "APPROVED_PROFILE_DOCX",
+      "locator": "ATTACK IDENTITY"
+    },
+    {
+      "id": "ev-hallby-defensive-identity",
+      "sourceDocument": "IF Hallby HK CLUB IDENTITY v0.1",
+      "sourceType": "APPROVED_PROFILE_DOCX",
+      "locator": "DEFENSIVE IDENTITY"
+    },
+    {
+      "id": "ev-hallby-transition-identity",
+      "sourceDocument": "IF Hallby HK CLUB IDENTITY v0.1",
+      "sourceType": "APPROVED_PROFILE_DOCX",
+      "locator": "TRANSITION IDENTITY"
+    },
+    {
+      "id": "ev-hallby-match-philosophy",
+      "sourceDocument": "IF Hallby HK CLUB IDENTITY v0.1",
+      "sourceType": "APPROVED_PROFILE_DOCX",
+      "locator": "MATCH PHILOSOPHY"
+    },
+    {
+      "id": "ev-hallby-recruitment-development-identity",
+      "sourceDocument": "IF Hallby HK CLUB IDENTITY v0.1",
+      "sourceType": "APPROVED_PROFILE_DOCX",
+      "locator": "RECRUITMENT / DEVELOPMENT IDENTITY"
+    },
+    {
+      "id": "ev-hallby-supporter-environment-identity",
+      "sourceDocument": "IF Hallby HK CLUB IDENTITY v0.1",
+      "sourceType": "APPROVED_PROFILE_DOCX",
+      "locator": "SUPPORTER / ENVIRONMENT IDENTITY"
+    }
+  ],
+  "profile": {
+    "clubId": "se_club_if_hallby_hk",
+    "seasonReference": "2026/27",
+    "structuralIdentity": [],
+    "cultureIdentity": [
+      {
+        "id": "club-hallby-home-attendance",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_if_hallby_hk",
+        "domain": "CULTURE",
+        "key": "homeAttendance",
+        "value": "LOW",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-hallby-supporter-environment-identity"
+        ]
+      },
+      {
+        "id": "club-hallby-public-interest",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_if_hallby_hk",
+        "domain": "CULTURE",
+        "key": "publicInterest",
+        "value": "DECLINING_LOW",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-hallby-supporter-environment-identity"
+        ]
+      }
+    ],
+    "tacticalHeritage": [
+      {
+        "id": "club-hallby-attack-tempo",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_if_hallby_hk",
+        "domain": "ATTACK",
+        "key": "attackTempo",
+        "value": "VERY_HIGH",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-hallby-attack-identity"
+        ]
+      },
+      {
+        "id": "club-hallby-technical-error-tendency",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_if_hallby_hk",
+        "domain": "ATTACK",
+        "key": "technicalErrorTendency",
+        "value": "VERY_HIGH",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-hallby-attack-identity"
+        ]
+      },
+      {
+        "id": "club-hallby-risk-tolerance",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_if_hallby_hk",
+        "domain": "ATTACK",
+        "key": "riskTolerance",
+        "value": "HIGH",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-hallby-attack-identity"
+        ]
+      },
+      {
+        "id": "club-hallby-performance-variance",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_if_hallby_hk",
+        "domain": "ATTACK",
+        "key": "performanceVariance",
+        "value": "VERY_HIGH",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-hallby-attack-identity"
+        ]
+      },
+      {
+        "id": "club-hallby-game-control",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_if_hallby_hk",
+        "domain": "ATTACK",
+        "key": "gameControl",
+        "value": "LOW",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-hallby-match-philosophy"
+        ],
+        "notes": "HIGH-RISK / HIGH-REWARD match philosophy: accepting defensive exposure and attacking risk to try to outscore the opponent."
+      },
+      {
+        "id": "club-hallby-primary-formation",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_if_hallby_hk",
+        "domain": "DEFENCE",
+        "key": "primaryFormation",
+        "value": "6:0",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-hallby-defensive-identity"
+        ]
+      },
+      {
+        "id": "club-hallby-defensive-aggression",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_if_hallby_hk",
+        "domain": "DEFENCE",
+        "key": "defensiveAggression",
+        "value": "HIGH",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-hallby-defensive-identity"
+        ]
+      },
+      {
+        "id": "club-hallby-ball-winning-intent",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_if_hallby_hk",
+        "domain": "DEFENCE",
+        "key": "ballWinningIntent",
+        "value": "VERY_HIGH",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-hallby-defensive-identity"
+        ]
+      },
+      {
+        "id": "club-hallby-defensive-risk",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_if_hallby_hk",
+        "domain": "DEFENCE",
+        "key": "defensiveRisk",
+        "value": "HIGH",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-hallby-defensive-identity"
+        ]
+      },
+      {
+        "id": "club-hallby-defensive-vulnerability",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_if_hallby_hk",
+        "domain": "DEFENCE",
+        "key": "defensiveVulnerability",
+        "value": "HIGH",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-hallby-defensive-identity"
+        ]
+      },
+      {
+        "id": "club-hallby-transition-identity",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_if_hallby_hk",
+        "domain": "TRANSITION",
+        "key": "transitionIdentity",
+        "value": "VERY_STRONG",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-hallby-transition-identity"
+        ],
+        "notes": "Aggressive 6:0 defence linked to early ball recovery and immediate transition -- running/pace are structural, not just a stylistic label."
+      }
+    ],
+    "developmentIdentity": [
+      {
+        "id": "club-hallby-youth-to-senior-opportunity-2026",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_if_hallby_hk",
+        "domain": "DEVELOPMENT",
+        "key": "youthToSeniorOpportunity2026",
+        "value": "DOCUMENTED",
+        "evidenceClass": "VERIFIED_EXTERNAL_DATA",
+        "temporalScope": "CURRENT",
+        "sourceRefs": [
+          "ev-hallby-current-team-context-2026-27",
+          "ev-hallby-recruitment-development-identity"
+        ]
+      }
+    ],
+    "recruitmentIdentity": [
+      {
+        "id": "club-hallby-regional-recruitment",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_if_hallby_hk",
+        "domain": "RECRUITMENT",
+        "key": "regionalRecruitment",
+        "value": "STRONG_HISTORICAL_PATTERN",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "HISTORICAL",
+        "sourceRefs": [
+          "ev-hallby-recruitment-development-identity"
+        ]
+      }
+    ],
+    "financialStrategicIdentity": [],
+    "supporterEnvironmentIdentity": []
+  }
+}

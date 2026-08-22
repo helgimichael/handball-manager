@@ -1,0 +1,61 @@
+{
+  "clubId": "se_club_lugi_hf",
+  "season": "2026/27",
+  "sourceDocument": "LUGI HF CLUB IDENTITY v0.1",
+  "evidenceReferences": [
+    {
+      "id": "ev-lugi-current-team-vulnerabilities-2026-27",
+      "sourceDocument": "LUGI HF CLUB IDENTITY v0.1",
+      "sourceType": "APPROVED_PROFILE_DOCX",
+      "locator": "CURRENT TEAM VULNERABILITIES — 2026/27"
+    }
+  ],
+  "context": {
+    "clubId": "se_club_lugi_hf",
+    "season": "2026/27",
+    "claims": [
+      {
+        "id": "squad-lugi-m6-strength",
+        "subjectType": "SQUAD",
+        "subjectId": "se_club_lugi_hf",
+        "domain": "SQUAD_COMPOSITION",
+        "key": "currentM6Strength",
+        "value": "POTENTIAL_WEAKNESS",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "CURRENT",
+        "season": "2026/27",
+        "sourceRefs": [
+          "ev-lugi-current-team-vulnerabilities-2026-27"
+        ]
+      },
+      {
+        "id": "squad-lugi-physical-profile",
+        "subjectType": "SQUAD",
+        "subjectId": "se_club_lugi_hf",
+        "domain": "SQUAD_COMPOSITION",
+        "key": "currentPhysicalProfile",
+        "value": "SMALL_LIGHT",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "CURRENT",
+        "season": "2026/27",
+        "sourceRefs": [
+          "ev-lugi-current-team-vulnerabilities-2026-27"
+        ]
+      },
+      {
+        "id": "squad-lugi-central-shooting-vulnerability",
+        "subjectType": "SQUAD",
+        "subjectId": "se_club_lugi_hf",
+        "domain": "SQUAD_COMPOSITION",
+        "key": "centralShootingVsPhysicalDefences",
+        "value": "POTENTIAL_VULNERABILITY",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "CURRENT",
+        "season": "2026/27",
+        "sourceRefs": [
+          "ev-lugi-current-team-vulnerabilities-2026-27"
+        ]
+      }
+    ]
+  }
+}

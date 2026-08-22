@@ -1,0 +1,385 @@
+{
+  "clubId": "se_club_ifk_kristianstad",
+  "sourceDocument": "IFK Kristianstad CLUB IDENTITY v0.1",
+  "evidenceReferences": [
+    {
+      "id": "ev-ifkk-verified-external-club-strategy",
+      "sourceDocument": "IFK Kristianstad CLUB IDENTITY v0.1",
+      "sourceType": "APPROVED_PROFILE_DOCX",
+      "locator": "VERIFIED EXTERNAL CLUB STRATEGY"
+    },
+    {
+      "id": "ev-ifkk-professional-training-environment",
+      "sourceDocument": "IFK Kristianstad CLUB IDENTITY v0.1",
+      "sourceType": "APPROVED_PROFILE_DOCX",
+      "locator": "PROFESSIONAL / TRAINING ENVIRONMENT"
+    },
+    {
+      "id": "ev-ifkk-recruitment-development-identity",
+      "sourceDocument": "IFK Kristianstad CLUB IDENTITY v0.1",
+      "sourceType": "APPROVED_PROFILE_DOCX",
+      "locator": "RECRUITMENT / DEVELOPMENT IDENTITY"
+    },
+    {
+      "id": "ev-ifkk-attack-identity",
+      "sourceDocument": "IFK Kristianstad CLUB IDENTITY v0.1",
+      "sourceType": "APPROVED_PROFILE_DOCX",
+      "locator": "ATTACK IDENTITY"
+    },
+    {
+      "id": "ev-ifkk-defensive-identity",
+      "sourceDocument": "IFK Kristianstad CLUB IDENTITY v0.1",
+      "sourceType": "APPROVED_PROFILE_DOCX",
+      "locator": "DEFENSIVE IDENTITY"
+    },
+    {
+      "id": "ev-ifkk-supporter-home-identity",
+      "sourceDocument": "IFK Kristianstad CLUB IDENTITY v0.1",
+      "sourceType": "APPROVED_PROFILE_DOCX",
+      "locator": "SUPPORTER / HOME IDENTITY"
+    }
+  ],
+  "profile": {
+    "clubId": "se_club_ifk_kristianstad",
+    "seasonReference": "2026/27",
+    "structuralIdentity": [
+      {
+        "id": "club-ifkk-published-strategic-ambition",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_ifk_kristianstad",
+        "domain": "STRUCTURAL",
+        "key": "publishedStrategicAmbition",
+        "value": "COMPETE_FOR_TITLES_EUROPEAN_PATHWAY",
+        "evidenceClass": "VERIFIED_EXTERNAL_CLUB_STRATEGY",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-ifkk-verified-external-club-strategy"
+        ],
+        "notes": "Published ambitions around 2026 coaching recruitment: league/SM/European competitiveness, leading training culture, attractive young-player environment, European career pathway, professional medical/physical/performance support. Stored as stated intent, not proof every ambition is achieved."
+      }
+    ],
+    "cultureIdentity": [
+      {
+        "id": "club-ifkk-professional-environment",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_ifk_kristianstad",
+        "domain": "CULTURE",
+        "key": "professionalEnvironment",
+        "value": "ELITE",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-ifkk-professional-training-environment"
+        ]
+      },
+      {
+        "id": "club-ifkk-winning-culture",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_ifk_kristianstad",
+        "domain": "CULTURE",
+        "key": "winningCulture",
+        "value": "VERY_STRONG",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-ifkk-professional-training-environment"
+        ]
+      },
+      {
+        "id": "club-ifkk-training-environment",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_ifk_kristianstad",
+        "domain": "CULTURE",
+        "key": "trainingEnvironment",
+        "value": "ELITE",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-ifkk-professional-training-environment"
+        ]
+      },
+      {
+        "id": "club-ifkk-training-volume",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_ifk_kristianstad",
+        "domain": "CULTURE",
+        "key": "trainingVolume",
+        "value": "VERY_HIGH",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-ifkk-professional-training-environment"
+        ]
+      },
+      {
+        "id": "club-ifkk-fanbase",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_ifk_kristianstad",
+        "domain": "CULTURE",
+        "key": "fanbase",
+        "value": "ELITE",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-ifkk-supporter-home-identity"
+        ]
+      },
+      {
+        "id": "club-ifkk-home-attendance",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_ifk_kristianstad",
+        "domain": "CULTURE",
+        "key": "homeAttendance",
+        "value": "VERY_HIGH",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-ifkk-supporter-home-identity"
+        ]
+      },
+      {
+        "id": "club-ifkk-sell-out-tendency",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_ifk_kristianstad",
+        "domain": "CULTURE",
+        "key": "sellOutTendency",
+        "value": "VERY_HIGH",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-ifkk-supporter-home-identity"
+        ]
+      },
+      {
+        "id": "club-ifkk-home-environment",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_ifk_kristianstad",
+        "domain": "CULTURE",
+        "key": "homeEnvironment",
+        "value": "VERY_STRONG",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-ifkk-supporter-home-identity"
+        ]
+      }
+    ],
+    "tacticalHeritage": [
+      {
+        "id": "club-ifkk-positional-attack-complexity",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_ifk_kristianstad",
+        "domain": "ATTACK",
+        "key": "positionalAttackComplexity",
+        "value": "SIMPLE",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-ifkk-attack-identity"
+        ]
+      },
+      {
+        "id": "club-ifkk-physical-attacking-profile",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_ifk_kristianstad",
+        "domain": "ATTACK",
+        "key": "physicalAttackingProfile",
+        "value": "STRONG",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-ifkk-attack-identity"
+        ]
+      },
+      {
+        "id": "club-ifkk-m6-involvement",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_ifk_kristianstad",
+        "domain": "ATTACK",
+        "key": "m6Involvement",
+        "value": "HIGH",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-ifkk-attack-identity"
+        ]
+      },
+      {
+        "id": "club-ifkk-primary-formation",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_ifk_kristianstad",
+        "domain": "DEFENCE",
+        "key": "primaryFormation",
+        "value": "6:0",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-ifkk-defensive-identity"
+        ]
+      },
+      {
+        "id": "club-ifkk-defensive-physicality",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_ifk_kristianstad",
+        "domain": "DEFENCE",
+        "key": "defensivePhysicality",
+        "value": "VERY_STRONG",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-ifkk-defensive-identity"
+        ]
+      },
+      {
+        "id": "club-ifkk-contact-seeking",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_ifk_kristianstad",
+        "domain": "DEFENCE",
+        "key": "contactSeeking",
+        "value": "VERY_STRONG",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-ifkk-defensive-identity"
+        ]
+      },
+      {
+        "id": "club-ifkk-defensive-depth",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_ifk_kristianstad",
+        "domain": "DEFENCE",
+        "key": "defensiveDepth",
+        "value": "DYNAMIC",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-ifkk-defensive-identity"
+        ]
+      },
+      {
+        "id": "club-ifkk-defensive-toughness",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_ifk_kristianstad",
+        "domain": "DEFENCE",
+        "key": "defensiveToughness",
+        "value": "VERY_STRONG",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-ifkk-defensive-identity"
+        ]
+      }
+    ],
+    "developmentIdentity": [
+      {
+        "id": "club-ifkk-young-player-opportunity",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_ifk_kristianstad",
+        "domain": "DEVELOPMENT",
+        "key": "youngPlayerOpportunity",
+        "value": "VERY_STRONG",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-ifkk-recruitment-development-identity"
+        ]
+      },
+      {
+        "id": "club-ifkk-own-academy-pathway",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_ifk_kristianstad",
+        "domain": "DEVELOPMENT",
+        "key": "ownAcademyToSeniorPathway",
+        "value": "NOT_CORE_STRENGTH",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-ifkk-recruitment-development-identity"
+        ]
+      },
+      {
+        "id": "club-ifkk-external-young-talent-development",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_ifk_kristianstad",
+        "domain": "DEVELOPMENT",
+        "key": "externalYoungTalentDevelopment",
+        "value": "VERY_STRONG",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-ifkk-recruitment-development-identity"
+        ]
+      }
+    ],
+    "recruitmentIdentity": [
+      {
+        "id": "club-ifkk-talent-identification",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_ifk_kristianstad",
+        "domain": "RECRUITMENT",
+        "key": "talentIdentification",
+        "value": "VERY_STRONG",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-ifkk-recruitment-development-identity"
+        ]
+      },
+      {
+        "id": "club-ifkk-external-young-talent-recruitment",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_ifk_kristianstad",
+        "domain": "RECRUITMENT",
+        "key": "externalYoungTalentRecruitment",
+        "value": "VERY_STRONG",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-ifkk-recruitment-development-identity"
+        ]
+      },
+      {
+        "id": "club-ifkk-returning-elite-player-attraction",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_ifk_kristianstad",
+        "domain": "RECRUITMENT",
+        "key": "returningElitePlayerAttraction",
+        "value": "VERY_STRONG",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-ifkk-recruitment-development-identity"
+        ]
+      },
+      {
+        "id": "club-ifkk-veteran-young-balance",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_ifk_kristianstad",
+        "domain": "RECRUITMENT",
+        "key": "veteranYoungBalance",
+        "value": "STRONG",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-ifkk-recruitment-development-identity"
+        ]
+      }
+    ],
+    "financialStrategicIdentity": [
+      {
+        "id": "club-ifkk-financial-strength",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_ifk_kristianstad",
+        "domain": "FINANCIAL_STRATEGIC",
+        "key": "financialStrength",
+        "value": "VERY_STRONG",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-ifkk-professional-training-environment"
+        ]
+      }
+    ],
+    "supporterEnvironmentIdentity": []
+  }
+}

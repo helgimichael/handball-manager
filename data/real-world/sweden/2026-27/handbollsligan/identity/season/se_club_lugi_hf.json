@@ -1,0 +1,52 @@
+{
+  "clubId": "se_club_lugi_hf",
+  "season": "2026/27",
+  "sourceDocument": "LUGI HF CLUB IDENTITY v0.1",
+  "evidenceReferences": [
+    {
+      "id": "ev-lugi-financial-organisational-context",
+      "sourceDocument": "LUGI HF CLUB IDENTITY v0.1",
+      "sourceType": "APPROVED_PROFILE_DOCX",
+      "locator": "FINANCIAL / ORGANISATIONAL CONTEXT"
+    }
+  ],
+  "context": {
+    "clubId": "se_club_lugi_hf",
+    "season": "2026/27",
+    "organisationalClaims": [
+      {
+        "id": "season-lugi-organisational-confidence",
+        "subjectType": "SEASON_CONTEXT",
+        "subjectId": "se_club_lugi_hf",
+        "domain": "ORGANISATIONAL",
+        "key": "organisationalConfidence",
+        "value": "IMPROVING_STRONG",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "SEASON",
+        "season": "2026/27",
+        "sourceRefs": [
+          "ev-lugi-financial-organisational-context"
+        ]
+      }
+    ],
+    "financialClaims": [
+      {
+        "id": "season-lugi-financial-trajectory",
+        "subjectType": "SEASON_CONTEXT",
+        "subjectId": "se_club_lugi_hf",
+        "domain": "FINANCIAL",
+        "key": "financialTrajectory",
+        "value": "IMPROVING",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "SEASON",
+        "season": "2026/27",
+        "sourceRefs": [
+          "ev-lugi-financial-organisational-context"
+        ]
+      }
+    ],
+    "squadClaims": [],
+    "competitiveClaims": [],
+    "transitionClaims": []
+  }
+}

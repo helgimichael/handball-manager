@@ -1,0 +1,103 @@
+{
+  "clubId": "se_club_onnereds_hk",
+  "season": "2026/27",
+  "sourceDocument": "Önnereds HK CLUB IDENTITY v0.1",
+  "evidenceReferences": [
+    {
+      "id": "ev-onnered-squad-building-2026-27",
+      "sourceDocument": "Önnereds HK CLUB IDENTITY v0.1",
+      "sourceType": "APPROVED_PROFILE_DOCX",
+      "locator": "SQUAD BUILDING — 2026/27"
+    }
+  ],
+  "context": {
+    "clubId": "se_club_onnereds_hk",
+    "season": "2026/27",
+    "claims": [
+      {
+        "id": "squad-onnered-age",
+        "subjectType": "SQUAD",
+        "subjectId": "se_club_onnereds_hk",
+        "domain": "SQUAD_COMPOSITION",
+        "key": "squadAge",
+        "value": "VERY_YOUNG",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "CURRENT",
+        "season": "2026/27",
+        "sourceRefs": [
+          "ev-onnered-squad-building-2026-27"
+        ]
+      },
+      {
+        "id": "squad-onnered-experience",
+        "subjectType": "SQUAD",
+        "subjectId": "se_club_onnereds_hk",
+        "domain": "SQUAD_COMPOSITION",
+        "key": "squadExperience",
+        "value": "LOW",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "CURRENT",
+        "season": "2026/27",
+        "sourceRefs": [
+          "ev-onnered-squad-building-2026-27"
+        ]
+      },
+      {
+        "id": "squad-onnered-young-player-talent",
+        "subjectType": "SQUAD",
+        "subjectId": "se_club_onnereds_hk",
+        "domain": "SQUAD_COMPOSITION",
+        "key": "youngPlayerTalent",
+        "value": "HIGH",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "CURRENT",
+        "season": "2026/27",
+        "sourceRefs": [
+          "ev-onnered-squad-building-2026-27"
+        ]
+      },
+      {
+        "id": "squad-onnered-physical-size",
+        "subjectType": "SQUAD",
+        "subjectId": "se_club_onnereds_hk",
+        "domain": "SQUAD_COMPOSITION",
+        "key": "physicalSize",
+        "value": "LOW_SMALL_PROFILE",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "CURRENT",
+        "season": "2026/27",
+        "sourceRefs": [
+          "ev-onnered-squad-building-2026-27"
+        ]
+      },
+      {
+        "id": "squad-onnered-development-upside",
+        "subjectType": "SQUAD",
+        "subjectId": "se_club_onnereds_hk",
+        "domain": "SQUAD_COMPOSITION",
+        "key": "developmentUpside",
+        "value": "HIGH",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "CURRENT",
+        "season": "2026/27",
+        "sourceRefs": [
+          "ev-onnered-squad-building-2026-27"
+        ]
+      },
+      {
+        "id": "squad-onnered-building-constraint",
+        "subjectType": "SQUAD",
+        "subjectId": "se_club_onnereds_hk",
+        "domain": "SQUAD_COMPOSITION",
+        "key": "squadBuildingConstraint",
+        "value": "FINANCIAL",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "CURRENT",
+        "season": "2026/27",
+        "sourceRefs": [
+          "ev-onnered-squad-building-2026-27"
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,90 @@
+{
+  "clubId": "se_club_hf_karlskrona",
+  "season": "2026/27",
+  "sourceDocument": "HF Karlskrona CLUB IDENTITY v0.1",
+  "evidenceReferences": [
+    {
+      "id": "ev-hfk-squad-identity",
+      "sourceDocument": "HF Karlskrona CLUB IDENTITY v0.1",
+      "sourceType": "APPROVED_PROFILE_DOCX",
+      "locator": "SQUAD IDENTITY"
+    }
+  ],
+  "context": {
+    "clubId": "se_club_hf_karlskrona",
+    "season": "2026/27",
+    "claims": [
+      {
+        "id": "squad-hfk-depth",
+        "subjectType": "SQUAD",
+        "subjectId": "se_club_hf_karlskrona",
+        "domain": "SQUAD_COMPOSITION",
+        "key": "squadDepth",
+        "value": "THIN",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "CURRENT",
+        "season": "2026/27",
+        "sourceRefs": [
+          "ev-hfk-squad-identity"
+        ]
+      },
+      {
+        "id": "squad-hfk-key-player-dependency",
+        "subjectType": "SQUAD",
+        "subjectId": "se_club_hf_karlskrona",
+        "domain": "SQUAD_COMPOSITION",
+        "key": "keyPlayerDependency",
+        "value": "HIGH",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "CURRENT",
+        "season": "2026/27",
+        "sourceRefs": [
+          "ev-hfk-squad-identity"
+        ]
+      },
+      {
+        "id": "squad-hfk-collective-performance",
+        "subjectType": "SQUAD",
+        "subjectId": "se_club_hf_karlskrona",
+        "domain": "SQUAD_COMPOSITION",
+        "key": "collectivePerformance",
+        "value": "STRONG",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "CURRENT",
+        "season": "2026/27",
+        "sourceRefs": [
+          "ev-hfk-squad-identity"
+        ],
+        "notes": "Treated as collective/coaching performance, not evidence that individual player ability ratings should be raised."
+      },
+      {
+        "id": "squad-hfk-game-plan-execution",
+        "subjectType": "SQUAD",
+        "subjectId": "se_club_hf_karlskrona",
+        "domain": "SQUAD_COMPOSITION",
+        "key": "gamePlanExecution",
+        "value": "STRONG",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "CURRENT",
+        "season": "2026/27",
+        "sourceRefs": [
+          "ev-hfk-squad-identity"
+        ]
+      },
+      {
+        "id": "squad-hfk-prepared-pattern-execution",
+        "subjectType": "SQUAD",
+        "subjectId": "se_club_hf_karlskrona",
+        "domain": "SQUAD_COMPOSITION",
+        "key": "preparedPatternExecution",
+        "value": "STRONG",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "CURRENT",
+        "season": "2026/27",
+        "sourceRefs": [
+          "ev-hfk-squad-identity"
+        ]
+      }
+    ]
+  }
+}

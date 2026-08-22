@@ -1,0 +1,246 @@
+{
+  "clubId": "se_club_lugi_hf",
+  "sourceDocument": "LUGI HF CLUB IDENTITY v0.1",
+  "evidenceReferences": [
+    {
+      "id": "ev-lugi-verified-external-club-strategy",
+      "sourceDocument": "LUGI HF CLUB IDENTITY v0.1",
+      "sourceType": "APPROVED_PROFILE_DOCX",
+      "locator": "VERIFIED EXTERNAL CLUB STRATEGY"
+    },
+    {
+      "id": "ev-lugi-development-identity",
+      "sourceDocument": "LUGI HF CLUB IDENTITY v0.1",
+      "sourceType": "APPROVED_PROFILE_DOCX",
+      "locator": "DEVELOPMENT IDENTITY"
+    },
+    {
+      "id": "ev-lugi-attack-identity",
+      "sourceDocument": "LUGI HF CLUB IDENTITY v0.1",
+      "sourceType": "APPROVED_PROFILE_DOCX",
+      "locator": "ATTACK IDENTITY"
+    },
+    {
+      "id": "ev-lugi-defensive-identity",
+      "sourceDocument": "LUGI HF CLUB IDENTITY v0.1",
+      "sourceType": "APPROVED_PROFILE_DOCX",
+      "locator": "DEFENSIVE IDENTITY"
+    },
+    {
+      "id": "ev-lugi-transition-identity",
+      "sourceDocument": "LUGI HF CLUB IDENTITY v0.1",
+      "sourceType": "APPROVED_PROFILE_DOCX",
+      "locator": "TRANSITION IDENTITY"
+    }
+  ],
+  "profile": {
+    "clubId": "se_club_lugi_hf",
+    "seasonReference": "2026/27",
+    "structuralIdentity": [
+      {
+        "id": "club-lugi-published-squad-building-ambition",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_lugi_hf",
+        "domain": "STRUCTURAL",
+        "key": "publishedSquadBuildingAmbition",
+        "value": "OWN_DEVELOPED_PLUS_ACADEMY_PLUS_SELECTIVE_EXTERNAL",
+        "evidenceClass": "VERIFIED_EXTERNAL_CLUB_STRATEGY",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-lugi-verified-external-club-strategy"
+        ],
+        "notes": "Long-term squad-building ambition combining own-developed players, academy-recruited youth players, and selected external top-level recruitment; also an expressed desire to raise training intensity/demands/winning culture -- stored as desired direction, not an achieved current quality."
+      }
+    ],
+    "cultureIdentity": [],
+    "tacticalHeritage": [
+      {
+        "id": "club-lugi-over-zone-ball-movement",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_lugi_hf",
+        "domain": "ATTACK",
+        "key": "overZoneBallMovement",
+        "value": "HIGH",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-lugi-attack-identity"
+        ]
+      },
+      {
+        "id": "club-lugi-central-shooting-threat",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_lugi_hf",
+        "domain": "ATTACK",
+        "key": "centralShootingThreat",
+        "value": "IMPORTANT",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-lugi-attack-identity"
+        ]
+      },
+      {
+        "id": "club-lugi-wing-quality",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_lugi_hf",
+        "domain": "ATTACK",
+        "key": "wingQuality",
+        "value": "STRONG",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-lugi-attack-identity"
+        ]
+      },
+      {
+        "id": "club-lugi-primary-formation",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_lugi_hf",
+        "domain": "DEFENCE",
+        "key": "primaryFormation",
+        "value": "6:0_OFFENSIVE",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-lugi-defensive-identity"
+        ]
+      },
+      {
+        "id": "club-lugi-defensive-depth",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_lugi_hf",
+        "domain": "DEFENCE",
+        "key": "defensiveDepth",
+        "value": "HIGH",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-lugi-defensive-identity"
+        ]
+      },
+      {
+        "id": "club-lugi-defensive-aggression",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_lugi_hf",
+        "domain": "DEFENCE",
+        "key": "defensiveAggression",
+        "value": "HIGH",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-lugi-defensive-identity"
+        ]
+      },
+      {
+        "id": "club-lugi-transition-identity",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_lugi_hf",
+        "domain": "TRANSITION",
+        "key": "transitionIdentity",
+        "value": "RUNNING_ORIENTED",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-lugi-transition-identity"
+        ]
+      },
+      {
+        "id": "club-lugi-transition-frequency",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_lugi_hf",
+        "domain": "TRANSITION",
+        "key": "transitionFrequency",
+        "value": "HIGH",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-lugi-transition-identity"
+        ]
+      },
+      {
+        "id": "club-lugi-tempo-preference",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_lugi_hf",
+        "domain": "TRANSITION",
+        "key": "tempoPreference",
+        "value": "HIGH",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-lugi-transition-identity"
+        ]
+      }
+    ],
+    "developmentIdentity": [
+      {
+        "id": "club-lugi-academy-importance",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_lugi_hf",
+        "domain": "DEVELOPMENT",
+        "key": "academyImportance",
+        "value": "VERY_HIGH",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-lugi-development-identity"
+        ]
+      },
+      {
+        "id": "club-lugi-youth-development-quality",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_lugi_hf",
+        "domain": "DEVELOPMENT",
+        "key": "youthDevelopmentQuality",
+        "value": "VERY_STRONG",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-lugi-development-identity"
+        ]
+      },
+      {
+        "id": "club-lugi-young-player-integration",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_lugi_hf",
+        "domain": "DEVELOPMENT",
+        "key": "youngPlayerIntegration",
+        "value": "STRONG",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-lugi-development-identity"
+        ]
+      },
+      {
+        "id": "club-lugi-youth-to-senior-pathway",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_lugi_hf",
+        "domain": "DEVELOPMENT",
+        "key": "youthToSeniorPathway",
+        "value": "VERIFIED",
+        "evidenceClass": "VERIFIED_EXTERNAL_DATA",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-lugi-development-identity"
+        ]
+      },
+      {
+        "id": "club-lugi-club-wide-development-strategy",
+        "subjectType": "CLUB",
+        "subjectId": "se_club_lugi_hf",
+        "domain": "DEVELOPMENT",
+        "key": "clubWideDevelopmentStrategy",
+        "value": "VERIFIED",
+        "evidenceClass": "VERIFIED_EXTERNAL_DATA",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-lugi-development-identity"
+        ]
+      }
+    ],
+    "recruitmentIdentity": [],
+    "financialStrategicIdentity": [],
+    "supporterEnvironmentIdentity": []
+  }
+}
