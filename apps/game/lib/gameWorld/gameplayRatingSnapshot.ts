@@ -71,10 +71,15 @@ export function snapshotGameplayRatingsForClub(clubId: string): GameplayRatingCl
 
     const { profile: proposed, matchedCalibration } = proposePlayerRating(player);
     const { profile: estimated, caProposal } = applyCAEstimation(proposed, player.fullName, matchedCalibration);
-    const { profile: final } = applyGamePrior(estimated, clubId);
+    const { profile: final, gamePriorCAApplied } = applyGamePrior(estimated, clubId);
     const generation = generatePlayerRatingProfile(final);
 
-    const caSource: RatingValueSource = matchedCalibration ? "CALIBRATED" : caProposal?.status === "ESTIMATED" ? "MODEL_ESTIMATE" : "GENERATED_GAME_PRIOR";
+    // gamePriorCAApplied is checked FIRST: a player can be matched to a
+    // HM-RATINGS-0.2 calibration entry whose CA was itself left
+    // unassessed (e.g. Robin Järling -- PA calibrated, CA not), in
+    // which case the calibration match is real but did not supply
+    // THIS value, and the source must say GENERATED_GAME_PRIOR.
+    const caSource: RatingValueSource = gamePriorCAApplied ? "GENERATED_GAME_PRIOR" : matchedCalibration ? "CALIBRATED" : caProposal?.status === "ESTIMATED" ? "MODEL_ESTIMATE" : "GENERATED_GAME_PRIOR";
 
     // generation.status is always "OK" here: applyGamePrior guarantees a resolved CA for every player reaching this point.
     const branch = generation.status === "OK" ? generation.profile.branch : { branch: "OUTCOURT" as const, attributes: {} as never };

@@ -10,7 +10,7 @@ import { resolveStatusLabel } from "@/lib/career/playerStatus";
 import StarRating from "@/components/StarRating";
 import StatValue from "@/components/StatValue";
 import { ClubLink } from "@/components/entityLinks";
-import { RatingAbilityPanel, RatingAttributesPanel, type RatingProposalRow } from "@/components/RatingProfilePanels";
+import { GameplayAbilityPanel, GameplayAttributesPanel, type GameplayRatingRow } from "@/components/GameplayProfilePanels";
 
 export default function PlayerProfilePage() {
   const router = useRouter();
@@ -18,12 +18,15 @@ export default function PlayerProfilePage() {
   const { career } = useCareer();
   const player = getCareerPlayer(career, params.playerId);
 
-  // HM-UX-0.3: real-world players show the HM-RATINGS-0.3 proposal
-  // instead of the old mock 10-attribute/star panels, where a proposal
-  // exists. `undefined` = not yet fetched, `null` = fetched but this
-  // player has no rating data (falls back to the old mock display,
-  // same as any non-real-world player).
-  const [ratingRow, setRatingRow] = useState<RatingProposalRow | null | undefined>(undefined);
+  // HM-UX-RATINGS-0.1: real-world players show HM-RATINGS-0.6's
+  // canonical, COMPLETE gameplay rating snapshot -- never the older
+  // sparse HM-RATINGS-0.3 evidence proposal (that view now lives only
+  // in Editor -> Rating Review, where "what do we actually know?" is
+  // the point). `undefined` = not yet fetched, `null` = fetched but
+  // this player has no gameplay rating (an honest failure -- falls
+  // back to the old mock display, same as any non-real-world player;
+  // never fabricated client-side).
+  const [ratingRow, setRatingRow] = useState<GameplayRatingRow | null | undefined>(undefined);
 
   useEffect(() => {
     if (!player || player.dataSource !== "REAL_WORLD") {
@@ -32,11 +35,11 @@ export default function PlayerProfilePage() {
       return;
     }
     let cancelled = false;
-    fetch(`/api/game-world/rating-proposals/clubs/${encodeURIComponent(player.clubId)}`)
+    fetch(`/api/game-world/gameplay-ratings/clubs/${encodeURIComponent(player.clubId)}`)
       .then((res) => (res.ok ? res.json() : null))
       .then((data) => {
         if (cancelled) return;
-        const row = (data?.players ?? []).find((r: RatingProposalRow) => r.profile.playerId === player.id) ?? null;
+        const row = (data?.players ?? []).find((r: GameplayRatingRow) => r.playerId === player.id) ?? null;
         setRatingRow(row);
       })
       .catch(() => {
@@ -138,13 +141,13 @@ export default function PlayerProfilePage() {
           </div>
         </div>
 
-        {/* Attributes -- HM-RATINGS-0.3 proposal where it exists, otherwise the explicitly-marked mock set */}
+        {/* Attributes -- HM-RATINGS-0.6 complete gameplay profile where it exists, otherwise the explicitly-marked mock set */}
         {ratingRow === undefined ? (
           <div className="hm-panel">
-            <div className="hm-panel-body hm-text-muted">Läser in betygsunderlag…</div>
+            <div className="hm-panel-body hm-text-muted">Läser in spelarbetyg…</div>
           </div>
         ) : hasRatingProfile ? (
-          <RatingAttributesPanel row={ratingRow!} />
+          <GameplayAttributesPanel row={ratingRow!} />
         ) : (
           <div className="hm-panel">
             <div className="hm-panel-header">
@@ -184,13 +187,13 @@ export default function PlayerProfilePage() {
       </div>
 
       <div className="hm-grid" style={{ gap: 12 }}>
-        {/* Ability / potential -- HM-RATINGS-0.3 proposal where it exists, otherwise the old star display */}
+        {/* Ability / potential -- HM-RATINGS-0.6 gameplay CA/PA where it exists, otherwise the old star display */}
         {ratingRow === undefined && player.dataSource === "REAL_WORLD" ? (
           <div className="hm-panel">
-            <div className="hm-panel-body hm-text-muted">Läser in betygsunderlag…</div>
+            <div className="hm-panel-body hm-text-muted">Läser in spelarbetyg…</div>
           </div>
         ) : hasRatingProfile ? (
-          <RatingAbilityPanel row={ratingRow!} />
+          <GameplayAbilityPanel row={ratingRow!} />
         ) : (
           <div className="hm-panel">
             <div className="hm-panel-header">

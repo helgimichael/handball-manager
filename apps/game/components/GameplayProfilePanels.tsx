@@ -1,0 +1,163 @@
+// HM-UX-RATINGS-0.1: the normal (non-Editor) Player Profile's read
+// model for HM-RATINGS-0.6's canonical, COMPLETE gameplay rating
+// snapshot (GET /api/game-world/gameplay-ratings/clubs/[clubId]).
+//
+// Deliberately a different, simpler presentation than the Editor's own
+// GeneratedProfilePreviewPanel (components/GeneratedProfilePreview.tsx)
+// -- this is the GAME UI ("how good is this player?"), not the Rating
+// Review audit workspace ("why does this value exist?"). A subtle dot
+// marks an evidence-backed/editor-overridden value; nothing else about
+// provenance is surfaced here -- the full evidence/claim trail stays in
+// Editor -> Rating Review.
+//
+// This component never computes a rating itself -- it only renders
+// whatever the canonical snapshot already resolved (Part B/F: no
+// second, client-side rating resolver).
+import type { CSSProperties } from "react";
+import { GOALKEEPER_ATTRIBUTE_FAMILIES, OUTCOURT_ATTRIBUTE_FAMILIES, type GoalkeeperAttribute, type GoalkeeperAttributeFamily, type OutcourtAttribute, type OutcourtAttributeFamily } from "@/lib/rating/types";
+import { getAttributeFamilyLabel, getAttributeLabel } from "@/lib/rating/attributeVocabulary";
+
+export type GameplayAttributeOrigin = "EVIDENCE_BACKED" | "DERIVED" | "GENERATED_PRIOR" | "EDITOR_OVERRIDE";
+export type GameplayCASource = "CALIBRATED" | "MODEL_ESTIMATE" | "GENERATED_GAME_PRIOR" | "EDITOR_OVERRIDE";
+
+export interface GameplayAttributeEntry {
+  value: number;
+  origin: GameplayAttributeOrigin;
+}
+
+export interface GameplayRatingRow {
+  playerId: string;
+  position: string;
+  ca: number;
+  pa: number;
+  caSource: GameplayCASource;
+  branch: { branch: "OUTCOURT"; attributes: Record<string, GameplayAttributeEntry> } | { branch: "GOALKEEPER"; attributes: Record<string, GameplayAttributeEntry> };
+  attackRoleProficiencies: { role: string }[];
+  defenceRoleProficiencies: { role: string }[];
+  locked: boolean;
+}
+
+const CA_SOURCE_LABEL: Record<GameplayCASource, string> = {
+  CALIBRATED: "KALIBRERAD",
+  MODEL_ESTIMATE: "SKATTAD",
+  GENERATED_GAME_PRIOR: "GENERERAD",
+  EDITOR_OVERRIDE: "MANUELLT SATT",
+};
+
+/** Right-column panel: gameplay CA/PA with a source badge, plus role/position. */
+export function GameplayAbilityPanel({ row }: { row: GameplayRatingRow }) {
+  return (
+    <div className="hm-panel">
+      <div className="hm-panel-header">
+        <span className="hm-panel-title">Förmåga</span>
+        <span className={`hm-badge ${row.locked ? "hm-badge-positive" : "hm-badge-neutral"}`}>
+          {row.locked ? "LÅST · " : ""}
+          {CA_SOURCE_LABEL[row.caSource]}
+        </span>
+      </div>
+      <div className="hm-panel-body" style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+        <AbilityBlock label="Nuvarande förmåga (CA)" value={row.ca} />
+        <AbilityBlock label="Potential (PA)" value={row.pa} />
+        <div className="hm-divider" />
+        <RoleRow label="Anfallsroller" roles={row.attackRoleProficiencies} />
+        <RoleRow label="Försvarsroller" roles={row.defenceRoleProficiencies} />
+        {row.caSource === "GENERATED_GAME_PRIOR" ? (
+          <p className="hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)", margin: 0, lineHeight: 1.5 }}>
+            Genererad spelrepresentation -- inget forskat underlag finns för denna spelare ännu.
+          </p>
+        ) : null}
+      </div>
+    </div>
+  );
+}
+
+function AbilityBlock({ label, value }: { label: string; value: number }) {
+  return (
+    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+      <span className="hm-text-secondary" style={{ fontSize: "var(--hm-text-xs)" }}>
+        {label}
+      </span>
+      <span style={{ fontSize: "var(--hm-text-md)", fontWeight: 800 }}>{value}</span>
+    </div>
+  );
+}
+
+function RoleRow({ label, roles }: { label: string; roles: { role: string }[] }) {
+  return (
+    <div style={{ display: "flex", justifyContent: "space-between", fontSize: "var(--hm-text-xs)" }}>
+      <span className="hm-text-muted">{label}</span>
+      <span style={{ fontWeight: 600, textAlign: "right" }}>{roles.length ? roles.map((r) => r.role).join(", ") : "—"}</span>
+    </div>
+  );
+}
+
+/** Left-column panel: the COMPLETE gameplay attribute set (56 outcourt / 21 goalkeeper), grouped by family, Swedish labels only. */
+export function GameplayAttributesPanel({ row }: { row: GameplayRatingRow }) {
+  const isGoalkeeper = row.branch.branch === "GOALKEEPER";
+
+  return (
+    <div className="hm-panel">
+      <div className="hm-panel-header">
+        <span className="hm-panel-title">{isGoalkeeper ? "Målvaktsegenskaper" : "Egenskaper"} (1–20)</span>
+        <span className="hm-badge hm-badge-neutral">{isGoalkeeper ? "21/21" : "56/56"}</span>
+      </div>
+      {isGoalkeeper
+        ? (Object.keys(GOALKEEPER_ATTRIBUTE_FAMILIES) as GoalkeeperAttributeFamily[]).map((family) => (
+            <FamilyBlock
+              key={family}
+              familyLabel={getAttributeFamilyLabel(family)}
+              rows={GOALKEEPER_ATTRIBUTE_FAMILIES[family].map((attribute) => ({
+                attribute,
+                label: getAttributeLabel(attribute as GoalkeeperAttribute),
+                entry: (row.branch.attributes as Record<string, GameplayAttributeEntry>)[attribute],
+              }))}
+            />
+          ))
+        : (Object.keys(OUTCOURT_ATTRIBUTE_FAMILIES) as OutcourtAttributeFamily[]).map((family) => (
+            <FamilyBlock
+              key={family}
+              familyLabel={getAttributeFamilyLabel(family)}
+              rows={OUTCOURT_ATTRIBUTE_FAMILIES[family].map((attribute) => ({
+                attribute,
+                label: getAttributeLabel(attribute as OutcourtAttribute),
+                entry: (row.branch.attributes as Record<string, GameplayAttributeEntry>)[attribute],
+              }))}
+            />
+          ))}
+    </div>
+  );
+}
+
+function FamilyBlock({ familyLabel, rows }: { familyLabel: string; rows: { attribute: string; label: string; entry: GameplayAttributeEntry }[] }) {
+  return (
+    <div style={{ borderTop: "1px solid var(--hm-border)" }}>
+      <div className="hm-eyebrow" style={{ padding: "10px 16px 4px" }}>
+        {familyLabel}
+      </div>
+      <div className="hm-panel-body" style={{ paddingTop: 0, display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "6px 20px" }}>
+        {rows.map(({ attribute, label, entry }) => (
+          <div key={attribute} className="hm-stat-row" title={entry.origin === "EVIDENCE_BACKED" ? "Belagt av källunderlag" : entry.origin === "EDITOR_OVERRIDE" ? "Manuellt satt" : undefined}>
+            <span className="hm-stat-label">
+              {(entry.origin === "EVIDENCE_BACKED" || entry.origin === "EDITOR_OVERRIDE") && <span style={confirmedDotStyle(entry.origin)} />}
+              {label}
+            </span>
+            <span style={statValueStyle}>{entry.value}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function confirmedDotStyle(origin: "EVIDENCE_BACKED" | "EDITOR_OVERRIDE"): CSSProperties {
+  return {
+    display: "inline-block",
+    width: 6,
+    height: 6,
+    borderRadius: "50%",
+    marginRight: 5,
+    background: origin === "EVIDENCE_BACKED" ? "var(--hm-positive)" : "var(--hm-negative)",
+  };
+}
+
+const statValueStyle: CSSProperties = { fontWeight: 700 };
