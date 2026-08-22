@@ -5,7 +5,7 @@
 // unit-tested there; this hook only owns the setInterval ticking and
 // exposes the current view + controls.
 import { useEffect, useRef, useState } from "react";
-import type { FastMatchResult } from "@handball-manager/game-simulation";
+import { seedFromString, type FastMatchResult } from "@handball-manager/game-simulation";
 import type { TeamTacticalProfile } from "../career/teamTacticalProfile";
 import {
   callTimeout as callTimeoutClock,
@@ -22,12 +22,7 @@ import {
 } from "./clock";
 import { computeLiveMatchView, type LiveMatchView } from "./liveMatchView";
 import { PLAYBACK_TICK_INTERVAL_MS, TIMEOUT_DURATION_SECONDS } from "./pacing";
-import {
-  instructionAdoptionMinute,
-  resolveInstructionStatus,
-  type TacticalInstruction,
-  type TacticalInstructionStatus,
-} from "./tacticalInstruction";
+import { instructionAdoptionMinute, type InstructionDeliveryMode, type TacticalInstruction } from "./tacticalInstruction";
 import {
   applyShoutOverride,
   resolveShoutStatus,
@@ -37,13 +32,24 @@ import {
   type ShoutStatus,
   type ShoutType,
 } from "./sidelineShout";
+import { sevenVSixAdoptionMinute, type SevenVSixInstruction, type SevenVSixTarget } from "./sevenVSixMode";
 import {
-  resolveSevenVSixInstructionStatus,
-  sevenVSixAdoptionMinute,
-  type SevenVSixInstruction,
-  type SevenVSixInstructionStatus,
-  type SevenVSixTarget,
-} from "./sevenVSixMode";
+  applyProfileMask,
+  assessImplementation,
+  changedProfileFields,
+  IMPLEMENTATION_DELAY_EXTENSION_MINUTES,
+  RECENT_CHANGE_WINDOW_MINUTES,
+  type ImplementationOutcome,
+} from "./implementationAssessment";
+import type { CapabilityLevel } from "../career/teamTacticalProfile";
+
+/** HM-COACHING-0.3: what Live Match shows for an in-flight (or just-landed) assessed instruction -- deliberately just these 4 discrete labels, never the underlying scores/probabilities (Spec: "avoid exposing fake precision"). */
+export type InstructionLifecycleStatus = "PENDING" | "DELAYED" | "PARTIAL" | "ADOPTED";
+
+export interface LastInstructionOutcome {
+  outcome: ImplementationOutcome;
+  landedMinute: number;
+}
 
 export interface UseLiveMatchResult {
   view: LiveMatchView;
@@ -51,11 +57,14 @@ export interface UseLiveMatchResult {
   setSpeed: (speed: PlaybackSpeed) => void;
   startSecondHalf: () => void;
   instantResult: () => void;
-  /** HM-TACTICS-0.7: the one in-flight instruction, if any (null once ADOPTED and applied). */
+  /** HM-TACTICS-0.7: the one in-flight instruction, if any (null once landed and applied). */
   pendingInstruction: TacticalInstruction | null;
-  instructionStatus: TacticalInstructionStatus | null;
-  /** No-op if an instruction is already pending (one at a time) or the match isn't currently in play (i.e. not FIRST_HALF/SECOND_HALF -- this never fires during a TIMEOUT). */
-  issueInstruction: (profile: TeamTacticalProfile) => void;
+  /** HM-COACHING-0.3: PENDING while awaiting assessment, DELAYED/PARTIAL/ADOPTED once assessed (see the module doc on implementationAssessment.ts). */
+  instructionStatus: InstructionLifecycleStatus | null;
+  /** The last assessed instruction's outcome, kept around for display after the pending slot frees up (a new instruction can be issued immediately). */
+  lastInstructionOutcome: LastInstructionOutcome | null;
+  /** No-op if an instruction is already pending (one at a time) or the match isn't currently in play (i.e. not FIRST_HALF/SECOND_HALF -- this never fires during a TIMEOUT). `baselineProfile` is the profile currently in effect, needed to assess complexity/what a PARTIAL outcome would keep. */
+  issueInstruction: (profile: TeamTacticalProfile, baselineProfile: TeamTacticalProfile) => void;
   /** HM-COACHING-0.1: whether the manager could call a timeout right now (see clock.ts's canCallTimeout/MAX_TIMEOUTS_PER_HALF). */
   canCallTimeout: boolean;
   /** No-op if `canCallTimeout` is false. */
@@ -64,40 +73,110 @@ export interface UseLiveMatchResult {
   endTimeout: () => void;
   /** Real-world seconds left in the current timeout countdown; null outside TIMEOUT. Presentation-only -- has no bearing on match determinism. */
   timeoutSecondsRemaining: number | null;
-  /** No-op if an instruction is already pending or the match isn't currently in a TIMEOUT. Adopts faster than `issueInstruction` (see tacticalInstruction.ts). */
-  issueTimeoutInstruction: (profile: TeamTacticalProfile) => void;
-  /** HM-COACHING-0.2: the one in-flight shout, if any (null once EXPIRED and reverted). */
+  /** No-op if an instruction is already pending or the match isn't currently in a TIMEOUT. Improves (never guarantees) delivery vs `issueInstruction` -- see implementationAssessment.ts. */
+  issueTimeoutInstruction: (profile: TeamTacticalProfile, baselineProfile: TeamTacticalProfile) => void;
+  /** HM-COACHING-0.2: the one in-flight shout, if any (null once EXPIRED and reverted). Deliberately NOT put through HM-COACHING-0.3's assessment -- see implementationAssessment.ts's module doc for why. */
   pendingShout: Shout | null;
   shoutStatus: ShoutStatus | null;
   /** No-op if a shout is already pending/active (one at a time -- Spec: "must not stack") or the match isn't currently in play. */
   issueShout: (type: ShoutType, baselineProfile: TeamTacticalProfile) => void;
-  /** HM-TACTICS-0.8: the one in-flight 7v6 ON/OFF switch, if any (null once ADOPTED and applied). */
+  /** HM-TACTICS-0.8: the one in-flight 7v6 ON/OFF switch, if any (null once landed and applied). */
   pendingSevenVSixInstruction: SevenVSixInstruction | null;
-  sevenVSixInstructionStatus: SevenVSixInstructionStatus | null;
-  /** No-op if a 7v6 switch is already pending or the match isn't currently in play. */
-  issueSevenVSixInstruction: (target: SevenVSixTarget) => void;
-  /** No-op if a 7v6 switch is already pending or the match isn't currently in a TIMEOUT. Adopts faster than `issueSevenVSixInstruction`. */
-  issueSevenVSixTimeoutInstruction: (target: SevenVSixTarget) => void;
+  sevenVSixInstructionStatus: InstructionLifecycleStatus | null;
+  lastSevenVSixOutcome: LastInstructionOutcome | null;
+  /** No-op if a 7v6 switch is already pending or the match isn't currently in play. `tacticalFamiliarity` is the manager's current profile familiarity, used as HM-COACHING-0.3 assessment context. */
+  issueSevenVSixInstruction: (target: SevenVSixTarget, tacticalFamiliarity: CapabilityLevel) => void;
+  /** No-op if a 7v6 switch is already pending or the match isn't currently in a TIMEOUT. */
+  issueSevenVSixTimeoutInstruction: (target: SevenVSixTarget, tacticalFamiliarity: CapabilityLevel) => void;
 }
 
-/**
- * `onInstructionAdopted` is called exactly once per issued instruction,
- * the moment the simulated clock reaches its (deterministic) adoption
- * minute -- never on issue, never twice. The caller (the Live Match
- * screen) is expected to splice the change into career state via
- * CareerContext's `applyMidMatchTacticalChange`, which then flows back
- * in as a new `result` prop; this hook's own clock state is unaffected
- * by that prop swap (the `useState` initializer only runs once), so the
- * reveal continues uninterrupted from the same simulated minute --
- * pause/speed play no part in when adoption happens (Spec: "pause/speed
- * does not change tactical outcome").
- */
 interface ShoutState {
   shout: Shout;
   /** The profile in effect when the shout was called -- captured once, at issue time, so expiry reverts to exactly this, regardless of anything else that happens meanwhile. */
   baselineProfile: TeamTacticalProfile;
   /** `applyShoutOverride(baselineProfile, shout.type)`, precomputed at issue time. */
   overrideProfile: TeamTacticalProfile;
+}
+
+/**
+ * HM-COACHING-0.3: an assessed permanent tactical instruction. Everything
+ * situational is precomputed once, at issue time (deterministic given
+ * the fixture's own result seed) -- `actualAdoptionMinute` and
+ * `actualProfile` are exactly what the splice will use once the
+ * instruction lands, regardless of how many renders happen in between.
+ */
+interface AssessedInstructionState {
+  instruction: TacticalInstruction;
+  baselineProfile: TeamTacticalProfile;
+  changedFields: (keyof TeamTacticalProfile)[];
+  outcome: ImplementationOutcome;
+  assessmentMinute: number;
+  actualAdoptionMinute: number;
+  actualProfile: TeamTacticalProfile;
+}
+
+interface AssessedSevenVSixState {
+  instruction: SevenVSixInstruction;
+  outcome: ImplementationOutcome;
+  assessmentMinute: number;
+  actualAdoptionMinute: number;
+}
+
+function resolveAssessedLifecycle(
+  clockMinute: number,
+  assessmentMinute: number,
+  actualAdoptionMinute: number,
+  outcome: ImplementationOutcome,
+): InstructionLifecycleStatus {
+  if (clockMinute < assessmentMinute) {
+    return "PENDING";
+  }
+  if (outcome === "DELAYED" && clockMinute < actualAdoptionMinute) {
+    return "DELAYED";
+  }
+  return outcome === "PARTIAL" ? "PARTIAL" : "ADOPTED";
+}
+
+function countRecentChanges(recentIssuanceMinutes: readonly number[], atMinute: number): number {
+  return recentIssuanceMinutes.filter((m) => m < atMinute && m > atMinute - RECENT_CHANGE_WINDOW_MINUTES).length;
+}
+
+function buildAssessedInstruction(
+  instruction: TacticalInstruction,
+  baselineProfile: TeamTacticalProfile,
+  resultSeed: number,
+  recentChangeCount: number,
+): AssessedInstructionState {
+  const changedFields = changedProfileFields(baselineProfile, instruction.profile);
+  const assessmentMinute = instructionAdoptionMinute(instruction);
+  const seed = seedFromString(`${resultSeed}:assessment:profile:${instruction.issuedMinute}:${instruction.deliveryMode}`);
+  const { outcome, adoptedUnitMask } = assessImplementation(seed, {
+    tacticalFamiliarity: baselineProfile.tacticalFamiliarity,
+    deliveryMode: instruction.deliveryMode,
+    changedUnitCount: changedFields.length,
+    recentChangeCount,
+  });
+  const actualAdoptionMinute = outcome === "DELAYED" ? Math.min(60, assessmentMinute + IMPLEMENTATION_DELAY_EXTENSION_MINUTES) : assessmentMinute;
+  const actualProfile = applyProfileMask(baselineProfile, instruction.profile, changedFields, adoptedUnitMask);
+  return { instruction, baselineProfile, changedFields, outcome, assessmentMinute, actualAdoptionMinute, actualProfile };
+}
+
+function buildAssessedSevenVSix(
+  instruction: SevenVSixInstruction,
+  tacticalFamiliarity: CapabilityLevel,
+  resultSeed: number,
+  recentChangeCount: number,
+): AssessedSevenVSixState {
+  const assessmentMinute = sevenVSixAdoptionMinute(instruction);
+  const seed = seedFromString(`${resultSeed}:assessment:7v6:${instruction.issuedMinute}:${instruction.deliveryMode}`);
+  const { outcome } = assessImplementation(seed, {
+    tacticalFamiliarity,
+    deliveryMode: instruction.deliveryMode,
+    changedUnitCount: 1, // a single ON/OFF switch -- PARTIAL never applies (see implementationAssessment.ts)
+    recentChangeCount,
+  });
+  const actualAdoptionMinute = outcome === "DELAYED" ? Math.min(60, assessmentMinute + IMPLEMENTATION_DELAY_EXTENSION_MINUTES) : assessmentMinute;
+  return { instruction, outcome, assessmentMinute, actualAdoptionMinute };
 }
 
 export function useLiveMatch(
@@ -108,14 +187,22 @@ export function useLiveMatch(
   onSevenVSixAdopted: (adoptionMinute: number, active: boolean) => void,
 ): UseLiveMatchResult {
   const [clock, setClock] = useState<LiveMatchClock>(() => kickoff(initLiveMatchClock()));
-  const [instruction, setInstruction] = useState<TacticalInstruction | null>(null);
+  const [assessedInstruction, setAssessedInstruction] = useState<AssessedInstructionState | null>(null);
+  const [lastInstructionOutcome, setLastInstructionOutcome] = useState<LastInstructionOutcome | null>(null);
   const [timeoutSecondsRemaining, setTimeoutSecondsRemaining] = useState<number | null>(null);
   const [shoutState, setShoutState] = useState<ShoutState | null>(null);
-  const [sevenVSixInstruction, setSevenVSixInstruction] = useState<SevenVSixInstruction | null>(null);
+  const [assessedSevenVSix, setAssessedSevenVSix] = useState<AssessedSevenVSixState | null>(null);
+  const [lastSevenVSixOutcome, setLastSevenVSixOutcome] = useState<LastInstructionOutcome | null>(null);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const appliedIssuedMinuteRef = useRef<number | null>(null);
   const shoutPhaseRef = useRef<"NONE" | "DELIVERED" | "EXPIRED">("NONE");
   const sevenVSixAppliedIssuedMinuteRef = useRef<number | null>(null);
+  // HM-COACHING-0.3: every tactical change issued through this hook
+  // (instruction, timeout instruction, shout, 7v6 switch) pushes its
+  // issue minute here -- used only to count "how many recent tactical
+  // changes" for the NEXT assessed instruction/7v6 switch's context. A
+  // ref, not state: it never needs to trigger a re-render on its own.
+  const recentIssuanceMinutesRef = useRef<number[]>([]);
 
   useEffect(() => {
     if (clock.speed === "PAUSED") {
@@ -162,29 +249,39 @@ export function useLiveMatch(
 
   const view = computeLiveMatchView(result, clock);
 
+  // HM-TACTICS-0.7 / HM-COACHING-0.3: the assessed instruction lands
+  // exactly once, at its (precomputed, deterministic) actual adoption
+  // minute -- PENDING/DELAYED are pure display states resolved from the
+  // same precomputed minutes, never re-assessed.
   useEffect(() => {
-    if (!instruction) {
+    if (!assessedInstruction) {
       return;
     }
-    if (appliedIssuedMinuteRef.current === instruction.issuedMinute) {
+    if (appliedIssuedMinuteRef.current === assessedInstruction.instruction.issuedMinute) {
       return;
     }
-    if (resolveInstructionStatus(instruction, view.clockMinute) !== "ADOPTED") {
+    const status = resolveAssessedLifecycle(
+      view.clockMinute,
+      assessedInstruction.assessmentMinute,
+      assessedInstruction.actualAdoptionMinute,
+      assessedInstruction.outcome,
+    );
+    if (status === "PENDING" || status === "DELAYED") {
       return;
     }
-    appliedIssuedMinuteRef.current = instruction.issuedMinute;
-    const adoptionMinute = instructionAdoptionMinute(instruction);
-    const { profile } = instruction;
+    appliedIssuedMinuteRef.current = assessedInstruction.instruction.issuedMinute;
+    const { actualAdoptionMinute, actualProfile, outcome } = assessedInstruction;
     // Deferred to a microtask so the state updates below happen outside
     // this effect's own synchronous body (avoids cascading same-commit
     // re-renders) -- the same pattern the tick timer above already uses
     // (setState only ever fires from within a callback the effect
     // registered, never directly in the effect body itself).
     queueMicrotask(() => {
-      onInstructionAdopted(adoptionMinute, profile);
-      setInstruction(null);
+      onInstructionAdopted(actualAdoptionMinute, actualProfile);
+      setLastInstructionOutcome({ outcome, landedMinute: actualAdoptionMinute });
+      setAssessedInstruction(null);
     });
-  }, [instruction, view.clockMinute, onInstructionAdopted]);
+  }, [assessedInstruction, view.clockMinute, onInstructionAdopted]);
 
   // HM-COACHING-0.2: shout delivery + automatic expiry. Both transitions
   // are handled in ONE effect (rather than two separate ones, as the
@@ -220,28 +317,60 @@ export function useLiveMatch(
     });
   }, [shoutState, view.clockMinute, onShoutDelivered, onShoutExpired]);
 
-  // HM-TACTICS-0.8: 7v6 ON/OFF switch adoption. A persistent mode, not a
-  // shout -- adopts exactly once (never expires on its own), mirroring
-  // the permanent-instruction effect above rather than the shout
-  // effect's delivery+expiry pair.
+  // HM-TACTICS-0.8 / HM-COACHING-0.3: 7v6 ON/OFF switch adoption. A
+  // persistent mode, not a shout -- lands exactly once (never expires on
+  // its own), mirroring the permanent-instruction effect above.
   useEffect(() => {
-    if (!sevenVSixInstruction) {
+    if (!assessedSevenVSix) {
       return;
     }
-    if (sevenVSixAppliedIssuedMinuteRef.current === sevenVSixInstruction.issuedMinute) {
+    if (sevenVSixAppliedIssuedMinuteRef.current === assessedSevenVSix.instruction.issuedMinute) {
       return;
     }
-    if (resolveSevenVSixInstructionStatus(sevenVSixInstruction, view.clockMinute) !== "ADOPTED") {
+    const status = resolveAssessedLifecycle(
+      view.clockMinute,
+      assessedSevenVSix.assessmentMinute,
+      assessedSevenVSix.actualAdoptionMinute,
+      assessedSevenVSix.outcome,
+    );
+    if (status === "PENDING" || status === "DELAYED") {
       return;
     }
-    sevenVSixAppliedIssuedMinuteRef.current = sevenVSixInstruction.issuedMinute;
-    const adoptionMinute = sevenVSixAdoptionMinute(sevenVSixInstruction);
-    const { target } = sevenVSixInstruction;
+    sevenVSixAppliedIssuedMinuteRef.current = assessedSevenVSix.instruction.issuedMinute;
+    const { actualAdoptionMinute, outcome, instruction } = assessedSevenVSix;
     queueMicrotask(() => {
-      onSevenVSixAdopted(adoptionMinute, target === "ON");
-      setSevenVSixInstruction(null);
+      onSevenVSixAdopted(actualAdoptionMinute, instruction.target === "ON");
+      setLastSevenVSixOutcome({ outcome, landedMinute: actualAdoptionMinute });
+      setAssessedSevenVSix(null);
     });
-  }, [sevenVSixInstruction, view.clockMinute, onSevenVSixAdopted]);
+  }, [assessedSevenVSix, view.clockMinute, onSevenVSixAdopted]);
+
+  const instructionLifecycleStatus = assessedInstruction
+    ? resolveAssessedLifecycle(view.clockMinute, assessedInstruction.assessmentMinute, assessedInstruction.actualAdoptionMinute, assessedInstruction.outcome)
+    : null;
+  const sevenVSixInstructionStatus = assessedSevenVSix
+    ? resolveAssessedLifecycle(view.clockMinute, assessedSevenVSix.assessmentMinute, assessedSevenVSix.actualAdoptionMinute, assessedSevenVSix.outcome)
+    : null;
+
+  function issueInstructionWithMode(profile: TeamTacticalProfile, baselineProfile: TeamTacticalProfile, deliveryMode: InstructionDeliveryMode) {
+    if (assessedInstruction) return;
+    if (deliveryMode === "TIMEOUT" ? clock.phase !== "TIMEOUT" : clock.phase !== "FIRST_HALF" && clock.phase !== "SECOND_HALF") return;
+    const instruction: TacticalInstruction = { issuedMinute: view.clockMinute, profile, deliveryMode };
+    const recentChangeCount = countRecentChanges(recentIssuanceMinutesRef.current, view.clockMinute);
+    recentIssuanceMinutesRef.current.push(view.clockMinute);
+    appliedIssuedMinuteRef.current = null;
+    setAssessedInstruction(buildAssessedInstruction(instruction, baselineProfile, result.seed, recentChangeCount));
+  }
+
+  function issueSevenVSixWithMode(target: SevenVSixTarget, tacticalFamiliarity: CapabilityLevel, deliveryMode: InstructionDeliveryMode) {
+    if (assessedSevenVSix) return;
+    if (deliveryMode === "TIMEOUT" ? clock.phase !== "TIMEOUT" : clock.phase !== "FIRST_HALF" && clock.phase !== "SECOND_HALF") return;
+    const instruction: SevenVSixInstruction = { target, issuedMinute: view.clockMinute, deliveryMode };
+    const recentChangeCount = countRecentChanges(recentIssuanceMinutesRef.current, view.clockMinute);
+    recentIssuanceMinutesRef.current.push(view.clockMinute);
+    sevenVSixAppliedIssuedMinuteRef.current = null;
+    setAssessedSevenVSix(buildAssessedSevenVSix(instruction, tacticalFamiliarity, result.seed, recentChangeCount));
+  }
 
   return {
     view,
@@ -249,45 +378,32 @@ export function useLiveMatch(
     setSpeed: (speed) => setClock((current) => setClockSpeed(current, speed)),
     startSecondHalf: () => setClock((current) => startClockSecondHalf(current)),
     instantResult: () => setClock(() => revealInstantly()),
-    pendingInstruction: instruction,
-    instructionStatus: instruction ? resolveInstructionStatus(instruction, view.clockMinute) : null,
-    issueInstruction: (profile) => {
-      if (instruction) return;
-      if (clock.phase !== "FIRST_HALF" && clock.phase !== "SECOND_HALF") return;
-      setInstruction({ issuedMinute: view.clockMinute, profile, deliveryMode: "SIDELINE" });
-    },
+    pendingInstruction: assessedInstruction?.instruction ?? null,
+    instructionStatus: instructionLifecycleStatus,
+    lastInstructionOutcome,
+    issueInstruction: (profile, baselineProfile) => issueInstructionWithMode(profile, baselineProfile, "SIDELINE"),
     canCallTimeout: canCallTimeout(clock),
     callTimeout: () => setClock((current) => callTimeoutClock(current)),
     endTimeout: () => setClock((current) => endTimeoutClock(current)),
     timeoutSecondsRemaining,
-    issueTimeoutInstruction: (profile) => {
-      if (instruction) return;
-      if (clock.phase !== "TIMEOUT") return;
-      setInstruction({ issuedMinute: view.clockMinute, profile, deliveryMode: "TIMEOUT" });
-    },
+    issueTimeoutInstruction: (profile, baselineProfile) => issueInstructionWithMode(profile, baselineProfile, "TIMEOUT"),
     pendingShout: shoutState?.shout ?? null,
     shoutStatus: shoutState ? resolveShoutStatus(shoutState.shout, view.clockMinute) : null,
     issueShout: (type, baselineProfile) => {
       if (shoutState) return;
       if (clock.phase !== "FIRST_HALF" && clock.phase !== "SECOND_HALF") return;
       shoutPhaseRef.current = "NONE";
+      recentIssuanceMinutesRef.current.push(view.clockMinute);
       setShoutState({
         shout: { type, issuedMinute: view.clockMinute },
         baselineProfile,
         overrideProfile: applyShoutOverride(baselineProfile, type),
       });
     },
-    pendingSevenVSixInstruction: sevenVSixInstruction,
-    sevenVSixInstructionStatus: sevenVSixInstruction ? resolveSevenVSixInstructionStatus(sevenVSixInstruction, view.clockMinute) : null,
-    issueSevenVSixInstruction: (target) => {
-      if (sevenVSixInstruction) return;
-      if (clock.phase !== "FIRST_HALF" && clock.phase !== "SECOND_HALF") return;
-      setSevenVSixInstruction({ target, issuedMinute: view.clockMinute, deliveryMode: "SIDELINE" });
-    },
-    issueSevenVSixTimeoutInstruction: (target) => {
-      if (sevenVSixInstruction) return;
-      if (clock.phase !== "TIMEOUT") return;
-      setSevenVSixInstruction({ target, issuedMinute: view.clockMinute, deliveryMode: "TIMEOUT" });
-    },
+    pendingSevenVSixInstruction: assessedSevenVSix?.instruction ?? null,
+    sevenVSixInstructionStatus,
+    lastSevenVSixOutcome,
+    issueSevenVSixInstruction: (target, tacticalFamiliarity) => issueSevenVSixWithMode(target, tacticalFamiliarity, "SIDELINE"),
+    issueSevenVSixTimeoutInstruction: (target, tacticalFamiliarity) => issueSevenVSixWithMode(target, tacticalFamiliarity, "TIMEOUT"),
   };
 }

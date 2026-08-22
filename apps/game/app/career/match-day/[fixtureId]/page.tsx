@@ -6,12 +6,11 @@ import { getClub } from "@/lib/game-data";
 import { useCareer } from "@/lib/career/CareerContext";
 import { getCareerPlayer, getCareerSquad } from "@/lib/career/careerWorld";
 import { commentaryLine, formatMatchMinute } from "@/lib/liveMatch/commentary";
-import { useLiveMatch } from "@/lib/liveMatch/useLiveMatch";
+import { useLiveMatch, type InstructionLifecycleStatus, type LastInstructionOutcome } from "@/lib/liveMatch/useLiveMatch";
 import type { PlaybackSpeed } from "@/lib/liveMatch/clock";
 import type { LiveTeamStats } from "@/lib/liveMatch/liveMatchView";
-import { instructionAdoptionMinute } from "@/lib/liveMatch/tacticalInstruction";
 import { SHOUT_TYPES, shoutDeliveryMinute, shoutExpiryMinute, shoutLabel } from "@/lib/liveMatch/sidelineShout";
-import { sevenVSixAdoptionMinute, type SevenVSixInstruction, type SevenVSixInstructionStatus } from "@/lib/liveMatch/sevenVSixMode";
+import type { SevenVSixInstruction } from "@/lib/liveMatch/sevenVSixMode";
 import {
   ATI001_USAGE_TENDENCY_VALUES,
   H2_RESPONSE_PREFERENCE_VALUES,
@@ -130,6 +129,7 @@ function LiveMatch({
     instantResult,
     pendingInstruction,
     instructionStatus,
+    lastInstructionOutcome,
     issueInstruction,
     canCallTimeout,
     callTimeout,
@@ -141,6 +141,7 @@ function LiveMatch({
     issueShout,
     pendingSevenVSixInstruction,
     sevenVSixInstructionStatus,
+    lastSevenVSixOutcome,
     issueSevenVSixInstruction,
     issueSevenVSixTimeoutInstruction,
   } = useLiveMatch(result, handleInstructionAdopted, handleShoutDelivered, handleShoutExpired, handleSevenVSixAdopted);
@@ -298,7 +299,7 @@ function LiveMatch({
                 type="button"
                 className="hm-btn hm-btn-sm hm-btn-primary"
                 disabled={!canIssueTimeoutInstruction}
-                onClick={() => issueTimeoutInstruction(draftProfile)}
+                onClick={() => issueTimeoutInstruction(draftProfile, currentProfile)}
               >
                 BEORDRA ÄNDRING (TIMEOUT)
               </button>
@@ -307,8 +308,8 @@ function LiveMatch({
               </button>
               <span className="hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)" }}>
                 {pendingInstruction
-                  ? `${instructionStatus} — adopteras ${formatMatchMinute(instructionAdoptionMinute(pendingInstruction))} (snabbare än en vanlig sidlinjeinstruktion tack vare timeouten).`
-                  : "Ingen ändring beordrad under denna timeout -- matchtiden är fryst tills du återupptar."}
+                  ? `${instructionLabel(instructionStatus)} (timeout ger vanligtvis säkrare genomförande än en sidlinjeinstruktion, men garanterar det inte).`
+                  : lastOutcomeLabel(lastInstructionOutcome) ?? "Ingen ändring beordrad under denna timeout -- matchtiden är fryst tills du återupptar."}
               </span>
             </div>
             <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap", borderTop: "1px solid var(--hm-border-subtle)", paddingTop: 10 }}>
@@ -317,7 +318,7 @@ function LiveMatch({
                 type="button"
                 className="hm-btn hm-btn-sm hm-btn-primary"
                 disabled={!canIssueSevenVSixTimeout || sevenVSixActive}
-                onClick={() => issueSevenVSixTimeoutInstruction("ON")}
+                onClick={() => issueSevenVSixTimeoutInstruction("ON", currentProfile.tacticalFamiliarity)}
               >
                 SLÅ PÅ (TIMEOUT)
               </button>
@@ -325,11 +326,11 @@ function LiveMatch({
                 type="button"
                 className="hm-btn hm-btn-sm"
                 disabled={!canIssueSevenVSixTimeout || !sevenVSixActive}
-                onClick={() => issueSevenVSixTimeoutInstruction("OFF")}
+                onClick={() => issueSevenVSixTimeoutInstruction("OFF", currentProfile.tacticalFamiliarity)}
               >
                 STÄNG AV (TIMEOUT)
               </button>
-              <SevenVSixStatus pendingInstruction={pendingSevenVSixInstruction} status={sevenVSixInstructionStatus} active={sevenVSixActive} faster />
+              <SevenVSixStatus pendingInstruction={pendingSevenVSixInstruction} status={sevenVSixInstructionStatus} active={sevenVSixActive} lastOutcome={lastSevenVSixOutcome} />
             </div>
           </div>
         </div>
@@ -338,13 +339,7 @@ function LiveMatch({
         <div className="hm-panel">
           <div className="hm-panel-header">
             <span className="hm-panel-title">Taktisk justering (live)</span>
-            {pendingInstruction ? (
-              <span className="hm-badge hm-badge-neutral">
-                {instructionStatus} — adopteras {formatMatchMinute(instructionAdoptionMinute(pendingInstruction))}
-              </span>
-            ) : (
-              <span className="hm-badge hm-badge-neutral">AKTUELL</span>
-            )}
+            <span className="hm-badge hm-badge-neutral">{pendingInstruction ? instructionLabel(instructionStatus) : "AKTUELL"}</span>
           </div>
           <div className="hm-panel-body" style={{ display: "flex", flexDirection: "column", gap: 12 }}>
             <SegmentedControl
@@ -376,14 +371,14 @@ function LiveMatch({
                 type="button"
                 className="hm-btn hm-btn-sm hm-btn-primary"
                 disabled={!canIssueInstruction}
-                onClick={() => issueInstruction(draftProfile)}
+                onClick={() => issueInstruction(draftProfile, currentProfile)}
               >
                 BEORDRA ÄNDRING
               </button>
               <span className="hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)" }}>
                 {pendingInstruction
-                  ? `PENDING sedan ${formatMatchMinute(pendingInstruction.issuedMinute)} — instruktionen slår igenom vid ${formatMatchMinute(instructionAdoptionMinute(pendingInstruction))}, aldrig det redan spelade förloppet.`
-                  : `CURRENT: gäller från matchstart${currentProfile !== career.tacticalProfile ? " (justerad under matchen)" : ""}.`}
+                  ? `Beordrad vid ${formatMatchMinute(pendingInstruction.issuedMinute)} -- laget bedömer och genomför det aldrig i det redan spelade förloppet.`
+                  : (lastOutcomeLabel(lastInstructionOutcome) ?? `CURRENT: gäller från matchstart${currentProfile !== career.tacticalProfile ? " (justerad under matchen)" : ""}.`)}
               </span>
             </div>
           </div>
@@ -430,7 +425,7 @@ function LiveMatch({
       <div className="hm-panel">
         <div className="hm-panel-header">
           <span className="hm-panel-title">7v6</span>
-          <SevenVSixStatus pendingInstruction={pendingSevenVSixInstruction} status={sevenVSixInstructionStatus} active={sevenVSixActive} />
+          <SevenVSixStatus pendingInstruction={pendingSevenVSixInstruction} status={sevenVSixInstructionStatus} active={sevenVSixActive} lastOutcome={lastSevenVSixOutcome} />
         </div>
         <div className="hm-panel-body" style={{ display: "flex", flexDirection: "column", gap: 10 }}>
           <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
@@ -438,7 +433,7 @@ function LiveMatch({
               type="button"
               className="hm-btn hm-btn-sm hm-btn-primary"
               disabled={!canIssueSevenVSixSideline || sevenVSixActive}
-              onClick={() => issueSevenVSixInstruction("ON")}
+              onClick={() => issueSevenVSixInstruction("ON", currentProfile.tacticalFamiliarity)}
             >
               SLÅ PÅ 7v6
             </button>
@@ -446,7 +441,7 @@ function LiveMatch({
               type="button"
               className="hm-btn hm-btn-sm"
               disabled={!canIssueSevenVSixSideline || !sevenVSixActive}
-              onClick={() => issueSevenVSixInstruction("OFF")}
+              onClick={() => issueSevenVSixInstruction("OFF", currentProfile.tacticalFamiliarity)}
             >
               STÄNG AV 7v6
             </button>
@@ -565,26 +560,58 @@ function StatRow({ label, home, away }: { label: string; home: string | number; 
   );
 }
 
+/**
+ * HM-COACHING-0.3: the 4 discrete labels Live Match ever shows for an
+ * in-flight assessed instruction/7v6 switch -- deliberately just the
+ * outcome name, never the underlying quality score/probabilities
+ * (Spec: "avoid exposing fake precision").
+ */
+function instructionLabel(status: InstructionLifecycleStatus | null): string {
+  switch (status) {
+    case "PENDING":
+      return "PENDING";
+    case "DELAYED":
+      return "DELAYED — tar längre tid än väntat";
+    case "PARTIAL":
+      return "PARTIAL — delvis genomförd";
+    case "ADOPTED":
+      return "ADOPTED";
+    default:
+      return "";
+  }
+}
+
+function lastOutcomeLabel(last: LastInstructionOutcome | null): string | null {
+  if (!last) return null;
+  if (last.outcome === "PARTIAL") return `Senast beordrade ändring genomfördes bara PARTIELLT (minut ${formatMatchMinute(last.landedMinute)}).`;
+  if (last.outcome === "DELAYED") return `Senast beordrade ändring genomfördes till slut, men tog längre tid än väntat (minut ${formatMatchMinute(last.landedMinute)}).`;
+  return null;
+}
+
 function SevenVSixStatus({
   pendingInstruction,
   status,
   active,
-  faster,
+  lastOutcome,
 }: {
   pendingInstruction: SevenVSixInstruction | null;
-  status: SevenVSixInstructionStatus | null;
+  status: InstructionLifecycleStatus | null;
   active: boolean;
-  faster?: boolean;
+  lastOutcome?: LastInstructionOutcome | null;
 }) {
-  if (pendingInstruction && status === "PENDING") {
+  if (pendingInstruction && status) {
     return (
       <span className="hm-badge hm-badge-neutral">
-        7v6 {pendingInstruction.target === "ON" ? "PÅ" : "AV"} — PENDING (adopteras {formatMatchMinute(sevenVSixAdoptionMinute(pendingInstruction))}
-        {faster ? ", snabbare via timeout" : ""})
+        7v6 {pendingInstruction.target === "ON" ? "PÅ" : "AV"} — {instructionLabel(status)}
       </span>
     );
   }
-  return <span className="hm-badge hm-badge-neutral">7v6 {active ? "ACTIVE" : "OFF"}</span>;
+  return (
+    <span className="hm-badge hm-badge-neutral">
+      7v6 {active ? "ACTIVE" : "OFF"}
+      {lastOutcome?.outcome === "DELAYED" ? " (senast försenad)" : ""}
+    </span>
+  );
 }
 
 function TeamColumn({ clubId, attacking }: { clubId: string; attacking: boolean }) {
