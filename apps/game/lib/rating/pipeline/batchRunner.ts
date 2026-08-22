@@ -22,6 +22,8 @@ export interface ClubRatingPipelineResult {
   clubId: string;
   clubName: string | null;
   profiles: PlayerRatingProfile[];
+  /** playerId -> whether that specific profile was adopted from a HM-RATINGS-0.2 calibration match (see proposalEngine.ts's ProposalOutcome) -- an explicit, typed signal for consumers (e.g. the Rating Review editor), rather than requiring them to re-parse a claim to infer it. */
+  matchedCalibrationPlayerIds: Set<string>;
   matchedCalibrationCount: number;
   unresolvedPositionCount: number;
   invalidProfileCount: number;
@@ -31,23 +33,23 @@ export interface ClubRatingPipelineResult {
 export function runRatingPipelineForClub(clubId: string): ClubRatingPipelineResult {
   const squad = loadRealWorldClubSquad(clubId);
   if (!squad) {
-    return { clubId, clubName: null, profiles: [], matchedCalibrationCount: 0, unresolvedPositionCount: 0, invalidProfileCount: 0 };
+    return { clubId, clubName: null, profiles: [], matchedCalibrationPlayerIds: new Set(), matchedCalibrationCount: 0, unresolvedPositionCount: 0, invalidProfileCount: 0 };
   }
 
   const profiles: PlayerRatingProfile[] = [];
-  let matchedCalibrationCount = 0;
+  const matchedCalibrationPlayerIds = new Set<string>();
   let unresolvedPositionCount = 0;
   let invalidProfileCount = 0;
 
   for (const player of squad.players) {
     const outcome = proposePlayerRating(player);
     profiles.push(outcome.profile);
-    if (outcome.matchedCalibration) matchedCalibrationCount += 1;
+    if (outcome.matchedCalibration) matchedCalibrationPlayerIds.add(outcome.profile.playerId);
     if (outcome.unresolvedPosition) unresolvedPositionCount += 1;
     if (!validatePlayerRatingProfile(outcome.profile).ok) invalidProfileCount += 1;
   }
 
-  return { clubId, clubName: squad.clubName, profiles, matchedCalibrationCount, unresolvedPositionCount, invalidProfileCount };
+  return { clubId, clubName: squad.clubName, profiles, matchedCalibrationPlayerIds, matchedCalibrationCount: matchedCalibrationPlayerIds.size, unresolvedPositionCount, invalidProfileCount };
 }
 
 // ---------------------------------------------------------------------------

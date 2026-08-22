@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { notFound } from "next/navigation";
 import { isEditorEnabled } from "@/lib/editor/env";
+import { EditorModeGate } from "./EditorModeGate";
 
 // Forces every /editor/* route to be server-rendered per-request rather
 // than statically optimized at build time. Without this, Next could
@@ -21,5 +22,9 @@ export default function EditorLayout({ children }: { children: ReactNode }) {
   if (!isEditorEnabled()) {
     notFound();
   }
-  return <div className="hm-editor-root">{children}</div>;
+  return (
+    <div className="hm-editor-root">
+      <EditorModeGate>{children}</EditorModeGate>
+    </div>
+  );
 }

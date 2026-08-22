@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { EditorModeWidget } from "./EditorModeWidget";
 
 export const metadata: Metadata = {
   title: "Handball Manager",
@@ -9,7 +10,10 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="sv">
-      <body>{children}</body>
+      <body>
+        {children}
+        <EditorModeWidget />
+      </body>
     </html>
   );
 }

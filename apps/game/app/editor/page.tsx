@@ -52,9 +52,12 @@ export default function EditorHomePage() {
             <Stat label="Spelare" value={totalPlayers} />
           </div>
         )}
-        <div className="hm-panel-body" style={{ paddingTop: 0 }}>
+        <div className="hm-panel-body" style={{ paddingTop: 0, display: "flex", gap: 8 }}>
           <button type="button" className="hm-btn hm-btn-primary" onClick={() => router.push("/editor/players")} disabled={!clubs}>
             ÖPPNA SPELARE →
+          </button>
+          <button type="button" className="hm-btn" onClick={() => router.push("/editor/ratings")} disabled={!clubs}>
+            ÖPPNA BETYGSGRANSKNING →
           </button>
         </div>
       </div>
