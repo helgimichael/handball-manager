@@ -1,0 +1,61 @@
+{
+  "clubId": "se_club_ystads_if_hf",
+  "clubName": "Ystads IF HF",
+  "season": "2026/27",
+  "snapshotDate": "2026-08-20",
+  "datasetStatus": "PRESEASON",
+  "qcStatus": "VERIFIED_WITH_OPEN_FIELDS",
+  "expectedRosterCount": 21,
+  "exportedRosterCount": 21,
+  "checks": {
+    "officialLeague2026_27RosterLocated": true,
+    "allRosterNamesCaptured": true,
+    "transfersChecked": true,
+    "duplicatePlayers": 0,
+    "canonicalPositionsValid": true,
+    "guessedSecondaryPositions": 0,
+    "guessedDatesOfBirth": 0,
+    "guessedHeights": 0,
+    "guessedNationalities": 0,
+    "guessedShirtNumbers": 0
+  },
+  "transfersIn": [
+    "Månz Hansen",
+    "Tim Rantala",
+    "Vidar Hemmensjö (uppflyttad)",
+    "Ivano Carrara (uppflyttad)",
+    "Gustav Mundt (uppflyttad)",
+    "Ture Edin (uppflyttad)",
+    "Olle Pilman (uppflyttad)",
+    "Johannes Liljeberg (uppflyttad)",
+    "Helge Jerrhag (uppflyttad)"
+  ],
+  "transfersOut": [
+    "Anton Månsson (slutar)",
+    "Jonathan Wilthorn (slutar)",
+    "Andrew Wisman (HK Handbolti)",
+    "Nils Persson (IFK Ystad)",
+    "Melvin Seifert (IK Lågan)",
+    "Holger Mårtesson (HK Varberg)",
+    "Vilmer Feldt (IFK Ystad)",
+    "Hugo Lundberg (IFK Ystad)"
+  ],
+  "importantFindings": [
+    "Handbollsligan's 10 Jul 2026 guide provides a complete position-grouped 21-player roster.",
+    "YIF undergoes a strong youth transition: seven players are explicitly listed as promoted, alongside Månz Hansen and Tim Rantala as external additions.",
+    "Tim Rantala is a Danish line player arriving from Nordsjælland on a two-season contract.",
+    "Vidar Hemmensjö is permanently promoted to the A-team as a line player on a two-year contract.",
+    "Gustav Mundt, born 2007, signed a three-year A-team contract starting summer 2026.",
+    "Ivano Carrara, born 2007 and explicitly described by YIF as M9, is contracted for at least 2026/27.",
+    "Andrew Wisman is excluded: his February 2026 loan was only for the remainder of 2025/26 and the current league guide lists him as departing.",
+    "Current 2026/27 shirt numbers were not verified and remain null."
+  ],
+  "openFieldsSummary": {
+    "shirtNumberMissing": 21,
+    "exactDateOfBirthMissing": 21,
+    "nationalityMissing": 21,
+    "heightMissing": 21,
+    "handednessMissing": 21,
+    "contractEndMissing": 17
+  }
+}

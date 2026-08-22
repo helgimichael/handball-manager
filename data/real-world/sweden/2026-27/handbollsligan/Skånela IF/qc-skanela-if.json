@@ -1,0 +1,59 @@
+{
+  "clubId": "se_club_skanela_if",
+  "clubName": "Skånela IF",
+  "season": "2026/27",
+  "snapshotDate": "2026-08-20",
+  "datasetStatus": "PRESEASON",
+  "qcStatus": "VERIFIED_WITH_LATE_ADDITION",
+  "expectedRosterCount": 20,
+  "exportedRosterCount": 20,
+  "checks": {
+    "officialLeagueRosterLocated": true,
+    "lateJulyClubNewsChecked": true,
+    "lateAdditionMerged": true,
+    "departuresChecked": true,
+    "duplicatePlayers": 0,
+    "canonicalPositionsValid": true,
+    "guessedSecondaryPositions": 0,
+    "guessedDatesOfBirth": 0,
+    "guessedHeights": 0,
+    "guessedNationalities": 0,
+    "guessedShirtNumbers": 0
+  },
+  "transfersIn": [
+    "Erik Östling",
+    "Linus Karlsson",
+    "Alex Hill (uppflyttad)",
+    "Malte Haglund",
+    "Isac Axelsson (uppflyttad)",
+    "Oscar Rotsman (uppflyttad)",
+    "Alexander Ritter",
+    "Victor Ekholm",
+    "Jesper Filén (late addition, 31 Jul)"
+  ],
+  "transfersOut": [
+    "Isak Svarén",
+    "Henrik Smedby (IK Bolton)",
+    "Jesper Forslund",
+    "Linus Wärnmark",
+    "Casper Lundin (Täby HBK)",
+    "Douglas Sköld (Uppsala HK)"
+  ],
+  "importantFindings": [
+    "Handbollsligan's 23 Jun preseason guide contains a 19-player roster. Skånela then officially added Jesper Filén on 31 Jul on a two-year contract, producing a current verified snapshot of 20 players.",
+    "The club's generic Herrar A page still says 'Truppen säsongen 2025/2026'; it was used for dated 2026 news announcements, not as a 2026/27 roster list.",
+    "Henrik Smedby is explicitly listed by Handbollsligan as leaving for IK Bolton despite an older Skånela contract announcement that could otherwise be misread as covering 2026/27.",
+    "Alexander Ritter is explicitly V9/M9 in Skånela's signing announcement. Handbollsligan places him under M9, therefore M9 is primary and V9 is a VERIFIED secondary position.",
+    "Skånela's Isac Axelsson announcement contains both spellings Isac and Isak. The Handbollsligan roster uses Isac; canonical fullName is Isac Axelsson and Isak Axelsson is retained as an alias.",
+    "Jesper Filén's V6 position is supported by official Handbollsligan statistics from 2025/26; the 31 Jul Skånela return announcement establishes current membership.",
+    "All current shirt numbers remain null because a verified 2026/27 shirt-number list was not found."
+  ],
+  "openFieldsSummary": {
+    "shirtNumberMissing": 20,
+    "exactDateOfBirthMissing": 20,
+    "nationalityMissing": 20,
+    "heightMissing": 20,
+    "handednessMissing": 20,
+    "contractEndMissing": 10
+  }
+}

@@ -1,0 +1,527 @@
+[
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_alingsas__34e5df98",
+    "playerId": "se_player_anton_hagvall_34e5df98",
+    "clubId": "se_club_alingsas_hk",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-19",
+    "shirtNumber": 16,
+    "sourcePosition": "Målvakt",
+    "primaryPosition": "MV",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": "2026/27",
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_20260817_season_preview"
+      ],
+      "position": [
+        "src_hbl_20260817_season_preview"
+      ],
+      "shirtNumber": [
+        "src_ahk_roster_20260819"
+      ],
+      "contract": [
+        "src_ahk_hagvall_20260220"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_alingsas__50f8181d",
+    "playerId": "se_player_oskar_dahlin_50f8181d",
+    "clubId": "se_club_alingsas_hk",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-19",
+    "shirtNumber": 12,
+    "sourcePosition": "Målvakt",
+    "primaryPosition": "MV",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_20260817_season_preview"
+      ],
+      "position": [
+        "src_hbl_20260817_season_preview"
+      ],
+      "shirtNumber": [
+        "src_ahk_roster_20260819"
+      ],
+      "contract": [
+        "src_ahk_oskar_20260410"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_alingsas__e8842f13",
+    "playerId": "se_player_niklas_kraft_e8842f13",
+    "clubId": "se_club_alingsas_hk",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-19",
+    "shirtNumber": null,
+    "sourcePosition": "Målvakt",
+    "primaryPosition": "MV",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": "2027/28",
+      "optionUntilSeason": "2028/29"
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_20260817_season_preview"
+      ],
+      "position": [
+        "src_hbl_20260817_season_preview"
+      ],
+      "contract": [
+        "src_ahk_kraft_20260515"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_alingsas__b5cece84",
+    "playerId": "se_player_benjamin_helander_b5cece84",
+    "clubId": "se_club_alingsas_hk",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-19",
+    "shirtNumber": 13,
+    "sourcePosition": "Vänstersex",
+    "primaryPosition": "V6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_20260817_season_preview"
+      ],
+      "position": [
+        "src_hbl_20260817_season_preview"
+      ],
+      "shirtNumber": [
+        "src_ahk_roster_20260819"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_alingsas__eec4c59b",
+    "playerId": "se_player_edwin_tengros_eec4c59b",
+    "clubId": "se_club_alingsas_hk",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-19",
+    "shirtNumber": 24,
+    "sourcePosition": "Vänstersex",
+    "primaryPosition": "V6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_20260817_season_preview"
+      ],
+      "position": [
+        "src_hbl_20260817_season_preview"
+      ],
+      "shirtNumber": [
+        "src_ahk_roster_20260819"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_alingsas__705fa7a6",
+    "playerId": "se_player_alexander_regen_705fa7a6",
+    "clubId": "se_club_alingsas_hk",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-19",
+    "shirtNumber": 11,
+    "sourcePosition": "Mittsex",
+    "primaryPosition": "M6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_20260817_season_preview"
+      ],
+      "position": [
+        "src_hbl_20260817_season_preview"
+      ],
+      "shirtNumber": [
+        "src_ahk_roster_20260819"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_alingsas__54da0f43",
+    "playerId": "se_player_arvid_andreasson_54da0f43",
+    "clubId": "se_club_alingsas_hk",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-19",
+    "shirtNumber": 20,
+    "sourcePosition": "Mittsex",
+    "primaryPosition": "M6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_20260817_season_preview"
+      ],
+      "position": [
+        "src_hbl_20260817_season_preview"
+      ],
+      "shirtNumber": [
+        "src_ahk_roster_20260819"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_alingsas__1a6e8618",
+    "playerId": "se_player_samuel_lindberg_1a6e8618",
+    "clubId": "se_club_alingsas_hk",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-19",
+    "shirtNumber": 9,
+    "sourcePosition": "Högersex",
+    "primaryPosition": "H6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_20260817_season_preview"
+      ],
+      "position": [
+        "src_hbl_20260817_season_preview"
+      ],
+      "shirtNumber": [
+        "src_ahk_roster_20260819"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_alingsas__af49387a",
+    "playerId": "se_player_hugo_lignell_af49387a",
+    "clubId": "se_club_alingsas_hk",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-19",
+    "shirtNumber": 14,
+    "sourcePosition": "Högersex",
+    "primaryPosition": "H6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_20260817_season_preview"
+      ],
+      "position": [
+        "src_hbl_20260817_season_preview"
+      ],
+      "shirtNumber": [
+        "src_ahk_roster_20260819"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_alingsas__80cffba4",
+    "playerId": "se_player_petter_donaldson_80cffba4",
+    "clubId": "se_club_alingsas_hk",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-19",
+    "shirtNumber": 2,
+    "sourcePosition": "Vänsternio",
+    "primaryPosition": "V9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_20260817_season_preview"
+      ],
+      "position": [
+        "src_hbl_20260817_season_preview"
+      ],
+      "shirtNumber": [
+        "src_ahk_roster_20260819"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_alingsas__39bb770d",
+    "playerId": "se_player_arvid_boquist_39bb770d",
+    "clubId": "se_club_alingsas_hk",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-19",
+    "shirtNumber": 19,
+    "sourcePosition": "Vänsternio",
+    "primaryPosition": "V9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_20260817_season_preview"
+      ],
+      "position": [
+        "src_hbl_20260817_season_preview"
+      ],
+      "shirtNumber": [
+        "src_ahk_roster_20260819"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_alingsas__314fc84c",
+    "playerId": "se_player_max_sellstedt_314fc84c",
+    "clubId": "se_club_alingsas_hk",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-19",
+    "shirtNumber": null,
+    "sourcePosition": "Vänsternio",
+    "primaryPosition": "V9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": "2028/29",
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_20260817_season_preview"
+      ],
+      "position": [
+        "src_hbl_20260817_season_preview"
+      ],
+      "contract": [
+        "src_ahk_max_sellstedt_20260624"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_alingsas__94e4bcd0",
+    "playerId": "se_player_august_wiger_94e4bcd0",
+    "clubId": "se_club_alingsas_hk",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-19",
+    "shirtNumber": 27,
+    "sourcePosition": "Mittnio",
+    "primaryPosition": "M9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_20260817_season_preview"
+      ],
+      "position": [
+        "src_hbl_20260817_season_preview"
+      ],
+      "shirtNumber": [
+        "src_ahk_roster_20260819"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_alingsas__8997bd4b",
+    "playerId": "se_player_hjalmar_jansson_8997bd4b",
+    "clubId": "se_club_alingsas_hk",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-19",
+    "shirtNumber": 23,
+    "sourcePosition": "Mittnio",
+    "primaryPosition": "M9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_20260817_season_preview"
+      ],
+      "position": [
+        "src_hbl_20260817_season_preview"
+      ],
+      "shirtNumber": [
+        "src_ahk_roster_20260819"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_alingsas__77d80608",
+    "playerId": "se_player_max_hurtig_77d80608",
+    "clubId": "se_club_alingsas_hk",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-19",
+    "shirtNumber": 33,
+    "sourcePosition": "Mittnio",
+    "primaryPosition": "M9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_20260817_season_preview"
+      ],
+      "position": [
+        "src_hbl_20260817_season_preview"
+      ],
+      "shirtNumber": [
+        "src_ahk_roster_20260819"
+      ],
+      "contract": [
+        "src_ahk_max_sellstedt_20260624"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_alingsas__1aad97d9",
+    "playerId": "se_player_noel_hurtig_1aad97d9",
+    "clubId": "se_club_alingsas_hk",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-19",
+    "shirtNumber": 25,
+    "sourcePosition": "Högernio",
+    "primaryPosition": "H9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": "2026/27",
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_20260817_season_preview"
+      ],
+      "position": [
+        "src_hbl_20260817_season_preview"
+      ],
+      "shirtNumber": [
+        "src_ahk_roster_20260819"
+      ],
+      "contract": [
+        "src_ahk_noel_20260521"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_alingsas__d5428e1f",
+    "playerId": "se_player_carl_ryden_d5428e1f",
+    "clubId": "se_club_alingsas_hk",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-19",
+    "shirtNumber": 7,
+    "sourcePosition": "Högernio",
+    "primaryPosition": "H9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": "2028/29",
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_20260817_season_preview"
+      ],
+      "position": [
+        "src_hbl_20260817_season_preview"
+      ],
+      "shirtNumber": [
+        "src_ahk_roster_20260819"
+      ],
+      "contract": [
+        "src_ahk_carl_20260330"
+      ]
+    }
+  }
+]

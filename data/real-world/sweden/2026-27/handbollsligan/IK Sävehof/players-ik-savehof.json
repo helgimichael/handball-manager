@@ -1,0 +1,349 @@
+[
+  {
+    "playerId": "player_arvid_noren_b702c6de",
+    "firstName": "Arvid",
+    "lastName": "Norén",
+    "fullName": "Arvid Norén",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "sourceRefs": {
+      "identity": [
+        "src_hbl_savehof_20260704"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "player_erik_andersson_b7790e0e",
+    "firstName": "Erik",
+    "lastName": "Andersson",
+    "fullName": "Erik Andersson",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "sourceRefs": {
+      "identity": [
+        "src_hbl_savehof_20260704"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "player_peter_johannesson_d88e8bce",
+    "firstName": "Peter",
+    "lastName": "Johannesson",
+    "fullName": "Peter Johannesson",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "sourceRefs": {
+      "identity": [
+        "src_hbl_savehof_20260704"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "player_sebastian_spante_5f69efd4",
+    "firstName": "Sebastian",
+    "lastName": "Spante",
+    "fullName": "Sebastian Spante",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "sourceRefs": {
+      "identity": [
+        "src_hbl_savehof_20260704"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "player_leon_halen_58afba2c",
+    "firstName": "Leon",
+    "lastName": "Halén",
+    "fullName": "Leon Halén",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": 2006,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "sourceRefs": {
+      "identity": [
+        "src_hbl_savehof_20260704"
+      ],
+      "birthYear": [
+        "src_savehof_halen_20240919"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "player_tobias_trommler_298b9266",
+    "firstName": "Tobias",
+    "lastName": "Trommler",
+    "fullName": "Tobias Trommler",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "sourceRefs": {
+      "identity": [
+        "src_hbl_savehof_20260704"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "player_tom_poyet_3266e92e",
+    "firstName": "Tom",
+    "lastName": "Poyet",
+    "fullName": "Tom Poyet",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "sourceRefs": {
+      "identity": [
+        "src_hbl_savehof_20260704"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "player_janne_delkvist_adb9dc92",
+    "firstName": "Janne",
+    "lastName": "Delkvist",
+    "fullName": "Janne Delkvist",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "sourceRefs": {
+      "identity": [
+        "src_hbl_savehof_20260704"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "player_malte_celander_15a5bcb0",
+    "firstName": "Malte",
+    "lastName": "Celander",
+    "fullName": "Malte Celander",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "sourceRefs": {
+      "identity": [
+        "src_hbl_savehof_20260704"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "player_arvid_uusvoog_c4455c88",
+    "firstName": "Arvid",
+    "lastName": "Uusvoog",
+    "fullName": "Arvid Uusvoog",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "sourceRefs": {
+      "identity": [
+        "src_hbl_savehof_20260704"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "player_david_sandberg_b9ba22bc",
+    "firstName": "David",
+    "lastName": "Sandberg",
+    "fullName": "David Sandberg",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "sourceRefs": {
+      "identity": [
+        "src_hbl_savehof_20260704"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "player_birgir_steinn_jonsson_107f13a1",
+    "firstName": "Birgir",
+    "lastName": "Steinn Jonsson",
+    "fullName": "Birgir Steinn Jonsson",
+    "aliases": [
+      "Birgir Steinn Jónsson"
+    ],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "sourceRefs": {
+      "identity": [
+        "src_hbl_savehof_20260704"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "player_oliver_lagerkvist_457b09a1",
+    "firstName": "Oliver",
+    "lastName": "Lagerkvist",
+    "fullName": "Oliver Lagerkvist",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "sourceRefs": {
+      "identity": [
+        "src_hbl_savehof_20260704"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "player_sebastian_durlanu_e73762cc",
+    "firstName": "Sebastian",
+    "lastName": "Durlanu",
+    "fullName": "Sebastian Durlanu",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "sourceRefs": {
+      "identity": [
+        "src_hbl_savehof_20260704"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "player_truls_grtta_24cca1d0",
+    "firstName": "Truls",
+    "lastName": "Grøtta",
+    "fullName": "Truls Grøtta",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "sourceRefs": {
+      "identity": [
+        "src_hbl_savehof_20260704"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "player_thure_frederiksen_9f70775b",
+    "firstName": "Thure",
+    "lastName": "Frederiksen",
+    "fullName": "Thure Frederiksen",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "sourceRefs": {
+      "identity": [
+        "src_hbl_savehof_20260704"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "player_magnus_persson_4822f217",
+    "firstName": "Magnus",
+    "lastName": "Persson",
+    "fullName": "Magnus Persson",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "sourceRefs": {
+      "identity": [
+        "src_hbl_savehof_20260704"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "player_jesper_risland_017a0c66",
+    "firstName": "Jesper",
+    "lastName": "Røisland",
+    "fullName": "Jesper Røisland",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "sourceRefs": {
+      "identity": [
+        "src_hbl_savehof_20260704"
+      ]
+    },
+    "dataNotes": []
+  }
+]

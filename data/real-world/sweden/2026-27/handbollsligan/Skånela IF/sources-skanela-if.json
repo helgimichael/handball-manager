@@ -1,0 +1,131 @@
+[
+  {
+    "sourceId": "src_hbl_skanela_20260623",
+    "sourceType": "LEAGUE_OFFICIAL",
+    "publisher": "Handbollsligan",
+    "title": "Försäsongsguiden, del 11: Skånela IF",
+    "url": "https://handbollsligan.se/herrligan/forsasongsguiden-del-11-skanela-if/",
+    "publishedAt": "2026-06-23",
+    "accessedAt": "2026-08-20",
+    "seasonContext": "2026/27"
+  },
+  {
+    "sourceId": "src_skanela_filen_20260731",
+    "sourceType": "CLUB_OFFICIAL",
+    "publisher": "Skånela IF",
+    "title": "Jesper Filén återvänder till moderföreningen",
+    "url": "https://www.skanela.se/start/?ID=366437",
+    "publishedAt": "2026-07-31",
+    "accessedAt": "2026-08-20",
+    "seasonContext": "2026/27"
+  },
+  {
+    "sourceId": "src_hblstats_filen_2025",
+    "sourceType": "LEAGUE_OFFICIAL_STATISTICS",
+    "publisher": "Handbollsligan statistics",
+    "title": "Jesper Filén – V6",
+    "url": "https://handballstats.se/statistics/herr/statistics/statistics.aspx?y=2025",
+    "accessedAt": "2026-08-20",
+    "seasonContext": "2025/26"
+  },
+  {
+    "sourceId": "src_skanela_karlsson_20260429",
+    "sourceType": "CLUB_OFFICIAL",
+    "publisher": "Skånela IF",
+    "title": "Skånelas herrar förstärker på målvaktspositionen",
+    "url": "https://www.skanela.se/nyheter/?ID=366438&NID=1339767",
+    "publishedAt": "2026-04-29",
+    "accessedAt": "2026-08-20",
+    "seasonContext": "2026/27"
+  },
+  {
+    "sourceId": "src_skanela_hill_20260512",
+    "sourceType": "CLUB_OFFICIAL",
+    "publisher": "Skånela IF",
+    "title": "Alex Hill flyttas upp till herrtruppen",
+    "url": "https://www.skanela.se/nyheter/?ID=366438&NID=1342535",
+    "publishedAt": "2026-05-12",
+    "accessedAt": "2026-08-20",
+    "seasonContext": "2026/27"
+  },
+  {
+    "sourceId": "src_skanela_axelsson_20260516",
+    "sourceType": "CLUB_OFFICIAL",
+    "publisher": "Skånela IF",
+    "title": "Skånela lyfter upp Isac Axelsson till herrtruppen",
+    "url": "https://www.skanela.se/nyheter/?ID=366438&NID=1343140",
+    "publishedAt": "2026-05-16",
+    "accessedAt": "2026-08-20",
+    "seasonContext": "2026/27"
+  },
+  {
+    "sourceId": "src_skanela_ritter_20260623",
+    "sourceType": "CLUB_OFFICIAL",
+    "publisher": "Skånela IF",
+    "title": "Alexander Ritter klar för Skånela IF",
+    "url": "https://www.skanela.se/start/?ID=366437",
+    "publishedAt": "2026-06-23",
+    "accessedAt": "2026-08-20",
+    "seasonContext": "2026/27"
+  },
+  {
+    "sourceId": "src_skanela_kallemyr_20260420",
+    "sourceType": "CLUB_OFFICIAL",
+    "publisher": "Skånela IF",
+    "title": "David Källemyr förlänger",
+    "url": "https://www.skanela.se/nyheter/?ID=366438&NID=1337981",
+    "publishedAt": "2026-04-20",
+    "accessedAt": "2026-08-20",
+    "seasonContext": "2026/27"
+  },
+  {
+    "sourceId": "src_skanela_fristrom_20260515",
+    "sourceType": "CLUB_OFFICIAL",
+    "publisher": "Skånela IF",
+    "title": "Mattias Friström klar för ytterligare en säsong",
+    "url": "https://www.skanela.se/nyheter/?ID=366438&NID=1343139",
+    "publishedAt": "2026-05-15",
+    "accessedAt": "2026-08-20",
+    "seasonContext": "2026/27"
+  },
+  {
+    "sourceId": "src_skanela_tapper_20260409",
+    "sourceType": "CLUB_OFFICIAL",
+    "publisher": "Skånela IF",
+    "title": "Filip Tapper klar för ytterligare en säsong",
+    "url": "https://www.skanela.se/nyheter/?ID=366438&NID=1335744",
+    "publishedAt": "2026-04-09",
+    "accessedAt": "2026-08-20",
+    "seasonContext": "2026/27"
+  },
+  {
+    "sourceId": "src_skanela_broman_20260223",
+    "sourceType": "CLUB_OFFICIAL",
+    "publisher": "Skånela IF",
+    "title": "Max Broman förlänger kontraktet",
+    "url": "https://www.skanela.se/nyheter/?ID=366438&NID=1327133",
+    "publishedAt": "2026-02-23",
+    "accessedAt": "2026-08-20",
+    "seasonContext": "CONTRACT"
+  },
+  {
+    "sourceId": "src_skanela_simon_20260115",
+    "sourceType": "CLUB_OFFICIAL",
+    "publisher": "Skånela IF",
+    "title": "Simon Lindberg förlänger med Skånela IF",
+    "url": "https://www.skanela.se/nyheter/?ID=366438&NID=1319074",
+    "publishedAt": "2026-01-15",
+    "accessedAt": "2026-08-20",
+    "seasonContext": "CONTRACT"
+  },
+  {
+    "sourceId": "src_skanela_tobias_20260128",
+    "sourceType": "CLUB_OFFICIAL",
+    "publisher": "Skånela IF",
+    "title": "Tobias Johansson klar för en fortsättning",
+    "url": "https://www.skanela.se/nyheter/?ID=366438&NID=1321877",
+    "publishedAt": "2026-01-28",
+    "accessedAt": "2026-08-20",
+    "seasonContext": "CONTRACT"
+  }
+]

@@ -1,0 +1,565 @@
+[
+  {
+    "playerId": "se_player_anton_hagvall_34e5df98",
+    "firstName": "Anton",
+    "lastName": "Hagvall",
+    "fullName": "Anton Hagvall",
+    "aliases": [],
+    "dateOfBirth": "1997-04-01",
+    "birthYear": 1997,
+    "nationalities": [
+      "SE"
+    ],
+    "heightCm": 192,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED",
+      "nationalities": "VERIFIED",
+      "heightCm": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_hbl_20260817_season_preview",
+        "src_ahk_roster_20260819"
+      ],
+      "dateOfBirth": [
+        "src_ifk_anton_profile"
+      ],
+      "nationalities": [
+        "src_ehf_anton"
+      ],
+      "heightCm": [
+        "src_ahk_roster_20260819",
+        "src_ehf_anton"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "se_player_oskar_dahlin_50f8181d",
+    "firstName": "Oskar",
+    "lastName": "Dahlin",
+    "fullName": "Oskar Dahlin",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": 2005,
+    "nationalities": null,
+    "heightCm": 188,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "fieldConfidence": {
+      "birthYear": "VERIFIED",
+      "heightCm": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_hbl_20260817_season_preview",
+        "src_ahk_oskar_20260410"
+      ],
+      "birthYear": [
+        "src_ahk_oskar_20260410"
+      ],
+      "heightCm": [
+        "src_ahk_roster_20260819"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "se_player_niklas_kraft_e8842f13",
+    "firstName": "Niklas",
+    "lastName": "Kraft",
+    "fullName": "Niklas Kraft",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": [
+      "SE"
+    ],
+    "heightCm": 192,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "fieldConfidence": {
+      "nationalities": "VERIFIED",
+      "heightCm": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_hbl_20260817_season_preview",
+        "src_ahk_kraft_20260515",
+        "src_ahk_krs_match_20260809"
+      ],
+      "nationalities": [
+        "src_ehf_kraft"
+      ],
+      "heightCm": [
+        "src_ehf_kraft"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "se_player_benjamin_helander_b5cece84",
+    "firstName": "Benjamin",
+    "lastName": "Helander",
+    "fullName": "Benjamin Helander",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": [
+      "FI"
+    ],
+    "heightCm": 179,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "fieldConfidence": {
+      "nationalities": "VERIFIED",
+      "heightCm": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_hbl_20260817_season_preview",
+        "src_ahk_roster_20260819"
+      ],
+      "nationalities": [
+        "src_ehf_benjamin"
+      ],
+      "heightCm": [
+        "src_ahk_roster_20260819"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "se_player_edwin_tengros_eec4c59b",
+    "firstName": "Edwin",
+    "lastName": "Tengros",
+    "fullName": "Edwin Tengros",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": 2006,
+    "nationalities": null,
+    "heightCm": 189,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "fieldConfidence": {
+      "birthYear": "VERIFIED",
+      "heightCm": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_hbl_20260817_season_preview",
+        "src_ahk_roster_20260819"
+      ],
+      "birthYear": [
+        "src_ahk_quarterfinal_20260410"
+      ],
+      "heightCm": [
+        "src_ahk_roster_20260819"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "se_player_alexander_regen_705fa7a6",
+    "firstName": "Alexander",
+    "lastName": "Regen",
+    "fullName": "Alexander Regen",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": 2000,
+    "nationalities": [
+      "SE"
+    ],
+    "heightCm": 184,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "fieldConfidence": {
+      "birthYear": "PARTIAL",
+      "nationalities": "VERIFIED",
+      "heightCm": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_hbl_20260817_season_preview",
+        "src_ahk_roster_20260819"
+      ],
+      "birthYear": [
+        "src_ehf_alexander"
+      ],
+      "nationalities": [
+        "src_ehf_alexander"
+      ],
+      "heightCm": [
+        "src_ahk_roster_20260819",
+        "src_ehf_alexander"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "se_player_arvid_andreasson_54da0f43",
+    "firstName": "Arvid",
+    "lastName": "Andreasson",
+    "fullName": "Arvid Andreasson",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": 2006,
+    "nationalities": [
+      "SE"
+    ],
+    "heightCm": 192,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "fieldConfidence": {
+      "birthYear": "VERIFIED",
+      "nationalities": "VERIFIED",
+      "heightCm": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_hbl_20260817_season_preview",
+        "src_ahk_roster_20260819"
+      ],
+      "birthYear": [
+        "src_ahk_quarterfinal_20260410"
+      ],
+      "nationalities": [
+        "src_ehf_arvid_andreasson"
+      ],
+      "heightCm": [
+        "src_ahk_roster_20260819"
+      ]
+    },
+    "dataNotes": [
+      "Height conflict: Alingsås HK lists 192 cm; EHF lists 193 cm. Current club source retained."
+    ]
+  },
+  {
+    "playerId": "se_player_samuel_lindberg_1a6e8618",
+    "firstName": "Samuel",
+    "lastName": "Lindberg",
+    "fullName": "Samuel Lindberg",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": [
+      "SE"
+    ],
+    "heightCm": 179,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "fieldConfidence": {
+      "nationalities": "VERIFIED",
+      "heightCm": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_hbl_20260817_season_preview",
+        "src_ahk_roster_20260819"
+      ],
+      "nationalities": [
+        "src_ehf_samuel"
+      ],
+      "heightCm": [
+        "src_ahk_roster_20260819"
+      ]
+    },
+    "dataNotes": [
+      "Height conflict: Alingsås HK lists 179 cm; EHF lists 178 cm. Current club source retained."
+    ]
+  },
+  {
+    "playerId": "se_player_hugo_lignell_af49387a",
+    "firstName": "Hugo",
+    "lastName": "Lignell",
+    "fullName": "Hugo Lignell",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": 2006,
+    "nationalities": [
+      "SE"
+    ],
+    "heightCm": 188,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "fieldConfidence": {
+      "birthYear": "VERIFIED",
+      "nationalities": "VERIFIED",
+      "heightCm": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_hbl_20260817_season_preview",
+        "src_ahk_roster_20260819"
+      ],
+      "birthYear": [
+        "src_ahk_quarterfinal_20260410"
+      ],
+      "nationalities": [
+        "src_ehf_hugo"
+      ],
+      "heightCm": [
+        "src_ahk_roster_20260819"
+      ]
+    },
+    "dataNotes": [
+      "Height conflict: Alingsås HK lists 188 cm; EHF lists 186 cm. Current club source retained."
+    ]
+  },
+  {
+    "playerId": "se_player_petter_donaldson_80cffba4",
+    "firstName": "Petter",
+    "lastName": "Donaldson",
+    "fullName": "Petter Donaldson",
+    "aliases": [
+      "Petter Donaldsson"
+    ],
+    "dateOfBirth": null,
+    "birthYear": 2003,
+    "nationalities": [
+      "SE"
+    ],
+    "heightCm": 192,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "fieldConfidence": {
+      "birthYear": "VERIFIED",
+      "nationalities": "VERIFIED",
+      "heightCm": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_hbl_20260817_season_preview",
+        "src_ahk_roster_20260819"
+      ],
+      "birthYear": [
+        "src_ahk_quarterfinal_20260410"
+      ],
+      "nationalities": [
+        "src_ehf_petter"
+      ],
+      "heightCm": [
+        "src_ahk_roster_20260819"
+      ]
+    },
+    "dataNotes": [
+      "Name conflict/alias: EHF spells surname Donaldsson; club and Handbollsligan use Donaldson.",
+      "Height conflict: Alingsås HK lists 192 cm; EHF lists 190 cm. Current club source retained."
+    ]
+  },
+  {
+    "playerId": "se_player_arvid_boquist_39bb770d",
+    "firstName": "Arvid",
+    "lastName": "Boquist",
+    "fullName": "Arvid Boquist",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": [
+      "SE"
+    ],
+    "heightCm": 194,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "fieldConfidence": {
+      "nationalities": "VERIFIED",
+      "heightCm": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_hbl_20260817_season_preview",
+        "src_ahk_roster_20260819"
+      ],
+      "nationalities": [
+        "src_ehf_arvid_boquist"
+      ],
+      "heightCm": [
+        "src_ahk_roster_20260819",
+        "src_ehf_arvid_boquist"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "se_player_max_sellstedt_314fc84c",
+    "firstName": "Max",
+    "lastName": "Sellstedt",
+    "fullName": "Max Sellstedt",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": 2009,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": "RIGHT",
+    "recordConfidence": "PARTIAL",
+    "fieldConfidence": {
+      "birthYear": "VERIFIED",
+      "handedness": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_hbl_20260817_season_preview",
+        "src_ahk_max_sellstedt_20260624"
+      ],
+      "birthYear": [
+        "src_ahk_max_sellstedt_20260624"
+      ],
+      "handedness": [
+        "src_ahk_max_sellstedt_20260624"
+      ]
+    },
+    "dataNotes": [
+      "Current club members page contains a corrupted age value (117); ignored."
+    ]
+  },
+  {
+    "playerId": "se_player_august_wiger_94e4bcd0",
+    "firstName": "August",
+    "lastName": "Wiger",
+    "fullName": "August Wiger",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": [
+      "SE"
+    ],
+    "heightCm": 194,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "fieldConfidence": {
+      "nationalities": "VERIFIED",
+      "heightCm": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_hbl_20260817_season_preview",
+        "src_ahk_roster_20260819"
+      ],
+      "nationalities": [
+        "src_ehf_august"
+      ],
+      "heightCm": [
+        "src_ahk_roster_20260819"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "se_player_hjalmar_jansson_8997bd4b",
+    "firstName": "Hjalmar",
+    "lastName": "Jansson",
+    "fullName": "Hjalmar Jansson",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": 2006,
+    "nationalities": null,
+    "heightCm": 184,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "fieldConfidence": {
+      "birthYear": "VERIFIED",
+      "heightCm": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_hbl_20260817_season_preview",
+        "src_ahk_roster_20260819"
+      ],
+      "birthYear": [
+        "src_ahk_quarterfinal_20260410"
+      ],
+      "heightCm": [
+        "src_ahk_roster_20260819"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "se_player_max_hurtig_77d80608",
+    "firstName": "Max",
+    "lastName": "Hurtig",
+    "fullName": "Max Hurtig",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": 2009,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "fieldConfidence": {
+      "birthYear": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_hbl_20260817_season_preview",
+        "src_ahk_max_sellstedt_20260624"
+      ],
+      "birthYear": [
+        "src_ahk_max_sellstedt_20260624"
+      ],
+      "shirtNumber": [
+        "src_ahk_roster_20260819"
+      ]
+    },
+    "dataNotes": [
+      "Club members page has shirt number 33 but no explicit position; 2026/27 Handbollsligan source supplies M9."
+    ]
+  },
+  {
+    "playerId": "se_player_noel_hurtig_1aad97d9",
+    "firstName": "Noel",
+    "lastName": "Hurtig",
+    "fullName": "Noel Hurtig",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": 2006,
+    "nationalities": null,
+    "heightCm": 184,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "fieldConfidence": {
+      "birthYear": "VERIFIED",
+      "heightCm": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_hbl_20260817_season_preview",
+        "src_ahk_noel_20260521"
+      ],
+      "birthYear": [
+        "src_ahk_quarterfinal_20260410"
+      ],
+      "heightCm": [
+        "src_ahk_roster_20260819"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "se_player_carl_ryden_d5428e1f",
+    "firstName": "Carl",
+    "lastName": "Rydén",
+    "fullName": "Carl Rydén",
+    "aliases": [
+      "Calle Rydén"
+    ],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "fieldConfidence": {},
+    "sourceRefs": {
+      "identity": [
+        "src_hbl_20260817_season_preview",
+        "src_ahk_carl_20260330"
+      ]
+    },
+    "dataNotes": [
+      "Club uses Calle as nickname, but official signing article identifies full name as Carl Rydén."
+    ]
+  }
+]

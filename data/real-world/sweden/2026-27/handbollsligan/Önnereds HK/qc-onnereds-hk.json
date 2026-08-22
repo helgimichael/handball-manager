@@ -1,0 +1,45 @@
+{
+  "clubId": "se_club_onnereds_hk",
+  "clubName": "Önnereds HK",
+  "season": "2026/27",
+  "snapshotDate": "2026-08-20",
+  "datasetStatus": "PRESEASON",
+  "qcStatus": "VERIFIED_CURRENT_CLUB_ROSTER",
+  "expectedRosterCount": 21,
+  "exportedRosterCount": 21,
+  "checks": {
+    "currentOfficialClubRosterLocated": true,
+    "shirtNumbersFromCurrentClubRoster": true,
+    "transfersChecked": true,
+    "duplicatePlayers": 0,
+    "canonicalPositionsValid": true,
+    "guessedSecondaryPositions": 0
+  },
+  "transfersIn": [
+    "Rasmus Nyman (HK Aranäs)",
+    "Felix Lilja (uppflyttad)"
+  ],
+  "transfersOut": [
+    "Hugo Forsberg (Baia Mare)",
+    "Mishels Liaba (Kolstad)",
+    "Pontus Zetterman (HK Varberg)",
+    "Patrick Bols (OV Helsingborg)"
+  ],
+  "importantFindings": [
+    "Önnereds own current Herr Elit roster is fresher and more useful than the transfer summary: it lists 21 active players and current shirt numbers for 20 of them.",
+    "Rasmus Nyman is present in the current roster as #10, confirming the announced transfer from HK Aranäs.",
+    "Felix Lilja is now grouped by the club as a wing. Historical official SHF data identifies him as H6, so canonical H6 is used rather than his older Handbollsligan H9 listing.",
+    "Milo Knaapinen is grouped by Önnered as a nine-metre player; EHF lists him as V9/Left Back in 2026, so V9 is used.",
+    "Andreas Nilsson remains an active M6: Önnered explicitly announced on 25 Jun that he becomes playing sporting director and continues contributing on court.",
+    "Patrick Bols, Hugo Forsberg, Mishels Liaba and Pontus Zetterman are absent from the current roster and independently listed as departures.",
+    "No shirt number is displayed for Milo Knaapinen on the current club roster, so it remains null."
+  ],
+  "openFieldsSummary": {
+    "shirtNumberMissing": 1,
+    "exactDateOfBirthMissing": 20,
+    "nationalityMissing": 19,
+    "heightMissing": 19,
+    "handednessMissing": 21,
+    "contractEndMissing": 21
+  }
+}

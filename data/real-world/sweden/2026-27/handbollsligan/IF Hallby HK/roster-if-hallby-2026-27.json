@@ -1,0 +1,611 @@
+[
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_hallby_87d487c8",
+    "playerId": "se_player_marcus_holmen_87d487c8",
+    "clubId": "se_club_if_hallby_hk",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-19",
+    "shirtNumber": 30,
+    "sourcePosition": "Goalkeeper",
+    "primaryPosition": "MV",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": "2029/30",
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_hallby_20260817"
+      ],
+      "position": [
+        "src_hbl_hallby_20260817"
+      ],
+      "contract": [
+        "src_hallby_holmen_20260205"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_hallby_a8a0d2ec",
+    "playerId": "se_player_lukas_wallinder_a8a0d2ec",
+    "clubId": "se_club_if_hallby_hk",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-19",
+    "shirtNumber": null,
+    "sourcePosition": "Goalkeeper",
+    "primaryPosition": "MV",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_hallby_20260817"
+      ],
+      "position": [
+        "src_hbl_hallby_20260817"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_hallby_39dc2edd",
+    "playerId": "se_player_wilmer_bjerklin_39dc2edd",
+    "clubId": "se_club_if_hallby_hk",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-19",
+    "shirtNumber": null,
+    "sourcePosition": "Goalkeeper",
+    "primaryPosition": "MV",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_hallby_20260817"
+      ],
+      "position": [
+        "src_hbl_hallby_20260817"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_hallby_01f1dc4f",
+    "playerId": "se_player_hampus_dahlgren_01f1dc4f",
+    "clubId": "se_club_if_hallby_hk",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-19",
+    "shirtNumber": null,
+    "sourcePosition": "Left Wing",
+    "primaryPosition": "V6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_hallby_20260817"
+      ],
+      "position": [
+        "src_hbl_hallby_20260817"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_hallby_409a4b2c",
+    "playerId": "se_player_john_vatz_409a4b2c",
+    "clubId": "se_club_if_hallby_hk",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-19",
+    "shirtNumber": null,
+    "sourcePosition": "Left Wing",
+    "primaryPosition": "V6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_hallby_20260817"
+      ],
+      "position": [
+        "src_hbl_hallby_20260817"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_hallby_300f48bb",
+    "playerId": "se_player_oskar_hedvall_300f48bb",
+    "clubId": "se_club_if_hallby_hk",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-19",
+    "shirtNumber": null,
+    "sourcePosition": "Line Player",
+    "primaryPosition": "M6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_hallby_20260817"
+      ],
+      "position": [
+        "src_hbl_hallby_20260817"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_hallby_643fe910",
+    "playerId": "se_player_ludvig_hogberg_643fe910",
+    "clubId": "se_club_if_hallby_hk",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-19",
+    "shirtNumber": null,
+    "sourcePosition": "Line Player",
+    "primaryPosition": "M6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_hallby_20260817"
+      ],
+      "position": [
+        "src_hbl_hallby_20260817"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_hallby_baa94735",
+    "playerId": "se_player_rasmus_thomsen_baa94735",
+    "clubId": "se_club_if_hallby_hk",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-19",
+    "shirtNumber": null,
+    "sourcePosition": "Line Player",
+    "primaryPosition": "M6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_hallby_20260817"
+      ],
+      "position": [
+        "src_hbl_hallby_20260817"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_hallby_11ed2339",
+    "playerId": "se_player_emil_johannisson_11ed2339",
+    "clubId": "se_club_if_hallby_hk",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-19",
+    "shirtNumber": null,
+    "sourcePosition": "Line Player",
+    "primaryPosition": "M6",
+    "secondaryPositions": [],
+    "rosterStatus": "LOAN_IN",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_hallby_20260817"
+      ],
+      "position": [
+        "src_hbl_hallby_20260817"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_hallby_c044b169",
+    "playerId": "se_player_charles_hugoson_c044b169",
+    "clubId": "se_club_if_hallby_hk",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-19",
+    "shirtNumber": null,
+    "sourcePosition": "Right Wing",
+    "primaryPosition": "H6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_hallby_20260817"
+      ],
+      "position": [
+        "src_hbl_hallby_20260817"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_hallby_045de530",
+    "playerId": "se_player_pavle_karacic_045de530",
+    "clubId": "se_club_if_hallby_hk",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-19",
+    "shirtNumber": null,
+    "sourcePosition": "Right Wing",
+    "primaryPosition": "H6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_hallby_20260817"
+      ],
+      "position": [
+        "src_hbl_hallby_20260817"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_hallby_3fdf0322",
+    "playerId": "se_player_linus_walfridsson_3fdf0322",
+    "clubId": "se_club_if_hallby_hk",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-19",
+    "shirtNumber": null,
+    "sourcePosition": "Right Wing",
+    "primaryPosition": "H6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_hallby_20260817"
+      ],
+      "position": [
+        "src_hbl_hallby_20260817"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_hallby_77659651",
+    "playerId": "se_player_martin_martensson_77659651",
+    "clubId": "se_club_if_hallby_hk",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-19",
+    "shirtNumber": null,
+    "sourcePosition": "Left Back",
+    "primaryPosition": "V9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_hallby_20260817"
+      ],
+      "position": [
+        "src_hbl_hallby_20260817"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_hallby_7575bb25",
+    "playerId": "se_player_andreas_soderman_7575bb25",
+    "clubId": "se_club_if_hallby_hk",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-19",
+    "shirtNumber": null,
+    "sourcePosition": "Left Back",
+    "primaryPosition": "V9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": "2027/28",
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_hallby_20260817"
+      ],
+      "position": [
+        "src_hbl_hallby_20260817"
+      ],
+      "contract": [
+        "src_hallby_andreas_20260308"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_hallby_1dbf967b",
+    "playerId": "se_player_isak_karlsson_1dbf967b",
+    "clubId": "se_club_if_hallby_hk",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-19",
+    "shirtNumber": null,
+    "sourcePosition": "Left Back",
+    "primaryPosition": "V9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_hallby_20260817"
+      ],
+      "position": [
+        "src_hbl_hallby_20260817"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_hallby_072b951c",
+    "playerId": "se_player_herman_legrell_072b951c",
+    "clubId": "se_club_if_hallby_hk",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-19",
+    "shirtNumber": null,
+    "sourcePosition": "Left Back",
+    "primaryPosition": "V9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_hallby_20260817"
+      ],
+      "position": [
+        "src_hbl_hallby_20260817"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_hallby_4fc3c02e",
+    "playerId": "se_player_hampus_soderman_4fc3c02e",
+    "clubId": "se_club_if_hallby_hk",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-19",
+    "shirtNumber": null,
+    "sourcePosition": "Centre Back",
+    "primaryPosition": "M9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": "2027/28",
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_hallby_20260817"
+      ],
+      "position": [
+        "src_hbl_hallby_20260817"
+      ],
+      "contract": [
+        "src_hallby_hampus_20260120"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_hallby_3236286b",
+    "playerId": "se_player_alexander_hambalek_3236286b",
+    "clubId": "se_club_if_hallby_hk",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-19",
+    "shirtNumber": null,
+    "sourcePosition": "Centre Back",
+    "primaryPosition": "M9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_hallby_20260817"
+      ],
+      "position": [
+        "src_hbl_hallby_20260817"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_hallby_2ab138cf",
+    "playerId": "se_player_jonatan_suomela_2ab138cf",
+    "clubId": "se_club_if_hallby_hk",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-19",
+    "shirtNumber": null,
+    "sourcePosition": "Centre Back",
+    "primaryPosition": "M9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_hallby_20260817"
+      ],
+      "position": [
+        "src_hbl_hallby_20260817"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_hallby_9d29e1d1",
+    "playerId": "se_player_asso_eliassi_sarzali_9d29e1d1",
+    "clubId": "se_club_if_hallby_hk",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-19",
+    "shirtNumber": null,
+    "sourcePosition": "Centre Back",
+    "primaryPosition": "M9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": "2027/28",
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_hallby_20260817"
+      ],
+      "position": [
+        "src_hbl_hallby_20260817"
+      ],
+      "contract": [
+        "src_hallby_asso_20260528"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_hallby_0bc482f0",
+    "playerId": "se_player_joshua_mesias_wasterlund_0bc482f0",
+    "clubId": "se_club_if_hallby_hk",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-19",
+    "shirtNumber": null,
+    "sourcePosition": "Right Back",
+    "primaryPosition": "H9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_hallby_20260817"
+      ],
+      "position": [
+        "src_hbl_hallby_20260817"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_hallby_e3fc4b12",
+    "playerId": "se_player_emil_nork_e3fc4b12",
+    "clubId": "se_club_if_hallby_hk",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-19",
+    "shirtNumber": null,
+    "sourcePosition": "Right Back",
+    "primaryPosition": "H9",
+    "secondaryPositions": [],
+    "rosterStatus": "LOAN_IN",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": "2026/27",
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_hallby_20260817"
+      ],
+      "position": [
+        "src_hbl_hallby_20260817"
+      ],
+      "contract": [
+        "src_hallby_nork_20260521"
+      ]
+    }
+  }
+]

@@ -1,0 +1,13 @@
+{
+  "milestone": "HM-DATA-0.1A",
+  "club": "Önnereds HK",
+  "snapshotDate": "2026-08-20",
+  "playerCount": 21,
+  "files": [
+    "players-onnereds-hk.json",
+    "roster-onnereds-hk-2026-27.json",
+    "sources-onnereds-hk.json",
+    "qc-onnereds-hk.json",
+    "players-onnereds-hk-2026-27.csv"
+  ]
+}

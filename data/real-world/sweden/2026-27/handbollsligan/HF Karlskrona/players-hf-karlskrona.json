@@ -1,0 +1,467 @@
+[
+  {
+    "playerId": "rs_player_uros_tomic_72d636e4",
+    "firstName": "Uros",
+    "lastName": "Tomic",
+    "fullName": "Uros Tomic",
+    "aliases": [],
+    "dateOfBirth": "1992-08-19",
+    "birthYear": 1992,
+    "nationalities": [
+      "RS"
+    ],
+    "heightCm": 192,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "sourceRefs": {
+      "identity": [
+        "src_hfk_roster_20260513"
+      ],
+      "dateOfBirth": [
+        "src_ehf_tomic"
+      ],
+      "nationalities": [
+        "src_ehf_tomic"
+      ],
+      "heightCm": [
+        "src_ehf_tomic"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "se_player_melvin_hildingsson_edd5d2a3",
+    "firstName": "Melvin",
+    "lastName": "Hildingsson",
+    "fullName": "Melvin Hildingsson",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "sourceRefs": {
+      "identity": [
+        "src_hfk_roster_20260513"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "se_player_emil_arthursson_db40e94c",
+    "firstName": "Emil",
+    "lastName": "Arthursson",
+    "fullName": "Emil Arthursson",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": 205,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "sourceRefs": {
+      "identity": [
+        "src_hfk_roster_20260513"
+      ],
+      "heightCm": [
+        "src_hblstats_arthursson"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "se_player_filip_psajd_5da4e6a8",
+    "firstName": "Filip",
+    "lastName": "Psajd",
+    "fullName": "Filip Psajd",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "sourceRefs": {
+      "identity": [
+        "src_hfk_roster_20260513"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "fo_player_leivur_mortensen_fa29fd73",
+    "firstName": "Leivur",
+    "lastName": "Mortensen",
+    "fullName": "Leivur Mortensen",
+    "aliases": [],
+    "dateOfBirth": "1999-03-25",
+    "birthYear": 1999,
+    "nationalities": [
+      "FO"
+    ],
+    "heightCm": 185,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "sourceRefs": {
+      "identity": [
+        "src_hfk_roster_20260513"
+      ],
+      "dateOfBirth": [
+        "src_ehf_euro2026_mortensen"
+      ],
+      "nationalities": [
+        "src_ehf_euro2026_mortensen"
+      ],
+      "heightCm": [
+        "src_ehf_euro2026_mortensen"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "se_player_albin_stenberg_8766543f",
+    "firstName": "Albin",
+    "lastName": "Stenberg",
+    "fullName": "Albin Stenberg",
+    "aliases": [],
+    "dateOfBirth": "1994-05-05",
+    "birthYear": 1994,
+    "nationalities": [
+      "SE"
+    ],
+    "heightCm": 190,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "sourceRefs": {
+      "identity": [
+        "src_hfk_roster_20260513"
+      ],
+      "dateOfBirth": [
+        "src_ehf_stenberg"
+      ],
+      "nationalities": [
+        "src_ehf_stenberg"
+      ],
+      "heightCm": [
+        "src_ehf_stenberg"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "ee_player_markus_viitkar_d8f6a466",
+    "firstName": "Markus",
+    "lastName": "Viitkar",
+    "fullName": "Markus Viitkar",
+    "aliases": [],
+    "dateOfBirth": "1998-01-14",
+    "birthYear": 1998,
+    "nationalities": [
+      "EE"
+    ],
+    "heightCm": 192,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "sourceRefs": {
+      "identity": [
+        "src_hfk_roster_20260513"
+      ],
+      "dateOfBirth": [
+        "src_ehf_viitkar"
+      ],
+      "nationalities": [
+        "src_ehf_viitkar"
+      ],
+      "heightCm": [
+        "src_ehf_viitkar"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "se_player_william_eskengren_svahn_614765b5",
+    "firstName": "William",
+    "lastName": "Eskengren Svahn",
+    "fullName": "William Eskengren Svahn",
+    "aliases": [],
+    "dateOfBirth": "2004-11-25",
+    "birthYear": 2004,
+    "nationalities": [
+      "SE"
+    ],
+    "heightCm": 200,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "sourceRefs": {
+      "identity": [
+        "src_hfk_roster_20260513"
+      ],
+      "dateOfBirth": [
+        "src_ehf_eskengren"
+      ],
+      "nationalities": [
+        "src_ehf_eskengren"
+      ],
+      "heightCm": [
+        "src_ehf_eskengren"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "se_player_emil_hansson_02c1a5c6",
+    "firstName": "Emil",
+    "lastName": "Hansson",
+    "fullName": "Emil Hansson",
+    "aliases": [],
+    "dateOfBirth": "1996-04-24",
+    "birthYear": 1996,
+    "nationalities": [
+      "SE"
+    ],
+    "heightCm": 181,
+    "handedness": "LEFT",
+    "recordConfidence": "VERIFIED",
+    "sourceRefs": {
+      "identity": [
+        "src_hfk_roster_20260513"
+      ],
+      "dateOfBirth": [
+        "src_ehf_hansson"
+      ],
+      "nationalities": [
+        "src_ehf_hansson"
+      ],
+      "heightCm": [
+        "src_ehf_hansson"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "se_player_karl_jonsson_7b9c8e7a",
+    "firstName": "Karl",
+    "lastName": "Jönsson",
+    "fullName": "Karl Jönsson",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "sourceRefs": {
+      "identity": [
+        "src_hfk_roster_20260513"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "se_player_noel_wirbladh_dd3accb2",
+    "firstName": "Noel",
+    "lastName": "Wirbladh",
+    "fullName": "Noel Wirbladh",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": "LEFT",
+    "recordConfidence": "PARTIAL",
+    "sourceRefs": {
+      "identity": [
+        "src_hfk_roster_20260513"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "is_player_arnor_vidarsson_67e44687",
+    "firstName": "Arnor",
+    "lastName": "Vidarsson",
+    "fullName": "Arnor Vidarsson",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "sourceRefs": {
+      "identity": [
+        "src_hfk_roster_20260513"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "se_player_axel_soderqvist_763716b1",
+    "firstName": "Axel",
+    "lastName": "Söderqvist",
+    "fullName": "Axel Söderqvist",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "sourceRefs": {
+      "identity": [
+        "src_hfk_roster_20260513"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "fo_player_trondur_mikkelsen_1b5d5129",
+    "firstName": "Trondur",
+    "lastName": "Mikkelsen",
+    "fullName": "Trondur Mikkelsen",
+    "aliases": [
+      "Tróndur Mikkelsen"
+    ],
+    "dateOfBirth": "2000-07-01",
+    "birthYear": 2000,
+    "nationalities": [
+      "FO"
+    ],
+    "heightCm": 190,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "sourceRefs": {
+      "identity": [
+        "src_hfk_roster_20260513"
+      ],
+      "dateOfBirth": [
+        "src_ehf_mikkelsen"
+      ],
+      "nationalities": [
+        "src_ehf_mikkelsen"
+      ],
+      "heightCm": [
+        "src_ehf_mikkelsen"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "se_player_alex_andersson_654b2ac2",
+    "firstName": "Alex",
+    "lastName": "Andersson",
+    "fullName": "Alex Andersson",
+    "aliases": [],
+    "dateOfBirth": "2004-02-02",
+    "birthYear": 2004,
+    "nationalities": [
+      "SE"
+    ],
+    "heightCm": 183,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "sourceRefs": {
+      "identity": [
+        "src_hfk_roster_20260513"
+      ],
+      "dateOfBirth": [
+        "src_ihf_alex"
+      ],
+      "nationalities": [
+        "src_ihf_alex"
+      ],
+      "heightCm": [
+        "src_ihf_alex"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "se_player_hugo_sivertsson_0146e093",
+    "firstName": "Hugo",
+    "lastName": "Sivertsson",
+    "fullName": "Hugo Sivertsson",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "sourceRefs": {
+      "identity": [
+        "src_hfk_roster_20260513"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "se_player_jonathan_andersson_8ffd276d",
+    "firstName": "Jonathan",
+    "lastName": "Andersson",
+    "fullName": "Jonathan Andersson",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "sourceRefs": {
+      "identity": [
+        "src_hfk_roster_20260513"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "se_player_sigge_ryberg_11568b27",
+    "firstName": "Sigge",
+    "lastName": "Ryberg",
+    "fullName": "Sigge Ryberg",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "sourceRefs": {
+      "identity": [
+        "src_hfk_roster_20260513"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "se_player_niclas_fingren_f27bc200",
+    "firstName": "Niclas",
+    "lastName": "Fingren",
+    "fullName": "Niclas Fingren",
+    "aliases": [],
+    "dateOfBirth": "1995-11-19",
+    "birthYear": 1995,
+    "nationalities": [
+      "SE"
+    ],
+    "heightCm": 197,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "sourceRefs": {
+      "identity": [
+        "src_hfk_fingren_20260806"
+      ],
+      "dateOfBirth": [
+        "src_ehf_fingren"
+      ],
+      "nationalities": [
+        "src_ehf_fingren"
+      ],
+      "heightCm": [
+        "src_ehf_fingren"
+      ]
+    },
+    "dataNotes": []
+  }
+]

@@ -1,0 +1,91 @@
+[
+  {
+    "sourceId": "src_hbl_ifk_20260817",
+    "sourceType": "LEAGUE_OFFICIAL",
+    "publisher": "Handbollsligan",
+    "title": "Inför säsongen 2026/27",
+    "url": "https://handbollsligan.se/herrligan/infor-sasongen-2026-27-2/",
+    "publishedAt": "2026-08-17",
+    "accessedAt": "2026-08-19",
+    "seasonContext": "2026/27"
+  },
+  {
+    "sourceId": "src_hbl_ifk_preseason",
+    "sourceType": "LEAGUE_OFFICIAL",
+    "publisher": "Handbollsligan",
+    "title": "Försäsongsguiden, del 6: IFK Kristianstad",
+    "url": "https://handbollsligan.se/herrligan/forsasongsguiden-del-6-ifk-kristianstad-2/",
+    "accessedAt": "2026-08-19",
+    "seasonContext": "2026/27"
+  },
+  {
+    "sourceId": "src_ifk_skoog_20260116",
+    "sourceType": "CLUB_OFFICIAL",
+    "publisher": "IFK Kristianstad",
+    "title": "IFK Kristianstad värvar målvakten Alexander Skoog",
+    "url": "https://ifkkristianstad.se/nyheter/2026-01-16/ifk-kristianstad-vaervar-maalvakten-alexander-skoog",
+    "publishedAt": "2026-01-16",
+    "accessedAt": "2026-08-19",
+    "seasonContext": "2026/27"
+  },
+  {
+    "sourceId": "src_ifk_baldur_20260121",
+    "sourceType": "CLUB_OFFICIAL",
+    "publisher": "IFK Kristianstad",
+    "title": "Baldur Fritz Bjarnason skriver på för brandgult",
+    "url": "https://ifkkristianstad.se/nyheter/2026-01-21/stortalang-fraan-island-vaeljer-ifk-baldur-fritz-bjarnason-skriver-paa-foer-brandgult",
+    "publishedAt": "2026-01-21",
+    "accessedAt": "2026-08-19",
+    "seasonContext": "2026/27"
+  },
+  {
+    "sourceId": "src_ifk_hallback_20260115",
+    "sourceType": "CLUB_OFFICIAL",
+    "publisher": "IFK Kristianstad",
+    "title": "Hallbäck förlänger – klar för sin sjätte säsong i IFK",
+    "url": "https://ifkkristianstad.se/nyheter/2026-01-15/hallbaeck-foerlaenger-klar-foer-sin-sjaette-saesong-i-ifk",
+    "publishedAt": "2026-01-15",
+    "accessedAt": "2026-08-19",
+    "seasonContext": "2026/27"
+  },
+  {
+    "sourceId": "src_ifk_einar_20260116",
+    "sourceType": "CLUB_OFFICIAL",
+    "publisher": "IFK Kristianstad",
+    "title": "Einar Aðalsteinsson stannar – spelar i IFK säsongen 2026/2027",
+    "url": "https://ifkkristianstad.se/nyheter/2026-01-16/einar-adjalsteinsson-stannar-spelar-i-ifk-saesongen-2026-2027",
+    "publishedAt": "2026-01-16",
+    "accessedAt": "2026-08-19",
+    "seasonContext": "2026/27"
+  },
+  {
+    "sourceId": "src_ifk_henningsson_biel_20260212",
+    "sourceType": "CLUB_OFFICIAL",
+    "publisher": "IFK Kristianstad",
+    "title": "Henningsson och Biel Nilsen klara för spel i IFK säsongen 2026/2027",
+    "url": "https://ifkkristianstad.se/nyheter/2026-02-12/henningsson-och-biel-nilsen-klara-foer-spel-i-ifk-saesongen-2026-2027",
+    "publishedAt": "2026-02-12",
+    "accessedAt": "2026-08-19",
+    "seasonContext": "2026/27"
+  },
+  {
+    "sourceId": "src_ifk_wings_20260323",
+    "sourceType": "CLUB_OFFICIAL",
+    "publisher": "IFK Kristianstad",
+    "title": "Selin och Kjellman spelar i IFK även nästa säsong",
+    "url": "https://ifkkristianstad.se/nyheter/2026-03-23/kanten-aer-klar-selin-och-kjellman-spelar-i-ifk-aeven-naesta-saesong",
+    "publishedAt": "2026-03-23",
+    "accessedAt": "2026-08-19",
+    "seasonContext": "2026/27"
+  },
+  {
+    "sourceId": "src_ifk_theo_20260811",
+    "sourceType": "CLUB_OFFICIAL",
+    "publisher": "IFK Kristianstad",
+    "title": "Nytt A-lagskontrakt för Theo Ivarsson",
+    "url": "https://ifkkristianstad.se/nyheter",
+    "publishedAt": "2026-08-11",
+    "accessedAt": "2026-08-19",
+    "seasonContext": "2026/27"
+  }
+]

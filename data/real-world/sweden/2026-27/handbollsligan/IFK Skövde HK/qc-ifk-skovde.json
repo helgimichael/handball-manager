@@ -1,0 +1,60 @@
+{
+  "clubId": "se_club_ifk_skovde_hk",
+  "clubName": "IFK Skövde HK",
+  "season": "2026/27",
+  "snapshotDate": "2026-08-19",
+  "datasetStatus": "PRESEASON",
+  "qcStatus": "VERIFIED_WITH_OPEN_FIELDS",
+  "expectedRosterCount": 17,
+  "exportedRosterCount": 17,
+  "checks": {
+    "leagueRosterFreshAsOf20260817": true,
+    "officialClub2026_27RosterMatches": true,
+    "clubExplicitlyStates17ManRoster": true,
+    "transfersChecked": true,
+    "loansOutExcluded": true,
+    "duplicatePlayers": 0,
+    "canonicalPositionsValid": true,
+    "guessedSecondaryPositions": 0,
+    "guessedDatesOfBirth": 0,
+    "guessedHeights": 0,
+    "guessedNationalities": 0,
+    "guessedShirtNumbers": 0
+  },
+  "transfersIn": [
+    "Elias Adam (uppflyttad)",
+    "Fidel Mbumba (uppflyttad)",
+    "Pauli Jacobsen",
+    "Ajdin Dzanic (uppflyttad)",
+    "Thomas Stenersen",
+    "Jonas Kruse Kristensen (loan)",
+    "Albin Rydberg (uppflyttad)"
+  ],
+  "transfersOut": [
+    "William Elovson",
+    "Adam Ljungquist",
+    "Jacob Gustavsson",
+    "Håvard Åsheim",
+    "Victor Ljungquist",
+    "Sebastian Fagerdahl",
+    "Theo Arrhenius (loan)",
+    "Kenan Salkicevic (loan)",
+    "Oskar Palm (loan)",
+    "Filip Agerborn (loan)"
+  ],
+  "importantFindings": [
+    "IFK Skövde's own 2026/27 elite-team page and Handbollsligan's 17 Aug snapshot agree on the same 17-player roster.",
+    "The club explicitly describes the elite roster as complete: 2 goalkeepers, 7 six-metre players and 8 nine-metre players.",
+    "Jonas Kruse Kristensen remains contracted to Fredericia through summer 2028 and is loaned to IFK Skövde for one season; rosterStatus is LOAN_IN.",
+    "Theo Arrhenius, Kenan Salkicevic, Oskar Palm and Filip Agerborn remain in IFK's organization but are explicitly outside the 17-man elite roster and loaned out, so they are excluded from active 2026/27 roster entries.",
+    "Current 2026/27 shirt numbers were not verified from the reviewed sources and remain null."
+  ],
+  "openFieldsSummary": {
+    "shirtNumberMissing": 17,
+    "exactDateOfBirthMissing": 17,
+    "nationalityMissing": 15,
+    "heightMissing": 15,
+    "handednessMissing": 17,
+    "contractEndMissing": 10
+  }
+}

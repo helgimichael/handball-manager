@@ -1,0 +1,57 @@
+{
+  "clubId": "se_club_lugi_hf",
+  "clubName": "Lugi HF",
+  "season": "2026/27",
+  "snapshotDate": "2026-08-20",
+  "datasetStatus": "PRESEASON",
+  "qcStatus": "VERIFIED_WITH_OPEN_FIELDS",
+  "expectedRosterCount": 22,
+  "exportedRosterCount": 22,
+  "checks": {
+    "officialLeague2026_27RosterLocated": true,
+    "leagueMembershipVerified": true,
+    "allRosterNamesCaptured": true,
+    "transfersChecked": true,
+    "duplicatePlayers": 0,
+    "canonicalPositionsValid": true,
+    "guessedSecondaryPositions": 0,
+    "guessedDatesOfBirth": 0,
+    "guessedHeights": 0,
+    "guessedNationalities": 0,
+    "guessedShirtNumbers": 0
+  },
+  "transfersIn": [
+    "Daniel Sandberg (Lödde Vikings)",
+    "David Wennström (uppflyttad)",
+    "Truls Leo Larsson (uppflyttad)",
+    "Tage Kristell (uppflyttad)",
+    "Hampus Olsson (HC Erlangen)",
+    "Liam Pedersen (Lödde Vikings)",
+    "Adam Lönn (Leipzig)"
+  ],
+  "transfersOut": [
+    "Sebbe Hall",
+    "Otto Fischier (loan to H43 Lund)",
+    "Elton Janhall (loan to H43 Lund)",
+    "Mattias Söderberg (OV Helsingborg)",
+    "Paul Bareis",
+    "Nils Kjelgaard (IFK Ystad)"
+  ],
+  "importantFindings": [
+    "Lugi HF is the 14th club in Handbollsligan 2026/27; the current official league table/list confirms membership.",
+    "Handbollsligan's 17 Jun 2026 preseason guide provides a complete position-grouped 22-player roster.",
+    "Lugi returns to Handbollsligan after finishing second in Allsvenskan 2025/26 and winning the qualification series against VästeråsIrsta.",
+    "Otto Fischier and Elton Janhall are explicitly loaned to H43 Lund and excluded from Lugi's active roster.",
+    "Mattias Söderberg is explicitly transferred to OV Helsingborg and excluded.",
+    "The guide has an internal spelling discrepancy: roster says Ola Peterson while the mother-club section says Ola Petersson. Canonical is retained as the roster form 'Ola Peterson'; 'Ola Petersson' is stored as alias pending stronger identity evidence.",
+    "Current 2026/27 shirt numbers and person-level biographical fields were not verified in this pass and remain null."
+  ],
+  "openFieldsSummary": {
+    "shirtNumberMissing": 22,
+    "exactDateOfBirthMissing": 22,
+    "nationalityMissing": 22,
+    "heightMissing": 22,
+    "handednessMissing": 22,
+    "contractEndMissing": 22
+  }
+}

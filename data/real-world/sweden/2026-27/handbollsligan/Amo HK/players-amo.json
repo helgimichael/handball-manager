@@ -1,0 +1,398 @@
+[
+  {
+    "playerId": "se_player_josip_cavar_60b145a1",
+    "firstName": "Josip",
+    "lastName": "Cavar",
+    "fullName": "Josip Cavar",
+    "aliases": [],
+    "dateOfBirth": "1993-10-03",
+    "birthYear": 1993,
+    "nationalities": [
+      "SE",
+      "BA"
+    ],
+    "heightCm": 198,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "sourceRefs": {
+      "identity": [
+        "src_hbl_amo_20260817",
+        "src_hbl_amo_guide_20260609"
+      ],
+      "dateOfBirth": [
+        "src_ehf_cavar"
+      ],
+      "heightCm": [
+        "src_hblstats_cavar",
+        "src_ehf_cavar"
+      ]
+    },
+    "dataNotes": [
+      "Height conflict: Handbollsligan statistics lists 198 cm; historical EHF lists 197 cm. Current Swedish league value retained."
+    ]
+  },
+  {
+    "playerId": "de_player_phil_dohler_5ea9254f",
+    "firstName": "Phil",
+    "lastName": "Döhler",
+    "fullName": "Phil Döhler",
+    "aliases": [],
+    "dateOfBirth": "1995-06-15",
+    "birthYear": 1995,
+    "nationalities": [
+      "DE"
+    ],
+    "heightCm": 193,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "sourceRefs": {
+      "identity": [
+        "src_hbl_amo_20260817",
+        "src_hbl_amo_guide_20260609"
+      ],
+      "dateOfBirth": [
+        "src_ehf_dohler"
+      ],
+      "heightCm": [
+        "src_ehf_dohler"
+      ],
+      "nationalities": [
+        "src_ehf_dohler"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "se_player_lynx_beverskog_d08b16d4",
+    "firstName": "Lynx",
+    "lastName": "Beverskog",
+    "fullName": "Lynx Beverskog",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "sourceRefs": {
+      "identity": [
+        "src_hbl_amo_20260817",
+        "src_hbl_amo_guide_20260609"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "se_player_oscar_ader_4206ebaf",
+    "firstName": "Oscar",
+    "lastName": "Ader",
+    "fullName": "Oscar Ader",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "sourceRefs": {
+      "identity": [
+        "src_hbl_amo_20260817",
+        "src_hbl_amo_guide_20260609"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "dk_player_anders_christiansen_8c111bf4",
+    "firstName": "Anders",
+    "lastName": "Christiansen",
+    "fullName": "Anders Christiansen",
+    "aliases": [],
+    "dateOfBirth": "1998-05-15",
+    "birthYear": 1998,
+    "nationalities": [
+      "DK"
+    ],
+    "heightCm": 203,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "sourceRefs": {
+      "identity": [
+        "src_hbl_amo_20260817",
+        "src_hbl_amo_guide_20260609"
+      ],
+      "dateOfBirth": [
+        "src_handballbase_christiansen"
+      ],
+      "heightCm": [
+        "src_amo_christiansen_20220630",
+        "src_handballbase_christiansen"
+      ],
+      "nationalities": [
+        "src_handballbase_christiansen"
+      ]
+    },
+    "dataNotes": [
+      "DOB supported by secondary handball database; height also supported by Amo HK's official 2022 signing article."
+    ]
+  },
+  {
+    "playerId": "se_player_jesper_jensen_7ce5d872",
+    "firstName": "Jesper",
+    "lastName": "Jensen",
+    "fullName": "Jesper Jensen",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "sourceRefs": {
+      "identity": [
+        "src_hbl_amo_20260817",
+        "src_hbl_amo_guide_20260609"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "se_player_simon_roos_b75e2dc7",
+    "firstName": "Simon",
+    "lastName": "Roos",
+    "fullName": "Simon Roos",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "sourceRefs": {
+      "identity": [
+        "src_hbl_amo_20260817",
+        "src_hbl_amo_guide_20260609"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "se_player_allex_hugosson_03ddf92d",
+    "firstName": "Allex",
+    "lastName": "Hugosson",
+    "fullName": "Allex Hugosson",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "sourceRefs": {
+      "identity": [
+        "src_hbl_amo_20260817",
+        "src_hbl_amo_guide_20260609"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "se_player_hampus_karlsson_f0d53044",
+    "firstName": "Hampus",
+    "lastName": "Karlsson",
+    "fullName": "Hampus Karlsson",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": 183,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "sourceRefs": {
+      "identity": [
+        "src_hbl_amo_20260817",
+        "src_hbl_amo_guide_20260609"
+      ],
+      "heightCm": [
+        "src_hblstats_hampus"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "dk_player_jonas_jensen_02a38472",
+    "firstName": "Jonas",
+    "lastName": "Jensen",
+    "fullName": "Jonas Jensen",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "sourceRefs": {
+      "identity": [
+        "src_hbl_amo_20260817",
+        "src_hbl_amo_guide_20260609"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "dk_player_emil_larsen_a48a45d0",
+    "firstName": "Emil",
+    "lastName": "Larsen",
+    "fullName": "Emil Larsen",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "sourceRefs": {
+      "identity": [
+        "src_hbl_amo_20260817",
+        "src_hbl_amo_guide_20260609"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "se_player_shaban_zogaj_71e0c93f",
+    "firstName": "Shaban",
+    "lastName": "Zogaj",
+    "fullName": "Shaban Zogaj",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": 2002,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "sourceRefs": {
+      "identity": [
+        "src_hbl_amo_20260817",
+        "src_hbl_amo_guide_20260609"
+      ],
+      "birthYear": [
+        "src_amo_zogaj_20260218"
+      ]
+    },
+    "dataNotes": [
+      "Official Amo announcement dated 2026-02-18 describes him as 23 years old; only birth year 2002 is stored as a conservative derived year, not an exact DOB."
+    ]
+  },
+  {
+    "playerId": "se_player_lukas_rylander_139bedb4",
+    "firstName": "Lukas",
+    "lastName": "Rylander",
+    "fullName": "Lukas Rylander",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "sourceRefs": {
+      "identity": [
+        "src_hbl_amo_20260817",
+        "src_hbl_amo_guide_20260609"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "dk_player_mathias_pedersen_0a2ea822",
+    "firstName": "Mathias",
+    "lastName": "Pedersen",
+    "fullName": "Mathias Pedersen",
+    "aliases": [
+      "Mathias Mark Pedersen"
+    ],
+    "dateOfBirth": "1997-07-30",
+    "birthYear": 1997,
+    "nationalities": [
+      "DK"
+    ],
+    "heightCm": 187,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "sourceRefs": {
+      "identity": [
+        "src_hbl_amo_20260817",
+        "src_hbl_amo_guide_20260609"
+      ],
+      "dateOfBirth": [
+        "src_ehf_mathias"
+      ],
+      "heightCm": [
+        "src_ehf_mathias"
+      ],
+      "nationalities": [
+        "src_ehf_mathias"
+      ]
+    },
+    "dataNotes": [
+      "Handbollsligan 2026/27 roster shortens the name to Mathias Pedersen; EHF identifies him as Mathias Mark Pedersen."
+    ]
+  },
+  {
+    "playerId": "is_player_arnar_birkir_halfdansson_80b9537d",
+    "firstName": "Arnar",
+    "lastName": "Birkir Halfdansson",
+    "fullName": "Arnar Birkir Halfdansson",
+    "aliases": [],
+    "dateOfBirth": "1993-08-30",
+    "birthYear": 1993,
+    "nationalities": [
+      "IS"
+    ],
+    "heightCm": 185,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "sourceRefs": {
+      "identity": [
+        "src_hbl_amo_20260817",
+        "src_hbl_amo_guide_20260609"
+      ],
+      "dateOfBirth": [
+        "src_ehf_arnar"
+      ],
+      "heightCm": [
+        "src_ehf_arnar"
+      ],
+      "nationalities": [
+        "src_ehf_arnar"
+      ]
+    },
+    "dataNotes": [
+      "Height varies across sources (EHF 185 cm; other databases 186–187 cm). EHF value retained."
+    ]
+  },
+  {
+    "playerId": "se_player_richard_lindstrom_fa89e12c",
+    "firstName": "Richard",
+    "lastName": "Lindström",
+    "fullName": "Richard Lindström",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": 205,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "sourceRefs": {
+      "identity": [
+        "src_hbl_amo_20260817",
+        "src_hbl_amo_guide_20260609"
+      ],
+      "heightCm": [
+        "src_amo_lindstrom_20260318"
+      ]
+    },
+    "dataNotes": []
+  }
+]

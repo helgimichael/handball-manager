@@ -1,0 +1,48 @@
+{
+  "clubId": "se_club_ifk_kristianstad",
+  "clubName": "IFK Kristianstad",
+  "season": "2026/27",
+  "snapshotDate": "2026-08-19",
+  "datasetStatus": "PRESEASON",
+  "qcStatus": "VERIFIED_WITH_OPEN_FIELDS",
+  "expectedRosterCount": 15,
+  "exportedRosterCount": 15,
+  "checks": {
+    "leagueRosterFreshAsOf20260817": true,
+    "clubNewsCheckedThrough20260811": true,
+    "allRosterNamesCaptured": true,
+    "transfersChecked": true,
+    "duplicatePlayers": 0,
+    "canonicalPositionsValid": true,
+    "guessedSecondaryPositions": 0
+  },
+  "transfersIn": [
+    "Baldur Fritz Bjarnason",
+    "Andri Erlingsson",
+    "Alexander Skoog",
+    "Niko Petrovic"
+  ],
+  "transfersOut": [
+    "Axel Månsson",
+    "Elliot Stenmalm",
+    "Victor Hedberg",
+    "Victor Bang",
+    "Herman Josefsson",
+    "William Andersson"
+  ],
+  "importantFindings": [
+    "Handbollsligan's current 2026/27 roster contains 15 players and matches its IFK Kristianstad preseason guide.",
+    "Theo Ivarsson received a new A-team contract on 11 Aug 2026 and remains in the 17 Aug league roster.",
+    "Baldur Fritz Bjarnason is explicitly described by IFK as V9/M9. The league currently groups him under M9, so M9 is primary and V9 is a VERIFIED secondary position.",
+    "Lowe Knutsson is NOT included: his IFK contract begins only in 2027/28.",
+    "Axel Månsson is NOT included: IFK officially announced his move to Skjern in June 2026."
+  ],
+  "openFieldsSummary": {
+    "shirtNumberMissing": 14,
+    "exactDateOfBirthMissing": 14,
+    "nationalityMissing": 14,
+    "heightMissing": 13,
+    "handednessMissing": 14,
+    "contractEndMissing": 8
+  }
+}

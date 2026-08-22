@@ -1,0 +1,23 @@
+﻿playerId,fullName,aliases,shirtNumber,primaryPosition,secondaryPositions,rosterStatus,rosterConfidence
+player_viggo_hakansson_5750328d,Viggo Håkansson,,,MV,,CONFIRMED,VERIFIED
+player_alexander_kjaersgaard_c237932c,Alexander Kjaersgaard,,,MV,,CONFIRMED,VERIFIED
+player_liam_pedersen_54b7a782,Liam Pedersen,,,MV,,CONFIRMED,VERIFIED
+player_albin_sjogren_c95dfc31,Albin Sjögren,,,V6,,CONFIRMED,VERIFIED
+player_tage_kristell_672b0ad1,Tage Kristell,,,V6,,CONFIRMED,VERIFIED
+player_truls_leo_larsson_71c19e90,Truls Leo Larsson,,,V6,,CONFIRMED,VERIFIED
+player_calle_lindqvist_8e626c43,Calle Lindqvist,,,M6,,CONFIRMED,VERIFIED
+player_emil_lindqvist_ce868290,Emil Lindqvist,,,M6,,CONFIRMED,VERIFIED
+player_harry_cato_jablonsky_69736d7a,Harry Cato Jablonsky,,,M6,,CONFIRMED,VERIFIED
+player_oskar_andersson_9382e771,Oskar Andersson,,,H6,,CONFIRMED,VERIFIED
+player_hampus_olsson_c352e73c,Hampus Olsson,,,H6,,CONFIRMED,VERIFIED
+player_leonard_gegaj_925cada7,Leonard Gegaj,,,V9,,CONFIRMED,VERIFIED
+player_axel_janhall_44d215a9,Axel Janhall,,,V9,,CONFIRMED,VERIFIED
+player_daniel_sandberg_a73654c6,Daniel Sandberg,,,V9,,CONFIRMED,VERIFIED
+player_adam_lonn_c83602c9,Adam Lönn,,,V9,,CONFIRMED,VERIFIED
+player_albert_mansson_23c37eca,Albert Månsson,,,M9,,CONFIRMED,VERIFIED
+player_ola_peterson_70d56b6e,Ola Peterson,Ola Petersson,,M9,,CONFIRMED,VERIFIED
+player_david_wennstrom_f95f56d3,David Wennström,,,M9,,CONFIRMED,VERIFIED
+player_anton_sandstrom_37026c47,Anton Sandström,,,H9,,CONFIRMED,VERIFIED
+player_jakob_markoff_d0585c8b,Jakob Markoff,,,H9,,CONFIRMED,VERIFIED
+player_albin_krantz_67729cf5,Albin Krantz,,,H9,,CONFIRMED,VERIFIED
+player_hannes_carlsson_c1c069fa,Hannes Carlsson,,,H9,,CONFIRMED,VERIFIED

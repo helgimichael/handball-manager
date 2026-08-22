@@ -1,0 +1,319 @@
+[
+  {
+    "playerId": "player_hayder_al_khafadji_a09708e0",
+    "firstName": "Hayder",
+    "lastName": "Al-Khafadji",
+    "fullName": "Hayder Al-Khafadji",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "sourceRefs": {
+      "identity": [
+        "src_hbl_ifk_20260817"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "player_alexander_skoog_d0dd6f03",
+    "firstName": "Alexander",
+    "lastName": "Skoog",
+    "fullName": "Alexander Skoog",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": 2003,
+    "nationalities": null,
+    "heightCm": 195,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "sourceRefs": {
+      "identity": [
+        "src_hbl_ifk_20260817"
+      ],
+      "birthYear": [
+        "src_ifk_skoog_20260116"
+      ],
+      "heightCm": [
+        "src_ifk_skoog_20260116"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "player_emil_frend_ofors_3ce9cf44",
+    "firstName": "Emil",
+    "lastName": "Frend Öfors",
+    "fullName": "Emil Frend Öfors",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "sourceRefs": {
+      "identity": [
+        "src_hbl_ifk_20260817"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "player_albin_leyman_6d0ef97f",
+    "firstName": "Albin",
+    "lastName": "Leyman",
+    "fullName": "Albin Leyman",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "sourceRefs": {
+      "identity": [
+        "src_hbl_ifk_20260817"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "player_william_hoghielm_fdcb766f",
+    "firstName": "William",
+    "lastName": "Höghielm",
+    "fullName": "William Höghielm",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "sourceRefs": {
+      "identity": [
+        "src_hbl_ifk_20260817"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "player_niko_petrovic_d603dfbe",
+    "firstName": "Niko",
+    "lastName": "Petrovic",
+    "fullName": "Niko Petrovic",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "sourceRefs": {
+      "identity": [
+        "src_hbl_ifk_20260817"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "player_albin_selin_8af77244",
+    "firstName": "Albin",
+    "lastName": "Selin",
+    "fullName": "Albin Selin",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "sourceRefs": {
+      "identity": [
+        "src_hbl_ifk_20260817"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "player_liam_kjellman_26da347a",
+    "firstName": "Liam",
+    "lastName": "Kjellman",
+    "fullName": "Liam Kjellman",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "sourceRefs": {
+      "identity": [
+        "src_hbl_ifk_20260817"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "player_philip_henningsson_01636570",
+    "firstName": "Philip",
+    "lastName": "Henningsson",
+    "fullName": "Philip Henningsson",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "sourceRefs": {
+      "identity": [
+        "src_hbl_ifk_20260817"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "player_einar_bragi_adalsteinsson_c7dc2719",
+    "firstName": "Einar",
+    "lastName": "Bragi Adalsteinsson",
+    "fullName": "Einar Bragi Adalsteinsson",
+    "aliases": [
+      "Einar Bragi Aðalsteinsson",
+      "Einar Aðalsteinsson"
+    ],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "sourceRefs": {
+      "identity": [
+        "src_hbl_ifk_20260817"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "player_theo_ivarsson_77eb2224",
+    "firstName": "Theo",
+    "lastName": "Ivarsson",
+    "fullName": "Theo Ivarsson",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": 2006,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "sourceRefs": {
+      "identity": [
+        "src_hbl_ifk_20260817"
+      ],
+      "birthYear": [
+        "src_ifk_theo_20260811"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "player_baldur_fritz_bjarnason_565ae0a8",
+    "firstName": "Baldur",
+    "lastName": "Fritz Bjarnason",
+    "fullName": "Baldur Fritz Bjarnason",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": 2007,
+    "nationalities": [
+      "IS"
+    ],
+    "heightCm": 186,
+    "handedness": "RIGHT",
+    "recordConfidence": "PARTIAL",
+    "sourceRefs": {
+      "identity": [
+        "src_hbl_ifk_20260817"
+      ],
+      "birthYear": [
+        "src_ifk_baldur_20260121"
+      ],
+      "heightCm": [
+        "src_ifk_baldur_20260121"
+      ],
+      "nationalities": [
+        "src_ifk_baldur_20260121"
+      ],
+      "handedness": [
+        "src_ifk_baldur_20260121"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "player_andri_erlingsson_a867e3c2",
+    "firstName": "Andri",
+    "lastName": "Erlingsson",
+    "fullName": "Andri Erlingsson",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "sourceRefs": {
+      "identity": [
+        "src_hbl_ifk_20260817"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "player_anton_hallback_54886b8b",
+    "firstName": "Anton",
+    "lastName": "Hallbäck",
+    "fullName": "Anton Hallbäck",
+    "aliases": [],
+    "dateOfBirth": "1996-01-15",
+    "birthYear": 1996,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "sourceRefs": {
+      "identity": [
+        "src_hbl_ifk_20260817"
+      ],
+      "dateOfBirth": [
+        "src_ifk_hallback_20260115"
+      ],
+      "birthYear": [
+        "src_ifk_hallback_20260115"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "player_isaac_biel_nilsen_3910081f",
+    "firstName": "Isaac",
+    "lastName": "Biel Nilsen",
+    "fullName": "Isaac Biel Nilsen",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "sourceRefs": {
+      "identity": [
+        "src_hbl_ifk_20260817"
+      ]
+    },
+    "dataNotes": []
+  }
+]

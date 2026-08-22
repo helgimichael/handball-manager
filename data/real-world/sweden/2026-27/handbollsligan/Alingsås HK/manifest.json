@@ -1,0 +1,13 @@
+{
+  "milestone": "HM-DATA-0.1A",
+  "club": "Alingsås HK",
+  "snapshotDate": "2026-08-19",
+  "files": [
+    "players-alingsas-2026-27.csv",
+    "players-alingsas.json",
+    "qc-alingsas.json",
+    "roster-alingsas-2026-27.json",
+    "schema-foundation-v0.2.json",
+    "sources-alingsas.json"
+  ]
+}

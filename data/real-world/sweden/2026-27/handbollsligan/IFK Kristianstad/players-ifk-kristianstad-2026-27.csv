@@ -1,0 +1,16 @@
+﻿playerId,fullName,dateOfBirth,birthYear,shirtNumber,primaryPosition,secondaryPositions,heightCm,handedness,contractUntilSeason,rosterStatus
+player_hayder_al_khafadji_a09708e0,Hayder Al-Khafadji,,,,MV,,,,,CONFIRMED
+player_alexander_skoog_d0dd6f03,Alexander Skoog,,2003,,MV,,195,,2027/28,CONFIRMED
+player_emil_frend_ofors_3ce9cf44,Emil Frend Öfors,,,,V6,,,,,CONFIRMED
+player_albin_leyman_6d0ef97f,Albin Leyman,,,,V6,,,,,CONFIRMED
+player_william_hoghielm_fdcb766f,William Höghielm,,,,M6,,,,,CONFIRMED
+player_niko_petrovic_d603dfbe,Niko Petrovic,,,,M6,,,,,CONFIRMED
+player_albin_selin_8af77244,Albin Selin,,,,H6,,,,,CONFIRMED
+player_liam_kjellman_26da347a,Liam Kjellman,,,,H6,,,,2027/28,CONFIRMED
+player_philip_henningsson_01636570,Philip Henningsson,,,,V9,,,,2026/27,CONFIRMED
+player_einar_bragi_adalsteinsson_c7dc2719,Einar Bragi Adalsteinsson,,,,V9,,,,2026/27,CONFIRMED
+player_theo_ivarsson_77eb2224,Theo Ivarsson,,2006,,V9,,,,,CONFIRMED
+player_baldur_fritz_bjarnason_565ae0a8,Baldur Fritz Bjarnason,,2007,,M9,V9,186,RIGHT,2027/28,CONFIRMED
+player_andri_erlingsson_a867e3c2,Andri Erlingsson,,,,M9,,,,,CONFIRMED
+player_anton_hallback_54886b8b,Anton Hallbäck,1996-01-15,1996,,H9,,,,2026/27,CONFIRMED
+player_isaac_biel_nilsen_3910081f,Isaac Biel Nilsen,,,49,H9,,,,2026/27,CONFIRMED

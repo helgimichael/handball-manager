@@ -1,0 +1,53 @@
+{
+  "clubId": "se_club_if_hallby_hk",
+  "clubName": "IF Hallby HK",
+  "season": "2026/27",
+  "snapshotDate": "2026-08-19",
+  "datasetStatus": "PRESEASON",
+  "qcStatus": "VERIFIED_WITH_OPEN_FIELDS",
+  "expectedRosterCount": 22,
+  "exportedRosterCount": 22,
+  "checks": {
+    "leagueRosterFreshAsOf20260817": true,
+    "allRosterNamesCaptured": true,
+    "transfersChecked": true,
+    "duplicatePlayers": 0,
+    "canonicalPositionsValid": true,
+    "guessedSecondaryPositions": 0,
+    "guessedDatesOfBirth": 0,
+    "guessedHeights": 0,
+    "guessedNationalities": 0
+  },
+  "transfersIn": [
+    "Hampus Dahlgren",
+    "John Våtz (uppflyttad)",
+    "Emil Nork (loan)",
+    "Emil Johannisson (loan)",
+    "Asso Eliassi Sarzali",
+    "Wilmer Bjerklin (uppflyttad)",
+    "Herman Legrell (uppflyttad)",
+    "Linus Walfridsson (uppflyttad)"
+  ],
+  "transfersOut": [
+    "Robert Ladan",
+    "Rói Ellefsen Á Skipagøtu",
+    "Albin Broman",
+    "Erik Rudvall",
+    "Kenan Omerovic"
+  ],
+  "importantFindings": [
+    "The club's current roster webpage is stale and lists only 15 players from the prior squad. It was not used as the authoritative 2026/27 roster.",
+    "Handbollsligan's 17 Aug 2026 season page is the authoritative snapshot and lists 22 players.",
+    "Emil Nork and Emil Johannisson are explicitly season-long loans from IK Sävehof and are stored as LOAN_IN.",
+    "Rói Ellefsen Á Skipagøtu appears on older Hallby material and EHF EURO 2026 data but is explicitly transferred to Aarhus Håndbold and excluded.",
+    "Jonatan Suomela vs Jonatan Hoogwinkel Suomela is retained as an alias/name-reconciliation issue rather than silently merged into a new canonical full name."
+  ],
+  "openFieldsSummary": {
+    "shirtNumberMissing": 21,
+    "exactDateOfBirthMissing": 22,
+    "nationalityMissing": 22,
+    "heightMissing": 22,
+    "handednessMissing": 22,
+    "contractEndMissing": 17
+  }
+}

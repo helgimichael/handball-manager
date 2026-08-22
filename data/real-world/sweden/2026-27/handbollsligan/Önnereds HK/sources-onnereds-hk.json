@@ -1,0 +1,76 @@
+[
+  {
+    "sourceId": "src_ohk_roster_20260820",
+    "sourceType": "CLUB_OFFICIAL",
+    "publisher": "Önnereds HK",
+    "title": "Herr Elit – Truppen",
+    "url": "https://www.onneredshk.se/onneredshk-herrelit-handbollsligan/truppen",
+    "accessedAt": "2026-08-20",
+    "seasonContext": "CURRENT_2026/27"
+  },
+  {
+    "sourceId": "src_hk_transfers_20260701",
+    "sourceType": "SECONDARY_HANDBALL_MEDIA",
+    "publisher": "Handbollskanalen",
+    "title": "Klara övergångar: Handbollsligan herr 2026/27",
+    "url": "https://handbollskanalen.se/handbollsligan-herr/klara-overgangar-handbollsligan-herr-2026-27/",
+    "accessedAt": "2026-08-20",
+    "seasonContext": "2026/27"
+  },
+  {
+    "sourceId": "src_hbl_stats_ohk_2025",
+    "sourceType": "LEAGUE_OFFICIAL_STATISTICS",
+    "publisher": "Handbollsligan statistics",
+    "title": "Önnereds HK player statistics 2025/26",
+    "url": "https://handballstats.se/statistics/herr/statistics/statistics.aspx?ha=Alla&l=2500101&o=0&p=Alla&t=126&y=2025",
+    "accessedAt": "2026-08-20",
+    "seasonContext": "2025/26"
+  },
+  {
+    "sourceId": "src_shf_rikslager_0708",
+    "sourceType": "FEDERATION_OFFICIAL",
+    "publisher": "Svenska Handbollförbundet",
+    "title": "Uttagning Riksläger 1 och 3 – spelare födda 07/08",
+    "url": "https://svenskhandboll.se/download/18.28fc9d9218dca9cf202585ca/1708766504674/Uttagning%20Riksl%C3%A4ger%201%20och%203%20spelare%20f%C3%B6dda%200708.pdf",
+    "accessedAt": "2026-08-20",
+    "seasonContext": "HISTORICAL_POSITION"
+  },
+  {
+    "sourceId": "src_ehf_knaapinen",
+    "sourceType": "EHF",
+    "publisher": "European Handball Federation",
+    "title": "Milo Knaapinen – Career & Statistics",
+    "url": "https://www.eurohandball.com/en/player/Nlb_Fejh1Ccd32q80Z_WpA/Milo-Knaapinen/",
+    "accessedAt": "2026-08-20",
+    "seasonContext": "CAREER"
+  },
+  {
+    "sourceId": "src_ehf_kallhage",
+    "sourceType": "EHF",
+    "publisher": "European Handball Federation",
+    "title": "Adrian Källhage – Career & Statistics",
+    "url": "https://www.eurohandball.com/en/player/pye7DjAL2GX-2bg-8Y68Yg/Adrian-K%C3%A4llhage/",
+    "accessedAt": "2026-08-20",
+    "seasonContext": "CAREER"
+  },
+  {
+    "sourceId": "src_ohk_hansson_20250622",
+    "sourceType": "CLUB_OFFICIAL",
+    "publisher": "Önnereds HK",
+    "title": "Välkommen Emil Hansson",
+    "url": "https://www.onneredshk.se/nyheter/2358158/valkommen-emil-hansson",
+    "publishedAt": "2025-06-22",
+    "accessedAt": "2026-08-20",
+    "seasonContext": "CAREER"
+  },
+  {
+    "sourceId": "src_ohk_nilsson_20260625",
+    "sourceType": "CLUB_OFFICIAL",
+    "publisher": "Önnereds HK",
+    "title": "Andreas 'Stycket' Nilsson blir spelande sportchef",
+    "url": "https://www.onneredshk.se/nyheter/2535438/andreas-stycket-nilsson-blir-spelande-sportchef-for-onnereds-herrar",
+    "publishedAt": "2026-06-25",
+    "accessedAt": "2026-08-20",
+    "seasonContext": "2026/27"
+  }
+]

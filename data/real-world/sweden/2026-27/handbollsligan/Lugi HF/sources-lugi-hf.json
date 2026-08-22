@@ -1,0 +1,30 @@
+[
+  {
+    "sourceId": "src_hbl_lugi_20260617",
+    "sourceType": "LEAGUE_OFFICIAL",
+    "publisher": "Handbollsligan",
+    "title": "Försäsongsguiden, del 7: Lugi HF",
+    "url": "https://handbollsligan.se/herrligan/forsasongsguiden-del-7-lugi-hf/",
+    "publishedAt": "2026-06-17",
+    "accessedAt": "2026-08-20",
+    "seasonContext": "2026/27"
+  },
+  {
+    "sourceId": "src_hbl_teams_20260820",
+    "sourceType": "LEAGUE_OFFICIAL",
+    "publisher": "Handbollsligan",
+    "title": "Handbollsligan Herr 2026/27",
+    "url": "https://handbollsligan.se/herr/",
+    "accessedAt": "2026-08-20",
+    "seasonContext": "2026/27"
+  },
+  {
+    "sourceId": "src_hk_transfers_20260814",
+    "sourceType": "SECONDARY_HANDBALL_MEDIA",
+    "publisher": "Handbollskanalen",
+    "title": "Klara övergångar: Handbollsligan herr 2026/27",
+    "url": "https://handbollskanalen.se/handbollsligan-herr/klara-overgangar-handbollsligan-herr-2026-27/",
+    "accessedAt": "2026-08-20",
+    "seasonContext": "2026/27"
+  }
+]

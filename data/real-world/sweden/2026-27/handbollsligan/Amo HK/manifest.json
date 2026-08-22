@@ -1,0 +1,12 @@
+{
+  "milestone": "HM-DATA-0.1A",
+  "club": "Amo HK",
+  "snapshotDate": "2026-08-19",
+  "files": [
+    "players-amo.json",
+    "roster-amo-2026-27.json",
+    "sources-amo.json",
+    "qc-amo.json",
+    "players-amo-2026-27.csv"
+  ]
+}

@@ -1,0 +1,21 @@
+﻿playerId,fullName,aliases,shirtNumber,primaryPosition,secondaryPositions,contractUntilSeason,rosterStatus,rosterConfidence
+player_william_psajd_5c669bcd,William Psajd,,,MV,,,CONFIRMED,VERIFIED
+player_linus_karlsson_2913e2f1,Linus Karlsson,,,MV,,2027/28,CONFIRMED,VERIFIED
+player_oscar_rotsman_10606042,Oscar Rotsman,,,MV,,,CONFIRMED,VERIFIED
+player_max_broman_36125fbf,Max Broman,,,V6,,2027/28,CONFIRMED,VERIFIED
+player_isac_axelsson_847f7d32,Isac Axelsson,Isak Axelsson,,V6,,2027/28,CONFIRMED,VERIFIED
+player_jesper_filen_cba427d8,Jesper Filén,,,V6,,2027/28,CONFIRMED,VERIFIED
+player_mattias_fristrom_33663a46,Mattias Friström,,,M6,,2026/27,CONFIRMED,VERIFIED
+player_david_kallemyr_869d28f1,David Källemyr,,,M6,,2026/27,CONFIRMED,VERIFIED
+player_erik_ostling_43f1e1a5,Erik Östling,,,M6,,,CONFIRMED,VERIFIED
+player_alex_hill_5047c1db,Alex Hill,,,M6,,,CONFIRMED,VERIFIED
+player_filip_tapper_32d5cf17,Filip Tapper,,,H6,,2026/27,CONFIRMED,VERIFIED
+player_victor_ekholm_aff81071,Victor Ekholm,,,H6,,,CONFIRMED,VERIFIED
+player_tobias_johansson_f5f887f6,Tobias Johansson,,,V9,,2027/28,CONFIRMED,VERIFIED
+player_anton_nilsson_de59a8a9,Anton Nilsson,,,V9,,,CONFIRMED,VERIFIED
+player_simon_lindberg_df349070,Simon Lindberg,,,M9,,2028/29,CONFIRMED,VERIFIED
+player_nils_hall_6ecec79a,Nils Håll,,,M9,,,CONFIRMED,VERIFIED
+player_malte_haglund_f969fb6d,Malte Haglund,,,M9,,,CONFIRMED,VERIFIED
+player_alexander_ritter_42f60d18,Alexander Ritter,,,M9,V9,2027/28,CONFIRMED,VERIFIED
+player_elias_lundstad_7f6204ac,Elias Lundstad,,,H9,,,CONFIRMED,VERIFIED
+player_edvin_westlof_abd3f214,Edvin Westlöf,,,H9,,,CONFIRMED,VERIFIED

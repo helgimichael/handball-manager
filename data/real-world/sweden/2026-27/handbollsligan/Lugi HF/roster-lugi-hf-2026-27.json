@@ -1,0 +1,596 @@
+[
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_lugi_5750328d",
+    "playerId": "player_viggo_hakansson_5750328d",
+    "clubId": "se_club_lugi_hf",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-20",
+    "shirtNumber": null,
+    "sourcePosition": "Goalkeeper",
+    "primaryPosition": "MV",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_lugi_20260617"
+      ],
+      "position": [
+        "src_hbl_lugi_20260617"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_lugi_c237932c",
+    "playerId": "player_alexander_kjaersgaard_c237932c",
+    "clubId": "se_club_lugi_hf",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-20",
+    "shirtNumber": null,
+    "sourcePosition": "Goalkeeper",
+    "primaryPosition": "MV",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_lugi_20260617"
+      ],
+      "position": [
+        "src_hbl_lugi_20260617"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_lugi_54b7a782",
+    "playerId": "player_liam_pedersen_54b7a782",
+    "clubId": "se_club_lugi_hf",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-20",
+    "shirtNumber": null,
+    "sourcePosition": "Goalkeeper",
+    "primaryPosition": "MV",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_lugi_20260617"
+      ],
+      "position": [
+        "src_hbl_lugi_20260617"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_lugi_c95dfc31",
+    "playerId": "player_albin_sjogren_c95dfc31",
+    "clubId": "se_club_lugi_hf",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-20",
+    "shirtNumber": null,
+    "sourcePosition": "Left Wing",
+    "primaryPosition": "V6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_lugi_20260617"
+      ],
+      "position": [
+        "src_hbl_lugi_20260617"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_lugi_672b0ad1",
+    "playerId": "player_tage_kristell_672b0ad1",
+    "clubId": "se_club_lugi_hf",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-20",
+    "shirtNumber": null,
+    "sourcePosition": "Left Wing",
+    "primaryPosition": "V6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_lugi_20260617"
+      ],
+      "position": [
+        "src_hbl_lugi_20260617"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_lugi_71c19e90",
+    "playerId": "player_truls_leo_larsson_71c19e90",
+    "clubId": "se_club_lugi_hf",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-20",
+    "shirtNumber": null,
+    "sourcePosition": "Left Wing",
+    "primaryPosition": "V6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_lugi_20260617"
+      ],
+      "position": [
+        "src_hbl_lugi_20260617"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_lugi_8e626c43",
+    "playerId": "player_calle_lindqvist_8e626c43",
+    "clubId": "se_club_lugi_hf",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-20",
+    "shirtNumber": null,
+    "sourcePosition": "Line Player",
+    "primaryPosition": "M6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_lugi_20260617"
+      ],
+      "position": [
+        "src_hbl_lugi_20260617"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_lugi_ce868290",
+    "playerId": "player_emil_lindqvist_ce868290",
+    "clubId": "se_club_lugi_hf",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-20",
+    "shirtNumber": null,
+    "sourcePosition": "Line Player",
+    "primaryPosition": "M6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_lugi_20260617"
+      ],
+      "position": [
+        "src_hbl_lugi_20260617"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_lugi_69736d7a",
+    "playerId": "player_harry_cato_jablonsky_69736d7a",
+    "clubId": "se_club_lugi_hf",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-20",
+    "shirtNumber": null,
+    "sourcePosition": "Line Player",
+    "primaryPosition": "M6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_lugi_20260617"
+      ],
+      "position": [
+        "src_hbl_lugi_20260617"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_lugi_9382e771",
+    "playerId": "player_oskar_andersson_9382e771",
+    "clubId": "se_club_lugi_hf",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-20",
+    "shirtNumber": null,
+    "sourcePosition": "Right Wing",
+    "primaryPosition": "H6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_lugi_20260617"
+      ],
+      "position": [
+        "src_hbl_lugi_20260617"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_lugi_c352e73c",
+    "playerId": "player_hampus_olsson_c352e73c",
+    "clubId": "se_club_lugi_hf",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-20",
+    "shirtNumber": null,
+    "sourcePosition": "Right Wing",
+    "primaryPosition": "H6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_lugi_20260617"
+      ],
+      "position": [
+        "src_hbl_lugi_20260617"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_lugi_925cada7",
+    "playerId": "player_leonard_gegaj_925cada7",
+    "clubId": "se_club_lugi_hf",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-20",
+    "shirtNumber": null,
+    "sourcePosition": "Left Back",
+    "primaryPosition": "V9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_lugi_20260617"
+      ],
+      "position": [
+        "src_hbl_lugi_20260617"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_lugi_44d215a9",
+    "playerId": "player_axel_janhall_44d215a9",
+    "clubId": "se_club_lugi_hf",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-20",
+    "shirtNumber": null,
+    "sourcePosition": "Left Back",
+    "primaryPosition": "V9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_lugi_20260617"
+      ],
+      "position": [
+        "src_hbl_lugi_20260617"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_lugi_a73654c6",
+    "playerId": "player_daniel_sandberg_a73654c6",
+    "clubId": "se_club_lugi_hf",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-20",
+    "shirtNumber": null,
+    "sourcePosition": "Left Back",
+    "primaryPosition": "V9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_lugi_20260617"
+      ],
+      "position": [
+        "src_hbl_lugi_20260617"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_lugi_c83602c9",
+    "playerId": "player_adam_lonn_c83602c9",
+    "clubId": "se_club_lugi_hf",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-20",
+    "shirtNumber": null,
+    "sourcePosition": "Left Back",
+    "primaryPosition": "V9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_lugi_20260617"
+      ],
+      "position": [
+        "src_hbl_lugi_20260617"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_lugi_23c37eca",
+    "playerId": "player_albert_mansson_23c37eca",
+    "clubId": "se_club_lugi_hf",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-20",
+    "shirtNumber": null,
+    "sourcePosition": "Centre Back",
+    "primaryPosition": "M9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_lugi_20260617"
+      ],
+      "position": [
+        "src_hbl_lugi_20260617"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_lugi_70d56b6e",
+    "playerId": "player_ola_peterson_70d56b6e",
+    "clubId": "se_club_lugi_hf",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-20",
+    "shirtNumber": null,
+    "sourcePosition": "Centre Back",
+    "primaryPosition": "M9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_lugi_20260617"
+      ],
+      "position": [
+        "src_hbl_lugi_20260617"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_lugi_f95f56d3",
+    "playerId": "player_david_wennstrom_f95f56d3",
+    "clubId": "se_club_lugi_hf",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-20",
+    "shirtNumber": null,
+    "sourcePosition": "Centre Back",
+    "primaryPosition": "M9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_lugi_20260617"
+      ],
+      "position": [
+        "src_hbl_lugi_20260617"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_lugi_37026c47",
+    "playerId": "player_anton_sandstrom_37026c47",
+    "clubId": "se_club_lugi_hf",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-20",
+    "shirtNumber": null,
+    "sourcePosition": "Right Back",
+    "primaryPosition": "H9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_lugi_20260617"
+      ],
+      "position": [
+        "src_hbl_lugi_20260617"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_lugi_d0585c8b",
+    "playerId": "player_jakob_markoff_d0585c8b",
+    "clubId": "se_club_lugi_hf",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-20",
+    "shirtNumber": null,
+    "sourcePosition": "Right Back",
+    "primaryPosition": "H9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_lugi_20260617"
+      ],
+      "position": [
+        "src_hbl_lugi_20260617"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_lugi_67729cf5",
+    "playerId": "player_albin_krantz_67729cf5",
+    "clubId": "se_club_lugi_hf",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-20",
+    "shirtNumber": null,
+    "sourcePosition": "Right Back",
+    "primaryPosition": "H9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_lugi_20260617"
+      ],
+      "position": [
+        "src_hbl_lugi_20260617"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_lugi_c1c069fa",
+    "playerId": "player_hannes_carlsson_c1c069fa",
+    "clubId": "se_club_lugi_hf",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-20",
+    "shirtNumber": null,
+    "sourcePosition": "Right Back",
+    "primaryPosition": "H9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_lugi_20260617"
+      ],
+      "position": [
+        "src_hbl_lugi_20260617"
+      ]
+    }
+  }
+]

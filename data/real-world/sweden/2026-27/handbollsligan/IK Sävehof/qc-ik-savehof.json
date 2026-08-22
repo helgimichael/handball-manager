@@ -1,0 +1,49 @@
+{
+  "clubId": "se_club_ik_savehof",
+  "clubName": "IK Sävehof",
+  "season": "2026/27",
+  "snapshotDate": "2026-08-20",
+  "datasetStatus": "PRESEASON",
+  "qcStatus": "VERIFIED_WITH_OPEN_FIELDS",
+  "expectedRosterCount": 18,
+  "exportedRosterCount": 18,
+  "checks": {
+    "officialLeague2026_27RosterLocated": true,
+    "allRosterNamesCaptured": true,
+    "transfersChecked": true,
+    "loansOutExcluded": true,
+    "duplicatePlayers": 0,
+    "canonicalPositionsValid": true,
+    "guessedSecondaryPositions": 0,
+    "guessedDatesOfBirth": 0,
+    "guessedHeights": 0,
+    "guessedNationalities": 0,
+    "guessedShirtNumbers": 0
+  },
+  "transfersIn": [
+    "Peter Johannesson (GOG, Denmark)"
+  ],
+  "transfersOut": [
+    "Isak Vedelsbøl (HØJ)",
+    "Emil Nork (loan to IF Hallby)",
+    "Fabian Blomberg Romero (loan to Fjellhammer IL)",
+    "Emil Johannisson (loan to IF Hallby)",
+    "Oscar Sävinger (Dinamo București)"
+  ],
+  "importantFindings": [
+    "Handbollsligan's 4 Jul 2026 preseason guide lists an 18-player 2026/27 squad.",
+    "IK Sävehof's currently indexed men's roster page still labels itself 2025/26 and was not used as the authoritative season roster.",
+    "Peter Johannesson is the only listed incoming player in the league's 2026/27 guide.",
+    "Emil Johannisson and Fabian Blomberg Romero have official club loan announcements covering the full 2026/27 season and are excluded from Sävehof's active roster.",
+    "Emil Nork is also explicitly listed by Handbollsligan as loaned to IF Hallby and is excluded.",
+    "Current 2026/27 shirt numbers were not independently verified and remain null."
+  ],
+  "openFieldsSummary": {
+    "shirtNumberMissing": 18,
+    "exactDateOfBirthMissing": 18,
+    "nationalityMissing": 18,
+    "heightMissing": 18,
+    "handednessMissing": 18,
+    "contractEndMissing": 15
+  }
+}

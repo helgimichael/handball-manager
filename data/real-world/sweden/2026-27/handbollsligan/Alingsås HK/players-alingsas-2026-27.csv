@@ -1,0 +1,18 @@
+﻿playerId,fullName,dateOfBirth,birthYear,nationalities,clubId,shirtNumber,sourcePosition,primaryPosition,secondaryPositions,heightCm,handedness,contractUntilSeason,contractOptionUntilSeason,rosterStatus,rosterConfidence,recordConfidence,dataNotes
+se_player_anton_hagvall_34e5df98,Anton Hagvall,1997-04-01,1997,SE,se_club_alingsas_hk,16,Målvakt,MV,,192,,2026/27,,CONFIRMED,VERIFIED,PARTIAL,
+se_player_oskar_dahlin_50f8181d,Oskar Dahlin,,2005,,se_club_alingsas_hk,12,Målvakt,MV,,188,,,,CONFIRMED,VERIFIED,PARTIAL,
+se_player_niklas_kraft_e8842f13,Niklas Kraft,,,SE,se_club_alingsas_hk,,Målvakt,MV,,192,,2027/28,2028/29,CONFIRMED,VERIFIED,PARTIAL,
+se_player_benjamin_helander_b5cece84,Benjamin Helander,,,FI,se_club_alingsas_hk,13,Vänstersex,V6,,179,,,,CONFIRMED,VERIFIED,PARTIAL,
+se_player_edwin_tengros_eec4c59b,Edwin Tengros,,2006,,se_club_alingsas_hk,24,Vänstersex,V6,,189,,,,CONFIRMED,VERIFIED,PARTIAL,
+se_player_alexander_regen_705fa7a6,Alexander Regen,,2000,SE,se_club_alingsas_hk,11,Mittsex,M6,,184,,,,CONFIRMED,VERIFIED,PARTIAL,
+se_player_arvid_andreasson_54da0f43,Arvid Andreasson,,2006,SE,se_club_alingsas_hk,20,Mittsex,M6,,192,,,,CONFIRMED,VERIFIED,PARTIAL,Height conflict: Alingsås HK lists 192 cm; EHF lists 193 cm. Current club source retained.
+se_player_samuel_lindberg_1a6e8618,Samuel Lindberg,,,SE,se_club_alingsas_hk,9,Högersex,H6,,179,,,,CONFIRMED,VERIFIED,PARTIAL,Height conflict: Alingsås HK lists 179 cm; EHF lists 178 cm. Current club source retained.
+se_player_hugo_lignell_af49387a,Hugo Lignell,,2006,SE,se_club_alingsas_hk,14,Högersex,H6,,188,,,,CONFIRMED,VERIFIED,PARTIAL,Height conflict: Alingsås HK lists 188 cm; EHF lists 186 cm. Current club source retained.
+se_player_petter_donaldson_80cffba4,Petter Donaldson,,2003,SE,se_club_alingsas_hk,2,Vänsternio,V9,,192,,,,CONFIRMED,VERIFIED,PARTIAL,Name conflict/alias: EHF spells surname Donaldsson; club and Handbollsligan use Donaldson. | Height conflict: Alingsås HK lists 192 cm; EHF lists 190 cm. Current club source retained.
+se_player_arvid_boquist_39bb770d,Arvid Boquist,,,SE,se_club_alingsas_hk,19,Vänsternio,V9,,194,,,,CONFIRMED,VERIFIED,PARTIAL,
+se_player_max_sellstedt_314fc84c,Max Sellstedt,,2009,,se_club_alingsas_hk,,Vänsternio,V9,,,RIGHT,2028/29,,CONFIRMED,VERIFIED,PARTIAL,Current club members page contains a corrupted age value (117); ignored.
+se_player_august_wiger_94e4bcd0,August Wiger,,,SE,se_club_alingsas_hk,27,Mittnio,M9,,194,,,,CONFIRMED,VERIFIED,PARTIAL,
+se_player_hjalmar_jansson_8997bd4b,Hjalmar Jansson,,2006,,se_club_alingsas_hk,23,Mittnio,M9,,184,,,,CONFIRMED,VERIFIED,PARTIAL,
+se_player_max_hurtig_77d80608,Max Hurtig,,2009,,se_club_alingsas_hk,33,Mittnio,M9,,,,,,CONFIRMED,VERIFIED,PARTIAL,Club members page has shirt number 33 but no explicit position; 2026/27 Handbollsligan source supplies M9.
+se_player_noel_hurtig_1aad97d9,Noel Hurtig,,2006,,se_club_alingsas_hk,25,Högernio,H9,,184,,2026/27,,CONFIRMED,VERIFIED,PARTIAL,
+se_player_carl_ryden_d5428e1f,Carl Rydén,,,,se_club_alingsas_hk,7,Högernio,H9,,,,2028/29,,CONFIRMED,VERIFIED,PARTIAL,"Club uses Calle as nickname, but official signing article identifies full name as Carl Rydén."

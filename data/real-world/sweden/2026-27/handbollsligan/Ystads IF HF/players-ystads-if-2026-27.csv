@@ -1,0 +1,22 @@
+﻿playerId,fullName,birthYear,shirtNumber,primaryPosition,contractUntilSeason,rosterStatus,rosterConfidence
+player_alexander_linden_7f15da04,Alexander Lindén,,,MV,,CONFIRMED,VERIFIED
+player_oskar_arnell_75c81864,Oskar Arnell,,,MV,,CONFIRMED,VERIFIED
+player_helge_jerrhag_e8faab3a,Helge Jerrhag,,,MV,,CONFIRMED,VERIFIED
+player_linus_fernebrand_78ad61c3,Linus Fernebrand,,,V6,,CONFIRMED,VERIFIED
+player_olle_pilman_85ed6203,Olle Pilman,,,V6,,CONFIRMED,VERIFIED
+player_ture_edin_c5221137,Ture Edin,,,V6,,CONFIRMED,VERIFIED
+player_lowe_nilsson_7ae209b5,Lowe Nilsson,,,M6,,CONFIRMED,VERIFIED
+player_vidar_hemmensjo_2001818a,Vidar Hemmensjö,,,M6,2027/28,CONFIRMED,VERIFIED
+player_tim_rantala_e65ccb69,Tim Rantala,,,M6,2027/28,CONFIRMED,VERIFIED
+player_niclas_ekberg_db866c2e,Niclas Ekberg,,,H6,,CONFIRMED,VERIFIED
+player_vincent_persson_2f7b9e69,Vincent Persson,,,H6,,CONFIRMED,VERIFIED
+player_loke_fridh_d610b4f4,Loke Fridh,,,H6,,CONFIRMED,VERIFIED
+player_liam_hultberg_d2b82295,Liam Hultberg,,,V9,,CONFIRMED,VERIFIED
+player_philip_stenmalm_c5e22c2f,Philip Stenmalm,,,V9,,CONFIRMED,VERIFIED
+player_gustav_mundt_9f5616b1,Gustav Mundt,2007,,V9,2028/29,CONFIRMED,VERIFIED
+player_julius_lindskog_andersson_837f1533,Julius Lindskog Andersson,,,M9,,CONFIRMED,VERIFIED
+player_ivano_carrara_431dc941,Ivano Carrara,2007,,M9,2026/27,CONFIRMED,VERIFIED
+player_manz_hansen_03f19a38,Månz Hansen,,,M9,,CONFIRMED,VERIFIED
+player_jakob_nygren_aa608695,Jakob Nygren,,,H9,,CONFIRMED,VERIFIED
+player_gustav_naslund_fe579bde,Gustav Näslund,,,H9,,CONFIRMED,VERIFIED
+player_johannes_liljeberg_ee116a28,Johannes Liljeberg,,,H9,,CONFIRMED,VERIFIED

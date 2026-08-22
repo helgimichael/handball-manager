@@ -1,0 +1,384 @@
+[
+  {
+    "playerId": "player_william_psajd_5c669bcd",
+    "firstName": "William",
+    "lastName": "Psajd",
+    "fullName": "William Psajd",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "sourceRefs": {
+      "identity": [
+        "src_hbl_skanela_20260623"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "player_linus_karlsson_2913e2f1",
+    "firstName": "Linus",
+    "lastName": "Karlsson",
+    "fullName": "Linus Karlsson",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "sourceRefs": {
+      "identity": [
+        "src_hbl_skanela_20260623"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "player_oscar_rotsman_10606042",
+    "firstName": "Oscar",
+    "lastName": "Rotsman",
+    "fullName": "Oscar Rotsman",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "sourceRefs": {
+      "identity": [
+        "src_hbl_skanela_20260623"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "player_max_broman_36125fbf",
+    "firstName": "Max",
+    "lastName": "Broman",
+    "fullName": "Max Broman",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "sourceRefs": {
+      "identity": [
+        "src_hbl_skanela_20260623"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "player_isac_axelsson_847f7d32",
+    "firstName": "Isac",
+    "lastName": "Axelsson",
+    "fullName": "Isac Axelsson",
+    "aliases": [
+      "Isak Axelsson"
+    ],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "sourceRefs": {
+      "identity": [
+        "src_hbl_skanela_20260623"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "player_jesper_filen_cba427d8",
+    "firstName": "Jesper",
+    "lastName": "Filén",
+    "fullName": "Jesper Filén",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "sourceRefs": {
+      "identity": [
+        "src_skanela_filen_20260731"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "player_mattias_fristrom_33663a46",
+    "firstName": "Mattias",
+    "lastName": "Friström",
+    "fullName": "Mattias Friström",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "sourceRefs": {
+      "identity": [
+        "src_hbl_skanela_20260623"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "player_david_kallemyr_869d28f1",
+    "firstName": "David",
+    "lastName": "Källemyr",
+    "fullName": "David Källemyr",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "sourceRefs": {
+      "identity": [
+        "src_hbl_skanela_20260623"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "player_erik_ostling_43f1e1a5",
+    "firstName": "Erik",
+    "lastName": "Östling",
+    "fullName": "Erik Östling",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "sourceRefs": {
+      "identity": [
+        "src_hbl_skanela_20260623"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "player_alex_hill_5047c1db",
+    "firstName": "Alex",
+    "lastName": "Hill",
+    "fullName": "Alex Hill",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "sourceRefs": {
+      "identity": [
+        "src_hbl_skanela_20260623"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "player_filip_tapper_32d5cf17",
+    "firstName": "Filip",
+    "lastName": "Tapper",
+    "fullName": "Filip Tapper",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "sourceRefs": {
+      "identity": [
+        "src_hbl_skanela_20260623"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "player_victor_ekholm_aff81071",
+    "firstName": "Victor",
+    "lastName": "Ekholm",
+    "fullName": "Victor Ekholm",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "sourceRefs": {
+      "identity": [
+        "src_hbl_skanela_20260623"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "player_tobias_johansson_f5f887f6",
+    "firstName": "Tobias",
+    "lastName": "Johansson",
+    "fullName": "Tobias Johansson",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "sourceRefs": {
+      "identity": [
+        "src_hbl_skanela_20260623"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "player_anton_nilsson_de59a8a9",
+    "firstName": "Anton",
+    "lastName": "Nilsson",
+    "fullName": "Anton Nilsson",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "sourceRefs": {
+      "identity": [
+        "src_hbl_skanela_20260623"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "player_simon_lindberg_df349070",
+    "firstName": "Simon",
+    "lastName": "Lindberg",
+    "fullName": "Simon Lindberg",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "sourceRefs": {
+      "identity": [
+        "src_hbl_skanela_20260623"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "player_nils_hall_6ecec79a",
+    "firstName": "Nils",
+    "lastName": "Håll",
+    "fullName": "Nils Håll",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "sourceRefs": {
+      "identity": [
+        "src_hbl_skanela_20260623"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "player_malte_haglund_f969fb6d",
+    "firstName": "Malte",
+    "lastName": "Haglund",
+    "fullName": "Malte Haglund",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "sourceRefs": {
+      "identity": [
+        "src_hbl_skanela_20260623"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "player_alexander_ritter_42f60d18",
+    "firstName": "Alexander",
+    "lastName": "Ritter",
+    "fullName": "Alexander Ritter",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "sourceRefs": {
+      "identity": [
+        "src_hbl_skanela_20260623"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "player_elias_lundstad_7f6204ac",
+    "firstName": "Elias",
+    "lastName": "Lundstad",
+    "fullName": "Elias Lundstad",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "sourceRefs": {
+      "identity": [
+        "src_hbl_skanela_20260623"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "player_edvin_westlof_abd3f214",
+    "firstName": "Edvin",
+    "lastName": "Westlöf",
+    "fullName": "Edvin Westlöf",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "sourceRefs": {
+      "identity": [
+        "src_hbl_skanela_20260623"
+      ]
+    },
+    "dataNotes": []
+  }
+]

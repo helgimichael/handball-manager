@@ -1,0 +1,52 @@
+[
+  {
+    "sourceId": "src_hbl_yif_20260710",
+    "sourceType": "LEAGUE_OFFICIAL",
+    "publisher": "Handbollsligan",
+    "title": "Försäsongsguiden, del 14: Ystads IF",
+    "url": "https://handbollsligan.se/herrligan/forsasongsguiden-del-14-ystads-if/",
+    "publishedAt": "2026-07-10",
+    "accessedAt": "2026-08-20",
+    "seasonContext": "2026/27"
+  },
+  {
+    "sourceId": "src_yif_rantala_20260114",
+    "sourceType": "CLUB_OFFICIAL",
+    "publisher": "Ystads IF HF",
+    "title": "Dansk lagkapten klar för Ystads IF",
+    "url": "https://www.yif.se/nyheter/?ID=69965&NID=1318894",
+    "publishedAt": "2026-01-14",
+    "accessedAt": "2026-08-20",
+    "seasonContext": "2026/27"
+  },
+  {
+    "sourceId": "src_yif_mundt_20260310",
+    "sourceType": "CLUB_OFFICIAL",
+    "publisher": "Ystads IF HF",
+    "title": "Gustav Mundt klar för tre år",
+    "url": "https://www.yif.se/nyheter/?ID=69964&NID=1329931",
+    "publishedAt": "2026-03-10",
+    "accessedAt": "2026-08-20",
+    "seasonContext": "2026/27"
+  },
+  {
+    "sourceId": "src_yif_hemmensjo_20260319",
+    "sourceType": "CLUB_OFFICIAL",
+    "publisher": "Ystads IF HF",
+    "title": "Vidar Hemmensjö skriver två års kontrakt",
+    "url": "https://www.yif.se/nyheter/?ID=69965&NID=1331848",
+    "publishedAt": "2026-03-19",
+    "accessedAt": "2026-08-20",
+    "seasonContext": "2026/27"
+  },
+  {
+    "sourceId": "src_yif_carrara_20260225",
+    "sourceType": "CLUB_OFFICIAL",
+    "publisher": "Ystads IF HF",
+    "title": "Ivano Carrara klar för ett år till",
+    "url": "https://www.yif.se/nyheter/?ID=69964&NID=1327537",
+    "publishedAt": "2026-02-25",
+    "accessedAt": "2026-08-20",
+    "seasonContext": "2026/27"
+  }
+]

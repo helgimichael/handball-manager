@@ -1,0 +1,577 @@
+[
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_skanela_5c669bcd",
+    "playerId": "player_william_psajd_5c669bcd",
+    "clubId": "se_club_skanela_if",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-20",
+    "shirtNumber": null,
+    "sourcePosition": "Goalkeeper",
+    "primaryPosition": "MV",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_skanela_20260623"
+      ],
+      "position": [
+        "src_hbl_skanela_20260623"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_skanela_2913e2f1",
+    "playerId": "player_linus_karlsson_2913e2f1",
+    "clubId": "se_club_skanela_if",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-20",
+    "shirtNumber": null,
+    "sourcePosition": "Goalkeeper",
+    "primaryPosition": "MV",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": "2027/28",
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_skanela_20260623"
+      ],
+      "position": [
+        "src_hbl_skanela_20260623"
+      ],
+      "contract": [
+        "src_skanela_karlsson_20260429"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_skanela_10606042",
+    "playerId": "player_oscar_rotsman_10606042",
+    "clubId": "se_club_skanela_if",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-20",
+    "shirtNumber": null,
+    "sourcePosition": "Goalkeeper",
+    "primaryPosition": "MV",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_skanela_20260623"
+      ],
+      "position": [
+        "src_hbl_skanela_20260623"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_skanela_36125fbf",
+    "playerId": "player_max_broman_36125fbf",
+    "clubId": "se_club_skanela_if",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-20",
+    "shirtNumber": null,
+    "sourcePosition": "Left Wing",
+    "primaryPosition": "V6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": "2027/28",
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_skanela_20260623"
+      ],
+      "position": [
+        "src_hbl_skanela_20260623"
+      ],
+      "contract": [
+        "src_skanela_broman_20260223"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_skanela_847f7d32",
+    "playerId": "player_isac_axelsson_847f7d32",
+    "clubId": "se_club_skanela_if",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-20",
+    "shirtNumber": null,
+    "sourcePosition": "Left Wing",
+    "primaryPosition": "V6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": "2027/28",
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_skanela_20260623"
+      ],
+      "position": [
+        "src_hbl_skanela_20260623"
+      ],
+      "contract": [
+        "src_skanela_axelsson_20260516"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_skanela_cba427d8",
+    "playerId": "player_jesper_filen_cba427d8",
+    "clubId": "se_club_skanela_if",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-20",
+    "shirtNumber": null,
+    "sourcePosition": "Left Wing",
+    "primaryPosition": "V6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": "2027/28",
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_skanela_filen_20260731"
+      ],
+      "position": [
+        "src_hblstats_filen_2025"
+      ],
+      "contract": [
+        "src_skanela_filen_20260731"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_skanela_33663a46",
+    "playerId": "player_mattias_fristrom_33663a46",
+    "clubId": "se_club_skanela_if",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-20",
+    "shirtNumber": null,
+    "sourcePosition": "Line Player",
+    "primaryPosition": "M6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": "2026/27",
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_skanela_20260623"
+      ],
+      "position": [
+        "src_hbl_skanela_20260623"
+      ],
+      "contract": [
+        "src_skanela_fristrom_20260515"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_skanela_869d28f1",
+    "playerId": "player_david_kallemyr_869d28f1",
+    "clubId": "se_club_skanela_if",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-20",
+    "shirtNumber": null,
+    "sourcePosition": "Line Player",
+    "primaryPosition": "M6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": "2026/27",
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_skanela_20260623"
+      ],
+      "position": [
+        "src_hbl_skanela_20260623"
+      ],
+      "contract": [
+        "src_skanela_kallemyr_20260420"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_skanela_43f1e1a5",
+    "playerId": "player_erik_ostling_43f1e1a5",
+    "clubId": "se_club_skanela_if",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-20",
+    "shirtNumber": null,
+    "sourcePosition": "Line Player",
+    "primaryPosition": "M6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_skanela_20260623"
+      ],
+      "position": [
+        "src_hbl_skanela_20260623"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_skanela_5047c1db",
+    "playerId": "player_alex_hill_5047c1db",
+    "clubId": "se_club_skanela_if",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-20",
+    "shirtNumber": null,
+    "sourcePosition": "Line Player",
+    "primaryPosition": "M6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_skanela_20260623"
+      ],
+      "position": [
+        "src_hbl_skanela_20260623"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_skanela_32d5cf17",
+    "playerId": "player_filip_tapper_32d5cf17",
+    "clubId": "se_club_skanela_if",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-20",
+    "shirtNumber": null,
+    "sourcePosition": "Right Wing",
+    "primaryPosition": "H6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": "2026/27",
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_skanela_20260623"
+      ],
+      "position": [
+        "src_hbl_skanela_20260623"
+      ],
+      "contract": [
+        "src_skanela_tapper_20260409"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_skanela_aff81071",
+    "playerId": "player_victor_ekholm_aff81071",
+    "clubId": "se_club_skanela_if",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-20",
+    "shirtNumber": null,
+    "sourcePosition": "Right Wing",
+    "primaryPosition": "H6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_skanela_20260623"
+      ],
+      "position": [
+        "src_hbl_skanela_20260623"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_skanela_f5f887f6",
+    "playerId": "player_tobias_johansson_f5f887f6",
+    "clubId": "se_club_skanela_if",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-20",
+    "shirtNumber": null,
+    "sourcePosition": "Left Back",
+    "primaryPosition": "V9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": "2027/28",
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_skanela_20260623"
+      ],
+      "position": [
+        "src_hbl_skanela_20260623"
+      ],
+      "contract": [
+        "src_skanela_tobias_20260128"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_skanela_de59a8a9",
+    "playerId": "player_anton_nilsson_de59a8a9",
+    "clubId": "se_club_skanela_if",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-20",
+    "shirtNumber": null,
+    "sourcePosition": "Left Back",
+    "primaryPosition": "V9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_skanela_20260623"
+      ],
+      "position": [
+        "src_hbl_skanela_20260623"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_skanela_df349070",
+    "playerId": "player_simon_lindberg_df349070",
+    "clubId": "se_club_skanela_if",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-20",
+    "shirtNumber": null,
+    "sourcePosition": "Centre Back",
+    "primaryPosition": "M9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": "2028/29",
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_skanela_20260623"
+      ],
+      "position": [
+        "src_hbl_skanela_20260623"
+      ],
+      "contract": [
+        "src_skanela_simon_20260115"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_skanela_6ecec79a",
+    "playerId": "player_nils_hall_6ecec79a",
+    "clubId": "se_club_skanela_if",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-20",
+    "shirtNumber": null,
+    "sourcePosition": "Centre Back",
+    "primaryPosition": "M9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_skanela_20260623"
+      ],
+      "position": [
+        "src_hbl_skanela_20260623"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_skanela_f969fb6d",
+    "playerId": "player_malte_haglund_f969fb6d",
+    "clubId": "se_club_skanela_if",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-20",
+    "shirtNumber": null,
+    "sourcePosition": "Centre Back",
+    "primaryPosition": "M9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_skanela_20260623"
+      ],
+      "position": [
+        "src_hbl_skanela_20260623"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_skanela_42f60d18",
+    "playerId": "player_alexander_ritter_42f60d18",
+    "clubId": "se_club_skanela_if",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-20",
+    "shirtNumber": null,
+    "sourcePosition": "Centre Back",
+    "primaryPosition": "M9",
+    "secondaryPositions": [
+      "V9"
+    ],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": "2027/28",
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_skanela_20260623"
+      ],
+      "position": [
+        "src_hbl_skanela_20260623"
+      ],
+      "secondaryPositions": [
+        "src_skanela_ritter_20260623"
+      ],
+      "contract": [
+        "src_skanela_ritter_20260623"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_skanela_7f6204ac",
+    "playerId": "player_elias_lundstad_7f6204ac",
+    "clubId": "se_club_skanela_if",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-20",
+    "shirtNumber": null,
+    "sourcePosition": "Right Back",
+    "primaryPosition": "H9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_skanela_20260623"
+      ],
+      "position": [
+        "src_hbl_skanela_20260623"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_skanela_abd3f214",
+    "playerId": "player_edvin_westlof_abd3f214",
+    "clubId": "se_club_skanela_if",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-20",
+    "shirtNumber": null,
+    "sourcePosition": "Right Back",
+    "primaryPosition": "H9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_skanela_20260623"
+      ],
+      "position": [
+        "src_hbl_skanela_20260623"
+      ]
+    }
+  }
+]

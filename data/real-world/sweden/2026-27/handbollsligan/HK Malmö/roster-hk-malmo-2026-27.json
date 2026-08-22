@@ -1,0 +1,545 @@
+[
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_hkmalmo_132f4301",
+    "playerId": "player_ebbe_hakansson_132f4301",
+    "clubId": "se_club_hk_malmo",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-19",
+    "shirtNumber": null,
+    "sourcePosition": "Goalkeeper",
+    "primaryPosition": "MV",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_hkmalmo_20260622"
+      ],
+      "position": [
+        "src_hbl_hkmalmo_20260622"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_hkmalmo_b2c59882",
+    "playerId": "player_kalle_holmstedt_b2c59882",
+    "clubId": "se_club_hk_malmo",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-19",
+    "shirtNumber": null,
+    "sourcePosition": "Goalkeeper",
+    "primaryPosition": "MV",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_hkmalmo_20260622"
+      ],
+      "position": [
+        "src_hbl_hkmalmo_20260622"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_hkmalmo_098dc0ea",
+    "playerId": "player_albin_osterberg_098dc0ea",
+    "clubId": "se_club_hk_malmo",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-19",
+    "shirtNumber": null,
+    "sourcePosition": "Goalkeeper",
+    "primaryPosition": "MV",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_hkmalmo_20260622"
+      ],
+      "position": [
+        "src_hbl_hkmalmo_20260622"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_hkmalmo_14e90d7a",
+    "playerId": "player_david_bondesson_14e90d7a",
+    "clubId": "se_club_hk_malmo",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-19",
+    "shirtNumber": null,
+    "sourcePosition": "Goalkeeper",
+    "primaryPosition": "MV",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_hkmalmo_20260622"
+      ],
+      "position": [
+        "src_hbl_hkmalmo_20260622"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_hkmalmo_f348211b",
+    "playerId": "player_love_sundewall_f348211b",
+    "clubId": "se_club_hk_malmo",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-19",
+    "shirtNumber": null,
+    "sourcePosition": "Left Wing",
+    "primaryPosition": "V6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_hkmalmo_20260622"
+      ],
+      "position": [
+        "src_hbl_hkmalmo_20260622"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_hkmalmo_a142dfa9",
+    "playerId": "player_timothy_persson_a142dfa9",
+    "clubId": "se_club_hk_malmo",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-19",
+    "shirtNumber": null,
+    "sourcePosition": "Left Wing",
+    "primaryPosition": "V6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_hkmalmo_20260622"
+      ],
+      "position": [
+        "src_hbl_hkmalmo_20260622"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_hkmalmo_8794dc77",
+    "playerId": "player_hampus_nygren_8794dc77",
+    "clubId": "se_club_hk_malmo",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-19",
+    "shirtNumber": null,
+    "sourcePosition": "Line Player",
+    "primaryPosition": "M6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_hkmalmo_20260622"
+      ],
+      "position": [
+        "src_hbl_hkmalmo_20260622"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_hkmalmo_ef127927",
+    "playerId": "player_gorazd_manojlovski_ef127927",
+    "clubId": "se_club_hk_malmo",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-19",
+    "shirtNumber": null,
+    "sourcePosition": "Line Player",
+    "primaryPosition": "M6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_hkmalmo_20260622"
+      ],
+      "position": [
+        "src_hbl_hkmalmo_20260622"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_hkmalmo_080c1395",
+    "playerId": "player_aldo_pagliotta_080c1395",
+    "clubId": "se_club_hk_malmo",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-19",
+    "shirtNumber": null,
+    "sourcePosition": "Line Player",
+    "primaryPosition": "M6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_hkmalmo_20260622"
+      ],
+      "position": [
+        "src_hbl_hkmalmo_20260622"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_hkmalmo_c8a91ca1",
+    "playerId": "player_amin_bouzguenda_c8a91ca1",
+    "clubId": "se_club_hk_malmo",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-19",
+    "shirtNumber": null,
+    "sourcePosition": "Line Player",
+    "primaryPosition": "M6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_hkmalmo_20260622"
+      ],
+      "position": [
+        "src_hbl_hkmalmo_20260622"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_hkmalmo_f92f8dd6",
+    "playerId": "player_christopher_schnell_f92f8dd6",
+    "clubId": "se_club_hk_malmo",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-19",
+    "shirtNumber": null,
+    "sourcePosition": "Right Wing",
+    "primaryPosition": "H6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_hkmalmo_20260622"
+      ],
+      "position": [
+        "src_hbl_hkmalmo_20260622"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_hkmalmo_7e3b0808",
+    "playerId": "player_william_vranjes_7e3b0808",
+    "clubId": "se_club_hk_malmo",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-19",
+    "shirtNumber": null,
+    "sourcePosition": "Right Wing",
+    "primaryPosition": "H6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_hkmalmo_20260622"
+      ],
+      "position": [
+        "src_hbl_hkmalmo_20260622"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_hkmalmo_b33da37f",
+    "playerId": "player_petter_brandt_b33da37f",
+    "clubId": "se_club_hk_malmo",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-19",
+    "shirtNumber": null,
+    "sourcePosition": "Left Back",
+    "primaryPosition": "V9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_hkmalmo_20260622"
+      ],
+      "position": [
+        "src_hbl_hkmalmo_20260622"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_hkmalmo_91c55642",
+    "playerId": "player_filip_pastuhovic_91c55642",
+    "clubId": "se_club_hk_malmo",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-19",
+    "shirtNumber": null,
+    "sourcePosition": "Left Back",
+    "primaryPosition": "V9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_hkmalmo_20260622"
+      ],
+      "position": [
+        "src_hbl_hkmalmo_20260622"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_hkmalmo_e6336871",
+    "playerId": "player_thilo_knutzen_e6336871",
+    "clubId": "se_club_hk_malmo",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-19",
+    "shirtNumber": null,
+    "sourcePosition": "Left Back",
+    "primaryPosition": "V9",
+    "secondaryPositions": [],
+    "rosterStatus": "LOAN_IN",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": "2026/27",
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_hkmalmo_20260622"
+      ],
+      "position": [
+        "src_hbl_hkmalmo_20260622"
+      ],
+      "contract": [
+        "src_hbl_hkmalmo_20260622"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_hkmalmo_7e6ca7c9",
+    "playerId": "player_arvid_johansson_7e6ca7c9",
+    "clubId": "se_club_hk_malmo",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-19",
+    "shirtNumber": null,
+    "sourcePosition": "Centre Back",
+    "primaryPosition": "M9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_hkmalmo_20260622"
+      ],
+      "position": [
+        "src_hbl_hkmalmo_20260622"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_hkmalmo_a2e4390f",
+    "playerId": "player_ludvig_fagrenius_a2e4390f",
+    "clubId": "se_club_hk_malmo",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-19",
+    "shirtNumber": null,
+    "sourcePosition": "Centre Back",
+    "primaryPosition": "M9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_hkmalmo_20260622"
+      ],
+      "position": [
+        "src_hbl_hkmalmo_20260622"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_hkmalmo_5b3a2a3d",
+    "playerId": "player_alfred_olsson_5b3a2a3d",
+    "clubId": "se_club_hk_malmo",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-19",
+    "shirtNumber": null,
+    "sourcePosition": "Right Back",
+    "primaryPosition": "H9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_hkmalmo_20260622"
+      ],
+      "position": [
+        "src_hbl_hkmalmo_20260622"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_hkmalmo_1d49a03b",
+    "playerId": "player_malte_mansson_1d49a03b",
+    "clubId": "se_club_hk_malmo",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-19",
+    "shirtNumber": null,
+    "sourcePosition": "Right Back",
+    "primaryPosition": "H9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_hkmalmo_20260622"
+      ],
+      "position": [
+        "src_hbl_hkmalmo_20260622"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_hkmalmo_394ae2b9",
+    "playerId": "player_colin_tonnesen_394ae2b9",
+    "clubId": "se_club_hk_malmo",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-19",
+    "shirtNumber": null,
+    "sourcePosition": "Right Back",
+    "primaryPosition": "H9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_hkmalmo_20260622"
+      ],
+      "position": [
+        "src_hbl_hkmalmo_20260622"
+      ]
+    }
+  }
+]

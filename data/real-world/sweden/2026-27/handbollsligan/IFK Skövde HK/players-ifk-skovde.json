@@ -1,0 +1,364 @@
+[
+  {
+    "playerId": "player_nikolai_kaufmann_e0bd1d06",
+    "firstName": "Nikolai",
+    "lastName": "Kaufmann",
+    "fullName": "Nikolai Kaufmann",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "sourceRefs": {
+      "identity": [
+        "src_hbl_skovde_20260817",
+        "src_ifks_elitteam_20260819"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "player_pauli_jacobsen_0a78b61b",
+    "firstName": "Pauli",
+    "lastName": "Jacobsen",
+    "fullName": "Pauli Jacobsen",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": 2002,
+    "nationalities": [
+      "FO"
+    ],
+    "heightCm": 185,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "sourceRefs": {
+      "identity": [
+        "src_hbl_skovde_20260817",
+        "src_ifks_elitteam_20260819"
+      ],
+      "birthYear": [
+        "src_ifks_pauli_20260211"
+      ],
+      "nationalities": [
+        "src_ifks_pauli_20260211"
+      ],
+      "heightCm": [
+        "src_ifks_pauli_20260211"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "player_herman_dyberg_a8c86475",
+    "firstName": "Herman",
+    "lastName": "Dyberg",
+    "fullName": "Herman Dyberg",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "sourceRefs": {
+      "identity": [
+        "src_hbl_skovde_20260817",
+        "src_ifks_elitteam_20260819"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "player_elias_adam_47e6fd55",
+    "firstName": "Elias",
+    "lastName": "Adam",
+    "fullName": "Elias Adam",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "sourceRefs": {
+      "identity": [
+        "src_hbl_skovde_20260817",
+        "src_ifks_elitteam_20260819"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "player_markus_sjobrink_9badcdbf",
+    "firstName": "Markus",
+    "lastName": "Sjöbrink",
+    "fullName": "Markus Sjöbrink",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "sourceRefs": {
+      "identity": [
+        "src_hbl_skovde_20260817",
+        "src_ifks_elitteam_20260819"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "player_axel_franzen_86a337b2",
+    "firstName": "Axel",
+    "lastName": "Franzén",
+    "fullName": "Axel Franzén",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "sourceRefs": {
+      "identity": [
+        "src_hbl_skovde_20260817",
+        "src_ifks_elitteam_20260819"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "player_albin_rydberg_c6e004c6",
+    "firstName": "Albin",
+    "lastName": "Rydberg",
+    "fullName": "Albin Rydberg",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "sourceRefs": {
+      "identity": [
+        "src_hbl_skovde_20260817",
+        "src_ifks_elitteam_20260819"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "player_jonas_samuelsson_c0e5d465",
+    "firstName": "Jonas",
+    "lastName": "Samuelsson",
+    "fullName": "Jonas Samuelsson",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "sourceRefs": {
+      "identity": [
+        "src_hbl_skovde_20260817",
+        "src_ifks_elitteam_20260819"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "player_noel_gustafson_c93d5232",
+    "firstName": "Noel",
+    "lastName": "Gustafson",
+    "fullName": "Noel Gustafson",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "sourceRefs": {
+      "identity": [
+        "src_hbl_skovde_20260817",
+        "src_ifks_elitteam_20260819"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "player_fidel_mbumba_91e78231",
+    "firstName": "Fidel",
+    "lastName": "Mbumba",
+    "fullName": "Fidel Mbumba",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "sourceRefs": {
+      "identity": [
+        "src_hbl_skovde_20260817",
+        "src_ifks_elitteam_20260819"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "player_thomas_stenersen_781c3d9f",
+    "firstName": "Thomas",
+    "lastName": "Stenersen",
+    "fullName": "Thomas Stenersen",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "sourceRefs": {
+      "identity": [
+        "src_hbl_skovde_20260817",
+        "src_ifks_elitteam_20260819"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "player_jonas_kruse_kristensen_87652b66",
+    "firstName": "Jonas",
+    "lastName": "Kruse Kristensen",
+    "fullName": "Jonas Kruse Kristensen",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": 2002,
+    "nationalities": [
+      "DK"
+    ],
+    "heightCm": 191,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "sourceRefs": {
+      "identity": [
+        "src_hbl_skovde_20260817",
+        "src_ifks_elitteam_20260819"
+      ],
+      "birthYear": [
+        "src_ifks_kruse_202605"
+      ],
+      "nationalities": [
+        "src_ifks_kruse_202605"
+      ],
+      "heightCm": [
+        "src_ifks_kruse_202605"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "player_daniel_ekman_7eb4f625",
+    "firstName": "Daniel",
+    "lastName": "Ekman",
+    "fullName": "Daniel Ekman",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "sourceRefs": {
+      "identity": [
+        "src_hbl_skovde_20260817",
+        "src_ifks_elitteam_20260819"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "player_zoran_bozic_73aa7c83",
+    "firstName": "Zoran",
+    "lastName": "Bozic",
+    "fullName": "Zoran Bozic",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "sourceRefs": {
+      "identity": [
+        "src_hbl_skovde_20260817",
+        "src_ifks_elitteam_20260819"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "player_ajdin_dzanic_5aaffde2",
+    "firstName": "Ajdin",
+    "lastName": "Dzanic",
+    "fullName": "Ajdin Dzanic",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "sourceRefs": {
+      "identity": [
+        "src_hbl_skovde_20260817",
+        "src_ifks_elitteam_20260819"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "player_jonas_burud_ecf4798a",
+    "firstName": "Jonas",
+    "lastName": "Burud",
+    "fullName": "Jonas Burud",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "sourceRefs": {
+      "identity": [
+        "src_hbl_skovde_20260817",
+        "src_ifks_elitteam_20260819"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "player_linus_gustavsson_2f35e9ed",
+    "firstName": "Linus",
+    "lastName": "Gustavsson",
+    "fullName": "Linus Gustavsson",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "sourceRefs": {
+      "identity": [
+        "src_hbl_skovde_20260817",
+        "src_ifks_elitteam_20260819"
+      ]
+    },
+    "dataNotes": []
+  }
+]

@@ -1,0 +1,13 @@
+{
+  "milestone": "HM-DATA-0.1A",
+  "club": "OV Helsingborg",
+  "snapshotDate": "2026-08-20",
+  "playerCount": 21,
+  "files": [
+    "players-ov-helsingborg.json",
+    "roster-ov-helsingborg-2026-27.json",
+    "sources-ov-helsingborg.json",
+    "qc-ov-helsingborg.json",
+    "players-ov-helsingborg-2026-27.csv"
+  ]
+}

@@ -1,0 +1,73 @@
+{
+  "clubId": "se_club_amo_hk",
+  "clubName": "Amo HK",
+  "competitionId": "se_handbollsligan_herr",
+  "season": "2026/27",
+  "snapshotDate": "2026-08-19",
+  "datasetStatus": "PRESEASON",
+  "qcStatus": "VERIFIED_WITH_OPEN_FIELDS",
+  "expectedRosterCount": 16,
+  "exportedRosterCount": 16,
+  "checks": {
+    "currentLeagueRosterLocated": true,
+    "allLeagueRosterNamesCaptured": true,
+    "incomingTransfersChecked": true,
+    "departuresChecked": true,
+    "duplicatePlayers": 0,
+    "canonicalPositionsValid": true,
+    "guessedSecondaryPositions": 0,
+    "guessedDatesOfBirth": 0,
+    "guessedHeights": 0,
+    "guessedNationalities": 0,
+    "guessedContractDates": 0
+  },
+  "transfersIn": [
+    "Richard Lindström",
+    "Shaban Zogaj",
+    "Simon Roos",
+    "Phil Döhler"
+  ],
+  "transfersOut": [
+    "Erik Helgsten",
+    "Daniel Steen",
+    "Minik Dahl Hoegh",
+    "Simon Kirkegaard",
+    "Emil Johannisson",
+    "William Fiala Gjermundnes"
+  ],
+  "knownConflicts": [
+    {
+      "playerId": "se_player_josip_cavar_60b145a1",
+      "field": "heightCm",
+      "selectedValue": 198,
+      "otherValue": 197,
+      "selectedSource": "src_hblstats_cavar",
+      "otherSource": "src_ehf_cavar",
+      "resolution": "Current Swedish league statistic retained; historical EHF value documented."
+    },
+    {
+      "playerId": "is_player_arnar_birkir_halfdansson_80b9537d",
+      "field": "heightCm",
+      "selectedValue": 185,
+      "otherValues": [
+        186,
+        187
+      ],
+      "selectedSource": "src_ehf_arnar",
+      "resolution": "EHF value retained; secondary-source variation documented."
+    }
+  ],
+  "openFieldsSummary": {
+    "exactDateOfBirthMissing": 12,
+    "nationalityMissing": 12,
+    "heightMissing": 10,
+    "handednessMissing": 16,
+    "shirtNumberMissing": 16,
+    "contractEndMissing": 10
+  },
+  "notes": [
+    "Handbollsligan's 17 Aug 2026 roster and 9 Jun preseason guide independently show the same 16-player squad.",
+    "Shaban Zogaj is the first pilot player with a VERIFIED secondary position: Amo's official signing article explicitly calls him a V9/M9 player.",
+    "Shirt numbers are intentionally null until a current 2026/27 source is found."
+  ]
+}

@@ -1,0 +1,22 @@
+﻿playerId,fullName,dateOfBirth,nationalities,shirtNumber,sourcePosition,primaryPosition,heightCm,rosterStatus,rosterConfidence
+player_oliver_andersson_ef8ef0a2,Oliver Andersson,,,12,Goalkeeper,MV,,CONFIRMED,VERIFIED
+player_max_dahlen_36c0e887,Max Dahlén,,,22,Goalkeeper,MV,,CONFIRMED,VERIFIED
+player_dominic_brigerstrand_4ac3c690,Dominic Brigerstrand,,,77,Goalkeeper,MV,,CONFIRMED,VERIFIED
+player_max_blomberg_romero_992b2a4a,Max Blomberg Romero,,,5,Kantspelare,V6,,CONFIRMED,VERIFIED
+player_sebastian_kallemyr_ef0da952,Sebastian Källemyr,,,9,Kantspelare,V6,,CONFIRMED,VERIFIED
+player_felix_lilja_e91d1945,Felix Lilja,,,17,Kantspelare,H6,,CONFIRMED,VERIFIED
+player_adrian_kallhage_22c6ff9c,Adrian Källhage,,SE,34,Kantspelare,H6,184,CONFIRMED,VERIFIED
+player_hannes_malm_lindblom_14a6be17,Hannes Malm Lindblom,,,36,Kantspelare,H6,,CONFIRMED,VERIFIED
+player_axel_hallberg_3d6931c7,Axel Hallberg,,,89,Kantspelare,V6,,CONFIRMED,VERIFIED
+player_emil_hansson_02c1a5c6,Emil Hansson,,,2,Niometersspelare,V9,,CONFIRMED,VERIFIED
+player_fabian_gudmundsson_b1aadfba,Fabian Gudmundsson,,,4,Niometersspelare,H9,,CONFIRMED,VERIFIED
+player_mans_fredriksson_74083b68,Måns Fredriksson,,,6,Niometersspelare,H9,,CONFIRMED,VERIFIED
+player_rasmus_nyman_1323b911,Rasmus Nyman,,,10,Niometersspelare,M9,,CONFIRMED,VERIFIED
+player_elliot_lundstad_ff8f992c,Elliot Lundstad,,,24,Niometersspelare,V9,,CONFIRMED,VERIFIED
+player_adam_tysk_601c55ac,Adam Tysk,,,49,Niometersspelare,M9,,CONFIRMED,VERIFIED
+player_robin_kozjak_7fbdbe6d,Robin Kozjak,,,86,Niometersspelare,M9,,CONFIRMED,VERIFIED
+player_fabian_simonsson_dfdf3f8d,Fabian Simonsson,,,96,Niometersspelare,M9,,CONFIRMED,VERIFIED
+player_milo_knaapinen_59a3a0cd,Milo Knaapinen,2008-03-01,FI,,Niometersspelare,V9,185,CONFIRMED,VERIFIED
+player_joel_lindberg_04fa24da,Joel Lindberg,,,8,Line Player,M6,,CONFIRMED,VERIFIED
+player_andreas_nilsson_e7db3e42,Andreas Nilsson,,,18,Line Player,M6,,CONFIRMED,VERIFIED
+player_olle_bergius_db9745cb,Olle Bergius,,,30,Line Player,M6,,CONFIRMED,VERIFIED

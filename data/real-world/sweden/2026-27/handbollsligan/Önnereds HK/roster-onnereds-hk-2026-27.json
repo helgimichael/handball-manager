@@ -1,0 +1,631 @@
+[
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_ohk_ef8ef0a2",
+    "playerId": "player_oliver_andersson_ef8ef0a2",
+    "clubId": "se_club_onnereds_hk",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-20",
+    "shirtNumber": 12,
+    "sourcePosition": "Goalkeeper",
+    "primaryPosition": "MV",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_ohk_roster_20260820"
+      ],
+      "shirtNumber": [
+        "src_ohk_roster_20260820"
+      ],
+      "position": [
+        "src_hbl_stats_ohk_2025"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_ohk_36c0e887",
+    "playerId": "player_max_dahlen_36c0e887",
+    "clubId": "se_club_onnereds_hk",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-20",
+    "shirtNumber": 22,
+    "sourcePosition": "Goalkeeper",
+    "primaryPosition": "MV",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_ohk_roster_20260820"
+      ],
+      "shirtNumber": [
+        "src_ohk_roster_20260820"
+      ],
+      "position": [
+        "src_hbl_stats_ohk_2025"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_ohk_4ac3c690",
+    "playerId": "player_dominic_brigerstrand_4ac3c690",
+    "clubId": "se_club_onnereds_hk",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-20",
+    "shirtNumber": 77,
+    "sourcePosition": "Goalkeeper",
+    "primaryPosition": "MV",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_ohk_roster_20260820"
+      ],
+      "shirtNumber": [
+        "src_ohk_roster_20260820"
+      ],
+      "position": [
+        "src_hbl_stats_ohk_2025"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_ohk_992b2a4a",
+    "playerId": "player_max_blomberg_romero_992b2a4a",
+    "clubId": "se_club_onnereds_hk",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-20",
+    "shirtNumber": 5,
+    "sourcePosition": "Kantspelare",
+    "primaryPosition": "V6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_ohk_roster_20260820"
+      ],
+      "shirtNumber": [
+        "src_ohk_roster_20260820"
+      ],
+      "position": [
+        "src_hbl_stats_ohk_2025"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_ohk_ef0da952",
+    "playerId": "player_sebastian_kallemyr_ef0da952",
+    "clubId": "se_club_onnereds_hk",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-20",
+    "shirtNumber": 9,
+    "sourcePosition": "Kantspelare",
+    "primaryPosition": "V6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_ohk_roster_20260820"
+      ],
+      "shirtNumber": [
+        "src_ohk_roster_20260820"
+      ],
+      "position": [
+        "src_hbl_stats_ohk_2025"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_ohk_e91d1945",
+    "playerId": "player_felix_lilja_e91d1945",
+    "clubId": "se_club_onnereds_hk",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-20",
+    "shirtNumber": 17,
+    "sourcePosition": "Kantspelare",
+    "primaryPosition": "H6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_ohk_roster_20260820"
+      ],
+      "shirtNumber": [
+        "src_ohk_roster_20260820"
+      ],
+      "position": [
+        "src_shf_rikslager_0708"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_ohk_22c6ff9c",
+    "playerId": "player_adrian_kallhage_22c6ff9c",
+    "clubId": "se_club_onnereds_hk",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-20",
+    "shirtNumber": 34,
+    "sourcePosition": "Kantspelare",
+    "primaryPosition": "H6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_ohk_roster_20260820"
+      ],
+      "shirtNumber": [
+        "src_ohk_roster_20260820"
+      ],
+      "position": [
+        "src_ehf_kallhage"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_ohk_14a6be17",
+    "playerId": "player_hannes_malm_lindblom_14a6be17",
+    "clubId": "se_club_onnereds_hk",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-20",
+    "shirtNumber": 36,
+    "sourcePosition": "Kantspelare",
+    "primaryPosition": "H6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_ohk_roster_20260820"
+      ],
+      "shirtNumber": [
+        "src_ohk_roster_20260820"
+      ],
+      "position": [
+        "src_shf_rikslager_0708"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_ohk_3d6931c7",
+    "playerId": "player_axel_hallberg_3d6931c7",
+    "clubId": "se_club_onnereds_hk",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-20",
+    "shirtNumber": 89,
+    "sourcePosition": "Kantspelare",
+    "primaryPosition": "V6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_ohk_roster_20260820"
+      ],
+      "shirtNumber": [
+        "src_ohk_roster_20260820"
+      ],
+      "position": [
+        "src_hbl_stats_ohk_2025"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_ohk_02c1a5c6",
+    "playerId": "player_emil_hansson_02c1a5c6",
+    "clubId": "se_club_onnereds_hk",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-20",
+    "shirtNumber": 2,
+    "sourcePosition": "Niometersspelare",
+    "primaryPosition": "V9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_ohk_roster_20260820"
+      ],
+      "shirtNumber": [
+        "src_ohk_roster_20260820"
+      ],
+      "position": [
+        "src_ohk_hansson_20250622",
+        "src_hbl_stats_ohk_2025"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_ohk_b1aadfba",
+    "playerId": "player_fabian_gudmundsson_b1aadfba",
+    "clubId": "se_club_onnereds_hk",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-20",
+    "shirtNumber": 4,
+    "sourcePosition": "Niometersspelare",
+    "primaryPosition": "H9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_ohk_roster_20260820"
+      ],
+      "shirtNumber": [
+        "src_ohk_roster_20260820"
+      ],
+      "position": [
+        "src_hbl_stats_ohk_2025"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_ohk_74083b68",
+    "playerId": "player_mans_fredriksson_74083b68",
+    "clubId": "se_club_onnereds_hk",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-20",
+    "shirtNumber": 6,
+    "sourcePosition": "Niometersspelare",
+    "primaryPosition": "H9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_ohk_roster_20260820"
+      ],
+      "shirtNumber": [
+        "src_ohk_roster_20260820"
+      ],
+      "position": [
+        "src_hbl_stats_ohk_2025"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_ohk_1323b911",
+    "playerId": "player_rasmus_nyman_1323b911",
+    "clubId": "se_club_onnereds_hk",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-20",
+    "shirtNumber": 10,
+    "sourcePosition": "Niometersspelare",
+    "primaryPosition": "M9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_ohk_roster_20260820"
+      ],
+      "shirtNumber": [
+        "src_ohk_roster_20260820"
+      ],
+      "position": [
+        "src_hbl_stats_ohk_2025"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_ohk_ff8f992c",
+    "playerId": "player_elliot_lundstad_ff8f992c",
+    "clubId": "se_club_onnereds_hk",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-20",
+    "shirtNumber": 24,
+    "sourcePosition": "Niometersspelare",
+    "primaryPosition": "V9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_ohk_roster_20260820"
+      ],
+      "shirtNumber": [
+        "src_ohk_roster_20260820"
+      ],
+      "position": [
+        "src_hbl_stats_ohk_2025"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_ohk_601c55ac",
+    "playerId": "player_adam_tysk_601c55ac",
+    "clubId": "se_club_onnereds_hk",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-20",
+    "shirtNumber": 49,
+    "sourcePosition": "Niometersspelare",
+    "primaryPosition": "M9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_ohk_roster_20260820"
+      ],
+      "shirtNumber": [
+        "src_ohk_roster_20260820"
+      ],
+      "position": [
+        "src_hbl_stats_ohk_2025"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_ohk_7fbdbe6d",
+    "playerId": "player_robin_kozjak_7fbdbe6d",
+    "clubId": "se_club_onnereds_hk",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-20",
+    "shirtNumber": 86,
+    "sourcePosition": "Niometersspelare",
+    "primaryPosition": "M9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_ohk_roster_20260820"
+      ],
+      "shirtNumber": [
+        "src_ohk_roster_20260820"
+      ],
+      "position": [
+        "src_hbl_stats_ohk_2025"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_ohk_dfdf3f8d",
+    "playerId": "player_fabian_simonsson_dfdf3f8d",
+    "clubId": "se_club_onnereds_hk",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-20",
+    "shirtNumber": 96,
+    "sourcePosition": "Niometersspelare",
+    "primaryPosition": "M9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_ohk_roster_20260820"
+      ],
+      "shirtNumber": [
+        "src_ohk_roster_20260820"
+      ],
+      "position": [
+        "src_hbl_stats_ohk_2025"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_ohk_59a3a0cd",
+    "playerId": "player_milo_knaapinen_59a3a0cd",
+    "clubId": "se_club_onnereds_hk",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-20",
+    "shirtNumber": null,
+    "sourcePosition": "Niometersspelare",
+    "primaryPosition": "V9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_ohk_roster_20260820"
+      ],
+      "shirtNumber": [],
+      "position": [
+        "src_ehf_knaapinen"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_ohk_04fa24da",
+    "playerId": "player_joel_lindberg_04fa24da",
+    "clubId": "se_club_onnereds_hk",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-20",
+    "shirtNumber": 8,
+    "sourcePosition": "Line Player",
+    "primaryPosition": "M6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_ohk_roster_20260820"
+      ],
+      "shirtNumber": [
+        "src_ohk_roster_20260820"
+      ],
+      "position": [
+        "src_hbl_stats_ohk_2025"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_ohk_e7db3e42",
+    "playerId": "player_andreas_nilsson_e7db3e42",
+    "clubId": "se_club_onnereds_hk",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-20",
+    "shirtNumber": 18,
+    "sourcePosition": "Line Player",
+    "primaryPosition": "M6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_ohk_roster_20260820"
+      ],
+      "shirtNumber": [
+        "src_ohk_roster_20260820"
+      ],
+      "position": [
+        "src_hbl_stats_ohk_2025"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_ohk_db9745cb",
+    "playerId": "player_olle_bergius_db9745cb",
+    "clubId": "se_club_onnereds_hk",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-20",
+    "shirtNumber": 30,
+    "sourcePosition": "Line Player",
+    "primaryPosition": "M6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_ohk_roster_20260820"
+      ],
+      "shirtNumber": [
+        "src_ohk_roster_20260820"
+      ],
+      "position": [
+        "src_hbl_stats_ohk_2025"
+      ]
+    }
+  }
+]

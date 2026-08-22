@@ -1,0 +1,572 @@
+[
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_ov_5bb2eb2b",
+    "playerId": "player_michael_andersson_5bb2eb2b",
+    "clubId": "se_club_ov_helsingborg",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-20",
+    "shirtNumber": null,
+    "sourcePosition": "Goalkeeper",
+    "primaryPosition": "MV",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_ov_20260618"
+      ],
+      "position": [
+        "src_hbl_ov_20260618"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_ov_1d768838",
+    "playerId": "player_sixten_sundstrom_krantz_1d768838",
+    "clubId": "se_club_ov_helsingborg",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-20",
+    "shirtNumber": null,
+    "sourcePosition": "Goalkeeper",
+    "primaryPosition": "MV",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_ov_20260618"
+      ],
+      "position": [
+        "src_hbl_ov_20260618"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_ov_f8a88830",
+    "playerId": "player_simon_petersson_f8a88830",
+    "clubId": "se_club_ov_helsingborg",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-20",
+    "shirtNumber": null,
+    "sourcePosition": "Goalkeeper",
+    "primaryPosition": "MV",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_ov_20260618"
+      ],
+      "position": [
+        "src_hbl_ov_20260618"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_ov_740b2aba",
+    "playerId": "player_patrick_bols_740b2aba",
+    "clubId": "se_club_ov_helsingborg",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-20",
+    "shirtNumber": null,
+    "sourcePosition": "Goalkeeper",
+    "primaryPosition": "MV",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_ov_20260618"
+      ],
+      "position": [
+        "src_hbl_ov_20260618"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_ov_7ed5b34b",
+    "playerId": "player_andreas_windahl_7ed5b34b",
+    "clubId": "se_club_ov_helsingborg",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-20",
+    "shirtNumber": null,
+    "sourcePosition": "Left Wing",
+    "primaryPosition": "V6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_ov_20260618"
+      ],
+      "position": [
+        "src_hbl_ov_20260618"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_ov_8a28f9bb",
+    "playerId": "player_jakob_andersson_8a28f9bb",
+    "clubId": "se_club_ov_helsingborg",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-20",
+    "shirtNumber": null,
+    "sourcePosition": "Left Wing",
+    "primaryPosition": "V6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_ov_20260618"
+      ],
+      "position": [
+        "src_hbl_ov_20260618"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_ov_69024e7f",
+    "playerId": "player_william_bengtsson_69024e7f",
+    "clubId": "se_club_ov_helsingborg",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-20",
+    "shirtNumber": null,
+    "sourcePosition": "Line Player",
+    "primaryPosition": "M6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_ov_20260618"
+      ],
+      "position": [
+        "src_hbl_ov_20260618"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_ov_0b4a0c74",
+    "playerId": "player_nils_mellert_0b4a0c74",
+    "clubId": "se_club_ov_helsingborg",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-20",
+    "shirtNumber": null,
+    "sourcePosition": "Line Player",
+    "primaryPosition": "M6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_ov_20260618"
+      ],
+      "position": [
+        "src_hbl_ov_20260618"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_ov_ba47e100",
+    "playerId": "player_tobias_ljungmark_ba47e100",
+    "clubId": "se_club_ov_helsingborg",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-20",
+    "shirtNumber": null,
+    "sourcePosition": "Right Wing",
+    "primaryPosition": "H6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_ov_20260618"
+      ],
+      "position": [
+        "src_hbl_ov_20260618"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_ov_19800ab1",
+    "playerId": "player_alvin_lindvall_19800ab1",
+    "clubId": "se_club_ov_helsingborg",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-20",
+    "shirtNumber": null,
+    "sourcePosition": "Right Wing",
+    "primaryPosition": "H6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_ov_20260618"
+      ],
+      "position": [
+        "src_hbl_ov_20260618"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_ov_75d394a0",
+    "playerId": "player_oscar_johansson_75d394a0",
+    "clubId": "se_club_ov_helsingborg",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-20",
+    "shirtNumber": null,
+    "sourcePosition": "Left Back",
+    "primaryPosition": "V9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_ov_20260618"
+      ],
+      "position": [
+        "src_hbl_ov_20260618"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_ov_b5784ab3",
+    "playerId": "player_jesper_lindgren_b5784ab3",
+    "clubId": "se_club_ov_helsingborg",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-20",
+    "shirtNumber": null,
+    "sourcePosition": "Left Back",
+    "primaryPosition": "V9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_ov_20260618"
+      ],
+      "position": [
+        "src_hbl_ov_20260618"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_ov_4420542b",
+    "playerId": "player_andre_tuzov_4420542b",
+    "clubId": "se_club_ov_helsingborg",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-20",
+    "shirtNumber": null,
+    "sourcePosition": "Left Back",
+    "primaryPosition": "V9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_ov_20260618"
+      ],
+      "position": [
+        "src_hbl_ov_20260618"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_ov_92b1f6c9",
+    "playerId": "player_anton_lindblom_92b1f6c9",
+    "clubId": "se_club_ov_helsingborg",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-20",
+    "shirtNumber": null,
+    "sourcePosition": "Centre Back",
+    "primaryPosition": "M9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_ov_20260618"
+      ],
+      "position": [
+        "src_hbl_ov_20260618"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_ov_a3204666",
+    "playerId": "player_anders_forsell_schefvert_a3204666",
+    "clubId": "se_club_ov_helsingborg",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-20",
+    "shirtNumber": null,
+    "sourcePosition": "Centre Back",
+    "primaryPosition": "M9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_ov_20260618"
+      ],
+      "position": [
+        "src_hbl_ov_20260618"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_ov_8f85144f",
+    "playerId": "player_edvin_flinck_8f85144f",
+    "clubId": "se_club_ov_helsingborg",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-20",
+    "shirtNumber": null,
+    "sourcePosition": "Centre Back",
+    "primaryPosition": "M9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_ov_20260618"
+      ],
+      "position": [
+        "src_hbl_ov_20260618"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_ov_ea0c948a",
+    "playerId": "player_olle_berndt_ea0c948a",
+    "clubId": "se_club_ov_helsingborg",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-20",
+    "shirtNumber": null,
+    "sourcePosition": "Centre Back",
+    "primaryPosition": "M9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_ov_20260618"
+      ],
+      "position": [
+        "src_hbl_ov_20260618"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_ov_1af11a54",
+    "playerId": "player_mattias_soderberg_1af11a54",
+    "clubId": "se_club_ov_helsingborg",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-20",
+    "shirtNumber": null,
+    "sourcePosition": "Centre Back",
+    "primaryPosition": "M9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": "2026/27",
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_ov_20260618"
+      ],
+      "position": [
+        "src_hbl_ov_20260618"
+      ],
+      "contract": [
+        "src_ov_soderberg_20260613"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_ov_b0aec1ab",
+    "playerId": "player_elliot_eriksson_b0aec1ab",
+    "clubId": "se_club_ov_helsingborg",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-20",
+    "shirtNumber": null,
+    "sourcePosition": "Right Back",
+    "primaryPosition": "H9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_ov_20260618"
+      ],
+      "position": [
+        "src_hbl_ov_20260618"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_ov_83e99518",
+    "playerId": "player_anders_thomassen_83e99518",
+    "clubId": "se_club_ov_helsingborg",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-20",
+    "shirtNumber": null,
+    "sourcePosition": "Right Back",
+    "primaryPosition": "H9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_ov_20260618"
+      ],
+      "position": [
+        "src_hbl_ov_20260618"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_ov_9ca555b9",
+    "playerId": "player_max_pedersen_9ca555b9",
+    "clubId": "se_club_ov_helsingborg",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-20",
+    "shirtNumber": null,
+    "sourcePosition": "Right Back",
+    "primaryPosition": "H9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_ov_20260618"
+      ],
+      "position": [
+        "src_hbl_ov_20260618"
+      ]
+    }
+  }
+]

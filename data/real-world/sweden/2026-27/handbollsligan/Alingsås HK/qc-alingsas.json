@@ -1,0 +1,84 @@
+{
+  "clubId": "se_club_alingsas_hk",
+  "clubName": "Alingsås HK",
+  "competitionId": "se_handbollsligan_herr",
+  "season": "2026/27",
+  "snapshotDate": "2026-08-19",
+  "datasetStatus": "PRESEASON",
+  "qcStatus": "VERIFIED_WITH_OPEN_FIELDS",
+  "expectedRosterCount": 17,
+  "exportedRosterCount": 17,
+  "checks": {
+    "currentLeagueRosterLocated": true,
+    "allLeagueRosterNamesCaptured": true,
+    "incomingTransfersChecked": true,
+    "departuresChecked": true,
+    "duplicatePlayers": 0,
+    "canonicalPositionsValid": true,
+    "guessedSecondaryPositions": 0,
+    "guessedDatesOfBirth": 0,
+    "guessedHeights": 0,
+    "guessedNationalities": 0,
+    "guessedContractDates": 0
+  },
+  "knownConflicts": [
+    {
+      "playerId": "se_player_petter_donaldson_80cffba4",
+      "field": "heightCm",
+      "selectedValue": 192,
+      "otherValue": 190,
+      "selectedSource": "src_ahk_roster_20260819",
+      "otherSource": "src_ehf_petter",
+      "resolution": "Use current official club value; retain conflict note."
+    },
+    {
+      "playerId": "se_player_arvid_andreasson_54da0f43",
+      "field": "heightCm",
+      "selectedValue": 192,
+      "otherValue": 193,
+      "selectedSource": "src_ahk_roster_20260819",
+      "otherSource": "src_ehf_arvid_andreasson",
+      "resolution": "Use current official club value; retain conflict note."
+    },
+    {
+      "playerId": "se_player_samuel_lindberg_1a6e8618",
+      "field": "heightCm",
+      "selectedValue": 179,
+      "otherValue": 178,
+      "selectedSource": "src_ahk_roster_20260819",
+      "otherSource": "src_ehf_samuel",
+      "resolution": "Use current official club value; retain conflict note."
+    },
+    {
+      "playerId": "se_player_hugo_lignell_af49387a",
+      "field": "heightCm",
+      "selectedValue": 188,
+      "otherValue": 186,
+      "selectedSource": "src_ahk_roster_20260819",
+      "otherSource": "src_ehf_hugo",
+      "resolution": "Use current official club value; retain conflict note."
+    },
+    {
+      "playerId": "se_player_petter_donaldson_80cffba4",
+      "field": "lastName",
+      "selectedValue": "Donaldson",
+      "otherValue": "Donaldsson",
+      "selectedSource": "src_hbl_20260817_season_preview",
+      "otherSource": "src_ehf_petter",
+      "resolution": "Use current Swedish club/league spelling; keep EHF spelling as alias."
+    }
+  ],
+  "staleSourceWarnings": [
+    "The Alingsås HK members page is not reliable as a standalone 2026/27 roster source: it still contains Albin Hägglund Junler, while the league lists him as loaned to KRS Topphåndball.",
+    "Niklas Kraft is confirmed for 2026/27 by the league, the club signing announcement and a preseason match, but is not yet present on the club members page.",
+    "Max Sellstedt's current club members page contains a corrupted age value (117); that value was discarded."
+  ],
+  "openFieldsSummary": {
+    "exactDateOfBirthMissing": 16,
+    "nationalityMissing": 7,
+    "heightMissing": 4,
+    "handednessMissing": 16,
+    "shirtNumberMissing": 2,
+    "contractEndMissing": 11
+  }
+}

@@ -1,0 +1,17 @@
+﻿playerId,fullName,dateOfBirth,birthYear,nationalities,clubId,shirtNumber,sourcePosition,primaryPosition,secondaryPositions,heightCm,handedness,contractUntilSeason,rosterStatus,recordConfidence,dataNotes
+se_player_josip_cavar_60b145a1,Josip Cavar,1993-10-03,1993,SE|BA,se_club_amo_hk,,Goalkeeper,MV,,198,,,CONFIRMED,VERIFIED,Height conflict: Handbollsligan statistics lists 198 cm; historical EHF lists 197 cm. Current Swedish league value retained.
+de_player_phil_dohler_5ea9254f,Phil Döhler,1995-06-15,1995,DE,se_club_amo_hk,,Goalkeeper,MV,,193,,2028/29,CONFIRMED,VERIFIED,
+se_player_lynx_beverskog_d08b16d4,Lynx Beverskog,,,,se_club_amo_hk,,Left Wing,V6,,,,2027/28,CONFIRMED,PARTIAL,
+se_player_oscar_ader_4206ebaf,Oscar Ader,,,,se_club_amo_hk,,Left Wing,V6,,,,,CONFIRMED,PARTIAL,
+dk_player_anders_christiansen_8c111bf4,Anders Christiansen,1998-05-15,1998,DK,se_club_amo_hk,,Line Player,M6,,203,,2026/27,CONFIRMED,VERIFIED,DOB supported by secondary handball database; height also supported by Amo HK's official 2022 signing article.
+se_player_jesper_jensen_7ce5d872,Jesper Jensen,,,,se_club_amo_hk,,Line Player,M6,,,,,CONFIRMED,PARTIAL,
+se_player_simon_roos_b75e2dc7,Simon Roos,,,,se_club_amo_hk,,Line Player,M6,,,,,CONFIRMED,PARTIAL,
+se_player_allex_hugosson_03ddf92d,Allex Hugosson,,,,se_club_amo_hk,,Right Wing,H6,,,,,CONFIRMED,PARTIAL,
+se_player_hampus_karlsson_f0d53044,Hampus Karlsson,,,,se_club_amo_hk,,Right Wing,H6,,183,,2027/28,CONFIRMED,PARTIAL,
+dk_player_jonas_jensen_02a38472,Jonas Jensen,,,,se_club_amo_hk,,Left Back,V9,,,,,CONFIRMED,PARTIAL,
+dk_player_emil_larsen_a48a45d0,Emil Larsen,,,,se_club_amo_hk,,Left Back,V9,,,,,CONFIRMED,PARTIAL,
+se_player_shaban_zogaj_71e0c93f,Shaban Zogaj,,2002,,se_club_amo_hk,,Left Back,V9,M9,,,2027/28,CONFIRMED,PARTIAL,"Official Amo announcement dated 2026-02-18 describes him as 23 years old; only birth year 2002 is stored as a conservative derived year, not an exact DOB."
+se_player_lukas_rylander_139bedb4,Lukas Rylander,,,,se_club_amo_hk,,Centre Back,M9,,,,,CONFIRMED,PARTIAL,
+dk_player_mathias_pedersen_0a2ea822,Mathias Pedersen,1997-07-30,1997,DK,se_club_amo_hk,,Centre Back,M9,,187,,,CONFIRMED,VERIFIED,Handbollsligan 2026/27 roster shortens the name to Mathias Pedersen; EHF identifies him as Mathias Mark Pedersen.
+is_player_arnar_birkir_halfdansson_80b9537d,Arnar Birkir Halfdansson,1993-08-30,1993,IS,se_club_amo_hk,,Right Back,H9,,185,,,CONFIRMED,VERIFIED,Height varies across sources (EHF 185 cm; other databases 186–187 cm). EHF value retained.
+se_player_richard_lindstrom_fa89e12c,Richard Lindström,,,,se_club_amo_hk,,Right Back,H9,,205,,2028/29,CONFIRMED,PARTIAL,

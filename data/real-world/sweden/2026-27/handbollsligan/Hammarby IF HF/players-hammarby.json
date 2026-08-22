@@ -1,0 +1,468 @@
+[
+  {
+    "playerId": "se_player_linus_bergh_6d007f31",
+    "firstName": "Linus",
+    "lastName": "Bergh",
+    "fullName": "Linus Bergh",
+    "aliases": [],
+    "dateOfBirth": "2000-07-04",
+    "birthYear": 2000,
+    "nationalities": null,
+    "heightCm": 194,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "sourceRefs": {
+      "identity": [
+        "src_hammarby_roster_20260819"
+      ],
+      "dateOfBirth": [
+        "src_shf_protocol_20240320",
+        "src_shf_protocol_20241030"
+      ],
+      "heightCm": [
+        "src_hammarby_roster_20260819"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "se_player_olle_soderqvist_d1155006",
+    "firstName": "Olle",
+    "lastName": "Söderqvist",
+    "fullName": "Olle Söderqvist",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": [
+      "SE"
+    ],
+    "heightCm": 194,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "sourceRefs": {
+      "identity": [
+        "src_hammarby_roster_20260819"
+      ],
+      "heightCm": [
+        "src_hammarby_roster_20260819"
+      ],
+      "nationalities": [
+        "src_ehf_olle"
+      ]
+    },
+    "dataNotes": [
+      "Height conflict: current Hammarby profile lists 194 cm; current EHF profile lists 195 cm. Club value retained."
+    ]
+  },
+  {
+    "playerId": "se_player_arvid_skoog_44c05749",
+    "firstName": "Arvid",
+    "lastName": "Skoog",
+    "fullName": "Arvid Skoog",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": [
+      "SE"
+    ],
+    "heightCm": 197,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "sourceRefs": {
+      "identity": [
+        "src_hammarby_roster_20260819"
+      ],
+      "heightCm": [
+        "src_ehf_arvid"
+      ],
+      "nationalities": [
+        "src_ehf_arvid"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "se_player_simon_lindberg_df349070",
+    "firstName": "Simon",
+    "lastName": "Lindberg",
+    "fullName": "Simon Lindberg",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "sourceRefs": {
+      "identity": [
+        "src_hammarby_roster_20260819"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "se_player_theo_deurell_aaf0f9dc",
+    "firstName": "Theo",
+    "lastName": "Deurell",
+    "fullName": "Theo Deurell",
+    "aliases": [],
+    "dateOfBirth": "2006-12-09",
+    "birthYear": 2006,
+    "nationalities": null,
+    "heightCm": 181,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "sourceRefs": {
+      "identity": [
+        "src_hammarby_roster_20260819"
+      ],
+      "dateOfBirth": [
+        "src_shf_protocol_20240320",
+        "src_shf_protocol_20241030"
+      ],
+      "heightCm": [
+        "src_hammarby_roster_20260819"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "se_player_oliver_wigmark_4d3b1757",
+    "firstName": "Oliver",
+    "lastName": "Wigmark",
+    "fullName": "Oliver Wigmark",
+    "aliases": [],
+    "dateOfBirth": "1997-04-10",
+    "birthYear": 1997,
+    "nationalities": null,
+    "heightCm": 185,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "sourceRefs": {
+      "identity": [
+        "src_hammarby_roster_20260819"
+      ],
+      "dateOfBirth": [
+        "src_shf_protocol_20240320",
+        "src_shf_protocol_20241030"
+      ],
+      "heightCm": [
+        "src_hammarby_roster_20260819"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "se_player_martin_dolk_38bf7f2a",
+    "firstName": "Martin",
+    "lastName": "Dolk",
+    "fullName": "Martin Dolk",
+    "aliases": [],
+    "dateOfBirth": "1990-03-25",
+    "birthYear": 1990,
+    "nationalities": null,
+    "heightCm": 184,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "sourceRefs": {
+      "identity": [
+        "src_hammarby_roster_20260819"
+      ],
+      "dateOfBirth": [
+        "src_shf_protocol_20240320",
+        "src_shf_protocol_20241030"
+      ],
+      "heightCm": [
+        "src_hammarby_roster_20260819"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "se_player_ludvig_lindeberg_90244d26",
+    "firstName": "Ludvig",
+    "lastName": "Lindeberg",
+    "fullName": "Ludvig Lindeberg",
+    "aliases": [],
+    "dateOfBirth": "1999-10-07",
+    "birthYear": 1999,
+    "nationalities": null,
+    "heightCm": 192,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "sourceRefs": {
+      "identity": [
+        "src_hammarby_roster_20260819"
+      ],
+      "dateOfBirth": [
+        "src_shf_protocol_20240320",
+        "src_shf_protocol_20241030"
+      ],
+      "heightCm": [
+        "src_hammarby_roster_20260819"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "se_player_ruben_vojbacke_18700f0e",
+    "firstName": "Ruben",
+    "lastName": "Vojbacke",
+    "fullName": "Ruben Vojbacke",
+    "aliases": [],
+    "dateOfBirth": "2005-03-06",
+    "birthYear": 2005,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "sourceRefs": {
+      "identity": [
+        "src_hammarby_roster_20260819"
+      ],
+      "dateOfBirth": [
+        "src_shf_protocol_20240320",
+        "src_shf_protocol_20241030"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "se_player_elliot_stenmalm_ef3373fd",
+    "firstName": "Elliot",
+    "lastName": "Stenmalm",
+    "fullName": "Elliot Stenmalm",
+    "aliases": [],
+    "dateOfBirth": "2002-05-04",
+    "birthYear": 2002,
+    "nationalities": [
+      "SE"
+    ],
+    "heightCm": 200,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "sourceRefs": {
+      "identity": [
+        "src_hammarby_roster_20260819"
+      ],
+      "dateOfBirth": [
+        "src_ehf_elliot"
+      ],
+      "heightCm": [
+        "src_ehf_elliot"
+      ],
+      "nationalities": [
+        "src_ehf_elliot"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "se_player_max_gugolz_bc6e6df5",
+    "firstName": "Max",
+    "lastName": "Gugolz",
+    "fullName": "Max Gugolz",
+    "aliases": [],
+    "dateOfBirth": "2000-04-28",
+    "birthYear": 2000,
+    "nationalities": null,
+    "heightCm": 190,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "sourceRefs": {
+      "identity": [
+        "src_hammarby_roster_20260819"
+      ],
+      "dateOfBirth": [
+        "src_shf_protocol_20240320",
+        "src_shf_protocol_20241030"
+      ],
+      "heightCm": [
+        "src_hammarby_roster_20260819"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "se_player_henrik_momats_noren_5030ebc9",
+    "firstName": "Henrik",
+    "lastName": "Momats Norén",
+    "fullName": "Henrik Momats Norén",
+    "aliases": [],
+    "dateOfBirth": "1994-01-14",
+    "birthYear": 1994,
+    "nationalities": null,
+    "heightCm": 190,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "sourceRefs": {
+      "identity": [
+        "src_hammarby_roster_20260819"
+      ],
+      "dateOfBirth": [
+        "src_shf_protocol_20240320",
+        "src_shf_protocol_20241030"
+      ],
+      "heightCm": [
+        "src_hammarby_roster_20260819"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "se_player_marcus_lennernas_cd4039b8",
+    "firstName": "Marcus",
+    "lastName": "Lennernäs",
+    "fullName": "Marcus Lennernäs",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": 195,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "sourceRefs": {
+      "identity": [
+        "src_hammarby_roster_20260819"
+      ],
+      "heightCm": [
+        "src_hammarby_roster_20260819"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "se_player_anders_wik_rydberg_795e9eac",
+    "firstName": "Anders",
+    "lastName": "Wik Rydberg",
+    "fullName": "Anders Wik Rydberg",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": 188,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "sourceRefs": {
+      "identity": [
+        "src_hammarby_roster_20260819"
+      ],
+      "heightCm": [
+        "src_hammarby_roster_20260819"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "se_player_gustav_davidsson_fcd7b654",
+    "firstName": "Gustav",
+    "lastName": "Davidsson",
+    "fullName": "Gustav Davidsson",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": 193,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "sourceRefs": {
+      "identity": [
+        "src_hammarby_roster_20260819"
+      ],
+      "heightCm": [
+        "src_hammarby_roster_20260819"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "se_player_robin_jarling_sanderhem_e7557677",
+    "firstName": "Robin",
+    "lastName": "Järling Sanderhem",
+    "fullName": "Robin Järling Sanderhem",
+    "aliases": [
+      "Robin Järling"
+    ],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "sourceRefs": {
+      "identity": [
+        "src_hammarby_roster_20260819"
+      ]
+    },
+    "dataNotes": [
+      "Current club roster displays 'Robin Järling'; club news and league statistics identify full name as Robin Järling Sanderhem."
+    ]
+  },
+  {
+    "playerId": "se_player_josef_pujol_56e8de9e",
+    "firstName": "Josef",
+    "lastName": "Pujol",
+    "fullName": "Josef Pujol",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "sourceRefs": {
+      "identity": [
+        "src_hammarby_roster_20260819"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "se_player_alexander_morsten_9914d3eb",
+    "firstName": "Alexander",
+    "lastName": "Morsten",
+    "fullName": "Alexander Morsten",
+    "aliases": [],
+    "dateOfBirth": "1993-12-30",
+    "birthYear": 1993,
+    "nationalities": null,
+    "heightCm": 196,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "sourceRefs": {
+      "identity": [
+        "src_hammarby_roster_20260819"
+      ],
+      "dateOfBirth": [
+        "src_shf_protocol_20240320",
+        "src_shf_protocol_20241030"
+      ],
+      "heightCm": [
+        "src_hammarby_roster_20260819"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "se_player_johan_ericsson_1697ad92",
+    "firstName": "Johan",
+    "lastName": "Ericsson",
+    "fullName": "Johan Ericsson",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": 200,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "sourceRefs": {
+      "identity": [
+        "src_hammarby_roster_20260819"
+      ],
+      "heightCm": [
+        "src_hammarby_roster_20260819"
+      ]
+    },
+    "dataNotes": []
+  }
+]

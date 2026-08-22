@@ -1,0 +1,13 @@
+{
+  "milestone": "HM-DATA-0.1A",
+  "club": "Hammarby IF HF",
+  "snapshotDate": "2026-08-19",
+  "playerCount": 19,
+  "files": [
+    "players-hammarby.json",
+    "roster-hammarby-2026-27.json",
+    "sources-hammarby.json",
+    "qc-hammarby.json",
+    "players-hammarby-2026-27.csv"
+  ]
+}

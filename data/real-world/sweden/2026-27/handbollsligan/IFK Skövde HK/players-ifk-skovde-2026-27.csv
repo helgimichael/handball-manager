@@ -1,0 +1,18 @@
+﻿playerId,fullName,birthYear,nationalities,shirtNumber,primaryPosition,heightCm,contractUntilSeason,rosterStatus
+player_nikolai_kaufmann_e0bd1d06,Nikolai Kaufmann,,,,MV,,2027/28,CONFIRMED
+player_pauli_jacobsen_0a78b61b,Pauli Jacobsen,2002,FO,,MV,185,2027/28,CONFIRMED
+player_herman_dyberg_a8c86475,Herman Dyberg,,,,V6,,,CONFIRMED
+player_elias_adam_47e6fd55,Elias Adam,,,,V6,,,CONFIRMED
+player_markus_sjobrink_9badcdbf,Markus Sjöbrink,,,,M6,,2027/28,CONFIRMED
+player_axel_franzen_86a337b2,Axel Franzén,,,,M6,,,CONFIRMED
+player_albin_rydberg_c6e004c6,Albin Rydberg,,,,M6,,,CONFIRMED
+player_jonas_samuelsson_c0e5d465,Jonas Samuelsson,,,,H6,,,CONFIRMED
+player_noel_gustafson_c93d5232,Noel Gustafson,,,,H6,,,CONFIRMED
+player_fidel_mbumba_91e78231,Fidel Mbumba,,,,V9,,,CONFIRMED
+player_thomas_stenersen_781c3d9f,Thomas Stenersen,,,,V9,,,CONFIRMED
+player_jonas_kruse_kristensen_87652b66,Jonas Kruse Kristensen,2002,DK,,V9,191,2026/27,LOAN_IN
+player_daniel_ekman_7eb4f625,Daniel Ekman,,,,M9,,2027/28,CONFIRMED
+player_zoran_bozic_73aa7c83,Zoran Bozic,,,,M9,,2027/28,CONFIRMED
+player_ajdin_dzanic_5aaffde2,Ajdin Dzanic,,,,M9,,,CONFIRMED
+player_jonas_burud_ecf4798a,Jonas Burud,,,,H9,,2027/28,CONFIRMED
+player_linus_gustavsson_2f35e9ed,Linus Gustavsson,,,,H9,,,CONFIRMED

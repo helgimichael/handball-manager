@@ -1,0 +1,222 @@
+[
+  {
+    "sourceId": "src_hbl_20260817_season_preview",
+    "sourceType": "LEAGUE_OFFICIAL",
+    "publisher": "Handbollsligan",
+    "title": "Inför säsongen 2026/27",
+    "url": "https://handbollsligan.se/herrligan/infor-sasongen-2026-27-2/",
+    "publishedAt": "2026-08-17",
+    "accessedAt": "2026-08-19",
+    "seasonContext": "2026/27"
+  },
+  {
+    "sourceId": "src_ahk_roster_20260819",
+    "sourceType": "CLUB_OFFICIAL",
+    "publisher": "Alingsås HK",
+    "title": "Herrlag – Medlemmar",
+    "url": "https://alingsashk.myclub.se/site_teams/9581/members",
+    "publishedAt": null,
+    "accessedAt": "2026-08-19",
+    "seasonContext": "MIXED/CURRENT_PAGE"
+  },
+  {
+    "sourceId": "src_ahk_hagvall_20260220",
+    "sourceType": "CLUB_OFFICIAL",
+    "publisher": "Alingsås HK",
+    "title": "Anton Hagvall stannar i Alingsås",
+    "url": "https://alingsashk.myclub.se/site_node/7641/nyheter/anton-hagvall-stannar-i-alingsas",
+    "publishedAt": "2026-02-20",
+    "accessedAt": "2026-08-19",
+    "seasonContext": "2026/27"
+  },
+  {
+    "sourceId": "src_ahk_kraft_20260515",
+    "sourceType": "CLUB_OFFICIAL",
+    "publisher": "Alingsås HK",
+    "title": "Niklas Kraft åter i Alingsås",
+    "url": "https://alingsashk.myclub.se/site_node/7641/nyheter/niklas-kraft-ater-i-alingsas",
+    "publishedAt": "2026-05-15",
+    "accessedAt": "2026-08-19",
+    "seasonContext": "2026/27"
+  },
+  {
+    "sourceId": "src_ahk_oskar_20260410",
+    "sourceType": "CLUB_OFFICIAL",
+    "publisher": "Alingsås HK",
+    "title": "A-lagskontrakt för Oskar Dahlin",
+    "url": "https://alingsashk.myclub.se/site_node/7641/nyheter/a-lagskontrakt-for-oskar-dahlin",
+    "publishedAt": "2026-04-10",
+    "accessedAt": "2026-08-19",
+    "seasonContext": "2026/27"
+  },
+  {
+    "sourceId": "src_ahk_carl_20260330",
+    "sourceType": "CLUB_OFFICIAL",
+    "publisher": "Alingsås HK",
+    "title": "Carl Rydén ny högernia i Alingsås",
+    "url": "https://alingsashk.myclub.se/site_node/7641/nyheter/carl-ryden-ny-hogernia-i-alingsas",
+    "publishedAt": "2026-03-30",
+    "accessedAt": "2026-08-19",
+    "seasonContext": "2026/27"
+  },
+  {
+    "sourceId": "src_ahk_max_sellstedt_20260624",
+    "sourceType": "CLUB_OFFICIAL",
+    "publisher": "Alingsås HK",
+    "title": "Max Sellstedt till Alingsås",
+    "url": "https://alingsashk.myclub.se/site_node/7641/nyheter/max-sellstedt-till-alingsas",
+    "publishedAt": "2026-06-24",
+    "accessedAt": "2026-08-19",
+    "seasonContext": "2026/27"
+  },
+  {
+    "sourceId": "src_ahk_noel_20260521",
+    "sourceType": "CLUB_OFFICIAL",
+    "publisher": "Alingsås HK",
+    "title": "Noel Hurtig skriver a-lagskontrakt",
+    "url": "https://alingsashk.myclub.se/site_node/7641/nyheter/noel-hurtig-skriver-a-lagskontrakt",
+    "publishedAt": "2026-05-21",
+    "accessedAt": "2026-08-19",
+    "seasonContext": "2026/27"
+  },
+  {
+    "sourceId": "src_ahk_max_hurtig_20250318",
+    "sourceType": "CLUB_OFFICIAL",
+    "publisher": "Alingsås HK",
+    "title": "Ungdomskontrakt för Max Hurtig",
+    "url": "https://alingsashk.myclub.se/site_node/7641/nyheter/ungdomskontrakt-for-max-hurtig",
+    "publishedAt": "2025-03-18",
+    "accessedAt": "2026-08-19",
+    "seasonContext": "HISTORICAL"
+  },
+  {
+    "sourceId": "src_ahk_krs_match_20260809",
+    "sourceType": "CLUB_OFFICIAL",
+    "publisher": "Alingsås HK",
+    "title": "Lyckat träningsläger i Kristiansand",
+    "url": "https://alingsashk.myclub.se/site_node/7641/nyheter/lyckat-traningslager-i-kristiansand",
+    "publishedAt": "2026-08-09",
+    "accessedAt": "2026-08-19",
+    "seasonContext": "2026/27 PRESEASON"
+  },
+  {
+    "sourceId": "src_ahk_quarterfinal_20260410",
+    "sourceType": "CLUB_OFFICIAL",
+    "publisher": "Alingsås HK",
+    "title": "Inför: SM-kvartsfinal 3:5",
+    "url": "https://alingsashk.myclub.se/site_node/7641/nyheter/infor-sm-kvartsfinal-3-5-9089f45b-1815-43e0-b541-8ec8cbd714f9",
+    "publishedAt": "2026-04-10",
+    "accessedAt": "2026-08-19",
+    "seasonContext": "2025/26"
+  },
+  {
+    "sourceId": "src_ifk_anton_profile",
+    "sourceType": "CLUB_OFFICIAL_HISTORICAL",
+    "publisher": "IFK Skövde HK",
+    "title": "Anton Hagvall",
+    "url": "https://ifkskovdehandboll.com/player/anton-hagvall/",
+    "publishedAt": null,
+    "accessedAt": "2026-08-19",
+    "seasonContext": "HISTORICAL"
+  },
+  {
+    "sourceId": "src_ehf_anton",
+    "sourceType": "EHF",
+    "publisher": "European Handball Federation",
+    "title": "Anton Hagvall – Career & Statistics",
+    "url": "https://www.eurohandball.com/en/player/cTQAd8oPh5PJZLs_PdSbNw/Anton-Hagvall/",
+    "publishedAt": null,
+    "accessedAt": "2026-08-19",
+    "seasonContext": "CAREER"
+  },
+  {
+    "sourceId": "src_ehf_kraft",
+    "sourceType": "EHF",
+    "publisher": "European Handball Federation",
+    "title": "Niklas Kraft – Career & Statistics",
+    "url": "https://www.eurohandball.com/en/player/_McHgUlcwa3SQN6X8ZNNdw/Niklas-Kraft/",
+    "publishedAt": null,
+    "accessedAt": "2026-08-19",
+    "seasonContext": "CAREER"
+  },
+  {
+    "sourceId": "src_ehf_arvid_andreasson",
+    "sourceType": "EHF",
+    "publisher": "European Handball Federation",
+    "title": "Arvid Andreasson – Career & Statistics",
+    "url": "https://www.eurohandball.com/en/player/Fu2g_KsGeJii_nq3K9Jfbg/Arvid-Andreasson/",
+    "publishedAt": null,
+    "accessedAt": "2026-08-19",
+    "seasonContext": "CAREER"
+  },
+  {
+    "sourceId": "src_ehf_arvid_boquist",
+    "sourceType": "EHF",
+    "publisher": "European Handball Federation",
+    "title": "Arvid Boquist – Career & Statistics",
+    "url": "https://www.eurohandball.com/en/player/exVzb0PKUeFVnMW2E6bxww/Arvid-Boquist/",
+    "publishedAt": null,
+    "accessedAt": "2026-08-19",
+    "seasonContext": "CAREER"
+  },
+  {
+    "sourceId": "src_ehf_petter",
+    "sourceType": "EHF",
+    "publisher": "European Handball Federation",
+    "title": "Petter Donaldsson – Career & Statistics",
+    "url": "https://www.eurohandball.com/en/player/DLewmLgVdBWS8bvAqeJ2CQ/Petter-Donaldsson/",
+    "publishedAt": null,
+    "accessedAt": "2026-08-19",
+    "seasonContext": "CAREER"
+  },
+  {
+    "sourceId": "src_ehf_benjamin",
+    "sourceType": "EHF",
+    "publisher": "European Handball Federation",
+    "title": "Benjamin Helander – Career & Statistics",
+    "url": "https://www.eurohandball.com/en/player/mUDWeIT58Olp2xhg_qOVbw/Benjamin-Helander/",
+    "publishedAt": null,
+    "accessedAt": "2026-08-19",
+    "seasonContext": "CAREER"
+  },
+  {
+    "sourceId": "src_ehf_alexander",
+    "sourceType": "EHF",
+    "publisher": "European Handball Federation",
+    "title": "Alexander Regen – Career & Statistics",
+    "url": "https://www.eurohandball.com/en/player/xFJEAgvD1QbxVSXYqgo7pg/Alexander-Regen/",
+    "publishedAt": null,
+    "accessedAt": "2026-08-19",
+    "seasonContext": "CAREER"
+  },
+  {
+    "sourceId": "src_ehf_august",
+    "sourceType": "EHF",
+    "publisher": "European Handball Federation",
+    "title": "August Wiger – Career & Statistics",
+    "url": "https://www.eurohandball.com/en/player/YDLb4n5UzN1YqhO5NwfNgg/August-Wiger/",
+    "publishedAt": null,
+    "accessedAt": "2026-08-19",
+    "seasonContext": "CAREER"
+  },
+  {
+    "sourceId": "src_ehf_samuel",
+    "sourceType": "EHF",
+    "publisher": "European Handball Federation",
+    "title": "Samuel Lindberg – Career & Statistics",
+    "url": "https://www.eurohandball.com/en/player/Yf6K57TVO68C6SSDJXp6UA/Samuel-Lindberg/",
+    "publishedAt": null,
+    "accessedAt": "2026-08-19",
+    "seasonContext": "CAREER"
+  },
+  {
+    "sourceId": "src_ehf_hugo",
+    "sourceType": "EHF",
+    "publisher": "European Handball Federation",
+    "title": "Hugo Lignell – Career & Statistics",
+    "url": "https://www.eurohandball.com/en/player/V1TU__LGHeXJI1F3SdiWTg/Hugo-Lignell/",
+    "publishedAt": null,
+    "accessedAt": "2026-08-19",
+    "seasonContext": "CAREER"
+  }
+]

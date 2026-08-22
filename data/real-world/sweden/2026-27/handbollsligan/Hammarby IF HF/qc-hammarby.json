@@ -1,0 +1,44 @@
+{
+  "clubId": "se_club_hammarby_if_hf",
+  "clubName": "Hammarby IF HF",
+  "season": "2026/27",
+  "snapshotDate": "2026-08-19",
+  "datasetStatus": "PRESEASON",
+  "qcStatus": "VERIFIED_WITH_OPEN_FIELDS",
+  "expectedRosterCount": 19,
+  "exportedRosterCount": 19,
+  "checks": {
+    "currentOfficialClubRosterLocated": true,
+    "allCurrentRosterNamesCaptured": true,
+    "shirtNumbersVerified": true,
+    "canonicalPositionsValid": true,
+    "duplicatePlayers": 0,
+    "guessedSecondaryPositions": 0,
+    "guessedDatesOfBirth": 0,
+    "guessedHeights": 0,
+    "guessedNationalities": 0
+  },
+  "knownConflicts": [
+    {
+      "playerId": "se_player_olle_soderqvist_d1155006",
+      "field": "heightCm",
+      "selectedValue": 194,
+      "otherValue": 195,
+      "selectedSource": "src_hammarby_roster_20260819",
+      "otherSource": "src_ehf_olle",
+      "resolution": "Current official club value retained; EHF conflict documented."
+    }
+  ],
+  "importantCorrections": [
+    "Current official Hammarby roster has 19 players, not 18: 3 goalkeepers, 5 wings, 9 nine-metre players and 2 line players.",
+    "Robin Järling Sanderhem was added to the current roster after returning on 6 Aug 2026; his contract covers the coming 2026/27 season.",
+    "Ruben Vojbacke has verified versatility H9/H6; H9 is retained as primary based on league/club evidence."
+  ],
+  "openFieldsSummary": {
+    "exactDateOfBirthMissing": 10,
+    "nationalityMissing": 16,
+    "heightMissing": 4,
+    "handednessMissing": 19,
+    "contractEndMissing": 18
+  }
+}

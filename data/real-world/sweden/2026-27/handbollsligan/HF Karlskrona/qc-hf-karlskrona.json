@@ -1,0 +1,36 @@
+{
+  "clubId": "se_club_hf_karlskrona",
+  "clubName": "HF Karlskrona",
+  "season": "2026/27",
+  "snapshotDate": "2026-08-19",
+  "datasetStatus": "PRESEASON",
+  "qcStatus": "VERIFIED_WITH_OPEN_FIELDS",
+  "expectedRosterCount": 19,
+  "exportedRosterCount": 19,
+  "checks": {
+    "official2026_27RosterLocated": true,
+    "lateAugustAdditionChecked": true,
+    "clubStatesRosterClosed": true,
+    "duplicatePlayers": 0,
+    "canonicalPositionsValid": true,
+    "guessedSecondaryPositions": 0,
+    "guessedDatesOfBirth": 0,
+    "guessedHeights": 0,
+    "guessedNationalities": 0,
+    "guessedShirtNumbers": 0
+  },
+  "importantFindings": [
+    "HF Karlskrona listed 18 players on 13 May 2026. Niclas Fingren joined on 6 Aug 2026, and the club explicitly stated that this was the final piece and the men's roster was closed. Current verified roster count is therefore 19.",
+    "Noel Wirbladh belongs to the U-team but is explicitly included by the club in its 2026/27 men's roster; he remains in the dataset with CONFIRMED status.",
+    "Niclas Fingren's membership and two-year contract are VERIFIED, but his V9 offensive classification is PARTIAL because the current club announcement primarily describes him as a defensive specialist while EHF historical records list Left Back (and earlier Right Back).",
+    "Current 2026/27 shirt numbers were not found in a sufficiently authoritative source, so all shirtNumber values remain null."
+  ],
+  "openFieldsSummary": {
+    "shirtNumberMissing": 19,
+    "handednessMissing": 17,
+    "exactDateOfBirthMissing": 9,
+    "nationalityMissing": 9,
+    "heightMissing": 9,
+    "contractEndMissing": 14
+  }
+}

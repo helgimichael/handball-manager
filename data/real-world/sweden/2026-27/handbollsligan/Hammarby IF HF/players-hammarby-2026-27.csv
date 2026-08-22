@@ -1,0 +1,20 @@
+﻿playerId,fullName,dateOfBirth,nationalities,shirtNumber,primaryPosition,secondaryPositions,heightCm,handedness,contractUntilSeason,rosterStatus,notes
+se_player_linus_bergh_6d007f31,Linus Bergh,2000-07-04,,1,MV,,194,,,CONFIRMED,
+se_player_olle_soderqvist_d1155006,Olle Söderqvist,,SE,16,MV,,194,,,CONFIRMED,Height conflict: current Hammarby profile lists 194 cm; current EHF profile lists 195 cm. Club value retained.
+se_player_arvid_skoog_44c05749,Arvid Skoog,,SE,77,MV,,197,,,CONFIRMED,
+se_player_simon_lindberg_df349070,Simon Lindberg,,,4,V6,,,,,CONFIRMED,
+se_player_theo_deurell_aaf0f9dc,Theo Deurell,2006-12-09,,6,H6,,181,,,CONFIRMED,
+se_player_oliver_wigmark_4d3b1757,Oliver Wigmark,1997-04-10,,10,H6,,185,,,CONFIRMED,
+se_player_martin_dolk_38bf7f2a,Martin Dolk,1990-03-25,,11,V6,,184,,,CONFIRMED,
+se_player_ludvig_lindeberg_90244d26,Ludvig Lindeberg,1999-10-07,,17,V6,,192,,,CONFIRMED,
+se_player_ruben_vojbacke_18700f0e,Ruben Vojbacke,2005-03-06,,8,H9,H6,,,,CONFIRMED,
+se_player_elliot_stenmalm_ef3373fd,Elliot Stenmalm,2002-05-04,SE,9,V9,,200,,,CONFIRMED,
+se_player_max_gugolz_bc6e6df5,Max Gugolz,2000-04-28,,13,V9,,190,,,CONFIRMED,
+se_player_henrik_momats_noren_5030ebc9,Henrik Momats Norén,1994-01-14,,14,V9,,190,,,CONFIRMED,
+se_player_marcus_lennernas_cd4039b8,Marcus Lennernäs,,,20,H9,,195,,,CONFIRMED,
+se_player_anders_wik_rydberg_795e9eac,Anders Wik Rydberg,,,21,V9,,188,,,CONFIRMED,
+se_player_gustav_davidsson_fcd7b654,Gustav Davidsson,,,25,V9,,193,,,CONFIRMED,
+se_player_robin_jarling_sanderhem_e7557677,Robin Järling Sanderhem,,,30,M9,,,,2026/27,CONFIRMED,Current club roster displays 'Robin Järling'; club news and league statistics identify full name as Robin Järling Sanderhem.
+se_player_josef_pujol_56e8de9e,Josef Pujol,,,91,M9,,,,,CONFIRMED,
+se_player_alexander_morsten_9914d3eb,Alexander Morsten,1993-12-30,,5,M6,,196,,,CONFIRMED,
+se_player_johan_ericsson_1697ad92,Johan Ericsson,,,33,M6,,200,,,CONFIRMED,

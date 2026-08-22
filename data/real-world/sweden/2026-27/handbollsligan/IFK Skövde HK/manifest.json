@@ -1,0 +1,13 @@
+{
+  "milestone": "HM-DATA-0.1A",
+  "club": "IFK Skövde HK",
+  "snapshotDate": "2026-08-19",
+  "playerCount": 17,
+  "files": [
+    "players-ifk-skovde.json",
+    "roster-ifk-skovde-2026-27.json",
+    "sources-ifk-skovde.json",
+    "qc-ifk-skovde.json",
+    "players-ifk-skovde-2026-27.csv"
+  ]
+}

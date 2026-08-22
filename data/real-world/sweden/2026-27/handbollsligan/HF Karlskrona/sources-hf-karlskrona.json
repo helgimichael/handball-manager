@@ -1,0 +1,161 @@
+[
+  {
+    "sourceId": "src_hfk_roster_20260513",
+    "sourceType": "CLUB_OFFICIAL",
+    "publisher": "HF Karlskrona",
+    "title": "Truppläget och avstämning HFK herr",
+    "url": "https://www.hfkarlskrona.se/nyheter/trupplaget-och-avstamning-hfk-herr/",
+    "publishedAt": "2026-05-13",
+    "accessedAt": "2026-08-19",
+    "seasonContext": "2026/27"
+  },
+  {
+    "sourceId": "src_hfk_fingren_20260806",
+    "sourceType": "CLUB_OFFICIAL",
+    "publisher": "HF Karlskrona",
+    "title": "Meriterade Niclas Fingren ansluter till HFK",
+    "url": "https://www.hfkarlskrona.se/nyheter/meriterade-niclas-fingren-ansluter-till-hfk/",
+    "publishedAt": "2026-08-06",
+    "accessedAt": "2026-08-19",
+    "seasonContext": "2026/27"
+  },
+  {
+    "sourceId": "src_hfk_noel_20260511",
+    "sourceType": "CLUB_OFFICIAL",
+    "publisher": "HF Karlskrona",
+    "title": "HFK skriver långtidskontrakt med egen produkt",
+    "url": "https://www.hfkarlskrona.se/nyheter/hfk-skriver-langtidskontrakt-med-egen-produkt/",
+    "publishedAt": "2026-05-11",
+    "accessedAt": "2026-08-19",
+    "seasonContext": "2026/27"
+  },
+  {
+    "sourceId": "src_hfk_alex_20260225",
+    "sourceType": "CLUB_OFFICIAL",
+    "publisher": "HF Karlskrona",
+    "title": "Välkommen Alex Andersson",
+    "url": "https://www.hfkarlskrona.se/nyheter/valkommen-alex-andersson/",
+    "publishedAt": "2026-02-25",
+    "accessedAt": "2026-08-19",
+    "seasonContext": "2026/27"
+  },
+  {
+    "sourceId": "src_hfk_axel_contract",
+    "sourceType": "CLUB_OFFICIAL",
+    "publisher": "HF Karlskrona",
+    "title": "Axel Söderqvist förlänger med två år",
+    "url": "https://www.hfkarlskrona.se/nyheter/axel-soderqvist-forlanger-med-tva-ar/",
+    "publishedAt": "2024-12-03",
+    "accessedAt": "2026-08-19",
+    "seasonContext": "CONTRACT"
+  },
+  {
+    "sourceId": "src_hfk_emil_contract",
+    "sourceType": "CLUB_OFFICIAL",
+    "publisher": "HF Karlskrona",
+    "title": "Emil Hansson klar för HF Karlskrona",
+    "url": "https://www.hfkarlskrona.se/nyheter/emil-hansson-klar-for-hf-karlskrona/",
+    "publishedAt": "2025-04-23",
+    "accessedAt": "2026-08-19",
+    "seasonContext": "CONTRACT"
+  },
+  {
+    "sourceId": "src_ehf_tomic",
+    "sourceType": "EHF",
+    "publisher": "European Handball Federation",
+    "title": "Uros Tomic",
+    "url": "https://history.eurohandball.com/ec/el/men/2025-26/player/541904/UrosTomic",
+    "accessedAt": "2026-08-19",
+    "seasonContext": "2025/26"
+  },
+  {
+    "sourceId": "src_ehf_mikkelsen",
+    "sourceType": "EHF",
+    "publisher": "European Handball Federation",
+    "title": "Tróndur Mikkelsen",
+    "url": "https://history.eurohandball.com/ec/el/men/2025-26/player/572398/Tr%C3%B3ndurMikkelsen",
+    "accessedAt": "2026-08-19",
+    "seasonContext": "2025/26"
+  },
+  {
+    "sourceId": "src_ehf_viitkar",
+    "sourceType": "EHF",
+    "publisher": "European Handball Federation",
+    "title": "Markus Viitkar",
+    "url": "https://www.eurohandball.com/en/player/Y8U9a2pEWLGKdCp-YD0vHg/Markus-Viitkar/",
+    "accessedAt": "2026-08-19",
+    "seasonContext": "CAREER"
+  },
+  {
+    "sourceId": "src_ehf_eskengren",
+    "sourceType": "EHF",
+    "publisher": "European Handball Federation",
+    "title": "William Eskengren Svahn",
+    "url": "https://history.eurohandball.com/ec/el/women/2025-26/player/727040/WilliamEskengren%2BSvahn",
+    "accessedAt": "2026-08-19",
+    "seasonContext": "2025/26"
+  },
+  {
+    "sourceId": "src_ehf_stenberg",
+    "sourceType": "EHF",
+    "publisher": "European Handball Federation",
+    "title": "Albin Stenberg",
+    "url": "https://history.eurohandball.com/ec/el/women/2025-26/player/549331/AlbinStenberg",
+    "accessedAt": "2026-08-19",
+    "seasonContext": "2025/26"
+  },
+  {
+    "sourceId": "src_ehf_hansson",
+    "sourceType": "EHF",
+    "publisher": "European Handball Federation",
+    "title": "Emil Hansson",
+    "url": "https://history.eurohandball.com/ec/ehfc/men/2014-15/player/554338/EmilHansson",
+    "accessedAt": "2026-08-19",
+    "seasonContext": "CAREER"
+  },
+  {
+    "sourceId": "src_ihf_alex",
+    "sourceType": "IHF",
+    "publisher": "International Handball Federation",
+    "title": "Alex Andersson",
+    "url": "https://www.ihf.info/about/players/profiles/216581",
+    "accessedAt": "2026-08-19",
+    "seasonContext": "CAREER"
+  },
+  {
+    "sourceId": "src_ehf_euro2026_mortensen",
+    "sourceType": "EHF",
+    "publisher": "European Handball Federation",
+    "title": "Men's EHF EURO 2026 official squad lists",
+    "url": "https://ehfcl.eurohandball.com/media/tweklk24/official-squad-lists-mens-ehf-euro-2026.pdf",
+    "accessedAt": "2026-08-19",
+    "seasonContext": "2026"
+  },
+  {
+    "sourceId": "src_ehf_fingren",
+    "sourceType": "EHF",
+    "publisher": "European Handball Federation",
+    "title": "Niclas Fingren",
+    "url": "https://history.eurohandball.com/ech/men/2014/player/549340/NiclasFingren",
+    "accessedAt": "2026-08-19",
+    "seasonContext": "CAREER"
+  },
+  {
+    "sourceId": "src_hblstats_hfk_2025",
+    "sourceType": "LEAGUE_OFFICIAL_STATISTICS",
+    "publisher": "Handbollsligan statistics",
+    "title": "HF Karlskrona player statistics 2025/26",
+    "url": "https://handballstats.se/statistics/herr/statistics/statistics.aspx?ha=Alla&l=2500101&o=0&p=Alla&t=6978&y=2025",
+    "accessedAt": "2026-08-19",
+    "seasonContext": "2025/26"
+  },
+  {
+    "sourceId": "src_hblstats_arthursson",
+    "sourceType": "LEAGUE_OFFICIAL_STATISTICS",
+    "publisher": "Handbollsligan statistics",
+    "title": "Emil Arthursson",
+    "url": "https://handballstats.se/statistics/herr/statistics/player.aspx?player=49017&team=212",
+    "accessedAt": "2026-08-19",
+    "seasonContext": "2025/26"
+  }
+]

@@ -1,0 +1,424 @@
+[
+  {
+    "playerId": "se_player_marcus_holmen_87d487c8",
+    "firstName": "Marcus",
+    "lastName": "Holmén",
+    "fullName": "Marcus Holmén",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "sourceRefs": {
+      "identity": [
+        "src_hbl_hallby_20260817"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "se_player_lukas_wallinder_a8a0d2ec",
+    "firstName": "Lukas",
+    "lastName": "Wallinder",
+    "fullName": "Lukas Wallinder",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "sourceRefs": {
+      "identity": [
+        "src_hbl_hallby_20260817"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "se_player_wilmer_bjerklin_39dc2edd",
+    "firstName": "Wilmer",
+    "lastName": "Bjerklin",
+    "fullName": "Wilmer Bjerklin",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "sourceRefs": {
+      "identity": [
+        "src_hbl_hallby_20260817"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "se_player_hampus_dahlgren_01f1dc4f",
+    "firstName": "Hampus",
+    "lastName": "Dahlgren",
+    "fullName": "Hampus Dahlgren",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "sourceRefs": {
+      "identity": [
+        "src_hbl_hallby_20260817"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "se_player_john_vatz_409a4b2c",
+    "firstName": "John",
+    "lastName": "Våtz",
+    "fullName": "John Våtz",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "sourceRefs": {
+      "identity": [
+        "src_hbl_hallby_20260817"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "se_player_oskar_hedvall_300f48bb",
+    "firstName": "Oskar",
+    "lastName": "Hedvall",
+    "fullName": "Oskar Hedvall",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "sourceRefs": {
+      "identity": [
+        "src_hbl_hallby_20260817"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "se_player_ludvig_hogberg_643fe910",
+    "firstName": "Ludvig",
+    "lastName": "Högberg",
+    "fullName": "Ludvig Högberg",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "sourceRefs": {
+      "identity": [
+        "src_hbl_hallby_20260817"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "se_player_rasmus_thomsen_baa94735",
+    "firstName": "Rasmus",
+    "lastName": "Thomsen",
+    "fullName": "Rasmus Thomsen",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "sourceRefs": {
+      "identity": [
+        "src_hbl_hallby_20260817"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "se_player_emil_johannisson_11ed2339",
+    "firstName": "Emil",
+    "lastName": "Johannisson",
+    "fullName": "Emil Johannisson",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "sourceRefs": {
+      "identity": [
+        "src_hbl_hallby_20260817"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "se_player_charles_hugoson_c044b169",
+    "firstName": "Charles",
+    "lastName": "Hugoson",
+    "fullName": "Charles Hugoson",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "sourceRefs": {
+      "identity": [
+        "src_hbl_hallby_20260817"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "se_player_pavle_karacic_045de530",
+    "firstName": "Pavle",
+    "lastName": "Karacic",
+    "fullName": "Pavle Karacic",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "sourceRefs": {
+      "identity": [
+        "src_hbl_hallby_20260817"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "se_player_linus_walfridsson_3fdf0322",
+    "firstName": "Linus",
+    "lastName": "Walfridsson",
+    "fullName": "Linus Walfridsson",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "sourceRefs": {
+      "identity": [
+        "src_hbl_hallby_20260817"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "se_player_martin_martensson_77659651",
+    "firstName": "Martin",
+    "lastName": "Mårtensson",
+    "fullName": "Martin Mårtensson",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "sourceRefs": {
+      "identity": [
+        "src_hbl_hallby_20260817"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "se_player_andreas_soderman_7575bb25",
+    "firstName": "Andreas",
+    "lastName": "Söderman",
+    "fullName": "Andreas Söderman",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "sourceRefs": {
+      "identity": [
+        "src_hbl_hallby_20260817"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "se_player_isak_karlsson_1dbf967b",
+    "firstName": "Isak",
+    "lastName": "Karlsson",
+    "fullName": "Isak Karlsson",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "sourceRefs": {
+      "identity": [
+        "src_hbl_hallby_20260817"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "se_player_herman_legrell_072b951c",
+    "firstName": "Herman",
+    "lastName": "Legrell",
+    "fullName": "Herman Legrell",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "sourceRefs": {
+      "identity": [
+        "src_hbl_hallby_20260817"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "se_player_hampus_soderman_4fc3c02e",
+    "firstName": "Hampus",
+    "lastName": "Söderman",
+    "fullName": "Hampus Söderman",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "sourceRefs": {
+      "identity": [
+        "src_hbl_hallby_20260817"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "se_player_alexander_hambalek_3236286b",
+    "firstName": "Alexander",
+    "lastName": "Hambalek",
+    "fullName": "Alexander Hambalek",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "sourceRefs": {
+      "identity": [
+        "src_hbl_hallby_20260817"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "se_player_jonatan_suomela_2ab138cf",
+    "firstName": "Jonatan",
+    "lastName": "Suomela",
+    "fullName": "Jonatan Suomela",
+    "aliases": [
+      "Jonatan Hoogwinkel Suomela"
+    ],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "sourceRefs": {
+      "identity": [
+        "src_hbl_hallby_20260817"
+      ]
+    },
+    "dataNotes": [
+      "League source uses Jonatan Suomela; club page uses Jonatan Hoogwinkel Suomela. Kept league-season form pending identity reconciliation."
+    ]
+  },
+  {
+    "playerId": "se_player_asso_eliassi_sarzali_9d29e1d1",
+    "firstName": "Asso",
+    "lastName": "Eliassi Sarzali",
+    "fullName": "Asso Eliassi Sarzali",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "sourceRefs": {
+      "identity": [
+        "src_hbl_hallby_20260817"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "se_player_joshua_mesias_wasterlund_0bc482f0",
+    "firstName": "Joshua",
+    "lastName": "Mesias Wästerlund",
+    "fullName": "Joshua Mesias Wästerlund",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "sourceRefs": {
+      "identity": [
+        "src_hbl_hallby_20260817"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "se_player_emil_nork_e3fc4b12",
+    "firstName": "Emil",
+    "lastName": "Nork",
+    "fullName": "Emil Nork",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "sourceRefs": {
+      "identity": [
+        "src_hbl_hallby_20260817"
+      ]
+    },
+    "dataNotes": []
+  }
+]

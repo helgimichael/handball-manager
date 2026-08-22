@@ -1,0 +1,13 @@
+{
+  "milestone": "HM-DATA-0.1A",
+  "club": "IFK Kristianstad",
+  "snapshotDate": "2026-08-19",
+  "playerCount": 15,
+  "files": [
+    "players-ifk-kristianstad.json",
+    "roster-ifk-kristianstad-2026-27.json",
+    "sources-ifk-kristianstad.json",
+    "qc-ifk-kristianstad.json",
+    "players-ifk-kristianstad-2026-27.csv"
+  ]
+}

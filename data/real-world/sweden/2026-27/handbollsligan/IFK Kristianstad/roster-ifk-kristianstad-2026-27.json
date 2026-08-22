@@ -1,0 +1,433 @@
+[
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_ifkk_a09708e0",
+    "playerId": "player_hayder_al_khafadji_a09708e0",
+    "clubId": "se_club_ifk_kristianstad",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-19",
+    "shirtNumber": null,
+    "sourcePosition": "Goalkeeper",
+    "primaryPosition": "MV",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_ifk_20260817"
+      ],
+      "position": [
+        "src_hbl_ifk_preseason"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_ifkk_d0dd6f03",
+    "playerId": "player_alexander_skoog_d0dd6f03",
+    "clubId": "se_club_ifk_kristianstad",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-19",
+    "shirtNumber": null,
+    "sourcePosition": "Goalkeeper",
+    "primaryPosition": "MV",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": "2027/28",
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_ifk_20260817"
+      ],
+      "position": [
+        "src_hbl_ifk_preseason"
+      ],
+      "contract": [
+        "src_ifk_skoog_20260116"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_ifkk_3ce9cf44",
+    "playerId": "player_emil_frend_ofors_3ce9cf44",
+    "clubId": "se_club_ifk_kristianstad",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-19",
+    "shirtNumber": null,
+    "sourcePosition": "Left Wing",
+    "primaryPosition": "V6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_ifk_20260817"
+      ],
+      "position": [
+        "src_hbl_ifk_preseason"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_ifkk_6d0ef97f",
+    "playerId": "player_albin_leyman_6d0ef97f",
+    "clubId": "se_club_ifk_kristianstad",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-19",
+    "shirtNumber": null,
+    "sourcePosition": "Left Wing",
+    "primaryPosition": "V6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_ifk_20260817"
+      ],
+      "position": [
+        "src_hbl_ifk_preseason"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_ifkk_fdcb766f",
+    "playerId": "player_william_hoghielm_fdcb766f",
+    "clubId": "se_club_ifk_kristianstad",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-19",
+    "shirtNumber": null,
+    "sourcePosition": "Line Player",
+    "primaryPosition": "M6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_ifk_20260817"
+      ],
+      "position": [
+        "src_hbl_ifk_preseason"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_ifkk_d603dfbe",
+    "playerId": "player_niko_petrovic_d603dfbe",
+    "clubId": "se_club_ifk_kristianstad",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-19",
+    "shirtNumber": null,
+    "sourcePosition": "Line Player",
+    "primaryPosition": "M6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_ifk_20260817"
+      ],
+      "position": [
+        "src_hbl_ifk_preseason"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_ifkk_8af77244",
+    "playerId": "player_albin_selin_8af77244",
+    "clubId": "se_club_ifk_kristianstad",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-19",
+    "shirtNumber": null,
+    "sourcePosition": "Right Wing",
+    "primaryPosition": "H6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_ifk_20260817"
+      ],
+      "position": [
+        "src_hbl_ifk_preseason"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_ifkk_26da347a",
+    "playerId": "player_liam_kjellman_26da347a",
+    "clubId": "se_club_ifk_kristianstad",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-19",
+    "shirtNumber": null,
+    "sourcePosition": "Right Wing",
+    "primaryPosition": "H6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": "2027/28",
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_ifk_20260817"
+      ],
+      "position": [
+        "src_hbl_ifk_preseason"
+      ],
+      "contract": [
+        "src_ifk_wings_20260323"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_ifkk_01636570",
+    "playerId": "player_philip_henningsson_01636570",
+    "clubId": "se_club_ifk_kristianstad",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-19",
+    "shirtNumber": null,
+    "sourcePosition": "Left Back",
+    "primaryPosition": "V9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": "2026/27",
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_ifk_20260817"
+      ],
+      "position": [
+        "src_hbl_ifk_preseason"
+      ],
+      "contract": [
+        "src_ifk_henningsson_biel_20260212"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_ifkk_c7dc2719",
+    "playerId": "player_einar_bragi_adalsteinsson_c7dc2719",
+    "clubId": "se_club_ifk_kristianstad",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-19",
+    "shirtNumber": null,
+    "sourcePosition": "Left Back",
+    "primaryPosition": "V9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": "2026/27",
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_ifk_20260817"
+      ],
+      "position": [
+        "src_hbl_ifk_preseason"
+      ],
+      "contract": [
+        "src_ifk_einar_20260116"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_ifkk_77eb2224",
+    "playerId": "player_theo_ivarsson_77eb2224",
+    "clubId": "se_club_ifk_kristianstad",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-19",
+    "shirtNumber": null,
+    "sourcePosition": "Left Back",
+    "primaryPosition": "V9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_ifk_20260817"
+      ],
+      "position": [
+        "src_hbl_ifk_preseason"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_ifkk_565ae0a8",
+    "playerId": "player_baldur_fritz_bjarnason_565ae0a8",
+    "clubId": "se_club_ifk_kristianstad",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-19",
+    "shirtNumber": null,
+    "sourcePosition": "Centre Back",
+    "primaryPosition": "M9",
+    "secondaryPositions": [
+      "V9"
+    ],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": "2027/28",
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_ifk_20260817"
+      ],
+      "position": [
+        "src_hbl_ifk_preseason"
+      ],
+      "secondaryPositions": [
+        "src_ifk_baldur_20260121"
+      ],
+      "contract": [
+        "src_ifk_baldur_20260121"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_ifkk_a867e3c2",
+    "playerId": "player_andri_erlingsson_a867e3c2",
+    "clubId": "se_club_ifk_kristianstad",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-19",
+    "shirtNumber": null,
+    "sourcePosition": "Centre Back",
+    "primaryPosition": "M9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_ifk_20260817"
+      ],
+      "position": [
+        "src_hbl_ifk_preseason"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_ifkk_54886b8b",
+    "playerId": "player_anton_hallback_54886b8b",
+    "clubId": "se_club_ifk_kristianstad",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-19",
+    "shirtNumber": null,
+    "sourcePosition": "Right Back",
+    "primaryPosition": "H9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": "2026/27",
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_ifk_20260817"
+      ],
+      "position": [
+        "src_hbl_ifk_preseason"
+      ],
+      "contract": [
+        "src_ifk_hallback_20260115"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_ifkk_3910081f",
+    "playerId": "player_isaac_biel_nilsen_3910081f",
+    "clubId": "se_club_ifk_kristianstad",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-19",
+    "shirtNumber": 49,
+    "sourcePosition": "Right Back",
+    "primaryPosition": "H9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": "2026/27",
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_ifk_20260817"
+      ],
+      "position": [
+        "src_hbl_ifk_preseason"
+      ],
+      "contract": [
+        "src_ifk_henningsson_biel_20260212"
+      ]
+    }
+  }
+]

@@ -1,0 +1,71 @@
+[
+  {
+    "sourceId": "src_hbl_savehof_20260704",
+    "sourceType": "LEAGUE_OFFICIAL",
+    "publisher": "Handbollsligan",
+    "title": "Försäsongsguiden, del 12: IK Sävehof",
+    "url": "https://handbollsligan.se/herrligan/forsasongsguiden-del-12-ik-savehof/",
+    "publishedAt": "2026-07-04",
+    "accessedAt": "2026-08-20",
+    "seasonContext": "2026/27"
+  },
+  {
+    "sourceId": "src_savehof_herrar_stale",
+    "sourceType": "CLUB_OFFICIAL",
+    "publisher": "IK Sävehof",
+    "title": "Herrar",
+    "url": "https://savehof.se/herrar/",
+    "accessedAt": "2026-08-20",
+    "seasonContext": "2025/26_STALE"
+  },
+  {
+    "sourceId": "src_savehof_trommler_20260330",
+    "sourceType": "CLUB_OFFICIAL",
+    "publisher": "IK Sävehof",
+    "title": "Tobias Trommler förlänger med IK Sävehof",
+    "url": "https://savehof.se/tobias-trommler-forlanger-med-ik-savehof/",
+    "publishedAt": "2026-03-30",
+    "accessedAt": "2026-08-20",
+    "seasonContext": "CONTRACT"
+  },
+  {
+    "sourceId": "src_savehof_spante_20260320",
+    "sourceType": "CLUB_OFFICIAL",
+    "publisher": "IK Sävehof",
+    "title": "Sebastian Spante förlänger med IK Sävehof",
+    "url": "https://savehof.se/sebastian-spante-forlanger-med-ik-savehof/",
+    "publishedAt": "2026-03-20",
+    "accessedAt": "2026-08-20",
+    "seasonContext": "CONTRACT"
+  },
+  {
+    "sourceId": "src_savehof_halen_20240919",
+    "sourceType": "CLUB_OFFICIAL",
+    "publisher": "IK Sävehof",
+    "title": "Nytt A-lagskontrakt!",
+    "url": "https://savehof.se/nytt-a-lagskontrakt/",
+    "publishedAt": "2024-09-19",
+    "accessedAt": "2026-08-20",
+    "seasonContext": "CONTRACT"
+  },
+  {
+    "sourceId": "src_savehof_johannisson_20260527",
+    "sourceType": "CLUB_OFFICIAL",
+    "publisher": "IK Sävehof",
+    "title": "Emil Johannisson lånas ut till IF Hallby",
+    "url": "https://savehof.se/emil-johanisson-lanas-ut-till-if-hallby/",
+    "publishedAt": "2026-05-27",
+    "accessedAt": "2026-08-20",
+    "seasonContext": "2026/27"
+  },
+  {
+    "sourceId": "src_savehof_blomberg_20260606",
+    "sourceType": "CLUB_OFFICIAL",
+    "publisher": "IK Sävehof",
+    "title": "Fabian Blomberg Romero lånas ut till Fjellhammer IL",
+    "url": "https://savehof.se/fabian-blomberg-romero-lanas-ut-till-fjellhammer-il/",
+    "publishedAt": "2026-06-06",
+    "accessedAt": "2026-08-20",
+    "seasonContext": "2026/27"
+  }
+]

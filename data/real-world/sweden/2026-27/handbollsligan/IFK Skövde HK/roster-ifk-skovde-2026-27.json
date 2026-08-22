@@ -1,0 +1,516 @@
+[
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_ifks_e0bd1d06",
+    "playerId": "player_nikolai_kaufmann_e0bd1d06",
+    "clubId": "se_club_ifk_skovde_hk",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-19",
+    "shirtNumber": null,
+    "sourcePosition": "Goalkeeper",
+    "primaryPosition": "MV",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": "2027/28",
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_skovde_20260817",
+        "src_ifks_elitteam_20260819"
+      ],
+      "position": [
+        "src_hbl_skovde_20260817",
+        "src_ifks_elitteam_20260819"
+      ],
+      "contract": [
+        "src_ifks_news_202602"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_ifks_0a78b61b",
+    "playerId": "player_pauli_jacobsen_0a78b61b",
+    "clubId": "se_club_ifk_skovde_hk",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-19",
+    "shirtNumber": null,
+    "sourcePosition": "Goalkeeper",
+    "primaryPosition": "MV",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": "2027/28",
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_skovde_20260817",
+        "src_ifks_elitteam_20260819"
+      ],
+      "position": [
+        "src_hbl_skovde_20260817",
+        "src_ifks_elitteam_20260819"
+      ],
+      "contract": [
+        "src_ifks_pauli_20260211"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_ifks_a8c86475",
+    "playerId": "player_herman_dyberg_a8c86475",
+    "clubId": "se_club_ifk_skovde_hk",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-19",
+    "shirtNumber": null,
+    "sourcePosition": "Left Wing",
+    "primaryPosition": "V6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_skovde_20260817",
+        "src_ifks_elitteam_20260819"
+      ],
+      "position": [
+        "src_hbl_skovde_20260817",
+        "src_ifks_elitteam_20260819"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_ifks_47e6fd55",
+    "playerId": "player_elias_adam_47e6fd55",
+    "clubId": "se_club_ifk_skovde_hk",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-19",
+    "shirtNumber": null,
+    "sourcePosition": "Left Wing",
+    "primaryPosition": "V6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_skovde_20260817",
+        "src_ifks_elitteam_20260819"
+      ],
+      "position": [
+        "src_hbl_skovde_20260817",
+        "src_ifks_elitteam_20260819"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_ifks_9badcdbf",
+    "playerId": "player_markus_sjobrink_9badcdbf",
+    "clubId": "se_club_ifk_skovde_hk",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-19",
+    "shirtNumber": null,
+    "sourcePosition": "Line Player",
+    "primaryPosition": "M6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": "2027/28",
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_skovde_20260817",
+        "src_ifks_elitteam_20260819"
+      ],
+      "position": [
+        "src_hbl_skovde_20260817",
+        "src_ifks_elitteam_20260819"
+      ],
+      "contract": [
+        "src_ifks_sjobrink_20251210"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_ifks_86a337b2",
+    "playerId": "player_axel_franzen_86a337b2",
+    "clubId": "se_club_ifk_skovde_hk",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-19",
+    "shirtNumber": null,
+    "sourcePosition": "Line Player",
+    "primaryPosition": "M6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_skovde_20260817",
+        "src_ifks_elitteam_20260819"
+      ],
+      "position": [
+        "src_hbl_skovde_20260817",
+        "src_ifks_elitteam_20260819"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_ifks_c6e004c6",
+    "playerId": "player_albin_rydberg_c6e004c6",
+    "clubId": "se_club_ifk_skovde_hk",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-19",
+    "shirtNumber": null,
+    "sourcePosition": "Line Player",
+    "primaryPosition": "M6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_skovde_20260817",
+        "src_ifks_elitteam_20260819"
+      ],
+      "position": [
+        "src_hbl_skovde_20260817",
+        "src_ifks_elitteam_20260819"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_ifks_c0e5d465",
+    "playerId": "player_jonas_samuelsson_c0e5d465",
+    "clubId": "se_club_ifk_skovde_hk",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-19",
+    "shirtNumber": null,
+    "sourcePosition": "Right Wing",
+    "primaryPosition": "H6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_skovde_20260817",
+        "src_ifks_elitteam_20260819"
+      ],
+      "position": [
+        "src_hbl_skovde_20260817",
+        "src_ifks_elitteam_20260819"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_ifks_c93d5232",
+    "playerId": "player_noel_gustafson_c93d5232",
+    "clubId": "se_club_ifk_skovde_hk",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-19",
+    "shirtNumber": null,
+    "sourcePosition": "Right Wing",
+    "primaryPosition": "H6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_skovde_20260817",
+        "src_ifks_elitteam_20260819"
+      ],
+      "position": [
+        "src_hbl_skovde_20260817",
+        "src_ifks_elitteam_20260819"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_ifks_91e78231",
+    "playerId": "player_fidel_mbumba_91e78231",
+    "clubId": "se_club_ifk_skovde_hk",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-19",
+    "shirtNumber": null,
+    "sourcePosition": "Left Back",
+    "primaryPosition": "V9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_skovde_20260817",
+        "src_ifks_elitteam_20260819"
+      ],
+      "position": [
+        "src_hbl_skovde_20260817",
+        "src_ifks_elitteam_20260819"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_ifks_781c3d9f",
+    "playerId": "player_thomas_stenersen_781c3d9f",
+    "clubId": "se_club_ifk_skovde_hk",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-19",
+    "shirtNumber": null,
+    "sourcePosition": "Left Back",
+    "primaryPosition": "V9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_skovde_20260817",
+        "src_ifks_elitteam_20260819"
+      ],
+      "position": [
+        "src_hbl_skovde_20260817",
+        "src_ifks_elitteam_20260819"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_ifks_87652b66",
+    "playerId": "player_jonas_kruse_kristensen_87652b66",
+    "clubId": "se_club_ifk_skovde_hk",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-19",
+    "shirtNumber": null,
+    "sourcePosition": "Left Back",
+    "primaryPosition": "V9",
+    "secondaryPositions": [],
+    "rosterStatus": "LOAN_IN",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": "2026/27",
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_skovde_20260817",
+        "src_ifks_elitteam_20260819"
+      ],
+      "position": [
+        "src_hbl_skovde_20260817",
+        "src_ifks_elitteam_20260819"
+      ],
+      "contract": [
+        "src_ifks_kruse_202605"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_ifks_7eb4f625",
+    "playerId": "player_daniel_ekman_7eb4f625",
+    "clubId": "se_club_ifk_skovde_hk",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-19",
+    "shirtNumber": null,
+    "sourcePosition": "Centre Back",
+    "primaryPosition": "M9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": "2027/28",
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_skovde_20260817",
+        "src_ifks_elitteam_20260819"
+      ],
+      "position": [
+        "src_hbl_skovde_20260817",
+        "src_ifks_elitteam_20260819"
+      ],
+      "contract": [
+        "src_ifks_news_202602"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_ifks_73aa7c83",
+    "playerId": "player_zoran_bozic_73aa7c83",
+    "clubId": "se_club_ifk_skovde_hk",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-19",
+    "shirtNumber": null,
+    "sourcePosition": "Centre Back",
+    "primaryPosition": "M9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": "2027/28",
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_skovde_20260817",
+        "src_ifks_elitteam_20260819"
+      ],
+      "position": [
+        "src_hbl_skovde_20260817",
+        "src_ifks_elitteam_20260819"
+      ],
+      "contract": [
+        "src_ifks_bozic_20260127"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_ifks_5aaffde2",
+    "playerId": "player_ajdin_dzanic_5aaffde2",
+    "clubId": "se_club_ifk_skovde_hk",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-19",
+    "shirtNumber": null,
+    "sourcePosition": "Centre Back",
+    "primaryPosition": "M9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_skovde_20260817",
+        "src_ifks_elitteam_20260819"
+      ],
+      "position": [
+        "src_hbl_skovde_20260817",
+        "src_ifks_elitteam_20260819"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_ifks_ecf4798a",
+    "playerId": "player_jonas_burud_ecf4798a",
+    "clubId": "se_club_ifk_skovde_hk",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-19",
+    "shirtNumber": null,
+    "sourcePosition": "Right Back",
+    "primaryPosition": "H9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": "2027/28",
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_skovde_20260817",
+        "src_ifks_elitteam_20260819"
+      ],
+      "position": [
+        "src_hbl_skovde_20260817",
+        "src_ifks_elitteam_20260819"
+      ],
+      "contract": [
+        "src_ifks_burud_20251127"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_ifks_2f35e9ed",
+    "playerId": "player_linus_gustavsson_2f35e9ed",
+    "clubId": "se_club_ifk_skovde_hk",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-19",
+    "shirtNumber": null,
+    "sourcePosition": "Right Back",
+    "primaryPosition": "H9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hbl_skovde_20260817",
+        "src_ifks_elitteam_20260819"
+      ],
+      "position": [
+        "src_hbl_skovde_20260817",
+        "src_ifks_elitteam_20260819"
+      ]
+    }
+  }
+]

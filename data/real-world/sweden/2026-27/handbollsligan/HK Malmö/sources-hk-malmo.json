@@ -1,0 +1,59 @@
+[
+  {
+    "sourceId": "src_hbl_hkmalmo_20260622",
+    "sourceType": "LEAGUE_OFFICIAL",
+    "publisher": "Handbollsligan",
+    "title": "Försäsongsguiden, del 10: HK Malmö",
+    "url": "https://handbollsligan.se/herrligan/forsasongsguiden-del-10-hk-malmo/",
+    "publishedAt": "2026-06-22",
+    "accessedAt": "2026-08-19",
+    "seasonContext": "2026/27"
+  },
+  {
+    "sourceId": "src_hbl_20260817",
+    "sourceType": "LEAGUE_OFFICIAL",
+    "publisher": "Handbollsligan",
+    "title": "Inför säsongen 2026/27",
+    "url": "https://handbollsligan.se/herrligan/infor-sasongen-2026-27-2/",
+    "publishedAt": "2026-08-17",
+    "accessedAt": "2026-08-19",
+    "seasonContext": "2026/27"
+  },
+  {
+    "sourceId": "src_ehf_hkmalmo_2025_26",
+    "sourceType": "EHF",
+    "publisher": "European Handball Federation",
+    "title": "HK Malmö 2025/26 team",
+    "url": "https://history.eurohandball.com/ec/el/men/2025-26/clubs/23728/HK%2BMalm%C3%B6",
+    "accessedAt": "2026-08-19",
+    "seasonContext": "2025/26"
+  },
+  {
+    "sourceId": "src_ehf_arvid_johansson",
+    "sourceType": "EHF",
+    "publisher": "European Handball Federation",
+    "title": "Arvid Johansson",
+    "url": "https://history.eurohandball.com/ec/el/men/2025-26/player/601765/ArvidJohansson",
+    "accessedAt": "2026-08-19",
+    "seasonContext": "CAREER"
+  },
+  {
+    "sourceId": "src_hkmalmo_brannberger_20260202",
+    "sourceType": "CLUB_OFFICIAL",
+    "publisher": "HK Malmö",
+    "title": "Christoffer Brännberger klar för resten av säsongen",
+    "url": "https://hkmalmo.se/hk-malmo-forstarker-forsvaret-christoffer-brannberger-klar-for-resten-av-sasongen/",
+    "publishedAt": "2026-02-02",
+    "accessedAt": "2026-08-19",
+    "seasonContext": "2025/26"
+  },
+  {
+    "sourceId": "src_secondary_thilo",
+    "sourceType": "SECONDARY_HANDBALL_REFERENCE",
+    "publisher": "Secondary reference",
+    "title": "Thilo Knutzen player profile",
+    "url": "https://de.wikipedia.org/wiki/Thilo_Knutzen",
+    "accessedAt": "2026-08-19",
+    "seasonContext": "CAREER"
+  }
+]

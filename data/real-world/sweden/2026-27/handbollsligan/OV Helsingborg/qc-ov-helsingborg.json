@@ -1,0 +1,51 @@
+{
+  "clubId": "se_club_ov_helsingborg",
+  "clubName": "OV Helsingborg",
+  "season": "2026/27",
+  "snapshotDate": "2026-08-20",
+  "datasetStatus": "PRESEASON",
+  "qcStatus": "VERIFIED_WITH_OPEN_FIELDS",
+  "expectedRosterCount": 21,
+  "exportedRosterCount": 21,
+  "checks": {
+    "officialLeague2026_27RosterLocated": true,
+    "allRosterNamesCaptured": true,
+    "transfersChecked": true,
+    "duplicatePlayers": 0,
+    "canonicalPositionsValid": true,
+    "guessedSecondaryPositions": 0,
+    "guessedDatesOfBirth": 0,
+    "guessedHeights": 0,
+    "guessedNationalities": 0,
+    "guessedShirtNumbers": 0
+  },
+  "transfersIn": [
+    "Patrick Bols (Önnereds HK)",
+    "Nils Mellert (HK Aranäs)",
+    "Alvin Lindvall (HK Aranäs)",
+    "André Tuzov (CSM București)",
+    "Mattias Söderberg (Lugi HF)"
+  ],
+  "transfersOut": [
+    "Martin Nagy",
+    "Marcus Björkman (Nordsjælland)",
+    "Marcus Norrbrink (SG Bietigheim)",
+    "Robin Järling (leaves)",
+    "Alfred Arnelin (Skjern)"
+  ],
+  "importantFindings": [
+    "Handbollsligan's 18 Jun 2026 preseason guide lists 21 players for OV Helsingborg's 2026/27 men's squad.",
+    "Patrick Bols replaces departing Martin Nagy in the goalkeeper group; the guide describes the intended senior goalkeeper pair as Michael Andersson and Patrick Bols, while Sixten Sundström Krantz and Simon Petersson are also listed in the squad.",
+    "Mattias Söderberg was announced by OV on 13 Jun 2026 on a one-year contract and is stored through 2026/27.",
+    "Older 2025/26 names such as Marcus Norrbrink, Marcus Björkman, Martin Nagy, Robin Järling and Alfred Arnelin are explicitly excluded because the 2026/27 guide lists them as departures.",
+    "No current 2026/27 shirt-number source was verified in this pass; shirtNumber remains null rather than carrying forward old numbers."
+  ],
+  "openFieldsSummary": {
+    "shirtNumberMissing": 21,
+    "exactDateOfBirthMissing": 21,
+    "nationalityMissing": 21,
+    "heightMissing": 21,
+    "handednessMissing": 21,
+    "contractEndMissing": 20
+  }
+}

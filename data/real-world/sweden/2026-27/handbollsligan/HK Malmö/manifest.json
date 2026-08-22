@@ -1,0 +1,13 @@
+{
+  "milestone": "HM-DATA-0.1A",
+  "club": "HK Malmö",
+  "snapshotDate": "2026-08-19",
+  "playerCount": 20,
+  "files": [
+    "players-hk-malmo.json",
+    "roster-hk-malmo-2026-27.json",
+    "sources-hk-malmo.json",
+    "qc-hk-malmo.json",
+    "players-hk-malmo-2026-27.csv"
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "milestone": "HM-DATA-0.1A",
+  "club": "Skånela IF",
+  "snapshotDate": "2026-08-20",
+  "playerCount": 20,
+  "files": [
+    "players-skanela-if.json",
+    "roster-skanela-if-2026-27.json",
+    "sources-skanela-if.json",
+    "qc-skanela-if.json",
+    "players-skanela-if-2026-27.csv"
+  ]
+}

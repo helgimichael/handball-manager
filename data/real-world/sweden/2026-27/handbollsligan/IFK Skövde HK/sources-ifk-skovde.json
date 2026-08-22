@@ -1,0 +1,111 @@
+[
+  {
+    "sourceId": "src_hbl_skovde_20260817",
+    "sourceType": "LEAGUE_OFFICIAL",
+    "publisher": "Handbollsligan",
+    "title": "Inför säsongen 2026/27",
+    "url": "https://handbollsligan.se/herrligan/infor-sasongen-2026-27-2/",
+    "publishedAt": "2026-08-17",
+    "accessedAt": "2026-08-19",
+    "seasonContext": "2026/27"
+  },
+  {
+    "sourceId": "src_hbl_skovde_20260622",
+    "sourceType": "LEAGUE_OFFICIAL",
+    "publisher": "Handbollsligan",
+    "title": "Försäsongsguiden, del 9: IFK Skövde",
+    "url": "https://handbollsligan.se/herrligan/forsasongsguiden-del-9-ifk-skovde/",
+    "publishedAt": "2026-06-22",
+    "accessedAt": "2026-08-19",
+    "seasonContext": "2026/27"
+  },
+  {
+    "sourceId": "src_ifks_elitteam_20260819",
+    "sourceType": "CLUB_OFFICIAL",
+    "publisher": "IFK Skövde HK",
+    "title": "Elitlag 2026/2027",
+    "url": "https://ifkskovdehandboll.com/elitteam/",
+    "accessedAt": "2026-08-19",
+    "seasonContext": "2026/27"
+  },
+  {
+    "sourceId": "src_ifks_complete_202606",
+    "sourceType": "CLUB_OFFICIAL",
+    "publisher": "IFK Skövde HK",
+    "title": "Elittruppen komplett – medelåldern 25 år",
+    "url": "https://ifkskovdehandboll.com/elittruppen-komplett-medelaldern-25-ar/",
+    "publishedAt": "2026-06",
+    "accessedAt": "2026-08-19",
+    "seasonContext": "2026/27"
+  },
+  {
+    "sourceId": "src_ifks_pauli_20260211",
+    "sourceType": "CLUB_OFFICIAL",
+    "publisher": "IFK Skövde HK",
+    "title": "EM-profil blir ny IFK-målvakt",
+    "url": "https://ifkskovdehandboll.com/em-profil-blir-ny-ifk-malvakt/",
+    "publishedAt": "2026-02-11",
+    "accessedAt": "2026-08-19",
+    "seasonContext": "2026/27"
+  },
+  {
+    "sourceId": "src_ifks_kruse_202605",
+    "sourceType": "CLUB_OFFICIAL",
+    "publisher": "IFK Skövde HK",
+    "title": "Dansk 9-metersspelare till elittruppen",
+    "url": "https://ifkskovdehandboll.com/dansk-9-metersspelare-till-elittruppen/",
+    "publishedAt": "2026-05",
+    "accessedAt": "2026-08-19",
+    "seasonContext": "2026/27"
+  },
+  {
+    "sourceId": "src_ifks_burud_20251127",
+    "sourceType": "CLUB_OFFICIAL",
+    "publisher": "IFK Skövde HK",
+    "title": "Burud förlänger med två år",
+    "url": "https://ifkskovdehandboll.com/extra-extra-extra-burud-forlanger-med-tva-ar/",
+    "publishedAt": "2025-11-27",
+    "accessedAt": "2026-08-19",
+    "seasonContext": "CONTRACT"
+  },
+  {
+    "sourceId": "src_ifks_bozic_20260127",
+    "sourceType": "CLUB_OFFICIAL",
+    "publisher": "IFK Skövde HK",
+    "title": "Zoran Bozic förlänger med 2-årskontrakt",
+    "url": "https://ifkskovdehandboll.com/zoran-bozic-forlanger-med-2-arskontrakt/",
+    "publishedAt": "2026-01-27",
+    "accessedAt": "2026-08-19",
+    "seasonContext": "CONTRACT"
+  },
+  {
+    "sourceId": "src_ifks_sjobrink_20251210",
+    "sourceType": "CLUB_OFFICIAL",
+    "publisher": "IFK Skövde HK",
+    "title": "Kapten Sjöbrink förlänger med två år",
+    "url": "https://ifkskovdehandboll.com/kapten-sjobrink-forlanger-med-tva-ar/",
+    "publishedAt": "2025-12-10",
+    "accessedAt": "2026-08-19",
+    "seasonContext": "CONTRACT"
+  },
+  {
+    "sourceId": "src_ifks_news_202602",
+    "sourceType": "CLUB_OFFICIAL",
+    "publisher": "IFK Skövde HK",
+    "title": "Nikolai kör två år till i IFK-målet / Ekman nytt kontrakt",
+    "url": "https://ifkskovdehandboll.com/alla-nyheter/",
+    "publishedAt": "2026-02",
+    "accessedAt": "2026-08-19",
+    "seasonContext": "CONTRACT"
+  },
+  {
+    "sourceId": "src_ifks_match_20260807",
+    "sourceType": "CLUB_OFFICIAL",
+    "publisher": "IFK Skövde HK",
+    "title": "Vinst i premiären och stor show av Fidel",
+    "url": "https://ifkskovdehandboll.com/vinst-i-premiaren-och-stor-show-av-fidel/",
+    "publishedAt": "2026-08-07",
+    "accessedAt": "2026-08-19",
+    "seasonContext": "2026/27 PRESEASON"
+  }
+]

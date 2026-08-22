@@ -1,0 +1,90 @@
+[
+  {
+    "sourceId": "src_hbl_hallby_20260817",
+    "sourceType": "LEAGUE_OFFICIAL",
+    "publisher": "Handbollsligan",
+    "title": "Inför säsongen 2026/27",
+    "url": "https://handbollsligan.se/herrligan/infor-sasongen-2026-27-2/",
+    "publishedAt": "2026-08-17",
+    "accessedAt": "2026-08-19",
+    "seasonContext": "2026/27"
+  },
+  {
+    "sourceId": "src_hallby_current_roster_20260819",
+    "sourceType": "CLUB_OFFICIAL",
+    "publisher": "IF Hallby Handboll",
+    "title": "A-lag Herr – Truppen",
+    "url": "https://www.hallbyhandboll.se/grupp/?ID=496413",
+    "accessedAt": "2026-08-19",
+    "seasonContext": "CURRENT_PAGE_BUT_STALE"
+  },
+  {
+    "sourceId": "src_hallby_nork_20260521",
+    "sourceType": "CLUB_OFFICIAL",
+    "publisher": "IF Hallby Handboll",
+    "title": "Emil Nork återvänder till Hallby",
+    "url": "https://www.hallbyhandboll.se/nyheter/?ID=496394&NID=1344442",
+    "publishedAt": "2026-05-21",
+    "accessedAt": "2026-08-19",
+    "seasonContext": "2026/27"
+  },
+  {
+    "sourceId": "src_hallby_johannisson_20260527",
+    "sourceType": "CLUB_OFFICIAL",
+    "publisher": "IF Hallby Handboll",
+    "title": "Emil Johannisson ansluter till Hallby",
+    "url": "https://www.hallbyhandboll.se/nyheter/?ID=496393&NID=1345091",
+    "publishedAt": "2026-05-27",
+    "accessedAt": "2026-08-19",
+    "seasonContext": "2026/27"
+  },
+  {
+    "sourceId": "src_hallby_asso_20260528",
+    "sourceType": "CLUB_OFFICIAL",
+    "publisher": "IF Hallby Handboll",
+    "title": "Skyttekung klar för Hallby",
+    "url": "https://www.hallbyhandboll.se/nyheter/?ID=496394&NID=1345602",
+    "publishedAt": "2026-05-28",
+    "accessedAt": "2026-08-19",
+    "seasonContext": "2026/27"
+  },
+  {
+    "sourceId": "src_hallby_holmen_20260205",
+    "sourceType": "CLUB_OFFICIAL",
+    "publisher": "IF Hallby Handboll",
+    "title": "Marcus Holmén förlänger till 2030",
+    "url": "https://www.hallbyhandboll.se/nyheter/?ID=496394&NID=1323566",
+    "publishedAt": "2026-02-05",
+    "accessedAt": "2026-08-19",
+    "seasonContext": "CONTRACT"
+  },
+  {
+    "sourceId": "src_hallby_andreas_20260308",
+    "sourceType": "CLUB_OFFICIAL",
+    "publisher": "IF Hallby Handboll",
+    "title": "Andreas Söderman förlänger",
+    "url": "https://www.hallbyhandboll.se/nyheter/?ID=496393&NID=1329118",
+    "publishedAt": "2026-03-08",
+    "accessedAt": "2026-08-19",
+    "seasonContext": "CONTRACT"
+  },
+  {
+    "sourceId": "src_hallby_hampus_20260120",
+    "sourceType": "CLUB_OFFICIAL",
+    "publisher": "IF Hallby Handboll",
+    "title": "Hampus Söderman förlänger",
+    "url": "https://www.hallbyhandboll.se/nyheter/?ID=496394&NID=1318668",
+    "publishedAt": "2026-01-20",
+    "accessedAt": "2026-08-19",
+    "seasonContext": "CONTRACT"
+  },
+  {
+    "sourceId": "src_ehf_euro2026_roi",
+    "sourceType": "EHF",
+    "publisher": "European Handball Federation",
+    "title": "Men's EHF EURO 2026 official squad lists",
+    "url": "https://yac.eurohandball.com/media/tweklk24/official-squad-lists-mens-ehf-euro-2026.pdf",
+    "accessedAt": "2026-08-19",
+    "seasonContext": "2026"
+  }
+]

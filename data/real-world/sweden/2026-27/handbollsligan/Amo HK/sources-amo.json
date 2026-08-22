@@ -1,0 +1,152 @@
+[
+  {
+    "sourceId": "src_hbl_amo_20260817",
+    "sourceType": "LEAGUE_OFFICIAL",
+    "publisher": "Handbollsligan",
+    "title": "Inför säsongen 2026/27",
+    "url": "https://handbollsligan.se/herrligan/infor-sasongen-2026-27-2/",
+    "publishedAt": "2026-08-17",
+    "accessedAt": "2026-08-19",
+    "seasonContext": "2026/27"
+  },
+  {
+    "sourceId": "src_hbl_amo_guide_20260609",
+    "sourceType": "LEAGUE_OFFICIAL",
+    "publisher": "Handbollsligan",
+    "title": "Försäsongsguiden – del 2: Amo HK",
+    "url": "https://handbollsligan.se/herrligan/forsasongsguiden-del-2-amo-hk-2/",
+    "publishedAt": "2026-06-09",
+    "accessedAt": "2026-08-19",
+    "seasonContext": "2026/27"
+  },
+  {
+    "sourceId": "src_amo_dohler_20260316",
+    "sourceType": "CLUB_OFFICIAL",
+    "publisher": "Amo HK",
+    "title": "Klassvärvning till klubben",
+    "url": "https://amohandboll.com/a/klassvarvning-till-klubben",
+    "publishedAt": "2026-03-16",
+    "accessedAt": "2026-08-19",
+    "seasonContext": "2026/27"
+  },
+  {
+    "sourceId": "src_amo_lindstrom_20260318",
+    "sourceType": "CLUB_OFFICIAL",
+    "publisher": "Amo HK",
+    "title": "Välkommen Richard!",
+    "url": "https://amohandboll.com/a/valkommen-richard",
+    "publishedAt": "2026-03-18",
+    "accessedAt": "2026-08-19",
+    "seasonContext": "2026/27"
+  },
+  {
+    "sourceId": "src_amo_zogaj_20260218",
+    "sourceType": "CLUB_OFFICIAL",
+    "publisher": "Amo HK",
+    "title": "Shaban Zogaj är klar för Amo HK",
+    "url": "https://amohandboll.com/a/shaban-zogaj-ar-klar-for-amo-hk",
+    "publishedAt": "2026-02-18",
+    "accessedAt": "2026-08-19",
+    "seasonContext": "2026/27"
+  },
+  {
+    "sourceId": "src_amo_wings_20260226",
+    "sourceType": "CLUB_OFFICIAL",
+    "publisher": "Amo HK",
+    "title": "Beverskog och Karlsson förlänger",
+    "url": "https://amohandboll.com/a/beverskog-och-karlsson-forlanger",
+    "publishedAt": "2026-02-26",
+    "accessedAt": "2026-08-19",
+    "seasonContext": "2026/27"
+  },
+  {
+    "sourceId": "src_amo_christiansen_20260502",
+    "sourceType": "CLUB_OFFICIAL",
+    "publisher": "Amo HK",
+    "title": "Anders Christiansen förlänger",
+    "url": "https://amohandboll.com/a/anders-christiansen-forlanger",
+    "publishedAt": "2026-05-02",
+    "accessedAt": "2026-08-19",
+    "seasonContext": "2026/27"
+  },
+  {
+    "sourceId": "src_amo_christiansen_20220630",
+    "sourceType": "CLUB_OFFICIAL_HISTORICAL",
+    "publisher": "Amo HK",
+    "title": "Anders Christiansen ansluter",
+    "url": "https://amohandboll.com/a/anders-christiansen-ansluter",
+    "publishedAt": "2022-06-30",
+    "accessedAt": "2026-08-19",
+    "seasonContext": "HISTORICAL"
+  },
+  {
+    "sourceId": "src_ehf_dohler",
+    "sourceType": "EHF",
+    "publisher": "European Handball Federation",
+    "title": "Phil Döhler player profile",
+    "url": "https://history.eurohandball.com/ech/18/men/2022/player/581151/PhilD%C3%B6hler",
+    "publishedAt": null,
+    "accessedAt": "2026-08-19",
+    "seasonContext": "CAREER"
+  },
+  {
+    "sourceId": "src_ehf_cavar",
+    "sourceType": "EHF",
+    "publisher": "European Handball Federation",
+    "title": "Josip Cavar player profile",
+    "url": "https://history.eurohandball.com/ec/ehfc/men/2017-18/player/558141/JosipCavar",
+    "publishedAt": null,
+    "accessedAt": "2026-08-19",
+    "seasonContext": "CAREER"
+  },
+  {
+    "sourceId": "src_hblstats_cavar",
+    "sourceType": "LEAGUE_STATISTICS",
+    "publisher": "Handbollsligan statistics",
+    "title": "Josip Cavar",
+    "url": "https://handballstats.se/statistics/herr/statistics/player.aspx?player=20000&team=53",
+    "publishedAt": null,
+    "accessedAt": "2026-08-19",
+    "seasonContext": "2025/26"
+  },
+  {
+    "sourceId": "src_hblstats_hampus",
+    "sourceType": "LEAGUE_STATISTICS",
+    "publisher": "Handbollsligan statistics",
+    "title": "Hampus Karlsson",
+    "url": "https://handballstats.se/statistics/herr/statistics/player.aspx?player=44371&team=53",
+    "publishedAt": null,
+    "accessedAt": "2026-08-19",
+    "seasonContext": "2025/26"
+  },
+  {
+    "sourceId": "src_ehf_mathias",
+    "sourceType": "EHF",
+    "publisher": "European Handball Federation",
+    "title": "Mathias Mark Pedersen player profile",
+    "url": "https://old.eurohandball.com/ec/ehfc/men/2015-16/player/559774/Mathias%2BMark%2BPedersen",
+    "publishedAt": null,
+    "accessedAt": "2026-08-19",
+    "seasonContext": "CAREER"
+  },
+  {
+    "sourceId": "src_ehf_arnar",
+    "sourceType": "EHF",
+    "publisher": "European Handball Federation",
+    "title": "Arnar Birkir Halfdansson player profile",
+    "url": "https://www.eurohandball.com/en/player/KoQ2E8_EbOf4gziS7NtT8w/ArnarBirkir-Halfdansson/",
+    "publishedAt": null,
+    "accessedAt": "2026-08-19",
+    "seasonContext": "CAREER"
+  },
+  {
+    "sourceId": "src_handballbase_christiansen",
+    "sourceType": "SECONDARY_HANDBALL_DATABASE",
+    "publisher": "handball-base",
+    "title": "Anders Christiansen",
+    "url": "https://www.handball-base.com/anders-christiansen",
+    "publishedAt": null,
+    "accessedAt": "2026-08-19",
+    "seasonContext": "CAREER"
+  }
+]

@@ -1,0 +1,13 @@
+{
+  "milestone": "HM-DATA-0.1A",
+  "club": "IK Sävehof",
+  "snapshotDate": "2026-08-20",
+  "playerCount": 18,
+  "files": [
+    "players-ik-savehof.json",
+    "roster-ik-savehof-2026-27.json",
+    "sources-ik-savehof.json",
+    "qc-ik-savehof.json",
+    "players-ik-savehof-2026-27.csv"
+  ]
+}

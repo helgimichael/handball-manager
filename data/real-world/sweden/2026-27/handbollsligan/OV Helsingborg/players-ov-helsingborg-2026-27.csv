@@ -1,0 +1,22 @@
+﻿playerId,fullName,shirtNumber,primaryPosition,secondaryPositions,contractUntilSeason,rosterStatus,rosterConfidence
+player_michael_andersson_5bb2eb2b,Michael Andersson,,MV,,,CONFIRMED,VERIFIED
+player_sixten_sundstrom_krantz_1d768838,Sixten Sundström Krantz,,MV,,,CONFIRMED,VERIFIED
+player_simon_petersson_f8a88830,Simon Petersson,,MV,,,CONFIRMED,VERIFIED
+player_patrick_bols_740b2aba,Patrick Bols,,MV,,,CONFIRMED,VERIFIED
+player_andreas_windahl_7ed5b34b,Andreas Windahl,,V6,,,CONFIRMED,VERIFIED
+player_jakob_andersson_8a28f9bb,Jakob Andersson,,V6,,,CONFIRMED,VERIFIED
+player_william_bengtsson_69024e7f,William Bengtsson,,M6,,,CONFIRMED,VERIFIED
+player_nils_mellert_0b4a0c74,Nils Mellert,,M6,,,CONFIRMED,VERIFIED
+player_tobias_ljungmark_ba47e100,Tobias Ljungmark,,H6,,,CONFIRMED,VERIFIED
+player_alvin_lindvall_19800ab1,Alvin Lindvall,,H6,,,CONFIRMED,VERIFIED
+player_oscar_johansson_75d394a0,Oscar Johansson,,V9,,,CONFIRMED,VERIFIED
+player_jesper_lindgren_b5784ab3,Jesper Lindgren,,V9,,,CONFIRMED,VERIFIED
+player_andre_tuzov_4420542b,André Tuzov,,V9,,,CONFIRMED,VERIFIED
+player_anton_lindblom_92b1f6c9,Anton Lindblom,,M9,,,CONFIRMED,VERIFIED
+player_anders_forsell_schefvert_a3204666,Anders Forsell Schefvert,,M9,,,CONFIRMED,VERIFIED
+player_edvin_flinck_8f85144f,Edvin Flinck,,M9,,,CONFIRMED,VERIFIED
+player_olle_berndt_ea0c948a,Olle Berndt,,M9,,,CONFIRMED,VERIFIED
+player_mattias_soderberg_1af11a54,Mattias Söderberg,,M9,,2026/27,CONFIRMED,VERIFIED
+player_elliot_eriksson_b0aec1ab,Elliot Eriksson,,H9,,,CONFIRMED,VERIFIED
+player_anders_thomassen_83e99518,Anders Thomassen,,H9,,,CONFIRMED,VERIFIED
+player_max_pedersen_9ca555b9,Max Pedersen,,H9,,,CONFIRMED,VERIFIED

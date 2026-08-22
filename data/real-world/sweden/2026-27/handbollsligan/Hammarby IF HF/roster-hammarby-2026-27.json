@@ -1,0 +1,574 @@
+[
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_hammarby_6d007f31",
+    "playerId": "se_player_linus_bergh_6d007f31",
+    "clubId": "se_club_hammarby_if_hf",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-19",
+    "shirtNumber": 1,
+    "sourcePosition": "Goalkeeper",
+    "primaryPosition": "MV",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hammarby_roster_20260819"
+      ],
+      "shirtNumber": [
+        "src_hammarby_roster_20260819"
+      ],
+      "position": [
+        "src_hammarby_roster_20260819"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_hammarby_d1155006",
+    "playerId": "se_player_olle_soderqvist_d1155006",
+    "clubId": "se_club_hammarby_if_hf",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-19",
+    "shirtNumber": 16,
+    "sourcePosition": "Goalkeeper",
+    "primaryPosition": "MV",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hammarby_roster_20260819"
+      ],
+      "shirtNumber": [
+        "src_hammarby_roster_20260819"
+      ],
+      "position": [
+        "src_hammarby_roster_20260819"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_hammarby_44c05749",
+    "playerId": "se_player_arvid_skoog_44c05749",
+    "clubId": "se_club_hammarby_if_hf",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-19",
+    "shirtNumber": 77,
+    "sourcePosition": "Goalkeeper",
+    "primaryPosition": "MV",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hammarby_roster_20260819"
+      ],
+      "shirtNumber": [
+        "src_hammarby_roster_20260819"
+      ],
+      "position": [
+        "src_hammarby_roster_20260819"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_hammarby_df349070",
+    "playerId": "se_player_simon_lindberg_df349070",
+    "clubId": "se_club_hammarby_if_hf",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-19",
+    "shirtNumber": 4,
+    "sourcePosition": "Left Wing",
+    "primaryPosition": "V6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hammarby_roster_20260819"
+      ],
+      "shirtNumber": [
+        "src_hammarby_roster_20260819"
+      ],
+      "position": [
+        "src_hbl_stats_2025_26"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_hammarby_aaf0f9dc",
+    "playerId": "se_player_theo_deurell_aaf0f9dc",
+    "clubId": "se_club_hammarby_if_hf",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-19",
+    "shirtNumber": 6,
+    "sourcePosition": "Right Wing",
+    "primaryPosition": "H6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hammarby_roster_20260819"
+      ],
+      "shirtNumber": [
+        "src_hammarby_roster_20260819"
+      ],
+      "position": [
+        "src_hbl_stats_2025_26"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_hammarby_4d3b1757",
+    "playerId": "se_player_oliver_wigmark_4d3b1757",
+    "clubId": "se_club_hammarby_if_hf",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-19",
+    "shirtNumber": 10,
+    "sourcePosition": "Right Wing",
+    "primaryPosition": "H6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hammarby_roster_20260819"
+      ],
+      "shirtNumber": [
+        "src_hammarby_roster_20260819"
+      ],
+      "position": [
+        "src_hbl_stats_2025_26"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_hammarby_38bf7f2a",
+    "playerId": "se_player_martin_dolk_38bf7f2a",
+    "clubId": "se_club_hammarby_if_hf",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-19",
+    "shirtNumber": 11,
+    "sourcePosition": "Left Wing",
+    "primaryPosition": "V6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hammarby_roster_20260819"
+      ],
+      "shirtNumber": [
+        "src_hammarby_roster_20260819"
+      ],
+      "position": [
+        "src_hbl_stats_2025_26"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_hammarby_90244d26",
+    "playerId": "se_player_ludvig_lindeberg_90244d26",
+    "clubId": "se_club_hammarby_if_hf",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-19",
+    "shirtNumber": 17,
+    "sourcePosition": "Left Wing",
+    "primaryPosition": "V6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hammarby_roster_20260819"
+      ],
+      "shirtNumber": [
+        "src_hammarby_roster_20260819"
+      ],
+      "position": [
+        "src_hbl_stats_2025_26"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_hammarby_18700f0e",
+    "playerId": "se_player_ruben_vojbacke_18700f0e",
+    "clubId": "se_club_hammarby_if_hf",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-19",
+    "shirtNumber": 8,
+    "sourcePosition": "Right Back",
+    "primaryPosition": "H9",
+    "secondaryPositions": [
+      "H6"
+    ],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hammarby_roster_20260819"
+      ],
+      "shirtNumber": [
+        "src_hammarby_roster_20260819"
+      ],
+      "position": [
+        "src_hammarby_ruben_20250628"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_hammarby_ef3373fd",
+    "playerId": "se_player_elliot_stenmalm_ef3373fd",
+    "clubId": "se_club_hammarby_if_hf",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-19",
+    "shirtNumber": 9,
+    "sourcePosition": "Left Back",
+    "primaryPosition": "V9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hammarby_roster_20260819"
+      ],
+      "shirtNumber": [
+        "src_hammarby_roster_20260819"
+      ],
+      "position": [
+        "src_ehf_elliot"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_hammarby_bc6e6df5",
+    "playerId": "se_player_max_gugolz_bc6e6df5",
+    "clubId": "se_club_hammarby_if_hf",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-19",
+    "shirtNumber": 13,
+    "sourcePosition": "Left Back",
+    "primaryPosition": "V9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hammarby_roster_20260819"
+      ],
+      "shirtNumber": [
+        "src_hammarby_roster_20260819"
+      ],
+      "position": [
+        "src_hbl_stats_2025_26"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_hammarby_5030ebc9",
+    "playerId": "se_player_henrik_momats_noren_5030ebc9",
+    "clubId": "se_club_hammarby_if_hf",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-19",
+    "shirtNumber": 14,
+    "sourcePosition": "Left Back",
+    "primaryPosition": "V9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hammarby_roster_20260819"
+      ],
+      "shirtNumber": [
+        "src_hammarby_roster_20260819"
+      ],
+      "position": [
+        "src_hbl_stats_2025_26"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_hammarby_cd4039b8",
+    "playerId": "se_player_marcus_lennernas_cd4039b8",
+    "clubId": "se_club_hammarby_if_hf",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-19",
+    "shirtNumber": 20,
+    "sourcePosition": "Right Back",
+    "primaryPosition": "H9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hammarby_roster_20260819"
+      ],
+      "shirtNumber": [
+        "src_hammarby_roster_20260819"
+      ],
+      "position": [
+        "src_hbl_stats_2025_26"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_hammarby_795e9eac",
+    "playerId": "se_player_anders_wik_rydberg_795e9eac",
+    "clubId": "se_club_hammarby_if_hf",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-19",
+    "shirtNumber": 21,
+    "sourcePosition": "Left Back",
+    "primaryPosition": "V9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hammarby_roster_20260819"
+      ],
+      "shirtNumber": [
+        "src_hammarby_roster_20260819"
+      ],
+      "position": [
+        "src_hbl_stats_2025_26"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_hammarby_fcd7b654",
+    "playerId": "se_player_gustav_davidsson_fcd7b654",
+    "clubId": "se_club_hammarby_if_hf",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-19",
+    "shirtNumber": 25,
+    "sourcePosition": "Left Back",
+    "primaryPosition": "V9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hammarby_roster_20260819"
+      ],
+      "shirtNumber": [
+        "src_hammarby_roster_20260819"
+      ],
+      "position": [
+        "src_hbl_stats_2025_26"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_hammarby_e7557677",
+    "playerId": "se_player_robin_jarling_sanderhem_e7557677",
+    "clubId": "se_club_hammarby_if_hf",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-19",
+    "shirtNumber": 30,
+    "sourcePosition": "Centre Back",
+    "primaryPosition": "M9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": "2026/27",
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hammarby_roster_20260819"
+      ],
+      "shirtNumber": [
+        "src_hammarby_roster_20260819"
+      ],
+      "position": [
+        "src_hbl_robin_position"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_hammarby_56e8de9e",
+    "playerId": "se_player_josef_pujol_56e8de9e",
+    "clubId": "se_club_hammarby_if_hf",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-19",
+    "shirtNumber": 91,
+    "sourcePosition": "Centre Back",
+    "primaryPosition": "M9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hammarby_roster_20260819"
+      ],
+      "shirtNumber": [
+        "src_hammarby_roster_20260819"
+      ],
+      "position": [
+        "src_hbl_stats_2025_26"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_hammarby_9914d3eb",
+    "playerId": "se_player_alexander_morsten_9914d3eb",
+    "clubId": "se_club_hammarby_if_hf",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-19",
+    "shirtNumber": 5,
+    "sourcePosition": "Line Player",
+    "primaryPosition": "M6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hammarby_roster_20260819"
+      ],
+      "shirtNumber": [
+        "src_hammarby_roster_20260819"
+      ],
+      "position": [
+        "src_hammarby_roster_20260819"
+      ]
+    }
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_hammarby_1697ad92",
+    "playerId": "se_player_johan_ericsson_1697ad92",
+    "clubId": "se_club_hammarby_if_hf",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-19",
+    "shirtNumber": 33,
+    "sourcePosition": "Line Player",
+    "primaryPosition": "M6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hammarby_roster_20260819"
+      ],
+      "shirtNumber": [
+        "src_hammarby_roster_20260819"
+      ],
+      "position": [
+        "src_hammarby_roster_20260819"
+      ]
+    }
+  }
+]

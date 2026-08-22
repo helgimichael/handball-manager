@@ -1,0 +1,20 @@
+﻿playerId,fullName,dateOfBirth,nationalities,shirtNumber,primaryPosition,secondaryPositions,heightCm,handedness,contractUntilSeason,rosterStatus,rosterConfidence
+rs_player_uros_tomic_72d636e4,Uros Tomic,1992-08-19,RS,,MV,,192,,,CONFIRMED,VERIFIED
+se_player_melvin_hildingsson_edd5d2a3,Melvin Hildingsson,,,,MV,,,,,CONFIRMED,VERIFIED
+se_player_emil_arthursson_db40e94c,Emil Arthursson,,,,MV,,205,,,CONFIRMED,VERIFIED
+se_player_filip_psajd_5da4e6a8,Filip Psajd,,,,V6,,,,,CONFIRMED,VERIFIED
+fo_player_leivur_mortensen_fa29fd73,Leivur Mortensen,1999-03-25,FO,,V6,,185,,,CONFIRMED,VERIFIED
+se_player_albin_stenberg_8766543f,Albin Stenberg,1994-05-05,SE,,M6,,190,,,CONFIRMED,VERIFIED
+ee_player_markus_viitkar_d8f6a466,Markus Viitkar,1998-01-14,EE,,M6,,192,,,CONFIRMED,VERIFIED
+se_player_william_eskengren_svahn_614765b5,William Eskengren Svahn,2004-11-25,SE,,M6,,200,,,CONFIRMED,VERIFIED
+se_player_emil_hansson_02c1a5c6,Emil Hansson,1996-04-24,SE,,H6,,181,LEFT,2027/28,CONFIRMED,VERIFIED
+se_player_karl_jonsson_7b9c8e7a,Karl Jönsson,,,,H6,,,,,CONFIRMED,VERIFIED
+se_player_noel_wirbladh_dd3accb2,Noel Wirbladh,,,,H6,,,LEFT,2029/30,CONFIRMED,VERIFIED
+is_player_arnor_vidarsson_67e44687,Arnor Vidarsson,,,,V9,,,,,CONFIRMED,VERIFIED
+se_player_axel_soderqvist_763716b1,Axel Söderqvist,,,,V9,,,,2026/27,CONFIRMED,VERIFIED
+fo_player_trondur_mikkelsen_1b5d5129,Trondur Mikkelsen,2000-07-01,FO,,M9,,190,,,CONFIRMED,VERIFIED
+se_player_alex_andersson_654b2ac2,Alex Andersson,2004-02-02,SE,,M9,,183,,2027/28,CONFIRMED,VERIFIED
+se_player_hugo_sivertsson_0146e093,Hugo Sivertsson,,,,H9,,,,,CONFIRMED,VERIFIED
+se_player_jonathan_andersson_8ffd276d,Jonathan Andersson,,,,H9,,,,,CONFIRMED,VERIFIED
+se_player_sigge_ryberg_11568b27,Sigge Ryberg,,,,H9,,,,,CONFIRMED,VERIFIED
+se_player_niclas_fingren_f27bc200,Niclas Fingren,1995-11-19,SE,,V9,,197,,2027/28,CONFIRMED,PARTIAL

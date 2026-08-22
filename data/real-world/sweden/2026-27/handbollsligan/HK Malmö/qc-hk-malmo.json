@@ -1,0 +1,53 @@
+{
+  "clubId": "se_club_hk_malmo",
+  "clubName": "HK Malmö",
+  "season": "2026/27",
+  "snapshotDate": "2026-08-19",
+  "datasetStatus": "PRESEASON",
+  "qcStatus": "VERIFIED_WITH_OPEN_FIELDS",
+  "expectedRosterCount": 20,
+  "exportedRosterCount": 20,
+  "checks": {
+    "officialLeague2026_27RosterLocated": true,
+    "allRosterNamesCaptured": true,
+    "incomingTransfersChecked": true,
+    "departuresChecked": true,
+    "duplicatePlayers": 0,
+    "canonicalPositionsValid": true,
+    "guessedSecondaryPositions": 0,
+    "guessedDatesOfBirth": 0,
+    "guessedHeights": 0,
+    "guessedNationalities": 0,
+    "guessedShirtNumbers": 0
+  },
+  "transfersIn": [
+    "William Vranjes",
+    "David Bondesson",
+    "Aldo Pagliotta",
+    "Amin Bouzguenda",
+    "Filip Pastuhovic",
+    "Thilo Knutzen (loan)"
+  ],
+  "transfersOut": [
+    "Isak Persson",
+    "Nikola Roganovic",
+    "Hugo Stuivers",
+    "Felix Montebovi",
+    "Tim Hilding"
+  ],
+  "importantFindings": [
+    "Handbollsligan's 22 June 2026 preseason guide provides a complete position-grouped 20-player 2026/27 roster.",
+    "Tim Hilding is explicitly listed as leaving for Bergischer HC and is therefore excluded despite appearing in older HK Malmö/EHF material.",
+    "Christoffer Brännberger was signed only for the remainder of 2025/26 and is excluded from the 2026/27 roster.",
+    "Thilo Knutzen is explicitly a loan from Flensburg-Handewitt and is stored as LOAN_IN.",
+    "Current 2026/27 shirt numbers were not verified, so all shirtNumber values remain null."
+  ],
+  "openFieldsSummary": {
+    "shirtNumberMissing": 20,
+    "exactDateOfBirthMissing": 18,
+    "nationalityMissing": 18,
+    "heightMissing": 18,
+    "handednessMissing": 19,
+    "contractEndMissing": 19
+  }
+}

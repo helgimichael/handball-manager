@@ -1,0 +1,19 @@
+﻿playerId,fullName,birthYear,shirtNumber,primaryPosition,contractUntilSeason,rosterStatus,rosterConfidence
+player_arvid_noren_b702c6de,Arvid Norén,,,MV,,CONFIRMED,VERIFIED
+player_erik_andersson_b7790e0e,Erik Andersson,,,MV,,CONFIRMED,VERIFIED
+player_peter_johannesson_d88e8bce,Peter Johannesson,,,MV,,CONFIRMED,VERIFIED
+player_sebastian_spante_5f69efd4,Sebastian Spante,,,V6,2026/27,CONFIRMED,VERIFIED
+player_leon_halen_58afba2c,Leon Halén,2006,,V6,2026/27,CONFIRMED,VERIFIED
+player_tobias_trommler_298b9266,Tobias Trommler,,,M6,2028/29,CONFIRMED,VERIFIED
+player_tom_poyet_3266e92e,Tom Poyet,,,M6,,CONFIRMED,VERIFIED
+player_janne_delkvist_adb9dc92,Janne Delkvist,,,M6,,CONFIRMED,VERIFIED
+player_malte_celander_15a5bcb0,Malte Celander,,,H6,,CONFIRMED,VERIFIED
+player_arvid_uusvoog_c4455c88,Arvid Uusvoog,,,H6,,CONFIRMED,VERIFIED
+player_david_sandberg_b9ba22bc,David Sandberg,,,V9,,CONFIRMED,VERIFIED
+player_birgir_steinn_jonsson_107f13a1,Birgir Steinn Jonsson,,,V9,,CONFIRMED,VERIFIED
+player_oliver_lagerkvist_457b09a1,Oliver Lagerkvist,,,V9,,CONFIRMED,VERIFIED
+player_sebastian_durlanu_e73762cc,Sebastian Durlanu,,,M9,,CONFIRMED,VERIFIED
+player_truls_grtta_24cca1d0,Truls Grøtta,,,M9,,CONFIRMED,VERIFIED
+player_thure_frederiksen_9f70775b,Thure Frederiksen,,,M9,,CONFIRMED,VERIFIED
+player_magnus_persson_4822f217,Magnus Persson,,,H9,,CONFIRMED,VERIFIED
+player_jesper_risland_017a0c66,Jesper Røisland,,,H9,,CONFIRMED,VERIFIED

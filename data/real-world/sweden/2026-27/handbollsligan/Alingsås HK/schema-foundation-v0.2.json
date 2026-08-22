@@ -1,0 +1,61 @@
+{
+  "schemaVersion": "HM-REAL-WORLD-0.2",
+  "idStandard": {
+    "playerId": "se_player_<normalized-name-slug>_<persistent-random-8hex>",
+    "rule": "The token is generated once and persisted. IDs never change because of club, season, transfer, corrected spelling, or later-added DOB.",
+    "normalizationExamples": {
+      "Rydén": "ryden",
+      "Hägglund": "hagglund",
+      "Karl-Johan": "karl_johan"
+    }
+  },
+  "playerEntity": {
+    "separatesPersonFromRoster": true,
+    "fieldsAddedAfterPilot": [
+      "birthYear",
+      "aliases",
+      "fieldConfidence",
+      "sourceRefs",
+      "dataNotes"
+    ]
+  },
+  "rosterEntity": {
+    "fieldsAddedAfterPilot": [
+      "rosterEntryId",
+      "competitionId",
+      "snapshotDate",
+      "rosterStatus",
+      "contract"
+    ],
+    "contractShape": {
+      "untilDate": "YYYY-MM-DD or null",
+      "untilSeason": "YYYY/YY or null",
+      "optionUntilSeason": "YYYY/YY or null"
+    }
+  },
+  "confidenceValues": [
+    "VERIFIED",
+    "PARTIAL",
+    "UNKNOWN"
+  ],
+  "rosterStatusValues": [
+    "CONFIRMED",
+    "ANNOUNCED_IN",
+    "REGISTERED",
+    "LOAN_IN",
+    "LOAN_OUT",
+    "DEPARTING",
+    "LEFT",
+    "UNCERTAIN"
+  ],
+  "canonicalPositions": [
+    "MV",
+    "V6",
+    "V9",
+    "M9",
+    "M6",
+    "H9",
+    "H6"
+  ],
+  "missingDataRule": "Use null. Never infer an exact value from age, role, old shirt number, nationality assumptions, or typical positional versatility."
+}

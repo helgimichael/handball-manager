@@ -1,0 +1,103 @@
+[
+  {
+    "sourceId": "src_hammarby_roster_20260819",
+    "sourceType": "CLUB_OFFICIAL",
+    "publisher": "Hammarby IF HF",
+    "title": "Herrar A – Truppen",
+    "url": "https://www.hammarbyhandboll.se/hifhandboll_herr/truppen",
+    "accessedAt": "2026-08-19",
+    "seasonContext": "CURRENT_2026/27"
+  },
+  {
+    "sourceId": "src_hbl_stats_2025_26",
+    "sourceType": "LEAGUE_OFFICIAL_STATISTICS",
+    "publisher": "Handbollsligan",
+    "title": "Spelarstatistik 2025/26",
+    "url": "https://handballstats.se/statistics/herr/statistics/statistics.aspx?y=2025",
+    "accessedAt": "2026-08-19",
+    "seasonContext": "2025/26"
+  },
+  {
+    "sourceId": "src_hbl_hammarby_2024_25",
+    "sourceType": "LEAGUE_OFFICIAL",
+    "publisher": "Handbollsligan",
+    "title": "Inför säsongen 2024/25 – Hammarby",
+    "url": "https://handbollsligan.se/herrligan/infor-sasongen-2024-25/",
+    "accessedAt": "2026-08-19",
+    "seasonContext": "2024/25"
+  },
+  {
+    "sourceId": "src_hammarby_ruben_20250628",
+    "sourceType": "CLUB_OFFICIAL",
+    "publisher": "Hammarby IF HF",
+    "title": "Talanger med förnyade a-lagskontrakt",
+    "url": "https://www.hammarbyhandboll.se/hifhandboll_herr/nyheter/2360745/talanger-med-fornyade-a-lagskontrakt",
+    "publishedAt": "2025-06-28",
+    "accessedAt": "2026-08-19",
+    "seasonContext": "2025/26"
+  },
+  {
+    "sourceId": "src_ehf_elliot",
+    "sourceType": "EHF",
+    "publisher": "European Handball Federation",
+    "title": "Elliot Stenmalm",
+    "url": "https://www.eurohandball.com/en/player/yhk3WoHS4sgJ6EB--LoQvg/elliot-stenmalm/",
+    "accessedAt": "2026-08-19",
+    "seasonContext": "CAREER"
+  },
+  {
+    "sourceId": "src_ehf_olle",
+    "sourceType": "EHF",
+    "publisher": "European Handball Federation",
+    "title": "Olle Söderqvist",
+    "url": "https://www.eurohandball.com/en/player/BtsQFDeg3Y3aZFOxUjpZ9Q/Olle-S%C3%B6derqvist/",
+    "accessedAt": "2026-08-19",
+    "seasonContext": "2026/27"
+  },
+  {
+    "sourceId": "src_ehf_arvid",
+    "sourceType": "EHF",
+    "publisher": "European Handball Federation",
+    "title": "Arvid Skoog",
+    "url": "https://www.eurohandball.com/en/player/v64PfNNW1rS_GRS4dVq_Fg/Arvid-Skoog/",
+    "accessedAt": "2026-08-19",
+    "seasonContext": "CAREER"
+  },
+  {
+    "sourceId": "src_shf_protocol_20240320",
+    "sourceType": "SHF_OFFICIAL_MATCH_PROTOCOL",
+    "publisher": "Svenska Handbollförbundet",
+    "title": "Hammarby IF HF – IK Sävehof, 2024-03-20",
+    "url": "https://handballstats.se/statistics/herr/xml/2023/34130/PDF/31577714_m.pdf",
+    "accessedAt": "2026-08-19",
+    "seasonContext": "2023/24"
+  },
+  {
+    "sourceId": "src_shf_protocol_20241030",
+    "sourceType": "SHF_OFFICIAL_MATCH_PROTOCOL",
+    "publisher": "Svenska Handbollförbundet",
+    "title": "Hammarby IF HF – HF Karlskrona, 2024-10-30",
+    "url": "https://handballstats.se/statistics/herr/xml/2024/2400199/PDF/31832318_m.pdf",
+    "accessedAt": "2026-08-19",
+    "seasonContext": "2024/25"
+  },
+  {
+    "sourceId": "src_hammarby_robin_20260806",
+    "sourceType": "CLUB_OFFICIAL",
+    "publisher": "Hammarby IF HF",
+    "title": "Robin Järling Sanderhem tillbaka!",
+    "url": "https://www.hammarbyhandboll.se/hifhandboll_herr",
+    "publishedAt": "2026-08-06",
+    "accessedAt": "2026-08-19",
+    "seasonContext": "2026/27"
+  },
+  {
+    "sourceId": "src_hbl_robin_position",
+    "sourceType": "LEAGUE_OFFICIAL_STATISTICS",
+    "publisher": "Handbollsligan",
+    "title": "Robin Järling Sanderhem – position M9",
+    "url": "https://handballstats.se/statistics/herr/statistics/statistics.aspx",
+    "accessedAt": "2026-08-19",
+    "seasonContext": "CAREER"
+  }
+]
