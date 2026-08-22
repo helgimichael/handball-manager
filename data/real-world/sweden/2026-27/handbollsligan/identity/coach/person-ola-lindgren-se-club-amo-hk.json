@@ -1,0 +1,70 @@
+{
+  "personId": "person-ola-lindgren-se-club-amo-hk",
+  "clubId": "se_club_amo_hk",
+  "sourceDocument": "Amo HK CLUB IDENTITY v0.1",
+  "evidenceReferences": [
+    {
+      "id": "ev-lindgren-coaching-development",
+      "sourceDocument": "Amo HK CLUB IDENTITY v0.1",
+      "sourceType": "APPROVED_PROFILE_DOCX",
+      "locator": "COACHING / DEVELOPMENT IDENTITY"
+    },
+    {
+      "id": "ev-lindgren-transition-identity",
+      "sourceDocument": "Amo HK CLUB IDENTITY v0.1",
+      "sourceType": "APPROVED_PROFILE_DOCX",
+      "locator": "TRANSITION IDENTITY"
+    }
+  ],
+  "profile": {
+    "personId": "person-ola-lindgren-se-club-amo-hk",
+    "coachingStyleClaims": [
+      {
+        "id": "coach-lindgren-tactical-reputation",
+        "subjectType": "COACH",
+        "subjectId": "person-ola-lindgren-se-club-amo-hk",
+        "domain": "TACTICAL_COGNITIVE",
+        "key": "tacticalReputation",
+        "value": "ELITE_LEVEL",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-lindgren-coaching-development"
+        ]
+      }
+    ],
+    "tacticalPreferenceClaims": [
+      {
+        "id": "coach-lindgren-defensive-structure",
+        "subjectType": "COACH",
+        "subjectId": "person-ola-lindgren-se-club-amo-hk",
+        "domain": "TACTICAL_PREFERENCE",
+        "key": "defensiveStructureStrength",
+        "value": "STRONG",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-lindgren-coaching-development"
+        ]
+      },
+      {
+        "id": "coach-lindgren-transition-structure",
+        "subjectType": "COACH",
+        "subjectId": "person-ola-lindgren-se-club-amo-hk",
+        "domain": "TACTICAL_PREFERENCE",
+        "key": "transitionStructureStrength",
+        "value": "STRONG",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-lindgren-coaching-development",
+          "ev-lindgren-transition-identity"
+        ]
+      }
+    ],
+    "communicationLeadershipClaims": [],
+    "developmentClaims": [],
+    "adaptabilityClaims": [],
+    "cultureBuildingClaims": []
+  }
+}

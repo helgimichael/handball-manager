@@ -1,0 +1,93 @@
+{
+  "personId": "person-kim-andersson-se-club-ystads-if-hf",
+  "clubId": "se_club_ystads_if_hf",
+  "sourceDocument": "Ystads IF HF CLUB IDENTITY v0.1",
+  "evidenceReferences": [
+    {
+      "id": "ev-kimandersson-coaching-identity",
+      "sourceDocument": "Ystads IF HF CLUB IDENTITY v0.1",
+      "sourceType": "APPROVED_PROFILE_DOCX",
+      "locator": "COACHING IDENTITY — KIM ANDERSSON"
+    }
+  ],
+  "profile": {
+    "personId": "person-kim-andersson-se-club-ystads-if-hf",
+    "coachingStyleClaims": [
+      {
+        "id": "coach-kimandersson-tactical-intelligence",
+        "subjectType": "COACH",
+        "subjectId": "person-kim-andersson-se-club-ystads-if-hf",
+        "domain": "TACTICAL_COGNITIVE",
+        "key": "tacticalIntelligence",
+        "value": "VERY_HIGH",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-kimandersson-coaching-identity"
+        ]
+      }
+    ],
+    "tacticalPreferenceClaims": [
+      {
+        "id": "coach-kimandersson-attacking-direction-projection",
+        "subjectType": "COACH",
+        "subjectId": "person-kim-andersson-se-club-ystads-if-hf",
+        "domain": "TACTICAL_PREFERENCE",
+        "key": "attackingDirectionUnderNewEra",
+        "value": "SOME_CHANGE_EXPECTED_RETAINING_YSTAD_IDENTITY",
+        "evidenceClass": "USER_PROJECTION",
+        "temporalScope": "PROJECTED",
+        "sourceRefs": [
+          "ev-kimandersson-coaching-identity"
+        ],
+        "notes": "Not yet an established 2026/27 observation -- explicitly a projection for the new coaching era."
+      }
+    ],
+    "communicationLeadershipClaims": [
+      {
+        "id": "coach-kimandersson-standards-demands",
+        "subjectType": "COACH",
+        "subjectId": "person-kim-andersson-se-club-ystads-if-hf",
+        "domain": "LEADERSHIP",
+        "key": "standardsAndDemands",
+        "value": "HIGH",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-kimandersson-coaching-identity"
+        ]
+      }
+    ],
+    "developmentClaims": [
+      {
+        "id": "coach-kimandersson-young-player-coaching",
+        "subjectType": "COACH",
+        "subjectId": "person-kim-andersson-se-club-ystads-if-hf",
+        "domain": "DEVELOPMENT",
+        "key": "youngPlayerCoaching",
+        "value": "VERY_STRONG",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-kimandersson-coaching-identity"
+        ]
+      }
+    ],
+    "adaptabilityClaims": [],
+    "cultureBuildingClaims": [
+      {
+        "id": "coach-kimandersson-club-identity-fit",
+        "subjectType": "COACH",
+        "subjectId": "person-kim-andersson-se-club-ystads-if-hf",
+        "domain": "CULTURE",
+        "key": "clubIdentityFit",
+        "value": "ELITE",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "CURRENT",
+        "sourceRefs": [
+          "ev-kimandersson-coaching-identity"
+        ]
+      }
+    ]
+  }
+}

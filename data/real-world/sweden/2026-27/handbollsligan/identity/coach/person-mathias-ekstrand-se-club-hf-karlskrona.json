@@ -1,0 +1,76 @@
+{
+  "personId": "person-mathias-ekstrand-se-club-hf-karlskrona",
+  "clubId": "se_club_hf_karlskrona",
+  "sourceDocument": "HF Karlskrona CLUB IDENTITY v0.1",
+  "evidenceReferences": [
+    {
+      "id": "ev-ekstrand-coaching-identity",
+      "sourceDocument": "HF Karlskrona CLUB IDENTITY v0.1",
+      "sourceType": "APPROVED_PROFILE_DOCX",
+      "locator": "COACHING IDENTITY — MATHIAS EKSTRAND"
+    }
+  ],
+  "profile": {
+    "personId": "person-mathias-ekstrand-se-club-hf-karlskrona",
+    "coachingStyleClaims": [],
+    "tacticalPreferenceClaims": [],
+    "communicationLeadershipClaims": [
+      {
+        "id": "coach-ekstrand-player-relationship",
+        "subjectType": "COACH",
+        "subjectId": "person-mathias-ekstrand-se-club-hf-karlskrona",
+        "domain": "LEADERSHIP",
+        "key": "playerRelationship",
+        "value": "VERY_STRONG",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-ekstrand-coaching-identity"
+        ]
+      },
+      {
+        "id": "coach-ekstrand-player-buyin",
+        "subjectType": "COACH",
+        "subjectId": "person-mathias-ekstrand-se-club-hf-karlskrona",
+        "domain": "LEADERSHIP",
+        "key": "playerBuyIn",
+        "value": "VERY_STRONG",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-ekstrand-coaching-identity"
+        ]
+      }
+    ],
+    "developmentClaims": [],
+    "adaptabilityClaims": [
+      {
+        "id": "coach-ekstrand-adaptability",
+        "subjectType": "COACH",
+        "subjectId": "person-mathias-ekstrand-se-club-hf-karlskrona",
+        "domain": "TACTICAL_COGNITIVE",
+        "key": "adaptability",
+        "value": "STRONG",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-ekstrand-coaching-identity"
+        ]
+      },
+      {
+        "id": "coach-ekstrand-maximize-squad",
+        "subjectType": "COACH",
+        "subjectId": "person-mathias-ekstrand-se-club-hf-karlskrona",
+        "domain": "SQUAD_UTILIZATION",
+        "key": "abilityToMaximizeSquad",
+        "value": "STRONG",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-ekstrand-coaching-identity"
+        ]
+      }
+    ],
+    "cultureBuildingClaims": []
+  }
+}

@@ -1,0 +1,63 @@
+{
+  "personId": "person-patrik-fahlgren-se-club-hammarby-if-hf",
+  "clubId": "se_club_hammarby_if_hf",
+  "sourceDocument": "Hammarby IF HF CLUB IDENTITY v0.1",
+  "evidenceReferences": [
+    {
+      "id": "ev-fahlgren-coaching-development",
+      "sourceDocument": "Hammarby IF HF CLUB IDENTITY v0.1",
+      "sourceType": "APPROVED_PROFILE_DOCX",
+      "locator": "COACHING / DEVELOPMENT IDENTITY"
+    }
+  ],
+  "profile": {
+    "personId": "person-patrik-fahlgren-se-club-hammarby-if-hf",
+    "coachingStyleClaims": [
+      {
+        "id": "coach-fahlgren-simplicity",
+        "subjectType": "COACH",
+        "subjectId": "person-patrik-fahlgren-se-club-hammarby-if-hf",
+        "domain": "TACTICAL_COGNITIVE",
+        "key": "executionSimplicityEmphasis",
+        "value": "STRONG_SIMPLICITY_AND_EFFICIENCY",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-fahlgren-coaching-development"
+        ]
+      }
+    ],
+    "tacticalPreferenceClaims": [],
+    "communicationLeadershipClaims": [],
+    "developmentClaims": [],
+    "adaptabilityClaims": [
+      {
+        "id": "coach-fahlgren-tempo-adaptability",
+        "subjectType": "COACH",
+        "subjectId": "person-patrik-fahlgren-se-club-hammarby-if-hf",
+        "domain": "SQUAD_UTILIZATION",
+        "key": "tempoAdaptability",
+        "value": "STRONG",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-fahlgren-coaching-development"
+        ]
+      },
+      {
+        "id": "coach-fahlgren-tempo-control",
+        "subjectType": "COACH",
+        "subjectId": "person-patrik-fahlgren-se-club-hammarby-if-hf",
+        "domain": "SQUAD_UTILIZATION",
+        "key": "tempoControl",
+        "value": "STRONG",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-fahlgren-coaching-development"
+        ]
+      }
+    ],
+    "cultureBuildingClaims": []
+  }
+}

@@ -1,0 +1,88 @@
+{
+  "personId": "person-zoran-roganovic-se-club-hk-malmo",
+  "clubId": "se_club_hk_malmo",
+  "sourceDocument": "HK Malmö CLUB IDENTITY v0.1",
+  "evidenceReferences": [
+    {
+      "id": "ev-roganovic-coaching-identity",
+      "sourceDocument": "HK Malmö CLUB IDENTITY v0.1",
+      "sourceType": "APPROVED_PROFILE_DOCX",
+      "locator": "COACHING IDENTITY — ZORAN ROGANOVIC"
+    }
+  ],
+  "profile": {
+    "personId": "person-zoran-roganovic-se-club-hk-malmo",
+    "coachingStyleClaims": [],
+    "tacticalPreferenceClaims": [],
+    "communicationLeadershipClaims": [
+      {
+        "id": "coach-roganovic-authority",
+        "subjectType": "COACH",
+        "subjectId": "person-zoran-roganovic-se-club-hk-malmo",
+        "domain": "LEADERSHIP",
+        "key": "authority",
+        "value": "VERY_STRONG",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-roganovic-coaching-identity"
+        ]
+      },
+      {
+        "id": "coach-roganovic-discipline-demands",
+        "subjectType": "COACH",
+        "subjectId": "person-zoran-roganovic-se-club-hk-malmo",
+        "domain": "LEADERSHIP",
+        "key": "disciplineDemands",
+        "value": "VERY_HIGH",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-roganovic-coaching-identity"
+        ]
+      },
+      {
+        "id": "coach-roganovic-coaching-demands",
+        "subjectType": "COACH",
+        "subjectId": "person-zoran-roganovic-se-club-hk-malmo",
+        "domain": "LEADERSHIP",
+        "key": "coachingDemands",
+        "value": "VERY_HIGH",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-roganovic-coaching-identity"
+        ]
+      },
+      {
+        "id": "coach-roganovic-player-autonomy",
+        "subjectType": "COACH",
+        "subjectId": "person-zoran-roganovic-se-club-hk-malmo",
+        "domain": "LEADERSHIP",
+        "key": "playerAutonomy",
+        "value": "LOW",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-roganovic-coaching-identity"
+        ]
+      },
+      {
+        "id": "coach-roganovic-tolerance-opposition",
+        "subjectType": "COACH",
+        "subjectId": "person-zoran-roganovic-se-club-hk-malmo",
+        "domain": "LEADERSHIP",
+        "key": "toleranceForOppositionToDirection",
+        "value": "LOW",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-roganovic-coaching-identity"
+        ]
+      }
+    ],
+    "developmentClaims": [],
+    "adaptabilityClaims": [],
+    "cultureBuildingClaims": []
+  }
+}

@@ -1,0 +1,65 @@
+{
+  "personId": "person-mads-lyhne-nielsen-se-club-skanela-if",
+  "clubId": "se_club_skanela_if",
+  "sourceDocument": "Skånela IF CLUB IDENTITY v0.1",
+  "evidenceReferences": [
+    {
+      "id": "ev-madslyhnenielsen-coach-staff-assessment",
+      "sourceDocument": "Skånela IF CLUB IDENTITY v0.1",
+      "sourceType": "APPROVED_PROFILE_DOCX",
+      "locator": "COACH / STAFF ASSESSMENT"
+    }
+  ],
+  "profile": {
+    "personId": "person-mads-lyhne-nielsen-se-club-skanela-if",
+    "coachingStyleClaims": [],
+    "tacticalPreferenceClaims": [],
+    "communicationLeadershipClaims": [
+      {
+        "id": "coach-mln-leadership-quality",
+        "subjectType": "COACH",
+        "subjectId": "person-mads-lyhne-nielsen-se-club-skanela-if",
+        "domain": "LEADERSHIP",
+        "key": "leadershipQuality",
+        "value": "VERY_HIGH",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-madslyhnenielsen-coach-staff-assessment"
+        ]
+      }
+    ],
+    "developmentClaims": [
+      {
+        "id": "coach-mln-development-coaching",
+        "subjectType": "COACH",
+        "subjectId": "person-mads-lyhne-nielsen-se-club-skanela-if",
+        "domain": "DEVELOPMENT",
+        "key": "developmentCoaching",
+        "value": "VERY_STRONG",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-madslyhnenielsen-coach-staff-assessment"
+        ]
+      }
+    ],
+    "adaptabilityClaims": [],
+    "cultureBuildingClaims": [
+      {
+        "id": "coach-mln-club-culture-fit",
+        "subjectType": "COACH",
+        "subjectId": "person-mads-lyhne-nielsen-se-club-skanela-if",
+        "domain": "CULTURE",
+        "key": "clubIdentityFit",
+        "value": "VERY_STRONG",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "CURRENT",
+        "sourceRefs": [
+          "ev-madslyhnenielsen-coach-staff-assessment"
+        ],
+        "notes": "Sourced as USER EXPERT ASSESSMENT + a supportive external club statement about fit/work ethic -- evidenceClass kept as the dominant USER_EXPERT_ASSESSMENT class rather than invented as a blended class."
+      }
+    ]
+  }
+}

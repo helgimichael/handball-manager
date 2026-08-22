@@ -1,0 +1,50 @@
+{
+  "personId": "person-hans-karlsson-se-club-amo-hk",
+  "clubId": "se_club_amo_hk",
+  "sourceDocument": "Amo HK CLUB IDENTITY v0.1",
+  "evidenceReferences": [
+    {
+      "id": "ev-hanskarlsson-coaching-development",
+      "sourceDocument": "Amo HK CLUB IDENTITY v0.1",
+      "sourceType": "APPROVED_PROFILE_DOCX",
+      "locator": "COACHING / DEVELOPMENT IDENTITY"
+    }
+  ],
+  "profile": {
+    "personId": "person-hans-karlsson-se-club-amo-hk",
+    "coachingStyleClaims": [
+      {
+        "id": "coach-hanskarlsson-experience",
+        "subjectType": "COACH",
+        "subjectId": "person-hans-karlsson-se-club-amo-hk",
+        "domain": "TACTICAL_COGNITIVE",
+        "key": "experienceLevel",
+        "value": "EXPERIENCED",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-hanskarlsson-coaching-development"
+        ]
+      }
+    ],
+    "tacticalPreferenceClaims": [
+      {
+        "id": "coach-hanskarlsson-defensive-orientation",
+        "subjectType": "COACH",
+        "subjectId": "person-hans-karlsson-se-club-amo-hk",
+        "domain": "TACTICAL_PREFERENCE",
+        "key": "defensiveOrientation",
+        "value": "STRONGLY_DEFENCE_ORIENTED",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-hanskarlsson-coaching-development"
+        ]
+      }
+    ],
+    "communicationLeadershipClaims": [],
+    "developmentClaims": [],
+    "adaptabilityClaims": [],
+    "cultureBuildingClaims": []
+  }
+}

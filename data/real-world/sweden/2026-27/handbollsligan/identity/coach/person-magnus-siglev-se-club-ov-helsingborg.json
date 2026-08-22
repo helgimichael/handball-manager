@@ -1,0 +1,80 @@
+{
+  "personId": "person-magnus-siglev-se-club-ov-helsingborg",
+  "clubId": "se_club_ov_helsingborg",
+  "sourceDocument": "OV Helsingborg HK CLUB IDENTITY v0.1",
+  "evidenceReferences": [
+    {
+      "id": "ev-siglev-coaching-identity",
+      "sourceDocument": "OV Helsingborg HK CLUB IDENTITY v0.1",
+      "sourceType": "APPROVED_PROFILE_DOCX",
+      "locator": "COACHING IDENTITY — MAGNUS SIGLEV"
+    }
+  ],
+  "profile": {
+    "personId": "person-magnus-siglev-se-club-ov-helsingborg",
+    "coachingStyleClaims": [
+      {
+        "id": "coach-siglev-ambition",
+        "subjectType": "COACH",
+        "subjectId": "person-magnus-siglev-se-club-ov-helsingborg",
+        "domain": "TACTICAL_COGNITIVE",
+        "key": "ambition",
+        "value": "VERY_HIGH",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-siglev-coaching-identity"
+        ]
+      }
+    ],
+    "tacticalPreferenceClaims": [],
+    "communicationLeadershipClaims": [
+      {
+        "id": "coach-siglev-coaching-demands",
+        "subjectType": "COACH",
+        "subjectId": "person-magnus-siglev-se-club-ov-helsingborg",
+        "domain": "LEADERSHIP",
+        "key": "coachingDemands",
+        "value": "HIGH",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-siglev-coaching-identity"
+        ]
+      }
+    ],
+    "developmentClaims": [],
+    "adaptabilityClaims": [
+      {
+        "id": "coach-siglev-previous-delivery",
+        "subjectType": "COACH",
+        "subjectId": "person-magnus-siglev-se-club-ov-helsingborg",
+        "domain": "SQUAD_UTILIZATION",
+        "key": "previousPerformanceDelivery",
+        "value": "QUESTION_MARK",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "HISTORICAL",
+        "confidence": "UNCERTAIN",
+        "sourceRefs": [
+          "ev-siglev-coaching-identity"
+        ],
+        "notes": "Retained as an uncertainty, not a negative fixed rating (source's own framing)."
+      },
+      {
+        "id": "coach-siglev-squad-alignment-2026-27",
+        "subjectType": "COACH",
+        "subjectId": "person-magnus-siglev-se-club-ov-helsingborg",
+        "domain": "SQUAD_UTILIZATION",
+        "key": "coachSquadAlignment",
+        "value": "UNCERTAIN",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "CURRENT",
+        "confidence": "UNCERTAIN",
+        "sourceRefs": [
+          "ev-siglev-coaching-identity"
+        ]
+      }
+    ],
+    "cultureBuildingClaims": []
+  }
+}

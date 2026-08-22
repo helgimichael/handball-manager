@@ -1,0 +1,36 @@
+{
+  "personId": "person-mattias-andersson-se-club-ystads-if-hf",
+  "clubId": "se_club_ystads_if_hf",
+  "sourceDocument": "Ystads IF HF CLUB IDENTITY v0.1",
+  "evidenceReferences": [
+    {
+      "id": "ev-mattiasandersson-goalkeeper-environment",
+      "sourceDocument": "Ystads IF HF CLUB IDENTITY v0.1",
+      "sourceType": "APPROVED_PROFILE_DOCX",
+      "locator": "GOALKEEPER ENVIRONMENT — MATTIAS ANDERSSON"
+    }
+  ],
+  "profile": {
+    "personId": "person-mattias-andersson-se-club-ystads-if-hf",
+    "coachingStyleClaims": [
+      {
+        "id": "coach-mattiasandersson-gk-quality",
+        "subjectType": "COACH",
+        "subjectId": "person-mattias-andersson-se-club-ystads-if-hf",
+        "domain": "TACTICAL_COGNITIVE",
+        "key": "goalkeeperCoachingQuality",
+        "value": "WORLD_CLASS",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-mattiasandersson-goalkeeper-environment"
+        ]
+      }
+    ],
+    "tacticalPreferenceClaims": [],
+    "communicationLeadershipClaims": [],
+    "developmentClaims": [],
+    "adaptabilityClaims": [],
+    "cultureBuildingClaims": []
+  }
+}

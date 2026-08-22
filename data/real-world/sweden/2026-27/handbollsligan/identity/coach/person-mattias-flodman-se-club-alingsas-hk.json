@@ -1,0 +1,36 @@
+{
+  "personId": "person-mattias-flodman-se-club-alingsas-hk",
+  "clubId": "se_club_alingsas_hk",
+  "sourceDocument": "Alingsås HK CLUB IDENTITY v0.1",
+  "evidenceReferences": [
+    {
+      "id": "ev-flodman-coaching-development",
+      "sourceDocument": "Alingsås HK CLUB IDENTITY v0.1",
+      "sourceType": "APPROVED_PROFILE_DOCX",
+      "locator": "COACHING / DEVELOPMENT IDENTITY"
+    }
+  ],
+  "profile": {
+    "personId": "person-mattias-flodman-se-club-alingsas-hk",
+    "coachingStyleClaims": [
+      {
+        "id": "coach-flodman-analytical",
+        "subjectType": "COACH",
+        "subjectId": "person-mattias-flodman-se-club-alingsas-hk",
+        "domain": "TACTICAL_COGNITIVE",
+        "key": "analyticalOrientation",
+        "value": "ANALYTICAL",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-flodman-coaching-development"
+        ]
+      }
+    ],
+    "tacticalPreferenceClaims": [],
+    "communicationLeadershipClaims": [],
+    "developmentClaims": [],
+    "adaptabilityClaims": [],
+    "cultureBuildingClaims": []
+  }
+}
