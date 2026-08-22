@@ -29,6 +29,7 @@ import {
   type TacticalOutcome,
 } from "@handball-manager/tactical-domain";
 import { PROVISIONAL_NEUTRAL_CAPABILITY, type TeamTacticalProfile } from "./teamTacticalProfile";
+import type { OpponentAdaptationEffect } from "./opponentAdaptation";
 
 /** Runs per direction, per fixture. Cheap pure computation (no I/O) -- 200 is enough for a stable directional signal without claiming statistical realism (Spec #13: "tests must NOT claim realistic percentages"). */
 const MONTE_CARLO_RUNS = 200;
@@ -213,8 +214,9 @@ export interface TacticalMatchAdjustment {
 /**
  * Computes the manager team's tactical adjustment for one fixture.
  * Deterministic: the same (saveSeed, fixtureId, profile,
- * sevenVSixActive) always produces the same result (Spec #12), since
- * the Monte Carlo seed is derived only from those inputs.
+ * sevenVSixActive, opponentAdaptation) always produces the same result
+ * (Spec #12), since the Monte Carlo seed is derived only from those
+ * inputs.
  *
  * `sevenVSixActive` (HM-TACTICS-0.8, default false so every pre-
  * HM-TACTICS-0.8 call site is unaffected) layers the flat, isolated
@@ -222,6 +224,16 @@ export interface TacticalMatchAdjustment {
  * driven adjustment -- see the constants' doc comments above for why
  * this is flat rather than Monte Carlo-sampled, and why it gets its
  * own wider bound.
+ *
+ * `opponentAdaptation` (HM-TACTICS-0.9, default null) DAMPENS -- never
+ * adds to -- exactly one of the two existing bonus channels above,
+ * once the opponent has noticed a sustained pattern (see
+ * opponentAdaptation.ts): ATI001_HIGH dampens the profile-driven
+ * attack bonus (the opponent's defence has adjusted to the V9/M6
+ * pattern); SEVEN_V_SIX dampens only the flat opponent-risk bonus (the
+ * opponent has tightened up against the exposed net), never the
+ * manager's own numerical-superiority bonus, which is a fact of
+ * headcount the opponent's own adaptation cannot undo.
  */
 export function computeTacticalMatchAdjustment(
   saveSeed: string,
@@ -230,6 +242,7 @@ export function computeTacticalMatchAdjustment(
   homeClubId: string,
   profile: TeamTacticalProfile,
   sevenVSixActive = false,
+  opponentAdaptation: OpponentAdaptationEffect | null = null,
 ): TacticalMatchAdjustment {
   const managerIsHome = homeClubId === managerClubId;
 
@@ -247,7 +260,9 @@ export function computeTacticalMatchAdjustment(
 
   // Direction 1 (attack): bumps the MANAGER's own expected goals.
   // Positive attackScore = favors the attacking side = the manager here.
-  const baseAttackAdjustment = clamp(attackScore * MAX_TACTICAL_ADJUSTMENT_GOALS);
+  const rawAttackAdjustment = clamp(attackScore * MAX_TACTICAL_ADJUSTMENT_GOALS);
+  const baseAttackAdjustment =
+    opponentAdaptation?.trigger === "ATI001_HIGH" ? rawAttackAdjustment * (1 - opponentAdaptation.dampeningFraction) : rawAttackAdjustment;
   // Direction 2 (defense): buildDefenseConfig models the OPPONENT as the
   // attacker and the manager as the defender, so OUTCOME_ATTACK_SCORE's
   // "positive favors the attacker" already means "positive favors the
@@ -257,8 +272,10 @@ export function computeTacticalMatchAdjustment(
   // opponent's expected goals.
   const baseOpponentAdjustment = clamp(defenseScore * MAX_TACTICAL_ADJUSTMENT_GOALS);
 
+  const sevenVSixRiskBonus = opponentAdaptation?.trigger === "SEVEN_V_SIX" ? SEVEN_V_SIX_OPPONENT_RISK_BONUS_GOALS * (1 - opponentAdaptation.dampeningFraction) : SEVEN_V_SIX_OPPONENT_RISK_BONUS_GOALS;
+
   const attackAdjustment = sevenVSixActive ? clampSevenVSix(baseAttackAdjustment + SEVEN_V_SIX_OFFENSIVE_BONUS_GOALS) : baseAttackAdjustment;
-  const opponentAdjustment = sevenVSixActive ? clampSevenVSix(baseOpponentAdjustment + SEVEN_V_SIX_OPPONENT_RISK_BONUS_GOALS) : baseOpponentAdjustment;
+  const opponentAdjustment = sevenVSixActive ? clampSevenVSix(baseOpponentAdjustment + sevenVSixRiskBonus) : baseOpponentAdjustment;
 
   const home = managerIsHome ? attackAdjustment : opponentAdjustment;
   const away = managerIsHome ? opponentAdjustment : attackAdjustment;

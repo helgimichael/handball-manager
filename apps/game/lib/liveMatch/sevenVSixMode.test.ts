@@ -56,3 +56,9 @@ test("pause/speed independence: status is a pure function of clockMinute only, w
   assert.equal(resolveSevenVSixInstructionStatus(instruction, adoptionMinute), "ADOPTED");
   assert.equal(resolveSevenVSixInstructionStatus(instruction, adoptionMinute), "ADOPTED");
 });
+
+test("HM-TACTICS-0.9: a HALFTIME-delivered 7v6 switch adopts immediately (zero extra delay), same as a halftime tactical instruction", () => {
+  const halftime = instructionAt(30, "ON", "HALFTIME");
+  assert.equal(sevenVSixAdoptionMinute(halftime), 30);
+  assert.equal(resolveSevenVSixInstructionStatus(halftime, 30), "ADOPTED");
+});

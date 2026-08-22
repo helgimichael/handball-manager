@@ -75,6 +75,8 @@ export interface UseLiveMatchResult {
   timeoutSecondsRemaining: number | null;
   /** No-op if an instruction is already pending or the match isn't currently in a TIMEOUT. Improves (never guarantees) delivery vs `issueInstruction` -- see implementationAssessment.ts. */
   issueTimeoutInstruction: (profile: TeamTacticalProfile, baselineProfile: TeamTacticalProfile) => void;
+  /** HM-TACTICS-0.9: no-op if an instruction is already pending or the match isn't currently in HALF_TIME. Better delivery context than even a timeout -- see implementationAssessment.ts. */
+  issueHalftimeInstruction: (profile: TeamTacticalProfile, baselineProfile: TeamTacticalProfile) => void;
   /** HM-COACHING-0.2: the one in-flight shout, if any (null once EXPIRED and reverted). Deliberately NOT put through HM-COACHING-0.3's assessment -- see implementationAssessment.ts's module doc for why. */
   pendingShout: Shout | null;
   shoutStatus: ShoutStatus | null;
@@ -88,6 +90,8 @@ export interface UseLiveMatchResult {
   issueSevenVSixInstruction: (target: SevenVSixTarget, tacticalFamiliarity: CapabilityLevel) => void;
   /** No-op if a 7v6 switch is already pending or the match isn't currently in a TIMEOUT. */
   issueSevenVSixTimeoutInstruction: (target: SevenVSixTarget, tacticalFamiliarity: CapabilityLevel) => void;
+  /** HM-TACTICS-0.9: no-op if a 7v6 switch is already pending or the match isn't currently in HALF_TIME. */
+  issueSevenVSixHalftimeInstruction: (target: SevenVSixTarget, tacticalFamiliarity: CapabilityLevel) => void;
 }
 
 interface ShoutState {
@@ -352,9 +356,20 @@ export function useLiveMatch(
     ? resolveAssessedLifecycle(view.clockMinute, assessedSevenVSix.assessmentMinute, assessedSevenVSix.actualAdoptionMinute, assessedSevenVSix.outcome)
     : null;
 
+  function phaseAllowsDeliveryMode(deliveryMode: InstructionDeliveryMode): boolean {
+    switch (deliveryMode) {
+      case "TIMEOUT":
+        return clock.phase === "TIMEOUT";
+      case "HALFTIME":
+        return clock.phase === "HALF_TIME";
+      default:
+        return clock.phase === "FIRST_HALF" || clock.phase === "SECOND_HALF";
+    }
+  }
+
   function issueInstructionWithMode(profile: TeamTacticalProfile, baselineProfile: TeamTacticalProfile, deliveryMode: InstructionDeliveryMode) {
     if (assessedInstruction) return;
-    if (deliveryMode === "TIMEOUT" ? clock.phase !== "TIMEOUT" : clock.phase !== "FIRST_HALF" && clock.phase !== "SECOND_HALF") return;
+    if (!phaseAllowsDeliveryMode(deliveryMode)) return;
     const instruction: TacticalInstruction = { issuedMinute: view.clockMinute, profile, deliveryMode };
     const recentChangeCount = countRecentChanges(recentIssuanceMinutesRef.current, view.clockMinute);
     recentIssuanceMinutesRef.current.push(view.clockMinute);
@@ -364,7 +379,7 @@ export function useLiveMatch(
 
   function issueSevenVSixWithMode(target: SevenVSixTarget, tacticalFamiliarity: CapabilityLevel, deliveryMode: InstructionDeliveryMode) {
     if (assessedSevenVSix) return;
-    if (deliveryMode === "TIMEOUT" ? clock.phase !== "TIMEOUT" : clock.phase !== "FIRST_HALF" && clock.phase !== "SECOND_HALF") return;
+    if (!phaseAllowsDeliveryMode(deliveryMode)) return;
     const instruction: SevenVSixInstruction = { target, issuedMinute: view.clockMinute, deliveryMode };
     const recentChangeCount = countRecentChanges(recentIssuanceMinutesRef.current, view.clockMinute);
     recentIssuanceMinutesRef.current.push(view.clockMinute);
@@ -387,6 +402,7 @@ export function useLiveMatch(
     endTimeout: () => setClock((current) => endTimeoutClock(current)),
     timeoutSecondsRemaining,
     issueTimeoutInstruction: (profile, baselineProfile) => issueInstructionWithMode(profile, baselineProfile, "TIMEOUT"),
+    issueHalftimeInstruction: (profile, baselineProfile) => issueInstructionWithMode(profile, baselineProfile, "HALFTIME"),
     pendingShout: shoutState?.shout ?? null,
     shoutStatus: shoutState ? resolveShoutStatus(shoutState.shout, view.clockMinute) : null,
     issueShout: (type, baselineProfile) => {
@@ -405,5 +421,6 @@ export function useLiveMatch(
     lastSevenVSixOutcome,
     issueSevenVSixInstruction: (target, tacticalFamiliarity) => issueSevenVSixWithMode(target, tacticalFamiliarity, "SIDELINE"),
     issueSevenVSixTimeoutInstruction: (target, tacticalFamiliarity) => issueSevenVSixWithMode(target, tacticalFamiliarity, "TIMEOUT"),
+    issueSevenVSixHalftimeInstruction: (target, tacticalFamiliarity) => issueSevenVSixWithMode(target, tacticalFamiliarity, "HALFTIME"),
   };
 }

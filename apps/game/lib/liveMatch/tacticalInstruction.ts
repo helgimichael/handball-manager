@@ -20,6 +20,15 @@
 // delivered, never the adjustment's magnitude or direction (Spec:
 // "timeout must NOT give a magical performance bonus" / "advantage
 // comes only from improved instruction delivery").
+//
+// HM-TACTICS-0.9 adds a third delivery mode: an instruction issued
+// during HALF_TIME (clock.ts's own HALF_TIME phase) adopts with ZERO
+// extra delay -- the halftime break itself IS the delivery window (see
+// TACTICAL_INSTRUCTION_HALFTIME_ADOPTION_DELAY_MINUTES below), and
+// implementationAssessment.ts gives it an even better delivery-quality
+// score than a timeout (a proper sit-down team talk beats a 60-second
+// break in play). Still never touches the tactical adjustment's own
+// magnitude -- delivery reliability only, same as timeout.
 import type { TeamTacticalProfile } from "../career/teamTacticalProfile";
 
 /**
@@ -42,7 +51,18 @@ export const TACTICAL_INSTRUCTION_ADOPTION_DELAY_MINUTES = 3;
  */
 export const TACTICAL_INSTRUCTION_TIMEOUT_ADOPTION_DELAY_MINUTES = 1;
 
-export type InstructionDeliveryMode = "SIDELINE" | "TIMEOUT";
+/**
+ * PROVISIONAL, deterministic delay for an instruction issued DURING
+ * HALF_TIME. Zero: the halftime break itself is the whole delivery
+ * window (the clock is frozen at 30:00 for as long as the manager
+ * stays there -- see clock.ts), so there is nothing left to wait out
+ * once the manager gives the instruction. What can still vary is
+ * implementationAssessment.ts's FULL/PARTIAL/DELAYED outcome, not this
+ * delay.
+ */
+export const TACTICAL_INSTRUCTION_HALFTIME_ADOPTION_DELAY_MINUTES = 0;
+
+export type InstructionDeliveryMode = "SIDELINE" | "TIMEOUT" | "HALFTIME";
 
 /** One in-flight tactical instruction. Only one may be pending at a time (minimum coherent scope -- no instruction queue yet). */
 export interface TacticalInstruction {
@@ -57,7 +77,14 @@ export interface TacticalInstruction {
 export type TacticalInstructionStatus = "PENDING" | "ADOPTED";
 
 function adoptionDelayMinutesFor(mode: InstructionDeliveryMode): number {
-  return mode === "TIMEOUT" ? TACTICAL_INSTRUCTION_TIMEOUT_ADOPTION_DELAY_MINUTES : TACTICAL_INSTRUCTION_ADOPTION_DELAY_MINUTES;
+  switch (mode) {
+    case "TIMEOUT":
+      return TACTICAL_INSTRUCTION_TIMEOUT_ADOPTION_DELAY_MINUTES;
+    case "HALFTIME":
+      return TACTICAL_INSTRUCTION_HALFTIME_ADOPTION_DELAY_MINUTES;
+    default:
+      return TACTICAL_INSTRUCTION_ADOPTION_DELAY_MINUTES;
+  }
 }
 
 /** Deterministic: a pure function of `issuedMinute` and `deliveryMode` only -- never of wall-clock time, playback speed, or pause state. */

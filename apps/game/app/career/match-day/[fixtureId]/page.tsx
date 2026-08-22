@@ -11,6 +11,7 @@ import type { PlaybackSpeed } from "@/lib/liveMatch/clock";
 import type { LiveTeamStats } from "@/lib/liveMatch/liveMatchView";
 import { SHOUT_TYPES, shoutDeliveryMinute, shoutExpiryMinute, shoutLabel } from "@/lib/liveMatch/sidelineShout";
 import type { SevenVSixInstruction } from "@/lib/liveMatch/sevenVSixMode";
+import { assessImplementation, IMPLEMENTATION_DELAY_EXTENSION_MINUTES, type ImplementationOutcome } from "@/lib/liveMatch/implementationAssessment";
 import {
   ATI001_USAGE_TENDENCY_VALUES,
   H2_RESPONSE_PREFERENCE_VALUES,
@@ -19,6 +20,16 @@ import {
   h2ResponseLabel,
   type TeamTacticalProfile,
 } from "@/lib/career/teamTacticalProfile";
+import {
+  detectOpponentAdaptationTrigger,
+  OPPONENT_ADAPTATION_DAMPENING_FRACTION,
+  OPPONENT_ADAPTATION_DELAY_MINUTES,
+  OPPONENT_ADAPTATION_TRIGGER_MINUTES,
+  type ObservableTacticalState,
+  type OpponentAdaptationEffect,
+  type OpponentAdaptationTrigger,
+} from "@/lib/career/opponentAdaptation";
+import { seedFromString } from "@handball-manager/game-simulation";
 import ClubCrest from "@/components/ClubCrest";
 import SegmentedControl from "@/components/SegmentedControl";
 
@@ -80,13 +91,26 @@ function LiveMatch({
   // above -- never persisted to career state, and orthogonal to
   // TeamTacticalProfile (still exactly the 3 HM-TACTICS-0.6A fields).
   const [sevenVSixActive, setSevenVSixActive] = useState(false);
+  // HM-TACTICS-0.9: since which simulated match minute the CURRENTLY
+  // EFFECTIVE state has held -- the only thing the opponent's own
+  // adaptation is allowed to observe (see opponentAdaptation.ts). Reset
+  // to the landing minute on every landing, from whatever source
+  // (instruction, shout, or the 7v6 switch itself).
+  const [sevenVSixActiveSinceMinute, setSevenVSixActiveSinceMinute] = useState<number | null>(null);
+  const [ati001HighSinceMinute, setAti001HighSinceMinute] = useState<number | null>(null);
+  const [opponentAdaptationEffect, setOpponentAdaptationEffect] = useState<OpponentAdaptationEffect | null>(null);
+
+  const updateAti001Tracking = useCallback((adoptionMinute: number, profile: TeamTacticalProfile) => {
+    setAti001HighSinceMinute(profile.ati001UsageTendency === "HIGH" ? adoptionMinute : null);
+  }, []);
 
   const handleInstructionAdopted = useCallback(
     (adoptionMinute: number, profile: TeamTacticalProfile) => {
-      applyMidMatchTacticalChange(fixture.id, adoptionMinute, profile, sevenVSixActive);
+      applyMidMatchTacticalChange(fixture.id, adoptionMinute, profile, sevenVSixActive, opponentAdaptationEffect);
       setCurrentProfile(profile);
+      updateAti001Tracking(adoptionMinute, profile);
     },
-    [applyMidMatchTacticalChange, fixture.id, sevenVSixActive],
+    [applyMidMatchTacticalChange, fixture.id, sevenVSixActive, opponentAdaptationEffect, updateAti001Tracking],
   );
 
   // HM-COACHING-0.2: a shout's delivery/expiry each independently splice
@@ -96,17 +120,19 @@ function LiveMatch({
   // called, reverting the temporary override.
   const handleShoutDelivered = useCallback(
     (deliveryMinute: number, overrideProfile: TeamTacticalProfile) => {
-      applyMidMatchTacticalChange(fixture.id, deliveryMinute, overrideProfile, sevenVSixActive);
+      applyMidMatchTacticalChange(fixture.id, deliveryMinute, overrideProfile, sevenVSixActive, opponentAdaptationEffect);
       setCurrentProfile(overrideProfile);
+      updateAti001Tracking(deliveryMinute, overrideProfile);
     },
-    [applyMidMatchTacticalChange, fixture.id, sevenVSixActive],
+    [applyMidMatchTacticalChange, fixture.id, sevenVSixActive, opponentAdaptationEffect, updateAti001Tracking],
   );
   const handleShoutExpired = useCallback(
     (expiryMinute: number, baselineProfile: TeamTacticalProfile) => {
-      applyMidMatchTacticalChange(fixture.id, expiryMinute, baselineProfile, sevenVSixActive);
+      applyMidMatchTacticalChange(fixture.id, expiryMinute, baselineProfile, sevenVSixActive, opponentAdaptationEffect);
       setCurrentProfile(baselineProfile);
+      updateAti001Tracking(expiryMinute, baselineProfile);
     },
-    [applyMidMatchTacticalChange, fixture.id, sevenVSixActive],
+    [applyMidMatchTacticalChange, fixture.id, sevenVSixActive, opponentAdaptationEffect, updateAti001Tracking],
   );
 
   // HM-TACTICS-0.8: 7v6 splices the CURRENT TeamTacticalProfile unchanged
@@ -115,10 +141,22 @@ function LiveMatch({
   // folded in (see tacticalMatchAdjustment.ts).
   const handleSevenVSixAdopted = useCallback(
     (adoptionMinute: number, active: boolean) => {
-      applyMidMatchTacticalChange(fixture.id, adoptionMinute, currentProfile, active);
+      applyMidMatchTacticalChange(fixture.id, adoptionMinute, currentProfile, active, opponentAdaptationEffect);
       setSevenVSixActive(active);
+      setSevenVSixActiveSinceMinute(active ? adoptionMinute : null);
     },
-    [applyMidMatchTacticalChange, fixture.id, currentProfile],
+    [applyMidMatchTacticalChange, fixture.id, currentProfile, opponentAdaptationEffect],
+  );
+
+  // HM-TACTICS-0.9: the opponent's own adaptation lands through the
+  // exact same splice, once assessed -- see the halftime-triggered
+  // effect below for how `assessedOpponentAdaptation` gets set.
+  const handleOpponentAdaptationLanded = useCallback(
+    (adoptionMinute: number, effect: OpponentAdaptationEffect) => {
+      applyMidMatchTacticalChange(fixture.id, adoptionMinute, currentProfile, sevenVSixActive, effect);
+      setOpponentAdaptationEffect(effect);
+    },
+    [applyMidMatchTacticalChange, fixture.id, currentProfile, sevenVSixActive],
   );
 
   const {
@@ -136,6 +174,7 @@ function LiveMatch({
     endTimeout,
     timeoutSecondsRemaining,
     issueTimeoutInstruction,
+    issueHalftimeInstruction,
     pendingShout,
     shoutStatus,
     issueShout,
@@ -144,6 +183,7 @@ function LiveMatch({
     lastSevenVSixOutcome,
     issueSevenVSixInstruction,
     issueSevenVSixTimeoutInstruction,
+    issueSevenVSixHalftimeInstruction,
   } = useLiveMatch(result, handleInstructionAdopted, handleShoutDelivered, handleShoutExpired, handleSevenVSixAdopted);
 
   const home = getClub(fixture.homeClubId)!;
@@ -151,11 +191,73 @@ function LiveMatch({
   const isPlayerHome = fixture.homeClubId === playerClubId;
   const ownSquad = getCareerSquad(career);
   const isTimeout = view.phase === "TIMEOUT";
+  const isHalfTime = view.phase === "HALF_TIME";
   const canIssueInstruction = !pendingInstruction && (view.phase === "FIRST_HALF" || view.phase === "SECOND_HALF");
   const canIssueTimeoutInstruction = !pendingInstruction && isTimeout;
+  const canIssueHalftimeInstruction = !pendingInstruction && isHalfTime;
   const canIssueShout = !pendingShout && (view.phase === "FIRST_HALF" || view.phase === "SECOND_HALF");
   const canIssueSevenVSixSideline = !pendingSevenVSixInstruction && (view.phase === "FIRST_HALF" || view.phase === "SECOND_HALF");
   const canIssueSevenVSixTimeout = !pendingSevenVSixInstruction && isTimeout;
+  const canIssueSevenVSixHalftime = !pendingSevenVSixInstruction && isHalfTime;
+
+  // HM-TACTICS-0.9: evaluated exactly once per match, the moment HALF_TIME
+  // begins, using whatever state was observable through the FIRST HALF
+  // (before any halftime decision the manager is about to make) -- "no
+  // adaptation if there is nothing supported to react to" is just
+  // detectOpponentAdaptationTrigger returning null. Only ever schedules
+  // an assessed reaction; landing (with its own delay, below) can only
+  // happen once the SECOND half is under way.
+  const [assessedOpponentAdaptation, setAssessedOpponentAdaptation] = useState<{
+    trigger: OpponentAdaptationTrigger;
+    outcome: ImplementationOutcome;
+    assessmentMinute: number;
+    actualAdoptionMinute: number;
+  } | null>(null);
+  const halftimeAdaptationCheckedRef = useRef(false);
+  const opponentAdaptationLandedRef = useRef(false);
+
+  useEffect(() => {
+    if (view.phase !== "HALF_TIME" || halftimeAdaptationCheckedRef.current) {
+      return;
+    }
+    halftimeAdaptationCheckedRef.current = true;
+    const observable: ObservableTacticalState = {
+      sevenVSixActive,
+      sevenVSixActiveSinceMinute,
+      ati001UsageTendency: currentProfile.ati001UsageTendency,
+      ati001HighSinceMinute,
+    };
+    const trigger = detectOpponentAdaptationTrigger(observable, 30);
+    if (!trigger) {
+      return;
+    }
+    const seed = seedFromString(`${result.seed}:opponentAdaptation:${trigger}`);
+    const { outcome } = assessImplementation(seed, {
+      tacticalFamiliarity: "MEDIUM",
+      deliveryMode: "SIDELINE",
+      changedUnitCount: 1,
+      recentChangeCount: 0,
+    });
+    const assessmentMinute = Math.min(60, 30 + OPPONENT_ADAPTATION_DELAY_MINUTES);
+    const actualAdoptionMinute = outcome === "DELAYED" ? Math.min(60, assessmentMinute + IMPLEMENTATION_DELAY_EXTENSION_MINUTES) : assessmentMinute;
+    queueMicrotask(() => {
+      setAssessedOpponentAdaptation({ trigger, outcome, assessmentMinute, actualAdoptionMinute });
+    });
+  }, [view.phase, sevenVSixActive, sevenVSixActiveSinceMinute, currentProfile.ati001UsageTendency, ati001HighSinceMinute, result.seed]);
+
+  useEffect(() => {
+    if (!assessedOpponentAdaptation || opponentAdaptationLandedRef.current) {
+      return;
+    }
+    if (view.clockMinute < assessedOpponentAdaptation.actualAdoptionMinute) {
+      return;
+    }
+    opponentAdaptationLandedRef.current = true;
+    const { trigger, actualAdoptionMinute } = assessedOpponentAdaptation;
+    queueMicrotask(() => {
+      handleOpponentAdaptationLanded(actualAdoptionMinute, { trigger, dampeningFraction: OPPONENT_ADAPTATION_DAMPENING_FRACTION });
+    });
+  }, [assessedOpponentAdaptation, view.clockMinute, handleOpponentAdaptationLanded]);
 
   useEffect(() => {
     logRef.current?.scrollTo({ top: logRef.current.scrollHeight });
@@ -164,7 +266,6 @@ function LiveMatch({
   const ownPlayerGoals = isPlayerHome ? view.homePlayerGoals : view.awayPlayerGoals;
   const ownContributions = isPlayerHome ? result.homePlayerContributions : result.awayPlayerContributions;
   const isFullTime = view.phase === "FULL_TIME";
-  const isHalfTime = view.phase === "HALF_TIME";
   const commentaryEvents = [...view.revealedEvents].reverse();
 
   return (
@@ -334,6 +435,74 @@ function LiveMatch({
             </div>
           </div>
         </div>
+      ) : isHalfTime ? (
+        /* HM-TACTICS-0.9: halftime is a dedicated coaching window, mirroring the timeout panel but with a strictly BETTER delivery context (see implementationAssessment.ts's DELIVERY_SCORE) -- never a magical bonus, only improved delivery reliability. No new controls: the exact same 3 profile fields + 7v6. */
+        <div className="hm-panel">
+          <div className="hm-panel-header">
+            <span className="hm-panel-title">Paus — laguppställning inför andra halvlek</span>
+          </div>
+          <div className="hm-panel-body" style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+            <SegmentedControl
+              label="ATI-001-benägenhet"
+              value={draftProfile.ati001UsageTendency}
+              options={ATI001_USAGE_TENDENCY_VALUES}
+              renderLabel={capabilityLevelLabel}
+              onChange={(v) => setDraftProfile((p) => ({ ...p, ati001UsageTendency: v }))}
+              disabled={!canIssueHalftimeInstruction}
+            />
+            <SegmentedControl
+              label="H2-respons (TI-001)"
+              value={draftProfile.h2ResponsePreference}
+              options={H2_RESPONSE_PREFERENCE_VALUES}
+              renderLabel={h2ResponseLabel}
+              onChange={(v) => setDraftProfile((p) => ({ ...p, h2ResponsePreference: v }))}
+              disabled={!canIssueHalftimeInstruction}
+            />
+            <SegmentedControl
+              label="Taktisk förtrogenhet"
+              value={draftProfile.tacticalFamiliarity}
+              options={TACTICAL_FAMILIARITY_VALUES}
+              renderLabel={capabilityLevelLabel}
+              onChange={(v) => setDraftProfile((p) => ({ ...p, tacticalFamiliarity: v }))}
+              disabled={!canIssueHalftimeInstruction}
+            />
+            <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
+              <button
+                type="button"
+                className="hm-btn hm-btn-sm hm-btn-primary"
+                disabled={!canIssueHalftimeInstruction}
+                onClick={() => issueHalftimeInstruction(draftProfile, currentProfile)}
+              >
+                GE MATCHPAUSTAL
+              </button>
+              <span className="hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)" }}>
+                {pendingInstruction
+                  ? `${instructionLabel(instructionStatus)} (en genomtänkt paustal ger bättre förutsättningar än en snabb instruktion under spel, men garanterar ingenting).`
+                  : (lastOutcomeLabel(lastInstructionOutcome) ?? "Gäller för andra halvlek -- laget hör detta innan de går ut på planen igen.")}
+              </span>
+            </div>
+            <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap", borderTop: "1px solid var(--hm-border-subtle)", paddingTop: 10 }}>
+              <span className="hm-eyebrow">7v6</span>
+              <button
+                type="button"
+                className="hm-btn hm-btn-sm hm-btn-primary"
+                disabled={!canIssueSevenVSixHalftime || sevenVSixActive}
+                onClick={() => issueSevenVSixHalftimeInstruction("ON", currentProfile.tacticalFamiliarity)}
+              >
+                SLÅ PÅ FRÅN ANDRA HALVLEK
+              </button>
+              <button
+                type="button"
+                className="hm-btn hm-btn-sm"
+                disabled={!canIssueSevenVSixHalftime || !sevenVSixActive}
+                onClick={() => issueSevenVSixHalftimeInstruction("OFF", currentProfile.tacticalFamiliarity)}
+              >
+                STÄNG AV FRÅN ANDRA HALVLEK
+              </button>
+              <SevenVSixStatus pendingInstruction={pendingSevenVSixInstruction} status={sevenVSixInstructionStatus} active={sevenVSixActive} lastOutcome={lastSevenVSixOutcome} />
+            </div>
+          </div>
+        </div>
       ) : (
         /* HM-TACTICS-0.7: in-match tactical adjustment (only the 3 HM-TACTICS-0.6A controls -- no shouts/7v6/receptiveness here). */
         <div className="hm-panel">
@@ -385,8 +554,8 @@ function LiveMatch({
         </div>
       )}
 
-      {/* HM-COACHING-0.2: sideline shouts -- a small, TEMPORARY nudge (issued -> pending -> active -> expired) distinct from the permanent tactical instruction/timeout panels above. Never available during a TIMEOUT (that has its own dedicated coaching flow). */}
-      {!isTimeout ? (
+      {/* HM-COACHING-0.2: sideline shouts -- a small, TEMPORARY nudge (issued -> pending -> active -> expired) distinct from the permanent tactical instruction/timeout panels above. Never available during a TIMEOUT or HALF_TIME (play isn't live to shout into). */}
+      {!isTimeout && !isHalfTime ? (
         <div className="hm-panel">
           <div className="hm-panel-header">
             <span className="hm-panel-title">Sidlinjerop</span>
@@ -448,9 +617,13 @@ function LiveMatch({
           </div>
           <span className="hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)" }}>
             Extra anfallare istället för målvakt -- fler anfallsmöjligheter, men högre risk om bollen tappas. Ett byte i taget; en timeout levererar bytet snabbare än en vanlig sidlinjeinstruktion.
+            Håller ni det igång i {OPPONENT_ADAPTATION_TRIGGER_MINUTES}+ minuter kan motståndaren märka mönstret och anpassa sig.
           </span>
         </div>
       </div>
+
+      {/* HM-TACTICS-0.9: the smallest deterministic opponent-adaptation notice -- only ever shown once the opponent has actually noticed a sustained first-half pattern (see opponentAdaptation.ts); nothing renders at all otherwise ("no adaptation if there is nothing supported to react to"). Discrete labels only, no exposed scores/probabilities. */}
+      <OpponentAdaptationPanel assessed={assessedOpponentAdaptation} clockMinute={view.clockMinute} />
 
       {/* Controls */}
       <div className="hm-panel">
@@ -611,6 +784,44 @@ function SevenVSixStatus({
       7v6 {active ? "ACTIVE" : "OFF"}
       {lastOutcome?.outcome === "DELAYED" ? " (senast försenad)" : ""}
     </span>
+  );
+}
+
+/**
+ * HM-TACTICS-0.9: renders nothing at all unless the opponent has
+ * actually detected a sustained pattern (Spec: "no adaptation if there
+ * is nothing supported to react to") -- and even then, only ever a
+ * discrete PENDING/DELAYED/ADOPTED label plus which of the two
+ * observable signals triggered it, never an exact numeric effect
+ * (Spec: "without exposing fake tactical certainty").
+ */
+function OpponentAdaptationPanel({
+  assessed,
+  clockMinute,
+}: {
+  assessed: { trigger: OpponentAdaptationTrigger; outcome: ImplementationOutcome; assessmentMinute: number; actualAdoptionMinute: number } | null;
+  clockMinute: number;
+}) {
+  if (!assessed) {
+    return null;
+  }
+  const triggerLabel = assessed.trigger === "SEVEN_V_SIX" ? "ert ihållande 7v6" : "er höga ATI-001-användning";
+  const landed = clockMinute >= assessed.actualAdoptionMinute;
+  const status: InstructionLifecycleStatus = landed ? "ADOPTED" : assessed.outcome === "DELAYED" && clockMinute >= assessed.assessmentMinute ? "DELAYED" : "PENDING";
+  return (
+    <div className="hm-panel">
+      <div className="hm-panel-header">
+        <span className="hm-panel-title">Motståndaranpassning</span>
+        <span className="hm-badge hm-badge-neutral">{status}</span>
+      </div>
+      <div className="hm-panel-body">
+        <span className="hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)" }}>
+          {landed
+            ? `Motståndaren har anpassat sig efter ${triggerLabel} -- ingen exakt effekt visas.`
+            : `Motståndaren verkar ha märkt ${triggerLabel} och är på väg att anpassa sig.`}
+        </span>
+      </div>
+    </div>
   );
 }
 

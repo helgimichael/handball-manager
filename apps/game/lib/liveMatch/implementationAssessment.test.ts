@@ -116,6 +116,24 @@ test("directional: TIMEOUT delivery yields FULL more often (and DELAYED less oft
   assert.ok(delayedAtTimeout < delayedAtSideline, `TIMEOUT must reach DELAYED less often than SIDELINE (timeout=${delayedAtTimeout}, sideline=${delayedAtSideline})`);
 });
 
+test("HM-TACTICS-0.9 directional: HALFTIME delivery yields FULL more often (and DELAYED less often) than TIMEOUT, averaged over many seeds -- still delivery reliability only, never a claim about tactical strength", () => {
+  const SAMPLES = 300;
+  let fullAtTimeout = 0;
+  let fullAtHalftime = 0;
+  let delayedAtTimeout = 0;
+  let delayedAtHalftime = 0;
+  for (let seed = 0; seed < SAMPLES; seed += 1) {
+    const timeout = assessImplementation(seed, baseContext({ deliveryMode: "TIMEOUT", changedUnitCount: 2 }));
+    const halftime = assessImplementation(seed, baseContext({ deliveryMode: "HALFTIME", changedUnitCount: 2 }));
+    if (timeout.outcome === "FULL") fullAtTimeout += 1;
+    if (halftime.outcome === "FULL") fullAtHalftime += 1;
+    if (timeout.outcome === "DELAYED") delayedAtTimeout += 1;
+    if (halftime.outcome === "DELAYED") delayedAtHalftime += 1;
+  }
+  assert.ok(fullAtHalftime > fullAtTimeout, `HALFTIME must reach FULL more often than TIMEOUT (halftime=${fullAtHalftime}, timeout=${fullAtTimeout})`);
+  assert.ok(delayedAtHalftime < delayedAtTimeout, `HALFTIME must reach DELAYED less often than TIMEOUT (halftime=${delayedAtHalftime}, timeout=${delayedAtTimeout})`);
+});
+
 test("directional: more recent tactical changes yield FULL less often (and DELAYED more often) than none, averaged over many seeds -- bounded, not an unlimited spiral", () => {
   const SAMPLES = 300;
   let fullAtZero = 0;

@@ -46,6 +46,12 @@
 // from the 7v6 risk state" in the sense the spec asks for, so it is
 // reported as unavailable rather than faked (see this milestone's
 // report for the full audit).
+//
+// HM-TACTICS-0.9: `opponentAdaptation` (also required, also nullable --
+// pass null explicitly when there is nothing for the opponent to react
+// to) is threaded straight through to computeTacticalMatchAdjustment
+// too, so a halftime instruction, a later sideline change, or a shout
+// all keep folding in whatever the opponent has already adapted to.
 import { simulateMatchSegment, type FastMatchResult, type MatchEvent, type PlayerMatchContribution } from "@handball-manager/game-simulation";
 import { createRng, seedFromString } from "@handball-manager/game-simulation";
 import { getClubStrength } from "../game-data/clubStrength";
@@ -54,6 +60,7 @@ import { computeTacticalMatchAdjustment } from "./tacticalMatchAdjustment";
 import { getCareerSquad } from "./careerWorld";
 import { buildMatchRoster } from "./tumbaRoster";
 import type { TeamTacticalProfile } from "./teamTacticalProfile";
+import type { OpponentAdaptationEffect } from "./opponentAdaptation";
 import type { CareerState } from "./types";
 
 /**
@@ -121,6 +128,7 @@ export function applyMidMatchTacticalChange(
   adoptionMinute: number,
   newProfile: TeamTacticalProfile,
   sevenVSixActive: boolean,
+  opponentAdaptation: OpponentAdaptationEffect | null,
 ): CareerState {
   const original = state.results[fixtureId];
   if (!original || adoptionMinute >= 60) {
@@ -130,7 +138,15 @@ export function applyMidMatchTacticalChange(
   const roster = buildMatchRoster(getCareerSquad(state), state.playerStatuses);
   const managerIsHome = original.homeClubId === state.playerClubId;
 
-  const adjustment = computeTacticalMatchAdjustment(state.saveSeed, fixtureId, state.playerClubId, original.homeClubId, newProfile, sevenVSixActive);
+  const adjustment = computeTacticalMatchAdjustment(
+    state.saveSeed,
+    fixtureId,
+    state.playerClubId,
+    original.homeClubId,
+    newProfile,
+    sevenVSixActive,
+    opponentAdaptation,
+  );
 
   const segmentSeed = seedFromString(`${state.saveSeed}:${fixtureId}:midmatch:${adoptionMinute}`);
   const segment = simulateMatchSegment({

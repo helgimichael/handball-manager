@@ -18,10 +18,11 @@
 //   - instruction complexity (how many of the 3 TeamTacticalProfile
 //     fields the instruction actually asks to change -- 0 fields is
 //     trivial, 3 is a full tactical overhaul)
-//   - delivery mode (SIDELINE vs TIMEOUT -- a timeout gives the whole
-//     team's attention, so it improves DELIVERY RELIABILITY only,
-//     never the tactical adjustment's own magnitude; that stays exactly
-//     what tacticalMatchAdjustment.ts already computes)
+//   - delivery mode (SIDELINE vs TIMEOUT vs HALFTIME -- each gives the
+//     team progressively more attention/time, so it improves DELIVERY
+//     RELIABILITY only, never the tactical adjustment's own magnitude;
+//     that stays exactly what tacticalMatchAdjustment.ts already
+//     computes)
 //   - how many other tactical changes (instructions, shouts, 7v6
 //     switches -- anything issued through useLiveMatch.ts) happened
 //     recently, as a simple recency count within one fixed window
@@ -42,6 +43,13 @@
 // give a genuine "some landed, some didn't" outcome to model); a
 // single-unit change (7v6's own ON/OFF) can only ever be FULL or
 // DELAYED -- there is nothing to partially adopt.
+//
+// HM-TACTICS-0.9 reuses this exact same `assessImplementation` for two
+// more things, both still single-unit (FULL/DELAYED only): halftime
+// instructions (a third delivery mode, see tacticalInstruction.ts) and
+// the opponent's own adaptation (career/opponentAdaptation.ts) -- the
+// opponent "deciding" whether its own reaction lands cleanly or takes
+// longer is the same kind of situational assessment, not a new concept.
 //
 // All numeric calibration below is PROVISIONAL and ISOLATED to this
 // file, exactly like tacticalMatchAdjustment.ts's own OUTCOME_ATTACK_
@@ -66,7 +74,14 @@ const MAX_RECENT_CHANGE_PENALTY_STEPS = 4;
 // technical weight, not a claim about real coaching psychology.
 // ---------------------------------------------------------------------
 const FAMILIARITY_SCORE: Record<CapabilityLevel, number> = { LOW: -0.3, MEDIUM: 0, HIGH: 0.3 };
-const TIMEOUT_DELIVERY_SCORE = 0.25;
+/**
+ * HM-TACTICS-0.9: HALFTIME scores strictly better than TIMEOUT -- a
+ * proper sit-down team talk with the whole break to work with beats a
+ * hurried 60-second stoppage. Still delivery RELIABILITY only, never
+ * the tactical adjustment's own magnitude (see tacticalInstruction.ts's
+ * module doc).
+ */
+const DELIVERY_SCORE: Record<InstructionDeliveryMode, number> = { SIDELINE: 0, TIMEOUT: 0.25, HALFTIME: 0.4 };
 const COMPLEXITY_PENALTY_PER_EXTRA_FIELD = 0.15;
 const RECENT_CHANGE_PENALTY_PER_CHANGE = 0.12;
 
@@ -110,7 +125,7 @@ export function assessImplementation(seed: number, context: ImplementationContex
   const rng = createRng(seed);
 
   const familiarityScore = FAMILIARITY_SCORE[context.tacticalFamiliarity];
-  const deliveryScore = context.deliveryMode === "TIMEOUT" ? TIMEOUT_DELIVERY_SCORE : 0;
+  const deliveryScore = DELIVERY_SCORE[context.deliveryMode];
   const complexityPenalty = Math.max(0, context.changedUnitCount - 1) * COMPLEXITY_PENALTY_PER_EXTRA_FIELD;
   const recentChangePenalty = Math.min(context.recentChangeCount, MAX_RECENT_CHANGE_PENALTY_STEPS) * RECENT_CHANGE_PENALTY_PER_CHANGE;
 

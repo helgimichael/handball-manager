@@ -12,6 +12,7 @@ import { migrateCareerState } from "./saveMigration";
 import { applyMidMatchTacticalChange } from "./tacticalMidMatchChange";
 import { updateTacticalProfile } from "./tacticalProfileActions";
 import type { TeamTacticalProfile } from "./teamTacticalProfile";
+import type { OpponentAdaptationEffect } from "./opponentAdaptation";
 import type { CareerEvent } from "./careerEvents";
 import type { CareerState } from "./types";
 
@@ -44,7 +45,13 @@ type CareerContextValue = {
    * elapsed (see lib/liveMatch/tacticalInstruction.ts) -- it does not
    * itself gate on any delay.
    */
-  applyMidMatchTacticalChange: (fixtureId: string, adoptionMinute: number, profile: TeamTacticalProfile, sevenVSixActive: boolean) => void;
+  applyMidMatchTacticalChange: (
+    fixtureId: string,
+    adoptionMinute: number,
+    profile: TeamTacticalProfile,
+    sevenVSixActive: boolean,
+    opponentAdaptation: OpponentAdaptationEffect | null,
+  ) => void;
 };
 
 const CareerContext = createContext<CareerContextValue | null>(null);
@@ -163,7 +170,13 @@ export function CareerProvider({ children }: { children: ReactNode }) {
     setValue({ save: value!.save, career: nextCareer });
   }
 
-  function applyMidMatchTacticalChangeAction(fixtureId: string, adoptionMinute: number, profile: TeamTacticalProfile, sevenVSixActive: boolean) {
+  function applyMidMatchTacticalChangeAction(
+    fixtureId: string,
+    adoptionMinute: number,
+    profile: TeamTacticalProfile,
+    sevenVSixActive: boolean,
+    opponentAdaptation: OpponentAdaptationEffect | null,
+  ) {
     // HM-COACHING-0.2: a shout's delivery and expiry can both fire back
     // to back within the same microtask (e.g. the manager presses DIREKT
     // RESULTAT while a shout is still pending -- see sidelineShout.ts's
@@ -175,7 +188,7 @@ export function CareerProvider({ children }: { children: ReactNode }) {
       if (!current) {
         return current;
       }
-      const nextCareer = applyMidMatchTacticalChange(current.career, fixtureId, adoptionMinute, profile, sevenVSixActive);
+      const nextCareer = applyMidMatchTacticalChange(current.career, fixtureId, adoptionMinute, profile, sevenVSixActive, opponentAdaptation);
       if (nextCareer === current.career) {
         return current;
       }

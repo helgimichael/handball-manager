@@ -3,6 +3,7 @@ import assert from "node:assert/strict";
 import { defaultTeamTacticalProfile } from "../career/teamTacticalProfile";
 import {
   TACTICAL_INSTRUCTION_ADOPTION_DELAY_MINUTES,
+  TACTICAL_INSTRUCTION_HALFTIME_ADOPTION_DELAY_MINUTES,
   TACTICAL_INSTRUCTION_TIMEOUT_ADOPTION_DELAY_MINUTES,
   instructionAdoptionMinute,
   resolveInstructionStatus,
@@ -67,4 +68,11 @@ test("HM-COACHING-0.1: the timeout delay is still deterministic, provisional, an
   assert.ok(a <= 60);
 
   assert.equal(instructionAdoptionMinute(instructionAt(59, "TIMEOUT")), 60);
+});
+
+test("HM-TACTICS-0.9: a HALFTIME-delivered instruction has ZERO extra delay -- it adopts immediately at the minute it's issued (always 30, since that's the only minute HALF_TIME exists at)", () => {
+  assert.equal(TACTICAL_INSTRUCTION_HALFTIME_ADOPTION_DELAY_MINUTES, 0);
+  const halftime = instructionAt(30, "HALFTIME");
+  assert.equal(instructionAdoptionMinute(halftime), 30);
+  assert.equal(resolveInstructionStatus(halftime, 30), "ADOPTED");
 });

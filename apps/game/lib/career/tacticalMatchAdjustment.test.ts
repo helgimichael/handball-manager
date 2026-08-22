@@ -2,6 +2,7 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import { computeTacticalMatchAdjustment } from "./tacticalMatchAdjustment";
 import { defaultTeamTacticalProfile } from "./teamTacticalProfile";
+import { OPPONENT_ADAPTATION_DAMPENING_FRACTION, type OpponentAdaptationEffect } from "./opponentAdaptation";
 
 const MAX = 1.2; // matches MAX_TACTICAL_ADJUSTMENT_GOALS in tacticalMatchAdjustment.ts
 const MAX_SEVEN_V_SIX = 2.4; // matches MAX_SEVEN_V_SIX_ADJUSTMENT_GOALS in tacticalMatchAdjustment.ts (HM-TACTICS-0.8)
@@ -157,4 +158,63 @@ test("7v6 anti-stacking: computing the ON adjustment twice never compounds -- it
   const once = computeTacticalMatchAdjustment("save-7v6-stack", "fx-1", "clubA", "clubA", profile, true);
   const twice = computeTacticalMatchAdjustment("save-7v6-stack", "fx-1", "clubA", "clubA", profile, true);
   assert.deepEqual(once, twice);
+});
+
+// HM-TACTICS-0.9: opponent adaptation DAMPENS -- never adds to -- exactly one of the two existing bonus channels above.
+test("opponent adaptation is opt-in: omitting the argument (or passing null) reproduces the pre-HM-TACTICS-0.9 result exactly", () => {
+  const profile = defaultTeamTacticalProfile();
+  const omitted = computeTacticalMatchAdjustment("save-adapt-default", "fx-1", "clubA", "clubA", profile, true);
+  const explicitNull = computeTacticalMatchAdjustment("save-adapt-default", "fx-1", "clubA", "clubA", profile, true, null);
+  assert.deepEqual(omitted, explicitNull);
+});
+
+test("ATI001_HIGH adaptation dampens (never below the pre-bonus baseline, never negative-of-itself) the manager's own attack-direction adjustment, never the opponent's own", () => {
+  const profile = { ...defaultTeamTacticalProfile(), ati001UsageTendency: "HIGH" as const };
+  const effect: OpponentAdaptationEffect = { trigger: "ATI001_HIGH", dampeningFraction: OPPONENT_ADAPTATION_DAMPENING_FRACTION };
+  const SAMPLE_FIXTURES = 20;
+  let undampenedTotal = 0;
+  let dampenedTotal = 0;
+  let undampenedAwayTotal = 0;
+  let dampenedAwayTotal = 0;
+  for (let i = 0; i < SAMPLE_FIXTURES; i += 1) {
+    const fixtureId = `fx-adapt-ati001-${i}`;
+    const undampened = computeTacticalMatchAdjustment("save-adapt-ati001", fixtureId, "clubA", "clubA", profile, false, null);
+    const dampened = computeTacticalMatchAdjustment("save-adapt-ati001", fixtureId, "clubA", "clubA", profile, false, effect);
+    undampenedTotal += undampened.home;
+    dampenedTotal += dampened.home;
+    undampenedAwayTotal += undampened.away;
+    dampenedAwayTotal += dampened.away;
+  }
+  assert.ok(
+    Math.abs(dampenedTotal) < Math.abs(undampenedTotal),
+    `adaptation must reduce the magnitude of the manager's own attack-direction adjustment, toward zero, regardless of its sign (undampened avg=${undampenedTotal / SAMPLE_FIXTURES}, dampened avg=${dampenedTotal / SAMPLE_FIXTURES})`,
+  );
+  assert.equal(undampenedAwayTotal, dampenedAwayTotal, "ATI001_HIGH adaptation must never touch the opponent's own (defense-direction) adjustment");
+});
+
+test("SEVEN_V_SIX adaptation dampens only the flat opponent-risk bonus, never the manager's own numerical-superiority bonus", () => {
+  const profile = defaultTeamTacticalProfile();
+  const effect: OpponentAdaptationEffect = { trigger: "SEVEN_V_SIX", dampeningFraction: OPPONENT_ADAPTATION_DAMPENING_FRACTION };
+  const undampened = computeTacticalMatchAdjustment("save-adapt-7v6", "fx-1", "clubA", "clubA", profile, true, null);
+  const dampened = computeTacticalMatchAdjustment("save-adapt-7v6", "fx-1", "clubA", "clubA", profile, true, effect);
+
+  assert.equal(undampened.home, dampened.home, "SEVEN_V_SIX adaptation must never touch the manager's own (attack-direction) adjustment");
+  assert.ok(dampened.away < undampened.away, `adaptation must reduce the opponent-risk bonus (undampened=${undampened.away}, dampened=${dampened.away})`);
+});
+
+test("SEVEN_V_SIX adaptation has no effect at all when 7v6 is OFF -- there is no risk bonus left to dampen", () => {
+  const profile = defaultTeamTacticalProfile();
+  const effect: OpponentAdaptationEffect = { trigger: "SEVEN_V_SIX", dampeningFraction: OPPONENT_ADAPTATION_DAMPENING_FRACTION };
+  const undampened = computeTacticalMatchAdjustment("save-adapt-7v6-off", "fx-1", "clubA", "clubA", profile, false, null);
+  const dampened = computeTacticalMatchAdjustment("save-adapt-7v6-off", "fx-1", "clubA", "clubA", profile, false, effect);
+  assert.deepEqual(undampened, dampened);
+});
+
+test("ATI001_HIGH adaptation has no relevant effect when ati001UsageTendency is not HIGH -- there is nothing sustained to have adapted to", () => {
+  const profile = { ...defaultTeamTacticalProfile(), ati001UsageTendency: "MEDIUM" as const };
+  const effect: OpponentAdaptationEffect = { trigger: "ATI001_HIGH", dampeningFraction: OPPONENT_ADAPTATION_DAMPENING_FRACTION };
+  const undampened = computeTacticalMatchAdjustment("save-adapt-medium", "fx-1", "clubA", "clubA", profile, false, null);
+  const dampened = computeTacticalMatchAdjustment("save-adapt-medium", "fx-1", "clubA", "clubA", profile, false, effect);
+  // The dampening still applies mechanically to whatever the (near-neutral) MEDIUM attack score produces, but the effect is bounded, never a new bonus, and never worse than the deterministic pre-adaptation result in direction.
+  assert.ok(Math.abs(dampened.home) <= Math.abs(undampened.home) + 1e-9);
 });
