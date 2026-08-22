@@ -8,6 +8,10 @@
 import { useEffect, useMemo, useState } from "react";
 import type { CSSProperties } from "react";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
+import { getAttributeLabel } from "@/lib/rating/attributeVocabulary";
+import type { GoalkeeperAttribute, OutcourtAttribute } from "@/lib/rating/types";
+import { GeneratedProfilePreviewPanel } from "@/components/GeneratedProfilePreview";
+import type { GenerationResult } from "@/lib/rating/generation/types";
 
 const REVIEW_STATUSES = ["UNASSESSED", "PROPOSED", "REVIEWED", "LOCKED"] as const;
 
@@ -50,6 +54,7 @@ interface RatingRow {
   status: string;
   note: string | null;
   reviewedAt: string | null;
+  generatedPreview: GenerationResult;
 }
 
 interface IdentityRow {
@@ -283,7 +288,7 @@ export default function RatingReviewPlayerPage() {
               <tbody>
                 {Object.entries(knownAttributes!).map(([name, value]) => (
                   <tr key={name}>
-                    <td className="hm-td-strong">{name}</td>
+                    <td className="hm-td-strong">{getAttributeLabel(name as OutcourtAttribute | GoalkeeperAttribute)}</td>
                     <td className="hm-table-num">{value}</td>
                   </tr>
                 ))}
@@ -295,6 +300,8 @@ export default function RatingReviewPlayerPage() {
           </>
         )}
       </div>
+
+      <GeneratedProfilePreviewPanel result={row.generatedPreview} />
 
       <ClaimTable title="EXPERTANKARE" claims={[...claimsByEvidenceClass.anchors, ...claimsByEvidenceClass.projection]} emptyText="Inga expertankare registrerade." />
       <ClaimTable title="VERIFIERADE KARRIÄRSIGNALER" claims={claimsByEvidenceClass.careerSignals} emptyText="Inga verifierade karriärsignaler bortom truppmedlemskap." />

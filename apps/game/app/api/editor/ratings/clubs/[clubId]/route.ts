@@ -8,6 +8,7 @@ import { NextResponse } from "next/server";
 import { isEditorEnabled } from "@/lib/editor/env";
 import { loadRatingReviewState } from "@/lib/editor/ratingReviewRepository";
 import { snapshotClubRatingProposals } from "@/lib/gameWorld/ratingProposalSnapshot";
+import { generatePlayerRatingProfile } from "@/lib/rating/generation/generationEngine";
 
 export async function GET(_request: Request, { params }: { params: Promise<{ clubId: string }> }) {
   if (!isEditorEnabled()) {
@@ -31,6 +32,11 @@ export async function GET(_request: Request, { params }: { params: Promise<{ clu
       status: review?.status ?? defaultStatus,
       note: review?.note ?? null,
       reviewedAt: review?.updatedAt ?? null,
+      // HM-RATINGS-0.4 Part G: a PREVIEW-only complete generated
+      // profile for Rating Review -- never persisted, never the basis
+      // for review status, and never surfaced on the normal Player
+      // Profile (that stays evidence-only per HM-UX-0.3).
+      generatedPreview: generatePlayerRatingProfile(profile),
     };
   });
 

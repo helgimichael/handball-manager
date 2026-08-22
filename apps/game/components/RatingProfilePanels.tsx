@@ -15,7 +15,8 @@ import type { CSSProperties } from "react";
 // dependency -- safe to import directly into a client component,
 // unlike lib/rating/pipeline/* or lib/gameWorld/* (both fs-touching,
 // server-only).
-import type { AbilityRating, PlayerRatingProfile } from "@/lib/rating/types";
+import type { AbilityRating, GoalkeeperAttribute, OutcourtAttribute, PlayerRatingProfile } from "@/lib/rating/types";
+import { getAttributeLabel } from "@/lib/rating/attributeVocabulary";
 
 export interface RatingProposalRow {
   profile: PlayerRatingProfile;
@@ -97,7 +98,7 @@ export function RatingAttributesPanel({ row }: { row: RatingProposalRow }) {
         <div className="hm-panel-body" style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "6px 20px" }}>
           {Object.entries(known!).map(([name, value]) => (
             <div key={name} className="hm-stat-row">
-              <span className="hm-stat-label">{name}</span>
+              <span className="hm-stat-label">{getAttributeLabel(name as OutcourtAttribute | GoalkeeperAttribute)}</span>
               <span style={statValueStyle}>{value}</span>
             </div>
           ))}
