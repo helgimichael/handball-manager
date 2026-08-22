@@ -4,7 +4,7 @@
 // enough to make every player at a position (or with a given role)
 // converge to the same profile. Evidence-backed attributes are never
 // touched by any of this (see generationEngine.ts).
-import { ATTRIBUTE_MAX, ATTRIBUTE_MIN, CA_MAX, CA_MIN, type AttackRole, type DefenceRole, type OutcourtAttribute, type OutcourtAttributeFamily, type OutcourtPositionId } from "../types";
+import { ATTRIBUTE_MAX, ATTRIBUTE_MIN, CA_MAX, CA_MIN, type AttackRole, type DefenceRole, type GoalkeeperAttribute, type OutcourtAttribute, type OutcourtAttributeFamily, type OutcourtPositionId } from "../types";
 
 /**
  * Maps a resolved CA (1-200) to a coherent attribute-scale (1-20)
@@ -76,3 +76,20 @@ export const ROLE_ATTRIBUTE_ASSOCIATIONS: Partial<Record<AttackRole | DefenceRol
 
 /** Deterministic variation stays small relative to baseline/family/role signals (Part D: "must never overpower CA, known evidence, role structure, position structure"). */
 export const VARIATION_MAGNITUDE = 1;
+
+/**
+ * HM-RATINGS-0.6 Part D/F: the goalkeeper counterpart to
+ * ROLE_ATTRIBUTE_ASSOCIATIONS above -- goalkeepers have no
+ * AttackRole/DefenceRole to key off, so HM-RATINGS-0.6 assigns each
+ * generated (non-evidenced) goalkeeper one of these 4 small archetypes
+ * (lib/rating/gamePrior/archetypeAssignment.ts) via a claim
+ * (domain "ARCHETYPE", key "gkArchetype"); generationEngine.ts reads it
+ * the same way it reads a known AttackRole/DefenceRole for outcourt
+ * players -- elevating the associated attributes to DERIVED.
+ */
+export const GOALKEEPER_ARCHETYPE_ATTRIBUTE_ASSOCIATIONS: Record<string, Partial<Record<GoalkeeperAttribute, number>>> = {
+  SHOT_STOPPER: { REACTION: 3, GK_EXPLOSIVENESS: 2, CLOSE_RANGE_SAVES: 2, LOW_SAVES: 1 },
+  POSITIONING_READER: { GK_POSITIONING: 3, SHOOTER_READING: 2, SHOT_ANTICIPATION: 2, SET_POSITION: 1 },
+  DISTRIBUTOR: { OUTLET_PASSING: 3, RESTART_SPEED: 2, TRANSITION_DECISION: 2 },
+  // BALANCED_GOALKEEPER deliberately has no strong emphasis -- the "generalist" archetype.
+};

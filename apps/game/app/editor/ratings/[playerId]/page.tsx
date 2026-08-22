@@ -75,7 +75,7 @@ interface LockedRecord {
   lockedNote?: string;
 }
 
-type CASource = "CALIBRATED" | "MODEL_ESTIMATE" | "EDITOR_OVERRIDE" | "UNRESOLVED";
+type CASource = "CALIBRATED" | "MODEL_ESTIMATE" | "GENERATED_GAME_PRIOR" | "EDITOR_OVERRIDE" | "UNRESOLVED";
 
 interface RatingRow {
   profile: RatingProfile;
@@ -84,6 +84,7 @@ interface RatingRow {
   caSource: CASource;
   override: RatingOverride | null;
   locked: LockedRecord | null;
+  gamePriorArchetype: string | null;
   defaultStatus: string;
   status: string;
   note: string | null;
@@ -94,6 +95,7 @@ interface RatingRow {
 const CA_SOURCE_LABEL: Record<CASource, { label: string; className: string }> = {
   CALIBRATED: { label: "KALIBRERAD", className: "hm-badge-positive" },
   MODEL_ESTIMATE: { label: "SKATTAD (HM-RATINGS-0.5)", className: "hm-badge-warning" },
+  GENERATED_GAME_PRIOR: { label: "GENERERAD SPELDATA (HM-RATINGS-0.6)", className: "hm-badge-neutral" },
   EDITOR_OVERRIDE: { label: "MANUELLT ÖVERSTYRD", className: "hm-badge-negative" },
   UNRESOLVED: { label: "EJ FASTSTÄLLD", className: "hm-badge-neutral" },
 };
@@ -317,7 +319,7 @@ export default function RatingReviewPlayerPage() {
       careerSignals: claims.filter((c) => c.evidenceClass === "VERIFIED_CAREER_SIGNAL" && c.domain !== "POSITION" && c.domain !== "CONTEXT"),
       injury: claims.filter((c) => c.evidenceClass === "INJURY_AVAILABILITY"),
       projection: claims.filter((c) => c.evidenceClass === "PROJECTION_EXPECTATION"),
-      rationale: claims.filter((c) => c.domain === "CALIBRATION"),
+      rationale: claims.filter((c) => c.domain === "CALIBRATION" || c.domain === "GAME_PRIOR"),
       structural: claims.filter((c) => c.domain === "POSITION" || c.domain === "CONTEXT"),
       all: claims,
     };
@@ -377,6 +379,11 @@ export default function RatingReviewPlayerPage() {
           <span className={`hm-badge ${CA_SOURCE_LABEL[row.caSource].className}`}>{CA_SOURCE_LABEL[row.caSource].label}</span>
           {row.locked ? <span className="hm-badge hm-badge-positive">LÅST</span> : null}
           {row.matchedCalibration ? <span className="hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)" }}>HM-RATINGS-0.2 kalibreringsträff</span> : null}
+          {row.gamePriorArchetype ? (
+            <span className="hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)" }}>
+              Arketyp: {row.gamePriorArchetype} -- ingen forskad profil, en spelbar gameplay-representation.
+            </span>
+          ) : null}
         </div>
       </div>
 
@@ -385,7 +392,7 @@ export default function RatingReviewPlayerPage() {
         <AbilityCard label="FÖRESLAGET PA (1-200)" rating={profile.pa} />
       </div>
 
-      {row.caProposal ? (
+      {row.caProposal?.status === "ESTIMATED" ? (
         <div className="hm-panel">
           <div className="hm-panel-header">
             <span className="hm-panel-title">CA-SKATTNING (HM-RATINGS-0.5)</span>

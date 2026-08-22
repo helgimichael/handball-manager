@@ -22,7 +22,7 @@ import { DEFAULT_DATA_ROOT } from "./paths";
 import type { AbilityConfidence, PlausibleRange, Position, RoleProficiency } from "../rating/types";
 import type { GeneratedGoalkeeperProfile, GeneratedOutcourtProfile } from "../rating/generation/types";
 
-export type RatingValueSource = "CALIBRATED" | "MODEL_ESTIMATE" | "EDITOR_OVERRIDE";
+export type RatingValueSource = "CALIBRATED" | "MODEL_ESTIMATE" | "GENERATED_GAME_PRIOR" | "EDITOR_OVERRIDE";
 
 export interface LockedAbilityValue {
   value: number;

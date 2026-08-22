@@ -9,6 +9,7 @@
 import { loadRealWorldClubSquad } from "../gameWorld/realWorldLoader";
 import { applyCAEstimation } from "../rating/caEstimation/applyCAEstimation";
 import type { CAProposal } from "../rating/caEstimation/types";
+import { applyGamePrior } from "../rating/gamePrior/applyGamePrior";
 import { generatePlayerRatingProfile } from "../rating/generation/generationEngine";
 import { GENERATION_MODEL_VERSION } from "../rating/generation/types";
 import type { GenerationResult } from "../rating/generation/types";
@@ -28,6 +29,8 @@ export interface RatingWorkbenchRow {
   caSource: RatingValueSource | "UNRESOLVED";
   override: PlayerRatingOverride | null;
   locked: LockedPlayerRating | null;
+  /** HM-RATINGS-0.6: the archetype (existing AttackRole for outcourt, or one of 4 new GK archetypes) assigned when this player's CA had to fall back to a game prior -- `null` for calibrated/estimated players who already had real role/evidence data. */
+  gamePriorArchetype: string | null;
   defaultStatus: string;
   status: string;
   note: string | null;
@@ -71,10 +74,11 @@ function applyAttributeOverrides(generation: GenerationResult, overrides: Record
   };
 }
 
-function resolveCASource(matchedCalibration: boolean, hasOverrideCA: boolean, caProposal: CAProposal | null): RatingValueSource | "UNRESOLVED" {
+function resolveCASource(matchedCalibration: boolean, hasOverrideCA: boolean, caProposal: CAProposal | null, gamePriorApplied: boolean): RatingValueSource | "UNRESOLVED" {
   if (hasOverrideCA) return "EDITOR_OVERRIDE";
   if (matchedCalibration) return "CALIBRATED";
   if (caProposal?.status === "ESTIMATED") return "MODEL_ESTIMATE";
+  if (gamePriorApplied) return "GENERATED_GAME_PRIOR";
   return "UNRESOLVED";
 }
 
@@ -96,10 +100,11 @@ export function buildRatingWorkbenchForClub(clubId: string): RatingWorkbenchClub
   const rows: RatingWorkbenchRow[] = squad.players.map((player) => {
     const { profile: proposedProfile, matchedCalibration } = proposePlayerRating(player);
     const { profile: estimatedProfile, caProposal } = applyCAEstimation(proposedProfile, player.fullName, matchedCalibration);
+    const { profile: gamePriorProfile, gamePriorCAApplied, archetype } = applyGamePrior(estimatedProfile, clubId);
 
     const override = overrideState[player.playerId] ?? null;
 
-    let finalProfile = estimatedProfile;
+    let finalProfile = gamePriorProfile;
     if (override?.ca !== undefined) {
       finalProfile = { ...finalProfile, ca: { value: override.ca, confidence: "HIGH", plausibleRange: { min: override.ca, max: override.ca } } };
     }
@@ -117,9 +122,10 @@ export function buildRatingWorkbenchForClub(clubId: string): RatingWorkbenchClub
       matchedCalibration,
       fullName: player.fullName,
       caProposal,
-      caSource: resolveCASource(matchedCalibration, override?.ca !== undefined, caProposal),
+      caSource: resolveCASource(matchedCalibration, override?.ca !== undefined, caProposal, gamePriorCAApplied),
       override,
       locked: lockedState[player.playerId] ?? null,
+      gamePriorArchetype: gamePriorCAApplied ? archetype : null,
       defaultStatus,
       status: review?.status ?? defaultStatus,
       note: review?.note ?? null,
@@ -145,7 +151,15 @@ export function buildLockedRecordFromRow(clubId: string, row: RatingWorkbenchRow
     clubId,
     position: row.profile.position,
     ca: { value: row.profile.ca.value, confidence: row.profile.ca.confidence, plausibleRange: row.profile.ca.plausibleRange, source: row.caSource === "UNRESOLVED" ? "MODEL_ESTIMATE" : row.caSource },
-    pa: row.profile.pa.value !== null ? { value: row.profile.pa.value, confidence: row.profile.pa.confidence, plausibleRange: row.profile.pa.plausibleRange, source: row.override?.pa !== undefined ? "EDITOR_OVERRIDE" : row.matchedCalibration ? "CALIBRATED" : "MODEL_ESTIMATE" } : null,
+    pa:
+      row.profile.pa.value !== null
+        ? {
+            value: row.profile.pa.value,
+            confidence: row.profile.pa.confidence,
+            plausibleRange: row.profile.pa.plausibleRange,
+            source: row.override?.pa !== undefined ? "EDITOR_OVERRIDE" : row.matchedCalibration ? "CALIBRATED" : row.caProposal?.status === "ESTIMATED" ? "MODEL_ESTIMATE" : "GENERATED_GAME_PRIOR",
+          }
+        : null,
     branch: row.generatedPreview.profile.branch,
     attackRoleProficiencies: row.profile.attackRoleProficiencies,
     defenceRoleProficiencies: row.profile.defenceRoleProficiencies,

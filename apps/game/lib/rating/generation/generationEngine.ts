@@ -13,7 +13,7 @@
 import { ATTRIBUTE_MAX, ATTRIBUTE_MIN, GOALKEEPER_ATTRIBUTES, OUTCOURT_ATTRIBUTES, type GoalkeeperAttribute, type OutcourtAttribute, type OutcourtPositionId, type PlayerRatingProfile } from "../types";
 import { OUTCOURT_ATTRIBUTE_TO_FAMILY } from "../attributeVocabulary";
 import { seededOffset } from "./deterministicVariation";
-import { baselineFromCA, POSITION_FAMILY_EMPHASIS, ROLE_ATTRIBUTE_ASSOCIATIONS, VARIATION_MAGNITUDE } from "./priors";
+import { baselineFromCA, GOALKEEPER_ARCHETYPE_ATTRIBUTE_ASSOCIATIONS, POSITION_FAMILY_EMPHASIS, ROLE_ATTRIBUTE_ASSOCIATIONS, VARIATION_MAGNITUDE } from "./priors";
 import {
   GENERATION_MODEL_VERSION,
   type AttributeOriginCounts,
@@ -76,13 +76,23 @@ function generateOutcourtProfile(profile: PlayerRatingProfile, ca: number, model
   return { branch: { branch: "OUTCOURT", attributes }, originCounts };
 }
 
+/** HM-RATINGS-0.6: a claim marking which small GK archetype (lib/rating/gamePrior/archetypeAssignment.ts) a generated goalkeeper was assigned, if any -- absent for evidenced/calibrated goalkeepers. */
+function findGkArchetype(profile: PlayerRatingProfile): string | null {
+  const claim = profile.claims.find((c) => c.domain === "ARCHETYPE" && c.key === "gkArchetype");
+  return claim ? String(claim.value) : null;
+}
+
 function generateGoalkeeperProfile(profile: PlayerRatingProfile, ca: number, modelVersion: string): { branch: GeneratedGoalkeeperProfile; originCounts: AttributeOriginCounts } {
   // Part C invariant 3: goalkeepers use their own model -- no attack/
-  // defence role associations exist for GK (the domain has no GK role
-  // vocabulary yet), so every non-evidenced attribute here is a
-  // straightforward CA-baseline + bounded variation estimate.
+  // defence role associations exist for GK, but HM-RATINGS-0.6 adds a
+  // small archetype system (GOALKEEPER_ARCHETYPE_ATTRIBUTE_ASSOCIATIONS)
+  // that plays the exact same role AttackRole/DefenceRole play for
+  // outcourt players below: elevating a few attributes to DERIVED for a
+  // generated (non-evidenced) goalkeeper.
   const baseline = baselineFromCA(ca);
   const known = profile.goalkeeperAttributes ?? {};
+  const archetype = findGkArchetype(profile);
+  const archetypeAssociations = archetype ? GOALKEEPER_ARCHETYPE_ATTRIBUTE_ASSOCIATIONS[archetype] : undefined;
 
   const attributes = {} as Record<GoalkeeperAttribute, GeneratedAttributeValue>;
   const originCounts = newOriginCounts();
@@ -94,9 +104,11 @@ function generateGoalkeeperProfile(profile: PlayerRatingProfile, ca: number, mod
       originCounts.EVIDENCE_BACKED++;
       continue;
     }
-    const adjusted = baseline + seededOffset(`${profile.playerId}:${attribute}:${modelVersion}`, VARIATION_MAGNITUDE);
-    attributes[attribute] = { value: clampAttribute(adjusted), origin: "GENERATED_PRIOR" };
-    originCounts.GENERATED_PRIOR++;
+    const archetypeBoost = archetypeAssociations?.[attribute] ?? 0;
+    const adjusted = baseline + archetypeBoost + seededOffset(`${profile.playerId}:${attribute}:${modelVersion}`, VARIATION_MAGNITUDE);
+    const origin = archetypeBoost > 0 ? "DERIVED" : "GENERATED_PRIOR";
+    attributes[attribute] = { value: clampAttribute(adjusted), origin };
+    originCounts[origin]++;
   }
 
   return { branch: { branch: "GOALKEEPER", attributes }, originCounts };
