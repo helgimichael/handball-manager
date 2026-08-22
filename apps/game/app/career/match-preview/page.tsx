@@ -7,6 +7,7 @@ import { getCareerSquad } from "@/lib/career/careerWorld";
 import { getNextPlayerFixture } from "@/lib/career/calendar";
 import { isAvailable, resolveStatusLabel } from "@/lib/career/playerStatus";
 import ClubCrest from "@/components/ClubCrest";
+import { ClubLink, PlayerLink } from "@/components/entityLinks";
 
 export default function MatchPreviewPage() {
   const router = useRouter();
@@ -112,7 +113,9 @@ export default function MatchPreviewPage() {
                 {unavailable.map((p) => (
                   <tr key={p.id}>
                     <td className="hm-td-strong">
-                      {p.firstName} {p.lastName}
+                      <PlayerLink playerId={p.id}>
+                        {p.firstName} {p.lastName}
+                      </PlayerLink>
                     </td>
                     <td>{p.position}</td>
                     <td>
@@ -143,7 +146,9 @@ function TeamColumn({ clubId }: { clubId: string }) {
   return (
     <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 8, width: 140 }}>
       <ClubCrest shortName={c.shortName} primaryColor={c.primaryColor} size={56} />
-      <div style={{ fontSize: "var(--hm-text-sm)", fontWeight: 800, textAlign: "center" }}>{c.name}</div>
+      <div style={{ fontSize: "var(--hm-text-sm)", fontWeight: 800, textAlign: "center" }}>
+        <ClubLink clubId={c.id}>{c.name}</ClubLink>
+      </div>
     </div>
   );
 }

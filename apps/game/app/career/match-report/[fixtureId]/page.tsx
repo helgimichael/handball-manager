@@ -9,6 +9,7 @@ import { getLiveStandings } from "@/lib/career/standings";
 import type { CareerState } from "@/lib/career/types";
 import type { PlayerMatchContribution } from "@handball-manager/game-simulation";
 import ClubCrest from "@/components/ClubCrest";
+import { ClubLink, PlayerLink } from "@/components/entityLinks";
 
 export default function MatchReportPage() {
   const router = useRouter();
@@ -79,7 +80,9 @@ export default function MatchReportPage() {
             {bestPerformer ? (
               <>
                 <div style={{ fontSize: "var(--hm-text-md)", fontWeight: 800 }}>
-                  {getCareerPlayer(career, bestPerformer.playerId)?.firstName} {getCareerPlayer(career, bestPerformer.playerId)?.lastName}
+                  <PlayerLink playerId={bestPerformer.playerId}>
+                    {getCareerPlayer(career, bestPerformer.playerId)?.firstName} {getCareerPlayer(career, bestPerformer.playerId)?.lastName}
+                  </PlayerLink>
                 </div>
                 <div className="hm-text-muted" style={{ fontSize: "var(--hm-text-xs)" }}>
                   Betyg {bestPerformer.rating.toFixed(1)} · {bestPerformer.goals} mål
@@ -123,7 +126,9 @@ function TeamColumn({ clubId }: { clubId: string }) {
   return (
     <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 8, width: 140 }}>
       <ClubCrest shortName={c.shortName} primaryColor={c.primaryColor} size={48} />
-      <div style={{ fontSize: "var(--hm-text-sm)", fontWeight: 800, textAlign: "center" }}>{c.name}</div>
+      <div style={{ fontSize: "var(--hm-text-sm)", fontWeight: 800, textAlign: "center" }}>
+        <ClubLink clubId={c.id}>{c.name}</ClubLink>
+      </div>
     </div>
   );
 }
@@ -170,7 +175,9 @@ function PlayerRatingsPanel({
               const player = getCareerPlayer(career, c.playerId);
               return (
                 <tr key={c.playerId} data-highlight={c.playerId === bestPerformerId}>
-                  <td className="hm-td-strong">{player ? `${player.firstName} ${player.lastName}` : c.playerId}</td>
+                  <td className="hm-td-strong">
+                    {player ? <PlayerLink playerId={c.playerId}>{`${player.firstName} ${player.lastName}`}</PlayerLink> : c.playerId}
+                  </td>
                   <td className="hm-table-num">{c.goals}</td>
                   <td className="hm-table-num">{c.shots}</td>
                   <td className="hm-table-num hm-td-strong">{c.rating.toFixed(1)}</td>

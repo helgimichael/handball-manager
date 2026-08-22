@@ -6,6 +6,7 @@ import { useCareer } from "@/lib/career/CareerContext";
 import { getCareerClub } from "@/lib/career/careerWorld";
 import { getLiveStandings } from "@/lib/career/standings";
 import ClubCrest from "@/components/ClubCrest";
+import { ClubLink } from "@/components/entityLinks";
 
 export default function CompetitionsPage() {
   const { career } = useCareer();
@@ -81,7 +82,7 @@ export default function CompetitionsPage() {
                         <td>{i + 1}</td>
                         <td style={{ display: "flex", alignItems: "center", gap: 6 }} className={c.id === club.id ? "hm-td-strong" : ""}>
                           <ClubCrest shortName={c.shortName} primaryColor={c.primaryColor} size={16} />
-                          {c.name}
+                          <ClubLink clubId={c.id}>{c.name}</ClubLink>
                         </td>
                         <td className="hm-table-num">{row.played}</td>
                         <td className="hm-table-num">{row.won}</td>

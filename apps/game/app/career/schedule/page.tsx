@@ -5,6 +5,7 @@ import { COMPETITIONS, getClub } from "@/lib/game-data";
 import { useCareer } from "@/lib/career/CareerContext";
 import { getCareerClub } from "@/lib/career/careerWorld";
 import { getNextEventDate } from "@/lib/career/calendar";
+import { ClubLink } from "@/components/entityLinks";
 
 export default function SchedulePage() {
   const router = useRouter();
@@ -64,7 +65,11 @@ export default function SchedulePage() {
                   <td>{f.round}</td>
                   <td>{new Date(f.date).toLocaleDateString("sv-SE", { weekday: "short", day: "2-digit", month: "2-digit" })}</td>
                   <td>{home ? "Hemma" : "Borta"}</td>
-                  <td className="hm-td-strong">{opponent.name}</td>
+                  <td className="hm-td-strong">
+                    <ClubLink clubId={opponent.id} stopPropagation>
+                      {opponent.name}
+                    </ClubLink>
+                  </td>
                   <td>
                     <span className={`hm-badge ${played ? "hm-badge-neutral" : isNext ? "hm-badge-positive" : "hm-badge-warning"}`}>
                       {played ? "Spelad" : isNext ? "Nästa match" : "Kommande"}

@@ -1,11 +1,13 @@
-// HM-EDITOR-0.2: proposed ratings + review state for one club's real
-// roster. Read-only for the ca/pa/attribute/claim data (always
-// recomputed fresh from lib/rating/pipeline -- never persisted); merges
-// in whatever reviewer state already exists in rating-review.json.
+// HM-EDITOR-0.2/HM-UX-0.3: proposed ratings + review state for one
+// club's real roster. Read-only for the ca/pa/attribute/claim data
+// (always recomputed fresh via the shared snapshotClubRatingProposals,
+// the SAME helper the normal Player Profile's own API route uses --
+// never persisted here); merges in whatever reviewer state already
+// exists in rating-review.json.
 import { NextResponse } from "next/server";
 import { isEditorEnabled } from "@/lib/editor/env";
 import { loadRatingReviewState } from "@/lib/editor/ratingReviewRepository";
-import { runRatingPipelineForClub } from "@/lib/rating/pipeline";
+import { snapshotClubRatingProposals } from "@/lib/gameWorld/ratingProposalSnapshot";
 
 export async function GET(_request: Request, { params }: { params: Promise<{ clubId: string }> }) {
   if (!isEditorEnabled()) {
@@ -13,14 +15,13 @@ export async function GET(_request: Request, { params }: { params: Promise<{ clu
   }
   const { clubId } = await params;
 
-  const result = runRatingPipelineForClub(clubId);
-  if (result.clubName === null) {
+  const snapshot = snapshotClubRatingProposals(clubId);
+  if (snapshot.clubName === null) {
     return NextResponse.json({ error: "unknown clubId" }, { status: 404 });
   }
 
   const reviewState = loadRatingReviewState(clubId);
-  const players = result.profiles.map((profile) => {
-    const matchedCalibration = result.matchedCalibrationPlayerIds.has(profile.playerId);
+  const players = snapshot.players.map(({ profile, matchedCalibration }) => {
     const defaultStatus = matchedCalibration ? "PROPOSED" : "UNASSESSED";
     const review = reviewState[profile.playerId];
     return {
@@ -34,10 +35,10 @@ export async function GET(_request: Request, { params }: { params: Promise<{ clu
   });
 
   return NextResponse.json({
-    clubId: result.clubId,
-    clubName: result.clubName,
+    clubId: snapshot.clubId,
+    clubName: snapshot.clubName,
     players,
-    unresolvedPositionCount: result.unresolvedPositionCount,
-    invalidProfileCount: result.invalidProfileCount,
+    unresolvedPositionCount: snapshot.unresolvedPositionCount,
+    invalidProfileCount: snapshot.invalidProfileCount,
   });
 }

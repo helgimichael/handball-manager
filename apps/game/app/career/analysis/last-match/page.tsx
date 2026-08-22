@@ -7,6 +7,7 @@ import { buildLastMatchViewModel } from "@/lib/analysis/viewModels";
 import { fmtMissing, fmtPct } from "@/lib/analysis/format";
 import { InterpretationsList, MissingDataNote, ObservedPatternsList } from "@/components/analysis/EvidenceLists";
 import ClubCrest from "@/components/ClubCrest";
+import { PlayerLink } from "@/components/entityLinks";
 import type { MatchEvent, MatchEventType } from "@handball-manager/game-simulation";
 
 const TIMELINE_FILTERS: { label: string; types: MatchEventType[] | null }[] = [
@@ -150,7 +151,7 @@ export default function AnalysisLastMatchPage() {
                   <tr key={c.playerId}>
                     <td>{(() => {
                       const p = getCareerPlayer(career, c.playerId);
-                      return p ? `${p.firstName} ${p.lastName}` : c.playerId;
+                      return p ? <PlayerLink playerId={c.playerId}>{`${p.firstName} ${p.lastName}`}</PlayerLink> : c.playerId;
                     })()}</td>
                     <td className="hm-table-num">{c.goals}</td>
                     <td className="hm-table-num">{c.shots}</td>

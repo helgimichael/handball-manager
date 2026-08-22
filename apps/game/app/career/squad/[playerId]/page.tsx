@@ -1,19 +1,51 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { abilityStars, playerAge, positionLabel, potentialStars } from "@/lib/game-data";
+import { abilityStars, getClub, playerAge, positionLabel, potentialStars } from "@/lib/game-data";
 import { useCareer } from "@/lib/career/CareerContext";
 import { getCareerPlayer } from "@/lib/career/careerWorld";
 import { averageRating, emptyPlayerSeasonStats } from "@/lib/career/types";
 import { resolveStatusLabel } from "@/lib/career/playerStatus";
 import StarRating from "@/components/StarRating";
 import StatValue from "@/components/StatValue";
+import { ClubLink } from "@/components/entityLinks";
+import { RatingAbilityPanel, RatingAttributesPanel, type RatingProposalRow } from "@/components/RatingProfilePanels";
 
 export default function PlayerProfilePage() {
   const router = useRouter();
   const params = useParams<{ playerId: string }>();
   const { career } = useCareer();
   const player = getCareerPlayer(career, params.playerId);
+
+  // HM-UX-0.3: real-world players show the HM-RATINGS-0.3 proposal
+  // instead of the old mock 10-attribute/star panels, where a proposal
+  // exists. `undefined` = not yet fetched, `null` = fetched but this
+  // player has no rating data (falls back to the old mock display,
+  // same as any non-real-world player).
+  const [ratingRow, setRatingRow] = useState<RatingProposalRow | null | undefined>(undefined);
+
+  useEffect(() => {
+    if (!player || player.dataSource !== "REAL_WORLD") {
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- one-shot "no fetch needed for this player" resolution, not a cascading update loop.
+      setRatingRow(null);
+      return;
+    }
+    let cancelled = false;
+    fetch(`/api/game-world/rating-proposals/clubs/${encodeURIComponent(player.clubId)}`)
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => {
+        if (cancelled) return;
+        const row = (data?.players ?? []).find((r: RatingProposalRow) => r.profile.playerId === player.id) ?? null;
+        setRatingRow(row);
+      })
+      .catch(() => {
+        if (!cancelled) setRatingRow(null);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [player]);
 
   if (!player) {
     return (
@@ -26,6 +58,8 @@ export default function PlayerProfilePage() {
   const seasonStats = career.playerSeasonStats[player.id] ?? emptyPlayerSeasonStats(player.id);
   const age = playerAge(player.dateOfBirth, player.birthYear);
   const isWonderkid = age !== null && age <= 19 && potentialStars(player) >= 5;
+  const club = getClub(player.clubId);
+  const hasRatingProfile = Boolean(ratingRow);
 
   return (
     <div className="hm-grid" style={{ gridTemplateColumns: "2fr 1fr", alignItems: "start" }}>
@@ -67,10 +101,20 @@ export default function PlayerProfilePage() {
               <div className="hm-text-muted" style={{ fontSize: "var(--hm-text-xs)", marginTop: 2 }}>
                 {positionLabel(player.position)}
                 {player.secondaryPosition ? ` / ${positionLabel(player.secondaryPosition)}` : ""} · {age ?? "–"} år · {player.nationality} · {player.foot ?? "Okänd"}
+                {club ? (
+                  <>
+                    {" · "}
+                    <ClubLink clubId={club.id}>{club.name}</ClubLink>
+                  </>
+                ) : null}
               </div>
             </div>
-            <button type="button" className="hm-btn" onClick={() => router.push("/career/squad")}>
-              ← Trupp
+            <button
+              type="button"
+              className="hm-btn"
+              onClick={() => (player.clubId === career.playerClubId ? router.push("/career/squad") : router.push(`/career/clubs/${player.clubId}`))}
+            >
+              ← {player.clubId === career.playerClubId ? "Trupp" : "Klubb"}
             </button>
           </div>
         </div>
@@ -94,66 +138,82 @@ export default function PlayerProfilePage() {
           </div>
         </div>
 
-        {/* Attributes -- explicitly marked mock */}
-        <div className="hm-panel">
-          <div className="hm-panel-header">
-            <span className="hm-panel-title">Egenskaper</span>
-            <span className="hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)" }}>Mockat attributset — ej slutgiltig modell</span>
+        {/* Attributes -- HM-RATINGS-0.3 proposal where it exists, otherwise the explicitly-marked mock set */}
+        {ratingRow === undefined ? (
+          <div className="hm-panel">
+            <div className="hm-panel-body hm-text-muted">Läser in betygsunderlag…</div>
           </div>
-          <div className="hm-panel-body" style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 20 }}>
-            <AttributeGroup title="Tekniska" entries={[
-              ["Skott", player.attributes.technical.skott],
-              ["Passning", player.attributes.technical.passning],
-              ["Spelförståelse", player.attributes.technical.spelforstaelse],
-              ["Genombrott", player.attributes.technical.genombrott],
-              ["Mottagning", player.attributes.technical.mottagning],
-              ["Fint", player.attributes.technical.fint],
-              ["Spel utan boll", player.attributes.technical.spelUtanBoll],
-            ]} />
-            <AttributeGroup title="Mentala" entries={[
-              ["Beslutsfattande", player.attributes.mental.beslutsfattande],
-              ["Kyla", player.attributes.mental.kyla],
-              ["Arbetskapacitet", player.attributes.mental.arbetskapacitet],
-              ["Kampvilja", player.attributes.mental.kampvilja],
-              ["Positionering", player.attributes.mental.positionering],
-              ["Lagarbete", player.attributes.mental.lagarbete],
-              ["Ledarskap", player.attributes.mental.ledarskap],
-            ]} />
-            <AttributeGroup title="Fysiska" entries={[
-              ["Snabbhet", player.attributes.physical.snabbhet],
-              ["Acceleration", player.attributes.physical.acceleration],
-              ["Styrka", player.attributes.physical.styrka],
-              ["Explosivitet", player.attributes.physical.explosivitet],
-              ["Uthållighet", player.attributes.physical.uthallighet],
-              ["Rörlighet", player.attributes.physical.rorlighet],
-            ]} />
+        ) : hasRatingProfile ? (
+          <RatingAttributesPanel row={ratingRow!} />
+        ) : (
+          <div className="hm-panel">
+            <div className="hm-panel-header">
+              <span className="hm-panel-title">Egenskaper</span>
+              <span className="hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)" }}>Mockat attributset — ej slutgiltig modell</span>
+            </div>
+            <div className="hm-panel-body" style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 20 }}>
+              <AttributeGroup title="Tekniska" entries={[
+                ["Skott", player.attributes.technical.skott],
+                ["Passning", player.attributes.technical.passning],
+                ["Spelförståelse", player.attributes.technical.spelforstaelse],
+                ["Genombrott", player.attributes.technical.genombrott],
+                ["Mottagning", player.attributes.technical.mottagning],
+                ["Fint", player.attributes.technical.fint],
+                ["Spel utan boll", player.attributes.technical.spelUtanBoll],
+              ]} />
+              <AttributeGroup title="Mentala" entries={[
+                ["Beslutsfattande", player.attributes.mental.beslutsfattande],
+                ["Kyla", player.attributes.mental.kyla],
+                ["Arbetskapacitet", player.attributes.mental.arbetskapacitet],
+                ["Kampvilja", player.attributes.mental.kampvilja],
+                ["Positionering", player.attributes.mental.positionering],
+                ["Lagarbete", player.attributes.mental.lagarbete],
+                ["Ledarskap", player.attributes.mental.ledarskap],
+              ]} />
+              <AttributeGroup title="Fysiska" entries={[
+                ["Snabbhet", player.attributes.physical.snabbhet],
+                ["Acceleration", player.attributes.physical.acceleration],
+                ["Styrka", player.attributes.physical.styrka],
+                ["Explosivitet", player.attributes.physical.explosivitet],
+                ["Uthållighet", player.attributes.physical.uthallighet],
+                ["Rörlighet", player.attributes.physical.rorlighet],
+              ]} />
+            </div>
           </div>
-        </div>
+        )}
       </div>
 
       <div className="hm-grid" style={{ gap: 12 }}>
-        {/* Ability / potential */}
-        <div className="hm-panel">
-          <div className="hm-panel-header">
-            <span className="hm-panel-title">Förmåga</span>
+        {/* Ability / potential -- HM-RATINGS-0.3 proposal where it exists, otherwise the old star display */}
+        {ratingRow === undefined && player.dataSource === "REAL_WORLD" ? (
+          <div className="hm-panel">
+            <div className="hm-panel-body hm-text-muted">Läser in betygsunderlag…</div>
           </div>
-          <div className="hm-panel-body" style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-              <span className="hm-text-secondary" style={{ fontSize: "var(--hm-text-xs)" }}>Nuvarande nivå</span>
-              <StarRating stars={abilityStars(player)} title="Tränarstabens bedömning av nuvarande nivå" />
+        ) : hasRatingProfile ? (
+          <RatingAbilityPanel row={ratingRow!} />
+        ) : (
+          <div className="hm-panel">
+            <div className="hm-panel-header">
+              <span className="hm-panel-title">Förmåga</span>
             </div>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-              <span className="hm-text-secondary" style={{ fontSize: "var(--hm-text-xs)" }}>Potential</span>
-              <StarRating stars={potentialStars(player)} title="Scoutingens uppskattning — osäker" />
+            <div className="hm-panel-body" style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                <span className="hm-text-secondary" style={{ fontSize: "var(--hm-text-xs)" }}>Nuvarande nivå</span>
+                <StarRating stars={abilityStars(player)} title="Tränarstabens bedömning av nuvarande nivå" />
+              </div>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                <span className="hm-text-secondary" style={{ fontSize: "var(--hm-text-xs)" }}>Potential</span>
+                <StarRating stars={potentialStars(player)} title="Scoutingens uppskattning — osäker" />
+              </div>
+              <div className="hm-divider" />
+              <p className="hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)", margin: 0, lineHeight: 1.5 }}>
+                {isWonderkid
+                  ? "En av klubbens mest lovande unga spelare. Scoutingavdelningen ser stor utvecklingspotential, men bedömningen är fortfarande osäker så här tidigt."
+                  : "Tränarstabens löpande bedömning baserat på matcher och träning."}
+              </p>
             </div>
-            <div className="hm-divider" />
-            <p className="hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)", margin: 0, lineHeight: 1.5 }}>
-              {isWonderkid
-                ? "En av klubbens mest lovande unga spelare. Scoutingavdelningen ser stor utvecklingspotential, men bedömningen är fortfarande osäker så här tidigt."
-                : "Tränarstabens löpande bedömning baserat på matcher och träning."}
-            </p>
           </div>
-        </div>
+        )}
 
         {/* Contract */}
         <div className="hm-panel">
