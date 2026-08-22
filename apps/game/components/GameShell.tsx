@@ -5,12 +5,15 @@ import { usePathname, useRouter } from "next/navigation";
 import type { ReactNode } from "react";
 import ClubCrest from "./ClubCrest";
 import NavIcon, { type NavIconName } from "./NavIcon";
+import ContinueProcessingOverlay, { type ProcessingDay } from "./ContinueProcessingOverlay";
 import { useCareer } from "@/lib/career/CareerContext";
 import { getCareerClub } from "@/lib/career/careerWorld";
 import { getNextEventDate } from "@/lib/career/calendar";
-import { formatGameDate } from "@/lib/career/dateUtils";
+import { addDays, formatGameDate } from "@/lib/career/dateUtils";
 import { CAREER_NAV_ITEMS, resolveActiveNavId } from "@/lib/career/navigation";
 import { COMPETITIONS } from "@/lib/game-data";
+import type { CareerEvent } from "@/lib/career/careerEvents";
+import type { ContinueStopReason } from "@/lib/career/continueController";
 
 type NavEntry = { id: string; href: string; label: string; icon: NavIconName; badge?: number };
 
@@ -57,9 +60,13 @@ export default function GameShell({ children }: { children: ReactNode }) {
   const competitionName = COMPETITIONS.find((c) => c.id === career.competitionId)?.name ?? "Ligan";
   const nextEventDate = getNextEventDate(career);
   const activeNavId = resolveActiveNavId(pathname);
+  // HM-CAREER-0.5: while non-null, the processing overlay is showing a
+  // day-by-day replay of a CONTINUE press that has ALREADY fully run and
+  // committed (see ContinueProcessingOverlay.tsx's own doc) -- navigation
+  // is deferred until the reveal finishes or the manager skips it.
+  const [processing, setProcessing] = useState<{ days: ProcessingDay[]; navigate: () => void } | null>(null);
 
-  function handleContinue() {
-    const { events, stopReason } = continueCareer();
+  function navigateAfterContinue(events: CareerEvent[], stopReason: ContinueStopReason) {
     if (stopReason === "ACTION_REQUIRED_PENDING" || events.some((e) => e.type === "MATCHDAY_READY")) {
       router.push("/career/match-preview");
       return;
@@ -69,6 +76,27 @@ export default function GameShell({ children }: { children: ReactNode }) {
       return;
     }
     router.push("/career");
+  }
+
+  function handleContinue() {
+    const { events, stopReason, daysProcessed, startDate } = continueCareer();
+    if (daysProcessed === 0) {
+      // ACTION_REQUIRED_PENDING (an unresolved matchday) or SEASON_COMPLETE -- nothing was actually processed, so nothing to visibly replay.
+      navigateAfterContinue(events, stopReason);
+      return;
+    }
+    const days: ProcessingDay[] = [];
+    for (let i = 0; i < daysProcessed; i += 1) {
+      const date = addDays(startDate, i);
+      days.push({ date, events: events.filter((e) => e.date === date) });
+    }
+    setProcessing({ days, navigate: () => navigateAfterContinue(events, stopReason) });
+  }
+
+  function handleProcessingFinished() {
+    const navigate = processing?.navigate;
+    setProcessing(null);
+    navigate?.();
   }
 
   return (
@@ -112,13 +140,14 @@ export default function GameShell({ children }: { children: ReactNode }) {
         </div>
         <div className="hm-header-meta">
           <span>Manager: Du</span>
-          <button type="button" className="hm-btn hm-btn-primary" onClick={handleContinue} disabled={career.seasonComplete}>
+          <button type="button" className="hm-btn hm-btn-primary" onClick={handleContinue} disabled={career.seasonComplete || processing !== null}>
             {career.seasonComplete ? "Säsong klar" : "Fortsätt »"}
           </button>
         </div>
       </header>
 
       <main className="hm-main">{children}</main>
+      {processing ? <ContinueProcessingOverlay days={processing.days} onFinished={handleProcessingFinished} /> : null}
     </div>
   );
 }

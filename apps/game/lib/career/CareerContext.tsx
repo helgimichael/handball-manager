@@ -6,6 +6,7 @@ import { getClub, type PlayerMock } from "../game-data";
 import { getActiveSave, saveCareerState, type CareerSave } from "../save/saveRepository";
 import { createNewCareerState } from "./newCareer";
 import { continueCareerRhythm, type ContinueStopReason } from "./continueController";
+import { addDays } from "./dateUtils";
 import { archiveMessage, markMessageRead, unarchiveMessage } from "./inboxActions";
 import { playManagerFixture } from "./matchdayAction";
 import { migrateCareerState } from "./saveMigration";
@@ -26,7 +27,7 @@ type CareerContextValue = {
    * so the caller can navigate appropriately (e.g. to Match Preview on
    * MATCHDAY_READY, or to the Inbox on an IMPORTANT stop).
    */
-  continueCareer: () => { events: CareerEvent[]; stopReason: ContinueStopReason };
+  continueCareer: () => { events: CareerEvent[]; stopReason: ContinueStopReason; daysProcessed: number; startDate: string };
   /** Resolves the manager's own MATCHDAY_READY fixture for the current date and persists. */
   playManagerFixture: () => { result: FastMatchResult | null };
   /** Marks one Inbox message (and its linked CareerEvent, if any) as read, and persists. */
@@ -124,10 +125,20 @@ export function CareerProvider({ children }: { children: ReactNode }) {
   }
 
   function continueCareer() {
-    const { state: nextCareer, events, stopReason } = continueCareerRhythm(value!.career);
+    // HM-CAREER-0.5: `startDate` is captured from the OLD, pre-press
+    // processedThroughDate, before continueCareerRhythm runs -- this is
+    // the exact same "already-committed, exactly-once" boundary the
+    // engine itself uses (dailyTick.ts advances processedThroughDate by
+    // exactly one day per iteration), so the caller can reconstruct which
+    // literal calendar dates this press covered (startDate .. startDate +
+    // daysProcessed - 1) purely for DISPLAY -- grouping the already-
+    // decided `events` by their own `.date` field -- without ever
+    // re-deciding or re-processing anything itself.
+    const startDate = addDays(value!.career.processedThroughDate, 1);
+    const { state: nextCareer, events, stopReason, daysProcessed } = continueCareerRhythm(value!.career);
     saveCareerState(value!.save.saveId, nextCareer);
     setValue({ save: value!.save, career: nextCareer });
-    return { events, stopReason };
+    return { events, stopReason, daysProcessed, startDate };
   }
 
   function playManagerFixtureAction() {

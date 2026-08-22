@@ -63,17 +63,62 @@ test("all clubs have balanced home/away totals (13 home, 13 away each)", () => {
   }
 });
 
-test("fixture dates are chronologically sensible (non-decreasing with round)", () => {
-  const fixtures = generate();
-  const byRound = new Map<number, string>();
+// HM-CAREER-0.5: fixtures within a round are no longer forced onto a
+// single shared date -- each round now has a DATE RANGE, not one date.
+function roundDateRanges(fixtures: ReturnType<typeof generate>): Map<number, { min: number; max: number }> {
+  const ranges = new Map<number, { min: number; max: number }>();
   for (const f of fixtures) {
-    byRound.set(f.round, f.date);
+    const t = new Date(f.date).getTime();
+    const existing = ranges.get(f.round);
+    if (!existing) {
+      ranges.set(f.round, { min: t, max: t });
+    } else {
+      existing.min = Math.min(existing.min, t);
+      existing.max = Math.max(existing.max, t);
+    }
   }
-  const rounds = [...byRound.keys()].sort((a, b) => a - b);
+  return ranges;
+}
+
+test("fixture date RANGES are chronologically sensible and never overlap between consecutive rounds", () => {
+  const fixtures = generate();
+  const ranges = roundDateRanges(fixtures);
+  const rounds = [...ranges.keys()].sort((a, b) => a - b);
   for (let i = 1; i < rounds.length; i += 1) {
-    const prevDate = new Date(byRound.get(rounds[i - 1])!).getTime();
-    const currDate = new Date(byRound.get(rounds[i])!).getTime();
-    assert.ok(currDate > prevDate, `round ${rounds[i]} date should be after round ${rounds[i - 1]}`);
+    const prev = ranges.get(rounds[i - 1])!;
+    const curr = ranges.get(rounds[i])!;
+    assert.ok(curr.min > prev.max, `round ${rounds[i]}'s earliest fixture date should be strictly after round ${rounds[i - 1]}'s latest fixture date`);
+  }
+});
+
+test("a round's fixtures are spread across several distinct nearby days, not all forced onto one shared date", () => {
+  const fixtures = generate();
+  const ranges = roundDateRanges(fixtures);
+  let sawMultiDayRound = false;
+  const DAY_MS = 24 * 60 * 60 * 1000;
+  for (const [round, { min, max }] of ranges) {
+    const spanDays = Math.round((max - min) / DAY_MS);
+    assert.ok(spanDays < 4, `round ${round} spans ${spanDays} days, expected less than the configured spreadDays window`);
+    if (spanDays > 0) sawMultiDayRound = true;
+  }
+  assert.ok(sawMultiDayRound, "expected at least one round to actually spread its fixtures across more than one date");
+});
+
+test("spreadDays: 1 reproduces the old single-shared-date-per-round behavior exactly", () => {
+  const fixtures = generateDoubleRoundRobin({
+    competitionId: "swe-2",
+    clubIds: CLUB_IDS,
+    seasonStartDate: "2026-08-15",
+    daysBetweenRounds: 7,
+    spreadDays: 1,
+  });
+  const byRound = new Map<number, Set<string>>();
+  for (const f of fixtures) {
+    if (!byRound.has(f.round)) byRound.set(f.round, new Set());
+    byRound.get(f.round)!.add(f.date);
+  }
+  for (const [round, dates] of byRound) {
+    assert.equal(dates.size, 1, `round ${round} should have exactly one shared date when spreadDays is 1, got ${dates.size}`);
   }
 });
 

@@ -1,7 +1,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { createNewCareerState } from "./newCareer";
-import { getPlayerFixtureOn } from "./calendar";
+import { getNextPlayerFixture, getPlayerFixtureOn } from "./calendar";
 import { processDay } from "./dailyTick";
 import { playManagerFixture } from "./matchdayAction";
 import { TUMBA_CLUB_ID } from "../game-data";
@@ -9,11 +9,15 @@ import { continueCareerRhythm } from "./continueController";
 import { snapshotWorldSquads } from "../gameWorld/serverSnapshot";
 import type { CareerState } from "./types";
 
-const SEASON_START = "2026-08-19";
-
+// HM-CAREER-0.5: round 1's fixtures are now deterministically spread
+// across a few nearby days (game-simulation's fixtures.ts) -- the
+// manager's own matchday is no longer guaranteed to fall exactly on the
+// season's start date, so it's looked up per fresh state via
+// getNextPlayerFixture rather than assumed.
 function stateAtMatchday(seed = "matchday-action-seed") {
   const fresh = createNewCareerState(seed, TUMBA_CLUB_ID);
-  return processDay(fresh, SEASON_START).state;
+  const matchday = getNextPlayerFixture(fresh)!.date;
+  return processDay(fresh, matchday).state;
 }
 
 /**
@@ -39,7 +43,7 @@ function stateAtRealClubMatchday(seed: string): CareerState {
 
 test("playManagerFixture resolves the manager's own fixture, resolves MATCHDAY_READY, and creates MATCH_COMPLETED", () => {
   const state = stateAtMatchday();
-  const fixture = getPlayerFixtureOn(state, SEASON_START)!;
+  const fixture = getNextPlayerFixture(state)!;
 
   const { state: next, result } = playManagerFixture(state);
   assert.ok(result);
@@ -66,7 +70,7 @@ test("playManagerFixture resolves the manager's own fixture, resolves MATCHDAY_R
 
 test("playManagerFixture updates club form and IFK Tumba's own player season stats", () => {
   const state = stateAtMatchday();
-  const fixture = getPlayerFixtureOn(state, SEASON_START)!;
+  const fixture = getNextPlayerFixture(state)!;
   const { state: next } = playManagerFixture(state);
 
   assert.ok(next.clubForm[fixture.homeClubId]?.length);
@@ -99,7 +103,7 @@ test("HM-MATCH-0.1: Live Match and Instant Result use the identical pre-generate
 
 test("playManagerFixture never re-simulates an already-played fixture (idempotent)", () => {
   const state = stateAtMatchday();
-  const fixture = getPlayerFixtureOn(state, SEASON_START)!;
+  const fixture = getNextPlayerFixture(state)!;
   const first = playManagerFixture(state);
   assert.ok(first.result);
 
@@ -119,7 +123,7 @@ test("HM-TACTICS-0.6B: changing the manager's TeamTacticalProfile before playing
     const lowState = { ...stateAtMatchday(seed), tacticalProfile: { ati001UsageTendency: "LOW" as const, h2ResponsePreference: "H2_STEPS" as const, tacticalFamiliarity: "MEDIUM" as const } };
     const highState = { ...stateAtMatchday(seed), tacticalProfile: { ati001UsageTendency: "HIGH" as const, h2ResponsePreference: "H2_STEPS" as const, tacticalFamiliarity: "MEDIUM" as const } };
 
-    const fixture = getPlayerFixtureOn(lowState, SEASON_START)!;
+    const fixture = getNextPlayerFixture(lowState)!;
     const isHome = fixture.homeClubId === TUMBA_CLUB_ID;
 
     const lowResult = playManagerFixture(lowState).result!;
@@ -190,13 +194,14 @@ test("HM-TACTICS-0.6B: AI-vs-AI fixtures on the same matchday are completely una
     tacticalProfile: { ati001UsageTendency: "HIGH" as const, h2ResponsePreference: "H2_STOPS" as const, tacticalFamiliarity: "HIGH" as const },
   };
 
-  const defaultTickResult = processDay(defaultProfileState, SEASON_START).state;
-  const customTickResult = processDay(customProfileState, SEASON_START).state;
+  const matchday = getNextPlayerFixture(defaultProfileState)!.date;
+  const defaultTickResult = processDay(defaultProfileState, matchday).state;
+  const customTickResult = processDay(customProfileState, matchday).state;
 
   const aiFixtureIds = Object.keys(defaultTickResult.results).filter(
     (id) => defaultTickResult.results[id].homeClubId !== TUMBA_CLUB_ID && defaultTickResult.results[id].awayClubId !== TUMBA_CLUB_ID,
   );
-  assert.ok(aiFixtureIds.length > 0, "at least one AI-vs-AI fixture must be due on the season's first matchday");
+  assert.ok(aiFixtureIds.length > 0, "at least one AI-vs-AI fixture must be due on the manager's own matchday for this seed");
   for (const id of aiFixtureIds) {
     assert.deepEqual(customTickResult.results[id], defaultTickResult.results[id], `AI fixture ${id} must be byte-identical regardless of the manager's tactical profile`);
   }

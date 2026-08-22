@@ -1,7 +1,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { createNewCareerState } from "./newCareer";
-import { getPlayerFixtureOn } from "./calendar";
+import { getNextPlayerFixture, getPlayerFixtureOn } from "./calendar";
 import { processDay } from "./dailyTick";
 import { continueCareerRhythm } from "./continueController";
 import { playManagerFixture } from "./matchdayAction";
@@ -10,16 +10,18 @@ import { snapshotWorldSquads } from "../gameWorld/serverSnapshot";
 import { TUMBA_CLUB_ID } from "../game-data";
 import type { CareerState } from "./types";
 
-const SEASON_START = "2026-08-19";
-
+// HM-CAREER-0.5: the manager's own matchday is no longer guaranteed to
+// fall exactly on the season's start date (fixtures.ts now spreads round
+// 1 across a few nearby days), so it's looked up per fresh state.
 function stateAtMatchday(seed = "midmatch-seed") {
   const fresh = createNewCareerState(seed, TUMBA_CLUB_ID);
-  return processDay(fresh, SEASON_START).state;
+  const matchday = getNextPlayerFixture(fresh)!.date;
+  return processDay(fresh, matchday).state;
 }
 
 function playedFixture(seed = "midmatch-seed") {
   const state = stateAtMatchday(seed);
-  const fixture = getPlayerFixtureOn(state, SEASON_START)!;
+  const fixture = getNextPlayerFixture(state)!;
   const { state: played, result } = playManagerFixture(state);
   return { state: played, fixture, original: result! };
 }

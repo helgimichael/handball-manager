@@ -2,20 +2,33 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import { createNewCareerState } from "./newCareer";
 import { continueCareerRhythm } from "./continueController";
+import { getNextPlayerFixture } from "./calendar";
 import { playManagerFixture } from "./matchdayAction";
 import { TUMBA_CLUB_ID } from "../game-data";
 
-const SEASON_START = "2026-08-19"; // round 1's date, also the manager's own first fixture.
-
 test("Continue Controller: full walkthrough -- quiet-day skipping, IMPORTANT stop, MATCHDAY_READY hard stop, resume, no rerun", () => {
   let state = createNewCareerState("continue-walkthrough-seed", TUMBA_CLUB_ID);
+  // HM-CAREER-0.5: round 1's fixtures are now deterministically spread
+  // across a few nearby days (game-simulation's fixtures.ts) -- the
+  // manager's own matchday is no longer guaranteed to fall exactly on
+  // the season's start date, so it must be looked up, not assumed.
+  const firstMatchday = getNextPlayerFixture(state)!.date;
 
-  // 1) The very first CONTINUE press hits round 1's matchday immediately (season starts on matchday itself).
-  const firstPress = continueCareerRhythm(state);
+  // 1) CONTINUE advances toward round 1's matchday, possibly stopping at
+  //    IMPORTANT events along the way first (same as the round-2 walk in
+  //    step 4 below), then hard-stopping at the matchday itself.
+  let firstLegGuard = 0;
+  let firstPress = continueCareerRhythm(state);
   state = firstPress.state;
+  while (firstPress.stopReason === "IMPORTANT") {
+    firstLegGuard += 1;
+    assert.ok(firstLegGuard < 20, "runaway loop -- round 1's matchday should be reached well within 20 presses");
+    firstPress = continueCareerRhythm(state);
+    state = firstPress.state;
+  }
   assert.equal(firstPress.stopReason, "ACTION_REQUIRED");
-  assert.equal(firstPress.daysProcessed, 1);
-  assert.equal(state.gameDate, SEASON_START);
+  assert.ok(firstPress.daysProcessed >= 1);
+  assert.equal(state.gameDate, firstMatchday);
   assert.ok(state.careerEvents.some((e) => e.type === "MATCHDAY_READY" && !e.resolved));
 
   // 2) CONTINUE cannot skip the unresolved ACTION_REQUIRED event.
@@ -56,7 +69,7 @@ test("Continue Controller: full walkthrough -- quiet-day skipping, IMPORTANT sto
   }
   assert.ok(importantStops >= 1, "at least one IMPORTANT stop should occur on the way to the next matchday");
   assert.ok(sawMultiDaySkip, "at least one press should have auto-advanced through more than one quiet day");
-  assert.ok(state.careerEvents.some((e) => e.type === "MATCHDAY_READY" && e.date !== SEASON_START && !e.resolved));
+  assert.ok(state.careerEvents.some((e) => e.type === "MATCHDAY_READY" && e.date !== firstMatchday && !e.resolved));
 
   // 5) No day is ever reprocessed: no duplicate ids anywhere in the log, however many presses it took.
   const ids = state.careerEvents.map((e) => e.id);

@@ -1,18 +1,20 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { createNewCareerState } from "./newCareer";
-import { getPlayerFixtureOn } from "./calendar";
+import { getNextPlayerFixture } from "./calendar";
 import { processDay } from "./dailyTick";
 import { playManagerFixture } from "./matchdayAction";
 import { getLiveStandings, getLiveTableStandings } from "./standings";
 import { TUMBA_CLUB_ID } from "../game-data";
 
-const SEASON_START = "2026-08-19";
-
+// HM-CAREER-0.5: the manager's own matchday is no longer guaranteed to
+// fall exactly on the season's start date (fixtures.ts now spreads round
+// 1 across a few nearby days), so it's looked up per fresh state.
 function stateAfterMatchday(seed = "standings-seed") {
   const fresh = createNewCareerState(seed, TUMBA_CLUB_ID);
-  const atMatchday = processDay(fresh, SEASON_START).state;
-  const fixture = getPlayerFixtureOn(atMatchday, SEASON_START)!;
+  const matchday = getNextPlayerFixture(fresh)!.date;
+  const atMatchday = processDay(fresh, matchday).state;
+  const fixture = getNextPlayerFixture(atMatchday)!;
   const { state } = playManagerFixture(atMatchday);
   return { state, fixture };
 }
