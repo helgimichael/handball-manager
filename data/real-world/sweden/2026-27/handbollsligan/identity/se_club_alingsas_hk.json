@@ -1,0 +1,309 @@
+{
+  "clubId": "se_club_alingsas_hk",
+  "season": "2026/27",
+  "sourceDocument": "Alingsås HK CLUB IDENTITY v0.1",
+  "people": [
+    {
+      "id": "person-melker-harnalv-se-club-alingsas-hk",
+      "displayName": "Melker Härnälv"
+    },
+    {
+      "id": "person-christer-martensson-se-club-alingsas-hk",
+      "displayName": "Christer Mårtensson"
+    },
+    {
+      "id": "person-johan-nilsson-se-club-alingsas-hk",
+      "displayName": "Johan Nilsson"
+    },
+    {
+      "id": "person-mattias-flodman-se-club-alingsas-hk",
+      "displayName": "Mattias Flodman"
+    },
+    {
+      "id": "person-simon-nilsson-se-club-alingsas-hk",
+      "displayName": "Simon Nilsson"
+    },
+    {
+      "id": "person-dennis-sandberg-se-club-alingsas-hk",
+      "displayName": "Dennis Sandberg"
+    },
+    {
+      "id": "person-mikael-aggefors-se-club-alingsas-hk",
+      "displayName": "Mikael Aggefors"
+    },
+    {
+      "id": "person-lena-lindqvist-se-club-alingsas-hk",
+      "displayName": "Lena Lindqvist"
+    },
+    {
+      "id": "person-dino-skondras-se-club-alingsas-hk",
+      "displayName": "Dino Skondras"
+    },
+    {
+      "id": "person-adelina-wremer-se-club-alingsas-hk",
+      "displayName": "Adelina Wremer"
+    },
+    {
+      "id": "person-ida-leipe-se-club-alingsas-hk",
+      "displayName": "Ida Leipe"
+    },
+    {
+      "id": "person-yohanna-friborg-se-club-alingsas-hk",
+      "displayName": "Yohanna Friborg"
+    },
+    {
+      "id": "person-wiebke-plate-se-club-alingsas-hk",
+      "displayName": "Wiebke Plate"
+    }
+  ],
+  "assignments": [
+    {
+      "personId": "person-melker-harnalv-se-club-alingsas-hk",
+      "clubId": "se_club_alingsas_hk",
+      "officialRole": "Ordförande",
+      "standardRoles": [
+        "CHAIRPERSON"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-alingsas-hk-club-identity-v0-1-organisation",
+          "sourceDocument": "Alingsås HK CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "ORGANISATION",
+          "notes": "VERIFIED_EXTERNAL_DATA"
+        }
+      ]
+    },
+    {
+      "personId": "person-christer-martensson-se-club-alingsas-hk",
+      "clubId": "se_club_alingsas_hk",
+      "officialRole": "Sportchef / Partneransvarig",
+      "standardRoles": [
+        "SPORTING_DIRECTOR"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-alingsas-hk-club-identity-v0-1-organisation",
+          "sourceDocument": "Alingsås HK CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "ORGANISATION",
+          "notes": "VERIFIED_EXTERNAL_DATA"
+        }
+      ]
+    },
+    {
+      "personId": "person-johan-nilsson-se-club-alingsas-hk",
+      "clubId": "se_club_alingsas_hk",
+      "officialRole": "Sport Utveckling & Utbildning",
+      "standardRoles": [
+        "OTHER"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-alingsas-hk-club-identity-v0-1-organisation",
+          "sourceDocument": "Alingsås HK CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "ORGANISATION",
+          "notes": "VERIFIED_EXTERNAL_DATA"
+        }
+      ]
+    },
+    {
+      "personId": "person-mattias-flodman-se-club-alingsas-hk",
+      "clubId": "se_club_alingsas_hk",
+      "officialRole": "Huvudtränare",
+      "standardRoles": [
+        "HEAD_COACH"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-alingsas-hk-club-identity-v0-1-coaching-staff",
+          "sourceDocument": "Alingsås HK CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING STAFF",
+          "notes": "VERIFIED_EXTERNAL_DATA"
+        }
+      ]
+    },
+    {
+      "personId": "person-simon-nilsson-se-club-alingsas-hk",
+      "clubId": "se_club_alingsas_hk",
+      "officialRole": "Assisterande tränare / Fysansvarig",
+      "standardRoles": [
+        "ASSISTANT_COACH",
+        "STRENGTH_CONDITIONING_COACH"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-alingsas-hk-club-identity-v0-1-coaching-staff",
+          "sourceDocument": "Alingsås HK CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING STAFF",
+          "notes": "VERIFIED_EXTERNAL_DATA"
+        }
+      ]
+    },
+    {
+      "personId": "person-dennis-sandberg-se-club-alingsas-hk",
+      "clubId": "se_club_alingsas_hk",
+      "officialRole": "Assisterande tränare",
+      "standardRoles": [
+        "ASSISTANT_COACH"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-alingsas-hk-club-identity-v0-1-coaching-staff",
+          "sourceDocument": "Alingsås HK CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING STAFF",
+          "notes": "VERIFIED_EXTERNAL_DATA"
+        }
+      ]
+    },
+    {
+      "personId": "person-mikael-aggefors-se-club-alingsas-hk",
+      "clubId": "se_club_alingsas_hk",
+      "officialRole": "Målvaktstränare",
+      "standardRoles": [
+        "GOALKEEPER_COACH"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-alingsas-hk-club-identity-v0-1-coaching-staff",
+          "sourceDocument": "Alingsås HK CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING STAFF",
+          "notes": "VERIFIED_EXTERNAL_DATA"
+        }
+      ]
+    },
+    {
+      "personId": "person-lena-lindqvist-se-club-alingsas-hk",
+      "clubId": "se_club_alingsas_hk",
+      "officialRole": "Lagledare",
+      "standardRoles": [
+        "TEAM_MANAGER"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-alingsas-hk-club-identity-v0-1-coaching-staff",
+          "sourceDocument": "Alingsås HK CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING STAFF",
+          "notes": "VERIFIED_EXTERNAL_DATA"
+        }
+      ]
+    },
+    {
+      "personId": "person-dino-skondras-se-club-alingsas-hk",
+      "clubId": "se_club_alingsas_hk",
+      "officialRole": "Materialare",
+      "standardRoles": [
+        "EQUIPMENT_MANAGER"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-alingsas-hk-club-identity-v0-1-coaching-staff",
+          "sourceDocument": "Alingsås HK CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING STAFF",
+          "notes": "VERIFIED_EXTERNAL_DATA"
+        }
+      ]
+    },
+    {
+      "personId": "person-adelina-wremer-se-club-alingsas-hk",
+      "clubId": "se_club_alingsas_hk",
+      "officialRole": "Naprapat",
+      "standardRoles": [
+        "PHYSIOTHERAPIST"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-alingsas-hk-club-identity-v0-1-performance-medical-staff",
+          "sourceDocument": "Alingsås HK CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "PERFORMANCE & MEDICAL STAFF",
+          "notes": "VERIFIED_EXTERNAL_DATA -- Original role 'Naprapat' retained; PHYSIOTHERAPIST is the nearest current database grouping, not a claim the professions are identical."
+        }
+      ]
+    },
+    {
+      "personId": "person-ida-leipe-se-club-alingsas-hk",
+      "clubId": "se_club_alingsas_hk",
+      "officialRole": "Naprapat",
+      "standardRoles": [
+        "PHYSIOTHERAPIST"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-alingsas-hk-club-identity-v0-1-performance-medical-staff",
+          "sourceDocument": "Alingsås HK CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "PERFORMANCE & MEDICAL STAFF",
+          "notes": "VERIFIED_EXTERNAL_DATA -- Original role 'Naprapat' retained; PHYSIOTHERAPIST is the nearest current database grouping, not a claim the professions are identical."
+        }
+      ]
+    },
+    {
+      "personId": "person-yohanna-friborg-se-club-alingsas-hk",
+      "clubId": "se_club_alingsas_hk",
+      "officialRole": "Naprapat",
+      "standardRoles": [
+        "PHYSIOTHERAPIST"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-alingsas-hk-club-identity-v0-1-performance-medical-staff",
+          "sourceDocument": "Alingsås HK CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "PERFORMANCE & MEDICAL STAFF",
+          "notes": "VERIFIED_EXTERNAL_DATA -- Original role 'Naprapat' retained; PHYSIOTHERAPIST is the nearest current database grouping, not a claim the professions are identical."
+        }
+      ]
+    },
+    {
+      "personId": "person-wiebke-plate-se-club-alingsas-hk",
+      "clubId": "se_club_alingsas_hk",
+      "officialRole": "Läkare",
+      "standardRoles": [
+        "DOCTOR"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-alingsas-hk-club-identity-v0-1-performance-medical-staff",
+          "sourceDocument": "Alingsås HK CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "PERFORMANCE & MEDICAL STAFF",
+          "notes": "VERIFIED_EXTERNAL_DATA"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,240 @@
+{
+  "clubId": "se_club_ystads_if_hf",
+  "season": "2026/27",
+  "sourceDocument": "Ystads IF HF CLUB IDENTITY v0.1",
+  "people": [
+    {
+      "id": "person-tor-blendberg-se-club-ystads-if-hf",
+      "displayName": "Tor Blendberg"
+    },
+    {
+      "id": "person-kenneth-andersson-se-club-ystads-if-hf",
+      "displayName": "Kenneth Andersson"
+    },
+    {
+      "id": "person-kim-andersson-se-club-ystads-if-hf",
+      "displayName": "Kim Andersson"
+    },
+    {
+      "id": "person-joel-tulldahl-se-club-ystads-if-hf",
+      "displayName": "Joel Tulldahl"
+    },
+    {
+      "id": "person-mattias-andersson-se-club-ystads-if-hf",
+      "displayName": "Mattias Andersson"
+    },
+    {
+      "id": "person-henrik-goland-se-club-ystads-if-hf",
+      "displayName": "Henrik Göland"
+    },
+    {
+      "id": "person-niclas-erlandsson-se-club-ystads-if-hf",
+      "displayName": "Niclas Erlandsson"
+    },
+    {
+      "id": "person-jesper-lindgren-se-club-ystads-if-hf",
+      "displayName": "Jesper Lindgren"
+    },
+    {
+      "id": "person-daniel-jerrhag-se-club-ystads-if-hf",
+      "displayName": "Daniel Jerrhag"
+    },
+    {
+      "id": "person-christian-brink-se-club-ystads-if-hf",
+      "displayName": "Christian Brink"
+    }
+  ],
+  "assignments": [
+    {
+      "personId": "person-tor-blendberg-se-club-ystads-if-hf",
+      "clubId": "se_club_ystads_if_hf",
+      "officialRole": "Klubbchef",
+      "standardRoles": [
+        "CLUB_DIRECTOR"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-ystads-if-hf-club-identity-v0-1-organisation",
+          "sourceDocument": "Ystads IF HF CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "ORGANISATION",
+          "notes": "VERIFIED_EXTERNAL_DATA"
+        }
+      ]
+    },
+    {
+      "personId": "person-kenneth-andersson-se-club-ystads-if-hf",
+      "clubId": "se_club_ystads_if_hf",
+      "officialRole": "Sportchef",
+      "standardRoles": [
+        "SPORTING_DIRECTOR"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-ystads-if-hf-club-identity-v0-1-organisation",
+          "sourceDocument": "Ystads IF HF CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "ORGANISATION",
+          "notes": "VERIFIED_EXTERNAL_DATA"
+        }
+      ]
+    },
+    {
+      "personId": "person-kim-andersson-se-club-ystads-if-hf",
+      "clubId": "se_club_ystads_if_hf",
+      "officialRole": "Huvudtränare 2026/27",
+      "standardRoles": [
+        "HEAD_COACH"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-ystads-if-hf-club-identity-v0-1-coaching-staff",
+          "sourceDocument": "Ystads IF HF CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING STAFF",
+          "notes": "VERIFIED_EXTERNAL_DATA"
+        }
+      ]
+    },
+    {
+      "personId": "person-joel-tulldahl-se-club-ystads-if-hf",
+      "clubId": "se_club_ystads_if_hf",
+      "officialRole": "Assisterande tränare 2026/27",
+      "standardRoles": [
+        "ASSISTANT_COACH"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-ystads-if-hf-club-identity-v0-1-coaching-staff",
+          "sourceDocument": "Ystads IF HF CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING STAFF",
+          "notes": "VERIFIED_EXTERNAL_DATA"
+        }
+      ]
+    },
+    {
+      "personId": "person-mattias-andersson-se-club-ystads-if-hf",
+      "clubId": "se_club_ystads_if_hf",
+      "officialRole": "Målvaktstränare",
+      "standardRoles": [
+        "GOALKEEPER_COACH"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-ystads-if-hf-club-identity-v0-1-coaching-staff",
+          "sourceDocument": "Ystads IF HF CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING STAFF",
+          "notes": "VERIFIED_EXTERNAL_DATA"
+        }
+      ]
+    },
+    {
+      "personId": "person-henrik-goland-se-club-ystads-if-hf",
+      "clubId": "se_club_ystads_if_hf",
+      "officialRole": "Fysansvarig",
+      "standardRoles": [
+        "STRENGTH_CONDITIONING_COACH"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-ystads-if-hf-club-identity-v0-1-performance-medical-staff",
+          "sourceDocument": "Ystads IF HF CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "PERFORMANCE & MEDICAL STAFF",
+          "notes": "VERIFIED_EXTERNAL_DATA"
+        }
+      ]
+    },
+    {
+      "personId": "person-niclas-erlandsson-se-club-ystads-if-hf",
+      "clubId": "se_club_ystads_if_hf",
+      "officialRole": "Fysträning",
+      "standardRoles": [
+        "PERFORMANCE_STAFF"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-ystads-if-hf-club-identity-v0-1-performance-medical-staff",
+          "sourceDocument": "Ystads IF HF CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "PERFORMANCE & MEDICAL STAFF",
+          "notes": "VERIFIED_EXTERNAL_DATA"
+        }
+      ]
+    },
+    {
+      "personId": "person-jesper-lindgren-se-club-ystads-if-hf",
+      "clubId": "se_club_ystads_if_hf",
+      "officialRole": "Sjukgymnast",
+      "standardRoles": [
+        "PHYSIOTHERAPIST"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-ystads-if-hf-club-identity-v0-1-performance-medical-staff",
+          "sourceDocument": "Ystads IF HF CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "PERFORMANCE & MEDICAL STAFF",
+          "notes": "VERIFIED_EXTERNAL_DATA"
+        }
+      ]
+    },
+    {
+      "personId": "person-daniel-jerrhag-se-club-ystads-if-hf",
+      "clubId": "se_club_ystads_if_hf",
+      "officialRole": "Lagläkare",
+      "standardRoles": [
+        "DOCTOR"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-ystads-if-hf-club-identity-v0-1-performance-medical-staff",
+          "sourceDocument": "Ystads IF HF CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "PERFORMANCE & MEDICAL STAFF",
+          "notes": "VERIFIED_EXTERNAL_DATA"
+        }
+      ]
+    },
+    {
+      "personId": "person-christian-brink-se-club-ystads-if-hf",
+      "clubId": "se_club_ystads_if_hf",
+      "officialRole": "Admin",
+      "standardRoles": [
+        "OTHER",
+        "TEAM_ADMIN"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-ystads-if-hf-club-identity-v0-1-performance-medical-staff",
+          "sourceDocument": "Ystads IF HF CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "PERFORMANCE & MEDICAL STAFF",
+          "notes": "VERIFIED_EXTERNAL_DATA"
+        }
+      ]
+    }
+  ]
+}

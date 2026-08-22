@@ -1,0 +1,216 @@
+{
+  "clubId": "se_club_hf_karlskrona",
+  "season": "2026/27",
+  "sourceDocument": "HF Karlskrona CLUB IDENTITY v0.1",
+  "people": [
+    {
+      "id": "person-maria-nilsson-se-club-hf-karlskrona",
+      "displayName": "Maria Nilsson"
+    },
+    {
+      "id": "person-johan-larsson-se-club-hf-karlskrona",
+      "displayName": "Johan Larsson"
+    },
+    {
+      "id": "person-olof-ljungberg-se-club-hf-karlskrona",
+      "displayName": "Olof Ljungberg"
+    },
+    {
+      "id": "person-mikael-sandstrom-se-club-hf-karlskrona",
+      "displayName": "Mikael Sandström"
+    },
+    {
+      "id": "person-tobias-karlsson-se-club-hf-karlskrona",
+      "displayName": "Tobias Karlsson"
+    },
+    {
+      "id": "person-mathias-ekstrand-se-club-hf-karlskrona",
+      "displayName": "Mathias Ekstrand"
+    },
+    {
+      "id": "person-nicklas-grundsten-se-club-hf-karlskrona",
+      "displayName": "Nicklas Grundsten"
+    },
+    {
+      "id": "person-tomas-svensson-se-club-hf-karlskrona",
+      "displayName": "Tomas Svensson"
+    },
+    {
+      "id": "person-hege-steinlund-se-club-hf-karlskrona",
+      "displayName": "Hege Steinlund"
+    }
+  ],
+  "assignments": [
+    {
+      "personId": "person-maria-nilsson-se-club-hf-karlskrona",
+      "clubId": "se_club_hf_karlskrona",
+      "officialRole": "Ordförande",
+      "standardRoles": [
+        "CHAIRPERSON"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-hf-karlskrona-club-identity-v0-1-organisation",
+          "sourceDocument": "HF Karlskrona CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "ORGANISATION",
+          "notes": "VERIFIED_EXTERNAL_DATA"
+        }
+      ]
+    },
+    {
+      "personId": "person-johan-larsson-se-club-hf-karlskrona",
+      "clubId": "se_club_hf_karlskrona",
+      "officialRole": "Vice ordförande",
+      "standardRoles": [
+        "OTHER"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-hf-karlskrona-club-identity-v0-1-organisation",
+          "sourceDocument": "HF Karlskrona CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "ORGANISATION",
+          "notes": "VERIFIED_EXTERNAL_DATA"
+        }
+      ]
+    },
+    {
+      "personId": "person-olof-ljungberg-se-club-hf-karlskrona",
+      "clubId": "se_club_hf_karlskrona",
+      "officialRole": "Klubbchef",
+      "standardRoles": [
+        "CLUB_DIRECTOR"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-hf-karlskrona-club-identity-v0-1-organisation",
+          "sourceDocument": "HF Karlskrona CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "ORGANISATION",
+          "notes": "VERIFIED_EXTERNAL_DATA"
+        }
+      ]
+    },
+    {
+      "personId": "person-mikael-sandstrom-se-club-hf-karlskrona",
+      "clubId": "se_club_hf_karlskrona",
+      "officialRole": "Ansvarig Sportgrupp Herr",
+      "standardRoles": [
+        "SPORTING_DIRECTOR"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-hf-karlskrona-club-identity-v0-1-organisation",
+          "sourceDocument": "HF Karlskrona CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "ORGANISATION",
+          "notes": "VERIFIED_EXTERNAL_DATA"
+        }
+      ]
+    },
+    {
+      "personId": "person-tobias-karlsson-se-club-hf-karlskrona",
+      "clubId": "se_club_hf_karlskrona",
+      "officialRole": "Sportchef (tidigare roll; nu rådgivande relation enligt klubben)",
+      "standardRoles": [
+        "SPORTING_DIRECTOR"
+      ],
+      "status": "HISTORICAL",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-hf-karlskrona-club-identity-v0-1-organisation",
+          "sourceDocument": "HF Karlskrona CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "ORGANISATION",
+          "notes": "VERIFIED_EXTERNAL_DATA -- Not stored as current sporting director; the club has previously described a former advisory relationship."
+        }
+      ]
+    },
+    {
+      "personId": "person-mathias-ekstrand-se-club-hf-karlskrona",
+      "clubId": "se_club_hf_karlskrona",
+      "officialRole": "Huvudtränare Herr",
+      "standardRoles": [
+        "HEAD_COACH"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-hf-karlskrona-club-identity-v0-1-coaching-staff",
+          "sourceDocument": "HF Karlskrona CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING STAFF",
+          "notes": "VERIFIED_EXTERNAL_DATA"
+        }
+      ]
+    },
+    {
+      "personId": "person-nicklas-grundsten-se-club-hf-karlskrona",
+      "clubId": "se_club_hf_karlskrona",
+      "officialRole": "Assisterande tränare Herr",
+      "standardRoles": [
+        "ASSISTANT_COACH"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-hf-karlskrona-club-identity-v0-1-coaching-staff",
+          "sourceDocument": "HF Karlskrona CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING STAFF",
+          "notes": "VERIFIED_EXTERNAL_DATA"
+        }
+      ]
+    },
+    {
+      "personId": "person-tomas-svensson-se-club-hf-karlskrona",
+      "clubId": "se_club_hf_karlskrona",
+      "officialRole": "Lagledare Herr",
+      "standardRoles": [
+        "TEAM_MANAGER"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-hf-karlskrona-club-identity-v0-1-coaching-staff",
+          "sourceDocument": "HF Karlskrona CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING STAFF",
+          "notes": "VERIFIED_EXTERNAL_DATA"
+        }
+      ]
+    },
+    {
+      "personId": "person-hege-steinlund-se-club-hf-karlskrona",
+      "clubId": "se_club_hf_karlskrona",
+      "officialRole": "Materialförvaltare Herr",
+      "standardRoles": [
+        "EQUIPMENT_MANAGER"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-hf-karlskrona-club-identity-v0-1-coaching-staff",
+          "sourceDocument": "HF Karlskrona CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING STAFF",
+          "notes": "VERIFIED_EXTERNAL_DATA"
+        }
+      ]
+    }
+  ]
+}

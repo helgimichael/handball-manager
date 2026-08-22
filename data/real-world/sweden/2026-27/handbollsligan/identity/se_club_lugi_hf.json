@@ -1,0 +1,170 @@
+{
+  "clubId": "se_club_lugi_hf",
+  "season": "2026/27",
+  "sourceDocument": "LUGI HF CLUB IDENTITY v0.1",
+  "people": [
+    {
+      "id": "person-emme-adebo-se-club-lugi-hf",
+      "displayName": "Emme Adébo"
+    },
+    {
+      "id": "person-robert-mansson-se-club-lugi-hf",
+      "displayName": "Robert Månsson"
+    },
+    {
+      "id": "person-ola-mansson-se-club-lugi-hf",
+      "displayName": "Ola Månsson"
+    },
+    {
+      "id": "person-christoffer-geissler-se-club-lugi-hf",
+      "displayName": "Christoffer Geissler"
+    },
+    {
+      "id": "person-stefan-friberg-se-club-lugi-hf",
+      "displayName": "Stefan Friberg"
+    },
+    {
+      "id": "person-anton-bengtsson-se-club-lugi-hf",
+      "displayName": "Anton Bengtsson"
+    },
+    {
+      "id": "person-luke-burgess-se-club-lugi-hf",
+      "displayName": "Luke Burgess"
+    }
+  ],
+  "assignments": [
+    {
+      "personId": "person-emme-adebo-se-club-lugi-hf",
+      "clubId": "se_club_lugi_hf",
+      "officialRole": "Klubbchef",
+      "standardRoles": [
+        "CLUB_DIRECTOR"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-lugi-hf-club-identity-v0-1-organisation",
+          "sourceDocument": "LUGI HF CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "ORGANISATION",
+          "notes": "VERIFIED_EXTERNAL_DATA"
+        }
+      ]
+    },
+    {
+      "personId": "person-robert-mansson-se-club-lugi-hf",
+      "clubId": "se_club_lugi_hf",
+      "officialRole": "Sportchef",
+      "standardRoles": [
+        "SPORTING_DIRECTOR"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-lugi-hf-club-identity-v0-1-organisation",
+          "sourceDocument": "LUGI HF CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "ORGANISATION",
+          "notes": "VERIFIED_EXTERNAL_DATA -- Same name as a HISTORICAL HK Malmö sporting-director record -- kept as a SEPARATE person here: no source document explicitly states these are the same individual, so no identity merge is asserted (HM-STAFF-DATA-0.1: do not invent unverified identity links)."
+        }
+      ]
+    },
+    {
+      "personId": "person-ola-mansson-se-club-lugi-hf",
+      "clubId": "se_club_lugi_hf",
+      "officialRole": "Huvudtränare",
+      "standardRoles": [
+        "HEAD_COACH"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-lugi-hf-club-identity-v0-1-coaching-staff",
+          "sourceDocument": "LUGI HF CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING STAFF",
+          "notes": "VERIFIED_EXTERNAL_DATA"
+        }
+      ]
+    },
+    {
+      "personId": "person-christoffer-geissler-se-club-lugi-hf",
+      "clubId": "se_club_lugi_hf",
+      "officialRole": "Assisterande tränare",
+      "standardRoles": [
+        "ASSISTANT_COACH"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-lugi-hf-club-identity-v0-1-coaching-staff",
+          "sourceDocument": "LUGI HF CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING STAFF",
+          "notes": "VERIFIED_EXTERNAL_DATA"
+        }
+      ]
+    },
+    {
+      "personId": "person-stefan-friberg-se-club-lugi-hf",
+      "clubId": "se_club_lugi_hf",
+      "officialRole": "Lagledare",
+      "standardRoles": [
+        "TEAM_MANAGER"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-lugi-hf-club-identity-v0-1-coaching-staff",
+          "sourceDocument": "LUGI HF CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING STAFF",
+          "notes": "VERIFIED_EXTERNAL_DATA"
+        }
+      ]
+    },
+    {
+      "personId": "person-anton-bengtsson-se-club-lugi-hf",
+      "clubId": "se_club_lugi_hf",
+      "officialRole": "Fystränare",
+      "standardRoles": [
+        "STRENGTH_CONDITIONING_COACH"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-lugi-hf-club-identity-v0-1-performance-medical-staff",
+          "sourceDocument": "LUGI HF CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "PERFORMANCE & MEDICAL STAFF",
+          "notes": "VERIFIED_EXTERNAL_DATA"
+        }
+      ]
+    },
+    {
+      "personId": "person-luke-burgess-se-club-lugi-hf",
+      "clubId": "se_club_lugi_hf",
+      "officialRole": "Fysioterapeut",
+      "standardRoles": [
+        "PHYSIOTHERAPIST"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-lugi-hf-club-identity-v0-1-performance-medical-staff",
+          "sourceDocument": "LUGI HF CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "PERFORMANCE & MEDICAL STAFF",
+          "notes": "VERIFIED_EXTERNAL_DATA"
+        }
+      ]
+    }
+  ]
+}

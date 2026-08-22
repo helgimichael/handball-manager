@@ -1,0 +1,308 @@
+{
+  "clubId": "se_club_ik_savehof",
+  "season": "2026/27",
+  "sourceDocument": "IK Sävehof CLUB IDENTITY v0.1",
+  "people": [
+    {
+      "id": "person-stefan-albrechtson-se-club-ik-savehof",
+      "displayName": "Stefan Albrechtson"
+    },
+    {
+      "id": "person-jonathan-stenbacken-se-club-ik-savehof",
+      "displayName": "Jonathan Stenbäcken"
+    },
+    {
+      "id": "person-linus-ekman-se-club-ik-savehof",
+      "displayName": "Linus Ekman"
+    },
+    {
+      "id": "person-hampus-fernebrand-se-club-ik-savehof",
+      "displayName": "Hampus Fernebrand"
+    },
+    {
+      "id": "person-daniel-larsson-se-club-ik-savehof",
+      "displayName": "Daniel Larsson"
+    },
+    {
+      "id": "person-lars-johansson-se-club-ik-savehof",
+      "displayName": "Lars Johansson"
+    },
+    {
+      "id": "person-christian-ahman-se-club-ik-savehof",
+      "displayName": "Christian Åhman"
+    },
+    {
+      "id": "person-rickard-nilsson-se-club-ik-savehof",
+      "displayName": "Rickard Nilsson"
+    },
+    {
+      "id": "person-marie-wedberg-se-club-ik-savehof",
+      "displayName": "Marie Wedberg"
+    },
+    {
+      "id": "person-jenny-alm-se-club-ik-savehof",
+      "displayName": "Jenny Alm"
+    },
+    {
+      "id": "person-moa-eliasson-se-club-ik-savehof",
+      "displayName": "Moa Eliasson"
+    },
+    {
+      "id": "person-stefan-gudmundsson-se-club-ik-savehof",
+      "displayName": "Stefan Gudmundsson"
+    },
+    {
+      "id": "person-hampus-luning-se-club-ik-savehof",
+      "displayName": "Hampus Lüning"
+    }
+  ],
+  "assignments": [
+    {
+      "personId": "person-stefan-albrechtson-se-club-ik-savehof",
+      "clubId": "se_club_ik_savehof",
+      "officialRole": "Klubbdirektör",
+      "standardRoles": [
+        "CLUB_DIRECTOR"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-ik-savehof-club-identity-v0-1-organisation",
+          "sourceDocument": "IK Sävehof CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "ORGANISATION",
+          "notes": "VERIFIED_EXTERNAL_DATA"
+        }
+      ]
+    },
+    {
+      "personId": "person-jonathan-stenbacken-se-club-ik-savehof",
+      "clubId": "se_club_ik_savehof",
+      "officialRole": "Sportchef",
+      "standardRoles": [
+        "SPORTING_DIRECTOR"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-ik-savehof-club-identity-v0-1-organisation",
+          "sourceDocument": "IK Sävehof CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "ORGANISATION",
+          "notes": "VERIFIED_EXTERNAL_DATA"
+        }
+      ]
+    },
+    {
+      "personId": "person-linus-ekman-se-club-ik-savehof",
+      "clubId": "se_club_ik_savehof",
+      "officialRole": "Huvudtränare herr",
+      "standardRoles": [
+        "HEAD_COACH"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-ik-savehof-club-identity-v0-1-coaching-staff",
+          "sourceDocument": "IK Sävehof CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING STAFF",
+          "notes": "VERIFIED_EXTERNAL_DATA"
+        }
+      ]
+    },
+    {
+      "personId": "person-hampus-fernebrand-se-club-ik-savehof",
+      "clubId": "se_club_ik_savehof",
+      "officialRole": "Assisterande tränare",
+      "standardRoles": [
+        "ASSISTANT_COACH"
+      ],
+      "status": "PROBABLE",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-ik-savehof-club-identity-v0-1-coaching-staff",
+          "sourceDocument": "IK Sävehof CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING STAFF",
+          "notes": "PROBABLE_EXTERNAL_DATA"
+        }
+      ]
+    },
+    {
+      "personId": "person-daniel-larsson-se-club-ik-savehof",
+      "clubId": "se_club_ik_savehof",
+      "officialRole": "Målvaktstränare",
+      "standardRoles": [
+        "GOALKEEPER_COACH"
+      ],
+      "status": "PROBABLE",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-ik-savehof-club-identity-v0-1-coaching-staff",
+          "sourceDocument": "IK Sävehof CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING STAFF",
+          "notes": "PROBABLE_EXTERNAL_DATA"
+        }
+      ]
+    },
+    {
+      "personId": "person-lars-johansson-se-club-ik-savehof",
+      "clubId": "se_club_ik_savehof",
+      "officialRole": "Lagledare",
+      "standardRoles": [
+        "TEAM_MANAGER"
+      ],
+      "status": "PROBABLE",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-ik-savehof-club-identity-v0-1-coaching-staff",
+          "sourceDocument": "IK Sävehof CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING STAFF",
+          "notes": "PROBABLE_EXTERNAL_DATA"
+        }
+      ]
+    },
+    {
+      "personId": "person-christian-ahman-se-club-ik-savehof",
+      "clubId": "se_club_ik_savehof",
+      "officialRole": "Lagledare",
+      "standardRoles": [
+        "TEAM_MANAGER"
+      ],
+      "status": "PROBABLE",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-ik-savehof-club-identity-v0-1-coaching-staff",
+          "sourceDocument": "IK Sävehof CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING STAFF",
+          "notes": "PROBABLE_EXTERNAL_DATA"
+        }
+      ]
+    },
+    {
+      "personId": "person-rickard-nilsson-se-club-ik-savehof",
+      "clubId": "se_club_ik_savehof",
+      "officialRole": "Fystränare",
+      "standardRoles": [
+        "STRENGTH_CONDITIONING_COACH"
+      ],
+      "status": "PROBABLE",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-ik-savehof-club-identity-v0-1-performance-medical-staff",
+          "sourceDocument": "IK Sävehof CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "PERFORMANCE & MEDICAL STAFF",
+          "notes": "PROBABLE_EXTERNAL_DATA"
+        }
+      ]
+    },
+    {
+      "personId": "person-marie-wedberg-se-club-ik-savehof",
+      "clubId": "se_club_ik_savehof",
+      "officialRole": "Fysioterapeut",
+      "standardRoles": [
+        "PHYSIOTHERAPIST"
+      ],
+      "status": "PROBABLE",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-ik-savehof-club-identity-v0-1-performance-medical-staff",
+          "sourceDocument": "IK Sävehof CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "PERFORMANCE & MEDICAL STAFF",
+          "notes": "PROBABLE_EXTERNAL_DATA"
+        }
+      ]
+    },
+    {
+      "personId": "person-jenny-alm-se-club-ik-savehof",
+      "clubId": "se_club_ik_savehof",
+      "officialRole": "Fysioterapeut",
+      "standardRoles": [
+        "PHYSIOTHERAPIST"
+      ],
+      "status": "PROBABLE",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-ik-savehof-club-identity-v0-1-performance-medical-staff",
+          "sourceDocument": "IK Sävehof CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "PERFORMANCE & MEDICAL STAFF",
+          "notes": "PROBABLE_EXTERNAL_DATA"
+        }
+      ]
+    },
+    {
+      "personId": "person-moa-eliasson-se-club-ik-savehof",
+      "clubId": "se_club_ik_savehof",
+      "officialRole": "Fysioterapeut",
+      "standardRoles": [
+        "PHYSIOTHERAPIST"
+      ],
+      "status": "PROBABLE",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-ik-savehof-club-identity-v0-1-performance-medical-staff",
+          "sourceDocument": "IK Sävehof CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "PERFORMANCE & MEDICAL STAFF",
+          "notes": "PROBABLE_EXTERNAL_DATA"
+        }
+      ]
+    },
+    {
+      "personId": "person-stefan-gudmundsson-se-club-ik-savehof",
+      "clubId": "se_club_ik_savehof",
+      "officialRole": "Läkare",
+      "standardRoles": [
+        "DOCTOR"
+      ],
+      "status": "PROBABLE",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-ik-savehof-club-identity-v0-1-performance-medical-staff",
+          "sourceDocument": "IK Sävehof CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "PERFORMANCE & MEDICAL STAFF",
+          "notes": "PROBABLE_EXTERNAL_DATA"
+        }
+      ]
+    },
+    {
+      "personId": "person-hampus-luning-se-club-ik-savehof",
+      "clubId": "se_club_ik_savehof",
+      "officialRole": "Läkare",
+      "standardRoles": [
+        "DOCTOR"
+      ],
+      "status": "PROBABLE",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-ik-savehof-club-identity-v0-1-performance-medical-staff",
+          "sourceDocument": "IK Sävehof CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "PERFORMANCE & MEDICAL STAFF",
+          "notes": "PROBABLE_EXTERNAL_DATA"
+        }
+      ]
+    }
+  ]
+}

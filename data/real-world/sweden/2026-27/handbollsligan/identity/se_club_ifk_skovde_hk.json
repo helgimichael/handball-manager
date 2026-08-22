@@ -1,0 +1,216 @@
+{
+  "clubId": "se_club_ifk_skovde_hk",
+  "season": "2026/27",
+  "sourceDocument": "IFK Skövde HK CLUB IDENTITY v0.1",
+  "people": [
+    {
+      "id": "person-johan-gustavsson-se-club-ifk-skovde-hk",
+      "displayName": "Johan Gustavsson"
+    },
+    {
+      "id": "person-robert-arrhenius-se-club-ifk-skovde-hk",
+      "displayName": "Robert Arrhenius"
+    },
+    {
+      "id": "person-kristian-svensson-se-club-ifk-skovde-hk",
+      "displayName": "Kristian Svensson"
+    },
+    {
+      "id": "person-jonatan-eriksson-se-club-ifk-skovde-hk",
+      "displayName": "Jonatan Eriksson"
+    },
+    {
+      "id": "person-klas-wahlstrom-se-club-ifk-skovde-hk",
+      "displayName": "Klas Wahlström"
+    },
+    {
+      "id": "person-klas-johansson-se-club-ifk-skovde-hk",
+      "displayName": "Klas Johansson"
+    },
+    {
+      "id": "person-annelie-hallqvist-se-club-ifk-skovde-hk",
+      "displayName": "Annelie Hallqvist"
+    },
+    {
+      "id": "person-mile-bergvall-se-club-ifk-skovde-hk",
+      "displayName": "Mile Bergvall"
+    },
+    {
+      "id": "person-agne-bergvall-se-club-ifk-skovde-hk",
+      "displayName": "Agne Bergvall"
+    }
+  ],
+  "assignments": [
+    {
+      "personId": "person-johan-gustavsson-se-club-ifk-skovde-hk",
+      "clubId": "se_club_ifk_skovde_hk",
+      "officialRole": "Klubbchef",
+      "standardRoles": [
+        "CLUB_DIRECTOR"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-ifk-skovde-hk-club-identity-v0-1-organisation",
+          "sourceDocument": "IFK Skövde HK CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "ORGANISATION",
+          "notes": "VERIFIED_EXTERNAL_DATA"
+        }
+      ]
+    },
+    {
+      "personId": "person-robert-arrhenius-se-club-ifk-skovde-hk",
+      "clubId": "se_club_ifk_skovde_hk",
+      "officialRole": "Sportchef",
+      "standardRoles": [
+        "SPORTING_DIRECTOR"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-ifk-skovde-hk-club-identity-v0-1-organisation",
+          "sourceDocument": "IFK Skövde HK CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "ORGANISATION",
+          "notes": "VERIFIED_EXTERNAL_DATA"
+        }
+      ]
+    },
+    {
+      "personId": "person-kristian-svensson-se-club-ifk-skovde-hk",
+      "clubId": "se_club_ifk_skovde_hk",
+      "officialRole": "Huvudtränare / Elitlag",
+      "standardRoles": [
+        "HEAD_COACH"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-ifk-skovde-hk-club-identity-v0-1-coaching-staff",
+          "sourceDocument": "IFK Skövde HK CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING STAFF",
+          "notes": "VERIFIED_EXTERNAL_DATA"
+        }
+      ]
+    },
+    {
+      "personId": "person-jonatan-eriksson-se-club-ifk-skovde-hk",
+      "clubId": "se_club_ifk_skovde_hk",
+      "officialRole": "Assisterande tränare",
+      "standardRoles": [
+        "ASSISTANT_COACH"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-ifk-skovde-hk-club-identity-v0-1-coaching-staff",
+          "sourceDocument": "IFK Skövde HK CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING STAFF",
+          "notes": "VERIFIED_EXTERNAL_DATA"
+        }
+      ]
+    },
+    {
+      "personId": "person-klas-wahlstrom-se-club-ifk-skovde-hk",
+      "clubId": "se_club_ifk_skovde_hk",
+      "officialRole": "Team manager",
+      "standardRoles": [
+        "TEAM_MANAGER"
+      ],
+      "status": "PROBABLE",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-ifk-skovde-hk-club-identity-v0-1-coaching-staff",
+          "sourceDocument": "IFK Skövde HK CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING STAFF",
+          "notes": "PROBABLE_EXTERNAL_DATA"
+        }
+      ]
+    },
+    {
+      "personId": "person-klas-johansson-se-club-ifk-skovde-hk",
+      "clubId": "se_club_ifk_skovde_hk",
+      "officialRole": "Materialförvaltare",
+      "standardRoles": [
+        "EQUIPMENT_MANAGER"
+      ],
+      "status": "PROBABLE",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-ifk-skovde-hk-club-identity-v0-1-coaching-staff",
+          "sourceDocument": "IFK Skövde HK CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING STAFF",
+          "notes": "PROBABLE_EXTERNAL_DATA"
+        }
+      ]
+    },
+    {
+      "personId": "person-annelie-hallqvist-se-club-ifk-skovde-hk",
+      "clubId": "se_club_ifk_skovde_hk",
+      "officialRole": "Fysioterapeut",
+      "standardRoles": [
+        "PHYSIOTHERAPIST"
+      ],
+      "status": "PROBABLE",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-ifk-skovde-hk-club-identity-v0-1-performance-medical-staff",
+          "sourceDocument": "IFK Skövde HK CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "PERFORMANCE & MEDICAL STAFF",
+          "notes": "PROBABLE_EXTERNAL_DATA"
+        }
+      ]
+    },
+    {
+      "personId": "person-mile-bergvall-se-club-ifk-skovde-hk",
+      "clubId": "se_club_ifk_skovde_hk",
+      "officialRole": "Lagläkare",
+      "standardRoles": [
+        "DOCTOR"
+      ],
+      "status": "PROBABLE",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-ifk-skovde-hk-club-identity-v0-1-performance-medical-staff",
+          "sourceDocument": "IFK Skövde HK CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "PERFORMANCE & MEDICAL STAFF",
+          "notes": "PROBABLE_EXTERNAL_DATA"
+        }
+      ]
+    },
+    {
+      "personId": "person-agne-bergvall-se-club-ifk-skovde-hk",
+      "clubId": "se_club_ifk_skovde_hk",
+      "officialRole": "Fysisk träning / upplägg",
+      "standardRoles": [
+        "STRENGTH_CONDITIONING_COACH"
+      ],
+      "status": "PROBABLE",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-ifk-skovde-hk-club-identity-v0-1-performance-medical-staff",
+          "sourceDocument": "IFK Skövde HK CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "PERFORMANCE & MEDICAL STAFF",
+          "notes": "PROBABLE_EXTERNAL_DATA"
+        }
+      ]
+    }
+  ]
+}

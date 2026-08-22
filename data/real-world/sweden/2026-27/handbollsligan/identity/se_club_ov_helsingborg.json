@@ -1,0 +1,78 @@
+{
+  "clubId": "se_club_ov_helsingborg",
+  "season": "2026/27",
+  "sourceDocument": "OV Helsingborg HK CLUB IDENTITY v0.1",
+  "people": [
+    {
+      "id": "person-dennis-pettersson-se-club-ov-helsingborg",
+      "displayName": "Dennis Pettersson"
+    },
+    {
+      "id": "person-magnus-siglev-se-club-ov-helsingborg",
+      "displayName": "Magnus Siglev"
+    },
+    {
+      "id": "person-toni-johansson-se-club-ov-helsingborg",
+      "displayName": "Toni Johansson"
+    }
+  ],
+  "assignments": [
+    {
+      "personId": "person-dennis-pettersson-se-club-ov-helsingborg",
+      "clubId": "se_club_ov_helsingborg",
+      "officialRole": "Sportgrupp Herr / Sportchef in club communication",
+      "standardRoles": [
+        "SPORTING_DIRECTOR"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-ov-helsingborg-hk-club-identity-v0-1-organisation",
+          "sourceDocument": "OV Helsingborg HK CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "ORGANISATION",
+          "notes": "VERIFIED_EXTERNAL_DATA"
+        }
+      ]
+    },
+    {
+      "personId": "person-magnus-siglev-se-club-ov-helsingborg",
+      "clubId": "se_club_ov_helsingborg",
+      "officialRole": "Huvudtränare herr",
+      "standardRoles": [
+        "HEAD_COACH"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-ov-helsingborg-hk-club-identity-v0-1-coaching-staff",
+          "sourceDocument": "OV Helsingborg HK CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING STAFF",
+          "notes": "VERIFIED_EXTERNAL_DATA"
+        }
+      ]
+    },
+    {
+      "personId": "person-toni-johansson-se-club-ov-helsingborg",
+      "clubId": "se_club_ov_helsingborg",
+      "officialRole": "Huvudtränare (tidigare roll)",
+      "standardRoles": [
+        "HEAD_COACH"
+      ],
+      "status": "HISTORICAL",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-ov-helsingborg-hk-club-identity-v0-1-coaching-staff",
+          "sourceDocument": "OV Helsingborg HK CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING STAFF",
+          "notes": "VERIFIED_EXTERNAL_DATA -- HISTORICAL for 2026/27 -- not stored as current head coach; succeeded by Magnus Siglev."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,170 @@
+{
+  "clubId": "se_club_skanela_if",
+  "season": "2026/27",
+  "sourceDocument": "Skånela IF CLUB IDENTITY v0.1",
+  "people": [
+    {
+      "id": "person-per-romild-se-club-skanela-if",
+      "displayName": "Per Romild"
+    },
+    {
+      "id": "person-jimmy-karlsson-se-club-skanela-if",
+      "displayName": "Jimmy Karlsson"
+    },
+    {
+      "id": "person-peter-stackeryd-se-club-skanela-if",
+      "displayName": "Peter Stackeryd"
+    },
+    {
+      "id": "person-tim-lindqvist-se-club-skanela-if",
+      "displayName": "Tim Lindqvist"
+    },
+    {
+      "id": "person-mads-lyhne-nielsen-se-club-skanela-if",
+      "displayName": "Mads Lyhne Nielsen"
+    },
+    {
+      "id": "person-janne-ekman-se-club-skanela-if",
+      "displayName": "Janne Ekman"
+    },
+    {
+      "id": "person-martin-moren-se-club-skanela-if",
+      "displayName": "Martin Morén"
+    }
+  ],
+  "assignments": [
+    {
+      "personId": "person-per-romild-se-club-skanela-if",
+      "clubId": "se_club_skanela_if",
+      "officialRole": "Ordförande",
+      "standardRoles": [
+        "CHAIRPERSON"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-skanela-if-club-identity-v0-1-organisation",
+          "sourceDocument": "Skånela IF CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "ORGANISATION",
+          "notes": "VERIFIED_EXTERNAL_DATA"
+        }
+      ]
+    },
+    {
+      "personId": "person-jimmy-karlsson-se-club-skanela-if",
+      "clubId": "se_club_skanela_if",
+      "officialRole": "Klubbchef",
+      "standardRoles": [
+        "CLUB_DIRECTOR"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-skanela-if-club-identity-v0-1-organisation",
+          "sourceDocument": "Skånela IF CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "ORGANISATION",
+          "notes": "VERIFIED_EXTERNAL_DATA"
+        }
+      ]
+    },
+    {
+      "personId": "person-peter-stackeryd-se-club-skanela-if",
+      "clubId": "se_club_skanela_if",
+      "officialRole": "Vice ordförande / Marknad / Senioransvarig Herr; Sportchef herrlaget in club communication",
+      "standardRoles": [
+        "SPORTING_DIRECTOR"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-skanela-if-club-identity-v0-1-organisation",
+          "sourceDocument": "Skånela IF CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "ORGANISATION",
+          "notes": "VERIFIED_EXTERNAL_DATA"
+        }
+      ]
+    },
+    {
+      "personId": "person-tim-lindqvist-se-club-skanela-if",
+      "clubId": "se_club_skanela_if",
+      "officialRole": "Tränare / huvudansvarig herr",
+      "standardRoles": [
+        "HEAD_COACH"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-skanela-if-club-identity-v0-1-coaching-senior-staff",
+          "sourceDocument": "Skånela IF CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING & SENIOR STAFF",
+          "notes": "VERIFIED_EXTERNAL_DATA"
+        }
+      ]
+    },
+    {
+      "personId": "person-mads-lyhne-nielsen-se-club-skanela-if",
+      "clubId": "se_club_skanela_if",
+      "officialRole": "Assisterande tränare; tränarutvecklare",
+      "standardRoles": [
+        "ASSISTANT_COACH"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-skanela-if-club-identity-v0-1-coaching-senior-staff",
+          "sourceDocument": "Skånela IF CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING & SENIOR STAFF",
+          "notes": "VERIFIED_EXTERNAL_DATA -- Verified additional role is trainer development ('tränarutvecklare'); the unverified title 'sportchef för yngre lagen'/Head of Youth Development is NOT stored."
+        }
+      ]
+    },
+    {
+      "personId": "person-janne-ekman-se-club-skanela-if",
+      "clubId": "se_club_skanela_if",
+      "officialRole": "Målvaktstränare",
+      "standardRoles": [
+        "GOALKEEPER_COACH"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-skanela-if-club-identity-v0-1-coaching-senior-staff",
+          "sourceDocument": "Skånela IF CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING & SENIOR STAFF",
+          "notes": "VERIFIED_EXTERNAL_DATA"
+        }
+      ]
+    },
+    {
+      "personId": "person-martin-moren-se-club-skanela-if",
+      "clubId": "se_club_skanela_if",
+      "officialRole": "Ledarteam / matchförberedelser och matchanalys",
+      "standardRoles": [
+        "ANALYST"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-skanela-if-club-identity-v0-1-coaching-senior-staff",
+          "sourceDocument": "Skånela IF CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING & SENIOR STAFF",
+          "notes": "VERIFIED_EXTERNAL_DATA"
+        }
+      ]
+    }
+  ]
+}

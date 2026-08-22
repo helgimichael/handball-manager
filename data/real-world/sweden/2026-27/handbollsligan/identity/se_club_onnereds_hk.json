@@ -1,0 +1,195 @@
+{
+  "clubId": "se_club_onnereds_hk",
+  "season": "2026/27",
+  "sourceDocument": "Önnereds HK CLUB IDENTITY v0.1",
+  "people": [
+    {
+      "id": "person-andreas-stycket-nilsson-se-club-onnereds-hk",
+      "displayName": "Andreas \"Stycket\" Nilsson",
+      "playerId": "player_andreas_nilsson_e7db3e42"
+    },
+    {
+      "id": "person-marcel-lundstad-se-club-onnereds-hk",
+      "displayName": "Marcel Lundstad"
+    },
+    {
+      "id": "person-robert-fasnacht-se-club-onnereds-hk",
+      "displayName": "Robert Fasnacht"
+    },
+    {
+      "id": "person-alfred-ehn-se-club-onnereds-hk",
+      "displayName": "Alfred Ehn"
+    },
+    {
+      "id": "person-kent-andersson-se-club-onnereds-hk",
+      "displayName": "Kent Andersson"
+    },
+    {
+      "id": "person-marijan-kozjak-se-club-onnereds-hk",
+      "displayName": "Marijan Kozjak"
+    },
+    {
+      "id": "person-robert-larsson-se-club-onnereds-hk",
+      "displayName": "Robert Larsson"
+    },
+    {
+      "id": "person-jennie-classon-se-club-onnereds-hk",
+      "displayName": "Jennie Classon"
+    }
+  ],
+  "assignments": [
+    {
+      "personId": "person-andreas-stycket-nilsson-se-club-onnereds-hk",
+      "clubId": "se_club_onnereds_hk",
+      "officialRole": "Spelande sportchef",
+      "standardRoles": [
+        "SPORTING_DIRECTOR",
+        "ACTIVE_PLAYER"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-onnereds-hk-club-identity-v0-1-coaching-senior-staff",
+          "sourceDocument": "Önnereds HK CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING & SENIOR STAFF",
+          "notes": "VERIFIED_EXTERNAL_DATA -- Player/staff hybrid: simultaneously an active M6 and the club's sporting director (Spec special case)."
+        }
+      ]
+    },
+    {
+      "personId": "person-marcel-lundstad-se-club-onnereds-hk",
+      "clubId": "se_club_onnereds_hk",
+      "officialRole": "Huvudtränare",
+      "standardRoles": [
+        "HEAD_COACH"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-onnereds-hk-club-identity-v0-1-coaching-senior-staff",
+          "sourceDocument": "Önnereds HK CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING & SENIOR STAFF",
+          "notes": "VERIFIED_EXTERNAL_DATA"
+        }
+      ]
+    },
+    {
+      "personId": "person-robert-fasnacht-se-club-onnereds-hk",
+      "clubId": "se_club_onnereds_hk",
+      "officialRole": "Tränare",
+      "standardRoles": [
+        "ASSISTANT_COACH"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-onnereds-hk-club-identity-v0-1-coaching-senior-staff",
+          "sourceDocument": "Önnereds HK CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING & SENIOR STAFF",
+          "notes": "VERIFIED_EXTERNAL_DATA"
+        }
+      ]
+    },
+    {
+      "personId": "person-alfred-ehn-se-club-onnereds-hk",
+      "clubId": "se_club_onnereds_hk",
+      "officialRole": "Tränare/Spelare",
+      "standardRoles": [
+        "ASSISTANT_COACH"
+      ],
+      "status": "DUAL_STATUS",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-onnereds-hk-club-identity-v0-1-coaching-senior-staff",
+          "sourceDocument": "Önnereds HK CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING & SENIOR STAFF",
+          "notes": "VERIFIED_EXTERNAL_DATA -- Coaching role confirmed; final active-player status for 2026/27 is unverified (research gap) -- ACTIVE_PLAYER is therefore NOT added to standardRoles, and no playerId is linked."
+        }
+      ]
+    },
+    {
+      "personId": "person-kent-andersson-se-club-onnereds-hk",
+      "clubId": "se_club_onnereds_hk",
+      "officialRole": "Lagledare",
+      "standardRoles": [
+        "TEAM_MANAGER"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-onnereds-hk-club-identity-v0-1-coaching-senior-staff",
+          "sourceDocument": "Önnereds HK CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING & SENIOR STAFF",
+          "notes": "VERIFIED_EXTERNAL_DATA"
+        }
+      ]
+    },
+    {
+      "personId": "person-marijan-kozjak-se-club-onnereds-hk",
+      "clubId": "se_club_onnereds_hk",
+      "officialRole": "Lagledare",
+      "standardRoles": [
+        "TEAM_MANAGER"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-onnereds-hk-club-identity-v0-1-coaching-senior-staff",
+          "sourceDocument": "Önnereds HK CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING & SENIOR STAFF",
+          "notes": "VERIFIED_EXTERNAL_DATA"
+        }
+      ]
+    },
+    {
+      "personId": "person-robert-larsson-se-club-onnereds-hk",
+      "clubId": "se_club_onnereds_hk",
+      "officialRole": "Materialare",
+      "standardRoles": [
+        "EQUIPMENT_MANAGER"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-onnereds-hk-club-identity-v0-1-coaching-senior-staff",
+          "sourceDocument": "Önnereds HK CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING & SENIOR STAFF",
+          "notes": "VERIFIED_EXTERNAL_DATA"
+        }
+      ]
+    },
+    {
+      "personId": "person-jennie-classon-se-club-onnereds-hk",
+      "clubId": "se_club_onnereds_hk",
+      "officialRole": "Fysio",
+      "standardRoles": [
+        "PHYSIOTHERAPIST"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-onnereds-hk-club-identity-v0-1-coaching-senior-staff",
+          "sourceDocument": "Önnereds HK CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING & SENIOR STAFF",
+          "notes": "VERIFIED_EXTERNAL_DATA"
+        }
+      ]
+    }
+  ]
+}

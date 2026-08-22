@@ -1,0 +1,331 @@
+{
+  "clubId": "se_club_amo_hk",
+  "season": "2026/27",
+  "sourceDocument": "Amo HK CLUB IDENTITY v0.1",
+  "people": [
+    {
+      "id": "person-henrik-blad-se-club-amo-hk",
+      "displayName": "Henrik Blad"
+    },
+    {
+      "id": "person-jimmy-blad-se-club-amo-hk",
+      "displayName": "Jimmy Blad"
+    },
+    {
+      "id": "person-hanna-karlsson-se-club-amo-hk",
+      "displayName": "Hanna Karlsson"
+    },
+    {
+      "id": "person-minik-dahl-h-egh-se-club-amo-hk",
+      "displayName": "Minik Dahl Høegh"
+    },
+    {
+      "id": "person-alexander-blad-se-club-amo-hk",
+      "displayName": "Alexander Blad"
+    },
+    {
+      "id": "person-joel-linde-se-club-amo-hk",
+      "displayName": "Joel Linde"
+    },
+    {
+      "id": "person-hans-karlsson-se-club-amo-hk",
+      "displayName": "Hans Karlsson"
+    },
+    {
+      "id": "person-ola-lindgren-se-club-amo-hk",
+      "displayName": "Ola Lindgren"
+    },
+    {
+      "id": "person-gustaf-hallen-se-club-amo-hk",
+      "displayName": "Gustaf Hallén"
+    },
+    {
+      "id": "person-tobias-nomgard-se-club-amo-hk",
+      "displayName": "Tobias Nömgård"
+    },
+    {
+      "id": "person-nina-enocsson-se-club-amo-hk",
+      "displayName": "Nina Enocsson"
+    },
+    {
+      "id": "person-jenny-gunnarsson-se-club-amo-hk",
+      "displayName": "Jenny Gunnarsson"
+    },
+    {
+      "id": "person-elsa-jonsson-se-club-amo-hk",
+      "displayName": "Elsa Jonsson"
+    },
+    {
+      "id": "person-gerd-ludwig-se-club-amo-hk",
+      "displayName": "Gerd Ludwig"
+    }
+  ],
+  "assignments": [
+    {
+      "personId": "person-henrik-blad-se-club-amo-hk",
+      "clubId": "se_club_amo_hk",
+      "officialRole": "Ordförande",
+      "standardRoles": [
+        "CHAIRPERSON"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-amo-hk-club-identity-v0-1-organisation",
+          "sourceDocument": "Amo HK CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "ORGANISATION",
+          "notes": "VERIFIED_EXTERNAL_DATA"
+        }
+      ]
+    },
+    {
+      "personId": "person-jimmy-blad-se-club-amo-hk",
+      "clubId": "se_club_amo_hk",
+      "officialRole": "Vice ordförande",
+      "standardRoles": [
+        "OTHER"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-amo-hk-club-identity-v0-1-organisation",
+          "sourceDocument": "Amo HK CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "ORGANISATION",
+          "notes": "VERIFIED_EXTERNAL_DATA"
+        }
+      ]
+    },
+    {
+      "personId": "person-hanna-karlsson-se-club-amo-hk",
+      "clubId": "se_club_amo_hk",
+      "officialRole": "Klubbchef",
+      "standardRoles": [
+        "CLUB_DIRECTOR"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-amo-hk-club-identity-v0-1-organisation",
+          "sourceDocument": "Amo HK CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "ORGANISATION",
+          "notes": "VERIFIED_EXTERNAL_DATA"
+        }
+      ]
+    },
+    {
+      "personId": "person-minik-dahl-h-egh-se-club-amo-hk",
+      "clubId": "se_club_amo_hk",
+      "officialRole": "Sportchef",
+      "standardRoles": [
+        "SPORTING_DIRECTOR"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-amo-hk-club-identity-v0-1-organisation",
+          "sourceDocument": "Amo HK CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "ORGANISATION",
+          "notes": "VERIFIED_EXTERNAL_DATA"
+        }
+      ]
+    },
+    {
+      "personId": "person-alexander-blad-se-club-amo-hk",
+      "clubId": "se_club_amo_hk",
+      "officialRole": "Sportgruppen — strategiskt stöd vid spelarrekrytering",
+      "standardRoles": [
+        "OTHER"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-amo-hk-club-identity-v0-1-organisation",
+          "sourceDocument": "Amo HK CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "ORGANISATION",
+          "notes": "VERIFIED_EXTERNAL_DATA"
+        }
+      ]
+    },
+    {
+      "personId": "person-joel-linde-se-club-amo-hk",
+      "clubId": "se_club_amo_hk",
+      "officialRole": "Sportgruppen — legala/formella frågor",
+      "standardRoles": [
+        "OTHER"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-amo-hk-club-identity-v0-1-organisation",
+          "sourceDocument": "Amo HK CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "ORGANISATION",
+          "notes": "VERIFIED_EXTERNAL_DATA"
+        }
+      ]
+    },
+    {
+      "personId": "person-hans-karlsson-se-club-amo-hk",
+      "clubId": "se_club_amo_hk",
+      "officialRole": "Huvudtränare",
+      "standardRoles": [
+        "HEAD_COACH"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-amo-hk-club-identity-v0-1-coaching-staff",
+          "sourceDocument": "Amo HK CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING STAFF",
+          "notes": "VERIFIED_EXTERNAL_DATA"
+        }
+      ]
+    },
+    {
+      "personId": "person-ola-lindgren-se-club-amo-hk",
+      "clubId": "se_club_amo_hk",
+      "officialRole": "Assisterande tränare",
+      "standardRoles": [
+        "ASSISTANT_COACH"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-amo-hk-club-identity-v0-1-coaching-staff",
+          "sourceDocument": "Amo HK CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING STAFF",
+          "notes": "VERIFIED_EXTERNAL_DATA"
+        }
+      ]
+    },
+    {
+      "personId": "person-gustaf-hallen-se-club-amo-hk",
+      "clubId": "se_club_amo_hk",
+      "officialRole": "Assisterande tränare",
+      "standardRoles": [
+        "ASSISTANT_COACH"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-amo-hk-club-identity-v0-1-coaching-staff",
+          "sourceDocument": "Amo HK CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING STAFF",
+          "notes": "VERIFIED_EXTERNAL_DATA"
+        }
+      ]
+    },
+    {
+      "personId": "person-tobias-nomgard-se-club-amo-hk",
+      "clubId": "se_club_amo_hk",
+      "officialRole": "Fystränare",
+      "standardRoles": [
+        "STRENGTH_CONDITIONING_COACH"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-amo-hk-club-identity-v0-1-coaching-staff",
+          "sourceDocument": "Amo HK CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING STAFF",
+          "notes": "VERIFIED_EXTERNAL_DATA"
+        }
+      ]
+    },
+    {
+      "personId": "person-nina-enocsson-se-club-amo-hk",
+      "clubId": "se_club_amo_hk",
+      "officialRole": "Fysio",
+      "standardRoles": [
+        "PHYSIOTHERAPIST"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-amo-hk-club-identity-v0-1-performance-medical-staff",
+          "sourceDocument": "Amo HK CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "PERFORMANCE & MEDICAL STAFF",
+          "notes": "VERIFIED_EXTERNAL_DATA"
+        }
+      ]
+    },
+    {
+      "personId": "person-jenny-gunnarsson-se-club-amo-hk",
+      "clubId": "se_club_amo_hk",
+      "officialRole": "Massör",
+      "standardRoles": [
+        "PERFORMANCE_STAFF"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-amo-hk-club-identity-v0-1-performance-medical-staff",
+          "sourceDocument": "Amo HK CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "PERFORMANCE & MEDICAL STAFF",
+          "notes": "VERIFIED_EXTERNAL_DATA"
+        }
+      ]
+    },
+    {
+      "personId": "person-elsa-jonsson-se-club-amo-hk",
+      "clubId": "se_club_amo_hk",
+      "officialRole": "Materialansvarig",
+      "standardRoles": [
+        "EQUIPMENT_MANAGER"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-amo-hk-club-identity-v0-1-performance-medical-staff",
+          "sourceDocument": "Amo HK CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "PERFORMANCE & MEDICAL STAFF",
+          "notes": "VERIFIED_EXTERNAL_DATA"
+        }
+      ]
+    },
+    {
+      "personId": "person-gerd-ludwig-se-club-amo-hk",
+      "clubId": "se_club_amo_hk",
+      "officialRole": "Material",
+      "standardRoles": [
+        "EQUIPMENT_MANAGER"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-amo-hk-club-identity-v0-1-performance-medical-staff",
+          "sourceDocument": "Amo HK CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "PERFORMANCE & MEDICAL STAFF",
+          "notes": "VERIFIED_EXTERNAL_DATA"
+        }
+      ]
+    }
+  ]
+}

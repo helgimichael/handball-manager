@@ -1,0 +1,239 @@
+{
+  "clubId": "se_club_if_hallby_hk",
+  "season": "2026/27",
+  "sourceDocument": "IF Hallby HK CLUB IDENTITY v0.1",
+  "people": [
+    {
+      "id": "person-pal-wetterbrandt-se-club-if-hallby-hk",
+      "displayName": "Pål Wetterbrandt"
+    },
+    {
+      "id": "person-getoar-gjikokaj-se-club-if-hallby-hk",
+      "displayName": "Getoar Gjikokaj"
+    },
+    {
+      "id": "person-carl-ek-se-club-if-hallby-hk",
+      "displayName": "Carl Ek"
+    },
+    {
+      "id": "person-kim-shepherd-se-club-if-hallby-hk",
+      "displayName": "Kim Shepherd"
+    },
+    {
+      "id": "person-tobias-nordendorph-se-club-if-hallby-hk",
+      "displayName": "Tobias Nordendorph"
+    },
+    {
+      "id": "person-patrik-bergling-se-club-if-hallby-hk",
+      "displayName": "Patrik Bergling"
+    },
+    {
+      "id": "person-hasse-bergsten-se-club-if-hallby-hk",
+      "displayName": "Hasse Bergsten"
+    },
+    {
+      "id": "person-per-martinsson-se-club-if-hallby-hk",
+      "displayName": "Per Martinsson"
+    },
+    {
+      "id": "person-tomas-jonsson-se-club-if-hallby-hk",
+      "displayName": "Tomas Jonsson"
+    },
+    {
+      "id": "person-jesper-ostlund-se-club-if-hallby-hk",
+      "displayName": "Jesper Östlund"
+    }
+  ],
+  "assignments": [
+    {
+      "personId": "person-pal-wetterbrandt-se-club-if-hallby-hk",
+      "clubId": "se_club_if_hallby_hk",
+      "officialRole": "Ordförande",
+      "standardRoles": [
+        "CHAIRPERSON"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-if-hallby-hk-club-identity-v0-1-organisation",
+          "sourceDocument": "IF Hallby HK CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "ORGANISATION",
+          "notes": "VERIFIED_EXTERNAL_DATA"
+        }
+      ]
+    },
+    {
+      "personId": "person-getoar-gjikokaj-se-club-if-hallby-hk",
+      "clubId": "se_club_if_hallby_hk",
+      "officialRole": "Sportsligt ansvarig / Sportchef",
+      "standardRoles": [
+        "SPORTING_DIRECTOR"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-if-hallby-hk-club-identity-v0-1-organisation",
+          "sourceDocument": "IF Hallby HK CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "ORGANISATION",
+          "notes": "VERIFIED_EXTERNAL_DATA"
+        }
+      ]
+    },
+    {
+      "personId": "person-carl-ek-se-club-if-hallby-hk",
+      "clubId": "se_club_if_hallby_hk",
+      "officialRole": "Marknadschef & arrangemangsansvarig",
+      "standardRoles": [
+        "OTHER"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-if-hallby-hk-club-identity-v0-1-organisation",
+          "sourceDocument": "IF Hallby HK CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "ORGANISATION",
+          "notes": "VERIFIED_EXTERNAL_DATA"
+        }
+      ]
+    },
+    {
+      "personId": "person-kim-shepherd-se-club-if-hallby-hk",
+      "clubId": "se_club_if_hallby_hk",
+      "officialRole": "Kanslist",
+      "standardRoles": [
+        "OTHER"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-if-hallby-hk-club-identity-v0-1-organisation",
+          "sourceDocument": "IF Hallby HK CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "ORGANISATION",
+          "notes": "VERIFIED_EXTERNAL_DATA"
+        }
+      ]
+    },
+    {
+      "personId": "person-tobias-nordendorph-se-club-if-hallby-hk",
+      "clubId": "se_club_if_hallby_hk",
+      "officialRole": "Ansvarig herrlaget",
+      "standardRoles": [
+        "HEAD_COACH"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-if-hallby-hk-club-identity-v0-1-coaching-staff",
+          "sourceDocument": "IF Hallby HK CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING STAFF",
+          "notes": "VERIFIED_EXTERNAL_DATA"
+        }
+      ]
+    },
+    {
+      "personId": "person-patrik-bergling-se-club-if-hallby-hk",
+      "clubId": "se_club_if_hallby_hk",
+      "officialRole": "Assisterande tränare herr",
+      "standardRoles": [
+        "ASSISTANT_COACH"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-if-hallby-hk-club-identity-v0-1-coaching-staff",
+          "sourceDocument": "IF Hallby HK CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING STAFF",
+          "notes": "VERIFIED_EXTERNAL_DATA"
+        }
+      ]
+    },
+    {
+      "personId": "person-hasse-bergsten-se-club-if-hallby-hk",
+      "clubId": "se_club_if_hallby_hk",
+      "officialRole": "Lagledare (last verified 2025/26)",
+      "standardRoles": [
+        "TEAM_MANAGER"
+      ],
+      "status": "PROBABLE",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-if-hallby-hk-club-identity-v0-1-coaching-staff",
+          "sourceDocument": "IF Hallby HK CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING STAFF",
+          "notes": "PROBABLE_EXTERNAL_DATA"
+        }
+      ]
+    },
+    {
+      "personId": "person-per-martinsson-se-club-if-hallby-hk",
+      "clubId": "se_club_if_hallby_hk",
+      "officialRole": "Fysioterapeut (last verified 2025/26)",
+      "standardRoles": [
+        "PHYSIOTHERAPIST"
+      ],
+      "status": "PROBABLE",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-if-hallby-hk-club-identity-v0-1-coaching-staff",
+          "sourceDocument": "IF Hallby HK CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING STAFF",
+          "notes": "PROBABLE_EXTERNAL_DATA"
+        }
+      ]
+    },
+    {
+      "personId": "person-tomas-jonsson-se-club-if-hallby-hk",
+      "clubId": "se_club_if_hallby_hk",
+      "officialRole": "Materialförvaltare (last verified 2025/26)",
+      "standardRoles": [
+        "EQUIPMENT_MANAGER"
+      ],
+      "status": "PROBABLE",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-if-hallby-hk-club-identity-v0-1-coaching-staff",
+          "sourceDocument": "IF Hallby HK CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING STAFF",
+          "notes": "PROBABLE_EXTERNAL_DATA"
+        }
+      ]
+    },
+    {
+      "personId": "person-jesper-ostlund-se-club-if-hallby-hk",
+      "clubId": "se_club_if_hallby_hk",
+      "officialRole": "Historisk tränarroll (exakt titel ej angiven i källan)",
+      "standardRoles": [
+        "COACH"
+      ],
+      "status": "HISTORICAL",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-if-hallby-hk-club-identity-v0-1-coaching-staff",
+          "sourceDocument": "IF Hallby HK CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING STAFF",
+          "notes": "VERIFIED_EXTERNAL_DATA -- HISTORICAL for Hallby -- not stored in the 2026/27 coaching staff. Exact former title not stated in source."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,446 @@
+{
+  "clubId": "se_club_ifk_kristianstad",
+  "season": "2026/27",
+  "sourceDocument": "IFK Kristianstad CLUB IDENTITY v0.1",
+  "people": [
+    {
+      "id": "person-magnus-lindahl-se-club-ifk-kristianstad",
+      "displayName": "Magnus Lindahl"
+    },
+    {
+      "id": "person-johan-jepson-se-club-ifk-kristianstad",
+      "displayName": "Johan Jepson"
+    },
+    {
+      "id": "person-mats-samuelsson-se-club-ifk-kristianstad",
+      "displayName": "Mats Samuelsson"
+    },
+    {
+      "id": "person-patrick-karlsson-se-club-ifk-kristianstad",
+      "displayName": "Patrick Karlsson"
+    },
+    {
+      "id": "person-johannes-larsson-se-club-ifk-kristianstad",
+      "displayName": "Johannes Larsson"
+    },
+    {
+      "id": "person-anton-halen-se-club-ifk-kristianstad",
+      "displayName": "Anton Halén"
+    },
+    {
+      "id": "person-mattias-thurban-se-club-ifk-kristianstad",
+      "displayName": "Mattias Thurban"
+    },
+    {
+      "id": "person-bjorn-satherstrom-se-club-ifk-kristianstad",
+      "displayName": "Björn Sätherström"
+    },
+    {
+      "id": "person-gunnar-steinn-jonsson-se-club-ifk-kristianstad",
+      "displayName": "Gunnar Steinn Jónsson"
+    },
+    {
+      "id": "person-dan-beutler-se-club-ifk-kristianstad",
+      "displayName": "Dan Beutler"
+    },
+    {
+      "id": "person-stefan-ljunglof-se-club-ifk-kristianstad",
+      "displayName": "Stefan Ljunglöf"
+    },
+    {
+      "id": "person-patrik-sigsjo-se-club-ifk-kristianstad",
+      "displayName": "Patrik Sigsjö"
+    },
+    {
+      "id": "person-anders-hallberg-se-club-ifk-kristianstad",
+      "displayName": "Anders Hallberg"
+    },
+    {
+      "id": "person-martin-bengtsson-se-club-ifk-kristianstad",
+      "displayName": "Martin Bengtsson"
+    },
+    {
+      "id": "person-jonas-carlstrom-se-club-ifk-kristianstad",
+      "displayName": "Jonas Carlström"
+    },
+    {
+      "id": "person-johan-ekengren-se-club-ifk-kristianstad",
+      "displayName": "Johan Ekengren"
+    },
+    {
+      "id": "person-thomas-tyszkiewicz-se-club-ifk-kristianstad",
+      "displayName": "Thomas Tyszkiewicz"
+    },
+    {
+      "id": "person-sofie-stjernberg-se-club-ifk-kristianstad",
+      "displayName": "Sofie Stjernberg"
+    },
+    {
+      "id": "person-lars-moller-madsen-se-club-ifk-kristianstad",
+      "displayName": "Lars Möller Madsen"
+    }
+  ],
+  "assignments": [
+    {
+      "personId": "person-magnus-lindahl-se-club-ifk-kristianstad",
+      "clubId": "se_club_ifk_kristianstad",
+      "officialRole": "Tf Ordförande",
+      "standardRoles": [
+        "CHAIRPERSON"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-ifk-kristianstad-club-identity-v0-1-organisation",
+          "sourceDocument": "IFK Kristianstad CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "ORGANISATION",
+          "notes": "VERIFIED_EXTERNAL_DATA"
+        }
+      ]
+    },
+    {
+      "personId": "person-johan-jepson-se-club-ifk-kristianstad",
+      "clubId": "se_club_ifk_kristianstad",
+      "officialRole": "Klubbchef",
+      "standardRoles": [
+        "CLUB_DIRECTOR"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-ifk-kristianstad-club-identity-v0-1-organisation",
+          "sourceDocument": "IFK Kristianstad CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "ORGANISATION",
+          "notes": "VERIFIED_EXTERNAL_DATA"
+        }
+      ]
+    },
+    {
+      "personId": "person-mats-samuelsson-se-club-ifk-kristianstad",
+      "clubId": "se_club_ifk_kristianstad",
+      "officialRole": "Sportteam",
+      "standardRoles": [
+        "SPORTING_DIRECTOR"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-ifk-kristianstad-club-identity-v0-1-organisation",
+          "sourceDocument": "IFK Kristianstad CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "ORGANISATION",
+          "notes": "VERIFIED_EXTERNAL_DATA -- Member of a collective SPORTTEAM (4 people) -- must not be interpreted as an independent traditional sporting director."
+        }
+      ]
+    },
+    {
+      "personId": "person-patrick-karlsson-se-club-ifk-kristianstad",
+      "clubId": "se_club_ifk_kristianstad",
+      "officialRole": "Sportteam",
+      "standardRoles": [
+        "SPORTING_DIRECTOR"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-ifk-kristianstad-club-identity-v0-1-organisation",
+          "sourceDocument": "IFK Kristianstad CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "ORGANISATION",
+          "notes": "VERIFIED_EXTERNAL_DATA -- Member of a collective SPORTTEAM (4 people) -- must not be interpreted as an independent traditional sporting director."
+        }
+      ]
+    },
+    {
+      "personId": "person-johannes-larsson-se-club-ifk-kristianstad",
+      "clubId": "se_club_ifk_kristianstad",
+      "officialRole": "Sportteam",
+      "standardRoles": [
+        "SPORTING_DIRECTOR"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-ifk-kristianstad-club-identity-v0-1-organisation",
+          "sourceDocument": "IFK Kristianstad CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "ORGANISATION",
+          "notes": "VERIFIED_EXTERNAL_DATA -- Member of a collective SPORTTEAM (4 people) -- must not be interpreted as an independent traditional sporting director."
+        }
+      ]
+    },
+    {
+      "personId": "person-anton-halen-se-club-ifk-kristianstad",
+      "clubId": "se_club_ifk_kristianstad",
+      "officialRole": "Sportteam",
+      "standardRoles": [
+        "SPORTING_DIRECTOR"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-ifk-kristianstad-club-identity-v0-1-organisation",
+          "sourceDocument": "IFK Kristianstad CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "ORGANISATION",
+          "notes": "VERIFIED_EXTERNAL_DATA -- Member of a collective SPORTTEAM (4 people) -- must not be interpreted as an independent traditional sporting director."
+        }
+      ]
+    },
+    {
+      "personId": "person-mattias-thurban-se-club-ifk-kristianstad",
+      "clubId": "se_club_ifk_kristianstad",
+      "officialRole": "Ungdomsansvarig",
+      "standardRoles": [
+        "OTHER"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-ifk-kristianstad-club-identity-v0-1-organisation",
+          "sourceDocument": "IFK Kristianstad CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "ORGANISATION",
+          "notes": "VERIFIED_EXTERNAL_DATA"
+        }
+      ]
+    },
+    {
+      "personId": "person-bjorn-satherstrom-se-club-ifk-kristianstad",
+      "clubId": "se_club_ifk_kristianstad",
+      "officialRole": "Huvudtränare",
+      "standardRoles": [
+        "HEAD_COACH"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-ifk-kristianstad-club-identity-v0-1-coaching-staff",
+          "sourceDocument": "IFK Kristianstad CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING STAFF",
+          "notes": "VERIFIED_EXTERNAL_DATA"
+        }
+      ]
+    },
+    {
+      "personId": "person-gunnar-steinn-jonsson-se-club-ifk-kristianstad",
+      "clubId": "se_club_ifk_kristianstad",
+      "officialRole": "Assisterande tränare",
+      "standardRoles": [
+        "ASSISTANT_COACH"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-ifk-kristianstad-club-identity-v0-1-coaching-staff",
+          "sourceDocument": "IFK Kristianstad CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING STAFF",
+          "notes": "VERIFIED_EXTERNAL_DATA"
+        }
+      ]
+    },
+    {
+      "personId": "person-dan-beutler-se-club-ifk-kristianstad",
+      "clubId": "se_club_ifk_kristianstad",
+      "officialRole": "Ass tränare",
+      "standardRoles": [
+        "ASSISTANT_COACH"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-ifk-kristianstad-club-identity-v0-1-coaching-staff",
+          "sourceDocument": "IFK Kristianstad CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING STAFF",
+          "notes": "VERIFIED_EXTERNAL_DATA"
+        }
+      ]
+    },
+    {
+      "personId": "person-stefan-ljunglof-se-club-ifk-kristianstad",
+      "clubId": "se_club_ifk_kristianstad",
+      "officialRole": "C (on official squad page)",
+      "standardRoles": [
+        "OTHER"
+      ],
+      "status": "ROLE_NEEDS_CLARIFICATION",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-ifk-kristianstad-club-identity-v0-1-coaching-staff",
+          "sourceDocument": "IFK Kristianstad CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING STAFF",
+          "notes": "VERIFIED_EXTERNAL_DATA"
+        }
+      ]
+    },
+    {
+      "personId": "person-patrik-sigsjo-se-club-ifk-kristianstad",
+      "clubId": "se_club_ifk_kristianstad",
+      "officialRole": "D (on official squad page)",
+      "standardRoles": [
+        "OTHER"
+      ],
+      "status": "ROLE_NEEDS_CLARIFICATION",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-ifk-kristianstad-club-identity-v0-1-coaching-staff",
+          "sourceDocument": "IFK Kristianstad CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING STAFF",
+          "notes": "VERIFIED_EXTERNAL_DATA"
+        }
+      ]
+    },
+    {
+      "personId": "person-anders-hallberg-se-club-ifk-kristianstad",
+      "clubId": "se_club_ifk_kristianstad",
+      "officialRole": "Huvudtränare (tidigare roll)",
+      "standardRoles": [
+        "HEAD_COACH"
+      ],
+      "status": "HISTORICAL",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-ifk-kristianstad-club-identity-v0-1-coaching-staff",
+          "sourceDocument": "IFK Kristianstad CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING STAFF",
+          "notes": "VERIFIED_EXTERNAL_DATA -- HISTORICAL for 2026/27 -- not stored as current head coach; succeeded by Björn Sätherström."
+        }
+      ]
+    },
+    {
+      "personId": "person-martin-bengtsson-se-club-ifk-kristianstad",
+      "clubId": "se_club_ifk_kristianstad",
+      "officialRole": "Fystränare",
+      "standardRoles": [
+        "STRENGTH_CONDITIONING_COACH"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-ifk-kristianstad-club-identity-v0-1-performance-medical-staff",
+          "sourceDocument": "IFK Kristianstad CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "PERFORMANCE & MEDICAL STAFF",
+          "notes": "VERIFIED_EXTERNAL_DATA"
+        }
+      ]
+    },
+    {
+      "personId": "person-jonas-carlstrom-se-club-ifk-kristianstad",
+      "clubId": "se_club_ifk_kristianstad",
+      "officialRole": "Fystränare",
+      "standardRoles": [
+        "STRENGTH_CONDITIONING_COACH"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-ifk-kristianstad-club-identity-v0-1-performance-medical-staff",
+          "sourceDocument": "IFK Kristianstad CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "PERFORMANCE & MEDICAL STAFF",
+          "notes": "VERIFIED_EXTERNAL_DATA"
+        }
+      ]
+    },
+    {
+      "personId": "person-johan-ekengren-se-club-ifk-kristianstad",
+      "clubId": "se_club_ifk_kristianstad",
+      "officialRole": "Idrottspsykolog",
+      "standardRoles": [
+        "PERFORMANCE_STAFF"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-ifk-kristianstad-club-identity-v0-1-performance-medical-staff",
+          "sourceDocument": "IFK Kristianstad CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "PERFORMANCE & MEDICAL STAFF",
+          "notes": "VERIFIED_EXTERNAL_DATA"
+        }
+      ]
+    },
+    {
+      "personId": "person-thomas-tyszkiewicz-se-club-ifk-kristianstad",
+      "clubId": "se_club_ifk_kristianstad",
+      "officialRole": "Läkare",
+      "standardRoles": [
+        "DOCTOR"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-ifk-kristianstad-club-identity-v0-1-performance-medical-staff",
+          "sourceDocument": "IFK Kristianstad CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "PERFORMANCE & MEDICAL STAFF",
+          "notes": "VERIFIED_EXTERNAL_DATA"
+        }
+      ]
+    },
+    {
+      "personId": "person-sofie-stjernberg-se-club-ifk-kristianstad",
+      "clubId": "se_club_ifk_kristianstad",
+      "officialRole": "D (on official squad page)",
+      "standardRoles": [
+        "OTHER"
+      ],
+      "status": "ROLE_NEEDS_CLARIFICATION",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-ifk-kristianstad-club-identity-v0-1-performance-medical-staff",
+          "sourceDocument": "IFK Kristianstad CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "PERFORMANCE & MEDICAL STAFF",
+          "notes": "VERIFIED_EXTERNAL_DATA"
+        }
+      ]
+    },
+    {
+      "personId": "person-lars-moller-madsen-se-club-ifk-kristianstad",
+      "clubId": "se_club_ifk_kristianstad",
+      "officialRole": "Role not printed on official squad page",
+      "standardRoles": [
+        "OTHER"
+      ],
+      "status": "ROLE_NEEDS_CLARIFICATION",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-ifk-kristianstad-club-identity-v0-1-performance-medical-staff",
+          "sourceDocument": "IFK Kristianstad CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "PERFORMANCE & MEDICAL STAFF",
+          "notes": "VERIFIED_EXTERNAL_DATA"
+        }
+      ]
+    }
+  ]
+}

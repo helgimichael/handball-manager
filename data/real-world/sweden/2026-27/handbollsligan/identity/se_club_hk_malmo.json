@@ -1,0 +1,193 @@
+{
+  "clubId": "se_club_hk_malmo",
+  "season": "2026/27",
+  "sourceDocument": "HK Malmö CLUB IDENTITY v0.1",
+  "people": [
+    {
+      "id": "person-jorgen-rasmusson-se-club-hk-malmo",
+      "displayName": "Jörgen Rasmusson"
+    },
+    {
+      "id": "person-lasse-larsson-se-club-hk-malmo",
+      "displayName": "Lasse Larsson"
+    },
+    {
+      "id": "person-robert-spoljar-se-club-hk-malmo",
+      "displayName": "Robert Spoljar"
+    },
+    {
+      "id": "person-martin-nihlen-se-club-hk-malmo",
+      "displayName": "Martin Nihlén"
+    },
+    {
+      "id": "person-jimmy-palm-se-club-hk-malmo",
+      "displayName": "Jimmy Palm"
+    },
+    {
+      "id": "person-gunnar-wibisono-se-club-hk-malmo",
+      "displayName": "Gunnar Wibisono"
+    },
+    {
+      "id": "person-robert-mansson-se-club-hk-malmo",
+      "displayName": "Robert Månsson"
+    },
+    {
+      "id": "person-zoran-roganovic-se-club-hk-malmo",
+      "displayName": "Zoran Roganovic"
+    }
+  ],
+  "assignments": [
+    {
+      "personId": "person-jorgen-rasmusson-se-club-hk-malmo",
+      "clubId": "se_club_hk_malmo",
+      "officialRole": "Ordförande",
+      "standardRoles": [
+        "CHAIRPERSON"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-hk-malmo-club-identity-v0-1-organisation",
+          "sourceDocument": "HK Malmö CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "ORGANISATION",
+          "notes": "VERIFIED_EXTERNAL_DATA"
+        }
+      ]
+    },
+    {
+      "personId": "person-lasse-larsson-se-club-hk-malmo",
+      "clubId": "se_club_hk_malmo",
+      "officialRole": "Vice ordförande / Ansvarig för seniorverksamhet herr och dam",
+      "standardRoles": [
+        "SENIOR_DIRECTOR"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-hk-malmo-club-identity-v0-1-organisation",
+          "sourceDocument": "HK Malmö CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "ORGANISATION",
+          "notes": "VERIFIED_EXTERNAL_DATA"
+        }
+      ]
+    },
+    {
+      "personId": "person-robert-spoljar-se-club-hk-malmo",
+      "clubId": "se_club_hk_malmo",
+      "officialRole": "Föreningskonsulent, kansliansvarig",
+      "standardRoles": [
+        "OTHER"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-hk-malmo-club-identity-v0-1-organisation",
+          "sourceDocument": "HK Malmö CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "ORGANISATION",
+          "notes": "VERIFIED_EXTERNAL_DATA"
+        }
+      ]
+    },
+    {
+      "personId": "person-martin-nihlen-se-club-hk-malmo",
+      "clubId": "se_club_hk_malmo",
+      "officialRole": "Ungdomskonsulent, skolsamverkan",
+      "standardRoles": [
+        "OTHER"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-hk-malmo-club-identity-v0-1-organisation",
+          "sourceDocument": "HK Malmö CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "ORGANISATION",
+          "notes": "VERIFIED_EXTERNAL_DATA"
+        }
+      ]
+    },
+    {
+      "personId": "person-jimmy-palm-se-club-hk-malmo",
+      "clubId": "se_club_hk_malmo",
+      "officialRole": "Föreningskonsulent, SportAdmin- & Mediaansvarig",
+      "standardRoles": [
+        "OTHER"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-hk-malmo-club-identity-v0-1-organisation",
+          "sourceDocument": "HK Malmö CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "ORGANISATION",
+          "notes": "VERIFIED_EXTERNAL_DATA"
+        }
+      ]
+    },
+    {
+      "personId": "person-gunnar-wibisono-se-club-hk-malmo",
+      "clubId": "se_club_hk_malmo",
+      "officialRole": "Säljchef- och sponsoransvarig",
+      "standardRoles": [
+        "OTHER"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-hk-malmo-club-identity-v0-1-organisation",
+          "sourceDocument": "HK Malmö CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "ORGANISATION",
+          "notes": "VERIFIED_EXTERNAL_DATA"
+        }
+      ]
+    },
+    {
+      "personId": "person-robert-mansson-se-club-hk-malmo",
+      "clubId": "se_club_hk_malmo",
+      "officialRole": "Sportchef (tidigare roll)",
+      "standardRoles": [
+        "SPORTING_DIRECTOR"
+      ],
+      "status": "HISTORICAL",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-hk-malmo-club-identity-v0-1-organisation",
+          "sourceDocument": "HK Malmö CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "ORGANISATION",
+          "notes": "VERIFIED_EXTERNAL_DATA -- Former sport-director role is historical; current organisation identifies Lasse Larsson as responsible for senior operations instead."
+        }
+      ]
+    },
+    {
+      "personId": "person-zoran-roganovic-se-club-hk-malmo",
+      "clubId": "se_club_hk_malmo",
+      "officialRole": "Huvudtränare Herrar A",
+      "standardRoles": [
+        "HEAD_COACH"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-hk-malmo-club-identity-v0-1-coaching-staff",
+          "sourceDocument": "HK Malmö CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING STAFF",
+          "notes": "VERIFIED_EXTERNAL_DATA"
+        }
+      ]
+    }
+  ]
+}

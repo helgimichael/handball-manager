@@ -1,0 +1,401 @@
+{
+  "clubId": "se_club_hammarby_if_hf",
+  "season": "2026/27",
+  "sourceDocument": "Hammarby IF HF CLUB IDENTITY v0.1",
+  "people": [
+    {
+      "id": "person-michael-hylander-se-club-hammarby-if-hf",
+      "displayName": "Michael Hylander"
+    },
+    {
+      "id": "person-catrine-loqvist-se-club-hammarby-if-hf",
+      "displayName": "Catrine Loqvist"
+    },
+    {
+      "id": "person-kalle-matsson-se-club-hammarby-if-hf",
+      "displayName": "Kalle Matsson"
+    },
+    {
+      "id": "person-oskar-wikstrom-se-club-hammarby-if-hf",
+      "displayName": "Oskar Wikström"
+    },
+    {
+      "id": "person-patrik-fahlgren-se-club-hammarby-if-hf",
+      "displayName": "Patrik Fahlgren"
+    },
+    {
+      "id": "person-robin-doverhagen-se-club-hammarby-if-hf",
+      "displayName": "Robin Doverhagen"
+    },
+    {
+      "id": "person-thomas-forsberg-se-club-hammarby-if-hf",
+      "displayName": "Thomas Forsberg"
+    },
+    {
+      "id": "person-kjelle-bjorkman-se-club-hammarby-if-hf",
+      "displayName": "Kjelle Björkman"
+    },
+    {
+      "id": "person-fredrik-brask-se-club-hammarby-if-hf",
+      "displayName": "Fredrik Brask"
+    },
+    {
+      "id": "person-ivar-nordling-se-club-hammarby-if-hf",
+      "displayName": "Ivar Nordling"
+    },
+    {
+      "id": "person-johan-forsbring-se-club-hammarby-if-hf",
+      "displayName": "Johan Forsbring"
+    },
+    {
+      "id": "person-lasse-bjeren-se-club-hammarby-if-hf",
+      "displayName": "Lasse Bjerén"
+    },
+    {
+      "id": "person-anne-hopfgarten-se-club-hammarby-if-hf",
+      "displayName": "Anne Hopfgarten"
+    },
+    {
+      "id": "person-rebecka-zaar-se-club-hammarby-if-hf",
+      "displayName": "Rebecka Zaar"
+    },
+    {
+      "id": "person-rasmus-anden-se-club-hammarby-if-hf",
+      "displayName": "Rasmus Andén"
+    },
+    {
+      "id": "person-daniel-svensson-se-club-hammarby-if-hf",
+      "displayName": "Daniel Svensson"
+    },
+    {
+      "id": "person-fredrik-rugstad-se-club-hammarby-if-hf",
+      "displayName": "Fredrik Rugstad"
+    }
+  ],
+  "assignments": [
+    {
+      "personId": "person-michael-hylander-se-club-hammarby-if-hf",
+      "clubId": "se_club_hammarby_if_hf",
+      "officialRole": "Ordförande",
+      "standardRoles": [
+        "CHAIRPERSON"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-hammarby-if-hf-club-identity-v0-1-organisation",
+          "sourceDocument": "Hammarby IF HF CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "ORGANISATION",
+          "notes": "VERIFIED_EXTERNAL_DATA"
+        }
+      ]
+    },
+    {
+      "personId": "person-catrine-loqvist-se-club-hammarby-if-hf",
+      "clubId": "se_club_hammarby_if_hf",
+      "officialRole": "Klubbchef",
+      "standardRoles": [
+        "CLUB_DIRECTOR"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-hammarby-if-hf-club-identity-v0-1-organisation",
+          "sourceDocument": "Hammarby IF HF CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "ORGANISATION",
+          "notes": "VERIFIED_EXTERNAL_DATA"
+        }
+      ]
+    },
+    {
+      "personId": "person-kalle-matsson-se-club-hammarby-if-hf",
+      "clubId": "se_club_hammarby_if_hf",
+      "officialRole": "VD Hammarby Handboll AB / Sportchef",
+      "standardRoles": [
+        "CLUB_DIRECTOR",
+        "SPORTING_DIRECTOR"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-hammarby-if-hf-club-identity-v0-1-organisation",
+          "sourceDocument": "Hammarby IF HF CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "ORGANISATION",
+          "notes": "VERIFIED_EXTERNAL_DATA"
+        }
+      ]
+    },
+    {
+      "personId": "person-oskar-wikstrom-se-club-hammarby-if-hf",
+      "clubId": "se_club_hammarby_if_hf",
+      "officialRole": "Sportchef elitförberedande verksamhet Herr",
+      "standardRoles": [
+        "ELITE_DIRECTOR"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-hammarby-if-hf-club-identity-v0-1-organisation",
+          "sourceDocument": "Hammarby IF HF CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "ORGANISATION",
+          "notes": "VERIFIED_EXTERNAL_DATA"
+        }
+      ]
+    },
+    {
+      "personId": "person-patrik-fahlgren-se-club-hammarby-if-hf",
+      "clubId": "se_club_hammarby_if_hf",
+      "officialRole": "Huvudtränare",
+      "standardRoles": [
+        "HEAD_COACH"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-hammarby-if-hf-club-identity-v0-1-coaching-staff",
+          "sourceDocument": "Hammarby IF HF CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING STAFF",
+          "notes": "VERIFIED_EXTERNAL_DATA"
+        }
+      ]
+    },
+    {
+      "personId": "person-robin-doverhagen-se-club-hammarby-if-hf",
+      "clubId": "se_club_hammarby_if_hf",
+      "officialRole": "Assisterande tränare",
+      "standardRoles": [
+        "ASSISTANT_COACH"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-hammarby-if-hf-club-identity-v0-1-coaching-staff",
+          "sourceDocument": "Hammarby IF HF CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING STAFF",
+          "notes": "VERIFIED_EXTERNAL_DATA"
+        }
+      ]
+    },
+    {
+      "personId": "person-thomas-forsberg-se-club-hammarby-if-hf",
+      "clubId": "se_club_hammarby_if_hf",
+      "officialRole": "Målvaktstränare",
+      "standardRoles": [
+        "GOALKEEPER_COACH"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-hammarby-if-hf-club-identity-v0-1-coaching-staff",
+          "sourceDocument": "Hammarby IF HF CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING STAFF",
+          "notes": "VERIFIED_EXTERNAL_DATA"
+        }
+      ]
+    },
+    {
+      "personId": "person-kjelle-bjorkman-se-club-hammarby-if-hf",
+      "clubId": "se_club_hammarby_if_hf",
+      "officialRole": "Lagansvarig",
+      "standardRoles": [
+        "TEAM_MANAGER"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-hammarby-if-hf-club-identity-v0-1-coaching-staff",
+          "sourceDocument": "Hammarby IF HF CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING STAFF",
+          "notes": "VERIFIED_EXTERNAL_DATA"
+        }
+      ]
+    },
+    {
+      "personId": "person-fredrik-brask-se-club-hammarby-if-hf",
+      "clubId": "se_club_hammarby_if_hf",
+      "officialRole": "Lagansvarig",
+      "standardRoles": [
+        "TEAM_MANAGER"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-hammarby-if-hf-club-identity-v0-1-coaching-staff",
+          "sourceDocument": "Hammarby IF HF CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING STAFF",
+          "notes": "VERIFIED_EXTERNAL_DATA"
+        }
+      ]
+    },
+    {
+      "personId": "person-ivar-nordling-se-club-hammarby-if-hf",
+      "clubId": "se_club_hammarby_if_hf",
+      "officialRole": "Lagledare",
+      "standardRoles": [
+        "TEAM_MANAGER"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-hammarby-if-hf-club-identity-v0-1-coaching-staff",
+          "sourceDocument": "Hammarby IF HF CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING STAFF",
+          "notes": "VERIFIED_EXTERNAL_DATA"
+        }
+      ]
+    },
+    {
+      "personId": "person-johan-forsbring-se-club-hammarby-if-hf",
+      "clubId": "se_club_hammarby_if_hf",
+      "officialRole": "Fystränare",
+      "standardRoles": [
+        "STRENGTH_CONDITIONING_COACH"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-hammarby-if-hf-club-identity-v0-1-coaching-staff",
+          "sourceDocument": "Hammarby IF HF CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING STAFF",
+          "notes": "VERIFIED_EXTERNAL_DATA"
+        }
+      ]
+    },
+    {
+      "personId": "person-lasse-bjeren-se-club-hammarby-if-hf",
+      "clubId": "se_club_hammarby_if_hf",
+      "officialRole": "Materialare",
+      "standardRoles": [
+        "EQUIPMENT_MANAGER"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-hammarby-if-hf-club-identity-v0-1-coaching-staff",
+          "sourceDocument": "Hammarby IF HF CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING STAFF",
+          "notes": "VERIFIED_EXTERNAL_DATA"
+        }
+      ]
+    },
+    {
+      "personId": "person-anne-hopfgarten-se-club-hammarby-if-hf",
+      "clubId": "se_club_hammarby_if_hf",
+      "officialRole": "Sjukgymnast",
+      "standardRoles": [
+        "PHYSIOTHERAPIST"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-hammarby-if-hf-club-identity-v0-1-performance-medical-staff",
+          "sourceDocument": "Hammarby IF HF CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "PERFORMANCE & MEDICAL STAFF",
+          "notes": "VERIFIED_EXTERNAL_DATA"
+        }
+      ]
+    },
+    {
+      "personId": "person-rebecka-zaar-se-club-hammarby-if-hf",
+      "clubId": "se_club_hammarby_if_hf",
+      "officialRole": "Sjukgymnast",
+      "standardRoles": [
+        "PHYSIOTHERAPIST"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-hammarby-if-hf-club-identity-v0-1-performance-medical-staff",
+          "sourceDocument": "Hammarby IF HF CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "PERFORMANCE & MEDICAL STAFF",
+          "notes": "VERIFIED_EXTERNAL_DATA"
+        }
+      ]
+    },
+    {
+      "personId": "person-rasmus-anden-se-club-hammarby-if-hf",
+      "clubId": "se_club_hammarby_if_hf",
+      "officialRole": "Läkare",
+      "standardRoles": [
+        "DOCTOR"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-hammarby-if-hf-club-identity-v0-1-performance-medical-staff",
+          "sourceDocument": "Hammarby IF HF CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "PERFORMANCE & MEDICAL STAFF",
+          "notes": "VERIFIED_EXTERNAL_DATA"
+        }
+      ]
+    },
+    {
+      "personId": "person-daniel-svensson-se-club-hammarby-if-hf",
+      "clubId": "se_club_hammarby_if_hf",
+      "officialRole": "Med. Kand",
+      "standardRoles": [
+        "PERFORMANCE_STAFF"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-hammarby-if-hf-club-identity-v0-1-performance-medical-staff",
+          "sourceDocument": "Hammarby IF HF CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "PERFORMANCE & MEDICAL STAFF",
+          "notes": "VERIFIED_EXTERNAL_DATA"
+        }
+      ]
+    },
+    {
+      "personId": "person-fredrik-rugstad-se-club-hammarby-if-hf",
+      "clubId": "se_club_hammarby_if_hf",
+      "officialRole": "Massör",
+      "standardRoles": [
+        "PERFORMANCE_STAFF"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-hammarby-if-hf-club-identity-v0-1-performance-medical-staff",
+          "sourceDocument": "Hammarby IF HF CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "PERFORMANCE & MEDICAL STAFF",
+          "notes": "VERIFIED_EXTERNAL_DATA"
+        }
+      ]
+    }
+  ]
+}
