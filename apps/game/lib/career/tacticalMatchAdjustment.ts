@@ -28,7 +28,7 @@ import {
   type SymbolicModifier,
   type TacticalOutcome,
 } from "@handball-manager/tactical-domain";
-import { PROVISIONAL_NEUTRAL_CAPABILITY, type TeamTacticalProfile } from "./teamTacticalProfile";
+import { defaultTeamTacticalProfile, PROVISIONAL_NEUTRAL_CAPABILITY, type TeamTacticalProfile } from "./teamTacticalProfile";
 import type { OpponentAdaptationEffect } from "./opponentAdaptation";
 
 /** Runs per direction, per fixture. Cheap pure computation (no I/O) -- 200 is enough for a stable directional signal without claiming statistical realism (Spec #13: "tests must NOT claim realistic percentages"). */
@@ -322,4 +322,59 @@ export function computeTacticalMatchAdjustment(
       defense: { outcomeCounts: defenseResult.outcomeCounts, score: defenseScore, adjustment: opponentAdjustment },
     },
   };
+}
+
+/**
+ * HM-TACTICS-0.10: symmetric two-sided tactical adjustment for an
+ * AI-vs-AI fixture (no manager involved on either side). Reuses
+ * computeTacticalMatchAdjustment's own two-direction mechanism verbatim
+ * -- no new function body, no new tactical-domain concept -- by simply
+ * treating the home club as the "profile" side (managerClubId :=
+ * homeClubId, so managerIsHome is always true): the home club's own
+ * ati001UsageTendency attacks against the away club's
+ * h2ResponsePreference/tacticalFamiliarity (direction 1, same as
+ * before), and the away club's own ati001UsageTendency attacks against
+ * the home club's h2ResponsePreference/tacticalFamiliarity (direction
+ * 2, "opponentProfile"). sevenVSixActive and opponentAdaptation are
+ * always false/null -- both are manager-only, in-match mechanics with
+ * no AI-vs-AI equivalent.
+ *
+ * Returns `undefined` (skip the adjustment entirely -- byte-identical
+ * to pre-HM-TACTICS-0.10 AI-vs-AI behavior, which never computed a
+ * tactical adjustment at all) when NEITHER club has a real AI-derived
+ * profile in `aiTacticalPreferences`. Running the Monte Carlo sampler
+ * for a fixture where both sides would resolve to the exact same
+ * designed-neutral default config (MEDIUM/H2_STEPS/MEDIUM) has zero
+ * honest effect and is pure overhead across an entire league's
+ * AI-vs-AI schedule -- this is the "missing/unknown identity -> safe
+ * neutral fallback" rule applied at the whole-fixture level, on top of
+ * the fallback the adapter itself already applies at the per-claim
+ * level (see career/aiTacticalPreferences.ts). When only ONE side has
+ * a real profile, the other side gets the same designed-neutral
+ * default a fresh manager career's own TeamTacticalProfile already
+ * uses -- not a special case, the same neutral baseline this codebase
+ * already relies on elsewhere.
+ */
+export function computeAiVsAiTacticalAdjustment(
+  saveSeed: string,
+  fixtureId: string,
+  homeClubId: string,
+  awayClubId: string,
+  aiTacticalPreferences: Record<string, TeamTacticalProfile>,
+): TacticalMatchAdjustment | undefined {
+  const homeProfile = aiTacticalPreferences[homeClubId] ?? null;
+  const awayProfile = aiTacticalPreferences[awayClubId] ?? null;
+  if (!homeProfile && !awayProfile) {
+    return undefined;
+  }
+  return computeTacticalMatchAdjustment(
+    saveSeed,
+    fixtureId,
+    homeClubId,
+    homeClubId,
+    homeProfile ?? defaultTeamTacticalProfile(),
+    false,
+    null,
+    awayProfile ?? defaultTeamTacticalProfile(),
+  );
 }

@@ -2,6 +2,7 @@ import { simulateFixture, type FastMatchResult } from "@handball-manager/game-si
 import { getClubStrength } from "../game-data/clubStrength";
 import { buildSeasonCompleteMessage } from "./inboxEvents";
 import { applyMatchResultBookkeeping } from "./matchResultApplication";
+import { computeAiVsAiTacticalAdjustment } from "./tacticalMatchAdjustment";
 import { averageRating, type CareerFixture, type CareerState, type ClubFormEntry, type PlayerSeasonStats } from "./types";
 import { computeStandings } from "@handball-manager/game-simulation";
 
@@ -74,7 +75,21 @@ export function simulateAiFixturesForDate(state: CareerState, date: string): { s
   const produced: FastMatchResult[] = [];
 
   for (const fixture of dueFixtures) {
-    const result = simulateFixture(fixture, state.saveSeed, (clubId) => getClubStrength(clubId));
+    // HM-TACTICS-0.10: both clubs' own AI-derived tactical identity
+    // (HM-IDENTITY-0.3) now shapes this fixture symmetrically, through
+    // the SAME approved tactical-adjustment mechanism the manager's own
+    // fixture already uses -- see computeAiVsAiTacticalAdjustment's own
+    // doc for the exact home/away mapping. Returns undefined (no
+    // adjustment argument at all, byte-identical to pre-HM-TACTICS-0.10
+    // behavior) when neither club has real identity data.
+    const adjustment = computeAiVsAiTacticalAdjustment(state.saveSeed, fixture.id, fixture.homeClubId, fixture.awayClubId, state.aiTacticalPreferences);
+    const result = simulateFixture(
+      fixture,
+      state.saveSeed,
+      (clubId) => getClubStrength(clubId),
+      undefined,
+      adjustment ? { home: adjustment.home, away: adjustment.away } : undefined,
+    );
     results[fixture.id] = result;
     produced.push(result);
     applyMatchResultBookkeeping(result, clubForm, playerSeasonStats, state.playerClubId);

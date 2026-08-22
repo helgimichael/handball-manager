@@ -1,7 +1,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { computeTacticalMatchAdjustment } from "./tacticalMatchAdjustment";
-import { defaultTeamTacticalProfile } from "./teamTacticalProfile";
+import { computeAiVsAiTacticalAdjustment, computeTacticalMatchAdjustment } from "./tacticalMatchAdjustment";
+import { defaultTeamTacticalProfile, type TeamTacticalProfile } from "./teamTacticalProfile";
 import { OPPONENT_ADAPTATION_DAMPENING_FRACTION, type OpponentAdaptationEffect } from "./opponentAdaptation";
 
 const MAX = 1.2; // matches MAX_TACTICAL_ADJUSTMENT_GOALS in tacticalMatchAdjustment.ts
@@ -217,4 +217,90 @@ test("ATI001_HIGH adaptation has no relevant effect when ati001UsageTendency is 
   const dampened = computeTacticalMatchAdjustment("save-adapt-medium", "fx-1", "clubA", "clubA", profile, false, effect);
   // The dampening still applies mechanically to whatever the (near-neutral) MEDIUM attack score produces, but the effect is bounded, never a new bonus, and never worse than the deterministic pre-adaptation result in direction.
   assert.ok(Math.abs(dampened.home) <= Math.abs(undampened.home) + 1e-9);
+});
+
+// ---------------------------------------------------------------------------
+// HM-TACTICS-0.10: computeAiVsAiTacticalAdjustment -- the symmetric,
+// no-manager two-sided adjustment for AI-vs-AI league fixtures.
+// ---------------------------------------------------------------------------
+
+const HIGH_PROFILE: TeamTacticalProfile = { ati001UsageTendency: "HIGH", h2ResponsePreference: "H2_STOPS", tacticalFamiliarity: "HIGH" };
+const LOW_PROFILE: TeamTacticalProfile = { ati001UsageTendency: "LOW", h2ResponsePreference: "H2_HOLDS", tacticalFamiliarity: "LOW" };
+
+test("HM-TACTICS-0.10: neither club has an AI-derived profile -> undefined (safe neutral fallback, zero adjustment, byte-identical to pre-HM-TACTICS-0.10 behavior)", () => {
+  const adjustment = computeAiVsAiTacticalAdjustment("save-1", "fx-1", "clubA", "clubB", {});
+  assert.equal(adjustment, undefined);
+});
+
+test("HM-TACTICS-0.10: only one club has a profile -- the adjustment is still computed, the other side getting the same designed-neutral default a fresh manager career already uses", () => {
+  const withHomeOnly = computeAiVsAiTacticalAdjustment("save-1", "fx-1", "clubA", "clubB", { clubA: HIGH_PROFILE });
+  assert.ok(withHomeOnly);
+  const bothNeutral = computeTacticalMatchAdjustment("save-1", "fx-1", "clubA", "clubA", HIGH_PROFILE, false, null, defaultTeamTacticalProfile());
+  assert.deepEqual(withHomeOnly, bothNeutral);
+});
+
+test("HM-TACTICS-0.10: determinism -- identical (saveSeed, fixtureId, clubs, preferences) always produces an identical two-sided adjustment", () => {
+  const preferences = { clubA: HIGH_PROFILE, clubB: LOW_PROFILE };
+  const a = computeAiVsAiTacticalAdjustment("save-1", "fx-1", "clubA", "clubB", preferences);
+  const b = computeAiVsAiTacticalAdjustment("save-1", "fx-1", "clubA", "clubB", preferences);
+  assert.deepEqual(a, b);
+});
+
+test("HM-TACTICS-0.10: two different AI identities behave differently -- a HIGH/H2_STOPS/HIGH club produces a different attack-direction adjustment than a LOW/H2_HOLDS/LOW club in the same home slot", () => {
+  const highAsHome = computeAiVsAiTacticalAdjustment("save-1", "fx-1", "clubA", "clubB", { clubA: HIGH_PROFILE, clubB: defaultTeamTacticalProfile() });
+  const lowAsHome = computeAiVsAiTacticalAdjustment("save-1", "fx-1", "clubA", "clubB", { clubA: LOW_PROFILE, clubB: defaultTeamTacticalProfile() });
+  assert.ok(highAsHome && lowAsHome);
+  assert.notEqual(highAsHome.home, lowAsHome.home);
+});
+
+test("HM-TACTICS-0.10: the tactical boost follows the club, not the physical side -- averaged across many seeded fixtures, clubA's HIGH profile stays the stronger side whether clubA plays home or away", () => {
+  // Monte Carlo sampling depends on the CONFIG content (attacker profile
+  // vs defender profile), not merely on which physical side is home --
+  // "HIGH attacks against neutral defence" and "neutral attacks against
+  // HIGH defence" are genuinely different sampled distributions, not
+  // mirror images of the same numbers. So this proves the invariant the
+  // honest way: aggregate over many fixtures and confirm clubA's own
+  // profile keeps producing the stronger adjustment for clubA regardless
+  // of which slot (home/away) it occupies, never a claim about exact
+  // per-fixture symmetry.
+  const SAMPLE_FIXTURES = 20;
+  const preferences = { clubA: HIGH_PROFILE, clubB: defaultTeamTacticalProfile() };
+  let clubATotal = 0;
+  let clubBTotal = 0;
+  for (let i = 0; i < SAMPLE_FIXTURES; i += 1) {
+    const fixtureId = `fx-swap-${i}`;
+    const clubAHome = computeAiVsAiTacticalAdjustment("save-swap", fixtureId, "clubA", "clubB", preferences)!;
+    clubATotal += clubAHome.home;
+    clubBTotal += clubAHome.away;
+
+    const clubAAway = computeAiVsAiTacticalAdjustment("save-swap", fixtureId, "clubB", "clubA", preferences)!;
+    clubBTotal += clubAAway.home;
+    clubATotal += clubAAway.away;
+  }
+  const clubAAvg = clubATotal / (2 * SAMPLE_FIXTURES);
+  const clubBAvg = clubBTotal / (2 * SAMPLE_FIXTURES);
+  assert.ok(clubAAvg > clubBAvg, `clubA's HIGH profile must average a higher adjustment than clubB's neutral default regardless of home/away placement (clubA avg=${clubAAvg}, clubB avg=${clubBAvg})`);
+});
+
+test("HM-TACTICS-0.10: directional proof (aggregate across many seeded fixtures, never a claim of realistic percentages) -- a HIGH/H2_STOPS/HIGH home club averages a higher home-side adjustment than a LOW/H2_HOLDS/LOW home club, both against the same neutral away opponent", () => {
+  const SAMPLE_FIXTURES = 20;
+  let highTotal = 0;
+  let lowTotal = 0;
+  for (let i = 0; i < SAMPLE_FIXTURES; i += 1) {
+    const fixtureId = `fx-directional-${i}`;
+    const high = computeAiVsAiTacticalAdjustment("save-directional", fixtureId, "clubA", "clubB", { clubA: HIGH_PROFILE, clubB: defaultTeamTacticalProfile() })!;
+    const low = computeAiVsAiTacticalAdjustment("save-directional", fixtureId, "clubA", "clubB", { clubA: LOW_PROFILE, clubB: defaultTeamTacticalProfile() })!;
+    highTotal += high.home;
+    lowTotal += low.home;
+  }
+  assert.ok(highTotal / SAMPLE_FIXTURES > lowTotal / SAMPLE_FIXTURES, `HIGH profile must average a higher home-side adjustment than LOW (high avg=${highTotal / SAMPLE_FIXTURES}, low avg=${lowTotal / SAMPLE_FIXTURES})`);
+});
+
+test("HM-TACTICS-0.10: both adjustments always stay within the same documented bound as the manager-facing mechanism -- no new, wider tactical concept introduced", () => {
+  const preferences = { clubA: HIGH_PROFILE, clubB: LOW_PROFILE };
+  for (let i = 0; i < 10; i += 1) {
+    const adjustment = computeAiVsAiTacticalAdjustment("save-bounds", `fx-${i}`, "clubA", "clubB", preferences)!;
+    assert.ok(Math.abs(adjustment.home) <= MAX, `home=${adjustment.home}`);
+    assert.ok(Math.abs(adjustment.away) <= MAX, `away=${adjustment.away}`);
+  }
 });
