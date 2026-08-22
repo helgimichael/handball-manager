@@ -12,7 +12,7 @@ import { simulateFixture, type FastMatchResult } from "@handball-manager/game-si
 import { getClubStrength } from "../game-data/clubStrength";
 import { checkSeasonComplete, getPlayerFixtureOn } from "./calendar";
 import { buildMatchCompletedEvent } from "./careerEvents";
-import { getCareerSquad } from "./careerWorld";
+import { getCareerClubSquad, getCareerSquad } from "./careerWorld";
 import { careerEventToInboxMessage } from "./inboxBridge";
 import { applyMatchResultBookkeeping } from "./matchResultApplication";
 import { computeTacticalMatchAdjustment } from "./tacticalMatchAdjustment";
@@ -46,6 +46,16 @@ export function playManagerFixture(state: CareerState): PlayManagerFixtureResult
   }
 
   const roster = buildMatchRoster(getCareerSquad(state), state.playerStatuses);
+  // HM-MATCH-0.2: the opponent's snapshotted squad, so the Fast Match
+  // Engine attributes real player goals/events to them too instead of
+  // leaving their side entirely anonymous (Spec: "do not randomly invent
+  // a scorer only in the UI"). No live per-save injury/suspension
+  // tracking exists for AI clubs (playerStatuses is manager-club-only),
+  // so this intentionally falls back to squadStatus-only eligibility --
+  // the same honest scope buildMatchRoster already documents for callers
+  // that predate Career Rhythm.
+  const opponentClubId = fixture.homeClubId === state.playerClubId ? fixture.awayClubId : fixture.homeClubId;
+  const opponentRoster = buildMatchRoster(getCareerClubSquad(state, opponentClubId));
   // HM-TACTICS-0.6B: a small, bounded, pre-match tactical adjustment
   // derived from the manager's own TeamTacticalProfile -- computed once
   // per fixture, exactly like a club strength lookup, never a per-attack
@@ -62,7 +72,7 @@ export function playManagerFixture(state: CareerState): PlayManagerFixtureResult
     fixture,
     state.saveSeed,
     (clubId) => getClubStrength(clubId),
-    (clubId) => (clubId === state.playerClubId ? roster : undefined),
+    (clubId) => (clubId === state.playerClubId ? roster : clubId === opponentClubId ? opponentRoster : undefined),
     { home: tacticalAdjustment.home, away: tacticalAdjustment.away },
   );
 

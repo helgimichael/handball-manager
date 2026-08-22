@@ -52,12 +52,19 @@
 // to) is threaded straight through to computeTacticalMatchAdjustment
 // too, so a halftime instruction, a later sideline change, or a shout
 // all keep folding in whatever the opponent has already adapted to.
+//
+// HM-MATCH-0.2: the segment simulation and contribution rebuild now
+// always resolve a roster for BOTH sides (the manager's own squad and
+// the opponent's snapshotted squad), not just the manager's -- matching
+// the initial simulation in matchdayAction.ts. A splice can no longer
+// leave the opponent's contributions frozen at whatever (possibly empty)
+// value the original simulation produced.
 import { simulateMatchSegment, type FastMatchResult, type MatchEvent, type PlayerMatchContribution } from "@handball-manager/game-simulation";
 import { createRng, seedFromString } from "@handball-manager/game-simulation";
 import { getClubStrength } from "../game-data/clubStrength";
 import { tallyTeamStats } from "../liveMatch/liveMatchView";
 import { computeTacticalMatchAdjustment } from "./tacticalMatchAdjustment";
-import { getCareerSquad } from "./careerWorld";
+import { getCareerClubSquad, getCareerSquad } from "./careerWorld";
 import { buildMatchRoster } from "./tumbaRoster";
 import type { TeamTacticalProfile } from "./teamTacticalProfile";
 import type { OpponentAdaptationEffect } from "./opponentAdaptation";
@@ -137,6 +144,13 @@ export function applyMidMatchTacticalChange(
 
   const roster = buildMatchRoster(getCareerSquad(state), state.playerStatuses);
   const managerIsHome = original.homeClubId === state.playerClubId;
+  // HM-MATCH-0.2: the opponent's snapshotted squad, so a mid-match splice
+  // keeps attributing real opponent player goals/events too, matching
+  // what the initial simulation now does (matchdayAction.ts). No live
+  // per-save injury/suspension tracking exists for AI clubs, so this
+  // intentionally omits the playerStatuses override, same as matchdayAction.ts.
+  const opponentClubId = managerIsHome ? original.awayClubId : original.homeClubId;
+  const opponentRoster = buildMatchRoster(getCareerClubSquad(state, opponentClubId));
 
   const adjustment = computeTacticalMatchAdjustment(
     state.saveSeed,
@@ -159,8 +173,8 @@ export function applyMidMatchTacticalChange(
     awayStrength: getClubStrength(original.awayClubId),
     homeTacticalAdjustment: adjustment.home,
     awayTacticalAdjustment: adjustment.away,
-    homeRoster: managerIsHome ? roster : undefined,
-    awayRoster: managerIsHome ? undefined : roster,
+    homeRoster: managerIsHome ? roster : opponentRoster,
+    awayRoster: managerIsHome ? opponentRoster : roster,
   });
 
   // 1. Preserve the exact, already-revealed prefix.
@@ -188,12 +202,22 @@ export function applyMidMatchTacticalChange(
   const homeGoalCounts = tallyPlayerGoalsFull(allEvents, "home");
   const awayGoalCounts = tallyPlayerGoalsFull(allEvents, "away");
   const contributionSeed = seedFromString(`${state.saveSeed}:${fixtureId}:midmatch:${adoptionMinute}:contrib`);
-  const homePlayerContributions = managerIsHome
-    ? rebuildContributions(contributionSeed, roster, homeGoalCounts, homeGoals, homeTally.shotsFaced, homeTally.saves)
-    : original.homePlayerContributions;
-  const awayPlayerContributions = managerIsHome
-    ? original.awayPlayerContributions
-    : rebuildContributions(contributionSeed, roster, awayGoalCounts, awayGoals, awayTally.shotsFaced, awayTally.saves);
+  const homePlayerContributions = rebuildContributions(
+    contributionSeed,
+    managerIsHome ? roster : opponentRoster,
+    homeGoalCounts,
+    homeGoals,
+    homeTally.shotsFaced,
+    homeTally.saves,
+  );
+  const awayPlayerContributions = rebuildContributions(
+    contributionSeed,
+    managerIsHome ? opponentRoster : roster,
+    awayGoalCounts,
+    awayGoals,
+    awayTally.shotsFaced,
+    awayTally.saves,
+  );
 
   const splicedResult: FastMatchResult = {
     ...original,

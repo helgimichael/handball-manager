@@ -3,9 +3,12 @@ import assert from "node:assert/strict";
 import { createNewCareerState } from "./newCareer";
 import { getPlayerFixtureOn } from "./calendar";
 import { processDay } from "./dailyTick";
+import { continueCareerRhythm } from "./continueController";
 import { playManagerFixture } from "./matchdayAction";
 import { applyMidMatchTacticalChange } from "./tacticalMidMatchChange";
+import { snapshotWorldSquads } from "../gameWorld/serverSnapshot";
 import { TUMBA_CLUB_ID } from "../game-data";
+import type { CareerState } from "./types";
 
 const SEASON_START = "2026-08-19";
 
@@ -19,6 +22,24 @@ function playedFixture(seed = "midmatch-seed") {
   const fixture = getPlayerFixtureOn(state, SEASON_START)!;
   const { state: played, result } = playManagerFixture(state);
   return { state: played, fixture, original: result! };
+}
+
+/** HM-MATCH-0.2: see matchdayAction.test.ts's identical helper doc -- opponent squad data only exists for a REAL_WORLD-backed competition. */
+function playedRealClubFixture(seed: string): { state: CareerState; fixture: { id: string; homeClubId: string; awayClubId: string }; original: import("@handball-manager/game-simulation").FastMatchResult } {
+  const clubId = "se_club_alingsas_hk";
+  const worldSquads = snapshotWorldSquads("se_handbollsligan_herr");
+  const fresh = createNewCareerState(seed, clubId, worldSquads);
+  let current = fresh;
+  for (let i = 0; i < 100; i += 1) {
+    const { state: next, stopReason } = continueCareerRhythm(current);
+    current = next;
+    if (stopReason === "ACTION_REQUIRED" || stopReason === "ACTION_REQUIRED_PENDING") {
+      const fixture = getPlayerFixtureOn(next, next.gameDate)!;
+      const { state: played, result } = playManagerFixture(next);
+      return { state: played, fixture, original: result! };
+    }
+  }
+  throw new Error("never reached an ACTION_REQUIRED stop");
 }
 
 const ALTERNATE_PROFILE = { ati001UsageTendency: "HIGH" as const, h2ResponsePreference: "H2_STOPS" as const, tacticalFamiliarity: "HIGH" as const };
@@ -268,4 +289,22 @@ test("HM-TACTICS-0.9: same seed + same opponent-adaptation effect + same timing 
   const a = applyMidMatchTacticalChange(state, fixture.id, 33, NEUTRAL_PROFILE, false, effect);
   const b = applyMidMatchTacticalChange(state, fixture.id, 33, NEUTRAL_PROFILE, false, effect);
   assert.deepEqual(a.results[fixture.id], b.results[fixture.id]);
+});
+
+test("HM-MATCH-0.2: a mid-match splice keeps the opponent's player goal totals reconciled with the opponent's own team goal total, not just the manager's side (REAL_WORLD-backed competition)", () => {
+  const { state, fixture } = playedRealClubFixture("midmatch-opponent-reconciliation-seed");
+  const next = applyMidMatchTacticalChange(state, fixture.id, 25, ALTERNATE_PROFILE, false, null);
+  const spliced = next.results[fixture.id];
+  const managerIsHome = spliced.homeClubId === "se_club_alingsas_hk";
+
+  const opponentContributions = managerIsHome ? spliced.awayPlayerContributions : spliced.homePlayerContributions;
+  const opponentTeamGoals = managerIsHome ? spliced.awayGoals : spliced.homeGoals;
+  assert.ok(opponentContributions.length > 0, "the opponent must still have a non-empty roster of contributions after a splice");
+  const summedOpponentGoals = opponentContributions.reduce((sum, c) => sum + c.goals, 0);
+  assert.equal(summedOpponentGoals, opponentTeamGoals);
+
+  const managerContributions = managerIsHome ? spliced.homePlayerContributions : spliced.awayPlayerContributions;
+  const managerTeamGoals = managerIsHome ? spliced.homeGoals : spliced.awayGoals;
+  const summedManagerGoals = managerContributions.reduce((sum, c) => sum + c.goals, 0);
+  assert.equal(summedManagerGoals, managerTeamGoals);
 });

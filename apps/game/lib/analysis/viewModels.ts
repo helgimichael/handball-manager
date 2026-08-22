@@ -326,8 +326,11 @@ export function buildLastMatchViewModel(career: CareerState): LastMatchViewModel
     halfSplit: computeHalfSplit(result),
     scoringRuns: detectScoringRuns(result.events),
     ownPlayerProduction: ownContributions.length > 0 ? ok(ownContributions) : missing("NOT_AVAILABLE_YET"),
-    // Opponent contributions are structurally always empty in v0.1 (Spec §13/§19) -- FastMatchResult only ever
-    // populates player contributions for the club with an explicit MatchRosterPlayer[] provider.
+    // HM-MATCH-0.2: the manager's own fixture now provides a roster for
+    // BOTH clubs (matchdayAction.ts/tacticalMidMatchChange.ts), so this is
+    // no longer structurally always empty -- it only falls back to
+    // NOT_AVAILABLE_YET for fixtures simulated before that milestone, or
+    // ones with no opponent squad snapshot at all.
     opponentPlayerProduction: opponentContributions.length > 0 ? ok(opponentContributions) : missing("NOT_AVAILABLE_YET"),
     timeline: result.events,
     patterns,

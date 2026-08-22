@@ -5,12 +5,36 @@ import { getPlayerFixtureOn } from "./calendar";
 import { processDay } from "./dailyTick";
 import { playManagerFixture } from "./matchdayAction";
 import { TUMBA_CLUB_ID } from "../game-data";
+import { continueCareerRhythm } from "./continueController";
+import { snapshotWorldSquads } from "../gameWorld/serverSnapshot";
+import type { CareerState } from "./types";
 
 const SEASON_START = "2026-08-19";
 
 function stateAtMatchday(seed = "matchday-action-seed") {
   const fresh = createNewCareerState(seed, TUMBA_CLUB_ID);
   return processDay(fresh, SEASON_START).state;
+}
+
+/**
+ * HM-MATCH-0.2: opponent player attribution only has real squad data to
+ * draw on for a REAL_WORLD-backed competition (Handbollsligan) -- IFK
+ * Tumba's own Allsvenskan opponents have no static squad data at all
+ * (getCareerClubSquad falls back to []), same limitation AI-vs-AI
+ * fixtures already had (see this milestone's audit). Mirrors the
+ * existing real-club integration pattern from inboxIntegration.test.ts.
+ */
+function stateAtRealClubMatchday(seed: string): CareerState {
+  const clubId = "se_club_alingsas_hk";
+  const worldSquads = snapshotWorldSquads("se_handbollsligan_herr");
+  const fresh = createNewCareerState(seed, clubId, worldSquads);
+  let current = fresh;
+  for (let i = 0; i < 100; i += 1) {
+    const { state: next, stopReason } = continueCareerRhythm(current);
+    current = next;
+    if (stopReason === "ACTION_REQUIRED" || stopReason === "ACTION_REQUIRED_PENDING") return current;
+  }
+  throw new Error("never reached an ACTION_REQUIRED stop");
 }
 
 test("playManagerFixture resolves the manager's own fixture, resolves MATCHDAY_READY, and creates MATCH_COMPLETED", () => {
@@ -116,6 +140,46 @@ test("HM-TACTICS-0.6B: the same (save, fixture, tactical profile) always replays
   const a = playManagerFixture(state).result;
   const b = playManagerFixture(state).result;
   assert.deepEqual(a, b);
+});
+
+test("HM-MATCH-0.2: the manager's own fixture attributes real player goals/contributions to BOTH sides, not just the manager's club (REAL_WORLD-backed competition)", () => {
+  const SAMPLE_SEEDS = 10;
+  let sawOpponentGoalScorer = false;
+
+  for (let i = 0; i < SAMPLE_SEEDS && !sawOpponentGoalScorer; i += 1) {
+    const state = stateAtRealClubMatchday(`opponent-attribution-seed-${i}`);
+    const fixture = getPlayerFixtureOn(state, state.gameDate)!;
+    const { result } = playManagerFixture(state);
+    const opponentIsHome = fixture.homeClubId !== "se_club_alingsas_hk";
+    const opponentContributions = opponentIsHome ? result!.homePlayerContributions : result!.awayPlayerContributions;
+    const opponentGoalEvents = result!.events.filter((e) => e.type === "GOAL" && e.side === (opponentIsHome ? "home" : "away"));
+
+    assert.ok(opponentContributions.length > 0, "the opponent must have a non-empty roster of player contributions");
+    if (opponentGoalEvents.length > 0 && opponentGoalEvents.some((e) => e.playerId)) {
+      sawOpponentGoalScorer = true;
+    }
+  }
+
+  assert.ok(sawOpponentGoalScorer, `expected at least one of ${SAMPLE_SEEDS} seeded fixtures to attribute a real opponent scorer to a GOAL event`);
+});
+
+test("HM-MATCH-0.2: opponent player goal totals reconcile exactly with the opponent's own team goal total (REAL_WORLD-backed competition)", () => {
+  const state = stateAtRealClubMatchday("opponent-reconciliation-seed");
+  const fixture = getPlayerFixtureOn(state, state.gameDate)!;
+  const { result } = playManagerFixture(state);
+  const opponentIsHome = fixture.homeClubId !== "se_club_alingsas_hk";
+  const opponentContributions = opponentIsHome ? result!.homePlayerContributions : result!.awayPlayerContributions;
+  const opponentTeamGoals = opponentIsHome ? result!.homeGoals : result!.awayGoals;
+  const summedPlayerGoals = opponentContributions.reduce((sum, c) => sum + c.goals, 0);
+  assert.equal(summedPlayerGoals, opponentTeamGoals);
+});
+
+test("HM-MATCH-0.2: opponent player attribution is honestly empty (not fabricated) for a mock, non-REAL_WORLD-backed opponent club -- e.g. IFK Tumba's own Allsvenskan opponents", () => {
+  const state = stateAtMatchday("mock-opponent-no-attribution-seed");
+  const { result } = playManagerFixture(state);
+  const opponentIsHome = result!.homeClubId !== TUMBA_CLUB_ID;
+  const opponentContributions = opponentIsHome ? result!.homePlayerContributions : result!.awayPlayerContributions;
+  assert.deepEqual(opponentContributions, [], "no squad data exists for this opponent -- the honest result is an empty array, never an invented one");
 });
 
 test("HM-TACTICS-0.6B: AI-vs-AI fixtures on the same matchday are completely unaffected by the manager's TeamTacticalProfile", () => {

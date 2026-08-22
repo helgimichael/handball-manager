@@ -2,9 +2,11 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { getClub } from "@/lib/game-data";
+import { getClub, type PlayerMock } from "@/lib/game-data";
+import { getLiveTableStandings } from "@/lib/career/standings";
 import { useCareer } from "@/lib/career/CareerContext";
-import { getCareerPlayer, getCareerSquad } from "@/lib/career/careerWorld";
+import { getCareerClubSquad, getCareerPlayer } from "@/lib/career/careerWorld";
+import type { CareerState } from "@/lib/career/types";
 import { commentaryLine, formatMatchMinute } from "@/lib/liveMatch/commentary";
 import { useLiveMatch, type InstructionLifecycleStatus, type LastInstructionOutcome } from "@/lib/liveMatch/useLiveMatch";
 import type { PlaybackSpeed } from "@/lib/liveMatch/clock";
@@ -29,7 +31,7 @@ import {
   type OpponentAdaptationEffect,
   type OpponentAdaptationTrigger,
 } from "@/lib/career/opponentAdaptation";
-import { seedFromString } from "@handball-manager/game-simulation";
+import { seedFromString, type PlayerMatchContribution } from "@handball-manager/game-simulation";
 import ClubCrest from "@/components/ClubCrest";
 import SegmentedControl from "@/components/SegmentedControl";
 
@@ -59,7 +61,7 @@ export default function MatchDayPage() {
   const result = career.results[params.fixtureId];
 
   return fixture && result ? (
-    <LiveMatch fixture={fixture} result={result} playerClubId={career.playerClubId} />
+    <LiveMatch fixture={fixture} result={result} />
   ) : (
     <div className="hm-panel">
       <div className="hm-panel-body hm-text-muted">Ingen matchdata hittades för denna fixture.</div>
@@ -70,11 +72,9 @@ export default function MatchDayPage() {
 function LiveMatch({
   fixture,
   result,
-  playerClubId,
 }: {
   fixture: { id: string; homeClubId: string; awayClubId: string };
   result: import("@handball-manager/game-simulation").FastMatchResult;
-  playerClubId: string;
 }) {
   const router = useRouter();
   const { career, applyMidMatchTacticalChange } = useCareer();
@@ -99,6 +99,10 @@ function LiveMatch({
   const [sevenVSixActiveSinceMinute, setSevenVSixActiveSinceMinute] = useState<number | null>(null);
   const [ati001HighSinceMinute, setAti001HighSinceMinute] = useState<number | null>(null);
   const [opponentAdaptationEffect, setOpponentAdaptationEffect] = useState<OpponentAdaptationEffect | null>(null);
+  // HM-MATCH-0.2: Live Table is a display toggle only -- it computes a
+  // PROVISIONAL table on demand (see standings.ts's getLiveTableStandings)
+  // and never writes anything to CareerState.
+  const [showLiveTable, setShowLiveTable] = useState(false);
 
   const updateAti001Tracking = useCallback((adoptionMinute: number, profile: TeamTacticalProfile) => {
     setAti001HighSinceMinute(profile.ati001UsageTendency === "HIGH" ? adoptionMinute : null);
@@ -188,8 +192,8 @@ function LiveMatch({
 
   const home = getClub(fixture.homeClubId)!;
   const away = getClub(fixture.awayClubId)!;
-  const isPlayerHome = fixture.homeClubId === playerClubId;
-  const ownSquad = getCareerSquad(career);
+  const homeSquad = getCareerClubSquad(career, fixture.homeClubId);
+  const awaySquad = getCareerClubSquad(career, fixture.awayClubId);
   const isTimeout = view.phase === "TIMEOUT";
   const isHalfTime = view.phase === "HALF_TIME";
   const canIssueInstruction = !pendingInstruction && (view.phase === "FIRST_HALF" || view.phase === "SECOND_HALF");
@@ -263,8 +267,6 @@ function LiveMatch({
     logRef.current?.scrollTo({ top: logRef.current.scrollHeight });
   }, [view.revealedEvents.length]);
 
-  const ownPlayerGoals = isPlayerHome ? view.homePlayerGoals : view.awayPlayerGoals;
-  const ownContributions = isPlayerHome ? result.homePlayerContributions : result.awayPlayerContributions;
   const isFullTime = view.phase === "FULL_TIME";
   const commentaryEvents = [...view.revealedEvents].reverse();
 
@@ -332,35 +334,24 @@ function LiveMatch({
         </div>
       </div>
 
-      {/* Player stats -- Tumba only, goals live, shots/rating revealed at full time (Spec S12: do not fake live totals the timeline cannot reconstruct). */}
-      <div className="hm-panel">
-        <div className="hm-panel-header">
-          <span className="hm-panel-title">Spelarstatistik — {isPlayerHome ? home.shortName : away.shortName}</span>
-        </div>
-        <table className="hm-table">
-          <thead>
-            <tr>
-              <th>Spelare</th>
-              <th className="hm-table-num">Mål</th>
-              <th className="hm-table-num">Skott</th>
-              <th className="hm-table-num">Betyg</th>
-            </tr>
-          </thead>
-          <tbody>
-            {ownContributions.map((c) => {
-              const player = getCareerPlayer(career, c.playerId) ?? ownSquad.find((p) => p.id === c.playerId);
-              const liveGoals = ownPlayerGoals[c.playerId] ?? 0;
-              return (
-                <tr key={c.playerId}>
-                  <td className="hm-td-strong">{player ? `${player.firstName} ${player.lastName}` : c.playerId}</td>
-                  <td className="hm-table-num">{liveGoals}</td>
-                  <td className="hm-table-num">{isFullTime ? c.shots : "—"}</td>
-                  <td className="hm-table-num">{isFullTime ? c.rating.toFixed(1) : "—"}</td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
+      {/* HM-MATCH-0.2: player stats for BOTH teams -- goals live, shots/rating revealed at full time (Spec S12: do not fake live totals the timeline cannot reconstruct). The opponent's table is only ever as populated as the underlying result actually supports (Section A: a fixture simulated before this milestone, or an AI-vs-AI fixture, still legitimately has empty opponent contributions -- never a fabricated fallback). */}
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+        <PlayerStatsPanel
+          title={home.shortName}
+          contributions={result.homePlayerContributions}
+          liveGoals={view.homePlayerGoals}
+          squad={homeSquad}
+          isFullTime={isFullTime}
+          career={career}
+        />
+        <PlayerStatsPanel
+          title={away.shortName}
+          contributions={result.awayPlayerContributions}
+          liveGoals={view.awayPlayerGoals}
+          squad={awaySquad}
+          isFullTime={isFullTime}
+          career={career}
+        />
       </div>
 
       {/* HM-COACHING-0.1: timeout opens a dedicated coaching panel -- the sideline tactical panel below is hidden while it's up, since only one delivery channel can be active at a time. */}
@@ -622,6 +613,11 @@ function LiveMatch({
         </div>
       </div>
 
+      {/* HM-MATCH-0.2: Live Table -- a PROVISIONAL standings view computed on demand from CareerState (never stored/mutated there), with the currently-watched fixture's score taken from the live-revealed view instead of its already-final stored result. Every other fixture shown is genuinely already complete (see standings.ts's getLiveTableStandings doc) -- nothing here fabricates a simultaneous match the calendar can't yet represent. */}
+      {showLiveTable ? (
+        <LiveTablePanel career={career} fixture={fixture} homeScore={view.homeScore} awayScore={view.awayScore} onClose={() => setShowLiveTable(false)} />
+      ) : null}
+
       {/* HM-TACTICS-0.9: the smallest deterministic opponent-adaptation notice -- only ever shown once the opponent has actually noticed a sustained first-half pattern (see opponentAdaptation.ts); nothing renders at all otherwise ("no adaptation if there is nothing supported to react to"). Discrete labels only, no exposed scores/probabilities. */}
       <OpponentAdaptationPanel assessed={assessedOpponentAdaptation} clockMinute={view.clockMinute} />
 
@@ -660,6 +656,13 @@ function LiveMatch({
               </button>
             </>
           )}
+          <button
+            type="button"
+            className={`hm-btn hm-btn-sm${showLiveTable ? " hm-btn-primary" : ""}`}
+            onClick={() => setShowLiveTable((v) => !v)}
+          >
+            {showLiveTable ? "DÖLJ LIVE-TABELL" : "LIVE-TABELL"}
+          </button>
         </div>
       </div>
     </div>
@@ -685,6 +688,71 @@ function SpeedButton({
     >
       {label}
     </button>
+  );
+}
+
+/**
+ * HM-MATCH-0.2: one team's live player table -- used for both home and
+ * away so the manager's own side and the opponent get equivalent
+ * information. Goals come from the live-revealed timeline (updates as
+ * the match plays); shots/rating only ever appear once the match reaches
+ * FULL_TIME, since they are not event-attributable minute-by-minute (see
+ * liveMatchView.ts's own doc). If `contributions` is empty (no roster was
+ * available when this fixture was simulated -- e.g. an AI-vs-AI fixture,
+ * or one played before this milestone), the panel says so honestly
+ * instead of rendering an empty table.
+ */
+function PlayerStatsPanel({
+  title,
+  contributions,
+  liveGoals,
+  squad,
+  isFullTime,
+  career,
+}: {
+  title: string;
+  contributions: readonly PlayerMatchContribution[];
+  liveGoals: Record<string, number>;
+  squad: readonly PlayerMock[];
+  isFullTime: boolean;
+  career: CareerState;
+}) {
+  return (
+    <div className="hm-panel">
+      <div className="hm-panel-header">
+        <span className="hm-panel-title">Spelarstatistik — {title}</span>
+      </div>
+      {contributions.length === 0 ? (
+        <div className="hm-panel-body hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)" }}>
+          Ingen spelartrupp tillgänglig för denna match.
+        </div>
+      ) : (
+        <table className="hm-table">
+          <thead>
+            <tr>
+              <th>Spelare</th>
+              <th className="hm-table-num">Mål</th>
+              <th className="hm-table-num">Skott</th>
+              <th className="hm-table-num">Betyg</th>
+            </tr>
+          </thead>
+          <tbody>
+            {contributions.map((c) => {
+              const player = getCareerPlayer(career, c.playerId) ?? squad.find((p) => p.id === c.playerId);
+              const goals = liveGoals[c.playerId] ?? 0;
+              return (
+                <tr key={c.playerId}>
+                  <td className="hm-td-strong">{player ? `${player.firstName} ${player.lastName}` : c.playerId}</td>
+                  <td className="hm-table-num">{goals}</td>
+                  <td className="hm-table-num">{isFullTime ? c.shots : "—"}</td>
+                  <td className="hm-table-num">{isFullTime ? c.rating.toFixed(1) : "—"}</td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      )}
+    </div>
   );
 }
 
@@ -820,6 +888,82 @@ function OpponentAdaptationPanel({
             ? `Motståndaren har anpassat sig efter ${triggerLabel} -- ingen exakt effekt visas.`
             : `Motståndaren verkar ha märkt ${triggerLabel} och är på väg att anpassa sig.`}
         </span>
+      </div>
+    </div>
+  );
+}
+
+/**
+ * HM-MATCH-0.2: a PROVISIONAL league table, computed on demand (never
+ * stored) via standings.ts's getLiveTableStandings -- clearly labeled
+ * LIVE so it is never mistaken for the official table (Career/analysis
+ * screens keep using getLiveStandings, unchanged by this milestone). The
+ * two clubs in the currently-watched fixture are highlighted so the
+ * manager can see their live movement in the table.
+ */
+function LiveTablePanel({
+  career,
+  fixture,
+  homeScore,
+  awayScore,
+  onClose,
+}: {
+  career: CareerState;
+  fixture: { id: string; homeClubId: string; awayClubId: string };
+  homeScore: number;
+  awayScore: number;
+  onClose: () => void;
+}) {
+  const table = getLiveTableStandings(career, fixture.id, homeScore, awayScore);
+  return (
+    <div className="hm-panel">
+      <div className="hm-panel-header">
+        <span className="hm-panel-title">Tabell</span>
+        <span className="hm-badge hm-badge-neutral">LIVE / PROVISORISK</span>
+        <button type="button" className="hm-btn hm-btn-sm" onClick={onClose} style={{ marginLeft: "auto" }}>
+          STÄNG
+        </button>
+      </div>
+      <table className="hm-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Klubb</th>
+            <th className="hm-table-num">S</th>
+            <th className="hm-table-num">V</th>
+            <th className="hm-table-num">O</th>
+            <th className="hm-table-num">F</th>
+            <th className="hm-table-num">GM</th>
+            <th className="hm-table-num">IM</th>
+            <th className="hm-table-num">MSK</th>
+            <th className="hm-table-num">P</th>
+          </tr>
+        </thead>
+        <tbody>
+          {table.map((row, i) => {
+            const club = getClub(row.clubId);
+            const isWatched = row.clubId === fixture.homeClubId || row.clubId === fixture.awayClubId;
+            return (
+              <tr key={row.clubId} style={isWatched ? { background: "var(--hm-accent-muted)" } : undefined}>
+                <td className="hm-table-num">{i + 1}</td>
+                <td className="hm-td-strong">{club?.shortName ?? row.clubId}</td>
+                <td className="hm-table-num">{row.played}</td>
+                <td className="hm-table-num">{row.won}</td>
+                <td className="hm-table-num">{row.drawn}</td>
+                <td className="hm-table-num">{row.lost}</td>
+                <td className="hm-table-num">{row.goalsFor}</td>
+                <td className="hm-table-num">{row.goalsAgainst}</td>
+                <td className="hm-table-num">{row.goalDifference}</td>
+                <td className="hm-table-num hm-td-strong">{row.points}</td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+      <div className="hm-panel-body hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)" }}>
+        {getClub(fixture.homeClubId)?.shortName ?? fixture.homeClubId} / {getClub(fixture.awayClubId)?.shortName ?? fixture.awayClubId} visas med den pågående
+        matchens live-ställning ({homeScore}–{awayScore}) -- resten av tabellen speglar redan avgjorda matcher. Detta skriver aldrig över den officiella
+        tabellen.
       </div>
     </div>
   );

@@ -99,11 +99,14 @@ test("at full time, live stats exactly equal FastMatchResult's own final stats (
   }
 });
 
-test("live player goals equal the result's own player contribution goals at full time", () => {
+test("live player goals equal the result's own player contribution goals at full time -- both home AND away (HM-MATCH-0.2: the opponent is no longer a special case)", () => {
   const result = simulateMatch(baseInput(4));
   const view = computeLiveMatchView(result, fullMatchClock());
   for (const contribution of result.homePlayerContributions) {
     assert.equal(view.homePlayerGoals[contribution.playerId] ?? 0, contribution.goals);
+  }
+  for (const contribution of result.awayPlayerContributions) {
+    assert.equal(view.awayPlayerGoals[contribution.playerId] ?? 0, contribution.goals);
   }
 });
 
