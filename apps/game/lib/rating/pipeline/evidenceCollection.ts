@@ -76,7 +76,8 @@ export const CALIBRATION_PLAYER_NAMES: Record<string, string> = {
 
 const COMBINING_DIACRITICAL_MARKS = new RegExp("[\\u0300-\\u036f]", "g");
 
-function normalizeName(name: string): string {
+/** Exported for HM-RATINGS-0.5's extended-evidence matcher, which needs the exact same normalized-name-match semantics as calibration matching. */
+export function normalizeName(name: string): string {
   return name
     .normalize("NFD")
     .replace(COMBINING_DIACRITICAL_MARKS, "")

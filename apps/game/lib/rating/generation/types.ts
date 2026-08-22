@@ -23,8 +23,13 @@ export const GENERATION_MODEL_VERSION = "HM-RATINGS-0.4-v1";
  *  - GENERATED_PRIOR: no direct evidence or role association -- a CA +
  *    position + bounded deterministic-variation estimate, required so
  *    the game has a complete playable profile.
+ *  - EDITOR_OVERRIDE (HM-RATINGS-0.5 Part J): a human reviewer manually
+ *    chose this value in the Editor, overriding whatever this engine
+ *    would otherwise have produced. Never applied by this module itself
+ *    -- only ever set by the Editor's override/lock workflow after
+ *    generation has already run.
  */
-export type AttributeOrigin = "EVIDENCE_BACKED" | "DERIVED" | "GENERATED_PRIOR";
+export type AttributeOrigin = "EVIDENCE_BACKED" | "DERIVED" | "GENERATED_PRIOR" | "EDITOR_OVERRIDE";
 
 export interface GeneratedAttributeValue {
   /** 1-20, same scale as PlayerRatingProfile's known attributes. */

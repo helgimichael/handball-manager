@@ -17,6 +17,7 @@ const ORIGIN_BADGE: Record<AttributeOrigin, { label: string; className: string }
   EVIDENCE_BACKED: { label: "BELAGT", className: "hm-badge-positive" },
   DERIVED: { label: "HÄRLETT", className: "hm-badge-warning" },
   GENERATED_PRIOR: { label: "GENERERAT", className: "hm-badge-neutral" },
+  EDITOR_OVERRIDE: { label: "MANUELLT", className: "hm-badge-negative" },
 };
 
 export function GeneratedProfilePreviewPanel({ result }: { result: GenerationResult }) {

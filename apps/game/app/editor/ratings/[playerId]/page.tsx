@@ -1,15 +1,19 @@
 "use client";
 
-// HM-EDITOR-0.2: Rating Review player detail. Shows the full
-// HM-RATINGS-0.3 proposal (recomputed fresh every load, never edited
-// here) plus the reviewer's own status/note (the only thing this page
-// can write). No control anywhere on this page can set a ca/pa/
-// attribute value -- review is the goal, not finalization.
+// HM-EDITOR-0.2/HM-RATINGS-0.5: Rating Review player detail. Shows the
+// full source proposal (HM-RATINGS-0.3, recomputed fresh every load,
+// never edited directly), the CA estimate (HM-RATINGS-0.5, when the
+// player isn't already calibrated), and the complete generated
+// attribute preview (HM-RATINGS-0.4). The reviewer's status/note,
+// manual CA/PA/attribute overrides, and the LOCK action are the only
+// things this page writes -- and an override always wins for display
+// while the underlying source/model proposal above stays untouched and
+// visible for audit (HM-RATINGS-0.5 Part J).
 import { useEffect, useMemo, useState } from "react";
 import type { CSSProperties } from "react";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { getAttributeLabel } from "@/lib/rating/attributeVocabulary";
-import type { GoalkeeperAttribute, OutcourtAttribute } from "@/lib/rating/types";
+import { GOALKEEPER_ATTRIBUTES, OUTCOURT_ATTRIBUTES, type GoalkeeperAttribute, type OutcourtAttribute } from "@/lib/rating/types";
 import { GeneratedProfilePreviewPanel } from "@/components/GeneratedProfilePreview";
 import type { GenerationResult } from "@/lib/rating/generation/types";
 
@@ -47,15 +51,52 @@ interface RatingProfile {
   claims: RatingClaim[];
 }
 
+interface CAProposal {
+  status: "ESTIMATED" | "UNRESOLVED";
+  value: number | null;
+  confidence: string;
+  plausibleRange: { min: number; max: number };
+  evidenceScore: number;
+  rationale: string;
+  modelVersion: string;
+}
+
+interface RatingOverride {
+  ca?: number;
+  pa?: number;
+  attributeOverrides?: Record<string, number>;
+  updatedAt: string;
+}
+
+interface LockedRecord {
+  ca: { value: number; source: string };
+  pa: { value: number; source: string } | null;
+  lockedAt: string;
+  lockedNote?: string;
+}
+
+type CASource = "CALIBRATED" | "MODEL_ESTIMATE" | "EDITOR_OVERRIDE" | "UNRESOLVED";
+
 interface RatingRow {
   profile: RatingProfile;
   matchedCalibration: boolean;
+  caProposal: CAProposal | null;
+  caSource: CASource;
+  override: RatingOverride | null;
+  locked: LockedRecord | null;
   defaultStatus: string;
   status: string;
   note: string | null;
   reviewedAt: string | null;
   generatedPreview: GenerationResult;
 }
+
+const CA_SOURCE_LABEL: Record<CASource, { label: string; className: string }> = {
+  CALIBRATED: { label: "KALIBRERAD", className: "hm-badge-positive" },
+  MODEL_ESTIMATE: { label: "SKATTAD (HM-RATINGS-0.5)", className: "hm-badge-warning" },
+  EDITOR_OVERRIDE: { label: "MANUELLT ÖVERSTYRD", className: "hm-badge-negative" },
+  UNRESOLVED: { label: "EJ FASTSTÄLLD", className: "hm-badge-neutral" },
+};
 
 interface IdentityRow {
   playerId: string;
@@ -151,6 +192,18 @@ export default function RatingReviewPlayerPage() {
   const [saveState, setSaveState] = useState<"idle" | "saving" | "saved" | "error">("idle");
   const [saveErrors, setSaveErrors] = useState<string[]>([]);
 
+  const [caOverrideDraft, setCaOverrideDraft] = useState<string>("");
+  const [paOverrideDraft, setPaOverrideDraft] = useState<string>("");
+  const [overrideState, setOverrideState] = useState<"idle" | "saving" | "saved" | "error">("idle");
+  const [overrideErrors, setOverrideErrors] = useState<string[]>([]);
+
+  const [attributeKeyDraft, setAttributeKeyDraft] = useState<string>("");
+  const [attributeValueDraft, setAttributeValueDraft] = useState<string>("");
+  const [attributeOverrideState, setAttributeOverrideState] = useState<"idle" | "saving" | "saved" | "error">("idle");
+
+  const [lockState, setLockState] = useState<"idle" | "saving" | "error">("idle");
+  const [lockErrors, setLockErrors] = useState<string[]>([]);
+
   function load() {
     if (!clubId) return;
     Promise.all([
@@ -164,10 +217,95 @@ export default function RatingReviewPlayerPage() {
       if (found) {
         setStatusDraft(found.status);
         setNoteDraft(found.note ?? "");
+        setCaOverrideDraft(found.override?.ca !== undefined ? String(found.override.ca) : "");
+        setPaOverrideDraft(found.override?.pa !== undefined ? String(found.override.pa) : "");
       }
       setSaveState("idle");
       setSaveErrors([]);
     });
+  }
+
+  async function saveCAPAOverride() {
+    if (!row) return;
+    setOverrideState("saving");
+    setOverrideErrors([]);
+    const body: Record<string, unknown> = { clubId, position: row.profile.position };
+    if (caOverrideDraft.trim()) body.ca = Number(caOverrideDraft);
+    if (paOverrideDraft.trim()) body.pa = Number(paOverrideDraft);
+    const res = await fetch(`/api/editor/ratings/players/${encodeURIComponent(params.playerId)}/override`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    });
+    const data = await res.json();
+    if (!res.ok) {
+      setOverrideState("error");
+      setOverrideErrors(data.errors ?? [data.error ?? "Okänt fel"]);
+      return;
+    }
+    setOverrideState("saved");
+    load();
+  }
+
+  async function clearCAPAOverride() {
+    if (!row) return;
+    await fetch(`/api/editor/ratings/players/${encodeURIComponent(params.playerId)}/override`, {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ clubId }),
+    });
+    setCaOverrideDraft("");
+    setPaOverrideDraft("");
+    load();
+  }
+
+  async function saveAttributeOverride() {
+    if (!row || !attributeKeyDraft || !attributeValueDraft.trim()) return;
+    setAttributeOverrideState("saving");
+    const res = await fetch(`/api/editor/ratings/players/${encodeURIComponent(params.playerId)}/override`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ clubId, position: row.profile.position, attributeOverrides: { [attributeKeyDraft]: Number(attributeValueDraft) } }),
+    });
+    if (!res.ok) {
+      setAttributeOverrideState("error");
+      return;
+    }
+    setAttributeOverrideState("saved");
+    setAttributeKeyDraft("");
+    setAttributeValueDraft("");
+    load();
+  }
+
+  async function lockProfile() {
+    if (!row) return;
+    setLockState("saving");
+    setLockErrors([]);
+    const res = await fetch(`/api/editor/ratings/players/${encodeURIComponent(params.playerId)}/lock`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ clubId, note: noteDraft || undefined }),
+    });
+    const data = await res.json();
+    if (!res.ok) {
+      setLockState("error");
+      setLockErrors(data.errors ?? [data.error ?? "Okänt fel"]);
+      return;
+    }
+    setLockState("idle");
+    load();
+  }
+
+  async function unlockProfile() {
+    if (!row) return;
+    setLockState("saving");
+    await fetch(`/api/editor/ratings/players/${encodeURIComponent(params.playerId)}/lock`, {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ clubId }),
+    });
+    setLockState("idle");
+    load();
   }
 
   useEffect(load, [params.playerId, clubId]);
@@ -235,20 +373,68 @@ export default function RatingReviewPlayerPage() {
           {identity.birthYear ? ` · FÖDD: ${identity.birthYear}` : ""}
           {identity.nationalities?.length ? ` · NATIONALITET: ${identity.nationalities.join(", ")}` : ""}
         </div>
-        {row.matchedCalibration ? (
-          <div className="hm-panel-body" style={{ paddingTop: 0 }}>
-            <span className="hm-badge hm-badge-positive">HM-RATINGS-0.2 KALIBRERINGSTRÄFF</span>
-          </div>
-        ) : (
-          <div className="hm-panel-body hm-text-muted" style={{ paddingTop: 0, fontSize: "var(--hm-text-2xs)" }}>
-            Ingen kalibreringsträff -- inga expertankare eller verifierade karriärsignaler bortom truppmedlemskap.
-          </div>
-        )}
+        <div className="hm-panel-body" style={{ paddingTop: 0, display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap" }}>
+          <span className={`hm-badge ${CA_SOURCE_LABEL[row.caSource].className}`}>{CA_SOURCE_LABEL[row.caSource].label}</span>
+          {row.locked ? <span className="hm-badge hm-badge-positive">LÅST</span> : null}
+          {row.matchedCalibration ? <span className="hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)" }}>HM-RATINGS-0.2 kalibreringsträff</span> : null}
+        </div>
       </div>
 
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
         <AbilityCard label="FÖRESLAGET CA (1-200)" rating={profile.ca} />
         <AbilityCard label="FÖRESLAGET PA (1-200)" rating={profile.pa} />
+      </div>
+
+      {row.caProposal ? (
+        <div className="hm-panel">
+          <div className="hm-panel-header">
+            <span className="hm-panel-title">CA-SKATTNING (HM-RATINGS-0.5)</span>
+            <span className="hm-badge hm-badge-neutral">{row.caProposal.modelVersion}</span>
+          </div>
+          <div className="hm-panel-body" style={{ fontSize: "var(--hm-text-xs)", display: "flex", flexDirection: "column", gap: 6 }}>
+            <div>
+              Bevispoäng: <strong>{row.caProposal.evidenceScore.toFixed(1)}</strong>
+            </div>
+            <p className="hm-text-muted" style={{ margin: 0, lineHeight: 1.5 }}>
+              {row.caProposal.rationale}
+            </p>
+          </div>
+        </div>
+      ) : null}
+
+      <div className="hm-panel">
+        <div className="hm-panel-header">
+          <span className="hm-panel-title">MANUELL ÖVERSTYRNING -- CA / PA</span>
+        </div>
+        <div className="hm-panel-body hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)", paddingBottom: 0 }}>
+          En manuell överstyrning vinner för den spelbara databasen men skriver aldrig över källunderlaget eller modellens förslag ovan.
+        </div>
+        <div className="hm-panel-body" style={{ display: "flex", gap: 12, alignItems: "flex-end", flexWrap: "wrap" }}>
+          <label style={{ display: "flex", flexDirection: "column", gap: 4, fontSize: "var(--hm-text-2xs)" }}>
+            CA (1-200)
+            <input type="number" min={1} max={200} value={caOverrideDraft} onChange={(e) => setCaOverrideDraft(e.target.value)} style={{ ...selectStyle, width: 90 }} placeholder="Ej satt" />
+          </label>
+          <label style={{ display: "flex", flexDirection: "column", gap: 4, fontSize: "var(--hm-text-2xs)" }}>
+            PA (1-200)
+            <input type="number" min={1} max={200} value={paOverrideDraft} onChange={(e) => setPaOverrideDraft(e.target.value)} style={{ ...selectStyle, width: 90 }} placeholder="Ej satt" />
+          </label>
+          <button type="button" className="hm-btn" onClick={saveCAPAOverride} disabled={overrideState === "saving"}>
+            {overrideState === "saving" ? "SPARAR..." : "SPARA ÖVERSTYRNING"}
+          </button>
+          {row.override?.ca !== undefined || row.override?.pa !== undefined ? (
+            <button type="button" className="hm-btn hm-btn-ghost" onClick={clearCAPAOverride}>
+              RENSA ÖVERSTYRNING
+            </button>
+          ) : null}
+          {overrideState === "saved" ? <span className="hm-badge hm-badge-positive">SPARAT</span> : null}
+        </div>
+        {overrideErrors.length > 0 ? (
+          <div className="hm-panel-body" style={{ color: "var(--hm-negative)", fontSize: "var(--hm-text-xs)", paddingTop: 0 }}>
+            {overrideErrors.map((e, i) => (
+              <div key={i}>{e}</div>
+            ))}
+          </div>
+        ) : null}
       </div>
 
       <div className="hm-panel">
@@ -301,6 +487,41 @@ export default function RatingReviewPlayerPage() {
         )}
       </div>
 
+      <div className="hm-panel">
+        <div className="hm-panel-header">
+          <span className="hm-panel-title">MANUELL ÖVERSTYRNING -- ENSKILT ATTRIBUT</span>
+        </div>
+        <div className="hm-panel-body" style={{ display: "flex", gap: 12, alignItems: "flex-end", flexWrap: "wrap" }}>
+          <label style={{ display: "flex", flexDirection: "column", gap: 4, fontSize: "var(--hm-text-2xs)" }}>
+            ATTRIBUT
+            <select value={attributeKeyDraft} onChange={(e) => setAttributeKeyDraft(e.target.value)} style={{ ...selectStyle, minWidth: 200 }}>
+              <option value="">Välj attribut...</option>
+              {(isGoalkeeper ? GOALKEEPER_ATTRIBUTES : OUTCOURT_ATTRIBUTES).map((attr) => (
+                <option key={attr} value={attr}>
+                  {getAttributeLabel(attr)}
+                </option>
+              ))}
+            </select>
+          </label>
+          <label style={{ display: "flex", flexDirection: "column", gap: 4, fontSize: "var(--hm-text-2xs)" }}>
+            VÄRDE (1-20)
+            <input type="number" min={1} max={20} value={attributeValueDraft} onChange={(e) => setAttributeValueDraft(e.target.value)} style={{ ...selectStyle, width: 80 }} />
+          </label>
+          <button type="button" className="hm-btn" onClick={saveAttributeOverride} disabled={attributeOverrideState === "saving" || !attributeKeyDraft || !attributeValueDraft}>
+            {attributeOverrideState === "saving" ? "SPARAR..." : "SPARA"}
+          </button>
+          {attributeOverrideState === "saved" ? <span className="hm-badge hm-badge-positive">SPARAT</span> : null}
+        </div>
+        {row.override?.attributeOverrides && Object.keys(row.override.attributeOverrides).length > 0 ? (
+          <div className="hm-panel-body hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)", paddingTop: 0 }}>
+            Aktiva attributöverstyrningar:{" "}
+            {Object.entries(row.override.attributeOverrides)
+              .map(([k, v]) => `${getAttributeLabel(k as OutcourtAttribute | GoalkeeperAttribute)}=${v}`)
+              .join(", ")}
+          </div>
+        ) : null}
+      </div>
+
       <GeneratedProfilePreviewPanel result={row.generatedPreview} />
 
       <ClaimTable title="EXPERTANKARE" claims={[...claimsByEvidenceClass.anchors, ...claimsByEvidenceClass.projection]} emptyText="Inga expertankare registrerade." />
@@ -314,7 +535,7 @@ export default function RatingReviewPlayerPage() {
           <span className="hm-panel-title">GRANSKNINGSSTATUS</span>
         </div>
         <div className="hm-panel-body hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)" }}>
-          Standard från pipelinen: {row.defaultStatus}. Endast status och anteckning sparas här -- CA/PA/attribut går inte att ändra på denna sida.
+          Standard från pipelinen: {row.defaultStatus}. Denna panel sparar endast status och anteckning -- CA/PA/attributvärden ändras via överstyrningspanelerna ovan.
         </div>
         <div className="hm-panel-body" style={{ display: "flex", gap: 12, alignItems: "flex-end", flexWrap: "wrap" }}>
           <label style={{ display: "flex", flexDirection: "column", gap: 4, fontSize: "var(--hm-text-2xs)" }}>
@@ -346,6 +567,40 @@ export default function RatingReviewPlayerPage() {
         {saveState === "saved" ? (
           <div className="hm-panel-body">
             <span className="hm-badge hm-badge-positive">SPARAT</span>
+          </div>
+        ) : null}
+      </div>
+
+      <div className="hm-panel">
+        <div className="hm-panel-header">
+          <span className="hm-panel-title">LÅSNING -- SPELBAR DATABAS</span>
+          {row.locked ? <span className="hm-badge hm-badge-positive">LÅST</span> : null}
+        </div>
+        <div className="hm-panel-body hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)" }}>
+          Låsning sparar en ögonblicksbild av CA, PA och den kompletta attributprofilen (med eventuella överstyrningar) som godkänt spelinnehåll. Källunderlag, modellförslag och granskningshistorik raderas aldrig -- allt förblir granskningsbart.
+          {profile.ca.value === null ? " Kan inte låsas -- CA är inte fastställt." : ""}
+        </div>
+        <div className="hm-panel-body" style={{ display: "flex", gap: 12, alignItems: "center", flexWrap: "wrap" }}>
+          {row.locked ? (
+            <button type="button" className="hm-btn hm-btn-ghost" onClick={unlockProfile} disabled={lockState === "saving"}>
+              {lockState === "saving" ? "LÅSER UPP..." : "LÅS UPP"}
+            </button>
+          ) : (
+            <button type="button" className="hm-btn hm-btn-primary" onClick={lockProfile} disabled={lockState === "saving" || profile.ca.value === null}>
+              {lockState === "saving" ? "LÅSER..." : "LÅS PROFIL"}
+            </button>
+          )}
+          {row.locked ? (
+            <span className="hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)" }}>
+              Låst {row.locked.lockedAt} · CA {row.locked.ca.value} ({row.locked.ca.source}) {row.locked.pa ? `· PA ${row.locked.pa.value} (${row.locked.pa.source})` : ""}
+            </span>
+          ) : null}
+        </div>
+        {lockErrors.length > 0 ? (
+          <div className="hm-panel-body" style={{ color: "var(--hm-negative)", fontSize: "var(--hm-text-xs)" }}>
+            {lockErrors.map((e, i) => (
+              <div key={i}>{e}</div>
+            ))}
           </div>
         ) : null}
       </div>
