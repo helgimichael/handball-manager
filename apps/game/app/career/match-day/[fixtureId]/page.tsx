@@ -11,6 +11,7 @@ import type { PlaybackSpeed } from "@/lib/liveMatch/clock";
 import type { LiveTeamStats } from "@/lib/liveMatch/liveMatchView";
 import { instructionAdoptionMinute } from "@/lib/liveMatch/tacticalInstruction";
 import { SHOUT_TYPES, shoutDeliveryMinute, shoutExpiryMinute, shoutLabel } from "@/lib/liveMatch/sidelineShout";
+import { sevenVSixAdoptionMinute, type SevenVSixInstruction, type SevenVSixInstructionStatus } from "@/lib/liveMatch/sevenVSixMode";
 import {
   ATI001_USAGE_TENDENCY_VALUES,
   H2_RESPONSE_PREFERENCE_VALUES,
@@ -76,13 +77,17 @@ function LiveMatch({
   // the manager's standing strategic identity.
   const [currentProfile, setCurrentProfile] = useState<TeamTacticalProfile>(career.tacticalProfile);
   const [draftProfile, setDraftProfile] = useState<TeamTacticalProfile>(career.tacticalProfile);
+  // HM-TACTICS-0.8: 7v6 ON/OFF, match-scoped exactly like currentProfile
+  // above -- never persisted to career state, and orthogonal to
+  // TeamTacticalProfile (still exactly the 3 HM-TACTICS-0.6A fields).
+  const [sevenVSixActive, setSevenVSixActive] = useState(false);
 
   const handleInstructionAdopted = useCallback(
     (adoptionMinute: number, profile: TeamTacticalProfile) => {
-      applyMidMatchTacticalChange(fixture.id, adoptionMinute, profile);
+      applyMidMatchTacticalChange(fixture.id, adoptionMinute, profile, sevenVSixActive);
       setCurrentProfile(profile);
     },
-    [applyMidMatchTacticalChange, fixture.id],
+    [applyMidMatchTacticalChange, fixture.id, sevenVSixActive],
   );
 
   // HM-COACHING-0.2: a shout's delivery/expiry each independently splice
@@ -92,17 +97,29 @@ function LiveMatch({
   // called, reverting the temporary override.
   const handleShoutDelivered = useCallback(
     (deliveryMinute: number, overrideProfile: TeamTacticalProfile) => {
-      applyMidMatchTacticalChange(fixture.id, deliveryMinute, overrideProfile);
+      applyMidMatchTacticalChange(fixture.id, deliveryMinute, overrideProfile, sevenVSixActive);
       setCurrentProfile(overrideProfile);
     },
-    [applyMidMatchTacticalChange, fixture.id],
+    [applyMidMatchTacticalChange, fixture.id, sevenVSixActive],
   );
   const handleShoutExpired = useCallback(
     (expiryMinute: number, baselineProfile: TeamTacticalProfile) => {
-      applyMidMatchTacticalChange(fixture.id, expiryMinute, baselineProfile);
+      applyMidMatchTacticalChange(fixture.id, expiryMinute, baselineProfile, sevenVSixActive);
       setCurrentProfile(baselineProfile);
     },
-    [applyMidMatchTacticalChange, fixture.id],
+    [applyMidMatchTacticalChange, fixture.id, sevenVSixActive],
+  );
+
+  // HM-TACTICS-0.8: 7v6 splices the CURRENT TeamTacticalProfile unchanged
+  // alongside the newly adopted ON/OFF state -- 7v6 never touches the 3
+  // profile fields, only whether the isolated 7v6 bonus/risk figures are
+  // folded in (see tacticalMatchAdjustment.ts).
+  const handleSevenVSixAdopted = useCallback(
+    (adoptionMinute: number, active: boolean) => {
+      applyMidMatchTacticalChange(fixture.id, adoptionMinute, currentProfile, active);
+      setSevenVSixActive(active);
+    },
+    [applyMidMatchTacticalChange, fixture.id, currentProfile],
   );
 
   const {
@@ -122,7 +139,11 @@ function LiveMatch({
     pendingShout,
     shoutStatus,
     issueShout,
-  } = useLiveMatch(result, handleInstructionAdopted, handleShoutDelivered, handleShoutExpired);
+    pendingSevenVSixInstruction,
+    sevenVSixInstructionStatus,
+    issueSevenVSixInstruction,
+    issueSevenVSixTimeoutInstruction,
+  } = useLiveMatch(result, handleInstructionAdopted, handleShoutDelivered, handleShoutExpired, handleSevenVSixAdopted);
 
   const home = getClub(fixture.homeClubId)!;
   const away = getClub(fixture.awayClubId)!;
@@ -132,6 +153,8 @@ function LiveMatch({
   const canIssueInstruction = !pendingInstruction && (view.phase === "FIRST_HALF" || view.phase === "SECOND_HALF");
   const canIssueTimeoutInstruction = !pendingInstruction && isTimeout;
   const canIssueShout = !pendingShout && (view.phase === "FIRST_HALF" || view.phase === "SECOND_HALF");
+  const canIssueSevenVSixSideline = !pendingSevenVSixInstruction && (view.phase === "FIRST_HALF" || view.phase === "SECOND_HALF");
+  const canIssueSevenVSixTimeout = !pendingSevenVSixInstruction && isTimeout;
 
   useEffect(() => {
     logRef.current?.scrollTo({ top: logRef.current.scrollHeight });
@@ -288,6 +311,26 @@ function LiveMatch({
                   : "Ingen ändring beordrad under denna timeout -- matchtiden är fryst tills du återupptar."}
               </span>
             </div>
+            <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap", borderTop: "1px solid var(--hm-border-subtle)", paddingTop: 10 }}>
+              <span className="hm-eyebrow">7v6</span>
+              <button
+                type="button"
+                className="hm-btn hm-btn-sm hm-btn-primary"
+                disabled={!canIssueSevenVSixTimeout || sevenVSixActive}
+                onClick={() => issueSevenVSixTimeoutInstruction("ON")}
+              >
+                SLÅ PÅ (TIMEOUT)
+              </button>
+              <button
+                type="button"
+                className="hm-btn hm-btn-sm"
+                disabled={!canIssueSevenVSixTimeout || !sevenVSixActive}
+                onClick={() => issueSevenVSixTimeoutInstruction("OFF")}
+              >
+                STÄNG AV (TIMEOUT)
+              </button>
+              <SevenVSixStatus pendingInstruction={pendingSevenVSixInstruction} status={sevenVSixInstructionStatus} active={sevenVSixActive} faster />
+            </div>
           </div>
         </div>
       ) : (
@@ -382,6 +425,37 @@ function LiveMatch({
           </div>
         </div>
       ) : null}
+
+      {/* HM-TACTICS-0.8: 7v6 -- a PERSISTENT tactical mode (not a shout: stays ON until explicitly switched OFF), using the same issued -> pending -> adopted flow as the permanent tactical instruction panel above. Available both here (sideline delivery) and, faster, from the timeout coaching panel above. */}
+      <div className="hm-panel">
+        <div className="hm-panel-header">
+          <span className="hm-panel-title">7v6</span>
+          <SevenVSixStatus pendingInstruction={pendingSevenVSixInstruction} status={sevenVSixInstructionStatus} active={sevenVSixActive} />
+        </div>
+        <div className="hm-panel-body" style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+          <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+            <button
+              type="button"
+              className="hm-btn hm-btn-sm hm-btn-primary"
+              disabled={!canIssueSevenVSixSideline || sevenVSixActive}
+              onClick={() => issueSevenVSixInstruction("ON")}
+            >
+              SLÅ PÅ 7v6
+            </button>
+            <button
+              type="button"
+              className="hm-btn hm-btn-sm"
+              disabled={!canIssueSevenVSixSideline || !sevenVSixActive}
+              onClick={() => issueSevenVSixInstruction("OFF")}
+            >
+              STÄNG AV 7v6
+            </button>
+          </div>
+          <span className="hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)" }}>
+            Extra anfallare istället för målvakt -- fler anfallsmöjligheter, men högre risk om bollen tappas. Ett byte i taget; en timeout levererar bytet snabbare än en vanlig sidlinjeinstruktion.
+          </span>
+        </div>
+      </div>
 
       {/* Controls */}
       <div className="hm-panel">
@@ -489,6 +563,28 @@ function StatRow({ label, home, away }: { label: string; home: string | number; 
       <td className="hm-table-num hm-td-strong">{away}</td>
     </tr>
   );
+}
+
+function SevenVSixStatus({
+  pendingInstruction,
+  status,
+  active,
+  faster,
+}: {
+  pendingInstruction: SevenVSixInstruction | null;
+  status: SevenVSixInstructionStatus | null;
+  active: boolean;
+  faster?: boolean;
+}) {
+  if (pendingInstruction && status === "PENDING") {
+    return (
+      <span className="hm-badge hm-badge-neutral">
+        7v6 {pendingInstruction.target === "ON" ? "PÅ" : "AV"} — PENDING (adopteras {formatMatchMinute(sevenVSixAdoptionMinute(pendingInstruction))}
+        {faster ? ", snabbare via timeout" : ""})
+      </span>
+    );
+  }
+  return <span className="hm-badge hm-badge-neutral">7v6 {active ? "ACTIVE" : "OFF"}</span>;
 }
 
 function TeamColumn({ clubId, attacking }: { clubId: string; attacking: boolean }) {

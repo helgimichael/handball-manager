@@ -37,6 +37,13 @@ import {
   type ShoutStatus,
   type ShoutType,
 } from "./sidelineShout";
+import {
+  resolveSevenVSixInstructionStatus,
+  sevenVSixAdoptionMinute,
+  type SevenVSixInstruction,
+  type SevenVSixInstructionStatus,
+  type SevenVSixTarget,
+} from "./sevenVSixMode";
 
 export interface UseLiveMatchResult {
   view: LiveMatchView;
@@ -64,6 +71,13 @@ export interface UseLiveMatchResult {
   shoutStatus: ShoutStatus | null;
   /** No-op if a shout is already pending/active (one at a time -- Spec: "must not stack") or the match isn't currently in play. */
   issueShout: (type: ShoutType, baselineProfile: TeamTacticalProfile) => void;
+  /** HM-TACTICS-0.8: the one in-flight 7v6 ON/OFF switch, if any (null once ADOPTED and applied). */
+  pendingSevenVSixInstruction: SevenVSixInstruction | null;
+  sevenVSixInstructionStatus: SevenVSixInstructionStatus | null;
+  /** No-op if a 7v6 switch is already pending or the match isn't currently in play. */
+  issueSevenVSixInstruction: (target: SevenVSixTarget) => void;
+  /** No-op if a 7v6 switch is already pending or the match isn't currently in a TIMEOUT. Adopts faster than `issueSevenVSixInstruction`. */
+  issueSevenVSixTimeoutInstruction: (target: SevenVSixTarget) => void;
 }
 
 /**
@@ -91,14 +105,17 @@ export function useLiveMatch(
   onInstructionAdopted: (adoptionMinute: number, profile: TeamTacticalProfile) => void,
   onShoutDelivered: (deliveryMinute: number, overrideProfile: TeamTacticalProfile) => void,
   onShoutExpired: (expiryMinute: number, baselineProfile: TeamTacticalProfile) => void,
+  onSevenVSixAdopted: (adoptionMinute: number, active: boolean) => void,
 ): UseLiveMatchResult {
   const [clock, setClock] = useState<LiveMatchClock>(() => kickoff(initLiveMatchClock()));
   const [instruction, setInstruction] = useState<TacticalInstruction | null>(null);
   const [timeoutSecondsRemaining, setTimeoutSecondsRemaining] = useState<number | null>(null);
   const [shoutState, setShoutState] = useState<ShoutState | null>(null);
+  const [sevenVSixInstruction, setSevenVSixInstruction] = useState<SevenVSixInstruction | null>(null);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const appliedIssuedMinuteRef = useRef<number | null>(null);
   const shoutPhaseRef = useRef<"NONE" | "DELIVERED" | "EXPIRED">("NONE");
+  const sevenVSixAppliedIssuedMinuteRef = useRef<number | null>(null);
 
   useEffect(() => {
     if (clock.speed === "PAUSED") {
@@ -203,6 +220,29 @@ export function useLiveMatch(
     });
   }, [shoutState, view.clockMinute, onShoutDelivered, onShoutExpired]);
 
+  // HM-TACTICS-0.8: 7v6 ON/OFF switch adoption. A persistent mode, not a
+  // shout -- adopts exactly once (never expires on its own), mirroring
+  // the permanent-instruction effect above rather than the shout
+  // effect's delivery+expiry pair.
+  useEffect(() => {
+    if (!sevenVSixInstruction) {
+      return;
+    }
+    if (sevenVSixAppliedIssuedMinuteRef.current === sevenVSixInstruction.issuedMinute) {
+      return;
+    }
+    if (resolveSevenVSixInstructionStatus(sevenVSixInstruction, view.clockMinute) !== "ADOPTED") {
+      return;
+    }
+    sevenVSixAppliedIssuedMinuteRef.current = sevenVSixInstruction.issuedMinute;
+    const adoptionMinute = sevenVSixAdoptionMinute(sevenVSixInstruction);
+    const { target } = sevenVSixInstruction;
+    queueMicrotask(() => {
+      onSevenVSixAdopted(adoptionMinute, target === "ON");
+      setSevenVSixInstruction(null);
+    });
+  }, [sevenVSixInstruction, view.clockMinute, onSevenVSixAdopted]);
+
   return {
     view,
     speed: clock.speed,
@@ -236,6 +276,18 @@ export function useLiveMatch(
         baselineProfile,
         overrideProfile: applyShoutOverride(baselineProfile, type),
       });
+    },
+    pendingSevenVSixInstruction: sevenVSixInstruction,
+    sevenVSixInstructionStatus: sevenVSixInstruction ? resolveSevenVSixInstructionStatus(sevenVSixInstruction, view.clockMinute) : null,
+    issueSevenVSixInstruction: (target) => {
+      if (sevenVSixInstruction) return;
+      if (clock.phase !== "FIRST_HALF" && clock.phase !== "SECOND_HALF") return;
+      setSevenVSixInstruction({ target, issuedMinute: view.clockMinute, deliveryMode: "SIDELINE" });
+    },
+    issueSevenVSixTimeoutInstruction: (target) => {
+      if (sevenVSixInstruction) return;
+      if (clock.phase !== "TIMEOUT") return;
+      setSevenVSixInstruction({ target, issuedMinute: view.clockMinute, deliveryMode: "TIMEOUT" });
     },
   };
 }

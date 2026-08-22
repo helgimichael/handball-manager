@@ -27,7 +27,7 @@ test("changing tactics at minute X only affects future match behavior: every eve
   const { state, fixture, original } = playedFixture();
   const adoptionMinute = 20;
 
-  const next = applyMidMatchTacticalChange(state, fixture.id, adoptionMinute, ALTERNATE_PROFILE);
+  const next = applyMidMatchTacticalChange(state, fixture.id, adoptionMinute, ALTERNATE_PROFILE, false);
   const spliced = next.results[fixture.id];
 
   const originalPrefix = original.events.filter((e) => e.minute < adoptionMinute);
@@ -42,15 +42,15 @@ test("changing tactics at minute X only affects future match behavior: every eve
 
 test("same seed + same instruction timing = same match: applying the identical change twice from the identical starting state produces an identical spliced result", () => {
   const { state, fixture } = playedFixture("midmatch-determinism-seed");
-  const a = applyMidMatchTacticalChange(state, fixture.id, 25, ALTERNATE_PROFILE);
-  const b = applyMidMatchTacticalChange(state, fixture.id, 25, ALTERNATE_PROFILE);
+  const a = applyMidMatchTacticalChange(state, fixture.id, 25, ALTERNATE_PROFILE, false);
+  const b = applyMidMatchTacticalChange(state, fixture.id, 25, ALTERNATE_PROFILE, false);
   assert.deepEqual(a.results[fixture.id], b.results[fixture.id]);
 });
 
 test("a different adoption minute (different instruction timing) produces a different suffix", () => {
   const { state, fixture } = playedFixture("midmatch-timing-seed");
-  const early = applyMidMatchTacticalChange(state, fixture.id, 10, ALTERNATE_PROFILE);
-  const late = applyMidMatchTacticalChange(state, fixture.id, 45, ALTERNATE_PROFILE);
+  const early = applyMidMatchTacticalChange(state, fixture.id, 10, ALTERNATE_PROFILE, false);
+  const late = applyMidMatchTacticalChange(state, fixture.id, 45, ALTERNATE_PROFILE, false);
   assert.notDeepEqual(early.results[fixture.id].events, late.results[fixture.id].events);
 });
 
@@ -64,7 +64,7 @@ test("no instruction = existing HM-TACTICS-0.6 behavior: a fixture nobody ever a
 
 test("final score and stats are internally consistent after splicing: GOAL event count matches homeGoals/awayGoals, and team stats are exactly re-tallied from the spliced timeline", () => {
   const { state, fixture } = playedFixture("midmatch-consistency-seed");
-  const next = applyMidMatchTacticalChange(state, fixture.id, 30, ALTERNATE_PROFILE);
+  const next = applyMidMatchTacticalChange(state, fixture.id, 30, ALTERNATE_PROFILE, false);
   const spliced = next.results[fixture.id];
 
   const homeGoalEvents = spliced.events.filter((e) => e.type === "GOAL" && e.side === "home").length;
@@ -81,10 +81,10 @@ test("final score and stats are internally consistent after splicing: GOAL event
 
 test("is a safe no-op when the fixture has no stored result, or the adoption minute is already at/past full time", () => {
   const { state, fixture } = playedFixture("midmatch-noop-seed");
-  const noResult = applyMidMatchTacticalChange(state, "no-such-fixture", 20, ALTERNATE_PROFILE);
+  const noResult = applyMidMatchTacticalChange(state, "no-such-fixture", 20, ALTERNATE_PROFILE, false);
   assert.equal(noResult, state);
 
-  const pastFullTime = applyMidMatchTacticalChange(state, fixture.id, 60, ALTERNATE_PROFILE);
+  const pastFullTime = applyMidMatchTacticalChange(state, fixture.id, 60, ALTERNATE_PROFILE, false);
   assert.equal(pastFullTime, state);
 });
 
@@ -103,8 +103,8 @@ test("HM-COACHING-0.2: a shout's delivery + later expiry compose correctly -- pr
   const deliveryMinute = 15;
   const expiryMinute = 21;
 
-  const afterDelivery = applyMidMatchTacticalChange(state, fixture.id, deliveryMinute, overrideProfile);
-  const afterExpiry = applyMidMatchTacticalChange(afterDelivery, fixture.id, expiryMinute, baselineProfile);
+  const afterDelivery = applyMidMatchTacticalChange(state, fixture.id, deliveryMinute, overrideProfile, false);
+  const afterExpiry = applyMidMatchTacticalChange(afterDelivery, fixture.id, expiryMinute, baselineProfile, false);
 
   const finalResult = afterExpiry.results[fixture.id];
 
@@ -130,11 +130,105 @@ test("HM-COACHING-0.2: the same seed + same shout delivery/expiry timing always 
   const overrideProfile = { ...baselineProfile, h2ResponsePreference: "H2_HOLDS" as const };
 
   function compose() {
-    const afterDelivery = applyMidMatchTacticalChange(state, fixture.id, 12, overrideProfile);
-    return applyMidMatchTacticalChange(afterDelivery, fixture.id, 17, baselineProfile);
+    const afterDelivery = applyMidMatchTacticalChange(state, fixture.id, 12, overrideProfile, false);
+    return applyMidMatchTacticalChange(afterDelivery, fixture.id, 17, baselineProfile, false);
   }
 
   const a = compose();
   const b = compose();
   assert.deepEqual(a.results[fixture.id], b.results[fixture.id]);
+});
+
+// HM-TACTICS-0.8: 7v6 threads through the exact same splice as a
+// profile-only change -- only the `sevenVSixActive` flag differs.
+const NEUTRAL_PROFILE = { ati001UsageTendency: "MEDIUM" as const, h2ResponsePreference: "H2_STEPS" as const, tacticalFamiliarity: "MEDIUM" as const };
+
+test("HM-TACTICS-0.8: switching 7v6 ON only affects future match progression -- prefix before the adoption minute is byte-for-byte unchanged", () => {
+  const { state, fixture, original } = playedFixture("sevenvsix-prefix-seed");
+  const adoptionMinute = 22;
+
+  const next = applyMidMatchTacticalChange(state, fixture.id, adoptionMinute, NEUTRAL_PROFILE, true);
+  const spliced = next.results[fixture.id];
+
+  const originalPrefix = original.events.filter((e) => e.minute < adoptionMinute);
+  const splicedPrefix = spliced.events.filter((e) => e.minute < adoptionMinute);
+  assert.deepEqual(splicedPrefix, originalPrefix);
+});
+
+test("HM-TACTICS-0.8: same seed + same switch minute/state = same result", () => {
+  const { state, fixture } = playedFixture("sevenvsix-determinism-seed");
+  const a = applyMidMatchTacticalChange(state, fixture.id, 18, NEUTRAL_PROFILE, true);
+  const b = applyMidMatchTacticalChange(state, fixture.id, 18, NEUTRAL_PROFILE, true);
+  assert.deepEqual(a.results[fixture.id], b.results[fixture.id]);
+});
+
+test("HM-TACTICS-0.8: ON and OFF at the identical adoption minute produce different suffixes -- the switch actually changes the segment simulated", () => {
+  const { state, fixture } = playedFixture("sevenvsix-onoff-seed");
+  const on = applyMidMatchTacticalChange(state, fixture.id, 20, NEUTRAL_PROFILE, true);
+  const off = applyMidMatchTacticalChange(state, fixture.id, 20, NEUTRAL_PROFILE, false);
+  assert.notDeepEqual(on.results[fixture.id].events, off.results[fixture.id].events);
+});
+
+test("HM-TACTICS-0.8: switching ON then later OFF composes correctly (mirrors the shout delivery+expiry composition above) -- the post-switch-off suffix differs from staying ON", () => {
+  const { state, fixture, original } = playedFixture("sevenvsix-compose-seed");
+  const onMinute = 15;
+  const offMinute = 25;
+
+  const afterOn = applyMidMatchTacticalChange(state, fixture.id, onMinute, NEUTRAL_PROFILE, true);
+  const afterOff = applyMidMatchTacticalChange(afterOn, fixture.id, offMinute, NEUTRAL_PROFILE, false);
+  const finalResult = afterOff.results[fixture.id];
+
+  const originalPrefix = original.events.filter((e) => e.minute < onMinute);
+  const finalPrefix = finalResult.events.filter((e) => e.minute < onMinute);
+  assert.deepEqual(finalPrefix, originalPrefix);
+
+  const stayedOnSuffix = applyMidMatchTacticalChange(afterOn, fixture.id, offMinute, NEUTRAL_PROFILE, true).results[fixture.id].events.filter(
+    (e) => e.minute >= offMinute,
+  );
+  const switchedOffSuffix = finalResult.events.filter((e) => e.minute >= offMinute);
+  assert.notDeepEqual(switchedOffSuffix, stayedOnSuffix);
+});
+
+test("HM-TACTICS-0.8: directional upside -- averaged across seeded fixtures, the manager's own goals from the adoption minute onward are higher with 7v6 ON than OFF (never a claim of realistic percentages)", () => {
+  const SAMPLE_SEEDS = 15;
+  let onTotal = 0;
+  let offTotal = 0;
+  for (let i = 0; i < SAMPLE_SEEDS; i += 1) {
+    const { state, fixture } = playedFixture(`sevenvsix-directional-${i}`);
+    const managerIsHome = fixture.homeClubId === TUMBA_CLUB_ID;
+    const on = applyMidMatchTacticalChange(state, fixture.id, 10, NEUTRAL_PROFILE, true).results[fixture.id];
+    const off = applyMidMatchTacticalChange(state, fixture.id, 10, NEUTRAL_PROFILE, false).results[fixture.id];
+    onTotal += managerIsHome ? on.homeGoals : on.awayGoals;
+    offTotal += managerIsHome ? off.homeGoals : off.awayGoals;
+  }
+  assert.ok(onTotal / SAMPLE_SEEDS > offTotal / SAMPLE_SEEDS, `7v6 ON must average more manager goals than OFF (on avg=${onTotal / SAMPLE_SEEDS}, off avg=${offTotal / SAMPLE_SEEDS})`);
+});
+
+test("HM-TACTICS-0.8: directional downside -- averaged across seeded fixtures, the OPPONENT's goals from the adoption minute onward are also higher with 7v6 ON than OFF (the empty-net/numerical-risk counterpart)", () => {
+  const SAMPLE_SEEDS = 15;
+  let onTotal = 0;
+  let offTotal = 0;
+  for (let i = 0; i < SAMPLE_SEEDS; i += 1) {
+    const { state, fixture } = playedFixture(`sevenvsix-downside-${i}`);
+    const managerIsHome = fixture.homeClubId === TUMBA_CLUB_ID;
+    const on = applyMidMatchTacticalChange(state, fixture.id, 10, NEUTRAL_PROFILE, true).results[fixture.id];
+    const off = applyMidMatchTacticalChange(state, fixture.id, 10, NEUTRAL_PROFILE, false).results[fixture.id];
+    onTotal += managerIsHome ? on.awayGoals : on.homeGoals;
+    offTotal += managerIsHome ? off.awayGoals : off.homeGoals;
+  }
+  assert.ok(
+    onTotal / SAMPLE_SEEDS > offTotal / SAMPLE_SEEDS,
+    `7v6 ON must average more OPPONENT goals than OFF (the downside) (on avg=${onTotal / SAMPLE_SEEDS}, off avg=${offTotal / SAMPLE_SEEDS})`,
+  );
+});
+
+test("HM-TACTICS-0.8: no unlimited stacking -- applying ON twice in a row (re-adopting the same state) never compounds beyond the single bounded adjustment", () => {
+  const { state, fixture } = playedFixture("sevenvsix-stacking-seed");
+  const onOnce = applyMidMatchTacticalChange(state, fixture.id, 14, NEUTRAL_PROFILE, true);
+  const onTwice = applyMidMatchTacticalChange(onOnce, fixture.id, 14, NEUTRAL_PROFILE, true);
+  // Re-adopting at the SAME adoption minute with the SAME state is a
+  // pure function of the same inputs -- it must reproduce, not stack
+  // on top of, the same result (the splice always recomputes the
+  // adjustment from scratch; it is never cumulative).
+  assert.deepEqual(onTwice.results[fixture.id], onOnce.results[fixture.id]);
 });

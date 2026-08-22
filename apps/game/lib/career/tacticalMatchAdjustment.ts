@@ -44,6 +44,42 @@ const MONTE_CARLO_RUNS = 200;
 const MAX_TACTICAL_ADJUSTMENT_GOALS = 1.2;
 
 /**
+ * HM-TACTICS-0.8: 7v6 (pulling the goalkeeper for an extra outfield
+ * attacker) is deliberately a bigger risk/reward lever than a normal
+ * tactical-profile nudge, so it gets its own, separately calibrated,
+ * still small and provisional bound -- never silently reusing the
+ * normal ±1.2 ceiling for what is meant to be a larger swing.
+ */
+const MAX_SEVEN_V_SIX_ADJUSTMENT_GOALS = 2.4;
+
+/**
+ * PROVISIONAL, isolated flat bonus/risk figures for 7v6 (Spec: "keep
+ * all numeric risk/reward calibration isolated and explicitly
+ * provisional"; "no real-world probability claims"). Numerical
+ * superiority (7 attackers vs 6 defenders) is not itself an
+ * ATI-001/TI-001 concept, so unlike the profile-driven adjustment
+ * above, this is not sampled from tactical-domain's own Monte Carlo --
+ * it is a separate, flat, bounded additive expected-goals nudge, added
+ * on top of (never instead of) the existing adjustment, using the
+ * exact same channel (SimulateMatchInput's homeTacticalAdjustment/
+ * awayTacticalAdjustment) every other tactical integration in this
+ * project already uses.
+ *
+ * OFFENSIVE upside: the manager's own side gets an extra attacker.
+ * DEFENSIVE/turnover downside: this is NOT literally scaled by the
+ * segment's own sampled turnover count -- turnovers are sampled
+ * independently in matchEngine.ts's buildTeamStats with no adjustment
+ * lever tied to TeamTacticalProfile (the same limitation HM-COACHING-
+ * 0.2's own audit found for a turnover-based shout). A flat, bounded
+ * proxy for the real handball risk an empty net creates is the most
+ * honest thing achievable here without inventing a new mechanism --
+ * see tacticalMidMatchChange.ts's module doc for why a distinct
+ * EMPTY_GOAL event type is not implemented either, for the same reason.
+ */
+const SEVEN_V_SIX_OFFENSIVE_BONUS_GOALS = 0.8;
+const SEVEN_V_SIX_OPPONENT_RISK_BONUS_GOALS = 0.6;
+
+/**
  * The one-and-only outcome -> attack-favorability score table (Spec #8:
  * "keep it isolated and documented"). Range [-1, 1]; +1 = cleanly
  * favors the attacking side (V9/M6), -1 = cleanly favors the defending
@@ -84,8 +120,18 @@ function averageOutcomeScore(outcomeCounts: Partial<Record<TacticalOutcome, numb
   return totalRuns > 0 ? sum / totalRuns : 0;
 }
 
-/** Direction 1 (Spec #6): the manager's team attacks (V9/M6) against a neutral opponent defence (H2/H3). Only `ati001UsageTendency` comes from the manager's profile. */
-function buildAttackConfig(profile: TeamTacticalProfile): ATI001ProbabilisticConfig {
+/**
+ * Direction 1 (Spec #6): the manager's team attacks (V9/M6) against a
+ * neutral opponent defence (H2/H3). Only `ati001UsageTendency` comes
+ * from the manager's profile. `sevenVSixActive` (HM-TACTICS-0.8) bumps
+ * `opportunityQuality` (LOW/MEDIUM/HIGH/CLEAR) from MEDIUM to HIGH and
+ * `opportunityWindow` (SHORT/MEDIUM/SUSTAINED) from MEDIUM to
+ * SUSTAINED -- the one existing tactical-domain dimension a numbers-up
+ * attack can honestly claim to improve (Spec: "increased access/
+ * advantage potential where existing Tactical Domain can support it"),
+ * rather than inventing a new one.
+ */
+function buildAttackConfig(profile: TeamTacticalProfile, sevenVSixActive: boolean): ATI001ProbabilisticConfig {
   return {
     threatCreationTendency: usageTendencyToSymbolicModifier(profile.ati001UsageTendency),
     h2TacticalIntent: "H2_STEPS", // neutral opponent defensive intent -- the same default a fresh profile itself uses
@@ -95,8 +141,8 @@ function buildAttackConfig(profile: TeamTacticalProfile): ATI001ProbabilisticCon
     h3Capability: NEUTRAL_CAPABILITY_PROFILE,
     h2h3TacticalFamiliarity: PROVISIONAL_NEUTRAL_CAPABILITY,
     h2h3RelationshipQuality: PROVISIONAL_NEUTRAL_CAPABILITY,
-    opportunityQuality: "MEDIUM",
-    opportunityWindow: "MEDIUM",
+    opportunityQuality: sevenVSixActive ? "HIGH" : "MEDIUM",
+    opportunityWindow: sevenVSixActive ? "SUSTAINED" : "MEDIUM",
     v9RecognitionCapability: PROVISIONAL_NEUTRAL_CAPABILITY,
     m6RecognitionCapability: PROVISIONAL_NEUTRAL_CAPABILITY,
     v9m6RelationshipQuality: PROVISIONAL_NEUTRAL_CAPABILITY,
@@ -165,10 +211,17 @@ export interface TacticalMatchAdjustment {
 }
 
 /**
- * Computes the manager team's pre-match tactical adjustment for one
- * fixture. Deterministic: the same (saveSeed, fixtureId, profile) always
- * produces the same result (Spec #12), since the Monte Carlo seed is
- * derived only from those inputs.
+ * Computes the manager team's tactical adjustment for one fixture.
+ * Deterministic: the same (saveSeed, fixtureId, profile,
+ * sevenVSixActive) always produces the same result (Spec #12), since
+ * the Monte Carlo seed is derived only from those inputs.
+ *
+ * `sevenVSixActive` (HM-TACTICS-0.8, default false so every pre-
+ * HM-TACTICS-0.8 call site is unaffected) layers the flat, isolated
+ * 7v6 offensive bonus/opponent risk bonus on top of this same profile-
+ * driven adjustment -- see the constants' doc comments above for why
+ * this is flat rather than Monte Carlo-sampled, and why it gets its
+ * own wider bound.
  */
 export function computeTacticalMatchAdjustment(
   saveSeed: string,
@@ -176,20 +229,25 @@ export function computeTacticalMatchAdjustment(
   managerClubId: string,
   homeClubId: string,
   profile: TeamTacticalProfile,
+  sevenVSixActive = false,
 ): TacticalMatchAdjustment {
   const managerIsHome = homeClubId === managerClubId;
 
-  const attackResult = runMonteCarlo(buildAttackConfig(profile), { seed: `${saveSeed}:${fixtureId}:ati001:attack`, runs: MONTE_CARLO_RUNS });
+  const attackResult = runMonteCarlo(buildAttackConfig(profile, sevenVSixActive), {
+    seed: `${saveSeed}:${fixtureId}:ati001:attack${sevenVSixActive ? ":7v6" : ""}`,
+    runs: MONTE_CARLO_RUNS,
+  });
   const defenseResult = runMonteCarlo(buildDefenseConfig(profile), { seed: `${saveSeed}:${fixtureId}:ati001:defense`, runs: MONTE_CARLO_RUNS });
 
   const attackScore = averageOutcomeScore(attackResult.outcomeCounts, attackResult.runs);
   const defenseScore = averageOutcomeScore(defenseResult.outcomeCounts, defenseResult.runs);
 
   const clamp = (n: number) => Math.max(-MAX_TACTICAL_ADJUSTMENT_GOALS, Math.min(MAX_TACTICAL_ADJUSTMENT_GOALS, n));
+  const clampSevenVSix = (n: number) => Math.max(-MAX_SEVEN_V_SIX_ADJUSTMENT_GOALS, Math.min(MAX_SEVEN_V_SIX_ADJUSTMENT_GOALS, n));
 
   // Direction 1 (attack): bumps the MANAGER's own expected goals.
   // Positive attackScore = favors the attacking side = the manager here.
-  const attackAdjustment = clamp(attackScore * MAX_TACTICAL_ADJUSTMENT_GOALS);
+  const baseAttackAdjustment = clamp(attackScore * MAX_TACTICAL_ADJUSTMENT_GOALS);
   // Direction 2 (defense): buildDefenseConfig models the OPPONENT as the
   // attacker and the manager as the defender, so OUTCOME_ATTACK_SCORE's
   // "positive favors the attacker" already means "positive favors the
@@ -197,10 +255,13 @@ export function computeTacticalMatchAdjustment(
   // defensive profile that shifts outcomes toward TURNOVER/
   // PRESSURED_SOLUTION (negative scores) correctly REDUCES the
   // opponent's expected goals.
-  const opponentAdjustmentFromDefense = clamp(defenseScore * MAX_TACTICAL_ADJUSTMENT_GOALS);
+  const baseOpponentAdjustment = clamp(defenseScore * MAX_TACTICAL_ADJUSTMENT_GOALS);
 
-  const home = managerIsHome ? attackAdjustment : opponentAdjustmentFromDefense;
-  const away = managerIsHome ? opponentAdjustmentFromDefense : attackAdjustment;
+  const attackAdjustment = sevenVSixActive ? clampSevenVSix(baseAttackAdjustment + SEVEN_V_SIX_OFFENSIVE_BONUS_GOALS) : baseAttackAdjustment;
+  const opponentAdjustment = sevenVSixActive ? clampSevenVSix(baseOpponentAdjustment + SEVEN_V_SIX_OPPONENT_RISK_BONUS_GOALS) : baseOpponentAdjustment;
+
+  const home = managerIsHome ? attackAdjustment : opponentAdjustment;
+  const away = managerIsHome ? opponentAdjustment : attackAdjustment;
 
   return {
     home,
@@ -210,7 +271,7 @@ export function computeTacticalMatchAdjustment(
       managerIsHome,
       profile,
       attack: { outcomeCounts: attackResult.outcomeCounts, score: attackScore, adjustment: attackAdjustment },
-      defense: { outcomeCounts: defenseResult.outcomeCounts, score: defenseScore, adjustment: opponentAdjustmentFromDefense },
+      defense: { outcomeCounts: defenseResult.outcomeCounts, score: defenseScore, adjustment: opponentAdjustment },
     },
   };
 }

@@ -4,6 +4,7 @@ import { computeTacticalMatchAdjustment } from "./tacticalMatchAdjustment";
 import { defaultTeamTacticalProfile } from "./teamTacticalProfile";
 
 const MAX = 1.2; // matches MAX_TACTICAL_ADJUSTMENT_GOALS in tacticalMatchAdjustment.ts
+const MAX_SEVEN_V_SIX = 2.4; // matches MAX_SEVEN_V_SIX_ADJUSTMENT_GOALS in tacticalMatchAdjustment.ts (HM-TACTICS-0.8)
 
 test("determinism: identical (saveSeed, fixtureId, managerClubId, homeClubId, profile) always produces an identical result, including the trace", () => {
   const profile = defaultTeamTacticalProfile();
@@ -98,4 +99,62 @@ test("no assertion in this suite claims a realistic real-world percentage -- onl
   // directional tests above compare LOW vs HIGH relative to each other,
   // never to a fixed "real handball" number.
   assert.ok(true);
+});
+
+// HM-TACTICS-0.8: 7v6's own isolated bonus/risk figures, layered on top
+// of the same profile-driven adjustment above.
+test("7v6 determinism: identical (saveSeed, fixtureId, profile, sevenVSixActive=true) always produces an identical result", () => {
+  const profile = defaultTeamTacticalProfile();
+  const a = computeTacticalMatchAdjustment("save-7v6", "fx-1", "clubA", "clubA", profile, true);
+  const b = computeTacticalMatchAdjustment("save-7v6", "fx-1", "clubA", "clubA", profile, true);
+  assert.deepEqual(a, b);
+});
+
+test("7v6 is opt-in: omitting the argument (or passing false) reproduces the pre-HM-TACTICS-0.8 result exactly", () => {
+  const profile = defaultTeamTacticalProfile();
+  const omitted = computeTacticalMatchAdjustment("save-7v6-default", "fx-1", "clubA", "clubA", profile);
+  const explicitFalse = computeTacticalMatchAdjustment("save-7v6-default", "fx-1", "clubA", "clubA", profile, false);
+  assert.deepEqual(omitted, explicitFalse);
+});
+
+test("7v6 adjustments stay within their own wider, documented bound", () => {
+  const profile = defaultTeamTacticalProfile();
+  for (let i = 0; i < 10; i += 1) {
+    const result = computeTacticalMatchAdjustment("save-7v6-bounds", `fx-${i}`, "clubA", "clubA", profile, true);
+    assert.ok(Math.abs(result.home) <= MAX_SEVEN_V_SIX, `home=${result.home}`);
+    assert.ok(Math.abs(result.away) <= MAX_SEVEN_V_SIX, `away=${result.away}`);
+  }
+});
+
+test("7v6 directional upside: averaged across seeded fixtures, the manager's own attack-direction adjustment is higher with 7v6 ON than OFF", () => {
+  const profile = defaultTeamTacticalProfile();
+  const SAMPLE_FIXTURES = 20;
+  let onTotal = 0;
+  let offTotal = 0;
+  for (let i = 0; i < SAMPLE_FIXTURES; i += 1) {
+    const fixtureId = `fx-7v6-upside-${i}`;
+    onTotal += computeTacticalMatchAdjustment("save-7v6-upside", fixtureId, "clubA", "clubA", profile, true).home;
+    offTotal += computeTacticalMatchAdjustment("save-7v6-upside", fixtureId, "clubA", "clubA", profile, false).home;
+  }
+  assert.ok(onTotal / SAMPLE_FIXTURES > offTotal / SAMPLE_FIXTURES, "7v6 ON must average a higher manager-side adjustment than OFF");
+});
+
+test("7v6 directional downside: averaged across seeded fixtures, the OPPONENT-side (defense-direction) adjustment is also higher with 7v6 ON than OFF", () => {
+  const profile = defaultTeamTacticalProfile();
+  const SAMPLE_FIXTURES = 20;
+  let onTotal = 0;
+  let offTotal = 0;
+  for (let i = 0; i < SAMPLE_FIXTURES; i += 1) {
+    const fixtureId = `fx-7v6-downside-${i}`;
+    onTotal += computeTacticalMatchAdjustment("save-7v6-downside", fixtureId, "clubA", "clubA", profile, true).away;
+    offTotal += computeTacticalMatchAdjustment("save-7v6-downside", fixtureId, "clubA", "clubA", profile, false).away;
+  }
+  assert.ok(onTotal / SAMPLE_FIXTURES > offTotal / SAMPLE_FIXTURES, "7v6 ON must average a higher opponent-side (away, since manager is home here) adjustment than OFF -- the empty-net/numerical downside");
+});
+
+test("7v6 anti-stacking: computing the ON adjustment twice never compounds -- it is a pure function, not an accumulator", () => {
+  const profile = defaultTeamTacticalProfile();
+  const once = computeTacticalMatchAdjustment("save-7v6-stack", "fx-1", "clubA", "clubA", profile, true);
+  const twice = computeTacticalMatchAdjustment("save-7v6-stack", "fx-1", "clubA", "clubA", profile, true);
+  assert.deepEqual(once, twice);
 });

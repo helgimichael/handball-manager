@@ -44,7 +44,7 @@ type CareerContextValue = {
    * elapsed (see lib/liveMatch/tacticalInstruction.ts) -- it does not
    * itself gate on any delay.
    */
-  applyMidMatchTacticalChange: (fixtureId: string, adoptionMinute: number, profile: TeamTacticalProfile) => void;
+  applyMidMatchTacticalChange: (fixtureId: string, adoptionMinute: number, profile: TeamTacticalProfile, sevenVSixActive: boolean) => void;
 };
 
 const CareerContext = createContext<CareerContextValue | null>(null);
@@ -163,7 +163,7 @@ export function CareerProvider({ children }: { children: ReactNode }) {
     setValue({ save: value!.save, career: nextCareer });
   }
 
-  function applyMidMatchTacticalChangeAction(fixtureId: string, adoptionMinute: number, profile: TeamTacticalProfile) {
+  function applyMidMatchTacticalChangeAction(fixtureId: string, adoptionMinute: number, profile: TeamTacticalProfile, sevenVSixActive: boolean) {
     // HM-COACHING-0.2: a shout's delivery and expiry can both fire back
     // to back within the same microtask (e.g. the manager presses DIREKT
     // RESULTAT while a shout is still pending -- see sidelineShout.ts's
@@ -175,7 +175,7 @@ export function CareerProvider({ children }: { children: ReactNode }) {
       if (!current) {
         return current;
       }
-      const nextCareer = applyMidMatchTacticalChange(current.career, fixtureId, adoptionMinute, profile);
+      const nextCareer = applyMidMatchTacticalChange(current.career, fixtureId, adoptionMinute, profile, sevenVSixActive);
       if (nextCareer === current.career) {
         return current;
       }

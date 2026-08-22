@@ -31,6 +31,21 @@
 // prefix is untouched); and no instruction = existing HM-TACTICS-0.6
 // behavior (this module is only ever invoked once an instruction is
 // ADOPTED -- see tacticalInstruction.ts).
+//
+// HM-TACTICS-0.8: `sevenVSixActive` (required, not optional -- every
+// caller must be explicit, so forgetting it can never silently drop
+// the mode mid-splice) is threaded straight into
+// computeTacticalMatchAdjustment, which folds in the isolated 7v6
+// bonus/risk figures on top of the existing profile-driven adjustment.
+// No EMPTY_GOAL event type is introduced here: Fast Match samples each
+// segment's final goal totals BEFORE building events (see
+// simulateMatchSegment's own doc), so a genuinely new scoring pathway
+// would either invent goals never accounted for in that pre-sampled
+// total, or be a purely cosmetic relabeling of already-existing GOAL
+// events with no new information -- neither is "derived consistently
+// from the 7v6 risk state" in the sense the spec asks for, so it is
+// reported as unavailable rather than faked (see this milestone's
+// report for the full audit).
 import { simulateMatchSegment, type FastMatchResult, type MatchEvent, type PlayerMatchContribution } from "@handball-manager/game-simulation";
 import { createRng, seedFromString } from "@handball-manager/game-simulation";
 import { getClubStrength } from "../game-data/clubStrength";
@@ -105,6 +120,7 @@ export function applyMidMatchTacticalChange(
   fixtureId: string,
   adoptionMinute: number,
   newProfile: TeamTacticalProfile,
+  sevenVSixActive: boolean,
 ): CareerState {
   const original = state.results[fixtureId];
   if (!original || adoptionMinute >= 60) {
@@ -114,7 +130,7 @@ export function applyMidMatchTacticalChange(
   const roster = buildMatchRoster(getCareerSquad(state), state.playerStatuses);
   const managerIsHome = original.homeClubId === state.playerClubId;
 
-  const adjustment = computeTacticalMatchAdjustment(state.saveSeed, fixtureId, state.playerClubId, original.homeClubId, newProfile);
+  const adjustment = computeTacticalMatchAdjustment(state.saveSeed, fixtureId, state.playerClubId, original.homeClubId, newProfile, sevenVSixActive);
 
   const segmentSeed = seedFromString(`${state.saveSeed}:${fixtureId}:midmatch:${adoptionMinute}`);
   const segment = simulateMatchSegment({
