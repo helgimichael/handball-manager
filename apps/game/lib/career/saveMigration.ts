@@ -96,5 +96,14 @@ export function migrateCareerState(career: CareerState): CareerState {
     next = { ...next, tacticalProfile: defaultTeamTacticalProfile() };
   }
 
+  // HM-IDENTITY-0.3 (career-state schema v7): additive, same pattern as
+  // worldSquads -- an existing career simply never had an AI tactical
+  // preference snapshot; matchdayAction.ts's own NEUTRAL-opponent
+  // fallback already handles a missing entry safely, so an empty object
+  // here changes nothing about the resulting match simulation for old saves.
+  if (next.aiTacticalPreferences === undefined) {
+    next = { ...next, aiTacticalPreferences: {} };
+  }
+
   return next;
 }

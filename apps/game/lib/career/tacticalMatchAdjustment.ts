@@ -122,22 +122,31 @@ function averageOutcomeScore(outcomeCounts: Partial<Record<TacticalOutcome, numb
 }
 
 /**
- * Direction 1 (Spec #6): the manager's team attacks (V9/M6) against a
- * neutral opponent defence (H2/H3). Only `ati001UsageTendency` comes
- * from the manager's profile. `sevenVSixActive` (HM-TACTICS-0.8) bumps
+ * Direction 1 (Spec #6): the manager's team attacks (V9/M6) against the
+ * opponent's defence (H2/H3). Only `ati001UsageTendency` comes from the
+ * manager's profile. `sevenVSixActive` (HM-TACTICS-0.8) bumps
  * `opportunityQuality` (LOW/MEDIUM/HIGH/CLEAR) from MEDIUM to HIGH and
  * `opportunityWindow` (SHORT/MEDIUM/SUSTAINED) from MEDIUM to
  * SUSTAINED -- the one existing tactical-domain dimension a numbers-up
  * attack can honestly claim to improve (Spec: "increased access/
  * advantage potential where existing Tactical Domain can support it"),
  * rather than inventing a new one.
+ *
+ * HM-IDENTITY-0.3: `opponentProfile` (optional, default null) fills the
+ * opponent's own h2TacticalIntent/h2TacticalFamiliarity from their real
+ * AI-derived TeamTacticalProfile when the caller has one (see
+ * career/aiTacticalPreferences.ts) -- replacing the previously
+ * hardcoded NEUTRAL placeholders these two fields always used. When
+ * null (every pre-HM-IDENTITY-0.3 call site, and any future call site
+ * that still has no opponent identity resolved), behavior is
+ * byte-identical to before this milestone.
  */
-function buildAttackConfig(profile: TeamTacticalProfile, sevenVSixActive: boolean): ATI001ProbabilisticConfig {
+function buildAttackConfig(profile: TeamTacticalProfile, sevenVSixActive: boolean, opponentProfile: TeamTacticalProfile | null): ATI001ProbabilisticConfig {
   return {
     threatCreationTendency: usageTendencyToSymbolicModifier(profile.ati001UsageTendency),
-    h2TacticalIntent: "H2_STEPS", // neutral opponent defensive intent -- the same default a fresh profile itself uses
+    h2TacticalIntent: opponentProfile?.h2ResponsePreference ?? "H2_STEPS", // the opponent's own defensive intent when known, else the same neutral default a fresh profile itself uses
     h2ResponseIntentStrength: "NEUTRAL",
-    h2TacticalFamiliarity: PROVISIONAL_NEUTRAL_CAPABILITY,
+    h2TacticalFamiliarity: opponentProfile?.tacticalFamiliarity ?? PROVISIONAL_NEUTRAL_CAPABILITY,
     h2Capability: NEUTRAL_CAPABILITY_PROFILE,
     h3Capability: NEUTRAL_CAPABILITY_PROFILE,
     h2h3TacticalFamiliarity: PROVISIONAL_NEUTRAL_CAPABILITY,
@@ -158,10 +167,19 @@ function buildAttackConfig(profile: TeamTacticalProfile, sevenVSixActive: boolea
   };
 }
 
-/** Direction 2 (Spec #6): a neutral opponent attacks (V9/M6) against the manager's team defence (H2/H3). `h2ResponsePreference` and `tacticalFamiliarity` come from the manager's profile. */
-function buildDefenseConfig(profile: TeamTacticalProfile): ATI001ProbabilisticConfig {
+/**
+ * Direction 2 (Spec #6): the opponent attacks (V9/M6) against the
+ * manager's team defence (H2/H3). `h2ResponsePreference` and
+ * `tacticalFamiliarity` come from the manager's profile.
+ *
+ * HM-IDENTITY-0.3: `opponentProfile` fills `threatCreationTendency` from
+ * the opponent's own real `ati001UsageTendency` when known, replacing
+ * the previously hardcoded NEUTRAL threat assumption -- null preserves
+ * the exact prior behavior.
+ */
+function buildDefenseConfig(profile: TeamTacticalProfile, opponentProfile: TeamTacticalProfile | null): ATI001ProbabilisticConfig {
   return {
-    threatCreationTendency: "NEUTRAL",
+    threatCreationTendency: opponentProfile ? usageTendencyToSymbolicModifier(opponentProfile.ati001UsageTendency) : "NEUTRAL",
     h2TacticalIntent: profile.h2ResponsePreference,
     h2ResponseIntentStrength: "NEUTRAL",
     h2TacticalFamiliarity: profile.tacticalFamiliarity,
@@ -201,6 +219,8 @@ export interface TacticalMatchAdjustmentTrace {
   managerClubId: string;
   managerIsHome: boolean;
   profile: TeamTacticalProfile;
+  /** HM-IDENTITY-0.3: the AI-derived opponent profile actually used, or null when none was supplied (NEUTRAL opponent assumption, pre-HM-IDENTITY-0.3 behavior). */
+  opponentProfile: TeamTacticalProfile | null;
   attack: TacticalDirectionTrace;
   defense: TacticalDirectionTrace;
 }
@@ -234,6 +254,15 @@ export interface TacticalMatchAdjustment {
  * opponent has tightened up against the exposed net), never the
  * manager's own numerical-superiority bonus, which is a fact of
  * headcount the opponent's own adaptation cannot undo.
+ *
+ * `opponentProfile` (HM-IDENTITY-0.3, default null) is the AI-derived
+ * TeamTacticalProfile for the opponent club (see
+ * career/aiTacticalPreferences.ts), when the caller has resolved one --
+ * it replaces the previously hardcoded NEUTRAL opponent assumption in
+ * both directions with the opponent's own real identity-derived
+ * tendencies. Every call site that omits it (or passes null) behaves
+ * exactly as it did before this milestone -- this never changes the
+ * manager's own profile or any manager-controlled tactic.
  */
 export function computeTacticalMatchAdjustment(
   saveSeed: string,
@@ -243,14 +272,15 @@ export function computeTacticalMatchAdjustment(
   profile: TeamTacticalProfile,
   sevenVSixActive = false,
   opponentAdaptation: OpponentAdaptationEffect | null = null,
+  opponentProfile: TeamTacticalProfile | null = null,
 ): TacticalMatchAdjustment {
   const managerIsHome = homeClubId === managerClubId;
 
-  const attackResult = runMonteCarlo(buildAttackConfig(profile, sevenVSixActive), {
+  const attackResult = runMonteCarlo(buildAttackConfig(profile, sevenVSixActive, opponentProfile), {
     seed: `${saveSeed}:${fixtureId}:ati001:attack${sevenVSixActive ? ":7v6" : ""}`,
     runs: MONTE_CARLO_RUNS,
   });
-  const defenseResult = runMonteCarlo(buildDefenseConfig(profile), { seed: `${saveSeed}:${fixtureId}:ati001:defense`, runs: MONTE_CARLO_RUNS });
+  const defenseResult = runMonteCarlo(buildDefenseConfig(profile, opponentProfile), { seed: `${saveSeed}:${fixtureId}:ati001:defense`, runs: MONTE_CARLO_RUNS });
 
   const attackScore = averageOutcomeScore(attackResult.outcomeCounts, attackResult.runs);
   const defenseScore = averageOutcomeScore(defenseResult.outcomeCounts, defenseResult.runs);
@@ -287,6 +317,7 @@ export function computeTacticalMatchAdjustment(
       managerClubId,
       managerIsHome,
       profile,
+      opponentProfile,
       attack: { outcomeCounts: attackResult.outcomeCounts, score: attackScore, adjustment: attackAdjustment },
       defense: { outcomeCounts: defenseResult.outcomeCounts, score: defenseScore, adjustment: opponentAdjustment },
     },

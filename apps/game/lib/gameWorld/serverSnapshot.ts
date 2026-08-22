@@ -5,10 +5,15 @@
 // imported from lib/career/newCareer.ts directly, because newCareer.ts
 // is reachable from CareerContext.tsx ("use client"), and bundling
 // `node:fs` into a client chunk breaks the Next.js build. Only
-// app/api/game-world/squad-snapshot/route.ts (a server Route Handler)
-// and this package's own tests may import this module.
+// app/api/game-world/squad-snapshot/route.ts (a server Route Handler),
+// app/api/game-world/ai-tactical-preferences-snapshot/route.ts
+// (HM-IDENTITY-0.3, same rule), and this package's own tests may import
+// this module.
 import { getClubsByCompetition, type PlayerMock } from "../game-data";
+import { deriveAiTacticalPreferences } from "../career/aiTacticalPreferences";
+import type { TeamTacticalProfile } from "../career/teamTacticalProfile";
 import { toPlayerMocks } from "./gameWorldAdapter";
+import { resolveClubIdentityForMatch } from "./resolveClubIdentity";
 import { loadRealWorldClubSquad, validateClubSquad } from "./realWorldLoader";
 
 function snapshotRealWorldSquad(clubId: string): PlayerMock[] {
@@ -33,4 +38,29 @@ export function snapshotWorldSquads(competitionId: string): Record<string, Playe
     if (squad.length > 0) worldSquads[club.id] = squad;
   }
   return worldSquads;
+}
+
+/**
+ * HM-IDENTITY-0.3: a one-time, career-creation-time snapshot of every
+ * REAL_WORLD club's AI-derived TeamTacticalProfile for `competitionId`
+ * (see career/aiTacticalPreferences.ts for the resolver -> preferences
+ * adapter). Only the resulting TeamTacticalProfile is snapshotted --
+ * never the full explanation/contributingClaims payload, which stays a
+ * server-only concern computable on demand from the same real source
+ * data, not something that needs to round-trip through client state.
+ *
+ * PROVISIONAL, documented simplification: like `snapshotWorldSquads`,
+ * this is computed ONCE at career creation (using `seasonStartDate` as
+ * the staff "as of" date) and never re-resolved mid-season -- identity
+ * data does not change dynamically within a save today, matching the
+ * same fixed-snapshot precedent `worldSquads` already established.
+ */
+export function snapshotAiTacticalPreferences(competitionId: string, season: string, seasonStartDate: string): Record<string, TeamTacticalProfile> {
+  const preferences: Record<string, TeamTacticalProfile> = {};
+  for (const club of getClubsByCompetition(competitionId)) {
+    if (club.dataSource !== "REAL_WORLD") continue;
+    const identity = resolveClubIdentityForMatch(club.id, season, seasonStartDate);
+    preferences[club.id] = deriveAiTacticalPreferences(identity).profile;
+  }
+  return preferences;
 }

@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
 import type { FastMatchResult } from "@handball-manager/game-simulation";
-import { getClub, type PlayerMock } from "../game-data";
+import { GAME_CURRENT_DATE, getClub, type PlayerMock } from "../game-data";
 import { getActiveSave, saveCareerState, type CareerSave } from "../save/saveRepository";
 import { createNewCareerState } from "./newCareer";
 import { continueCareerRhythm, type ContinueStopReason } from "./continueController";
@@ -87,6 +87,26 @@ async function fetchWorldSquads(competitionId: string): Promise<Record<string, P
   }
 }
 
+/**
+ * HM-IDENTITY-0.3: mirrors fetchWorldSquads exactly, for the same reason
+ * -- the AI-derived TeamTacticalProfile snapshot is resolved server-side
+ * (identity data touches the filesystem) and fetched once at career
+ * creation. A fetch failure just means no AI-derived tactical
+ * preferences for this career, which matchdayAction.ts's existing
+ * NEUTRAL-opponent fallback already handles safely.
+ */
+async function fetchAiTacticalPreferences(competitionId: string, season: string, seasonStartDate: string): Promise<Record<string, TeamTacticalProfile>> {
+  try {
+    const params = new URLSearchParams({ competitionId, season, seasonStartDate });
+    const res = await fetch(`/api/game-world/ai-tactical-preferences-snapshot?${params.toString()}`);
+    if (!res.ok) return {};
+    const data = await res.json();
+    return data.aiTacticalPreferences ?? {};
+  } catch {
+    return {};
+  }
+}
+
 async function getOrCreateCareerState(save: CareerSave): Promise<CareerState> {
   if (save.careerState) {
     const migrated = migrateCareerState(save.careerState);
@@ -96,8 +116,10 @@ async function getOrCreateCareerState(save: CareerSave): Promise<CareerState> {
     return migrated;
   }
   const club = getClub(save.clubId);
-  const worldSquads = club?.dataSource === "REAL_WORLD" ? await fetchWorldSquads(club.competitionId) : {};
-  const fresh = createNewCareerState(save.saveId, save.clubId, worldSquads);
+  const isRealWorld = club?.dataSource === "REAL_WORLD";
+  const worldSquads = isRealWorld ? await fetchWorldSquads(club.competitionId) : {};
+  const aiTacticalPreferences = isRealWorld ? await fetchAiTacticalPreferences(club.competitionId, "2026/27", GAME_CURRENT_DATE) : {};
+  const fresh = createNewCareerState(save.saveId, save.clubId, worldSquads, aiTacticalPreferences);
   saveCareerState(save.saveId, fresh);
   return fresh;
 }

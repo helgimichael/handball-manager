@@ -4,9 +4,12 @@ import { createNewCareerState } from "./newCareer";
 import { getNextPlayerFixture, getPlayerFixtureOn } from "./calendar";
 import { processDay } from "./dailyTick";
 import { playManagerFixture } from "./matchdayAction";
-import { TUMBA_CLUB_ID } from "../game-data";
+import { GAME_CURRENT_DATE, TUMBA_CLUB_ID } from "../game-data";
 import { continueCareerRhythm } from "./continueController";
-import { snapshotWorldSquads } from "../gameWorld/serverSnapshot";
+import { snapshotAiTacticalPreferences, snapshotWorldSquads } from "../gameWorld/serverSnapshot";
+import { resolveClubIdentityForMatch } from "../gameWorld/resolveClubIdentity";
+import { deriveAiTacticalPreferences } from "./aiTacticalPreferences";
+import { computeTacticalMatchAdjustment } from "./tacticalMatchAdjustment";
 import type { CareerState } from "./types";
 
 // HM-CAREER-0.5: round 1's fixtures are now deterministically spread
@@ -31,7 +34,13 @@ function stateAtMatchday(seed = "matchday-action-seed") {
 function stateAtRealClubMatchday(seed: string): CareerState {
   const clubId = "se_club_alingsas_hk";
   const worldSquads = snapshotWorldSquads("se_handbollsligan_herr");
-  const fresh = createNewCareerState(seed, clubId, worldSquads);
+  // HM-IDENTITY-0.3: mirrors what CareerContext.tsx fetches at real
+  // career creation -- without this, state.aiTacticalPreferences stays
+  // {} and every AI opponent falls back to the pre-HM-IDENTITY-0.3
+  // NEUTRAL assumption, which would silently defeat any test exercising
+  // the new AI-identity integration.
+  const aiTacticalPreferences = snapshotAiTacticalPreferences("se_handbollsligan_herr", "2026/27", GAME_CURRENT_DATE);
+  const fresh = createNewCareerState(seed, clubId, worldSquads, aiTacticalPreferences);
   let current = fresh;
   for (let i = 0; i < 100; i += 1) {
     const { state: next, stopReason } = continueCareerRhythm(current);
@@ -204,5 +213,40 @@ test("HM-TACTICS-0.6B: AI-vs-AI fixtures on the same matchday are completely una
   assert.ok(aiFixtureIds.length > 0, "at least one AI-vs-AI fixture must be due on the manager's own matchday for this seed");
   for (const id of aiFixtureIds) {
     assert.deepEqual(customTickResult.results[id], defaultTickResult.results[id], `AI fixture ${id} must be byte-identical regardless of the manager's tactical profile`);
+  }
+});
+
+test("HM-IDENTITY-0.3: playing the manager's fixture against a REAL_WORLD-backed AI opponent never mutates the manager's own TeamTacticalProfile -- the AI opponent's identity-derived tendencies only ever flow into the opponent's own side of the tactical adjustment", () => {
+  const state = stateAtRealClubMatchday("ai-identity-manager-unaffected-seed");
+  const { state: next } = playManagerFixture(state);
+  assert.deepEqual(next.tacticalProfile, state.tacticalProfile, "the manager's TeamTacticalProfile must be byte-identical before and after playing against an AI opponent with real identity data");
+});
+
+test("HM-IDENTITY-0.3: playing against a REAL_WORLD-backed AI opponent with real identity data produces a genuinely different tactical adjustment than the pre-HM-IDENTITY-0.3 neutral-opponent assumption would have", () => {
+  const state = stateAtRealClubMatchday("ai-identity-directional-seed");
+  const fixture = getPlayerFixtureOn(state, state.gameDate)!;
+
+  const opponentClubId = fixture.homeClubId === "se_club_alingsas_hk" ? fixture.awayClubId : fixture.homeClubId;
+  const opponentIdentity = resolveClubIdentityForMatch(opponentClubId, state.seasonId, state.gameDate);
+  const opponentPreferences = deriveAiTacticalPreferences(opponentIdentity);
+
+  const withRealOpponent = computeTacticalMatchAdjustment(state.saveSeed, fixture.id, state.playerClubId, fixture.homeClubId, state.tacticalProfile, false, null, opponentPreferences.profile);
+  const withNeutralOpponent = computeTacticalMatchAdjustment(state.saveSeed, fixture.id, state.playerClubId, fixture.homeClubId, state.tacticalProfile);
+
+  // Both are deterministic for the same seed/fixture/profile -- if the
+  // opponent's real profile differs from the neutral default
+  // (MEDIUM/H2_STEPS/MEDIUM), the resulting adjustment must differ too.
+  const opponentIsNeutral =
+    opponentPreferences.profile.ati001UsageTendency === "MEDIUM" &&
+    opponentPreferences.profile.h2ResponsePreference === "H2_STEPS" &&
+    opponentPreferences.profile.tacticalFamiliarity === "MEDIUM";
+  // Compare the actual behavior (home/away expected-goals adjustment),
+  // not the debug trace -- the trace's new opponentProfile field is
+  // expected to differ (object vs null) even when the resulting numbers
+  // are identical.
+  if (opponentIsNeutral) {
+    assert.deepEqual({ home: withRealOpponent.home, away: withRealOpponent.away }, { home: withNeutralOpponent.home, away: withNeutralOpponent.away }, "a genuinely neutral-profile opponent must reproduce byte-identical pre-HM-IDENTITY-0.3 behavior");
+  } else {
+    assert.notDeepEqual({ home: withRealOpponent.home, away: withRealOpponent.away }, { home: withNeutralOpponent.home, away: withNeutralOpponent.away }, "a non-neutral AI opponent profile must produce a different tactical adjustment than the old hardcoded-neutral assumption");
   }
 });

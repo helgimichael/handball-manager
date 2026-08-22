@@ -61,12 +61,31 @@ export function playManagerFixture(state: CareerState): PlayManagerFixtureResult
   // per fixture, exactly like a club strength lookup, never a per-attack
   // simulation. AI-vs-AI fixtures (calendar.ts's simulateAiFixturesForDate)
   // are untouched and never call this.
+  //
+  // HM-IDENTITY-0.3: the AI opponent's own tactical identity now feeds
+  // the SAME existing tactical-adjustment mechanism, replacing what was
+  // previously a hardcoded NEUTRAL opponent assumption -- never a new
+  // simulation channel, and never touching state.tacticalProfile (the
+  // manager's own tactics stay entirely under manager control). This
+  // module is reachable from client code ("use client" CareerContext.tsx),
+  // so it reads the already-resolved, fs-free `state.aiTacticalPreferences`
+  // snapshot (career/aiTacticalPreferences.ts -> gameWorld/serverSnapshot.ts,
+  // fetched once at career creation) instead of calling the fs-based
+  // identity loaders directly -- same boundary rule as worldSquads. A
+  // club with no snapshotted entry (mock-only clubs, or a career created
+  // before this milestone) falls back to `null`, which
+  // computeTacticalMatchAdjustment already treats as the exact same
+  // NEUTRAL opponent assumption as before this milestone.
+  const opponentTacticalProfile = state.aiTacticalPreferences[opponentClubId] ?? null;
   const tacticalAdjustment = computeTacticalMatchAdjustment(
     state.saveSeed,
     fixture.id,
     state.playerClubId,
     fixture.homeClubId,
     state.tacticalProfile,
+    false,
+    null,
+    opponentTacticalProfile,
   );
   const result = simulateFixture(
     fixture,

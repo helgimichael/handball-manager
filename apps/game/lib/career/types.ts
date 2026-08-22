@@ -102,6 +102,22 @@ export type CareerState = {
    * Match, or Analysis Hub consumes it yet.
    */
   tacticalProfile: TeamTacticalProfile;
+
+  // --- HM-IDENTITY-0.3 addition (career-state schema v7, see saveMigration.ts) ---
+
+  /**
+   * Every REAL_WORLD club's AI-derived TeamTacticalProfile (see
+   * career/aiTacticalPreferences.ts), keyed by clubId, snapshotted ONCE
+   * at career creation -- the same fixed-snapshot precedent worldSquads
+   * already established, and for the same reason: this module must stay
+   * importable from client code ("use client" CareerContext.tsx), so it
+   * can never call the fs-based identity loaders directly. A club with
+   * no entry here (mock-only clubs, or a career created before this
+   * milestone) simply has no AI-derived tactical profile available --
+   * matchdayAction.ts falls back to the existing NEUTRAL opponent
+   * assumption for it, never inventing one.
+   */
+  aiTacticalPreferences: Record<string, TeamTacticalProfile>;
 };
 
 export type CareerSaveEnvelope = {

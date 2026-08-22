@@ -4,7 +4,7 @@ import type { PlayerMock } from "../game-data";
 import { addDays } from "./dateUtils";
 import { seedCareerTasks } from "./careerTasks";
 import { seedPlayerStatuses } from "./playerStatus";
-import { defaultTeamTacticalProfile } from "./teamTacticalProfile";
+import { defaultTeamTacticalProfile, type TeamTacticalProfile } from "./teamTacticalProfile";
 import type { CareerState } from "./types";
 
 const FALLBACK_COMPETITION_ID = "swe-2"; // used only if playerClubId doesn't resolve to a known club
@@ -25,6 +25,10 @@ export function createNewCareerState(
   saveSeed: string,
   playerClubId: string,
   worldSquads: Record<string, PlayerMock[]> = {},
+  // HM-IDENTITY-0.3: same fs-free, client-safe pattern as worldSquads --
+  // already resolved server-side (app/api/game-world/ai-tactical-preferences-snapshot)
+  // before this function is called for a real-world-backed club.
+  aiTacticalPreferences: Record<string, TeamTacticalProfile> = {},
 ): CareerState {
   const playerClub = getClub(playerClubId);
   const competitionId = playerClub?.competitionId ?? FALLBACK_COMPETITION_ID;
@@ -67,5 +71,6 @@ export function createNewCareerState(
     tasks: seedCareerTasks(GAME_CURRENT_DATE),
     worldSquads,
     tacticalProfile: defaultTeamTacticalProfile(),
+    aiTacticalPreferences,
   };
 }
