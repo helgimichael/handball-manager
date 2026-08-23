@@ -14,6 +14,7 @@ import { checkSeasonComplete, getPlayerFixtureOn } from "./calendar";
 import { buildMatchCompletedEvent } from "./careerEvents";
 import { getCareerClubSquad, getCareerSquad } from "./careerWorld";
 import { careerEventToInboxMessage } from "./inboxBridge";
+import { computeTeamUsageTrace } from "./matchUsageEngine";
 import { applyMatchResultBookkeeping } from "./matchResultApplication";
 import { computePlayerMatchStrengthAdjustment, resolveClubMatchPlanForFixture } from "./playerMatchStrength";
 import { computeTacticalMatchAdjustment, sevenVSixPolicyIntensity } from "./tacticalMatchAdjustment";
@@ -46,17 +47,8 @@ export function playManagerFixture(state: CareerState): PlayManagerFixtureResult
     return { state, result: null };
   }
 
-  const roster = buildMatchRoster(getCareerSquad(state), state.playerStatuses);
-  // HM-MATCH-0.2: the opponent's snapshotted squad, so the Fast Match
-  // Engine attributes real player goals/events to them too instead of
-  // leaving their side entirely anonymous (Spec: "do not randomly invent
-  // a scorer only in the UI"). No live per-save injury/suspension
-  // tracking exists for AI clubs (playerStatuses is manager-club-only),
-  // so this intentionally falls back to squadStatus-only eligibility --
-  // the same honest scope buildMatchRoster already documents for callers
-  // that predate Career Rhythm.
   const opponentClubId = fixture.homeClubId === state.playerClubId ? fixture.awayClubId : fixture.homeClubId;
-  const opponentRoster = buildMatchRoster(getCareerClubSquad(state, opponentClubId));
+
   // HM-TACTICS-0.6B: a small, bounded, pre-match tactical adjustment
   // derived from the manager's own TeamTacticalProfile -- computed once
   // per fixture, exactly like a club strength lookup, never a per-attack
@@ -97,7 +89,31 @@ export function playManagerFixture(state: CareerState): PlayManagerFixtureResult
     state.gameplayRatings[managerIsHome ? state.playerClubId : opponentClubId] ?? [],
     managerIsHome ? opponentPlan : managerPlan,
     state.gameplayRatings[managerIsHome ? opponentClubId : state.playerClubId] ?? [],
+    `${state.saveSeed}:${fixture.id}`,
   );
+
+  // HM-MATCH-1.0 Part P: the same MatchUsage temporal-exposure trace
+  // that fed the player-strength adjustment above also gates the
+  // outfield roster's scorer eligibility -- a player with zero intended
+  // attacking exposure this match cannot be drawn as a scorer (see
+  // tumbaRoster.ts's own doc comment). Computed once here and reused
+  // for both the roster and (inside playerMatchStrength.ts, via its own
+  // identical, pure re-derivation) the strength adjustment -- cheap and
+  // deterministic, so recomputing rather than threading one shared
+  // object through is the smallest, safest change.
+  const managerAttackExposureById = managerPlan ? new Map(computeTeamUsageTrace(managerPlan, `${state.saveSeed}:${fixture.id}:usage:${state.playerClubId}`).players.map((p) => [p.playerId, p.attackExposure])) : undefined;
+  const opponentAttackExposureById = opponentPlan ? new Map(computeTeamUsageTrace(opponentPlan, `${state.saveSeed}:${fixture.id}:usage:${opponentClubId}`).players.map((p) => [p.playerId, p.attackExposure])) : undefined;
+
+  const roster = buildMatchRoster(getCareerSquad(state), state.playerStatuses, managerAttackExposureById);
+  // HM-MATCH-0.2: the opponent's snapshotted squad, so the Fast Match
+  // Engine attributes real player goals/events to them too instead of
+  // leaving their side entirely anonymous (Spec: "do not randomly invent
+  // a scorer only in the UI"). No live per-save injury/suspension
+  // tracking exists for AI clubs (playerStatuses is manager-club-only),
+  // so this intentionally falls back to squadStatus-only eligibility --
+  // the same honest scope buildMatchRoster already documents for callers
+  // that predate Career Rhythm.
+  const opponentRoster = buildMatchRoster(getCareerClubSquad(state, opponentClubId), undefined, opponentAttackExposureById);
 
   // HM-MATCH-RATINGS-0.1 Part K: the manager's own PRE-MATCH
   // SevenVSixPolicy (from the resolved MatchPlan above) now scales the

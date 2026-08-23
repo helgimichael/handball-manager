@@ -30,8 +30,27 @@ function scoringWeightFor(player: PlayerMock): number {
  * actually puts a player back in the matchday roster, and not merely in
  * a cosmetic status label. Omitted for callers that predate Career
  * Rhythm (falls back to the original squadStatus-only behaviour).
+ *
+ * `attackExposureById` (HM-MATCH-1.0 Part P): when supplied (the
+ * manager's own MatchPlan/MatchUsage trace is known -- see
+ * matchdayAction.ts), an outfield player is excluded from the roster
+ * unless they have a POSITIVE entry in the map -- both a player with
+ * ZERO intended attacking exposure (e.g. EMERGENCY_ONLY, or
+ * DEFENCE_ONLY) AND a player who isn't in the MatchPlan's MatchSquad at
+ * all (no entry -- squadStatus eligibility alone would otherwise still
+ * have included them, since this map is a strict narrowing, never a
+ * widening, of that eligibility) are excluded, so they are structurally
+ * unreachable by `distributeGoalsToRoster` in matchEngine.ts (which
+ * only ever draws from whoever IS in this array) -- preventing both the
+ * "EMERGENCY_ONLY player becomes top scorer" case AND a live QA finding
+ * ("a player not even selected into the 16-man MatchSquad still
+ * appeared as a scorer") Part P calls out, rather than merely
+ * deprioritizing either. A player with a non-zero exposure has their
+ * `scoringWeight` scaled by it, so a heavily-used player also gets
+ * proportionally more scoring opportunity than a lightly-rotated one.
+ * Omitting the map entirely is byte-identical to before this milestone.
  */
-export function buildMatchRoster(squad: readonly PlayerMock[], playerStatuses?: Record<string, PlayerCareerStatus>): MatchRosterPlayer[] {
+export function buildMatchRoster(squad: readonly PlayerMock[], playerStatuses?: Record<string, PlayerCareerStatus>, attackExposureById?: ReadonlyMap<string, number>): MatchRosterPlayer[] {
   const eligible = squad.filter((p) => {
     const baseEligible = p.squadStatus === "Förstaval" || p.squadStatus === "Rotation";
     if (!playerStatuses || !playerStatuses[p.id]) {
@@ -44,7 +63,8 @@ export function buildMatchRoster(squad: readonly PlayerMock[], playerStatuses?: 
     // Live AVAILABLE: recovers a stale Skadad/Avstängd mock status, but never grants eligibility to Ungdom.
     return baseEligible || p.squadStatus === "Skadad" || p.squadStatus === "Avstängd";
   });
-  const outfield = eligible.filter((p) => p.position !== "MV");
+  const outfieldEligible = eligible.filter((p) => p.position !== "MV");
+  const outfield = attackExposureById ? outfieldEligible.filter((p) => (attackExposureById.get(p.id) ?? 0) > 0) : outfieldEligible;
 
   // Exactly ONE goalkeeper plays per match -- the Fast Match Engine
   // attributes the team's full saves/shotsFaced tally to every roster
@@ -57,7 +77,7 @@ export function buildMatchRoster(squad: readonly PlayerMock[], playerStatuses?: 
   const outfieldRoster: MatchRosterPlayer[] = outfield.map((p) => ({
     playerId: p.id,
     isGoalkeeper: false,
-    scoringWeight: scoringWeightFor(p),
+    scoringWeight: scoringWeightFor(p) * (attackExposureById ? Math.max(0, Math.min(1, attackExposureById.get(p.id) ?? 1)) : 1),
     started: p.squadStatus === "Förstaval",
   }));
 

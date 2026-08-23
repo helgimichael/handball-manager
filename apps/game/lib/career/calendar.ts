@@ -100,6 +100,7 @@ export function simulateAiFixturesForDate(state: CareerState, date: string): { s
       state.gameplayRatings[fixture.homeClubId] ?? [],
       awayPlan,
       state.gameplayRatings[fixture.awayClubId] ?? [],
+      `${state.saveSeed}:${fixture.id}`,
     );
 
     const combinedAdjustment = {

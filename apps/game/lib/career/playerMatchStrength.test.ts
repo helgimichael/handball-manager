@@ -11,11 +11,11 @@ import assert from "node:assert/strict";
 import {
   computePlayerMatchStrengthAdjustment,
   computeTeamStrengthTrace,
-  PHASE_USAGE_MULTIPLIER,
   resolveClubMatchPlanForFixture,
 } from "./playerMatchStrength";
+import { PHASE_USAGE_MULTIPLIER } from "./matchUsagePlan";
 import { buildDefaultMatchPlan } from "../matchPlan/defaultMatchPlan";
-import { setPlayerMatchRole, setPlayerPhaseUsage, setPlayerPlayingTime } from "../matchPlan/matchPlanEdits";
+import { setPlayerMatchRole, setPlayerPhaseUsage, setPlayerPlayingTime, setSubstitutionPair } from "../matchPlan/matchPlanEdits";
 import type { MatchPlan, MatchSquad, Position } from "../matchPlan/types";
 import type { GameplayPlayerRating } from "../gameWorld/gameplayRatingSnapshot";
 import { GOALKEEPER_ATTRIBUTES, OUTCOURT_ATTRIBUTE_FAMILIES, OUTCOURT_ATTRIBUTES, type GoalkeeperAttribute, type OutcourtAttribute } from "../rating/types";
@@ -351,4 +351,71 @@ test("computeTeamStrengthTrace(null, ...) returns the neutral trace, never throw
   assert.equal(trace.attackValue, 50);
   assert.equal(trace.defenceValue, 50);
   assert.equal(trace.goalkeeperValue, 50);
+});
+
+// ---------------------------------------------------------------------------
+// HM-MATCH-1.0 Part S #15/#16/#17: the refactored, exposure-driven
+// adjustment layer still satisfies HM-MATCH-RATINGS-0.1's own directional
+// contract end to end -- usage/pair changes propagate all the way to the
+// bounded home/away adjustment, not just the intermediate team value.
+// ---------------------------------------------------------------------------
+
+test("Part S #15: changing a bench player's PlayingTimeIntention alone changes the final bounded home/away adjustment", () => {
+  const plan = buildBasePlan([
+    { playerId: "bench1", position: "M9" },
+    { playerId: "bench2", position: "M9" },
+  ]);
+  const ratings = [...neutralRatings(), buildOutcourtRating("bench1", "M9", 190, 20, 10), buildOutcourtRating("bench2", "M9", 130, 10, 10)];
+  const awayPlan = buildBasePlan();
+  const awayRatings = neutralRatings();
+
+  const low = setPlayerPlayingTime(plan, "bench1", "LOW");
+  const veryHigh = setPlayerPlayingTime(plan, "bench1", "VERY_HIGH");
+
+  const lowAdjustment = computePlayerMatchStrengthAdjustment(low, ratings, awayPlan, awayRatings, "seed-part-s15");
+  const highAdjustment = computePlayerMatchStrengthAdjustment(veryHigh, ratings, awayPlan, awayRatings, "seed-part-s15");
+  assert.notEqual(lowAdjustment.home, highAdjustment.home);
+  assert.ok(highAdjustment.home > lowAdjustment.home, "raising a strong bench player's usage should raise the home adjustment");
+});
+
+test("Part S #16: adding a specialist pair directionally changes attack and defence strength", () => {
+  const plan = buildBasePlan([
+    { playerId: "attackSpec", position: "M9" },
+    { playerId: "defenceSpec", position: "M9" },
+  ]);
+  const ratings = [
+    ...neutralRatings(),
+    buildOutcourtRating("attackSpec", "M9", 160, 18, 6),
+    buildOutcourtRating("defenceSpec", "M9", 160, 6, 18),
+  ];
+
+  const before = computeTeamStrengthTrace(plan, ratings, "seed-part-s16-before");
+  const paired = setSubstitutionPair(plan, "attackSpec", "defenceSpec");
+  const after = computeTeamStrengthTrace(paired, ratings, "seed-part-s16-after");
+
+  assert.notEqual(before.attackValue, after.attackValue);
+  assert.notEqual(before.outfieldDefenceValue, after.outfieldDefenceValue);
+});
+
+test("Part S #17: a strong MAJOR_ROTATION bench player improves aggregate attack strength compared with an equivalent-usage weak one", () => {
+  const plan = buildBasePlan([{ playerId: "rotationPlayer", position: "M9" }]);
+  const withUsage = setPlayerPlayingTime(setPlayerMatchRole(plan, "rotationPlayer", "MAJOR_ROTATION"), "rotationPlayer", "HIGH");
+
+  const strongRatings = [...neutralRatings(), buildOutcourtRating("rotationPlayer", "M9", 170, 19, 10)];
+  const weakRatings = [...neutralRatings(), buildOutcourtRating("rotationPlayer", "M9", 100, 6, 10)];
+
+  const strong = computeTeamStrengthTrace(withUsage, strongRatings, "seed-part-s17");
+  const weak = computeTeamStrengthTrace(withUsage, weakRatings, "seed-part-s17");
+  assert.ok(strong.attackValue > weak.attackValue);
+});
+
+test("Part S #20: a full computePlayerMatchStrengthAdjustment call is deterministic given the same seed -- proxy for 'a full manager match remains deterministic' at this layer (matchdayAction.test.ts covers the full integration)", () => {
+  const homePlan = buildBasePlan([{ playerId: "bench", position: "M9" }]);
+  const awayPlan = buildBasePlan();
+  const homeRatings = [...neutralRatings(), buildOutcourtRating("bench", "M9", 140, 12, 10)];
+  const awayRatings = neutralRatings();
+
+  const a = computePlayerMatchStrengthAdjustment(homePlan, homeRatings, awayPlan, awayRatings, "seed-part-s20");
+  const b = computePlayerMatchStrengthAdjustment(homePlan, homeRatings, awayPlan, awayRatings, "seed-part-s20");
+  assert.deepEqual(a, b);
 });

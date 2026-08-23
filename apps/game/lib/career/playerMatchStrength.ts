@@ -1,13 +1,21 @@
-// HM-MATCH-RATINGS-0.1: the ONE isolated adapter converting a MatchPlan
-// + canonical gameplay ratings into a small, bounded expected-goals
-// nudge for the Fast Match Engine -- the player-strength counterpart to
-// tacticalMatchAdjustment.ts's tactical nudge (Part J: the two stay
-// separate and are summed by the caller, never merged into one
-// function or into CA/attributes themselves).
+// HM-MATCH-RATINGS-0.1 / HM-MATCH-1.0: the ONE isolated adapter
+// converting a MatchPlan + canonical gameplay ratings into a small,
+// bounded expected-goals nudge for the Fast Match Engine -- the
+// player-strength counterpart to tacticalMatchAdjustment.ts's tactical
+// nudge (Part J: the two stay separate and are summed by the caller,
+// never merged into one function or into CA/attributes themselves).
 //
-//   MatchPlan (squad/starting units/usage) + GameplayPlayerRating[]
+//   MatchPlan -> matchUsageEngine.ts's TeamUsageTrace (per-player,
+//                per-phase, TEMPORAL exposure -- HM-MATCH-1.0)
+//   + GameplayPlayerRating[]
 //         -> per-player phase value (attack/defence/goalkeeper, 0-100)
-//         -> usage-weighted starter+bench team value per phase
+//         -> exposure-weighted team value per phase (HM-MATCH-1.0:
+//            exposure already encodes starter-vs-bench dominance
+//            temporally, so no separate hardcoded starter/bench split
+//            is needed here any more -- see Part J's "avoid double-
+//            counting" instruction, which is why this module no longer
+//            re-derives MatchRole/PlayingTimeIntention/PhaseUsage
+//            weights itself)
 //         -> bounded home/away expected-goals adjustment
 //         -> game-simulation's homeTacticalAdjustment/awayTacticalAdjustment
 //             (the SAME existing channel every tactical system already
@@ -15,20 +23,22 @@
 //             module never touches ClubStrength or the engine itself)
 //
 // Only MatchPlan's SQUAD/STARTING-UNIT/USAGE/SUBSTITUTION/DEPTH data is
-// used here. AttackPlanConfig/DefencePlanConfig/TransitionPlanConfig's
-// tactical-instruction fields (tempo, structureFreedom, pivotUsage,
-// defensiveDepth, contactIntent, etc.) have NO existing, honest mapping
-// into any simulation input (confirmed by the HM-TACTICS-1.0 audit:
-// this vocabulary does not exist anywhere else in the codebase) and are
-// deliberately left INERT this milestone (Part J: "leave it inert and
-// report it, do not invent fake effects"). Only `attackPlan.
-// sevenVSixPolicy` is wired, via tacticalMatchAdjustment.ts's own
-// existing (now intensity-scalable) 7v6 bonus channel -- see Part K.
-import type { PlayerMock } from "../game-data";
+// used here (via matchUsageEngine.ts). AttackPlanConfig/
+// DefencePlanConfig/TransitionPlanConfig's tactical-instruction fields
+// (tempo, structureFreedom, pivotUsage, defensiveDepth, contactIntent,
+// etc.) have NO existing, honest mapping into any simulation input
+// (confirmed by the HM-TACTICS-1.0 audit: this vocabulary does not
+// exist anywhere else in the codebase) and are deliberately left INERT
+// this milestone (Part J: "leave it inert and report it, do not invent
+// fake effects"). Only `attackPlan.sevenVSixPolicy` is wired, via
+// tacticalMatchAdjustment.ts's own existing (intensity-scalable) 7v6
+// bonus channel.
 import type { GameplayPlayerRating } from "../gameWorld/gameplayRatingSnapshot";
+import { computeTeamUsageTrace, type TeamUsageTrace } from "./matchUsageEngine";
+import type { PlayerMock } from "../game-data";
 import { buildInitialMatchSquad } from "../matchPlan/careerSquadBridge";
 import { buildDefaultMatchPlan } from "../matchPlan/defaultMatchPlan";
-import type { MatchPlan, MatchRole, PlayerMatchUsage, PlayerPhaseUsage, PlayingTimeIntention } from "../matchPlan/types";
+import type { MatchPlan } from "../matchPlan/types";
 import { GOALKEEPER_ATTRIBUTES, type GoalkeeperAttribute, type OutcourtAttribute } from "../rating/types";
 
 // ---------------------------------------------------------------------------
@@ -95,75 +105,16 @@ function playerGoalkeeperValue(rating: GameplayPlayerRating | undefined): number
 }
 
 // ---------------------------------------------------------------------------
-// Part F: MatchRole/PlayingTimeIntention/PlayerPhaseUsage as bounded usage
-// weights -- intended usage, never exact minutes (Part F: "do not convert
-// these labels into exact real minutes yet").
+// HM-MATCH-1.0 Part J: team phase/goalkeeper value is now a plain
+// exposure-weighted mean over EVERY squad player -- exposure (from
+// matchUsageEngine.ts's TeamUsageTrace) already encodes starter-vs-
+// bench temporal dominance (a starter is active most/all of the six
+// windows; a low-usage bench player only the last one or two), so no
+// separate hardcoded starter/bench structural split is needed any more
+// -- that would have double-counted the same MatchRole/
+// PlayingTimeIntention/PhaseUsage inputs the usage engine already
+// weighted (Part J's own warning).
 // ---------------------------------------------------------------------------
-
-/** Exported for direct, precise unit tests of the usage-weighting model (Part L: "debuggable/testable") -- not part of the module's real public API surface otherwise. */
-export const MATCH_ROLE_WEIGHT: Record<MatchRole, number> = {
-  KEY_PLAYER: 1.0,
-  STARTER: 0.9,
-  MAJOR_ROTATION: 0.7,
-  ROTATION: 0.55,
-  SPECIALIST: 0.65,
-  DEVELOPMENT: 0.35,
-  EMERGENCY: 0.15,
-};
-
-export const PLAYING_TIME_MULTIPLIER: Record<PlayingTimeIntention, number> = {
-  VERY_HIGH: 1.0,
-  HIGH: 0.85,
-  NORMAL: 0.65,
-  LOW: 0.4,
-  VERY_LOW: 0.2,
-  EMERGENCY_ONLY: 0.08,
-};
-
-/** ATTACK_ONLY/DEFENCE_ONLY zero out the other phase entirely (Part F); *_PREFERRED weight the non-preferred phase down rather than to zero. */
-export const PHASE_USAGE_MULTIPLIER: Record<PlayerPhaseUsage, { attack: number; defence: number }> = {
-  BOTH_PHASES: { attack: 1, defence: 1 },
-  ATTACK_ONLY: { attack: 1, defence: 0 },
-  DEFENCE_ONLY: { attack: 0, defence: 1 },
-  ATTACK_PREFERRED: { attack: 1, defence: 0.5 },
-  DEFENCE_PREFERRED: { attack: 0.5, defence: 1 },
-};
-
-function baseUsageWeight(usage: PlayerMatchUsage | undefined): number {
-  if (!usage) return MATCH_ROLE_WEIGHT.ROTATION * PLAYING_TIME_MULTIPLIER.NORMAL;
-  return MATCH_ROLE_WEIGHT[usage.matchRole] * PLAYING_TIME_MULTIPLIER[usage.playingTimeIntention];
-}
-
-function phaseWeight(usage: PlayerMatchUsage | undefined, phase: "attack" | "defence"): number {
-  const mult = usage ? PHASE_USAGE_MULTIPLIER[usage.phaseUsage][phase] : 1;
-  return baseUsageWeight(usage) * mult;
-}
-
-// ---------------------------------------------------------------------------
-// Part G/H: substitution-pair specialist evidence and depth-hierarchy
-// priority as small, bounded bench-weight multipliers -- never a
-// simulated substitution or transition-failure penalty (Part G: "do not
-// simulate actual substitution timing yet").
-// ---------------------------------------------------------------------------
-
-/** A bench player named as the phase-specialist half of a SubstitutionPair is specifically groomed to contribute in that phase -- a bounded bench-weight boost, not a guarantee of playing time (Part G). */
-function substitutionSpecialistMultiplier(plan: MatchPlan, playerId: string, phase: "attack" | "defence"): number {
-  const isPaired = plan.substitutionPairs.some((p) => (phase === "attack" ? p.attackPlayerId === playerId : p.defencePlayerId === playerId));
-  return isPaired ? 1.5 : 1.0;
-}
-
-/** A player's own recorded depth-hierarchy priority (Part H, "where available") -- priority 1 gets a small boost, 3+ a small reduction; a player not listed in any group is unaffected. */
-function depthPriorityMultiplier(plan: MatchPlan, playerId: string): number {
-  for (const group of plan.depthHierarchy) {
-    const entry = group.entries.find((e) => e.playerId === playerId);
-    if (entry) {
-      if (entry.priority <= 1) return 1.2;
-      if (entry.priority === 2) return 1.0;
-      return 0.85;
-    }
-  }
-  return 1.0;
-}
 
 function weightedMean(items: readonly { value: number; weight: number }[]): number {
   const totalWeight = items.reduce((sum, i) => sum + i.weight, 0);
@@ -171,17 +122,9 @@ function weightedMean(items: readonly { value: number; weight: number }[]): numb
   return items.reduce((sum, i) => sum + i.value * i.weight, 0) / totalWeight;
 }
 
-// ---------------------------------------------------------------------------
-// Part C/H: starting unit dominates, bench contributes modestly but is
-// never ignored -- a fixed 80/20 structural split between the starting-
-// unit weighted average and the bench weighted average, per phase.
-// ---------------------------------------------------------------------------
-
-const STARTER_SHARE = 0.8;
-const BENCH_SHARE = 0.2;
-
 interface PhaseValueResult {
   value: number;
+  /** Diagnostic-only: the exposure-weighted mean among players who STARTED this phase, vs everyone else -- never fed back into `value` itself, purely for trace inspection. */
   startingAvg: number;
   benchAvg: number;
 }
@@ -189,52 +132,45 @@ interface PhaseValueResult {
 function computePhaseValue(
   plan: MatchPlan,
   ratingsById: Map<string, GameplayPlayerRating>,
-  startingIds: ReadonlySet<string>,
+  usageTrace: TeamUsageTrace,
   phase: "attack" | "defence",
   valueOf: (rating: GameplayPlayerRating | undefined) => number,
 ): PhaseValueResult {
-  const usageById = new Map(plan.playerUsage.map((u) => [u.playerId, u]));
+  const traceById = new Map(usageTrace.players.map((t) => [t.playerId, t]));
   const gkIds = new Set(plan.squad.players.filter((p) => p.position === "GK").map((p) => p.playerId));
 
-  const starters = plan.squad.players
-    .filter((p) => startingIds.has(p.playerId))
-    .map((p) => ({ value: valueOf(ratingsById.get(p.playerId)), weight: phaseWeight(usageById.get(p.playerId), phase) }));
+  const outcourt = plan.squad.players.filter((p) => !gkIds.has(p.playerId));
+  const items = outcourt.map((p) => {
+    const trace = traceById.get(p.playerId);
+    const exposure = phase === "attack" ? (trace?.attackExposure ?? 0) : (trace?.defenceExposure ?? 0);
+    const started = phase === "attack" ? (trace?.startedAttack ?? false) : (trace?.startedDefence ?? false);
+    return { value: valueOf(ratingsById.get(p.playerId)), weight: exposure, started };
+  });
 
-  const bench = plan.squad.players
-    .filter((p) => !startingIds.has(p.playerId) && !gkIds.has(p.playerId))
-    .map((p) => ({
-      value: valueOf(ratingsById.get(p.playerId)),
-      weight: phaseWeight(usageById.get(p.playerId), phase) * depthPriorityMultiplier(plan, p.playerId) * substitutionSpecialistMultiplier(plan, p.playerId, phase),
-    }));
-
-  const startingAvg = starters.length > 0 ? weightedMean(starters) : NEUTRAL_VALUE;
-  const benchAvg = bench.length > 0 ? weightedMean(bench) : startingAvg;
-  const value = starters.length === 0 ? NEUTRAL_VALUE : bench.length === 0 ? startingAvg : STARTER_SHARE * startingAvg + BENCH_SHARE * benchAvg;
+  const value = items.length > 0 ? weightedMean(items) : NEUTRAL_VALUE;
+  const starters = items.filter((i) => i.started);
+  const bench = items.filter((i) => !i.started);
+  const startingAvg = starters.length > 0 ? weightedMean(starters) : value;
+  const benchAvg = bench.length > 0 ? weightedMean(bench) : value;
   return { value, startingAvg, benchAvg };
 }
 
 // ---------------------------------------------------------------------------
-// Part I: goalkeeper is a distinct value channel -- the starting
-// (defence-unit) goalkeeper dominates; a backup's contribution is bounded
-// by their own PlayingTimeIntention/MatchRole, never equal to the starter.
+// Part I/L: goalkeeper is a distinct value channel -- `goalkeeperExposure`
+// already gives the starting GK ~all six windows and a backup only
+// whatever their own usage weight earns them at the end of the match
+// (matchUsageEngine.ts's computeGoalkeeperWindowCounts), so a plain
+// exposure-weighted mean here is sufficient; no separate hardcoded
+// 85/15 split is needed any more.
 // ---------------------------------------------------------------------------
 
-const GK_STARTER_SHARE = 0.85;
-const GK_BACKUP_SHARE = 0.15;
-
-function computeGoalkeeperValue(plan: MatchPlan, ratingsById: Map<string, GameplayPlayerRating>): number {
-  const primaryId = plan.defenceStartingUnit.goalkeeperId;
+function computeGoalkeeperValue(plan: MatchPlan, ratingsById: Map<string, GameplayPlayerRating>, usageTrace: TeamUsageTrace): number {
+  const traceById = new Map(usageTrace.players.map((t) => [t.playerId, t]));
   const goalkeepers = plan.squad.players.filter((p) => p.position === "GK");
-  if (!primaryId || !goalkeepers.some((p) => p.playerId === primaryId)) return NEUTRAL_VALUE;
+  if (goalkeepers.length === 0) return NEUTRAL_VALUE;
 
-  const usageById = new Map(plan.playerUsage.map((u) => [u.playerId, u]));
-  const primaryValue = playerGoalkeeperValue(ratingsById.get(primaryId));
-  const backups = goalkeepers
-    .filter((p) => p.playerId !== primaryId)
-    .map((p) => ({ value: playerGoalkeeperValue(ratingsById.get(p.playerId)), weight: phaseWeight(usageById.get(p.playerId), "defence") }));
-
-  if (backups.length === 0) return primaryValue;
-  return GK_STARTER_SHARE * primaryValue + GK_BACKUP_SHARE * weightedMean(backups);
+  const items = goalkeepers.map((p) => ({ value: playerGoalkeeperValue(ratingsById.get(p.playerId)), weight: traceById.get(p.playerId)?.goalkeeperExposure ?? 0 }));
+  return weightedMean(items);
 }
 
 // ---------------------------------------------------------------------------
@@ -282,17 +218,23 @@ const NEUTRAL_TRACE: TeamStrengthTrace = {
  *
  * `plan: null` (no resolvable MatchPlan, e.g. a squad too small to build
  * a default one) returns the neutral trace -- never throws.
+ *
+ * `usageSeed` (HM-MATCH-1.0) namespaces the deterministic tiebreak
+ * matchUsageEngine.ts uses when ranking equal-priority players within
+ * one window's capped on-court set -- pass `` `${saveSeed}:${fixtureId}:usage:${clubId}` ``
+ * from a real call site so it stays consistent with this codebase's
+ * existing seeding scheme; any fixed string is fine for tests that
+ * don't care about tiebreak ordering (the default here).
  */
-export function computeTeamStrengthTrace(plan: MatchPlan | null, ratings: readonly GameplayPlayerRating[]): TeamStrengthTrace {
+export function computeTeamStrengthTrace(plan: MatchPlan | null, ratings: readonly GameplayPlayerRating[], usageSeed = "playerMatchStrength"): TeamStrengthTrace {
   if (!plan) return NEUTRAL_TRACE;
 
   const ratingsById = new Map(ratings.map((r) => [r.playerId, r]));
-  const attackStartingIds = new Set(plan.attackStartingUnit.slots.filter((s) => s.position !== "GK").map((s) => s.playerId));
-  const defenceStartingIds = new Set(plan.defenceStartingUnit.courtSlots.map((s) => s.playerId));
+  const usageTrace = computeTeamUsageTrace(plan, usageSeed);
 
-  const attack = computePhaseValue(plan, ratingsById, attackStartingIds, "attack", playerAttackValue);
-  const defenceOutfield = computePhaseValue(plan, ratingsById, defenceStartingIds, "defence", playerDefenceValue);
-  const goalkeeperValue = computeGoalkeeperValue(plan, ratingsById);
+  const attack = computePhaseValue(plan, ratingsById, usageTrace, "attack", playerAttackValue);
+  const defenceOutfield = computePhaseValue(plan, ratingsById, usageTrace, "defence", playerDefenceValue);
+  const goalkeeperValue = computeGoalkeeperValue(plan, ratingsById, usageTrace);
   const defenceValue = OUTFIELD_DEFENCE_SHARE * defenceOutfield.value + GOALKEEPER_DEFENCE_SHARE * goalkeeperValue;
 
   return {
@@ -339,15 +281,27 @@ export interface PlayerMatchStrengthAdjustment {
   trace: { home: TeamStrengthTrace; away: TeamStrengthTrace };
 }
 
-/** The one public entry point: MatchPlan + GameplayRatings for both sides -> a bounded home/away expected-goals adjustment, ready to sum with tacticalMatchAdjustment.ts's own result before passing to simulateFixture (Part J/N/O). Deterministic and pure -- no I/O, no randomness. */
+/**
+ * The one public entry point: MatchPlan + GameplayRatings for both sides
+ * -> a bounded home/away expected-goals adjustment, ready to sum with
+ * tacticalMatchAdjustment.ts's own result before passing to
+ * simulateFixture (Part J/N/O). Deterministic and pure -- no I/O, no
+ * randomness of its own (matchUsageEngine.ts's own tiebreak is a pure
+ * hash, not an rng stream).
+ *
+ * `seedPrefix` (HM-MATCH-1.0, default a fixed string) namespaces the two
+ * sides' independent usage-tiebreak seeds -- pass `` `${saveSeed}:${fixtureId}` ``
+ * from a real call site.
+ */
 export function computePlayerMatchStrengthAdjustment(
   homePlan: MatchPlan | null,
   homeRatings: readonly GameplayPlayerRating[],
   awayPlan: MatchPlan | null,
   awayRatings: readonly GameplayPlayerRating[],
+  seedPrefix = "playerMatchStrength",
 ): PlayerMatchStrengthAdjustment {
-  const home = computeTeamStrengthTrace(homePlan, homeRatings);
-  const away = computeTeamStrengthTrace(awayPlan, awayRatings);
+  const home = computeTeamStrengthTrace(homePlan, homeRatings, `${seedPrefix}:home`);
+  const away = computeTeamStrengthTrace(awayPlan, awayRatings, `${seedPrefix}:away`);
 
   const homeAdjustment = attackAdjustmentFor(home.attackValue) - defenceAdjustmentFor(away.defenceValue);
   const awayAdjustment = attackAdjustmentFor(away.attackValue) - defenceAdjustmentFor(home.defenceValue);
