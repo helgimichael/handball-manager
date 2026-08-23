@@ -30,6 +30,7 @@ import {
 } from "@handball-manager/tactical-domain";
 import { defaultTeamTacticalProfile, PROVISIONAL_NEUTRAL_CAPABILITY, type TeamTacticalProfile } from "./teamTacticalProfile";
 import type { OpponentAdaptationEffect } from "./opponentAdaptation";
+import type { SevenVSixPolicyLevel } from "../matchPlan/types";
 
 /** Runs per direction, per fixture. Cheap pure computation (no I/O) -- 200 is enough for a stable directional signal without claiming statistical realism (Spec #13: "tests must NOT claim realistic percentages"). */
 const MONTE_CARLO_RUNS = 200;
@@ -79,6 +80,32 @@ const MAX_SEVEN_V_SIX_ADJUSTMENT_GOALS = 2.4;
  */
 const SEVEN_V_SIX_OFFENSIVE_BONUS_GOALS = 0.8;
 const SEVEN_V_SIX_OPPONENT_RISK_BONUS_GOALS = 0.6;
+
+/**
+ * HM-MATCH-RATINGS-0.1 Part K: MatchPlan's PRE-MATCH `SevenVSixPolicy`
+ * (lib/matchPlan/types.ts -- how readily the coach intends to use 7v6
+ * over the course of the match) is a coarser signal than the live,
+ * minute-by-minute `sevenVSixActive` toggle above, so it does not simply
+ * flip the same flat bonus/risk figures fully on. Instead it scales
+ * them by how much of the match the policy implies the extra attacker
+ * will actually be on the court -- NEVER an exact activation-minute
+ * simulation (explicitly out of scope), just a bounded fraction of the
+ * existing, already-approved flat bonus/risk pair. NEVER touches
+ * lib/liveMatch/sevenVSixMode.ts's live mechanics -- this is read only
+ * by the PRE-MATCH full-game simulation call (matchdayAction.ts/
+ * calendar.ts), never by tacticalMidMatchChange.ts's live segment
+ * re-simulation.
+ */
+const SEVEN_V_SIX_POLICY_INTENSITY: Record<SevenVSixPolicyLevel, number> = {
+  NEVER: 0,
+  SITUATIONAL: 0.25,
+  FREQUENT: 0.55,
+  PRIMARY: 0.9,
+};
+
+export function sevenVSixPolicyIntensity(level: SevenVSixPolicyLevel): number {
+  return SEVEN_V_SIX_POLICY_INTENSITY[level];
+}
 
 /**
  * The one-and-only outcome -> attack-favorability score table (Spec #8:
@@ -263,6 +290,15 @@ export interface TacticalMatchAdjustment {
  * tendencies. Every call site that omits it (or passes null) behaves
  * exactly as it did before this milestone -- this never changes the
  * manager's own profile or any manager-controlled tactic.
+ *
+ * `sevenVSixIntensity` (HM-MATCH-RATINGS-0.1, default 1 = the full
+ * original flat bonus/risk magnitude) scales ONLY the flat 7v6 bonus/
+ * risk figures. Every pre-HM-MATCH-RATINGS-0.1 call site omits it and
+ * gets byte-identical behavior to before this milestone. Pass
+ * `sevenVSixPolicyIntensity(policy.level)` for a MatchPlan-derived
+ * pre-match call (Part K); the existing live mid-match `sevenVSixActive`
+ * toggle keeps meaning "fully active right now" (its own call site
+ * never passes this parameter).
  */
 export function computeTacticalMatchAdjustment(
   saveSeed: string,
@@ -273,6 +309,7 @@ export function computeTacticalMatchAdjustment(
   sevenVSixActive = false,
   opponentAdaptation: OpponentAdaptationEffect | null = null,
   opponentProfile: TeamTacticalProfile | null = null,
+  sevenVSixIntensity = 1,
 ): TacticalMatchAdjustment {
   const managerIsHome = homeClubId === managerClubId;
 
@@ -302,9 +339,10 @@ export function computeTacticalMatchAdjustment(
   // opponent's expected goals.
   const baseOpponentAdjustment = clamp(defenseScore * MAX_TACTICAL_ADJUSTMENT_GOALS);
 
-  const sevenVSixRiskBonus = opponentAdaptation?.trigger === "SEVEN_V_SIX" ? SEVEN_V_SIX_OPPONENT_RISK_BONUS_GOALS * (1 - opponentAdaptation.dampeningFraction) : SEVEN_V_SIX_OPPONENT_RISK_BONUS_GOALS;
+  const scaledOffensiveBonus = SEVEN_V_SIX_OFFENSIVE_BONUS_GOALS * sevenVSixIntensity;
+  const sevenVSixRiskBonus = (opponentAdaptation?.trigger === "SEVEN_V_SIX" ? SEVEN_V_SIX_OPPONENT_RISK_BONUS_GOALS * (1 - opponentAdaptation.dampeningFraction) : SEVEN_V_SIX_OPPONENT_RISK_BONUS_GOALS) * sevenVSixIntensity;
 
-  const attackAdjustment = sevenVSixActive ? clampSevenVSix(baseAttackAdjustment + SEVEN_V_SIX_OFFENSIVE_BONUS_GOALS) : baseAttackAdjustment;
+  const attackAdjustment = sevenVSixActive ? clampSevenVSix(baseAttackAdjustment + scaledOffensiveBonus) : baseAttackAdjustment;
   const opponentAdjustment = sevenVSixActive ? clampSevenVSix(baseOpponentAdjustment + sevenVSixRiskBonus) : baseOpponentAdjustment;
 
   const home = managerIsHome ? attackAdjustment : opponentAdjustment;

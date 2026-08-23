@@ -18,6 +18,7 @@ import type { OpponentAdaptationEffect } from "./opponentAdaptation";
 import type { CareerEvent } from "./careerEvents";
 import type { CareerState } from "./types";
 import type { MatchPlan } from "../matchPlan/types";
+import type { GameplayPlayerRating } from "../gameWorld/gameplayRatingSnapshot";
 
 type CareerContextValue = {
   save: CareerSave;
@@ -119,6 +120,25 @@ async function fetchAiTacticalPreferences(competitionId: string, season: string,
   }
 }
 
+/**
+ * HM-MATCH-RATINGS-0.1: mirrors fetchWorldSquads/fetchAiTacticalPreferences
+ * exactly -- the canonical gameplay-ratings snapshot is resolved
+ * server-side (the rating pipeline touches the filesystem) and fetched
+ * once at career creation. A fetch failure just means no canonical
+ * ratings for this career, which playerMatchStrength.ts's own
+ * neutral-value fallback already handles safely.
+ */
+async function fetchGameplayRatings(competitionId: string): Promise<Record<string, GameplayPlayerRating[]>> {
+  try {
+    const res = await fetch(`/api/game-world/gameplay-ratings-snapshot?competitionId=${encodeURIComponent(competitionId)}`);
+    if (!res.ok) return {};
+    const data = await res.json();
+    return data.gameplayRatings ?? {};
+  } catch {
+    return {};
+  }
+}
+
 async function getOrCreateCareerState(save: CareerSave): Promise<CareerState> {
   if (save.careerState) {
     const migrated = migrateCareerState(save.careerState);
@@ -131,7 +151,8 @@ async function getOrCreateCareerState(save: CareerSave): Promise<CareerState> {
   const isRealWorld = club?.dataSource === "REAL_WORLD";
   const worldSquads = isRealWorld ? await fetchWorldSquads(club.competitionId) : {};
   const aiTacticalPreferences = isRealWorld ? await fetchAiTacticalPreferences(club.competitionId, "2026/27", GAME_CURRENT_DATE) : {};
-  const fresh = createNewCareerState(save.saveId, save.clubId, worldSquads, aiTacticalPreferences);
+  const gameplayRatings = isRealWorld ? await fetchGameplayRatings(club.competitionId) : {};
+  const fresh = createNewCareerState(save.saveId, save.clubId, worldSquads, aiTacticalPreferences, gameplayRatings);
   saveCareerState(save.saveId, fresh);
   return fresh;
 }

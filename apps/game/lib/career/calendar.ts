@@ -1,7 +1,9 @@
 import { simulateFixture, type FastMatchResult } from "@handball-manager/game-simulation";
 import { getClubStrength } from "../game-data/clubStrength";
+import { getCareerClubSquad } from "./careerWorld";
 import { buildSeasonCompleteMessage } from "./inboxEvents";
 import { applyMatchResultBookkeeping } from "./matchResultApplication";
+import { computePlayerMatchStrengthAdjustment, resolveClubMatchPlanForFixture } from "./playerMatchStrength";
 import { computeAiVsAiTacticalAdjustment } from "./tacticalMatchAdjustment";
 import { averageRating, type CareerFixture, type CareerState, type ClubFormEntry, type PlayerSeasonStats } from "./types";
 import { computeStandings } from "@handball-manager/game-simulation";
@@ -83,12 +85,33 @@ export function simulateAiFixturesForDate(state: CareerState, date: string): { s
     // adjustment argument at all, byte-identical to pre-HM-TACTICS-0.10
     // behavior) when neither club has real identity data.
     const adjustment = computeAiVsAiTacticalAdjustment(state.saveSeed, fixture.id, fixture.homeClubId, fixture.awayClubId, state.aiTacticalPreferences);
+
+    // HM-MATCH-RATINGS-0.1 Part O: AI-vs-AI fixtures gain the same
+    // player-strength influence as the manager's own fixture, using a
+    // deterministic default MatchPlan for BOTH clubs (no AI MatchPlan
+    // "coaching" -- just the same default-plan helper any fixture
+    // without a saved plan already gets). A club with no snapshotted
+    // squad (e.g. non-Tumba Allsvenskan mocks) resolves to a neutral,
+    // zero-effect side, exactly as before this milestone.
+    const homePlan = resolveClubMatchPlanForFixture(fixture.homeClubId, fixture.id, getCareerClubSquad(state, fixture.homeClubId), undefined);
+    const awayPlan = resolveClubMatchPlanForFixture(fixture.awayClubId, fixture.id, getCareerClubSquad(state, fixture.awayClubId), undefined);
+    const playerStrength = computePlayerMatchStrengthAdjustment(
+      homePlan,
+      state.gameplayRatings[fixture.homeClubId] ?? [],
+      awayPlan,
+      state.gameplayRatings[fixture.awayClubId] ?? [],
+    );
+
+    const combinedAdjustment = {
+      home: (adjustment?.home ?? 0) + playerStrength.home,
+      away: (adjustment?.away ?? 0) + playerStrength.away,
+    };
     const result = simulateFixture(
       fixture,
       state.saveSeed,
       (clubId) => getClubStrength(clubId),
       undefined,
-      adjustment ? { home: adjustment.home, away: adjustment.away } : undefined,
+      combinedAdjustment,
     );
     results[fixture.id] = result;
     produced.push(result);

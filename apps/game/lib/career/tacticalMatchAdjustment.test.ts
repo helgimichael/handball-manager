@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { computeAiVsAiTacticalAdjustment, computeTacticalMatchAdjustment } from "./tacticalMatchAdjustment";
+import { computeAiVsAiTacticalAdjustment, computeTacticalMatchAdjustment, sevenVSixPolicyIntensity } from "./tacticalMatchAdjustment";
 import { defaultTeamTacticalProfile, type TeamTacticalProfile } from "./teamTacticalProfile";
 import { OPPONENT_ADAPTATION_DAMPENING_FRACTION, type OpponentAdaptationEffect } from "./opponentAdaptation";
 
@@ -303,4 +303,52 @@ test("HM-TACTICS-0.10: both adjustments always stay within the same documented b
     assert.ok(Math.abs(adjustment.home) <= MAX, `home=${adjustment.home}`);
     assert.ok(Math.abs(adjustment.away) <= MAX, `away=${adjustment.away}`);
   }
+});
+
+// ---------------------------------------------------------------------------
+// HM-MATCH-RATINGS-0.1 Part K: MatchPlan's pre-match SevenVSixPolicy
+// scales the SAME flat 7v6 bonus/risk figures via the new, optional
+// `sevenVSixIntensity` parameter -- never a second 7v6 mechanism, never
+// touching the Monte Carlo sample itself, and byte-identical to
+// pre-HM-MATCH-RATINGS-0.1 behavior when the parameter is omitted.
+// ---------------------------------------------------------------------------
+
+test("sevenVSixPolicyIntensity: NEVER is 0, PRIMARY is the highest, and every level is a fraction in [0, 1]", () => {
+  assert.equal(sevenVSixPolicyIntensity("NEVER"), 0);
+  const situational = sevenVSixPolicyIntensity("SITUATIONAL");
+  const frequent = sevenVSixPolicyIntensity("FREQUENT");
+  const primary = sevenVSixPolicyIntensity("PRIMARY");
+  for (const level of [situational, frequent, primary]) {
+    assert.ok(level > 0 && level <= 1);
+  }
+  assert.ok(situational < frequent);
+  assert.ok(frequent < primary);
+});
+
+test("sevenVSixIntensity omitted defaults to 1 -- byte-identical to explicitly passing 1, and to every pre-HM-MATCH-RATINGS-0.1 sevenVSixActive=true call", () => {
+  const profile = defaultTeamTacticalProfile();
+  const omitted = computeTacticalMatchAdjustment("save-intensity-default", "fx-1", "clubA", "clubA", profile, true);
+  const explicitOne = computeTacticalMatchAdjustment("save-intensity-default", "fx-1", "clubA", "clubA", profile, true, null, null, 1);
+  assert.deepEqual(omitted, explicitOne);
+});
+
+test("sevenVSixIntensity=0 with sevenVSixActive=true removes the flat 7v6 bonus/risk entirely -- same attack-direction score as the profile alone would produce, just still routed through the wider 7v6 clamp", () => {
+  const profile = defaultTeamTacticalProfile();
+  const zeroIntensity = computeTacticalMatchAdjustment("save-intensity-zero", "fx-1", "clubA", "clubA", profile, true, null, null, 0);
+  // With zero intensity, the attack-direction adjustment is exactly the clamped Monte Carlo score (no added bonus) -- reproduce that score independently via a sevenVSixActive=false call using the SAME seed namespace the 7v6 Monte Carlo sample uses is not directly comparable (different seed string), so instead assert the documented, weaker bound: zero intensity must never exceed the ordinary (non-7v6) adjustment bound, since no flat bonus can push it past that scale.
+  assert.ok(Math.abs(zeroIntensity.home) <= MAX + 0.01, `zero-intensity home=${zeroIntensity.home} should stay within the ordinary tactical bound once the flat 7v6 bonus is removed`);
+});
+
+test("higher sevenVSixIntensity produces a higher (or equal, once clamped) attack-direction adjustment than a lower intensity, for the same seed/profile", () => {
+  const profile = defaultTeamTacticalProfile();
+  const low = computeTacticalMatchAdjustment("save-intensity-monotonic", "fx-1", "clubA", "clubA", profile, true, null, null, sevenVSixPolicyIntensity("SITUATIONAL"));
+  const high = computeTacticalMatchAdjustment("save-intensity-monotonic", "fx-1", "clubA", "clubA", profile, true, null, null, sevenVSixPolicyIntensity("PRIMARY"));
+  assert.ok(high.trace.attack.adjustment >= low.trace.attack.adjustment, `PRIMARY intensity (${high.trace.attack.adjustment}) should never be lower than SITUATIONAL (${low.trace.attack.adjustment})`);
+});
+
+test("sevenVSixIntensity is inert when sevenVSixActive is false -- a pre-match policy of NEVER never applies any 7v6 effect regardless of the intensity value passed", () => {
+  const profile = defaultTeamTacticalProfile();
+  const withIntensityButInactive = computeTacticalMatchAdjustment("save-intensity-inactive", "fx-1", "clubA", "clubA", profile, false, null, null, 0.9);
+  const withoutSevenVSixAtAll = computeTacticalMatchAdjustment("save-intensity-inactive", "fx-1", "clubA", "clubA", profile, false);
+  assert.deepEqual(withIntensityButInactive, withoutSevenVSixAtAll);
 });

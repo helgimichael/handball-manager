@@ -15,7 +15,8 @@ import { buildMatchCompletedEvent } from "./careerEvents";
 import { getCareerClubSquad, getCareerSquad } from "./careerWorld";
 import { careerEventToInboxMessage } from "./inboxBridge";
 import { applyMatchResultBookkeeping } from "./matchResultApplication";
-import { computeTacticalMatchAdjustment } from "./tacticalMatchAdjustment";
+import { computePlayerMatchStrengthAdjustment, resolveClubMatchPlanForFixture } from "./playerMatchStrength";
+import { computeTacticalMatchAdjustment, sevenVSixPolicyIntensity } from "./tacticalMatchAdjustment";
 import { buildMatchRoster } from "./tumbaRoster";
 import type { CareerState, ClubFormEntry, PlayerSeasonStats } from "./types";
 
@@ -77,22 +78,57 @@ export function playManagerFixture(state: CareerState): PlayManagerFixtureResult
   // computeTacticalMatchAdjustment already treats as the exact same
   // NEUTRAL opponent assumption as before this milestone.
   const opponentTacticalProfile = state.aiTacticalPreferences[opponentClubId] ?? null;
+
+  // HM-MATCH-RATINGS-0.1: MatchPlan + canonical gameplay ratings now
+  // feed a bounded, isolated player-strength adjustment (Part D-M),
+  // summed with the existing tactical adjustment below rather than
+  // merged into it -- the two layers stay structurally separate (Part
+  // J). The manager's own saved MatchPlan is used when one exists;
+  // otherwise (and for the AI opponent, always -- Part N/O) the same
+  // deterministic default-plan helper the Tactics workspace itself uses
+  // builds one on the fly from the currently selected squad. Never
+  // throws: a squad too small to build a plan resolves to `null`, which
+  // playerMatchStrength.ts treats as a neutral (zero-effect) side.
+  const managerPlan = resolveClubMatchPlanForFixture(state.playerClubId, fixture.id, getCareerSquad(state), state.matchPlans[fixture.id]);
+  const opponentPlan = resolveClubMatchPlanForFixture(opponentClubId, fixture.id, getCareerClubSquad(state, opponentClubId), undefined);
+  const managerIsHome = fixture.homeClubId === state.playerClubId;
+  const playerStrength = computePlayerMatchStrengthAdjustment(
+    managerIsHome ? managerPlan : opponentPlan,
+    state.gameplayRatings[managerIsHome ? state.playerClubId : opponentClubId] ?? [],
+    managerIsHome ? opponentPlan : managerPlan,
+    state.gameplayRatings[managerIsHome ? opponentClubId : state.playerClubId] ?? [],
+  );
+
+  // HM-MATCH-RATINGS-0.1 Part K: the manager's own PRE-MATCH
+  // SevenVSixPolicy (from the resolved MatchPlan above) now scales the
+  // existing, approved flat 7v6 bonus/risk pair -- a simplified,
+  // bounded pre-match interpretation, never an exact activation-minute
+  // simulation and never touching lib/liveMatch/sevenVSixMode.ts's live
+  // mechanics (tacticalMidMatchChange.ts's own mid-match call is
+  // completely untouched by this addition).
+  const sevenVSixPolicyLevel = managerPlan?.attackPlan.sevenVSixPolicy.level ?? "NEVER";
   const tacticalAdjustment = computeTacticalMatchAdjustment(
     state.saveSeed,
     fixture.id,
     state.playerClubId,
     fixture.homeClubId,
     state.tacticalProfile,
-    false,
+    sevenVSixPolicyLevel !== "NEVER",
     null,
     opponentTacticalProfile,
+    sevenVSixPolicyIntensity(sevenVSixPolicyLevel),
   );
+
+  const combinedAdjustment = {
+    home: tacticalAdjustment.home + playerStrength.home,
+    away: tacticalAdjustment.away + playerStrength.away,
+  };
   const result = simulateFixture(
     fixture,
     state.saveSeed,
     (clubId) => getClubStrength(clubId),
     (clubId) => (clubId === state.playerClubId ? roster : clubId === opponentClubId ? opponentRoster : undefined),
-    { home: tacticalAdjustment.home, away: tacticalAdjustment.away },
+    combinedAdjustment,
   );
 
   const results: Record<string, FastMatchResult> = { ...state.results, [fixture.id]: result };

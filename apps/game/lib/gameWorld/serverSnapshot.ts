@@ -12,6 +12,7 @@
 import { getClubsByCompetition, type PlayerMock } from "../game-data";
 import { deriveAiTacticalPreferences } from "../career/aiTacticalPreferences";
 import type { TeamTacticalProfile } from "../career/teamTacticalProfile";
+import { snapshotGameplayRatingsForClub, type GameplayPlayerRating } from "./gameplayRatingSnapshot";
 import { toPlayerMocks } from "./gameWorldAdapter";
 import { resolveClubIdentityForMatch } from "./resolveClubIdentity";
 import { loadRealWorldClubSquad, validateClubSquad } from "./realWorldLoader";
@@ -63,4 +64,26 @@ export function snapshotAiTacticalPreferences(competitionId: string, season: str
     preferences[club.id] = deriveAiTacticalPreferences(identity).profile;
   }
   return preferences;
+}
+
+/**
+ * HM-MATCH-RATINGS-0.1: a one-time, career-creation-time snapshot of
+ * every REAL_WORLD club's canonical complete gameplay ratings (HM-
+ * RATINGS-0.6's own LOCKED > CALIBRATED > ESTIMATED > GENERATED_GAME_
+ * PRIOR resolver, gameplayRatingSnapshot.ts -- not a new resolver).
+ * Same fixed-snapshot precedent as snapshotWorldSquads/
+ * snapshotAiTacticalPreferences, for the same reason: this touches the
+ * filesystem (via the rating pipeline's own real-world loader), so it
+ * must never be reachable from `CareerContext.tsx` ("use client")
+ * directly -- only the gameplay-ratings-snapshot API route and this
+ * package's own tests may import it.
+ */
+export function snapshotGameplayRatings(competitionId: string): Record<string, GameplayPlayerRating[]> {
+  const ratings: Record<string, GameplayPlayerRating[]> = {};
+  for (const club of getClubsByCompetition(competitionId)) {
+    if (club.dataSource !== "REAL_WORLD") continue;
+    const snapshot = snapshotGameplayRatingsForClub(club.id);
+    if (snapshot.players.length > 0) ratings[club.id] = snapshot.players;
+  }
+  return ratings;
 }

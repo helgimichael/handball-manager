@@ -6,6 +6,7 @@ import { seedCareerTasks } from "./careerTasks";
 import { seedPlayerStatuses } from "./playerStatus";
 import { defaultTeamTacticalProfile, type TeamTacticalProfile } from "./teamTacticalProfile";
 import type { CareerState } from "./types";
+import type { GameplayPlayerRating } from "../gameWorld/gameplayRatingSnapshot";
 
 const FALLBACK_COMPETITION_ID = "swe-2"; // used only if playerClubId doesn't resolve to a known club
 
@@ -29,6 +30,11 @@ export function createNewCareerState(
   // already resolved server-side (app/api/game-world/ai-tactical-preferences-snapshot)
   // before this function is called for a real-world-backed club.
   aiTacticalPreferences: Record<string, TeamTacticalProfile> = {},
+  // HM-MATCH-RATINGS-0.1: same fs-free, client-safe pattern as worldSquads/
+  // aiTacticalPreferences -- already resolved server-side
+  // (app/api/game-world/gameplay-ratings-snapshot) before this function
+  // is called for a real-world-backed club.
+  gameplayRatings: Record<string, GameplayPlayerRating[]> = {},
 ): CareerState {
   const playerClub = getClub(playerClubId);
   const competitionId = playerClub?.competitionId ?? FALLBACK_COMPETITION_ID;
@@ -73,5 +79,6 @@ export function createNewCareerState(
     tacticalProfile: defaultTeamTacticalProfile(),
     aiTacticalPreferences,
     matchPlans: {},
+    gameplayRatings,
   };
 }

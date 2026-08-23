@@ -5,6 +5,7 @@ import type { CareerTask } from "./careerTasks";
 import type { PlayerCareerStatus } from "./playerStatus";
 import type { TeamTacticalProfile } from "./teamTacticalProfile";
 import type { MatchPlan } from "../matchPlan/types";
+import type { GameplayPlayerRating } from "../gameWorld/gameplayRatingSnapshot";
 
 export type CareerFixture = {
   id: string;
@@ -134,6 +135,24 @@ export type CareerState = {
    * entry here once the manager actually edits something.
    */
   matchPlans: Record<string, MatchPlan>;
+
+  // --- HM-MATCH-RATINGS-0.1 addition (career-state schema v9, see saveMigration.ts) ---
+
+  /**
+   * Every REAL_WORLD club's canonical complete gameplay ratings (HM-
+   * RATINGS-0.6's own LOCKED > CALIBRATED > ESTIMATED > GENERATED_GAME_
+   * PRIOR snapshot, gameWorld/gameplayRatingSnapshot.ts), keyed by
+   * clubId, snapshotted ONCE at career creation -- the same fixed-
+   * snapshot precedent as `worldSquads`/`aiTacticalPreferences`, and for
+   * the same reason: this module must stay importable from client code
+   * ("use client" CareerContext.tsx), so it can never call the fs-based
+   * rating pipeline directly. A club with no entry here (mock-only
+   * clubs, or a career created before this milestone) simply has no
+   * canonical ratings available -- lib/career/playerMatchStrength.ts's
+   * own neutral-value fallback treats a missing rating exactly like a
+   * missing MatchPlan, never crashing and never inventing one.
+   */
+  gameplayRatings: Record<string, GameplayPlayerRating[]>;
 };
 
 export type CareerSaveEnvelope = {

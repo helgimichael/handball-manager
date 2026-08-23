@@ -114,5 +114,15 @@ export function migrateCareerState(career: CareerState): CareerState {
     next = { ...next, matchPlans: {} };
   }
 
+  // HM-MATCH-RATINGS-0.1 (career-state schema v9): additive, same
+  // pattern as worldSquads/aiTacticalPreferences -- an existing career
+  // simply never had a canonical gameplay-ratings snapshot;
+  // playerMatchStrength.ts already treats a missing rating as neutral
+  // (no effect), so an empty object here changes nothing observable
+  // beyond what this milestone itself introduces for old saves.
+  if (next.gameplayRatings === undefined) {
+    next = { ...next, gameplayRatings: {} };
+  }
+
   return next;
 }
