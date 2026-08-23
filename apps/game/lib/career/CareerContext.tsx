@@ -12,10 +12,12 @@ import { playManagerFixture } from "./matchdayAction";
 import { migrateCareerState } from "./saveMigration";
 import { applyMidMatchTacticalChange } from "./tacticalMidMatchChange";
 import { updateTacticalProfile } from "./tacticalProfileActions";
+import { setMatchPlan } from "./matchPlanActions";
 import type { TeamTacticalProfile } from "./teamTacticalProfile";
 import type { OpponentAdaptationEffect } from "./opponentAdaptation";
 import type { CareerEvent } from "./careerEvents";
 import type { CareerState } from "./types";
+import type { MatchPlan } from "../matchPlan/types";
 
 type CareerContextValue = {
   save: CareerSave;
@@ -38,6 +40,16 @@ type CareerContextValue = {
   unarchiveInboxMessage: (messageId: string) => void;
   /** Updates only the manager's TeamTacticalProfile (HM-TACTICS-0.6A), and persists. Not consumed by Fast Match yet. */
   updateTacticalProfile: (changes: Partial<TeamTacticalProfile>) => void;
+  /**
+   * Saves (or replaces) one fixture's MatchPlan (HM-TACTICS-1.1), and
+   * persists. Accepts either a complete plan or an updater function
+   * `(prev) => next` -- prefer the updater form when the new plan is
+   * derived from the current one, so rapid sequential edits from the
+   * same panel always apply against the latest state rather than a
+   * stale prop snapshot. Never touches TeamTacticalProfile or any other
+   * fixture's plan. Not consumed by Fast Match yet.
+   */
+  updateMatchPlan: (fixtureId: string, planOrUpdater: MatchPlan | ((prev: MatchPlan) => MatchPlan)) => void;
   /**
    * HM-TACTICS-0.7: splices an ADOPTED in-match tactical instruction onto
    * a fixture's already-stored FastMatchResult (preserving the prefix
@@ -203,6 +215,28 @@ export function CareerProvider({ children }: { children: ReactNode }) {
     setValue({ save: value!.save, career: nextCareer });
   }
 
+  function updateMatchPlanAction(fixtureId: string, planOrUpdater: MatchPlan | ((prev: MatchPlan) => MatchPlan)) {
+    // HM-TACTICS-1.1: the Tactics workspace fires several onChange calls
+    // from the SAME already-rendered panel in quick succession (e.g. a
+    // reviewer clicking match role, then playing time, then phase usage
+    // on one player). Each call site only knows the `plan` prop it was
+    // rendered with; if two calls land before React re-renders between
+    // them, a plain `setValue({...})` would let the second call silently
+    // overwrite the first using a stale plan. The functional setValue
+    // form (already established for exactly this reason by
+    // applyMidMatchTacticalChangeAction below) guarantees every call
+    // resolves against whatever the LATEST committed matchPlans entry
+    // actually is, so no edit is ever silently lost.
+    setValue((current) => {
+      if (!current) return current;
+      const prevPlan = current.career.matchPlans[fixtureId];
+      const nextPlan = typeof planOrUpdater === "function" ? planOrUpdater(prevPlan) : planOrUpdater;
+      const nextCareer = setMatchPlan(current.career, fixtureId, nextPlan);
+      saveCareerState(current.save.saveId, nextCareer);
+      return { save: current.save, career: nextCareer };
+    });
+  }
+
   function applyMidMatchTacticalChangeAction(
     fixtureId: string,
     adoptionMinute: number,
@@ -241,6 +275,7 @@ export function CareerProvider({ children }: { children: ReactNode }) {
         archiveInboxMessage,
         unarchiveInboxMessage,
         updateTacticalProfile: updateTacticalProfileAction,
+        updateMatchPlan: updateMatchPlanAction,
         applyMidMatchTacticalChange: applyMidMatchTacticalChangeAction,
       }}
     >

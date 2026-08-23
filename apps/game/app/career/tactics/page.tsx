@@ -1,225 +1,137 @@
 "use client";
 
-import { useMemo } from "react";
-import MasterCourt, {
-  type InteractionMode,
-  type ToolId,
-} from "@handball-manager/match-renderer/src/ui/workspaces/tactics-board/MasterCourt.tsx";
-import {
-  APPROVED_DEFENSIVE_ZONE_CALIBRATION,
-  APPROVED_DEFENSIVE_ZONE_LABEL_CALIBRATION,
-} from "@handball-manager/match-renderer/src/ui/workspaces/tactics-board/geometry/HandballCourtGeometry.ts";
-import { DEFAULT_CAMERA } from "@handball-manager/match-renderer/src/ui/camera/Camera2D.ts";
-import { designSystemTheme } from "@handball-manager/match-renderer/src/ui/design-system/index.ts";
-import { createInitialScene } from "@handball-manager/match-renderer/src/ui/workspaces/tactics-board/scene/TacticsBoardScene.ts";
-import { createBoardObject, type BoardObject } from "@handball-manager/match-renderer/src/ui/workspaces/tactics-board/scene/BoardObject.ts";
-import { FORMATIONS } from "@handball-manager/match-renderer/src/ui/workspaces/tactics-board/library/FormationLibrary.ts";
-import { positionLabel } from "@/lib/game-data";
-import type { HandballPosition } from "@/lib/game-data";
+// HM-TACTICS-1.1: turns the Tactics screen into the manager's Match
+// Plan workspace, consuming HM-TACTICS-1.0's headless domain
+// (lib/matchPlan/) instead of the old static, disconnected
+// Startsju/Bänk display. `career.tacticalProfile` (the club's own
+// permanent identity) keeps its own separate panel, completely
+// unaffected -- see lib/career/types.ts's doc comment on why
+// `matchPlans` and `tacticalProfile` are deliberately different keyed
+// stores.
+import { useEffect, useMemo, useState } from "react";
+import { getClub } from "@/lib/game-data";
 import { useCareer } from "@/lib/career/CareerContext";
 import { getCareerSquad } from "@/lib/career/careerWorld";
+import { getNextPlayerFixture } from "@/lib/career/calendar";
 import SegmentedControl from "@/components/SegmentedControl";
-import {
-  ATI001_USAGE_TENDENCY_VALUES,
-  H2_RESPONSE_PREFERENCE_VALUES,
-  TACTICAL_FAMILIARITY_VALUES,
-  capabilityLevelLabel,
-  h2ResponseLabel,
-} from "@/lib/career/teamTacticalProfile";
-
-function noop() {}
-
-// HM-GAME-0.1 Tactics screen: reuses FIELD's own MasterCourt/scene
-// construction verbatim (same technique as apps/match-demo and
-// apps/field-smoke-test) to display the current starting seven +
-// goalkeeper, positioned using FIELD's own canonical attack-6/
-// defence-6-0 formation coordinates. This is a display-only host
-// composed around the untouched FIELD core -- no FIELD source file is
-// modified, and no tactics selection here is wired into SIM.
-const STARTING_POSITIONS: HandballPosition[] = ["V9", "V6", "M6", "H6", "H9", "PV"];
-
-// Static: depends only on FIELD's own canonical formation constants, not
-// on component state, so it's computed once at module load rather than
-// memoized per-render.
-const TACTICS_SCENE = (() => {
-  const attack = FORMATIONS.find((f) => f.id === "attack-6")!;
-  const defence = FORMATIONS.find((f) => f.id === "defence-6-0")!;
-  const objects: BoardObject[] = [];
-  attack.objects
-    .filter((o) => o.type === "ATTACKER")
-    .forEach((o, i) => {
-      objects.push(createBoardObject({ id: `starter-${i}`, type: "ATTACKER", position: o.position, rotation: o.rotation }));
-    });
-  const gkObject = defence.objects.find((o) => o.type === "GOALKEEPER")!;
-  objects.push(createBoardObject({ id: "starting-gk", type: "GOALKEEPER", position: gkObject.position, rotation: gkObject.rotation }));
-  return createInitialScene({ courtView: "FULL_COURT", objects });
-})();
+import { ATI001_USAGE_TENDENCY_VALUES, H2_RESPONSE_PREFERENCE_VALUES, TACTICAL_FAMILIARITY_VALUES, capabilityLevelLabel, h2ResponseLabel } from "@/lib/career/teamTacticalProfile";
+import { buildInitialMatchSquad, toSelectablePlayers } from "@/lib/matchPlan/careerSquadBridge";
+import { buildDefaultMatchPlan } from "@/lib/matchPlan/defaultMatchPlan";
+import { buildTacticalSummary } from "@/lib/matchPlan/matchPlanLabels";
+import MatchSquadPanel from "@/components/matchPlan/MatchSquadPanel";
+import StartingUnitEditor from "@/components/matchPlan/StartingUnitEditor";
+import TacticalConfigPanel from "@/components/matchPlan/TacticalConfigPanel";
+import PlayerInstructionPanel from "@/components/matchPlan/PlayerInstructionPanel";
 
 export default function TacticsPage() {
-  const { career, updateTacticalProfile } = useCareer();
+  const { career, updateMatchPlan, updateTacticalProfile } = useCareer();
   const squad = getCareerSquad(career);
   const profile = career.tacticalProfile;
+  const fixture = getNextPlayerFixture(career);
 
-  const starters = useMemo(() => {
-    const picked: typeof squad[number][] = [];
-    for (const pos of STARTING_POSITIONS) {
-      const candidate = squad.find((p) => p.position === pos && p.squadStatus === "Förstaval" && !picked.includes(p));
-      if (candidate) picked.push(candidate);
+  const selectablePlayers = useMemo(() => toSelectablePlayers(squad), [squad]);
+  const plan = fixture ? career.matchPlans[fixture.id] : undefined;
+
+  const [selectedPlayerId, setSelectedPlayerId] = useState<string | null>(null);
+
+  // HM-TACTICS-1.0 Part O / HM-TACTICS-1.1 Part O: build and persist a
+  // deterministic default plan the first time this fixture has none --
+  // never a second, competing default algorithm here, only
+  // lib/matchPlan's own buildDefaultMatchPlan.
+  useEffect(() => {
+    if (!fixture || plan) return;
+    const initialSquad = buildInitialMatchSquad(squad, fixture.id, career.playerClubId);
+    const result = buildDefaultMatchPlan(initialSquad);
+    if (result.ok && result.plan) {
+      updateMatchPlan(fixture.id, result.plan);
     }
-    return picked;
-  }, [squad]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- intentionally re-runs only when the fixture or its saved plan changes, not on every squad re-derivation.
+  }, [fixture?.id, plan]);
 
-  const goalkeeper = squad.find((p) => p.position === "MV" && p.squadStatus === "Förstaval");
-  const bench = squad.filter((p) => !starters.includes(p) && p.id !== goalkeeper?.id);
-
-  const scene = TACTICS_SCENE;
-
-  const activeTool: ToolId = "SELECT";
-  const interactionMode: InteractionMode = "IDLE";
-
-  return (
-    <div style={{ display: "grid", gridTemplateColumns: "1fr 300px", gap: 12, height: "100%" }}>
-      <div className="hm-panel" style={{ display: "flex", flexDirection: "column" }}>
-        <div className="hm-panel-header">
-          <span className="hm-panel-title">Taktik — startformation</span>
-          <span className="hm-badge hm-badge-neutral">6:0 / Anfall 3-3</span>
-        </div>
-        <div style={{ flex: 1, minHeight: 0, ...designSystemTheme }}>
-          <MasterCourt
-            scene={scene}
-            activeTool={activeTool}
-            interactionMode={interactionMode}
-            interactionCancelVersion={0}
-            isContextMenuOpen={false}
-            camera={DEFAULT_CAMERA}
-            onPlaceObject={noop}
-            onSelectObject={noop}
-            onMoveObject={noop}
-            onDeleteObject={noop}
-            onRotateObject={noop}
-            onObjectMoveGestureStart={noop}
-            onObjectMoveGestureEnd={noop}
-            onObjectRotateGestureStart={noop}
-            onObjectRotateGestureEnd={noop}
-            onPanBy={noop}
-            onZoomAt={noop}
-            onEmptyCourtPointerDown={noop}
-            onCancelToSelect={noop}
-            onFinishContinuousDrawingToSelect={noop}
-            defensiveZoneCalibration={APPROVED_DEFENSIVE_ZONE_CALIBRATION}
-            calibrationMode={false}
-            onDragDividerPoint={noop}
-            onDividerDragStart={noop}
-            onDividerDragEnd={noop}
-            defensiveZoneLabelCalibration={APPROVED_DEFENSIVE_ZONE_LABEL_CALIBRATION}
-            defensiveZoneLabelCalibrationMode={false}
-            selectedDefensiveZoneLabelKey="center"
-            onSelectDefensiveZoneLabel={noop}
-            onDragDefensiveZoneLabel={noop}
-            onRotateDefensiveZoneLabel={noop}
-            onDefensiveZoneLabelGestureStart={noop}
-            onDefensiveZoneLabelGestureEnd={noop}
-            drawings={[]}
-            onSelectDrawing={noop}
-            onMoveDrawing={noop}
-            onMoveDrawingPoint={noop}
-            onAnchorDrawingPoint={noop}
-            onDeleteDrawing={noop}
-            onDrawingGestureStart={noop}
-            onDrawingGestureEnd={noop}
-            pathDraftAnchors={null}
-            onPathAnchorAdd={noop}
-            onPathFinishDroppingLastAnchor={noop}
-            onPathPreviewMove={noop}
-            areas={[]}
-            onCreateArea={noop}
-            onSelectArea={noop}
-            onMoveArea={noop}
-            onMoveAreaPoint={noop}
-            onResizeAreaRectangle={noop}
-            onRotateArea={noop}
-            onDeleteArea={noop}
-            onAreaGestureStart={noop}
-            onAreaGestureEnd={noop}
-            onCreatePlayerAction={noop}
-            onMovePlayerActionScreenAnchor={noop}
-            onPlayerActionGestureStart={noop}
-            onPlayerActionGestureEnd={noop}
-            onOpenPlayerActionsContextMenu={noop}
-            pendingPlayerAction={null}
-            onPendingPlayerActionCommit={noop}
-          />
-        </div>
-      </div>
-
+  if (!fixture) {
+    return (
       <div className="hm-grid" style={{ gap: 12 }}>
         <div className="hm-panel">
           <div className="hm-panel-header">
-            <span className="hm-panel-title">Startsju</span>
+            <span className="hm-panel-title">Taktik</span>
           </div>
-          <div>
-            {goalkeeper ? <RosterRow player={goalkeeper} /> : null}
-            {starters.map((p) => (
-              <RosterRow key={p.id} player={p} />
-            ))}
-          </div>
+          <div className="hm-panel-body hm-text-muted">Ingen kommande match hittades -- en matchplan kan inte skapas förrän nästa match är inbokad.</div>
         </div>
-        <div className="hm-panel">
-          <div className="hm-panel-header">
-            <span className="hm-panel-title">Bänk</span>
-          </div>
-          <div>
-            {bench.map((p) => (
-              <RosterRow key={p.id} player={p} />
-            ))}
-          </div>
-        </div>
-        <div className="hm-panel">
-          <div className="hm-panel-header">
-            <span className="hm-panel-title">Taktisk profil</span>
-          </div>
-          <div className="hm-panel-body" style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-            <SegmentedControl
-              label="ATI-001-benägenhet"
-              value={profile.ati001UsageTendency}
-              options={ATI001_USAGE_TENDENCY_VALUES}
-              renderLabel={capabilityLevelLabel}
-              onChange={(v) => updateTacticalProfile({ ati001UsageTendency: v })}
-            />
-            <SegmentedControl
-              label="H2-respons (TI-001)"
-              value={profile.h2ResponsePreference}
-              options={H2_RESPONSE_PREFERENCE_VALUES}
-              renderLabel={h2ResponseLabel}
-              onChange={(v) => updateTacticalProfile({ h2ResponsePreference: v })}
-            />
-            <SegmentedControl
-              label="Taktisk förtrogenhet"
-              value={profile.tacticalFamiliarity}
-              options={TACTICAL_FAMILIARITY_VALUES}
-              renderLabel={capabilityLevelLabel}
-              onChange={(v) => updateTacticalProfile({ tacticalFamiliarity: v })}
-            />
-            <p className="hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)", margin: 0 }}>
-              Påverkar ännu inte matchsimuleringen — plumbing inför framtida Fast Match-integration.
-            </p>
-          </div>
-        </div>
+        <TacticalProfilePanel profile={profile} updateTacticalProfile={updateTacticalProfile} />
       </div>
+    );
+  }
+
+  const opponentClubId = fixture.homeClubId === career.playerClubId ? fixture.awayClubId : fixture.homeClubId;
+  const opponent = getClub(opponentClubId);
+  const isHome = fixture.homeClubId === career.playerClubId;
+
+  return (
+    <div className="hm-grid" style={{ gap: 12 }}>
+      <div className="hm-panel">
+        <div className="hm-panel-header">
+          <span className="hm-panel-title">Taktik — matchplan</span>
+          <span className="hm-badge hm-badge-neutral">
+            {isHome ? "Hemma" : "Borta"} mot {opponent?.name ?? opponentClubId} · Omgång {fixture.round}
+          </span>
+        </div>
+        {plan ? (
+          <div className="hm-panel-body hm-text-muted" style={{ fontSize: "var(--hm-text-xs)" }}>
+            {buildTacticalSummary(plan)}
+          </div>
+        ) : null}
+      </div>
+
+      {!plan ? (
+        <div className="hm-panel">
+          <div className="hm-panel-body hm-text-muted">Skapar matchplan…</div>
+        </div>
+      ) : (
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 340px", gap: 12, alignItems: "start" }}>
+          <div className="hm-grid" style={{ gap: 12 }}>
+            <StartingUnitEditor plan={plan} selectablePlayers={selectablePlayers} onChange={(next) => updateMatchPlan(fixture.id, next)} onOpenPlayerPanel={setSelectedPlayerId} />
+            <TacticalConfigPanel plan={plan} onChange={(next) => updateMatchPlan(fixture.id, next)} />
+          </div>
+          <div className="hm-grid" style={{ gap: 12 }}>
+            <MatchSquadPanel plan={plan} selectablePlayers={selectablePlayers} onChange={(next) => updateMatchPlan(fixture.id, next)} onOpenPlayerPanel={setSelectedPlayerId} />
+            <TacticalProfilePanel profile={profile} updateTacticalProfile={updateTacticalProfile} />
+          </div>
+        </div>
+      )}
+
+      {plan && selectedPlayerId ? (
+        <PlayerInstructionPanel
+          plan={plan}
+          playerId={selectedPlayerId}
+          selectablePlayers={selectablePlayers}
+          onChange={(next) => updateMatchPlan(fixture.id, next)}
+          onClose={() => setSelectedPlayerId(null)}
+        />
+      ) : null}
     </div>
   );
 }
 
-function RosterRow({ player }: { player: ReturnType<typeof getCareerSquad>[number] }) {
+function TacticalProfilePanel({ profile, updateTacticalProfile }: { profile: ReturnType<typeof useCareer>["career"]["tacticalProfile"]; updateTacticalProfile: ReturnType<typeof useCareer>["updateTacticalProfile"] }) {
   return (
-    <div style={{ display: "flex", alignItems: "center", gap: 8, padding: "5px 12px", borderBottom: "1px solid var(--hm-border-subtle)" }}>
-      <span className="hm-shirt-number">{player.shirtNumber}</span>
-      <span style={{ fontSize: "var(--hm-text-xs)", fontWeight: 600, flex: 1 }}>
-        {player.firstName} {player.lastName}
-      </span>
-      <span className="hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)" }} title={positionLabel(player.position)}>
-        {player.position}
-      </span>
+    <div className="hm-panel">
+      <div className="hm-panel-header">
+        <span className="hm-panel-title">Taktisk profil</span>
+      </div>
+      <div className="hm-panel-body" style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+        <SegmentedControl
+          label="ATI-001-benägenhet"
+          value={profile.ati001UsageTendency}
+          options={ATI001_USAGE_TENDENCY_VALUES}
+          renderLabel={capabilityLevelLabel}
+          onChange={(v) => updateTacticalProfile({ ati001UsageTendency: v })}
+        />
+        <SegmentedControl label="H2-respons (TI-001)" value={profile.h2ResponsePreference} options={H2_RESPONSE_PREFERENCE_VALUES} renderLabel={h2ResponseLabel} onChange={(v) => updateTacticalProfile({ h2ResponsePreference: v })} />
+        <SegmentedControl label="Taktisk förtrogenhet" value={profile.tacticalFamiliarity} options={TACTICAL_FAMILIARITY_VALUES} renderLabel={capabilityLevelLabel} onChange={(v) => updateTacticalProfile({ tacticalFamiliarity: v })} />
+        <p className="hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)", margin: 0 }}>
+          Påverkar ännu inte matchsimuleringen — plumbing inför framtida Fast Match-integration.
+        </p>
+      </div>
     </div>
   );
 }

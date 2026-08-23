@@ -4,6 +4,7 @@ import type { CareerEvent } from "./careerEvents";
 import type { CareerTask } from "./careerTasks";
 import type { PlayerCareerStatus } from "./playerStatus";
 import type { TeamTacticalProfile } from "./teamTacticalProfile";
+import type { MatchPlan } from "../matchPlan/types";
 
 export type CareerFixture = {
   id: string;
@@ -118,6 +119,21 @@ export type CareerState = {
    * assumption for it, never inventing one.
    */
   aiTacticalPreferences: Record<string, TeamTacticalProfile>;
+
+  // --- HM-TACTICS-1.1 addition (career-state schema v8, see saveMigration.ts) ---
+
+  /**
+   * Fixture-specific Match Plans (HM-TACTICS-1.0's headless domain,
+   * lib/matchPlan/), keyed by fixtureId -- same fixture-keyed convention
+   * as `results`. Deliberately separate from `tacticalProfile` above
+   * (the club's own, non-fixture-keyed permanent tactical identity):
+   * editing a fixture's MatchPlan can never rewrite it, because they
+   * live in different keyed stores. A fixture with no entry here simply
+   * has no saved plan yet -- the Tactics workspace builds one on the fly
+   * via lib/matchPlan's own `buildDefaultMatchPlan()` and only writes an
+   * entry here once the manager actually edits something.
+   */
+  matchPlans: Record<string, MatchPlan>;
 };
 
 export type CareerSaveEnvelope = {

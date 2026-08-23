@@ -72,5 +72,6 @@ export function createNewCareerState(
     worldSquads,
     tacticalProfile: defaultTeamTacticalProfile(),
     aiTacticalPreferences,
+    matchPlans: {},
   };
 }

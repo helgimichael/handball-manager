@@ -105,5 +105,14 @@ export function migrateCareerState(career: CareerState): CareerState {
     next = { ...next, aiTacticalPreferences: {} };
   }
 
+  // HM-TACTICS-1.1 (career-state schema v8): additive -- an existing
+  // career simply never had a saved MatchPlan for any fixture yet; the
+  // Tactics workspace already treats a missing entry as "build the
+  // deterministic default on the fly", so an empty object here changes
+  // nothing observable for old saves.
+  if (next.matchPlans === undefined) {
+    next = { ...next, matchPlans: {} };
+  }
+
   return next;
 }
