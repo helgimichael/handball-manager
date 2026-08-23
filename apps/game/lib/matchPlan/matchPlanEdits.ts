@@ -229,6 +229,11 @@ export function setPlayerPhaseUsage(plan: MatchPlan, playerId: string, phaseUsag
   return { ...plan, playerUsage: plan.playerUsage.map((u) => (u.playerId === playerId ? { ...u, phaseUsage } : u)) };
 }
 
+/** HM-MATCH-1.2 Part C: "Återställ till standard" -- overwrites one player's matchRole/playingTimeIntention/phaseUsage for THIS fixture with their persistent default in one call, rather than three separate edits. */
+export function applyPlayerMatchDefault(plan: MatchPlan, playerId: string, matchDefault: { matchRole: MatchRole; playingTimeIntention: PlayingTimeIntention; phaseUsage: PlayerPhaseUsage }): MatchPlan {
+  return { ...plan, playerUsage: plan.playerUsage.map((u) => (u.playerId === playerId ? { ...u, ...matchDefault } : u)) };
+}
+
 // ---------------------------------------------------------------------------
 // Substitution pairs (Part H)
 // ---------------------------------------------------------------------------

@@ -8,6 +8,7 @@ import type { MatchPlan } from "../matchPlan/types";
 import type { GameplayPlayerRating } from "../gameWorld/gameplayRatingSnapshot";
 import type { MatchPlanChangeHistoryEntry } from "../liveMatch/matchPlanChange";
 import type { PlayerMatchDefault, TacticsTemplate } from "../matchPlan/persistentDefaults";
+import type { SpecialPlayPlan } from "../matchPlan/specialPlay";
 
 export type CareerFixture = {
   id: string;
@@ -212,6 +213,21 @@ export type CareerState = {
    * the fallback, exactly as before this milestone.
    */
   playerMatchDefaults: Record<string, PlayerMatchDefault>;
+
+  // --- HM-MATCH-1.2 addition (career-state schema v12, see saveMigration.ts) ---
+
+  /**
+   * Part H: SPECIALSPEL -- the club's own persistent tactical intent for
+   * numerical-mismatch situations (6v5, 5v6, and the defensive response
+   * to an opponent's 7v6/6v5/5v6), keyed by clubId. Same persistence
+   * rule as `tactics`: only an explicit pre-match Tactics workspace edit
+   * changes this. Part M (audited): NONE of this currently reaches Fast
+   * Match -- see lib/matchPlan/specialPlay.ts's own module doc for why
+   * -- so this is PERSISTED FOR FUTURE SIMULATION only, never a fake
+   * effect. A club with no entry here gets `defaultSpecialPlayPlan()`'s
+   * neutral values until the manager configures something else.
+   */
+  specialPlay: Record<string, SpecialPlayPlan>;
 };
 
 export type CareerSaveEnvelope = {

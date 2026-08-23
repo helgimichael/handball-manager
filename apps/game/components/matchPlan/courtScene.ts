@@ -32,11 +32,17 @@ export function buildAttackScene(formation: AttackFormation) {
       .filter((o) => o.type === "ATTACKER")
       .forEach((o, i) => objects.push(createBoardObject({ id: `attack7-${i}`, type: "ATTACKER", position: o.position, rotation: o.rotation })));
   }
-  return createInitialScene({ courtView: "FULL_COURT", objects });
+  // HM-MATCH-1.2 Part D: this workspace only ever shows ONE half's worth
+  // of formation content (all objects sit within the near-goal ~12m of a
+  // 40m-long court) -- rendering it inside FULL_COURT's 20x40 view left
+  // roughly 70% of the board empty, which is the confirmed root cause of
+  // the "tiny, scattered players" complaint. HALF_COURT's 20x20 view
+  // fits this content properly.
+  return createInitialScene({ courtView: "HALF_COURT", objects });
 }
 
 export function buildDefenceScene(baseFormation: string) {
   const formation = FORMATIONS.find((f) => f.id === `defence-${baseFormation}`) ?? FORMATIONS.find((f) => f.id === "defence-6-0")!;
   const objects = formation.objects.map((o, i) => createBoardObject({ id: `defence-${i}`, type: o.type, position: o.position, rotation: o.rotation }));
-  return createInitialScene({ courtView: "FULL_COURT", objects });
+  return createInitialScene({ courtView: "HALF_COURT", objects });
 }

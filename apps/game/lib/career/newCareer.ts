@@ -84,5 +84,6 @@ export function createNewCareerState(
     matchPlanChangeHistory: {},
     tactics: {},
     playerMatchDefaults: {},
+    specialPlay: {},
   };
 }

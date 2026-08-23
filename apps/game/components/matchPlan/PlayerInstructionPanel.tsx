@@ -7,27 +7,47 @@
 // explicit substitution-pair relationship.
 import { PlayerLink } from "@/components/entityLinks";
 import SegmentedControl from "@/components/SegmentedControl";
-import { clearSubstitutionPairFor, setPlayerMatchRole, setPlayerPhaseUsage, setPlayerPlayingTime, setSubstitutionPair, substitutionPartnerOf, type OnMatchPlanChange } from "@/lib/matchPlan/matchPlanEdits";
+import { applyPlayerMatchDefault, clearSubstitutionPairFor, setPlayerMatchRole, setPlayerPhaseUsage, setPlayerPlayingTime, setSubstitutionPair, substitutionPartnerOf, type OnMatchPlanChange } from "@/lib/matchPlan/matchPlanEdits";
 import { defenceCourtSlotLabel, MATCH_ROLE_LABELS_SV, matchPlanPositionLabel, PHASE_USAGE_LABELS_SV, PLAYING_TIME_INTENTION_LABELS_SV } from "@/lib/matchPlan/matchPlanLabels";
 import { MATCH_ROLES, PLAYER_PHASE_USAGES, PLAYING_TIME_INTENTIONS, type MatchPlan } from "@/lib/matchPlan/types";
+import type { PlayerMatchDefault } from "@/lib/matchPlan/persistentDefaults";
 import type { SelectablePlayer } from "@/lib/matchPlan/careerSquadBridge";
+
+/**
+ * HM-MATCH-1.2 Part C: is this player's CURRENT match usage identical to
+ * their persistent standard? Used to show "STANDARD" vs "AVVIKELSE FÖR
+ * DENNA MATCH" and to decide whether "Använd som standard"/"Återställ
+ * till standard" are meaningful right now.
+ */
+function usageMatchesDefault(usage: { matchRole: string; playingTimeIntention: string; phaseUsage: string }, playerDefault: PlayerMatchDefault | undefined): boolean {
+  if (!playerDefault) return false;
+  return usage.matchRole === playerDefault.matchRole && usage.playingTimeIntention === playerDefault.playingTimeIntention && usage.phaseUsage === playerDefault.phaseUsage;
+}
 
 export default function PlayerInstructionPanel({
   plan,
   playerId,
   selectablePlayers,
+  playerDefault,
   onChange,
+  onSetAsDefault,
   onClose,
 }: {
   plan: MatchPlan;
   playerId: string;
   selectablePlayers: readonly SelectablePlayer[];
+  /** The player's persistent standard (CareerState.playerMatchDefaults[playerId]), or undefined if never set. */
+  playerDefault: PlayerMatchDefault | undefined;
   onChange: OnMatchPlanChange;
+  /** HM-MATCH-1.2 Part C: "Använd som standard" -- promotes the CURRENT usage into the persistent standard. */
+  onSetAsDefault: (value: PlayerMatchDefault) => void;
   onClose: () => void;
 }) {
   const info = selectablePlayers.find((p) => p.playerId === playerId);
   const usage = plan.playerUsage.find((u) => u.playerId === playerId);
   if (!info || !usage) return null;
+
+  const isStandard = usageMatchesDefault(usage, playerDefault);
 
   const attackSlot = plan.attackStartingUnit.slots.find((s) => s.playerId === playerId);
   const defenceSlot = plan.defenceStartingUnit.courtSlots.find((s) => s.playerId === playerId);
@@ -52,6 +72,11 @@ export default function PlayerInstructionPanel({
           {attackSlot ? ` · Anfall: ${matchPlanPositionLabel(attackSlot.position)}` : ""}
           {defenceSlot ? ` · Försvar: ${defenceCourtSlotLabel(defenceSlot.courtSlot)}` : isDefenceGk ? " · Försvar: målvakt" : ""}
         </div>
+        <div className="hm-panel-body" style={{ paddingBottom: 0, paddingTop: 0 }}>
+          <span className={`hm-badge ${isStandard ? "hm-badge-neutral" : "hm-badge-warning"}`} style={{ fontSize: "var(--hm-text-2xs)" }}>
+            {isStandard ? "STANDARD" : playerDefault ? "AVVIKELSE FÖR DENNA MATCH" : "INGEN STANDARD SATT ÄNNU"}
+          </span>
+        </div>
         <div className="hm-panel-body" style={{ display: "flex", flexDirection: "column", gap: 14 }}>
           <SegmentedControl label="Matchroll" value={usage.matchRole} options={MATCH_ROLES} renderLabel={(v) => MATCH_ROLE_LABELS_SV[v]} onChange={(v) => onChange((prev) => setPlayerMatchRole(prev, playerId, v))} />
           <SegmentedControl
@@ -62,6 +87,30 @@ export default function PlayerInstructionPanel({
             onChange={(v) => onChange((prev) => setPlayerPlayingTime(prev, playerId, v))}
           />
           <SegmentedControl label="Fasanvändning" value={usage.phaseUsage} options={PLAYER_PHASE_USAGES} renderLabel={(v) => PHASE_USAGE_LABELS_SV[v]} onChange={(v) => onChange((prev) => setPlayerPhaseUsage(prev, playerId, v))} />
+
+          <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+            <button
+              type="button"
+              className="hm-btn hm-btn-sm"
+              disabled={isStandard}
+              onClick={() => onSetAsDefault({ matchRole: usage.matchRole, playingTimeIntention: usage.playingTimeIntention, phaseUsage: usage.phaseUsage })}
+            >
+              Använd som standard
+            </button>
+            <button
+              type="button"
+              className="hm-btn hm-btn-sm hm-btn-ghost"
+              disabled={!playerDefault || isStandard}
+              onClick={() => {
+                if (playerDefault) onChange((prev) => applyPlayerMatchDefault(prev, playerId, playerDefault));
+              }}
+            >
+              Återställ till standard
+            </button>
+          </div>
+          <p className="hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)", margin: 0 }}>
+            &quot;Använd som standard&quot; gör dagens val till spelarens normalläge för framtida matcher. Ett läge för just denna match ändrar aldrig standarden av sig själv.
+          </p>
 
           <div>
             <div className="hm-eyebrow" style={{ marginBottom: 4 }}>

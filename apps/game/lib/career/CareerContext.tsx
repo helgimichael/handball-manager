@@ -13,7 +13,10 @@ import { migrateCareerState } from "./saveMigration";
 import { applyMidMatchTacticalChange } from "./tacticalMidMatchChange";
 import { applyMidMatchPlanChange } from "./matchPlanMidMatchChange";
 import { updateTacticalProfile } from "./tacticalProfileActions";
-import { setMatchPlan } from "./matchPlanActions";
+import { setMatchPlan, setPlayerMatchDefault } from "./matchPlanActions";
+import { setSpecialPlayPlan } from "./specialPlayActions";
+import type { PlayerMatchDefault } from "../matchPlan/persistentDefaults";
+import type { SpecialPlayPlan } from "../matchPlan/specialPlay";
 import type { TeamTacticalProfile } from "./teamTacticalProfile";
 import type { OpponentAdaptationEffect } from "./opponentAdaptation";
 import type { CareerEvent } from "./careerEvents";
@@ -53,6 +56,10 @@ type CareerContextValue = {
    * fixture's plan. Not consumed by Fast Match yet.
    */
   updateMatchPlan: (fixtureId: string, planOrUpdater: MatchPlan | ((prev: MatchPlan) => MatchPlan)) => void;
+  /** HM-MATCH-1.2 Part C: promotes a player's current match usage into their persistent standard -- "Använd som standard". */
+  setPlayerMatchDefault: (playerId: string, value: PlayerMatchDefault) => void;
+  /** HM-MATCH-1.2 Part H: updates the club's persistent Specialspel plan (6v5/5v6/defensive special situations). */
+  updateSpecialPlay: (clubId: string, plan: SpecialPlayPlan) => void;
   /**
    * HM-TACTICS-0.7: splices an ADOPTED in-match tactical instruction onto
    * a fixture's already-stored FastMatchResult (preserving the prefix
@@ -278,6 +285,25 @@ export function CareerProvider({ children }: { children: ReactNode }) {
     });
   }
 
+  /** HM-MATCH-1.2 Part C: "Använd som standard" -- the ONE explicit action that promotes a player's current match usage into their persistent standard. Never fired implicitly by updateMatchPlanAction. */
+  function setPlayerMatchDefaultAction(playerId: string, value: PlayerMatchDefault) {
+    setValue((current) => {
+      if (!current) return current;
+      const nextCareer = setPlayerMatchDefault(current.career, playerId, value);
+      saveCareerState(current.save.saveId, nextCareer);
+      return { save: current.save, career: nextCareer };
+    });
+  }
+
+  function updateSpecialPlayAction(clubId: string, plan: SpecialPlayPlan) {
+    setValue((current) => {
+      if (!current) return current;
+      const nextCareer = setSpecialPlayPlan(current.career, clubId, plan);
+      saveCareerState(current.save.saveId, nextCareer);
+      return { save: current.save, career: nextCareer };
+    });
+  }
+
   function applyMidMatchTacticalChangeAction(
     fixtureId: string,
     adoptionMinute: number,
@@ -343,6 +369,8 @@ export function CareerProvider({ children }: { children: ReactNode }) {
         unarchiveInboxMessage,
         updateTacticalProfile: updateTacticalProfileAction,
         updateMatchPlan: updateMatchPlanAction,
+        setPlayerMatchDefault: setPlayerMatchDefaultAction,
+        updateSpecialPlay: updateSpecialPlayAction,
         applyMidMatchTacticalChange: applyMidMatchTacticalChangeAction,
         applyMidMatchPlanChange: applyMidMatchPlanChangeAction,
       }}

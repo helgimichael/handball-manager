@@ -6,19 +6,33 @@
 // ADOPTED update to a MatchPlan via HM-TACTICS-1.0's own edit functions
 // (lib/matchPlan/matchPlanEdits.ts) -- never a parallel, ad hoc mutation.
 //
-// Deliberately SIMPLER than tacticalInstruction.ts's own lifecycle for
-// v1 (Part G: "keep this SMALL"): a single fixed SIDELINE delay, reusing
-// TACTICAL_INSTRUCTION_ADOPTION_DELAY_MINUTES verbatim rather than
-// inventing a second constant -- no TIMEOUT/HALFTIME delivery modes and
-// no implementationAssessment.ts DELAYED/PARTIAL outcome for MatchPlan
-// changes yet (that layer is scoped to TeamTacticalProfile's 3 fields;
-// honestly extending it to MatchPlan's ~15 different fields is
-// disproportionate scope for this milestone -- reported as a left-out
-// control, not silently skipped).
-import { TACTICAL_INSTRUCTION_ADOPTION_DELAY_MINUTES } from "./tacticalInstruction";
-import { setPlayerPhaseUsage, setPlayerPlayingTime, setSubstitutionPair, updateAttackPlan, updateDefencePlan, updateTransitionPlan } from "../matchPlan/matchPlanEdits";
-import { INTENSITY_LABELS_SV, PHASE_USAGE_LABELS_SV, PLAYING_TIME_INTENTION_LABELS_SV, TEMPO_LABELS_SV } from "../matchPlan/matchPlanLabels";
-import type { AttackPlanConfig, IntensityLevel, MatchPlan, PlayerPhaseUsage, PlayingTimeIntention, TransitionPlanConfig } from "../matchPlan/types";
+// Deliberately SIMPLER than tacticalInstruction.ts's own lifecycle
+// (Part G: "keep this SMALL"): no implementationAssessment.ts DELAYED/
+// PARTIAL outcome for MatchPlan changes (that layer is scoped to
+// TeamTacticalProfile's 3 fields; honestly extending it to MatchPlan's
+// ~15 different fields is disproportionate scope -- reported as a
+// left-out control, not silently skipped).
+//
+// HM-MATCH-1.2 Part U/W: a HALFTIME delivery mode was added -- reusing
+// tacticalInstruction.ts's own three delay constants verbatim (the
+// exact same SIDELINE/TIMEOUT/HALFTIME semantics that system already
+// uses), never a second, invented delay scheme. This is the minimal
+// runtime boundary the new halftime workspace needs: a change confirmed
+// at halftime (minute 30, HALFTIME mode = 0-minute delay) adopts
+// EXACTLY at 30, so "STARTA ANDRA HALVLEK" genuinely only affects
+// [30, 60] -- never bleeding a few minutes into the second half the way
+// the previous SIDELINE-only 3-minute delay would have.
+import {
+  TACTICAL_INSTRUCTION_ADOPTION_DELAY_MINUTES,
+  TACTICAL_INSTRUCTION_HALFTIME_ADOPTION_DELAY_MINUTES,
+  TACTICAL_INSTRUCTION_TIMEOUT_ADOPTION_DELAY_MINUTES,
+  type InstructionDeliveryMode,
+} from "./tacticalInstruction";
+
+export type { InstructionDeliveryMode as MatchPlanChangeDeliveryMode };
+import { assignDefenceCourtSlot, assignNormalAttackSlot, setPlayerPhaseUsage, setPlayerPlayingTime, setSubstitutionPair, updateAttackPlan, updateDefencePlan, updateTransitionPlan } from "../matchPlan/matchPlanEdits";
+import { defenceCourtSlotLabel, INTENSITY_LABELS_SV, matchPlanPositionLabel, PHASE_USAGE_LABELS_SV, PLAYING_TIME_INTENTION_LABELS_SV, TEMPO_LABELS_SV } from "../matchPlan/matchPlanLabels";
+import type { AttackPlanConfig, IntensityLevel, MatchPlan, PlayerPhaseUsage, PlayingTimeIntention, Position, TransitionPlanConfig } from "../matchPlan/types";
 
 export type MatchPlanChangeCategory = "DEFENCE" | "ATTACK" | "TRANSITION" | "PLAYER";
 
@@ -40,7 +54,10 @@ export type MatchPlanChange =
   | { category: "TRANSITION"; kind: "SUBSTITUTION_PRIORITY"; substitutionPriority: TransitionPlanConfig["substitutionPriority"] }
   | { category: "PLAYER"; kind: "PLAYING_TIME"; playerId: string; playerName: string; playingTimeIntention: PlayingTimeIntention }
   | { category: "PLAYER"; kind: "PHASE_USAGE"; playerId: string; playerName: string; phaseUsage: PlayerPhaseUsage }
-  | { category: "PLAYER"; kind: "SPECIALIST_PAIR"; attackPlayerId: string; attackPlayerName: string; defencePlayerId: string; defencePlayerName: string };
+  | { category: "PLAYER"; kind: "SPECIALIST_PAIR"; attackPlayerId: string; attackPlayerName: string; defencePlayerId: string; defencePlayerName: string }
+  /** HM-MATCH-1.2 Part U: second-half starting-unit reassignment -- the halftime workspace's own use of this domain's existing assignNormalAttackSlot/assignDefenceCourtSlot edit functions, exposed through the SAME live-change lifecycle everything else here already uses (never a second mechanism). */
+  | { category: "PLAYER"; kind: "ATTACK_SLOT"; position: Position; playerId: string; playerName: string }
+  | { category: "PLAYER"; kind: "DEFENCE_SLOT"; courtSlot: number; playerId: string; playerName: string };
 
 /** The ONE sanctioned way to turn an adopted MatchPlanChange into a new MatchPlan -- always via lib/matchPlan/matchPlanEdits.ts's own pure edit functions, never a parallel mutation path. */
 export function applyMatchPlanChange(plan: MatchPlan, change: MatchPlanChange): MatchPlan {
@@ -65,6 +82,10 @@ export function applyMatchPlanChange(plan: MatchPlan, change: MatchPlanChange): 
       return setPlayerPhaseUsage(plan, change.playerId, change.phaseUsage);
     case "SPECIALIST_PAIR":
       return setSubstitutionPair(plan, change.attackPlayerId, change.defencePlayerId);
+    case "ATTACK_SLOT":
+      return assignNormalAttackSlot(plan, change.position, change.playerId);
+    case "DEFENCE_SLOT":
+      return assignDefenceCourtSlot(plan, change.courtSlot, change.playerId);
   }
 }
 
@@ -91,6 +112,10 @@ export function describeMatchPlanChange(change: MatchPlanChange): string {
       return `${change.playerName}: fasanvändning → ${PHASE_USAGE_LABELS_SV[change.phaseUsage]}`;
     case "SPECIALIST_PAIR":
       return `${change.attackPlayerName} ⇄ ${change.defencePlayerName}`;
+    case "ATTACK_SLOT":
+      return `${change.playerName}: startar anfall som ${matchPlanPositionLabel(change.position)}`;
+    case "DEFENCE_SLOT":
+      return `${change.playerName}: startar försvar som ${defenceCourtSlotLabel(change.courtSlot)}`;
   }
 }
 
@@ -98,13 +123,26 @@ export interface MatchPlanChangeInstruction {
   id: string;
   issuedMinute: number;
   change: MatchPlanChange;
+  /** Defaults to SIDELINE (byte-identical to every pre-HM-MATCH-1.2 caller) when omitted. */
+  deliveryMode?: InstructionDeliveryMode;
 }
 
 export type MatchPlanChangeStatus = "PENDING" | "ADOPTED";
 
-/** Deterministic: a pure function of `issuedMinute` only (Part H: never wall-clock/pause/speed-dependent) -- reuses tacticalInstruction.ts's own sideline delay constant rather than a second one. */
+function adoptionDelayMinutesFor(mode: InstructionDeliveryMode): number {
+  switch (mode) {
+    case "TIMEOUT":
+      return TACTICAL_INSTRUCTION_TIMEOUT_ADOPTION_DELAY_MINUTES;
+    case "HALFTIME":
+      return TACTICAL_INSTRUCTION_HALFTIME_ADOPTION_DELAY_MINUTES;
+    case "SIDELINE":
+      return TACTICAL_INSTRUCTION_ADOPTION_DELAY_MINUTES;
+  }
+}
+
+/** Deterministic: a pure function of `issuedMinute`/`deliveryMode` only (Part H: never wall-clock/pause/speed-dependent) -- reuses tacticalInstruction.ts's own delay constants rather than inventing new ones. */
 export function matchPlanChangeAdoptionMinute(instruction: MatchPlanChangeInstruction): number {
-  return Math.min(60, instruction.issuedMinute + TACTICAL_INSTRUCTION_ADOPTION_DELAY_MINUTES);
+  return Math.min(60, instruction.issuedMinute + adoptionDelayMinutesFor(instruction.deliveryMode ?? "SIDELINE"));
 }
 
 export function resolveMatchPlanChangeStatus(instruction: MatchPlanChangeInstruction, clockMinute: number): MatchPlanChangeStatus {

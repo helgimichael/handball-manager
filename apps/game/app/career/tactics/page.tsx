@@ -23,6 +23,7 @@ import { getNextPlayerFixture } from "@/lib/career/calendar";
 import { buildInitialMatchSquad, toSelectablePlayers } from "@/lib/matchPlan/careerSquadBridge";
 import { buildDefaultMatchPlan } from "@/lib/matchPlan/defaultMatchPlan";
 import { buildMatchIdea } from "@/lib/matchPlan/matchPlanLabels";
+import { defaultSpecialPlayPlan } from "@/lib/matchPlan/specialPlay";
 import type { MatchPlan } from "@/lib/matchPlan/types";
 import MatchSquadPanel from "@/components/matchPlan/MatchSquadPanel";
 import StartingUnitEditor from "@/components/matchPlan/StartingUnitEditor";
@@ -30,9 +31,10 @@ import TacticalConfigPanel from "@/components/matchPlan/TacticalConfigPanel";
 import PlayerInstructionPanel from "@/components/matchPlan/PlayerInstructionPanel";
 
 export default function TacticsPage() {
-  const { career, updateMatchPlan } = useCareer();
+  const { career, updateMatchPlan, setPlayerMatchDefault, updateSpecialPlay } = useCareer();
   const squad = getCareerSquad(career);
   const fixture = getNextPlayerFixture(career);
+  const specialPlay = career.specialPlay[career.playerClubId] ?? defaultSpecialPlayPlan();
 
   const selectablePlayers = useMemo(() => toSelectablePlayers(squad), [squad]);
   const plan = fixture ? career.matchPlans[fixture.id] : undefined;
@@ -71,10 +73,10 @@ export default function TacticsPage() {
   const isHome = fixture.homeClubId === career.playerClubId;
 
   return (
-    <div className="hm-grid" style={{ gap: 12 }}>
+    <div className="hm-grid" style={{ gap: 20 }}>
       <div className="hm-panel">
         <div className="hm-panel-header">
-          <span className="hm-panel-title">Taktik — matchplan</span>
+          <span className="hm-panel-title">Taktik &amp; matchplan</span>
           <span className="hm-badge hm-badge-neutral">
             {isHome ? "Hemma" : "Borta"} mot {opponent?.name ?? opponentClubId} · Omgång {fixture.round}
           </span>
@@ -87,15 +89,37 @@ export default function TacticsPage() {
           <div className="hm-panel-body hm-text-muted">Skapar matchplan…</div>
         </div>
       ) : (
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 340px", gap: 12, alignItems: "start" }}>
-          <div className="hm-grid" style={{ gap: 12 }}>
-            <StartingUnitEditor plan={plan} selectablePlayers={selectablePlayers} onChange={(next) => updateMatchPlan(fixture.id, next)} onOpenPlayerPanel={setSelectedPlayerId} />
-            <TacticalConfigPanel plan={plan} selectablePlayers={selectablePlayers} onChange={(next) => updateMatchPlan(fixture.id, next)} onOpenPlayerPanel={setSelectedPlayerId} />
-          </div>
-          <div className="hm-grid" style={{ gap: 12 }}>
-            <MatchSquadPanel plan={plan} selectablePlayers={selectablePlayers} onChange={(next) => updateMatchPlan(fixture.id, next)} onOpenPlayerPanel={setSelectedPlayerId} />
-          </div>
-        </div>
+        <>
+          {/* HM-MATCH-1.2 Part B: TAKTIK -- the club's PERSISTENT playing
+              style. These choices stay until you change them, no matter
+              which opponent is next. */}
+          <section>
+            <div style={{ display: "flex", alignItems: "baseline", gap: 10, marginBottom: 8 }}>
+              <h2 style={{ margin: 0, fontSize: "var(--hm-text-sm)", textTransform: "uppercase", letterSpacing: "0.04em" }}>Taktik</h2>
+              <span className="hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)" }}>Hur laget spelar i allmänhet — gäller framtida matcher tills du ändrar det.</span>
+            </div>
+            <TacticalConfigPanel plan={plan} specialPlay={specialPlay} selectablePlayers={selectablePlayers} onChange={(next) => updateMatchPlan(fixture.id, next)} onSpecialPlayChange={(next) => updateSpecialPlay(career.playerClubId, next)} onOpenPlayerPanel={setSelectedPlayerId} />
+          </section>
+
+          {/* HM-MATCH-1.2 Part B: MATCHPLAN -- fixture-specific squad
+              selection and usage for THIS opponent only. */}
+          <section>
+            <div style={{ display: "flex", alignItems: "baseline", gap: 10, marginBottom: 8 }}>
+              <h2 style={{ margin: 0, fontSize: "var(--hm-text-sm)", textTransform: "uppercase", letterSpacing: "0.04em" }}>
+                Matchplan — {isHome ? "hemma" : "borta"} mot {opponent?.name ?? opponentClubId}
+              </h2>
+              <span className="hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)" }}>Trupp, startuppställning och spelarroller för just denna match.</span>
+            </div>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 340px", gap: 12, alignItems: "start" }}>
+              <div className="hm-grid" style={{ gap: 12 }}>
+                <StartingUnitEditor plan={plan} selectablePlayers={selectablePlayers} onChange={(next) => updateMatchPlan(fixture.id, next)} onOpenPlayerPanel={setSelectedPlayerId} />
+              </div>
+              <div className="hm-grid" style={{ gap: 12 }}>
+                <MatchSquadPanel plan={plan} selectablePlayers={selectablePlayers} onChange={(next) => updateMatchPlan(fixture.id, next)} onOpenPlayerPanel={setSelectedPlayerId} />
+              </div>
+            </div>
+          </section>
+        </>
       )}
 
       {plan && selectedPlayerId ? (
@@ -103,7 +127,9 @@ export default function TacticsPage() {
           plan={plan}
           playerId={selectedPlayerId}
           selectablePlayers={selectablePlayers}
+          playerDefault={career.playerMatchDefaults[selectedPlayerId]}
           onChange={(next) => updateMatchPlan(fixture.id, next)}
+          onSetAsDefault={(value) => setPlayerMatchDefault(selectedPlayerId, value)}
           onClose={() => setSelectedPlayerId(null)}
         />
       ) : null}

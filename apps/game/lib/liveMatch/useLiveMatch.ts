@@ -93,11 +93,13 @@ export interface UseLiveMatchResult {
   issueSevenVSixTimeoutInstruction: (target: SevenVSixTarget, tacticalFamiliarity: CapabilityLevel) => void;
   /** HM-TACTICS-0.9: no-op if a 7v6 switch is already pending or the match isn't currently in HALF_TIME. */
   issueSevenVSixHalftimeInstruction: (target: SevenVSixTarget, tacticalFamiliarity: CapabilityLevel) => void;
-  /** HM-COACHING-1.0: the one in-flight live MatchPlan coaching change, if any (null once landed and applied). Deliberately simpler than the profile instruction above -- SIDELINE delivery only, no DELAYED/PARTIAL assessment (see matchPlanChange.ts's module doc). */
+  /** HM-COACHING-1.0: the one in-flight live MatchPlan coaching change, if any (null once landed and applied). Deliberately simpler than the profile instruction above -- no DELAYED/PARTIAL assessment (see matchPlanChange.ts's module doc). */
   pendingMatchPlanChange: MatchPlanChangeInstruction | null;
   matchPlanChangeStatus: MatchPlanChangeStatus | null;
   /** No-op if a MatchPlan change is already pending (one at a time) or the match isn't currently in play. */
   issueMatchPlanChange: (change: MatchPlanChange) => void;
+  /** HM-MATCH-1.2 Part U/W: no-op if a MatchPlan change is already pending or the match isn't currently in HALF_TIME -- 0-minute delay (adopts exactly at the halftime minute), so the confirmed second-half plan affects only [30, 60]. */
+  issueHalftimeMatchPlanChange: (change: MatchPlanChange) => void;
 }
 
 interface ShoutState {
@@ -461,7 +463,13 @@ export function useLiveMatch(
       if (pendingMatchPlanChange) return;
       if (clock.phase !== "FIRST_HALF" && clock.phase !== "SECOND_HALF") return;
       matchPlanChangeAppliedIdRef.current = null;
-      setPendingMatchPlanChange({ id: `${change.kind}:${view.clockMinute}:${change.category}`, issuedMinute: view.clockMinute, change });
+      setPendingMatchPlanChange({ id: `${change.kind}:${view.clockMinute}:${change.category}`, issuedMinute: view.clockMinute, change, deliveryMode: "SIDELINE" });
+    },
+    issueHalftimeMatchPlanChange: (change) => {
+      if (pendingMatchPlanChange) return;
+      if (clock.phase !== "HALF_TIME") return;
+      matchPlanChangeAppliedIdRef.current = null;
+      setPendingMatchPlanChange({ id: `${change.kind}:${view.clockMinute}:${change.category}:halftime`, issuedMinute: view.clockMinute, change, deliveryMode: "HALFTIME" });
     },
   };
 }

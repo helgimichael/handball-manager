@@ -51,7 +51,7 @@ export default function StartingUnitEditor({
         chips.push({ key: layoutSlot.key, xPct: layoutSlot.xPct, yPct: layoutSlot.yPct, shortLabel: layoutSlot.key, playerName: slot ? nameOf(slot.playerId) : "–" });
       }
     } else {
-      const layout = sevenVSixAttackLayout(plan.attackStartingUnit.slots.length);
+      const layout = sevenVSixAttackLayout(plan.attackStartingUnit.slots.map((s) => s.position));
       plan.attackStartingUnit.slots.forEach((slot, i) => {
         const layoutSlot = layout[i];
         chips.push({ key: String(i), xPct: layoutSlot.xPct, yPct: layoutSlot.yPct, shortLabel: slot.position, playerName: nameOf(slot.playerId) });

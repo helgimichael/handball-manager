@@ -144,6 +144,22 @@ export function applyMidMatchPlanChange(
   const opponentActiveWindowsById = opponentPlan ? computeAttackActiveWindows(opponentPlan) : undefined;
   const opponentRoster = buildMatchRoster(getCareerClubSquad(state, opponentClubId), undefined, opponentAttackExposureById, opponentActiveWindowsById);
 
+  // HM-MATCH-1.2 Part W/X: a HALFTIME-delivered change has a 0-minute
+  // adoption delay (matchPlanChange.ts), so `adoptionMinute ===
+  // requestedMinute` -- exactly the clock minute the manager was
+  // ALREADY looking at when they confirmed it (view.revealedEvents
+  // uses `minute <= clockMinute`, inclusive). Resimulating starting AT
+  // that same minute would silently regenerate an event the halftime
+  // workspace had just displayed as final first-half history --
+  // confirmed by browser QA (a halftime ATTACK_SLOT change altered the
+  // already-shown first-half 7-metre count). Every other delivery mode
+  // (SIDELINE/TIMEOUT) has a positive delay, so `adoptionMinute` always
+  // lands strictly after the currently-revealed clock minute and this
+  // never applies to them. `+1` (never past 60) is the smallest shift
+  // that keeps the already-revealed minute immutable.
+  const zeroDelayAdoption = adoptionMinute === requestedMinute;
+  const resimStartMinute = zeroDelayAdoption ? Math.min(60, adoptionMinute + 1) : adoptionMinute;
+
   // Part H: the SAME seed template tacticalMidMatchChange.ts uses,
   // keyed only by `adoptionMinute` (not by which mechanism triggered
   // the recompute) -- "same minute -> same future segment" holds
@@ -152,7 +168,7 @@ export function applyMidMatchPlanChange(
   const segmentSeed = seedFromString(`${state.saveSeed}:${fixtureId}:midmatch:${adoptionMinute}`);
   const segment = simulateMatchSegment({
     seed: segmentSeed,
-    startMinute: adoptionMinute,
+    startMinute: resimStartMinute,
     endMinute: 60,
     homeClubId: original.homeClubId,
     awayClubId: original.awayClubId,
@@ -166,7 +182,7 @@ export function applyMidMatchPlanChange(
 
   // Part H: the already-revealed prefix is preserved byte-for-byte --
   // identical splicing logic to tacticalMidMatchChange.ts.
-  const prefixEvents = original.events.filter((e) => e.minute < adoptionMinute);
+  const prefixEvents = original.events.filter((e) => e.minute < resimStartMinute);
   const lastPrefixGoal = [...prefixEvents].reverse().find((e) => e.type === "GOAL");
   const homeScoreCarry = lastPrefixGoal?.homeScoreAfter ?? 0;
   const awayScoreCarry = lastPrefixGoal?.awayScoreAfter ?? 0;

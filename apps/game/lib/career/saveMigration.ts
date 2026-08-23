@@ -150,5 +150,14 @@ export function migrateCareerState(career: CareerState): CareerState {
     next = { ...next, playerMatchDefaults: {} };
   }
 
+  // HM-MATCH-1.2 (career-state schema v12): additive -- an existing
+  // career simply never had a Specialspel plan yet; every reader
+  // (defaultSpecialPlayPlan's own fallback) already treats a missing
+  // entry as "use the neutral default", so an empty object here changes
+  // nothing observable for old saves.
+  if (next.specialPlay === undefined) {
+    next = { ...next, specialPlay: {} };
+  }
+
   return next;
 }

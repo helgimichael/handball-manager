@@ -22,7 +22,7 @@ export interface CourtChip {
 
 export default function CourtBoard({ scene, chips, selectedKey, onSelectChip }: { scene: TacticsBoardScene; chips: readonly CourtChip[]; selectedKey: string | null; onSelectChip: (key: string) => void }) {
   return (
-    <div style={{ position: "relative", height: 260, borderRadius: "var(--hm-radius-sm)", overflow: "hidden" }}>
+    <div style={{ position: "relative", height: 440, borderRadius: "var(--hm-radius-sm)", overflow: "hidden" }}>
       <MasterCourtDisplay scene={scene} />
       <div style={{ position: "absolute", inset: 0 }}>
         {chips.map((chip) => {

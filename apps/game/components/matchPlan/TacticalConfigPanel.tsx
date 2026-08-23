@@ -21,12 +21,14 @@ import {
 } from "@/lib/matchPlan/matchPlanLabels";
 import type { IntensityLevel, MatchPlan } from "@/lib/matchPlan/types";
 import type { SelectablePlayer } from "@/lib/matchPlan/careerSquadBridge";
+import type { SpecialPlayPlan } from "@/lib/matchPlan/specialPlay";
 import { DEFENCE_FORMATION_OPTIONS } from "./courtScene";
-import SevenVSixPolicyControl from "./SevenVSixPolicyControl";
+import SpecialPlayPanel from "./SpecialPlayPanel";
 
 const INTENSITY_OPTIONS: readonly IntensityLevel[] = ["LOW", "MEDIUM", "HIGH"];
-const TACTICAL_PHASES = ["ATTACK", "DEFENCE", "TRANSITION"] as const;
+const TACTICAL_PHASES = ["ATTACK", "DEFENCE", "TRANSITION", "SPECIAL"] as const;
 type TacticalPhase = (typeof TACTICAL_PHASES)[number];
+const TACTICAL_PHASE_LABELS_SV: Record<TacticalPhase, string> = { ATTACK: "ANFALL", DEFENCE: "FÖRSVAR", TRANSITION: "OMSTÄLLNING", SPECIAL: "SPECIALSPEL" };
 
 function IntensityControl({ label, value, onChange }: { label: string; value: IntensityLevel; onChange: (v: IntensityLevel) => void }) {
   return <SegmentedControl label={label} value={value} options={INTENSITY_OPTIONS} renderLabel={(v) => INTENSITY_LABELS_SV[v]} onChange={onChange} />;
@@ -34,13 +36,17 @@ function IntensityControl({ label, value, onChange }: { label: string; value: In
 
 export default function TacticalConfigPanel({
   plan,
+  specialPlay,
   selectablePlayers,
   onChange,
+  onSpecialPlayChange,
   onOpenPlayerPanel,
 }: {
   plan: MatchPlan;
+  specialPlay: SpecialPlayPlan;
   selectablePlayers: readonly SelectablePlayer[];
   onChange: OnMatchPlanChange;
+  onSpecialPlayChange: (next: SpecialPlayPlan) => void;
   onOpenPlayerPanel?: (playerId: string) => void;
 }) {
   const [phase, setPhase] = useState<TacticalPhase>("ATTACK");
@@ -49,15 +55,17 @@ export default function TacticalConfigPanel({
     <div className="hm-panel">
       <div className="hm-panel-header">
         <span className="hm-panel-title">Taktiska instruktioner</span>
-        <Tabs value={phase} options={TACTICAL_PHASES} renderLabel={(v) => (v === "ATTACK" ? "ANFALL" : v === "DEFENCE" ? "FÖRSVAR" : "OMSTÄLLNING")} onChange={setPhase} />
+        <Tabs value={phase} options={TACTICAL_PHASES} renderLabel={(v) => TACTICAL_PHASE_LABELS_SV[v]} onChange={setPhase} />
       </div>
 
       {phase === "ATTACK" ? (
-        <AttackTacticsForm plan={plan} selectablePlayers={selectablePlayers} onChange={onChange} onOpenPlayerPanel={onOpenPlayerPanel} />
+        <AttackTacticsForm plan={plan} onChange={onChange} />
       ) : phase === "DEFENCE" ? (
         <DefenceTacticsForm plan={plan} onChange={onChange} />
-      ) : (
+      ) : phase === "TRANSITION" ? (
         <TransitionTacticsForm plan={plan} onChange={onChange} />
+      ) : (
+        <SpecialPlayPanel plan={plan} specialPlay={specialPlay} selectablePlayers={selectablePlayers} onChange={onChange} onSpecialPlayChange={onSpecialPlayChange} onOpenPlayerPanel={onOpenPlayerPanel} />
       )}
     </div>
   );
@@ -68,21 +76,11 @@ export default function TacticalConfigPanel({
 // granular per-area emphases (M6/inspel, duell/genombrott, bredd/kant,
 // skott) sit behind "FLER ANFALLSINSTRUKTIONER" so the primary view
 // isn't 9 equally-weighted controls at once (Part 8: progressive
-// disclosure, not a wall of a form). Specialspel (7v6) is its own,
-// always-visible group at the end, per Part 2/7 -- never collapsed
-// away, since the coach needs to be able to find it, just not as the
-// FIRST thing they see.
-function AttackTacticsForm({
-  plan,
-  selectablePlayers,
-  onChange,
-  onOpenPlayerPanel,
-}: {
-  plan: MatchPlan;
-  selectablePlayers: readonly SelectablePlayer[];
-  onChange: OnMatchPlanChange;
-  onOpenPlayerPanel?: (playerId: string) => void;
-}) {
+// disclosure, not a wall of a form). HM-MATCH-1.2 Part H: 7v6 moved out
+// of this tab into its own SPECIALSPEL tab (SpecialPlayPanel), grouped
+// with the new 6v5/5v6/defensive-special-situation plans -- Specialspel
+// is now a first-class tactical area, not a sub-section here.
+function AttackTacticsForm({ plan, onChange }: { plan: MatchPlan; onChange: OnMatchPlanChange }) {
   const p = plan.attackPlan;
   const update = (changes: Partial<Omit<MatchPlan["attackPlan"], "sevenVSixPolicy">>) => onChange((prev) => updateAttackPlan(prev, changes));
   return (
@@ -106,8 +104,6 @@ function AttackTacticsForm({
           <IntensityControl label="Skottbetoning" value={p.shootingEmphasis} onChange={(shootingEmphasis) => update({ shootingEmphasis })} />
         </div>
       </details>
-
-      <SevenVSixPolicyControl plan={plan} selectablePlayers={selectablePlayers} onChange={onChange} onOpenPlayerPanel={onOpenPlayerPanel} />
     </div>
   );
 }

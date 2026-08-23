@@ -14,25 +14,57 @@ export interface CourtLayoutSlot {
   yPct: number;
 }
 
-/** The primary, always-visible attack starting unit (Part 2: normal attack is the default view, no formation toggle here). */
+// HM-MATCH-1.2 Part E: HALF_COURT's own 20x20m bounds (courtScene.ts) --
+// converts FIELD's raw meter coordinates (FormationLibrary.ts) into this
+// layer's percentage space, using the SAME goal-near-bottom convention
+// this workspace already established (attack building upward toward a
+// goal drawn at the bottom of the panel) so the chip overlay's relative
+// geometry stays consistent with itself across every formation, even
+// though it is not pixel-locked to MasterCourt's own internal camera.
+const HALF_COURT_METERS = 20;
+function metersToPct(x: number, y: number): { xPct: number; yPct: number } {
+  return { xPct: (x / HALF_COURT_METERS) * 100, yPct: 100 - (y / HALF_COURT_METERS) * 100 };
+}
+
+/**
+ * The primary, always-visible attack starting unit (Part 2: normal
+ * attack is the default view, no formation toggle here). HM-MATCH-1.2
+ * Part E: derived from FIELD's own real "attack-6"/"defence-6-0"
+ * formation coordinates (courtScene.ts's data source) rather than
+ * hand-guessed percentages -- V6/H6 sit on the goal line at the wings,
+ * V9/H9 out at the 9m backs, M9 at the apex of the 9m arc, M6 just
+ * inside it as the pivot, matching real handball shape.
+ */
 export const ATTACK_NORMAL_LAYOUT: readonly CourtLayoutSlot[] = [
-  { key: "GK", xPct: 50, yPct: 90 },
-  { key: "V6", xPct: 20, yPct: 58 },
-  { key: "V9", xPct: 6, yPct: 26 },
-  { key: "M9", xPct: 50, yPct: 10 },
-  { key: "H9", xPct: 94, yPct: 26 },
-  { key: "H6", xPct: 80, yPct: 58 },
-  { key: "M6", xPct: 50, yPct: 40 },
+  { key: "GK", ...metersToPct(9.888641, 0.517817) },
+  { key: "V6", ...metersToPct(0.601336, 0.562361) },
+  { key: "V9", ...metersToPct(0.935412, 9.292875) },
+  { key: "M9", ...metersToPct(9.08686, 11.854121) },
+  { key: "H9", ...metersToPct(19.220488, 8.379733) },
+  { key: "H6", ...metersToPct(19.398663, 0.540089) },
+  { key: "M6", ...metersToPct(10.801781, 6.687082) },
 ];
 
-/** SEVEN_V_SIX has no goalkeeper and no fixed distinct positions (HM-TACTICS-1.0's own domain doc: "do not assume one fixed 7v6 structure") -- an even arc of `count` slots along the attacking line. */
-export function sevenVSixAttackLayout(count: number): CourtLayoutSlot[] {
-  const layout: CourtLayoutSlot[] = [];
-  for (let i = 0; i < count; i++) {
-    const t = count <= 1 ? 0.5 : i / (count - 1);
-    layout.push({ key: String(i), xPct: 6 + t * 88, yPct: 12 + Math.sin(t * Math.PI) * 34 });
-  }
-  return layout;
+const ATTACK_LAYOUT_BY_POSITION = new Map(ATTACK_NORMAL_LAYOUT.map((s) => [s.key, s]));
+
+/**
+ * HM-MATCH-1.2 Part I: a 7v6 lineup's structure (DOUBLE_PIVOT/
+ * EXTRA_BACKCOURT, see matchPlan/types.ts) fixes each slot to a REAL
+ * position, so this reuses ATTACK_NORMAL_LAYOUT's own coordinates for
+ * each slot -- "the same board logic as normal attack" -- rather than a
+ * generic arc. A structure's one duplicated position (two M6, or two
+ * M9) gets a small symmetric offset so both chips stay visible instead
+ * of rendering on top of each other.
+ */
+export function sevenVSixAttackLayout(positions: readonly string[]): CourtLayoutSlot[] {
+  const seen = new Map<string, number>();
+  return positions.map((position, i) => {
+    const base = ATTACK_LAYOUT_BY_POSITION.get(position) ?? { xPct: 50, yPct: 50 };
+    const occurrence = seen.get(position) ?? 0;
+    seen.set(position, occurrence + 1);
+    const offset = occurrence * 12; // nudges the SECOND occurrence of a duplicated position sideways so both chips stay readable
+    return { key: String(i), xPct: Math.min(96, Math.max(4, base.xPct + offset)), yPct: base.yPct };
+  });
 }
 
 const DEFENCE_SLOT_X: Record<number, number> = { 1: 8, 2: 24, 3: 40, 4: 60, 5: 76, 6: 92 };
