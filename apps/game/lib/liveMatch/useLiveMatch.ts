@@ -33,6 +33,7 @@ import {
   type ShoutType,
 } from "./sidelineShout";
 import { sevenVSixAdoptionMinute, type SevenVSixInstruction, type SevenVSixTarget } from "./sevenVSixMode";
+import { matchPlanChangeAdoptionMinute, resolveMatchPlanChangeStatus, type MatchPlanChange, type MatchPlanChangeInstruction, type MatchPlanChangeStatus } from "./matchPlanChange";
 import {
   applyProfileMask,
   assessImplementation,
@@ -92,6 +93,11 @@ export interface UseLiveMatchResult {
   issueSevenVSixTimeoutInstruction: (target: SevenVSixTarget, tacticalFamiliarity: CapabilityLevel) => void;
   /** HM-TACTICS-0.9: no-op if a 7v6 switch is already pending or the match isn't currently in HALF_TIME. */
   issueSevenVSixHalftimeInstruction: (target: SevenVSixTarget, tacticalFamiliarity: CapabilityLevel) => void;
+  /** HM-COACHING-1.0: the one in-flight live MatchPlan coaching change, if any (null once landed and applied). Deliberately simpler than the profile instruction above -- SIDELINE delivery only, no DELAYED/PARTIAL assessment (see matchPlanChange.ts's module doc). */
+  pendingMatchPlanChange: MatchPlanChangeInstruction | null;
+  matchPlanChangeStatus: MatchPlanChangeStatus | null;
+  /** No-op if a MatchPlan change is already pending (one at a time) or the match isn't currently in play. */
+  issueMatchPlanChange: (change: MatchPlanChange) => void;
 }
 
 interface ShoutState {
@@ -189,6 +195,7 @@ export function useLiveMatch(
   onShoutDelivered: (deliveryMinute: number, overrideProfile: TeamTacticalProfile) => void,
   onShoutExpired: (expiryMinute: number, baselineProfile: TeamTacticalProfile) => void,
   onSevenVSixAdopted: (adoptionMinute: number, active: boolean) => void,
+  onMatchPlanChangeAdopted: (adoptionMinute: number, requestedMinute: number, change: MatchPlanChange) => void,
 ): UseLiveMatchResult {
   const [clock, setClock] = useState<LiveMatchClock>(() => kickoff(initLiveMatchClock()));
   const [assessedInstruction, setAssessedInstruction] = useState<AssessedInstructionState | null>(null);
@@ -197,10 +204,12 @@ export function useLiveMatch(
   const [shoutState, setShoutState] = useState<ShoutState | null>(null);
   const [assessedSevenVSix, setAssessedSevenVSix] = useState<AssessedSevenVSixState | null>(null);
   const [lastSevenVSixOutcome, setLastSevenVSixOutcome] = useState<LastInstructionOutcome | null>(null);
+  const [pendingMatchPlanChange, setPendingMatchPlanChange] = useState<MatchPlanChangeInstruction | null>(null);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const appliedIssuedMinuteRef = useRef<number | null>(null);
   const shoutPhaseRef = useRef<"NONE" | "DELIVERED" | "EXPIRED">("NONE");
   const sevenVSixAppliedIssuedMinuteRef = useRef<number | null>(null);
+  const matchPlanChangeAppliedIdRef = useRef<string | null>(null);
   // HM-COACHING-0.3: every tactical change issued through this hook
   // (instruction, timeout instruction, shout, 7v6 switch) pushes its
   // issue minute here -- used only to count "how many recent tactical
@@ -349,6 +358,30 @@ export function useLiveMatch(
     });
   }, [assessedSevenVSix, view.clockMinute, onSevenVSixAdopted]);
 
+  // HM-COACHING-1.0: a live MatchPlan change lands exactly once, at its
+  // (deterministic, unassessed) adoption minute -- mirrors the 7v6
+  // effect above, deliberately without DELAYED/PARTIAL (see
+  // matchPlanChange.ts's module doc for why).
+  useEffect(() => {
+    if (!pendingMatchPlanChange) {
+      return;
+    }
+    if (matchPlanChangeAppliedIdRef.current === pendingMatchPlanChange.id) {
+      return;
+    }
+    const status = resolveMatchPlanChangeStatus(pendingMatchPlanChange, view.clockMinute);
+    if (status === "PENDING") {
+      return;
+    }
+    matchPlanChangeAppliedIdRef.current = pendingMatchPlanChange.id;
+    const adoptionMinute = matchPlanChangeAdoptionMinute(pendingMatchPlanChange);
+    const { issuedMinute, change } = pendingMatchPlanChange;
+    queueMicrotask(() => {
+      onMatchPlanChangeAdopted(adoptionMinute, issuedMinute, change);
+      setPendingMatchPlanChange(null);
+    });
+  }, [pendingMatchPlanChange, view.clockMinute, onMatchPlanChangeAdopted]);
+
   const instructionLifecycleStatus = assessedInstruction
     ? resolveAssessedLifecycle(view.clockMinute, assessedInstruction.assessmentMinute, assessedInstruction.actualAdoptionMinute, assessedInstruction.outcome)
     : null;
@@ -422,5 +455,13 @@ export function useLiveMatch(
     issueSevenVSixInstruction: (target, tacticalFamiliarity) => issueSevenVSixWithMode(target, tacticalFamiliarity, "SIDELINE"),
     issueSevenVSixTimeoutInstruction: (target, tacticalFamiliarity) => issueSevenVSixWithMode(target, tacticalFamiliarity, "TIMEOUT"),
     issueSevenVSixHalftimeInstruction: (target, tacticalFamiliarity) => issueSevenVSixWithMode(target, tacticalFamiliarity, "HALFTIME"),
+    pendingMatchPlanChange,
+    matchPlanChangeStatus: pendingMatchPlanChange ? resolveMatchPlanChangeStatus(pendingMatchPlanChange, view.clockMinute) : null,
+    issueMatchPlanChange: (change) => {
+      if (pendingMatchPlanChange) return;
+      if (clock.phase !== "FIRST_HALF" && clock.phase !== "SECOND_HALF") return;
+      matchPlanChangeAppliedIdRef.current = null;
+      setPendingMatchPlanChange({ id: `${change.kind}:${view.clockMinute}:${change.category}`, issuedMinute: view.clockMinute, change });
+    },
   };
 }

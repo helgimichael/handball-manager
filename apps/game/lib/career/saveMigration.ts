@@ -124,5 +124,18 @@ export function migrateCareerState(career: CareerState): CareerState {
     next = { ...next, gameplayRatings: {} };
   }
 
+  // HM-COACHING-1.0 (career-state schema v10): additive -- an existing
+  // career simply never had a live-match coaching change; every reader
+  // (resolveCurrentMatchPlan, the Live Match change-history panel)
+  // already treats a missing entry as "no live change yet, fall back to
+  // the saved pre-match plan / show an empty history", so empty objects
+  // here change nothing observable for old saves.
+  if (next.liveMatchPlans === undefined) {
+    next = { ...next, liveMatchPlans: {} };
+  }
+  if (next.matchPlanChangeHistory === undefined) {
+    next = { ...next, matchPlanChangeHistory: {} };
+  }
+
   return next;
 }

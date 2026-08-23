@@ -76,7 +76,8 @@ import type { CareerState } from "./types";
  * player (see types.ts's MatchEvent.playerId doc), so this is always
  * exact, unlike shots/rating below.
  */
-function tallyPlayerGoalsFull(events: readonly MatchEvent[], side: "home" | "away"): Map<string, number> {
+/** Exported (HM-COACHING-1.0) so matchPlanMidMatchChange.ts's own splice can reuse the exact same reconstruction logic rather than duplicating it. */
+export function tallyPlayerGoalsFull(events: readonly MatchEvent[], side: "home" | "away"): Map<string, number> {
   const goals = new Map<string, number>();
   for (const event of events) {
     if (event.type === "GOAL" && event.side === side && event.playerId) {
@@ -98,7 +99,8 @@ function tallyPlayerGoalsFull(events: readonly MatchEvent[], side: "home" | "awa
  * shape. Never a player attribute or handball claim -- purely a
  * presentation-consistency rebuild, scoped to this module only.
  */
-function rebuildContributions(
+/** Exported (HM-COACHING-1.0) for the same reason as tallyPlayerGoalsFull above. */
+export function rebuildContributions(
   seed: number,
   roster: readonly { playerId: string; isGoalkeeper: boolean; started: boolean }[] | undefined,
   goalCounts: Map<string, number>,

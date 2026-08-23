@@ -11,6 +11,7 @@ import { archiveMessage, markMessageRead, unarchiveMessage } from "./inboxAction
 import { playManagerFixture } from "./matchdayAction";
 import { migrateCareerState } from "./saveMigration";
 import { applyMidMatchTacticalChange } from "./tacticalMidMatchChange";
+import { applyMidMatchPlanChange } from "./matchPlanMidMatchChange";
 import { updateTacticalProfile } from "./tacticalProfileActions";
 import { setMatchPlan } from "./matchPlanActions";
 import type { TeamTacticalProfile } from "./teamTacticalProfile";
@@ -19,6 +20,7 @@ import type { CareerEvent } from "./careerEvents";
 import type { CareerState } from "./types";
 import type { MatchPlan } from "../matchPlan/types";
 import type { GameplayPlayerRating } from "../gameWorld/gameplayRatingSnapshot";
+import type { MatchPlanChange } from "../liveMatch/matchPlanChange";
 
 type CareerContextValue = {
   save: CareerSave;
@@ -63,6 +65,24 @@ type CareerContextValue = {
     fixtureId: string,
     adoptionMinute: number,
     profile: TeamTacticalProfile,
+    sevenVSixActive: boolean,
+    opponentAdaptation: OpponentAdaptationEffect | null,
+  ) => void;
+  /**
+   * HM-COACHING-1.0: splices an ADOPTED live MatchPlan coaching change
+   * onto a fixture's already-stored FastMatchResult (same prefix-
+   * preservation invariant as applyMidMatchTacticalChange above), and
+   * records the fixture's new current live plan + a change-history
+   * entry. Callers must only invoke this once the change's own
+   * (deterministic) adoption delay has elapsed -- see
+   * lib/liveMatch/matchPlanChange.ts.
+   */
+  applyMidMatchPlanChange: (
+    fixtureId: string,
+    adoptionMinute: number,
+    requestedMinute: number,
+    change: MatchPlanChange,
+    currentProfile: TeamTacticalProfile,
     sevenVSixActive: boolean,
     opponentAdaptation: OpponentAdaptationEffect | null,
   ) => void;
@@ -285,6 +305,32 @@ export function CareerProvider({ children }: { children: ReactNode }) {
     });
   }
 
+  function applyMidMatchPlanChangeAction(
+    fixtureId: string,
+    adoptionMinute: number,
+    requestedMinute: number,
+    change: MatchPlanChange,
+    currentProfile: TeamTacticalProfile,
+    sevenVSixActive: boolean,
+    opponentAdaptation: OpponentAdaptationEffect | null,
+  ) {
+    // Same functional-update race-avoidance pattern as
+    // applyMidMatchTacticalChangeAction above -- required for the exact
+    // same reason (a change adoption and, e.g., a shout expiry, could in
+    // principle land in the same microtask).
+    setValue((current) => {
+      if (!current) {
+        return current;
+      }
+      const nextCareer = applyMidMatchPlanChange(current.career, fixtureId, adoptionMinute, requestedMinute, change, currentProfile, sevenVSixActive, opponentAdaptation);
+      if (nextCareer === current.career) {
+        return current;
+      }
+      saveCareerState(current.save.saveId, nextCareer);
+      return { save: current.save, career: nextCareer };
+    });
+  }
+
   return (
     <CareerContext.Provider
       value={{
@@ -298,6 +344,7 @@ export function CareerProvider({ children }: { children: ReactNode }) {
         updateTacticalProfile: updateTacticalProfileAction,
         updateMatchPlan: updateMatchPlanAction,
         applyMidMatchTacticalChange: applyMidMatchTacticalChangeAction,
+        applyMidMatchPlanChange: applyMidMatchPlanChangeAction,
       }}
     >
       {children}

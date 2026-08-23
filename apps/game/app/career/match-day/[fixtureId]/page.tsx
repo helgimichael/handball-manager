@@ -14,6 +14,11 @@ import type { LiveTeamStats } from "@/lib/liveMatch/liveMatchView";
 import { SHOUT_TYPES, shoutDeliveryMinute, shoutExpiryMinute, shoutLabel } from "@/lib/liveMatch/sidelineShout";
 import type { SevenVSixInstruction } from "@/lib/liveMatch/sevenVSixMode";
 import { assessImplementation, IMPLEMENTATION_DELAY_EXTENSION_MINUTES, type ImplementationOutcome } from "@/lib/liveMatch/implementationAssessment";
+import type { MatchPlanChange } from "@/lib/liveMatch/matchPlanChange";
+import { resolveCurrentMatchPlan } from "@/lib/career/matchPlanMidMatchChange";
+import { DEFENCE_FORMATION_OPTIONS } from "@/components/matchPlan/courtScene";
+import { INTENSITY_LABELS_SV, PHASE_USAGE_LABELS_SV, PLAYING_TIME_INTENTION_LABELS_SV, SUBSTITUTION_PRIORITY_LABELS_SV, TEMPO_LABELS_SV } from "@/lib/matchPlan/matchPlanLabels";
+import { PLAYER_PHASE_USAGES, PLAYING_TIME_INTENTIONS } from "@/lib/matchPlan/types";
 import {
   ATI001_USAGE_TENDENCY_VALUES,
   H2_RESPONSE_PREFERENCE_VALUES,
@@ -77,7 +82,7 @@ function LiveMatch({
   result: import("@handball-manager/game-simulation").FastMatchResult;
 }) {
   const router = useRouter();
-  const { career, applyMidMatchTacticalChange } = useCareer();
+  const { career, applyMidMatchTacticalChange, applyMidMatchPlanChange } = useCareer();
   const logRef = useRef<HTMLDivElement>(null);
 
   // HM-TACTICS-0.7: the tactical profile actually in effect for THIS
@@ -103,6 +108,12 @@ function LiveMatch({
   // PROVISIONAL table on demand (see standings.ts's getLiveTableStandings)
   // and never writes anything to CareerState.
   const [showLiveTable, setShowLiveTable] = useState(false);
+  // HM-COACHING-1.0: local, UI-only picker state for the PLAYER section
+  // of the live Matchplan panel -- never persisted, mirrors the existing
+  // shout-type-button pattern (pick a target, click once to issue).
+  const [selectedPlayerId, setSelectedPlayerId] = useState<string>("");
+  const [pairAttackPlayerId, setPairAttackPlayerId] = useState<string>("");
+  const [pairDefencePlayerId, setPairDefencePlayerId] = useState<string>("");
 
   const updateAti001Tracking = useCallback((adoptionMinute: number, profile: TeamTacticalProfile) => {
     setAti001HighSinceMinute(profile.ati001UsageTendency === "HIGH" ? adoptionMinute : null);
@@ -163,6 +174,21 @@ function LiveMatch({
     [applyMidMatchTacticalChange, fixture.id, currentProfile, sevenVSixActive],
   );
 
+  // HM-COACHING-1.0: the MatchPlan actually in effect for this match RIGHT
+  // NOW -- read directly from career state (`liveMatchPlans`, falling back
+  // to the saved pre-match plan), never local component state, since the
+  // splice already persists it. `applyMidMatchPlanChange` never touches
+  // `career.matchPlans[fixture.id]` (Part C).
+  const currentMatchPlan = resolveCurrentMatchPlan(career, fixture.id);
+  const matchPlanChangeHistory = career.matchPlanChangeHistory[fixture.id] ?? [];
+
+  const handleMatchPlanChangeAdopted = useCallback(
+    (adoptionMinute: number, requestedMinute: number, change: MatchPlanChange) => {
+      applyMidMatchPlanChange(fixture.id, adoptionMinute, requestedMinute, change, currentProfile, sevenVSixActive, opponentAdaptationEffect);
+    },
+    [applyMidMatchPlanChange, fixture.id, currentProfile, sevenVSixActive, opponentAdaptationEffect],
+  );
+
   const {
     view,
     speed,
@@ -188,7 +214,10 @@ function LiveMatch({
     issueSevenVSixInstruction,
     issueSevenVSixTimeoutInstruction,
     issueSevenVSixHalftimeInstruction,
-  } = useLiveMatch(result, handleInstructionAdopted, handleShoutDelivered, handleShoutExpired, handleSevenVSixAdopted);
+    pendingMatchPlanChange,
+    matchPlanChangeStatus,
+    issueMatchPlanChange,
+  } = useLiveMatch(result, handleInstructionAdopted, handleShoutDelivered, handleShoutExpired, handleSevenVSixAdopted, handleMatchPlanChangeAdopted);
 
   const home = getClub(fixture.homeClubId)!;
   const away = getClub(fixture.awayClubId)!;
@@ -203,6 +232,7 @@ function LiveMatch({
   const canIssueSevenVSixSideline = !pendingSevenVSixInstruction && (view.phase === "FIRST_HALF" || view.phase === "SECOND_HALF");
   const canIssueSevenVSixTimeout = !pendingSevenVSixInstruction && isTimeout;
   const canIssueSevenVSixHalftime = !pendingSevenVSixInstruction && isHalfTime;
+  const canIssueMatchPlanChange = !pendingMatchPlanChange && (view.phase === "FIRST_HALF" || view.phase === "SECOND_HALF");
 
   // HM-TACTICS-0.9: evaluated exactly once per match, the moment HALF_TIME
   // begins, using whatever state was observable through the FIRST HALF
@@ -545,6 +575,30 @@ function LiveMatch({
         </div>
       )}
 
+      {/* HM-COACHING-1.0: live MatchPlan coaching -- the MatchPlan
+          counterpart to the TeamTacticalProfile panel above. Uses the
+          exact same MatchPlan edit functions and MatchUsage/Tactical-
+          Effects/Player-Strength engines as the pre-match Tactics
+          workspace (Part U); never available during TIMEOUT/HALF_TIME
+          in v1 (Part D: kept small -- SIDELINE delivery only). */}
+      {currentMatchPlan && !isTimeout && !isHalfTime ? (
+        <MatchPlanCoachingPanel
+          career={career}
+          plan={currentMatchPlan}
+          pendingChange={pendingMatchPlanChange}
+          changeStatus={matchPlanChangeStatus}
+          canIssue={canIssueMatchPlanChange}
+          issueChange={issueMatchPlanChange}
+          history={matchPlanChangeHistory}
+          selectedPlayerId={selectedPlayerId}
+          setSelectedPlayerId={setSelectedPlayerId}
+          pairAttackPlayerId={pairAttackPlayerId}
+          setPairAttackPlayerId={setPairAttackPlayerId}
+          pairDefencePlayerId={pairDefencePlayerId}
+          setPairDefencePlayerId={setPairDefencePlayerId}
+        />
+      ) : null}
+
       {/* HM-COACHING-0.2: sideline shouts -- a small, TEMPORARY nudge (issued -> pending -> active -> expired) distinct from the permanent tactical instruction/timeout panels above. Never available during a TIMEOUT or HALF_TIME (play isn't live to shout into). */}
       {!isTimeout && !isHalfTime ? (
         <div className="hm-panel">
@@ -828,6 +882,250 @@ function lastOutcomeLabel(last: LastInstructionOutcome | null): string | null {
   if (last.outcome === "DELAYED") return `Senast beordrade ändring genomfördes till slut, men tog längre tid än väntat (minut ${formatMatchMinute(last.landedMinute)}).`;
   return null;
 }
+
+/**
+ * HM-COACHING-1.0: the compact live "coach the match" panel -- FÖRSVAR /
+ * ANFALL / OMSTÄLLNING / SPELARE, each showing the CURRENT MatchPlan
+ * state and issuing ONE change at a time (Part E: "do not create giant
+ * forms" -- every control commits immediately on click, no separate
+ * draft/save step, matching the existing 7v6/shout panels' own "click
+ * once to issue" idiom rather than the profile panel's draft pattern).
+ * 7v6 itself is deliberately NOT duplicated here (Part L) -- it stays in
+ * its own panel below, which this panel just points to.
+ */
+function MatchPlanCoachingPanel({
+  career,
+  plan,
+  pendingChange,
+  changeStatus,
+  canIssue,
+  issueChange,
+  history,
+  selectedPlayerId,
+  setSelectedPlayerId,
+  pairAttackPlayerId,
+  setPairAttackPlayerId,
+  pairDefencePlayerId,
+  setPairDefencePlayerId,
+}: {
+  career: CareerState;
+  plan: import("@/lib/matchPlan/types").MatchPlan;
+  pendingChange: { issuedMinute: number; change: MatchPlanChange } | null;
+  changeStatus: "PENDING" | "ADOPTED" | null;
+  canIssue: boolean;
+  issueChange: (change: MatchPlanChange) => void;
+  history: readonly { id: string; label: string; requestedMinute: number; adoptedMinute: number }[];
+  selectedPlayerId: string;
+  setSelectedPlayerId: (id: string) => void;
+  pairAttackPlayerId: string;
+  setPairAttackPlayerId: (id: string) => void;
+  pairDefencePlayerId: string;
+  setPairDefencePlayerId: (id: string) => void;
+}) {
+  const nameOf = (playerId: string) => {
+    const player = getCareerPlayer(career, playerId);
+    return player ? `${player.firstName} ${player.lastName}` : playerId;
+  };
+  const squadPlayers = plan.squad.players.filter((p) => p.position !== "GK");
+  const selectedUsage = plan.playerUsage.find((u) => u.playerId === selectedPlayerId);
+
+  return (
+    <div className="hm-panel">
+      <div className="hm-panel-header">
+        <span className="hm-panel-title">Matchplan (live)</span>
+        <span className="hm-badge hm-badge-neutral">{pendingChange && changeStatus ? instructionLabel(changeStatus) : "AKTUELL"}</span>
+      </div>
+      <div className="hm-panel-body" style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+        <div>
+          <div className="hm-eyebrow" style={{ marginBottom: 6 }}>
+            Försvar
+          </div>
+          <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+            <SegmentedControl
+              label="Formation"
+              value={plan.defencePlan.baseFormation}
+              options={DEFENCE_FORMATION_OPTIONS as readonly string[]}
+              renderLabel={(v) => v}
+              onChange={(baseFormation) => issueChange({ category: "DEFENCE", kind: "FORMATION", baseFormation })}
+              disabled={!canIssue}
+            />
+            <SegmentedControl
+              label="Risknivå"
+              value={plan.defencePlan.riskLevel}
+              options={["LOW", "MEDIUM", "HIGH"] as const}
+              renderLabel={(v) => INTENSITY_LABELS_SV[v]}
+              onChange={(riskLevel) => issueChange({ category: "DEFENCE", kind: "RISK", riskLevel })}
+              disabled={!canIssue}
+            />
+            <SegmentedControl
+              label="Kontakt"
+              value={plan.defencePlan.contactIntent}
+              options={["LOW", "MEDIUM", "HIGH"] as const}
+              renderLabel={(v) => INTENSITY_LABELS_SV[v]}
+              onChange={(contactIntent) => issueChange({ category: "DEFENCE", kind: "CONTACT", contactIntent })}
+              disabled={!canIssue}
+            />
+          </div>
+        </div>
+
+        <div>
+          <div className="hm-eyebrow" style={{ marginBottom: 6 }}>
+            Anfall
+          </div>
+          <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+            <SegmentedControl
+              label="Tempo"
+              value={plan.attackPlan.tempo}
+              options={["SLOW", "BALANCED", "FAST"] as const}
+              renderLabel={(v) => TEMPO_LABELS_SV[v]}
+              onChange={(tempo) => issueChange({ category: "ATTACK", kind: "TEMPO", tempo })}
+              disabled={!canIssue}
+            />
+            <SegmentedControl
+              label="M6-fokus"
+              value={plan.attackPlan.pivotUsage}
+              options={["LOW", "MEDIUM", "HIGH"] as const}
+              renderLabel={(v) => INTENSITY_LABELS_SV[v]}
+              onChange={(pivotUsage) => issueChange({ category: "ATTACK", kind: "PIVOT_USAGE", pivotUsage })}
+              disabled={!canIssue}
+            />
+            <span className="hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)" }}>
+              7 mot 6 hanteras i egen panel nedan.
+            </span>
+          </div>
+        </div>
+
+        <div>
+          <div className="hm-eyebrow" style={{ marginBottom: 6 }}>
+            Omställning
+          </div>
+          <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+            <SegmentedControl
+              label="Anfallsintention"
+              value={plan.transitionPlan.offensiveTransitionIntent}
+              options={["LOW", "MEDIUM", "HIGH"] as const}
+              renderLabel={(v) => INTENSITY_LABELS_SV[v]}
+              onChange={(offensiveTransitionIntent) => issueChange({ category: "TRANSITION", kind: "OFFENSIVE_INTENT", offensiveTransitionIntent })}
+              disabled={!canIssue}
+            />
+            <SegmentedControl
+              label="Bytesprioritet"
+              value={plan.transitionPlan.substitutionPriority}
+              options={["ATTACK_FIRST", "DEFENCE_FIRST", "BALANCED"] as const}
+              renderLabel={(v) => SUBSTITUTION_PRIORITY_LABELS_SV[v]}
+              onChange={(substitutionPriority) => issueChange({ category: "TRANSITION", kind: "SUBSTITUTION_PRIORITY", substitutionPriority })}
+              disabled={!canIssue}
+            />
+          </div>
+        </div>
+
+        <div>
+          <div className="hm-eyebrow" style={{ marginBottom: 6 }}>
+            Spelare
+          </div>
+          <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+            <select className="hm-select" value={selectedPlayerId} onChange={(e) => setSelectedPlayerId(e.target.value)} style={selectStyle}>
+              <option value="">Välj spelare...</option>
+              {squadPlayers.map((p) => (
+                <option key={p.playerId} value={p.playerId}>
+                  {nameOf(p.playerId)}
+                </option>
+              ))}
+            </select>
+            {selectedUsage ? (
+              <>
+                <SegmentedControl
+                  label="Speltid"
+                  value={selectedUsage.playingTimeIntention}
+                  options={PLAYING_TIME_INTENTIONS}
+                  renderLabel={(v) => PLAYING_TIME_INTENTION_LABELS_SV[v]}
+                  onChange={(playingTimeIntention) => issueChange({ category: "PLAYER", kind: "PLAYING_TIME", playerId: selectedPlayerId, playerName: nameOf(selectedPlayerId), playingTimeIntention })}
+                  disabled={!canIssue}
+                />
+                <SegmentedControl
+                  label="Fasanvändning"
+                  value={selectedUsage.phaseUsage}
+                  options={PLAYER_PHASE_USAGES}
+                  renderLabel={(v) => PHASE_USAGE_LABELS_SV[v]}
+                  onChange={(phaseUsage) => issueChange({ category: "PLAYER", kind: "PHASE_USAGE", playerId: selectedPlayerId, playerName: nameOf(selectedPlayerId), phaseUsage })}
+                  disabled={!canIssue}
+                />
+              </>
+            ) : null}
+
+            <div style={{ borderTop: "1px solid var(--hm-border-subtle)", paddingTop: 8, display: "flex", flexDirection: "column", gap: 6 }}>
+              <span className="hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)" }}>
+                Specialistbyte (anfall ⇄ försvar)
+              </span>
+              <div style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap" }}>
+                <select className="hm-select" value={pairAttackPlayerId} onChange={(e) => setPairAttackPlayerId(e.target.value)} style={selectStyle}>
+                  <option value="">Anfallsspelare...</option>
+                  {squadPlayers.map((p) => (
+                    <option key={p.playerId} value={p.playerId}>
+                      {nameOf(p.playerId)}
+                    </option>
+                  ))}
+                </select>
+                <span>⇄</span>
+                <select className="hm-select" value={pairDefencePlayerId} onChange={(e) => setPairDefencePlayerId(e.target.value)} style={selectStyle}>
+                  <option value="">Försvarsspelare...</option>
+                  {squadPlayers.map((p) => (
+                    <option key={p.playerId} value={p.playerId}>
+                      {nameOf(p.playerId)}
+                    </option>
+                  ))}
+                </select>
+                <button
+                  type="button"
+                  className="hm-btn hm-btn-sm hm-btn-primary"
+                  disabled={!canIssue || !pairAttackPlayerId || !pairDefencePlayerId || pairAttackPlayerId === pairDefencePlayerId}
+                  onClick={() =>
+                    issueChange({
+                      category: "PLAYER",
+                      kind: "SPECIALIST_PAIR",
+                      attackPlayerId: pairAttackPlayerId,
+                      attackPlayerName: nameOf(pairAttackPlayerId),
+                      defencePlayerId: pairDefencePlayerId,
+                      defencePlayerName: nameOf(pairDefencePlayerId),
+                    })
+                  }
+                >
+                  BEORDRA BYTE
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <span className="hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)" }}>
+          {pendingChange
+            ? `Beordrad vid ${formatMatchMinute(pendingChange.issuedMinute)} -- laget genomför det aldrig i det redan spelade förloppet.`
+            : "Ett i taget -- gäller för resten av matchen, från nästa naturliga läge i spelet."}
+        </span>
+
+        {history.length > 0 ? (
+          <div style={{ borderTop: "1px solid var(--hm-border-subtle)", paddingTop: 8 }}>
+            <div className="hm-eyebrow" style={{ marginBottom: 6 }}>
+              Historik
+            </div>
+            <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+              {history.map((h) => (
+                <div key={h.id} style={{ display: "flex", gap: 8, fontSize: "var(--hm-text-2xs)" }}>
+                  <span className="hm-text-muted" style={{ width: 40, fontVariantNumeric: "tabular-nums" }}>
+                    {formatMatchMinute(h.adoptedMinute)}
+                  </span>
+                  <span>{h.label}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        ) : null}
+      </div>
+    </div>
+  );
+}
+
+const selectStyle = { background: "var(--hm-surface-2)", border: "1px solid var(--hm-border)", borderRadius: "var(--hm-radius-sm)", color: "var(--hm-text-primary)", padding: "7px 10px", fontSize: "var(--hm-text-xs)", flex: 1 };
 
 function SevenVSixStatus({
   pendingInstruction,

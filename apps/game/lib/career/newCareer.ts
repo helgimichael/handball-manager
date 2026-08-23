@@ -80,5 +80,7 @@ export function createNewCareerState(
     aiTacticalPreferences,
     matchPlans: {},
     gameplayRatings,
+    liveMatchPlans: {},
+    matchPlanChangeHistory: {},
   };
 }

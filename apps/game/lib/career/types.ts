@@ -6,6 +6,7 @@ import type { PlayerCareerStatus } from "./playerStatus";
 import type { TeamTacticalProfile } from "./teamTacticalProfile";
 import type { MatchPlan } from "../matchPlan/types";
 import type { GameplayPlayerRating } from "../gameWorld/gameplayRatingSnapshot";
+import type { MatchPlanChangeHistoryEntry } from "../liveMatch/matchPlanChange";
 
 export type CareerFixture = {
   id: string;
@@ -153,6 +154,31 @@ export type CareerState = {
    * missing MatchPlan, never crashing and never inventing one.
    */
   gameplayRatings: Record<string, GameplayPlayerRating[]>;
+
+  // --- HM-COACHING-1.0 addition (career-state schema v10, see saveMigration.ts) ---
+
+  /**
+   * The MatchPlan actually in effect for a fixture RIGHT NOW, keyed by
+   * fixtureId -- deliberately separate from `matchPlans` above (the
+   * saved PRE-MATCH plan) so a live coaching change during the match
+   * can never overwrite what the manager originally planned. Empty
+   * (no entry) until the manager's first live coaching change is
+   * adopted; `lib/career/matchPlanMidMatchChange.ts`'s
+   * `resolveCurrentMatchPlan()` falls back to `matchPlans[fixtureId]`
+   * (or the same deterministic default plan helper every other
+   * unresolved-plan case already uses) whenever no entry exists here.
+   */
+  liveMatchPlans: Record<string, MatchPlan>;
+
+  /**
+   * A simple, structured record of every ADOPTED live MatchPlan
+   * coaching change for a fixture, in order -- "what did the coach
+   * change, when did they ask for it, when did it actually take
+   * effect" (Part N/O: future-proofing for Match Analysis, never
+   * evaluated as good/bad here). Keyed by fixtureId, one growing list
+   * per match; empty (no entry) for a fixture with no live changes.
+   */
+  matchPlanChangeHistory: Record<string, MatchPlanChangeHistoryEntry[]>;
 };
 
 export type CareerSaveEnvelope = {
