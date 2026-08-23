@@ -20,6 +20,7 @@ import {
   TEMPO_LABELS_SV,
 } from "@/lib/matchPlan/matchPlanLabels";
 import type { IntensityLevel, MatchPlan } from "@/lib/matchPlan/types";
+import type { SelectablePlayer } from "@/lib/matchPlan/careerSquadBridge";
 import { DEFENCE_FORMATION_OPTIONS } from "./courtScene";
 import SevenVSixPolicyControl from "./SevenVSixPolicyControl";
 
@@ -31,7 +32,17 @@ function IntensityControl({ label, value, onChange }: { label: string; value: In
   return <SegmentedControl label={label} value={value} options={INTENSITY_OPTIONS} renderLabel={(v) => INTENSITY_LABELS_SV[v]} onChange={onChange} />;
 }
 
-export default function TacticalConfigPanel({ plan, onChange }: { plan: MatchPlan; onChange: OnMatchPlanChange }) {
+export default function TacticalConfigPanel({
+  plan,
+  selectablePlayers,
+  onChange,
+  onOpenPlayerPanel,
+}: {
+  plan: MatchPlan;
+  selectablePlayers: readonly SelectablePlayer[];
+  onChange: OnMatchPlanChange;
+  onOpenPlayerPanel?: (playerId: string) => void;
+}) {
   const [phase, setPhase] = useState<TacticalPhase>("ATTACK");
 
   return (
@@ -41,58 +52,102 @@ export default function TacticalConfigPanel({ plan, onChange }: { plan: MatchPla
         <Tabs value={phase} options={TACTICAL_PHASES} renderLabel={(v) => (v === "ATTACK" ? "ANFALL" : v === "DEFENCE" ? "FÖRSVAR" : "OMSTÄLLNING")} onChange={setPhase} />
       </div>
 
-      {phase === "ATTACK" ? <AttackTacticsForm plan={plan} onChange={onChange} /> : phase === "DEFENCE" ? <DefenceTacticsForm plan={plan} onChange={onChange} /> : <TransitionTacticsForm plan={plan} onChange={onChange} />}
+      {phase === "ATTACK" ? (
+        <AttackTacticsForm plan={plan} selectablePlayers={selectablePlayers} onChange={onChange} onOpenPlayerPanel={onOpenPlayerPanel} />
+      ) : phase === "DEFENCE" ? (
+        <DefenceTacticsForm plan={plan} onChange={onChange} />
+      ) : (
+        <TransitionTacticsForm plan={plan} onChange={onChange} />
+      )}
     </div>
   );
 }
 
-function AttackTacticsForm({ plan, onChange }: { plan: MatchPlan; onChange: OnMatchPlanChange }) {
+// HM-TACTICS-1.2 Part 7/8: the coach's most important attack decisions
+// (grundidé/tempo, bollcirkulation) are visible immediately; the more
+// granular per-area emphases (M6/inspel, duell/genombrott, bredd/kant,
+// skott) sit behind "FLER ANFALLSINSTRUKTIONER" so the primary view
+// isn't 9 equally-weighted controls at once (Part 8: progressive
+// disclosure, not a wall of a form). Specialspel (7v6) is its own,
+// always-visible group at the end, per Part 2/7 -- never collapsed
+// away, since the coach needs to be able to find it, just not as the
+// FIRST thing they see.
+function AttackTacticsForm({
+  plan,
+  selectablePlayers,
+  onChange,
+  onOpenPlayerPanel,
+}: {
+  plan: MatchPlan;
+  selectablePlayers: readonly SelectablePlayer[];
+  onChange: OnMatchPlanChange;
+  onOpenPlayerPanel?: (playerId: string) => void;
+}) {
   const p = plan.attackPlan;
   const update = (changes: Partial<Omit<MatchPlan["attackPlan"], "sevenVSixPolicy">>) => onChange((prev) => updateAttackPlan(prev, changes));
   return (
-    <div className="hm-panel-body" style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-      <SegmentedControl label="Tempo" value={p.tempo} options={["SLOW", "BALANCED", "FAST"] as const} renderLabel={(v) => TEMPO_LABELS_SV[v]} onChange={(tempo) => update({ tempo })} />
-      <SegmentedControl label="Struktur" value={p.structureFreedom} options={["STRUCTURED", "BALANCED", "FREE"] as const} renderLabel={(v) => STRUCTURE_FREEDOM_LABELS_SV[v]} onChange={(structureFreedom) => update({ structureFreedom })} />
-      <SegmentedControl label="Bollcirkulation" value={p.ballCirculation} options={["DIRECT", "BALANCED", "PATIENT"] as const} renderLabel={(v) => BALL_CIRCULATION_LABELS_SV[v]} onChange={(ballCirculation) => update({ ballCirculation })} />
+    <div className="hm-panel-body" style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+      <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+        <div className="hm-eyebrow">Grundidé</div>
+        <SegmentedControl label="Tempo" value={p.tempo} options={["SLOW", "BALANCED", "FAST"] as const} renderLabel={(v) => TEMPO_LABELS_SV[v]} onChange={(tempo) => update({ tempo })} />
+        <SegmentedControl label="Struktur" value={p.structureFreedom} options={["STRUCTURED", "BALANCED", "FREE"] as const} renderLabel={(v) => STRUCTURE_FREEDOM_LABELS_SV[v]} onChange={(structureFreedom) => update({ structureFreedom })} />
+        <SegmentedControl label="Bollcirkulation" value={p.ballCirculation} options={["DIRECT", "BALANCED", "PATIENT"] as const} renderLabel={(v) => BALL_CIRCULATION_LABELS_SV[v]} onChange={(ballCirculation) => update({ ballCirculation })} />
+      </div>
 
       <details>
         <summary className="hm-eyebrow" style={{ cursor: "pointer" }}>
-          Detaljerade instruktioner
+          Fler anfallsinstruktioner
         </summary>
         <div style={{ display: "flex", flexDirection: "column", gap: 12, marginTop: 10 }}>
-          <IntensityControl label="M6-användning (pivot)" value={p.pivotUsage} onChange={(pivotUsage) => update({ pivotUsage })} />
-          <IntensityControl label="2-mot-2-betoning" value={p.twoVTwoEmphasis} onChange={(twoVTwoEmphasis) => update({ twoVTwoEmphasis })} />
+          <IntensityControl label="M6-användning (pivot/inspel)" value={p.pivotUsage} onChange={(pivotUsage) => update({ pivotUsage })} />
+          <IntensityControl label="2-mot-2-betoning (duell)" value={p.twoVTwoEmphasis} onChange={(twoVTwoEmphasis) => update({ twoVTwoEmphasis })} />
           <IntensityControl label="Genombrottsbetoning" value={p.breakthroughEmphasis} onChange={(breakthroughEmphasis) => update({ breakthroughEmphasis })} />
+          <IntensityControl label="Kantanvändning (bredd)" value={p.wingUsage} onChange={(wingUsage) => update({ wingUsage })} />
           <IntensityControl label="Skottbetoning" value={p.shootingEmphasis} onChange={(shootingEmphasis) => update({ shootingEmphasis })} />
-          <IntensityControl label="Kantanvändning" value={p.wingUsage} onChange={(wingUsage) => update({ wingUsage })} />
         </div>
       </details>
 
-      <SevenVSixPolicyControl plan={plan} onChange={onChange} />
+      <SevenVSixPolicyControl plan={plan} selectablePlayers={selectablePlayers} onChange={onChange} onOpenPlayerPanel={onOpenPlayerPanel} />
     </div>
   );
 }
 
+// HM-TACTICS-1.2 Part 7: formation first, then the primary defensive
+// identity (höjd/kontakt); the remaining fields that exist on
+// DefencePlanConfig (täck/block, press mot boll, risknivå) sit behind
+// "FLER FÖRSVARSINSTRUKTIONER" -- only vocabulary that actually exists
+// on the domain type, nothing invented for the sake of matching every
+// named example group in the spec verbatim.
 function DefenceTacticsForm({ plan, onChange }: { plan: MatchPlan; onChange: OnMatchPlanChange }) {
   const p = plan.defencePlan;
   const update = (changes: Partial<MatchPlan["defencePlan"]>) => onChange((prev) => updateDefencePlan(prev, changes));
   return (
-    <div className="hm-panel-body" style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-      <label style={{ display: "flex", flexDirection: "column", gap: 4, fontSize: "var(--hm-text-2xs)" }}>
-        <span className="hm-eyebrow">Formation</span>
-        <select className="hm-select" style={selectStyle} value={p.baseFormation} onChange={(e) => update({ baseFormation: e.target.value })}>
-          {DEFENCE_FORMATION_OPTIONS.map((f) => (
-            <option key={f} value={f}>
-              {f}
-            </option>
-          ))}
-        </select>
-      </label>
-      <SegmentedControl label="Försvarshöjd" value={p.defensiveDepth} options={["DEEP", "STANDARD", "HIGH"] as const} renderLabel={(v) => DEFENSIVE_DEPTH_LABELS_SV[v]} onChange={(defensiveDepth) => update({ defensiveDepth })} />
-      <IntensityControl label="Kontakt" value={p.contactIntent} onChange={(contactIntent) => update({ contactIntent })} />
-      <IntensityControl label="Täckning/blockering" value={p.coverBlockingEmphasis} onChange={(coverBlockingEmphasis) => update({ coverBlockingEmphasis })} />
-      <IntensityControl label="Press mot boll" value={p.ballOrientedPressure} onChange={(ballOrientedPressure) => update({ ballOrientedPressure })} />
-      <IntensityControl label="Risknivå" value={p.riskLevel} onChange={(riskLevel) => update({ riskLevel })} />
+    <div className="hm-panel-body" style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+      <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+        <label style={{ display: "flex", flexDirection: "column", gap: 4, fontSize: "var(--hm-text-2xs)" }}>
+          <span className="hm-eyebrow">Formation</span>
+          <select className="hm-select" style={selectStyle} value={p.baseFormation} onChange={(e) => update({ baseFormation: e.target.value })}>
+            {DEFENCE_FORMATION_OPTIONS.map((f) => (
+              <option key={f} value={f}>
+                {f}
+              </option>
+            ))}
+          </select>
+        </label>
+        <SegmentedControl label="Försvarshöjd" value={p.defensiveDepth} options={["DEEP", "STANDARD", "HIGH"] as const} renderLabel={(v) => DEFENSIVE_DEPTH_LABELS_SV[v]} onChange={(defensiveDepth) => update({ defensiveDepth })} />
+        <IntensityControl label="Kontakt" value={p.contactIntent} onChange={(contactIntent) => update({ contactIntent })} />
+      </div>
+
+      <details>
+        <summary className="hm-eyebrow" style={{ cursor: "pointer" }}>
+          Fler försvarsinstruktioner
+        </summary>
+        <div style={{ display: "flex", flexDirection: "column", gap: 12, marginTop: 10 }}>
+          <IntensityControl label="Täckning/blockering" value={p.coverBlockingEmphasis} onChange={(coverBlockingEmphasis) => update({ coverBlockingEmphasis })} />
+          <IntensityControl label="Press mot boll" value={p.ballOrientedPressure} onChange={(ballOrientedPressure) => update({ ballOrientedPressure })} />
+          <IntensityControl label="Risknivå" value={p.riskLevel} onChange={(riskLevel) => update({ riskLevel })} />
+        </div>
+      </details>
     </div>
   );
 }

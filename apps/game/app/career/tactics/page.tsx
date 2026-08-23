@@ -17,7 +17,8 @@ import SegmentedControl from "@/components/SegmentedControl";
 import { ATI001_USAGE_TENDENCY_VALUES, H2_RESPONSE_PREFERENCE_VALUES, TACTICAL_FAMILIARITY_VALUES, capabilityLevelLabel, h2ResponseLabel } from "@/lib/career/teamTacticalProfile";
 import { buildInitialMatchSquad, toSelectablePlayers } from "@/lib/matchPlan/careerSquadBridge";
 import { buildDefaultMatchPlan } from "@/lib/matchPlan/defaultMatchPlan";
-import { buildTacticalSummary } from "@/lib/matchPlan/matchPlanLabels";
+import { buildMatchIdea } from "@/lib/matchPlan/matchPlanLabels";
+import type { MatchPlan } from "@/lib/matchPlan/types";
 import MatchSquadPanel from "@/components/matchPlan/MatchSquadPanel";
 import StartingUnitEditor from "@/components/matchPlan/StartingUnitEditor";
 import TacticalConfigPanel from "@/components/matchPlan/TacticalConfigPanel";
@@ -75,11 +76,7 @@ export default function TacticsPage() {
             {isHome ? "Hemma" : "Borta"} mot {opponent?.name ?? opponentClubId} · Omgång {fixture.round}
           </span>
         </div>
-        {plan ? (
-          <div className="hm-panel-body hm-text-muted" style={{ fontSize: "var(--hm-text-xs)" }}>
-            {buildTacticalSummary(plan)}
-          </div>
-        ) : null}
+        {plan ? <MatchIdea plan={plan} /> : null}
       </div>
 
       {!plan ? (
@@ -90,7 +87,7 @@ export default function TacticsPage() {
         <div style={{ display: "grid", gridTemplateColumns: "1fr 340px", gap: 12, alignItems: "start" }}>
           <div className="hm-grid" style={{ gap: 12 }}>
             <StartingUnitEditor plan={plan} selectablePlayers={selectablePlayers} onChange={(next) => updateMatchPlan(fixture.id, next)} onOpenPlayerPanel={setSelectedPlayerId} />
-            <TacticalConfigPanel plan={plan} onChange={(next) => updateMatchPlan(fixture.id, next)} />
+            <TacticalConfigPanel plan={plan} selectablePlayers={selectablePlayers} onChange={(next) => updateMatchPlan(fixture.id, next)} onOpenPlayerPanel={setSelectedPlayerId} />
           </div>
           <div className="hm-grid" style={{ gap: 12 }}>
             <MatchSquadPanel plan={plan} selectablePlayers={selectablePlayers} onChange={(next) => updateMatchPlan(fixture.id, next)} onOpenPlayerPanel={setSelectedPlayerId} />
@@ -108,6 +105,29 @@ export default function TacticsPage() {
           onClose={() => setSelectedPlayerId(null)}
         />
       ) : null}
+    </div>
+  );
+}
+
+// HM-TACTICS-1.2 Part 6: a real "Matchidé" -- grouped by phase instead
+// of one long joined line, using only fields that exist on MatchPlan
+// (buildMatchIdea), no AI-generated text.
+function MatchIdea({ plan }: { plan: MatchPlan }) {
+  const idea = buildMatchIdea(plan);
+  const rows: { label: string; value: string }[] = [
+    { label: "Försvar", value: idea.defence },
+    { label: "Anfall", value: idea.attack },
+    { label: "Omställning", value: idea.transition },
+    { label: "Special", value: idea.special },
+  ];
+  return (
+    <div className="hm-panel-body" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: 8 }}>
+      {rows.map((row) => (
+        <div key={row.label}>
+          <div className="hm-eyebrow">{row.label}</div>
+          <div style={{ fontSize: "var(--hm-text-xs)" }}>{row.value}</div>
+        </div>
+      ))}
     </div>
   );
 }

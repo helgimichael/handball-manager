@@ -8,7 +8,7 @@
 import type { CSSProperties } from "react";
 import { PlayerLink } from "@/components/entityLinks";
 import { MATCH_SQUAD_MAX_PLAYERS, type MatchPlan } from "@/lib/matchPlan/types";
-import { matchPlanPositionLabel } from "@/lib/matchPlan/matchPlanLabels";
+import { MATCH_ROLE_LABELS_SV, matchPlanPositionLabel, PHASE_USAGE_LABELS_SV, PLAYING_TIME_INTENTION_INDICATOR_SV } from "@/lib/matchPlan/matchPlanLabels";
 import { addPlayerToSquad, isPlayerStarting, removePlayerFromSquad, substitutionPartnerOf, type OnMatchPlanChange } from "@/lib/matchPlan/matchPlanEdits";
 import type { SelectablePlayer } from "@/lib/matchPlan/careerSquadBridge";
 
@@ -42,18 +42,23 @@ export default function MatchSquadPanel({
           {selected.map(({ sp, info }) => {
             const starting = isPlayerStarting(plan, sp.playerId);
             const partner = substitutionPartnerOf(plan, sp.playerId);
+            const usage = plan.playerUsage.find((u) => u.playerId === sp.playerId);
             return (
               <div key={sp.playerId} style={rowStyle} onClick={() => onOpenPlayerPanel(sp.playerId)}>
                 <span className="hm-shirt-number">{info!.shirtNumber ?? "–"}</span>
-                <span style={{ fontSize: "var(--hm-text-xs)", fontWeight: 600, flex: 1 }}>
-                  <PlayerLink playerId={sp.playerId} stopPropagation>
-                    {info!.fullName}
-                  </PlayerLink>
-                  {partner ? <span title="Byter med" style={{ marginLeft: 6, color: "var(--hm-accent)" }}>⇄</span> : null}
-                </span>
-                <span className="hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)" }}>
-                  {matchPlanPositionLabel(sp.position)}
-                </span>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: 6, fontSize: "var(--hm-text-xs)", fontWeight: 600 }}>
+                    <PlayerLink playerId={sp.playerId} stopPropagation>
+                      {info!.fullName}
+                    </PlayerLink>
+                    {partner ? <span title="Byter med" style={{ color: "var(--hm-accent)" }}>⇄</span> : null}
+                  </div>
+                  {usage ? (
+                    <div className="hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)" }}>
+                      {matchPlanPositionLabel(sp.position)} · {MATCH_ROLE_LABELS_SV[usage.matchRole]} · {PHASE_USAGE_LABELS_SV[usage.phaseUsage]} {PLAYING_TIME_INTENTION_INDICATOR_SV[usage.playingTimeIntention]}
+                    </div>
+                  ) : null}
+                </div>
                 <button
                   type="button"
                   className="hm-btn hm-btn-sm hm-btn-ghost"

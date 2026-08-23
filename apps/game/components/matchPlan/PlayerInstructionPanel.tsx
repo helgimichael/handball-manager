@@ -8,7 +8,7 @@
 import { PlayerLink } from "@/components/entityLinks";
 import SegmentedControl from "@/components/SegmentedControl";
 import { clearSubstitutionPairFor, setPlayerMatchRole, setPlayerPhaseUsage, setPlayerPlayingTime, setSubstitutionPair, substitutionPartnerOf, type OnMatchPlanChange } from "@/lib/matchPlan/matchPlanEdits";
-import { MATCH_ROLE_LABELS_SV, matchPlanPositionLabel, PHASE_USAGE_LABELS_SV, PLAYING_TIME_INTENTION_LABELS_SV } from "@/lib/matchPlan/matchPlanLabels";
+import { defenceCourtSlotLabel, MATCH_ROLE_LABELS_SV, matchPlanPositionLabel, PHASE_USAGE_LABELS_SV, PLAYING_TIME_INTENTION_LABELS_SV } from "@/lib/matchPlan/matchPlanLabels";
 import { MATCH_ROLES, PLAYER_PHASE_USAGES, PLAYING_TIME_INTENTIONS, type MatchPlan } from "@/lib/matchPlan/types";
 import type { SelectablePlayer } from "@/lib/matchPlan/careerSquadBridge";
 
@@ -50,7 +50,7 @@ export default function PlayerInstructionPanel({
         <div className="hm-panel-body hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)", paddingBottom: 0 }}>
           POSITION: {matchPlanPositionLabel(info.position)}
           {attackSlot ? ` · Anfall: ${matchPlanPositionLabel(attackSlot.position)}` : ""}
-          {defenceSlot ? ` · Försvar: rutan ${defenceSlot.courtSlot}` : isDefenceGk ? " · Försvar: målvakt" : ""}
+          {defenceSlot ? ` · Försvar: ${defenceCourtSlotLabel(defenceSlot.courtSlot)}` : isDefenceGk ? " · Försvar: målvakt" : ""}
         </div>
         <div className="hm-panel-body" style={{ display: "flex", flexDirection: "column", gap: 14 }}>
           <SegmentedControl label="Matchroll" value={usage.matchRole} options={MATCH_ROLES} renderLabel={(v) => MATCH_ROLE_LABELS_SV[v]} onChange={(v) => onChange((prev) => setPlayerMatchRole(prev, playerId, v))} />
