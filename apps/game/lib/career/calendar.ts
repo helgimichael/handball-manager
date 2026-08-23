@@ -3,8 +3,10 @@ import { getClubStrength } from "../game-data/clubStrength";
 import { getCareerClubSquad } from "./careerWorld";
 import { buildSeasonCompleteMessage } from "./inboxEvents";
 import { applyMatchResultBookkeeping } from "./matchResultApplication";
+import { computeTeamUsageTrace } from "./matchUsageEngine";
 import { computePlayerMatchStrengthAdjustment, resolveClubMatchPlanForFixture } from "./playerMatchStrength";
 import { computeAiVsAiTacticalAdjustment } from "./tacticalMatchAdjustment";
+import { computeTacticalMatchPlanAdjustment } from "./tacticalPlanEffects";
 import { averageRating, type CareerFixture, type CareerState, type ClubFormEntry, type PlayerSeasonStats } from "./types";
 import { computeStandings } from "@handball-manager/game-simulation";
 
@@ -103,9 +105,24 @@ export function simulateAiFixturesForDate(state: CareerState, date: string): { s
       `${state.saveSeed}:${fixture.id}`,
     );
 
+    // HM-TACTICS-1.3 Part AI: AI-vs-AI fixtures use the exact same
+    // tactical-effect engine as the manager's own fixture -- the same
+    // deterministic default MatchPlans already resolved above, no
+    // separate AI tactical-optimization logic.
+    const homeUsageTrace = homePlan ? computeTeamUsageTrace(homePlan, `${state.saveSeed}:${fixture.id}:usage:${fixture.homeClubId}`) : null;
+    const awayUsageTrace = awayPlan ? computeTeamUsageTrace(awayPlan, `${state.saveSeed}:${fixture.id}:usage:${fixture.awayClubId}`) : null;
+    const tacticalPlanAdjustment = computeTacticalMatchPlanAdjustment(
+      homePlan,
+      state.gameplayRatings[fixture.homeClubId] ?? [],
+      homeUsageTrace,
+      awayPlan,
+      state.gameplayRatings[fixture.awayClubId] ?? [],
+      awayUsageTrace,
+    );
+
     const combinedAdjustment = {
-      home: (adjustment?.home ?? 0) + playerStrength.home,
-      away: (adjustment?.away ?? 0) + playerStrength.away,
+      home: (adjustment?.home ?? 0) + playerStrength.home + tacticalPlanAdjustment.home,
+      away: (adjustment?.away ?? 0) + playerStrength.away + tacticalPlanAdjustment.away,
     };
     const result = simulateFixture(
       fixture,

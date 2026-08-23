@@ -18,6 +18,7 @@ import { computeTeamUsageTrace } from "./matchUsageEngine";
 import { applyMatchResultBookkeeping } from "./matchResultApplication";
 import { computePlayerMatchStrengthAdjustment, resolveClubMatchPlanForFixture } from "./playerMatchStrength";
 import { computeTacticalMatchAdjustment, sevenVSixPolicyIntensity } from "./tacticalMatchAdjustment";
+import { computeTacticalMatchPlanAdjustment } from "./tacticalPlanEffects";
 import { buildMatchRoster } from "./tumbaRoster";
 import type { CareerState, ClubFormEntry, PlayerSeasonStats } from "./types";
 
@@ -101,8 +102,10 @@ export function playManagerFixture(state: CareerState): PlayManagerFixtureResult
   // identical, pure re-derivation) the strength adjustment -- cheap and
   // deterministic, so recomputing rather than threading one shared
   // object through is the smallest, safest change.
-  const managerAttackExposureById = managerPlan ? new Map(computeTeamUsageTrace(managerPlan, `${state.saveSeed}:${fixture.id}:usage:${state.playerClubId}`).players.map((p) => [p.playerId, p.attackExposure])) : undefined;
-  const opponentAttackExposureById = opponentPlan ? new Map(computeTeamUsageTrace(opponentPlan, `${state.saveSeed}:${fixture.id}:usage:${opponentClubId}`).players.map((p) => [p.playerId, p.attackExposure])) : undefined;
+  const managerUsageTrace = managerPlan ? computeTeamUsageTrace(managerPlan, `${state.saveSeed}:${fixture.id}:usage:${state.playerClubId}`) : null;
+  const opponentUsageTrace = opponentPlan ? computeTeamUsageTrace(opponentPlan, `${state.saveSeed}:${fixture.id}:usage:${opponentClubId}`) : null;
+  const managerAttackExposureById = managerUsageTrace ? new Map(managerUsageTrace.players.map((p) => [p.playerId, p.attackExposure])) : undefined;
+  const opponentAttackExposureById = opponentUsageTrace ? new Map(opponentUsageTrace.players.map((p) => [p.playerId, p.attackExposure])) : undefined;
 
   const roster = buildMatchRoster(getCareerSquad(state), state.playerStatuses, managerAttackExposureById);
   // HM-MATCH-0.2: the opponent's snapshotted squad, so the Fast Match
@@ -135,9 +138,25 @@ export function playManagerFixture(state: CareerState): PlayManagerFixtureResult
     sevenVSixPolicyIntensity(sevenVSixPolicyLevel),
   );
 
+  // HM-TACTICS-1.3: MatchPlan's own AttackPlanConfig/DefencePlanConfig/
+  // TransitionPlanConfig choices now feed a THIRD, separately bounded
+  // adjustment -- tactical FIT (curated attribute-only fit of the
+  // players actually active in each phase, per MatchUsageTrace
+  // exposure) never player rating/CA a second time. Summed alongside
+  // (never merged into) the tactical-profile and player-strength
+  // adjustments above, same additive channel.
+  const tacticalPlanAdjustment = computeTacticalMatchPlanAdjustment(
+    managerIsHome ? managerPlan : opponentPlan,
+    state.gameplayRatings[managerIsHome ? state.playerClubId : opponentClubId] ?? [],
+    managerIsHome ? managerUsageTrace : opponentUsageTrace,
+    managerIsHome ? opponentPlan : managerPlan,
+    state.gameplayRatings[managerIsHome ? opponentClubId : state.playerClubId] ?? [],
+    managerIsHome ? opponentUsageTrace : managerUsageTrace,
+  );
+
   const combinedAdjustment = {
-    home: tacticalAdjustment.home + playerStrength.home,
-    away: tacticalAdjustment.away + playerStrength.away,
+    home: tacticalAdjustment.home + playerStrength.home + tacticalPlanAdjustment.home,
+    away: tacticalAdjustment.away + playerStrength.away + tacticalPlanAdjustment.away,
   };
   const result = simulateFixture(
     fixture,
