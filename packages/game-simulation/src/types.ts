@@ -85,4 +85,15 @@ export type MatchRosterPlayer = {
   /** Relative scoring weight within the outfield roster, e.g. derived from currentAbility + position bias. */
   scoringWeight: number;
   started: boolean;
+  /**
+   * HM-MATCH-1.1: which of 6 coarse 10-minute match-usage windows (see
+   * apps/game's MatchUsageEngine, MATCH_USAGE_WINDOW_COUNT) this player
+   * is actually scheduled to be active in attack, so the goal-scorer
+   * draw below respects the coach's own substitution schedule instead of
+   * a single whole-match aggregate weight. Optional -- omitted means
+   * "eligible in every window" (byte-identical to pre-HM-MATCH-1.1
+   * behavior), the safe fallback for any side with no resolved
+   * MatchUsageTrace.
+   */
+  activeWindows?: readonly boolean[];
 };

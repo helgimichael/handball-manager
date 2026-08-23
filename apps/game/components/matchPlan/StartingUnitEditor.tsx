@@ -114,7 +114,7 @@ export default function StartingUnitEditor({
               value={selected.playerId}
               onChange={(e) => {
                 const playerId = e.target.value;
-                onChange((prev) => applySlotAssignment({ prev, phase, selectedKey: selected.key, playerId, byId }));
+                onChange((prev) => applySlotAssignment({ prev, phase, selectedKey: selected.key, playerId }));
               }}
             >
               {(selected.isGoalkeeperSlot ? goalkeepers : outcourt).map((o) => (
@@ -177,13 +177,11 @@ function applySlotAssignment({
   phase,
   selectedKey,
   playerId,
-  byId,
 }: {
   prev: MatchPlan;
   phase: CourtPhase;
   selectedKey: string;
   playerId: string;
-  byId: Map<string, SelectablePlayer>;
 }): MatchPlan {
   if (phase === "ATTACK") {
     if (prev.attackStartingUnit.formation === "NORMAL") {
@@ -191,8 +189,7 @@ function applySlotAssignment({
       return assignNormalAttackSlot(prev, selectedKey as Position, playerId);
     }
     const index = Number(selectedKey);
-    const position = byId.get(playerId)?.position ?? prev.attackStartingUnit.slots[index]?.position ?? "M6";
-    return assignSevenVSixSlot(prev, index, playerId, position);
+    return assignSevenVSixSlot(prev, index, playerId);
   }
   if (selectedKey === "GK") return assignDefenceGoalkeeper(prev, playerId);
   return assignDefenceCourtSlot(prev, Number(selectedKey), playerId);

@@ -64,8 +64,10 @@ import { createRng, seedFromString } from "@handball-manager/game-simulation";
 import { getClubStrength } from "../game-data/clubStrength";
 import { tallyTeamStats } from "../liveMatch/liveMatchView";
 import { computeTacticalMatchAdjustment } from "./tacticalMatchAdjustment";
+import { computeAttackActiveWindows, computeTeamUsageTrace } from "./matchUsageEngine";
+import { resolveClubMatchPlanForFixture } from "./playerMatchStrength";
 import { getCareerClubSquad, getCareerSquad } from "./careerWorld";
-import { buildMatchRoster } from "./tumbaRoster";
+import { buildFallbackAttackExposure, buildMatchRoster } from "./tumbaRoster";
 import type { TeamTacticalProfile } from "./teamTacticalProfile";
 import type { OpponentAdaptationEffect } from "./opponentAdaptation";
 import type { CareerState } from "./types";
@@ -144,15 +146,46 @@ export function applyMidMatchTacticalChange(
     return state;
   }
 
-  const roster = buildMatchRoster(getCareerSquad(state), state.playerStatuses);
   const managerIsHome = original.homeClubId === state.playerClubId;
+  const opponentClubId = managerIsHome ? original.awayClubId : original.homeClubId;
+
+  // HM-MATCH-1.1 Part 9/10: this splice previously built BOTH rosters
+  // with no exposure/window gating at all (a confirmed root cause of the
+  // observed ">16 participants"/"bench player scores at minute 1" bugs
+  // for any live change that goes through this mechanism -- sideline
+  // shouts, timeout instructions, halftime talks, 7v6). Resolve the same
+  // MatchPlan every other splice/kickoff path already uses (the fixture's
+  // current live plan if one exists, else the saved pre-match plan, else
+  // the same deterministic default every unplanned fixture gets) and
+  // derive real exposure + per-window eligibility from it, exactly like
+  // matchdayAction.ts/matchPlanMidMatchChange.ts.
+  const managerPlan = resolveClubMatchPlanForFixture(
+    state.playerClubId,
+    fixtureId,
+    getCareerSquad(state),
+    state.liveMatchPlans[fixtureId] ?? state.matchPlans[fixtureId],
+    state.tactics[state.playerClubId],
+    state.playerMatchDefaults,
+  );
+  const opponentPlan = resolveClubMatchPlanForFixture(opponentClubId, fixtureId, getCareerClubSquad(state, opponentClubId), undefined, state.tactics[opponentClubId], state.playerMatchDefaults);
+  const managerUsageTrace = managerPlan ? computeTeamUsageTrace(managerPlan, `${state.saveSeed}:${fixtureId}:usage:${state.playerClubId}:midmatch:${adoptionMinute}`) : null;
+  const opponentUsageTrace = opponentPlan ? computeTeamUsageTrace(opponentPlan, `${state.saveSeed}:${fixtureId}:usage:${opponentClubId}`) : null;
+  const managerAttackExposureById = managerUsageTrace
+    ? new Map(managerUsageTrace.players.map((p) => [p.playerId, p.attackExposure]))
+    : buildFallbackAttackExposure(getCareerSquad(state), fixtureId, state.playerClubId);
+  const opponentAttackExposureById = opponentUsageTrace
+    ? new Map(opponentUsageTrace.players.map((p) => [p.playerId, p.attackExposure]))
+    : buildFallbackAttackExposure(getCareerClubSquad(state, opponentClubId), fixtureId, opponentClubId);
+  const managerActiveWindowsById = managerPlan ? computeAttackActiveWindows(managerPlan) : undefined;
+  const opponentActiveWindowsById = opponentPlan ? computeAttackActiveWindows(opponentPlan) : undefined;
+
+  const roster = buildMatchRoster(getCareerSquad(state), state.playerStatuses, managerAttackExposureById, managerActiveWindowsById);
   // HM-MATCH-0.2: the opponent's snapshotted squad, so a mid-match splice
   // keeps attributing real opponent player goals/events too, matching
   // what the initial simulation now does (matchdayAction.ts). No live
   // per-save injury/suspension tracking exists for AI clubs, so this
   // intentionally omits the playerStatuses override, same as matchdayAction.ts.
-  const opponentClubId = managerIsHome ? original.awayClubId : original.homeClubId;
-  const opponentRoster = buildMatchRoster(getCareerClubSquad(state, opponentClubId));
+  const opponentRoster = buildMatchRoster(getCareerClubSquad(state, opponentClubId), undefined, opponentAttackExposureById, opponentActiveWindowsById);
 
   const adjustment = computeTacticalMatchAdjustment(
     state.saveSeed,

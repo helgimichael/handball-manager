@@ -14,6 +14,7 @@ import {
   setPlayerMatchRole,
   setPlayerPhaseUsage,
   setPlayerPlayingTime,
+  setSevenVSixStructure,
   setSubstitutionPair,
   substitutionPartnerOf,
   updateAttackPlan,
@@ -176,11 +177,34 @@ test("HM-TACTICS-1.1: updateSevenVSixPolicy changes only the 7v6 policy sub-obje
   assert.equal(next.attackPlan.tempo, plan.attackPlan.tempo);
 });
 
-test("HM-TACTICS-1.1: assignSevenVSixSlot swaps within the 7v6 unit and allows repeated positions", () => {
+test("HM-TACTICS-1.1/HM-MATCH-1.1: assignSevenVSixSlot swaps within the 7v6 unit, keeping the slot's STRUCTURE-fixed position (never a caller-chosen one)", () => {
   const plan = setAttackFormation(defaultPlan(10), "SEVEN_V_SIX");
   const benchPlayer = plan.squad.players.find((p) => p.position !== "GK" && !plan.attackStartingUnit.slots.some((s) => s.playerId === p.playerId));
   if (!benchPlayer) return; // squad too small in this run to have a bench outcourt player -- skip, other tests already cover the swap path
-  const next = assignSevenVSixSlot(plan, 0, benchPlayer.playerId, plan.attackStartingUnit.slots[0].position);
+  const originalPosition = plan.attackStartingUnit.slots[0].position;
+  const next = assignSevenVSixSlot(plan, 0, benchPlayer.playerId);
   assert.equal(next.attackStartingUnit.slots[0].playerId, benchPlayer.playerId);
+  assert.equal(next.attackStartingUnit.slots[0].position, originalPosition, "the slot's position is fixed by the 7v6 structure, unaffected by which player occupies it");
   assert.equal(validateMatchPlan(next).ok, true);
+});
+
+test("HM-MATCH-1.1 Part 6: switching to SEVEN_V_SIX never produces a duplicate-wing structure (e.g. two V6 slots) -- DOUBLE_PIVOT's one repeated position is always M6", () => {
+  const plan = setAttackFormation(defaultPlan(10), "SEVEN_V_SIX");
+  const positions = plan.attackStartingUnit.slots.map((s) => s.position);
+  const counts = new Map<string, number>();
+  for (const p of positions) counts.set(p, (counts.get(p) ?? 0) + 1);
+  const duplicated = [...counts.entries()].filter(([, count]) => count > 1);
+  assert.equal(duplicated.length, 1, `expected exactly one duplicated position, got ${JSON.stringify(duplicated)}`);
+  assert.equal(duplicated[0][0], "M6", "DOUBLE_PIVOT's duplicated position must be M6, never a wing (V6/H6) or any other position");
+});
+
+test("HM-MATCH-1.1 Part 6: setSevenVSixStructure switches to EXTRA_BACKCOURT and the duplicated position becomes M9, never a wing", () => {
+  const sevenVSix = setAttackFormation(defaultPlan(10), "SEVEN_V_SIX");
+  const next = setSevenVSixStructure(sevenVSix, "EXTRA_BACKCOURT");
+  const positions = next.attackStartingUnit.slots.map((s) => s.position);
+  const counts = new Map<string, number>();
+  for (const p of positions) counts.set(p, (counts.get(p) ?? 0) + 1);
+  const duplicated = [...counts.entries()].filter(([, count]) => count > 1);
+  assert.equal(duplicated.length, 1);
+  assert.equal(duplicated[0][0], "M9");
 });

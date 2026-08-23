@@ -77,13 +77,35 @@ function sampleTeamGoals(rng: Rng, expected: number, depth: number, minGoals = M
   return Math.round(nextGaussian(rng, expected, stdDev, minGoals, maxGoals));
 }
 
-function buildTeamStats(rng: Rng, goals: number, opponentGoalkeeperStrength: number): TeamMatchStats {
+/** Scales a `[min, max]` inclusive range by `fraction`, keeping it a valid non-empty range for `rng.nextInt`. */
+function scaleRange(min: number, max: number, fraction: number): { min: number; max: number } {
+  const scaledMin = Math.max(0, Math.round(min * fraction));
+  const scaledMax = Math.max(scaledMin, Math.round(max * fraction));
+  return { min: scaledMin, max: scaledMax };
+}
+
+/**
+ * `durationFraction` (default 1 = a full 60-minute match, byte-identical
+ * to pre-HM-MATCH-1.1 behavior) scales the event-COUNT stats
+ * (turnovers/twoMinuteSuspensions/sevenMetreAttempts) by how much of a
+ * full match this call actually covers -- fixing the bug HM-MATCH-1.1's
+ * audit found: `sampleTeamGoals` was already duration-scaled for
+ * `simulateMatchSegment`'s own callers, but this function was not, so a
+ * short remaining-time segment after a mid-match tactical change still
+ * rolled a FULL match's worth of turnovers/suspensions/7m attempts on
+ * top of the preserved prefix's own share, inflating aggregate stats
+ * with every splice.
+ */
+function buildTeamStats(rng: Rng, goals: number, opponentGoalkeeperStrength: number, durationFraction = 1): TeamMatchStats {
   const shootingPct = 0.56 + rng.nextFloat() * 0.1; // 56-66%, typical senior handball range
   const shots = Math.max(goals, Math.round(goals / shootingPct));
   const nonScoringShots = shots - goals;
   const savedFraction = Math.max(0.35, Math.min(0.75, 0.55 + (opponentGoalkeeperStrength - 50) / 200));
-  const sevenMetreAttempts = rng.nextInt(2, 6);
+  const sevenMetreRange = scaleRange(2, 6, durationFraction);
+  const sevenMetreAttempts = rng.nextInt(sevenMetreRange.min, sevenMetreRange.max);
   const sevenMetreGoals = Math.min(goals, Math.round(sevenMetreAttempts * (0.68 + rng.nextFloat() * 0.15)));
+  const turnoverRange = scaleRange(8, 16, durationFraction);
+  const twoMinRange = scaleRange(0, 4, durationFraction);
 
   return {
     goals,
@@ -91,8 +113,8 @@ function buildTeamStats(rng: Rng, goals: number, opponentGoalkeeperStrength: num
     shootingPct: Math.round((goals / shots) * 1000) / 10,
     saves: Math.round(nonScoringShots * savedFraction),
     shotsFaced: 0, // filled in by the opposing team's shots once both sides are computed
-    turnovers: rng.nextInt(8, 16),
-    twoMinuteSuspensions: rng.nextInt(0, 4),
+    turnovers: rng.nextInt(turnoverRange.min, turnoverRange.max),
+    twoMinuteSuspensions: rng.nextInt(twoMinRange.min, twoMinRange.max),
     sevenMetreGoals,
     sevenMetreAttempts,
   };
@@ -121,23 +143,41 @@ function weightedPick(rng: Rng, weights: readonly number[]): number {
   return weights.length - 1;
 }
 
-function distributeGoalsToRoster(
-  rng: Rng,
-  totalGoals: number,
-  roster: readonly MatchRosterPlayer[],
-): Map<string, number> {
+/**
+ * HM-MATCH-1.1: 6 coarse 10-minute windows across a 60-minute match --
+ * must match apps/game's MatchUsageEngine.MATCH_USAGE_WINDOW_COUNT (this
+ * package never imports that apps/game module; the two stay in sync by
+ * shared convention, the same way this engine already treats
+ * homeTacticalAdjustment as a plain number without importing
+ * tactical-domain). ABSOLUTE match-minute-based, so it applies
+ * identically whether this is the initial full simulation or a live
+ * mid-match splice's resimulated suffix -- a player's scheduled window
+ * never shifts just because a tactical change triggered a resimulation.
+ */
+const USAGE_WINDOW_COUNT = 6;
+const USAGE_WINDOW_MINUTES = 60 / USAGE_WINDOW_COUNT;
+
+function windowIndexForMinute(minute: number): number {
+  return Math.max(0, Math.min(USAGE_WINDOW_COUNT - 1, Math.floor((minute - 1) / USAGE_WINDOW_MINUTES)));
+}
+
+/**
+ * Picks one scorer for a single goal at `minute`, honoring the roster's
+ * own `activeWindows` schedule when present (HM-MATCH-1.1 Part 10: "a
+ * player scheduled to enter later must not score at minute 1"). Falls
+ * back to the full outfield roster, unfiltered by window, only if
+ * NOBODY is scheduled active in that window -- so a goal is never left
+ * unattributed due to a gap in an otherwise-valid usage schedule.
+ */
+function pickScorer(rng: Rng, roster: readonly MatchRosterPlayer[], minute: number): string | undefined {
   const outfield = roster.filter((p) => !p.isGoalkeeper);
-  const counts = new Map<string, number>();
-  if (outfield.length === 0) {
-    return counts;
-  }
-  const weights = outfield.map((p) => Math.max(0.1, p.scoringWeight));
-  for (let i = 0; i < totalGoals; i += 1) {
-    const idx = weightedPick(rng, weights);
-    const playerId = outfield[idx].playerId;
-    counts.set(playerId, (counts.get(playerId) ?? 0) + 1);
-  }
-  return counts;
+  if (outfield.length === 0) return undefined;
+  const window = windowIndexForMinute(minute);
+  const active = outfield.filter((p) => !p.activeWindows || p.activeWindows[window]);
+  const pool = active.length > 0 ? active : outfield;
+  const weights = pool.map((p) => Math.max(0.1, p.scoringWeight));
+  const idx = weightedPick(rng, weights);
+  return pool[idx].playerId;
 }
 
 function buildPlayerContributions(
@@ -216,17 +256,6 @@ function buildFlavourEvents(rng: Rng, side: "home" | "away", stats: TeamMatchSta
   return events;
 }
 
-/** Expands a goal-count map into an ordered scorer sequence for the event timeline. */
-function expandScorers(counts: Map<string, number>): string[] {
-  const sequence: string[] = [];
-  for (const [playerId, count] of counts) {
-    for (let i = 0; i < count; i += 1) {
-      sequence.push(playerId);
-    }
-  }
-  return sequence;
-}
-
 /**
  * Builds an internally-consistent minute-by-minute event timeline whose
  * GOAL event count exactly matches the final score. `minuteMin`/
@@ -234,20 +263,28 @@ function expandScorers(counts: Map<string, number>): string[] {
  * `awayScoreStart` default to 0-0. HM-TACTICS-0.7's segment simulation
  * is the only caller that overrides any of these -- every existing call
  * site is byte-for-byte unaffected.
+ *
+ * HM-MATCH-1.1 Part 10: the scorer for each goal is now chosen AFTER
+ * that goal's minute is known (rather than pre-assigned via a single
+ * whole-match weighted draw, then independently paired with a random
+ * minute) -- see `pickScorer`. This is what actually enforces "a bench
+ * player scheduled to enter later must not score at minute 1": the
+ * scorer draw for a minute-3 goal only considers players whose
+ * `activeWindows` marks them active in that early window.
  */
 function buildEventTimeline(
   rng: Rng,
   homeGoals: number,
   awayGoals: number,
-  homeGoalScorers: readonly string[],
-  awayGoalScorers: readonly string[],
+  homeRoster: readonly MatchRosterPlayer[] | undefined,
+  awayRoster: readonly MatchRosterPlayer[] | undefined,
   homeStats: TeamMatchStats,
   awayStats: TeamMatchStats,
   minuteMin = 1,
   minuteMax = 60,
   homeScoreStart = 0,
   awayScoreStart = 0,
-): MatchEvent[] {
+): { events: MatchEvent[]; homeGoalCounts: Map<string, number>; awayGoalCounts: Map<string, number> } {
   const events: MatchEvent[] = [];
 
   // Exactly homeGoals "home" slots and awayGoals "away" slots, by
@@ -268,33 +305,21 @@ function buildEventTimeline(
 
   let homeScore = homeScoreStart;
   let awayScore = awayScoreStart;
-  let homeScorerIdx = 0;
-  let awayScorerIdx = 0;
+  const homeGoalCounts = new Map<string, number>();
+  const awayGoalCounts = new Map<string, number>();
 
   sides.forEach((side, i) => {
     const minute = minutes[i];
     if (side === "home") {
       homeScore += 1;
-      events.push({
-        minute,
-        side: "home",
-        type: "GOAL",
-        playerId: homeGoalScorers[homeScorerIdx],
-        homeScoreAfter: homeScore,
-        awayScoreAfter: awayScore,
-      });
-      homeScorerIdx = Math.min(homeScorerIdx + 1, Math.max(0, homeGoalScorers.length - 1));
+      const scorer = homeRoster ? pickScorer(rng, homeRoster, minute) : undefined;
+      if (scorer) homeGoalCounts.set(scorer, (homeGoalCounts.get(scorer) ?? 0) + 1);
+      events.push({ minute, side: "home", type: "GOAL", playerId: scorer, homeScoreAfter: homeScore, awayScoreAfter: awayScore });
     } else {
       awayScore += 1;
-      events.push({
-        minute,
-        side: "away",
-        type: "GOAL",
-        playerId: awayGoalScorers[awayScorerIdx],
-        homeScoreAfter: homeScore,
-        awayScoreAfter: awayScore,
-      });
-      awayScorerIdx = Math.min(awayScorerIdx + 1, Math.max(0, awayGoalScorers.length - 1));
+      const scorer = awayRoster ? pickScorer(rng, awayRoster, minute) : undefined;
+      if (scorer) awayGoalCounts.set(scorer, (awayGoalCounts.get(scorer) ?? 0) + 1);
+      events.push({ minute, side: "away", type: "GOAL", playerId: scorer, homeScoreAfter: homeScore, awayScoreAfter: awayScore });
     }
   });
 
@@ -305,7 +330,7 @@ function buildEventTimeline(
   events.push(...buildFlavourEvents(rng, "away", awayStats, minuteMin, minuteMax));
 
   events.sort((a, b) => a.minute - b.minute);
-  return events;
+  return { events, homeGoalCounts, awayGoalCounts };
 }
 
 export function simulateMatch(input: SimulateMatchInput): FastMatchResult {
@@ -333,15 +358,12 @@ export function simulateMatch(input: SimulateMatchInput): FastMatchResult {
   const homeStatsFinal: TeamMatchStats = { ...homeStats, shotsFaced: awayStats.shots };
   const awayStatsFinal: TeamMatchStats = { ...awayStats, shotsFaced: homeStats.shots };
 
-  const homeGoalCounts = input.homeRoster ? distributeGoalsToRoster(rng, homeGoals, input.homeRoster) : new Map<string, number>();
-  const awayGoalCounts = input.awayRoster ? distributeGoalsToRoster(rng, awayGoals, input.awayRoster) : new Map<string, number>();
-
-  const events = buildEventTimeline(
+  const { events, homeGoalCounts, awayGoalCounts } = buildEventTimeline(
     rng,
     homeGoals,
     awayGoals,
-    expandScorers(homeGoalCounts),
-    expandScorers(awayGoalCounts),
+    input.homeRoster,
+    input.awayRoster,
     homeStatsFinal,
     awayStatsFinal,
   );
@@ -450,20 +472,17 @@ export function simulateMatchSegment(input: SimulateMatchSegmentInput): MatchSeg
   const homeGoals = sampleTeamGoals(rng, homeExpectedFull * durationFraction, input.homeStrength.depth, minGoals, maxGoals, stdDevScale);
   const awayGoals = sampleTeamGoals(rng, awayExpectedFull * durationFraction, input.awayStrength.depth, minGoals, maxGoals, stdDevScale);
 
-  const homeStats = buildTeamStats(rng, homeGoals, input.awayStrength.goalkeeper);
-  const awayStats = buildTeamStats(rng, awayGoals, input.homeStrength.goalkeeper);
+  const homeStats = buildTeamStats(rng, homeGoals, input.awayStrength.goalkeeper, durationFraction);
+  const awayStats = buildTeamStats(rng, awayGoals, input.homeStrength.goalkeeper, durationFraction);
   const homeStatsFinal: TeamMatchStats = { ...homeStats, shotsFaced: awayStats.shots };
   const awayStatsFinal: TeamMatchStats = { ...awayStats, shotsFaced: homeStats.shots };
 
-  const homeGoalCounts = input.homeRoster ? distributeGoalsToRoster(rng, homeGoals, input.homeRoster) : new Map<string, number>();
-  const awayGoalCounts = input.awayRoster ? distributeGoalsToRoster(rng, awayGoals, input.awayRoster) : new Map<string, number>();
-
-  const events = buildEventTimeline(
+  const { events, homeGoalCounts, awayGoalCounts } = buildEventTimeline(
     rng,
     homeGoals,
     awayGoals,
-    expandScorers(homeGoalCounts),
-    expandScorers(awayGoalCounts),
+    input.homeRoster,
+    input.awayRoster,
     homeStatsFinal,
     awayStatsFinal,
     Math.max(1, input.startMinute),

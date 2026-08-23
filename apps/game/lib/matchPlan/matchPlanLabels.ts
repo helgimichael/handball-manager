@@ -15,6 +15,7 @@ import type {
   PlayingTimeIntention,
   Position,
   SevenVSixPolicyLevel,
+  SevenVSixStructure,
 } from "./types";
 
 export const POSITION_LABELS_SV: Record<Position, string> = {
@@ -74,6 +75,11 @@ export const SEVEN_V_SIX_POLICY_LABELS_SV: Record<SevenVSixPolicyLevel, string> 
   SITUATIONAL: "Situationsbaserat",
   FREQUENT: "Ofta",
   PRIMARY: "Primärt",
+};
+
+export const SEVEN_V_SIX_STRUCTURE_LABELS_SV: Record<SevenVSixStructure, string> = {
+  DOUBLE_PIVOT: "Dubbel mittsexa",
+  EXTRA_BACKCOURT: "Extra mittnia",
 };
 
 export const TEMPO_LABELS_SV = { SLOW: "Långsamt", BALANCED: "Balanserat", FAST: "Snabbt" } as const;

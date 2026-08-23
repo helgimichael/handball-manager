@@ -78,18 +78,40 @@ export interface AttackUnitSlot {
 }
 
 /**
+ * HM-MATCH-1.1 Part 6: a real 7v6 lineup follows one of a small number
+ * of RECOGNIZED handball structures -- never a freeform "pick any
+ * position for any of the 7 slots" picker, which previously let the UI
+ * produce tactically absurd lineups (e.g. two V6/left-wing slots).
+ * DOUBLE_PIVOT doubles up the pivot/M6 role (the most common real 7v6
+ * shape); EXTRA_BACKCOURT brings on a second central/backcourt player
+ * (M9) instead -- the other legitimate, clean structure this domain's
+ * existing position vocabulary can honestly represent. Both keep the
+ * other 5 positions (V6/V9/H9/H6 plus one of M9/M6) exactly as in a
+ * NORMAL lineup.
+ */
+export const SEVEN_V_SIX_STRUCTURES = ["DOUBLE_PIVOT", "EXTRA_BACKCOURT"] as const;
+export type SevenVSixStructure = (typeof SEVEN_V_SIX_STRUCTURES)[number];
+
+/** The FIXED 7-slot position template for each structure -- slot index i always maps to this position, never a free per-slot choice. */
+export const SEVEN_V_SIX_STRUCTURE_POSITIONS: Record<SevenVSixStructure, readonly Position[]> = {
+  DOUBLE_PIVOT: ["V6", "V9", "M9", "H9", "H6", "M6", "M6"],
+  EXTRA_BACKCOURT: ["V6", "V9", "M9", "H9", "H6", "M6", "M9"],
+};
+
+/**
  * NORMAL: exactly 7 slots -- 1 GK + the 6 distinct outcourt positions,
  * each filled exactly once (the standard 6-outcourt-plus-keeper
  * lineup).
  * SEVEN_V_SIX: exactly 7 slots, ALL outcourt, NO goalkeeper slot at
- * all (the keeper is off for an extra attacker) -- position values are
- * deliberately NOT required to be distinct here (Part B: "do not
- * assume one fixed 7v6 structure"; a real 7v6 lineup often doubles up
- * a backcourt role rather than mapping cleanly onto 7 unique labels).
+ * all (the keeper is off for an extra attacker) -- `sevenVSixStructure`
+ * fixes each slot's position per `SEVEN_V_SIX_STRUCTURE_POSITIONS`
+ * above; defaults to DOUBLE_PIVOT when omitted (every pre-HM-MATCH-1.1
+ * plan).
  */
 export interface AttackStartingUnit {
   formation: AttackFormation;
   slots: readonly AttackUnitSlot[];
+  sevenVSixStructure?: SevenVSixStructure;
 }
 
 /**

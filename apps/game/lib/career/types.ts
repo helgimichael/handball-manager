@@ -7,6 +7,7 @@ import type { TeamTacticalProfile } from "./teamTacticalProfile";
 import type { MatchPlan } from "../matchPlan/types";
 import type { GameplayPlayerRating } from "../gameWorld/gameplayRatingSnapshot";
 import type { MatchPlanChangeHistoryEntry } from "../liveMatch/matchPlanChange";
+import type { PlayerMatchDefault, TacticsTemplate } from "../matchPlan/persistentDefaults";
 
 export type CareerFixture = {
   id: string;
@@ -179,6 +180,38 @@ export type CareerState = {
    * per match; empty (no entry) for a fixture with no live changes.
    */
   matchPlanChangeHistory: Record<string, MatchPlanChangeHistoryEntry[]>;
+
+  // --- HM-MATCH-1.1 addition (career-state schema v11, see saveMigration.ts) ---
+
+  /**
+   * Part 1: the manager's own PERSISTENT tactical identity -- "how does
+   * this club generally play" -- keyed by clubId (today, only ever the
+   * manager's own `playerClubId`; the shape is club-keyed rather than a
+   * single top-level value so a future multi-club-managed-career never
+   * needs a second field). Deliberately separate from `matchPlans`
+   * above: a fixture's own attackPlan/defencePlan/transitionPlan may
+   * still diverge from this for one match, and only an explicit
+   * pre-match Tactics workspace edit (never a live in-match coaching
+   * change) syncs a new value back here -- see
+   * lib/career/matchPlanActions.ts's own doc for the one write path.
+   * Empty (no entry) for a club that has never had a Tactics edit yet --
+   * `lib/matchPlan/defaultMatchPlan.ts`'s own hardcoded neutral defaults
+   * are used until then, exactly as before this milestone.
+   */
+  tactics: Record<string, TacticsTemplate>;
+
+  /**
+   * Part 2: a player's own PERSISTENT squad standing / intended usage --
+   * "Gustav is normally a KEY_PLAYER" -- keyed by playerId (globally
+   * unique, the same flat convention `playerStatuses` already uses).
+   * Same persistence rule as `tactics` above: only a pre-match Tactics
+   * workspace edit syncs a new value here; a live coaching change or a
+   * one-off fixture-specific override never does. A player with no
+   * entry here simply has no persisted standing yet -- the same
+   * STARTER/ROTATION heuristic `buildDefaultMatchPlan` always used is
+   * the fallback, exactly as before this milestone.
+   */
+  playerMatchDefaults: Record<string, PlayerMatchDefault>;
 };
 
 export type CareerSaveEnvelope = {

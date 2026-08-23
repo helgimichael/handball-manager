@@ -1,6 +1,32 @@
 import type { MatchRosterPlayer } from "@handball-manager/game-simulation";
 import type { PlayerMock } from "../game-data";
+import { buildInitialMatchSquad } from "../matchPlan/careerSquadBridge";
+import { MATCH_SQUAD_MAX_PLAYERS } from "../matchPlan/types";
 import { isAvailable, type PlayerCareerStatus } from "./playerStatus";
+
+/**
+ * HM-MATCH-1.1 Part 9: the guaranteed-legal exposure map for a side
+ * whose real MatchPlan/MatchUsageTrace could not be resolved (e.g. the
+ * AI opponent's squad snapshot has no valid goalkeeper or fewer than 6
+ * outcourt players in `buildDefaultMatchPlan`'s greedy pick). Root
+ * cause of the observed ">16 participants" bug: `buildMatchRoster`
+ * previously fell back to its UNFILTERED branch (every squadStatus-
+ * eligible player from the club's full raw squad, no cap at all)
+ * whenever the caller had no exposure map to pass. This derives a real,
+ * <=16-player map from the SAME deterministic initial-squad selection
+ * the Tactics workspace itself uses for a fixture with no saved plan
+ * yet -- never a second selection algorithm -- so a caller with no
+ * resolved MatchPlan still gets a legally-capped, exposure-gated
+ * roster instead of the entire club.
+ */
+export function buildFallbackAttackExposure(squad: readonly PlayerMock[], fixtureId: string, clubId: string): ReadonlyMap<string, number> {
+  const initial = buildInitialMatchSquad(squad, fixtureId, clubId);
+  const map = new Map<string, number>();
+  for (const p of initial.players) {
+    if (p.position !== "GK") map.set(p.playerId, 1);
+  }
+  return map;
+}
 
 /**
  * Builds the matchday roster the Fast Match Engine distributes goals
@@ -50,7 +76,12 @@ function scoringWeightFor(player: PlayerMock): number {
  * proportionally more scoring opportunity than a lightly-rotated one.
  * Omitting the map entirely is byte-identical to before this milestone.
  */
-export function buildMatchRoster(squad: readonly PlayerMock[], playerStatuses?: Record<string, PlayerCareerStatus>, attackExposureById?: ReadonlyMap<string, number>): MatchRosterPlayer[] {
+export function buildMatchRoster(
+  squad: readonly PlayerMock[],
+  playerStatuses?: Record<string, PlayerCareerStatus>,
+  attackExposureById?: ReadonlyMap<string, number>,
+  attackActiveWindowsById?: ReadonlyMap<string, readonly boolean[]>,
+): MatchRosterPlayer[] {
   const eligible = squad.filter((p) => {
     const baseEligible = p.squadStatus === "Förstaval" || p.squadStatus === "Rotation";
     if (!playerStatuses || !playerStatuses[p.id]) {
@@ -64,7 +95,21 @@ export function buildMatchRoster(squad: readonly PlayerMock[], playerStatuses?: 
     return baseEligible || p.squadStatus === "Skadad" || p.squadStatus === "Avstängd";
   });
   const outfieldEligible = eligible.filter((p) => p.position !== "MV");
-  const outfield = attackExposureById ? outfieldEligible.filter((p) => (attackExposureById.get(p.id) ?? 0) > 0) : outfieldEligible;
+  let outfield = attackExposureById ? outfieldEligible.filter((p) => (attackExposureById.get(p.id) ?? 0) > 0) : outfieldEligible;
+
+  // HM-MATCH-1.1 Part 9: a hard, unconditional cap -- belt-and-suspenders
+  // alongside `buildFallbackAttackExposure` above. Even a caller that
+  // omits `attackExposureById` entirely (the legacy "no MatchPlan"
+  // fallback other pre-existing call sites still use) can never produce
+  // a roster of more than MATCH_SQUAD_MAX_PLAYERS participants -- the
+  // invariant every match report/analysis view depends on. Preference
+  // order (Förstaval before Rotation, existing squad order within each)
+  // keeps the cap's choice deterministic and biased toward the players
+  // who would actually be selected first.
+  const maxOutfield = MATCH_SQUAD_MAX_PLAYERS - 1; // one slot reserved for the goalkeeper
+  if (outfield.length > maxOutfield) {
+    outfield = [...outfield].sort((a, b) => (a.squadStatus === b.squadStatus ? 0 : a.squadStatus === "Förstaval" ? -1 : 1)).slice(0, maxOutfield);
+  }
 
   // Exactly ONE goalkeeper plays per match -- the Fast Match Engine
   // attributes the team's full saves/shotsFaced tally to every roster
@@ -79,6 +124,7 @@ export function buildMatchRoster(squad: readonly PlayerMock[], playerStatuses?: 
     isGoalkeeper: false,
     scoringWeight: scoringWeightFor(p) * (attackExposureById ? Math.max(0, Math.min(1, attackExposureById.get(p.id) ?? 1)) : 1),
     started: p.squadStatus === "Förstaval",
+    activeWindows: attackActiveWindowsById?.get(p.id),
   }));
 
   if (!startingGoalkeeper) {

@@ -137,5 +137,18 @@ export function migrateCareerState(career: CareerState): CareerState {
     next = { ...next, matchPlanChangeHistory: {} };
   }
 
+  // HM-MATCH-1.1 (career-state schema v11): additive -- an existing
+  // career simply never had a persistent Tactics/player-default template
+  // yet; every reader (buildDefaultMatchPlan's own optional params, the
+  // Tactics workspace) already treats a missing entry as "fall back to
+  // the same hardcoded neutral defaults this game always used", so empty
+  // objects here change nothing observable for old saves.
+  if (next.tactics === undefined) {
+    next = { ...next, tactics: {} };
+  }
+  if (next.playerMatchDefaults === undefined) {
+    next = { ...next, playerMatchDefaults: {} };
+  }
+
   return next;
 }

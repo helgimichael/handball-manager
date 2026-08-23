@@ -125,6 +125,29 @@ function computeGoalkeeperWindowCounts(usagePlan: MatchUsagePlan): Map<string, n
   return counts;
 }
 
+/**
+ * HM-MATCH-1.1 Part 10/11: per-window ATTACK eligibility per outfield
+ * player -- a thin, read-only projection of the SAME `activeWindowRange`
+ * this module already uses to compute `attackExposure` (Part J), never a
+ * second substitution engine. The Match Engine (packages/game-simulation)
+ * uses this to gate WHICH player can be drawn as a goal's scorer for a
+ * given minute's window, so a bench player's own scheduled entry window
+ * is actually honored instead of only shaping their aggregate scoring
+ * weight.
+ */
+export function computeAttackActiveWindows(plan: MatchPlan): ReadonlyMap<string, readonly boolean[]> {
+  const usagePlan = buildMatchUsagePlan(plan);
+  const map = new Map<string, readonly boolean[]>();
+  for (const p of usagePlan.players) {
+    if (p.isGoalkeeper) continue;
+    const range = activeWindowRange(p.attackUsageWeight, p.startingInAttack);
+    const windows: boolean[] = [];
+    for (let window = 0; window < MATCH_USAGE_WINDOW_COUNT; window += 1) windows.push(isActiveInWindow(range, window));
+    map.set(p.playerId, windows);
+  }
+  return map;
+}
+
 export interface PlayerUsageTrace {
   playerId: string;
   /** 0-1, normalized: fraction of match windows this player is intended to be on court in ATTACK. */

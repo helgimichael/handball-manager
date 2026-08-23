@@ -18,9 +18,10 @@ import type {
   PlayingTimeIntention,
   Position,
   SevenVSixPolicy,
+  SevenVSixStructure,
   TransitionPlanConfig,
 } from "./types";
-import { MATCH_SQUAD_MAX_PLAYERS } from "./types";
+import { MATCH_SQUAD_MAX_PLAYERS, SEVEN_V_SIX_STRUCTURE_POSITIONS } from "./types";
 
 /**
  * The shape every Tactics workspace component's `onChange` prop takes.
@@ -85,8 +86,17 @@ export function assignNormalAttackSlot(plan: MatchPlan, targetPosition: Position
   return { ...plan, attackStartingUnit: { ...plan.attackStartingUnit, slots: nextSlots } };
 }
 
-export function assignSevenVSixSlot(plan: MatchPlan, slotIndex: number, playerId: string, position: Position): MatchPlan {
+/**
+ * HM-MATCH-1.1 Part 6: a slot's POSITION is fixed by the lineup's
+ * `sevenVSixStructure` (never a caller-supplied, freeform value -- the
+ * confirmed root cause of the previous "two V6 slots" bug) -- this only
+ * ever assigns WHICH PLAYER occupies that already-fixed slot.
+ */
+export function assignSevenVSixSlot(plan: MatchPlan, slotIndex: number, playerId: string): MatchPlan {
   if (plan.attackStartingUnit.formation !== "SEVEN_V_SIX") return plan;
+  const structure = plan.attackStartingUnit.sevenVSixStructure ?? "DOUBLE_PIVOT";
+  const position = SEVEN_V_SIX_STRUCTURE_POSITIONS[structure][slotIndex];
+  if (!position) return plan;
   const slots = [...plan.attackStartingUnit.slots];
   const existingIndex = slots.findIndex((s) => s.playerId === playerId);
   const displaced = slots[slotIndex]?.playerId;
@@ -98,21 +108,59 @@ export function assignSevenVSixSlot(plan: MatchPlan, slotIndex: number, playerId
 }
 
 /**
- * Switches between NORMAL and SEVEN_V_SIX (Part F). Deterministic, no
- * randomness: SEVEN_V_SIX adds the first eligible bench outcourt
- * player as the 7th attacker; back to NORMAL keeps the first player
- * seen at each position (de-duplicating any repeats 7v6 allowed) and
- * fills any still-missing position from the bench.
+ * HM-MATCH-1.1 Part 6: switches the 7v6 lineup to a different recognized
+ * structure while the coach is already in SEVEN_V_SIX -- re-labels each
+ * slot's position per the new template (index-preserving; players stay
+ * in the same slot index) without reassigning any player. A coach can
+ * then use `assignSevenVSixSlot` per-slot afterward if a player needs
+ * moving to better fit the new shape.
  */
-export function setAttackFormation(plan: MatchPlan, formation: AttackFormation): MatchPlan {
+export function setSevenVSixStructure(plan: MatchPlan, structure: SevenVSixStructure): MatchPlan {
+  if (plan.attackStartingUnit.formation !== "SEVEN_V_SIX") return plan;
+  const positions = SEVEN_V_SIX_STRUCTURE_POSITIONS[structure];
+  const slots = plan.attackStartingUnit.slots.map((slot, i) => ({ playerId: slot.playerId, position: positions[i] ?? slot.position }));
+  return { ...plan, attackStartingUnit: { formation: "SEVEN_V_SIX", slots, sevenVSixStructure: structure } };
+}
+
+/**
+ * Switches between NORMAL and SEVEN_V_SIX (Part F). Deterministic, no
+ * randomness: SEVEN_V_SIX builds a lineup from a RECOGNIZED structure
+ * template (HM-MATCH-1.1 Part 6, default DOUBLE_PIVOT) -- the 6 shared
+ * positions keep exactly the same players the NORMAL lineup already
+ * had, and the one duplicated position is filled by the first eligible
+ * bench player who plays that position (falling back to any remaining
+ * bench outcourt player), never a caller-chosen freeform position. Back
+ * to NORMAL keeps the first player seen at each distinct position
+ * (de-duplicating any repeats 7v6 allowed) and fills any still-missing
+ * position from the bench.
+ */
+export function setAttackFormation(plan: MatchPlan, formation: AttackFormation, structure: SevenVSixStructure = "DOUBLE_PIVOT"): MatchPlan {
   if (plan.attackStartingUnit.formation === formation) return plan;
 
   if (formation === "SEVEN_V_SIX") {
     const outcourtSlots = plan.attackStartingUnit.slots.filter((s) => s.position !== "GK");
+    const playerIdByPosition = new Map(outcourtSlots.map((s) => [s.position, s.playerId]));
     const usedIds = new Set(outcourtSlots.map((s) => s.playerId));
-    const extra = plan.squad.players.find((p) => p.position !== "GK" && !usedIds.has(p.playerId));
-    const slots: AttackUnitSlot[] = extra ? [...outcourtSlots, { playerId: extra.playerId, position: extra.position }] : outcourtSlots;
-    return { ...plan, attackStartingUnit: { formation: "SEVEN_V_SIX", slots } };
+    const positions = SEVEN_V_SIX_STRUCTURE_POSITIONS[structure];
+
+    const slots: AttackUnitSlot[] = [];
+    for (const position of positions) {
+      const existing = playerIdByPosition.get(position);
+      if (existing && !slots.some((s) => s.playerId === existing)) {
+        slots.push({ playerId: existing, position });
+        continue;
+      }
+      // Either this is the structure's duplicated slot, or the shared
+      // position's player was already placed -- fill from the bench,
+      // preferring a player whose OWN position matches this slot.
+      const benchMatch = plan.squad.players.find((p) => p.position === position && !usedIds.has(p.playerId));
+      const benchAny = benchMatch ?? plan.squad.players.find((p) => p.position !== "GK" && !usedIds.has(p.playerId));
+      if (benchAny) {
+        slots.push({ playerId: benchAny.playerId, position });
+        usedIds.add(benchAny.playerId);
+      }
+    }
+    return { ...plan, attackStartingUnit: { formation: "SEVEN_V_SIX", slots, sevenVSixStructure: structure } };
   }
 
   const seenPositions = new Set<Position>();

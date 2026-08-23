@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState, type UIEvent } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { getClub, type PlayerMock } from "@/lib/game-data";
 import { getLiveTableStandings } from "@/lib/career/standings";
@@ -84,6 +84,15 @@ function LiveMatch({
   const router = useRouter();
   const { career, applyMidMatchTacticalChange, applyMidMatchPlanChange } = useCareer();
   const logRef = useRef<HTMLDivElement>(null);
+  // HM-MATCH-1.1 Part 13: only auto-scroll to the live edge (bottom) when
+  // the user is ALREADY there -- a manual scroll-back to read earlier
+  // commentary must never get yanked back to live by the next event.
+  // `isAtLiveEdgeRef` starts true (a fresh match view IS at live), and is
+  // updated by the log's own onScroll handler, never by the auto-scroll
+  // effect itself (which would otherwise always report "at the edge"
+  // immediately after moving there).
+  const isAtLiveEdgeRef = useRef(true);
+  const [newEventsWhileAway, setNewEventsWhileAway] = useState(0);
 
   // HM-TACTICS-0.7: the tactical profile actually in effect for THIS
   // match. Match-scoped, not the season-persistent career.tacticalProfile
@@ -294,8 +303,25 @@ function LiveMatch({
   }, [assessedOpponentAdaptation, view.clockMinute, handleOpponentAdaptationLanded]);
 
   useEffect(() => {
-    logRef.current?.scrollTo({ top: logRef.current.scrollHeight });
+    if (isAtLiveEdgeRef.current) {
+      logRef.current?.scrollTo({ top: logRef.current.scrollHeight });
+    } else {
+      setNewEventsWhileAway((n) => n + 1);
+    }
   }, [view.revealedEvents.length]);
+
+  const LIVE_EDGE_TOLERANCE_PX = 24;
+  function handleCommentaryScroll(e: UIEvent<HTMLDivElement>) {
+    const el = e.currentTarget;
+    const atEdge = el.scrollHeight - el.scrollTop - el.clientHeight <= LIVE_EDGE_TOLERANCE_PX;
+    isAtLiveEdgeRef.current = atEdge;
+    if (atEdge && newEventsWhileAway > 0) setNewEventsWhileAway(0);
+  }
+  function scrollCommentaryToLive() {
+    logRef.current?.scrollTo({ top: logRef.current.scrollHeight, behavior: "smooth" });
+    isAtLiveEdgeRef.current = true;
+    setNewEventsWhileAway(0);
+  }
 
   const isFullTime = view.phase === "FULL_TIME";
   const commentaryEvents = [...view.revealedEvents].reverse();
@@ -328,11 +354,21 @@ function LiveMatch({
 
       <div style={{ display: "grid", gridTemplateColumns: "1.4fr 1fr", gap: 12 }}>
         {/* Commentary */}
-        <div className="hm-panel" style={{ display: "flex", flexDirection: "column" }}>
+        <div className="hm-panel" style={{ display: "flex", flexDirection: "column", position: "relative" }}>
           <div className="hm-panel-header">
             <span className="hm-panel-title">Kommentarer</span>
           </div>
-          <div ref={logRef} style={{ height: 320, overflowY: "auto", padding: "6px 0" }}>
+          {newEventsWhileAway > 0 ? (
+            <button
+              type="button"
+              className="hm-btn hm-btn-sm hm-btn-primary"
+              onClick={scrollCommentaryToLive}
+              style={{ position: "absolute", bottom: 10, left: "50%", transform: "translateX(-50%)", zIndex: 1 }}
+            >
+              {newEventsWhileAway} nya händelser
+            </button>
+          ) : null}
+          <div ref={logRef} onScroll={handleCommentaryScroll} style={{ height: 320, overflowY: "auto", padding: "6px 0" }}>
             {commentaryEvents.map((event, i) => (
               <div
                 key={i}
@@ -393,7 +429,7 @@ function LiveMatch({
           </div>
           <div className="hm-panel-body" style={{ display: "flex", flexDirection: "column", gap: 12 }}>
             <SegmentedControl
-              label="ATI-001-benägenhet"
+              label="Anfallsbenägenhet"
               value={draftProfile.ati001UsageTendency}
               options={ATI001_USAGE_TENDENCY_VALUES}
               renderLabel={capabilityLevelLabel}
@@ -401,7 +437,7 @@ function LiveMatch({
               disabled={!canIssueTimeoutInstruction}
             />
             <SegmentedControl
-              label="H2-respons (TI-001)"
+              label="Försvarsrespons"
               value={draftProfile.h2ResponsePreference}
               options={H2_RESPONSE_PREFERENCE_VALUES}
               renderLabel={h2ResponseLabel}
@@ -464,7 +500,7 @@ function LiveMatch({
           </div>
           <div className="hm-panel-body" style={{ display: "flex", flexDirection: "column", gap: 12 }}>
             <SegmentedControl
-              label="ATI-001-benägenhet"
+              label="Anfallsbenägenhet"
               value={draftProfile.ati001UsageTendency}
               options={ATI001_USAGE_TENDENCY_VALUES}
               renderLabel={capabilityLevelLabel}
@@ -472,7 +508,7 @@ function LiveMatch({
               disabled={!canIssueHalftimeInstruction}
             />
             <SegmentedControl
-              label="H2-respons (TI-001)"
+              label="Försvarsrespons"
               value={draftProfile.h2ResponsePreference}
               options={H2_RESPONSE_PREFERENCE_VALUES}
               renderLabel={h2ResponseLabel}
@@ -494,12 +530,12 @@ function LiveMatch({
                 disabled={!canIssueHalftimeInstruction}
                 onClick={() => issueHalftimeInstruction(draftProfile, currentProfile)}
               >
-                GE MATCHPAUSTAL
+                BEKRÄFTA FÖR ANDRA HALVLEK
               </button>
               <span className="hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)" }}>
                 {pendingInstruction
-                  ? `${instructionLabel(instructionStatus)} (en genomtänkt paustal ger bättre förutsättningar än en snabb instruktion under spel, men garanterar ingenting).`
-                  : (lastOutcomeLabel(lastInstructionOutcome) ?? "Gäller för andra halvlek -- laget hör detta innan de går ut på planen igen.")}
+                  ? `${instructionLabel(instructionStatus)} (en paus ger säkrare genomförande än en instruktion under spel, men garanterar ingenting).`
+                  : (lastOutcomeLabel(lastInstructionOutcome) ?? "Gäller för andra halvlek -- laget går ut på planen med detta.")}
               </span>
             </div>
             <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap", borderTop: "1px solid var(--hm-border-subtle)", paddingTop: 10 }}>
@@ -533,7 +569,7 @@ function LiveMatch({
           </div>
           <div className="hm-panel-body" style={{ display: "flex", flexDirection: "column", gap: 12 }}>
             <SegmentedControl
-              label="ATI-001-benägenhet"
+              label="Anfallsbenägenhet"
               value={draftProfile.ati001UsageTendency}
               options={ATI001_USAGE_TENDENCY_VALUES}
               renderLabel={capabilityLevelLabel}
@@ -541,7 +577,7 @@ function LiveMatch({
               disabled={!canIssueInstruction}
             />
             <SegmentedControl
-              label="H2-respons (TI-001)"
+              label="Försvarsrespons"
               value={draftProfile.h2ResponsePreference}
               options={H2_RESPONSE_PREFERENCE_VALUES}
               renderLabel={h2ResponseLabel}

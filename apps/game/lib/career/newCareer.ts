@@ -82,5 +82,7 @@ export function createNewCareerState(
     gameplayRatings,
     liveMatchPlans: {},
     matchPlanChangeHistory: {},
+    tactics: {},
+    playerMatchDefaults: {},
   };
 }

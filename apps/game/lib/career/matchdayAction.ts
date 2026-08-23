@@ -14,12 +14,12 @@ import { checkSeasonComplete, getPlayerFixtureOn } from "./calendar";
 import { buildMatchCompletedEvent } from "./careerEvents";
 import { getCareerClubSquad, getCareerSquad } from "./careerWorld";
 import { careerEventToInboxMessage } from "./inboxBridge";
-import { computeTeamUsageTrace } from "./matchUsageEngine";
+import { computeAttackActiveWindows, computeTeamUsageTrace } from "./matchUsageEngine";
 import { applyMatchResultBookkeeping } from "./matchResultApplication";
 import { computePlayerMatchStrengthAdjustment, resolveClubMatchPlanForFixture } from "./playerMatchStrength";
 import { computeTacticalMatchAdjustment, sevenVSixPolicyIntensity } from "./tacticalMatchAdjustment";
 import { computeTacticalMatchPlanAdjustment } from "./tacticalPlanEffects";
-import { buildMatchRoster } from "./tumbaRoster";
+import { buildFallbackAttackExposure, buildMatchRoster } from "./tumbaRoster";
 import type { CareerState, ClubFormEntry, PlayerSeasonStats } from "./types";
 
 export interface PlayManagerFixtureResult {
@@ -82,8 +82,8 @@ export function playManagerFixture(state: CareerState): PlayManagerFixtureResult
   // builds one on the fly from the currently selected squad. Never
   // throws: a squad too small to build a plan resolves to `null`, which
   // playerMatchStrength.ts treats as a neutral (zero-effect) side.
-  const managerPlan = resolveClubMatchPlanForFixture(state.playerClubId, fixture.id, getCareerSquad(state), state.matchPlans[fixture.id]);
-  const opponentPlan = resolveClubMatchPlanForFixture(opponentClubId, fixture.id, getCareerClubSquad(state, opponentClubId), undefined);
+  const managerPlan = resolveClubMatchPlanForFixture(state.playerClubId, fixture.id, getCareerSquad(state), state.matchPlans[fixture.id], state.tactics[state.playerClubId], state.playerMatchDefaults);
+  const opponentPlan = resolveClubMatchPlanForFixture(opponentClubId, fixture.id, getCareerClubSquad(state, opponentClubId), undefined, state.tactics[opponentClubId], state.playerMatchDefaults);
   const managerIsHome = fixture.homeClubId === state.playerClubId;
   const playerStrength = computePlayerMatchStrengthAdjustment(
     managerIsHome ? managerPlan : opponentPlan,
@@ -104,10 +104,29 @@ export function playManagerFixture(state: CareerState): PlayManagerFixtureResult
   // object through is the smallest, safest change.
   const managerUsageTrace = managerPlan ? computeTeamUsageTrace(managerPlan, `${state.saveSeed}:${fixture.id}:usage:${state.playerClubId}`) : null;
   const opponentUsageTrace = opponentPlan ? computeTeamUsageTrace(opponentPlan, `${state.saveSeed}:${fixture.id}:usage:${opponentClubId}`) : null;
-  const managerAttackExposureById = managerUsageTrace ? new Map(managerUsageTrace.players.map((p) => [p.playerId, p.attackExposure])) : undefined;
-  const opponentAttackExposureById = opponentUsageTrace ? new Map(opponentUsageTrace.players.map((p) => [p.playerId, p.attackExposure])) : undefined;
+  // HM-MATCH-1.1 Part 9: when a real MatchPlan/usage trace could not be
+  // resolved for a side (e.g. the AI opponent's snapshotted squad lacks
+  // a valid goalkeeper or 6 outcourt players), fall back to a guaranteed
+  // <=16-player exposure map (buildFallbackAttackExposure) rather than
+  // omitting the map entirely -- the previous fallback left the roster
+  // completely unfiltered, which is the confirmed root cause of the
+  // observed ">16 participants" bug.
+  const managerAttackExposureById = managerUsageTrace
+    ? new Map(managerUsageTrace.players.map((p) => [p.playerId, p.attackExposure]))
+    : buildFallbackAttackExposure(getCareerSquad(state), fixture.id, state.playerClubId);
+  const opponentAttackExposureById = opponentUsageTrace
+    ? new Map(opponentUsageTrace.players.map((p) => [p.playerId, p.attackExposure]))
+    : buildFallbackAttackExposure(getCareerClubSquad(state, opponentClubId), fixture.id, opponentClubId);
+  // HM-MATCH-1.1 Part 10: per-window attack eligibility, so a bench
+  // player's own scheduled entry window is honored by the goal-scorer
+  // draw -- only available when a real plan resolved (the fallback
+  // exposure map above has no window schedule to derive one from, so
+  // those sides are left `undefined`, meaning "eligible in every
+  // window", the same safe behavior as before this milestone).
+  const managerActiveWindowsById = managerPlan ? computeAttackActiveWindows(managerPlan) : undefined;
+  const opponentActiveWindowsById = opponentPlan ? computeAttackActiveWindows(opponentPlan) : undefined;
 
-  const roster = buildMatchRoster(getCareerSquad(state), state.playerStatuses, managerAttackExposureById);
+  const roster = buildMatchRoster(getCareerSquad(state), state.playerStatuses, managerAttackExposureById, managerActiveWindowsById);
   // HM-MATCH-0.2: the opponent's snapshotted squad, so the Fast Match
   // Engine attributes real player goals/events to them too instead of
   // leaving their side entirely anonymous (Spec: "do not randomly invent
@@ -116,7 +135,7 @@ export function playManagerFixture(state: CareerState): PlayManagerFixtureResult
   // so this intentionally falls back to squadStatus-only eligibility --
   // the same honest scope buildMatchRoster already documents for callers
   // that predate Career Rhythm.
-  const opponentRoster = buildMatchRoster(getCareerClubSquad(state, opponentClubId), undefined, opponentAttackExposureById);
+  const opponentRoster = buildMatchRoster(getCareerClubSquad(state, opponentClubId), undefined, opponentAttackExposureById, opponentActiveWindowsById);
 
   // HM-MATCH-RATINGS-0.1 Part K: the manager's own PRE-MATCH
   // SevenVSixPolicy (from the resolved MatchPlan above) now scales the

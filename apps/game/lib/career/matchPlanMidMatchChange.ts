@@ -22,13 +22,13 @@ import { getClubStrength } from "../game-data/clubStrength";
 import { tallyTeamStats } from "../liveMatch/liveMatchView";
 import type { MatchPlanChange, MatchPlanChangeHistoryEntry } from "../liveMatch/matchPlanChange";
 import { applyMatchPlanChange, describeMatchPlanChange } from "../liveMatch/matchPlanChange";
-import { computeTeamUsageTrace } from "./matchUsageEngine";
+import { computeAttackActiveWindows, computeTeamUsageTrace } from "./matchUsageEngine";
 import { computePlayerMatchStrengthAdjustment, resolveClubMatchPlanForFixture } from "./playerMatchStrength";
 import { computeTacticalMatchAdjustment } from "./tacticalMatchAdjustment";
 import { computeTacticalMatchPlanAdjustment } from "./tacticalPlanEffects";
 import { rebuildContributions, tallyPlayerGoalsFull } from "./tacticalMidMatchChange";
 import { getCareerClubSquad, getCareerSquad } from "./careerWorld";
-import { buildMatchRoster } from "./tumbaRoster";
+import { buildFallbackAttackExposure, buildMatchRoster } from "./tumbaRoster";
 import type { MatchPlan } from "../matchPlan/types";
 import type { TeamTacticalProfile } from "./teamTacticalProfile";
 import type { OpponentAdaptationEffect } from "./opponentAdaptation";
@@ -45,7 +45,7 @@ export function resolveCurrentMatchPlan(state: CareerState, fixtureId: string): 
   if (live) return live;
   const saved = state.matchPlans[fixtureId];
   if (saved) return saved;
-  return resolveClubMatchPlanForFixture(state.playerClubId, fixtureId, getCareerSquad(state), undefined);
+  return resolveClubMatchPlanForFixture(state.playerClubId, fixtureId, getCareerSquad(state), undefined, state.tactics[state.playerClubId], state.playerMatchDefaults);
 }
 
 /**
@@ -87,7 +87,7 @@ export function applyMidMatchPlanChange(
   // coaching) -- resolved the exact same deterministic way
   // matchdayAction.ts does at kickoff, so re-deriving it here always
   // reproduces the identical plan.
-  const opponentPlan = resolveClubMatchPlanForFixture(opponentClubId, fixtureId, getCareerClubSquad(state, opponentClubId), undefined);
+  const opponentPlan = resolveClubMatchPlanForFixture(opponentClubId, fixtureId, getCareerClubSquad(state, opponentClubId), undefined, state.tactics[opponentClubId], state.playerMatchDefaults);
 
   const managerRatings = state.gameplayRatings[state.playerClubId] ?? [];
   const opponentRatings = state.gameplayRatings[opponentClubId] ?? [];
@@ -127,10 +127,22 @@ export function applyMidMatchPlanChange(
   // builds at kickoff, rebuilt here for the segment from the CHANGED
   // plan (closing the gap the audit found: the pre-existing profile-
   // only splice never passed an exposure map at all).
+  //
+  // HM-MATCH-1.1 Part 9/10: the opponent side previously fell back to
+  // `undefined` (fully unfiltered squad) whenever `opponentPlan` failed
+  // to resolve -- a confirmed root cause of the observed ">16
+  // participants" bug -- now falls back to a guaranteed <=16-player map
+  // instead. Both sides also now carry per-window attack eligibility
+  // (`computeAttackActiveWindows`), so a bench player's own scheduled
+  // entry window is honored, not just their aggregate exposure.
   const managerAttackExposureById = new Map(managerUsageTrace.players.map((p) => [p.playerId, p.attackExposure]));
-  const roster = buildMatchRoster(getCareerSquad(state), state.playerStatuses, managerAttackExposureById);
-  const opponentAttackExposureById = opponentUsageTrace ? new Map(opponentUsageTrace.players.map((p) => [p.playerId, p.attackExposure])) : undefined;
-  const opponentRoster = buildMatchRoster(getCareerClubSquad(state, opponentClubId), undefined, opponentAttackExposureById);
+  const managerActiveWindowsById = computeAttackActiveWindows(newPlan);
+  const roster = buildMatchRoster(getCareerSquad(state), state.playerStatuses, managerAttackExposureById, managerActiveWindowsById);
+  const opponentAttackExposureById = opponentUsageTrace
+    ? new Map(opponentUsageTrace.players.map((p) => [p.playerId, p.attackExposure]))
+    : buildFallbackAttackExposure(getCareerClubSquad(state, opponentClubId), fixtureId, opponentClubId);
+  const opponentActiveWindowsById = opponentPlan ? computeAttackActiveWindows(opponentPlan) : undefined;
+  const opponentRoster = buildMatchRoster(getCareerClubSquad(state, opponentClubId), undefined, opponentAttackExposureById, opponentActiveWindowsById);
 
   // Part H: the SAME seed template tacticalMidMatchChange.ts uses,
   // keyed only by `adoptionMinute` (not by which mechanism triggered

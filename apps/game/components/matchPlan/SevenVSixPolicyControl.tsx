@@ -10,9 +10,9 @@
 import { useState } from "react";
 import SegmentedControl from "@/components/SegmentedControl";
 import Tabs from "@/components/Tabs";
-import { assignSevenVSixSlot, setAttackFormation, updateSevenVSixPolicy, type OnMatchPlanChange } from "@/lib/matchPlan/matchPlanEdits";
-import { ATTACK_FORMATION_LABELS_SV, matchPlanPositionLabel, SEVEN_V_SIX_POLICY_LABELS_SV } from "@/lib/matchPlan/matchPlanLabels";
-import { SEVEN_V_SIX_POLICY_LEVELS, type AttackFormation, type MatchPlan } from "@/lib/matchPlan/types";
+import { assignSevenVSixSlot, setAttackFormation, setSevenVSixStructure, updateSevenVSixPolicy, type OnMatchPlanChange } from "@/lib/matchPlan/matchPlanEdits";
+import { ATTACK_FORMATION_LABELS_SV, matchPlanPositionLabel, SEVEN_V_SIX_POLICY_LABELS_SV, SEVEN_V_SIX_STRUCTURE_LABELS_SV } from "@/lib/matchPlan/matchPlanLabels";
+import { SEVEN_V_SIX_POLICY_LEVELS, SEVEN_V_SIX_STRUCTURES, type AttackFormation, type MatchPlan } from "@/lib/matchPlan/types";
 import type { SelectablePlayer } from "@/lib/matchPlan/careerSquadBridge";
 
 const ATTACK_FORMATIONS: readonly AttackFormation[] = ["NORMAL", "SEVEN_V_SIX"];
@@ -69,20 +69,23 @@ export default function SevenVSixPolicyControl({
 
           {plan.attackStartingUnit.formation === "SEVEN_V_SIX" ? (
             <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+              <SegmentedControl
+                label="Uppställning"
+                value={plan.attackStartingUnit.sevenVSixStructure ?? "DOUBLE_PIVOT"}
+                options={SEVEN_V_SIX_STRUCTURES}
+                renderLabel={(v) => SEVEN_V_SIX_STRUCTURE_LABELS_SV[v]}
+                onChange={(structure) => onChange((prev) => setSevenVSixStructure(prev, structure))}
+              />
               {plan.attackStartingUnit.slots.map((slot, i) => (
                 <div key={i} style={{ display: "flex", alignItems: "center", gap: 8 }}>
                   <span className="hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)", width: 130, flexShrink: 0 }}>
-                    Anfallare {i + 1} ({matchPlanPositionLabel(slot.position)})
+                    {matchPlanPositionLabel(slot.position)}
                   </span>
                   <select
                     className="hm-select"
                     style={selectStyle}
                     value={slot.playerId}
-                    onChange={(e) => {
-                      const playerId = e.target.value;
-                      const position = byId.get(playerId)?.position ?? slot.position;
-                      onChange((prev) => assignSevenVSixSlot(prev, i, playerId, position));
-                    }}
+                    onChange={(e) => onChange((prev) => assignSevenVSixSlot(prev, i, e.target.value))}
                   >
                     {outcourt.map((o) => (
                       <option key={o.playerId} value={o.playerId}>

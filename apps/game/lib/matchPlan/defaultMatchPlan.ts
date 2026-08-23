@@ -16,6 +16,7 @@ import type {
   PlayerMatchUsage,
   SubstitutionPair,
 } from "./types";
+import type { PlayerMatchDefault, TacticsTemplate } from "./persistentDefaults";
 
 export interface DefaultMatchPlanResult {
   ok: boolean;
@@ -55,8 +56,18 @@ function pickStartingSix(squad: MatchSquad): { playerId: string; position: Outco
  * BOTH_PHASES usage for starters, until a human customizes it). Fails
  * honestly (never fabricates a plan) when the squad genuinely lacks a
  * goalkeeper or at least 6 outcourt players.
+ *
+ * HM-MATCH-1.1 Part 1/2: `tacticsTemplate` and `playerDefaults` are
+ * OPTIONAL persistent-inheritance inputs (CareerState's own
+ * `tactics`/`playerMatchDefaults`, see lib/matchPlan/persistentDefaults.ts)
+ * -- when supplied, a brand-new fixture's attackPlan/defencePlan/
+ * transitionPlan and each player's matchRole/playingTimeIntention/
+ * phaseUsage start from the manager's own last-configured tactics and
+ * per-player standing rather than the hardcoded neutral defaults below.
+ * Omitting them (every pre-HM-MATCH-1.1 call site) is byte-identical to
+ * before this milestone.
  */
-export function buildDefaultMatchPlan(squad: MatchSquad): DefaultMatchPlanResult {
+export function buildDefaultMatchPlan(squad: MatchSquad, tacticsTemplate?: TacticsTemplate, playerDefaults?: Readonly<Record<string, PlayerMatchDefault>>): DefaultMatchPlanResult {
   const goalkeeper = squad.players.find((p) => p.position === "GK");
   if (!goalkeeper) {
     return { ok: false, plan: null, errors: ["Cannot build a default match plan: squad has no goalkeeper."] };
@@ -74,12 +85,16 @@ export function buildDefaultMatchPlan(squad: MatchSquad): DefaultMatchPlanResult
   const defenceStartingUnit: DefenceStartingUnit = { courtSlots: defenceCourtSlots, goalkeeperId: goalkeeper.playerId };
 
   const starterIds = new Set([goalkeeper.playerId, ...startingSix.map((p) => p.playerId)]);
-  const playerUsage: PlayerMatchUsage[] = squad.players.map((p) => ({
-    playerId: p.playerId,
-    matchRole: starterIds.has(p.playerId) ? "STARTER" : "ROTATION",
-    playingTimeIntention: starterIds.has(p.playerId) ? "HIGH" : "NORMAL",
-    phaseUsage: "BOTH_PHASES",
-  }));
+  const playerUsage: PlayerMatchUsage[] = squad.players.map((p) => {
+    const persisted = playerDefaults?.[p.playerId];
+    if (persisted) return { playerId: p.playerId, ...persisted };
+    return {
+      playerId: p.playerId,
+      matchRole: starterIds.has(p.playerId) ? "STARTER" : "ROTATION",
+      playingTimeIntention: starterIds.has(p.playerId) ? "HIGH" : "NORMAL",
+      phaseUsage: "BOTH_PHASES",
+    };
+  });
 
   const substitutionPairs: SubstitutionPair[] = [];
 
@@ -106,7 +121,7 @@ export function buildDefaultMatchPlan(squad: MatchSquad): DefaultMatchPlanResult
     playerUsage,
     substitutionPairs,
     depthHierarchy,
-    attackPlan: {
+    attackPlan: tacticsTemplate?.attackPlan ?? {
       tempo: "BALANCED",
       structureFreedom: "BALANCED",
       pivotUsage: "MEDIUM",
@@ -117,7 +132,7 @@ export function buildDefaultMatchPlan(squad: MatchSquad): DefaultMatchPlanResult
       ballCirculation: "BALANCED",
       sevenVSixPolicy: { level: "SITUATIONAL", activeFromKickoff: false },
     },
-    defencePlan: {
+    defencePlan: tacticsTemplate?.defencePlan ?? {
       baseFormation: "6-0",
       defensiveDepth: "STANDARD",
       contactIntent: "MEDIUM",
@@ -125,7 +140,7 @@ export function buildDefaultMatchPlan(squad: MatchSquad): DefaultMatchPlanResult
       ballOrientedPressure: "MEDIUM",
       riskLevel: "MEDIUM",
     },
-    transitionPlan: {
+    transitionPlan: tacticsTemplate?.transitionPlan ?? {
       offensiveTransitionIntent: "MEDIUM",
       defensiveRetreatIntent: "MEDIUM",
       firstWaveAggression: "MEDIUM",

@@ -39,6 +39,7 @@ import type { PlayerMock } from "../game-data";
 import { buildInitialMatchSquad } from "../matchPlan/careerSquadBridge";
 import { buildDefaultMatchPlan } from "../matchPlan/defaultMatchPlan";
 import type { MatchPlan } from "../matchPlan/types";
+import type { PlayerMatchDefault, TacticsTemplate } from "../matchPlan/persistentDefaults";
 import { GOALKEEPER_ATTRIBUTES, type GoalkeeperAttribute, type OutcourtAttribute } from "../rating/types";
 
 // ---------------------------------------------------------------------------
@@ -316,9 +317,25 @@ export function computePlayerMatchStrengthAdjustment(
 // default algorithm, per Part O). Used identically for the manager's AI
 // opponent and for every AI-vs-AI fixture -- no AI "coaching" is added,
 // only the same default any fixture without a saved plan already gets.
-export function resolveClubMatchPlanForFixture(clubId: string, fixtureId: string, squad: readonly PlayerMock[], savedPlan: MatchPlan | undefined): MatchPlan | null {
+/**
+ * HM-MATCH-1.1 Part 1/2: `tacticsTemplate`/`playerDefaults` (the
+ * manager's own persistent CareerState.tactics[clubId]/
+ * playerMatchDefaults) are OPTIONAL -- passed by every call site that
+ * has a CareerState to read them from, so a brand-new fixture's default
+ * plan inherits the manager's last-configured tactics/per-player
+ * standing instead of neutral defaults. Omitting them reproduces the
+ * exact pre-HM-MATCH-1.1 behavior.
+ */
+export function resolveClubMatchPlanForFixture(
+  clubId: string,
+  fixtureId: string,
+  squad: readonly PlayerMock[],
+  savedPlan: MatchPlan | undefined,
+  tacticsTemplate?: TacticsTemplate,
+  playerDefaults?: Readonly<Record<string, PlayerMatchDefault>>,
+): MatchPlan | null {
   if (savedPlan) return savedPlan;
   const initialSquad = buildInitialMatchSquad(squad, fixtureId, clubId);
-  const result = buildDefaultMatchPlan(initialSquad);
+  const result = buildDefaultMatchPlan(initialSquad, tacticsTemplate, playerDefaults);
   return result.ok && result.plan ? result.plan : null;
 }
