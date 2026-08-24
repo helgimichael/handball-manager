@@ -54,6 +54,8 @@ export interface LastInstructionOutcome {
 
 export interface UseLiveMatchResult {
   view: LiveMatchView;
+  /** HM-MATCH-1.3A: the raw clock (phase/clockMinute/speed/timeoutsUsed/timeoutReturnPhase) -- exposed so a persistent LiveMatchSession can be reconstructed exactly on remount, not just the derived pieces `view`/`speed` already surfaced. */
+  clock: LiveMatchClock;
   speed: PlaybackSpeed;
   setSpeed: (speed: PlaybackSpeed) => void;
   startSecondHalf: () => void;
@@ -198,8 +200,10 @@ export function useLiveMatch(
   onShoutExpired: (expiryMinute: number, baselineProfile: TeamTacticalProfile) => void,
   onSevenVSixAdopted: (adoptionMinute: number, active: boolean) => void,
   onMatchPlanChangeAdopted: (adoptionMinute: number, requestedMinute: number, change: MatchPlanChange) => void,
+  /** HM-MATCH-1.3A Part D/E: resumes from a persisted LiveMatchSession's clock instead of always kicking off fresh at PRE_MATCH/minute 0 -- the direct fix for "navigate away and back resets to 0-0/00:00". `undefined` (every pre-1.3A caller) keeps the original kickoff-on-mount behavior. */
+  initialClock?: LiveMatchClock,
 ): UseLiveMatchResult {
-  const [clock, setClock] = useState<LiveMatchClock>(() => kickoff(initLiveMatchClock()));
+  const [clock, setClock] = useState<LiveMatchClock>(() => initialClock ?? kickoff(initLiveMatchClock()));
   const [assessedInstruction, setAssessedInstruction] = useState<AssessedInstructionState | null>(null);
   const [lastInstructionOutcome, setLastInstructionOutcome] = useState<LastInstructionOutcome | null>(null);
   const [timeoutSecondsRemaining, setTimeoutSecondsRemaining] = useState<number | null>(null);
@@ -424,6 +428,7 @@ export function useLiveMatch(
 
   return {
     view,
+    clock,
     speed: clock.speed,
     setSpeed: (speed) => setClock((current) => setClockSpeed(current, speed)),
     startSecondHalf: () => setClock((current) => startClockSecondHalf(current)),

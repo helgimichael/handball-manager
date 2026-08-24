@@ -11,7 +11,9 @@ import { getCareerClub } from "@/lib/career/careerWorld";
 import { getNextEventDate } from "@/lib/career/calendar";
 import { addDays, formatGameDate } from "@/lib/career/dateUtils";
 import { CAREER_NAV_ITEMS, resolveActiveNavId } from "@/lib/career/navigation";
-import { COMPETITIONS } from "@/lib/game-data";
+import { COMPETITIONS, getClub } from "@/lib/game-data";
+import { computeLiveMatchView } from "@/lib/liveMatch/liveMatchView";
+import { formatMatchMinute } from "@/lib/liveMatch/commentary";
 import type { CareerEvent } from "@/lib/career/careerEvents";
 import type { ContinueStopReason } from "@/lib/career/continueController";
 
@@ -60,6 +62,34 @@ export default function GameShell({ children }: { children: ReactNode }) {
   const competitionName = COMPETITIONS.find((c) => c.id === career.competitionId)?.name ?? "Ligan";
   const nextEventDate = getNextEventDate(career);
   const activeNavId = resolveActiveNavId(pathname);
+  // HM-MATCH-1.3A Part F/G: "a live match is a persistent career
+  // session, not a page" -- the global shell must know one is in
+  // progress (Part F: a visible route back) and must never let the
+  // global Continue control silently advance/finish it (Part G: a hard
+  // invariant). PRE_MATCH/FULL_TIME are excluded -- PRE_MATCH is
+  // transient (a session always kicks off immediately on creation), and
+  // once FULL_TIME is reached Continue is explicitly allowed again
+  // (Part I).
+  const activeSession = career.activeMatchSession;
+  const isLiveMatchActive = activeSession !== null && activeSession.clock.phase !== "PRE_MATCH" && activeSession.clock.phase !== "FULL_TIME";
+  const liveMatchHref = activeSession ? `/career/match-day/${activeSession.fixtureId}` : null;
+  const isOnLiveMatchRoute = liveMatchHref !== null && pathname === liveMatchHref;
+  // Part F: "MATCH PÅGÅR / Hammarby 7–5 Skånela · 13:00" -- a visible,
+  // non-obnoxious banner replacing the ordinary date/next-event subline
+  // whenever the manager has navigated away from an in-progress match.
+  // Reuses the exact same pure selector Live Match itself uses
+  // (liveMatchView.ts) rather than re-deriving score from events itself.
+  const liveMatchFixture = activeSession ? career.fixtures.find((f) => f.id === activeSession.fixtureId) : undefined;
+  const liveMatchResult = activeSession ? career.results[activeSession.fixtureId] : undefined;
+  const liveMatchBanner =
+    isLiveMatchActive && !isOnLiveMatchRoute && liveMatchFixture && liveMatchResult
+      ? (() => {
+          const view = computeLiveMatchView(liveMatchResult, activeSession!.clock);
+          const home = getClub(liveMatchFixture.homeClubId);
+          const away = getClub(liveMatchFixture.awayClubId);
+          return `MATCH PÅGÅR · ${home?.shortName ?? "?"} ${view.homeScore}–${view.awayScore} ${away?.shortName ?? "?"} · ${formatMatchMinute(view.clockMinute)}`;
+        })()
+      : null;
   // HM-CAREER-0.5: while non-null, the processing overlay is showing a
   // day-by-day replay of a CONTINUE press that has ALREADY fully run and
   // committed (see ContinueProcessingOverlay.tsx's own doc) -- navigation
@@ -79,6 +109,18 @@ export default function GameShell({ children }: { children: ReactNode }) {
   }
 
   function handleContinue() {
+    // HM-MATCH-1.3A Part G (hard invariant): while a match is actively
+    // live, this button must never call continueCareer() -- outside the
+    // Live Match route it instead navigates back to the match (Part F);
+    // on the route itself it is disabled entirely (see the button's own
+    // `disabled` below), so this branch only ever handles the
+    // off-route case.
+    if (isLiveMatchActive) {
+      if (liveMatchHref && !isOnLiveMatchRoute) {
+        router.push(liveMatchHref);
+      }
+      return;
+    }
     const { events, stopReason, daysProcessed, startDate } = continueCareer();
     if (daysProcessed === 0) {
       // ACTION_REQUIRED_PENDING (an unresolved matchday) or SEASON_COMPLETE -- nothing was actually processed, so nothing to visibly replay.
@@ -134,14 +176,24 @@ export default function GameShell({ children }: { children: ReactNode }) {
         <div className="hm-header-title">
           <div className="hm-header-title-text">{club.name}</div>
           <div className="hm-header-sub">
-            {formatGameDate(career.gameDate)}
-            {career.seasonComplete ? " · Säsongen avslutad" : nextEventDate ? ` · Nästa: ${formatGameDate(nextEventDate)}` : ""}
+            {liveMatchBanner ?? (
+              <>
+                {formatGameDate(career.gameDate)}
+                {career.seasonComplete ? " · Säsongen avslutad" : nextEventDate ? ` · Nästa: ${formatGameDate(nextEventDate)}` : ""}
+              </>
+            )}
           </div>
         </div>
         <div className="hm-header-meta">
           <span>Manager: Du</span>
-          <button type="button" className="hm-btn hm-btn-primary" onClick={handleContinue} disabled={career.seasonComplete || processing !== null}>
-            {career.seasonComplete ? "Säsong klar" : "Fortsätt »"}
+          <button
+            type="button"
+            className="hm-btn hm-btn-primary"
+            onClick={handleContinue}
+            disabled={career.seasonComplete || processing !== null || (isLiveMatchActive && isOnLiveMatchRoute)}
+            title={isLiveMatchActive && !isOnLiveMatchRoute ? "En match pågår -- gå tillbaka för att fortsätta coacha." : undefined}
+          >
+            {isLiveMatchActive ? (isOnLiveMatchRoute ? "Match pågår" : "TILLBAKA TILL MATCH") : career.seasonComplete ? "Säsong klar" : "Fortsätt »"}
           </button>
         </div>
       </header>

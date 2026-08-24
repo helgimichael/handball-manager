@@ -85,5 +85,6 @@ export function createNewCareerState(
     tactics: {},
     playerMatchDefaults: {},
     specialPlay: {},
+    activeMatchSession: null,
   };
 }

@@ -159,5 +159,15 @@ export function migrateCareerState(career: CareerState): CareerState {
     next = { ...next, specialPlay: {} };
   }
 
+  // HM-MATCH-1.3A (career-state schema v13): additive -- an existing
+  // career simply never had a persistent live-match session; every
+  // reader already treats `null` as "no match currently in progress",
+  // exactly the state a save always implicitly had before this
+  // milestone (a save could never previously have been mid-match, since
+  // nothing about a live match was persisted at all).
+  if (next.activeMatchSession === undefined) {
+    next = { ...next, activeMatchSession: null };
+  }
+
   return next;
 }

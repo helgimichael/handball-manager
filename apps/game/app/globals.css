@@ -267,6 +267,21 @@ button {
   background: var(--hm-surface-2);
 }
 
+/* HM-MATCH-1.3A Part J: pins the Live Match scoreboard (score/clock/
+   phase) to the top of .hm-main's own scroll container, so it never
+   disappears while reading commentary or coaching further down the
+   page. `top`/`margin` counteract .hm-main's own 16px padding so the
+   panel sits flush against the viewport edge once stuck, instead of
+   leaving a gap. */
+.hm-live-scoreboard-sticky {
+  position: sticky;
+  top: -16px;
+  z-index: 5;
+  margin: -16px -16px 12px -16px;
+  padding: 16px 16px 0 16px;
+  background: var(--hm-bg-app);
+}
+
 .hm-panel-title {
   font-size: var(--hm-text-2xs);
   font-weight: 700;

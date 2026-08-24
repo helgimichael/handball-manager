@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
+import { createContext, useCallback, useContext, useEffect, useState, type ReactNode } from "react";
 import type { FastMatchResult } from "@handball-manager/game-simulation";
 import { GAME_CURRENT_DATE, getClub, type PlayerMock } from "../game-data";
 import { getActiveSave, saveCareerState, type CareerSave } from "../save/saveRepository";
@@ -15,6 +15,7 @@ import { applyMidMatchPlanChange } from "./matchPlanMidMatchChange";
 import { updateTacticalProfile } from "./tacticalProfileActions";
 import { setMatchPlan, setPlayerMatchDefault } from "./matchPlanActions";
 import { setSpecialPlayPlan } from "./specialPlayActions";
+import { startLiveMatchSession, updateLiveMatchSession, clearLiveMatchSession } from "./liveMatchSessionActions";
 import type { PlayerMatchDefault } from "../matchPlan/persistentDefaults";
 import type { SpecialPlayPlan } from "../matchPlan/specialPlay";
 import type { TeamTacticalProfile } from "./teamTacticalProfile";
@@ -24,6 +25,7 @@ import type { CareerState } from "./types";
 import type { MatchPlan } from "../matchPlan/types";
 import type { GameplayPlayerRating } from "../gameWorld/gameplayRatingSnapshot";
 import type { MatchPlanChange } from "../liveMatch/matchPlanChange";
+import type { LiveMatchSessionState } from "../liveMatch/liveMatchSession";
 
 type CareerContextValue = {
   save: CareerSave;
@@ -93,6 +95,18 @@ type CareerContextValue = {
     sevenVSixActive: boolean,
     opponentAdaptation: OpponentAdaptationEffect | null,
   ) => void;
+  /**
+   * HM-MATCH-1.3A Part C: the ONE action that may transition a fixture
+   * from "not yet started" to a live session at kickoff. Idempotent --
+   * calling it again for a fixture that already has a session RESUMES
+   * (no-op), never resets, the in-progress match (see
+   * liveMatchSessionActions.ts's own doc).
+   */
+  startLiveMatchSession: (fixtureId: string) => void;
+  /** Part D/E: persists the live match's current clock/coaching snapshot so navigation never resets it. A no-op if `fixtureId` isn't the currently active session. */
+  updateLiveMatchSession: (fixtureId: string, session: LiveMatchSessionState) => void;
+  /** Part I: called once the manager explicitly leaves a finished match (MATCHRAPPORT / FORTSÄTT) -- never automatically at FULL_TIME itself. */
+  endLiveMatchSession: (fixtureId: string) => void;
 };
 
 const CareerContext = createContext<CareerContextValue | null>(null);
@@ -200,6 +214,50 @@ export function CareerProvider({ children }: { children: ReactNode }) {
     return () => {
       cancelled = true;
     };
+  }, []);
+
+  // HM-MATCH-1.3A: these three MUST be reference-stable across renders
+  // (useCallback with an empty dependency array -- they use the
+  // functional setValue form exclusively, never closing over `value`, so
+  // nothing needs to be in the dependency list). Declared BEFORE the
+  // `if (!value) return null` guard below -- hooks may never be called
+  // conditionally. `updateLiveMatchSession` in particular is called from
+  // a `useEffect` dependency array in match-day/[fixtureId]/page.tsx --
+  // confirmed by browser QA that an unstable (plain-function, recreated-
+  // every-render) reference there causes a genuine infinite render loop:
+  // persisting a session change triggers a CareerProvider re-render,
+  // which recreates the callback, which re-fires the effect, forever.
+  // Every other action in this file is only ever called imperatively
+  // from onClick handlers, never placed in a dependency array, which is
+  // why this instability was latent until now.
+  const startLiveMatchSessionAction = useCallback((fixtureId: string) => {
+    setValue((current) => {
+      if (!current) return current;
+      const nextCareer = startLiveMatchSession(current.career, fixtureId, current.career.tacticalProfile);
+      if (nextCareer === current.career) return current;
+      saveCareerState(current.save.saveId, nextCareer);
+      return { save: current.save, career: nextCareer };
+    });
+  }, []);
+
+  const updateLiveMatchSessionAction = useCallback((fixtureId: string, session: LiveMatchSessionState) => {
+    setValue((current) => {
+      if (!current) return current;
+      const nextCareer = updateLiveMatchSession(current.career, fixtureId, session);
+      if (nextCareer === current.career) return current;
+      saveCareerState(current.save.saveId, nextCareer);
+      return { save: current.save, career: nextCareer };
+    });
+  }, []);
+
+  const endLiveMatchSessionAction = useCallback((fixtureId: string) => {
+    setValue((current) => {
+      if (!current) return current;
+      const nextCareer = clearLiveMatchSession(current.career, fixtureId);
+      if (nextCareer === current.career) return current;
+      saveCareerState(current.save.saveId, nextCareer);
+      return { save: current.save, career: nextCareer };
+    });
   }, []);
 
   if (!value) {
@@ -373,6 +431,9 @@ export function CareerProvider({ children }: { children: ReactNode }) {
         updateSpecialPlay: updateSpecialPlayAction,
         applyMidMatchTacticalChange: applyMidMatchTacticalChangeAction,
         applyMidMatchPlanChange: applyMidMatchPlanChangeAction,
+        startLiveMatchSession: startLiveMatchSessionAction,
+        updateLiveMatchSession: updateLiveMatchSessionAction,
+        endLiveMatchSession: endLiveMatchSessionAction,
       }}
     >
       {children}

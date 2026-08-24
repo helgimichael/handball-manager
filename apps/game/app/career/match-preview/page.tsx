@@ -11,7 +11,7 @@ import { ClubLink, PlayerLink } from "@/components/entityLinks";
 
 export default function MatchPreviewPage() {
   const router = useRouter();
-  const { career, playManagerFixture } = useCareer();
+  const { career, playManagerFixture, startLiveMatchSession } = useCareer();
   const fixture = getNextPlayerFixture(career);
   const squad = getCareerSquad(career);
   const unavailable = squad.filter((p) => !isAvailable(career.playerStatuses, p.id));
@@ -37,20 +37,35 @@ export default function MatchPreviewPage() {
   // matchday-ready condition, replacing the old jump-model's
   // "is this the next fixture" comparison.
   const isMatchdayReady = fixture.date === career.gameDate;
+  // HM-MATCH-1.3A Part C: the manager may have already pressed STARTA
+  // MATCH once (e.g. they went back to check Squad/Tactics from Live
+  // Match) -- an already-active session for THIS fixture means "resume",
+  // never "restart".
+  const hasActiveSessionForFixture = career.activeMatchSession?.fixtureId === fixture.id;
 
+  // HM-MATCH-1.3A Part C: the ONE explicit action that may create a live
+  // session and transition into FIRST_HALF. `playManagerFixture()` is
+  // itself idempotent (a no-op once the fixture's MATCHDAY_READY event
+  // is already resolved -- matchdayAction.ts), so re-pressing this after
+  // already starting the match never re-simulates; `startLiveMatchSession`
+  // is equally idempotent for the same fixtureId (liveMatchSessionActions.ts),
+  // so together this always resumes rather than restarts.
   function handlePlayMatch() {
-    const { result } = playManagerFixture();
-    if (result) {
-      router.push(`/career/match-day/${result.fixtureId}`);
+    const existingResult = career.results[fixture!.id];
+    const fixtureId = existingResult ? fixture!.id : playManagerFixture().result?.fixtureId;
+    if (!fixtureId) {
+      router.push("/career");
       return;
     }
-    router.push("/career");
+    startLiveMatchSession(fixtureId);
+    router.push(`/career/match-day/${fixtureId}`);
   }
 
   function handleQuickResult() {
     const { result } = playManagerFixture();
-    if (result) {
-      router.push(`/career/match-report/${result.fixtureId}`);
+    const fixtureId = result?.fixtureId ?? (career.results[fixture!.id] ? fixture!.id : null);
+    if (fixtureId) {
+      router.push(`/career/match-report/${fixtureId}`);
       return;
     }
     router.push("/career");
@@ -86,7 +101,7 @@ export default function MatchPreviewPage() {
           {isMatchdayReady ? (
             <>
               <button type="button" className="hm-btn hm-btn-primary" onClick={handlePlayMatch}>
-                SPELA MATCH →
+                {hasActiveSessionForFixture ? "FORTSÄTT MATCH →" : "STARTA MATCH →"}
               </button>
               <button type="button" className="hm-btn" onClick={handleQuickResult}>
                 SNABBRESULTAT

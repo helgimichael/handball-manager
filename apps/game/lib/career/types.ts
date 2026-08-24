@@ -9,6 +9,7 @@ import type { GameplayPlayerRating } from "../gameWorld/gameplayRatingSnapshot";
 import type { MatchPlanChangeHistoryEntry } from "../liveMatch/matchPlanChange";
 import type { PlayerMatchDefault, TacticsTemplate } from "../matchPlan/persistentDefaults";
 import type { SpecialPlayPlan } from "../matchPlan/specialPlay";
+import type { LiveMatchSessionState } from "../liveMatch/liveMatchSession";
 
 export type CareerFixture = {
   id: string;
@@ -228,6 +229,25 @@ export type CareerState = {
    * neutral values until the manager configures something else.
    */
   specialPlay: Record<string, SpecialPlayPlan>;
+
+  // --- HM-MATCH-1.3A addition (career-state schema v13, see saveMigration.ts) ---
+
+  /**
+   * CORE PRINCIPLE: "a live match is not a page -- a live match is a
+   * persistent career session." The one, currently-in-progress Live
+   * Match's clock/coaching state (see lib/liveMatch/liveMatchSession.ts
+   * for exactly what it does and does NOT carry -- the full simulated
+   * timeline stays in `results`, MatchPlan coaching state stays in
+   * `liveMatchPlans`/`matchPlanChangeHistory`; this only holds the
+   * clock/profile/7v6/opponent-adaptation state that was previously
+   * ONLY React component-local `useState`, silently resetting on every
+   * navigation). `null` whenever no match is currently in progress --
+   * a single nullable field, not fixture-keyed, since the manager only
+   * ever has one fixture live at a time. Written only via
+   * lib/career/liveMatchSessionActions.ts's three functions -- never
+   * mutated ad hoc elsewhere.
+   */
+  activeMatchSession: LiveMatchSessionState | null;
 };
 
 export type CareerSaveEnvelope = {

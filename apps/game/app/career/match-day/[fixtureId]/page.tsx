@@ -59,16 +59,75 @@ const PHASE_LABEL: Record<string, string> = {
 
 export default function MatchDayPage() {
   const params = useParams<{ fixtureId: string }>();
+  const router = useRouter();
   const { career } = useCareer();
 
   const fixture = career.fixtures.find((f) => f.id === params.fixtureId);
   const result = career.results[params.fixtureId];
 
-  return fixture && result ? (
-    <LiveMatch fixture={fixture} result={result} />
-  ) : (
-    <div className="hm-panel">
-      <div className="hm-panel-body hm-text-muted">Ingen matchdata hittades för denna fixture.</div>
+  if (!fixture || !result) {
+    return (
+      <div className="hm-panel">
+        <div className="hm-panel-body hm-text-muted">Ingen matchdata hittades för denna fixture.</div>
+      </div>
+    );
+  }
+
+  // HM-MATCH-1.3A Part C/D: a live session for THIS fixture exists only
+  // once the manager explicitly pressed STARTA MATCH on Match Preview
+  // (see liveMatchSessionActions.ts's `startLiveMatchSession` -- the
+  // ONE place one is created). Since `result` already implies
+  // playManagerFixture has run (either via STARTA MATCH or
+  // SNABBRESULTAT), reaching this page with no matching session always
+  // means "already fully resolved, or the manager already left" -- never
+  // "not yet started" -- so this renders a frozen read-only summary
+  // instead of silently (re)creating a fresh live session (Part M #15:
+  // reopening a completed match must not spawn a new one).
+  if (career.activeMatchSession?.fixtureId !== fixture.id) {
+    return <AlreadyResolvedMatchSummary fixture={fixture} result={result} router={router} />;
+  }
+
+  return <LiveMatch fixture={fixture} result={result} initialSession={career.activeMatchSession} />;
+}
+
+function AlreadyResolvedMatchSummary({
+  fixture,
+  result,
+  router,
+}: {
+  fixture: { id: string; homeClubId: string; awayClubId: string };
+  result: import("@handball-manager/game-simulation").FastMatchResult;
+  router: ReturnType<typeof useRouter>;
+}) {
+  const home = getClub(fixture.homeClubId)!;
+  const away = getClub(fixture.awayClubId)!;
+  return (
+    <div className="hm-grid" style={{ gap: 12 }}>
+      <div className="hm-panel">
+        <div className="hm-panel-header">
+          <span className="hm-panel-title">Matchen är redan avgjord</span>
+        </div>
+        <div className="hm-panel-body" style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 32, padding: "16px 20px" }}>
+          <TeamColumn clubId={home.id} attacking={false} />
+          <div style={{ textAlign: "center", minWidth: 140 }}>
+            <div style={{ fontSize: "var(--hm-text-2xl)", fontWeight: 800 }}>
+              {result.homeGoals} – {result.awayGoals}
+            </div>
+            <div className="hm-eyebrow" style={{ marginTop: 4 }}>
+              FULL TID
+            </div>
+          </div>
+          <TeamColumn clubId={away.id} attacking={false} />
+        </div>
+        <div style={{ display: "flex", justifyContent: "center", gap: 10, paddingBottom: 20 }}>
+          <button type="button" className="hm-btn hm-btn-primary" onClick={() => router.push(`/career/match-report/${fixture.id}`)}>
+            MATCHRAPPORT →
+          </button>
+          <button type="button" className="hm-btn" onClick={() => router.push("/career")}>
+            TILLBAKA
+          </button>
+        </div>
+      </div>
     </div>
   );
 }
@@ -76,12 +135,14 @@ export default function MatchDayPage() {
 function LiveMatch({
   fixture,
   result,
+  initialSession,
 }: {
   fixture: { id: string; homeClubId: string; awayClubId: string };
   result: import("@handball-manager/game-simulation").FastMatchResult;
+  initialSession: import("@/lib/liveMatch/liveMatchSession").LiveMatchSessionState;
 }) {
   const router = useRouter();
-  const { career, applyMidMatchTacticalChange, applyMidMatchPlanChange } = useCareer();
+  const { career, applyMidMatchTacticalChange, applyMidMatchPlanChange, updateLiveMatchSession, endLiveMatchSession } = useCareer();
   const logRef = useRef<HTMLDivElement>(null);
   // HM-MATCH-1.1 Part 13: only auto-scroll to the live edge (bottom) when
   // the user is ALREADY there -- a manual scroll-back to read earlier
@@ -98,20 +159,25 @@ function LiveMatch({
   // (which stays exactly what the Tactics screen shows for future
   // fixtures) -- an in-match tweak is not the same thing as redefining
   // the manager's standing strategic identity.
-  const [currentProfile, setCurrentProfile] = useState<TeamTacticalProfile>(career.tacticalProfile);
-  const [draftProfile, setDraftProfile] = useState<TeamTacticalProfile>(career.tacticalProfile);
+  // HM-MATCH-1.3A Part D/E: seeded from the persistent LiveMatchSession
+  // (which itself was seeded from career.tacticalProfile at STARTA MATCH
+  // time) instead of always re-reading career.tacticalProfile fresh --
+  // otherwise a navigate-away-and-back would silently discard any
+  // adopted mid-match instruction and revert to the season default.
+  const [currentProfile, setCurrentProfile] = useState<TeamTacticalProfile>(initialSession.currentProfile);
+  const [draftProfile, setDraftProfile] = useState<TeamTacticalProfile>(initialSession.currentProfile);
   // HM-TACTICS-0.8: 7v6 ON/OFF, match-scoped exactly like currentProfile
   // above -- never persisted to career state, and orthogonal to
   // TeamTacticalProfile (still exactly the 3 HM-TACTICS-0.6A fields).
-  const [sevenVSixActive, setSevenVSixActive] = useState(false);
+  const [sevenVSixActive, setSevenVSixActive] = useState(initialSession.sevenVSixActive);
   // HM-TACTICS-0.9: since which simulated match minute the CURRENTLY
   // EFFECTIVE state has held -- the only thing the opponent's own
   // adaptation is allowed to observe (see opponentAdaptation.ts). Reset
   // to the landing minute on every landing, from whatever source
   // (instruction, shout, or the 7v6 switch itself).
-  const [sevenVSixActiveSinceMinute, setSevenVSixActiveSinceMinute] = useState<number | null>(null);
-  const [ati001HighSinceMinute, setAti001HighSinceMinute] = useState<number | null>(null);
-  const [opponentAdaptationEffect, setOpponentAdaptationEffect] = useState<OpponentAdaptationEffect | null>(null);
+  const [sevenVSixActiveSinceMinute, setSevenVSixActiveSinceMinute] = useState<number | null>(initialSession.sevenVSixActiveSinceMinute);
+  const [ati001HighSinceMinute, setAti001HighSinceMinute] = useState<number | null>(initialSession.ati001HighSinceMinute);
+  const [opponentAdaptationEffect, setOpponentAdaptationEffect] = useState<OpponentAdaptationEffect | null>(initialSession.opponentAdaptationEffect);
   // HM-MATCH-0.2: Live Table is a display toggle only -- it computes a
   // PROVISIONAL table on demand (see standings.ts's getLiveTableStandings)
   // and never writes anything to CareerState.
@@ -206,6 +272,7 @@ function LiveMatch({
 
   const {
     view,
+    clock,
     speed,
     setSpeed,
     startSecondHalf,
@@ -233,7 +300,7 @@ function LiveMatch({
     matchPlanChangeStatus,
     issueMatchPlanChange,
     issueHalftimeMatchPlanChange,
-  } = useLiveMatch(result, handleInstructionAdopted, handleShoutDelivered, handleShoutExpired, handleSevenVSixAdopted, handleMatchPlanChangeAdopted);
+  } = useLiveMatch(result, handleInstructionAdopted, handleShoutDelivered, handleShoutExpired, handleSevenVSixAdopted, handleMatchPlanChangeAdopted, initialSession.clock);
 
   const home = getClub(fixture.homeClubId)!;
   const away = getClub(fixture.awayClubId)!;
@@ -262,9 +329,16 @@ function LiveMatch({
     outcome: ImplementationOutcome;
     assessmentMinute: number;
     actualAdoptionMinute: number;
-  } | null>(null);
-  const halftimeAdaptationCheckedRef = useRef(false);
-  const opponentAdaptationLandedRef = useRef(false);
+  } | null>(initialSession.assessedOpponentAdaptation);
+  // HM-MATCH-1.3A: restored from the session rather than always starting
+  // false. `halftimeAdaptationCheckedRef`'s initial value is DERIVED from
+  // the resumed clock's phase (see liveMatchSession.ts's own doc: once
+  // phase has moved past FIRST_HALF, the one-shot assessment effect
+  // below must already have run, since it runs synchronously the moment
+  // HALF_TIME is first reached) rather than needing its own persisted
+  // field.
+  const halftimeAdaptationCheckedRef = useRef(initialSession.clock.phase !== "PRE_MATCH" && initialSession.clock.phase !== "FIRST_HALF");
+  const opponentAdaptationLandedRef = useRef(initialSession.opponentAdaptationLanded);
 
   useEffect(() => {
     if (view.phase !== "HALF_TIME" || halftimeAdaptationCheckedRef.current) {
@@ -308,6 +382,28 @@ function LiveMatch({
       handleOpponentAdaptationLanded(actualAdoptionMinute, { trigger, dampeningFraction: OPPONENT_ADAPTATION_DAMPENING_FRACTION });
     });
   }, [assessedOpponentAdaptation, view.clockMinute, handleOpponentAdaptationLanded]);
+
+  // HM-MATCH-1.3A Part D/E: the write side of "a live match is a
+  // persistent career session, not page-local UI state" -- persists
+  // every meaningful change to CareerState.activeMatchSession so a
+  // navigate-away-and-back (or an accidental page reload) resumes
+  // exactly where the manager left off instead of resetting to
+  // 0-0/00:00. Deliberately excludes drawer-open state, form drafts, and
+  // in-flight PENDING instructions/shouts/7v6-switches/MatchPlan changes
+  // (see liveMatchSession.ts's own doc for why those are safe to drop).
+  useEffect(() => {
+    updateLiveMatchSession(fixture.id, {
+      fixtureId: fixture.id,
+      clock,
+      currentProfile,
+      sevenVSixActive,
+      sevenVSixActiveSinceMinute,
+      ati001HighSinceMinute,
+      opponentAdaptationEffect,
+      assessedOpponentAdaptation,
+      opponentAdaptationLanded: opponentAdaptationLandedRef.current,
+    });
+  }, [fixture.id, clock, currentProfile, sevenVSixActive, sevenVSixActiveSinceMinute, ati001HighSinceMinute, opponentAdaptationEffect, assessedOpponentAdaptation, updateLiveMatchSession]);
 
   useEffect(() => {
     if (isAtLiveEdgeRef.current) {
@@ -384,8 +480,8 @@ function LiveMatch({
 
   return (
     <div className="hm-grid" style={{ gap: 12 }}>
-      {/* Scoreboard */}
-      <div className="hm-panel">
+      {/* HM-MATCH-1.3A Part J: sticky so score/clock/phase never scroll out of view -- the manager should never lose sight of the match while coaching or reading commentary further down the page. */}
+      <div className="hm-panel hm-live-scoreboard-sticky">
         <div className="hm-panel-body" style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 32, padding: "16px 20px" }}>
           <TeamColumn clubId={home.id} attacking={view.currentAttack === "home"} />
           <div style={{ textAlign: "center", minWidth: 140 }}>
@@ -540,10 +636,24 @@ function LiveMatch({
         <div className="hm-panel-body" style={{ display: "flex", justifyContent: "center", gap: 8, flexWrap: "wrap" }}>
           {isFullTime ? (
             <>
-              <button type="button" className="hm-btn hm-btn-primary" onClick={() => router.push(`/career/match-report/${fixture.id}`)}>
+              <button
+                type="button"
+                className="hm-btn hm-btn-primary"
+                onClick={() => {
+                  endLiveMatchSession(fixture.id);
+                  router.push(`/career/match-report/${fixture.id}`);
+                }}
+              >
                 MATCHRAPPORT →
               </button>
-              <button type="button" className="hm-btn" onClick={() => router.push("/career")}>
+              <button
+                type="button"
+                className="hm-btn"
+                onClick={() => {
+                  endLiveMatchSession(fixture.id);
+                  router.push("/career");
+                }}
+              >
                 FORTSÄTT
               </button>
             </>
