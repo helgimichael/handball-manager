@@ -15,6 +15,26 @@ import type { AttackFormation } from "@/lib/matchPlan/types";
 export const DEFENCE_FORMATION_OPTIONS = ["6-0", "5-1", "3-2-1", "3-3", "4-2"] as const;
 export type DefenceFormationOption = (typeof DEFENCE_FORMATION_OPTIONS)[number];
 
+/**
+ * HM-MATCH-1.3B Part I: "the board and baseFormation must never
+ * disagree." Since `DefenceUnitSlot.courtSlot` is deliberately
+ * formation-agnostic (1-6, same numbering under every formation --
+ * see types.ts's own doc), dragging a player between slots never
+ * changes which formation is drawn; `defencePlan.baseFormation` is
+ * ALWAYS the single source of truth the board renders from (via
+ * `defenceLayout(baseFormation)`), so there is structurally nothing
+ * for a player-assignment drag to disagree with. This function is the
+ * honest foundation Part I asks for: it validates/normalizes a
+ * formation string against the recognized set, the same fallback
+ * `defenceLayout` itself already uses -- a pure identity check, not a
+ * spatial-clustering inference, because slot-to-slot dragging (Part I:
+ * "since dragging is slot-to-slot rather than free x/y, this can stay
+ * simple") never produces an unrecognized shape to infer FROM.
+ */
+export function inferDefenceFormation(baseFormation: string): DefenceFormationOption {
+  return (DEFENCE_FORMATION_OPTIONS as readonly string[]).includes(baseFormation) ? (baseFormation as DefenceFormationOption) : "6-0";
+}
+
 export function buildAttackScene(formation: AttackFormation) {
   const objects: BoardObject[] = [];
   if (formation === "NORMAL") {

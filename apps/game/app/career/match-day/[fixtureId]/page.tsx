@@ -17,7 +17,8 @@ import { assessImplementation, IMPLEMENTATION_DELAY_EXTENSION_MINUTES, type Impl
 import type { MatchPlanChange } from "@/lib/liveMatch/matchPlanChange";
 import { resolveCurrentMatchPlan } from "@/lib/career/matchPlanMidMatchChange";
 import { DEFENCE_FORMATION_OPTIONS } from "@/components/matchPlan/courtScene";
-import { INTENSITY_LABELS_SV, PHASE_USAGE_LABELS_SV, PLAYING_TIME_INTENTION_LABELS_SV, SUBSTITUTION_PRIORITY_LABELS_SV, TEMPO_LABELS_SV } from "@/lib/matchPlan/matchPlanLabels";
+import { defenceCourtSlotLabel, INTENSITY_LABELS_SV, PHASE_USAGE_LABELS_SV, PLAYING_TIME_INTENTION_LABELS_SV, SUBSTITUTION_PRIORITY_LABELS_SV, TEMPO_LABELS_SV } from "@/lib/matchPlan/matchPlanLabels";
+import { resolveCurrentAttackUnit, resolveCurrentDefenceUnit, resolveCurrentGoalkeeper } from "@/lib/career/currentUnit";
 import { PLAYER_PHASE_USAGES, PLAYING_TIME_INTENTIONS } from "@/lib/matchPlan/types";
 import {
   ATI001_USAGE_TENDENCY_VALUES,
@@ -306,6 +307,7 @@ function LiveMatch({
   const away = getClub(fixture.awayClubId)!;
   const homeSquad = getCareerClubSquad(career, fixture.homeClubId);
   const awaySquad = getCareerClubSquad(career, fixture.awayClubId);
+  const managerIsHome = fixture.homeClubId === career.playerClubId;
   const isTimeout = view.phase === "TIMEOUT";
   const isHalfTime = view.phase === "HALF_TIME";
   const canIssueInstruction = !pendingInstruction && (view.phase === "FIRST_HALF" || view.phase === "SECOND_HALF");
@@ -503,6 +505,25 @@ function LiveMatch({
           <TeamColumn clubId={away.id} attacking={view.currentAttack === "away"} />
         </div>
       </div>
+
+      {/* HM-MATCH-1.3B Part N/O/P: truthful current on-court unit, reused
+          straight from MatchUsageEngine (via lib/career/currentUnit.ts)
+          -- never a UI-only fake lineup. Which phase to show follows
+          `view.currentAttack` (the same "side of the most recently
+          revealed event" liveMatchView.ts already derives) relative to
+          which side the manager coaches. */}
+      {currentMatchPlan ? (
+        <CurrentUnitPanel
+          plan={currentMatchPlan}
+          clockMinute={view.clockMinute}
+          seed={result.seed}
+          isAttackingNow={managerIsHome ? view.currentAttack === "home" : view.currentAttack === "away"}
+          nameOf={(playerId) => {
+            const player = getCareerPlayer(career, playerId);
+            return player ? `${player.firstName} ${player.lastName}` : playerId;
+          }}
+        />
+      ) : null}
 
       <div style={{ display: "grid", gridTemplateColumns: "1.4fr 1fr", gap: 12 }}>
         {/* Commentary */}
@@ -1850,6 +1871,71 @@ function TeamColumn({ clubId, attacking }: { clubId: string; attacking: boolean 
     <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 6, width: 130 }}>
       <ClubCrest shortName={c.shortName} primaryColor={c.primaryColor} size={40} />
       <div style={{ fontSize: "var(--hm-text-xs)", fontWeight: attacking ? 800 : 700, textAlign: "center" }}>{c.shortName}</div>
+    </div>
+  );
+}
+
+/**
+ * HM-MATCH-1.3B Part N/O/P/Q: "PÅ PLAN" -- a compact, always-visible
+ * strip of the players truthfully active right now, resolved straight
+ * from MatchUsageEngine (lib/career/currentUnit.ts), never a UI-only
+ * fake lineup. Switches between ANFALL/FÖRSVAR based on the same
+ * `currentAttack` signal the scoreboard's own "ANFALL: X" badge already
+ * uses. Deliberately no animation (Part Q: "just update the state
+ * clearly") -- the chip list simply re-renders when the window changes.
+ */
+function CurrentUnitPanel({
+  plan,
+  clockMinute,
+  seed,
+  isAttackingNow,
+  nameOf,
+}: {
+  plan: import("@/lib/matchPlan/types").MatchPlan;
+  clockMinute: number;
+  seed: number;
+  isAttackingNow: boolean;
+  nameOf: (playerId: string) => string;
+}) {
+  const isSevenVSix = plan.attackStartingUnit.formation === "SEVEN_V_SIX";
+  const chips: { label: string; name: string }[] = isAttackingNow
+    ? [
+        ...(isSevenVSix ? [] : [{ label: "MV", name: nameOf(resolveCurrentGoalkeeper(plan, clockMinute) ?? "") }]),
+        ...resolveCurrentAttackUnit(plan, clockMinute, String(seed)).map((s) => ({ label: s.position, name: nameOf(s.playerId) })),
+      ]
+    : [
+        { label: "MV", name: nameOf(resolveCurrentGoalkeeper(plan, clockMinute) ?? "") },
+        ...resolveCurrentDefenceUnit(plan, clockMinute, String(seed)).map((s) => ({ label: defenceCourtSlotLabel(s.courtSlot), name: nameOf(s.playerId) })),
+      ];
+
+  return (
+    <div className="hm-panel">
+      <div className="hm-panel-header">
+        <span className="hm-panel-title">PÅ PLAN — {isAttackingNow ? "ANFALL" : "FÖRSVAR"}</span>
+        {isSevenVSix && isAttackingNow ? <span className="hm-badge hm-badge-neutral">7 mot 6</span> : null}
+      </div>
+      <div className="hm-panel-body" style={{ display: "flex", flexWrap: "wrap", gap: 8, padding: "10px 12px" }}>
+        {chips.map((chip, i) => (
+          <div
+            key={`${chip.label}-${i}`}
+            style={{
+              display: "flex",
+              alignItems: "baseline",
+              gap: 5,
+              background: "var(--hm-surface-2)",
+              border: "1px solid var(--hm-border)",
+              borderRadius: 999,
+              padding: "3px 10px",
+              fontSize: "var(--hm-text-2xs)",
+            }}
+          >
+            <span className="hm-text-muted" style={{ fontWeight: 700 }}>
+              {chip.label}
+            </span>
+            <span style={{ fontWeight: 600 }}>{chip.name}</span>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

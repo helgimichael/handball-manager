@@ -5,12 +5,23 @@
 // enforced through HM-TACTICS-1.0's own MATCH_SQUAD_MAX_PLAYERS
 // constant and matchPlanEdits.ts's pure add/remove functions -- no
 // separate limit invented here.
+//
+// HM-MATCH-1.3B Part L/M: within Matchtrupp, PÅ PLAN (currently
+// assigned to an attack or defence slot -- `isPlayerStarting`, already
+// existing) and BÄNK are now visually split and labeled, and every row
+// is a valid DRAG SOURCE for CourtBoard's drop targets (Part E) -- a
+// bench row dragged onto a court slot replaces that slot's occupant,
+// who returns to the bench (matchPlanEdits.ts's existing swap/replace
+// semantics, unchanged). No new component talks to CourtBoard directly;
+// the browser's own dataTransfer carries the dragged playerId across
+// the sibling-component boundary.
 import type { CSSProperties } from "react";
 import { PlayerLink } from "@/components/entityLinks";
 import { MATCH_SQUAD_MAX_PLAYERS, type MatchPlan } from "@/lib/matchPlan/types";
 import { MATCH_ROLE_LABELS_SV, matchPlanPositionLabel, PHASE_USAGE_LABELS_SV, PLAYING_TIME_INTENTION_INDICATOR_SV } from "@/lib/matchPlan/matchPlanLabels";
 import { addPlayerToSquad, isPlayerStarting, removePlayerFromSquad, substitutionPartnerOf, type OnMatchPlanChange } from "@/lib/matchPlan/matchPlanEdits";
 import type { SelectablePlayer } from "@/lib/matchPlan/careerSquadBridge";
+import { PLAYER_ID_MIME } from "./CourtBoard";
 
 export default function MatchSquadPanel({
   plan,
@@ -26,8 +37,57 @@ export default function MatchSquadPanel({
   const byId = new Map(selectablePlayers.map((p) => [p.playerId, p]));
   const squadIds = new Set(plan.squad.players.map((p) => p.playerId));
   const selected = plan.squad.players.map((sp) => ({ sp, info: byId.get(sp.playerId) })).filter((x) => x.info);
+  const onCourt = selected.filter(({ sp }) => isPlayerStarting(plan, sp.playerId));
+  const bench = selected.filter(({ sp }) => !isPlayerStarting(plan, sp.playerId));
   const notSelected = selectablePlayers.filter((p) => !squadIds.has(p.playerId));
   const atMax = plan.squad.players.length >= MATCH_SQUAD_MAX_PLAYERS;
+
+  function renderRow({ sp, info }: { sp: MatchPlan["squad"]["players"][number]; info: SelectablePlayer | undefined }, starting: boolean) {
+    const partner = substitutionPartnerOf(plan, sp.playerId);
+    const usage = plan.playerUsage.find((u) => u.playerId === sp.playerId);
+    return (
+      <div
+        key={sp.playerId}
+        style={{ ...rowStyle, background: starting ? "var(--hm-accent-subtle, rgba(88,166,255,0.08))" : undefined }}
+        draggable
+        onDragStart={(e) => {
+          e.dataTransfer.setData(PLAYER_ID_MIME, sp.playerId);
+          e.dataTransfer.effectAllowed = "move";
+        }}
+        onClick={() => onOpenPlayerPanel(sp.playerId)}
+      >
+        <span className="hm-shirt-number" style={starting ? { boxShadow: "0 0 0 2px var(--hm-accent)" } : undefined}>
+          {info!.shirtNumber ?? "–"}
+        </span>
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 6, fontSize: "var(--hm-text-xs)", fontWeight: 600 }}>
+            <PlayerLink playerId={sp.playerId} stopPropagation>
+              {info!.fullName}
+            </PlayerLink>
+            {partner ? <span title="Byter med" style={{ color: "var(--hm-accent)" }}>⇄</span> : null}
+          </div>
+          {usage ? (
+            <div className="hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)" }}>
+              {matchPlanPositionLabel(sp.position)} · {MATCH_ROLE_LABELS_SV[usage.matchRole]} · {PHASE_USAGE_LABELS_SV[usage.phaseUsage]} {PLAYING_TIME_INTENTION_INDICATOR_SV[usage.playingTimeIntention]}
+            </div>
+          ) : null}
+        </div>
+        <button
+          type="button"
+          className="hm-btn hm-btn-sm hm-btn-ghost"
+          title={starting ? "Ta bort spelaren från startuppställningen/försvaret innan du kan plocka bort denna spelare ur truppen" : "Ta bort ur matchtruppen"}
+          disabled={starting}
+          style={{ opacity: starting ? 0.35 : 1 }}
+          onClick={(e) => {
+            e.stopPropagation();
+            if (!starting) onChange((prev) => removePlayerFromSquad(prev, sp.playerId));
+          }}
+        >
+          ✕
+        </button>
+      </div>
+    );
+  }
 
   return (
     <>
@@ -39,42 +99,14 @@ export default function MatchSquadPanel({
           </span>
         </div>
         <div>
-          {selected.map(({ sp, info }) => {
-            const starting = isPlayerStarting(plan, sp.playerId);
-            const partner = substitutionPartnerOf(plan, sp.playerId);
-            const usage = plan.playerUsage.find((u) => u.playerId === sp.playerId);
-            return (
-              <div key={sp.playerId} style={rowStyle} onClick={() => onOpenPlayerPanel(sp.playerId)}>
-                <span className="hm-shirt-number">{info!.shirtNumber ?? "–"}</span>
-                <div style={{ flex: 1, minWidth: 0 }}>
-                  <div style={{ display: "flex", alignItems: "center", gap: 6, fontSize: "var(--hm-text-xs)", fontWeight: 600 }}>
-                    <PlayerLink playerId={sp.playerId} stopPropagation>
-                      {info!.fullName}
-                    </PlayerLink>
-                    {partner ? <span title="Byter med" style={{ color: "var(--hm-accent)" }}>⇄</span> : null}
-                  </div>
-                  {usage ? (
-                    <div className="hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)" }}>
-                      {matchPlanPositionLabel(sp.position)} · {MATCH_ROLE_LABELS_SV[usage.matchRole]} · {PHASE_USAGE_LABELS_SV[usage.phaseUsage]} {PLAYING_TIME_INTENTION_INDICATOR_SV[usage.playingTimeIntention]}
-                    </div>
-                  ) : null}
-                </div>
-                <button
-                  type="button"
-                  className="hm-btn hm-btn-sm hm-btn-ghost"
-                  title={starting ? "Ta bort spelaren från startuppställningen/försvaret innan du kan plocka bort denna spelare ur truppen" : "Ta bort ur matchtruppen"}
-                  disabled={starting}
-                  style={{ opacity: starting ? 0.35 : 1 }}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    if (!starting) onChange((prev) => removePlayerFromSquad(prev, sp.playerId));
-                  }}
-                >
-                  ✕
-                </button>
-              </div>
-            );
-          })}
+          <div className="hm-eyebrow" style={{ padding: "8px 12px 2px" }}>
+            På plan ({onCourt.length})
+          </div>
+          {onCourt.map((row) => renderRow(row, true))}
+          <div className="hm-eyebrow" style={{ padding: "10px 12px 2px" }}>
+            Bänk ({bench.length})
+          </div>
+          {bench.map((row) => renderRow(row, false))}
           {selected.length === 0 ? <div className="hm-panel-body hm-text-muted">Ingen spelare uttagen ännu.</div> : null}
         </div>
       </div>
@@ -107,4 +139,4 @@ export default function MatchSquadPanel({
   );
 }
 
-const rowStyle: CSSProperties = { display: "flex", alignItems: "center", gap: 8, padding: "5px 12px", borderBottom: "1px solid var(--hm-border-subtle)", cursor: "pointer" };
+const rowStyle: CSSProperties = { display: "flex", alignItems: "center", gap: 8, padding: "5px 12px", borderBottom: "1px solid var(--hm-border-subtle)", cursor: "grab" };

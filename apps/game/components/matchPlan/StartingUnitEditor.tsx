@@ -48,23 +48,26 @@ export default function StartingUnitEditor({
     if (attackNormal) {
       for (const layoutSlot of ATTACK_NORMAL_LAYOUT) {
         const slot = plan.attackStartingUnit.slots.find((s) => s.position === (layoutSlot.key as Position));
-        chips.push({ key: layoutSlot.key, xPct: layoutSlot.xPct, yPct: layoutSlot.yPct, shortLabel: layoutSlot.key, playerName: slot ? nameOf(slot.playerId) : "–" });
+        if (!slot) continue;
+        chips.push({ key: layoutSlot.key, xPct: layoutSlot.xPct, yPct: layoutSlot.yPct, shortLabel: layoutSlot.key, playerName: nameOf(slot.playerId), playerId: slot.playerId });
       }
     } else {
       const layout = sevenVSixAttackLayout(plan.attackStartingUnit.slots.map((s) => s.position));
       plan.attackStartingUnit.slots.forEach((slot, i) => {
         const layoutSlot = layout[i];
-        chips.push({ key: String(i), xPct: layoutSlot.xPct, yPct: layoutSlot.yPct, shortLabel: slot.position, playerName: nameOf(slot.playerId) });
+        chips.push({ key: String(i), xPct: layoutSlot.xPct, yPct: layoutSlot.yPct, shortLabel: slot.position, playerName: nameOf(slot.playerId), playerId: slot.playerId });
       });
     }
   } else {
     for (const layoutSlot of defenceLayout(plan.defencePlan.baseFormation)) {
       if (layoutSlot.key === "GK") {
-        chips.push({ key: "GK", xPct: layoutSlot.xPct, yPct: layoutSlot.yPct, shortLabel: "MV", playerName: plan.defenceStartingUnit.goalkeeperId ? nameOf(plan.defenceStartingUnit.goalkeeperId) : "–" });
+        if (!plan.defenceStartingUnit.goalkeeperId) continue;
+        chips.push({ key: "GK", xPct: layoutSlot.xPct, yPct: layoutSlot.yPct, shortLabel: "MV", playerName: nameOf(plan.defenceStartingUnit.goalkeeperId), playerId: plan.defenceStartingUnit.goalkeeperId });
       } else {
         const courtSlot = Number(layoutSlot.key);
         const slot = plan.defenceStartingUnit.courtSlots.find((s) => s.courtSlot === courtSlot);
-        chips.push({ key: layoutSlot.key, xPct: layoutSlot.xPct, yPct: layoutSlot.yPct, shortLabel: defenceCourtSlotLabel(courtSlot), playerName: slot ? nameOf(slot.playerId) : "–" });
+        if (!slot) continue;
+        chips.push({ key: layoutSlot.key, xPct: layoutSlot.xPct, yPct: layoutSlot.yPct, shortLabel: defenceCourtSlotLabel(courtSlot), playerName: nameOf(slot.playerId), playerId: slot.playerId });
       }
     }
   }
@@ -87,7 +90,21 @@ export default function StartingUnitEditor({
       </div>
 
       <div className="hm-panel-body" style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-        <CourtBoard scene={scene} chips={chips} selectedKey={selectedKey} onSelectChip={setSelectedKey} />
+        <CourtBoard
+          scene={scene}
+          chips={chips}
+          selectedKey={selectedKey}
+          onSelectChip={setSelectedKey}
+          onDropOnSlot={(targetKey, draggedPlayerId) => {
+            const isGoalkeeperSlot = phase === "ATTACK" ? attackNormal && targetKey === "GK" : targetKey === "GK";
+            const draggedIsGoalkeeper = byId.get(draggedPlayerId)?.position === "GK";
+            // Part F/W#8: a goalkeeper only ever goes in a goalkeeper
+            // slot and vice versa -- guarded here (never allowed to
+            // start), rather than allowed-then-rejected after the drop.
+            if (isGoalkeeperSlot !== draggedIsGoalkeeper) return;
+            onChange((prev) => applySlotAssignment({ prev, phase, selectedKey: targetKey, playerId: draggedPlayerId }));
+          }}
+        />
 
         {phase === "DEFENCE" ? (
           <label style={{ display: "flex", flexDirection: "column", gap: 4, fontSize: "var(--hm-text-2xs)" }}>

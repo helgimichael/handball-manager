@@ -126,6 +126,34 @@ function computeGoalkeeperWindowCounts(usagePlan: MatchUsagePlan): Map<string, n
 }
 
 /**
+ * HM-MATCH-1.3B Part N: which SINGLE goalkeeper is active for a given
+ * window -- reuses `computeGoalkeeperWindowCounts`'s own totals
+ * verbatim (never a second GK-share calculation), just resolving WHICH
+ * of the six windows each backup's granted count actually covers.
+ * Backup windows are assigned from the END of the match backward,
+ * mirroring the exact same convention `activeWindowRange` already uses
+ * for bench outfield players ("higher usage comes on earlier, but a
+ * bench player's range still ends at the final window") -- so window 0
+ * (kickoff) is always the primary/starting goalkeeper, never a backup.
+ */
+export function resolveActiveGoalkeeperForWindow(usagePlan: MatchUsagePlan, window: number): string | null {
+  const goalkeepers = usagePlan.players.filter((p) => p.isGoalkeeper);
+  const primary = goalkeepers.find((p) => p.startingInDefence) ?? goalkeepers[0];
+  if (!primary) return null;
+
+  const counts = computeGoalkeeperWindowCounts(usagePlan);
+  const backups = goalkeepers.filter((p) => p.playerId !== primary.playerId);
+  let cursor = MATCH_USAGE_WINDOW_COUNT;
+  for (const backup of backups) {
+    const granted = counts.get(backup.playerId) ?? 0;
+    const start = cursor - granted;
+    if (window >= start && window < cursor) return backup.playerId;
+    cursor = start;
+  }
+  return primary.playerId;
+}
+
+/**
  * HM-MATCH-1.1 Part 10/11: per-window ATTACK eligibility per outfield
  * player -- a thin, read-only projection of the SAME `activeWindowRange`
  * this module already uses to compute `attackExposure` (Part J), never a
