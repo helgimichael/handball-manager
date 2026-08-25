@@ -75,6 +75,22 @@ export type AttackFormation = "NORMAL" | "SEVEN_V_SIX";
 export interface AttackUnitSlot {
   playerId: string;
   position: Position;
+  /**
+   * HM-COURT-GRID-0.3 Part D/N: the canonical grid cell (1-200,
+   * lib/court/courtGrid.ts) this slot is assigned to on the real
+   * Tactics board -- the board's OWN authoritative coordinate, never a
+   * hard-coded x/y percentage. Optional so old saved MatchPlans (from
+   * before this field existed) keep loading unchanged; every reader
+   * that needs a cell derives one deterministically for a slot missing
+   * this field (lib/matchPlan/attackBoard.ts's `resolveAttackSlotCells`)
+   * rather than requiring a migration step. `position` (the Match
+   * Engine input) is untouched by this field -- e.g. a slot with
+   * `position: "M9"` and `cellNumber: 67` (the RIGHT_M9 calibrated
+   * cell) still means exactly "M9" to Match Engine; only the board's
+   * own finer on-screen distinction (LEFT_M9/M9/RIGHT_M9) depends on
+   * cellNumber.
+   */
+  cellNumber?: number;
 }
 
 /**
@@ -129,6 +145,8 @@ export interface DefenceUnitSlot {
   /** 1-6, formation-agnostic defensive court slot -- not tied to any specific named formation. */
   courtSlot: number;
   role?: DefenceRole;
+  /** HM-COURT-GRID-0.3 Part D/N: same meaning as AttackUnitSlot.cellNumber -- the canonical grid cell this slot renders at. `courtSlot` (the engine-facing identity) is untouched by this field; see lib/matchPlan/defenceBoard.ts's `resolveDefenceSlotCells` for the deterministic default used when absent. */
+  cellNumber?: number;
 }
 
 export interface DefenceStartingUnit {

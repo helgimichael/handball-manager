@@ -7,7 +7,12 @@ import assert from "node:assert/strict";
 import { allGridCells, COURT_GRID_DEFINITION } from "./courtGrid";
 import {
   allCalibratedCells,
+  attackTacticalPositionForCell,
   ATTACK_POSITION_CALIBRATION,
+  ATTACK_TACTICAL_TO_ENGINE_POSITION,
+  defenceCourtSlotForPosition,
+  defencePositionForCourtSlot,
+  defenceTacticalPositionForCell,
   DEFENCE_FORMATION_CALIBRATIONS,
   getAcceptedCellsForPosition,
   getAttackPositionCalibration,
@@ -15,6 +20,7 @@ import {
   getPositionsForCell,
   isCellValidForPosition,
   isValidCanonicalCell,
+  preferredCellForPosition,
 } from "./tacticalPositionCalibration";
 
 function cellsOf(id: string, list: readonly { id: string; acceptedCells: readonly number[] }[]): readonly number[] {
@@ -24,11 +30,18 @@ function cellsOf(id: string, list: readonly { id: string; acceptedCells: readonl
 // ATTACK (1-7)
 test("HM-COURT-GRID-0.2 (1): ATTACK V6 = [1]", () => assert.deepEqual(cellsOf("V6", ATTACK_POSITION_CALIBRATION), [1]));
 test("HM-COURT-GRID-0.2 (2): ATTACK H6 = [10]", () => assert.deepEqual(cellsOf("H6", ATTACK_POSITION_CALIBRATION), [10]));
-test("HM-COURT-GRID-0.2 (3): ATTACK V9 = [51]", () => assert.deepEqual(cellsOf("V9", ATTACK_POSITION_CALIBRATION), [51]));
-test("HM-COURT-GRID-0.2 (4): ATTACK H9 = [60]", () => assert.deepEqual(cellsOf("H9", ATTACK_POSITION_CALIBRATION), [60]));
+test("HM-COURT-GRID-0.3 (5): ATTACK V9 = [41,51,52]", () => assert.deepEqual(cellsOf("V9", ATTACK_POSITION_CALIBRATION), [41, 51, 52]));
+test("HM-COURT-GRID-0.3 (6): ATTACK H9 = [50,59,60]", () => assert.deepEqual(cellsOf("H9", ATTACK_POSITION_CALIBRATION), [50, 59, 60]));
 test("HM-COURT-GRID-0.2 (5): ATTACK M6_LEFT = [34]", () => assert.deepEqual(cellsOf("M6_LEFT", ATTACK_POSITION_CALIBRATION), [34]));
 test("HM-COURT-GRID-0.2 (6): ATTACK M6_RIGHT = [37]", () => assert.deepEqual(cellsOf("M6_RIGHT", ATTACK_POSITION_CALIBRATION), [37]));
-test("HM-COURT-GRID-0.2 (7): ATTACK M9 = [65,66]", () => assert.deepEqual(cellsOf("M9", ATTACK_POSITION_CALIBRATION), [65, 66]));
+test("HM-COURT-GRID-0.3 (7): ATTACK LEFT_M9 = [64]", () => assert.deepEqual(cellsOf("LEFT_M9", ATTACK_POSITION_CALIBRATION), [64]));
+test("HM-COURT-GRID-0.3 (8): ATTACK M9 = [65,66]", () => assert.deepEqual(cellsOf("M9", ATTACK_POSITION_CALIBRATION), [65, 66]));
+test("HM-COURT-GRID-0.3 (9): ATTACK RIGHT_M9 = [67]", () => assert.deepEqual(cellsOf("RIGHT_M9", ATTACK_POSITION_CALIBRATION), [67]));
+test("HM-COURT-GRID-0.3: LEFT_M9/M9/RIGHT_M9 are distinct tactical positions, never collapsed into one generic M9 role", () => {
+  const ids = ATTACK_POSITION_CALIBRATION.map((p) => p.id);
+  assert.ok(ids.includes("LEFT_M9") && ids.includes("M9") && ids.includes("RIGHT_M9"));
+  assert.equal(new Set(ids).size, ids.length, "every attack position id is unique");
+});
 
 // 6:0 (8-13)
 test("HM-COURT-GRID-0.2 (8): 6-0 V1 = [181]", () => assert.deepEqual(cellsOf("V1", DEFENCE_FORMATION_CALIBRATIONS["6-0"].positions), [181]));
@@ -120,7 +133,7 @@ test("HM-COURT-GRID-0.2 (42): calibration lookups are deterministic -- repeated 
 });
 
 test("HM-COURT-GRID-0.2: every attack and defence-formation position list has exactly 6 or 7 positions as specified, no extras added (Part C)", () => {
-  assert.equal(ATTACK_POSITION_CALIBRATION.length, 7);
+  assert.equal(ATTACK_POSITION_CALIBRATION.length, 9);
   for (const formation of ["6-0", "5-1", "3-2-1", "3-3", "4-2"] as const) {
     assert.equal(DEFENCE_FORMATION_CALIBRATIONS[formation].positions.length, 6);
   }
@@ -141,4 +154,67 @@ test("HM-COURT-GRID-0.2: no position within the same context shares an accepted 
   for (const formation of ["6-0", "5-1", "3-2-1", "3-3", "4-2"] as const) {
     assertNoOverlap(DEFENCE_FORMATION_CALIBRATIONS[formation].positions);
   }
+});
+
+// -- HM-COURT-GRID-0.3: engine-position mapping, cell->position lookup, courtSlot ordering --
+
+test("HM-COURT-GRID-0.3: LEFT_M9/M9/RIGHT_M9 all resolve to engine Position 'M9', M6_LEFT/M6_RIGHT both resolve to 'M6' -- Match Engine inputs unchanged in meaning", () => {
+  assert.equal(ATTACK_TACTICAL_TO_ENGINE_POSITION.LEFT_M9, "M9");
+  assert.equal(ATTACK_TACTICAL_TO_ENGINE_POSITION.M9, "M9");
+  assert.equal(ATTACK_TACTICAL_TO_ENGINE_POSITION.RIGHT_M9, "M9");
+  assert.equal(ATTACK_TACTICAL_TO_ENGINE_POSITION.M6_LEFT, "M6");
+  assert.equal(ATTACK_TACTICAL_TO_ENGINE_POSITION.M6_RIGHT, "M6");
+  assert.equal(ATTACK_TACTICAL_TO_ENGINE_POSITION.V6, "V6");
+  assert.equal(ATTACK_TACTICAL_TO_ENGINE_POSITION.H6, "H6");
+});
+
+test("HM-COURT-GRID-0.3: attackTacticalPositionForCell resolves every calibrated cell to exactly its own position, and null for an uncalibrated cell", () => {
+  assert.equal(attackTacticalPositionForCell(64)!.id, "LEFT_M9");
+  assert.equal(attackTacticalPositionForCell(65)!.id, "M9");
+  assert.equal(attackTacticalPositionForCell(66)!.id, "M9");
+  assert.equal(attackTacticalPositionForCell(67)!.id, "RIGHT_M9");
+  assert.equal(attackTacticalPositionForCell(41)!.id, "V9");
+  assert.equal(attackTacticalPositionForCell(52)!.id, "V9");
+  assert.equal(attackTacticalPositionForCell(34)!.id, "M6_LEFT");
+  assert.equal(attackTacticalPositionForCell(999), null);
+});
+
+test("HM-COURT-GRID-0.3: preferredCellForPosition returns the documented migration default, always a member of acceptedCells", () => {
+  assert.equal(preferredCellForPosition("ATTACK", "V9"), 51);
+  assert.equal(preferredCellForPosition("ATTACK", "H9"), 60);
+  assert.equal(preferredCellForPosition("ATTACK", "M9"), 65);
+  assert.equal(preferredCellForPosition("ATTACK", "V6"), 1);
+  assert.equal(preferredCellForPosition("ATTACK", "M6_LEFT"), 34);
+  for (const formation of ["6-0", "5-1", "3-2-1", "3-3", "4-2"] as const) {
+    for (const p of DEFENCE_FORMATION_CALIBRATIONS[formation].positions) {
+      const preferred = preferredCellForPosition(formation, p.id);
+      assert.ok(preferred !== null && p.acceptedCells.includes(preferred));
+    }
+  }
+});
+
+test("HM-COURT-GRID-0.3: defenceCourtSlotForPosition for 6:0 reproduces the existing V1=1,V2=2,V3=3,H3=4,H2=5,H1=6 courtSlot numbering exactly", () => {
+  assert.equal(defenceCourtSlotForPosition("6-0", "V1"), 1);
+  assert.equal(defenceCourtSlotForPosition("6-0", "V2"), 2);
+  assert.equal(defenceCourtSlotForPosition("6-0", "V3"), 3);
+  assert.equal(defenceCourtSlotForPosition("6-0", "H3"), 4);
+  assert.equal(defenceCourtSlotForPosition("6-0", "H2"), 5);
+  assert.equal(defenceCourtSlotForPosition("6-0", "H1"), 6);
+});
+
+test("HM-COURT-GRID-0.3: defencePositionForCourtSlot is the exact inverse of defenceCourtSlotForPosition, for every formation and slot 1-6", () => {
+  for (const formation of ["6-0", "5-1", "3-2-1", "3-3", "4-2"] as const) {
+    for (let slot = 1; slot <= 6; slot++) {
+      const position = defencePositionForCourtSlot(formation, slot)!;
+      assert.equal(defenceCourtSlotForPosition(formation, position.id), slot);
+    }
+  }
+});
+
+test("HM-COURT-GRID-0.3: defenceTacticalPositionForCell resolves a formation's own calibrated cells correctly and is context-scoped (same cell, different position, matching context 40)", () => {
+  assert.equal(defenceTacticalPositionForCell("6-0", 165)!.id, "V3");
+  assert.equal(defenceTacticalPositionForCell("5-1", 165)!.id, "CH");
+  assert.equal(defenceTacticalPositionForCell("3-2-1", 165)!.id, "CH");
+  assert.equal(defenceTacticalPositionForCell("3-3", 165)!.id, "MB");
+  assert.equal(defenceTacticalPositionForCell("6-0", 999), null);
 });

@@ -1,26 +1,39 @@
 "use client";
 
-// HM-TACTICS-1.2 Part 2/3/4: the primary starting-unit editor. The
-// players on the court are now the primary representation (Part 3) --
-// clicking a chip selects that slot; a compact panel below the court
-// shows/swaps the player and opens their Match Instruction. The
-// NORMAL | 7 MOT 6 top-level switch that used to sit here is gone
-// (Part 2: 7v6 moved into TAKTISKA INSTRUKTIONER -> ANFALL ->
-// Specialspel) -- this component always shows/edits whichever attack
-// starting unit is currently active (NORMAL by default), never a
-// second place to toggle the formation.
+// HM-TACTICS-1.2 Part 2/3/4, rebuilt on the canonical grid by
+// HM-COURT-GRID-0.3: the primary starting-unit editor. A tactical
+// marker's board position is now DERIVED from its canonical grid cell
+// (lib/court/courtGrid.ts + the manually approved calibration,
+// lib/court/tacticalPositionCalibration.ts) via
+// lib/matchPlan/attackBoard.ts / defenceBoard.ts -- the old fixed
+// zone/percentage model (attackZones.ts/courtLayout.ts) is no longer
+// consulted here. Both attack formations (NORMAL and SEVEN_V_SIX) and
+// every defence formation now share ONE rendering/drag-drop path,
+// keyed by cell number.
 import { useState } from "react";
 import Tabs from "@/components/Tabs";
 import { defenceCourtSlotLabel, matchPlanPositionLabel } from "@/lib/matchPlan/matchPlanLabels";
-import { assignAttackGoalkeeper, assignAttackZonePosition, assignDefenceCourtSlot, assignDefenceGoalkeeper, assignSevenVSixSlot, type OnMatchPlanChange } from "@/lib/matchPlan/matchPlanEdits";
+import { assignAttackGoalkeeper, assignDefenceGoalkeeper, type OnMatchPlanChange } from "@/lib/matchPlan/matchPlanEdits";
+import { assignAttackCellPosition, attackSlotTacticalPosition, resolveAttackSlotCells } from "@/lib/matchPlan/attackBoard";
+import { assignDefenceCellPosition, defenceSlotTacticalPosition, resolveDefenceSlotCells } from "@/lib/matchPlan/defenceBoard";
+import { attackCellToPct, ATTACK_GK_ANCHOR_PCT, defenceCellToPct, DEFENCE_GK_ANCHOR_PCT } from "@/lib/court/boardGeometry";
+import { getAttackPositionCalibration, getDefenceFormationCalibration, type DefenceFormationId } from "@/lib/court/tacticalPositionCalibration";
 import type { MatchPlan } from "@/lib/matchPlan/types";
 import type { SelectablePlayer } from "@/lib/matchPlan/careerSquadBridge";
-import { buildAttackScene, buildDefenceScene, DEFENCE_FORMATION_OPTIONS } from "./courtScene";
-import { ATTACK_NORMAL_LAYOUT, defenceLayout, sevenVSixAttackLayout } from "./courtLayout";
-import { ATTACK_ZONE_IDS, ATTACK_ZONE_LAYOUT, ATTACK_ZONE_POSITION, projectSlotsOntoZones, type AttackZoneId } from "./attackZones";
-import CourtBoard, { type CourtChip } from "./CourtBoard";
+import { buildAttackScene, buildDefenceScene, DEFENCE_FORMATION_OPTIONS, inferDefenceFormation } from "./courtScene";
+import CourtBoard, { type CourtChip, type CourtGhostCell } from "./CourtBoard";
 
 export type CourtPhase = "ATTACK" | "DEFENCE";
+
+/** Part O: the board's own compact chip pill must never show a raw internal calibration id (e.g. "M6_LEFT", "LEFT_M9") -- a short coach-facing abbreviation only. Positions whose id is already short (V6/H6/V9/H9/M9, and every defence id) pass straight through via the fallback. */
+const ATTACK_SHORT_LABEL: Readonly<Record<string, string>> = { M6_LEFT: "M6 V", M6_RIGHT: "M6 H", LEFT_M9: "V M9", RIGHT_M9: "H M9" };
+
+interface SelectedSlot {
+  key: string;
+  label: string;
+  playerId: string;
+  isGoalkeeperSlot: boolean;
+}
 
 export default function StartingUnitEditor({
   plan,
@@ -46,56 +59,73 @@ export default function StartingUnitEditor({
   const outcourt = plan.squad.players.filter((p) => p.position !== "GK");
 
   const scene = phase === "ATTACK" ? buildAttackScene(plan.attackStartingUnit.formation) : buildDefenceScene(plan.defencePlan.baseFormation);
+  const defenceFormation: DefenceFormationId = inferDefenceFormation(plan.defencePlan.baseFormation);
 
-  const attackNormal = plan.attackStartingUnit.formation === "NORMAL";
-  // HM-MATCH-1.3B2 Part 1/2: the snap-zone projection is the ONLY thing
-  // that decides which slot occupies which zone -- recomputed fresh
-  // every render from `plan.attackStartingUnit.slots` (never separate
-  // UI state), so it can never drift from the canonical MatchPlan.
-  const zoneProjection = attackNormal ? projectSlotsOntoZones(plan.attackStartingUnit.slots) : null;
   const chips: CourtChip[] = [];
+  const ghostCells: CourtGhostCell[] = [];
+
   if (phase === "ATTACK") {
-    if (attackNormal && zoneProjection) {
-      const gkSlot = plan.attackStartingUnit.slots.find((s) => s.position === "GK");
-      const gkLayout = ATTACK_NORMAL_LAYOUT.find((s) => s.key === "GK")!;
-      if (gkSlot) {
-        chips.push({ key: "GK", xPct: gkLayout.xPct, yPct: gkLayout.yPct, shortLabel: "MV", playerName: nameOf(gkSlot.playerId), playerId: gkSlot.playerId });
+    const resolvedCells = resolveAttackSlotCells(plan.attackStartingUnit.slots);
+    const occupied = new Set<number>();
+    plan.attackStartingUnit.slots.forEach((slot, i) => {
+      const cell = resolvedCells[i];
+      if (cell === null) {
+        chips.push({ key: "GK", xPct: ATTACK_GK_ANCHOR_PCT.xPct, yPct: ATTACK_GK_ANCHOR_PCT.yPct, shortLabel: "MV", playerName: nameOf(slot.playerId), playerId: slot.playerId });
+        return;
       }
-      for (const zoneId of ATTACK_ZONE_IDS) {
-        const layout = ATTACK_ZONE_LAYOUT[zoneId];
-        const slotIndex = zoneProjection[zoneId];
-        const slot = slotIndex !== null ? plan.attackStartingUnit.slots[slotIndex] : undefined;
-        chips.push({
-          key: zoneId,
-          xPct: layout.xPct,
-          yPct: layout.yPct,
-          shortLabel: ATTACK_ZONE_POSITION[zoneId],
-          playerName: slot ? nameOf(slot.playerId) : "–",
-          playerId: slot?.playerId ?? "",
-        });
+      occupied.add(cell);
+      const tactical = attackSlotTacticalPosition(cell);
+      const pct = attackCellToPct(cell);
+      const shortLabel = tactical ? (ATTACK_SHORT_LABEL[tactical.id] ?? tactical.id) : slot.position;
+      chips.push({ key: String(cell), xPct: pct.xPct, yPct: pct.yPct, shortLabel, playerName: nameOf(slot.playerId), playerId: slot.playerId });
+    });
+    // Part H: every approved attack cell nothing currently occupies, shown as a subtle affordance.
+    for (const position of getAttackPositionCalibration()) {
+      for (const cell of position.acceptedCells) {
+        if (occupied.has(cell)) continue;
+        const pct = attackCellToPct(cell);
+        ghostCells.push({ key: String(cell), xPct: pct.xPct, yPct: pct.yPct });
       }
-    } else if (!attackNormal) {
-      const layout = sevenVSixAttackLayout(plan.attackStartingUnit.slots.map((s) => s.position));
-      plan.attackStartingUnit.slots.forEach((slot, i) => {
-        const layoutSlot = layout[i];
-        chips.push({ key: String(i), xPct: layoutSlot.xPct, yPct: layoutSlot.yPct, shortLabel: slot.position, playerName: nameOf(slot.playerId), playerId: slot.playerId });
-      });
     }
   } else {
-    for (const layoutSlot of defenceLayout(plan.defencePlan.baseFormation)) {
-      if (layoutSlot.key === "GK") {
-        if (!plan.defenceStartingUnit.goalkeeperId) continue;
-        chips.push({ key: "GK", xPct: layoutSlot.xPct, yPct: layoutSlot.yPct, shortLabel: "MV", playerName: nameOf(plan.defenceStartingUnit.goalkeeperId), playerId: plan.defenceStartingUnit.goalkeeperId });
-      } else {
-        const courtSlot = Number(layoutSlot.key);
-        const slot = plan.defenceStartingUnit.courtSlots.find((s) => s.courtSlot === courtSlot);
-        if (!slot) continue;
-        chips.push({ key: layoutSlot.key, xPct: layoutSlot.xPct, yPct: layoutSlot.yPct, shortLabel: defenceCourtSlotLabel(courtSlot), playerName: nameOf(slot.playerId), playerId: slot.playerId });
+    if (plan.defenceStartingUnit.goalkeeperId) {
+      chips.push({ key: "GK", xPct: DEFENCE_GK_ANCHOR_PCT.xPct, yPct: DEFENCE_GK_ANCHOR_PCT.yPct, shortLabel: "MV", playerName: nameOf(plan.defenceStartingUnit.goalkeeperId), playerId: plan.defenceStartingUnit.goalkeeperId });
+    }
+    const resolvedCells = resolveDefenceSlotCells(defenceFormation, plan.defenceStartingUnit.courtSlots);
+    const occupied = new Set<number>();
+    plan.defenceStartingUnit.courtSlots.forEach((slot, i) => {
+      const cell = resolvedCells[i];
+      if (cell === null) return;
+      occupied.add(cell);
+      const tactical = defenceSlotTacticalPosition(defenceFormation, slot.courtSlot);
+      const pct = defenceCellToPct(cell);
+      chips.push({ key: String(cell), xPct: pct.xPct, yPct: pct.yPct, shortLabel: tactical?.label ?? defenceCourtSlotLabel(slot.courtSlot), playerName: nameOf(slot.playerId), playerId: slot.playerId });
+    });
+    for (const position of getDefenceFormationCalibration(defenceFormation).positions) {
+      for (const cell of position.acceptedCells) {
+        if (occupied.has(cell)) continue;
+        const pct = defenceCellToPct(cell);
+        ghostCells.push({ key: String(cell), xPct: pct.xPct, yPct: pct.yPct });
       }
     }
   }
 
-  const selected = describeSelectedSlot({ phase, selectedKey, plan, attackNormal, zoneProjection });
+  const selected = describeSelectedSlot({ phase, selectedKey, plan, defenceFormation });
+
+  function applyDrop(targetKey: string, playerId: string) {
+    const isGoalkeeperSlot = targetKey === "GK";
+    const draggedIsGoalkeeper = byId.get(playerId)?.position === "GK";
+    // Part F/W#8 (carried forward): a goalkeeper only ever goes in a
+    // goalkeeper slot and vice versa -- guarded here, never
+    // allowed-then-rejected after the drop.
+    if (isGoalkeeperSlot !== draggedIsGoalkeeper) return;
+    if (targetKey === "GK") {
+      onChange((prev) => (phase === "ATTACK" ? assignAttackGoalkeeper(prev, playerId) : assignDefenceGoalkeeper(prev, playerId)));
+      return;
+    }
+    const targetCell = Number(targetKey);
+    onChange((prev) => (phase === "ATTACK" ? assignAttackCellPosition(prev, playerId, targetCell) : assignDefenceCellPosition(prev, playerId, targetCell)));
+  }
 
   return (
     <div className="hm-panel" style={{ display: "flex", flexDirection: "column" }}>
@@ -113,27 +143,7 @@ export default function StartingUnitEditor({
       </div>
 
       <div className="hm-panel-body" style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-        <CourtBoard
-          scene={scene}
-          chips={chips}
-          selectedKey={selectedKey}
-          onSelectChip={setSelectedKey}
-          onDropOnSlot={(targetKey, draggedPlayerId) => {
-            if (!draggedPlayerId) return;
-            const isGoalkeeperSlot = phase === "ATTACK" ? attackNormal && targetKey === "GK" : targetKey === "GK";
-            const draggedIsGoalkeeper = byId.get(draggedPlayerId)?.position === "GK";
-            // Part F/W#8: a goalkeeper only ever goes in a goalkeeper
-            // slot and vice versa -- guarded here (never allowed to
-            // start), rather than allowed-then-rejected after the drop.
-            if (isGoalkeeperSlot !== draggedIsGoalkeeper) return;
-            if (phase === "ATTACK" && attackNormal && zoneProjection && targetKey !== "GK") {
-              const zoneId = targetKey as AttackZoneId;
-              onChange((prev) => assignAttackZonePosition(prev, draggedPlayerId, ATTACK_ZONE_POSITION[zoneId], zoneProjection[zoneId]));
-              return;
-            }
-            onChange((prev) => applySlotAssignment({ prev, phase, selectedKey: targetKey, playerId: draggedPlayerId }));
-          }}
-        />
+        <CourtBoard scene={scene} chips={chips} ghostCells={ghostCells} selectedKey={selectedKey} onSelectChip={setSelectedKey} onDropOnSlot={applyDrop} />
 
         {phase === "DEFENCE" ? (
           <label style={{ display: "flex", flexDirection: "column", gap: 4, fontSize: "var(--hm-text-2xs)" }}>
@@ -158,15 +168,7 @@ export default function StartingUnitEditor({
               className="hm-select"
               style={{ ...selectStyle, flex: "0 1 160px" }}
               value={selected.playerId}
-              onChange={(e) => {
-                const playerId = e.target.value;
-                if (phase === "ATTACK" && attackNormal && zoneProjection && selected.key !== "GK") {
-                  const zoneId = selected.key as AttackZoneId;
-                  onChange((prev) => assignAttackZonePosition(prev, playerId, ATTACK_ZONE_POSITION[zoneId], zoneProjection[zoneId]));
-                  return;
-                }
-                onChange((prev) => applySlotAssignment({ prev, phase, selectedKey: selected.key, playerId }));
-              }}
+              onChange={(e) => applyDrop(selected.key, e.target.value)}
             >
               {selected.playerId ? null : <option value="">Välj spelare...</option>}
               {(selected.isGoalkeeperSlot ? goalkeepers : outcourt).map((o) => (
@@ -193,73 +195,37 @@ function describeSelectedSlot({
   phase,
   selectedKey,
   plan,
-  attackNormal,
-  zoneProjection,
+  defenceFormation,
 }: {
   phase: CourtPhase;
   selectedKey: string | null;
   plan: MatchPlan;
-  attackNormal: boolean;
-  zoneProjection: Record<AttackZoneId, number | null> | null;
-}): { key: string; label: string; playerId: string; isGoalkeeperSlot: boolean } | null {
+  defenceFormation: DefenceFormationId;
+}): SelectedSlot | null {
   if (!selectedKey) return null;
 
-  if (phase === "ATTACK") {
-    if (attackNormal && selectedKey === "GK") {
-      const slot = plan.attackStartingUnit.slots.find((s) => s.position === "GK");
-      if (!slot) return null;
-      return { key: selectedKey, label: "Målvakt", playerId: slot.playerId, isGoalkeeperSlot: true };
-    }
-    if (attackNormal && zoneProjection) {
-      // HM-MATCH-1.3B2 Part 1/2: a selected EMPTY zone (no slot
-      // projects there right now) still opens the picker -- an empty
-      // string playerId means "nothing assigned here yet", letting the
-      // manager move any player into this snap zone.
-      const zoneId = selectedKey as AttackZoneId;
-      const slotIndex = zoneProjection[zoneId];
-      const slot = slotIndex !== null ? plan.attackStartingUnit.slots[slotIndex] : undefined;
-      return { key: selectedKey, label: matchPlanPositionLabel(ATTACK_ZONE_POSITION[zoneId]), playerId: slot?.playerId ?? "", isGoalkeeperSlot: false };
-    }
-    const index = Number(selectedKey);
-    const slot = plan.attackStartingUnit.slots[index];
-    if (!slot) return null;
-    return { key: selectedKey, label: `Anfallare ${index + 1} (${matchPlanPositionLabel(slot.position)})`, playerId: slot.playerId, isGoalkeeperSlot: false };
-  }
-
   if (selectedKey === "GK") {
-    if (!plan.defenceStartingUnit.goalkeeperId) return null;
-    return { key: "GK", label: "Målvakt", playerId: plan.defenceStartingUnit.goalkeeperId, isGoalkeeperSlot: true };
+    const playerId = phase === "ATTACK" ? plan.attackStartingUnit.slots.find((s) => s.position === "GK")?.playerId : plan.defenceStartingUnit.goalkeeperId;
+    if (!playerId) return null;
+    return { key: "GK", label: "Målvakt", playerId, isGoalkeeperSlot: true };
   }
-  const courtSlot = Number(selectedKey);
-  const slot = plan.defenceStartingUnit.courtSlots.find((s) => s.courtSlot === courtSlot);
-  if (!slot) return null;
-  return { key: selectedKey, label: defenceCourtSlotLabel(courtSlot), playerId: slot.playerId, isGoalkeeperSlot: false };
-}
 
-function applySlotAssignment({
-  prev,
-  phase,
-  selectedKey,
-  playerId,
-}: {
-  prev: MatchPlan;
-  phase: CourtPhase;
-  selectedKey: string;
-  playerId: string;
-}): MatchPlan {
+  const cell = Number(selectedKey);
   if (phase === "ATTACK") {
-    // NORMAL formation's outcourt zones are handled entirely by
-    // assignAttackZonePosition at the call sites above (Part 1/2) --
-    // this function is only ever reached for the GK slot (fixed,
-    // outside the zone model) or a SEVEN_V_SIX index-based slot.
-    if (prev.attackStartingUnit.formation === "NORMAL") {
-      return selectedKey === "GK" ? assignAttackGoalkeeper(prev, playerId) : prev;
-    }
-    const index = Number(selectedKey);
-    return assignSevenVSixSlot(prev, index, playerId);
+    const cells = resolveAttackSlotCells(plan.attackStartingUnit.slots);
+    const index = cells.findIndex((c) => c === cell);
+    const slot = index === -1 ? undefined : plan.attackStartingUnit.slots[index];
+    const tactical = attackSlotTacticalPosition(cell);
+    const label = tactical ? tactical.label : slot ? matchPlanPositionLabel(slot.position) : "Position";
+    return { key: selectedKey, label, playerId: slot?.playerId ?? "", isGoalkeeperSlot: false };
   }
-  if (selectedKey === "GK") return assignDefenceGoalkeeper(prev, playerId);
-  return assignDefenceCourtSlot(prev, Number(selectedKey), playerId);
+
+  const cells = resolveDefenceSlotCells(defenceFormation, plan.defenceStartingUnit.courtSlots);
+  const index = cells.findIndex((c) => c === cell);
+  const slot = index === -1 ? undefined : plan.defenceStartingUnit.courtSlots[index];
+  const tactical = defenceSlotTacticalPosition(defenceFormation, slot?.courtSlot ?? -1);
+  const label = tactical ? tactical.label : slot ? defenceCourtSlotLabel(slot.courtSlot) : "Position";
+  return { key: selectedKey, label, playerId: slot?.playerId ?? "", isGoalkeeperSlot: false };
 }
 
 const selectStyle = { background: "var(--hm-surface-2)", border: "1px solid var(--hm-border)", borderRadius: "var(--hm-radius-sm)", color: "var(--hm-text-primary)", padding: "7px 10px", fontSize: "var(--hm-text-xs)", flex: 1 };

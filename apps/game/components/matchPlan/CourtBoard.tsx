@@ -41,15 +41,25 @@ export interface CourtChip {
   isLiveActive?: boolean;
 }
 
+/** HM-COURT-GRID-0.3 Part H: an approved calibrated snap cell with no player currently on it -- rendered as a subtle affordance ("there's another legal position here"), not a full chip. Still a valid drop target (Part F: board player -> empty cell = move). */
+export interface CourtGhostCell {
+  key: string;
+  xPct: number;
+  yPct: number;
+}
+
 export default function CourtBoard({
   scene,
   chips,
+  ghostCells,
   selectedKey,
   onSelectChip,
   onDropOnSlot,
 }: {
   scene: TacticsBoardScene;
   chips: readonly CourtChip[];
+  /** Part H: subtle empty-but-legal snap cells, rendered underneath the chips. */
+  ghostCells?: readonly CourtGhostCell[];
   selectedKey: string | null;
   onSelectChip: (key: string) => void;
   /** Part E/F: fires on a completed drag/drop -- `targetKey` is the slot dropped onto, `draggedPlayerId` is whoever was dragged (from another slot, or from the MatchSquad bench). Omit to make the board click-only. */
@@ -106,6 +116,33 @@ export default function CourtBoard({
     >
       <MasterCourtDisplay scene={scene} />
       <div style={{ position: "absolute", inset: 0 }}>
+        {(ghostCells ?? []).map((ghost) => {
+          const dragTarget = ghost.key === dragOverKey;
+          return (
+            <button
+              key={ghost.key}
+              type="button"
+              aria-label="Ledig godkänd position"
+              style={{
+                position: "absolute",
+                left: `${ghost.xPct}%`,
+                top: `${ghost.yPct}%`,
+                transform: `translate(-50%, -50%) scale(${dragTarget ? 1.3 : 1})`,
+                width: dragTarget ? 14 : 9,
+                height: dragTarget ? 14 : 9,
+                borderRadius: "50%",
+                border: dragTarget ? "2px solid var(--hm-accent)" : "1px dashed rgba(226, 245, 238, 0.45)",
+                background: dragTarget ? "rgba(255,255,255,0.18)" : "rgba(226, 245, 238, 0.08)",
+                padding: 0,
+                cursor: "default",
+                transition: "transform 100ms ease",
+              }}
+              onDragOver={(e) => handleDragOver(e, ghost.key)}
+              onDragLeave={() => handleDragLeave(ghost.key)}
+              onDrop={(e) => handleDrop(e, ghost.key)}
+            />
+          );
+        })}
         {chips.map((chip) => {
           const selected = chip.key === selectedKey;
           const dragTarget = chip.key === dragOverKey;

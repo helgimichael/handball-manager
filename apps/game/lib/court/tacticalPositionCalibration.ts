@@ -29,6 +29,14 @@ export interface PositionCalibration {
    * collapsed to an average or an arbitrarily chosen single cell.
    */
   acceptedCells: readonly number[];
+  /**
+   * HM-COURT-GRID-0.3 Part N: the ONE cell an old MatchPlan (saved
+   * before cellNumber existed, or any slot otherwise missing one)
+   * deterministically migrates to for this position -- always one of
+   * `acceptedCells`, never invented. Defaults to `acceptedCells[0]`
+   * when not explicitly set.
+   */
+  preferredCell?: number;
 }
 
 export type AttackPositionCalibration = PositionCalibration;
@@ -45,18 +53,50 @@ export interface DefenceFormationCalibration {
 /** Either the single attack context, or one named defence formation -- the "tactical context" every lookup in this module is scoped by. */
 export type CalibrationContext = "ATTACK" | DefenceFormationId;
 
-// -- Part B: ATTACK -- TOP SIDE (rows 1-7, per courtGrid.ts's own
-// "row 1 = top goal" convention -- consistent with this milestone's
-// "attack at top, defence at bottom" orientation, no remapping done).
+// -- Part B (HM-COURT-GRID-0.2) + Part B (HM-COURT-GRID-0.3 refinement,
+// approved and folded in directly) -- ATTACK, TOP SIDE (rows 1-7 area,
+// per courtGrid.ts's own "row 1 = top goal" convention -- consistent
+// with this milestone's "attack at top, defence at bottom" orientation,
+// no remapping done).
+//
+// LEFT_M9 / M9 / RIGHT_M9 are DISTINCT tactical positions -- never
+// collapsed into one generic "M9" role (0.3 Part B/J/I). All three
+// still report the SAME engine-facing Position ("M9", see
+// ATTACK_TACTICAL_TO_ENGINE_POSITION below) so Match Engine inputs keep
+// their exact prior meaning (0.3 Part V/T#27) -- only the finer-grained
+// on-board CELL distinguishes them, enabling custom shapes like
+// 3x9M+1xM6, 2x9M+2xM6, 4x9M or no-M6 structures (0.3 Part I) without
+// any new Match Engine vocabulary.
 export const ATTACK_POSITION_CALIBRATION: readonly AttackPositionCalibration[] = Object.freeze([
   { id: "V6", label: "Vänstersexa", acceptedCells: [1] },
   { id: "H6", label: "Högersexa", acceptedCells: [10] },
-  { id: "V9", label: "Vänsternia", acceptedCells: [51] },
-  { id: "H9", label: "Högernia", acceptedCells: [60] },
+  { id: "V9", label: "Vänsternia", acceptedCells: [41, 51, 52], preferredCell: 51 },
+  { id: "H9", label: "Högernia", acceptedCells: [50, 59, 60], preferredCell: 60 },
   { id: "M6_LEFT", label: "M6 vänster", acceptedCells: [34] },
   { id: "M6_RIGHT", label: "M6 höger", acceptedCells: [37] },
-  { id: "M9", label: "Mittnia", acceptedCells: [65, 66] },
+  { id: "LEFT_M9", label: "Vänster M9", acceptedCells: [64] },
+  { id: "M9", label: "M9 / Mittnia", acceptedCells: [65, 66], preferredCell: 65 },
+  { id: "RIGHT_M9", label: "Höger M9", acceptedCells: [67] },
 ]);
+
+/**
+ * HM-COURT-GRID-0.3 Part D/E/J: the engine-facing `Position` each
+ * attack tactical position resolves to -- the ONLY thing Match Engine
+ * ever reads. LEFT_M9/M9/RIGHT_M9 all resolve to "M9"; M6_LEFT/
+ * M6_RIGHT both resolve to "M6" -- Match Engine inputs keep their exact
+ * prior meaning (Part T#27), only the board's own cell identity is new.
+ */
+export const ATTACK_TACTICAL_TO_ENGINE_POSITION: Readonly<Record<string, "GK" | "V6" | "V9" | "M9" | "H9" | "H6" | "M6">> = Object.freeze({
+  V6: "V6",
+  H6: "H6",
+  V9: "V9",
+  H9: "H9",
+  M6_LEFT: "M6",
+  M6_RIGHT: "M6",
+  LEFT_M9: "M9",
+  M9: "M9",
+  RIGHT_M9: "M9",
+});
 
 // -- Part B: DEFENCE -- BOTTOM SIDE, one calibration per named
 // formation. Encoded exactly as supplied; CH/Center labels kept as
@@ -170,4 +210,54 @@ export function allCalibratedCells(): readonly number[] {
 
 export function isValidCanonicalCell(cell: number): boolean {
   return Number.isInteger(cell) && cell >= 1 && cell <= COURT_GRID_DEFINITION.rows * COURT_GRID_DEFINITION.columns;
+}
+
+/** The single deterministic default cell for a position (Part N migration target) -- `preferredCell` if set, else the first accepted cell. Always one of `acceptedCells`. */
+export function preferredCellForPosition(context: CalibrationContext, positionId: string): number | null {
+  const position = positionsForContext(context).find((p) => p.id === positionId);
+  if (!position) return null;
+  return position.preferredCell ?? position.acceptedCells[0] ?? null;
+}
+
+/** ATTACK-only convenience: the single tactical position calibrated to accept this cell, or null if the cell isn't part of the attack calibration. Safe because attack positions never share a cell (asserted by tests). */
+export function attackTacticalPositionForCell(cell: number): AttackPositionCalibration | null {
+  return getPositionsForCell("ATTACK", cell)[0] ?? null;
+}
+
+/**
+ * HM-COURT-GRID-0.3 Part K/L: `DefenceUnitSlot.courtSlot` (1-6) stays
+ * the engine-facing, formation-agnostic identity it always was (see
+ * matchPlan/types.ts's own doc) -- this derives a STABLE courtSlot
+ * number for each of a formation's 6 calibrated positions by sorting
+ * them left-to-right (ascending column, using each position's
+ * preferred cell), so courtSlot assignment is deterministic and never
+ * hand-maintained per formation. For 6:0 this reproduces the existing
+ * DEFENCE_COURT_SLOT_LABELS_SV numbering exactly (V1=1, V2=2, V3=3,
+ * H3=4, H2=5, H1=6) by construction, since that numbering was itself
+ * already a left-to-right convention.
+ */
+function courtSlotOrderedPositions(formation: DefenceFormationId): readonly PositionCalibration[] {
+  const positions = DEFENCE_FORMATION_CALIBRATIONS[formation].positions;
+  return [...positions].sort((a, b) => {
+    const cellA = a.preferredCell ?? a.acceptedCells[0] ?? 0;
+    const cellB = b.preferredCell ?? b.acceptedCells[0] ?? 0;
+    const colA = ((cellA - 1) % COURT_GRID_DEFINITION.columns) + 1;
+    const colB = ((cellB - 1) % COURT_GRID_DEFINITION.columns) + 1;
+    return colA - colB;
+  });
+}
+
+export function defenceCourtSlotForPosition(formation: DefenceFormationId, positionId: string): number | null {
+  const ordered = courtSlotOrderedPositions(formation);
+  const index = ordered.findIndex((p) => p.id === positionId);
+  return index === -1 ? null : index + 1;
+}
+
+export function defencePositionForCourtSlot(formation: DefenceFormationId, courtSlot: number): PositionCalibration | null {
+  return courtSlotOrderedPositions(formation)[courtSlot - 1] ?? null;
+}
+
+/** DEFENCE-only convenience: the calibrated position accepting this cell within a formation, or null. */
+export function defenceTacticalPositionForCell(formation: DefenceFormationId, cell: number): PositionCalibration | null {
+  return getPositionsForCell(formation, cell)[0] ?? null;
 }
