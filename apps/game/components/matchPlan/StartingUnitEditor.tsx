@@ -16,11 +16,11 @@ import { defenceCourtSlotLabel, matchPlanPositionLabel } from "@/lib/matchPlan/m
 import { assignAttackGoalkeeper, assignDefenceGoalkeeper, type OnMatchPlanChange } from "@/lib/matchPlan/matchPlanEdits";
 import { assignAttackCellPosition, attackSlotTacticalPosition, resolveAttackSlotCells } from "@/lib/matchPlan/attackBoard";
 import { assignDefenceCellPosition, defenceSlotTacticalPosition, resolveDefenceSlotCells } from "@/lib/matchPlan/defenceBoard";
-import { attackCellToPct, ATTACK_GK_ANCHOR_PCT, defenceCellToPct, DEFENCE_GK_ANCHOR_PCT } from "@/lib/court/boardGeometry";
+import { cellToFullCourtPct, ATTACK_GK_ANCHOR_PCT, DEFENCE_GK_ANCHOR_PCT } from "@/lib/court/boardGeometry";
 import { getAttackPositionCalibration, getDefenceFormationCalibration, type DefenceFormationId } from "@/lib/court/tacticalPositionCalibration";
 import type { MatchPlan } from "@/lib/matchPlan/types";
 import type { SelectablePlayer } from "@/lib/matchPlan/careerSquadBridge";
-import { buildAttackScene, buildDefenceScene, DEFENCE_FORMATION_OPTIONS, inferDefenceFormation } from "./courtScene";
+import { DEFENCE_FORMATION_OPTIONS, FULL_COURT_SCENE, inferDefenceFormation } from "./courtScene";
 import CourtBoard, { type CourtChip, type CourtGhostCell } from "./CourtBoard";
 
 export type CourtPhase = "ATTACK" | "DEFENCE";
@@ -58,7 +58,6 @@ export default function StartingUnitEditor({
   const goalkeepers = plan.squad.players.filter((p) => p.position === "GK");
   const outcourt = plan.squad.players.filter((p) => p.position !== "GK");
 
-  const scene = phase === "ATTACK" ? buildAttackScene(plan.attackStartingUnit.formation) : buildDefenceScene(plan.defencePlan.baseFormation);
   const defenceFormation: DefenceFormationId = inferDefenceFormation(plan.defencePlan.baseFormation);
 
   const chips: CourtChip[] = [];
@@ -75,7 +74,7 @@ export default function StartingUnitEditor({
       }
       occupied.add(cell);
       const tactical = attackSlotTacticalPosition(cell);
-      const pct = attackCellToPct(cell);
+      const pct = cellToFullCourtPct(cell);
       const shortLabel = tactical ? (ATTACK_SHORT_LABEL[tactical.id] ?? tactical.id) : slot.position;
       chips.push({ key: String(cell), xPct: pct.xPct, yPct: pct.yPct, shortLabel, playerName: nameOf(slot.playerId), playerId: slot.playerId });
     });
@@ -83,7 +82,7 @@ export default function StartingUnitEditor({
     for (const position of getAttackPositionCalibration()) {
       for (const cell of position.acceptedCells) {
         if (occupied.has(cell)) continue;
-        const pct = attackCellToPct(cell);
+        const pct = cellToFullCourtPct(cell);
         ghostCells.push({ key: String(cell), xPct: pct.xPct, yPct: pct.yPct });
       }
     }
@@ -98,13 +97,13 @@ export default function StartingUnitEditor({
       if (cell === null) return;
       occupied.add(cell);
       const tactical = defenceSlotTacticalPosition(defenceFormation, slot.courtSlot);
-      const pct = defenceCellToPct(cell);
+      const pct = cellToFullCourtPct(cell);
       chips.push({ key: String(cell), xPct: pct.xPct, yPct: pct.yPct, shortLabel: tactical?.label ?? defenceCourtSlotLabel(slot.courtSlot), playerName: nameOf(slot.playerId), playerId: slot.playerId });
     });
     for (const position of getDefenceFormationCalibration(defenceFormation).positions) {
       for (const cell of position.acceptedCells) {
         if (occupied.has(cell)) continue;
-        const pct = defenceCellToPct(cell);
+        const pct = cellToFullCourtPct(cell);
         ghostCells.push({ key: String(cell), xPct: pct.xPct, yPct: pct.yPct });
       }
     }
@@ -143,7 +142,7 @@ export default function StartingUnitEditor({
       </div>
 
       <div className="hm-panel-body" style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-        <CourtBoard scene={scene} chips={chips} ghostCells={ghostCells} selectedKey={selectedKey} onSelectChip={setSelectedKey} onDropOnSlot={applyDrop} />
+        <CourtBoard scene={FULL_COURT_SCENE} chips={chips} ghostCells={ghostCells} selectedKey={selectedKey} onSelectChip={setSelectedKey} onDropOnSlot={applyDrop} />
 
         {phase === "DEFENCE" ? (
           <label style={{ display: "flex", flexDirection: "column", gap: 4, fontSize: "var(--hm-text-2xs)" }}>

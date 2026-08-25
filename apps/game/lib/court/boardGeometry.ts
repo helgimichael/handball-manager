@@ -1,32 +1,28 @@
-// HM-COURT-GRID-0.3 Part D: derives the real Tactics board's on-screen
-// chip position DIRECTLY from a canonical grid cell -- cellNumber ->
-// row/column -> cell center -> rendered percentage. No hard-coded x/y
-// percentages (the old attackZones.ts/courtLayout.ts model this
-// replaces for the live board).
+// HM-COURT-GRID-0.3.1 Part B/O: the ONE canonical court projection --
+// cellNumber -> row/column -> cell center -> FULL_COURT render
+// percentage. This is the EXACT SAME formula
+// components/court/CourtGridOverlay.tsx (the /editor/court-grid
+// calibration view) already used privately as its own `metersToPct` --
+// extracted here so the real Tactics board and the calibration editor
+// share one projection function, never two independently-maintained
+// copies (Part O: "the calibration editor and the real Tactics
+// workspace must not interpret the same cell differently").
 //
-// The attack calibration lives on the court's TOP side (rows ~1-9, y
-// 0-18m) and defence on the BOTTOM side (rows ~15-19, y 28-38m) -- see
-// tacticalPositionCalibration.ts. Each phase is still rendered as its
-// own HALF_COURT (20x20m) board, exactly as the pre-existing Tactics
-// workspace already does (courtScene.ts's buildAttackScene/
-// buildDefenceScene both use courtView:"HALF_COURT", and FIELD's own
-// HALF_COURT viewport is documented to show "the TOP goal" of whichever
-// scene it's given -- i.e. each phase's OWN goal is always drawn at the
-// top of ITS OWN half-court panel). To match that real MasterCourt
-// rendering pixel-for-pixel (Part D: never hard-code independently):
-//   - ATTACK: cell meters map straight onto the panel (own goal is at
-//     y=0 in the full 40m grid, which is already "top" -- no offset).
-//   - DEFENCE: cell meters are measured from the BOTTOM of the full
-//     40m grid (the defence goal is at y=40), so `40 - yMeters` puts
-//     the defence goal at local y=0 ("top of the defence panel"),
-//     matching the same "own goal at top" convention FIELD uses for
-//     every HALF_COURT scene.
-// This is a deliberate visual change from the OLD chip layer
-// (courtLayout.ts's `metersToPct`), which artificially Y-flipped so a
-// team's own goal appeared near the BOTTOM of the panel -- a
-// pre-existing mismatch with FIELD's actual "goal at top" HALF_COURT
-// rendering that this milestone's move to authoritative grid cells
-// naturally corrects as a side effect.
+// HM-COURT-GRID-0.3.1 root cause (Part A, confirmed via inspection of
+// MasterCourt.tsx): the SVG's own `preserveAspectRatio="xMidYMid meet"`
+// letterboxes whenever its wrapper's rendered aspect ratio doesn't
+// exactly match the scene's viewBox ratio. HM-COURT-GRID-0.3's board
+// used a fixed pixel HEIGHT with a fluid, unconstrained WIDTH -- almost
+// never exactly 1:1 (its old HALF_COURT viewBox) or 1:2 (FULL_COURT) --
+// so MasterCourt rendered inside a centered, narrower sub-rectangle of
+// the wrapper while this module's percentages were computed against the
+// FULL wrapper box, not that letterboxed sub-rect. Cells near the edges
+// (column 1/10, row 1/20) therefore projected outside the visually
+// rendered court. The fix lives in CourtBoard.tsx's own wrapper (locks
+// the wrapper's rendered aspect ratio to exactly match FULL_COURT's
+// 20:40, eliminating letterboxing entirely, the same technique already
+// proven correct in the calibration editor's own wrapper) -- this
+// module's projection math itself was never the bug.
 import { cellCenter, COURT_GRID_DEFINITION } from "./courtGrid";
 
 export interface BoardPct {
@@ -34,19 +30,25 @@ export interface BoardPct {
   yPct: number;
 }
 
-const HALF_COURT_METERS = COURT_GRID_DEFINITION.courtWidthMeters; // 20 -- both axes of a HALF_COURT panel span this many meters
-
-export function attackCellToPct(cellNumber: number): BoardPct {
-  const { row, column } = rowColumnOf(cellNumber);
-  const center = cellCenter(row, column);
-  return { xPct: (center.xMeters / HALF_COURT_METERS) * 100, yPct: (center.yMeters / HALF_COURT_METERS) * 100 };
+/**
+ * The core primitive every other projection in this codebase (the real
+ * Tactics board AND the /editor/court-grid calibration overlay, which
+ * needs raw meters for its cell BOUNDS, not just centers) shares --
+ * straight, non-flipped meters-to-percent over the full 40m x 20m
+ * court. Deterministic, viewport-independent (Part M#5/#18).
+ */
+export function metersToFullCourtPct(xMeters: number, yMeters: number): BoardPct {
+  return {
+    xPct: (xMeters / COURT_GRID_DEFINITION.courtWidthMeters) * 100,
+    yPct: (yMeters / COURT_GRID_DEFINITION.courtLengthMeters) * 100,
+  };
 }
 
-export function defenceCellToPct(cellNumber: number): BoardPct {
+/** The one canonical projection for a CELL: cell center, as a percentage of the FULL 40m x 20m court. */
+export function cellToFullCourtPct(cellNumber: number): BoardPct {
   const { row, column } = rowColumnOf(cellNumber);
   const center = cellCenter(row, column);
-  const localY = COURT_GRID_DEFINITION.courtLengthMeters - center.yMeters;
-  return { xPct: (center.xMeters / HALF_COURT_METERS) * 100, yPct: (localY / HALF_COURT_METERS) * 100 };
+  return metersToFullCourtPct(center.xMeters, center.yMeters);
 }
 
 function rowColumnOf(cellNumber: number): { row: number; column: number } {
@@ -59,10 +61,10 @@ function rowColumnOf(cellNumber: number): { row: number; column: number } {
  * Fixed anchors for the goalkeeper, who is explicitly OUT of calibration
  * scope this milestone (tacticalPositionCalibration.ts Part C: "If
  * goalkeeper later needs calibration, that is a separate user-calibrated
- * addition. Do not guess it now."). Each phase's own goal sits at local
- * y=0 (see module doc), so a GK anchored just in front of it at a small
- * positive y reads correctly on both boards without inventing a
- * calibrated cell.
+ * addition. Do not guess it now."). On the full 40m court, attack's own
+ * goal sits at y=0 (top) and defence's own goal at y=40 (bottom) -- see
+ * courtGrid.ts's own orientation doc -- so each anchor sits just in
+ * front of its own goal.
  */
-export const ATTACK_GK_ANCHOR_PCT: BoardPct = { xPct: 50, yPct: 4 };
-export const DEFENCE_GK_ANCHOR_PCT: BoardPct = { xPct: 50, yPct: 4 };
+export const ATTACK_GK_ANCHOR_PCT: BoardPct = { xPct: 50, yPct: 2 };
+export const DEFENCE_GK_ANCHOR_PCT: BoardPct = { xPct: 50, yPct: 98 };

@@ -16,15 +16,15 @@
 // guesses, or corrects a position, and it never touches attackZones.ts /
 // courtLayout.ts / StartingUnitEditor / MatchPlan.
 import { useState } from "react";
-import { allGridCells, cellBounds, cellCenter, COURT_GRID_DEFINITION, type GridCell } from "@/lib/court/courtGrid";
+import { allGridCells, cellBounds, cellCenter, type GridCell } from "@/lib/court/courtGrid";
 import { getPositionsForCell, type CalibrationContext, type PositionCalibration } from "@/lib/court/tacticalPositionCalibration";
+import { metersToFullCourtPct as metersToPct } from "@/lib/court/boardGeometry";
 
-function metersToPct(xMeters: number, yMeters: number): { xPct: number; yPct: number } {
-  return {
-    xPct: (xMeters / COURT_GRID_DEFINITION.courtWidthMeters) * 100,
-    yPct: (yMeters / COURT_GRID_DEFINITION.courtLengthMeters) * 100,
-  };
-}
+// HM-COURT-GRID-0.3.1 Part B/O: reuses the SAME canonical projection the
+// real Tactics board now uses (lib/court/boardGeometry.ts) instead of a
+// private local copy -- one projection, shared by the calibration
+// editor and the real board, never two independently-maintained
+// formulas that could silently drift apart.
 
 export default function CourtGridOverlay({
   showGrid,

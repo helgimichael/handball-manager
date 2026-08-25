@@ -93,7 +93,23 @@ export default function CourtBoard({
       className="hm-court-backdrop"
       style={{
         position: "relative",
-        height: 520,
+        // HM-COURT-GRID-0.3.1 Part A/K (root cause): MasterCourt's own
+        // <svg> uses preserveAspectRatio="xMidYMid meet", which
+        // letterboxes whenever this wrapper's REAL rendered aspect
+        // ratio doesn't exactly match the scene's viewBox ratio (20:40
+        // for FULL_COURT). The previous fixed-height/fluid-width
+        // wrapper almost never matched exactly, so MasterCourt rendered
+        // inside a centered, narrower sub-rectangle while chip percent
+        // positions were computed against the FULL wrapper box --
+        // pushing edge cells (column 1/10, row 1/20) outside the
+        // visually rendered court. Locking width+aspect-ratio together
+        // (same technique already proven correct in the
+        // /editor/court-grid calibration view) makes the wrapper's own
+        // box exactly 20:40, so MasterCourt fills it edge-to-edge with
+        // zero letterboxing, and chip percentages align perfectly.
+        width: "min(360px, 40vh)",
+        aspectRatio: "20 / 40",
+        margin: "0 auto",
         borderRadius: "var(--hm-radius-sm)",
         overflow: "hidden",
         // HM-MATCH-1.3B2 Part 9 (root cause, confirmed via computed

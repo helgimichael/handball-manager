@@ -1,43 +1,105 @@
-// HM-COURT-GRID-0.3 Part T#1/2: proves board coordinates derive purely
-// from canonical grid cells (row/column/cell-center), not any
-// independently hard-coded x/y percentage.
+// HM-COURT-GRID-0.3.1 Part M: proves the ONE canonical full-court
+// projection (cellNumber -> row/column -> cell center -> percentage)
+// keeps every calibrated cell, including the edges, inside the visible
+// court -- the exact regression this milestone exists to fix.
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { attackCellToPct, defenceCellToPct } from "./boardGeometry";
-import { cellCenter, COURT_GRID_DEFINITION, rowColumnFromCellNumber } from "./courtGrid";
+import { cellToFullCourtPct, metersToFullCourtPct } from "./boardGeometry";
+import { cellCenter, rowColumnFromCellNumber } from "./courtGrid";
+import { attackTacticalPositionForCell, defenceTacticalPositionForCell } from "./tacticalPositionCalibration";
 
-test("HM-COURT-GRID-0.3 (1): attackCellToPct is a pure function of the cell's own canonical row/column center -- V6 (cell 1) matches cellCenter(1,1) directly", () => {
-  const { row, column } = rowColumnFromCellNumber(1);
-  const center = cellCenter(row, column);
-  const pct = attackCellToPct(1);
-  assert.equal(pct.xPct, (center.xMeters / COURT_GRID_DEFINITION.courtWidthMeters) * 100);
-  assert.equal(pct.yPct, (center.yMeters / COURT_GRID_DEFINITION.courtWidthMeters) * 100);
-});
+function assertInsideCourt(pct: { xPct: number; yPct: number }, label: string) {
+  assert.ok(pct.xPct >= 0 && pct.xPct <= 100, `${label}: xPct ${pct.xPct} must be within [0,100]`);
+  assert.ok(pct.yPct >= 0 && pct.yPct <= 100, `${label}: yPct ${pct.yPct} must be within [0,100]`);
+}
 
-test("HM-COURT-GRID-0.3: attack cells stay within the 0-100% panel range for every calibrated cell (rows 1-9 fit inside the 20m half-court panel)", () => {
-  for (const cell of [1, 10, 34, 37, 41, 50, 51, 52, 59, 60, 64, 65, 66, 67]) {
-    const pct = attackCellToPct(cell);
-    assert.ok(pct.xPct >= 0 && pct.xPct <= 100);
-    assert.ok(pct.yPct >= 0 && pct.yPct <= 100);
+// (1)-(4): edge cells stay inside the visible full court.
+test("HM-COURT-GRID-0.3.1 (1): cell 1 center is inside FULL_COURT", () => assertInsideCourt(cellToFullCourtPct(1), "cell 1"));
+test("HM-COURT-GRID-0.3.1 (2): cell 10 center is inside FULL_COURT", () => assertInsideCourt(cellToFullCourtPct(10), "cell 10"));
+test("HM-COURT-GRID-0.3.1 (3): cell 191 center is inside FULL_COURT", () => assertInsideCourt(cellToFullCourtPct(191), "cell 191"));
+test("HM-COURT-GRID-0.3.1 (4): cell 200 center is inside FULL_COURT", () => assertInsideCourt(cellToFullCourtPct(200), "cell 200"));
+
+test("HM-COURT-GRID-0.3.1: every one of the 200 canonical cells projects inside the visible court, not just the 4 named edge cells", () => {
+  for (let cell = 1; cell <= 200; cell++) {
+    assertInsideCourt(cellToFullCourtPct(cell), `cell ${cell}`);
   }
 });
 
-test("HM-COURT-GRID-0.3: defenceCellToPct puts the defence goal (high y-meters, e.g. row 19/cell 190) near the TOP of its own panel (low yPct) -- matching FIELD's own 'goal at top' HALF_COURT convention", () => {
-  const nearGoal = defenceCellToPct(190); // H1, row 19
-  const fartherFromGoal = defenceCellToPct(153); // VHB (3:2:1), row 13 -- notably shallower than row 19
-  assert.ok(nearGoal.yPct < fartherFromGoal.yPct, "a cell deeper in the defence's own half (closer to its own goal) must render nearer the top of the panel than a shallower one");
+// (5) deterministic.
+test("HM-COURT-GRID-0.3.1 (5): cell center projection is deterministic", () => {
+  assert.deepEqual(cellToFullCourtPct(137), cellToFullCourtPct(137));
 });
 
-test("HM-COURT-GRID-0.3: attackCellToPct and defenceCellToPct never hard-code an x position independently -- x only ever comes from the cell's own column", () => {
-  const attack = attackCellToPct(1); // column 1
-  const defence = defenceCellToPct(181); // column 1 (V1, 6:0)
-  assert.equal(attack.xPct, defence.xPct, "the same column must always produce the same xPct regardless of phase");
+// (6)-(12): attack positions project from their calibrated cells.
+test("HM-COURT-GRID-0.3.1 (6): attack V6 projects from cell 1", () => {
+  assert.equal(attackTacticalPositionForCell(1)!.id, "V6");
+  const { row, column } = rowColumnFromCellNumber(1);
+  const center = cellCenter(row, column);
+  assert.deepEqual(cellToFullCourtPct(1), metersToFullCourtPct(center.xMeters, center.yMeters));
+});
+test("HM-COURT-GRID-0.3.1 (7): attack H6 projects from cell 10", () => {
+  assert.equal(attackTacticalPositionForCell(10)!.id, "H6");
+});
+test("HM-COURT-GRID-0.3.1 (8): V9's accepted alternatives (41/51/52) all project correctly and distinctly", () => {
+  const cells = [41, 51, 52];
+  for (const c of cells) assert.equal(attackTacticalPositionForCell(c)!.id, "V9");
+  const pcts = cells.map((c) => cellToFullCourtPct(c));
+  assert.equal(new Set(pcts.map((p) => `${p.xPct},${p.yPct}`)).size, 3, "all three V9 cells must project to distinct positions");
+});
+test("HM-COURT-GRID-0.3.1 (9): H9's accepted alternatives (50/59/60) all project correctly and distinctly", () => {
+  const cells = [50, 59, 60];
+  for (const c of cells) assert.equal(attackTacticalPositionForCell(c)!.id, "H9");
+  const pcts = cells.map((c) => cellToFullCourtPct(c));
+  assert.equal(new Set(pcts.map((p) => `${p.xPct},${p.yPct}`)).size, 3);
+});
+test("HM-COURT-GRID-0.3.1 (10): M9 (65/66) project correctly", () => {
+  assert.equal(attackTacticalPositionForCell(65)!.id, "M9");
+  assert.equal(attackTacticalPositionForCell(66)!.id, "M9");
+});
+test("HM-COURT-GRID-0.3.1 (11): M9-left (64) projects correctly", () => {
+  assert.equal(attackTacticalPositionForCell(64)!.id, "LEFT_M9");
+});
+test("HM-COURT-GRID-0.3.1 (12): M9-right (67) projects correctly", () => {
+  assert.equal(attackTacticalPositionForCell(67)!.id, "RIGHT_M9");
 });
 
-test("HM-COURT-GRID-0.3: no legacy attack x/y coordinate table is consulted -- deriving two cells known to differ from the OLD hard-coded ATTACK_NORMAL_LAYOUT values proves independence", () => {
-  // Old V9 was hard-coded near xPct~96/yPct~58 (courtLayout.ts,
-  // pre-0.3); the new calibrated V9 cell (51) derives a materially
-  // different position purely from grid math, proving no shared table.
-  const pct = attackCellToPct(51);
-  assert.notEqual(Math.round(pct.xPct), 96);
+// (13)-(17): every defence formation uses its own calibrated cells.
+test("HM-COURT-GRID-0.3.1 (13): defence 6:0 uses calibrated cells", () => {
+  for (const cell of [181, 190, 163, 168, 165, 166]) assert.ok(defenceTacticalPositionForCell("6-0", cell) !== null);
+});
+test("HM-COURT-GRID-0.3.1 (14): defence 5:1 uses calibrated cells", () => {
+  for (const cell of [181, 190, 163, 168, 165, 145]) assert.ok(defenceTacticalPositionForCell("5-1", cell) !== null);
+});
+test("HM-COURT-GRID-0.3.1 (15): defence 3:2:1 uses calibrated cells", () => {
+  for (const cell of [181, 190, 153, 158, 165, 145]) assert.ok(defenceTacticalPositionForCell("3-2-1", cell) !== null);
+});
+test("HM-COURT-GRID-0.3.1 (16): defence 3:3 uses calibrated cells", () => {
+  for (const cell of [172, 179, 165, 152, 159, 145]) assert.ok(defenceTacticalPositionForCell("3-3", cell) !== null);
+});
+test("HM-COURT-GRID-0.3.1 (17): defence 4:2 uses calibrated cells", () => {
+  for (const cell of [172, 179, 163, 168, 144, 147]) assert.ok(defenceTacticalPositionForCell("4-2", cell) !== null);
+});
+
+test("HM-COURT-GRID-0.3.1: every calibrated defence cell (every formation) also projects inside the visible court", () => {
+  for (const formation of ["6-0", "5-1", "3-2-1", "3-3", "4-2"] as const) {
+    for (const cell of [181, 190, 163, 168, 172, 179, 144, 147, 153, 158, 152, 159, 165, 166, 145, 146]) {
+      if (!defenceTacticalPositionForCell(formation, cell)) continue;
+      assertInsideCourt(cellToFullCourtPct(cell), `${formation} cell ${cell}`);
+    }
+  }
+});
+
+// (18): projection does not depend on viewport pixel size -- pure meters/percent math, no DOM.
+test("HM-COURT-GRID-0.3.1 (18): projection is pure meters-to-percent math with no viewport/pixel dependency", () => {
+  const a = cellToFullCourtPct(65);
+  const b = cellToFullCourtPct(65);
+  assert.deepEqual(a, b);
+  assert.equal(typeof a.xPct, "number");
+  assert.equal(typeof a.yPct, "number");
+});
+
+test("HM-COURT-GRID-0.3.1: xPct only ever derives from column, never row -- proves x/y are independently sourced from the cell's own coordinates", () => {
+  const cellsInColumn1 = [1, 11, 21, 191];
+  const xs = cellsInColumn1.map((c) => cellToFullCourtPct(c).xPct);
+  assert.ok(xs.every((x) => x === xs[0]), "every column-1 cell must share the exact same xPct");
 });

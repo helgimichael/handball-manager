@@ -66,3 +66,20 @@ export function buildDefenceScene(baseFormation: string) {
   const objects = formation.objects.map((o, i) => createBoardObject({ id: `defence-${i}`, type: o.type, position: o.position, rotation: o.rotation }));
   return createInitialScene({ courtView: "HALF_COURT", objects });
 }
+
+/**
+ * HM-COURT-GRID-0.3.1 Part C/F/O: the ONE scene the real Tactics board
+ * now renders, for both ANFALL and FÖRSVAR -- FULL_COURT (the same
+ * viewport /editor/court-grid uses) with NO FIELD-native board objects.
+ * `buildAttackScene`/`buildDefenceScene` above (FIELD's own "attack-6"/
+ * "defence-N" formation markers -- the red-triangle/blue-dot shapes
+ * Part F asked to remove) are left in place, still exercised by their
+ * own existing tests, but are no longer called from the live board:
+ * this app's OWN CourtChip overlay (StartingUnitEditor.tsx, positioned
+ * via the canonical grid) is the sole player-representation layer now,
+ * exactly matching the pattern the calibration editor already
+ * established (createInitialScene({courtView:"FULL_COURT", objects:[]})).
+ * A single frozen instance -- the scene never varies by formation or
+ * phase, since it carries no player markers of its own.
+ */
+export const FULL_COURT_SCENE = createInitialScene({ courtView: "FULL_COURT", objects: [] });
