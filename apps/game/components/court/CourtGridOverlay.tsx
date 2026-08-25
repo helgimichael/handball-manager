@@ -1,17 +1,23 @@
 "use client";
 
-// HM-COURT-GRID-0.1 Part F/G: a pure visual overlay of the canonical
-// 20x10 grid (lib/court/courtGrid.ts) on top of a FULL_COURT
-// MasterCourtDisplay. Deliberately uses a STRAIGHT (non-flipped)
-// meters-to-percent conversion -- unlike courtLayout.ts's half-court chip
-// layer, which deliberately Y-flips for its own "goal near panel bottom"
-// convention -- so this grid lands pixel-for-pixel on MasterCourt's own
-// rendered court lines (see courtGrid.ts's own orientation doc comment).
+// HM-COURT-GRID-0.1 Part F/G, extended in HM-COURT-GRID-0.2 Part E/F/G/H:
+// a pure visual overlay of the canonical 20x10 grid
+// (lib/court/courtGrid.ts) on top of a FULL_COURT MasterCourtDisplay,
+// optionally showing the manually supplied tactical-position calibration
+// (lib/court/tacticalPositionCalibration.ts) for ONE selected context at
+// a time. Deliberately uses a STRAIGHT (non-flipped) meters-to-percent
+// conversion -- unlike courtLayout.ts's half-court chip layer, which
+// deliberately Y-flips for its own "goal near panel bottom" convention --
+// so this grid lands pixel-for-pixel on MasterCourt's own rendered court
+// lines (see courtGrid.ts's own orientation doc comment).
 //
-// No tactical semantics here (Part J): no V6/M9/6:0/players/MatchPlan.
-// Just cell rectangles, numbers, and a hover/click inspector.
+// No NEW tactical semantics are invented here (Part C/L of 0.2): this
+// only VISUALIZES the already-encoded calibration; it never derives,
+// guesses, or corrects a position, and it never touches attackZones.ts /
+// courtLayout.ts / StartingUnitEditor / MatchPlan.
 import { useState } from "react";
 import { allGridCells, cellBounds, cellCenter, COURT_GRID_DEFINITION, type GridCell } from "@/lib/court/courtGrid";
+import { getPositionsForCell, type CalibrationContext, type PositionCalibration } from "@/lib/court/tacticalPositionCalibration";
 
 function metersToPct(xMeters: number, yMeters: number): { xPct: number; yPct: number } {
   return {
@@ -23,15 +29,26 @@ function metersToPct(xMeters: number, yMeters: number): { xPct: number; yPct: nu
 export default function CourtGridOverlay({
   showGrid,
   showNumbers,
+  calibrationContext,
+  onInspect,
 }: {
   showGrid: boolean;
   showNumbers: boolean;
+  /** Part E: null = plain GRID mode (HM-COURT-GRID-0.1 behaviour, unchanged). Non-null = overlay ONLY this context's calibrated positions. */
+  calibrationContext: CalibrationContext | null;
+  /** Lets the page-level calibration table stay in sync with whichever cell is currently inspected. */
+  onInspect?: (cell: GridCell, positions: readonly PositionCalibration[]) => void;
 }) {
   const [inspected, setInspected] = useState<GridCell | null>(null);
 
   if (!showGrid) return null;
 
   const cells = allGridCells();
+
+  function inspect(cell: GridCell) {
+    setInspected(cell);
+    onInspect?.(cell, calibrationContext ? getPositionsForCell(calibrationContext, cell.cellNumber) : []);
+  }
 
   return (
     <>
@@ -41,26 +58,33 @@ export default function CourtGridOverlay({
           const topLeft = metersToPct(bounds.minXMeters, bounds.minYMeters);
           const bottomRight = metersToPct(bounds.maxXMeters, bounds.maxYMeters);
           const isInspected = inspected?.cellNumber === cell.cellNumber;
+          const positions = calibrationContext ? getPositionsForCell(calibrationContext, cell.cellNumber) : [];
+          const isCalibrated = positions.length > 0;
           return (
             <button
               key={cell.cellId}
               type="button"
-              onMouseEnter={() => setInspected(cell)}
-              onClick={() => setInspected(cell)}
+              onMouseEnter={() => inspect(cell)}
+              onClick={() => inspect(cell)}
               style={{
                 position: "absolute",
                 left: `${topLeft.xPct}%`,
                 top: `${topLeft.yPct}%`,
                 width: `${bottomRight.xPct - topLeft.xPct}%`,
                 height: `${bottomRight.yPct - topLeft.yPct}%`,
-                border: isInspected ? "1px solid var(--hm-accent)" : "1px solid rgba(226, 245, 238, 0.18)",
-                background: isInspected ? "rgba(255,255,255,0.14)" : "transparent",
+                border: isInspected
+                  ? "1px solid var(--hm-accent)"
+                  : isCalibrated
+                    ? "1px solid rgba(255, 196, 0, 0.85)"
+                    : "1px solid rgba(226, 245, 238, 0.18)",
+                background: isInspected ? "rgba(255,255,255,0.14)" : isCalibrated ? "rgba(255, 196, 0, 0.16)" : "transparent",
                 padding: 0,
                 margin: 0,
                 cursor: "crosshair",
                 display: "flex",
+                flexDirection: "column",
                 alignItems: "flex-start",
-                justifyContent: "flex-start",
+                justifyContent: "space-between",
               }}
             >
               {showNumbers && (
@@ -74,6 +98,22 @@ export default function CourtGridOverlay({
                   }}
                 >
                   {cell.cellNumber}
+                </span>
+              )}
+              {isCalibrated && (
+                <span
+                  style={{
+                    alignSelf: "center",
+                    fontSize: 10,
+                    fontWeight: 700,
+                    lineHeight: 1,
+                    color: "#ffd54a",
+                    textShadow: "0 1px 2px rgba(0,0,0,0.6)",
+                    pointerEvents: "none",
+                    paddingBottom: 2,
+                  }}
+                >
+                  {positions.map((p) => p.id).join("/")}
                 </span>
               )}
             </button>
@@ -94,6 +134,7 @@ export default function CourtGridOverlay({
             borderRadius: "var(--hm-radius-sm)",
             lineHeight: 1.6,
             pointerEvents: "none",
+            maxWidth: 220,
           }}
         >
           <div style={{ fontWeight: 600 }}>CELL {inspected.cellNumber}</div>
@@ -112,6 +153,24 @@ export default function CourtGridOverlay({
               </>
             );
           })()}
+          {calibrationContext && (
+            <>
+              <div style={{ marginTop: 4, opacity: 0.75 }}>
+                TACTICAL CONTEXT: {calibrationContext === "ATTACK" ? "ANFALL" : calibrationContext}
+              </div>
+              {(() => {
+                const positions = getPositionsForCell(calibrationContext, inspected.cellNumber);
+                if (positions.length === 0) {
+                  return <div>POSITION: — (ingen kalibrerad position)</div>;
+                }
+                return positions.map((p) => (
+                  <div key={p.id}>
+                    POSITION: {p.label} ({p.id}) · ACCEPTED CELLS: {p.acceptedCells.join(", ")}
+                  </div>
+                ));
+              })()}
+            </>
+          )}
         </div>
       )}
     </>
