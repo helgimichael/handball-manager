@@ -37,13 +37,23 @@ import type { CourtPhase } from "./StartingUnitEditor";
 export default function MatchSquadPanel({
   plan,
   phase,
+  onPhaseChange,
   selectablePlayers,
   onChange,
   onOpenPlayerPanel,
 }: {
   plan: MatchPlan;
-  /** HM-MATCH-1.3B2 Part 6/7: whichever unit (ANFALL/FÖRSVAR) is currently displayed on the board -- PÅ PLAN always reflects exactly this unit, never a cross-phase union. */
+  /**
+   * HM-MATCH-1.3B2 Part 6/7, updated by HM-TACTICS-BOARD-1.0 Part 3:
+   * PÅ PLAN always reflects exactly ONE phase's unit at a time, never a
+   * cross-phase union -- but since the unified board now shows BOTH
+   * phases simultaneously (no board-level tab), this panel owns its own
+   * small ANFALL/FÖRSVAR toggle to pick which one PÅ PLAN currently
+   * describes. `currentUnitPlayerIds(plan, phase)` (the canonical
+   * membership function) is unchanged.
+   */
   phase: CourtPhase;
+  onPhaseChange: (phase: CourtPhase) => void;
   selectablePlayers: readonly SelectablePlayer[];
   onChange: OnMatchPlanChange;
   onOpenPlayerPanel: (playerId: string) => void;
@@ -120,6 +130,14 @@ export default function MatchSquadPanel({
             {plan.squad.players.length} / {MATCH_SQUAD_MAX_PLAYERS}
           </span>
         </div>
+        <div style={{ display: "flex", gap: 4, padding: "6px 12px 0" }}>
+          <button type="button" className="hm-btn hm-btn-sm" style={phase === "ATTACK" ? activePhaseButtonStyle : undefined} onClick={() => onPhaseChange("ATTACK")}>
+            PÅ PLAN: ANFALL
+          </button>
+          <button type="button" className="hm-btn hm-btn-sm" style={phase === "DEFENCE" ? activePhaseButtonStyle : undefined} onClick={() => onPhaseChange("DEFENCE")}>
+            PÅ PLAN: FÖRSVAR
+          </button>
+        </div>
         <div>
           <div className="hm-eyebrow" style={{ padding: "8px 12px 2px" }}>
             På plan ({onCourt.length})
@@ -162,3 +180,4 @@ export default function MatchSquadPanel({
 }
 
 const rowStyle: CSSProperties = { display: "flex", alignItems: "center", gap: 8, padding: "5px 12px", borderBottom: "1px solid var(--hm-border-subtle)", cursor: "grab" };
+const activePhaseButtonStyle: CSSProperties = { background: "var(--hm-accent)", color: "#fff", borderColor: "var(--hm-accent)" };

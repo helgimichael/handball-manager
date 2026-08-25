@@ -26,7 +26,8 @@ import { buildMatchIdea } from "@/lib/matchPlan/matchPlanLabels";
 import { defaultSpecialPlayPlan } from "@/lib/matchPlan/specialPlay";
 import type { MatchPlan } from "@/lib/matchPlan/types";
 import MatchSquadPanel from "@/components/matchPlan/MatchSquadPanel";
-import StartingUnitEditor, { type CourtPhase } from "@/components/matchPlan/StartingUnitEditor";
+import StartingUnitEditor from "@/components/matchPlan/StartingUnitEditor";
+import type { CourtPhase } from "@/components/matchPlan/StartingUnitEditor";
 import TacticalConfigPanel from "@/components/matchPlan/TacticalConfigPanel";
 import PlayerInstructionPanel from "@/components/matchPlan/PlayerInstructionPanel";
 
@@ -116,12 +117,12 @@ export default function TacticsPage() {
               </h2>
               <span className="hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)" }}>Trupp, startuppställning och spelarroller för just denna match.</span>
             </div>
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 340px", gap: 12, alignItems: "start" }}>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 280px", gap: 12, alignItems: "start" }}>
               <div className="hm-grid" style={{ gap: 12 }}>
-                <StartingUnitEditor plan={plan} phase={phase} onPhaseChange={setPhase} selectablePlayers={selectablePlayers} onChange={(next) => updateMatchPlan(fixture.id, next)} onOpenPlayerPanel={setSelectedPlayerId} />
+                <StartingUnitEditor plan={plan} selectablePlayers={selectablePlayers} onChange={(next) => updateMatchPlan(fixture.id, next)} onOpenPlayerPanel={setSelectedPlayerId} />
               </div>
               <div className="hm-grid" style={{ gap: 12 }}>
-                <MatchSquadPanel plan={plan} phase={phase} selectablePlayers={selectablePlayers} onChange={(next) => updateMatchPlan(fixture.id, next)} onOpenPlayerPanel={setSelectedPlayerId} />
+                <MatchSquadPanel plan={plan} phase={phase} onPhaseChange={setPhase} selectablePlayers={selectablePlayers} onChange={(next) => updateMatchPlan(fixture.id, next)} onOpenPlayerPanel={setSelectedPlayerId} />
               </div>
             </div>
           </section>

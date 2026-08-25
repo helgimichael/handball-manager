@@ -1,16 +1,24 @@
 "use client";
 
-// HM-TACTICS-1.2 Part 3 / HM-MATCH-1.3B Part E/F/G: the players on the
-// court are the primary, clickable AND draggable representation of a
-// starting unit -- MasterCourt itself stays a pure visual backdrop
+// HM-TACTICS-1.2 Part 3 / HM-MATCH-1.3B Part E/F/G, redesigned by
+// HM-TACTICS-BOARD-1.0 into a compact FM-style marker: the players on
+// the court are the primary, clickable AND draggable representation of
+// a starting unit -- MasterCourt itself stays a pure visual backdrop
 // (unchanged, no FIELD internals touched), and this component overlays
-// simple absolutely-positioned chips (see courtLayout.ts) on top of it
-// at each slot's approximate handball position.
+// small circular chips (shirt number + short tactical-position badge)
+// on top of it at each slot's canonical grid position.
+//
+// HM-TACTICS-BOARD-1.0 Part 5/6: the old chip was a wide horizontal
+// name pill -- wide enough to cover multiple grid cells, collide with
+// neighbours, and obscure exactly which cell it belonged to. This
+// marker is a small circle CENTERED on the cell; the full name is
+// available via the browser's native `title` tooltip and the selected-
+// slot side panel, never inline on the marker itself.
 //
 // Two interactions, both supported (Part G: "do not remove the current
 // useful click interaction"):
-//   CLICK a chip -> selects that slot (StartingUnitEditor renders the
-//     detailed swap/instruction panel for whichever chip is selected).
+//   CLICK a chip -> selects that slot (the caller renders the detailed
+//     swap/instruction panel for whichever chip is selected).
 //   DRAG a chip onto another slot (or drag a bench row from
 //     MatchSquadPanel onto a slot) -> `onDropOnSlot` fires with the
 //     target slot's key and the dragged player's id; the caller
@@ -37,6 +45,9 @@ export interface CourtChip {
   shortLabel: string;
   playerName: string;
   playerId: string;
+  shirtNumber: number | null;
+  /** HM-TACTICS-BOARD-1.0 Part 3/8: which unified-board half this marker belongs to -- purely a styling hint (border tint) so ATTACK and DEFENCE markers, now shown simultaneously on the one court, stay visually distinguishable at a glance. */
+  role: "ATTACK" | "DEFENCE";
   /** Part M: whether this chip's player is currently active in the LIVE match (only meaningful when a live board is shown -- undefined/omitted in the pre-match Tactics workspace, where every starter is simply "assigned"). */
   isLiveActive?: boolean;
 }
@@ -47,6 +58,11 @@ export interface CourtGhostCell {
   xPct: number;
   yPct: number;
 }
+
+const ROLE_ACCENT: Record<CourtChip["role"], string> = {
+  ATTACK: "rgba(255, 196, 0, 0.9)",
+  DEFENCE: "rgba(94, 180, 255, 0.9)",
+};
 
 export default function CourtBoard({
   scene,
@@ -97,17 +113,15 @@ export default function CourtBoard({
         // <svg> uses preserveAspectRatio="xMidYMid meet", which
         // letterboxes whenever this wrapper's REAL rendered aspect
         // ratio doesn't exactly match the scene's viewBox ratio (20:40
-        // for FULL_COURT). The previous fixed-height/fluid-width
-        // wrapper almost never matched exactly, so MasterCourt rendered
-        // inside a centered, narrower sub-rectangle while chip percent
-        // positions were computed against the FULL wrapper box --
-        // pushing edge cells (column 1/10, row 1/20) outside the
-        // visually rendered court. Locking width+aspect-ratio together
-        // (same technique already proven correct in the
-        // /editor/court-grid calibration view) makes the wrapper's own
-        // box exactly 20:40, so MasterCourt fills it edge-to-edge with
-        // zero letterboxing, and chip percentages align perfectly.
-        width: "min(360px, 40vh)",
+        // for FULL_COURT). Locking width+aspect-ratio together (same
+        // technique proven correct in /editor/court-grid) makes the
+        // wrapper's own box exactly 20:40, so MasterCourt fills it
+        // edge-to-edge with zero letterboxing, and chip percentages
+        // align perfectly. HM-TACTICS-BOARD-1.0 Part 7: widened from
+        // 360px to 460px (more usable desktop workspace) -- the ratio
+        // itself, and therefore every projected coordinate, is
+        // unaffected by this size change.
+        width: "min(460px, 46vh)",
         aspectRatio: "20 / 40",
         margin: "0 auto",
         borderRadius: "var(--hm-radius-sm)",
@@ -144,11 +158,11 @@ export default function CourtBoard({
                 left: `${ghost.xPct}%`,
                 top: `${ghost.yPct}%`,
                 transform: `translate(-50%, -50%) scale(${dragTarget ? 1.3 : 1})`,
-                width: dragTarget ? 14 : 9,
-                height: dragTarget ? 14 : 9,
+                width: dragTarget ? 12 : 7,
+                height: dragTarget ? 12 : 7,
                 borderRadius: "50%",
-                border: dragTarget ? "2px solid var(--hm-accent)" : "1px dashed rgba(226, 245, 238, 0.45)",
-                background: dragTarget ? "rgba(255,255,255,0.18)" : "rgba(226, 245, 238, 0.08)",
+                border: dragTarget ? "2px solid var(--hm-accent)" : "1px dashed rgba(226, 245, 238, 0.4)",
+                background: dragTarget ? "rgba(255,255,255,0.18)" : "rgba(226, 245, 238, 0.06)",
                 padding: 0,
                 cursor: "default",
                 transition: "transform 100ms ease",
@@ -163,42 +177,51 @@ export default function CourtBoard({
           const selected = chip.key === selectedKey;
           const dragTarget = chip.key === dragOverKey;
           const inactive = chip.isLiveActive === false;
+          const accent = ROLE_ACCENT[chip.role];
           const style: CSSProperties = {
             position: "absolute",
             left: `${chip.xPct}%`,
             top: `${chip.yPct}%`,
-            transform: `translate(-50%, -50%) scale(${dragTarget ? 1.1 : 1})`,
+            transform: `translate(-50%, -50%) scale(${dragTarget ? 1.15 : 1})`,
+            width: 28,
+            height: 28,
+            borderRadius: "50%",
             display: "flex",
-            flexDirection: "column",
             alignItems: "center",
-            gap: 1,
-            lineHeight: 1.1,
+            justifyContent: "center",
             background: selected ? "var(--hm-accent)" : dragTarget ? "var(--hm-surface-3, var(--hm-surface-2))" : "var(--hm-surface-2)",
             color: selected ? "#fff" : "var(--hm-text-primary)",
-            border: dragTarget ? "2px solid var(--hm-accent)" : "1px solid var(--hm-border)",
-            borderRadius: 999,
-            padding: "3px 8px",
-            fontSize: "var(--hm-text-2xs)",
+            border: `2px solid ${selected ? "#fff" : dragTarget ? "var(--hm-accent)" : accent}`,
+            fontSize: 11,
+            fontWeight: 700,
             cursor: "grab",
-            whiteSpace: "nowrap",
-            boxShadow: selected ? "0 0 0 3px rgba(255,255,255,0.15), 0 1px 4px rgba(0,0,0,0.35)" : "0 1px 4px rgba(0,0,0,0.35)",
+            padding: 0,
+            boxShadow: selected ? "0 0 0 3px rgba(255,255,255,0.2), 0 1px 4px rgba(0,0,0,0.4)" : "0 1px 4px rgba(0,0,0,0.4)",
             opacity: inactive ? 0.45 : 1,
             transition: "transform 100ms ease, background 100ms ease",
           };
           return (
-            <button
-              key={chip.key}
-              type="button"
-              style={style}
-              draggable
-              onDragStart={(e) => handleDragStart(e, chip)}
-              onDragOver={(e) => handleDragOver(e, chip.key)}
-              onDragLeave={() => handleDragLeave(chip.key)}
-              onDrop={(e) => handleDrop(e, chip.key)}
-              onClick={() => onSelectChip(chip.key)}
-            >
-              <span style={{ opacity: 0.75, fontSize: 9 }}>{chip.shortLabel}</span>
-              <span style={{ fontWeight: 600 }}>{chip.playerName}</span>
+            <button key={chip.key} type="button" style={style} draggable title={`${chip.playerName} · ${chip.shortLabel}`} onDragStart={(e) => handleDragStart(e, chip)} onDragOver={(e) => handleDragOver(e, chip.key)} onDragLeave={() => handleDragLeave(chip.key)} onDrop={(e) => handleDrop(e, chip.key)} onClick={() => onSelectChip(chip.key)}>
+              {chip.shirtNumber ?? "?"}
+              <span
+                style={{
+                  position: "absolute",
+                  bottom: -6,
+                  left: "50%",
+                  transform: "translateX(-50%)",
+                  fontSize: 8,
+                  fontWeight: 700,
+                  lineHeight: 1,
+                  padding: "1px 3px",
+                  borderRadius: 4,
+                  background: accent,
+                  color: "#0e2e27",
+                  whiteSpace: "nowrap",
+                  pointerEvents: "none",
+                }}
+              >
+                {chip.shortLabel}
+              </span>
             </button>
           );
         })}
