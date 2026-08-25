@@ -2,7 +2,7 @@
 // validation. Selected independently -- a player can start in one
 // phase and not the other, so these two validators never cross-check
 // each other.
-import { OUTCOURT_POSITIONS, type OutcourtPositionId } from "../rating/types";
+import { OUTCOURT_POSITIONS } from "../rating/types";
 import { matchSquadPlayerIds, type MatchPlanValidationResult } from "./matchSquad";
 import type { AttackStartingUnit, DefenceStartingUnit, MatchSquad } from "./types";
 
@@ -41,14 +41,19 @@ export function validateAttackStartingUnit(unit: AttackStartingUnit, squad: Matc
     if (gkSlots.length !== 1) {
       errors.push(`Normal attack formation must have exactly 1 goalkeeper slot, got ${gkSlots.length}.`);
     }
-    const outcourtPositions = unit.slots.filter((s) => s.position !== "GK").map((s) => s.position);
-    const distinctOutcourt = new Set(outcourtPositions);
-    if (distinctOutcourt.size !== outcourtPositions.length) {
-      errors.push("Normal attack formation must not repeat an outcourt position.");
-    }
-    for (const position of OUTCOURT_POSITIONS as readonly OutcourtPositionId[]) {
-      if (!distinctOutcourt.has(position)) {
-        errors.push(`Normal attack formation is missing position "${position}".`);
+    // HM-MATCH-1.3B2 Part 1/5: the tactical SHAPE is no longer fixed to
+    // one-of-each-position -- a manager may legitimately run e.g. two
+    // pivots + two backcourt players (a snap-zone move on the board
+    // relabels a slot's own tactical position, see
+    // matchPlanEdits.ts's assignAttackZonePosition). Every outcourt slot
+    // must still be a RECOGNIZED outcourt position, but repeats are no
+    // longer rejected and no single position is mandatory (Part B's
+    // "represented flexibly" rule, previously 7v6-only, now applies to
+    // NORMAL too).
+    const outcourtSlots = unit.slots.filter((s) => s.position !== "GK");
+    for (const slot of outcourtSlots) {
+      if (!(OUTCOURT_POSITIONS as readonly string[]).includes(slot.position)) {
+        errors.push(`Normal attack formation has an unrecognized outcourt position "${slot.position}".`);
       }
     }
     // A player's ASSIGNED slot position is deliberately not required to

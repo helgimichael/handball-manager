@@ -12,27 +12,32 @@
 import { useState } from "react";
 import Tabs from "@/components/Tabs";
 import { defenceCourtSlotLabel, matchPlanPositionLabel } from "@/lib/matchPlan/matchPlanLabels";
-import { assignAttackGoalkeeper, assignDefenceCourtSlot, assignDefenceGoalkeeper, assignNormalAttackSlot, assignSevenVSixSlot, type OnMatchPlanChange } from "@/lib/matchPlan/matchPlanEdits";
-import type { MatchPlan, Position } from "@/lib/matchPlan/types";
+import { assignAttackGoalkeeper, assignAttackZonePosition, assignDefenceCourtSlot, assignDefenceGoalkeeper, assignSevenVSixSlot, type OnMatchPlanChange } from "@/lib/matchPlan/matchPlanEdits";
+import type { MatchPlan } from "@/lib/matchPlan/types";
 import type { SelectablePlayer } from "@/lib/matchPlan/careerSquadBridge";
 import { buildAttackScene, buildDefenceScene, DEFENCE_FORMATION_OPTIONS } from "./courtScene";
 import { ATTACK_NORMAL_LAYOUT, defenceLayout, sevenVSixAttackLayout } from "./courtLayout";
+import { ATTACK_ZONE_IDS, ATTACK_ZONE_LAYOUT, ATTACK_ZONE_POSITION, projectSlotsOntoZones, type AttackZoneId } from "./attackZones";
 import CourtBoard, { type CourtChip } from "./CourtBoard";
 
-type CourtPhase = "ATTACK" | "DEFENCE";
+export type CourtPhase = "ATTACK" | "DEFENCE";
 
 export default function StartingUnitEditor({
   plan,
   selectablePlayers,
   onChange,
   onOpenPlayerPanel,
+  phase,
+  onPhaseChange,
 }: {
   plan: MatchPlan;
   selectablePlayers: readonly SelectablePlayer[];
   onChange: OnMatchPlanChange;
   onOpenPlayerPanel: (playerId: string) => void;
+  /** HM-MATCH-1.3B2 Part 6/7: lifted to the parent page so MatchSquadPanel can derive its own PÅ PLAN/BÄNK split from the SAME currently-displayed phase, rather than each component guessing independently. */
+  phase: CourtPhase;
+  onPhaseChange: (phase: CourtPhase) => void;
 }) {
-  const [phase, setPhase] = useState<CourtPhase>("ATTACK");
   const [selectedKey, setSelectedKey] = useState<string | null>(null);
 
   const byId = new Map(selectablePlayers.map((p) => [p.playerId, p]));
@@ -43,15 +48,33 @@ export default function StartingUnitEditor({
   const scene = phase === "ATTACK" ? buildAttackScene(plan.attackStartingUnit.formation) : buildDefenceScene(plan.defencePlan.baseFormation);
 
   const attackNormal = plan.attackStartingUnit.formation === "NORMAL";
+  // HM-MATCH-1.3B2 Part 1/2: the snap-zone projection is the ONLY thing
+  // that decides which slot occupies which zone -- recomputed fresh
+  // every render from `plan.attackStartingUnit.slots` (never separate
+  // UI state), so it can never drift from the canonical MatchPlan.
+  const zoneProjection = attackNormal ? projectSlotsOntoZones(plan.attackStartingUnit.slots) : null;
   const chips: CourtChip[] = [];
   if (phase === "ATTACK") {
-    if (attackNormal) {
-      for (const layoutSlot of ATTACK_NORMAL_LAYOUT) {
-        const slot = plan.attackStartingUnit.slots.find((s) => s.position === (layoutSlot.key as Position));
-        if (!slot) continue;
-        chips.push({ key: layoutSlot.key, xPct: layoutSlot.xPct, yPct: layoutSlot.yPct, shortLabel: layoutSlot.key, playerName: nameOf(slot.playerId), playerId: slot.playerId });
+    if (attackNormal && zoneProjection) {
+      const gkSlot = plan.attackStartingUnit.slots.find((s) => s.position === "GK");
+      const gkLayout = ATTACK_NORMAL_LAYOUT.find((s) => s.key === "GK")!;
+      if (gkSlot) {
+        chips.push({ key: "GK", xPct: gkLayout.xPct, yPct: gkLayout.yPct, shortLabel: "MV", playerName: nameOf(gkSlot.playerId), playerId: gkSlot.playerId });
       }
-    } else {
+      for (const zoneId of ATTACK_ZONE_IDS) {
+        const layout = ATTACK_ZONE_LAYOUT[zoneId];
+        const slotIndex = zoneProjection[zoneId];
+        const slot = slotIndex !== null ? plan.attackStartingUnit.slots[slotIndex] : undefined;
+        chips.push({
+          key: zoneId,
+          xPct: layout.xPct,
+          yPct: layout.yPct,
+          shortLabel: ATTACK_ZONE_POSITION[zoneId],
+          playerName: slot ? nameOf(slot.playerId) : "–",
+          playerId: slot?.playerId ?? "",
+        });
+      }
+    } else if (!attackNormal) {
       const layout = sevenVSixAttackLayout(plan.attackStartingUnit.slots.map((s) => s.position));
       plan.attackStartingUnit.slots.forEach((slot, i) => {
         const layoutSlot = layout[i];
@@ -72,7 +95,7 @@ export default function StartingUnitEditor({
     }
   }
 
-  const selected = describeSelectedSlot({ phase, selectedKey, plan, attackNormal });
+  const selected = describeSelectedSlot({ phase, selectedKey, plan, attackNormal, zoneProjection });
 
   return (
     <div className="hm-panel" style={{ display: "flex", flexDirection: "column" }}>
@@ -83,7 +106,7 @@ export default function StartingUnitEditor({
           options={["ATTACK", "DEFENCE"] as const}
           renderLabel={(v) => (v === "ATTACK" ? "ANFALL" : "FÖRSVAR")}
           onChange={(v) => {
-            setPhase(v);
+            onPhaseChange(v);
             setSelectedKey(null);
           }}
         />
@@ -96,12 +119,18 @@ export default function StartingUnitEditor({
           selectedKey={selectedKey}
           onSelectChip={setSelectedKey}
           onDropOnSlot={(targetKey, draggedPlayerId) => {
+            if (!draggedPlayerId) return;
             const isGoalkeeperSlot = phase === "ATTACK" ? attackNormal && targetKey === "GK" : targetKey === "GK";
             const draggedIsGoalkeeper = byId.get(draggedPlayerId)?.position === "GK";
             // Part F/W#8: a goalkeeper only ever goes in a goalkeeper
             // slot and vice versa -- guarded here (never allowed to
             // start), rather than allowed-then-rejected after the drop.
             if (isGoalkeeperSlot !== draggedIsGoalkeeper) return;
+            if (phase === "ATTACK" && attackNormal && zoneProjection && targetKey !== "GK") {
+              const zoneId = targetKey as AttackZoneId;
+              onChange((prev) => assignAttackZonePosition(prev, draggedPlayerId, ATTACK_ZONE_POSITION[zoneId], zoneProjection[zoneId]));
+              return;
+            }
             onChange((prev) => applySlotAssignment({ prev, phase, selectedKey: targetKey, playerId: draggedPlayerId }));
           }}
         />
@@ -123,7 +152,7 @@ export default function StartingUnitEditor({
           <div style={{ display: "flex", alignItems: "center", gap: 8, padding: "8px 10px", background: "var(--hm-surface-2)", borderRadius: "var(--hm-radius-sm)" }}>
             <div style={{ flex: 1, minWidth: 0 }}>
               <div className="hm-eyebrow">{selected.label}</div>
-              <div style={{ fontWeight: 600, fontSize: "var(--hm-text-xs)" }}>{nameOf(selected.playerId)}</div>
+              <div style={{ fontWeight: 600, fontSize: "var(--hm-text-xs)" }}>{selected.playerId ? nameOf(selected.playerId) : "Ingen tilldelad"}</div>
             </div>
             <select
               className="hm-select"
@@ -131,9 +160,15 @@ export default function StartingUnitEditor({
               value={selected.playerId}
               onChange={(e) => {
                 const playerId = e.target.value;
+                if (phase === "ATTACK" && attackNormal && zoneProjection && selected.key !== "GK") {
+                  const zoneId = selected.key as AttackZoneId;
+                  onChange((prev) => assignAttackZonePosition(prev, playerId, ATTACK_ZONE_POSITION[zoneId], zoneProjection[zoneId]));
+                  return;
+                }
                 onChange((prev) => applySlotAssignment({ prev, phase, selectedKey: selected.key, playerId }));
               }}
             >
+              {selected.playerId ? null : <option value="">Välj spelare...</option>}
               {(selected.isGoalkeeperSlot ? goalkeepers : outcourt).map((o) => (
                 <option key={o.playerId} value={o.playerId}>
                   {nameOf(o.playerId)}
@@ -159,19 +194,31 @@ function describeSelectedSlot({
   selectedKey,
   plan,
   attackNormal,
+  zoneProjection,
 }: {
   phase: CourtPhase;
   selectedKey: string | null;
   plan: MatchPlan;
   attackNormal: boolean;
+  zoneProjection: Record<AttackZoneId, number | null> | null;
 }): { key: string; label: string; playerId: string; isGoalkeeperSlot: boolean } | null {
   if (!selectedKey) return null;
 
   if (phase === "ATTACK") {
-    if (attackNormal) {
-      const slot = plan.attackStartingUnit.slots.find((s) => s.position === (selectedKey as Position));
+    if (attackNormal && selectedKey === "GK") {
+      const slot = plan.attackStartingUnit.slots.find((s) => s.position === "GK");
       if (!slot) return null;
-      return { key: selectedKey, label: matchPlanPositionLabel(slot.position), playerId: slot.playerId, isGoalkeeperSlot: slot.position === "GK" };
+      return { key: selectedKey, label: "Målvakt", playerId: slot.playerId, isGoalkeeperSlot: true };
+    }
+    if (attackNormal && zoneProjection) {
+      // HM-MATCH-1.3B2 Part 1/2: a selected EMPTY zone (no slot
+      // projects there right now) still opens the picker -- an empty
+      // string playerId means "nothing assigned here yet", letting the
+      // manager move any player into this snap zone.
+      const zoneId = selectedKey as AttackZoneId;
+      const slotIndex = zoneProjection[zoneId];
+      const slot = slotIndex !== null ? plan.attackStartingUnit.slots[slotIndex] : undefined;
+      return { key: selectedKey, label: matchPlanPositionLabel(ATTACK_ZONE_POSITION[zoneId]), playerId: slot?.playerId ?? "", isGoalkeeperSlot: false };
     }
     const index = Number(selectedKey);
     const slot = plan.attackStartingUnit.slots[index];
@@ -201,9 +248,12 @@ function applySlotAssignment({
   playerId: string;
 }): MatchPlan {
   if (phase === "ATTACK") {
+    // NORMAL formation's outcourt zones are handled entirely by
+    // assignAttackZonePosition at the call sites above (Part 1/2) --
+    // this function is only ever reached for the GK slot (fixed,
+    // outside the zone model) or a SEVEN_V_SIX index-based slot.
     if (prev.attackStartingUnit.formation === "NORMAL") {
-      if (selectedKey === "GK") return assignAttackGoalkeeper(prev, playerId);
-      return assignNormalAttackSlot(prev, selectedKey as Position, playerId);
+      return selectedKey === "GK" ? assignAttackGoalkeeper(prev, playerId) : prev;
     }
     const index = Number(selectedKey);
     return assignSevenVSixSlot(prev, index, playerId);

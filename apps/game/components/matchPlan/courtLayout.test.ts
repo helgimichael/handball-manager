@@ -52,6 +52,24 @@ test("HM-TACTICS-1.2: defenceLayout falls back to 6-0's depths for an unrecogniz
   assert.deepEqual(fallback, defenceLayout("6-0"));
 });
 
+test("HM-MATCH-1.3B2 Part 4: attack orientation -- V6/V9 render on the screen-viewer's RIGHT (high xPct), H6/H9 on the LEFT (low xPct), the accepted coach-facing handball convention (verified visually in-browser and confirmed here so it never regresses)", () => {
+  const byKey = new Map(ATTACK_NORMAL_LAYOUT.map((s) => [s.key, s]));
+  assert.ok(byKey.get("V6")!.xPct > 50, "V6 must be on the right half of the board");
+  assert.ok(byKey.get("H6")!.xPct < 50, "H6 must be on the left half of the board");
+  assert.ok(byKey.get("V9")!.xPct > 50, "V9 must be on the right half of the board");
+  assert.ok(byKey.get("H9")!.xPct < 50, "H9 must be on the left half of the board");
+});
+
+test("HM-MATCH-1.3B2 Part 4: defence orientation matches attack's -- courtSlot 1 (V1) renders on the same (right) side as V6/V9, courtSlot 6 (H1) on the same (left) side as H6/H9, one consistent coach-facing convention across the whole board", () => {
+  const attack = new Map(ATTACK_NORMAL_LAYOUT.map((s) => [s.key, s]));
+  const defence = defenceLayout("6-0");
+  const slot1 = defence.find((s) => s.key === "1")!;
+  const slot6 = defence.find((s) => s.key === "6")!;
+  assert.ok((slot1.xPct > 50) === (attack.get("V6")!.xPct > 50), "courtSlot 1 (V1) must be on the same side as V6");
+  assert.ok((slot6.xPct > 50) === (attack.get("H6")!.xPct > 50), "courtSlot 6 (H1) must be on the same side as H6");
+  assert.ok(slot1.xPct > slot6.xPct, "V1 must render to the right of H1");
+});
+
 test("HM-MATCH-1.2 Part F: every pair of named base formations is visually distinct from every other -- 5:1 is not just '6:0 with one player moved', it is also distinct from 3:2:1/3:3/4:2, and so on for every pair", () => {
   const layoutsByFormation = new Map(DEFENCE_FORMATION_OPTIONS.map((f) => [f, defenceLayout(f)]));
   for (const a of DEFENCE_FORMATION_OPTIONS) {

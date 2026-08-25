@@ -55,6 +55,27 @@ export function isPlayerStarting(plan: MatchPlan, playerId: string): boolean {
   return plan.attackStartingUnit.slots.some((s) => s.playerId === playerId) || plan.defenceStartingUnit.courtSlots.some((s) => s.playerId === playerId) || plan.defenceStartingUnit.goalkeeperId === playerId;
 }
 
+/**
+ * HM-MATCH-1.3B2 Part 6/7: the ONE canonical "who is PÅ PLAN right now"
+ * membership set -- tied to a SPECIFIC phase's starting unit, never a
+ * cross-phase union. `isPlayerStarting` above answers "is this player
+ * starting in ANY phase" (used to gate squad removal); this answers
+ * "is this player in THIS displayed unit" (used to split Matchtrupp
+ * into PÅ PLAN / BÄNK for whichever board is currently shown). Always
+ * exactly 7 members for a NORMAL attack unit or a defence unit (6
+ * outcourt + goalkeeper), or 7 for a SEVEN_V_SIX attack unit (7
+ * outcourt, no goalkeeper) -- the board's own slot counts are the only
+ * source of truth, never re-derived here.
+ */
+export function currentUnitPlayerIds(plan: MatchPlan, phase: "ATTACK" | "DEFENCE"): ReadonlySet<string> {
+  if (phase === "ATTACK") {
+    return new Set(plan.attackStartingUnit.slots.map((s) => s.playerId));
+  }
+  const ids = plan.defenceStartingUnit.courtSlots.map((s) => s.playerId);
+  if (plan.defenceStartingUnit.goalkeeperId) ids.push(plan.defenceStartingUnit.goalkeeperId);
+  return new Set(ids);
+}
+
 /** No-op if the player is currently starting -- callers should check `isPlayerStarting` first to explain why, rather than silently doing nothing. */
 export function removePlayerFromSquad(plan: MatchPlan, playerId: string): MatchPlan {
   if (isPlayerStarting(plan, playerId)) return plan;
@@ -84,6 +105,58 @@ export function assignNormalAttackSlot(plan: MatchPlan, targetPosition: Position
     return s;
   });
   return { ...plan, attackStartingUnit: { ...plan.attackStartingUnit, slots: nextSlots } };
+}
+
+/**
+ * HM-MATCH-1.3B2 Part 1/2/3: the snap-zone board's ONE edit function --
+ * moving/swapping a player between board zones changes the tactical
+ * SHAPE itself (which zone maps to which slot INDEX is a pure,
+ * deterministic UI-layer projection -- see attackZones.ts -- not
+ * domain state). `playerId` is who was dragged; `targetPosition` is the
+ * tactical position the DESTINATION zone represents (derived from the
+ * zone, e.g. a pivot zone always yields "M6"); `targetSlotIndex` is the
+ * array index of whichever EXISTING slot the destination zone currently
+ * projects onto, or `null` if the destination zone is currently empty
+ * (no slot projects there right now).
+ *
+ * Three cases, matching Part 1/2/8 exactly:
+ *  - BENCH -> occupied zone: replaces that slot's player outright (the
+ *    displaced player implicitly returns to the bench, same "no empty
+ *    slot representation" convention every other assign function here
+ *    already uses). A bench player dropped on an EMPTY zone is a no-op
+ *    (Part 8's scope: only board-to-board moves may target an empty
+ *    zone this milestone -- deciding who a bench addition should bump
+ *    is not defined for a zone with no current occupant).
+ *  - board player -> EMPTY zone: a pure MOVE -- only the dragged
+ *    player's own slot is relabeled to the new zone's position; no
+ *    other slot is touched. This is what actually changes the shape
+ *    (e.g. moving a backcourt player into a second pivot zone).
+ *  - board player -> OCCUPIED zone: a SWAP -- the two slots trade
+ *    positions, exactly like assignSevenVSixSlot's existing pattern.
+ *
+ * Never mutates `playerId`'s own natural squad position (Part R/3) --
+ * only `slots[i].position`, the fixture-scoped tactical assignment.
+ */
+export function assignAttackZonePosition(plan: MatchPlan, playerId: string, targetPosition: Position, targetSlotIndex: number | null): MatchPlan {
+  if (plan.attackStartingUnit.formation !== "NORMAL" || !playerId) return plan;
+  const slots = [...plan.attackStartingUnit.slots];
+  const sourceIndex = slots.findIndex((s) => s.playerId === playerId && s.position !== "GK");
+
+  if (sourceIndex === -1) {
+    if (targetSlotIndex === null || slots[targetSlotIndex]?.position === "GK") return plan;
+    slots[targetSlotIndex] = { playerId, position: targetPosition };
+    return { ...plan, attackStartingUnit: { ...plan.attackStartingUnit, slots } };
+  }
+
+  const sourcePosition = slots[sourceIndex].position;
+  if (targetSlotIndex === null || targetSlotIndex === sourceIndex) {
+    slots[sourceIndex] = { playerId, position: targetPosition };
+  } else if (slots[targetSlotIndex]?.position !== "GK") {
+    const occupantId = slots[targetSlotIndex].playerId;
+    slots[targetSlotIndex] = { playerId, position: targetPosition };
+    slots[sourceIndex] = { playerId: occupantId, position: sourcePosition };
+  }
+  return { ...plan, attackStartingUnit: { ...plan.attackStartingUnit, slots } };
 }
 
 /**

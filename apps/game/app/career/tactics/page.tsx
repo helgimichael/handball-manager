@@ -26,7 +26,7 @@ import { buildMatchIdea } from "@/lib/matchPlan/matchPlanLabels";
 import { defaultSpecialPlayPlan } from "@/lib/matchPlan/specialPlay";
 import type { MatchPlan } from "@/lib/matchPlan/types";
 import MatchSquadPanel from "@/components/matchPlan/MatchSquadPanel";
-import StartingUnitEditor from "@/components/matchPlan/StartingUnitEditor";
+import StartingUnitEditor, { type CourtPhase } from "@/components/matchPlan/StartingUnitEditor";
 import TacticalConfigPanel from "@/components/matchPlan/TacticalConfigPanel";
 import PlayerInstructionPanel from "@/components/matchPlan/PlayerInstructionPanel";
 
@@ -40,6 +40,12 @@ export default function TacticsPage() {
   const plan = fixture ? career.matchPlans[fixture.id] : undefined;
 
   const [selectedPlayerId, setSelectedPlayerId] = useState<string | null>(null);
+  // HM-MATCH-1.3B2 Part 6/7: lifted from StartingUnitEditor so
+  // MatchSquadPanel's PÅ PLAN/BÄNK split always matches whichever unit
+  // the board is currently showing -- one shared source of truth for
+  // "phase currently displayed", never two components independently
+  // guessing at it.
+  const [phase, setPhase] = useState<CourtPhase>("ATTACK");
 
   // HM-TACTICS-1.0 Part O / HM-TACTICS-1.1 Part O: build and persist a
   // deterministic default plan the first time this fixture has none --
@@ -112,10 +118,10 @@ export default function TacticsPage() {
             </div>
             <div style={{ display: "grid", gridTemplateColumns: "1fr 340px", gap: 12, alignItems: "start" }}>
               <div className="hm-grid" style={{ gap: 12 }}>
-                <StartingUnitEditor plan={plan} selectablePlayers={selectablePlayers} onChange={(next) => updateMatchPlan(fixture.id, next)} onOpenPlayerPanel={setSelectedPlayerId} />
+                <StartingUnitEditor plan={plan} phase={phase} onPhaseChange={setPhase} selectablePlayers={selectablePlayers} onChange={(next) => updateMatchPlan(fixture.id, next)} onOpenPlayerPanel={setSelectedPlayerId} />
               </div>
               <div className="hm-grid" style={{ gap: 12 }}>
-                <MatchSquadPanel plan={plan} selectablePlayers={selectablePlayers} onChange={(next) => updateMatchPlan(fixture.id, next)} onOpenPlayerPanel={setSelectedPlayerId} />
+                <MatchSquadPanel plan={plan} phase={phase} selectablePlayers={selectablePlayers} onChange={(next) => updateMatchPlan(fixture.id, next)} onOpenPlayerPanel={setSelectedPlayerId} />
               </div>
             </div>
           </section>

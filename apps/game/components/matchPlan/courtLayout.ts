@@ -34,14 +34,26 @@ function metersToPct(x: number, y: number): { xPct: number; yPct: number } {
  * hand-guessed percentages -- V6/H6 sit on the goal line at the wings,
  * V9/H9 out at the 9m backs, M9 at the apex of the 9m arc, M6 just
  * inside it as the pivot, matching real handball shape.
+ *
+ * HM-MATCH-1.3B2 Part 4 (orientation correction): FIELD's raw
+ * "attack-6" meter coordinates put V6/V9 on the geometrically LEFT
+ * side and H6/H9 on the RIGHT -- backwards from the accepted
+ * coach-facing handball convention (confirmed visually in-browser),
+ * where "vänster"/"höger" are named from the attacking PLAYER's own
+ * perspective facing the opponent's goal (i.e. facing the same "up"
+ * direction the board itself is drawn in), which mirrors left/right
+ * relative to the coach/viewer looking at the board. The fix swaps
+ * which raw meter coordinate each V/H label renders at (V6<->H6,
+ * V9<->H9) -- a presentation-only remap; the underlying FIELD formation
+ * data and every domain Position identifier are untouched.
  */
 export const ATTACK_NORMAL_LAYOUT: readonly CourtLayoutSlot[] = [
   { key: "GK", ...metersToPct(9.888641, 0.517817) },
-  { key: "V6", ...metersToPct(0.601336, 0.562361) },
-  { key: "V9", ...metersToPct(0.935412, 9.292875) },
+  { key: "V6", ...metersToPct(19.398663, 0.540089) },
+  { key: "V9", ...metersToPct(19.220488, 8.379733) },
   { key: "M9", ...metersToPct(9.08686, 11.854121) },
-  { key: "H9", ...metersToPct(19.220488, 8.379733) },
-  { key: "H6", ...metersToPct(19.398663, 0.540089) },
+  { key: "H9", ...metersToPct(0.935412, 9.292875) },
+  { key: "H6", ...metersToPct(0.601336, 0.562361) },
   { key: "M6", ...metersToPct(10.801781, 6.687082) },
 ];
 
@@ -67,7 +79,15 @@ export function sevenVSixAttackLayout(positions: readonly string[]): CourtLayout
   });
 }
 
-const DEFENCE_SLOT_X: Record<number, number> = { 1: 8, 2: 24, 3: 40, 4: 60, 5: 76, 6: 92 };
+// HM-MATCH-1.3B2 Part 4: mirrored for the same orientation correction as
+// ATTACK_NORMAL_LAYOUT above -- courtSlot 1 (V1, "vänster") now renders
+// on the same side V6/V9 do, courtSlot 6 (H1, "höger") on the same side
+// H6/H9 do, so the whole board uses one consistent left/right
+// convention (Part 4: "ensure the entire project uses one consistent
+// coach-facing handball perspective"). Only the X positions are
+// mirrored -- courtSlot NUMBER -> role LABEL (matchPlanLabels.ts's
+// DEFENCE_COURT_SLOT_LABELS_SV) and depth-per-formation are untouched.
+const DEFENCE_SLOT_X: Record<number, number> = { 1: 92, 2: 76, 3: 60, 4: 40, 5: 24, 6: 8 };
 
 /** One depth (0-100, higher = deeper/closer to own goal) per courtSlot 1-6, per named base formation -- a simplified, decorative visual difference between formations (Part 4: "does not need to be an advanced tactics simulator"), not tactically authoritative. */
 const DEFENCE_FORMATION_DEPTH: Record<DefenceFormationOption, Record<number, number>> = {

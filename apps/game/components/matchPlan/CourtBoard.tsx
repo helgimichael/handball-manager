@@ -79,7 +79,31 @@ export default function CourtBoard({
   }
 
   return (
-    <div className="hm-court-backdrop" style={{ position: "relative", height: 520, borderRadius: "var(--hm-radius-sm)", overflow: "hidden" }}>
+    <div
+      className="hm-court-backdrop"
+      style={{
+        position: "relative",
+        height: 520,
+        borderRadius: "var(--hm-radius-sm)",
+        overflow: "hidden",
+        // HM-MATCH-1.3B2 Part 9 (root cause, confirmed via computed
+        // styles): MasterCourt's own CSS module paints the floor/goal-
+        // area/court-boundary-and-arc lines entirely from two CSS custom
+        // properties -- `--ds-color-surface` (floor fill) and
+        // `--ds-color-text` (every line's stroke) -- that this app never
+        // defined anywhere in the render tree. With both undefined, fill
+        // resolved to black and stroke resolved to `none`, i.e. a
+        // genuinely invisible court, not merely low-contrast. FIELD's own
+        // reference consumers (apps/field-smoke-test, apps/match-demo)
+        // supply these by spreading their `designSystemTheme` object; HM
+        // instead sets its OWN dark green/teal values directly here
+        // (Part 9: "dark HM styling, but clearly visible... not a bright
+        // arcade style") -- no FIELD internals touched, this is a plain
+        // CSS custom-property handoff on the wrapper element.
+        "--ds-color-surface": "#0e2e27",
+        "--ds-color-text": "rgba(226, 245, 238, 0.82)",
+      } as CSSProperties}
+    >
       <MasterCourtDisplay scene={scene} />
       <div style={{ position: "absolute", inset: 0 }}>
         {chips.map((chip) => {

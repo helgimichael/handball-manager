@@ -91,7 +91,30 @@ test("HM-TACTICS-1.0: a normal attack formation with two goalkeepers is rejected
   assert.ok(result.errors.some((e) => e.includes("exactly 1 goalkeeper")));
 });
 
-test("HM-TACTICS-1.0: a normal attack formation missing a position is rejected", () => {
+// HM-MATCH-1.3B2 Part 1/5: a NORMAL attack formation no longer requires
+// one-of-each-position -- the manager can run e.g. two pivots + two
+// backcourt players by moving a snap-zone marker on the board (see
+// matchPlanEdits.ts's assignAttackZonePosition). This replaces the old
+// "missing position is rejected" test, which asserted exactly the
+// one-of-each rule this milestone deliberately relaxes.
+test("HM-MATCH-1.3B2: a normal attack formation with a repeated pivot position (two M6, no M9 -- a legitimate 'two pivots' tactical shape) is now legal", () => {
+  const unit: AttackStartingUnit = {
+    formation: "NORMAL",
+    slots: [
+      { playerId: "gk1", position: "GK" },
+      { playerId: "m9", position: "M6" },
+      { playerId: "v9", position: "V9" },
+      { playerId: "h9", position: "H9" },
+      { playerId: "m6", position: "M6" },
+      { playerId: "v6", position: "V6" },
+      { playerId: "h6", position: "H6" },
+    ],
+  };
+  const result = validateAttackStartingUnit(unit, squad);
+  assert.equal(result.ok, true, JSON.stringify(result.errors));
+});
+
+test("HM-MATCH-1.3B2: a normal attack formation with an unrecognized outcourt position string is still rejected", () => {
   const unit: AttackStartingUnit = {
     formation: "NORMAL",
     slots: [
@@ -101,12 +124,12 @@ test("HM-TACTICS-1.0: a normal attack formation missing a position is rejected",
       { playerId: "h9", position: "H9" },
       { playerId: "m6", position: "M6" },
       { playerId: "v6", position: "V6" },
-      { playerId: "attack_specialist", position: "M9" }, // duplicate instead of H6
+      { playerId: "h6", position: "NOT_A_POSITION" as never },
     ],
   };
   const result = validateAttackStartingUnit(unit, squad);
   assert.equal(result.ok, false);
-  assert.ok(result.errors.some((e) => e.includes("missing position \"H6\"")));
+  assert.ok(result.errors.some((e) => e.includes("unrecognized outcourt position")));
 });
 
 test("HM-TACTICS-1.0: attack and defence starters are selected independently -- defence can start a different set of players than attack", () => {
