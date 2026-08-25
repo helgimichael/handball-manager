@@ -19,6 +19,7 @@ import { resolveCurrentMatchPlan } from "@/lib/career/matchPlanMidMatchChange";
 import { DEFENCE_FORMATION_OPTIONS } from "@/components/matchPlan/courtScene";
 import { defenceCourtSlotLabel, INTENSITY_LABELS_SV, PHASE_USAGE_LABELS_SV, PLAYING_TIME_INTENTION_LABELS_SV, SUBSTITUTION_PRIORITY_LABELS_SV, TEMPO_LABELS_SV } from "@/lib/matchPlan/matchPlanLabels";
 import { resolveCurrentAttackUnit, resolveCurrentDefenceUnit, resolveCurrentGoalkeeper } from "@/lib/career/currentUnit";
+import { energyAtMinute, type PlayerEnergyTrajectory } from "@/lib/matchPlan/physicalModel";
 import { PLAYER_PHASE_USAGES, PLAYING_TIME_INTENTIONS } from "@/lib/matchPlan/types";
 import {
   ATI001_USAGE_TENDENCY_VALUES,
@@ -522,6 +523,7 @@ function LiveMatch({
             const player = getCareerPlayer(career, playerId);
             return player ? `${player.firstName} ${player.lastName}` : playerId;
           }}
+          physicalTrace={managerIsHome ? career.physicalReports[fixture.id]?.home : career.physicalReports[fixture.id]?.away}
         />
       ) : null}
 
@@ -1884,28 +1886,39 @@ function TeamColumn({ clubId, attacking }: { clubId: string; attacking: boolean 
  * uses. Deliberately no animation (Part Q: "just update the state
  * clearly") -- the chip list simply re-renders when the window changes.
  */
+/** HM-PHYSICAL-1.0 Part 16/17: a subtle color cue only -- the numeric percentage (from the ONE precomputed, deterministic trajectory) stays the actual source of truth, this is purely presentation. */
+function energyColor(energyPct: number): string {
+  if (energyPct >= 80) return "var(--hm-text-primary)";
+  if (energyPct >= 60) return "#e2c94a";
+  if (energyPct >= 40) return "#e2a04a";
+  return "#e2604a";
+}
+
 function CurrentUnitPanel({
   plan,
   clockMinute,
   seed,
   isAttackingNow,
   nameOf,
+  physicalTrace,
 }: {
   plan: import("@/lib/matchPlan/types").MatchPlan;
   clockMinute: number;
   seed: number;
   isAttackingNow: boolean;
   nameOf: (playerId: string) => string;
+  /** HM-PHYSICAL-1.0 Part 16/19/20: each on-court chip's own precomputed energy trajectory (career.physicalReports, keyed by playerId) -- revealed minute-by-minute via energyAtMinute, never recomputed live; undefined for an old save with no physical report yet (Part 16 stays purely additive/optional). */
+  physicalTrace: Readonly<Record<string, PlayerEnergyTrajectory>> | undefined;
 }) {
   const isSevenVSix = plan.attackStartingUnit.formation === "SEVEN_V_SIX";
-  const chips: { label: string; name: string }[] = isAttackingNow
+  const chips: { label: string; name: string; playerId: string }[] = isAttackingNow
     ? [
-        ...(isSevenVSix ? [] : [{ label: "MV", name: nameOf(resolveCurrentGoalkeeper(plan, clockMinute) ?? "") }]),
-        ...resolveCurrentAttackUnit(plan, clockMinute, String(seed)).map((s) => ({ label: s.position, name: nameOf(s.playerId) })),
+        ...(isSevenVSix ? [] : [{ label: "MV", name: nameOf(resolveCurrentGoalkeeper(plan, clockMinute) ?? ""), playerId: resolveCurrentGoalkeeper(plan, clockMinute) ?? "" }]),
+        ...resolveCurrentAttackUnit(plan, clockMinute, String(seed)).map((s) => ({ label: s.position, name: nameOf(s.playerId), playerId: s.playerId })),
       ]
     : [
-        { label: "MV", name: nameOf(resolveCurrentGoalkeeper(plan, clockMinute) ?? "") },
-        ...resolveCurrentDefenceUnit(plan, clockMinute, String(seed)).map((s) => ({ label: defenceCourtSlotLabel(s.courtSlot), name: nameOf(s.playerId) })),
+        { label: "MV", name: nameOf(resolveCurrentGoalkeeper(plan, clockMinute) ?? ""), playerId: resolveCurrentGoalkeeper(plan, clockMinute) ?? "" },
+        ...resolveCurrentDefenceUnit(plan, clockMinute, String(seed)).map((s) => ({ label: defenceCourtSlotLabel(s.courtSlot), name: nameOf(s.playerId), playerId: s.playerId })),
       ];
 
   return (
@@ -1933,6 +1946,9 @@ function CurrentUnitPanel({
               {chip.label}
             </span>
             <span style={{ fontWeight: 600 }}>{chip.name}</span>
+            {physicalTrace?.[chip.playerId] ? (
+              <span style={{ fontWeight: 700, color: energyColor(energyAtMinute(physicalTrace[chip.playerId], clockMinute)) }}>{Math.round(energyAtMinute(physicalTrace[chip.playerId], clockMinute))}%</span>
+            ) : null}
           </div>
         ))}
       </div>

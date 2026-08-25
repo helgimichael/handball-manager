@@ -65,6 +65,7 @@ export function createNewCareerState(
       awayClubId: f.awayClubId,
     })),
     results: {},
+    physicalReports: {},
     playerSeasonStats: {},
     clubForm: {},
     inbox: [],

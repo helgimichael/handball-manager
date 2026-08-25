@@ -10,6 +10,7 @@ import type { MatchPlanChangeHistoryEntry } from "../liveMatch/matchPlanChange";
 import type { PlayerMatchDefault, TacticsTemplate } from "../matchPlan/persistentDefaults";
 import type { SpecialPlayPlan } from "../matchPlan/specialPlay";
 import type { LiveMatchSessionState } from "../liveMatch/liveMatchSession";
+import type { MatchPhysicalReport } from "../matchPlan/physicalModel";
 
 export type CareerFixture = {
   id: string;
@@ -59,6 +60,18 @@ export type CareerState = {
   fixtures: readonly CareerFixture[];
   /** Keyed by fixtureId. Only fixtures with a stored result have been played. */
   results: Record<string, FastMatchResult>;
+  /**
+   * HM-PHYSICAL-1.0 (career-state schema v14): keyed by fixtureId,
+   * alongside `results` -- one MatchPhysicalReport per played fixture,
+   * recording each squad player's starting/finishing energy and full
+   * per-window trajectory (lib/matchPlan/physicalModel.ts). Deliberately
+   * a SIBLING map, never a field bolted onto FastMatchResult itself
+   * (packages/game-simulation's own type) -- keeps the physical model
+   * entirely an apps/game-side concern, matching `results`'s own
+   * established fixtureId-keyed convention (Part 21: this is what
+   * future recovery/training/injury/workload systems will read from).
+   */
+  physicalReports: Record<string, MatchPhysicalReport>;
   /** Keyed by playerId -- IFK Tumba's own squad only (see Section 9 scope note). */
   playerSeasonStats: Record<string, PlayerSeasonStats>;
   /** Keyed by clubId, most recent result last, capped at 5 entries. */

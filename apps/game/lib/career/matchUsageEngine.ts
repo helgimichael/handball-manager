@@ -176,6 +176,52 @@ export function computeAttackActiveWindows(plan: MatchPlan): ReadonlyMap<string,
   return map;
 }
 
+// ---------------------------------------------------------------------------
+// HM-PHYSICAL-1.0 Part 4/11: per-player, per-window ATTACK/DEFENCE/
+// GOALKEEPER activity booleans -- the exact input the physical/fatigue
+// model (lib/matchPlan/physicalModel.ts) consumes. A thin repackaging
+// of the SAME activeWindowRange/isActiveInWindow/
+// resolveActiveGoalkeeperForWindow this module already uses for
+// computeAttackActiveWindows/computeTeamUsageTrace above -- never a
+// second lineup/minutes algorithm (Part 4's own explicit instruction).
+// ---------------------------------------------------------------------------
+
+export interface PlayerWindowActivity {
+  playerId: string;
+  isGoalkeeper: boolean;
+  /** Length MATCH_USAGE_WINDOW_COUNT. Always all-false for a goalkeeper (see goalkeeperActive instead). */
+  attackActive: readonly boolean[];
+  /** Length MATCH_USAGE_WINDOW_COUNT. Always all-false for a goalkeeper. */
+  defenceActive: readonly boolean[];
+  /** Length MATCH_USAGE_WINDOW_COUNT. Always all-false for an outcourt player. */
+  goalkeeperActive: readonly boolean[];
+}
+
+export function computePlayerWindowActivity(plan: MatchPlan): readonly PlayerWindowActivity[] {
+  const usagePlan = buildMatchUsagePlan(plan);
+  const emptyWindows = new Array<boolean>(MATCH_USAGE_WINDOW_COUNT).fill(false);
+
+  return usagePlan.players.map((p) => {
+    if (p.isGoalkeeper) {
+      const goalkeeperActive: boolean[] = [];
+      for (let window = 0; window < MATCH_USAGE_WINDOW_COUNT; window += 1) {
+        goalkeeperActive.push(resolveActiveGoalkeeperForWindow(usagePlan, window) === p.playerId);
+      }
+      return { playerId: p.playerId, isGoalkeeper: true, attackActive: emptyWindows, defenceActive: emptyWindows, goalkeeperActive };
+    }
+
+    const attackRange = activeWindowRange(p.attackUsageWeight, p.startingInAttack);
+    const defenceRange = activeWindowRange(p.defenceUsageWeight, p.startingInDefence);
+    const attackActive: boolean[] = [];
+    const defenceActive: boolean[] = [];
+    for (let window = 0; window < MATCH_USAGE_WINDOW_COUNT; window += 1) {
+      attackActive.push(isActiveInWindow(attackRange, window));
+      defenceActive.push(isActiveInWindow(defenceRange, window));
+    }
+    return { playerId: p.playerId, isGoalkeeper: false, attackActive, defenceActive, goalkeeperActive: emptyWindows };
+  });
+}
+
 export interface PlayerUsageTrace {
   playerId: string;
   /** 0-1, normalized: fraction of match windows this player is intended to be on court in ATTACK. */

@@ -169,5 +169,15 @@ export function migrateCareerState(career: CareerState): CareerState {
     next = { ...next, activeMatchSession: null };
   }
 
+  // HM-PHYSICAL-1.0 (career-state schema v14): additive, same pattern as
+  // `results` -- an existing career simply never had a physical report
+  // for any played fixture yet; every reader already treats a missing
+  // entry as "no energy data available" (Match Report simply omits the
+  // section), so an empty object here changes nothing observable for
+  // old saves.
+  if (next.physicalReports === undefined) {
+    next = { ...next, physicalReports: {} };
+  }
+
   return next;
 }

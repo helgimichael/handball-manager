@@ -16,7 +16,8 @@ import { getCareerClubSquad, getCareerSquad } from "./careerWorld";
 import { careerEventToInboxMessage } from "./inboxBridge";
 import { computeAttackActiveWindows, computeTeamUsageTrace } from "./matchUsageEngine";
 import { applyMatchResultBookkeeping } from "./matchResultApplication";
-import { computePlayerMatchStrengthAdjustment, resolveClubMatchPlanForFixture } from "./playerMatchStrength";
+import { computePlayerMatchStrengthAdjustment, computeTeamPhysicalTrace, resolveClubMatchPlanForFixture } from "./playerMatchStrength";
+import type { MatchPhysicalReport } from "../matchPlan/physicalModel";
 import { computeTacticalMatchAdjustment, sevenVSixPolicyIntensity } from "./tacticalMatchAdjustment";
 import { computeTacticalMatchPlanAdjustment } from "./tacticalPlanEffects";
 import { buildFallbackAttackExposure, buildMatchRoster } from "./tumbaRoster";
@@ -185,6 +186,25 @@ export function playManagerFixture(state: CareerState): PlayManagerFixtureResult
     combinedAdjustment,
   );
 
+  // HM-PHYSICAL-1.0 Part 21: the SAME per-player energy trajectories
+  // playerStrength's own fatigue adjustment already computed internally
+  // (playerMatchStrength.ts's computeTeamPhysicalTrace) are recomputed
+  // here (cheap and deterministic, same "recompute rather than thread a
+  // shared object through" precedent as managerUsageTrace/
+  // opponentUsageTrace above) and persisted alongside the match result,
+  // keyed by home/away club side rather than manager/opponent, so
+  // Match Report can read it the same way it reads homeStats/awayStats.
+  const homePlan = managerIsHome ? managerPlan : opponentPlan;
+  const awayPlan = managerIsHome ? opponentPlan : managerPlan;
+  const homeRatingsById = new Map((state.gameplayRatings[fixture.homeClubId] ?? []).map((r) => [r.playerId, r]));
+  const awayRatingsById = new Map((state.gameplayRatings[fixture.awayClubId] ?? []).map((r) => [r.playerId, r]));
+  const physicalReport: MatchPhysicalReport = {
+    fixtureId: fixture.id,
+    home: homePlan ? Object.fromEntries(computeTeamPhysicalTrace(homePlan, homeRatingsById)) : {},
+    away: awayPlan ? Object.fromEntries(computeTeamPhysicalTrace(awayPlan, awayRatingsById)) : {},
+  };
+  const physicalReports: Record<string, MatchPhysicalReport> = { ...state.physicalReports, [fixture.id]: physicalReport };
+
   const results: Record<string, FastMatchResult> = { ...state.results, [fixture.id]: result };
   const clubForm: Record<string, ClubFormEntry[]> = { ...state.clubForm };
   const playerSeasonStats: Record<string, PlayerSeasonStats> = { ...state.playerSeasonStats };
@@ -198,7 +218,7 @@ export function playManagerFixture(state: CareerState): PlayManagerFixtureResult
   // read (Spec §23/§24: opening Match Preview =/= completing the match).
   const inbox = state.inbox.map((m) => (m.id === matchdayMessageId ? { ...m, read: true, actionRequired: false, resolved: true } : m));
 
-  let next: CareerState = { ...state, results, clubForm, playerSeasonStats, careerEvents, inbox };
+  let next: CareerState = { ...state, results, physicalReports, clubForm, playerSeasonStats, careerEvents, inbox };
 
   const completedEvent = buildMatchCompletedEvent(fixture.id, fixture.competitionId, state.gameDate);
   if (!next.careerEvents.some((e) => e.id === completedEvent.id)) {

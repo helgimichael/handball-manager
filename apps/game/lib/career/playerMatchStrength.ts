@@ -34,13 +34,52 @@
 // tacticalMatchAdjustment.ts's own existing (intensity-scalable) 7v6
 // bonus channel.
 import type { GameplayPlayerRating } from "../gameWorld/gameplayRatingSnapshot";
-import { computeTeamUsageTrace, type TeamUsageTrace } from "./matchUsageEngine";
+import { computePlayerWindowActivity, computeTeamUsageTrace, type PlayerWindowActivity, type TeamUsageTrace } from "./matchUsageEngine";
 import type { PlayerMock } from "../game-data";
 import { buildInitialMatchSquad } from "../matchPlan/careerSquadBridge";
 import { buildDefaultMatchPlan } from "../matchPlan/defaultMatchPlan";
+import { computeAveragePhaseFatigueModifier, computeEnergyTrajectory, type PlayerEnergyTrajectory } from "../matchPlan/physicalModel";
 import type { MatchPlan } from "../matchPlan/types";
 import type { PlayerMatchDefault, TacticsTemplate } from "../matchPlan/persistentDefaults";
 import { GOALKEEPER_ATTRIBUTES, type GoalkeeperAttribute, type OutcourtAttribute } from "../rating/types";
+
+// ---------------------------------------------------------------------------
+// HM-PHYSICAL-1.0 Part 2/6/8/11: fatigue plugs in exactly here -- the ONE
+// existing adapter layer between per-player attributes/CA and the Fast
+// Match Engine's expected-goals adjustment (confirmed by audit: no
+// per-event shot/technical-error/defensive/goalkeeper resolver exists
+// anywhere in packages/game-simulation or packages/handball-engine to
+// hook into instead). A player's energy trajectory is computed ONCE per
+// fixture from the SAME MatchUsage window-activity data
+// (computePlayerWindowActivity, matchUsageEngine.ts) already driving
+// exposure weighting above -- never a second lineup/minutes algorithm.
+// The ENDURANCE attribute (rating/types.ts's own existing PHYSICAL
+// family) is the ONLY new attribute this module reads; no goalkeeper
+// stamina attribute exists (confirmed by audit), so goalkeepers use a
+// fixed neutral stamina reference -- consistent with Part 11's "the
+// goalkeeper's load profile is deliberately separate, not stamina-
+// attribute-driven the same way outfield players are".
+// ---------------------------------------------------------------------------
+
+const GOALKEEPER_NEUTRAL_STAMINA = 10.5; // rating/types.ts's own documented 1-20 midpoint
+
+function staminaOf(rating: GameplayPlayerRating | undefined): number {
+  if (rating && rating.branch.branch === "OUTCOURT") {
+    return rating.branch.attributes.ENDURANCE?.value ?? GOALKEEPER_NEUTRAL_STAMINA;
+  }
+  return GOALKEEPER_NEUTRAL_STAMINA;
+}
+
+/** Part 3/6: one energy trajectory per squad player, built once per fixture. Exported so matchdayAction.ts can persist the same trajectories into the match's physical report (Part 21) without recomputing them a second time. */
+export function computeTeamPhysicalTrace(plan: MatchPlan, ratingsById: Map<string, GameplayPlayerRating>): ReadonlyMap<string, PlayerEnergyTrajectory> {
+  const activities = computePlayerWindowActivity(plan);
+  const trace = new Map<string, PlayerEnergyTrajectory>();
+  for (const activity of activities) {
+    const stamina = staminaOf(ratingsById.get(activity.playerId));
+    trace.set(activity.playerId, computeEnergyTrajectory(activity.playerId, activity.isGoalkeeper, activity, stamina));
+  }
+  return trace;
+}
 
 // ---------------------------------------------------------------------------
 // Part E: a small, documented attribute-family weighting model -- NOT all
@@ -136,6 +175,8 @@ function computePhaseValue(
   usageTrace: TeamUsageTrace,
   phase: "attack" | "defence",
   valueOf: (rating: GameplayPlayerRating | undefined) => number,
+  physicalTrace: ReadonlyMap<string, PlayerEnergyTrajectory>,
+  activityById: ReadonlyMap<string, PlayerWindowActivity>,
 ): PhaseValueResult {
   const traceById = new Map(usageTrace.players.map((t) => [t.playerId, t]));
   const gkIds = new Set(plan.squad.players.filter((p) => p.position === "GK").map((p) => p.playerId));
@@ -145,7 +186,17 @@ function computePhaseValue(
     const trace = traceById.get(p.playerId);
     const exposure = phase === "attack" ? (trace?.attackExposure ?? 0) : (trace?.defenceExposure ?? 0);
     const started = phase === "attack" ? (trace?.startedAttack ?? false) : (trace?.startedDefence ?? false);
-    return { value: valueOf(ratingsById.get(p.playerId)), weight: exposure, started };
+    // HM-PHYSICAL-1.0 Part 14/15: fatigue multiplies this player's own
+    // value BEFORE exposure-weighting -- a bench player (zero exposure
+    // this phase) gets a 1.0 modifier (no penalty, per
+    // computeAveragePhaseFatigueModifier's own contract) and contributes
+    // nothing to `value` either way via its own zero weight, so hiding
+    // fatigue behind exposure never double-penalizes anyone.
+    const trajectory = physicalTrace.get(p.playerId);
+    const activity = activityById.get(p.playerId);
+    const phaseFlags = phase === "attack" ? activity?.attackActive : activity?.defenceActive;
+    const fatigueModifier = trajectory && phaseFlags ? computeAveragePhaseFatigueModifier(trajectory, phaseFlags) : 1;
+    return { value: valueOf(ratingsById.get(p.playerId)) * fatigueModifier, weight: exposure, started };
   });
 
   const value = items.length > 0 ? weightedMean(items) : NEUTRAL_VALUE;
@@ -165,12 +216,17 @@ function computePhaseValue(
 // 85/15 split is needed any more.
 // ---------------------------------------------------------------------------
 
-function computeGoalkeeperValue(plan: MatchPlan, ratingsById: Map<string, GameplayPlayerRating>, usageTrace: TeamUsageTrace): number {
+function computeGoalkeeperValue(plan: MatchPlan, ratingsById: Map<string, GameplayPlayerRating>, usageTrace: TeamUsageTrace, physicalTrace: ReadonlyMap<string, PlayerEnergyTrajectory>, activityById: ReadonlyMap<string, PlayerWindowActivity>): number {
   const traceById = new Map(usageTrace.players.map((t) => [t.playerId, t]));
   const goalkeepers = plan.squad.players.filter((p) => p.position === "GK");
   if (goalkeepers.length === 0) return NEUTRAL_VALUE;
 
-  const items = goalkeepers.map((p) => ({ value: playerGoalkeeperValue(ratingsById.get(p.playerId)), weight: traceById.get(p.playerId)?.goalkeeperExposure ?? 0 }));
+  const items = goalkeepers.map((p) => {
+    const trajectory = physicalTrace.get(p.playerId);
+    const activity = activityById.get(p.playerId);
+    const fatigueModifier = trajectory && activity ? computeAveragePhaseFatigueModifier(trajectory, activity.goalkeeperActive) : 1;
+    return { value: playerGoalkeeperValue(ratingsById.get(p.playerId)) * fatigueModifier, weight: traceById.get(p.playerId)?.goalkeeperExposure ?? 0 };
+  });
   return weightedMean(items);
 }
 
@@ -232,10 +288,12 @@ export function computeTeamStrengthTrace(plan: MatchPlan | null, ratings: readon
 
   const ratingsById = new Map(ratings.map((r) => [r.playerId, r]));
   const usageTrace = computeTeamUsageTrace(plan, usageSeed);
+  const physicalTrace = computeTeamPhysicalTrace(plan, ratingsById);
+  const activityById = new Map(computePlayerWindowActivity(plan).map((a) => [a.playerId, a]));
 
-  const attack = computePhaseValue(plan, ratingsById, usageTrace, "attack", playerAttackValue);
-  const defenceOutfield = computePhaseValue(plan, ratingsById, usageTrace, "defence", playerDefenceValue);
-  const goalkeeperValue = computeGoalkeeperValue(plan, ratingsById, usageTrace);
+  const attack = computePhaseValue(plan, ratingsById, usageTrace, "attack", playerAttackValue, physicalTrace, activityById);
+  const defenceOutfield = computePhaseValue(plan, ratingsById, usageTrace, "defence", playerDefenceValue, physicalTrace, activityById);
+  const goalkeeperValue = computeGoalkeeperValue(plan, ratingsById, usageTrace, physicalTrace, activityById);
   const defenceValue = OUTFIELD_DEFENCE_SHARE * defenceOutfield.value + GOALKEEPER_DEFENCE_SHARE * goalkeeperValue;
 
   return {
