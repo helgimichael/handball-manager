@@ -33,7 +33,7 @@ import { defenceCourtSlotLabel, matchPlanPositionLabel } from "@/lib/matchPlan/m
 import { assignAttackGoalkeeper, assignDefenceGoalkeeper, setAttackFormation, type OnMatchPlanChange } from "@/lib/matchPlan/matchPlanEdits";
 import { assignAttackCellPosition, attackSlotTacticalPosition, resolveAttackSlotCells } from "@/lib/matchPlan/attackBoard";
 import { assignDefenceCellPosition, defenceSlotTacticalPosition, resolveDefenceSlotCells } from "@/lib/matchPlan/defenceBoard";
-import { cellToFullCourtPct, ATTACK_GK_ANCHOR_PCT, DEFENCE_GK_ANCHOR_PCT } from "@/lib/court/boardGeometry";
+import { cellToFullCourtPct, DEFENCE_GK_ANCHOR_PCT } from "@/lib/court/boardGeometry";
 import { getAttackPositionCalibration, getDefenceFormationCalibration, type DefenceFormationId } from "@/lib/court/tacticalPositionCalibration";
 import type { MatchPlan } from "@/lib/matchPlan/types";
 import type { SelectablePlayer } from "@/lib/matchPlan/careerSquadBridge";
@@ -84,14 +84,17 @@ export default function StartingUnitEditor({
   const ghostCells: CourtGhostCell[] = [];
 
   // -- ATTACK half (top of the full court) --
+  // HM-TACTICS-BOARD-1.0A Part 1: the goalkeeper is NOT an offensive
+  // tactical position -- normal 6v6 attack shows ONLY the 6 outcourt
+  // assignments (7 for 7v6), never a yellow MV marker. The domain's
+  // attackStartingUnit GK slot still exists internally (Part 4 -- see
+  // this component's own module doc for the documented technical debt)
+  // but is simply never rendered/interactive here.
   const resolvedAttackCells = resolveAttackSlotCells(plan.attackStartingUnit.slots);
   const occupiedAttack = new Set<number>();
   plan.attackStartingUnit.slots.forEach((slot, i) => {
     const cell = resolvedAttackCells[i];
-    if (cell === null) {
-      chips.push({ key: "A-GK", xPct: ATTACK_GK_ANCHOR_PCT.xPct, yPct: ATTACK_GK_ANCHOR_PCT.yPct, shortLabel: "MV", playerName: nameOf(slot.playerId), playerId: slot.playerId, shirtNumber: byId.get(slot.playerId)?.shirtNumber ?? null, role: "ATTACK" });
-      return;
-    }
+    if (cell === null) return; // GK slot -- intentionally not rendered as an attack marker.
     occupiedAttack.add(cell);
     const tactical = attackSlotTacticalPosition(cell);
     const shortLabel = tactical ? (ATTACK_SHORT_LABEL[tactical.id] ?? tactical.id) : slot.position;
@@ -106,7 +109,7 @@ export default function StartingUnitEditor({
 
   // -- DEFENCE half (bottom of the full court) --
   if (plan.defenceStartingUnit.goalkeeperId) {
-    chips.push({ key: "D-GK", xPct: DEFENCE_GK_ANCHOR_PCT.xPct, yPct: DEFENCE_GK_ANCHOR_PCT.yPct, shortLabel: "MV", playerName: nameOf(plan.defenceStartingUnit.goalkeeperId), playerId: plan.defenceStartingUnit.goalkeeperId, shirtNumber: byId.get(plan.defenceStartingUnit.goalkeeperId)?.shirtNumber ?? null, role: "DEFENCE" });
+    chips.push({ key: "D-GK", xPct: DEFENCE_GK_ANCHOR_PCT.xPct, yPct: DEFENCE_GK_ANCHOR_PCT.yPct, shortLabel: "MV", playerName: nameOf(plan.defenceStartingUnit.goalkeeperId), playerId: plan.defenceStartingUnit.goalkeeperId, shirtNumber: byId.get(plan.defenceStartingUnit.goalkeeperId)?.shirtNumber ?? null, role: "DEFENCE", isCalibratedCell: false });
   }
   const resolvedDefenceCells = resolveDefenceSlotCells(defenceFormation, plan.defenceStartingUnit.courtSlots);
   const occupiedDefence = new Set<number>();

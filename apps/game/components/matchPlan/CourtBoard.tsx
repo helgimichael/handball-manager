@@ -1,19 +1,29 @@
 "use client";
 
 // HM-TACTICS-1.2 Part 3 / HM-MATCH-1.3B Part E/F/G, redesigned by
-// HM-TACTICS-BOARD-1.0 into a compact FM-style marker: the players on
+// HM-TACTICS-BOARD-1.0 into a compact FM-style marker, and by
+// HM-TACTICS-BOARD-1.0A into a full-CELL drop target: the players on
 // the court are the primary, clickable AND draggable representation of
 // a starting unit -- MasterCourt itself stays a pure visual backdrop
 // (unchanged, no FIELD internals touched), and this component overlays
-// small circular chips (shirt number + short tactical-position badge)
+// small circular markers (shirt number + short tactical-position badge)
 // on top of it at each slot's canonical grid position.
 //
-// HM-TACTICS-BOARD-1.0 Part 5/6: the old chip was a wide horizontal
-// name pill -- wide enough to cover multiple grid cells, collide with
-// neighbours, and obscure exactly which cell it belonged to. This
-// marker is a small circle CENTERED on the cell; the full name is
-// available via the browser's native `title` tooltip and the selected-
-// slot side panel, never inline on the marker itself.
+// HM-TACTICS-BOARD-1.0A Part 5/6/8: VISUAL marker and DROP TARGET are
+// now separate concerns for every calibrated cell (chip.isCalibratedCell
+// / ghost, the default) -- the small circle/number is purely decorative
+// content INSIDE a button sized to the entire 2m x 2m canonical cell
+// (10% x 5% of the full 20x40m court, a constant derived directly from
+// COURT_GRID_DEFINITION, never a hand-tuned CSS hitbox). Dropping
+// ANYWHERE inside that rectangle resolves to the SAME cellNumber the
+// small circle represents -- "one cell = one target" (Part 8), and the
+// player always ends up rendered at the cell's own CENTER regardless of
+// where inside the cell the drop happened (Part 9), since the caller
+// always re-derives xPct/yPct from the canonical cell center, never from
+// the drop's own pointer position. The goalkeeper anchor is the one
+// exception (isCalibratedCell: false) -- it has no canonical calibration
+// cell (tacticalPositionCalibration.ts explicitly keeps GK out of scope),
+// so it keeps the older small circular hit area.
 //
 // Two interactions, both supported (Part G: "do not remove the current
 // useful click interaction"):
@@ -34,9 +44,14 @@
 // any shared React state.
 import { useState, type CSSProperties, type DragEvent } from "react";
 import type { TacticsBoardScene } from "@handball-manager/match-renderer/src/ui/workspaces/tactics-board/scene/TacticsBoardScene.ts";
+import { COURT_GRID_DEFINITION } from "@/lib/court/courtGrid";
 import MasterCourtDisplay from "./MasterCourtDisplay";
 
 const PLAYER_ID_MIME = "application/x-hm-player-id";
+
+/** Every canonical cell is exactly 2m x 2m -- a constant fraction of the full 20m x 40m court, never re-derived per cell (HM-TACTICS-BOARD-1.0A Part 8). */
+const CELL_WIDTH_PCT = (COURT_GRID_DEFINITION.cellWidthMeters / COURT_GRID_DEFINITION.courtWidthMeters) * 100;
+const CELL_HEIGHT_PCT = (COURT_GRID_DEFINITION.cellLengthMeters / COURT_GRID_DEFINITION.courtLengthMeters) * 100;
 
 export interface CourtChip {
   key: string;
@@ -50,9 +65,11 @@ export interface CourtChip {
   role: "ATTACK" | "DEFENCE";
   /** Part M: whether this chip's player is currently active in the LIVE match (only meaningful when a live board is shown -- undefined/omitted in the pre-match Tactics workspace, where every starter is simply "assigned"). */
   isLiveActive?: boolean;
+  /** HM-TACTICS-BOARD-1.0A Part 5/8: true for every chip positioned at a real canonical calibration cell (the drop hit area expands to the full 2x2m cell) -- false only for the goalkeeper's fixed anchor, which has no calibration cell and keeps the smaller circular hit area. Defaults to true. */
+  isCalibratedCell?: boolean;
 }
 
-/** HM-COURT-GRID-0.3 Part H: an approved calibrated snap cell with no player currently on it -- rendered as a subtle affordance ("there's another legal position here"), not a full chip. Still a valid drop target (Part F: board player -> empty cell = move). */
+/** HM-COURT-GRID-0.3 Part H: an approved calibrated snap cell with no player currently on it -- rendered as a subtle affordance ("there's another legal position here"), not a full chip. Still a valid drop target (Part F: board player -> empty cell = move), now expanded to the full cell (HM-TACTICS-BOARD-1.0A). */
 export interface CourtGhostCell {
   key: string;
   xPct: number;
@@ -157,20 +174,34 @@ export default function CourtBoard({
                 position: "absolute",
                 left: `${ghost.xPct}%`,
                 top: `${ghost.yPct}%`,
-                transform: `translate(-50%, -50%) scale(${dragTarget ? 1.3 : 1})`,
-                width: dragTarget ? 12 : 7,
-                height: dragTarget ? 12 : 7,
-                borderRadius: "50%",
-                border: dragTarget ? "2px solid var(--hm-accent)" : "1px dashed rgba(226, 245, 238, 0.4)",
-                background: dragTarget ? "rgba(255,255,255,0.18)" : "rgba(226, 245, 238, 0.06)",
+                transform: "translate(-50%, -50%)",
+                width: `${CELL_WIDTH_PCT}%`,
+                height: `${CELL_HEIGHT_PCT}%`,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                border: dragTarget ? "1px solid var(--hm-accent)" : "none",
+                background: dragTarget ? "rgba(255, 196, 0, 0.16)" : "transparent",
                 padding: 0,
                 cursor: "default",
-                transition: "transform 100ms ease",
+                transition: "background 100ms ease",
               }}
               onDragOver={(e) => handleDragOver(e, ghost.key)}
               onDragLeave={() => handleDragLeave(ghost.key)}
               onDrop={(e) => handleDrop(e, ghost.key)}
-            />
+            >
+              <span
+                style={{
+                  width: dragTarget ? 12 : 7,
+                  height: dragTarget ? 12 : 7,
+                  borderRadius: "50%",
+                  border: dragTarget ? "2px solid var(--hm-accent)" : "1px dashed rgba(226, 245, 238, 0.4)",
+                  background: dragTarget ? "rgba(255,255,255,0.18)" : "rgba(226, 245, 238, 0.06)",
+                  pointerEvents: "none",
+                  transition: "all 100ms ease",
+                }}
+              />
+            </button>
           );
         })}
         {chips.map((chip) => {
@@ -178,11 +209,25 @@ export default function CourtBoard({
           const dragTarget = chip.key === dragOverKey;
           const inactive = chip.isLiveActive === false;
           const accent = ROLE_ACCENT[chip.role];
-          const style: CSSProperties = {
+          const fullCell = chip.isCalibratedCell !== false;
+          const outerStyle: CSSProperties = {
             position: "absolute",
             left: `${chip.xPct}%`,
             top: `${chip.yPct}%`,
-            transform: `translate(-50%, -50%) scale(${dragTarget ? 1.15 : 1})`,
+            transform: "translate(-50%, -50%)",
+            width: fullCell ? `${CELL_WIDTH_PCT}%` : 28,
+            height: fullCell ? `${CELL_HEIGHT_PCT}%` : 28,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            border: fullCell ? (dragTarget ? "1px solid var(--hm-accent)" : "none") : undefined,
+            background: fullCell ? (dragTarget ? "rgba(255, 196, 0, 0.16)" : "transparent") : undefined,
+            padding: 0,
+            cursor: "grab",
+            transition: "background 100ms ease",
+          };
+          const markerStyle: CSSProperties = {
+            position: "relative",
             width: 28,
             height: 28,
             borderRadius: "50%",
@@ -194,33 +239,35 @@ export default function CourtBoard({
             border: `2px solid ${selected ? "#fff" : dragTarget ? "var(--hm-accent)" : accent}`,
             fontSize: 11,
             fontWeight: 700,
-            cursor: "grab",
-            padding: 0,
             boxShadow: selected ? "0 0 0 3px rgba(255,255,255,0.2), 0 1px 4px rgba(0,0,0,0.4)" : "0 1px 4px rgba(0,0,0,0.4)",
             opacity: inactive ? 0.45 : 1,
+            transform: dragTarget ? "scale(1.15)" : undefined,
             transition: "transform 100ms ease, background 100ms ease",
+            pointerEvents: "none",
           };
           return (
-            <button key={chip.key} type="button" style={style} draggable title={`${chip.playerName} · ${chip.shortLabel}`} onDragStart={(e) => handleDragStart(e, chip)} onDragOver={(e) => handleDragOver(e, chip.key)} onDragLeave={() => handleDragLeave(chip.key)} onDrop={(e) => handleDrop(e, chip.key)} onClick={() => onSelectChip(chip.key)}>
-              {chip.shirtNumber ?? "?"}
-              <span
-                style={{
-                  position: "absolute",
-                  bottom: -6,
-                  left: "50%",
-                  transform: "translateX(-50%)",
-                  fontSize: 8,
-                  fontWeight: 700,
-                  lineHeight: 1,
-                  padding: "1px 3px",
-                  borderRadius: 4,
-                  background: accent,
-                  color: "#0e2e27",
-                  whiteSpace: "nowrap",
-                  pointerEvents: "none",
-                }}
-              >
-                {chip.shortLabel}
+            <button key={chip.key} type="button" style={outerStyle} draggable title={`${chip.playerName} · ${chip.shortLabel}`} onDragStart={(e) => handleDragStart(e, chip)} onDragOver={(e) => handleDragOver(e, chip.key)} onDragLeave={() => handleDragLeave(chip.key)} onDrop={(e) => handleDrop(e, chip.key)} onClick={() => onSelectChip(chip.key)}>
+              <span style={markerStyle}>
+                {chip.shirtNumber ?? "?"}
+                <span
+                  style={{
+                    position: "absolute",
+                    bottom: -6,
+                    left: "50%",
+                    transform: "translateX(-50%)",
+                    fontSize: 8,
+                    fontWeight: 700,
+                    lineHeight: 1,
+                    padding: "1px 3px",
+                    borderRadius: 4,
+                    background: accent,
+                    color: "#0e2e27",
+                    whiteSpace: "nowrap",
+                    pointerEvents: "none",
+                  }}
+                >
+                  {chip.shortLabel}
+                </span>
               </span>
             </button>
           );
