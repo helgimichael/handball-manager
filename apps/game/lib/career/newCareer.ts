@@ -7,6 +7,9 @@ import { seedPlayerStatuses } from "./playerStatus";
 import { defaultTeamTacticalProfile, type TeamTacticalProfile } from "./teamTacticalProfile";
 import type { CareerState } from "./types";
 import type { GameplayPlayerRating } from "../gameWorld/gameplayRatingSnapshot";
+import { selectCurrentStaffAssignments } from "../identity/validators";
+import { resolveClubStaffRoster, type RawClubStaffIdentityLike } from "../staff/staffRosterResolution";
+import type { StaffEmployment } from "../staff/types";
 
 const FALLBACK_COMPETITION_ID = "swe-2"; // used only if playerClubId doesn't resolve to a known club
 
@@ -35,6 +38,14 @@ export function createNewCareerState(
   // (app/api/game-world/gameplay-ratings-snapshot) before this function
   // is called for a real-world-backed club.
   gameplayRatings: Record<string, GameplayPlayerRating[]> = {},
+  // HM-STAFF-1.0: same fs-free, client-safe pattern as worldSquads/
+  // gameplayRatings -- already resolved server-side
+  // (app/api/game-world/staff-snapshot) before this function is called
+  // for a real-world-backed club. `null` (every mock club, or a
+  // real-world club whose staff fetch failed/found nothing) is handled
+  // identically by resolveClubStaffRoster -- essential-role coverage is
+  // always generated regardless (Part 19/20).
+  staffIdentity: RawClubStaffIdentityLike | null = null,
 ): CareerState {
   const playerClub = getClub(playerClubId);
   const competitionId = playerClub?.competitionId ?? FALLBACK_COMPETITION_ID;
@@ -48,6 +59,20 @@ export function createNewCareerState(
   });
 
   const playerSquad: readonly PlayerMock[] = worldSquads[playerClubId] ?? TUMBA_SQUAD;
+
+  // HM-STAFF-1.0 Part 15/19: resolved once, at creation, exactly like
+  // worldSquads/gameplayRatings -- HISTORICAL/expired assignments are
+  // filtered out first (same "never treat a stale assignment as current"
+  // rule app/career/staff/page.tsx already applies), then essential-role
+  // gaps are always filled with generated fictional staff, regardless of
+  // whether any real identity data exists for this club at all.
+  const currentStaffIdentity: RawClubStaffIdentityLike | null = staffIdentity
+    ? { people: staffIdentity.people, assignments: selectCurrentStaffAssignments(staffIdentity.assignments, GAME_CURRENT_DATE) }
+    : null;
+  const staffRoster = resolveClubStaffRoster(playerClubId, currentStaffIdentity);
+  const staffEmployment: Record<string, StaffEmployment> = Object.fromEntries(
+    staffRoster.map((m) => [m.id, { staffId: m.id, clubId: m.clubId, roles: m.roles, status: "EMPLOYED" as const }]),
+  );
 
   return {
     seasonId: "2026/27",
@@ -91,5 +116,7 @@ export function createNewCareerState(
     playerPhysicalState: {},
     playerTrainingAssignments: {},
     playerDevelopmentState: {},
+    staffRoster: { [playerClubId]: staffRoster },
+    staffEmployment,
   };
 }

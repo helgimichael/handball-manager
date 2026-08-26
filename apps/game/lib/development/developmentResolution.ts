@@ -65,10 +65,17 @@ export function fatigueDevelopmentMultiplier(currentEnergy: number): number {
 }
 
 // ---------------------------------------------------------------------------
-// Part 38: staff/coaching quality hook -- always neutral (1.0) in
-// HM-TRAINING-1.1, multiplied in at the exact same point every other
-// efficiency factor is, so a future Staff milestone only needs to replace
-// this one constant/lookup, never restructure resolution itself.
+// HM-STAFF-1.0 Part 11: staff/coaching quality -- HM-TRAINING-1.1 reserved
+// this as an always-neutral (1.0) constant; this milestone activates it
+// as the NEUTRAL DEFAULT `resolveAttributeForWeek` falls back to whenever
+// a caller doesn't supply `inputs.coachingQualityMultiplier` (e.g.
+// match-exposure stimulus, which has no coach at all) -- the real,
+// staff-derived value is computed per-session by
+// lib/staff/roleSuitability.ts's computeStaffTrainingQuality, stored on
+// each TrainingSessionResult, and stimulus-weighted-averaged per
+// attribute by developmentIntegration.ts before being passed in here.
+// Multiplied in at the exact same point every other efficiency factor
+// is -- resolution itself was never restructured, exactly as reserved.
 // ---------------------------------------------------------------------------
 
 export const FUTURE_COACHING_QUALITY_MULTIPLIER = 1.0;
@@ -111,6 +118,17 @@ export interface AttributeResolutionInputs {
   rawStimulus: number;
   age: number | null;
   currentEnergy: number;
+  /**
+   * HM-STAFF-1.0 Part 11: the stimulus-weighted average staff coaching
+   * quality across every session that contributed to this attribute's
+   * `rawStimulus` this week (developmentIntegration.ts's own
+   * weighted-average computation -- a week can mix sessions led by
+   * different coaches of different quality). Defaults to
+   * FUTURE_COACHING_QUALITY_MULTIPLIER (neutral 1.0) when omitted, which
+   * is exactly what every stimulus source with no coach (match exposure,
+   * or a club with zero eligible staff) already resolves to.
+   */
+  coachingQualityMultiplier?: number;
 }
 
 export interface AttributeResolutionResult {
@@ -137,7 +155,8 @@ export function resolveAttributeForWeek(
   const ageMult = inputs.age === null ? 1 : ageDevelopmentMultiplier(inputs.age);
   const headroomMult = headroomDevelopmentMultiplier(ca, pa);
   const fatigueMult = fatigueDevelopmentMultiplier(inputs.currentEnergy);
-  const effectiveStimulus = Math.min(inputs.rawStimulus * ageMult * headroomMult * fatigueMult * FUTURE_COACHING_QUALITY_MULTIPLIER, MAX_WEEKLY_EFFECTIVE_STIMULUS_PER_ATTRIBUTE);
+  const coachingQualityMult = inputs.coachingQualityMultiplier ?? FUTURE_COACHING_QUALITY_MULTIPLIER;
+  const effectiveStimulus = Math.min(inputs.rawStimulus * ageMult * headroomMult * fatigueMult * coachingQualityMult, MAX_WEEKLY_EFFECTIVE_STIMULUS_PER_ATTRIBUTE);
 
   let progress = priorProgress + effectiveStimulus;
   let pointsGained = 0;

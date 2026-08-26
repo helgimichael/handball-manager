@@ -205,7 +205,7 @@ export function removeTrainingSession(week: TrainingWeek, date: string, sessionI
   return mapDay(week, date, (day) => ({ ...day, sessions: day.sessions.filter((s) => s.id !== sessionId) }));
 }
 
-export function updateTrainingSession(week: TrainingWeek, date: string, sessionId: string, patch: Partial<Pick<TrainingSession, "type" | "intensity" | "duration" | "target" | "selectedPlayerIds" | "tacticalFocus">>): TrainingWeek {
+export function updateTrainingSession(week: TrainingWeek, date: string, sessionId: string, patch: Partial<Pick<TrainingSession, "type" | "intensity" | "duration" | "target" | "selectedPlayerIds" | "tacticalFocus" | "coachId">>): TrainingWeek {
   return mapDay(week, date, (day) => ({ ...day, sessions: day.sessions.map((s) => (s.id === sessionId ? { ...s, ...patch } : s)) }));
 }
 

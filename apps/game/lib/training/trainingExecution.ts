@@ -11,6 +11,7 @@ import { ENERGY_START_DEFAULT } from "../matchPlan/physicalModel";
 import { applyOvernightRecovery, applyRecoveryDayBonus, applyRestDayBonus, clampTrainingEnergy, computePlayerSessionEnergyDelta } from "./trainingLoad";
 import { DEFAULT_WEEKLY_TEMPLATE, mondayOf, resolveTrainingWeek } from "./trainingSchedule";
 import type { PlayerPhysicalState, TrainingDay, TrainingSession, TrainingSessionResult, TrainingSessionTarget, TrainingWeek } from "./types";
+import { computeStaffTrainingQuality, findHeadCoach, resolveResponsibleCoach } from "../staff/roleSuitability";
 
 /** rating/types.ts's own documented 1-20 attribute-scale midpoint -- the neutral stamina assumption for a player with no snapshotted ENDURANCE (same fallback playerMatchStrength.ts/matchUsageEngine.ts already use). */
 const NEUTRAL_STAMINA = 10.5;
@@ -76,7 +77,21 @@ function executeSession(state: CareerState, date: string, session: TrainingSessi
     postEnergyByPlayer[player.id] = post;
   }
 
-  return { physicalState, result: { sessionId: session.id, date, participants, loadByPlayer, preEnergyByPlayer, postEnergyByPlayer } };
+  // HM-STAFF-1.0 Part 8/9/27: resolves who ACTUALLY led this session
+  // (manual assignment if eligible, otherwise a deterministic best-
+  // eligible-staff fallback -- never zero quality merely because no
+  // manager assignment exists) and the resulting quality multiplier,
+  // persisted onto the result for provenance (Part 27) and for
+  // lib/development/developmentIntegration.ts to weight this session's
+  // own development stimulus by (Part 11).
+  const roster = state.staffRoster[state.playerClubId] ?? [];
+  const resolvedCoach = resolveResponsibleCoach(roster, session.type, session.coachId);
+  const resolvedStaffQuality = computeStaffTrainingQuality(session.type, resolvedCoach, findHeadCoach(roster));
+
+  return {
+    physicalState,
+    result: { sessionId: session.id, date, participants, loadByPlayer, preEnergyByPlayer, postEnergyByPlayer, resolvedCoachId: resolvedCoach?.id ?? null, resolvedStaffQuality },
+  };
 }
 
 /**

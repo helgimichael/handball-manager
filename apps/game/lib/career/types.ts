@@ -13,6 +13,7 @@ import type { LiveMatchSessionState } from "../liveMatch/liveMatchSession";
 import type { MatchPhysicalReport } from "../matchPlan/physicalModel";
 import type { PlayerPhysicalState, PlayerTrainingAssignment, TrainingWeek } from "../training/types";
 import type { PlayerDevelopmentState } from "../development/types";
+import type { ResolvedStaffMember, StaffEmployment } from "../staff/types";
 
 export type CareerFixture = {
   id: string;
@@ -311,6 +312,30 @@ export type CareerState = {
    * for the only code that ever reads or writes this field.
    */
   playerDevelopmentState: Record<string, PlayerDevelopmentState>;
+
+  // --- HM-STAFF-1.0 addition (career-state schema v17, see saveMigration.ts) ---
+
+  /**
+   * Part 15/19/21: the manager's own club's resolved, gameplay-facing
+   * staff roster (real identity-backed staff blended with generated
+   * essential-coverage fictional staff -- lib/staff/staffRosterResolution.ts),
+   * snapshotted ONCE at career creation, keyed by clubId (only ever
+   * `playerClubId` is populated today -- same shape-for-future-proofing
+   * precedent as `gameplayRatings`, in case a later milestone needs an
+   * opponent's own staff, e.g. for scouting/analysis quality). A club
+   * with no entry here (a career created before this milestone) is
+   * migrated to an empty array, not regenerated -- see saveMigration.ts's
+   * own note on why old careers do not retroactively grow staff.
+   */
+  staffRoster: Record<string, ResolvedStaffMember[]>;
+  /**
+   * Part 21/22: the minimal, additive employment-state foundation for a
+   * future hiring/firing milestone -- keyed by staffId, one entry per
+   * roster member, seeded once at creation and never mutated by
+   * HM-STAFF-1.0 itself (every member is always `status: "EMPLOYED"`
+   * this milestone).
+   */
+  staffEmployment: Record<string, StaffEmployment>;
 };
 
 export type CareerSaveEnvelope = {

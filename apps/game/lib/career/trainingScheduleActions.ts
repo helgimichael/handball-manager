@@ -43,7 +43,7 @@ export function updateTrainingSessionAction(
   weekStart: string,
   date: string,
   sessionId: string,
-  patch: Partial<Pick<TrainingSession, "type" | "intensity" | "duration" | "target" | "selectedPlayerIds" | "tacticalFocus">>,
+  patch: Partial<Pick<TrainingSession, "type" | "intensity" | "duration" | "target" | "selectedPlayerIds" | "tacticalFocus" | "coachId">>,
 ): CareerState {
   return withWeek(state, weekStart, (week) => updateTrainingSessionPure(week, date, sessionId, patch));
 }

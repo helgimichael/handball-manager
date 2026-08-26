@@ -29,6 +29,7 @@ import {
 import { ENERGY_START_DEFAULT } from "../../../lib/matchPlan/physicalModel";
 import { playerAgeAtDate } from "../../../lib/development/developmentIntegration";
 import { INDIVIDUAL_DEVELOPMENT_FOCUSES, potentialStarsFromPA, type IndividualDevelopmentFocus } from "../../../lib/development/types";
+import { computeStaffTrainingQuality, eligibleStaffForSession, findHeadCoach, resolveResponsibleCoach, staffQualityLabel } from "../../../lib/staff/roleSuitability";
 
 const DAY_TYPE_LABEL: Record<TrainingDayType, string> = {
   TRAINING: "Träning",
@@ -84,6 +85,8 @@ export default function TrainingPage() {
   const week = resolveTrainingWeek(career, weekStart);
   const squad = getCareerSquad(career);
   const opponentName = (clubId: string) => getClub(clubId)?.shortName ?? getClub(clubId)?.name ?? clubId;
+  const staffRoster = career.staffRoster[career.playerClubId] ?? [];
+  const headCoach = findHeadCoach(staffRoster);
 
   return (
     <div className="hm-grid" style={{ gridTemplateColumns: "1fr", gap: 12 }}>
@@ -210,6 +213,33 @@ export default function TrainingPage() {
                             </option>
                           ))}
                         </select>
+                        {(() => {
+                          const eligible = eligibleStaffForSession(staffRoster, session.type);
+                          const resolvedCoach = resolveResponsibleCoach(staffRoster, session.type, session.coachId ?? null);
+                          const quality = computeStaffTrainingQuality(session.type, resolvedCoach, headCoach);
+                          if (eligible.length === 0) return null;
+                          return (
+                            <>
+                              <select
+                                className="hm-select"
+                                style={{ width: "100%", marginTop: 4 }}
+                                value={session.coachId ?? ""}
+                                disabled={locked}
+                                onChange={(e) => updateTrainingSession(weekStart, day.date, session.id, { coachId: e.target.value || null })}
+                              >
+                                <option value="">Ingen (auto)</option>
+                                {eligible.map((m) => (
+                                  <option key={m.id} value={m.id}>
+                                    {m.displayName}
+                                  </option>
+                                ))}
+                              </select>
+                              <div className="hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)", marginTop: 4 }}>
+                                Ansvarig: {resolvedCoach?.displayName ?? "—"} · Kvalitet: {staffQualityLabel(quality)}
+                              </div>
+                            </>
+                          );
+                        })()}
                         {!locked && (
                           <button className="hm-btn hm-btn-sm" style={{ width: "100%", marginTop: 4 }} onClick={() => removeTrainingSession(weekStart, day.date, session.id)}>
                             Ta bort pass

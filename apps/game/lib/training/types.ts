@@ -86,6 +86,18 @@ export interface TrainingSessionResult {
   loadByPlayer: Record<string, number>;
   preEnergyByPlayer: Record<string, number>;
   postEnergyByPlayer: Record<string, number>;
+  /**
+   * HM-STAFF-1.0 Part 27: the staff member who ACTUALLY led this session
+   * (after resolveResponsibleCoach's own manual-assignment-or-fallback
+   * resolution -- may differ from the session's own `coachId` if that
+   * assignment was stale/ineligible) and the resulting quality
+   * multiplier, together enough compact provenance to reproduce/audit
+   * "Coach X led this session, quality was Y" without a full causal
+   * graph. `null`/1.0 for a session type with no coaching-quality effect
+   * (RECOVERY) or a club with no eligible staff at all.
+   */
+  resolvedCoachId: string | null;
+  resolvedStaffQuality: number;
 }
 
 export interface TrainingDay {

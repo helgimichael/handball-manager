@@ -12,25 +12,37 @@ import { applyResolvedAttributeChanges, pushDevelopmentEvent, resolveAttributeFo
 import type { DevelopableAttribute, IndividualDevelopmentFocus, PlayerDevelopmentState } from "./types";
 
 function emptyDevelopmentState(playerId: string): PlayerDevelopmentState {
-  return { playerId, attributeStimulus: {}, attributeProgress: {}, lastDevelopmentDate: null, developmentHistory: [] };
+  return { playerId, attributeStimulus: {}, attributeQualityWeightedSum: {}, attributeProgress: {}, lastDevelopmentDate: null, developmentHistory: [] };
 }
 
-function addStimulus(state: PlayerDevelopmentState, stimulus: Partial<Record<DevelopableAttribute, number>>): PlayerDevelopmentState {
+/**
+ * HM-STAFF-1.0 Part 11/26: `quality` is the STAFF coaching-quality
+ * multiplier that produced this stimulus (1.0/neutral for match
+ * exposure, which has no coach) -- accumulated as a stimulus-weighted
+ * sum alongside the raw stimulus itself, so weekly resolution can
+ * recover a proper weighted average even when one week's stimulus for
+ * one attribute came from multiple sessions led by different coaches.
+ */
+function addStimulus(state: PlayerDevelopmentState, stimulus: Partial<Record<DevelopableAttribute, number>>, quality: number): PlayerDevelopmentState {
   const attributeStimulus = { ...state.attributeStimulus };
+  const attributeQualityWeightedSum = { ...state.attributeQualityWeightedSum };
   for (const [attr, units] of Object.entries(stimulus)) {
-    attributeStimulus[attr as DevelopableAttribute] = (attributeStimulus[attr as DevelopableAttribute] ?? 0) + (units ?? 0);
+    const key = attr as DevelopableAttribute;
+    attributeStimulus[key] = (attributeStimulus[key] ?? 0) + (units ?? 0);
+    attributeQualityWeightedSum[key] = (attributeQualityWeightedSum[key] ?? 0) + (units ?? 0) * quality;
   }
-  return { ...state, attributeStimulus };
+  return { ...state, attributeStimulus, attributeQualityWeightedSum };
 }
 
 function mergeStimulusIntoPlayerDevelopmentState(
   playerDevelopmentState: Record<string, PlayerDevelopmentState>,
   playerId: string,
   stimulus: Partial<Record<DevelopableAttribute, number>>,
+  quality: number,
 ): Record<string, PlayerDevelopmentState> {
   if (Object.keys(stimulus).length === 0) return playerDevelopmentState;
   const prior = playerDevelopmentState[playerId] ?? emptyDevelopmentState(playerId);
-  return { ...playerDevelopmentState, [playerId]: addStimulus(prior, stimulus) };
+  return { ...playerDevelopmentState, [playerId]: addStimulus(prior, stimulus, quality) };
 }
 
 /**
@@ -60,7 +72,7 @@ export function applyTrainingDayDevelopmentStimulus(state: CareerState, date: st
       const loadSetting = state.playerTrainingAssignments[playerId]?.loadSetting ?? "FULL";
       const focus = (state.playerTrainingAssignments[playerId]?.individualFocus as IndividualDevelopmentFocus | undefined) ?? null;
       const stimulus = computeSessionAttributeStimulus(session.type, session.intensity, session.duration, loadSetting, isGoalkeeper, focus, `${playerId}:${session.id}`);
-      playerDevelopmentState = mergeStimulusIntoPlayerDevelopmentState(playerDevelopmentState, playerId, stimulus);
+      playerDevelopmentState = mergeStimulusIntoPlayerDevelopmentState(playerDevelopmentState, playerId, stimulus, result.resolvedStaffQuality);
     }
   }
 
@@ -90,7 +102,9 @@ export function applyMatchDevelopmentStimulus(state: CareerState, date: string, 
     if (!player) continue;
     const isGoalkeeper = player.position === "MV";
     const stimulus = computeMatchAttributeStimulus(exposure.attackExposure, exposure.defenceExposure, exposure.goalkeeperExposure, isGoalkeeper, `${playerId}:${date}:match`);
-    playerDevelopmentState = mergeStimulusIntoPlayerDevelopmentState(playerDevelopmentState, playerId, stimulus);
+    // Part 11: match exposure has no coach -- neutral quality, exactly
+    // FUTURE_COACHING_QUALITY_MULTIPLIER's own default.
+    playerDevelopmentState = mergeStimulusIntoPlayerDevelopmentState(playerDevelopmentState, playerId, stimulus, 1.0);
   }
 
   return playerDevelopmentState === state.playerDevelopmentState ? state : { ...state, playerDevelopmentState };
@@ -163,6 +177,7 @@ export function resolveWeeklyDevelopmentIfDue(state: CareerState, date: string):
 
     const changes: { attribute: DevelopableAttribute; newValue: number; caDelta: number }[] = [];
     const nextStimulus = { ...dev.attributeStimulus };
+    const nextQualitySum = { ...dev.attributeQualityWeightedSum };
     const nextProgress = { ...dev.attributeProgress };
     let history = dev.developmentHistory;
 
@@ -170,14 +185,21 @@ export function resolveWeeklyDevelopmentIfDue(state: CareerState, date: string):
       if (!raw || raw <= 0) continue;
       const attrEntry = attributes[attr];
       if (!attrEntry) continue; // attribute not in this player's own branch vocabulary.
+      // Part 11/26: the stimulus-weighted average staff coaching quality
+      // across every session that contributed to THIS attribute this
+      // week -- affects conversion efficiency only, never participation.
+      const qualitySum = dev.attributeQualityWeightedSum[attr as DevelopableAttribute] ?? raw;
+      const coachingQualityMultiplier = qualitySum / raw;
       const result = resolveAttributeForWeek(branch, attrEntry.value, rating.ca, rating.pa, nextProgress[attr as DevelopableAttribute] ?? 0, {
         attribute: attr as DevelopableAttribute,
         rawStimulus: raw,
         age,
         currentEnergy: energy,
+        coachingQualityMultiplier,
       });
       nextProgress[attr as DevelopableAttribute] = result.nextProgress;
       nextStimulus[attr as DevelopableAttribute] = 0; // weekly reset, whether or not a point was gained
+      nextQualitySum[attr as DevelopableAttribute] = 0;
       if (result.event) {
         changes.push({ attribute: attr as DevelopableAttribute, newValue: result.event.newValue, caDelta: result.caDelta });
         history = pushDevelopmentEvent(history, {
@@ -185,7 +207,7 @@ export function resolveWeeklyDevelopmentIfDue(state: CareerState, date: string):
           attribute: attr as DevelopableAttribute,
           previousValue: result.event.previousValue,
           newValue: result.event.newValue,
-          sourceSummary: "Training and match development stimulus",
+          sourceSummary: `Training and match development stimulus (coaching quality x${coachingQualityMultiplier.toFixed(2)})`,
         });
       }
     }
@@ -197,7 +219,7 @@ export function resolveWeeklyDevelopmentIfDue(state: CareerState, date: string):
 
     playerDevelopmentState = {
       ...playerDevelopmentState,
-      [player.id]: { ...dev, attributeStimulus: nextStimulus, attributeProgress: nextProgress, developmentHistory: history, lastDevelopmentDate: date },
+      [player.id]: { ...dev, attributeStimulus: nextStimulus, attributeQualityWeightedSum: nextQualitySum, attributeProgress: nextProgress, developmentHistory: history, lastDevelopmentDate: date },
     };
   }
 

@@ -36,6 +36,7 @@ import type { MatchPlan } from "../matchPlan/types";
 import type { GameplayPlayerRating } from "../gameWorld/gameplayRatingSnapshot";
 import type { MatchPlanChange } from "../liveMatch/matchPlanChange";
 import type { LiveMatchSessionState } from "../liveMatch/liveMatchSession";
+import type { RawClubStaffIdentityLike } from "../staff/staffRosterResolution";
 
 type CareerContextValue = {
   save: CareerSave;
@@ -128,7 +129,7 @@ type CareerContextValue = {
     weekStart: string,
     date: string,
     sessionId: string,
-    patch: Partial<Pick<TrainingSession, "type" | "intensity" | "duration" | "target" | "selectedPlayerIds" | "tacticalFocus">>,
+    patch: Partial<Pick<TrainingSession, "type" | "intensity" | "duration" | "target" | "selectedPlayerIds" | "tacticalFocus" | "coachId">>,
   ) => void;
   /** HM-TRAINING-1.0 Part 17: applies a full weekly template to `weekStart` from scratch (never touching an already-executed day), and persists. */
   applyWeeklyTemplate: (weekStart: string, template: WeeklyTrainingTemplate) => void;
@@ -209,6 +210,27 @@ async function fetchGameplayRatings(competitionId: string): Promise<Record<strin
   }
 }
 
+/**
+ * HM-STAFF-1.0: mirrors fetchGameplayRatings exactly -- the real staff
+ * identity snapshot (HM-STAFF-DATA-0.1) is resolved server-side (touches
+ * the filesystem) and fetched once at career creation, for the
+ * manager's own club only (opponents' staff is not needed by anything
+ * yet). A fetch failure or a club with no identity file just means
+ * `null`, which resolveClubStaffRoster already treats as "generate the
+ * whole roster fictionally" (Part 19/20) -- never a crash.
+ */
+async function fetchStaffIdentity(clubId: string): Promise<RawClubStaffIdentityLike | null> {
+  try {
+    const res = await fetch(`/api/game-world/staff-snapshot?clubId=${encodeURIComponent(clubId)}`);
+    if (!res.ok) return null;
+    const data = await res.json();
+    if (!Array.isArray(data.people) || !Array.isArray(data.assignments)) return null;
+    return { people: data.people, assignments: data.assignments };
+  } catch {
+    return null;
+  }
+}
+
 async function getOrCreateCareerState(save: CareerSave): Promise<CareerState> {
   if (save.careerState) {
     const migrated = migrateCareerState(save.careerState);
@@ -222,7 +244,8 @@ async function getOrCreateCareerState(save: CareerSave): Promise<CareerState> {
   const worldSquads = isRealWorld ? await fetchWorldSquads(club.competitionId) : {};
   const aiTacticalPreferences = isRealWorld ? await fetchAiTacticalPreferences(club.competitionId, "2026/27", GAME_CURRENT_DATE) : {};
   const gameplayRatings = isRealWorld ? await fetchGameplayRatings(club.competitionId) : {};
-  const fresh = createNewCareerState(save.saveId, save.clubId, worldSquads, aiTacticalPreferences, gameplayRatings);
+  const staffIdentity = isRealWorld ? await fetchStaffIdentity(save.clubId) : null;
+  const fresh = createNewCareerState(save.saveId, save.clubId, worldSquads, aiTacticalPreferences, gameplayRatings, staffIdentity);
   saveCareerState(save.saveId, fresh);
   return fresh;
 }
@@ -480,7 +503,7 @@ export function CareerProvider({ children }: { children: ReactNode }) {
     weekStart: string,
     date: string,
     sessionId: string,
-    patch: Partial<Pick<TrainingSession, "type" | "intensity" | "duration" | "target" | "selectedPlayerIds" | "tacticalFocus">>,
+    patch: Partial<Pick<TrainingSession, "type" | "intensity" | "duration" | "target" | "selectedPlayerIds" | "tacticalFocus" | "coachId">>,
   ) {
     setValue((current) => {
       if (!current) return current;

@@ -206,5 +206,21 @@ export function migrateCareerState(career: CareerState): CareerState {
     next = { ...next, playerDevelopmentState: {} };
   }
 
+  // HM-STAFF-1.0 (career-state schema v17): additive -- an existing
+  // career simply never had a staff roster resolved yet. Deliberately
+  // migrated to an EMPTY roster, never regenerated on load: staff
+  // (unlike trainingWeeks) is snapshotted once at creation, not resolved
+  // on demand, so retroactively generating one here would silently
+  // invent staff for an old save that never had any -- every reader
+  // (resolveResponsibleCoach, the Staff/Training UI) already treats an
+  // empty roster as "no eligible staff, use the neutral quality
+  // multiplier" (Part 9), never crashing.
+  if (next.staffRoster === undefined) {
+    next = { ...next, staffRoster: {} };
+  }
+  if (next.staffEmployment === undefined) {
+    next = { ...next, staffEmployment: {} };
+  }
+
   return next;
 }

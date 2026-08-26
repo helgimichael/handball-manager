@@ -40,6 +40,18 @@ export const DEVELOPMENT_HISTORY_LIMIT = 20;
 export interface PlayerDevelopmentState {
   playerId: string;
   attributeStimulus: Partial<Record<DevelopableAttribute, number>>;
+  /**
+   * HM-STAFF-1.0 Part 11/26: `attributeStimulus[attr] * thatSession'sStaffQuality`,
+   * summed -- alongside `attributeStimulus` itself, this lets weekly
+   * resolution recover a proper STIMULUS-WEIGHTED average coaching
+   * quality per attribute (`attributeQualityWeightedSum[attr] /
+   * attributeStimulus[attr]`) even when a week's stimulus for one
+   * attribute came from several sessions led by different-quality
+   * coaches. Reset alongside `attributeStimulus` every weekly
+   * resolution, whether or not a visible change happened (same
+   * lifecycle as the stimulus it's paired with).
+   */
+  attributeQualityWeightedSum: Partial<Record<DevelopableAttribute, number>>;
   attributeProgress: Partial<Record<DevelopableAttribute, number>>;
   /** ISO date of the last weekly resolution that actually ran for this player -- Part 33 #34's own idempotency guard (a date already recorded here is never re-resolved). Null until the first resolution ever runs. */
   lastDevelopmentDate: string | null;
