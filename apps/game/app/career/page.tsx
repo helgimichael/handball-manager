@@ -61,7 +61,9 @@ export default function HomePage() {
                     {new Date(next.date).toLocaleDateString("sv-SE", { weekday: "short", day: "numeric", month: "short" })}
                   </div>
                   <div style={{ fontSize: "var(--hm-text-lg)", fontWeight: 800, color: "var(--hm-text-muted)" }}>vs</div>
-                  <div className="hm-eyebrow">{competitionName} · Omg {next.round}</div>
+                  <div className="hm-eyebrow">
+                    {next.type === "LEAGUE" ? `${competitionName} · Omg ${next.round}` : next.type === "CUP" ? "Cupmatch" : "Träningsmatch"}
+                  </div>
                 </div>
                 <TeamBlock clubId={next.awayClubId} />
               </div>

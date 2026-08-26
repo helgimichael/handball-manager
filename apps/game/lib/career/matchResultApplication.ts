@@ -37,13 +37,27 @@ export function applyPlayerContribution(
   };
 }
 
-/** Updates clubForm (both sides) and, for the given `ownClubId`, playerSeasonStats -- mutates the passed-in Records in place, mirroring calendar.ts's existing style. */
+/**
+ * Updates clubForm (both sides) and, for the given `ownClubId`,
+ * playerSeasonStats -- mutates the passed-in Records in place, mirroring
+ * calendar.ts's existing style.
+ *
+ * HM-PRESEASON-1.0 Part: "friendly påverkar inte ligatabell/cupresultat"
+ * -- `countsForBookkeeping` (default true, so every pre-existing caller
+ * that never passes it stays byte-identical) gates BOTH clubForm and
+ * playerSeasonStats. A FRIENDLY fixture still runs the full match/
+ * physical/development/injury pipeline (matchdayAction.ts is otherwise
+ * untouched) -- only this bookkeeping step is skipped for it.
+ */
 export function applyMatchResultBookkeeping(
   result: FastMatchResult,
   clubForm: Record<string, ClubFormEntry[]>,
   playerSeasonStats: Record<string, PlayerSeasonStats>,
   ownClubId: string,
+  countsForBookkeeping = true,
 ): void {
+  if (!countsForBookkeeping) return;
+
   const homeEntry: ClubFormEntry = result.homeGoals > result.awayGoals ? "W" : result.homeGoals < result.awayGoals ? "L" : "D";
   const awayEntry: ClubFormEntry = result.awayGoals > result.homeGoals ? "W" : result.awayGoals < result.homeGoals ? "L" : "D";
   clubForm[result.homeClubId] = pushForm(clubForm[result.homeClubId], homeEntry);

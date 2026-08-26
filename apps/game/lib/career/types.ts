@@ -16,6 +16,9 @@ import type { PlayerDevelopmentState } from "../development/types";
 import type { ResolvedStaffMember, StaffEmployment } from "../staff/types";
 import type { PlayerInjuryState } from "../medical/types";
 
+/** HM-PRESEASON-1.0: LEAGUE (the manager's own simulated competition), CUP (the provisional early cup round -- see preseason.ts), or FRIENDLY (manager-booked, never affects standings/season completion). */
+export type CareerFixtureType = "LEAGUE" | "CUP" | "FRIENDLY";
+
 export type CareerFixture = {
   id: string;
   competitionId: string;
@@ -23,6 +26,7 @@ export type CareerFixture = {
   date: string; // ISO date
   homeClubId: string;
   awayClubId: string;
+  type: CareerFixtureType;
 };
 
 export type ClubFormEntry = "W" | "D" | "L";
@@ -84,7 +88,16 @@ export type CareerState = {
 
   // --- HM-GAME-0.3 Career Rhythm additions (career-state schema v3, see saveMigration.ts) ---
 
-  /** ISO date the season's fixtures begin -- immutable, used for periodic report/task cadence (never weekday-based). */
+  /**
+   * ISO date this CAREER (this save) begins -- immutable, used for
+   * periodic report/task cadence (never weekday-based). HM-PRESEASON-1.0:
+   * this is the manager's own chosen preseason-start date (may be weeks
+   * before the league's own first fixture) -- NOT necessarily the
+   * league's own kickoff date any more (see `leagueKickoffDate` below for
+   * that). Its only real consumer (report-cadence day-counting in
+   * dailyTick.ts) never assumed the two were the same thing beyond
+   * historical coincidence, so this redefinition is additive/safe.
+   */
   seasonStartDate: string;
   /**
    * The latest date for which the Daily World Tick (Spec S5/S21) has
@@ -354,6 +367,25 @@ export type CareerState = {
    * second competing availability concept.
    */
   playerInjuries: Record<string, PlayerInjuryState>;
+
+  // --- HM-PRESEASON-1.0 addition (career-state schema v20, see saveMigration.ts) ---
+
+  /**
+   * The REAL date `competitionId`'s own league fixtures begin (Part:
+   * Sweden 2026/27 -- IFK Tumba/Allsvenskan 2026-09-20, Handbollsligan
+   * 2026-09-23; see lib/career/preseason.ts's REAL_LEAGUE_KICKOFF_DATES).
+   * Immutable once set. `getSeasonPhase(state)` (preseason.ts) is a pure
+   * comparison of `gameDate` against this field -- never a separately
+   * mutated/stored phase flag that could drift out of sync (Part:
+   * "PRESEASON ska inte betyda 'inga tävlingsmatcher'" -- cup/friendly
+   * fixtures may freely exist and be played on either side of this date).
+   * A career created before this milestone, or without an explicit
+   * preseason-start choice, gets this set equal to its own `gameDate`
+   * (Career Rhythm's pre-existing single-date assumption -- see
+   * newCareer.ts), so `getSeasonPhase` always resolves COMPETITIVE_SEASON
+   * for it, byte-identical to "this concept didn't exist yet."
+   */
+  leagueKickoffDate: string;
 };
 
 export type CareerSaveEnvelope = {

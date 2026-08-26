@@ -11,12 +11,17 @@ import type { CareerState } from "./types";
  */
 export function getLiveStandings(state: CareerState): StandingRow[] {
   const clubIds = CLUBS.filter((c) => c.competitionId === state.competitionId).map((c) => c.id);
-  const results = Object.values(state.results).map((r) => ({
-    homeClubId: r.homeClubId,
-    awayClubId: r.awayClubId,
-    homeGoals: r.homeGoals,
-    awayGoals: r.awayGoals,
-  }));
+  // HM-PRESEASON-1.0 Part: "friendly/cup påverkar inte ligatabellen" --
+  // only LEAGUE fixtures' own results ever feed the table.
+  const leagueFixtureIds = new Set(state.fixtures.filter((f) => f.type === "LEAGUE").map((f) => f.id));
+  const results = Object.entries(state.results)
+    .filter(([fixtureId]) => leagueFixtureIds.has(fixtureId))
+    .map(([, r]) => ({
+      homeClubId: r.homeClubId,
+      awayClubId: r.awayClubId,
+      homeGoals: r.homeGoals,
+      awayGoals: r.awayGoals,
+    }));
   return computeStandings(clubIds, results, ALLSVENSKAN_POINTS_RULE);
 }
 
@@ -49,11 +54,14 @@ export function getPlayerClubPosition(state: CareerState): number {
  */
 export function getLiveTableStandings(state: CareerState, watchedFixtureId: string, watchedHomeGoals: number, watchedAwayGoals: number): StandingRow[] {
   const clubIds = CLUBS.filter((c) => c.competitionId === state.competitionId).map((c) => c.id);
-  const results = Object.entries(state.results).map(([fixtureId, r]) => ({
-    homeClubId: r.homeClubId,
-    awayClubId: r.awayClubId,
-    homeGoals: fixtureId === watchedFixtureId ? watchedHomeGoals : r.homeGoals,
-    awayGoals: fixtureId === watchedFixtureId ? watchedAwayGoals : r.awayGoals,
-  }));
+  const leagueFixtureIds = new Set(state.fixtures.filter((f) => f.type === "LEAGUE").map((f) => f.id));
+  const results = Object.entries(state.results)
+    .filter(([fixtureId]) => leagueFixtureIds.has(fixtureId))
+    .map(([fixtureId, r]) => ({
+      homeClubId: r.homeClubId,
+      awayClubId: r.awayClubId,
+      homeGoals: fixtureId === watchedFixtureId ? watchedHomeGoals : r.homeGoals,
+      awayGoals: fixtureId === watchedFixtureId ? watchedAwayGoals : r.awayGoals,
+    }));
   return computeStandings(clubIds, results, ALLSVENSKAN_POINTS_RULE);
 }

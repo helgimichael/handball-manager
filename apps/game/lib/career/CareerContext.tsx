@@ -24,6 +24,7 @@ import {
   updateTrainingSessionAction,
 } from "./trainingScheduleActions";
 import { setPlayerIndividualFocus, setPlayerTrainingLoad } from "../training/trainingSchedule";
+import { bookFriendly } from "./preseason";
 import type { SessionSeed } from "../training/trainingSchedule";
 import type { PlayerTrainingLoadSetting, TrainingDayType, TrainingSession, WeeklyTrainingTemplate } from "../training/types";
 import type { PlayerMatchDefault } from "../matchPlan/persistentDefaults";
@@ -137,6 +138,8 @@ type CareerContextValue = {
   setPlayerTrainingLoad: (playerId: string, loadSetting: PlayerTrainingLoadSetting) => void;
   /** HM-TRAINING-1.1 Part 8/29: sets one player's persistent individual development focus, and persists. Never itself changes any attribute -- see lib/development/developmentIntegration.ts. */
   setPlayerIndividualFocus: (playerId: string, focus: string | null) => void;
+  /** HM-PRESEASON-1.0: books a friendly fixture against `opponentClubId` on `date` -- validates conflicts (see lib/career/preseason.ts's bookFriendly), persists on success, returns the outcome so the booking UI can show a real error instead of a silent no-op. */
+  bookFriendly: (date: string, opponentClubId: string) => { ok: boolean; error?: string };
 };
 
 const CareerContext = createContext<CareerContextValue | null>(null);
@@ -245,7 +248,7 @@ async function getOrCreateCareerState(save: CareerSave): Promise<CareerState> {
   const aiTacticalPreferences = isRealWorld ? await fetchAiTacticalPreferences(club.competitionId, "2026/27", GAME_CURRENT_DATE) : {};
   const gameplayRatings = isRealWorld ? await fetchGameplayRatings(club.competitionId) : {};
   const staffIdentity = isRealWorld ? await fetchStaffIdentity(save.clubId) : null;
-  const fresh = createNewCareerState(save.saveId, save.clubId, worldSquads, aiTacticalPreferences, gameplayRatings, staffIdentity);
+  const fresh = createNewCareerState(save.saveId, save.clubId, worldSquads, aiTacticalPreferences, gameplayRatings, staffIdentity, save.preseasonStart);
   saveCareerState(save.saveId, fresh);
   return fresh;
 }
@@ -540,6 +543,16 @@ export function CareerProvider({ children }: { children: ReactNode }) {
     });
   }
 
+  function bookFriendlyActionWrapper(date: string, opponentClubId: string): { ok: boolean; error?: string } {
+    if (!value) return { ok: false, error: "Ingen aktiv karriär." };
+    const result = bookFriendly(value.career, date, opponentClubId);
+    if (result.ok) {
+      saveCareerState(value.save.saveId, result.state);
+      setValue({ save: value.save, career: result.state });
+    }
+    return { ok: result.ok, error: result.error };
+  }
+
   return (
     <CareerContext.Provider
       value={{
@@ -566,6 +579,7 @@ export function CareerProvider({ children }: { children: ReactNode }) {
         applyWeeklyTemplate: applyWeeklyTemplateActionWrapper,
         setPlayerTrainingLoad: setPlayerTrainingLoadActionWrapper,
         setPlayerIndividualFocus: setPlayerIndividualFocusActionWrapper,
+        bookFriendly: bookFriendlyActionWrapper,
       }}
     >
       {children}

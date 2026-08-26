@@ -14,6 +14,18 @@ export function getUnplayedFixtures(state: CareerState): readonly CareerFixture[
   return state.fixtures.filter((f) => !state.results[f.id]);
 }
 
+/**
+ * HM-PRESEASON-1.0 Part: "friendly/cup påverkar inte ... season
+ * completion" -- the SEASON is the league competition; only LEAGUE
+ * fixtures gate `checkSeasonComplete`/the final table below. A CUP or
+ * FRIENDLY fixture the manager never gets around to playing must never
+ * block (or, if never generated in the first place, silently satisfy)
+ * season completion.
+ */
+function getUnplayedLeagueFixtures(state: CareerState): readonly CareerFixture[] {
+  return getUnplayedFixtures(state).filter((f) => f.type === "LEAGUE");
+}
+
 /** Earliest date among fixtures without a stored result, or null once the season is complete. */
 export function getNextEventDate(state: CareerState): string | null {
   const unplayed = getUnplayedFixtures(state);
@@ -133,7 +145,7 @@ export function simulateAiFixturesForDate(state: CareerState, date: string): { s
     );
     results[fixture.id] = result;
     produced.push(result);
-    applyMatchResultBookkeeping(result, clubForm, playerSeasonStats, state.playerClubId);
+    applyMatchResultBookkeeping(result, clubForm, playerSeasonStats, state.playerClubId, fixture.type !== "FRIENDLY");
   }
 
   return { state: { ...state, results, clubForm, playerSeasonStats }, results: produced };
@@ -146,17 +158,21 @@ export function simulateAiFixturesForDate(state: CareerState, date: string): { s
  * complete or while fixtures remain.
  */
 export function checkSeasonComplete(state: CareerState): CareerState {
-  if (state.seasonComplete || getUnplayedFixtures(state).length > 0) {
+  if (state.seasonComplete || getUnplayedLeagueFixtures(state).length > 0) {
     return state;
   }
+  const leagueFixtures = state.fixtures.filter((f) => f.type === "LEAGUE");
   const table = computeStandings(
-    [...new Set(state.fixtures.flatMap((f) => [f.homeClubId, f.awayClubId]))],
-    Object.values(state.results).map((r) => ({
-      homeClubId: r.homeClubId,
-      awayClubId: r.awayClubId,
-      homeGoals: r.homeGoals,
-      awayGoals: r.awayGoals,
-    })),
+    [...new Set(leagueFixtures.flatMap((f) => [f.homeClubId, f.awayClubId]))],
+    leagueFixtures
+      .map((f) => state.results[f.id])
+      .filter((r): r is FastMatchResult => r !== undefined)
+      .map((r) => ({
+        homeClubId: r.homeClubId,
+        awayClubId: r.awayClubId,
+        homeGoals: r.homeGoals,
+        awayGoals: r.awayGoals,
+      })),
   );
   const finalPosition = table.findIndex((row) => row.clubId === state.playerClubId) + 1;
   return {

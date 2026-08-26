@@ -5,12 +5,13 @@ import { addDays } from "./dateUtils";
 import { seedCareerTasks } from "./careerTasks";
 import { seedPlayerStatuses } from "./playerStatus";
 import { defaultTeamTacticalProfile, type TeamTacticalProfile } from "./teamTacticalProfile";
-import type { CareerState } from "./types";
+import type { CareerFixture, CareerState } from "./types";
 import type { GameplayPlayerRating } from "../gameWorld/gameplayRatingSnapshot";
 import { selectCurrentStaffAssignments } from "../identity/validators";
 import { resolveClubStaffRoster, type RawClubStaffIdentityLike } from "../staff/staffRosterResolution";
 import type { StaffEmployment } from "../staff/types";
 import { ensureCareerGameplayRatings } from "./careerRatingNormalization";
+import { computeCareerStartDate, generateProvisionalCupRound, resolveLeagueKickoffDate, type PreseasonStartOption } from "./preseason";
 
 const FALLBACK_COMPETITION_ID = "swe-2"; // used only if playerClubId doesn't resolve to a known club
 
@@ -47,17 +48,62 @@ export function createNewCareerState(
   // identically by resolveClubStaffRoster -- essential-role coverage is
   // always generated regardless (Part 19/20).
   staffIdentity: RawClubStaffIdentityLike | null = null,
+  // HM-PRESEASON-1.0: `undefined` (every pre-existing caller/test) is
+  // BYTE-IDENTICAL to this milestone not existing yet -- league fixtures
+  // still seed from GAME_CURRENT_DATE, no cup round is generated, and the
+  // career still starts on GAME_CURRENT_DATE. Only when the manager
+  // actually makes a preseason-length choice (New Game's own Starta step)
+  // does the real 2026/27 league-kickoff calendar and the provisional
+  // early cup round activate (Part: "New Game" / preseason.ts).
+  preseasonStart: PreseasonStartOption | undefined = undefined,
 ): CareerState {
   const playerClub = getClub(playerClubId);
   const competitionId = playerClub?.competitionId ?? FALLBACK_COMPETITION_ID;
   const clubIds = getClubsByCompetition(competitionId).map((c) => c.id);
 
+  const leagueKickoffDate = preseasonStart !== undefined ? resolveLeagueKickoffDate(competitionId, GAME_CURRENT_DATE) : GAME_CURRENT_DATE;
+
   const generated = generateDoubleRoundRobin({
     competitionId,
     clubIds,
-    seasonStartDate: GAME_CURRENT_DATE,
+    seasonStartDate: leagueKickoffDate,
     daysBetweenRounds: 7,
   });
+  const leagueFixtures: CareerFixture[] = generated.map((f) => ({
+    id: f.id,
+    competitionId: f.competitionId,
+    round: f.round,
+    date: f.date,
+    homeClubId: f.homeClubId,
+    awayClubId: f.awayClubId,
+    type: "LEAGUE",
+  }));
+
+  // Part: "eventuella cupmatcher" -- only generated when the manager
+  // actually chose a preseason length (see the `preseasonStart` doc
+  // comment above); a cup fixture dated before the career's own start
+  // (the manager started too late to experience it) is simply omitted,
+  // never backdated/faked as already played (Part: "CAREER START ->
+  // PRESEASON -> eventuella cupmatcher" -- "eventuella" = optional/if any).
+  let cupFixtures: CareerFixture[] = [];
+  if (preseasonStart !== undefined) {
+    const provisionalCup = generateProvisionalCupRound(competitionId, clubIds, leagueKickoffDate);
+    const provisionalCareerStart = computeCareerStartDate(leagueKickoffDate, preseasonStart);
+    cupFixtures = provisionalCareerStart === null ? provisionalCup : provisionalCup.filter((f) => f.date >= provisionalCareerStart);
+  }
+  const allFixtures = [...leagueFixtures, ...cupFixtures];
+
+  // Part: "vid första tävlingsmatchen" -- resolved AFTER the full fixture
+  // list is known, as the earliest fixture (league OR cup) involving the
+  // manager's own club. Every other option is a fixed weeks-before-kickoff
+  // offset, independent of the fixture list.
+  const careerStartDate =
+    preseasonStart === undefined
+      ? GAME_CURRENT_DATE
+      : (computeCareerStartDate(leagueKickoffDate, preseasonStart) ??
+        allFixtures
+          .filter((f) => f.homeClubId === playerClubId || f.awayClubId === playerClubId)
+          .reduce((earliest, f) => (f.date < earliest ? f.date : earliest), leagueKickoffDate));
 
   const playerSquad: readonly PlayerMock[] = worldSquads[playerClubId] ?? TUMBA_SQUAD;
 
@@ -79,29 +125,22 @@ export function createNewCareerState(
     seasonId: "2026/27",
     competitionId,
     playerClubId,
-    gameDate: GAME_CURRENT_DATE,
+    gameDate: careerStartDate,
     seasonComplete: false,
     saveSeed,
-    fixtures: generated.map((f) => ({
-      id: f.id,
-      competitionId: f.competitionId,
-      round: f.round,
-      date: f.date,
-      homeClubId: f.homeClubId,
-      awayClubId: f.awayClubId,
-    })),
+    fixtures: allFixtures,
     results: {},
     physicalReports: {},
     playerSeasonStats: {},
     clubForm: {},
     inbox: [],
-    seasonStartDate: GAME_CURRENT_DATE,
-    // The first CONTINUE press should process the season's actual first
+    seasonStartDate: careerStartDate,
+    // The first CONTINUE press should process the career's actual first
     // day, so processedThroughDate starts one day BEHIND it.
-    processedThroughDate: addDays(GAME_CURRENT_DATE, -1),
+    processedThroughDate: addDays(careerStartDate, -1),
     careerEvents: [],
-    playerStatuses: seedPlayerStatuses(GAME_CURRENT_DATE, playerSquad),
-    tasks: seedCareerTasks(GAME_CURRENT_DATE),
+    playerStatuses: seedPlayerStatuses(careerStartDate, playerSquad),
+    tasks: seedCareerTasks(careerStartDate),
     worldSquads,
     tacticalProfile: defaultTeamTacticalProfile(),
     aiTacticalPreferences,
@@ -120,6 +159,7 @@ export function createNewCareerState(
     staffRoster: { [playerClubId]: staffRoster },
     staffEmployment,
     playerInjuries: {},
+    leagueKickoffDate,
   };
 
   // HM-RATINGS-CAREER-1.0 Part 2/4/15/16: every roster player in the

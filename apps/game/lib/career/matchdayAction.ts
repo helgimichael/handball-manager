@@ -319,7 +319,10 @@ export function playManagerFixture(state: CareerState): PlayManagerFixtureResult
   const results: Record<string, FastMatchResult> = { ...state.results, [fixture.id]: result };
   const clubForm: Record<string, ClubFormEntry[]> = { ...state.clubForm };
   const playerSeasonStats: Record<string, PlayerSeasonStats> = { ...state.playerSeasonStats };
-  applyMatchResultBookkeeping(result, clubForm, playerSeasonStats, state.playerClubId);
+  // HM-PRESEASON-1.0 Part: a FRIENDLY fixture still runs this entire
+  // pipeline (physical/development/injury -- untouched above) but must
+  // not affect clubForm or playerSeasonStats.
+  applyMatchResultBookkeeping(result, clubForm, playerSeasonStats, state.playerClubId, fixture.type !== "FRIENDLY");
 
   const careerEvents = state.careerEvents.map((e) => (e.id === matchdayEventId ? { ...e, resolved: true, read: true } : e));
   const matchdayMessageId = `msg:${matchdayEventId}`;

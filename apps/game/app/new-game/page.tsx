@@ -5,6 +5,15 @@ import { useRouter } from "next/navigation";
 import { NATIONS, COMPETITIONS, CLUBS, TUMBA_CLUB_ID, GAME_CURRENT_DATE, type NationCode } from "@/lib/game-data";
 import { createSave, setActiveSaveId } from "@/lib/save/saveRepository";
 import ClubCrest from "@/components/ClubCrest";
+import { PRESEASON_START_OPTIONS, computeCareerStartDate, resolveLeagueKickoffDate, type PreseasonStartOption } from "@/lib/career/preseason";
+
+const PRESEASON_OPTION_LABEL: Record<PreseasonStartOption, string> = {
+  "8_WEEKS": "8 veckor före seriestart",
+  "6_WEEKS": "6 veckor före seriestart",
+  "4_WEEKS": "4 veckor före seriestart",
+  "2_WEEKS": "2 veckor före seriestart",
+  FIRST_MATCH: "Vid första tävlingsmatchen",
+};
 
 const STEPS = ["Nationer", "Ligor", "Databas", "Klubb", "Manager", "Starta"] as const;
 
@@ -17,6 +26,7 @@ export default function NewGamePage() {
   const [managerName, setManagerName] = useState("");
   const [managerNationality, setManagerNationality] = useState<NationCode>("SWE");
   const [managerDob, setManagerDob] = useState("1988-01-01");
+  const [preseasonStart, setPreseasonStart] = useState<PreseasonStartOption>("4_WEEKS");
 
   const availableCompetitions = useMemo(
     () => COMPETITIONS.filter((c) => nations.includes(c.nation)),
@@ -27,6 +37,10 @@ export default function NewGamePage() {
     () => CLUBS.filter((c) => competitionIds.includes(c.competitionId)),
     [competitionIds],
   );
+
+  const selectedClub = CLUBS.find((c) => c.id === clubId);
+  const leagueKickoffDate = resolveLeagueKickoffDate(selectedClub?.competitionId ?? "", GAME_CURRENT_DATE);
+  const careerStartDate = computeCareerStartDate(leagueKickoffDate, preseasonStart) ?? "beräknas vid start"; // FIRST_MATCH is resolved once fixtures are generated -- see preseason.ts
 
   function toggleNation(code: NationCode) {
     setNations((prev) => {
@@ -56,6 +70,7 @@ export default function NewGamePage() {
       clubId,
       manager: { name: managerName.trim(), nationality: managerNationality, dateOfBirth: managerDob },
       gameDate: GAME_CURRENT_DATE,
+      preseasonStart,
     });
     setActiveSaveId(save.saveId);
     router.push("/career");
@@ -249,13 +264,29 @@ export default function NewGamePage() {
 
             {step === 5 && (
               <>
-                <StepHeading title="Starta karriär" desc="Kontrollera dina val innan du börjar." />
+                <StepHeading title="Starta karriär" desc="Välj hur långt före seriestart du vill börja, kontrollera sedan dina val." />
+                <div style={{ marginBottom: 16 }}>
+                  <div className="hm-eyebrow" style={{ marginBottom: 6 }}>Försäsong</div>
+                  <div className="hm-grid" style={{ gridTemplateColumns: "1fr 1fr" }}>
+                    {PRESEASON_START_OPTIONS.map((opt) => (
+                      <label
+                        key={opt}
+                        className="hm-panel"
+                        style={{ display: "flex", alignItems: "center", gap: 8, padding: "8px 10px", cursor: "pointer", borderColor: preseasonStart === opt ? "var(--hm-accent)" : undefined }}
+                      >
+                        <input type="radio" name="preseasonStart" checked={preseasonStart === opt} onChange={() => setPreseasonStart(opt)} />
+                        <span style={{ fontSize: "var(--hm-text-xs)" }}>{PRESEASON_OPTION_LABEL[opt]}</span>
+                      </label>
+                    ))}
+                  </div>
+                </div>
                 <div className="hm-grid" style={{ gridTemplateColumns: "1fr 1fr" }}>
                   <SummaryRow label="Manager" value={managerName || "—"} />
                   <SummaryRow label="Nationalitet" value={NATIONS.find((n) => n.code === managerNationality)?.name ?? "—"} />
                   <SummaryRow label="Klubb" value={CLUBS.find((c) => c.id === clubId)?.name ?? "—"} />
                   <SummaryRow label="Liga" value={COMPETITIONS.find((c) => c.id === CLUBS.find((c2) => c2.id === clubId)?.competitionId)?.name ?? "—"} />
-                  <SummaryRow label="Startdatum" value={GAME_CURRENT_DATE} />
+                  <SummaryRow label="Seriestart" value={leagueKickoffDate} />
+                  <SummaryRow label="Startdatum (din karriär)" value={careerStartDate} />
                   <SummaryRow label="Nationer i spelvärlden" value={String(nations.length)} />
                 </div>
               </>

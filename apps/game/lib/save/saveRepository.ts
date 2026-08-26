@@ -15,6 +15,7 @@
 // upgrade, rather than silently discarding the save or throwing.
 
 import type { CareerState } from "../career/types";
+import type { PreseasonStartOption } from "../career/preseason";
 
 export type ManagerProfile = {
   name: string;
@@ -34,7 +35,9 @@ export type ManagerProfile = {
 // v6 (HM-TACTICS-0.6A): CareerState gained `tacticalProfile` (the
 // minimal TeamTacticalProfile prerequisite for future Fast Match
 // integration -- not consumed by Fast Match yet).
-export const CURRENT_SAVE_SCHEMA_VERSION = 6;
+// v7 (HM-PRESEASON-1.0): CareerSave gained `preseasonStart` (the New
+// Game "Starta" step's own preseason-length choice).
+export const CURRENT_SAVE_SCHEMA_VERSION = 7;
 
 export type CareerSave = {
   saveId: string;
@@ -44,6 +47,8 @@ export type CareerSave = {
   clubId: string;
   manager: ManagerProfile;
   gameDate: string;
+  /** HM-PRESEASON-1.0: the manager's own preseason-length choice at New Game's "Starta" step. Absent on every pre-this-milestone save (schemaVersion < 7) -- `getOrCreateCareerState` treats that identically to `undefined` passed into `createNewCareerState`, i.e. legacy behavior. */
+  preseasonStart?: PreseasonStartOption;
   createdAt: string;
   lastPlayedAt: string;
   /** Absent on HM-GAME-0.1 (schemaVersion 1) saves -- see module doc comment. */

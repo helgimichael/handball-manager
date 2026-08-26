@@ -50,7 +50,9 @@ export default function MatchReportPage() {
       <div className="hm-panel">
         <div className="hm-panel-header">
           <span className="hm-panel-title">Matchrapport</span>
-          <span className="hm-badge hm-badge-neutral">{competitionName} · Omgång {fixture.round}</span>
+          <span className="hm-badge hm-badge-neutral">
+            {fixture.type === "LEAGUE" ? `${competitionName} · Omgång ${fixture.round}` : fixture.type === "CUP" ? "Cupmatch" : "Träningsmatch"}
+          </span>
         </div>
         <div className="hm-panel-body" style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 40, padding: "20px" }}>
           <TeamColumn clubId={home.id} />

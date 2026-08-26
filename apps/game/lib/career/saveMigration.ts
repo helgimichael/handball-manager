@@ -247,5 +247,22 @@ export function migrateCareerState(career: CareerState): CareerState {
     next = { ...next, playerInjuries: {} };
   }
 
+  // HM-PRESEASON-1.0 (career-state schema v20): additive --
+  // 1. every existing fixture predates the LEAGUE/CUP/FRIENDLY
+  //    distinction; every one of them WAS a league fixture (this concept
+  //    didn't exist before), so backfilling `type: "LEAGUE"` is not a
+  //    guess, it's the only value that was ever true for them.
+  // 2. `leagueKickoffDate` is set equal to the existing `gameDate` used
+  //    to be treated as season-start -- so `getSeasonPhase` resolves
+  //    COMPETITIVE_SEASON immediately for an old save (Part: "byte-
+  //    identical to this concept not existing yet"), never retroactively
+  //    placing an in-progress old career into a preseason it never had.
+  if (next.fixtures.some((f) => f.type === undefined)) {
+    next = { ...next, fixtures: next.fixtures.map((f) => (f.type === undefined ? { ...f, type: "LEAGUE" as const } : f)) };
+  }
+  if (next.leagueKickoffDate === undefined) {
+    next = { ...next, leagueKickoffDate: next.gameDate };
+  }
+
   return next;
 }

@@ -9,7 +9,7 @@ const CLUB_ID = "c1";
 const OPPONENT_ID = "c2";
 
 function fixture(id: string, date: string, homeClubId = CLUB_ID, awayClubId = OPPONENT_ID): CareerFixture {
-  return { id, competitionId: "comp", round: 1, date, homeClubId, awayClubId };
+  return { id, competitionId: "comp", round: 1, date, homeClubId, awayClubId, type: "LEAGUE" };
 }
 
 // (1) week has 7 dates.
