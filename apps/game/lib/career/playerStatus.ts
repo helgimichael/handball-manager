@@ -11,7 +11,13 @@
 import type { PlayerMock } from "../game-data";
 import { addDays } from "./dateUtils";
 
-export type PlayerAvailability = "AVAILABLE" | "INJURED" | "SUSPENDED" | "RECOVERING";
+// HM-INJURIES-1.0 Part 15: "LIMITED" added -- the RETURN_TO_PLAY rehab
+// phase's own external status (lib/medical/types.ts's RehabPhase is the
+// detailed internal driver; this stays the coarse external signal every
+// other system reads, per this module's own existing "not a full injury
+// simulator" scope). A LIMITED player IS selectable for a match (see
+// isSelectableForMatch below) but not treated as fully AVAILABLE.
+export type PlayerAvailability = "AVAILABLE" | "INJURED" | "SUSPENDED" | "RECOVERING" | "LIMITED";
 
 export interface PlayerCareerStatus {
   playerId: string;
@@ -45,6 +51,20 @@ export function isAvailable(statuses: Record<string, PlayerCareerStatus>, player
   return (statuses[playerId]?.availability ?? "AVAILABLE") === "AVAILABLE";
 }
 
+/**
+ * HM-INJURIES-1.0 Part 15/16/17: the ONE eligibility rule for match
+ * selection -- AVAILABLE or LIMITED (a returning player restricted but
+ * not excluded, Part 17's chosen model) may be selected; INJURED/
+ * SUSPENDED/RECOVERING may not. Every match-squad consumer (tumbaRoster.ts's
+ * buildMatchRoster, matchSquad.ts's validateMatchSquad) reads this SAME
+ * function -- never a duplicated rule (Part 15: "do not duplicate
+ * availability rules across UI").
+ */
+export function isSelectableForMatch(statuses: Record<string, PlayerCareerStatus>, playerId: string): boolean {
+  const availability = statuses[playerId]?.availability ?? "AVAILABLE";
+  return availability === "AVAILABLE" || availability === "LIMITED";
+}
+
 /** Live status label, falling back to the static mock's squadStatus for players Career Rhythm has no live override for (Rotation/Förstaval/Ungdom aren't tracked here). */
 export function resolveStatusLabel(statuses: Record<string, PlayerCareerStatus>, player: PlayerMock): string {
   const live = statuses[player.id];
@@ -58,6 +78,8 @@ export function resolveStatusLabel(statuses: Record<string, PlayerCareerStatus>,
       return "Avstängd";
     case "RECOVERING":
       return "Under rehab";
+    case "LIMITED":
+      return "Begränsad";
     default:
       return player.squadStatus;
   }

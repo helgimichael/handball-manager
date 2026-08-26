@@ -8,9 +8,9 @@ import { validateAttackStartingUnit, validateDefenceStartingUnit } from "./start
 import { validateSubstitutionPairs } from "./substitutionPairs";
 import type { MatchPlan } from "./types";
 
-export function validateMatchPlan(plan: MatchPlan, availablePlayerIds?: readonly string[]): MatchPlanValidationResult {
+export function validateMatchPlan(plan: MatchPlan, availablePlayerIds?: readonly string[], unavailablePlayerIds?: readonly string[]): MatchPlanValidationResult {
   const errors: string[] = [
-    ...validateMatchSquad(plan.squad, availablePlayerIds).errors,
+    ...validateMatchSquad(plan.squad, availablePlayerIds, unavailablePlayerIds).errors,
     ...validateAttackStartingUnit(plan.attackStartingUnit, plan.squad).errors,
     ...validateDefenceStartingUnit(plan.defenceStartingUnit, plan.squad).errors,
     ...validatePlayerUsage(plan.playerUsage, plan.squad).errors,

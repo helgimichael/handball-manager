@@ -14,6 +14,7 @@ import type { MatchPhysicalReport } from "../matchPlan/physicalModel";
 import type { PlayerPhysicalState, PlayerTrainingAssignment, TrainingWeek } from "../training/types";
 import type { PlayerDevelopmentState } from "../development/types";
 import type { ResolvedStaffMember, StaffEmployment } from "../staff/types";
+import type { PlayerInjuryState } from "../medical/types";
 
 export type CareerFixture = {
   id: string;
@@ -336,6 +337,23 @@ export type CareerState = {
    * this milestone).
    */
   staffEmployment: Record<string, StaffEmployment>;
+
+  // --- HM-INJURIES-1.0 addition (career-state schema v19, see saveMigration.ts) ---
+
+  /**
+   * Part 3: the ONE continuous per-player injury/rehab thread -- keyed
+   * by playerId, same flat convention as `playerPhysicalState`/
+   * `playerDevelopmentState`. A player with no entry here has simply
+   * never had an injury resolved against them yet (every reader treats
+   * that as "healthy, no history", never a fabricated state). See
+   * lib/medical/types.ts for the PlayerInjuryState shape and
+   * lib/medical/injuryIntegration.ts for the only code that reads or
+   * writes this field. `playerStatuses` (above) remains the coarse,
+   * EXTERNAL availability signal every other system already reads --
+   * this field is the detailed INTERNAL driver behind it, never a
+   * second competing availability concept.
+   */
+  playerInjuries: Record<string, PlayerInjuryState>;
 };
 
 export type CareerSaveEnvelope = {

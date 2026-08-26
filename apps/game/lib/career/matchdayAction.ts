@@ -11,7 +11,7 @@
 import { simulateFixture, type FastMatchResult } from "@handball-manager/game-simulation";
 import { getClubStrength } from "../game-data/clubStrength";
 import { checkSeasonComplete, getPlayerFixtureOn } from "./calendar";
-import { buildMatchCompletedEvent } from "./careerEvents";
+import { buildMatchCompletedEvent, buildPlayerInjuredEvent } from "./careerEvents";
 import { getCareerClubSquad, getCareerSquad } from "./careerWorld";
 import { careerEventToInboxMessage } from "./inboxBridge";
 import { computeAttackActiveWindows, computeTeamUsageTrace, resolveMatchUsageTimeline } from "./matchUsageEngine";
@@ -25,6 +25,10 @@ import type { CareerState, ClubFormEntry, PlayerSeasonStats } from "./types";
 import type { PlayerPhysicalState } from "../training/types";
 import { ENERGY_START_DEFAULT } from "../matchPlan/physicalModel";
 import { applyMatchDevelopmentStimulus, type PlayerMatchExposure } from "../development/developmentIntegration";
+import { applyMatchInjuryResolution } from "../medical/injuryIntegration";
+import { isSelectableForMatch } from "./playerStatus";
+import { buildInitialMatchSquad } from "../matchPlan/careerSquadBridge";
+import { buildDefaultMatchPlan } from "../matchPlan/defaultMatchPlan";
 
 export interface PlayManagerFixtureResult {
   state: CareerState;
@@ -86,7 +90,23 @@ export function playManagerFixture(state: CareerState): PlayManagerFixtureResult
   // builds one on the fly from the currently selected squad. Never
   // throws: a squad too small to build a plan resolves to `null`, which
   // playerMatchStrength.ts treats as a neutral (zero-effect) side.
-  const managerPlan = resolveClubMatchPlanForFixture(state.playerClubId, fixture.id, getCareerSquad(state), state.matchPlans[fixture.id], state.tactics[state.playerClubId], state.playerMatchDefaults);
+  let managerPlan = resolveClubMatchPlanForFixture(state.playerClubId, fixture.id, getCareerSquad(state), state.matchPlans[fixture.id], state.tactics[state.playerClubId], state.playerMatchDefaults);
+  // HM-INJURIES-1.0 Part 16/25: a saved MatchPlan can go stale if a
+  // selected player became injured/suspended AFTER it was saved --
+  // "validation must catch it before match start; do not silently allow
+  // an injured player to play". Rather than performing complex slot-by-
+  // slot MatchPlan surgery (rewriting starting units/substitution pairs/
+  // depth hierarchy that reference the now-unavailable player), the plan
+  // is REBUILT fresh from the currently-selectable squad using the exact
+  // same deterministic fallback `resolveClubMatchPlanForFixture` itself
+  // already uses when no saved plan exists at all -- guaranteed clean,
+  // reuses 100% existing code, never a second plan-construction path.
+  if (managerPlan && managerPlan.squad.players.some((p) => !isSelectableForMatch(state.playerStatuses, p.playerId))) {
+    const availableSquad = getCareerSquad(state).filter((p) => isSelectableForMatch(state.playerStatuses, p.id));
+    const initialSquad = buildInitialMatchSquad(availableSquad, fixture.id, state.playerClubId);
+    const rebuilt = buildDefaultMatchPlan(initialSquad, state.tactics[state.playerClubId], state.playerMatchDefaults);
+    managerPlan = rebuilt.ok && rebuilt.plan ? rebuilt.plan : null;
+  }
   const opponentPlan = resolveClubMatchPlanForFixture(opponentClubId, fixture.id, getCareerClubSquad(state, opponentClubId), undefined, state.tactics[opponentClubId], state.playerMatchDefaults);
   const managerIsHome = fixture.homeClubId === state.playerClubId;
   const playerStrength = computePlayerMatchStrengthAdjustment(
@@ -283,11 +303,17 @@ export function playManagerFixture(state: CareerState): PlayManagerFixtureResult
   // stimulus, using the exact same per-player attack/defence/goalkeeper
   // exposure fractions rather than a second exposure model.
   let stateWithDevelopment: CareerState = { ...state, playerPhysicalState };
+  let newlyInjuredPlayerIds: string[] = [];
   if (managerUsageTrace) {
     const exposureByPlayerId = new Map<string, PlayerMatchExposure>(
       managerUsageTrace.players.map((p) => [p.playerId, { attackExposure: p.attackExposure, defenceExposure: p.defenceExposure, goalkeeperExposure: p.goalkeeperExposure }]),
     );
     stateWithDevelopment = applyMatchDevelopmentStimulus(stateWithDevelopment, fixture.date, exposureByPlayerId);
+    // HM-INJURIES-1.0 Part 13/36: the SAME resolved exposure fractions --
+    // zero exposure structurally means zero match injury risk (Part 39 #1).
+    const injuryResolution = applyMatchInjuryResolution(stateWithDevelopment, fixture.date, fixture.id, exposureByPlayerId);
+    stateWithDevelopment = injuryResolution.state;
+    newlyInjuredPlayerIds = injuryResolution.newlyInjuredPlayerIds;
   }
 
   const results: Record<string, FastMatchResult> = { ...state.results, [fixture.id]: result };
@@ -321,6 +347,21 @@ export function playManagerFixture(state: CareerState): PlayManagerFixtureResult
       careerEvents: [...next.careerEvents, completedEvent],
       inbox: [...next.inbox, careerEventToInboxMessage(completedEvent, next)],
     };
+  }
+
+  // HM-INJURIES-1.0 Part 29/36: a match injury is resolved as a POST-
+  // MATCH artifact (Part 28's own explicit allowance) -- never a dynamic
+  // in-match substitution/event. Same idempotent-append pattern as
+  // completedEvent above.
+  for (const playerId of newlyInjuredPlayerIds) {
+    const injuryEvent = buildPlayerInjuredEvent(playerId, fixture.date);
+    if (!next.careerEvents.some((e) => e.id === injuryEvent.id)) {
+      next = {
+        ...next,
+        careerEvents: [...next.careerEvents, injuryEvent],
+        inbox: [...next.inbox, careerEventToInboxMessage(injuryEvent, next)],
+      };
+    }
   }
 
   next = checkSeasonComplete(next);

@@ -119,6 +119,7 @@ export function createNewCareerState(
     playerDevelopmentState: {},
     staffRoster: { [playerClubId]: staffRoster },
     staffEmployment,
+    playerInjuries: {},
   };
 
   // HM-RATINGS-CAREER-1.0 Part 2/4/15/16: every roster player in the

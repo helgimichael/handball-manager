@@ -12,6 +12,7 @@ import { applyOvernightRecovery, applyRecoveryDayBonus, applyRestDayBonus, clamp
 import { DEFAULT_WEEKLY_TEMPLATE, mondayOf, resolveTrainingWeek } from "./trainingSchedule";
 import type { PlayerPhysicalState, TrainingDay, TrainingSession, TrainingSessionResult, TrainingSessionTarget, TrainingWeek } from "./types";
 import { computeStaffTrainingQuality, findHeadCoach, resolveResponsibleCoach } from "../staff/roleSuitability";
+import { effectiveTrainingLoadSetting } from "../medical/availability";
 
 /** rating/types.ts's own documented 1-20 attribute-scale midpoint -- the neutral stamina assumption for a player with no snapshotted ENDURANCE (same fallback playerMatchStrength.ts/matchUsageEngine.ts already use). */
 const NEUTRAL_STAMINA = 10.5;
@@ -64,7 +65,10 @@ function executeSession(state: CareerState, date: string, session: TrainingSessi
     const isGoalkeeper = player.position === "MV";
     if (!isPlayerTargeted(session.target, session.selectedPlayerIds, player.id, isGoalkeeper)) continue;
 
-    const loadSetting = state.playerTrainingAssignments[player.id]?.loadSetting ?? "FULL";
+    // HM-INJURIES-1.0 Part 18/22/23: an injured/limited player's own
+    // requested load is automatically capped by their injury status --
+    // the manager never has to remember to change it by hand.
+    const loadSetting = effectiveTrainingLoadSetting(state, player.id, state.playerTrainingAssignments[player.id]?.loadSetting ?? "FULL");
     const pre = readEnergy(physicalState, player.id);
     const stamina = staminaByPlayerId.get(player.id) ?? NEUTRAL_STAMINA;
     const delta = computePlayerSessionEnergyDelta(session, loadSetting, stamina);

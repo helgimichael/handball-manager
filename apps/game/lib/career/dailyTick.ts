@@ -7,6 +7,12 @@
 //   6. Fixtures   7. Table/Statistics
 //   8. Career Event generation   9. Inbox delivery   10. Continue stop check
 //
+// HM-INJURIES-1.0: step 3 (Training/Recovery) now also advances existing
+// rehab by one day and rolls new training-injury risk from today's
+// executed sessions, immediately after execution -- see
+// lib/medical/injuryIntegration.ts. Not a new top-level numbered step;
+// injuries are a consequence OF training/recovery, not a separate phase.
+//
 // Steps 8+9 are folded into a single `emit()` gate used throughout (see
 // below) rather than a separate pass, since every step above already
 // knows exactly which event it produced. Step 10 (the stop check) is the
@@ -24,6 +30,7 @@ import {
   buildMatchPreparationReadyEvent,
   buildMatchdayReadyEvent,
   buildOpponentReportReadyEvent,
+  buildPlayerInjuredEvent,
   buildPlayerStatusChangedEvent,
   buildScoutReportReadyEvent,
   buildStaffReportEvent,
@@ -31,6 +38,7 @@ import {
   buildTrainingReportEvent,
   type CareerEvent,
 } from "./careerEvents";
+import { applyTrainingDayInjuryResolution, progressDailyRehab } from "../medical/injuryIntegration";
 import { ensureOpponentAnalysisTask, progressCareerTasks } from "./careerTasks";
 import {
   MATCH_PREPARATION_OFFSET_DAYS,
@@ -94,6 +102,16 @@ export function processDay(state: CareerState, date: string): DailyTickResult {
   // lib/training/trainingSchedule.ts's own fixture-aware builder), so no
   // separate "is this a matchday" branch is needed here.
   next = executeTrainingDay(next, date);
+  // HM-INJURIES-1.0 Part 19/34: advance every already-active injury's
+  // rehab by one day BEFORE rolling any new injury risk from today's
+  // training -- a player who becomes injured today starts accumulating
+  // rehab progress from tomorrow, never double-counted the same day.
+  next = progressDailyRehab(next, date);
+  const trainingInjuryResolution = applyTrainingDayInjuryResolution(next, date);
+  next = trainingInjuryResolution.state;
+  for (const playerId of trainingInjuryResolution.newlyInjuredPlayerIds) {
+    emit(buildPlayerInjuredEvent(playerId, date));
+  }
   // HM-TRAINING-1.1 Part 5/14: accumulates today's session stimulus
   // (reading the TrainingSessionResult(s) executeTrainingDay just wrote),
   // then -- only on a Sunday, and only once per player per date -- rolls

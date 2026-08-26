@@ -28,6 +28,8 @@ import {
 } from "../../../lib/training/types";
 import { ENERGY_START_DEFAULT } from "../../../lib/matchPlan/physicalModel";
 import { playerAgeAtDate } from "../../../lib/development/developmentIntegration";
+import { effectiveTrainingLoadSetting, getPlayerAvailability } from "../../../lib/medical/availability";
+import { REHAB_PHASE_LABELS } from "../../../lib/medical/labels";
 import { INDIVIDUAL_DEVELOPMENT_FOCUSES, potentialStarsFromPA, type IndividualDevelopmentFocus } from "../../../lib/development/types";
 import { computeStaffTrainingQuality, eligibleStaffForSession, findHeadCoach, resolveResponsibleCoach, staffQualityLabel } from "../../../lib/staff/roleSuitability";
 
@@ -288,10 +290,26 @@ export default function TrainingPage() {
                 const badgeClass = energy >= 80 ? "hm-badge-positive" : energy >= 55 ? "hm-badge-warning" : "hm-badge-negative";
                 const loadSetting = career.playerTrainingAssignments[p.id]?.loadSetting ?? "FULL";
                 const focus = (career.playerTrainingAssignments[p.id]?.individualFocus as IndividualDevelopmentFocus | undefined) ?? "NORMAL";
+                // HM-INJURIES-1.0 Part 33: an injured/limited player's own
+                // load selector must reflect the enforced maximum -- the
+                // manager cannot accidentally put an injured player on FULL.
+                const availability = getPlayerAvailability(career, p.id);
+                const activeInjury = career.playerInjuries[p.id]?.activeInjury;
+                const enforcedLoadSetting = effectiveTrainingLoadSetting(career, p.id, loadSetting);
+                const allowedSettings = PLAYER_TRAINING_LOAD_SETTINGS.filter((l) => effectiveTrainingLoadSetting(career, p.id, l) === l);
                 return (
                   <tr key={p.id}>
                     <td className="hm-td-strong">
                       {p.firstName} {p.lastName}
+                      {availability === "UNAVAILABLE" && activeInjury ? (
+                        <span className="hm-badge hm-badge-negative" style={{ marginLeft: 6 }}>
+                          SKADAD — {REHAB_PHASE_LABELS[activeInjury.currentPhase]}
+                        </span>
+                      ) : availability === "LIMITED" ? (
+                        <span className="hm-badge hm-badge-warning" style={{ marginLeft: 6 }}>
+                          ÅTERGÅNG — Reducerad
+                        </span>
+                      ) : null}
                     </td>
                     <td>
                       <span className={`hm-badge ${badgeClass}`}>{Math.round(energy)}% · {status}</span>
@@ -300,10 +318,12 @@ export default function TrainingPage() {
                     <td>
                       <select
                         className="hm-select"
-                        value={loadSetting}
+                        value={enforcedLoadSetting}
+                        disabled={availability === "UNAVAILABLE"}
+                        title={availability === "UNAVAILABLE" ? "Skadad spelare -- endast vila tillåten" : availability === "LIMITED" ? "Under återgång -- maximalt reducerad belastning" : undefined}
                         onChange={(e) => setPlayerTrainingLoad(p.id, e.target.value as PlayerTrainingLoadSetting)}
                       >
-                        {PLAYER_TRAINING_LOAD_SETTINGS.map((l) => (
+                        {(availability === "AVAILABLE" ? PLAYER_TRAINING_LOAD_SETTINGS : allowedSettings).map((l) => (
                           <option key={l} value={l}>
                             {LOAD_SETTING_LABEL[l]}
                           </option>

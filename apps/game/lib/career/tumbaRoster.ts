@@ -2,7 +2,7 @@ import type { MatchRosterPlayer } from "@handball-manager/game-simulation";
 import type { PlayerMock } from "../game-data";
 import { buildInitialMatchSquad } from "../matchPlan/careerSquadBridge";
 import { MATCH_SQUAD_MAX_PLAYERS } from "../matchPlan/types";
-import { isAvailable, type PlayerCareerStatus } from "./playerStatus";
+import { isSelectableForMatch, type PlayerCareerStatus } from "./playerStatus";
 
 /**
  * HM-MATCH-1.1 Part 9: the guaranteed-legal exposure map for a side
@@ -93,8 +93,10 @@ export function buildMatchRoster(
     if (!playerStatuses || !playerStatuses[p.id]) {
       return baseEligible;
     }
-    if (!isAvailable(playerStatuses, p.id)) {
-      // A live INJURED/SUSPENDED/RECOVERING status always excludes, regardless of the static mock.
+    if (!isSelectableForMatch(playerStatuses, p.id)) {
+      // HM-INJURIES-1.0 Part 15/16: a live INJURED/SUSPENDED/RECOVERING
+      // status always excludes, regardless of the static mock -- but a
+      // LIMITED (return-to-play) player IS still selectable (Part 17).
       return false;
     }
     // Live AVAILABLE: recovers a stale Skadad/Avstängd mock status, but never grants eligibility to Ungdom.

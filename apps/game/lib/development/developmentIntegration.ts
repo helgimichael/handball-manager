@@ -7,6 +7,7 @@ import { getCareerSquad } from "../career/careerWorld";
 import type { CareerState } from "../career/types";
 import type { GameplayPlayerRating } from "../gameWorld/gameplayRatingSnapshot";
 import { mondayOf } from "../training/trainingSchedule";
+import { effectiveTrainingLoadSetting } from "../medical/availability";
 import { computeMatchAttributeStimulus, computeSessionAttributeStimulus } from "./developmentStimulus";
 import { applyResolvedAttributeChanges, pushDevelopmentEvent, resolveAttributeForWeek } from "./developmentResolution";
 import type { DevelopableAttribute, IndividualDevelopmentFocus, PlayerDevelopmentState } from "./types";
@@ -69,7 +70,11 @@ export function applyTrainingDayDevelopmentStimulus(state: CareerState, date: st
       const player = squadById.get(playerId);
       if (!player) continue;
       const isGoalkeeper = player.position === "MV";
-      const loadSetting = state.playerTrainingAssignments[playerId]?.loadSetting ?? "FULL";
+      // HM-INJURIES-1.0 Part 27: the SAME availability-capped effective
+      // load setting trainingExecution.ts itself applied for this
+      // session -- an injured player's requested load is never honored
+      // for development stimulus either (never a second, divergent cap).
+      const loadSetting = effectiveTrainingLoadSetting(state, playerId, state.playerTrainingAssignments[playerId]?.loadSetting ?? "FULL");
       const focus = (state.playerTrainingAssignments[playerId]?.individualFocus as IndividualDevelopmentFocus | undefined) ?? null;
       const stimulus = computeSessionAttributeStimulus(session.type, session.intensity, session.duration, loadSetting, isGoalkeeper, focus, `${playerId}:${session.id}`);
       playerDevelopmentState = mergeStimulusIntoPlayerDevelopmentState(playerDevelopmentState, playerId, stimulus, result.resolvedStaffQuality);

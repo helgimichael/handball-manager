@@ -236,5 +236,16 @@ export function migrateCareerState(career: CareerState): CareerState {
   // complete save is a real no-op (returns the same object reference).
   next = ensureCareerGameplayRatings(next, next.playerClubId);
 
+  // HM-INJURIES-1.0 (career-state schema v19): additive -- an existing
+  // career simply never had an injury/rehab thread yet. Migrated to an
+  // EMPTY map, never retroactively injuring anyone -- every reader
+  // (isSelectableForMatch, effectiveTrainingLoadSetting, the Squad/
+  // Profile/Medical UI) already treats a missing entry as "healthy, no
+  // history", so this changes nothing observable for an old save beyond
+  // making the new system available going forward.
+  if (next.playerInjuries === undefined) {
+    next = { ...next, playerInjuries: {} };
+  }
+
   return next;
 }

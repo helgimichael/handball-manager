@@ -22,7 +22,15 @@ function fail(...errors: string[]): MatchPlanValidationResult {
  * available squad source"). Omit it only for pure/headless tests that
  * don't model an external roster.
  */
-export function validateMatchSquad(squad: MatchSquad, availablePlayerIds?: readonly string[]): MatchPlanValidationResult {
+/**
+ * HM-INJURIES-1.0 Part 16/25: `unavailablePlayerIds`, when given, is the
+ * club's own set of currently-unselectable players (every id where
+ * `!isSelectableForMatch(playerStatuses, id)` -- lib/career/playerStatus.ts's
+ * single canonical rule, never re-derived here). Catches exactly the
+ * stale-MatchPlan case Part 16 requires: a player selected before they
+ * became injured now fails validation instead of silently playing.
+ */
+export function validateMatchSquad(squad: MatchSquad, availablePlayerIds?: readonly string[], unavailablePlayerIds?: readonly string[]): MatchPlanValidationResult {
   const errors: string[] = [];
 
   if (squad.players.length < MATCH_SQUAD_MIN_PLAYERS) {
@@ -45,6 +53,15 @@ export function validateMatchSquad(squad: MatchSquad, availablePlayerIds?: reado
     for (const player of squad.players) {
       if (!available.has(player.playerId)) {
         errors.push(`Player "${player.playerId}" is not part of the available squad source for this fixture.`);
+      }
+    }
+  }
+
+  if (unavailablePlayerIds && unavailablePlayerIds.length > 0) {
+    const unavailable = new Set(unavailablePlayerIds);
+    for (const player of squad.players) {
+      if (unavailable.has(player.playerId)) {
+        errors.push(`Player "${player.playerId}" is not available for selection (injured, suspended, or recovering).`);
       }
     }
   }

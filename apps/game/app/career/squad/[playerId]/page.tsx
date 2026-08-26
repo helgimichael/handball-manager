@@ -14,6 +14,7 @@ import { GameplayAbilityPanel, GameplayAttributesPanel, type GameplayRatingRow }
 import { potentialStarsFromPA, type IndividualDevelopmentFocus } from "@/lib/development/types";
 import { getCareerPlayerRating } from "@/lib/career/careerRatingNormalization";
 import type { GameplayPlayerRating } from "@/lib/gameWorld/gameplayRatingSnapshot";
+import { INJURY_SEVERITY_LABELS, INJURY_TYPE_LABELS, REHAB_PHASE_LABELS } from "@/lib/medical/labels";
 
 // HM-RATINGS-CAREER-1.0 Part 25: every career player (REAL_WORLD, mock or
 // generated) now has exactly one CareerState-resident GameplayPlayerRating
@@ -273,6 +274,11 @@ export default function PlayerProfilePage() {
             recent attribute changes, individual focus, recent training
             participation. Never a giant redesign. */}
         <DevelopmentPanel playerId={player.id} />
+
+        {/* HM-INJURIES-1.0 Part 31: a compact injury/medical section --
+            current status, active injury, expected return, rehab phase,
+            recent history. No full medical center here. */}
+        <MedicalPanel playerId={player.id} />
       </div>
     </div>
   );
@@ -318,6 +324,55 @@ function DevelopmentPanel({ playerId }: { playerId: string }) {
               <span style={{ fontWeight: 600 }}>
                 {ev.previousValue} → {ev.newValue}
               </span>
+            </div>
+          ))
+        )}
+      </div>
+    </div>
+  );
+}
+
+function MedicalPanel({ playerId }: { playerId: string }) {
+  const { career } = useCareer();
+  const player = getCareerPlayer(career, playerId);
+  const injuryState = career.playerInjuries[playerId];
+  const activeInjury = injuryState?.activeInjury ?? null;
+  const statusLabel = player ? resolveStatusLabel(career.playerStatuses, player) : "—";
+  const recentHistory = (injuryState?.injuryHistory ?? []).slice(-5).reverse();
+
+  return (
+    <div className="hm-panel">
+      <div className="hm-panel-header">
+        <span className="hm-panel-title">Medicinskt</span>
+      </div>
+      <div className="hm-panel-body" style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+        <ContractRow label="Status" value={statusLabel} />
+        {activeInjury ? (
+          <>
+            <ContractRow label="Skada" value={INJURY_TYPE_LABELS[activeInjury.injuryType]} />
+            <ContractRow label="Allvarlighetsgrad" value={INJURY_SEVERITY_LABELS[activeInjury.severity]} />
+            <ContractRow label="Rehabfas" value={REHAB_PHASE_LABELS[activeInjury.currentPhase]} />
+            <ContractRow label="Beräknad återkomst" value={activeInjury.expectedReturnDate} />
+            <ContractRow label="Rehabframsteg" value={`${Math.round(activeInjury.rehabProgress * 100)}%`} />
+          </>
+        ) : (
+          <p className="hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)", margin: 0 }}>
+            Ingen aktiv skada.
+          </p>
+        )}
+        <div className="hm-divider" />
+        <div className="hm-eyebrow">Skadehistorik</div>
+        {recentHistory.length === 0 ? (
+          <p className="hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)", margin: 0 }}>
+            Ingen tidigare skada registrerad.
+          </p>
+        ) : (
+          recentHistory.map((entry) => (
+            <div key={entry.injuryId} style={{ display: "flex", justifyContent: "space-between", fontSize: "var(--hm-text-2xs)" }}>
+              <span className="hm-text-muted">
+                {INJURY_TYPE_LABELS[entry.injuryType]} ({entry.occurredDate})
+              </span>
+              <span style={{ fontWeight: 600 }}>{INJURY_SEVERITY_LABELS[entry.severity]}</span>
             </div>
           ))
         )}

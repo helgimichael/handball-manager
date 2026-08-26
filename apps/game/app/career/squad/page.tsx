@@ -7,6 +7,8 @@ import type { HandballPosition } from "@/lib/game-data";
 import { useCareer } from "@/lib/career/CareerContext";
 import { getCareerClub, getCareerSquad } from "@/lib/career/careerWorld";
 import { averageRating, emptyPlayerSeasonStats } from "@/lib/career/types";
+import { resolveStatusLabel } from "@/lib/career/playerStatus";
+import { REHAB_PHASE_LABELS } from "@/lib/medical/labels";
 
 type SortKey = "name" | "position" | "age" | "appearances" | "goals" | "rating" | "fitness" | "morale";
 
@@ -99,7 +101,16 @@ export default function SquadPage() {
                   <td title={positionLabel(p.position)}>{p.position}</td>
                   <td>{playerAge(p.dateOfBirth, p.birthYear) ?? "–"}</td>
                   <td>
-                    <StatusBadge status={p.squadStatus} />
+                    {/* HM-INJURIES-1.0 Part 30: the live, injury-aware
+                        status (never the static mock's own squadStatus)
+                        -- resolveStatusLabel is the same single source
+                        Player Profile already reads. */}
+                    <StatusBadge status={resolveStatusLabel(career.playerStatuses, p)} />
+                    {career.playerInjuries[p.id]?.activeInjury ? (
+                      <div className="hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)", marginTop: 2 }}>
+                        {REHAB_PHASE_LABELS[career.playerInjuries[p.id]!.activeInjury!.currentPhase]} · åter {career.playerInjuries[p.id]!.activeInjury!.expectedReturnDate}
+                      </div>
+                    ) : null}
                   </td>
                   <td className="hm-table-num">{stats.appearances}</td>
                   <td className="hm-table-num">{stats.goals}</td>
@@ -122,7 +133,14 @@ export default function SquadPage() {
 }
 
 function StatusBadge({ status }: { status: string }) {
-  const tone = status === "Förstaval" ? "positive" : status === "Skadad" ? "negative" : status === "Avstängd" ? "negative" : status === "Ungdom" ? "warning" : "neutral";
+  const tone =
+    status === "Förstaval"
+      ? "positive"
+      : status === "Skadad" || status === "Avstängd" || status === "Under rehab"
+        ? "negative"
+        : status === "Ungdom" || status === "Begränsad"
+          ? "warning"
+          : "neutral";
   return <span className={`hm-badge hm-badge-${tone}`}>{status}</span>;
 }
 
