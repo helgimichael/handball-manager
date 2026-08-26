@@ -179,5 +179,22 @@ export function migrateCareerState(career: CareerState): CareerState {
     next = { ...next, physicalReports: {} };
   }
 
+  // HM-TRAINING-1.0 (career-state schema v15): additive, same pattern as
+  // `physicalReports` -- an existing career simply never had a training
+  // schedule or persistent player physical/readiness state yet. Every
+  // reader already treats a missing entry as "resolve/generate on
+  // demand" (trainingWeeks) or "neutral starting energy, exactly like
+  // before this milestone" (playerPhysicalState/playerTrainingAssignments),
+  // so empty objects here change nothing observable for old saves.
+  if (next.trainingWeeks === undefined) {
+    next = { ...next, trainingWeeks: {} };
+  }
+  if (next.playerPhysicalState === undefined) {
+    next = { ...next, playerPhysicalState: {} };
+  }
+  if (next.playerTrainingAssignments === undefined) {
+    next = { ...next, playerTrainingAssignments: {} };
+  }
+
   return next;
 }

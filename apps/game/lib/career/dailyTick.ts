@@ -41,6 +41,7 @@ import {
 import { addDays, daysBetween, isSameOrBefore } from "./dateUtils";
 import { careerEventToInboxMessage } from "./inboxBridge";
 import type { CareerState } from "./types";
+import { executeTrainingDay } from "../training/trainingExecution";
 
 export interface DailyTickResult {
   state: CareerState;
@@ -82,6 +83,16 @@ export function processDay(state: CareerState, date: string): DailyTickResult {
   }
 
   // --- 3. Training / Recovery ---------------------------------------------
+  // HM-TRAINING-1.0: executes today's scheduled training day (idempotent
+  // -- see executeTrainingDay's own doc) BEFORE the fixtures step below,
+  // so a matchday's own morning-of overnight recovery is already applied
+  // to `playerPhysicalState` by the time the manager can choose to play
+  // the fixture (matchdayAction.ts reads it as each player's own match
+  // `startingEnergy`). `executeTrainingDay` itself resolves the day's own
+  // `dayType` (MATCH days never carry a scheduled session, see
+  // lib/training/trainingSchedule.ts's own fixture-aware builder), so no
+  // separate "is this a matchday" branch is needed here.
+  next = executeTrainingDay(next, date);
   emit(buildTrainingCompletedEvent(date));
   const daysSinceStart = daysBetween(next.seasonStartDate, date);
   if (daysSinceStart > 0 && daysSinceStart % TRAINING_REPORT_INTERVAL_DAYS === 0) {

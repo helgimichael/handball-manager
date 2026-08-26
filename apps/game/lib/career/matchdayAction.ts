@@ -22,6 +22,8 @@ import { computeTacticalMatchAdjustment, sevenVSixPolicyIntensity } from "./tact
 import { computeTacticalMatchPlanAdjustment } from "./tacticalPlanEffects";
 import { buildFallbackAttackExposure, buildMatchRoster } from "./tumbaRoster";
 import type { CareerState, ClubFormEntry, PlayerSeasonStats } from "./types";
+import type { PlayerPhysicalState } from "../training/types";
+import { ENERGY_START_DEFAULT } from "../matchPlan/physicalModel";
 
 export interface PlayManagerFixtureResult {
   state: CareerState;
@@ -227,8 +229,21 @@ export function playManagerFixture(state: CareerState): PlayManagerFixtureResult
   const awayUsageSeed = managerIsHome ? opponentUsageSeed : managerUsageSeed;
   const homeStaminaByPlayerId = managerIsHome ? managerStaminaByPlayerId : opponentStaminaByPlayerId;
   const awayStaminaByPlayerId = managerIsHome ? opponentStaminaByPlayerId : managerStaminaByPlayerId;
-  const homeTimeline = homePlan ? resolveMatchUsageTimeline(homePlan, homeUsageSeed, homeStaminaByPlayerId) : null;
-  const awayTimeline = awayPlan ? resolveMatchUsageTimeline(awayPlan, awayUsageSeed, awayStaminaByPlayerId) : null;
+  // HM-TRAINING-1.0 Part 10/11: the manager's own squad's match
+  // `startingEnergy` now comes from their PERSISTENT career physical
+  // state (whatever the training week leading up to today left them
+  // at) instead of always defaulting to 100 -- the other side (AI
+  // opponent) has no persistent physical-state tracking at all (the
+  // audit confirmed this; a genuinely new, much larger scope), so it
+  // keeps the exact pre-HM-TRAINING-1.0 behavior of always starting
+  // fresh. A manager-squad player with no `playerPhysicalState` entry
+  // yet (e.g. this is their very first match this save) still starts
+  // at the same ENERGY_START_DEFAULT as before.
+  const managerStartingEnergyByPlayerId = new Map(getCareerSquad(state).map((p) => [p.id, state.playerPhysicalState[p.id]?.currentEnergy ?? ENERGY_START_DEFAULT]));
+  const homeStartingEnergyByPlayerId = managerIsHome ? managerStartingEnergyByPlayerId : undefined;
+  const awayStartingEnergyByPlayerId = managerIsHome ? undefined : managerStartingEnergyByPlayerId;
+  const homeTimeline = homePlan ? resolveMatchUsageTimeline(homePlan, homeUsageSeed, homeStaminaByPlayerId, homeStartingEnergyByPlayerId) : null;
+  const awayTimeline = awayPlan ? resolveMatchUsageTimeline(awayPlan, awayUsageSeed, awayStaminaByPlayerId, awayStartingEnergyByPlayerId) : null;
   const physicalReport: MatchPhysicalReport = {
     fixtureId: fixture.id,
     home: homeTimeline ? Object.fromEntries(homeTimeline.trajectories) : {},
@@ -241,6 +256,25 @@ export function playManagerFixture(state: CareerState): PlayManagerFixtureResult
     awayGoalkeeperByWindow: awayTimeline?.goalkeeperByWindow ?? [],
   };
   const physicalReports: Record<string, MatchPhysicalReport> = { ...state.physicalReports, [fixture.id]: physicalReport };
+
+  // HM-TRAINING-1.0 Part 10/11: the other half of the loop -- the
+  // manager squad's own finishing energy from THIS match becomes their
+  // new persistent `playerPhysicalState`, so tomorrow's training (and,
+  // eventually, the next matchday's own starting energy) carries it
+  // forward. Only the manager's own timeline is ever read here (see
+  // homeStartingEnergyByPlayerId/awayStartingEnergyByPlayerId above --
+  // the AI opponent has no persistent physical-state tracking).
+  const managerTimeline = managerIsHome ? homeTimeline : awayTimeline;
+  let playerPhysicalState: Record<string, PlayerPhysicalState> = state.playerPhysicalState;
+  if (managerTimeline) {
+    for (const [playerId, trajectory] of managerTimeline.trajectories) {
+      const prior = playerPhysicalState[playerId];
+      playerPhysicalState = {
+        ...playerPhysicalState,
+        [playerId]: { playerId, currentEnergy: trajectory.finishingEnergy, lastUpdatedDate: fixture.date, recentLoad: prior?.recentLoad ?? 0 },
+      };
+    }
+  }
 
   const results: Record<string, FastMatchResult> = { ...state.results, [fixture.id]: result };
   const clubForm: Record<string, ClubFormEntry[]> = { ...state.clubForm };
@@ -255,7 +289,7 @@ export function playManagerFixture(state: CareerState): PlayManagerFixtureResult
   // read (Spec §23/§24: opening Match Preview =/= completing the match).
   const inbox = state.inbox.map((m) => (m.id === matchdayMessageId ? { ...m, read: true, actionRequired: false, resolved: true } : m));
 
-  let next: CareerState = { ...state, results, physicalReports, clubForm, playerSeasonStats, careerEvents, inbox };
+  let next: CareerState = { ...state, results, physicalReports, playerPhysicalState, clubForm, playerSeasonStats, careerEvents, inbox };
 
   const completedEvent = buildMatchCompletedEvent(fixture.id, fixture.competitionId, state.gameDate);
   if (!next.careerEvents.some((e) => e.id === completedEvent.id)) {

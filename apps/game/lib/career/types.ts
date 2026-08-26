@@ -11,6 +11,7 @@ import type { PlayerMatchDefault, TacticsTemplate } from "../matchPlan/persisten
 import type { SpecialPlayPlan } from "../matchPlan/specialPlay";
 import type { LiveMatchSessionState } from "../liveMatch/liveMatchSession";
 import type { MatchPhysicalReport } from "../matchPlan/physicalModel";
+import type { PlayerPhysicalState, PlayerTrainingAssignment, TrainingWeek } from "../training/types";
 
 export type CareerFixture = {
   id: string;
@@ -261,6 +262,40 @@ export type CareerState = {
    * mutated ad hoc elsewhere.
    */
   activeMatchSession: LiveMatchSessionState | null;
+
+  // --- HM-TRAINING-1.0 addition (career-state schema v15, see saveMigration.ts) ---
+
+  /**
+   * Part 3/20: the scheduled+executed training week, keyed by its own
+   * Monday ISO date (`lib/training/trainingSchedule.ts`'s `mondayOf`).
+   * A week with no entry here simply hasn't been touched yet -- every
+   * reader resolves it deterministically on the fly via
+   * `resolveTrainingWeek` (same "generate on demand, persist on first
+   * real write" precedent as MatchPlan's own `buildDefaultMatchPlan`
+   * fallback), so an empty object here is always a safe, observably-
+   * identical starting point.
+   */
+  trainingWeeks: Record<string, TrainingWeek>;
+  /**
+   * Part 10/11: the ONE continuous per-player physical/readiness thread
+   * between matches -- keyed by playerId (the same flat, globally-
+   * unique convention `playerStatuses`/`playerMatchDefaults` already
+   * use). A player with no entry here has simply never had their energy
+   * touched by a match or training day yet, and every reader (training
+   * execution, matchdayAction.ts's own starting-energy lookup) already
+   * treats that as the same neutral 100 lib/matchPlan/physicalModel.ts's
+   * own `ENERGY_START_DEFAULT` always meant before this milestone -- an
+   * empty object here changes nothing observable for an old save.
+   */
+  playerPhysicalState: Record<string, PlayerPhysicalState>;
+  /**
+   * Part 12/13: a player's own persistent individual training-load
+   * setting -- keyed by playerId, same "standing instruction until
+   * explicitly changed" precedent as `playerMatchDefaults`. A player
+   * with no entry here trains at the default `FULL` load, exactly as
+   * every player implicitly did before this milestone.
+   */
+  playerTrainingAssignments: Record<string, PlayerTrainingAssignment>;
 };
 
 export type CareerSaveEnvelope = {

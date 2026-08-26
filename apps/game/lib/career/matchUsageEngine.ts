@@ -305,8 +305,16 @@ export interface MatchUsageTimeline {
  * falls back for goalkeepers (who have no ENDURANCE attribute).
  * Deterministic and pure: the same (MatchPlan, stamina, seed) always
  * produces the exact same timeline (Part 24 #20).
+ *
+ * HM-TRAINING-1.0 Part 11: `startingEnergyByPlayerId` is ALSO OPTIONAL --
+ * a player missing from the map (or the map omitted entirely) still
+ * starts at `ENERGY_START_DEFAULT` (100), byte-identical to every
+ * caller before this milestone (AI-vs-AI fixtures, mid-match coaching's
+ * own recompute -- neither tracks persistent player condition). Only
+ * matchdayAction.ts, for the manager's own squad, passes a real map --
+ * closing the match -> recovery -> training -> next-match loop.
  */
-export function resolveMatchUsageTimeline(plan: MatchPlan, seed: string, staminaByPlayerId?: ReadonlyMap<string, number>): MatchUsageTimeline {
+export function resolveMatchUsageTimeline(plan: MatchPlan, seed: string, staminaByPlayerId?: ReadonlyMap<string, number>, startingEnergyByPlayerId?: ReadonlyMap<string, number>): MatchUsageTimeline {
   const usagePlan = buildMatchUsagePlan(plan);
   const attackSlotCount = plan.attackStartingUnit.formation === "SEVEN_V_SIX" ? 7 : 6;
   const defenceSlotCount = 6;
@@ -320,9 +328,10 @@ export function resolveMatchUsageTimeline(plan: MatchPlan, seed: string, stamina
   const goalkeeperWindowsActiveById = new Map<string, number>();
 
   for (const p of usagePlan.players) {
-    energyByPlayerId.set(p.playerId, ENERGY_START_DEFAULT);
+    const startingEnergy = startingEnergyByPlayerId?.get(p.playerId) ?? ENERGY_START_DEFAULT;
+    energyByPlayerId.set(p.playerId, startingEnergy);
     staminaFactorByPlayerId.set(p.playerId, computeStaminaFactor(staminaByPlayerId?.get(p.playerId) ?? NEUTRAL_STAMINA));
-    checkpointsByPlayerId.set(p.playerId, [ENERGY_START_DEFAULT]);
+    checkpointsByPlayerId.set(p.playerId, [startingEnergy]);
     attackWindowsActiveById.set(p.playerId, 0);
     defenceWindowsActiveById.set(p.playerId, 0);
     goalkeeperWindowsActiveById.set(p.playerId, 0);

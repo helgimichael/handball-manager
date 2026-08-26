@@ -87,5 +87,8 @@ export function createNewCareerState(
     playerMatchDefaults: {},
     specialPlay: {},
     activeMatchSession: null,
+    trainingWeeks: {},
+    playerPhysicalState: {},
+    playerTrainingAssignments: {},
   };
 }

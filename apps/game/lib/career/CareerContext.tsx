@@ -16,6 +16,16 @@ import { updateTacticalProfile } from "./tacticalProfileActions";
 import { setMatchPlan, setPlayerMatchDefault } from "./matchPlanActions";
 import { setSpecialPlayPlan } from "./specialPlayActions";
 import { startLiveMatchSession, updateLiveMatchSession, clearLiveMatchSession } from "./liveMatchSessionActions";
+import {
+  addTrainingSessionAction,
+  applyWeeklyTemplateAction,
+  removeTrainingSessionAction,
+  setTrainingDayTypeAction,
+  updateTrainingSessionAction,
+} from "./trainingScheduleActions";
+import { setPlayerTrainingLoad } from "../training/trainingSchedule";
+import type { SessionSeed } from "../training/trainingSchedule";
+import type { PlayerTrainingLoadSetting, TrainingDayType, TrainingSession, WeeklyTrainingTemplate } from "../training/types";
 import type { PlayerMatchDefault } from "../matchPlan/persistentDefaults";
 import type { SpecialPlayPlan } from "../matchPlan/specialPlay";
 import type { TeamTacticalProfile } from "./teamTacticalProfile";
@@ -107,6 +117,23 @@ type CareerContextValue = {
   updateLiveMatchSession: (fixtureId: string, session: LiveMatchSessionState) => void;
   /** Part I: called once the manager explicitly leaves a finished match (MATCHRAPPORT / FORTSÄTT) -- never automatically at FULL_TIME itself. */
   endLiveMatchSession: (fixtureId: string) => void;
+  /** HM-TRAINING-1.0 Part 24: changes one training day's dayType (e.g. TRAINING -> REST), and persists. */
+  setTrainingDayType: (weekStart: string, date: string, dayType: TrainingDayType) => void;
+  /** HM-TRAINING-1.0 Part 24: adds one training session to a day (no-ops past MAX_SESSIONS_PER_DAY), and persists. */
+  addTrainingSession: (weekStart: string, date: string, seed: SessionSeed) => void;
+  /** HM-TRAINING-1.0 Part 24: removes one training session from a day, and persists. */
+  removeTrainingSession: (weekStart: string, date: string, sessionId: string) => void;
+  /** HM-TRAINING-1.0 Part 24: edits one training session's type/intensity/duration/target/focus in place, and persists. */
+  updateTrainingSession: (
+    weekStart: string,
+    date: string,
+    sessionId: string,
+    patch: Partial<Pick<TrainingSession, "type" | "intensity" | "duration" | "target" | "selectedPlayerIds" | "tacticalFocus">>,
+  ) => void;
+  /** HM-TRAINING-1.0 Part 17: applies a full weekly template to `weekStart` from scratch (never touching an already-executed day), and persists. */
+  applyWeeklyTemplate: (weekStart: string, template: WeeklyTrainingTemplate) => void;
+  /** HM-TRAINING-1.0 Part 12: sets one player's persistent individual training-load setting (FULL/REDUCED/RECOVERY_ONLY/REST), and persists. */
+  setPlayerTrainingLoad: (playerId: string, loadSetting: PlayerTrainingLoadSetting) => void;
 };
 
 const CareerContext = createContext<CareerContextValue | null>(null);
@@ -415,6 +442,70 @@ export function CareerProvider({ children }: { children: ReactNode }) {
     });
   }
 
+  // HM-TRAINING-1.0 Part 24: the Training week table fires several
+  // sequential edits from one already-rendered panel (e.g. changing a
+  // session's intensity right after adding it) -- same rapid-sequential-
+  // edit risk updateMatchPlanAction documents above, so every Training
+  // mutator below uses the same functional setValue form.
+  function setTrainingDayTypeActionWrapper(weekStart: string, date: string, dayType: TrainingDayType) {
+    setValue((current) => {
+      if (!current) return current;
+      const nextCareer = setTrainingDayTypeAction(current.career, weekStart, date, dayType);
+      saveCareerState(current.save.saveId, nextCareer);
+      return { save: current.save, career: nextCareer };
+    });
+  }
+
+  function addTrainingSessionActionWrapper(weekStart: string, date: string, seed: SessionSeed) {
+    setValue((current) => {
+      if (!current) return current;
+      const nextCareer = addTrainingSessionAction(current.career, weekStart, date, seed);
+      saveCareerState(current.save.saveId, nextCareer);
+      return { save: current.save, career: nextCareer };
+    });
+  }
+
+  function removeTrainingSessionActionWrapper(weekStart: string, date: string, sessionId: string) {
+    setValue((current) => {
+      if (!current) return current;
+      const nextCareer = removeTrainingSessionAction(current.career, weekStart, date, sessionId);
+      saveCareerState(current.save.saveId, nextCareer);
+      return { save: current.save, career: nextCareer };
+    });
+  }
+
+  function updateTrainingSessionActionWrapper(
+    weekStart: string,
+    date: string,
+    sessionId: string,
+    patch: Partial<Pick<TrainingSession, "type" | "intensity" | "duration" | "target" | "selectedPlayerIds" | "tacticalFocus">>,
+  ) {
+    setValue((current) => {
+      if (!current) return current;
+      const nextCareer = updateTrainingSessionAction(current.career, weekStart, date, sessionId, patch);
+      saveCareerState(current.save.saveId, nextCareer);
+      return { save: current.save, career: nextCareer };
+    });
+  }
+
+  function applyWeeklyTemplateActionWrapper(weekStart: string, template: WeeklyTrainingTemplate) {
+    setValue((current) => {
+      if (!current) return current;
+      const nextCareer = applyWeeklyTemplateAction(current.career, weekStart, template);
+      saveCareerState(current.save.saveId, nextCareer);
+      return { save: current.save, career: nextCareer };
+    });
+  }
+
+  function setPlayerTrainingLoadActionWrapper(playerId: string, loadSetting: PlayerTrainingLoadSetting) {
+    setValue((current) => {
+      if (!current) return current;
+      const nextCareer = setPlayerTrainingLoad(current.career, playerId, loadSetting);
+      saveCareerState(current.save.saveId, nextCareer);
+      return { save: current.save, career: nextCareer };
+    });
+  }
+
   return (
     <CareerContext.Provider
       value={{
@@ -434,6 +525,12 @@ export function CareerProvider({ children }: { children: ReactNode }) {
         startLiveMatchSession: startLiveMatchSessionAction,
         updateLiveMatchSession: updateLiveMatchSessionAction,
         endLiveMatchSession: endLiveMatchSessionAction,
+        setTrainingDayType: setTrainingDayTypeActionWrapper,
+        addTrainingSession: addTrainingSessionActionWrapper,
+        removeTrainingSession: removeTrainingSessionActionWrapper,
+        updateTrainingSession: updateTrainingSessionActionWrapper,
+        applyWeeklyTemplate: applyWeeklyTemplateActionWrapper,
+        setPlayerTrainingLoad: setPlayerTrainingLoadActionWrapper,
       }}
     >
       {children}
