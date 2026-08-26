@@ -136,13 +136,19 @@ export function applyMidMatchPlanChange(
   // (`computeAttackActiveWindows`), so a bench player's own scheduled
   // entry window is honored, not just their aggregate exposure.
   const managerAttackExposureById = new Map(managerUsageTrace.players.map((p) => [p.playerId, p.attackExposure]));
+  // HM-MATCH-USAGE-1.4 Part 21/24 #9: a DEFENCE_ONLY player must still
+  // get a roster/contribution entry -- see matchdayAction.ts's own
+  // identical doc for why roster inclusion is the union of attack and
+  // defence exposure, never attack exposure alone.
+  const managerDefenceExposureById = new Map(managerUsageTrace.players.map((p) => [p.playerId, p.defenceExposure]));
   const managerActiveWindowsById = computeAttackActiveWindows(newPlan);
-  const roster = buildMatchRoster(getCareerSquad(state), state.playerStatuses, managerAttackExposureById, managerActiveWindowsById);
+  const roster = buildMatchRoster(getCareerSquad(state), state.playerStatuses, managerAttackExposureById, managerActiveWindowsById, managerDefenceExposureById);
   const opponentAttackExposureById = opponentUsageTrace
     ? new Map(opponentUsageTrace.players.map((p) => [p.playerId, p.attackExposure]))
     : buildFallbackAttackExposure(getCareerClubSquad(state, opponentClubId), fixtureId, opponentClubId);
+  const opponentDefenceExposureById = opponentUsageTrace ? new Map(opponentUsageTrace.players.map((p) => [p.playerId, p.defenceExposure])) : undefined;
   const opponentActiveWindowsById = opponentPlan ? computeAttackActiveWindows(opponentPlan) : undefined;
-  const opponentRoster = buildMatchRoster(getCareerClubSquad(state, opponentClubId), undefined, opponentAttackExposureById, opponentActiveWindowsById);
+  const opponentRoster = buildMatchRoster(getCareerClubSquad(state, opponentClubId), undefined, opponentAttackExposureById, opponentActiveWindowsById, opponentDefenceExposureById);
 
   // HM-MATCH-1.2 Part W/X: a HALFTIME-delivered change has a 0-minute
   // adoption delay (matchPlanChange.ts), so `adoptionMinute ===

@@ -119,6 +119,25 @@ function windowLoad(activity: { attack: boolean; defence: boolean; goalkeeper: b
  * trajectory for one player. Deterministic (Part 24 #20): the same
  * inputs always produce the same checkpoints array.
  */
+/**
+ * HM-MATCH-USAGE-1.4: the single per-window energy step -- extracted
+ * out of computeEnergyTrajectory's own loop (below) so
+ * lib/career/matchUsageEngine.ts's new fatigue-AWARE rotation resolver
+ * can step the SAME physical model window-by-window WHILE deciding who
+ * is on court, instead of only being able to compute a trajectory
+ * AFTER usage is already fully decided (the ordering problem that made
+ * fatigue-driven rotation impossible before this milestone). Pure,
+ * deterministic -- same inputs, same output.
+ */
+export function stepWindowEnergy(currentEnergy: number, activity: { attack: boolean; defence: boolean; goalkeeper: boolean }, staminaFactor: number, isGoalkeeperRole: boolean, isHalftimeBoundary: boolean): number {
+  const active = isGoalkeeperRole ? activity.goalkeeper : activity.attack || activity.defence;
+  let energy = active ? clampEnergy(currentEnergy - windowLoad(activity, staminaFactor, isGoalkeeperRole)) : clampEnergy(currentEnergy + PHYSICAL_MODEL_TUNING.benchRecoveryPerWindow);
+  if (isHalftimeBoundary) {
+    energy = clampEnergy(energy + PHYSICAL_MODEL_TUNING.halftimeRecoveryFlat + (ENERGY_MAX - energy) * PHYSICAL_MODEL_TUNING.halftimeRecoveryFraction);
+  }
+  return energy;
+}
+
 export function computeEnergyTrajectory(playerId: string, isGoalkeeperRole: boolean, activity: WindowActivity, staminaAttribute1to20: number, startingEnergy: number = ENERGY_START_DEFAULT): PlayerEnergyTrajectory {
   const staminaFactor = computeStaminaFactor(staminaAttribute1to20);
   const halftimeWindowIndex = PHYSICAL_MODEL_TUNING.windowCount / 2;
@@ -137,16 +156,7 @@ export function computeEnergyTrajectory(playerId: string, isGoalkeeperRole: bool
     if (defence) defenceWindowsActive += 1;
     if (goalkeeper) goalkeeperWindowsActive += 1;
 
-    const active = isGoalkeeperRole ? goalkeeper : attack || defence;
-    if (active) {
-      energy = clampEnergy(energy - windowLoad({ attack, defence, goalkeeper }, staminaFactor, isGoalkeeperRole));
-    } else {
-      energy = clampEnergy(energy + PHYSICAL_MODEL_TUNING.benchRecoveryPerWindow);
-    }
-
-    if (w + 1 === halftimeWindowIndex) {
-      energy = clampEnergy(energy + PHYSICAL_MODEL_TUNING.halftimeRecoveryFlat + (ENERGY_MAX - energy) * PHYSICAL_MODEL_TUNING.halftimeRecoveryFraction);
-    }
+    energy = stepWindowEnergy(energy, { attack, defence, goalkeeper }, staminaFactor, isGoalkeeperRole, w + 1 === halftimeWindowIndex);
     checkpoints.push(energy);
   }
 
@@ -199,23 +209,67 @@ const PERFORMANCE_CURVE: readonly (readonly [energy: number, modifier: number])[
   [0, 0.65],
 ];
 
-/** Part 12/13: energy -> a bounded [0.65, 1.0] performance multiplier. Never mutates any permanent attribute (Part 12/19) -- purely a multiplier the CALLER applies to a temporary, per-match value. */
-export function fatiguePerformanceModifier(energy: number): number {
+function interpolateCurve(curve: readonly (readonly [energy: number, modifier: number])[], energy: number): number {
   const e = clampEnergy(energy);
-  for (let i = 0; i < PERFORMANCE_CURVE.length - 1; i++) {
-    const [hiEnergy, hiModifier] = PERFORMANCE_CURVE[i];
-    const [loEnergy, loModifier] = PERFORMANCE_CURVE[i + 1];
+  for (let i = 0; i < curve.length - 1; i++) {
+    const [hiEnergy, hiModifier] = curve[i];
+    const [loEnergy, loModifier] = curve[i + 1];
     if (e <= hiEnergy && e >= loEnergy) {
       const t = hiEnergy === loEnergy ? 0 : (e - loEnergy) / (hiEnergy - loEnergy);
       return loModifier + t * (hiModifier - loModifier);
     }
   }
-  return PERFORMANCE_CURVE[PERFORMANCE_CURVE.length - 1][1];
+  return curve[curve.length - 1][1];
+}
+
+/** Part 12/13: energy -> a bounded [0.65, 1.0] performance multiplier. Never mutates any permanent attribute (Part 12/19) -- purely a multiplier the CALLER applies to a temporary, per-match value. */
+export function fatiguePerformanceModifier(energy: number): number {
+  return interpolateCurve(PERFORMANCE_CURVE, energy);
 }
 
 /** Part 12: a convenience wrapper -- `effectiveAttribute = baseAttribute * modifier`. The base attribute itself is NEVER touched (Part 12/19); this returns a new, temporary number only. */
 export function effectiveAttributeValue(baseAttribute: number, energy: number): number {
   return baseAttribute * fatiguePerformanceModifier(energy);
+}
+
+// ---------------------------------------------------------------------------
+// HM-MATCH-USAGE-1.4 Part 10/12: a SEPARATE, additive curve -- energy's
+// effect on a player's ROTATION availability, never a retuning of
+// PERFORMANCE_CURVE above (Part 23: "DO NOT RETUNE PHYSICAL MODEL YET"
+// means the existing energy-loss/performance tuning stays untouched;
+// this is a genuinely new concept, not a retune). Deliberately STEEPER
+// than the performance curve -- a performance penalty must stay gentle
+// so quality persists (Part 15 of HM-PHYSICAL-1.0), but a ROTATION
+// decision needs real responsiveness, or fatigue could never actually
+// create a reason to substitute (Part 10's own "then a rotation can
+// happen" requirement). Still bounded well above zero (floor 0.3, not
+// 0) so fatigue alone can never let a low-tier player outrank a
+// high-tier one purely by tiredness (Part 11's own worked example) --
+// see matchUsageEngine.ts's own tests for the exact numeric proof.
+// Floor is 0.12 (not 0.3): calibrated so that a full 60-minute two-way
+// STARTER/HIGH player genuinely CAN be overtaken even by a plain
+// ROTATION/NORMAL bench player (the DEFAULT bench profile) by the
+// match's closing window -- Part 9's own wording is explicit that even
+// ROTATION/NORMAL "ska få mindre men tydlig användning" (smaller but
+// CLEAR usage), not zero, so a bare default bench player must be able
+// to break through a fully tied six-starter XI by full time. A large
+// role/intention TIER gap (e.g. KEY_PLAYER/VERY_HIGH vs a fresh
+// DEVELOPMENT player) still can never be closed by fatigue alone --
+// see matchUsageEngine.test.ts's own numeric proof for both bounds.
+// ---------------------------------------------------------------------------
+
+const ROTATION_AVAILABILITY_CURVE: readonly (readonly [energy: number, availability: number])[] = [
+  [100, 1.0],
+  [80, 0.8],
+  [60, 0.45],
+  [40, 0.25],
+  [20, 0.18],
+  [0, 0.12],
+];
+
+/** Part 10/12: energy -> a bounded [0.12, 1.0] rotation-priority availability multiplier -- used ONLY to rank who gets selected on court, never to scale attribute/performance values (see fatiguePerformanceModifier for that, separate concept). */
+export function fatigueRotationAvailability(energy: number): number {
+  return interpolateCurve(ROTATION_AVAILABILITY_CURVE, energy);
 }
 
 // ---------------------------------------------------------------------------
@@ -230,6 +284,23 @@ export interface MatchPhysicalReport {
   fixtureId: string;
   home: Readonly<Record<string, PlayerEnergyTrajectory>>;
   away: Readonly<Record<string, PlayerEnergyTrajectory>>;
+  // HM-MATCH-USAGE-1.4 Part 14/24 #23: the EXACT per-window on-court
+  // units the fatigue-aware MatchUsage timeline resolved for this
+  // fixture (lib/career/matchUsageEngine.ts's resolveMatchUsageTimeline)
+  // -- persisted so Live Match's "PÅ PLAN" panel (lib/career/
+  // currentUnit.ts) becomes a pure LOOKUP into the same resolution the
+  // Fast Match Engine's scorer-eligibility gating and this report's own
+  // trajectories already used, never a second, freshly-recomputed
+  // lineup engine that could silently disagree (Part 14: "no second
+  // lineup/minutes algorithm"). Optional-shaped (`?? []` at every read
+  // site) so a MatchPhysicalReport persisted by an earlier build of this
+  // milestone (before these fields existed) still loads safely.
+  homeAttackUnitByWindow?: readonly (readonly string[])[];
+  homeDefenceUnitByWindow?: readonly (readonly string[])[];
+  homeGoalkeeperByWindow?: readonly (string | null)[];
+  awayAttackUnitByWindow?: readonly (readonly string[])[];
+  awayDefenceUnitByWindow?: readonly (readonly string[])[];
+  awayGoalkeeperByWindow?: readonly (string | null)[];
 }
 
 /**

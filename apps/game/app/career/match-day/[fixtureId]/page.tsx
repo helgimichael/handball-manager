@@ -517,13 +517,31 @@ function LiveMatch({
         <CurrentUnitPanel
           plan={currentMatchPlan}
           clockMinute={view.clockMinute}
-          seed={result.seed}
+          // HM-MATCH-USAGE-1.4 Part 14/24 #23: must be the EXACT usage
+          // seed matchdayAction.ts used to resolve this fixture's own
+          // MatchUsage timeline for the manager's club (never the Fast
+          // Match Engine's own `result.seed`, a different seed entirely)
+          // -- otherwise a fatigue-aware fresh recompute (the fallback
+          // path used once a live coaching change is adopted, below)
+          // could disagree with the persisted resolution over a mere
+          // seed mismatch, not a real tactical difference.
+          seed={`${career.saveSeed}:${fixture.id}:usage:${career.playerClubId}`}
           isAttackingNow={managerIsHome ? view.currentAttack === "home" : view.currentAttack === "away"}
           nameOf={(playerId) => {
             const player = getCareerPlayer(career, playerId);
             return player ? `${player.firstName} ${player.lastName}` : playerId;
           }}
           physicalTrace={managerIsHome ? career.physicalReports[fixture.id]?.home : career.physicalReports[fixture.id]?.away}
+          // Only trustworthy as a pure lookup while NO live coaching
+          // change has been adopted for this fixture yet -- the persisted
+          // report was resolved from the PRE-match plan; once a live
+          // change lands, `currentMatchPlan` itself diverges from that
+          // plan, so the panel falls back to a fresh (non-fatigue-
+          // progressive) live recompute against the actual current plan
+          // instead of showing a stale, now-wrong persisted schedule.
+          persistedAttackUnitByWindow={career.liveMatchPlans[fixture.id] ? undefined : (managerIsHome ? career.physicalReports[fixture.id]?.homeAttackUnitByWindow : career.physicalReports[fixture.id]?.awayAttackUnitByWindow)}
+          persistedDefenceUnitByWindow={career.liveMatchPlans[fixture.id] ? undefined : (managerIsHome ? career.physicalReports[fixture.id]?.homeDefenceUnitByWindow : career.physicalReports[fixture.id]?.awayDefenceUnitByWindow)}
+          persistedGoalkeeperByWindow={career.liveMatchPlans[fixture.id] ? undefined : (managerIsHome ? career.physicalReports[fixture.id]?.homeGoalkeeperByWindow : career.physicalReports[fixture.id]?.awayGoalkeeperByWindow)}
         />
       ) : null}
 
@@ -1901,24 +1919,32 @@ function CurrentUnitPanel({
   isAttackingNow,
   nameOf,
   physicalTrace,
+  persistedAttackUnitByWindow,
+  persistedDefenceUnitByWindow,
+  persistedGoalkeeperByWindow,
 }: {
   plan: import("@/lib/matchPlan/types").MatchPlan;
   clockMinute: number;
-  seed: number;
+  seed: string;
   isAttackingNow: boolean;
   nameOf: (playerId: string) => string;
   /** HM-PHYSICAL-1.0 Part 16/19/20: each on-court chip's own precomputed energy trajectory (career.physicalReports, keyed by playerId) -- revealed minute-by-minute via energyAtMinute, never recomputed live; undefined for an old save with no physical report yet (Part 16 stays purely additive/optional). */
   physicalTrace: Readonly<Record<string, PlayerEnergyTrajectory>> | undefined;
+  /** HM-MATCH-USAGE-1.4 Part 14/24 #23 -- see currentUnit.ts's own doc on `persistedUnitByWindow`. */
+  persistedAttackUnitByWindow: readonly (readonly string[])[] | undefined;
+  persistedDefenceUnitByWindow: readonly (readonly string[])[] | undefined;
+  persistedGoalkeeperByWindow: readonly (string | null)[] | undefined;
 }) {
   const isSevenVSix = plan.attackStartingUnit.formation === "SEVEN_V_SIX";
+  const gk = resolveCurrentGoalkeeper(plan, clockMinute, seed, persistedGoalkeeperByWindow) ?? "";
   const chips: { label: string; name: string; playerId: string }[] = isAttackingNow
     ? [
-        ...(isSevenVSix ? [] : [{ label: "MV", name: nameOf(resolveCurrentGoalkeeper(plan, clockMinute) ?? ""), playerId: resolveCurrentGoalkeeper(plan, clockMinute) ?? "" }]),
-        ...resolveCurrentAttackUnit(plan, clockMinute, String(seed)).map((s) => ({ label: s.position, name: nameOf(s.playerId), playerId: s.playerId })),
+        ...(isSevenVSix ? [] : [{ label: "MV", name: nameOf(gk), playerId: gk }]),
+        ...resolveCurrentAttackUnit(plan, clockMinute, seed, persistedAttackUnitByWindow).map((s) => ({ label: s.position, name: nameOf(s.playerId), playerId: s.playerId })),
       ]
     : [
-        { label: "MV", name: nameOf(resolveCurrentGoalkeeper(plan, clockMinute) ?? ""), playerId: resolveCurrentGoalkeeper(plan, clockMinute) ?? "" },
-        ...resolveCurrentDefenceUnit(plan, clockMinute, String(seed)).map((s) => ({ label: defenceCourtSlotLabel(s.courtSlot), name: nameOf(s.playerId), playerId: s.playerId })),
+        { label: "MV", name: nameOf(gk), playerId: gk },
+        ...resolveCurrentDefenceUnit(plan, clockMinute, seed, persistedDefenceUnitByWindow).map((s) => ({ label: defenceCourtSlotLabel(s.courtSlot), name: nameOf(s.playerId), playerId: s.playerId })),
       ];
 
   return (

@@ -34,11 +34,11 @@
 // tacticalMatchAdjustment.ts's own existing (intensity-scalable) 7v6
 // bonus channel.
 import type { GameplayPlayerRating } from "../gameWorld/gameplayRatingSnapshot";
-import { computePlayerWindowActivity, computeTeamUsageTrace, type PlayerWindowActivity, type TeamUsageTrace } from "./matchUsageEngine";
+import { computePlayerWindowActivity, computeTeamUsageTrace, resolveMatchUsageTimeline, type PlayerWindowActivity, type TeamUsageTrace } from "./matchUsageEngine";
 import type { PlayerMock } from "../game-data";
 import { buildInitialMatchSquad } from "../matchPlan/careerSquadBridge";
 import { buildDefaultMatchPlan } from "../matchPlan/defaultMatchPlan";
-import { computeAveragePhaseFatigueModifier, computeEnergyTrajectory, type PlayerEnergyTrajectory } from "../matchPlan/physicalModel";
+import { computeAveragePhaseFatigueModifier, type PlayerEnergyTrajectory } from "../matchPlan/physicalModel";
 import type { MatchPlan } from "../matchPlan/types";
 import type { PlayerMatchDefault, TacticsTemplate } from "../matchPlan/persistentDefaults";
 import { GOALKEEPER_ATTRIBUTES, type GoalkeeperAttribute, type OutcourtAttribute } from "../rating/types";
@@ -70,15 +70,37 @@ function staminaOf(rating: GameplayPlayerRating | undefined): number {
   return GOALKEEPER_NEUTRAL_STAMINA;
 }
 
-/** Part 3/6: one energy trajectory per squad player, built once per fixture. Exported so matchdayAction.ts can persist the same trajectories into the match's physical report (Part 21) without recomputing them a second time. */
-export function computeTeamPhysicalTrace(plan: MatchPlan, ratingsById: Map<string, GameplayPlayerRating>): ReadonlyMap<string, PlayerEnergyTrajectory> {
-  const activities = computePlayerWindowActivity(plan);
-  const trace = new Map<string, PlayerEnergyTrajectory>();
-  for (const activity of activities) {
-    const stamina = staminaOf(ratingsById.get(activity.playerId));
-    trace.set(activity.playerId, computeEnergyTrajectory(activity.playerId, activity.isGoalkeeper, activity, stamina));
-  }
-  return trace;
+/**
+ * HM-MATCH-USAGE-1.4: the one shared stamina map builder -- every caller
+ * that needs matchUsageEngine.ts's fatigue-aware rotation (Part 10) to
+ * react to a squad's REAL ENDURANCE attributes (not the engine's own
+ * neutral fallback) must build it this exact way, so a player's
+ * on-court SELECTION each window and their ENERGY TRAJECTORY are always
+ * computed from the identical stamina assumption -- never two silently
+ * divergent stamina readings for the same player (Part 14's own "one
+ * source of truth").
+ */
+export function buildStaminaByPlayerId(ratings: readonly GameplayPlayerRating[]): ReadonlyMap<string, number> {
+  const map = new Map<string, number>();
+  for (const rating of ratings) map.set(rating.playerId, staminaOf(rating));
+  return map;
+}
+
+/**
+ * Part 3/6: one energy trajectory per squad player, built once per
+ * fixture. `seed` MUST match whatever seed computeTeamUsageTrace/
+ * computeAttackActiveWindows were called with for this same plan (Part
+ * 14/24 #23) -- otherwise the tiebreak ordering among tied-priority
+ * players could diverge between "who's exposed" and "whose energy
+ * trajectory is this", the exact single-source-of-truth violation this
+ * milestone's redesign exists to remove. Reads resolveMatchUsageTimeline's
+ * own trajectories directly (never a second, separately-computed
+ * trajectory) so a player's schedule and their stamina-driven energy
+ * loss come from the exact same resolved timeline.
+ */
+export function computeTeamPhysicalTrace(plan: MatchPlan, ratingsById: Map<string, GameplayPlayerRating>, seed = "matchUsageEngine"): ReadonlyMap<string, PlayerEnergyTrajectory> {
+  const staminaByPlayerId = buildStaminaByPlayerId([...ratingsById.values()]);
+  return resolveMatchUsageTimeline(plan, seed, staminaByPlayerId).trajectories;
 }
 
 // ---------------------------------------------------------------------------
@@ -287,9 +309,10 @@ export function computeTeamStrengthTrace(plan: MatchPlan | null, ratings: readon
   if (!plan) return NEUTRAL_TRACE;
 
   const ratingsById = new Map(ratings.map((r) => [r.playerId, r]));
-  const usageTrace = computeTeamUsageTrace(plan, usageSeed);
-  const physicalTrace = computeTeamPhysicalTrace(plan, ratingsById);
-  const activityById = new Map(computePlayerWindowActivity(plan).map((a) => [a.playerId, a]));
+  const staminaByPlayerId = buildStaminaByPlayerId(ratings);
+  const usageTrace = computeTeamUsageTrace(plan, usageSeed, staminaByPlayerId);
+  const physicalTrace = computeTeamPhysicalTrace(plan, ratingsById, usageSeed);
+  const activityById = new Map(computePlayerWindowActivity(plan, usageSeed, staminaByPlayerId).map((a) => [a.playerId, a]));
 
   const attack = computePhaseValue(plan, ratingsById, usageTrace, "attack", playerAttackValue, physicalTrace, activityById);
   const defenceOutfield = computePhaseValue(plan, ratingsById, usageTrace, "defence", playerDefenceValue, physicalTrace, activityById);

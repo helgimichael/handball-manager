@@ -52,7 +52,7 @@ test("HM-MATCH-1.3B Part P #14: at kickoff (minute 0), the current defence unit 
   const currentIds = new Set(current.map((s) => s.playerId));
   const startingIds = new Set(plan.defenceStartingUnit.courtSlots.map((s) => s.playerId));
   assert.deepEqual(currentIds, startingIds);
-  assert.equal(resolveCurrentGoalkeeper(plan, 0), plan.defenceStartingUnit.goalkeeperId);
+  assert.equal(resolveCurrentGoalkeeper(plan, 0, SEED), plan.defenceStartingUnit.goalkeeperId);
 });
 
 test("HM-MATCH-1.3B Part P #15: a later rotation window can differ from the kickoff unit when bench players carry real playing-time intention", () => {
@@ -126,7 +126,7 @@ test("HM-MATCH-1.3B: current unit size never exceeds the legal on-court count (6
 
 test("HM-MATCH-1.3B: resolveCurrentGoalkeeper returns null only when the squad has no goalkeeper at all", () => {
   const plan = defaultPlan();
-  assert.ok(resolveCurrentGoalkeeper(plan, 0));
+  assert.ok(resolveCurrentGoalkeeper(plan, 0, SEED));
 });
 
 test("HM-MATCH-1.3B: determinism -- the same plan/minute/seed always produces the same current unit", () => {

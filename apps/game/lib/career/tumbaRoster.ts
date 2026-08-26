@@ -59,28 +59,34 @@ function scoringWeightFor(player: PlayerMock): number {
  *
  * `attackExposureById` (HM-MATCH-1.0 Part P): when supplied (the
  * manager's own MatchPlan/MatchUsage trace is known -- see
- * matchdayAction.ts), an outfield player is excluded from the roster
- * unless they have a POSITIVE entry in the map -- both a player with
- * ZERO intended attacking exposure (e.g. EMERGENCY_ONLY, or
- * DEFENCE_ONLY) AND a player who isn't in the MatchPlan's MatchSquad at
- * all (no entry -- squadStatus eligibility alone would otherwise still
- * have included them, since this map is a strict narrowing, never a
- * widening, of that eligibility) are excluded, so they are structurally
- * unreachable by `distributeGoalsToRoster` in matchEngine.ts (which
- * only ever draws from whoever IS in this array) -- preventing both the
- * "EMERGENCY_ONLY player becomes top scorer" case AND a live QA finding
- * ("a player not even selected into the 16-man MatchSquad still
- * appeared as a scorer") Part P calls out, rather than merely
- * deprioritizing either. A player with a non-zero exposure has their
- * `scoringWeight` scaled by it, so a heavily-used player also gets
- * proportionally more scoring opportunity than a lightly-rotated one.
- * Omitting the map entirely is byte-identical to before this milestone.
+ * matchdayAction.ts), a player who isn't in the MatchPlan's MatchSquad
+ * at all (no entry in EITHER exposure map -- squadStatus eligibility
+ * alone would otherwise still have included them, since these maps are
+ * a strict narrowing, never a widening, of that eligibility) is
+ * excluded from the roster, so they are structurally unreachable by
+ * `distributeGoalsToRoster` in matchEngine.ts -- preventing a live QA
+ * finding ("a player not even selected into the 16-man MatchSquad still
+ * appeared as a scorer") Part P calls out. `scoringWeight` is scaled by
+ * `attackExposureById` alone, so a player with ZERO intended attacking
+ * exposure (EMERGENCY_ONLY, or a HM-MATCH-USAGE-1.4 DEFENCE_ONLY player)
+ * is structurally unreachable as a SCORER specifically (Part P's
+ * "EMERGENCY_ONLY becomes top scorer" case), never merely deprioritized
+ * -- while a heavily-used player gets proportionally more scoring
+ * opportunity. `defenceExposureById` (HM-MATCH-USAGE-1.4 Part 21/24 #9):
+ * roster INCLUSION itself is the union of attack and defence exposure --
+ * a legitimate DEFENCE_ONLY player still participated in the match (and
+ * needs a contribution/stats entry) even though they structurally can
+ * never be drawn as a scorer; only a player with ZERO exposure in BOTH
+ * phases (e.g. EMERGENCY_ONLY, or absent from the plan) is excluded
+ * from the roster entirely. Omitting both maps is byte-identical to
+ * before HM-MATCH-1.0.
  */
 export function buildMatchRoster(
   squad: readonly PlayerMock[],
   playerStatuses?: Record<string, PlayerCareerStatus>,
   attackExposureById?: ReadonlyMap<string, number>,
   attackActiveWindowsById?: ReadonlyMap<string, readonly boolean[]>,
+  defenceExposureById?: ReadonlyMap<string, number>,
 ): MatchRosterPlayer[] {
   const eligible = squad.filter((p) => {
     const baseEligible = p.squadStatus === "Förstaval" || p.squadStatus === "Rotation";
@@ -95,7 +101,7 @@ export function buildMatchRoster(
     return baseEligible || p.squadStatus === "Skadad" || p.squadStatus === "Avstängd";
   });
   const outfieldEligible = eligible.filter((p) => p.position !== "MV");
-  let outfield = attackExposureById ? outfieldEligible.filter((p) => (attackExposureById.get(p.id) ?? 0) > 0) : outfieldEligible;
+  let outfield = attackExposureById ? outfieldEligible.filter((p) => (attackExposureById.get(p.id) ?? 0) > 0 || (defenceExposureById?.get(p.id) ?? 0) > 0) : outfieldEligible;
 
   // HM-MATCH-1.1 Part 9: a hard, unconditional cap -- belt-and-suspenders
   // alongside `buildFallbackAttackExposure` above. Even a caller that

@@ -133,7 +133,21 @@ test("HM-COACHING-1.0: a PlayingTimeIntention change affects future exposure -- 
   for (let i = 0; i < 15 && !sawDifference; i += 1) {
     const { state, fixture } = playedFixtureWithPlan(`playing-time-exposure-seed-${i}`);
     const plan = resolveCurrentMatchPlan(state, fixture.id)!;
-    const target = plan.playerUsage.find((u) => u.playingTimeIntention !== "VERY_HIGH" && plan.squad.players.find((p) => p.playerId === u.playerId)?.position !== "GK")!;
+    // HM-MATCH-USAGE-1.4: must be a genuine BENCH player (not one of the
+    // selected starting units) -- a starting player's own window
+    // eligibility is now unconditionally the full match (Part 6), so
+    // raising an already-starting player's intention can no longer, by
+    // itself, change which windows they're eligible for; only a bench
+    // player's own eligibility window widens with a higher intention.
+    const attackStartingIds = new Set(plan.attackStartingUnit.slots.map((s) => s.playerId));
+    const defenceStartingIds = new Set([...plan.defenceStartingUnit.courtSlots.map((s) => s.playerId), plan.defenceStartingUnit.goalkeeperId]);
+    const target = plan.playerUsage.find(
+      (u) =>
+        u.playingTimeIntention !== "VERY_HIGH" &&
+        plan.squad.players.find((p) => p.playerId === u.playerId)?.position !== "GK" &&
+        !attackStartingIds.has(u.playerId) &&
+        !defenceStartingIds.has(u.playerId),
+    )!;
     const change: MatchPlanChange = { category: "PLAYER", kind: "PLAYING_TIME", playerId: target.playerId, playerName: "Test Player", playingTimeIntention: "VERY_HIGH" };
     const adoptionMinute = 20;
 

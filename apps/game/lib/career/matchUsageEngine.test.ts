@@ -78,8 +78,17 @@ test("Part S #9: a starting player receives more exposure than an equivalent LOW
 // ---------------------------------------------------------------------------
 
 test("Part S #3: ATTACK_ONLY gets attack exposure and zero defence exposure", () => {
+  // HM-MATCH-USAGE-1.4: with the corrected model, a bench player only
+  // earns real on-court competition against a full-strength starting
+  // six by carrying a coach priority that makes rotation plausible
+  // within one match (Part 8's own worked example uses SPECIALIST/HIGH
+  // for exactly this kind of phase-specialist bench role) -- a bare
+  // ROTATION/NORMAL default is intentionally too low-priority to ever
+  // dislodge a healthy starter, which is the whole point of Part 9's
+  // hierarchy (rotation must be coach-driven, not automatic).
   const plan = buildBasePlan([{ playerId: "attacker", position: "M9" }]);
-  const withUsage = setPlayerPhaseUsage(plan, "attacker", "ATTACK_ONLY");
+  const withRole = setPlayerPlayingTime(setPlayerMatchRole(plan, "attacker", "MAJOR_ROTATION"), "attacker", "HIGH");
+  const withUsage = setPlayerPhaseUsage(withRole, "attacker", "ATTACK_ONLY");
   const trace = computeTeamUsageTrace(withUsage, "s3");
   const p = trace.players.find((x) => x.playerId === "attacker")!;
   assert.ok(p.attackExposure > 0);
@@ -88,7 +97,8 @@ test("Part S #3: ATTACK_ONLY gets attack exposure and zero defence exposure", ()
 
 test("Part S #4: DEFENCE_ONLY gets defence exposure and zero attack exposure", () => {
   const plan = buildBasePlan([{ playerId: "defender", position: "M9" }]);
-  const withUsage = setPlayerPhaseUsage(plan, "defender", "DEFENCE_ONLY");
+  const withRole = setPlayerPlayingTime(setPlayerMatchRole(plan, "defender", "MAJOR_ROTATION"), "defender", "HIGH");
+  const withUsage = setPlayerPhaseUsage(withRole, "defender", "DEFENCE_ONLY");
   const trace = computeTeamUsageTrace(withUsage, "s4");
   const p = trace.players.find((x) => x.playerId === "defender")!;
   assert.ok(p.defenceExposure > 0);
@@ -109,8 +119,16 @@ test("Part S #6: a BOTH_PHASES starter contributes exposure in both attack and d
 // ---------------------------------------------------------------------------
 
 test("Part S #5: a specialist pair (A attack-side, B defence-side) gives A more attack exposure than defence, and B more defence exposure than attack", () => {
+  // Part 8's own worked example: a substitution pair is meaningful coach
+  // usage, so both sides get an elevated SPECIALIST/HIGH profile here --
+  // exactly the profile a coach running this pair would actually set.
   const plan = buildBasePlan([{ playerId: "specA", position: "M9" }, { playerId: "specB", position: "M9" }]);
-  const paired = setSubstitutionPair(plan, "specA", "specB");
+  const withRoles = setPlayerPlayingTime(
+    setPlayerMatchRole(setPlayerPlayingTime(setPlayerMatchRole(plan, "specA", "SPECIALIST"), "specA", "HIGH"), "specB", "SPECIALIST"),
+    "specB",
+    "HIGH",
+  );
+  const paired = setSubstitutionPair(withRoles, "specA", "specB");
   const trace = computeTeamUsageTrace(paired, "s5");
   const a = trace.players.find((x) => x.playerId === "specA")!;
   const b = trace.players.find((x) => x.playerId === "specB")!;

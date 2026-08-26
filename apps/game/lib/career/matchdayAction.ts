@@ -14,9 +14,9 @@ import { checkSeasonComplete, getPlayerFixtureOn } from "./calendar";
 import { buildMatchCompletedEvent } from "./careerEvents";
 import { getCareerClubSquad, getCareerSquad } from "./careerWorld";
 import { careerEventToInboxMessage } from "./inboxBridge";
-import { computeAttackActiveWindows, computeTeamUsageTrace } from "./matchUsageEngine";
+import { computeAttackActiveWindows, computeTeamUsageTrace, resolveMatchUsageTimeline } from "./matchUsageEngine";
 import { applyMatchResultBookkeeping } from "./matchResultApplication";
-import { computePlayerMatchStrengthAdjustment, computeTeamPhysicalTrace, resolveClubMatchPlanForFixture } from "./playerMatchStrength";
+import { buildStaminaByPlayerId, computePlayerMatchStrengthAdjustment, resolveClubMatchPlanForFixture } from "./playerMatchStrength";
 import type { MatchPhysicalReport } from "../matchPlan/physicalModel";
 import { computeTacticalMatchAdjustment, sevenVSixPolicyIntensity } from "./tacticalMatchAdjustment";
 import { computeTacticalMatchPlanAdjustment } from "./tacticalPlanEffects";
@@ -103,8 +103,21 @@ export function playManagerFixture(state: CareerState): PlayManagerFixtureResult
   // identical, pure re-derivation) the strength adjustment -- cheap and
   // deterministic, so recomputing rather than threading one shared
   // object through is the smallest, safest change.
-  const managerUsageTrace = managerPlan ? computeTeamUsageTrace(managerPlan, `${state.saveSeed}:${fixture.id}:usage:${state.playerClubId}`) : null;
-  const opponentUsageTrace = opponentPlan ? computeTeamUsageTrace(opponentPlan, `${state.saveSeed}:${fixture.id}:usage:${opponentClubId}`) : null;
+  // HM-MATCH-USAGE-1.4 Part 14/24 #23: ONE seed and ONE real-stamina map
+  // per club, reused for every usage-engine call below (usage trace,
+  // scorer-eligibility windows, physical trace) -- the engine's own
+  // rotation/selection is now fatigue-PATH-dependent (who was picked in
+  // window N-1 changes window N's energy, which changes window N's
+  // ranking), so mismatched seeds or a missing stamina map for the same
+  // (plan, club) would silently resolve a DIFFERENT on-court timeline
+  // for each caller. That would violate this milestone's single-
+  // source-of-truth requirement.
+  const managerUsageSeed = `${state.saveSeed}:${fixture.id}:usage:${state.playerClubId}`;
+  const opponentUsageSeed = `${state.saveSeed}:${fixture.id}:usage:${opponentClubId}`;
+  const managerStaminaByPlayerId = buildStaminaByPlayerId(state.gameplayRatings[state.playerClubId] ?? []);
+  const opponentStaminaByPlayerId = buildStaminaByPlayerId(state.gameplayRatings[opponentClubId] ?? []);
+  const managerUsageTrace = managerPlan ? computeTeamUsageTrace(managerPlan, managerUsageSeed, managerStaminaByPlayerId) : null;
+  const opponentUsageTrace = opponentPlan ? computeTeamUsageTrace(opponentPlan, opponentUsageSeed, opponentStaminaByPlayerId) : null;
   // HM-MATCH-1.1 Part 9: when a real MatchPlan/usage trace could not be
   // resolved for a side (e.g. the AI opponent's snapshotted squad lacks
   // a valid goalkeeper or 6 outcourt players), fall back to a guaranteed
@@ -118,16 +131,24 @@ export function playManagerFixture(state: CareerState): PlayManagerFixtureResult
   const opponentAttackExposureById = opponentUsageTrace
     ? new Map(opponentUsageTrace.players.map((p) => [p.playerId, p.attackExposure]))
     : buildFallbackAttackExposure(getCareerClubSquad(state, opponentClubId), fixture.id, opponentClubId);
+  // HM-MATCH-USAGE-1.4 Part 21/24 #9: a DEFENCE_ONLY player now
+  // correctly carries ZERO attack exposure (the previous model's
+  // "starting players get at least one nominal window regardless of
+  // weight" quirk masked this) -- roster inclusion below uses the union
+  // of attack and defence exposure, so such a player still gets a
+  // participation/contribution record without ever being scorer-eligible.
+  const managerDefenceExposureById = managerUsageTrace ? new Map(managerUsageTrace.players.map((p) => [p.playerId, p.defenceExposure])) : undefined;
+  const opponentDefenceExposureById = opponentUsageTrace ? new Map(opponentUsageTrace.players.map((p) => [p.playerId, p.defenceExposure])) : undefined;
   // HM-MATCH-1.1 Part 10: per-window attack eligibility, so a bench
   // player's own scheduled entry window is honored by the goal-scorer
   // draw -- only available when a real plan resolved (the fallback
   // exposure map above has no window schedule to derive one from, so
   // those sides are left `undefined`, meaning "eligible in every
   // window", the same safe behavior as before this milestone).
-  const managerActiveWindowsById = managerPlan ? computeAttackActiveWindows(managerPlan) : undefined;
-  const opponentActiveWindowsById = opponentPlan ? computeAttackActiveWindows(opponentPlan) : undefined;
+  const managerActiveWindowsById = managerPlan ? computeAttackActiveWindows(managerPlan, managerUsageSeed, managerStaminaByPlayerId) : undefined;
+  const opponentActiveWindowsById = opponentPlan ? computeAttackActiveWindows(opponentPlan, opponentUsageSeed, opponentStaminaByPlayerId) : undefined;
 
-  const roster = buildMatchRoster(getCareerSquad(state), state.playerStatuses, managerAttackExposureById, managerActiveWindowsById);
+  const roster = buildMatchRoster(getCareerSquad(state), state.playerStatuses, managerAttackExposureById, managerActiveWindowsById, managerDefenceExposureById);
   // HM-MATCH-0.2: the opponent's snapshotted squad, so the Fast Match
   // Engine attributes real player goals/events to them too instead of
   // leaving their side entirely anonymous (Spec: "do not randomly invent
@@ -136,7 +157,7 @@ export function playManagerFixture(state: CareerState): PlayManagerFixtureResult
   // so this intentionally falls back to squadStatus-only eligibility --
   // the same honest scope buildMatchRoster already documents for callers
   // that predate Career Rhythm.
-  const opponentRoster = buildMatchRoster(getCareerClubSquad(state, opponentClubId), undefined, opponentAttackExposureById, opponentActiveWindowsById);
+  const opponentRoster = buildMatchRoster(getCareerClubSquad(state, opponentClubId), undefined, opponentAttackExposureById, opponentActiveWindowsById, opponentDefenceExposureById);
 
   // HM-MATCH-RATINGS-0.1 Part K: the manager's own PRE-MATCH
   // SevenVSixPolicy (from the resolved MatchPlan above) now scales the
@@ -186,22 +207,38 @@ export function playManagerFixture(state: CareerState): PlayManagerFixtureResult
     combinedAdjustment,
   );
 
-  // HM-PHYSICAL-1.0 Part 21: the SAME per-player energy trajectories
-  // playerStrength's own fatigue adjustment already computed internally
-  // (playerMatchStrength.ts's computeTeamPhysicalTrace) are recomputed
-  // here (cheap and deterministic, same "recompute rather than thread a
-  // shared object through" precedent as managerUsageTrace/
-  // opponentUsageTrace above) and persisted alongside the match result,
-  // keyed by home/away club side rather than manager/opponent, so
-  // Match Report can read it the same way it reads homeStats/awayStats.
+  // HM-PHYSICAL-1.0 Part 21, updated by HM-MATCH-USAGE-1.4 Part 14/24
+  // #23/24: the SAME per-player energy trajectories playerStrength's own
+  // fatigue adjustment already computed internally (playerMatchStrength.
+  // ts's computeTeamPhysicalTrace) are recomputed here (cheap and
+  // deterministic, same "recompute rather than thread a shared object
+  // through" precedent as managerUsageTrace/opponentUsageTrace above)
+  // using the EXACT SAME (seed, stamina) pair as managerUsageTrace/
+  // opponentUsageTrace/managerActiveWindowsById above -- so Live Match's
+  // "PÅ PLAN" (currentUnit.ts), the persisted energy trajectory, and the
+  // Fast Match Engine's own scorer-eligibility windows all agree on
+  // exactly which on-court timeline was resolved for this fixture, never
+  // three independently-tiebroken ones. Persisted alongside the match
+  // result, keyed by home/away club side rather than manager/opponent,
+  // so Match Report can read it the same way it reads homeStats/awayStats.
   const homePlan = managerIsHome ? managerPlan : opponentPlan;
   const awayPlan = managerIsHome ? opponentPlan : managerPlan;
-  const homeRatingsById = new Map((state.gameplayRatings[fixture.homeClubId] ?? []).map((r) => [r.playerId, r]));
-  const awayRatingsById = new Map((state.gameplayRatings[fixture.awayClubId] ?? []).map((r) => [r.playerId, r]));
+  const homeUsageSeed = managerIsHome ? managerUsageSeed : opponentUsageSeed;
+  const awayUsageSeed = managerIsHome ? opponentUsageSeed : managerUsageSeed;
+  const homeStaminaByPlayerId = managerIsHome ? managerStaminaByPlayerId : opponentStaminaByPlayerId;
+  const awayStaminaByPlayerId = managerIsHome ? opponentStaminaByPlayerId : managerStaminaByPlayerId;
+  const homeTimeline = homePlan ? resolveMatchUsageTimeline(homePlan, homeUsageSeed, homeStaminaByPlayerId) : null;
+  const awayTimeline = awayPlan ? resolveMatchUsageTimeline(awayPlan, awayUsageSeed, awayStaminaByPlayerId) : null;
   const physicalReport: MatchPhysicalReport = {
     fixtureId: fixture.id,
-    home: homePlan ? Object.fromEntries(computeTeamPhysicalTrace(homePlan, homeRatingsById)) : {},
-    away: awayPlan ? Object.fromEntries(computeTeamPhysicalTrace(awayPlan, awayRatingsById)) : {},
+    home: homeTimeline ? Object.fromEntries(homeTimeline.trajectories) : {},
+    away: awayTimeline ? Object.fromEntries(awayTimeline.trajectories) : {},
+    homeAttackUnitByWindow: homeTimeline?.attackUnitByWindow ?? [],
+    homeDefenceUnitByWindow: homeTimeline?.defenceUnitByWindow ?? [],
+    homeGoalkeeperByWindow: homeTimeline?.goalkeeperByWindow ?? [],
+    awayAttackUnitByWindow: awayTimeline?.attackUnitByWindow ?? [],
+    awayDefenceUnitByWindow: awayTimeline?.defenceUnitByWindow ?? [],
+    awayGoalkeeperByWindow: awayTimeline?.goalkeeperByWindow ?? [],
   };
   const physicalReports: Record<string, MatchPhysicalReport> = { ...state.physicalReports, [fixture.id]: physicalReport };
 

@@ -114,7 +114,15 @@ export function buildMatchUsagePlan(plan: MatchPlan): MatchUsagePlan {
     const phaseUsage = usage?.phaseUsage ?? "BOTH_PHASES";
     const isGoalkeeper = squadPlayer.position === "GK";
 
-    const base = MATCH_ROLE_WEIGHT[matchRole] * PLAYING_TIME_MULTIPLIER[playingTimeIntention] * depthPriorityMultiplier(plan, squadPlayer.playerId);
+    // HM-MATCH-USAGE-1.4 Part 16: EMERGENCY (role) or EMERGENCY_ONLY
+    // (intention) is a hard override to zero usage -- not merely a very
+    // low multiplicative weight (which could still round to a nonzero
+    // window with a favorable partner value, e.g. EMERGENCY role +
+    // VERY_HIGH intention). "Normally not used at all" this milestone;
+    // a future injury/red-card system is what will someday give this
+    // role real, situational exposure.
+    const isEmergency = matchRole === "EMERGENCY" || playingTimeIntention === "EMERGENCY_ONLY";
+    const base = isEmergency ? 0 : MATCH_ROLE_WEIGHT[matchRole] * PLAYING_TIME_MULTIPLIER[playingTimeIntention] * depthPriorityMultiplier(plan, squadPlayer.playerId);
     const phaseMult = PHASE_USAGE_MULTIPLIER[phaseUsage];
     const pair = pairSideByPlayer.get(squadPlayer.playerId) ?? null;
     const attackPairMult = pair ? (pair.side === "ATTACK_SIDE" ? SPECIALIST_PAIR_PREFERRED_MULTIPLIER : SPECIALIST_PAIR_OTHER_MULTIPLIER) : 1;
