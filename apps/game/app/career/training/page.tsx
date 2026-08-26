@@ -27,6 +27,8 @@ import {
   type WeeklyTrainingTemplate,
 } from "../../../lib/training/types";
 import { ENERGY_START_DEFAULT } from "../../../lib/matchPlan/physicalModel";
+import { playerAgeAtDate } from "../../../lib/development/developmentIntegration";
+import { INDIVIDUAL_DEVELOPMENT_FOCUSES, potentialStarsFromPA, type IndividualDevelopmentFocus } from "../../../lib/development/types";
 
 const DAY_TYPE_LABEL: Record<TrainingDayType, string> = {
   TRAINING: "Träning",
@@ -56,6 +58,15 @@ const DURATION_LABEL: Record<TrainingDuration, string> = { SHORT: "Kort", NORMAL
 const TARGET_LABEL: Record<TrainingSessionTarget, string> = { ALL: "Alla", OUTCOURT: "Utespelare", GOALKEEPERS: "Målvakter", SELECTED_PLAYERS: "Utvalda" };
 const TEMPLATE_LABEL: Record<WeeklyTrainingTemplate, string> = { BALANCED: "Balanserad", TACTICAL: "Taktisk", PHYSICAL: "Fysisk", RECOVERY: "Återhämtning", MATCH_HEAVY: "Matchtätt" };
 const LOAD_SETTING_LABEL: Record<PlayerTrainingLoadSetting, string> = { FULL: "Full", REDUCED: "Reducerad", RECOVERY_ONLY: "Endast återhämtning", REST: "Vila" };
+const FOCUS_LABEL: Record<IndividualDevelopmentFocus, string> = {
+  NORMAL: "Normal",
+  TECHNICAL: "Teknik",
+  ATTACKING_DECISIONS: "Anfallsspel",
+  DEFENCE: "Försvarsspel",
+  PHYSICAL: "Fysik",
+  MENTAL: "Mentalt",
+  GOALKEEPER: "Målvaktsspel",
+};
 
 const DAY_SHORT = ["Mån", "Tis", "Ons", "Tors", "Fre", "Lör", "Sön"];
 
@@ -66,7 +77,7 @@ function addDaysLocal(date: string, delta: number): string {
 }
 
 export default function TrainingPage() {
-  const { career, setTrainingDayType, addTrainingSession, removeTrainingSession, updateTrainingSession, applyWeeklyTemplate, setPlayerTrainingLoad } = useCareer();
+  const { career, setTrainingDayType, addTrainingSession, removeTrainingSession, updateTrainingSession, applyWeeklyTemplate, setPlayerTrainingLoad, setPlayerIndividualFocus } = useCareer();
   const [weekStart, setWeekStart] = useState(() => mondayOf(career.gameDate));
   const [template, setTemplate] = useState<WeeklyTrainingTemplate>("BALANCED");
 
@@ -236,6 +247,7 @@ export default function TrainingPage() {
                 <th>Energi</th>
                 <th>Senaste belastning</th>
                 <th>Träningsbelastning</th>
+                <th>Individuellt fokus</th>
               </tr>
             </thead>
             <tbody>
@@ -245,6 +257,7 @@ export default function TrainingPage() {
                 const status = energy >= 80 ? "Pigg" : energy >= 55 ? "Normal" : "Trött";
                 const badgeClass = energy >= 80 ? "hm-badge-positive" : energy >= 55 ? "hm-badge-warning" : "hm-badge-negative";
                 const loadSetting = career.playerTrainingAssignments[p.id]?.loadSetting ?? "FULL";
+                const focus = (career.playerTrainingAssignments[p.id]?.individualFocus as IndividualDevelopmentFocus | undefined) ?? "NORMAL";
                 return (
                   <tr key={p.id}>
                     <td className="hm-td-strong">
@@ -266,6 +279,65 @@ export default function TrainingPage() {
                           </option>
                         ))}
                       </select>
+                    </td>
+                    <td>
+                      <select
+                        className="hm-select"
+                        value={focus}
+                        onChange={(e) => setPlayerIndividualFocus(p.id, e.target.value === "NORMAL" ? null : e.target.value)}
+                      >
+                        {INDIVIDUAL_DEVELOPMENT_FOCUSES.map((f) => (
+                          <option key={f} value={f}>
+                            {FOCUS_LABEL[f]}
+                          </option>
+                        ))}
+                      </select>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div className="hm-panel">
+        <div className="hm-panel-header">
+          <span className="hm-panel-title">Utveckling</span>
+        </div>
+        <div className="hm-scroll-x">
+          <table className="hm-table">
+            <thead>
+              <tr>
+                <th>Spelare</th>
+                <th>Ålder</th>
+                <th>CA</th>
+                <th>Potential</th>
+                <th>Status</th>
+                <th>Senaste förbättring</th>
+              </tr>
+            </thead>
+            <tbody>
+              {squad.map((p) => {
+                const rating = career.gameplayRatings[career.playerClubId]?.find((r) => r.playerId === p.id);
+                const dev = career.playerDevelopmentState[p.id];
+                const age = playerAgeAtDate(p.dateOfBirth, p.birthYear, career.gameDate);
+                const latestEvent = dev?.developmentHistory[0];
+                const hasPendingProgress = dev ? Object.values(dev.attributeStimulus).some((v) => (v ?? 0) > 0) || Object.values(dev.attributeProgress).some((v) => (v ?? 0) > 0) : false;
+                const status = latestEvent && dev!.developmentHistory.length > 0 && dev!.lastDevelopmentDate ? "Förbättras" : hasPendingProgress ? "Tränar" : "Ingen data";
+                return (
+                  <tr key={p.id}>
+                    <td className="hm-td-strong">
+                      {p.firstName} {p.lastName}
+                    </td>
+                    <td className="hm-text-muted">{age ?? "—"}</td>
+                    <td>{rating ? Math.round(rating.ca) : "—"}</td>
+                    <td>{rating ? "★".repeat(potentialStarsFromPA(rating.pa)) + "☆".repeat(5 - potentialStarsFromPA(rating.pa)) : "—"}</td>
+                    <td>
+                      <span className={`hm-badge ${status === "Förbättras" ? "hm-badge-positive" : status === "Tränar" ? "hm-badge-warning" : "hm-badge-neutral"}`}>{status}</span>
+                    </td>
+                    <td className="hm-text-muted">
+                      {latestEvent ? `${latestEvent.attribute} ${latestEvent.previousValue} → ${latestEvent.newValue} (${latestEvent.date})` : "—"}
                     </td>
                   </tr>
                 );

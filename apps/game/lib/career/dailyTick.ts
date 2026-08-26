@@ -42,6 +42,7 @@ import { addDays, daysBetween, isSameOrBefore } from "./dateUtils";
 import { careerEventToInboxMessage } from "./inboxBridge";
 import type { CareerState } from "./types";
 import { executeTrainingDay } from "../training/trainingExecution";
+import { applyTrainingDayDevelopmentStimulus, resolveWeeklyDevelopmentIfDue } from "../development/developmentIntegration";
 
 export interface DailyTickResult {
   state: CareerState;
@@ -93,6 +94,14 @@ export function processDay(state: CareerState, date: string): DailyTickResult {
   // lib/training/trainingSchedule.ts's own fixture-aware builder), so no
   // separate "is this a matchday" branch is needed here.
   next = executeTrainingDay(next, date);
+  // HM-TRAINING-1.1 Part 5/14: accumulates today's session stimulus
+  // (reading the TrainingSessionResult(s) executeTrainingDay just wrote),
+  // then -- only on a Sunday, and only once per player per date -- rolls
+  // the week's accumulated stimulus into possible attribute changes. Both
+  // are pure additive glue on top of the training/physical steps above;
+  // neither can affect physical load or session execution itself.
+  next = applyTrainingDayDevelopmentStimulus(next, date);
+  next = resolveWeeklyDevelopmentIfDue(next, date);
   emit(buildTrainingCompletedEvent(date));
   const daysSinceStart = daysBetween(next.seasonStartDate, date);
   if (daysSinceStart > 0 && daysSinceStart % TRAINING_REPORT_INTERVAL_DAYS === 0) {

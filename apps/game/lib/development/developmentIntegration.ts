@@ -1,0 +1,206 @@
+// HM-TRAINING-1.1: the CareerState-level glue -- the ONLY module that
+// reads/writes CareerState for player development. dailyTick.ts calls
+// applyTrainingDayDevelopmentStimulus + resolveWeeklyDevelopmentIfDue;
+// matchdayAction.ts calls applyMatchDevelopmentStimulus. Everything below
+// this layer (developmentStimulus.ts/developmentResolution.ts) is pure.
+import { getCareerSquad } from "../career/careerWorld";
+import type { CareerState } from "../career/types";
+import type { GameplayPlayerRating } from "../gameWorld/gameplayRatingSnapshot";
+import { mondayOf } from "../training/trainingSchedule";
+import { computeMatchAttributeStimulus, computeSessionAttributeStimulus } from "./developmentStimulus";
+import { applyResolvedAttributeChanges, pushDevelopmentEvent, resolveAttributeForWeek } from "./developmentResolution";
+import type { DevelopableAttribute, IndividualDevelopmentFocus, PlayerDevelopmentState } from "./types";
+
+function emptyDevelopmentState(playerId: string): PlayerDevelopmentState {
+  return { playerId, attributeStimulus: {}, attributeProgress: {}, lastDevelopmentDate: null, developmentHistory: [] };
+}
+
+function addStimulus(state: PlayerDevelopmentState, stimulus: Partial<Record<DevelopableAttribute, number>>): PlayerDevelopmentState {
+  const attributeStimulus = { ...state.attributeStimulus };
+  for (const [attr, units] of Object.entries(stimulus)) {
+    attributeStimulus[attr as DevelopableAttribute] = (attributeStimulus[attr as DevelopableAttribute] ?? 0) + (units ?? 0);
+  }
+  return { ...state, attributeStimulus };
+}
+
+function mergeStimulusIntoPlayerDevelopmentState(
+  playerDevelopmentState: Record<string, PlayerDevelopmentState>,
+  playerId: string,
+  stimulus: Partial<Record<DevelopableAttribute, number>>,
+): Record<string, PlayerDevelopmentState> {
+  if (Object.keys(stimulus).length === 0) return playerDevelopmentState;
+  const prior = playerDevelopmentState[playerId] ?? emptyDevelopmentState(playerId);
+  return { ...playerDevelopmentState, [playerId]: addStimulus(prior, stimulus) };
+}
+
+/**
+ * Part 5/7/8: after a training day has EXECUTED (lib/training/trainingExecution.ts
+ * already ran and wrote today's TrainingSessionResult(s) for `date`),
+ * accumulate every participant's own development stimulus from those
+ * exact sessions -- reads the already-computed session/participant data,
+ * never re-derives it. A no-op for a day that hasn't executed yet, or
+ * that produced no results (REST/MATCH days).
+ */
+export function applyTrainingDayDevelopmentStimulus(state: CareerState, date: string): CareerState {
+  const weekStart = mondayOf(date);
+  const week = state.trainingWeeks[weekStart];
+  const day = week?.days.find((d) => d.date === date);
+  if (!day || !day.executed || !day.results || day.results.length === 0) return state;
+
+  const squadById = new Map(getCareerSquad(state).map((p) => [p.id, p]));
+  let playerDevelopmentState = state.playerDevelopmentState;
+
+  for (const session of day.sessions) {
+    const result = day.results.find((r) => r.sessionId === session.id);
+    if (!result) continue;
+    for (const playerId of result.participants) {
+      const player = squadById.get(playerId);
+      if (!player) continue;
+      const isGoalkeeper = player.position === "MV";
+      const loadSetting = state.playerTrainingAssignments[playerId]?.loadSetting ?? "FULL";
+      const focus = (state.playerTrainingAssignments[playerId]?.individualFocus as IndividualDevelopmentFocus | undefined) ?? null;
+      const stimulus = computeSessionAttributeStimulus(session.type, session.intensity, session.duration, loadSetting, isGoalkeeper, focus, `${playerId}:${session.id}`);
+      playerDevelopmentState = mergeStimulusIntoPlayerDevelopmentState(playerDevelopmentState, playerId, stimulus);
+    }
+  }
+
+  return playerDevelopmentState === state.playerDevelopmentState ? state : { ...state, playerDevelopmentState };
+}
+
+export interface PlayerMatchExposure {
+  attackExposure: number;
+  defenceExposure: number;
+  goalkeeperExposure: number;
+}
+
+/**
+ * Part 18/19/20/21: accumulates match-exposure development stimulus for
+ * the manager's own squad after a fixture resolves -- called once per
+ * played manager fixture from matchdayAction.ts, using the exact same
+ * per-player exposure fractions (matchUsageEngine.ts's TeamUsageTrace)
+ * already computed for match-strength/physical load, never a second
+ * exposure model.
+ */
+export function applyMatchDevelopmentStimulus(state: CareerState, date: string, exposureByPlayerId: ReadonlyMap<string, PlayerMatchExposure>): CareerState {
+  const squadById = new Map(getCareerSquad(state).map((p) => [p.id, p]));
+  let playerDevelopmentState = state.playerDevelopmentState;
+
+  for (const [playerId, exposure] of exposureByPlayerId) {
+    const player = squadById.get(playerId);
+    if (!player) continue;
+    const isGoalkeeper = player.position === "MV";
+    const stimulus = computeMatchAttributeStimulus(exposure.attackExposure, exposure.defenceExposure, exposure.goalkeeperExposure, isGoalkeeper, `${playerId}:${date}:match`);
+    playerDevelopmentState = mergeStimulusIntoPlayerDevelopmentState(playerDevelopmentState, playerId, stimulus);
+  }
+
+  return playerDevelopmentState === state.playerDevelopmentState ? state : { ...state, playerDevelopmentState };
+}
+
+function isSunday(date: string): boolean {
+  return new Date(`${date}T00:00:00Z`).getUTCDay() === 0;
+}
+
+/**
+ * Part 5/E: age relative to the CAREER's own current date, never a
+ * hardcoded literal (unlike lib/game-data/players.ts's own `playerAge`,
+ * which is fixed to a single build-time date and is deliberately NOT
+ * reused here -- a live career's `gameDate` advances, and age must
+ * advance with it).
+ */
+export function playerAgeAtDate(dateOfBirth: string | null, birthYear: number | null | undefined, asOfDate: string): number | null {
+  if (dateOfBirth) {
+    const dob = new Date(dateOfBirth);
+    const today = new Date(`${asOfDate}T00:00:00Z`);
+    let age = today.getUTCFullYear() - dob.getUTCFullYear();
+    const monthDiff = today.getUTCMonth() - dob.getUTCMonth();
+    if (monthDiff < 0 || (monthDiff === 0 && today.getUTCDate() < dob.getUTCDate())) age -= 1;
+    return age;
+  }
+  if (birthYear) {
+    return Number(asOfDate.slice(0, 4)) - birthYear;
+  }
+  return null;
+}
+
+function attributesRecord(rating: GameplayPlayerRating): Record<string, { value: number; origin: string }> {
+  return rating.branch.attributes as unknown as Record<string, { value: number; origin: string }>;
+}
+
+/**
+ * Part 14/34: resolves accumulated stimulus into possible attribute
+ * changes for every squad player, once per week (Sunday, the last day of
+ * the training week -- Part 3's own Monday-Sunday week), idempotent per
+ * player via `lastDevelopmentDate` (Part 33 #34/#35: never re-resolves an
+ * already-resolved date). A no-op on any non-Sunday date, and a no-op
+ * entirely when the manager's own club has no live GameplayPlayerRating
+ * snapshot (Part C/H's confirmed gap: mock clubs and pre-this-milestone
+ * careers have nothing to resolve development against yet -- accumulated
+ * stimulus is simply left pending, never discarded, in case a rating
+ * becomes available later).
+ */
+export function resolveWeeklyDevelopmentIfDue(state: CareerState, date: string): CareerState {
+  if (!isSunday(date)) return state;
+
+  const clubRatings = state.gameplayRatings[state.playerClubId];
+  if (!clubRatings || clubRatings.length === 0) return state;
+
+  const squad = getCareerSquad(state);
+  let playerDevelopmentState = state.playerDevelopmentState;
+  const ratingsById = new Map(clubRatings.map((r) => [r.playerId, r]));
+  let changedAnyRating = false;
+
+  for (const player of squad) {
+    const dev = playerDevelopmentState[player.id];
+    if (!dev) continue;
+    if (dev.lastDevelopmentDate === date) continue; // idempotency guard
+    const rating = ratingsById.get(player.id);
+    if (!rating) continue; // no live rating for this player yet -- leave stimulus pending.
+
+    const age = playerAgeAtDate(player.dateOfBirth, player.birthYear, date);
+    const energy = state.playerPhysicalState[player.id]?.currentEnergy ?? 100;
+    const branch = rating.branch.branch;
+    const attributes = attributesRecord(rating);
+
+    const changes: { attribute: DevelopableAttribute; newValue: number; caDelta: number }[] = [];
+    const nextStimulus = { ...dev.attributeStimulus };
+    const nextProgress = { ...dev.attributeProgress };
+    let history = dev.developmentHistory;
+
+    for (const [attr, raw] of Object.entries(dev.attributeStimulus)) {
+      if (!raw || raw <= 0) continue;
+      const attrEntry = attributes[attr];
+      if (!attrEntry) continue; // attribute not in this player's own branch vocabulary.
+      const result = resolveAttributeForWeek(branch, attrEntry.value, rating.ca, rating.pa, nextProgress[attr as DevelopableAttribute] ?? 0, {
+        attribute: attr as DevelopableAttribute,
+        rawStimulus: raw,
+        age,
+        currentEnergy: energy,
+      });
+      nextProgress[attr as DevelopableAttribute] = result.nextProgress;
+      nextStimulus[attr as DevelopableAttribute] = 0; // weekly reset, whether or not a point was gained
+      if (result.event) {
+        changes.push({ attribute: attr as DevelopableAttribute, newValue: result.event.newValue, caDelta: result.caDelta });
+        history = pushDevelopmentEvent(history, {
+          date,
+          attribute: attr as DevelopableAttribute,
+          previousValue: result.event.previousValue,
+          newValue: result.event.newValue,
+          sourceSummary: "Training and match development stimulus",
+        });
+      }
+    }
+
+    if (changes.length > 0) {
+      ratingsById.set(player.id, applyResolvedAttributeChanges(rating, changes));
+      changedAnyRating = true;
+    }
+
+    playerDevelopmentState = {
+      ...playerDevelopmentState,
+      [player.id]: { ...dev, attributeStimulus: nextStimulus, attributeProgress: nextProgress, developmentHistory: history, lastDevelopmentDate: date },
+    };
+  }
+
+  const gameplayRatings = changedAnyRating ? { ...state.gameplayRatings, [state.playerClubId]: [...ratingsById.values()] } : state.gameplayRatings;
+  return { ...state, playerDevelopmentState, gameplayRatings };
+}

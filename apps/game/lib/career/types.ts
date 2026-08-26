@@ -12,6 +12,7 @@ import type { SpecialPlayPlan } from "../matchPlan/specialPlay";
 import type { LiveMatchSessionState } from "../liveMatch/liveMatchSession";
 import type { MatchPhysicalReport } from "../matchPlan/physicalModel";
 import type { PlayerPhysicalState, PlayerTrainingAssignment, TrainingWeek } from "../training/types";
+import type { PlayerDevelopmentState } from "../development/types";
 
 export type CareerFixture = {
   id: string;
@@ -296,6 +297,20 @@ export type CareerState = {
    * every player implicitly did before this milestone.
    */
   playerTrainingAssignments: Record<string, PlayerTrainingAssignment>;
+
+  // --- HM-TRAINING-1.1 addition (career-state schema v16, see saveMigration.ts) ---
+
+  /**
+   * Part 3: the ONE continuous per-player development thread -- keyed by
+   * playerId, same flat convention as `playerPhysicalState`. A player
+   * with no entry here has simply never accumulated any training/match
+   * development stimulus yet (every reader treats that as "nothing to
+   * resolve", never a fabricated starting state). See
+   * lib/development/types.ts's own doc comment for the accumulator/
+   * progress/history split, and lib/development/developmentIntegration.ts
+   * for the only code that ever reads or writes this field.
+   */
+  playerDevelopmentState: Record<string, PlayerDevelopmentState>;
 };
 
 export type CareerSaveEnvelope = {

@@ -24,6 +24,7 @@ import { buildFallbackAttackExposure, buildMatchRoster } from "./tumbaRoster";
 import type { CareerState, ClubFormEntry, PlayerSeasonStats } from "./types";
 import type { PlayerPhysicalState } from "../training/types";
 import { ENERGY_START_DEFAULT } from "../matchPlan/physicalModel";
+import { applyMatchDevelopmentStimulus, type PlayerMatchExposure } from "../development/developmentIntegration";
 
 export interface PlayManagerFixtureResult {
   state: CareerState;
@@ -276,6 +277,19 @@ export function playManagerFixture(state: CareerState): PlayManagerFixtureResult
     }
   }
 
+  // HM-TRAINING-1.1 Part 18/19/20/21: the manager squad's own match
+  // exposure -- ALREADY computed above (managerUsageTrace) for match-
+  // strength/roster purposes -- also feeds a small, bounded development
+  // stimulus, using the exact same per-player attack/defence/goalkeeper
+  // exposure fractions rather than a second exposure model.
+  let stateWithDevelopment: CareerState = { ...state, playerPhysicalState };
+  if (managerUsageTrace) {
+    const exposureByPlayerId = new Map<string, PlayerMatchExposure>(
+      managerUsageTrace.players.map((p) => [p.playerId, { attackExposure: p.attackExposure, defenceExposure: p.defenceExposure, goalkeeperExposure: p.goalkeeperExposure }]),
+    );
+    stateWithDevelopment = applyMatchDevelopmentStimulus(stateWithDevelopment, fixture.date, exposureByPlayerId);
+  }
+
   const results: Record<string, FastMatchResult> = { ...state.results, [fixture.id]: result };
   const clubForm: Record<string, ClubFormEntry[]> = { ...state.clubForm };
   const playerSeasonStats: Record<string, PlayerSeasonStats> = { ...state.playerSeasonStats };
@@ -289,7 +303,16 @@ export function playManagerFixture(state: CareerState): PlayManagerFixtureResult
   // read (Spec §23/§24: opening Match Preview =/= completing the match).
   const inbox = state.inbox.map((m) => (m.id === matchdayMessageId ? { ...m, read: true, actionRequired: false, resolved: true } : m));
 
-  let next: CareerState = { ...state, results, physicalReports, playerPhysicalState, clubForm, playerSeasonStats, careerEvents, inbox };
+  let next: CareerState = {
+    ...stateWithDevelopment,
+    results,
+    physicalReports,
+    playerPhysicalState,
+    clubForm,
+    playerSeasonStats,
+    careerEvents,
+    inbox,
+  };
 
   const completedEvent = buildMatchCompletedEvent(fixture.id, fixture.competitionId, state.gameDate);
   if (!next.careerEvents.some((e) => e.id === completedEvent.id)) {

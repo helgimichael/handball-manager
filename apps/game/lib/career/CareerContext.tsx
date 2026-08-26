@@ -23,7 +23,7 @@ import {
   setTrainingDayTypeAction,
   updateTrainingSessionAction,
 } from "./trainingScheduleActions";
-import { setPlayerTrainingLoad } from "../training/trainingSchedule";
+import { setPlayerIndividualFocus, setPlayerTrainingLoad } from "../training/trainingSchedule";
 import type { SessionSeed } from "../training/trainingSchedule";
 import type { PlayerTrainingLoadSetting, TrainingDayType, TrainingSession, WeeklyTrainingTemplate } from "../training/types";
 import type { PlayerMatchDefault } from "../matchPlan/persistentDefaults";
@@ -134,6 +134,8 @@ type CareerContextValue = {
   applyWeeklyTemplate: (weekStart: string, template: WeeklyTrainingTemplate) => void;
   /** HM-TRAINING-1.0 Part 12: sets one player's persistent individual training-load setting (FULL/REDUCED/RECOVERY_ONLY/REST), and persists. */
   setPlayerTrainingLoad: (playerId: string, loadSetting: PlayerTrainingLoadSetting) => void;
+  /** HM-TRAINING-1.1 Part 8/29: sets one player's persistent individual development focus, and persists. Never itself changes any attribute -- see lib/development/developmentIntegration.ts. */
+  setPlayerIndividualFocus: (playerId: string, focus: string | null) => void;
 };
 
 const CareerContext = createContext<CareerContextValue | null>(null);
@@ -506,6 +508,15 @@ export function CareerProvider({ children }: { children: ReactNode }) {
     });
   }
 
+  function setPlayerIndividualFocusActionWrapper(playerId: string, focus: string | null) {
+    setValue((current) => {
+      if (!current) return current;
+      const nextCareer = setPlayerIndividualFocus(current.career, playerId, focus);
+      saveCareerState(current.save.saveId, nextCareer);
+      return { save: current.save, career: nextCareer };
+    });
+  }
+
   return (
     <CareerContext.Provider
       value={{
@@ -531,6 +542,7 @@ export function CareerProvider({ children }: { children: ReactNode }) {
         updateTrainingSession: updateTrainingSessionActionWrapper,
         applyWeeklyTemplate: applyWeeklyTemplateActionWrapper,
         setPlayerTrainingLoad: setPlayerTrainingLoadActionWrapper,
+        setPlayerIndividualFocus: setPlayerIndividualFocusActionWrapper,
       }}
     >
       {children}

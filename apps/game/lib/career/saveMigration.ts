@@ -196,5 +196,15 @@ export function migrateCareerState(career: CareerState): CareerState {
     next = { ...next, playerTrainingAssignments: {} };
   }
 
+  // HM-TRAINING-1.1 (career-state schema v16): additive, same pattern as
+  // playerPhysicalState -- an existing career simply never had any
+  // accumulated development stimulus yet; every reader
+  // (resolveWeeklyDevelopmentIfDue, the Training/Profile UI) already
+  // treats a missing entry as "nothing accumulated, nothing to show", so
+  // an empty object here changes nothing observable for old saves.
+  if (next.playerDevelopmentState === undefined) {
+    next = { ...next, playerDevelopmentState: {} };
+  }
+
   return next;
 }

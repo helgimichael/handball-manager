@@ -220,3 +220,15 @@ export function setPlayerTrainingLoad(state: CareerState, playerId: string, load
     },
   };
 }
+
+/** HM-TRAINING-1.1 Part 8/29: sets one player's persistent individual development focus (a string here to avoid a load-bearing lib/training -> lib/development dependency -- see PlayerTrainingAssignment's own doc comment; callers pass a real IndividualDevelopmentFocus value). */
+export function setPlayerIndividualFocus(state: CareerState, playerId: string, individualFocus: string | null): CareerState {
+  const existing = state.playerTrainingAssignments[playerId];
+  return {
+    ...state,
+    playerTrainingAssignments: {
+      ...state.playerTrainingAssignments,
+      [playerId]: { playerId, loadSetting: existing?.loadSetting ?? "FULL", individualFocus },
+    },
+  };
+}

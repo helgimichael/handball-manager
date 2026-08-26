@@ -11,6 +11,7 @@ import StarRating from "@/components/StarRating";
 import StatValue from "@/components/StatValue";
 import { ClubLink } from "@/components/entityLinks";
 import { GameplayAbilityPanel, GameplayAttributesPanel, type GameplayRatingRow } from "@/components/GameplayProfilePanels";
+import { potentialStarsFromPA, type IndividualDevelopmentFocus } from "@/lib/development/types";
 
 export default function PlayerProfilePage() {
   const router = useRouter();
@@ -230,10 +231,10 @@ export default function PlayerProfilePage() {
           </div>
         </div>
 
-        {/* Development */}
+        {/* Body profile */}
         <div className="hm-panel">
           <div className="hm-panel-header">
-            <span className="hm-panel-title">Utveckling</span>
+            <span className="hm-panel-title">Kroppsprofil</span>
           </div>
           <div className="hm-panel-body" style={{ display: "flex", flexDirection: "column", gap: 6 }}>
             <ContractRow label="Längd" value={player.heightCm !== null ? `${player.heightCm} cm` : "Okänd"} />
@@ -242,6 +243,59 @@ export default function PlayerProfilePage() {
             <ContractRow label="Född" value={player.dateOfBirth ? new Date(player.dateOfBirth).toLocaleDateString("sv-SE") : player.birthYear ? String(player.birthYear) : "Okänt"} />
           </div>
         </div>
+
+        {/* HM-TRAINING-1.1 Part 28: a small, real development section --
+            recent attribute changes, individual focus, recent training
+            participation. Never a giant redesign. */}
+        <DevelopmentPanel playerId={player.id} />
+      </div>
+    </div>
+  );
+}
+
+function DevelopmentPanel({ playerId }: { playerId: string }) {
+  const { career } = useCareer();
+  const dev = career.playerDevelopmentState[playerId];
+  const rating = career.gameplayRatings[career.playerClubId]?.find((r) => r.playerId === playerId);
+  const assignment = career.playerTrainingAssignments[playerId];
+  const focus = (assignment?.individualFocus as IndividualDevelopmentFocus | undefined) ?? "NORMAL";
+  const focusLabel: Record<IndividualDevelopmentFocus, string> = {
+    NORMAL: "Normal",
+    TECHNICAL: "Teknik",
+    ATTACKING_DECISIONS: "Anfallsspel",
+    DEFENCE: "Försvarsspel",
+    PHYSICAL: "Fysik",
+    MENTAL: "Mentalt",
+    GOALKEEPER: "Målvaktsspel",
+  };
+  const recentEvents = dev?.developmentHistory.slice(0, 5) ?? [];
+
+  return (
+    <div className="hm-panel">
+      <div className="hm-panel-header">
+        <span className="hm-panel-title">Utveckling</span>
+      </div>
+      <div className="hm-panel-body" style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+        <ContractRow label="CA" value={rating ? String(Math.round(rating.ca)) : "—"} />
+        <ContractRow label="Potential" value={rating ? "★".repeat(potentialStarsFromPA(rating.pa)) + "☆".repeat(5 - potentialStarsFromPA(rating.pa)) : "—"} />
+        <ContractRow label="Individuellt fokus" value={focusLabel[focus]} />
+        <div className="hm-divider" />
+        {recentEvents.length === 0 ? (
+          <p className="hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)", margin: 0 }}>
+            Ingen synlig förbättring registrerad ännu.
+          </p>
+        ) : (
+          recentEvents.map((ev, i) => (
+            <div key={i} style={{ display: "flex", justifyContent: "space-between", fontSize: "var(--hm-text-2xs)" }}>
+              <span className="hm-text-muted">
+                {ev.attribute} ({ev.date})
+              </span>
+              <span style={{ fontWeight: 600 }}>
+                {ev.previousValue} → {ev.newValue}
+              </span>
+            </div>
+          ))
+        )}
       </div>
     </div>
   );

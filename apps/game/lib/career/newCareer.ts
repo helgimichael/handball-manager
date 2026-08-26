@@ -90,5 +90,6 @@ export function createNewCareerState(
     trainingWeeks: {},
     playerPhysicalState: {},
     playerTrainingAssignments: {},
+    playerDevelopmentState: {},
   };
 }

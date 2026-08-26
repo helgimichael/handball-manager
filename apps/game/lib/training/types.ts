@@ -119,10 +119,20 @@ export interface PlayerPhysicalState {
   recentLoad: number;
 }
 
-/** Part 13: a minimal, future-proof individual-training record -- load only in HM-TRAINING-1.0, no attribute focus effect yet. */
+/** Part 13: a minimal, future-proof individual-training record. */
 export interface PlayerTrainingAssignment {
   playerId: string;
   loadSetting: PlayerTrainingLoadSetting;
-  /** Reserved for HM-TRAINING-1.1's development stimulus -- never read for any effect in this milestone. */
-  individualFocus?: TrainingSessionType | null;
+  /**
+   * HM-TRAINING-1.1: the manager's chosen individual development emphasis
+   * (see lib/development/types.ts's IndividualDevelopmentFocus -- a
+   * deliberately different, smaller vocabulary from TrainingSessionType,
+   * since a focus is a development TARGET, not a session to schedule).
+   * Typed as a plain string here (rather than importing IndividualDevelopmentFocus)
+   * to avoid lib/training -> lib/development becoming a load-bearing
+   * runtime dependency; callers narrow/validate against the real union.
+   * Null/omitted means no emphasis (HM-TRAINING-1.0's own default for
+   * every existing player, preserved as this milestone's safe default).
+   */
+  individualFocus?: string | null;
 }
