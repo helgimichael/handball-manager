@@ -15,6 +15,7 @@ import { seedCareerTasks } from "./careerTasks";
 import { seedPlayerStatuses } from "./playerStatus";
 import { defaultTeamTacticalProfile } from "./teamTacticalProfile";
 import type { CareerState } from "./types";
+import { ensureCareerGameplayRatings } from "./careerRatingNormalization";
 
 // HM-GAME-0.4: InboxMessage.category was a set of Swedish string
 // literals before this milestone (Spec §33: "map existing categories
@@ -221,6 +222,19 @@ export function migrateCareerState(career: CareerState): CareerState {
   if (next.staffEmployment === undefined) {
     next = { ...next, staffEmployment: {} };
   }
+
+  // HM-RATINGS-CAREER-1.0 (career-state schema v18): additive
+  // NORMALIZATION, not a new field -- an existing career (any schema
+  // version, including a v17 save whose club never had ANY
+  // gameplayRatings, e.g. every pre-this-milestone mock/Tumba career)
+  // may be missing a rating for some or all of its own roster players.
+  // ensureCareerGameplayRatings only ever ADDS a missing player's own
+  // generated fallback rating -- an existing evidence-backed OR already-
+  // developed entry is never touched, never regenerated (Part 22: "do
+  // not wipe existing ratings... do not regenerate evidence-backed
+  // profiles"). Idempotent (Part 23), so running it on an already-
+  // complete save is a real no-op (returns the same object reference).
+  next = ensureCareerGameplayRatings(next, next.playerClubId);
 
   return next;
 }

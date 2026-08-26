@@ -12,6 +12,26 @@ import StatValue from "@/components/StatValue";
 import { ClubLink } from "@/components/entityLinks";
 import { GameplayAbilityPanel, GameplayAttributesPanel, type GameplayRatingRow } from "@/components/GameplayProfilePanels";
 import { potentialStarsFromPA, type IndividualDevelopmentFocus } from "@/lib/development/types";
+import { getCareerPlayerRating } from "@/lib/career/careerRatingNormalization";
+import type { GameplayPlayerRating } from "@/lib/gameWorld/gameplayRatingSnapshot";
+
+// HM-RATINGS-CAREER-1.0 Part 25: every career player (REAL_WORLD, mock or
+// generated) now has exactly one CareerState-resident GameplayPlayerRating
+// -- this just drops the extra generation-model-version field the API
+// route's read model doesn't carry; every other field is byte-identical.
+function toGameplayRatingRow(rating: GameplayPlayerRating): GameplayRatingRow {
+  return {
+    playerId: rating.playerId,
+    position: rating.position,
+    ca: rating.ca,
+    pa: rating.pa,
+    caSource: rating.caSource,
+    branch: rating.branch,
+    attackRoleProficiencies: rating.attackRoleProficiencies,
+    defenceRoleProficiencies: rating.defenceRoleProficiencies,
+    locked: rating.locked,
+  };
+}
 
 export default function PlayerProfilePage() {
   const router = useRouter();
@@ -30,9 +50,14 @@ export default function PlayerProfilePage() {
   const [ratingRow, setRatingRow] = useState<GameplayRatingRow | null | undefined>(undefined);
 
   useEffect(() => {
-    if (!player || player.dataSource !== "REAL_WORLD") {
+    if (!player) return;
+    if (player.dataSource !== "REAL_WORLD") {
+      // HM-RATINGS-CAREER-1.0 Part 25: a mock/generated player's rating
+      // already lives in CareerState -- ensureCareerGameplayRatings
+      // guarantees every roster player has one, so no fetch is needed.
+      const rating = getCareerPlayerRating(career, player.id, player.clubId);
       // eslint-disable-next-line react-hooks/set-state-in-effect -- one-shot "no fetch needed for this player" resolution, not a cascading update loop.
-      setRatingRow(null);
+      setRatingRow(rating ? toGameplayRatingRow(rating) : null);
       return;
     }
     let cancelled = false;
@@ -49,7 +74,7 @@ export default function PlayerProfilePage() {
     return () => {
       cancelled = true;
     };
-  }, [player]);
+  }, [player, career]);
 
   if (!player) {
     return (

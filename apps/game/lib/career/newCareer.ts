@@ -10,6 +10,7 @@ import type { GameplayPlayerRating } from "../gameWorld/gameplayRatingSnapshot";
 import { selectCurrentStaffAssignments } from "../identity/validators";
 import { resolveClubStaffRoster, type RawClubStaffIdentityLike } from "../staff/staffRosterResolution";
 import type { StaffEmployment } from "../staff/types";
+import { ensureCareerGameplayRatings } from "./careerRatingNormalization";
 
 const FALLBACK_COMPETITION_ID = "swe-2"; // used only if playerClubId doesn't resolve to a known club
 
@@ -74,7 +75,7 @@ export function createNewCareerState(
     staffRoster.map((m) => [m.id, { staffId: m.id, clubId: m.clubId, roles: m.roles, status: "EMPLOYED" as const }]),
   );
 
-  return {
+  const base: CareerState = {
     seasonId: "2026/27",
     competitionId,
     playerClubId,
@@ -119,4 +120,12 @@ export function createNewCareerState(
     staffRoster: { [playerClubId]: staffRoster },
     staffEmployment,
   };
+
+  // HM-RATINGS-CAREER-1.0 Part 2/4/15/16: every roster player in the
+  // manager's own club gets a usable gameplay rating -- REAL_WORLD clubs
+  // already have one per player (the `gameplayRatings` param above), so
+  // this only ever fills gaps for a mock/generated club (Part 16: this
+  // is the SAME generic mechanism for any club, not a Tumba special
+  // case -- see careerRatingNormalization.ts).
+  return ensureCareerGameplayRatings(base, playerClubId);
 }
