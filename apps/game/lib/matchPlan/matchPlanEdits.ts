@@ -327,6 +327,40 @@ export function substitutionPartnerOf(plan: MatchPlan, playerId: string): string
   return pair.attackPlayerId === playerId ? pair.defencePlayerId : pair.attackPlayerId;
 }
 
+/**
+ * HM-MATCH-USAGE-1.4A Part 2/3/20: which side of a SubstitutionPair
+ * (attackPlayerId vs defencePlayerId) each of two players being linked
+ * should be recorded as -- read from each player's OWN PhaseUsage,
+ * never simply "whichever player initiated the edit". This is the
+ * confirmed root cause of browser QA's own "explicit SPECIALIST/HIGH
+ * pair received 0/0 minutes": the UI's own "Byter med" control used to
+ * always call `setSubstitutionPair(plan, currentPlayerId, partnerId)`,
+ * treating whichever player's panel was open as the attack side
+ * regardless of their actual phase -- a coach setting up the pair from
+ * BOTH players' own panels (the natural workflow: open the attack
+ * specialist and link the defence specialist, then later open the
+ * defence specialist to confirm) silently recorded the pair BACKWARDS
+ * on the second edit, so matchUsagePlan.ts's own preferred/other-side
+ * pair boost was applied to whichever phase that player structurally
+ * has ZERO usage weight in.
+ */
+export function resolveSubstitutionPairOrder(currentPlayerId: string, currentPhaseUsage: PlayerPhaseUsage, partnerPlayerId: string, partnerPhaseUsage: PlayerPhaseUsage | undefined): { attackPlayerId: string; defencePlayerId: string } {
+  const isDefenceLeaning = (phase: PlayerPhaseUsage) => phase === "DEFENCE_ONLY" || phase === "DEFENCE_PREFERRED";
+  const isAttackLeaning = (phase: PlayerPhaseUsage) => phase === "ATTACK_ONLY" || phase === "ATTACK_PREFERRED";
+
+  if (isDefenceLeaning(currentPhaseUsage) && (!partnerPhaseUsage || !isDefenceLeaning(partnerPhaseUsage))) {
+    return { attackPlayerId: partnerPlayerId, defencePlayerId: currentPlayerId };
+  }
+  if (partnerPhaseUsage && isDefenceLeaning(partnerPhaseUsage) && isAttackLeaning(currentPhaseUsage)) {
+    return { attackPlayerId: currentPlayerId, defencePlayerId: partnerPlayerId };
+  }
+  // Neither player's own PhaseUsage declares a clear side (both
+  // BOTH_PHASES, or an otherwise ambiguous combination) -- default to
+  // the pre-existing behavior (current player as attack side) so a
+  // plain, non-specialist pairing keeps working exactly as before.
+  return { attackPlayerId: currentPlayerId, defencePlayerId: partnerPlayerId };
+}
+
 // ---------------------------------------------------------------------------
 // Tactical configuration (Part J/K/L)
 // ---------------------------------------------------------------------------

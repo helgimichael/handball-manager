@@ -78,10 +78,6 @@ function activeWindowRange(usageWeight: number, isStarting: boolean): { start: n
   return { start: MATCH_USAGE_WINDOW_COUNT - activeCount, end: MATCH_USAGE_WINDOW_COUNT };
 }
 
-function windowsActiveCount(range: { start: number; end: number }): number {
-  return Math.max(0, range.end - range.start);
-}
-
 function isActiveInWindow(range: { start: number; end: number }, window: number): boolean {
   return window >= range.start && window < range.end;
 }
@@ -92,23 +88,59 @@ function tiebreak(seed: string, playerId: string): number {
 }
 
 /**
+ * HM-MATCH-USAGE-1.4A Part 2/3/4: an EXPLICIT substitution pair is a
+ * deliberate handball instruction ("A prioritized in attack, B
+ * prioritized in defence"), not ordinary rotation -- it must reliably
+ * beat a same-tier or lower-tier generic rotation competitor (Part 6's
+ * own required test: "MAJOR_ROTATION generalist kan inte helt blockera
+ * ett HIGH explicit specialistpar") even when squad-specific depth-
+ * hierarchy multipliers would otherwise let a plain MAJOR_ROTATION
+ * player's raw weight edge out the pair's own modest matchUsagePlan.ts
+ * pair multiplier (1.3x) -- the browser QA root cause: a SPECIALIST/
+ * HIGH pair (weight ~0.61 at low depth-priority) lost every contested
+ * window to a MAJOR_ROTATION/HIGH bench player (weight ~0.68 at high
+ * depth-priority) purely from depth-chart luck, receiving 0/0 usage
+ * despite being an explicit coach pairing.
+ *
+ * Deliberately a RANKING-only boost, never applied to `activeWindowRange`
+ * eligibility sizing (matchUsagePlan.ts's own attackUsageWeight/
+ * defenceUsageWeight, which already bakes in the existing 1.3x pair
+ * multiplier, are read UNCHANGED for eligibility) -- so a paired
+ * specialist's own eligibility window still opens no earlier than their
+ * plain weight already implies, and kickoff (window 0) still belongs
+ * exclusively to the selected starting unit (Part 24 #1/#2), regardless
+ * of how large this ranking boost is. Only players who are ALREADY
+ * eligible for a window compete on this ranking number; a boost here
+ * can never retroactively make an ineligible bench player selectable.
+ */
+const SPECIALIST_PAIR_RANKING_BOOST = 1.5;
+
+function pairRankingBoost(p: PlayerUsagePlan, phase: MatchUsagePhase): number {
+  if (!p.specialistPair) return 1;
+  const preferredPhase: MatchUsagePhase = p.specialistPair.side === "ATTACK_SIDE" ? "ATTACK" : "DEFENCE";
+  return phase === preferredPhase ? SPECIALIST_PAIR_RANKING_BOOST : 1;
+}
+
+/**
  * HM-MATCH-USAGE-1.4 Part 10/11/12: the effective ranking number used
  * to select who wins a window's capped on-court slots -- the player's
  * PHASE-SPECIFIC coach-priority weight (attackUsageWeight or
  * defenceUsageWeight, from matchUsagePlan.ts -- already carrying that
  * player's role/intention/phase-usage/specialist-pair/depth-hierarchy
- * multipliers for THIS phase) inverted (lower = better) and divided by
- * the player's own current fatigue availability (also [something,1],
- * lower availability = worse effective priority = more likely to be
- * rotated out). `energyByPlayerId` is OPTIONAL: omitting it (no known
- * energy state) reproduces the exact pre-fatigue ranking, unchanged --
- * every caller that doesn't have a running energy state (AI-vs-AI,
- * mid-match coaching's own recompute) keeps working exactly as before.
- * Part 11's own bound (fatigueRotationAvailability's floor is 0.12, not
- * 0) keeps a fatigued top-tier player from ever being outranked by a
- * fresh bottom-tier one -- see matchUsageEngine.test.ts's own proof.
+ * multipliers for THIS phase), further boosted for an explicit pair's
+ * preferred phase (see pairRankingBoost's own doc), inverted (lower =
+ * better) and divided by the player's own current fatigue availability
+ * (also [something,1], lower availability = worse effective priority =
+ * more likely to be rotated out). `energyByPlayerId` is OPTIONAL:
+ * omitting it (no known energy state) reproduces the exact pre-fatigue
+ * ranking, unchanged -- every caller that doesn't have a running energy
+ * state (AI-vs-AI, mid-match coaching's own recompute) keeps working
+ * exactly as before. Part 11's own bound (fatigueRotationAvailability's
+ * floor is 0.12, not 0) keeps a fatigued top-tier player from ever
+ * being outranked by a fresh bottom-tier one -- see matchUsageEngine.
+ * test.ts's own proof.
  */
-function effectivePhaseRotationPriority(phaseWeight: number, p: PlayerUsagePlan, energyByPlayerId?: ReadonlyMap<string, number>): number {
+function effectivePhaseRotationPriority(phaseWeight: number, p: PlayerUsagePlan, phase: MatchUsagePhase, energyByPlayerId?: ReadonlyMap<string, number>): number {
   // HM-MATCH-USAGE-1.4: rank by the PHASE-SPECIFIC weight (not the
   // generic, phase-agnostic `rotationPriority`) -- a specialist pair's
   // preferred/other-side multiplier (matchUsagePlan.ts) and
@@ -119,7 +151,7 @@ function effectivePhaseRotationPriority(phaseWeight: number, p: PlayerUsagePlan,
   // boost affect eligibility only, never who actually wins the capped
   // on-court slots -- so a pair could show identical attack/defence
   // exposure despite being configured as strict specialists.
-  const basePriority = 1 / Math.max(0.001, phaseWeight);
+  const basePriority = 1 / Math.max(0.001, phaseWeight * pairRankingBoost(p, phase));
   if (!energyByPlayerId) return basePriority;
   const energy = energyByPlayerId.get(p.playerId) ?? ENERGY_START_DEFAULT;
   return basePriority / fatigueRotationAvailability(energy);
@@ -147,8 +179,8 @@ export function resolveActivePhaseUnit(usagePlan: MatchUsagePlan, phase: MatchUs
     .sort((a, b) => {
       const weightA = phase === "ATTACK" ? a.attackUsageWeight : a.defenceUsageWeight;
       const weightB = phase === "ATTACK" ? b.attackUsageWeight : b.defenceUsageWeight;
-      const priorityA = effectivePhaseRotationPriority(weightA, a, energyByPlayerId);
-      const priorityB = effectivePhaseRotationPriority(weightB, b, energyByPlayerId);
+      const priorityA = effectivePhaseRotationPriority(weightA, a, phase, energyByPlayerId);
+      const priorityB = effectivePhaseRotationPriority(weightB, b, phase, energyByPlayerId);
       return priorityA !== priorityB ? priorityA - priorityB : tiebreak(seed, a.playerId) - tiebreak(seed, b.playerId);
     })
     .slice(0, slotCount)
@@ -159,16 +191,34 @@ export function resolveActivePhaseUnit(usagePlan: MatchUsagePlan, phase: MatchUs
  * Part 15: the starting (defence-unit) goalkeeper NORMALLY dominates --
  * a structural guarantee, not merely a coincidence of relative usage
  * numbers: a backup's own windows still come from their own usage
- * weight (the exact same bench formula as outfield rotation), but are
- * capped so backups collectively can never claim more than
- * `1 - PRIMARY_GK_MIN_SHARE` of the match, regardless of how their own
- * MatchRole/PlayingTimeIntention happens to compare to the primary's.
- * Deliberately NOT fatigue-driven (Part 15: "avoid weird automatic GK
- * swaps just because the backup is fresher" -- goalkeeper energy drain
- * is already far lower than an outfield player's, so fatigue alone
- * should never be the reason a backup takes over).
+ * weight, but are capped so backups collectively can never claim more
+ * than `1 - PRIMARY_GK_MIN_SHARE` of the match, regardless of how their
+ * own MatchRole/PlayingTimeIntention happens to compare to the
+ * primary's. Deliberately NOT fatigue-driven (Part 15: "avoid weird
+ * automatic GK swaps just because the backup is fresher" -- goalkeeper
+ * energy drain is already far lower than an outfield player's, so
+ * fatigue alone should never be the reason a backup takes over).
  */
 const PRIMARY_GK_MIN_SHARE = 0.6;
+
+/**
+ * HM-MATCH-USAGE-1.4A Part 8/9: unlike outfield bench rotation,
+ * goalkeeper rotation must be MORE coach-driven -- a backup's default
+ * ROTATION/NORMAL role/intention (matchUsagePlan.ts's own fallback for
+ * any GK with no explicit usage entry, weight 0.3575) must NOT, by
+ * itself, claim any of the `1 - PRIMARY_GK_MIN_SHARE` allowance; browser
+ * QA's own root cause was that the plain outfield-bench formula
+ * (`weight * MATCH_USAGE_WINDOW_COUNT`) already crossed the allowance's
+ * own ceiling at that default weight, silently granting a fresh 20-
+ * minute backup share nobody asked for. This threshold shifts the
+ * formula's own zero point above the default (0.3575) and below a
+ * genuinely elevated backup (MAJOR_ROTATION/HIGH = 0.595, or an
+ * explicit STARTER/HIGH co-goalkeeper = 0.765) -- so a coach who never
+ * touches the backup's usage sees a fully dominant starter, while one
+ * who explicitly raises the backup's role/intention (Part 10) still
+ * gets a real, proportionate share up to the same outer cap.
+ */
+const GOALKEEPER_BACKUP_USAGE_BASELINE = 0.45;
 
 function computeGoalkeeperWindowCounts(usagePlan: MatchUsagePlan): Map<string, number> {
   const counts = new Map<string, number>();
@@ -180,7 +230,7 @@ function computeGoalkeeperWindowCounts(usagePlan: MatchUsagePlan): Map<string, n
   const maxBackupWindowsTotal = Math.floor(MATCH_USAGE_WINDOW_COUNT * (1 - PRIMARY_GK_MIN_SHARE));
   let backupWindowsUsed = 0;
   for (const backup of backups) {
-    const requested = windowsActiveCount(activeWindowRange(backup.goalkeeperUsageWeight, false));
+    const requested = clampWindowCount((backup.goalkeeperUsageWeight - GOALKEEPER_BACKUP_USAGE_BASELINE) * MATCH_USAGE_WINDOW_COUNT, 0, MATCH_USAGE_WINDOW_COUNT);
     const granted = Math.max(0, Math.min(requested, maxBackupWindowsTotal - backupWindowsUsed));
     counts.set(backup.playerId, granted);
     backupWindowsUsed += granted;

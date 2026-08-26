@@ -7,7 +7,7 @@
 // explicit substitution-pair relationship.
 import { PlayerLink } from "@/components/entityLinks";
 import SegmentedControl from "@/components/SegmentedControl";
-import { applyPlayerMatchDefault, clearSubstitutionPairFor, setPlayerMatchRole, setPlayerPhaseUsage, setPlayerPlayingTime, setSubstitutionPair, substitutionPartnerOf, type OnMatchPlanChange } from "@/lib/matchPlan/matchPlanEdits";
+import { applyPlayerMatchDefault, clearSubstitutionPairFor, resolveSubstitutionPairOrder, setPlayerMatchRole, setPlayerPhaseUsage, setPlayerPlayingTime, setSubstitutionPair, substitutionPartnerOf, type OnMatchPlanChange } from "@/lib/matchPlan/matchPlanEdits";
 import { defenceCourtSlotLabel, MATCH_ROLE_LABELS_SV, matchPlanPositionLabel, PHASE_USAGE_LABELS_SV, PLAYING_TIME_INTENTION_LABELS_SV } from "@/lib/matchPlan/matchPlanLabels";
 import { MATCH_ROLES, PLAYER_PHASE_USAGES, PLAYING_TIME_INTENTIONS, type MatchPlan } from "@/lib/matchPlan/types";
 import type { PlayerMatchDefault } from "@/lib/matchPlan/persistentDefaults";
@@ -127,7 +127,12 @@ export default function PlayerInstructionPanel({
                     if (partnerId) onChange((prev) => clearSubstitutionPairFor(prev, playerId));
                     return;
                   }
-                  onChange((prev) => setSubstitutionPair(prev, playerId, value));
+                  onChange((prev) => {
+                    const currentUsage = prev.playerUsage.find((u) => u.playerId === playerId);
+                    const partnerUsage = prev.playerUsage.find((u) => u.playerId === value);
+                    const { attackPlayerId, defencePlayerId } = resolveSubstitutionPairOrder(playerId, currentUsage?.phaseUsage ?? usage.phaseUsage, value, partnerUsage?.phaseUsage);
+                    return setSubstitutionPair(prev, attackPlayerId, defencePlayerId);
+                  });
                 }}
               >
                 <option value="">Ingen koppling</option>

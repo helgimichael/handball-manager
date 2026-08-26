@@ -10,6 +10,7 @@ import {
   clearSubstitutionPairFor,
   isPlayerStarting,
   removePlayerFromSquad,
+  resolveSubstitutionPairOrder,
   setAttackFormation,
   setPlayerMatchRole,
   setPlayerPhaseUsage,
@@ -156,6 +157,60 @@ test("HM-TACTICS-1.1: clearSubstitutionPairFor removes the pair entirely", () =>
   const paired = setSubstitutionPair(plan, p1.playerId, p2.playerId);
   const cleared = clearSubstitutionPairFor(paired, p1.playerId);
   assert.equal(cleared.substitutionPairs.length, 0);
+});
+
+// ---------------------------------------------------------------------------
+// HM-MATCH-USAGE-1.4A: resolveSubstitutionPairOrder -- the confirmed root
+// cause of browser QA's own "SPECIALIST/HIGH pair received 0/0 minutes"
+// was the UI always recording whichever player's panel was open as the
+// attackPlayerId, regardless of their own PhaseUsage. This is order-
+// INDEPENDENT: linking from either player's own panel must always
+// resolve the SAME (attackPlayerId, defencePlayerId) pair.
+// ---------------------------------------------------------------------------
+
+test("HM-MATCH-USAGE-1.4A: resolveSubstitutionPairOrder puts the ATTACK_ONLY player as attackPlayerId regardless of which player's panel initiated the link", () => {
+  const orderFromAttackSide = resolveSubstitutionPairOrder("attacker", "ATTACK_ONLY", "defender", "DEFENCE_ONLY");
+  assert.deepEqual(orderFromAttackSide, { attackPlayerId: "attacker", defencePlayerId: "defender" });
+
+  // The exact same pair, but linked starting from the DEFENCE_ONLY
+  // player's own panel -- this is the case that used to silently
+  // reverse the pair (Part 2's own browser QA root cause).
+  const orderFromDefenceSide = resolveSubstitutionPairOrder("defender", "DEFENCE_ONLY", "attacker", "ATTACK_ONLY");
+  assert.deepEqual(orderFromDefenceSide, { attackPlayerId: "attacker", defencePlayerId: "defender" });
+});
+
+test("HM-MATCH-USAGE-1.4A: resolveSubstitutionPairOrder respects ATTACK_PREFERRED/DEFENCE_PREFERRED the same way as the _ONLY variants", () => {
+  const order = resolveSubstitutionPairOrder("defender", "DEFENCE_PREFERRED", "attacker", "ATTACK_PREFERRED");
+  assert.deepEqual(order, { attackPlayerId: "attacker", defencePlayerId: "defender" });
+});
+
+test("HM-MATCH-USAGE-1.4A: resolveSubstitutionPairOrder falls back to 'current player = attack side' when neither player's PhaseUsage declares a clear side (preserves pre-existing behavior for a plain, non-specialist pairing)", () => {
+  const order = resolveSubstitutionPairOrder("playerA", "BOTH_PHASES", "playerB", "BOTH_PHASES");
+  assert.deepEqual(order, { attackPlayerId: "playerA", defencePlayerId: "playerB" });
+});
+
+test("HM-MATCH-USAGE-1.4A: a paired specialist configured via resolveSubstitutionPairOrder, from either side, produces the SAME real usage (via computeTeamUsageTrace)", async () => {
+  const { computeTeamUsageTrace } = await import("../career/matchUsageEngine");
+  const { setPlayerMatchRole: setRole, setPlayerPlayingTime: setIntent } = await import("./matchPlanEdits");
+  const plan = defaultPlan();
+  const [attacker, defender] = plan.squad.players.filter((p) => p.position !== "GK");
+  let base = setIntent(setRole(plan, attacker.playerId, "SPECIALIST"), attacker.playerId, "HIGH");
+  base = setPlayerPhaseUsage(base, attacker.playerId, "ATTACK_ONLY");
+  base = setIntent(setRole(base, defender.playerId, "SPECIALIST"), defender.playerId, "HIGH");
+  base = setPlayerPhaseUsage(base, defender.playerId, "DEFENCE_ONLY");
+
+  const orderA = resolveSubstitutionPairOrder(attacker.playerId, "ATTACK_ONLY", defender.playerId, "DEFENCE_ONLY");
+  const orderB = resolveSubstitutionPairOrder(defender.playerId, "DEFENCE_ONLY", attacker.playerId, "ATTACK_ONLY");
+
+  const pairedFromAttackSide = setSubstitutionPair(base, orderA.attackPlayerId, orderA.defencePlayerId);
+  const pairedFromDefenceSide = setSubstitutionPair(base, orderB.attackPlayerId, orderB.defencePlayerId);
+
+  const traceA = computeTeamUsageTrace(pairedFromAttackSide, "pair-order-seed");
+  const traceB = computeTeamUsageTrace(pairedFromDefenceSide, "pair-order-seed");
+  const attackerTraceA = traceA.players.find((p) => p.playerId === attacker.playerId)!;
+  const attackerTraceB = traceB.players.find((p) => p.playerId === attacker.playerId)!;
+  assert.equal(attackerTraceA.attackExposure, attackerTraceB.attackExposure);
+  assert.ok(attackerTraceA.attackExposure > 0, "linking from either player's panel must still produce real, nonzero specialist usage");
 });
 
 test("HM-TACTICS-1.1: updateAttackPlan/updateDefencePlan/updateTransitionPlan each change only their own config", () => {
