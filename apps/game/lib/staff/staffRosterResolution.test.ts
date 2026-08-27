@@ -83,14 +83,25 @@ test("HM-DATA-ALLSVENSKAN-1.2: a real person whose role has no gameplay-relevant
   assert.equal(chair!.employmentType, "GOVERNANCE");
 });
 
-test("HM-DATA-ALLSVENSKAN-1.1B: a real person with a real title but no gameplay-role mapping and no governance role (e.g. Lagledare/TEAM_MANAGER) is classified VOLUNTARY, never SALARIED", () => {
+test("HM-STAFF-CAREER-1.0: a Lagledare (TEAM_MANAGER) now gets a real StaffRole mapping (attributes/suitability), but is still classified VOLUNTARY by default -- mapping to a role and being SALARIED are two separate questions for this administrative role", () => {
   const identity = {
     people: [{ id: "person-1", displayName: "Team Manager" }],
     assignments: [{ personId: "person-1", clubId: CLUB_ID, officialRole: "Lagledare", standardRoles: ["TEAM_MANAGER" as const], status: "CONFIRMED" as const, evidence: [] }],
   };
   const roster = resolveClubStaffRoster(CLUB_ID, identity, true);
   const manager = roster.find((m) => m.id === "person-1");
+  assert.deepEqual(manager!.roles, ["TEAM_MANAGER"]);
   assert.equal(manager!.employmentType, "VOLUNTARY");
+});
+
+test("HM-STAFF-CAREER-1.0: a person holding BOTH an administrative role (TEAM_MANAGER) and a genuine coaching role (ASSISTANT_COACH) IS classified SALARIED -- the coaching role alone is enough", () => {
+  const identity = {
+    people: [{ id: "person-1", displayName: "Coach Manager" }],
+    assignments: [{ personId: "person-1", clubId: CLUB_ID, officialRole: "Assisterande tränare / Lagledare", standardRoles: ["ASSISTANT_COACH" as const, "TEAM_MANAGER" as const], status: "CONFIRMED" as const, evidence: [] }],
+  };
+  const roster = resolveClubStaffRoster(CLUB_ID, identity, true);
+  const member = roster.find((m) => m.id === "person-1");
+  assert.equal(member!.employmentType, "SALARIED");
 });
 
 test("HM-DATA-ALLSVENSKAN-1.1B: a COLLECTIVE_GROUP staff person (a committee) is always classified GOVERNANCE, even if one of its mapped roles would otherwise resolve to SALARIED", () => {

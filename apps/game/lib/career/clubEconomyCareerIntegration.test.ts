@@ -17,7 +17,7 @@ function freshTumba(seed: string): CareerState {
 /** HM-DATA-ALLSVENSKAN-1.1B: IFK Tumba is a REAL_WORLD club, so its staffRoster is only ever populated from real fetched identity data (never generated filler) -- tests that need Tumba to actually HAVE staff must inject the real snapshot, exactly like CareerContext.tsx's own fetchStaffIdentity does server-side. */
 function freshTumbaWithStaff(seed: string): CareerState {
   const snap = snapshotClubStaff(TUMBA_CLUB_ID);
-  return createNewCareerState(seed, TUMBA_CLUB_ID, {}, {}, {}, snap);
+  return createNewCareerState(seed, TUMBA_CLUB_ID, {}, {}, {}, snap ? { [TUMBA_CLUB_ID]: snap } : {});
 }
 
 // (1) every career club gets a persistent economic baseline.

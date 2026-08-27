@@ -20,6 +20,12 @@ const ROLE_BASE_MONTHLY_EUR: Record<StaffRole, number> = {
   ANALYST: 1_200,
   PHYSIO: 1_300,
   SCOUT: 1_000,
+  // HM-STAFF-CAREER-1.0: only ever priced if a real recruitment
+  // negotiation (staffRecruitment.ts) explicitly makes one of these two
+  // SALARIED -- classifyEmploymentType never does so by default
+  // (staffRosterResolution.ts's own ADMINISTRATIVE_STAFF_ROLES note).
+  SPORTING_DIRECTOR: 2_400,
+  TEAM_MANAGER: 900,
 };
 
 const BAND_COST_MULTIPLIER: Record<EconomicBand, number> = {

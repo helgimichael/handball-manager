@@ -28,7 +28,18 @@ import type { HMStaffRole } from "../identity/types";
  * HM_STAFF_ROLES value maps to zero or one of these via
  * mapHMRolesToStaffRoles (staffRosterResolution.ts) -- never the reverse.
  */
-export const STAFF_ROLES = ["HEAD_COACH", "ASSISTANT_COACH", "GOALKEEPER_COACH", "PHYSICAL_COACH", "ANALYST", "PHYSIO", "SCOUT"] as const;
+/**
+ * HM-STAFF-CAREER-1.0: SPORTING_DIRECTOR (sportchef) and TEAM_MANAGER
+ * (lagledare) were previously unmapped identity titles -- a real person
+ * holding one of these got `roles: []` (no attributes, no suitability,
+ * Part: "Sportchef — —" in the Staff list). They now get real,
+ * role-shaped attribute profiles and suitability like every coaching
+ * role, WITHOUT automatically becoming a SALARIED employment relationship
+ * (see staffRosterResolution.ts's own classifyEmploymentType note --
+ * mapping to a StaffRole and being an employed, salaried worker are two
+ * separate questions for these two administrative roles specifically).
+ */
+export const STAFF_ROLES = ["HEAD_COACH", "ASSISTANT_COACH", "GOALKEEPER_COACH", "PHYSICAL_COACH", "ANALYST", "PHYSIO", "SCOUT", "SPORTING_DIRECTOR", "TEAM_MANAGER"] as const;
 export type StaffRole = (typeof STAFF_ROLES)[number];
 
 /**
@@ -39,6 +50,16 @@ export type StaffRole = (typeof STAFF_ROLES)[number];
  * and stored like every other attribute, so a future milestone need not
  * re-migrate) but have NO role-suitability or training-quality effect
  * yet (Part 3/33: "not all roles need gameplay effect in 1.0").
+ */
+/**
+ * HM-STAFF-CAREER-1.0: seven attributes added for the two new
+ * administrative roles above -- RECRUITMENT/NEGOTIATION/SQUAD_PLANNING/
+ * FINANCIAL_JUDGEMENT (sportchef: rekrytering, förhandling, truppplanering,
+ * ekonomiskt omdöme) and ORGANISATION/LOGISTICS/TEAM_ENVIRONMENT
+ * (lagledare: organisation, logistik, lagmiljö). "Talangbedömning"
+ * (sportchef) and "kommunikation" (lagledare) deliberately reuse the
+ * already-existing POTENTIAL_JUDGEMENT/COMMUNICATION attributes rather
+ * than adding near-duplicates.
  */
 export const STAFF_ATTRIBUTES = [
   "TECHNICAL_COACHING",
@@ -57,6 +78,13 @@ export const STAFF_ATTRIBUTES = [
   "MEDICAL",
   "PLAYER_JUDGEMENT",
   "POTENTIAL_JUDGEMENT",
+  "RECRUITMENT",
+  "NEGOTIATION",
+  "SQUAD_PLANNING",
+  "FINANCIAL_JUDGEMENT",
+  "ORGANISATION",
+  "LOGISTICS",
+  "TEAM_ENVIRONMENT",
 ] as const;
 export type StaffAttribute = (typeof STAFF_ATTRIBUTES)[number];
 
@@ -157,10 +185,24 @@ export interface ResolvedStaffMember {
  * Reserved for a future hiring/firing milestone otherwise -- never
  * mutated after career creation by this milestone itself.
  */
+/**
+ * HM-STAFF-CAREER-1.0: `wageEurPerMonth` moves staff wage from a
+ * recompute-fresh-every-read derivation (estimateStaffMonthlyCostEur,
+ * economy/staffCost.ts) to a real, persisted contract field -- the same
+ * "generated once, then a sticky fact" precedent PlayerContract.wageEurPerMonth
+ * already established. Present ONLY for SALARIED members (never
+ * fabricated for a VOLUNTARY/GOVERNANCE person, same rule as
+ * contractEndDate). `estimateStaffMonthlyCostEur` remains the ONE
+ * formula that derives the INITIAL value (at career creation and for
+ * any pre-this-milestone save migrated here) -- once set, this field is
+ * canonical and only a real recruitment negotiation (staffRecruitment.ts)
+ * ever changes it again.
+ */
 export interface StaffEmployment {
   staffId: string;
   clubId: string;
   roles: StaffRole[];
   employmentType: StaffEmploymentType;
   contractEndDate?: string;
+  wageEurPerMonth?: number;
 }

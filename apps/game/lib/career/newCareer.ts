@@ -7,13 +7,11 @@ import { seedPlayerStatuses } from "./playerStatus";
 import { defaultTeamTacticalProfile, type TeamTacticalProfile } from "./teamTacticalProfile";
 import type { CareerFixture, CareerState } from "./types";
 import type { GameplayPlayerRating } from "../gameWorld/gameplayRatingSnapshot";
-import { selectCurrentStaffAssignments } from "../identity/validators";
-import { resolveClubStaffRoster, type RawClubStaffIdentityLike } from "../staff/staffRosterResolution";
-import type { StaffEmployment } from "../staff/types";
+import type { RawClubStaffIdentityLike } from "../staff/staffRosterResolution";
+import { resolveCompetitionStaffRoster } from "../staff/staffCareerIntegration";
 import { ensureCareerGameplayRatings } from "./careerRatingNormalization";
 import { computeCareerStartDate, generateProvisionalCupRound, resolveLeagueKickoffDate, type PreseasonStartOption } from "./preseason";
 import { ensureCareerPlayerContracts } from "../economy/contractIntegration";
-import { generateContractEndDate } from "../economy/contractGeneration";
 import { ensureCareerPlayerClubHistory } from "../economy/clubHistoryIntegration";
 import { ensureCareerAllClubEconomies } from "../economy/clubEconomyIntegration";
 import { ensureCareerPlayerSquadStatus } from "./squadStatus";
@@ -45,14 +43,19 @@ export function createNewCareerState(
   // (app/api/game-world/gameplay-ratings-snapshot) before this function
   // is called for a real-world-backed club.
   gameplayRatings: Record<string, GameplayPlayerRating[]> = {},
-  // HM-STAFF-1.0: same fs-free, client-safe pattern as worldSquads/
-  // gameplayRatings -- already resolved server-side
-  // (app/api/game-world/staff-snapshot) before this function is called
-  // for a real-world-backed club. `null` (every mock club, or a
-  // real-world club whose staff fetch failed/found nothing) is handled
-  // identically by resolveClubStaffRoster -- essential-role coverage is
-  // always generated regardless (Part 19/20).
-  staffIdentity: RawClubStaffIdentityLike | null = null,
+  // HM-STAFF-1.0/HM-STAFF-CAREER-1.0: same fs-free, client-safe pattern
+  // as worldSquads/gameplayRatings -- already resolved server-side
+  // (app/api/game-world/staff-snapshot) before this function is called,
+  // now for EVERY club in the competition (not just the manager's own),
+  // so any club's staff is browsable/recruitable from career start. A
+  // missing/`null` entry for a given clubId (no identity file, or a mock
+  // club) is handled identically by resolveClubStaffRoster -- essential-
+  // role coverage is always generated regardless for a non-real-world
+  // club (Part 19/20).
+  // `null` (many pre-existing test call sites that don't care about
+  // staff at all) is treated identically to the `{}` default -- no club
+  // has any real staff identity data.
+  staffIdentityByClub: Record<string, RawClubStaffIdentityLike | null> | null = {},
   // HM-PRESEASON-1.0: `undefined` (every pre-existing caller/test) is
   // BYTE-IDENTICAL to this milestone not existing yet -- league fixtures
   // still seed from GAME_CURRENT_DATE, no cup round is generated, and the
@@ -112,35 +115,17 @@ export function createNewCareerState(
 
   const playerSquad: readonly PlayerMock[] = worldSquads[playerClubId] ?? TUMBA_SQUAD;
 
-  // HM-STAFF-1.0 Part 15/19, HM-DATA-ALLSVENSKAN-1.1B Part 4: resolved
-  // once, at creation, exactly like worldSquads/gameplayRatings --
-  // HISTORICAL/expired assignments are filtered out first (same "never
-  // treat a stale assignment as current" rule app/career/staff/page.tsx
-  // already applies). Essential-role gaps are filled with generated
-  // fictional staff ONLY for a club whose world/data model is itself
-  // GENERATED/MOCK (dataSource !== "REAL_WORLD") -- a real club's
-  // genuine staffing gap stays genuine (UNKNOWN STAFF != GENERATED PERSON).
-  const currentStaffIdentity: RawClubStaffIdentityLike | null = staffIdentity
-    ? { people: staffIdentity.people, assignments: selectCurrentStaffAssignments(staffIdentity.assignments, GAME_CURRENT_DATE) }
-    : null;
-  const isRealWorldClub = playerClub?.dataSource === "REAL_WORLD";
-  const staffRoster = resolveClubStaffRoster(playerClubId, currentStaffIdentity, isRealWorldClub);
+  // HM-STAFF-1.0 Part 15/19, HM-DATA-ALLSVENSKAN-1.1B Part 4,
+  // HM-STAFF-CAREER-1.0: resolved once, at creation, for EVERY club in
+  // the competition -- exactly like worldSquads/gameplayRatings, now
+  // extended from "manager's own club only" to the whole competition
+  // (see staffCareerIntegration.ts's own doc). Essential-role gaps are
+  // filled with generated fictional staff ONLY for a club whose world/
+  // data model is itself GENERATED/MOCK (dataSource !== "REAL_WORLD") --
+  // a real club's genuine staffing gap stays genuine (UNKNOWN STAFF !=
+  // GENERATED PERSON).
   const staffContractFallbackYear = Number(careerStartDate.slice(0, 4)) + 2;
-  const staffEmployment: Record<string, StaffEmployment> = Object.fromEntries(
-    staffRoster.map((m) => [
-      m.id,
-      {
-        staffId: m.id,
-        clubId: m.clubId,
-        roles: m.roles,
-        employmentType: m.employmentType,
-        // HM-DATA-ALLSVENSKAN-1.1B Part 1/6: same Swedish 1 June -> 31 May
-        // contract-year rule as player contracts, only for SALARIED staff --
-        // a VOLUNTARY/GOVERNANCE person has no employment contract at all.
-        ...(m.employmentType === "SALARIED" ? { contractEndDate: generateContractEndDate(m.id, "", staffContractFallbackYear) } : {}),
-      } satisfies StaffEmployment,
-    ]),
-  );
+  const { staffRoster, staffEmployment } = resolveCompetitionStaffRoster(competitionId, staffIdentityByClub ?? {}, staffContractFallbackYear);
 
   const base: CareerState = {
     seasonId: "2026/27",
@@ -177,8 +162,9 @@ export function createNewCareerState(
     playerPhysicalState: {},
     playerTrainingAssignments: {},
     playerDevelopmentState: {},
-    staffRoster: { [playerClubId]: staffRoster },
+    staffRoster,
     staffEmployment,
+    staffClubHistory: {},
     playerInjuries: {},
     leagueKickoffDate,
     playerContracts: {},

@@ -2,20 +2,30 @@
 // app/api/game-world/squad-snapshot/route.ts exactly.
 //
 // The one server boundary allowed to invoke gameWorld/staffIdentitySnapshot.ts
-// (which touches the filesystem). The Staff screen is client-side and
-// fetches on demand for the manager's current club -- staff data is
-// never persisted into CareerState/save data (Spec: keep old saves
-// safe; no migration needed since nothing about the save shape
-// changes). Read-only, not gated behind HM_EDITOR_ENABLED, for the same
-// reason squad-snapshot isn't: it only ever returns the same validated
-// data New Game's club list already implies.
+// (which touches the filesystem). Read-only, not gated behind
+// HM_EDITOR_ENABLED, for the same reason squad-snapshot isn't: it only
+// ever returns the same validated data New Game's club list already
+// implies.
+//
+// HM-STAFF-CAREER-1.0: now also accepts `competitionId` (mirroring
+// squad-snapshot's own param), returning EVERY REAL_WORLD club's staff
+// in one call -- CareerContext.tsx uses this at career creation and for
+// the existing-save top-up (staff is now career-persisted, browsable/
+// recruitable at any club, not fetched per-club on demand). The original
+// single-club `clubId` form is unchanged for any other caller.
 import { NextResponse } from "next/server";
-import { snapshotClubStaff } from "@/lib/gameWorld/staffIdentitySnapshot";
+import { snapshotAllClubsStaff, snapshotClubStaff } from "@/lib/gameWorld/staffIdentitySnapshot";
 
 export async function GET(request: Request) {
-  const clubId = new URL(request.url).searchParams.get("clubId");
+  const params = new URL(request.url).searchParams;
+  const competitionId = params.get("competitionId");
+  if (competitionId) {
+    const clubs = snapshotAllClubsStaff(competitionId);
+    return NextResponse.json({ clubs });
+  }
+  const clubId = params.get("clubId");
   if (!clubId) {
-    return NextResponse.json({ error: "clubId query param is required" }, { status: 400 });
+    return NextResponse.json({ error: "clubId or competitionId query param is required" }, { status: 400 });
   }
   const snapshot = snapshotClubStaff(clubId);
   return NextResponse.json({ people: snapshot?.people ?? [], assignments: snapshot?.assignments ?? [] });

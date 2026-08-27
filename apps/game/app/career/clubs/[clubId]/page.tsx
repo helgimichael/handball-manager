@@ -12,13 +12,15 @@
 // this club's live table position. No new data-loading work, no
 // speculative content.
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import { COMPETITIONS, getClub, playerAge, positionLabel } from "@/lib/game-data";
 import { useCareer } from "@/lib/career/CareerContext";
 import { getCareerClubSquad } from "@/lib/career/careerWorld";
 import { getLiveStandings } from "@/lib/career/standings";
-import { selectCurrentStaffAssignments, type ClubIdentityProfile, type CoachIdentityProfile, type IdentityClaim, type StaffAssignment, type StaffPerson } from "@/lib/identity";
-import { presentClaim, presentStaffRoles } from "@/lib/identity/presentation";
+import type { ClubIdentityProfile, CoachIdentityProfile, IdentityClaim } from "@/lib/identity";
+import { presentClaim } from "@/lib/identity/presentation";
+import { STAFF_ROLE_LABEL } from "@/lib/staff/labels";
 import ClubCrest from "@/components/ClubCrest";
 import { ClubLink, PlayerLink } from "@/components/entityLinks";
 import { getClubKnowledgePct } from "@/lib/knowledge/knowledgeIntegration";
@@ -64,7 +66,6 @@ export default function ClubProfilePage() {
   const params = useParams<{ clubId: string }>();
   const { career } = useCareer();
   const club = getClub(params.clubId);
-  const [staff, setStaff] = useState<{ people: StaffPerson[]; assignments: StaffAssignment[] } | null>(null);
   const [identity, setIdentity] = useState<{ clubIdentity: ClubIdentityProfile | null; coachIdentity: (CoachIdentityProfile & { personId: string }) | null } | null>(null);
 
   const isOwnClub = params.clubId === career.playerClubId;
@@ -74,22 +75,6 @@ export default function ClubProfilePage() {
       router.replace("/career/club");
     }
   }, [isOwnClub, router]);
-
-  useEffect(() => {
-    if (!club || isOwnClub) return;
-    let cancelled = false;
-    fetch(`/api/game-world/staff-snapshot?clubId=${encodeURIComponent(club.id)}`)
-      .then((res) => res.json())
-      .then((data) => {
-        if (!cancelled) setStaff({ people: data.people ?? [], assignments: data.assignments ?? [] });
-      })
-      .catch(() => {
-        if (!cancelled) setStaff({ people: [], assignments: [] });
-      });
-    return () => {
-      cancelled = true;
-    };
-  }, [club, isOwnClub]);
 
   useEffect(() => {
     if (!club || isOwnClub) return;
@@ -125,8 +110,14 @@ export default function ClubProfilePage() {
   const tablePosition = tableRow ? table.indexOf(tableRow) + 1 : null;
 
   const fixtures = career.fixtures.filter((f) => f.homeClubId === club.id || f.awayClubId === club.id).sort((a, b) => (a.date < b.date ? -1 : 1));
-  const currentStaffAssignments = staff ? selectCurrentStaffAssignments(staff.assignments, career.gameDate) : [];
-  const peopleById = new Map((staff?.people ?? []).map((p) => [p.id, p]));
+  // HM-STAFF-CAREER-1.0: reads the same career-persistent, whole-
+  // competition staffRoster the manager's own Staff page reads --
+  // resolved once at career creation for every club (staffCareerIntegration.ts),
+  // so this is real, career-tracked staff (moves on a completed
+  // recruitment), not a fresh per-visit fetch. A club whose staff hasn't
+  // been loaded yet (an old save mid-top-up) simply shows an empty list
+  // until CareerContext's own async top-up completes.
+  const staffRoster = career.staffRoster[club.id] ?? [];
 
   // HM-DATA-ALLSVENSKAN-1.1B Part 13: TRUE WORLD STATE -> MANAGER
   // KNOWLEDGE -> PLAYER-FACING VIEW, for the club/coach identity claims
@@ -158,7 +149,7 @@ export default function ClubProfilePage() {
           <MiniStat label="Tabellplacering" value={tablePosition ? `${tablePosition}:a` : "—"} />
           <MiniStat label="Poäng" value={tableRow?.points ?? "—"} />
           <MiniStat label="Trupp" value={squad.length} />
-          <MiniStat label="Personal" value={currentStaffAssignments.length} />
+          <MiniStat label="Personal" value={staffRoster.length} />
         </div>
       </div>
 
@@ -204,30 +195,25 @@ export default function ClubProfilePage() {
         <div className="hm-panel-header">
           <span className="hm-panel-title">Personal</span>
         </div>
-        {staff === null ? (
-          <div className="hm-panel-body hm-text-muted">Läser in…</div>
-        ) : currentStaffAssignments.length === 0 ? (
+        {staffRoster.length === 0 ? (
           <div className="hm-panel-body hm-text-muted">Ingen personaldata tillgänglig för denna klubb ännu.</div>
         ) : (
           <table className="hm-table">
             <thead>
               <tr>
                 <th>Namn</th>
-                <th>Officiell titel</th>
                 <th>Roll</th>
               </tr>
             </thead>
             <tbody>
-              {currentStaffAssignments.map((a) => {
-                const person = peopleById.get(a.personId);
-                return (
-                  <tr key={`${a.personId}:${a.officialRole}`}>
-                    <td className="hm-td-strong">{person?.displayName ?? a.personId}</td>
-                    <td>{a.officialRole}</td>
-                    <td>{presentStaffRoles(a.standardRoles)}</td>
-                  </tr>
-                );
-              })}
+              {staffRoster.map((m) => (
+                <tr key={m.id}>
+                  <td className="hm-td-strong">
+                    <Link href={`/career/staff/${encodeURIComponent(m.id)}`}>{m.displayName}</Link>
+                  </td>
+                  <td>{m.roles.length > 0 ? m.roles.map((r) => STAFF_ROLE_LABEL[r]).join(" + ") : (m.officialRoleLabel ?? "—")}</td>
+                </tr>
+              ))}
             </tbody>
           </table>
         )}

@@ -5,7 +5,7 @@
 // imported from client-bundled code. Only app/api/game-world/staff-
 // snapshot/route.ts (a server Route Handler) and this package's own
 // tests may import this module.
-import { getClub } from "../game-data";
+import { getClub, getClubsByCompetition } from "../game-data";
 import { validateStaffAssignment, validateStaffPerson } from "../identity/validators";
 import { loadClubStaffIdentity } from "./staffIdentityLoader";
 import { leagueSegmentForClub } from "./leagueSegment";
@@ -39,4 +39,24 @@ export function snapshotClubStaff(clubId: string): ClubStaffSnapshot | null {
   }
 
   return { clubId, people: raw.people, assignments: raw.assignments };
+}
+
+/**
+ * HM-STAFF-CAREER-1.0: snapshots every REAL_WORLD club's own staff
+ * identity for `competitionId` in one call -- the staff-domain twin of
+ * serverSnapshot.ts's `snapshotWorldSquads`, needed now that staff
+ * recruitment/browsing requires EVERY club's roster, not only the
+ * manager's own. A club with no identity file (or one that fails
+ * validation) simply has no entry in the result, exactly like a missing
+ * `clubId` key means for `snapshotClubStaff` returning `null` -- never a
+ * thrown error for one bad/missing club file.
+ */
+export function snapshotAllClubsStaff(competitionId: string): Record<string, ClubStaffSnapshot> {
+  const result: Record<string, ClubStaffSnapshot> = {};
+  for (const club of getClubsByCompetition(competitionId)) {
+    if (club.dataSource !== "REAL_WORLD") continue;
+    const snapshot = snapshotClubStaff(club.id);
+    if (snapshot) result[club.id] = snapshot;
+  }
+  return result;
 }

@@ -18,6 +18,12 @@ export const ROLE_ATTRIBUTE_WEIGHTS: Record<StaffRole, Partial<Record<StaffAttri
   ANALYST: { ANALYSIS: 0.6, MATCH_PREPARATION: 0.4 },
   PHYSIO: { MEDICAL: 1.0 },
   SCOUT: { PLAYER_JUDGEMENT: 0.5, POTENTIAL_JUDGEMENT: 0.5 },
+  // HM-STAFF-CAREER-1.0: sportchef -- rekrytering, förhandling,
+  // truppplanering, ekonomiskt omdöme, talangbedömning.
+  SPORTING_DIRECTOR: { RECRUITMENT: 0.25, NEGOTIATION: 0.2, SQUAD_PLANNING: 0.2, FINANCIAL_JUDGEMENT: 0.15, POTENTIAL_JUDGEMENT: 0.2 },
+  // HM-STAFF-CAREER-1.0: lagledare -- organisation, kommunikation,
+  // logistik, lagmiljö.
+  TEAM_MANAGER: { ORGANISATION: 0.35, COMMUNICATION: 0.25, LOGISTICS: 0.25, TEAM_ENVIRONMENT: 0.15 },
 };
 
 /**

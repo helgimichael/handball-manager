@@ -385,5 +385,19 @@ export function migrateCareerState(career: CareerState): CareerState {
     next = { ...next, playerKnowledge: {} };
   }
 
+  // HM-STAFF-CAREER-1.0 (career-state schema v26): additive -- an
+  // existing career simply never had a career-tracked staff club-history
+  // thread yet (no one had ever changed clubs via recruitment before
+  // this milestone existed). Migrated to an EMPTY map, never inventing a
+  // move history -- every reader already treats a missing entry as "no
+  // tracked moves", exactly the state a save always implicitly had.
+  // The whole-competition staffRoster/staffEmployment top-up itself
+  // (an existing save only ever had its own club's roster) needs an
+  // async fetch and so happens in CareerContext.tsx's own
+  // getOrCreateCareerState, not here -- see its own doc for why.
+  if (next.staffClubHistory === undefined) {
+    next = { ...next, staffClubHistory: {} };
+  }
+
   return next;
 }

@@ -37,6 +37,20 @@ test("a physical coach's generated profile has a higher PHYSICAL_COACHING prior 
   assert.ok(profile.attributes.PHYSICAL_COACHING.value > profile.attributes.GOALKEEPER_COACHING.value);
 });
 
+// HM-STAFF-CAREER-1.0: a Lagledare must NOT get a generic/uniform
+// profile that happens to be great at TACTICAL_COACHING -- their
+// generated shape should favor their OWN role's attributes
+// (ORGANISATION/LOGISTICS/COMMUNICATION), not an unrelated coaching one.
+test("a Lagledare (TEAM_MANAGER)'s generated profile favors ORGANISATION over an unrelated coaching attribute like TACTICAL_COACHING", () => {
+  const profile = generateStaffAttributeProfile("tm1", ["TEAM_MANAGER"], "seed-team-manager");
+  assert.ok(profile.attributes.ORGANISATION.value > profile.attributes.TACTICAL_COACHING.value);
+});
+
+test("a Sportchef (SPORTING_DIRECTOR)'s generated profile favors RECRUITMENT over an unrelated coaching attribute like GOALKEEPER_COACHING", () => {
+  const profile = generateStaffAttributeProfile("sd1", ["SPORTING_DIRECTOR"], "seed-sporting-director");
+  assert.ok(profile.attributes.RECRUITMENT.value > profile.attributes.GOALKEEPER_COACHING.value);
+});
+
 // (17) generated staff profiles differentiated -- confirmed via role-shape above, and via (16).
 
 // (21) unknown evidence stays generated/not falsely verified.

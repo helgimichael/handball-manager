@@ -35,6 +35,12 @@ const HM_ROLE_TO_STAFF_ROLE: Partial<Record<HMStaffRole, StaffRole>> = {
   SCOUT: "SCOUT",
   PHYSIOTHERAPIST: "PHYSIO",
   DOCTOR: "PHYSIO", // Part 3: folded into the same medical bucket -- HM-STAFF-1.0 does not model DOCTOR separately (no medical gameplay effect exists yet either way, Part 39).
+  // HM-STAFF-CAREER-1.0: these two now get real attributes/suitability
+  // (see roleAttributeMap.ts) -- but note this mapping alone does NOT
+  // make them SALARIED (see classifyEmploymentType's own
+  // ADMINISTRATIVE_STAFF_ROLES carve-out below).
+  SPORTING_DIRECTOR: "SPORTING_DIRECTOR",
+  TEAM_MANAGER: "TEAM_MANAGER",
 };
 
 function mapHMRolesToStaffRoles(standardRoles: readonly HMStaffRole[]): StaffRole[] {
@@ -85,20 +91,35 @@ function hierarchyRank(hmRoles: readonly HMStaffRole[]): number {
 const GOVERNANCE_ONLY_HM_ROLES: ReadonlySet<HMStaffRole> = new Set(["CHAIRPERSON", "CLUB_DIRECTOR", "SENIOR_DIRECTOR", "ELITE_DIRECTOR"]);
 
 /**
+ * HM-STAFF-CAREER-1.0: SPORTING_DIRECTOR and TEAM_MANAGER now map to a
+ * real StaffRole (for attributes/suitability, roleAttributeMap.ts), but
+ * that alone must NOT flip a real person to SALARIED -- Swedish
+ * semi-pro/Allsvenskan clubs commonly staff these as unpaid/volunteer
+ * administrative roles (e.g. one real club's own identity data
+ * explicitly documents its sportchef as "ZERO_COST_NON_SALARIED_FIRST_ROLE"),
+ * and no structured per-person salary evidence exists to say otherwise
+ * for any specific person. Only a genuine coaching/medical/analyst
+ * function (the roles staffCost.ts actually prices) implies SALARIED by
+ * default; these two stay VOLUNTARY unless a real recruitment
+ * negotiation (staffRecruitment.ts) explicitly makes them SALARIED.
+ */
+const ADMINISTRATIVE_STAFF_ROLES: ReadonlySet<StaffRole> = new Set(["SPORTING_DIRECTOR", "TEAM_MANAGER"]);
+
+/**
  * Part 6: SALARIED for a genuine coaching/medical/analyst function
- * (has a gameplay StaffRole mapping -- these are exactly the roles
- * staffCost.ts already prices); GOVERNANCE for club leadership/ownership
- * or a collective governance body (a committee is never one "employed"
- * individual); VOLUNTARY for every other real administrative/support
- * title with no gameplay-role mapping and no salary evidence (Lagledare,
- * Materialansvarig, a Sportchef with no stated salary, ...). Never
- * fabricates a wage/contract for a real person the source doesn't
- * support one for.
+ * (has a gameplay StaffRole mapping, excluding the administrative-only
+ * roles above -- these are exactly the roles staffCost.ts already
+ * prices); GOVERNANCE for club leadership/ownership or a collective
+ * governance body (a committee is never one "employed" individual);
+ * VOLUNTARY for every other real administrative/support title with no
+ * priced gameplay-role mapping and no salary evidence (Lagledare,
+ * Materialansvarig, Sportchef, ...). Never fabricates a wage/contract
+ * for a real person the source doesn't support one for.
  */
 function classifyEmploymentType(hmRoles: readonly HMStaffRole[], staffRoles: readonly StaffRole[], personKind: StaffPerson["personKind"]): StaffEmploymentType {
   if (personKind === "COLLECTIVE_GROUP") return "GOVERNANCE";
   if (hmRoles.length > 0 && hmRoles.every((r) => GOVERNANCE_ONLY_HM_ROLES.has(r))) return "GOVERNANCE";
-  if (staffRoles.length > 0) return "SALARIED";
+  if (staffRoles.some((r) => !ADMINISTRATIVE_STAFF_ROLES.has(r))) return "SALARIED";
   return "VOLUNTARY";
 }
 
@@ -135,6 +156,8 @@ const STAFF_ROLE_TO_HM_ROLE: Record<StaffRole, HMStaffRole> = {
   ANALYST: "ANALYST",
   PHYSIO: "PHYSIOTHERAPIST",
   SCOUT: "SCOUT",
+  SPORTING_DIRECTOR: "SPORTING_DIRECTOR",
+  TEAM_MANAGER: "TEAM_MANAGER",
 };
 
 function buildGenerated(clubId: string, role: StaffRole, seedSuffix: string): ResolvedStaffMember {

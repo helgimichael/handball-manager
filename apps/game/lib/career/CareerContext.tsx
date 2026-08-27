@@ -2,7 +2,7 @@
 
 import { createContext, useCallback, useContext, useEffect, useState, type ReactNode } from "react";
 import type { FastMatchResult } from "@handball-manager/game-simulation";
-import { GAME_CURRENT_DATE, getClub, type PlayerMock } from "../game-data";
+import { GAME_CURRENT_DATE, getClub, getClubsByCompetition, type PlayerMock } from "../game-data";
 import { getActiveSave, saveCareerState, type CareerSave } from "../save/saveRepository";
 import { createNewCareerState } from "./newCareer";
 import { continueCareerRhythm, type ContinueStopReason } from "./continueController";
@@ -41,6 +41,8 @@ import type { GameplayPlayerRating } from "../gameWorld/gameplayRatingSnapshot";
 import type { MatchPlanChange } from "../liveMatch/matchPlanChange";
 import type { LiveMatchSessionState } from "../liveMatch/liveMatchSession";
 import type { RawClubStaffIdentityLike } from "../staff/staffRosterResolution";
+import { ensureCareerCompetitionStaffRoster, recalibrateStaffEmploymentWages } from "../staff/staffCareerIntegration";
+import { offerStaffContract, type StaffOfferParams, type StaffOfferResult } from "../staff/staffRecruitment";
 
 type CareerContextValue = {
   save: CareerSave;
@@ -65,6 +67,8 @@ type CareerContextValue = {
   updateTacticalProfile: (changes: Partial<TeamTacticalProfile>) => void;
   /** HM-DATA-ALLSVENSKAN-1.1B Part 3: the manager's explicit edit of one player's persistent SquadStatusTier, and persists. Separate from MatchUsage/MatchPlan and from live medical/discipline availability. */
   updateSquadStatus: (playerId: string, tier: SquadStatusTier) => void;
+  /** HM-STAFF-CAREER-1.0 Part 4: resolves one staff recruitment offer synchronously (affordability -> candidate decision -> execution) and persists on COMPLETED. Never throws -- every outcome (including a rejection) is returned in the result. */
+  offerStaffContract: (params: StaffOfferParams) => StaffOfferResult;
   /**
    * Saves (or replaces) one fixture's MatchPlan (HM-TACTICS-1.1), and
    * persists. Accepts either a complete plan or an updater function
@@ -221,29 +225,46 @@ async function fetchGameplayRatings(competitionId: string): Promise<Record<strin
 }
 
 /**
- * HM-STAFF-1.0: mirrors fetchGameplayRatings exactly -- the real staff
- * identity snapshot (HM-STAFF-DATA-0.1) is resolved server-side (touches
- * the filesystem) and fetched once at career creation, for the
- * manager's own club only (opponents' staff is not needed by anything
- * yet). A fetch failure or a club with no identity file just means
- * `null`, which resolveClubStaffRoster already treats as "generate the
- * whole roster fictionally" (Part 19/20) -- never a crash.
+ * HM-STAFF-1.0/HM-STAFF-CAREER-1.0: mirrors fetchWorldSquads exactly --
+ * the real staff identity snapshot (HM-STAFF-DATA-0.1) is resolved
+ * server-side (touches the filesystem) and fetched once, for EVERY
+ * REAL_WORLD club in the competition (Part 1: "All staff i alla klubbar
+ * ska vara klickbar" -- browsing/recruiting from another club needs its
+ * staff too, not only the manager's own). A fetch failure or a club with
+ * no identity file just means that club is missing from the result,
+ * which resolveClubStaffRoster already treats as "generate the whole
+ * roster fictionally" for a non-real-world club, or "genuinely no staff"
+ * for a real one (Part 19/20/4) -- never a crash.
  */
-async function fetchStaffIdentity(clubId: string): Promise<RawClubStaffIdentityLike | null> {
+async function fetchAllClubsStaffIdentity(competitionId: string): Promise<Record<string, RawClubStaffIdentityLike | null>> {
   try {
-    const res = await fetch(`/api/game-world/staff-snapshot?clubId=${encodeURIComponent(clubId)}`);
-    if (!res.ok) return null;
+    const res = await fetch(`/api/game-world/staff-snapshot?competitionId=${encodeURIComponent(competitionId)}`);
+    if (!res.ok) return {};
     const data = await res.json();
-    if (!Array.isArray(data.people) || !Array.isArray(data.assignments)) return null;
-    return { people: data.people, assignments: data.assignments };
+    return data.clubs ?? {};
   } catch {
-    return null;
+    return {};
   }
 }
 
 async function getOrCreateCareerState(save: CareerSave): Promise<CareerState> {
   if (save.careerState) {
-    const migrated = migrateCareerState(save.careerState);
+    let migrated = migrateCareerState(save.careerState);
+    // HM-STAFF-CAREER-1.0: an existing save may predate this milestone's
+    // whole-competition staff resolution (it only ever had its own
+    // club's roster) -- migrateCareerState itself can't fetch (it must
+    // stay synchronous/fs-free for its own tests), so the top-up happens
+    // here, exactly once, the same way career creation itself fetches.
+    // ensureCareerCompetitionStaffRoster is a true no-op once every
+    // competition club is already present, so this is cheap on every
+    // subsequent load.
+    const club = getClub(migrated.playerClubId);
+    if (club?.dataSource === "REAL_WORLD" && getClubsByCompetition(migrated.competitionId).some((c) => migrated.staffRoster[c.id] === undefined)) {
+      const staffIdentityByClub = await fetchAllClubsStaffIdentity(migrated.competitionId);
+      const fallbackYear = Number(migrated.gameDate.slice(0, 4)) + 2;
+      migrated = ensureCareerCompetitionStaffRoster(migrated, migrated.competitionId, staffIdentityByClub, fallbackYear);
+    }
+    migrated = recalibrateStaffEmploymentWages(migrated);
     if (migrated !== save.careerState) {
       saveCareerState(save.saveId, migrated);
     }
@@ -254,8 +275,8 @@ async function getOrCreateCareerState(save: CareerSave): Promise<CareerState> {
   const worldSquads = isRealWorld ? await fetchWorldSquads(club.competitionId) : {};
   const aiTacticalPreferences = isRealWorld ? await fetchAiTacticalPreferences(club.competitionId, "2026/27", GAME_CURRENT_DATE) : {};
   const gameplayRatings = isRealWorld ? await fetchGameplayRatings(club.competitionId) : {};
-  const staffIdentity = isRealWorld ? await fetchStaffIdentity(save.clubId) : null;
-  const fresh = createNewCareerState(save.saveId, save.clubId, worldSquads, aiTacticalPreferences, gameplayRatings, staffIdentity, save.preseasonStart);
+  const staffIdentityByClub = isRealWorld ? await fetchAllClubsStaffIdentity(club.competitionId) : {};
+  const fresh = createNewCareerState(save.saveId, save.clubId, worldSquads, aiTacticalPreferences, gameplayRatings, staffIdentityByClub, save.preseasonStart);
   saveCareerState(save.saveId, fresh);
   return fresh;
 }
@@ -388,6 +409,15 @@ export function CareerProvider({ children }: { children: ReactNode }) {
     if (nextCareer === value!.career) return;
     saveCareerState(value!.save.saveId, nextCareer);
     setValue({ save: value!.save, career: nextCareer });
+  }
+
+  function offerStaffContractAction(params: StaffOfferParams): StaffOfferResult {
+    const { state: nextCareer, result } = offerStaffContract(value!.career, params);
+    if (nextCareer !== value!.career) {
+      saveCareerState(value!.save.saveId, nextCareer);
+      setValue({ save: value!.save, career: nextCareer });
+    }
+    return result;
   }
 
   function updateMatchPlanAction(fixtureId: string, planOrUpdater: MatchPlan | ((prev: MatchPlan) => MatchPlan)) {
@@ -587,6 +617,7 @@ export function CareerProvider({ children }: { children: ReactNode }) {
         unarchiveInboxMessage,
         updateTacticalProfile: updateTacticalProfileAction,
         updateSquadStatus: updateSquadStatusAction,
+        offerStaffContract: offerStaffContractAction,
         updateMatchPlan: updateMatchPlanAction,
         setPlayerMatchDefault: setPlayerMatchDefaultAction,
         updateSpecialPlay: updateSpecialPlayAction,

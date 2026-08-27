@@ -36,9 +36,15 @@ test("(2) IFK Tumba's roster contains exactly the 6 real people from its canonic
 
   assert.deepEqual(byName.get("Mats Kardell")?.roles, ["HEAD_COACH"]);
   assert.ok(byName.get("Helgi Magnusson")?.roles.includes("ASSISTANT_COACH"));
-  assert.equal(byName.get("Malin Kardell")?.officialRoleLabel, "Lagledare");
-  assert.deepEqual(byName.get("Malin Kardell")?.roles, []);
-  assert.equal(byName.get("Naman Raja Gul")?.officialRoleLabel, "Sportchef");
+  // HM-STAFF-CAREER-1.0: Lagledare/Sportchef now map to real StaffRoles
+  // (TEAM_MANAGER/SPORTING_DIRECTOR) for real attributes/suitability,
+  // so `officialRoleLabel` (the no-mapping fallback) is no longer set --
+  // but they stay VOLUNTARY employment (no salary evidence), never
+  // auto-SALARIED merely from gaining a role mapping.
+  assert.deepEqual(byName.get("Malin Kardell")?.roles, ["TEAM_MANAGER"]);
+  assert.equal(byName.get("Malin Kardell")?.employmentType, "VOLUNTARY");
+  assert.deepEqual(byName.get("Naman Raja Gul")?.roles, ["SPORTING_DIRECTOR"]);
+  assert.equal(byName.get("Naman Raja Gul")?.employmentType, "VOLUNTARY");
   assert.ok(byName.get("Marie Hellkvist"));
   assert.ok(byName.get("Samir Svedin"));
 

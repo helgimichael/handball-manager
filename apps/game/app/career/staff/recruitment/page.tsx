@@ -1,0 +1,151 @@
+"use client";
+
+// HM-STAFF-CAREER-1.0 Part 4: browse recruitable staff candidates from
+// every OTHER club in the competition. "Identify candidate" step of the
+// recruitment flow -- clicking a row goes to their full profile
+// (app/career/staff/[staffId]/page.tsx), where the actual offer/contract
+// form lives (Part 4: "se profil" -> "erbjuda roll/kontrakt/lön" are two
+// separate steps, not squeezed onto one screen).
+import { useMemo, useState } from "react";
+import Link from "next/link";
+import { useCareer } from "@/lib/career/CareerContext";
+import { getClub } from "@/lib/game-data";
+import { isStaffRecruitable } from "@/lib/staff/staffRecruitment";
+import { computeRoleSuitability } from "@/lib/staff/roleSuitability";
+import { roleSuitabilityStars } from "@/lib/staff/presentation";
+import { STAFF_ROLE_LABEL } from "@/lib/staff/labels";
+import { formatEur } from "@/lib/economy/currency";
+import type { ResolvedStaffMember, StaffRole } from "@/lib/staff/types";
+import StarRating from "@/components/StarRating";
+import { SortableTh, applySortDirection, type SortState } from "@/components/SortableTh";
+
+type SortKey = "name" | "club" | "role" | "suitability" | "wage";
+
+interface Candidate {
+  member: ResolvedStaffMember;
+  clubName: string;
+  role: StaffRole;
+  suitability: number;
+  wageEurPerMonth: number;
+}
+
+export default function StaffRecruitmentPage() {
+  const { career } = useCareer();
+  const [roleFilter, setRoleFilter] = useState<StaffRole | "ALL">("ALL");
+  const [sort, setSort] = useState<SortState<SortKey> | null>(null);
+
+  const candidates = useMemo<Candidate[]>(() => {
+    const list: Candidate[] = [];
+    for (const [clubId, roster] of Object.entries(career.staffRoster)) {
+      if (clubId === career.playerClubId) continue;
+      const clubName = getClub(clubId)?.name ?? clubId;
+      for (const member of roster) {
+        if (!isStaffRecruitable(career, member.id)) continue;
+        const role = member.roles[0];
+        if (!role) continue;
+        list.push({
+          member,
+          clubName,
+          role,
+          suitability: computeRoleSuitability(member, role),
+          wageEurPerMonth: career.staffEmployment[member.id]?.wageEurPerMonth ?? 0,
+        });
+      }
+    }
+    return list;
+  }, [career]);
+
+  const availableRoles = useMemo(() => Array.from(new Set(candidates.map((c) => c.role))).sort(), [candidates]);
+
+  const filtered = roleFilter === "ALL" ? candidates : candidates.filter((c) => c.role === roleFilter);
+
+  const rows = useMemo(() => {
+    if (!sort) return filtered;
+    return [...filtered].sort((a, b) => {
+      let cmp: number;
+      switch (sort.key) {
+        case "name":
+          cmp = a.member.displayName.localeCompare(b.member.displayName);
+          break;
+        case "club":
+          cmp = a.clubName.localeCompare(b.clubName);
+          break;
+        case "role":
+          cmp = STAFF_ROLE_LABEL[a.role].localeCompare(STAFF_ROLE_LABEL[b.role]);
+          break;
+        case "suitability":
+          cmp = a.suitability - b.suitability;
+          break;
+        case "wage":
+          cmp = a.wageEurPerMonth - b.wageEurPerMonth;
+          break;
+        default:
+          cmp = 0;
+      }
+      return applySortDirection(sort.direction, cmp);
+    });
+  }, [filtered, sort]);
+
+  return (
+    <div className="hm-panel">
+      <div className="hm-panel-header">
+        <span className="hm-panel-title">Rekrytering — Personal</span>
+        <Link href="/career/staff" className="hm-btn hm-btn-sm hm-btn-ghost">
+          ← Personal
+        </Link>
+      </div>
+      <div className="hm-panel-body" style={{ display: "flex", gap: 6, flexWrap: "wrap", paddingBottom: 0 }}>
+        {(["ALL", ...availableRoles] as const).map((role) => (
+          <button
+            key={role}
+            type="button"
+            className="hm-btn hm-btn-sm"
+            style={{
+              background: roleFilter === role ? "var(--hm-accent)" : undefined,
+              borderColor: roleFilter === role ? "var(--hm-accent)" : undefined,
+              color: roleFilter === role ? "#fff" : undefined,
+            }}
+            onClick={() => setRoleFilter(role)}
+          >
+            {role === "ALL" ? "ALLA" : STAFF_ROLE_LABEL[role]}
+          </button>
+        ))}
+      </div>
+      {rows.length === 0 ? (
+        <div className="hm-panel-body hm-text-muted">Inga rekryteringsbara kandidater hittades (endast avlönad personal med kontrakt kan värvas).</div>
+      ) : (
+        <div className="hm-scroll-x">
+          <table className="hm-table">
+            <thead>
+              <tr>
+                <SortableTh label="Namn" sortKey="name" sort={sort} onSort={setSort} />
+                <SortableTh label="Nuvarande klubb" sortKey="club" sort={sort} onSort={setSort} />
+                <SortableTh label="Roll" sortKey="role" sort={sort} onSort={setSort} />
+                <SortableTh label="Lämplighet" sortKey="suitability" sort={sort} onSort={setSort} numeric defaultDirection="desc" />
+                <SortableTh label="Nuvarande lön" sortKey="wage" sort={sort} onSort={setSort} numeric defaultDirection="desc" />
+              </tr>
+            </thead>
+            <tbody>
+              {rows.map(({ member, clubName, role, suitability, wageEurPerMonth }) => (
+                <tr key={member.id}>
+                  <td className="hm-td-strong">
+                    <Link href={`/career/staff/${encodeURIComponent(member.id)}?from=recruitment`}>{member.displayName}</Link>
+                  </td>
+                  <td>{clubName}</td>
+                  <td>{STAFF_ROLE_LABEL[role]}</td>
+                  <td>
+                    <StarRating stars={roleSuitabilityStars(suitability)} title="Bedömd lämplighet för rollen" />
+                  </td>
+                  <td>{formatEur(wageEurPerMonth)}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+      <div className="hm-panel-body hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)" }}>
+        Endast avlönad personal (huvudtränare, assisterande tränare, specialister m.fl.) kan värvas -- frivillig eller styrelseliknande personal har ingen anställning att lämna.
+      </div>
+    </div>
+  );
+}

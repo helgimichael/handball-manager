@@ -126,12 +126,22 @@ export function getClubPlayerWageCostsEurAnnual(state: CareerState, clubId: stri
     .reduce((sum, c) => sum + c.wageEurPerMonth * 12, 0);
 }
 
-/** Section 6 StaffCosts, annualized -- derived per staff member via staffCost.ts, using this club's own generated band. Clubs with no staffRoster entry (every AI club today -- see lib/staff/types.ts's own scope note) simply cost 0, an honest "no staff data available" rather than an invented number. */
+/**
+ * Section 6 StaffCosts, annualized. HM-STAFF-CAREER-1.0: prefers each
+ * member's own persisted `staffEmployment[member.id].wageEurPerMonth`
+ * (the real, sticky contract figure -- set at career creation and only
+ * ever changed by a real recruitment negotiation) and falls back to the
+ * derived staffCost.ts estimate only for a member with no employment
+ * record at all (defensive -- should not happen post-migration). Clubs
+ * with no staffRoster entry (every club before this milestone snapshotted
+ * one for them -- see lib/staff/types.ts's own scope note) simply cost
+ * 0, an honest "no staff data available" rather than an invented number.
+ */
 export function getClubStaffCostsEurAnnual(state: CareerState, clubId: string): number {
   const baseline = getClubEconomyBaseline(state, clubId);
   if (!baseline) return 0;
   const roster = state.staffRoster[clubId] ?? [];
-  return roster.reduce((sum, member) => sum + estimateStaffMonthlyCostEur(member, baseline.band) * 12, 0);
+  return roster.reduce((sum, member) => sum + (state.staffEmployment[member.id]?.wageEurPerMonth ?? estimateStaffMonthlyCostEur(member, baseline.band)) * 12, 0);
 }
 
 function bucketByDescendingThreshold<T extends string>(value: number, thresholds: readonly (readonly [number, T])[]): T {

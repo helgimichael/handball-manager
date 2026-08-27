@@ -66,6 +66,9 @@ export default function StaffPage() {
     <div className="hm-panel">
       <div className="hm-panel-header">
         <span className="hm-panel-title">Personal — {club.name}</span>
+        <Link href="/career/staff/recruitment" className="hm-btn hm-btn-sm">
+          Rekrytera personal
+        </Link>
       </div>
       <div className="hm-scroll-x">
         <table className="hm-table">
