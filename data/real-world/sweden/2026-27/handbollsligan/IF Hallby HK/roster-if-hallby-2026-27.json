@@ -27,7 +27,11 @@
       "contract": [
         "src_hallby_holmen_20260205"
       ]
-    }
+    },
+    "defaultSquadStatus": "KEY_PLAYER",
+    "specialTags": [
+      "FIRST_GOALKEEPER"
+    ]
   },
   {
     "rosterEntryId": "se_2026_27_handbollsligan_hallby_a8a0d2ec",
@@ -108,7 +112,9 @@
       "position": [
         "src_hbl_hallby_20260817"
       ]
-    }
+    },
+    "defaultSquadStatus": "KEY_PLAYER",
+    "specialTags": []
   },
   {
     "rosterEntryId": "se_2026_27_handbollsligan_hallby_409a4b2c",
@@ -297,7 +303,9 @@
       "position": [
         "src_hbl_hallby_20260817"
       ]
-    }
+    },
+    "defaultSquadStatus": "KEY_PLAYER",
+    "specialTags": []
   },
   {
     "rosterEntryId": "se_2026_27_handbollsligan_hallby_3fdf0322",
@@ -351,7 +359,9 @@
       "position": [
         "src_hbl_hallby_20260817"
       ]
-    }
+    },
+    "defaultSquadStatus": "KEY_PLAYER",
+    "specialTags": []
   },
   {
     "rosterEntryId": "se_2026_27_handbollsligan_hallby_7575bb25",
@@ -465,7 +475,9 @@
       "contract": [
         "src_hallby_hampus_20260120"
       ]
-    }
+    },
+    "defaultSquadStatus": "KEY_PLAYER",
+    "specialTags": []
   },
   {
     "rosterEntryId": "se_2026_27_handbollsligan_hallby_3236286b",
@@ -549,7 +561,9 @@
       "contract": [
         "src_hallby_asso_20260528"
       ]
-    }
+    },
+    "defaultSquadStatus": "ROTATION",
+    "specialTags": []
   },
   {
     "rosterEntryId": "se_2026_27_handbollsligan_hallby_0bc482f0",

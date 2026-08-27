@@ -358,7 +358,9 @@
       "position": [
         "src_hbl_stats_ohk_2025"
       ]
-    }
+    },
+    "defaultSquadStatus": "KEY_PLAYER",
+    "specialTags": []
   },
   {
     "rosterEntryId": "se_2026_27_handbollsligan_ohk_1323b911",
@@ -596,7 +598,9 @@
       "position": [
         "src_hbl_stats_ohk_2025"
       ]
-    }
+    },
+    "defaultSquadStatus": "KEY_PLAYER",
+    "specialTags": []
   },
   {
     "rosterEntryId": "se_2026_27_handbollsligan_ohk_db9745cb",

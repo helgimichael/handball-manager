@@ -159,7 +159,9 @@
       "position": [
         "src_hfk_roster_20260513"
       ]
-    }
+    },
+    "defaultSquadStatus": "FIRST_CHOICE",
+    "specialTags": []
   },
   {
     "rosterEntryId": "se_2026_27_handbollsligan_hfk_d8f6a466",
@@ -243,7 +245,9 @@
       "contract": [
         "src_hfk_emil_contract"
       ]
-    }
+    },
+    "defaultSquadStatus": "KEY_PLAYER",
+    "specialTags": []
   },
   {
     "rosterEntryId": "se_2026_27_handbollsligan_hfk_7b9c8e7a",
@@ -328,7 +332,9 @@
         "src_hfk_roster_20260513",
         "src_hblstats_hfk_2025"
       ]
-    }
+    },
+    "defaultSquadStatus": "KEY_PLAYER",
+    "specialTags": []
   },
   {
     "rosterEntryId": "se_2026_27_handbollsligan_hfk_763716b1",
@@ -386,7 +392,9 @@
         "src_hfk_roster_20260513",
         "src_hblstats_hfk_2025"
       ]
-    }
+    },
+    "defaultSquadStatus": "KEY_PLAYER",
+    "specialTags": []
   },
   {
     "rosterEntryId": "se_2026_27_handbollsligan_hfk_654b2ac2",
@@ -444,7 +452,9 @@
       "position": [
         "src_hfk_roster_20260513"
       ]
-    }
+    },
+    "defaultSquadStatus": "KEY_PLAYER",
+    "specialTags": []
   },
   {
     "rosterEntryId": "se_2026_27_handbollsligan_hfk_8ffd276d",
@@ -528,6 +538,10 @@
       "contract": [
         "src_hfk_fingren_20260806"
       ]
-    }
+    },
+    "defaultSquadStatus": "KEY_PLAYER",
+    "specialTags": [
+      "DEFENCE_SPECIALIST"
+    ]
   }
 ]

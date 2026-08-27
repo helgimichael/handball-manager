@@ -36,7 +36,7 @@
     "snapshotDate": "2026-08-27",
     "shirtNumber": 3,
     "sourcePosition": "H6",
-    "primaryPosition": "H6",
+    "primaryPosition": "H9",
     "secondaryPositions": [],
     "rosterStatus": "CONFIRMED",
     "contract": {
@@ -53,7 +53,9 @@
         "src_as_position_evidence"
       ]
     },
-    "dataNotes": []
+    "dataNotes": [],
+    "defaultSquadStatus": null,
+    "specialTags": []
   },
   {
     "rosterEntryId": "se_2026_27_allsvenskan_redbergslids_ik__5a0639bd",
@@ -81,7 +83,9 @@
         "src_as_position_evidence"
       ]
     },
-    "dataNotes": []
+    "dataNotes": [],
+    "defaultSquadStatus": "ROTATION",
+    "specialTags": []
   },
   {
     "rosterEntryId": "se_2026_27_allsvenskan_redbergslids_ik__2768598f",
@@ -221,7 +225,9 @@
         "src_as_position_evidence"
       ]
     },
-    "dataNotes": []
+    "dataNotes": [],
+    "defaultSquadStatus": "KEY_PLAYER",
+    "specialTags": []
   },
   {
     "rosterEntryId": "se_2026_27_allsvenskan_redbergslids_ik__69fc5c7e",
@@ -249,7 +255,11 @@
         "src_as_position_evidence"
       ]
     },
-    "dataNotes": []
+    "dataNotes": [],
+    "defaultSquadStatus": "KEY_PLAYER",
+    "specialTags": [
+      "SEVEN_METER_TAKER"
+    ]
   },
   {
     "rosterEntryId": "se_2026_27_allsvenskan_redbergslids_ik__c59447b8",
@@ -389,7 +399,9 @@
     },
     "dataNotes": [
       "HM-DATA-ALLSVENSKAN-1.1: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
-    ]
+    ],
+    "defaultSquadStatus": "FIRST_CHOICE",
+    "specialTags": []
   },
   {
     "rosterEntryId": "se_2026_27_allsvenskan_redbergslids_ik__20b69aa2",
@@ -445,7 +457,9 @@
         "src_as_position_evidence"
       ]
     },
-    "dataNotes": []
+    "dataNotes": [],
+    "defaultSquadStatus": "KEY_PLAYER",
+    "specialTags": []
   },
   {
     "rosterEntryId": "se_2026_27_allsvenskan_redbergslids_ik__efc0c6fc",
@@ -585,7 +599,9 @@
         "src_as_position_evidence"
       ]
     },
-    "dataNotes": []
+    "dataNotes": [],
+    "defaultSquadStatus": "KEY_PLAYER",
+    "specialTags": []
   },
   {
     "rosterEntryId": "se_2026_27_allsvenskan_redbergslids_ik__af361c28",
@@ -641,7 +657,11 @@
         "src_as_position_evidence"
       ]
     },
-    "dataNotes": []
+    "dataNotes": [],
+    "defaultSquadStatus": "ROTATION",
+    "specialTags": [
+      "DEFENCE_SPECIALIST"
+    ]
   },
   {
     "rosterEntryId": "se_2026_27_allsvenskan_redbergslids_ik__498b74a5",

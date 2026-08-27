@@ -24,7 +24,11 @@
       "position": [
         "src_hbl_ifk_preseason"
       ]
-    }
+    },
+    "defaultSquadStatus": "KEY_PLAYER",
+    "specialTags": [
+      "FIRST_GOALKEEPER"
+    ]
   },
   {
     "rosterEntryId": "se_2026_27_handbollsligan_ifkk_d0dd6f03",
@@ -54,7 +58,11 @@
       "contract": [
         "src_ifk_skoog_20260116"
       ]
-    }
+    },
+    "defaultSquadStatus": "SQUAD_PLAYER",
+    "specialTags": [
+      "BACKUP_GOALKEEPER"
+    ]
   },
   {
     "rosterEntryId": "se_2026_27_handbollsligan_ifkk_3ce9cf44",
@@ -81,7 +89,9 @@
       "position": [
         "src_hbl_ifk_preseason"
       ]
-    }
+    },
+    "defaultSquadStatus": "KEY_PLAYER",
+    "specialTags": []
   },
   {
     "rosterEntryId": "se_2026_27_handbollsligan_ifkk_6d0ef97f",
@@ -135,7 +145,9 @@
       "position": [
         "src_hbl_ifk_preseason"
       ]
-    }
+    },
+    "defaultSquadStatus": "KEY_PLAYER",
+    "specialTags": []
   },
   {
     "rosterEntryId": "se_2026_27_handbollsligan_ifkk_d603dfbe",
@@ -189,7 +201,9 @@
       "position": [
         "src_hbl_ifk_preseason"
       ]
-    }
+    },
+    "defaultSquadStatus": "KEY_PLAYER",
+    "specialTags": []
   },
   {
     "rosterEntryId": "se_2026_27_handbollsligan_ifkk_26da347a",
@@ -249,7 +263,11 @@
       "contract": [
         "src_ifk_henningsson_biel_20260212"
       ]
-    }
+    },
+    "defaultSquadStatus": "KEY_PLAYER",
+    "specialTags": [
+      "DEFENCE_SPECIALIST"
+    ]
   },
   {
     "rosterEntryId": "se_2026_27_handbollsligan_ifkk_c7dc2719",
@@ -279,7 +297,9 @@
       "contract": [
         "src_ifk_einar_20260116"
       ]
-    }
+    },
+    "defaultSquadStatus": "KEY_PLAYER",
+    "specialTags": []
   },
   {
     "rosterEntryId": "se_2026_27_handbollsligan_ifkk_77eb2224",
@@ -306,7 +326,9 @@
       "position": [
         "src_hbl_ifk_preseason"
       ]
-    }
+    },
+    "defaultSquadStatus": "TALENT",
+    "specialTags": []
   },
   {
     "rosterEntryId": "se_2026_27_handbollsligan_ifkk_565ae0a8",
@@ -341,7 +363,9 @@
       "contract": [
         "src_ifk_baldur_20260121"
       ]
-    }
+    },
+    "defaultSquadStatus": "FIRST_CHOICE",
+    "specialTags": []
   },
   {
     "rosterEntryId": "se_2026_27_handbollsligan_ifkk_a867e3c2",
@@ -368,7 +392,9 @@
       "position": [
         "src_hbl_ifk_preseason"
       ]
-    }
+    },
+    "defaultSquadStatus": "FIRST_CHOICE",
+    "specialTags": []
   },
   {
     "rosterEntryId": "se_2026_27_handbollsligan_ifkk_54886b8b",
@@ -398,7 +424,11 @@
       "contract": [
         "src_ifk_hallback_20260115"
       ]
-    }
+    },
+    "defaultSquadStatus": "KEY_PLAYER",
+    "specialTags": [
+      "DEFENCE_SPECIALIST"
+    ]
   },
   {
     "rosterEntryId": "se_2026_27_handbollsligan_ifkk_3910081f",

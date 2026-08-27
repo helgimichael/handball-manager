@@ -25,7 +25,9 @@
         "src_as_position_evidence"
       ]
     },
-    "dataNotes": []
+    "dataNotes": [],
+    "defaultSquadStatus": null,
+    "specialTags": []
   },
   {
     "rosterEntryId": "se_2026_27_allsvenskan_eskilstuna_guif_if__de959bd2",
@@ -81,7 +83,9 @@
         "src_as_position_evidence"
       ]
     },
-    "dataNotes": []
+    "dataNotes": [],
+    "defaultSquadStatus": null,
+    "specialTags": []
   },
   {
     "rosterEntryId": "se_2026_27_allsvenskan_eskilstuna_guif_if__e5f74c95",
@@ -137,7 +141,9 @@
         "src_as_position_evidence"
       ]
     },
-    "dataNotes": []
+    "dataNotes": [],
+    "defaultSquadStatus": "KEY_PLAYER",
+    "specialTags": []
   },
   {
     "rosterEntryId": "se_2026_27_allsvenskan_eskilstuna_guif_if__d6508034",
@@ -165,7 +171,9 @@
         "src_as_position_evidence"
       ]
     },
-    "dataNotes": []
+    "dataNotes": [],
+    "defaultSquadStatus": null,
+    "specialTags": []
   },
   {
     "rosterEntryId": "se_2026_27_allsvenskan_eskilstuna_guif_if__7d05e649",
@@ -204,7 +212,7 @@
     "snapshotDate": "2026-08-27",
     "shirtNumber": 9,
     "sourcePosition": "H9",
-    "primaryPosition": "H9",
+    "primaryPosition": "H6",
     "secondaryPositions": [],
     "rosterStatus": "CONFIRMED",
     "contract": {
@@ -221,7 +229,9 @@
         "src_as_position_evidence"
       ]
     },
-    "dataNotes": []
+    "dataNotes": [],
+    "defaultSquadStatus": "KEY_PLAYER",
+    "specialTags": []
   },
   {
     "rosterEntryId": "se_2026_27_allsvenskan_eskilstuna_guif_if__98b279d6",
@@ -249,7 +259,11 @@
         "src_as_position_evidence"
       ]
     },
-    "dataNotes": []
+    "dataNotes": [],
+    "defaultSquadStatus": "KEY_PLAYER",
+    "specialTags": [
+      "SEVEN_METER_TAKER"
+    ]
   },
   {
     "rosterEntryId": "se_2026_27_allsvenskan_eskilstuna_guif_if__164d102e",
@@ -389,7 +403,9 @@
         "src_as_position_evidence"
       ]
     },
-    "dataNotes": []
+    "dataNotes": [],
+    "defaultSquadStatus": "KEY_PLAYER",
+    "specialTags": []
   },
   {
     "rosterEntryId": "se_2026_27_allsvenskan_eskilstuna_guif_if__8e940787",

@@ -24,7 +24,9 @@
       "position": [
         "src_hbl_lugi_20260617"
       ]
-    }
+    },
+    "defaultSquadStatus": "KEY_PLAYER",
+    "specialTags": []
   },
   {
     "rosterEntryId": "se_2026_27_handbollsligan_lugi_c237932c",
@@ -105,7 +107,9 @@
       "position": [
         "src_hbl_lugi_20260617"
       ]
-    }
+    },
+    "defaultSquadStatus": "FIRST_CHOICE",
+    "specialTags": []
   },
   {
     "rosterEntryId": "se_2026_27_handbollsligan_lugi_672b0ad1",
@@ -132,7 +136,9 @@
       "position": [
         "src_hbl_lugi_20260617"
       ]
-    }
+    },
+    "defaultSquadStatus": "ROTATION",
+    "specialTags": []
   },
   {
     "rosterEntryId": "se_2026_27_handbollsligan_lugi_71c19e90",
@@ -321,7 +327,9 @@
       "position": [
         "src_hbl_lugi_20260617"
       ]
-    }
+    },
+    "defaultSquadStatus": "KEY_PLAYER",
+    "specialTags": []
   },
   {
     "rosterEntryId": "se_2026_27_handbollsligan_lugi_44d215a9",
@@ -402,7 +410,9 @@
       "position": [
         "src_hbl_lugi_20260617"
       ]
-    }
+    },
+    "defaultSquadStatus": "KEY_PLAYER",
+    "specialTags": []
   },
   {
     "rosterEntryId": "se_2026_27_handbollsligan_lugi_23c37eca",
@@ -429,7 +439,11 @@
       "position": [
         "src_hbl_lugi_20260617"
       ]
-    }
+    },
+    "defaultSquadStatus": "KEY_PLAYER",
+    "specialTags": [
+      "ATTACK_SPECIALIST"
+    ]
   },
   {
     "rosterEntryId": "se_2026_27_handbollsligan_lugi_70d56b6e",
@@ -510,7 +524,9 @@
       "position": [
         "src_hbl_lugi_20260617"
       ]
-    }
+    },
+    "defaultSquadStatus": "FIRST_CHOICE",
+    "specialTags": []
   },
   {
     "rosterEntryId": "se_2026_27_handbollsligan_lugi_d0585c8b",
@@ -591,6 +607,8 @@
       "position": [
         "src_hbl_lugi_20260617"
       ]
-    }
+    },
+    "defaultSquadStatus": "TALENT",
+    "specialTags": []
   }
 ]

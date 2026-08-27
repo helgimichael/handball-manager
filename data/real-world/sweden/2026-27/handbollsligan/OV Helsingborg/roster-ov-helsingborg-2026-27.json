@@ -132,7 +132,11 @@
       "position": [
         "src_hbl_ov_20260618"
       ]
-    }
+    },
+    "defaultSquadStatus": "KEY_PLAYER",
+    "specialTags": [
+      "SEVEN_METER_TAKER"
+    ]
   },
   {
     "rosterEntryId": "se_2026_27_handbollsligan_ov_8a28f9bb",
@@ -267,7 +271,9 @@
       "position": [
         "src_hbl_ov_20260618"
       ]
-    }
+    },
+    "defaultSquadStatus": "FIRST_CHOICE",
+    "specialTags": []
   },
   {
     "rosterEntryId": "se_2026_27_handbollsligan_ov_75d394a0",
@@ -402,7 +408,9 @@
       "position": [
         "src_hbl_ov_20260618"
       ]
-    }
+    },
+    "defaultSquadStatus": "KEY_PLAYER",
+    "specialTags": []
   },
   {
     "rosterEntryId": "se_2026_27_handbollsligan_ov_8f85144f",
@@ -567,6 +575,8 @@
       "position": [
         "src_hbl_ov_20260618"
       ]
-    }
+    },
+    "defaultSquadStatus": "FIRST_CHOICE",
+    "specialTags": []
   }
 ]

@@ -24,7 +24,9 @@
       "position": [
         "src_hbl_skanela_20260623"
       ]
-    }
+    },
+    "defaultSquadStatus": "KEY_PLAYER",
+    "specialTags": []
   },
   {
     "rosterEntryId": "se_2026_27_handbollsligan_skanela_2913e2f1",
@@ -111,7 +113,9 @@
       "contract": [
         "src_skanela_broman_20260223"
       ]
-    }
+    },
+    "defaultSquadStatus": "FIRST_CHOICE",
+    "specialTags": []
   },
   {
     "rosterEntryId": "se_2026_27_handbollsligan_skanela_847f7d32",
@@ -171,7 +175,9 @@
       "contract": [
         "src_skanela_filen_20260731"
       ]
-    }
+    },
+    "defaultSquadStatus": "FIRST_CHOICE",
+    "specialTags": []
   },
   {
     "rosterEntryId": "se_2026_27_handbollsligan_skanela_33663a46",
@@ -231,7 +237,9 @@
       "contract": [
         "src_skanela_kallemyr_20260420"
       ]
-    }
+    },
+    "defaultSquadStatus": "KEY_PLAYER",
+    "specialTags": []
   },
   {
     "rosterEntryId": "se_2026_27_handbollsligan_skanela_43f1e1a5",
@@ -258,7 +266,11 @@
       "position": [
         "src_hbl_skanela_20260623"
       ]
-    }
+    },
+    "defaultSquadStatus": "KEY_PLAYER",
+    "specialTags": [
+      "DEFENCE_SPECIALIST"
+    ]
   },
   {
     "rosterEntryId": "se_2026_27_handbollsligan_skanela_5047c1db",
@@ -315,7 +327,9 @@
       "contract": [
         "src_skanela_tapper_20260409"
       ]
-    }
+    },
+    "defaultSquadStatus": "KEY_PLAYER",
+    "specialTags": []
   },
   {
     "rosterEntryId": "se_2026_27_handbollsligan_skanela_aff81071",
@@ -342,7 +356,9 @@
       "position": [
         "src_hbl_skanela_20260623"
       ]
-    }
+    },
+    "defaultSquadStatus": "TALENT",
+    "specialTags": []
   },
   {
     "rosterEntryId": "se_2026_27_handbollsligan_skanela_f5f887f6",
@@ -372,7 +388,9 @@
       "contract": [
         "src_skanela_tobias_20260128"
       ]
-    }
+    },
+    "defaultSquadStatus": "KEY_PLAYER",
+    "specialTags": []
   },
   {
     "rosterEntryId": "se_2026_27_handbollsligan_skanela_de59a8a9",
@@ -399,7 +417,9 @@
       "position": [
         "src_hbl_skanela_20260623"
       ]
-    }
+    },
+    "defaultSquadStatus": "FIRST_CHOICE",
+    "specialTags": []
   },
   {
     "rosterEntryId": "se_2026_27_handbollsligan_skanela_df349070",
@@ -429,7 +449,11 @@
       "contract": [
         "src_skanela_simon_20260115"
       ]
-    }
+    },
+    "defaultSquadStatus": "KEY_PLAYER",
+    "specialTags": [
+      "ATTACK_SPECIALIST"
+    ]
   },
   {
     "rosterEntryId": "se_2026_27_handbollsligan_skanela_6ecec79a",
@@ -456,7 +480,9 @@
       "position": [
         "src_hbl_skanela_20260623"
       ]
-    }
+    },
+    "defaultSquadStatus": "TALENT",
+    "specialTags": []
   },
   {
     "rosterEntryId": "se_2026_27_handbollsligan_skanela_f969fb6d",
@@ -483,7 +509,9 @@
       "position": [
         "src_hbl_skanela_20260623"
       ]
-    }
+    },
+    "defaultSquadStatus": "TALENT",
+    "specialTags": []
   },
   {
     "rosterEntryId": "se_2026_27_handbollsligan_skanela_42f60d18",
@@ -545,7 +573,9 @@
       "position": [
         "src_hbl_skanela_20260623"
       ]
-    }
+    },
+    "defaultSquadStatus": "KEY_PLAYER",
+    "specialTags": []
   },
   {
     "rosterEntryId": "se_2026_27_handbollsligan_skanela_abd3f214",

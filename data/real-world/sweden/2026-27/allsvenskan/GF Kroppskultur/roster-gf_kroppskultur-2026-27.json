@@ -53,6 +53,10 @@
     },
     "dataNotes": [
       "HM-DATA-ALLSVENSKAN-1.1: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+    ],
+    "defaultSquadStatus": "KEY_PLAYER",
+    "specialTags": [
+      "DEFENCE_SPECIALIST"
     ]
   },
   {
@@ -120,7 +124,7 @@
     "snapshotDate": "2026-08-27",
     "shirtNumber": 8,
     "sourcePosition": "",
-    "primaryPosition": "V9",
+    "primaryPosition": "M6",
     "secondaryPositions": [],
     "rosterStatus": "CONFIRMED",
     "contract": {
@@ -137,7 +141,9 @@
     },
     "dataNotes": [
       "HM-DATA-ALLSVENSKAN-1.1: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
-    ]
+    ],
+    "defaultSquadStatus": "FIRST_CHOICE",
+    "specialTags": []
   },
   {
     "rosterEntryId": "se_2026_27_allsvenskan_gf_kroppskultur__614eb11c",
@@ -193,6 +199,10 @@
     },
     "dataNotes": [
       "HM-DATA-ALLSVENSKAN-1.1: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+    ],
+    "defaultSquadStatus": "KEY_PLAYER",
+    "specialTags": [
+      "DEFENCE_SPECIALIST"
     ]
   },
   {
@@ -232,7 +242,7 @@
     "snapshotDate": "2026-08-27",
     "shirtNumber": 15,
     "sourcePosition": "",
-    "primaryPosition": "MV",
+    "primaryPosition": "H6",
     "secondaryPositions": [],
     "rosterStatus": "CONFIRMED",
     "contract": {
@@ -249,7 +259,9 @@
     },
     "dataNotes": [
       "HM-DATA-ALLSVENSKAN-1.1: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
-    ]
+    ],
+    "defaultSquadStatus": null,
+    "specialTags": []
   },
   {
     "rosterEntryId": "se_2026_27_allsvenskan_gf_kroppskultur__87cd5977",
@@ -316,7 +328,7 @@
     "snapshotDate": "2026-08-27",
     "shirtNumber": 20,
     "sourcePosition": "",
-    "primaryPosition": "M6",
+    "primaryPosition": "V6",
     "secondaryPositions": [],
     "rosterStatus": "CONFIRMED",
     "contract": {
@@ -333,7 +345,9 @@
     },
     "dataNotes": [
       "HM-DATA-ALLSVENSKAN-1.1: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
-    ]
+    ],
+    "defaultSquadStatus": null,
+    "specialTags": []
   },
   {
     "rosterEntryId": "se_2026_27_allsvenskan_gf_kroppskultur__6afc640f",
@@ -372,34 +386,6 @@
     "snapshotDate": "2026-08-27",
     "shirtNumber": 44,
     "sourcePosition": "",
-    "primaryPosition": "MV",
-    "secondaryPositions": [],
-    "rosterStatus": "CONFIRMED",
-    "contract": {
-      "untilDate": null,
-      "untilSeason": null,
-      "optionUntilSeason": null
-    },
-    "rosterConfidence": "UNKNOWN",
-    "sourceRefs": {
-      "roster": [
-        "src_as_v5_qa_spreadsheet"
-      ],
-      "position": []
-    },
-    "dataNotes": [
-      "HM-DATA-ALLSVENSKAN-1.1: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
-    ]
-  },
-  {
-    "rosterEntryId": "se_2026_27_allsvenskan_gf_kroppskultur__d5c11f06",
-    "playerId": "se_player_anton_hedberg_d5c11f06",
-    "clubId": "swe2-kroppskultur",
-    "competitionId": "swe-2",
-    "season": "2026/27",
-    "snapshotDate": "2026-08-27",
-    "shirtNumber": 55,
-    "sourcePosition": "",
     "primaryPosition": "H9",
     "secondaryPositions": [],
     "rosterStatus": "CONFIRMED",
@@ -417,7 +403,39 @@
     },
     "dataNotes": [
       "HM-DATA-ALLSVENSKAN-1.1: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
-    ]
+    ],
+    "defaultSquadStatus": "KEY_PLAYER",
+    "specialTags": []
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_gf_kroppskultur__d5c11f06",
+    "playerId": "se_player_anton_hedberg_d5c11f06",
+    "clubId": "swe2-kroppskultur",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 55,
+    "sourcePosition": "",
+    "primaryPosition": "M6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "UNKNOWN",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": []
+    },
+    "dataNotes": [
+      "HM-DATA-ALLSVENSKAN-1.1: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+    ],
+    "defaultSquadStatus": null,
+    "specialTags": []
   },
   {
     "rosterEntryId": "se_2026_27_allsvenskan_gf_kroppskultur__733a7887",

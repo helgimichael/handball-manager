@@ -8,7 +8,7 @@
     "snapshotDate": "2026-08-27",
     "shirtNumber": 2,
     "sourcePosition": "",
-    "primaryPosition": "M9",
+    "primaryPosition": "H9",
     "secondaryPositions": [],
     "rosterStatus": "CONFIRMED",
     "contract": {
@@ -25,7 +25,9 @@
     },
     "dataNotes": [
       "HM-DATA-ALLSVENSKAN-1.1: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
-    ]
+    ],
+    "defaultSquadStatus": "ROTATION",
+    "specialTags": []
   },
   {
     "rosterEntryId": "se_2026_27_allsvenskan_vasterasirsta_hf__47b1abba",
@@ -36,7 +38,7 @@
     "snapshotDate": "2026-08-27",
     "shirtNumber": 3,
     "sourcePosition": "",
-    "primaryPosition": "M9",
+    "primaryPosition": "H9",
     "secondaryPositions": [],
     "rosterStatus": "CONFIRMED",
     "contract": {
@@ -53,7 +55,9 @@
     },
     "dataNotes": [
       "HM-DATA-ALLSVENSKAN-1.1: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
-    ]
+    ],
+    "defaultSquadStatus": "ROTATION",
+    "specialTags": []
   },
   {
     "rosterEntryId": "se_2026_27_allsvenskan_vasterasirsta_hf__4a4a6713",
@@ -64,7 +68,7 @@
     "snapshotDate": "2026-08-27",
     "shirtNumber": 5,
     "sourcePosition": "",
-    "primaryPosition": "V9",
+    "primaryPosition": "V6",
     "secondaryPositions": [],
     "rosterStatus": "CONFIRMED",
     "contract": {
@@ -81,7 +85,9 @@
     },
     "dataNotes": [
       "HM-DATA-ALLSVENSKAN-1.1: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
-    ]
+    ],
+    "defaultSquadStatus": "KEY_PLAYER",
+    "specialTags": []
   },
   {
     "rosterEntryId": "se_2026_27_allsvenskan_vasterasirsta_hf__f3f9a4cf",
@@ -165,7 +171,9 @@
     },
     "dataNotes": [
       "HM-DATA-ALLSVENSKAN-1.1: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
-    ]
+    ],
+    "defaultSquadStatus": "FIRST_CHOICE",
+    "specialTags": []
   },
   {
     "rosterEntryId": "se_2026_27_allsvenskan_vasterasirsta_hf__84b321a4",
@@ -176,7 +184,7 @@
     "snapshotDate": "2026-08-27",
     "shirtNumber": 10,
     "sourcePosition": "",
-    "primaryPosition": "H6",
+    "primaryPosition": "M9",
     "secondaryPositions": [],
     "rosterStatus": "CONFIRMED",
     "contract": {
@@ -193,7 +201,9 @@
     },
     "dataNotes": [
       "HM-DATA-ALLSVENSKAN-1.1: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
-    ]
+    ],
+    "defaultSquadStatus": null,
+    "specialTags": []
   },
   {
     "rosterEntryId": "se_2026_27_allsvenskan_vasterasirsta_hf__8019f7a1",
@@ -204,7 +214,7 @@
     "snapshotDate": "2026-08-27",
     "shirtNumber": 11,
     "sourcePosition": "",
-    "primaryPosition": "H9",
+    "primaryPosition": "M9",
     "secondaryPositions": [],
     "rosterStatus": "CONFIRMED",
     "contract": {
@@ -221,7 +231,9 @@
     },
     "dataNotes": [
       "HM-DATA-ALLSVENSKAN-1.1: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
-    ]
+    ],
+    "defaultSquadStatus": "KEY_PLAYER",
+    "specialTags": []
   },
   {
     "rosterEntryId": "se_2026_27_allsvenskan_vasterasirsta_hf__b0f74f26",
@@ -260,7 +272,7 @@
     "snapshotDate": "2026-08-27",
     "shirtNumber": 13,
     "sourcePosition": "",
-    "primaryPosition": "M6",
+    "primaryPosition": "V9",
     "secondaryPositions": [],
     "rosterStatus": "CONFIRMED",
     "contract": {
@@ -277,7 +289,9 @@
     },
     "dataNotes": [
       "HM-DATA-ALLSVENSKAN-1.1: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
-    ]
+    ],
+    "defaultSquadStatus": "ROTATION",
+    "specialTags": []
   },
   {
     "rosterEntryId": "se_2026_27_allsvenskan_vasterasirsta_hf__ebc224c8",
@@ -316,7 +330,7 @@
     "snapshotDate": "2026-08-27",
     "shirtNumber": 18,
     "sourcePosition": "",
-    "primaryPosition": "MV",
+    "primaryPosition": "V9",
     "secondaryPositions": [],
     "rosterStatus": "CONFIRMED",
     "contract": {
@@ -333,7 +347,9 @@
     },
     "dataNotes": [
       "HM-DATA-ALLSVENSKAN-1.1: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
-    ]
+    ],
+    "defaultSquadStatus": "FIRST_CHOICE",
+    "specialTags": []
   },
   {
     "rosterEntryId": "se_2026_27_allsvenskan_vasterasirsta_hf__d049eae2",

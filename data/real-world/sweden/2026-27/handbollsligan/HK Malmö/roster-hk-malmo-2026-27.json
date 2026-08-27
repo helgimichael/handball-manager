@@ -24,7 +24,9 @@
       "position": [
         "src_hbl_hkmalmo_20260622"
       ]
-    }
+    },
+    "defaultSquadStatus": "FIRST_CHOICE",
+    "specialTags": []
   },
   {
     "rosterEntryId": "se_2026_27_handbollsligan_hkmalmo_b2c59882",
@@ -267,7 +269,9 @@
       "position": [
         "src_hbl_hkmalmo_20260622"
       ]
-    }
+    },
+    "defaultSquadStatus": "TALENT",
+    "specialTags": []
   },
   {
     "rosterEntryId": "se_2026_27_handbollsligan_hkmalmo_f92f8dd6",
@@ -540,6 +544,8 @@
       "position": [
         "src_hbl_hkmalmo_20260622"
       ]
-    }
+    },
+    "defaultSquadStatus": "FIRST_CHOICE",
+    "specialTags": []
   }
 ]

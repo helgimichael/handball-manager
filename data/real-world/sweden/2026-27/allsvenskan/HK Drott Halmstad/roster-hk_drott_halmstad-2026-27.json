@@ -96,7 +96,7 @@
     "snapshotDate": "2026-08-27",
     "shirtNumber": 7,
     "sourcePosition": "V6",
-    "primaryPosition": "V6",
+    "primaryPosition": "H6",
     "secondaryPositions": [],
     "rosterStatus": "CONFIRMED",
     "contract": {
@@ -115,7 +115,9 @@
     },
     "dataNotes": [
       "HM-DATA-ALLSVENSKAN-1.1: broad role (goalkeeper/wing/back-court/pivot) is real, sourced evidence from the club's own current roster page; the specific left/centre/right side was not published there and was deterministically assigned."
-    ]
+    ],
+    "defaultSquadStatus": null,
+    "specialTags": []
   },
   {
     "rosterEntryId": "se_2026_27_allsvenskan_hk_drott_halmstad__d288164f",
@@ -154,7 +156,7 @@
     "snapshotDate": "2026-08-27",
     "shirtNumber": 13,
     "sourcePosition": "H9",
-    "primaryPosition": "H9",
+    "primaryPosition": "M9",
     "secondaryPositions": [],
     "rosterStatus": "CONFIRMED",
     "contract": {
@@ -173,7 +175,9 @@
     },
     "dataNotes": [
       "HM-DATA-ALLSVENSKAN-1.1: broad role (goalkeeper/wing/back-court/pivot) is real, sourced evidence from the club's own current roster page; the specific left/centre/right side was not published there and was deterministically assigned."
-    ]
+    ],
+    "defaultSquadStatus": "FIRST_CHOICE",
+    "specialTags": []
   },
   {
     "rosterEntryId": "se_2026_27_allsvenskan_hk_drott_halmstad__8e97a5cc",
@@ -184,7 +188,7 @@
     "snapshotDate": "2026-08-27",
     "shirtNumber": 14,
     "sourcePosition": "H9",
-    "primaryPosition": "H9",
+    "primaryPosition": "V9",
     "secondaryPositions": [],
     "rosterStatus": "CONFIRMED",
     "contract": {
@@ -203,7 +207,9 @@
     },
     "dataNotes": [
       "HM-DATA-ALLSVENSKAN-1.1: broad role (goalkeeper/wing/back-court/pivot) is real, sourced evidence from the club's own current roster page; the specific left/centre/right side was not published there and was deterministically assigned."
-    ]
+    ],
+    "defaultSquadStatus": "KEY_PLAYER",
+    "specialTags": []
   },
   {
     "rosterEntryId": "se_2026_27_allsvenskan_hk_drott_halmstad__38bec904",
@@ -261,7 +267,9 @@
     },
     "dataNotes": [
       "HM-DATA-ALLSVENSKAN-1.1: broad role (goalkeeper/wing/back-court/pivot) is real, sourced evidence from the club's own current roster page; the specific left/centre/right side was not published there and was deterministically assigned."
-    ]
+    ],
+    "defaultSquadStatus": "KEY_PLAYER",
+    "specialTags": []
   },
   {
     "rosterEntryId": "se_2026_27_allsvenskan_hk_drott_halmstad__d4d855a0",
@@ -349,7 +357,9 @@
         "src_as_position_evidence"
       ]
     },
-    "dataNotes": []
+    "dataNotes": [],
+    "defaultSquadStatus": "TALENT",
+    "specialTags": []
   },
   {
     "rosterEntryId": "se_2026_27_allsvenskan_hk_drott_halmstad__4c60093c",

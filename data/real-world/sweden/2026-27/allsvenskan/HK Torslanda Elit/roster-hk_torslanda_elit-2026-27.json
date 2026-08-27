@@ -64,7 +64,7 @@
     "snapshotDate": "2026-08-27",
     "shirtNumber": 7,
     "sourcePosition": "",
-    "primaryPosition": "V6",
+    "primaryPosition": "M6",
     "secondaryPositions": [],
     "rosterStatus": "CONFIRMED",
     "contract": {
@@ -81,7 +81,9 @@
     },
     "dataNotes": [
       "HM-DATA-ALLSVENSKAN-1.1: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
-    ]
+    ],
+    "defaultSquadStatus": null,
+    "specialTags": []
   },
   {
     "rosterEntryId": "se_2026_27_allsvenskan_hk_torslanda_elit__64aace5e",
@@ -204,7 +206,7 @@
     "snapshotDate": "2026-08-27",
     "shirtNumber": 18,
     "sourcePosition": "",
-    "primaryPosition": "H9",
+    "primaryPosition": "V9",
     "secondaryPositions": [],
     "rosterStatus": "CONFIRMED",
     "contract": {
@@ -221,7 +223,9 @@
     },
     "dataNotes": [
       "HM-DATA-ALLSVENSKAN-1.1: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
-    ]
+    ],
+    "defaultSquadStatus": "KEY_PLAYER",
+    "specialTags": []
   },
   {
     "rosterEntryId": "se_2026_27_allsvenskan_hk_torslanda_elit__f9fb9f9b",
@@ -260,7 +264,7 @@
     "snapshotDate": "2026-08-27",
     "shirtNumber": 25,
     "sourcePosition": "",
-    "primaryPosition": "V6",
+    "primaryPosition": "H9",
     "secondaryPositions": [],
     "rosterStatus": "CONFIRMED",
     "contract": {
@@ -277,7 +281,9 @@
     },
     "dataNotes": [
       "HM-DATA-ALLSVENSKAN-1.1: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
-    ]
+    ],
+    "defaultSquadStatus": null,
+    "specialTags": []
   },
   {
     "rosterEntryId": "se_2026_27_allsvenskan_hk_torslanda_elit__b66f4fa2",
@@ -344,7 +350,7 @@
     "snapshotDate": "2026-08-27",
     "shirtNumber": 31,
     "sourcePosition": "",
-    "primaryPosition": "H9",
+    "primaryPosition": "M6",
     "secondaryPositions": [],
     "rosterStatus": "CONFIRMED",
     "contract": {
@@ -361,7 +367,9 @@
     },
     "dataNotes": [
       "HM-DATA-ALLSVENSKAN-1.1: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
-    ]
+    ],
+    "defaultSquadStatus": "KEY_PLAYER",
+    "specialTags": []
   },
   {
     "rosterEntryId": "se_2026_27_allsvenskan_hk_torslanda_elit__757b5910",

@@ -64,7 +64,7 @@
     "snapshotDate": "2026-08-27",
     "shirtNumber": 3,
     "sourcePosition": "",
-    "primaryPosition": "V9",
+    "primaryPosition": "M6",
     "secondaryPositions": [],
     "rosterStatus": "CONFIRMED",
     "contract": {
@@ -81,7 +81,9 @@
     },
     "dataNotes": [
       "HM-DATA-ALLSVENSKAN-1.1: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
-    ]
+    ],
+    "defaultSquadStatus": "KEY_PLAYER",
+    "specialTags": []
   },
   {
     "rosterEntryId": "se_2026_27_allsvenskan_hk_aranas__4cb32042",
@@ -193,6 +195,10 @@
     },
     "dataNotes": [
       "HM-DATA-ALLSVENSKAN-1.1: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+    ],
+    "defaultSquadStatus": "KEY_PLAYER",
+    "specialTags": [
+      "ATTACK_SPECIALIST"
     ]
   },
   {
@@ -221,7 +227,9 @@
     },
     "dataNotes": [
       "HM-DATA-ALLSVENSKAN-1.1: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
-    ]
+    ],
+    "defaultSquadStatus": "FIRST_CHOICE",
+    "specialTags": []
   },
   {
     "rosterEntryId": "se_2026_27_allsvenskan_hk_aranas__f558ab21",
@@ -232,7 +240,7 @@
     "snapshotDate": "2026-08-27",
     "shirtNumber": 13,
     "sourcePosition": "",
-    "primaryPosition": "M9",
+    "primaryPosition": "V6",
     "secondaryPositions": [],
     "rosterStatus": "CONFIRMED",
     "contract": {
@@ -249,7 +257,9 @@
     },
     "dataNotes": [
       "HM-DATA-ALLSVENSKAN-1.1: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
-    ]
+    ],
+    "defaultSquadStatus": "FIRST_CHOICE",
+    "specialTags": []
   },
   {
     "rosterEntryId": "se_2026_27_allsvenskan_hk_aranas__fc3c5407",
@@ -260,7 +270,7 @@
     "snapshotDate": "2026-08-27",
     "shirtNumber": 15,
     "sourcePosition": "",
-    "primaryPosition": "M9",
+    "primaryPosition": "V6",
     "secondaryPositions": [],
     "rosterStatus": "CONFIRMED",
     "contract": {
@@ -277,7 +287,9 @@
     },
     "dataNotes": [
       "HM-DATA-ALLSVENSKAN-1.1: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
-    ]
+    ],
+    "defaultSquadStatus": "FIRST_CHOICE",
+    "specialTags": []
   },
   {
     "rosterEntryId": "se_2026_27_allsvenskan_hk_aranas__87c76a40",
@@ -400,7 +412,7 @@
     "snapshotDate": "2026-08-27",
     "shirtNumber": 28,
     "sourcePosition": "",
-    "primaryPosition": "M9",
+    "primaryPosition": "H9",
     "secondaryPositions": [],
     "rosterStatus": "CONFIRMED",
     "contract": {
@@ -417,7 +429,9 @@
     },
     "dataNotes": [
       "HM-DATA-ALLSVENSKAN-1.1: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
-    ]
+    ],
+    "defaultSquadStatus": "TALENT",
+    "specialTags": []
   },
   {
     "rosterEntryId": "se_2026_27_allsvenskan_hk_aranas__94dac6f1",

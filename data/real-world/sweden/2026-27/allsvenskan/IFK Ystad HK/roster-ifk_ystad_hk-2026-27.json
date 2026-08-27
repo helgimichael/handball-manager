@@ -53,6 +53,10 @@
     },
     "dataNotes": [
       "HM-DATA-ALLSVENSKAN-1.1: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+    ],
+    "defaultSquadStatus": "FIRST_CHOICE",
+    "specialTags": [
+      "DEFENCE_SPECIALIST"
     ]
   },
   {
@@ -120,7 +124,7 @@
     "snapshotDate": "2026-08-27",
     "shirtNumber": 12,
     "sourcePosition": "",
-    "primaryPosition": "V6",
+    "primaryPosition": "MV",
     "secondaryPositions": [],
     "rosterStatus": "CONFIRMED",
     "contract": {
@@ -137,6 +141,10 @@
     },
     "dataNotes": [
       "HM-DATA-ALLSVENSKAN-1.1: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+    ],
+    "defaultSquadStatus": "KEY_PLAYER",
+    "specialTags": [
+      "FIRST_GOALKEEPER"
     ]
   },
   {
@@ -176,6 +184,36 @@
     "snapshotDate": "2026-08-27",
     "shirtNumber": 24,
     "sourcePosition": "",
+    "primaryPosition": "M9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "UNKNOWN",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": []
+    },
+    "dataNotes": [
+      "HM-DATA-ALLSVENSKAN-1.1: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+    ],
+    "defaultSquadStatus": "KEY_PLAYER",
+    "specialTags": []
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_ifk_ystad_hk__edd52e78",
+    "playerId": "se_player_lowe_knutsson_edd52e78",
+    "clubId": "swe2-ystad2",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 26,
+    "sourcePosition": "",
     "primaryPosition": "H9",
     "secondaryPositions": [],
     "rosterStatus": "CONFIRMED",
@@ -193,35 +231,9 @@
     },
     "dataNotes": [
       "HM-DATA-ALLSVENSKAN-1.1: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
-    ]
-  },
-  {
-    "rosterEntryId": "se_2026_27_allsvenskan_ifk_ystad_hk__edd52e78",
-    "playerId": "se_player_lowe_knutsson_edd52e78",
-    "clubId": "swe2-ystad2",
-    "competitionId": "swe-2",
-    "season": "2026/27",
-    "snapshotDate": "2026-08-27",
-    "shirtNumber": 26,
-    "sourcePosition": "",
-    "primaryPosition": "V9",
-    "secondaryPositions": [],
-    "rosterStatus": "CONFIRMED",
-    "contract": {
-      "untilDate": null,
-      "untilSeason": null,
-      "optionUntilSeason": null
-    },
-    "rosterConfidence": "UNKNOWN",
-    "sourceRefs": {
-      "roster": [
-        "src_as_v5_qa_spreadsheet"
-      ],
-      "position": []
-    },
-    "dataNotes": [
-      "HM-DATA-ALLSVENSKAN-1.1: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
-    ]
+    ],
+    "defaultSquadStatus": "KEY_PLAYER",
+    "specialTags": []
   },
   {
     "rosterEntryId": "se_2026_27_allsvenskan_ifk_ystad_hk__19df4fce",
@@ -344,7 +356,7 @@
     "snapshotDate": "2026-08-27",
     "shirtNumber": 72,
     "sourcePosition": "",
-    "primaryPosition": "M6",
+    "primaryPosition": "M9",
     "secondaryPositions": [],
     "rosterStatus": "CONFIRMED",
     "contract": {
@@ -361,7 +373,9 @@
     },
     "dataNotes": [
       "HM-DATA-ALLSVENSKAN-1.1: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
-    ]
+    ],
+    "defaultSquadStatus": null,
+    "specialTags": []
   },
   {
     "rosterEntryId": "se_2026_27_allsvenskan_ifk_ystad_hk__d551e135",

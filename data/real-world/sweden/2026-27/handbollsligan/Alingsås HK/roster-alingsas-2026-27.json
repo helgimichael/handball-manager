@@ -31,8 +31,10 @@
         "src_ahk_hagvall_20260220"
       ]
     },
-    "defaultSquadStatus": null,
-    "specialTags": []
+    "defaultSquadStatus": "KEY_PLAYER",
+    "specialTags": [
+      "FIRST_GOALKEEPER"
+    ]
   },
   {
     "rosterEntryId": "se_2026_27_handbollsligan_alingsas__50f8181d",
@@ -65,7 +67,9 @@
       "contract": [
         "src_ahk_oskar_20260410"
       ]
-    }
+    },
+    "defaultSquadStatus": "SQUAD_PLAYER",
+    "specialTags": []
   },
   {
     "rosterEntryId": "se_2026_27_handbollsligan_alingsas__e8842f13",
@@ -95,7 +99,11 @@
       "contract": [
         "src_ahk_kraft_20260515"
       ]
-    }
+    },
+    "defaultSquadStatus": "KEY_PLAYER",
+    "specialTags": [
+      "FIRST_GOALKEEPER"
+    ]
   },
   {
     "rosterEntryId": "se_2026_27_handbollsligan_alingsas__b5cece84",
@@ -125,7 +133,9 @@
       "shirtNumber": [
         "src_ahk_roster_20260819"
       ]
-    }
+    },
+    "defaultSquadStatus": "KEY_PLAYER",
+    "specialTags": []
   },
   {
     "rosterEntryId": "se_2026_27_handbollsligan_alingsas__eec4c59b",
@@ -305,7 +315,9 @@
       "shirtNumber": [
         "src_ahk_roster_20260819"
       ]
-    }
+    },
+    "defaultSquadStatus": "KEY_PLAYER",
+    "specialTags": []
   },
   {
     "rosterEntryId": "se_2026_27_handbollsligan_alingsas__39bb770d",
@@ -395,7 +407,9 @@
       "shirtNumber": [
         "src_ahk_roster_20260819"
       ]
-    }
+    },
+    "defaultSquadStatus": "KEY_PLAYER",
+    "specialTags": []
   },
   {
     "rosterEntryId": "se_2026_27_handbollsligan_alingsas__8997bd4b",

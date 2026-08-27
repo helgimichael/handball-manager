@@ -25,7 +25,11 @@
         "src_as_position_evidence"
       ]
     },
-    "dataNotes": []
+    "dataNotes": [],
+    "defaultSquadStatus": "KEY_PLAYER",
+    "specialTags": [
+      "FIRST_GOALKEEPER"
+    ]
   },
   {
     "rosterEntryId": "se_2026_27_allsvenskan_tyreso_handboll__4e85963b",
@@ -53,7 +57,9 @@
         "src_as_position_evidence"
       ]
     },
-    "dataNotes": []
+    "dataNotes": [],
+    "defaultSquadStatus": "KEY_PLAYER",
+    "specialTags": []
   },
   {
     "rosterEntryId": "se_2026_27_allsvenskan_tyreso_handboll__31d5a281",
@@ -83,7 +89,9 @@
     },
     "dataNotes": [
       "HM-DATA-ALLSVENSKAN-1.1: broad role (goalkeeper/wing/back-court/pivot) is real, sourced evidence from the club's own current roster page; the specific left/centre/right side was not published there and was deterministically assigned."
-    ]
+    ],
+    "defaultSquadStatus": "SQUAD_PLAYER",
+    "specialTags": []
   },
   {
     "rosterEntryId": "se_2026_27_allsvenskan_tyreso_handboll__97f3e0e6",
@@ -111,7 +119,9 @@
         "src_as_position_evidence"
       ]
     },
-    "dataNotes": []
+    "dataNotes": [],
+    "defaultSquadStatus": "SQUAD_PLAYER",
+    "specialTags": []
   },
   {
     "rosterEntryId": "se_2026_27_allsvenskan_tyreso_handboll__efeb44b7",
@@ -141,7 +151,9 @@
     },
     "dataNotes": [
       "HM-DATA-ALLSVENSKAN-1.1: broad role (goalkeeper/wing/back-court/pivot) is real, sourced evidence from the club's own current roster page; the specific left/centre/right side was not published there and was deterministically assigned."
-    ]
+    ],
+    "defaultSquadStatus": "SQUAD_PLAYER",
+    "specialTags": []
   },
   {
     "rosterEntryId": "se_2026_27_allsvenskan_tyreso_handboll__33464c91",
@@ -169,7 +181,9 @@
         "src_as_position_evidence"
       ]
     },
-    "dataNotes": []
+    "dataNotes": [],
+    "defaultSquadStatus": "SQUAD_PLAYER",
+    "specialTags": []
   },
   {
     "rosterEntryId": "se_2026_27_allsvenskan_tyreso_handboll__32dc9ce4",
@@ -199,7 +213,9 @@
     },
     "dataNotes": [
       "HM-DATA-ALLSVENSKAN-1.1: broad role (goalkeeper/wing/back-court/pivot) is real, sourced evidence from the club's own current roster page; the specific left/centre/right side was not published there and was deterministically assigned."
-    ]
+    ],
+    "defaultSquadStatus": "ROTATION",
+    "specialTags": []
   },
   {
     "rosterEntryId": "se_2026_27_allsvenskan_tyreso_handboll__32de08b9",
@@ -210,7 +226,7 @@
     "snapshotDate": "2026-08-27",
     "shirtNumber": 11,
     "sourcePosition": "V9",
-    "primaryPosition": "V9",
+    "primaryPosition": "H9",
     "secondaryPositions": [],
     "rosterStatus": "CONFIRMED",
     "contract": {
@@ -229,7 +245,9 @@
     },
     "dataNotes": [
       "HM-DATA-ALLSVENSKAN-1.1: broad role (goalkeeper/wing/back-court/pivot) is real, sourced evidence from the club's own current roster page; the specific left/centre/right side was not published there and was deterministically assigned."
-    ]
+    ],
+    "defaultSquadStatus": "KEY_PLAYER",
+    "specialTags": []
   },
   {
     "rosterEntryId": "se_2026_27_allsvenskan_tyreso_handboll__5a5396bd",
@@ -257,7 +275,11 @@
         "src_as_position_evidence"
       ]
     },
-    "dataNotes": []
+    "dataNotes": [],
+    "defaultSquadStatus": "SQUAD_PLAYER",
+    "specialTags": [
+      "BACKUP_GOALKEEPER"
+    ]
   },
   {
     "rosterEntryId": "se_2026_27_allsvenskan_tyreso_handboll__246e9de6",
@@ -268,7 +290,7 @@
     "snapshotDate": "2026-08-27",
     "shirtNumber": 14,
     "sourcePosition": "H9",
-    "primaryPosition": "H9",
+    "primaryPosition": "M9",
     "secondaryPositions": [],
     "rosterStatus": "CONFIRMED",
     "contract": {
@@ -287,7 +309,9 @@
     },
     "dataNotes": [
       "HM-DATA-ALLSVENSKAN-1.1: broad role (goalkeeper/wing/back-court/pivot) is real, sourced evidence from the club's own current roster page; the specific left/centre/right side was not published there and was deterministically assigned."
-    ]
+    ],
+    "defaultSquadStatus": "ROTATION",
+    "specialTags": []
   },
   {
     "rosterEntryId": "se_2026_27_allsvenskan_tyreso_handboll__442607e4",
@@ -317,7 +341,9 @@
     },
     "dataNotes": [
       "HM-DATA-ALLSVENSKAN-1.1: broad role (goalkeeper/wing/back-court/pivot) is real, sourced evidence from the club's own current roster page; the specific left/centre/right side was not published there and was deterministically assigned."
-    ]
+    ],
+    "defaultSquadStatus": "SQUAD_PLAYER",
+    "specialTags": []
   },
   {
     "rosterEntryId": "se_2026_27_allsvenskan_tyreso_handboll__94b2022a",
@@ -328,7 +354,7 @@
     "snapshotDate": "2026-08-27",
     "shirtNumber": 19,
     "sourcePosition": "M9",
-    "primaryPosition": "M9",
+    "primaryPosition": "H9",
     "secondaryPositions": [],
     "rosterStatus": "CONFIRMED",
     "contract": {
@@ -347,7 +373,9 @@
     },
     "dataNotes": [
       "HM-DATA-ALLSVENSKAN-1.1: broad role (goalkeeper/wing/back-court/pivot) is real, sourced evidence from the club's own current roster page; the specific left/centre/right side was not published there and was deterministically assigned."
-    ]
+    ],
+    "defaultSquadStatus": "ROTATION",
+    "specialTags": []
   },
   {
     "rosterEntryId": "se_2026_27_allsvenskan_tyreso_handboll__5cdc48de",
@@ -358,7 +386,7 @@
     "snapshotDate": "2026-08-27",
     "shirtNumber": 20,
     "sourcePosition": "M9",
-    "primaryPosition": "M9",
+    "primaryPosition": "H6",
     "secondaryPositions": [],
     "rosterStatus": "CONFIRMED",
     "contract": {
@@ -377,7 +405,9 @@
     },
     "dataNotes": [
       "HM-DATA-ALLSVENSKAN-1.1: broad role (goalkeeper/wing/back-court/pivot) is real, sourced evidence from the club's own current roster page; the specific left/centre/right side was not published there and was deterministically assigned."
-    ]
+    ],
+    "defaultSquadStatus": "TALENT",
+    "specialTags": []
   },
   {
     "rosterEntryId": "se_2026_27_allsvenskan_tyreso_handboll__18c9943d",
@@ -407,6 +437,10 @@
     },
     "dataNotes": [
       "HM-DATA-ALLSVENSKAN-1.1: broad role (goalkeeper/wing/back-court/pivot) is real, sourced evidence from the club's own current roster page; the specific left/centre/right side was not published there and was deterministically assigned."
+    ],
+    "defaultSquadStatus": "KEY_PLAYER",
+    "specialTags": [
+      "SEVEN_VS_SIX_IMPORTANT"
     ]
   },
   {
@@ -435,7 +469,11 @@
         "src_as_position_evidence"
       ]
     },
-    "dataNotes": []
+    "dataNotes": [],
+    "defaultSquadStatus": "KEY_PLAYER",
+    "specialTags": [
+      "SEVEN_METER_TAKER"
+    ]
   },
   {
     "rosterEntryId": "se_2026_27_allsvenskan_tyreso_handboll__8d02e65e",
@@ -446,7 +484,7 @@
     "snapshotDate": "2026-08-27",
     "shirtNumber": 27,
     "sourcePosition": "H9",
-    "primaryPosition": "H9",
+    "primaryPosition": "V9",
     "secondaryPositions": [],
     "rosterStatus": "CONFIRMED",
     "contract": {
@@ -465,7 +503,9 @@
     },
     "dataNotes": [
       "HM-DATA-ALLSVENSKAN-1.1: broad role (goalkeeper/wing/back-court/pivot) is real, sourced evidence from the club's own current roster page; the specific left/centre/right side was not published there and was deterministically assigned."
-    ]
+    ],
+    "defaultSquadStatus": "ROTATION",
+    "specialTags": []
   },
   {
     "rosterEntryId": "se_2026_27_allsvenskan_tyreso_handboll__d00937cd",
@@ -493,7 +533,11 @@
         "src_as_position_evidence"
       ]
     },
-    "dataNotes": []
+    "dataNotes": [],
+    "defaultSquadStatus": "SQUAD_PLAYER",
+    "specialTags": [
+      "DEFENCE_SPECIALIST"
+    ]
   },
   {
     "rosterEntryId": "se_2026_27_allsvenskan_tyreso_handboll__e24f41d0",
@@ -521,7 +565,9 @@
     },
     "dataNotes": [
       "HM-DATA-ALLSVENSKAN-1.1: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
-    ]
+    ],
+    "defaultSquadStatus": "FIRST_CHOICE",
+    "specialTags": []
   },
   {
     "rosterEntryId": "se_2026_27_allsvenskan_tyreso_handboll__e207c1b2",
@@ -549,7 +595,9 @@
         "src_as_position_evidence"
       ]
     },
-    "dataNotes": []
+    "dataNotes": [],
+    "defaultSquadStatus": "SQUAD_PLAYER",
+    "specialTags": []
   },
   {
     "rosterEntryId": "se_2026_27_allsvenskan_tyreso_handboll__a3450b2b",
@@ -560,7 +608,7 @@
     "snapshotDate": "2026-08-27",
     "shirtNumber": 36,
     "sourcePosition": "H9",
-    "primaryPosition": "H9",
+    "primaryPosition": "H6",
     "secondaryPositions": [],
     "rosterStatus": "CONFIRMED",
     "contract": {
@@ -579,6 +627,8 @@
     },
     "dataNotes": [
       "HM-DATA-ALLSVENSKAN-1.1: broad role (goalkeeper/wing/back-court/pivot) is real, sourced evidence from the club's own current roster page; the specific left/centre/right side was not published there and was deterministically assigned."
-    ]
+    ],
+    "defaultSquadStatus": "KEY_PLAYER",
+    "specialTags": []
   }
 ]

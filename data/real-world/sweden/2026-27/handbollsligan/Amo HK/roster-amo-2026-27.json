@@ -151,7 +151,9 @@
       "contract": [
         "src_amo_christiansen_20260502"
       ]
-    }
+    },
+    "defaultSquadStatus": "KEY_PLAYER",
+    "specialTags": []
   },
   {
     "rosterEntryId": "se_2026_27_handbollsligan_amo_7ce5d872",
@@ -180,7 +182,11 @@
         "src_hbl_amo_20260817",
         "src_hbl_amo_guide_20260609"
       ]
-    }
+    },
+    "defaultSquadStatus": "KEY_PLAYER",
+    "specialTags": [
+      "DEFENCE_SPECIALIST"
+    ]
   },
   {
     "rosterEntryId": "se_2026_27_handbollsligan_amo_b75e2dc7",
@@ -423,7 +429,11 @@
         "src_hbl_amo_20260817",
         "src_hbl_amo_guide_20260609"
       ]
-    }
+    },
+    "defaultSquadStatus": "KEY_PLAYER",
+    "specialTags": [
+      "ATTACK_SPECIALIST"
+    ]
   },
   {
     "rosterEntryId": "se_2026_27_handbollsligan_amo_80b9537d",
@@ -452,7 +462,9 @@
         "src_hbl_amo_20260817",
         "src_hbl_amo_guide_20260609"
       ]
-    }
+    },
+    "defaultSquadStatus": "KEY_PLAYER",
+    "specialTags": []
   },
   {
     "rosterEntryId": "se_2026_27_handbollsligan_amo_fa89e12c",

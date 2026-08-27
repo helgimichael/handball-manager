@@ -25,7 +25,11 @@
         "src_as_position_evidence"
       ]
     },
-    "dataNotes": []
+    "dataNotes": [],
+    "defaultSquadStatus": "SQUAD_PLAYER",
+    "specialTags": [
+      "BACKUP_GOALKEEPER"
+    ]
   },
   {
     "rosterEntryId": "se_2026_27_allsvenskan_huddinge_hk__db9da7ed",
@@ -55,7 +59,9 @@
     },
     "dataNotes": [
       "HM-DATA-ALLSVENSKAN-1.1: broad role (goalkeeper/wing/back-court/pivot) is real, sourced evidence from the club's own current roster page; the specific left/centre/right side was not published there and was deterministically assigned."
-    ]
+    ],
+    "defaultSquadStatus": "FIRST_CHOICE",
+    "specialTags": []
   },
   {
     "rosterEntryId": "se_2026_27_allsvenskan_huddinge_hk__7b931abd",
@@ -96,7 +102,7 @@
     "snapshotDate": "2026-08-27",
     "shirtNumber": 7,
     "sourcePosition": "",
-    "primaryPosition": "H6",
+    "primaryPosition": "M9",
     "secondaryPositions": [],
     "rosterStatus": "CONFIRMED",
     "contract": {
@@ -113,6 +119,10 @@
     },
     "dataNotes": [
       "HM-DATA-ALLSVENSKAN-1.1: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+    ],
+    "defaultSquadStatus": "SQUAD_PLAYER",
+    "specialTags": [
+      "DEFENCE_SPECIALIST"
     ]
   },
   {
@@ -143,7 +153,9 @@
     },
     "dataNotes": [
       "HM-DATA-ALLSVENSKAN-1.1: broad role (goalkeeper/wing/back-court/pivot) is real, sourced evidence from the club's own current roster page; the specific left/centre/right side was not published there and was deterministically assigned."
-    ]
+    ],
+    "defaultSquadStatus": "KEY_PLAYER",
+    "specialTags": []
   },
   {
     "rosterEntryId": "se_2026_27_allsvenskan_huddinge_hk__a53048b4",
@@ -154,7 +166,7 @@
     "snapshotDate": "2026-08-27",
     "shirtNumber": 9,
     "sourcePosition": "H9",
-    "primaryPosition": "H9",
+    "primaryPosition": "V9",
     "secondaryPositions": [],
     "rosterStatus": "CONFIRMED",
     "contract": {
@@ -173,7 +185,9 @@
     },
     "dataNotes": [
       "HM-DATA-ALLSVENSKAN-1.1: broad role (goalkeeper/wing/back-court/pivot) is real, sourced evidence from the club's own current roster page; the specific left/centre/right side was not published there and was deterministically assigned."
-    ]
+    ],
+    "defaultSquadStatus": "ROTATION",
+    "specialTags": []
   },
   {
     "rosterEntryId": "se_2026_27_allsvenskan_huddinge_hk__80f86d54",
@@ -201,7 +215,9 @@
         "src_as_position_evidence"
       ]
     },
-    "dataNotes": []
+    "dataNotes": [],
+    "defaultSquadStatus": "ROTATION",
+    "specialTags": []
   },
   {
     "rosterEntryId": "se_2026_27_allsvenskan_huddinge_hk__9faf186d",
@@ -287,7 +303,9 @@
     },
     "dataNotes": [
       "HM-DATA-ALLSVENSKAN-1.1: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
-    ]
+    ],
+    "defaultSquadStatus": "SQUAD_PLAYER",
+    "specialTags": []
   },
   {
     "rosterEntryId": "se_2026_27_allsvenskan_huddinge_hk__3b1f68d9",
@@ -315,7 +333,11 @@
         "src_as_position_evidence"
       ]
     },
-    "dataNotes": []
+    "dataNotes": [],
+    "defaultSquadStatus": "KEY_PLAYER",
+    "specialTags": [
+      "FIRST_GOALKEEPER"
+    ]
   },
   {
     "rosterEntryId": "se_2026_27_allsvenskan_huddinge_hk__46c9b577",
@@ -326,7 +348,7 @@
     "snapshotDate": "2026-08-27",
     "shirtNumber": 17,
     "sourcePosition": "",
-    "primaryPosition": "M9",
+    "primaryPosition": "H6",
     "secondaryPositions": [],
     "rosterStatus": "CONFIRMED",
     "contract": {
@@ -343,7 +365,9 @@
     },
     "dataNotes": [
       "HM-DATA-ALLSVENSKAN-1.1: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
-    ]
+    ],
+    "defaultSquadStatus": "SQUAD_PLAYER",
+    "specialTags": []
   },
   {
     "rosterEntryId": "se_2026_27_allsvenskan_huddinge_hk__ecbbbb4c",
@@ -353,6 +377,36 @@
     "season": "2026/27",
     "snapshotDate": "2026-08-27",
     "shirtNumber": 18,
+    "sourcePosition": "",
+    "primaryPosition": "H9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "UNKNOWN",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": []
+    },
+    "dataNotes": [
+      "HM-DATA-ALLSVENSKAN-1.1: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+    ],
+    "defaultSquadStatus": "ROTATION",
+    "specialTags": []
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_huddinge_hk__fe7da30a",
+    "playerId": "se_player_adam_berg_fe7da30a",
+    "clubId": "swe2-huddinge",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 19,
     "sourcePosition": "",
     "primaryPosition": "M6",
     "secondaryPositions": [],
@@ -371,35 +425,9 @@
     },
     "dataNotes": [
       "HM-DATA-ALLSVENSKAN-1.1: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
-    ]
-  },
-  {
-    "rosterEntryId": "se_2026_27_allsvenskan_huddinge_hk__fe7da30a",
-    "playerId": "se_player_adam_berg_fe7da30a",
-    "clubId": "swe2-huddinge",
-    "competitionId": "swe-2",
-    "season": "2026/27",
-    "snapshotDate": "2026-08-27",
-    "shirtNumber": 19,
-    "sourcePosition": "",
-    "primaryPosition": "MV",
-    "secondaryPositions": [],
-    "rosterStatus": "CONFIRMED",
-    "contract": {
-      "untilDate": null,
-      "untilSeason": null,
-      "optionUntilSeason": null
-    },
-    "rosterConfidence": "UNKNOWN",
-    "sourceRefs": {
-      "roster": [
-        "src_as_v5_qa_spreadsheet"
-      ],
-      "position": []
-    },
-    "dataNotes": [
-      "HM-DATA-ALLSVENSKAN-1.1: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
-    ]
+    ],
+    "defaultSquadStatus": "ROTATION",
+    "specialTags": []
   },
   {
     "rosterEntryId": "se_2026_27_allsvenskan_huddinge_hk__19d20e27",
@@ -487,7 +515,9 @@
     },
     "dataNotes": [
       "HM-DATA-ALLSVENSKAN-1.1: broad role (goalkeeper/wing/back-court/pivot) is real, sourced evidence from the club's own current roster page; the specific left/centre/right side was not published there and was deterministically assigned."
-    ]
+    ],
+    "defaultSquadStatus": "ROTATION",
+    "specialTags": []
   },
   {
     "rosterEntryId": "se_2026_27_allsvenskan_huddinge_hk__c333aa59",
@@ -515,7 +545,9 @@
     },
     "dataNotes": [
       "HM-DATA-ALLSVENSKAN-1.1: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
-    ]
+    ],
+    "defaultSquadStatus": "SQUAD_PLAYER",
+    "specialTags": []
   },
   {
     "rosterEntryId": "se_2026_27_allsvenskan_huddinge_hk__74fec626",
@@ -526,7 +558,7 @@
     "snapshotDate": "2026-08-27",
     "shirtNumber": 24,
     "sourcePosition": "V9",
-    "primaryPosition": "V9",
+    "primaryPosition": "M9",
     "secondaryPositions": [],
     "rosterStatus": "CONFIRMED",
     "contract": {
@@ -545,7 +577,9 @@
     },
     "dataNotes": [
       "HM-DATA-ALLSVENSKAN-1.1: broad role (goalkeeper/wing/back-court/pivot) is real, sourced evidence from the club's own current roster page; the specific left/centre/right side was not published there and was deterministically assigned."
-    ]
+    ],
+    "defaultSquadStatus": "FIRST_CHOICE",
+    "specialTags": []
   },
   {
     "rosterEntryId": "se_2026_27_allsvenskan_huddinge_hk__3ae89600",
@@ -603,7 +637,11 @@
         "src_as_position_evidence"
       ]
     },
-    "dataNotes": []
+    "dataNotes": [],
+    "defaultSquadStatus": "ROTATION",
+    "specialTags": [
+      "BACKUP_GOALKEEPER"
+    ]
   },
   {
     "rosterEntryId": "se_2026_27_allsvenskan_huddinge_hk__96e4393f",
@@ -614,7 +652,7 @@
     "snapshotDate": "2026-08-27",
     "shirtNumber": 30,
     "sourcePosition": "V9",
-    "primaryPosition": "V9",
+    "primaryPosition": "H9",
     "secondaryPositions": [],
     "rosterStatus": "CONFIRMED",
     "contract": {
@@ -633,7 +671,9 @@
     },
     "dataNotes": [
       "HM-DATA-ALLSVENSKAN-1.1: broad role (goalkeeper/wing/back-court/pivot) is real, sourced evidence from the club's own current roster page; the specific left/centre/right side was not published there and was deterministically assigned."
-    ]
+    ],
+    "defaultSquadStatus": "TALENT",
+    "specialTags": []
   },
   {
     "rosterEntryId": "se_2026_27_allsvenskan_huddinge_hk__fab42d20",
@@ -730,7 +770,7 @@
     "snapshotDate": "2026-08-27",
     "shirtNumber": 47,
     "sourcePosition": "H9",
-    "primaryPosition": "H9",
+    "primaryPosition": "M9",
     "secondaryPositions": [],
     "rosterStatus": "CONFIRMED",
     "contract": {
@@ -749,6 +789,8 @@
     },
     "dataNotes": [
       "HM-DATA-ALLSVENSKAN-1.1: broad role (goalkeeper/wing/back-court/pivot) is real, sourced evidence from the club's own current roster page; the specific left/centre/right side was not published there and was deterministically assigned."
-    ]
+    ],
+    "defaultSquadStatus": "ROTATION",
+    "specialTags": []
   }
 ]

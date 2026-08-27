@@ -51,7 +51,9 @@
       "position": [
         "src_hbl_savehof_20260704"
       ]
-    }
+    },
+    "defaultSquadStatus": null,
+    "specialTags": []
   },
   {
     "rosterEntryId": "se_2026_27_handbollsligan_savehof_d88e8bce",
@@ -78,7 +80,11 @@
       "position": [
         "src_hbl_savehof_20260704"
       ]
-    }
+    },
+    "defaultSquadStatus": "KEY_PLAYER",
+    "specialTags": [
+      "FIRST_GOALKEEPER"
+    ]
   },
   {
     "rosterEntryId": "se_2026_27_handbollsligan_savehof_5f69efd4",
@@ -108,7 +114,9 @@
       "contract": [
         "src_savehof_spante_20260320"
       ]
-    }
+    },
+    "defaultSquadStatus": "FIRST_CHOICE",
+    "specialTags": []
   },
   {
     "rosterEntryId": "se_2026_27_handbollsligan_savehof_58afba2c",
@@ -168,7 +176,9 @@
       "contract": [
         "src_savehof_trommler_20260330"
       ]
-    }
+    },
+    "defaultSquadStatus": "ROTATION",
+    "specialTags": []
   },
   {
     "rosterEntryId": "se_2026_27_handbollsligan_savehof_3266e92e",
@@ -195,7 +205,9 @@
       "position": [
         "src_hbl_savehof_20260704"
       ]
-    }
+    },
+    "defaultSquadStatus": "KEY_PLAYER",
+    "specialTags": []
   },
   {
     "rosterEntryId": "se_2026_27_handbollsligan_savehof_adb9dc92",
@@ -276,7 +288,9 @@
       "position": [
         "src_hbl_savehof_20260704"
       ]
-    }
+    },
+    "defaultSquadStatus": "FIRST_CHOICE",
+    "specialTags": []
   },
   {
     "rosterEntryId": "se_2026_27_handbollsligan_savehof_b9ba22bc",
@@ -303,7 +317,9 @@
       "position": [
         "src_hbl_savehof_20260704"
       ]
-    }
+    },
+    "defaultSquadStatus": "ROTATION",
+    "specialTags": []
   },
   {
     "rosterEntryId": "se_2026_27_handbollsligan_savehof_107f13a1",
@@ -330,7 +346,11 @@
       "position": [
         "src_hbl_savehof_20260704"
       ]
-    }
+    },
+    "defaultSquadStatus": "KEY_PLAYER",
+    "specialTags": [
+      "DEFENCE_SPECIALIST"
+    ]
   },
   {
     "rosterEntryId": "se_2026_27_handbollsligan_savehof_457b09a1",
@@ -384,7 +404,9 @@
       "position": [
         "src_hbl_savehof_20260704"
       ]
-    }
+    },
+    "defaultSquadStatus": "FIRST_CHOICE",
+    "specialTags": []
   },
   {
     "rosterEntryId": "se_2026_27_handbollsligan_savehof_24cca1d0",
@@ -411,7 +433,9 @@
       "position": [
         "src_hbl_savehof_20260704"
       ]
-    }
+    },
+    "defaultSquadStatus": "KEY_PLAYER",
+    "specialTags": []
   },
   {
     "rosterEntryId": "se_2026_27_handbollsligan_savehof_9f70775b",
@@ -465,7 +489,9 @@
       "position": [
         "src_hbl_savehof_20260704"
       ]
-    }
+    },
+    "defaultSquadStatus": "KEY_PLAYER",
+    "specialTags": []
   },
   {
     "rosterEntryId": "se_2026_27_handbollsligan_savehof_017a0c66",
