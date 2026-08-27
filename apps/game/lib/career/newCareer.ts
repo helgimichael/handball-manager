@@ -13,8 +13,10 @@ import type { StaffEmployment } from "../staff/types";
 import { ensureCareerGameplayRatings } from "./careerRatingNormalization";
 import { computeCareerStartDate, generateProvisionalCupRound, resolveLeagueKickoffDate, type PreseasonStartOption } from "./preseason";
 import { ensureCareerPlayerContracts } from "../economy/contractIntegration";
+import { generateContractEndDate } from "../economy/contractGeneration";
 import { ensureCareerPlayerClubHistory } from "../economy/clubHistoryIntegration";
 import { ensureCareerAllClubEconomies } from "../economy/clubEconomyIntegration";
+import { ensureCareerPlayerSquadStatus } from "./squadStatus";
 
 const FALLBACK_COMPETITION_ID = "swe-2"; // used only if playerClubId doesn't resolve to a known club
 
@@ -110,18 +112,34 @@ export function createNewCareerState(
 
   const playerSquad: readonly PlayerMock[] = worldSquads[playerClubId] ?? TUMBA_SQUAD;
 
-  // HM-STAFF-1.0 Part 15/19: resolved once, at creation, exactly like
-  // worldSquads/gameplayRatings -- HISTORICAL/expired assignments are
-  // filtered out first (same "never treat a stale assignment as current"
-  // rule app/career/staff/page.tsx already applies), then essential-role
-  // gaps are always filled with generated fictional staff, regardless of
-  // whether any real identity data exists for this club at all.
+  // HM-STAFF-1.0 Part 15/19, HM-DATA-ALLSVENSKAN-1.1B Part 4: resolved
+  // once, at creation, exactly like worldSquads/gameplayRatings --
+  // HISTORICAL/expired assignments are filtered out first (same "never
+  // treat a stale assignment as current" rule app/career/staff/page.tsx
+  // already applies). Essential-role gaps are filled with generated
+  // fictional staff ONLY for a club whose world/data model is itself
+  // GENERATED/MOCK (dataSource !== "REAL_WORLD") -- a real club's
+  // genuine staffing gap stays genuine (UNKNOWN STAFF != GENERATED PERSON).
   const currentStaffIdentity: RawClubStaffIdentityLike | null = staffIdentity
     ? { people: staffIdentity.people, assignments: selectCurrentStaffAssignments(staffIdentity.assignments, GAME_CURRENT_DATE) }
     : null;
-  const staffRoster = resolveClubStaffRoster(playerClubId, currentStaffIdentity);
+  const isRealWorldClub = playerClub?.dataSource === "REAL_WORLD";
+  const staffRoster = resolveClubStaffRoster(playerClubId, currentStaffIdentity, isRealWorldClub);
+  const staffContractFallbackYear = Number(careerStartDate.slice(0, 4)) + 2;
   const staffEmployment: Record<string, StaffEmployment> = Object.fromEntries(
-    staffRoster.map((m) => [m.id, { staffId: m.id, clubId: m.clubId, roles: m.roles, status: "EMPLOYED" as const }]),
+    staffRoster.map((m) => [
+      m.id,
+      {
+        staffId: m.id,
+        clubId: m.clubId,
+        roles: m.roles,
+        employmentType: m.employmentType,
+        // HM-DATA-ALLSVENSKAN-1.1B Part 1/6: same Swedish 1 June -> 31 May
+        // contract-year rule as player contracts, only for SALARIED staff --
+        // a VOLUNTARY/GOVERNANCE person has no employment contract at all.
+        ...(m.employmentType === "SALARIED" ? { contractEndDate: generateContractEndDate(m.id, "", staffContractFallbackYear) } : {}),
+      } satisfies StaffEmployment,
+    ]),
   );
 
   const base: CareerState = {
@@ -168,6 +186,9 @@ export function createNewCareerState(
     clubEconomies: {},
     transferOffers: {},
     loans: {},
+    playerSquadStatus: {},
+    clubKnowledge: {},
+    playerKnowledge: {},
   };
 
   // HM-RATINGS-CAREER-1.0 Part 2/4/15/16: every roster player in the
@@ -194,5 +215,10 @@ export function createNewCareerState(
   // career world ska få en persistent ekonomisk baseline"). Internally
   // also ensures ratings/contracts exist for every OTHER club's squad
   // too, so their own player-wage-cost derivation has real data.
-  return ensureCareerAllClubEconomies(withClubHistory);
+  const withEconomies = ensureCareerAllClubEconomies(withClubHistory);
+  // HM-DATA-ALLSVENSKAN-1.1B Part 3: seeds the manager's own club's
+  // persistent squad-status tier from career start -- see squadStatus.ts's
+  // own doc for why this is a real, honest starting default, never a
+  // researched assessment.
+  return ensureCareerPlayerSquadStatus(withEconomies, playerClubId, playerSquad);
 }

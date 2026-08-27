@@ -7,10 +7,17 @@ import { createNewCareerState } from "./newCareer";
 import { migrateCareerState } from "./saveMigration";
 import { getClubsByCompetition, TUMBA_CLUB_ID } from "../game-data";
 import { ensureCareerAllClubEconomies, ensureCareerClubEconomy, getClubBudgets, getClubEconomyBaseline, getClubEconomySnapshot, getClubFinancialHealth, getClubPlayerWageCostsEurAnnual, getClubStaffCostsEurAnnual } from "../economy/clubEconomyIntegration";
+import { snapshotClubStaff } from "../gameWorld/staffIdentitySnapshot";
 import type { CareerState } from "./types";
 
 function freshTumba(seed: string): CareerState {
   return createNewCareerState(seed, TUMBA_CLUB_ID);
+}
+
+/** HM-DATA-ALLSVENSKAN-1.1B: IFK Tumba is a REAL_WORLD club, so its staffRoster is only ever populated from real fetched identity data (never generated filler) -- tests that need Tumba to actually HAVE staff must inject the real snapshot, exactly like CareerContext.tsx's own fetchStaffIdentity does server-side. */
+function freshTumbaWithStaff(seed: string): CareerState {
+  const snap = snapshotClubStaff(TUMBA_CLUB_ID);
+  return createNewCareerState(seed, TUMBA_CLUB_ID, {}, {}, {}, snap);
 }
 
 // (1) every career club gets a persistent economic baseline.
@@ -75,11 +82,17 @@ test("(5) the manager's own club's playerWageCostsEurAnnual is the real sum of i
 });
 
 // (6) staff costs are derived from the real staff roster.
-test("(6) staffCostsEurAnnual is 0 for a club with no staffRoster entry, positive for the manager's own staffed club", () => {
-  const state = freshTumba("economy-6");
+test("(6) staffCostsEurAnnual is 0 for a club with no staffRoster entry, positive for the manager's own staffed club (real staff identity injected)", () => {
+  const state = freshTumbaWithStaff("economy-6");
   const otherClubId = getClubsByCompetition(state.competitionId).map((c) => c.id).find((id) => id !== TUMBA_CLUB_ID)!;
   assert.equal(getClubStaffCostsEurAnnual(state, otherClubId), 0);
   assert.ok(getClubStaffCostsEurAnnual(state, TUMBA_CLUB_ID) > 0);
+});
+
+// HM-DATA-ALLSVENSKAN-1.1B Part 4: the core regression guard at the economy layer -- a REAL_WORLD club with no fetched staff identity has ZERO staff cost, never a generated-filler cost.
+test("(6b) a REAL_WORLD club (IFK Tumba) with NO fetched staff identity has staffCostsEurAnnual of exactly 0 -- never generated filler cost", () => {
+  const state = freshTumba("economy-6b");
+  assert.equal(getClubStaffCostsEurAnnual(state, TUMBA_CLUB_ID), 0);
 });
 
 // (7) financial health is derived, not random -- deterministic given the same state.

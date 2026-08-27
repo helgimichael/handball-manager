@@ -96,7 +96,7 @@ export default function TransfersPage() {
           />
         </div>
         <div className="hm-panel-body" style={{ display: "flex", gap: 6, flexWrap: "wrap", paddingTop: 0 }}>
-          {(["ALL", "MV", "V9", "V6", "M9", "M6", "H9", "H6", "PV"] as const).map((p) => (
+          {(["ALL", "MV", "V9", "V6", "M9", "M6", "H9", "H6"] as const).map((p) => (
             <button
               key={p}
               type="button"

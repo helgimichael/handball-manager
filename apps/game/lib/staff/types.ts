@@ -1,4 +1,5 @@
 // HM-STAFF-1.0: Staff Roles, Attributes & Training Influence.
+import type { HMStaffRole } from "../identity/types";
 //
 // This module is a NEW, separate NUMERIC layer alongside lib/identity's
 // existing qualitative Club/Coach/Team Identity schema (StaffPerson/
@@ -92,15 +93,35 @@ export interface StaffAttributeProfile {
  * -- never presented to the player as if a generated person were real
  * (Part 19: "do not fabricate them as real people").
  */
+/**
+ * HM-DATA-ALLSVENSKAN-1.1B Part 6: not every real staff person is an
+ * employed, salaried club worker -- a board/committee member has no
+ * ordinary employment contract at all, and several real clubs'
+ * identity data explicitly documents a role as unpaid (e.g. Kungälv's
+ * sportingDirectorResourcing claim: "ZERO_COST_NON_SALARIED_FIRST_ROLE").
+ * - SALARIED: a coaching/medical/analyst function -- costed by
+ *   staffCost.ts, carries a derived contractEndDate (see StaffEmployment).
+ * - VOLUNTARY: a real administrative/team-support title (Lagledare,
+ *   Materialansvarig, Sportchef with no explicit salary evidence, ...)
+ *   with no gameplay StaffRole mapping and no wage/contract.
+ * - GOVERNANCE: club leadership/ownership (Ordförande, styrelse, a
+ *   collective "Sportkommitté" body) -- never treated as ordinary
+ *   coaching staff, never costed as staff, never given a contract.
+ * GENERATED_FICTIONAL members are always SALARIED -- they only ever
+ * exist to cover a genuine, costed gameplay-role gap (see ESSENTIAL_ROLES).
+ */
+export const STAFF_EMPLOYMENT_TYPES = ["SALARIED", "VOLUNTARY", "GOVERNANCE"] as const;
+export type StaffEmploymentType = (typeof STAFF_EMPLOYMENT_TYPES)[number];
+
 export interface ResolvedStaffMember {
   id: string;
   clubId: string;
   displayName: string;
   roles: StaffRole[];
   /**
-   * HM-DATA-ALLSVENSKAN-1.2: the person's real, free-text official title
-   * from source identity data (e.g. "Sportchef", "Lagledare"), for a
-   * REAL_WORLD_IDENTITY member whose title has no gameplay-relevant
+   * HM-DATA-ALLSVENSKAN-1.2/1.1B: the person's real, free-text official
+   * title from source identity data (e.g. "Sportchef", "Lagledare"), for
+   * a REAL_WORLD_IDENTITY member whose title has no gameplay-relevant
    * StaffRole mapping (`roles` is then `[]`) -- a real, canonical staff
    * person must never be silently dropped from the roster just because
    * this milestone's narrow training-role vocabulary has no slot for
@@ -110,21 +131,36 @@ export interface ResolvedStaffMember {
    * gap, never a governance/administrative title).
    */
   officialRoleLabel?: string;
+  /**
+   * HM-DATA-ALLSVENSKAN-1.1B Part 5: the ORIGINAL, broad lib/identity
+   * HM_STAFF_ROLES this person actually holds (governance included) --
+   * the source hierarchy-sort/employment-classification input, since the
+   * narrow `roles: StaffRole[]` above deliberately drops governance/
+   * administrative roles entirely. A single synthesized entry (matching
+   * `roles[0]`'s coaching/gameplay function) for a GENERATED_FICTIONAL
+   * member, since they were only ever created to cover one such role.
+   */
+  hmRoles: HMStaffRole[];
+  employmentType: StaffEmploymentType;
   profile: StaffAttributeProfile;
   source: "REAL_WORLD_IDENTITY" | "GENERATED_FICTIONAL";
 }
 
 /**
- * Part 22: the minimal employment-state foundation -- reserved for a
- * future hiring/firing milestone (never mutated by HM-STAFF-1.0 itself;
- * seeded once at career creation, one entry per roster member, and never
- * touched again this milestone). `contract` is a placeholder shape only,
- * never wired to any economy system (Part 39: no salaries/contracts).
+ * Part 22/HM-DATA-ALLSVENSKAN-1.1B Part 6: the employment-state
+ * foundation, now actually wired to the Staff Budget (economy/staffCost.ts)
+ * rather than a placeholder. `contractEndDate` follows the exact same
+ * Swedish 1 June -> 31 May contract-year rule as player contracts
+ * (economy/contractGeneration.ts) -- present ONLY for SALARIED members;
+ * VOLUNTARY/GOVERNANCE members have no employment contract at all, so
+ * the field stays undefined for them (never a fabricated date/wage).
+ * Reserved for a future hiring/firing milestone otherwise -- never
+ * mutated after career creation by this milestone itself.
  */
 export interface StaffEmployment {
   staffId: string;
   clubId: string;
   roles: StaffRole[];
-  status: "EMPLOYED";
-  contract?: { endSeason: string };
+  employmentType: StaffEmploymentType;
+  contractEndDate?: string;
 }

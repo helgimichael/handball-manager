@@ -13,7 +13,7 @@ import { rehabPhaseForProgress } from "./types";
 import type { ResolvedStaffMember } from "../staff/types";
 
 function buildPhysio(id: string, medical: number): ResolvedStaffMember {
-  return { id, clubId: "club-x", displayName: id, roles: ["PHYSIO"], profile: { personId: id, attributes: { MEDICAL: { value: medical, origin: "GENERATED_PRIOR" } } as ResolvedStaffMember["profile"]["attributes"] }, source: "GENERATED_FICTIONAL" };
+  return { id, clubId: "club-x", displayName: id, roles: ["PHYSIO"], hmRoles: ["PHYSIOTHERAPIST"], employmentType: "SALARIED", profile: { personId: id, attributes: { MEDICAL: { value: medical, origin: "GENERATED_PRIOR" } } as ResolvedStaffMember["profile"]["attributes"] }, source: "GENERATED_FICTIONAL" };
 }
 
 function addDaysLocal(date: string, days: number): string {

@@ -74,7 +74,7 @@ export default function ClubPage() {
               <FinanceRow label="Struktur" value={STRUCTURAL_HEALTH_LABEL[economy.health.structuralHealth]} />
             </div>
             <div className="hm-panel-body hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)", paddingTop: 0 }}>
-              Genererad ekonomi ({economy.confidence.toLowerCase()} tillförlitlighet, {economy.calibrationVersion}) — ingen verklig klubbekonomisk data finns källbelagd för svensk handboll i detta projekt ännu.
+              Ekonomiska uppgifter: uppskattade.
               {economy.budgets.wageOverBudget ? " Klubbens nuvarande spelarlöner överstiger den ekonomiskt hållbara lönebudgeten." : ""}
             </div>
           </>

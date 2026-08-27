@@ -26,6 +26,7 @@ import type { CSSProperties } from "react";
 import { GOALKEEPER_ATTRIBUTE_FAMILIES, OUTCOURT_ATTRIBUTE_FAMILIES, type GoalkeeperAttribute, type GoalkeeperAttributeFamily, type OutcourtAttribute, type OutcourtAttributeFamily } from "@/lib/rating/types";
 import { getAttributeFamilyLabel, getAttributeLabel } from "@/lib/rating/attributeVocabulary";
 import { abilityStarsFromCA, potentialStarsFromPA } from "@/lib/development/types";
+import { presentTacticalRole } from "@/lib/rating/presentation";
 import StarRating from "@/components/StarRating";
 
 export type GameplayAttributeOrigin = "EVIDENCE_BACKED" | "DERIVED" | "GENERATED_PRIOR" | "EDITOR_OVERRIDE";
@@ -102,7 +103,7 @@ function RoleRow({ label, roles }: { label: string; roles: { role: string }[] })
   return (
     <div style={{ display: "flex", justifyContent: "space-between", fontSize: "var(--hm-text-xs)" }}>
       <span className="hm-text-muted">{label}</span>
-      <span style={{ fontWeight: 600, textAlign: "right" }}>{roles.length ? roles.map((r) => r.role).join(", ") : "—"}</span>
+      <span style={{ fontWeight: 600, textAlign: "right" }}>{roles.length ? roles.map((r) => presentTacticalRole(r.role)).join(", ") : "—"}</span>
     </div>
   );
 }

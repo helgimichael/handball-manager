@@ -11,7 +11,7 @@ function member(id: string, roles: ResolvedStaffMember["roles"], overrides: Part
   for (const [attr, value] of Object.entries(overrides)) {
     profile.attributes[attr as StaffAttribute] = { value: value!, origin: "GENERATED_PRIOR" };
   }
-  return { id, clubId: "club1", displayName: id, roles, profile, source: "GENERATED_FICTIONAL" };
+  return { id, clubId: "club1", displayName: id, roles, hmRoles: [], employmentType: "SALARIED", profile, source: "GENERATED_FICTIONAL" };
 }
 
 // (1) all canonical staff roles valid.

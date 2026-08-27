@@ -28,7 +28,7 @@ function freshInjury(overrides: Partial<ActiveInjury> = {}): ActiveInjury {
 function buildPhysio(id: string, medical: number, overrides: Partial<Record<StaffAttribute, number>> = {}): ResolvedStaffMember {
   const attributes: Record<string, { value: number; origin: "GENERATED_PRIOR" }> = { MEDICAL: { value: medical, origin: "GENERATED_PRIOR" } };
   for (const [attr, value] of Object.entries(overrides)) attributes[attr] = { value: value!, origin: "GENERATED_PRIOR" };
-  return { id, clubId: "club-x", displayName: id, roles: ["PHYSIO"], profile: { personId: id, attributes: attributes as ResolvedStaffMember["profile"]["attributes"] }, source: "GENERATED_FICTIONAL" };
+  return { id, clubId: "club-x", displayName: id, roles: ["PHYSIO"], hmRoles: ["PHYSIOTHERAPIST"], employmentType: "SALARIED", profile: { personId: id, attributes: attributes as ResolvedStaffMember["profile"]["attributes"] }, source: "GENERATED_FICTIONAL" };
 }
 
 // (26) minor injury recovers faster than major.

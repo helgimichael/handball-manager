@@ -7,7 +7,7 @@ import { createNewCareerState } from "./newCareer";
 import { migrateCareerState } from "./saveMigration";
 import { getCareerClubSquad } from "./careerWorld";
 import { TUMBA_CLUB_ID } from "../game-data";
-import { ensureCareerPlayerContracts, getPlayerContract, getPlayerContractStatus, getPlayerMarketValueEur, recalibratePlayerContractWages } from "../economy/contractIntegration";
+import { ensureCareerPlayerContracts, getPlayerContract, getPlayerContractStatus, getPlayerMarketValueEur, recalibratePlayerContractEndDates, recalibratePlayerContractWages } from "../economy/contractIntegration";
 import type { CareerState } from "./types";
 import type { GameplayPlayerRating } from "../gameWorld/gameplayRatingSnapshot";
 
@@ -207,6 +207,47 @@ test("(14) recalibratePlayerContractWages leaves an unresolvable player's contra
 });
 
 // contract status helper sanity via real career.
+// HM-DATA-ALLSVENSKAN-1.1B: every generated contract lands on Swedish handball's 1 June -> 31 May contract-year logic.
+test("(15) a fresh career's contracts all end on 31 May of some year, never a randomly-spread calendar day", () => {
+  const state = freshTumba("contracts-15");
+  for (const contract of Object.values(state.playerContracts)) {
+    assert.match(contract.contractEndDate, /^\d{4}-05-31$/, `unexpected end date shape: ${contract.contractEndDate}`);
+  }
+});
+
+test("(16) recalibratePlayerContractEndDates on an already-current-formula save is a true no-op (same state reference)", () => {
+  const state = freshTumba("contracts-16");
+  const result = recalibratePlayerContractEndDates(state);
+  assert.equal(result, state);
+});
+
+test("(17) recalibratePlayerContractEndDates corrects a pre-1.1B randomly-spread end date to 31 May of the same end year, leaving wage/clubId untouched", () => {
+  const state = freshTumba("contracts-17");
+  const playerId = getCareerClubSquad(state, TUMBA_CLUB_ID)[0].id;
+  const original = state.playerContracts[playerId];
+  const spread: CareerState = {
+    ...state,
+    playerContracts: { ...state.playerContracts, [playerId]: { ...original, contractEndDate: "2027-08-15" } },
+  };
+  const recalibrated = recalibratePlayerContractEndDates(spread);
+  assert.equal(recalibrated.playerContracts[playerId].contractEndDate, "2027-05-31");
+  assert.equal(recalibrated.playerContracts[playerId].wageEurPerMonth, original.wageEurPerMonth);
+  assert.equal(recalibrated.playerContracts[playerId].clubId, original.clubId);
+});
+
+test("(18) migrateCareerState recalibrates a pre-1.1B randomly-spread end date to 31 May, and is idempotent on a second pass", () => {
+  const state = freshTumba("contracts-18");
+  const playerId = getCareerClubSquad(state, TUMBA_CLUB_ID)[0].id;
+  const spread: CareerState = {
+    ...state,
+    playerContracts: { ...state.playerContracts, [playerId]: { ...state.playerContracts[playerId], contractEndDate: "2028-03-27" } },
+  };
+  const migrated = migrateCareerState(spread);
+  assert.equal(migrated.playerContracts[playerId].contractEndDate, "2028-05-31");
+  const migratedAgain = migrateCareerState(migrated);
+  assert.equal(migratedAgain.playerContracts[playerId].contractEndDate, "2028-05-31");
+});
+
 test("getPlayerContractStatus resolves UNDER_CONTRACT for a freshly-generated career (every contract ends well in the future)", () => {
   const state = freshTumba("contracts-status");
   const playerId = getCareerClubSquad(state, TUMBA_CLUB_ID)[0].id;

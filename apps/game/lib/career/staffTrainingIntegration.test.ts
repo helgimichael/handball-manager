@@ -58,7 +58,7 @@ function buildGoalkeeperRating(playerId: string, ca: number, pa: number): Gamepl
 function buildCoach(id: string, roles: ResolvedStaffMember["roles"], overrides: Partial<Record<StaffAttribute, number>>): ResolvedStaffMember {
   const profile = generateStaffAttributeProfile(id, roles, id);
   for (const [attr, value] of Object.entries(overrides)) profile.attributes[attr as StaffAttribute] = { value: value!, origin: "GENERATED_PRIOR" };
-  return { id, clubId: TUMBA_CLUB_ID, displayName: id, roles, profile, source: "GENERATED_FICTIONAL" };
+  return { id, clubId: TUMBA_CLUB_ID, displayName: id, roles, hmRoles: [], employmentType: "SALARIED", profile, source: "GENERATED_FICTIONAL" };
 }
 
 function freshState(seed: string, ratings: readonly GameplayPlayerRating[], roster: readonly ResolvedStaffMember[]): CareerState {

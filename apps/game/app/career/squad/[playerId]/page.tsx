@@ -20,6 +20,9 @@ import { CONTRACT_STATUS_LABEL, CONTRACT_STATUS_TONE } from "@/lib/economy/label
 import { formatEur } from "@/lib/economy/currency";
 import { getPlayerClubHistory } from "@/lib/economy/clubHistoryIntegration";
 import { getPlayerTrainingCompensation } from "@/lib/economy/trainingCompensationIntegration";
+import { getPlayerKnowledgePct } from "@/lib/knowledge/knowledgeIntegration";
+import { resolvePlayerVisibility } from "@/lib/knowledge/playerVisibility";
+import { KnowledgeGatedAbilityPanel, KnowledgeGatedAttributesPanel } from "@/components/KnowledgeGatedProfilePanels";
 
 // HM-RATINGS-CAREER-1.0 Part 25: every career player (REAL_WORLD, mock or
 // generated) now has exactly one CareerState-resident GameplayPlayerRating
@@ -95,6 +98,14 @@ export default function PlayerProfilePage() {
   const isWonderkid = age !== null && age <= 19 && potentialStars(player) >= 5;
   const club = getClub(player.clubId);
   const hasRatingProfile = Boolean(ratingRow);
+  // HM-DATA-ALLSVENSKAN-1.1B Part 12: TRUE WORLD STATE -> MANAGER
+  // KNOWLEDGE -> PLAYER-FACING VIEW. The manager's own club stays exactly
+  // as before (full stars, full 56/21-attribute grid) -- only an EXTERNAL
+  // player's rating passes through the knowledge-gated resolver, which
+  // never exposes raw CA/PA or the raw 1-20 attribute grid at any tier.
+  const isOwnPlayer = player.clubId === career.playerClubId;
+  const knowledgePct = isOwnPlayer ? 100 : getPlayerKnowledgePct(career, player.id, player.clubId);
+  const knowledgeView = !isOwnPlayer && ratingRow ? resolvePlayerVisibility(ratingRow, knowledgePct) : null;
   const contract = getPlayerContract(career, player.id);
   const contractStatus = getPlayerContractStatus(career, player.id);
   const marketValue = getPlayerMarketValueEur(career, player.id);
@@ -178,11 +189,13 @@ export default function PlayerProfilePage() {
           </div>
         </div>
 
-        {/* Attributes -- HM-RATINGS-0.6 complete gameplay profile where it exists, otherwise the explicitly-marked mock set */}
+        {/* Attributes -- HM-RATINGS-0.6 complete gameplay profile where it exists, otherwise the explicitly-marked mock set. External players NEVER see the raw attribute grid, at any knowledge level (Part 12). */}
         {ratingRow === undefined ? (
           <div className="hm-panel">
             <div className="hm-panel-body hm-text-muted">Läser in spelarbetyg…</div>
           </div>
+        ) : !isOwnPlayer ? (
+          knowledgeView ? <KnowledgeGatedAttributesPanel view={knowledgeView} /> : null
         ) : hasRatingProfile ? (
           <GameplayAttributesPanel row={ratingRow!} />
         ) : (
@@ -224,11 +237,13 @@ export default function PlayerProfilePage() {
       </div>
 
       <div className="hm-grid" style={{ gap: 12 }}>
-        {/* Ability / potential -- HM-RATINGS-0.6 gameplay CA/PA where it exists, otherwise the old star display */}
+        {/* Ability / potential -- HM-RATINGS-0.6 gameplay CA/PA where it exists, otherwise the old star display. External players go through the knowledge-gated resolver (Part 12) -- raw CA/PA never shown, not even at 100% knowledge. */}
         {ratingRow === undefined && player.dataSource === "REAL_WORLD" ? (
           <div className="hm-panel">
             <div className="hm-panel-body hm-text-muted">Läser in spelarbetyg…</div>
           </div>
+        ) : !isOwnPlayer ? (
+          knowledgeView ? <KnowledgeGatedAbilityPanel view={knowledgeView} /> : null
         ) : hasRatingProfile ? (
           <GameplayAbilityPanel row={ratingRow!} />
         ) : (
@@ -314,7 +329,7 @@ export default function PlayerProfilePage() {
                   </div>
                 ))}
                 <p className="hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)", margin: 0 }}>
-                  Separat från marknadsvärde och övergångssumma -- regelmodell {trainingCompensation.ruleSetVersion} (första utgåva, ej officiellt kalibrerad).
+                  Separat från marknadsvärde och övergångssumma. Uppskattat belopp.
                 </p>
               </>
             ) : (

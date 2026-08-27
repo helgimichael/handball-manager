@@ -9,15 +9,16 @@ test("(gen 1) generateContractEndDate is deterministic -- identical inputs alway
   assert.equal(a, b);
 });
 
-test("(gen 2) generateContractEndDate anchors near the season's own end year", () => {
-  const date = generateContractEndDate("p-1", "2027/28", 2027); // "2027/28" -> end year 2028, anchor 2028-06-30 +/- 120 days
-  assert.ok(date >= "2028-03-01" && date <= "2028-10-31", `date=${date}`);
+test("(gen 2) HM-DATA-ALLSVENSKAN-1.1B: generateContractEndDate always lands on 31 May of the season's own end year -- Swedish handball's normal contract-year logic, never a randomly-spread calendar day", () => {
+  const date = generateContractEndDate("p-1", "2027/28", 2027); // "2027/28" -> end year 2028
+  assert.equal(date, "2028-05-31");
 });
 
-test("(gen 3) two players sharing the exact same fallback season hint get DIFFERENT end dates -- never a mass-expiry collision", () => {
+test("(gen 3) HM-DATA-ALLSVENSKAN-1.1B: multiple players sharing the exact same season hint correctly share the exact same 31 May end date -- this is the real, honest Swedish contract-year outcome, not an artifact to hide", () => {
   const dates = ["p-a", "p-b", "p-c", "p-d", "p-e"].map((id) => generateContractEndDate(id, "2026/27", 2027));
   const unique = new Set(dates);
-  assert.ok(unique.size > 1, `all identical: ${JSON.stringify(dates)}`);
+  assert.equal(unique.size, 1);
+  assert.equal(dates[0], "2027-05-31");
 });
 
 test("(gen 4) generateInitialContract produces a well-formed PlayerContract with a positive wage", () => {

@@ -7,11 +7,10 @@
 //
 // `Position` (lib/rating/types.ts) has no separate pivot code -- pivot
 // play is represented via the M6 ("Mittsexa") position plus attack
-// roles like OFFENSIVE_PIVOT, not a 7th position value. The older
-// `HandballPosition` vocabulary's "PV" is therefore mapped onto "M6" --
-// a deliberate, documented, provisional choice (the same kind of
-// one-off rename `mapPrimaryPosition` already makes for "MV" -> "GK"),
-// not a claim that the two concepts are identical.
+// roles like OFFENSIVE_PIVOT, not a separate position value. This
+// already matches `HandballPosition` 1:1 (HM-DATA-ALLSVENSKAN-1.1B Part
+// 10 removed the former "PV" legacy alias -- M6 always was, and now
+// canonically is, the one pivot position).
 import type { HandballPosition, PlayerMock } from "../game-data/types";
 import type { MatchSquad, Position } from "./types";
 import { MATCH_SQUAD_MAX_PLAYERS } from "./types";
@@ -24,7 +23,6 @@ const HANDBALL_POSITION_MAP: Record<HandballPosition, Position> = {
   M6: "M6",
   H9: "H9",
   H6: "H6",
-  PV: "M6",
 };
 
 export function mapHandballPositionToMatchPlanPosition(position: HandballPosition): Position {
@@ -36,7 +34,7 @@ export interface SelectablePlayer {
   fullName: string;
   shirtNumber: number | null;
   position: Position;
-  /** The player's own original HandballPosition label, for display (e.g. "PV" reads as "Pivot" even though it maps onto M6 for MatchPlan purposes). */
+  /** The player's own original HandballPosition label, for display. */
   handballPosition: HandballPosition;
 }
 

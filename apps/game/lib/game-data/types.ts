@@ -44,7 +44,17 @@ export type Club = {
   secondaryColor: string;
 };
 
-export type HandballPosition = "MV" | "V9" | "V6" | "M9" | "M6" | "H9" | "H6" | "PV";
+// HM-DATA-ALLSVENSKAN-1.1B Part 10: "PV" (Pivot) was audited and removed
+// -- it was only ever a legacy alias for the pivot position, never a
+// genuinely distinct canonical position: M6 ("Mittsexa") is, and always
+// was, the real canonical pivot position (the real-world import pipeline
+// -- gameWorld/realWorldLoader.ts's own CANONICAL_POSITIONS, the rating
+// domain's Position type -- has never produced/accepted "PV"; every real
+// pivot player is already coded M6). Keeping an 8th vocabulary value
+// around that no real data or downstream system actually used just
+// confused the normal-mode position filters. See careerSquadBridge.ts's
+// former PV->M6 mapping, now removed as dead code for the same reason.
+export type HandballPosition = "MV" | "V9" | "V6" | "M9" | "M6" | "H9" | "H6";
 
 export type SquadStatus = "Förstaval" | "Rotation" | "Ungdom" | "Skadad" | "Avstängd";
 

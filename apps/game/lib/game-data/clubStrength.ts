@@ -19,8 +19,8 @@ function deriveTumbaStrength(): ClubStrength {
   const avgOutfieldCA = outfield.reduce((sum, p) => sum + p.currentAbility, 0) / outfield.length;
   const avgGkCA = goalkeepers.reduce((sum, p) => sum + p.currentAbility, 0) / goalkeepers.length;
   const attackWeighted =
-    TUMBA_SQUAD.filter((p) => ["V9", "H9", "M9", "PV"].includes(p.position)).reduce((sum, p) => sum + p.currentAbility, 0) /
-    TUMBA_SQUAD.filter((p) => ["V9", "H9", "M9", "PV"].includes(p.position)).length;
+    TUMBA_SQUAD.filter((p) => ["V9", "H9", "M9"].includes(p.position)).reduce((sum, p) => sum + p.currentAbility, 0) /
+    TUMBA_SQUAD.filter((p) => ["V9", "H9", "M9"].includes(p.position)).length;
   const defenseWeighted =
     TUMBA_SQUAD.filter((p) => ["V6", "H6", "M6"].includes(p.position)).reduce((sum, p) => sum + p.currentAbility, 0) /
     TUMBA_SQUAD.filter((p) => ["V6", "H6", "M6"].includes(p.position)).length;

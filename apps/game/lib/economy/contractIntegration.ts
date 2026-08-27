@@ -126,6 +126,38 @@ export function recalibratePlayerContractWages(state: CareerState): CareerState 
   return { ...state, playerContracts: nextContracts };
 }
 
+/**
+ * HM-DATA-ALLSVENSKAN-1.1B: a ONE-TIME (per formula change) contract
+ * END-DATE recalibration -- mirrors recalibratePlayerContractWages'
+ * exact precedent (unconditional, naturally idempotent, safe on every
+ * migration) for the same reason: every generated contract's end date
+ * before this milestone was spread across an arbitrary calendar day
+ * (June 30 +/- up to 120 days -- "15 augusti", "27 mars", ...), which
+ * doesn't match Swedish handball's normal 1 June -> 31 May contract-year
+ * logic. `generateContractEndDate`'s old anchor+spread formula never
+ * crossed a calendar-year boundary (June 30 +/- 120 days stays within
+ * that same year), so the contract's already-established END YEAR is
+ * preserved exactly -- only the month/day is corrected to 31 May. Wage
+ * is left completely untouched (orthogonal, same rule
+ * recalibratePlayerContractWages already follows for date).
+ */
+export function recalibratePlayerContractEndDates(state: CareerState): CareerState {
+  const entries = Object.entries(state.playerContracts);
+  if (entries.length === 0) return state;
+
+  let changed = false;
+  const nextContracts: Record<string, PlayerContract> = {};
+  for (const [playerId, contract] of entries) {
+    const endYear = contract.contractEndDate.slice(0, 4);
+    const correctedEndDate = `${endYear}-05-31`;
+    if (correctedEndDate !== contract.contractEndDate) changed = true;
+    nextContracts[playerId] = { ...contract, contractEndDate: correctedEndDate };
+  }
+
+  if (!changed) return state;
+  return { ...state, playerContracts: nextContracts };
+}
+
 export function getPlayerContractStatus(state: CareerState, playerId: string): ContractStatus | undefined {
   const contract = getPlayerContract(state, playerId);
   if (!contract) return undefined;

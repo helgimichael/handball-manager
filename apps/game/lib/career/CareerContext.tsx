@@ -13,6 +13,7 @@ import { migrateCareerState } from "./saveMigration";
 import { applyMidMatchTacticalChange } from "./tacticalMidMatchChange";
 import { applyMidMatchPlanChange } from "./matchPlanMidMatchChange";
 import { updateTacticalProfile } from "./tacticalProfileActions";
+import { updatePlayerSquadStatus, type SquadStatusTier } from "./squadStatus";
 import { setMatchPlan, setPlayerMatchDefault } from "./matchPlanActions";
 import { setSpecialPlayPlan } from "./specialPlayActions";
 import { startLiveMatchSession, updateLiveMatchSession, clearLiveMatchSession } from "./liveMatchSessionActions";
@@ -62,6 +63,8 @@ type CareerContextValue = {
   unarchiveInboxMessage: (messageId: string) => void;
   /** Updates only the manager's TeamTacticalProfile (HM-TACTICS-0.6A), and persists. Not consumed by Fast Match yet. */
   updateTacticalProfile: (changes: Partial<TeamTacticalProfile>) => void;
+  /** HM-DATA-ALLSVENSKAN-1.1B Part 3: the manager's explicit edit of one player's persistent SquadStatusTier, and persists. Separate from MatchUsage/MatchPlan and from live medical/discipline availability. */
+  updateSquadStatus: (playerId: string, tier: SquadStatusTier) => void;
   /**
    * Saves (or replaces) one fixture's MatchPlan (HM-TACTICS-1.1), and
    * persists. Accepts either a complete plan or an updater function
@@ -380,6 +383,13 @@ export function CareerProvider({ children }: { children: ReactNode }) {
     setValue({ save: value!.save, career: nextCareer });
   }
 
+  function updateSquadStatusAction(playerId: string, tier: SquadStatusTier) {
+    const nextCareer = updatePlayerSquadStatus(value!.career, playerId, tier);
+    if (nextCareer === value!.career) return;
+    saveCareerState(value!.save.saveId, nextCareer);
+    setValue({ save: value!.save, career: nextCareer });
+  }
+
   function updateMatchPlanAction(fixtureId: string, planOrUpdater: MatchPlan | ((prev: MatchPlan) => MatchPlan)) {
     // HM-TACTICS-1.1: the Tactics workspace fires several onChange calls
     // from the SAME already-rendered panel in quick succession (e.g. a
@@ -576,6 +586,7 @@ export function CareerProvider({ children }: { children: ReactNode }) {
         archiveInboxMessage,
         unarchiveInboxMessage,
         updateTacticalProfile: updateTacticalProfileAction,
+        updateSquadStatus: updateSquadStatusAction,
         updateMatchPlan: updateMatchPlanAction,
         setPlayerMatchDefault: setPlayerMatchDefaultAction,
         updateSpecialPlay: updateSpecialPlayAction,

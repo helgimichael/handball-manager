@@ -38,9 +38,15 @@ const BAND_COST_MULTIPLIER: Record<EconomicBand, number> = {
  * ANALYST) is costed on their highest-value role plus a modest 25% per
  * additional role, never a bare sum of every role's own full base rate
  * (Part: "Håll modellen begriplig" -- avoids an implausible stack).
+ *
+ * HM-DATA-ALLSVENSKAN-1.1B Part 6: zero cost for anyone who isn't
+ * SALARIED -- a VOLUNTARY administrative title or a GOVERNANCE/board
+ * role is never charged against the Staff Budget (they have no
+ * employment contract at all), never merely a side-effect of `roles`
+ * happening to be empty.
  */
-export function estimateStaffMonthlyCostEur(member: Pick<ResolvedStaffMember, "id" | "roles">, band: EconomicBand): number {
-  if (member.roles.length === 0) return 0;
+export function estimateStaffMonthlyCostEur(member: Pick<ResolvedStaffMember, "id" | "roles" | "employmentType">, band: EconomicBand): number {
+  if (member.employmentType !== "SALARIED" || member.roles.length === 0) return 0;
   const sortedBaseRates = [...member.roles].map((r) => ROLE_BASE_MONTHLY_EUR[r]).sort((a, b) => b - a);
   const primary = sortedBaseRates[0];
   const additional = sortedBaseRates.slice(1).reduce((sum, rate) => sum + rate * 0.25, 0);

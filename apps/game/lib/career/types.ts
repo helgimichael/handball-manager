@@ -3,6 +3,7 @@ import type { InboxMessage, PlayerMock } from "../game-data";
 import type { CareerEvent } from "./careerEvents";
 import type { CareerTask } from "./careerTasks";
 import type { PlayerCareerStatus } from "./playerStatus";
+import type { SquadStatusTier } from "./squadStatus";
 import type { TeamTacticalProfile } from "./teamTacticalProfile";
 import type { MatchPlan } from "../matchPlan/types";
 import type { GameplayPlayerRating } from "../gameWorld/gameplayRatingSnapshot";
@@ -466,6 +467,40 @@ export type CareerState = {
    * `endDate` is reached.
    */
   loans: Record<string, LoanRecord>;
+
+  // --- HM-DATA-ALLSVENSKAN-1.1B addition (career-state schema v25, see saveMigration.ts) ---
+
+  /**
+   * Part 3: Persistent Squad Status -- a manager-controlled, LONG-TERM
+   * squad-role tier (see career/squadStatus.ts's SquadStatusTier),
+   * keyed by playerId, same flat convention as `playerStatuses`/
+   * `playerMatchDefaults`. Deliberately SEPARATE from `playerMatchDefaults`
+   * (per-fixture MatchUsage/starting-lineup intent) and from
+   * `playerStatuses` (medical/discipline availability) -- this is the
+   * coach's own persistent opinion of a player's standing, editable at
+   * any time, never re-derived by any other system after its initial
+   * seed. Reserved for future consumers (contracts, morale, player
+   * decisions, playing-time expectations) -- none of those consequences
+   * exist yet.
+   */
+  playerSquadStatus: Record<string, SquadStatusTier>;
+
+  // --- HM-DATA-ALLSVENSKAN-1.1B Parts 11/12/13 addition (career-state schema v25) ---
+
+  /**
+   * Knowledge / Fog-of-War foundation -- TRUE WORLD STATE -> MANAGER
+   * KNOWLEDGE -> PLAYER-FACING VIEW (lib/knowledge/*). Deliberately
+   * SPARSE: only carries a row for a club/player whose familiarity has
+   * moved away from the default (see knowledgeIntegration.ts's own doc
+   * -- the manager's own club/players never need a row at all, and an
+   * external club/player nobody has specifically learned about reads as
+   * DEFAULT_EXTERNAL_KNOWLEDGE_PCT with no stored entry either). Never a
+   * second copy of canonical player/club data -- purely a 0-100
+   * familiarity score per club/player, read by lib/knowledge's pure
+   * resolver functions to redact/fuzz the real data for display.
+   */
+  clubKnowledge: Record<string, number>;
+  playerKnowledge: Record<string, number>;
 };
 
 export type CareerSaveEnvelope = {

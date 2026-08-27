@@ -163,9 +163,9 @@ export const TUMBA_SQUAD: readonly PlayerMock[] = [
   player({ id: "p-sahlin", firstName: "Isak", lastName: "Sahlin", shirtNumber: 29, position: "H6", dob: "2006-05-27", heightCm: 188, weightKg: 84, foot: "Högerhänt", squadStatus: "Ungdom", currentAbility: 77, potentialAbility: 122, form: 6.3, fitnessPct: 96, moralePct: 80, appearances: 5, goals: 13, contractEndSeason: "2026/27", wageSekPerMonth: 10500, bias: BACK_BIAS, seed: 16 }),
 
   // Pivots
-  player({ id: "p-almqvist", firstName: "Viktor", lastName: "Almqvist", shirtNumber: 7, position: "PV", dob: "1995-11-14", heightCm: 199, weightKg: 108, foot: "Högerhänt", squadStatus: "Förstaval", currentAbility: 126, potentialAbility: 126, form: 6.7, fitnessPct: 82, moralePct: 76, appearances: 20, goals: 66, contractEndSeason: "2026/27", wageSekPerMonth: 37000, bias: PIVOT_BIAS, seed: 17 }),
-  player({ id: "p-bredelin", firstName: "Theo", lastName: "Bredelin", shirtNumber: 8, position: "PV", dob: "2002-08-09", heightCm: 197, weightKg: 103, foot: "Vänsterhänt", squadStatus: "Rotation", currentAbility: 103, potentialAbility: 124, form: 6.8, fitnessPct: 90, moralePct: 82, appearances: 16, goals: 39, contractEndSeason: "2027/28", wageSekPerMonth: 23000, bias: PIVOT_BIAS, seed: 18 }),
-  player({ id: "p-osterberg", firstName: "Noel", lastName: "Österberg", shirtNumber: 14, position: "PV", dob: "2005-12-01", heightCm: 195, weightKg: 97, foot: "Högerhänt", squadStatus: "Ungdom", currentAbility: 81, potentialAbility: 119, form: 6.5, fitnessPct: 95, moralePct: 79, appearances: 8, goals: 15, contractEndSeason: "2027/28", wageSekPerMonth: 12500, bias: PIVOT_BIAS, seed: 19 }),
+  player({ id: "p-almqvist", firstName: "Viktor", lastName: "Almqvist", shirtNumber: 7, position: "M6", dob: "1995-11-14", heightCm: 199, weightKg: 108, foot: "Högerhänt", squadStatus: "Förstaval", currentAbility: 126, potentialAbility: 126, form: 6.7, fitnessPct: 82, moralePct: 76, appearances: 20, goals: 66, contractEndSeason: "2026/27", wageSekPerMonth: 37000, bias: PIVOT_BIAS, seed: 17 }),
+  player({ id: "p-bredelin", firstName: "Theo", lastName: "Bredelin", shirtNumber: 8, position: "M6", dob: "2002-08-09", heightCm: 197, weightKg: 103, foot: "Vänsterhänt", squadStatus: "Rotation", currentAbility: 103, potentialAbility: 124, form: 6.8, fitnessPct: 90, moralePct: 82, appearances: 16, goals: 39, contractEndSeason: "2027/28", wageSekPerMonth: 23000, bias: PIVOT_BIAS, seed: 18 }),
+  player({ id: "p-osterberg", firstName: "Noel", lastName: "Österberg", shirtNumber: 14, position: "M6", dob: "2005-12-01", heightCm: 195, weightKg: 97, foot: "Högerhänt", squadStatus: "Ungdom", currentAbility: 81, potentialAbility: 119, form: 6.5, fitnessPct: 95, moralePct: 79, appearances: 8, goals: 15, contractEndSeason: "2027/28", wageSekPerMonth: 12500, bias: PIVOT_BIAS, seed: 19 }),
 
   // Injured / squad depth
   player({ id: "p-holmgren", firstName: "Adam", lastName: "Holmgren", shirtNumber: 20, position: "V6", dob: "1999-09-23", heightCm: 192, weightKg: 91, foot: "Vänsterhänt", squadStatus: "Skadad", currentAbility: 108, potentialAbility: 115, form: 5.2, fitnessPct: 41, moralePct: 63, appearances: 11, goals: 34, contractEndSeason: "2026/27", wageSekPerMonth: 24000, bias: BACK_BIAS, seed: 20 }),
@@ -221,7 +221,6 @@ export function positionLabel(position: HandballPosition): string {
     M6: "Mittsexa",
     H9: "Höger nia",
     H6: "Höger sexa",
-    PV: "Pivot",
   };
   return labels[position];
 }

@@ -16,9 +16,11 @@ import { seedPlayerStatuses } from "./playerStatus";
 import { defaultTeamTacticalProfile } from "./teamTacticalProfile";
 import type { CareerState } from "./types";
 import { ensureCareerGameplayRatings } from "./careerRatingNormalization";
-import { ensureCareerPlayerContracts, recalibratePlayerContractWages } from "../economy/contractIntegration";
+import { ensureCareerPlayerContracts, recalibratePlayerContractEndDates, recalibratePlayerContractWages } from "../economy/contractIntegration";
 import { ensureCareerPlayerClubHistory } from "../economy/clubHistoryIntegration";
 import { ensureCareerAllClubEconomies } from "../economy/clubEconomyIntegration";
+import { ensureCareerPlayerSquadStatus } from "./squadStatus";
+import { getCareerClubSquad } from "./careerWorld";
 import { EUR_TO_SEK_REFERENCE_RATE } from "../economy/currency";
 import type { PlayerContract } from "../economy/types";
 
@@ -318,6 +320,13 @@ export function migrateCareerState(career: CareerState): CareerState {
   // is safe to run unconditionally on every migration, never only once.
   next = recalibratePlayerContractWages(next);
 
+  // HM-DATA-ALLSVENSKAN-1.1B: recalibrate every EXISTING contract's own
+  // end date onto Swedish handball's normal 1 June -> 31 May
+  // contract-year logic -- see recalibratePlayerContractEndDates' own
+  // doc. Naturally idempotent, safe unconditionally on every migration,
+  // same precedent as the wage recalibration immediately above.
+  next = recalibratePlayerContractEndDates(next);
+
   // HM-CONTRACTS-1.0A (career-state schema v22, part 2/2): additive --
   // an existing career simply never had a club/youth history for some or
   // all of its own roster players. Same normalization pattern as
@@ -351,6 +360,29 @@ export function migrateCareerState(career: CareerState): CareerState {
   }
   if (next.loans === undefined) {
     next = { ...next, loans: {} };
+  }
+
+  // HM-DATA-ALLSVENSKAN-1.1B (career-state schema v25): additive -- an
+  // existing career simply never had a persistent squad-status tier for
+  // some or all of its own roster players. Same "only fill what's
+  // missing" normalization pattern as ensureCareerPlayerContracts --
+  // never overwrites a manager's own already-persisted edit.
+  if (next.playerSquadStatus === undefined) {
+    next = { ...next, playerSquadStatus: {} };
+  }
+  next = ensureCareerPlayerSquadStatus(next, next.playerClubId, getCareerClubSquad(next, next.playerClubId));
+
+  // HM-DATA-ALLSVENSKAN-1.1B Parts 11/12/13: additive -- an existing
+  // career simply never had a knowledge map yet. Migrated to EMPTY maps,
+  // never retroactively inventing a familiarity history -- every reader
+  // already treats a missing entry as DEFAULT_EXTERNAL_KNOWLEDGE_PCT
+  // (or 100 for the manager's own club/players), exactly the state a
+  // save always implicitly had before this milestone.
+  if (next.clubKnowledge === undefined) {
+    next = { ...next, clubKnowledge: {} };
+  }
+  if (next.playerKnowledge === undefined) {
+    next = { ...next, playerKnowledge: {} };
   }
 
   return next;

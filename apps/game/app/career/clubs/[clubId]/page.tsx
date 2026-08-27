@@ -21,6 +21,9 @@ import { selectCurrentStaffAssignments, type ClubIdentityProfile, type CoachIden
 import { presentClaim, presentStaffRoles } from "@/lib/identity/presentation";
 import ClubCrest from "@/components/ClubCrest";
 import { ClubLink, PlayerLink } from "@/components/entityLinks";
+import { getClubKnowledgePct } from "@/lib/knowledge/knowledgeIntegration";
+import { resolveClubVisibility } from "@/lib/knowledge/clubVisibility";
+import { KNOWLEDGE_TIER_LABEL_SV } from "@/lib/knowledge/types";
 
 const CLUB_IDENTITY_DOMAIN_LABELS: Record<keyof Omit<ClubIdentityProfile, "clubId" | "seasonReference">, string> = {
   structuralIdentity: "Struktur & styrning",
@@ -125,6 +128,16 @@ export default function ClubProfilePage() {
   const currentStaffAssignments = staff ? selectCurrentStaffAssignments(staff.assignments, career.gameDate) : [];
   const peopleById = new Map((staff?.people ?? []).map((p) => [p.id, p]));
 
+  // HM-DATA-ALLSVENSKAN-1.1B Part 13: TRUE WORLD STATE -> MANAGER
+  // KNOWLEDGE -> PLAYER-FACING VIEW, for the club/coach identity claims
+  // specifically. Public facts above (name, city, table, squad names,
+  // staff roster, fixtures/results) stay UNGATED, exactly as before --
+  // only the deeper qualitative claims below (tactical heritage, coach
+  // philosophy, internal strengths/weaknesses, financial-strategic
+  // identity, ...) pass through resolveClubVisibility.
+  const clubKnowledgePct = getClubKnowledgePct(career, club.id);
+  const visibility = identity ? resolveClubVisibility(identity.clubIdentity, identity.coachIdentity, clubKnowledgePct) : null;
+
   return (
     <div className="hm-grid" style={{ gap: 12 }}>
       <div className="hm-panel">
@@ -223,48 +236,72 @@ export default function ClubProfilePage() {
       <div className="hm-panel">
         <div className="hm-panel-header">
           <span className="hm-panel-title">Klubbidentitet</span>
+          {visibility ? <span className="hm-badge hm-badge-neutral">{KNOWLEDGE_TIER_LABEL_SV[visibility.tier]}</span> : null}
         </div>
         {identity === null ? (
           <div className="hm-panel-body hm-text-muted">Läser in…</div>
         ) : !identity.clubIdentity ? (
           <div className="hm-panel-body hm-text-muted">Ingen klubbidentitetsdata tillgänglig för denna klubb ännu.</div>
-        ) : (
-          <div className="hm-panel-body" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 16 }}>
-            {(Object.keys(CLUB_IDENTITY_DOMAIN_LABELS) as (keyof typeof CLUB_IDENTITY_DOMAIN_LABELS)[])
-              .filter((field) => identity.clubIdentity![field].length > 0)
-              .map((field) => (
-                <div key={field}>
-                  <div className="hm-eyebrow">{CLUB_IDENTITY_DOMAIN_LABELS[field]}</div>
-                  {identity.clubIdentity![field].map((claim) => (
-                    <ClaimRow key={claim.id} claim={claim} />
-                  ))}
-                </div>
-              ))}
+        ) : !visibility?.clubIdentity || Object.values(visibility.clubIdentity).every((claims) => Array.isArray(claims) && claims.length === 0) ? (
+          <div className="hm-panel-body hm-text-muted">
+            För lite kännedom om klubben för djupare insikter ännu. Scouting och möten mot klubben ökar kännedomen över tid.
           </div>
+        ) : (
+          <>
+            <div className="hm-panel-body" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 16 }}>
+              {(Object.keys(CLUB_IDENTITY_DOMAIN_LABELS) as (keyof typeof CLUB_IDENTITY_DOMAIN_LABELS)[])
+                .filter((field) => visibility.clubIdentity![field].length > 0)
+                .map((field) => (
+                  <div key={field}>
+                    <div className="hm-eyebrow">{CLUB_IDENTITY_DOMAIN_LABELS[field]}</div>
+                    {visibility.clubIdentity![field].map((claim) => (
+                      <ClaimRow key={claim.id} claim={claim} />
+                    ))}
+                  </div>
+                ))}
+            </div>
+            {visibility.hiddenClubClaimCount > 0 ? (
+              <div className="hm-panel-body hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)", paddingTop: 0 }}>
+                {visibility.hiddenClubClaimCount} till, kräver bättre kännedom om klubben.
+              </div>
+            ) : null}
+          </>
         )}
       </div>
 
       <div className="hm-panel">
         <div className="hm-panel-header">
           <span className="hm-panel-title">Tränarfilosofi</span>
+          {visibility ? <span className="hm-badge hm-badge-neutral">{KNOWLEDGE_TIER_LABEL_SV[visibility.tier]}</span> : null}
         </div>
         {identity === null ? (
           <div className="hm-panel-body hm-text-muted">Läser in…</div>
         ) : !identity.coachIdentity ? (
           <div className="hm-panel-body hm-text-muted">Ingen bedömd tränarfilosofi tillgänglig för nuvarande huvudtränare.</div>
-        ) : (
-          <div className="hm-panel-body" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 16 }}>
-            {(Object.keys(COACH_CLAIM_LABELS) as (keyof typeof COACH_CLAIM_LABELS)[])
-              .filter((field) => identity.coachIdentity![field].length > 0)
-              .map((field) => (
-                <div key={field}>
-                  <div className="hm-eyebrow">{COACH_CLAIM_LABELS[field]}</div>
-                  {identity.coachIdentity![field].map((claim) => (
-                    <ClaimRow key={claim.id} claim={claim} />
-                  ))}
-                </div>
-              ))}
+        ) : !visibility?.coachIdentity || Object.values(visibility.coachIdentity).every((claims) => Array.isArray(claims) && claims.length === 0) ? (
+          <div className="hm-panel-body hm-text-muted">
+            För lite kännedom om tränaren för en bedömd filosofi ännu. Kräver minst måttlig kännedom om klubben.
           </div>
+        ) : (
+          <>
+            <div className="hm-panel-body" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 16 }}>
+              {(Object.keys(COACH_CLAIM_LABELS) as (keyof typeof COACH_CLAIM_LABELS)[])
+                .filter((field) => visibility.coachIdentity![field].length > 0)
+                .map((field) => (
+                  <div key={field}>
+                    <div className="hm-eyebrow">{COACH_CLAIM_LABELS[field]}</div>
+                    {visibility.coachIdentity![field].map((claim) => (
+                      <ClaimRow key={claim.id} claim={claim} />
+                    ))}
+                  </div>
+                ))}
+            </div>
+            {visibility.hiddenCoachClaimCount > 0 ? (
+              <div className="hm-panel-body hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)", paddingTop: 0 }}>
+                {visibility.hiddenCoachClaimCount} till, kräver bättre kännedom om klubben.
+              </div>
+            ) : null}
+          </>
         )}
       </div>
 
