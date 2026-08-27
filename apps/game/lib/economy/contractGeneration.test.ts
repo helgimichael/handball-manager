@@ -26,7 +26,7 @@ test("(gen 4) generateInitialContract produces a well-formed PlayerContract with
   assert.equal(contract.playerId, "p-1");
   assert.equal(contract.clubId, "club-x");
   assert.ok(contract.contractEndDate.length === 10);
-  assert.ok(contract.wageSekPerMonth > 0);
+  assert.ok(contract.wageEurPerMonth > 0);
 });
 
 test("(gen 5) generateInitialContract is deterministic", () => {

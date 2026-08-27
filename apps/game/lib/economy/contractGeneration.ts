@@ -1,17 +1,20 @@
 // HM-CONTRACTS-1.0: deterministic, one-time contract generation --
-// reuses the existing PlayerMock.contractEndSeason/wageSekPerMonth
-// hand-authored (mock) or real-world-fetched (Handbollsligan) fields as
-// a REAL signal/anchor rather than discarding them and inventing
-// numbers from nothing (Part: "Återanvänd befintliga modeller och
-// helpers"), while still producing a properly DIFFERENTIATED, per-player
-// end date -- a flat literal season string (e.g. every REAL_WORLD player
-// with no fetched contract data all fall back to the exact same
-// "2026/27", per gameWorld/gameWorldAdapter.ts) would otherwise make an
-// entire club's contracts expire on the identical calendar day, which
-// reads as an obvious generation artifact rather than a real roster.
+// reuses the existing PlayerMock.contractEndSeason hand-authored (mock)
+// or real-world-fetched (Handbollsligan) field as a REAL signal/anchor
+// rather than discarding it and inventing a number from nothing (Part:
+// "Återanvänd befintliga modeller och helpers"), while still producing a
+// properly DIFFERENTIATED, per-player end date -- a flat literal season
+// string (e.g. every REAL_WORLD player with no fetched contract data all
+// fall back to the exact same "2026/27", per gameWorld/gameWorldAdapter.ts)
+// would otherwise make an entire club's contracts expire on the
+// identical calendar day, which reads as an obvious generation artifact
+// rather than a real roster. The wage itself is always freshly computed
+// (computePlayerSalaryEurPerMonth) -- PlayerMock's own legacy
+// `wageSekPerMonth` mock field is never read here (HM-CONTRACTS-1.0A:
+// EUR is canonical; that SEK field is unrelated static seed data).
 import { addDays } from "../career/dateUtils";
 import { seededOffset } from "../rating/generation/deterministicVariation";
-import { computePlayerSalarySekPerMonth, type EconomyProfileInputs } from "./marketValue";
+import { computePlayerSalaryEurPerMonth, type EconomyProfileInputs } from "./marketValue";
 import type { PlayerContract } from "./types";
 
 /** "2027/28" -> 2028 (the season's own second/ending year). Tolerant of any 4-digit-leading format; never throws. */
@@ -44,6 +47,6 @@ export function generateInitialContract(playerId: string, clubId: string, contra
     playerId,
     clubId,
     contractEndDate: generateContractEndDate(playerId, contractEndSeasonHint, fallbackYear),
-    wageSekPerMonth: computePlayerSalarySekPerMonth(economyInputs),
+    wageEurPerMonth: computePlayerSalaryEurPerMonth(economyInputs),
   };
 }

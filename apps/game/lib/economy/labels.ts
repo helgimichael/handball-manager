@@ -1,4 +1,6 @@
-// HM-CONTRACTS-1.0: Swedish UI labels only -- domain types stay English.
+// HM-CONTRACTS-1.0/1.0A: Swedish UI labels only -- domain types stay
+// English. Currency formatting lives in currency.ts (the one display
+// boundary), not here -- see formatEur.
 import type { ContractStatus } from "./types";
 
 export const CONTRACT_STATUS_LABEL: Record<ContractStatus, string> = {
@@ -14,8 +16,3 @@ export const CONTRACT_STATUS_TONE: Record<ContractStatus, "positive" | "warning"
   EXPIRING: "negative",
   FREE_AGENT: "negative",
 };
-
-/** Swedish-format SEK, e.g. "1 250 000 kr" / "38 000 kr/mån". */
-export function formatSek(amount: number): string {
-  return `${amount.toLocaleString("sv-SE")} kr`;
-}

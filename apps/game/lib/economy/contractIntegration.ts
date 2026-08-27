@@ -1,8 +1,12 @@
-// HM-CONTRACTS-1.0: the ONLY module that reads/writes CareerState for
-// economic identity -- mirrors lib/medical/injuryIntegration.ts's own
-// "pure math below, CareerState glue here" split. newCareer.ts and
+// HM-CONTRACTS-1.0/1.0A: the ONLY module that reads/writes CareerState
+// for contract economic identity -- mirrors lib/medical/injuryIntegration.ts's
+// own "pure math below, CareerState glue here" split. newCareer.ts and
 // saveMigration.ts call ensureCareerPlayerContracts; every UI reader
-// (Player Profile, Squad) calls getPlayerContract/getPlayerMarketValueSek.
+// (Player Profile, Squad) calls getPlayerContract/getPlayerMarketValueEur.
+// Club history / training compensation are deliberately handled by
+// their own SIBLING integration modules (clubHistoryIntegration.ts,
+// trainingCompensationIntegration.ts), never folded in here -- Part:
+// "Den får INTE bakas in i marketValue eller transferFee."
 import { getCareerClubSquad, getCareerPlayer } from "../career/careerWorld";
 import { playerAgeAtDate } from "../development/developmentIntegration";
 import type { CareerState } from "../career/types";
@@ -11,7 +15,7 @@ import { getCareerPlayerRating } from "../career/careerRatingNormalization";
 import { mapHandballPositionToMatchPlanPosition } from "../matchPlan/careerSquadBridge";
 import type { MatchRole } from "../matchPlan/types";
 import { generateInitialContract } from "./contractGeneration";
-import { computePlayerMarketValueSek, type EconomyProfileInputs } from "./marketValue";
+import { computePlayerMarketValueEur, type EconomyProfileInputs } from "./marketValue";
 import { getContractStatus } from "./contractLifecycle";
 import type { ContractStatus, PlayerContract } from "./types";
 
@@ -95,11 +99,11 @@ export function getPlayerContractStatus(state: CareerState, playerId: string): C
  * only when the player has no contract yet (should not happen for any
  * roster player post-ensureCareerPlayerContracts) or no rating at all.
  */
-export function getPlayerMarketValueSek(state: CareerState, playerId: string): number | undefined {
+export function getPlayerMarketValueEur(state: CareerState, playerId: string): number | undefined {
   const player = getCareerPlayer(state, playerId);
   const contract = getPlayerContract(state, playerId);
   if (!player || !contract) return undefined;
   const economyInputs = buildEconomyProfileInputs(state, player);
   if (!economyInputs) return undefined;
-  return computePlayerMarketValueSek(economyInputs, contract.contractEndDate, state.gameDate);
+  return computePlayerMarketValueEur(economyInputs, contract.contractEndDate, state.gameDate);
 }

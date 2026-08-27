@@ -15,8 +15,11 @@ import { potentialStarsFromPA, type IndividualDevelopmentFocus } from "@/lib/dev
 import { getCareerPlayerRating } from "@/lib/career/careerRatingNormalization";
 import type { GameplayPlayerRating } from "@/lib/gameWorld/gameplayRatingSnapshot";
 import { INJURY_SEVERITY_LABELS, INJURY_TYPE_LABELS, REHAB_PHASE_LABELS } from "@/lib/medical/labels";
-import { getPlayerContract, getPlayerContractStatus, getPlayerMarketValueSek } from "@/lib/economy/contractIntegration";
-import { CONTRACT_STATUS_LABEL, CONTRACT_STATUS_TONE, formatSek } from "@/lib/economy/labels";
+import { getPlayerContract, getPlayerContractStatus, getPlayerMarketValueEur } from "@/lib/economy/contractIntegration";
+import { CONTRACT_STATUS_LABEL, CONTRACT_STATUS_TONE } from "@/lib/economy/labels";
+import { formatEur } from "@/lib/economy/currency";
+import { getPlayerClubHistory } from "@/lib/economy/clubHistoryIntegration";
+import { getPlayerTrainingCompensation } from "@/lib/economy/trainingCompensationIntegration";
 
 // HM-RATINGS-CAREER-1.0 Part 25: every career player (REAL_WORLD, mock or
 // generated) now has exactly one CareerState-resident GameplayPlayerRating
@@ -94,7 +97,9 @@ export default function PlayerProfilePage() {
   const hasRatingProfile = Boolean(ratingRow);
   const contract = getPlayerContract(career, player.id);
   const contractStatus = getPlayerContractStatus(career, player.id);
-  const marketValue = getPlayerMarketValueSek(career, player.id);
+  const marketValue = getPlayerMarketValueEur(career, player.id);
+  const clubHistory = getPlayerClubHistory(career, player.id);
+  const trainingCompensation = getPlayerTrainingCompensation(career, player.id);
 
   return (
     <div className="hm-grid" style={{ gridTemplateColumns: "2fr 1fr", alignItems: "start" }}>
@@ -259,7 +264,7 @@ export default function PlayerProfilePage() {
           </div>
           <div className="hm-panel-body" style={{ display: "flex", flexDirection: "column", gap: 6 }}>
             <ContractRow label="Klubb" value={club?.name ?? "Okänd"} />
-            <ContractRow label="Lön / månad" value={contract ? formatSek(contract.wageSekPerMonth) : "—"} />
+            <ContractRow label="Lön / månad" value={contract ? formatEur(contract.wageEurPerMonth) : "—"} />
             <ContractRow label="Kontrakt t.o.m." value={contract ? contract.contractEndDate : "—"} />
             <ContractRow label="Tröjnummer" value={player.shirtNumber !== null ? String(player.shirtNumber) : "Okänt"} />
           </div>
@@ -271,10 +276,52 @@ export default function PlayerProfilePage() {
             <span className="hm-panel-title">Marknadsvärde</span>
           </div>
           <div className="hm-panel-body">
-            <div style={{ fontSize: "var(--hm-text-lg)", fontWeight: 800 }}>{marketValue !== undefined ? formatSek(marketValue) : "—"}</div>
+            <div style={{ fontSize: "var(--hm-text-lg)", fontWeight: 800 }}>{marketValue !== undefined ? formatEur(marketValue) : "—"}</div>
             <p className="hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)", margin: "4px 0 0" }}>
               Uppskattat värde -- baserat på nuvarande förmåga, potential, ålder, roll och kontraktstid.
             </p>
+          </div>
+        </div>
+
+        {/* HM-CONTRACTS-1.0A Part: club/youth history + training
+            compensation -- deliberately SEPARATE from market value/
+            contract above (never blended into either number). */}
+        <div className="hm-panel">
+          <div className="hm-panel-header">
+            <span className="hm-panel-title">Klubbhistorik</span>
+          </div>
+          <div className="hm-panel-body" style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+            {clubHistory && clubHistory.entries.length > 0 ? (
+              clubHistory.entries.map((entry, i) => (
+                <ContractRow key={i} label={getClub(entry.clubId)?.name ?? entry.clubId} value={`${entry.fromAge}–${entry.toAge} år`} />
+              ))
+            ) : (
+              <p className="hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)", margin: 0 }}>
+                Ingen tidigare klubb registrerad.
+              </p>
+            )}
+            <div className="hm-divider" />
+            <div className="hm-eyebrow">Utbildningsersättning</div>
+            {trainingCompensation && trainingCompensation.totalEur > 0 ? (
+              <>
+                <ContractRow label="Vid framtida övergång" value={formatEur(trainingCompensation.totalEur)} />
+                {trainingCompensation.perClub.map((share) => (
+                  <div key={share.clubId} style={{ display: "flex", justifyContent: "space-between", fontSize: "var(--hm-text-2xs)" }}>
+                    <span className="hm-text-muted">
+                      {getClub(share.clubId)?.name ?? share.clubId} ({share.years} år)
+                    </span>
+                    <span style={{ fontWeight: 600 }}>{formatEur(share.amountEur)}</span>
+                  </div>
+                ))}
+                <p className="hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)", margin: 0 }}>
+                  Separat från marknadsvärde och övergångssumma -- regelmodell {trainingCompensation.ruleSetVersion} (första utgåva, ej officiellt kalibrerad).
+                </p>
+              </>
+            ) : (
+              <p className="hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)", margin: 0 }}>
+                Ingen utbildningsersättning (spelaren är över åldersgränsen eller saknar tidigare utbildningsklubb).
+              </p>
+            )}
           </div>
         </div>
 

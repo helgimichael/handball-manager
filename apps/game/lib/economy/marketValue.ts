@@ -1,15 +1,28 @@
-// HM-CONTRACTS-1.0: the ONE centralized, deterministic salary/market-value
-// model. Both are PURE functions of already-persistent inputs (CA/PA from
-// gameplayRatings, age from dateOfBirth+career gameDate, contract time
-// remaining, league tier, position, squad role) -- never stored/cached,
-// recomputed fresh on every read (same "derived, never a second source of
-// truth" precedent as lib/career/standings.ts's getLiveStandings). This
-// is what makes value genuinely DYNAMIC (Part: "Marknadsvärdet ska vara
-// dynamiskt") and automatically reflects a developed player's new CA
-// with zero extra bookkeeping.
+// HM-CONTRACTS-1.0/1.0A: the ONE centralized, deterministic salary/
+// market-value model. Both are PURE functions of already-persistent
+// inputs (CA/PA from gameplayRatings, age from dateOfBirth+career
+// gameDate, contract time remaining, league tier, position, squad role)
+// -- never stored/cached, recomputed fresh on every read (same "derived,
+// never a second source of truth" precedent as
+// lib/career/standings.ts's getLiveStandings). This is what makes value
+// genuinely DYNAMIC (Part: "Marknadsvärdet ska vara dynamiskt") and
+// automatically reflects a developed player's new CA with zero extra
+// bookkeeping.
+//
+// HM-CONTRACTS-1.0A: EUR is now the canonical INTERNAL currency (per
+// HANDBALL_MANAGER_CLUB_ECONOMY_COMMERCIAL_MODEL_v0.1's own economic
+// scale -- every revenue band/example in that document is EUR-
+// denominated). The previous SEK-denominated bounds are re-expressed at
+// a fixed internal reference rate of 1 EUR = 11 SEK (a foundation-pass
+// approximation, not a live FX feed -- see lib/economy/currency.ts's own
+// doc comment) -- the CURVE SHAPE/exponents/multipliers are otherwise
+// UNCHANGED from HM-CONTRACTS-1.0 (Part: "Ändra inte övrig Contracts/
+// value-kalibrering mer än nödvändigt"). SEK (or any other display
+// currency) becomes presentation-only, converted at the display boundary
+// (lib/economy/currency.ts), never re-entering this module.
 //
 // Part: "handboll är INTE fotboll" -- bounded to a realistic Swedish
-// handball scale (tens of thousands to a few million SEK), never
+// handball scale (roughly a thousand to half a million EUR), never
 // football-scale numbers. Calibration is deliberately a first pass (Part:
 // "kalibreringen kan förbättras senare") -- see the mandatory calibration
 // test for actual generated numbers across player archetypes.
@@ -96,13 +109,13 @@ export interface EconomyProfileInputs {
 // Market value.
 // ---------------------------------------------------------------------------
 
-const VALUE_MIN_SEK = 15_000;
-const VALUE_MAX_SEK = 6_000_000;
+const VALUE_MIN_EUR = 1_500;
+const VALUE_MAX_EUR = 550_000;
 const VALUE_EXPONENT = 2.3;
 
 function baseValueFromCA(ca: number): number {
   const t = caProgress(ca);
-  return VALUE_MIN_SEK + (VALUE_MAX_SEK - VALUE_MIN_SEK) * Math.pow(t, VALUE_EXPONENT);
+  return VALUE_MIN_EUR + (VALUE_MAX_EUR - VALUE_MIN_EUR) * Math.pow(t, VALUE_EXPONENT);
 }
 
 /** Part: young high-headroom players carry a "buy for potential" premium, fading out with age (a 34-year-old's remaining PA headroom is not realistically monetizable). Capped at +60%. */
@@ -126,7 +139,7 @@ function positionValueMultiplier(position: Position): number {
   return isGoalkeeper(position) ? 0.9 : 1.0;
 }
 
-export function computePlayerMarketValueSek(inputs: EconomyProfileInputs, contractEndDate: string, asOfDate: string): number {
+export function computePlayerMarketValueEur(inputs: EconomyProfileInputs, contractEndDate: string, asOfDate: string): number {
   const daysRemaining = daysUntilContractEnd(contractEndDate, asOfDate);
   const raw =
     baseValueFromCA(inputs.ca) *
@@ -136,21 +149,21 @@ export function computePlayerMarketValueSek(inputs: EconomyProfileInputs, contra
     leagueTierMultiplier(inputs.competitionTier) *
     positionValueMultiplier(inputs.position) *
     ROLE_MULTIPLIER[inputs.role];
-  // Rounded to the nearest 1,000 SEK -- a market value is always an estimate, never false precision.
-  return Math.round(clamp(raw, VALUE_MIN_SEK, VALUE_MAX_SEK) / 1000) * 1000;
+  // Rounded to the nearest 100 EUR -- a market value is always an estimate, never false precision.
+  return Math.round(clamp(raw, VALUE_MIN_EUR, VALUE_MAX_EUR) / 100) * 100;
 }
 
 // ---------------------------------------------------------------------------
 // Salary.
 // ---------------------------------------------------------------------------
 
-const SALARY_MIN_SEK_PER_MONTH = 6_000;
-const SALARY_MAX_SEK_PER_MONTH = 140_000;
+const SALARY_MIN_EUR_PER_MONTH = 500;
+const SALARY_MAX_EUR_PER_MONTH = 13_000;
 const SALARY_EXPONENT = 1.8; // less convex than value -- wages scale more linearly with ability than valuations do
 
 function baseSalaryFromCA(ca: number): number {
   const t = caProgress(ca);
-  return SALARY_MIN_SEK_PER_MONTH + (SALARY_MAX_SEK_PER_MONTH - SALARY_MIN_SEK_PER_MONTH) * Math.pow(t, SALARY_EXPONENT);
+  return SALARY_MIN_EUR_PER_MONTH + (SALARY_MAX_EUR_PER_MONTH - SALARY_MIN_EUR_PER_MONTH) * Math.pow(t, SALARY_EXPONENT);
 }
 
 function positionSalaryMultiplier(position: Position): number {
@@ -158,8 +171,8 @@ function positionSalaryMultiplier(position: Position): number {
 }
 
 /** Part: salary is set once at signing (no negotiation yet) -- deliberately no contract-time-remaining or potential-headroom factor here (those move VALUE, not an already-fixed wage). */
-export function computePlayerSalarySekPerMonth(inputs: EconomyProfileInputs): number {
+export function computePlayerSalaryEurPerMonth(inputs: EconomyProfileInputs): number {
   const raw = baseSalaryFromCA(inputs.ca) * ageMultiplier(inputs.age) * leagueTierMultiplier(inputs.competitionTier) * positionSalaryMultiplier(inputs.position) * ROLE_MULTIPLIER[inputs.role];
-  // Rounded to the nearest 500 SEK.
-  return Math.round(clamp(raw, SALARY_MIN_SEK_PER_MONTH, SALARY_MAX_SEK_PER_MONTH) / 500) * 500;
+  // Rounded to the nearest 50 EUR.
+  return Math.round(clamp(raw, SALARY_MIN_EUR_PER_MONTH, SALARY_MAX_EUR_PER_MONTH) / 50) * 50;
 }

@@ -13,6 +13,7 @@ import type { StaffEmployment } from "../staff/types";
 import { ensureCareerGameplayRatings } from "./careerRatingNormalization";
 import { computeCareerStartDate, generateProvisionalCupRound, resolveLeagueKickoffDate, type PreseasonStartOption } from "./preseason";
 import { ensureCareerPlayerContracts } from "../economy/contractIntegration";
+import { ensureCareerPlayerClubHistory } from "../economy/clubHistoryIntegration";
 
 const FALLBACK_COMPETITION_ID = "swe-2"; // used only if playerClubId doesn't resolve to a known club
 
@@ -162,6 +163,7 @@ export function createNewCareerState(
     playerInjuries: {},
     leagueKickoffDate,
     playerContracts: {},
+    playerClubHistory: {},
   };
 
   // HM-RATINGS-CAREER-1.0 Part 2/4/15/16: every roster player in the
@@ -175,5 +177,11 @@ export function createNewCareerState(
   // own gameplay rating, so this must run AFTER ensureCareerGameplayRatings
   // above, never before (a rating-less player would otherwise get no
   // contract at all, deferred to the next migration pass).
-  return ensureCareerPlayerContracts(withRatings, playerClubId);
+  const withContracts = ensureCareerPlayerContracts(withRatings, playerClubId);
+  // HM-CONTRACTS-1.0A: club/youth history only needs a player's age
+  // (playerAgeAtDate), not their rating -- order-independent from
+  // contracts, but generated here alongside them for the same "every
+  // roster player has a complete economic identity from career start"
+  // guarantee.
+  return ensureCareerPlayerClubHistory(withContracts, playerClubId);
 }

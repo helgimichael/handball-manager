@@ -7,7 +7,7 @@ import { createNewCareerState } from "./newCareer";
 import { migrateCareerState } from "./saveMigration";
 import { getCareerClubSquad } from "./careerWorld";
 import { TUMBA_CLUB_ID } from "../game-data";
-import { ensureCareerPlayerContracts, getPlayerContract, getPlayerContractStatus, getPlayerMarketValueSek } from "../economy/contractIntegration";
+import { ensureCareerPlayerContracts, getPlayerContract, getPlayerContractStatus, getPlayerMarketValueEur } from "../economy/contractIntegration";
 import type { CareerState } from "./types";
 import type { GameplayPlayerRating } from "../gameWorld/gameplayRatingSnapshot";
 
@@ -33,10 +33,10 @@ test("(2) every roster player has a positive salary and a positive, bounded mark
   const squad = getCareerClubSquad(state, TUMBA_CLUB_ID);
   for (const player of squad) {
     const contract = getPlayerContract(state, player.id)!;
-    assert.ok(contract.wageSekPerMonth > 0, `${player.id} has zero/negative wage`);
-    const value = getPlayerMarketValueSek(state, player.id);
+    assert.ok(contract.wageEurPerMonth > 0, `${player.id} has zero/negative wage`);
+    const value = getPlayerMarketValueEur(state, player.id);
     assert.ok(value !== undefined && value > 0, `${player.id} has no market value`);
-    assert.ok(value! <= 6_000_000, `${player.id} value implausibly high: ${value}`);
+    assert.ok(value! <= 550_000, `${player.id} value implausibly high: ${value}`);
   }
 });
 
@@ -63,11 +63,11 @@ test("(3) an arbitrary non-Tumba club (via injected worldSquads, simulating a RE
 });
 
 // (4) value is deterministic.
-test("(4) getPlayerMarketValueSek returns the identical value across repeated calls with no state change", () => {
+test("(4) getPlayerMarketValueEur returns the identical value across repeated calls with no state change", () => {
   const state = freshTumba("contracts-4");
   const playerId = getCareerClubSquad(state, TUMBA_CLUB_ID)[0].id;
-  const a = getPlayerMarketValueSek(state, playerId);
-  const b = getPlayerMarketValueSek(state, playerId);
+  const a = getPlayerMarketValueEur(state, playerId);
+  const b = getPlayerMarketValueEur(state, playerId);
   assert.equal(a, b);
 });
 
@@ -91,14 +91,14 @@ test("(5b) re-creating the SAME player's contract twice (idempotent fill) never 
 test("(6) a player's market value changes when their CA changes (development), with the contract itself untouched", () => {
   const state = freshTumba("contracts-6");
   const playerId = getCareerClubSquad(state, TUMBA_CLUB_ID)[0].id;
-  const before = getPlayerMarketValueSek(state, playerId);
+  const before = getPlayerMarketValueEur(state, playerId);
   const contractBefore = getPlayerContract(state, playerId);
 
   const developed: CareerState = {
     ...state,
     gameplayRatings: { ...state.gameplayRatings, [TUMBA_CLUB_ID]: state.gameplayRatings[TUMBA_CLUB_ID].map((r) => (r.playerId === playerId ? { ...r, ca: Math.min(200, r.ca + 30) } : r)) },
   };
-  const after = getPlayerMarketValueSek(developed, playerId);
+  const after = getPlayerMarketValueEur(developed, playerId);
   const contractAfter = getPlayerContract(developed, playerId);
   assert.notEqual(after, before, `value did not change: before=${before} after=${after}`);
   assert.ok(after! > before!, `value should have increased after CA improved: before=${before} after=${after}`);
@@ -114,7 +114,7 @@ test("(7)/(8) among the real generated Tumba roster, a young high-headroom playe
     .map((p) => ({ player: p, rating: ratingsById.get(p.id)! }))
     .filter((e) => e.rating);
   // Just a sanity check that values differ across the roster (not a flat constant), and every value is finite/positive.
-  const values = withAge.map((e) => getPlayerMarketValueSek(state, e.player.id)!);
+  const values = withAge.map((e) => getPlayerMarketValueEur(state, e.player.id)!);
   assert.ok(new Set(values).size > 1, "every player has an identical value -- the model is not actually using per-player inputs");
   assert.ok(values.every((v) => Number.isFinite(v) && v > 0));
 });
@@ -125,8 +125,8 @@ test("(9) a real Tumba goalkeeper gets a normal contract/salary/value through th
   const gk = getCareerClubSquad(state, TUMBA_CLUB_ID).find((p) => p.position === "MV")!;
   const contract = getPlayerContract(state, gk.id);
   assert.ok(contract);
-  assert.ok(contract!.wageSekPerMonth > 0);
-  const value = getPlayerMarketValueSek(state, gk.id);
+  assert.ok(contract!.wageEurPerMonth > 0);
+  const value = getPlayerMarketValueEur(state, gk.id);
   assert.ok(value !== undefined && value > 0);
 });
 
@@ -160,7 +160,7 @@ test("(11c) migrating a save with ONE existing evidence-shaped contract preserve
   const state = freshTumba("contracts-11c");
   const squad = getCareerClubSquad(state, TUMBA_CLUB_ID);
   const somePlayer = squad[0];
-  const customContract = { ...getPlayerContract(state, somePlayer.id)!, wageSekPerMonth: 999_999 };
+  const customContract = { ...getPlayerContract(state, somePlayer.id)!, wageEurPerMonth: 999_999 };
   const partial: CareerState = { ...state, playerContracts: { [somePlayer.id]: customContract } };
   const migrated = migrateCareerState(partial);
   assert.deepEqual(migrated.playerContracts[somePlayer.id], customContract);

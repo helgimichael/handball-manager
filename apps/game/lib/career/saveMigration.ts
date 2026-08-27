@@ -17,6 +17,9 @@ import { defaultTeamTacticalProfile } from "./teamTacticalProfile";
 import type { CareerState } from "./types";
 import { ensureCareerGameplayRatings } from "./careerRatingNormalization";
 import { ensureCareerPlayerContracts } from "../economy/contractIntegration";
+import { ensureCareerPlayerClubHistory } from "../economy/clubHistoryIntegration";
+import { EUR_TO_SEK_REFERENCE_RATE } from "../economy/currency";
+import type { PlayerContract } from "../economy/types";
 
 // HM-GAME-0.4: InboxMessage.category was a set of Swedish string
 // literals before this milestone (Spec §33: "map existing categories
@@ -276,7 +279,42 @@ export function migrateCareerState(career: CareerState): CareerState {
   if (next.playerContracts === undefined) {
     next = { ...next, playerContracts: {} };
   }
+
+  // HM-CONTRACTS-1.0A (career-state schema v22, part 1/2): CURRENCY
+  // MIGRATION -- an HM-CONTRACTS-1.0-era save's own `playerContracts`
+  // entries still carry the original `wageSekPerMonth` field (SEK). EUR
+  // is now canonical (lib/economy/currency.ts), so every such entry is
+  // converted ONCE here (never re-converted -- gated on the OLD field's
+  // presence, so re-running this migration on an already-converted save
+  // is a true no-op) using the same fixed reference rate the currency
+  // module documents. This is a real unit conversion, NOT a bare field
+  // rename -- treating an old SEK number as if it were already EUR would
+  // silently overvalue every migrated player's wage ~11x.
+  const legacyContracts = Object.values(next.playerContracts) as unknown as Array<PlayerContract & { wageSekPerMonth?: number }>;
+  if (legacyContracts.some((c) => c.wageSekPerMonth !== undefined && (c as { wageEurPerMonth?: number }).wageEurPerMonth === undefined)) {
+    const convertedContracts: Record<string, PlayerContract> = {};
+    for (const [playerId, contract] of Object.entries(next.playerContracts)) {
+      const legacy = contract as PlayerContract & { wageSekPerMonth?: number };
+      if (legacy.wageSekPerMonth !== undefined) {
+        const { wageSekPerMonth, ...rest } = legacy;
+        convertedContracts[playerId] = { ...rest, wageEurPerMonth: Math.round(wageSekPerMonth / EUR_TO_SEK_REFERENCE_RATE) };
+      } else {
+        convertedContracts[playerId] = contract;
+      }
+    }
+    next = { ...next, playerContracts: convertedContracts };
+  }
+
   next = ensureCareerPlayerContracts(next, next.playerClubId);
+
+  // HM-CONTRACTS-1.0A (career-state schema v22, part 2/2): additive --
+  // an existing career simply never had a club/youth history for some or
+  // all of its own roster players. Same normalization pattern as
+  // ensureCareerPlayerContracts.
+  if (next.playerClubHistory === undefined) {
+    next = { ...next, playerClubHistory: {} };
+  }
+  next = ensureCareerPlayerClubHistory(next, next.playerClubId);
 
   return next;
 }

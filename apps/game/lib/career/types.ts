@@ -15,7 +15,7 @@ import type { PlayerPhysicalState, PlayerTrainingAssignment, TrainingWeek } from
 import type { PlayerDevelopmentState } from "../development/types";
 import type { ResolvedStaffMember, StaffEmployment } from "../staff/types";
 import type { PlayerInjuryState } from "../medical/types";
-import type { PlayerContract } from "../economy/types";
+import type { PlayerClubHistory, PlayerContract } from "../economy/types";
 
 /** HM-PRESEASON-1.0: LEAGUE (the manager's own simulated competition), CUP (the provisional early cup round -- see preseason.ts), or FRIENDLY (manager-booked, never affects standings/season completion). */
 export type CareerFixtureType = "LEAGUE" | "CUP" | "FRIENDLY";
@@ -394,15 +394,33 @@ export type CareerState = {
    * Part 4: the ONE persistent economic-identity thread -- keyed by
    * playerId, same flat convention as `playerPhysicalState`/
    * `playerInjuries`. Only the two genuinely STICKY facts live here
-   * (contractEndDate, wageSekPerMonth, set once at generation and never
+   * (contractEndDate, wageEurPerMonth, set once at generation and never
    * silently rerolled); market VALUE is deliberately NOT stored --
    * lib/economy/marketValue.ts recomputes it fresh from CA/PA/age/role/
    * contract every read, so a developed player's value updates
    * automatically with zero extra bookkeeping. See
    * lib/economy/contractIntegration.ts for the only code that reads or
-   * writes this field.
+   * writes this field. HM-CONTRACTS-1.0A: EUR is the canonical currency
+   * (`wageEurPerMonth`, previously `wageSekPerMonth` -- see
+   * lib/economy/currency.ts for the one display-formatting boundary).
    */
   playerContracts: Record<string, PlayerContract>;
+
+  // --- HM-CONTRACTS-1.0A addition (career-state schema v22, see saveMigration.ts) ---
+
+  /**
+   * Part: "en kompakt, persistent klubb-/utbildningshistorik" -- keyed
+   * by playerId, same flat convention as `playerContracts`. Only PAST
+   * (departed) clubs are stored here -- the player's current club is
+   * already known via their own `clubId`. Deliberately generated,
+   * provisional data (no real transfer/youth history exists for any
+   * player in this project's sources) -- see
+   * lib/economy/clubHistoryGeneration.ts. Feeds
+   * lib/economy/trainingCompensationIntegration.ts's training-
+   * compensation calculation ONLY -- never market value or any future
+   * transfer fee.
+   */
+  playerClubHistory: Record<string, PlayerClubHistory>;
 };
 
 export type CareerSaveEnvelope = {

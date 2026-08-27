@@ -9,8 +9,8 @@ import { getCareerClub, getCareerSquad } from "@/lib/career/careerWorld";
 import { averageRating, emptyPlayerSeasonStats } from "@/lib/career/types";
 import { resolveStatusLabel } from "@/lib/career/playerStatus";
 import { REHAB_PHASE_LABELS } from "@/lib/medical/labels";
-import { getPlayerContract, getPlayerMarketValueSek } from "@/lib/economy/contractIntegration";
-import { formatSek } from "@/lib/economy/labels";
+import { getPlayerContract, getPlayerMarketValueEur } from "@/lib/economy/contractIntegration";
+import { formatEur } from "@/lib/economy/currency";
 
 type SortKey = "name" | "position" | "age" | "appearances" | "goals" | "rating" | "fitness" | "morale";
 
@@ -93,7 +93,7 @@ export default function SquadPage() {
           <tbody>
             {rows.map((p) => {
               const stats = career.playerSeasonStats[p.id] ?? emptyPlayerSeasonStats(p.id);
-              const marketValue = getPlayerMarketValueSek(career, p.id);
+              const marketValue = getPlayerMarketValueEur(career, p.id);
               return (
                 <tr key={p.id} data-clickable="true" onClick={() => router.push(`/career/squad/${p.id}`)}>
                   <td>
@@ -126,7 +126,7 @@ export default function SquadPage() {
                     <Bar pct={p.moralePct} />
                   </td>
                   <td className="hm-text-muted">{getPlayerContract(career, p.id)?.contractEndDate ?? "—"}</td>
-                  <td className="hm-table-num">{marketValue !== undefined ? formatSek(marketValue) : "—"}</td>
+                  <td className="hm-table-num">{marketValue !== undefined ? formatEur(marketValue) : "—"}</td>
                 </tr>
               );
             })}
