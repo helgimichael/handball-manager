@@ -477,7 +477,12 @@ export default function PlayerCalibrationWorkspace() {
                   const original = originals[row.playerId];
                   const dirty = original ? isDirty(row, original) : false;
                   const state = rowState[row.playerId] ?? {};
-                  const err = state.error ?? paError(row, original);
+                  // HM-PLAYER-DATA-EDITOR-1.0B: a failed save's error can be about
+                  // ANY field (e.g. a source-schema issue unrelated to CA/PA) --
+                  // only paError's own PA>=CA check should redden the CA/PA inputs.
+                  // The row's error MESSAGE still shows whatever actually failed.
+                  const ratingErr = paError(row, original);
+                  const err = state.error ?? ratingErr;
                   return (
                     <tr key={row.playerId} data-row={row.playerId} style={{ background: dirty ? "color-mix(in srgb, var(--hm-accent) 6%, transparent)" : undefined }}>
                       <td title={dirty ? "Osparade ändringar" : state.savedAt ? "Sparad" : ""}>
@@ -561,7 +566,7 @@ export default function PlayerCalibrationWorkspace() {
                           value={row.ca ?? ""}
                           onChange={(e) => updateRow(row.playerId, { ca: e.target.value === "" ? null : Number(e.target.value) })}
                           onKeyDown={(e) => handleEnterKey(e, row.playerId, '[data-col="ca"]')}
-                          style={err ? errorInputStyle : numberInputStyle}
+                          style={ratingErr ? errorInputStyle : numberInputStyle}
                         />
                       </td>
                       <td>
@@ -573,7 +578,7 @@ export default function PlayerCalibrationWorkspace() {
                           value={row.pa ?? ""}
                           onChange={(e) => updateRow(row.playerId, { pa: e.target.value === "" ? null : Number(e.target.value) })}
                           onKeyDown={(e) => handleEnterKey(e, row.playerId, '[data-col="ca"]')}
-                          style={err ? errorInputStyle : numberInputStyle}
+                          style={ratingErr ? errorInputStyle : numberInputStyle}
                         />
                       </td>
                       <td>

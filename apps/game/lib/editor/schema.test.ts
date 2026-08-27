@@ -89,6 +89,32 @@ test("valid roster edit is accepted", () => {
   assert.equal(result.ok, true);
 });
 
+// HM-PLAYER-DATA-EDITOR-1.0B: ~26% of real Handbollsligan/Allsvenskan
+// players legitimately have `sourcePosition: ""` (HM-DATA-ALLSVENSKAN-1.1's
+// own "position not present in any available source -- deterministically
+// GENERATED as a structural placeholder" state). Rejecting an empty
+// sourcePosition blocked EVERY save for those players, including a save
+// that never touched sourcePosition at all -- reproduced live against
+// Simon Örtelind and Fabian Björkman (GF Kroppskultur, Allsvenskan).
+test("an empty sourcePosition is accepted -- the real, committed representation of \"no source position available\"", () => {
+  const result = validateRosterEdit(validRoster({ sourcePosition: "" }));
+  assert.equal(result.ok, true);
+  if (result.ok) {
+    assert.equal(result.value.sourcePosition, "");
+  }
+});
+
+test("a non-string sourcePosition is still rejected", () => {
+  assert.equal(validateRosterEdit(validRoster({ sourcePosition: null })).ok, false);
+  assert.equal(validateRosterEdit(validRoster({ sourcePosition: 7 })).ok, false);
+  assert.equal(validateRosterEdit(validRoster({ sourcePosition: undefined })).ok, false);
+});
+
+test("an over-long sourcePosition is still rejected", () => {
+  const result = validateRosterEdit(validRoster({ sourcePosition: "x".repeat(61) }));
+  assert.equal(result.ok, false);
+});
+
 test("invalid primaryPosition is rejected", () => {
   const result = validateRosterEdit(validRoster({ primaryPosition: "GK" }));
   assert.equal(result.ok, false);

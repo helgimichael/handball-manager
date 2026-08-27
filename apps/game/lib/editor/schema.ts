@@ -111,6 +111,26 @@ function isValidCalendarDate(iso: string): boolean {
   return !Number.isNaN(date.getTime()) && date.toISOString().slice(0, 10) === iso;
 }
 
+// HM-PLAYER-DATA-EDITOR-1.0B: unlike requireNonEmptyString, an empty
+// string IS a valid value here -- ~26% of real players (per audit)
+// legitimately have `sourcePosition: ""`, meaning "no source position
+// was available; primaryPosition was deterministically generated as a
+// structural placeholder" (see the dataNotes this milestone's data left
+// on those roster entries). Rejecting that already-committed, legitimate
+// state blocked EVERY save -- even an unrelated squad-status/position
+// edit -- for any of those players.
+function requireString(value: unknown, field: string, errors: string[], maxLen = NAME_MAX): string {
+  if (typeof value !== "string") {
+    errors.push(`${field} must be a string`);
+    return "";
+  }
+  if (value.length > maxLen) {
+    errors.push(`${field} must be at most ${maxLen} characters`);
+    return value.slice(0, maxLen);
+  }
+  return value;
+}
+
 function requireNonEmptyString(value: unknown, field: string, errors: string[], maxLen = NAME_MAX): string {
   if (typeof value !== "string" || value.trim().length === 0) {
     errors.push(`${field} must be a non-empty string`);
@@ -206,7 +226,7 @@ export function validateRosterEdit(input: unknown): ValidationResult<RosterEdita
   }
 
   const shirtNumber = validateNullableInt(input.shirtNumber, "shirtNumber", MIN_SHIRT_NUMBER, MAX_SHIRT_NUMBER, errors);
-  const sourcePosition = requireNonEmptyString(input.sourcePosition, "sourcePosition", errors, 60);
+  const sourcePosition = requireString(input.sourcePosition, "sourcePosition", errors, 60);
   const primaryPosition = validateEnum(input.primaryPosition, CANONICAL_POSITIONS, "primaryPosition", errors);
   const rosterStatus = validateEnum(input.rosterStatus, ROSTER_STATUS_VALUES, "rosterStatus", errors);
   const rosterConfidence = validateEnum(input.rosterConfidence, CONFIDENCE_VALUES, "rosterConfidence", errors);
