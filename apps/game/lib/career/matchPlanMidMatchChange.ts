@@ -18,7 +18,7 @@
 // the pre-match plan the first time a live change is adopted) and
 // `state.matchPlanChangeHistory[fixtureId]` (Part N).
 import { simulateMatchSegment, seedFromString, type FastMatchResult, type MatchEvent } from "@handball-manager/game-simulation";
-import { getClubStrength } from "../game-data/clubStrength";
+import { computeSquadDerivedClubStrength } from "./squadDerivedClubStrength";
 import { tallyTeamStats } from "../liveMatch/liveMatchView";
 import type { MatchPlanChange, MatchPlanChangeHistoryEntry } from "../liveMatch/matchPlanChange";
 import { applyMatchPlanChange, describeMatchPlanChange } from "../liveMatch/matchPlanChange";
@@ -178,8 +178,8 @@ export function applyMidMatchPlanChange(
     endMinute: 60,
     homeClubId: original.homeClubId,
     awayClubId: original.awayClubId,
-    homeStrength: getClubStrength(original.homeClubId),
-    awayStrength: getClubStrength(original.awayClubId),
+    homeStrength: computeSquadDerivedClubStrength(original.homeClubId, getCareerClubSquad(state, original.homeClubId), state.gameplayRatings[original.homeClubId] ?? []),
+    awayStrength: computeSquadDerivedClubStrength(original.awayClubId, getCareerClubSquad(state, original.awayClubId), state.gameplayRatings[original.awayClubId] ?? []),
     homeTacticalAdjustment: combinedAdjustment.home,
     awayTacticalAdjustment: combinedAdjustment.away,
     homeRoster: managerIsHome ? roster : opponentRoster,

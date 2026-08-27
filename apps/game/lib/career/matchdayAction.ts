@@ -9,7 +9,7 @@
 // Rhythm does not recreate match-result logic (Spec S37.15).
 
 import { simulateFixture, type FastMatchResult } from "@handball-manager/game-simulation";
-import { getClubStrength } from "../game-data/clubStrength";
+import { computeSquadDerivedClubStrength } from "./squadDerivedClubStrength";
 import { checkSeasonComplete, getPlayerFixtureOn } from "./calendar";
 import { buildMatchCompletedEvent, buildPlayerInjuredEvent } from "./careerEvents";
 import { getCareerClubSquad, getCareerSquad } from "./careerWorld";
@@ -171,7 +171,9 @@ export function playManagerFixture(state: CareerState): PlayManagerFixtureResult
   const managerActiveWindowsById = managerPlan ? computeAttackActiveWindows(managerPlan, managerUsageSeed, managerStaminaByPlayerId) : undefined;
   const opponentActiveWindowsById = opponentPlan ? computeAttackActiveWindows(opponentPlan, opponentUsageSeed, opponentStaminaByPlayerId) : undefined;
 
-  const roster = buildMatchRoster(getCareerSquad(state), state.playerStatuses, managerAttackExposureById, managerActiveWindowsById, managerDefenceExposureById);
+  const managerRatingsById = new Map((state.gameplayRatings[state.playerClubId] ?? []).map((r) => [r.playerId, r]));
+  const opponentRatingsById = new Map((state.gameplayRatings[opponentClubId] ?? []).map((r) => [r.playerId, r]));
+  const roster = buildMatchRoster(getCareerSquad(state), state.playerStatuses, managerAttackExposureById, managerActiveWindowsById, managerDefenceExposureById, managerRatingsById);
   // HM-MATCH-0.2: the opponent's snapshotted squad, so the Fast Match
   // Engine attributes real player goals/events to them too instead of
   // leaving their side entirely anonymous (Spec: "do not randomly invent
@@ -180,7 +182,7 @@ export function playManagerFixture(state: CareerState): PlayManagerFixtureResult
   // so this intentionally falls back to squadStatus-only eligibility --
   // the same honest scope buildMatchRoster already documents for callers
   // that predate Career Rhythm.
-  const opponentRoster = buildMatchRoster(getCareerClubSquad(state, opponentClubId), undefined, opponentAttackExposureById, opponentActiveWindowsById, opponentDefenceExposureById);
+  const opponentRoster = buildMatchRoster(getCareerClubSquad(state, opponentClubId), undefined, opponentAttackExposureById, opponentActiveWindowsById, opponentDefenceExposureById, opponentRatingsById);
 
   // HM-MATCH-RATINGS-0.1 Part K: the manager's own PRE-MATCH
   // SevenVSixPolicy (from the resolved MatchPlan above) now scales the
@@ -225,7 +227,7 @@ export function playManagerFixture(state: CareerState): PlayManagerFixtureResult
   const result = simulateFixture(
     fixture,
     state.saveSeed,
-    (clubId) => getClubStrength(clubId),
+    (clubId) => computeSquadDerivedClubStrength(clubId, getCareerClubSquad(state, clubId), state.gameplayRatings[clubId] ?? []),
     (clubId) => (clubId === state.playerClubId ? roster : clubId === opponentClubId ? opponentRoster : undefined),
     combinedAdjustment,
   );

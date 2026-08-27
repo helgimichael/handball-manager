@@ -61,7 +61,7 @@
 // value the original simulation produced.
 import { simulateMatchSegment, type FastMatchResult, type MatchEvent, type PlayerMatchContribution } from "@handball-manager/game-simulation";
 import { createRng, seedFromString } from "@handball-manager/game-simulation";
-import { getClubStrength } from "../game-data/clubStrength";
+import { computeSquadDerivedClubStrength } from "./squadDerivedClubStrength";
 import { tallyTeamStats } from "../liveMatch/liveMatchView";
 import { computeTacticalMatchAdjustment } from "./tacticalMatchAdjustment";
 import { computeAttackActiveWindows, computeTeamUsageTrace } from "./matchUsageEngine";
@@ -204,8 +204,8 @@ export function applyMidMatchTacticalChange(
     endMinute: 60,
     homeClubId: original.homeClubId,
     awayClubId: original.awayClubId,
-    homeStrength: getClubStrength(original.homeClubId),
-    awayStrength: getClubStrength(original.awayClubId),
+    homeStrength: computeSquadDerivedClubStrength(original.homeClubId, getCareerClubSquad(state, original.homeClubId), state.gameplayRatings[original.homeClubId] ?? []),
+    awayStrength: computeSquadDerivedClubStrength(original.awayClubId, getCareerClubSquad(state, original.awayClubId), state.gameplayRatings[original.awayClubId] ?? []),
     homeTacticalAdjustment: adjustment.home,
     awayTacticalAdjustment: adjustment.away,
     homeRoster: managerIsHome ? roster : opponentRoster,

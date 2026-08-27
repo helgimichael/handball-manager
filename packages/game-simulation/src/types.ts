@@ -96,4 +96,16 @@ export type MatchRosterPlayer = {
    * MatchUsageTrace.
    */
   activeWindows?: readonly boolean[];
+  /**
+   * HM-PLAYER-CALIBRATION-1.0 Part C: a goalkeeper's canonical
+   * goalkeeper-attribute quality (0-100, blended from CA + the
+   * GOALKEEPER_ATTRIBUTES family), when known. Only ever set on the one
+   * roster entry with `isGoalkeeper: true`. Used ONLY to give that
+   * player's post-match rating a small, bounded skill-based nudge in
+   * buildPlayerContributions -- it does NOT feed into the underlying
+   * save-count/shots-faced simulation. Undefined means "no canonical
+   * rating available", which reproduces the pre-existing pure
+   * save-percentage rating byte-for-byte.
+   */
+  goalkeeperQuality?: number;
 };

@@ -64,9 +64,25 @@ const SQUAD_STATUS_PRIORITY: Record<PlayerMock["squadStatus"], number> = {
  * never random). Always includes a goalkeeper first when one exists.
  * Purely a starting point for the Tactics workspace; the manager can
  * freely change every player afterwards.
+ *
+ * HM-PLAYER-CALIBRATION-1.0: `priorityFor` is an OPTIONAL override for
+ * the sort key -- lower number = selected first (matches
+ * SQUAD_STATUS_PRIORITY's own convention). This module intentionally
+ * stays decoupled from lib/career's SquadStatusTier concept (career
+ * imports matchPlan, never the reverse -- see this file's own header);
+ * the one real caller (lib/career/playerMatchStrength.ts's
+ * resolveClubMatchPlanForFixture) computes the canonical priority
+ * per player and passes it in as plain numbers. Omitting it reproduces
+ * the exact legacy PlayerMock.squadStatus-based ordering byte-for-byte.
  */
-export function buildInitialMatchSquad(squad: readonly PlayerMock[], fixtureId: string, clubId: string): MatchSquad {
-  const sorted = [...squad].sort((a, b) => SQUAD_STATUS_PRIORITY[a.squadStatus] - SQUAD_STATUS_PRIORITY[b.squadStatus]);
+export function buildInitialMatchSquad(
+  squad: readonly PlayerMock[],
+  fixtureId: string,
+  clubId: string,
+  priorityFor?: (player: PlayerMock) => number,
+): MatchSquad {
+  const priority = priorityFor ?? ((p: PlayerMock) => SQUAD_STATUS_PRIORITY[p.squadStatus]);
+  const sorted = [...squad].sort((a, b) => priority(a) - priority(b));
   const goalkeeper = sorted.find((p) => p.position === "MV");
   const rest = sorted.filter((p) => p !== goalkeeper);
   const chosen = (goalkeeper ? [goalkeeper, ...rest] : rest).slice(0, MATCH_SQUAD_MAX_PLAYERS);

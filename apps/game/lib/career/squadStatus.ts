@@ -44,8 +44,17 @@ export const SQUAD_STATUS_TIER_LABEL_SV: Record<SquadStatusTier, string> = {
  * medical/discipline mock state ("Skadad"/"Avstängd") says nothing about
  * ROLE, so it falls back to ROTATION (a neutral middle tier, never
  * inferred from the unrelated injury/suspension fact).
+ *
+ * HM-PLAYER-CALIBRATION-1.0: exported (was previously module-private) so
+ * lib/career/playerMatchStrength.ts's resolveClubMatchPlanForFixture can
+ * derive a CPU club's squad hierarchy for default MatchPlan generation.
+ * `CareerState.playerSquadStatus` is ONLY ever populated for the
+ * manager's own club (see ensureCareerPlayerSquadStatus's call sites in
+ * newCareer.ts/saveMigration.ts) -- AI/opponent clubs have no persisted
+ * entry, so this function (reading straight off PlayerMock, calibrated or
+ * not) is the only squad-hierarchy signal available for them.
  */
-function deriveDefaultSquadStatusTier(player: PlayerMock): SquadStatusTier {
+export function deriveDefaultSquadStatusTier(player: PlayerMock): SquadStatusTier {
   // HM-PLAYER-DATA-EDITOR-1.0: an editor-calibrated default (from
   // roster-*.json's `defaultSquadStatus`, threaded through PlayerMock.
   // calibratedSquadStatusTier by gameWorldAdapter.ts) wins outright --

@@ -1,8 +1,10 @@
 import type { MatchRosterPlayer } from "@handball-manager/game-simulation";
-import type { PlayerMock } from "../game-data";
+import type { HandballPosition, PlayerMock } from "../game-data";
 import { buildInitialMatchSquad } from "../matchPlan/careerSquadBridge";
 import { MATCH_SQUAD_MAX_PLAYERS } from "../matchPlan/types";
 import { isSelectableForMatch, type PlayerCareerStatus } from "./playerStatus";
+import type { GameplayPlayerRating } from "../gameWorld/gameplayRatingSnapshot";
+import { GOALKEEPER_ATTRIBUTES, type GoalkeeperAttribute, type OutcourtAttribute, type OutcourtPositionId } from "../rating/types";
 
 /**
  * HM-MATCH-1.1 Part 9: the guaranteed-legal exposure map for a side
@@ -40,13 +42,119 @@ export function buildFallbackAttackExposure(squad: readonly PlayerMock[], fixtur
  * can introduce occasional youth involvement); "Skadad"/"Avstängd"
  * players are always excluded.
  */
-function scoringWeightFor(player: PlayerMock): number {
-  // Center-back/playmaker positions distribute more than they finish
-  // in real handball, so their relative scoring weight is dampened
-  // slightly versus wings/backs/pivot -- a coarse position bias, not a
-  // claim of a final tactical model.
-  const positionMultiplier = player.position === "M6" || player.position === "M9" ? 0.75 : 1;
-  return (player.currentAbility / 10) * positionMultiplier;
+// ---------------------------------------------------------------------------
+// HM-PLAYER-CALIBRATION-1.0 Part C: scorer-attribution weight, root-fixed
+// to read canonical GameplayPlayerRating (CA + a position-appropriate
+// attribute family) instead of the stale, flat `PlayerMock.currentAbility`
+// gameWorldAdapter.ts hardcodes to 100 for every real-world player (see
+// that file's own PROVISIONAL_ABILITY doc). Reuses the SAME blended-value
+// pattern lib/career/playerMatchStrength.ts's playerAttackValue already
+// establishes for team-strength (CA + attribute-family average, equally
+// weighted, both rescaled onto 0-100) -- not a parallel quality model,
+// just a different, position-specific attribute family suited to
+// per-player SHOT CREDIT rather than team-level attack strength: a wing
+// finishes differently than a pivot, and a playmaker (M9) sets up more
+// than they shoot, in real handball.
+// ---------------------------------------------------------------------------
+
+const SCORING_ATTRIBUTES_BY_POSITION: Record<OutcourtPositionId, readonly OutcourtAttribute[]> = {
+  V6: ["WING_FINISHING", "SHOOTING_PLACEMENT", "BREAKTHROUGH", "FINISHING"],
+  H6: ["WING_FINISHING", "SHOOTING_PLACEMENT", "BREAKTHROUGH", "FINISHING"],
+  V9: ["SHOOTING_POWER", "SHOOTING_VARIETY", "BREAKTHROUGH", "FINISHING"],
+  H9: ["SHOOTING_POWER", "SHOOTING_VARIETY", "BREAKTHROUGH", "FINISHING"],
+  M9: ["PLAYMAKING", "DECISION_MAKING", "SHOOTING_VARIETY", "BREAKTHROUGH"],
+  M6: ["PIVOT_PLAY", "FINISHING", "SCREENING"],
+};
+
+/**
+ * How large a share of a team's shot volume a position typically carries
+ * in real handball -- the same coarse idea the old flat 0.75 M6/M9
+ * dampener already captured, now graded per position instead of one
+ * dampener applied to both a playmaker AND a pivot (very different
+ * offensive roles). Never a claim of a final tactical model.
+ */
+const OFFENSIVE_INVOLVEMENT_BY_POSITION: Record<OutcourtPositionId, number> = {
+  V6: 1.1,
+  H6: 1.1,
+  V9: 1.0,
+  H9: 1.0,
+  M6: 0.95,
+  M9: 0.7,
+};
+
+/** HM-PLAYER-CALIBRATION-1.0: small, bounded PlayerTag nudges -- the first real gameplay consumer of lib/game-data/playerTags.ts's vocabulary (previously read only by the editor/data layer). Deliberately NOT a new attribution system: a plain multiplier on the same scoring weight below, for the two tags with an honest, direct link to "how often does this player get a scoring chance". */
+const ATTACK_SPECIALIST_MULTIPLIER = 1.15;
+const SEVEN_METER_TAKER_MULTIPLIER = 1.1;
+
+function clamp(n: number, min: number, max: number): number {
+  return Math.max(min, Math.min(max, n));
+}
+
+function averageAttribute(attrs: readonly string[], record: Record<string, { value: number }>): number {
+  let sum = 0;
+  let count = 0;
+  for (const attr of attrs) {
+    const entry = record[attr];
+    if (entry) {
+      sum += entry.value;
+      count += 1;
+    }
+  }
+  return count > 0 ? sum / count : 10.5; // 10.5 = midpoint of the 1-20 attribute scale
+}
+
+/** Blends CA (1-200) with a 1-20 attribute-family average, equally weighted, both rescaled onto a shared 0-100 value space -- mirrors playerMatchStrength.ts's own blendedValue verbatim (kept as a small local copy rather than an import, since that function is module-private there and this is a different module's concern: per-player shot credit, not team strength). */
+function blendedValue(ca: number, attrAvg1to20: number): number {
+  const caScaled = clamp((ca / 200) * 100, 0, 100);
+  const attrScaled = clamp((attrAvg1to20 / 20) * 100, 0, 100);
+  return caScaled * 0.5 + attrScaled * 0.5;
+}
+
+function isOutcourtPosition(position: HandballPosition): position is OutcourtPositionId {
+  return position !== "MV";
+}
+
+function scoringWeightFor(player: PlayerMock, rating: GameplayPlayerRating | undefined): number {
+  if (!isOutcourtPosition(player.position)) return 0; // goalkeepers never score in handball
+  const involvement = OFFENSIVE_INVOLVEMENT_BY_POSITION[player.position];
+
+  let quality: number;
+  if (rating && rating.branch.branch === "OUTCOURT") {
+    quality = blendedValue(rating.ca, averageAttribute(SCORING_ATTRIBUTES_BY_POSITION[player.position], rating.branch.attributes));
+  } else {
+    // No canonical rating resolved for this player (e.g. the static
+    // fiction squads that predate real-world import, or a club with no
+    // gameplayRatings snapshot yet) -- fall back to the mock's own
+    // currentAbility, exactly as before this fix, so those squads are
+    // unaffected.
+    quality = player.currentAbility;
+  }
+
+  let weight = (quality / 10) * involvement;
+  const tags = player.specialTags ?? [];
+  if (tags.includes("ATTACK_SPECIALIST")) weight *= ATTACK_SPECIALIST_MULTIPLIER;
+  if (tags.includes("SEVEN_METER_TAKER")) weight *= SEVEN_METER_TAKER_MULTIPLIER;
+  return Math.max(0.1, weight);
+}
+
+/**
+ * HM-PLAYER-CALIBRATION-1.0 Part C: the starting goalkeeper's post-match
+ * `rating` (in packages/game-simulation's buildPlayerContributions) is
+ * currently derived ONLY from that match's own save percentage -- no
+ * skill input at all, so a genuinely elite keeper and a weak one having
+ * an identical match get an identical rating. `goalkeeperQuality`
+ * (0-100, the same blended-value pattern as scoringWeightFor above, over
+ * the canonical GOALKEEPER_ATTRIBUTES family) gives buildPlayerContributions
+ * a small, bounded skill nudge on TOP of that save-percentage-driven
+ * rating -- it does NOT touch the underlying save-count/shots-faced
+ * simulation itself (that stays governed by ClubStrength.goalkeeper +
+ * playerMatchStrength.ts's own goalkeeper value channel, both untouched
+ * here); this is attribution/rating only.
+ */
+function goalkeeperQualityFor(rating: GameplayPlayerRating | undefined): number | undefined {
+  if (!rating || rating.branch.branch !== "GOALKEEPER") return undefined;
+  const attrs: readonly GoalkeeperAttribute[] = GOALKEEPER_ATTRIBUTES;
+  return blendedValue(rating.ca, averageAttribute(attrs, rating.branch.attributes));
 }
 
 /**
@@ -80,6 +188,16 @@ function scoringWeightFor(player: PlayerMock): number {
  * phases (e.g. EMERGENCY_ONLY, or absent from the plan) is excluded
  * from the roster entirely. Omitting both maps is byte-identical to
  * before HM-MATCH-1.0.
+ *
+ * `ratingsById` (HM-PLAYER-CALIBRATION-1.0 Part C): the club's canonical
+ * GameplayPlayerRating[] snapshot (CareerState.gameplayRatings[clubId]),
+ * keyed by playerId -- every existing call site already has this value
+ * in scope (matchdayAction.ts/calendar.ts/season-audit.ts's detailed
+ * mode all read state.gameplayRatings right where buildMatchRoster is
+ * called). Powers scoringWeightFor/goalkeeperQualityFor above. Omitting
+ * it falls back to the old currentAbility-based weight for every
+ * player -- byte-identical to before this fix, so any caller that
+ * genuinely has no ratings (a static fiction squad) is unaffected.
  */
 export function buildMatchRoster(
   squad: readonly PlayerMock[],
@@ -87,6 +205,7 @@ export function buildMatchRoster(
   attackExposureById?: ReadonlyMap<string, number>,
   attackActiveWindowsById?: ReadonlyMap<string, readonly boolean[]>,
   defenceExposureById?: ReadonlyMap<string, number>,
+  ratingsById?: ReadonlyMap<string, GameplayPlayerRating>,
 ): MatchRosterPlayer[] {
   const eligible = squad.filter((p) => {
     const baseEligible = p.squadStatus === "Förstaval" || p.squadStatus === "Rotation";
@@ -130,7 +249,7 @@ export function buildMatchRoster(
   const outfieldRoster: MatchRosterPlayer[] = outfield.map((p) => ({
     playerId: p.id,
     isGoalkeeper: false,
-    scoringWeight: scoringWeightFor(p) * (attackExposureById ? Math.max(0, Math.min(1, attackExposureById.get(p.id) ?? 1)) : 1),
+    scoringWeight: scoringWeightFor(p, ratingsById?.get(p.id)) * (attackExposureById ? Math.max(0, Math.min(1, attackExposureById.get(p.id) ?? 1)) : 1),
     started: p.squadStatus === "Förstaval",
     activeWindows: attackActiveWindowsById?.get(p.id),
   }));
@@ -140,7 +259,13 @@ export function buildMatchRoster(
   }
 
   return [
-    { playerId: startingGoalkeeper.id, isGoalkeeper: true, scoringWeight: 0, started: true },
+    {
+      playerId: startingGoalkeeper.id,
+      isGoalkeeper: true,
+      scoringWeight: 0,
+      started: true,
+      goalkeeperQuality: goalkeeperQualityFor(ratingsById?.get(startingGoalkeeper.id)),
+    },
     ...outfieldRoster,
   ];
 }

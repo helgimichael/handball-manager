@@ -99,7 +99,16 @@ test("HM-RATINGS-0.6 population audit: real calibrated CA survives exactly for t
     const player = league.find((p) => p.playerId.includes(slug));
     assert.ok(player, `expected to find ${slug} in the generated league`);
     assert.equal(player!.ca, ca, `${slug} CA drifted from its calibrated value`);
-    assert.equal(player!.caSource, "CALIBRATED");
+    // HM-PLAYER-CALIBRATION-1.0: a manager can LOCK a real player's own
+    // CA via Editor Mode -- EDITOR_OVERRIDE is a strictly MORE
+    // authoritative source than the pipeline's own CALIBRATED anchor
+    // (it wins the resolver outright, see gameplayRatingSnapshot.ts's
+    // own header), never a drift/regression, so long as the CA value
+    // itself is unchanged (asserted above).
+    assert.ok(
+      player!.caSource === "CALIBRATED" || player!.caSource === "EDITOR_OVERRIDE",
+      `${slug} caSource should be CALIBRATED or a manager EDITOR_OVERRIDE lock, was ${player!.caSource}`,
+    );
   }
 });
 

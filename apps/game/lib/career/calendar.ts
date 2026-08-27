@@ -1,5 +1,5 @@
 import { simulateFixture, type FastMatchResult } from "@handball-manager/game-simulation";
-import { getClubStrength } from "../game-data/clubStrength";
+import { computeSquadDerivedClubStrength } from "./squadDerivedClubStrength";
 import { getCareerClubSquad } from "./careerWorld";
 import { buildSeasonCompleteMessage } from "./inboxEvents";
 import { applyMatchResultBookkeeping } from "./matchResultApplication";
@@ -139,7 +139,7 @@ export function simulateAiFixturesForDate(state: CareerState, date: string): { s
     const result = simulateFixture(
       fixture,
       state.saveSeed,
-      (clubId) => getClubStrength(clubId),
+      (clubId) => computeSquadDerivedClubStrength(clubId, getCareerClubSquad(state, clubId), state.gameplayRatings[clubId] ?? []),
       undefined,
       combinedAdjustment,
     );

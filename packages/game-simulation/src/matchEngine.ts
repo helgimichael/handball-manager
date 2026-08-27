@@ -193,7 +193,16 @@ function buildPlayerContributions(
   }
   return roster.map((p) => {
     if (p.isGoalkeeper) {
-      const rating = Math.max(1, Math.min(10, 6 + (saves / Math.max(1, shotsFaced)) * 5 + (rng.nextFloat() - 0.5)));
+      // HM-PLAYER-CALIBRATION-1.0 Part C: a small, bounded nudge from the
+      // keeper's own canonical goalkeeper-attribute quality (±0.6 rating
+      // points at the 0/100 extremes) on top of the save-percentage-driven
+      // base -- never a replacement for it, and never touches the
+      // underlying save-count simulation (still ClubStrength.goalkeeper +
+      // playerMatchStrength.ts's own channel). Undefined quality (no
+      // canonical rating resolved) reproduces the old pure-save% rating
+      // exactly.
+      const qualityNudge = p.goalkeeperQuality !== undefined ? ((p.goalkeeperQuality - 50) / 50) * 0.6 : 0;
+      const rating = Math.max(1, Math.min(10, 6 + (saves / Math.max(1, shotsFaced)) * 5 + qualityNudge + (rng.nextFloat() - 0.5)));
       return {
         playerId: p.playerId,
         goals: 0,

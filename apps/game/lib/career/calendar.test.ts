@@ -12,7 +12,8 @@ import { continueCareerRhythm } from "./continueController";
 import { playManagerFixture } from "./matchdayAction";
 import { getLiveStandings } from "./standings";
 import { GAME_CURRENT_DATE, TUMBA_CLUB_ID } from "../game-data";
-import { getClubStrength } from "../game-data/clubStrength";
+import { computeSquadDerivedClubStrength } from "./squadDerivedClubStrength";
+import { getCareerClubSquad } from "./careerWorld";
 import { snapshotAiTacticalPreferences, snapshotWorldSquads } from "../gameWorld/serverSnapshot";
 import type { CareerState } from "./types";
 
@@ -117,7 +118,11 @@ test("HM-TACTICS-0.10: a real career with NO AI tactical preferences snapshot (a
 
   // Hand-roll the pre-HM-TACTICS-0.10 baseline directly: simulateFixture with NO tactical adjustment at all.
   const dueFixtures = stateWithoutPreferences.fixtures.filter((f) => f.date === date && f.homeClubId !== "se_club_alingsas_hk" && f.awayClubId !== "se_club_alingsas_hk");
-  const expected = dueFixtures.map((f) => simulateFixture(f, stateWithoutPreferences.saveSeed, (clubId: string) => getClubStrength(clubId)));
+  const expected = dueFixtures.map((f) =>
+    simulateFixture(f, stateWithoutPreferences.saveSeed, (clubId: string) =>
+      computeSquadDerivedClubStrength(clubId, getCareerClubSquad(stateWithoutPreferences, clubId), stateWithoutPreferences.gameplayRatings[clubId] ?? []),
+    ),
+  );
 
   assert.deepEqual(actual, expected);
   assert.ok(stateWithPreferences); // sanity: the comparison state constructed correctly too

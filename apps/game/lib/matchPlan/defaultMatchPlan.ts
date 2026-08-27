@@ -12,8 +12,10 @@ import type {
   DefenceUnitSlot,
   DepthHierarchy,
   MatchPlan,
+  MatchRole,
   MatchSquad,
   PlayerMatchUsage,
+  PlayingTimeIntention,
   SubstitutionPair,
 } from "./types";
 import type { PlayerMatchDefault, TacticsTemplate } from "./persistentDefaults";
@@ -23,6 +25,51 @@ export interface DefaultMatchPlanResult {
   plan: MatchPlan | null;
   errors: string[];
 }
+
+/**
+ * HM-PLAYER-CALIBRATION-1.0: a generic 0-4 priority tier (0 = highest
+ * priority) used ONLY to grade the fallback matchRole/playingTimeIntention
+ * this module assigns when no `playerDefaults` entry exists for a player.
+ * This module stays decoupled from lib/career's SquadStatusTier by
+ * design (see careerSquadBridge.ts's own header on the one-way
+ * career -> matchPlan dependency) -- the caller
+ * (lib/career/playerMatchStrength.ts) maps SquadStatusTier to this same
+ * 0-4 scale before calling buildDefaultMatchPlan.
+ */
+export type SquadPriorityTier = 0 | 1 | 2 | 3 | 4;
+
+/**
+ * Starters keep near-full usage regardless of tier -- being IN the
+ * starting unit already reflects being the best available player for
+ * that slot (squad array order is priority-sorted upstream by the
+ * caller), and a squad player forced into the XI by thin depth should
+ * still get to play the match, not be undermined by a low intention.
+ * Only a genuine KEY_PLAYER gets the top MATCH_ROLE_WEIGHT/
+ * PLAYING_TIME_MULTIPLIER tier (see matchUsagePlan.ts) -- "mycket hög
+ * förväntad användning" specifically for Nyckelspelare.
+ */
+const STARTER_ROLE_BY_TIER: Record<SquadPriorityTier, { matchRole: MatchRole; playingTimeIntention: PlayingTimeIntention }> = {
+  0: { matchRole: "KEY_PLAYER", playingTimeIntention: "VERY_HIGH" },
+  1: { matchRole: "STARTER", playingTimeIntention: "HIGH" },
+  2: { matchRole: "STARTER", playingTimeIntention: "HIGH" },
+  3: { matchRole: "STARTER", playingTimeIntention: "HIGH" },
+  4: { matchRole: "STARTER", playingTimeIntention: "HIGH" },
+};
+
+/**
+ * Bench usage is where squad hierarchy actually shows up: a benched
+ * Nyckelspelare (e.g. two key players competing for one slot) still gets
+ * meaningful minutes, while a benched Talang gets genuinely limited/
+ * development-only exposure -- "en Truppspelare ska inte regelbundet
+ * spela mer än en frisk Nyckelspelare på samma position".
+ */
+const BENCH_ROLE_BY_TIER: Record<SquadPriorityTier, { matchRole: MatchRole; playingTimeIntention: PlayingTimeIntention }> = {
+  0: { matchRole: "MAJOR_ROTATION", playingTimeIntention: "HIGH" },
+  1: { matchRole: "MAJOR_ROTATION", playingTimeIntention: "NORMAL" },
+  2: { matchRole: "ROTATION", playingTimeIntention: "NORMAL" },
+  3: { matchRole: "ROTATION", playingTimeIntention: "LOW" },
+  4: { matchRole: "DEVELOPMENT", playingTimeIntention: "LOW" },
+};
 
 /** Picks the first squad player at each of the 6 outcourt positions (in squad array order); any positions left uncovered are filled with the next unused outcourt players, in squad order, regardless of their own recorded position -- guarantees a structurally complete 6-slot unit for any squad with >= 6 outcourt players, without inventing a fake position label match. */
 function pickStartingSix(squad: MatchSquad): { playerId: string; position: OutcourtPositionId }[] | null {
@@ -66,8 +113,22 @@ function pickStartingSix(squad: MatchSquad): { playerId: string; position: Outco
  * per-player standing rather than the hardcoded neutral defaults below.
  * Omitting them (every pre-HM-MATCH-1.1 call site) is byte-identical to
  * before this milestone.
+ *
+ * HM-PLAYER-CALIBRATION-1.0: `squadPriorityTierByPlayerId` is an OPTIONAL
+ * 5th input -- for any player with NO `playerDefaults` entry (true for
+ * every CPU/AI club, which never gets a manager-configured
+ * playerMatchDefaults), it grades the fallback matchRole/
+ * playingTimeIntention by squad hierarchy (see STARTER_ROLE_BY_TIER/
+ * BENCH_ROLE_BY_TIER above) instead of the flat STARTER/ROTATION
+ * default. Omitting it reproduces the exact pre-HM-PLAYER-CALIBRATION-1.0
+ * flat default byte-for-byte.
  */
-export function buildDefaultMatchPlan(squad: MatchSquad, tacticsTemplate?: TacticsTemplate, playerDefaults?: Readonly<Record<string, PlayerMatchDefault>>): DefaultMatchPlanResult {
+export function buildDefaultMatchPlan(
+  squad: MatchSquad,
+  tacticsTemplate?: TacticsTemplate,
+  playerDefaults?: Readonly<Record<string, PlayerMatchDefault>>,
+  squadPriorityTierByPlayerId?: Readonly<Record<string, SquadPriorityTier>>,
+): DefaultMatchPlanResult {
   const goalkeeper = squad.players.find((p) => p.position === "GK");
   if (!goalkeeper) {
     return { ok: false, plan: null, errors: ["Cannot build a default match plan: squad has no goalkeeper."] };
@@ -88,10 +149,13 @@ export function buildDefaultMatchPlan(squad: MatchSquad, tacticsTemplate?: Tacti
   const playerUsage: PlayerMatchUsage[] = squad.players.map((p) => {
     const persisted = playerDefaults?.[p.playerId];
     if (persisted) return { playerId: p.playerId, ...persisted };
+    const isStarter = starterIds.has(p.playerId);
+    const tier = squadPriorityTierByPlayerId?.[p.playerId];
+    const graded = tier !== undefined ? (isStarter ? STARTER_ROLE_BY_TIER[tier] : BENCH_ROLE_BY_TIER[tier]) : null;
     return {
       playerId: p.playerId,
-      matchRole: starterIds.has(p.playerId) ? "STARTER" : "ROTATION",
-      playingTimeIntention: starterIds.has(p.playerId) ? "HIGH" : "NORMAL",
+      matchRole: graded?.matchRole ?? (isStarter ? "STARTER" : "ROTATION"),
+      playingTimeIntention: graded?.playingTimeIntention ?? (isStarter ? "HIGH" : "NORMAL"),
       phaseUsage: "BOTH_PHASES",
     };
   });

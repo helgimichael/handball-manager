@@ -98,7 +98,7 @@ export type PlayerMock = {
   squadStatus: SquadStatus;
   /** HM-PLAYER-DATA-EDITOR-1.0: editor-calibrated permanent squad-role default, from roster-*.json's `defaultSquadStatus` -- see CalibratedSquadStatusTier's own doc. Undefined for a player nobody has calibrated yet (the pre-existing squadStatus-based guess still applies). */
   calibratedSquadStatusTier?: CalibratedSquadStatusTier;
-  /** HM-PLAYER-DATA-EDITOR-1.0: editor-calibrated special tags (playerTags.ts) -- purely informational at this milestone, no gameplay system reads this yet. Undefined/empty for an uncalibrated player. */
+  /** HM-PLAYER-DATA-EDITOR-1.0: editor-calibrated special tags (playerTags.ts). HM-PLAYER-CALIBRATION-1.0 Part C: ATTACK_SPECIALIST/SEVEN_METER_TAKER now feed a small scoring-weight nudge in lib/career/tumbaRoster.ts's scoringWeightFor -- every other tag remains informational only. Undefined/empty for an uncalibrated player. */
   specialTags?: PlayerTag[];
   /** HM-DATA-0.2: "REAL_WORLD" for imported Handbollsligan players, undefined/"MOCK" for authored fiction (e.g. TUMBA_SQUAD). Dev-facing distinction only. */
   dataSource?: "REAL_WORLD" | "MOCK";

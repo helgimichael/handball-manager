@@ -13,13 +13,15 @@ import {
   computeTeamStrengthTrace,
   resolveClubMatchPlanForFixture,
 } from "./playerMatchStrength";
-import { PHASE_USAGE_MULTIPLIER } from "./matchUsagePlan";
+import { MATCH_ROLE_WEIGHT, PHASE_USAGE_MULTIPLIER, PLAYING_TIME_MULTIPLIER } from "./matchUsagePlan";
 import { buildDefaultMatchPlan } from "../matchPlan/defaultMatchPlan";
 import { setPlayerMatchRole, setPlayerPhaseUsage, setPlayerPlayingTime, setSubstitutionPair } from "../matchPlan/matchPlanEdits";
 import type { MatchPlan, MatchSquad, Position } from "../matchPlan/types";
 import type { GameplayPlayerRating } from "../gameWorld/gameplayRatingSnapshot";
 import { GOALKEEPER_ATTRIBUTES, OUTCOURT_ATTRIBUTE_FAMILIES, OUTCOURT_ATTRIBUTES, type GoalkeeperAttribute, type OutcourtAttribute } from "../rating/types";
 import type { GeneratedAttributeValue } from "../rating/generation/types";
+import type { PlayerMock } from "../game-data";
+import { TUMBA_CLUB_ID } from "../game-data";
 
 // ---------------------------------------------------------------------------
 // Test fixtures/helpers
@@ -418,4 +420,107 @@ test("Part S #20: a full computePlayerMatchStrengthAdjustment call is determinis
   const a = computePlayerMatchStrengthAdjustment(homePlan, homeRatings, awayPlan, awayRatings, "seed-part-s20");
   const b = computePlayerMatchStrengthAdjustment(homePlan, homeRatings, awayPlan, awayRatings, "seed-part-s20");
   assert.deepEqual(a, b);
+});
+
+// ---------------------------------------------------------------------------
+// HM-PLAYER-CALIBRATION-1.0 Part B: canonical SquadStatusTier now governs
+// resolveClubMatchPlanForFixture's default (no-saved-plan) squad
+// selection and usage grading -- proven end to end through the real
+// public entry point, the same one every AI-vs-AI fixture uses.
+// ---------------------------------------------------------------------------
+
+function fakeCalibrationPlayer(overrides: Partial<PlayerMock>): PlayerMock {
+  return {
+    id: "fake-player",
+    clubId: TUMBA_CLUB_ID,
+    firstName: "Fake",
+    lastName: "Player",
+    shirtNumber: null,
+    position: "V6",
+    nationality: "SWE",
+    dateOfBirth: null,
+    heightCm: null,
+    weightKg: null,
+    foot: null,
+    squadStatus: "Rotation",
+    currentAbility: 100,
+    potentialAbility: 100,
+    form: 5,
+    fitnessPct: 100,
+    moralePct: 70,
+    appearances: 0,
+    goals: 0,
+    contractEndSeason: "2027/28",
+    wageSekPerMonth: 0,
+    attributes: {
+      technical: { skott: 10, passning: 10, spelforstaelse: 10, genombrott: 10, mottagning: 10, fint: 10, spelUtanBoll: 10 },
+      mental: { beslutsfattande: 10, kyla: 10, arbetskapacitet: 10, kampvilja: 10, positionering: 10, lagarbete: 10, ledarskap: 10 },
+      physical: { snabbhet: 10, acceleration: 10, styrka: 10, explosivitet: 10, uthallighet: 10, rorlighet: 10 },
+    },
+    ...overrides,
+  };
+}
+
+/** A minimal, complete 7-player squad (GK + one player per outcourt position) so buildDefaultMatchPlan always succeeds. */
+function minimalSquad(overrides: Partial<PlayerMock> = {}): PlayerMock[] {
+  return [
+    fakeCalibrationPlayer({ id: "gk", position: "MV" }),
+    fakeCalibrationPlayer({ id: "v9", position: "V9" }),
+    fakeCalibrationPlayer({ id: "h9", position: "H9" }),
+    fakeCalibrationPlayer({ id: "m9", position: "M9" }),
+    fakeCalibrationPlayer({ id: "m6", position: "M6" }),
+    fakeCalibrationPlayer({ id: "h6", position: "H6" }),
+    fakeCalibrationPlayer({ id: "v6", position: "V6", ...overrides }),
+  ];
+}
+
+test("Part B: a KEY_PLAYER wins the starting slot over a TALENT at the same position, on squad hierarchy alone -- never CA, never random", () => {
+  // TALENT listed FIRST in squad array order -- if tier didn't govern
+  // selection, the old array-order-only pickStartingSix would start the
+  // talent instead.
+  const talent = fakeCalibrationPlayer({ id: "v6-talent", position: "V6", calibratedSquadStatusTier: "TALENT" });
+  const keyPlayer = fakeCalibrationPlayer({ id: "v6-key", position: "V6", calibratedSquadStatusTier: "KEY_PLAYER" });
+  const squad = [...minimalSquad().filter((p) => p.position !== "V6"), talent, keyPlayer];
+
+  const plan = resolveClubMatchPlanForFixture(CLUB_ID, FIXTURE_ID, squad, undefined);
+  assert.ok(plan, "expected a valid default plan for a complete 7-player-equivalent squad");
+  const startingV6 = plan!.attackStartingUnit.slots.find((s) => s.position === "V6")?.playerId;
+  assert.equal(startingV6, "v6-key", "the KEY_PLAYER must start ahead of the TALENT at the same position");
+
+  const talentUsage = plan!.playerUsage.find((u) => u.playerId === "v6-talent")!;
+  assert.equal(talentUsage.matchRole, "DEVELOPMENT");
+  assert.equal(talentUsage.playingTimeIntention, "LOW");
+});
+
+test("Part B: a benched KEY_PLAYER (e.g. two key players competing for one slot) still gets meaningfully more usage than a benched TALENT", () => {
+  const startingKey = fakeCalibrationPlayer({ id: "v6-starter", position: "V6", calibratedSquadStatusTier: "KEY_PLAYER" });
+  const benchedKey = fakeCalibrationPlayer({ id: "v6-bench-key", position: "V6", calibratedSquadStatusTier: "KEY_PLAYER" });
+  const benchedTalent = fakeCalibrationPlayer({ id: "v6-bench-talent", position: "V6", calibratedSquadStatusTier: "TALENT" });
+  const squad = [...minimalSquad().filter((p) => p.position !== "V6"), startingKey, benchedKey, benchedTalent];
+
+  const plan = resolveClubMatchPlanForFixture(CLUB_ID, FIXTURE_ID, squad, undefined);
+  assert.ok(plan);
+  const usageById = new Map(plan!.playerUsage.map((u) => [u.playerId, u]));
+  const benchedKeyUsage = usageById.get("v6-bench-key")!;
+  const benchedTalentUsage = usageById.get("v6-bench-talent")!;
+
+  assert.equal(benchedKeyUsage.matchRole, "MAJOR_ROTATION");
+  assert.equal(benchedKeyUsage.playingTimeIntention, "HIGH");
+  assert.equal(benchedTalentUsage.matchRole, "DEVELOPMENT");
+  assert.equal(benchedTalentUsage.playingTimeIntention, "LOW");
+
+  const keyWeight = MATCH_ROLE_WEIGHT[benchedKeyUsage.matchRole] * PLAYING_TIME_MULTIPLIER[benchedKeyUsage.playingTimeIntention];
+  const talentWeight = MATCH_ROLE_WEIGHT[benchedTalentUsage.matchRole] * PLAYING_TIME_MULTIPLIER[benchedTalentUsage.playingTimeIntention];
+  assert.ok(keyWeight > talentWeight * 3, `a benched KEY_PLAYER's usage weight (${keyWeight}) should be substantially higher than a benched TALENT's (${talentWeight})`);
+});
+
+test("Part B: a manager's own explicit playerMatchDefaults always wins outright over the squad-hierarchy default", () => {
+  const talent = fakeCalibrationPlayer({ id: "v6-talent-explicit", position: "V6", calibratedSquadStatusTier: "TALENT" });
+  const squad = [...minimalSquad().filter((p) => p.position !== "V6"), talent];
+  const explicitDefaults = { "v6-talent-explicit": { matchRole: "KEY_PLAYER" as const, playingTimeIntention: "VERY_HIGH" as const, phaseUsage: "BOTH_PHASES" as const } };
+
+  const plan = resolveClubMatchPlanForFixture(CLUB_ID, FIXTURE_ID, squad, undefined, undefined, explicitDefaults);
+  assert.ok(plan);
+  const usage = plan!.playerUsage.find((u) => u.playerId === "v6-talent-explicit")!;
+  assert.equal(usage.matchRole, "KEY_PLAYER", "an explicit manager-configured default must override the tier-derived one");
 });

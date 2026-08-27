@@ -27,7 +27,7 @@ import { simulateFixture, computeStandings, type FastMatchResult, type StandingR
 import { getClubsByCompetition, getClub, getCompetition, GAME_CURRENT_DATE } from "../lib/game-data";
 import { createNewCareerState } from "../lib/career/newCareer";
 import { snapshotWorldSquads, snapshotGameplayRatings, snapshotAiTacticalPreferences } from "../lib/gameWorld/serverSnapshot";
-import { getClubStrength } from "../lib/game-data/clubStrength";
+import { computeSquadDerivedClubStrength } from "../lib/career/squadDerivedClubStrength";
 import { getCareerClubSquad } from "../lib/career/careerWorld";
 import { resolveClubMatchPlanForFixture, computePlayerMatchStrengthAdjustment, buildStaminaByPlayerId } from "../lib/career/playerMatchStrength";
 import { computeAiVsAiTacticalAdjustment } from "../lib/career/tacticalMatchAdjustment";
@@ -35,6 +35,7 @@ import { computeTacticalMatchPlanAdjustment } from "../lib/career/tacticalPlanEf
 import { computeTeamUsageTrace, computeAttackActiveWindows } from "../lib/career/matchUsageEngine";
 import { buildMatchRoster, buildFallbackAttackExposure } from "../lib/career/tumbaRoster";
 import { ensureCareerAllClubEconomies, getClubEconomySnapshot } from "../lib/economy/clubEconomyIntegration";
+import { deriveDefaultSquadStatusTier, SQUAD_STATUS_TIER_LABEL_SV } from "../lib/career/squadStatus";
 import type { CareerState, CareerFixture } from "../lib/career/types";
 import type { MatchPlan } from "../lib/matchPlan/types";
 
@@ -89,7 +90,7 @@ function simulateFixtureFast(state: CareerState, fixture: CareerFixture): FastMa
     home: (adjustment?.home ?? 0) + playerStrength.home + tacticalPlanAdjustment.home,
     away: (adjustment?.away ?? 0) + playerStrength.away + tacticalPlanAdjustment.away,
   };
-  return simulateFixture(fixture, state.saveSeed, (clubId) => getClubStrength(clubId), undefined, combined);
+  return simulateFixture(fixture, state.saveSeed, (clubId) => computeSquadDerivedClubStrength(clubId, getCareerClubSquad(state, clubId), state.gameplayRatings[clubId] ?? []), undefined, combined);
 }
 
 function simulateCompetitionFast(state: CareerState, fixtures: readonly CareerFixture[]): FastMatchResult[] {
@@ -141,7 +142,8 @@ function simulateFixtureDetailed(state: CareerState, fixture: CareerFixture): Fa
     const attackExposure = usageTrace ? new Map(usageTrace.players.map((p) => [p.playerId, p.attackExposure])) : buildFallbackAttackExposure(squad, fixture.id, clubId);
     const defenceExposure = usageTrace ? new Map(usageTrace.players.map((p) => [p.playerId, p.defenceExposure])) : undefined;
     const activeWindows = plan ? computeAttackActiveWindows(plan, usageSeed, stamina) : undefined;
-    return buildMatchRoster(squad, undefined, attackExposure, activeWindows, defenceExposure);
+    const ratingsById = new Map((state.gameplayRatings[clubId] ?? []).map((r) => [r.playerId, r]));
+    return buildMatchRoster(squad, undefined, attackExposure, activeWindows, defenceExposure, ratingsById);
   }
 
   const homeRoster = buildRoster(homeSquad, fixture.homeClubId, homePlan, homeUsageTrace, homeUsageSeed, homeStamina);
@@ -150,7 +152,7 @@ function simulateFixtureDetailed(state: CareerState, fixture: CareerFixture): Fa
   return simulateFixture(
     fixture,
     state.saveSeed,
-    (clubId) => getClubStrength(clubId),
+    (clubId) => computeSquadDerivedClubStrength(clubId, getCareerClubSquad(state, clubId), state.gameplayRatings[clubId] ?? []),
     (clubId) => (clubId === fixture.homeClubId ? homeRoster : awayRoster),
     combined,
   );
@@ -158,6 +160,60 @@ function simulateFixtureDetailed(state: CareerState, fixture: CareerFixture): Fa
 
 function simulateCompetitionDetailed(state: CareerState, fixtures: readonly CareerFixture[]): FastMatchResult[] {
   return fixtures.map((f) => simulateFixtureDetailed(state, f));
+}
+
+// ---------------------------------------------------------------------------
+// HM-PLAYER-CALIBRATION-1.0 Part E: per-player USAGE across a whole
+// season -- start rate and average exposure, so the calibrated squad
+// hierarchy's actual effect on who plays is directly verifiable, not
+// just asserted. Reuses resolveClubMatchPlanForFixture/
+// computeTeamUsageTrace exactly as matchdayAction.ts/calendar.ts do for
+// every real fixture -- no separate usage model.
+// ---------------------------------------------------------------------------
+
+interface PlayerUsageAgg {
+  clubId: string;
+  position: string;
+  tier: string;
+  starts: number;
+  fixturesForClub: number;
+  totalExposure: number;
+}
+
+function collectSeasonUsage(state: CareerState, fixtures: readonly CareerFixture[]): Map<string, PlayerUsageAgg> {
+  const usage = new Map<string, PlayerUsageAgg>();
+  const fixturesPerClub = new Map<string, number>();
+  for (const fixture of fixtures) {
+    fixturesPerClub.set(fixture.homeClubId, (fixturesPerClub.get(fixture.homeClubId) ?? 0) + 1);
+    fixturesPerClub.set(fixture.awayClubId, (fixturesPerClub.get(fixture.awayClubId) ?? 0) + 1);
+  }
+
+  for (const fixture of fixtures) {
+    for (const clubId of [fixture.homeClubId, fixture.awayClubId]) {
+      const squad = getCareerClubSquad(state, clubId);
+      const plan = resolveClubMatchPlanForFixture(clubId, fixture.id, squad, undefined);
+      if (!plan) continue;
+      const trace = computeTeamUsageTrace(plan, `${state.saveSeed}:${fixture.id}:usage:${clubId}`);
+      const squadById = new Map(squad.map((p) => [p.id, p]));
+      for (const p of trace.players) {
+        const exposureThisMatch = p.attackExposure + p.defenceExposure + p.goalkeeperExposure;
+        const started = p.startedAttack || p.startedDefence;
+        const player = squadById.get(p.playerId);
+        const entry = usage.get(p.playerId) ?? {
+          clubId,
+          position: player?.position ?? "?",
+          tier: player ? SQUAD_STATUS_TIER_LABEL_SV[deriveDefaultSquadStatusTier(player)] : "?",
+          starts: 0,
+          fixturesForClub: fixturesPerClub.get(clubId) ?? 0,
+          totalExposure: 0,
+        };
+        if (started) entry.starts += 1;
+        entry.totalExposure += exposureThisMatch;
+        usage.set(p.playerId, entry);
+      }
+    }
+  }
+  return usage;
 }
 
 // ---------------------------------------------------------------------------
@@ -184,12 +240,22 @@ interface StrengthIndicators {
   bestPlayerCA: number | null;
   caStdDev: number | null;
   clubStrengthOverall: number;
-  clubStrengthCurated: boolean;
+  clubStrengthAttack: number;
+  clubStrengthDefense: number;
+  clubStrengthGoalkeeper: number;
+  clubStrengthDepth: number;
   economyBand: string | null;
   wageBudgetEur: number | null;
   playerWagesEur: number | null;
 }
 
+/**
+ * HM-PLAYER-CALIBRATION-1.0 Part D: every club (both leagues) now uses
+ * the SAME squad-derived ClubStrength -- the old "curated vs flat
+ * default" distinction this audit used to label no longer exists (there
+ * is exactly one canonical strength path), so this report shows the
+ * full attack/defense/goalkeeper/depth breakdown instead.
+ */
 function computeStrengthIndicators(state: CareerState, clubId: string): StrengthIndicators {
   const ratings = state.gameplayRatings[clubId] ?? [];
   const outfield = ratings.filter((r) => r.branch.branch !== "GOALKEEPER");
@@ -202,8 +268,7 @@ function computeStrengthIndicators(state: CareerState, clubId: string): Strength
       ? Math.sqrt(outfield.reduce((s, r) => s + (r.ca - (avgOutfieldCA ?? 0)) ** 2, 0) / outfield.length)
       : null;
 
-  const cs = getClubStrength(clubId);
-  const curatedClubIds = new Set(Object.keys((getClubStrengthCuratedSet())));
+  const cs = computeSquadDerivedClubStrength(clubId, getCareerClubSquad(state, clubId), ratings);
   const economy = getClubEconomySnapshot(state, clubId);
 
   return {
@@ -215,19 +280,14 @@ function computeStrengthIndicators(state: CareerState, clubId: string): Strength
     bestPlayerCA,
     caStdDev,
     clubStrengthOverall: cs.overall,
-    clubStrengthCurated: curatedClubIds.has(clubId),
+    clubStrengthAttack: cs.attack,
+    clubStrengthDefense: cs.defense,
+    clubStrengthGoalkeeper: cs.goalkeeper,
+    clubStrengthDepth: cs.depth,
     economyBand: economy?.band ?? null,
     wageBudgetEur: economy?.budgets.wageBudgetEur ?? null,
     playerWagesEur: economy?.playerWageCostsEurAnnual ?? null,
   };
-}
-
-// Mirrors clubStrength.ts's own curated-set (Allsvenskan's 13 AI clubs + Tumba) -- used only to LABEL which clubs have a curated ClubStrength vs the flat Handbollsligan default, never to alter the value itself.
-function getClubStrengthCuratedSet(): Record<string, true> {
-  const allsvenskanClubs = getClubsByCompetition(ALLSVENSKAN_ID).map((c) => c.id);
-  const out: Record<string, true> = {};
-  for (const id of allsvenskanClubs) out[id] = true;
-  return out;
 }
 
 // ---------------------------------------------------------------------------
@@ -340,7 +400,7 @@ async function auditCompetition(competitionId: string, label: string, nSeasons: 
 
   log(`\n--- PRE-SEASON STRENGTH INDICATORS ---`);
   table(
-    ["CLUB", "SQUAD", "AVG-CA", "GK-CA", "BEST-CA", "CA-STDEV", "CS-OVERALL", "CS-CURATED", "ECON-BAND", "WAGE-BUDGET"],
+    ["CLUB", "SQUAD", "AVG-CA", "GK-CA", "BEST-CA", "CA-STDEV", "CS-OVERALL", "CS-ATK", "CS-DEF", "CS-GK", "CS-DEPTH", "ECON-BAND", "WAGE-BUDGET"],
     strengths.map((s) => [
       s.clubName,
       s.squadSize,
@@ -349,7 +409,10 @@ async function auditCompetition(competitionId: string, label: string, nSeasons: 
       s.bestPlayerCA ?? "-",
       s.caStdDev?.toFixed(1) ?? "-",
       s.clubStrengthOverall,
-      s.clubStrengthCurated ? "yes" : "NO (flat default)",
+      s.clubStrengthAttack,
+      s.clubStrengthDefense,
+      s.clubStrengthGoalkeeper,
+      s.clubStrengthDepth,
       s.economyBand ?? "-",
       s.wageBudgetEur !== null ? Math.round(s.wageBudgetEur) : "-",
     ]),
@@ -377,6 +440,34 @@ async function auditCompetition(competitionId: string, label: string, nSeasons: 
       (r.goalsAgainst / r.played).toFixed(1),
     ]),
   );
+
+  // --- HM-PLAYER-CALIBRATION-1.0 Part E: per-player usage, 4 representative clubs (strongest, weakest, and two mid-table by pre-season strength) ---
+  const usageSeasonFixtures = fixtures; // separate resolution pass from the single-detailed-season simulation above -- deterministic given the same seed, so results are directly comparable
+  const usage = collectSeasonUsage(state, usageSeasonFixtures);
+  const byStrengthDesc = [...strengths].sort((a, b) => b.clubStrengthOverall - a.clubStrengthOverall);
+  const usageSampleClubs = [
+    byStrengthDesc[0],
+    byStrengthDesc[Math.floor(byStrengthDesc.length / 3)],
+    byStrengthDesc[Math.floor((byStrengthDesc.length * 2) / 3)],
+    byStrengthDesc[byStrengthDesc.length - 1],
+  ].filter((c, i, arr) => c && arr.findIndex((x) => x?.clubId === c.clubId) === i);
+
+  log(`\n--- PLAYER USAGE (${usageSampleClubs.length} representative clubs by pre-season strength: strongest, two mid-table, weakest) ---`);
+  for (const club of usageSampleClubs) {
+    if (!club) continue;
+    const clubUsage = [...usage.entries()].filter(([, u]) => u.clubId === club.clubId).sort((a, b) => b[1].totalExposure - a[1].totalExposure);
+    log(`\n${club.clubName} (CS-OVERALL ${club.clubStrengthOverall}):`);
+    table(
+      ["PLAYER", "STATUS", "POSITION", "AVG EXPOSURE", "START RATE"],
+      clubUsage.map(([playerId, u]) => [
+        playerId,
+        u.tier,
+        u.position,
+        u.fixturesForClub > 0 ? (u.totalExposure / u.fixturesForClub).toFixed(2) : "-",
+        u.fixturesForClub > 0 ? `${((u.starts / u.fixturesForClub) * 100).toFixed(0)}%` : "-",
+      ]),
+    );
+  }
 
   // --- Player hierarchy (from the detailed single-season run) ---
   const goalsByPlayer = new Map<string, { goals: number; clubId: string; ratingSum: number; apps: number }>();
@@ -409,15 +500,21 @@ async function auditCompetition(competitionId: string, label: string, nSeasons: 
   const topScorers = [...goalsByPlayer.entries()].sort((a, b) => b[1].goals - a[1].goals).slice(0, 10);
   log(`\n--- TOP 10 SCORERS (single detailed season) ---`);
   table(
-    ["PLAYER", "CLUB", "GOALS", "APPS", "AVG RATING", "CA"],
-    topScorers.map(([playerId, v]) => [
-      playerId,
-      getClub(v.clubId)?.name ?? v.clubId,
-      v.goals,
-      v.apps,
-      (v.ratingSum / v.apps).toFixed(2),
-      caByPlayerId.get(playerId) ?? "-",
-    ]),
+    ["PLAYER", "CA", "STATUS", "CLUB", "EXPOSURE", "GOALS", "GOALS/60", "AVG RATING"],
+    topScorers.map(([playerId, v]) => {
+      const u = usage.get(playerId);
+      const exposure = u?.totalExposure ?? 0;
+      return [
+        playerId,
+        caByPlayerId.get(playerId) ?? "-",
+        u?.tier ?? "-",
+        getClub(v.clubId)?.name ?? v.clubId,
+        exposure.toFixed(2),
+        v.goals,
+        exposure > 0 ? (v.goals / exposure).toFixed(2) : "-",
+        (v.ratingSum / v.apps).toFixed(2),
+      ];
+    }),
   );
 
   const perClubFixtureCount = (fixtures.length / clubIds.length) * 2; // each club plays every other club home+away
@@ -478,6 +575,15 @@ async function auditCompetition(competitionId: string, label: string, nSeasons: 
   table(
     ["CLUB", "AVG POS", "MED POS", "BEST", "WORST", "AVG PTS", "TITLE%", "TOP3%", "BOTTOM3%"],
     mcSummaries.map((s) => [s.clubName, s.avgPosition.toFixed(2), s.medianPosition.toFixed(1), s.best, s.worst, s.avgPoints.toFixed(1), s.titlePct.toFixed(1), s.top3Pct.toFixed(1), s.bottom3Pct.toFixed(1)]),
+  );
+
+  // --- HM-PLAYER-CALIBRATION-1.0 Part E: TEAM HIERARCHY (squad strength vs Monte Carlo results) ---
+  const byIdForHierarchy = new Map(strengths.map((s) => [s.clubId, s]));
+  const hierarchyRows = [...mcSummaries].sort((a, b) => (byIdForHierarchy.get(b.clubId)?.clubStrengthOverall ?? 0) - (byIdForHierarchy.get(a.clubId)?.clubStrengthOverall ?? 0));
+  log(`\n--- TEAM HIERARCHY (squad strength vs ${nSeasons}-season Monte Carlo results) ---`);
+  table(
+    ["CLUB", "SQUAD STRENGTH", "AVG POSITION", "AVG POINTS"],
+    hierarchyRows.map((s) => [s.clubName, byIdForHierarchy.get(s.clubId)?.clubStrengthOverall ?? "-", s.avgPosition.toFixed(2), s.avgPoints.toFixed(1)]),
   );
 
   // --- Correlation: preseason strength vs MC results ---

@@ -37,10 +37,11 @@ import type { GameplayPlayerRating } from "../gameWorld/gameplayRatingSnapshot";
 import { computePlayerWindowActivity, computeTeamUsageTrace, resolveMatchUsageTimeline, type PlayerWindowActivity, type TeamUsageTrace } from "./matchUsageEngine";
 import type { PlayerMock } from "../game-data";
 import { buildInitialMatchSquad } from "../matchPlan/careerSquadBridge";
-import { buildDefaultMatchPlan } from "../matchPlan/defaultMatchPlan";
+import { buildDefaultMatchPlan, type SquadPriorityTier } from "../matchPlan/defaultMatchPlan";
 import { computeAveragePhaseFatigueModifier, type PlayerEnergyTrajectory } from "../matchPlan/physicalModel";
 import type { MatchPlan } from "../matchPlan/types";
 import type { PlayerMatchDefault, TacticsTemplate } from "../matchPlan/persistentDefaults";
+import { deriveDefaultSquadStatusTier, type SquadStatusTier } from "./squadStatus";
 import { GOALKEEPER_ATTRIBUTES, type GoalkeeperAttribute, type OutcourtAttribute } from "../rating/types";
 
 // ---------------------------------------------------------------------------
@@ -151,17 +152,26 @@ function blendedValue(ca: number, attrAvg1to20: number): number {
   return caScaled * 0.5 + attrScaled * 0.5;
 }
 
-function playerAttackValue(rating: GameplayPlayerRating | undefined): number {
+/**
+ * HM-PLAYER-CALIBRATION-1.0 Part D: exported so
+ * lib/career/squadDerivedClubStrength.ts can reuse the EXACT same
+ * CA+attribute-family blend for whole-club strength that this module
+ * already uses for the per-fixture player-strength adjustment -- one
+ * quality model, two different aggregations (per-fixture exposure-
+ * weighted here; per-club tier-weighted there), never a second
+ * competing quality model.
+ */
+export function playerAttackValue(rating: GameplayPlayerRating | undefined): number {
   if (!rating || rating.branch.branch !== "OUTCOURT") return NEUTRAL_VALUE;
   return blendedValue(rating.ca, averageAttribute(ATTACK_ATTRIBUTES, rating.branch.attributes));
 }
 
-function playerDefenceValue(rating: GameplayPlayerRating | undefined): number {
+export function playerDefenceValue(rating: GameplayPlayerRating | undefined): number {
   if (!rating || rating.branch.branch !== "OUTCOURT") return NEUTRAL_VALUE;
   return blendedValue(rating.ca, averageAttribute(DEFENCE_ATTRIBUTES, rating.branch.attributes));
 }
 
-function playerGoalkeeperValue(rating: GameplayPlayerRating | undefined): number {
+export function playerGoalkeeperValue(rating: GameplayPlayerRating | undefined): number {
   if (!rating || rating.branch.branch !== "GOALKEEPER") return NEUTRAL_VALUE;
   return blendedValue(rating.ca, averageAttribute(GOALKEEPER_VALUE_ATTRIBUTES, rating.branch.attributes));
 }
@@ -178,7 +188,7 @@ function playerGoalkeeperValue(rating: GameplayPlayerRating | undefined): number
 // weighted (Part J's own warning).
 // ---------------------------------------------------------------------------
 
-function weightedMean(items: readonly { value: number; weight: number }[]): number {
+export function weightedMean(items: readonly { value: number; weight: number }[]): number {
   const totalWeight = items.reduce((sum, i) => sum + i.weight, 0);
   if (totalWeight <= 0) return NEUTRAL_VALUE;
   return items.reduce((sum, i) => sum + i.value * i.weight, 0) / totalWeight;
@@ -407,6 +417,20 @@ export function computePlayerMatchStrengthAdjustment(
  * standing instead of neutral defaults. Omitting them reproduces the
  * exact pre-HM-MATCH-1.1 behavior.
  */
+/**
+ * HM-PLAYER-CALIBRATION-1.0 Part B: canonical squad hierarchy -> 0-4
+ * priority scale defaultMatchPlan.ts's SquadPriorityTier expects (0 =
+ * highest priority). KEY_PLAYER=0 ... TALENT=4, matching
+ * squadStatus.ts's own SQUAD_STATUS_TIERS ordering.
+ */
+const SQUAD_STATUS_TIER_PRIORITY: Record<SquadStatusTier, SquadPriorityTier> = {
+  KEY_PLAYER: 0,
+  FIRST_CHOICE: 1,
+  ROTATION: 2,
+  SQUAD_PLAYER: 3,
+  TALENT: 4,
+};
+
 export function resolveClubMatchPlanForFixture(
   clubId: string,
   fixtureId: string,
@@ -416,7 +440,19 @@ export function resolveClubMatchPlanForFixture(
   playerDefaults?: Readonly<Record<string, PlayerMatchDefault>>,
 ): MatchPlan | null {
   if (savedPlan) return savedPlan;
-  const initialSquad = buildInitialMatchSquad(squad, fixtureId, clubId);
-  const result = buildDefaultMatchPlan(initialSquad, tacticsTemplate, playerDefaults);
+  // HM-PLAYER-CALIBRATION-1.0 Part B: the manager's own club always has
+  // CareerState.playerSquadStatus entries by the time a match is played
+  // (ensureCareerPlayerSquadStatus runs at career creation); an AI/
+  // opponent club never does (that map is club-scoped to playerClubId
+  // only) -- deriveDefaultSquadStatusTier reads straight off PlayerMock
+  // (calibratedSquadStatusTier, or the coarse legacy fallback), so it
+  // works identically for both without needing CareerState threaded in
+  // here at all.
+  const squadPriorityTierByPlayerId: Record<string, SquadPriorityTier> = {};
+  for (const player of squad) {
+    squadPriorityTierByPlayerId[player.id] = SQUAD_STATUS_TIER_PRIORITY[deriveDefaultSquadStatusTier(player)];
+  }
+  const initialSquad = buildInitialMatchSquad(squad, fixtureId, clubId, (p) => squadPriorityTierByPlayerId[p.id]);
+  const result = buildDefaultMatchPlan(initialSquad, tacticsTemplate, playerDefaults, squadPriorityTierByPlayerId);
   return result.ok && result.plan ? result.plan : null;
 }
