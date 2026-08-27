@@ -16,6 +16,7 @@ import type { PlayerDevelopmentState } from "../development/types";
 import type { ResolvedStaffMember, StaffEmployment } from "../staff/types";
 import type { PlayerInjuryState } from "../medical/types";
 import type { PlayerClubHistory, PlayerContract } from "../economy/types";
+import type { ClubEconomyBaseline } from "../economy/clubEconomyTypes";
 
 /** HM-PRESEASON-1.0: LEAGUE (the manager's own simulated competition), CUP (the provisional early cup round -- see preseason.ts), or FRIENDLY (manager-booked, never affects standings/season completion). */
 export type CareerFixtureType = "LEAGUE" | "CUP" | "FRIENDLY";
@@ -421,6 +422,25 @@ export type CareerState = {
    * transfer fee.
    */
   playerClubHistory: Record<string, PlayerClubHistory>;
+
+  // --- HM-ECONOMY-1.0 addition (career-state schema v23, see saveMigration.ts) ---
+
+  /**
+   * Part: "Alla klubbar som finns i career world ska få en persistent
+   * ekonomisk baseline" -- keyed by clubId, one entry per club in this
+   * career's own simulated competition (getClubsByCompetition(state.
+   * competitionId), same enumeration newCareer.ts uses for fixtures).
+   * Only the generated revenue/cash/owner-funding/academy/operating-cost
+   * BASELINE is stored here -- the genuinely sticky facts, same
+   * philosophy as PlayerContract. Actual wage/staff costs, financial
+   * health, and every manager-facing budget (wage/transfer/staff/
+   * academy) are deliberately NOT persisted -- they are recomputed fresh
+   * from this baseline plus the club's own current contracts/staff every
+   * read (lib/economy/clubEconomyIntegration.ts's `getClubEconomySnapshot`),
+   * the same "never store what can be derived" precedent
+   * computePlayerMarketValueEur established.
+   */
+  clubEconomies: Record<string, ClubEconomyBaseline>;
 };
 
 export type CareerSaveEnvelope = {

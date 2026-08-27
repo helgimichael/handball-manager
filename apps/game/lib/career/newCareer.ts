@@ -14,6 +14,7 @@ import { ensureCareerGameplayRatings } from "./careerRatingNormalization";
 import { computeCareerStartDate, generateProvisionalCupRound, resolveLeagueKickoffDate, type PreseasonStartOption } from "./preseason";
 import { ensureCareerPlayerContracts } from "../economy/contractIntegration";
 import { ensureCareerPlayerClubHistory } from "../economy/clubHistoryIntegration";
+import { ensureCareerAllClubEconomies } from "../economy/clubEconomyIntegration";
 
 const FALLBACK_COMPETITION_ID = "swe-2"; // used only if playerClubId doesn't resolve to a known club
 
@@ -164,6 +165,7 @@ export function createNewCareerState(
     leagueKickoffDate,
     playerContracts: {},
     playerClubHistory: {},
+    clubEconomies: {},
   };
 
   // HM-RATINGS-CAREER-1.0 Part 2/4/15/16: every roster player in the
@@ -183,5 +185,12 @@ export function createNewCareerState(
   // contracts, but generated here alongside them for the same "every
   // roster player has a complete economic identity from career start"
   // guarantee.
-  return ensureCareerPlayerClubHistory(withContracts, playerClubId);
+  const withClubHistory = ensureCareerPlayerClubHistory(withContracts, playerClubId);
+  // HM-ECONOMY-1.0: every club in this career's own simulated
+  // competition gets a persistent economic baseline from career start --
+  // not just the manager's own club (Part: "Alla klubbar som finns i
+  // career world ska få en persistent ekonomisk baseline"). Internally
+  // also ensures ratings/contracts exist for every OTHER club's squad
+  // too, so their own player-wage-cost derivation has real data.
+  return ensureCareerAllClubEconomies(withClubHistory);
 }

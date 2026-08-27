@@ -18,6 +18,7 @@ import type { CareerState } from "./types";
 import { ensureCareerGameplayRatings } from "./careerRatingNormalization";
 import { ensureCareerPlayerContracts } from "../economy/contractIntegration";
 import { ensureCareerPlayerClubHistory } from "../economy/clubHistoryIntegration";
+import { ensureCareerAllClubEconomies } from "../economy/clubEconomyIntegration";
 import { EUR_TO_SEK_REFERENCE_RATE } from "../economy/currency";
 import type { PlayerContract } from "../economy/types";
 
@@ -315,6 +316,19 @@ export function migrateCareerState(career: CareerState): CareerState {
     next = { ...next, playerClubHistory: {} };
   }
   next = ensureCareerPlayerClubHistory(next, next.playerClubId);
+
+  // HM-ECONOMY-1.0 (career-state schema v23): additive -- an existing
+  // career simply never had a club economy baseline for any club yet.
+  // Same normalization pattern as ensureCareerPlayerContracts:
+  // ensureCareerAllClubEconomies only ever ADDS a missing club's own
+  // generated baseline (and, internally, fills any of THAT club's own
+  // missing ratings/contracts so its derived costs are real), never
+  // touches/rerolls an existing one, true no-op once every career club
+  // is complete.
+  if (next.clubEconomies === undefined) {
+    next = { ...next, clubEconomies: {} };
+  }
+  next = ensureCareerAllClubEconomies(next);
 
   return next;
 }
