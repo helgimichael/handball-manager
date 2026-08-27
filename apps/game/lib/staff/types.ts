@@ -97,6 +97,19 @@ export interface ResolvedStaffMember {
   clubId: string;
   displayName: string;
   roles: StaffRole[];
+  /**
+   * HM-DATA-ALLSVENSKAN-1.2: the person's real, free-text official title
+   * from source identity data (e.g. "Sportchef", "Lagledare"), for a
+   * REAL_WORLD_IDENTITY member whose title has no gameplay-relevant
+   * StaffRole mapping (`roles` is then `[]`) -- a real, canonical staff
+   * person must never be silently dropped from the roster just because
+   * this milestone's narrow training-role vocabulary has no slot for
+   * them (Part: "VERIFIED/CANONICAL REAL STAFF > generated filler
+   * staff"). Always undefined for GENERATED_FICTIONAL members (a
+   * generated person only ever exists to cover one specific StaffRole
+   * gap, never a governance/administrative title).
+   */
+  officialRoleLabel?: string;
   profile: StaffAttributeProfile;
   source: "REAL_WORLD_IDENTITY" | "GENERATED_FICTIONAL";
 }

@@ -59,7 +59,7 @@ export default function StaffProfilePage() {
             <div style={{ flex: 1 }}>
               <div style={{ fontSize: "var(--hm-text-lg)", fontWeight: 800 }}>{member.displayName}</div>
               <div className="hm-text-muted" style={{ fontSize: "var(--hm-text-xs)", marginTop: 2 }}>
-                {member.roles.map((r) => STAFF_ROLE_LABEL[r]).join(" + ")} · {club.name}
+                {member.roles.length > 0 ? member.roles.map((r) => STAFF_ROLE_LABEL[r]).join(" + ") : (member.officialRoleLabel ?? "—")} · {club.name}
               </div>
             </div>
             <button type="button" className="hm-btn" onClick={() => router.push("/career/staff")}>

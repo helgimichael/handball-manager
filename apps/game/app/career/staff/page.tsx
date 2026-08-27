@@ -44,7 +44,7 @@ export default function StaffPage() {
                   <td className="hm-td-strong">
                     <Link href={`/career/staff/${encodeURIComponent(member.id)}`}>{member.displayName}</Link>
                   </td>
-                  <td>{member.roles.map((r) => STAFF_ROLE_LABEL[r]).join(" + ")}</td>
+                  <td>{member.roles.length > 0 ? member.roles.map((r) => STAFF_ROLE_LABEL[r]).join(" + ") : (member.officialRoleLabel ?? "—")}</td>
                   <td className="hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)" }}>
                     {relevantAttrs.map((a) => STAFF_ATTRIBUTE_LABEL[a as keyof typeof STAFF_ATTRIBUTE_LABEL]).join(", ")}
                   </td>

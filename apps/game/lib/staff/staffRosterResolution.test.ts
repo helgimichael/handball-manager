@@ -48,13 +48,17 @@ test("a real club's roster does NOT generate a duplicate fictional HEAD_COACH wh
   assert.equal(headCoaches[0].source, "REAL_WORLD_IDENTITY");
 });
 
-test("a role in identity data with no gameplay-relevant mapping (e.g. CHAIRPERSON) does not appear in the resolved roster at all", () => {
+test("HM-DATA-ALLSVENSKAN-1.2: a real person whose role has no gameplay-relevant mapping (e.g. CHAIRPERSON) still appears in the resolved roster -- a real, canonical staff person is never silently dropped -- with an empty roles[] and their real officialRoleLabel for display", () => {
   const identity = {
     people: [{ id: "person-1", displayName: "Chair Person" }],
     assignments: [{ personId: "person-1", clubId: CLUB_ID, officialRole: "Ordförande", standardRoles: ["CHAIRPERSON" as const], status: "CONFIRMED" as const, evidence: [] }],
   };
   const roster = resolveClubStaffRoster(CLUB_ID, identity);
-  assert.ok(!roster.some((m) => m.id === "person-1"));
+  const chair = roster.find((m) => m.id === "person-1");
+  assert.ok(chair, "expected the real CHAIRPERSON person to still be in the roster");
+  assert.deepEqual(chair!.roles, []);
+  assert.equal(chair!.officialRoleLabel, "Ordförande");
+  assert.equal(chair!.source, "REAL_WORLD_IDENTITY");
 });
 
 test("two different clubs with identical (null) identity data still get differentiated rosters (deterministic per-club seeding, not clones)", () => {

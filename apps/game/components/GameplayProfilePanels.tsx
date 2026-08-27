@@ -13,9 +13,20 @@
 // This component never computes a rating itself -- it only renders
 // whatever the canonical snapshot already resolved (Part B/F: no
 // second, client-side rating resolver).
+//
+// HM-UX-PRESENTATION-1.0: CA/PA are INTERNAL/canonical-engine data --
+// GameplayAbilityPanel shows them ONLY as a 1-5 star impression
+// (abilityStarsFromCA/potentialStarsFromPA), never the raw 1-200
+// number, matching the same boundary Rating Model already draws for PA
+// ("can never leak into match performance/UI"). The 1-20 attribute
+// VALUES below are a separate, already-approved design decision (shown
+// numerically, same as every FM-style attribute grid) and are untouched
+// by this rule. Raw CA/PA stay visible in Editor Mode (RatingProfilePanels.tsx).
 import type { CSSProperties } from "react";
 import { GOALKEEPER_ATTRIBUTE_FAMILIES, OUTCOURT_ATTRIBUTE_FAMILIES, type GoalkeeperAttribute, type GoalkeeperAttributeFamily, type OutcourtAttribute, type OutcourtAttributeFamily } from "@/lib/rating/types";
 import { getAttributeFamilyLabel, getAttributeLabel } from "@/lib/rating/attributeVocabulary";
+import { abilityStarsFromCA, potentialStarsFromPA } from "@/lib/development/types";
+import StarRating from "@/components/StarRating";
 
 export type GameplayAttributeOrigin = "EVIDENCE_BACKED" | "DERIVED" | "GENERATED_PRIOR" | "EDITOR_OVERRIDE";
 export type GameplayCASource = "CALIBRATED" | "MODEL_ESTIMATE" | "GENERATED_GAME_PRIOR" | "EDITOR_OVERRIDE";
@@ -56,8 +67,8 @@ export function GameplayAbilityPanel({ row }: { row: GameplayRatingRow }) {
         </span>
       </div>
       <div className="hm-panel-body" style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-        <AbilityBlock label="Nuvarande förmåga (CA)" value={row.ca} />
-        <AbilityBlock label="Potential (PA)" value={row.pa} />
+        <AbilityBlock label="Nuvarande nivå" stars={abilityStarsFromCA(row.ca)} title="Tränarstabens bedömning av nuvarande nivå" />
+        <AbilityBlock label="Potential" stars={potentialStarsFromPA(row.pa)} title="Scoutingens uppskattning — osäker" />
         <div className="hm-divider" />
         <RoleRow label="Anfallsroller" roles={row.attackRoleProficiencies} />
         <RoleRow label="Försvarsroller" roles={row.defenceRoleProficiencies} />
@@ -71,13 +82,18 @@ export function GameplayAbilityPanel({ row }: { row: GameplayRatingRow }) {
   );
 }
 
-function AbilityBlock({ label, value }: { label: string; value: number }) {
+// HM-UX-PRESENTATION-1.0: never renders the raw CA/PA number itself --
+// only the 1-5 star impression (see lib/development/types.ts's
+// abilityStarsFromCA/potentialStarsFromPA). Canonical CA/PA stay fully
+// intact in CareerState/the rating snapshot; Editor Mode's own
+// RatingProfilePanels.tsx is where the real number is shown.
+function AbilityBlock({ label, stars, title }: { label: string; stars: number; title: string }) {
   return (
     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
       <span className="hm-text-secondary" style={{ fontSize: "var(--hm-text-xs)" }}>
         {label}
       </span>
-      <span style={{ fontSize: "var(--hm-text-md)", fontWeight: 800 }}>{value}</span>
+      <StarRating stars={stars} title={title} />
     </div>
   );
 }

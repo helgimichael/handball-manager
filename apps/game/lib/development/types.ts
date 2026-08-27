@@ -84,3 +84,15 @@ export type IndividualDevelopmentFocus = (typeof INDIVIDUAL_DEVELOPMENT_FOCUSES)
 export function potentialStarsFromPA(pa: number): number {
   return Math.max(1, Math.min(5, Math.ceil(pa / 40)));
 }
+
+/**
+ * HM-UX-PRESENTATION-1.0: the CA-side twin of `potentialStarsFromPA` --
+ * same rule ("the manager's UI must never show a raw ability number"),
+ * same 1-200 -> 1-5 star conversion, just for CURRENT ability instead of
+ * potential. Every normal-game-mode CA display (Player Profile, Training)
+ * must go through this, never render `GameplayPlayerRating.ca` directly;
+ * Editor Mode/debug views are exempt (see components/RatingProfilePanels.tsx).
+ */
+export function abilityStarsFromCA(ca: number): number {
+  return Math.max(1, Math.min(5, Math.ceil(ca / 40)));
+}

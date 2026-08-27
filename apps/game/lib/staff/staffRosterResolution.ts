@@ -39,14 +39,23 @@ function mapHMRolesToStaffRoles(standardRoles: readonly HMStaffRole[]): StaffRol
   return [...mapped];
 }
 
-function buildFromIdentity(person: StaffPerson, assignment: StaffAssignment, clubId: string): ResolvedStaffMember | null {
+/**
+ * A real, canonical staff person is ALWAYS included, even when their
+ * official title (e.g. Sportchef, Lagledare) has no gameplay-relevant
+ * StaffRole mapping -- `roles` is then `[]` (no training eligibility,
+ * no role-suitability), and `officialRoleLabel` carries their real title
+ * for display instead. Never returns null for a real person -- only a
+ * GENERATED_FICTIONAL member is ever synthesized to cover a genuine
+ * StaffRole gap (see ESSENTIAL_ROLES below).
+ */
+function buildFromIdentity(person: StaffPerson, assignment: StaffAssignment, clubId: string): ResolvedStaffMember {
   const roles = mapHMRolesToStaffRoles(assignment.standardRoles);
-  if (roles.length === 0) return null;
   return {
     id: person.id,
     clubId,
     displayName: person.displayName,
     roles,
+    ...(roles.length === 0 ? { officialRoleLabel: assignment.officialRole } : {}),
     profile: generateStaffAttributeProfile(person.id, roles, `${person.id}:${clubId}`),
     source: "REAL_WORLD_IDENTITY",
   };
@@ -90,8 +99,7 @@ export function resolveClubStaffRoster(clubId: string, identity: RawClubStaffIde
     for (const assignment of identity.assignments) {
       const person = peopleById.get(assignment.personId);
       if (!person) continue;
-      const resolved = buildFromIdentity(person, assignment, clubId);
-      if (resolved) roster.push(resolved);
+      roster.push(buildFromIdentity(person, assignment, clubId));
     }
   }
 

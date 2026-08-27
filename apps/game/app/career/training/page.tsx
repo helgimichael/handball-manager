@@ -30,7 +30,7 @@ import { ENERGY_START_DEFAULT } from "../../../lib/matchPlan/physicalModel";
 import { playerAgeAtDate } from "../../../lib/development/developmentIntegration";
 import { effectiveTrainingLoadSetting, getPlayerAvailability } from "../../../lib/medical/availability";
 import { REHAB_PHASE_LABELS } from "../../../lib/medical/labels";
-import { INDIVIDUAL_DEVELOPMENT_FOCUSES, potentialStarsFromPA, type IndividualDevelopmentFocus } from "../../../lib/development/types";
+import { abilityStarsFromCA, INDIVIDUAL_DEVELOPMENT_FOCUSES, potentialStarsFromPA, type IndividualDevelopmentFocus } from "../../../lib/development/types";
 import { computeStaffTrainingQuality, eligibleStaffForSession, findHeadCoach, resolveResponsibleCoach, staffQualityLabel } from "../../../lib/staff/roleSuitability";
 
 const DAY_TYPE_LABEL: Record<TrainingDayType, string> = {
@@ -361,7 +361,7 @@ export default function TrainingPage() {
               <tr>
                 <th>Spelare</th>
                 <th>Ålder</th>
-                <th>CA</th>
+                <th>Nivå</th>
                 <th>Potential</th>
                 <th>Status</th>
                 <th>Senaste förbättring</th>
@@ -381,7 +381,7 @@ export default function TrainingPage() {
                       {p.firstName} {p.lastName}
                     </td>
                     <td className="hm-text-muted">{age ?? "—"}</td>
-                    <td>{rating ? Math.round(rating.ca) : "—"}</td>
+                    <td>{rating ? "★".repeat(abilityStarsFromCA(rating.ca)) + "☆".repeat(5 - abilityStarsFromCA(rating.ca)) : "—"}</td>
                     <td>{rating ? "★".repeat(potentialStarsFromPA(rating.pa)) + "☆".repeat(5 - potentialStarsFromPA(rating.pa)) : "—"}</td>
                     <td>
                       <span className={`hm-badge ${status === "Förbättras" ? "hm-badge-positive" : status === "Tränar" ? "hm-badge-warning" : "hm-badge-neutral"}`}>{status}</span>

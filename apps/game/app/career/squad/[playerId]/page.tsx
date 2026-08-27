@@ -11,7 +11,7 @@ import StarRating from "@/components/StarRating";
 import StatValue from "@/components/StatValue";
 import { ClubLink } from "@/components/entityLinks";
 import { GameplayAbilityPanel, GameplayAttributesPanel, type GameplayRatingRow } from "@/components/GameplayProfilePanels";
-import { potentialStarsFromPA, type IndividualDevelopmentFocus } from "@/lib/development/types";
+import { abilityStarsFromCA, potentialStarsFromPA, type IndividualDevelopmentFocus } from "@/lib/development/types";
 import { getCareerPlayerRating } from "@/lib/career/careerRatingNormalization";
 import type { GameplayPlayerRating } from "@/lib/gameWorld/gameplayRatingSnapshot";
 import { INJURY_SEVERITY_LABELS, INJURY_TYPE_LABELS, REHAB_PHASE_LABELS } from "@/lib/medical/labels";
@@ -375,7 +375,7 @@ function DevelopmentPanel({ playerId }: { playerId: string }) {
         <span className="hm-panel-title">Utveckling</span>
       </div>
       <div className="hm-panel-body" style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-        <ContractRow label="CA" value={rating ? String(Math.round(rating.ca)) : "—"} />
+        <ContractRow label="Nuvarande nivå" value={rating ? "★".repeat(abilityStarsFromCA(rating.ca)) + "☆".repeat(5 - abilityStarsFromCA(rating.ca)) : "—"} />
         <ContractRow label="Potential" value={rating ? "★".repeat(potentialStarsFromPA(rating.pa)) + "☆".repeat(5 - potentialStarsFromPA(rating.pa)) : "—"} />
         <ContractRow label="Individuellt fokus" value={focusLabel[focus]} />
         <div className="hm-divider" />

@@ -18,6 +18,7 @@ import { useCareer } from "@/lib/career/CareerContext";
 import { getCareerClubSquad } from "@/lib/career/careerWorld";
 import { getLiveStandings } from "@/lib/career/standings";
 import { selectCurrentStaffAssignments, type ClubIdentityProfile, type CoachIdentityProfile, type IdentityClaim, type StaffAssignment, type StaffPerson } from "@/lib/identity";
+import { presentClaim, presentStaffRoles } from "@/lib/identity/presentation";
 import ClubCrest from "@/components/ClubCrest";
 import { ClubLink, PlayerLink } from "@/components/entityLinks";
 
@@ -40,28 +41,17 @@ const COACH_CLAIM_LABELS: Record<keyof Omit<CoachIdentityProfile, "personId">, s
   cultureBuildingClaims: "Kulturbygge",
 };
 
-const EVIDENCE_CLASS_LABELS: Record<string, string> = {
-  VERIFIED_EXTERNAL_DATA: "Verifierad källa",
-  VERIFIED_EXTERNAL_CLUB_STRATEGY: "Verifierad klubbstrategi",
-  VERIFIED_EXTERNAL_CLUB_STATEMENT: "Verifierat klubbuttalande",
-  PROBABLE_EXTERNAL_DATA: "Sannolik källa",
-  USER_EXPERT_ASSESSMENT: "Expertbedömning",
-  USER_PROJECTION: "Prognos",
-  USER_EXPERT_REQUIRES_VERIFICATION: "Bedömning, ej verifierad",
-  INFERENCE: "Slutledning",
-  UNKNOWN_NOT_ASSESSED: "Okänt",
-};
-
+// HM-DATA-ALLSVENSKAN-1.2: every claim is rendered through the
+// presentation layer (lib/identity/presentation.ts) -- never the raw
+// machine key/enum value. The canonical claim (key, value, evidenceClass,
+// sourceRefs, ...) is untouched; this is a read-only, additive
+// translation for normal game mode. Evidence-class provenance is
+// intentionally not shown here (not required in normal game mode --
+// only Editor Mode/debug surfaces need it).
 function ClaimRow({ claim }: { claim: IdentityClaim }) {
   return (
-    <div className="hm-text-xs" style={{ display: "flex", justifyContent: "space-between", gap: 12, padding: "4px 0", borderBottom: "1px solid var(--hm-border-subtle, #2a2d34)" }}>
-      <span className="hm-text-muted">{claim.key}</span>
-      <span style={{ textAlign: "right" }}>
-        <span className="hm-td-strong">{String(claim.value)}</span>
-        <span className="hm-text-muted" style={{ marginLeft: 8, fontSize: "var(--hm-text-2xs)" }}>
-          {EVIDENCE_CLASS_LABELS[claim.evidenceClass] ?? claim.evidenceClass}
-        </span>
-      </span>
+    <div className="hm-text-xs" style={{ padding: "4px 0", borderBottom: "1px solid var(--hm-border-subtle, #2a2d34)" }}>
+      {presentClaim(claim)}
     </div>
   );
 }
@@ -211,7 +201,7 @@ export default function ClubProfilePage() {
               <tr>
                 <th>Namn</th>
                 <th>Officiell titel</th>
-                <th>HM-roll</th>
+                <th>Roll</th>
               </tr>
             </thead>
             <tbody>
@@ -221,7 +211,7 @@ export default function ClubProfilePage() {
                   <tr key={`${a.personId}:${a.officialRole}`}>
                     <td className="hm-td-strong">{person?.displayName ?? a.personId}</td>
                     <td>{a.officialRole}</td>
-                    <td>{a.standardRoles.join(" + ")}</td>
+                    <td>{presentStaffRoles(a.standardRoles)}</td>
                   </tr>
                 );
               })}
