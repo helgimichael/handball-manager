@@ -140,16 +140,27 @@ function toRowVM(p: ApiPlayer): RowVM {
   };
 }
 
-function isDirty(row: RowVM, original: RowVM): boolean {
+// SOURCE fields (position/birth/status/tags) and RATING fields (CA/PA) are
+// independent edits with independent canonical write paths -- see the
+// header comment above. Tracking them separately lets save-orchestration
+// dispatch only the part that actually changed (HM-PLAYER-DATA-EDITOR-1.0A),
+// instead of coupling a pure position edit to CA/PA validation/writes.
+function isSourceDirty(row: RowVM, original: RowVM): boolean {
   return (
     row.primaryPosition !== original.primaryPosition ||
     row.dateOfBirth !== original.dateOfBirth ||
     row.birthYear !== original.birthYear ||
     row.defaultSquadStatus !== original.defaultSquadStatus ||
-    JSON.stringify(row.specialTags) !== JSON.stringify(original.specialTags) ||
-    row.ca !== original.ca ||
-    row.pa !== original.pa
+    JSON.stringify(row.specialTags) !== JSON.stringify(original.specialTags)
   );
+}
+
+function isRatingDirty(row: RowVM, original: RowVM): boolean {
+  return row.ca !== original.ca || row.pa !== original.pa;
+}
+
+function isDirty(row: RowVM, original: RowVM): boolean {
+  return isSourceDirty(row, original) || isRatingDirty(row, original);
 }
 
 function formatEur(v: number | null): string {
@@ -267,7 +278,14 @@ export default function PlayerCalibrationWorkspace() {
     setRows((prev) => prev.map((r) => (r.playerId === playerId ? { ...r, ...patch } : r)));
   }
 
-  function paError(row: RowVM): string | null {
+  // PA>=CA only blocks a save when the rating fields are actually the
+  // thing being edited -- an untouched, possibly-inconsistent generated/
+  // estimated CA/PA pair must never block a pure position/birth/status/tag
+  // edit (HM-PLAYER-DATA-EDITOR-1.0A). Pass the original row explicitly so
+  // this stays correct even before `originals` has settled for a brand-new
+  // load.
+  function paError(row: RowVM, original: RowVM | undefined): string | null {
+    if (!original || !isRatingDirty(row, original)) return null;
     if (row.ca !== null && row.pa !== null && row.pa < row.ca) return "PA måste vara ≥ CA.";
     return null;
   }
@@ -276,23 +294,36 @@ export default function PlayerCalibrationWorkspace() {
     const row = rows.find((r) => r.playerId === playerId);
     const original = originals[playerId];
     if (!row || !original) return false;
-    if (paError(row)) {
-      setRowState((prev) => ({ ...prev, [playerId]: { error: paError(row) } }));
+
+    const sourceDirty = isSourceDirty(row, original);
+    const ratingDirty = isRatingDirty(row, original);
+    if (!sourceDirty && !ratingDirty) return true;
+
+    const err = paError(row, original);
+    if (err) {
+      setRowState((prev) => ({ ...prev, [playerId]: { error: err } }));
       return false;
     }
 
     setRowState((prev) => ({ ...prev, [playerId]: { saving: true, error: null } }));
 
-    const player = { ...row._player, dateOfBirth: row.dateOfBirth, birthYear: row.birthYear };
-    const roster = { ...row._roster, primaryPosition: row.primaryPosition, defaultSquadStatus: row.defaultSquadStatus, specialTags: row.specialTags };
-    const ratingChanged = row.ca !== original.ca || row.pa !== original.pa;
-    const rating = ratingChanged ? { ca: row.ca ?? undefined, pa: row.pa ?? undefined } : undefined;
+    // Dispatch only the canonical write path(s) that actually changed --
+    // a source-only edit never touches the rating override/lock store, and
+    // a rating-only edit never rewrites the source JSON files. `primaryPosition`
+    // is always sent (even when source itself is unchanged) because rating
+    // calibration needs it to resolve the correct outcourt/goalkeeper attribute
+    // branch, independent of whether roster is included in this save.
+    const player = sourceDirty ? { ...row._player, dateOfBirth: row.dateOfBirth, birthYear: row.birthYear } : undefined;
+    const roster = sourceDirty
+      ? { ...row._roster, primaryPosition: row.primaryPosition, defaultSquadStatus: row.defaultSquadStatus, specialTags: row.specialTags }
+      : undefined;
+    const rating = ratingDirty ? { ca: row.ca ?? undefined, pa: row.pa ?? undefined } : undefined;
 
     try {
       const res = await fetch(`/api/editor/players-bulk/${encodeURIComponent(playerId)}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ clubId: row.clubId, player, roster, rating }),
+        body: JSON.stringify({ clubId: row.clubId, primaryPosition: row.primaryPosition, player, roster, rating }),
       });
       const data = await res.json();
       if (!res.ok) {
@@ -446,7 +477,7 @@ export default function PlayerCalibrationWorkspace() {
                   const original = originals[row.playerId];
                   const dirty = original ? isDirty(row, original) : false;
                   const state = rowState[row.playerId] ?? {};
-                  const err = state.error ?? paError(row);
+                  const err = state.error ?? paError(row, original);
                   return (
                     <tr key={row.playerId} data-row={row.playerId} style={{ background: dirty ? "color-mix(in srgb, var(--hm-accent) 6%, transparent)" : undefined }}>
                       <td title={dirty ? "Osparade ändringar" : state.savedAt ? "Sparad" : ""}>

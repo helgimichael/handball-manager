@@ -1,15 +1,21 @@
-// HM-PLAYER-DATA-EDITOR-1.0: the bulk calibration workspace's ONE save
-// endpoint -- one row's worth of edits (identity + roster fields, and
-// optionally a CA/PA calibration) in a single round trip, so "save row"
-// in the UI is one network call, not several. Reuses the exact SAME
-// write paths the pre-existing single-player editors already use:
+// HM-PLAYER-DATA-EDITOR-1.0 / 1.0A: the bulk calibration workspace's ONE
+// save endpoint -- one row's worth of edits in a single round trip. The
+// SOURCE write (identity/roster) and the RATING write (CA/PA) are
+// independent canonical paths and are dispatched independently here:
 // - identity/roster: lib/editor/playerRepository.ts's savePlayerEdit
-//   (same atomic-write/backup/diff mechanism as app/editor/players/[playerId]).
+//   (same atomic-write/backup/diff mechanism as app/editor/players/[playerId]),
+//   invoked ONLY when the client actually sends `player`+`roster` (i.e. a
+//   source field changed this save).
 // - CA/PA: lib/editor/ratingCalibration.ts's calibratePlayerRating,
 //   which composes setRatingOverride + the lock workflow exactly as
-//   app/editor/ratings/[playerId]'s own override+lock buttons do.
-// There is no third write path here -- both are the same canonical
-// mechanisms fresh careers already read, just called together.
+//   app/editor/ratings/[playerId]'s own override+lock buttons do,
+//   invoked ONLY when the client sends `rating` (i.e. CA and/or PA
+//   changed this save).
+// A pure position/birth/status/tag edit therefore never touches the
+// rating override/lock store, and a pure CA/PA edit never rewrites the
+// source JSON files -- but both can be dispatched together, atomically
+// from the caller's point of view, in one request when both changed.
+// There is no third write path here.
 import { NextResponse } from "next/server";
 import { isEditorEnabled } from "@/lib/editor/env";
 import { buildCatalog } from "@/lib/editor/catalog";
@@ -32,19 +38,32 @@ export async function PUT(request: Request, { params }: { params: Promise<{ play
   if (typeof body !== "object" || body === null) {
     return NextResponse.json({ error: "invalid request body" }, { status: 400 });
   }
-  const { clubId, player, roster, rating } = body as Record<string, unknown>;
+  const { clubId, primaryPosition, player, roster, rating } = body as Record<string, unknown>;
   if (typeof clubId !== "string") {
     return NextResponse.json({ error: "clubId is required" }, { status: 400 });
   }
 
-  const catalog = buildCatalog();
-  const saveResult = savePlayerEdit(catalog, clubId, playerId, player, roster);
-  if (!saveResult.ok) {
-    return NextResponse.json({ error: "validation failed", errors: saveResult.errors }, { status: 422 });
+  const sourceRequested = player !== undefined || roster !== undefined;
+  const ratingRequested = rating !== undefined && rating !== null;
+  if (!sourceRequested && !ratingRequested) {
+    return NextResponse.json({ error: "nothing to save -- provide player+roster and/or rating" }, { status: 400 });
+  }
+
+  let saveResult: { ok: true; diff: unknown } | null = null;
+  if (sourceRequested) {
+    if (player === undefined || roster === undefined) {
+      return NextResponse.json({ error: "player and roster must both be provided together to save source fields" }, { status: 400 });
+    }
+    const catalog = buildCatalog();
+    const result = savePlayerEdit(catalog, clubId, playerId, player, roster);
+    if (!result.ok) {
+      return NextResponse.json({ error: "validation failed", errors: result.errors }, { status: 422 });
+    }
+    saveResult = result;
   }
 
   let ratingResult: { ok: boolean; errors: string[] } | null = null;
-  if (rating !== undefined && rating !== null) {
+  if (ratingRequested) {
     if (typeof rating !== "object") {
       return NextResponse.json({ error: "rating, when present, must be an object" }, { status: 400 });
     }
@@ -59,14 +78,13 @@ export async function PUT(request: Request, { params }: { params: Promise<{ play
       return NextResponse.json({ error: "pa cannot be lower than ca" }, { status: 422 });
     }
 
-    // Uses the roster position the client is ABOUT TO SAVE (or already
-    // had, if position wasn't touched this call) -- never a stale
-    // pre-edit position -- so a same-row position + CA/PA edit locks
-    // against the correct branch (outcourt vs goalkeeper) in one save.
-    const rosterPayload = roster as { primaryPosition?: unknown } | undefined;
-    const primaryPosition = typeof rosterPayload?.primaryPosition === "string" ? rosterPayload.primaryPosition : undefined;
-    if (!primaryPosition) {
-      return NextResponse.json({ error: "roster.primaryPosition is required to calibrate a rating" }, { status: 400 });
+    // The position needed to resolve the correct outcourt/goalkeeper
+    // attribute branch is sent as its own top-level field -- independent
+    // of whether `roster` is included in this save -- so a CA/PA-only
+    // edit (no source change at all) still calibrates against the
+    // player's correct, current position.
+    if (typeof primaryPosition !== "string") {
+      return NextResponse.json({ error: "primaryPosition is required to calibrate a rating" }, { status: 400 });
     }
 
     const calibration = calibratePlayerRating(
@@ -83,5 +101,5 @@ export async function PUT(request: Request, { params }: { params: Promise<{ play
     ratingResult = { ok: true, errors: [] };
   }
 
-  return NextResponse.json({ ok: true, diff: saveResult.diff, rating: ratingResult });
+  return NextResponse.json({ ok: true, diff: saveResult?.diff ?? null, rating: ratingResult });
 }
