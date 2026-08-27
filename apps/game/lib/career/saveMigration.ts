@@ -385,6 +385,17 @@ export function migrateCareerState(career: CareerState): CareerState {
     next = { ...next, playerKnowledge: {} };
   }
 
+  // HM-SCOUTING-1.0: additive -- an existing career simply never had the
+  // scouting-assignment/report system yet. Migrated to EMPTY maps, never
+  // inventing assignment/report history -- exactly the state a save
+  // always implicitly had (no scouting in progress, no reports filed).
+  if (next.scoutingAssignments === undefined) {
+    next = { ...next, scoutingAssignments: {} };
+  }
+  if (next.scoutReports === undefined) {
+    next = { ...next, scoutReports: {} };
+  }
+
   // HM-STAFF-CAREER-1.0 (career-state schema v26): additive -- an
   // existing career simply never had a career-tracked staff club-history
   // thread yet (no one had ever changed clubs via recruitment before

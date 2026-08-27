@@ -28,6 +28,7 @@ import { setPlayerIndividualFocus, setPlayerTrainingLoad } from "../training/tra
 import { bookFriendly } from "./preseason";
 import { submitTransferOffer, type SubmitTransferOfferParams } from "../transfers/transferIntegration";
 import type { TransferOffer } from "../transfers/types";
+import { createScoutingAssignment, type CreateScoutingAssignmentResult } from "./scouting";
 import type { SessionSeed } from "../training/trainingSchedule";
 import type { PlayerTrainingLoadSetting, TrainingDayType, TrainingSession, WeeklyTrainingTemplate } from "../training/types";
 import type { PlayerMatchDefault } from "../matchPlan/persistentDefaults";
@@ -151,6 +152,8 @@ type CareerContextValue = {
   bookFriendly: (date: string, opponentClubId: string) => { ok: boolean; error?: string };
   /** HM-TRANSFERS-1.0: resolves a whole transfer/loan negotiation synchronously (affordability -> club decision -> player decision -> completion) and persists. Returns the fully-resolved TransferOffer so the UI can show its terminal status/reason immediately. */
   submitTransferOffer: (params: SubmitTransferOfferParams) => TransferOffer;
+  /** HM-SCOUTING-1.0: creates a new scouting assignment (validates the scout is a real, employed SCOUT at the manager's own club) and persists on success. Returns the full result (including validation errors) so the UI can show exactly why an assignment was refused. */
+  createScoutingAssignment: (scoutStaffId: string, targetPlayerId: string, targetClubId: string) => CreateScoutingAssignmentResult;
 };
 
 const CareerContext = createContext<CareerContextValue | null>(null);
@@ -605,6 +608,16 @@ export function CareerProvider({ children }: { children: ReactNode }) {
     return result.offer;
   }
 
+  function createScoutingAssignmentActionWrapper(scoutStaffId: string, targetPlayerId: string, targetClubId: string): CreateScoutingAssignmentResult {
+    if (!value) throw new Error("Ingen aktiv karriär.");
+    const result = createScoutingAssignment(value.career, scoutStaffId, targetPlayerId, targetClubId, value.career.gameDate);
+    if (result.ok) {
+      saveCareerState(value.save.saveId, result.state);
+      setValue({ save: value.save, career: result.state });
+    }
+    return result;
+  }
+
   return (
     <CareerContext.Provider
       value={{
@@ -635,6 +648,7 @@ export function CareerProvider({ children }: { children: ReactNode }) {
         setPlayerIndividualFocus: setPlayerIndividualFocusActionWrapper,
         bookFriendly: bookFriendlyActionWrapper,
         submitTransferOffer: submitTransferOfferActionWrapper,
+        createScoutingAssignment: createScoutingAssignmentActionWrapper,
       }}
     >
       {children}

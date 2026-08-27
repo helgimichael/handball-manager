@@ -40,6 +40,7 @@ import {
 } from "./careerEvents";
 import { applyTrainingDayInjuryResolution, progressDailyRehab } from "../medical/injuryIntegration";
 import { ensureOpponentAnalysisTask, progressCareerTasks } from "./careerTasks";
+import { progressScoutingAssignments } from "./scouting";
 import {
   MATCH_PREPARATION_OFFSET_DAYS,
   STAFF_REPORT_INTERVAL_DAYS,
@@ -142,11 +143,26 @@ export function processDay(state: CareerState, date: string): DailyTickResult {
   const { tasks: progressedTasks, completed } = progressCareerTasks(next.tasks, date);
   next = { ...next, tasks: progressedTasks };
   for (const task of completed) {
+    // HM-SCOUTING-1.0: the "SCOUTING" CareerTask variant is legacy/
+    // unreachable (see careerTasks.ts's own header) -- every task
+    // completing here today is OPPONENT_ANALYSIS. The branch stays for
+    // type-safety and in case a legacy save somehow still carries one.
     if (task.type === "SCOUTING") {
       emit(buildScoutReportReadyEvent(task.id, task.targetEntity.entityId, date));
     } else {
       emit(buildOpponentReportReadyEvent(task.id, task.targetEntity.entityId, date));
     }
+  }
+
+  // HM-SCOUTING-1.0: the REAL player-scouting loop -- advances every
+  // in-progress ScoutingAssignment, raising knowledge and filing a
+  // report for any that complete today, reusing the exact same
+  // buildScoutReportReadyEvent/emit/inbox plumbing the legacy branch
+  // above already established.
+  const { state: afterScouting, completed: completedAssignments } = progressScoutingAssignments(next, date);
+  next = afterScouting;
+  for (const assignment of completedAssignments) {
+    emit(buildScoutReportReadyEvent(assignment.id, assignment.targetPlayerId, date));
   }
 
   // --- 5. Club / Competition world -----------------------------------------

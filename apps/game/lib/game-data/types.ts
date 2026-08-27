@@ -230,21 +230,6 @@ export type InboxMessage = {
   destinations?: import("../career/careerEvents").EventDestination[];
 };
 
-export type ScoutedPlayer = {
-  id: string;
-  name: string;
-  clubName: string;
-  nationality: NationCode;
-  age: number;
-  position: HandballPosition;
-  estimatedAbilityStars: number; // 1-5, uncertainty-based display
-  potentialStars: number; // 1-5
-  knowledgePct: number; // scouting completeness
-  contractEndSeason: string;
-  estimatedValueSek: number;
-  notes: string;
-};
-
 export type TransferOfferStatus = "Öppen" | "Accepterat" | "Avvisat" | "Förhandling";
 
 export type TransferItem = {

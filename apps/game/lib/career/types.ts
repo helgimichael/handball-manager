@@ -20,6 +20,7 @@ import type { PlayerInjuryState } from "../medical/types";
 import type { PlayerClubHistory, PlayerContract } from "../economy/types";
 import type { ClubEconomyBaseline } from "../economy/clubEconomyTypes";
 import type { LoanRecord, TransferOffer } from "../transfers/types";
+import type { ScoutingAssignment, ScoutReport } from "./scouting";
 
 /** HM-PRESEASON-1.0: LEAGUE (the manager's own simulated competition), CUP (the provisional early cup round -- see preseason.ts), or FRIENDLY (manager-booked, never affects standings/season completion). */
 export type CareerFixtureType = "LEAGUE" | "CUP" | "FRIENDLY";
@@ -517,6 +518,17 @@ export type CareerState = {
    */
   clubKnowledge: Record<string, number>;
   playerKnowledge: Record<string, number>;
+
+  // --- HM-SCOUTING-1.0 addition ---
+
+  /**
+   * The real scouting loop this milestone builds: ASSIGN SCOUT -> TIME
+   * PASSES -> KNOWLEDGE INCREASES -> REPORT -> BETTER MANAGER VIEW (see
+   * lib/career/scouting.ts's own header). Keyed by assignment id.
+   */
+  scoutingAssignments: Record<string, ScoutingAssignment>;
+  /** Persistent, historical scout reports -- never regenerated/rerolled on read, only ever appended by progressScoutingAssignments. Keyed by report id. */
+  scoutReports: Record<string, ScoutReport>;
 };
 
 export type CareerSaveEnvelope = {

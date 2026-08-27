@@ -33,9 +33,12 @@ export function resolveDestinationHref(destination: EventDestination): string | 
     case "SCOUTING":
       return "/career/scouting";
     case "SCOUT_REPORT":
-      // No dedicated scout-report detail route exists yet -- the closest
-      // real, live screen is the Scouting list itself.
-      return "/career/scouting";
+      // HM-SCOUTING-1.0: a scout report renders as a section of the
+      // player's own profile (the same knowledge-gated view Player
+      // Profile already shows for any external player), not a separate
+      // detail page -- one canonical "what do we know about this
+      // player" screen, never a second competing report view.
+      return `/career/squad/${destination.playerId}`;
     case "COMPETITION":
       return "/career/competitions";
     case "CLUB":

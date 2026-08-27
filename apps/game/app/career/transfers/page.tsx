@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState, type CSSProperties } from "react";
+import { useEffect, useMemo, useState, type CSSProperties } from "react";
 import { getClubsByCompetition, playerAge, positionLabel, type HandballPosition } from "@/lib/game-data";
 import { useCareer } from "@/lib/career/CareerContext";
 import { getCareerClubSquad } from "@/lib/career/careerWorld";
@@ -9,6 +9,12 @@ import { getPlayerTrainingCompensation } from "@/lib/economy/trainingCompensatio
 import { formatEur } from "@/lib/economy/currency";
 import { CONTRACT_STATUS_LABEL, CONTRACT_STATUS_TONE } from "@/lib/economy/labels";
 import type { TransferDealType, TransferOffer, TransferOfferStatus } from "@/lib/transfers/types";
+import { getPlayerKnowledgePct } from "@/lib/knowledge/knowledgeIntegration";
+import { KNOWLEDGE_TIER_LABEL_SV, knowledgeTier } from "@/lib/knowledge/types";
+import { resolveMarketValueRange } from "@/lib/knowledge/scoutReportVisibility";
+import { resolvePlayerVisibility, type KnowledgeRatingInput } from "@/lib/knowledge/playerVisibility";
+import { getCareerPlayerRating } from "@/lib/career/careerRatingNormalization";
+import { KnowledgeGatedAbilityPanel } from "@/components/KnowledgeGatedProfilePanels";
 
 const STATUS_LABEL: Record<TransferOfferStatus, string> = {
   BLOCKED_UNAFFORDABLE: "Ej råd",
@@ -58,6 +64,46 @@ export default function TransfersPage() {
   const selectedValue = selectedPlayerId ? getPlayerMarketValueEur(career, selectedPlayerId) : undefined;
   const selectedTrainingComp = selectedPlayerId ? getPlayerTrainingCompensation(career, selectedPlayerId) : undefined;
   const isFreeAgent = selectedContractStatus === "FREE_AGENT";
+  const selectedKnowledgePct = selected ? getPlayerKnowledgePct(career, selected.player.id, selected.club.id) : null;
+  const selectedValueRange = selectedValue !== undefined && selectedKnowledgePct !== null ? resolveMarketValueRange(selectedValue, selectedKnowledgePct) : null;
+
+  // HM-SCOUTING-1.0 Part 9: Transfers consumes the SAME knowledge layer
+  // Player Profile does -- raw CA/PA never shown, only a knowledge-gated
+  // ability/potential star range via the exact same resolvePlayerVisibility
+  // resolver. Fetched only for the SELECTED player (never the whole
+  // candidate list -- same fetch-on-demand pattern as
+  // app/career/squad/[playerId]/page.tsx). Bidding itself is never
+  // blocked by low knowledge (Part 9: "Scouting är information, inte
+  // ett krav för transfer").
+  const [selectedRatingRow, setSelectedRatingRow] = useState<KnowledgeRatingInput | null | undefined>(undefined);
+  useEffect(() => {
+    if (!selected) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- one-shot "no player selected" reset, not a cascading update loop.
+      setSelectedRatingRow(undefined);
+      return;
+    }
+    if (selected.player.dataSource !== "REAL_WORLD") {
+      const rating = getCareerPlayerRating(career, selected.player.id, selected.player.clubId);
+      setSelectedRatingRow(rating ?? null);
+      return;
+    }
+    let cancelled = false;
+    fetch(`/api/game-world/gameplay-ratings/clubs/${encodeURIComponent(selected.player.clubId)}`)
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => {
+        if (cancelled) return;
+        const row = (data?.players ?? []).find((r: KnowledgeRatingInput & { playerId: string }) => r.playerId === selected.player.id) ?? null;
+        setSelectedRatingRow(row);
+      })
+      .catch(() => {
+        if (!cancelled) setSelectedRatingRow(null);
+      });
+    return () => {
+      cancelled = true;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- deliberately keyed on the selected player's own id/clubId, matching Player Profile's identical fetch pattern.
+  }, [selected?.player.id, selected?.player.clubId, selected?.player.dataSource]);
+  const selectedKnowledgeView = selected && selectedRatingRow && selectedKnowledgePct !== null ? resolvePlayerVisibility(selectedRatingRow, selectedKnowledgePct) : null;
 
   function selectPlayer(playerId: string) {
     setSelectedPlayerId(playerId);
@@ -122,6 +168,7 @@ export default function TransfersPage() {
                 <th>Klubb</th>
                 <th>Kontrakt</th>
                 <th className="hm-table-num">Marknadsvärde</th>
+                <th>Kännedom</th>
                 <th></th>
               </tr>
             </thead>
@@ -129,6 +176,8 @@ export default function TransfersPage() {
               {candidates.slice(0, 60).map(({ player, club }) => {
                 const status = getPlayerContractStatus(career, player.id);
                 const value = getPlayerMarketValueEur(career, player.id);
+                const knowledgePct = getPlayerKnowledgePct(career, player.id, club.id);
+                const valueRange = value !== undefined ? resolveMarketValueRange(value, knowledgePct) : null;
                 return (
                   <tr key={player.id} data-clickable="true" onClick={() => selectPlayer(player.id)} style={{ background: selectedPlayerId === player.id ? "var(--hm-surface-2)" : undefined }}>
                     <td className="hm-td-strong">{player.firstName} {player.lastName}</td>
@@ -136,7 +185,8 @@ export default function TransfersPage() {
                     <td>{playerAge(player.dateOfBirth, player.birthYear) ?? "–"}</td>
                     <td className="hm-text-muted">{club.shortName}</td>
                     <td>{status ? <span className={`hm-badge hm-badge-${CONTRACT_STATUS_TONE[status]}`}>{CONTRACT_STATUS_LABEL[status]}</span> : "—"}</td>
-                    <td className="hm-table-num">{value !== undefined ? formatEur(value) : "—"}</td>
+                    <td className="hm-table-num">{valueRange ? (valueRange.min === valueRange.max ? formatEur(valueRange.min) : `${formatEur(valueRange.min)} – ${formatEur(valueRange.max)}`) : "—"}</td>
+                    <td className="hm-text-muted">{KNOWLEDGE_TIER_LABEL_SV[knowledgeTier(knowledgePct)]}</td>
                     <td>
                       <button type="button" className="hm-btn hm-btn-sm" onClick={(e) => { e.stopPropagation(); selectPlayer(player.id); }}>
                         Välj
@@ -160,15 +210,28 @@ export default function TransfersPage() {
             <div className="hm-panel-body hm-text-muted">Välj en spelare i listan för att göra ett bud.</div>
           ) : (
             <div className="hm-panel-body" style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-              <div>
-                <div style={{ fontWeight: 800, fontSize: "var(--hm-text-md)" }}>{selected.player.firstName} {selected.player.lastName}</div>
-                <div className="hm-text-muted" style={{ fontSize: "var(--hm-text-xs)" }}>{selected.club.name} · {positionLabel(selected.player.position)}</div>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
+                <div>
+                  <div style={{ fontWeight: 800, fontSize: "var(--hm-text-md)" }}>{selected.player.firstName} {selected.player.lastName}</div>
+                  <div className="hm-text-muted" style={{ fontSize: "var(--hm-text-xs)" }}>{selected.club.name} · {positionLabel(selected.player.position)}</div>
+                </div>
+                {selectedKnowledgePct !== null ? <span className="hm-badge hm-badge-neutral">{KNOWLEDGE_TIER_LABEL_SV[knowledgeTier(selectedKnowledgePct)]}</span> : null}
               </div>
-              <Row label="Marknadsvärde" value={selectedValue !== undefined ? formatEur(selectedValue) : "—"} />
+              <Row
+                label="Marknadsvärde"
+                value={selectedValueRange ? (selectedValueRange.min === selectedValueRange.max ? formatEur(selectedValueRange.min) : `${formatEur(selectedValueRange.min)} – ${formatEur(selectedValueRange.max)}`) : "—"}
+              />
               <Row label="Nuvarande lön" value={selectedContract ? `${formatEur(selectedContract.wageEurPerMonth)}/mån` : "—"} />
               <Row label="Kontraktsstatus" value={selectedContractStatus ? CONTRACT_STATUS_LABEL[selectedContractStatus] : "—"} />
               {selectedTrainingComp && selectedTrainingComp.totalEur > 0 ? (
                 <Row label="Utbildningsersättning" value={formatEur(selectedTrainingComp.totalEur)} />
+              ) : null}
+
+              {/* HM-SCOUTING-1.0 Part 9: knowledge-gated ability/potential -- never raw CA/PA, same resolver Player Profile uses. Bidding below is never blocked by this. */}
+              {selectedKnowledgeView ? (
+                <div style={{ margin: "-4px 0" }}>
+                  <KnowledgeGatedAbilityPanel view={selectedKnowledgeView} />
+                </div>
               ) : null}
 
               <div className="hm-divider" />

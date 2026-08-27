@@ -175,6 +175,8 @@ export function createNewCareerState(
     playerSquadStatus: {},
     clubKnowledge: {},
     playerKnowledge: {},
+    scoutingAssignments: {},
+    scoutReports: {},
   };
 
   // HM-RATINGS-CAREER-1.0 Part 2/4/15/16: every roster player in the

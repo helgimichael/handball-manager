@@ -6,11 +6,22 @@
 // weekday (Spec S9/S16). This is deliberately not a scouting/analysis
 // simulation -- v0.1 only proves that a task can progress and complete.
 
-import { getScoutedPlayers } from "../game-data";
 import { addDays, isSameOrBefore } from "./dateUtils";
-import { OPPONENT_ANALYSIS_LEAD_DAYS, SCOUT_TASK_DURATION_DAYS } from "./careerRhythmConfig";
+import { OPPONENT_ANALYSIS_LEAD_DAYS } from "./careerRhythmConfig";
 import type { EntityRef } from "./careerEvents";
 
+/**
+ * HM-SCOUTING-1.0: the "SCOUTING" task type is now legacy/unreachable --
+ * seedCareerTasks below no longer creates one (it seeded a single fake
+ * demo task against lib/game-data/scouting.ts's hardcoded fictional
+ * SCOUTED_PLAYERS array, "just proving SCOUT_REPORT_READY can fire").
+ * Real player scouting is now lib/career/scouting.ts's own
+ * ScoutingAssignment/ScoutReport system, driven by real assigned staff
+ * and real CareerState-resident knowledge -- see that module's own
+ * header. This type is left as-is (not removed) purely so
+ * `progressCareerTasks`'s existing branch structure, which
+ * OPPONENT_ANALYSIS still genuinely uses, needs no restructuring.
+ */
 export type CareerTaskType = "SCOUTING" | "OPPONENT_ANALYSIS";
 export type CareerTaskStatus = "IN_PROGRESS" | "COMPLETED";
 
@@ -23,23 +34,14 @@ export interface CareerTask {
   status: CareerTaskStatus;
 }
 
-/** Seeds the one scouting task HM-GAME-0.3 v0.1 needs to prove SCOUT_REPORT_READY. */
-export function seedCareerTasks(seasonStartDate: string): CareerTask[] {
-  const scouted = getScoutedPlayers();
-  if (scouted.length === 0) {
-    return [];
-  }
-  const target = scouted[1] ?? scouted[0];
-  return [
-    {
-      id: `task:SCOUTING:${target.id}`,
-      type: "SCOUTING",
-      targetEntity: { entityType: "player", entityId: target.id },
-      startDate: seasonStartDate,
-      completionDate: addDays(seasonStartDate, SCOUT_TASK_DURATION_DAYS),
-      status: "IN_PROGRESS",
-    },
-  ];
+/**
+ * HM-SCOUTING-1.0: no longer seeds a fake SCOUTING demo task (see this
+ * module's own header) -- a fresh career now starts with an empty task
+ * list; OPPONENT_ANALYSIS tasks are still created dynamically, one per
+ * upcoming fixture, via ensureOpponentAnalysisTask below.
+ */
+export function seedCareerTasks(_seasonStartDate: string): CareerTask[] {
+  return [];
 }
 
 /** Ensures exactly one active OPPONENT_ANALYSIS task exists for a given upcoming fixture, keyed by fixture id (idempotent). */

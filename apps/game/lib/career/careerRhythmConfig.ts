@@ -16,7 +16,7 @@ export const TRAINING_REPORT_INTERVAL_DAYS = 7;
 export const STAFF_REPORT_INTERVAL_DAYS = 7;
 export const STAFF_REPORT_OFFSET_DAYS = 3;
 
-/** Deterministic completion offset for the one scouting task seeded at career start. */
+/** HM-SCOUTING-1.0: base duration (days) of a player scouting assignment, before the assigned scout's own quality nudges it faster/slower -- see lib/career/scouting.ts's own SCOUTING_ASSIGNMENT_DURATION_DAYS_RANGE. */
 export const SCOUT_TASK_DURATION_DAYS = 10;
 
 /** Deterministic lead time before a fixture for its opponent-analysis task to complete. */

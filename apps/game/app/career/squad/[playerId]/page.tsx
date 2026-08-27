@@ -23,6 +23,10 @@ import { getPlayerTrainingCompensation } from "@/lib/economy/trainingCompensatio
 import { getPlayerKnowledgePct } from "@/lib/knowledge/knowledgeIntegration";
 import { resolvePlayerVisibility } from "@/lib/knowledge/playerVisibility";
 import { KnowledgeGatedAbilityPanel, KnowledgeGatedAttributesPanel } from "@/components/KnowledgeGatedProfilePanels";
+import { buildScoutReportView } from "@/lib/knowledge/scoutReportVisibility";
+import { getClubScouts, getPlayerScoutReports } from "@/lib/career/scouting";
+import { findStaffMember } from "@/lib/staff/staffCareerIntegration";
+import { ScoutReportPanel, type ScoutReportHistoryEntry } from "@/components/ScoutReportPanel";
 
 // HM-RATINGS-CAREER-1.0 Part 25: every career player (REAL_WORLD, mock or
 // generated) now has exactly one CareerState-resident GameplayPlayerRating
@@ -111,6 +115,21 @@ export default function PlayerProfilePage() {
   const marketValue = getPlayerMarketValueEur(career, player.id);
   const clubHistory = getPlayerClubHistory(career, player.id);
   const trainingCompensation = getPlayerTrainingCompensation(career, player.id);
+
+  // HM-SCOUTING-1.0: the scout report view IS the "better manager view"
+  // the whole scouting loop exists to produce -- composed here from the
+  // exact same knowledgePct/ratingRow already resolved above, plus this
+  // player's own filed report history (most recent scout's suitability
+  // drives displayed confidence).
+  const playerScoutReports = !isOwnPlayer ? getPlayerScoutReports(career, player.id) : [];
+  const latestReport = playerScoutReports[0] ?? null;
+  const clubScouts = getClubScouts(career);
+  const scoutReportView = !isOwnPlayer && ratingRow ? buildScoutReportView(ratingRow, knowledgePct, marketValue, latestReport?.scoutSuitability ?? null) : null;
+  const scoutReportHistory: ScoutReportHistoryEntry[] = playerScoutReports.map((r) => ({
+    reportId: r.id,
+    createdDate: r.createdDate,
+    scoutDisplayName: findStaffMember(career, r.scoutStaffId)?.displayName ?? "Okänd scout",
+  }));
 
   return (
     <div className="hm-grid" style={{ gridTemplateColumns: "2fr 1fr", alignItems: "start" }}>
@@ -285,18 +304,40 @@ export default function PlayerProfilePage() {
           </div>
         </div>
 
-        {/* Market value */}
+        {/* Market value -- HM-SCOUTING-1.0 Part 8/9: an external player's
+            true canonical value is never shown exactly, only a knowledge-
+            gated range (via scoutReportView.marketValueRange), same
+            consistency rule the ScoutReportPanel below already applies.
+            The manager's own players (always fully known) keep the exact
+            figure. */}
         <div className="hm-panel">
           <div className="hm-panel-header">
             <span className="hm-panel-title">Marknadsvärde</span>
           </div>
           <div className="hm-panel-body">
-            <div style={{ fontSize: "var(--hm-text-lg)", fontWeight: 800 }}>{marketValue !== undefined ? formatEur(marketValue) : "—"}</div>
+            {isOwnPlayer ? (
+              <div style={{ fontSize: "var(--hm-text-lg)", fontWeight: 800 }}>{marketValue !== undefined ? formatEur(marketValue) : "—"}</div>
+            ) : scoutReportView?.marketValueRange ? (
+              <div style={{ fontSize: "var(--hm-text-lg)", fontWeight: 800 }}>
+                {scoutReportView.marketValueRange.min === scoutReportView.marketValueRange.max
+                  ? formatEur(scoutReportView.marketValueRange.min)
+                  : `${formatEur(scoutReportView.marketValueRange.min)} – ${formatEur(scoutReportView.marketValueRange.max)}`}
+              </div>
+            ) : (
+              <div style={{ fontSize: "var(--hm-text-lg)", fontWeight: 800 }}>—</div>
+            )}
             <p className="hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)", margin: "4px 0 0" }}>
-              Uppskattat värde -- baserat på nuvarande förmåga, potential, ålder, roll och kontraktstid.
+              {isOwnPlayer
+                ? "Uppskattat värde -- baserat på nuvarande förmåga, potential, ålder, roll och kontraktstid."
+                : "Uppskattat intervall -- osäkerheten minskar med bättre kännedom om spelaren."}
             </p>
           </div>
         </div>
+
+        {/* HM-SCOUTING-1.0: the report the scouting loop produces -- only for an external player. */}
+        {!isOwnPlayer && scoutReportView ? (
+          <ScoutReportPanel view={scoutReportView} history={scoutReportHistory} hasOwnScout={clubScouts.length > 0} onStartAssignment={() => router.push(`/career/scouting?target=${player.id}`)} />
+        ) : null}
 
         {/* HM-CONTRACTS-1.0A Part: club/youth history + training
             compensation -- deliberately SEPARATE from market value/

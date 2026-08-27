@@ -6,6 +6,10 @@ import { processDay } from "./dailyTick";
 import { addDays } from "./dateUtils";
 import { TUMBA_CLUB_ID } from "../game-data";
 import type { CareerState } from "./types";
+import { createScoutingAssignment } from "./scouting";
+import { getPlayerKnowledgePct } from "../knowledge/knowledgeIntegration";
+import { generateStaffAttributeProfile } from "../staff/staffAttributeGeneration";
+import type { ResolvedStaffMember } from "../staff/types";
 
 // HM-CAREER-0.5: fixtures within round 1 are now deterministically spread
 // across a few nearby days (game-simulation's fixtures.ts), not all
@@ -130,4 +134,40 @@ test("a seeded player recovery transition fires PLAYER_STATUS_CHANGED exactly on
 
   assert.equal(recoveryEvents, 1);
   assert.equal(state.playerStatuses["p-holmgren"].availability, "AVAILABLE");
+});
+
+// ---------------------------------------------------------------------------
+// HM-SCOUTING-1.0: a real scouting assignment progresses through the daily
+// tick exactly like every other in-progress process -- never a full
+// "instant scouting on button press" (Part 3: "Det ska gå via career
+// time / daily tick, inte bli full scouting direkt när knappen trycks").
+// ---------------------------------------------------------------------------
+
+test("HM-SCOUTING-1.0: a scouting assignment completes via processDay on its end date, raising knowledge and emitting SCOUT_REPORT_READY -- never before", () => {
+  const scoutProfile = generateStaffAttributeProfile("scout-1", ["SCOUT"], "scout-1");
+  const scout: ResolvedStaffMember = { id: "scout-1", clubId: TUMBA_CLUB_ID, displayName: "Test Scout", roles: ["SCOUT"], hmRoles: [], employmentType: "SALARIED", profile: scoutProfile, source: "GENERATED_FICTIONAL" };
+  let state: CareerState = { ...freshState(), staffRoster: { ...freshState().staffRoster, [TUMBA_CLUB_ID]: [scout] } };
+
+  const targetPlayerId = "external-player-x";
+  const targetClubId = "se_club_alingsas_hk";
+  const before = getPlayerKnowledgePct(state, targetPlayerId, targetClubId);
+  const { state: withAssignment, assignment } = createScoutingAssignment(state, "scout-1", targetPlayerId, targetClubId, state.gameDate);
+  assert.ok(assignment);
+  state = withAssignment;
+
+  let date = state.gameDate;
+  let sawReportEvent = false;
+  while (date < assignment!.endDate) {
+    const result = processDay(state, date);
+    state = result.state;
+    assert.ok(!result.events.some((e) => e.type === "SCOUT_REPORT_READY"), "must not fire before the assignment's own end date");
+    date = addDays(date, 1);
+  }
+  const onEndDate = processDay(state, assignment!.endDate);
+  state = onEndDate.state;
+  sawReportEvent = onEndDate.events.some((e) => e.type === "SCOUT_REPORT_READY");
+
+  assert.ok(sawReportEvent, "SCOUT_REPORT_READY must fire exactly on the assignment's end date");
+  assert.equal(state.scoutingAssignments[assignment!.id].status, "COMPLETED");
+  assert.ok(getPlayerKnowledgePct(state, targetPlayerId, targetClubId) > before);
 });
