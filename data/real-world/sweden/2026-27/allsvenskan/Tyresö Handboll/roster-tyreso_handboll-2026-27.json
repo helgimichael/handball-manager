@@ -1,0 +1,584 @@
+[
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_tyreso_handboll__1690df70",
+    "playerId": "se_player_martin_borjes_1690df70",
+    "clubId": "swe2-tyreso",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 1,
+    "sourcePosition": "MV",
+    "primaryPosition": "MV",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": [
+        "src_as_position_evidence"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_tyreso_handboll__4e85963b",
+    "playerId": "se_player_martin_brandt_4e85963b",
+    "clubId": "swe2-tyreso",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 2,
+    "sourcePosition": "M6",
+    "primaryPosition": "M6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": [
+        "src_as_position_evidence"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_tyreso_handboll__31d5a281",
+    "playerId": "se_player_axel_marqvardsen_31d5a281",
+    "clubId": "swe2-tyreso",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 3,
+    "sourcePosition": "V9",
+    "primaryPosition": "V9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "PARTIAL",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": [
+        "src_as_position_evidence"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-ALLSVENSKAN-1.1: broad role (goalkeeper/wing/back-court/pivot) is real, sourced evidence from the club's own current roster page; the specific left/centre/right side was not published there and was deterministically assigned."
+    ]
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_tyreso_handboll__97f3e0e6",
+    "playerId": "se_player_josef_granstrom_97f3e0e6",
+    "clubId": "swe2-tyreso",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 5,
+    "sourcePosition": "M6",
+    "primaryPosition": "M6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": [
+        "src_as_position_evidence"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_tyreso_handboll__efeb44b7",
+    "playerId": "se_player_ludwig_elmgren_efeb44b7",
+    "clubId": "swe2-tyreso",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 6,
+    "sourcePosition": "H9",
+    "primaryPosition": "H9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "PARTIAL",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": [
+        "src_as_position_evidence"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-ALLSVENSKAN-1.1: broad role (goalkeeper/wing/back-court/pivot) is real, sourced evidence from the club's own current roster page; the specific left/centre/right side was not published there and was deterministically assigned."
+    ]
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_tyreso_handboll__33464c91",
+    "playerId": "se_player_sebastian_fagerdahl_33464c91",
+    "clubId": "swe2-tyreso",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 7,
+    "sourcePosition": "V6",
+    "primaryPosition": "V6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": [
+        "src_as_position_evidence"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_tyreso_handboll__32dc9ce4",
+    "playerId": "se_player_andreas_lagerstrom_32dc9ce4",
+    "clubId": "swe2-tyreso",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 9,
+    "sourcePosition": "M9",
+    "primaryPosition": "M9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "PARTIAL",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": [
+        "src_as_position_evidence"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-ALLSVENSKAN-1.1: broad role (goalkeeper/wing/back-court/pivot) is real, sourced evidence from the club's own current roster page; the specific left/centre/right side was not published there and was deterministically assigned."
+    ]
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_tyreso_handboll__32de08b9",
+    "playerId": "se_player_gustaf_wedberg_32de08b9",
+    "clubId": "swe2-tyreso",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 11,
+    "sourcePosition": "V9",
+    "primaryPosition": "V9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "PARTIAL",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": [
+        "src_as_position_evidence"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-ALLSVENSKAN-1.1: broad role (goalkeeper/wing/back-court/pivot) is real, sourced evidence from the club's own current roster page; the specific left/centre/right side was not published there and was deterministically assigned."
+    ]
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_tyreso_handboll__5a5396bd",
+    "playerId": "se_player_leo_andren_5a5396bd",
+    "clubId": "swe2-tyreso",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 12,
+    "sourcePosition": "MV",
+    "primaryPosition": "MV",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": [
+        "src_as_position_evidence"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_tyreso_handboll__246e9de6",
+    "playerId": "se_player_simon_hjortenbo_246e9de6",
+    "clubId": "swe2-tyreso",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 14,
+    "sourcePosition": "H9",
+    "primaryPosition": "H9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "PARTIAL",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": [
+        "src_as_position_evidence"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-ALLSVENSKAN-1.1: broad role (goalkeeper/wing/back-court/pivot) is real, sourced evidence from the club's own current roster page; the specific left/centre/right side was not published there and was deterministically assigned."
+    ]
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_tyreso_handboll__442607e4",
+    "playerId": "se_player_norton_kjellner_442607e4",
+    "clubId": "swe2-tyreso",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 15,
+    "sourcePosition": "M9",
+    "primaryPosition": "M9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "PARTIAL",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": [
+        "src_as_position_evidence"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-ALLSVENSKAN-1.1: broad role (goalkeeper/wing/back-court/pivot) is real, sourced evidence from the club's own current roster page; the specific left/centre/right side was not published there and was deterministically assigned."
+    ]
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_tyreso_handboll__94b2022a",
+    "playerId": "se_player_ludwig_ase_94b2022a",
+    "clubId": "swe2-tyreso",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 19,
+    "sourcePosition": "M9",
+    "primaryPosition": "M9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "PARTIAL",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": [
+        "src_as_position_evidence"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-ALLSVENSKAN-1.1: broad role (goalkeeper/wing/back-court/pivot) is real, sourced evidence from the club's own current roster page; the specific left/centre/right side was not published there and was deterministically assigned."
+    ]
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_tyreso_handboll__5cdc48de",
+    "playerId": "se_player_emil_soderholm_5cdc48de",
+    "clubId": "swe2-tyreso",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 20,
+    "sourcePosition": "M9",
+    "primaryPosition": "M9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "PARTIAL",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": [
+        "src_as_position_evidence"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-ALLSVENSKAN-1.1: broad role (goalkeeper/wing/back-court/pivot) is real, sourced evidence from the club's own current roster page; the specific left/centre/right side was not published there and was deterministically assigned."
+    ]
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_tyreso_handboll__18c9943d",
+    "playerId": "se_player_fredrik_hellgren_18c9943d",
+    "clubId": "swe2-tyreso",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 21,
+    "sourcePosition": "V9",
+    "primaryPosition": "V9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "PARTIAL",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": [
+        "src_as_position_evidence"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-ALLSVENSKAN-1.1: broad role (goalkeeper/wing/back-court/pivot) is real, sourced evidence from the club's own current roster page; the specific left/centre/right side was not published there and was deterministically assigned."
+    ]
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_tyreso_handboll__85730c3a",
+    "playerId": "se_player_linus_froberg_85730c3a",
+    "clubId": "swe2-tyreso",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 22,
+    "sourcePosition": "V6",
+    "primaryPosition": "V6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": [
+        "src_as_position_evidence"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_tyreso_handboll__8d02e65e",
+    "playerId": "se_player_marvin_barrett_8d02e65e",
+    "clubId": "swe2-tyreso",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 27,
+    "sourcePosition": "H9",
+    "primaryPosition": "H9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "PARTIAL",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": [
+        "src_as_position_evidence"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-ALLSVENSKAN-1.1: broad role (goalkeeper/wing/back-court/pivot) is real, sourced evidence from the club's own current roster page; the specific left/centre/right side was not published there and was deterministically assigned."
+    ]
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_tyreso_handboll__d00937cd",
+    "playerId": "se_player_felix_morsten_d00937cd",
+    "clubId": "swe2-tyreso",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 31,
+    "sourcePosition": "M6",
+    "primaryPosition": "M6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": [
+        "src_as_position_evidence"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_tyreso_handboll__e24f41d0",
+    "playerId": "se_player_oskar_davidsson_e24f41d0",
+    "clubId": "swe2-tyreso",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 33,
+    "sourcePosition": "",
+    "primaryPosition": "M9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "UNKNOWN",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": []
+    },
+    "dataNotes": [
+      "HM-DATA-ALLSVENSKAN-1.1: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+    ]
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_tyreso_handboll__e207c1b2",
+    "playerId": "se_player_karl_gustav_pintsaar_e207c1b2",
+    "clubId": "swe2-tyreso",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 35,
+    "sourcePosition": "V6",
+    "primaryPosition": "V6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": [
+        "src_as_position_evidence"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_tyreso_handboll__a3450b2b",
+    "playerId": "se_player_ludvig_nystrom_a3450b2b",
+    "clubId": "swe2-tyreso",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 36,
+    "sourcePosition": "H9",
+    "primaryPosition": "H9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "PARTIAL",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": [
+        "src_as_position_evidence"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-ALLSVENSKAN-1.1: broad role (goalkeeper/wing/back-court/pivot) is real, sourced evidence from the club's own current roster page; the specific left/centre/right side was not published there and was deterministically assigned."
+    ]
+  }
+]

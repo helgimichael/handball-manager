@@ -1,0 +1,12 @@
+{
+  "milestone": "HM-DATA-ALLSVENSKAN-1.1",
+  "club": "HK Torslanda Elit",
+  "snapshotDate": "2026-08-27",
+  "files": [
+    "players-hk_torslanda_elit.json",
+    "roster-hk_torslanda_elit-2026-27.json",
+    "qc-hk_torslanda_elit.json",
+    "sources-hk_torslanda_elit.json",
+    "schema-foundation-v0.2.json"
+  ]
+}

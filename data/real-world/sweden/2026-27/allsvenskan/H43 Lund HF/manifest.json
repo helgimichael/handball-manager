@@ -1,0 +1,12 @@
+{
+  "milestone": "HM-DATA-ALLSVENSKAN-1.1",
+  "club": "H43 Lund HF",
+  "snapshotDate": "2026-08-27",
+  "files": [
+    "players-h43_lund_hf.json",
+    "roster-h43_lund_hf-2026-27.json",
+    "qc-h43_lund_hf.json",
+    "sources-h43_lund_hf.json",
+    "schema-foundation-v0.2.json"
+  ]
+}

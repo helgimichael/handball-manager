@@ -1,0 +1,504 @@
+[
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_ifk_tumba_hk__ca6d5fb0",
+    "playerId": "se_player_david_blazevic_ca6d5fb0",
+    "clubId": "swe2-tumba",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 6,
+    "sourcePosition": "V9",
+    "primaryPosition": "V9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "PARTIAL",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": [
+        "src_as_position_evidence"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-ALLSVENSKAN-1.1: broad role (goalkeeper/wing/back-court/pivot) is real, sourced evidence from the club's own current roster page; the specific left/centre/right side was not published there and was deterministically assigned."
+    ]
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_ifk_tumba_hk__99e346ca",
+    "playerId": "se_player_jakob_magnusson_99e346ca",
+    "clubId": "swe2-tumba",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 6,
+    "sourcePosition": "M6",
+    "primaryPosition": "M6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": [
+        "src_as_position_evidence"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_ifk_tumba_hk__a34e0d85",
+    "playerId": "se_player_gabriel_helgason_a34e0d85",
+    "clubId": "swe2-tumba",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 7,
+    "sourcePosition": "V6",
+    "primaryPosition": "V6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "PARTIAL",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": [
+        "src_as_position_evidence"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-ALLSVENSKAN-1.1: broad role (goalkeeper/wing/back-court/pivot) is real, sourced evidence from the club's own current roster page; the specific left/centre/right side was not published there and was deterministically assigned."
+    ]
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_ifk_tumba_hk__2847909f",
+    "playerId": "se_player_albin_brauer_2847909f",
+    "clubId": "swe2-tumba",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 8,
+    "sourcePosition": "M9",
+    "primaryPosition": "M9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "PARTIAL",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": [
+        "src_as_position_evidence"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-ALLSVENSKAN-1.1: broad role (goalkeeper/wing/back-court/pivot) is real, sourced evidence from the club's own current roster page; the specific left/centre/right side was not published there and was deterministically assigned."
+    ]
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_ifk_tumba_hk__dbcf522d",
+    "playerId": "se_player_ted_wettebrandt_dbcf522d",
+    "clubId": "swe2-tumba",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 15,
+    "sourcePosition": "V9",
+    "primaryPosition": "V9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "PARTIAL",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": [
+        "src_as_position_evidence"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-ALLSVENSKAN-1.1: broad role (goalkeeper/wing/back-court/pivot) is real, sourced evidence from the club's own current roster page; the specific left/centre/right side was not published there and was deterministically assigned."
+    ]
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_ifk_tumba_hk__eb2b2bb6",
+    "playerId": "se_player_anton_thomsen_eb2b2bb6",
+    "clubId": "swe2-tumba",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 20,
+    "sourcePosition": "M9",
+    "primaryPosition": "M9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "PARTIAL",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": [
+        "src_as_position_evidence"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-ALLSVENSKAN-1.1: broad role (goalkeeper/wing/back-court/pivot) is real, sourced evidence from the club's own current roster page; the specific left/centre/right side was not published there and was deterministically assigned."
+    ]
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_ifk_tumba_hk__40a6f29e",
+    "playerId": "se_player_elliot_hovre_bjorck_40a6f29e",
+    "clubId": "swe2-tumba",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 22,
+    "sourcePosition": "MV",
+    "primaryPosition": "MV",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": [
+        "src_as_position_evidence"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_ifk_tumba_hk__467b211d",
+    "playerId": "se_player_olle_soderqvist_467b211d",
+    "clubId": "swe2-tumba",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 22,
+    "sourcePosition": "MV",
+    "primaryPosition": "MV",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": [
+        "src_as_position_evidence"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_ifk_tumba_hk__eb1ec6dd",
+    "playerId": "se_player_simon_axelsson_eb1ec6dd",
+    "clubId": "swe2-tumba",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 23,
+    "sourcePosition": "V6",
+    "primaryPosition": "V6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "PARTIAL",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": [
+        "src_as_position_evidence"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-ALLSVENSKAN-1.1: broad role (goalkeeper/wing/back-court/pivot) is real, sourced evidence from the club's own current roster page; the specific left/centre/right side was not published there and was deterministically assigned."
+    ]
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_ifk_tumba_hk__a720a212",
+    "playerId": "se_player_edward_berglund_a720a212",
+    "clubId": "swe2-tumba",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 24,
+    "sourcePosition": "H6",
+    "primaryPosition": "H6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "PARTIAL",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": [
+        "src_as_position_evidence"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-ALLSVENSKAN-1.1: broad role (goalkeeper/wing/back-court/pivot) is real, sourced evidence from the club's own current roster page; the specific left/centre/right side was not published there and was deterministically assigned."
+    ]
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_ifk_tumba_hk__d3d6223d",
+    "playerId": "se_player_joakim_lindahl_d3d6223d",
+    "clubId": "swe2-tumba",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 34,
+    "sourcePosition": "V9",
+    "primaryPosition": "V9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "PARTIAL",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": [
+        "src_as_position_evidence"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-ALLSVENSKAN-1.1: broad role (goalkeeper/wing/back-court/pivot) is real, sourced evidence from the club's own current roster page; the specific left/centre/right side was not published there and was deterministically assigned."
+    ]
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_ifk_tumba_hk__32a9e5c0",
+    "playerId": "se_player_mattias_windahl_32a9e5c0",
+    "clubId": "swe2-tumba",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 46,
+    "sourcePosition": "H9",
+    "primaryPosition": "H9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "PARTIAL",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": [
+        "src_as_position_evidence"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-ALLSVENSKAN-1.1: broad role (goalkeeper/wing/back-court/pivot) is real, sourced evidence from the club's own current roster page; the specific left/centre/right side was not published there and was deterministically assigned."
+    ]
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_ifk_tumba_hk__a2556486",
+    "playerId": "se_player_edvin_alm_a2556486",
+    "clubId": "swe2-tumba",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 48,
+    "sourcePosition": "M9",
+    "primaryPosition": "M9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "PARTIAL",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": [
+        "src_as_position_evidence"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-ALLSVENSKAN-1.1: broad role (goalkeeper/wing/back-court/pivot) is real, sourced evidence from the club's own current roster page; the specific left/centre/right side was not published there and was deterministically assigned."
+    ]
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_ifk_tumba_hk__21f21a28",
+    "playerId": "se_player_cazper_falenius_21f21a28",
+    "clubId": "swe2-tumba",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 71,
+    "sourcePosition": "V9",
+    "primaryPosition": "V9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "PARTIAL",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": [
+        "src_as_position_evidence"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-ALLSVENSKAN-1.1: broad role (goalkeeper/wing/back-court/pivot) is real, sourced evidence from the club's own current roster page; the specific left/centre/right side was not published there and was deterministically assigned."
+    ]
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_ifk_tumba_hk__a712926b",
+    "playerId": "se_player_jesper_bergman_a712926b",
+    "clubId": "swe2-tumba",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 74,
+    "sourcePosition": "V6",
+    "primaryPosition": "V6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "PARTIAL",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": [
+        "src_as_position_evidence"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-ALLSVENSKAN-1.1: broad role (goalkeeper/wing/back-court/pivot) is real, sourced evidence from the club's own current roster page; the specific left/centre/right side was not published there and was deterministically assigned."
+    ]
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_ifk_tumba_hk__d4f71aff",
+    "playerId": "se_player_eskil_glave_d4f71aff",
+    "clubId": "swe2-tumba",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 99,
+    "sourcePosition": "H9",
+    "primaryPosition": "H9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "PARTIAL",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": [
+        "src_as_position_evidence"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-ALLSVENSKAN-1.1: broad role (goalkeeper/wing/back-court/pivot) is real, sourced evidence from the club's own current roster page; the specific left/centre/right side was not published there and was deterministically assigned."
+    ]
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_ifk_tumba_hk__f8c00e47",
+    "playerId": "se_player_filip_westberg_f8c00e47",
+    "clubId": "swe2-tumba",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": null,
+    "sourcePosition": "MV",
+    "primaryPosition": "MV",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": [
+        "src_as_position_evidence"
+      ]
+    },
+    "dataNotes": []
+  }
+]

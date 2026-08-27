@@ -1,0 +1,534 @@
+[
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_eskilstuna_guif_if__206a8015",
+    "playerId": "se_player_sebastian_westerlund_206a8015",
+    "clubId": "swe2-guif",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 1,
+    "sourcePosition": "MV",
+    "primaryPosition": "MV",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": [
+        "src_as_position_evidence"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_eskilstuna_guif_if__de959bd2",
+    "playerId": "se_player_oskar_nykvist_de959bd2",
+    "clubId": "swe2-guif",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 2,
+    "sourcePosition": "",
+    "primaryPosition": "M6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "UNKNOWN",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": []
+    },
+    "dataNotes": [
+      "HM-DATA-ALLSVENSKAN-1.1: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+    ]
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_eskilstuna_guif_if__f59ea9c5",
+    "playerId": "se_player_joakim_jorgensen_f59ea9c5",
+    "clubId": "swe2-guif",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 4,
+    "sourcePosition": "M6",
+    "primaryPosition": "M6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": [
+        "src_as_position_evidence"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_eskilstuna_guif_if__e5f74c95",
+    "playerId": "se_player_max_moberger_e5f74c95",
+    "clubId": "swe2-guif",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 5,
+    "sourcePosition": "M9",
+    "primaryPosition": "M9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": [
+        "src_as_position_evidence"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_eskilstuna_guif_if__40a65f53",
+    "playerId": "se_player_marcus_ekman_40a65f53",
+    "clubId": "swe2-guif",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 6,
+    "sourcePosition": "M9",
+    "primaryPosition": "M9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": [
+        "src_as_position_evidence"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_eskilstuna_guif_if__d6508034",
+    "playerId": "se_player_fredrik_lennernas_d6508034",
+    "clubId": "swe2-guif",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 7,
+    "sourcePosition": "V9",
+    "primaryPosition": "V9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": [
+        "src_as_position_evidence"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_eskilstuna_guif_if__7d05e649",
+    "playerId": "se_player_alexander_grunau_7d05e649",
+    "clubId": "swe2-guif",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 9,
+    "sourcePosition": "",
+    "primaryPosition": "MV",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "UNKNOWN",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": []
+    },
+    "dataNotes": [
+      "HM-DATA-ALLSVENSKAN-1.1: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+    ]
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_eskilstuna_guif_if__1fb70c61",
+    "playerId": "se_player_andreas_flodman_1fb70c61",
+    "clubId": "swe2-guif",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 9,
+    "sourcePosition": "H9",
+    "primaryPosition": "H9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": [
+        "src_as_position_evidence"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_eskilstuna_guif_if__98b279d6",
+    "playerId": "se_player_fredrik_gustavsson_98b279d6",
+    "clubId": "swe2-guif",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 10,
+    "sourcePosition": "V6",
+    "primaryPosition": "V6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": [
+        "src_as_position_evidence"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_eskilstuna_guif_if__164d102e",
+    "playerId": "se_player_philip_tikas_164d102e",
+    "clubId": "swe2-guif",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 11,
+    "sourcePosition": "V6",
+    "primaryPosition": "V6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": [
+        "src_as_position_evidence"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_eskilstuna_guif_if__d9cd262e",
+    "playerId": "se_player_gustav_boren_d9cd262e",
+    "clubId": "swe2-guif",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 13,
+    "sourcePosition": "M6",
+    "primaryPosition": "M6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": [
+        "src_as_position_evidence"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_eskilstuna_guif_if__8ef64603",
+    "playerId": "se_player_anton_agren_8ef64603",
+    "clubId": "swe2-guif",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 15,
+    "sourcePosition": "",
+    "primaryPosition": "M6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "UNKNOWN",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": []
+    },
+    "dataNotes": [
+      "HM-DATA-ALLSVENSKAN-1.1: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+    ]
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_eskilstuna_guif_if__27e7d6cc",
+    "playerId": "se_player_alvin_bjorklund_27e7d6cc",
+    "clubId": "swe2-guif",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 16,
+    "sourcePosition": "MV",
+    "primaryPosition": "MV",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": [
+        "src_as_position_evidence"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_eskilstuna_guif_if__90a3e096",
+    "playerId": "se_player_kasper_larsson_90a3e096",
+    "clubId": "swe2-guif",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 17,
+    "sourcePosition": "V9",
+    "primaryPosition": "V9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": [
+        "src_as_position_evidence"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_eskilstuna_guif_if__8e940787",
+    "playerId": "se_player_melker_norrman_8e940787",
+    "clubId": "swe2-guif",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 18,
+    "sourcePosition": "M6",
+    "primaryPosition": "M6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": [
+        "src_as_position_evidence"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_eskilstuna_guif_if__1cc208ce",
+    "playerId": "se_player_viktor_millard_1cc208ce",
+    "clubId": "swe2-guif",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 19,
+    "sourcePosition": "",
+    "primaryPosition": "V6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "UNKNOWN",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": []
+    },
+    "dataNotes": [
+      "HM-DATA-ALLSVENSKAN-1.1: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+    ]
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_eskilstuna_guif_if__c1a36a84",
+    "playerId": "se_player_vilhelm_conrad_c1a36a84",
+    "clubId": "swe2-guif",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 20,
+    "sourcePosition": "H9",
+    "primaryPosition": "H9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": [
+        "src_as_position_evidence"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_eskilstuna_guif_if__c6d8c3de",
+    "playerId": "se_player_arwid_krontorp_c6d8c3de",
+    "clubId": "swe2-guif",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 22,
+    "sourcePosition": "",
+    "primaryPosition": "MV",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "UNKNOWN",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": []
+    },
+    "dataNotes": [
+      "HM-DATA-ALLSVENSKAN-1.1: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+    ]
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_eskilstuna_guif_if__26cc889a",
+    "playerId": "se_player_oscar_nilsson_26cc889a",
+    "clubId": "swe2-guif",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 24,
+    "sourcePosition": "H6",
+    "primaryPosition": "H6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": [
+        "src_as_position_evidence"
+      ]
+    },
+    "dataNotes": []
+  }
+]

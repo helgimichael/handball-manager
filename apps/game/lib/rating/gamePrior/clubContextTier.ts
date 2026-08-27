@@ -16,6 +16,7 @@
 // data get a shift of 0, which is the honest "no evidence" state, not
 // a penalty.
 import { loadSeasonIdentity } from "../../gameWorld/clubIdentityLoader";
+import { leagueSegmentForClub } from "../../gameWorld/leagueSegment";
 import type { IdentityClaim } from "../../identity/types";
 
 const MAX_SHIFT = 6;
@@ -60,7 +61,7 @@ function scoreClaim(claim: IdentityClaim): number {
  * data at all -- an explicit "no adjustment" default, never invented.
  */
 export function clubContextShift(clubId: string): number {
-  const season = loadSeasonIdentity(clubId);
+  const season = loadSeasonIdentity(clubId, leagueSegmentForClub(clubId));
   if (!season) return 0;
 
   const claims = [...season.context.organisationalClaims, ...season.context.financialClaims, ...season.context.squadClaims, ...season.context.competitiveClaims, ...season.context.transitionClaims];

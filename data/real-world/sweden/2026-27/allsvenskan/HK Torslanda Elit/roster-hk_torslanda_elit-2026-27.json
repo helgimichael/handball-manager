@@ -1,0 +1,394 @@
+[
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_hk_torslanda_elit__a57211f6",
+    "playerId": "se_player_gustav_simonsson_a57211f6",
+    "clubId": "swe2-torslanda",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 1,
+    "sourcePosition": "",
+    "primaryPosition": "M6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "UNKNOWN",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": []
+    },
+    "dataNotes": [
+      "HM-DATA-ALLSVENSKAN-1.1: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+    ]
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_hk_torslanda_elit__c86c8178",
+    "playerId": "se_player_lukas_runge_c86c8178",
+    "clubId": "swe2-torslanda",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 6,
+    "sourcePosition": "",
+    "primaryPosition": "M9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "UNKNOWN",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": []
+    },
+    "dataNotes": [
+      "HM-DATA-ALLSVENSKAN-1.1: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+    ]
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_hk_torslanda_elit__ba76b45a",
+    "playerId": "se_player_fabian_strandwitz_ba76b45a",
+    "clubId": "swe2-torslanda",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 7,
+    "sourcePosition": "",
+    "primaryPosition": "V6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "UNKNOWN",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": []
+    },
+    "dataNotes": [
+      "HM-DATA-ALLSVENSKAN-1.1: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+    ]
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_hk_torslanda_elit__64aace5e",
+    "playerId": "se_player_rasmus_bohlin_64aace5e",
+    "clubId": "swe2-torslanda",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 8,
+    "sourcePosition": "",
+    "primaryPosition": "M9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "UNKNOWN",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": []
+    },
+    "dataNotes": [
+      "HM-DATA-ALLSVENSKAN-1.1: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+    ]
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_hk_torslanda_elit__73211ae3",
+    "playerId": "se_player_linus_andersson_73211ae3",
+    "clubId": "swe2-torslanda",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 11,
+    "sourcePosition": "",
+    "primaryPosition": "V9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "UNKNOWN",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": []
+    },
+    "dataNotes": [
+      "HM-DATA-ALLSVENSKAN-1.1: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+    ]
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_hk_torslanda_elit__6f917cd5",
+    "playerId": "se_player_oscar_lindell_6f917cd5",
+    "clubId": "swe2-torslanda",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 12,
+    "sourcePosition": "",
+    "primaryPosition": "H6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "UNKNOWN",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": []
+    },
+    "dataNotes": [
+      "HM-DATA-ALLSVENSKAN-1.1: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+    ]
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_hk_torslanda_elit__2641a250",
+    "playerId": "se_player_felix_fogelholm_2641a250",
+    "clubId": "swe2-torslanda",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 14,
+    "sourcePosition": "",
+    "primaryPosition": "M9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "UNKNOWN",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": []
+    },
+    "dataNotes": [
+      "HM-DATA-ALLSVENSKAN-1.1: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+    ]
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_hk_torslanda_elit__6a38efe1",
+    "playerId": "se_player_alfred_tilly_6a38efe1",
+    "clubId": "swe2-torslanda",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 18,
+    "sourcePosition": "",
+    "primaryPosition": "H9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "UNKNOWN",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": []
+    },
+    "dataNotes": [
+      "HM-DATA-ALLSVENSKAN-1.1: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+    ]
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_hk_torslanda_elit__f9fb9f9b",
+    "playerId": "se_player_simon_larsson_f9fb9f9b",
+    "clubId": "swe2-torslanda",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 23,
+    "sourcePosition": "",
+    "primaryPosition": "MV",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "UNKNOWN",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": []
+    },
+    "dataNotes": [
+      "HM-DATA-ALLSVENSKAN-1.1: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+    ]
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_hk_torslanda_elit__35e626fe",
+    "playerId": "se_player_alvin_siren_35e626fe",
+    "clubId": "swe2-torslanda",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 25,
+    "sourcePosition": "",
+    "primaryPosition": "V6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "UNKNOWN",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": []
+    },
+    "dataNotes": [
+      "HM-DATA-ALLSVENSKAN-1.1: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+    ]
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_hk_torslanda_elit__b66f4fa2",
+    "playerId": "se_player_erik_rudvall_b66f4fa2",
+    "clubId": "swe2-torslanda",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 26,
+    "sourcePosition": "",
+    "primaryPosition": "M9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "UNKNOWN",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": []
+    },
+    "dataNotes": [
+      "HM-DATA-ALLSVENSKAN-1.1: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+    ]
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_hk_torslanda_elit__8abb2cb1",
+    "playerId": "se_player_simon_ohlsson_8abb2cb1",
+    "clubId": "swe2-torslanda",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 29,
+    "sourcePosition": "",
+    "primaryPosition": "M9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "UNKNOWN",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": []
+    },
+    "dataNotes": [
+      "HM-DATA-ALLSVENSKAN-1.1: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+    ]
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_hk_torslanda_elit__242b5b0a",
+    "playerId": "se_player_filip_melin_242b5b0a",
+    "clubId": "swe2-torslanda",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 31,
+    "sourcePosition": "",
+    "primaryPosition": "H9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "UNKNOWN",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": []
+    },
+    "dataNotes": [
+      "HM-DATA-ALLSVENSKAN-1.1: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+    ]
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_hk_torslanda_elit__757b5910",
+    "playerId": "se_player_manu_estrada_hammarback_757b5910",
+    "clubId": "swe2-torslanda",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 45,
+    "sourcePosition": "",
+    "primaryPosition": "M6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "UNKNOWN",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": []
+    },
+    "dataNotes": [
+      "HM-DATA-ALLSVENSKAN-1.1: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+    ]
+  }
+]

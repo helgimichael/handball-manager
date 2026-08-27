@@ -1,0 +1,478 @@
+[
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_gf_kroppskultur__0f746700",
+    "playerId": "se_player_simon_holmqvist_0f746700",
+    "clubId": "swe2-kroppskultur",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 1,
+    "sourcePosition": "",
+    "primaryPosition": "H6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "UNKNOWN",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": []
+    },
+    "dataNotes": [
+      "HM-DATA-ALLSVENSKAN-1.1: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+    ]
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_gf_kroppskultur__6600f6c3",
+    "playerId": "se_player_simon_ortelind_6600f6c3",
+    "clubId": "swe2-kroppskultur",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 3,
+    "sourcePosition": "",
+    "primaryPosition": "V9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "UNKNOWN",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": []
+    },
+    "dataNotes": [
+      "HM-DATA-ALLSVENSKAN-1.1: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+    ]
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_gf_kroppskultur__6fa8576e",
+    "playerId": "se_player_lukas_palmkvist_6fa8576e",
+    "clubId": "swe2-kroppskultur",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 4,
+    "sourcePosition": "",
+    "primaryPosition": "H9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "UNKNOWN",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": []
+    },
+    "dataNotes": [
+      "HM-DATA-ALLSVENSKAN-1.1: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+    ]
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_gf_kroppskultur__75d68675",
+    "playerId": "se_player_hilding_herrmann_75d68675",
+    "clubId": "swe2-kroppskultur",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 5,
+    "sourcePosition": "",
+    "primaryPosition": "V6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "UNKNOWN",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": []
+    },
+    "dataNotes": [
+      "HM-DATA-ALLSVENSKAN-1.1: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+    ]
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_gf_kroppskultur__be3ee917",
+    "playerId": "se_player_fabian_bjorkman_be3ee917",
+    "clubId": "swe2-kroppskultur",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 8,
+    "sourcePosition": "",
+    "primaryPosition": "V9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "UNKNOWN",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": []
+    },
+    "dataNotes": [
+      "HM-DATA-ALLSVENSKAN-1.1: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+    ]
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_gf_kroppskultur__614eb11c",
+    "playerId": "se_player_erik_follin_614eb11c",
+    "clubId": "swe2-kroppskultur",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 9,
+    "sourcePosition": "",
+    "primaryPosition": "H6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "UNKNOWN",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": []
+    },
+    "dataNotes": [
+      "HM-DATA-ALLSVENSKAN-1.1: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+    ]
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_gf_kroppskultur__abb9f4af",
+    "playerId": "se_player_pontus_josefsson_sall_abb9f4af",
+    "clubId": "swe2-kroppskultur",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 11,
+    "sourcePosition": "",
+    "primaryPosition": "V9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "UNKNOWN",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": []
+    },
+    "dataNotes": [
+      "HM-DATA-ALLSVENSKAN-1.1: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+    ]
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_gf_kroppskultur__49d98f58",
+    "playerId": "se_player_jakob_baard_49d98f58",
+    "clubId": "swe2-kroppskultur",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 13,
+    "sourcePosition": "",
+    "primaryPosition": "M6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "UNKNOWN",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": []
+    },
+    "dataNotes": [
+      "HM-DATA-ALLSVENSKAN-1.1: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+    ]
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_gf_kroppskultur__3ad350a5",
+    "playerId": "se_player_leon_ring_3ad350a5",
+    "clubId": "swe2-kroppskultur",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 15,
+    "sourcePosition": "",
+    "primaryPosition": "MV",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "UNKNOWN",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": []
+    },
+    "dataNotes": [
+      "HM-DATA-ALLSVENSKAN-1.1: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+    ]
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_gf_kroppskultur__87cd5977",
+    "playerId": "se_player_jonas_aberg_87cd5977",
+    "clubId": "swe2-kroppskultur",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 16,
+    "sourcePosition": "",
+    "primaryPosition": "MV",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "UNKNOWN",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": []
+    },
+    "dataNotes": [
+      "HM-DATA-ALLSVENSKAN-1.1: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+    ]
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_gf_kroppskultur__933c8602",
+    "playerId": "se_player_william_noord_933c8602",
+    "clubId": "swe2-kroppskultur",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 19,
+    "sourcePosition": "",
+    "primaryPosition": "MV",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "UNKNOWN",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": []
+    },
+    "dataNotes": [
+      "HM-DATA-ALLSVENSKAN-1.1: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+    ]
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_gf_kroppskultur__e0a6ac7b",
+    "playerId": "se_player_hugo_nylund_kindefors_e0a6ac7b",
+    "clubId": "swe2-kroppskultur",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 20,
+    "sourcePosition": "",
+    "primaryPosition": "M6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "UNKNOWN",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": []
+    },
+    "dataNotes": [
+      "HM-DATA-ALLSVENSKAN-1.1: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+    ]
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_gf_kroppskultur__6afc640f",
+    "playerId": "se_player_hugo_johansson_6afc640f",
+    "clubId": "swe2-kroppskultur",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 34,
+    "sourcePosition": "",
+    "primaryPosition": "M9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "UNKNOWN",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": []
+    },
+    "dataNotes": [
+      "HM-DATA-ALLSVENSKAN-1.1: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+    ]
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_gf_kroppskultur__177d8a41",
+    "playerId": "se_player_adam_jonsson_177d8a41",
+    "clubId": "swe2-kroppskultur",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 44,
+    "sourcePosition": "",
+    "primaryPosition": "MV",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "UNKNOWN",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": []
+    },
+    "dataNotes": [
+      "HM-DATA-ALLSVENSKAN-1.1: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+    ]
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_gf_kroppskultur__d5c11f06",
+    "playerId": "se_player_anton_hedberg_d5c11f06",
+    "clubId": "swe2-kroppskultur",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 55,
+    "sourcePosition": "",
+    "primaryPosition": "H9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "UNKNOWN",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": []
+    },
+    "dataNotes": [
+      "HM-DATA-ALLSVENSKAN-1.1: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+    ]
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_gf_kroppskultur__733a7887",
+    "playerId": "se_player_alvin_sundstrom_733a7887",
+    "clubId": "swe2-kroppskultur",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": null,
+    "sourcePosition": "",
+    "primaryPosition": "H6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "UNKNOWN",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": []
+    },
+    "dataNotes": [
+      "HM-DATA-ALLSVENSKAN-1.1: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+    ]
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_gf_kroppskultur__3f94aca6",
+    "playerId": "se_player_love_ljungqvist_3f94aca6",
+    "clubId": "swe2-kroppskultur",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": null,
+    "sourcePosition": "",
+    "primaryPosition": "H9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "UNKNOWN",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": []
+    },
+    "dataNotes": [
+      "HM-DATA-ALLSVENSKAN-1.1: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+    ]
+  }
+]

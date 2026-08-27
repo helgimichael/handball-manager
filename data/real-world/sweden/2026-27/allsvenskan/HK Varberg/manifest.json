@@ -1,0 +1,12 @@
+{
+  "milestone": "HM-DATA-ALLSVENSKAN-1.1",
+  "club": "HK Varberg",
+  "snapshotDate": "2026-08-27",
+  "files": [
+    "players-hk_varberg.json",
+    "roster-hk_varberg-2026-27.json",
+    "qc-hk_varberg.json",
+    "sources-hk_varberg.json",
+    "schema-foundation-v0.2.json"
+  ]
+}

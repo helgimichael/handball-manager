@@ -28,8 +28,10 @@ function snapshotRealWorldSquad(clubId: string): PlayerMock[] {
 /**
  * Builds the `worldSquads` snapshot for every real-world-backed club in
  * `competitionId`. Returns `{}` for a competition with no real-world
- * clubs (e.g. Allsvenskan) -- the caller's existing legacy mock squad
- * fallback (see career/careerWorld.ts) covers that case.
+ * clubs at all -- the caller's existing legacy mock squad fallback (see
+ * career/careerWorld.ts) covers that case. As of HM-DATA-ALLSVENSKAN-1.1
+ * this is generic across tiers: both Handbollsligan and Allsvenskan
+ * clubs are real-world-backed, gated purely on `Club.dataSource`.
  */
 export function snapshotWorldSquads(competitionId: string): Record<string, PlayerMock[]> {
   const worldSquads: Record<string, PlayerMock[]> = {};

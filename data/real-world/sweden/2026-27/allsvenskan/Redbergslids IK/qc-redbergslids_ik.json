@@ -1,0 +1,39 @@
+{
+  "clubId": "swe2-redbergslid",
+  "clubName": "Redbergslids IK",
+  "competitionId": "swe-2",
+  "season": "2026/27",
+  "snapshotDate": "2026-08-27",
+  "datasetStatus": "PRESEASON",
+  "qcStatus": "VERIFIED_WITH_OPEN_FIELDS",
+  "expectedRosterCount": 24,
+  "exportedRosterCount": 24,
+  "checks": {
+    "currentLeagueRosterLocated": true,
+    "allLeagueRosterNamesCaptured": true,
+    "incomingTransfersChecked": false,
+    "departuresChecked": false,
+    "duplicatePlayers": 0,
+    "canonicalPositionsValid": true,
+    "guessedSecondaryPositions": 0,
+    "guessedDatesOfBirth": 0,
+    "guessedHeights": 24,
+    "guessedNationalities": 24,
+    "guessedContractDates": 24
+  },
+  "knownConflicts": [],
+  "staleSourceWarnings": [
+    "HM-DATA-ALLSVENSKAN-1.1: the canonical source spreadsheet carries no position, nationality, height, handedness, or contract-date column at all -- see openFieldsSummary and each roster entry's own rosterConfidence/dataNotes for exactly which fields are real evidence vs. a disclosed structural placeholder."
+  ],
+  "openFieldsSummary": {
+    "exactDateOfBirthMissing": 9,
+    "nationalityMissing": 24,
+    "heightMissing": 24,
+    "handednessMissing": 24,
+    "shirtNumberMissing": 0,
+    "contractEndMissing": 24,
+    "positionGenerated": 6,
+    "positionPartial": 0,
+    "positionVerified": 18
+  }
+}

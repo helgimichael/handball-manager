@@ -1,0 +1,12 @@
+{
+  "milestone": "HM-DATA-ALLSVENSKAN-1.1",
+  "club": "IFK Tumba HK",
+  "snapshotDate": "2026-08-27",
+  "files": [
+    "players-ifk_tumba_hk.json",
+    "roster-ifk_tumba_hk-2026-27.json",
+    "qc-ifk_tumba_hk.json",
+    "sources-ifk_tumba_hk.json",
+    "schema-foundation-v0.2.json"
+  ]
+}

@@ -1,0 +1,22 @@
+[
+  {
+    "sourceId": "src_as_v5_qa_spreadsheet",
+    "sourceType": "USER_COMPILED",
+    "publisher": "User-provided QA compilation",
+    "title": "Herrallsvenskan 2026/27 spelarlista v5 QA",
+    "url": null,
+    "publishedAt": "2026-08-27",
+    "accessedAt": "2026-08-27",
+    "seasonContext": "2026/27"
+  },
+  {
+    "sourceId": "src_as_position_evidence",
+    "sourceType": "CLUB_OFFICIAL",
+    "publisher": "IFK Tumba HK",
+    "title": "Official current-season roster page",
+    "url": "https://www.svenskalag.se/tumbahandboll-herr/truppen",
+    "publishedAt": null,
+    "accessedAt": "2026-08-27",
+    "seasonContext": "2026/27 PRESEASON"
+  }
+]

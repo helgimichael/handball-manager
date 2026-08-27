@@ -1,0 +1,12 @@
+{
+  "milestone": "HM-DATA-ALLSVENSKAN-1.1",
+  "club": "VästeråsIrsta HF",
+  "snapshotDate": "2026-08-27",
+  "files": [
+    "players-vasterasirsta_hf.json",
+    "roster-vasterasirsta_hf-2026-27.json",
+    "qc-vasterasirsta_hf.json",
+    "sources-vasterasirsta_hf.json",
+    "schema-foundation-v0.2.json"
+  ]
+}

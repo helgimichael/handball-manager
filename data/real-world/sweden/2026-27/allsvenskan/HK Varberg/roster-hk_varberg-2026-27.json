@@ -1,0 +1,422 @@
+[
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_hk_varberg__db8c894c",
+    "playerId": "se_player_carl_deliaune_aronius_db8c894c",
+    "clubId": "swe2-varberg",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 1,
+    "sourcePosition": "",
+    "primaryPosition": "V9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "UNKNOWN",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": []
+    },
+    "dataNotes": [
+      "HM-DATA-ALLSVENSKAN-1.1: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+    ]
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_hk_varberg__4603a381",
+    "playerId": "se_player_daniel_lindroos_4603a381",
+    "clubId": "swe2-varberg",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 4,
+    "sourcePosition": "",
+    "primaryPosition": "MV",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "UNKNOWN",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": []
+    },
+    "dataNotes": [
+      "HM-DATA-ALLSVENSKAN-1.1: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+    ]
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_hk_varberg__f5a9a0dd",
+    "playerId": "se_player_emil_fransson_f5a9a0dd",
+    "clubId": "swe2-varberg",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 6,
+    "sourcePosition": "",
+    "primaryPosition": "V9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "UNKNOWN",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": []
+    },
+    "dataNotes": [
+      "HM-DATA-ALLSVENSKAN-1.1: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+    ]
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_hk_varberg__96612b41",
+    "playerId": "se_player_holger_martensson_96612b41",
+    "clubId": "swe2-varberg",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 11,
+    "sourcePosition": "",
+    "primaryPosition": "M9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "UNKNOWN",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": []
+    },
+    "dataNotes": [
+      "HM-DATA-ALLSVENSKAN-1.1: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+    ]
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_hk_varberg__c1c4d25a",
+    "playerId": "se_player_alvin_ankarbjork_olli_c1c4d25a",
+    "clubId": "swe2-varberg",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 12,
+    "sourcePosition": "",
+    "primaryPosition": "M9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "UNKNOWN",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": []
+    },
+    "dataNotes": [
+      "HM-DATA-ALLSVENSKAN-1.1: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+    ]
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_hk_varberg__ff8b1367",
+    "playerId": "se_player_rex_blom_ff8b1367",
+    "clubId": "swe2-varberg",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 15,
+    "sourcePosition": "",
+    "primaryPosition": "M6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "UNKNOWN",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": []
+    },
+    "dataNotes": [
+      "HM-DATA-ALLSVENSKAN-1.1: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+    ]
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_hk_varberg__e2c4eb76",
+    "playerId": "se_player_julian_sjogren_e2c4eb76",
+    "clubId": "swe2-varberg",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 18,
+    "sourcePosition": "",
+    "primaryPosition": "V9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "UNKNOWN",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": []
+    },
+    "dataNotes": [
+      "HM-DATA-ALLSVENSKAN-1.1: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+    ]
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_hk_varberg__ad00a07c",
+    "playerId": "se_player_isak_borg_ad00a07c",
+    "clubId": "swe2-varberg",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 19,
+    "sourcePosition": "",
+    "primaryPosition": "M6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "UNKNOWN",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": []
+    },
+    "dataNotes": [
+      "HM-DATA-ALLSVENSKAN-1.1: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+    ]
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_hk_varberg__b7d5b789",
+    "playerId": "se_player_pontus_zetterman_b7d5b789",
+    "clubId": "swe2-varberg",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 20,
+    "sourcePosition": "",
+    "primaryPosition": "M9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "UNKNOWN",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": []
+    },
+    "dataNotes": [
+      "HM-DATA-ALLSVENSKAN-1.1: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+    ]
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_hk_varberg__4d4cce12",
+    "playerId": "se_player_linus_lindberg_4d4cce12",
+    "clubId": "swe2-varberg",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 22,
+    "sourcePosition": "",
+    "primaryPosition": "MV",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "UNKNOWN",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": []
+    },
+    "dataNotes": [
+      "HM-DATA-ALLSVENSKAN-1.1: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+    ]
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_hk_varberg__a56cfbbb",
+    "playerId": "se_player_valter_warborn_a56cfbbb",
+    "clubId": "swe2-varberg",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 23,
+    "sourcePosition": "",
+    "primaryPosition": "H9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "UNKNOWN",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": []
+    },
+    "dataNotes": [
+      "HM-DATA-ALLSVENSKAN-1.1: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+    ]
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_hk_varberg__b3746dc3",
+    "playerId": "se_player_filip_andersson_moberg_b3746dc3",
+    "clubId": "swe2-varberg",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 24,
+    "sourcePosition": "",
+    "primaryPosition": "M6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "UNKNOWN",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": []
+    },
+    "dataNotes": [
+      "HM-DATA-ALLSVENSKAN-1.1: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+    ]
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_hk_varberg__375a55d6",
+    "playerId": "se_player_max_haborn_375a55d6",
+    "clubId": "swe2-varberg",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 55,
+    "sourcePosition": "",
+    "primaryPosition": "MV",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "UNKNOWN",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": []
+    },
+    "dataNotes": [
+      "HM-DATA-ALLSVENSKAN-1.1: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+    ]
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_hk_varberg__5054a2d7",
+    "playerId": "se_player_jonathan_sandberg_5054a2d7",
+    "clubId": "swe2-varberg",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 73,
+    "sourcePosition": "",
+    "primaryPosition": "V9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "UNKNOWN",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": []
+    },
+    "dataNotes": [
+      "HM-DATA-ALLSVENSKAN-1.1: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+    ]
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_hk_varberg__9a4b162f",
+    "playerId": "se_player_simon_brodow_9a4b162f",
+    "clubId": "swe2-varberg",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 88,
+    "sourcePosition": "",
+    "primaryPosition": "V6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "UNKNOWN",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": []
+    },
+    "dataNotes": [
+      "HM-DATA-ALLSVENSKAN-1.1: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+    ]
+  }
+]

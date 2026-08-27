@@ -1,0 +1,12 @@
+{
+  "milestone": "HM-DATA-ALLSVENSKAN-1.1",
+  "club": "Tyresö Handboll",
+  "snapshotDate": "2026-08-27",
+  "files": [
+    "players-tyreso_handboll.json",
+    "roster-tyreso_handboll-2026-27.json",
+    "qc-tyreso_handboll.json",
+    "sources-tyreso_handboll.json",
+    "schema-foundation-v0.2.json"
+  ]
+}

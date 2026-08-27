@@ -1,0 +1,39 @@
+{
+  "clubId": "swe2-tyreso",
+  "clubName": "Tyresö Handboll",
+  "competitionId": "swe-2",
+  "season": "2026/27",
+  "snapshotDate": "2026-08-27",
+  "datasetStatus": "PRESEASON",
+  "qcStatus": "VERIFIED_WITH_OPEN_FIELDS",
+  "expectedRosterCount": 20,
+  "exportedRosterCount": 20,
+  "checks": {
+    "currentLeagueRosterLocated": true,
+    "allLeagueRosterNamesCaptured": true,
+    "incomingTransfersChecked": false,
+    "departuresChecked": false,
+    "duplicatePlayers": 0,
+    "canonicalPositionsValid": true,
+    "guessedSecondaryPositions": 0,
+    "guessedDatesOfBirth": 0,
+    "guessedHeights": 20,
+    "guessedNationalities": 20,
+    "guessedContractDates": 20
+  },
+  "knownConflicts": [],
+  "staleSourceWarnings": [
+    "HM-DATA-ALLSVENSKAN-1.1: the canonical source spreadsheet carries no position, nationality, height, handedness, or contract-date column at all -- see openFieldsSummary and each roster entry's own rosterConfidence/dataNotes for exactly which fields are real evidence vs. a disclosed structural placeholder."
+  ],
+  "openFieldsSummary": {
+    "exactDateOfBirthMissing": 5,
+    "nationalityMissing": 20,
+    "heightMissing": 20,
+    "handednessMissing": 20,
+    "shirtNumberMissing": 0,
+    "contractEndMissing": 20,
+    "positionGenerated": 1,
+    "positionPartial": 11,
+    "positionVerified": 8
+  }
+}

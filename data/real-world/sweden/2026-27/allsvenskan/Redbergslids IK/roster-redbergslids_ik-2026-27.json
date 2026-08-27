@@ -1,0 +1,674 @@
+[
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_redbergslids_ik__3a4455c6",
+    "playerId": "se_player_pontus_axelsson_3a4455c6",
+    "clubId": "swe2-redbergslid",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 1,
+    "sourcePosition": "MV",
+    "primaryPosition": "MV",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": [
+        "src_as_position_evidence"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_redbergslids_ik__2badcc23",
+    "playerId": "se_player_david_johansson_2badcc23",
+    "clubId": "swe2-redbergslid",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 3,
+    "sourcePosition": "H6",
+    "primaryPosition": "H6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": [
+        "src_as_position_evidence"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_redbergslids_ik__5a0639bd",
+    "playerId": "se_player_isak_hasanic_holmgren_5a0639bd",
+    "clubId": "swe2-redbergslid",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 4,
+    "sourcePosition": "V9",
+    "primaryPosition": "V9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": [
+        "src_as_position_evidence"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_redbergslids_ik__2768598f",
+    "playerId": "se_player_anton_gustafsson_2768598f",
+    "clubId": "swe2-redbergslid",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 6,
+    "sourcePosition": "V9",
+    "primaryPosition": "V9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": [
+        "src_as_position_evidence"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_redbergslids_ik__71763009",
+    "playerId": "se_player_kevin_nilsson_71763009",
+    "clubId": "swe2-redbergslid",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 7,
+    "sourcePosition": "",
+    "primaryPosition": "MV",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "UNKNOWN",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": []
+    },
+    "dataNotes": [
+      "HM-DATA-ALLSVENSKAN-1.1: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+    ]
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_redbergslids_ik__bf7aeff1",
+    "playerId": "se_player_alexander_ryd_bf7aeff1",
+    "clubId": "swe2-redbergslid",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 8,
+    "sourcePosition": "",
+    "primaryPosition": "V6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "UNKNOWN",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": []
+    },
+    "dataNotes": [
+      "HM-DATA-ALLSVENSKAN-1.1: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+    ]
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_redbergslids_ik__ec1c8ff2",
+    "playerId": "se_player_noah_larsson_ec1c8ff2",
+    "clubId": "swe2-redbergslid",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 8,
+    "sourcePosition": "V6",
+    "primaryPosition": "V6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": [
+        "src_as_position_evidence"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_redbergslids_ik__38890f0d",
+    "playerId": "se_player_linus_lovgren_38890f0d",
+    "clubId": "swe2-redbergslid",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 9,
+    "sourcePosition": "M9",
+    "primaryPosition": "M9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": [
+        "src_as_position_evidence"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_redbergslids_ik__69fc5c7e",
+    "playerId": "se_player_anton_schulze_69fc5c7e",
+    "clubId": "swe2-redbergslid",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 11,
+    "sourcePosition": "V6",
+    "primaryPosition": "V6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": [
+        "src_as_position_evidence"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_redbergslids_ik__c59447b8",
+    "playerId": "se_player_axel_winstrom_c59447b8",
+    "clubId": "swe2-redbergslid",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 12,
+    "sourcePosition": "MV",
+    "primaryPosition": "MV",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": [
+        "src_as_position_evidence"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_redbergslids_ik__ef20cdd2",
+    "playerId": "se_player_helmer_jonsson_ef20cdd2",
+    "clubId": "swe2-redbergslid",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 13,
+    "sourcePosition": "H9",
+    "primaryPosition": "H9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": [
+        "src_as_position_evidence"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_redbergslids_ik__51b7db3c",
+    "playerId": "se_player_oskar_orwallius_51b7db3c",
+    "clubId": "swe2-redbergslid",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 14,
+    "sourcePosition": "M6",
+    "primaryPosition": "M6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": [
+        "src_as_position_evidence"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_redbergslids_ik__97706f6d",
+    "playerId": "se_player_axel_mundel_97706f6d",
+    "clubId": "swe2-redbergslid",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 15,
+    "sourcePosition": "V9",
+    "primaryPosition": "V9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": [
+        "src_as_position_evidence"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_redbergslids_ik__990c5b45",
+    "playerId": "se_player_adam_krantz_990c5b45",
+    "clubId": "swe2-redbergslid",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 16,
+    "sourcePosition": "",
+    "primaryPosition": "MV",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "UNKNOWN",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": []
+    },
+    "dataNotes": [
+      "HM-DATA-ALLSVENSKAN-1.1: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+    ]
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_redbergslids_ik__20b69aa2",
+    "playerId": "se_player_oliver_andersson_20b69aa2",
+    "clubId": "swe2-redbergslid",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 16,
+    "sourcePosition": "MV",
+    "primaryPosition": "MV",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": [
+        "src_as_position_evidence"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_redbergslids_ik__b2db41f2",
+    "playerId": "se_player_carl_hamberg_b2db41f2",
+    "clubId": "swe2-redbergslid",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 17,
+    "sourcePosition": "H6",
+    "primaryPosition": "H6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": [
+        "src_as_position_evidence"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_redbergslids_ik__efc0c6fc",
+    "playerId": "se_player_vlado_pusic_efc0c6fc",
+    "clubId": "swe2-redbergslid",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 18,
+    "sourcePosition": "H9",
+    "primaryPosition": "H9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": [
+        "src_as_position_evidence"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_redbergslids_ik__2821b2ef",
+    "playerId": "se_player_elliot_svahn_2821b2ef",
+    "clubId": "swe2-redbergslid",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 19,
+    "sourcePosition": "",
+    "primaryPosition": "M9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "UNKNOWN",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": []
+    },
+    "dataNotes": [
+      "HM-DATA-ALLSVENSKAN-1.1: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+    ]
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_redbergslids_ik__60beed3c",
+    "playerId": "se_player_theodor_kapnias_olsson_60beed3c",
+    "clubId": "swe2-redbergslid",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 19,
+    "sourcePosition": "V9",
+    "primaryPosition": "V9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": [
+        "src_as_position_evidence"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_redbergslids_ik__9e685b1d",
+    "playerId": "se_player_luka_cvjetkovic_9e685b1d",
+    "clubId": "swe2-redbergslid",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 20,
+    "sourcePosition": "",
+    "primaryPosition": "V9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "UNKNOWN",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": []
+    },
+    "dataNotes": [
+      "HM-DATA-ALLSVENSKAN-1.1: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+    ]
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_redbergslids_ik__292f4e62",
+    "playerId": "se_player_noel_fagerlin_292f4e62",
+    "clubId": "swe2-redbergslid",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 21,
+    "sourcePosition": "M6",
+    "primaryPosition": "M6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": [
+        "src_as_position_evidence"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_redbergslids_ik__af361c28",
+    "playerId": "se_player_colin_lundstrom_af361c28",
+    "clubId": "swe2-redbergslid",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 23,
+    "sourcePosition": "V6",
+    "primaryPosition": "V6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": [
+        "src_as_position_evidence"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_redbergslids_ik__38303eb1",
+    "playerId": "se_player_lukas_radberg_38303eb1",
+    "clubId": "swe2-redbergslid",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 24,
+    "sourcePosition": "M6",
+    "primaryPosition": "M6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": [
+        "src_as_position_evidence"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_redbergslids_ik__498b74a5",
+    "playerId": "se_player_hampus_mohlin_498b74a5",
+    "clubId": "swe2-redbergslid",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 26,
+    "sourcePosition": "",
+    "primaryPosition": "M9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "UNKNOWN",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": []
+    },
+    "dataNotes": [
+      "HM-DATA-ALLSVENSKAN-1.1: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+    ]
+  }
+]

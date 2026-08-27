@@ -1,0 +1,12 @@
+{
+  "milestone": "HM-DATA-ALLSVENSKAN-1.1",
+  "club": "HK Drott Halmstad",
+  "snapshotDate": "2026-08-27",
+  "files": [
+    "players-hk_drott_halmstad.json",
+    "roster-hk_drott_halmstad-2026-27.json",
+    "qc-hk_drott_halmstad.json",
+    "sources-hk_drott_halmstad.json",
+    "schema-foundation-v0.2.json"
+  ]
+}

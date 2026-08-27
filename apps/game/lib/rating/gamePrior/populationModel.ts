@@ -6,14 +6,17 @@
 // Baseline band derived from the Player Rating Model design doc's own
 // CA population table (§18 appendix): 116-130 "good Allsvenskan/fringe
 // Handbollsligan", 131-150 "functioning/good Handbollsligan". A
-// contracted Handbollsligan squad player (which every real roster
-// player in this dataset is, by definition) sits AT LEAST in the
+// contracted top-two-tier Swedish squad player sits AT LEAST in the
 // "good Allsvenskan/fringe Handbollsligan" band; the game-prior
-// baseline is centered in the lower half of "functioning/good
-// Handbollsligan" -- high enough to represent a real top-flight squad
-// player, but deliberately capped well below the 151+ "very good to
-// top Handbollsligan" bands real evidence/calibration already owns
-// (Part L: real anchors must remain anchors).
+// baseline (122) is centered inside that same band -- high enough to
+// represent a real top-flight-or-Allsvenskan squad player, but
+// deliberately capped well below the 151+ "very good to top
+// Handbollsligan" bands real evidence/calibration already owns (Part L:
+// real anchors must remain anchors). HM-DATA-ALLSVENSKAN-1.1: this one
+// population model/baseline is now shared, unmodified, across BOTH
+// tiers (reuse, not a new system, per that milestone's own scope) --
+// see its report for whether the resulting Allsvenskan CA distribution
+// should get its own, lower baseline in a future calibration pass.
 import { seededOffset } from "../generation/deterministicVariation";
 import { CA_MAX, CA_MIN } from "../types";
 

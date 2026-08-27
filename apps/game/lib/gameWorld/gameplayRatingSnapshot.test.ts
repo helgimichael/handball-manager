@@ -1,7 +1,9 @@
 // HM-RATINGS-0.6 Part K/O: the full-league population audit and
-// coverage/anti-clone proofs. Runs against the REAL 14-club, 268-
-// player Handbollsligan dataset (not synthetic fixtures) -- this is
-// the actual target population the milestone is about.
+// coverage/anti-clone proofs. Runs against the REAL 14-club, 268-player
+// Handbollsligan dataset (not synthetic fixtures) -- this is the actual
+// target population the milestone is about. HM-DATA-ALLSVENSKAN-1.1:
+// `buildCatalog()` now also discovers the 14-club, 261-player
+// Allsvenskan dataset, for a combined 529-player real-world population.
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { buildCatalog } from "../editor/catalog";
@@ -25,9 +27,9 @@ function loadFullLeague(): LeaguePlayer[] {
   return league;
 }
 
-test("HM-RATINGS-0.6 population audit: 268/268 real Handbollsligan players receive a complete gameplay CA, PA, and attribute branch", () => {
+test("HM-RATINGS-0.6/HM-DATA-ALLSVENSKAN-1.1 population audit: 529/529 real Handbollsligan+Allsvenskan players receive a complete gameplay CA, PA, and attribute branch", () => {
   const league = loadFullLeague();
-  assert.equal(league.length, 268, `expected exactly 268 real players, found ${league.length}`);
+  assert.equal(league.length, 529, `expected exactly 529 real players, found ${league.length}`);
 
   let outcourtCount = 0;
   let gkCount = 0;
@@ -57,7 +59,7 @@ test("HM-RATINGS-0.6 population audit: 268/268 real Handbollsligan players recei
     bySource[player.caSource] = (bySource[player.caSource] ?? 0) + 1;
   }
 
-  assert.equal(outcourtCount + gkCount, 268);
+  assert.equal(outcourtCount + gkCount, 529);
 
   caValues.sort((a, b) => a - b);
   const mean = caValues.reduce((a, b) => a + b, 0) / caValues.length;

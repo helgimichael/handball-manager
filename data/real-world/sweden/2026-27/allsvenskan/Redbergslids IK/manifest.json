@@ -1,0 +1,12 @@
+{
+  "milestone": "HM-DATA-ALLSVENSKAN-1.1",
+  "club": "Redbergslids IK",
+  "snapshotDate": "2026-08-27",
+  "files": [
+    "players-redbergslids_ik.json",
+    "roster-redbergslids_ik-2026-27.json",
+    "qc-redbergslids_ik.json",
+    "sources-redbergslids_ik.json",
+    "schema-foundation-v0.2.json"
+  ]
+}

@@ -1,0 +1,498 @@
+[
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_hk_drott_halmstad__cb7e7ae9",
+    "playerId": "se_player_albin_holmqvist_cb7e7ae9",
+    "clubId": "swe2-drott",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 3,
+    "sourcePosition": "V9",
+    "primaryPosition": "V9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "PARTIAL",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": [
+        "src_as_position_evidence"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-ALLSVENSKAN-1.1: broad role (goalkeeper/wing/back-court/pivot) is real, sourced evidence from the club's own current roster page; the specific left/centre/right side was not published there and was deterministically assigned."
+    ]
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_hk_drott_halmstad__5790b98e",
+    "playerId": "se_player_alvar_persson_5790b98e",
+    "clubId": "swe2-drott",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 5,
+    "sourcePosition": "H9",
+    "primaryPosition": "H9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "PARTIAL",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": [
+        "src_as_position_evidence"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-ALLSVENSKAN-1.1: broad role (goalkeeper/wing/back-court/pivot) is real, sourced evidence from the club's own current roster page; the specific left/centre/right side was not published there and was deterministically assigned."
+    ]
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_hk_drott_halmstad__a43f8b7c",
+    "playerId": "se_player_lucas_stjernstrom_a43f8b7c",
+    "clubId": "swe2-drott",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 6,
+    "sourcePosition": "",
+    "primaryPosition": "M6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "UNKNOWN",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": []
+    },
+    "dataNotes": [
+      "HM-DATA-ALLSVENSKAN-1.1: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+    ]
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_hk_drott_halmstad__fc284381",
+    "playerId": "se_player_axel_dahlman_fc284381",
+    "clubId": "swe2-drott",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 7,
+    "sourcePosition": "V6",
+    "primaryPosition": "V6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "PARTIAL",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": [
+        "src_as_position_evidence"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-ALLSVENSKAN-1.1: broad role (goalkeeper/wing/back-court/pivot) is real, sourced evidence from the club's own current roster page; the specific left/centre/right side was not published there and was deterministically assigned."
+    ]
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_hk_drott_halmstad__d288164f",
+    "playerId": "se_player_anton_hellstrom_d288164f",
+    "clubId": "swe2-drott",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 10,
+    "sourcePosition": "M6",
+    "primaryPosition": "M6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": [
+        "src_as_position_evidence"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_hk_drott_halmstad__05d20197",
+    "playerId": "se_player_jesper_sivertsson_05d20197",
+    "clubId": "swe2-drott",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 13,
+    "sourcePosition": "H9",
+    "primaryPosition": "H9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "PARTIAL",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": [
+        "src_as_position_evidence"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-ALLSVENSKAN-1.1: broad role (goalkeeper/wing/back-court/pivot) is real, sourced evidence from the club's own current roster page; the specific left/centre/right side was not published there and was deterministically assigned."
+    ]
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_hk_drott_halmstad__8e97a5cc",
+    "playerId": "se_player_jack_mansson_8e97a5cc",
+    "clubId": "swe2-drott",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 14,
+    "sourcePosition": "H9",
+    "primaryPosition": "H9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "PARTIAL",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": [
+        "src_as_position_evidence"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-ALLSVENSKAN-1.1: broad role (goalkeeper/wing/back-court/pivot) is real, sourced evidence from the club's own current roster page; the specific left/centre/right side was not published there and was deterministically assigned."
+    ]
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_hk_drott_halmstad__38bec904",
+    "playerId": "se_player_malte_johansson_38bec904",
+    "clubId": "swe2-drott",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 16,
+    "sourcePosition": "MV",
+    "primaryPosition": "MV",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": [
+        "src_as_position_evidence"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_hk_drott_halmstad__6c1a831b",
+    "playerId": "se_player_daniel_hagstrom_6c1a831b",
+    "clubId": "swe2-drott",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 20,
+    "sourcePosition": "V6",
+    "primaryPosition": "V6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "PARTIAL",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": [
+        "src_as_position_evidence"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-ALLSVENSKAN-1.1: broad role (goalkeeper/wing/back-court/pivot) is real, sourced evidence from the club's own current roster page; the specific left/centre/right side was not published there and was deterministically assigned."
+    ]
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_hk_drott_halmstad__d4d855a0",
+    "playerId": "se_player_axel_hulten_d4d855a0",
+    "clubId": "swe2-drott",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 23,
+    "sourcePosition": "H9",
+    "primaryPosition": "H9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "PARTIAL",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": [
+        "src_as_position_evidence"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-ALLSVENSKAN-1.1: broad role (goalkeeper/wing/back-court/pivot) is real, sourced evidence from the club's own current roster page; the specific left/centre/right side was not published there and was deterministically assigned."
+    ]
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_hk_drott_halmstad__e2936a80",
+    "playerId": "se_player_emil_douglas_andersson_e2936a80",
+    "clubId": "swe2-drott",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 24,
+    "sourcePosition": "H9",
+    "primaryPosition": "H9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "PARTIAL",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": [
+        "src_as_position_evidence"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-ALLSVENSKAN-1.1: broad role (goalkeeper/wing/back-court/pivot) is real, sourced evidence from the club's own current roster page; the specific left/centre/right side was not published there and was deterministically assigned."
+    ]
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_hk_drott_halmstad__f5a89611",
+    "playerId": "se_player_axel_davidsson_f5a89611",
+    "clubId": "swe2-drott",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 25,
+    "sourcePosition": "M6",
+    "primaryPosition": "M6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": [
+        "src_as_position_evidence"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_hk_drott_halmstad__4c60093c",
+    "playerId": "se_player_adam_bogren_4c60093c",
+    "clubId": "swe2-drott",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 26,
+    "sourcePosition": "H6",
+    "primaryPosition": "H6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "PARTIAL",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": [
+        "src_as_position_evidence"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-ALLSVENSKAN-1.1: broad role (goalkeeper/wing/back-court/pivot) is real, sourced evidence from the club's own current roster page; the specific left/centre/right side was not published there and was deterministically assigned."
+    ]
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_hk_drott_halmstad__0248299e",
+    "playerId": "se_player_petter_hagstrom_0248299e",
+    "clubId": "swe2-drott",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 29,
+    "sourcePosition": "",
+    "primaryPosition": "M6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "UNKNOWN",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": []
+    },
+    "dataNotes": [
+      "HM-DATA-ALLSVENSKAN-1.1: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+    ]
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_hk_drott_halmstad__a635ef40",
+    "playerId": "se_player_oskar_palm_a635ef40",
+    "clubId": "swe2-drott",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 30,
+    "sourcePosition": "MV",
+    "primaryPosition": "MV",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": [
+        "src_as_position_evidence"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_hk_drott_halmstad__f270ade3",
+    "playerId": "se_player_johan_petersson_f270ade3",
+    "clubId": "swe2-drott",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 91,
+    "sourcePosition": "H9",
+    "primaryPosition": "H9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "PARTIAL",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": [
+        "src_as_position_evidence"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-ALLSVENSKAN-1.1: broad role (goalkeeper/wing/back-court/pivot) is real, sourced evidence from the club's own current roster page; the specific left/centre/right side was not published there and was deterministically assigned."
+    ]
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_hk_drott_halmstad__a69ab4ce",
+    "playerId": "se_player_andreja_zafirovic_a69ab4ce",
+    "clubId": "swe2-drott",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": null,
+    "sourcePosition": "",
+    "primaryPosition": "H6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "UNKNOWN",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": []
+    },
+    "dataNotes": [
+      "HM-DATA-ALLSVENSKAN-1.1: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+    ]
+  }
+]

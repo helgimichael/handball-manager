@@ -1,0 +1,454 @@
+[
+  {
+    "playerId": "se_player_felix_svensson_2d585f02",
+    "firstName": "Felix",
+    "lastName": "Svensson",
+    "fullName": "Felix Svensson",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {},
+    "sourceRefs": {
+      "identity": [
+        "src_as_v5_qa_spreadsheet"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "se_player_emil_setterlund_f609d264",
+    "firstName": "Emil",
+    "lastName": "Setterlund",
+    "fullName": "Emil Setterlund",
+    "aliases": [],
+    "dateOfBirth": "2006-02-03",
+    "birthYear": 2006,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "fieldConfidence": {
+      "dateOfBirth": "PARTIAL"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "dateOfBirth": [
+        "src_as_v5_qa_spreadsheet"
+      ]
+    },
+    "dataNotes": [
+      "Provisional: sourced from a previous-season match protocol, not yet confirmed by a current-season document."
+    ]
+  },
+  {
+    "playerId": "se_player_hugo_andersson_6443099d",
+    "firstName": "Hugo",
+    "lastName": "Andersson",
+    "fullName": "Hugo Andersson",
+    "aliases": [],
+    "dateOfBirth": "2004-10-24",
+    "birthYear": 2004,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "fieldConfidence": {
+      "dateOfBirth": "PARTIAL"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "dateOfBirth": [
+        "src_as_v5_qa_spreadsheet"
+      ]
+    },
+    "dataNotes": [
+      "Provisional: sourced from a previous-season match protocol, not yet confirmed by a current-season document."
+    ]
+  },
+  {
+    "playerId": "se_player_hakan_hekmati_9564e9a9",
+    "firstName": "Håkan",
+    "lastName": "Hekmati",
+    "fullName": "Håkan Hekmati",
+    "aliases": [],
+    "dateOfBirth": "2004-05-21",
+    "birthYear": 2004,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "fieldConfidence": {
+      "dateOfBirth": "PARTIAL"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "dateOfBirth": [
+        "src_as_v5_qa_spreadsheet"
+      ]
+    },
+    "dataNotes": [
+      "Provisional: sourced from a previous-season match protocol, not yet confirmed by a current-season document."
+    ]
+  },
+  {
+    "playerId": "se_player_edwin_bengtsson_798cb223",
+    "firstName": "Edwin",
+    "lastName": "Bengtsson",
+    "fullName": "Edwin Bengtsson",
+    "aliases": [],
+    "dateOfBirth": "2006-06-10",
+    "birthYear": 2006,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "fieldConfidence": {
+      "dateOfBirth": "PARTIAL"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "dateOfBirth": [
+        "src_as_v5_qa_spreadsheet"
+      ]
+    },
+    "dataNotes": [
+      "Provisional: sourced from a previous-season match protocol, not yet confirmed by a current-season document."
+    ]
+  },
+  {
+    "playerId": "se_player_victor_paldanius_265cebe9",
+    "firstName": "Victor",
+    "lastName": "Paldanius",
+    "fullName": "Victor Paldanius",
+    "aliases": [],
+    "dateOfBirth": "2004-06-25",
+    "birthYear": 2004,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "fieldConfidence": {
+      "dateOfBirth": "PARTIAL"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "dateOfBirth": [
+        "src_as_v5_qa_spreadsheet"
+      ]
+    },
+    "dataNotes": [
+      "Provisional: sourced from a previous-season match protocol, not yet confirmed by a current-season document."
+    ]
+  },
+  {
+    "playerId": "se_player_birk_larsson_152eee5f",
+    "firstName": "Birk",
+    "lastName": "Larsson",
+    "fullName": "Birk Larsson",
+    "aliases": [],
+    "dateOfBirth": "2003-06-18",
+    "birthYear": 2003,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "fieldConfidence": {
+      "dateOfBirth": "PARTIAL"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "dateOfBirth": [
+        "src_as_v5_qa_spreadsheet"
+      ]
+    },
+    "dataNotes": [
+      "Provisional: sourced from a previous-season match protocol, not yet confirmed by a current-season document."
+    ]
+  },
+  {
+    "playerId": "se_player_jakob_printz_7ac39033",
+    "firstName": "Jakob",
+    "lastName": "Printz",
+    "fullName": "Jakob Printz",
+    "aliases": [],
+    "dateOfBirth": "2006-02-22",
+    "birthYear": 2006,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "fieldConfidence": {
+      "dateOfBirth": "PARTIAL"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "dateOfBirth": [
+        "src_as_v5_qa_spreadsheet"
+      ]
+    },
+    "dataNotes": [
+      "Provisional: sourced from a previous-season match protocol, not yet confirmed by a current-season document."
+    ]
+  },
+  {
+    "playerId": "se_player_alexander_norrbrink_c0b9bb84",
+    "firstName": "Alexander",
+    "lastName": "Norrbrink",
+    "fullName": "Alexander Norrbrink",
+    "aliases": [],
+    "dateOfBirth": "2001-03-16",
+    "birthYear": 2001,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "fieldConfidence": {
+      "dateOfBirth": "PARTIAL"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "dateOfBirth": [
+        "src_as_v5_qa_spreadsheet"
+      ]
+    },
+    "dataNotes": [
+      "Provisional: sourced from a previous-season match protocol, not yet confirmed by a current-season document."
+    ]
+  },
+  {
+    "playerId": "se_player_theo_andersson_hjert_14176fa3",
+    "firstName": "Theo",
+    "lastName": "Andersson Hjert",
+    "fullName": "Theo Andersson Hjert",
+    "aliases": [],
+    "dateOfBirth": "2001-03-08",
+    "birthYear": 2001,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "fieldConfidence": {
+      "dateOfBirth": "PARTIAL"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "dateOfBirth": [
+        "src_as_v5_qa_spreadsheet"
+      ]
+    },
+    "dataNotes": [
+      "Provisional: sourced from a previous-season match protocol, not yet confirmed by a current-season document."
+    ]
+  },
+  {
+    "playerId": "se_player_tage_barne_ef2b4a8a",
+    "firstName": "Tage",
+    "lastName": "Barne",
+    "fullName": "Tage Barne",
+    "aliases": [],
+    "dateOfBirth": "2004-04-13",
+    "birthYear": 2004,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "fieldConfidence": {
+      "dateOfBirth": "PARTIAL"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "dateOfBirth": [
+        "src_as_v5_qa_spreadsheet"
+      ]
+    },
+    "dataNotes": [
+      "Provisional: sourced from a previous-season match protocol, not yet confirmed by a current-season document."
+    ]
+  },
+  {
+    "playerId": "se_player_arvid_moradnia_a61c71b2",
+    "firstName": "Arvid",
+    "lastName": "Moradnia",
+    "fullName": "Arvid Moradnia",
+    "aliases": [],
+    "dateOfBirth": "2006-06-04",
+    "birthYear": 2006,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "fieldConfidence": {
+      "dateOfBirth": "PARTIAL"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "dateOfBirth": [
+        "src_as_v5_qa_spreadsheet"
+      ]
+    },
+    "dataNotes": [
+      "Provisional: sourced from a previous-season match protocol, not yet confirmed by a current-season document."
+    ]
+  },
+  {
+    "playerId": "se_player_hugo_ahlstrom_b9da7113",
+    "firstName": "Hugo",
+    "lastName": "Ahlström",
+    "fullName": "Hugo Ahlström",
+    "aliases": [],
+    "dateOfBirth": "2005-09-18",
+    "birthYear": 2005,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "fieldConfidence": {
+      "dateOfBirth": "PARTIAL"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "dateOfBirth": [
+        "src_as_v5_qa_spreadsheet"
+      ]
+    },
+    "dataNotes": [
+      "Provisional: sourced from a previous-season match protocol, not yet confirmed by a current-season document."
+    ]
+  },
+  {
+    "playerId": "se_player_anton_johansson_e1cb66a6",
+    "firstName": "Anton",
+    "lastName": "Johansson",
+    "fullName": "Anton Johansson",
+    "aliases": [],
+    "dateOfBirth": "2006-03-31",
+    "birthYear": 2006,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "fieldConfidence": {
+      "dateOfBirth": "PARTIAL"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "dateOfBirth": [
+        "src_as_v5_qa_spreadsheet"
+      ]
+    },
+    "dataNotes": [
+      "Provisional: sourced from a previous-season match protocol, not yet confirmed by a current-season document."
+    ]
+  },
+  {
+    "playerId": "se_player_william_eriksson_22a1ec06",
+    "firstName": "WILLIAM",
+    "lastName": "ERIKSSON",
+    "fullName": "WILLIAM ERIKSSON",
+    "aliases": [],
+    "dateOfBirth": "2003-03-19",
+    "birthYear": 2003,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "fieldConfidence": {
+      "dateOfBirth": "PARTIAL"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "dateOfBirth": [
+        "src_as_v5_qa_spreadsheet"
+      ]
+    },
+    "dataNotes": [
+      "Provisional: sourced from a previous-season match protocol, not yet confirmed by a current-season document."
+    ]
+  },
+  {
+    "playerId": "se_player_elliot_ziba_6a4b51f4",
+    "firstName": "Elliot",
+    "lastName": "Ziba",
+    "fullName": "Elliot Ziba",
+    "aliases": [],
+    "dateOfBirth": "2006-08-17",
+    "birthYear": 2006,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "fieldConfidence": {
+      "dateOfBirth": "PARTIAL"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "dateOfBirth": [
+        "src_as_v5_qa_spreadsheet"
+      ]
+    },
+    "dataNotes": [
+      "Provisional: sourced from a previous-season match protocol, not yet confirmed by a current-season document."
+    ]
+  },
+  {
+    "playerId": "se_player_adam_fule_5020dcbf",
+    "firstName": "Adam",
+    "lastName": "Füle",
+    "fullName": "Adam Füle",
+    "aliases": [],
+    "dateOfBirth": "2005-11-01",
+    "birthYear": 2005,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "fieldConfidence": {
+      "dateOfBirth": "PARTIAL"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "dateOfBirth": [
+        "src_as_v5_qa_spreadsheet"
+      ]
+    },
+    "dataNotes": [
+      "Provisional: sourced from a previous-season match protocol, not yet confirmed by a current-season document."
+    ]
+  }
+]

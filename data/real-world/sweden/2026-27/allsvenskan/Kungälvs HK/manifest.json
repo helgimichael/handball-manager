@@ -1,0 +1,12 @@
+{
+  "milestone": "HM-DATA-ALLSVENSKAN-1.1",
+  "club": "Kungälvs HK",
+  "snapshotDate": "2026-08-27",
+  "files": [
+    "players-kungalvs_hk.json",
+    "roster-kungalvs_hk-2026-27.json",
+    "qc-kungalvs_hk.json",
+    "sources-kungalvs_hk.json",
+    "schema-foundation-v0.2.json"
+  ]
+}

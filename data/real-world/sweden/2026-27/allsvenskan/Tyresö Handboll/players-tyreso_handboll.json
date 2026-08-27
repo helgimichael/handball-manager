@@ -1,0 +1,477 @@
+[
+  {
+    "playerId": "se_player_martin_borjes_1690df70",
+    "firstName": "Martin",
+    "lastName": "Börjes",
+    "fullName": "Martin Börjes",
+    "aliases": [],
+    "dateOfBirth": "1995-06-01",
+    "birthYear": 1995,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "dateOfBirth": [
+        "src_as_v5_qa_spreadsheet"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "se_player_martin_brandt_4e85963b",
+    "firstName": "Martin",
+    "lastName": "Brandt",
+    "fullName": "Martin Brandt",
+    "aliases": [],
+    "dateOfBirth": "2001-08-02",
+    "birthYear": 2001,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "dateOfBirth": [
+        "src_as_v5_qa_spreadsheet"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "se_player_axel_marqvardsen_31d5a281",
+    "firstName": "Axel",
+    "lastName": "Marqvardsen",
+    "fullName": "Axel Marqvardsen",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {},
+    "sourceRefs": {
+      "identity": [
+        "src_as_v5_qa_spreadsheet"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "se_player_josef_granstrom_97f3e0e6",
+    "firstName": "Josef",
+    "lastName": "Granström",
+    "fullName": "Josef Granström",
+    "aliases": [],
+    "dateOfBirth": "2004-06-17",
+    "birthYear": 2004,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "dateOfBirth": [
+        "src_as_v5_qa_spreadsheet"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "se_player_ludwig_elmgren_efeb44b7",
+    "firstName": "Ludwig",
+    "lastName": "Elmgren",
+    "fullName": "Ludwig Elmgren",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {},
+    "sourceRefs": {
+      "identity": [
+        "src_as_v5_qa_spreadsheet"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "se_player_sebastian_fagerdahl_33464c91",
+    "firstName": "Sebastian",
+    "lastName": "Fagerdahl",
+    "fullName": "Sebastian Fagerdahl",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {},
+    "sourceRefs": {
+      "identity": [
+        "src_as_v5_qa_spreadsheet"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "se_player_andreas_lagerstrom_32dc9ce4",
+    "firstName": "Andreas",
+    "lastName": "Lagerström",
+    "fullName": "Andreas Lagerström",
+    "aliases": [],
+    "dateOfBirth": "2003-10-04",
+    "birthYear": 2003,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "dateOfBirth": [
+        "src_as_v5_qa_spreadsheet"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "se_player_gustaf_wedberg_32de08b9",
+    "firstName": "Gustaf",
+    "lastName": "Wedberg",
+    "fullName": "Gustaf Wedberg",
+    "aliases": [],
+    "dateOfBirth": "1999-04-18",
+    "birthYear": 1999,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "dateOfBirth": [
+        "src_as_v5_qa_spreadsheet"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "se_player_leo_andren_5a5396bd",
+    "firstName": "Leo",
+    "lastName": "Andrén",
+    "fullName": "Leo Andrén",
+    "aliases": [],
+    "dateOfBirth": "2003-03-20",
+    "birthYear": 2003,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "dateOfBirth": [
+        "src_as_v5_qa_spreadsheet"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "se_player_simon_hjortenbo_246e9de6",
+    "firstName": "Simon",
+    "lastName": "Hjortenbo",
+    "fullName": "Simon Hjortenbo",
+    "aliases": [],
+    "dateOfBirth": "1998-07-26",
+    "birthYear": 1998,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "dateOfBirth": [
+        "src_as_v5_qa_spreadsheet"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "se_player_norton_kjellner_442607e4",
+    "firstName": "Norton",
+    "lastName": "Kjellner",
+    "fullName": "Norton Kjellner",
+    "aliases": [],
+    "dateOfBirth": "2007-06-21",
+    "birthYear": 2007,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "dateOfBirth": [
+        "src_as_v5_qa_spreadsheet"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "se_player_ludwig_ase_94b2022a",
+    "firstName": "Ludwig",
+    "lastName": "Åse",
+    "fullName": "Ludwig Åse",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {},
+    "sourceRefs": {
+      "identity": [
+        "src_as_v5_qa_spreadsheet"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "se_player_emil_soderholm_5cdc48de",
+    "firstName": "Emil",
+    "lastName": "Söderholm",
+    "fullName": "Emil Söderholm",
+    "aliases": [],
+    "dateOfBirth": "2006-10-27",
+    "birthYear": 2006,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "dateOfBirth": [
+        "src_as_v5_qa_spreadsheet"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "se_player_fredrik_hellgren_18c9943d",
+    "firstName": "Fredrik",
+    "lastName": "Hellgren",
+    "fullName": "Fredrik Hellgren",
+    "aliases": [],
+    "dateOfBirth": "1998-05-07",
+    "birthYear": 1998,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "dateOfBirth": [
+        "src_as_v5_qa_spreadsheet"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "se_player_linus_froberg_85730c3a",
+    "firstName": "Linus",
+    "lastName": "Fröberg",
+    "fullName": "Linus Fröberg",
+    "aliases": [],
+    "dateOfBirth": "2003-04-10",
+    "birthYear": 2003,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "dateOfBirth": [
+        "src_as_v5_qa_spreadsheet"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "se_player_marvin_barrett_8d02e65e",
+    "firstName": "Marvin",
+    "lastName": "Barrett",
+    "fullName": "Marvin Barrett",
+    "aliases": [],
+    "dateOfBirth": "2003-12-30",
+    "birthYear": 2003,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "dateOfBirth": [
+        "src_as_v5_qa_spreadsheet"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "se_player_felix_morsten_d00937cd",
+    "firstName": "Felix",
+    "lastName": "Morsten",
+    "fullName": "Felix Morsten",
+    "aliases": [],
+    "dateOfBirth": "2005-02-26",
+    "birthYear": 2005,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "dateOfBirth": [
+        "src_as_v5_qa_spreadsheet"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "se_player_oskar_davidsson_e24f41d0",
+    "firstName": "Oskar",
+    "lastName": "Davidsson",
+    "fullName": "Oskar Davidsson",
+    "aliases": [],
+    "dateOfBirth": "2002-06-24",
+    "birthYear": 2002,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "dateOfBirth": [
+        "src_as_v5_qa_spreadsheet"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "se_player_karl_gustav_pintsaar_e207c1b2",
+    "firstName": "Karl-Gustav",
+    "lastName": "Pintsaar",
+    "fullName": "Karl-Gustav Pintsaar",
+    "aliases": [],
+    "dateOfBirth": "2002-03-31",
+    "birthYear": 2002,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "dateOfBirth": [
+        "src_as_v5_qa_spreadsheet"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "se_player_ludvig_nystrom_a3450b2b",
+    "firstName": "Ludvig",
+    "lastName": "Nyström",
+    "fullName": "Ludvig Nyström",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {},
+    "sourceRefs": {
+      "identity": [
+        "src_as_v5_qa_spreadsheet"
+      ]
+    },
+    "dataNotes": []
+  }
+]

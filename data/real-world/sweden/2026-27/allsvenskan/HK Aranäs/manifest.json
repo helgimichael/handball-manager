@@ -1,0 +1,12 @@
+{
+  "milestone": "HM-DATA-ALLSVENSKAN-1.1",
+  "club": "HK Aranäs",
+  "snapshotDate": "2026-08-27",
+  "files": [
+    "players-hk_aranas.json",
+    "roster-hk_aranas-2026-27.json",
+    "qc-hk_aranas.json",
+    "sources-hk_aranas.json",
+    "schema-foundation-v0.2.json"
+  ]
+}

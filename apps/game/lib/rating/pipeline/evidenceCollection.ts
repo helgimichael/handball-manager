@@ -13,6 +13,7 @@
 // absorb prose" -- the only source of a numeric CA/PA in this milestone
 // is a DIRECT match onto an already-hand-calibrated HM-RATINGS-0.2
 // profile, never a generic "CLUB_STAR -> 155" rule).
+import { getClub } from "../../game-data";
 import type { RealWorldPlayer } from "../../gameWorld/realWorldLoader";
 import {
   ALBERT_MANSSON_ID,
@@ -117,7 +118,18 @@ export function matchCalibrationReference(player: RealWorldPlayer): PlayerRating
 // applies even to players with zero ability-relevant evidence).
 // ---------------------------------------------------------------------------
 
+// HM-DATA-ALLSVENSKAN-1.1: was hardcoded to Handbollsligan's own
+// competition id regardless of the player's actual club/competition --
+// harmless while only Handbollsligan clubs existed in this pipeline, but
+// would have mislabeled every Allsvenskan (tier-2) player's position
+// claim as a Handbollsligan signal. Derived from the player's real club
+// now; falls back to the historical Handbollsligan id only for the
+// (real-world-only) edge case of a playerId with no resolvable club.
 const HANDBOLLSLIGAN_COMPETITION_ID = "se_handbollsligan_herr";
+
+function competitionIdForPlayer(player: RealWorldPlayer): string {
+  return getClub(player.clubId)?.competitionId ?? HANDBOLLSLIGAN_COMPETITION_ID;
+}
 
 export function buildPositionClaim(player: RealWorldPlayer, position: Position): PlayerRatingClaim {
   return {
@@ -127,7 +139,7 @@ export function buildPositionClaim(player: RealWorldPlayer, position: Position):
     domain: "POSITION",
     key: "primaryPosition",
     value: position,
-    contextRef: `competition:${HANDBOLLSLIGAN_COMPETITION_ID}`,
+    contextRef: `competition:${competitionIdForPlayer(player)}`,
     sourceRefs: [`roster:${player.clubId}:2026/27`],
     notes: `Official 2026/27 club roster entry (source code "${player.sourcePosition || player.primaryPosition}").`,
   };

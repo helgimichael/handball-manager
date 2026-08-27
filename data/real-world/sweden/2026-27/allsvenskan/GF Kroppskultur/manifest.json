@@ -1,0 +1,12 @@
+{
+  "milestone": "HM-DATA-ALLSVENSKAN-1.1",
+  "club": "GF Kroppskultur",
+  "snapshotDate": "2026-08-27",
+  "files": [
+    "players-gf_kroppskultur.json",
+    "roster-gf_kroppskultur-2026-27.json",
+    "qc-gf_kroppskultur.json",
+    "sources-gf_kroppskultur.json",
+    "schema-foundation-v0.2.json"
+  ]
+}

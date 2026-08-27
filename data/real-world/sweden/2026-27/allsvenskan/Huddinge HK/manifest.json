@@ -1,0 +1,12 @@
+{
+  "milestone": "HM-DATA-ALLSVENSKAN-1.1",
+  "club": "Huddinge HK",
+  "snapshotDate": "2026-08-27",
+  "files": [
+    "players-huddinge_hk.json",
+    "roster-huddinge_hk-2026-27.json",
+    "qc-huddinge_hk.json",
+    "sources-huddinge_hk.json",
+    "schema-foundation-v0.2.json"
+  ]
+}

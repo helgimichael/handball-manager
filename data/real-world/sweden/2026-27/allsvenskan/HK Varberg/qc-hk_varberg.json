@@ -1,0 +1,39 @@
+{
+  "clubId": "swe2-varberg",
+  "clubName": "HK Varberg",
+  "competitionId": "swe-2",
+  "season": "2026/27",
+  "snapshotDate": "2026-08-27",
+  "datasetStatus": "PRESEASON",
+  "qcStatus": "VERIFIED_WITH_OPEN_FIELDS",
+  "expectedRosterCount": 15,
+  "exportedRosterCount": 15,
+  "checks": {
+    "currentLeagueRosterLocated": true,
+    "allLeagueRosterNamesCaptured": true,
+    "incomingTransfersChecked": false,
+    "departuresChecked": false,
+    "duplicatePlayers": 0,
+    "canonicalPositionsValid": true,
+    "guessedSecondaryPositions": 0,
+    "guessedDatesOfBirth": 0,
+    "guessedHeights": 15,
+    "guessedNationalities": 15,
+    "guessedContractDates": 15
+  },
+  "knownConflicts": [],
+  "staleSourceWarnings": [
+    "HM-DATA-ALLSVENSKAN-1.1: the canonical source spreadsheet carries no position, nationality, height, handedness, or contract-date column at all -- see openFieldsSummary and each roster entry's own rosterConfidence/dataNotes for exactly which fields are real evidence vs. a disclosed structural placeholder."
+  ],
+  "openFieldsSummary": {
+    "exactDateOfBirthMissing": 0,
+    "nationalityMissing": 15,
+    "heightMissing": 15,
+    "handednessMissing": 15,
+    "shirtNumberMissing": 0,
+    "contractEndMissing": 15,
+    "positionGenerated": 15,
+    "positionPartial": 0,
+    "positionVerified": 0
+  }
+}

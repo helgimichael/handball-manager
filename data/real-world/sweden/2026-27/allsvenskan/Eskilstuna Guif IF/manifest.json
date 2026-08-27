@@ -1,0 +1,12 @@
+{
+  "milestone": "HM-DATA-ALLSVENSKAN-1.1",
+  "club": "Eskilstuna Guif IF",
+  "snapshotDate": "2026-08-27",
+  "files": [
+    "players-eskilstuna_guif_if.json",
+    "roster-eskilstuna_guif_if-2026-27.json",
+    "qc-eskilstuna_guif_if.json",
+    "sources-eskilstuna_guif_if.json",
+    "schema-foundation-v0.2.json"
+  ]
+}
