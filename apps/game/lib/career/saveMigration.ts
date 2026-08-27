@@ -16,6 +16,7 @@ import { seedPlayerStatuses } from "./playerStatus";
 import { defaultTeamTacticalProfile } from "./teamTacticalProfile";
 import type { CareerState } from "./types";
 import { ensureCareerGameplayRatings } from "./careerRatingNormalization";
+import { ensureCareerPlayerContracts } from "../economy/contractIntegration";
 
 // HM-GAME-0.4: InboxMessage.category was a set of Swedish string
 // literals before this milestone (Spec §33: "map existing categories
@@ -263,6 +264,19 @@ export function migrateCareerState(career: CareerState): CareerState {
   if (next.leagueKickoffDate === undefined) {
     next = { ...next, leagueKickoffDate: next.gameDate };
   }
+
+  // HM-CONTRACTS-1.0 (career-state schema v21): additive -- an existing
+  // career simply never had a persistent contract for some or all of its
+  // own roster players. Same normalization pattern as
+  // ensureCareerGameplayRatings (v18): only ADDS a missing player's own
+  // generated contract, never touches/rerolls an existing one, true
+  // no-op once complete. Runs unconditionally (idempotent) so it also
+  // catches a v18-era save whose players already had ratings but
+  // predates this milestone entirely.
+  if (next.playerContracts === undefined) {
+    next = { ...next, playerContracts: {} };
+  }
+  next = ensureCareerPlayerContracts(next, next.playerClubId);
 
   return next;
 }

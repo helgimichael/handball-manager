@@ -15,6 +15,8 @@ import { potentialStarsFromPA, type IndividualDevelopmentFocus } from "@/lib/dev
 import { getCareerPlayerRating } from "@/lib/career/careerRatingNormalization";
 import type { GameplayPlayerRating } from "@/lib/gameWorld/gameplayRatingSnapshot";
 import { INJURY_SEVERITY_LABELS, INJURY_TYPE_LABELS, REHAB_PHASE_LABELS } from "@/lib/medical/labels";
+import { getPlayerContract, getPlayerContractStatus, getPlayerMarketValueSek } from "@/lib/economy/contractIntegration";
+import { CONTRACT_STATUS_LABEL, CONTRACT_STATUS_TONE, formatSek } from "@/lib/economy/labels";
 
 // HM-RATINGS-CAREER-1.0 Part 25: every career player (REAL_WORLD, mock or
 // generated) now has exactly one CareerState-resident GameplayPlayerRating
@@ -90,6 +92,9 @@ export default function PlayerProfilePage() {
   const isWonderkid = age !== null && age <= 19 && potentialStars(player) >= 5;
   const club = getClub(player.clubId);
   const hasRatingProfile = Boolean(ratingRow);
+  const contract = getPlayerContract(career, player.id);
+  const contractStatus = getPlayerContractStatus(career, player.id);
+  const marketValue = getPlayerMarketValueSek(career, player.id);
 
   return (
     <div className="hm-grid" style={{ gridTemplateColumns: "2fr 1fr", alignItems: "start" }}>
@@ -245,15 +250,31 @@ export default function PlayerProfilePage() {
           </div>
         )}
 
-        {/* Contract */}
+        {/* HM-CONTRACTS-1.0 Part: dynamic, persistent contract -- reads
+            career.playerContracts, never the static PlayerMock fields. */}
         <div className="hm-panel">
           <div className="hm-panel-header">
             <span className="hm-panel-title">Kontrakt</span>
+            {contractStatus ? <span className={`hm-badge hm-badge-${CONTRACT_STATUS_TONE[contractStatus]}`}>{CONTRACT_STATUS_LABEL[contractStatus]}</span> : null}
           </div>
           <div className="hm-panel-body" style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-            <ContractRow label="Kontrakt t.o.m." value={player.contractEndSeason} />
-            <ContractRow label="Lön / månad" value={`${player.wageSekPerMonth.toLocaleString("sv-SE")} kr`} />
+            <ContractRow label="Klubb" value={club?.name ?? "Okänd"} />
+            <ContractRow label="Lön / månad" value={contract ? formatSek(contract.wageSekPerMonth) : "—"} />
+            <ContractRow label="Kontrakt t.o.m." value={contract ? contract.contractEndDate : "—"} />
             <ContractRow label="Tröjnummer" value={player.shirtNumber !== null ? String(player.shirtNumber) : "Okänt"} />
+          </div>
+        </div>
+
+        {/* Market value */}
+        <div className="hm-panel">
+          <div className="hm-panel-header">
+            <span className="hm-panel-title">Marknadsvärde</span>
+          </div>
+          <div className="hm-panel-body">
+            <div style={{ fontSize: "var(--hm-text-lg)", fontWeight: 800 }}>{marketValue !== undefined ? formatSek(marketValue) : "—"}</div>
+            <p className="hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)", margin: "4px 0 0" }}>
+              Uppskattat värde -- baserat på nuvarande förmåga, potential, ålder, roll och kontraktstid.
+            </p>
           </div>
         </div>
 

@@ -12,6 +12,7 @@ import { resolveClubStaffRoster, type RawClubStaffIdentityLike } from "../staff/
 import type { StaffEmployment } from "../staff/types";
 import { ensureCareerGameplayRatings } from "./careerRatingNormalization";
 import { computeCareerStartDate, generateProvisionalCupRound, resolveLeagueKickoffDate, type PreseasonStartOption } from "./preseason";
+import { ensureCareerPlayerContracts } from "../economy/contractIntegration";
 
 const FALLBACK_COMPETITION_ID = "swe-2"; // used only if playerClubId doesn't resolve to a known club
 
@@ -160,6 +161,7 @@ export function createNewCareerState(
     staffEmployment,
     playerInjuries: {},
     leagueKickoffDate,
+    playerContracts: {},
   };
 
   // HM-RATINGS-CAREER-1.0 Part 2/4/15/16: every roster player in the
@@ -168,5 +170,10 @@ export function createNewCareerState(
   // this only ever fills gaps for a mock/generated club (Part 16: this
   // is the SAME generic mechanism for any club, not a Tumba special
   // case -- see careerRatingNormalization.ts).
-  return ensureCareerGameplayRatings(base, playerClubId);
+  const withRatings = ensureCareerGameplayRatings(base, playerClubId);
+  // HM-CONTRACTS-1.0 Part 4: contracts are generated FROM each player's
+  // own gameplay rating, so this must run AFTER ensureCareerGameplayRatings
+  // above, never before (a rating-less player would otherwise get no
+  // contract at all, deferred to the next migration pass).
+  return ensureCareerPlayerContracts(withRatings, playerClubId);
 }

@@ -15,6 +15,7 @@ import type { PlayerPhysicalState, PlayerTrainingAssignment, TrainingWeek } from
 import type { PlayerDevelopmentState } from "../development/types";
 import type { ResolvedStaffMember, StaffEmployment } from "../staff/types";
 import type { PlayerInjuryState } from "../medical/types";
+import type { PlayerContract } from "../economy/types";
 
 /** HM-PRESEASON-1.0: LEAGUE (the manager's own simulated competition), CUP (the provisional early cup round -- see preseason.ts), or FRIENDLY (manager-booked, never affects standings/season completion). */
 export type CareerFixtureType = "LEAGUE" | "CUP" | "FRIENDLY";
@@ -386,6 +387,22 @@ export type CareerState = {
    * for it, byte-identical to "this concept didn't exist yet."
    */
   leagueKickoffDate: string;
+
+  // --- HM-CONTRACTS-1.0 addition (career-state schema v21, see saveMigration.ts) ---
+
+  /**
+   * Part 4: the ONE persistent economic-identity thread -- keyed by
+   * playerId, same flat convention as `playerPhysicalState`/
+   * `playerInjuries`. Only the two genuinely STICKY facts live here
+   * (contractEndDate, wageSekPerMonth, set once at generation and never
+   * silently rerolled); market VALUE is deliberately NOT stored --
+   * lib/economy/marketValue.ts recomputes it fresh from CA/PA/age/role/
+   * contract every read, so a developed player's value updates
+   * automatically with zero extra bookkeeping. See
+   * lib/economy/contractIntegration.ts for the only code that reads or
+   * writes this field.
+   */
+  playerContracts: Record<string, PlayerContract>;
 };
 
 export type CareerSaveEnvelope = {

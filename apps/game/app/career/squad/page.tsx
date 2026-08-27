@@ -9,6 +9,8 @@ import { getCareerClub, getCareerSquad } from "@/lib/career/careerWorld";
 import { averageRating, emptyPlayerSeasonStats } from "@/lib/career/types";
 import { resolveStatusLabel } from "@/lib/career/playerStatus";
 import { REHAB_PHASE_LABELS } from "@/lib/medical/labels";
+import { getPlayerContract, getPlayerMarketValueSek } from "@/lib/economy/contractIntegration";
+import { formatSek } from "@/lib/economy/labels";
 
 type SortKey = "name" | "position" | "age" | "appearances" | "goals" | "rating" | "fitness" | "morale";
 
@@ -84,12 +86,14 @@ export default function SquadPage() {
               <th onClick={() => setSortKey("rating")} style={{ cursor: "pointer" }} className="hm-table-num">Snittbetyg</th>
               <th onClick={() => setSortKey("fitness")} style={{ cursor: "pointer" }} className="hm-table-num">Fitness</th>
               <th onClick={() => setSortKey("morale")} style={{ cursor: "pointer" }} className="hm-table-num">Moral</th>
-              <th>Kontrakt</th>
+              <th>Kontrakt t.o.m.</th>
+              <th className="hm-table-num">Värde</th>
             </tr>
           </thead>
           <tbody>
             {rows.map((p) => {
               const stats = career.playerSeasonStats[p.id] ?? emptyPlayerSeasonStats(p.id);
+              const marketValue = getPlayerMarketValueSek(career, p.id);
               return (
                 <tr key={p.id} data-clickable="true" onClick={() => router.push(`/career/squad/${p.id}`)}>
                   <td>
@@ -121,7 +125,8 @@ export default function SquadPage() {
                   <td className="hm-table-num">
                     <Bar pct={p.moralePct} />
                   </td>
-                  <td className="hm-text-muted">{p.contractEndSeason}</td>
+                  <td className="hm-text-muted">{getPlayerContract(career, p.id)?.contractEndDate ?? "—"}</td>
+                  <td className="hm-table-num">{marketValue !== undefined ? formatSek(marketValue) : "—"}</td>
                 </tr>
               );
             })}
