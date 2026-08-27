@@ -25,6 +25,8 @@ import {
 } from "./trainingScheduleActions";
 import { setPlayerIndividualFocus, setPlayerTrainingLoad } from "../training/trainingSchedule";
 import { bookFriendly } from "./preseason";
+import { submitTransferOffer, type SubmitTransferOfferParams } from "../transfers/transferIntegration";
+import type { TransferOffer } from "../transfers/types";
 import type { SessionSeed } from "../training/trainingSchedule";
 import type { PlayerTrainingLoadSetting, TrainingDayType, TrainingSession, WeeklyTrainingTemplate } from "../training/types";
 import type { PlayerMatchDefault } from "../matchPlan/persistentDefaults";
@@ -140,6 +142,8 @@ type CareerContextValue = {
   setPlayerIndividualFocus: (playerId: string, focus: string | null) => void;
   /** HM-PRESEASON-1.0: books a friendly fixture against `opponentClubId` on `date` -- validates conflicts (see lib/career/preseason.ts's bookFriendly), persists on success, returns the outcome so the booking UI can show a real error instead of a silent no-op. */
   bookFriendly: (date: string, opponentClubId: string) => { ok: boolean; error?: string };
+  /** HM-TRANSFERS-1.0: resolves a whole transfer/loan negotiation synchronously (affordability -> club decision -> player decision -> completion) and persists. Returns the fully-resolved TransferOffer so the UI can show its terminal status/reason immediately. */
+  submitTransferOffer: (params: SubmitTransferOfferParams) => TransferOffer;
 };
 
 const CareerContext = createContext<CareerContextValue | null>(null);
@@ -553,6 +557,14 @@ export function CareerProvider({ children }: { children: ReactNode }) {
     return { ok: result.ok, error: result.error };
   }
 
+  function submitTransferOfferActionWrapper(params: SubmitTransferOfferParams): TransferOffer {
+    if (!value) throw new Error("Ingen aktiv karriär.");
+    const result = submitTransferOffer(value.career, params);
+    saveCareerState(value.save.saveId, result.state);
+    setValue({ save: value.save, career: result.state });
+    return result.offer;
+  }
+
   return (
     <CareerContext.Provider
       value={{
@@ -580,6 +592,7 @@ export function CareerProvider({ children }: { children: ReactNode }) {
         setPlayerTrainingLoad: setPlayerTrainingLoadActionWrapper,
         setPlayerIndividualFocus: setPlayerIndividualFocusActionWrapper,
         bookFriendly: bookFriendlyActionWrapper,
+        submitTransferOffer: submitTransferOfferActionWrapper,
       }}
     >
       {children}

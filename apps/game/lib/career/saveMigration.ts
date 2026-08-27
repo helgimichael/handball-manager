@@ -340,5 +340,18 @@ export function migrateCareerState(career: CareerState): CareerState {
   }
   next = ensureCareerAllClubEconomies(next);
 
+  // HM-TRANSFERS-1.0 (career-state schema v24): additive -- an existing
+  // career simply never had a transfer/loan thread yet. Migrated to
+  // EMPTY maps, never retroactively inventing a negotiation history --
+  // every reader already treats a missing entry as "no offers/loans
+  // yet", exactly the state a save always implicitly had before this
+  // milestone.
+  if (next.transferOffers === undefined) {
+    next = { ...next, transferOffers: {} };
+  }
+  if (next.loans === undefined) {
+    next = { ...next, loans: {} };
+  }
+
   return next;
 }

@@ -17,6 +17,7 @@ import type { ResolvedStaffMember, StaffEmployment } from "../staff/types";
 import type { PlayerInjuryState } from "../medical/types";
 import type { PlayerClubHistory, PlayerContract } from "../economy/types";
 import type { ClubEconomyBaseline } from "../economy/clubEconomyTypes";
+import type { LoanRecord, TransferOffer } from "../transfers/types";
 
 /** HM-PRESEASON-1.0: LEAGUE (the manager's own simulated competition), CUP (the provisional early cup round -- see preseason.ts), or FRIENDLY (manager-booked, never affects standings/season completion). */
 export type CareerFixtureType = "LEAGUE" | "CUP" | "FRIENDLY";
@@ -441,6 +442,30 @@ export type CareerState = {
    * computePlayerMarketValueEur established.
    */
   clubEconomies: Record<string, ClubEconomyBaseline>;
+
+  // --- HM-TRANSFERS-1.0 addition (career-state schema v24, see saveMigration.ts) ---
+
+  /**
+   * Every submitted transfer/loan offer, keyed by its own id -- a full
+   * negotiation history, not just the currently-open ones (Part: "det
+   * ska gå att skilja på deal agreed / transfer completed / registered
+   * / future arrival" -- the terminal `status` on each entry IS that
+   * distinction). Resolved synchronously by
+   * lib/transfers/transferIntegration.ts's `submitTransferOffer` in a
+   * single call; `AGREED_AWAITING_WINDOW` entries are later completed
+   * by that module's own `progressDailyTransfers` (called from
+   * dailyTick.ts), same "check a stored date, mutate once" idiom as
+   * player-availability returns.
+   */
+  transferOffers: Record<string, TransferOffer>;
+  /**
+   * Every loan ever created, keyed by its own id (== the originating
+   * TransferOffer's id) -- `active: false` entries are history, not
+   * deleted (Part: "det ska gå att skilja på..."). `progressDailyTransfers`
+   * returns a player to `parentClubId` and flips `active` false once
+   * `endDate` is reached.
+   */
+  loans: Record<string, LoanRecord>;
 };
 
 export type CareerSaveEnvelope = {

@@ -30,6 +30,7 @@ import { getClub, getClubsByCompetition, getCompetition } from "../game-data";
 import type { CareerState } from "../career/types";
 import { ensureCareerGameplayRatings } from "../career/careerRatingNormalization";
 import { ensureCareerPlayerContracts } from "./contractIntegration";
+import { ensureCareerPlayerClubHistory } from "./clubHistoryIntegration";
 import { generateClubEconomyBaseline } from "./clubEconomyGeneration";
 import { estimateStaffMonthlyCostEur } from "./staffCost";
 import {
@@ -65,6 +66,12 @@ import type {
 export function ensureCareerClubEconomy(state: CareerState, clubId: string): CareerState {
   let next = ensureCareerGameplayRatings(state, clubId);
   next = ensureCareerPlayerContracts(next, clubId);
+  // HM-TRANSFERS-1.0: also ensure THIS club's own players have a club/
+  // youth history, so training compensation (lib/economy/trainingCompensation.ts)
+  // is computable for a transfer target from ANY club, not only the
+  // manager's own -- same idempotent fill-only pattern as the two calls
+  // above, reusing the existing generator, never a parallel one.
+  next = ensureCareerPlayerClubHistory(next, clubId);
 
   if (next.clubEconomies[clubId]) return next;
 
@@ -91,6 +98,25 @@ export function ensureCareerAllClubEconomies(state: CareerState): CareerState {
 
 export function getClubEconomyBaseline(state: CareerState, clubId: string): ClubEconomyBaseline | undefined {
   return state.clubEconomies[clubId];
+}
+
+/**
+ * HM-TRANSFERS-1.0: the ONE mutation path for a club's own generated
+ * cash balance -- everything else in this module is derived/read-only.
+ * Transfers are the first thing with a real cash EFFECT (a fee paid,
+ * training compensation received); this does not retune Economy 1.0's
+ * own GENERATION (bands/ratios/revenue), only lets a real transaction
+ * move the sticky `cashEur` fact it already persists. Floored at 0 --
+ * a simple floor, never real debt/overdraft modeling (Part: "no debt
+ * restructuring" is out of scope). A club with no economy baseline is
+ * left untouched (never invents one here).
+ */
+export function adjustClubCash(state: CareerState, clubId: string, deltaEur: number): CareerState {
+  const baseline = state.clubEconomies[clubId];
+  if (!baseline) return state;
+  const nextCash = Math.max(0, baseline.cashEur + deltaEur);
+  if (nextCash === baseline.cashEur) return state;
+  return { ...state, clubEconomies: { ...state.clubEconomies, [clubId]: { ...baseline, cashEur: nextCash } } };
 }
 
 /** Section 6 PlayerCosts, annualized -- every contract whose own `clubId` matches, summed from `wageEurPerMonth`. */

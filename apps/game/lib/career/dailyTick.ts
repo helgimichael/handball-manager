@@ -51,6 +51,7 @@ import { careerEventToInboxMessage } from "./inboxBridge";
 import type { CareerState } from "./types";
 import { executeTrainingDay } from "../training/trainingExecution";
 import { applyTrainingDayDevelopmentStimulus, resolveWeeklyDevelopmentIfDue } from "../development/developmentIntegration";
+import { progressDailyTransfers } from "../transfers/transferIntegration";
 
 export interface DailyTickResult {
   state: CareerState;
@@ -148,7 +149,12 @@ export function processDay(state: CareerState, date: string): DailyTickResult {
     }
   }
 
-  // --- 5. Club / Competition world -- deliberately shallow in v0.1 (Spec S10).
+  // --- 5. Club / Competition world -----------------------------------------
+  // HM-TRANSFERS-1.0: completes any PERMANENT deal that was AGREED while
+  // the transfer window was closed (once it reopens) and returns any
+  // loan whose endDate has been reached -- same "check a stored date,
+  // mutate once" idiom as step 2's player-availability return above.
+  next = progressDailyTransfers(next, date);
 
   // --- 6. Fixtures ---------------------------------------------------------
   const playerFixtureToday = getPlayerFixtureOn(next, date);
