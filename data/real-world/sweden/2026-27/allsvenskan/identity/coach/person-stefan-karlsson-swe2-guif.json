@@ -1,0 +1,64 @@
+{
+  "personId": "person-stefan-karlsson-swe2-guif",
+  "clubId": "swe2-guif",
+  "sourceDocument": "Eskilstuna Guif IF CLUB IDENTITY v0.1",
+  "evidenceReferences": [
+    {
+      "id": "ev-stefan-karlsson-swe2-guif-coaching-development",
+      "sourceDocument": "Eskilstuna Guif IF CLUB IDENTITY v0.1",
+      "sourceType": "APPROVED_PROFILE_DOCX",
+      "locator": "COACHING / DEVELOPMENT IDENTITY"
+    }
+  ],
+  "profile": {
+    "personId": "person-stefan-karlsson-swe2-guif",
+    "coachingStyleClaims": [
+      {
+        "id": "coach-stefan-karlsson-swe2-guif-interventionboldness",
+        "subjectType": "COACH",
+        "subjectId": "person-stefan-karlsson-swe2-guif",
+        "domain": "TACTICAL_COGNITIVE",
+        "key": "interventionBoldness",
+        "value": "VERY_HIGH",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-stefan-karlsson-swe2-guif-coaching-development"
+        ]
+      }
+    ],
+    "tacticalPreferenceClaims": [
+      {
+        "id": "coach-stefan-karlsson-swe2-guif-matchrisktolerance",
+        "subjectType": "COACH",
+        "subjectId": "person-stefan-karlsson-swe2-guif",
+        "domain": "TACTICAL_PREFERENCE",
+        "key": "matchRiskTolerance",
+        "value": "VERY_HIGH",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-stefan-karlsson-swe2-guif-coaching-development"
+        ]
+      }
+    ],
+    "communicationLeadershipClaims": [],
+    "developmentClaims": [],
+    "adaptabilityClaims": [
+      {
+        "id": "coach-stefan-karlsson-swe2-guif-willingnesstochangestructure",
+        "subjectType": "COACH",
+        "subjectId": "person-stefan-karlsson-swe2-guif",
+        "domain": "TACTICAL_COGNITIVE",
+        "key": "willingnessToChangeStructure",
+        "value": "HIGH",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-stefan-karlsson-swe2-guif-coaching-development"
+        ]
+      }
+    ],
+    "cultureBuildingClaims": []
+  }
+}

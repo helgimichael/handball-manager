@@ -1,0 +1,63 @@
+{
+  "personId": "person-david-lofgren-swe2-drott",
+  "clubId": "swe2-drott",
+  "sourceDocument": "HK Drott Halmstad CLUB IDENTITY v0.1",
+  "evidenceReferences": [
+    {
+      "id": "ev-david-lofgren-swe2-drott-coaching-development",
+      "sourceDocument": "HK Drott Halmstad CLUB IDENTITY v0.1",
+      "sourceType": "APPROVED_PROFILE_DOCX",
+      "locator": "COACHING / DEVELOPMENT IDENTITY"
+    }
+  ],
+  "profile": {
+    "personId": "person-david-lofgren-swe2-drott",
+    "coachingStyleClaims": [
+      {
+        "id": "coach-david-lofgren-swe2-drott-tacticalstrength",
+        "subjectType": "COACH",
+        "subjectId": "person-david-lofgren-swe2-drott",
+        "domain": "TACTICAL_COGNITIVE",
+        "key": "tacticalStrength",
+        "value": "WEAK",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "CURRENT",
+        "sourceRefs": [
+          "ev-david-lofgren-swe2-drott-coaching-development"
+        ]
+      }
+    ],
+    "tacticalPreferenceClaims": [],
+    "communicationLeadershipClaims": [
+      {
+        "id": "coach-david-lofgren-swe2-drott-authoritywithveterans",
+        "subjectType": "COACH",
+        "subjectId": "person-david-lofgren-swe2-drott",
+        "domain": "LEADERSHIP",
+        "key": "authorityWithVeterans",
+        "value": "WEAK",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "CURRENT",
+        "sourceRefs": [
+          "ev-david-lofgren-swe2-drott-coaching-development"
+        ]
+      },
+      {
+        "id": "coach-david-lofgren-swe2-drott-relationshipwithyoungplayers",
+        "subjectType": "COACH",
+        "subjectId": "person-david-lofgren-swe2-drott",
+        "domain": "LEADERSHIP",
+        "key": "relationshipWithYoungPlayers",
+        "value": "STRONG",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "CURRENT",
+        "sourceRefs": [
+          "ev-david-lofgren-swe2-drott-coaching-development"
+        ]
+      }
+    ],
+    "developmentClaims": [],
+    "adaptabilityClaims": [],
+    "cultureBuildingClaims": []
+  }
+}

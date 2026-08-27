@@ -42,20 +42,27 @@ function deriveTumbaStrength(): ClubStrength {
 // Curated mock ratings for the 13 AI Allsvenskan clubs -- a believable
 // competitive spread, not a real-world claim (see clubs.ts's own
 // disclaimer for the same principle applied to club identity data).
+// HM-DATA-ALLSVENSKAN-1.0: rebuilt for the corrected 14-club list,
+// loosely directionally informed by each club's own CLUB IDENTITY
+// profile (e.g. Varberg/VästeråsIrsta's real relative strength, Tyresö's
+// attack-heavy/defence-weak imbalance, Guif's financial-pressure
+// rebuild) -- still hand-authored mock numbers, never derived from the
+// qualitative identity claims themselves (Part: "skriv inte över
+// canonical economy/strength med godtyckliga exakta siffror").
 const AI_CLUB_STRENGTHS: Record<string, Omit<ClubStrength, "clubId">> = {
-  "swe2-anderstorp": { overall: 50, attack: 51, defense: 49, goalkeeper: 50, depth: 44 },
   "swe2-aranas": { overall: 66, attack: 68, defense: 64, goalkeeper: 65, depth: 60 },
   "swe2-drott": { overall: 60, attack: 59, defense: 61, goalkeeper: 60, depth: 54 },
-  "swe2-torslanda": { overall: 55, attack: 56, defense: 54, goalkeeper: 55, depth: 49 },
-  "swe2-varberg": { overall: 58, attack: 57, defense: 59, goalkeeper: 58, depth: 52 },
-  "swe2-karlskrona2": { overall: 63, attack: 62, defense: 64, goalkeeper: 63, depth: 57 },
-  "swe2-ystad2": { overall: 57, attack: 58, defense: 56, goalkeeper: 57, depth: 51 },
-  "swe2-lagan": { overall: 48, attack: 47, defense: 49, goalkeeper: 48, depth: 42 },
+  "swe2-guif": { overall: 47, attack: 48, defense: 46, goalkeeper: 47, depth: 41 },
+  "swe2-h43lund": { overall: 56, attack: 54, defense: 57, goalkeeper: 56, depth: 55 },
+  "swe2-huddinge": { overall: 51, attack: 50, defense: 52, goalkeeper: 51, depth: 43 },
+  "swe2-kroppskultur": { overall: 59, attack: 58, defense: 62, goalkeeper: 59, depth: 42 },
   "swe2-kungalv": { overall: 52, attack: 53, defense: 51, goalkeeper: 52, depth: 46 },
-  "swe2-lugi": { overall: 64, attack: 65, defense: 63, goalkeeper: 64, depth: 59 },
-  "swe2-tyreso": { overall: 54, attack: 55, defense: 53, goalkeeper: 54, depth: 48 },
-  "swe2-vinslov": { overall: 46, attack: 46, defense: 46, goalkeeper: 46, depth: 40 },
-  "swe2-skanela": { overall: 45, attack: 44, defense: 46, goalkeeper: 45, depth: 39 },
+  "swe2-redbergslid": { overall: 62, attack: 61, defense: 60, goalkeeper: 63, depth: 56 },
+  "swe2-torslanda": { overall: 55, attack: 60, defense: 48, goalkeeper: 55, depth: 49 },
+  "swe2-tyreso": { overall: 55, attack: 64, defense: 42, goalkeeper: 50, depth: 48 },
+  "swe2-varberg": { overall: 65, attack: 62, defense: 66, goalkeeper: 68, depth: 58 },
+  "swe2-vasterasirsta": { overall: 63, attack: 60, defense: 62, goalkeeper: 60, depth: 56 },
+  "swe2-ystad2": { overall: 58, attack: 62, defense: 55, goalkeeper: 57, depth: 51 },
 };
 
 export function getAllsvenskanClubStrengths(): Readonly<Record<string, ClubStrength>> {

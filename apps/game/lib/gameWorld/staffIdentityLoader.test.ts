@@ -194,6 +194,9 @@ test("HM-STAFF-DATA-0.1: snapshotClubStaff (the server read model) returns valid
   assert.equal(snapshotClubStaff("not-a-real-club-id"), null);
 });
 
-test("HM-STAFF-DATA-0.1: snapshotClubStaff returns null for a club with no identity file (e.g. IFK Tumba/Allsvenskan) -- never fabricates data", () => {
-  assert.equal(snapshotClubStaff("swe2-tumba"), null);
+test("HM-STAFF-DATA-0.1/HM-DATA-ALLSVENSKAN-1.0: snapshotClubStaff returns validated real staff for an Allsvenskan club (e.g. IFK Tumba), gated behind leagueSegmentForClub, not fabricated -- this milestone imported real Allsvenskan staff identity data where before none existed", () => {
+  const tumba = snapshotClubStaff("swe2-tumba");
+  assert.ok(tumba);
+  assert.ok(tumba!.people.length > 0);
+  assert.ok(tumba!.assignments.length > 0);
 });

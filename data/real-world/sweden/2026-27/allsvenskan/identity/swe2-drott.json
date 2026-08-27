@@ -1,0 +1,230 @@
+{
+  "clubId": "swe2-drott",
+  "season": "2026/27",
+  "sourceDocument": "HK Drott Halmstad CLUB IDENTITY v0.1",
+  "people": [
+    {
+      "id": "person-bengt-carlsson-swe2-drott",
+      "displayName": "Bengt Carlsson"
+    },
+    {
+      "id": "person-claes-andersson-swe2-drott",
+      "displayName": "Claes Andersson"
+    },
+    {
+      "id": "person-drott-sportkommitte-swe2-drott",
+      "personKind": "COLLECTIVE_GROUP",
+      "displayName": "Drott Sportkommitté"
+    },
+    {
+      "id": "person-hakan-hallberg-swe2-drott",
+      "displayName": "Håkan Hallberg"
+    },
+    {
+      "id": "person-johan-jedborg-swe2-drott",
+      "displayName": "Johan Jedborg"
+    },
+    {
+      "id": "person-goran-almen-swe2-drott",
+      "displayName": "Göran Almén"
+    },
+    {
+      "id": "person-david-lofgren-swe2-drott",
+      "displayName": "David Löfgren"
+    },
+    {
+      "id": "person-johan-gustafsson-swe2-drott",
+      "displayName": "Johan Gustafsson"
+    },
+    {
+      "id": "person-dennis-suoraniemi-swe2-drott",
+      "displayName": "Dennis Suoraniemi"
+    },
+    {
+      "id": "person-alicia-hataichanok-johansson-swe2-drott",
+      "displayName": "Alicia Hataichanok Johansson"
+    }
+  ],
+  "assignments": [
+    {
+      "personId": "person-bengt-carlsson-swe2-drott",
+      "clubId": "swe2-drott",
+      "officialRole": "Ordförande",
+      "standardRoles": [
+        "CHAIRPERSON"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-swe2-drott-organisation",
+          "sourceDocument": "HK Drott Halmstad CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "ORGANISATION"
+        }
+      ]
+    },
+    {
+      "personId": "person-claes-andersson-swe2-drott",
+      "clubId": "swe2-drott",
+      "officialRole": "Klubbchef",
+      "standardRoles": [
+        "CLUB_DIRECTOR"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-swe2-drott-organisation",
+          "sourceDocument": "HK Drott Halmstad CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "ORGANISATION"
+        }
+      ]
+    },
+    {
+      "personId": "person-drott-sportkommitte-swe2-drott",
+      "clubId": "swe2-drott",
+      "officialRole": "Sportkommitté",
+      "standardRoles": [
+        "SPORTING_DIRECTOR"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-swe2-drott-organisation",
+          "sourceDocument": "HK Drott Halmstad CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "ORGANISATION"
+        }
+      ]
+    },
+    {
+      "personId": "person-hakan-hallberg-swe2-drott",
+      "clubId": "swe2-drott",
+      "officialRole": "Vice ordförande / Sportkommittén",
+      "standardRoles": [
+        "OTHER"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-swe2-drott-coaching-staff",
+          "sourceDocument": "HK Drott Halmstad CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING STAFF"
+        }
+      ]
+    },
+    {
+      "personId": "person-johan-jedborg-swe2-drott",
+      "clubId": "swe2-drott",
+      "officialRole": "Ledamot / Sportkommittén",
+      "standardRoles": [
+        "OTHER"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-swe2-drott-coaching-staff",
+          "sourceDocument": "HK Drott Halmstad CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING STAFF"
+        }
+      ]
+    },
+    {
+      "personId": "person-goran-almen-swe2-drott",
+      "clubId": "swe2-drott",
+      "officialRole": "Marknadsansvarig",
+      "standardRoles": [
+        "OTHER"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-swe2-drott-coaching-staff",
+          "sourceDocument": "HK Drott Halmstad CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING STAFF"
+        }
+      ]
+    },
+    {
+      "personId": "person-david-lofgren-swe2-drott",
+      "clubId": "swe2-drott",
+      "officialRole": "Huvudtränare",
+      "standardRoles": [
+        "HEAD_COACH"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-swe2-drott-coaching-staff",
+          "sourceDocument": "HK Drott Halmstad CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING STAFF"
+        }
+      ]
+    },
+    {
+      "personId": "person-johan-gustafsson-swe2-drott",
+      "clubId": "swe2-drott",
+      "officialRole": "Målvaktstränare",
+      "standardRoles": [
+        "GOALKEEPER_COACH"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-swe2-drott-coaching-staff",
+          "sourceDocument": "HK Drott Halmstad CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING STAFF"
+        }
+      ]
+    },
+    {
+      "personId": "person-dennis-suoraniemi-swe2-drott",
+      "clubId": "swe2-drott",
+      "officialRole": "Lagledare",
+      "standardRoles": [
+        "TEAM_MANAGER"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-swe2-drott-coaching-staff",
+          "sourceDocument": "HK Drott Halmstad CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING STAFF"
+        }
+      ]
+    },
+    {
+      "personId": "person-alicia-hataichanok-johansson-swe2-drott",
+      "clubId": "swe2-drott",
+      "officialRole": "Idrottsmassör / Mindsetcoach",
+      "standardRoles": [
+        "PHYSIOTHERAPIST"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-swe2-drott-coaching-staff",
+          "sourceDocument": "HK Drott Halmstad CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING STAFF"
+        }
+      ]
+    }
+  ]
+}

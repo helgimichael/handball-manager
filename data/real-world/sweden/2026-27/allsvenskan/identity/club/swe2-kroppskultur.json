@@ -1,0 +1,122 @@
+{
+  "clubId": "swe2-kroppskultur",
+  "sourceDocument": "GF Kroppskultur CLUB IDENTITY v0.1",
+  "evidenceReferences": [
+    {
+      "id": "ev-swe2-kroppskultur-tactical-domain-mapping",
+      "sourceDocument": "GF Kroppskultur CLUB IDENTITY v0.1",
+      "sourceType": "APPROVED_PROFILE_DOCX",
+      "locator": "TACTICAL/CLUB DOMAIN MAPPING"
+    }
+  ],
+  "profile": {
+    "clubId": "swe2-kroppskultur",
+    "seasonReference": "2026/27",
+    "structuralIdentity": [
+      {
+        "id": "club-swe2-kroppskultur-structuralIdentity-organisationalphase",
+        "subjectType": "CLUB",
+        "subjectId": "swe2-kroppskultur",
+        "domain": "STRUCTURAL",
+        "key": "organisationalPhase",
+        "value": "GROWTH_PROFESSIONALISATION",
+        "evidenceClass": "VERIFIED_EXTERNAL_DATA",
+        "temporalScope": "CURRENT",
+        "sourceRefs": [
+          "ev-swe2-kroppskultur-tactical-domain-mapping"
+        ]
+      }
+    ],
+    "cultureIdentity": [
+      {
+        "id": "club-swe2-kroppskultur-cultureIdentity-squaddepth2026-27",
+        "subjectType": "CLUB",
+        "subjectId": "swe2-kroppskultur",
+        "domain": "SQUAD_COMPOSITION",
+        "key": "squadDepth2026_27",
+        "value": "LOW_SMALL_EXPERIENCED_CORE",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "CURRENT",
+        "sourceRefs": [
+          "ev-swe2-kroppskultur-tactical-domain-mapping"
+        ],
+        "notes": "Current squad state, deliberately not permanent club philosophy."
+      }
+    ],
+    "tacticalHeritage": [
+      {
+        "id": "club-swe2-kroppskultur-tacticalHeritage-primaryformation",
+        "subjectType": "CLUB",
+        "subjectId": "swe2-kroppskultur",
+        "domain": "DEFENCE",
+        "key": "primaryFormation",
+        "value": "6:0",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-swe2-kroppskultur-tactical-domain-mapping"
+        ],
+        "notes": "Heavy central defenders, high aggressive 2-defenders."
+      },
+      {
+        "id": "club-swe2-kroppskultur-tacticalHeritage-sevenvsixusage",
+        "subjectType": "CLUB",
+        "subjectId": "swe2-kroppskultur",
+        "domain": "DEFENCE",
+        "key": "sevenVSixUsage",
+        "value": "VERY_LOW",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-swe2-kroppskultur-tactical-domain-mapping"
+        ]
+      }
+    ],
+    "developmentIdentity": [
+      {
+        "id": "club-swe2-kroppskultur-developmentIdentity-youthinvestment",
+        "subjectType": "CLUB",
+        "subjectId": "swe2-kroppskultur",
+        "domain": "DEVELOPMENT",
+        "key": "youthInvestment",
+        "value": "VERY_STRONG",
+        "evidenceClass": "VERIFIED_EXTERNAL_DATA",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-swe2-kroppskultur-tactical-domain-mapping"
+        ]
+      },
+      {
+        "id": "club-swe2-kroppskultur-developmentIdentity-developmentclubidentity",
+        "subjectType": "CLUB",
+        "subjectId": "swe2-kroppskultur",
+        "domain": "DEVELOPMENT",
+        "key": "developmentClubIdentity",
+        "value": "STRONG",
+        "evidenceClass": "VERIFIED_EXTERNAL_DATA",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-swe2-kroppskultur-tactical-domain-mapping"
+        ],
+        "notes": "Combines internal development with recruitment of young players for further progression."
+      }
+    ],
+    "recruitmentIdentity": [
+      {
+        "id": "club-swe2-kroppskultur-recruitmentIdentity-youngplayerrecruitment",
+        "subjectType": "CLUB",
+        "subjectId": "swe2-kroppskultur",
+        "domain": "RECRUITMENT",
+        "key": "youngPlayerRecruitment",
+        "value": "STRONG",
+        "evidenceClass": "VERIFIED_EXTERNAL_DATA",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-swe2-kroppskultur-tactical-domain-mapping"
+        ]
+      }
+    ],
+    "financialStrategicIdentity": [],
+    "supporterEnvironmentIdentity": []
+  }
+}

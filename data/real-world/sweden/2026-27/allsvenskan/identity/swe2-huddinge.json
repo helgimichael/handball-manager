@@ -1,0 +1,208 @@
+{
+  "clubId": "swe2-huddinge",
+  "season": "2026/27",
+  "sourceDocument": "Huddinge HK CLUB IDENTITY v0.1",
+  "people": [
+    {
+      "id": "person-helen-edlund-swe2-huddinge",
+      "displayName": "Helen Edlund"
+    },
+    {
+      "id": "person-johan-cassebaum-swe2-huddinge",
+      "displayName": "Johan Cassebaum"
+    },
+    {
+      "id": "person-johan-eklund-swe2-huddinge",
+      "displayName": "Johan Eklund"
+    },
+    {
+      "id": "person-oscar-johansson-swe2-huddinge",
+      "displayName": "Oscar Johansson"
+    },
+    {
+      "id": "person-fredrik-green-swe2-huddinge",
+      "displayName": "Fredrik Green"
+    },
+    {
+      "id": "person-stefan-stromberg-swe2-huddinge",
+      "displayName": "Stefan Strömberg"
+    },
+    {
+      "id": "person-walter-cassebaum-swe2-huddinge",
+      "displayName": "Walter Cassebaum"
+    },
+    {
+      "id": "person-johnny-ejderskog-swe2-huddinge",
+      "displayName": "Johnny Ejderskog"
+    },
+    {
+      "id": "person-nathalie-skogang-swe2-huddinge",
+      "displayName": "Nathalie Skogäng"
+    }
+  ],
+  "assignments": [
+    {
+      "personId": "person-helen-edlund-swe2-huddinge",
+      "clubId": "swe2-huddinge",
+      "officialRole": "Huvudtränare",
+      "standardRoles": [
+        "HEAD_COACH"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-swe2-huddinge-coaching-staff",
+          "sourceDocument": "Huddinge HK CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING STAFF"
+        }
+      ]
+    },
+    {
+      "personId": "person-johan-cassebaum-swe2-huddinge",
+      "clubId": "swe2-huddinge",
+      "officialRole": "Coach",
+      "standardRoles": [
+        "COACH"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-swe2-huddinge-coaching-staff",
+          "sourceDocument": "Huddinge HK CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING STAFF"
+        }
+      ]
+    },
+    {
+      "personId": "person-johan-eklund-swe2-huddinge",
+      "clubId": "swe2-huddinge",
+      "officialRole": "Coach / videoanalys",
+      "standardRoles": [
+        "COACH",
+        "ANALYST"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-swe2-huddinge-coaching-staff",
+          "sourceDocument": "Huddinge HK CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING STAFF"
+        }
+      ]
+    },
+    {
+      "personId": "person-oscar-johansson-swe2-huddinge",
+      "clubId": "swe2-huddinge",
+      "officialRole": "Coach",
+      "standardRoles": [
+        "COACH"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-swe2-huddinge-coaching-staff",
+          "sourceDocument": "Huddinge HK CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING STAFF"
+        }
+      ]
+    },
+    {
+      "personId": "person-fredrik-green-swe2-huddinge",
+      "clubId": "swe2-huddinge",
+      "officialRole": "Assisterande / Herr U-junioransvar",
+      "standardRoles": [
+        "ASSISTANT_COACH"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-swe2-huddinge-coaching-staff",
+          "sourceDocument": "Huddinge HK CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING STAFF"
+        }
+      ]
+    },
+    {
+      "personId": "person-stefan-stromberg-swe2-huddinge",
+      "clubId": "swe2-huddinge",
+      "officialRole": "Lagledare",
+      "standardRoles": [
+        "TEAM_MANAGER"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-swe2-huddinge-coaching-staff",
+          "sourceDocument": "Huddinge HK CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING STAFF"
+        }
+      ]
+    },
+    {
+      "personId": "person-walter-cassebaum-swe2-huddinge",
+      "clubId": "swe2-huddinge",
+      "officialRole": "Administration/material",
+      "standardRoles": [
+        "TEAM_ADMIN"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-swe2-huddinge-coaching-staff",
+          "sourceDocument": "Huddinge HK CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING STAFF"
+        }
+      ]
+    },
+    {
+      "personId": "person-johnny-ejderskog-swe2-huddinge",
+      "clubId": "swe2-huddinge",
+      "officialRole": "Sportansvar herr",
+      "standardRoles": [
+        "SPORTING_DIRECTOR"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-swe2-huddinge-organisation",
+          "sourceDocument": "Huddinge HK CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "ORGANISATION"
+        }
+      ]
+    },
+    {
+      "personId": "person-nathalie-skogang-swe2-huddinge",
+      "clubId": "swe2-huddinge",
+      "officialRole": "Fysioterapeut",
+      "standardRoles": [
+        "PHYSIOTHERAPIST"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-swe2-huddinge-coaching-staff",
+          "sourceDocument": "Huddinge HK CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING STAFF"
+        }
+      ]
+    }
+  ]
+}

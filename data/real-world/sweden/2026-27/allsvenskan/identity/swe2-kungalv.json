@@ -1,0 +1,119 @@
+{
+  "clubId": "swe2-kungalv",
+  "season": "2026/27",
+  "sourceDocument": "Kungälvs HK CLUB IDENTITY v0.1",
+  "people": [
+    {
+      "id": "person-maher-el-aaraj-swe2-kungalv",
+      "displayName": "Maher El Aaraj"
+    },
+    {
+      "id": "person-tobias-johansson-swe2-kungalv",
+      "displayName": "Tobias Johansson"
+    },
+    {
+      "id": "person-hannes-bostrom-swe2-kungalv",
+      "displayName": "Hannes Boström"
+    },
+    {
+      "id": "person-markus-borjesson-grahn-swe2-kungalv",
+      "displayName": "Markus Börjesson Grahn"
+    },
+    {
+      "id": "person-annika-pennebratt-swe2-kungalv",
+      "displayName": "Annika Pennebratt"
+    }
+  ],
+  "assignments": [
+    {
+      "personId": "person-maher-el-aaraj-swe2-kungalv",
+      "clubId": "swe2-kungalv",
+      "officialRole": "Huvudtränare",
+      "standardRoles": [
+        "HEAD_COACH"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-swe2-kungalv-coaching-staff",
+          "sourceDocument": "Kungälvs HK CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING STAFF"
+        }
+      ]
+    },
+    {
+      "personId": "person-tobias-johansson-swe2-kungalv",
+      "clubId": "swe2-kungalv",
+      "officialRole": "Assisterande tränare",
+      "standardRoles": [
+        "ASSISTANT_COACH"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-swe2-kungalv-coaching-staff",
+          "sourceDocument": "Kungälvs HK CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING STAFF"
+        }
+      ]
+    },
+    {
+      "personId": "person-hannes-bostrom-swe2-kungalv",
+      "clubId": "swe2-kungalv",
+      "officialRole": "Massör / fysioterapeut",
+      "standardRoles": [
+        "PHYSIOTHERAPIST"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-swe2-kungalv-coaching-staff",
+          "sourceDocument": "Kungälvs HK CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING STAFF"
+        }
+      ]
+    },
+    {
+      "personId": "person-markus-borjesson-grahn-swe2-kungalv",
+      "clubId": "swe2-kungalv",
+      "officialRole": "Materialansvarig",
+      "standardRoles": [
+        "EQUIPMENT_MANAGER"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-swe2-kungalv-coaching-staff",
+          "sourceDocument": "Kungälvs HK CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING STAFF"
+        }
+      ]
+    },
+    {
+      "personId": "person-annika-pennebratt-swe2-kungalv",
+      "clubId": "swe2-kungalv",
+      "officialRole": "Lagledare / admin",
+      "standardRoles": [
+        "TEAM_MANAGER"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-swe2-kungalv-coaching-staff",
+          "sourceDocument": "Kungälvs HK CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING STAFF"
+        }
+      ]
+    }
+  ]
+}

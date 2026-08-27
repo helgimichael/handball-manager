@@ -1,0 +1,64 @@
+{
+  "personId": "person-pontus-ward-wiklund-swe2-kroppskultur",
+  "clubId": "swe2-kroppskultur",
+  "sourceDocument": "GF Kroppskultur CLUB IDENTITY v0.1",
+  "evidenceReferences": [
+    {
+      "id": "ev-pontus-ward-wiklund-swe2-kroppskultur-coaching-development",
+      "sourceDocument": "GF Kroppskultur CLUB IDENTITY v0.1",
+      "sourceType": "APPROVED_PROFILE_DOCX",
+      "locator": "COACHING / DEVELOPMENT IDENTITY"
+    }
+  ],
+  "profile": {
+    "personId": "person-pontus-ward-wiklund-swe2-kroppskultur",
+    "coachingStyleClaims": [
+      {
+        "id": "coach-pontus-ward-wiklund-swe2-kroppskultur-analyticalorientation",
+        "subjectType": "COACH",
+        "subjectId": "person-pontus-ward-wiklund-swe2-kroppskultur",
+        "domain": "TACTICAL_COGNITIVE",
+        "key": "analyticalOrientation",
+        "value": "VERY_HIGH",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-pontus-ward-wiklund-swe2-kroppskultur-coaching-development"
+        ]
+      }
+    ],
+    "tacticalPreferenceClaims": [
+      {
+        "id": "coach-pontus-ward-wiklund-swe2-kroppskultur-sevenvsixpreference",
+        "subjectType": "COACH",
+        "subjectId": "person-pontus-ward-wiklund-swe2-kroppskultur",
+        "domain": "TACTICAL_PREFERENCE",
+        "key": "sevenVSixPreference",
+        "value": "VERY_LOW_AVOIDS",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-pontus-ward-wiklund-swe2-kroppskultur-coaching-development"
+        ]
+      }
+    ],
+    "communicationLeadershipClaims": [],
+    "developmentClaims": [
+      {
+        "id": "coach-pontus-ward-wiklund-swe2-kroppskultur-developmentinvolvement",
+        "subjectType": "COACH",
+        "subjectId": "person-pontus-ward-wiklund-swe2-kroppskultur",
+        "domain": "DEVELOPMENT",
+        "key": "developmentInvolvement",
+        "value": "STRONG",
+        "evidenceClass": "VERIFIED_EXTERNAL_DATA",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-pontus-ward-wiklund-swe2-kroppskultur-coaching-development"
+        ]
+      }
+    ],
+    "adaptabilityClaims": [],
+    "cultureBuildingClaims": []
+  }
+}

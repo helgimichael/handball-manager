@@ -1,0 +1,148 @@
+{
+  "clubId": "swe2-redbergslid",
+  "sourceDocument": "Redbergslids IK CLUB IDENTITY v0.1",
+  "evidenceReferences": [
+    {
+      "id": "ev-swe2-redbergslid-tactical-domain-mapping",
+      "sourceDocument": "Redbergslids IK CLUB IDENTITY v0.1",
+      "sourceType": "APPROVED_PROFILE_DOCX",
+      "locator": "TACTICAL/CLUB DOMAIN MAPPING"
+    }
+  ],
+  "profile": {
+    "clubId": "swe2-redbergslid",
+    "seasonReference": "2026/27",
+    "structuralIdentity": [
+      {
+        "id": "club-swe2-redbergslid-structuralIdentity-historicalreputation",
+        "subjectType": "CLUB",
+        "subjectId": "swe2-redbergslid",
+        "domain": "STRUCTURAL",
+        "key": "historicalReputation",
+        "value": "EXTREME",
+        "evidenceClass": "VERIFIED_EXTERNAL_DATA",
+        "temporalScope": "HISTORICAL",
+        "sourceRefs": [
+          "ev-swe2-redbergslid-tactical-domain-mapping"
+        ],
+        "notes": "20 senior Swedish championships -- historical prestige vs current ability must be kept separate."
+      },
+      {
+        "id": "club-swe2-redbergslid-structuralIdentity-sportinggovernance",
+        "subjectType": "CLUB",
+        "subjectId": "swe2-redbergslid",
+        "domain": "STRUCTURAL",
+        "key": "sportingGovernance",
+        "value": "COMMITTEE",
+        "evidenceClass": "VERIFIED_EXTERNAL_DATA",
+        "temporalScope": "CURRENT",
+        "sourceRefs": [
+          "ev-swe2-redbergslid-tactical-domain-mapping"
+        ],
+        "notes": "Uses a sporting-committee model rather than requiring a fictional single sporting director."
+      }
+    ],
+    "cultureIdentity": [
+      {
+        "id": "club-swe2-redbergslid-cultureIdentity-squadcontinuity",
+        "subjectType": "CLUB",
+        "subjectId": "swe2-redbergslid",
+        "domain": "SQUAD_COMPOSITION",
+        "key": "squadContinuity",
+        "value": "VERY_HIGH",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "CURRENT",
+        "sourceRefs": [
+          "ev-swe2-redbergslid-tactical-domain-mapping"
+        ]
+      }
+    ],
+    "tacticalHeritage": [
+      {
+        "id": "club-swe2-redbergslid-tacticalHeritage-primaryformation",
+        "subjectType": "CLUB",
+        "subjectId": "swe2-redbergslid",
+        "domain": "DEFENCE",
+        "key": "primaryFormation",
+        "value": "6:0",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-swe2-redbergslid-tactical-domain-mapping"
+        ]
+      },
+      {
+        "id": "club-swe2-redbergslid-tacticalHeritage-alternativeformation",
+        "subjectType": "CLUB",
+        "subjectId": "swe2-redbergslid",
+        "domain": "DEFENCE",
+        "key": "alternativeFormation",
+        "value": "5:1",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "HISTORICAL",
+        "sourceRefs": [
+          "ev-swe2-redbergslid-tactical-domain-mapping"
+        ],
+        "notes": "Strong historical tactical signal -- part of RIK's historical tactical culture, a candidate for a future Tactical Heritage layer, not just current coach choice."
+      },
+      {
+        "id": "club-swe2-redbergslid-tacticalHeritage-sevenvsixusage",
+        "subjectType": "CLUB",
+        "subjectId": "swe2-redbergslid",
+        "domain": "ATTACK",
+        "key": "sevenVSixUsage",
+        "value": "VERY_LOW_NEAR_ZERO",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-swe2-redbergslid-tactical-domain-mapping"
+        ]
+      },
+      {
+        "id": "club-swe2-redbergslid-tacticalHeritage-balkanyugoslavinfluence",
+        "subjectType": "CLUB",
+        "subjectId": "swe2-redbergslid",
+        "domain": "ATTACK",
+        "key": "balkanYugoslavInfluence",
+        "value": "STRONG",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-swe2-redbergslid-tactical-domain-mapping"
+        ],
+        "notes": "Traditional relationship-based backcourt play, crossing/switch actions, heavy shooting threats -- stored as a tactical influence, not a stereotype."
+      }
+    ],
+    "developmentIdentity": [
+      {
+        "id": "club-swe2-redbergslid-developmentIdentity-ownplayerphilosophy",
+        "subjectType": "CLUB",
+        "subjectId": "swe2-redbergslid",
+        "domain": "DEVELOPMENT",
+        "key": "ownPlayerPhilosophy",
+        "value": "VERY_STRONG_EXPLICIT",
+        "evidenceClass": "VERIFIED_EXTERNAL_CLUB_STRATEGY",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-swe2-redbergslid-tactical-domain-mapping"
+        ]
+      },
+      {
+        "id": "club-swe2-redbergslid-developmentIdentity-homegrownsharetarget",
+        "subjectType": "CLUB",
+        "subjectId": "swe2-redbergslid",
+        "domain": "DEVELOPMENT",
+        "key": "homegrownShareTarget",
+        "value": ">=50%",
+        "evidenceClass": "VERIFIED_EXTERNAL_CLUB_STRATEGY",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-swe2-redbergslid-tactical-domain-mapping"
+        ]
+      }
+    ],
+    "recruitmentIdentity": [],
+    "financialStrategicIdentity": [],
+    "supporterEnvironmentIdentity": []
+  }
+}

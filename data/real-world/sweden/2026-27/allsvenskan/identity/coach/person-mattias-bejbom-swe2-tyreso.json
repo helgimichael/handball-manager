@@ -1,0 +1,90 @@
+{
+  "personId": "person-mattias-bejbom-swe2-tyreso",
+  "clubId": "swe2-tyreso",
+  "sourceDocument": "Tyresö Handboll CLUB IDENTITY v0.1",
+  "evidenceReferences": [
+    {
+      "id": "ev-mattias-bejbom-swe2-tyreso-coaching-development",
+      "sourceDocument": "Tyresö Handboll CLUB IDENTITY v0.1",
+      "sourceType": "APPROVED_PROFILE_DOCX",
+      "locator": "COACHING / DEVELOPMENT IDENTITY"
+    }
+  ],
+  "profile": {
+    "personId": "person-mattias-bejbom-swe2-tyreso",
+    "coachingStyleClaims": [],
+    "tacticalPreferenceClaims": [
+      {
+        "id": "coach-mattias-bejbom-swe2-tyreso-sevenvsixwillingness",
+        "subjectType": "COACH",
+        "subjectId": "person-mattias-bejbom-swe2-tyreso",
+        "domain": "TACTICAL_PREFERENCE",
+        "key": "sevenVSixWillingness",
+        "value": "EXTREME",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-mattias-bejbom-swe2-tyreso-coaching-development"
+        ]
+      },
+      {
+        "id": "coach-mattias-bejbom-swe2-tyreso-defensivepriority",
+        "subjectType": "COACH",
+        "subjectId": "person-mattias-bejbom-swe2-tyreso",
+        "domain": "DEFENCE",
+        "key": "defensivePriority",
+        "value": "LOW",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-mattias-bejbom-swe2-tyreso-coaching-development"
+        ]
+      }
+    ],
+    "communicationLeadershipClaims": [
+      {
+        "id": "coach-mattias-bejbom-swe2-tyreso-decisioncentralisation",
+        "subjectType": "COACH",
+        "subjectId": "person-mattias-bejbom-swe2-tyreso",
+        "domain": "LEADERSHIP",
+        "key": "decisionCentralisation",
+        "value": "VERY_HIGH",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-mattias-bejbom-swe2-tyreso-coaching-development"
+        ]
+      },
+      {
+        "id": "coach-mattias-bejbom-swe2-tyreso-staffdelegation",
+        "subjectType": "COACH",
+        "subjectId": "person-mattias-bejbom-swe2-tyreso",
+        "domain": "LEADERSHIP",
+        "key": "staffDelegation",
+        "value": "VERY_LOW",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-mattias-bejbom-swe2-tyreso-coaching-development"
+        ]
+      }
+    ],
+    "developmentClaims": [],
+    "adaptabilityClaims": [],
+    "cultureBuildingClaims": [
+      {
+        "id": "coach-mattias-bejbom-swe2-tyreso-clubidentification",
+        "subjectType": "COACH",
+        "subjectId": "person-mattias-bejbom-swe2-tyreso",
+        "domain": "CULTURE",
+        "key": "clubIdentification",
+        "value": "EXTREME",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-mattias-bejbom-swe2-tyreso-coaching-development"
+        ]
+      }
+    ]
+  }
+}

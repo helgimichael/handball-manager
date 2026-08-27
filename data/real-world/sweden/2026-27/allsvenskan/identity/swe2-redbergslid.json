@@ -1,0 +1,142 @@
+{
+  "clubId": "swe2-redbergslid",
+  "season": "2026/27",
+  "sourceDocument": "Redbergslids IK CLUB IDENTITY v0.1",
+  "people": [
+    {
+      "id": "person-rik-sportkommitte-swe2-redbergslid",
+      "personKind": "COLLECTIVE_GROUP",
+      "displayName": "RIK Sportkommitté"
+    },
+    {
+      "id": "person-mikael-franzen-swe2-redbergslid",
+      "displayName": "Mikael Franzén"
+    },
+    {
+      "id": "person-jasmin-zuta-swe2-redbergslid",
+      "displayName": "Jasmin Zuta"
+    },
+    {
+      "id": "person-fikret-handan-swe2-redbergslid",
+      "displayName": "Fikret Handan"
+    },
+    {
+      "id": "person-jerry-hallback-swe2-redbergslid",
+      "displayName": "Jerry Hallbäck"
+    },
+    {
+      "id": "person-martin-boquist-swe2-redbergslid",
+      "displayName": "Martin Boquist"
+    }
+  ],
+  "assignments": [
+    {
+      "personId": "person-rik-sportkommitte-swe2-redbergslid",
+      "clubId": "swe2-redbergslid",
+      "officialRole": "Sportkommitté",
+      "standardRoles": [
+        "SPORTING_DIRECTOR"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-swe2-redbergslid-organisation",
+          "sourceDocument": "Redbergslids IK CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "ORGANISATION"
+        }
+      ]
+    },
+    {
+      "personId": "person-mikael-franzen-swe2-redbergslid",
+      "clubId": "swe2-redbergslid",
+      "officialRole": "Huvudtränare / Sportkommittén",
+      "standardRoles": [
+        "HEAD_COACH"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-swe2-redbergslid-coaching-staff",
+          "sourceDocument": "Redbergslids IK CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING STAFF"
+        }
+      ]
+    },
+    {
+      "personId": "person-jasmin-zuta-swe2-redbergslid",
+      "clubId": "swe2-redbergslid",
+      "officialRole": "Tränarstab",
+      "standardRoles": [
+        "ASSISTANT_COACH"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-swe2-redbergslid-coaching-staff",
+          "sourceDocument": "Redbergslids IK CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING STAFF"
+        }
+      ]
+    },
+    {
+      "personId": "person-fikret-handan-swe2-redbergslid",
+      "clubId": "swe2-redbergslid",
+      "officialRole": "Målvaktstränare",
+      "standardRoles": [
+        "GOALKEEPER_COACH"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-swe2-redbergslid-coaching-staff",
+          "sourceDocument": "Redbergslids IK CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING STAFF"
+        }
+      ]
+    },
+    {
+      "personId": "person-jerry-hallback-swe2-redbergslid",
+      "clubId": "swe2-redbergslid",
+      "officialRole": "Sporting/Development/Market / Sportkommittén",
+      "standardRoles": [
+        "OTHER"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-swe2-redbergslid-coaching-staff",
+          "sourceDocument": "Redbergslids IK CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING STAFF"
+        }
+      ]
+    },
+    {
+      "personId": "person-martin-boquist-swe2-redbergslid",
+      "clubId": "swe2-redbergslid",
+      "officialRole": "Sportkommittén (handbollsexpertis)",
+      "standardRoles": [
+        "OTHER"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-swe2-redbergslid-coaching-staff",
+          "sourceDocument": "Redbergslids IK CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING STAFF"
+        }
+      ]
+    }
+  ]
+}

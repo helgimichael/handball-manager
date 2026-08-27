@@ -1,0 +1,50 @@
+{
+  "personId": "person-helen-edlund-swe2-huddinge",
+  "clubId": "swe2-huddinge",
+  "sourceDocument": "Huddinge HK CLUB IDENTITY v0.1",
+  "evidenceReferences": [
+    {
+      "id": "ev-helen-edlund-swe2-huddinge-coaching-development",
+      "sourceDocument": "Huddinge HK CLUB IDENTITY v0.1",
+      "sourceType": "APPROVED_PROFILE_DOCX",
+      "locator": "COACHING / DEVELOPMENT IDENTITY"
+    }
+  ],
+  "profile": {
+    "personId": "person-helen-edlund-swe2-huddinge",
+    "coachingStyleClaims": [
+      {
+        "id": "coach-helen-edlund-swe2-huddinge-prescriptivecoaching",
+        "subjectType": "COACH",
+        "subjectId": "person-helen-edlund-swe2-huddinge",
+        "domain": "TACTICAL_COGNITIVE",
+        "key": "prescriptiveCoaching",
+        "value": "LOW",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-helen-edlund-swe2-huddinge-coaching-development"
+        ]
+      }
+    ],
+    "tacticalPreferenceClaims": [],
+    "communicationLeadershipClaims": [],
+    "developmentClaims": [],
+    "adaptabilityClaims": [
+      {
+        "id": "coach-helen-edlund-swe2-huddinge-playerautonomy",
+        "subjectType": "COACH",
+        "subjectId": "person-helen-edlund-swe2-huddinge",
+        "domain": "TACTICAL_COGNITIVE",
+        "key": "playerAutonomy",
+        "value": "VERY_HIGH",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-helen-edlund-swe2-huddinge-coaching-development"
+        ]
+      }
+    ],
+    "cultureBuildingClaims": []
+  }
+}

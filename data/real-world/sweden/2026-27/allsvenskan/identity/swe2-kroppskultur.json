@@ -1,0 +1,163 @@
+{
+  "clubId": "swe2-kroppskultur",
+  "season": "2026/27",
+  "sourceDocument": "GF Kroppskultur CLUB IDENTITY v0.1",
+  "people": [
+    {
+      "id": "person-svante-olsson-swe2-kroppskultur",
+      "displayName": "Svante Olsson"
+    },
+    {
+      "id": "person-robin-malm-swe2-kroppskultur",
+      "displayName": "Robin Malm"
+    },
+    {
+      "id": "person-joakim-eriksson-swe2-kroppskultur",
+      "displayName": "Joakim Eriksson"
+    },
+    {
+      "id": "person-micael-bratt-swe2-kroppskultur",
+      "displayName": "Micael Bratt"
+    },
+    {
+      "id": "person-filip-pettersson-swe2-kroppskultur",
+      "displayName": "Filip Pettersson"
+    },
+    {
+      "id": "person-pontus-ward-wiklund-swe2-kroppskultur",
+      "displayName": "Pontus Ward Wiklund"
+    },
+    {
+      "id": "person-phillip-karlefeldt-swe2-kroppskultur",
+      "displayName": "Phillip Karlefeldt"
+    }
+  ],
+  "assignments": [
+    {
+      "personId": "person-svante-olsson-swe2-kroppskultur",
+      "clubId": "swe2-kroppskultur",
+      "officialRole": "Ordförande",
+      "standardRoles": [
+        "CHAIRPERSON"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-swe2-kroppskultur-organisation",
+          "sourceDocument": "GF Kroppskultur CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "ORGANISATION"
+        }
+      ]
+    },
+    {
+      "personId": "person-robin-malm-swe2-kroppskultur",
+      "clubId": "swe2-kroppskultur",
+      "officialRole": "Vice ordförande",
+      "standardRoles": [
+        "OTHER"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-swe2-kroppskultur-coaching-staff",
+          "sourceDocument": "GF Kroppskultur CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING STAFF"
+        }
+      ]
+    },
+    {
+      "personId": "person-joakim-eriksson-swe2-kroppskultur",
+      "clubId": "swe2-kroppskultur",
+      "officialRole": "Styrelseledamot / Sportchef",
+      "standardRoles": [
+        "SPORTING_DIRECTOR"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-swe2-kroppskultur-organisation",
+          "sourceDocument": "GF Kroppskultur CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "ORGANISATION"
+        }
+      ]
+    },
+    {
+      "personId": "person-micael-bratt-swe2-kroppskultur",
+      "clubId": "swe2-kroppskultur",
+      "officialRole": "Klubbchef",
+      "standardRoles": [
+        "CLUB_DIRECTOR"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-swe2-kroppskultur-organisation",
+          "sourceDocument": "GF Kroppskultur CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "ORGANISATION"
+        }
+      ]
+    },
+    {
+      "personId": "person-filip-pettersson-swe2-kroppskultur",
+      "clubId": "swe2-kroppskultur",
+      "officialRole": "Spelarrekrytering/scouting",
+      "standardRoles": [
+        "SCOUT"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-swe2-kroppskultur-coaching-staff",
+          "sourceDocument": "GF Kroppskultur CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING STAFF"
+        }
+      ]
+    },
+    {
+      "personId": "person-pontus-ward-wiklund-swe2-kroppskultur",
+      "clubId": "swe2-kroppskultur",
+      "officialRole": "Huvudtränare",
+      "standardRoles": [
+        "HEAD_COACH"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-swe2-kroppskultur-coaching-staff",
+          "sourceDocument": "GF Kroppskultur CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING STAFF"
+        }
+      ]
+    },
+    {
+      "personId": "person-phillip-karlefeldt-swe2-kroppskultur",
+      "clubId": "swe2-kroppskultur",
+      "officialRole": "Assisterande tränare",
+      "standardRoles": [
+        "ASSISTANT_COACH"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-swe2-kroppskultur-coaching-staff",
+          "sourceDocument": "GF Kroppskultur CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING STAFF"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,75 @@
+{
+  "clubId": "swe2-h43lund",
+  "season": "2026/27",
+  "sourceDocument": "H43 Lund HF CLUB IDENTITY v0.1",
+  "people": [
+    {
+      "id": "person-per-albin-borhammar-swe2-h43lund",
+      "displayName": "Per Albin Borhammar"
+    },
+    {
+      "id": "person-patrik-asvard-swe2-h43lund",
+      "displayName": "Patrik Åsvärd"
+    },
+    {
+      "id": "person-jonathan-hall-swe2-h43lund",
+      "displayName": "Jonathan Hall"
+    }
+  ],
+  "assignments": [
+    {
+      "personId": "person-per-albin-borhammar-swe2-h43lund",
+      "clubId": "swe2-h43lund",
+      "officialRole": "Huvudtränare",
+      "standardRoles": [
+        "HEAD_COACH"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-swe2-h43lund-coaching-staff",
+          "sourceDocument": "H43 Lund HF CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING STAFF"
+        }
+      ]
+    },
+    {
+      "personId": "person-patrik-asvard-swe2-h43lund",
+      "clubId": "swe2-h43lund",
+      "officialRole": "Tränarstab (roll ej specificerad)",
+      "standardRoles": [
+        "COACH"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-swe2-h43lund-coaching-staff",
+          "sourceDocument": "H43 Lund HF CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING STAFF"
+        }
+      ]
+    },
+    {
+      "personId": "person-jonathan-hall-swe2-h43lund",
+      "clubId": "swe2-h43lund",
+      "officialRole": "Tränarstab (roll ej specificerad)",
+      "standardRoles": [
+        "COACH"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-swe2-h43lund-coaching-staff",
+          "sourceDocument": "H43 Lund HF CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING STAFF"
+        }
+      ]
+    }
+  ]
+}

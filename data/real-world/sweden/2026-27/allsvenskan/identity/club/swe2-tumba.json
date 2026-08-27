@@ -1,0 +1,150 @@
+{
+  "clubId": "swe2-tumba",
+  "sourceDocument": "IFK Tumba HK CLUB IDENTITY v0.1",
+  "evidenceReferences": [
+    {
+      "id": "ev-swe2-tumba-tactical-domain-mapping",
+      "sourceDocument": "IFK Tumba HK CLUB IDENTITY v0.1",
+      "sourceType": "APPROVED_PROFILE_DOCX",
+      "locator": "TACTICAL/CLUB DOMAIN MAPPING"
+    }
+  ],
+  "profile": {
+    "clubId": "swe2-tumba",
+    "seasonReference": "2026/27",
+    "structuralIdentity": [
+      {
+        "id": "club-swe2-tumba-structuralIdentity-keypositionstaffcontinuity",
+        "subjectType": "CLUB",
+        "subjectId": "swe2-tumba",
+        "domain": "STRUCTURAL",
+        "key": "keyPositionStaffContinuity",
+        "value": "VERY_HIGH",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "CURRENT",
+        "sourceRefs": [
+          "ev-swe2-tumba-tactical-domain-mapping"
+        ],
+        "notes": "Key positions and coaching staff enter approximately their third season together."
+      },
+      {
+        "id": "club-swe2-tumba-structuralIdentity-sportingdirectorresourcing",
+        "subjectType": "CLUB",
+        "subjectId": "swe2-tumba",
+        "domain": "STRUCTURAL",
+        "key": "sportingDirectorResourcing",
+        "value": "ZERO_COST_NON_SALARIED_FIRST_ROLE",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "CURRENT",
+        "sourceRefs": [
+          "ev-swe2-tumba-tactical-domain-mapping"
+        ],
+        "notes": "Job title != staff quality != professionalisation != financial investment -- organisational professionalisation must never be inferred from title alone."
+      }
+    ],
+    "cultureIdentity": [],
+    "tacticalHeritage": [
+      {
+        "id": "club-swe2-tumba-tacticalHeritage-sevenvsixdependency",
+        "subjectType": "CLUB",
+        "subjectId": "swe2-tumba",
+        "domain": "ATTACK",
+        "key": "sevenVSixDependency",
+        "value": "VERY_HIGH",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-swe2-tumba-tactical-domain-mapping"
+        ],
+        "notes": "Estimated ~90% usage (insider estimate, needs match-data calibration) -- among the most extreme 7v6 identities in the league."
+      },
+      {
+        "id": "club-swe2-tumba-tacticalHeritage-positionaltempo",
+        "subjectType": "CLUB",
+        "subjectId": "swe2-tumba",
+        "domain": "ATTACK",
+        "key": "positionalTempo",
+        "value": "LOW",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-swe2-tumba-tactical-domain-mapping"
+        ]
+      },
+      {
+        "id": "club-swe2-tumba-tacticalHeritage-primaryformation",
+        "subjectType": "CLUB",
+        "subjectId": "swe2-tumba",
+        "domain": "DEFENCE",
+        "key": "primaryFormation",
+        "value": "6:0",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-swe2-tumba-tactical-domain-mapping"
+        ],
+        "notes": "Working rule: the 2 defenders frequently break inward toward M9 while the central 3 maintain a more defensive/deep orientation."
+      }
+    ],
+    "developmentIdentity": [
+      {
+        "id": "club-swe2-tumba-developmentIdentity-youthpipeline",
+        "subjectType": "CLUB",
+        "subjectId": "swe2-tumba",
+        "domain": "DEVELOPMENT",
+        "key": "youthPipeline",
+        "value": "VERY_STRONG",
+        "evidenceClass": "VERIFIED_EXTERNAL_DATA",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-swe2-tumba-tactical-domain-mapping"
+        ]
+      },
+      {
+        "id": "club-swe2-tumba-developmentIdentity-youthseniorpathwayimportance",
+        "subjectType": "CLUB",
+        "subjectId": "swe2-tumba",
+        "domain": "DEVELOPMENT",
+        "key": "youthSeniorPathwayImportance",
+        "value": "VERY_HIGH",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-swe2-tumba-tactical-domain-mapping"
+        ],
+        "notes": "Limited club finances increase the strategic importance of internal player production."
+      }
+    ],
+    "recruitmentIdentity": [
+      {
+        "id": "club-swe2-tumba-recruitmentIdentity-regionalorientation",
+        "subjectType": "CLUB",
+        "subjectId": "swe2-tumba",
+        "domain": "RECRUITMENT",
+        "key": "regionalOrientation",
+        "value": "VERY_HIGH_STOCKHOLM",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-swe2-tumba-tactical-domain-mapping"
+        ]
+      }
+    ],
+    "financialStrategicIdentity": [
+      {
+        "id": "club-swe2-tumba-financialStrategicIdentity-financialstrength",
+        "subjectType": "CLUB",
+        "subjectId": "swe2-tumba",
+        "domain": "FINANCIAL_STRATEGIC",
+        "key": "financialStrength",
+        "value": "WEAK",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-swe2-tumba-tactical-domain-mapping"
+        ]
+      }
+    ],
+    "supporterEnvironmentIdentity": []
+  }
+}

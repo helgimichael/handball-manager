@@ -39,24 +39,40 @@ const SWE_1: Club[] = [
   club({ id: "se_club_onnereds_hk", competitionId: "se_handbollsligan_herr", dataSource: "REAL_WORLD", playable: true, name: "Önnereds HK", shortName: "Önnered", city: "Göteborg", primaryColor: "#0b6e4f", secondaryColor: "#ffffff" }),
 ];
 
-// --- Sweden, tier 2: Allsvenskan --- verified 14-club list including
-// IFK Tumba (sv.wikipedia.org "Allsvenskan i handboll för herrar").
-// IFK Tumba is the ONLY playable club in HM-GAME-0.1.
+// --- Sweden, tier 2: Allsvenskan (2026/27) --- HM-DATA-ALLSVENSKAN-1.0:
+// club ids/names now match the 14 CLUB IDENTITY v0.1 source profiles
+// 1:1 (data/real-world/sweden/2026-27/allsvenskan/identity/), the same
+// "profiles are the canonical club list" precedent HM-DATA-0.2 already
+// established for tier 1. Six of the previous mock entries had no
+// matching source profile and were removed (Anderstorps SK, "IFK
+// Karlskrona"/swe2-karlskrona2, IK Lågan, Vinslövs HK, and -- notably --
+// swe2-lugi/swe2-skanela, which were placeholder mock entries that
+// collided with the REAL tier-1 clubs of the same name (Lugi HF,
+// Skånela IF already exist for real in SWE_1 -- a club cannot play in
+// both tiers at once). Six real clubs the mock list was missing were
+// added: Västerås/Irsta HF (relegated from Handbollsligan for 2026/27),
+// Redbergslids IK, Huddinge HK, H43 Lund HF, GF Kroppskultur, Eskilstuna
+// Guif IF. "IFK Ystad" was renamed "IFK Ystad HK" to match its source
+// profile's own official name (id unchanged). Real club/coach/staff
+// IDENTITY data now exists for all 14 (see lib/gameWorld's identity
+// loaders) -- squads remain MOCK/fictional (`dataSource` intentionally
+// left unset) until HM-DATA-ALLSVENSKAN-1.1 imports real player data;
+// IFK Tumba remains the ONLY playable club in this competition.
 const SWE_2: Club[] = [
-  club({ id: "swe2-anderstorp", competitionId: "swe-2", name: "Anderstorps SK", shortName: "Anderstorp", city: "Anderstorp", primaryColor: "#c8102e", secondaryColor: "#ffffff" }),
   club({ id: "swe2-aranas", competitionId: "swe-2", name: "HK Aranäs", shortName: "Aranäs", city: "Kungsbacka", primaryColor: "#1e3a8a", secondaryColor: "#e2b13c" }),
   club({ id: "swe2-drott", competitionId: "swe-2", name: "HK Drott Halmstad", shortName: "Drott", city: "Halmstad", primaryColor: "#c8102e", secondaryColor: "#111318" }),
-  club({ id: "swe2-torslanda", competitionId: "swe-2", name: "HK Torslanda Elit", shortName: "Torslanda", city: "Göteborg", primaryColor: "#0b6e4f", secondaryColor: "#ffffff" }),
-  club({ id: "swe2-varberg", competitionId: "swe-2", name: "HK Varberg", shortName: "Varberg", city: "Varberg", primaryColor: "#111318", secondaryColor: "#c8102e" }),
-  club({ id: "swe2-tumba", competitionId: "swe-2", name: "IFK Tumba HK", shortName: "IFK Tumba", playable: true, city: "Tumba", venue: "Tumba Sporthall", founded: 1969, primaryColor: "#1e3a8a", secondaryColor: "#ffffff" }),
-  club({ id: "swe2-karlskrona2", competitionId: "swe-2", name: "IFK Karlskrona", shortName: "IFK Karlskrona", city: "Karlskrona", primaryColor: "#1e3a8a", secondaryColor: "#ffffff" }),
-  club({ id: "swe2-ystad2", competitionId: "swe-2", name: "IFK Ystad", shortName: "IFK Ystad", city: "Ystad", primaryColor: "#1e3a8a", secondaryColor: "#ffffff" }),
-  club({ id: "swe2-lagan", competitionId: "swe-2", name: "IK Lågan", shortName: "Lågan", city: "Ljungby", primaryColor: "#0b6e4f", secondaryColor: "#ffffff" }),
+  club({ id: "swe2-guif", competitionId: "swe-2", name: "Eskilstuna Guif IF", shortName: "Guif", city: "Eskilstuna", primaryColor: "#c8102e", secondaryColor: "#111318" }),
+  club({ id: "swe2-h43lund", competitionId: "swe-2", name: "H43 Lund HF", shortName: "H43", city: "Lund", primaryColor: "#1e3a8a", secondaryColor: "#e2b13c" }),
+  club({ id: "swe2-huddinge", competitionId: "swe-2", name: "Huddinge HK", shortName: "Huddinge", city: "Huddinge", primaryColor: "#0b6e4f", secondaryColor: "#ffffff" }),
+  club({ id: "swe2-kroppskultur", competitionId: "swe-2", name: "GF Kroppskultur", shortName: "Kropps", city: "Uddevalla", primaryColor: "#111318", secondaryColor: "#c8102e" }),
   club({ id: "swe2-kungalv", competitionId: "swe-2", name: "Kungälvs HK", shortName: "Kungälv", city: "Kungälv", primaryColor: "#c8102e", secondaryColor: "#111318" }),
-  club({ id: "swe2-lugi", competitionId: "swe-2", name: "Lugi HF", shortName: "Lugi", city: "Lund", primaryColor: "#111318", secondaryColor: "#e2b13c" }),
+  club({ id: "swe2-redbergslid", competitionId: "swe-2", name: "Redbergslids IK", shortName: "Redbergslid", city: "Göteborg", primaryColor: "#111318", secondaryColor: "#e2b13c" }),
+  club({ id: "swe2-torslanda", competitionId: "swe-2", name: "HK Torslanda Elit", shortName: "Torslanda", city: "Göteborg", primaryColor: "#0b6e4f", secondaryColor: "#ffffff" }),
+  club({ id: "swe2-tumba", competitionId: "swe-2", name: "IFK Tumba HK", shortName: "IFK Tumba", playable: true, city: "Tumba", venue: "Tumba Sporthall", founded: 1969, primaryColor: "#1e3a8a", secondaryColor: "#ffffff" }),
   club({ id: "swe2-tyreso", competitionId: "swe-2", name: "Tyresö Handboll", shortName: "Tyresö", city: "Tyresö", primaryColor: "#1e3a8a", secondaryColor: "#ffffff" }),
-  club({ id: "swe2-vinslov", competitionId: "swe-2", name: "Vinslövs HK", shortName: "Vinslöv", city: "Vinslöv", primaryColor: "#c8102e", secondaryColor: "#ffffff" }),
-  club({ id: "swe2-skanela", competitionId: "swe-2", name: "Skånela IF", shortName: "Skånela", city: "Sigtuna", primaryColor: "#0b6e4f", secondaryColor: "#111318" }),
+  club({ id: "swe2-varberg", competitionId: "swe-2", name: "HK Varberg", shortName: "Varberg", city: "Varberg", primaryColor: "#111318", secondaryColor: "#c8102e" }),
+  club({ id: "swe2-vasterasirsta", competitionId: "swe-2", name: "VästeråsIrsta HF", shortName: "V.Irsta", city: "Västerås", primaryColor: "#1e3a8a", secondaryColor: "#ffffff" }),
+  club({ id: "swe2-ystad2", competitionId: "swe-2", name: "IFK Ystad HK", shortName: "IFK Ystad", city: "Ystad", primaryColor: "#1e3a8a", secondaryColor: "#ffffff" }),
 ];
 
 // --- Denmark, tier 1: Håndboldligaen --- verified full 14-club list (en.wikipedia.org).

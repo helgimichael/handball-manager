@@ -1,0 +1,144 @@
+{
+  "clubId": "swe2-tumba",
+  "season": "2026/27",
+  "sourceDocument": "IFK Tumba HK CLUB IDENTITY v0.1",
+  "people": [
+    {
+      "id": "person-mats-kardell-swe2-tumba",
+      "displayName": "Mats Kardell"
+    },
+    {
+      "id": "person-helgi-magnusson-swe2-tumba",
+      "displayName": "Helgi Magnusson"
+    },
+    {
+      "id": "person-malin-kardell-swe2-tumba",
+      "displayName": "Malin Kardell"
+    },
+    {
+      "id": "person-marie-hellkvist-swe2-tumba",
+      "displayName": "Marie Hellkvist"
+    },
+    {
+      "id": "person-samir-svedin-swe2-tumba",
+      "displayName": "Samir Svedin"
+    },
+    {
+      "id": "person-naman-raja-gul-swe2-tumba",
+      "displayName": "Naman Raja Gul"
+    }
+  ],
+  "assignments": [
+    {
+      "personId": "person-mats-kardell-swe2-tumba",
+      "clubId": "swe2-tumba",
+      "officialRole": "Huvudtränare",
+      "standardRoles": [
+        "HEAD_COACH"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-swe2-tumba-coaching-staff",
+          "sourceDocument": "IFK Tumba HK CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING STAFF"
+        }
+      ]
+    },
+    {
+      "personId": "person-helgi-magnusson-swe2-tumba",
+      "clubId": "swe2-tumba",
+      "officialRole": "Assisterande tränare / Analys / Utveckling",
+      "standardRoles": [
+        "ASSISTANT_COACH",
+        "ANALYST"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-swe2-tumba-coaching-staff",
+          "sourceDocument": "IFK Tumba HK CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING STAFF"
+        }
+      ]
+    },
+    {
+      "personId": "person-malin-kardell-swe2-tumba",
+      "clubId": "swe2-tumba",
+      "officialRole": "Lagledare",
+      "standardRoles": [
+        "TEAM_MANAGER"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-swe2-tumba-coaching-staff",
+          "sourceDocument": "IFK Tumba HK CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING STAFF"
+        }
+      ]
+    },
+    {
+      "personId": "person-marie-hellkvist-swe2-tumba",
+      "clubId": "swe2-tumba",
+      "officialRole": "Materialansvarig / Lagledare",
+      "standardRoles": [
+        "TEAM_MANAGER",
+        "EQUIPMENT_MANAGER"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-swe2-tumba-coaching-staff",
+          "sourceDocument": "IFK Tumba HK CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING STAFF"
+        }
+      ]
+    },
+    {
+      "personId": "person-samir-svedin-swe2-tumba",
+      "clubId": "swe2-tumba",
+      "officialRole": "Materialansvarig / Lagledare",
+      "standardRoles": [
+        "TEAM_MANAGER",
+        "EQUIPMENT_MANAGER"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-swe2-tumba-coaching-staff",
+          "sourceDocument": "IFK Tumba HK CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING STAFF"
+        }
+      ]
+    },
+    {
+      "personId": "person-naman-raja-gul-swe2-tumba",
+      "clubId": "swe2-tumba",
+      "officialRole": "Sportchef",
+      "standardRoles": [
+        "SPORTING_DIRECTOR"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-swe2-tumba-organisation",
+          "sourceDocument": "IFK Tumba HK CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "ORGANISATION"
+        }
+      ]
+    }
+  ]
+}

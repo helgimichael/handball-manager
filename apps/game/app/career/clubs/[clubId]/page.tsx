@@ -17,9 +17,54 @@ import { COMPETITIONS, getClub, playerAge, positionLabel } from "@/lib/game-data
 import { useCareer } from "@/lib/career/CareerContext";
 import { getCareerClubSquad } from "@/lib/career/careerWorld";
 import { getLiveStandings } from "@/lib/career/standings";
-import { selectCurrentStaffAssignments, type StaffAssignment, type StaffPerson } from "@/lib/identity";
+import { selectCurrentStaffAssignments, type ClubIdentityProfile, type CoachIdentityProfile, type IdentityClaim, type StaffAssignment, type StaffPerson } from "@/lib/identity";
 import ClubCrest from "@/components/ClubCrest";
 import { ClubLink, PlayerLink } from "@/components/entityLinks";
+
+const CLUB_IDENTITY_DOMAIN_LABELS: Record<keyof Omit<ClubIdentityProfile, "clubId" | "seasonReference">, string> = {
+  structuralIdentity: "Struktur & styrning",
+  cultureIdentity: "Kultur",
+  tacticalHeritage: "Taktiskt arv",
+  developmentIdentity: "Utveckling",
+  recruitmentIdentity: "Rekrytering",
+  financialStrategicIdentity: "Ekonomisk inriktning",
+  supporterEnvironmentIdentity: "Supportermiljö",
+};
+
+const COACH_CLAIM_LABELS: Record<keyof Omit<CoachIdentityProfile, "personId">, string> = {
+  coachingStyleClaims: "Tränarstil",
+  tacticalPreferenceClaims: "Taktiska preferenser",
+  communicationLeadershipClaims: "Kommunikation & ledarskap",
+  developmentClaims: "Spelarutveckling",
+  adaptabilityClaims: "Anpassningsförmåga",
+  cultureBuildingClaims: "Kulturbygge",
+};
+
+const EVIDENCE_CLASS_LABELS: Record<string, string> = {
+  VERIFIED_EXTERNAL_DATA: "Verifierad källa",
+  VERIFIED_EXTERNAL_CLUB_STRATEGY: "Verifierad klubbstrategi",
+  VERIFIED_EXTERNAL_CLUB_STATEMENT: "Verifierat klubbuttalande",
+  PROBABLE_EXTERNAL_DATA: "Sannolik källa",
+  USER_EXPERT_ASSESSMENT: "Expertbedömning",
+  USER_PROJECTION: "Prognos",
+  USER_EXPERT_REQUIRES_VERIFICATION: "Bedömning, ej verifierad",
+  INFERENCE: "Slutledning",
+  UNKNOWN_NOT_ASSESSED: "Okänt",
+};
+
+function ClaimRow({ claim }: { claim: IdentityClaim }) {
+  return (
+    <div className="hm-text-xs" style={{ display: "flex", justifyContent: "space-between", gap: 12, padding: "4px 0", borderBottom: "1px solid var(--hm-border-subtle, #2a2d34)" }}>
+      <span className="hm-text-muted">{claim.key}</span>
+      <span style={{ textAlign: "right" }}>
+        <span className="hm-td-strong">{String(claim.value)}</span>
+        <span className="hm-text-muted" style={{ marginLeft: 8, fontSize: "var(--hm-text-2xs)" }}>
+          {EVIDENCE_CLASS_LABELS[claim.evidenceClass] ?? claim.evidenceClass}
+        </span>
+      </span>
+    </div>
+  );
+}
 
 export default function ClubProfilePage() {
   const router = useRouter();
@@ -27,6 +72,7 @@ export default function ClubProfilePage() {
   const { career } = useCareer();
   const club = getClub(params.clubId);
   const [staff, setStaff] = useState<{ people: StaffPerson[]; assignments: StaffAssignment[] } | null>(null);
+  const [identity, setIdentity] = useState<{ clubIdentity: ClubIdentityProfile | null; coachIdentity: (CoachIdentityProfile & { personId: string }) | null } | null>(null);
 
   const isOwnClub = params.clubId === career.playerClubId;
 
@@ -51,6 +97,22 @@ export default function ClubProfilePage() {
       cancelled = true;
     };
   }, [club, isOwnClub]);
+
+  useEffect(() => {
+    if (!club || isOwnClub) return;
+    let cancelled = false;
+    fetch(`/api/game-world/club-identity-snapshot?clubId=${encodeURIComponent(club.id)}&asOfDate=${encodeURIComponent(career.gameDate)}`)
+      .then((res) => res.json())
+      .then((data) => {
+        if (!cancelled) setIdentity({ clubIdentity: data.clubIdentity ?? null, coachIdentity: data.coachIdentity ?? null });
+      })
+      .catch(() => {
+        if (!cancelled) setIdentity({ clubIdentity: null, coachIdentity: null });
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [club, isOwnClub, career.gameDate]);
 
   if (!club) {
     return (
@@ -165,6 +227,54 @@ export default function ClubProfilePage() {
               })}
             </tbody>
           </table>
+        )}
+      </div>
+
+      <div className="hm-panel">
+        <div className="hm-panel-header">
+          <span className="hm-panel-title">Klubbidentitet</span>
+        </div>
+        {identity === null ? (
+          <div className="hm-panel-body hm-text-muted">Läser in…</div>
+        ) : !identity.clubIdentity ? (
+          <div className="hm-panel-body hm-text-muted">Ingen klubbidentitetsdata tillgänglig för denna klubb ännu.</div>
+        ) : (
+          <div className="hm-panel-body" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 16 }}>
+            {(Object.keys(CLUB_IDENTITY_DOMAIN_LABELS) as (keyof typeof CLUB_IDENTITY_DOMAIN_LABELS)[])
+              .filter((field) => identity.clubIdentity![field].length > 0)
+              .map((field) => (
+                <div key={field}>
+                  <div className="hm-eyebrow">{CLUB_IDENTITY_DOMAIN_LABELS[field]}</div>
+                  {identity.clubIdentity![field].map((claim) => (
+                    <ClaimRow key={claim.id} claim={claim} />
+                  ))}
+                </div>
+              ))}
+          </div>
+        )}
+      </div>
+
+      <div className="hm-panel">
+        <div className="hm-panel-header">
+          <span className="hm-panel-title">Tränarfilosofi</span>
+        </div>
+        {identity === null ? (
+          <div className="hm-panel-body hm-text-muted">Läser in…</div>
+        ) : !identity.coachIdentity ? (
+          <div className="hm-panel-body hm-text-muted">Ingen bedömd tränarfilosofi tillgänglig för nuvarande huvudtränare.</div>
+        ) : (
+          <div className="hm-panel-body" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 16 }}>
+            {(Object.keys(COACH_CLAIM_LABELS) as (keyof typeof COACH_CLAIM_LABELS)[])
+              .filter((field) => identity.coachIdentity![field].length > 0)
+              .map((field) => (
+                <div key={field}>
+                  <div className="hm-eyebrow">{COACH_CLAIM_LABELS[field]}</div>
+                  {identity.coachIdentity![field].map((claim) => (
+                    <ClaimRow key={claim.id} claim={claim} />
+                  ))}
+                </div>
+              ))}
+          </div>
         )}
       </div>
 

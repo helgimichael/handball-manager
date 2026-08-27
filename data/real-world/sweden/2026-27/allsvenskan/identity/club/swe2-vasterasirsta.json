@@ -1,0 +1,135 @@
+{
+  "clubId": "swe2-vasterasirsta",
+  "sourceDocument": "VästeråsIrsta HF CLUB IDENTITY v0.1",
+  "evidenceReferences": [
+    {
+      "id": "ev-swe2-vasterasirsta-tactical-domain-mapping",
+      "sourceDocument": "VästeråsIrsta HF CLUB IDENTITY v0.1",
+      "sourceType": "APPROVED_PROFILE_DOCX",
+      "locator": "TACTICAL/CLUB DOMAIN MAPPING"
+    }
+  ],
+  "profile": {
+    "clubId": "swe2-vasterasirsta",
+    "seasonReference": "2026/27",
+    "structuralIdentity": [
+      {
+        "id": "club-swe2-vasterasirsta-structuralIdentity-sportinggovernance",
+        "subjectType": "CLUB",
+        "subjectId": "swe2-vasterasirsta",
+        "domain": "STRUCTURAL",
+        "key": "sportingGovernance",
+        "value": "SPORTING_DIRECTOR_HIGH_PROXIMITY",
+        "evidenceClass": "VERIFIED_EXTERNAL_DATA",
+        "temporalScope": "CURRENT",
+        "sourceRefs": [
+          "ev-swe2-vasterasirsta-tactical-domain-mapping"
+        ]
+      },
+      {
+        "id": "club-swe2-vasterasirsta-structuralIdentity-leaguestatus2026-27",
+        "subjectType": "CLUB",
+        "subjectId": "swe2-vasterasirsta",
+        "domain": "STRUCTURAL",
+        "key": "leagueStatus2026_27",
+        "value": "RELEGATED_FROM_HANDBOLLSLIGAN",
+        "evidenceClass": "VERIFIED_EXTERNAL_DATA",
+        "temporalScope": "CURRENT",
+        "sourceRefs": [
+          "ev-swe2-vasterasirsta-tactical-domain-mapping"
+        ]
+      }
+    ],
+    "cultureIdentity": [
+      {
+        "id": "club-swe2-vasterasirsta-cultureIdentity-clubmodelcontinuity",
+        "subjectType": "CLUB",
+        "subjectId": "swe2-vasterasirsta",
+        "domain": "SQUAD_COMPOSITION",
+        "key": "clubModelContinuity",
+        "value": "HIGH_DESPITE_NEW_COACH",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "CURRENT",
+        "sourceRefs": [
+          "ev-swe2-vasterasirsta-tactical-domain-mapping"
+        ],
+        "notes": "The club's long-term squad-building philosophy is much clearer than the first-team tactical identity entering 2026/27."
+      }
+    ],
+    "tacticalHeritage": [],
+    "developmentIdentity": [
+      {
+        "id": "club-swe2-vasterasirsta-developmentIdentity-youthbreadth",
+        "subjectType": "CLUB",
+        "subjectId": "swe2-vasterasirsta",
+        "domain": "DEVELOPMENT",
+        "key": "youthBreadth",
+        "value": "VERY_STRONG",
+        "evidenceClass": "VERIFIED_EXTERNAL_DATA",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-swe2-vasterasirsta-tactical-domain-mapping"
+        ]
+      }
+    ],
+    "recruitmentIdentity": [
+      {
+        "id": "club-swe2-vasterasirsta-recruitmentIdentity-sportingmodel",
+        "subjectType": "CLUB",
+        "subjectId": "swe2-vasterasirsta",
+        "domain": "RECRUITMENT",
+        "key": "sportingModel",
+        "value": "PLAYER_DEVELOPMENT_AND_TRADING",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-swe2-vasterasirsta-tactical-domain-mapping"
+        ],
+        "notes": "IDENTIFY -> ACQUIRE VALUE -> DEVELOP -> APPRECIATE -> SELL -> REINVEST -- explicit core club model."
+      },
+      {
+        "id": "club-swe2-vasterasirsta-recruitmentIdentity-buyloworientation",
+        "subjectType": "CLUB",
+        "subjectId": "swe2-vasterasirsta",
+        "domain": "RECRUITMENT",
+        "key": "buyLowOrientation",
+        "value": "VERY_HIGH_PRIORITY",
+        "evidenceClass": "VERIFIED_EXTERNAL_CLUB_STRATEGY",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-swe2-vasterasirsta-tactical-domain-mapping"
+        ]
+      },
+      {
+        "id": "club-swe2-vasterasirsta-recruitmentIdentity-recruitmentagepreference",
+        "subjectType": "CLUB",
+        "subjectId": "swe2-vasterasirsta",
+        "domain": "RECRUITMENT",
+        "key": "recruitmentAgePreference",
+        "value": "YOUNG",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-swe2-vasterasirsta-tactical-domain-mapping"
+        ]
+      }
+    ],
+    "financialStrategicIdentity": [
+      {
+        "id": "club-swe2-vasterasirsta-financialStrategicIdentity-clubwealthvsrecruitmentintelligence",
+        "subjectType": "CLUB",
+        "subjectId": "swe2-vasterasirsta",
+        "domain": "FINANCIAL_STRATEGIC",
+        "key": "clubWealthVsRecruitmentIntelligence",
+        "value": "NOT_EQUIVALENT",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-swe2-vasterasirsta-tactical-domain-mapping"
+        ],
+        "notes": "A strong sporting director can build a squad above the level suggested by raw spending power through superior identification of undervalued potential."
+      }
+    ],
+    "supporterEnvironmentIdentity": []
+  }
+}

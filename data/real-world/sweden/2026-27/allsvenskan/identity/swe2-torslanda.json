@@ -1,0 +1,141 @@
+{
+  "clubId": "swe2-torslanda",
+  "season": "2026/27",
+  "sourceDocument": "HK Torslanda Elit CLUB IDENTITY v0.1",
+  "people": [
+    {
+      "id": "person-tommy-atterhall-swe2-torslanda",
+      "displayName": "Tommy Atterhäll"
+    },
+    {
+      "id": "person-sebastian-wiik-swe2-torslanda",
+      "displayName": "Sebastian Wiik"
+    },
+    {
+      "id": "person-nikolas-alektoridis-swe2-torslanda",
+      "displayName": "Nikolas Alektoridis"
+    },
+    {
+      "id": "person-malin-fors-swe2-torslanda",
+      "displayName": "Malin Fors"
+    },
+    {
+      "id": "person-peter-neuwirth-swe2-torslanda",
+      "displayName": "Peter Neuwirth"
+    },
+    {
+      "id": "person-ralf-carlson-swe2-torslanda",
+      "displayName": "Ralf Carlson"
+    }
+  ],
+  "assignments": [
+    {
+      "personId": "person-tommy-atterhall-swe2-torslanda",
+      "clubId": "swe2-torslanda",
+      "officialRole": "Huvudtränare",
+      "standardRoles": [
+        "HEAD_COACH"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-swe2-torslanda-coaching-staff",
+          "sourceDocument": "HK Torslanda Elit CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING STAFF"
+        }
+      ]
+    },
+    {
+      "personId": "person-sebastian-wiik-swe2-torslanda",
+      "clubId": "swe2-torslanda",
+      "officialRole": "Tränare",
+      "standardRoles": [
+        "ASSISTANT_COACH"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-swe2-torslanda-coaching-staff",
+          "sourceDocument": "HK Torslanda Elit CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING STAFF"
+        }
+      ]
+    },
+    {
+      "personId": "person-nikolas-alektoridis-swe2-torslanda",
+      "clubId": "swe2-torslanda",
+      "officialRole": "Fystränare/fysiolog",
+      "standardRoles": [
+        "STRENGTH_CONDITIONING_COACH"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-swe2-torslanda-coaching-staff",
+          "sourceDocument": "HK Torslanda Elit CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING STAFF"
+        }
+      ]
+    },
+    {
+      "personId": "person-malin-fors-swe2-torslanda",
+      "clubId": "swe2-torslanda",
+      "officialRole": "Massör",
+      "standardRoles": [
+        "PHYSIOTHERAPIST"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-swe2-torslanda-coaching-staff",
+          "sourceDocument": "HK Torslanda Elit CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING STAFF"
+        }
+      ]
+    },
+    {
+      "personId": "person-peter-neuwirth-swe2-torslanda",
+      "clubId": "swe2-torslanda",
+      "officialRole": "Materialansvarig",
+      "standardRoles": [
+        "EQUIPMENT_MANAGER"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-swe2-torslanda-coaching-staff",
+          "sourceDocument": "HK Torslanda Elit CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING STAFF"
+        }
+      ]
+    },
+    {
+      "personId": "person-ralf-carlson-swe2-torslanda",
+      "clubId": "swe2-torslanda",
+      "officialRole": "Materialansvarig",
+      "standardRoles": [
+        "EQUIPMENT_MANAGER"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-swe2-torslanda-coaching-staff",
+          "sourceDocument": "HK Torslanda Elit CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING STAFF"
+        }
+      ]
+    }
+  ]
+}

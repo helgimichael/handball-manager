@@ -1,0 +1,164 @@
+{
+  "clubId": "swe2-vasterasirsta",
+  "season": "2026/27",
+  "sourceDocument": "VästeråsIrsta HF CLUB IDENTITY v0.1",
+  "people": [
+    {
+      "id": "person-anton-andreasson-swe2-vasterasirsta",
+      "displayName": "Anton Andreasson"
+    },
+    {
+      "id": "person-joakim-eriksson-swe2-vasterasirsta",
+      "displayName": "Joakim Eriksson"
+    },
+    {
+      "id": "person-tobias-sjoberg-swe2-vasterasirsta",
+      "displayName": "Tobias Sjöberg"
+    },
+    {
+      "id": "person-mans-sjogreen-swe2-vasterasirsta",
+      "displayName": "Måns Sjögreen"
+    },
+    {
+      "id": "person-bjorn-tornkvist-swe2-vasterasirsta",
+      "displayName": "Björn Törnkvist"
+    },
+    {
+      "id": "person-suss-lofgren-swe2-vasterasirsta",
+      "displayName": "Suss Löfgren"
+    },
+    {
+      "id": "person-mattias-zachrisson-swe2-vasterasirsta",
+      "displayName": "Mattias Zachrisson"
+    }
+  ],
+  "assignments": [
+    {
+      "personId": "person-anton-andreasson-swe2-vasterasirsta",
+      "clubId": "swe2-vasterasirsta",
+      "officialRole": "Huvudtränare",
+      "standardRoles": [
+        "HEAD_COACH"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-swe2-vasterasirsta-coaching-staff",
+          "sourceDocument": "VästeråsIrsta HF CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING STAFF"
+        }
+      ]
+    },
+    {
+      "personId": "person-joakim-eriksson-swe2-vasterasirsta",
+      "clubId": "swe2-vasterasirsta",
+      "officialRole": "Assisterande tränare",
+      "standardRoles": [
+        "ASSISTANT_COACH"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-swe2-vasterasirsta-coaching-staff",
+          "sourceDocument": "VästeråsIrsta HF CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING STAFF"
+        }
+      ]
+    },
+    {
+      "personId": "person-tobias-sjoberg-swe2-vasterasirsta",
+      "clubId": "swe2-vasterasirsta",
+      "officialRole": "Målvaktstränare",
+      "standardRoles": [
+        "GOALKEEPER_COACH"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-swe2-vasterasirsta-coaching-staff",
+          "sourceDocument": "VästeråsIrsta HF CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING STAFF"
+        }
+      ]
+    },
+    {
+      "personId": "person-mans-sjogreen-swe2-vasterasirsta",
+      "clubId": "swe2-vasterasirsta",
+      "officialRole": "Fysioterapeut / fystränare",
+      "standardRoles": [
+        "PHYSIOTHERAPIST",
+        "STRENGTH_CONDITIONING_COACH"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-swe2-vasterasirsta-coaching-staff",
+          "sourceDocument": "VästeråsIrsta HF CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING STAFF"
+        }
+      ]
+    },
+    {
+      "personId": "person-bjorn-tornkvist-swe2-vasterasirsta",
+      "clubId": "swe2-vasterasirsta",
+      "officialRole": "Lagledare",
+      "standardRoles": [
+        "TEAM_MANAGER"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-swe2-vasterasirsta-coaching-staff",
+          "sourceDocument": "VästeråsIrsta HF CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING STAFF"
+        }
+      ]
+    },
+    {
+      "personId": "person-suss-lofgren-swe2-vasterasirsta",
+      "clubId": "swe2-vasterasirsta",
+      "officialRole": "Lagledare",
+      "standardRoles": [
+        "TEAM_MANAGER"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-swe2-vasterasirsta-coaching-staff",
+          "sourceDocument": "VästeråsIrsta HF CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING STAFF"
+        }
+      ]
+    },
+    {
+      "personId": "person-mattias-zachrisson-swe2-vasterasirsta",
+      "clubId": "swe2-vasterasirsta",
+      "officialRole": "Sportchef",
+      "standardRoles": [
+        "SPORTING_DIRECTOR"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-swe2-vasterasirsta-organisation",
+          "sourceDocument": "VästeråsIrsta HF CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "ORGANISATION"
+        }
+      ]
+    }
+  ]
+}

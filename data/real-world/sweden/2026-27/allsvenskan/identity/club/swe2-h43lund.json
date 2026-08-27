@@ -1,0 +1,121 @@
+{
+  "clubId": "swe2-h43lund",
+  "sourceDocument": "H43 Lund HF CLUB IDENTITY v0.1",
+  "evidenceReferences": [
+    {
+      "id": "ev-swe2-h43lund-tactical-domain-mapping",
+      "sourceDocument": "H43 Lund HF CLUB IDENTITY v0.1",
+      "sourceType": "APPROVED_PROFILE_DOCX",
+      "locator": "TACTICAL/CLUB DOMAIN MAPPING"
+    }
+  ],
+  "profile": {
+    "clubId": "swe2-h43lund",
+    "seasonReference": "2026/27",
+    "structuralIdentity": [],
+    "cultureIdentity": [
+      {
+        "id": "club-swe2-h43lund-cultureIdentity-collectiveorientation",
+        "subjectType": "CLUB",
+        "subjectId": "swe2-h43lund",
+        "domain": "CULTURE",
+        "key": "collectiveOrientation",
+        "value": "VERY_HIGH",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-swe2-h43lund-tactical-domain-mapping"
+        ],
+        "notes": "Low star dependency; strength lies in execution quality rather than tactical complexity."
+      }
+    ],
+    "tacticalHeritage": [
+      {
+        "id": "club-swe2-h43lund-tacticalHeritage-primaryformation",
+        "subjectType": "CLUB",
+        "subjectId": "swe2-h43lund",
+        "domain": "DEFENCE",
+        "key": "primaryFormation",
+        "value": "6:0",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-swe2-h43lund-tactical-domain-mapping"
+        ]
+      },
+      {
+        "id": "club-swe2-h43lund-tacticalHeritage-alternativeformation",
+        "subjectType": "CLUB",
+        "subjectId": "swe2-h43lund",
+        "domain": "DEFENCE",
+        "key": "alternativeFormation",
+        "value": "5:1",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-swe2-h43lund-tactical-domain-mapping"
+        ]
+      },
+      {
+        "id": "club-swe2-h43lund-tacticalHeritage-rullespelasprimaryweapon",
+        "subjectType": "CLUB",
+        "subjectId": "swe2-h43lund",
+        "domain": "ATTACK",
+        "key": "rullespelAsPrimaryWeapon",
+        "value": "PRIMARY_OFFENSIVE_WEAPON",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-swe2-h43lund-tactical-domain-mapping"
+        ],
+        "notes": "Release ball -> move defence -> next player attacks -> continue rullespel. Simple, high execution quality."
+      }
+    ],
+    "developmentIdentity": [
+      {
+        "id": "club-swe2-h43lund-developmentIdentity-communityorientation",
+        "subjectType": "CLUB",
+        "subjectId": "swe2-h43lund",
+        "domain": "DEVELOPMENT",
+        "key": "communityOrientation",
+        "value": "STRONG",
+        "evidenceClass": "VERIFIED_EXTERNAL_DATA",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-swe2-h43lund-tactical-domain-mapping"
+        ]
+      },
+      {
+        "id": "club-swe2-h43lund-developmentIdentity-youthbreadth",
+        "subjectType": "CLUB",
+        "subjectId": "swe2-h43lund",
+        "domain": "DEVELOPMENT",
+        "key": "youthBreadth",
+        "value": "STRONG",
+        "evidenceClass": "VERIFIED_EXTERNAL_DATA",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-swe2-h43lund-tactical-domain-mapping"
+        ]
+      }
+    ],
+    "recruitmentIdentity": [],
+    "financialStrategicIdentity": [
+      {
+        "id": "club-swe2-h43lund-financialStrategicIdentity-financialstrength",
+        "subjectType": "CLUB",
+        "subjectId": "swe2-h43lund",
+        "domain": "FINANCIAL_STRATEGIC",
+        "key": "financialStrength",
+        "value": "RECENT_STRESS_STABILIZED",
+        "evidenceClass": "VERIFIED_EXTERNAL_DATA",
+        "temporalScope": "CURRENT",
+        "sourceRefs": [
+          "ev-swe2-h43lund-tactical-domain-mapping"
+        ],
+        "notes": "Publicly communicated 2026 liquidity challenges, subsequently stabilized."
+      }
+    ],
+    "supporterEnvironmentIdentity": []
+  }
+}

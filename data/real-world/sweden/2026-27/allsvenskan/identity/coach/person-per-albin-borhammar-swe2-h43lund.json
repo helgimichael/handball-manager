@@ -1,0 +1,64 @@
+{
+  "personId": "person-per-albin-borhammar-swe2-h43lund",
+  "clubId": "swe2-h43lund",
+  "sourceDocument": "H43 Lund HF CLUB IDENTITY v0.1",
+  "evidenceReferences": [
+    {
+      "id": "ev-per-albin-borhammar-swe2-h43lund-coaching-development",
+      "sourceDocument": "H43 Lund HF CLUB IDENTITY v0.1",
+      "sourceType": "APPROVED_PROFILE_DOCX",
+      "locator": "COACHING / DEVELOPMENT IDENTITY"
+    }
+  ],
+  "profile": {
+    "personId": "person-per-albin-borhammar-swe2-h43lund",
+    "coachingStyleClaims": [
+      {
+        "id": "coach-per-albin-borhammar-swe2-h43lund-complexitypreference",
+        "subjectType": "COACH",
+        "subjectId": "person-per-albin-borhammar-swe2-h43lund",
+        "domain": "TACTICAL_COGNITIVE",
+        "key": "complexityPreference",
+        "value": "LOW_MODERATE",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-per-albin-borhammar-swe2-h43lund-coaching-development"
+        ]
+      }
+    ],
+    "tacticalPreferenceClaims": [],
+    "communicationLeadershipClaims": [
+      {
+        "id": "coach-per-albin-borhammar-swe2-h43lund-roleclarity",
+        "subjectType": "COACH",
+        "subjectId": "person-per-albin-borhammar-swe2-h43lund",
+        "domain": "LEADERSHIP",
+        "key": "roleClarity",
+        "value": "HIGH",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-per-albin-borhammar-swe2-h43lund-coaching-development"
+        ]
+      }
+    ],
+    "developmentClaims": [],
+    "adaptabilityClaims": [],
+    "cultureBuildingClaims": [
+      {
+        "id": "coach-per-albin-borhammar-swe2-h43lund-collectivebuilding",
+        "subjectType": "COACH",
+        "subjectId": "person-per-albin-borhammar-swe2-h43lund",
+        "domain": "CULTURE",
+        "key": "collectiveBuilding",
+        "value": "VERY_HIGH",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-per-albin-borhammar-swe2-h43lund-coaching-development"
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,229 @@
+{
+  "clubId": "swe2-guif",
+  "season": "2026/27",
+  "sourceDocument": "Eskilstuna Guif IF CLUB IDENTITY v0.1",
+  "people": [
+    {
+      "id": "person-stephan-eriksson-swe2-guif",
+      "displayName": "Stephan Eriksson"
+    },
+    {
+      "id": "person-ludwig-krontorp-swe2-guif",
+      "displayName": "Ludwig Krontorp"
+    },
+    {
+      "id": "person-jesper-nielsen-swe2-guif",
+      "displayName": "Jesper Nielsen"
+    },
+    {
+      "id": "person-stefan-karlsson-swe2-guif",
+      "displayName": "Stefan Karlsson"
+    },
+    {
+      "id": "person-mikael-lofstedt-johansson-swe2-guif",
+      "displayName": "Mikael Löfstedt Johansson"
+    },
+    {
+      "id": "person-richard-larsson-swe2-guif",
+      "displayName": "Richard Larsson"
+    },
+    {
+      "id": "person-gunnar-logdahl-swe2-guif",
+      "displayName": "Gunnar Lögdahl"
+    },
+    {
+      "id": "person-mats-johansson-swe2-guif",
+      "displayName": "Mats Johansson"
+    },
+    {
+      "id": "person-jonas-andreasson-swe2-guif",
+      "displayName": "Jonas Andreasson"
+    },
+    {
+      "id": "person-peter-skog-swe2-guif",
+      "displayName": "Peter Skog"
+    }
+  ],
+  "assignments": [
+    {
+      "personId": "person-stephan-eriksson-swe2-guif",
+      "clubId": "swe2-guif",
+      "officialRole": "Tillförordnad ordförande",
+      "standardRoles": [
+        "CHAIRPERSON"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-swe2-guif-organisation",
+          "sourceDocument": "Eskilstuna Guif IF CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "ORGANISATION"
+        }
+      ]
+    },
+    {
+      "personId": "person-ludwig-krontorp-swe2-guif",
+      "clubId": "swe2-guif",
+      "officialRole": "Klubbchef",
+      "standardRoles": [
+        "CLUB_DIRECTOR"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-swe2-guif-organisation",
+          "sourceDocument": "Eskilstuna Guif IF CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "ORGANISATION"
+        }
+      ]
+    },
+    {
+      "personId": "person-jesper-nielsen-swe2-guif",
+      "clubId": "swe2-guif",
+      "officialRole": "Sportchef Herr/Dam",
+      "standardRoles": [
+        "SPORTING_DIRECTOR"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-swe2-guif-organisation",
+          "sourceDocument": "Eskilstuna Guif IF CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "ORGANISATION"
+        }
+      ]
+    },
+    {
+      "personId": "person-stefan-karlsson-swe2-guif",
+      "clubId": "swe2-guif",
+      "officialRole": "Huvudtränare",
+      "standardRoles": [
+        "HEAD_COACH"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-swe2-guif-coaching-staff",
+          "sourceDocument": "Eskilstuna Guif IF CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING STAFF"
+        }
+      ]
+    },
+    {
+      "personId": "person-mikael-lofstedt-johansson-swe2-guif",
+      "clubId": "swe2-guif",
+      "officialRole": "Assisterande tränare",
+      "standardRoles": [
+        "ASSISTANT_COACH"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-swe2-guif-coaching-staff",
+          "sourceDocument": "Eskilstuna Guif IF CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING STAFF"
+        }
+      ]
+    },
+    {
+      "personId": "person-richard-larsson-swe2-guif",
+      "clubId": "swe2-guif",
+      "officialRole": "Målvaktstränare",
+      "standardRoles": [
+        "GOALKEEPER_COACH"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-swe2-guif-coaching-staff",
+          "sourceDocument": "Eskilstuna Guif IF CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING STAFF"
+        }
+      ]
+    },
+    {
+      "personId": "person-gunnar-logdahl-swe2-guif",
+      "clubId": "swe2-guif",
+      "officialRole": "Fystränare",
+      "standardRoles": [
+        "STRENGTH_CONDITIONING_COACH"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-swe2-guif-coaching-staff",
+          "sourceDocument": "Eskilstuna Guif IF CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING STAFF"
+        }
+      ]
+    },
+    {
+      "personId": "person-mats-johansson-swe2-guif",
+      "clubId": "swe2-guif",
+      "officialRole": "Lagledare",
+      "standardRoles": [
+        "TEAM_MANAGER"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-swe2-guif-coaching-staff",
+          "sourceDocument": "Eskilstuna Guif IF CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING STAFF"
+        }
+      ]
+    },
+    {
+      "personId": "person-jonas-andreasson-swe2-guif",
+      "clubId": "swe2-guif",
+      "officialRole": "Fysioterapeut",
+      "standardRoles": [
+        "PHYSIOTHERAPIST"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-swe2-guif-coaching-staff",
+          "sourceDocument": "Eskilstuna Guif IF CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING STAFF"
+        }
+      ]
+    },
+    {
+      "personId": "person-peter-skog-swe2-guif",
+      "clubId": "swe2-guif",
+      "officialRole": "Fysioterapeut",
+      "standardRoles": [
+        "PHYSIOTHERAPIST"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-swe2-guif-coaching-staff",
+          "sourceDocument": "Eskilstuna Guif IF CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING STAFF"
+        }
+      ]
+    }
+  ]
+}

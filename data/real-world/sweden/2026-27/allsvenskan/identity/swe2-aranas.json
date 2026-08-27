@@ -1,0 +1,31 @@
+{
+  "clubId": "swe2-aranas",
+  "season": "2026/27",
+  "sourceDocument": "HK Aranäs CLUB IDENTITY v0.1",
+  "people": [
+    {
+      "id": "person-carlos-martin-santos-swe2-aranas",
+      "displayName": "Carlos Martin Santos"
+    }
+  ],
+  "assignments": [
+    {
+      "personId": "person-carlos-martin-santos-swe2-aranas",
+      "clubId": "swe2-aranas",
+      "officialRole": "Huvudtränare",
+      "standardRoles": [
+        "HEAD_COACH"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-swe2-aranas-coaching-staff",
+          "sourceDocument": "HK Aranäs CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING STAFF"
+        }
+      ]
+    }
+  ]
+}

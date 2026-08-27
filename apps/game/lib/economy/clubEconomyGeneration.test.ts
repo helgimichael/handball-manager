@@ -56,8 +56,10 @@ test("(7) not every club is owner-backed -- ownerFundingEur is 0 for some clubs,
   assert.ok(fundings.some((f) => f > 0), "expected at least one owner-backed club");
 });
 
-test("(8) every baseline is honestly tagged GENERATED/LOW confidence -- no real financial data exists to claim otherwise", () => {
-  const baseline = generateClubEconomyBaseline("swe2-tumba", 2);
+test("(8) a club with no HM-DATA-ALLSVENSKAN-1.0 economic signal is honestly tagged GENERATED/LOW confidence -- no real financial data exists to claim otherwise", () => {
+  // swe2-tumba now carries an explicit qualitative financial-posture signal (clubEconomySignals.ts),
+  // sourced from its own CLUB IDENTITY v0.1 profile, so it is intentionally ANCHORED/MEDIUM instead -- see clubEconomySignals.test.ts.
+  const baseline = generateClubEconomyBaseline("some-fictional-club-with-no-signal", 2);
   assert.equal(baseline.provenance, "GENERATED");
   assert.equal(baseline.confidence, "LOW");
   assert.ok(baseline.calibrationVersion.length > 0);

@@ -100,7 +100,7 @@ test("(5c) bookFriendly rejects a date already used by the manager's own club", 
   const state = freshTumba("book-3");
   const ownFixture = state.fixtures.find((f) => f.homeClubId === TUMBA_CLUB_ID || f.awayClubId === TUMBA_CLUB_ID)!;
   const otherOpponent = state.fixtures.find((f) => f.type === "LEAGUE" && f.homeClubId !== TUMBA_CLUB_ID && f.awayClubId !== TUMBA_CLUB_ID)?.homeClubId;
-  const result = bookFriendly(state, ownFixture.date, otherOpponent ?? "swe2-lagan");
+  const result = bookFriendly(state, ownFixture.date, otherOpponent ?? "swe2-varberg");
   assert.equal(result.ok, false);
 });
 

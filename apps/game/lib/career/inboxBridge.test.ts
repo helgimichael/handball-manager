@@ -110,7 +110,7 @@ test("MATCH_COMPLETED deep-links to Match Report and Last Match Analysis, never 
 
 test("OPPONENT_REPORT_READY deep-links directly to Opponent Analysis", () => {
   const career = freshCareer();
-  const message = careerEventToInboxMessage(buildOpponentReportReadyEvent("task-1", "swe2-anderstorp", "2026-08-20"), career);
+  const message = careerEventToInboxMessage(buildOpponentReportReadyEvent("task-1", "swe2-varberg", "2026-08-20"), career);
   assert.deepEqual(message.destinations, [{ route: "ANALYSIS_OPPONENT" }]);
   assert.equal(resolveDestinationHref({ route: "ANALYSIS_OPPONENT" }), "/career/analysis/opponent");
 });

@@ -1,0 +1,63 @@
+{
+  "personId": "person-tommy-atterhall-swe2-torslanda",
+  "clubId": "swe2-torslanda",
+  "sourceDocument": "HK Torslanda Elit CLUB IDENTITY v0.1",
+  "evidenceReferences": [
+    {
+      "id": "ev-tommy-atterhall-swe2-torslanda-coaching-development",
+      "sourceDocument": "HK Torslanda Elit CLUB IDENTITY v0.1",
+      "sourceType": "APPROVED_PROFILE_DOCX",
+      "locator": "COACHING / DEVELOPMENT IDENTITY"
+    }
+  ],
+  "profile": {
+    "personId": "person-tommy-atterhall-swe2-torslanda",
+    "coachingStyleClaims": [
+      {
+        "id": "coach-tommy-atterhall-swe2-torslanda-defensivecoaching",
+        "subjectType": "COACH",
+        "subjectId": "person-tommy-atterhall-swe2-torslanda",
+        "domain": "DEFENCE",
+        "key": "defensiveCoaching",
+        "value": "WEAK",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-tommy-atterhall-swe2-torslanda-coaching-development"
+        ]
+      }
+    ],
+    "tacticalPreferenceClaims": [
+      {
+        "id": "coach-tommy-atterhall-swe2-torslanda-transitioncoaching",
+        "subjectType": "COACH",
+        "subjectId": "person-tommy-atterhall-swe2-torslanda",
+        "domain": "TRANSITION",
+        "key": "transitionCoaching",
+        "value": "VERY_STRONG",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-tommy-atterhall-swe2-torslanda-coaching-development"
+        ]
+      },
+      {
+        "id": "coach-tommy-atterhall-swe2-torslanda-sevenvsixwillingness",
+        "subjectType": "COACH",
+        "subjectId": "person-tommy-atterhall-swe2-torslanda",
+        "domain": "TACTICAL_PREFERENCE",
+        "key": "sevenVSixWillingness",
+        "value": "POSITIVE_WILL_USE",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-tommy-atterhall-swe2-torslanda-coaching-development"
+        ]
+      }
+    ],
+    "communicationLeadershipClaims": [],
+    "developmentClaims": [],
+    "adaptabilityClaims": [],
+    "cultureBuildingClaims": []
+  }
+}

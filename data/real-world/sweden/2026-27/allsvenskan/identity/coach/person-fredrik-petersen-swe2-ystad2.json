@@ -1,0 +1,64 @@
+{
+  "personId": "person-fredrik-petersen-swe2-ystad2",
+  "clubId": "swe2-ystad2",
+  "sourceDocument": "IFK Ystad HK CLUB IDENTITY v0.1",
+  "evidenceReferences": [
+    {
+      "id": "ev-fredrik-petersen-swe2-ystad2-coaching-development",
+      "sourceDocument": "IFK Ystad HK CLUB IDENTITY v0.1",
+      "sourceType": "APPROVED_PROFILE_DOCX",
+      "locator": "COACHING / DEVELOPMENT IDENTITY"
+    }
+  ],
+  "profile": {
+    "personId": "person-fredrik-petersen-swe2-ystad2",
+    "coachingStyleClaims": [
+      {
+        "id": "coach-fredrik-petersen-swe2-ystad2-overcomplicationrisk",
+        "subjectType": "COACH",
+        "subjectId": "person-fredrik-petersen-swe2-ystad2",
+        "domain": "TACTICAL_COGNITIVE",
+        "key": "overcomplicationRisk",
+        "value": "HIGH",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-fredrik-petersen-swe2-ystad2-coaching-development"
+        ]
+      }
+    ],
+    "tacticalPreferenceClaims": [
+      {
+        "id": "coach-fredrik-petersen-swe2-ystad2-systemrepertoire",
+        "subjectType": "COACH",
+        "subjectId": "person-fredrik-petersen-swe2-ystad2",
+        "domain": "TACTICAL_FLEXIBILITY",
+        "key": "systemRepertoire",
+        "value": "VERY_BROAD",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-fredrik-petersen-swe2-ystad2-coaching-development"
+        ]
+      }
+    ],
+    "communicationLeadershipClaims": [
+      {
+        "id": "coach-fredrik-petersen-swe2-ystad2-playerdemands",
+        "subjectType": "COACH",
+        "subjectId": "person-fredrik-petersen-swe2-ystad2",
+        "domain": "LEADERSHIP",
+        "key": "playerDemands",
+        "value": "VERY_HIGH",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-fredrik-petersen-swe2-ystad2-coaching-development"
+        ]
+      }
+    ],
+    "developmentClaims": [],
+    "adaptabilityClaims": [],
+    "cultureBuildingClaims": []
+  }
+}

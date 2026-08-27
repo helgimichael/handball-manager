@@ -1,0 +1,50 @@
+{
+  "personId": "person-anton-andreasson-swe2-vasterasirsta",
+  "clubId": "swe2-vasterasirsta",
+  "sourceDocument": "VästeråsIrsta HF CLUB IDENTITY v0.1",
+  "evidenceReferences": [
+    {
+      "id": "ev-anton-andreasson-swe2-vasterasirsta-coaching-development",
+      "sourceDocument": "VästeråsIrsta HF CLUB IDENTITY v0.1",
+      "sourceType": "APPROVED_PROFILE_DOCX",
+      "locator": "COACHING / DEVELOPMENT IDENTITY"
+    }
+  ],
+  "profile": {
+    "personId": "person-anton-andreasson-swe2-vasterasirsta",
+    "coachingStyleClaims": [
+      {
+        "id": "coach-anton-andreasson-swe2-vasterasirsta-careerstage",
+        "subjectType": "COACH",
+        "subjectId": "person-anton-andreasson-swe2-vasterasirsta",
+        "domain": "TACTICAL_COGNITIVE",
+        "key": "careerStage",
+        "value": "YOUNG_EMERGING",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "CURRENT",
+        "sourceRefs": [
+          "ev-anton-andreasson-swe2-vasterasirsta-coaching-development"
+        ]
+      }
+    ],
+    "tacticalPreferenceClaims": [],
+    "communicationLeadershipClaims": [],
+    "developmentClaims": [
+      {
+        "id": "coach-anton-andreasson-swe2-vasterasirsta-previousenkopingperformance",
+        "subjectType": "COACH",
+        "subjectId": "person-anton-andreasson-swe2-vasterasirsta",
+        "domain": "DEVELOPMENT",
+        "key": "previousEnkopingPerformance",
+        "value": "STRONG_POSITIVE_SIGNAL",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "HISTORICAL",
+        "sourceRefs": [
+          "ev-anton-andreasson-swe2-vasterasirsta-coaching-development"
+        ]
+      }
+    ],
+    "adaptabilityClaims": [],
+    "cultureBuildingClaims": []
+  }
+}

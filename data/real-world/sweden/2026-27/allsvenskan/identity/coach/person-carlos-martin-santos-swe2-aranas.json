@@ -1,0 +1,50 @@
+{
+  "personId": "person-carlos-martin-santos-swe2-aranas",
+  "clubId": "swe2-aranas",
+  "sourceDocument": "HK Aranäs CLUB IDENTITY v0.1",
+  "evidenceReferences": [
+    {
+      "id": "ev-carlos-martin-santos-swe2-aranas-coaching-development",
+      "sourceDocument": "HK Aranäs CLUB IDENTITY v0.1",
+      "sourceType": "APPROVED_PROFILE_DOCX",
+      "locator": "COACHING / DEVELOPMENT IDENTITY"
+    }
+  ],
+  "profile": {
+    "personId": "person-carlos-martin-santos-swe2-aranas",
+    "coachingStyleClaims": [
+      {
+        "id": "coach-carlos-martin-santos-swe2-aranas-fulltacticalprofileevidence",
+        "subjectType": "COACH",
+        "subjectId": "person-carlos-martin-santos-swe2-aranas",
+        "domain": "TACTICAL_COGNITIVE",
+        "key": "fullTacticalProfileEvidence",
+        "value": "INSUFFICIENT_EVIDENCE_NEW_COACH",
+        "evidenceClass": "USER_EXPERT_REQUIRES_VERIFICATION",
+        "temporalScope": "CURRENT",
+        "sourceRefs": [
+          "ev-carlos-martin-santos-swe2-aranas-coaching-development"
+        ]
+      }
+    ],
+    "tacticalPreferenceClaims": [
+      {
+        "id": "coach-carlos-martin-santos-swe2-aranas-sevenvsixwillingness",
+        "subjectType": "COACH",
+        "subjectId": "person-carlos-martin-santos-swe2-aranas",
+        "domain": "TACTICAL_PREFERENCE",
+        "key": "sevenVSixWillingness",
+        "value": "EXPECTED_NOT_AVERSE",
+        "evidenceClass": "USER_PROJECTION",
+        "temporalScope": "PROJECTED",
+        "sourceRefs": [
+          "ev-carlos-martin-santos-swe2-aranas-coaching-development"
+        ]
+      }
+    ],
+    "communicationLeadershipClaims": [],
+    "developmentClaims": [],
+    "adaptabilityClaims": [],
+    "cultureBuildingClaims": []
+  }
+}

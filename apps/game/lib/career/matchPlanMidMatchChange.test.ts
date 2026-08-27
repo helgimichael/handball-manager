@@ -245,8 +245,15 @@ test("HM-COACHING-1.0: determinism -- the identical change applied twice from th
 });
 
 test("HM-COACHING-1.0: determinism -- materially different changes at the same minute produce different results at least some of the time (averaged across seeded fixtures, since a single tiny adjustment delta can coincidentally land on the same sampled outcome for one seed)", () => {
+  // HM-DATA-ALLSVENSKAN-1.0: widened from 15 to 50 seeds -- the
+  // divergence rate for this particular (FORMATION_CHANGE vs
+  // TEMPO_CHANGE) comparison is genuinely low (~4%, confirmed by direct
+  // measurement), so a 15-seed sample has a real (~54%) chance of never
+  // hitting a divergent seed even when the underlying logic is correct
+  // -- this got exposed (not caused) by the Allsvenskan club-list
+  // correction shifting which specific match situations seeds 0-14 draw.
   let sawDifference = false;
-  for (let i = 0; i < 15 && !sawDifference; i += 1) {
+  for (let i = 0; i < 50 && !sawDifference; i += 1) {
     const { state, fixture } = playedFixtureWithPlan(`determinism-diff-seed-${i}`);
     const a = applyMidMatchPlanChange(state, fixture.id, 20, 17, FORMATION_CHANGE, NEUTRAL_PROFILE, false, null);
     const b = applyMidMatchPlanChange(state, fixture.id, 20, 17, TEMPO_CHANGE, NEUTRAL_PROFILE, false, null);

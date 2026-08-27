@@ -1,0 +1,122 @@
+{
+  "clubId": "swe2-varberg",
+  "sourceDocument": "HK Varberg CLUB IDENTITY v0.1",
+  "evidenceReferences": [
+    {
+      "id": "ev-swe2-varberg-tactical-domain-mapping",
+      "sourceDocument": "HK Varberg CLUB IDENTITY v0.1",
+      "sourceType": "APPROVED_PROFILE_DOCX",
+      "locator": "TACTICAL/CLUB DOMAIN MAPPING"
+    }
+  ],
+  "profile": {
+    "clubId": "swe2-varberg",
+    "seasonReference": "2026/27",
+    "structuralIdentity": [
+      {
+        "id": "club-swe2-varberg-structuralIdentity-leaguestatus2026-27",
+        "subjectType": "CLUB",
+        "subjectId": "swe2-varberg",
+        "domain": "STRUCTURAL",
+        "key": "leagueStatus2026_27",
+        "value": "PROMOTION_FAVOURITE",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "CURRENT",
+        "sourceRefs": [
+          "ev-swe2-varberg-tactical-domain-mapping"
+        ]
+      }
+    ],
+    "cultureIdentity": [],
+    "tacticalHeritage": [
+      {
+        "id": "club-swe2-varberg-tacticalHeritage-primaryformation",
+        "subjectType": "CLUB",
+        "subjectId": "swe2-varberg",
+        "domain": "DEFENCE",
+        "key": "primaryFormation",
+        "value": "6:0",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-swe2-varberg-tactical-domain-mapping"
+        ],
+        "notes": "Very physical, boundary-pushing."
+      },
+      {
+        "id": "club-swe2-varberg-tacticalHeritage-goalkeeperlinkedshotsteering",
+        "subjectType": "CLUB",
+        "subjectId": "swe2-varberg",
+        "domain": "DEFENCE",
+        "key": "goalkeeperLinkedShotSteering",
+        "value": true,
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-swe2-varberg-tactical-domain-mapping"
+        ],
+        "notes": "Defence willing to concede wing/wide-Y9 shots because the current goalkeeper is particularly strong there -- a working rule (Goalkeeper Capability -> Defensive Working Rule -> Opponent Shot Distribution), not just a high goalkeeper rating."
+      },
+      {
+        "id": "club-swe2-varberg-tacticalHeritage-backcourtorientation",
+        "subjectType": "CLUB",
+        "subjectId": "swe2-varberg",
+        "domain": "ATTACK",
+        "key": "backcourtOrientation",
+        "value": "LARGE_M9_OVER_ZONE",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-swe2-varberg-tactical-domain-mapping"
+        ]
+      }
+    ],
+    "developmentIdentity": [
+      {
+        "id": "club-swe2-varberg-developmentIdentity-youthbreadth",
+        "subjectType": "CLUB",
+        "subjectId": "swe2-varberg",
+        "domain": "DEVELOPMENT",
+        "key": "youthBreadth",
+        "value": "STRONG",
+        "evidenceClass": "VERIFIED_EXTERNAL_DATA",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-swe2-varberg-tactical-domain-mapping"
+        ]
+      }
+    ],
+    "recruitmentIdentity": [],
+    "financialStrategicIdentity": [
+      {
+        "id": "club-swe2-varberg-financialStrategicIdentity-financialstrength",
+        "subjectType": "CLUB",
+        "subjectId": "swe2-varberg",
+        "domain": "FINANCIAL_STRATEGIC",
+        "key": "financialStrength",
+        "value": "VERY_STRONG_FOR_ALLSVENSKAN",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "CURRENT",
+        "sourceRefs": [
+          "ev-swe2-varberg-tactical-domain-mapping"
+        ],
+        "notes": "Approximately comparable to a mid-table Handbollsligan club; exact figures belong to the Club Economy model, not this claim."
+      }
+    ],
+    "supporterEnvironmentIdentity": [
+      {
+        "id": "club-swe2-varberg-supporterEnvironmentIdentity-homesupport",
+        "subjectType": "CLUB",
+        "subjectId": "swe2-varberg",
+        "domain": "SUPPORTER_ENVIRONMENT",
+        "key": "homeSupport",
+        "value": "STRONG",
+        "evidenceClass": "VERIFIED_EXTERNAL_DATA",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-swe2-varberg-tactical-domain-mapping"
+        ]
+      }
+    ]
+  }
+}

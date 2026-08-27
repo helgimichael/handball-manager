@@ -1,0 +1,78 @@
+{
+  "personId": "person-mats-kardell-swe2-tumba",
+  "clubId": "swe2-tumba",
+  "sourceDocument": "IFK Tumba HK CLUB IDENTITY v0.1",
+  "evidenceReferences": [
+    {
+      "id": "ev-mats-kardell-swe2-tumba-coaching-development",
+      "sourceDocument": "IFK Tumba HK CLUB IDENTITY v0.1",
+      "sourceType": "APPROVED_PROFILE_DOCX",
+      "locator": "COACHING / DEVELOPMENT IDENTITY"
+    }
+  ],
+  "profile": {
+    "personId": "person-mats-kardell-swe2-tumba",
+    "coachingStyleClaims": [],
+    "tacticalPreferenceClaims": [
+      {
+        "id": "coach-mats-kardell-swe2-tumba-sevenvsixwillingness",
+        "subjectType": "COACH",
+        "subjectId": "person-mats-kardell-swe2-tumba",
+        "domain": "TACTICAL_PREFERENCE",
+        "key": "sevenVSixWillingness",
+        "value": "EXTREME",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-mats-kardell-swe2-tumba-coaching-development"
+        ]
+      }
+    ],
+    "communicationLeadershipClaims": [
+      {
+        "id": "coach-mats-kardell-swe2-tumba-commitmentextraction",
+        "subjectType": "COACH",
+        "subjectId": "person-mats-kardell-swe2-tumba",
+        "domain": "LEADERSHIP",
+        "key": "commitmentExtraction",
+        "value": "VERY_STRONG",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-mats-kardell-swe2-tumba-coaching-development"
+        ]
+      }
+    ],
+    "developmentClaims": [],
+    "adaptabilityClaims": [
+      {
+        "id": "coach-mats-kardell-swe2-tumba-tacticalflexibility",
+        "subjectType": "COACH",
+        "subjectId": "person-mats-kardell-swe2-tumba",
+        "domain": "TACTICAL_COGNITIVE",
+        "key": "tacticalFlexibility",
+        "value": "HIGH",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-mats-kardell-swe2-tumba-coaching-development"
+        ]
+      }
+    ],
+    "cultureBuildingClaims": [
+      {
+        "id": "coach-mats-kardell-swe2-tumba-clubidentification",
+        "subjectType": "COACH",
+        "subjectId": "person-mats-kardell-swe2-tumba",
+        "domain": "CULTURE",
+        "key": "clubIdentification",
+        "value": "EXTREME",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-mats-kardell-swe2-tumba-coaching-development"
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,97 @@
+{
+  "clubId": "swe2-varberg",
+  "season": "2026/27",
+  "sourceDocument": "HK Varberg CLUB IDENTITY v0.1",
+  "people": [
+    {
+      "id": "person-ulf-sivertsson-swe2-varberg",
+      "displayName": "Ulf Sivertsson"
+    },
+    {
+      "id": "person-eric-deliaune-aronius-swe2-varberg",
+      "displayName": "Eric Deliaune Aronius"
+    },
+    {
+      "id": "person-roger-jonasson-swe2-varberg",
+      "displayName": "Roger Jonasson"
+    },
+    {
+      "id": "person-conny-karlsing-swe2-varberg",
+      "displayName": "Conny Karlsing"
+    }
+  ],
+  "assignments": [
+    {
+      "personId": "person-ulf-sivertsson-swe2-varberg",
+      "clubId": "swe2-varberg",
+      "officialRole": "Tränare",
+      "standardRoles": [
+        "HEAD_COACH"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-swe2-varberg-coaching-staff",
+          "sourceDocument": "HK Varberg CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING STAFF"
+        }
+      ]
+    },
+    {
+      "personId": "person-eric-deliaune-aronius-swe2-varberg",
+      "clubId": "swe2-varberg",
+      "officialRole": "Assisterande tränare",
+      "standardRoles": [
+        "ASSISTANT_COACH"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-swe2-varberg-coaching-staff",
+          "sourceDocument": "HK Varberg CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING STAFF"
+        }
+      ]
+    },
+    {
+      "personId": "person-roger-jonasson-swe2-varberg",
+      "clubId": "swe2-varberg",
+      "officialRole": "Lagledare",
+      "standardRoles": [
+        "TEAM_MANAGER"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-swe2-varberg-coaching-staff",
+          "sourceDocument": "HK Varberg CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING STAFF"
+        }
+      ]
+    },
+    {
+      "personId": "person-conny-karlsing-swe2-varberg",
+      "clubId": "swe2-varberg",
+      "officialRole": "Lagledare",
+      "standardRoles": [
+        "TEAM_MANAGER"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-swe2-varberg-coaching-staff",
+          "sourceDocument": "HK Varberg CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING STAFF"
+        }
+      ]
+    }
+  ]
+}

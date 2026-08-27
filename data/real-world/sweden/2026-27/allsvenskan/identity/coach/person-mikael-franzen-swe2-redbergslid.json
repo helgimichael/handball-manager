@@ -1,0 +1,63 @@
+{
+  "personId": "person-mikael-franzen-swe2-redbergslid",
+  "clubId": "swe2-redbergslid",
+  "sourceDocument": "Redbergslids IK CLUB IDENTITY v0.1",
+  "evidenceReferences": [
+    {
+      "id": "ev-mikael-franzen-swe2-redbergslid-coaching-development",
+      "sourceDocument": "Redbergslids IK CLUB IDENTITY v0.1",
+      "sourceType": "APPROVED_PROFILE_DOCX",
+      "locator": "COACHING / DEVELOPMENT IDENTITY"
+    }
+  ],
+  "profile": {
+    "personId": "person-mikael-franzen-swe2-redbergslid",
+    "coachingStyleClaims": [
+      {
+        "id": "coach-mikael-franzen-swe2-redbergslid-tacticalcompetence",
+        "subjectType": "COACH",
+        "subjectId": "person-mikael-franzen-swe2-redbergslid",
+        "domain": "TACTICAL_COGNITIVE",
+        "key": "tacticalCompetence",
+        "value": "VERY_HIGH",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-mikael-franzen-swe2-redbergslid-coaching-development"
+        ]
+      }
+    ],
+    "tacticalPreferenceClaims": [
+      {
+        "id": "coach-mikael-franzen-swe2-redbergslid-sevenvsixpreference",
+        "subjectType": "COACH",
+        "subjectId": "person-mikael-franzen-swe2-redbergslid",
+        "domain": "TACTICAL_PREFERENCE",
+        "key": "sevenVSixPreference",
+        "value": "EXTREMELY_LOW_OPPOSED",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-mikael-franzen-swe2-redbergslid-coaching-development"
+        ]
+      },
+      {
+        "id": "coach-mikael-franzen-swe2-redbergslid-traditionalhandballinfluence",
+        "subjectType": "COACH",
+        "subjectId": "person-mikael-franzen-swe2-redbergslid",
+        "domain": "ATTACK",
+        "key": "traditionalHandballInfluence",
+        "value": "HIGH",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-mikael-franzen-swe2-redbergslid-coaching-development"
+        ]
+      }
+    ],
+    "communicationLeadershipClaims": [],
+    "developmentClaims": [],
+    "adaptabilityClaims": [],
+    "cultureBuildingClaims": []
+  }
+}

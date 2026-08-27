@@ -8,6 +8,7 @@
 import { getClub } from "../game-data";
 import { validateStaffAssignment, validateStaffPerson } from "../identity/validators";
 import { loadClubStaffIdentity } from "./staffIdentityLoader";
+import { leagueSegmentForClub } from "./leagueSegment";
 import type { StaffAssignment, StaffPerson } from "../identity/types";
 
 export interface ClubStaffSnapshot {
@@ -26,7 +27,7 @@ export interface ClubStaffSnapshot {
  */
 export function snapshotClubStaff(clubId: string): ClubStaffSnapshot | null {
   if (!getClub(clubId)) return null;
-  const raw = loadClubStaffIdentity(clubId);
+  const raw = loadClubStaffIdentity(clubId, leagueSegmentForClub(clubId));
   if (!raw) return null;
 
   const knownPersonIds = new Set(raw.people.map((p) => p.id));

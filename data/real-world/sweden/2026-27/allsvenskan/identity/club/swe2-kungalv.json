@@ -1,0 +1,121 @@
+{
+  "clubId": "swe2-kungalv",
+  "sourceDocument": "Kungälvs HK CLUB IDENTITY v0.1",
+  "evidenceReferences": [
+    {
+      "id": "ev-swe2-kungalv-tactical-domain-mapping",
+      "sourceDocument": "Kungälvs HK CLUB IDENTITY v0.1",
+      "sourceType": "APPROVED_PROFILE_DOCX",
+      "locator": "TACTICAL/CLUB DOMAIN MAPPING"
+    }
+  ],
+  "profile": {
+    "clubId": "swe2-kungalv",
+    "seasonReference": "2026/27",
+    "structuralIdentity": [
+      {
+        "id": "club-swe2-kungalv-structuralIdentity-clubtrajectory",
+        "subjectType": "CLUB",
+        "subjectId": "swe2-kungalv",
+        "domain": "STRUCTURAL",
+        "key": "clubTrajectory",
+        "value": "DECLINING_RECOVERING",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-swe2-kungalv-tactical-domain-mapping"
+        ],
+        "notes": "One men's-team promotion is not proof the club's underlying structural trajectory has fully reversed."
+      },
+      {
+        "id": "club-swe2-kungalv-structuralIdentity-leaguestatus2026-27",
+        "subjectType": "CLUB",
+        "subjectId": "swe2-kungalv",
+        "domain": "STRUCTURAL",
+        "key": "leagueStatus2026_27",
+        "value": "NEWLY_PROMOTED",
+        "evidenceClass": "VERIFIED_EXTERNAL_DATA",
+        "temporalScope": "CURRENT",
+        "sourceRefs": [
+          "ev-swe2-kungalv-tactical-domain-mapping"
+        ]
+      }
+    ],
+    "cultureIdentity": [],
+    "tacticalHeritage": [],
+    "developmentIdentity": [
+      {
+        "id": "club-swe2-kungalv-developmentIdentity-historicalyouthreputation",
+        "subjectType": "CLUB",
+        "subjectId": "swe2-kungalv",
+        "domain": "DEVELOPMENT",
+        "key": "historicalYouthReputation",
+        "value": "STRONG",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "HISTORICAL",
+        "sourceRefs": [
+          "ev-swe2-kungalv-tactical-domain-mapping"
+        ]
+      },
+      {
+        "id": "club-swe2-kungalv-developmentIdentity-currentyouthpipeline",
+        "subjectType": "CLUB",
+        "subjectId": "swe2-kungalv",
+        "domain": "DEVELOPMENT",
+        "key": "currentYouthPipeline",
+        "value": "WEAK_DECLINING",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "CURRENT",
+        "sourceRefs": [
+          "ev-swe2-kungalv-tactical-domain-mapping"
+        ],
+        "notes": "Historical reputation vs current output must be kept separate -- do not let reputation generate unrealistically strong current academy output."
+      }
+    ],
+    "recruitmentIdentity": [
+      {
+        "id": "club-swe2-kungalv-recruitmentIdentity-externalrecruitmentdependency",
+        "subjectType": "CLUB",
+        "subjectId": "swe2-kungalv",
+        "domain": "RECRUITMENT",
+        "key": "externalRecruitmentDependency",
+        "value": "HIGH",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "CURRENT",
+        "sourceRefs": [
+          "ev-swe2-kungalv-tactical-domain-mapping"
+        ]
+      },
+      {
+        "id": "club-swe2-kungalv-recruitmentIdentity-regionaltalentpoolaccess",
+        "subjectType": "CLUB",
+        "subjectId": "swe2-kungalv",
+        "domain": "RECRUITMENT",
+        "key": "regionalTalentPoolAccess",
+        "value": "STRATEGIC_OPPORTUNITY_GREATER_GOTHENBURG",
+        "evidenceClass": "VERIFIED_EXTERNAL_DATA",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-swe2-kungalv-tactical-domain-mapping"
+        ]
+      }
+    ],
+    "financialStrategicIdentity": [
+      {
+        "id": "club-swe2-kungalv-financialStrategicIdentity-financialstrength",
+        "subjectType": "CLUB",
+        "subjectId": "swe2-kungalv",
+        "domain": "FINANCIAL_STRATEGIC",
+        "key": "financialStrength",
+        "value": "BALANCED_AVERAGE",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "CURRENT",
+        "sourceRefs": [
+          "ev-swe2-kungalv-tactical-domain-mapping"
+        ],
+        "notes": "Neither a financially powerful Allsvenskan club nor in acute financial distress -- a useful calibration baseline."
+      }
+    ],
+    "supporterEnvironmentIdentity": []
+  }
+}

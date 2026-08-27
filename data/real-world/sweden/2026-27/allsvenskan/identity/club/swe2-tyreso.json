@@ -1,0 +1,139 @@
+{
+  "clubId": "swe2-tyreso",
+  "sourceDocument": "Tyresö Handboll CLUB IDENTITY v0.1",
+  "evidenceReferences": [
+    {
+      "id": "ev-swe2-tyreso-tactical-domain-mapping",
+      "sourceDocument": "Tyresö Handboll CLUB IDENTITY v0.1",
+      "sourceType": "APPROVED_PROFILE_DOCX",
+      "locator": "TACTICAL/CLUB DOMAIN MAPPING"
+    }
+  ],
+  "profile": {
+    "clubId": "swe2-tyreso",
+    "seasonReference": "2026/27",
+    "structuralIdentity": [
+      {
+        "id": "club-swe2-tyreso-structuralIdentity-stafftacticalcentralisation",
+        "subjectType": "CLUB",
+        "subjectId": "swe2-tyreso",
+        "domain": "STRUCTURAL",
+        "key": "staffTacticalCentralisation",
+        "value": "EXTREME_AROUND_HEAD_COACH",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "CURRENT",
+        "sourceRefs": [
+          "ev-swe2-tyreso-tactical-domain-mapping"
+        ],
+        "notes": "Staff competence != staff influence -- Elmgren has strong formal qualifications, but actual tactical influence assessed as potentially low due to head-coach centralisation."
+      }
+    ],
+    "cultureIdentity": [
+      {
+        "id": "club-swe2-tyreso-cultureIdentity-entertainmentphilosophy",
+        "subjectType": "CLUB",
+        "subjectId": "swe2-tyreso",
+        "domain": "CULTURE",
+        "key": "entertainmentPhilosophy",
+        "value": "EXTREME",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-swe2-tyreso-tactical-domain-mapping"
+        ],
+        "notes": "Handball as show -- expressive freedom, high risk acceptance and technical-error tolerance as part of the attacking identity."
+      }
+    ],
+    "tacticalHeritage": [
+      {
+        "id": "club-swe2-tyreso-tacticalHeritage-sevenvsixfrequency",
+        "subjectType": "CLUB",
+        "subjectId": "swe2-tyreso",
+        "domain": "ATTACK",
+        "key": "sevenVSixFrequency",
+        "value": "EXTREME",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "CURRENT",
+        "sourceRefs": [
+          "ev-swe2-tyreso-tactical-domain-mapping"
+        ],
+        "notes": "Assessed as one of the most extreme 7v6 teams in the division, close to IFK Tumba. No exact percentage until match data is available."
+      },
+      {
+        "id": "club-swe2-tyreso-tacticalHeritage-onevonereliance",
+        "subjectType": "CLUB",
+        "subjectId": "swe2-tyreso",
+        "domain": "ATTACK",
+        "key": "oneVOneReliance",
+        "value": "VERY_HIGH",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "CURRENT",
+        "sourceRefs": [
+          "ev-swe2-tyreso-tactical-domain-mapping"
+        ],
+        "notes": "Kamikaze attacks retained as scouting language, mapped to high-commitment, direct 1v1 attacking behavior."
+      },
+      {
+        "id": "club-swe2-tyreso-tacticalHeritage-defensiveperformance",
+        "subjectType": "CLUB",
+        "subjectId": "swe2-tyreso",
+        "domain": "DEFENCE",
+        "key": "defensivePerformance",
+        "value": "VERY_WEAK",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "CURRENT",
+        "sourceRefs": [
+          "ev-swe2-tyreso-tactical-domain-mapping"
+        ],
+        "notes": "Low-priority, low-effectiveness; experiments with multiple systems (incl. 3:3) but struggles to create defensive impact -- tactical flexibility != tactical effectiveness."
+      }
+    ],
+    "developmentIdentity": [
+      {
+        "id": "club-swe2-tyreso-developmentIdentity-developmentinfrastructure",
+        "subjectType": "CLUB",
+        "subjectId": "swe2-tyreso",
+        "domain": "DEVELOPMENT",
+        "key": "developmentInfrastructure",
+        "value": "VERY_STRONG",
+        "evidenceClass": "VERIFIED_EXTERNAL_DATA",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-swe2-tyreso-tactical-domain-mapping"
+        ]
+      },
+      {
+        "id": "club-swe2-tyreso-developmentIdentity-currenteliteyouthoutput",
+        "subjectType": "CLUB",
+        "subjectId": "swe2-tyreso",
+        "domain": "DEVELOPMENT",
+        "key": "currentEliteYouthOutput",
+        "value": "WEAK",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "CURRENT",
+        "sourceRefs": [
+          "ev-swe2-tyreso-tactical-domain-mapping"
+        ],
+        "notes": "Academy infrastructure != current academy output; next strong cohort assessed as distant."
+      }
+    ],
+    "recruitmentIdentity": [],
+    "financialStrategicIdentity": [
+      {
+        "id": "club-swe2-tyreso-financialStrategicIdentity-financialstrength",
+        "subjectType": "CLUB",
+        "subjectId": "swe2-tyreso",
+        "domain": "FINANCIAL_STRATEGIC",
+        "key": "financialStrength",
+        "value": "LOW_RESOURCES_BALANCED_DISCIPLINED",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-swe2-tyreso-tactical-domain-mapping"
+        ],
+        "notes": "Low financial resources != financial instability -- very low risk tolerance, very high financial discipline."
+      }
+    ],
+    "supporterEnvironmentIdentity": []
+  }
+}

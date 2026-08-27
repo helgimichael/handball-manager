@@ -1,0 +1,50 @@
+{
+  "personId": "person-ulf-sivertsson-swe2-varberg",
+  "clubId": "swe2-varberg",
+  "sourceDocument": "HK Varberg CLUB IDENTITY v0.1",
+  "evidenceReferences": [
+    {
+      "id": "ev-ulf-sivertsson-swe2-varberg-coaching-development",
+      "sourceDocument": "HK Varberg CLUB IDENTITY v0.1",
+      "sourceType": "APPROVED_PROFILE_DOCX",
+      "locator": "COACHING / DEVELOPMENT IDENTITY"
+    }
+  ],
+  "profile": {
+    "personId": "person-ulf-sivertsson-swe2-varberg",
+    "coachingStyleClaims": [
+      {
+        "id": "coach-ulf-sivertsson-swe2-varberg-defensivephysicalitypreference",
+        "subjectType": "COACH",
+        "subjectId": "person-ulf-sivertsson-swe2-varberg",
+        "domain": "DEFENCE",
+        "key": "defensivePhysicalityPreference",
+        "value": "HIGH",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-ulf-sivertsson-swe2-varberg-coaching-development"
+        ]
+      }
+    ],
+    "tacticalPreferenceClaims": [],
+    "communicationLeadershipClaims": [],
+    "developmentClaims": [],
+    "adaptabilityClaims": [],
+    "cultureBuildingClaims": [
+      {
+        "id": "coach-ulf-sivertsson-swe2-varberg-teambuilding",
+        "subjectType": "COACH",
+        "subjectId": "person-ulf-sivertsson-swe2-varberg",
+        "domain": "CULTURE",
+        "key": "teamBuilding",
+        "value": "VERY_STRONG",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-ulf-sivertsson-swe2-varberg-coaching-development"
+        ]
+      }
+    ]
+  }
+}

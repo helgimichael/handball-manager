@@ -1,0 +1,80 @@
+{
+  "clubId": "swe2-torslanda",
+  "sourceDocument": "HK Torslanda Elit CLUB IDENTITY v0.1",
+  "evidenceReferences": [
+    {
+      "id": "ev-swe2-torslanda-tactical-domain-mapping",
+      "sourceDocument": "HK Torslanda Elit CLUB IDENTITY v0.1",
+      "sourceType": "APPROVED_PROFILE_DOCX",
+      "locator": "TACTICAL/CLUB DOMAIN MAPPING"
+    }
+  ],
+  "profile": {
+    "clubId": "swe2-torslanda",
+    "seasonReference": "2026/27",
+    "structuralIdentity": [],
+    "cultureIdentity": [
+      {
+        "id": "club-swe2-torslanda-cultureIdentity-homedifficulty",
+        "subjectType": "CLUB",
+        "subjectId": "swe2-torslanda",
+        "domain": "SUPPORTER_ENVIRONMENT",
+        "key": "homeDifficulty",
+        "value": "STRONG",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "CURRENT",
+        "sourceRefs": [
+          "ev-swe2-torslanda-tactical-domain-mapping"
+        ],
+        "notes": "Assessed as a difficult opponent at home; cause not decomposed in v0.1."
+      }
+    ],
+    "tacticalHeritage": [],
+    "developmentIdentity": [
+      {
+        "id": "club-swe2-torslanda-developmentIdentity-youthbreadth",
+        "subjectType": "CLUB",
+        "subjectId": "swe2-torslanda",
+        "domain": "DEVELOPMENT",
+        "key": "youthBreadth",
+        "value": "STRONG",
+        "evidenceClass": "VERIFIED_EXTERNAL_DATA",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-swe2-torslanda-tactical-domain-mapping"
+        ]
+      },
+      {
+        "id": "club-swe2-torslanda-developmentIdentity-ownplayerpathway",
+        "subjectType": "CLUB",
+        "subjectId": "swe2-torslanda",
+        "domain": "DEVELOPMENT",
+        "key": "ownPlayerPathway",
+        "value": "ACTIVE",
+        "evidenceClass": "VERIFIED_EXTERNAL_DATA",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-swe2-torslanda-tactical-domain-mapping"
+        ],
+        "notes": "Documented example: player progressing from handbollskul to the senior men's team."
+      }
+    ],
+    "recruitmentIdentity": [
+      {
+        "id": "club-swe2-torslanda-recruitmentIdentity-m6archetypepreference",
+        "subjectType": "CLUB",
+        "subjectId": "swe2-torslanda",
+        "domain": "RECRUITMENT",
+        "key": "m6ArchetypePreference",
+        "value": "SMALL_TECHNICAL_MOBILE",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-swe2-torslanda-tactical-domain-mapping"
+        ]
+      }
+    ],
+    "financialStrategicIdentity": [],
+    "supporterEnvironmentIdentity": []
+  }
+}

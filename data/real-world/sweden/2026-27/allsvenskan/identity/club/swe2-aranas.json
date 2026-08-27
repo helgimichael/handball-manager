@@ -1,0 +1,107 @@
+{
+  "clubId": "swe2-aranas",
+  "sourceDocument": "HK Aranäs CLUB IDENTITY v0.1",
+  "evidenceReferences": [
+    {
+      "id": "ev-swe2-aranas-tactical-domain-mapping",
+      "sourceDocument": "HK Aranäs CLUB IDENTITY v0.1",
+      "sourceType": "APPROVED_PROFILE_DOCX",
+      "locator": "TACTICAL/CLUB DOMAIN MAPPING"
+    }
+  ],
+  "profile": {
+    "clubId": "swe2-aranas",
+    "seasonReference": "2026/27",
+    "structuralIdentity": [],
+    "cultureIdentity": [
+      {
+        "id": "club-swe2-aranas-cultureIdentity-squadageorientation2026-27",
+        "subjectType": "CLUB",
+        "subjectId": "swe2-aranas",
+        "domain": "SQUAD_COMPOSITION",
+        "key": "squadAgeOrientation2026_27",
+        "value": "YOUNG_HIGH_UPSIDE",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "CURRENT",
+        "sourceRefs": [
+          "ev-swe2-aranas-tactical-domain-mapping"
+        ]
+      }
+    ],
+    "tacticalHeritage": [
+      {
+        "id": "club-swe2-aranas-tacticalHeritage-primaryformation",
+        "subjectType": "CLUB",
+        "subjectId": "swe2-aranas",
+        "domain": "DEFENCE",
+        "key": "primaryFormation",
+        "value": "3:3",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-swe2-aranas-tactical-domain-mapping"
+        ],
+        "notes": "3:3 assessed as a club-policy element, belongs to Club Tactical Identity, not only the current senior team."
+      },
+      {
+        "id": "club-swe2-aranas-tacticalHeritage-projected2026-27formation",
+        "subjectType": "CLUB",
+        "subjectId": "swe2-aranas",
+        "domain": "DEFENCE",
+        "key": "projected2026_27Formation",
+        "value": "3:3",
+        "evidenceClass": "USER_PROJECTION",
+        "temporalScope": "PROJECTED",
+        "sourceRefs": [
+          "ev-swe2-aranas-tactical-domain-mapping"
+        ],
+        "notes": "High probability projection under new head coach."
+      }
+    ],
+    "developmentIdentity": [
+      {
+        "id": "club-swe2-aranas-developmentIdentity-youthbreadth",
+        "subjectType": "CLUB",
+        "subjectId": "swe2-aranas",
+        "domain": "DEVELOPMENT",
+        "key": "youthBreadth",
+        "value": "VERY_STRONG",
+        "evidenceClass": "VERIFIED_EXTERNAL_DATA",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-swe2-aranas-tactical-domain-mapping"
+        ]
+      },
+      {
+        "id": "club-swe2-aranas-developmentIdentity-genuinedevelopmentclub",
+        "subjectType": "CLUB",
+        "subjectId": "swe2-aranas",
+        "domain": "DEVELOPMENT",
+        "key": "genuineDevelopmentClub",
+        "value": true,
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-swe2-aranas-tactical-domain-mapping"
+        ],
+        "notes": "Treated as a genuine development club, not merely a club with many youth teams."
+      },
+      {
+        "id": "club-swe2-aranas-developmentIdentity-parahandballintegration",
+        "subjectType": "CLUB",
+        "subjectId": "swe2-aranas",
+        "domain": "DEVELOPMENT",
+        "key": "paraHandballIntegration",
+        "value": "ESTABLISHED",
+        "evidenceClass": "VERIFIED_EXTERNAL_DATA",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-swe2-aranas-tactical-domain-mapping"
+        ]
+      }
+    ],
+    "recruitmentIdentity": [],
+    "financialStrategicIdentity": [],
+    "supporterEnvironmentIdentity": []
+  }
+}

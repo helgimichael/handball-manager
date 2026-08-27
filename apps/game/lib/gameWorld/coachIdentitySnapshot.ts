@@ -9,6 +9,7 @@ import { getClub } from "../game-data";
 import { validateCoachIdentityProfile } from "../identity/validators";
 import { loadCoachIdentity } from "./coachIdentityLoader";
 import { loadClubStaffIdentity } from "./staffIdentityLoader";
+import { leagueSegmentForClub } from "./leagueSegment";
 import type { CoachIdentityProfile } from "../identity/types";
 
 export interface CoachIdentitySnapshot {
@@ -27,12 +28,16 @@ export interface CoachIdentitySnapshot {
  * data to the game.
  */
 export function snapshotCoachIdentity(personId: string): CoachIdentitySnapshot | null {
-  const raw = loadCoachIdentity(personId);
+  // The coach's file lives under whichever league segment their club belongs to, but
+  // `personId` alone doesn't reveal that -- try the default (handbollsligan) first, then
+  // fall back to allsvenskan, since a coach's declared clubId (checked below) is what
+  // ultimately proves the file is the correct, non-dangling one either way.
+  const raw = loadCoachIdentity(personId) ?? loadCoachIdentity(personId, "allsvenskan");
   if (!raw) return null;
   if (raw.personId !== personId) return null;
   if (!getClub(raw.clubId)) return null;
 
-  const staff = loadClubStaffIdentity(raw.clubId);
+  const staff = loadClubStaffIdentity(raw.clubId, leagueSegmentForClub(raw.clubId));
   if (!staff || !staff.people.some((p) => p.id === personId)) return null;
 
   if (!validateCoachIdentityProfile(raw.profile).ok) return null;

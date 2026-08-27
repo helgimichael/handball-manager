@@ -1,0 +1,109 @@
+{
+  "clubId": "swe2-drott",
+  "sourceDocument": "HK Drott Halmstad CLUB IDENTITY v0.1",
+  "evidenceReferences": [
+    {
+      "id": "ev-swe2-drott-tactical-domain-mapping",
+      "sourceDocument": "HK Drott Halmstad CLUB IDENTITY v0.1",
+      "sourceType": "APPROVED_PROFILE_DOCX",
+      "locator": "TACTICAL/CLUB DOMAIN MAPPING"
+    }
+  ],
+  "profile": {
+    "clubId": "swe2-drott",
+    "seasonReference": "2026/27",
+    "structuralIdentity": [
+      {
+        "id": "club-swe2-drott-structuralIdentity-sportinggovernance",
+        "subjectType": "CLUB",
+        "subjectId": "swe2-drott",
+        "domain": "STRUCTURAL",
+        "key": "sportingGovernance",
+        "value": "DISTRIBUTED_SPORT_COMMITTEE",
+        "evidenceClass": "VERIFIED_EXTERNAL_DATA",
+        "temporalScope": "CURRENT",
+        "sourceRefs": [
+          "ev-swe2-drott-tactical-domain-mapping"
+        ],
+        "notes": "Sportkommittén is explicitly treated as the sporting-director function, never an invented individual sporting director."
+      }
+    ],
+    "cultureIdentity": [],
+    "tacticalHeritage": [
+      {
+        "id": "club-swe2-drott-tacticalHeritage-formationdogmatism",
+        "subjectType": "CLUB",
+        "subjectId": "swe2-drott",
+        "domain": "TACTICAL_FLEXIBILITY",
+        "key": "formationDogmatism",
+        "value": "LOW",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-swe2-drott-tactical-domain-mapping"
+        ],
+        "notes": "Willingness to change defensive structure and use offensive defence when required to win, rather than a fixed primary formation."
+      },
+      {
+        "id": "club-swe2-drott-tacticalHeritage-sevenvsixwillingness",
+        "subjectType": "CLUB",
+        "subjectId": "swe2-drott",
+        "domain": "TACTICAL_FLEXIBILITY",
+        "key": "sevenVSixWillingness",
+        "value": "HIGH",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-swe2-drott-tactical-domain-mapping"
+        ],
+        "notes": "High willingness does not mean high frequency."
+      }
+    ],
+    "developmentIdentity": [
+      {
+        "id": "club-swe2-drott-developmentIdentity-historicaldevelopmentclub",
+        "subjectType": "CLUB",
+        "subjectId": "swe2-drott",
+        "domain": "DEVELOPMENT",
+        "key": "historicalDevelopmentClub",
+        "value": "STRONG",
+        "evidenceClass": "VERIFIED_EXTERNAL_DATA",
+        "temporalScope": "HISTORICAL",
+        "sourceRefs": [
+          "ev-swe2-drott-tactical-domain-mapping"
+        ]
+      },
+      {
+        "id": "club-swe2-drott-developmentIdentity-youthorientation2026-27",
+        "subjectType": "CLUB",
+        "subjectId": "swe2-drott",
+        "domain": "DEVELOPMENT",
+        "key": "youthOrientation2026_27",
+        "value": "VERY_STRONG_INCREASING",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "CURRENT",
+        "sourceRefs": [
+          "ev-swe2-drott-tactical-domain-mapping"
+        ]
+      }
+    ],
+    "recruitmentIdentity": [],
+    "financialStrategicIdentity": [
+      {
+        "id": "club-swe2-drott-financialStrategicIdentity-financialstrength",
+        "subjectType": "CLUB",
+        "subjectId": "swe2-drott",
+        "domain": "FINANCIAL_STRATEGIC",
+        "key": "financialStrength",
+        "value": "LONG_TERM_CONSTRAINED",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-swe2-drott-tactical-domain-mapping"
+        ],
+        "notes": "Difficult economic conditions for roughly a decade; youth-oriented squad strategy assessed partly as a response."
+      }
+    ],
+    "supporterEnvironmentIdentity": []
+  }
+}

@@ -1,0 +1,108 @@
+{
+  "clubId": "swe2-huddinge",
+  "sourceDocument": "Huddinge HK CLUB IDENTITY v0.1",
+  "evidenceReferences": [
+    {
+      "id": "ev-swe2-huddinge-tactical-domain-mapping",
+      "sourceDocument": "Huddinge HK CLUB IDENTITY v0.1",
+      "sourceType": "APPROVED_PROFILE_DOCX",
+      "locator": "TACTICAL/CLUB DOMAIN MAPPING"
+    }
+  ],
+  "profile": {
+    "clubId": "swe2-huddinge",
+    "seasonReference": "2026/27",
+    "structuralIdentity": [
+      {
+        "id": "club-swe2-huddinge-structuralIdentity-leaguestatus2026-27",
+        "subjectType": "CLUB",
+        "subjectId": "swe2-huddinge",
+        "domain": "STRUCTURAL",
+        "key": "leagueStatus2026_27",
+        "value": "NEWLY_PROMOTED",
+        "evidenceClass": "VERIFIED_EXTERNAL_DATA",
+        "temporalScope": "CURRENT",
+        "sourceRefs": [
+          "ev-swe2-huddinge-tactical-domain-mapping"
+        ]
+      },
+      {
+        "id": "club-swe2-huddinge-structuralIdentity-season2026-27objective",
+        "subjectType": "CLUB",
+        "subjectId": "swe2-huddinge",
+        "domain": "STRUCTURAL",
+        "key": "season2026_27Objective",
+        "value": "ESTABLISH_IN_ALLSVENSKAN",
+        "evidenceClass": "VERIFIED_EXTERNAL_DATA",
+        "temporalScope": "CURRENT",
+        "sourceRefs": [
+          "ev-swe2-huddinge-tactical-domain-mapping"
+        ]
+      }
+    ],
+    "cultureIdentity": [
+      {
+        "id": "club-swe2-huddinge-cultureIdentity-squadcontinuity2026-27",
+        "subjectType": "CLUB",
+        "subjectId": "swe2-huddinge",
+        "domain": "SQUAD_COMPOSITION",
+        "key": "squadContinuity2026_27",
+        "value": "MAJOR_TRANSITION_DECLINING_VETERAN_CONTINUITY",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "CURRENT",
+        "sourceRefs": [
+          "ev-swe2-huddinge-tactical-domain-mapping"
+        ],
+        "notes": "Correction of an earlier external continuity signal -- the more specific, current expert assessment indicates substantial squad change; rapid promotion trajectory must not automatically imply high current team strength."
+      }
+    ],
+    "tacticalHeritage": [
+      {
+        "id": "club-swe2-huddinge-tacticalHeritage-systemdogmatism",
+        "subjectType": "CLUB",
+        "subjectId": "swe2-huddinge",
+        "domain": "TACTICAL_FLEXIBILITY",
+        "key": "systemDogmatism",
+        "value": "VERY_LOW",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-swe2-huddinge-tactical-domain-mapping"
+        ],
+        "notes": "Plays primarily according to the qualities of the available squad rather than maintaining a strong permanent identity."
+      }
+    ],
+    "developmentIdentity": [
+      {
+        "id": "club-swe2-huddinge-developmentIdentity-ateamdevelopmentpathway",
+        "subjectType": "CLUB",
+        "subjectId": "swe2-huddinge",
+        "domain": "DEVELOPMENT",
+        "key": "aTeamDevelopmentPathway",
+        "value": "VERY_STRONG_STRUCTURAL_CONNECTION",
+        "evidenceClass": "VERIFIED_EXTERNAL_DATA",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-swe2-huddinge-tactical-domain-mapping"
+        ]
+      }
+    ],
+    "recruitmentIdentity": [],
+    "financialStrategicIdentity": [
+      {
+        "id": "club-swe2-huddinge-financialStrategicIdentity-riskappetite",
+        "subjectType": "CLUB",
+        "subjectId": "swe2-huddinge",
+        "domain": "FINANCIAL_STRATEGIC",
+        "key": "riskAppetite",
+        "value": "LOW_CAUTIOUS",
+        "evidenceClass": "VERIFIED_EXTERNAL_DATA",
+        "temporalScope": "CURRENT",
+        "sourceRefs": [
+          "ev-swe2-huddinge-tactical-domain-mapping"
+        ]
+      }
+    ],
+    "supporterEnvironmentIdentity": []
+  }
+}

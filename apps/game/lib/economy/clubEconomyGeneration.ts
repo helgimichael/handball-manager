@@ -26,10 +26,12 @@ import {
   TARGET_SQUAD_COST_RATIO,
   TIER_BAND_WEIGHTS,
 } from "./clubEconomyCalibration";
+import { CLUB_ECONOMIC_SIGNAL, SIGNAL_BAND_WEIGHT_OVERRIDES } from "./clubEconomySignals";
 import type { ClubEconomyBaseline, EconomicBand } from "./clubEconomyTypes";
 
 function pickWeightedBand(clubId: string, tier: 1 | 2): EconomicBand {
-  const weights = TIER_BAND_WEIGHTS[tier];
+  const signal = CLUB_ECONOMIC_SIGNAL[clubId];
+  const weights = (signal && SIGNAL_BAND_WEIGHT_OVERRIDES[signal]) || TIER_BAND_WEIGHTS[tier];
   const totalWeight = weights.reduce((sum, [, w]) => sum + w, 0);
   const roll = Math.abs(seededOffset(`${clubId}:economy:band`, 1_000_000)) % totalWeight;
   let cursor = 0;
@@ -87,11 +89,19 @@ export function generateClubEconomyBaseline(clubId: string, competitionTier: 1 |
   const isOwnerBacked = ownerBackedRoll < 30; // ~30% of clubs get explicit owner backing -- flavor variance, never dynamically simulated in this pass.
   const ownerFundingEur = isOwnerBacked ? Math.round((recurringRevenueEur * seededRange(`${clubId}:economy:ownerFundingFactor`, 0.05, 0.25)) / 1_000) * 1_000 : 0;
 
+  // A club whose CLUB IDENTITY v0.1 profile carries an explicit
+  // financial-posture claim (clubEconomySignals.ts) is "ANCHORED" to that
+  // real qualitative signal rather than purely "GENERATED" -- still never
+  // "OBSERVED" (no real financial figures exist), and the anchor only
+  // ever biases which band the same seeded roll lands on, never the
+  // revenue/cash formulas themselves.
+  const hasSignal = Boolean(CLUB_ECONOMIC_SIGNAL[clubId]);
+
   return {
     clubId,
     band,
-    provenance: "GENERATED",
-    confidence: "LOW",
+    provenance: hasSignal ? "ANCHORED" : "GENERATED",
+    confidence: hasSignal ? "MEDIUM" : "LOW",
     calibrationVersion: CLUB_ECONOMY_CALIBRATION_VERSION,
     revenue,
     cashEur,

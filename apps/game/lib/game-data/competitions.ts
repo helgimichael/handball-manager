@@ -26,7 +26,7 @@ export const COMPETITIONS: readonly Competition[] = [
     nation: "SWE",
     tier: 2,
     name: "Allsvenskan",
-    sourceNote: "Verified: Wikipedia (Allsvenskan i handboll för herrar), 2nd tier, 2024/25-2025/26. IFK Tumba confirmed as a real participating club.",
+    sourceNote: "HM-DATA-ALLSVENSKAN-1.0: club list matches the 14 approved CLUB IDENTITY v0.1 source profiles for 2026/27 (real club/coach/staff identity imported; player squads remain mock until HM-DATA-ALLSVENSKAN-1.1). IFK Tumba is the only playable club.",
   },
   {
     id: "den-1",

@@ -1,0 +1,141 @@
+{
+  "clubId": "swe2-ystad2",
+  "season": "2026/27",
+  "sourceDocument": "IFK Ystad HK CLUB IDENTITY v0.1",
+  "people": [
+    {
+      "id": "person-fredrik-petersen-swe2-ystad2",
+      "displayName": "Fredrik Petersen"
+    },
+    {
+      "id": "person-henrik-knudsen-swe2-ystad2",
+      "displayName": "Henrik Knudsen"
+    },
+    {
+      "id": "person-mats-kleman-swe2-ystad2",
+      "displayName": "Mats Kleman"
+    },
+    {
+      "id": "person-leif-wedberg-swe2-ystad2",
+      "displayName": "Leif Wedberg"
+    },
+    {
+      "id": "person-caroline-hansson-swe2-ystad2",
+      "displayName": "Caroline Hansson"
+    },
+    {
+      "id": "person-freddy-johnstone-swe2-ystad2",
+      "displayName": "Freddy Johnstone"
+    }
+  ],
+  "assignments": [
+    {
+      "personId": "person-fredrik-petersen-swe2-ystad2",
+      "clubId": "swe2-ystad2",
+      "officialRole": "Huvudtränare",
+      "standardRoles": [
+        "HEAD_COACH"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-swe2-ystad2-coaching-staff",
+          "sourceDocument": "IFK Ystad HK CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING STAFF"
+        }
+      ]
+    },
+    {
+      "personId": "person-henrik-knudsen-swe2-ystad2",
+      "clubId": "swe2-ystad2",
+      "officialRole": "Assisterande tränare",
+      "standardRoles": [
+        "ASSISTANT_COACH"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-swe2-ystad2-coaching-staff",
+          "sourceDocument": "IFK Ystad HK CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING STAFF"
+        }
+      ]
+    },
+    {
+      "personId": "person-mats-kleman-swe2-ystad2",
+      "clubId": "swe2-ystad2",
+      "officialRole": "Analys",
+      "standardRoles": [
+        "ANALYST"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-swe2-ystad2-coaching-staff",
+          "sourceDocument": "IFK Ystad HK CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING STAFF"
+        }
+      ]
+    },
+    {
+      "personId": "person-leif-wedberg-swe2-ystad2",
+      "clubId": "swe2-ystad2",
+      "officialRole": "Lagledare",
+      "standardRoles": [
+        "TEAM_MANAGER"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-swe2-ystad2-coaching-staff",
+          "sourceDocument": "IFK Ystad HK CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING STAFF"
+        }
+      ]
+    },
+    {
+      "personId": "person-caroline-hansson-swe2-ystad2",
+      "clubId": "swe2-ystad2",
+      "officialRole": "Massör",
+      "standardRoles": [
+        "PHYSIOTHERAPIST"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-swe2-ystad2-coaching-staff",
+          "sourceDocument": "IFK Ystad HK CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING STAFF"
+        }
+      ]
+    },
+    {
+      "personId": "person-freddy-johnstone-swe2-ystad2",
+      "clubId": "swe2-ystad2",
+      "officialRole": "Sjukgymnast",
+      "standardRoles": [
+        "PHYSIOTHERAPIST"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-swe2-ystad2-coaching-staff",
+          "sourceDocument": "IFK Ystad HK CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING STAFF"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,146 @@
+{
+  "clubId": "swe2-guif",
+  "sourceDocument": "Eskilstuna Guif IF CLUB IDENTITY v0.1",
+  "evidenceReferences": [
+    {
+      "id": "ev-swe2-guif-tactical-domain-mapping",
+      "sourceDocument": "Eskilstuna Guif IF CLUB IDENTITY v0.1",
+      "sourceType": "APPROVED_PROFILE_DOCX",
+      "locator": "TACTICAL/CLUB DOMAIN MAPPING"
+    }
+  ],
+  "profile": {
+    "clubId": "swe2-guif",
+    "seasonReference": "2026/27",
+    "structuralIdentity": [
+      {
+        "id": "club-swe2-guif-structuralIdentity-organisationalphase",
+        "subjectType": "CLUB",
+        "subjectId": "swe2-guif",
+        "domain": "STRUCTURAL",
+        "key": "organisationalPhase",
+        "value": "REBUILD_RESTART",
+        "evidenceClass": "VERIFIED_EXTERNAL_DATA",
+        "temporalScope": "CURRENT",
+        "sourceRefs": [
+          "ev-swe2-guif-tactical-domain-mapping"
+        ]
+      }
+    ],
+    "cultureIdentity": [],
+    "tacticalHeritage": [
+      {
+        "id": "club-swe2-guif-tacticalHeritage-primaryformation",
+        "subjectType": "CLUB",
+        "subjectId": "swe2-guif",
+        "domain": "DEFENCE",
+        "key": "primaryFormation",
+        "value": "6:0",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-swe2-guif-tactical-domain-mapping"
+        ]
+      },
+      {
+        "id": "club-swe2-guif-tacticalHeritage-alternativeformations",
+        "subjectType": "CLUB",
+        "subjectId": "swe2-guif",
+        "domain": "DEFENCE",
+        "key": "alternativeFormations",
+        "value": "5:1, 3:2:1, situational 4:2",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-swe2-guif-tactical-domain-mapping"
+        ]
+      },
+      {
+        "id": "club-swe2-guif-tacticalHeritage-formationversatility",
+        "subjectType": "CLUB",
+        "subjectId": "swe2-guif",
+        "domain": "DEFENCE",
+        "key": "formationVersatility",
+        "value": "HIGH",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-swe2-guif-tactical-domain-mapping"
+        ]
+      },
+      {
+        "id": "club-swe2-guif-tacticalHeritage-overzoneorientation",
+        "subjectType": "CLUB",
+        "subjectId": "swe2-guif",
+        "domain": "ATTACK",
+        "key": "overZoneOrientation",
+        "value": "STRONG",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-swe2-guif-tactical-domain-mapping"
+        ]
+      },
+      {
+        "id": "club-swe2-guif-tacticalHeritage-transitionidentity",
+        "subjectType": "CLUB",
+        "subjectId": "swe2-guif",
+        "domain": "TRANSITION",
+        "key": "transitionIdentity",
+        "value": "STRONG",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-swe2-guif-tactical-domain-mapping"
+        ]
+      }
+    ],
+    "developmentIdentity": [
+      {
+        "id": "club-swe2-guif-developmentIdentity-youthpathwayorientation",
+        "subjectType": "CLUB",
+        "subjectId": "swe2-guif",
+        "domain": "DEVELOPMENT",
+        "key": "youthPathwayOrientation",
+        "value": "STRONG",
+        "evidenceClass": "VERIFIED_EXTERNAL_DATA",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-swe2-guif-tactical-domain-mapping"
+        ]
+      }
+    ],
+    "recruitmentIdentity": [
+      {
+        "id": "club-swe2-guif-recruitmentIdentity-playerprofilepreference",
+        "subjectType": "CLUB",
+        "subjectId": "swe2-guif",
+        "domain": "RECRUITMENT",
+        "key": "playerProfilePreference",
+        "value": "SMALLER_QUICK_INTELLIGENT",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-swe2-guif-tactical-domain-mapping"
+        ]
+      }
+    ],
+    "financialStrategicIdentity": [
+      {
+        "id": "club-swe2-guif-financialStrategicIdentity-financialstrength",
+        "subjectType": "CLUB",
+        "subjectId": "swe2-guif",
+        "domain": "FINANCIAL_STRATEGIC",
+        "key": "financialStrength",
+        "value": "SEVERE_PRESSURE",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "CURRENT",
+        "sourceRefs": [
+          "ev-swe2-guif-tactical-domain-mapping"
+        ],
+        "notes": "2026 rebuild/restart after previous economic turbulence; squad construction visibly constrained."
+      }
+    ],
+    "supporterEnvironmentIdentity": []
+  }
+}

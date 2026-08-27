@@ -1,0 +1,95 @@
+{
+  "clubId": "swe2-ystad2",
+  "sourceDocument": "IFK Ystad HK CLUB IDENTITY v0.1",
+  "evidenceReferences": [
+    {
+      "id": "ev-swe2-ystad2-tactical-domain-mapping",
+      "sourceDocument": "IFK Ystad HK CLUB IDENTITY v0.1",
+      "sourceType": "APPROVED_PROFILE_DOCX",
+      "locator": "TACTICAL/CLUB DOMAIN MAPPING"
+    }
+  ],
+  "profile": {
+    "clubId": "swe2-ystad2",
+    "seasonReference": "2026/27",
+    "structuralIdentity": [],
+    "cultureIdentity": [
+      {
+        "id": "club-swe2-ystad2-cultureIdentity-rotationbreadth",
+        "subjectType": "CLUB",
+        "subjectId": "swe2-ystad2",
+        "domain": "SQUAD_COMPOSITION",
+        "key": "rotationBreadth",
+        "value": "LOW_VERY_HIGH_CORE_RELIANCE",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "CURRENT",
+        "sourceRefs": [
+          "ev-swe2-ystad2-tactical-domain-mapping"
+        ]
+      }
+    ],
+    "tacticalHeritage": [
+      {
+        "id": "club-swe2-ystad2-tacticalHeritage-systembreadth",
+        "subjectType": "CLUB",
+        "subjectId": "swe2-ystad2",
+        "domain": "TACTICAL_FLEXIBILITY",
+        "key": "systemBreadth",
+        "value": "NOT_FIXED_MULTIPLE_SYSTEMS",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-swe2-ystad2-tactical-domain-mapping"
+        ]
+      }
+    ],
+    "developmentIdentity": [
+      {
+        "id": "club-swe2-ystad2-developmentIdentity-currentdevelopmentsignal",
+        "subjectType": "CLUB",
+        "subjectId": "swe2-ystad2",
+        "domain": "DEVELOPMENT",
+        "key": "currentDevelopmentSignal",
+        "value": "STRONG",
+        "evidenceClass": "VERIFIED_EXTERNAL_DATA",
+        "temporalScope": "CURRENT",
+        "sourceRefs": [
+          "ev-swe2-ystad2-tactical-domain-mapping"
+        ],
+        "notes": "Lowe Knutsson development outcome cited as a strong current example."
+      }
+    ],
+    "recruitmentIdentity": [],
+    "financialStrategicIdentity": [
+      {
+        "id": "club-swe2-ystad2-financialStrategicIdentity-underlyingfinancialstrength",
+        "subjectType": "CLUB",
+        "subjectId": "swe2-ystad2",
+        "domain": "FINANCIAL_STRATEGIC",
+        "key": "underlyingFinancialStrength",
+        "value": "CONSTRAINED_LONG_TERM",
+        "evidenceClass": "USER_EXPERT_ASSESSMENT",
+        "temporalScope": "LONG_TERM",
+        "sourceRefs": [
+          "ev-swe2-ystad2-tactical-domain-mapping"
+        ],
+        "notes": "Not among the wealthiest Herrallsvenskan clubs -- normal spending power not high."
+      },
+      {
+        "id": "club-swe2-ystad2-financialStrategicIdentity-exceptionalplayerfunding",
+        "subjectType": "CLUB",
+        "subjectId": "swe2-ystad2",
+        "domain": "FINANCIAL_STRATEGIC",
+        "key": "exceptionalPlayerFunding",
+        "value": "RING_FENCED_EXTERNAL",
+        "evidenceClass": "VERIFIED_EXTERNAL_DATA",
+        "temporalScope": "CURRENT",
+        "sourceRefs": [
+          "ev-swe2-ystad2-tactical-domain-mapping"
+        ],
+        "notes": "Jim Gottfridsson's 3-year return is an externally/ring-fenced-funded transformative squad event, not proof the club's underlying economy moved to Handbollsligan-top level -- must never inherit a permanently higher wage budget merely because the contract exists."
+      }
+    ],
+    "supporterEnvironmentIdentity": []
+  }
+}

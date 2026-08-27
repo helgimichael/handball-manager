@@ -1,0 +1,229 @@
+{
+  "clubId": "swe2-tyreso",
+  "season": "2026/27",
+  "sourceDocument": "Tyresö Handboll CLUB IDENTITY v0.1",
+  "people": [
+    {
+      "id": "person-mattias-bejbom-swe2-tyreso",
+      "displayName": "Mattias Bejbom"
+    },
+    {
+      "id": "person-magnus-elmgren-swe2-tyreso",
+      "displayName": "Magnus Elmgren"
+    },
+    {
+      "id": "person-christopher-berry-swe2-tyreso",
+      "displayName": "Christopher Berry"
+    },
+    {
+      "id": "person-conny-jadersten-swe2-tyreso",
+      "displayName": "Conny Jädersten"
+    },
+    {
+      "id": "person-sabina-ingesson-swe2-tyreso",
+      "displayName": "Sabina Ingesson"
+    },
+    {
+      "id": "person-erik-borgenhall-swe2-tyreso",
+      "displayName": "Erik Borgenhäll"
+    },
+    {
+      "id": "person-felix-sjostrand-swe2-tyreso",
+      "displayName": "Felix Sjöstrand"
+    },
+    {
+      "id": "person-per-eckelov-swe2-tyreso",
+      "displayName": "Per Eckelöv"
+    },
+    {
+      "id": "person-ulf-bengtsson-swe2-tyreso",
+      "displayName": "Ulf Bengtsson"
+    },
+    {
+      "id": "person-jan-flinckman-swe2-tyreso",
+      "displayName": "Jan Flinckman"
+    }
+  ],
+  "assignments": [
+    {
+      "personId": "person-mattias-bejbom-swe2-tyreso",
+      "clubId": "swe2-tyreso",
+      "officialRole": "Huvudtränare",
+      "standardRoles": [
+        "HEAD_COACH"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-swe2-tyreso-coaching-staff",
+          "sourceDocument": "Tyresö Handboll CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING STAFF"
+        }
+      ]
+    },
+    {
+      "personId": "person-magnus-elmgren-swe2-tyreso",
+      "clubId": "swe2-tyreso",
+      "officialRole": "Tränare / Herr Utveckling",
+      "standardRoles": [
+        "ASSISTANT_COACH"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-swe2-tyreso-coaching-staff",
+          "sourceDocument": "Tyresö Handboll CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING STAFF"
+        }
+      ]
+    },
+    {
+      "personId": "person-christopher-berry-swe2-tyreso",
+      "clubId": "swe2-tyreso",
+      "officialRole": "Målvaktstränare",
+      "standardRoles": [
+        "GOALKEEPER_COACH"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-swe2-tyreso-coaching-staff",
+          "sourceDocument": "Tyresö Handboll CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING STAFF"
+        }
+      ]
+    },
+    {
+      "personId": "person-conny-jadersten-swe2-tyreso",
+      "clubId": "swe2-tyreso",
+      "officialRole": "Målvaktstränare",
+      "standardRoles": [
+        "GOALKEEPER_COACH"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-swe2-tyreso-coaching-staff",
+          "sourceDocument": "Tyresö Handboll CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING STAFF"
+        }
+      ]
+    },
+    {
+      "personId": "person-sabina-ingesson-swe2-tyreso",
+      "clubId": "swe2-tyreso",
+      "officialRole": "Fysioterapeut",
+      "standardRoles": [
+        "PHYSIOTHERAPIST"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-swe2-tyreso-coaching-staff",
+          "sourceDocument": "Tyresö Handboll CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING STAFF"
+        }
+      ]
+    },
+    {
+      "personId": "person-erik-borgenhall-swe2-tyreso",
+      "clubId": "swe2-tyreso",
+      "officialRole": "Naprapat",
+      "standardRoles": [
+        "PHYSIOTHERAPIST"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-swe2-tyreso-coaching-staff",
+          "sourceDocument": "Tyresö Handboll CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING STAFF"
+        }
+      ]
+    },
+    {
+      "personId": "person-felix-sjostrand-swe2-tyreso",
+      "clubId": "swe2-tyreso",
+      "officialRole": "Naprapat",
+      "standardRoles": [
+        "PHYSIOTHERAPIST"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-swe2-tyreso-coaching-staff",
+          "sourceDocument": "Tyresö Handboll CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING STAFF"
+        }
+      ]
+    },
+    {
+      "personId": "person-per-eckelov-swe2-tyreso",
+      "clubId": "swe2-tyreso",
+      "officialRole": "Lagledare",
+      "standardRoles": [
+        "TEAM_MANAGER"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-swe2-tyreso-coaching-staff",
+          "sourceDocument": "Tyresö Handboll CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING STAFF"
+        }
+      ]
+    },
+    {
+      "personId": "person-ulf-bengtsson-swe2-tyreso",
+      "clubId": "swe2-tyreso",
+      "officialRole": "Lagledare",
+      "standardRoles": [
+        "TEAM_MANAGER"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-swe2-tyreso-coaching-staff",
+          "sourceDocument": "Tyresö Handboll CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "COACHING STAFF"
+        }
+      ]
+    },
+    {
+      "personId": "person-jan-flinckman-swe2-tyreso",
+      "clubId": "swe2-tyreso",
+      "officialRole": "Sportchef herr",
+      "standardRoles": [
+        "SPORTING_DIRECTOR"
+      ],
+      "status": "CONFIRMED",
+      "season": "2026/27",
+      "evidence": [
+        {
+          "id": "ev-swe2-tyreso-organisation",
+          "sourceDocument": "Tyresö Handboll CLUB IDENTITY v0.1",
+          "sourceType": "APPROVED_PROFILE_DOCX",
+          "locator": "ORGANISATION"
+        }
+      ]
+    }
+  ]
+}
