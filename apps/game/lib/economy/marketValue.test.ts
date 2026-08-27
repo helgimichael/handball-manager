@@ -20,10 +20,10 @@ test("(2) value and salary stay within a realistic Swedish handball scale, never
   const elite = baseInputs({ ca: 185, pa: 190, age: 26, role: "KEY_PLAYER", competitionTier: 1 });
   const value = computePlayerMarketValueEur(elite, "2029-06-30", "2026-08-19");
   const salary = computePlayerSalaryEurPerMonth(elite);
-  assert.ok(value <= 550_000, `value too high: ${value}`);
-  assert.ok(value >= 1_500, `value too low: ${value}`);
-  assert.ok(salary <= 13_000, `salary too high: ${salary}`);
-  assert.ok(salary >= 500, `salary too low: ${salary}`);
+  assert.ok(value <= 220_000, `value too high: ${value}`);
+  assert.ok(value >= 600, `value too low: ${value}`);
+  assert.ok(salary <= 5_000, `salary too high: ${salary}`);
+  assert.ok(salary >= 200, `salary too low: ${salary}`);
 });
 
 // (3) higher CA -> higher value and salary, all else equal.

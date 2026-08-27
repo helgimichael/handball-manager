@@ -15,7 +15,7 @@ import { getCareerPlayerRating } from "../career/careerRatingNormalization";
 import { mapHandballPositionToMatchPlanPosition } from "../matchPlan/careerSquadBridge";
 import type { MatchRole } from "../matchPlan/types";
 import { generateInitialContract } from "./contractGeneration";
-import { computePlayerMarketValueEur, type EconomyProfileInputs } from "./marketValue";
+import { computePlayerMarketValueEur, computePlayerSalaryEurPerMonth, type EconomyProfileInputs } from "./marketValue";
 import { getContractStatus } from "./contractLifecycle";
 import type { ContractStatus, PlayerContract } from "./types";
 
@@ -84,6 +84,46 @@ export function ensureCareerPlayerContracts(state: CareerState, clubId: string):
 
 export function getPlayerContract(state: CareerState, playerId: string): PlayerContract | undefined {
   return state.playerContracts[playerId];
+}
+
+/**
+ * HM-WAGE-MARKET-1.0: a ONE-TIME (per formula change) wage
+ * recalibration -- Economy 1.0's own calibration report proved the
+ * pre-HM-WAGE-MARKET-1.0 salary model was NOT compatible with real club
+ * purchasing power (9/14 real Handbollsligan clubs landed CRITICAL/
+ * SERIOUS financial pressure purely from wage-scale mismatch). Unlike
+ * ensureCareerPlayerContracts (fills ONLY missing contracts, never
+ * touches an existing one), this deliberately RECOMPUTES every existing
+ * contract's own `wageEurPerMonth` against the CURRENT
+ * computePlayerSalaryEurPerMonth formula -- contractEndDate is left
+ * completely untouched (a genuinely separate sticky fact, orthogonal to
+ * the wage SCALE this milestone recalibrates). Naturally idempotent: a
+ * save already on the current formula recomputes to the identical
+ * value for every player, so this returns the same state reference
+ * (true no-op) -- safe to run on every migration, exactly like
+ * ensureCareerGameplayRatings/ensureCareerPlayerContracts already do
+ * unconditionally in saveMigration.ts.
+ */
+export function recalibratePlayerContractWages(state: CareerState): CareerState {
+  const entries = Object.entries(state.playerContracts);
+  if (entries.length === 0) return state;
+
+  let changed = false;
+  const nextContracts: Record<string, PlayerContract> = {};
+  for (const [playerId, contract] of entries) {
+    const player = getCareerPlayer(state, playerId);
+    const economyInputs = player ? buildEconomyProfileInputs(state, player) : null;
+    if (!economyInputs) {
+      nextContracts[playerId] = contract; // player no longer resolvable, or no rating -- leave the existing wage untouched, never crash/invent.
+      continue;
+    }
+    const recalibratedWage = computePlayerSalaryEurPerMonth(economyInputs);
+    if (recalibratedWage !== contract.wageEurPerMonth) changed = true;
+    nextContracts[playerId] = { ...contract, wageEurPerMonth: recalibratedWage };
+  }
+
+  if (!changed) return state;
+  return { ...state, playerContracts: nextContracts };
 }
 
 export function getPlayerContractStatus(state: CareerState, playerId: string): ContractStatus | undefined {

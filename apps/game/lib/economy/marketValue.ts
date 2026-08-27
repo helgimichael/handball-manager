@@ -1,31 +1,44 @@
-// HM-CONTRACTS-1.0/1.0A: the ONE centralized, deterministic salary/
-// market-value model. Both are PURE functions of already-persistent
-// inputs (CA/PA from gameplayRatings, age from dateOfBirth+career
-// gameDate, contract time remaining, league tier, position, squad role)
-// -- never stored/cached, recomputed fresh on every read (same "derived,
-// never a second source of truth" precedent as
-// lib/career/standings.ts's getLiveStandings). This is what makes value
-// genuinely DYNAMIC (Part: "Marknadsvärdet ska vara dynamiskt") and
-// automatically reflects a developed player's new CA with zero extra
-// bookkeeping.
+// HM-CONTRACTS-1.0/1.0A/HM-WAGE-MARKET-1.0: the ONE centralized,
+// deterministic salary/market-value model. Both are PURE functions of
+// already-persistent inputs (CA/PA from gameplayRatings, age from
+// dateOfBirth+career gameDate, contract time remaining, league tier,
+// position, squad role) -- never stored/cached, recomputed fresh on
+// every read (same "derived, never a second source of truth" precedent
+// as lib/career/standings.ts's getLiveStandings). This is what makes
+// value genuinely DYNAMIC (Part: "Marknadsvärdet ska vara dynamiskt")
+// and automatically reflects a developed player's new CA with zero
+// extra bookkeeping.
 //
-// HM-CONTRACTS-1.0A: EUR is now the canonical INTERNAL currency (per
+// HM-CONTRACTS-1.0A: EUR is the canonical INTERNAL currency (per
 // HANDBALL_MANAGER_CLUB_ECONOMY_COMMERCIAL_MODEL_v0.1's own economic
-// scale -- every revenue band/example in that document is EUR-
-// denominated). The previous SEK-denominated bounds are re-expressed at
-// a fixed internal reference rate of 1 EUR = 11 SEK (a foundation-pass
-// approximation, not a live FX feed -- see lib/economy/currency.ts's own
-// doc comment) -- the CURVE SHAPE/exponents/multipliers are otherwise
-// UNCHANGED from HM-CONTRACTS-1.0 (Part: "Ändra inte övrig Contracts/
-// value-kalibrering mer än nödvändigt"). SEK (or any other display
-// currency) becomes presentation-only, converted at the display boundary
-// (lib/economy/currency.ts), never re-entering this module.
+// scale). SEK (or any other display currency) is presentation-only,
+// converted at the display boundary (lib/economy/currency.ts), never
+// re-entering this module.
+//
+// HM-WAGE-MARKET-1.0: HM-ECONOMY-1.0's own calibration report proved
+// the HM-CONTRACTS-1.0/1.0A-era SALARY_MIN/MAX_EUR_PER_MONTH bounds
+// (500/13,000) were NOT compatible with the club purchasing power that
+// milestone generates -- 9 of 14 real Handbollsligan clubs landed
+// CRITICAL/SERIOUS financial pressure purely because typical squad wage
+// bills (~€460k-800k/year) exceeded even a financially healthy club's
+// own sustainable wage budget (revenue x TARGET_SQUAD_COST_RATIO x
+// HM_SPORTING_CAPACITY_MULTIPLIER, lib/economy/clubEconomyCalibration.ts
+// -- deliberately NOT touched here, per explicit instruction "Ändra
+// inte Economy 1.0 i smyg"). SALARY_MIN/MAX_EUR_PER_MONTH and
+// VALUE_MIN/MAX_EUR below are RE-CALIBRATED against that same
+// club-economy population (see clubEconomyCalibrationReport.test.ts's
+// own before/after tables) so a typical club can actually afford a
+// typical squad, while richer bands (E3-E5) remain comfortably able to
+// pay more and the weakest E7 clubs remain realistically pressured --
+// financial variance across clubs is intentional, not eliminated.
+// The CURVE SHAPE (exponents, age/role/tier/position multiplier
+// tables) is UNCHANGED -- only the absolute EUR bounds moved, so every
+// existing relative hierarchy (CA ordering, age curve, KEY_PLAYER >
+// EMERGENCY, Handbollsligan > Allsvenskan) is preserved exactly,
+// proportionally rescaled.
 //
 // Part: "handboll är INTE fotboll" -- bounded to a realistic Swedish
-// handball scale (roughly a thousand to half a million EUR), never
-// football-scale numbers. Calibration is deliberately a first pass (Part:
-// "kalibreringen kan förbättras senare") -- see the mandatory calibration
-// test for actual generated numbers across player archetypes.
+// handball scale, never football-scale numbers.
 import type { MatchRole } from "../matchPlan/types";
 import type { Position } from "../rating/types";
 import { daysUntilContractEnd } from "./contractLifecycle";
@@ -109,8 +122,15 @@ export interface EconomyProfileInputs {
 // Market value.
 // ---------------------------------------------------------------------------
 
-const VALUE_MIN_EUR = 1_500;
-const VALUE_MAX_EUR = 550_000;
+// HM-WAGE-MARKET-1.0: rescaled to ~0.4x the HM-CONTRACTS-1.0A bounds
+// (1,500/550,000), the same proportion SALARY_MIN/MAX below were
+// rescaled by, so VALUE and SALARY stay internally consistent (a
+// player's transfer-value-to-annual-wage multiple is unchanged) while
+// bringing typical values within reach of the transfer budgets
+// clubEconomyIntegration.ts now derives (see clubEconomyCalibrationReport.test.ts's
+// transfer-affordability table).
+const VALUE_MIN_EUR = 600;
+const VALUE_MAX_EUR = 220_000;
 const VALUE_EXPONENT = 2.3;
 
 function baseValueFromCA(ca: number): number {
@@ -157,8 +177,17 @@ export function computePlayerMarketValueEur(inputs: EconomyProfileInputs, contra
 // Salary.
 // ---------------------------------------------------------------------------
 
-const SALARY_MIN_EUR_PER_MONTH = 500;
-const SALARY_MAX_EUR_PER_MONTH = 13_000;
+// HM-WAGE-MARKET-1.0: rescaled from the HM-CONTRACTS-1.0A bounds
+// (500/13,000) to bring typical squad wage bills within reach of a
+// financially healthy club's own sustainable wage budget -- verified
+// against the full real Handbollsligan population + IFK Tumba (see
+// clubEconomyCalibrationReport.test.ts): at these bounds, most clubs
+// carry a real, affordable squad while the weakest-revenue clubs
+// remain realistically pressured, instead of 9/14 clubs being
+// CRITICAL/SERIOUS purely from wage-scale mismatch. The curve EXPONENT
+// is unchanged (Part: preserve the existing CA-to-wage shape).
+const SALARY_MIN_EUR_PER_MONTH = 200;
+const SALARY_MAX_EUR_PER_MONTH = 5_000;
 const SALARY_EXPONENT = 1.8; // less convex than value -- wages scale more linearly with ability than valuations do
 
 function baseSalaryFromCA(ca: number): number {

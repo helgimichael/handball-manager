@@ -93,7 +93,7 @@ test("(6) an arbitrary non-Tumba club (synthetic worldSquads) gets full club-his
 // SEK -> EUR contract migration (career-state schema v22, part 1/2).
 // ---------------------------------------------------------------------------
 
-test("(7) an HM-CONTRACTS-1.0-era save's legacy wageSekPerMonth converts to wageEurPerMonth at the documented fixed rate, exactly once", () => {
+test("(7) an HM-CONTRACTS-1.0-era save's legacy wageSekPerMonth converts to EUR, then HM-WAGE-MARKET-1.0's own recalibration overwrites it with the CURRENT wage formula's output", () => {
   const state = freshTumba("club-history-7");
   const playerId = getCareerClubSquad(state, TUMBA_CLUB_ID)[0].id;
   const originalWageEur = state.playerContracts[playerId].wageEurPerMonth;
@@ -111,9 +111,14 @@ test("(7) an HM-CONTRACTS-1.0-era save's legacy wageSekPerMonth converts to wage
   const migrated = migrateCareerState(legacyState);
   const migratedContract = migrated.playerContracts[playerId] as PlayerContract & { wageSekPerMonth?: number };
 
-  assert.equal(migratedContract.wageEurPerMonth, Math.round(oldSekWage / EUR_TO_SEK_REFERENCE_RATE));
-  assert.equal(migratedContract.wageEurPerMonth, originalWageEur, "round-tripping through the fixed reference rate must recover the original EUR figure");
   assert.equal(migratedContract.wageSekPerMonth, undefined, "the legacy SEK field must not survive migration");
+  // The currency conversion is only an INTERMEDIATE correctness step --
+  // recalibratePlayerContractWages then recomputes the wage fresh from
+  // the player's own (unchanged) rating/age/role/tier, landing on the
+  // exact same value createNewCareerState itself produced for this
+  // player under the current formula (nothing about the player changed,
+  // only the formula that priced them).
+  assert.equal(migratedContract.wageEurPerMonth, originalWageEur);
 });
 
 test("(7b) migrating an already-EUR contract never re-converts it (no accidental double-division)", () => {
@@ -138,5 +143,5 @@ test("(7c) a migrated SEK wage never ends up implausibly high (would indicate a 
   const migrated = migrateCareerState(legacyState);
   // A bare rename bug would leave wageEurPerMonth == oldSekWage (~11x too high).
   assert.notEqual(migrated.playerContracts[playerId].wageEurPerMonth, oldSekWage);
-  assert.ok(migrated.playerContracts[playerId].wageEurPerMonth <= 13_000, `migrated wage implausibly high: ${migrated.playerContracts[playerId].wageEurPerMonth}`);
+  assert.ok(migrated.playerContracts[playerId].wageEurPerMonth <= 5_000, `migrated wage implausibly high: ${migrated.playerContracts[playerId].wageEurPerMonth}`);
 });

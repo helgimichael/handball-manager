@@ -16,7 +16,7 @@ import { seedPlayerStatuses } from "./playerStatus";
 import { defaultTeamTacticalProfile } from "./teamTacticalProfile";
 import type { CareerState } from "./types";
 import { ensureCareerGameplayRatings } from "./careerRatingNormalization";
-import { ensureCareerPlayerContracts } from "../economy/contractIntegration";
+import { ensureCareerPlayerContracts, recalibratePlayerContractWages } from "../economy/contractIntegration";
 import { ensureCareerPlayerClubHistory } from "../economy/clubHistoryIntegration";
 import { ensureCareerAllClubEconomies } from "../economy/clubEconomyIntegration";
 import { EUR_TO_SEK_REFERENCE_RATE } from "../economy/currency";
@@ -307,6 +307,16 @@ export function migrateCareerState(career: CareerState): CareerState {
   }
 
   next = ensureCareerPlayerContracts(next, next.playerClubId);
+
+  // HM-WAGE-MARKET-1.0: recalibrate every EXISTING contract's own wage
+  // against the current salary formula -- Economy 1.0's own calibration
+  // report proved the pre-recalibration wage scale was not compatible
+  // with real club purchasing power (9/14 real Handbollsligan clubs
+  // CRITICAL/SERIOUS purely from this mismatch). Naturally idempotent
+  // (see recalibratePlayerContractWages's own doc), so -- like
+  // ensureCareerGameplayRatings/ensureCareerPlayerContracts above -- it
+  // is safe to run unconditionally on every migration, never only once.
+  next = recalibratePlayerContractWages(next);
 
   // HM-CONTRACTS-1.0A (career-state schema v22, part 2/2): additive --
   // an existing career simply never had a club/youth history for some or

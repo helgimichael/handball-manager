@@ -7,7 +7,7 @@ import { createNewCareerState } from "./newCareer";
 import { migrateCareerState } from "./saveMigration";
 import { getCareerClubSquad } from "./careerWorld";
 import { TUMBA_CLUB_ID } from "../game-data";
-import { ensureCareerPlayerContracts, getPlayerContract, getPlayerContractStatus, getPlayerMarketValueEur } from "../economy/contractIntegration";
+import { ensureCareerPlayerContracts, getPlayerContract, getPlayerContractStatus, getPlayerMarketValueEur, recalibratePlayerContractWages } from "../economy/contractIntegration";
 import type { CareerState } from "./types";
 import type { GameplayPlayerRating } from "../gameWorld/gameplayRatingSnapshot";
 
@@ -36,7 +36,7 @@ test("(2) every roster player has a positive salary and a positive, bounded mark
     assert.ok(contract.wageEurPerMonth > 0, `${player.id} has zero/negative wage`);
     const value = getPlayerMarketValueEur(state, player.id);
     assert.ok(value !== undefined && value > 0, `${player.id} has no market value`);
-    assert.ok(value! <= 550_000, `${player.id} value implausibly high: ${value}`);
+    assert.ok(value! <= 220_000, `${player.id} value implausibly high: ${value}`);
   }
 });
 
@@ -156,15 +156,54 @@ test("(11b) migrating an already-current save never rerolls an existing contract
   assert.deepEqual(before, after);
 });
 
-test("(11c) migrating a save with ONE existing evidence-shaped contract preserves it exactly, only filling the rest", () => {
+test("(11c) migrating a save with ONE existing contract keeps its own contractEndDate/clubId exactly, recalibrates only its wage, and fills the rest of the squad", () => {
   const state = freshTumba("contracts-11c");
   const squad = getCareerClubSquad(state, TUMBA_CLUB_ID);
   const somePlayer = squad[0];
+  // HM-WAGE-MARKET-1.0: recalibratePlayerContractWages deliberately
+  // overwrites any existing contract's own wage to the current formula
+  // (Part: this milestone's whole point). contractEndDate/clubId/
+  // playerId are NOT touched by that recalibration -- ensureCareer
+  // PlayerContracts's own "never touch an existing entry beyond wage
+  // recalibration" contract is what this test now actually verifies.
   const customContract = { ...getPlayerContract(state, somePlayer.id)!, wageEurPerMonth: 999_999 };
   const partial: CareerState = { ...state, playerContracts: { [somePlayer.id]: customContract } };
   const migrated = migrateCareerState(partial);
-  assert.deepEqual(migrated.playerContracts[somePlayer.id], customContract);
+  const migratedContract = migrated.playerContracts[somePlayer.id];
+  assert.equal(migratedContract.contractEndDate, customContract.contractEndDate);
+  assert.equal(migratedContract.clubId, customContract.clubId);
+  assert.equal(migratedContract.playerId, customContract.playerId);
+  assert.notEqual(migratedContract.wageEurPerMonth, 999_999, "the artificially high wage must be recalibrated, not preserved");
   assert.equal(Object.keys(migrated.playerContracts).length, squad.length);
+});
+
+// HM-WAGE-MARKET-1.0: recalibratePlayerContractWages proofs.
+test("(12) recalibratePlayerContractWages on an already-current-formula save is a true no-op (same state reference)", () => {
+  const state = freshTumba("contracts-12");
+  const result = recalibratePlayerContractWages(state);
+  assert.equal(result, state);
+});
+
+test("(13) recalibratePlayerContractWages rescales an artificially high (pre-recalibration-scale) wage down to the current formula's output, leaving contractEndDate/clubId untouched", () => {
+  const state = freshTumba("contracts-13");
+  const playerId = getCareerClubSquad(state, TUMBA_CLUB_ID)[0].id;
+  const currentWage = state.playerContracts[playerId].wageEurPerMonth;
+  const inflated: CareerState = {
+    ...state,
+    playerContracts: { ...state.playerContracts, [playerId]: { ...state.playerContracts[playerId], wageEurPerMonth: currentWage * 3 } },
+  };
+  const recalibrated = recalibratePlayerContractWages(inflated);
+  assert.equal(recalibrated.playerContracts[playerId].wageEurPerMonth, currentWage);
+  assert.equal(recalibrated.playerContracts[playerId].contractEndDate, state.playerContracts[playerId].contractEndDate);
+  assert.equal(recalibrated.playerContracts[playerId].clubId, state.playerContracts[playerId].clubId);
+});
+
+test("(14) recalibratePlayerContractWages leaves an unresolvable player's contract untouched rather than crashing", () => {
+  const state = freshTumba("contracts-14");
+  const ghostContract = { playerId: "ghost-player", clubId: TUMBA_CLUB_ID, contractEndDate: "2028-06-30", wageEurPerMonth: 12_345 };
+  const withGhost: CareerState = { ...state, playerContracts: { ...state.playerContracts, "ghost-player": ghostContract } };
+  const recalibrated = recalibratePlayerContractWages(withGhost);
+  assert.deepEqual(recalibrated.playerContracts["ghost-player"], ghostContract);
 });
 
 // contract status helper sanity via real career.

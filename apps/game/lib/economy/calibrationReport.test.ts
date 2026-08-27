@@ -80,8 +80,8 @@ test("Part: HM-CONTRACTS-1.0/1.0A calibration report -- 12 player archetypes, EU
 
   // Never football-scale numbers anywhere in the table.
   for (const row of rows) {
-    assert.ok(parseEur(row.VALUE) <= 550_000, `${row.PLAYER} value too high: ${row.VALUE}`);
-    assert.ok(parseEur(row.SALARY) <= 13_000, `${row.PLAYER} salary too high: ${row.SALARY}`);
+    assert.ok(parseEur(row.VALUE) <= 220_000, `${row.PLAYER} value too high: ${row.VALUE}`);
+    assert.ok(parseEur(row.SALARY) <= 5_000, `${row.PLAYER} salary too high: ${row.SALARY}`);
   }
 });
 
