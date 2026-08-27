@@ -39,6 +39,32 @@ test("toPlayerMock's game-simulation fields are the one fixed, documented, neutr
   assert.deepEqual(a.attributes, b.attributes);
 });
 
+test("HM-PLAYER-DATA-EDITOR-1.0: toPlayerMock threads a calibrated defaultSquadStatus into calibratedSquadStatusTier, and leaves it undefined when nobody has calibrated one", () => {
+  const squad = loadRealWorldClubSquad("se_club_alingsas_hk", DEFAULT_DATA_ROOT)!;
+  const basePlayer = { ...squad.players[0], defaultSquadStatus: null, specialTags: [] };
+  const uncalibrated = toPlayerMock(basePlayer)!;
+  assert.equal(uncalibrated.calibratedSquadStatusTier, undefined);
+
+  const calibrated = toPlayerMock({ ...basePlayer, defaultSquadStatus: "KEY_PLAYER" })!;
+  assert.equal(calibrated.calibratedSquadStatusTier, "KEY_PLAYER");
+
+  const invalid = toPlayerMock({ ...basePlayer, defaultSquadStatus: "NOT_A_REAL_TIER" })!;
+  assert.equal(invalid.calibratedSquadStatusTier, undefined, "an unrecognized value must never be passed through as if it were a real tier");
+});
+
+test("HM-PLAYER-DATA-EDITOR-1.0: toPlayerMock threads calibrated specialTags, filtering out anything not in the canonical vocabulary", () => {
+  const squad = loadRealWorldClubSquad("se_club_alingsas_hk", DEFAULT_DATA_ROOT)!;
+  const basePlayer = { ...squad.players[0], defaultSquadStatus: null, specialTags: [] };
+  const noTags = toPlayerMock(basePlayer)!;
+  assert.equal(noTags.specialTags, undefined);
+
+  const tagged = toPlayerMock({ ...basePlayer, specialTags: ["CAPTAIN", "SEVEN_METER_TAKER"] })!;
+  assert.deepEqual(tagged.specialTags, ["CAPTAIN", "SEVEN_METER_TAKER"]);
+
+  const mixed = toPlayerMock({ ...basePlayer, specialTags: ["CAPTAIN", "NOT_A_REAL_TAG"] })!;
+  assert.deepEqual(mixed.specialTags, ["CAPTAIN"], "an unrecognized tag must be dropped, never passed through");
+});
+
 test("toPlayerMock refuses (returns null for) a non-canonical primaryPosition rather than inventing one", () => {
   const squad = loadRealWorldClubSquad("se_club_alingsas_hk", DEFAULT_DATA_ROOT)!;
   const bad = { ...squad.players[0], primaryPosition: "STRIKER" };

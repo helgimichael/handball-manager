@@ -5,6 +5,7 @@
 // (nations, competition names, club names) is cited in nations.ts /
 // competitions.ts / clubs.ts; everything else here is fictional/mock,
 // clearly marked at each module.
+import type { PlayerTag } from "./playerTags";
 
 export type NationCode = "SWE" | "DEN" | "NOR" | "GER" | "ESP" | "HUN" | "SVN" | "ISL";
 
@@ -58,6 +59,20 @@ export type HandballPosition = "MV" | "V9" | "V6" | "M9" | "M6" | "H9" | "H6";
 
 export type SquadStatus = "Förstaval" | "Rotation" | "Ungdom" | "Skadad" | "Avstängd";
 
+/**
+ * HM-PLAYER-DATA-EDITOR-1.0: a CALIBRATION input, not a live career
+ * value -- mirrors lib/career/squadStatus.ts's own `SquadStatusTier`
+ * literal-for-literal (duplicated here, not imported, to avoid a
+ * game-data -> career -> game-data import cycle; that module remains
+ * the one canonical definition of what the 5 tiers MEAN). When present,
+ * `deriveDefaultSquadStatusTier` (squadStatus.ts) uses this as the
+ * career's starting default instead of its own coarse Förstaval/
+ * Rotation/Ungdom-based guess -- letting an editor-calibrated default
+ * (e.g. "this real player is genuinely a KEY_PLAYER") actually reach a
+ * fresh career, which no pre-existing field could express.
+ */
+export type CalibratedSquadStatusTier = "KEY_PLAYER" | "FIRST_CHOICE" | "ROTATION" | "SQUAD_PLAYER" | "TALENT";
+
 export type PlayerMock = {
   id: string;
   clubId: string;
@@ -81,6 +96,10 @@ export type PlayerMock = {
   weightKg: number | null;
   foot: "Vänsterhänt" | "Högerhänt" | null;
   squadStatus: SquadStatus;
+  /** HM-PLAYER-DATA-EDITOR-1.0: editor-calibrated permanent squad-role default, from roster-*.json's `defaultSquadStatus` -- see CalibratedSquadStatusTier's own doc. Undefined for a player nobody has calibrated yet (the pre-existing squadStatus-based guess still applies). */
+  calibratedSquadStatusTier?: CalibratedSquadStatusTier;
+  /** HM-PLAYER-DATA-EDITOR-1.0: editor-calibrated special tags (playerTags.ts) -- purely informational at this milestone, no gameplay system reads this yet. Undefined/empty for an uncalibrated player. */
+  specialTags?: PlayerTag[];
   /** HM-DATA-0.2: "REAL_WORLD" for imported Handbollsligan players, undefined/"MOCK" for authored fiction (e.g. TUMBA_SQUAD). Dev-facing distinction only. */
   dataSource?: "REAL_WORLD" | "MOCK";
   /** 1-200 hidden development scale -- see CA/PA note in players.ts. */

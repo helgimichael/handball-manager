@@ -38,6 +38,8 @@ const ROSTER_FIELDS: readonly (keyof RosterEditableFields)[] = [
   "rosterStatus",
   "contract",
   "rosterConfidence",
+  "defaultSquadStatus",
+  "specialTags",
 ];
 
 function readJsonArray(filePath: string): Record<string, unknown>[] {
@@ -142,6 +144,8 @@ function toEditableRoster(raw: Record<string, unknown>): RosterEditableFields {
       optionUntilSeason: (contract.optionUntilSeason as string | null) ?? null,
     },
     rosterConfidence: (raw.rosterConfidence as Confidence) ?? "UNKNOWN",
+    defaultSquadStatus: (raw.defaultSquadStatus as RosterEditableFields["defaultSquadStatus"]) ?? null,
+    specialTags: Array.isArray(raw.specialTags) ? (raw.specialTags as RosterEditableFields["specialTags"]) : [],
   };
 }
 
@@ -279,4 +283,57 @@ export function savePlayerEdit(
 
 export function getClubEntry(catalog: EditorCatalog, clubId: string): EditorClubEntry | undefined {
   return findClubById(catalog, clubId);
+}
+
+/**
+ * HM-PLAYER-DATA-EDITOR-1.0: every player, across every club in the
+ * catalog (optionally narrowed to a `competitionSlug` allow-list), with
+ * the SAME full editable shape `loadPlayerRecord` returns for one
+ * player -- but reading each club's two files exactly once, not once
+ * per player, for the bulk calibration workspace. `sources` is
+ * deliberately omitted here (the per-club sources file join is only
+ * worth the extra I/O for a single-player deep-dive, not a table of
+ * hundreds of rows) -- callers needing sources should still use
+ * `loadPlayerRecord` for that one player.
+ */
+export function listAllPlayersFull(catalog: EditorCatalog, competitionSlugs?: readonly string[]): EditorPlayerRecord[] {
+  const clubs = competitionSlugs ? catalog.clubs.filter((c) => competitionSlugs.includes(c.competitionSlug)) : catalog.clubs;
+  const records: EditorPlayerRecord[] = [];
+
+  for (const club of clubs) {
+    let players: Record<string, unknown>[];
+    let roster: Record<string, unknown>[];
+    try {
+      players = readJsonArray(club.playersFile);
+      roster = readJsonArray(club.rosterFile);
+    } catch {
+      continue; // a malformed club file must not take down the whole bulk listing
+    }
+    const rosterByPlayerId = new Map(roster.map((r) => [String(r.playerId), r]));
+
+    for (const playerRaw of players) {
+      const playerId = String(playerRaw.playerId);
+      const rosterRaw = rosterByPlayerId.get(playerId);
+      if (!rosterRaw) continue; // orphaned identity entry -- surfaced by validateClubSquad, not fabricated here
+
+      records.push({
+        playerId,
+        clubId: club.clubId,
+        clubName: club.clubName,
+        player: toEditablePlayer(playerRaw),
+        roster: toEditableRoster(rosterRaw),
+        readOnly: {
+          aliases: Array.isArray(playerRaw.aliases) ? (playerRaw.aliases as string[]) : [],
+          dataNotes: Array.isArray(playerRaw.dataNotes) ? (playerRaw.dataNotes as string[]) : [],
+          rosterEntryId: String(rosterRaw.rosterEntryId ?? ""),
+          competitionId: String(rosterRaw.competitionId ?? club.competitionId ?? ""),
+          season: String(rosterRaw.season ?? ""),
+          snapshotDate: String(rosterRaw.snapshotDate ?? ""),
+          sources: [],
+        },
+      });
+    }
+  }
+
+  return records;
 }

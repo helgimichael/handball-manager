@@ -7,6 +7,7 @@
 // unaffected and keeps using lib/gameWorld/ratingProposalSnapshot.ts,
 // exactly as HM-UX-0.3 left it.
 import { loadRealWorldClubSquad } from "../gameWorld/realWorldLoader";
+import { DEFAULT_DATA_ROOT } from "./paths";
 import { applyCAEstimation } from "../rating/caEstimation/applyCAEstimation";
 import type { CAProposal } from "../rating/caEstimation/types";
 import { applyGamePrior } from "../rating/gamePrior/applyGamePrior";
@@ -99,13 +100,13 @@ function resolveValueSource(matchedCalibration: boolean, hasOverride: boolean, e
  * read path in this codebase (HM-RATINGS-0.3's own doc comment: "the
  * dataset is small, a cache is not worth the invalidation risk").
  */
-export function buildRatingWorkbenchForClub(clubId: string): RatingWorkbenchClub | null {
-  const squad = loadRealWorldClubSquad(clubId);
+export function buildRatingWorkbenchForClub(clubId: string, dataRoot: string = DEFAULT_DATA_ROOT): RatingWorkbenchClub | null {
+  const squad = loadRealWorldClubSquad(clubId, dataRoot);
   if (!squad) return null;
 
-  const reviewState = loadRatingReviewState(clubId);
-  const overrideState = loadRatingOverrideState(clubId);
-  const lockedState = loadRatingDatabase(clubId);
+  const reviewState = loadRatingReviewState(clubId, dataRoot);
+  const overrideState = loadRatingOverrideState(clubId, dataRoot);
+  const lockedState = loadRatingDatabase(clubId, dataRoot);
 
   const rows: RatingWorkbenchRow[] = squad.players.map((player) => {
     const { profile: proposedProfile, matchedCalibration } = proposePlayerRating(player);
@@ -148,8 +149,8 @@ export function buildRatingWorkbenchForClub(clubId: string): RatingWorkbenchClub
   return { clubId: squad.clubId, clubName: squad.clubName, rows };
 }
 
-export function buildRatingWorkbenchRowForPlayer(clubId: string, playerId: string): RatingWorkbenchRow | null {
-  const club = buildRatingWorkbenchForClub(clubId);
+export function buildRatingWorkbenchRowForPlayer(clubId: string, playerId: string, dataRoot: string = DEFAULT_DATA_ROOT): RatingWorkbenchRow | null {
+  const club = buildRatingWorkbenchForClub(clubId, dataRoot);
   return club?.rows.find((r) => r.profile.playerId === playerId) ?? null;
 }
 

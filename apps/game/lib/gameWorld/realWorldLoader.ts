@@ -38,6 +38,10 @@ export interface RealWorldPlayer {
   secondaryPositions: string[];
   rosterStatus: string;
   contract: RealWorldContract;
+  /** HM-PLAYER-DATA-EDITOR-1.0: editor-calibrated permanent squad-role default (roster-*.json's `defaultSquadStatus`), or `null` if nobody has calibrated one yet. */
+  defaultSquadStatus: string | null;
+  /** HM-PLAYER-DATA-EDITOR-1.0: editor-calibrated special tags (roster-*.json's `specialTags`). Empty when none have been calibrated. */
+  specialTags: string[];
 }
 
 export interface RealWorldClubSquad {
@@ -94,6 +98,8 @@ function loadOne(catalog: EditorCatalog, clubId: string): RealWorldClubSquad | n
         untilSeason: (contract.untilSeason as string | null) ?? null,
         optionUntilSeason: (contract.optionUntilSeason as string | null) ?? null,
       },
+      defaultSquadStatus: (r.defaultSquadStatus as string | null) ?? null,
+      specialTags: Array.isArray(r.specialTags) ? (r.specialTags as string[]) : [],
     });
   }
 

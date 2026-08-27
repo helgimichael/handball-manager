@@ -17,6 +17,8 @@
       "optionUntilSeason": null
     },
     "rosterConfidence": "VERIFIED",
+    "defaultSquadStatus": null,
+    "specialTags": [],
     "sourceRefs": {
       "roster": [
         "src_fixture_alpha"
@@ -41,6 +43,8 @@
       "optionUntilSeason": null
     },
     "rosterConfidence": "PARTIAL",
+    "defaultSquadStatus": null,
+    "specialTags": [],
     "sourceRefs": {
       "roster": [
         "src_fixture_beta"

@@ -46,6 +46,11 @@ export const SQUAD_STATUS_TIER_LABEL_SV: Record<SquadStatusTier, string> = {
  * inferred from the unrelated injury/suspension fact).
  */
 function deriveDefaultSquadStatusTier(player: PlayerMock): SquadStatusTier {
+  // HM-PLAYER-DATA-EDITOR-1.0: an editor-calibrated default (from
+  // roster-*.json's `defaultSquadStatus`, threaded through PlayerMock.
+  // calibratedSquadStatusTier by gameWorldAdapter.ts) wins outright --
+  // it is a real, deliberate calibration decision, not a coarse guess.
+  if (player.calibratedSquadStatusTier) return player.calibratedSquadStatusTier;
   switch (player.squadStatus) {
     case "Förstaval":
       return "FIRST_CHOICE";

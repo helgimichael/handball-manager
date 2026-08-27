@@ -1,162 +1,595 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
-import type { CSSProperties } from "react";
+// HM-PLAYER-DATA-EDITOR-1.0: the bulk player calibration workspace --
+// every Handbollsligan + Allsvenskan player in one compact,
+// spreadsheet-like table with inline editing, so the manager can go
+// through hundreds of players quickly without opening a separate
+// profile page per player (the pre-existing per-player editors at
+// /editor/players/[playerId] and /editor/ratings/[playerId] still exist
+// for a deep-dive, but are no longer the primary calibration workflow).
+//
+// Every field this page writes goes through the SAME canonical
+// resolution path a fresh career already reads:
+//  - position / birth data / permanent squad-status default / special
+//    tags -> lib/editor/playerRepository.ts's savePlayerEdit (same
+//    atomic-write/backup/diff mechanism the single-player editor uses)
+//    -> data/real-world/.../players-*.json + roster-*.json -> read by
+//    gameWorldAdapter.ts's toPlayerMock on every career creation.
+//  - CA/PA -> lib/editor/ratingCalibration.ts's calibratePlayerRating,
+//    which composes the SAME draft-override + lock steps the
+//    single-player rating editor's Override/Lock buttons already
+//    perform -> lib/editor/ratingDatabaseRepository.ts's locked
+//    database -> read FIRST by gameplayRatingSnapshot.ts's resolver
+//    (LOCKED > CALIBRATED > ESTIMATED > GENERATED_GAME_PRIOR), which is
+//    what every fresh career's gameplayRatings snapshot is built from.
+// There is no third, parallel data source anywhere in this page.
+import { useEffect, useMemo, useState, type CSSProperties, type KeyboardEvent } from "react";
 import { useRouter } from "next/navigation";
+import { abilityStarsFromCA, potentialStarsFromPA } from "@/lib/development/types";
+import { SortableTh, applySortDirection, type SortState } from "@/components/SortableTh";
+import StarRating from "@/components/StarRating";
+
+const CANONICAL_POSITIONS = ["MV", "V6", "V9", "M9", "M6", "H9", "H6"] as const;
+type CanonicalPosition = (typeof CANONICAL_POSITIONS)[number];
+const SQUAD_STATUS_TIER_VALUES = ["KEY_PLAYER", "FIRST_CHOICE", "ROTATION", "SQUAD_PLAYER", "TALENT"] as const;
+type SquadStatusTierValue = (typeof SQUAD_STATUS_TIER_VALUES)[number];
+const SQUAD_STATUS_LABEL_SV: Record<SquadStatusTierValue, string> = {
+  KEY_PLAYER: "Nyckelspelare",
+  FIRST_CHOICE: "Förstaval",
+  ROTATION: "Rotation",
+  SQUAD_PLAYER: "Truppspelare",
+  TALENT: "Talang",
+};
+const PLAYER_TAG_VALUES = ["ATTACK_SPECIALIST", "DEFENCE_SPECIALIST", "SEVEN_METER_TAKER", "SEVEN_VS_SIX_IMPORTANT", "CAPTAIN", "FIRST_GOALKEEPER", "BACKUP_GOALKEEPER"] as const;
+type PlayerTagValue = (typeof PLAYER_TAG_VALUES)[number];
+const PLAYER_TAG_LABEL_SV: Record<PlayerTagValue, string> = {
+  ATTACK_SPECIALIST: "Anfallsspecialist",
+  DEFENCE_SPECIALIST: "Försvarsspecialist",
+  SEVEN_METER_TAKER: "Straffskytt",
+  SEVEN_VS_SIX_IMPORTANT: "Viktig i 7-mot-6",
+  CAPTAIN: "Lagkapten",
+  FIRST_GOALKEEPER: "Förstemålvakt",
+  BACKUP_GOALKEEPER: "Reservmålvakt",
+};
 
 const inputStyle: CSSProperties = {
   background: "var(--hm-surface-2)",
   border: "1px solid var(--hm-border)",
   borderRadius: "var(--hm-radius-sm)",
   color: "var(--hm-text-primary)",
-  padding: "7px 10px",
-  fontSize: "var(--hm-text-xs)",
+  padding: "5px 7px",
+  fontSize: "var(--hm-text-2xs)",
 };
+const numberInputStyle: CSSProperties = { ...inputStyle, width: 56 };
+const errorInputStyle: CSSProperties = { ...numberInputStyle, border: "1px solid var(--hm-negative, #b23a2e)" };
 
-interface CatalogClub {
+interface ApiPlayer {
+  playerId: string;
   clubId: string;
   clubName: string;
   competitionId: string;
-  nation: string;
-  season: string;
   competitionSlug: string;
-  playerCount: number;
+  player: {
+    firstName: string; lastName: string; fullName: string; dateOfBirth: string | null; birthYear: number | null;
+    nationalities: string[] | null; heightCm: number | null; handedness: "LEFT" | "RIGHT" | null; recordConfidence: "VERIFIED" | "PARTIAL" | "UNKNOWN";
+  };
+  roster: {
+    shirtNumber: number | null; sourcePosition: string; primaryPosition: CanonicalPosition; secondaryPositions: CanonicalPosition[];
+    rosterStatus: string; contract: { untilDate: string | null; untilSeason: string | null; optionUntilSeason: string | null }; rosterConfidence: "VERIFIED" | "PARTIAL" | "UNKNOWN";
+    defaultSquadStatus: SquadStatusTierValue | null; specialTags: PlayerTagValue[];
+  };
+  readOnly: { ageYears: number | null; contractEndDisplay: string; marketValueEurPreview: number | null };
+  rating: { ca: number | null; pa: number | null; abilityStars: number; potentialStars: number; caSource: string; paSource: string; locked: boolean; matchedCalibration: boolean };
 }
 
-interface PlayerRow {
+interface RowVM {
   playerId: string;
-  fullName: string;
   clubId: string;
   clubName: string;
-  primaryPosition: string;
+  competitionSlug: string;
+  fullName: string;
+  primaryPosition: CanonicalPosition;
   dateOfBirth: string | null;
   birthYear: number | null;
-  nationalities: string[] | null;
-  shirtNumber: number | null;
-  recordConfidence: string | null;
-  rosterConfidence: string | null;
+  defaultSquadStatus: SquadStatusTierValue | null;
+  specialTags: PlayerTagValue[];
+  ca: number | null;
+  pa: number | null;
+  // read-only display
+  abilityStars: number;
+  potentialStars: number;
+  caSource: string;
+  paSource: string;
+  locked: boolean;
+  ageYears: number | null;
+  marketValueEurPreview: number | null;
+  contractEndDisplay: string;
+  recordConfidence: string;
+  rosterConfidence: string;
+  // preserved originals, so a save never clobbers a field this page doesn't expose
+  _player: ApiPlayer["player"];
+  _roster: ApiPlayer["roster"];
 }
 
-export default function PlayerBrowserPage() {
+function toRowVM(p: ApiPlayer): RowVM {
+  return {
+    playerId: p.playerId,
+    clubId: p.clubId,
+    clubName: p.clubName,
+    competitionSlug: p.competitionSlug,
+    fullName: p.player.fullName,
+    primaryPosition: p.roster.primaryPosition,
+    dateOfBirth: p.player.dateOfBirth,
+    birthYear: p.player.birthYear,
+    defaultSquadStatus: p.roster.defaultSquadStatus,
+    specialTags: p.roster.specialTags,
+    ca: p.rating.ca,
+    pa: p.rating.pa,
+    abilityStars: p.rating.abilityStars,
+    potentialStars: p.rating.potentialStars,
+    caSource: p.rating.caSource,
+    paSource: p.rating.paSource,
+    locked: p.rating.locked,
+    ageYears: p.readOnly.ageYears,
+    marketValueEurPreview: p.readOnly.marketValueEurPreview,
+    contractEndDisplay: p.readOnly.contractEndDisplay,
+    recordConfidence: p.player.recordConfidence,
+    rosterConfidence: p.roster.rosterConfidence,
+    _player: p.player,
+    _roster: p.roster,
+  };
+}
+
+function isDirty(row: RowVM, original: RowVM): boolean {
+  return (
+    row.primaryPosition !== original.primaryPosition ||
+    row.dateOfBirth !== original.dateOfBirth ||
+    row.birthYear !== original.birthYear ||
+    row.defaultSquadStatus !== original.defaultSquadStatus ||
+    JSON.stringify(row.specialTags) !== JSON.stringify(original.specialTags) ||
+    row.ca !== original.ca ||
+    row.pa !== original.pa
+  );
+}
+
+function formatEur(v: number | null): string {
+  if (v === null) return "—";
+  return new Intl.NumberFormat("sv-SE", { maximumFractionDigits: 0 }).format(v) + " €";
+}
+
+const CA_SOURCE_LABEL_SV: Record<string, string> = {
+  CALIBRATED: "Kalibrerad",
+  MODEL_ESTIMATE: "Modellskattad",
+  GENERATED_GAME_PRIOR: "Genererad",
+  EDITOR_OVERRIDE: "Manuellt satt",
+  UNRESOLVED: "Olöst",
+};
+
+type SortKey = "name" | "club" | "league" | "position" | "age" | "status" | "ca" | "pa" | "marketValue" | "confidence";
+
+export default function PlayerCalibrationWorkspace() {
   const router = useRouter();
-  const [clubs, setClubs] = useState<CatalogClub[]>([]);
-  const [selectedClubId, setSelectedClubId] = useState<string>("");
-  const [players, setPlayers] = useState<PlayerRow[]>([]);
+  const [rows, setRows] = useState<RowVM[]>([]);
+  const [originals, setOriginals] = useState<Record<string, RowVM>>({});
+  const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState<string | null>(null);
+  const [rowState, setRowState] = useState<Record<string, { saving?: boolean; error?: string | null; savedAt?: number }>>({});
+
+  const [leagueFilter, setLeagueFilter] = useState<string>("");
+  const [clubFilter, setClubFilter] = useState<string>("");
+  const [positionFilter, setPositionFilter] = useState<string>("");
+  const [statusFilter, setStatusFilter] = useState<string>("");
   const [search, setSearch] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [sort, setSort] = useState<SortState<SortKey> | null>(null);
+
+  function load() {
+    setLoading(true);
+    setLoadError(null);
+    fetch("/api/editor/players-bulk")
+      .then((res) => {
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        return res.json();
+      })
+      .then((data: { players: ApiPlayer[] }) => {
+        const vms = (data.players ?? []).map(toRowVM);
+        setRows(vms);
+        setOriginals(Object.fromEntries(vms.map((r) => [r.playerId, r])));
+      })
+      .catch((err) => setLoadError(String(err)))
+      .finally(() => setLoading(false));
+  }
 
   useEffect(() => {
-    fetch("/api/editor/catalog")
-      .then((res) => res.json())
-      .then((data) => {
-        setClubs(data.clubs ?? []);
-        if (data.clubs?.length) setSelectedClubId(data.clubs[0].clubId);
-      });
+    load();
   }, []);
 
-  useEffect(() => {
-    if (!selectedClubId) return;
-    // eslint-disable-next-line react-hooks/set-state-in-effect -- one-shot client-only load, matches CareerContext's same rationale.
-    setLoading(true);
-    fetch(`/api/editor/clubs/${encodeURIComponent(selectedClubId)}/players`)
-      .then((res) => res.json())
-      .then((data) => setPlayers(data.players ?? []))
-      .finally(() => setLoading(false));
-  }, [selectedClubId]);
+  const leagues = useMemo(() => Array.from(new Set(rows.map((r) => r.competitionSlug))).sort(), [rows]);
+  const clubs = useMemo(() => {
+    const scoped = leagueFilter ? rows.filter((r) => r.competitionSlug === leagueFilter) : rows;
+    return Array.from(new Map(scoped.map((r) => [r.clubId, r.clubName])).entries()).sort((a, b) => a[1].localeCompare(b[1]));
+  }, [rows, leagueFilter]);
 
-  const nations = useMemo(() => Array.from(new Set(clubs.map((c) => c.nation))), [clubs]);
-  const [nationFilter, setNationFilter] = useState<string>("");
-  const filteredClubs = useMemo(
-    () => (nationFilter ? clubs.filter((c) => c.nation === nationFilter) : clubs),
-    [clubs, nationFilter],
-  );
-
-  const visiblePlayers = useMemo(() => {
+  const filtered = useMemo(() => {
     const term = search.trim().toLowerCase();
-    if (!term) return players;
-    return players.filter((p) => p.fullName.toLowerCase().includes(term));
-  }, [players, search]);
+    return rows.filter((r) => {
+      if (leagueFilter && r.competitionSlug !== leagueFilter) return false;
+      if (clubFilter && r.clubId !== clubFilter) return false;
+      if (positionFilter && r.primaryPosition !== positionFilter) return false;
+      if (statusFilter && r.defaultSquadStatus !== statusFilter) return false;
+      if (term && !r.fullName.toLowerCase().includes(term)) return false;
+      return true;
+    });
+  }, [rows, leagueFilter, clubFilter, positionFilter, statusFilter, search]);
+
+  const sorted = useMemo(() => {
+    if (!sort) return filtered;
+    return [...filtered].sort((a, b) => {
+      let cmp: number;
+      switch (sort.key) {
+        case "name":
+          cmp = a.fullName.localeCompare(b.fullName);
+          break;
+        case "club":
+          cmp = a.clubName.localeCompare(b.clubName);
+          break;
+        case "league":
+          cmp = a.competitionSlug.localeCompare(b.competitionSlug);
+          break;
+        case "position":
+          cmp = a.primaryPosition.localeCompare(b.primaryPosition);
+          break;
+        case "age":
+          cmp = (a.ageYears ?? -1) - (b.ageYears ?? -1);
+          break;
+        case "status":
+          cmp = (a.defaultSquadStatus ?? "").localeCompare(b.defaultSquadStatus ?? "");
+          break;
+        case "ca":
+          cmp = (a.ca ?? -1) - (b.ca ?? -1);
+          break;
+        case "pa":
+          cmp = (a.pa ?? -1) - (b.pa ?? -1);
+          break;
+        case "marketValue":
+          cmp = (a.marketValueEurPreview ?? -1) - (b.marketValueEurPreview ?? -1);
+          break;
+        case "confidence":
+          cmp = a.rosterConfidence.localeCompare(b.rosterConfidence);
+          break;
+        default:
+          cmp = 0;
+      }
+      return applySortDirection(sort.direction, cmp);
+    });
+  }, [filtered, sort]);
+
+  function updateRow(playerId: string, patch: Partial<RowVM>) {
+    setRows((prev) => prev.map((r) => (r.playerId === playerId ? { ...r, ...patch } : r)));
+  }
+
+  function paError(row: RowVM): string | null {
+    if (row.ca !== null && row.pa !== null && row.pa < row.ca) return "PA måste vara ≥ CA.";
+    return null;
+  }
+
+  async function saveRow(playerId: string): Promise<boolean> {
+    const row = rows.find((r) => r.playerId === playerId);
+    const original = originals[playerId];
+    if (!row || !original) return false;
+    if (paError(row)) {
+      setRowState((prev) => ({ ...prev, [playerId]: { error: paError(row) } }));
+      return false;
+    }
+
+    setRowState((prev) => ({ ...prev, [playerId]: { saving: true, error: null } }));
+
+    const player = { ...row._player, dateOfBirth: row.dateOfBirth, birthYear: row.birthYear };
+    const roster = { ...row._roster, primaryPosition: row.primaryPosition, defaultSquadStatus: row.defaultSquadStatus, specialTags: row.specialTags };
+    const ratingChanged = row.ca !== original.ca || row.pa !== original.pa;
+    const rating = ratingChanged ? { ca: row.ca ?? undefined, pa: row.pa ?? undefined } : undefined;
+
+    try {
+      const res = await fetch(`/api/editor/players-bulk/${encodeURIComponent(playerId)}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ clubId: row.clubId, player, roster, rating }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        setRowState((prev) => ({ ...prev, [playerId]: { saving: false, error: (data.errors ?? [data.error]).join("; ") } }));
+        return false;
+      }
+      setOriginals((prev) => ({ ...prev, [playerId]: row }));
+      setRowState((prev) => ({ ...prev, [playerId]: { saving: false, error: null, savedAt: Date.now() } }));
+      return true;
+    } catch (err) {
+      setRowState((prev) => ({ ...prev, [playerId]: { saving: false, error: String(err) } }));
+      return false;
+    }
+  }
+
+  const dirtyPlayerIds = useMemo(() => rows.filter((r) => originals[r.playerId] && isDirty(r, originals[r.playerId])).map((r) => r.playerId), [rows, originals]);
+
+  async function saveAll() {
+    for (const id of dirtyPlayerIds) {
+      await saveRow(id);
+    }
+  }
+
+  function focusNextRow(playerId: string, columnSelector: string) {
+    const idx = sorted.findIndex((r) => r.playerId === playerId);
+    const next = sorted[idx + 1];
+    if (!next) return;
+    requestAnimationFrame(() => {
+      const el = document.querySelector<HTMLElement>(`[data-row="${next.playerId}"] ${columnSelector}`);
+      el?.focus();
+    });
+  }
+
+  function handleEnterKey(e: KeyboardEvent<HTMLInputElement>, playerId: string, columnSelector: string) {
+    if (e.key !== "Enter") return;
+    e.preventDefault();
+    saveRow(playerId);
+    focusNextRow(playerId, columnSelector);
+  }
 
   return (
-    <div style={{ maxWidth: 1100, margin: "32px auto", padding: "0 20px" }}>
+    <div style={{ maxWidth: 1600, margin: "24px auto", padding: "0 16px" }}>
       <div className="hm-panel">
         <div className="hm-panel-header">
-          <span className="hm-panel-title">EDITOR — Spelare</span>
-          <button type="button" className="hm-btn hm-btn-sm hm-btn-ghost" onClick={() => router.push("/editor")}>
-            ← Editor
-          </button>
+          <span className="hm-panel-title">EDITOR — Spelarkalibrering ({rows.length} spelare)</span>
+          <div style={{ display: "flex", gap: 8 }}>
+            <button type="button" className="hm-btn hm-btn-sm hm-btn-primary" disabled={dirtyPlayerIds.length === 0} onClick={saveAll}>
+              Spara alla ({dirtyPlayerIds.length})
+            </button>
+            <button type="button" className="hm-btn hm-btn-sm hm-btn-ghost" onClick={() => router.push("/editor")}>
+              ← Editor
+            </button>
+          </div>
         </div>
-        <div className="hm-panel-body" style={{ display: "flex", gap: 12, flexWrap: "wrap", alignItems: "center" }}>
+
+        <div className="hm-panel-body" style={{ display: "flex", gap: 10, flexWrap: "wrap", alignItems: "flex-end" }}>
           <label style={{ display: "flex", flexDirection: "column", gap: 4, fontSize: "var(--hm-text-2xs)" }}>
-            NATION
-            <select value={nationFilter} onChange={(e) => setNationFilter(e.target.value)} style={inputStyle}>
+            LIGA
+            <select
+              value={leagueFilter}
+              onChange={(e) => {
+                setLeagueFilter(e.target.value);
+                setClubFilter("");
+              }}
+              style={inputStyle}
+            >
               <option value="">Alla</option>
-              {nations.map((n) => (
-                <option key={n} value={n}>
-                  {n}
+              {leagues.map((l) => (
+                <option key={l} value={l}>
+                  {l}
                 </option>
               ))}
             </select>
           </label>
           <label style={{ display: "flex", flexDirection: "column", gap: 4, fontSize: "var(--hm-text-2xs)" }}>
             KLUBB
-            <select value={selectedClubId} onChange={(e) => setSelectedClubId(e.target.value)} style={inputStyle}>
-              {filteredClubs.map((c) => (
-                <option key={c.clubId} value={c.clubId}>
-                  {c.clubName} ({c.playerCount})
+            <select value={clubFilter} onChange={(e) => setClubFilter(e.target.value)} style={inputStyle}>
+              <option value="">Alla</option>
+              {clubs.map(([id, name]) => (
+                <option key={id} value={id}>
+                  {name}
                 </option>
               ))}
             </select>
           </label>
+          <label style={{ display: "flex", flexDirection: "column", gap: 4, fontSize: "var(--hm-text-2xs)" }}>
+            POSITION
+            <select value={positionFilter} onChange={(e) => setPositionFilter(e.target.value)} style={inputStyle}>
+              <option value="">Alla</option>
+              {CANONICAL_POSITIONS.map((p) => (
+                <option key={p} value={p}>
+                  {p}
+                </option>
+              ))}
+            </select>
+          </label>
+          <label style={{ display: "flex", flexDirection: "column", gap: 4, fontSize: "var(--hm-text-2xs)" }}>
+            TRUPPSTATUS
+            <select value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)} style={inputStyle}>
+              <option value="">Alla</option>
+              {SQUAD_STATUS_TIER_VALUES.map((s) => (
+                <option key={s} value={s}>
+                  {SQUAD_STATUS_LABEL_SV[s]}
+                </option>
+              ))}
+              <option value="__NONE__" disabled>
+                (ej kalibrerad)
+              </option>
+            </select>
+          </label>
           <label style={{ display: "flex", flexDirection: "column", gap: 4, fontSize: "var(--hm-text-2xs)", flex: 1, minWidth: 220 }}>
             SÖK SPELARE
-            <input
-              type="text"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              placeholder="Namn..."
-              style={inputStyle}
-            />
+            <input type="text" value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Namn..." style={inputStyle} />
           </label>
+          <span className="hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)" }}>
+            Visar {sorted.length} av {rows.length}
+          </span>
         </div>
 
         {loading ? (
           <div className="hm-panel-body hm-text-muted">Läser in...</div>
+        ) : loadError ? (
+          <div className="hm-panel-body hm-text-muted">Fel: {loadError}</div>
         ) : (
-          <table className="hm-table">
-            <thead>
-              <tr>
-                <th>Namn</th>
-                <th>Position</th>
-                <th>Född</th>
-                <th>Nationalitet</th>
-                <th className="hm-table-num">Nr</th>
-                <th>Källkonfidens</th>
-              </tr>
-            </thead>
-            <tbody>
-              {visiblePlayers.map((p) => (
-                <tr key={p.playerId} onClick={() => router.push(`/editor/players/${p.playerId}?clubId=${p.clubId}`)} style={{ cursor: "pointer" }}>
-                  <td className="hm-td-strong">{p.fullName}</td>
-                  <td>{p.primaryPosition || "—"}</td>
-                  <td className="hm-text-muted">{p.dateOfBirth ?? (p.birthYear ? `${p.birthYear}` : "—")}</td>
-                  <td className="hm-text-muted">{p.nationalities?.join(", ") ?? "—"}</td>
-                  <td className="hm-table-num">{p.shirtNumber ?? "—"}</td>
-                  <td>
-                    <span className="hm-badge hm-badge-neutral">{p.recordConfidence ?? "—"}</span>
-                  </td>
-                </tr>
-              ))}
-              {visiblePlayers.length === 0 ? (
+          <div className="hm-scroll-x">
+            <table className="hm-table" style={{ fontSize: "var(--hm-text-2xs)" }}>
+              <thead>
                 <tr>
-                  <td colSpan={6} className="hm-text-muted">
-                    Inga spelare matchar.
-                  </td>
+                  <th></th>
+                  <SortableTh label="Namn" sortKey="name" sort={sort} onSort={setSort} />
+                  <SortableTh label="Klubb" sortKey="club" sort={sort} onSort={setSort} />
+                  <SortableTh label="Liga" sortKey="league" sort={sort} onSort={setSort} />
+                  <SortableTh label="Pos" sortKey="position" sort={sort} onSort={setSort} />
+                  <th>Född</th>
+                  <SortableTh label="Ålder" sortKey="age" sort={sort} onSort={setSort} numeric defaultDirection="desc" />
+                  <SortableTh label="Truppstatus" sortKey="status" sort={sort} onSort={setSort} />
+                  <th>Tags</th>
+                  <SortableTh label="CA" sortKey="ca" sort={sort} onSort={setSort} numeric defaultDirection="desc" />
+                  <SortableTh label="PA" sortKey="pa" sort={sort} onSort={setSort} numeric defaultDirection="desc" />
+                  <th>★ nu / pot</th>
+                  <th>Källa CA/PA</th>
+                  <SortableTh label="Marknadsvärde" sortKey="marketValue" sort={sort} onSort={setSort} numeric defaultDirection="desc" />
+                  <th>Kontrakt t.o.m.</th>
+                  <SortableTh label="Källkonfidens" sortKey="confidence" sort={sort} onSort={setSort} />
+                  <th>PlayerId</th>
+                  <th></th>
                 </tr>
-              ) : null}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {sorted.map((row) => {
+                  const original = originals[row.playerId];
+                  const dirty = original ? isDirty(row, original) : false;
+                  const state = rowState[row.playerId] ?? {};
+                  const err = state.error ?? paError(row);
+                  return (
+                    <tr key={row.playerId} data-row={row.playerId} style={{ background: dirty ? "color-mix(in srgb, var(--hm-accent) 6%, transparent)" : undefined }}>
+                      <td title={dirty ? "Osparade ändringar" : state.savedAt ? "Sparad" : ""}>
+                        {dirty ? <span style={{ color: "var(--hm-accent)", fontWeight: 700 }}>●</span> : state.savedAt ? <span style={{ color: "var(--hm-positive)" }}>✓</span> : null}
+                      </td>
+                      <td className="hm-td-strong">{row.fullName}</td>
+                      <td>{row.clubName}</td>
+                      <td className="hm-text-muted">{row.competitionSlug}</td>
+                      <td>
+                        <select
+                          data-col="primaryPosition"
+                          value={row.primaryPosition}
+                          onChange={(e) => updateRow(row.playerId, { primaryPosition: e.target.value as CanonicalPosition })}
+                          style={inputStyle}
+                        >
+                          {CANONICAL_POSITIONS.map((p) => (
+                            <option key={p} value={p}>
+                              {p}
+                            </option>
+                          ))}
+                        </select>
+                      </td>
+                      <td>
+                        {row.dateOfBirth !== null ? (
+                          <input
+                            data-col="dateOfBirth"
+                            type="date"
+                            value={row.dateOfBirth}
+                            onChange={(e) => updateRow(row.playerId, { dateOfBirth: e.target.value || null })}
+                            style={{ ...inputStyle, width: 128 }}
+                          />
+                        ) : (
+                          <input
+                            data-col="birthYear"
+                            type="number"
+                            placeholder="Födelseår"
+                            value={row.birthYear ?? ""}
+                            onChange={(e) => updateRow(row.playerId, { birthYear: e.target.value === "" ? null : Number(e.target.value) })}
+                            style={numberInputStyle}
+                          />
+                        )}
+                      </td>
+                      <td className="hm-table-num">{row.ageYears ?? "—"}</td>
+                      <td>
+                        <select
+                          data-col="defaultSquadStatus"
+                          value={row.defaultSquadStatus ?? ""}
+                          onChange={(e) => updateRow(row.playerId, { defaultSquadStatus: e.target.value === "" ? null : (e.target.value as SquadStatusTierValue) })}
+                          style={inputStyle}
+                        >
+                          <option value="">— ej kalibrerad —</option>
+                          {SQUAD_STATUS_TIER_VALUES.map((s) => (
+                            <option key={s} value={s}>
+                              {SQUAD_STATUS_LABEL_SV[s]}
+                            </option>
+                          ))}
+                        </select>
+                      </td>
+                      <td>
+                        <select
+                          data-col="specialTags"
+                          multiple
+                          size={3}
+                          value={row.specialTags}
+                          onChange={(e) => updateRow(row.playerId, { specialTags: Array.from(e.target.selectedOptions).map((o) => o.value as PlayerTagValue) })}
+                          style={{ ...inputStyle, minWidth: 140 }}
+                        >
+                          {PLAYER_TAG_VALUES.map((t) => (
+                            <option key={t} value={t}>
+                              {PLAYER_TAG_LABEL_SV[t]}
+                            </option>
+                          ))}
+                        </select>
+                      </td>
+                      <td>
+                        <input
+                          data-col="ca"
+                          type="number"
+                          min={1}
+                          max={200}
+                          value={row.ca ?? ""}
+                          onChange={(e) => updateRow(row.playerId, { ca: e.target.value === "" ? null : Number(e.target.value) })}
+                          onKeyDown={(e) => handleEnterKey(e, row.playerId, '[data-col="ca"]')}
+                          style={err ? errorInputStyle : numberInputStyle}
+                        />
+                      </td>
+                      <td>
+                        <input
+                          data-col="pa"
+                          type="number"
+                          min={1}
+                          max={200}
+                          value={row.pa ?? ""}
+                          onChange={(e) => updateRow(row.playerId, { pa: e.target.value === "" ? null : Number(e.target.value) })}
+                          onKeyDown={(e) => handleEnterKey(e, row.playerId, '[data-col="ca"]')}
+                          style={err ? errorInputStyle : numberInputStyle}
+                        />
+                      </td>
+                      <td>
+                        <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
+                          <StarRating stars={row.ca !== null ? abilityStarsFromCA(row.ca) : 0} title="Nuvarande nivå (förhandsgranskning)" />
+                          <StarRating stars={row.pa !== null ? potentialStarsFromPA(row.pa) : 0} title="Potential (förhandsgranskning)" />
+                        </div>
+                      </td>
+                      <td className="hm-text-muted">
+                        {CA_SOURCE_LABEL_SV[row.caSource] ?? row.caSource}
+                        {row.locked ? " · LÅST" : ""}
+                      </td>
+                      <td className="hm-table-num">{formatEur(row.marketValueEurPreview)}</td>
+                      <td className="hm-text-muted">{row.contractEndDisplay}</td>
+                      <td>
+                        <span className="hm-badge hm-badge-neutral">{row.rosterConfidence}</span>
+                      </td>
+                      <td className="hm-text-muted" style={{ fontFamily: "monospace", fontSize: "10px" }}>
+                        {row.playerId}
+                      </td>
+                      <td>
+                        <button type="button" className="hm-btn hm-btn-sm" disabled={!dirty || state.saving} onClick={() => saveRow(row.playerId)}>
+                          {state.saving ? "..." : "Spara"}
+                        </button>
+                        {err ? (
+                          <div className="hm-text-muted" style={{ color: "var(--hm-negative, #b23a2e)", fontSize: "10px", marginTop: 2, maxWidth: 160 }}>
+                            {err}
+                          </div>
+                        ) : null}
+                      </td>
+                    </tr>
+                  );
+                })}
+                {sorted.length === 0 ? (
+                  <tr>
+                    <td colSpan={17} className="hm-text-muted">
+                      Inga spelare matchar filtren.
+                    </td>
+                  </tr>
+                ) : null}
+              </tbody>
+            </table>
+          </div>
         )}
+        <div className="hm-panel-body hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)" }}>
+          CA/PA skrivs direkt till den låsta rating-databasen (samma mekanism som ratings-editorns Lås-knapp) -- de slår igenom i nästa fräscha karriär, Match Engine, utveckling/headroom och marknadsvärde. Position/född/truppstatus/tags skrivs till samma källfiler som spelar-editorn. Raw CA/PA visas endast här i Editor Mode -- normal spel-UI döljer alltid dessa.
+        </div>
       </div>
     </div>
   );

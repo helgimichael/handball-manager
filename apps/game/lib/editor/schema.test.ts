@@ -26,6 +26,8 @@ function validRoster(overrides: Record<string, unknown> = {}) {
     rosterStatus: "CONFIRMED",
     contract: { untilDate: null, untilSeason: "2099/00", optionUntilSeason: null },
     rosterConfidence: "VERIFIED",
+    defaultSquadStatus: null,
+    specialTags: [],
     ...overrides,
   };
 }

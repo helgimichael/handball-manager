@@ -30,7 +30,9 @@
       "contract": [
         "src_ahk_hagvall_20260220"
       ]
-    }
+    },
+    "defaultSquadStatus": null,
+    "specialTags": []
   },
   {
     "rosterEntryId": "se_2026_27_handbollsligan_alingsas__50f8181d",

@@ -1,4 +1,5 @@
 export * from "./types";
+export * from "./playerTags";
 export * from "./nations";
 export * from "./competitions";
 export * from "./clubs";

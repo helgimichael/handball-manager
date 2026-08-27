@@ -53,6 +53,27 @@ export interface PlayerEditableFields {
   recordConfidence: Confidence;
 }
 
+// HM-PLAYER-DATA-EDITOR-1.0: `SQUAD_STATUS_TIER_VALUES` is a literal
+// duplicate of lib/career/squadStatus.ts's own SQUAD_STATUS_TIERS --
+// lib/editor never imports from lib/career (a one-way dependency this
+// codebase already keeps strictly, confirmed by audit: no existing
+// editor module imports anything career-scoped), so the 5 tier strings
+// are repeated here rather than creating that new coupling. Both lists
+// must be kept in sync by hand if a tier is ever added/renamed.
+export const SQUAD_STATUS_TIER_VALUES = ["KEY_PLAYER", "FIRST_CHOICE", "ROTATION", "SQUAD_PLAYER", "TALENT"] as const;
+export type SquadStatusTierValue = (typeof SQUAD_STATUS_TIER_VALUES)[number];
+
+export const PLAYER_TAG_VALUES = [
+  "ATTACK_SPECIALIST",
+  "DEFENCE_SPECIALIST",
+  "SEVEN_METER_TAKER",
+  "SEVEN_VS_SIX_IMPORTANT",
+  "CAPTAIN",
+  "FIRST_GOALKEEPER",
+  "BACKUP_GOALKEEPER",
+] as const;
+export type PlayerTagValue = (typeof PLAYER_TAG_VALUES)[number];
+
 export interface RosterEditableFields {
   shirtNumber: number | null;
   sourcePosition: string;
@@ -61,6 +82,10 @@ export interface RosterEditableFields {
   rosterStatus: RosterStatus;
   contract: ContractFields;
   rosterConfidence: Confidence;
+  /** HM-PLAYER-DATA-EDITOR-1.0: the long-term squad-role CALIBRATION default a fresh career should start this player at -- `null` means "no calibration yet, let the career derive its own coarse guess" (Part: never silently invent a tier for a player nobody has actually reviewed). */
+  defaultSquadStatus: SquadStatusTierValue | null;
+  /** HM-PLAYER-DATA-EDITOR-1.0: multi-select special tags (playerTags.ts). Empty array, never null -- "no tags calibrated yet" and "explicitly no tags" are the same thing for this simple first model. */
+  specialTags: PlayerTagValue[];
 }
 
 export type ValidationResult<T> = { ok: true; value: T } | { ok: false; errors: string[] };
@@ -212,6 +237,26 @@ export function validateRosterEdit(input: unknown): ValidationResult<RosterEdita
     };
   }
 
+  let defaultSquadStatus: SquadStatusTierValue | null = null;
+  if (input.defaultSquadStatus !== null && input.defaultSquadStatus !== undefined) {
+    defaultSquadStatus = validateEnum(input.defaultSquadStatus, SQUAD_STATUS_TIER_VALUES, "defaultSquadStatus", errors) ?? null;
+  }
+
+  let specialTags: PlayerTagValue[] = [];
+  if (!Array.isArray(input.specialTags)) {
+    errors.push("specialTags must be an array");
+  } else {
+    const values: PlayerTagValue[] = [];
+    for (const entry of input.specialTags) {
+      const validated = validateEnum(entry, PLAYER_TAG_VALUES, "specialTags entry", errors);
+      if (validated) values.push(validated);
+    }
+    if (new Set(input.specialTags).size !== input.specialTags.length) {
+      errors.push("specialTags must not contain duplicate values");
+    }
+    specialTags = values;
+  }
+
   if (errors.length > 0) {
     return { ok: false, errors };
   }
@@ -225,6 +270,8 @@ export function validateRosterEdit(input: unknown): ValidationResult<RosterEdita
       rosterStatus: rosterStatus!,
       contract,
       rosterConfidence: rosterConfidence!,
+      defaultSquadStatus,
+      specialTags,
     },
   };
 }

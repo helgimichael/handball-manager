@@ -24,6 +24,8 @@ function player(overrides: Partial<RealWorldPlayer> & Pick<RealWorldPlayer, "ful
     secondaryPositions: [],
     rosterStatus: "CONFIRMED",
     contract: { untilDate: null, untilSeason: null, optionUntilSeason: null },
+    defaultSquadStatus: null,
+    specialTags: [],
     ...overrides,
   };
 }

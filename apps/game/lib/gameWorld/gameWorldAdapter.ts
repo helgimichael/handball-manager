@@ -12,8 +12,20 @@
 // latter with one fixed, documented, NEUTRAL provisional profile --
 // never inferred from height/club/age/nationality/shirt number, and
 // never written back into data/real-world/.
-import type { HandballPosition, NationCode, PlayerMock, PlayerMockAttributes } from "../game-data/types";
+import type { CalibratedSquadStatusTier, HandballPosition, NationCode, PlayerMock, PlayerMockAttributes } from "../game-data/types";
+import { isPlayerTag, type PlayerTag } from "../game-data/playerTags";
 import type { RealWorldPlayer } from "./realWorldLoader";
+
+const CALIBRATED_SQUAD_STATUS_TIERS: ReadonlySet<string> = new Set(["KEY_PLAYER", "FIRST_CHOICE", "ROTATION", "SQUAD_PLAYER", "TALENT"]);
+
+function toCalibratedSquadStatusTier(value: string | null): CalibratedSquadStatusTier | undefined {
+  return value !== null && CALIBRATED_SQUAD_STATUS_TIERS.has(value) ? (value as CalibratedSquadStatusTier) : undefined;
+}
+
+function toSpecialTags(values: readonly string[]): PlayerTag[] | undefined {
+  const valid = values.filter(isPlayerTag);
+  return valid.length > 0 ? valid : undefined;
+}
 
 const CANONICAL_POSITIONS: readonly HandballPosition[] = ["MV", "V6", "V9", "M9", "M6", "H9", "H6"];
 
@@ -90,6 +102,8 @@ export function toPlayerMock(p: RealWorldPlayer): PlayerMock | null {
     weightKg: null,
     foot: toHandedness(p.handedness),
     squadStatus: p.rosterStatus === "CONFIRMED" || p.rosterStatus === "REGISTERED" ? "Förstaval" : "Rotation",
+    calibratedSquadStatusTier: toCalibratedSquadStatusTier(p.defaultSquadStatus),
+    specialTags: toSpecialTags(p.specialTags),
     dataSource: "REAL_WORLD",
     currentAbility: PROVISIONAL_ABILITY,
     potentialAbility: PROVISIONAL_POTENTIAL,
