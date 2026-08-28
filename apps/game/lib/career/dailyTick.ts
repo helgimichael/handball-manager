@@ -33,6 +33,7 @@ import {
   buildPlayerInjuredEvent,
   buildPlayerStatusChangedEvent,
   buildScoutReportReadyEvent,
+  buildScoutDiscoveryReadyEvent,
   buildStaffReportEvent,
   buildTrainingCompletedEvent,
   buildTrainingReportEvent,
@@ -41,6 +42,8 @@ import {
 import { applyTrainingDayInjuryResolution, progressDailyRehab } from "../medical/injuryIntegration";
 import { ensureOpponentAnalysisTask, progressCareerTasks } from "./careerTasks";
 import { progressScoutingAssignments } from "./scouting";
+import { scopeLabelSv } from "./scoutDiscovery";
+import { findStaffMember } from "../staff/staffCareerIntegration";
 import {
   buildPartnershipCandidatesReadyEvent,
   buildPartnershipExpiredEvent,
@@ -167,10 +170,22 @@ export function processDay(state: CareerState, date: string): DailyTickResult {
   // report for any that complete today, reusing the exact same
   // buildScoutReportReadyEvent/emit/inbox plumbing the legacy branch
   // above already established.
-  const { state: afterScouting, completed: completedAssignments } = progressScoutingAssignments(next, date);
+  // HM-SCOUTING-1.1: the SAME call now also advances broad (CLUB/
+  // COMPETITION/REGION/POSITION/AGE_BAND) assignments one discovery
+  // cycle at a time -- `completed` covers BOTH kinds (a PLAYER
+  // assignment's single completion, or a broad assignment's FINAL
+  // cycle), while `discoveryCycles` covers every cycle that ran today
+  // (including non-final ones), each producing its own inbox summary.
+  const { state: afterScouting, completed: completedAssignments, discoveryCycles } = progressScoutingAssignments(next, date);
   next = afterScouting;
   for (const assignment of completedAssignments) {
-    emit(buildScoutReportReadyEvent(assignment.id, assignment.targetPlayerId, date));
+    if (assignment.assignmentType === "PLAYER") {
+      emit(buildScoutReportReadyEvent(assignment.id, assignment.targetPlayerId, date));
+    }
+  }
+  for (const cycle of discoveryCycles) {
+    const scoutName = findStaffMember(next, cycle.assignment.scoutStaffId)?.displayName ?? "Scouten";
+    emit(buildScoutDiscoveryReadyEvent(cycle.assignment.id, cycle.assignment.cyclesCompleted - 1, scoutName, scopeLabelSv(cycle.assignment), cycle.discoveries.length, date));
   }
 
   // --- 5. Club / Competition world -----------------------------------------

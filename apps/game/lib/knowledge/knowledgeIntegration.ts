@@ -47,3 +47,35 @@ export function setPlayerKnowledgePct(state: CareerState, playerId: string, pct:
   if (state.playerKnowledge[playerId] === clamped) return state;
   return { ...state, playerKnowledge: { ...state.playerKnowledge, [playerId]: clamped } };
 }
+
+// --- HM-SCOUTING-1.1 addition: widens the SAME knowledge foundation to
+// two more entity kinds (competition, country/nation) -- not a parallel
+// system. Same tiers, same labels, same sparse-storage/default-fallback
+// shape as club/player above. The manager's own competition/own club's
+// nation are always fully known, exactly like "own club" above. ---
+
+/** The manager's own competition is always fully known; an external competition defaults to DEFAULT_EXTERNAL_KNOWLEDGE_PCT unless a stored (scouted) value overrides it. */
+export function getCompetitionKnowledgePct(state: CareerState, competitionId: string): number {
+  if (competitionId === state.competitionId) return OWN_CLUB_KNOWLEDGE_PCT;
+  return state.competitionKnowledge[competitionId] ?? DEFAULT_EXTERNAL_KNOWLEDGE_PCT;
+}
+
+/** The one write path for competition knowledge. */
+export function setCompetitionKnowledgePct(state: CareerState, competitionId: string, pct: number): CareerState {
+  const clamped = clampKnowledgePct(pct);
+  if (state.competitionKnowledge[competitionId] === clamped) return state;
+  return { ...state, competitionKnowledge: { ...state.competitionKnowledge, [competitionId]: clamped } };
+}
+
+/** The manager's own club's nation is always fully known; an external nation defaults to DEFAULT_EXTERNAL_KNOWLEDGE_PCT unless a stored (scouted) value overrides it. `ownNation` is passed in rather than re-derived here, since resolving a club's nation is lib/staff/scoutPool.ts's clubNation -- this module never reaches into game-data itself. */
+export function getCountryKnowledgePct(state: CareerState, nation: string, ownNation: string | undefined): number {
+  if (ownNation !== undefined && nation === ownNation) return OWN_CLUB_KNOWLEDGE_PCT;
+  return state.countryKnowledge[nation] ?? DEFAULT_EXTERNAL_KNOWLEDGE_PCT;
+}
+
+/** The one write path for country/nation knowledge. */
+export function setCountryKnowledgePct(state: CareerState, nation: string, pct: number): CareerState {
+  const clamped = clampKnowledgePct(pct);
+  if (state.countryKnowledge[nation] === clamped) return state;
+  return { ...state, countryKnowledge: { ...state.countryKnowledge, [nation]: clamped } };
+}

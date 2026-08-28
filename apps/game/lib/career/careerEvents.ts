@@ -13,6 +13,7 @@ export type CareerEventType =
   | "PLAYER_STATUS_CHANGED"
   | "PLAYER_INJURED"
   | "SCOUT_REPORT_READY"
+  | "SCOUT_DISCOVERY_READY"
   | "OPPONENT_REPORT_READY"
   | "MATCH_PREPARATION_READY"
   | "MATCHDAY_READY"
@@ -180,6 +181,31 @@ export function buildScoutReportReadyEvent(taskId: string, playerId: string, dat
     "En scoutingbevakning har slutförts.",
     [{ route: "SCOUT_REPORT", playerId }, { route: "SCOUTING" }],
     { primaryEntity: { entityType: "player", entityId: playerId } },
+  );
+}
+
+/**
+ * HM-SCOUTING-1.1: fires once per completed discovery CYCLE of a broad
+ * (CLUB/COMPETITION/REGION/POSITION/AGE_BAND) assignment -- one event per
+ * (assignmentId, cycleIndex) pair, so a multi-cycle assignment produces
+ * one message per cycle, never a single message retroactively covering
+ * every cycle. `discoveredCount` drives the deterministic, honest
+ * summary text ("Claes Hellgren har hittat 4 spelare i Bundesliga", never
+ * a claim about exhaustiveness/ranking against the full database).
+ */
+export function buildScoutDiscoveryReadyEvent(assignmentId: string, cycleIndex: number, scoutName: string, scopeLabel: string, discoveredCount: number, date: string): CareerEvent {
+  const summary =
+    discoveredCount > 0
+      ? `${scoutName} har hittat ${discoveredCount} spelare ${scopeLabel}.`
+      : `${scoutName} hittade inga nya spelare ${scopeLabel} den här gången.`;
+  return baseEvent(
+    `SCOUT_DISCOVERY_READY:${assignmentId}:${cycleIndex}`,
+    "SCOUT_DISCOVERY_READY",
+    date,
+    discoveredCount > 0 ? "IMPORTANT" : "INFORMATION",
+    "Nya spelare upptäckta",
+    summary,
+    [{ route: "SCOUTING" }],
   );
 }
 

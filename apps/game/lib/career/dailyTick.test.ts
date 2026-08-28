@@ -6,9 +6,10 @@ import { processDay } from "./dailyTick";
 import { addDays } from "./dateUtils";
 import { TUMBA_CLUB_ID } from "../game-data";
 import type { CareerState } from "./types";
-import { createScoutingAssignment } from "./scouting";
+import { createScoutingAssignment, createBroadScoutingAssignment } from "./scouting";
 import { getPlayerKnowledgePct } from "../knowledge/knowledgeIntegration";
 import { generateStaffAttributeProfile } from "../staff/staffAttributeGeneration";
+import { ensureCareerGameplayRatings } from "./careerRatingNormalization";
 import type { ResolvedStaffMember } from "../staff/types";
 
 // HM-CAREER-0.5: fixtures within round 1 are now deterministically spread
@@ -170,4 +171,52 @@ test("HM-SCOUTING-1.0: a scouting assignment completes via processDay on its end
   assert.ok(sawReportEvent, "SCOUT_REPORT_READY must fire exactly on the assignment's end date");
   assert.equal(state.scoutingAssignments[assignment!.id].status, "COMPLETED");
   assert.ok(getPlayerKnowledgePct(state, targetPlayerId, targetClubId) > before);
+});
+
+test("HM-SCOUTING-1.1: a broad (CLUB) assignment's discovery cycle completes via processDay, emitting SCOUT_DISCOVERY_READY and an inbox message -- never a ScoutReport", () => {
+  const scoutProfile = generateStaffAttributeProfile("scout-1", ["SCOUT"], "scout-1");
+  const scout: ResolvedStaffMember = { id: "scout-1", clubId: TUMBA_CLUB_ID, displayName: "Test Scout", roles: ["SCOUT"], hmRoles: [], employmentType: "SALARIED", profile: scoutProfile, source: "GENERATED_FICTIONAL" };
+  const targetClubId = "ger1-kiel";
+  const squad = Array.from({ length: 6 }, (_, i) => ({
+    id: `kiel-daily-${i}`,
+    clubId: targetClubId,
+    firstName: "Test",
+    lastName: `Kiel${i}`,
+    shirtNumber: null,
+    position: "M6" as const,
+    nationality: "GER" as const,
+    dateOfBirth: "2000-01-01",
+    heightCm: null,
+    weightKg: null,
+    foot: null,
+    squadStatus: "Förstaval" as const,
+    dataSource: "REAL_WORLD" as const,
+    currentAbility: 100,
+    potentialAbility: 100,
+    form: 5,
+    fitnessPct: 100,
+    moralePct: 70,
+    appearances: 0,
+    goals: 0,
+    contractEndSeason: "2026/27",
+    wageSekPerMonth: 0,
+    attributes: {
+      technical: { skott: 10, passning: 10, spelforstaelse: 10, genombrott: 10, mottagning: 10, fint: 10, spelUtanBoll: 10 },
+      mental: { beslutsfattande: 10, kyla: 10, arbetskapacitet: 10, kampvilja: 10, positionering: 10, lagarbete: 10, ledarskap: 10 },
+      physical: { snabbhet: 10, acceleration: 10, styrka: 10, explosivitet: 10, uthallighet: 10, rorlighet: 10 },
+    },
+  }));
+  let state: CareerState = { ...freshState(), staffRoster: { ...freshState().staffRoster, [TUMBA_CLUB_ID]: [scout] }, worldSquads: { ...freshState().worldSquads, [targetClubId]: squad } };
+  state = ensureCareerGameplayRatings(state, targetClubId);
+
+  const created = createBroadScoutingAssignment(state, "scout-1", "CLUB", { targetClubId }, state.gameDate);
+  assert.equal(created.ok, true, created.errors.join(" "));
+  state = created.state;
+
+  const onEndDate = processDay(state, created.assignment!.endDate);
+  state = onEndDate.state;
+  const discoveryEvent = onEndDate.events.find((e) => e.type === "SCOUT_DISCOVERY_READY");
+  assert.ok(discoveryEvent, "SCOUT_DISCOVERY_READY must fire on the cycle's end date");
+  assert.ok(state.inbox.some((m) => m.careerEventId === discoveryEvent!.id), "the discovery event must produce an inbox message");
+  assert.equal(Object.keys(state.scoutReports).length, 0, "a broad assignment must never file a ScoutReport");
 });

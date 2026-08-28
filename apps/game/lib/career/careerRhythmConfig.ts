@@ -19,6 +19,12 @@ export const STAFF_REPORT_OFFSET_DAYS = 3;
 /** HM-SCOUTING-1.0: base duration (days) of a player scouting assignment, before the assigned scout's own quality nudges it faster/slower -- see lib/career/scouting.ts's own SCOUTING_ASSIGNMENT_DURATION_DAYS_RANGE. */
 export const SCOUT_TASK_DURATION_DAYS = 10;
 
+/** HM-SCOUTING-1.1: base length (days) of ONE discovery cycle for a broad (CLUB/COMPETITION/REGION/POSITION/AGE_BAND) assignment -- deliberately longer than a PLAYER assignment's whole duration, since a broad assignment is a recurring/progressive process, not a one-shot lookup. */
+export const BROAD_SCOUT_CYCLE_DAYS = 18;
+
+/** HM-SCOUTING-1.1: a broad assignment auto-completes after this many cycles -- bounds an otherwise open-ended recurring process to a finite, predictable career-time commitment. */
+export const BROAD_SCOUT_MAX_CYCLES = 4;
+
 /** Deterministic lead time before a fixture for its opponent-analysis task to complete. */
 export const OPPONENT_ANALYSIS_LEAD_DAYS = 3;
 

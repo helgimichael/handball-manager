@@ -28,7 +28,14 @@ import { setPlayerIndividualFocus, setPlayerTrainingLoad } from "../training/tra
 import { bookFriendly } from "./preseason";
 import { submitTransferOffer, type SubmitTransferOfferParams } from "../transfers/transferIntegration";
 import type { TransferOffer } from "../transfers/types";
-import { createScoutingAssignment, type CreateScoutingAssignmentResult } from "./scouting";
+import {
+  createScoutingAssignment,
+  createBroadScoutingAssignment,
+  cancelScoutingAssignment,
+  type CreateScoutingAssignmentResult,
+  type ScoutAssignmentType,
+  type BroadScoutAssignmentScope,
+} from "./scouting";
 import {
   requestPartnershipSearch,
   startDevelopmentPartnership,
@@ -166,6 +173,10 @@ type CareerContextValue = {
   submitTransferOffer: (params: SubmitTransferOfferParams) => TransferOffer;
   /** HM-SCOUTING-1.0: creates a new scouting assignment (validates the scout is a real, employed SCOUT at the manager's own club) and persists on success. Returns the full result (including validation errors) so the UI can show exactly why an assignment was refused. */
   createScoutingAssignment: (scoutStaffId: string, targetPlayerId: string, targetClubId: string) => CreateScoutingAssignmentResult;
+  /** HM-SCOUTING-1.1: creates a new broad (CLUB/COMPETITION/REGION/POSITION/AGE_BAND) discovery assignment and persists on success. Same validated-scout precondition as createScoutingAssignment. */
+  createBroadScoutingAssignment: (scoutStaffId: string, assignmentType: Exclude<ScoutAssignmentType, "PLAYER">, scope: BroadScoutAssignmentScope) => CreateScoutingAssignmentResult;
+  /** HM-SCOUTING-1.1: cancels an IN_PROGRESS assignment (PLAYER or broad) and persists. No-op if already completed/cancelled. */
+  cancelScoutingAssignment: (assignmentId: string) => void;
   /** HM-CLUB-PARTNERSHIPS-1.0: starts the board's own multi-day search for a Division 1 development partner and persists on success. */
   requestPartnershipSearch: () => RequestPartnershipSearchResult;
   /** HM-CLUB-PARTNERSHIPS-1.0: agrees a DEVELOPMENT_PARTNERSHIP with one of a completed search's own candidate clubs and persists on success. */
@@ -722,6 +733,27 @@ export function CareerProvider({ children }: { children: ReactNode }) {
     return result;
   }
 
+  function createBroadScoutingAssignmentActionWrapper(
+    scoutStaffId: string,
+    assignmentType: Exclude<ScoutAssignmentType, "PLAYER">,
+    scope: BroadScoutAssignmentScope,
+  ): CreateScoutingAssignmentResult {
+    if (!value) throw new Error("Ingen aktiv karriär.");
+    const result = createBroadScoutingAssignment(value.career, scoutStaffId, assignmentType, scope, value.career.gameDate);
+    if (result.ok) {
+      saveCareerState(value.save.saveId, result.state);
+      setValue({ save: value.save, career: result.state });
+    }
+    return result;
+  }
+
+  function cancelScoutingAssignmentActionWrapper(assignmentId: string): void {
+    if (!value) throw new Error("Ingen aktiv karriär.");
+    const nextState = cancelScoutingAssignment(value.career, assignmentId);
+    saveCareerState(value.save.saveId, nextState);
+    setValue({ save: value.save, career: nextState });
+  }
+
   function requestPartnershipSearchActionWrapper(): RequestPartnershipSearchResult {
     if (!value) throw new Error("Ingen aktiv karriär.");
     const result = requestPartnershipSearch(value.career, value.career.playerClubId, value.career.gameDate);
@@ -801,6 +833,8 @@ export function CareerProvider({ children }: { children: ReactNode }) {
         bookFriendly: bookFriendlyActionWrapper,
         submitTransferOffer: submitTransferOfferActionWrapper,
         createScoutingAssignment: createScoutingAssignmentActionWrapper,
+        createBroadScoutingAssignment: createBroadScoutingAssignmentActionWrapper,
+        cancelScoutingAssignment: cancelScoutingAssignmentActionWrapper,
         requestPartnershipSearch: requestPartnershipSearchActionWrapper,
         startDevelopmentPartnership: startDevelopmentPartnershipActionWrapper,
         terminatePartnership: terminatePartnershipActionWrapper,

@@ -21,6 +21,7 @@ import type { PlayerClubHistory, PlayerContract } from "../economy/types";
 import type { ClubEconomyBaseline } from "../economy/clubEconomyTypes";
 import type { LoanRecord, TransferOffer } from "../transfers/types";
 import type { ScoutingAssignment, ScoutReport } from "./scouting";
+import type { ScoutDiscovery } from "./scoutDiscovery";
 import type { ClubPartnership, PartnershipSearchAssignment } from "./clubPartnerships";
 import type { ScoutPoolSourceEntry } from "../staff/scoutPool";
 
@@ -521,6 +522,13 @@ export type CareerState = {
   clubKnowledge: Record<string, number>;
   playerKnowledge: Record<string, number>;
 
+  // --- HM-SCOUTING-1.1 addition: widens the same knowledge foundation
+  // to competition and country/nation entities -- see
+  // lib/knowledge/knowledgeIntegration.ts's own doc. Same sparse-storage
+  // convention as above. ---
+  competitionKnowledge: Record<string, number>;
+  countryKnowledge: Record<string, number>;
+
   // --- HM-SCOUTING-1.0 addition ---
 
   /**
@@ -531,6 +539,19 @@ export type CareerState = {
   scoutingAssignments: Record<string, ScoutingAssignment>;
   /** Persistent, historical scout reports -- never regenerated/rerolled on read, only ever appended by progressScoutingAssignments. Keyed by report id. */
   scoutReports: Record<string, ScoutReport>;
+
+  // --- HM-SCOUTING-1.1 addition ---
+
+  /**
+   * Discovery/recruitment extension of the same loop: a broad (CLUB/
+   * COMPETITION/REGION/POSITION/AGE_BAND) assignment produces
+   * ScoutDiscovery rows over time instead of a single ScoutReport --
+   * see lib/career/scoutDiscovery.ts. Keyed by discovery id. Deliberately
+   * a SEPARATE, lighter-weight entity from ScoutReport: a discovery only
+   * ever means "this player now exists on the manager's radar", never a
+   * substitute for the deeper PLAYER-assignment report/confidence.
+   */
+  scoutDiscoveries: Record<string, ScoutDiscovery>;
 
   // --- HM-CLUB-PARTNERSHIPS-1.0 addition ---
 

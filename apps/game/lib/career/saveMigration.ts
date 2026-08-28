@@ -439,5 +439,46 @@ export function migrateCareerState(career: CareerState): CareerState {
     next = { ...next, staffClubHistory: {} };
   }
 
+  // HM-SCOUTING-1.1: additive -- an existing career simply never had
+  // competition/country knowledge or discoveries yet. Migrated to EMPTY
+  // maps, never inventing history (every reader already treats a
+  // missing entry as DEFAULT_EXTERNAL_KNOWLEDGE_PCT / "no discoveries").
+  if (next.competitionKnowledge === undefined) {
+    next = { ...next, competitionKnowledge: {} };
+  }
+  if (next.countryKnowledge === undefined) {
+    next = { ...next, countryKnowledge: {} };
+  }
+  if (next.scoutDiscoveries === undefined) {
+    next = { ...next, scoutDiscoveries: {} };
+  }
+  // Every pre-1.1 ScoutingAssignment record was implicitly PLAYER-typed
+  // (assignmentType/targetCompetitionId/targetNation/targetPosition/
+  // targetMaxAgeYears/cyclesCompleted/maxCycles/discoveredPlayerIds did
+  // not exist yet) -- backfill each one to the exact same additive shape
+  // createScoutingAssignment itself now produces, so every reader can
+  // rely on these fields always being present, on old AND new saves.
+  if (Object.values(next.scoutingAssignments).some((a) => (a as { assignmentType?: string }).assignmentType === undefined)) {
+    const migratedAssignments: typeof next.scoutingAssignments = {};
+    for (const [id, a] of Object.entries(next.scoutingAssignments)) {
+      const legacy = a as typeof a & { assignmentType?: string };
+      migratedAssignments[id] =
+        legacy.assignmentType !== undefined
+          ? a
+          : {
+              ...a,
+              assignmentType: "PLAYER",
+              targetCompetitionId: "",
+              targetNation: "",
+              targetPosition: "",
+              targetMaxAgeYears: null,
+              cyclesCompleted: 0,
+              maxCycles: 1,
+              discoveredPlayerIds: [],
+            };
+    }
+    next = { ...next, scoutingAssignments: migratedAssignments };
+  }
+
   return next;
 }
