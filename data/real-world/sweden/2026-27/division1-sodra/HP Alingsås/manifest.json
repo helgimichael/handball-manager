@@ -1,0 +1,12 @@
+{
+  "milestone": "HM-DATA-DIV1-1.0",
+  "club": "HP Alingsås",
+  "snapshotDate": "2026-08-27",
+  "files": [
+    "players-hp_alingsas.json",
+    "roster-hp_alingsas-2026-27.json",
+    "qc-hp_alingsas.json",
+    "sources-hp_alingsas.json",
+    "schema-foundation-v0.2.json"
+  ]
+}

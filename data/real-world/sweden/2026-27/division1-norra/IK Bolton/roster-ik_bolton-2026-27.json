@@ -1,0 +1,926 @@
+[
+  {
+    "rosterEntryId": "se_2026_27_division1_norra_ik_bolton__806b5100",
+    "playerId": "player_philipp_valina_allo_806b5100",
+    "clubId": "se_club_ik_bolton",
+    "competitionId": "se_division1_norra",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 16,
+    "sourcePosition": "Målvakt",
+    "primaryPosition": "MV",
+    "secondaryPositions": [],
+    "rosterStatus": "PROVISIONAL",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "PARTIAL",
+    "sourceRefs": {
+      "roster": [
+        "src_div1_norra_2026_27"
+      ],
+      "position": [
+        "src_div1_norra_2026_27"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "rosterEntryId": "se_2026_27_division1_norra_ik_bolton__3c6db155",
+    "playerId": "player_pontus_bonaguidi_3c6db155",
+    "clubId": "se_club_ik_bolton",
+    "competitionId": "se_division1_norra",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 16,
+    "sourcePosition": "Målvakt",
+    "primaryPosition": "MV",
+    "secondaryPositions": [],
+    "rosterStatus": "PROVISIONAL",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "PARTIAL",
+    "sourceRefs": {
+      "roster": [
+        "src_div1_norra_2026_27"
+      ],
+      "position": [
+        "src_div1_norra_2026_27"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "rosterEntryId": "se_2026_27_division1_norra_ik_bolton__c1dcc980",
+    "playerId": "player_adam_alerstedt_c1dcc980",
+    "clubId": "se_club_ik_bolton",
+    "competitionId": "se_division1_norra",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 15,
+    "sourcePosition": "Vänster 6",
+    "primaryPosition": "V6",
+    "secondaryPositions": [],
+    "rosterStatus": "PROVISIONAL",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "PARTIAL",
+    "sourceRefs": {
+      "roster": [
+        "src_div1_norra_2026_27"
+      ],
+      "position": [
+        "src_div1_norra_2026_27"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "rosterEntryId": "se_2026_27_division1_norra_ik_bolton__71c8dc03",
+    "playerId": "player_olle_windahl_71c8dc03",
+    "clubId": "se_club_ik_bolton",
+    "competitionId": "se_division1_norra",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 17,
+    "sourcePosition": "Vänster 6",
+    "primaryPosition": "V6",
+    "secondaryPositions": [],
+    "rosterStatus": "PROVISIONAL",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "PARTIAL",
+    "sourceRefs": {
+      "roster": [
+        "src_div1_norra_2026_27"
+      ],
+      "position": [
+        "src_div1_norra_2026_27"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "rosterEntryId": "se_2026_27_division1_norra_ik_bolton__0b909b4d",
+    "playerId": "player_nicolai_aasnes_0b909b4d",
+    "clubId": "se_club_ik_bolton",
+    "competitionId": "se_division1_norra",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 31,
+    "sourcePosition": "Vänster 6",
+    "primaryPosition": "V6",
+    "secondaryPositions": [],
+    "rosterStatus": "PROVISIONAL",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "PARTIAL",
+    "sourceRefs": {
+      "roster": [
+        "src_div1_norra_2026_27"
+      ],
+      "position": [
+        "src_div1_norra_2026_27"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "rosterEntryId": "se_2026_27_division1_norra_ik_bolton__2437e3d2",
+    "playerId": "player_isak_lauridsen_2437e3d2",
+    "clubId": "se_club_ik_bolton",
+    "competitionId": "se_division1_norra",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": null,
+    "sourcePosition": "Vänster 6",
+    "primaryPosition": "V6",
+    "secondaryPositions": [],
+    "rosterStatus": "PROVISIONAL",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "PARTIAL",
+    "sourceRefs": {
+      "roster": [
+        "src_div1_norra_2026_27"
+      ],
+      "position": [
+        "src_div1_norra_2026_27"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "rosterEntryId": "se_2026_27_division1_norra_ik_bolton__307bca50",
+    "playerId": "player_alvin_ahlin_307bca50",
+    "clubId": "se_club_ik_bolton",
+    "competitionId": "se_division1_norra",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 30,
+    "sourcePosition": "Höger 6",
+    "primaryPosition": "H6",
+    "secondaryPositions": [],
+    "rosterStatus": "PROVISIONAL",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "PARTIAL",
+    "sourceRefs": {
+      "roster": [
+        "src_div1_norra_2026_27"
+      ],
+      "position": [
+        "src_div1_norra_2026_27"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "rosterEntryId": "se_2026_27_division1_norra_ik_bolton__de377399",
+    "playerId": "player_joel_bellander_de377399",
+    "clubId": "se_club_ik_bolton",
+    "competitionId": "se_division1_norra",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 2,
+    "sourcePosition": "Mitt 6",
+    "primaryPosition": "M6",
+    "secondaryPositions": [],
+    "rosterStatus": "PROVISIONAL",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "PARTIAL",
+    "sourceRefs": {
+      "roster": [
+        "src_div1_norra_2026_27"
+      ],
+      "position": [
+        "src_div1_norra_2026_27"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "rosterEntryId": "se_2026_27_division1_norra_ik_bolton__ebb1a272",
+    "playerId": "player_tim_glimmerud_gullbjork_ebb1a272",
+    "clubId": "se_club_ik_bolton",
+    "competitionId": "se_division1_norra",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 4,
+    "sourcePosition": "Mitt 6",
+    "primaryPosition": "M6",
+    "secondaryPositions": [],
+    "rosterStatus": "PROVISIONAL",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "PARTIAL",
+    "sourceRefs": {
+      "roster": [
+        "src_div1_norra_2026_27"
+      ],
+      "position": [
+        "src_div1_norra_2026_27"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "rosterEntryId": "se_2026_27_division1_norra_ik_bolton__8fec4567",
+    "playerId": "player_jakob_lundberg_8fec4567",
+    "clubId": "se_club_ik_bolton",
+    "competitionId": "se_division1_norra",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 25,
+    "sourcePosition": "Mitt 6",
+    "primaryPosition": "M6",
+    "secondaryPositions": [],
+    "rosterStatus": "PROVISIONAL",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "PARTIAL",
+    "sourceRefs": {
+      "roster": [
+        "src_div1_norra_2026_27"
+      ],
+      "position": [
+        "src_div1_norra_2026_27"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "rosterEntryId": "se_2026_27_division1_norra_ik_bolton__0ea634ef",
+    "playerId": "player_lucas_hogsander_0ea634ef",
+    "clubId": "se_club_ik_bolton",
+    "competitionId": "se_division1_norra",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 33,
+    "sourcePosition": "Vänster 9",
+    "primaryPosition": "V9",
+    "secondaryPositions": [],
+    "rosterStatus": "PROVISIONAL",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "PARTIAL",
+    "sourceRefs": {
+      "roster": [
+        "src_div1_norra_2026_27"
+      ],
+      "position": [
+        "src_div1_norra_2026_27"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "rosterEntryId": "se_2026_27_division1_norra_ik_bolton__4b0cd16b",
+    "playerId": "player_colin_blom_4b0cd16b",
+    "clubId": "se_club_ik_bolton",
+    "competitionId": "se_division1_norra",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 6,
+    "sourcePosition": "",
+    "primaryPosition": "H6",
+    "secondaryPositions": [],
+    "rosterStatus": "PROVISIONAL",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "UNKNOWN",
+    "sourceRefs": {
+      "roster": [
+        "src_div1_norra_2026_27"
+      ],
+      "position": []
+    },
+    "dataNotes": [
+      "HM-DATA-DIV1-1.0: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+    ]
+  },
+  {
+    "rosterEntryId": "se_2026_27_division1_norra_ik_bolton__67233d25",
+    "playerId": "player_dennis_nilsson_67233d25",
+    "clubId": "se_club_ik_bolton",
+    "competitionId": "se_division1_norra",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 7,
+    "sourcePosition": "",
+    "primaryPosition": "M6",
+    "secondaryPositions": [],
+    "rosterStatus": "PROVISIONAL",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "UNKNOWN",
+    "sourceRefs": {
+      "roster": [
+        "src_div1_norra_2026_27"
+      ],
+      "position": []
+    },
+    "dataNotes": [
+      "HM-DATA-DIV1-1.0: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+    ]
+  },
+  {
+    "rosterEntryId": "se_2026_27_division1_norra_ik_bolton__45dd165e",
+    "playerId": "player_samuel_gustafsson_45dd165e",
+    "clubId": "se_club_ik_bolton",
+    "competitionId": "se_division1_norra",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 20,
+    "sourcePosition": "",
+    "primaryPosition": "V9",
+    "secondaryPositions": [],
+    "rosterStatus": "PROVISIONAL",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "UNKNOWN",
+    "sourceRefs": {
+      "roster": [
+        "src_div1_norra_2026_27"
+      ],
+      "position": []
+    },
+    "dataNotes": [
+      "HM-DATA-DIV1-1.0: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+    ]
+  },
+  {
+    "rosterEntryId": "se_2026_27_division1_norra_ik_bolton__6b7eb77d",
+    "playerId": "player_felix_rundqvist_6b7eb77d",
+    "clubId": "se_club_ik_bolton",
+    "competitionId": "se_division1_norra",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 25,
+    "sourcePosition": "",
+    "primaryPosition": "M6",
+    "secondaryPositions": [],
+    "rosterStatus": "PROVISIONAL",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "UNKNOWN",
+    "sourceRefs": {
+      "roster": [
+        "src_div1_norra_2026_27"
+      ],
+      "position": []
+    },
+    "dataNotes": [
+      "HM-DATA-DIV1-1.0: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+    ]
+  },
+  {
+    "rosterEntryId": "se_2026_27_division1_norra_ik_bolton__6ad902a0",
+    "playerId": "player_lukas_andersson_6ad902a0",
+    "clubId": "se_club_ik_bolton",
+    "competitionId": "se_division1_norra",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": 33,
+    "sourcePosition": "",
+    "primaryPosition": "M6",
+    "secondaryPositions": [],
+    "rosterStatus": "PROVISIONAL",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "UNKNOWN",
+    "sourceRefs": {
+      "roster": [
+        "src_div1_norra_2026_27"
+      ],
+      "position": []
+    },
+    "dataNotes": [
+      "HM-DATA-DIV1-1.0: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+    ]
+  },
+  {
+    "rosterEntryId": "se_2026_27_division1_norra_ik_bolton__baa08c7e",
+    "playerId": "player_adam_jonsson_baa08c7e",
+    "clubId": "se_club_ik_bolton",
+    "competitionId": "se_division1_norra",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": null,
+    "sourcePosition": "",
+    "primaryPosition": "H9",
+    "secondaryPositions": [],
+    "rosterStatus": "PROVISIONAL",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "UNKNOWN",
+    "sourceRefs": {
+      "roster": [
+        "src_div1_norra_2026_27"
+      ],
+      "position": []
+    },
+    "dataNotes": [
+      "HM-DATA-DIV1-1.0: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+    ]
+  },
+  {
+    "rosterEntryId": "se_2026_27_division1_norra_ik_bolton__fe3d90c0",
+    "playerId": "player_casper_sandberg_fe3d90c0",
+    "clubId": "se_club_ik_bolton",
+    "competitionId": "se_division1_norra",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": null,
+    "sourcePosition": "",
+    "primaryPosition": "M6",
+    "secondaryPositions": [],
+    "rosterStatus": "PROVISIONAL",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "UNKNOWN",
+    "sourceRefs": {
+      "roster": [
+        "src_div1_norra_2026_27"
+      ],
+      "position": []
+    },
+    "dataNotes": [
+      "HM-DATA-DIV1-1.0: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+    ]
+  },
+  {
+    "rosterEntryId": "se_2026_27_division1_norra_ik_bolton__3fb251b0",
+    "playerId": "player_david_wagman_3fb251b0",
+    "clubId": "se_club_ik_bolton",
+    "competitionId": "se_division1_norra",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": null,
+    "sourcePosition": "",
+    "primaryPosition": "V6",
+    "secondaryPositions": [],
+    "rosterStatus": "PROVISIONAL",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "UNKNOWN",
+    "sourceRefs": {
+      "roster": [
+        "src_div1_norra_2026_27"
+      ],
+      "position": []
+    },
+    "dataNotes": [
+      "HM-DATA-DIV1-1.0: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+    ]
+  },
+  {
+    "rosterEntryId": "se_2026_27_division1_norra_ik_bolton__a578b89a",
+    "playerId": "player_frans_anfalt_a578b89a",
+    "clubId": "se_club_ik_bolton",
+    "competitionId": "se_division1_norra",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": null,
+    "sourcePosition": "",
+    "primaryPosition": "V9",
+    "secondaryPositions": [],
+    "rosterStatus": "PROVISIONAL",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "UNKNOWN",
+    "sourceRefs": {
+      "roster": [
+        "src_div1_norra_2026_27"
+      ],
+      "position": []
+    },
+    "dataNotes": [
+      "HM-DATA-DIV1-1.0: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+    ]
+  },
+  {
+    "rosterEntryId": "se_2026_27_division1_norra_ik_bolton__b07bb924",
+    "playerId": "player_fredrik_broman_b07bb924",
+    "clubId": "se_club_ik_bolton",
+    "competitionId": "se_division1_norra",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": null,
+    "sourcePosition": "",
+    "primaryPosition": "M9",
+    "secondaryPositions": [],
+    "rosterStatus": "PROVISIONAL",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "UNKNOWN",
+    "sourceRefs": {
+      "roster": [
+        "src_div1_norra_2026_27"
+      ],
+      "position": []
+    },
+    "dataNotes": [
+      "HM-DATA-DIV1-1.0: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+    ]
+  },
+  {
+    "rosterEntryId": "se_2026_27_division1_norra_ik_bolton__92b02f14",
+    "playerId": "player_gustav_wickstrom_92b02f14",
+    "clubId": "se_club_ik_bolton",
+    "competitionId": "se_division1_norra",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": null,
+    "sourcePosition": "",
+    "primaryPosition": "V6",
+    "secondaryPositions": [],
+    "rosterStatus": "PROVISIONAL",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "UNKNOWN",
+    "sourceRefs": {
+      "roster": [
+        "src_div1_norra_2026_27"
+      ],
+      "position": []
+    },
+    "dataNotes": [
+      "HM-DATA-DIV1-1.0: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+    ]
+  },
+  {
+    "rosterEntryId": "se_2026_27_division1_norra_ik_bolton__08b25e06",
+    "playerId": "player_holger_martensson_08b25e06",
+    "clubId": "se_club_ik_bolton",
+    "competitionId": "se_division1_norra",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": null,
+    "sourcePosition": "",
+    "primaryPosition": "V9",
+    "secondaryPositions": [],
+    "rosterStatus": "PROVISIONAL",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "UNKNOWN",
+    "sourceRefs": {
+      "roster": [
+        "src_div1_norra_2026_27"
+      ],
+      "position": []
+    },
+    "dataNotes": [
+      "HM-DATA-DIV1-1.0: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+    ]
+  },
+  {
+    "rosterEntryId": "se_2026_27_division1_norra_ik_bolton__6592c494",
+    "playerId": "player_hugo_aronsson_6592c494",
+    "clubId": "se_club_ik_bolton",
+    "competitionId": "se_division1_norra",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": null,
+    "sourcePosition": "",
+    "primaryPosition": "H9",
+    "secondaryPositions": [],
+    "rosterStatus": "PROVISIONAL",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "UNKNOWN",
+    "sourceRefs": {
+      "roster": [
+        "src_div1_norra_2026_27"
+      ],
+      "position": []
+    },
+    "dataNotes": [
+      "HM-DATA-DIV1-1.0: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+    ]
+  },
+  {
+    "rosterEntryId": "se_2026_27_division1_norra_ik_bolton__79beda68",
+    "playerId": "player_kevin_andersson_79beda68",
+    "clubId": "se_club_ik_bolton",
+    "competitionId": "se_division1_norra",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": null,
+    "sourcePosition": "",
+    "primaryPosition": "V9",
+    "secondaryPositions": [],
+    "rosterStatus": "PROVISIONAL",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "UNKNOWN",
+    "sourceRefs": {
+      "roster": [
+        "src_div1_norra_2026_27"
+      ],
+      "position": []
+    },
+    "dataNotes": [
+      "HM-DATA-DIV1-1.0: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+    ]
+  },
+  {
+    "rosterEntryId": "se_2026_27_division1_norra_ik_bolton__178bc332",
+    "playerId": "player_marcus_pramborg_178bc332",
+    "clubId": "se_club_ik_bolton",
+    "competitionId": "se_division1_norra",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": null,
+    "sourcePosition": "",
+    "primaryPosition": "M6",
+    "secondaryPositions": [],
+    "rosterStatus": "PROVISIONAL",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "UNKNOWN",
+    "sourceRefs": {
+      "roster": [
+        "src_div1_norra_2026_27"
+      ],
+      "position": []
+    },
+    "dataNotes": [
+      "HM-DATA-DIV1-1.0: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+    ]
+  },
+  {
+    "rosterEntryId": "se_2026_27_division1_norra_ik_bolton__4909db4a",
+    "playerId": "player_martin_sjoberg_4909db4a",
+    "clubId": "se_club_ik_bolton",
+    "competitionId": "se_division1_norra",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": null,
+    "sourcePosition": "",
+    "primaryPosition": "H6",
+    "secondaryPositions": [],
+    "rosterStatus": "PROVISIONAL",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "UNKNOWN",
+    "sourceRefs": {
+      "roster": [
+        "src_div1_norra_2026_27"
+      ],
+      "position": []
+    },
+    "dataNotes": [
+      "HM-DATA-DIV1-1.0: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+    ]
+  },
+  {
+    "rosterEntryId": "se_2026_27_division1_norra_ik_bolton__5705718a",
+    "playerId": "player_oliver_nystrom_eklund_5705718a",
+    "clubId": "se_club_ik_bolton",
+    "competitionId": "se_division1_norra",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": null,
+    "sourcePosition": "",
+    "primaryPosition": "M6",
+    "secondaryPositions": [],
+    "rosterStatus": "PROVISIONAL",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "UNKNOWN",
+    "sourceRefs": {
+      "roster": [
+        "src_div1_norra_2026_27"
+      ],
+      "position": []
+    },
+    "dataNotes": [
+      "HM-DATA-DIV1-1.0: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+    ]
+  },
+  {
+    "rosterEntryId": "se_2026_27_division1_norra_ik_bolton__ffe73803",
+    "playerId": "player_pontus_landeborn_ffe73803",
+    "clubId": "se_club_ik_bolton",
+    "competitionId": "se_division1_norra",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": null,
+    "sourcePosition": "",
+    "primaryPosition": "M6",
+    "secondaryPositions": [],
+    "rosterStatus": "PROVISIONAL",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "UNKNOWN",
+    "sourceRefs": {
+      "roster": [
+        "src_div1_norra_2026_27"
+      ],
+      "position": []
+    },
+    "dataNotes": [
+      "HM-DATA-DIV1-1.0: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+    ]
+  },
+  {
+    "rosterEntryId": "se_2026_27_division1_norra_ik_bolton__8e48417a",
+    "playerId": "player_robin_nystrom_8e48417a",
+    "clubId": "se_club_ik_bolton",
+    "competitionId": "se_division1_norra",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": null,
+    "sourcePosition": "",
+    "primaryPosition": "M6",
+    "secondaryPositions": [],
+    "rosterStatus": "PROVISIONAL",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "UNKNOWN",
+    "sourceRefs": {
+      "roster": [
+        "src_div1_norra_2026_27"
+      ],
+      "position": []
+    },
+    "dataNotes": [
+      "HM-DATA-DIV1-1.0: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+    ]
+  },
+  {
+    "rosterEntryId": "se_2026_27_division1_norra_ik_bolton__7ed6489f",
+    "playerId": "player_tom_af_klercker_7ed6489f",
+    "clubId": "se_club_ik_bolton",
+    "competitionId": "se_division1_norra",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": null,
+    "sourcePosition": "",
+    "primaryPosition": "V6",
+    "secondaryPositions": [],
+    "rosterStatus": "PROVISIONAL",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "UNKNOWN",
+    "sourceRefs": {
+      "roster": [
+        "src_div1_norra_2026_27"
+      ],
+      "position": []
+    },
+    "dataNotes": [
+      "HM-DATA-DIV1-1.0: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+    ]
+  },
+  {
+    "rosterEntryId": "se_2026_27_division1_norra_ik_bolton__8e92205f",
+    "playerId": "player_valle_ljunghill_8e92205f",
+    "clubId": "se_club_ik_bolton",
+    "competitionId": "se_division1_norra",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": null,
+    "sourcePosition": "",
+    "primaryPosition": "M6",
+    "secondaryPositions": [],
+    "rosterStatus": "PROVISIONAL",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "UNKNOWN",
+    "sourceRefs": {
+      "roster": [
+        "src_div1_norra_2026_27"
+      ],
+      "position": []
+    },
+    "dataNotes": [
+      "HM-DATA-DIV1-1.0: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+    ]
+  },
+  {
+    "rosterEntryId": "se_2026_27_division1_norra_ik_bolton__53892ce6",
+    "playerId": "player_vigge_juthe_lundin_53892ce6",
+    "clubId": "se_club_ik_bolton",
+    "competitionId": "se_division1_norra",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": null,
+    "sourcePosition": "",
+    "primaryPosition": "H6",
+    "secondaryPositions": [],
+    "rosterStatus": "PROVISIONAL",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "UNKNOWN",
+    "sourceRefs": {
+      "roster": [
+        "src_div1_norra_2026_27"
+      ],
+      "position": []
+    },
+    "dataNotes": [
+      "HM-DATA-DIV1-1.0: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+    ]
+  }
+]

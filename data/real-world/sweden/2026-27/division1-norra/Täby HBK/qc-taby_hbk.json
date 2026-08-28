@@ -1,0 +1,37 @@
+{
+  "clubId": "se_club_taby_hbk",
+  "clubName": "Täby HBK",
+  "competitionId": "se_division1_norra",
+  "season": "2026/27",
+  "snapshotDate": "2026-08-27",
+  "datasetStatus": "PRESEASON",
+  "qcStatus": "VERIFIED_WITH_OPEN_FIELDS",
+  "expectedRosterCount": 23,
+  "exportedRosterCount": 23,
+  "checks": {
+    "currentLeagueRosterLocated": true,
+    "allLeagueRosterNamesCaptured": true,
+    "incomingTransfersChecked": false,
+    "departuresChecked": false,
+    "duplicatePlayers": 0,
+    "canonicalPositionsValid": true,
+    "guessedSecondaryPositions": 0,
+    "guessedDatesOfBirth": 0,
+    "guessedHeights": 23,
+    "guessedNationalities": 23,
+    "guessedContractDates": 23
+  },
+  "knownConflicts": [],
+  "staleSourceWarnings": [],
+  "openFieldsSummary": {
+    "exactDateOfBirthMissing": 23,
+    "birthYearMissing": 23,
+    "nationalityMissing": 23,
+    "heightMissing": 23,
+    "handednessMissing": 23,
+    "shirtNumberMissing": 9,
+    "contractEndMissing": 23,
+    "positionGenerated": 18,
+    "positionSourced": 5
+  }
+}

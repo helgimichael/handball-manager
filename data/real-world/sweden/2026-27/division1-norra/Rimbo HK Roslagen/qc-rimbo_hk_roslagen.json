@@ -1,0 +1,37 @@
+{
+  "clubId": "se_club_rimbo_hk_roslagen",
+  "clubName": "Rimbo HK Roslagen",
+  "competitionId": "se_division1_norra",
+  "season": "2026/27",
+  "snapshotDate": "2026-08-27",
+  "datasetStatus": "PRESEASON",
+  "qcStatus": "VERIFIED_WITH_OPEN_FIELDS",
+  "expectedRosterCount": 16,
+  "exportedRosterCount": 16,
+  "checks": {
+    "currentLeagueRosterLocated": true,
+    "allLeagueRosterNamesCaptured": true,
+    "incomingTransfersChecked": false,
+    "departuresChecked": false,
+    "duplicatePlayers": 0,
+    "canonicalPositionsValid": true,
+    "guessedSecondaryPositions": 0,
+    "guessedDatesOfBirth": 0,
+    "guessedHeights": 16,
+    "guessedNationalities": 16,
+    "guessedContractDates": 16
+  },
+  "knownConflicts": [],
+  "staleSourceWarnings": [],
+  "openFieldsSummary": {
+    "exactDateOfBirthMissing": 16,
+    "birthYearMissing": 16,
+    "nationalityMissing": 16,
+    "heightMissing": 16,
+    "handednessMissing": 16,
+    "shirtNumberMissing": 3,
+    "contractEndMissing": 16,
+    "positionGenerated": 11,
+    "positionSourced": 5
+  }
+}

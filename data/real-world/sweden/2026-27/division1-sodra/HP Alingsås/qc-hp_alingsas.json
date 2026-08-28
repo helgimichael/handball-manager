@@ -1,0 +1,39 @@
+{
+  "clubId": "se_club_hp_alingsas",
+  "clubName": "HP Alingsås",
+  "competitionId": "se_division1_sodra",
+  "season": "2026/27",
+  "snapshotDate": "2026-08-27",
+  "datasetStatus": "PRESEASON",
+  "qcStatus": "VERIFIED",
+  "expectedRosterCount": 7,
+  "exportedRosterCount": 7,
+  "checks": {
+    "currentLeagueRosterLocated": true,
+    "allLeagueRosterNamesCaptured": true,
+    "incomingTransfersChecked": false,
+    "departuresChecked": false,
+    "duplicatePlayers": 0,
+    "canonicalPositionsValid": true,
+    "guessedSecondaryPositions": 0,
+    "guessedDatesOfBirth": 0,
+    "guessedHeights": 7,
+    "guessedNationalities": 7,
+    "guessedContractDates": 7
+  },
+  "knownConflicts": [],
+  "staleSourceWarnings": [
+    "2026/27 team page is live but roster not yet published; latest eligible HP subset used after removing confirmed A-team/other-club moves."
+  ],
+  "openFieldsSummary": {
+    "exactDateOfBirthMissing": 7,
+    "birthYearMissing": 0,
+    "nationalityMissing": 7,
+    "heightMissing": 7,
+    "handednessMissing": 7,
+    "shirtNumberMissing": 2,
+    "contractEndMissing": 7,
+    "positionGenerated": 0,
+    "positionSourced": 7
+  }
+}

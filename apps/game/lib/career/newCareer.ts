@@ -15,6 +15,7 @@ import { ensureCareerPlayerContracts } from "../economy/contractIntegration";
 import { ensureCareerPlayerClubHistory } from "../economy/clubHistoryIntegration";
 import { ensureCareerAllClubEconomies } from "../economy/clubEconomyIntegration";
 import { ensureCareerPlayerSquadStatus } from "./squadStatus";
+import { ensureDivision1PlayerEconomicIdentity } from "./division1Integration";
 
 const FALLBACK_COMPETITION_ID = "swe-2"; // used only if playerClubId doesn't resolve to a known club
 
@@ -204,9 +205,15 @@ export function createNewCareerState(
   // also ensures ratings/contracts exist for every OTHER club's squad
   // too, so their own player-wage-cost derivation has real data.
   const withEconomies = ensureCareerAllClubEconomies(withClubHistory);
+  // HM-DATA-DIV1-1.0: Division 1 players need a contract before Transfers
+  // can treat them as a valid target (submitTransferOffer requires
+  // getPlayerContract to resolve) -- see division1Integration.ts's own
+  // doc for why this is NOT the same as giving Division 1 clubs a full
+  // ClubEconomyBaseline (out of scope).
+  const withDivision1Economy = ensureDivision1PlayerEconomicIdentity(withEconomies);
   // HM-DATA-ALLSVENSKAN-1.1B Part 3: seeds the manager's own club's
   // persistent squad-status tier from career start -- see squadStatus.ts's
   // own doc for why this is a real, honest starting default, never a
   // researched assessment.
-  return ensureCareerPlayerSquadStatus(withEconomies, playerClubId, playerSquad);
+  return ensureCareerPlayerSquadStatus(withDivision1Economy, playerClubId, playerSquad);
 }

@@ -9,7 +9,7 @@
 import { unassessedAbilityRating } from "../validators";
 import { PA_MAX, PA_MIN, type AttackRole, type PlayerRatingClaim, type PlayerRatingProfile } from "../types";
 import { assignArchetypeForPosition } from "./archetypeAssignment";
-import { clubContextShift } from "./clubContextTier";
+import { clubContextShift, populationTierForClub } from "./clubContextTier";
 import { generateGamePriorCA, generateGamePriorPA } from "./populationModel";
 import { GAME_PRIOR_MODEL_VERSION } from "./types";
 
@@ -39,9 +39,11 @@ export function applyGamePrior(profile: PlayerRatingProfile, clubId: string, mod
   let gamePriorCAApplied = false;
   let archetype: string | null = null;
 
+  const tier = populationTierForClub(clubId);
+
   if (working.ca.value === null) {
     const shift = clubContextShift(clubId);
-    const ca = generateGamePriorCA(working.playerId, shift, modelVersion);
+    const ca = generateGamePriorCA(working.playerId, shift, modelVersion, tier);
     archetype = assignArchetypeForPosition(working.playerId, working.position, modelVersion);
 
     const extraClaims: PlayerRatingClaim[] = [gamePriorRationaleClaim(working.playerId, shift, archetype)];
@@ -65,7 +67,7 @@ export function applyGamePrior(profile: PlayerRatingProfile, clubId: string, mod
 
   let gamePriorPAApplied = false;
   if (working.pa.value === null && working.ca.value !== null) {
-    const pa = generateGamePriorPA(working.playerId, working.ca.value, modelVersion);
+    const pa = generateGamePriorPA(working.playerId, working.ca.value, modelVersion, tier);
     working = { ...working, pa: { value: pa, confidence: "LOW", plausibleRange: { min: Math.max(PA_MIN, pa - 20), max: Math.min(PA_MAX, pa + 20) } } };
     gamePriorPAApplied = true;
   } else if (working.pa.value === null) {

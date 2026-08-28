@@ -1,0 +1,12 @@
+{
+  "milestone": "HM-DATA-DIV1-1.0",
+  "club": "Rimbo HK Roslagen",
+  "snapshotDate": "2026-08-27",
+  "files": [
+    "players-rimbo_hk_roslagen.json",
+    "roster-rimbo_hk_roslagen-2026-27.json",
+    "qc-rimbo_hk_roslagen.json",
+    "sources-rimbo_hk_roslagen.json",
+    "schema-foundation-v0.2.json"
+  ]
+}

@@ -1,0 +1,442 @@
+[
+  {
+    "playerId": "player_felix_johansson_6326df01",
+    "firstName": "Felix",
+    "lastName": "Johansson",
+    "fullName": "Felix Johansson",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {},
+    "sourceRefs": {
+      "identity": [
+        "src_div1_sodra_2026_27"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "player_jonatan_svensson_34dd837e",
+    "firstName": "Jonatan",
+    "lastName": "Svensson",
+    "fullName": "Jonatan Svensson",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {},
+    "sourceRefs": {
+      "identity": [
+        "src_div1_sodra_2026_27"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "player_victor_hoghielm_4584fd6e",
+    "firstName": "Victor",
+    "lastName": "Höghielm",
+    "fullName": "Victor Höghielm",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {},
+    "sourceRefs": {
+      "identity": [
+        "src_div1_sodra_2026_27"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "player_karl_mars_jemin_f6f15ac8",
+    "firstName": "Karl",
+    "lastName": "Mars Jémin",
+    "fullName": "Karl Mars Jémin",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {},
+    "sourceRefs": {
+      "identity": [
+        "src_div1_sodra_2026_27"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "player_emil_saxin_a1fe241f",
+    "firstName": "Emil",
+    "lastName": "Saxin",
+    "fullName": "Emil Saxin",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {},
+    "sourceRefs": {
+      "identity": [
+        "src_div1_sodra_2026_27"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "player_viktor_lundstrom_b028fb92",
+    "firstName": "Viktor",
+    "lastName": "Lundström",
+    "fullName": "Viktor Lundström",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {},
+    "sourceRefs": {
+      "identity": [
+        "src_div1_sodra_2026_27"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "player_herman_iverfeldt_4810372b",
+    "firstName": "Herman",
+    "lastName": "Iverfeldt",
+    "fullName": "Herman Iverfeldt",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {},
+    "sourceRefs": {
+      "identity": [
+        "src_div1_sodra_2026_27"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "player_adam_hjortenbo_1fb0f8d3",
+    "firstName": "Adam",
+    "lastName": "Hjortenbo",
+    "fullName": "Adam Hjortenbo",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {},
+    "sourceRefs": {
+      "identity": [
+        "src_div1_sodra_2026_27"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "player_albin_henriksson_051a1d9b",
+    "firstName": "Albin",
+    "lastName": "Henriksson",
+    "fullName": "Albin Henriksson",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {},
+    "sourceRefs": {
+      "identity": [
+        "src_div1_sodra_2026_27"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "player_anton_kakko_4974667f",
+    "firstName": "Anton",
+    "lastName": "Kakko",
+    "fullName": "Anton Kakko",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {},
+    "sourceRefs": {
+      "identity": [
+        "src_div1_sodra_2026_27"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "player_alexander_gereonsson_5266b5c9",
+    "firstName": "Alexander",
+    "lastName": "Gereonsson",
+    "fullName": "Alexander Gereonsson",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {},
+    "sourceRefs": {
+      "identity": [
+        "src_div1_sodra_2026_27"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "player_simon_aronsson_631ea80d",
+    "firstName": "Simon",
+    "lastName": "Aronsson",
+    "fullName": "Simon Aronsson",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {},
+    "sourceRefs": {
+      "identity": [
+        "src_div1_sodra_2026_27"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "player_isac_andersson_1fbb6517",
+    "firstName": "Isac",
+    "lastName": "Andersson",
+    "fullName": "Isac Andersson",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {},
+    "sourceRefs": {
+      "identity": [
+        "src_div1_sodra_2026_27"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "player_simon_wiberg_0bf397ac",
+    "firstName": "Simon",
+    "lastName": "Wiberg",
+    "fullName": "Simon Wiberg",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {},
+    "sourceRefs": {
+      "identity": [
+        "src_div1_sodra_2026_27"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "player_linus_fors_bf476e39",
+    "firstName": "Linus",
+    "lastName": "Fors",
+    "fullName": "Linus Fors",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {},
+    "sourceRefs": {
+      "identity": [
+        "src_div1_sodra_2026_27"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "player_axel_engesvik_d2d5fe21",
+    "firstName": "Axel",
+    "lastName": "Engesvik",
+    "fullName": "Axel Engesvik",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {},
+    "sourceRefs": {
+      "identity": [
+        "src_div1_sodra_2026_27"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "player_hannes_jobs_aa0dd948",
+    "firstName": "Hannes",
+    "lastName": "Jobs",
+    "fullName": "Hannes Jobs",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {},
+    "sourceRefs": {
+      "identity": [
+        "src_div1_sodra_2026_27"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "player_max_kallhage_7fdc7a35",
+    "firstName": "Max",
+    "lastName": "Källhage",
+    "fullName": "Max Källhage",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {},
+    "sourceRefs": {
+      "identity": [
+        "src_div1_sodra_2026_27"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "player_elias_nordblom_0f70a481",
+    "firstName": "Elias",
+    "lastName": "Nordblom",
+    "fullName": "Elias Nordblom",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {},
+    "sourceRefs": {
+      "identity": [
+        "src_div1_sodra_2026_27"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "player_johan_samuelsson_c5dde134",
+    "firstName": "Johan",
+    "lastName": "Samuelsson",
+    "fullName": "Johan Samuelsson",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {},
+    "sourceRefs": {
+      "identity": [
+        "src_div1_sodra_2026_27"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "player_dino_bahtijarevic_4e0d8cce",
+    "firstName": "Dino",
+    "lastName": "Bahtijarevic",
+    "fullName": "Dino Bahtijarevic",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {},
+    "sourceRefs": {
+      "identity": [
+        "src_div1_sodra_2026_27"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "player_philip_larsson_33160580",
+    "firstName": "Philip",
+    "lastName": "Larsson",
+    "fullName": "Philip Larsson",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {},
+    "sourceRefs": {
+      "identity": [
+        "src_div1_sodra_2026_27"
+      ]
+    },
+    "dataNotes": []
+  }
+]

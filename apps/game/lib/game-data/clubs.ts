@@ -79,6 +79,47 @@ const SWE_2: Club[] = [
   club({ id: "swe2-ystad2", competitionId: "swe-2", name: "IFK Ystad HK", shortName: "IFK Ystad", dataSource: "REAL_WORLD", city: "Ystad", primaryColor: "#1e3a8a", secondaryColor: "#ffffff" }),
 ];
 
+// --- Sweden, Division 1 Norra/Södra (2026/27) --- HM-DATA-DIV1-1.0:
+// NON-PLAYABLE recruitment/scouting pool, one tier below Allsvenskan.
+// 24 real clubs (12 Norra + 12 Södra), club ids/names matching the
+// verified real-world database 1:1 (data/real-world/sweden/2026-27/
+// division1-norra|division1-sodra/), sourced from svenskhandboll.se's
+// official 2026/27 series list. Every entry is `playable: false` --
+// the manager can never select one at New Game -- and every squad is
+// `dataSource: "REAL_WORLD"` (real player identity, not invented).
+// No `city` is set: unlike the Handbollsligan/Allsvenskan blocks above,
+// this milestone's source data does not itself confirm each club's home
+// city, so it is left unset rather than guessed.
+const SWE_DIV1_NORRA: Club[] = [
+  club({ id: "se_club_bodens_bk_hf", competitionId: "se_division1_norra", dataSource: "REAL_WORLD", name: "Bodens BK HF", shortName: "Boden", primaryColor: "#1e3a8a", secondaryColor: "#ffffff" }),
+  club({ id: "se_club_enkopings_hf", competitionId: "se_division1_norra", dataSource: "REAL_WORLD", name: "Enköpings HF", shortName: "Enköping", primaryColor: "#c8102e", secondaryColor: "#111318" }),
+  club({ id: "se_club_hk_cliff", competitionId: "se_division1_norra", dataSource: "REAL_WORLD", name: "HK Cliff", shortName: "Cliff", primaryColor: "#0a7a3d", secondaryColor: "#ffffff" }),
+  club({ id: "se_club_hk_eskil", competitionId: "se_division1_norra", dataSource: "REAL_WORLD", name: "HK Eskil", shortName: "Eskil", primaryColor: "#111318", secondaryColor: "#e2b13c" }),
+  club({ id: "se_club_ik_bolton", competitionId: "se_division1_norra", dataSource: "REAL_WORLD", name: "IK Bolton", shortName: "Bolton", primaryColor: "#1e3a8a", secondaryColor: "#e2b13c" }),
+  club({ id: "se_club_lif_lindesberg", competitionId: "se_division1_norra", dataSource: "REAL_WORLD", name: "LIF Lindesberg", shortName: "Lindesberg", primaryColor: "#c8102e", secondaryColor: "#ffffff" }),
+  club({ id: "se_club_rp_if_linkoping", competitionId: "se_division1_norra", dataSource: "REAL_WORLD", name: "RP IF Linköping", shortName: "RP Linköping", primaryColor: "#0b6e4f", secondaryColor: "#111318" }),
+  club({ id: "se_club_rimbo_hk_roslagen", competitionId: "se_division1_norra", dataSource: "REAL_WORLD", name: "Rimbo HK Roslagen", shortName: "Rimbo", primaryColor: "#111318", secondaryColor: "#c8102e" }),
+  club({ id: "se_club_sannadals_sk", competitionId: "se_division1_norra", dataSource: "REAL_WORLD", name: "Sannadals SK", shortName: "Sannadal", primaryColor: "#1e3a8a", secondaryColor: "#ffffff" }),
+  club({ id: "se_club_taby_hbk", competitionId: "se_division1_norra", dataSource: "REAL_WORLD", name: "Täby HBK", shortName: "Täby", primaryColor: "#0b6e4f", secondaryColor: "#ffffff" }),
+  club({ id: "se_club_uppsala_hk", competitionId: "se_division1_norra", dataSource: "REAL_WORLD", name: "Uppsala HK", shortName: "Uppsala", primaryColor: "#c8102e", secondaryColor: "#111318" }),
+  club({ id: "se_club_orebro_sk_hk_herr", competitionId: "se_division1_norra", dataSource: "REAL_WORLD", name: "Örebro SK HK herr", shortName: "Örebro SK", primaryColor: "#111318", secondaryColor: "#e2b13c" }),
+];
+
+const SWE_DIV1_SODRA: Club[] = [
+  club({ id: "se_club_anderstorps_sk", competitionId: "se_division1_sodra", dataSource: "REAL_WORLD", name: "Anderstorps SK", shortName: "Anderstorp", primaryColor: "#1e3a8a", secondaryColor: "#e2b13c" }),
+  club({ id: "se_club_eslovs_hk", competitionId: "se_division1_sodra", dataSource: "REAL_WORLD", name: "Eslövs HK", shortName: "Eslöv", primaryColor: "#c8102e", secondaryColor: "#111318" }),
+  club({ id: "se_club_hk_country", competitionId: "se_division1_sodra", dataSource: "REAL_WORLD", name: "HK Country", shortName: "Country", primaryColor: "#0b6e4f", secondaryColor: "#ffffff" }),
+  club({ id: "se_club_hk_s_hof", competitionId: "se_division1_sodra", dataSource: "REAL_WORLD", name: "HK S-hof", shortName: "S-hof", primaryColor: "#111318", secondaryColor: "#e2b13c" }),
+  club({ id: "se_club_hk_onnerediterna", competitionId: "se_division1_sodra", dataSource: "REAL_WORLD", name: "HK Önnerediterna", shortName: "Önnerediterna", primaryColor: "#0b6e4f", secondaryColor: "#111318" }),
+  club({ id: "se_club_hp_alingsas", competitionId: "se_division1_sodra", dataSource: "REAL_WORLD", name: "HP Alingsås", shortName: "HP Alingsås", primaryColor: "#c8102e", secondaryColor: "#111318" }),
+  club({ id: "se_club_hp_warta", competitionId: "se_division1_sodra", dataSource: "REAL_WORLD", name: "HP Warta", shortName: "Warta", primaryColor: "#1e3a8a", secondaryColor: "#ffffff" }),
+  club({ id: "se_club_if_kristianstad", competitionId: "se_division1_sodra", dataSource: "REAL_WORLD", name: "IF Kristianstad", shortName: "IF Kristianstad", primaryColor: "#111318", secondaryColor: "#c8102e" }),
+  club({ id: "se_club_ik_lagan", competitionId: "se_division1_sodra", dataSource: "REAL_WORLD", name: "IK Lågan", shortName: "Lågan", primaryColor: "#0b6e4f", secondaryColor: "#ffffff" }),
+  club({ id: "se_club_karra_hf", competitionId: "se_division1_sodra", dataSource: "REAL_WORLD", name: "Kärra HF", shortName: "Kärra", primaryColor: "#1e3a8a", secondaryColor: "#e2b13c" }),
+  club({ id: "se_club_vinslovs_hk", competitionId: "se_division1_sodra", dataSource: "REAL_WORLD", name: "Vinslövs HK", shortName: "Vinslöv", primaryColor: "#c8102e", secondaryColor: "#ffffff" }),
+  club({ id: "se_club_ahus_handboll", competitionId: "se_division1_sodra", dataSource: "REAL_WORLD", name: "Åhus Handboll", shortName: "Åhus", primaryColor: "#111318", secondaryColor: "#e2b13c" }),
+];
+
 // --- Denmark, tier 1: Håndboldligaen --- verified full 14-club list (en.wikipedia.org).
 const DEN_1: Club[] = [
   club({ id: "den1-aalborg", competitionId: "den-1", name: "Aalborg Håndbold", shortName: "Aalborg", city: "Aalborg", primaryColor: "#c8102e", secondaryColor: "#111318" }),
@@ -192,7 +233,7 @@ const REST: Club[] = [
   club({ id: "isl2-throttur", competitionId: "isl-2", name: "Þróttur Reykjavík", shortName: "Þróttur", city: "Reykjavík", primaryColor: "#111318", secondaryColor: "#e2b13c" }),
 ];
 
-export const CLUBS: readonly Club[] = [...SWE_1, ...SWE_2, ...DEN_1, ...GER_1, ...REST];
+export const CLUBS: readonly Club[] = [...SWE_1, ...SWE_2, ...SWE_DIV1_NORRA, ...SWE_DIV1_SODRA, ...DEN_1, ...GER_1, ...REST];
 
 export function getClub(id: string): Club | undefined {
   return CLUBS.find((c) => c.id === id);

@@ -3,7 +3,7 @@
 // no season-context data.
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { clubContextShift } from "./clubContextTier";
+import { clubContextShift, populationTierForClub } from "./clubContextTier";
 
 test("HM-RATINGS-0.6: clubContextShift returns 0 for an unknown club (never throws, never invents a bonus)", () => {
   assert.equal(clubContextShift("not_a_real_club"), 0);
@@ -34,4 +34,16 @@ test("HM-RATINGS-0.6: clubContextShift is bounded to a small range for every rea
     const shift = clubContextShift(clubId);
     assert.ok(shift >= -6 && shift <= 6, `${clubId} shift ${shift} out of bounds`);
   }
+});
+
+// HM-DATA-DIV1-1.0
+test("populationTierForClub: every existing Handbollsligan/Allsvenskan club and every unknown clubId resolves to STANDARD", () => {
+  assert.equal(populationTierForClub("se_club_hammarby_if_hf"), "STANDARD");
+  assert.equal(populationTierForClub("swe2-tumba"), "STANDARD");
+  assert.equal(populationTierForClub("not_a_real_club"), "STANDARD");
+});
+
+test("populationTierForClub: a Division 1 Norra or Södra club resolves to DIVISION_1", () => {
+  assert.equal(populationTierForClub("se_club_bodens_bk_hf"), "DIVISION_1"); // Division 1 Norra
+  assert.equal(populationTierForClub("se_club_ahus_handboll"), "DIVISION_1"); // Division 1 Södra
 });

@@ -1,0 +1,566 @@
+[
+  {
+    "playerId": "player_carl_dahlin_dff97cff",
+    "firstName": "Carl",
+    "lastName": "Dahlin",
+    "fullName": "Carl Dahlin",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": 2005,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "fieldConfidence": {
+      "birthYear": "PARTIAL"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_div1_norra_2026_27"
+      ],
+      "birthYear": [
+        "src_div1_norra_2026_27"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-DIV1-1.0: provisional roster entry -- club's 2026/27 squad page was not yet fully published at snapshot time; see this milestone's report."
+    ]
+  },
+  {
+    "playerId": "player_cesar_wolkert_85aa53e8",
+    "firstName": "Cesar",
+    "lastName": "Wolkert",
+    "fullName": "Cesar Wolkert",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": 2006,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "fieldConfidence": {
+      "birthYear": "PARTIAL"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_div1_norra_2026_27"
+      ],
+      "birthYear": [
+        "src_div1_norra_2026_27"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-DIV1-1.0: provisional roster entry -- club's 2026/27 squad page was not yet fully published at snapshot time; see this milestone's report."
+    ]
+  },
+  {
+    "playerId": "player_grayson_wide_0538bc0d",
+    "firstName": "Grayson",
+    "lastName": "Wide",
+    "fullName": "Grayson Wide",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": 2004,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "fieldConfidence": {
+      "birthYear": "PARTIAL"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_div1_norra_2026_27"
+      ],
+      "birthYear": [
+        "src_div1_norra_2026_27"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-DIV1-1.0: provisional roster entry -- club's 2026/27 squad page was not yet fully published at snapshot time; see this milestone's report."
+    ]
+  },
+  {
+    "playerId": "player_adrian_glemhorn_8ac88f2b",
+    "firstName": "Adrian",
+    "lastName": "Glemhorn",
+    "fullName": "Adrian Glemhorn",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": 1999,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "fieldConfidence": {
+      "birthYear": "PARTIAL"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_div1_norra_2026_27"
+      ],
+      "birthYear": [
+        "src_div1_norra_2026_27"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-DIV1-1.0: provisional roster entry -- club's 2026/27 squad page was not yet fully published at snapshot time; see this milestone's report."
+    ]
+  },
+  {
+    "playerId": "player_olle_persson_186ac539",
+    "firstName": "Olle",
+    "lastName": "Persson",
+    "fullName": "Olle Persson",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": 2006,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "fieldConfidence": {
+      "birthYear": "PARTIAL"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_div1_norra_2026_27"
+      ],
+      "birthYear": [
+        "src_div1_norra_2026_27"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-DIV1-1.0: provisional roster entry -- club's 2026/27 squad page was not yet fully published at snapshot time; see this milestone's report."
+    ]
+  },
+  {
+    "playerId": "player_lukas_dahlberg_76197f08",
+    "firstName": "Lukas",
+    "lastName": "Dahlberg",
+    "fullName": "Lukas Dahlberg",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": 2006,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "fieldConfidence": {
+      "birthYear": "PARTIAL"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_div1_norra_2026_27"
+      ],
+      "birthYear": [
+        "src_div1_norra_2026_27"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-DIV1-1.0: provisional roster entry -- club's 2026/27 squad page was not yet fully published at snapshot time; see this milestone's report."
+    ]
+  },
+  {
+    "playerId": "player_fredrik_andersson_5cfec10a",
+    "firstName": "Fredrik",
+    "lastName": "Andersson",
+    "fullName": "Fredrik Andersson",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": 2004,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "fieldConfidence": {
+      "birthYear": "PARTIAL"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_div1_norra_2026_27"
+      ],
+      "birthYear": [
+        "src_div1_norra_2026_27"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-DIV1-1.0: provisional roster entry -- club's 2026/27 squad page was not yet fully published at snapshot time; see this milestone's report."
+    ]
+  },
+  {
+    "playerId": "player_jonathan_bogren_fbd56c4c",
+    "firstName": "Jonathan",
+    "lastName": "Bogren",
+    "fullName": "Jonathan Bogren",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": 1999,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "fieldConfidence": {
+      "birthYear": "PARTIAL"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_div1_norra_2026_27"
+      ],
+      "birthYear": [
+        "src_div1_norra_2026_27"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-DIV1-1.0: provisional roster entry -- club's 2026/27 squad page was not yet fully published at snapshot time; see this milestone's report."
+    ]
+  },
+  {
+    "playerId": "player_melker_astrom_b636ce34",
+    "firstName": "Melker",
+    "lastName": "Åström",
+    "fullName": "Melker Åström",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": 2005,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "fieldConfidence": {
+      "birthYear": "PARTIAL"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_div1_norra_2026_27"
+      ],
+      "birthYear": [
+        "src_div1_norra_2026_27"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-DIV1-1.0: provisional roster entry -- club's 2026/27 squad page was not yet fully published at snapshot time; see this milestone's report."
+    ]
+  },
+  {
+    "playerId": "player_einar_sandstrom_d23788fb",
+    "firstName": "Einar",
+    "lastName": "Sandström",
+    "fullName": "Einar Sandström",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": 2007,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "fieldConfidence": {
+      "birthYear": "PARTIAL"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_div1_norra_2026_27"
+      ],
+      "birthYear": [
+        "src_div1_norra_2026_27"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-DIV1-1.0: provisional roster entry -- club's 2026/27 squad page was not yet fully published at snapshot time; see this milestone's report."
+    ]
+  },
+  {
+    "playerId": "player_karl_baky_52982eda",
+    "firstName": "Karl",
+    "lastName": "Baky",
+    "fullName": "Karl Baky",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": 2001,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "fieldConfidence": {
+      "birthYear": "PARTIAL"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_div1_norra_2026_27"
+      ],
+      "birthYear": [
+        "src_div1_norra_2026_27"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-DIV1-1.0: provisional roster entry -- club's 2026/27 squad page was not yet fully published at snapshot time; see this milestone's report."
+    ]
+  },
+  {
+    "playerId": "player_lucas_schonwell_7ff8f4fe",
+    "firstName": "Lucas",
+    "lastName": "Schönwell",
+    "fullName": "Lucas Schönwell",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": 2004,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "fieldConfidence": {
+      "birthYear": "PARTIAL"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_div1_norra_2026_27"
+      ],
+      "birthYear": [
+        "src_div1_norra_2026_27"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-DIV1-1.0: provisional roster entry -- club's 2026/27 squad page was not yet fully published at snapshot time; see this milestone's report."
+    ]
+  },
+  {
+    "playerId": "player_hugo_sax_loman_6763f37a",
+    "firstName": "Hugo",
+    "lastName": "Sax Loman",
+    "fullName": "Hugo Sax Loman",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": 2004,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "fieldConfidence": {
+      "birthYear": "PARTIAL"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_div1_norra_2026_27"
+      ],
+      "birthYear": [
+        "src_div1_norra_2026_27"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-DIV1-1.0: provisional roster entry -- club's 2026/27 squad page was not yet fully published at snapshot time; see this milestone's report."
+    ]
+  },
+  {
+    "playerId": "player_anton_mard_7c773538",
+    "firstName": "Anton",
+    "lastName": "Mård",
+    "fullName": "Anton Mård",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": 2003,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "fieldConfidence": {
+      "birthYear": "PARTIAL"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_div1_norra_2026_27"
+      ],
+      "birthYear": [
+        "src_div1_norra_2026_27"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-DIV1-1.0: provisional roster entry -- club's 2026/27 squad page was not yet fully published at snapshot time; see this milestone's report."
+    ]
+  },
+  {
+    "playerId": "player_olle_sjoberg_648e6fb2",
+    "firstName": "Olle",
+    "lastName": "Sjöberg",
+    "fullName": "Olle Sjöberg",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": 2000,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "fieldConfidence": {
+      "birthYear": "PARTIAL"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_div1_norra_2026_27"
+      ],
+      "birthYear": [
+        "src_div1_norra_2026_27"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-DIV1-1.0: provisional roster entry -- club's 2026/27 squad page was not yet fully published at snapshot time; see this milestone's report."
+    ]
+  },
+  {
+    "playerId": "player_gustav_nygren_697ed53a",
+    "firstName": "Gustav",
+    "lastName": "Nygren",
+    "fullName": "Gustav Nygren",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": 2000,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "fieldConfidence": {
+      "birthYear": "PARTIAL"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_div1_norra_2026_27"
+      ],
+      "birthYear": [
+        "src_div1_norra_2026_27"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-DIV1-1.0: provisional roster entry -- club's 2026/27 squad page was not yet fully published at snapshot time; see this milestone's report."
+    ]
+  },
+  {
+    "playerId": "player_douglas_skold_233d6d14",
+    "firstName": "Douglas",
+    "lastName": "Sköld",
+    "fullName": "Douglas Sköld",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "fieldConfidence": {},
+    "sourceRefs": {
+      "identity": [
+        "src_div1_norra_2026_27"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-DIV1-1.0: provisional roster entry -- club's 2026/27 squad page was not yet fully published at snapshot time; see this milestone's report."
+    ]
+  },
+  {
+    "playerId": "player_elias_simonsson_1b933336",
+    "firstName": "Elias",
+    "lastName": "Simonsson",
+    "fullName": "Elias Simonsson",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "fieldConfidence": {},
+    "sourceRefs": {
+      "identity": [
+        "src_div1_norra_2026_27"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-DIV1-1.0: provisional roster entry -- club's 2026/27 squad page was not yet fully published at snapshot time; see this milestone's report."
+    ]
+  },
+  {
+    "playerId": "player_erik_daniel_harnaes_70093397",
+    "firstName": "Erik",
+    "lastName": "Daniel Harnaes",
+    "fullName": "Erik Daniel Harnaes",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "fieldConfidence": {},
+    "sourceRefs": {
+      "identity": [
+        "src_div1_norra_2026_27"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-DIV1-1.0: provisional roster entry -- club's 2026/27 squad page was not yet fully published at snapshot time; see this milestone's report."
+    ]
+  },
+  {
+    "playerId": "player_isak_svaren_e6bbef7a",
+    "firstName": "Isak",
+    "lastName": "Svarén",
+    "fullName": "Isak Svarén",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "fieldConfidence": {},
+    "sourceRefs": {
+      "identity": [
+        "src_div1_norra_2026_27"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-DIV1-1.0: provisional roster entry -- club's 2026/27 squad page was not yet fully published at snapshot time; see this milestone's report."
+    ]
+  },
+  {
+    "playerId": "player_ted_bergman_7dc50449",
+    "firstName": "Ted",
+    "lastName": "Bergman",
+    "fullName": "Ted Bergman",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "fieldConfidence": {},
+    "sourceRefs": {
+      "identity": [
+        "src_div1_norra_2026_27"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-DIV1-1.0: provisional roster entry -- club's 2026/27 squad page was not yet fully published at snapshot time; see this milestone's report."
+    ]
+  },
+  {
+    "playerId": "player_william_andersson_b36be3a0",
+    "firstName": "William",
+    "lastName": "Andersson",
+    "fullName": "William Andersson",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": null,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "fieldConfidence": {},
+    "sourceRefs": {
+      "identity": [
+        "src_div1_norra_2026_27"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-DIV1-1.0: provisional roster entry -- club's 2026/27 squad page was not yet fully published at snapshot time; see this milestone's report."
+    ]
+  }
+]

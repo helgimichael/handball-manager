@@ -1,0 +1,39 @@
+{
+  "clubId": "se_club_hk_cliff",
+  "clubName": "HK Cliff",
+  "competitionId": "se_division1_norra",
+  "season": "2026/27",
+  "snapshotDate": "2026-08-27",
+  "datasetStatus": "PRESEASON",
+  "qcStatus": "VERIFIED_WITH_OPEN_FIELDS",
+  "expectedRosterCount": 27,
+  "exportedRosterCount": 27,
+  "checks": {
+    "currentLeagueRosterLocated": true,
+    "allLeagueRosterNamesCaptured": true,
+    "incomingTransfersChecked": false,
+    "departuresChecked": false,
+    "duplicatePlayers": 0,
+    "canonicalPositionsValid": true,
+    "guessedSecondaryPositions": 0,
+    "guessedDatesOfBirth": 0,
+    "guessedHeights": 27,
+    "guessedNationalities": 27,
+    "guessedContractDates": 27
+  },
+  "knownConflicts": [],
+  "staleSourceWarnings": [
+    "Hammarby HU/HJ plays Division 1 in cooperation partner HK Cliff's colours in 2026/27."
+  ],
+  "openFieldsSummary": {
+    "exactDateOfBirthMissing": 27,
+    "birthYearMissing": 27,
+    "nationalityMissing": 27,
+    "heightMissing": 27,
+    "handednessMissing": 27,
+    "shirtNumberMissing": 2,
+    "contractEndMissing": 27,
+    "positionGenerated": 27,
+    "positionSourced": 0
+  }
+}

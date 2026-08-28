@@ -44,6 +44,7 @@ import type { LiveMatchSessionState } from "../liveMatch/liveMatchSession";
 import type { RawClubStaffIdentityLike } from "../staff/staffRosterResolution";
 import { ensureCareerCompetitionStaffRoster, recalibrateStaffEmploymentWages } from "../staff/staffCareerIntegration";
 import { offerStaffContract, type StaffOfferParams, type StaffOfferResult } from "../staff/staffRecruitment";
+import { ensureDivision1PlayerEconomicIdentity } from "./division1Integration";
 
 type CareerContextValue = {
   save: CareerSave;
@@ -188,6 +189,32 @@ async function fetchWorldSquads(competitionId: string): Promise<Record<string, P
   }
 }
 
+// HM-DATA-DIV1-1.0: Division 1 Norra/Södra clubs/players must exist in
+// world state regardless of which competition the manager actually
+// plays in ("Division 1-klubbar/spelare ska finnas i world state") --
+// unlike every other snapshot on this page, this is never scoped to the
+// manager's own competition. Fetched unconditionally (both real-world,
+// so this always succeeds once the data exists) and merged into
+// worldSquads/gameplayRatings alongside the manager's own competition's
+// data. This never triggers a full ClubEconomyBaseline or staff roster
+// for these clubs (ensureCareerAllClubEconomies/staff resolution stay
+// scoped to getClubsByCompetition(state.competitionId), the manager's
+// own competition) -- but division1Integration.ts's
+// ensureDivision1PlayerEconomicIdentity DOES give every Division 1
+// player a contract (required for Transfers to treat them as a valid
+// target), reusing the SAME canonical rating this snapshot fetches.
+const DIVISION_1_COMPETITION_IDS = ["se_division1_norra", "se_division1_sodra"] as const;
+
+async function fetchDivision1WorldSquads(): Promise<Record<string, PlayerMock[]>> {
+  const snapshots = await Promise.all(DIVISION_1_COMPETITION_IDS.map(fetchWorldSquads));
+  return Object.assign({}, ...snapshots);
+}
+
+async function fetchDivision1GameplayRatings(): Promise<Record<string, GameplayPlayerRating[]>> {
+  const snapshots = await Promise.all(DIVISION_1_COMPETITION_IDS.map(fetchGameplayRatings));
+  return Object.assign({}, ...snapshots);
+}
+
 /**
  * HM-IDENTITY-0.3: mirrors fetchWorldSquads exactly, for the same reason
  * -- the AI-derived TeamTacticalProfile snapshot is resolved server-side
@@ -268,6 +295,22 @@ async function getOrCreateCareerState(save: CareerSave): Promise<CareerState> {
       migrated = ensureCareerCompetitionStaffRoster(migrated, migrated.competitionId, staffIdentityByClub, fallbackYear);
     }
     migrated = recalibrateStaffEmploymentWages(migrated);
+    // HM-DATA-DIV1-1.0: an existing save may predate Division 1 entirely
+    // -- top it up exactly once, the same pattern the staff top-up above
+    // already uses. Any one known Division 1 clubId is enough to detect
+    // whether the whole backfill is still missing.
+    if (migrated.worldSquads["se_club_bodens_bk_hf"] === undefined) {
+      const div1WorldSquads = await fetchDivision1WorldSquads();
+      if (Object.keys(div1WorldSquads).length > 0) {
+        const div1GameplayRatings = await fetchDivision1GameplayRatings();
+        migrated = {
+          ...migrated,
+          worldSquads: { ...migrated.worldSquads, ...div1WorldSquads },
+          gameplayRatings: { ...migrated.gameplayRatings, ...div1GameplayRatings },
+        };
+        migrated = ensureDivision1PlayerEconomicIdentity(migrated);
+      }
+    }
     if (migrated !== save.careerState) {
       saveCareerState(save.saveId, migrated);
     }
@@ -276,10 +319,20 @@ async function getOrCreateCareerState(save: CareerSave): Promise<CareerState> {
   const club = getClub(save.clubId);
   const isRealWorld = club?.dataSource === "REAL_WORLD";
   const worldSquads = isRealWorld ? await fetchWorldSquads(club.competitionId) : {};
+  const div1WorldSquads = await fetchDivision1WorldSquads();
   const aiTacticalPreferences = isRealWorld ? await fetchAiTacticalPreferences(club.competitionId, "2026/27", GAME_CURRENT_DATE) : {};
   const gameplayRatings = isRealWorld ? await fetchGameplayRatings(club.competitionId) : {};
+  const div1GameplayRatings = await fetchDivision1GameplayRatings();
   const staffIdentityByClub = isRealWorld ? await fetchAllClubsStaffIdentity(club.competitionId) : {};
-  const fresh = createNewCareerState(save.saveId, save.clubId, worldSquads, aiTacticalPreferences, gameplayRatings, staffIdentityByClub, save.preseasonStart);
+  const fresh = createNewCareerState(
+    save.saveId,
+    save.clubId,
+    { ...worldSquads, ...div1WorldSquads },
+    aiTacticalPreferences,
+    { ...gameplayRatings, ...div1GameplayRatings },
+    staffIdentityByClub,
+    save.preseasonStart,
+  );
   saveCareerState(save.saveId, fresh);
   return fresh;
 }

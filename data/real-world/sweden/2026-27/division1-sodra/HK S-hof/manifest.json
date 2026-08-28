@@ -1,0 +1,12 @@
+{
+  "milestone": "HM-DATA-DIV1-1.0",
+  "club": "HK S-hof",
+  "snapshotDate": "2026-08-27",
+  "files": [
+    "players-hk_s_hof.json",
+    "roster-hk_s_hof-2026-27.json",
+    "qc-hk_s_hof.json",
+    "sources-hk_s_hof.json",
+    "schema-foundation-v0.2.json"
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "milestone": "HM-DATA-DIV1-1.0",
+  "club": "Örebro SK HK herr",
+  "snapshotDate": "2026-08-27",
+  "files": [
+    "players-orebro_sk_hk_herr.json",
+    "roster-orebro_sk_hk_herr-2026-27.json",
+    "qc-orebro_sk_hk_herr.json",
+    "sources-orebro_sk_hk_herr.json",
+    "schema-foundation-v0.2.json"
+  ]
+}

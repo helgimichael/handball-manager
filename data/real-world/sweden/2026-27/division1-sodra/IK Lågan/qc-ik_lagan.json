@@ -1,0 +1,39 @@
+{
+  "clubId": "se_club_ik_lagan",
+  "clubName": "IK Lågan",
+  "competitionId": "se_division1_sodra",
+  "season": "2026/27",
+  "snapshotDate": "2026-08-27",
+  "datasetStatus": "PRESEASON",
+  "qcStatus": "VERIFIED_WITH_OPEN_FIELDS",
+  "expectedRosterCount": 20,
+  "exportedRosterCount": 20,
+  "checks": {
+    "currentLeagueRosterLocated": true,
+    "allLeagueRosterNamesCaptured": true,
+    "incomingTransfersChecked": false,
+    "departuresChecked": false,
+    "duplicatePlayers": 0,
+    "canonicalPositionsValid": true,
+    "guessedSecondaryPositions": 0,
+    "guessedDatesOfBirth": 0,
+    "guessedHeights": 20,
+    "guessedNationalities": 20,
+    "guessedContractDates": 20
+  },
+  "knownConflicts": [],
+  "staleSourceWarnings": [
+    "2026/27 team page exists but roster is not yet populated; latest senior roster used after removing known departures."
+  ],
+  "openFieldsSummary": {
+    "exactDateOfBirthMissing": 20,
+    "birthYearMissing": 0,
+    "nationalityMissing": 20,
+    "heightMissing": 20,
+    "handednessMissing": 20,
+    "shirtNumberMissing": 2,
+    "contractEndMissing": 20,
+    "positionGenerated": 18,
+    "positionSourced": 2
+  }
+}

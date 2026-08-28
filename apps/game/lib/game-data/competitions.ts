@@ -29,6 +29,33 @@ export const COMPETITIONS: readonly Competition[] = [
     sourceNote: "HM-DATA-ALLSVENSKAN-1.0: club list matches the 14 approved CLUB IDENTITY v0.1 source profiles for 2026/27 (real club/coach/staff identity imported; player squads remain mock until HM-DATA-ALLSVENSKAN-1.1). IFK Tumba is the only playable club.",
   },
   {
+    // HM-DATA-DIV1-1.0: NON-PLAYABLE recruitment/scouting pool, one tier
+    // below Allsvenskan. `tier` is set to 2 (same nominal value as
+    // Allsvenskan) purely to avoid touching every `1 | 2`-typed economy
+    // signature (contract/wage/market-value generation) that assumes
+    // exactly two tiers exist -- those generators are never actually
+    // invoked for a Division 1 club (ensureCareerAllClubEconomies/
+    // ensureCareerPlayerContracts both iterate only
+    // getClubsByCompetition(state.competitionId), the MANAGER's own
+    // competition, which can never be Division 1 since no club here is
+    // playable -- see clubs.ts). The one thing that actually
+    // distinguishes Division 1 clubs is CLUB.playable === false for all
+    // of them; UI surfaces that must hide Division 1 (New Game's league
+    // picker) filter on that, never on `tier`.
+    id: "se_division1_norra",
+    nation: "SWE",
+    tier: 2,
+    name: "Division 1 Norra",
+    sourceNote: "HM-DATA-DIV1-1.0: non-playable recruitment/scouting pool. 12 real clubs for 2026/27, verified via svenskhandboll.se's official series list; per-club roster confidence (VERIFIED/PARTIAL) recorded per player in the real-world database. Never simulated (no fixtures/standings/promotion).",
+  },
+  {
+    id: "se_division1_sodra",
+    nation: "SWE",
+    tier: 2,
+    name: "Division 1 Södra",
+    sourceNote: "HM-DATA-DIV1-1.0: non-playable recruitment/scouting pool. 12 real clubs for 2026/27, verified via svenskhandboll.se's official series list; per-club roster confidence (VERIFIED/PARTIAL) recorded per player in the real-world database. Never simulated (no fixtures/standings/promotion).",
+  },
+  {
     id: "den-1",
     nation: "DEN",
     tier: 1,

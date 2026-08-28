@@ -7,8 +7,28 @@
 // real-world-imported at career creation, falling back to the legacy
 // static mock squad (TUMBA_SQUAD) for clubs that still only have mock
 // data (i.e. IFK Tumba/Allsvenskan, unchanged by this milestone).
-import { CLUBS, TUMBA_CLUB_ID, TUMBA_SQUAD, getClub, type Club, type PlayerMock } from "../game-data";
+import { CLUBS, TUMBA_CLUB_ID, TUMBA_SQUAD, getClub, getClubsByCompetition, type Club, type PlayerMock } from "../game-data";
 import type { CareerState } from "./types";
+
+// HM-DATA-DIV1-1.0: Division 1 Norra/Södra are a recruitment/scouting
+// source for every career regardless of which competition the manager
+// actually plays in -- see CareerContext.tsx's fetchDivision1WorldSquads,
+// which snapshots both into worldSquads unconditionally at career
+// creation (and backfills it for an existing save).
+const DIVISION_1_COMPETITION_IDS = ["se_division1_norra", "se_division1_sodra"] as const;
+
+/**
+ * Every club whose squad is a valid Scouting/Transfers candidate source
+ * for this career: every other club in the manager's own competition,
+ * plus every Division 1 Norra/Södra club (never the manager's own club).
+ * Shared by app/career/scouting/page.tsx and app/career/transfers/page.tsx
+ * so both surfaces stay in sync.
+ */
+export function getExternalCandidateClubs(career: CareerState): Club[] {
+  const ownCompetitionClubs = getClubsByCompetition(career.competitionId);
+  const division1Clubs = DIVISION_1_COMPETITION_IDS.flatMap((id) => getClubsByCompetition(id));
+  return [...ownCompetitionClubs, ...division1Clubs].filter((c) => c.id !== career.playerClubId);
+}
 
 /** The manager's own club, resolved from career state rather than assumed to be IFK Tumba. */
 export function getCareerClub(career: CareerState): Club {

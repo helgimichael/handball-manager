@@ -1,0 +1,22 @@
+[
+  {
+    "sourceId": "src_div1_sodra_2026_27",
+    "sourceType": "USER_COMPILED",
+    "publisher": "User-provided QA compilation",
+    "title": "Handball Manager — Division 1 2026/27 (svenskhandboll.se serieindelning + per-club official rosters/Profixio)",
+    "url": "https://svenskhandboll.se/handboll-i-sverige/tavling/serieindelning",
+    "publishedAt": "2026-08-27",
+    "accessedAt": "2026-08-27",
+    "seasonContext": "2026/27"
+  },
+  {
+    "sourceId": "src_div1_sodra_2026_27_club_roster",
+    "sourceType": "CLUB_OFFICIAL",
+    "publisher": "Anderstorps SK",
+    "title": "Anderstorps SK roster (EXPLICIT_26_27_CLUB_ARTICLE)",
+    "url": "https://www.ask-handboll.com/askhandboll-herrara/nyheter/2527718/truppbygget-herr-sasongen-2026-2027",
+    "publishedAt": null,
+    "accessedAt": "2026-08-27",
+    "seasonContext": "2026/27"
+  }
+]

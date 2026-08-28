@@ -1,0 +1,12 @@
+{
+  "milestone": "HM-DATA-DIV1-1.0",
+  "club": "Uppsala HK",
+  "snapshotDate": "2026-08-27",
+  "files": [
+    "players-uppsala_hk.json",
+    "roster-uppsala_hk-2026-27.json",
+    "qc-uppsala_hk.json",
+    "sources-uppsala_hk.json",
+    "schema-foundation-v0.2.json"
+  ]
+}

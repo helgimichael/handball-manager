@@ -9,9 +9,9 @@
 //   Player Profile, components/ScoutReportPanel.tsx).
 import { useMemo, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { getClub, getClubsByCompetition, playerAge, positionLabel, type HandballPosition } from "@/lib/game-data";
+import { getClub, playerAge, positionLabel, type HandballPosition } from "@/lib/game-data";
 import { useCareer } from "@/lib/career/CareerContext";
-import { getCareerClubSquad, getCareerPlayer } from "@/lib/career/careerWorld";
+import { getCareerClubSquad, getCareerPlayer, getExternalCandidateClubs } from "@/lib/career/careerWorld";
 import { getAllScoutingAssignments, computeAssignmentProgressPct, getClubScouts } from "@/lib/career/scouting";
 import { findStaffMember } from "@/lib/staff/staffCareerIntegration";
 import { computeRoleSuitability } from "@/lib/staff/roleSuitability";
@@ -35,7 +35,7 @@ export default function ScoutingPage() {
   const [formError, setFormError] = useState<string | null>(null);
 
   const candidates = useMemo(() => {
-    const clubs = getClubsByCompetition(career.competitionId).filter((c) => c.id !== career.playerClubId);
+    const clubs = getExternalCandidateClubs(career);
     const rows = clubs.flatMap((club) => getCareerClubSquad(career, club.id).map((p) => ({ player: p, club })));
     return rows.filter(({ player }) => {
       if (positionFilter !== "ALL" && player.position !== positionFilter) return false;

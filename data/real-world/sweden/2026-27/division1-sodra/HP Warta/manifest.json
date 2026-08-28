@@ -1,0 +1,12 @@
+{
+  "milestone": "HM-DATA-DIV1-1.0",
+  "club": "HP Warta",
+  "snapshotDate": "2026-08-27",
+  "files": [
+    "players-hp_warta.json",
+    "roster-hp_warta-2026-27.json",
+    "qc-hp_warta.json",
+    "sources-hp_warta.json",
+    "schema-foundation-v0.2.json"
+  ]
+}

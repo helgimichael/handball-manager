@@ -1,0 +1,12 @@
+{
+  "milestone": "HM-DATA-DIV1-1.0",
+  "club": "RP IF Linköping",
+  "snapshotDate": "2026-08-27",
+  "files": [
+    "players-rp_if_linkoping.json",
+    "roster-rp_if_linkoping-2026-27.json",
+    "qc-rp_if_linkoping.json",
+    "sources-rp_if_linkoping.json",
+    "schema-foundation-v0.2.json"
+  ]
+}

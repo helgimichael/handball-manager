@@ -1,0 +1,37 @@
+{
+  "clubId": "se_club_hk_eskil",
+  "clubName": "HK Eskil",
+  "competitionId": "se_division1_norra",
+  "season": "2026/27",
+  "snapshotDate": "2026-08-27",
+  "datasetStatus": "PRESEASON",
+  "qcStatus": "VERIFIED",
+  "expectedRosterCount": 17,
+  "exportedRosterCount": 17,
+  "checks": {
+    "currentLeagueRosterLocated": true,
+    "allLeagueRosterNamesCaptured": true,
+    "incomingTransfersChecked": false,
+    "departuresChecked": false,
+    "duplicatePlayers": 0,
+    "canonicalPositionsValid": true,
+    "guessedSecondaryPositions": 0,
+    "guessedDatesOfBirth": 0,
+    "guessedHeights": 17,
+    "guessedNationalities": 17,
+    "guessedContractDates": 17
+  },
+  "knownConflicts": [],
+  "staleSourceWarnings": [],
+  "openFieldsSummary": {
+    "exactDateOfBirthMissing": 17,
+    "birthYearMissing": 0,
+    "nationalityMissing": 17,
+    "heightMissing": 17,
+    "handednessMissing": 17,
+    "shirtNumberMissing": 0,
+    "contractEndMissing": 17,
+    "positionGenerated": 0,
+    "positionSourced": 17
+  }
+}

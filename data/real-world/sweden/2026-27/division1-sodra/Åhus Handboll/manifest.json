@@ -1,0 +1,12 @@
+{
+  "milestone": "HM-DATA-DIV1-1.0",
+  "club": "Åhus Handboll",
+  "snapshotDate": "2026-08-27",
+  "files": [
+    "players-ahus_handboll.json",
+    "roster-ahus_handboll-2026-27.json",
+    "qc-ahus_handboll.json",
+    "sources-ahus_handboll.json",
+    "schema-foundation-v0.2.json"
+  ]
+}

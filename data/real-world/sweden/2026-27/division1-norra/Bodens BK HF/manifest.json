@@ -1,0 +1,12 @@
+{
+  "milestone": "HM-DATA-DIV1-1.0",
+  "club": "Bodens BK HF",
+  "snapshotDate": "2026-08-27",
+  "files": [
+    "players-bodens_bk_hf.json",
+    "roster-bodens_bk_hf-2026-27.json",
+    "qc-bodens_bk_hf.json",
+    "sources-bodens_bk_hf.json",
+    "schema-foundation-v0.2.json"
+  ]
+}

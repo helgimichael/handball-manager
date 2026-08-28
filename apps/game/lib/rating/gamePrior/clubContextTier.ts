@@ -17,9 +17,23 @@
 // a penalty.
 import { loadSeasonIdentity } from "../../gameWorld/clubIdentityLoader";
 import { leagueSegmentForClub } from "../../gameWorld/leagueSegment";
+import { getClub } from "../../game-data";
 import type { IdentityClaim } from "../../identity/types";
+import type { PopulationTier } from "./populationModel";
 
 const MAX_SHIFT = 6;
+
+// HM-DATA-DIV1-1.0: the two Division 1 competitions, and nothing else,
+// resolve to the DIVISION_1 population tier -- every other clubId
+// (including any unrecognised one) stays "STANDARD", so this is a pure
+// addition with zero behavior change for any existing Handbollsligan/
+// Allsvenskan clubId.
+const DIVISION_1_COMPETITION_IDS: ReadonlySet<string> = new Set(["se_division1_norra", "se_division1_sodra"]);
+
+export function populationTierForClub(clubId: string): PopulationTier {
+  const club = getClub(clubId);
+  return club && DIVISION_1_COMPETITION_IDS.has(club.competitionId) ? "DIVISION_1" : "STANDARD";
+}
 
 function scoreClaim(claim: IdentityClaim): number {
   const value = String(claim.value).toUpperCase();

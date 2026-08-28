@@ -1,0 +1,12 @@
+{
+  "milestone": "HM-DATA-DIV1-1.0",
+  "club": "Täby HBK",
+  "snapshotDate": "2026-08-27",
+  "files": [
+    "players-taby_hbk.json",
+    "roster-taby_hbk-2026-27.json",
+    "qc-taby_hbk.json",
+    "sources-taby_hbk.json",
+    "schema-foundation-v0.2.json"
+  ]
+}

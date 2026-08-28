@@ -1,0 +1,542 @@
+[
+  {
+    "playerId": "player_axel_hegedus_a78e9c1b",
+    "firstName": "Axel",
+    "lastName": "Hegedüs",
+    "fullName": "Axel Hegedüs",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": 2001,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "fieldConfidence": {
+      "birthYear": "PARTIAL"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_div1_sodra_2026_27"
+      ],
+      "birthYear": [
+        "src_div1_sodra_2026_27"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-DIV1-1.0: provisional roster entry -- club's 2026/27 squad page was not yet fully published at snapshot time; see this milestone's report."
+    ]
+  },
+  {
+    "playerId": "player_felix_hylander_960a63e9",
+    "firstName": "Felix",
+    "lastName": "Hylander",
+    "fullName": "Felix Hylander",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": 2003,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "fieldConfidence": {
+      "birthYear": "PARTIAL"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_div1_sodra_2026_27"
+      ],
+      "birthYear": [
+        "src_div1_sodra_2026_27"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-DIV1-1.0: provisional roster entry -- club's 2026/27 squad page was not yet fully published at snapshot time; see this milestone's report."
+    ]
+  },
+  {
+    "playerId": "player_richard_hellstrom_46e05515",
+    "firstName": "Richard",
+    "lastName": "Hellström",
+    "fullName": "Richard Hellström",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": 1993,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "fieldConfidence": {
+      "birthYear": "PARTIAL"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_div1_sodra_2026_27"
+      ],
+      "birthYear": [
+        "src_div1_sodra_2026_27"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-DIV1-1.0: provisional roster entry -- club's 2026/27 squad page was not yet fully published at snapshot time; see this milestone's report."
+    ]
+  },
+  {
+    "playerId": "player_oliver_siken_caeaeb10",
+    "firstName": "Oliver",
+    "lastName": "Sikén",
+    "fullName": "Oliver Sikén",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": 2003,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "fieldConfidence": {
+      "birthYear": "PARTIAL"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_div1_sodra_2026_27"
+      ],
+      "birthYear": [
+        "src_div1_sodra_2026_27"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-DIV1-1.0: provisional roster entry -- club's 2026/27 squad page was not yet fully published at snapshot time; see this milestone's report."
+    ]
+  },
+  {
+    "playerId": "player_henrik_nordstrom_6d00da67",
+    "firstName": "Henrik",
+    "lastName": "Nordström",
+    "fullName": "Henrik Nordström",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": 1984,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "fieldConfidence": {
+      "birthYear": "PARTIAL"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_div1_sodra_2026_27"
+      ],
+      "birthYear": [
+        "src_div1_sodra_2026_27"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-DIV1-1.0: provisional roster entry -- club's 2026/27 squad page was not yet fully published at snapshot time; see this milestone's report."
+    ]
+  },
+  {
+    "playerId": "player_ville_sjoberg_c1d67770",
+    "firstName": "Ville",
+    "lastName": "Sjöberg",
+    "fullName": "Ville Sjöberg",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": 2004,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "fieldConfidence": {
+      "birthYear": "PARTIAL"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_div1_sodra_2026_27"
+      ],
+      "birthYear": [
+        "src_div1_sodra_2026_27"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-DIV1-1.0: provisional roster entry -- club's 2026/27 squad page was not yet fully published at snapshot time; see this milestone's report."
+    ]
+  },
+  {
+    "playerId": "player_elias_persson_1889f5ae",
+    "firstName": "Elias",
+    "lastName": "Persson",
+    "fullName": "Elias Persson",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": 2001,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "fieldConfidence": {
+      "birthYear": "PARTIAL"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_div1_sodra_2026_27"
+      ],
+      "birthYear": [
+        "src_div1_sodra_2026_27"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-DIV1-1.0: provisional roster entry -- club's 2026/27 squad page was not yet fully published at snapshot time; see this milestone's report."
+    ]
+  },
+  {
+    "playerId": "player_erik_friberg_lindskoug_3bfca348",
+    "firstName": "Erik",
+    "lastName": "Friberg Lindskoug",
+    "fullName": "Erik Friberg Lindskoug",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": 2002,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "fieldConfidence": {
+      "birthYear": "PARTIAL"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_div1_sodra_2026_27"
+      ],
+      "birthYear": [
+        "src_div1_sodra_2026_27"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-DIV1-1.0: provisional roster entry -- club's 2026/27 squad page was not yet fully published at snapshot time; see this milestone's report."
+    ]
+  },
+  {
+    "playerId": "player_isac_sandstrom_a9cdd24f",
+    "firstName": "Isac",
+    "lastName": "Sandström",
+    "fullName": "Isac Sandström",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": 2006,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "fieldConfidence": {
+      "birthYear": "PARTIAL"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_div1_sodra_2026_27"
+      ],
+      "birthYear": [
+        "src_div1_sodra_2026_27"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-DIV1-1.0: provisional roster entry -- club's 2026/27 squad page was not yet fully published at snapshot time; see this milestone's report."
+    ]
+  },
+  {
+    "playerId": "player_hampus_schwarz_82da0252",
+    "firstName": "Hampus",
+    "lastName": "Schwarz",
+    "fullName": "Hampus Schwarz",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": 2002,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "fieldConfidence": {
+      "birthYear": "PARTIAL"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_div1_sodra_2026_27"
+      ],
+      "birthYear": [
+        "src_div1_sodra_2026_27"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-DIV1-1.0: provisional roster entry -- club's 2026/27 squad page was not yet fully published at snapshot time; see this milestone's report."
+    ]
+  },
+  {
+    "playerId": "player_sebastian_svensson_1c09f03d",
+    "firstName": "Sebastian",
+    "lastName": "Svensson",
+    "fullName": "Sebastian Svensson",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": 2002,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "fieldConfidence": {
+      "birthYear": "PARTIAL"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_div1_sodra_2026_27"
+      ],
+      "birthYear": [
+        "src_div1_sodra_2026_27"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-DIV1-1.0: provisional roster entry -- club's 2026/27 squad page was not yet fully published at snapshot time; see this milestone's report."
+    ]
+  },
+  {
+    "playerId": "player_jonathan_hellstrom_44730544",
+    "firstName": "Jonathan",
+    "lastName": "Hellström",
+    "fullName": "Jonathan Hellström",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": 1994,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "fieldConfidence": {
+      "birthYear": "PARTIAL"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_div1_sodra_2026_27"
+      ],
+      "birthYear": [
+        "src_div1_sodra_2026_27"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-DIV1-1.0: provisional roster entry -- club's 2026/27 squad page was not yet fully published at snapshot time; see this milestone's report."
+    ]
+  },
+  {
+    "playerId": "player_nakkve_rosenberg_36655a82",
+    "firstName": "Nåkkve",
+    "lastName": "Rosenberg",
+    "fullName": "Nåkkve Rosenberg",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": 2004,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "fieldConfidence": {
+      "birthYear": "PARTIAL"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_div1_sodra_2026_27"
+      ],
+      "birthYear": [
+        "src_div1_sodra_2026_27"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-DIV1-1.0: provisional roster entry -- club's 2026/27 squad page was not yet fully published at snapshot time; see this milestone's report."
+    ]
+  },
+  {
+    "playerId": "player_isac_svensson_2f5135bb",
+    "firstName": "Isac",
+    "lastName": "Svensson",
+    "fullName": "Isac Svensson",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": 2006,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "fieldConfidence": {
+      "birthYear": "PARTIAL"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_div1_sodra_2026_27"
+      ],
+      "birthYear": [
+        "src_div1_sodra_2026_27"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-DIV1-1.0: provisional roster entry -- club's 2026/27 squad page was not yet fully published at snapshot time; see this milestone's report."
+    ]
+  },
+  {
+    "playerId": "player_melvin_nilsson_5a0b0e47",
+    "firstName": "Melvin",
+    "lastName": "Nilsson",
+    "fullName": "Melvin Nilsson",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": 2006,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "fieldConfidence": {
+      "birthYear": "PARTIAL"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_div1_sodra_2026_27"
+      ],
+      "birthYear": [
+        "src_div1_sodra_2026_27"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-DIV1-1.0: provisional roster entry -- club's 2026/27 squad page was not yet fully published at snapshot time; see this milestone's report."
+    ]
+  },
+  {
+    "playerId": "player_liam_thulin_c1345228",
+    "firstName": "Liam",
+    "lastName": "Thulin",
+    "fullName": "Liam Thulin",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": 2002,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "fieldConfidence": {
+      "birthYear": "PARTIAL"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_div1_sodra_2026_27"
+      ],
+      "birthYear": [
+        "src_div1_sodra_2026_27"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-DIV1-1.0: provisional roster entry -- club's 2026/27 squad page was not yet fully published at snapshot time; see this milestone's report."
+    ]
+  },
+  {
+    "playerId": "player_jakob_sandstrom_e13f0949",
+    "firstName": "Jakob",
+    "lastName": "Sandström",
+    "fullName": "Jakob Sandström",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": 2003,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "fieldConfidence": {
+      "birthYear": "PARTIAL"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_div1_sodra_2026_27"
+      ],
+      "birthYear": [
+        "src_div1_sodra_2026_27"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-DIV1-1.0: provisional roster entry -- club's 2026/27 squad page was not yet fully published at snapshot time; see this milestone's report."
+    ]
+  },
+  {
+    "playerId": "player_albin_sandell_0e14ff1a",
+    "firstName": "Albin",
+    "lastName": "Sandell",
+    "fullName": "Albin Sandell",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": 1999,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "fieldConfidence": {
+      "birthYear": "PARTIAL"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_div1_sodra_2026_27"
+      ],
+      "birthYear": [
+        "src_div1_sodra_2026_27"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-DIV1-1.0: provisional roster entry -- club's 2026/27 squad page was not yet fully published at snapshot time; see this milestone's report."
+    ]
+  },
+  {
+    "playerId": "player_axel_paulsson_53909930",
+    "firstName": "Axel",
+    "lastName": "Paulsson",
+    "fullName": "Axel Paulsson",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": 2006,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "fieldConfidence": {
+      "birthYear": "PARTIAL"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_div1_sodra_2026_27"
+      ],
+      "birthYear": [
+        "src_div1_sodra_2026_27"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-DIV1-1.0: provisional roster entry -- club's 2026/27 squad page was not yet fully published at snapshot time; see this milestone's report."
+    ]
+  },
+  {
+    "playerId": "player_nicolas_salgado_wallstrom_f6f39fc9",
+    "firstName": "Nicolas",
+    "lastName": "Salgado Wallström",
+    "fullName": "Nicolas Salgado Wallström",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": 2004,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "fieldConfidence": {
+      "birthYear": "PARTIAL"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_div1_sodra_2026_27"
+      ],
+      "birthYear": [
+        "src_div1_sodra_2026_27"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-DIV1-1.0: provisional roster entry -- club's 2026/27 squad page was not yet fully published at snapshot time; see this milestone's report."
+    ]
+  }
+]

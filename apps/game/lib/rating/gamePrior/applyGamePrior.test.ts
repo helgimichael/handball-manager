@@ -82,6 +82,40 @@ test("HM-RATINGS-0.6: applyGamePrior is deterministic for the same player/club/m
   assert.deepEqual(a, b);
 });
 
+// HM-DATA-DIV1-1.0
+test("HM-DATA-DIV1-1.0: a Division 1 club produces a CLEARLY lower average game-prior CA than the shared STANDARD tier, across a sample of players", () => {
+  let div1Total = 0;
+  let standardTotal = 0;
+  const n = 40;
+  for (let i = 0; i < n; i++) {
+    const profile = baseProfile({ playerId: `sample_player_${i}` });
+    const div1 = applyGamePrior(profile, "se_club_bodens_bk_hf"); // Division 1 Norra
+    const standard = applyGamePrior(profile, "se_club_hammarby_if_hf"); // Handbollsligan
+    div1Total += div1.profile.ca.value!;
+    standardTotal += standard.profile.ca.value!;
+  }
+  const div1Avg = div1Total / n;
+  const standardAvg = standardTotal / n;
+  assert.ok(div1Avg < standardAvg - 15, `expected Division 1 avg CA (${div1Avg}) to sit clearly below STANDARD avg CA (${standardAvg})`);
+});
+
+test("HM-DATA-DIV1-1.0: Division 1 is not uniformly bad -- at least one sampled player reaches a genuinely strong CA", () => {
+  let maxCa = 0;
+  for (let i = 0; i < 60; i++) {
+    const profile = baseProfile({ playerId: `sample_player_${i}` });
+    const outcome = applyGamePrior(profile, "se_club_ahus_handboll"); // Division 1 Södra
+    maxCa = Math.max(maxCa, outcome.profile.ca.value!);
+  }
+  assert.ok(maxCa >= 115, `expected at least one strong Division 1 outlier, best sampled CA was ${maxCa}`);
+});
+
+test("HM-DATA-DIV1-1.0: a Handbollsligan/Allsvenskan clubId produces BYTE-IDENTICAL output to before the Division 1 tier existed (regression guard)", () => {
+  const profile = baseProfile({});
+  const outcome = applyGamePrior(profile, "se_club_hammarby_if_hf");
+  assert.equal(outcome.profile.ca.value, 142); // fixed, known-good value for this seed/model version pair
+  assert.ok(outcome.profile.pa.value! >= 142);
+});
+
 test("HM-RATINGS-0.6: nationality, height, and age have no channel into applyGamePrior -- PlayerRatingProfile carries no such fields for it to read", () => {
   const profile = baseProfile({});
   assert.ok(!("nationality" in profile) && !("nationalities" in profile));

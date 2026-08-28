@@ -1,0 +1,22 @@
+[
+  {
+    "sourceId": "src_div1_norra_2026_27",
+    "sourceType": "USER_COMPILED",
+    "publisher": "User-provided QA compilation",
+    "title": "Handball Manager — Division 1 2026/27 (svenskhandboll.se serieindelning + per-club official rosters/Profixio)",
+    "url": "https://svenskhandboll.se/handboll-i-sverige/tavling/serieindelning",
+    "publishedAt": "2026-08-27",
+    "accessedAt": "2026-08-27",
+    "seasonContext": "2026/27"
+  },
+  {
+    "sourceId": "src_div1_norra_2026_27_club_roster",
+    "sourceType": "CLUB_OFFICIAL",
+    "publisher": "HK Eskil",
+    "title": "HK Eskil roster (CURRENT_26_27_PROFIXIO)",
+    "url": "https://www.profixio.com/app/leagueid28142/teams/1584577",
+    "publishedAt": null,
+    "accessedAt": "2026-08-27",
+    "seasonContext": "2026/27"
+  }
+]

@@ -1,0 +1,39 @@
+{
+  "clubId": "se_club_karra_hf",
+  "clubName": "Kärra HF",
+  "competitionId": "se_division1_sodra",
+  "season": "2026/27",
+  "snapshotDate": "2026-08-27",
+  "datasetStatus": "PRESEASON",
+  "qcStatus": "VERIFIED_WITH_OPEN_FIELDS",
+  "expectedRosterCount": 19,
+  "exportedRosterCount": 19,
+  "checks": {
+    "currentLeagueRosterLocated": true,
+    "allLeagueRosterNamesCaptured": true,
+    "incomingTransfersChecked": false,
+    "departuresChecked": false,
+    "duplicatePlayers": 0,
+    "canonicalPositionsValid": true,
+    "guessedSecondaryPositions": 0,
+    "guessedDatesOfBirth": 0,
+    "guessedHeights": 19,
+    "guessedNationalities": 19,
+    "guessedContractDates": 19
+  },
+  "knownConflicts": [],
+  "staleSourceWarnings": [
+    "Roster combined with 2026 off-season news: retired goalkeeper Victor Olsson removed; Axel Winström added."
+  ],
+  "openFieldsSummary": {
+    "exactDateOfBirthMissing": 19,
+    "birthYearMissing": 19,
+    "nationalityMissing": 19,
+    "heightMissing": 19,
+    "handednessMissing": 19,
+    "shirtNumberMissing": 1,
+    "contractEndMissing": 19,
+    "positionGenerated": 9,
+    "positionSourced": 10
+  }
+}

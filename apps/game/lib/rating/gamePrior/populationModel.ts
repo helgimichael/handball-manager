@@ -28,6 +28,28 @@ const CA_FLOOR = 96;
 const PA_MIN_BONUS = 0;
 const PA_MAX_BONUS = 16;
 
+// HM-DATA-DIV1-1.0: a SEPARATE, lower population baseline for Division 1
+// -- a real tier below Allsvenskan, with almost no calibration/estimate
+// coverage, so this baseline (not the shared STANDARD one above) will
+// end up shaping most of that tier's CA distribution. Reuses the exact
+// same seeded-jitter/clamp mechanism, just centered lower and with a
+// wider spread: "not all Division 1 players should be bad" (a genuine
+// standout individual can reach CEILING, into solid-Allsvenskan
+// territory) while the average sits clearly below both Handbollsligan
+// and Allsvenskan's shared STANDARD baseline (122). The PA bonus is
+// also widened, so a young high-PA prospect is a real, recurring
+// possibility, not a rare edge case -- matching the milestone's own
+// "det ska kunna finnas unga spelare med hög PA" requirement. Selecting
+// this tier NEVER changes STANDARD's own output for any existing
+// Handbollsligan/Allsvenskan clubId (see populationTierForClub below).
+const DIVISION_1_BASELINE_CA = 90;
+const DIVISION_1_CA_SPREAD = 26;
+const DIVISION_1_CA_CEILING = 130; // deliberately stays below the STANDARD tier's own baseline (122) plus its spread, so Division 1 never systematically overlaps fringe Handbollsligan/Allsvenskan calibrated anchors
+const DIVISION_1_CA_FLOOR = 55;
+const DIVISION_1_PA_MAX_BONUS = 28;
+
+export type PopulationTier = "STANDARD" | "DIVISION_1";
+
 function clamp(value: number, min: number, max: number): number {
   return Math.min(max, Math.max(min, value));
 }
@@ -36,22 +58,28 @@ function clamp(value: number, min: number, max: number): number {
  * Deterministic game-prior CA for a player with no calibration and no
  * resolved estimate. `clubShift` (from clubContextTier.ts) nudges the
  * baseline -- never a flat per-club bonus, just a shift to the same
- * bounded distribution every club draws from.
+ * bounded distribution every club draws from. `tier` defaults to
+ * "STANDARD" -- every pre-existing caller (Handbollsligan/Allsvenskan)
+ * is byte-identical to before this parameter existed.
  */
-export function generateGamePriorCA(playerId: string, clubShift: number, modelVersion: string): number {
-  const jitter = seededOffset(`${playerId}:GAME_PRIOR_CA:${modelVersion}`, CA_SPREAD);
-  const value = BASELINE_CA + clubShift + jitter;
-  return Math.round(clamp(value, Math.max(CA_MIN, CA_FLOOR), Math.min(CA_MAX, CA_CEILING)));
+export function generateGamePriorCA(playerId: string, clubShift: number, modelVersion: string, tier: PopulationTier = "STANDARD"): number {
+  const jitter = seededOffset(`${playerId}:GAME_PRIOR_CA:${modelVersion}`, tier === "DIVISION_1" ? DIVISION_1_CA_SPREAD : CA_SPREAD);
+  const baseline = tier === "DIVISION_1" ? DIVISION_1_BASELINE_CA : BASELINE_CA;
+  const floor = tier === "DIVISION_1" ? DIVISION_1_CA_FLOOR : CA_FLOOR;
+  const ceiling = tier === "DIVISION_1" ? DIVISION_1_CA_CEILING : CA_CEILING;
+  const value = baseline + clubShift + jitter;
+  return Math.round(clamp(value, Math.max(CA_MIN, floor), Math.min(CA_MAX, ceiling)));
 }
 
 /**
  * Deterministic game-prior PA: CA plus a small, non-negative, bounded
  * offset -- structurally can never be below CA (Part I), no age/
  * nationality input, no "wonderkid" inflation (the bonus is capped
- * small).
+ * small, wider for Division 1 -- see DIVISION_1_PA_MAX_BONUS's own doc).
  */
-export function generateGamePriorPA(playerId: string, ca: number, modelVersion: string): number {
-  const rawOffset = seededOffset(`${playerId}:GAME_PRIOR_PA:${modelVersion}`, PA_MAX_BONUS);
-  const bonus = clamp(Math.abs(rawOffset), PA_MIN_BONUS, PA_MAX_BONUS);
+export function generateGamePriorPA(playerId: string, ca: number, modelVersion: string, tier: PopulationTier = "STANDARD"): number {
+  const maxBonus = tier === "DIVISION_1" ? DIVISION_1_PA_MAX_BONUS : PA_MAX_BONUS;
+  const rawOffset = seededOffset(`${playerId}:GAME_PRIOR_PA:${modelVersion}`, maxBonus);
+  const bonus = clamp(Math.abs(rawOffset), PA_MIN_BONUS, maxBonus);
   return Math.min(CA_MAX, ca + bonus);
 }

@@ -1,0 +1,12 @@
+{
+  "milestone": "HM-DATA-DIV1-1.0",
+  "club": "Sannadals SK",
+  "snapshotDate": "2026-08-27",
+  "files": [
+    "players-sannadals_sk.json",
+    "roster-sannadals_sk-2026-27.json",
+    "qc-sannadals_sk.json",
+    "sources-sannadals_sk.json",
+    "schema-foundation-v0.2.json"
+  ]
+}

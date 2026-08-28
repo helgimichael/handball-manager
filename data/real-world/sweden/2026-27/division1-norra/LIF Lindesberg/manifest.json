@@ -1,0 +1,12 @@
+{
+  "milestone": "HM-DATA-DIV1-1.0",
+  "club": "LIF Lindesberg",
+  "snapshotDate": "2026-08-27",
+  "files": [
+    "players-lif_lindesberg.json",
+    "roster-lif_lindesberg-2026-27.json",
+    "qc-lif_lindesberg.json",
+    "sources-lif_lindesberg.json",
+    "schema-foundation-v0.2.json"
+  ]
+}

@@ -1,9 +1,9 @@
 "use client";
 
 import { useEffect, useMemo, useState, type CSSProperties } from "react";
-import { getClubsByCompetition, playerAge, positionLabel, type HandballPosition } from "@/lib/game-data";
+import { playerAge, positionLabel, type HandballPosition } from "@/lib/game-data";
 import { useCareer } from "@/lib/career/CareerContext";
-import { getCareerClubSquad } from "@/lib/career/careerWorld";
+import { getCareerClubSquad, getExternalCandidateClubs } from "@/lib/career/careerWorld";
 import { getPlayerContract, getPlayerContractStatus, getPlayerMarketValueEur } from "@/lib/economy/contractIntegration";
 import { getPlayerTrainingCompensation } from "@/lib/economy/trainingCompensationIntegration";
 import { formatEur } from "@/lib/economy/currency";
@@ -46,7 +46,7 @@ export default function TransfersPage() {
   const [recentOffers, setRecentOffers] = useState<TransferOffer[]>([]);
 
   const candidates = useMemo(() => {
-    const clubs = getClubsByCompetition(career.competitionId).filter((c) => c.id !== career.playerClubId);
+    const clubs = getExternalCandidateClubs(career);
     const rows = clubs.flatMap((club) =>
       getCareerClubSquad(career, club.id).map((p) => ({ player: p, club })),
     );

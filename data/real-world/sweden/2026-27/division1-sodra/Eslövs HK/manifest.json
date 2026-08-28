@@ -1,0 +1,12 @@
+{
+  "milestone": "HM-DATA-DIV1-1.0",
+  "club": "Eslövs HK",
+  "snapshotDate": "2026-08-27",
+  "files": [
+    "players-eslovs_hk.json",
+    "roster-eslovs_hk-2026-27.json",
+    "qc-eslovs_hk.json",
+    "sources-eslovs_hk.json",
+    "schema-foundation-v0.2.json"
+  ]
+}

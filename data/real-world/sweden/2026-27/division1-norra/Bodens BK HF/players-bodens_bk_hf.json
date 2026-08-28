@@ -1,0 +1,852 @@
+[
+  {
+    "playerId": "player_lucas_kneissl_ffbc83a4",
+    "firstName": "Lucas",
+    "lastName": "Kneissl",
+    "fullName": "Lucas Kneissl",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": 1995,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "birthYear": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_div1_norra_2026_27"
+      ],
+      "birthYear": [
+        "src_div1_norra_2026_27"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "player_erik_vikstrom_e486a3da",
+    "firstName": "Erik",
+    "lastName": "Vikström",
+    "fullName": "Erik Vikström",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": 2009,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "birthYear": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_div1_norra_2026_27"
+      ],
+      "birthYear": [
+        "src_div1_norra_2026_27"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "player_jonatan_vidgren_690ebb35",
+    "firstName": "Jonatan",
+    "lastName": "Vidgren",
+    "fullName": "Jonatan Vidgren",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": 1993,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "birthYear": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_div1_norra_2026_27"
+      ],
+      "birthYear": [
+        "src_div1_norra_2026_27"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "player_leon_bynander_31bb652c",
+    "firstName": "Leon",
+    "lastName": "Bynander",
+    "fullName": "Leon Bynander",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": 2005,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "birthYear": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_div1_norra_2026_27"
+      ],
+      "birthYear": [
+        "src_div1_norra_2026_27"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "player_mattias_killmey_93e3a257",
+    "firstName": "Mattias",
+    "lastName": "Killmey",
+    "fullName": "Mattias Killmey",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": 2006,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "birthYear": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_div1_norra_2026_27"
+      ],
+      "birthYear": [
+        "src_div1_norra_2026_27"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "player_wilmer_thuresson_ca8768ca",
+    "firstName": "Wilmer",
+    "lastName": "Thuresson",
+    "fullName": "Wilmer Thuresson",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": 2002,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "birthYear": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_div1_norra_2026_27"
+      ],
+      "birthYear": [
+        "src_div1_norra_2026_27"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "player_joel_tornblom_johansson_bd1547d6",
+    "firstName": "Joel",
+    "lastName": "Törnblom Johansson",
+    "fullName": "Joel Törnblom Johansson",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": 1997,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "birthYear": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_div1_norra_2026_27"
+      ],
+      "birthYear": [
+        "src_div1_norra_2026_27"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "player_henrik_ledin_2408c6e7",
+    "firstName": "Henrik",
+    "lastName": "Ledin",
+    "fullName": "Henrik Ledin",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": 2006,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "birthYear": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_div1_norra_2026_27"
+      ],
+      "birthYear": [
+        "src_div1_norra_2026_27"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "player_ludvig_lifbom_c3651541",
+    "firstName": "Ludvig",
+    "lastName": "Lifbom",
+    "fullName": "Ludvig Lifbom",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": 2007,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "birthYear": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_div1_norra_2026_27"
+      ],
+      "birthYear": [
+        "src_div1_norra_2026_27"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "player_vilgot_vikstrom_bcbf6a86",
+    "firstName": "Vilgot",
+    "lastName": "Vikström",
+    "fullName": "Vilgot Vikström",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": 2001,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "birthYear": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_div1_norra_2026_27"
+      ],
+      "birthYear": [
+        "src_div1_norra_2026_27"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "player_arvid_pettersson_7a61f136",
+    "firstName": "Arvid",
+    "lastName": "Pettersson",
+    "fullName": "Arvid Pettersson",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": 1997,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "birthYear": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_div1_norra_2026_27"
+      ],
+      "birthYear": [
+        "src_div1_norra_2026_27"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "player_joel_lindstrom_bcc9107a",
+    "firstName": "Joel",
+    "lastName": "Lindström",
+    "fullName": "Joel Lindström",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": 2006,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "birthYear": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_div1_norra_2026_27"
+      ],
+      "birthYear": [
+        "src_div1_norra_2026_27"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "player_leo_hansson_e0019d4a",
+    "firstName": "Leo",
+    "lastName": "Hansson",
+    "fullName": "Leo Hansson",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": 2006,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "birthYear": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_div1_norra_2026_27"
+      ],
+      "birthYear": [
+        "src_div1_norra_2026_27"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "player_noah_kaspersen_9ef4bf8d",
+    "firstName": "Noah",
+    "lastName": "Kaspersen",
+    "fullName": "Noah Kaspersen",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": 2006,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "birthYear": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_div1_norra_2026_27"
+      ],
+      "birthYear": [
+        "src_div1_norra_2026_27"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "player_gustav_carlsson_4a8b9745",
+    "firstName": "Gustav",
+    "lastName": "Carlsson",
+    "fullName": "Gustav Carlsson",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": 2000,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "birthYear": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_div1_norra_2026_27"
+      ],
+      "birthYear": [
+        "src_div1_norra_2026_27"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "player_alexander_anglov_53fa8679",
+    "firstName": "Alexander",
+    "lastName": "Anglöv",
+    "fullName": "Alexander Anglöv",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": 1997,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "birthYear": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_div1_norra_2026_27"
+      ],
+      "birthYear": [
+        "src_div1_norra_2026_27"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "player_adam_hauser_5e3ce3ae",
+    "firstName": "Adam",
+    "lastName": "Hauser",
+    "fullName": "Adam Hauser",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": 1993,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "birthYear": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_div1_norra_2026_27"
+      ],
+      "birthYear": [
+        "src_div1_norra_2026_27"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "player_albin_borg_0c41ac5c",
+    "firstName": "Albin",
+    "lastName": "Borg",
+    "fullName": "Albin Borg",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": 2002,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "birthYear": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_div1_norra_2026_27"
+      ],
+      "birthYear": [
+        "src_div1_norra_2026_27"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "player_benjamin_rubin_bauer_a784bff5",
+    "firstName": "Benjamin",
+    "lastName": "Rubin Bauer",
+    "fullName": "Benjamin Rubin Bauer",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": 2005,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "birthYear": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_div1_norra_2026_27"
+      ],
+      "birthYear": [
+        "src_div1_norra_2026_27"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "player_dennis_sjolund_746b0f31",
+    "firstName": "Dennis",
+    "lastName": "Sjölund",
+    "fullName": "Dennis Sjölund",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": 2006,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "birthYear": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_div1_norra_2026_27"
+      ],
+      "birthYear": [
+        "src_div1_norra_2026_27"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "player_edward_finndahl_bf7ff2ba",
+    "firstName": "Edward",
+    "lastName": "Finndahl",
+    "fullName": "Edward Finndahl",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": 2005,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "birthYear": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_div1_norra_2026_27"
+      ],
+      "birthYear": [
+        "src_div1_norra_2026_27"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "player_filip_sigfrinius_a36c95d6",
+    "firstName": "Filip",
+    "lastName": "Sigfrinius",
+    "fullName": "Filip Sigfrinius",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": 2007,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "birthYear": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_div1_norra_2026_27"
+      ],
+      "birthYear": [
+        "src_div1_norra_2026_27"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "player_hampus_vennberg_4f2106a9",
+    "firstName": "Hampus",
+    "lastName": "Vennberg",
+    "fullName": "Hampus Vennberg",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": 2009,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "birthYear": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_div1_norra_2026_27"
+      ],
+      "birthYear": [
+        "src_div1_norra_2026_27"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "player_harry_keith_09c11583",
+    "firstName": "Harry",
+    "lastName": "Keith",
+    "fullName": "Harry Keith",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": 2008,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "birthYear": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_div1_norra_2026_27"
+      ],
+      "birthYear": [
+        "src_div1_norra_2026_27"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "player_isak_larsson_e892d24e",
+    "firstName": "Isak",
+    "lastName": "Larsson",
+    "fullName": "Isak Larsson",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": 2009,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "birthYear": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_div1_norra_2026_27"
+      ],
+      "birthYear": [
+        "src_div1_norra_2026_27"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "player_kaleb_sami_4131239d",
+    "firstName": "Kaleb",
+    "lastName": "Sami",
+    "fullName": "Kaleb Sami",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": 2010,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "birthYear": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_div1_norra_2026_27"
+      ],
+      "birthYear": [
+        "src_div1_norra_2026_27"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "player_kjell_eriksson_aada2661",
+    "firstName": "Kjell",
+    "lastName": "Eriksson",
+    "fullName": "Kjell Eriksson",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": 2009,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "birthYear": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_div1_norra_2026_27"
+      ],
+      "birthYear": [
+        "src_div1_norra_2026_27"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "player_lukas_andersson_mannikko_e5cc227c",
+    "firstName": "Lukas",
+    "lastName": "Andersson Männikkö",
+    "fullName": "Lukas Andersson Männikkö",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": 1998,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "birthYear": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_div1_norra_2026_27"
+      ],
+      "birthYear": [
+        "src_div1_norra_2026_27"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "player_max_stigendal_daab3675",
+    "firstName": "Max",
+    "lastName": "Stigendal",
+    "fullName": "Max Stigendal",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": 2005,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "birthYear": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_div1_norra_2026_27"
+      ],
+      "birthYear": [
+        "src_div1_norra_2026_27"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "player_morgan_lindstrom_8ede3dcf",
+    "firstName": "Morgan",
+    "lastName": "Lindström",
+    "fullName": "Morgan Lindström",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": 1995,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "birthYear": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_div1_norra_2026_27"
+      ],
+      "birthYear": [
+        "src_div1_norra_2026_27"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "player_oliver_lind_wallgren_1db089fe",
+    "firstName": "Oliver",
+    "lastName": "Lind Wallgren",
+    "fullName": "Oliver Lind Wallgren",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": 2009,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "birthYear": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_div1_norra_2026_27"
+      ],
+      "birthYear": [
+        "src_div1_norra_2026_27"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "player_oskar_lundgren_63e30f3f",
+    "firstName": "Oskar",
+    "lastName": "Lundgren",
+    "fullName": "Oskar Lundgren",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": 2001,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "birthYear": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_div1_norra_2026_27"
+      ],
+      "birthYear": [
+        "src_div1_norra_2026_27"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "player_ture_keith_a5de5997",
+    "firstName": "Ture",
+    "lastName": "Keith",
+    "fullName": "Ture Keith",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": 2008,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "birthYear": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_div1_norra_2026_27"
+      ],
+      "birthYear": [
+        "src_div1_norra_2026_27"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "playerId": "player_ville_naslund_fc0ce2c9",
+    "firstName": "Ville",
+    "lastName": "Näslund",
+    "fullName": "Ville Näslund",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": 2006,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "birthYear": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_div1_norra_2026_27"
+      ],
+      "birthYear": [
+        "src_div1_norra_2026_27"
+      ]
+    },
+    "dataNotes": []
+  }
+]

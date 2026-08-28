@@ -17,6 +17,9 @@ const PRESEASON_OPTION_LABEL: Record<PreseasonStartOption, string> = {
 
 const STEPS = ["Nationer", "Ligor", "Databas", "Klubb", "Manager", "Starta"] as const;
 
+// HM-DATA-DIV1-1.0: see NewGamePage's own doc comment at its usage site.
+const NON_SELECTABLE_COMPETITION_IDS = new Set(["se_division1_norra", "se_division1_sodra"]);
+
 export default function NewGamePage() {
   const router = useRouter();
   const [step, setStep] = useState(0);
@@ -28,8 +31,18 @@ export default function NewGamePage() {
   const [managerDob, setManagerDob] = useState("1988-01-01");
   const [preseasonStart, setPreseasonStart] = useState<PreseasonStartOption>("4_WEEKS");
 
+  // HM-DATA-DIV1-1.0: Division 1 Norra/Södra are never offered as a
+  // selectable league here -- every club there is a non-playable
+  // recruitment/scouting-pool entry (see game-data/clubs.ts), and the
+  // milestone explicitly asks that they stay off the New Game picker
+  // even though they exist in the world/registry and are fully
+  // discoverable via Scouting/Transfers/Player Profile/the editor.
+  // Deliberately narrower than "hide every competition with zero
+  // playable clubs" -- several other nations' tier-2 competitions
+  // already have none either, and this milestone doesn't touch that
+  // pre-existing behavior.
   const availableCompetitions = useMemo(
-    () => COMPETITIONS.filter((c) => nations.includes(c.nation)),
+    () => COMPETITIONS.filter((c) => nations.includes(c.nation) && !NON_SELECTABLE_COMPETITION_IDS.has(c.id)),
     [nations],
   );
 

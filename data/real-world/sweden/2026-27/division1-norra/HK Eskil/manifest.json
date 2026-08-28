@@ -1,0 +1,12 @@
+{
+  "milestone": "HM-DATA-DIV1-1.0",
+  "club": "HK Eskil",
+  "snapshotDate": "2026-08-27",
+  "files": [
+    "players-hk_eskil.json",
+    "roster-hk_eskil-2026-27.json",
+    "qc-hk_eskil.json",
+    "sources-hk_eskil.json",
+    "schema-foundation-v0.2.json"
+  ]
+}

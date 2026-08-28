@@ -1,0 +1,12 @@
+{
+  "milestone": "HM-DATA-DIV1-1.0",
+  "club": "Vinslövs HK",
+  "snapshotDate": "2026-08-27",
+  "files": [
+    "players-vinslovs_hk.json",
+    "roster-vinslovs_hk-2026-27.json",
+    "qc-vinslovs_hk.json",
+    "sources-vinslovs_hk.json",
+    "schema-foundation-v0.2.json"
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "milestone": "HM-DATA-DIV1-1.0",
+  "club": "Anderstorps SK",
+  "snapshotDate": "2026-08-27",
+  "files": [
+    "players-anderstorps_sk.json",
+    "roster-anderstorps_sk-2026-27.json",
+    "qc-anderstorps_sk.json",
+    "sources-anderstorps_sk.json",
+    "schema-foundation-v0.2.json"
+  ]
+}

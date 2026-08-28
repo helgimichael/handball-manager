@@ -1,0 +1,39 @@
+{
+  "clubId": "se_club_uppsala_hk",
+  "clubName": "Uppsala HK",
+  "competitionId": "se_division1_norra",
+  "season": "2026/27",
+  "snapshotDate": "2026-08-27",
+  "datasetStatus": "PRESEASON",
+  "qcStatus": "VERIFIED_WITH_OPEN_FIELDS",
+  "expectedRosterCount": 22,
+  "exportedRosterCount": 22,
+  "checks": {
+    "currentLeagueRosterLocated": true,
+    "allLeagueRosterNamesCaptured": true,
+    "incomingTransfersChecked": false,
+    "departuresChecked": false,
+    "duplicatePlayers": 0,
+    "canonicalPositionsValid": true,
+    "guessedSecondaryPositions": 0,
+    "guessedDatesOfBirth": 0,
+    "guessedHeights": 22,
+    "guessedNationalities": 22,
+    "guessedContractDates": 22
+  },
+  "knownConflicts": [],
+  "staleSourceWarnings": [
+    "Current roster confirmed by club page; matching players cross-checked against recent Profixio for explicit birth year/number/position."
+  ],
+  "openFieldsSummary": {
+    "exactDateOfBirthMissing": 22,
+    "birthYearMissing": 6,
+    "nationalityMissing": 22,
+    "heightMissing": 22,
+    "handednessMissing": 22,
+    "shirtNumberMissing": 6,
+    "contractEndMissing": 22,
+    "positionGenerated": 6,
+    "positionSourced": 16
+  }
+}

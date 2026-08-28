@@ -4,6 +4,11 @@
 // target population the milestone is about. HM-DATA-ALLSVENSKAN-1.1:
 // `buildCatalog()` now also discovers the 14-club, 261-player
 // Allsvenskan dataset, for a combined 529-player real-world population.
+// HM-DATA-DIV1-1.0: `buildCatalog()` now also discovers the 24-club,
+// 581-player Division 1 Norra/Södra dataset, for a combined 1110-player
+// real-world population -- exercising this same "every real player gets
+// a complete, valid gameplay rating" proof against the new, lower
+// DIVISION_1 population-model tier too (see lib/rating/gamePrior/populationModel.ts).
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { buildCatalog } from "../editor/catalog";
@@ -27,9 +32,9 @@ function loadFullLeague(): LeaguePlayer[] {
   return league;
 }
 
-test("HM-RATINGS-0.6/HM-DATA-ALLSVENSKAN-1.1 population audit: 529/529 real Handbollsligan+Allsvenskan players receive a complete gameplay CA, PA, and attribute branch", () => {
+test("HM-RATINGS-0.6/HM-DATA-ALLSVENSKAN-1.1/HM-DATA-DIV1-1.0 population audit: 1110/1110 real Handbollsligan+Allsvenskan+Division 1 players receive a complete gameplay CA, PA, and attribute branch", () => {
   const league = loadFullLeague();
-  assert.equal(league.length, 529, `expected exactly 529 real players, found ${league.length}`);
+  assert.equal(league.length, 1110, `expected exactly 1110 real players, found ${league.length}`);
 
   let outcourtCount = 0;
   let gkCount = 0;
@@ -59,7 +64,7 @@ test("HM-RATINGS-0.6/HM-DATA-ALLSVENSKAN-1.1 population audit: 529/529 real Hand
     bySource[player.caSource] = (bySource[player.caSource] ?? 0) + 1;
   }
 
-  assert.equal(outcourtCount + gkCount, 529);
+  assert.equal(outcourtCount + gkCount, 1110);
 
   caValues.sort((a, b) => a - b);
   const mean = caValues.reduce((a, b) => a + b, 0) / caValues.length;

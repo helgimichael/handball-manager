@@ -1,0 +1,12 @@
+{
+  "milestone": "HM-DATA-DIV1-1.0",
+  "club": "HK Cliff",
+  "snapshotDate": "2026-08-27",
+  "files": [
+    "players-hk_cliff.json",
+    "roster-hk_cliff-2026-27.json",
+    "qc-hk_cliff.json",
+    "sources-hk_cliff.json",
+    "schema-foundation-v0.2.json"
+  ]
+}

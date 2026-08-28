@@ -9,8 +9,12 @@ import { listImportableClubIds, loadRealWorldClubSquad, validateClubSquad } from
 const REAL_DATA_ROOT = DEFAULT_DATA_ROOT;
 
 test("listImportableClubIds discovers all 14 real Handbollsligan clubs", () => {
+  // HM-DATA-DIV1-1.0: Division 1 Norra/Södra clubIds also use the
+  // "se_club_" prefix (preserved verbatim from their own source data),
+  // so a bare prefix filter is no longer specific to Handbollsligan --
+  // filter by competitionId instead, the precise signal.
   const ids = listImportableClubIds(REAL_DATA_ROOT);
-  const handbollsliganIds = ids.filter((id) => id.startsWith("se_club_"));
+  const handbollsliganIds = ids.filter((id) => loadRealWorldClubSquad(id, REAL_DATA_ROOT)?.competitionId === "se_handbollsligan_herr");
   assert.equal(handbollsliganIds.length, 14);
 });
 

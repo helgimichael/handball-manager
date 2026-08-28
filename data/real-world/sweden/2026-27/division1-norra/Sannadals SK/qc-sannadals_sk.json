@@ -1,0 +1,39 @@
+{
+  "clubId": "se_club_sannadals_sk",
+  "clubName": "Sannadals SK",
+  "competitionId": "se_division1_norra",
+  "season": "2026/27",
+  "snapshotDate": "2026-08-27",
+  "datasetStatus": "PRESEASON",
+  "qcStatus": "VERIFIED_WITH_OPEN_FIELDS",
+  "expectedRosterCount": 58,
+  "exportedRosterCount": 58,
+  "checks": {
+    "currentLeagueRosterLocated": true,
+    "allLeagueRosterNamesCaptured": true,
+    "incomingTransfersChecked": false,
+    "departuresChecked": false,
+    "duplicatePlayers": 0,
+    "canonicalPositionsValid": true,
+    "guessedSecondaryPositions": 0,
+    "guessedDatesOfBirth": 0,
+    "guessedHeights": 58,
+    "guessedNationalities": 58,
+    "guessedContractDates": 58
+  },
+  "knownConflicts": [],
+  "staleSourceWarnings": [
+    "Large public registration pool; may include development players."
+  ],
+  "openFieldsSummary": {
+    "exactDateOfBirthMissing": 58,
+    "birthYearMissing": 57,
+    "nationalityMissing": 58,
+    "heightMissing": 58,
+    "handednessMissing": 58,
+    "shirtNumberMissing": 58,
+    "contractEndMissing": 58,
+    "positionGenerated": 40,
+    "positionSourced": 18
+  }
+}

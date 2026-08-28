@@ -1,0 +1,39 @@
+{
+  "clubId": "se_club_hk_s_hof",
+  "clubName": "HK S-hof",
+  "competitionId": "se_division1_sodra",
+  "season": "2026/27",
+  "snapshotDate": "2026-08-27",
+  "datasetStatus": "PRESEASON",
+  "qcStatus": "VERIFIED_WITH_OPEN_FIELDS",
+  "expectedRosterCount": 28,
+  "exportedRosterCount": 28,
+  "checks": {
+    "currentLeagueRosterLocated": true,
+    "allLeagueRosterNamesCaptured": true,
+    "incomingTransfersChecked": false,
+    "departuresChecked": false,
+    "duplicatePlayers": 0,
+    "canonicalPositionsValid": true,
+    "guessedSecondaryPositions": 0,
+    "guessedDatesOfBirth": 0,
+    "guessedHeights": 28,
+    "guessedNationalities": 28,
+    "guessedContractDates": 28
+  },
+  "knownConflicts": [],
+  "staleSourceWarnings": [
+    "Division 1 entry is the Sävehof development/P18 structure."
+  ],
+  "openFieldsSummary": {
+    "exactDateOfBirthMissing": 28,
+    "birthYearMissing": 28,
+    "nationalityMissing": 28,
+    "heightMissing": 28,
+    "handednessMissing": 28,
+    "shirtNumberMissing": 12,
+    "contractEndMissing": 28,
+    "positionGenerated": 26,
+    "positionSourced": 2
+  }
+}

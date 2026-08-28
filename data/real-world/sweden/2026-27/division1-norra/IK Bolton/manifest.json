@@ -1,0 +1,12 @@
+{
+  "milestone": "HM-DATA-DIV1-1.0",
+  "club": "IK Bolton",
+  "snapshotDate": "2026-08-27",
+  "files": [
+    "players-ik_bolton.json",
+    "roster-ik_bolton-2026-27.json",
+    "qc-ik_bolton.json",
+    "sources-ik_bolton.json",
+    "schema-foundation-v0.2.json"
+  ]
+}
