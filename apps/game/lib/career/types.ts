@@ -22,6 +22,7 @@ import type { ClubEconomyBaseline } from "../economy/clubEconomyTypes";
 import type { LoanRecord, TransferOffer } from "../transfers/types";
 import type { ScoutingAssignment, ScoutReport } from "./scouting";
 import type { ClubPartnership, PartnershipSearchAssignment } from "./clubPartnerships";
+import type { ScoutPoolSourceEntry } from "../staff/scoutPool";
 
 /** HM-PRESEASON-1.0: LEAGUE (the manager's own simulated competition), CUP (the provisional early cup round -- see preseason.ts), or FRIENDLY (manager-booked, never affects standings/season completion). */
 export type CareerFixtureType = "LEAGUE" | "CUP" | "FRIENDLY";
@@ -544,6 +545,25 @@ export type CareerState = {
   clubPartnerships: Record<string, ClubPartnership>;
   /** The board's own multi-day "search for a development partner" process, keyed by id. */
   partnershipSearches: Record<string, PartnershipSearchAssignment>;
+
+  // --- HM-STAFF-SCOUT-POOL-1.0 addition ---
+
+  /**
+   * The full, permanent 100-entry real-person scout source pool (see
+   * lib/staff/scoutPool.ts's own provenance-separation doc), keyed by
+   * personId. Seeded once by seedScoutPool and never mutated afterward
+   * regardless of employment state -- this is the audit/eligibility
+   * record, independent of `scoutMarket` below.
+   */
+  scoutPoolSource: Record<string, ScoutPoolSourceEntry>;
+  /**
+   * Only the CURRENTLY AVAILABLE free-agent scouts (LIKELY_ELIGIBLE at
+   * seed time, not yet signed by any club), keyed by personId. Signing
+   * one (signFreeAgentScout) removes them from here and adds them to
+   * staffRoster/staffEmployment like any other staff member -- this map
+   * only ever holds unemployed candidates.
+   */
+  scoutMarket: Record<string, ResolvedStaffMember>;
 };
 
 export type CareerSaveEnvelope = {

@@ -85,14 +85,36 @@ export const STAFF_ATTRIBUTES = [
   "ORGANISATION",
   "LOGISTICS",
   "TEAM_ENVIRONMENT",
+  // HM-STAFF-SCOUT-POOL-1.0: four scouting-specific dimensions the
+  // source scout-pool document defines (TAC/NET/REG/INT) with no
+  // existing equivalent -- reusing TACTICAL_COACHING/etc. for these
+  // would conflate a coach's TEACHING ability with a scout's ASSESSMENT
+  // ability for any multi-role person, so they get their own slots
+  // instead (JCA/JPA/YTH/GK all DO reuse existing attributes -- see
+  // scoutPool.ts's mapping table for the full reuse-vs-new reasoning).
+  "TACTICAL_ASSESSMENT",
+  "NETWORK",
+  "REGIONAL_KNOWLEDGE",
+  "INTERNATIONAL_KNOWLEDGE",
 ] as const;
 export type StaffAttribute = (typeof STAFF_ATTRIBUTES)[number];
 
 export const STAFF_ATTRIBUTE_MIN = 1;
 export const STAFF_ATTRIBUTE_MAX = 20;
 
-/** Same EVIDENCE_BACKED/DERIVED/GENERATED_PRIOR philosophy as lib/rating/generation/types.ts's AttributeOrigin, minus EDITOR_OVERRIDE (no staff editor exists yet) and EVIDENCE_BACKED (confirmed by audit: no numeric staff evidence exists anywhere in the source data -- every generated staff attribute is GENERATED_PRIOR). Kept as its own type (not reused from lib/rating) so the two domains can diverge independently. */
-export type StaffAttributeOrigin = "GENERATED_PRIOR";
+/**
+ * Same EVIDENCE_BACKED/DERIVED/GENERATED_PRIOR philosophy as lib/rating/generation/types.ts's AttributeOrigin, minus EDITOR_OVERRIDE (no staff editor exists yet) and EVIDENCE_BACKED (confirmed by audit: no numeric staff evidence exists anywhere in the source data -- every generated staff attribute is GENERATED_PRIOR). Kept as its own type (not reused from lib/rating) so the two domains can diverge independently.
+ *
+ * HM-STAFF-SCOUT-POOL-1.0: SOURCE_MAPPED_FICTIONAL is a THIRD, distinct
+ * origin -- an attribute value copied directly from the scout-pool
+ * source document's own 1-20 rating for a REAL, named person. This is
+ * explicitly NOT "verified evidence about a real person's ability"
+ * (the source document itself says so: "fictional game attributes...
+ * not factual claims") and NOT "freely generated" either (GENERATED_PRIOR
+ * would misrepresent it as having no real-world anchor at all) -- a
+ * genuinely third category, never conflated with the other two.
+ */
+export type StaffAttributeOrigin = "GENERATED_PRIOR" | "SOURCE_MAPPED_FICTIONAL";
 
 export interface StaffAttributeValue {
   value: number;
@@ -171,7 +193,17 @@ export interface ResolvedStaffMember {
   hmRoles: HMStaffRole[];
   employmentType: StaffEmploymentType;
   profile: StaffAttributeProfile;
-  source: "REAL_WORLD_IDENTITY" | "GENERATED_FICTIONAL";
+  /**
+   * HM-STAFF-SCOUT-POOL-1.0: REAL_PERSON_FICTIONAL_PROFILE is a real,
+   * named individual (biographical identity: name, region) whose
+   * gameplay ATTRIBUTES are fictional game interpretations sourced from
+   * an external curated document -- distinct from REAL_WORLD_IDENTITY
+   * (a person tied to one specific real CLUB's own official roster/
+   * identity data) and from GENERATED_FICTIONAL (an entirely invented
+   * person). Never presented in normal UI as a verified real trait --
+   * see scoutPool.ts's own provenance-separation doc.
+   */
+  source: "REAL_WORLD_IDENTITY" | "GENERATED_FICTIONAL" | "REAL_PERSON_FICTIONAL_PROFILE";
 }
 
 /**

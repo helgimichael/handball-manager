@@ -12,6 +12,7 @@ import { useCareer } from "@/lib/career/CareerContext";
 import { getClub } from "@/lib/game-data";
 import { findStaffMember } from "@/lib/staff/staffCareerIntegration";
 import { isStaffRecruitable } from "@/lib/staff/staffRecruitment";
+import { isFreeAgentScoutAvailable } from "@/lib/staff/scoutPool";
 import { computeRoleSuitability } from "@/lib/staff/roleSuitability";
 import { roleSuitabilityStars } from "@/lib/staff/presentation";
 import { ROLE_ATTRIBUTE_WEIGHTS } from "@/lib/staff/roleAttributeMap";
@@ -51,8 +52,9 @@ export default function StaffProfilePage() {
   const router = useRouter();
   const params = useParams<{ staffId: string }>();
   const searchParams = useSearchParams();
-  const { career, offerStaffContract } = useCareer();
-  const member = findStaffMember(career, params.staffId);
+  const { career, offerStaffContract, signFreeAgentScout } = useCareer();
+  const isFreeAgent = isFreeAgentScoutAvailable(career, params.staffId);
+  const member = findStaffMember(career, params.staffId) ?? career.scoutMarket[params.staffId];
 
   if (!member) {
     return (
@@ -62,12 +64,12 @@ export default function StaffProfilePage() {
     );
   }
 
-  const club = getClub(member.clubId);
+  const club = isFreeAgent ? null : getClub(member.clubId);
   const employment = career.staffEmployment[member.id];
-  const isOwnClub = member.clubId === career.playerClubId;
-  const backHref = searchParams.get("from") === "recruitment" ? "/career/staff/recruitment" : isOwnClub ? "/career/staff" : `/career/clubs/${member.clubId}`;
+  const isOwnClub = !isFreeAgent && member.clubId === career.playerClubId;
+  const backHref = searchParams.get("from") === "recruitment" ? "/career/staff/recruitment" : isOwnClub ? "/career/staff" : isFreeAgent ? "/career/staff/recruitment" : `/career/clubs/${member.clubId}`;
   const history = career.staffClubHistory[member.id];
-  const recruitable = !isOwnClub && isStaffRecruitable(career, member.id);
+  const recruitable = !isOwnClub && (isFreeAgent || isStaffRecruitable(career, member.id));
 
   const weekStart = mondayOf(career.gameDate);
   const week = isOwnClub ? resolveTrainingWeek(career, weekStart) : null;
@@ -90,7 +92,7 @@ export default function StaffProfilePage() {
               <div className="hm-text-muted" style={{ fontSize: "var(--hm-text-xs)", marginTop: 2 }}>
                 {member.roles.length > 0 ? member.roles.map((r) => STAFF_ROLE_LABEL[r]).join(" + ") : (member.officialRoleLabel ?? "—")}
                 {" · "}
-                {club ? <ClubLink clubId={club.id}>{club.name}</ClubLink> : member.clubId}
+                {isFreeAgent ? "Tillgänglig (fri agent)" : club ? <ClubLink clubId={club.id}>{club.name}</ClubLink> : member.clubId}
               </div>
             </div>
             <button type="button" className="hm-btn" onClick={() => router.push(backHref)}>
@@ -103,7 +105,11 @@ export default function StaffProfilePage() {
           <div className="hm-panel-header">
             <span className="hm-panel-title">Egenskaper</span>
             <span className="hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)" }}>
-              {member.source === "REAL_WORLD_IDENTITY" ? "Namn/roll från klubbdata — egenskaper genererade" : "Genererad personal"}
+              {member.source === "REAL_WORLD_IDENTITY"
+                ? "Namn/roll från klubbdata — egenskaper genererade"
+                : member.source === "REAL_PERSON_FICTIONAL_PROFILE"
+                  ? "Verklig namngiven person — spelvärden är fiktiv tolkning"
+                  : "Genererad personal"}
             </span>
           </div>
           <div className="hm-panel-body" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 6 }}>
@@ -155,8 +161,12 @@ export default function StaffProfilePage() {
             <span className="hm-panel-title">Anställning</span>
           </div>
           <div className="hm-panel-body" style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-            <ContractRow label="Status" value={employment ? STAFF_EMPLOYMENT_TYPE_LABEL[employment.employmentType] : "—"} />
-            {employment?.employmentType === "SALARIED" ? (
+            <ContractRow label="Status" value={isFreeAgent ? "Tillgänglig" : employment ? STAFF_EMPLOYMENT_TYPE_LABEL[employment.employmentType] : "—"} />
+            {isFreeAgent ? (
+              <p className="hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)", margin: 0 }}>
+                Fri agent -- ingen klubb just nu. Kan värvas direkt.
+              </p>
+            ) : employment?.employmentType === "SALARIED" ? (
               <>
                 <ContractRow label="Lön / månad" value={employment.wageEurPerMonth !== undefined ? formatEur(employment.wageEurPerMonth) : "—"} />
                 <ContractRow label="Kontrakt t.o.m." value={employment.contractEndDate ?? "—"} />
@@ -169,7 +179,13 @@ export default function StaffProfilePage() {
           </div>
         </div>
 
-        {recruitable ? <RecruitmentPanel staffId={member.id} candidateWageHint={employment?.wageEurPerMonth} offerStaffContract={offerStaffContract} /> : null}
+        {recruitable ? (
+          isFreeAgent ? (
+            <SignFreeAgentPanel staffId={member.id} signFreeAgentScout={signFreeAgentScout} />
+          ) : (
+            <RecruitmentPanel staffId={member.id} candidateWageHint={employment?.wageEurPerMonth} offerStaffContract={offerStaffContract} />
+          )
+        ) : null}
 
         {isOwnClub ? (
           <div className="hm-panel">
@@ -234,6 +250,51 @@ function RecruitmentPanel({
         <label className="hm-text-secondary" style={{ fontSize: "var(--hm-text-xs)" }}>
           Erbjuden lön / månad (€)
           <input type="number" min={0} step={50} value={wage} onChange={(e) => setWage(e.target.value)} style={{ ...inputStyle, display: "block", marginTop: 4, width: "100%" }} />
+        </label>
+        <button type="button" className="hm-btn hm-btn-primary" onClick={submit}>
+          Erbjud kontrakt
+        </button>
+        {outcome ? (
+          <p className={outcome.accepted ? "hm-text-positive" : "hm-text-muted"} style={{ fontSize: "var(--hm-text-2xs)", margin: 0 }}>
+            {outcome.accepted ? "Klart! " : "Avvisat. "}
+            {outcome.reason}
+          </p>
+        ) : null}
+      </div>
+    </div>
+  );
+}
+
+function SignFreeAgentPanel({
+  staffId,
+  signFreeAgentScout,
+}: {
+  staffId: string;
+  signFreeAgentScout: ReturnType<typeof useCareer>["signFreeAgentScout"];
+}) {
+  const [wage, setWage] = useState("1000");
+  const [contractYears, setContractYears] = useState(2);
+  const [outcome, setOutcome] = useState<{ accepted: boolean; reason: string } | null>(null);
+
+  function submit() {
+    const offeredWageEurPerMonth = Math.max(0, Math.round(Number(wage) || 0));
+    const result = signFreeAgentScout(staffId, offeredWageEurPerMonth, contractYears);
+    setOutcome({ accepted: result.outcome === "COMPLETED", reason: result.reason });
+  }
+
+  return (
+    <div className="hm-panel">
+      <div className="hm-panel-header">
+        <span className="hm-panel-title">Värva fri agent</span>
+      </div>
+      <div className="hm-panel-body" style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+        <label className="hm-text-secondary" style={{ fontSize: "var(--hm-text-xs)" }}>
+          Erbjuden lön / månad (€)
+          <input type="number" min={0} step={50} value={wage} onChange={(e) => setWage(e.target.value)} style={{ ...inputStyle, display: "block", marginTop: 4, width: "100%" }} />
+        </label>
+        <label className="hm-text-secondary" style={{ fontSize: "var(--hm-text-xs)" }}>
+          Kontraktslängd (år)
+          <input type="number" min={1} max={6} value={contractYears} onChange={(e) => setContractYears(Number(e.target.value))} style={{ ...inputStyle, display: "block", marginTop: 4, width: "100%" }} />
         </label>
         <button type="button" className="hm-btn hm-btn-primary" onClick={submit}>
           Erbjud kontrakt

@@ -10,6 +10,7 @@ import { TUMBA_CLUB_ID, TUMBA_SQUAD } from "../game-data";
 import type { CareerState } from "./types";
 import {
   computeAssignmentProgressPct,
+  computeScoutAssignmentSuitability,
   createScoutingAssignment,
   getAllScoutingAssignments,
   getClubScouts,
@@ -203,6 +204,59 @@ test("getPlayerScoutReports returns only reports for the requested player, most 
   const reports = getPlayerScoutReports(afterSecond.state, "player-x");
   assert.equal(reports.length, 2);
   assert.ok(reports[0].createdDate >= reports[1].createdDate, "most recent report first");
+});
+
+// ---------------------------------------------------------------------------
+// HM-STAFF-SCOUT-POOL-1.0: specialist scouts must actually outperform a
+// higher-OVR generalist on the relevant assignment type.
+// ---------------------------------------------------------------------------
+
+test("a GK specialist (high GOALKEEPER_COACHING, lower general judgement) outperforms a higher-OVR generalist when the target is a goalkeeper", () => {
+  const gkSpecialist = staffMember("gk-specialist", TUMBA_CLUB_ID, ["SCOUT"], { PLAYER_JUDGEMENT: 13, POTENTIAL_JUDGEMENT: 12, GOALKEEPER_COACHING: 19 });
+  const generalist = staffMember("generalist", TUMBA_CLUB_ID, ["SCOUT"], { PLAYER_JUDGEMENT: 16, POTENTIAL_JUDGEMENT: 16, GOALKEEPER_COACHING: 9 });
+
+  const gkContext = { targetPosition: "MV", targetAgeYears: 25, isInternational: false };
+  const specialistSuitability = computeScoutAssignmentSuitability(gkSpecialist, gkContext);
+  const generalistSuitability = computeScoutAssignmentSuitability(generalist, gkContext);
+  assert.ok(specialistSuitability > generalistSuitability, `GK specialist (${specialistSuitability}) must outperform the higher-OVR generalist (${generalistSuitability}) on a goalkeeper assignment`);
+});
+
+test("the same generalist scout instead outperforms the GK specialist on a NON-goalkeeper target", () => {
+  const gkSpecialist = staffMember("gk-specialist", TUMBA_CLUB_ID, ["SCOUT"], { PLAYER_JUDGEMENT: 13, POTENTIAL_JUDGEMENT: 12, GOALKEEPER_COACHING: 19 });
+  const generalist = staffMember("generalist", TUMBA_CLUB_ID, ["SCOUT"], { PLAYER_JUDGEMENT: 16, POTENTIAL_JUDGEMENT: 16, GOALKEEPER_COACHING: 9 });
+
+  const outcourtContext = { targetPosition: "V9", targetAgeYears: 25, isInternational: false };
+  const specialistSuitability = computeScoutAssignmentSuitability(gkSpecialist, outcourtContext);
+  const generalistSuitability = computeScoutAssignmentSuitability(generalist, outcourtContext);
+  assert.ok(generalistSuitability > specialistSuitability, `generalist (${generalistSuitability}) must outperform the GK specialist (${specialistSuitability}) on a non-goalkeeper assignment`);
+});
+
+test("a youth specialist outperforms a generalist when the target is 21 or younger, but not against an older target", () => {
+  const youthSpecialist = staffMember("youth-specialist", TUMBA_CLUB_ID, ["SCOUT"], { PLAYER_JUDGEMENT: 12, POTENTIAL_JUDGEMENT: 14, YOUTH_DEVELOPMENT: 19 });
+  const generalist = staffMember("generalist2", TUMBA_CLUB_ID, ["SCOUT"], { PLAYER_JUDGEMENT: 16, POTENTIAL_JUDGEMENT: 16, YOUTH_DEVELOPMENT: 9 });
+
+  const youthContext = { targetPosition: "V9", targetAgeYears: 19, isInternational: false };
+  assert.ok(
+    computeScoutAssignmentSuitability(youthSpecialist, youthContext) > computeScoutAssignmentSuitability(generalist, youthContext),
+    "youth specialist must outperform the generalist on a 19-year-old target",
+  );
+
+  const adultContext = { targetPosition: "V9", targetAgeYears: 28, isInternational: false };
+  assert.ok(
+    computeScoutAssignmentSuitability(generalist, adultContext) > computeScoutAssignmentSuitability(youthSpecialist, adultContext),
+    "generalist must outperform the youth specialist on a 28-year-old target",
+  );
+});
+
+test("computeScoutAssignmentSuitability weights INTERNATIONAL_KNOWLEDGE for a cross-border target and REGIONAL_KNOWLEDGE for a domestic one", () => {
+  const internationalScout = staffMember("intl-scout", TUMBA_CLUB_ID, ["SCOUT"], { PLAYER_JUDGEMENT: 14, POTENTIAL_JUDGEMENT: 14, INTERNATIONAL_KNOWLEDGE: 19, REGIONAL_KNOWLEDGE: 6 });
+  const regionalScout = staffMember("regional-scout", TUMBA_CLUB_ID, ["SCOUT"], { PLAYER_JUDGEMENT: 14, POTENTIAL_JUDGEMENT: 14, INTERNATIONAL_KNOWLEDGE: 6, REGIONAL_KNOWLEDGE: 19 });
+
+  const domesticContext = { targetPosition: "V9", targetAgeYears: 25, isInternational: false };
+  assert.ok(computeScoutAssignmentSuitability(regionalScout, domesticContext) > computeScoutAssignmentSuitability(internationalScout, domesticContext));
+
+  const internationalContext = { targetPosition: "V9", targetAgeYears: 25, isInternational: true };
+  assert.ok(computeScoutAssignmentSuitability(internationalScout, internationalContext) > computeScoutAssignmentSuitability(regionalScout, internationalContext));
 });
 
 test("getAllScoutingAssignments returns every assignment across the whole career, most recently started first", () => {

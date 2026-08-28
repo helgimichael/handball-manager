@@ -23,9 +23,11 @@ import type { CareerState } from "./types";
 import { addDays, daysBetween, isSameOrBefore } from "./dateUtils";
 import { SCOUT_TASK_DURATION_DAYS } from "./careerRhythmConfig";
 import { findStaffMember } from "../staff/staffCareerIntegration";
-import { computeRoleSuitability } from "../staff/roleSuitability";
-import { STAFF_ATTRIBUTE_MAX, STAFF_ATTRIBUTE_MIN, type ResolvedStaffMember } from "../staff/types";
+import { clubNation } from "../staff/scoutPool";
+import { STAFF_ATTRIBUTE_MAX, STAFF_ATTRIBUTE_MIN, type ResolvedStaffMember, type StaffAttribute } from "../staff/types";
 import { getPlayerKnowledgePct, setPlayerKnowledgePct } from "../knowledge/knowledgeIntegration";
+import { getCareerPlayer } from "./careerWorld";
+import { playerAgeAtDate } from "../development/developmentIntegration";
 
 export type ScoutingAssignmentStatus = "IN_PROGRESS" | "COMPLETED";
 
@@ -70,6 +72,76 @@ function qualityMultiplier(suitability1to20: number): number {
   return Math.max(0.6, Math.min(1.4, 0.6 + (suitability1to20 / 20) * 0.8));
 }
 
+// ---------------------------------------------------------------------------
+// HM-STAFF-SCOUT-POOL-1.0 Part: "Implementera INTE bara 'högst OVR = bäst
+// scout'... Relevant specialist rating ska påverka uppdraget" -- an
+// ASSIGNMENT-SPECIFIC suitability, not the single static SCOUT role
+// suitability every other reader (recruitment listing, OVR display)
+// still uses UNCHANGED (computeRoleSuitability(scout,"SCOUT"), still
+// PLAYER_JUDGEMENT/POTENTIAL_JUDGEMENT 0.5/0.5 -- see roleAttributeMap.ts,
+// not touched by this milestone). This function is used ONLY inside
+// scouting.ts's own assignment duration/knowledge-gain calculations; it
+// intentionally differs from the general OVR blend by also weighting
+// TACTICAL_ASSESSMENT and REGIONAL_KNOWLEDGE/INTERNATIONAL_KNOWLEDGE in
+// every case, with GOALKEEPER_COACHING/YOUTH_DEVELOPMENT further
+// dominating the goalkeeper/youth-target branches -- see each branch's
+// own weights, all summing to 1.0. No existing scouting.test.ts
+// assertion depends on an exact numeric value (only relative "elite >
+// weak" comparisons), so this is a safe, contained behavior change.
+// ---------------------------------------------------------------------------
+
+const YOUTH_TARGET_MAX_AGE = 21;
+
+interface ScoutAssignmentContext {
+  targetPosition: string | null;
+  targetAgeYears: number | null;
+  isInternational: boolean;
+}
+
+function resolveAssignmentContext(state: CareerState, targetPlayerId: string, targetClubId: string, scoutClubId: string, asOfDate: string): ScoutAssignmentContext {
+  const player = getCareerPlayer(state, targetPlayerId);
+  const targetNation = clubNation(targetClubId);
+  const scoutNation = clubNation(scoutClubId);
+  return {
+    targetPosition: player?.position ?? null,
+    targetAgeYears: player ? playerAgeAtDate(player.dateOfBirth, player.birthYear, asOfDate) : null,
+    isInternational: targetNation !== undefined && scoutNation !== undefined && targetNation !== scoutNation,
+  };
+}
+
+function weightedSuitability(scout: ResolvedStaffMember, weights: Partial<Record<StaffAttribute, number>>): number {
+  let sum = 0;
+  let totalWeight = 0;
+  for (const [attr, weight] of Object.entries(weights) as [StaffAttribute, number][]) {
+    const entry = scout.profile.attributes[attr];
+    if (!entry || weight === undefined) continue;
+    sum += entry.value * weight;
+    totalWeight += weight;
+  }
+  return totalWeight > 0 ? sum / totalWeight : NEUTRAL_SUITABILITY;
+}
+
+/**
+ * The specialist-aware scout quality actually used for ONE assignment.
+ * A GK specialist (high GOALKEEPER_COACHING/GK) genuinely outperforms a
+ * higher-OVR generalist when the target is a goalkeeper; a youth
+ * specialist (high YOUTH_DEVELOPMENT/YTH) genuinely outperforms one when
+ * the target is 21 or younger. REGIONAL_KNOWLEDGE/INTERNATIONAL_KNOWLEDGE
+ * contribute based on whether the target club shares the scout's own
+ * club's nation (a real, already-canonical world fact -- Competition.nation).
+ */
+export function computeScoutAssignmentSuitability(scout: ResolvedStaffMember, ctx: ScoutAssignmentContext): number {
+  const geographyAttr: StaffAttribute = ctx.isInternational ? "INTERNATIONAL_KNOWLEDGE" : "REGIONAL_KNOWLEDGE";
+
+  if (ctx.targetPosition === "MV") {
+    return weightedSuitability(scout, { PLAYER_JUDGEMENT: 0.2, POTENTIAL_JUDGEMENT: 0.15, GOALKEEPER_COACHING: 0.45, TACTICAL_ASSESSMENT: 0.05, [geographyAttr]: 0.15 });
+  }
+  if (ctx.targetAgeYears !== null && ctx.targetAgeYears <= YOUTH_TARGET_MAX_AGE) {
+    return weightedSuitability(scout, { PLAYER_JUDGEMENT: 0.2, POTENTIAL_JUDGEMENT: 0.3, YOUTH_DEVELOPMENT: 0.25, TACTICAL_ASSESSMENT: 0.05, [geographyAttr]: 0.2 });
+  }
+  return weightedSuitability(scout, { PLAYER_JUDGEMENT: 0.35, POTENTIAL_JUDGEMENT: 0.3, TACTICAL_ASSESSMENT: 0.15, [geographyAttr]: 0.2 });
+}
+
 /** Elite scouts finish meaningfully faster than weak ones, bounded to a plausible 5-16 day range -- "hur snabbt knowledge ökar" is partly THIS (assignment length) and partly the gain-per-assignment above. */
 function assignmentDurationDays(suitability1to20: number): number {
   const adjustment = (suitability1to20 - NEUTRAL_SUITABILITY) * 0.4;
@@ -111,7 +183,8 @@ export function createScoutingAssignment(state: CareerState, scoutStaffId: strin
     return { ok: false, state, assignment: null, errors: ["Denna scout bevakar redan spelaren."] };
   }
 
-  const suitability = computeRoleSuitability(scout, "SCOUT");
+  const ctx = resolveAssignmentContext(state, targetPlayerId, targetClubId, scout.clubId, startDate);
+  const suitability = computeScoutAssignmentSuitability(scout, ctx);
   const durationDays = assignmentDurationDays(suitability);
   const id = `scout-${scoutStaffId}-${targetPlayerId}-${startDate}-${Object.keys(state.scoutingAssignments).length}`;
   const assignment: ScoutingAssignment = {
@@ -159,7 +232,9 @@ export function progressScoutingAssignments(state: CareerState, date: string): {
     if (assignment.status !== "IN_PROGRESS" || !isSameOrBefore(assignment.endDate, date)) continue;
 
     const scout = findStaffMember(next, assignment.scoutStaffId);
-    const suitability = scout ? computeRoleSuitability(scout, "SCOUT") : NEUTRAL_SUITABILITY;
+    const suitability = scout
+      ? computeScoutAssignmentSuitability(scout, resolveAssignmentContext(next, assignment.targetPlayerId, assignment.targetClubId, scout.clubId, date))
+      : NEUTRAL_SUITABILITY;
     const currentKnowledge = getPlayerKnowledgePct(next, assignment.targetPlayerId, assignment.targetClubId);
     const gain = BASE_KNOWLEDGE_GAIN * qualityMultiplier(suitability);
     next = setPlayerKnowledgePct(next, assignment.targetPlayerId, currentKnowledge + gain);

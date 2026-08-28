@@ -14,6 +14,7 @@ import { isStaffRecruitable } from "@/lib/staff/staffRecruitment";
 import { computeRoleSuitability } from "@/lib/staff/roleSuitability";
 import { roleSuitabilityStars } from "@/lib/staff/presentation";
 import { STAFF_ROLE_LABEL } from "@/lib/staff/labels";
+import { getScoutMarket } from "@/lib/staff/scoutPool";
 import { formatEur } from "@/lib/economy/currency";
 import type { ResolvedStaffMember, StaffRole } from "@/lib/staff/types";
 import StarRating from "@/components/StarRating";
@@ -55,6 +56,8 @@ export default function StaffRecruitmentPage() {
     return list;
   }, [career]);
 
+  const freeAgentScouts = getScoutMarket(career);
+
   const availableRoles = useMemo(() => Array.from(new Set(candidates.map((c) => c.role))).sort(), [candidates]);
 
   const filtered = roleFilter === "ALL" ? candidates : candidates.filter((c) => c.role === roleFilter);
@@ -87,13 +90,48 @@ export default function StaffRecruitmentPage() {
   }, [filtered, sort]);
 
   return (
-    <div className="hm-panel">
-      <div className="hm-panel-header">
-        <span className="hm-panel-title">Rekrytering — Personal</span>
-        <Link href="/career/staff" className="hm-btn hm-btn-sm hm-btn-ghost">
-          ← Personal
-        </Link>
-      </div>
+    <div className="hm-grid" style={{ gap: 12 }}>
+      {freeAgentScouts.length > 0 ? (
+        <div className="hm-panel">
+          <div className="hm-panel-header">
+            <span className="hm-panel-title">Tillgängliga scouter (fria agenter)</span>
+          </div>
+          <div className="hm-scroll-x">
+            <table className="hm-table">
+              <thead>
+                <tr>
+                  <th>Namn</th>
+                  <th>Status</th>
+                  <th>Lämplighet</th>
+                </tr>
+              </thead>
+              <tbody>
+                {freeAgentScouts.map((scout) => (
+                  <tr key={scout.id}>
+                    <td className="hm-td-strong">
+                      <Link href={`/career/staff/${encodeURIComponent(scout.id)}?from=recruitment`}>{scout.displayName}</Link>
+                    </td>
+                    <td>
+                      <span className="hm-badge hm-badge-positive">Tillgänglig</span>
+                    </td>
+                    <td>
+                      <StarRating stars={roleSuitabilityStars(computeRoleSuitability(scout, "SCOUT"))} title="Bedömd lämplighet för scoutrollen" />
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      ) : null}
+
+      <div className="hm-panel">
+        <div className="hm-panel-header">
+          <span className="hm-panel-title">Rekrytering — Personal</span>
+          <Link href="/career/staff" className="hm-btn hm-btn-sm hm-btn-ghost">
+            ← Personal
+          </Link>
+        </div>
       <div className="hm-panel-body" style={{ display: "flex", gap: 6, flexWrap: "wrap", paddingBottom: 0 }}>
         {(["ALL", ...availableRoles] as const).map((role) => (
           <button
@@ -145,6 +183,7 @@ export default function StaffRecruitmentPage() {
       )}
       <div className="hm-panel-body hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)" }}>
         Endast avlönad personal (huvudtränare, assisterande tränare, specialister m.fl.) kan värvas -- frivillig eller styrelseliknande personal har ingen anställning att lämna.
+      </div>
       </div>
     </div>
   );

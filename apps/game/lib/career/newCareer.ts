@@ -17,6 +17,7 @@ import { ensureCareerAllClubEconomies } from "../economy/clubEconomyIntegration"
 import { ensureCareerPlayerSquadStatus } from "./squadStatus";
 import { ensureDivision1PlayerEconomicIdentity } from "./division1Integration";
 import { seedPermanentBTeamPartnerships } from "./clubPartnerships";
+import { seedScoutPool } from "../staff/scoutPool";
 
 const FALLBACK_COMPETITION_ID = "swe-2"; // used only if playerClubId doesn't resolve to a known club
 
@@ -181,6 +182,8 @@ export function createNewCareerState(
     scoutReports: {},
     clubPartnerships: {},
     partnershipSearches: {},
+    scoutPoolSource: {},
+    scoutMarket: {},
   };
 
   // HM-RATINGS-CAREER-1.0 Part 2/4/15/16: every roster player in the
@@ -222,5 +225,11 @@ export function createNewCareerState(
   // HM-CLUB-PARTNERSHIPS-1.0: the five canonical AFFILIATED_B_TEAM
   // relations exist from career start, regardless of which club the
   // manager plays -- world-state facts, not manager-specific choices.
-  return seedPermanentBTeamPartnerships(withSquadStatus, careerStartDate);
+  const withPartnerships = seedPermanentBTeamPartnerships(withSquadStatus, careerStartDate);
+  // HM-STAFF-SCOUT-POOL-1.0: the 100-entry real-person scout source pool
+  // (and its LIKELY_ELIGIBLE free-agent subset) exists from career
+  // start, independent of which club the manager plays -- runs after
+  // staffRoster is fully resolved (above) so the duplicate-person check
+  // has real data to check against.
+  return seedScoutPool(withPartnerships);
 }

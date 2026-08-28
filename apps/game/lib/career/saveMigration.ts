@@ -24,6 +24,7 @@ import { getCareerClubSquad } from "./careerWorld";
 import { EUR_TO_SEK_REFERENCE_RATE } from "../economy/currency";
 import type { PlayerContract } from "../economy/types";
 import { seedPermanentBTeamPartnerships } from "./clubPartnerships";
+import { seedScoutPool } from "../staff/scoutPool";
 
 // HM-GAME-0.4: InboxMessage.category was a set of Swedish string
 // literals before this milestone (Spec §33: "map existing categories
@@ -410,6 +411,19 @@ export function migrateCareerState(career: CareerState): CareerState {
     next = { ...next, clubPartnerships: {} };
   }
   next = seedPermanentBTeamPartnerships(next, next.seasonStartDate);
+
+  // HM-STAFF-SCOUT-POOL-1.0: additive -- an existing career simply never
+  // had the scout source pool yet. `scoutPoolSource`/`scoutMarket`
+  // migrate to empty THEN are immediately topped up via the same
+  // idempotent seed function a fresh career uses (Part: "Existing saves:
+  // backfill idempotent").
+  if (next.scoutPoolSource === undefined) {
+    next = { ...next, scoutPoolSource: {} };
+  }
+  if (next.scoutMarket === undefined) {
+    next = { ...next, scoutMarket: {} };
+  }
+  next = seedScoutPool(next);
 
   // HM-STAFF-CAREER-1.0 (career-state schema v26): additive -- an
   // existing career simply never had a career-tracked staff club-history

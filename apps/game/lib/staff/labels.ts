@@ -45,4 +45,8 @@ export const STAFF_ATTRIBUTE_LABEL: Record<StaffAttribute, string> = {
   ORGANISATION: "Organisation",
   LOGISTICS: "Logistik",
   TEAM_ENVIRONMENT: "Lagmiljö",
+  TACTICAL_ASSESSMENT: "Taktisk bedömning",
+  NETWORK: "Nätverk",
+  REGIONAL_KNOWLEDGE: "Regional kunskap",
+  INTERNATIONAL_KNOWLEDGE: "Internationell kunskap",
 };

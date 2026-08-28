@@ -37,6 +37,7 @@ import {
   type RequestPartnershipSearchResult,
   type StartDevelopmentPartnershipResult,
 } from "./clubPartnerships";
+import { signFreeAgentScout, type SignFreeAgentScoutResult } from "../staff/scoutPool";
 import type { SessionSeed } from "../training/trainingSchedule";
 import type { PlayerTrainingLoadSetting, TrainingDayType, TrainingSession, WeeklyTrainingTemplate } from "../training/types";
 import type { PlayerMatchDefault } from "../matchPlan/persistentDefaults";
@@ -171,6 +172,8 @@ type CareerContextValue = {
   terminatePartnership: (partnershipId: string) => void;
   /** HM-CLUB-PARTNERSHIPS-1.0: extends an active partnership's end date by `additionalMonths` and persists. */
   renewPartnership: (partnershipId: string, additionalMonths: number) => void;
+  /** HM-STAFF-SCOUT-POOL-1.0: signs a LIKELY_ELIGIBLE free-agent scout from scoutMarket to the manager's own club and persists on success. */
+  signFreeAgentScout: (personId: string, offeredWageEurPerMonth: number, contractYears?: number) => SignFreeAgentScoutResult;
 };
 
 const CareerContext = createContext<CareerContextValue | null>(null);
@@ -725,6 +728,16 @@ export function CareerProvider({ children }: { children: ReactNode }) {
     setValue({ save: value.save, career: nextCareer });
   }
 
+  function signFreeAgentScoutActionWrapper(personId: string, offeredWageEurPerMonth: number, contractYears?: number): SignFreeAgentScoutResult {
+    if (!value) throw new Error("Ingen aktiv karriär.");
+    const { state: nextCareer, result } = signFreeAgentScout(value.career, personId, value.career.playerClubId, offeredWageEurPerMonth, contractYears, value.career.gameDate);
+    if (result.outcome === "COMPLETED") {
+      saveCareerState(value.save.saveId, nextCareer);
+      setValue({ save: value.save, career: nextCareer });
+    }
+    return result;
+  }
+
   return (
     <CareerContext.Provider
       value={{
@@ -760,6 +773,7 @@ export function CareerProvider({ children }: { children: ReactNode }) {
         startDevelopmentPartnership: startDevelopmentPartnershipActionWrapper,
         terminatePartnership: terminatePartnershipActionWrapper,
         renewPartnership: renewPartnershipActionWrapper,
+        signFreeAgentScout: signFreeAgentScoutActionWrapper,
       }}
     >
       {children}
