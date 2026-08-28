@@ -116,6 +116,52 @@ test("HM-DATA-DIV1-1.0: a Handbollsligan/Allsvenskan clubId produces BYTE-IDENTI
   assert.ok(outcome.profile.pa.value! >= 142);
 });
 
+// HM-WORLD-PLAYER-POOL-1.0
+test("HM-WORLD-PLAYER-POOL-1.0: a Bundesliga club produces a clearly higher average game-prior CA than a weak-tier international club (Faroe Islands)", () => {
+  let bundesligaTotal = 0;
+  let faroeTotal = 0;
+  const n = 40;
+  for (let i = 0; i < n; i++) {
+    const profile = baseProfile({ playerId: `intl_sample_${i}` });
+    const bundesliga = applyGamePrior(profile, "ger1-kiel");
+    const faroe = applyGamePrior(profile, "int-h71");
+    bundesligaTotal += bundesliga.profile.ca.value!;
+    faroeTotal += faroe.profile.ca.value!;
+  }
+  const bundesligaAvg = bundesligaTotal / n;
+  const faroeAvg = faroeTotal / n;
+  assert.ok(bundesligaAvg > faroeAvg + 25, `expected Bundesliga avg CA (${bundesligaAvg}) to clearly exceed Faroe Islands avg CA (${faroeAvg})`);
+});
+
+test("HM-WORLD-PLAYER-POOL-1.0: an Elite HM Level produces a higher CA than a Youth HM Level at the SAME international club, all else equal", () => {
+  const eliteMeta = { workbookId: "INT-A", poolRegion: "Germany", leagueCountry: "Germany", sourceNationality: "Germany", hmLevel: "Elite", prospect: false, wonderkidCandidate: false, confidence: "A" as const, notes: null };
+  const youthMeta = { ...eliteMeta, workbookId: "INT-B", hmLevel: "Youth" };
+  let eliteTotal = 0;
+  let youthTotal = 0;
+  const n = 30;
+  for (let i = 0; i < n; i++) {
+    const profile = baseProfile({ playerId: `hmlevel_sample_${i}` });
+    eliteTotal += applyGamePrior(profile, "ger1-kiel", undefined, eliteMeta).profile.ca.value!;
+    youthTotal += applyGamePrior(profile, "ger1-kiel", undefined, youthMeta).profile.ca.value!;
+  }
+  assert.ok(eliteTotal / n > youthTotal / n, "Elite HM Level must produce a higher average CA than Youth at the same club");
+});
+
+test("HM-WORLD-PLAYER-POOL-1.0: raw CA/PA are never presented as a factual claim -- worldPoolMetadata never overwrites an already-calibrated CA", () => {
+  const profile = baseProfile({ ca: { value: 150, confidence: "HIGH", plausibleRange: { min: 144, max: 156 } } });
+  const outcome = applyGamePrior(profile, "ger1-kiel", undefined, { workbookId: "INT-C", poolRegion: "Germany", leagueCountry: "Germany", sourceNationality: "Germany", hmLevel: "Elite", prospect: true, wonderkidCandidate: true, confidence: "A", notes: null });
+  assert.equal(outcome.gamePriorCAApplied, false);
+  assert.equal(outcome.profile.ca.value, 150);
+});
+
+test("HM-WORLD-PLAYER-POOL-1.0: a Handbollsligan/Allsvenskan clubId is unaffected by worldPoolMetadata (never an international club, ignores the parameter entirely) and remains byte-identical to the existing regression value", () => {
+  const profile = baseProfile({});
+  const withoutMeta = applyGamePrior(profile, "se_club_hammarby_if_hf");
+  const withMeta = applyGamePrior(profile, "se_club_hammarby_if_hf", undefined, { workbookId: "INT-D", poolRegion: "Germany", leagueCountry: "Germany", sourceNationality: "Germany", hmLevel: "Elite", prospect: true, wonderkidCandidate: true, confidence: "A", notes: null });
+  assert.equal(withoutMeta.profile.ca.value, 142); // same fixed regression value as the Division 1 regression test above
+  assert.equal(withMeta.profile.ca.value, 142);
+});
+
 test("HM-RATINGS-0.6: nationality, height, and age have no channel into applyGamePrior -- PlayerRatingProfile carries no such fields for it to read", () => {
   const profile = baseProfile({});
   assert.ok(!("nationality" in profile) && !("nationalities" in profile));

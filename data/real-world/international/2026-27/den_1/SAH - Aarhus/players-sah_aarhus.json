@@ -1,0 +1,39 @@
+[
+  {
+    "playerId": "player_intl_kristjan_orn_kristjansson_3d9e5b34",
+    "firstName": "Kristján",
+    "lastName": "Örn Kristjánsson",
+    "fullName": "Kristján Örn Kristjánsson",
+    "aliases": [],
+    "dateOfBirth": "1997-12-25",
+    "birthYear": 1997,
+    "nationalities": [
+      "IS"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_intl_pool_v0_1"
+      ]
+    },
+    "dataNotes": [
+      "Current 2026/27 EHF registration with SAH."
+    ],
+    "worldPoolMetadata": {
+      "workbookId": "INT-021",
+      "poolRegion": "Denmark",
+      "leagueCountry": "Denmark",
+      "sourceNationality": "Iceland",
+      "hmLevel": "Top",
+      "prospect": false,
+      "wonderkidCandidate": false,
+      "confidence": "A",
+      "notes": "Current 2026/27 EHF registration with SAH."
+    }
+  }
+]

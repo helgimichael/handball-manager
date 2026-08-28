@@ -1,0 +1,12 @@
+{
+  "milestone": "HM-WORLD-PLAYER-POOL-1.0",
+  "club": "Proger Cassano Magnago",
+  "snapshotDate": "2026-08-27",
+  "files": [
+    "players-proger_cassano_magnago.json",
+    "roster-proger_cassano_magnago-2026-27.json",
+    "qc-proger_cassano_magnago.json",
+    "sources-proger_cassano_magnago.json",
+    "schema-foundation-v0.2.json"
+  ]
+}

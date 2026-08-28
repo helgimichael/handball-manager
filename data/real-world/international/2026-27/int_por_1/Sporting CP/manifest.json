@@ -1,0 +1,12 @@
+{
+  "milestone": "HM-WORLD-PLAYER-POOL-1.0",
+  "club": "Sporting CP",
+  "snapshotDate": "2026-08-27",
+  "files": [
+    "players-sporting_cp.json",
+    "roster-sporting_cp-2026-27.json",
+    "qc-sporting_cp.json",
+    "sources-sporting_cp.json",
+    "schema-foundation-v0.2.json"
+  ]
+}

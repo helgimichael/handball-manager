@@ -1,0 +1,113 @@
+[
+  {
+    "playerId": "player_intl_lasse_ludwig_180f40b8",
+    "firstName": "Lasse",
+    "lastName": "Ludwig",
+    "fullName": "Lasse Ludwig",
+    "aliases": [],
+    "dateOfBirth": "2002-09-29",
+    "birthYear": 2002,
+    "nationalities": [
+      "DE"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_intl_pool_v0_1"
+      ]
+    },
+    "dataNotes": [
+      "Senior squad goalkeeper."
+    ],
+    "worldPoolMetadata": {
+      "workbookId": "INT-002",
+      "poolRegion": "Germany",
+      "leagueCountry": "Germany",
+      "sourceNationality": "Germany",
+      "hmLevel": "Pro",
+      "prospect": false,
+      "wonderkidCandidate": false,
+      "confidence": "A",
+      "notes": "Senior squad goalkeeper."
+    }
+  },
+  {
+    "playerId": "player_intl_mathias_gidsel_9b0efd74",
+    "firstName": "Mathias",
+    "lastName": "Gidsel",
+    "fullName": "Mathias Gidsel",
+    "aliases": [],
+    "dateOfBirth": "1999-02-09",
+    "birthYear": 1999,
+    "nationalities": [
+      "DK"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_intl_pool_v0_1"
+      ]
+    },
+    "dataNotes": [
+      "World-class right back."
+    ],
+    "worldPoolMetadata": {
+      "workbookId": "INT-010",
+      "poolRegion": "Germany",
+      "leagueCountry": "Germany",
+      "sourceNationality": "Denmark",
+      "hmLevel": "Elite",
+      "prospect": false,
+      "wonderkidCandidate": false,
+      "confidence": "A",
+      "notes": "World-class right back."
+    }
+  },
+  {
+    "playerId": "player_intl_mijajlo_marsenic_49533029",
+    "firstName": "Mijajlo",
+    "lastName": "Marsenić",
+    "fullName": "Mijajlo Marsenić",
+    "aliases": [],
+    "dateOfBirth": "1993-07-18",
+    "birthYear": 1993,
+    "nationalities": [
+      "RS"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_intl_pool_v0_1"
+      ]
+    },
+    "dataNotes": [
+      "Experienced elite-club pivot."
+    ],
+    "worldPoolMetadata": {
+      "workbookId": "INT-012",
+      "poolRegion": "Germany",
+      "leagueCountry": "Germany",
+      "sourceNationality": "Serbia",
+      "hmLevel": "Top",
+      "prospect": false,
+      "wonderkidCandidate": false,
+      "confidence": "A",
+      "notes": "Experienced elite-club pivot."
+    }
+  }
+]

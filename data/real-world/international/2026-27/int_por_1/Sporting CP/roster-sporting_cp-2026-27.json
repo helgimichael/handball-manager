@@ -1,0 +1,198 @@
+[
+  {
+    "rosterEntryId": "intl_2026_27_sporting_cp__4946ad14",
+    "playerId": "player_intl_santiago_povoas_4946ad14",
+    "clubId": "int-sporting",
+    "competitionId": "int-por-1",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": null,
+    "sourcePosition": "MV",
+    "primaryPosition": "MV",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_intl_pool_v0_1"
+      ],
+      "position": [
+        "src_intl_pool_v0_1"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "rosterEntryId": "intl_2026_27_sporting_cp__ac4c0a70",
+    "playerId": "player_intl_diogo_branquinho_ac4c0a70",
+    "clubId": "int-sporting",
+    "competitionId": "int-por-1",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": null,
+    "sourcePosition": "V6",
+    "primaryPosition": "V6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_intl_pool_v0_1"
+      ],
+      "position": [
+        "src_intl_pool_v0_1"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "rosterEntryId": "intl_2026_27_sporting_cp__a3f27f33",
+    "playerId": "player_intl_carlos_alvarez_a3f27f33",
+    "clubId": "int-sporting",
+    "competitionId": "int-por-1",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": null,
+    "sourcePosition": "H6",
+    "primaryPosition": "H6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_intl_pool_v0_1"
+      ],
+      "position": [
+        "src_intl_pool_v0_1"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "rosterEntryId": "intl_2026_27_sporting_cp__2944e175",
+    "playerId": "player_intl_martim_costa_2944e175",
+    "clubId": "int-sporting",
+    "competitionId": "int-por-1",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": null,
+    "sourcePosition": "V9",
+    "primaryPosition": "V9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_intl_pool_v0_1"
+      ],
+      "position": [
+        "src_intl_pool_v0_1"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "rosterEntryId": "intl_2026_27_sporting_cp__6f0ee5ac",
+    "playerId": "player_intl_natan_suarez_6f0ee5ac",
+    "clubId": "int-sporting",
+    "competitionId": "int-por-1",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": null,
+    "sourcePosition": "M9",
+    "primaryPosition": "M9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_intl_pool_v0_1"
+      ],
+      "position": [
+        "src_intl_pool_v0_1"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "rosterEntryId": "intl_2026_27_sporting_cp__d07dfd03",
+    "playerId": "player_intl_francisco_kiko_costa_d07dfd03",
+    "clubId": "int-sporting",
+    "competitionId": "int-por-1",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": null,
+    "sourcePosition": "H9",
+    "primaryPosition": "H9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_intl_pool_v0_1"
+      ],
+      "position": [
+        "src_intl_pool_v0_1"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "rosterEntryId": "intl_2026_27_sporting_cp__efe99a15",
+    "playerId": "player_intl_victor_romero_efe99a15",
+    "clubId": "int-sporting",
+    "competitionId": "int-por-1",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": null,
+    "sourcePosition": "M6",
+    "primaryPosition": "M6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_intl_pool_v0_1"
+      ],
+      "position": [
+        "src_intl_pool_v0_1"
+      ]
+    },
+    "dataNotes": []
+  }
+]

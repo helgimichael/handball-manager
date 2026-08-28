@@ -1,0 +1,76 @@
+[
+  {
+    "playerId": "player_intl_emil_hovgaard_pedersen_a169f355",
+    "firstName": "Emil",
+    "lastName": "Hovgaard Pedersen",
+    "fullName": "Emil Hovgaard Pedersen",
+    "aliases": [],
+    "dateOfBirth": "2008-03-19",
+    "birthYear": 2008,
+    "nationalities": [
+      "DK"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_intl_pool_v0_1"
+      ]
+    },
+    "dataNotes": [
+      "Young goalkeeper with high upside."
+    ],
+    "worldPoolMetadata": {
+      "workbookId": "INT-013",
+      "poolRegion": "Denmark",
+      "leagueCountry": "Denmark",
+      "sourceNationality": "Denmark",
+      "hmLevel": "Youth",
+      "prospect": true,
+      "wonderkidCandidate": true,
+      "confidence": "A",
+      "notes": "Young goalkeeper with high upside."
+    }
+  },
+  {
+    "playerId": "player_intl_mads_svane_knudsen_3fab6b0f",
+    "firstName": "Mads",
+    "lastName": "Svane Knudsen",
+    "fullName": "Mads Svane Knudsen",
+    "aliases": [],
+    "dateOfBirth": "2002-03-25",
+    "birthYear": 2002,
+    "nationalities": [
+      "DK"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_intl_pool_v0_1"
+      ]
+    },
+    "dataNotes": [
+      "Top-flight senior player."
+    ],
+    "worldPoolMetadata": {
+      "workbookId": "INT-018",
+      "poolRegion": "Denmark",
+      "leagueCountry": "Denmark",
+      "sourceNationality": "Denmark",
+      "hmLevel": "Pro",
+      "prospect": false,
+      "wonderkidCandidate": false,
+      "confidence": "A",
+      "notes": "Top-flight senior player."
+    }
+  }
+]

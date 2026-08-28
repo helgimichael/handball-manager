@@ -1,0 +1,12 @@
+{
+  "milestone": "HM-WORLD-PLAYER-POOL-1.0",
+  "club": "HSG Wetzlar",
+  "snapshotDate": "2026-08-27",
+  "files": [
+    "players-hsg_wetzlar.json",
+    "roster-hsg_wetzlar-2026-27.json",
+    "qc-hsg_wetzlar.json",
+    "sources-hsg_wetzlar.json",
+    "schema-foundation-v0.2.json"
+  ]
+}

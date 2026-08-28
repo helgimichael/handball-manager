@@ -1,0 +1,12 @@
+{
+  "milestone": "HM-WORLD-PLAYER-POOL-1.0",
+  "club": "ALPLA HC Hard",
+  "snapshotDate": "2026-08-27",
+  "files": [
+    "players-alpla_hc_hard.json",
+    "roster-alpla_hc_hard-2026-27.json",
+    "qc-alpla_hc_hard.json",
+    "sources-alpla_hc_hard.json",
+    "schema-foundation-v0.2.json"
+  ]
+}

@@ -9,6 +9,11 @@
 // real-world population -- exercising this same "every real player gets
 // a complete, valid gameplay rating" proof against the new, lower
 // DIVISION_1 population-model tier too (see lib/rating/gamePrior/populationModel.ts).
+// HM-WORLD-PLAYER-POOL-1.0: `buildCatalog()` now also discovers the
+// 31-club, 100-player international real-player pool, for a combined
+// 1210-player real-world population -- exercising the same proof against
+// the new international per-competition tiers too (see
+// lib/rating/gamePrior/clubContextTier.ts).
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { buildCatalog } from "../editor/catalog";
@@ -32,9 +37,9 @@ function loadFullLeague(): LeaguePlayer[] {
   return league;
 }
 
-test("HM-RATINGS-0.6/HM-DATA-ALLSVENSKAN-1.1/HM-DATA-DIV1-1.0 population audit: 1110/1110 real Handbollsligan+Allsvenskan+Division 1 players receive a complete gameplay CA, PA, and attribute branch", () => {
+test("HM-RATINGS-0.6/HM-DATA-ALLSVENSKAN-1.1/HM-DATA-DIV1-1.0/HM-WORLD-PLAYER-POOL-1.0 population audit: 1210/1210 real Handbollsligan+Allsvenskan+Division 1+international pool players receive a complete gameplay CA, PA, and attribute branch", () => {
   const league = loadFullLeague();
-  assert.equal(league.length, 1110, `expected exactly 1110 real players, found ${league.length}`);
+  assert.equal(league.length, 1210, `expected exactly 1210 real players, found ${league.length}`);
 
   let outcourtCount = 0;
   let gkCount = 0;
@@ -64,7 +69,7 @@ test("HM-RATINGS-0.6/HM-DATA-ALLSVENSKAN-1.1/HM-DATA-DIV1-1.0 population audit: 
     bySource[player.caSource] = (bySource[player.caSource] ?? 0) + 1;
   }
 
-  assert.equal(outcourtCount + gkCount, 1110);
+  assert.equal(outcourtCount + gkCount, 1210);
 
   caValues.sort((a, b) => a - b);
   const mean = caValues.reduce((a, b) => a + b, 0) / caValues.length;
@@ -133,8 +138,18 @@ test("HM-RATINGS-0.6 population audit: club context shapes the distribution rath
     if (club.min <= globalMax && club.max >= globalMin) overlapCount++;
   }
   assert.equal(overlapCount, clubRanges.length, "expected every club's CA range to overlap the league's overall range");
-  // And no club is a degenerate single-point distribution -- squads have spread.
-  for (const club of clubRanges) assert.ok(club.max > club.min, `${club.clubId} has zero CA spread`);
+  // And no *multi-player* club is a degenerate single-point distribution --
+  // squads have spread. HM-WORLD-PLAYER-POOL-1.0: a handful of
+  // international-pool clubs are intentionally only a subset roster (as
+  // few as a single scouted player), never that club's full real squad
+  // (see each club's qc-*.json staleSourceWarnings), so a lone player
+  // trivially has no internal range to spread across -- exclude those.
+  const byClubPlayerCount = new Map<string, number>();
+  for (const player of league) byClubPlayerCount.set(player.clubId, (byClubPlayerCount.get(player.clubId) ?? 0) + 1);
+  for (const club of clubRanges) {
+    if ((byClubPlayerCount.get(club.clubId) ?? 0) < 2) continue;
+    assert.ok(club.max > club.min, `${club.clubId} has zero CA spread`);
+  }
 });
 
 test("HM-RATINGS-0.6 population audit: position affects generated profile shape -- M9 archetypes emphasize different attributes than V6/H6 archetypes on average", () => {

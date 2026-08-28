@@ -1,0 +1,12 @@
+{
+  "milestone": "HM-WORLD-PLAYER-POOL-1.0",
+  "club": "Metelli Cologne",
+  "snapshotDate": "2026-08-27",
+  "files": [
+    "players-metelli_cologne.json",
+    "roster-metelli_cologne-2026-27.json",
+    "qc-metelli_cologne.json",
+    "sources-metelli_cologne.json",
+    "schema-foundation-v0.2.json"
+  ]
+}

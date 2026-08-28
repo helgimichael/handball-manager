@@ -1,0 +1,12 @@
+{
+  "milestone": "HM-WORLD-PLAYER-POOL-1.0",
+  "club": "Humby/Bevo HC",
+  "snapshotDate": "2026-08-27",
+  "files": [
+    "players-humby_bevo_hc.json",
+    "roster-humby_bevo_hc-2026-27.json",
+    "qc-humby_bevo_hc.json",
+    "sources-humby_bevo_hc.json",
+    "schema-foundation-v0.2.json"
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "milestone": "HM-WORLD-PLAYER-POOL-1.0",
+  "club": "Veszprém Handball Academy",
+  "snapshotDate": "2026-08-27",
+  "files": [
+    "players-veszprem_handball_academy.json",
+    "roster-veszprem_handball_academy-2026-27.json",
+    "qc-veszprem_handball_academy.json",
+    "sources-veszprem_handball_academy.json",
+    "schema-foundation-v0.2.json"
+  ]
+}

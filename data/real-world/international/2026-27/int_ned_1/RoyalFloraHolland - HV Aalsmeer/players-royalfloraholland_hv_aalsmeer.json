@@ -1,0 +1,76 @@
+[
+  {
+    "playerId": "player_intl_vaidas_trainavicius_4cbfe8d1",
+    "firstName": "Vaidas",
+    "lastName": "Trainavičius",
+    "fullName": "Vaidas Trainavičius",
+    "aliases": [],
+    "dateOfBirth": "1988-11-04",
+    "birthYear": 1988,
+    "nationalities": [
+      "LT"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_intl_pool_v0_1"
+      ]
+    },
+    "dataNotes": [
+      "Veteran playmaker."
+    ],
+    "worldPoolMetadata": {
+      "workbookId": "INT-089",
+      "poolRegion": "Netherlands",
+      "leagueCountry": "Netherlands",
+      "sourceNationality": "Lithuania",
+      "hmLevel": "Established",
+      "prospect": false,
+      "wonderkidCandidate": false,
+      "confidence": "A",
+      "notes": "Veteran playmaker."
+    }
+  },
+  {
+    "playerId": "player_intl_mads_kamst_34d30414",
+    "firstName": "Mads",
+    "lastName": "Kamst",
+    "fullName": "Mads Kamst",
+    "aliases": [],
+    "dateOfBirth": "2007-05-17",
+    "birthYear": 2007,
+    "nationalities": [
+      "NL"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_intl_pool_v0_1"
+      ]
+    },
+    "dataNotes": [
+      "Young pivot promoted into senior selection."
+    ],
+    "worldPoolMetadata": {
+      "workbookId": "INT-090",
+      "poolRegion": "Netherlands",
+      "leagueCountry": "Netherlands",
+      "sourceNationality": "Netherlands",
+      "hmLevel": "Youth",
+      "prospect": true,
+      "wonderkidCandidate": false,
+      "confidence": "A",
+      "notes": "Young pivot promoted into senior selection."
+    }
+  }
+]

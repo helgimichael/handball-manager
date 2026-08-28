@@ -42,6 +42,27 @@ export interface RealWorldPlayer {
   defaultSquadStatus: string | null;
   /** HM-PLAYER-DATA-EDITOR-1.0: editor-calibrated special tags (roster-*.json's `specialTags`). Empty when none have been calibrated. */
   specialTags: string[];
+  /**
+   * HM-WORLD-PLAYER-POOL-1.0: GAME-DESIGN METADATA from the 100-player
+   * international pool source workbook -- `undefined` for every player
+   * outside that pool (Swedish/Division 1 imports never carry this).
+   * HM Level/Wonderkid feed the game-prior CA/PA generator as a bounded
+   * signal only (see lib/rating/gamePrior) -- never a second CA/PA, and
+   * never shown in normal UI as a verified real-world fact.
+   */
+  worldPoolMetadata?: RealWorldPlayerWorldPoolMetadata | null;
+}
+
+export interface RealWorldPlayerWorldPoolMetadata {
+  workbookId: string;
+  poolRegion: string;
+  leagueCountry: string;
+  sourceNationality: string;
+  hmLevel: string;
+  prospect: boolean;
+  wonderkidCandidate: boolean;
+  confidence: string;
+  notes: string | null;
 }
 
 export interface RealWorldClubSquad {
@@ -100,6 +121,7 @@ function loadOne(catalog: EditorCatalog, clubId: string): RealWorldClubSquad | n
       },
       defaultSquadStatus: (r.defaultSquadStatus as string | null) ?? null,
       specialTags: Array.isArray(r.specialTags) ? (r.specialTags as string[]) : [],
+      worldPoolMetadata: typeof p.worldPoolMetadata === "object" && p.worldPoolMetadata !== null ? (p.worldPoolMetadata as unknown as RealWorldPlayerWorldPoolMetadata) : null,
     });
   }
 

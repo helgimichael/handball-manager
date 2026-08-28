@@ -1,0 +1,12 @@
+{
+  "milestone": "HM-WORLD-PLAYER-POOL-1.0",
+  "club": "Bjerringbro-Silkeborg",
+  "snapshotDate": "2026-08-27",
+  "files": [
+    "players-bjerringbro_silkeborg.json",
+    "roster-bjerringbro_silkeborg-2026-27.json",
+    "qc-bjerringbro_silkeborg.json",
+    "sources-bjerringbro_silkeborg.json",
+    "schema-foundation-v0.2.json"
+  ]
+}

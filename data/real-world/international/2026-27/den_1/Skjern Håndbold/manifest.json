@@ -1,0 +1,12 @@
+{
+  "milestone": "HM-WORLD-PLAYER-POOL-1.0",
+  "club": "Skjern Håndbold",
+  "snapshotDate": "2026-08-27",
+  "files": [
+    "players-skjern_handbold.json",
+    "roster-skjern_handbold-2026-27.json",
+    "qc-skjern_handbold.json",
+    "sources-skjern_handbold.json",
+    "schema-foundation-v0.2.json"
+  ]
+}

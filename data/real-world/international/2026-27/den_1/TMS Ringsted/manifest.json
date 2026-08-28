@@ -1,0 +1,12 @@
+{
+  "milestone": "HM-WORLD-PLAYER-POOL-1.0",
+  "club": "TMS Ringsted",
+  "snapshotDate": "2026-08-27",
+  "files": [
+    "players-tms_ringsted.json",
+    "roster-tms_ringsted-2026-27.json",
+    "qc-tms_ringsted.json",
+    "sources-tms_ringsted.json",
+    "schema-foundation-v0.2.json"
+  ]
+}

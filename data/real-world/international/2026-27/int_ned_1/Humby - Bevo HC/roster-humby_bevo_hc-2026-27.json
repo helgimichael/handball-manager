@@ -1,0 +1,30 @@
+[
+  {
+    "rosterEntryId": "intl_2026_27_humby_bevo_hc__5a248e3d",
+    "playerId": "player_intl_sverre_jansen_5a248e3d",
+    "clubId": "int-bevo",
+    "competitionId": "int-ned-1",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": null,
+    "sourcePosition": "V6",
+    "primaryPosition": "V6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_intl_pool_v0_1"
+      ],
+      "position": [
+        "src_intl_pool_v0_1"
+      ]
+    },
+    "dataNotes": []
+  }
+]

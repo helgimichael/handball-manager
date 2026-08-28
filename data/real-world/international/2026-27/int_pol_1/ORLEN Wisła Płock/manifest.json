@@ -1,0 +1,12 @@
+{
+  "milestone": "HM-WORLD-PLAYER-POOL-1.0",
+  "club": "ORLEN Wisła Płock",
+  "snapshotDate": "2026-08-27",
+  "files": [
+    "players-orlen_wis_a_p_ock.json",
+    "roster-orlen_wis_a_p_ock-2026-27.json",
+    "qc-orlen_wis_a_p_ock.json",
+    "sources-orlen_wis_a_p_ock.json",
+    "schema-foundation-v0.2.json"
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "milestone": "HM-WORLD-PLAYER-POOL-1.0",
+  "club": "H71",
+  "snapshotDate": "2026-08-27",
+  "files": [
+    "players-h71.json",
+    "roster-h71-2026-27.json",
+    "qc-h71.json",
+    "sources-h71.json",
+    "schema-foundation-v0.2.json"
+  ]
+}

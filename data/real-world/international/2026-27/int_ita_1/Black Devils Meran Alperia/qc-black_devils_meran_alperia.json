@@ -1,0 +1,35 @@
+{
+  "clubId": "int-meran",
+  "clubName": "Black Devils Meran Alperia",
+  "competitionId": "int-ita-1",
+  "season": "2026/27",
+  "snapshotDate": "2026-08-27",
+  "datasetStatus": "PRESEASON",
+  "qcStatus": "VERIFIED",
+  "expectedRosterCount": 1,
+  "exportedRosterCount": 1,
+  "checks": {
+    "currentLeagueRosterLocated": true,
+    "allLeagueRosterNamesCaptured": false,
+    "incomingTransfersChecked": false,
+    "departuresChecked": false,
+    "duplicatePlayers": 0,
+    "canonicalPositionsValid": true,
+    "guessedSecondaryPositions": 0,
+    "guessedDatesOfBirth": 0,
+    "guessedHeights": 1,
+    "guessedNationalities": 0,
+    "guessedContractDates": 1
+  },
+  "knownConflicts": [],
+  "staleSourceWarnings": [
+    "HM-WORLD-PLAYER-POOL-1.0: this club's roster here is ONLY the subset of players present in the 100-player international pool -- never presented or treated as that club's complete real squad."
+  ],
+  "openFieldsSummary": {
+    "exactDateOfBirthMissing": 1,
+    "heightMissing": 1,
+    "handednessMissing": 1,
+    "shirtNumberMissing": 1,
+    "contractEndMissing": 1
+  }
+}

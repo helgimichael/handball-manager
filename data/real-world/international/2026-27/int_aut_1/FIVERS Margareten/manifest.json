@@ -1,0 +1,12 @@
+{
+  "milestone": "HM-WORLD-PLAYER-POOL-1.0",
+  "club": "FIVERS Margareten",
+  "snapshotDate": "2026-08-27",
+  "files": [
+    "players-fivers_margareten.json",
+    "roster-fivers_margareten-2026-27.json",
+    "qc-fivers_margareten.json",
+    "sources-fivers_margareten.json",
+    "schema-foundation-v0.2.json"
+  ]
+}

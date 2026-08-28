@@ -1,0 +1,150 @@
+[
+  {
+    "playerId": "player_intl_h_gni_heinason_0f145a8b",
+    "firstName": "Høgni",
+    "lastName": "Heinason",
+    "fullName": "Høgni Heinason",
+    "aliases": [],
+    "dateOfBirth": "2005-11-09",
+    "birthYear": 2005,
+    "nationalities": [
+      "FO"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "fieldConfidence": {
+      "dateOfBirth": "PARTIAL"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_intl_pool_v0_1"
+      ]
+    },
+    "dataNotes": [
+      "25/26 EHF roster + 2026 domestic context; recheck final 26/27 roster."
+    ],
+    "worldPoolMetadata": {
+      "workbookId": "INT-091",
+      "poolRegion": "Faroe Islands",
+      "leagueCountry": "Faroe Islands",
+      "sourceNationality": "Faroe Islands",
+      "hmLevel": "Development",
+      "prospect": true,
+      "wonderkidCandidate": false,
+      "confidence": "B",
+      "notes": "25/26 EHF roster + 2026 domestic context; recheck final 26/27 roster."
+    }
+  },
+  {
+    "playerId": "player_intl_h_gni_h_jsted_b2263f93",
+    "firstName": "Høgni",
+    "lastName": "Højsted",
+    "fullName": "Høgni Højsted",
+    "aliases": [],
+    "dateOfBirth": "2004-02-03",
+    "birthYear": 2004,
+    "nationalities": [
+      "FO"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "fieldConfidence": {
+      "dateOfBirth": "PARTIAL"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_intl_pool_v0_1"
+      ]
+    },
+    "dataNotes": [
+      "25/26 EHF roster + 2026 domestic context; recheck final 26/27 roster."
+    ],
+    "worldPoolMetadata": {
+      "workbookId": "INT-092",
+      "poolRegion": "Faroe Islands",
+      "leagueCountry": "Faroe Islands",
+      "sourceNationality": "Faroe Islands",
+      "hmLevel": "Pro",
+      "prospect": true,
+      "wonderkidCandidate": false,
+      "confidence": "B",
+      "notes": "25/26 EHF roster + 2026 domestic context; recheck final 26/27 roster."
+    }
+  },
+  {
+    "playerId": "player_intl_aniano_sakarisson_sakaris_ba2e22f2",
+    "firstName": "Aniano",
+    "lastName": "Sakarisson Sakaris",
+    "fullName": "Aniano Sakarisson Sakaris",
+    "aliases": [],
+    "dateOfBirth": "2001-11-04",
+    "birthYear": 2001,
+    "nationalities": [
+      "FO"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "fieldConfidence": {
+      "dateOfBirth": "PARTIAL"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_intl_pool_v0_1"
+      ]
+    },
+    "dataNotes": [
+      "25/26 EHF roster + 2026 domestic context; recheck final 26/27 roster."
+    ],
+    "worldPoolMetadata": {
+      "workbookId": "INT-093",
+      "poolRegion": "Faroe Islands",
+      "leagueCountry": "Faroe Islands",
+      "sourceNationality": "Faroe Islands",
+      "hmLevel": "Pro",
+      "prospect": false,
+      "wonderkidCandidate": false,
+      "confidence": "B",
+      "notes": "25/26 EHF roster + 2026 domestic context; recheck final 26/27 roster."
+    }
+  },
+  {
+    "playerId": "player_intl_niklas_h_jgaard_hanusson_c2020f59",
+    "firstName": "Niklas",
+    "lastName": "Højgaard Hanusson",
+    "fullName": "Niklas Højgaard Hanusson",
+    "aliases": [],
+    "dateOfBirth": "1998-11-19",
+    "birthYear": 1998,
+    "nationalities": [
+      "FO"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "fieldConfidence": {
+      "dateOfBirth": "PARTIAL"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_intl_pool_v0_1"
+      ]
+    },
+    "dataNotes": [
+      "25/26 EHF roster + 2026 domestic context; recheck final 26/27 roster."
+    ],
+    "worldPoolMetadata": {
+      "workbookId": "INT-094",
+      "poolRegion": "Faroe Islands",
+      "leagueCountry": "Faroe Islands",
+      "sourceNationality": "Faroe Islands",
+      "hmLevel": "Established",
+      "prospect": false,
+      "wonderkidCandidate": false,
+      "confidence": "B",
+      "notes": "25/26 EHF roster + 2026 domestic context; recheck final 26/27 roster."
+    }
+  }
+]

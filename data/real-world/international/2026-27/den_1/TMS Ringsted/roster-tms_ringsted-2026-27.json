@@ -1,0 +1,30 @@
+[
+  {
+    "rosterEntryId": "intl_2026_27_tms_ringsted__4279a730",
+    "playerId": "player_intl_pauli_hentze_rasmussen_4279a730",
+    "clubId": "den1-tms",
+    "competitionId": "den-1",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": null,
+    "sourcePosition": "H9",
+    "primaryPosition": "H9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_intl_pool_v0_1"
+      ],
+      "position": [
+        "src_intl_pool_v0_1"
+      ]
+    },
+    "dataNotes": []
+  }
+]

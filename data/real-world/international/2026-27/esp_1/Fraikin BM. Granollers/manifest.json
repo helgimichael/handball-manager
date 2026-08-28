@@ -1,0 +1,12 @@
+{
+  "milestone": "HM-WORLD-PLAYER-POOL-1.0",
+  "club": "Fraikin BM. Granollers",
+  "snapshotDate": "2026-08-27",
+  "files": [
+    "players-fraikin_bm_granollers.json",
+    "roster-fraikin_bm_granollers-2026-27.json",
+    "qc-fraikin_bm_granollers.json",
+    "sources-fraikin_bm_granollers.json",
+    "schema-foundation-v0.2.json"
+  ]
+}

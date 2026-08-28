@@ -1,0 +1,12 @@
+{
+  "milestone": "HM-WORLD-PLAYER-POOL-1.0",
+  "club": "Barça",
+  "snapshotDate": "2026-08-27",
+  "files": [
+    "players-barca.json",
+    "roster-barca-2026-27.json",
+    "qc-barca.json",
+    "sources-barca.json",
+    "schema-foundation-v0.2.json"
+  ]
+}

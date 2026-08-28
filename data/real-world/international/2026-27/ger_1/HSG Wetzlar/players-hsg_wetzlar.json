@@ -1,0 +1,76 @@
+[
+  {
+    "playerId": "player_intl_nikolaj_l_s_2e955978",
+    "firstName": "Nikolaj",
+    "lastName": "Læsø",
+    "fullName": "Nikolaj Læsø",
+    "aliases": [],
+    "dateOfBirth": "1996-11-15",
+    "birthYear": 1996,
+    "nationalities": [
+      "DK"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_intl_pool_v0_1"
+      ]
+    },
+    "dataNotes": [
+      "Experienced Scandinavian back."
+    ],
+    "worldPoolMetadata": {
+      "workbookId": "INT-007",
+      "poolRegion": "Germany",
+      "leagueCountry": "Germany",
+      "sourceNationality": "Denmark",
+      "hmLevel": "Top",
+      "prospect": false,
+      "wonderkidCandidate": false,
+      "confidence": "A",
+      "notes": "Experienced Scandinavian back."
+    }
+  },
+  {
+    "playerId": "player_intl_paul_kompenhans_5b30e905",
+    "firstName": "Paul",
+    "lastName": "Kompenhans",
+    "fullName": "Paul Kompenhans",
+    "aliases": [],
+    "dateOfBirth": "2002-10-08",
+    "birthYear": 2002,
+    "nationalities": [
+      "DE"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_intl_pool_v0_1"
+      ]
+    },
+    "dataNotes": [
+      "Professional senior playmaker."
+    ],
+    "worldPoolMetadata": {
+      "workbookId": "INT-009",
+      "poolRegion": "Germany",
+      "leagueCountry": "Germany",
+      "sourceNationality": "Germany",
+      "hmLevel": "Pro",
+      "prospect": false,
+      "wonderkidCandidate": false,
+      "confidence": "A",
+      "notes": "Professional senior playmaker."
+    }
+  }
+]

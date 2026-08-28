@@ -1,0 +1,12 @@
+{
+  "milestone": "HM-WORLD-PLAYER-POOL-1.0",
+  "club": "RoyalFloraHolland/HV Aalsmeer",
+  "snapshotDate": "2026-08-27",
+  "files": [
+    "players-royalfloraholland_hv_aalsmeer.json",
+    "roster-royalfloraholland_hv_aalsmeer-2026-27.json",
+    "qc-royalfloraholland_hv_aalsmeer.json",
+    "sources-royalfloraholland_hv_aalsmeer.json",
+    "schema-foundation-v0.2.json"
+  ]
+}

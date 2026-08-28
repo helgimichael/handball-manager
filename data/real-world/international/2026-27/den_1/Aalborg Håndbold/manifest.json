@@ -1,0 +1,12 @@
+{
+  "milestone": "HM-WORLD-PLAYER-POOL-1.0",
+  "club": "Aalborg Håndbold",
+  "snapshotDate": "2026-08-27",
+  "files": [
+    "players-aalborg_handbold.json",
+    "roster-aalborg_handbold-2026-27.json",
+    "qc-aalborg_handbold.json",
+    "sources-aalborg_handbold.json",
+    "schema-foundation-v0.2.json"
+  ]
+}

@@ -7,7 +7,15 @@
 // clearly marked at each module.
 import type { PlayerTag } from "./playerTags";
 
-export type NationCode = "SWE" | "DEN" | "NOR" | "GER" | "ESP" | "HUN" | "SVN" | "ISL";
+/**
+ * HM-WORLD-PLAYER-POOL-1.0: AUT/FRO/ITA/NED/POL/POR/QAT/CHE added for
+ * the 100-player international pool's new clubs/competitions. Never
+ * added to nations.ts's own NATIONS display array (the New Game
+ * country picker's data source) -- these nations exist in the world
+ * registry only, never selectable/playable, per that milestone's own
+ * "Foreign leagues/clubs ska INTE bli selectable/playable i New Game".
+ */
+export type NationCode = "SWE" | "DEN" | "NOR" | "GER" | "ESP" | "HUN" | "SVN" | "ISL" | "AUT" | "FRO" | "ITA" | "NED" | "POL" | "POR" | "QAT" | "CHE";
 
 export type Nation = {
   code: NationCode;

@@ -1,0 +1,226 @@
+[
+  {
+    "rosterEntryId": "intl_2026_27_elverum_handball__d68eb7ae",
+    "playerId": "player_intl_marius_bakkedal_andersen_d68eb7ae",
+    "clubId": "nor1-elverum",
+    "competitionId": "nor-1",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": null,
+    "sourcePosition": "MV",
+    "primaryPosition": "MV",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_intl_pool_v0_1"
+      ],
+      "position": [
+        "src_intl_pool_v0_1"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "rosterEntryId": "intl_2026_27_elverum_handball__a55a2421",
+    "playerId": "player_intl_mounir_chehri_a55a2421",
+    "clubId": "nor1-elverum",
+    "competitionId": "nor-1",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": null,
+    "sourcePosition": "V6",
+    "primaryPosition": "V6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_intl_pool_v0_1"
+      ],
+      "position": [
+        "src_intl_pool_v0_1"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "rosterEntryId": "intl_2026_27_elverum_handball__cd1e04f0",
+    "playerId": "player_intl_kevin_gulliksen_cd1e04f0",
+    "clubId": "nor1-elverum",
+    "competitionId": "nor-1",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": null,
+    "sourcePosition": "H6",
+    "primaryPosition": "H6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_intl_pool_v0_1"
+      ],
+      "position": [
+        "src_intl_pool_v0_1"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "rosterEntryId": "intl_2026_27_elverum_handball__f3587a9c",
+    "playerId": "player_intl_erik_thorsteinsen_toft_f3587a9c",
+    "clubId": "nor1-elverum",
+    "competitionId": "nor-1",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": null,
+    "sourcePosition": "V9",
+    "primaryPosition": "V9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_intl_pool_v0_1"
+      ],
+      "position": [
+        "src_intl_pool_v0_1"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "rosterEntryId": "intl_2026_27_elverum_handball__036ea463",
+    "playerId": "player_intl_mario_matic_036ea463",
+    "clubId": "nor1-elverum",
+    "competitionId": "nor-1",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": null,
+    "sourcePosition": "M9",
+    "primaryPosition": "M9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_intl_pool_v0_1"
+      ],
+      "position": [
+        "src_intl_pool_v0_1"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "rosterEntryId": "intl_2026_27_elverum_handball__0830adfc",
+    "playerId": "player_intl_benjamin_berg_0830adfc",
+    "clubId": "nor1-elverum",
+    "competitionId": "nor-1",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": null,
+    "sourcePosition": "H9",
+    "primaryPosition": "H9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_intl_pool_v0_1"
+      ],
+      "position": [
+        "src_intl_pool_v0_1"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "rosterEntryId": "intl_2026_27_elverum_handball__87f8d8a1",
+    "playerId": "player_intl_dominik_mathe_87f8d8a1",
+    "clubId": "nor1-elverum",
+    "competitionId": "nor-1",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": null,
+    "sourcePosition": "H9",
+    "primaryPosition": "H9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_intl_pool_v0_1"
+      ],
+      "position": [
+        "src_intl_pool_v0_1"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "rosterEntryId": "intl_2026_27_elverum_handball__37bd8907",
+    "playerId": "player_intl_tryggvi_orisson_37bd8907",
+    "clubId": "nor1-elverum",
+    "competitionId": "nor-1",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": null,
+    "sourcePosition": "M6",
+    "primaryPosition": "M6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_intl_pool_v0_1"
+      ],
+      "position": [
+        "src_intl_pool_v0_1"
+      ]
+    },
+    "dataNotes": []
+  }
+]

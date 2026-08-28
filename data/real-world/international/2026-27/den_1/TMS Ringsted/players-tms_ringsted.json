@@ -1,0 +1,39 @@
+[
+  {
+    "playerId": "player_intl_pauli_hentze_rasmussen_4279a730",
+    "firstName": "Pauli",
+    "lastName": "Hentze Rasmussen",
+    "fullName": "Pauli Hentze Rasmussen",
+    "aliases": [],
+    "dateOfBirth": "2007-01-23",
+    "birthYear": 2007,
+    "nationalities": [
+      "FO"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_intl_pool_v0_1"
+      ]
+    },
+    "dataNotes": [
+      "Young Faroese right back in Denmark."
+    ],
+    "worldPoolMetadata": {
+      "workbookId": "INT-020",
+      "poolRegion": "Denmark",
+      "leagueCountry": "Denmark",
+      "sourceNationality": "Faroe Islands",
+      "hmLevel": "Development",
+      "prospect": true,
+      "wonderkidCandidate": true,
+      "confidence": "A",
+      "notes": "Young Faroese right back in Denmark."
+    }
+  }
+]

@@ -1,0 +1,12 @@
+{
+  "milestone": "HM-WORLD-PLAYER-POOL-1.0",
+  "club": "SAH - Aarhus",
+  "snapshotDate": "2026-08-27",
+  "files": [
+    "players-sah_aarhus.json",
+    "roster-sah_aarhus-2026-27.json",
+    "qc-sah_aarhus.json",
+    "sources-sah_aarhus.json",
+    "schema-foundation-v0.2.json"
+  ]
+}

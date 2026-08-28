@@ -1,0 +1,58 @@
+[
+  {
+    "rosterEntryId": "intl_2026_27_kras_volendam__93b5c406",
+    "playerId": "player_intl_mirddyn_tol_93b5c406",
+    "clubId": "int-volendam",
+    "competitionId": "int-ned-1",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": null,
+    "sourcePosition": "MV",
+    "primaryPosition": "MV",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_intl_pool_v0_1"
+      ],
+      "position": [
+        "src_intl_pool_v0_1"
+      ]
+    },
+    "dataNotes": []
+  },
+  {
+    "rosterEntryId": "intl_2026_27_kras_volendam__1ccb520b",
+    "playerId": "player_intl_mitchel_luijten_1ccb520b",
+    "clubId": "int-volendam",
+    "competitionId": "int-ned-1",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": null,
+    "sourcePosition": "H6",
+    "primaryPosition": "H6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_intl_pool_v0_1"
+      ],
+      "position": [
+        "src_intl_pool_v0_1"
+      ]
+    },
+    "dataNotes": []
+  }
+]

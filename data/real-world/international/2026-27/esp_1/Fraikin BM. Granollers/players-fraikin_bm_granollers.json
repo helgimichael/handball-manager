@@ -1,0 +1,261 @@
+[
+  {
+    "playerId": "player_intl_luka_krivokapic_20eed867",
+    "firstName": "Luka",
+    "lastName": "Krivokapić",
+    "fullName": "Luka Krivokapić",
+    "aliases": [],
+    "dateOfBirth": "2002-02-07",
+    "birthYear": 2002,
+    "nationalities": [
+      "HU"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_intl_pool_v0_1"
+      ]
+    },
+    "dataNotes": [
+      "Current Granollers goalkeeper."
+    ],
+    "worldPoolMetadata": {
+      "workbookId": "INT-023",
+      "poolRegion": "Spain",
+      "leagueCountry": "Spain",
+      "sourceNationality": "Hungary",
+      "hmLevel": "Pro",
+      "prospect": false,
+      "wonderkidCandidate": false,
+      "confidence": "A",
+      "notes": "Current Granollers goalkeeper."
+    }
+  },
+  {
+    "playerId": "player_intl_jordi_deumal_af62f2b2",
+    "firstName": "Jordi",
+    "lastName": "Deumal",
+    "fullName": "Jordi Deumal",
+    "aliases": [],
+    "dateOfBirth": "1994-01-14",
+    "birthYear": 1994,
+    "nationalities": [
+      "ES"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_intl_pool_v0_1"
+      ]
+    },
+    "dataNotes": [
+      "Experienced left wing."
+    ],
+    "worldPoolMetadata": {
+      "workbookId": "INT-024",
+      "poolRegion": "Spain",
+      "leagueCountry": "Spain",
+      "sourceNationality": "Spain",
+      "hmLevel": "Established",
+      "prospect": false,
+      "wonderkidCandidate": false,
+      "confidence": "A",
+      "notes": "Experienced left wing."
+    }
+  },
+  {
+    "playerId": "player_intl_bernat_povill_nadal_1c41823b",
+    "firstName": "Bernat",
+    "lastName": "Povill Nadal",
+    "fullName": "Bernat Povill Nadal",
+    "aliases": [],
+    "dateOfBirth": "2004-10-14",
+    "birthYear": 2004,
+    "nationalities": [
+      "ES"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_intl_pool_v0_1"
+      ]
+    },
+    "dataNotes": [
+      "Young senior wing."
+    ],
+    "worldPoolMetadata": {
+      "workbookId": "INT-025",
+      "poolRegion": "Spain",
+      "leagueCountry": "Spain",
+      "sourceNationality": "Spain",
+      "hmLevel": "Development",
+      "prospect": true,
+      "wonderkidCandidate": false,
+      "confidence": "A",
+      "notes": "Young senior wing."
+    }
+  },
+  {
+    "playerId": "player_intl_jan_duran_esteban_4b39fb21",
+    "firstName": "Jan",
+    "lastName": "Duran Esteban",
+    "fullName": "Jan Duran Esteban",
+    "aliases": [],
+    "dateOfBirth": "2006-10-08",
+    "birthYear": 2006,
+    "nationalities": [
+      "ES"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_intl_pool_v0_1"
+      ]
+    },
+    "dataNotes": [
+      "Young back in professional squad."
+    ],
+    "worldPoolMetadata": {
+      "workbookId": "INT-026",
+      "poolRegion": "Spain",
+      "leagueCountry": "Spain",
+      "sourceNationality": "Spain",
+      "hmLevel": "Development",
+      "prospect": true,
+      "wonderkidCandidate": false,
+      "confidence": "A",
+      "notes": "Young back in professional squad."
+    }
+  },
+  {
+    "playerId": "player_intl_bruno_reguart_massana_5cfbee3b",
+    "firstName": "Bruno",
+    "lastName": "Reguart Massana",
+    "fullName": "Bruno Reguart Massana",
+    "aliases": [],
+    "dateOfBirth": "2003-05-25",
+    "birthYear": 2003,
+    "nationalities": [
+      "ES"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_intl_pool_v0_1"
+      ]
+    },
+    "dataNotes": [
+      "Young established senior playmaker."
+    ],
+    "worldPoolMetadata": {
+      "workbookId": "INT-027",
+      "poolRegion": "Spain",
+      "leagueCountry": "Spain",
+      "sourceNationality": "Spain",
+      "hmLevel": "Pro",
+      "prospect": false,
+      "wonderkidCandidate": false,
+      "confidence": "A",
+      "notes": "Young established senior playmaker."
+    }
+  },
+  {
+    "playerId": "player_intl_marcos_fis_ballester_4eab1947",
+    "firstName": "Marcos",
+    "lastName": "Fis Ballester",
+    "fullName": "Marcos Fis Ballester",
+    "aliases": [],
+    "dateOfBirth": "2007-04-01",
+    "birthYear": 2007,
+    "nationalities": [
+      "ES"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_intl_pool_v0_1"
+      ]
+    },
+    "dataNotes": [
+      "2025/26 ASOBAL MVP; generational young talent."
+    ],
+    "worldPoolMetadata": {
+      "workbookId": "INT-028",
+      "poolRegion": "Spain",
+      "leagueCountry": "Spain",
+      "sourceNationality": "Spain",
+      "hmLevel": "Elite",
+      "prospect": true,
+      "wonderkidCandidate": true,
+      "confidence": "A",
+      "notes": "2025/26 ASOBAL MVP; generational young talent."
+    }
+  },
+  {
+    "playerId": "player_intl_adria_figueras_19e8dcd2",
+    "firstName": "Adrià",
+    "lastName": "Figueras",
+    "fullName": "Adrià Figueras",
+    "aliases": [],
+    "dateOfBirth": "1988-08-31",
+    "birthYear": 1988,
+    "nationalities": [
+      "ES"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_intl_pool_v0_1"
+      ]
+    },
+    "dataNotes": [
+      "Experienced pivot."
+    ],
+    "worldPoolMetadata": {
+      "workbookId": "INT-031",
+      "poolRegion": "Spain",
+      "leagueCountry": "Spain",
+      "sourceNationality": "Spain",
+      "hmLevel": "Top",
+      "prospect": false,
+      "wonderkidCandidate": false,
+      "confidence": "A",
+      "notes": "Experienced pivot."
+    }
+  }
+]

@@ -1,0 +1,261 @@
+[
+  {
+    "playerId": "player_intl_santiago_povoas_4946ad14",
+    "firstName": "Santiago",
+    "lastName": "Póvoas",
+    "fullName": "Santiago Póvoas",
+    "aliases": [],
+    "dateOfBirth": "2008-09-08",
+    "birthYear": 2008,
+    "nationalities": [
+      "PT"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_intl_pool_v0_1"
+      ]
+    },
+    "dataNotes": [
+      "Very young goalkeeper in elite environment."
+    ],
+    "worldPoolMetadata": {
+      "workbookId": "INT-062",
+      "poolRegion": "Portugal",
+      "leagueCountry": "Portugal",
+      "sourceNationality": "Portugal",
+      "hmLevel": "Youth",
+      "prospect": true,
+      "wonderkidCandidate": true,
+      "confidence": "A",
+      "notes": "Very young goalkeeper in elite environment."
+    }
+  },
+  {
+    "playerId": "player_intl_diogo_branquinho_ac4c0a70",
+    "firstName": "Diogo",
+    "lastName": "Branquinho",
+    "fullName": "Diogo Branquinho",
+    "aliases": [],
+    "dateOfBirth": "1994-07-25",
+    "birthYear": 1994,
+    "nationalities": [
+      "PT"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_intl_pool_v0_1"
+      ]
+    },
+    "dataNotes": [
+      "Experienced international wing."
+    ],
+    "worldPoolMetadata": {
+      "workbookId": "INT-063",
+      "poolRegion": "Portugal",
+      "leagueCountry": "Portugal",
+      "sourceNationality": "Portugal",
+      "hmLevel": "Top",
+      "prospect": false,
+      "wonderkidCandidate": false,
+      "confidence": "A",
+      "notes": "Experienced international wing."
+    }
+  },
+  {
+    "playerId": "player_intl_carlos_alvarez_a3f27f33",
+    "firstName": "Carlos",
+    "lastName": "Álvarez",
+    "fullName": "Carlos Álvarez",
+    "aliases": [],
+    "dateOfBirth": "2003-02-06",
+    "birthYear": 2003,
+    "nationalities": [
+      "ES"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_intl_pool_v0_1"
+      ]
+    },
+    "dataNotes": [
+      "Young high-level wing."
+    ],
+    "worldPoolMetadata": {
+      "workbookId": "INT-064",
+      "poolRegion": "Portugal",
+      "leagueCountry": "Portugal",
+      "sourceNationality": "Spain",
+      "hmLevel": "Development",
+      "prospect": true,
+      "wonderkidCandidate": false,
+      "confidence": "A",
+      "notes": "Young high-level wing."
+    }
+  },
+  {
+    "playerId": "player_intl_martim_costa_2944e175",
+    "firstName": "Martim",
+    "lastName": "Costa",
+    "fullName": "Martim Costa",
+    "aliases": [],
+    "dateOfBirth": "2002-09-27",
+    "birthYear": 2002,
+    "nationalities": [
+      "PT"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_intl_pool_v0_1"
+      ]
+    },
+    "dataNotes": [
+      "Elite young international back."
+    ],
+    "worldPoolMetadata": {
+      "workbookId": "INT-065",
+      "poolRegion": "Portugal",
+      "leagueCountry": "Portugal",
+      "sourceNationality": "Portugal",
+      "hmLevel": "Elite",
+      "prospect": false,
+      "wonderkidCandidate": false,
+      "confidence": "A",
+      "notes": "Elite young international back."
+    }
+  },
+  {
+    "playerId": "player_intl_natan_suarez_6f0ee5ac",
+    "firstName": "Natán",
+    "lastName": "Suárez",
+    "fullName": "Natán Suárez",
+    "aliases": [],
+    "dateOfBirth": "1998-01-20",
+    "birthYear": 1998,
+    "nationalities": [
+      "ES"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_intl_pool_v0_1"
+      ]
+    },
+    "dataNotes": [
+      "Experienced playmaker."
+    ],
+    "worldPoolMetadata": {
+      "workbookId": "INT-066",
+      "poolRegion": "Portugal",
+      "leagueCountry": "Portugal",
+      "sourceNationality": "Spain",
+      "hmLevel": "Top",
+      "prospect": false,
+      "wonderkidCandidate": false,
+      "confidence": "A",
+      "notes": "Experienced playmaker."
+    }
+  },
+  {
+    "playerId": "player_intl_francisco_kiko_costa_d07dfd03",
+    "firstName": "Francisco",
+    "lastName": "'Kiko' Costa",
+    "fullName": "Francisco 'Kiko' Costa",
+    "aliases": [],
+    "dateOfBirth": "2005-02-16",
+    "birthYear": 2005,
+    "nationalities": [
+      "PT"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_intl_pool_v0_1"
+      ]
+    },
+    "dataNotes": [
+      "Already established young superstar; not merely a candidate."
+    ],
+    "worldPoolMetadata": {
+      "workbookId": "INT-067",
+      "poolRegion": "Portugal",
+      "leagueCountry": "Portugal",
+      "sourceNationality": "Portugal",
+      "hmLevel": "Elite",
+      "prospect": true,
+      "wonderkidCandidate": false,
+      "confidence": "A",
+      "notes": "Already established young superstar; not merely a candidate."
+    }
+  },
+  {
+    "playerId": "player_intl_victor_romero_efe99a15",
+    "firstName": "Víctor",
+    "lastName": "Romero",
+    "fullName": "Víctor Romero",
+    "aliases": [],
+    "dateOfBirth": "2004-03-09",
+    "birthYear": 2004,
+    "nationalities": [
+      "ES"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_intl_pool_v0_1"
+      ]
+    },
+    "dataNotes": [
+      "Young pivot in elite environment."
+    ],
+    "worldPoolMetadata": {
+      "workbookId": "INT-068",
+      "poolRegion": "Portugal",
+      "leagueCountry": "Portugal",
+      "sourceNationality": "Spain",
+      "hmLevel": "Development",
+      "prospect": true,
+      "wonderkidCandidate": false,
+      "confidence": "A",
+      "notes": "Young pivot in elite environment."
+    }
+  }
+]

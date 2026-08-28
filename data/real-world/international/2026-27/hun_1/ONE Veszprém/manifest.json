@@ -1,0 +1,12 @@
+{
+  "milestone": "HM-WORLD-PLAYER-POOL-1.0",
+  "club": "ONE Veszprém",
+  "snapshotDate": "2026-08-27",
+  "files": [
+    "players-one_veszprem.json",
+    "roster-one_veszprem-2026-27.json",
+    "qc-one_veszprem.json",
+    "sources-one_veszprem.json",
+    "schema-foundation-v0.2.json"
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "milestone": "HM-WORLD-PLAYER-POOL-1.0",
+  "club": "Black Devils Meran Alperia",
+  "snapshotDate": "2026-08-27",
+  "files": [
+    "players-black_devils_meran_alperia.json",
+    "roster-black_devils_meran_alperia-2026-27.json",
+    "qc-black_devils_meran_alperia.json",
+    "sources-black_devils_meran_alperia.json",
+    "schema-foundation-v0.2.json"
+  ]
+}

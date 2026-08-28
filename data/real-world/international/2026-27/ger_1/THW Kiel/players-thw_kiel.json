@@ -1,0 +1,261 @@
+[
+  {
+    "playerId": "player_intl_tobias_dengler_89bd9f7a",
+    "firstName": "Tobias",
+    "lastName": "Dengler",
+    "fullName": "Tobias Dengler",
+    "aliases": [],
+    "dateOfBirth": "2008-03-12",
+    "birthYear": 2008,
+    "nationalities": [
+      "DE"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_intl_pool_v0_1"
+      ]
+    },
+    "dataNotes": [
+      "Young goalkeeper in senior environment."
+    ],
+    "worldPoolMetadata": {
+      "workbookId": "INT-001",
+      "poolRegion": "Germany",
+      "leagueCountry": "Germany",
+      "sourceNationality": "Germany",
+      "hmLevel": "Youth",
+      "prospect": true,
+      "wonderkidCandidate": true,
+      "confidence": "A",
+      "notes": "Young goalkeeper in senior environment."
+    }
+  },
+  {
+    "playerId": "player_intl_ben_janos_szilagyi_bf16af57",
+    "firstName": "Ben",
+    "lastName": "Janos Szilagyi",
+    "fullName": "Ben Janos Szilagyi",
+    "aliases": [],
+    "dateOfBirth": "2006-10-18",
+    "birthYear": 2006,
+    "nationalities": [
+      "DE"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_intl_pool_v0_1"
+      ]
+    },
+    "dataNotes": [
+      "Young wing with senior pathway."
+    ],
+    "worldPoolMetadata": {
+      "workbookId": "INT-003",
+      "poolRegion": "Germany",
+      "leagueCountry": "Germany",
+      "sourceNationality": "Germany",
+      "hmLevel": "Development",
+      "prospect": true,
+      "wonderkidCandidate": false,
+      "confidence": "A",
+      "notes": "Young wing with senior pathway."
+    }
+  },
+  {
+    "playerId": "player_intl_eric_johansson_b5f56936",
+    "firstName": "Eric",
+    "lastName": "Johansson",
+    "fullName": "Eric Johansson",
+    "aliases": [],
+    "dateOfBirth": "2000-06-28",
+    "birthYear": 2000,
+    "nationalities": [
+      "SE"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_intl_pool_v0_1"
+      ]
+    },
+    "dataNotes": [
+      "Established international-level back."
+    ],
+    "worldPoolMetadata": {
+      "workbookId": "INT-004",
+      "poolRegion": "Germany",
+      "leagueCountry": "Germany",
+      "sourceNationality": "Sweden",
+      "hmLevel": "Top",
+      "prospect": false,
+      "wonderkidCandidate": false,
+      "confidence": "A",
+      "notes": "Established international-level back."
+    }
+  },
+  {
+    "playerId": "player_intl_julian_koster_5e3b8c5d",
+    "firstName": "Julian",
+    "lastName": "Köster",
+    "fullName": "Julian Köster",
+    "aliases": [],
+    "dateOfBirth": "2000-03-16",
+    "birthYear": 2000,
+    "nationalities": [
+      "DE"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_intl_pool_v0_1"
+      ]
+    },
+    "dataNotes": [
+      "Top-level German international."
+    ],
+    "worldPoolMetadata": {
+      "workbookId": "INT-005",
+      "poolRegion": "Germany",
+      "leagueCountry": "Germany",
+      "sourceNationality": "Germany",
+      "hmLevel": "Elite",
+      "prospect": false,
+      "wonderkidCandidate": false,
+      "confidence": "A",
+      "notes": "Top-level German international."
+    }
+  },
+  {
+    "playerId": "player_intl_rasmus_ankermann_852454ce",
+    "firstName": "Rasmus",
+    "lastName": "Ankermann",
+    "fullName": "Rasmus Ankermann",
+    "aliases": [],
+    "dateOfBirth": "2007-07-31",
+    "birthYear": 2007,
+    "nationalities": [
+      "DE"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_intl_pool_v0_1"
+      ]
+    },
+    "dataNotes": [
+      "High-upside youth back."
+    ],
+    "worldPoolMetadata": {
+      "workbookId": "INT-006",
+      "poolRegion": "Germany",
+      "leagueCountry": "Germany",
+      "sourceNationality": "Germany",
+      "hmLevel": "Development",
+      "prospect": true,
+      "wonderkidCandidate": true,
+      "confidence": "A",
+      "notes": "High-upside youth back."
+    }
+  },
+  {
+    "playerId": "player_intl_elias_ellefsen_a_skipag_tu_92161987",
+    "firstName": "Elias",
+    "lastName": "Ellefsen á Skipagøtu",
+    "fullName": "Elias Ellefsen á Skipagøtu",
+    "aliases": [],
+    "dateOfBirth": "2002-05-19",
+    "birthYear": 2002,
+    "nationalities": [
+      "FO"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_intl_pool_v0_1"
+      ]
+    },
+    "dataNotes": [
+      "International star playmaker."
+    ],
+    "worldPoolMetadata": {
+      "workbookId": "INT-008",
+      "poolRegion": "Germany",
+      "leagueCountry": "Germany",
+      "sourceNationality": "Faroe Islands",
+      "hmLevel": "Elite",
+      "prospect": false,
+      "wonderkidCandidate": false,
+      "confidence": "A",
+      "notes": "International star playmaker."
+    }
+  },
+  {
+    "playerId": "player_intl_kjell_suhr_c7f5cd14",
+    "firstName": "Kjell",
+    "lastName": "Suhr",
+    "fullName": "Kjell Suhr",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": 2009,
+    "nationalities": [
+      "DE"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "fieldConfidence": {
+      "birthYear": "PARTIAL"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_intl_pool_v0_1"
+      ]
+    },
+    "dataNotes": [
+      "Birth year only; recheck exact DOB before DB lock."
+    ],
+    "worldPoolMetadata": {
+      "workbookId": "INT-011",
+      "poolRegion": "Germany",
+      "leagueCountry": "Germany",
+      "sourceNationality": "Germany",
+      "hmLevel": "Youth",
+      "prospect": true,
+      "wonderkidCandidate": true,
+      "confidence": "B",
+      "notes": "Birth year only; recheck exact DOB before DB lock."
+    }
+  }
+]

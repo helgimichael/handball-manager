@@ -1,0 +1,298 @@
+[
+  {
+    "playerId": "player_intl_marius_bakkedal_andersen_d68eb7ae",
+    "firstName": "Marius",
+    "lastName": "Bakkedal-Andersen",
+    "fullName": "Marius Bakkedal-Andersen",
+    "aliases": [],
+    "dateOfBirth": "2007-02-21",
+    "birthYear": 2007,
+    "nationalities": [
+      "NO"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_intl_pool_v0_1"
+      ]
+    },
+    "dataNotes": [
+      "Young goalkeeper in Norwegian top flight."
+    ],
+    "worldPoolMetadata": {
+      "workbookId": "INT-032",
+      "poolRegion": "Norway",
+      "leagueCountry": "Norway",
+      "sourceNationality": "Norway",
+      "hmLevel": "Development",
+      "prospect": true,
+      "wonderkidCandidate": true,
+      "confidence": "A",
+      "notes": "Young goalkeeper in Norwegian top flight."
+    }
+  },
+  {
+    "playerId": "player_intl_mounir_chehri_a55a2421",
+    "firstName": "Mounir",
+    "lastName": "Chehri",
+    "fullName": "Mounir Chehri",
+    "aliases": [],
+    "dateOfBirth": "1999-06-04",
+    "birthYear": 1999,
+    "nationalities": [
+      "DZ"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_intl_pool_v0_1"
+      ]
+    },
+    "dataNotes": [
+      "Senior top-flight wing."
+    ],
+    "worldPoolMetadata": {
+      "workbookId": "INT-033",
+      "poolRegion": "Norway",
+      "leagueCountry": "Norway",
+      "sourceNationality": "Algeria",
+      "hmLevel": "Pro",
+      "prospect": false,
+      "wonderkidCandidate": false,
+      "confidence": "A",
+      "notes": "Senior top-flight wing."
+    }
+  },
+  {
+    "playerId": "player_intl_kevin_gulliksen_cd1e04f0",
+    "firstName": "Kevin",
+    "lastName": "Gulliksen",
+    "fullName": "Kevin Gulliksen",
+    "aliases": [],
+    "dateOfBirth": "1996-11-09",
+    "birthYear": 1996,
+    "nationalities": [
+      "NO"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_intl_pool_v0_1"
+      ]
+    },
+    "dataNotes": [
+      "Established Norwegian international wing."
+    ],
+    "worldPoolMetadata": {
+      "workbookId": "INT-034",
+      "poolRegion": "Norway",
+      "leagueCountry": "Norway",
+      "sourceNationality": "Norway",
+      "hmLevel": "Top",
+      "prospect": false,
+      "wonderkidCandidate": false,
+      "confidence": "A",
+      "notes": "Established Norwegian international wing."
+    }
+  },
+  {
+    "playerId": "player_intl_erik_thorsteinsen_toft_f3587a9c",
+    "firstName": "Erik",
+    "lastName": "Thorsteinsen Toft",
+    "fullName": "Erik Thorsteinsen Toft",
+    "aliases": [],
+    "dateOfBirth": "1992-11-14",
+    "birthYear": 1992,
+    "nationalities": [
+      "NO"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_intl_pool_v0_1"
+      ]
+    },
+    "dataNotes": [
+      "Experienced high-level back."
+    ],
+    "worldPoolMetadata": {
+      "workbookId": "INT-035",
+      "poolRegion": "Norway",
+      "leagueCountry": "Norway",
+      "sourceNationality": "Norway",
+      "hmLevel": "Top",
+      "prospect": false,
+      "wonderkidCandidate": false,
+      "confidence": "A",
+      "notes": "Experienced high-level back."
+    }
+  },
+  {
+    "playerId": "player_intl_mario_matic_036ea463",
+    "firstName": "Mario",
+    "lastName": "Matic",
+    "fullName": "Mario Matic",
+    "aliases": [],
+    "dateOfBirth": "1994-07-23",
+    "birthYear": 1994,
+    "nationalities": [
+      "NO"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_intl_pool_v0_1"
+      ]
+    },
+    "dataNotes": [
+      "Experienced playmaker."
+    ],
+    "worldPoolMetadata": {
+      "workbookId": "INT-036",
+      "poolRegion": "Norway",
+      "leagueCountry": "Norway",
+      "sourceNationality": "Norway",
+      "hmLevel": "Top",
+      "prospect": false,
+      "wonderkidCandidate": false,
+      "confidence": "A",
+      "notes": "Experienced playmaker."
+    }
+  },
+  {
+    "playerId": "player_intl_benjamin_berg_0830adfc",
+    "firstName": "Benjamin",
+    "lastName": "Berg",
+    "fullName": "Benjamin Berg",
+    "aliases": [],
+    "dateOfBirth": "2003-03-16",
+    "birthYear": 2003,
+    "nationalities": [
+      "NO"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_intl_pool_v0_1"
+      ]
+    },
+    "dataNotes": [
+      "Young right back."
+    ],
+    "worldPoolMetadata": {
+      "workbookId": "INT-037",
+      "poolRegion": "Norway",
+      "leagueCountry": "Norway",
+      "sourceNationality": "Norway",
+      "hmLevel": "Development",
+      "prospect": true,
+      "wonderkidCandidate": false,
+      "confidence": "A",
+      "notes": "Young right back."
+    }
+  },
+  {
+    "playerId": "player_intl_dominik_mathe_87f8d8a1",
+    "firstName": "Dominik",
+    "lastName": "Máthé",
+    "fullName": "Dominik Máthé",
+    "aliases": [],
+    "dateOfBirth": "1999-04-01",
+    "birthYear": 1999,
+    "nationalities": [
+      "HU"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_intl_pool_v0_1"
+      ]
+    },
+    "dataNotes": [
+      "International-level right back."
+    ],
+    "worldPoolMetadata": {
+      "workbookId": "INT-038",
+      "poolRegion": "Norway",
+      "leagueCountry": "Norway",
+      "sourceNationality": "Hungary",
+      "hmLevel": "Top",
+      "prospect": false,
+      "wonderkidCandidate": false,
+      "confidence": "A",
+      "notes": "International-level right back."
+    }
+  },
+  {
+    "playerId": "player_intl_tryggvi_orisson_37bd8907",
+    "firstName": "Tryggvi",
+    "lastName": "Þórisson",
+    "fullName": "Tryggvi Þórisson",
+    "aliases": [],
+    "dateOfBirth": "2002-06-18",
+    "birthYear": 2002,
+    "nationalities": [
+      "IS"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_intl_pool_v0_1"
+      ]
+    },
+    "dataNotes": [
+      "Icelandic international pivot."
+    ],
+    "worldPoolMetadata": {
+      "workbookId": "INT-039",
+      "poolRegion": "Norway",
+      "leagueCountry": "Norway",
+      "sourceNationality": "Iceland",
+      "hmLevel": "Top",
+      "prospect": false,
+      "wonderkidCandidate": false,
+      "confidence": "A",
+      "notes": "Icelandic international pivot."
+    }
+  }
+]

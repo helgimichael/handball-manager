@@ -1,0 +1,35 @@
+{
+  "clubId": "hun1-veszprem",
+  "clubName": "ONE Veszprém",
+  "competitionId": "hun-1",
+  "season": "2026/27",
+  "snapshotDate": "2026-08-27",
+  "datasetStatus": "PRESEASON",
+  "qcStatus": "VERIFIED",
+  "expectedRosterCount": 2,
+  "exportedRosterCount": 2,
+  "checks": {
+    "currentLeagueRosterLocated": true,
+    "allLeagueRosterNamesCaptured": false,
+    "incomingTransfersChecked": false,
+    "departuresChecked": false,
+    "duplicatePlayers": 0,
+    "canonicalPositionsValid": true,
+    "guessedSecondaryPositions": 0,
+    "guessedDatesOfBirth": 0,
+    "guessedHeights": 2,
+    "guessedNationalities": 0,
+    "guessedContractDates": 2
+  },
+  "knownConflicts": [],
+  "staleSourceWarnings": [
+    "HM-WORLD-PLAYER-POOL-1.0: this club's roster here is ONLY the subset of players present in the 100-player international pool -- never presented or treated as that club's complete real squad."
+  ],
+  "openFieldsSummary": {
+    "exactDateOfBirthMissing": 0,
+    "heightMissing": 2,
+    "handednessMissing": 2,
+    "shirtNumberMissing": 2,
+    "contractEndMissing": 2
+  }
+}

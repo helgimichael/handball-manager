@@ -1,0 +1,224 @@
+[
+  {
+    "playerId": "player_intl_nandor_gyori_8b6a6b50",
+    "firstName": "Nándor",
+    "lastName": "Győri",
+    "fullName": "Nándor Győri",
+    "aliases": [],
+    "dateOfBirth": "2005-11-21",
+    "birthYear": 2005,
+    "nationalities": [
+      "HU"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_intl_pool_v0_1"
+      ]
+    },
+    "dataNotes": [
+      "Academy / second-tier senior environment."
+    ],
+    "worldPoolMetadata": {
+      "workbookId": "INT-040",
+      "poolRegion": "Hungary",
+      "leagueCountry": "Hungary",
+      "sourceNationality": "Hungary",
+      "hmLevel": "Development",
+      "prospect": true,
+      "wonderkidCandidate": false,
+      "confidence": "A",
+      "notes": "Academy / second-tier senior environment."
+    }
+  },
+  {
+    "playerId": "player_intl_mate_gancs_peto_9ba556cb",
+    "firstName": "Máté",
+    "lastName": "Gáncs-Pető",
+    "fullName": "Máté Gáncs-Pető",
+    "aliases": [],
+    "dateOfBirth": "2007-10-02",
+    "birthYear": 2007,
+    "nationalities": [
+      "HU"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_intl_pool_v0_1"
+      ]
+    },
+    "dataNotes": [
+      "High-upside academy wing."
+    ],
+    "worldPoolMetadata": {
+      "workbookId": "INT-041",
+      "poolRegion": "Hungary",
+      "leagueCountry": "Hungary",
+      "sourceNationality": "Hungary",
+      "hmLevel": "Youth",
+      "prospect": true,
+      "wonderkidCandidate": true,
+      "confidence": "A",
+      "notes": "High-upside academy wing."
+    }
+  },
+  {
+    "playerId": "player_intl_barna_czinczas_34b4ac01",
+    "firstName": "Barna",
+    "lastName": "Czinczás",
+    "fullName": "Barna Czinczás",
+    "aliases": [],
+    "dateOfBirth": "2008-05-05",
+    "birthYear": 2008,
+    "nationalities": [
+      "HU"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_intl_pool_v0_1"
+      ]
+    },
+    "dataNotes": [
+      "Young academy wing."
+    ],
+    "worldPoolMetadata": {
+      "workbookId": "INT-042",
+      "poolRegion": "Hungary",
+      "leagueCountry": "Hungary",
+      "sourceNationality": "Hungary",
+      "hmLevel": "Youth",
+      "prospect": true,
+      "wonderkidCandidate": false,
+      "confidence": "A",
+      "notes": "Young academy wing."
+    }
+  },
+  {
+    "playerId": "player_intl_gabor_levente_varga_5866c354",
+    "firstName": "Gábor",
+    "lastName": "Levente Varga",
+    "fullName": "Gábor Levente Varga",
+    "aliases": [],
+    "dateOfBirth": "2006-03-25",
+    "birthYear": 2006,
+    "nationalities": [
+      "HU"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_intl_pool_v0_1"
+      ]
+    },
+    "dataNotes": [
+      "Young academy back."
+    ],
+    "worldPoolMetadata": {
+      "workbookId": "INT-043",
+      "poolRegion": "Hungary",
+      "leagueCountry": "Hungary",
+      "sourceNationality": "Hungary",
+      "hmLevel": "Development",
+      "prospect": true,
+      "wonderkidCandidate": false,
+      "confidence": "A",
+      "notes": "Young academy back."
+    }
+  },
+  {
+    "playerId": "player_intl_koppany_pinter_3d1d004a",
+    "firstName": "Koppány",
+    "lastName": "Pintér",
+    "fullName": "Koppány Pintér",
+    "aliases": [],
+    "dateOfBirth": "2006-10-01",
+    "birthYear": 2006,
+    "nationalities": [
+      "HU"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_intl_pool_v0_1"
+      ]
+    },
+    "dataNotes": [
+      "High-level academy playmaker."
+    ],
+    "worldPoolMetadata": {
+      "workbookId": "INT-044",
+      "poolRegion": "Hungary",
+      "leagueCountry": "Hungary",
+      "sourceNationality": "Hungary",
+      "hmLevel": "Development",
+      "prospect": true,
+      "wonderkidCandidate": false,
+      "confidence": "A",
+      "notes": "High-level academy playmaker."
+    }
+  },
+  {
+    "playerId": "player_intl_levente_szabo_a17516f2",
+    "firstName": "Levente",
+    "lastName": "Szabó",
+    "fullName": "Levente Szabó",
+    "aliases": [],
+    "dateOfBirth": "2005-04-11",
+    "birthYear": 2005,
+    "nationalities": [
+      "HU"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_intl_pool_v0_1"
+      ]
+    },
+    "dataNotes": [
+      "Young academy pivot."
+    ],
+    "worldPoolMetadata": {
+      "workbookId": "INT-046",
+      "poolRegion": "Hungary",
+      "leagueCountry": "Hungary",
+      "sourceNationality": "Hungary",
+      "hmLevel": "Development",
+      "prospect": true,
+      "wonderkidCandidate": false,
+      "confidence": "A",
+      "notes": "Young academy pivot."
+    }
+  }
+]

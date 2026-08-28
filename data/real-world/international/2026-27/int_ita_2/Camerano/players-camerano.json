@@ -1,0 +1,39 @@
+[
+  {
+    "playerId": "player_intl_medoune_diagne_5b7c8d6e",
+    "firstName": "Medoune",
+    "lastName": "Diagne",
+    "fullName": "Medoune Diagne",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": 2008,
+    "nationalities": [
+      "IT"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "fieldConfidence": {
+      "birthYear": "PARTIAL"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_intl_pool_v0_1"
+      ]
+    },
+    "dataNotes": [
+      "Official U18 source gives birth year only."
+    ],
+    "worldPoolMetadata": {
+      "workbookId": "INT-070",
+      "poolRegion": "Italy",
+      "leagueCountry": "Italy",
+      "sourceNationality": "Italy",
+      "hmLevel": "Youth",
+      "prospect": true,
+      "wonderkidCandidate": false,
+      "confidence": "B",
+      "notes": "Official U18 source gives birth year only."
+    }
+  }
+]

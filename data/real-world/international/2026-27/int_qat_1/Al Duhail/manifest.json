@@ -1,0 +1,12 @@
+{
+  "milestone": "HM-WORLD-PLAYER-POOL-1.0",
+  "club": "Al Duhail",
+  "snapshotDate": "2026-08-27",
+  "files": [
+    "players-al_duhail.json",
+    "roster-al_duhail-2026-27.json",
+    "qc-al_duhail.json",
+    "sources-al_duhail.json",
+    "schema-foundation-v0.2.json"
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "milestone": "HM-WORLD-PLAYER-POOL-1.0",
+  "club": "REBI Balonmano Cuenca",
+  "snapshotDate": "2026-08-27",
+  "files": [
+    "players-rebi_balonmano_cuenca.json",
+    "roster-rebi_balonmano_cuenca-2026-27.json",
+    "qc-rebi_balonmano_cuenca.json",
+    "sources-rebi_balonmano_cuenca.json",
+    "schema-foundation-v0.2.json"
+  ]
+}

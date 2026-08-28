@@ -1,0 +1,113 @@
+[
+  {
+    "playerId": "player_intl_patrick_wiesmach_1e6face8",
+    "firstName": "Patrick",
+    "lastName": "Wiesmach",
+    "fullName": "Patrick Wiesmach",
+    "aliases": [],
+    "dateOfBirth": "1990-03-23",
+    "birthYear": 1990,
+    "nationalities": [
+      "DK"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_intl_pool_v0_1"
+      ]
+    },
+    "dataNotes": [
+      "Veteran top-flight wing."
+    ],
+    "worldPoolMetadata": {
+      "workbookId": "INT-014",
+      "poolRegion": "Denmark",
+      "leagueCountry": "Denmark",
+      "sourceNationality": "Denmark",
+      "hmLevel": "Established",
+      "prospect": false,
+      "wonderkidCandidate": false,
+      "confidence": "A",
+      "notes": "Veteran top-flight wing."
+    }
+  },
+  {
+    "playerId": "player_intl_lukas_nilsson_feb881aa",
+    "firstName": "Lukas",
+    "lastName": "Nilsson",
+    "fullName": "Lukas Nilsson",
+    "aliases": [],
+    "dateOfBirth": "1996-11-16",
+    "birthYear": 1996,
+    "nationalities": [
+      "SE"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_intl_pool_v0_1"
+      ]
+    },
+    "dataNotes": [
+      "Experienced international back."
+    ],
+    "worldPoolMetadata": {
+      "workbookId": "INT-015",
+      "poolRegion": "Denmark",
+      "leagueCountry": "Denmark",
+      "sourceNationality": "Sweden",
+      "hmLevel": "Top",
+      "prospect": false,
+      "wonderkidCandidate": false,
+      "confidence": "A",
+      "notes": "Experienced international back."
+    }
+  },
+  {
+    "playerId": "player_intl_sander_sagosen_c782fa51",
+    "firstName": "Sander",
+    "lastName": "Sagosen",
+    "fullName": "Sander Sagosen",
+    "aliases": [],
+    "dateOfBirth": "1995-09-14",
+    "birthYear": 1995,
+    "nationalities": [
+      "NO"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_intl_pool_v0_1"
+      ]
+    },
+    "dataNotes": [
+      "World-class playmaker/back."
+    ],
+    "worldPoolMetadata": {
+      "workbookId": "INT-017",
+      "poolRegion": "Denmark",
+      "leagueCountry": "Denmark",
+      "sourceNationality": "Norway",
+      "hmLevel": "Elite",
+      "prospect": false,
+      "wonderkidCandidate": false,
+      "confidence": "A",
+      "notes": "World-class playmaker/back."
+    }
+  }
+]

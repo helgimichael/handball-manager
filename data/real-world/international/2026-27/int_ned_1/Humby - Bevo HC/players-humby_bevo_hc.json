@@ -1,0 +1,39 @@
+[
+  {
+    "playerId": "player_intl_sverre_jansen_5a248e3d",
+    "firstName": "Sverre",
+    "lastName": "Jansen",
+    "fullName": "Sverre Jansen",
+    "aliases": [],
+    "dateOfBirth": "2007-02-22",
+    "birthYear": 2007,
+    "nationalities": [
+      "NL"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_intl_pool_v0_1"
+      ]
+    },
+    "dataNotes": [
+      "Dutch U20 left wing."
+    ],
+    "worldPoolMetadata": {
+      "workbookId": "INT-087",
+      "poolRegion": "Netherlands",
+      "leagueCountry": "Netherlands",
+      "sourceNationality": "Netherlands",
+      "hmLevel": "Development",
+      "prospect": true,
+      "wonderkidCandidate": false,
+      "confidence": "A",
+      "notes": "Dutch U20 left wing."
+    }
+  }
+]

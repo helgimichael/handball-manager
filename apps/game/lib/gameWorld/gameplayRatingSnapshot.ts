@@ -18,6 +18,7 @@ import { loadRealWorldClubSquad } from "./realWorldLoader";
 import { loadRatingDatabase, type LockedPlayerRating, type RatingValueSource } from "../editor/ratingDatabaseRepository";
 import { applyCAEstimation } from "../rating/caEstimation/applyCAEstimation";
 import { applyGamePrior } from "../rating/gamePrior/applyGamePrior";
+import { GAME_PRIOR_MODEL_VERSION } from "../rating/gamePrior/types";
 import { generatePlayerRatingProfile } from "../rating/generation/generationEngine";
 import { GENERATION_MODEL_VERSION } from "../rating/generation/types";
 import type { GeneratedGoalkeeperProfile, GeneratedOutcourtProfile } from "../rating/generation/types";
@@ -71,7 +72,7 @@ export function snapshotGameplayRatingsForClub(clubId: string): GameplayRatingCl
 
     const { profile: proposed, matchedCalibration } = proposePlayerRating(player);
     const { profile: estimated, caProposal } = applyCAEstimation(proposed, player.fullName, matchedCalibration);
-    const { profile: final, gamePriorCAApplied } = applyGamePrior(estimated, clubId);
+    const { profile: final, gamePriorCAApplied } = applyGamePrior(estimated, clubId, GAME_PRIOR_MODEL_VERSION, player.worldPoolMetadata);
     const generation = generatePlayerRatingProfile(final);
 
     // gamePriorCAApplied is checked FIRST: a player can be matched to a

@@ -1,0 +1,39 @@
+[
+  {
+    "playerId": "player_intl_federico_pizarro_d9809129",
+    "firstName": "Federico",
+    "lastName": "Pizarro",
+    "fullName": "Federico Pizarro",
+    "aliases": [],
+    "dateOfBirth": "1986-09-07",
+    "birthYear": 1986,
+    "nationalities": [
+      "AR"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_intl_pool_v0_1"
+      ]
+    },
+    "dataNotes": [
+      "Veteran; confirmed in Aug 2026 preseason."
+    ],
+    "worldPoolMetadata": {
+      "workbookId": "INT-029",
+      "poolRegion": "Spain",
+      "leagueCountry": "Spain",
+      "sourceNationality": "Argentina",
+      "hmLevel": "Established",
+      "prospect": false,
+      "wonderkidCandidate": false,
+      "confidence": "A",
+      "notes": "Veteran; confirmed in Aug 2026 preseason."
+    }
+  }
+]

@@ -1,0 +1,12 @@
+{
+  "milestone": "HM-WORLD-PLAYER-POOL-1.0",
+  "club": "Kadetten Schaffhausen",
+  "snapshotDate": "2026-08-27",
+  "files": [
+    "players-kadetten_schaffhausen.json",
+    "roster-kadetten_schaffhausen-2026-27.json",
+    "qc-kadetten_schaffhausen.json",
+    "sources-kadetten_schaffhausen.json",
+    "schema-foundation-v0.2.json"
+  ]
+}

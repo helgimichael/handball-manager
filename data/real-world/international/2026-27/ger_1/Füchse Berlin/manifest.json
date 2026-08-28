@@ -1,0 +1,12 @@
+{
+  "milestone": "HM-WORLD-PLAYER-POOL-1.0",
+  "club": "Füchse Berlin",
+  "snapshotDate": "2026-08-27",
+  "files": [
+    "players-fuchse_berlin.json",
+    "roster-fuchse_berlin-2026-27.json",
+    "qc-fuchse_berlin.json",
+    "sources-fuchse_berlin.json",
+    "schema-foundation-v0.2.json"
+  ]
+}

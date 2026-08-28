@@ -1,0 +1,76 @@
+[
+  {
+    "playerId": "player_intl_nedim_remili_1ce3d75a",
+    "firstName": "Nedim",
+    "lastName": "Remili",
+    "fullName": "Nedim Remili",
+    "aliases": [],
+    "dateOfBirth": "1995-07-18",
+    "birthYear": 1995,
+    "nationalities": [
+      "FR"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_intl_pool_v0_1"
+      ]
+    },
+    "dataNotes": [
+      "World-class right back."
+    ],
+    "worldPoolMetadata": {
+      "workbookId": "INT-045",
+      "poolRegion": "Hungary",
+      "leagueCountry": "Hungary",
+      "sourceNationality": "France",
+      "hmLevel": "Elite",
+      "prospect": false,
+      "wonderkidCandidate": false,
+      "confidence": "A",
+      "notes": "World-class right back."
+    }
+  },
+  {
+    "playerId": "player_intl_dragan_pechmalbec_0854873e",
+    "firstName": "Dragan",
+    "lastName": "Pechmalbec",
+    "fullName": "Dragan Pechmalbec",
+    "aliases": [],
+    "dateOfBirth": "1996-01-05",
+    "birthYear": 1996,
+    "nationalities": [
+      "RS"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_intl_pool_v0_1"
+      ]
+    },
+    "dataNotes": [
+      "Top-level international pivot."
+    ],
+    "worldPoolMetadata": {
+      "workbookId": "INT-047",
+      "poolRegion": "Hungary",
+      "leagueCountry": "Hungary",
+      "sourceNationality": "Serbia",
+      "hmLevel": "Top",
+      "prospect": false,
+      "wonderkidCandidate": false,
+      "confidence": "A",
+      "notes": "Top-level international pivot."
+    }
+  }
+]

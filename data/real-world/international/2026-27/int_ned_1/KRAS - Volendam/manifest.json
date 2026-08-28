@@ -1,0 +1,12 @@
+{
+  "milestone": "HM-WORLD-PLAYER-POOL-1.0",
+  "club": "KRAS/Volendam",
+  "snapshotDate": "2026-08-27",
+  "files": [
+    "players-kras_volendam.json",
+    "roster-kras_volendam-2026-27.json",
+    "qc-kras_volendam.json",
+    "sources-kras_volendam.json",
+    "schema-foundation-v0.2.json"
+  ]
+}

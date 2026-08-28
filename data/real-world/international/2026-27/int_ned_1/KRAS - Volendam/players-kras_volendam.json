@@ -1,0 +1,76 @@
+[
+  {
+    "playerId": "player_intl_mirddyn_tol_93b5c406",
+    "firstName": "Mirddyn",
+    "lastName": "Tol",
+    "fullName": "Mirddyn Tol",
+    "aliases": [],
+    "dateOfBirth": "2006-07-08",
+    "birthYear": 2006,
+    "nationalities": [
+      "NL"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_intl_pool_v0_1"
+      ]
+    },
+    "dataNotes": [
+      "Dutch U20 goalkeeper."
+    ],
+    "worldPoolMetadata": {
+      "workbookId": "INT-086",
+      "poolRegion": "Netherlands",
+      "leagueCountry": "Netherlands",
+      "sourceNationality": "Netherlands",
+      "hmLevel": "Development",
+      "prospect": true,
+      "wonderkidCandidate": false,
+      "confidence": "A",
+      "notes": "Dutch U20 goalkeeper."
+    }
+  },
+  {
+    "playerId": "player_intl_mitchel_luijten_1ccb520b",
+    "firstName": "Mitchel",
+    "lastName": "Luijten",
+    "fullName": "Mitchel Luijten",
+    "aliases": [],
+    "dateOfBirth": "2006-05-29",
+    "birthYear": 2006,
+    "nationalities": [
+      "NL"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_intl_pool_v0_1"
+      ]
+    },
+    "dataNotes": [
+      "Young right wing."
+    ],
+    "worldPoolMetadata": {
+      "workbookId": "INT-088",
+      "poolRegion": "Netherlands",
+      "leagueCountry": "Netherlands",
+      "sourceNationality": "Netherlands",
+      "hmLevel": "Development",
+      "prospect": true,
+      "wonderkidCandidate": false,
+      "confidence": "A",
+      "notes": "Young right wing."
+    }
+  }
+]

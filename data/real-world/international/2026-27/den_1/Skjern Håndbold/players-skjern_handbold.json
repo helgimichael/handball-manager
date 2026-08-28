@@ -1,0 +1,113 @@
+[
+  {
+    "playerId": "player_intl_mads_bjergfelt_245b19ef",
+    "firstName": "Mads",
+    "lastName": "Bjergfelt",
+    "fullName": "Mads Bjergfelt",
+    "aliases": [],
+    "dateOfBirth": "2004-02-06",
+    "birthYear": 2004,
+    "nationalities": [
+      "DK"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_intl_pool_v0_1"
+      ]
+    },
+    "dataNotes": [
+      "Young top-league back."
+    ],
+    "worldPoolMetadata": {
+      "workbookId": "INT-016",
+      "poolRegion": "Denmark",
+      "leagueCountry": "Denmark",
+      "sourceNationality": "Denmark",
+      "hmLevel": "Development",
+      "prospect": true,
+      "wonderkidCandidate": false,
+      "confidence": "A",
+      "notes": "Young top-league back."
+    }
+  },
+  {
+    "playerId": "player_intl_jon_lindenchrone_568308f4",
+    "firstName": "Jon",
+    "lastName": "Lindenchrone",
+    "fullName": "Jon Lindenchrone",
+    "aliases": [],
+    "dateOfBirth": "1997-01-02",
+    "birthYear": 1997,
+    "nationalities": [
+      "DK"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_intl_pool_v0_1"
+      ]
+    },
+    "dataNotes": [
+      "Established right back."
+    ],
+    "worldPoolMetadata": {
+      "workbookId": "INT-019",
+      "poolRegion": "Denmark",
+      "leagueCountry": "Denmark",
+      "sourceNationality": "Denmark",
+      "hmLevel": "Top",
+      "prospect": false,
+      "wonderkidCandidate": false,
+      "confidence": "A",
+      "notes": "Established right back."
+    }
+  },
+  {
+    "playerId": "player_intl_senjamin_buric_3f88aac8",
+    "firstName": "Senjamin",
+    "lastName": "Burić",
+    "fullName": "Senjamin Burić",
+    "aliases": [],
+    "dateOfBirth": "1990-11-20",
+    "birthYear": 1990,
+    "nationalities": [
+      "BA"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_intl_pool_v0_1"
+      ]
+    },
+    "dataNotes": [
+      "Experienced international pivot."
+    ],
+    "worldPoolMetadata": {
+      "workbookId": "INT-022",
+      "poolRegion": "Denmark",
+      "leagueCountry": "Denmark",
+      "sourceNationality": "Bosnia and Herzegovina",
+      "hmLevel": "Top",
+      "prospect": false,
+      "wonderkidCandidate": false,
+      "confidence": "A",
+      "notes": "Experienced international pivot."
+    }
+  }
+]

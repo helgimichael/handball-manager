@@ -1,0 +1,39 @@
+[
+  {
+    "playerId": "player_intl_leonardo_torchiani_ba44b94c",
+    "firstName": "Leonardo",
+    "lastName": "Torchiani",
+    "fullName": "Leonardo Torchiani",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": 2008,
+    "nationalities": [
+      "IT"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "fieldConfidence": {
+      "birthYear": "PARTIAL"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_intl_pool_v0_1"
+      ]
+    },
+    "dataNotes": [
+      "Official U18 source gives birth year only."
+    ],
+    "worldPoolMetadata": {
+      "workbookId": "INT-074",
+      "poolRegion": "Italy",
+      "leagueCountry": "Italy",
+      "sourceNationality": "Italy",
+      "hmLevel": "Youth",
+      "prospect": true,
+      "wonderkidCandidate": false,
+      "confidence": "B",
+      "notes": "Official U18 source gives birth year only."
+    }
+  }
+]

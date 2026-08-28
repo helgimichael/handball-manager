@@ -1,0 +1,12 @@
+{
+  "milestone": "HM-WORLD-PLAYER-POOL-1.0",
+  "club": "Elverum Håndball",
+  "snapshotDate": "2026-08-27",
+  "files": [
+    "players-elverum_handball.json",
+    "roster-elverum_handball-2026-27.json",
+    "qc-elverum_handball.json",
+    "sources-elverum_handball.json",
+    "schema-foundation-v0.2.json"
+  ]
+}

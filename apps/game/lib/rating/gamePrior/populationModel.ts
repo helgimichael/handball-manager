@@ -50,6 +50,22 @@ const DIVISION_1_PA_MAX_BONUS = 28;
 
 export type PopulationTier = "STANDARD" | "DIVISION_1";
 
+/**
+ * HM-WORLD-PLAYER-POOL-1.0: an explicit, self-contained baseline
+ * profile -- the international pool's own per-competition-tier lookup
+ * (clubContextTier.ts) builds one of these and passes it in as
+ * `profileOverride`, bypassing the STANDARD/DIVISION_1 tier lookup
+ * entirely. Never affects any existing caller: STANDARD/DIVISION_1
+ * behavior is completely unchanged when `profileOverride` is omitted.
+ */
+export interface PopulationBaselineProfile {
+  baselineCA: number;
+  caSpread: number;
+  caCeiling: number;
+  caFloor: number;
+  paMaxBonus: number;
+}
+
 function clamp(value: number, min: number, max: number): number {
   return Math.min(max, Math.max(min, value));
 }
@@ -60,13 +76,15 @@ function clamp(value: number, min: number, max: number): number {
  * baseline -- never a flat per-club bonus, just a shift to the same
  * bounded distribution every club draws from. `tier` defaults to
  * "STANDARD" -- every pre-existing caller (Handbollsligan/Allsvenskan)
- * is byte-identical to before this parameter existed.
+ * is byte-identical to before this parameter existed. `profileOverride`
+ * (HM-WORLD-PLAYER-POOL-1.0), when provided, replaces the tier lookup
+ * entirely -- used only for international-pool clubIds.
  */
-export function generateGamePriorCA(playerId: string, clubShift: number, modelVersion: string, tier: PopulationTier = "STANDARD"): number {
-  const jitter = seededOffset(`${playerId}:GAME_PRIOR_CA:${modelVersion}`, tier === "DIVISION_1" ? DIVISION_1_CA_SPREAD : CA_SPREAD);
-  const baseline = tier === "DIVISION_1" ? DIVISION_1_BASELINE_CA : BASELINE_CA;
-  const floor = tier === "DIVISION_1" ? DIVISION_1_CA_FLOOR : CA_FLOOR;
-  const ceiling = tier === "DIVISION_1" ? DIVISION_1_CA_CEILING : CA_CEILING;
+export function generateGamePriorCA(playerId: string, clubShift: number, modelVersion: string, tier: PopulationTier = "STANDARD", profileOverride?: PopulationBaselineProfile): number {
+  const jitter = seededOffset(`${playerId}:GAME_PRIOR_CA:${modelVersion}`, profileOverride ? profileOverride.caSpread : tier === "DIVISION_1" ? DIVISION_1_CA_SPREAD : CA_SPREAD);
+  const baseline = profileOverride ? profileOverride.baselineCA : tier === "DIVISION_1" ? DIVISION_1_BASELINE_CA : BASELINE_CA;
+  const floor = profileOverride ? profileOverride.caFloor : tier === "DIVISION_1" ? DIVISION_1_CA_FLOOR : CA_FLOOR;
+  const ceiling = profileOverride ? profileOverride.caCeiling : tier === "DIVISION_1" ? DIVISION_1_CA_CEILING : CA_CEILING;
   const value = baseline + clubShift + jitter;
   return Math.round(clamp(value, Math.max(CA_MIN, floor), Math.min(CA_MAX, ceiling)));
 }
@@ -75,10 +93,11 @@ export function generateGamePriorCA(playerId: string, clubShift: number, modelVe
  * Deterministic game-prior PA: CA plus a small, non-negative, bounded
  * offset -- structurally can never be below CA (Part I), no age/
  * nationality input, no "wonderkid" inflation (the bonus is capped
- * small, wider for Division 1 -- see DIVISION_1_PA_MAX_BONUS's own doc).
+ * small, wider for Division 1/international wonderkid candidates -- see
+ * each profile's own doc).
  */
-export function generateGamePriorPA(playerId: string, ca: number, modelVersion: string, tier: PopulationTier = "STANDARD"): number {
-  const maxBonus = tier === "DIVISION_1" ? DIVISION_1_PA_MAX_BONUS : PA_MAX_BONUS;
+export function generateGamePriorPA(playerId: string, ca: number, modelVersion: string, tier: PopulationTier = "STANDARD", profileOverride?: PopulationBaselineProfile): number {
+  const maxBonus = profileOverride ? profileOverride.paMaxBonus : tier === "DIVISION_1" ? DIVISION_1_PA_MAX_BONUS : PA_MAX_BONUS;
   const rawOffset = seededOffset(`${playerId}:GAME_PRIOR_PA:${modelVersion}`, maxBonus);
   const bonus = clamp(Math.abs(rawOffset), PA_MIN_BONUS, maxBonus);
   return Math.min(CA_MAX, ca + bonus);

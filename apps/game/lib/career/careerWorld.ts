@@ -17,17 +17,30 @@ import type { CareerState } from "./types";
 // creation (and backfills it for an existing save).
 const DIVISION_1_COMPETITION_IDS = ["se_division1_norra", "se_division1_sodra"] as const;
 
+// HM-WORLD-PLAYER-POOL-1.0: the 16 competitions the 100-player
+// international pool's clubs belong to (6 reused existing mock
+// competitions + 10 new ones) -- same "always a recruitment/scouting
+// source, regardless of the manager's own competition" treatment as
+// Division 1 above. See CareerContext.tsx's fetchWorldPoolWorldSquads.
+export const WORLD_POOL_COMPETITION_IDS = [
+  "ger-1", "den-1", "nor-1", "esp-1", "hun-1", "isl-1",
+  "int-aut-1", "int-fro-1", "int-hun-2b", "int-ita-1", "int-ita-2",
+  "int-ned-1", "int-pol-1", "int-por-1", "int-qat-1", "int-che-1",
+] as const;
+
 /**
  * Every club whose squad is a valid Scouting/Transfers candidate source
  * for this career: every other club in the manager's own competition,
- * plus every Division 1 Norra/Södra club (never the manager's own club).
- * Shared by app/career/scouting/page.tsx and app/career/transfers/page.tsx
- * so both surfaces stay in sync.
+ * plus every Division 1 Norra/Södra club, plus every international
+ * player-pool club (never the manager's own club). Shared by
+ * app/career/scouting/page.tsx and app/career/transfers/page.tsx so
+ * both surfaces stay in sync.
  */
 export function getExternalCandidateClubs(career: CareerState): Club[] {
   const ownCompetitionClubs = getClubsByCompetition(career.competitionId);
   const division1Clubs = DIVISION_1_COMPETITION_IDS.flatMap((id) => getClubsByCompetition(id));
-  return [...ownCompetitionClubs, ...division1Clubs].filter((c) => c.id !== career.playerClubId);
+  const worldPoolClubs = WORLD_POOL_COMPETITION_IDS.flatMap((id) => getClubsByCompetition(id));
+  return [...ownCompetitionClubs, ...division1Clubs, ...worldPoolClubs].filter((c) => c.id !== career.playerClubId);
 }
 
 /** The manager's own club, resolved from career state rather than assumed to be IFK Tumba. */

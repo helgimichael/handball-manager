@@ -1,0 +1,12 @@
+{
+  "milestone": "HM-WORLD-PLAYER-POOL-1.0",
+  "club": "Serra Fasano",
+  "snapshotDate": "2026-08-27",
+  "files": [
+    "players-serra_fasano.json",
+    "roster-serra_fasano-2026-27.json",
+    "qc-serra_fasano.json",
+    "sources-serra_fasano.json",
+    "schema-foundation-v0.2.json"
+  ]
+}

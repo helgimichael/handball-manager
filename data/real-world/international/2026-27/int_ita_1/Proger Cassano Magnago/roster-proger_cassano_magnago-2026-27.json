@@ -1,0 +1,30 @@
+[
+  {
+    "rosterEntryId": "intl_2026_27_proger_cassano_magnago__1772ec2c",
+    "playerId": "player_intl_mirko_faraci_1772ec2c",
+    "clubId": "int-cassano",
+    "competitionId": "int-ita-1",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": null,
+    "sourcePosition": "H9",
+    "primaryPosition": "H9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "PARTIAL",
+    "sourceRefs": {
+      "roster": [
+        "src_intl_pool_v0_1"
+      ],
+      "position": [
+        "src_intl_pool_v0_1"
+      ]
+    },
+    "dataNotes": []
+  }
+]

@@ -1,0 +1,30 @@
+[
+  {
+    "rosterEntryId": "intl_2026_27_sah_aarhus__3d9e5b34",
+    "playerId": "player_intl_kristjan_orn_kristjansson_3d9e5b34",
+    "clubId": "den1-skanderborg",
+    "competitionId": "den-1",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": null,
+    "sourcePosition": "H9",
+    "primaryPosition": "H9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_intl_pool_v0_1"
+      ],
+      "position": [
+        "src_intl_pool_v0_1"
+      ]
+    },
+    "dataNotes": []
+  }
+]

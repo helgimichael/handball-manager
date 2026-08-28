@@ -1,0 +1,12 @@
+{
+  "milestone": "HM-WORLD-PLAYER-POOL-1.0",
+  "club": "Camerano",
+  "snapshotDate": "2026-08-27",
+  "files": [
+    "players-camerano.json",
+    "roster-camerano-2026-27.json",
+    "qc-camerano.json",
+    "sources-camerano.json",
+    "schema-foundation-v0.2.json"
+  ]
+}

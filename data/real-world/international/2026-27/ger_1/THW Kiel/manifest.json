@@ -1,0 +1,12 @@
+{
+  "milestone": "HM-WORLD-PLAYER-POOL-1.0",
+  "club": "THW Kiel",
+  "snapshotDate": "2026-08-27",
+  "files": [
+    "players-thw_kiel.json",
+    "roster-thw_kiel-2026-27.json",
+    "qc-thw_kiel.json",
+    "sources-thw_kiel.json",
+    "schema-foundation-v0.2.json"
+  ]
+}

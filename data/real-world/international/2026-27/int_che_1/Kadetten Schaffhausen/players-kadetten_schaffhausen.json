@@ -1,0 +1,224 @@
+[
+  {
+    "playerId": "player_intl_nikos_sarlos_c37b2ecc",
+    "firstName": "Nikos",
+    "lastName": "Sarlos",
+    "fullName": "Nikos Sarlos",
+    "aliases": [],
+    "dateOfBirth": "2005-01-27",
+    "birthYear": 2005,
+    "nationalities": [
+      "CH"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_intl_pool_v0_1"
+      ]
+    },
+    "dataNotes": [
+      "2026 move to Kadetten confirmed."
+    ],
+    "worldPoolMetadata": {
+      "workbookId": "INT-075",
+      "poolRegion": "Switzerland",
+      "leagueCountry": "Switzerland",
+      "sourceNationality": "Switzerland",
+      "hmLevel": "Development",
+      "prospect": true,
+      "wonderkidCandidate": false,
+      "confidence": "A",
+      "notes": "2026 move to Kadetten confirmed."
+    }
+  },
+  {
+    "playerId": "player_intl_milan_lutz_3c001429",
+    "firstName": "Milan",
+    "lastName": "Lutz",
+    "fullName": "Milan Lutz",
+    "aliases": [],
+    "dateOfBirth": "2008-06-21",
+    "birthYear": 2008,
+    "nationalities": [
+      "DE"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_intl_pool_v0_1"
+      ]
+    },
+    "dataNotes": [
+      "High-upside young right wing."
+    ],
+    "worldPoolMetadata": {
+      "workbookId": "INT-076",
+      "poolRegion": "Switzerland",
+      "leagueCountry": "Switzerland",
+      "sourceNationality": "Germany",
+      "hmLevel": "Youth",
+      "prospect": true,
+      "wonderkidCandidate": true,
+      "confidence": "A",
+      "notes": "High-upside young right wing."
+    }
+  },
+  {
+    "playerId": "player_intl_o_inn_or_rikhar_sson_8f49e60f",
+    "firstName": "Óðinn",
+    "lastName": "Þór Ríkharðsson",
+    "fullName": "Óðinn Þór Ríkharðsson",
+    "aliases": [],
+    "dateOfBirth": "1997-10-23",
+    "birthYear": 1997,
+    "nationalities": [
+      "IS"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_intl_pool_v0_1"
+      ]
+    },
+    "dataNotes": [
+      "Established Icelandic international."
+    ],
+    "worldPoolMetadata": {
+      "workbookId": "INT-077",
+      "poolRegion": "Switzerland",
+      "leagueCountry": "Switzerland",
+      "sourceNationality": "Iceland",
+      "hmLevel": "Top",
+      "prospect": false,
+      "wonderkidCandidate": false,
+      "confidence": "A",
+      "notes": "Established Icelandic international."
+    }
+  },
+  {
+    "playerId": "player_intl_luka_maros_9c0c9644",
+    "firstName": "Luka",
+    "lastName": "Maros",
+    "fullName": "Luka Maros",
+    "aliases": [],
+    "dateOfBirth": "1994-03-20",
+    "birthYear": 1994,
+    "nationalities": [
+      "CH"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_intl_pool_v0_1"
+      ]
+    },
+    "dataNotes": [
+      "Experienced Swiss international."
+    ],
+    "worldPoolMetadata": {
+      "workbookId": "INT-078",
+      "poolRegion": "Switzerland",
+      "leagueCountry": "Switzerland",
+      "sourceNationality": "Switzerland",
+      "hmLevel": "Top",
+      "prospect": false,
+      "wonderkidCandidate": false,
+      "confidence": "A",
+      "notes": "Experienced Swiss international."
+    }
+  },
+  {
+    "playerId": "player_intl_frederik_tilsted_12f9edd1",
+    "firstName": "Frederik",
+    "lastName": "Tilsted",
+    "fullName": "Frederik Tilsted",
+    "aliases": [],
+    "dateOfBirth": "1999-05-05",
+    "birthYear": 1999,
+    "nationalities": [
+      "DK"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_intl_pool_v0_1"
+      ]
+    },
+    "dataNotes": [
+      "2026/27 Danish signing; playmaker."
+    ],
+    "worldPoolMetadata": {
+      "workbookId": "INT-079",
+      "poolRegion": "Switzerland",
+      "leagueCountry": "Switzerland",
+      "sourceNationality": "Denmark",
+      "hmLevel": "Top",
+      "prospect": false,
+      "wonderkidCandidate": false,
+      "confidence": "A",
+      "notes": "2026/27 Danish signing; playmaker."
+    }
+  },
+  {
+    "playerId": "player_intl_lucas_meister_bb2f725d",
+    "firstName": "Lucas",
+    "lastName": "Meister",
+    "fullName": "Lucas Meister",
+    "aliases": [],
+    "dateOfBirth": "1996-08-16",
+    "birthYear": 1996,
+    "nationalities": [
+      "CH"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_intl_pool_v0_1"
+      ]
+    },
+    "dataNotes": [
+      "Swiss international pivot."
+    ],
+    "worldPoolMetadata": {
+      "workbookId": "INT-080",
+      "poolRegion": "Switzerland",
+      "leagueCountry": "Switzerland",
+      "sourceNationality": "Switzerland",
+      "hmLevel": "Top",
+      "prospect": false,
+      "wonderkidCandidate": false,
+      "confidence": "A",
+      "notes": "Swiss international pivot."
+    }
+  }
+]

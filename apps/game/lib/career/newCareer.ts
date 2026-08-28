@@ -16,6 +16,7 @@ import { ensureCareerPlayerClubHistory } from "../economy/clubHistoryIntegration
 import { ensureCareerAllClubEconomies } from "../economy/clubEconomyIntegration";
 import { ensureCareerPlayerSquadStatus } from "./squadStatus";
 import { ensureDivision1PlayerEconomicIdentity } from "./division1Integration";
+import { ensureWorldPoolPlayerEconomicIdentity } from "./worldPoolIntegration";
 import { seedPermanentBTeamPartnerships } from "./clubPartnerships";
 import { seedScoutPool } from "../staff/scoutPool";
 
@@ -217,11 +218,14 @@ export function createNewCareerState(
   // doc for why this is NOT the same as giving Division 1 clubs a full
   // ClubEconomyBaseline (out of scope).
   const withDivision1Economy = ensureDivision1PlayerEconomicIdentity(withEconomies);
+  // HM-WORLD-PLAYER-POOL-1.0: the same treatment as Division 1 above,
+  // for the 100-player international pool's own 31 clubs/16 competitions.
+  const withWorldPoolEconomy = ensureWorldPoolPlayerEconomicIdentity(withDivision1Economy);
   // HM-DATA-ALLSVENSKAN-1.1B Part 3: seeds the manager's own club's
   // persistent squad-status tier from career start -- see squadStatus.ts's
   // own doc for why this is a real, honest starting default, never a
   // researched assessment.
-  const withSquadStatus = ensureCareerPlayerSquadStatus(withDivision1Economy, playerClubId, playerSquad);
+  const withSquadStatus = ensureCareerPlayerSquadStatus(withWorldPoolEconomy, playerClubId, playerSquad);
   // HM-CLUB-PARTNERSHIPS-1.0: the five canonical AFFILIATED_B_TEAM
   // relations exist from career start, regardless of which club the
   // manager plays -- world-state facts, not manager-specific choices.

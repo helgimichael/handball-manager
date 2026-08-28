@@ -1,0 +1,61 @@
+{
+  "schemaVersion": "HM-REAL-WORLD-0.2",
+  "idStandard": {
+    "playerId": "player_intl_<normalized-name-slug>_<persistent-8hex>",
+    "rule": "The token is generated once and persisted (deterministically hashed from the workbook's own stable ID + full name), so re-running this generator is idempotent.",
+    "normalizationExamples": {
+      "Mathias Gidsel": "mathias_gidsel"
+    }
+  },
+  "playerEntity": {
+    "separatesPersonFromRoster": true,
+    "fieldsAddedAfterPilot": [
+      "birthYear",
+      "aliases",
+      "fieldConfidence",
+      "sourceRefs",
+      "dataNotes",
+      "worldPoolMetadata"
+    ]
+  },
+  "rosterEntity": {
+    "fieldsAddedAfterPilot": [
+      "rosterEntryId",
+      "competitionId",
+      "snapshotDate",
+      "rosterStatus",
+      "contract"
+    ],
+    "contractShape": {
+      "untilDate": "YYYY-MM-DD or null",
+      "untilSeason": "YYYY/YY or null",
+      "optionUntilSeason": "YYYY/YY or null"
+    }
+  },
+  "confidenceValues": [
+    "VERIFIED",
+    "PARTIAL",
+    "UNKNOWN"
+  ],
+  "rosterStatusValues": [
+    "CONFIRMED",
+    "ANNOUNCED_IN",
+    "REGISTERED",
+    "LOAN_IN",
+    "LOAN_OUT",
+    "DEPARTING",
+    "LEFT",
+    "UNCERTAIN"
+  ],
+  "canonicalPositions": [
+    "MV",
+    "V6",
+    "H6",
+    "V9",
+    "H9",
+    "M9",
+    "M6"
+  ],
+  "missingDataRule": "Use null. Never infer an exact value from age, role, old shirt number, nationality assumptions, or typical positional versatility.",
+  "worldPoolMetadataRule": "HM-WORLD-PLAYER-POOL-1.0: HM Level/Prospect/Wonderkid Candidate/Confidence/Notes are GAME-DESIGN METADATA, not factual claims about the real person -- see lib/rating/gamePrior for how HM Level/Wonderkid feed CA/PA generation as a bounded, non-authoritative signal, never a second CA. workbookId/sourceUrls are provenance only."
+}

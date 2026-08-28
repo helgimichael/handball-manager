@@ -54,6 +54,8 @@ import type { RawClubStaffIdentityLike } from "../staff/staffRosterResolution";
 import { ensureCareerCompetitionStaffRoster, recalibrateStaffEmploymentWages } from "../staff/staffCareerIntegration";
 import { offerStaffContract, type StaffOfferParams, type StaffOfferResult } from "../staff/staffRecruitment";
 import { ensureDivision1PlayerEconomicIdentity } from "./division1Integration";
+import { ensureWorldPoolPlayerEconomicIdentity } from "./worldPoolIntegration";
+import { WORLD_POOL_COMPETITION_IDS } from "./careerWorld";
 
 type CareerContextValue = {
   save: CareerSave;
@@ -234,6 +236,20 @@ async function fetchDivision1GameplayRatings(): Promise<Record<string, GameplayP
   return Object.assign({}, ...snapshots);
 }
 
+// HM-WORLD-PLAYER-POOL-1.0: the 100-player international pool's clubs
+// must exist in world state regardless of which competition the manager
+// plays -- same unconditional "always fetch, always merge" treatment as
+// Division 1 above, across the pool's 16 competitions.
+async function fetchWorldPoolWorldSquads(): Promise<Record<string, PlayerMock[]>> {
+  const snapshots = await Promise.all(WORLD_POOL_COMPETITION_IDS.map(fetchWorldSquads));
+  return Object.assign({}, ...snapshots);
+}
+
+async function fetchWorldPoolGameplayRatings(): Promise<Record<string, GameplayPlayerRating[]>> {
+  const snapshots = await Promise.all(WORLD_POOL_COMPETITION_IDS.map(fetchGameplayRatings));
+  return Object.assign({}, ...snapshots);
+}
+
 /**
  * HM-IDENTITY-0.3: mirrors fetchWorldSquads exactly, for the same reason
  * -- the AI-derived TeamTacticalProfile snapshot is resolved server-side
@@ -330,6 +346,20 @@ async function getOrCreateCareerState(save: CareerSave): Promise<CareerState> {
         migrated = ensureDivision1PlayerEconomicIdentity(migrated);
       }
     }
+    // HM-WORLD-PLAYER-POOL-1.0: same top-up pattern, for the international
+    // pool -- any one known pool clubId is enough to detect a missing backfill.
+    if (migrated.worldSquads["ger1-kiel"] === undefined) {
+      const worldPoolWorldSquads = await fetchWorldPoolWorldSquads();
+      if (Object.keys(worldPoolWorldSquads).length > 0) {
+        const worldPoolGameplayRatings = await fetchWorldPoolGameplayRatings();
+        migrated = {
+          ...migrated,
+          worldSquads: { ...migrated.worldSquads, ...worldPoolWorldSquads },
+          gameplayRatings: { ...migrated.gameplayRatings, ...worldPoolGameplayRatings },
+        };
+        migrated = ensureWorldPoolPlayerEconomicIdentity(migrated);
+      }
+    }
     if (migrated !== save.careerState) {
       saveCareerState(save.saveId, migrated);
     }
@@ -339,16 +369,18 @@ async function getOrCreateCareerState(save: CareerSave): Promise<CareerState> {
   const isRealWorld = club?.dataSource === "REAL_WORLD";
   const worldSquads = isRealWorld ? await fetchWorldSquads(club.competitionId) : {};
   const div1WorldSquads = await fetchDivision1WorldSquads();
+  const worldPoolWorldSquads = await fetchWorldPoolWorldSquads();
   const aiTacticalPreferences = isRealWorld ? await fetchAiTacticalPreferences(club.competitionId, "2026/27", GAME_CURRENT_DATE) : {};
   const gameplayRatings = isRealWorld ? await fetchGameplayRatings(club.competitionId) : {};
   const div1GameplayRatings = await fetchDivision1GameplayRatings();
+  const worldPoolGameplayRatings = await fetchWorldPoolGameplayRatings();
   const staffIdentityByClub = isRealWorld ? await fetchAllClubsStaffIdentity(club.competitionId) : {};
   const fresh = createNewCareerState(
     save.saveId,
     save.clubId,
-    { ...worldSquads, ...div1WorldSquads },
+    { ...worldSquads, ...div1WorldSquads, ...worldPoolWorldSquads },
     aiTacticalPreferences,
-    { ...gameplayRatings, ...div1GameplayRatings },
+    { ...gameplayRatings, ...div1GameplayRatings, ...worldPoolGameplayRatings },
     staffIdentityByClub,
     save.preseasonStart,
   );

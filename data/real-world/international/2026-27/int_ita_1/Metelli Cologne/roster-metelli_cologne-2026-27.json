@@ -1,0 +1,30 @@
+[
+  {
+    "rosterEntryId": "intl_2026_27_metelli_cologne__ba44b94c",
+    "playerId": "player_intl_leonardo_torchiani_ba44b94c",
+    "clubId": "int-cologno",
+    "competitionId": "int-ita-1",
+    "season": "2026/27",
+    "snapshotDate": "2026-08-27",
+    "shirtNumber": null,
+    "sourcePosition": "M6",
+    "primaryPosition": "M6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "PARTIAL",
+    "sourceRefs": {
+      "roster": [
+        "src_intl_pool_v0_1"
+      ],
+      "position": [
+        "src_intl_pool_v0_1"
+      ]
+    },
+    "dataNotes": []
+  }
+]

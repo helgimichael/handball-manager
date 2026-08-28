@@ -161,6 +161,83 @@ export const COMPETITIONS: readonly Competition[] = [
     name: "1. deild karla",
     sourceNote: "Verified: Wikipedia (2025 1. deild karla).",
   },
+
+  // --- HM-WORLD-PLAYER-POOL-1.0: 10 new competitions required by the
+  // 100-player international pool. NON-PLAYABLE -- never added to
+  // nations.ts's NATIONS array, so these never appear in New Game's
+  // country/league picker regardless of `tier`. Names are the source
+  // workbook's own current league names; no fixture/standings
+  // simulation exists for any of them.
+  {
+    id: "int-aut-1",
+    nation: "AUT",
+    tier: 1,
+    name: "HLA Meisterliga",
+    sourceNote: "HM-WORLD-PLAYER-POOL-1.0: from the international player pool source workbook (research snapshot 2026-08-27). Non-playable recruitment/scouting/transfer-target pool only.",
+  },
+  {
+    id: "int-fro-1",
+    nation: "FRO",
+    tier: 1,
+    name: "Burn-kappingin",
+    sourceNote: "HM-WORLD-PLAYER-POOL-1.0: from the international player pool source workbook (research snapshot 2026-08-27). Non-playable recruitment/scouting/transfer-target pool only.",
+  },
+  {
+    id: "int-hun-2b",
+    nation: "HUN",
+    tier: 2,
+    name: "NB I/B",
+    sourceNote: "HM-WORLD-PLAYER-POOL-1.0: Hungary's reserve/development tier feeding NB I -- distinct from the pre-existing hun-2 (NB II). From the international player pool source workbook (research snapshot 2026-08-27). Non-playable.",
+  },
+  {
+    id: "int-ita-1",
+    nation: "ITA",
+    tier: 1,
+    name: "Serie A Gold",
+    sourceNote: "HM-WORLD-PLAYER-POOL-1.0: from the international player pool source workbook (research snapshot 2026-08-27). Non-playable recruitment/scouting/transfer-target pool only.",
+  },
+  {
+    id: "int-ita-2",
+    nation: "ITA",
+    tier: 2,
+    name: "Serie A Silver",
+    sourceNote: "HM-WORLD-PLAYER-POOL-1.0: from the international player pool source workbook (research snapshot 2026-08-27). Non-playable recruitment/scouting/transfer-target pool only.",
+  },
+  {
+    id: "int-ned-1",
+    nation: "NED",
+    tier: 1,
+    name: "Super Handball League",
+    sourceNote: "HM-WORLD-PLAYER-POOL-1.0: from the international player pool source workbook (research snapshot 2026-08-27). Non-playable recruitment/scouting/transfer-target pool only.",
+  },
+  {
+    id: "int-pol-1",
+    nation: "POL",
+    tier: 1,
+    name: "ORLEN Superliga",
+    sourceNote: "HM-WORLD-PLAYER-POOL-1.0: from the international player pool source workbook (research snapshot 2026-08-27). Non-playable recruitment/scouting/transfer-target pool only.",
+  },
+  {
+    id: "int-por-1",
+    nation: "POR",
+    tier: 1,
+    name: "Campeonato Betclic Masculino",
+    sourceNote: "HM-WORLD-PLAYER-POOL-1.0: from the international player pool source workbook (research snapshot 2026-08-27). Non-playable recruitment/scouting/transfer-target pool only.",
+  },
+  {
+    id: "int-qat-1",
+    nation: "QAT",
+    tier: 1,
+    name: "Qatar Handball League",
+    sourceNote: "HM-WORLD-PLAYER-POOL-1.0: from the international player pool source workbook (research snapshot 2026-08-27). Non-playable recruitment/scouting/transfer-target pool only.",
+  },
+  {
+    id: "int-che-1",
+    nation: "CHE",
+    tier: 1,
+    name: "Quickline Handball League",
+    sourceNote: "HM-WORLD-PLAYER-POOL-1.0: from the international player pool source workbook (research snapshot 2026-08-27). Non-playable recruitment/scouting/transfer-target pool only.",
+  },
 ];
 
 export function getCompetitionsByNation(nation: string): readonly Competition[] {

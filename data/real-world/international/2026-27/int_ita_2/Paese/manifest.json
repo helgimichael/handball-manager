@@ -1,0 +1,12 @@
+{
+  "milestone": "HM-WORLD-PLAYER-POOL-1.0",
+  "club": "Paese",
+  "snapshotDate": "2026-08-27",
+  "files": [
+    "players-paese.json",
+    "roster-paese-2026-27.json",
+    "qc-paese.json",
+    "sources-paese.json",
+    "schema-foundation-v0.2.json"
+  ]
+}

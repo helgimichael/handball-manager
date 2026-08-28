@@ -1,0 +1,35 @@
+{
+  "clubId": "nor1-elverum",
+  "clubName": "Elverum Håndball",
+  "competitionId": "nor-1",
+  "season": "2026/27",
+  "snapshotDate": "2026-08-27",
+  "datasetStatus": "PRESEASON",
+  "qcStatus": "VERIFIED",
+  "expectedRosterCount": 8,
+  "exportedRosterCount": 8,
+  "checks": {
+    "currentLeagueRosterLocated": true,
+    "allLeagueRosterNamesCaptured": false,
+    "incomingTransfersChecked": false,
+    "departuresChecked": false,
+    "duplicatePlayers": 0,
+    "canonicalPositionsValid": true,
+    "guessedSecondaryPositions": 0,
+    "guessedDatesOfBirth": 0,
+    "guessedHeights": 8,
+    "guessedNationalities": 0,
+    "guessedContractDates": 8
+  },
+  "knownConflicts": [],
+  "staleSourceWarnings": [
+    "HM-WORLD-PLAYER-POOL-1.0: this club's roster here is ONLY the subset of players present in the 100-player international pool -- never presented or treated as that club's complete real squad."
+  ],
+  "openFieldsSummary": {
+    "exactDateOfBirthMissing": 0,
+    "heightMissing": 8,
+    "handednessMissing": 8,
+    "shirtNumberMissing": 8,
+    "contractEndMissing": 8
+  }
+}

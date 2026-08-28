@@ -1,0 +1,261 @@
+[
+  {
+    "playerId": "player_intl_bjorgvin_pall_gustavsson_aa996f6b",
+    "firstName": "Björgvin",
+    "lastName": "Páll Gústavsson",
+    "fullName": "Björgvin Páll Gústavsson",
+    "aliases": [],
+    "dateOfBirth": "1985-05-24",
+    "birthYear": 1985,
+    "nationalities": [
+      "IS"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_intl_pool_v0_1"
+      ]
+    },
+    "dataNotes": [
+      "Veteran Icelandic international."
+    ],
+    "worldPoolMetadata": {
+      "workbookId": "INT-055",
+      "poolRegion": "Iceland",
+      "leagueCountry": "Iceland",
+      "sourceNationality": "Iceland",
+      "hmLevel": "Established",
+      "prospect": false,
+      "wonderkidCandidate": false,
+      "confidence": "A",
+      "notes": "Veteran Icelandic international."
+    }
+  },
+  {
+    "playerId": "player_intl_daniel_orn_gu_mundsson_7f2f4533",
+    "firstName": "Daníel",
+    "lastName": "Örn Guðmundsson",
+    "fullName": "Daníel Örn Guðmundsson",
+    "aliases": [],
+    "dateOfBirth": "2004-06-28",
+    "birthYear": 2004,
+    "nationalities": [
+      "IS"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_intl_pool_v0_1"
+      ]
+    },
+    "dataNotes": [
+      "Young domestic top-flight wing."
+    ],
+    "worldPoolMetadata": {
+      "workbookId": "INT-056",
+      "poolRegion": "Iceland",
+      "leagueCountry": "Iceland",
+      "sourceNationality": "Iceland",
+      "hmLevel": "Development",
+      "prospect": true,
+      "wonderkidCandidate": false,
+      "confidence": "A",
+      "notes": "Young domestic top-flight wing."
+    }
+  },
+  {
+    "playerId": "player_intl_allan_nor_berg_da0e1197",
+    "firstName": "Allan",
+    "lastName": "Norðberg",
+    "fullName": "Allan Norðberg",
+    "aliases": [],
+    "dateOfBirth": "1995-03-25",
+    "birthYear": 1995,
+    "nationalities": [
+      "FO"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_intl_pool_v0_1"
+      ]
+    },
+    "dataNotes": [
+      "Experienced Faroese international wing."
+    ],
+    "worldPoolMetadata": {
+      "workbookId": "INT-057",
+      "poolRegion": "Iceland",
+      "leagueCountry": "Iceland",
+      "sourceNationality": "Faroe Islands",
+      "hmLevel": "Pro",
+      "prospect": false,
+      "wonderkidCandidate": false,
+      "confidence": "A",
+      "notes": "Experienced Faroese international wing."
+    }
+  },
+  {
+    "playerId": "player_intl_magnus_oli_magnusson_958da689",
+    "firstName": "Magnús",
+    "lastName": "Óli Magnússon",
+    "fullName": "Magnús Óli Magnússon",
+    "aliases": [],
+    "dateOfBirth": "1992-05-08",
+    "birthYear": 1992,
+    "nationalities": [
+      "IS"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_intl_pool_v0_1"
+      ]
+    },
+    "dataNotes": [
+      "Experienced top domestic back."
+    ],
+    "worldPoolMetadata": {
+      "workbookId": "INT-058",
+      "poolRegion": "Iceland",
+      "leagueCountry": "Iceland",
+      "sourceNationality": "Iceland",
+      "hmLevel": "Top",
+      "prospect": false,
+      "wonderkidCandidate": false,
+      "confidence": "A",
+      "notes": "Experienced top domestic back."
+    }
+  },
+  {
+    "playerId": "player_intl_gunnar_robertsson_e2320300",
+    "firstName": "Gunnar",
+    "lastName": "Róbertsson",
+    "fullName": "Gunnar Róbertsson",
+    "aliases": [],
+    "dateOfBirth": "2008-06-22",
+    "birthYear": 2008,
+    "nationalities": [
+      "IS"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_intl_pool_v0_1"
+      ]
+    },
+    "dataNotes": [
+      "Very young senior-squad playmaker."
+    ],
+    "worldPoolMetadata": {
+      "workbookId": "INT-059",
+      "poolRegion": "Iceland",
+      "leagueCountry": "Iceland",
+      "sourceNationality": "Iceland",
+      "hmLevel": "Youth",
+      "prospect": true,
+      "wonderkidCandidate": true,
+      "confidence": "A",
+      "notes": "Very young senior-squad playmaker."
+    }
+  },
+  {
+    "playerId": "player_intl_agnar_smari_jonsson_90d14fd9",
+    "firstName": "Agnar",
+    "lastName": "Smári Jónsson",
+    "fullName": "Agnar Smári Jónsson",
+    "aliases": [],
+    "dateOfBirth": "1993-10-11",
+    "birthYear": 1993,
+    "nationalities": [
+      "IS"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_intl_pool_v0_1"
+      ]
+    },
+    "dataNotes": [
+      "Experienced right back."
+    ],
+    "worldPoolMetadata": {
+      "workbookId": "INT-060",
+      "poolRegion": "Iceland",
+      "leagueCountry": "Iceland",
+      "sourceNationality": "Iceland",
+      "hmLevel": "Top",
+      "prospect": false,
+      "wonderkidCandidate": false,
+      "confidence": "A",
+      "notes": "Experienced right back."
+    }
+  },
+  {
+    "playerId": "player_intl_orvaldur_orn_orvaldsson_fdb1737b",
+    "firstName": "Þorvaldur",
+    "lastName": "Örn Þorvaldsson",
+    "fullName": "Þorvaldur Örn Þorvaldsson",
+    "aliases": [],
+    "dateOfBirth": "2004-03-30",
+    "birthYear": 2004,
+    "nationalities": [
+      "IS"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_intl_pool_v0_1"
+      ]
+    },
+    "dataNotes": [
+      "Young pivot."
+    ],
+    "worldPoolMetadata": {
+      "workbookId": "INT-061",
+      "poolRegion": "Iceland",
+      "leagueCountry": "Iceland",
+      "sourceNationality": "Iceland",
+      "hmLevel": "Development",
+      "prospect": true,
+      "wonderkidCandidate": false,
+      "confidence": "A",
+      "notes": "Young pivot."
+    }
+  }
+]

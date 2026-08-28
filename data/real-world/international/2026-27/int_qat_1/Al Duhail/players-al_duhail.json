@@ -1,0 +1,224 @@
+[
+  {
+    "playerId": "player_intl_bilal_lepenica_5465c7b9",
+    "firstName": "Bilal",
+    "lastName": "Lepenica",
+    "fullName": "Bilal Lepenica",
+    "aliases": [],
+    "dateOfBirth": "1996-12-26",
+    "birthYear": 1996,
+    "nationalities": [
+      "QA"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_intl_pool_v0_1"
+      ]
+    },
+    "dataNotes": [
+      "Current Al Duhail in June 2026 Asian Club League."
+    ],
+    "worldPoolMetadata": {
+      "workbookId": "INT-095",
+      "poolRegion": "Middle East",
+      "leagueCountry": "Qatar",
+      "sourceNationality": "Qatar",
+      "hmLevel": "Pro",
+      "prospect": false,
+      "wonderkidCandidate": false,
+      "confidence": "A",
+      "notes": "Current Al Duhail in June 2026 Asian Club League."
+    }
+  },
+  {
+    "playerId": "player_intl_hamdi_hadj_ayed_f4425eba",
+    "firstName": "Hamdi",
+    "lastName": "Hadj Ayed",
+    "fullName": "Hamdi Hadj Ayed",
+    "aliases": [],
+    "dateOfBirth": "1993-08-16",
+    "birthYear": 1993,
+    "nationalities": [
+      "QA"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_intl_pool_v0_1"
+      ]
+    },
+    "dataNotes": [
+      "Current Al Duhail; Qatar national-team registration."
+    ],
+    "worldPoolMetadata": {
+      "workbookId": "INT-096",
+      "poolRegion": "Middle East",
+      "leagueCountry": "Qatar",
+      "sourceNationality": "Qatar",
+      "hmLevel": "Established",
+      "prospect": false,
+      "wonderkidCandidate": false,
+      "confidence": "A",
+      "notes": "Current Al Duhail; Qatar national-team registration."
+    }
+  },
+  {
+    "playerId": "player_intl_amine_guehis_25bf228d",
+    "firstName": "Amine",
+    "lastName": "Guehis",
+    "fullName": "Amine Guehis",
+    "aliases": [],
+    "dateOfBirth": "1996-03-23",
+    "birthYear": 1996,
+    "nationalities": [
+      "QA"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_intl_pool_v0_1"
+      ]
+    },
+    "dataNotes": [
+      "Current Al Duhail; Qatar national-team registration."
+    ],
+    "worldPoolMetadata": {
+      "workbookId": "INT-097",
+      "poolRegion": "Middle East",
+      "leagueCountry": "Qatar",
+      "sourceNationality": "Qatar",
+      "hmLevel": "Pro",
+      "prospect": false,
+      "wonderkidCandidate": false,
+      "confidence": "A",
+      "notes": "Current Al Duhail; Qatar national-team registration."
+    }
+  },
+  {
+    "playerId": "player_intl_moustafa_heiba_5a750772",
+    "firstName": "Moustafa",
+    "lastName": "Heiba",
+    "fullName": "Moustafa Heiba",
+    "aliases": [],
+    "dateOfBirth": "1996-12-17",
+    "birthYear": 1996,
+    "nationalities": [
+      "QA"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_intl_pool_v0_1"
+      ]
+    },
+    "dataNotes": [
+      "Current Al Duhail playmaker."
+    ],
+    "worldPoolMetadata": {
+      "workbookId": "INT-098",
+      "poolRegion": "Middle East",
+      "leagueCountry": "Qatar",
+      "sourceNationality": "Qatar",
+      "hmLevel": "Established",
+      "prospect": false,
+      "wonderkidCandidate": false,
+      "confidence": "A",
+      "notes": "Current Al Duhail playmaker."
+    }
+  },
+  {
+    "playerId": "player_intl_javier_humet_gaminde_0a472145",
+    "firstName": "Javier",
+    "lastName": "Humet Gaminde",
+    "fullName": "Javier Humet Gaminde",
+    "aliases": [],
+    "dateOfBirth": "1990-01-22",
+    "birthYear": 1990,
+    "nationalities": [
+      "RO"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "fieldConfidence": {
+      "dateOfBirth": "PARTIAL"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_intl_pool_v0_1"
+      ]
+    },
+    "dataNotes": [
+      "Current club confirmed; historical DOB sources vary slightly, recheck at DB lock."
+    ],
+    "worldPoolMetadata": {
+      "workbookId": "INT-099",
+      "poolRegion": "Middle East",
+      "leagueCountry": "Qatar",
+      "sourceNationality": "Romania",
+      "hmLevel": "Established",
+      "prospect": false,
+      "wonderkidCandidate": false,
+      "confidence": "B",
+      "notes": "Current club confirmed; historical DOB sources vary slightly, recheck at DB lock."
+    }
+  },
+  {
+    "playerId": "player_intl_hamd_khaled_alaya_d835c750",
+    "firstName": "Hamd",
+    "lastName": "Khaled Alaya",
+    "fullName": "Hamd Khaled Alaya",
+    "aliases": [],
+    "dateOfBirth": "1992-10-10",
+    "birthYear": 1992,
+    "nationalities": [
+      "QA"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_intl_pool_v0_1"
+      ]
+    },
+    "dataNotes": [
+      "Current Al Duhail pivot."
+    ],
+    "worldPoolMetadata": {
+      "workbookId": "INT-100",
+      "poolRegion": "Middle East",
+      "leagueCountry": "Qatar",
+      "sourceNationality": "Qatar",
+      "hmLevel": "Established",
+      "prospect": false,
+      "wonderkidCandidate": false,
+      "confidence": "A",
+      "notes": "Current Al Duhail pivot."
+    }
+  }
+]
