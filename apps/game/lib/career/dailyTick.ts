@@ -42,6 +42,14 @@ import { applyTrainingDayInjuryResolution, progressDailyRehab } from "../medical
 import { ensureOpponentAnalysisTask, progressCareerTasks } from "./careerTasks";
 import { progressScoutingAssignments } from "./scouting";
 import {
+  buildPartnershipCandidatesReadyEvent,
+  buildPartnershipExpiredEvent,
+  progressPartnershipBilling,
+  progressPartnershipExpiry,
+  progressPartnershipSearches,
+} from "./clubPartnerships";
+import { adjustClubCash } from "../economy/clubEconomyIntegration";
+import {
   MATCH_PREPARATION_OFFSET_DAYS,
   STAFF_REPORT_INTERVAL_DAYS,
   STAFF_REPORT_OFFSET_DAYS,
@@ -171,6 +179,21 @@ export function processDay(state: CareerState, date: string): DailyTickResult {
   // loan whose endDate has been reached -- same "check a stored date,
   // mutate once" idiom as step 2's player-availability return above.
   next = progressDailyTransfers(next, date);
+
+  // HM-CLUB-PARTNERSHIPS-1.0: the board's own multi-day partner search,
+  // recurring partnership billing, and expiry -- same "check a stored
+  // date, mutate once" idiom as the transfer-window step above.
+  const { state: afterPartnershipSearches, completed: completedSearches } = progressPartnershipSearches(next, date);
+  next = afterPartnershipSearches;
+  for (const search of completedSearches) {
+    emit(buildPartnershipCandidatesReadyEvent(search.id, search.clubId, date));
+  }
+  next = progressPartnershipBilling(next, date, adjustClubCash);
+  const { state: afterPartnershipExpiry, expired: expiredPartnerships } = progressPartnershipExpiry(next, date);
+  next = afterPartnershipExpiry;
+  for (const partnership of expiredPartnerships) {
+    emit(buildPartnershipExpiredEvent(partnership.id, date));
+  }
 
   // --- 6. Fixtures ---------------------------------------------------------
   const playerFixtureToday = getPlayerFixtureOn(next, date);

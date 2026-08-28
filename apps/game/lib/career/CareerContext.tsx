@@ -29,6 +29,14 @@ import { bookFriendly } from "./preseason";
 import { submitTransferOffer, type SubmitTransferOfferParams } from "../transfers/transferIntegration";
 import type { TransferOffer } from "../transfers/types";
 import { createScoutingAssignment, type CreateScoutingAssignmentResult } from "./scouting";
+import {
+  requestPartnershipSearch,
+  startDevelopmentPartnership,
+  terminatePartnership,
+  renewPartnership,
+  type RequestPartnershipSearchResult,
+  type StartDevelopmentPartnershipResult,
+} from "./clubPartnerships";
 import type { SessionSeed } from "../training/trainingSchedule";
 import type { PlayerTrainingLoadSetting, TrainingDayType, TrainingSession, WeeklyTrainingTemplate } from "../training/types";
 import type { PlayerMatchDefault } from "../matchPlan/persistentDefaults";
@@ -155,6 +163,14 @@ type CareerContextValue = {
   submitTransferOffer: (params: SubmitTransferOfferParams) => TransferOffer;
   /** HM-SCOUTING-1.0: creates a new scouting assignment (validates the scout is a real, employed SCOUT at the manager's own club) and persists on success. Returns the full result (including validation errors) so the UI can show exactly why an assignment was refused. */
   createScoutingAssignment: (scoutStaffId: string, targetPlayerId: string, targetClubId: string) => CreateScoutingAssignmentResult;
+  /** HM-CLUB-PARTNERSHIPS-1.0: starts the board's own multi-day search for a Division 1 development partner and persists on success. */
+  requestPartnershipSearch: () => RequestPartnershipSearchResult;
+  /** HM-CLUB-PARTNERSHIPS-1.0: agrees a DEVELOPMENT_PARTNERSHIP with one of a completed search's own candidate clubs and persists on success. */
+  startDevelopmentPartnership: (searchId: string, chosenClubId: string, monthlyCostEur: number, durationMonths: number) => StartDevelopmentPartnershipResult;
+  /** HM-CLUB-PARTNERSHIPS-1.0: ends a non-permanent partnership early and persists. No-op for a permanent B-team row. */
+  terminatePartnership: (partnershipId: string) => void;
+  /** HM-CLUB-PARTNERSHIPS-1.0: extends an active partnership's end date by `additionalMonths` and persists. */
+  renewPartnership: (partnershipId: string, additionalMonths: number) => void;
 };
 
 const CareerContext = createContext<CareerContextValue | null>(null);
@@ -671,6 +687,44 @@ export function CareerProvider({ children }: { children: ReactNode }) {
     return result;
   }
 
+  function requestPartnershipSearchActionWrapper(): RequestPartnershipSearchResult {
+    if (!value) throw new Error("Ingen aktiv karriär.");
+    const result = requestPartnershipSearch(value.career, value.career.playerClubId, value.career.gameDate);
+    if (result.ok && result.assignment) {
+      const nextCareer = { ...value.career, partnershipSearches: { ...value.career.partnershipSearches, [result.assignment.id]: result.assignment } };
+      saveCareerState(value.save.saveId, nextCareer);
+      setValue({ save: value.save, career: nextCareer });
+    }
+    return result;
+  }
+
+  function startDevelopmentPartnershipActionWrapper(searchId: string, chosenClubId: string, monthlyCostEur: number, durationMonths: number): StartDevelopmentPartnershipResult {
+    if (!value) throw new Error("Ingen aktiv karriär.");
+    const result = startDevelopmentPartnership(value.career, searchId, chosenClubId, monthlyCostEur, durationMonths, value.career.gameDate);
+    if (result.ok && result.partnership) {
+      const nextCareer = { ...value.career, clubPartnerships: { ...value.career.clubPartnerships, [result.partnership.id]: result.partnership } };
+      saveCareerState(value.save.saveId, nextCareer);
+      setValue({ save: value.save, career: nextCareer });
+    }
+    return result;
+  }
+
+  function terminatePartnershipActionWrapper(partnershipId: string): void {
+    if (!value) throw new Error("Ingen aktiv karriär.");
+    const nextCareer = terminatePartnership(value.career, partnershipId, value.career.gameDate);
+    if (nextCareer === value.career) return;
+    saveCareerState(value.save.saveId, nextCareer);
+    setValue({ save: value.save, career: nextCareer });
+  }
+
+  function renewPartnershipActionWrapper(partnershipId: string, additionalMonths: number): void {
+    if (!value) throw new Error("Ingen aktiv karriär.");
+    const nextCareer = renewPartnership(value.career, partnershipId, additionalMonths);
+    if (nextCareer === value.career) return;
+    saveCareerState(value.save.saveId, nextCareer);
+    setValue({ save: value.save, career: nextCareer });
+  }
+
   return (
     <CareerContext.Provider
       value={{
@@ -702,6 +756,10 @@ export function CareerProvider({ children }: { children: ReactNode }) {
         bookFriendly: bookFriendlyActionWrapper,
         submitTransferOffer: submitTransferOfferActionWrapper,
         createScoutingAssignment: createScoutingAssignmentActionWrapper,
+        requestPartnershipSearch: requestPartnershipSearchActionWrapper,
+        startDevelopmentPartnership: startDevelopmentPartnershipActionWrapper,
+        terminatePartnership: terminatePartnershipActionWrapper,
+        renewPartnership: renewPartnershipActionWrapper,
       }}
     >
       {children}

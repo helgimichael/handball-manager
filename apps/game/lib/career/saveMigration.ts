@@ -23,6 +23,7 @@ import { ensureCareerPlayerSquadStatus } from "./squadStatus";
 import { getCareerClubSquad } from "./careerWorld";
 import { EUR_TO_SEK_REFERENCE_RATE } from "../economy/currency";
 import type { PlayerContract } from "../economy/types";
+import { seedPermanentBTeamPartnerships } from "./clubPartnerships";
 
 // HM-GAME-0.4: InboxMessage.category was a set of Swedish string
 // literals before this milestone (Spec §33: "map existing categories
@@ -395,6 +396,20 @@ export function migrateCareerState(career: CareerState): CareerState {
   if (next.scoutReports === undefined) {
     next = { ...next, scoutReports: {} };
   }
+
+  // HM-CLUB-PARTNERSHIPS-1.0: additive -- an existing career simply
+  // never had the partnership system yet. `partnershipSearches` migrates
+  // to an empty map (no history invented); `clubPartnerships` is
+  // migrated to empty THEN immediately topped up with the five canonical
+  // permanent B-team relations via the same idempotent seed function a
+  // fresh career uses (Part: "existing saves migreras").
+  if (next.partnershipSearches === undefined) {
+    next = { ...next, partnershipSearches: {} };
+  }
+  if (next.clubPartnerships === undefined) {
+    next = { ...next, clubPartnerships: {} };
+  }
+  next = seedPermanentBTeamPartnerships(next, next.seasonStartDate);
 
   // HM-STAFF-CAREER-1.0 (career-state schema v26): additive -- an
   // existing career simply never had a career-tracked staff club-history

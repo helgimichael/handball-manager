@@ -21,6 +21,7 @@ import type { PlayerClubHistory, PlayerContract } from "../economy/types";
 import type { ClubEconomyBaseline } from "../economy/clubEconomyTypes";
 import type { LoanRecord, TransferOffer } from "../transfers/types";
 import type { ScoutingAssignment, ScoutReport } from "./scouting";
+import type { ClubPartnership, PartnershipSearchAssignment } from "./clubPartnerships";
 
 /** HM-PRESEASON-1.0: LEAGUE (the manager's own simulated competition), CUP (the provisional early cup round -- see preseason.ts), or FRIENDLY (manager-booked, never affects standings/season completion). */
 export type CareerFixtureType = "LEAGUE" | "CUP" | "FRIENDLY";
@@ -529,6 +530,20 @@ export type CareerState = {
   scoutingAssignments: Record<string, ScoutingAssignment>;
   /** Persistent, historical scout reports -- never regenerated/rerolled on read, only ever appended by progressScoutingAssignments. Keyed by report id. */
   scoutReports: Record<string, ScoutReport>;
+
+  // --- HM-CLUB-PARTNERSHIPS-1.0 addition ---
+
+  /**
+   * Every club-to-club partnership row (permanent B-team, development,
+   * or international loan), keyed by id. The five canonical
+   * AFFILIATED_B_TEAM rows are seeded once, idempotently, by
+   * seedPermanentBTeamPartnerships (newCareer.ts / saveMigration.ts) and
+   * never removed. See lib/career/clubPartnerships.ts for the full
+   * domain.
+   */
+  clubPartnerships: Record<string, ClubPartnership>;
+  /** The board's own multi-day "search for a development partner" process, keyed by id. */
+  partnershipSearches: Record<string, PartnershipSearchAssignment>;
 };
 
 export type CareerSaveEnvelope = {

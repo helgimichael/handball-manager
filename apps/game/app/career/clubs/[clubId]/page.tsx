@@ -26,6 +26,7 @@ import { ClubLink, PlayerLink } from "@/components/entityLinks";
 import { getClubKnowledgePct } from "@/lib/knowledge/knowledgeIntegration";
 import { resolveClubVisibility } from "@/lib/knowledge/clubVisibility";
 import { KNOWLEDGE_TIER_LABEL_SV } from "@/lib/knowledge/types";
+import { getClubPartnerships, getPermanentBTeamParentClubId } from "@/lib/career/clubPartnerships";
 
 const CLUB_IDENTITY_DOMAIN_LABELS: Record<keyof Omit<ClubIdentityProfile, "clubId" | "seasonReference">, string> = {
   structuralIdentity: "Struktur & styrning",
@@ -129,6 +130,13 @@ export default function ClubProfilePage() {
   const clubKnowledgePct = getClubKnowledgePct(career, club.id);
   const visibility = identity ? resolveClubVisibility(identity.clubIdentity, identity.coachIdentity, clubKnowledgePct) : null;
 
+  // HM-CLUB-PARTNERSHIPS-1.0: a permanent B-team club or a club
+  // exclusively bound to a DEVELOPMENT_PARTNERSHIP is visibly flagged
+  // here -- the same relation data other managers would see reflected
+  // in their own inability to select this club as a partner.
+  const permanentParentClubId = getPermanentBTeamParentClubId(club.id);
+  const activeDevelopmentPartner = getClubPartnerships(career, club.id).find((p) => p.type === "DEVELOPMENT_PARTNERSHIP" && p.status === "ACTIVE");
+
   return (
     <div className="hm-grid" style={{ gap: 12 }}>
       <div className="hm-panel">
@@ -151,6 +159,15 @@ export default function ClubProfilePage() {
           <MiniStat label="Trupp" value={squad.length} />
           <MiniStat label="Personal" value={staffRoster.length} />
         </div>
+        {permanentParentClubId ? (
+          <div className="hm-panel-body" style={{ paddingTop: 0 }}>
+            <span className="hm-badge hm-badge-neutral">Permanent B-lag till {getClub(permanentParentClubId)?.name ?? permanentParentClubId} -- kan inte väljas som samarbetsklubb</span>
+          </div>
+        ) : activeDevelopmentPartner ? (
+          <div className="hm-panel-body" style={{ paddingTop: 0 }}>
+            <span className="hm-badge hm-badge-neutral">Exklusivt samarbete med {getClub(activeDevelopmentPartner.clubAId)?.name ?? activeDevelopmentPartner.clubAId} -- inte tillgänglig för andra klubbar</span>
+          </div>
+        ) : null}
       </div>
 
       <div className="hm-panel">
