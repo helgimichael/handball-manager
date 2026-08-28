@@ -13,6 +13,7 @@ import { SCOUT_POOL_SOURCE } from "./scoutPoolSource";
 import {
   FREE_AGENT_MARKET_CLUB_ID,
   buildScoutAttributeProfile,
+  findCanonicalCollisions,
   getScoutMarket,
   getScoutPoolSourceEntry,
   isFreeAgentScoutAvailable,
@@ -55,16 +56,35 @@ test("fresh career seeds all 100 source entries into scoutPoolSource", () => {
   assert.equal(Object.keys(state.scoutPoolSource).length, 100);
 });
 
-test("only LIKELY_ELIGIBLE candidates are seeded into scoutMarket -- CONDITIONAL/RESEARCH/IDENTITY_CURRENT_ROLE_CHECK are never available", () => {
+// HM-STAFF-SCOUT-POOL-1.0A: source status is provenance/audit metadata
+// only -- it must NEVER gate career availability. Every one of the 100
+// candidates (across all four source statuses) is seeded as an
+// available free agent, minus real in-career facts (already employed,
+// or a canonical-person name collision -- covered by their own tests
+// below).
+test("all 100 source candidates -- across every source status -- are seeded into scoutMarket (source status is not a career-availability gate)", () => {
   const state = baseState();
   const market = getScoutMarket(state);
-  assert.equal(market.length, 7);
-  for (const m of market) {
-    const source = getScoutPoolSourceEntry(state, m.id);
-    assert.equal(source?.sourceEligibilityStatus, "LIKELY_ELIGIBLE");
+  const collisions = findCanonicalCollisions(state);
+  assert.equal(market.length, 100 - collisions.length);
+
+  const statusesRepresented = new Set(market.map((m) => getScoutPoolSourceEntry(state, m.id)?.sourceEligibilityStatus));
+  assert.ok(statusesRepresented.has("RESEARCH"), "RESEARCH candidates must be available too");
+  assert.ok(statusesRepresented.has("CONDITIONAL"), "CONDITIONAL candidates must be available too");
+
+  const research = SCOUT_POOL_SOURCE.find((e) => e.sourceEligibilityStatus === "RESEARCH")!;
+  if (!collisions.some((c) => c.personId === research.personId)) {
+    assert.equal(isFreeAgentScoutAvailable(state, research.personId), true);
   }
-  const nonEligible = SCOUT_POOL_SOURCE.find((e) => e.sourceEligibilityStatus === "RESEARCH")!;
-  assert.equal(isFreeAgentScoutAvailable(state, nonEligible.personId), false);
+});
+
+test("a canonical-person collision is excluded from scoutMarket but its source record is still preserved for audit", () => {
+  const state = baseState();
+  const collisions = findCanonicalCollisions(state);
+  for (const c of collisions) {
+    assert.equal(isFreeAgentScoutAvailable(state, c.personId), false);
+    assert.ok(getScoutPoolSourceEntry(state, c.personId), "collision entries must still exist in scoutPoolSource");
+  }
 });
 
 test("zero generated scouts in the market -- every entry is REAL_PERSON_FICTIONAL_PROFILE, never GENERATED_FICTIONAL", () => {
@@ -78,19 +98,19 @@ test("seedScoutPool is idempotent -- calling it again never duplicates source or
   const state = baseState();
   const again = seedScoutPool(state);
   assert.equal(Object.keys(again.scoutPoolSource).length, 100);
-  assert.equal(Object.keys(again.scoutMarket).length, 7);
+  assert.equal(Object.keys(again.scoutMarket).length, Object.keys(state.scoutMarket).length);
   assert.equal(again, state); // true no-op reference when nothing changed
 });
 
-test("duplicate-person protection: a LIKELY_ELIGIBLE candidate already on a club's canonical roster (by name) is never added to scoutMarket", () => {
-  const eligible = SCOUT_POOL_SOURCE.find((e) => e.sourceEligibilityStatus === "LIKELY_ELIGIBLE")!;
+test("duplicate-person protection: a candidate already on a club's canonical roster (by name) is never added to scoutMarket, regardless of their source status", () => {
+  const researchCandidate = SCOUT_POOL_SOURCE.find((e) => e.sourceEligibilityStatus === "RESEARCH")!;
   let state = createNewCareerState("scoutpool-dup-seed", TUMBA_CLUB_ID);
   // Remove any pre-seeded scout pool, then inject a canonical staff member sharing the candidate's exact name before re-seeding.
   state = { ...state, scoutPoolSource: {}, scoutMarket: {} };
   const collidingMember: ResolvedStaffMember = {
     id: "some-other-canonical-id",
     clubId: TUMBA_CLUB_ID,
-    displayName: eligible.fullName,
+    displayName: researchCandidate.fullName,
     roles: [],
     hmRoles: [],
     employmentType: "GOVERNANCE",
@@ -100,8 +120,8 @@ test("duplicate-person protection: a LIKELY_ELIGIBLE candidate already on a club
   state = { ...state, staffRoster: { ...state.staffRoster, [TUMBA_CLUB_ID]: [...state.staffRoster[TUMBA_CLUB_ID], collidingMember] } };
 
   const seeded = seedScoutPool(state);
-  assert.equal(seeded.scoutMarket[eligible.personId], undefined, "the colliding candidate must never be seeded as a duplicate free agent");
-  assert.ok(seeded.scoutPoolSource[eligible.personId], "the source record itself must still be preserved for audit purposes");
+  assert.equal(seeded.scoutMarket[researchCandidate.personId], undefined, "the colliding candidate must never be seeded as a duplicate free agent");
+  assert.ok(seeded.scoutPoolSource[researchCandidate.personId], "the source record itself must still be preserved for audit purposes");
 });
 
 // ---------------------------------------------------------------------------
@@ -157,10 +177,19 @@ test("signFreeAgentScout refuses a non-existent/unavailable personId honestly", 
   assert.equal(result.outcome, "NOT_AVAILABLE");
 });
 
-test("a non-LIKELY_ELIGIBLE candidate can never be signed -- they simply don't exist in scoutMarket to sign", () => {
+// HM-STAFF-SCOUT-POOL-1.0A: a RESEARCH-status candidate IS a real,
+// signable free agent -- source status is provenance metadata only.
+test("a RESEARCH-status candidate can be signed just like any other free agent", () => {
   const state = baseState();
-  const research = SCOUT_POOL_SOURCE.find((e) => e.sourceEligibilityStatus === "RESEARCH")!;
-  const { result } = signFreeAgentScout(state, research.personId, TUMBA_CLUB_ID, 100000, 2, state.gameDate);
+  const research = SCOUT_POOL_SOURCE.find((e) => e.sourceEligibilityStatus === "RESEARCH" && isFreeAgentScoutAvailable(state, e.personId))!;
+  assert.ok(research, "expected at least one RESEARCH candidate to be available for this test to be meaningful");
+  const { result } = signFreeAgentScout(state, research.personId, TUMBA_CLUB_ID, 1000, 2, state.gameDate);
+  assert.equal(result.outcome, "COMPLETED");
+});
+
+test("a personId with no scoutMarket entry at all (never existed) is refused honestly", () => {
+  const state = baseState();
+  const { result } = signFreeAgentScout(state, "totally-made-up-id", TUMBA_CLUB_ID, 1000, 2, state.gameDate);
   assert.equal(result.outcome, "NOT_AVAILABLE");
 });
 
@@ -175,6 +204,26 @@ test("signFreeAgentScout blocks an unaffordable offer without mutating state", (
 // ---------------------------------------------------------------------------
 // Migration idempotency
 // ---------------------------------------------------------------------------
+
+// HM-STAFF-SCOUT-POOL-1.0A: a save created under the PREVIOUS
+// implementation (only the 7 LIKELY_ELIGIBLE candidates in scoutMarket)
+// must be backfilled so every other candidate becomes available too.
+test("existing-save migration backfills previously-unavailable RESEARCH/CONDITIONAL candidates into scoutMarket", () => {
+  const fresh = baseState();
+  // Simulate the OLD (1.0) implementation's narrower seed: only LIKELY_ELIGIBLE in scoutMarket.
+  const oldShapedMarket = Object.fromEntries(
+    Object.entries(fresh.scoutMarket).filter(([id]) => getScoutPoolSourceEntry(fresh, id)?.sourceEligibilityStatus === "LIKELY_ELIGIBLE"),
+  );
+  const legacy = { ...fresh, scoutMarket: oldShapedMarket };
+  assert.equal(Object.keys(legacy.scoutMarket).length, 7, "sanity: simulating the old, narrower market shape");
+
+  const migrated = migrateCareerState(legacy);
+  const collisions = findCanonicalCollisions(migrated);
+  assert.equal(Object.keys(migrated.scoutMarket).length, 100 - collisions.length, "migration must backfill every non-colliding candidate, not just LIKELY_ELIGIBLE ones");
+
+  const migratedAgain = migrateCareerState(migrated);
+  assert.equal(Object.keys(migratedAgain.scoutMarket).length, Object.keys(migrated.scoutMarket).length, "migration must be idempotent");
+});
 
 test("existing-save migration backfills the scout pool for a save that predates this milestone, and never re-adds an already-signed scout as a free agent", () => {
   const state = baseState();

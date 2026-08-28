@@ -129,13 +129,15 @@ function nameAlreadyOnAnyRoster(state: CareerState, fullName: string): boolean {
  * Redan anställd person får aldrig återuppstå som free agent."):
  *  - scoutPoolSource: seeds all 100 entries once, permanent, never
  *    removed/mutated afterward regardless of employment state.
- *  - scoutMarket: seeds ONLY the LIKELY_ELIGIBLE entries, and only if
- *    the person isn't already a canonical staff member somewhere AND
- *    isn't already present in scoutMarket/employed anywhere in THIS
- *    career (covers both "never seed a duplicate" and "an already-
- *    signed scout never reappears as a free agent" -- a signed scout is
- *    removed from scoutMarket by signFreeAgentScout and never re-added
- *    here since their personId already exists in staffRoster by then).
+ *  - scoutMarket: seeds ALL 100 entries (HM-STAFF-SCOUT-POOL-1.0A:
+ *    the source document's own "2026 status" -- Likely eligible/
+ *    Conditional/Research/Identity-current-role-check -- is RESEARCH /
+ *    PROVENANCE METADATA only, preserved on ScoutPoolSourceEntry for
+ *    audit, and must never gate career availability. The only two
+ *    reasons a candidate is skipped here are real, in-career facts:
+ *    already employed somewhere in THIS career (findStaffMember), or
+ *    already a canonical staff person under a different id
+ *    (nameAlreadyOnAnyRoster -- never a duplicate person entity).
  */
 export function seedScoutPool(state: CareerState): CareerState {
   let nextSource = state.scoutPoolSource;
@@ -149,7 +151,6 @@ export function seedScoutPool(state: CareerState): CareerState {
   let nextMarket = state.scoutMarket;
   let marketChanged = false;
   for (const entry of SCOUT_POOL_SOURCE) {
-    if (entry.sourceEligibilityStatus !== "LIKELY_ELIGIBLE") continue;
     if (nextMarket[entry.personId] !== undefined) continue;
     if (findStaffMember(state, entry.personId) !== undefined) continue; // already employed (e.g. re-migration after signing)
     if (nameAlreadyOnAnyRoster(state, entry.fullName)) continue; // already a canonical person under a different id -- never a duplicate
@@ -159,6 +160,17 @@ export function seedScoutPool(state: CareerState): CareerState {
 
   if (!sourceChanged && !marketChanged) return state;
   return { ...state, scoutPoolSource: sourceChanged ? nextSource : state.scoutPoolSource, scoutMarket: marketChanged ? nextMarket : state.scoutMarket };
+}
+
+/**
+ * Reporting-only helper (Part: "Report any such collisions explicitly")
+ * -- every source candidate whose name already matches a canonical
+ * staff person on some club's roster, so a caller (report/QA script)
+ * can list them without re-deriving seedScoutPool's own skip logic.
+ * Never mutates state.
+ */
+export function findCanonicalCollisions(state: CareerState): ScoutPoolSourceEntry[] {
+  return SCOUT_POOL_SOURCE.filter((entry) => nameAlreadyOnAnyRoster(state, entry.fullName));
 }
 
 /** Every currently-available free-agent scout, sorted by name for a stable UI order. */
