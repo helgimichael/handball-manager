@@ -295,13 +295,23 @@ export default function TrainingPage() {
                 // manager cannot accidentally put an injured player on FULL.
                 const availability = getPlayerAvailability(career, p.id);
                 const activeInjury = career.playerInjuries[p.id]?.activeInjury;
+                // HM-CLUB-PARTNERSHIPS-1.1: a player ON_PLACEMENT is fully
+                // fit -- REST is enforced here because they train at the
+                // partner club instead, never because they're injured.
+                // Checked ahead of the generic UNAVAILABLE branch so the
+                // injury-flavoured copy below never misrepresents them.
+                const onPlacement = career.playerStatuses[p.id]?.availability === "ON_PLACEMENT";
                 const enforcedLoadSetting = effectiveTrainingLoadSetting(career, p.id, loadSetting);
                 const allowedSettings = PLAYER_TRAINING_LOAD_SETTINGS.filter((l) => effectiveTrainingLoadSetting(career, p.id, l) === l);
                 return (
                   <tr key={p.id}>
                     <td className="hm-td-strong">
                       {p.firstName} {p.lastName}
-                      {availability === "UNAVAILABLE" && activeInjury ? (
+                      {onPlacement ? (
+                        <span className="hm-badge hm-badge-neutral" style={{ marginLeft: 6 }}>
+                          PLACERAD HOS PARTNERKLUBB
+                        </span>
+                      ) : availability === "UNAVAILABLE" && activeInjury ? (
                         <span className="hm-badge hm-badge-negative" style={{ marginLeft: 6 }}>
                           SKADAD — {REHAB_PHASE_LABELS[activeInjury.currentPhase]}
                         </span>
@@ -320,7 +330,7 @@ export default function TrainingPage() {
                         className="hm-select"
                         value={enforcedLoadSetting}
                         disabled={availability === "UNAVAILABLE"}
-                        title={availability === "UNAVAILABLE" ? "Skadad spelare -- endast vila tillåten" : availability === "LIMITED" ? "Under återgång -- maximalt reducerad belastning" : undefined}
+                        title={onPlacement ? "Spelaren tränar hos partnerklubben -- ingen belastning här" : availability === "UNAVAILABLE" ? "Skadad spelare -- endast vila tillåten" : availability === "LIMITED" ? "Under återgång -- maximalt reducerad belastning" : undefined}
                         onChange={(e) => setPlayerTrainingLoad(p.id, e.target.value as PlayerTrainingLoadSetting)}
                       >
                         {(availability === "AVAILABLE" ? PLAYER_TRAINING_LOAD_SETTINGS : allowedSettings).map((l) => (

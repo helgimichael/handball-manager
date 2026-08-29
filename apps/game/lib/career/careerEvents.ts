@@ -20,7 +20,8 @@ export type CareerEventType =
   | "MATCH_COMPLETED"
   | "COMPETITION_UPDATE"
   | "STAFF_REPORT"
-  | "CLUB_NEWS";
+  | "CLUB_NEWS"
+  | "PLAYER_PLACEMENT_EXPIRED";
 
 /** Spec S3: the three-tier priority model. */
 export type EventPriority = "INFORMATION" | "IMPORTANT" | "ACTION_REQUIRED";
@@ -282,4 +283,27 @@ export function buildCompetitionUpdateEvent(date: string, competitionId: string)
 
 export function buildClubNewsEvent(id: string, date: string, subject: string, summary: string): CareerEvent {
   return baseEvent(`CLUB_NEWS:${id}:${date}`, "CLUB_NEWS", date, "INFORMATION", subject, summary, [{ route: "CLUB" }]);
+}
+
+// --- HM-CLUB-PARTNERSHIPS-1.1: player development placement lifecycle ---
+// Only the time-driven end (the underlying partnership itself expiring)
+// gets a CareerEvent, matching the rest of this file's own established
+// split: dailyTick-driven world changes emit an event (buildPartnershipExpiredEvent
+// and friends); direct manager actions (starting a placement, an
+// explicit recall) do not, same as terminatePartnership/renewPartnership/
+// startDevelopmentPartnership never emitting one either -- an inbox
+// message about an action the manager just took themselves would be
+// pure noise (Part: "anti-spam").
+
+export function buildPlacementExpiredEvent(placementId: string, playerId: string, date: string): CareerEvent {
+  return baseEvent(
+    `PLAYER_PLACEMENT_EXPIRED:${placementId}`,
+    "PLAYER_PLACEMENT_EXPIRED",
+    date,
+    "IMPORTANT",
+    "Placering avslutad -- samarbetet har löpt ut",
+    "Spelarens placering hos partnerklubben avslutades eftersom samarbetsavtalet inte längre är aktivt.",
+    [{ route: "PLAYER_PROFILE", playerId }],
+    { primaryEntity: { entityType: "player", entityId: playerId } },
+  );
 }

@@ -117,7 +117,7 @@ export default function SquadPage() {
               const stats = career.playerSeasonStats[p.id] ?? emptyPlayerSeasonStats(p.id);
               const marketValue = getPlayerMarketValueEur(career, p.id);
               const availabilityLabel = resolveStatusLabel(career.playerStatuses, p);
-              const isUnavailable = availabilityLabel === "Skadad" || availabilityLabel === "Avstängd" || availabilityLabel === "Under rehab";
+              const isUnavailable = availabilityLabel === "Skadad" || availabilityLabel === "Avstängd" || availabilityLabel === "Under rehab" || availabilityLabel === "Utplacerad hos partnerklubb";
               const tier = career.playerSquadStatus[p.id];
               return (
                 <tr key={p.id}>
@@ -153,7 +153,7 @@ export default function SquadPage() {
                     </select>
                     {isUnavailable ? (
                       <div style={{ marginTop: 2 }}>
-                        <span className="hm-badge hm-badge-negative">{availabilityLabel}</span>
+                        <span className={`hm-badge ${availabilityLabel === "Utplacerad hos partnerklubb" ? "hm-badge-neutral" : "hm-badge-negative"}`}>{availabilityLabel}</span>
                         {career.playerInjuries[p.id]?.activeInjury ? (
                           <div className="hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)", marginTop: 2 }}>
                             {REHAB_PHASE_LABELS[career.playerInjuries[p.id]!.activeInjury!.currentPhase]} · åter {career.playerInjuries[p.id]!.activeInjury!.expectedReturnDate}

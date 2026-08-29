@@ -37,6 +37,7 @@ import {
   buildStaffReportEvent,
   buildTrainingCompletedEvent,
   buildTrainingReportEvent,
+  buildPlacementExpiredEvent,
   type CareerEvent,
 } from "./careerEvents";
 import { applyTrainingDayInjuryResolution, progressDailyRehab } from "../medical/injuryIntegration";
@@ -51,6 +52,7 @@ import {
   progressPartnershipExpiry,
   progressPartnershipSearches,
 } from "./clubPartnerships";
+import { accrueDailyPlacementExposure, progressPlacementExpiry } from "./playerPlacements";
 import { adjustClubCash } from "../economy/clubEconomyIntegration";
 import {
   MATCH_PREPARATION_OFFSET_DAYS,
@@ -62,7 +64,7 @@ import { addDays, daysBetween, isSameOrBefore } from "./dateUtils";
 import { careerEventToInboxMessage } from "./inboxBridge";
 import type { CareerState } from "./types";
 import { executeTrainingDay } from "../training/trainingExecution";
-import { applyTrainingDayDevelopmentStimulus, resolveWeeklyDevelopmentIfDue } from "../development/developmentIntegration";
+import { applyPlacementDevelopmentStimulus, applyTrainingDayDevelopmentStimulus, resolveWeeklyDevelopmentIfDue } from "../development/developmentIntegration";
 import { progressDailyTransfers } from "../transfers/transferIntegration";
 
 export interface DailyTickResult {
@@ -132,6 +134,13 @@ export function processDay(state: CareerState, date: string): DailyTickResult {
   // are pure additive glue on top of the training/physical steps above;
   // neither can affect physical load or session execution itself.
   next = applyTrainingDayDevelopmentStimulus(next, date);
+  // HM-CLUB-PARTNERSHIPS-1.1: a player on an ACTIVE B-team/development-
+  // partnership placement develops at the PARTNER club instead (see
+  // playerPlacements.ts) -- accumulates that day's stimulus into the
+  // SAME playerDevelopmentState pipeline, BEFORE the weekly resolution
+  // below, and advances each placement's own honest day-count.
+  next = applyPlacementDevelopmentStimulus(next, date);
+  next = accrueDailyPlacementExposure(next);
   next = resolveWeeklyDevelopmentIfDue(next, date);
   emit(buildTrainingCompletedEvent(date));
   const daysSinceStart = daysBetween(next.seasonStartDate, date);
@@ -208,6 +217,16 @@ export function processDay(state: CareerState, date: string): DailyTickResult {
   next = afterPartnershipExpiry;
   for (const partnership of expiredPartnerships) {
     emit(buildPartnershipExpiredEvent(partnership.id, date));
+  }
+
+  // HM-CLUB-PARTNERSHIPS-1.1: any ACTIVE placement whose own relation is
+  // no longer ACTIVE (just expired/terminated above, or already
+  // otherwise inactive) is auto-ended -- the relationship that made the
+  // placement possible no longer exists.
+  const { state: afterPlacementExpiry, expired: expiredPlacements } = progressPlacementExpiry(next, date);
+  next = afterPlacementExpiry;
+  for (const placement of expiredPlacements) {
+    emit(buildPlacementExpiredEvent(placement.id, placement.playerId, date));
   }
 
   // --- 6. Fixtures ---------------------------------------------------------

@@ -9,7 +9,9 @@ import { useState, type CSSProperties } from "react";
 import { useRouter } from "next/navigation";
 import { getClub } from "@/lib/game-data";
 import { useCareer } from "@/lib/career/CareerContext";
-import { canRequestPartnershipSearch, type ClubPartnership, type PartnershipStatus, type PartnershipType } from "@/lib/career/clubPartnerships";
+import { canRequestPartnershipSearch, isPartnershipExposureEligible, type ClubPartnership, type PartnershipStatus, type PartnershipType } from "@/lib/career/clubPartnerships";
+import { getCareerSquad } from "@/lib/career/careerWorld";
+import { getActivePlacementsAtClub, type PlayerPlacement } from "@/lib/career/playerPlacements";
 
 const TYPE_LABEL_SV: Record<PartnershipType, string> = {
   AFFILIATED_B_TEAM: "Permanent B-lag",
@@ -35,7 +37,7 @@ function clubName(clubId: string): string {
 
 export default function ClubPartnershipsPage() {
   const router = useRouter();
-  const { career, requestPartnershipSearch, startDevelopmentPartnership, terminatePartnership, renewPartnership } = useCareer();
+  const { career, requestPartnershipSearch, startDevelopmentPartnership, terminatePartnership, renewPartnership, startPlacement, recallPlayerFromPlacement } = useCareer();
 
   const [formError, setFormError] = useState<string | null>(null);
   const [selectedCandidateId, setSelectedCandidateId] = useState<string | null>(null);
@@ -47,6 +49,7 @@ export default function ClubPartnershipsPage() {
   const permanentBTeam = partnerships.filter((p) => p.type === "AFFILIATED_B_TEAM");
   const otherPartnerships = partnerships.filter((p) => p.type !== "AFFILIATED_B_TEAM").sort((a, b) => (a.startDate < b.startDate ? 1 : -1));
   const activeDevelopment = otherPartnerships.find((p) => p.type === "DEVELOPMENT_PARTNERSHIP" && p.status === "ACTIVE");
+  const internationalLoanPartnerships = otherPartnerships.filter((p) => p.type === "INTERNATIONAL_LOAN_PARTNERSHIP" && p.status === "ACTIVE" && p.clubAId === clubId);
 
   const search = Object.values(career.partnershipSearches)
     .filter((s) => s.clubId === clubId)
@@ -180,6 +183,19 @@ export default function ClubPartnershipsPage() {
         {formError ? <div className="hm-panel-body hm-text-xs" style={{ color: "var(--hm-negative)" }}>{formError}</div> : null}
       </div>
 
+      {[...permanentBTeam, ...(activeDevelopment ? [activeDevelopment] : [])].map((relation) => (
+        <PlacementPanel
+          key={relation.id}
+          partnerClubId={relation.clubBId}
+          startPlacement={startPlacement}
+          recallPlayerFromPlacement={recallPlayerFromPlacement}
+        />
+      ))}
+
+      {internationalLoanPartnerships.map((p) => (
+        <InternationalLoanPanel key={p.id} partnership={p} />
+      ))}
+
       <div className="hm-panel">
         <div className="hm-panel-header">
           <span className="hm-panel-title">Historik</span>
@@ -217,6 +233,157 @@ const inputStyle: CSSProperties = {
   padding: "7px 10px",
   fontSize: "var(--hm-text-xs)",
 };
+
+/**
+ * HM-CLUB-PARTNERSHIPS-1.1: one partner club's own development-exposure
+ * roster -- every eligible-but-not-yet-placed squad player (with a
+ * one-click "Placera" action) and every currently placed player (with a
+ * one-click "Återkalla" recall). Reuses isPartnershipExposureEligible/
+ * canStartPlacement unchanged -- never a second eligibility check.
+ */
+function PlacementPanel({
+  partnerClubId,
+  startPlacement,
+  recallPlayerFromPlacement,
+}: {
+  partnerClubId: string;
+  startPlacement: (playerId: string, partnerClubId: string) => { ok: boolean; errors: string[] };
+  recallPlayerFromPlacement: (playerId: string) => void;
+}) {
+  const { career } = useCareer();
+  const [error, setError] = useState<string | null>(null);
+  const squad = getCareerSquad(career);
+  const active = getActivePlacementsAtClub(career, partnerClubId);
+  const activeIds = new Set(active.map((p) => p.playerId));
+  const eligible = squad.filter((p) => !activeIds.has(p.id) && isPartnershipExposureEligible(career, p.id, partnerClubId).eligible);
+
+  function place(playerId: string) {
+    setError(null);
+    const result = startPlacement(playerId, partnerClubId);
+    if (!result.ok) setError(result.errors.join(" "));
+  }
+
+  return (
+    <div className="hm-panel">
+      <div className="hm-panel-header">
+        <span className="hm-panel-title">Spelmöjlighet hos {clubName(partnerClubId)}</span>
+      </div>
+      <div className="hm-panel-body" style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+        {active.length === 0 ? (
+          <div className="hm-text-xs hm-text-muted">Ingen spelare placerad hos {clubName(partnerClubId)} just nu.</div>
+        ) : (
+          <table className="hm-table">
+            <thead>
+              <tr>
+                <th>Spelare</th>
+                <th>Placerad sedan</th>
+                <th>Dagar hos partnerklubb</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              {active.map((placement) => (
+                <PlacementActiveRow key={placement.id} placement={placement} onRecall={() => recallPlayerFromPlacement(placement.playerId)} />
+              ))}
+            </tbody>
+          </table>
+        )}
+        {eligible.length === 0 ? (
+          <div className="hm-text-xs hm-text-muted">Inga kvalificerade spelare (19 år eller yngre) tillgängliga att placera just nu.</div>
+        ) : (
+          <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+            <div className="hm-text-xs hm-text-muted">Kvalificerade spelare (19 år eller yngre):</div>
+            {eligible.map((p) => (
+              <div key={p.id} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8 }}>
+                <span className="hm-text-xs">{p.firstName} {p.lastName}</span>
+                <button type="button" className="hm-btn hm-btn-sm" onClick={() => place(p.id)}>
+                  Placera
+                </button>
+              </div>
+            ))}
+          </div>
+        )}
+        {error ? <div className="hm-text-xs" style={{ color: "var(--hm-negative)" }}>{error}</div> : null}
+      </div>
+    </div>
+  );
+}
+
+function PlacementActiveRow({ placement, onRecall }: { placement: PlayerPlacement; onRecall: () => void }) {
+  const { career } = useCareer();
+  const player = getCareerSquad(career).find((p) => p.id === placement.playerId);
+  return (
+    <tr>
+      <td className="hm-td-strong">{player ? `${player.firstName} ${player.lastName}` : placement.playerId}</td>
+      <td>{placement.startDate}</td>
+      <td>{placement.exposureAccrued}</td>
+      <td>
+        <button type="button" className="hm-btn hm-btn-sm hm-btn-ghost" onClick={onRecall}>
+          Återkalla
+        </button>
+      </td>
+    </tr>
+  );
+}
+
+/**
+ * HM-CLUB-PARTNERSHIPS-1.1: minimal integration for INTERNATIONAL_LOAN_PARTNERSHIP --
+ * a genuine loan (never player-development-placement mechanics), reusing
+ * the existing loan machinery unchanged via startInternationalPartnershipLoan.
+ * Only rendered when an active international partnership row actually
+ * exists (never fabricated -- Part: "seeda inte fejkade internationella
+ * partnerskap").
+ */
+function InternationalLoanPanel({ partnership }: { partnership: ClubPartnership }) {
+  const { career, startInternationalPartnershipLoan } = useCareer();
+  const [playerId, setPlayerId] = useState("");
+  const [wageShareBorrowingPct, setWageShareBorrowingPct] = useState(100);
+  const [endDate, setEndDate] = useState(partnership.endDate ?? career.gameDate);
+  const [error, setError] = useState<string | null>(null);
+  const squad = getCareerSquad(career).filter((p) => career.playerStatuses[p.id]?.availability !== "ON_PLACEMENT");
+
+  function submit() {
+    setError(null);
+    if (!playerId) return;
+    const result = startInternationalPartnershipLoan(partnership.id, playerId, wageShareBorrowingPct, endDate);
+    if (!result.ok) {
+      setError(result.errors.join(" "));
+      return;
+    }
+    setPlayerId("");
+  }
+
+  return (
+    <div className="hm-panel">
+      <div className="hm-panel-header">
+        <span className="hm-panel-title">Internationellt låneavtal -- {clubName(partnership.clubBId)}</span>
+      </div>
+      <div className="hm-panel-body" style={{ display: "flex", gap: 12, alignItems: "flex-end", flexWrap: "wrap" }}>
+        <label style={{ display: "flex", flexDirection: "column", gap: 4, fontSize: "var(--hm-text-xs)" }}>
+          Spelare
+          <select style={inputStyle} value={playerId} onChange={(e) => setPlayerId(e.target.value)}>
+            <option value="">Välj spelare</option>
+            {squad.map((p) => (
+              <option key={p.id} value={p.id}>{p.firstName} {p.lastName}</option>
+            ))}
+          </select>
+        </label>
+        <label style={{ display: "flex", flexDirection: "column", gap: 4, fontSize: "var(--hm-text-xs)" }}>
+          Löneandel låntagande klubb (%)
+          <input style={inputStyle} type="number" min={0} max={100} value={wageShareBorrowingPct} onChange={(e) => setWageShareBorrowingPct(Number(e.target.value))} />
+        </label>
+        <label style={{ display: "flex", flexDirection: "column", gap: 4, fontSize: "var(--hm-text-xs)" }}>
+          Lån t.o.m.
+          <input style={inputStyle} type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)} />
+        </label>
+        <button type="button" className="hm-btn hm-btn-sm" disabled={!playerId} onClick={submit}>
+          Låna ut
+        </button>
+      </div>
+      {error ? <div className="hm-panel-body hm-text-xs" style={{ color: "var(--hm-negative)" }}>{error}</div> : null}
+    </div>
+  );
+}
 
 function PartnershipRow({ partnership }: { partnership: ClubPartnership }) {
   return (

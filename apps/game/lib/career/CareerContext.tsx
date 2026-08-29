@@ -46,6 +46,13 @@ import {
   type StartDevelopmentPartnershipResult,
 } from "./clubPartnerships";
 import { signFreeAgentScout, type SignFreeAgentScoutResult } from "../staff/scoutPool";
+import {
+  recallPlayerFromPlacement,
+  startInternationalPartnershipLoan,
+  startPlacement,
+  type StartPartnershipLoanResult,
+  type StartPlacementResult,
+} from "./playerPlacements";
 import type { SessionSeed } from "../training/trainingSchedule";
 import type { PlayerTrainingLoadSetting, TrainingDayType, TrainingSession, WeeklyTrainingTemplate } from "../training/types";
 import type { PlayerMatchDefault } from "../matchPlan/persistentDefaults";
@@ -194,6 +201,12 @@ type CareerContextValue = {
   renewPartnership: (partnershipId: string, additionalMonths: number) => void;
   /** HM-STAFF-SCOUT-POOL-1.0: signs a LIKELY_ELIGIBLE free-agent scout from scoutMarket to the manager's own club and persists on success. */
   signFreeAgentScout: (personId: string, offeredWageEurPerMonth: number, contractYears?: number) => SignFreeAgentScoutResult;
+  /** HM-CLUB-PARTNERSHIPS-1.1: places an eligible player at a real partner club (B-team or active development partnership) for development exposure and persists on success. Never moves contract/wage/owning club. */
+  startPlacement: (playerId: string, partnerClubId: string) => StartPlacementResult;
+  /** HM-CLUB-PARTNERSHIPS-1.1: recalls a placed player back to normal A-squad status and persists. Idempotent -- no-op if the player has no active placement. */
+  recallPlayerFromPlacement: (playerId: string) => void;
+  /** HM-CLUB-PARTNERSHIPS-1.1: starts a real loan under an active INTERNATIONAL_LOAN_PARTNERSHIP (minimal integration -- reuses the existing loan mechanism unchanged) and persists on success. */
+  startInternationalPartnershipLoan: (partnershipId: string, playerId: string, wageShareBorrowingPct: number, endDate: string) => StartPartnershipLoanResult;
 };
 
 const CareerContext = createContext<CareerContextValue | null>(null);
@@ -827,6 +840,39 @@ export function CareerProvider({ children }: { children: ReactNode }) {
     setValue({ save: value.save, career: nextCareer });
   }
 
+  function startPlacementActionWrapper(playerId: string, partnerClubId: string): StartPlacementResult {
+    if (!value) throw new Error("Ingen aktiv karriär.");
+    const result = startPlacement(value.career, playerId, partnerClubId, value.career.gameDate);
+    if (result.ok && result.placement) {
+      const nextCareer: CareerState = {
+        ...value.career,
+        playerPlacements: { ...value.career.playerPlacements, [result.placement.id]: result.placement },
+        playerStatuses: { ...value.career.playerStatuses, [playerId]: { playerId, availability: "ON_PLACEMENT" } },
+      };
+      saveCareerState(value.save.saveId, nextCareer);
+      setValue({ save: value.save, career: nextCareer });
+    }
+    return result;
+  }
+
+  function recallPlayerFromPlacementActionWrapper(playerId: string): void {
+    if (!value) throw new Error("Ingen aktiv karriär.");
+    const nextCareer = recallPlayerFromPlacement(value.career, playerId, value.career.gameDate);
+    if (nextCareer === value.career) return;
+    saveCareerState(value.save.saveId, nextCareer);
+    setValue({ save: value.save, career: nextCareer });
+  }
+
+  function startInternationalPartnershipLoanActionWrapper(partnershipId: string, playerId: string, wageShareBorrowingPct: number, endDate: string): StartPartnershipLoanResult {
+    if (!value) throw new Error("Ingen aktiv karriär.");
+    const result = startInternationalPartnershipLoan(value.career, partnershipId, playerId, wageShareBorrowingPct, endDate, value.career.gameDate);
+    if (result.ok && result.state) {
+      saveCareerState(value.save.saveId, result.state);
+      setValue({ save: value.save, career: result.state });
+    }
+    return result;
+  }
+
   function signFreeAgentScoutActionWrapper(personId: string, offeredWageEurPerMonth: number, contractYears?: number): SignFreeAgentScoutResult {
     if (!value) throw new Error("Ingen aktiv karriär.");
     const { state: nextCareer, result } = signFreeAgentScout(value.career, personId, value.career.playerClubId, offeredWageEurPerMonth, contractYears, value.career.gameDate);
@@ -879,6 +925,9 @@ export function CareerProvider({ children }: { children: ReactNode }) {
         terminatePartnership: terminatePartnershipActionWrapper,
         renewPartnership: renewPartnershipActionWrapper,
         signFreeAgentScout: signFreeAgentScoutActionWrapper,
+        startPlacement: startPlacementActionWrapper,
+        recallPlayerFromPlacement: recallPlayerFromPlacementActionWrapper,
+        startInternationalPartnershipLoan: startInternationalPartnershipLoanActionWrapper,
       }}
     >
       {children}

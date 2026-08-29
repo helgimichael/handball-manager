@@ -8,7 +8,7 @@ import type { CareerState } from "../career/types";
 import type { GameplayPlayerRating } from "../gameWorld/gameplayRatingSnapshot";
 import { mondayOf } from "../training/trainingSchedule";
 import { effectiveTrainingLoadSetting } from "../medical/availability";
-import { computeMatchAttributeStimulus, computeSessionAttributeStimulus } from "./developmentStimulus";
+import { PLACEMENT_RELATION_QUALITY_MULTIPLIER, computeMatchAttributeStimulus, computePlacementAttributeStimulus, computeSessionAttributeStimulus } from "./developmentStimulus";
 import { applyResolvedAttributeChanges, pushDevelopmentEvent, resolveAttributeForWeek } from "./developmentResolution";
 import type { DevelopableAttribute, IndividualDevelopmentFocus, PlayerDevelopmentState } from "./types";
 
@@ -110,6 +110,39 @@ export function applyMatchDevelopmentStimulus(state: CareerState, date: string, 
     // Part 11: match exposure has no coach -- neutral quality, exactly
     // FUTURE_COACHING_QUALITY_MULTIPLIER's own default.
     playerDevelopmentState = mergeStimulusIntoPlayerDevelopmentState(playerDevelopmentState, playerId, stimulus, 1.0);
+  }
+
+  return playerDevelopmentState === state.playerDevelopmentState ? state : { ...state, playerDevelopmentState };
+}
+
+/**
+ * HM-CLUB-PARTNERSHIPS-1.1: accumulates one day's placement-development
+ * stimulus for every player on an ACTIVE B-team/development-partnership
+ * placement (lib/career/playerPlacements.ts) -- called from dailyTick.ts
+ * step 3, immediately after applyTrainingDayDevelopmentStimulus and
+ * BEFORE resolveWeeklyDevelopmentIfDue, so it's captured by that same
+ * week's Sunday resolution. Feeds the SAME playerDevelopmentState entry
+ * as training/match stimulus (never a parallel CA engine) -- a placed
+ * player's `gameplayRatings` entry deliberately never moves to the
+ * partner club (see playerPlacements.ts's own doc), so
+ * resolveWeeklyDevelopmentIfDue's existing "manager's own club's live
+ * rating" lookup still finds them without any change there.
+ */
+export function applyPlacementDevelopmentStimulus(state: CareerState, date: string): CareerState {
+  const activePlacements = Object.values(state.playerPlacements).filter((p) => p.status === "ACTIVE");
+  if (activePlacements.length === 0) return state;
+
+  const squadById = new Map(getCareerSquad(state).map((p) => [p.id, p]));
+  let playerDevelopmentState = state.playerDevelopmentState;
+
+  for (const placement of activePlacements) {
+    const player = squadById.get(placement.playerId);
+    if (!player) continue;
+    const isGoalkeeper = player.position === "MV";
+    const age = playerAgeAtDate(player.dateOfBirth, player.birthYear, date);
+    const stimulus = computePlacementAttributeStimulus(placement.relationType, age, isGoalkeeper, `${placement.playerId}:${placement.id}:${date}`);
+    const quality = PLACEMENT_RELATION_QUALITY_MULTIPLIER[placement.relationType];
+    playerDevelopmentState = mergeStimulusIntoPlayerDevelopmentState(playerDevelopmentState, placement.playerId, stimulus, quality);
   }
 
   return playerDevelopmentState === state.playerDevelopmentState ? state : { ...state, playerDevelopmentState };

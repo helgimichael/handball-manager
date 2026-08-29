@@ -17,7 +17,20 @@ import { addDays } from "./dateUtils";
 // other system reads, per this module's own existing "not a full injury
 // simulator" scope). A LIMITED player IS selectable for a match (see
 // isSelectableForMatch below) but not treated as fully AVAILABLE.
-export type PlayerAvailability = "AVAILABLE" | "INJURED" | "SUSPENDED" | "RECOVERING" | "LIMITED";
+//
+// HM-CLUB-PARTNERSHIPS-1.1: "ON_PLACEMENT" added -- a player currently
+// developing at a B-team/development-partner club (lib/career/
+// playerPlacements.ts). Deliberately its OWN value, never a squashed
+// reuse of INJURED/SUSPENDED (the player is fully fit, just training
+// elsewhere -- reusing an injury-flavoured status would be dishonest).
+// Falls into isSelectableForMatch's existing "not AVAILABLE/LIMITED"
+// branch automatically (excluded from the parent club's own match
+// selection, Part: "Ingen dubbel matchrepresentation" without any new
+// eligibility code), and into effectiveTrainingLoadSetting's existing
+// "not AVAILABLE, not LIMITED" branch (forced REST at the PARENT club --
+// correct, since the player trains at the partner club instead, not a
+// second, divergent availability rule).
+export type PlayerAvailability = "AVAILABLE" | "INJURED" | "SUSPENDED" | "RECOVERING" | "LIMITED" | "ON_PLACEMENT";
 
 export interface PlayerCareerStatus {
   playerId: string;
@@ -80,6 +93,8 @@ export function resolveStatusLabel(statuses: Record<string, PlayerCareerStatus>,
       return "Under rehab";
     case "LIMITED":
       return "Begränsad";
+    case "ON_PLACEMENT":
+      return "Utplacerad hos partnerklubb";
     default:
       return player.squadStatus;
   }

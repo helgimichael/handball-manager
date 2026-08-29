@@ -160,3 +160,69 @@ export function computeMatchAttributeStimulus(attackExposure: number, defenceExp
   }
   return result;
 }
+
+// ---------------------------------------------------------------------------
+// HM-CLUB-PARTNERSHIPS-1.1: placement development exposure -- a player on
+// an active B-team/development-partnership placement (lib/career/
+// playerPlacements.ts) is genuinely training and playing at the PARTNER
+// club, not the manager's own. Division 1 has no real match simulation
+// (Part: "Skapa inte fejkade Division 1-matcher/mål/assist"), so this is
+// deliberately NOT modelled as match exposure -- a flat, deterministic,
+// bounded DAILY stimulus across a broad, well-rounded attribute spread
+// (never sport-specific micromanagement, since no real session data
+// exists for a club Division 1 never actually simulates), scaled only by
+// two REAL, already-canonical facts: the relation type itself (the
+// parent's own B-team is fully integrated into its own pathway; an
+// external development-partner club is real but less integrated) and the
+// player's own age (a young player benefits slightly more from regular
+// first-team-adjacent minutes elsewhere -- mirrors the rest of the
+// pipeline's existing age-sensitivity without duplicating
+// headroomDevelopmentMultiplier's own CA/PA-based logic, which still
+// applies afterward in developmentResolution.ts exactly as it does for
+// every other stimulus source). Deliberately smaller than a single
+// intensive parent-club session (BASE_STIMULUS_UNITS=3.0): an ordinary
+// placement day is normal club activity, not a curated individual
+// session -- "hellre en enkel modell än falsk precision".
+// ---------------------------------------------------------------------------
+
+const PLACEMENT_DAILY_STIMULUS_UNITS = 2.0;
+
+/** Part: relation type is a real, already-canonical fact (ClubPartnership.type) -- never invented hidden club quality. The parent's own B-team (AFFILIATED_B_TEAM) is fully integrated into its own development pathway; an external DEVELOPMENT_PARTNERSHIP club is real development but less integrated. Also reused as the "coaching quality" multiplier for this stimulus (see playerPlacements.ts), the same existing concept every other stimulus source already carries. */
+export const PLACEMENT_RELATION_QUALITY_MULTIPLIER: Record<"AFFILIATED_B_TEAM" | "DEVELOPMENT_PARTNERSHIP", number> = {
+  AFFILIATED_B_TEAM: 1.0,
+  DEVELOPMENT_PARTNERSHIP: 0.82,
+};
+
+const PLACEMENT_YOUNGER_AGE_BONUS_MAX_AGE = 17;
+const PLACEMENT_YOUNGER_AGE_BONUS = 1.1;
+
+/**
+ * One placement-day's stimulus for one player, spread evenly across a
+ * broad, honest attribute set (TECHNICAL+PERCEPTION_DECISION+DEFENSIVE
+ * for outcourt, all three GK families for a goalkeeper) -- never a single
+ * targeted family, since a placement has no individual-focus concept of
+ * its own. `seedKey` should be unique per (playerId, placementId, date)
+ * for stable, reproducible jitter (Part 15's existing deterministic-jitter
+ * convention, same seededOffset infra, never Math.random).
+ */
+export function computePlacementAttributeStimulus(
+  relationType: "AFFILIATED_B_TEAM" | "DEVELOPMENT_PARTNERSHIP",
+  age: number | null,
+  isGoalkeeper: boolean,
+  seedKey: string,
+): Partial<Record<DevelopableAttribute, number>> {
+  const relationMultiplier = PLACEMENT_RELATION_QUALITY_MULTIPLIER[relationType];
+  const ageMultiplier = age !== null && age <= PLACEMENT_YOUNGER_AGE_BONUS_MAX_AGE ? PLACEMENT_YOUNGER_AGE_BONUS : 1.0;
+  const totalUnits = PLACEMENT_DAILY_STIMULUS_UNITS * relationMultiplier * ageMultiplier * jitterFactor(seedKey);
+
+  const families = isGoalkeeper
+    ? (["SHOT_STOPPING", "PERCEPTION_DECISION", "TRANSITION"] as const).map(goalkeeperFamilyAttributes)
+    : (["TECHNICAL", "PERCEPTION_DECISION", "DEFENSIVE"] as const).map(outcourtFamilyAttributes);
+
+  const result: Partial<Record<DevelopableAttribute, number>> = {};
+  const add = (attr: DevelopableAttribute, units: number) => {
+    result[attr] = (result[attr] ?? 0) + units;
+  };
+  distributeEvenly(families, totalUnits, result, add);
+  return result;
+}

@@ -459,6 +459,13 @@ export function migrateCareerState(career: CareerState): CareerState {
   if (next.recruitmentTargets === undefined) {
     next = { ...next, recruitmentTargets: {} };
   }
+  // HM-CLUB-PARTNERSHIPS-1.1: additive -- an existing career simply never
+  // had player development placements yet. Migrated to an EMPTY map,
+  // never inventing placement history -- every reader already treats a
+  // missing/empty map as "no player currently placed".
+  if (next.playerPlacements === undefined) {
+    next = { ...next, playerPlacements: {} };
+  }
   // Every pre-1.1 ScoutingAssignment record was implicitly PLAYER-typed
   // (assignmentType/targetCompetitionId/targetNation/targetPosition/
   // targetMaxAgeYears/cyclesCompleted/maxCycles/discoveredPlayerIds did

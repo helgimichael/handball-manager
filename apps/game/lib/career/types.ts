@@ -24,6 +24,7 @@ import type { ScoutingAssignment, ScoutReport } from "./scouting";
 import type { ScoutDiscovery } from "./scoutDiscovery";
 import type { RecruitmentTarget } from "./recruitment";
 import type { ClubPartnership, PartnershipSearchAssignment } from "./clubPartnerships";
+import type { PlayerPlacement } from "./playerPlacements";
 import type { ScoutPoolSourceEntry } from "../staff/scoutPool";
 
 /** HM-PRESEASON-1.0: LEAGUE (the manager's own simulated competition), CUP (the provisional early cup round -- see preseason.ts), or FRIENDLY (manager-booked, never affects standings/season completion). */
@@ -598,6 +599,19 @@ export type CareerState = {
    * the manager takes one of those actions. Keyed by playerId.
    */
   recruitmentTargets: Record<string, RecruitmentTarget>;
+
+  // --- HM-CLUB-PARTNERSHIPS-1.1 addition ---
+
+  /**
+   * Player Development Placements -- the actual movement mechanism for
+   * AFFILIATED_B_TEAM/DEVELOPMENT_PARTNERSHIP exposure (HM-CLUB-
+   * PARTNERSHIPS-1.0's own isPartnershipExposureEligible never moved
+   * anyone). Keyed by id. See lib/career/playerPlacements.ts for the
+   * full domain -- the player's contract/wage/owning club/worldSquads
+   * membership never change for a domestic placement; only
+   * PlayerAvailability (ON_PLACEMENT) and playerDevelopmentState do.
+   */
+  playerPlacements: Record<string, PlayerPlacement>;
 };
 
 export type CareerSaveEnvelope = {

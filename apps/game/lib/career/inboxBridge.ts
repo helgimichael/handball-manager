@@ -34,6 +34,7 @@ const CATEGORY_BY_TYPE: Record<CareerEvent["type"], InboxCategory> = {
   COMPETITION_UPDATE: "COMPETITION",
   STAFF_REPORT: "STAFF",
   CLUB_NEWS: "CLUB",
+  PLAYER_PLACEMENT_EXPIRED: "PLAYER",
 };
 
 /** Swedish display label for a category -- the same pattern as game-data/players.ts's positionLabel(). */
@@ -74,6 +75,7 @@ const SENDER_BY_TYPE: Record<CareerEvent["type"], string> = {
   COMPETITION_UPDATE: "Tävlingsledningen",
   STAFF_REPORT: "Tränarstaben",
   CLUB_NEWS: "Klubbstyrelsen",
+  PLAYER_PLACEMENT_EXPIRED: "Klubbstyrelsen",
 };
 
 function playerName(career: CareerState, playerId: string | undefined): string {
