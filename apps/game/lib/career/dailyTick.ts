@@ -55,7 +55,7 @@ import {
   progressPartnershipSearches,
 } from "./clubPartnerships";
 import { accrueDailyPlacementExposure, progressPlacementExpiry } from "./playerPlacements";
-import { progressCpuRecruitment, cpuRecruiterClubIds, pushLog as pushCpuDecisionLog, type CpuDecisionLogEntry } from "./cpuRecruitment";
+import { progressCpuRecruitment, progressCpuEmergencyRecruitment, cpuRecruiterClubIds, pushLog as pushCpuDecisionLog, type CpuDecisionLogEntry } from "./cpuRecruitment";
 import { progressCpuContractDecisions } from "./cpuContractDecisions";
 import { adjustClubCash } from "../economy/clubEconomyIntegration";
 import {
@@ -257,6 +257,11 @@ export function processDay(state: CareerState, date: string): DailyTickResult {
   // Never touches state.playerClubId (Part: "Human-controlled club får
   // aldrig styras av detta").
   next = progressCpuRecruitment(next, date);
+  // HM-CPU-SQUAD-RESILIENCE-1.0: a narrow, every-day resilience check on
+  // top of the calibrated cadence above -- see cpuRecruitment.ts's own
+  // doc on why this is a separate pass rather than a change to the
+  // scheduled evaluation cycle itself.
+  next = progressCpuEmergencyRecruitment(next, date);
   const contractDecisions = progressCpuContractDecisions(next, date, cpuRecruiterClubIds(next));
   next = contractDecisions.state;
   const contractLogEntries: CpuDecisionLogEntry[] = contractDecisions.log.map((entry) => ({

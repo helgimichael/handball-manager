@@ -311,8 +311,22 @@ export function progressCpuContractDecisions(state: CareerState, date: string, c
         // The one real, self-limiting mutation: a new contract that pushes
         // the player OUT of the EXPIRING_SOON/EXPIRING window, so they are
         // naturally never re-evaluated tomorrow. Always logged immediately.
+        //
+        // HM-CPU-SQUAD-RESILIENCE-1.0 correctness fix: computeNewContractEndDate's
+        // OWN anchor (its `gameDate` param -- correct for a FRESH signing,
+        // where there is no prior contract to extend) must NOT be today's
+        // `date` here -- it must be the EXISTING contract's own end-date
+        // year. A renewal extends FROM where the contract already ends, not
+        // from today's calendar year. Passing `date` made a short (1-year)
+        // renewal evaluated any time after 1 June compute a fallback year
+        // that could equal -- or even predate -- the contract's own
+        // already-later end date, making the "renewal" a silent no-op: the
+        // 5-year world-stability re-audit caught this directly (the same
+        // playerId logged as RENEW on every single day for months, because
+        // contractEndDate never actually moved and the player never left
+        // the EXPIRING_SOON window).
         const years = renewalYears(tier, age);
-        const newEndDate = computeNewContractEndDate(player.id, date, years);
+        const newEndDate = computeNewContractEndDate(player.id, contract.contractEndDate, years);
         next = { ...next, playerContracts: { ...next.playerContracts, [player.id]: { ...contract, contractEndDate: newEndDate } } };
         log.push({ playerId: player.id, clubId, position: player.position, decision, reason });
       } else if (daysUntilContractEnd(contract.contractEndDate, date) % NO_ACTION_LOG_REVIEW_INTERVAL_DAYS === 0) {

@@ -280,3 +280,37 @@ test("Lifecycle: a RELEASE decision never immediately removes the player -- cont
   assert.notEqual(getPlayerContractStatus(after, expiringId), "FREE_AGENT");
   assert.ok(after.worldSquads[clubId]!.some((p) => p.id === expiringId), "the player must remain in the squad until the real expiry date");
 });
+
+test("RENEW correctness: a short (1-year) renewal anchors to the EXISTING contract end date, not today's calendar year -- must always move strictly forward and exit EXPIRING_SOON immediately", () => {
+  // HM-CPU-SQUAD-RESILIENCE-1.0 regression: the 5-year world-stability
+  // re-audit found the SAME playerId logged as RENEW on nearly every
+  // single day for months -- computeNewContractEndDate was anchored to
+  // `date` (today) instead of the existing contract's own end-date year,
+  // so an old player's 1-year renewal evaluated any time after 1 June
+  // computed a fallback year that could equal (or even predate) the
+  // contract's own already-later end date, making the "renewal" a silent
+  // no-op that never actually moved the player out of the EXPIRING_SOON
+  // window. Fixture below reproduces that exact scenario: gameDate in
+  // August, contract already extending to the following 31 May (within
+  // EXPIRING_SOON), an old (32) FIRST_CHOICE player (RENEWAL_YEARS_BY_TIER
+  // gives 2 years, age >= 31 drops it to 1 -- the precise buggy case).
+  const clubId = "se_club_bodens_bk_hf";
+  const player: PlayerMock = { ...syntheticPlayer("renew-anchor-1", clubId, "V6", "1994-01-01"), squadStatus: "Förstaval" };
+  let state = fullWorldState("cpucd-renew-anchor", "se_club_hammarby_if_hf");
+  state = {
+    ...state,
+    gameDate: "2026-08-19",
+    worldSquads: { ...state.worldSquads, [clubId]: [player] },
+    gameplayRatings: { ...state.gameplayRatings, [clubId]: [ratingFor(player.id, "V6", 120)] },
+    playerContracts: { ...state.playerContracts, [player.id]: { playerId: player.id, clubId, contractEndDate: "2027-05-31", wageEurPerMonth: 1000 } },
+  };
+  const before = getPlayerContract(state, player.id)!.contractEndDate;
+
+  const { log, state: after } = progressCpuContractDecisions(state, state.gameDate, [clubId]);
+  const entry = log.find((e) => e.playerId === player.id);
+  assert.equal(entry?.decision, "RENEW", "fixture assumption: a lone, useful player at a thin position must be renewed");
+
+  const afterDate = getPlayerContract(after, player.id)!.contractEndDate;
+  assert.ok(new Date(afterDate).getTime() > new Date(before).getTime(), `RENEW must always move contractEndDate strictly forward (before=${before}, after=${afterDate})`);
+  assert.equal(getPlayerContractStatus(after, player.id), "UNDER_CONTRACT", "a genuinely renewed contract must exit the EXPIRING_SOON window immediately -- never still due for re-evaluation the very next check");
+});

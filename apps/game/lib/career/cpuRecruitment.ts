@@ -10,7 +10,7 @@ import { submitTransferOffer } from "../transfers/transferIntegration";
 import { isTransferWindowOpen } from "../transfers/transferWindow";
 import { seededOffset } from "../rating/generation/deterministicVariation";
 import { addDays, isSameOrBefore } from "./dateUtils";
-import { assessPositionNeed, assessSquadNeeds, priorityNeeds, projectedSquadSize, type NeedLevel } from "./cpuSquadNeeds";
+import { assessPositionNeed, assessSquadNeeds, priorityNeeds, projectedSquadSize, positionEmergencyLevel, isSquadFloorEmergency, type NeedLevel } from "./cpuSquadNeeds";
 import { bestAffordableCandidate, rankCandidates } from "./cpuCandidateEvaluation";
 import type { CareerState } from "./types";
 
@@ -349,6 +349,102 @@ export function progressCpuRecruitment(state: CareerState, date: string): Career
     next = result.state;
     const interval = result.urgent ? CPU_RECRUITMENT_URGENT_CYCLE_DAYS : CPU_RECRUITMENT_NORMAL_CYCLE_DAYS;
     next = { ...next, cpuClubEvaluationSchedule: { ...next.cpuClubEvaluationSchedule, [clubId]: addDays(date, interval) } };
+  }
+
+  return next;
+}
+
+// ---------------------------------------------------------------------------
+// HM-CPU-SQUAD-RESILIENCE-1.0: a narrow, EVERY-DAY resilience pass, kept
+// entirely separate from the calibrated 1.0C evaluation cadence above
+// (Part 3: "Emergency should override only timing" -- never the
+// underlying pursuit/candidate/cooldown/affordability machinery, all
+// reused completely unmodified via the SAME pursuePosition/existingPlan/
+// activePursuitCount helpers above). Exists because 1.0C's own "already
+// SEARCHING -> skip forever" duplicate-pursuit guard (correct for
+// ordinary churn, Part: prevents re-spamming an unaffordable candidate
+// search daily) has a real timing gap for a genuine acute hole: once the
+// very first pursuit attempt finds no affordable/available candidate,
+// that exact position is never retried again until it stops being needy
+// entirely -- a club can sit with 0-1 usable goalkeepers for weeks simply
+// because nothing ever re-checks whether the candidate pool has since
+// improved (a free agent appeared, another club released a keeper). This
+// pass runs unconditionally for every CPU club every day (cheap: one
+// assessSquadNeeds pass per club) specifically so a sudden hole -- e.g. a
+// 31 May contract-expiry wave (Part 8) -- is detected the very next day,
+// not whenever the club's own pre-existing, pre-emergency
+// cpuClubEvaluationSchedule entry next happens to fall due.
+// ---------------------------------------------------------------------------
+
+/** Part 3: "a few days, not same-day" -- deliberately much shorter than the normal 45-day cycle but not literally daily, so a genuinely stuck emergency retries the market a handful of times before resolving, never every single day (Part: "Do not return to daily market spam"). */
+export const CPU_EMERGENCY_RETRY_DAYS = 3;
+
+function daysBetweenIso(from: string, to: string): number {
+  return Math.round((new Date(to).getTime() - new Date(from).getTime()) / 86400000);
+}
+
+/**
+ * Runs for every CPU club every day. Only ACTS (a real pursuit attempt)
+ * when a genuine emergency exists (Part 2: 0-1 usable goalkeepers, an
+ * outright-empty field position, or a critically small whole squad with
+ * no single position individually flagged -- Part 7's own "pick the most
+ * severe actual positional need" fallback, never every position at
+ * once), and even then throttled to CPU_EMERGENCY_RETRY_DAYS via the SAME
+ * CpuRecruitmentPlan.lastEvaluatedAt every position already persists --
+ * no new CareerState field, no second scheduling truth. A retry of an
+ * already-SEARCHING plan never consumes a fresh active-pursuit slot (it
+ * was already counted); a genuinely NEW pursuit still respects the same
+ * CPU_RECRUITMENT_MAX_ACTIVE_PURSUITS cap and cooldownUntil guard as the
+ * calibrated cadence above (Part 4). Never touches `state.playerClubId`
+ * (cpuRecruiterClubIds already excludes it, same as progressCpuRecruitment).
+ *
+ * WHICH clubs/positions count as emergency today is decided ONCE, from
+ * `state` as it stood at the START of this pass -- deliberately never
+ * re-derived against the evolving `next` mid-loop. Without this, one
+ * club's own emergency purchase can create a genuine, fresh emergency for
+ * the SELLING club (e.g. a thin club selling its last spare goalkeeper),
+ * and since that seller is processed later in the very same daily pass,
+ * it would immediately buy the exact same scarce candidate back --
+ * a same-day ping-pong confirmed during this milestone's own testing.
+ * Freezing today's target list to pass-start means that knock-on
+ * emergency is still caught -- on TOMORROW's pass, once -- rather than
+ * the same player bouncing between two clubs within a single day. Candidate
+ * ranking/affordability/cooldowns themselves still always read the fully
+ * up-to-date `next` (no staleness there, only in "is this club emergency
+ * today").
+ */
+export function progressCpuEmergencyRecruitment(state: CareerState, date: string): CareerState {
+  let next = state;
+
+  const clubTargets = new Map<string, ReturnType<typeof priorityNeeds>>();
+  for (const clubId of cpuRecruiterClubIds(state)) {
+    const squad = state.worldSquads[clubId] ?? [];
+    if (squad.length === 0) continue;
+    const assessment = assessSquadNeeds(state, clubId, date);
+    let targets = assessment.positions.filter((p) => positionEmergencyLevel(p.position, p.projectedDepth) !== "NONE");
+    if (targets.length === 0 && isSquadFloorEmergency(projectedSquadSize(state, clubId))) {
+      const worst = priorityNeeds(assessment)[0];
+      if (worst) targets = [worst];
+    }
+    if (targets.length > 0) clubTargets.set(clubId, targets);
+  }
+
+  for (const [clubId, targets] of clubTargets) {
+    let slotsRemaining = CPU_RECRUITMENT_MAX_ACTIVE_PURSUITS - activePursuitCount(next, clubId);
+    for (const target of targets) {
+      const existing = existingPlan(next, clubId, target.position);
+      const isRetry = existing?.status === "SEARCHING";
+      if (isRetry) {
+        if (existing.lastEvaluatedAt && daysBetweenIso(existing.lastEvaluatedAt, date) < CPU_EMERGENCY_RETRY_DAYS) continue;
+      } else if (slotsRemaining <= 0) {
+        continue; // a genuinely new pursuit still respects the active-pursuit cap (Part 4).
+      }
+      if (existing?.cooldownUntil !== null && existing?.cooldownUntil !== undefined && !isSameOrBefore(existing.cooldownUntil, date)) continue; // cooldown still respected (Part 4).
+
+      const result = pursuePosition(next, clubId, target.position, target.level, date);
+      next = result.state;
+      if (result.pursued && !isRetry) slotsRemaining -= 1;
+    }
   }
 
   return next;

@@ -200,3 +200,43 @@ export function projectedSquadSize(state: CareerState, clubId: string): number {
 export function priorityNeeds(assessment: SquadNeedAssessment): readonly PositionNeedAssessment[] {
   return assessment.positions.filter((p) => p.level === "HIGH" || p.level === "MEDIUM").sort((a, b) => NEED_RANK[a.level] - NEED_RANK[b.level]);
 }
+
+// ---------------------------------------------------------------------------
+// HM-CPU-SQUAD-RESILIENCE-1.0: emergency classification -- a genuine acute
+// hole, strictly narrower than plain HIGH need (HIGH already covers count
+// 0 or 1 via levelForCount; emergency singles out only the most severe end
+// of that same bucket, purely to drive RETRY CADENCE in cpuRecruitment.ts,
+// never a new scoring/saturation rule). Reuses `projectedDepth`
+// (assessPositionNeed's own current-usable + pending-incoming number)
+// exactly as-is -- Part: "Do not create a second squad-depth truth".
+// ---------------------------------------------------------------------------
+
+export const EMERGENCY_LEVELS = ["NONE", "EMERGENCY", "SEVERE"] as const;
+export type EmergencyLevel = (typeof EMERGENCY_LEVELS)[number];
+
+/**
+ * Goalkeeper gets an extra severity split -- a club with zero fit
+ * keepers cannot field a team at all (SEVERE), one keeper is a real but
+ * slightly less acute hole (EMERGENCY, Part 6's own "0 -> severe, 1 ->
+ * emergency, 2 -> normal healthy minimum"). Every other tracked field
+ * position only qualifies at zero (an outright missing position, Part 2's
+ * own examples never ask for a field "1 -> emergency" tier). A pending
+ * AGREED_AWAITING_WINDOW signee already raises `projectedDepth` before
+ * this is ever called (Part 6: "Pending incoming counts"), so 1 current +
+ * 1 agreed incoming reads as projectedDepth 2 -> NONE, exactly Part 2's
+ * own worked example.
+ */
+export function positionEmergencyLevel(position: HandballPosition, projectedDepth: number): EmergencyLevel {
+  if (position === "MV") {
+    if (projectedDepth <= 0) return "SEVERE";
+    if (projectedDepth === 1) return "EMERGENCY";
+    return "NONE";
+  }
+  return projectedDepth <= 0 ? "EMERGENCY" : "NONE";
+}
+
+/** Part 7: whole-squad floor -- only fires when the club's OWN total projected size (the exact same number projectedSquadSize already computes, current usable + pending incoming permanent signings) is critically small, independent of any single position. Deliberately narrow (<=12, not 13-14 -- Part 7's own "13-14 -> strong HIGH need but not necessarily emergency"). */
+export const SQUAD_FLOOR_EMERGENCY_COUNT = 12;
+export function isSquadFloorEmergency(projectedTotalSize: number): boolean {
+  return projectedTotalSize <= SQUAD_FLOOR_EMERGENCY_COUNT;
+}
