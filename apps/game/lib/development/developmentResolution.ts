@@ -104,7 +104,8 @@ const MAX_POINTS_PER_RESOLUTION = 1;
 // anywhere in this module).
 // ---------------------------------------------------------------------------
 
-function caNudgePerAttributePoint(branch: "OUTCOURT" | "GOALKEEPER"): number {
+/** HM-PLAYER-CAREER-LIFECYCLE-1.0: exported so age-related DECLINE (lib/career/playerLifecycle.ts) can compute the exact same CA-per-attribute-point conversion for a NEGATIVE delta, via the SAME applyResolvedAttributeChanges mutation path below -- never a second, divergent CA formula for decline vs growth. */
+export function caNudgePerAttributePoint(branch: "OUTCOURT" | "GOALKEEPER"): number {
   const attributeCount = branch === "OUTCOURT" ? OUTCOURT_ATTRIBUTES.length : GOALKEEPER_ATTRIBUTES.length;
   return (CA_MAX - CA_MIN) / (ATTRIBUTE_MAX - ATTRIBUTE_MIN) / attributeCount;
 }

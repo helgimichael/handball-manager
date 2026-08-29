@@ -490,6 +490,16 @@ export function migrateCareerState(career: CareerState): CareerState {
   if (next.youthIntakeClubYears === undefined) {
     next = { ...next, youthIntakeClubYears: {} };
   }
+  // HM-PLAYER-CAREER-LIFECYCLE-1.0: additive -- an existing career simply
+  // never had ageing/decline/retirement evaluation yet. Migrated to an
+  // EMPTY map, deliberately conservative (Part 21: "Do not simulate
+  // missed historical retirement years") -- every player is simply
+  // eligible again the next time the annual evaluation date passes after
+  // this migration runs, never mass-retired/mass-declined during
+  // migration itself.
+  if (next.playerLifecycleYears === undefined) {
+    next = { ...next, playerLifecycleYears: {} };
+  }
   // Every pre-1.1 ScoutingAssignment record was implicitly PLAYER-typed
   // (assignmentType/targetCompetitionId/targetNation/targetPosition/
   // targetMaxAgeYears/cyclesCompleted/maxCycles/discoveredPlayerIds did

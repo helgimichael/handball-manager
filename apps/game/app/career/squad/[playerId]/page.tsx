@@ -6,6 +6,7 @@ import { abilityStars, getClub, playerAge, positionLabel, potentialStars } from 
 import { useCareer } from "@/lib/career/CareerContext";
 import { getCareerPlayer } from "@/lib/career/careerWorld";
 import { isFreeAgentClubId } from "@/lib/career/contractExpiry";
+import { isRetiredClubId } from "@/lib/career/playerLifecycle";
 import { averageRating, emptyPlayerSeasonStats } from "@/lib/career/types";
 import { resolveStatusLabel } from "@/lib/career/playerStatus";
 import StarRating from "@/components/StarRating";
@@ -102,6 +103,7 @@ export default function PlayerProfilePage() {
   const age = playerAge(player.dateOfBirth, player.birthYear);
   const isWonderkid = age !== null && age <= 19 && potentialStars(player) >= 5;
   const isFreeAgentPlayer = isFreeAgentClubId(player.clubId);
+  const isRetiredPlayer = isRetiredClubId(player.clubId);
   const club = getClub(player.clubId);
   const hasRatingProfile = Boolean(ratingRow);
   // HM-DATA-ALLSVENSKAN-1.1B Part 12: TRUE WORLD STATE -> MANAGER
@@ -178,6 +180,11 @@ export default function PlayerProfilePage() {
                     {" · "}
                     <ClubLink clubId={club.id}>{club.name}</ClubLink>
                   </>
+                ) : isRetiredPlayer ? (
+                  <>
+                    {" · "}
+                    <span className="hm-text-muted">Pensionerad</span>
+                  </>
                 ) : isFreeAgentPlayer ? (
                   <>
                     {" · "}
@@ -194,10 +201,12 @@ export default function PlayerProfilePage() {
                   ? router.push("/career/squad")
                   : isFreeAgentPlayer
                     ? router.push("/career/transfers")
-                    : router.push(`/career/clubs/${player.clubId}`)
+                    : isRetiredPlayer
+                      ? router.push("/career/squad")
+                      : router.push(`/career/clubs/${player.clubId}`)
               }
             >
-              ← {player.clubId === career.playerClubId ? "Trupp" : isFreeAgentPlayer ? "Transfers" : "Klubb"}
+              ← {player.clubId === career.playerClubId ? "Trupp" : isFreeAgentPlayer ? "Transfers" : isRetiredPlayer ? "Trupp" : "Klubb"}
             </button>
           </div>
         </div>

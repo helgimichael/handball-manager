@@ -23,7 +23,8 @@ export type CareerEventType =
   | "CLUB_NEWS"
   | "PLAYER_PLACEMENT_EXPIRED"
   | "PLAYER_CONTRACT_EXPIRED"
-  | "YOUTH_INTAKE_COMPLETE";
+  | "YOUTH_INTAKE_COMPLETE"
+  | "PLAYER_RETIRED";
 
 /** Spec S3: the three-tier priority model. */
 export type EventPriority = "INFORMATION" | "IMPORTANT" | "ACTION_REQUIRED";
@@ -335,5 +336,19 @@ export function buildYouthIntakeCompleteEvent(clubId: string, date: string, play
     `${playerCount} nya unga spelare har anslutit till klubbens trupp.`,
     [{ route: "SQUAD" }],
     { primaryEntity: { entityType: "club", entityId: clubId } },
+  );
+}
+
+/** HM-PLAYER-CAREER-LIFECYCLE-1.0 Part 15/16: only ever emitted for the manager's OWN club's own player (same silent-for-every-other-club precedent as contract expiry/youth intake). Name/age are baked in as PARAMETERS at build time (the caller already has the full player object) rather than resolved later by the inbox bridge -- Part 15's own "Do not expose probability/roll/CA" is satisfied by construction: nothing beyond identity/age/club context is ever passed in. */
+export function buildPlayerRetiredEvent(playerId: string, playerDisplayName: string, age: number | null, date: string): CareerEvent {
+  return baseEvent(
+    `PLAYER_RETIRED:${playerId}:${date}`,
+    "PLAYER_RETIRED",
+    date,
+    "IMPORTANT",
+    `${playerDisplayName} avslutar karriären`,
+    age !== null ? `${playerDisplayName} (${age} år) har meddelat att den aktiva karriären är över.` : `${playerDisplayName} har meddelat att den aktiva karriären är över.`,
+    [{ route: "PLAYER_PROFILE", playerId }, { route: "SQUAD" }],
+    { primaryEntity: { entityType: "player", entityId: playerId } },
   );
 }

@@ -642,6 +642,20 @@ export type CareerState = {
    * next time 1 July passes after migration.
    */
   youthIntakeClubYears: Record<string, string>;
+
+  // --- HM-PLAYER-CAREER-LIFECYCLE-1.0 addition ---
+
+  /**
+   * The most recent YEAR (as `"YYYY"`) each playerId was already
+   * evaluated for ageing decline / retirement -- the sole guard against
+   * double-processing the same player in the same annual lifecycle
+   * evaluation (see lib/career/playerLifecycle.ts's own
+   * `progressPlayerLifecycle`). Never backfilled retroactively for a
+   * migrated old save, same conservative precedent as
+   * `youthIntakeClubYears` -- a player simply becomes eligible again the
+   * next time the evaluation date passes after migration.
+   */
+  playerLifecycleYears: Record<string, string>;
 };
 
 export type CareerSaveEnvelope = {

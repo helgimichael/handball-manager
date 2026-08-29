@@ -43,6 +43,7 @@ import {
 } from "./careerEvents";
 import { progressContractExpiry } from "./contractExpiry";
 import { progressYouthIntake } from "./youthIntake";
+import { progressPlayerLifecycle } from "./playerLifecycle";
 import { applyTrainingDayInjuryResolution, progressDailyRehab } from "../medical/injuryIntegration";
 import { ensureOpponentAnalysisTask, progressCareerTasks } from "./careerTasks";
 import { progressScoutingAssignments } from "./scouting";
@@ -217,6 +218,16 @@ export function processDay(state: CareerState, date: string): DailyTickResult {
       emit(buildPlayerContractExpiredEvent(departure.playerId, date));
     }
   }
+
+  // HM-PLAYER-CAREER-LIFECYCLE-1.0: annual ageing decline + retirement --
+  // a world rule, run on its own 15 June date, deliberately AFTER
+  // contract expiry (31 May) has fully resolved for the season and
+  // BEFORE youth intake (1 July) adds fresh graduates -- see
+  // playerLifecycle.ts's own doc on this exact ordering. Silent for
+  // every CPU club, one event per human-club player who actually retires.
+  const { state: afterLifecycle, events: lifecycleEvents } = progressPlayerLifecycle(next, date);
+  next = afterLifecycle;
+  for (const event of lifecycleEvents) emit(event);
 
   // HM-YOUTH-INTAKE-1.0: annual world-lifecycle replenishment -- a world
   // rule, same framing as contract expiry above, run right after it (a
