@@ -13,7 +13,25 @@ import { playerAgeAtDate } from "../development/developmentIntegration";
 import { seededOffset } from "../rating/generation/deterministicVariation";
 import { hasActivePendingTransfer } from "../transfers/transferIntegration";
 import { getExternalCandidateClubs, WORLD_POOL_COMPETITION_IDS } from "./careerWorld";
+import { projectedSquadSize } from "./cpuSquadNeeds";
 import type { CareerState } from "./types";
+
+/**
+ * HM-CPU-SQUAD-BUILDING-1.0C Part 1: squad-size recruitment brake --
+ * "normal squad size -> ingen penalty; stor squad -> tydlig recruitment
+ * penalty". Below `SQUAD_SIZE_PENALTY_START` (a typical fully-staffed
+ * Handbollsligan squad with real depth) every candidate scores exactly
+ * as before; above it, EVERY candidate's score is pulled down smoothly
+ * the bigger the projected squad already is -- this alone doesn't stop a
+ * genuinely needed (HIGH) signing (the recruitment cycle in
+ * cpuRecruitment.ts still pursues it regardless of score), it just makes
+ * a marginal/MEDIUM "quality upgrade" pursuit progressively less likely
+ * to look worth it once a squad is already well-staffed. The much harder
+ * "no new MEDIUM/luxury pursuits at all" gate lives in cpuRecruitment.ts
+ * (Part: "mycket stor squad -> inga nya LOW/MEDIUM luxury pursuits").
+ */
+const SQUAD_SIZE_PENALTY_START = 20;
+const SQUAD_SIZE_PENALTY_PER_PLAYER = 4;
 
 /**
  * Part: "Starka svenska klubbar ska ibland kunna värva internationellt" --
@@ -127,6 +145,7 @@ export function rankCandidates(state: CareerState, buyerClubId: string, position
   const ownLevel = ownLevelScore(state, buyerClubId);
   const hasScout = clubHasScout(state, buyerClubId);
   const jitterMagnitude = hasScout ? SCOUTED_JITTER_MAGNITUDE : UNSCOUTED_JITTER_MAGNITUDE;
+  const squadSizePenalty = Math.max(0, projectedSquadSize(state, buyerClubId) - SQUAD_SIZE_PENALTY_START) * SQUAD_SIZE_PENALTY_PER_PLAYER;
 
   const candidateClubs = getExternalCandidateClubs(state).filter((c) => c.id !== buyerClubId);
   const results: CandidateScore[] = [];
@@ -168,7 +187,7 @@ export function rankCandidates(state: CareerState, buyerClubId: string, position
 
       const jitter = seededOffset(`${buyerClubId}:${player.id}:${date}:cpu-candidate-jitter`, jitterMagnitude);
 
-      let score = rating.ca * 1.0 + Math.max(0, rating.pa - rating.ca) * 0.3 + ageScore(age) + contractSituationScore(contractStatus) + tierGapPenalty - levelGapPenalty - internationalReachPenalty + jitter;
+      let score = rating.ca * 1.0 + Math.max(0, rating.pa - rating.ca) * 0.3 + ageScore(age) + contractSituationScore(contractStatus) + tierGapPenalty - levelGapPenalty - internationalReachPenalty - squadSizePenalty + jitter;
       if (!affordability.affordable) score -= 1000; // Part: "för dyr kandidat ska kunna avvisas" -- still ranked/visible for explainability, but never chosen while unaffordable ones exist.
 
       const reasonParts = [`${positionLabel(position)}, nivå ${Math.round(rating.ca)}`, contractStatus === "FREE_AGENT" || contractStatus === "EXPIRING" ? "kontrakt går snart ut" : null, affordability.affordable ? "råd att värva" : `för dyr (${affordability.reasons.join(" ")})`].filter(Boolean);

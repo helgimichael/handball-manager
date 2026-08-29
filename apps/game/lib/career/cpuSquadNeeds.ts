@@ -14,6 +14,18 @@ import type { CareerState } from "./types";
 /** Headcount (current + projected incoming) at or above this is "adequate depth" -- matches levelForCount's own LOW cutoff. Adequate depth blocks the quality rule from independently escalating need (HM-CPU-SQUAD-BUILDING-1.0B Part 5). */
 const ADEQUATE_DEPTH_COUNT = 3;
 
+/**
+ * HM-CPU-SQUAD-BUILDING-1.0C Part 2: "saturated" -- a position with this
+ * much projected depth or more is explicitly full, never merely "low
+ * need". Same threshold for goalkeeper and outfield positions (the
+ * spec's own example table: 1=real need, 2=normal, 3=strong depth,
+ * 4+=saturated). Doesn't change pursuit eligibility on its own (LOW/NONE
+ * were already never pursued) -- exposed so the recruitment-cycle layer
+ * (successful-signing cooldown, outlier reporting) can reason about "is
+ * this position actually full" explicitly rather than re-deriving it.
+ */
+const SATURATED_DEPTH_COUNT = 4;
+
 /** Every outfield/goalkeeper slot the milestone tracks -- the exact 7-position vocabulary the spec itself lists. */
 export const CPU_TRACKED_POSITIONS: readonly HandballPosition[] = ["MV", "V6", "H6", "V9", "M9", "H9", "M6"];
 
@@ -30,6 +42,10 @@ export interface PositionNeedAssessment {
   usableCount: number;
   /** Players already agreed (AGREED_AWAITING_WINDOW) to arrive at this position but not yet physically in the squad -- counted toward projected depth so the club doesn't sign a second player for a gap it has already solved. */
   pendingIncoming: number;
+  /** usableCount + pendingIncoming -- the number every leveling/gating decision actually uses. */
+  projectedDepth: number;
+  /** Part 2: projectedDepth >= 4 -- the position is explicitly full, not merely "not urgent". */
+  saturated: boolean;
   reason: string;
 }
 
@@ -156,13 +172,28 @@ export function assessPositionNeed(state: CareerState, clubId: string, position:
     reasons.push("Nivån på positionen ligger klart under klubbens eget snitt.");
   }
 
-  return { position, level, usableCount: count, pendingIncoming: incoming, reason: reasons.join(" ") };
+  return { position, level, usableCount: count, pendingIncoming: incoming, projectedDepth: effectiveCount, saturated: effectiveCount >= SATURATED_DEPTH_COUNT, reason: reasons.join(" ") };
 }
 
 export function assessSquadNeeds(state: CareerState, clubId: string, date: string): SquadNeedAssessment {
   const squad = state.worldSquads[clubId] ?? [];
   const positions = CPU_TRACKED_POSITIONS.map((position) => assessPositionNeed(state, clubId, position, squad));
   return { clubId, date, positions };
+}
+
+/**
+ * HM-CPU-SQUAD-BUILDING-1.0C Part 1: total projected squad size (current
+ * usable squad + every pending incoming PERMANENT signing across all
+ * positions, not just the one position assessPositionNeed looks at) --
+ * the input the squad-size recruitment brake reasons about. LOAN
+ * arrivals are deliberately excluded (a loan is a temporary, easily
+ * reversed depth boost, not a permanent roster commitment the brake
+ * should react to).
+ */
+export function projectedSquadSize(state: CareerState, clubId: string): number {
+  const squad = (state.worldSquads[clubId] ?? []).filter((p) => isUsableForSquadPlanning(state, p));
+  const pendingIncoming = Object.values(state.transferOffers).filter((o) => o.toClubId === clubId && o.status === "AGREED_AWAITING_WINDOW" && o.dealType === "PERMANENT").length;
+  return squad.length + pendingIncoming;
 }
 
 /** HIGH needs first, then MEDIUM -- Part: "en uppenbar lucka ... ska prioriteras före lyxvärvningar". LOW/NONE are never pursued (Part: "Balanced squad ska kunna ge NO ACTION"). */

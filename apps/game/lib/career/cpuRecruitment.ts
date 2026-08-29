@@ -10,7 +10,7 @@ import { submitTransferOffer } from "../transfers/transferIntegration";
 import { isTransferWindowOpen } from "../transfers/transferWindow";
 import { seededOffset } from "../rating/generation/deterministicVariation";
 import { addDays, isSameOrBefore } from "./dateUtils";
-import { assessSquadNeeds, priorityNeeds, type NeedLevel } from "./cpuSquadNeeds";
+import { assessPositionNeed, assessSquadNeeds, priorityNeeds, projectedSquadSize, type NeedLevel } from "./cpuSquadNeeds";
 import { bestAffordableCandidate, rankCandidates } from "./cpuCandidateEvaluation";
 import type { CareerState } from "./types";
 
@@ -41,6 +41,29 @@ const INITIAL_EVALUATION_MIN_OFFSET_DAYS = 14;
 /** Spread width added on top of the minimum offset above. */
 const INITIAL_EVALUATION_SPREAD_DAYS = 45;
 
+// HM-CPU-SQUAD-BUILDING-1.0C Part 1/5: the squad-size recruitment brake.
+// Below `SQUAD_SIZE_LARGE_THRESHOLD` nothing here changes (a genuinely
+// thin position can always be pursued, per cpuCandidateEvaluation.ts's
+// own softer score-only penalty starting at 20). At or above it, a
+// MEDIUM ("normal depth, could still use an upgrade") pursuit is not
+// even attempted -- Part: "mycket stor squad -> inga nya LOW/MEDIUM
+// luxury pursuits". HIGH need (a real positional hole, a genuine
+// contract-risk replacement, a true goalkeeper shortage) is NEVER
+// gated by squad size, at any size -- Part: "En klubb med 25 spelare och
+// bara 1 MV ska alltså fortfarande kunna söka MV". Deliberately reuses
+// the SAME number the audit script's own "squad size >= 24" outlier
+// flag uses, rather than inventing a separate figure.
+export const SQUAD_SIZE_LARGE_THRESHOLD = 24;
+
+// HM-CPU-SQUAD-BUILDING-1.0C Part 3/4: successful-signing cooldown --
+// "position solved -> längre cooldown; fortfarande HIGH efter recompute
+// -> kortare/ingen cooldown; MEDIUM/LOW -> lång cooldown". Deliberately
+// longer than one full normal evaluation cycle (45 days) so a completed
+// signing gets genuine time to register as solved before the SAME
+// position is even reconsidered -- this is what the 1.0A/B audits'
+// "same position bought 10/28 times in a season" pattern was missing.
+const SIGNING_SOLVED_COOLDOWN_DAYS = 75;
+
 export const CPU_RECRUITMENT_PLAN_STATUSES = ["SEARCHING", "SUCCEEDED", "FAILED", "SATISFIED"] as const;
 export type CpuRecruitmentPlanStatus = (typeof CPU_RECRUITMENT_PLAN_STATUSES)[number];
 
@@ -63,7 +86,15 @@ export interface CpuRecruitmentPlan {
   createdAt: string;
   lastEvaluatedAt: string;
   offerId: string | null;
-  /** Only meaningful when status === "FAILED" -- a new pursuit for this same club+position is blocked until this date. */
+  /**
+   * Blocks a NEW pursuit for this same club+position until this date --
+   * set after a FAILED deal (Part: "cooldown efter misslyckad deal") AND
+   * after a SUCCEEDED one that didn't leave the position genuinely still
+   * HIGH (HM-CPU-SQUAD-BUILDING-1.0C Part 3: "position solved -> längre
+   * cooldown"). Null means no cooldown is active -- either nothing has
+   * been decided yet, or the position is still genuinely HIGH need and
+   * reopening immediately is correct.
+   */
   cooldownUntil: string | null;
   reason: string;
 }
@@ -180,12 +211,19 @@ function evaluateClub(state: CareerState, clubId: string, date: string): { state
   }
 
   let slotsRemaining = CPU_RECRUITMENT_MAX_ACTIVE_PURSUITS - activePursuitCount(next, clubId);
+  const squadSize = projectedSquadSize(next, clubId);
 
   for (const need of needy) {
     if (slotsRemaining <= 0) break;
+    // Part 1/5: a MEDIUM ("could still use an upgrade") pursuit is not
+    // even attempted once the squad is already large -- HIGH need
+    // (a real hole/contract-risk replacement/genuine shortage) is never
+    // gated by squad size.
+    if (need.level === "MEDIUM" && squadSize >= SQUAD_SIZE_LARGE_THRESHOLD) continue;
+
     const existing = existingPlan(next, clubId, need.position);
     if (existing?.status === "SEARCHING") continue; // Part: "duplicate pursuit prevention" -- already actively pursuing this position.
-    if (existing?.status === "FAILED" && existing.cooldownUntil !== null && !isSameOrBefore(existing.cooldownUntil, date)) continue; // Part: "cooldown efter misslyckad deal".
+    if (existing?.cooldownUntil !== null && existing?.cooldownUntil !== undefined && !isSameOrBefore(existing.cooldownUntil, date)) continue; // Part 3/4: cooldown active -- covers both a failed deal AND a recently-solved position, regardless of the existing plan's own status.
 
     const result = pursuePosition(next, clubId, need.position, need.level, date);
     next = result.state;
@@ -249,6 +287,25 @@ function pursuePosition(state: CareerState, clubId: string, position: HandballPo
   });
 
   const succeeded = offer.status === "COMPLETED" || offer.status === "AGREED_AWAITING_WINDOW";
+
+  // HM-CPU-SQUAD-BUILDING-1.0C Part 3/4: after a successful signing,
+  // recompute the position's own need on the POST-offer state (an
+  // AGREED_AWAITING_WINDOW signee already counts via pendingIncoming --
+  // Part 6/7 -- so this reflects the deal that JUST happened, not a
+  // stale pre-signing view). Still genuinely HIGH -> no cooldown, reopen
+  // immediately (a real hole one signing didn't fully close). Anything
+  // else (solved, or only partially solved down to MEDIUM/LOW) -> a long
+  // cooldown, giving the signing real time to matter before the SAME
+  // position is reconsidered.
+  let cooldownUntil: string | null;
+  if (!succeeded) {
+    cooldownUntil = addDays(date, CPU_RECRUITMENT_COOLDOWN_DAYS);
+  } else {
+    const postSquad = afterOffer.worldSquads[clubId] ?? [];
+    const postNeed = assessPositionNeed(afterOffer, clubId, position, postSquad);
+    cooldownUntil = postNeed.level === "HIGH" ? null : addDays(date, SIGNING_SOLVED_COOLDOWN_DAYS);
+  }
+
   const plan: CpuRecruitmentPlan = {
     id,
     clubId,
@@ -259,7 +316,7 @@ function pursuePosition(state: CareerState, clubId: string, position: HandballPo
     createdAt: state.cpuRecruitmentPlans[id]?.createdAt ?? date,
     lastEvaluatedAt: date,
     offerId: offer.id,
-    cooldownUntil: succeeded ? null : addDays(date, CPU_RECRUITMENT_COOLDOWN_DAYS),
+    cooldownUntil,
     reason: offer.clubDecisionReason ?? offer.playerDecisionReason ?? (succeeded ? "Erbjudandet accepterades." : `Affären gick inte igenom (${offer.status}).`),
   };
 
