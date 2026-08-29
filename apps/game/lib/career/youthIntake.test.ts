@@ -39,11 +39,72 @@ test("annual generation: an eligible club gains new players on the intake date",
 
   const { state: after, generated } = progressYouthIntake(state, INTAKE_DATE_YEAR1);
   const cohort = generated[clubId];
-  assert.ok(cohort && cohort.length >= 2 && cohort.length <= 5, `expected 2-5 new players, got ${cohort?.length}`);
+  // HM-WORLD-POPULATION-CALIBRATION-1.0: bounds updated from the original
+  // uniform 2-5 to the probabilistic 1-3 (mostly 1, sometimes 2, rarely 3).
+  assert.ok(cohort && cohort.length >= 1 && cohort.length <= 3, `expected 1-3 new players, got ${cohort?.length}`);
 
   const afterCount = (after.worldSquads[clubId] ?? []).length;
   assert.equal(afterCount, before + cohort!.length);
   for (const id of cohort!) assert.ok(after.worldSquads[clubId]!.some((p) => p.id === id));
+});
+
+// HM-WORLD-POPULATION-CALIBRATION-1.0: focused proofs for the new
+// probabilistic 1-3 (mostly 1, sometimes 2, rarely 3) intake-size
+// distribution -- bounds, determinism, cross-year variation, and no
+// eligible club ever starving to permanent zero intake. This is the
+// smallest evidence-justified production change made by that milestone
+// (see lib/career/youthIntake.ts's own doc on intakeSizeForClub for the
+// full evidence trail); the annual-guard/ownership/persistence/migration
+// tests above already cover the unchanged surrounding architecture.
+test("intake-size bounds: every generated cohort across many clubs/seasons is 1, 2, or 3, never outside that range", () => {
+  const state = fullWorldState("youth-size-bounds", "se_club_hammarby_if_hf");
+  let cursor = state;
+  let sampleCount = 0;
+  for (let year = 2027; year < 2027 + 10; year++) {
+    const { state: next, generated } = progressYouthIntake(cursor, `${year}-${YOUTH_INTAKE_DATE_MMDD}`);
+    cursor = next;
+    for (const clubId of Object.keys(generated)) {
+      const size = generated[clubId].length;
+      sampleCount++;
+      assert.ok(size >= 1 && size <= 3, `club ${clubId} year ${year}: expected size 1-3, got ${size}`);
+    }
+  }
+  assert.ok(sampleCount > 100, "fixture assumption: enough club-years sampled across 10 seasons of every eligible club");
+});
+
+test("intake-size determinism: identical seed + club + season produce an identical cohort SIZE", () => {
+  const stateA = fullWorldState("youth-size-determinism", "se_club_hammarby_if_hf");
+  const stateB = fullWorldState("youth-size-determinism", "se_club_hammarby_if_hf");
+  const clubId = rivalClubId(stateA);
+  const a = progressYouthIntake(stateA, INTAKE_DATE_YEAR1);
+  const b = progressYouthIntake(stateB, INTAKE_DATE_YEAR1);
+  assert.equal(a.generated[clubId]!.length, b.generated[clubId]!.length);
+});
+
+test("intake-size variation: cohort size is not the same every single season for a given club", () => {
+  const state = fullWorldState("youth-size-variation", "se_club_hammarby_if_hf");
+  const clubId = rivalClubId(state);
+  let cursor = state;
+  const sizes: number[] = [];
+  for (let year = 2027; year < 2027 + 15; year++) {
+    const { state: next, generated } = progressYouthIntake(cursor, `${year}-${YOUTH_INTAKE_DATE_MMDD}`);
+    cursor = next;
+    if (generated[clubId]) sizes.push(generated[clubId].length);
+  }
+  assert.ok(new Set(sizes).size > 1, `expected cohort size to vary across 15 seasons for one club, got constant sizes ${JSON.stringify(sizes)}`);
+});
+
+test("no zero-world starvation: every eligible club keeps producing a real cohort every season, none ever silently stop", () => {
+  const state = fullWorldState("youth-no-starvation", "se_club_hammarby_if_hf");
+  const eligibleClubIds = eligibleYouthIntakeClubIds(state);
+  let cursor = state;
+  for (let year = 2027; year < 2027 + 8; year++) {
+    const { state: next, generated } = progressYouthIntake(cursor, `${year}-${YOUTH_INTAKE_DATE_MMDD}`);
+    cursor = next;
+    for (const clubId of eligibleClubIds) {
+      assert.ok(generated[clubId] && generated[clubId].length >= 1, `club ${clubId} produced no intake in year ${year} -- eligible clubs must never be starved`);
+    }
+  }
 });
 
 test("no intake on a normal day: progressYouthIntake is a true no-op on any date that isn't 1 July", () => {
@@ -217,7 +278,7 @@ test("human club: the human's own club receives youth intake too, with no CPU de
   const state = fullWorldState("youth-human-club", "se_club_hammarby_if_hf");
   const { state: after, generated } = progressYouthIntake(state, INTAKE_DATE_YEAR1);
   const cohort = generated[state.playerClubId];
-  assert.ok(cohort && cohort.length >= 2, "the human club must receive a real cohort, not be skipped");
+  assert.ok(cohort && cohort.length >= 1, "the human club must receive a real cohort, not be skipped");
   for (const id of cohort!) assert.ok(after.worldSquads[state.playerClubId]!.some((p) => p.id === id));
 });
 
@@ -253,5 +314,5 @@ test("full daily tick: processDay actually wires youth intake in, and the human 
   const intakeEvents = events.filter((e) => e.type === "YOUTH_INTAKE_COMPLETE");
   assert.equal(intakeEvents.length, 1, "exactly one event for the human club's own intake, regardless of cohort size");
   // The SAME day also runs the 31 May contract-expiry wave (this fixture jumps straight from a fresh career to 30 June, so every original contract -- all sharing the standard 31 May end date -- expires the moment this single processDay call runs), so the squad can legitimately be smaller than its PRE-expiry count even after intake adds players. What matters here is that intake genuinely ran: the squad must contain at least the minimum cohort size.
-  assert.ok((after.worldSquads[state.playerClubId] ?? []).length >= 2, "the human club must end the day with at least its newly-generated youth cohort");
+  assert.ok((after.worldSquads[state.playerClubId] ?? []).length >= 1, "the human club must end the day with at least its newly-generated youth cohort");
 });

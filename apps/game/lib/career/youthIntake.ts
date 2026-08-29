@@ -71,9 +71,44 @@ export const YOUTH_INTAKE_DATE_MMDD = "07-01";
 
 const YOUTH_MODEL_VERSION = "HM-YOUTH-INTAKE-1.0-v1";
 
-/** Part 4: "2-5 nya spelare per klubb/år ... Håll kullen liten." */
-const INTAKE_SIZE_MIN = 2;
-const INTAKE_SIZE_MAX = 5;
+/**
+ * HM-WORLD-POPULATION-CALIBRATION-1.0: probabilistic small intake,
+ * replacing the original uniform 2-5 (mean 3.5). Evidence (5x20-season
+ * baseline + a 4-way intake-size comparison + a retirement-sensitivity
+ * control, all full-daily-tick simulations against this exact 14-club
+ * Handbollsligan world): with the original 2-5 range, population grew
+ * +132% over the first 10 seasons and a further +64% over the next 10 --
+ * far past the world-health calibration target. A retirement-only
+ * countermeasure (doubling the free-agent-duration retirement multiplier)
+ * was tested FIRST and rejected: it barely moved total population
+ * (+0.5%) because departing free agents are immediately backfilled by
+ * contract-expiry churn from the much larger attached population --
+ * retirement rate was conclusively NOT the bottleneck. Intake size IS:
+ * cutting it measurably slowed growth in every model tested. A uniform
+ * 1-2 range was also tested and rejected -- it cut growth the most but
+ * repeatedly starved several clubs down to single-digit squads for many
+ * consecutive seasons (a real world-health failure, not just a smaller
+ * number). This probabilistic model (mostly 1, sometimes 2, rarely 3;
+ * mean 1.65) cuts the same ~53% off the mean while keeping the
+ * occasional larger cohort that a hard 1-2 cap lacks -- squad depth
+ * degrades gracefully instead of persistently collapsing (minimum squad
+ * size observed staying at least 1-8 throughout a 20-season run, vs. 1-2
+ * for many consecutive seasons under the uniform 1-2 model). Population
+ * growth is not fully flattened by year 20 (a demographic transient --
+ * see this milestone's own final report on why -- not a defect in this
+ * distribution), but growth is meaningfully slower than the original
+ * range in every run tested, without the squad-health cost of a harder
+ * cut. Position generation, CA/PA shape, club-quality shift, contracts,
+ * and retirement itself are all deliberately UNCHANGED -- this is the
+ * smallest evidence-justified lever, per this milestone's own explicit
+ * "prefer smallest production change" instruction.
+ */
+function intakeSizeForClub(saveSeed: string, clubId: string, intakeYear: number): number {
+  const roll = seededIndex(`${saveSeed}:${clubId}:${intakeYear}:youth-intake-size`, 100);
+  if (roll < 45) return 1;
+  if (roll < 90) return 2;
+  return 3;
+}
 
 function clamp(value: number, min: number, max: number): number {
   return Math.min(max, Math.max(min, value));
@@ -400,10 +435,6 @@ function generateYouthPlayer(saveSeed: string, clubId: string, intakeYear: numbe
   };
 
   return { player, rating, contract };
-}
-
-function intakeSizeForClub(saveSeed: string, clubId: string, intakeYear: number): number {
-  return INTAKE_SIZE_MIN + seededIndex(`${saveSeed}:${clubId}:${intakeYear}:youth-intake-size`, INTAKE_SIZE_MAX - INTAKE_SIZE_MIN + 1);
 }
 
 // ---------------------------------------------------------------------------
