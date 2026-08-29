@@ -11,18 +11,31 @@ import { assessTransferAffordability } from "../transfers/affordability";
 import { competitionTierForClub } from "../transfers/transferExecution";
 import { playerAgeAtDate } from "../development/developmentIntegration";
 import { seededOffset } from "../rating/generation/deterministicVariation";
+import { hasActivePendingTransfer } from "../transfers/transferIntegration";
 import { getExternalCandidateClubs, WORLD_POOL_COMPETITION_IDS } from "./careerWorld";
 import type { CareerState } from "./types";
 
 /**
  * Part: "Starka svenska klubbar ska ibland kunna värva internationellt" --
- * only a club whose own top-of-squad level clears this CA bar (1-200
- * scale) is even offered international (World Pool) candidates at all.
- * Deliberately a fixed, honest threshold (not invented per-club data) --
- * roughly "a genuinely strong Handbollsligan side", well above a typical
- * mid-table average.
+ * a club's own top-of-squad level (Part: club-relative, not a fixed
+ * absolute claim) determines how visible/attractive international (World
+ * Pool) candidates are. HM-CPU-SQUAD-BUILDING-1.0B Part 10: the 1.0A
+ * audit found the ORIGINAL hard cutoff here (`ownLevel < 130 -> entirely
+ * invisible`) produced an artificial single-point cliff -- two clubs a
+ * couple of CA points apart on either side of 130 had completely
+ * different candidate pools. Replaced with a graduated, continuous
+ * REACH PENALTY (see `internationalReachPenalty` below): score drops
+ * smoothly the further below this reference point a club's own level
+ * sits, with no single threshold flipping visibility on/off. A generous
+ * outer bound (`INTERNATIONAL_REACH_HARD_FLOOR`) still exists so a
+ * genuinely weak club can never realistically land a top international
+ * player (Part: "Division 1-klubb ska normalt inte kunna locka
+ * världsstjärnor" from the original 1.0 spec) -- but that boundary is
+ * now 40 CA points wide, not one point.
  */
-const INTERNATIONAL_REACH_CA_THRESHOLD = 130;
+const INTERNATIONAL_REACH_CA_REFERENCE = 130;
+const INTERNATIONAL_REACH_HARD_FLOOR = INTERNATIONAL_REACH_CA_REFERENCE - 40;
+const INTERNATIONAL_REACH_PENALTY_PER_CA = 3;
 
 /** How many of a club's own best-per-position ratings are averaged into its "own level" score -- one exact starting seven, the same shape as a real matchday XI. */
 const OWN_LEVEL_POSITION_COUNT = 7;
@@ -120,12 +133,22 @@ export function rankCandidates(state: CareerState, buyerClubId: string, position
 
   for (const club of candidateClubs) {
     const isInternational = (WORLD_POOL_COMPETITION_IDS as readonly string[]).includes(club.competitionId);
-    if (isInternational && (!hasScout || ownLevel < INTERNATIONAL_REACH_CA_THRESHOLD)) continue; // Part: reach -- no scout, or not a strong-enough club, never sees international candidates.
+    // Part: reach -- no scout means international candidates are entirely
+    // invisible (a hard gate, unchanged from 1.0); a club whose own level
+    // sits more than 40 CA below the reference point is still excluded
+    // outright (Part: even a smooth model needs SOME outer bound so a
+    // weak club can never realistically land a top international player).
+    // Between the hard floor and the reference point, reach is graduated
+    // via `internationalReachPenalty` in the score below -- never a
+    // single-point cliff.
+    if (isInternational && (!hasScout || ownLevel < INTERNATIONAL_REACH_HARD_FLOOR)) continue;
+    const internationalReachPenalty = isInternational ? Math.max(0, INTERNATIONAL_REACH_CA_REFERENCE - ownLevel) * INTERNATIONAL_REACH_PENALTY_PER_CA : 0;
 
     const squad = state.worldSquads[club.id] ?? [];
     for (const player of squad) {
       if (player.position !== position) continue;
       if (state.playerStatuses[player.id]?.availability === "ON_PLACEMENT") continue; // not really available to sell right now.
+      if (hasActivePendingTransfer(state, player.id)) continue; // HM-CPU-SQUAD-BUILDING-1.0B Part 1: already has a pending deal elsewhere -- never a viable candidate, checked here (not only at offer time) so a doomed candidate never wastes a pursuit slot.
 
       const rating = clubGameplayRating(state, club.id, player.id);
       const contract = getPlayerContract(state, player.id);
@@ -145,7 +168,7 @@ export function rankCandidates(state: CareerState, buyerClubId: string, position
 
       const jitter = seededOffset(`${buyerClubId}:${player.id}:${date}:cpu-candidate-jitter`, jitterMagnitude);
 
-      let score = rating.ca * 1.0 + Math.max(0, rating.pa - rating.ca) * 0.3 + ageScore(age) + contractSituationScore(contractStatus) + tierGapPenalty - levelGapPenalty + jitter;
+      let score = rating.ca * 1.0 + Math.max(0, rating.pa - rating.ca) * 0.3 + ageScore(age) + contractSituationScore(contractStatus) + tierGapPenalty - levelGapPenalty - internationalReachPenalty + jitter;
       if (!affordability.affordable) score -= 1000; // Part: "för dyr kandidat ska kunna avvisas" -- still ranked/visible for explainability, but never chosen while unaffordable ones exist.
 
       const reasonParts = [`${positionLabel(position)}, nivå ${Math.round(rating.ca)}`, contractStatus === "FREE_AGENT" || contractStatus === "EXPIRING" ? "kontrakt går snart ut" : null, affordability.affordable ? "råd att värva" : `för dyr (${affordability.reasons.join(" ")})`].filter(Boolean);

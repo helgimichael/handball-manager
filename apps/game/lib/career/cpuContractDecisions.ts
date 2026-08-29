@@ -7,6 +7,7 @@
 import type { HandballPosition, PlayerMock } from "../game-data";
 import { getClubFinancialHealth } from "../economy/clubEconomyIntegration";
 import { getPlayerContract, getPlayerContractStatus } from "../economy/contractIntegration";
+import { daysUntilContractEnd } from "../economy/contractLifecycle";
 import { computeNewContractEndDate } from "../transfers/transferExecution";
 import { playerAgeAtDate } from "../development/developmentIntegration";
 import { deriveDefaultSquadStatusTier, type SquadStatusTier } from "./squadStatus";
@@ -81,6 +82,8 @@ export interface CpuContractDecisionLogEntry {
 
 const RENEWAL_YEARS_BY_TIER: Partial<Record<SquadStatusTier, number>> = { KEY_PLAYER: 3, FIRST_CHOICE: 2, TALENT: 2 };
 const DEFAULT_RENEWAL_YEARS = 2;
+/** HM-CPU-SQUAD-BUILDING-1.0B Part 9: the 1.0A audit found ~23,800 WAIT log rows for one run -- the same stable no-op decision re-logged every single day for as long as a player sits in the EXPIRING_SOON window (up to 365 days). RENEW/RELEASE are real actions and are always logged immediately when they happen; a WAIT (no state change at all) is only logged on this periodic checkpoint instead of daily. Decision LOGIC itself is unchanged -- this only throttles how often an unchanged "no action" gets written down. */
+const WAIT_LOG_REVIEW_INTERVAL_DAYS = 30;
 
 /**
  * Part: dailyTick integration -- cheap (pure filtering + a handful of
@@ -118,11 +121,13 @@ export function progressCpuContractDecisions(state: CareerState, date: string, c
         const years = RENEWAL_YEARS_BY_TIER[tier] ?? DEFAULT_RENEWAL_YEARS;
         const newEndDate = computeNewContractEndDate(player.id, date, years);
         next = { ...next, playerContracts: { ...next.playerContracts, [player.id]: { ...contract, contractEndDate: newEndDate } } };
+        log.push({ playerId: player.id, clubId, position: player.position, decision, reason });
       } else if (decision === "RELEASE") {
         next = { ...next, playerContracts: { ...next.playerContracts, [player.id]: { ...contract, contractEndDate: date } } };
+        log.push({ playerId: player.id, clubId, position: player.position, decision, reason });
+      } else if (daysUntilContractEnd(contract.contractEndDate, date) % WAIT_LOG_REVIEW_INTERVAL_DAYS === 0) {
+        log.push({ playerId: player.id, clubId, position: player.position, decision, reason });
       }
-
-      log.push({ playerId: player.id, clubId, position: player.position, decision, reason });
     }
   }
 

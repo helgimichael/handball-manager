@@ -7,6 +7,7 @@
 // hook for window-gated completions and loan returns.
 import type { CareerState } from "../career/types";
 import { getCareerPlayer } from "../career/careerWorld";
+import { deriveDefaultSquadStatusTier, type SquadStatusTier } from "../career/squadStatus";
 import { playerAgeAtDate } from "../development/developmentIntegration";
 import { getPlayerContract, getPlayerContractStatus, getPlayerMarketValueEur } from "../economy/contractIntegration";
 import { getPlayerTrainingCompensation } from "../economy/trainingCompensationIntegration";
@@ -20,8 +21,46 @@ import { isSameOrBefore } from "../career/dateUtils";
 import type { MatchRole } from "../matchPlan/types";
 import type { LoanRecord, LoanTerms, TransferDealType, TransferOffer } from "./types";
 
+// HM-CPU-SQUAD-BUILDING-1.0B Part 11: `playerMatchDefaults` is a
+// manager-only, opt-in MatchPlan concept -- CPU clubs (and most human
+// squad players who were never explicitly assigned a match role) never
+// have an entry there, so the OLD unconditional `?? "ROTATION"` fallback
+// silently treated every CPU-owned player, including genuine
+// KEY_PLAYERs, as low-resistance ROTATION-tier for the selling-club
+// decision. That's the confirmed root cause behind the 1.0A audit's
+// "REJECTED_BY_CLUB = 0" finding: the 1.4x KEY_PLAYER sale-resistance
+// multiplier in clubDecision.ts was never actually reached for CPU
+// squads. Falls back to the player's own SquadStatusTier (the same
+// signal cpuContractDecisions.ts and AI MatchPlan generation already use
+// for a club with no explicit match-role assignment) instead of a flat
+// guess -- a real, already-canonical signal, never invented data.
+const TIER_TO_MATCH_ROLE: Record<SquadStatusTier, MatchRole> = {
+  KEY_PLAYER: "KEY_PLAYER",
+  FIRST_CHOICE: "STARTER",
+  ROTATION: "ROTATION",
+  SQUAD_PLAYER: "SPECIALIST",
+  TALENT: "DEVELOPMENT",
+};
+
 function resolveMatchRoleForDecision(state: CareerState, playerId: string): MatchRole {
-  return state.playerMatchDefaults[playerId]?.matchRole ?? "ROTATION";
+  const explicit = state.playerMatchDefaults[playerId]?.matchRole;
+  if (explicit) return explicit;
+  const player = getCareerPlayer(state, playerId);
+  return player ? TIER_TO_MATCH_ROLE[deriveDefaultSquadStatusTier(player)] : "ROTATION";
+}
+
+/**
+ * HM-CPU-SQUAD-BUILDING-1.0B Part 1: "A player must never have more than
+ * one unresolved/pending transfer outcome that can later execute."
+ * AGREED_AWAITING_WINDOW is the ONE status in this synchronous-resolution
+ * model that can still execute later (every other terminal status is
+ * already fully resolved) -- exported so callers that rank/filter
+ * candidates BEFORE submitting an offer (e.g. cpuCandidateEvaluation.ts)
+ * can avoid wasting a pursuit on a player who would just get blocked
+ * here anyway, without this guard itself living only in that one caller.
+ */
+export function hasActivePendingTransfer(state: CareerState, playerId: string): boolean {
+  return Object.values(state.transferOffers).some((o) => o.playerId === playerId && o.status === "AGREED_AWAITING_WINDOW");
 }
 
 /** Roughly: does this club already have >=2 OTHER players at the same position with comparable ability? A simple, honest squad-depth proxy -- not a full tactical-fit judgement. */
@@ -119,6 +158,10 @@ export function submitTransferOffer(state: CareerState, params: SubmitTransferOf
     return { state: { ...nextState, transferOffers: { ...nextState.transferOffers, [offerId]: offer } }, offer };
   }
 
+  if (hasActivePendingTransfer(state, playerId)) {
+    return finalize("BLOCKED_PENDING_TRANSFER", { clubDecisionReason: "Spelaren har redan en pågående affär som väntar på att slutföras." }, state);
+  }
+
   const affordability = assessTransferAffordability(state, toClubId, transferFeeEur, trainingCompensationEur, params.newWageEurPerMonth, wageShareBorrowingPct);
   if (!affordability.affordable) {
     return finalize("BLOCKED_UNAFFORDABLE", { clubDecisionReason: affordability.reasons.join(" ") }, state);
@@ -212,6 +255,21 @@ export function progressDailyTransfers(state: CareerState, date: string): Career
     if (!isSameOrBefore(offer.scheduledCompletionDate, date)) continue;
     const contract = getPlayerContract(next, offer.playerId);
     if (!contract) continue;
+
+    // HM-CPU-SQUAD-BUILDING-1.0B Part 2: never trust the offer's own
+    // stored `fromClubId` blindly -- verify the player still canonically
+    // belongs there right now. The BLOCKED_PENDING_TRANSFER guard in
+    // submitTransferOffer should make this rare going forward, but a
+    // pre-1.0B save can still carry overlapping AGREED_AWAITING_WINDOW
+    // offers from before the fix. A mismatch here means the player moved
+    // via a different deal in the meantime -- never execute a stale
+    // move; cancel this offer safely instead.
+    const currentPlayer = getCareerPlayer(next, offer.playerId);
+    if (!currentPlayer || currentPlayer.clubId !== offer.fromClubId) {
+      next = { ...next, transferOffers: { ...next.transferOffers, [offer.id]: { ...offer, status: "CANCELLED_STALE", resolvedDate: date } } };
+      continue;
+    }
+
     let moved = transferPlayerPermanently(next, offer.playerId, offer.fromClubId, offer.toClubId, offer.newWageEurPerMonth, offer.newContractEndDate);
     moved = adjustClubCash(moved, offer.toClubId, -(offer.transferFeeEur + offer.trainingCompensationEur));
     moved = adjustClubCash(moved, offer.fromClubId, offer.transferFeeEur);

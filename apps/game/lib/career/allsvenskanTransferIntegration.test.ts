@@ -8,6 +8,7 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import { createNewCareerState } from "./newCareer";
 import { getCareerClubSquad, getCareerPlayer } from "./careerWorld";
+import { deriveDefaultSquadStatusTier } from "./squadStatus";
 import { getClubsByCompetition, TUMBA_CLUB_ID } from "../game-data";
 import { snapshotWorldSquads, snapshotGameplayRatings } from "../gameWorld/serverSnapshot";
 import { submitTransferOffer } from "../transfers/transferIntegration";
@@ -26,6 +27,28 @@ function pickSellerAndPlayer(state: CareerState) {
   const sellerClubId = getClubsByCompetition(ALLSVENSKAN_ID).find((c) => c.id !== TUMBA_CLUB_ID && (state.worldSquads[c.id]?.length ?? 0) > 3)!.id;
   const player = state.worldSquads[sellerClubId][0];
   return { sellerClubId, player };
+}
+
+/**
+ * HM-CPU-SQUAD-BUILDING-1.0B Part 11: resolveMatchRoleForDecision now
+ * correctly derives a selling club's own resistance from the player's
+ * real SquadStatusTier instead of always defaulting to ROTATION -- a
+ * club realistically resists loaning out a KEY_PLAYER/FIRST_CHOICE
+ * player for a modest wage share with no other incentive. The loan test
+ * below needs a genuinely loanable (lower-tier) player, not just
+ * whichever player happens to be first in the array.
+ */
+function pickLoanableSellerAndPlayer(state: CareerState) {
+  for (const club of getClubsByCompetition(ALLSVENSKAN_ID)) {
+    if (club.id === TUMBA_CLUB_ID) continue;
+    const squad = state.worldSquads[club.id] ?? [];
+    const loanable = squad.find((p) => {
+      const tier = deriveDefaultSquadStatusTier(p);
+      return tier !== "KEY_PLAYER" && tier !== "FIRST_CHOICE";
+    });
+    if (loanable) return { sellerClubId: club.id, player: loanable };
+  }
+  throw new Error("expected at least one loanable (non-KEY_PLAYER/FIRST_CHOICE) Allsvenskan player for this test");
 }
 
 test("(1) IFK Tumba's worldSquads is populated with real players from every other real-world Allsvenskan club, not just its own", () => {
@@ -63,7 +86,7 @@ test("(3) a well-priced permanent offer from IFK Tumba to another Allsvenskan cl
 
 test("(4) IFK Tumba can loan in a real player from another Allsvenskan club with a simple wage share", () => {
   const state = tumbaState("as-xfer-4");
-  const { sellerClubId, player } = pickSellerAndPlayer(state);
+  const { sellerClubId, player } = pickLoanableSellerAndPlayer(state);
   const currentWage = getPlayerContract(state, player.id)!.wageEurPerMonth;
   const result = submitTransferOffer(state, {
     dealType: "LOAN",

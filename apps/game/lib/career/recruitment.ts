@@ -75,10 +75,12 @@ export const RECRUITMENT_STATUS_LABEL_SV: Record<RecruitmentStatus, string> = {
 
 const TRANSFER_STATUS_LABEL_SV: Record<TransferOfferStatus, string> = {
   BLOCKED_UNAFFORDABLE: "Misslyckad -- för dyrt",
+  BLOCKED_PENDING_TRANSFER: "Misslyckad -- spelaren har redan en pågående affär",
   REJECTED_BY_CLUB: "Misslyckad -- klubben nekade",
   REJECTED_BY_PLAYER: "Misslyckad -- spelaren nekade",
   AGREED_AWAITING_WINDOW: "Överenskommet -- väntar på transferfönster",
   COMPLETED: "Avslutad",
+  CANCELLED_STALE: "Avbruten -- spelaren bytte klubb innan affären slutfördes",
 };
 
 /** "Ej kontaktad" (no offer exists) vs the real, existing TransferOfferStatus vocabulary -- never an invented intermediate state (Part: "Mappa BEFINTLIG transfer-state till naturlig svensk copy", not a new negotiation model -- see transfers/types.ts's own doc on why every offer resolves synchronously to a terminal status, no lingering "pending"). */

@@ -18,17 +18,21 @@ import { KnowledgeGatedAbilityPanel } from "@/components/KnowledgeGatedProfilePa
 
 const STATUS_LABEL: Record<TransferOfferStatus, string> = {
   BLOCKED_UNAFFORDABLE: "Ej råd",
+  BLOCKED_PENDING_TRANSFER: "Spelaren har redan en pågående affär",
   REJECTED_BY_CLUB: "Nekat av klubben",
   REJECTED_BY_PLAYER: "Nekat av spelaren",
   AGREED_AWAITING_WINDOW: "Överenskommet — väntar på transferfönster",
   COMPLETED: "Genomfört",
+  CANCELLED_STALE: "Avbrutet — spelaren bytte klubb innan affären slutfördes",
 };
 const STATUS_TONE: Record<TransferOfferStatus, "positive" | "warning" | "negative" | "neutral"> = {
   BLOCKED_UNAFFORDABLE: "negative",
+  BLOCKED_PENDING_TRANSFER: "negative",
   REJECTED_BY_CLUB: "negative",
   REJECTED_BY_PLAYER: "negative",
   AGREED_AWAITING_WINDOW: "warning",
   COMPLETED: "positive",
+  CANCELLED_STALE: "neutral",
 };
 
 export default function TransfersPage() {

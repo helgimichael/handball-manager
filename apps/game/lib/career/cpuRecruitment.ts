@@ -19,16 +19,29 @@ import type { CareerState } from "./types";
 // scheduling offsets" framing -- game-flow pacing, not real-world truth).
 // ---------------------------------------------------------------------------
 
+// HM-CPU-SQUAD-BUILDING-1.0B Part 8: the 1.0A market audit found ~12.5
+// offers/club/season (one club up to 46) with the ORIGINAL 21-day normal
+// cycle / 0-21 day initial spread -- clearly Football-Manager-grade
+// churn, not plausible for professional handball. No specific target
+// count is assumed here (the audit explicitly declined to invent one);
+// these are the smallest calibration levers to eliminate the obvious
+// spam: a longer normal cycle, a later/wider initial spread (avoiding a
+// day-1 league-wide burst), and a longer post-failure cooldown. The
+// urgent cycle stays materially faster than normal, per instruction.
 /** Part: "Kör INTE full world-ranking varje dag" -- a balanced/no-need club is re-checked this rarely. */
-export const CPU_RECRUITMENT_NORMAL_CYCLE_DAYS = 21;
+export const CPU_RECRUITMENT_NORMAL_CYCLE_DAYS = 45;
 /** Part: "ökad aktivitet när transfer/contract timing är relevant" -- a club with a HIGH need, or evaluated while a transfer window is open, is re-checked sooner. */
 export const CPU_RECRUITMENT_URGENT_CYCLE_DAYS = 7;
 /** Part: "cooldown efter misslyckad deal" -- how long a club waits before trying the SAME position again after a failed offer. */
-export const CPU_RECRUITMENT_COOLDOWN_DAYS = 30;
+export const CPU_RECRUITMENT_COOLDOWN_DAYS = 45;
 /** Part: "begränsat antal active pursuits" -- a club never has more than this many live (SEARCHING) plans at once. */
 export const CPU_RECRUITMENT_MAX_ACTIVE_PURSUITS = 2;
+/** Part: no day-1 full-market burst -- every club's very first evaluation lands at least this many days into the career, not on day 0-1. */
+const INITIAL_EVALUATION_MIN_OFFSET_DAYS = 14;
+/** Spread width added on top of the minimum offset above. */
+const INITIAL_EVALUATION_SPREAD_DAYS = 45;
 
-export const CPU_RECRUITMENT_PLAN_STATUSES = ["SEARCHING", "SUCCEEDED", "FAILED"] as const;
+export const CPU_RECRUITMENT_PLAN_STATUSES = ["SEARCHING", "SUCCEEDED", "FAILED", "SATISFIED"] as const;
 export type CpuRecruitmentPlanStatus = (typeof CPU_RECRUITMENT_PLAN_STATUSES)[number];
 
 /**
@@ -71,12 +84,31 @@ function planId(clubId: string, position: HandballPosition): string {
   return `${clubId}:${position}`;
 }
 
-function pushLog(log: readonly CpuDecisionLogEntry[], entries: readonly CpuDecisionLogEntry[]): readonly CpuDecisionLogEntry[] {
+/** Exported so other CPU-decision producers (e.g. cpuContractDecisions.ts's own log, wired in from dailyTick.ts) share the exact same cap/ordering, never a second log-writing convention. */
+export function pushLog(log: readonly CpuDecisionLogEntry[], entries: readonly CpuDecisionLogEntry[]): readonly CpuDecisionLogEntry[] {
   if (entries.length === 0) return log;
   return [...entries, ...log].slice(0, DECISION_LOG_CAP);
 }
 
-/** Every club this milestone treats as a live CPU recruiter -- every OTHER club in the manager's own simulated competition (the only clubs with a real ClubEconomyBaseline, per Economy 1.0's own scope -- Part: "Ingen gratis CPU-ekonomi"). Division 1/World Pool clubs remain candidate SOURCES only, never active buyers themselves (no persisted budget to check). */
+/**
+ * Every club this milestone treats as a live CPU recruiter -- every
+ * OTHER club in the manager's own simulated competition (the only clubs
+ * with a real ClubEconomyBaseline, per Economy 1.0's own scope -- Part:
+ * "Ingen gratis CPU-ekonomi"). Division 1/World Pool clubs remain
+ * candidate SOURCES only, never active buyers themselves (no persisted
+ * budget to check).
+ *
+ * HM-CPU-SQUAD-BUILDING-1.0B Part 12 (documented architecture
+ * limitation, not solved here): only ONE domestic competition is ever
+ * "live" in a given career -- `state.competitionId` is fixed to
+ * whichever competition the manager's own chosen club belongs to
+ * (Handbollsligan OR Allsvenskan, never both), and only that
+ * competition's clubs get real worldSquads/gameplayRatings/economy data
+ * (see CareerContext.tsx's `fetchWorldSquads(club.competitionId)`).
+ * Allsvenskan<->Handbollsligan CPU transfers are therefore structurally
+ * impossible today, not merely unobserved -- multi-league simulation
+ * (both competitions live at once) is out of scope for this milestone.
+ */
 export function cpuRecruiterClubIds(state: CareerState): string[] {
   return getClubsByCompetition(state.competitionId)
     .map((c) => c.id)
@@ -90,7 +122,7 @@ export function cpuRecruiterClubIds(state: CareerState): string[] {
  * the same day, without any Math.random.
  */
 function initialEvaluationOffset(clubId: string): number {
-  return Math.abs(seededOffset(`${clubId}:cpu-recruitment-initial-offset`, CPU_RECRUITMENT_NORMAL_CYCLE_DAYS));
+  return INITIAL_EVALUATION_MIN_OFFSET_DAYS + Math.abs(seededOffset(`${clubId}:cpu-recruitment-initial-offset`, INITIAL_EVALUATION_SPREAD_DAYS));
 }
 
 function ensureSchedule(state: CareerState, clubIds: readonly string[], date: string): CareerState {
@@ -126,6 +158,22 @@ function evaluateClub(state: CareerState, clubId: string, date: string): { state
     reason: p.reason,
   }));
   next = { ...next, cpuDecisionLog: pushLog(next.cpuDecisionLog, logEntries) };
+
+  // HM-CPU-SQUAD-BUILDING-1.0B Part 6/7: any SEARCHING plan whose
+  // position is no longer in `needy` (headcount, including projected
+  // incoming signings, is now adequate) is cleared to SATISFIED -- Part:
+  // "CPU must not create another pursuit for the same position if the
+  // need is now satisfied" / "completed deal clears/re-evaluates plan".
+  // This also frees its active-pursuit slot for a genuinely still-needy
+  // position instead of leaving a solved search parked forever.
+  const needyPositions = new Set(needy.map((p) => p.position));
+  for (const plan of Object.values(next.cpuRecruitmentPlans)) {
+    if (plan.clubId !== clubId || plan.status !== "SEARCHING" || needyPositions.has(plan.targetPosition)) continue;
+    next = {
+      ...next,
+      cpuRecruitmentPlans: { ...next.cpuRecruitmentPlans, [plan.id]: { ...plan, status: "SATISFIED", lastEvaluatedAt: date, reason: "Behovet är löst -- avslutar sökningen." } },
+    };
+  }
 
   if (needy.length === 0) {
     return { state: next, urgent: false }; // Part: "Balanced squad ska kunna ge NO ACTION" -- nothing logged as a pursuit, nothing pursued.

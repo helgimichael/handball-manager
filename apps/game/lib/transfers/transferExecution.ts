@@ -32,11 +32,20 @@ function ensureCareerWorldSquad(state: CareerState, clubId: string): CareerState
   return { ...state, worldSquads: { ...state.worldSquads, [clubId]: [...squad] } };
 }
 
-/** Splices `player` (with `clubId` already reassigned) out of `fromClubId`'s materialized squad and into `toClubId`'s. Both squads must already be materialized by the caller. */
+/**
+ * Splices `player` (with `clubId` already reassigned) out of
+ * `fromClubId`'s materialized squad and into `toClubId`'s. Both squads
+ * must already be materialized by the caller. HM-CPU-SQUAD-BUILDING-1.0B
+ * Part 3: `toSquad` is built by filtering out any pre-existing entry for
+ * this playerId FIRST -- a defensive squad-uniqueness invariant (never
+ * more than one entry per playerId per squad) that holds even if this
+ * were ever called twice for the same move, on top of (not instead of)
+ * the callers' own canonical ownership guards above.
+ */
 function moveSquadMembership(state: CareerState, player: PlayerMock, fromClubId: string, toClubId: string): CareerState {
   const movedPlayer: PlayerMock = { ...player, clubId: toClubId };
   const fromSquad = (state.worldSquads[fromClubId] ?? []).filter((p) => p.id !== player.id);
-  const toSquad = [...(state.worldSquads[toClubId] ?? []), movedPlayer];
+  const toSquad = [...(state.worldSquads[toClubId] ?? []).filter((p) => p.id !== player.id), movedPlayer];
   return { ...state, worldSquads: { ...state.worldSquads, [fromClubId]: fromSquad, [toClubId]: toSquad } };
 }
 
@@ -87,7 +96,14 @@ export function computeNewContractEndDate(playerId: string, gameDate: string, ye
  */
 export function transferPlayerPermanently(state: CareerState, playerId: string, fromClubId: string, toClubId: string, newWageEurPerMonth: number, newContractEndDate: string): CareerState {
   const player = getCareerPlayer(state, playerId);
-  if (!player) return state;
+  // HM-CPU-SQUAD-BUILDING-1.0B Part 2: canonical ownership guard -- never
+  // trust a caller-supplied `fromClubId` blindly. If the player no longer
+  // actually belongs to that club (e.g. a stale offer executing after
+  // they already moved via a different deal), this is a silent no-op --
+  // protects every caller (CPU and human alike), not just the offer
+  // layer above it. See progressDailyTransfers for the explicit
+  // stale-offer cancellation this guard backs up.
+  if (!player || player.clubId !== fromClubId) return state;
 
   let next = ensureCareerWorldSquad(state, fromClubId);
   next = ensureCareerWorldSquad(next, toClubId);
@@ -117,7 +133,8 @@ export function transferPlayerPermanently(state: CareerState, playerId: string, 
 export function loanPlayerOut(state: CareerState, playerId: string, parentClubId: string, borrowingClubId: string, wageShareBorrowingPct: number): CareerState {
   const player = getCareerPlayer(state, playerId);
   const contract = state.playerContracts[playerId];
-  if (!player || !contract) return state;
+  // Canonical ownership guard -- see transferPlayerPermanently's own doc.
+  if (!player || !contract || player.clubId !== parentClubId) return state;
 
   let next = ensureCareerWorldSquad(state, parentClubId);
   next = ensureCareerWorldSquad(next, borrowingClubId);
@@ -134,7 +151,8 @@ export function loanPlayerOut(state: CareerState, playerId: string, parentClubId
 /** The exact inverse of loanPlayerOut -- restores squad/rating/contract to the parent club, using the LoanRecord's own preserved originalWageEurPerMonth (never re-derived). */
 export function returnPlayerFromLoan(state: CareerState, playerId: string, parentClubId: string, borrowingClubId: string, originalWageEurPerMonth: number, originalContractEndDate: string): CareerState {
   const player = getCareerPlayer(state, playerId);
-  if (!player) return state;
+  // Canonical ownership guard -- see transferPlayerPermanently's own doc.
+  if (!player || player.clubId !== borrowingClubId) return state;
 
   let next = ensureCareerWorldSquad(state, borrowingClubId);
   next = ensureCareerWorldSquad(next, parentClubId);

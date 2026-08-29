@@ -19,7 +19,16 @@ export type TransferDealType = (typeof TRANSFER_DEAL_TYPES)[number];
  * "pending" state in v1 (see module doc: everything resolves
  * synchronously in one `submitTransferOffer` call).
  */
-export const TRANSFER_OFFER_STATUSES = ["BLOCKED_UNAFFORDABLE", "REJECTED_BY_CLUB", "REJECTED_BY_PLAYER", "AGREED_AWAITING_WINDOW", "COMPLETED"] as const;
+// HM-CPU-SQUAD-BUILDING-1.0B Part 1/2: "BLOCKED_PENDING_TRANSFER" -- a new
+// offer was rejected outright because the player already has an active
+// AGREED_AWAITING_WINDOW deal that can still execute (Part: "A player
+// must never have more than one unresolved/pending transfer outcome
+// that can later execute"). "CANCELLED_STALE" -- an AGREED_AWAITING_WINDOW
+// offer that reached its scheduled completion date but the player no
+// longer canonically belongs to the offer's own `fromClubId` (they moved
+// via a different deal in the meantime) -- never executed, safely
+// cancelled instead of corrupting squad data with a stale move.
+export const TRANSFER_OFFER_STATUSES = ["BLOCKED_UNAFFORDABLE", "BLOCKED_PENDING_TRANSFER", "REJECTED_BY_CLUB", "REJECTED_BY_PLAYER", "AGREED_AWAITING_WINDOW", "COMPLETED", "CANCELLED_STALE"] as const;
 export type TransferOfferStatus = (typeof TRANSFER_OFFER_STATUSES)[number];
 
 /**

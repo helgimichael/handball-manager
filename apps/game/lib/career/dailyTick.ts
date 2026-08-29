@@ -53,7 +53,7 @@ import {
   progressPartnershipSearches,
 } from "./clubPartnerships";
 import { accrueDailyPlacementExposure, progressPlacementExpiry } from "./playerPlacements";
-import { progressCpuRecruitment, cpuRecruiterClubIds } from "./cpuRecruitment";
+import { progressCpuRecruitment, cpuRecruiterClubIds, pushLog as pushCpuDecisionLog, type CpuDecisionLogEntry } from "./cpuRecruitment";
 import { progressCpuContractDecisions } from "./cpuContractDecisions";
 import { adjustClubCash } from "../economy/clubEconomyIntegration";
 import {
@@ -240,7 +240,17 @@ export function processDay(state: CareerState, date: string): DailyTickResult {
   // Never touches state.playerClubId (Part: "Human-controlled club får
   // aldrig styras av detta").
   next = progressCpuRecruitment(next, date);
-  next = progressCpuContractDecisions(next, date, cpuRecruiterClubIds(next)).state;
+  const contractDecisions = progressCpuContractDecisions(next, date, cpuRecruiterClubIds(next));
+  next = contractDecisions.state;
+  const contractLogEntries: CpuDecisionLogEntry[] = contractDecisions.log.map((entry) => ({
+    id: `cpu-contract-${entry.playerId}-${date}`,
+    date,
+    clubId: entry.clubId,
+    category: "CONTRACT",
+    summary: `${entry.decision} ${entry.playerId} (${entry.position})`,
+    reason: entry.reason,
+  }));
+  next = { ...next, cpuDecisionLog: pushCpuDecisionLog(next.cpuDecisionLog, contractLogEntries) };
 
   // --- 6. Fixtures ---------------------------------------------------------
   const playerFixtureToday = getPlayerFixtureOn(next, date);

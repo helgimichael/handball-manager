@@ -8,7 +8,11 @@
 // database, per the milestone's own "Ingen separat CPU-databas" rule.
 import { positionLabel, type HandballPosition, type PlayerMock } from "../game-data";
 import { getPlayerContractStatus } from "../economy/contractIntegration";
+import { getCareerPlayer } from "./careerWorld";
 import type { CareerState } from "./types";
+
+/** Headcount (current + projected incoming) at or above this is "adequate depth" -- matches levelForCount's own LOW cutoff. Adequate depth blocks the quality rule from independently escalating need (HM-CPU-SQUAD-BUILDING-1.0B Part 5). */
+const ADEQUATE_DEPTH_COUNT = 3;
 
 /** Every outfield/goalkeeper slot the milestone tracks -- the exact 7-position vocabulary the spec itself lists. */
 export const CPU_TRACKED_POSITIONS: readonly HandballPosition[] = ["MV", "V6", "H6", "V9", "M9", "H9", "M6"];
@@ -24,6 +28,8 @@ export interface PositionNeedAssessment {
   level: NeedLevel;
   /** Count of currently-usable (not ON_PLACEMENT) squad players at this position -- the honest, explainable headline number. */
   usableCount: number;
+  /** Players already agreed (AGREED_AWAITING_WINDOW) to arrive at this position but not yet physically in the squad -- counted toward projected depth so the club doesn't sign a second player for a gap it has already solved. */
+  pendingIncoming: number;
   reason: string;
 }
 
@@ -82,10 +88,23 @@ function contractRiskAdjustedLevel(state: CareerState, players: readonly PlayerM
 /**
  * Part: "spelarens nivå relativt klubben" -- a position staffed only by
  * players clearly below the club's own overall level is a real quality
- * gap even when the headcount looks adequate. Bumps need up exactly one
- * level (never invents a HIGH out of nothing -- NONE stays NONE).
+ * gap. Bumps need up exactly one level (never invents a HIGH out of
+ * nothing -- NONE stays NONE).
+ *
+ * HM-CPU-SQUAD-BUILDING-1.0B Part 5: "QUALITY MAY ONLY ELEVATE NEED IF
+ * HEADCOUNT/USABLE DEPTH IS NOT ALREADY ADEQUATE". The 1.0A audit found
+ * this rule creating a real feedback loop -- buying another cheap depth
+ * player at a weak position drags that position's own average CA down
+ * further, which kept re-triggering the SAME rule indefinitely (clubs
+ * ending up with 7-11 goalkeepers). `effectiveCount` (current usable +
+ * pending incoming, Part 6/7) already reaching adequate depth now hard-
+ * gates this bump off entirely -- once a position has enough bodies, a
+ * weak average can no longer manufacture a pursuit on its own; it can
+ * still elevate a genuinely thin position (1-2 players), which is the
+ * case that actually matters.
  */
-function qualityAdjustedLevel(state: CareerState, clubId: string, squad: readonly PlayerMock[], positionPlayers: readonly PlayerMock[], level: NeedLevel): { level: NeedLevel; weak: boolean } {
+function qualityAdjustedLevel(state: CareerState, clubId: string, squad: readonly PlayerMock[], positionPlayers: readonly PlayerMock[], effectiveCount: number, level: NeedLevel): { level: NeedLevel; weak: boolean } {
+  if (effectiveCount >= ADEQUATE_DEPTH_COUNT) return { level, weak: false };
   const clubAvg = averageCA(state, clubId, squad);
   const positionAvg = averageCA(state, clubId, positionPlayers);
   if (clubAvg === null || positionAvg === null || clubAvg <= 0) return { level, weak: false };
@@ -93,16 +112,37 @@ function qualityAdjustedLevel(state: CareerState, clubId: string, squad: readonl
   return { level: weak ? bumpNeed(level) : level, weak };
 }
 
+/**
+ * HM-CPU-SQUAD-BUILDING-1.0B Part 6/7: players already agreed
+ * (AGREED_AWAITING_WINDOW) to join this club at this position but not
+ * yet physically moved -- counted as projected depth so the club
+ * doesn't keep signing for a gap it has already solved while the deal
+ * waits for the transfer window. `getCareerPlayer` still resolves the
+ * incoming player at their CURRENT (pre-move) club, so their real
+ * `position` is available before the move executes.
+ */
+function pendingIncomingCount(state: CareerState, clubId: string, position: HandballPosition): number {
+  let count = 0;
+  for (const offer of Object.values(state.transferOffers)) {
+    if (offer.toClubId !== clubId || offer.status !== "AGREED_AWAITING_WINDOW") continue;
+    if (getCareerPlayer(state, offer.playerId)?.position === position) count += 1;
+  }
+  return count;
+}
+
 export function assessPositionNeed(state: CareerState, clubId: string, position: HandballPosition, squad: readonly PlayerMock[]): PositionNeedAssessment {
   const positionPlayers = squad.filter((p) => p.position === position && isUsableForSquadPlanning(state, p));
   const count = positionPlayers.length;
+  const incoming = pendingIncomingCount(state, clubId, position);
+  const effectiveCount = count + incoming;
   const label = positionLabel(position);
   const reasons: string[] = [];
 
-  let level = levelForCount(count);
+  let level = levelForCount(effectiveCount);
   if (count === 0) reasons.push(`Klubben saknar helt tillgänglig spelare på ${label}.`);
   else if (count === 1) reasons.push(`Endast en tillgänglig spelare på ${label} -- uppenbar lucka.`);
   else reasons.push(`${count} tillgängliga spelare på ${label}.`);
+  if (incoming > 0) reasons.push(`${incoming} spelare är redan på väg in (överenskommet, väntar på transferfönster).`);
 
   const riskAdjusted = contractRiskAdjustedLevel(state, positionPlayers, level);
   if (riskAdjusted.level !== level) {
@@ -110,13 +150,13 @@ export function assessPositionNeed(state: CareerState, clubId: string, position:
     reasons.push(`${riskAdjusted.atRiskCount} av dem har utgående kontrakt.`);
   }
 
-  const qualityAdjusted = qualityAdjustedLevel(state, clubId, squad, positionPlayers, level);
+  const qualityAdjusted = qualityAdjustedLevel(state, clubId, squad, positionPlayers, effectiveCount, level);
   if (qualityAdjusted.weak) {
     level = qualityAdjusted.level;
     reasons.push("Nivån på positionen ligger klart under klubbens eget snitt.");
   }
 
-  return { position, level, usableCount: count, reason: reasons.join(" ") };
+  return { position, level, usableCount: count, pendingIncoming: incoming, reason: reasons.join(" ") };
 }
 
 export function assessSquadNeeds(state: CareerState, clubId: string, date: string): SquadNeedAssessment {
