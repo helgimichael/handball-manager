@@ -22,7 +22,8 @@ export type CareerEventType =
   | "STAFF_REPORT"
   | "CLUB_NEWS"
   | "PLAYER_PLACEMENT_EXPIRED"
-  | "PLAYER_CONTRACT_EXPIRED";
+  | "PLAYER_CONTRACT_EXPIRED"
+  | "YOUTH_INTAKE_COMPLETE";
 
 /** Spec S3: the three-tier priority model. */
 export type EventPriority = "INFORMATION" | "IMPORTANT" | "ACTION_REQUIRED";
@@ -320,5 +321,19 @@ export function buildPlayerContractExpiredEvent(playerId: string, date: string):
     "Spelarens kontrakt har löpt ut utan förlängning och spelaren är nu fri agent.",
     [{ route: "PLAYER_PROFILE", playerId }, { route: "SQUAD" }],
     { primaryEntity: { entityType: "player", entityId: playerId } },
+  );
+}
+
+/** HM-YOUTH-INTAKE-1.0 Part 17: only ever emitted for the manager's OWN club, ONE message per club per year regardless of how many players were generated (Part: "Do not spam one message per player") -- same silent-for-every-other-club precedent as contract expiry/CPU recruitment. */
+export function buildYouthIntakeCompleteEvent(clubId: string, date: string, playerCount: number): CareerEvent {
+  return baseEvent(
+    `YOUTH_INTAKE_COMPLETE:${clubId}:${date}`,
+    "YOUTH_INTAKE_COMPLETE",
+    date,
+    "INFORMATION",
+    "Ungdomsintag klart",
+    `${playerCount} nya unga spelare har anslutit till klubbens trupp.`,
+    [{ route: "SQUAD" }],
+    { primaryEntity: { entityType: "club", entityId: clubId } },
   );
 }

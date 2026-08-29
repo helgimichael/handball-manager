@@ -629,6 +629,19 @@ export type CareerState = {
   cpuClubEvaluationSchedule: Record<string, string>;
   /** Bounded (most-recent-first, capped), explainable trail of CPU squad-need/candidate/contract decisions -- see lib/career/cpuRecruitment.ts's own doc. Debug/explainability only, never read by game logic. */
   cpuDecisionLog: readonly CpuDecisionLogEntry[];
+
+  // --- HM-YOUTH-INTAKE-1.0 addition ---
+
+  /**
+   * The most recent intake YEAR (as `"YYYY"`) already generated for each
+   * eligible clubId -- the sole guard against generating two intakes for
+   * the same club in the same season (see lib/career/youthIntake.ts's
+   * own `progressYouthIntake`). Never backfilled retroactively for a
+   * migrated old save (Part 19: "Do not retroactively generate five
+   * missed intakes on load") -- a club simply becomes eligible again the
+   * next time 1 July passes after migration.
+   */
+  youthIntakeClubYears: Record<string, string>;
 };
 
 export type CareerSaveEnvelope = {

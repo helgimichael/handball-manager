@@ -42,6 +42,7 @@ import {
   type CareerEvent,
 } from "./careerEvents";
 import { progressContractExpiry } from "./contractExpiry";
+import { progressYouthIntake } from "./youthIntake";
 import { applyTrainingDayInjuryResolution, progressDailyRehab } from "../medical/injuryIntegration";
 import { ensureOpponentAnalysisTask, progressCareerTasks } from "./careerTasks";
 import { progressScoutingAssignments } from "./scouting";
@@ -216,6 +217,15 @@ export function processDay(state: CareerState, date: string): DailyTickResult {
       emit(buildPlayerContractExpiredEvent(departure.playerId, date));
     }
   }
+
+  // HM-YOUTH-INTAKE-1.0: annual world-lifecycle replenishment -- a world
+  // rule, same framing as contract expiry above, run right after it (a
+  // fresh graduate is never swept into a stale pending transfer offer
+  // below) and before the transfer-window step. Silent for every CPU
+  // club (Part 17), one event for the human club's own intake.
+  const { state: afterYouthIntake, events: youthIntakeEvents } = progressYouthIntake(next, date);
+  next = afterYouthIntake;
+  for (const event of youthIntakeEvents) emit(event);
 
   // HM-TRANSFERS-1.0: completes any PERMANENT deal that was AGREED while
   // the transfer window was closed (once it reopens) and returns any

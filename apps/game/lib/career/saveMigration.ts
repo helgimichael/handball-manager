@@ -481,6 +481,15 @@ export function migrateCareerState(career: CareerState): CareerState {
   if (next.cpuDecisionLog === undefined) {
     next = { ...next, cpuDecisionLog: [] };
   }
+  // HM-YOUTH-INTAKE-1.0: additive -- an existing career simply never had
+  // annual youth intake yet. Migrated to an EMPTY map, deliberately
+  // conservative (Part 19: "Do not retroactively generate five missed
+  // intakes on load") -- every club is simply eligible again the next
+  // time 1 July passes after this migration runs, never backfilled for
+  // every season the save has already lived through.
+  if (next.youthIntakeClubYears === undefined) {
+    next = { ...next, youthIntakeClubYears: {} };
+  }
   // Every pre-1.1 ScoutingAssignment record was implicitly PLAYER-typed
   // (assignmentType/targetCompetitionId/targetNation/targetPosition/
   // targetMaxAgeYears/cyclesCompleted/maxCycles/discoveredPlayerIds did

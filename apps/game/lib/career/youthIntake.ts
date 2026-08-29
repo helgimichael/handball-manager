@@ -1,0 +1,485 @@
+// HM-YOUTH-INTAKE-1.0: annual world-lifecycle youth generation -- the
+// answer to the world-stability audit's own finding that average age
+// rises without bound and under-21 count trends to zero, because nothing
+// ever adds new players to the world. This is a WORLD RULE, not a
+// transfer, free-agent signing, generated scout result, or clone of a
+// real player (Part 1) -- every generated player is a genuinely new
+// canonical entity, integrated through the SAME worldSquads/
+// gameplayRatings/playerContracts/playerSquadStatus/playerStatuses maps
+// every other player already lives in. No parallel youth database.
+//
+// REUSE, not a second generation engine (Part 1/9/10/12/14):
+//   - identity/CA/PA/attribute SHAPE:    lib/rating/generation/generationEngine.ts's
+//                                        generatePlayerRatingProfile (same
+//                                        pipeline careerFallbackRating.ts
+//                                        already uses for every mock/
+//                                        generated player) -- only the CA/PA
+//                                        NUMBERS themselves are youth-specific
+//                                        (see below on why).
+//   - CA baseline mechanism:             lib/rating/gamePrior/populationModel.ts's
+//                                        own generateGamePriorCA, via its
+//                                        existing profileOverride escape
+//                                        hatch -- three youth-specific
+//                                        PopulationBaselineProfile objects
+//                                        (HBL/Allsvenskan/Division1),
+//                                        deliberately lower than every
+//                                        adult senior baseline (Part 9:
+//                                        "Youth CA måste ligga tydligt
+//                                        under etablerade seniorer").
+//   - contract:                          lib/economy/contractGeneration.ts's
+//                                        generateInitialContract, unmodified.
+//   - club-quality influence:            lib/career/squadDerivedClubStrength.ts's
+//                                        own ClubStrength.overall as a
+//                                        SMALL, modest shift (Part 11:
+//                                        documented as a temporary proxy
+//                                        pending a real Youth Academy
+//                                        milestone) into the SAME
+//                                        `clubShift` parameter
+//                                        generateGamePriorCA already accepts.
+//
+// NOT reused: generateGamePriorPA's own bonus shape is a bounded, roughly
+// UNIFORM offset -- the wrong shape for Part 10's own explicit "long-tail,
+// many limited/moderate, some good, few high, very few wonderkid, no
+// uniform random PA" requirement. Youth PA below is a purpose-built
+// long-tail band model instead, still built on the SAME seededOffset
+// deterministic primitive every other generator in this codebase uses,
+// still hard-bounded within the same global CA_MIN/CA_MAX/PA_MIN/PA_MAX
+// scale (never a separate scale).
+import { getClub, getClubsByCompetition, getCompetition, type HandballPosition, type NationCode, type PlayerMock, type PlayerMockAttributes } from "../game-data";
+import { mapHandballPositionToMatchPlanPosition } from "../matchPlan/careerSquadBridge";
+import { seededOffset } from "../rating/generation/deterministicVariation";
+import { generateGamePriorCA, type PopulationBaselineProfile } from "../rating/gamePrior/populationModel";
+import { GAME_PRIOR_MODEL_VERSION } from "../rating/gamePrior/types";
+import { assignArchetypeForPosition } from "../rating/gamePrior/archetypeAssignment";
+import { generatePlayerRatingProfile } from "../rating/generation/generationEngine";
+import { GENERATION_MODEL_VERSION } from "../rating/generation/types";
+import { unassessedAbilityRating } from "../rating/validators";
+import { CA_MAX, CA_MIN, PA_MAX, PA_MIN, type AttackRole, type PlayerRatingClaim, type PlayerRatingProfile } from "../rating/types";
+import { generateInitialContract } from "../economy/contractGeneration";
+import type { EconomyProfileInputs } from "../economy/marketValue";
+import { computeSquadDerivedClubStrength } from "./squadDerivedClubStrength";
+import { DIVISION_1_COMPETITION_IDS } from "./division1Integration";
+import { buildYouthIntakeCompleteEvent, type CareerEvent } from "./careerEvents";
+import { generateYouthName } from "./youthNames";
+import type { GameplayPlayerRating } from "../gameWorld/gameplayRatingSnapshot";
+import type { RatingValueSource } from "../editor/ratingDatabaseRepository";
+import type { PlayerContract } from "../economy/types";
+import type { CareerState } from "./types";
+
+/** Part 2: 1 July -- deliberately after the 31 May contract-expiry wave and the initial June transfer scramble have already settled the roster for the new season, while still inside the summer transfer window (June-Sept) so a generated player is never structurally locked out of it. One calendar check, `date.slice(5,10)`, the same pattern contractExpiry.ts's own 31 May check and this codebase's own season-boundary audits already use. */
+export const YOUTH_INTAKE_DATE_MMDD = "07-01";
+
+const YOUTH_MODEL_VERSION = "HM-YOUTH-INTAKE-1.0-v1";
+
+/** Part 4: "2-5 nya spelare per klubb/år ... Håll kullen liten." */
+const INTAKE_SIZE_MIN = 2;
+const INTAKE_SIZE_MAX = 5;
+
+function clamp(value: number, min: number, max: number): number {
+  return Math.min(max, Math.max(min, value));
+}
+
+/** 0..n-1, deterministic from `seedKey`. */
+function seededIndex(seedKey: string, n: number): number {
+  return Math.abs(seededOffset(seedKey, n)) % n;
+}
+
+// ---------------------------------------------------------------------------
+// Part 3: eligible clubs.
+// ---------------------------------------------------------------------------
+
+/**
+ * Playable Swedish Handbollsligan/Allsvenskan clubs (whichever is this
+ * career's own live competition -- HM-CPU-SQUAD-BUILDING-1.0B's own
+ * documented "only one domestic competition is ever live" limitation
+ * applies here too, unchanged) plus both Division 1 pools. World Pool
+ * clubs are deliberately excluded (Part 3: "World Pool foreign clubs
+ * behöver INTE youth intake i 1.0 om det kräver separat architecture" --
+ * it does: Division 1 clubs already have real worldSquads/gameplayRatings
+ * snapshotted into every CareerState by CareerContext.tsx, but World Pool
+ * clubs' own squad depth is never populated the same way -- a genuine
+ * extension seam for a later milestone, not built here). A club with NO
+ * squad data at all -- the `worldSquads` key itself absent, meaning no
+ * real snapshot was ever loaded for it (defensive; should not normally
+ * happen for any of the above) -- is silently skipped, never crashes.
+ * Deliberately checks key PRESENCE, not current length: a club whose
+ * squad has legitimately collapsed to zero players (e.g. an unattended
+ * human club losing everyone on the same 31 May contract-expiry wave)
+ * must still remain eligible -- youth intake existing specifically to
+ * replenish a thinning world, it must never itself become permanently
+ * unreachable for the exact clubs that need it most.
+ */
+export function eligibleYouthIntakeClubIds(state: CareerState): string[] {
+  const liveCompetitionClubIds = getClubsByCompetition(state.competitionId).map((c) => c.id);
+  const division1ClubIds = DIVISION_1_COMPETITION_IDS.flatMap((id) => getClubsByCompetition(id)).map((c) => c.id);
+  return [...liveCompetitionClubIds, ...division1ClubIds].filter((clubId) => state.worldSquads[clubId] !== undefined);
+}
+
+// ---------------------------------------------------------------------------
+// Part 9: CA generation -- three youth-specific baselines, clearly below
+// every adult senior baseline, with genuine overlap between tiers (never
+// a rigid league ladder).
+// ---------------------------------------------------------------------------
+
+type YouthTier = "HANDBOLLSLIGAN" | "ALLSVENSKAN" | "DIVISION1";
+
+const YOUTH_CA_PROFILES: Record<YouthTier, PopulationBaselineProfile> = {
+  HANDBOLLSLIGAN: { baselineCA: 85, caSpread: 18, caCeiling: 118, caFloor: 60, paMaxBonus: 0 },
+  ALLSVENSKAN: { baselineCA: 78, caSpread: 18, caCeiling: 110, caFloor: 55, paMaxBonus: 0 },
+  DIVISION1: { baselineCA: 68, caSpread: 20, caCeiling: 102, caFloor: 45, paMaxBonus: 0 },
+};
+
+function youthTierForClub(clubId: string): YouthTier {
+  if ((DIVISION_1_COMPETITION_IDS as readonly string[]).includes(getClub(clubId)?.competitionId ?? "")) return "DIVISION1";
+  return getCompetition(getClub(clubId)?.competitionId ?? "")?.tier === 1 ? "HANDBOLLSLIGAN" : "ALLSVENSKAN";
+}
+
+/**
+ * Part 11: a SMALL, bounded nudge from the club's own current senior
+ * squad quality (ClubStrength.overall, 0-100, neutral 50) into
+ * generateGamePriorCA's existing `clubShift` parameter -- never a
+ * guarantee ("Sävehof ska inte automatiskt få bästa spelaren varje år").
+ * Documented as a TEMPORARY proxy: there is no youth-academy-quality
+ * architecture yet (Part 11's own explicit instruction not to build one
+ * in this milestone) -- a future Academy milestone should replace this
+ * with a real academy-quality signal.
+ */
+function clubQualityShift(state: CareerState, clubId: string): number {
+  const squad = state.worldSquads[clubId] ?? [];
+  const ratings = state.gameplayRatings[clubId] ?? [];
+  const strength = computeSquadDerivedClubStrength(clubId, squad, ratings);
+  return Math.round(clamp((strength.overall - 50) * 0.24, -8, 8));
+}
+
+function generateYouthCA(playerId: string, clubShift: number, tier: YouthTier): number {
+  return generateGamePriorCA(playerId, clubShift, YOUTH_MODEL_VERSION, "STANDARD", YOUTH_CA_PROFILES[tier]);
+}
+
+// ---------------------------------------------------------------------------
+// Part 10: PA -- a purpose-built long-tail band model. Most players land
+// in the low band; the wonderkid band is rare by construction (a flat
+// 3% roll) AND bounded, so PA >170 is structurally impossible here
+// (YOUTH_PA_CEILING), not merely "rare by luck".
+// ---------------------------------------------------------------------------
+
+const YOUTH_PA_CEILING = 165;
+const YOUTH_PA_BANDS: readonly { upToPercentile: number; minHeadroom: number; maxHeadroom: number }[] = [
+  { upToPercentile: 60, minHeadroom: 0, maxHeadroom: 8 }, // 60%: limited/moderate potential
+  { upToPercentile: 85, minHeadroom: 9, maxHeadroom: 18 }, // 25%: good senior potential
+  { upToPercentile: 97, minHeadroom: 19, maxHeadroom: 30 }, // 12%: high-level talent
+  { upToPercentile: 100, minHeadroom: 31, maxHeadroom: 45 }, // 3%: true wonderkid
+];
+
+function generateYouthPA(playerId: string, ca: number): number {
+  const percentile = seededIndex(`${playerId}:youth-pa-band`, 100);
+  const band = YOUTH_PA_BANDS.find((b) => percentile < b.upToPercentile) ?? YOUTH_PA_BANDS[YOUTH_PA_BANDS.length - 1];
+  const headroom = band.minHeadroom + seededIndex(`${playerId}:youth-pa-headroom`, band.maxHeadroom - band.minHeadroom + 1);
+  return Math.min(YOUTH_PA_CEILING, Math.min(PA_MAX, ca + headroom));
+}
+
+// ---------------------------------------------------------------------------
+// Part 6: position -- canonical HandballPosition only, world MV-supply
+// used as a MILD, WORLD-LEVEL signal (never a per-club deterministic
+// "club lacks MV -> youth MV always appears" rule, per Part 6's own
+// explicit instruction).
+// ---------------------------------------------------------------------------
+
+const BASE_POSITION_WEIGHTS: Record<HandballPosition, number> = { MV: 12, V6: 15, H6: 15, V9: 16, M9: 16, H9: 15, M6: 11 };
+/** Below this world-wide MV-to-total ratio, MV's own weight is mildly boosted for this whole intake pass (every eligible club draws from the same adjusted weights -- not a per-club reaction). */
+const LOW_MV_SUPPLY_RATIO = 0.12;
+const MV_SUPPLY_BOOST_MULTIPLIER = 1.5;
+
+function worldMvSupplyRatio(state: CareerState, clubIds: readonly string[]): number {
+  let mv = 0;
+  let total = 0;
+  for (const clubId of clubIds) {
+    const squad = state.worldSquads[clubId] ?? [];
+    total += squad.length;
+    mv += squad.filter((p) => p.position === "MV").length;
+  }
+  return total > 0 ? mv / total : BASE_POSITION_WEIGHTS.MV / 100;
+}
+
+function positionWeights(mvSupplyRatio: number): Record<HandballPosition, number> {
+  if (mvSupplyRatio >= LOW_MV_SUPPLY_RATIO) return BASE_POSITION_WEIGHTS;
+  const boostedMv = BASE_POSITION_WEIGHTS.MV * MV_SUPPLY_BOOST_MULTIPLIER;
+  const delta = boostedMv - BASE_POSITION_WEIGHTS.MV;
+  const othersTotal = 100 - BASE_POSITION_WEIGHTS.MV;
+  const scale = (othersTotal - delta) / othersTotal;
+  const weights = {} as Record<HandballPosition, number>;
+  for (const position of Object.keys(BASE_POSITION_WEIGHTS) as HandballPosition[]) {
+    weights[position] = position === "MV" ? boostedMv : BASE_POSITION_WEIGHTS[position] * scale;
+  }
+  return weights;
+}
+
+function pickPosition(seedKey: string, weights: Record<HandballPosition, number>): HandballPosition {
+  const positions = Object.keys(weights) as HandballPosition[];
+  const total = positions.reduce((sum, p) => sum + weights[p], 0);
+  const roll = (seededIndex(`${seedKey}:youth-position`, 10_000) / 10_000) * total;
+  let cursor = 0;
+  for (const position of positions) {
+    cursor += weights[position];
+    if (roll < cursor) return position;
+  }
+  return positions[positions.length - 1];
+}
+
+// ---------------------------------------------------------------------------
+// Part 5/7: age, birth date, nationality.
+// ---------------------------------------------------------------------------
+
+/** Weighted toward 17 (Part 5: "16-18 år med tyngdpunkt runt 17"). */
+function generateYouthAge(seedKey: string): number {
+  const roll = seededIndex(`${seedKey}:youth-age`, 100);
+  if (roll < 25) return 16;
+  if (roll < 75) return 17;
+  return 18;
+}
+
+/** Month/day always in Jan-Jun (1-6/1-28) so the player has always already had their birthday by the 1 July intake date -- birthYear = intakeYear - age holds exactly, never an off-by-one from playerAgeAtDate's own month/day-aware calculation. */
+function generateYouthDateOfBirth(seedKey: string, intakeYear: number, age: number): string {
+  const birthYear = intakeYear - age;
+  const month = 1 + seededIndex(`${seedKey}:youth-dob-month`, 6);
+  const day = 1 + seededIndex(`${seedKey}:youth-dob-day`, 28);
+  return `${birthYear}-${String(month).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+}
+
+const YOUTH_OTHER_NORDIC_NATIONS: readonly NationCode[] = ["DEN", "NOR", "ISL"];
+/** Part 7: SWE default/very high probability; a small minority of other Nordic backgrounds, no migration/heritage simulation. */
+function generateYouthNationality(seedKey: string): NationCode {
+  const roll = seededIndex(`${seedKey}:youth-nationality`, 100);
+  if (roll < 92) return "SWE";
+  return YOUTH_OTHER_NORDIC_NATIONS[seededIndex(`${seedKey}:youth-nationality-other`, YOUTH_OTHER_NORDIC_NATIONS.length)];
+}
+
+// ---------------------------------------------------------------------------
+// Part 12: canonical attribute-model reuse for the real (GameplayPlayerRating)
+// profile; a simple CA-derived approximation for the legacy PlayerMock.attributes
+// field (1-20 scale, largely superseded by GameplayPlayerRating post-HM-RATINGS-CAREER-1.0
+// -- same flat-approximation precedent every synthetic test fixture elsewhere
+// in this codebase already uses for that field).
+// ---------------------------------------------------------------------------
+
+function legacyAttributesFromCA(ca: number): PlayerMockAttributes {
+  const v = clamp(Math.round(ca / 10), 1, 20);
+  return {
+    technical: { skott: v, passning: v, spelforstaelse: v, genombrott: v, mottagning: v, fint: v, spelUtanBoll: v },
+    mental: { beslutsfattande: v, kyla: v, arbetskapacitet: v, kampvilja: v, positionering: v, lagarbete: v, ledarskap: v },
+    physical: { snabbhet: v, acceleration: v, styrka: v, explosivitet: v, uthallighet: v, rorlighet: v },
+  };
+}
+
+function gamePriorRationaleClaim(playerId: string, archetype: string): PlayerRatingClaim {
+  return {
+    id: `${playerId}-youth-intake-prior`,
+    playerId,
+    evidenceClass: "UNASSESSED",
+    domain: "GAME_PRIOR",
+    key: "rationale",
+    value: `Ny ungdomsspelare genererad vid årets intag -- ingen evidens finns ännu. Deterministisk youth-intake CA/arketyp (${archetype}), aldrig ett forskat faktum.`,
+    sourceRefs: [],
+  };
+}
+
+/** Mirrors careerFallbackRating.ts's own generateFallbackGameplayRating internal structure exactly, substituting the youth-specific CA/PA generated above in place of the (wrong-shaped-for-youth) adult game-prior CA/PA. Same underlying generatePlayerRatingProfile/assignArchetypeForPosition/unassessedAbilityRating building blocks -- never a second rating system. */
+function generateYouthGameplayRating(playerId: string, position: HandballPosition, ca: number, pa: number): GameplayPlayerRating {
+  const ratingPosition = mapHandballPositionToMatchPlanPosition(position);
+  let profile: PlayerRatingProfile = {
+    playerId,
+    position: ratingPosition,
+    physicalProfile: {},
+    attackRoleProficiencies: [],
+    defenceRoleProficiencies: [],
+    phaseAbilities: [],
+    usage: { attackUsageShare: 0, defenceUsageShare: 0, transitionUsageShare: 0 },
+    utility: { utility: 0, positionalFlexibility: 0 },
+    ca: unassessedAbilityRating(CA_MIN, CA_MAX),
+    pa: unassessedAbilityRating(PA_MIN, PA_MAX),
+    claims: [],
+  };
+
+  const archetype = assignArchetypeForPosition(playerId, ratingPosition, GAME_PRIOR_MODEL_VERSION);
+  const extraClaims: PlayerRatingClaim[] = [gamePriorRationaleClaim(playerId, archetype)];
+  let attackRoleProficiencies = profile.attackRoleProficiencies;
+  let claims = [...profile.claims, ...extraClaims];
+  if (ratingPosition === "GK") {
+    claims = [...claims, { id: `${playerId}-gk-archetype`, playerId, evidenceClass: "UNASSESSED", domain: "ARCHETYPE", key: "gkArchetype", value: archetype, sourceRefs: [] }];
+  } else {
+    attackRoleProficiencies = [...attackRoleProficiencies, { role: archetype as AttackRole }];
+  }
+  profile = { ...profile, ca: { value: ca, confidence: "LOW", plausibleRange: { min: Math.max(1, ca - 25), max: Math.min(200, ca + 25) } }, attackRoleProficiencies, claims };
+  profile = { ...profile, pa: { value: pa, confidence: "LOW", plausibleRange: { min: Math.max(PA_MIN, pa - 20), max: Math.min(PA_MAX, pa + 20) } } };
+
+  const generation = generatePlayerRatingProfile(profile, GENERATION_MODEL_VERSION);
+  const branch = generation.status === "OK" ? generation.profile.branch : { branch: "OUTCOURT" as const, attributes: {} as never };
+  const caSource: RatingValueSource = "GENERATED_GAME_PRIOR";
+
+  return {
+    playerId,
+    position: ratingPosition,
+    ca,
+    pa,
+    caSource,
+    branch,
+    attackRoleProficiencies,
+    defenceRoleProficiencies: profile.defenceRoleProficiencies,
+    attributeGenerationModelVersion: GENERATION_MODEL_VERSION,
+    locked: false,
+  };
+}
+
+// ---------------------------------------------------------------------------
+// Part 13/14/15: squad status, contract, full player assembly.
+// ---------------------------------------------------------------------------
+
+interface GeneratedYouthPlayer {
+  player: PlayerMock;
+  rating: GameplayPlayerRating;
+  contract: PlayerContract;
+}
+
+/**
+ * `saveSeed` (Part 20: "Different career seed... should produce
+ * variation") is folded into every DETERMINISTIC-DRAW seed key below,
+ * never into the persisted `playerId` itself -- the id stays the simple,
+ * stable `youth-${clubId}-${year}-${index}` form (readable, and the
+ * ONLY thing idempotency/ownership actually needs to be stable), while
+ * name/position/age/CA/PA/contract-length all vary by career even for
+ * the exact same club+year+index, since `clubShift` alone (derived from
+ * the club's own REAL, career-seed-independent squad) could not
+ * otherwise produce any variation across different careers at all.
+ */
+function generateYouthPlayer(saveSeed: string, clubId: string, intakeYear: number, index: number, weights: Record<HandballPosition, number>, clubShift: number, tier: YouthTier): GeneratedYouthPlayer {
+  const playerId = `youth-${clubId}-${intakeYear}-${index}`;
+  const seedKey = `${saveSeed}:${playerId}`;
+  const name = generateYouthName(seedKey);
+  const position = pickPosition(seedKey, weights);
+  const age = generateYouthAge(seedKey);
+  const dateOfBirth = generateYouthDateOfBirth(seedKey, intakeYear, age);
+  const nationality = generateYouthNationality(seedKey);
+  const ca = generateYouthCA(seedKey, clubShift, tier);
+  const pa = generateYouthPA(seedKey, ca);
+
+  const rating = generateYouthGameplayRating(playerId, position, ca, pa);
+
+  // Part 14: modest term (2-4 years), canonical contract creation, no fee, EUR (all inherited from generateInitialContract itself -- never a second youth-contract engine).
+  const contractYears = 2 + seededIndex(`${seedKey}:youth-contract-years`, 3);
+  const contractEndYear = intakeYear + contractYears;
+  const contractEndSeasonHint = `${contractEndYear - 1}/${String(contractEndYear).slice(-2)}`;
+  const ratingPosition = mapHandballPositionToMatchPlanPosition(position);
+  const competitionTier = getCompetition(getClub(clubId)?.competitionId ?? "")?.tier;
+  const economyInputs: EconomyProfileInputs = { ca, pa, age, position: ratingPosition, role: "DEVELOPMENT", competitionTier };
+  const contract = generateInitialContract(playerId, clubId, contractEndSeasonHint, contractEndYear, economyInputs);
+
+  const player: PlayerMock = {
+    id: playerId,
+    clubId,
+    firstName: name.firstName,
+    lastName: name.lastName,
+    shirtNumber: null,
+    position,
+    nationality,
+    dateOfBirth,
+    heightCm: null,
+    weightKg: null,
+    foot: null,
+    // Part 13: TALENT default -- never automatically FIRST_CHOICE regardless of CA.
+    squadStatus: "Ungdom",
+    dataSource: "MOCK",
+    currentAbility: ca,
+    potentialAbility: pa,
+    form: 5,
+    fitnessPct: 100,
+    moralePct: 70,
+    appearances: 0,
+    goals: 0,
+    contractEndSeason: contractEndSeasonHint,
+    wageSekPerMonth: 0,
+    attributes: legacyAttributesFromCA(ca),
+  };
+
+  return { player, rating, contract };
+}
+
+function intakeSizeForClub(saveSeed: string, clubId: string, intakeYear: number): number {
+  return INTAKE_SIZE_MIN + seededIndex(`${saveSeed}:${clubId}:${intakeYear}:youth-intake-size`, INTAKE_SIZE_MAX - INTAKE_SIZE_MIN + 1);
+}
+
+// ---------------------------------------------------------------------------
+// Part 2/17/19/20: the daily-tick hook.
+// ---------------------------------------------------------------------------
+
+export interface YouthIntakeResult {
+  state: CareerState;
+  events: CareerEvent[];
+  /** clubId -> generated playerIds this call, for callers that want the exact cohort (e.g. tests, a future summary panel). Empty on a day that isn't the intake date, or for a club already generated this year. */
+  generated: Record<string, string[]>;
+}
+
+/**
+ * Runs every day (cheap early-exit on any day that isn't 1 July -- Part
+ * 20: deterministic, no Math.random anywhere in this module). For each
+ * eligible club not yet generated for the CURRENT calendar year (Part 2:
+ * "Det får aldrig genereras två intakes samma season", enforced via
+ * `youthIntakeClubYears`), generates a small cohort and inserts them as
+ * full canonical roster members. The human's own club receives intake
+ * exactly like every CPU club (Part 17: "Human club receives youth
+ * intake too... CPU must NOT decide which youth to accept/reject") --
+ * only the resulting CareerEvent is club-scoped (human club only, one
+ * message per club, never per player).
+ */
+export function progressYouthIntake(state: CareerState, date: string): YouthIntakeResult {
+  if (date.slice(5, 10) !== YOUTH_INTAKE_DATE_MMDD) return { state, events: [], generated: {} };
+
+  const year = date.slice(0, 4);
+  const intakeYear = Number(year);
+  let next = state;
+  const events: CareerEvent[] = [];
+  const generated: Record<string, string[]> = {};
+
+  const clubIds = eligibleYouthIntakeClubIds(next);
+  const weights = positionWeights(worldMvSupplyRatio(next, clubIds));
+
+  for (const clubId of clubIds) {
+    if (next.youthIntakeClubYears[clubId] === year) continue; // idempotent -- this club's intake for this year already ran (reload-safe, Part 19/20).
+
+    const tier = youthTierForClub(clubId);
+    const clubShift = clubQualityShift(next, clubId);
+    const size = intakeSizeForClub(next.saveSeed, clubId, intakeYear);
+
+    const newPlayers: PlayerMock[] = [];
+    const newRatings: GameplayPlayerRating[] = [];
+    let contracts = next.playerContracts;
+    let squadStatusMap = next.playerSquadStatus;
+    let statuses = next.playerStatuses;
+
+    for (let i = 0; i < size; i++) {
+      const { player, rating, contract } = generateYouthPlayer(next.saveSeed, clubId, intakeYear, i, weights, clubShift, tier);
+      newPlayers.push(player);
+      newRatings.push(rating);
+      contracts = { ...contracts, [player.id]: contract };
+      squadStatusMap = { ...squadStatusMap, [player.id]: "TALENT" };
+      statuses = { ...statuses, [player.id]: { playerId: player.id, availability: "AVAILABLE" } };
+    }
+
+    next = {
+      ...next,
+      worldSquads: { ...next.worldSquads, [clubId]: [...(next.worldSquads[clubId] ?? []), ...newPlayers] },
+      gameplayRatings: { ...next.gameplayRatings, [clubId]: [...(next.gameplayRatings[clubId] ?? []), ...newRatings] },
+      playerContracts: contracts,
+      playerSquadStatus: squadStatusMap,
+      playerStatuses: statuses,
+      youthIntakeClubYears: { ...next.youthIntakeClubYears, [clubId]: year },
+    };
+
+    generated[clubId] = newPlayers.map((p) => p.id);
+
+    // Part 17: never per-player, never for a CPU club -- one message, human club only.
+    if (clubId === next.playerClubId) {
+      events.push(buildYouthIntakeCompleteEvent(clubId, date, newPlayers.length));
+    }
+  }
+
+  return { state: next, events, generated };
+}
