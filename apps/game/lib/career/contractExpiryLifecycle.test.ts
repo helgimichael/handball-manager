@@ -107,30 +107,32 @@ test("basic expiry: an expired contract removes the player from the old club, ma
 // ---------------------------------------------------------------------------
 
 test("RELEASE decision is a pure no-op on contractEndDate: player remains at the club until the real expiry date, not months earlier", () => {
-  const { decision } = decideContractAction({ tier: "ROTATION", age: 34, positionDepthCount: 3, financialPressure: "SERIOUS" });
-  assert.equal(decision, "RELEASE");
+  // Unit-level: a RELEASE decision itself never mutates contractEndDate (HM-CPU-CONTRACT-DECISIONS-1.1 Part 11, unchanged from 1.0).
+  const result = decideContractAction({
+    tier: "ROTATION", age: 34, ca: 110, paHeadroom: 0, positionRank: 4, caGapToPositionBest: 20, caVsClubAvg: 0.8,
+    wageEurPerMonth: 3000, fairWageEurPerMonth: 1000, financialPressure: "SERIOUS",
+    daysUntilExpiry: 200, needIfLeaves: "LOW", needIfLeavesSaturated: true, hasAgreedReplacement: false,
+  });
+  assert.equal(result.decision, "RELEASE");
 
+  // End-to-end: whatever the real CPU decision engine actually decides for
+  // this single-player fixture, a contract months from its real end date
+  // must never be moved early, and the player must never depart before it.
   let state = baseState();
-  const clubId = rivalClubId(baseStateWithHandbollsligan());
-  void clubId;
-  // Isolated: build a minimal CPU-club scenario for progressCpuContractDecisions.
   state = withPlayerAndContract(state, "rel1", "se_club_bodens_bk_hf", "V6", "2027-05-31");
   const contractBefore = getPlayerContract(state, "rel1")!;
 
   const { state: afterDecision, log } = progressCpuContractDecisions(state, state.gameDate, ["se_club_bodens_bk_hf"]);
+  const entry = log.find((e) => e.playerId === "rel1");
   const contractAfter = getPlayerContract(afterDecision, "rel1")!;
-  assert.equal(contractAfter.contractEndDate, contractBefore.contractEndDate, "RELEASE/WAIT must never mutate contractEndDate");
-  void log;
+  if (!entry || entry.decision !== "RENEW") {
+    assert.equal(contractAfter.contractEndDate, contractBefore.contractEndDate, "a non-RENEW decision must never mutate contractEndDate");
+  }
 
-  // The player is still under contract months before the real end date -- expiry must not fire early.
   const { departures } = progressContractExpiry(afterDecision, afterDecision.gameDate);
-  assert.equal(departures.length, 0, "a player must never leave before their contract's real end date, regardless of any CPU RELEASE decision");
+  assert.equal(departures.length, 0, "a player must never leave before their contract's real end date, regardless of any CPU contract decision");
   assert.ok(afterDecision.worldSquads["se_club_bodens_bk_hf"]!.some((p) => p.id === "rel1"));
 });
-
-function baseStateWithHandbollsligan(): CareerState {
-  return fullWorldState("release-helper-seed", "se_club_hammarby_if_hf");
-}
 
 // ---------------------------------------------------------------------------
 // 3. Renewal
@@ -143,7 +145,11 @@ test("renewal before expiry: a RENEW decision pushes contractEndDate forward, th
   state = { ...state, worldSquads: { ...state.worldSquads, "se_club_bodens_bk_hf": state.worldSquads["se_club_bodens_bk_hf"]!.map((p) => (p.id === "ren1" ? { ...p, squadStatus: "Förstaval" as const } : p)) } };
   const before = getPlayerContract(state, "ren1")!.contractEndDate;
 
-  const { decision } = decideContractAction({ tier: "FIRST_CHOICE", age: 26, positionDepthCount: 0, financialPressure: "NONE" });
+  const { decision } = decideContractAction({
+    tier: "FIRST_CHOICE", age: 26, ca: 120, paHeadroom: 5, positionRank: 1, caGapToPositionBest: 0, caVsClubAvg: 1.0,
+    wageEurPerMonth: 1000, fairWageEurPerMonth: 1000, financialPressure: "NONE",
+    daysUntilExpiry: 200, needIfLeaves: "HIGH", needIfLeavesSaturated: false, hasAgreedReplacement: false,
+  });
   assert.equal(decision, "RENEW");
 
   const { state: afterDecision } = progressCpuContractDecisions(state, state.gameDate, ["se_club_bodens_bk_hf"]);

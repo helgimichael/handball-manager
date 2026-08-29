@@ -179,3 +179,21 @@ export function getPlayerMarketValueEur(state: CareerState, playerId: string): n
   if (!economyInputs) return undefined;
   return computePlayerMarketValueEur(economyInputs, contract.contractEndDate, state.gameDate);
 }
+
+/**
+ * HM-CPU-CONTRACT-DECISIONS-1.1: the canonical "what should this player
+ * reasonably earn right now" baseline -- the SAME role/CA/age-driven
+ * formula recalibratePlayerContractWages already reuses
+ * (computePlayerSalaryEurPerMonth), just exposed as a per-player read so
+ * a decision (renew/release) can judge whether an ACTUAL contract wage
+ * is disciplined or a clear overpay. Never a renegotiation target on its
+ * own -- RENEW still keeps the player's existing wage unless a caller
+ * explicitly decides otherwise.
+ */
+export function getPlayerFairWageEurPerMonth(state: CareerState, playerId: string): number | undefined {
+  const player = getCareerPlayer(state, playerId);
+  if (!player) return undefined;
+  const economyInputs = buildEconomyProfileInputs(state, player);
+  if (!economyInputs) return undefined;
+  return computePlayerSalaryEurPerMonth(economyInputs);
+}

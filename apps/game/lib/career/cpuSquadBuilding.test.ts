@@ -330,27 +330,47 @@ test("explainability: a HIGH need produces a readable cpuDecisionLog entry namin
 // ---------------------------------------------------------------------------
 
 test("contract renew/release: a KEY_PLAYER is renewed even under moderate pressure (Part: 'Var konservativ med KEY_PLAYER')", () => {
-  const result = decideContractAction({ tier: "KEY_PLAYER", age: 27, positionDepthCount: 3, financialPressure: "PRESSURED" });
+  const result = decideContractAction({
+    tier: "KEY_PLAYER", age: 27, ca: 140, paHeadroom: 5, positionRank: 1, caGapToPositionBest: 0, caVsClubAvg: 1.1,
+    wageEurPerMonth: 2000, fairWageEurPerMonth: 2000, financialPressure: "PRESSURED",
+    daysUntilExpiry: 200, needIfLeaves: "MEDIUM", needIfLeavesSaturated: false, hasAgreedReplacement: false,
+  });
   assert.equal(result.decision, "RENEW");
 });
 
-test("contract renew/release: an old rotation player with deep cover at a financially pressed club is released", () => {
-  const result = decideContractAction({ tier: "ROTATION", age: 34, positionDepthCount: 3, financialPressure: "SERIOUS" });
+test("contract renew/release: an old rotation player with deep cover and an overpaid wage at a financially pressed club is released", () => {
+  const result = decideContractAction({
+    tier: "ROTATION", age: 34, ca: 110, paHeadroom: 0, positionRank: 4, caGapToPositionBest: 20, caVsClubAvg: 0.8,
+    wageEurPerMonth: 3000, fairWageEurPerMonth: 1000, financialPressure: "SERIOUS",
+    daysUntilExpiry: 200, needIfLeaves: "LOW", needIfLeavesSaturated: true, hasAgreedReplacement: false,
+  });
   assert.equal(result.decision, "RELEASE");
 });
 
-test("contract renew/release: a young talent is renewed to retain development investment", () => {
-  const result = decideContractAction({ tier: "TALENT", age: 19, positionDepthCount: 1, financialPressure: "NONE" });
+test("contract renew/release: a young talent with real development headroom is renewed to retain development investment", () => {
+  const result = decideContractAction({
+    tier: "TALENT", age: 19, ca: 100, paHeadroom: 30, positionRank: 2, caGapToPositionBest: 5, caVsClubAvg: 0.85,
+    wageEurPerMonth: 500, fairWageEurPerMonth: 500, financialPressure: "NONE",
+    daysUntilExpiry: 200, needIfLeaves: "MEDIUM", needIfLeavesSaturated: false, hasAgreedReplacement: false,
+  });
   assert.equal(result.decision, "RENEW");
 });
 
 test("contract renew/release: a healthy club never releases a rotation player just because they're expiring (no aggressive churn)", () => {
-  const result = decideContractAction({ tier: "ROTATION", age: 34, positionDepthCount: 3, financialPressure: "NONE" });
+  const result = decideContractAction({
+    tier: "ROTATION", age: 34, ca: 130, paHeadroom: 0, positionRank: 2, caGapToPositionBest: 3, caVsClubAvg: 1.0,
+    wageEurPerMonth: 1000, fairWageEurPerMonth: 1000, financialPressure: "NONE",
+    daysUntilExpiry: 200, needIfLeaves: "MEDIUM", needIfLeavesSaturated: false, hasAgreedReplacement: false,
+  });
   assert.notEqual(result.decision, "RELEASE");
 });
 
 test("(deterministic) contract decision: same inputs -> same decision, always", () => {
-  const inputs = { tier: "FIRST_CHOICE" as const, age: 30, positionDepthCount: 1, financialPressure: "WATCH" as const };
+  const inputs = {
+    tier: "FIRST_CHOICE" as const, age: 30, ca: 125, paHeadroom: 5, positionRank: 2, caGapToPositionBest: 5, caVsClubAvg: 0.95,
+    wageEurPerMonth: 1200, fairWageEurPerMonth: 1100, financialPressure: "WATCH" as const,
+    daysUntilExpiry: 150, needIfLeaves: "MEDIUM" as const, needIfLeavesSaturated: false, hasAgreedReplacement: false,
+  };
   assert.deepEqual(decideContractAction(inputs), decideContractAction(inputs));
 });
 
@@ -369,7 +389,14 @@ test("progressCpuContractDecisions actually mutates playerContracts for a RENEW/
 
   const newStatus = getPlayerContractStatus(next, player.id);
   if (entry!.decision === "RENEW") assert.equal(newStatus, "UNDER_CONTRACT");
-  if (entry!.decision === "RELEASE") assert.equal(newStatus, "FREE_AGENT");
+  if (entry!.decision === "RELEASE") {
+    // RELEASE means "we are not renewing", not "sack the player today" --
+    // contractEndDate must be completely untouched (HM-PLAYER-CONTRACT-
+    // LIFECYCLE-1.0's own fix), so status here must still reflect the
+    // real 90-days-out end date (EXPIRING), never an immediate FREE_AGENT.
+    assert.equal(getPlayerContract(next, player.id)?.contractEndDate, addDays(state.gameDate, 90));
+    assert.equal(newStatus, "EXPIRING");
+  }
 });
 
 // ---------------------------------------------------------------------------
