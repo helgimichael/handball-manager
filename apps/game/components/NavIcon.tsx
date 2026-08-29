@@ -7,6 +7,7 @@ export type NavIconName =
   | "schedule"
   | "matches"
   | "scouting"
+  | "recruitment"
   | "transfers"
   | "staff"
   | "club"
@@ -24,6 +25,7 @@ const PATHS: Record<NavIconName, string> = {
   schedule: "M2 3h10v9H2z M2 6h10 M4.5 1.5v3 M9.5 1.5v3",
   matches: "M8 1.5l1.6 3.3 3.6.5-2.6 2.6.6 3.6L8 9.8l-3.2 1.7.6-3.6-2.6-2.6 3.6-.5z",
   scouting: "M6.2 6.2a3 3 0 1 1 0 0zM10 10l3 3",
+  recruitment: "M2.5 2h6l3 3v9h-9z M8.5 2v3h3 M6 8l.9 1.8 2 .3-1.45 1.4.35 2-1.8-.95-1.8.95.35-2-1.45-1.4 2-.3z",
   transfers: "M2 5.5h8l-2-2 M14 5.5l0 0 M14 9.5H6l2 2 M2 9.5l0 0",
   staff: "M8 2a2 2 0 1 1 0 4 2 2 0 0 1 0-4zM3 13c.5-3 2.3-4.5 5-4.5S12.5 10 13 13",
   club: "M8 1.5 13.5 4v4.5c0 3.5-2.4 5.7-5.5 6.5-3.1-.8-5.5-3-5.5-6.5V4z",

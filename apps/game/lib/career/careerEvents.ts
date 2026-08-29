@@ -54,6 +54,7 @@ export type EventDestination =
   | { route: "MATCH_REPORT"; fixtureId: string }
   | { route: "SCOUTING" }
   | { route: "SCOUT_REPORT"; playerId: string }
+  | { route: "RECRUITMENT" }
   | { route: "COMPETITION"; competitionId: string }
   | { route: "CLUB" }
   | { route: "ANALYSIS_OVERVIEW" }
@@ -179,7 +180,7 @@ export function buildScoutReportReadyEvent(taskId: string, playerId: string, dat
     "IMPORTANT",
     "Scoutingrapport klar",
     "En scoutingbevakning har slutförts.",
-    [{ route: "SCOUT_REPORT", playerId }, { route: "SCOUTING" }],
+    [{ route: "SCOUT_REPORT", playerId }, { route: "SCOUTING" }, { route: "RECRUITMENT" }],
     { primaryEntity: { entityType: "player", entityId: playerId } },
   );
 }
@@ -205,7 +206,7 @@ export function buildScoutDiscoveryReadyEvent(assignmentId: string, cycleIndex: 
     discoveredCount > 0 ? "IMPORTANT" : "INFORMATION",
     "Nya spelare upptäckta",
     summary,
-    [{ route: "SCOUTING" }],
+    [{ route: "SCOUTING" }, { route: "RECRUITMENT" }],
   );
 }
 

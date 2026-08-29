@@ -39,6 +39,8 @@ export function resolveDestinationHref(destination: EventDestination): string | 
       // detail page -- one canonical "what do we know about this
       // player" screen, never a second competing report view.
       return `/career/squad/${destination.playerId}`;
+    case "RECRUITMENT":
+      return "/career/recruitment";
     case "COMPETITION":
       return "/career/competitions";
     case "CLUB":
@@ -82,6 +84,8 @@ export function destinationLabel(destination: EventDestination): string {
       return "Öppna scouting";
     case "SCOUT_REPORT":
       return "Öppna rapport";
+    case "RECRUITMENT":
+      return "Öppna rekrytering";
     case "COMPETITION":
       return "Öppna tabell";
     case "CLUB":

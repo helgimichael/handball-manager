@@ -36,6 +36,7 @@ import {
   type ScoutAssignmentType,
   type BroadScoutAssignmentScope,
 } from "./scouting";
+import { addToShortlist, removeFromShortlist, setRecruitmentPriority, setRecruitmentNote, type RecruitmentPriority } from "./recruitment";
 import {
   requestPartnershipSearch,
   startDevelopmentPartnership,
@@ -177,6 +178,12 @@ type CareerContextValue = {
   createBroadScoutingAssignment: (scoutStaffId: string, assignmentType: Exclude<ScoutAssignmentType, "PLAYER">, scope: BroadScoutAssignmentScope) => CreateScoutingAssignmentResult;
   /** HM-SCOUTING-1.1: cancels an IN_PROGRESS assignment (PLAYER or broad) and persists. No-op if already completed/cancelled. */
   cancelScoutingAssignment: (assignmentId: string) => void;
+  /** HM-RECRUITMENT-1.1: adds/removes a player from the persistent shortlist (idempotent) and persists. */
+  addToShortlist: (playerId: string) => void;
+  removeFromShortlist: (playerId: string) => void;
+  /** HM-RECRUITMENT-1.1: sets manager INTENT (priority/note) for a recruitment candidate and persists -- never a player rating. */
+  setRecruitmentPriority: (playerId: string, priority: RecruitmentPriority) => void;
+  setRecruitmentNote: (playerId: string, note: string) => void;
   /** HM-CLUB-PARTNERSHIPS-1.0: starts the board's own multi-day search for a Division 1 development partner and persists on success. */
   requestPartnershipSearch: () => RequestPartnershipSearchResult;
   /** HM-CLUB-PARTNERSHIPS-1.0: agrees a DEVELOPMENT_PARTNERSHIP with one of a completed search's own candidate clubs and persists on success. */
@@ -754,6 +761,34 @@ export function CareerProvider({ children }: { children: ReactNode }) {
     setValue({ save: value.save, career: nextState });
   }
 
+  function addToShortlistActionWrapper(playerId: string): void {
+    if (!value) throw new Error("Ingen aktiv karriär.");
+    const nextState = addToShortlist(value.career, playerId, value.career.gameDate);
+    saveCareerState(value.save.saveId, nextState);
+    setValue({ save: value.save, career: nextState });
+  }
+
+  function removeFromShortlistActionWrapper(playerId: string): void {
+    if (!value) throw new Error("Ingen aktiv karriär.");
+    const nextState = removeFromShortlist(value.career, playerId);
+    saveCareerState(value.save.saveId, nextState);
+    setValue({ save: value.save, career: nextState });
+  }
+
+  function setRecruitmentPriorityActionWrapper(playerId: string, priority: RecruitmentPriority): void {
+    if (!value) throw new Error("Ingen aktiv karriär.");
+    const nextState = setRecruitmentPriority(value.career, playerId, priority, value.career.gameDate);
+    saveCareerState(value.save.saveId, nextState);
+    setValue({ save: value.save, career: nextState });
+  }
+
+  function setRecruitmentNoteActionWrapper(playerId: string, note: string): void {
+    if (!value) throw new Error("Ingen aktiv karriär.");
+    const nextState = setRecruitmentNote(value.career, playerId, note, value.career.gameDate);
+    saveCareerState(value.save.saveId, nextState);
+    setValue({ save: value.save, career: nextState });
+  }
+
   function requestPartnershipSearchActionWrapper(): RequestPartnershipSearchResult {
     if (!value) throw new Error("Ingen aktiv karriär.");
     const result = requestPartnershipSearch(value.career, value.career.playerClubId, value.career.gameDate);
@@ -835,6 +870,10 @@ export function CareerProvider({ children }: { children: ReactNode }) {
         createScoutingAssignment: createScoutingAssignmentActionWrapper,
         createBroadScoutingAssignment: createBroadScoutingAssignmentActionWrapper,
         cancelScoutingAssignment: cancelScoutingAssignmentActionWrapper,
+        addToShortlist: addToShortlistActionWrapper,
+        removeFromShortlist: removeFromShortlistActionWrapper,
+        setRecruitmentPriority: setRecruitmentPriorityActionWrapper,
+        setRecruitmentNote: setRecruitmentNoteActionWrapper,
         requestPartnershipSearch: requestPartnershipSearchActionWrapper,
         startDevelopmentPartnership: startDevelopmentPartnershipActionWrapper,
         terminatePartnership: terminatePartnershipActionWrapper,

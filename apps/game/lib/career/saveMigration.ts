@@ -452,6 +452,13 @@ export function migrateCareerState(career: CareerState): CareerState {
   if (next.scoutDiscoveries === undefined) {
     next = { ...next, scoutDiscoveries: {} };
   }
+  // HM-RECRUITMENT-1.1: additive -- an existing career simply never had
+  // shortlist/priority/note tracking yet. Migrated to an EMPTY map, never
+  // inventing shortlist history -- every reader already treats a missing
+  // row as "not shortlisted, NORMAL priority, no note".
+  if (next.recruitmentTargets === undefined) {
+    next = { ...next, recruitmentTargets: {} };
+  }
   // Every pre-1.1 ScoutingAssignment record was implicitly PLAYER-typed
   // (assignmentType/targetCompetitionId/targetNation/targetPosition/
   // targetMaxAgeYears/cyclesCompleted/maxCycles/discoveredPlayerIds did

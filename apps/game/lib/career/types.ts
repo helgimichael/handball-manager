@@ -22,6 +22,7 @@ import type { ClubEconomyBaseline } from "../economy/clubEconomyTypes";
 import type { LoanRecord, TransferOffer } from "../transfers/types";
 import type { ScoutingAssignment, ScoutReport } from "./scouting";
 import type { ScoutDiscovery } from "./scoutDiscovery";
+import type { RecruitmentTarget } from "./recruitment";
 import type { ClubPartnership, PartnershipSearchAssignment } from "./clubPartnerships";
 import type { ScoutPoolSourceEntry } from "../staff/scoutPool";
 
@@ -585,6 +586,18 @@ export type CareerState = {
    * only ever holds unemployed candidates.
    */
   scoutMarket: Record<string, ResolvedStaffMember>;
+
+  // --- HM-RECRUITMENT-1.1 addition ---
+
+  /**
+   * Manager INTENT over a recruitment candidate -- shortlist/priority/
+   * note -- never player-data truth (see lib/career/recruitment.ts's own
+   * doc). Deliberately SPARSE: a row is only ever created the first time
+   * a manager actually shortlists/prioritizes/annotates a player; a
+   * player who is merely discovered/scouted has no row here at all until
+   * the manager takes one of those actions. Keyed by playerId.
+   */
+  recruitmentTargets: Record<string, RecruitmentTarget>;
 };
 
 export type CareerSaveEnvelope = {

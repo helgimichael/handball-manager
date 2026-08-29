@@ -46,6 +46,7 @@ export const CAREER_NAV_ITEMS: readonly CareerNavItem[] = [
   },
   { id: "analysis", label: "Analys", href: "/career/analysis", icon: "analysis", ownsPrefixes: ["/career/analysis/"] },
   { id: "scouting", label: "Scouting", href: "/career/scouting", icon: "scouting", ownsPrefixes: [] },
+  { id: "recruitment", label: "Rekrytering", href: "/career/recruitment", icon: "recruitment", ownsPrefixes: [] },
   { id: "transfers", label: "Transfers", href: "/career/transfers", icon: "transfers", ownsPrefixes: [] },
   { id: "staff", label: "Personal", href: "/career/staff", icon: "staff", ownsPrefixes: ["/career/staff/"] },
   { id: "medical", label: "Medicinskt", href: "/career/medical", icon: "medical", ownsPrefixes: [] },
