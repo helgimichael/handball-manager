@@ -129,7 +129,14 @@ export function submitTransferOffer(state: CareerState, params: SubmitTransferOf
 
   const trainingComp = getPlayerTrainingCompensation(state, playerId);
   const trainingCompensationEur = dealType === "PERMANENT" ? (trainingComp?.totalEur ?? 0) : 0;
-  const transferFeeEur = dealType === "PERMANENT" ? Math.max(0, params.transferFeeEur) : 0;
+  // HM-PLAYER-CONTRACT-LIFECYCLE-1.0 Part 6: "Transfer fee: 0" for a free
+  // agent -- forced here (the one canonical execution path both the
+  // Transfers page and Recruitment Centre submit through), not just left
+  // to each UI form's own default, since a free agent is now actually
+  // reachable/biddable and a stray nonzero fee would otherwise be
+  // deducted from the buyer at execution (below) with no seller to
+  // receive it.
+  const transferFeeEur = dealType === "PERMANENT" && !isFreeAgent ? Math.max(0, params.transferFeeEur) : 0;
   const wageShareBorrowingPct = dealType === "LOAN" ? (params.loanTerms?.wageShareBorrowingPct ?? 100) : 100;
 
   function finalize(status: TransferOffer["status"], patch: Partial<TransferOffer>, nextState: CareerState): { state: CareerState; offer: TransferOffer } {

@@ -38,6 +38,19 @@ export interface ContractDecisionResult {
  * under real financial pressure -- never a healthy club casually
  * dumping a rostered player. Every other case defaults to WAIT (no
  * action), matching the "ingen aggressiv churn" instruction directly.
+ *
+ * HM-PLAYER-CONTRACT-LIFECYCLE-1.0 Part 4: RELEASE means "we are not
+ * renewing", never "terminate the contract early" -- it does NOT mutate
+ * `contractEndDate` (that was a 1.0/1.0B bug: RELEASE used to set
+ * contractEndDate to today, sacking the player immediately regardless of
+ * their real contract's remaining months). The player simply keeps
+ * playing out their existing contract at this club, exactly like WAIT,
+ * until it genuinely expires on its own real date -- see
+ * contractExpiry.ts's own `progressContractExpiry`, the ONE place a
+ * player actually leaves. RELEASE only differs from WAIT in the
+ * EXPLAINED reason (an active decision not to renew, vs. no strong
+ * reason to decide either way yet) -- both are, and remain, pure no-ops
+ * on CareerState from this function's own point of view.
  */
 export function decideContractAction(inputs: ContractDecisionInputs): ContractDecisionResult {
   const isOld = inputs.age !== null && inputs.age >= 32;
@@ -90,12 +103,16 @@ const WAIT_LOG_REVIEW_INTERVAL_DAYS = 30;
  * lookups per player), so unlike the recruitment search this runs for
  * every CPU club every day; only players whose contract has just crossed
  * into EXPIRING_SOON/EXPIRING territory are evaluated at all (Economy
- * 1.0's own status thresholds), and RENEW/RELEASE both push the contract
- * OUT of that window (a later end date, or an immediate FREE_AGENT
- * expiry) -- so a decided player is naturally never re-evaluated the
- * next day (self-limiting, no extra "already decided" state needed).
- * Never called for `state.playerClubId` (Part: "Human-controlled club
- * får aldrig styras av detta").
+ * 1.0's own status thresholds). RENEW pushes the contract OUT of that
+ * window (a later end date) so a renewed player is naturally never
+ * re-evaluated again. WAIT/RELEASE are both pure no-ops (Part 4) -- the
+ * SAME player is re-decided every time this runs, deterministically
+ * reaching the same outcome as long as their inputs (age/tier/depth/
+ * pressure) don't change, with LOGGING throttled (not the decision
+ * itself) to avoid daily spam. The actual departure, once the contract
+ * genuinely reaches its own real end date, is contractExpiry.ts's job,
+ * not this function's. Never called for `state.playerClubId` (Part:
+ * "Human-controlled club får aldrig styras av detta").
  */
 export function progressCpuContractDecisions(state: CareerState, date: string, cpuClubIds: readonly string[]): { state: CareerState; log: CpuContractDecisionLogEntry[] } {
   let next = state;
@@ -118,14 +135,19 @@ export function progressCpuContractDecisions(state: CareerState, date: string, c
       const { decision, reason } = decideContractAction({ tier, age, positionDepthCount, financialPressure });
 
       if (decision === "RENEW") {
+        // The one real, self-limiting mutation: a new contract that pushes
+        // the player OUT of the EXPIRING_SOON/EXPIRING window, so they are
+        // naturally never re-evaluated tomorrow. Always logged immediately.
         const years = RENEWAL_YEARS_BY_TIER[tier] ?? DEFAULT_RENEWAL_YEARS;
         const newEndDate = computeNewContractEndDate(player.id, date, years);
         next = { ...next, playerContracts: { ...next.playerContracts, [player.id]: { ...contract, contractEndDate: newEndDate } } };
         log.push({ playerId: player.id, clubId, position: player.position, decision, reason });
-      } else if (decision === "RELEASE") {
-        next = { ...next, playerContracts: { ...next.playerContracts, [player.id]: { ...contract, contractEndDate: date } } };
-        log.push({ playerId: player.id, clubId, position: player.position, decision, reason });
       } else if (daysUntilContractEnd(contract.contractEndDate, date) % WAIT_LOG_REVIEW_INTERVAL_DAYS === 0) {
+        // WAIT and RELEASE are both pure no-ops on CareerState (Part 4) --
+        // stable, deterministic, and would otherwise be re-logged every
+        // single day for as long as the player sits in the window (the
+        // 1.0B audit's own ~23,800-row WAIT-spam finding); throttled to a
+        // periodic checkpoint exactly like WAIT already was.
         log.push({ playerId: player.id, clubId, position: player.position, decision, reason });
       }
     }

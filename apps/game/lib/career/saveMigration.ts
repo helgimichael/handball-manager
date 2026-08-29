@@ -16,7 +16,8 @@ import { seedPlayerStatuses } from "./playerStatus";
 import { defaultTeamTacticalProfile } from "./teamTacticalProfile";
 import type { CareerState } from "./types";
 import { ensureCareerGameplayRatings } from "./careerRatingNormalization";
-import { ensureCareerPlayerContracts, recalibratePlayerContractEndDates, recalibratePlayerContractWages } from "../economy/contractIntegration";
+import { ensureCareerPlayerContracts, getPlayerContractStatus, recalibratePlayerContractEndDates, recalibratePlayerContractWages } from "../economy/contractIntegration";
+import { isFreeAgentClubId, releasePlayerToFreeAgency } from "./contractExpiry";
 import { ensureCareerPlayerClubHistory } from "../economy/clubHistoryIntegration";
 import { ensureCareerAllClubEconomies } from "../economy/clubEconomyIntegration";
 import { ensureCareerPlayerSquadStatus } from "./squadStatus";
@@ -506,6 +507,30 @@ export function migrateCareerState(career: CareerState): CareerState {
             };
     }
     next = { ...next, scoutingAssignments: migratedAssignments };
+  }
+
+  // HM-PLAYER-CONTRACT-LIFECYCLE-1.0 Part 15: repair a pre-existing save
+  // whose lifecycle state is unambiguously corrupt -- a player whose
+  // contract status is CANONICALLY (pure date math, unmodified)
+  // "FREE_AGENT" yet who still sits in a real club's worldSquads entry,
+  // the exact gap this milestone closes. Deliberately conservative
+  // (Part 15: "blindly inte ta bort varje historisk avvikelse") -- this
+  // does NOT touch any other historical oddity, only the one unambiguous
+  // case canonical state itself already asserts: reuses the SAME
+  // releasePlayerToFreeAgency this milestone's own daily lifecycle uses,
+  // so a repaired player gets the identical loan-deactivation/placement-
+  // ending side effects a normal expiry would have produced. Naturally
+  // idempotent (releasePlayerToFreeAgency is itself a no-op once a player
+  // is already at the free-agent key), safe unconditionally on every
+  // migration, same precedent as the other unconditional passes above.
+  for (const clubId of Object.keys(next.worldSquads)) {
+    if (isFreeAgentClubId(clubId)) continue;
+    const squad = next.worldSquads[clubId] ?? [];
+    for (const player of squad) {
+      if (player.clubId !== clubId) continue; // already reconciled/moved earlier this same pass
+      if (getPlayerContractStatus(next, player.id) !== "FREE_AGENT") continue;
+      next = releasePlayerToFreeAgency(next, player.id, next.gameDate);
+    }
   }
 
   return next;

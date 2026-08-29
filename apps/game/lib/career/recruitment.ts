@@ -33,6 +33,7 @@ import { getPlayerScoutDiscoveries } from "./scoutDiscovery";
 import { getClub, playerAge, type HandballPosition } from "../game-data";
 import { findStaffMember } from "../staff/staffCareerIntegration";
 import type { TransferOffer, TransferOfferStatus } from "../transfers/types";
+import { getFreeAgents, isFreeAgentClubId } from "./contractExpiry";
 
 export const RECRUITMENT_PRIORITIES = ["LOW", "NORMAL", "HIGH", "TOP"] as const;
 export type RecruitmentPriority = (typeof RECRUITMENT_PRIORITIES)[number];
@@ -232,7 +233,7 @@ function buildCandidate(state: CareerState, playerId: string): RecruitmentCandid
     firstName: player.firstName,
     lastName: player.lastName,
     clubId,
-    clubName: club?.name ?? clubId,
+    clubName: club?.name ?? (isFreeAgentClubId(clubId) ? "Fri agent" : clubId),
     competitionId: club?.competitionId ?? "",
     position: player.position,
     ageYears: playerAge(player.dateOfBirth, player.birthYear),
@@ -275,6 +276,10 @@ export function getRecruitmentCandidates(state: CareerState): RecruitmentCandida
   for (const r of Object.values(state.scoutReports)) playerIds.add(r.targetPlayerId);
   for (const playerId of Object.keys(state.recruitmentTargets)) playerIds.add(playerId);
   for (const o of Object.values(state.transferOffers)) playerIds.add(o.playerId);
+  // HM-PLAYER-CONTRACT-LIFECYCLE-1.0 Part 6: a free agent is openly
+  // available -- no scout discovery needed to know they exist, exactly
+  // like the CPU candidate pool's own treatment (cpuCandidateEvaluation.ts).
+  for (const p of getFreeAgents(state)) playerIds.add(p.id);
 
   const candidates: RecruitmentCandidate[] = [];
   for (const playerId of playerIds) {

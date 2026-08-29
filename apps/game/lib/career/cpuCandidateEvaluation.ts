@@ -4,7 +4,7 @@
 // -- no separate CPU database, no fake data. Deterministic throughout
 // (seededOffset jitter, never Math.random -- Part: "Ingen Math.random()...
 // same career seed + same state -> same beslut").
-import { positionLabel, type HandballPosition } from "../game-data";
+import { positionLabel, type HandballPosition, type PlayerMock } from "../game-data";
 import { getClubBudgets } from "../economy/clubEconomyIntegration";
 import { getPlayerContract, getPlayerContractStatus, getPlayerMarketValueEur } from "../economy/contractIntegration";
 import { assessTransferAffordability } from "../transfers/affordability";
@@ -14,6 +14,7 @@ import { seededOffset } from "../rating/generation/deterministicVariation";
 import { hasActivePendingTransfer } from "../transfers/transferIntegration";
 import { getExternalCandidateClubs, WORLD_POOL_COMPETITION_IDS } from "./careerWorld";
 import { projectedSquadSize } from "./cpuSquadNeeds";
+import { FREE_AGENT_CLUB_ID, getFreeAgents } from "./contractExpiry";
 import type { CareerState } from "./types";
 
 /**
@@ -150,6 +151,62 @@ export function rankCandidates(state: CareerState, buyerClubId: string, position
   const candidateClubs = getExternalCandidateClubs(state).filter((c) => c.id !== buyerClubId);
   const results: CandidateScore[] = [];
 
+  /**
+   * Shared per-player evaluation -- `sourceClubId` is either a real
+   * candidate club or FREE_AGENT_CLUB_ID (Part 6/12: a free agent is
+   * evaluated with the EXACT same scoring, just zero transfer fee and no
+   * international-reach gating, since they aren't "found abroad", they're
+   * openly available).
+   */
+  function evaluate(player: PlayerMock, sourceClubId: string, internationalReachPenalty: number): void {
+    if (state.playerStatuses[player.id]?.availability === "ON_PLACEMENT") return; // not really available to sell right now.
+    if (hasActivePendingTransfer(state, player.id)) return; // HM-CPU-SQUAD-BUILDING-1.0B Part 1: already has a pending deal elsewhere -- never a viable candidate, checked here (not only at offer time) so a doomed candidate never wastes a pursuit slot.
+
+    const rating = clubGameplayRating(state, sourceClubId, player.id);
+    const contract = getPlayerContract(state, player.id);
+    if (!rating || !contract) return; // defensive -- every real candidate should have both by this point in career setup.
+
+    const contractStatus = getPlayerContractStatus(state, player.id);
+    const isFreeAgent = contractStatus === "FREE_AGENT";
+    const marketValueEur = getPlayerMarketValueEur(state, player.id) ?? 0;
+    // Part 6: "Transfer fee: 0" -- a free agent has no selling club to pay, matching submitTransferOffer's own existing isFreeAgent skip of the selling-club payout.
+    const estimatedFeeEur = isFreeAgent ? 0 : marketValueEur;
+    const estimatedWageEurPerMonth = Math.round(contract.wageEurPerMonth * 1.1) || Math.round(marketValueEur * 0.02); // Part: a modest incentive above their current wage; a true free agent's contract wage is 0 (Part 2), so fall back to a market-value-derived starting offer instead of proposing 0€/month.
+
+    const affordability = assessTransferAffordability(state, buyerClubId, estimatedFeeEur, 0, estimatedWageEurPerMonth);
+    const age = playerAgeAtDate(player.dateOfBirth, player.birthYear, date);
+    const buyerTier = competitionTierForClub(buyerClubId);
+    const candidateTier = competitionTierForClub(sourceClubId);
+    const tierGapPenalty = buyerTier !== undefined && candidateTier !== undefined && candidateTier < buyerTier ? -4 : 0; // buying DOWN a tier is fine but slightly less exciting than a lateral/upward move -- never a hard block, existing club/player decision logic already gates unrealistic moves.
+    const levelGapPenalty = Math.max(0, (rating.ca - ownLevel) * 0.15); // the further above the buyer's own level, the more of a reach -- soft, continuous, never a hard cutoff (real club/player decisions already reject an unrealistic offer on their own).
+
+    const jitter = seededOffset(`${buyerClubId}:${player.id}:${date}:cpu-candidate-jitter`, jitterMagnitude);
+
+    let score = rating.ca * 1.0 + Math.max(0, rating.pa - rating.ca) * 0.3 + ageScore(age) + contractSituationScore(contractStatus) + tierGapPenalty - levelGapPenalty - internationalReachPenalty - squadSizePenalty + jitter;
+    if (!affordability.affordable) score -= 1000; // Part: "för dyr kandidat ska kunna avvisas" -- still ranked/visible for explainability, but never chosen while unaffordable ones exist.
+
+    const reasonParts = [
+      `${positionLabel(position)}, nivå ${Math.round(rating.ca)}`,
+      isFreeAgent ? "fri agent -- ingen övergångssumma" : contractStatus === "EXPIRING" ? "kontrakt går snart ut" : null,
+      affordability.affordable ? "råd att värva" : `för dyr (${affordability.reasons.join(" ")})`,
+    ].filter(Boolean);
+
+    results.push({
+      playerId: player.id,
+      clubId: sourceClubId,
+      position,
+      ca: rating.ca,
+      pa: rating.pa,
+      age,
+      contractStatus,
+      estimatedFeeEur,
+      estimatedWageEurPerMonth,
+      affordable: affordability.affordable,
+      score,
+      reason: reasonParts.join(", ") + ".",
+    });
+  }
+
   for (const club of candidateClubs) {
     const isInternational = (WORLD_POOL_COMPETITION_IDS as readonly string[]).includes(club.competitionId);
     // Part: reach -- no scout means international candidates are entirely
@@ -166,47 +223,15 @@ export function rankCandidates(state: CareerState, buyerClubId: string, position
     const squad = state.worldSquads[club.id] ?? [];
     for (const player of squad) {
       if (player.position !== position) continue;
-      if (state.playerStatuses[player.id]?.availability === "ON_PLACEMENT") continue; // not really available to sell right now.
-      if (hasActivePendingTransfer(state, player.id)) continue; // HM-CPU-SQUAD-BUILDING-1.0B Part 1: already has a pending deal elsewhere -- never a viable candidate, checked here (not only at offer time) so a doomed candidate never wastes a pursuit slot.
-
-      const rating = clubGameplayRating(state, club.id, player.id);
-      const contract = getPlayerContract(state, player.id);
-      if (!rating || !contract) continue; // defensive -- every real candidate should have both by this point in career setup.
-
-      const marketValueEur = getPlayerMarketValueEur(state, player.id) ?? 0;
-      const estimatedFeeEur = marketValueEur;
-      const estimatedWageEurPerMonth = Math.round(contract.wageEurPerMonth * 1.1); // Part: a modest incentive above their current wage, grounded in real data -- never invented.
-
-      const affordability = assessTransferAffordability(state, buyerClubId, estimatedFeeEur, 0, estimatedWageEurPerMonth);
-      const contractStatus = getPlayerContractStatus(state, player.id);
-      const age = playerAgeAtDate(player.dateOfBirth, player.birthYear, date);
-      const buyerTier = competitionTierForClub(buyerClubId);
-      const candidateTier = competitionTierForClub(club.id);
-      const tierGapPenalty = buyerTier !== undefined && candidateTier !== undefined && candidateTier < buyerTier ? -4 : 0; // buying DOWN a tier is fine but slightly less exciting than a lateral/upward move -- never a hard block, existing club/player decision logic already gates unrealistic moves.
-      const levelGapPenalty = Math.max(0, (rating.ca - ownLevel) * 0.15); // the further above the buyer's own level, the more of a reach -- soft, continuous, never a hard cutoff (real club/player decisions already reject an unrealistic offer on their own).
-
-      const jitter = seededOffset(`${buyerClubId}:${player.id}:${date}:cpu-candidate-jitter`, jitterMagnitude);
-
-      let score = rating.ca * 1.0 + Math.max(0, rating.pa - rating.ca) * 0.3 + ageScore(age) + contractSituationScore(contractStatus) + tierGapPenalty - levelGapPenalty - internationalReachPenalty - squadSizePenalty + jitter;
-      if (!affordability.affordable) score -= 1000; // Part: "för dyr kandidat ska kunna avvisas" -- still ranked/visible for explainability, but never chosen while unaffordable ones exist.
-
-      const reasonParts = [`${positionLabel(position)}, nivå ${Math.round(rating.ca)}`, contractStatus === "FREE_AGENT" || contractStatus === "EXPIRING" ? "kontrakt går snart ut" : null, affordability.affordable ? "råd att värva" : `för dyr (${affordability.reasons.join(" ")})`].filter(Boolean);
-
-      results.push({
-        playerId: player.id,
-        clubId: club.id,
-        position,
-        ca: rating.ca,
-        pa: rating.pa,
-        age,
-        contractStatus,
-        estimatedFeeEur,
-        estimatedWageEurPerMonth,
-        affordable: affordability.affordable,
-        score,
-        reason: reasonParts.join(", ") + ".",
-      });
+      evaluate(player, club.id, internationalReachPenalty);
     }
+  }
+
+  // Part 6: every free agent at this position -- always visible (openly
+  // available, not "found" via scouting reach), never international-gated.
+  for (const player of getFreeAgents(state)) {
+    if (player.position !== position) continue;
+    evaluate(player, FREE_AGENT_CLUB_ID, 0);
   }
 
   return results.sort((a, b) => b.score - a.score);

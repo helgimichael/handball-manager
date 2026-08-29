@@ -38,8 +38,10 @@ import {
   buildTrainingCompletedEvent,
   buildTrainingReportEvent,
   buildPlacementExpiredEvent,
+  buildPlayerContractExpiredEvent,
   type CareerEvent,
 } from "./careerEvents";
+import { progressContractExpiry } from "./contractExpiry";
 import { applyTrainingDayInjuryResolution, progressDailyRehab } from "../medical/injuryIntegration";
 import { ensureOpponentAnalysisTask, progressCareerTasks } from "./careerTasks";
 import { progressScoutingAssignments } from "./scouting";
@@ -200,6 +202,21 @@ export function processDay(state: CareerState, date: string): DailyTickResult {
   }
 
   // --- 5. Club / Competition world -----------------------------------------
+  // HM-PLAYER-CONTRACT-LIFECYCLE-1.0: a world rule, not a CPU action --
+  // any player whose contract has genuinely reached its own real end
+  // date leaves their club and becomes a free agent. Runs BEFORE
+  // progressDailyTransfers below so a same-day stale AGREED_AWAITING_WINDOW
+  // offer for a player who just departed is caught by that function's
+  // own existing 1.0B ownership guard (CANCELLED_STALE), never executed
+  // against a club that no longer owns them.
+  const { state: afterContractExpiry, departures } = progressContractExpiry(next, date);
+  next = afterContractExpiry;
+  for (const departure of departures) {
+    if (departure.fromClubId === next.playerClubId) {
+      emit(buildPlayerContractExpiredEvent(departure.playerId, date));
+    }
+  }
+
   // HM-TRANSFERS-1.0: completes any PERMANENT deal that was AGREED while
   // the transfer window was closed (once it reopens) and returns any
   // loan whose endDate has been reached -- same "check a stored date,

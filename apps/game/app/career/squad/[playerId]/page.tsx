@@ -5,6 +5,7 @@ import { useParams, useRouter } from "next/navigation";
 import { abilityStars, getClub, playerAge, positionLabel, potentialStars } from "@/lib/game-data";
 import { useCareer } from "@/lib/career/CareerContext";
 import { getCareerPlayer } from "@/lib/career/careerWorld";
+import { isFreeAgentClubId } from "@/lib/career/contractExpiry";
 import { averageRating, emptyPlayerSeasonStats } from "@/lib/career/types";
 import { resolveStatusLabel } from "@/lib/career/playerStatus";
 import StarRating from "@/components/StarRating";
@@ -100,6 +101,7 @@ export default function PlayerProfilePage() {
   const seasonStats = career.playerSeasonStats[player.id] ?? emptyPlayerSeasonStats(player.id);
   const age = playerAge(player.dateOfBirth, player.birthYear);
   const isWonderkid = age !== null && age <= 19 && potentialStars(player) >= 5;
+  const isFreeAgentPlayer = isFreeAgentClubId(player.clubId);
   const club = getClub(player.clubId);
   const hasRatingProfile = Boolean(ratingRow);
   // HM-DATA-ALLSVENSKAN-1.1B Part 12: TRUE WORLD STATE -> MANAGER
@@ -176,15 +178,26 @@ export default function PlayerProfilePage() {
                     {" · "}
                     <ClubLink clubId={club.id}>{club.name}</ClubLink>
                   </>
+                ) : isFreeAgentPlayer ? (
+                  <>
+                    {" · "}
+                    <span className="hm-text-muted">Ingen klubb — fri agent</span>
+                  </>
                 ) : null}
               </div>
             </div>
             <button
               type="button"
               className="hm-btn"
-              onClick={() => (player.clubId === career.playerClubId ? router.push("/career/squad") : router.push(`/career/clubs/${player.clubId}`))}
+              onClick={() =>
+                player.clubId === career.playerClubId
+                  ? router.push("/career/squad")
+                  : isFreeAgentPlayer
+                    ? router.push("/career/transfers")
+                    : router.push(`/career/clubs/${player.clubId}`)
+              }
             >
-              ← {player.clubId === career.playerClubId ? "Trupp" : "Klubb"}
+              ← {player.clubId === career.playerClubId ? "Trupp" : isFreeAgentPlayer ? "Transfers" : "Klubb"}
             </button>
           </div>
         </div>

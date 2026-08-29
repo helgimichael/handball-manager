@@ -278,7 +278,7 @@ function CandidateDetailPanel({
         <div className="hm-panel-body" style={{ display: "flex", flexDirection: "column", gap: 6 }}>
           <div className="hm-text-muted" style={{ fontSize: "var(--hm-text-xs)" }}>
             {positionLabel(candidate.position)} · {candidate.ageYears ?? "–"} år · {NATION_LABEL_SV[candidate.nationality] ?? candidate.nationality}
-            {club ? ` · ${club.name}` : ""}
+            {club ? ` · ${club.name}` : ` · ${candidate.clubName}`}
             {competition ? ` (${competition.name})` : ""}
           </div>
           <div className="hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)" }}>Kännedom: {KNOWLEDGE_TIER_LABEL_SV[candidate.knowledgeTier]}</div>

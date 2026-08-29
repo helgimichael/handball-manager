@@ -21,7 +21,8 @@ export type CareerEventType =
   | "COMPETITION_UPDATE"
   | "STAFF_REPORT"
   | "CLUB_NEWS"
-  | "PLAYER_PLACEMENT_EXPIRED";
+  | "PLAYER_PLACEMENT_EXPIRED"
+  | "PLAYER_CONTRACT_EXPIRED";
 
 /** Spec S3: the three-tier priority model. */
 export type EventPriority = "INFORMATION" | "IMPORTANT" | "ACTION_REQUIRED";
@@ -304,6 +305,20 @@ export function buildPlacementExpiredEvent(placementId: string, playerId: string
     "Placering avslutad -- samarbetet har löpt ut",
     "Spelarens placering hos partnerklubben avslutades eftersom samarbetsavtalet inte längre är aktivt.",
     [{ route: "PLAYER_PROFILE", playerId }],
+    { primaryEntity: { entityType: "player", entityId: playerId } },
+  );
+}
+
+/** HM-PLAYER-CONTRACT-LIFECYCLE-1.0: only ever emitted for the manager's OWN club (Part: "Undvik inbox spam" -- every other club's departures are silent world state, same precedent as CPU recruitment's own cpuDecisionLog-not-CareerEvent choice). */
+export function buildPlayerContractExpiredEvent(playerId: string, date: string): CareerEvent {
+  return baseEvent(
+    `PLAYER_CONTRACT_EXPIRED:${playerId}:${date}`,
+    "PLAYER_CONTRACT_EXPIRED",
+    date,
+    "IMPORTANT",
+    "Spelare lämnar klubben -- kontraktet har löpt ut",
+    "Spelarens kontrakt har löpt ut utan förlängning och spelaren är nu fri agent.",
+    [{ route: "PLAYER_PROFILE", playerId }, { route: "SQUAD" }],
     { primaryEntity: { entityType: "player", entityId: playerId } },
   );
 }

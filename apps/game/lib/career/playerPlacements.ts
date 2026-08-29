@@ -173,6 +173,13 @@ export function recallPlayerFromPlacement(state: CareerState, playerId: string, 
   return endPlacement(state, placement, date, "RECALLED");
 }
 
+/** HM-PLAYER-CONTRACT-LIFECYCLE-1.0 Part 10: generic "end whatever ACTIVE placement this player has, for a caller-chosen reason" -- reused by contractExpiry.ts when the parent club's own contract expires out from under an active placement (a placement is never an ownership transfer, so losing the contract means losing the placement too). Idempotent, same as recallPlayerFromPlacement. */
+export function endActivePlacementForPlayer(state: CareerState, playerId: string, date: string, status: "RECALLED" | "EXPIRED"): CareerState {
+  const placement = getActivePlacementForPlayer(state, playerId);
+  if (!placement) return state;
+  return endPlacement(state, placement, date, status);
+}
+
 /**
  * Called from dailyTick.ts step 5, immediately after
  * progressPartnershipExpiry -- any ACTIVE placement whose own

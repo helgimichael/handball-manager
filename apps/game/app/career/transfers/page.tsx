@@ -1,9 +1,10 @@
 "use client";
 
 import { useEffect, useMemo, useState, type CSSProperties } from "react";
-import { playerAge, positionLabel, type HandballPosition } from "@/lib/game-data";
+import { playerAge, positionLabel, type Club, type HandballPosition } from "@/lib/game-data";
 import { useCareer } from "@/lib/career/CareerContext";
 import { getCareerClubSquad, getExternalCandidateClubs } from "@/lib/career/careerWorld";
+import { getFreeAgents } from "@/lib/career/contractExpiry";
 import { getPlayerContract, getPlayerContractStatus, getPlayerMarketValueEur } from "@/lib/economy/contractIntegration";
 import { getPlayerTrainingCompensation } from "@/lib/economy/trainingCompensationIntegration";
 import { formatEur } from "@/lib/economy/currency";
@@ -51,9 +52,14 @@ export default function TransfersPage() {
 
   const candidates = useMemo(() => {
     const clubs = getExternalCandidateClubs(career);
-    const rows = clubs.flatMap((club) =>
-      getCareerClubSquad(career, club.id).map((p) => ({ player: p, club })),
+    const clubRows = clubs.flatMap((club) =>
+      getCareerClubSquad(career, club.id).map((p) => ({ player: p, club: club as Club | null })),
     );
+    // HM-PLAYER-CONTRACT-LIFECYCLE-1.0 Part 6: a released/expired player is
+    // a genuine free agent (worldSquads[""]) -- surfaced here alongside
+    // real-club candidates, `club: null` distinguishing them for display.
+    const freeAgentRows = getFreeAgents(career).map((p) => ({ player: p, club: null as Club | null }));
+    const rows = [...clubRows, ...freeAgentRows];
     return rows.filter(({ player }) => {
       if (positionFilter !== "ALL" && player.position !== positionFilter) return false;
       if (query.trim().length === 0) return true;
@@ -68,7 +74,7 @@ export default function TransfersPage() {
   const selectedValue = selectedPlayerId ? getPlayerMarketValueEur(career, selectedPlayerId) : undefined;
   const selectedTrainingComp = selectedPlayerId ? getPlayerTrainingCompensation(career, selectedPlayerId) : undefined;
   const isFreeAgent = selectedContractStatus === "FREE_AGENT";
-  const selectedKnowledgePct = selected ? getPlayerKnowledgePct(career, selected.player.id, selected.club.id) : null;
+  const selectedKnowledgePct = selected ? getPlayerKnowledgePct(career, selected.player.id, selected.club?.id ?? "") : null;
   const selectedValueRange = selectedValue !== undefined && selectedKnowledgePct !== null ? resolveMarketValueRange(selectedValue, selectedKnowledgePct) : null;
 
   // HM-SCOUTING-1.0 Part 9: Transfers consumes the SAME knowledge layer
@@ -180,14 +186,14 @@ export default function TransfersPage() {
               {candidates.slice(0, 60).map(({ player, club }) => {
                 const status = getPlayerContractStatus(career, player.id);
                 const value = getPlayerMarketValueEur(career, player.id);
-                const knowledgePct = getPlayerKnowledgePct(career, player.id, club.id);
+                const knowledgePct = getPlayerKnowledgePct(career, player.id, club?.id ?? "");
                 const valueRange = value !== undefined ? resolveMarketValueRange(value, knowledgePct) : null;
                 return (
                   <tr key={player.id} data-clickable="true" onClick={() => selectPlayer(player.id)} style={{ background: selectedPlayerId === player.id ? "var(--hm-surface-2)" : undefined }}>
                     <td className="hm-td-strong">{player.firstName} {player.lastName}</td>
                     <td title={positionLabel(player.position)}>{player.position}</td>
                     <td>{playerAge(player.dateOfBirth, player.birthYear) ?? "–"}</td>
-                    <td className="hm-text-muted">{club.shortName}</td>
+                    <td className="hm-text-muted">{club ? club.shortName : "Fri agent"}</td>
                     <td>{status ? <span className={`hm-badge hm-badge-${CONTRACT_STATUS_TONE[status]}`}>{CONTRACT_STATUS_LABEL[status]}</span> : "—"}</td>
                     <td className="hm-table-num">{valueRange ? (valueRange.min === valueRange.max ? formatEur(valueRange.min) : `${formatEur(valueRange.min)} – ${formatEur(valueRange.max)}`) : "—"}</td>
                     <td className="hm-text-muted">{KNOWLEDGE_TIER_LABEL_SV[knowledgeTier(knowledgePct)]}</td>
@@ -217,7 +223,7 @@ export default function TransfersPage() {
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
                 <div>
                   <div style={{ fontWeight: 800, fontSize: "var(--hm-text-md)" }}>{selected.player.firstName} {selected.player.lastName}</div>
-                  <div className="hm-text-muted" style={{ fontSize: "var(--hm-text-xs)" }}>{selected.club.name} · {positionLabel(selected.player.position)}</div>
+                  <div className="hm-text-muted" style={{ fontSize: "var(--hm-text-xs)" }}>{selected.club ? selected.club.name : "Ingen klubb — fri agent"} · {positionLabel(selected.player.position)}</div>
                 </div>
                 {selectedKnowledgePct !== null ? <span className="hm-badge hm-badge-neutral">{KNOWLEDGE_TIER_LABEL_SV[knowledgeTier(selectedKnowledgePct)]}</span> : null}
               </div>
