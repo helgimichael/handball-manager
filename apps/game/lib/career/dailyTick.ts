@@ -53,6 +53,8 @@ import {
   progressPartnershipSearches,
 } from "./clubPartnerships";
 import { accrueDailyPlacementExposure, progressPlacementExpiry } from "./playerPlacements";
+import { progressCpuRecruitment, cpuRecruiterClubIds } from "./cpuRecruitment";
+import { progressCpuContractDecisions } from "./cpuContractDecisions";
 import { adjustClubCash } from "../economy/clubEconomyIntegration";
 import {
   MATCH_PREPARATION_OFFSET_DAYS,
@@ -228,6 +230,17 @@ export function processDay(state: CareerState, date: string): DailyTickResult {
   for (const placement of expiredPlacements) {
     emit(buildPlacementExpiredEvent(placement.id, placement.playerId, date));
   }
+
+  // HM-CPU-SQUAD-BUILDING-1.0: autonomous CPU club recruitment -- a
+  // lightweight, per-club rotating schedule (never a full every-club
+  // every-day scan), and the first simple CPU contract RENEW/WAIT/RELEASE
+  // decisions for genuinely expiring contracts. Both are silent to the
+  // manager's own inbox by design (Part: "ingen transfer spam") --
+  // explainability lives in state.cpuDecisionLog, not CareerEvents.
+  // Never touches state.playerClubId (Part: "Human-controlled club får
+  // aldrig styras av detta").
+  next = progressCpuRecruitment(next, date);
+  next = progressCpuContractDecisions(next, date, cpuRecruiterClubIds(next)).state;
 
   // --- 6. Fixtures ---------------------------------------------------------
   const playerFixtureToday = getPlayerFixtureOn(next, date);

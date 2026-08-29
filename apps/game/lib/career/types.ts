@@ -25,6 +25,7 @@ import type { ScoutDiscovery } from "./scoutDiscovery";
 import type { RecruitmentTarget } from "./recruitment";
 import type { ClubPartnership, PartnershipSearchAssignment } from "./clubPartnerships";
 import type { PlayerPlacement } from "./playerPlacements";
+import type { CpuDecisionLogEntry, CpuRecruitmentPlan } from "./cpuRecruitment";
 import type { ScoutPoolSourceEntry } from "../staff/scoutPool";
 
 /** HM-PRESEASON-1.0: LEAGUE (the manager's own simulated competition), CUP (the provisional early cup round -- see preseason.ts), or FRIENDLY (manager-booked, never affects standings/season completion). */
@@ -612,6 +613,22 @@ export type CareerState = {
    * PlayerAvailability (ON_PLACEMENT) and playerDevelopmentState do.
    */
   playerPlacements: Record<string, PlayerPlacement>;
+
+  // --- HM-CPU-SQUAD-BUILDING-1.0 addition ---
+
+  /**
+   * Autonomous CPU club recruitment -- one row per (clubId, position)
+   * pursuit, keyed by `${clubId}:${position}`. Never duplicates
+   * TransferOffer state (only `offerId` references it). See
+   * lib/career/cpuRecruitment.ts for the full domain. Never contains a
+   * row for `playerClubId` (the human manager's own club is never
+   * CPU-controlled).
+   */
+  cpuRecruitmentPlans: Record<string, CpuRecruitmentPlan>;
+  /** Per-CPU-club next squad-review date (ISO), so recruitment scoring runs as a lightweight rotating schedule, never a full every-club-every-day scan. */
+  cpuClubEvaluationSchedule: Record<string, string>;
+  /** Bounded (most-recent-first, capped), explainable trail of CPU squad-need/candidate/contract decisions -- see lib/career/cpuRecruitment.ts's own doc. Debug/explainability only, never read by game logic. */
+  cpuDecisionLog: readonly CpuDecisionLogEntry[];
 };
 
 export type CareerSaveEnvelope = {

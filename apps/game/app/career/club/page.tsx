@@ -105,9 +105,12 @@ export default function ClubPage() {
             <div className="hm-text-muted" style={{ fontSize: "var(--hm-text-xs)" }}>Inget aktivt samarbete.</div>
           ) : null}
         </div>
-        <div className="hm-panel-body" style={{ paddingTop: 0 }}>
+        <div className="hm-panel-body" style={{ paddingTop: 0, display: "flex", gap: 8 }}>
           <Link href="/career/club/partnerships" className="hm-btn hm-btn-sm hm-btn-ghost">
             Visa partnerskap →
+          </Link>
+          <Link href="/career/club/cpu-recruitment" className="hm-btn hm-btn-sm hm-btn-ghost">
+            CPU-rekrytering (debug) →
           </Link>
         </div>
       </div>

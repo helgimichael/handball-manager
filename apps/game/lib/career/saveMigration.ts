@@ -466,6 +466,20 @@ export function migrateCareerState(career: CareerState): CareerState {
   if (next.playerPlacements === undefined) {
     next = { ...next, playerPlacements: {} };
   }
+  // HM-CPU-SQUAD-BUILDING-1.0: additive -- an existing career simply
+  // never had autonomous CPU recruitment yet. Migrated to empty
+  // maps/an empty log, never inventing prior CPU activity -- every CPU
+  // club's own evaluation schedule is seeded fresh (deterministically,
+  // from its own clubId) the first time progressCpuRecruitment runs.
+  if (next.cpuRecruitmentPlans === undefined) {
+    next = { ...next, cpuRecruitmentPlans: {} };
+  }
+  if (next.cpuClubEvaluationSchedule === undefined) {
+    next = { ...next, cpuClubEvaluationSchedule: {} };
+  }
+  if (next.cpuDecisionLog === undefined) {
+    next = { ...next, cpuDecisionLog: [] };
+  }
   // Every pre-1.1 ScoutingAssignment record was implicitly PLAYER-typed
   // (assignmentType/targetCompetitionId/targetNation/targetPosition/
   // targetMaxAgeYears/cyclesCompleted/maxCycles/discoveredPlayerIds did
