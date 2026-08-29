@@ -6,7 +6,7 @@ import assert from "node:assert/strict";
 import { createNewCareerState } from "../career/newCareer";
 import { TUMBA_CLUB_ID } from "../game-data";
 import { assessTransferAffordability } from "./affordability";
-import { getClubBudgets } from "../economy/clubEconomyIntegration";
+import { getClubBudgets, getClubPlayerWageCostsEurAnnual } from "../economy/clubEconomyIntegration";
 
 function freshTumba(seed: string) {
   return createNewCareerState(seed, TUMBA_CLUB_ID);
@@ -62,4 +62,41 @@ test("(6) an unknown club (no economy data) is never affordable, with a clear re
   const result = assessTransferAffordability(state, "not-a-real-club", 0, 0, 100);
   assert.ok(!result.affordable);
   assert.ok(result.reasons.length > 0);
+});
+
+// HM-MULTI-COMPETITION-WORLD-FOUNDATION-1.0 performance fix: the optional
+// `precomputed` input must be a pure memoization of the exact same
+// values this function would otherwise derive itself -- never a second
+// source of truth. These prove byte-identical results with vs without it,
+// across every outcome shape the tests above already cover.
+test("(7) precomputed budgets/wage-costs produce an IDENTICAL result to the default (self-computing) path -- affordable case", () => {
+  const state = freshTumba("afford-precomputed-1");
+  const budgets = getClubBudgets(state, TUMBA_CLUB_ID)!;
+  const wageCosts = getClubPlayerWageCostsEurAnnual(state, TUMBA_CLUB_ID);
+  const fee = Math.round(budgets.transferBudgetEur * 0.1);
+  const withoutPrecomputed = assessTransferAffordability(state, TUMBA_CLUB_ID, fee, 0, 100);
+  const withPrecomputed = assessTransferAffordability(state, TUMBA_CLUB_ID, fee, 0, 100, 100, { budgets, currentWageCostsEurAnnual: wageCosts });
+  assert.deepEqual(withPrecomputed, withoutPrecomputed);
+});
+
+test("(8) precomputed budgets/wage-costs produce an IDENTICAL result to the default path -- blocked-by-fee case", () => {
+  const state = freshTumba("afford-precomputed-2");
+  const budgets = getClubBudgets(state, TUMBA_CLUB_ID)!;
+  const wageCosts = getClubPlayerWageCostsEurAnnual(state, TUMBA_CLUB_ID);
+  const fee = budgets.transferBudgetEur * 5;
+  const withoutPrecomputed = assessTransferAffordability(state, TUMBA_CLUB_ID, fee, 0, 100);
+  const withPrecomputed = assessTransferAffordability(state, TUMBA_CLUB_ID, fee, 0, 100, 100, { budgets, currentWageCostsEurAnnual: wageCosts });
+  assert.deepEqual(withPrecomputed, withoutPrecomputed);
+});
+
+test("(9) precomputed budgets/wage-costs produce an IDENTICAL result to the default path -- blocked-by-wage case, including a non-100 wage-share", () => {
+  const state = freshTumba("afford-precomputed-3");
+  const budgets = getClubBudgets(state, TUMBA_CLUB_ID)!;
+  const wageCosts = getClubPlayerWageCostsEurAnnual(state, TUMBA_CLUB_ID);
+  const monthlyWage = Math.round((budgets.wageBudgetEur / 12) * 1.5);
+  for (const wageShare of [100, 20]) {
+    const withoutPrecomputed = assessTransferAffordability(state, TUMBA_CLUB_ID, 0, 0, monthlyWage, wageShare);
+    const withPrecomputed = assessTransferAffordability(state, TUMBA_CLUB_ID, 0, 0, monthlyWage, wageShare, { budgets, currentWageCostsEurAnnual: wageCosts });
+    assert.deepEqual(withPrecomputed, withoutPrecomputed, `mismatch at wageShare=${wageShare}`);
+  }
 });

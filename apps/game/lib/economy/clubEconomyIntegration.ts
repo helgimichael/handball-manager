@@ -27,6 +27,7 @@
 // left at 0 -- no transfer system exists yet). These are the documented
 // "next layer" this foundation is built to support.
 import { getClub, getClubsByCompetition, getCompetition } from "../game-data";
+import { getCareerWorldCompetitionIds } from "../career/worldCompetitions";
 import type { CareerState } from "../career/types";
 import { ensureCareerGameplayRatings } from "../career/careerRatingNormalization";
 import { ensureCareerPlayerContracts } from "./contractIntegration";
@@ -63,6 +64,44 @@ import type {
  * own -- Part: "Player wages ska faktiskt summeras till klubbens
  * spelaråtaganden" applies to every career club, not only the manager's.
  */
+const DIVISION_1_COMPETITION_IDS = ["se_division1_norra", "se_division1_sodra"] as const;
+
+/**
+ * HM-MULTI-COMPETITION-WORLD-FOUNDATION-1.0 Part 14: Division 1's own
+ * `Competition.tier` is nominally 2 -- the SAME value Allsvenskan uses,
+ * deliberately (see competitions.ts's own doc: chosen purely to avoid
+ * widening every `1 | 2`-typed economy signature this generator and its
+ * callers share, back when Division 1 clubs never actually reached this
+ * generator at all). Now that they do (Part 13: "Same engine... not
+ * bespoke rules"), generating a Division 1 baseline at face-value tier-2
+ * would hand every Division 1 club an Allsvenskan-sized budget -- Part
+ * 14's own explicit "Division 1 should NOT afford HBL/Allsvenskan-level
+ * salaries routinely". Rather than widen `generateClubEconomyBaseline`'s
+ * shared type signature (a much larger, riskier change touching every
+ * caller), this applies one conservative, clearly-labeled downward
+ * multiplier to every money field on the generated baseline, Division-1
+ * clubs only. Explicitly documented as a GAME CALIBRATION choice, not a
+ * researched real-world financial fact (Part 14's own instruction).
+ */
+const DIVISION_1_ECONOMY_MULTIPLIER = 0.55;
+
+function scaleClubEconomyBaseline(baseline: ClubEconomyBaseline, factor: number): ClubEconomyBaseline {
+  return {
+    ...baseline,
+    revenue: {
+      commercialRevenueEur: Math.round(baseline.revenue.commercialRevenueEur * factor),
+      mediaRevenueEur: Math.round(baseline.revenue.mediaRevenueEur * factor),
+      matchdayRevenueEur: Math.round(baseline.revenue.matchdayRevenueEur * factor),
+      sportingRevenueEur: Math.round(baseline.revenue.sportingRevenueEur * factor),
+      otherRevenueEur: Math.round(baseline.revenue.otherRevenueEur * factor),
+    },
+    cashEur: Math.round(baseline.cashEur * factor),
+    ownerFundingEur: Math.round(baseline.ownerFundingEur * factor),
+    academyBudgetBaselineEur: Math.round(baseline.academyBudgetBaselineEur * factor),
+    operatingCostsBaselineEur: Math.round(baseline.operatingCostsBaselineEur * factor),
+  };
+}
+
 export function ensureCareerClubEconomy(state: CareerState, clubId: string): CareerState {
   let next = ensureCareerGameplayRatings(state, clubId);
   next = ensureCareerPlayerContracts(next, clubId);
@@ -75,20 +114,27 @@ export function ensureCareerClubEconomy(state: CareerState, clubId: string): Car
 
   if (next.clubEconomies[clubId]) return next;
 
-  const tier = getCompetition(getClub(clubId)?.competitionId ?? "")?.tier;
-  const baseline = generateClubEconomyBaseline(clubId, tier);
+  const competitionId = getClub(clubId)?.competitionId ?? "";
+  const tier = getCompetition(competitionId)?.tier;
+  let baseline = generateClubEconomyBaseline(clubId, tier);
+  if ((DIVISION_1_COMPETITION_IDS as readonly string[]).includes(competitionId)) {
+    baseline = scaleClubEconomyBaseline(baseline, DIVISION_1_ECONOMY_MULTIPLIER);
+  }
   return { ...next, clubEconomies: { ...next.clubEconomies, [clubId]: baseline } };
 }
 
 /**
- * Part: "Alla klubbar som finns i career world ska få en persistent
- * ekonomisk baseline" -- iterates every club in THIS career's own
- * simulated competition (getClubsByCompetition(state.competitionId), the
- * same enumeration newCareer.ts already uses for fixture generation),
- * never the full ~91-club CLUBS table across every nation.
+ * HM-MULTI-COMPETITION-WORLD-FOUNDATION-1.0: iterates every club across
+ * every world-active Swedish competition (Handbollsligan, Allsvenskan,
+ * Division 1 Norra/Södra -- Part: "Alla klubbar som finns i career world
+ * ska få en persistent ekonomisk baseline"), never only the manager's
+ * own competition. Before this milestone: scoped to
+ * `getClubsByCompetition(state.competitionId)` only, so Division 1 never
+ * got a real budget at all, and whichever Swedish tier ISN'T the
+ * manager's own got none either.
  */
 export function ensureCareerAllClubEconomies(state: CareerState): CareerState {
-  const clubIds = getClubsByCompetition(state.competitionId).map((c) => c.id);
+  const clubIds = getCareerWorldCompetitionIds(state).flatMap((competitionId) => getClubsByCompetition(competitionId)).map((c) => c.id);
   let next = state;
   for (const clubId of clubIds) {
     next = ensureCareerClubEconomy(next, clubId);

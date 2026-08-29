@@ -58,9 +58,28 @@ function resolveMatchRoleForDecision(state: CareerState, playerId: string): Matc
  * candidates BEFORE submitting an offer (e.g. cpuCandidateEvaluation.ts)
  * can avoid wasting a pursuit on a player who would just get blocked
  * here anyway, without this guard itself living only in that one caller.
+ *
+ * HM-MULTI-COMPETITION-WORLD-FOUNDATION-1.0 performance fix: `state`
+ * doesn't change within one caller's own loop (e.g. `rankCandidates`
+ * evaluating many candidates against the SAME state), so a caller
+ * checking many playerIds in a row may precompute
+ * `activePendingTransferPlayerIds(state)` ONCE and pass it here instead
+ * of this function rescanning the full, never-pruned `state.transferOffers`
+ * map for every single playerId. Omitting `precomputed` is byte-identical
+ * to before -- this must never become a second source of truth, only a
+ * same-invocation memoization of the exact scan below.
  */
-export function hasActivePendingTransfer(state: CareerState, playerId: string): boolean {
-  return Object.values(state.transferOffers).some((o) => o.playerId === playerId && o.status === "AGREED_AWAITING_WINDOW");
+export function hasActivePendingTransfer(state: CareerState, playerId: string, precomputed?: ReadonlySet<string>): boolean {
+  return (precomputed ?? activePendingTransferPlayerIds(state)).has(playerId);
+}
+
+/** The exact set of playerIds `hasActivePendingTransfer` would return `true` for right now -- the ONE place that scan is expressed, reused by both the default per-call path above and any caller precomputing it once for a loop. */
+export function activePendingTransferPlayerIds(state: CareerState): Set<string> {
+  const ids = new Set<string>();
+  for (const offer of Object.values(state.transferOffers)) {
+    if (offer.status === "AGREED_AWAITING_WINDOW") ids.add(offer.playerId);
+  }
+  return ids;
 }
 
 /** Roughly: does this club already have >=2 OTHER players at the same position with comparable ability? A simple, honest squad-depth proxy -- not a full tactical-fit judgement. */

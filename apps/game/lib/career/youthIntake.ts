@@ -124,19 +124,37 @@ function seededIndex(seedKey: string, n: number): number {
 // ---------------------------------------------------------------------------
 
 /**
- * Playable Swedish Handbollsligan/Allsvenskan clubs (whichever is this
- * career's own live competition -- HM-CPU-SQUAD-BUILDING-1.0B's own
- * documented "only one domestic competition is ever live" limitation
- * applies here too, unchanged) plus both Division 1 pools. World Pool
- * clubs are deliberately excluded (Part 3: "World Pool foreign clubs
- * behöver INTE youth intake i 1.0 om det kräver separat architecture" --
- * it does: Division 1 clubs already have real worldSquads/gameplayRatings
- * snapshotted into every CareerState by CareerContext.tsx, but World Pool
- * clubs' own squad depth is never populated the same way -- a genuine
- * extension seam for a later milestone, not built here). A club with NO
- * squad data at all -- the `worldSquads` key itself absent, meaning no
- * real snapshot was ever loaded for it (defensive; should not normally
- * happen for any of the above) -- is silently skipped, never crashes.
+ * HM-MULTI-COMPETITION-WORLD-FOUNDATION-1.0 Part 17/37: deliberately
+ * scoped to ONLY the manager's own live competition (whichever of
+ * Handbollsligan/Allsvenskan `state.competitionId` is) -- intentionally
+ * NARROWER than the career world's full CPU-recruiter/lifecycle scope
+ * (see worldCompetitions.ts's own `careerWorldClubIds`, used by CPU
+ * recruitment and player lifecycle instead). World Pool clubs are
+ * deliberately excluded (their own squad depth isn't populated the same
+ * way -- a genuine extension seam for a later milestone).
+ *
+ * Division 1 was PREVIOUSLY included here too, and -- because Division 1
+ * worldSquads have always been unconditionally fetched into every
+ * CareerState (CareerContext.tsx's fetchDivision1WorldSquads, present
+ * since HM-DATA-DIV1-1.0) -- Division 1 clubs were therefore ALREADY
+ * silently receiving annual youth intake in real gameplay, undetected by
+ * the Population Calibration milestone's own narrower test harness
+ * (which only ever snapshotted one competition, so never saw Division 1
+ * worldSquads populated, and so never saw this inclusion actually fire).
+ * That milestone's calibrated intake distribution (mean 1.65/club) was
+ * measured and tuned against a 14-club assumption; the REAL eligible
+ * count before this fix was 14 (HBL) + 24 (Division 1) = 38 clubs --
+ * silently ~2.7x the assumed volume. Division 1 is removed here
+ * deliberately (Part 37: "Do NOT automatically activate D1 youth
+ * generation merely because their worldSquads now exist... prefer
+ * architectural truth over automatic inclusion") to restore the actual
+ * calibrated 14-club volume, now that this Foundation milestone also
+ * makes Allsvenskan's own worldSquads unconditionally present (which
+ * would otherwise have silently doubled eligibility again to 28 clubs
+ * had this list been left unchanged). This is a deliberate, documented
+ * seam for a future Youth Intake 1.1 to revisit with real population
+ * evidence for the full world, not an oversight.
+ *
  * Deliberately checks key PRESENCE, not current length: a club whose
  * squad has legitimately collapsed to zero players (e.g. an unattended
  * human club losing everyone on the same 31 May contract-expiry wave)
@@ -145,9 +163,9 @@ function seededIndex(seedKey: string, n: number): number {
  * unreachable for the exact clubs that need it most.
  */
 export function eligibleYouthIntakeClubIds(state: CareerState): string[] {
-  const liveCompetitionClubIds = getClubsByCompetition(state.competitionId).map((c) => c.id);
-  const division1ClubIds = DIVISION_1_COMPETITION_IDS.flatMap((id) => getClubsByCompetition(id)).map((c) => c.id);
-  return [...liveCompetitionClubIds, ...division1ClubIds].filter((clubId) => state.worldSquads[clubId] !== undefined);
+  return getClubsByCompetition(state.competitionId)
+    .map((c) => c.id)
+    .filter((clubId) => state.worldSquads[clubId] !== undefined);
 }
 
 // ---------------------------------------------------------------------------

@@ -7,6 +7,7 @@ import { createNewCareerState } from "./newCareer";
 import { migrateCareerState } from "./saveMigration";
 import { getClubsByCompetition, TUMBA_CLUB_ID } from "../game-data";
 import { ensureCareerAllClubEconomies, ensureCareerClubEconomy, getClubBudgets, getClubEconomyBaseline, getClubEconomySnapshot, getClubFinancialHealth, getClubPlayerWageCostsEurAnnual, getClubStaffCostsEurAnnual } from "../economy/clubEconomyIntegration";
+import { getCareerWorldCompetitionIds } from "./worldCompetitions";
 import { snapshotClubStaff } from "../gameWorld/staffIdentitySnapshot";
 import type { CareerState } from "./types";
 
@@ -21,9 +22,14 @@ function freshTumbaWithStaff(seed: string): CareerState {
 }
 
 // (1) every career club gets a persistent economic baseline.
-test("(1) a fresh IFK Tumba career gives every club in its own competition a persistent economy baseline", () => {
+// HM-MULTI-COMPETITION-WORLD-FOUNDATION-1.0: widened from "every club in
+// the manager's own competition" to "every club across every world-active
+// Swedish competition" (Handbollsligan, Allsvenskan, Division 1
+// Norra/Södra) -- Division 1 clubs now get a real (discounted, Part 14)
+// economy too, not just contracts/ratings.
+test("(1) a fresh IFK Tumba career gives every club across every world-active Swedish competition a persistent economy baseline", () => {
   const state = freshTumba("economy-1");
-  const clubIds = getClubsByCompetition(state.competitionId).map((c) => c.id);
+  const clubIds = getCareerWorldCompetitionIds(state).flatMap((id) => getClubsByCompetition(id)).map((c) => c.id);
   for (const clubId of clubIds) {
     const baseline = getClubEconomyBaseline(state, clubId);
     assert.ok(baseline, `missing club economy baseline for ${clubId}`);
@@ -53,12 +59,12 @@ test("(3) a career's club economies survive a JSON save/reload round-trip byte-f
 });
 
 // (4) old saves migrate club economy safely.
-test("(4) a pre-HM-ECONOMY-1.0 save (clubEconomies entirely absent) migrates to a complete economy set for every club", () => {
+test("(4) a pre-HM-ECONOMY-1.0 save (clubEconomies entirely absent) migrates to a complete economy set for every world-active Swedish club", () => {
   const state = freshTumba("economy-4");
   const legacy = { ...state } as Partial<CareerState>;
   delete (legacy as Record<string, unknown>).clubEconomies;
   const migrated = migrateCareerState(legacy as CareerState);
-  const clubIds = getClubsByCompetition(migrated.competitionId).map((c) => c.id);
+  const clubIds = getCareerWorldCompetitionIds(migrated).flatMap((id) => getClubsByCompetition(id)).map((c) => c.id);
   assert.equal(Object.keys(migrated.clubEconomies).length, clubIds.length);
 });
 

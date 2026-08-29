@@ -5,13 +5,14 @@
 // (ranking) + transfers/transferIntegration.ts's own submitTransferOffer
 // (the SAME canonical pipeline a human manager's offer goes through --
 // Part: "Bypassa aldrig transferregler... Ingen separat forceCpuTransfer()").
-import { getClubsByCompetition, type HandballPosition } from "../game-data";
+import { type HandballPosition } from "../game-data";
 import { submitTransferOffer } from "../transfers/transferIntegration";
 import { isTransferWindowOpen } from "../transfers/transferWindow";
 import { seededOffset } from "../rating/generation/deterministicVariation";
 import { addDays, isSameOrBefore } from "./dateUtils";
 import { assessPositionNeed, assessSquadNeeds, priorityNeeds, projectedSquadSize, positionEmergencyLevel, isSquadFloorEmergency, type NeedLevel } from "./cpuSquadNeeds";
 import { bestAffordableCandidate, rankCandidates } from "./cpuCandidateEvaluation";
+import { careerWorldClubIds } from "./worldCompetitions";
 import type { CareerState } from "./types";
 
 // ---------------------------------------------------------------------------
@@ -122,28 +123,24 @@ export function pushLog(log: readonly CpuDecisionLogEntry[], entries: readonly C
 }
 
 /**
- * Every club this milestone treats as a live CPU recruiter -- every
- * OTHER club in the manager's own simulated competition (the only clubs
- * with a real ClubEconomyBaseline, per Economy 1.0's own scope -- Part:
- * "Ingen gratis CPU-ekonomi"). Division 1/World Pool clubs remain
- * candidate SOURCES only, never active buyers themselves (no persisted
- * budget to check).
+ * HM-MULTI-COMPETITION-WORLD-FOUNDATION-1.0: every club this career
+ * treats as a live CPU recruiter -- every world-active club (Part 9:
+ * "all eligible CPU-controlled clubs in the career world", via the one
+ * shared `careerWorldClubIds` resolver) except the manager's own.
+ * Division 1/Allsvenskan clubs now participate on the SAME engine as
+ * Handbollsligan (Part 13: "Same engine... not bespoke rules") --
+ * `getClubBudgets` (used inside `rankCandidates`/affordability) silently
+ * returns no candidates for any club still missing a ClubEconomyBaseline,
+ * so this list alone doesn't force premature recruitment for a club
+ * whose economy hasn't been initialized yet.
  *
- * HM-CPU-SQUAD-BUILDING-1.0B Part 12 (documented architecture
- * limitation, not solved here): only ONE domestic competition is ever
- * "live" in a given career -- `state.competitionId` is fixed to
- * whichever competition the manager's own chosen club belongs to
- * (Handbollsligan OR Allsvenskan, never both), and only that
- * competition's clubs get real worldSquads/gameplayRatings/economy data
- * (see CareerContext.tsx's `fetchWorldSquads(club.competitionId)`).
- * Allsvenskan<->Handbollsligan CPU transfers are therefore structurally
- * impossible today, not merely unobserved -- multi-league simulation
- * (both competitions live at once) is out of scope for this milestone.
+ * Before this milestone: scoped to `getClubsByCompetition(state.competitionId)`
+ * only, so whichever Swedish tier ISN'T the manager's own got zero CPU
+ * recruitment activity, and Division 1 (already a real candidate SOURCE
+ * via `getExternalCandidateClubs`) could never actually buy anything.
  */
 export function cpuRecruiterClubIds(state: CareerState): string[] {
-  return getClubsByCompetition(state.competitionId)
-    .map((c) => c.id)
-    .filter((id) => id !== state.playerClubId);
+  return careerWorldClubIds(state).filter((id) => id !== state.playerClubId);
 }
 
 /**

@@ -8,20 +8,14 @@
 // static mock squad (TUMBA_SQUAD) for clubs that still only have mock
 // data (i.e. IFK Tumba/Allsvenskan, unchanged by this milestone).
 import { CLUBS, TUMBA_CLUB_ID, TUMBA_SQUAD, getClub, getClubsByCompetition, type Club, type PlayerMock } from "../game-data";
+import { getCareerWorldCompetitionIds } from "./worldCompetitions";
 import type { CareerState } from "./types";
-
-// HM-DATA-DIV1-1.0: Division 1 Norra/Södra are a recruitment/scouting
-// source for every career regardless of which competition the manager
-// actually plays in -- see CareerContext.tsx's fetchDivision1WorldSquads,
-// which snapshots both into worldSquads unconditionally at career
-// creation (and backfills it for an existing save).
-const DIVISION_1_COMPETITION_IDS = ["se_division1_norra", "se_division1_sodra"] as const;
 
 // HM-WORLD-PLAYER-POOL-1.0: the 16 competitions the 100-player
 // international pool's clubs belong to (6 reused existing mock
-// competitions + 10 new ones) -- same "always a recruitment/scouting
-// source, regardless of the manager's own competition" treatment as
-// Division 1 above. See CareerContext.tsx's fetchWorldPoolWorldSquads.
+// competitions + 10 new ones) -- always a recruitment/scouting source,
+// regardless of the manager's own competition. See CareerContext.tsx's
+// fetchWorldPoolWorldSquads.
 export const WORLD_POOL_COMPETITION_IDS = [
   "ger-1", "den-1", "nor-1", "esp-1", "hun-1", "isl-1",
   "int-aut-1", "int-fro-1", "int-hun-2b", "int-ita-1", "int-ita-2",
@@ -29,18 +23,24 @@ export const WORLD_POOL_COMPETITION_IDS = [
 ] as const;
 
 /**
- * Every club whose squad is a valid Scouting/Transfers candidate source
- * for this career: every other club in the manager's own competition,
- * plus every Division 1 Norra/Södra club, plus every international
- * player-pool club (never the manager's own club). Shared by
- * app/career/scouting/page.tsx and app/career/transfers/page.tsx so
+ * HM-MULTI-COMPETITION-WORLD-FOUNDATION-1.0: every club whose squad is a
+ * valid Scouting/Transfers candidate source for this career -- every
+ * club across every Swedish world competition (Handbollsligan,
+ * Allsvenskan, Division 1 Norra/Södra -- via the one shared
+ * `getCareerWorldCompetitionIds` resolver, Part 4/9), plus every
+ * international player-pool club, never the manager's own club. Shared
+ * by app/career/scouting/page.tsx and app/career/transfers/page.tsx so
  * both surfaces stay in sync.
+ *
+ * Before this milestone: only `career.competitionId` (the manager's own
+ * tier) plus Division 1 -- whichever Swedish tier ISN'T the manager's
+ * own (e.g. Allsvenskan, for an HBL career) was never a candidate
+ * source at all.
  */
 export function getExternalCandidateClubs(career: CareerState): Club[] {
-  const ownCompetitionClubs = getClubsByCompetition(career.competitionId);
-  const division1Clubs = DIVISION_1_COMPETITION_IDS.flatMap((id) => getClubsByCompetition(id));
+  const swedishClubs = getCareerWorldCompetitionIds(career).flatMap((id) => getClubsByCompetition(id));
   const worldPoolClubs = WORLD_POOL_COMPETITION_IDS.flatMap((id) => getClubsByCompetition(id));
-  return [...ownCompetitionClubs, ...division1Clubs, ...worldPoolClubs].filter((c) => c.id !== career.playerClubId);
+  return [...swedishClubs, ...worldPoolClubs].filter((c) => c.id !== career.playerClubId);
 }
 
 /** The manager's own club, resolved from career state rather than assumed to be IFK Tumba. */

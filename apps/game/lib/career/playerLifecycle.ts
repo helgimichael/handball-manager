@@ -62,7 +62,7 @@ import { playerAgeAtDate } from "../development/developmentIntegration";
 import { applyResolvedAttributeChanges, caNudgePerAttributePoint } from "../development/developmentResolution";
 import { deriveDefaultSquadStatusTier, type SquadStatusTier } from "./squadStatus";
 import { daysBetween } from "./dateUtils";
-import { eligibleYouthIntakeClubIds } from "./youthIntake";
+import { careerWorldClubIds } from "./worldCompetitions";
 import { FREE_AGENT_CLUB_ID, isFreeAgentClubId } from "./contractExpiry";
 import { buildPlayerRetiredEvent, type CareerEvent } from "./careerEvents";
 import { ATTRIBUTE_MAX, ATTRIBUTE_MIN, GOALKEEPER_ATTRIBUTES, OUTCOURT_ATTRIBUTES } from "../rating/types";
@@ -371,7 +371,16 @@ export function progressPlayerLifecycle(state: CareerState, date: string): Playe
   const retiredPlayerIds: string[] = [];
   const declinedPlayerIds: string[] = [];
 
-  const clubIds = [...eligibleYouthIntakeClubIds(next), FREE_AGENT_CLUB_ID];
+  // HM-MULTI-COMPETITION-WORLD-FOUNDATION-1.0 Part 18: retirement/decline
+  // is a WORLD RULE that must apply across every tier (Handbollsligan,
+  // Allsvenskan, Division 1), not just the manager's own competition --
+  // deliberately reuses the broader `careerWorldClubIds` resolver, NOT
+  // youthIntake.ts's own `eligibleYouthIntakeClubIds` (which is
+  // intentionally narrower, scoped only to the manager's own live
+  // competition, per that module's own doc). Before this milestone these
+  // two were conflated because they happened to be identical in a
+  // single-competition world.
+  const clubIds = [...careerWorldClubIds(next), FREE_AGENT_CLUB_ID];
 
   for (const clubId of clubIds) {
     const squad = next.worldSquads[clubId] ?? [];

@@ -71,6 +71,7 @@ import { offerStaffContract, type StaffOfferParams, type StaffOfferResult } from
 import { ensureDivision1PlayerEconomicIdentity } from "./division1Integration";
 import { ensureWorldPoolPlayerEconomicIdentity } from "./worldPoolIntegration";
 import { WORLD_POOL_COMPETITION_IDS } from "./careerWorld";
+import { ensureCareerAllClubEconomies } from "../economy/clubEconomyIntegration";
 
 type CareerContextValue = {
   save: CareerSave;
@@ -267,6 +268,24 @@ async function fetchDivision1GameplayRatings(): Promise<Record<string, GameplayP
   return Object.assign({}, ...snapshots);
 }
 
+// HM-MULTI-COMPETITION-WORLD-FOUNDATION-1.0: Allsvenskan must be a real
+// world participant regardless of which Swedish tier the manager
+// actually plays -- the SAME unconditional "always fetch, always merge"
+// treatment Division 1 already had (see fetchDivision1WorldSquads
+// above). Before this milestone, Allsvenskan's own worldSquads were only
+// ever populated when it happened to BE the manager's own competition
+// (`club.competitionId === ALLSVENSKAN_COMPETITION_ID`) -- an HBL career
+// got zero real Allsvenskan players/economy/recruitment at all.
+const ALLSVENSKAN_COMPETITION_ID = "swe-2";
+
+async function fetchAllsvenskanWorldSquads(): Promise<Record<string, PlayerMock[]>> {
+  return fetchWorldSquads(ALLSVENSKAN_COMPETITION_ID);
+}
+
+async function fetchAllsvenskanGameplayRatings(): Promise<Record<string, GameplayPlayerRating[]>> {
+  return fetchGameplayRatings(ALLSVENSKAN_COMPETITION_ID);
+}
+
 // HM-WORLD-PLAYER-POOL-1.0: the 100-player international pool's clubs
 // must exist in world state regardless of which competition the manager
 // plays -- same unconditional "always fetch, always merge" treatment as
@@ -391,6 +410,31 @@ async function getOrCreateCareerState(save: CareerSave): Promise<CareerState> {
         migrated = ensureWorldPoolPlayerEconomicIdentity(migrated);
       }
     }
+    // HM-MULTI-COMPETITION-WORLD-FOUNDATION-1.0: an existing save may
+    // predate Allsvenskan being an unconditional world participant --
+    // same top-up pattern as Division 1 above. A known non-Tumba
+    // Allsvenskan clubId is enough to detect whether the backfill is
+    // still missing (a Tumba/Allsvenskan career already has every
+    // Allsvenskan club from its own original `isRealWorld` fetch).
+    if (migrated.worldSquads["swe2-aranas"] === undefined) {
+      const allsvenskanWorldSquads = await fetchAllsvenskanWorldSquads();
+      if (Object.keys(allsvenskanWorldSquads).length > 0) {
+        const allsvenskanGameplayRatings = await fetchAllsvenskanGameplayRatings();
+        migrated = {
+          ...migrated,
+          worldSquads: { ...migrated.worldSquads, ...allsvenskanWorldSquads },
+          gameplayRatings: { ...migrated.gameplayRatings, ...allsvenskanGameplayRatings },
+        };
+      }
+    }
+    // HM-MULTI-COMPETITION-WORLD-FOUNDATION-1.0: backfills a
+    // ClubEconomyBaseline (Part 14) for any world-active club still
+    // missing one -- covers Division 1 clubs from an existing save whose
+    // own D1 top-up above ran under the PRE-foundation code (contracts/
+    // ratings only, no club economy), and any newly-added Allsvenskan
+    // clubs from the top-up just above. Idempotent/fill-only, so this is
+    // a cheap no-op on every subsequent load once nothing is missing.
+    migrated = ensureCareerAllClubEconomies(migrated);
     if (migrated !== save.careerState) {
       saveCareerState(save.saveId, migrated);
     }
@@ -401,6 +445,12 @@ async function getOrCreateCareerState(save: CareerSave): Promise<CareerState> {
   const worldSquads = isRealWorld ? await fetchWorldSquads(club.competitionId) : {};
   const div1WorldSquads = await fetchDivision1WorldSquads();
   const worldPoolWorldSquads = await fetchWorldPoolWorldSquads();
+  // HM-MULTI-COMPETITION-WORLD-FOUNDATION-1.0: Allsvenskan is fetched
+  // unconditionally too, UNLESS the manager's own club already IS
+  // Allsvenskan (in which case `worldSquads` above already has every
+  // Allsvenskan club -- fetching again would be redundant, not wrong).
+  const allsvenskanWorldSquads = club?.competitionId === ALLSVENSKAN_COMPETITION_ID ? {} : await fetchAllsvenskanWorldSquads();
+  const allsvenskanGameplayRatings = club?.competitionId === ALLSVENSKAN_COMPETITION_ID ? {} : await fetchAllsvenskanGameplayRatings();
   const aiTacticalPreferences = isRealWorld ? await fetchAiTacticalPreferences(club.competitionId, "2026/27", GAME_CURRENT_DATE) : {};
   const gameplayRatings = isRealWorld ? await fetchGameplayRatings(club.competitionId) : {};
   const div1GameplayRatings = await fetchDivision1GameplayRatings();
@@ -409,9 +459,9 @@ async function getOrCreateCareerState(save: CareerSave): Promise<CareerState> {
   const fresh = createNewCareerState(
     save.saveId,
     save.clubId,
-    { ...worldSquads, ...div1WorldSquads, ...worldPoolWorldSquads },
+    { ...worldSquads, ...allsvenskanWorldSquads, ...div1WorldSquads, ...worldPoolWorldSquads },
     aiTacticalPreferences,
-    { ...gameplayRatings, ...div1GameplayRatings, ...worldPoolGameplayRatings },
+    { ...gameplayRatings, ...allsvenskanGameplayRatings, ...div1GameplayRatings, ...worldPoolGameplayRatings },
     staffIdentityByClub,
     save.preseasonStart,
   );

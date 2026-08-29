@@ -5,13 +5,13 @@
 // (seededOffset jitter, never Math.random -- Part: "Ingen Math.random()...
 // same career seed + same state -> same beslut").
 import { positionLabel, type HandballPosition, type PlayerMock } from "../game-data";
-import { getClubBudgets } from "../economy/clubEconomyIntegration";
+import { getClubBudgets, getClubPlayerWageCostsEurAnnual } from "../economy/clubEconomyIntegration";
 import { getPlayerContract, getPlayerContractStatus, getPlayerMarketValueEur } from "../economy/contractIntegration";
 import { assessTransferAffordability } from "../transfers/affordability";
 import { competitionTierForClub } from "../transfers/transferExecution";
 import { playerAgeAtDate } from "../development/developmentIntegration";
 import { seededOffset } from "../rating/generation/deterministicVariation";
-import { hasActivePendingTransfer } from "../transfers/transferIntegration";
+import { hasActivePendingTransfer, activePendingTransferPlayerIds } from "../transfers/transferIntegration";
 import { getExternalCandidateClubs, WORLD_POOL_COMPETITION_IDS } from "./careerWorld";
 import { projectedSquadSize } from "./cpuSquadNeeds";
 import { FREE_AGENT_CLUB_ID, getFreeAgents } from "./contractExpiry";
@@ -143,6 +143,32 @@ export function rankCandidates(state: CareerState, buyerClubId: string, position
   const budgets = getClubBudgets(state, buyerClubId);
   if (!budgets) return []; // Part: "Ingen gratis CPU-ekonomi" -- no budget data, no recruitment.
 
+  // HM-MULTI-COMPETITION-WORLD-FOUNDATION-1.0 performance fix: `budgets`
+  // (above) and the buyer's own current wage bill depend ONLY on `state`
+  // + `buyerClubId` -- identical for every candidate `evaluate()` below
+  // considers. Computed ONCE here and threaded into `assessTransferAffordability`
+  // as its optional `precomputed` input, instead of that function
+  // silently re-deriving both (an O(total-contracts) scan) for every
+  // single candidate -- with the multi-competition world's much larger
+  // candidate pools, this was the dominant cost of a `rankCandidates`
+  // call. No behavior/scoring/affordability-rule change: this is the
+  // exact same value `assessTransferAffordability` would otherwise
+  // compute itself, just not recomputed hundreds of times per call.
+  const currentWageCostsEurAnnual = getClubPlayerWageCostsEurAnnual(state, buyerClubId);
+  const buyerBudgets = budgets; // narrowed (non-undefined) copy for the closure below -- TS doesn't retain the `if (!budgets) return` narrowing across a nested function boundary.
+
+  // HM-MULTI-COMPETITION-WORLD-FOUNDATION-1.0 performance fix: the set of
+  // playerIds with an active pending transfer is a fact about `state`
+  // alone, identical for every candidate `evaluate()` below considers.
+  // Computed ONCE here (the exact same scan `hasActivePendingTransfer`
+  // would otherwise repeat, per-candidate, over the full -- and never
+  // pruned -- `state.transferOffers` map) and passed through as its
+  // optional `precomputed` input. No pending-transfer semantic change:
+  // membership in this set is defined by the SAME single function
+  // (`activePendingTransferPlayerIds`) `hasActivePendingTransfer` itself
+  // now delegates to by default.
+  const pendingTransferPlayerIds = activePendingTransferPlayerIds(state);
+
   const ownLevel = ownLevelScore(state, buyerClubId);
   const hasScout = clubHasScout(state, buyerClubId);
   const jitterMagnitude = hasScout ? SCOUTED_JITTER_MAGNITUDE : UNSCOUTED_JITTER_MAGNITUDE;
@@ -160,7 +186,7 @@ export function rankCandidates(state: CareerState, buyerClubId: string, position
    */
   function evaluate(player: PlayerMock, sourceClubId: string, internationalReachPenalty: number): void {
     if (state.playerStatuses[player.id]?.availability === "ON_PLACEMENT") return; // not really available to sell right now.
-    if (hasActivePendingTransfer(state, player.id)) return; // HM-CPU-SQUAD-BUILDING-1.0B Part 1: already has a pending deal elsewhere -- never a viable candidate, checked here (not only at offer time) so a doomed candidate never wastes a pursuit slot.
+    if (hasActivePendingTransfer(state, player.id, pendingTransferPlayerIds)) return; // HM-CPU-SQUAD-BUILDING-1.0B Part 1: already has a pending deal elsewhere -- never a viable candidate, checked here (not only at offer time) so a doomed candidate never wastes a pursuit slot.
 
     const rating = clubGameplayRating(state, sourceClubId, player.id);
     const contract = getPlayerContract(state, player.id);
@@ -173,7 +199,7 @@ export function rankCandidates(state: CareerState, buyerClubId: string, position
     const estimatedFeeEur = isFreeAgent ? 0 : marketValueEur;
     const estimatedWageEurPerMonth = Math.round(contract.wageEurPerMonth * 1.1) || Math.round(marketValueEur * 0.02); // Part: a modest incentive above their current wage; a true free agent's contract wage is 0 (Part 2), so fall back to a market-value-derived starting offer instead of proposing 0€/month.
 
-    const affordability = assessTransferAffordability(state, buyerClubId, estimatedFeeEur, 0, estimatedWageEurPerMonth);
+    const affordability = assessTransferAffordability(state, buyerClubId, estimatedFeeEur, 0, estimatedWageEurPerMonth, 100, { budgets: buyerBudgets, currentWageCostsEurAnnual });
     const age = playerAgeAtDate(player.dateOfBirth, player.birthYear, date);
     const buyerTier = competitionTierForClub(buyerClubId);
     const candidateTier = competitionTierForClub(sourceClubId);
