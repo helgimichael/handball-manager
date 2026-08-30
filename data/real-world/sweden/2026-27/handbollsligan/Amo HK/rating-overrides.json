@@ -1,0 +1,82 @@
+{
+  "se_player_josip_cavar_60b145a1": {
+    "updatedAt": "2026-08-30T11:17:08.607Z",
+    "ca": 148,
+    "pa": 148
+  },
+  "de_player_phil_dohler_5ea9254f": {
+    "updatedAt": "2026-08-30T11:16:01.669Z",
+    "ca": 146,
+    "pa": 148
+  },
+  "se_player_oscar_ader_4206ebaf": {
+    "updatedAt": "2026-08-30T11:16:33.300Z",
+    "ca": 112,
+    "pa": 148
+  },
+  "se_player_shaban_zogaj_71e0c93f": {
+    "updatedAt": "2026-08-30T11:14:55.948Z",
+    "ca": 120,
+    "pa": 142
+  },
+  "dk_player_jonas_jensen_02a38472": {
+    "updatedAt": "2026-08-30T11:17:11.903Z",
+    "ca": 142,
+    "pa": 144
+  },
+  "dk_player_emil_larsen_a48a45d0": {
+    "updatedAt": "2026-08-30T11:18:17.234Z",
+    "ca": 138,
+    "pa": 152
+  },
+  "se_player_lukas_rylander_139bedb4": {
+    "updatedAt": "2026-08-30T11:14:54.911Z",
+    "ca": 128,
+    "pa": 136
+  },
+  "dk_player_mathias_pedersen_0a2ea822": {
+    "updatedAt": "2026-08-30T11:15:49.972Z",
+    "ca": 148,
+    "pa": 150
+  },
+  "dk_player_anders_christiansen_8c111bf4": {
+    "updatedAt": "2026-08-30T11:17:01.825Z",
+    "ca": 150,
+    "pa": 150
+  },
+  "se_player_jesper_jensen_7ce5d872": {
+    "ca": 142,
+    "pa": 142,
+    "updatedAt": "2026-08-30T11:18:18.476Z"
+  },
+  "se_player_simon_roos_b75e2dc7": {
+    "updatedAt": "2026-08-30T11:17:10.852Z",
+    "ca": 112,
+    "pa": 150
+  },
+  "is_player_arnar_birkir_halfdansson_80b9537d": {
+    "updatedAt": "2026-08-30T11:16:00.577Z",
+    "ca": 145,
+    "pa": 145
+  },
+  "se_player_richard_lindstrom_fa89e12c": {
+    "updatedAt": "2026-08-30T11:16:44.866Z",
+    "ca": 145,
+    "pa": 148
+  },
+  "se_player_allex_hugosson_03ddf92d": {
+    "updatedAt": "2026-08-30T11:16:25.562Z",
+    "ca": 122,
+    "pa": 150
+  },
+  "se_player_hampus_karlsson_f0d53044": {
+    "updatedAt": "2026-08-30T11:18:05.733Z",
+    "ca": 143,
+    "pa": 145
+  },
+  "se_player_lynx_beverskog_d08b16d4": {
+    "updatedAt": "2026-08-30T11:18:06.642Z",
+    "ca": 146,
+    "pa": 150
+  }
+}

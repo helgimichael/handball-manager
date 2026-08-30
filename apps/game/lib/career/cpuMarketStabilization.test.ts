@@ -66,6 +66,38 @@ function realisticBid(state: CareerState, playerId: string): { feeEur: number; w
   return { feeEur: Math.round(marketValue), wageEurPerMonth: Math.round(currentWage * 1.1) };
 }
 
+/**
+ * These tests exercise real HBL squads/ratings, so `realisticBid`'s target
+ * player's market value now depends on that player's individually-researched
+ * HBL v2.13 CA/PA (WORLD_POOL_FINAL_RATING_RESEARCH_v1's HBL counterpart) --
+ * which can be materially higher than the old generic baseline for any given
+ * player. None of these tests are ABOUT affordability (they prove pending-
+ * transfer blocking, stale-offer corruption guards, and persistence), so give
+ * the buying club deliberately generous budget headroom rather than depend on
+ * any specific player's post-import market value staying low.
+ */
+function withUnlimitedBudget(state: CareerState, clubId: string): CareerState {
+  const baseline = state.clubEconomies[clubId];
+  if (!baseline) return state;
+  return {
+    ...state,
+    clubEconomies: {
+      ...state.clubEconomies,
+      [clubId]: {
+        ...baseline,
+        cashEur: baseline.cashEur + 100_000_000,
+        revenue: {
+          commercialRevenueEur: baseline.revenue.commercialRevenueEur * 50,
+          mediaRevenueEur: baseline.revenue.mediaRevenueEur * 50,
+          matchdayRevenueEur: baseline.revenue.matchdayRevenueEur * 50,
+          sportingRevenueEur: baseline.revenue.sportingRevenueEur * 50,
+          otherRevenueEur: baseline.revenue.otherRevenueEur * 50,
+        },
+      },
+    },
+  };
+}
+
 function syntheticPlayer(id: string, clubId: string, position: PlayerMock["position"], dateOfBirth = "2000-01-01"): PlayerMock {
   return {
     id, clubId, firstName: "Test", lastName: id, shirtNumber: null, position, nationality: "SWE",
@@ -112,11 +144,12 @@ function withSyntheticSquad(state: CareerState, clubId: string, count: number, p
 // ---------------------------------------------------------------------------
 
 test("BLOCKED_PENDING_TRANSFER: a second offer for a player who already has an AGREED_AWAITING_WINDOW offer is rejected outright", () => {
-  const state = fullWorldState("stabilize-pending-1", "se_club_hammarby_if_hf");
+  let state = fullWorldState("stabilize-pending-1", "se_club_hammarby_if_hf");
   const buyerB = rivalClubId(state);
   const buyerC = rivalClubId(state, [buyerB]);
   const sellerA = rivalClubId(state, [buyerB, buyerC]);
   const player = state.worldSquads[sellerA][0];
+  state = withUnlimitedBudget(withUnlimitedBudget(state, buyerB), buyerC);
 
   const stateOnClosedWindow = { ...state, gameDate: CLOSED_WINDOW_DATE };
   const bid = realisticBid(stateOnClosedWindow, player.id);
@@ -133,11 +166,12 @@ test("BLOCKED_PENDING_TRANSFER: a second offer for a player who already has an A
 });
 
 test("AGREED_AWAITING_WINDOW candidate excluded: rankCandidates never surfaces a player who already has a pending deal", () => {
-  const state = fullWorldState("stabilize-pending-2", "se_club_hammarby_if_hf");
+  let state = fullWorldState("stabilize-pending-2", "se_club_hammarby_if_hf");
   const buyerB = rivalClubId(state);
   const buyerC = rivalClubId(state, [buyerB]);
   const sellerA = rivalClubId(state, [buyerB, buyerC]);
   const player = state.worldSquads[sellerA][0];
+  state = withUnlimitedBudget(state, buyerB);
 
   const stateOnClosedWindow = { ...state, gameDate: CLOSED_WINDOW_DATE };
   const bid = realisticBid(stateOnClosedWindow, player.id);
@@ -153,11 +187,12 @@ test("AGREED_AWAITING_WINDOW candidate excluded: rankCandidates never surfaces a
 // ---------------------------------------------------------------------------
 
 test("stale fromClubId cannot execute: reproduces the exact 1.0A corruption class end-to-end", () => {
-  const state = fullWorldState("stabilize-corruption", "se_club_hammarby_if_hf");
+  let state = fullWorldState("stabilize-corruption", "se_club_hammarby_if_hf");
   const buyerB = rivalClubId(state);
   const buyerC = rivalClubId(state, [buyerB]);
   const sellerA = rivalClubId(state, [buyerB, buyerC]);
   const player = state.worldSquads[sellerA][0];
+  state = withUnlimitedBudget(state, buyerB);
 
   const stateOnClosedWindow = { ...state, gameDate: CLOSED_WINDOW_DATE };
   const bid = realisticBid(stateOnClosedWindow, player.id);
@@ -203,10 +238,11 @@ test("stale fromClubId cannot execute: reproduces the exact 1.0A corruption clas
 });
 
 test("persistence/reload: the corruption-free invariant survives a save/migrate round-trip", () => {
-  const state = fullWorldState("stabilize-persist", "se_club_hammarby_if_hf");
+  let state = fullWorldState("stabilize-persist", "se_club_hammarby_if_hf");
   const buyerB = rivalClubId(state);
   const sellerA = rivalClubId(state, [buyerB]);
   const player = state.worldSquads[sellerA][0];
+  state = withUnlimitedBudget(state, buyerB);
 
   const stateOnClosedWindow = { ...state, gameDate: CLOSED_WINDOW_DATE };
   const bid = realisticBid(stateOnClosedWindow, player.id);

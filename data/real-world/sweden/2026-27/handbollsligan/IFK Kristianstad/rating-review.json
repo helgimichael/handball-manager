@@ -1,17 +1,77 @@
 {
   "player_william_hoghielm_fdcb766f": {
     "status": "LOCKED",
-    "updatedAt": "2026-08-27T20:02:55.175Z",
-    "note": "Bulk calibration (Editor -> Spelare -> Kalibrering)."
+    "updatedAt": "2026-08-30T11:14:33.070Z",
+    "note": "HM_Player_Rating_Research_v2.13 HBL final import (268/268, individually researched, 0 REVIEW)"
   },
   "player_baldur_fritz_bjarnason_565ae0a8": {
     "status": "LOCKED",
-    "updatedAt": "2026-08-27T20:02:55.777Z",
-    "note": "Bulk calibration (Editor -> Spelare -> Kalibrering)."
+    "updatedAt": "2026-08-30T11:15:44.719Z",
+    "note": "HM_Player_Rating_Research_v2.13 HBL final import (268/268, individually researched, 0 REVIEW)"
   },
   "player_andri_erlingsson_a867e3c2": {
     "status": "LOCKED",
-    "updatedAt": "2026-08-27T20:02:56.179Z",
-    "note": "Bulk calibration (Editor -> Spelare -> Kalibrering)."
+    "updatedAt": "2026-08-30T11:15:46.105Z",
+    "note": "HM_Player_Rating_Research_v2.13 HBL final import (268/268, individually researched, 0 REVIEW)"
+  },
+  "player_hayder_al_khafadji_a09708e0": {
+    "status": "LOCKED",
+    "updatedAt": "2026-08-30T11:14:31.957Z",
+    "note": "HM_Player_Rating_Research_v2.13 HBL final import (268/268, individually researched, 0 REVIEW)"
+  },
+  "player_alexander_skoog_d0dd6f03": {
+    "status": "LOCKED",
+    "updatedAt": "2026-08-30T11:16:11.124Z",
+    "note": "HM_Player_Rating_Research_v2.13 HBL final import (268/268, individually researched, 0 REVIEW)"
+  },
+  "player_emil_frend_ofors_3ce9cf44": {
+    "status": "LOCKED",
+    "updatedAt": "2026-08-30T11:14:30.772Z",
+    "note": "HM_Player_Rating_Research_v2.13 HBL final import (268/268, individually researched, 0 REVIEW)"
+  },
+  "player_albin_leyman_6d0ef97f": {
+    "status": "LOCKED",
+    "updatedAt": "2026-08-30T11:16:37.776Z",
+    "note": "HM_Player_Rating_Research_v2.13 HBL final import (268/268, individually researched, 0 REVIEW)"
+  },
+  "player_philip_henningsson_01636570": {
+    "status": "LOCKED",
+    "updatedAt": "2026-08-30T11:15:36.396Z",
+    "note": "HM_Player_Rating_Research_v2.13 HBL final import (268/268, individually researched, 0 REVIEW)"
+  },
+  "player_einar_bragi_adalsteinsson_c7dc2719": {
+    "status": "LOCKED",
+    "updatedAt": "2026-08-30T11:15:42.191Z",
+    "note": "HM_Player_Rating_Research_v2.13 HBL final import (268/268, individually researched, 0 REVIEW)"
+  },
+  "player_theo_ivarsson_77eb2224": {
+    "status": "LOCKED",
+    "updatedAt": "2026-08-30T11:14:58.692Z",
+    "note": "HM_Player_Rating_Research_v2.13 HBL final import (268/268, individually researched, 0 REVIEW)"
+  },
+  "player_niko_petrovic_d603dfbe": {
+    "status": "LOCKED",
+    "updatedAt": "2026-08-30T11:15:47.250Z",
+    "note": "HM_Player_Rating_Research_v2.13 HBL final import (268/268, individually researched, 0 REVIEW)"
+  },
+  "player_anton_hallback_54886b8b": {
+    "status": "LOCKED",
+    "updatedAt": "2026-08-30T11:15:38.573Z",
+    "note": "HM_Player_Rating_Research_v2.13 HBL final import (268/268, individually researched, 0 REVIEW)"
+  },
+  "player_isaac_biel_nilsen_3910081f": {
+    "status": "LOCKED",
+    "updatedAt": "2026-08-30T11:15:37.382Z",
+    "note": "HM_Player_Rating_Research_v2.13 HBL final import (268/268, individually researched, 0 REVIEW)"
+  },
+  "player_albin_selin_8af77244": {
+    "status": "LOCKED",
+    "updatedAt": "2026-08-30T11:14:29.489Z",
+    "note": "HM_Player_Rating_Research_v2.13 HBL final import (268/268, individually researched, 0 REVIEW)"
+  },
+  "player_liam_kjellman_26da347a": {
+    "status": "LOCKED",
+    "updatedAt": "2026-08-30T11:16:25.403Z",
+    "note": "HM_Player_Rating_Research_v2.13 HBL final import (268/268, individually researched, 0 REVIEW)"
   }
 }

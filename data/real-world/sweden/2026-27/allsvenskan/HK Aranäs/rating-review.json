@@ -1,7 +1,82 @@
 {
   "se_player_ivar_perez_heselius_e39ab925": {
     "status": "LOCKED",
-    "updatedAt": "2026-08-27T20:09:13.098Z",
-    "note": "Bulk calibration (Editor -> Spelare -> Kalibrering)."
+    "updatedAt": "2026-08-30T15:45:04.332Z",
+    "note": "ALLSV_rating_import_candidates_v0.13 Allsvenskan final import (261/261, individually researched, 0 REVIEW)"
+  },
+  "se_player_ludvig_bratt_f558ab21": {
+    "status": "LOCKED",
+    "updatedAt": "2026-08-30T15:45:05.993Z",
+    "note": "ALLSV_rating_import_candidates_v0.13 Allsvenskan final import (261/261, individually researched, 0 REVIEW)"
+  },
+  "se_player_tobias_svantesson_fc3c5407": {
+    "status": "LOCKED",
+    "updatedAt": "2026-08-30T15:45:07.536Z",
+    "note": "ALLSV_rating_import_candidates_v0.13 Allsvenskan final import (261/261, individually researched, 0 REVIEW)"
+  },
+  "se_player_lukas_ribberstrom_94dac6f1": {
+    "status": "LOCKED",
+    "updatedAt": "2026-08-30T15:45:06.377Z",
+    "note": "ALLSV_rating_import_candidates_v0.13 Allsvenskan final import (261/261, individually researched, 0 REVIEW)"
+  },
+  "se_player_felix_dahlen_landstrom_cd6686d8": {
+    "status": "LOCKED",
+    "updatedAt": "2026-08-30T15:45:02.825Z",
+    "note": "ALLSV_rating_import_candidates_v0.13 Allsvenskan final import (261/261, individually researched, 0 REVIEW)"
+  },
+  "se_player_isak_brandin_5150ba19": {
+    "status": "LOCKED",
+    "updatedAt": "2026-08-30T15:45:03.933Z",
+    "note": "ALLSV_rating_import_candidates_v0.13 Allsvenskan final import (261/261, individually researched, 0 REVIEW)"
+  },
+  "se_player_william_lund_a1cef7d9": {
+    "status": "LOCKED",
+    "updatedAt": "2026-08-30T15:45:07.958Z",
+    "note": "ALLSV_rating_import_candidates_v0.13 Allsvenskan final import (261/261, individually researched, 0 REVIEW)"
+  },
+  "se_player_arvid_larsson_0fac8bfb": {
+    "status": "LOCKED",
+    "updatedAt": "2026-08-30T15:45:01.377Z",
+    "note": "ALLSV_rating_import_candidates_v0.13 Allsvenskan final import (261/261, individually researched, 0 REVIEW)"
+  },
+  "se_player_hannes_rybo_d534a6d2": {
+    "status": "LOCKED",
+    "updatedAt": "2026-08-30T15:45:03.517Z",
+    "note": "ALLSV_rating_import_candidates_v0.13 Allsvenskan final import (261/261, individually researched, 0 REVIEW)"
+  },
+  "se_player_jonathan_ekman_d0a35bf6": {
+    "status": "LOCKED",
+    "updatedAt": "2026-08-30T15:45:04.730Z",
+    "note": "ALLSV_rating_import_candidates_v0.13 Allsvenskan final import (261/261, individually researched, 0 REVIEW)"
+  },
+  "se_player_marcus_kl_ve_9d423086": {
+    "status": "LOCKED",
+    "updatedAt": "2026-08-30T15:45:06.754Z",
+    "note": "ALLSV_rating_import_candidates_v0.13 Allsvenskan final import (261/261, individually researched, 0 REVIEW)"
+  },
+  "se_player_kenan_salkicevic_4cb32042": {
+    "status": "LOCKED",
+    "updatedAt": "2026-08-30T15:45:05.154Z",
+    "note": "ALLSV_rating_import_candidates_v0.13 Allsvenskan final import (261/261, individually researched, 0 REVIEW)"
+  },
+  "se_player_axel_levin_eklund_87c76a40": {
+    "status": "LOCKED",
+    "updatedAt": "2026-08-30T15:45:02.369Z",
+    "note": "ALLSV_rating_import_candidates_v0.13 Allsvenskan final import (261/261, individually researched, 0 REVIEW)"
+  },
+  "se_player_oliver_himlevik_c17cd4d1": {
+    "status": "LOCKED",
+    "updatedAt": "2026-08-30T15:45:07.148Z",
+    "note": "ALLSV_rating_import_candidates_v0.13 Allsvenskan final import (261/261, individually researched, 0 REVIEW)"
+  },
+  "se_player_anton_arfvidsson_e382592e": {
+    "status": "LOCKED",
+    "updatedAt": "2026-08-30T15:45:00.950Z",
+    "note": "ALLSV_rating_import_candidates_v0.13 Allsvenskan final import (261/261, individually researched, 0 REVIEW)"
+  },
+  "se_player_liam_magnusson_170cd0eb": {
+    "status": "LOCKED",
+    "updatedAt": "2026-08-30T15:45:05.572Z",
+    "note": "ALLSV_rating_import_candidates_v0.13 Allsvenskan final import (261/261, individually researched, 0 REVIEW)"
   }
 }

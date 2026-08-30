@@ -1,0 +1,17 @@
+{
+  "player_neo_brattnas_e58fdfc5": {
+    "status": "LOCKED",
+    "updatedAt": "2026-08-30T07:54:42.242Z",
+    "note": "Bulk calibration (Editor -> Spelare -> Kalibrering)."
+  },
+  "player_alvar_rehnstrom_662b9863": {
+    "status": "LOCKED",
+    "updatedAt": "2026-08-30T07:56:57.333Z",
+    "note": "Bulk calibration (Editor -> Spelare -> Kalibrering)."
+  },
+  "player_vincent_ekberg_ba92fc53": {
+    "status": "LOCKED",
+    "updatedAt": "2026-08-30T08:00:02.885Z",
+    "note": "Bulk calibration (Editor -> Spelare -> Kalibrering)."
+  }
+}

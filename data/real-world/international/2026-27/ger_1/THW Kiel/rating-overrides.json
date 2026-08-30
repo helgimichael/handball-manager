@@ -1,0 +1,37 @@
+{
+  "player_intl_eric_johansson_b5f56936": {
+    "updatedAt": "2026-08-30T11:30:08.177Z",
+    "ca": 170,
+    "pa": 178
+  },
+  "player_intl_julian_koster_5e3b8c5d": {
+    "updatedAt": "2026-08-30T11:30:08.595Z",
+    "ca": 178,
+    "pa": 185
+  },
+  "player_intl_rasmus_ankermann_852454ce": {
+    "updatedAt": "2026-08-30T11:30:09.489Z",
+    "ca": 145,
+    "pa": 168
+  },
+  "player_intl_elias_ellefsen_a_skipag_tu_92161987": {
+    "updatedAt": "2026-08-30T11:30:07.736Z",
+    "ca": 178,
+    "pa": 190
+  },
+  "player_intl_kjell_suhr_c7f5cd14": {
+    "updatedAt": "2026-08-30T11:30:09.026Z",
+    "ca": 100,
+    "pa": 150
+  },
+  "player_intl_ben_janos_szilagyi_bf16af57": {
+    "updatedAt": "2026-08-30T11:30:07.348Z",
+    "ca": 112,
+    "pa": 150
+  },
+  "player_intl_tobias_dengler_89bd9f7a": {
+    "ca": 112,
+    "pa": 165,
+    "updatedAt": "2026-08-30T11:30:09.936Z"
+  }
+}

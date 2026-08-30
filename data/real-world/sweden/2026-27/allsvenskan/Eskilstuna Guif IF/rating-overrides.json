@@ -1,1 +1,97 @@
-{}
+{
+  "se_player_fredrik_gustavsson_98b279d6": {
+    "updatedAt": "2026-08-30T15:45:17.265Z",
+    "ca": 140,
+    "pa": 140
+  },
+  "se_player_viktor_millard_1cc208ce": {
+    "updatedAt": "2026-08-30T15:45:22.158Z",
+    "ca": 105,
+    "pa": 145
+  },
+  "se_player_fredrik_lennernas_d6508034": {
+    "updatedAt": "2026-08-30T15:45:17.678Z",
+    "ca": 114,
+    "pa": 153
+  },
+  "se_player_kasper_larsson_90a3e096": {
+    "updatedAt": "2026-08-30T15:45:18.904Z",
+    "ca": 140,
+    "pa": 142
+  },
+  "se_player_marcus_ekman_40a65f53": {
+    "updatedAt": "2026-08-30T15:45:19.326Z",
+    "ca": 143,
+    "pa": 143
+  },
+  "se_player_oskar_nykvist_de959bd2": {
+    "updatedAt": "2026-08-30T15:45:21.023Z",
+    "ca": 100,
+    "pa": 149
+  },
+  "se_player_joakim_jorgensen_f59ea9c5": {
+    "updatedAt": "2026-08-30T15:45:18.467Z",
+    "ca": 111,
+    "pa": 134
+  },
+  "se_player_anton_agren_8ef64603": {
+    "updatedAt": "2026-08-30T15:45:16.503Z",
+    "ca": 103,
+    "pa": 132
+  },
+  "se_player_melker_norrman_8e940787": {
+    "updatedAt": "2026-08-30T15:45:20.170Z",
+    "ca": 135,
+    "pa": 136
+  },
+  "se_player_vilhelm_conrad_c1a36a84": {
+    "ca": 123,
+    "pa": 153,
+    "updatedAt": "2026-08-30T15:45:22.551Z"
+  },
+  "se_player_alexander_grunau_7d05e649": {
+    "updatedAt": "2026-08-30T15:45:15.308Z",
+    "ca": 112,
+    "pa": 148
+  },
+  "se_player_andreas_flodman_1fb70c61": {
+    "updatedAt": "2026-08-30T15:45:16.123Z",
+    "ca": 142,
+    "pa": 142
+  },
+  "se_player_oscar_nilsson_26cc889a": {
+    "updatedAt": "2026-08-30T15:45:20.565Z",
+    "ca": 106,
+    "pa": 143
+  },
+  "se_player_alvin_bjorklund_27e7d6cc": {
+    "updatedAt": "2026-08-30T15:45:15.687Z",
+    "ca": 116,
+    "pa": 146
+  },
+  "se_player_arwid_krontorp_c6d8c3de": {
+    "updatedAt": "2026-08-30T15:45:16.869Z",
+    "ca": 105,
+    "pa": 137
+  },
+  "se_player_gustav_boren_d9cd262e": {
+    "updatedAt": "2026-08-30T15:45:18.100Z",
+    "ca": 116,
+    "pa": 138
+  },
+  "se_player_max_moberger_e5f74c95": {
+    "updatedAt": "2026-08-30T15:45:19.719Z",
+    "ca": 121,
+    "pa": 149
+  },
+  "se_player_philip_tikas_164d102e": {
+    "updatedAt": "2026-08-30T15:45:21.413Z",
+    "ca": 117,
+    "pa": 136
+  },
+  "se_player_sebastian_westerlund_206a8015": {
+    "updatedAt": "2026-08-30T15:45:21.769Z",
+    "ca": 126,
+    "pa": 132
+  }
+}

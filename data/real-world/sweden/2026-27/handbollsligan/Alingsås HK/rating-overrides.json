@@ -1,1 +1,87 @@
-{}
+{
+  "se_player_anton_hagvall_34e5df98": {
+    "updatedAt": "2026-08-30T11:15:51.132Z",
+    "ca": 142,
+    "pa": 145
+  },
+  "se_player_oskar_dahlin_50f8181d": {
+    "updatedAt": "2026-08-30T11:15:14.749Z",
+    "ca": 118,
+    "pa": 150
+  },
+  "se_player_niklas_kraft_e8842f13": {
+    "updatedAt": "2026-08-30T11:15:28.948Z",
+    "ca": 147,
+    "pa": 150
+  },
+  "se_player_benjamin_helander_b5cece84": {
+    "updatedAt": "2026-08-30T11:14:21.049Z",
+    "ca": 138,
+    "pa": 140
+  },
+  "se_player_edwin_tengros_eec4c59b": {
+    "updatedAt": "2026-08-30T11:15:14.352Z",
+    "ca": 122,
+    "pa": 150
+  },
+  "se_player_petter_donaldson_80cffba4": {
+    "updatedAt": "2026-08-30T11:14:21.486Z",
+    "ca": 140,
+    "pa": 144
+  },
+  "se_player_arvid_boquist_39bb770d": {
+    "updatedAt": "2026-08-30T11:14:20.181Z",
+    "ca": 145,
+    "pa": 156
+  },
+  "se_player_max_sellstedt_314fc84c": {
+    "updatedAt": "2026-08-30T11:16:31.121Z",
+    "ca": 98,
+    "pa": 170
+  },
+  "se_player_hjalmar_jansson_8997bd4b": {
+    "updatedAt": "2026-08-30T11:15:12.809Z",
+    "ca": 112,
+    "pa": 150
+  },
+  "se_player_max_hurtig_77d80608": {
+    "updatedAt": "2026-08-30T11:15:15.132Z",
+    "ca": 94,
+    "pa": 166
+  },
+  "se_player_alexander_regen_705fa7a6": {
+    "updatedAt": "2026-08-30T11:15:07.492Z",
+    "ca": 134,
+    "pa": 134
+  },
+  "se_player_arvid_andreasson_54da0f43": {
+    "updatedAt": "2026-08-30T11:15:25.496Z",
+    "ca": 112,
+    "pa": 160
+  },
+  "se_player_noel_hurtig_1aad97d9": {
+    "updatedAt": "2026-08-30T11:15:13.922Z",
+    "ca": 106,
+    "pa": 142
+  },
+  "se_player_carl_ryden_d5428e1f": {
+    "updatedAt": "2026-08-30T11:17:59.069Z",
+    "ca": 136,
+    "pa": 154
+  },
+  "se_player_samuel_lindberg_1a6e8618": {
+    "ca": 148,
+    "pa": 148,
+    "updatedAt": "2026-08-30T11:18:00.130Z"
+  },
+  "se_player_hugo_lignell_af49387a": {
+    "updatedAt": "2026-08-30T11:16:50.819Z",
+    "ca": 118,
+    "pa": 150
+  },
+  "se_player_august_wiger_94e4bcd0": {
+    "updatedAt": "2026-08-30T11:14:20.586Z",
+    "ca": 147,
+    "pa": 153
+  }
+}

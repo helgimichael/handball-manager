@@ -1,17 +1,77 @@
 {
   "player_william_hoghielm_fdcb766f": {
-    "updatedAt": "2026-08-27T20:02:54.939Z",
-    "ca": 155,
-    "pa": 165
+    "updatedAt": "2026-08-30T11:14:32.133Z",
+    "ca": 150,
+    "pa": 154
   },
   "player_baldur_fritz_bjarnason_565ae0a8": {
-    "updatedAt": "2026-08-27T20:02:55.470Z",
-    "ca": 138,
-    "pa": 181
+    "updatedAt": "2026-08-30T11:15:43.800Z",
+    "ca": 142,
+    "pa": 174
   },
   "player_andri_erlingsson_a867e3c2": {
-    "ca": 135,
-    "pa": 184,
-    "updatedAt": "2026-08-27T20:02:55.905Z"
+    "updatedAt": "2026-08-30T11:15:45.100Z",
+    "ca": 128,
+    "pa": 170
+  },
+  "player_hayder_al_khafadji_a09708e0": {
+    "updatedAt": "2026-08-30T11:14:31.045Z",
+    "ca": 150,
+    "pa": 152
+  },
+  "player_alexander_skoog_d0dd6f03": {
+    "updatedAt": "2026-08-30T11:16:10.334Z",
+    "ca": 142,
+    "pa": 156
+  },
+  "player_emil_frend_ofors_3ce9cf44": {
+    "updatedAt": "2026-08-30T11:14:29.695Z",
+    "ca": 155,
+    "pa": 158
+  },
+  "player_albin_leyman_6d0ef97f": {
+    "ca": 122,
+    "pa": 136,
+    "updatedAt": "2026-08-30T11:16:36.876Z"
+  },
+  "player_philip_henningsson_01636570": {
+    "updatedAt": "2026-08-30T11:15:35.626Z",
+    "ca": 144,
+    "pa": 144
+  },
+  "player_einar_bragi_adalsteinsson_c7dc2719": {
+    "updatedAt": "2026-08-30T11:15:41.192Z",
+    "ca": 148,
+    "pa": 154
+  },
+  "player_theo_ivarsson_77eb2224": {
+    "updatedAt": "2026-08-30T11:14:57.921Z",
+    "ca": 112,
+    "pa": 160
+  },
+  "player_niko_petrovic_d603dfbe": {
+    "updatedAt": "2026-08-30T11:15:46.296Z",
+    "ca": 118,
+    "pa": 160
+  },
+  "player_anton_hallback_54886b8b": {
+    "updatedAt": "2026-08-30T11:15:37.710Z",
+    "ca": 142,
+    "pa": 144
+  },
+  "player_isaac_biel_nilsen_3910081f": {
+    "updatedAt": "2026-08-30T11:15:36.579Z",
+    "ca": 146,
+    "pa": 156
+  },
+  "player_albin_selin_8af77244": {
+    "updatedAt": "2026-08-30T11:14:28.472Z",
+    "ca": 148,
+    "pa": 154
+  },
+  "player_liam_kjellman_26da347a": {
+    "updatedAt": "2026-08-30T11:16:24.457Z",
+    "ca": 124,
+    "pa": 146
   }
 }

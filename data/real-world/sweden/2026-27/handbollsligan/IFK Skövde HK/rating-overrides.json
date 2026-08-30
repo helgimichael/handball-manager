@@ -1,0 +1,87 @@
+{
+  "player_nikolai_kaufmann_e0bd1d06": {
+    "updatedAt": "2026-08-30T11:16:47.419Z",
+    "ca": 130,
+    "pa": 154
+  },
+  "player_pauli_jacobsen_0a78b61b": {
+    "updatedAt": "2026-08-30T11:16:09.147Z",
+    "ca": 148,
+    "pa": 158
+  },
+  "player_herman_dyberg_a8c86475": {
+    "updatedAt": "2026-08-30T11:14:45.703Z",
+    "ca": 124,
+    "pa": 128
+  },
+  "player_elias_adam_47e6fd55": {
+    "updatedAt": "2026-08-30T11:15:08.373Z",
+    "ca": 110,
+    "pa": 164
+  },
+  "player_fidel_mbumba_91e78231": {
+    "updatedAt": "2026-08-30T11:15:19.849Z",
+    "ca": 114,
+    "pa": 168
+  },
+  "player_thomas_stenersen_781c3d9f": {
+    "updatedAt": "2026-08-30T11:14:50.802Z",
+    "ca": 118,
+    "pa": 145
+  },
+  "player_jonas_kruse_kristensen_87652b66": {
+    "updatedAt": "2026-08-30T11:14:58.873Z",
+    "ca": 136,
+    "pa": 148
+  },
+  "player_daniel_ekman_7eb4f625": {
+    "updatedAt": "2026-08-30T11:15:42.461Z",
+    "ca": 138,
+    "pa": 140
+  },
+  "player_zoran_bozic_73aa7c83": {
+    "updatedAt": "2026-08-30T11:16:52.742Z",
+    "ca": 145,
+    "pa": 150
+  },
+  "player_ajdin_dzanic_5aaffde2": {
+    "updatedAt": "2026-08-30T11:15:09.230Z",
+    "ca": 108,
+    "pa": 158
+  },
+  "player_markus_sjobrink_9badcdbf": {
+    "updatedAt": "2026-08-30T11:17:39.455Z",
+    "ca": 145,
+    "pa": 145
+  },
+  "player_albin_rydberg_c6e004c6": {
+    "updatedAt": "2026-08-30T11:15:10.508Z",
+    "ca": 102,
+    "pa": 150
+  },
+  "player_axel_franzen_86a337b2": {
+    "updatedAt": "2026-08-30T11:16:23.293Z",
+    "ca": 148,
+    "pa": 150
+  },
+  "player_jonas_burud_ecf4798a": {
+    "updatedAt": "2026-08-30T11:17:48.827Z",
+    "ca": 150,
+    "pa": 150
+  },
+  "player_linus_gustavsson_2f35e9ed": {
+    "ca": 144,
+    "pa": 160,
+    "updatedAt": "2026-08-30T11:18:02.708Z"
+  },
+  "player_jonas_samuelsson_c0e5d465": {
+    "updatedAt": "2026-08-30T11:14:33.349Z",
+    "ca": 145,
+    "pa": 148
+  },
+  "player_noel_gustafson_c93d5232": {
+    "updatedAt": "2026-08-30T11:16:20.002Z",
+    "ca": 132,
+    "pa": 138
+  }
+}

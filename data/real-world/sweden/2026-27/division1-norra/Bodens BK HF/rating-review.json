@@ -1,0 +1,27 @@
+{
+  "player_joel_tornblom_johansson_bd1547d6": {
+    "status": "LOCKED",
+    "updatedAt": "2026-08-30T07:35:05.408Z",
+    "note": "Bulk calibration (Editor -> Spelare -> Kalibrering)."
+  },
+  "player_gustav_carlsson_4a8b9745": {
+    "status": "LOCKED",
+    "updatedAt": "2026-08-30T07:54:39.689Z",
+    "note": "Bulk calibration (Editor -> Spelare -> Kalibrering)."
+  },
+  "player_alexander_anglov_53fa8679": {
+    "status": "LOCKED",
+    "updatedAt": "2026-08-30T07:54:40.959Z",
+    "note": "Bulk calibration (Editor -> Spelare -> Kalibrering)."
+  },
+  "player_vilgot_vikstrom_bcbf6a86": {
+    "status": "LOCKED",
+    "updatedAt": "2026-08-30T08:00:00.627Z",
+    "note": "Bulk calibration (Editor -> Spelare -> Kalibrering)."
+  },
+  "player_arvid_pettersson_7a61f136": {
+    "status": "LOCKED",
+    "updatedAt": "2026-08-30T08:00:01.892Z",
+    "note": "Bulk calibration (Editor -> Spelare -> Kalibrering)."
+  }
+}

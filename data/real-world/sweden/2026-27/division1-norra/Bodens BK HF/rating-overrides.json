@@ -1,0 +1,27 @@
+{
+  "player_joel_tornblom_johansson_bd1547d6": {
+    "updatedAt": "2026-08-30T07:35:04.547Z",
+    "ca": 100,
+    "pa": 141
+  },
+  "player_gustav_carlsson_4a8b9745": {
+    "updatedAt": "2026-08-30T07:54:38.534Z",
+    "ca": 115,
+    "pa": 120
+  },
+  "player_alexander_anglov_53fa8679": {
+    "updatedAt": "2026-08-30T07:54:39.922Z",
+    "ca": 115,
+    "pa": 120
+  },
+  "player_vilgot_vikstrom_bcbf6a86": {
+    "updatedAt": "2026-08-30T07:59:59.741Z",
+    "ca": 110,
+    "pa": 130
+  },
+  "player_arvid_pettersson_7a61f136": {
+    "ca": 90,
+    "pa": 120,
+    "updatedAt": "2026-08-30T08:00:00.870Z"
+  }
+}

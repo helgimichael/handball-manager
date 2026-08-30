@@ -95,15 +95,19 @@ test("HM-RATINGS-0.6 population audit: no branch contamination anywhere in the l
 
 test("HM-RATINGS-0.6 population audit: real calibrated CA survives exactly for the 8 named anchor players", () => {
   const league = loadFullLeague();
+  // Values updated by the HBL_rating_import_candidates_v2.13 individually-
+  // researched import (268/268 HBL players, 0 REVIEW) -- these 8 anchors
+  // are among the 268 and their CA legitimately moved from the old
+  // pipeline-calibrated anchor values to the new locked research values.
   const expected: Record<string, number> = {
-    gustav_davidsson: 166,
-    niclas_ekberg: 167,
-    andreas_nilsson: 168,
-    peter_johannesson: 162,
-    liam_hultberg: 161,
-    alexander_morsten: 155,
-    anders_wik_rydberg: 153,
-    baldur_fritz_bjarnason: 138,
+    gustav_davidsson: 150,
+    niclas_ekberg: 154,
+    andreas_nilsson: 160,
+    peter_johannesson: 160,
+    liam_hultberg: 150,
+    alexander_morsten: 138,
+    anders_wik_rydberg: 134,
+    baldur_fritz_bjarnason: 142,
   };
   for (const [slug, ca] of Object.entries(expected)) {
     const player = league.find((p) => p.playerId.includes(slug));

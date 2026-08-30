@@ -33,18 +33,21 @@ test("HM-UX-RATINGS-0.1: a generated-prior player who previously had no CA/PA (R
   assert.equal(attrCount, player.branch.branch === "OUTCOURT" ? 56 : 21);
 });
 
-test("HM-UX-RATINGS-0.1: Robin Järling is matched to a HM-RATINGS-0.2 calibration entry (real PA band) whose CA was left unassessed -- the reported caSource must be GENERATED_GAME_PRIOR, not CALIBRATED, since the calibration match did not actually supply this CA value", () => {
+test("HM-UX-RATINGS-0.1: Robin Järling was later given a final individually-researched HBL v2.13 CA -- the reported caSource is now EDITOR_OVERRIDE (a real locked value), not the old GENERATED_GAME_PRIOR fallback", () => {
   const found = findByNameFragment("robin_jarling");
   assert.ok(found);
-  assert.equal(found!.player.caSource, "GENERATED_GAME_PRIOR", "matchedCalibration being true must not make an unrelated game-prior CA look calibrated");
+  assert.equal(found!.player.caSource, "EDITOR_OVERRIDE", "the HBL_rating_import_candidates_v2.13 import locks a real researched CA for this player, superseding the prior game-prior fallback");
 });
 
 test("HM-UX-RATINGS-0.1: calibrated player Gustav Davidsson's known evidence-backed values survive exactly on the gameplay read path", () => {
   const found = findByNameFragment("gustav_davidsson");
   assert.ok(found);
   const { player } = found!;
-  assert.equal(player.caSource, "CALIBRATED");
-  assert.equal(player.ca, 166);
+  // Updated by the HBL_rating_import_candidates_v2.13 individually-researched
+  // import (268/268 HBL players, 0 REVIEW): CA moved from the old pipeline
+  // CALIBRATED anchor to a locked EDITOR_OVERRIDE research value.
+  assert.equal(player.caSource, "EDITOR_OVERRIDE");
+  assert.equal(player.ca, 150);
   const attrs = player.branch.attributes as Record<string, { value: number; origin: string }>;
   assert.deepEqual(attrs.PASSING, { value: 20, origin: "EVIDENCE_BACKED" });
   assert.deepEqual(attrs.PLAYMAKING, { value: 20, origin: "EVIDENCE_BACKED" });
