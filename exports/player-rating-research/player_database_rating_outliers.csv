@@ -1,0 +1,858 @@
+playerId,name,clubId,competitionId,currentCA,currentPA,reason
+player_intl_patrick_wiesmach_1e6face8,Patrick Wiesmach,den1-aalborg,den-1,96,130,league bottom 10 CA
+player_intl_jon_lindenchrone_568308f4,Jon Lindenchrone,den1-skjern,den-1,105,130,league bottom 10 CA
+player_intl_mads_svane_knudsen_3fab6b0f,Mads Svane Knudsen,den1-bjerringbro,den-1,127,130,league bottom 10 CA
+player_intl_emil_hovgaard_pedersen_a169f355,Emil Hovgaard Pedersen,den1-bjerringbro,den-1,131,140,league bottom 10 CA
+player_intl_mads_bjergfelt_245b19ef,Mads Bjergfelt,den1-skjern,den-1,134,150,league bottom 10 CA
+player_intl_pauli_hentze_rasmussen_4279a730,Pauli Hentze Rasmussen,den1-tms,den-1,143,160,league bottom 10 CA
+player_intl_kristjan_orn_kristjansson_3d9e5b34,Kristján Örn Kristjánsson,den1-skanderborg,den-1,165,165,league bottom 10 CA
+player_intl_senjamin_buric_3f88aac8,Senjamin Burić,den1-skjern,den-1,165,165,league bottom 10 CA
+player_intl_lukas_nilsson_feb881aa,Lukas Nilsson,den1-aalborg,den-1,170,188,league bottom 10 CA
+player_intl_sander_sagosen_c782fa51,Sander Sagosen,den1-aalborg,den-1,175,188,league bottom 10 CA
+player_intl_patrick_wiesmach_1e6face8,Patrick Wiesmach,den1-aalborg,den-1,96,130,league top 10 CA
+player_intl_jon_lindenchrone_568308f4,Jon Lindenchrone,den1-skjern,den-1,105,130,league top 10 CA
+player_intl_mads_svane_knudsen_3fab6b0f,Mads Svane Knudsen,den1-bjerringbro,den-1,127,130,league top 10 CA
+player_intl_emil_hovgaard_pedersen_a169f355,Emil Hovgaard Pedersen,den1-bjerringbro,den-1,131,140,league top 10 CA
+player_intl_mads_bjergfelt_245b19ef,Mads Bjergfelt,den1-skjern,den-1,134,150,league top 10 CA
+player_intl_pauli_hentze_rasmussen_4279a730,Pauli Hentze Rasmussen,den1-tms,den-1,143,160,league top 10 CA
+player_intl_kristjan_orn_kristjansson_3d9e5b34,Kristján Örn Kristjánsson,den1-skanderborg,den-1,165,165,league top 10 CA
+player_intl_senjamin_buric_3f88aac8,Senjamin Burić,den1-skjern,den-1,165,165,league top 10 CA
+player_intl_lukas_nilsson_feb881aa,Lukas Nilsson,den1-aalborg,den-1,170,188,league top 10 CA
+player_intl_sander_sagosen_c782fa51,Sander Sagosen,den1-aalborg,den-1,175,188,league top 10 CA
+player_intl_patrick_wiesmach_1e6face8,Patrick Wiesmach,den1-aalborg,den-1,96,130,extreme PA-CA gap (>=20)
+player_intl_jon_lindenchrone_568308f4,Jon Lindenchrone,den1-skjern,den-1,105,130,extreme PA-CA gap (>=20)
+player_intl_adria_figueras_19e8dcd2,Adrià Figueras,esp1-granollers,esp-1,120,150,league bottom 10 CA
+player_intl_luka_krivokapic_20eed867,Luka Krivokapić,esp1-granollers,esp-1,120,150,league bottom 10 CA
+player_intl_jan_duran_esteban_4b39fb21,Jan Duran Esteban,esp1-granollers,esp-1,130,150,league bottom 10 CA
+player_intl_jordi_deumal_af62f2b2,Jordi Deumal,esp1-granollers,esp-1,130,150,league bottom 10 CA
+player_intl_bruno_reguart_massana_5cfbee3b,Bruno Reguart Massana,esp1-granollers,esp-1,137,160,league bottom 10 CA
+player_intl_bernat_povill_nadal_1c41823b,Bernat Povill Nadal,esp1-granollers,esp-1,138,160,league bottom 10 CA
+player_intl_federico_pizarro_d9809129,Federico Pizarro,esp1-cuenca,esp-1,139,150,league bottom 10 CA
+player_intl_marcos_fis_ballester_4eab1947,Marcos Fis Ballester,esp1-granollers,esp-1,158,178,league bottom 10 CA
+player_intl_dika_mem_3c0afa8f,Dika Mem,esp1-barca,esp-1,188,194,league bottom 10 CA
+player_intl_adria_figueras_19e8dcd2,Adrià Figueras,esp1-granollers,esp-1,120,150,league top 10 CA
+player_intl_luka_krivokapic_20eed867,Luka Krivokapić,esp1-granollers,esp-1,120,150,league top 10 CA
+player_intl_jan_duran_esteban_4b39fb21,Jan Duran Esteban,esp1-granollers,esp-1,130,150,league top 10 CA
+player_intl_jordi_deumal_af62f2b2,Jordi Deumal,esp1-granollers,esp-1,130,150,league top 10 CA
+player_intl_bruno_reguart_massana_5cfbee3b,Bruno Reguart Massana,esp1-granollers,esp-1,137,160,league top 10 CA
+player_intl_bernat_povill_nadal_1c41823b,Bernat Povill Nadal,esp1-granollers,esp-1,138,160,league top 10 CA
+player_intl_federico_pizarro_d9809129,Federico Pizarro,esp1-cuenca,esp-1,139,150,league top 10 CA
+player_intl_marcos_fis_ballester_4eab1947,Marcos Fis Ballester,esp1-granollers,esp-1,158,178,league top 10 CA
+player_intl_dika_mem_3c0afa8f,Dika Mem,esp1-barca,esp-1,188,194,league top 10 CA
+player_intl_adria_figueras_19e8dcd2,Adrià Figueras,esp1-granollers,esp-1,120,150,extreme PA-CA gap (>=20)
+player_intl_bernat_povill_nadal_1c41823b,Bernat Povill Nadal,esp1-granollers,esp-1,138,160,extreme PA-CA gap (>=20)
+player_intl_bruno_reguart_massana_5cfbee3b,Bruno Reguart Massana,esp1-granollers,esp-1,137,160,extreme PA-CA gap (>=20)
+player_intl_jan_duran_esteban_4b39fb21,Jan Duran Esteban,esp1-granollers,esp-1,130,150,extreme PA-CA gap (>=20)
+player_intl_jordi_deumal_af62f2b2,Jordi Deumal,esp1-granollers,esp-1,130,150,extreme PA-CA gap (>=20)
+player_intl_luka_krivokapic_20eed867,Luka Krivokapić,esp1-granollers,esp-1,120,150,extreme PA-CA gap (>=20)
+player_intl_marcos_fis_ballester_4eab1947,Marcos Fis Ballester,esp1-granollers,esp-1,158,178,extreme PA-CA gap (>=20)
+player_intl_kjell_suhr_c7f5cd14,Kjell Suhr,ger1-kiel,ger-1,109,135,league bottom 10 CA
+player_intl_rasmus_ankermann_852454ce,Rasmus Ankermann,ger1-kiel,ger-1,111,135,league bottom 10 CA
+player_intl_paul_kompenhans_5b30e905,Paul Kompenhans,ger1-wetzlar,ger-1,112,135,league bottom 10 CA
+player_intl_nikolaj_l_s_2e955978,Nikolaj Læsø,ger1-wetzlar,ger-1,114,135,league bottom 10 CA
+player_intl_ben_janos_szilagyi_bf16af57,Ben Janos Szilagyi,ger1-kiel,ger-1,126,132,league bottom 10 CA
+player_intl_lasse_ludwig_180f40b8,Lasse Ludwig,ger1-fuchse,ger-1,129,143,league bottom 10 CA
+player_intl_tobias_dengler_89bd9f7a,Tobias Dengler,ger1-kiel,ger-1,140,160,league bottom 10 CA
+player_intl_eric_johansson_b5f56936,Eric Johansson,ger1-kiel,ger-1,170,178,league bottom 10 CA
+player_intl_mijajlo_marsenic_49533029,Mijajlo Marsenić,ger1-fuchse,ger-1,172,178,league bottom 10 CA
+player_intl_julian_koster_5e3b8c5d,Julian Köster,ger1-kiel,ger-1,173,182,league bottom 10 CA
+player_intl_paul_kompenhans_5b30e905,Paul Kompenhans,ger1-wetzlar,ger-1,112,135,league top 10 CA
+player_intl_nikolaj_l_s_2e955978,Nikolaj Læsø,ger1-wetzlar,ger-1,114,135,league top 10 CA
+player_intl_ben_janos_szilagyi_bf16af57,Ben Janos Szilagyi,ger1-kiel,ger-1,126,132,league top 10 CA
+player_intl_lasse_ludwig_180f40b8,Lasse Ludwig,ger1-fuchse,ger-1,129,143,league top 10 CA
+player_intl_tobias_dengler_89bd9f7a,Tobias Dengler,ger1-kiel,ger-1,140,160,league top 10 CA
+player_intl_eric_johansson_b5f56936,Eric Johansson,ger1-kiel,ger-1,170,178,league top 10 CA
+player_intl_mijajlo_marsenic_49533029,Mijajlo Marsenić,ger1-fuchse,ger-1,172,178,league top 10 CA
+player_intl_julian_koster_5e3b8c5d,Julian Köster,ger1-kiel,ger-1,173,182,league top 10 CA
+player_intl_elias_ellefsen_a_skipag_tu_92161987,Elias Ellefsen á Skipagøtu,ger1-kiel,ger-1,175,188,league top 10 CA
+player_intl_mathias_gidsel_9b0efd74,Mathias Gidsel,ger1-fuchse,ger-1,197,199,league top 10 CA
+player_intl_mathias_gidsel_9b0efd74,Mathias Gidsel,ger1-fuchse,ger-1,197,199,substantially above league distribution (>140% of median)
+player_intl_kjell_suhr_c7f5cd14,Kjell Suhr,ger1-kiel,ger-1,109,135,extreme PA-CA gap (>=20)
+player_intl_rasmus_ankermann_852454ce,Rasmus Ankermann,ger1-kiel,ger-1,111,135,extreme PA-CA gap (>=20)
+player_intl_tobias_dengler_89bd9f7a,Tobias Dengler,ger1-kiel,ger-1,140,160,extreme PA-CA gap (>=20)
+player_intl_nikolaj_l_s_2e955978,Nikolaj Læsø,ger1-wetzlar,ger-1,114,135,extreme PA-CA gap (>=20)
+player_intl_paul_kompenhans_5b30e905,Paul Kompenhans,ger1-wetzlar,ger-1,112,135,extreme PA-CA gap (>=20)
+player_intl_dragan_pechmalbec_0854873e,Dragan Pechmalbec,hun1-veszprem,hun-1,165,168,league bottom 10 CA
+player_intl_nedim_remili_1ce3d75a,Nedim Remili,hun1-veszprem,hun-1,178,185,league bottom 10 CA
+player_intl_dragan_pechmalbec_0854873e,Dragan Pechmalbec,hun1-veszprem,hun-1,165,168,league top 10 CA
+player_intl_nedim_remili_1ce3d75a,Nedim Remili,hun1-veszprem,hun-1,178,185,league top 10 CA
+player_intl_matthias_rattensperger_495e057f,Matthias Rattensperger,int-fivers,int-aut-1,89,120,league bottom 10 CA
+player_intl_lukas_fritsch_8570391c,Lukas Fritsch,int-hard,int-aut-1,98,120,league bottom 10 CA
+player_intl_nico_sager_d188da94,Nico Sager,int-hard,int-aut-1,99,120,league bottom 10 CA
+player_intl_dejan_babic_2c7ba3d6,Dejan Babić,int-hard,int-aut-1,106,120,league bottom 10 CA
+player_intl_tumi_runarsson_bd82719b,Tumi Rúnarsson,int-hard,int-aut-1,140,150,league bottom 10 CA
+player_intl_matthias_rattensperger_495e057f,Matthias Rattensperger,int-fivers,int-aut-1,89,120,league top 10 CA
+player_intl_lukas_fritsch_8570391c,Lukas Fritsch,int-hard,int-aut-1,98,120,league top 10 CA
+player_intl_nico_sager_d188da94,Nico Sager,int-hard,int-aut-1,99,120,league top 10 CA
+player_intl_dejan_babic_2c7ba3d6,Dejan Babić,int-hard,int-aut-1,106,120,league top 10 CA
+player_intl_tumi_runarsson_bd82719b,Tumi Rúnarsson,int-hard,int-aut-1,140,150,league top 10 CA
+player_intl_matthias_rattensperger_495e057f,Matthias Rattensperger,int-fivers,int-aut-1,89,120,extreme PA-CA gap (>=20)
+player_intl_lukas_fritsch_8570391c,Lukas Fritsch,int-hard,int-aut-1,98,120,extreme PA-CA gap (>=20)
+player_intl_nico_sager_d188da94,Nico Sager,int-hard,int-aut-1,99,120,extreme PA-CA gap (>=20)
+player_intl_tumi_runarsson_bd82719b,Tumi Rúnarsson,int-hard,int-aut-1,140,150,substantially above league distribution (>140% of median)
+player_intl_luka_maros_9c0c9644,Luka Maros,int-schaffhausen,int-che-1,77,150,league bottom 10 CA
+player_intl_milan_lutz_3c001429,Milan Lutz,int-schaffhausen,int-che-1,87,150,league bottom 10 CA
+player_intl_frederik_tilsted_12f9edd1,Frederik Tilsted,int-schaffhausen,int-che-1,102,150,league bottom 10 CA
+player_intl_lucas_meister_bb2f725d,Lucas Meister,int-schaffhausen,int-che-1,105,150,league bottom 10 CA
+player_intl_nikos_sarlos_c37b2ecc,Nikos Sarlos,int-schaffhausen,int-che-1,120,150,league bottom 10 CA
+player_intl_o_inn_or_rikhar_sson_8f49e60f,Óðinn Þór Ríkharðsson,int-schaffhausen,int-che-1,178,185,league bottom 10 CA
+player_intl_luka_maros_9c0c9644,Luka Maros,int-schaffhausen,int-che-1,77,150,league top 10 CA
+player_intl_milan_lutz_3c001429,Milan Lutz,int-schaffhausen,int-che-1,87,150,league top 10 CA
+player_intl_frederik_tilsted_12f9edd1,Frederik Tilsted,int-schaffhausen,int-che-1,102,150,league top 10 CA
+player_intl_lucas_meister_bb2f725d,Lucas Meister,int-schaffhausen,int-che-1,105,150,league top 10 CA
+player_intl_nikos_sarlos_c37b2ecc,Nikos Sarlos,int-schaffhausen,int-che-1,120,150,league top 10 CA
+player_intl_o_inn_or_rikhar_sson_8f49e60f,Óðinn Þór Ríkharðsson,int-schaffhausen,int-che-1,178,185,league top 10 CA
+player_intl_frederik_tilsted_12f9edd1,Frederik Tilsted,int-schaffhausen,int-che-1,102,150,extreme PA-CA gap (>=20)
+player_intl_lucas_meister_bb2f725d,Lucas Meister,int-schaffhausen,int-che-1,105,150,extreme PA-CA gap (>=20)
+player_intl_luka_maros_9c0c9644,Luka Maros,int-schaffhausen,int-che-1,77,150,extreme PA-CA gap (>=20)
+player_intl_milan_lutz_3c001429,Milan Lutz,int-schaffhausen,int-che-1,87,150,extreme PA-CA gap (>=20)
+player_intl_nikos_sarlos_c37b2ecc,Nikos Sarlos,int-schaffhausen,int-che-1,120,150,extreme PA-CA gap (>=20)
+player_intl_o_inn_or_rikhar_sson_8f49e60f,Óðinn Þór Ríkharðsson,int-schaffhausen,int-che-1,178,185,substantially above league distribution (>140% of median)
+player_intl_h_gni_heinason_0f145a8b,Høgni Heinason,int-h71,int-fro-1,61,140,league bottom 10 CA
+player_intl_aniano_sakarisson_sakaris_ba2e22f2,Aniano Sakarisson Sakaris,int-h71,int-fro-1,65,140,league bottom 10 CA
+player_intl_h_gni_h_jsted_b2263f93,Høgni Højsted,int-h71,int-fro-1,72,140,league bottom 10 CA
+player_intl_niklas_h_jgaard_hanusson_c2020f59,Niklas Højgaard Hanusson,int-h71,int-fro-1,88,140,league bottom 10 CA
+player_intl_h_gni_heinason_0f145a8b,Høgni Heinason,int-h71,int-fro-1,61,140,league top 10 CA
+player_intl_aniano_sakarisson_sakaris_ba2e22f2,Aniano Sakarisson Sakaris,int-h71,int-fro-1,65,140,league top 10 CA
+player_intl_h_gni_h_jsted_b2263f93,Høgni Højsted,int-h71,int-fro-1,72,140,league top 10 CA
+player_intl_niklas_h_jgaard_hanusson_c2020f59,Niklas Højgaard Hanusson,int-h71,int-fro-1,88,140,league top 10 CA
+player_intl_aniano_sakarisson_sakaris_ba2e22f2,Aniano Sakarisson Sakaris,int-h71,int-fro-1,65,140,extreme PA-CA gap (>=20)
+player_intl_h_gni_heinason_0f145a8b,Høgni Heinason,int-h71,int-fro-1,61,140,extreme PA-CA gap (>=20)
+player_intl_h_gni_h_jsted_b2263f93,Høgni Højsted,int-h71,int-fro-1,72,140,extreme PA-CA gap (>=20)
+player_intl_niklas_h_jgaard_hanusson_c2020f59,Niklas Højgaard Hanusson,int-h71,int-fro-1,88,140,extreme PA-CA gap (>=20)
+player_intl_gabor_levente_varga_5866c354,Gábor Levente Varga,int-veszprem-academy,int-hun-2b,74,140,league bottom 10 CA
+player_intl_barna_czinczas_34b4ac01,Barna Czinczás,int-veszprem-academy,int-hun-2b,89,140,league bottom 10 CA
+player_intl_mate_gancs_peto_9ba556cb,Máté Gáncs-Pető,int-veszprem-academy,int-hun-2b,93,140,league bottom 10 CA
+player_intl_koppany_pinter_3d1d004a,Koppány Pintér,int-veszprem-academy,int-hun-2b,96,140,league bottom 10 CA
+player_intl_nandor_gyori_8b6a6b50,Nándor Győri,int-veszprem-academy,int-hun-2b,104,140,league bottom 10 CA
+player_intl_levente_szabo_a17516f2,Levente Szabó,int-veszprem-academy,int-hun-2b,105,140,league bottom 10 CA
+player_intl_gabor_levente_varga_5866c354,Gábor Levente Varga,int-veszprem-academy,int-hun-2b,74,140,league top 10 CA
+player_intl_barna_czinczas_34b4ac01,Barna Czinczás,int-veszprem-academy,int-hun-2b,89,140,league top 10 CA
+player_intl_mate_gancs_peto_9ba556cb,Máté Gáncs-Pető,int-veszprem-academy,int-hun-2b,93,140,league top 10 CA
+player_intl_koppany_pinter_3d1d004a,Koppány Pintér,int-veszprem-academy,int-hun-2b,96,140,league top 10 CA
+player_intl_nandor_gyori_8b6a6b50,Nándor Győri,int-veszprem-academy,int-hun-2b,104,140,league top 10 CA
+player_intl_levente_szabo_a17516f2,Levente Szabó,int-veszprem-academy,int-hun-2b,105,140,league top 10 CA
+player_intl_barna_czinczas_34b4ac01,Barna Czinczás,int-veszprem-academy,int-hun-2b,89,140,extreme PA-CA gap (>=20)
+player_intl_gabor_levente_varga_5866c354,Gábor Levente Varga,int-veszprem-academy,int-hun-2b,74,140,extreme PA-CA gap (>=20)
+player_intl_koppany_pinter_3d1d004a,Koppány Pintér,int-veszprem-academy,int-hun-2b,96,140,extreme PA-CA gap (>=20)
+player_intl_levente_szabo_a17516f2,Levente Szabó,int-veszprem-academy,int-hun-2b,105,140,extreme PA-CA gap (>=20)
+player_intl_mate_gancs_peto_9ba556cb,Máté Gáncs-Pető,int-veszprem-academy,int-hun-2b,93,140,extreme PA-CA gap (>=20)
+player_intl_nandor_gyori_8b6a6b50,Nándor Győri,int-veszprem-academy,int-hun-2b,104,140,extreme PA-CA gap (>=20)
+player_intl_simon_gerstgrasser_4329070b,Simon Gerstgrasser,int-meran,int-ita-1,93,114,league bottom 10 CA
+player_intl_mirko_faraci_1772ec2c,Mirko Faraci,int-cassano,int-ita-1,103,120,league bottom 10 CA
+player_intl_leonardo_torchiani_ba44b94c,Leonardo Torchiani,int-cologno,int-ita-1,110,130,league bottom 10 CA
+player_intl_simon_gerstgrasser_4329070b,Simon Gerstgrasser,int-meran,int-ita-1,93,114,league top 10 CA
+player_intl_mirko_faraci_1772ec2c,Mirko Faraci,int-cassano,int-ita-1,103,120,league top 10 CA
+player_intl_leonardo_torchiani_ba44b94c,Leonardo Torchiani,int-cologno,int-ita-1,110,130,league top 10 CA
+player_intl_leonardo_torchiani_ba44b94c,Leonardo Torchiani,int-cologno,int-ita-1,110,130,extreme PA-CA gap (>=20)
+player_intl_simon_gerstgrasser_4329070b,Simon Gerstgrasser,int-meran,int-ita-1,93,114,extreme PA-CA gap (>=20)
+player_intl_salvatore_trapani_5fb159cb,Salvatore Trapani,int-fasano,int-ita-2,81,120,league bottom 10 CA
+player_intl_medoune_diagne_5b7c8d6e,Medoune Diagne,int-camerano,int-ita-2,82,120,league bottom 10 CA
+player_intl_davide_pivato_7fe57658,Davide Pivato,int-paese,int-ita-2,93,120,league bottom 10 CA
+player_intl_salvatore_trapani_5fb159cb,Salvatore Trapani,int-fasano,int-ita-2,81,120,league top 10 CA
+player_intl_medoune_diagne_5b7c8d6e,Medoune Diagne,int-camerano,int-ita-2,82,120,league top 10 CA
+player_intl_davide_pivato_7fe57658,Davide Pivato,int-paese,int-ita-2,93,120,league top 10 CA
+player_intl_medoune_diagne_5b7c8d6e,Medoune Diagne,int-camerano,int-ita-2,82,120,extreme PA-CA gap (>=20)
+player_intl_salvatore_trapani_5fb159cb,Salvatore Trapani,int-fasano,int-ita-2,81,120,extreme PA-CA gap (>=20)
+player_intl_davide_pivato_7fe57658,Davide Pivato,int-paese,int-ita-2,93,120,extreme PA-CA gap (>=20)
+player_intl_mads_kamst_34d30414,Mads Kamst,int-aalsmeer,int-ned-1,63,120,league bottom 10 CA
+player_intl_sverre_jansen_5a248e3d,Sverre Jansen,int-bevo,int-ned-1,64,120,league bottom 10 CA
+player_intl_vaidas_trainavicius_4cbfe8d1,Vaidas Trainavičius,int-aalsmeer,int-ned-1,66,120,league bottom 10 CA
+player_intl_mitchel_luijten_1ccb520b,Mitchel Luijten,int-volendam,int-ned-1,72,120,league bottom 10 CA
+player_intl_mirddyn_tol_93b5c406,Mirddyn Tol,int-volendam,int-ned-1,84,120,league bottom 10 CA
+player_intl_mads_kamst_34d30414,Mads Kamst,int-aalsmeer,int-ned-1,63,120,league top 10 CA
+player_intl_sverre_jansen_5a248e3d,Sverre Jansen,int-bevo,int-ned-1,64,120,league top 10 CA
+player_intl_vaidas_trainavicius_4cbfe8d1,Vaidas Trainavičius,int-aalsmeer,int-ned-1,66,120,league top 10 CA
+player_intl_mitchel_luijten_1ccb520b,Mitchel Luijten,int-volendam,int-ned-1,72,120,league top 10 CA
+player_intl_mirddyn_tol_93b5c406,Mirddyn Tol,int-volendam,int-ned-1,84,120,league top 10 CA
+player_intl_mads_kamst_34d30414,Mads Kamst,int-aalsmeer,int-ned-1,63,120,extreme PA-CA gap (>=20)
+player_intl_vaidas_trainavicius_4cbfe8d1,Vaidas Trainavičius,int-aalsmeer,int-ned-1,66,120,extreme PA-CA gap (>=20)
+player_intl_sverre_jansen_5a248e3d,Sverre Jansen,int-bevo,int-ned-1,64,120,extreme PA-CA gap (>=20)
+player_intl_mirddyn_tol_93b5c406,Mirddyn Tol,int-volendam,int-ned-1,84,120,extreme PA-CA gap (>=20)
+player_intl_mitchel_luijten_1ccb520b,Mitchel Luijten,int-volendam,int-ned-1,72,120,extreme PA-CA gap (>=20)
+player_intl_abel_serdio_935870a9,Abel Serdio,int-wisla-plock,int-pol-1,78,140,league bottom 10 CA
+player_intl_lovro_mihic_430183cf,Lovro Mihić,int-wisla-plock,int-pol-1,98,140,league bottom 10 CA
+player_intl_jakub_szyszko_0497792b,Jakub Szyszko,int-wisla-plock,int-pol-1,115,140,league bottom 10 CA
+player_intl_zoltan_szita_3295f7ad,Zoltán Szita,int-wisla-plock,int-pol-1,115,140,league bottom 10 CA
+player_intl_mirko_alilovic_a5ed9b83,Mirko Alilović,int-wisla-plock,int-pol-1,140,178,league bottom 10 CA
+player_intl_miha_zarabec_830562ea,Miha Zarabec,int-wisla-plock,int-pol-1,168,182,league bottom 10 CA
+player_intl_melvyn_richardson_04772bd0,Melvyn Richardson,int-wisla-plock,int-pol-1,172,180,league bottom 10 CA
+player_intl_abel_serdio_935870a9,Abel Serdio,int-wisla-plock,int-pol-1,78,140,league top 10 CA
+player_intl_lovro_mihic_430183cf,Lovro Mihić,int-wisla-plock,int-pol-1,98,140,league top 10 CA
+player_intl_jakub_szyszko_0497792b,Jakub Szyszko,int-wisla-plock,int-pol-1,115,140,league top 10 CA
+player_intl_zoltan_szita_3295f7ad,Zoltán Szita,int-wisla-plock,int-pol-1,115,140,league top 10 CA
+player_intl_mirko_alilovic_a5ed9b83,Mirko Alilović,int-wisla-plock,int-pol-1,140,178,league top 10 CA
+player_intl_miha_zarabec_830562ea,Miha Zarabec,int-wisla-plock,int-pol-1,168,182,league top 10 CA
+player_intl_melvyn_richardson_04772bd0,Melvyn Richardson,int-wisla-plock,int-pol-1,172,180,league top 10 CA
+player_intl_abel_serdio_935870a9,Abel Serdio,int-wisla-plock,int-pol-1,78,140,extreme PA-CA gap (>=20)
+player_intl_jakub_szyszko_0497792b,Jakub Szyszko,int-wisla-plock,int-pol-1,115,140,extreme PA-CA gap (>=20)
+player_intl_lovro_mihic_430183cf,Lovro Mihić,int-wisla-plock,int-pol-1,98,140,extreme PA-CA gap (>=20)
+player_intl_melvyn_richardson_04772bd0,Melvyn Richardson,int-wisla-plock,int-pol-1,172,180,substantially above league distribution (>140% of median)
+player_intl_miha_zarabec_830562ea,Miha Zarabec,int-wisla-plock,int-pol-1,168,182,substantially above league distribution (>140% of median)
+player_intl_mirko_alilovic_a5ed9b83,Mirko Alilović,int-wisla-plock,int-pol-1,140,178,extreme PA-CA gap (>=20)
+player_intl_zoltan_szita_3295f7ad,Zoltán Szita,int-wisla-plock,int-pol-1,115,140,extreme PA-CA gap (>=20)
+player_intl_santiago_povoas_4946ad14,Santiago Póvoas,int-sporting,int-por-1,90,140,league bottom 10 CA
+player_intl_victor_romero_efe99a15,Víctor Romero,int-sporting,int-por-1,106,140,league bottom 10 CA
+player_intl_carlos_alvarez_a3f27f33,Carlos Álvarez,int-sporting,int-por-1,116,140,league bottom 10 CA
+player_intl_diogo_branquinho_ac4c0a70,Diogo Branquinho,int-sporting,int-por-1,122,140,league bottom 10 CA
+player_intl_natan_suarez_6f0ee5ac,Natán Suárez,int-sporting,int-por-1,131,147,league bottom 10 CA
+player_intl_martim_costa_2944e175,Martim Costa,int-sporting,int-por-1,168,172,league bottom 10 CA
+player_intl_francisco_kiko_costa_d07dfd03,Francisco 'Kiko' Costa,int-sporting,int-por-1,182,190,league bottom 10 CA
+player_intl_santiago_povoas_4946ad14,Santiago Póvoas,int-sporting,int-por-1,90,140,league top 10 CA
+player_intl_victor_romero_efe99a15,Víctor Romero,int-sporting,int-por-1,106,140,league top 10 CA
+player_intl_carlos_alvarez_a3f27f33,Carlos Álvarez,int-sporting,int-por-1,116,140,league top 10 CA
+player_intl_diogo_branquinho_ac4c0a70,Diogo Branquinho,int-sporting,int-por-1,122,140,league top 10 CA
+player_intl_natan_suarez_6f0ee5ac,Natán Suárez,int-sporting,int-por-1,131,147,league top 10 CA
+player_intl_martim_costa_2944e175,Martim Costa,int-sporting,int-por-1,168,172,league top 10 CA
+player_intl_francisco_kiko_costa_d07dfd03,Francisco 'Kiko' Costa,int-sporting,int-por-1,182,190,league top 10 CA
+player_intl_carlos_alvarez_a3f27f33,Carlos Álvarez,int-sporting,int-por-1,116,140,extreme PA-CA gap (>=20)
+player_intl_francisco_kiko_costa_d07dfd03,Francisco 'Kiko' Costa,int-sporting,int-por-1,182,190,substantially above league distribution (>140% of median)
+player_intl_santiago_povoas_4946ad14,Santiago Póvoas,int-sporting,int-por-1,90,140,extreme PA-CA gap (>=20)
+player_intl_victor_romero_efe99a15,Víctor Romero,int-sporting,int-por-1,106,140,extreme PA-CA gap (>=20)
+player_intl_hamd_khaled_alaya_d835c750,Hamd Khaled Alaya,int-alduhail,int-qat-1,67,130,league bottom 10 CA
+player_intl_javier_humet_gaminde_0a472145,Javier Humet Gaminde,int-alduhail,int-qat-1,94,130,league bottom 10 CA
+player_intl_hamdi_hadj_ayed_f4425eba,Hamdi Hadj Ayed,int-alduhail,int-qat-1,95,130,league bottom 10 CA
+player_intl_moustafa_heiba_5a750772,Moustafa Heiba,int-alduhail,int-qat-1,102,130,league bottom 10 CA
+player_intl_amine_guehis_25bf228d,Amine Guehis,int-alduhail,int-qat-1,105,125,league bottom 10 CA
+player_intl_bilal_lepenica_5465c7b9,Bilal Lepenica,int-alduhail,int-qat-1,108,130,league bottom 10 CA
+player_intl_hamd_khaled_alaya_d835c750,Hamd Khaled Alaya,int-alduhail,int-qat-1,67,130,league top 10 CA
+player_intl_javier_humet_gaminde_0a472145,Javier Humet Gaminde,int-alduhail,int-qat-1,94,130,league top 10 CA
+player_intl_hamdi_hadj_ayed_f4425eba,Hamdi Hadj Ayed,int-alduhail,int-qat-1,95,130,league top 10 CA
+player_intl_moustafa_heiba_5a750772,Moustafa Heiba,int-alduhail,int-qat-1,102,130,league top 10 CA
+player_intl_amine_guehis_25bf228d,Amine Guehis,int-alduhail,int-qat-1,105,125,league top 10 CA
+player_intl_bilal_lepenica_5465c7b9,Bilal Lepenica,int-alduhail,int-qat-1,108,130,league top 10 CA
+player_intl_amine_guehis_25bf228d,Amine Guehis,int-alduhail,int-qat-1,105,125,extreme PA-CA gap (>=20)
+player_intl_bilal_lepenica_5465c7b9,Bilal Lepenica,int-alduhail,int-qat-1,108,130,extreme PA-CA gap (>=20)
+player_intl_hamd_khaled_alaya_d835c750,Hamd Khaled Alaya,int-alduhail,int-qat-1,67,130,extreme PA-CA gap (>=20)
+player_intl_hamdi_hadj_ayed_f4425eba,Hamdi Hadj Ayed,int-alduhail,int-qat-1,95,130,extreme PA-CA gap (>=20)
+player_intl_javier_humet_gaminde_0a472145,Javier Humet Gaminde,int-alduhail,int-qat-1,94,130,extreme PA-CA gap (>=20)
+player_intl_moustafa_heiba_5a750772,Moustafa Heiba,int-alduhail,int-qat-1,102,130,extreme PA-CA gap (>=20)
+player_intl_daniel_orn_gu_mundsson_7f2f4533,Daníel Örn Guðmundsson,isl1-valur,isl-1,120,130,league bottom 10 CA
+player_intl_gunnar_robertsson_e2320300,Gunnar Róbertsson,isl1-valur,isl-1,120,165,league bottom 10 CA
+player_intl_magnus_oli_magnusson_958da689,Magnús Óli Magnússon,isl1-valur,isl-1,120,140,league bottom 10 CA
+player_intl_orvaldur_orn_orvaldsson_fdb1737b,Þorvaldur Örn Þorvaldsson,isl1-valur,isl-1,122,128,league bottom 10 CA
+player_intl_agnar_smari_jonsson_90d14fd9,Agnar Smári Jónsson,isl1-valur,isl-1,130,150,league bottom 10 CA
+player_intl_allan_nor_berg_da0e1197,Allan Norðberg,isl1-valur,isl-1,130,150,league bottom 10 CA
+player_intl_bjorgvin_pall_gustavsson_aa996f6b,Björgvin Páll Gústavsson,isl1-valur,isl-1,150,180,league bottom 10 CA
+player_intl_daniel_orn_gu_mundsson_7f2f4533,Daníel Örn Guðmundsson,isl1-valur,isl-1,120,130,league top 10 CA
+player_intl_gunnar_robertsson_e2320300,Gunnar Róbertsson,isl1-valur,isl-1,120,165,league top 10 CA
+player_intl_magnus_oli_magnusson_958da689,Magnús Óli Magnússon,isl1-valur,isl-1,120,140,league top 10 CA
+player_intl_orvaldur_orn_orvaldsson_fdb1737b,Þorvaldur Örn Þorvaldsson,isl1-valur,isl-1,122,128,league top 10 CA
+player_intl_agnar_smari_jonsson_90d14fd9,Agnar Smári Jónsson,isl1-valur,isl-1,130,150,league top 10 CA
+player_intl_allan_nor_berg_da0e1197,Allan Norðberg,isl1-valur,isl-1,130,150,league top 10 CA
+player_intl_bjorgvin_pall_gustavsson_aa996f6b,Björgvin Páll Gústavsson,isl1-valur,isl-1,150,180,league top 10 CA
+player_intl_agnar_smari_jonsson_90d14fd9,Agnar Smári Jónsson,isl1-valur,isl-1,130,150,extreme PA-CA gap (>=20)
+player_intl_allan_nor_berg_da0e1197,Allan Norðberg,isl1-valur,isl-1,130,150,extreme PA-CA gap (>=20)
+player_intl_bjorgvin_pall_gustavsson_aa996f6b,Björgvin Páll Gústavsson,isl1-valur,isl-1,150,180,extreme PA-CA gap (>=20)
+player_intl_gunnar_robertsson_e2320300,Gunnar Róbertsson,isl1-valur,isl-1,120,165,extreme PA-CA gap (>=20)
+player_intl_magnus_oli_magnusson_958da689,Magnús Óli Magnússon,isl1-valur,isl-1,120,140,extreme PA-CA gap (>=20)
+player_intl_benjamin_berg_0830adfc,Benjamin Berg,nor1-elverum,nor-1,125,135,league bottom 10 CA
+player_intl_dominik_mathe_87f8d8a1,Dominik Máthé,nor1-elverum,nor-1,125,135,league bottom 10 CA
+player_intl_kevin_gulliksen_cd1e04f0,Kevin Gulliksen,nor1-elverum,nor-1,125,135,league bottom 10 CA
+player_intl_mario_matic_036ea463,Mario Matic,nor1-elverum,nor-1,125,135,league bottom 10 CA
+player_intl_marius_bakkedal_andersen_d68eb7ae,Marius Bakkedal-Andersen,nor1-elverum,nor-1,125,135,league bottom 10 CA
+player_intl_mounir_chehri_a55a2421,Mounir Chehri,nor1-elverum,nor-1,125,135,league bottom 10 CA
+player_intl_tryggvi_orisson_37bd8907,Tryggvi Þórisson,nor1-elverum,nor-1,130,150,league bottom 10 CA
+player_intl_erik_thorsteinsen_toft_f3587a9c,Erik Thorsteinsen Toft,nor1-elverum,nor-1,143,151,league bottom 10 CA
+player_intl_benjamin_berg_0830adfc,Benjamin Berg,nor1-elverum,nor-1,125,135,league top 10 CA
+player_intl_dominik_mathe_87f8d8a1,Dominik Máthé,nor1-elverum,nor-1,125,135,league top 10 CA
+player_intl_kevin_gulliksen_cd1e04f0,Kevin Gulliksen,nor1-elverum,nor-1,125,135,league top 10 CA
+player_intl_mario_matic_036ea463,Mario Matic,nor1-elverum,nor-1,125,135,league top 10 CA
+player_intl_marius_bakkedal_andersen_d68eb7ae,Marius Bakkedal-Andersen,nor1-elverum,nor-1,125,135,league top 10 CA
+player_intl_mounir_chehri_a55a2421,Mounir Chehri,nor1-elverum,nor-1,125,135,league top 10 CA
+player_intl_tryggvi_orisson_37bd8907,Tryggvi Þórisson,nor1-elverum,nor-1,130,150,league top 10 CA
+player_intl_erik_thorsteinsen_toft_f3587a9c,Erik Thorsteinsen Toft,nor1-elverum,nor-1,143,151,league top 10 CA
+player_intl_tryggvi_orisson_37bd8907,Tryggvi Þórisson,nor1-elverum,nor-1,130,150,extreme PA-CA gap (>=20)
+player_oliver_lind_wallgren_1db089fe,Oliver Lind Wallgren,se_club_bodens_bk_hf,se_division1_norra,64,73,league bottom 10 CA
+player_ville_naslund_fc0ce2c9,Ville Näslund,se_club_bodens_bk_hf,se_division1_norra,64,76,league bottom 10 CA
+player_vigge_juthe_lundin_53892ce6,Vigge Juthe Lundin,se_club_ik_bolton,se_division1_norra,64,66,league bottom 10 CA
+player_carl_spangberg_b0bfc8a1,Carl Spångberg,se_club_sannadals_sk,se_division1_norra,64,69,league bottom 10 CA
+player_viktor_vikander_6df7ddd4,Viktor Vikander,se_club_sannadals_sk,se_division1_norra,64,86,league bottom 10 CA
+player_hampus_sallstrom_723613f6,Hampus Sällström,se_club_hk_eskil,se_division1_norra,65,85,league bottom 10 CA
+player_marcus_pramborg_178bc332,Marcus Pramborg,se_club_ik_bolton,se_division1_norra,65,69,league bottom 10 CA
+player_nicolai_aasnes_0b909b4d,Nicolai Aasnes,se_club_ik_bolton,se_division1_norra,65,66,league bottom 10 CA
+player_melker_ramstrom_0c4733f1,Melker Ramström,se_club_rimbo_hk_roslagen,se_division1_norra,65,77,league bottom 10 CA
+player_james_hau_9c810d5e,James Hau,se_club_sannadals_sk,se_division1_norra,65,82,league bottom 10 CA
+player_yoshi_ronning_7f193cea,Yoshi Rönning,se_club_sannadals_sk,se_division1_norra,115,131,league top 10 CA
+player_valle_ljunghill_8e92205f,Valle Ljunghill,se_club_ik_bolton,se_division1_norra,116,121,league top 10 CA
+player_anton_flood_8a433ada,Anton Flood,se_club_lif_lindesberg,se_division1_norra,116,127,league top 10 CA
+player_gustav_mellgren_d8d94ca9,Gustav Mellgren,se_club_lif_lindesberg,se_division1_norra,116,141,league top 10 CA
+player_svante_eriksson_bae5c781,Svante Eriksson,se_club_rp_if_linkoping,se_division1_norra,116,144,league top 10 CA
+player_gustaf_berg_146525e6,Gustaf Berg,se_club_taby_hbk,se_division1_norra,116,144,league top 10 CA
+player_tom_grenas_29fe897c,Tom Grenås,se_club_taby_hbk,se_division1_norra,116,126,league top 10 CA
+player_gustav_nygren_697ed53a,Gustav Nygren,se_club_uppsala_hk,se_division1_norra,116,120,league top 10 CA
+player_mortimer_lundh_a6f89246,Mortimer Lundh,se_club_hk_eskil,se_division1_norra,120,140,league top 10 CA
+player_leonard_borjesson_e540e472,Leonard Börjesson,se_club_taby_hbk,se_division1_norra,120,150,league top 10 CA
+player_arvid_pettersson_7a61f136,Arvid Pettersson,se_club_bodens_bk_hf,se_division1_norra,90,120,extreme PA-CA gap (>=20)
+player_dennis_sjolund_746b0f31,Dennis Sjölund,se_club_bodens_bk_hf,se_division1_norra,79,100,extreme PA-CA gap (>=20)
+player_harry_keith_09c11583,Harry Keith,se_club_bodens_bk_hf,se_division1_norra,89,109,extreme PA-CA gap (>=20)
+player_joel_lindstrom_bcc9107a,Joel Lindström,se_club_bodens_bk_hf,se_division1_norra,73,99,extreme PA-CA gap (>=20)
+player_joel_tornblom_johansson_bd1547d6,Joel Törnblom Johansson,se_club_bodens_bk_hf,se_division1_norra,100,141,extreme PA-CA gap (>=20)
+player_kjell_eriksson_aada2661,Kjell Eriksson,se_club_bodens_bk_hf,se_division1_norra,105,132,extreme PA-CA gap (>=20)
+player_mattias_killmey_93e3a257,Mattias Killmey,se_club_bodens_bk_hf,se_division1_norra,80,105,extreme PA-CA gap (>=20)
+player_morgan_lindstrom_8ede3dcf,Morgan Lindström,se_club_bodens_bk_hf,se_division1_norra,101,121,extreme PA-CA gap (>=20)
+player_noah_kaspersen_9ef4bf8d,Noah Kaspersen,se_club_bodens_bk_hf,se_division1_norra,87,114,extreme PA-CA gap (>=20)
+player_vilgot_vikstrom_bcbf6a86,Vilgot Vikström,se_club_bodens_bk_hf,se_division1_norra,110,130,extreme PA-CA gap (>=20)
+player_albin_skold_10cfd3dc,Albin Sköld,se_club_enkopings_hf,se_division1_norra,90,116,extreme PA-CA gap (>=20)
+player_anton_segersten_ea7fb8ef,Anton Segersten,se_club_enkopings_hf,se_division1_norra,70,96,extreme PA-CA gap (>=20)
+player_linus_hjortman_8e853363,Linus Hjortman,se_club_enkopings_hf,se_division1_norra,98,118,extreme PA-CA gap (>=20)
+player_matteo_bubini_cbced427,Matteo Bubini,se_club_enkopings_hf,se_division1_norra,72,100,extreme PA-CA gap (>=20)
+player_milton_grip_7dd8598d,Milton Grip,se_club_enkopings_hf,se_division1_norra,74,100,extreme PA-CA gap (>=20)
+player_alvar_rehnstrom_662b9863,Alvar Rehnström,se_club_hk_cliff,se_division1_norra,100,140,extreme PA-CA gap (>=20)
+player_emmet_broman_1bbd897a,Emmet Broman,se_club_hk_cliff,se_division1_norra,95,120,extreme PA-CA gap (>=20)
+player_erik_svartbro_762e2fbc,Erik Svartbro,se_club_hk_cliff,se_division1_norra,112,139,extreme PA-CA gap (>=20)
+player_neo_brattnas_e58fdfc5,Neo Brattnäs,se_club_hk_cliff,se_division1_norra,110,140,extreme PA-CA gap (>=20)
+player_olle_sommar_e0ed912f,Olle Sommar,se_club_hk_cliff,se_division1_norra,108,136,extreme PA-CA gap (>=20)
+player_oscar_westblad_5a0083df,Oscar Westblad,se_club_hk_cliff,se_division1_norra,77,101,extreme PA-CA gap (>=20)
+player_rasmus_berge_fhinn_e5a42060,Rasmus Berge Fhinn,se_club_hk_cliff,se_division1_norra,85,105,extreme PA-CA gap (>=20)
+player_simon_hedlund_2e446f63,Simon Hedlund,se_club_hk_cliff,se_division1_norra,81,107,extreme PA-CA gap (>=20)
+player_vincent_ekberg_ba92fc53,Vincent Ekberg,se_club_hk_cliff,se_division1_norra,90,120,extreme PA-CA gap (>=20)
+player_albin_ahlin_355315c7,Albin Ahlin,se_club_hk_eskil,se_division1_norra,69,94,extreme PA-CA gap (>=20)
+player_daniel_olsson_79347e84,Daniel Olsson,se_club_hk_eskil,se_division1_norra,110,136,extreme PA-CA gap (>=20)
+player_hampus_sallstrom_723613f6,Hampus Sällström,se_club_hk_eskil,se_division1_norra,65,85,extreme PA-CA gap (>=20)
+player_isac_larsson_2aa65aa7,Isac Larsson,se_club_hk_eskil,se_division1_norra,66,92,extreme PA-CA gap (>=20)
+player_linus_gustafsson_434ab04e,Linus Gustafsson,se_club_hk_eskil,se_division1_norra,97,122,extreme PA-CA gap (>=20)
+player_mortimer_lundh_a6f89246,Mortimer Lundh,se_club_hk_eskil,se_division1_norra,120,140,extreme PA-CA gap (>=20)
+player_adam_alerstedt_c1dcc980,Adam Alerstedt,se_club_ik_bolton,se_division1_norra,86,113,extreme PA-CA gap (>=20)
+player_adam_jonsson_baa08c7e,Adam Jonsson,se_club_ik_bolton,se_division1_norra,79,104,extreme PA-CA gap (>=20)
+player_hugo_aronsson_6592c494,Hugo Aronsson,se_club_ik_bolton,se_division1_norra,114,139,extreme PA-CA gap (>=20)
+player_isak_lauridsen_2437e3d2,Isak Lauridsen,se_club_ik_bolton,se_division1_norra,74,102,extreme PA-CA gap (>=20)
+player_joel_bellander_de377399,Joel Bellander,se_club_ik_bolton,se_division1_norra,75,100,extreme PA-CA gap (>=20)
+player_robin_nystrom_8e48417a,Robin Nyström,se_club_ik_bolton,se_division1_norra,99,127,extreme PA-CA gap (>=20)
+player_tim_glimmerud_gullbjork_ebb1a272,Tim Glimmerud Gullbjörk,se_club_ik_bolton,se_division1_norra,75,100,extreme PA-CA gap (>=20)
+player_tom_af_klercker_7ed6489f,Tom af Klercker,se_club_ik_bolton,se_division1_norra,70,98,extreme PA-CA gap (>=20)
+player_anton_hjalmarsson_bb8f2932,Anton Hjalmarsson,se_club_lif_lindesberg,se_division1_norra,83,110,extreme PA-CA gap (>=20)
+player_charlie_auer_4490b79d,Charlie Auer,se_club_lif_lindesberg,se_division1_norra,69,95,extreme PA-CA gap (>=20)
+player_gustav_mellgren_d8d94ca9,Gustav Mellgren,se_club_lif_lindesberg,se_division1_norra,116,141,extreme PA-CA gap (>=20)
+player_karl_zetterlund_ab53b228,Karl Zetterlund,se_club_lif_lindesberg,se_division1_norra,75,97,extreme PA-CA gap (>=20)
+player_valter_alenback_885fb956,Valter Alenback,se_club_lif_lindesberg,se_division1_norra,85,112,extreme PA-CA gap (>=20)
+player_axel_magnusson_c522dff1,Axel Magnusson,se_club_orebro_sk_hk_herr,se_division1_norra,80,100,extreme PA-CA gap (>=20)
+player_edvin_hadzimusic_7cf7faaf,Edvin Hadzimusic,se_club_orebro_sk_hk_herr,se_division1_norra,101,128,extreme PA-CA gap (>=20)
+player_karlo_seric_55e9e662,Karlo Seric,se_club_orebro_sk_hk_herr,se_division1_norra,104,124,extreme PA-CA gap (>=20)
+player_linus_lofgren_a0105c57,Linus Löfgren,se_club_orebro_sk_hk_herr,se_division1_norra,83,111,extreme PA-CA gap (>=20)
+player_lucas_edlund_cebe9bb0,Lucas Edlund,se_club_orebro_sk_hk_herr,se_division1_norra,68,96,extreme PA-CA gap (>=20)
+player_sami_kollgard_42275f82,Sami Kollgård,se_club_orebro_sk_hk_herr,se_division1_norra,76,98,extreme PA-CA gap (>=20)
+player_svante_sten_5459bbc6,Svante Sten,se_club_orebro_sk_hk_herr,se_division1_norra,74,94,extreme PA-CA gap (>=20)
+player_jeff_tollbring_6a336e1b,Jeff Tollbring,se_club_rimbo_hk_roslagen,se_division1_norra,100,165,extreme PA-CA gap (>=20)
+player_ken_tollbring_e7e81dc5,Ken Tollbring,se_club_rimbo_hk_roslagen,se_division1_norra,100,150,extreme PA-CA gap (>=20)
+player_lukas_eriksson_3c4d72b9,Lukas Eriksson,se_club_rimbo_hk_roslagen,se_division1_norra,67,90,extreme PA-CA gap (>=20)
+player_olle_edlind_01d903a5,Olle Edlind,se_club_rimbo_hk_roslagen,se_division1_norra,84,108,extreme PA-CA gap (>=20)
+player_simon_wetter_ac7351dc,Simon Wetter,se_club_rimbo_hk_roslagen,se_division1_norra,106,132,extreme PA-CA gap (>=20)
+player_erik_krantz_10822ffb,Erik Krantz,se_club_rp_if_linkoping,se_division1_norra,115,136,extreme PA-CA gap (>=20)
+player_gustav_roos_c89f83aa,Gustav Roos,se_club_rp_if_linkoping,se_division1_norra,68,90,extreme PA-CA gap (>=20)
+player_hannes_karlsson_edfdc4db,Hannes Karlsson,se_club_rp_if_linkoping,se_division1_norra,76,96,extreme PA-CA gap (>=20)
+player_leo_malmberg_0c315963,Leo Malmberg,se_club_rp_if_linkoping,se_division1_norra,75,100,extreme PA-CA gap (>=20)
+player_markus_stegefelt_8aedec38,Markus Stegefelt,se_club_rp_if_linkoping,se_division1_norra,110,150,extreme PA-CA gap (>=20)
+player_sebastian_karlsson_58aac618,Sebastian Karlsson,se_club_rp_if_linkoping,se_division1_norra,115,143,extreme PA-CA gap (>=20)
+player_svante_eriksson_bae5c781,Svante Eriksson,se_club_rp_if_linkoping,se_division1_norra,116,144,extreme PA-CA gap (>=20)
+player_william_andersson_9f41b302,William Andersson,se_club_rp_if_linkoping,se_division1_norra,110,135,extreme PA-CA gap (>=20)
+player_albin_franzen_lindfors_6c2887b7,Albin Franzén Lindfors,se_club_sannadals_sk,se_division1_norra,95,121,extreme PA-CA gap (>=20)
+player_albin_persson_8cd4500e,Albin Persson,se_club_sannadals_sk,se_division1_norra,89,116,extreme PA-CA gap (>=20)
+player_anton_valdna_fc305217,Anton Valdna,se_club_sannadals_sk,se_division1_norra,94,119,extreme PA-CA gap (>=20)
+player_daniel_jonsson_9f0c2663,Daniel Jonsson,se_club_sannadals_sk,se_division1_norra,113,138,extreme PA-CA gap (>=20)
+player_daniel_leven_71e50a60,Daniel Levén,se_club_sannadals_sk,se_division1_norra,89,115,extreme PA-CA gap (>=20)
+player_emanuel_einarsson_2e602d44,Emanuel Einarsson,se_club_sannadals_sk,se_division1_norra,110,132,extreme PA-CA gap (>=20)
+player_erik_hornell_lindfors_a580b769,Erik Hörnell Lindfors,se_club_sannadals_sk,se_division1_norra,115,141,extreme PA-CA gap (>=20)
+player_franke_bjorses_05c2b20a,Franke Björses,se_club_sannadals_sk,se_division1_norra,95,118,extreme PA-CA gap (>=20)
+player_gustav_malmstrom_6d3a8c97,Gustav Malmström,se_club_sannadals_sk,se_division1_norra,113,134,extreme PA-CA gap (>=20)
+player_hakvin_stromquist_b6b05ee5,Hakvin Strömquist,se_club_sannadals_sk,se_division1_norra,73,95,extreme PA-CA gap (>=20)
+player_jesper_falt_52fb489d,Jesper Fält,se_club_sannadals_sk,se_division1_norra,77,101,extreme PA-CA gap (>=20)
+player_johan_hammarberg_37fbdb6f,Johan Hammarberg,se_club_sannadals_sk,se_division1_norra,113,140,extreme PA-CA gap (>=20)
+player_johan_waltin_b09b8d88,Johan Waltin,se_club_sannadals_sk,se_division1_norra,110,132,extreme PA-CA gap (>=20)
+player_karl_lundqvist_karlsson_0e26b09e,Karl Lundqvist Karlsson,se_club_sannadals_sk,se_division1_norra,65,89,extreme PA-CA gap (>=20)
+player_marcus_nylund_235313fd,Marcus Nylund,se_club_sannadals_sk,se_division1_norra,110,136,extreme PA-CA gap (>=20)
+player_maximilian_pancini_27c61c53,Maximilian Pancini,se_club_sannadals_sk,se_division1_norra,100,125,extreme PA-CA gap (>=20)
+player_simon_nyberg_64d192a9,Simon Nyberg,se_club_sannadals_sk,se_division1_norra,114,137,extreme PA-CA gap (>=20)
+player_viktor_vikander_6df7ddd4,Viktor Vikander,se_club_sannadals_sk,se_division1_norra,64,86,extreme PA-CA gap (>=20)
+player_gustaf_berg_146525e6,Gustaf Berg,se_club_taby_hbk,se_division1_norra,116,144,extreme PA-CA gap (>=20)
+player_hannes_svanelid_57cea04e,Hannes Svanelid,se_club_taby_hbk,se_division1_norra,65,86,extreme PA-CA gap (>=20)
+player_leonard_borjesson_e540e472,Leonard Börjesson,se_club_taby_hbk,se_division1_norra,120,150,extreme PA-CA gap (>=20)
+player_mans_moller_55c43ecf,Måns Möller,se_club_taby_hbk,se_division1_norra,100,124,extreme PA-CA gap (>=20)
+player_vilhelm_ager_dab3f72c,Vilhelm Ager,se_club_taby_hbk,se_division1_norra,72,98,extreme PA-CA gap (>=20)
+player_adrian_glemhorn_8ac88f2b,Adrian Glemhorn,se_club_uppsala_hk,se_division1_norra,110,133,extreme PA-CA gap (>=20)
+player_anton_mard_7c773538,Anton Mård,se_club_uppsala_hk,se_division1_norra,75,99,extreme PA-CA gap (>=20)
+player_carl_dahlin_dff97cff,Carl Dahlin,se_club_uppsala_hk,se_division1_norra,84,112,extreme PA-CA gap (>=20)
+player_douglas_skold_233d6d14,Douglas Sköld,se_club_uppsala_hk,se_division1_norra,95,123,extreme PA-CA gap (>=20)
+player_hugo_sax_loman_6763f37a,Hugo Sax Loman,se_club_uppsala_hk,se_division1_norra,99,126,extreme PA-CA gap (>=20)
+player_karl_baky_52982eda,Karl Baky,se_club_uppsala_hk,se_division1_norra,67,88,extreme PA-CA gap (>=20)
+player_melker_astrom_b636ce34,Melker Åström,se_club_uppsala_hk,se_division1_norra,83,104,extreme PA-CA gap (>=20)
+player_william_andersson_b36be3a0,William Andersson,se_club_uppsala_hk,se_division1_norra,105,125,extreme PA-CA gap (>=20)
+player_emil_wandas_b61ce7b1,Emil Wandås,se_club_ahus_handboll,se_division1_sodra,64,84,league bottom 10 CA
+player_olle_einarsson_11be498d,Olle Einarsson,se_club_ahus_handboll,se_division1_sodra,64,86,league bottom 10 CA
+player_rasmus_hallerhed_7110f713,Rasmus Hallerhed,se_club_hk_country,se_division1_sodra,64,90,league bottom 10 CA
+player_gustav_noaksson_c00f03c5,Gustav Noaksson,se_club_hk_s_hof,se_division1_sodra,64,90,league bottom 10 CA
+player_melwin_hagstrom_b885b42f,Melwin Hagström,se_club_hp_alingsas,se_division1_sodra,64,91,league bottom 10 CA
+player_isac_sandstrom_a9cdd24f,Isac Sandström,se_club_ik_lagan,se_division1_sodra,64,81,league bottom 10 CA
+player_simon_lilja_b926d085,Simon Lilja,se_club_karra_hf,se_division1_sodra,64,90,league bottom 10 CA
+player_gustaf_karlsson_764089a8,Gustaf Karlsson,se_club_hk_country,se_division1_sodra,65,76,league bottom 10 CA
+player_olle_friberg_4c329fd6,Olle Friberg,se_club_hk_country,se_division1_sodra,65,83,league bottom 10 CA
+player_viggo_fryden_1ef212ce,Viggo Frydén,se_club_hk_country,se_division1_sodra,65,93,league bottom 10 CA
+player_elias_mohlin_788e5bef,Elias Mohlin,se_club_anderstorps_sk,se_division1_sodra,115,133,league top 10 CA
+player_hampus_andersson_78038b2e,Hampus Andersson,se_club_hk_s_hof,se_division1_sodra,115,119,league top 10 CA
+player_benjamin_frank_fc206a8e,Benjamin Frank,se_club_if_kristianstad,se_division1_sodra,115,136,league top 10 CA
+player_hugo_svensson_744cb836,Hugo Svensson,se_club_vinslovs_hk,se_division1_sodra,115,143,league top 10 CA
+player_inge_eriksen_e4d65400,Inge Eriksen,se_club_vinslovs_hk,se_division1_sodra,115,118,league top 10 CA
+player_adam_hansson_09534500,Adam Hansson,se_club_eslovs_hk,se_division1_sodra,116,133,league top 10 CA
+player_gustav_rinkefjord_107235d6,Gustav Rinkefjord,se_club_hk_country,se_division1_sodra,116,120,league top 10 CA
+player_felix_johansson_6326df01,Felix Johansson,se_club_hp_warta,se_division1_sodra,116,139,league top 10 CA
+player_johan_samuelsson_c5dde134,Johan Samuelsson,se_club_hp_warta,se_division1_sodra,116,141,league top 10 CA
+player_ossian_oredsson_c46a06f7,Ossian Oredsson,se_club_if_kristianstad,se_division1_sodra,116,131,league top 10 CA
+player_axel_svensson_eb71c045,Axel Svensson,se_club_ahus_handboll,se_division1_sodra,90,113,extreme PA-CA gap (>=20)
+player_emil_wandas_b61ce7b1,Emil Wandås,se_club_ahus_handboll,se_division1_sodra,64,84,extreme PA-CA gap (>=20)
+player_felix_pering_57384d4a,Felix Pering,se_club_ahus_handboll,se_division1_sodra,86,112,extreme PA-CA gap (>=20)
+player_hilding_bosson_366e3676,Hilding Bosson,se_club_ahus_handboll,se_division1_sodra,111,139,extreme PA-CA gap (>=20)
+player_hjalmar_blanking_b0954d9c,Hjalmar Blanking,se_club_ahus_handboll,se_division1_sodra,69,90,extreme PA-CA gap (>=20)
+player_hugo_rydberg_cbe9cec2,Hugo Rydberg,se_club_ahus_handboll,se_division1_sodra,99,127,extreme PA-CA gap (>=20)
+player_max_johansson_00d2fa16,Max Johansson,se_club_ahus_handboll,se_division1_sodra,109,129,extreme PA-CA gap (>=20)
+player_olle_einarsson_11be498d,Olle Einarsson,se_club_ahus_handboll,se_division1_sodra,64,86,extreme PA-CA gap (>=20)
+player_oscar_svanstrom_9cdc9186,Oscar Svanström,se_club_ahus_handboll,se_division1_sodra,114,134,extreme PA-CA gap (>=20)
+player_axel_magnusson_ac70503b,Axel Magnusson,se_club_anderstorps_sk,se_division1_sodra,99,126,extreme PA-CA gap (>=20)
+player_linus_thulin_39452643,Linus Thulin,se_club_anderstorps_sk,se_division1_sodra,114,135,extreme PA-CA gap (>=20)
+player_sebastian_wald_a965e099,Sebastian Wald,se_club_anderstorps_sk,se_division1_sodra,80,102,extreme PA-CA gap (>=20)
+player_theo_arrhenius_b78f3c97,Theo Arrhenius,se_club_anderstorps_sk,se_division1_sodra,84,111,extreme PA-CA gap (>=20)
+player_eero_strombacka_dd49828a,Eero Strömbacka,se_club_eslovs_hk,se_division1_sodra,93,113,extreme PA-CA gap (>=20)
+player_fabian_nilsson_10cb81e7,Fabian Nilsson,se_club_eslovs_hk,se_division1_sodra,91,113,extreme PA-CA gap (>=20)
+player_filip_soderstrom_66753da0,Filip Söderström,se_club_eslovs_hk,se_division1_sodra,84,108,extreme PA-CA gap (>=20)
+player_gabriel_nilsson_7876b2c1,Gabriel Nilsson,se_club_eslovs_hk,se_division1_sodra,94,121,extreme PA-CA gap (>=20)
+player_isak_harsjo_c6f536ab,Isak Härsjö,se_club_eslovs_hk,se_division1_sodra,66,94,extreme PA-CA gap (>=20)
+player_joel_ekstrand_484a96a2,Joel Ekstrand,se_club_eslovs_hk,se_division1_sodra,71,95,extreme PA-CA gap (>=20)
+player_max_andersson_a030f36f,Max Andersson,se_club_eslovs_hk,se_division1_sodra,97,122,extreme PA-CA gap (>=20)
+player_melvin_svensson_d8ffe823,Melvin Svensson,se_club_eslovs_hk,se_division1_sodra,83,104,extreme PA-CA gap (>=20)
+player_oscar_hansson_9e867a34,Oscar Hansson,se_club_eslovs_hk,se_division1_sodra,106,131,extreme PA-CA gap (>=20)
+player_elliot_kangas_da004a52,Elliot Kangas,se_club_hk_country,se_division1_sodra,98,122,extreme PA-CA gap (>=20)
+player_filip_winblad_7c6000cc,Filip Winblad,se_club_hk_country,se_division1_sodra,100,126,extreme PA-CA gap (>=20)
+player_jonathan_otter_ff91de1c,Jonathan Otter,se_club_hk_country,se_division1_sodra,94,116,extreme PA-CA gap (>=20)
+player_lukas_gustafsson_498cc74a,Lukas Gustafsson,se_club_hk_country,se_division1_sodra,109,129,extreme PA-CA gap (>=20)
+player_melvin_rohdin_5aecfaf8,Melvin Rohdin,se_club_hk_country,se_division1_sodra,113,137,extreme PA-CA gap (>=20)
+player_per_hedman_43396a88,Per Hedman,se_club_hk_country,se_division1_sodra,90,114,extreme PA-CA gap (>=20)
+player_philip_pettersson_22088c95,Philip Pettersson,se_club_hk_country,se_division1_sodra,100,124,extreme PA-CA gap (>=20)
+player_rasmus_hallerhed_7110f713,Rasmus Hallerhed,se_club_hk_country,se_division1_sodra,64,90,extreme PA-CA gap (>=20)
+player_viggo_fryden_1ef212ce,Viggo Frydén,se_club_hk_country,se_division1_sodra,65,93,extreme PA-CA gap (>=20)
+player_william_fock_eb70ce4a,William Fock,se_club_hk_country,se_division1_sodra,66,87,extreme PA-CA gap (>=20)
+player_anton_probstl_f2ca5d8d,Anton Pröbstl,se_club_hk_onnerediterna,se_division1_sodra,112,132,extreme PA-CA gap (>=20)
+player_elliot_lundstad_33ed7ef3,Elliot Lundstad,se_club_hk_onnerediterna,se_division1_sodra,104,124,extreme PA-CA gap (>=20)
+player_fabian_simonsson_d4a53e4f,Fabian Simonsson,se_club_hk_onnerediterna,se_division1_sodra,72,96,extreme PA-CA gap (>=20)
+player_felix_fredriksson_ce60a292,Felix Fredriksson,se_club_hk_onnerediterna,se_division1_sodra,92,118,extreme PA-CA gap (>=20)
+player_fredrik_fredriksson_20eeb3dc,Fredrik Fredriksson,se_club_hk_onnerediterna,se_division1_sodra,105,133,extreme PA-CA gap (>=20)
+player_hugo_edin_92337c4e,Hugo Edin,se_club_hk_onnerediterna,se_division1_sodra,88,113,extreme PA-CA gap (>=20)
+player_isak_magnusson_beebdd1f,Isak Magnusson,se_club_hk_onnerediterna,se_division1_sodra,102,124,extreme PA-CA gap (>=20)
+player_lukas_stromstedt_e900436c,Lukas Strömstedt,se_club_hk_onnerediterna,se_division1_sodra,77,104,extreme PA-CA gap (>=20)
+player_milo_knaapinen_3a3d7aa7,Milo Knaapinen,se_club_hk_onnerediterna,se_division1_sodra,106,129,extreme PA-CA gap (>=20)
+player_tristan_atterhall_f1a35177,Tristan Atterhäll,se_club_hk_onnerediterna,se_division1_sodra,65,85,extreme PA-CA gap (>=20)
+player_william_pusa_e9e9ca10,William Pusa,se_club_hk_onnerediterna,se_division1_sodra,107,127,extreme PA-CA gap (>=20)
+player_yosef_mousa_d57ff21e,Yosef Mousa,se_club_hk_onnerediterna,se_division1_sodra,65,90,extreme PA-CA gap (>=20)
+player_axel_nyth_b794376a,Axel Nyth,se_club_hk_s_hof,se_division1_sodra,67,93,extreme PA-CA gap (>=20)
+player_bill_morlid_dae2df82,Bill Mörlid,se_club_hk_s_hof,se_division1_sodra,69,91,extreme PA-CA gap (>=20)
+player_gustav_noaksson_c00f03c5,Gustav Noaksson,se_club_hk_s_hof,se_division1_sodra,64,90,extreme PA-CA gap (>=20)
+player_leo_sjostrand_dac65314,Leo Sjöstrand,se_club_hk_s_hof,se_division1_sodra,110,134,extreme PA-CA gap (>=20)
+player_milo_bjorkman_0781e890,Milo Björkman,se_club_hk_s_hof,se_division1_sodra,92,120,extreme PA-CA gap (>=20)
+player_nils_wenaker_859cecbb,Nils Wenåker,se_club_hk_s_hof,se_division1_sodra,84,111,extreme PA-CA gap (>=20)
+player_silas_norberg_b7b06c4c,Silas Norberg,se_club_hk_s_hof,se_division1_sodra,101,128,extreme PA-CA gap (>=20)
+player_sixten_martinsson_5b05e0b7,Sixten Martinsson,se_club_hk_s_hof,se_division1_sodra,103,126,extreme PA-CA gap (>=20)
+player_theo_friberg_c655d5a3,Theo Friberg,se_club_hk_s_hof,se_division1_sodra,100,121,extreme PA-CA gap (>=20)
+player_viggo_moller_holmen_9c5affc4,Viggo Möller Holmén,se_club_hk_s_hof,se_division1_sodra,65,91,extreme PA-CA gap (>=20)
+player_wilmer_frederiksen_4160d1bd,Wilmer Frederiksen,se_club_hk_s_hof,se_division1_sodra,70,98,extreme PA-CA gap (>=20)
+player_johan_forsman_677a8d0d,Johan Forsman,se_club_hp_alingsas,se_division1_sodra,106,129,extreme PA-CA gap (>=20)
+player_melwin_hagstrom_b885b42f,Melwin Hagström,se_club_hp_alingsas,se_division1_sodra,64,91,extreme PA-CA gap (>=20)
+player_oscar_ernelind_c8bb4605,Oscar Ernelind,se_club_hp_alingsas,se_division1_sodra,85,110,extreme PA-CA gap (>=20)
+player_alexander_gereonsson_5266b5c9,Alexander Gereonsson,se_club_hp_warta,se_division1_sodra,112,140,extreme PA-CA gap (>=20)
+player_anton_kakko_4974667f,Anton Kakko,se_club_hp_warta,se_division1_sodra,108,130,extreme PA-CA gap (>=20)
+player_dino_bahtijarevic_4e0d8cce,Dino Bahtijarevic,se_club_hp_warta,se_division1_sodra,95,115,extreme PA-CA gap (>=20)
+player_emil_saxin_a1fe241f,Emil Saxin,se_club_hp_warta,se_division1_sodra,66,91,extreme PA-CA gap (>=20)
+player_felix_johansson_6326df01,Felix Johansson,se_club_hp_warta,se_division1_sodra,116,139,extreme PA-CA gap (>=20)
+player_johan_samuelsson_c5dde134,Johan Samuelsson,se_club_hp_warta,se_division1_sodra,116,141,extreme PA-CA gap (>=20)
+player_linus_fors_bf476e39,Linus Fors,se_club_hp_warta,se_division1_sodra,90,116,extreme PA-CA gap (>=20)
+player_simon_wiberg_0bf397ac,Simon Wiberg,se_club_hp_warta,se_division1_sodra,99,124,extreme PA-CA gap (>=20)
+player_victor_hoghielm_4584fd6e,Victor Höghielm,se_club_hp_warta,se_division1_sodra,80,102,extreme PA-CA gap (>=20)
+player_benjamin_frank_fc206a8e,Benjamin Frank,se_club_if_kristianstad,se_division1_sodra,115,136,extreme PA-CA gap (>=20)
+player_hannes_ohlsson_d89a7e00,Hannes Ohlsson,se_club_if_kristianstad,se_division1_sodra,114,139,extreme PA-CA gap (>=20)
+player_ludvig_svanstrom_93f7676c,Ludvig Svanström,se_club_if_kristianstad,se_division1_sodra,99,124,extreme PA-CA gap (>=20)
+player_melvin_elofsson_a42c1a72,Melvin Elofsson,se_club_if_kristianstad,se_division1_sodra,110,136,extreme PA-CA gap (>=20)
+player_noah_malmsten_ba7443bb,Noah Malmsten,se_club_if_kristianstad,se_division1_sodra,77,101,extreme PA-CA gap (>=20)
+player_axel_paulsson_53909930,Axel Paulsson,se_club_ik_lagan,se_division1_sodra,65,86,extreme PA-CA gap (>=20)
+player_erik_friberg_lindskoug_3bfca348,Erik Friberg Lindskoug,se_club_ik_lagan,se_division1_sodra,71,99,extreme PA-CA gap (>=20)
+player_hampus_schwarz_82da0252,Hampus Schwarz,se_club_ik_lagan,se_division1_sodra,87,110,extreme PA-CA gap (>=20)
+player_jonathan_hellstrom_44730544,Jonathan Hellström,se_club_ik_lagan,se_division1_sodra,114,134,extreme PA-CA gap (>=20)
+player_richard_hellstrom_46e05515,Richard Hellström,se_club_ik_lagan,se_division1_sodra,73,94,extreme PA-CA gap (>=20)
+player_sebastian_svensson_1c09f03d,Sebastian Svensson,se_club_ik_lagan,se_division1_sodra,76,103,extreme PA-CA gap (>=20)
+player_olle_gustafsson_18bc8c3b,Olle Gustafsson,se_club_karra_hf,se_division1_sodra,69,94,extreme PA-CA gap (>=20)
+player_simon_lilja_b926d085,Simon Lilja,se_club_karra_hf,se_division1_sodra,64,90,extreme PA-CA gap (>=20)
+player_anton_persson_2d1c22ec,Anton Persson,se_club_vinslovs_hk,se_division1_sodra,89,111,extreme PA-CA gap (>=20)
+player_elias_holmstrom_7baa15aa,Elias Holmström,se_club_vinslovs_hk,se_division1_sodra,71,96,extreme PA-CA gap (>=20)
+player_hugo_svensson_744cb836,Hugo Svensson,se_club_vinslovs_hk,se_division1_sodra,115,143,extreme PA-CA gap (>=20)
+player_richard_gersson_d9c19f06,Richard Gersson,se_club_vinslovs_hk,se_division1_sodra,104,127,extreme PA-CA gap (>=20)
+player_simon_ongeri_271557b0,Simon Ongeri,se_club_vinslovs_hk,se_division1_sodra,90,114,extreme PA-CA gap (>=20)
+se_player_alexander_regen_705fa7a6,Alexander Regen,se_club_alingsas_hk,se_handbollsligan_herr,100,148,league bottom 10 CA
+se_player_arvid_andreasson_54da0f43,Arvid Andreasson,se_club_alingsas_hk,se_handbollsligan_herr,100,150,league bottom 10 CA
+se_player_carl_ryden_d5428e1f,Carl Rydén,se_club_alingsas_hk,se_handbollsligan_herr,100,110,league bottom 10 CA
+se_player_edwin_tengros_eec4c59b,Edwin Tengros,se_club_alingsas_hk,se_handbollsligan_herr,100,132,league bottom 10 CA
+se_player_hjalmar_jansson_8997bd4b,Hjalmar Jansson,se_club_alingsas_hk,se_handbollsligan_herr,100,109,league bottom 10 CA
+se_player_hugo_lignell_af49387a,Hugo Lignell,se_club_alingsas_hk,se_handbollsligan_herr,100,130,league bottom 10 CA
+se_player_max_hurtig_77d80608,Max Hurtig,se_club_alingsas_hk,se_handbollsligan_herr,100,123,league bottom 10 CA
+se_player_max_sellstedt_314fc84c,Max Sellstedt,se_club_alingsas_hk,se_handbollsligan_herr,100,137,league bottom 10 CA
+se_player_noel_hurtig_1aad97d9,Noel Hurtig,se_club_alingsas_hk,se_handbollsligan_herr,100,132,league bottom 10 CA
+se_player_oskar_dahlin_50f8181d,Oskar Dahlin,se_club_alingsas_hk,se_handbollsligan_herr,100,121,league bottom 10 CA
+player_emil_frend_ofors_3ce9cf44,Emil Frend Öfors,se_club_ifk_kristianstad,se_handbollsligan_herr,155,168,league top 10 CA
+player_william_hoghielm_fdcb766f,William Höghielm,se_club_ifk_kristianstad,se_handbollsligan_herr,155,165,league top 10 CA
+player_julius_lindskog_andersson_837f1533,Julius Lindskog Andersson,se_club_ystads_if_hf,se_handbollsligan_herr,155,158,league top 10 CA
+player_liam_hultberg_d2b82295,Liam Hultberg,se_club_ystads_if_hf,se_handbollsligan_herr,161,188,league top 10 CA
+se_player_august_wiger_94e4bcd0,August Wiger,se_club_alingsas_hk,se_handbollsligan_herr,162,169,league top 10 CA
+player_peter_johannesson_d88e8bce,Peter Johannesson,se_club_ik_savehof,se_handbollsligan_herr,162,162,league top 10 CA
+se_player_gustav_davidsson_fcd7b654,Gustav Davidsson,se_club_hammarby_if_hf,se_handbollsligan_herr,166,170,league top 10 CA
+player_niclas_ekberg_db866c2e,Niclas Ekberg,se_club_ystads_if_hf,se_handbollsligan_herr,167,185,league top 10 CA
+se_player_benjamin_helander_b5cece84,Benjamin Helander,se_club_alingsas_hk,se_handbollsligan_herr,168,175,league top 10 CA
+player_andreas_nilsson_e7db3e42,Andreas Nilsson,se_club_onnereds_hk,se_handbollsligan_herr,168,168,league top 10 CA
+se_player_alexander_regen_705fa7a6,Alexander Regen,se_club_alingsas_hk,se_handbollsligan_herr,100,148,extreme PA-CA gap (>=20)
+se_player_anton_hagvall_34e5df98,Anton Hagvall,se_club_alingsas_hk,se_handbollsligan_herr,155,163,substantially above league distribution (>140% of median)
+se_player_arvid_andreasson_54da0f43,Arvid Andreasson,se_club_alingsas_hk,se_handbollsligan_herr,100,150,extreme PA-CA gap (>=20)
+se_player_arvid_boquist_39bb770d,Arvid Boquist,se_club_alingsas_hk,se_handbollsligan_herr,135,165,extreme PA-CA gap (>=20)
+se_player_august_wiger_94e4bcd0,August Wiger,se_club_alingsas_hk,se_handbollsligan_herr,162,169,substantially above league distribution (>140% of median)
+se_player_benjamin_helander_b5cece84,Benjamin Helander,se_club_alingsas_hk,se_handbollsligan_herr,168,175,substantially above league distribution (>140% of median)
+se_player_edwin_tengros_eec4c59b,Edwin Tengros,se_club_alingsas_hk,se_handbollsligan_herr,100,132,extreme PA-CA gap (>=20)
+se_player_hugo_lignell_af49387a,Hugo Lignell,se_club_alingsas_hk,se_handbollsligan_herr,100,130,extreme PA-CA gap (>=20)
+se_player_max_hurtig_77d80608,Max Hurtig,se_club_alingsas_hk,se_handbollsligan_herr,100,123,extreme PA-CA gap (>=20)
+se_player_max_sellstedt_314fc84c,Max Sellstedt,se_club_alingsas_hk,se_handbollsligan_herr,100,137,extreme PA-CA gap (>=20)
+se_player_niklas_kraft_e8842f13,Niklas Kraft,se_club_alingsas_hk,se_handbollsligan_herr,155,170,substantially above league distribution (>140% of median)
+se_player_noel_hurtig_1aad97d9,Noel Hurtig,se_club_alingsas_hk,se_handbollsligan_herr,100,132,extreme PA-CA gap (>=20)
+se_player_oskar_dahlin_50f8181d,Oskar Dahlin,se_club_alingsas_hk,se_handbollsligan_herr,100,121,extreme PA-CA gap (>=20)
+se_player_samuel_lindberg_1a6e8618,Samuel Lindberg,se_club_alingsas_hk,se_handbollsligan_herr,100,123,extreme PA-CA gap (>=20)
+se_player_allex_hugosson_03ddf92d,Allex Hugosson,se_club_amo_hk,se_handbollsligan_herr,100,141,extreme PA-CA gap (>=20)
+dk_player_jonas_jensen_02a38472,Jonas Jensen,se_club_amo_hk,se_handbollsligan_herr,100,131,extreme PA-CA gap (>=20)
+se_player_lukas_rylander_139bedb4,Lukas Rylander,se_club_amo_hk,se_handbollsligan_herr,100,153,extreme PA-CA gap (>=20)
+dk_player_mathias_pedersen_0a2ea822,Mathias Pedersen,se_club_amo_hk,se_handbollsligan_herr,148,153,substantially above league distribution (>140% of median)
+se_player_oscar_ader_4206ebaf,Oscar Ader,se_club_amo_hk,se_handbollsligan_herr,100,136,extreme PA-CA gap (>=20)
+se_player_richard_lindstrom_fa89e12c,Richard Lindström,se_club_amo_hk,se_handbollsligan_herr,100,133,extreme PA-CA gap (>=20)
+se_player_shaban_zogaj_71e0c93f,Shaban Zogaj,se_club_amo_hk,se_handbollsligan_herr,100,146,extreme PA-CA gap (>=20)
+se_player_simon_roos_b75e2dc7,Simon Roos,se_club_amo_hk,se_handbollsligan_herr,100,157,extreme PA-CA gap (>=20)
+se_player_alexander_morsten_9914d3eb,Alexander Morsten,se_club_hammarby_if_hf,se_handbollsligan_herr,130,163,extreme PA-CA gap (>=20)
+se_player_elliot_stenmalm_ef3373fd,Elliot Stenmalm,se_club_hammarby_if_hf,se_handbollsligan_herr,145,165,extreme PA-CA gap (>=20)
+se_player_elliot_stenmalm_ef3373fd,Elliot Stenmalm,se_club_hammarby_if_hf,se_handbollsligan_herr,145,165,substantially above league distribution (>140% of median)
+se_player_gustav_davidsson_fcd7b654,Gustav Davidsson,se_club_hammarby_if_hf,se_handbollsligan_herr,166,170,substantially above league distribution (>140% of median)
+se_player_henrik_momats_noren_5030ebc9,Henrik Momats Norén,se_club_hammarby_if_hf,se_handbollsligan_herr,145,148,substantially above league distribution (>140% of median)
+se_player_johan_ericsson_1697ad92,Johan Ericsson,se_club_hammarby_if_hf,se_handbollsligan_herr,100,152,extreme PA-CA gap (>=20)
+se_player_josef_pujol_56e8de9e,Josef Pujol,se_club_hammarby_if_hf,se_handbollsligan_herr,130,165,extreme PA-CA gap (>=20)
+se_player_marcus_lennernas_cd4039b8,Marcus Lennernäs,se_club_hammarby_if_hf,se_handbollsligan_herr,141,146,substantially above league distribution (>140% of median)
+se_player_martin_dolk_38bf7f2a,Martin Dolk,se_club_hammarby_if_hf,se_handbollsligan_herr,145,175,extreme PA-CA gap (>=20)
+se_player_martin_dolk_38bf7f2a,Martin Dolk,se_club_hammarby_if_hf,se_handbollsligan_herr,145,175,substantially above league distribution (>140% of median)
+se_player_oliver_wigmark_4d3b1757,Oliver Wigmark,se_club_hammarby_if_hf,se_handbollsligan_herr,145,148,substantially above league distribution (>140% of median)
+se_player_olle_soderqvist_d1155006,Olle Söderqvist,se_club_hammarby_if_hf,se_handbollsligan_herr,111,155,extreme PA-CA gap (>=20)
+se_player_robin_jarling_sanderhem_e7557677,Robin Järling Sanderhem,se_club_hammarby_if_hf,se_handbollsligan_herr,100,167,extreme PA-CA gap (>=20)
+se_player_ruben_vojbacke_18700f0e,Ruben Vojbacke,se_club_hammarby_if_hf,se_handbollsligan_herr,100,125,extreme PA-CA gap (>=20)
+se_player_theo_deurell_aaf0f9dc,Theo Deurell,se_club_hammarby_if_hf,se_handbollsligan_herr,100,125,extreme PA-CA gap (>=20)
+se_player_alex_andersson_654b2ac2,Alex Andersson,se_club_hf_karlskrona,se_handbollsligan_herr,120,140,extreme PA-CA gap (>=20)
+se_player_axel_soderqvist_763716b1,Axel Söderqvist,se_club_hf_karlskrona,se_handbollsligan_herr,100,149,extreme PA-CA gap (>=20)
+se_player_emil_hansson_02c1a5c6,Emil Hansson,se_club_hf_karlskrona,se_handbollsligan_herr,100,139,extreme PA-CA gap (>=20)
+se_player_filip_psajd_5da4e6a8,Filip Psajd,se_club_hf_karlskrona,se_handbollsligan_herr,100,124,extreme PA-CA gap (>=20)
+se_player_hugo_sivertsson_0146e093,Hugo Sivertsson,se_club_hf_karlskrona,se_handbollsligan_herr,100,134,extreme PA-CA gap (>=20)
+se_player_jonathan_andersson_8ffd276d,Jonathan Andersson,se_club_hf_karlskrona,se_handbollsligan_herr,100,120,extreme PA-CA gap (>=20)
+fo_player_leivur_mortensen_fa29fd73,Leivur Mortensen,se_club_hf_karlskrona,se_handbollsligan_herr,100,138,extreme PA-CA gap (>=20)
+ee_player_markus_viitkar_d8f6a466,Markus Viitkar,se_club_hf_karlskrona,se_handbollsligan_herr,100,124,extreme PA-CA gap (>=20)
+se_player_melvin_hildingsson_edd5d2a3,Melvin Hildingsson,se_club_hf_karlskrona,se_handbollsligan_herr,100,132,extreme PA-CA gap (>=20)
+se_player_noel_wirbladh_dd3accb2,Noel Wirbladh,se_club_hf_karlskrona,se_handbollsligan_herr,100,121,extreme PA-CA gap (>=20)
+se_player_sigge_ryberg_11568b27,Sigge Ryberg,se_club_hf_karlskrona,se_handbollsligan_herr,100,120,extreme PA-CA gap (>=20)
+rs_player_uros_tomic_72d636e4,Uros Tomic,se_club_hf_karlskrona,se_handbollsligan_herr,100,131,extreme PA-CA gap (>=20)
+se_player_william_eskengren_svahn_614765b5,William Eskengren Svahn,se_club_hf_karlskrona,se_handbollsligan_herr,100,138,extreme PA-CA gap (>=20)
+player_amin_bouzguenda_c8a91ca1,Amin Bouzguenda,se_club_hk_malmo,se_handbollsligan_herr,100,151,extreme PA-CA gap (>=20)
+player_christopher_schnell_f92f8dd6,Christopher Schnell,se_club_hk_malmo,se_handbollsligan_herr,100,144,extreme PA-CA gap (>=20)
+player_david_bondesson_14e90d7a,David Bondesson,se_club_hk_malmo,se_handbollsligan_herr,100,135,extreme PA-CA gap (>=20)
+player_ebbe_hakansson_132f4301,Ebbe Håkansson,se_club_hk_malmo,se_handbollsligan_herr,100,127,extreme PA-CA gap (>=20)
+player_hampus_nygren_8794dc77,Hampus Nygren,se_club_hk_malmo,se_handbollsligan_herr,100,128,extreme PA-CA gap (>=20)
+player_kalle_holmstedt_b2c59882,Kalle Holmstedt,se_club_hk_malmo,se_handbollsligan_herr,100,131,extreme PA-CA gap (>=20)
+player_love_sundewall_f348211b,Love Sundewall,se_club_hk_malmo,se_handbollsligan_herr,100,130,extreme PA-CA gap (>=20)
+player_ludvig_fagrenius_a2e4390f,Ludvig Fagrenius,se_club_hk_malmo,se_handbollsligan_herr,100,136,extreme PA-CA gap (>=20)
+player_malte_mansson_1d49a03b,Malte Månsson,se_club_hk_malmo,se_handbollsligan_herr,100,154,extreme PA-CA gap (>=20)
+player_petter_brandt_b33da37f,Petter Brandt,se_club_hk_malmo,se_handbollsligan_herr,100,136,extreme PA-CA gap (>=20)
+player_thilo_knutzen_e6336871,Thilo Knutzen,se_club_hk_malmo,se_handbollsligan_herr,100,127,extreme PA-CA gap (>=20)
+se_player_alexander_hambalek_3236286b,Alexander Hambalek,se_club_if_hallby_hk,se_handbollsligan_herr,100,140,extreme PA-CA gap (>=20)
+se_player_asso_eliassi_sarzali_9d29e1d1,Asso Eliassi Sarzali,se_club_if_hallby_hk,se_handbollsligan_herr,100,153,extreme PA-CA gap (>=20)
+se_player_charles_hugoson_c044b169,Charles Hugoson,se_club_if_hallby_hk,se_handbollsligan_herr,100,134,extreme PA-CA gap (>=20)
+se_player_emil_johannisson_11ed2339,Emil Johannisson,se_club_if_hallby_hk,se_handbollsligan_herr,100,125,extreme PA-CA gap (>=20)
+se_player_emil_nork_e3fc4b12,Emil Nork,se_club_if_hallby_hk,se_handbollsligan_herr,100,125,extreme PA-CA gap (>=20)
+se_player_hampus_soderman_4fc3c02e,Hampus Söderman,se_club_if_hallby_hk,se_handbollsligan_herr,100,143,extreme PA-CA gap (>=20)
+se_player_herman_legrell_072b951c,Herman Legrell,se_club_if_hallby_hk,se_handbollsligan_herr,100,132,extreme PA-CA gap (>=20)
+se_player_isak_karlsson_1dbf967b,Isak Karlsson,se_club_if_hallby_hk,se_handbollsligan_herr,100,134,extreme PA-CA gap (>=20)
+se_player_john_vatz_409a4b2c,John Våtz,se_club_if_hallby_hk,se_handbollsligan_herr,100,145,extreme PA-CA gap (>=20)
+se_player_jonatan_suomela_2ab138cf,Jonatan Suomela,se_club_if_hallby_hk,se_handbollsligan_herr,100,134,extreme PA-CA gap (>=20)
+se_player_ludvig_hogberg_643fe910,Ludvig Högberg,se_club_if_hallby_hk,se_handbollsligan_herr,100,125,extreme PA-CA gap (>=20)
+se_player_lukas_wallinder_a8a0d2ec,Lukas Wallinder,se_club_if_hallby_hk,se_handbollsligan_herr,100,123,extreme PA-CA gap (>=20)
+se_player_martin_martensson_77659651,Martin Mårtensson,se_club_if_hallby_hk,se_handbollsligan_herr,100,122,extreme PA-CA gap (>=20)
+se_player_rasmus_thomsen_baa94735,Rasmus Thomsen,se_club_if_hallby_hk,se_handbollsligan_herr,100,129,extreme PA-CA gap (>=20)
+player_albin_leyman_6d0ef97f,Albin Leyman,se_club_ifk_kristianstad,se_handbollsligan_herr,100,133,extreme PA-CA gap (>=20)
+player_albin_selin_8af77244,Albin Selin,se_club_ifk_kristianstad,se_handbollsligan_herr,145,155,substantially above league distribution (>140% of median)
+player_andri_erlingsson_a867e3c2,Andri Erlingsson,se_club_ifk_kristianstad,se_handbollsligan_herr,135,184,extreme PA-CA gap (>=20)
+player_baldur_fritz_bjarnason_565ae0a8,Baldur Fritz Bjarnason,se_club_ifk_kristianstad,se_handbollsligan_herr,138,181,extreme PA-CA gap (>=20)
+player_einar_bragi_adalsteinsson_c7dc2719,Einar Bragi Adalsteinsson,se_club_ifk_kristianstad,se_handbollsligan_herr,150,155,substantially above league distribution (>140% of median)
+player_emil_frend_ofors_3ce9cf44,Emil Frend Öfors,se_club_ifk_kristianstad,se_handbollsligan_herr,155,168,substantially above league distribution (>140% of median)
+player_hayder_al_khafadji_a09708e0,Hayder Al-Khafadji,se_club_ifk_kristianstad,se_handbollsligan_herr,142,148,substantially above league distribution (>140% of median)
+player_liam_kjellman_26da347a,Liam Kjellman,se_club_ifk_kristianstad,se_handbollsligan_herr,100,139,extreme PA-CA gap (>=20)
+player_niko_petrovic_d603dfbe,Niko Petrovic,se_club_ifk_kristianstad,se_handbollsligan_herr,125,156,extreme PA-CA gap (>=20)
+player_theo_ivarsson_77eb2224,Theo Ivarsson,se_club_ifk_kristianstad,se_handbollsligan_herr,100,146,extreme PA-CA gap (>=20)
+player_william_hoghielm_fdcb766f,William Höghielm,se_club_ifk_kristianstad,se_handbollsligan_herr,155,165,substantially above league distribution (>140% of median)
+player_ajdin_dzanic_5aaffde2,Ajdin Dzanic,se_club_ifk_skovde_hk,se_handbollsligan_herr,100,145,extreme PA-CA gap (>=20)
+player_albin_rydberg_c6e004c6,Albin Rydberg,se_club_ifk_skovde_hk,se_handbollsligan_herr,100,136,extreme PA-CA gap (>=20)
+player_axel_franzen_86a337b2,Axel Franzén,se_club_ifk_skovde_hk,se_handbollsligan_herr,100,139,extreme PA-CA gap (>=20)
+player_daniel_ekman_7eb4f625,Daniel Ekman,se_club_ifk_skovde_hk,se_handbollsligan_herr,142,155,substantially above league distribution (>140% of median)
+player_elias_adam_47e6fd55,Elias Adam,se_club_ifk_skovde_hk,se_handbollsligan_herr,100,149,extreme PA-CA gap (>=20)
+player_fidel_mbumba_91e78231,Fidel Mbumba,se_club_ifk_skovde_hk,se_handbollsligan_herr,100,165,extreme PA-CA gap (>=20)
+player_herman_dyberg_a8c86475,Herman Dyberg,se_club_ifk_skovde_hk,se_handbollsligan_herr,100,151,extreme PA-CA gap (>=20)
+player_jonas_burud_ecf4798a,Jonas Burud,se_club_ifk_skovde_hk,se_handbollsligan_herr,100,124,extreme PA-CA gap (>=20)
+player_jonas_kruse_kristensen_87652b66,Jonas Kruse Kristensen,se_club_ifk_skovde_hk,se_handbollsligan_herr,100,147,extreme PA-CA gap (>=20)
+player_jonas_samuelsson_c0e5d465,Jonas Samuelsson,se_club_ifk_skovde_hk,se_handbollsligan_herr,145,160,substantially above league distribution (>140% of median)
+player_linus_gustavsson_2f35e9ed,Linus Gustavsson,se_club_ifk_skovde_hk,se_handbollsligan_herr,100,124,extreme PA-CA gap (>=20)
+player_markus_sjobrink_9badcdbf,Markus Sjöbrink,se_club_ifk_skovde_hk,se_handbollsligan_herr,100,126,extreme PA-CA gap (>=20)
+player_nikolai_kaufmann_e0bd1d06,Nikolai Kaufmann,se_club_ifk_skovde_hk,se_handbollsligan_herr,100,130,extreme PA-CA gap (>=20)
+player_noel_gustafson_c93d5232,Noel Gustafson,se_club_ifk_skovde_hk,se_handbollsligan_herr,100,139,extreme PA-CA gap (>=20)
+player_thomas_stenersen_781c3d9f,Thomas Stenersen,se_club_ifk_skovde_hk,se_handbollsligan_herr,100,154,extreme PA-CA gap (>=20)
+player_zoran_bozic_73aa7c83,Zoran Bozic,se_club_ifk_skovde_hk,se_handbollsligan_herr,100,127,extreme PA-CA gap (>=20)
+player_arvid_noren_b702c6de,Arvid Norén,se_club_ik_savehof,se_handbollsligan_herr,100,123,extreme PA-CA gap (>=20)
+player_david_sandberg_b9ba22bc,David Sandberg,se_club_ik_savehof,se_handbollsligan_herr,135,157,extreme PA-CA gap (>=20)
+player_erik_andersson_b7790e0e,Erik Andersson,se_club_ik_savehof,se_handbollsligan_herr,100,125,extreme PA-CA gap (>=20)
+player_oliver_lagerkvist_457b09a1,Oliver Lagerkvist,se_club_ik_savehof,se_handbollsligan_herr,100,152,extreme PA-CA gap (>=20)
+player_peter_johannesson_d88e8bce,Peter Johannesson,se_club_ik_savehof,se_handbollsligan_herr,162,162,substantially above league distribution (>140% of median)
+player_thure_frederiksen_9f70775b,Thure Frederiksen,se_club_ik_savehof,se_handbollsligan_herr,100,134,extreme PA-CA gap (>=20)
+player_tom_poyet_3266e92e,Tom Poyet,se_club_ik_savehof,se_handbollsligan_herr,100,129,extreme PA-CA gap (>=20)
+player_truls_grtta_24cca1d0,Truls Grøtta,se_club_ik_savehof,se_handbollsligan_herr,153,159,substantially above league distribution (>140% of median)
+player_adam_lonn_c83602c9,Adam Lönn,se_club_lugi_hf,se_handbollsligan_herr,147,147,substantially above league distribution (>140% of median)
+player_albin_sjogren_c95dfc31,Albin Sjögren,se_club_lugi_hf,se_handbollsligan_herr,100,132,extreme PA-CA gap (>=20)
+player_alexander_kjaersgaard_c237932c,Alexander Kjaersgaard,se_club_lugi_hf,se_handbollsligan_herr,100,158,extreme PA-CA gap (>=20)
+player_axel_janhall_44d215a9,Axel Janhall,se_club_lugi_hf,se_handbollsligan_herr,100,138,extreme PA-CA gap (>=20)
+player_calle_lindqvist_8e626c43,Calle Lindqvist,se_club_lugi_hf,se_handbollsligan_herr,100,123,extreme PA-CA gap (>=20)
+player_daniel_sandberg_a73654c6,Daniel Sandberg,se_club_lugi_hf,se_handbollsligan_herr,100,126,extreme PA-CA gap (>=20)
+player_emil_lindqvist_ce868290,Emil Lindqvist,se_club_lugi_hf,se_handbollsligan_herr,100,136,extreme PA-CA gap (>=20)
+player_hampus_olsson_c352e73c,Hampus Olsson,se_club_lugi_hf,se_handbollsligan_herr,100,151,extreme PA-CA gap (>=20)
+player_hannes_carlsson_c1c069fa,Hannes Carlsson,se_club_lugi_hf,se_handbollsligan_herr,100,133,extreme PA-CA gap (>=20)
+player_harry_cato_jablonsky_69736d7a,Harry Cato Jablonsky,se_club_lugi_hf,se_handbollsligan_herr,100,128,extreme PA-CA gap (>=20)
+player_leonard_gegaj_925cada7,Leonard Gegaj,se_club_lugi_hf,se_handbollsligan_herr,125,155,extreme PA-CA gap (>=20)
+player_ola_peterson_70d56b6e,Ola Peterson,se_club_lugi_hf,se_handbollsligan_herr,100,156,extreme PA-CA gap (>=20)
+player_tage_kristell_672b0ad1,Tage Kristell,se_club_lugi_hf,se_handbollsligan_herr,100,122,extreme PA-CA gap (>=20)
+player_viggo_hakansson_5750328d,Viggo Håkansson,se_club_lugi_hf,se_handbollsligan_herr,119,156,extreme PA-CA gap (>=20)
+player_adam_tysk_601c55ac,Adam Tysk,se_club_onnereds_hk,se_handbollsligan_herr,100,154,extreme PA-CA gap (>=20)
+player_adrian_kallhage_22c6ff9c,Adrian Källhage,se_club_onnereds_hk,se_handbollsligan_herr,100,122,extreme PA-CA gap (>=20)
+player_andreas_nilsson_e7db3e42,Andreas Nilsson,se_club_onnereds_hk,se_handbollsligan_herr,168,168,substantially above league distribution (>140% of median)
+player_axel_hallberg_3d6931c7,Axel Hallberg,se_club_onnereds_hk,se_handbollsligan_herr,100,150,extreme PA-CA gap (>=20)
+player_dominic_brigerstrand_4ac3c690,Dominic Brigerstrand,se_club_onnereds_hk,se_handbollsligan_herr,100,136,extreme PA-CA gap (>=20)
+player_elliot_lundstad_ff8f992c,Elliot Lundstad,se_club_onnereds_hk,se_handbollsligan_herr,110,154,extreme PA-CA gap (>=20)
+player_emil_hansson_02c1a5c6,Emil Hansson,se_club_onnereds_hk,se_handbollsligan_herr,100,152,extreme PA-CA gap (>=20)
+player_fabian_gudmundsson_b1aadfba,Fabian Gudmundsson,se_club_onnereds_hk,se_handbollsligan_herr,100,126,extreme PA-CA gap (>=20)
+player_fabian_simonsson_dfdf3f8d,Fabian Simonsson,se_club_onnereds_hk,se_handbollsligan_herr,100,121,extreme PA-CA gap (>=20)
+player_joel_lindberg_04fa24da,Joel Lindberg,se_club_onnereds_hk,se_handbollsligan_herr,100,120,extreme PA-CA gap (>=20)
+player_max_blomberg_romero_992b2a4a,Max Blomberg Romero,se_club_onnereds_hk,se_handbollsligan_herr,100,133,extreme PA-CA gap (>=20)
+player_max_dahlen_36c0e887,Max Dahlén,se_club_onnereds_hk,se_handbollsligan_herr,100,121,extreme PA-CA gap (>=20)
+player_milo_knaapinen_59a3a0cd,Milo Knaapinen,se_club_onnereds_hk,se_handbollsligan_herr,100,124,extreme PA-CA gap (>=20)
+player_oliver_andersson_ef8ef0a2,Oliver Andersson,se_club_onnereds_hk,se_handbollsligan_herr,100,142,extreme PA-CA gap (>=20)
+player_olle_bergius_db9745cb,Olle Bergius,se_club_onnereds_hk,se_handbollsligan_herr,100,147,extreme PA-CA gap (>=20)
+player_rasmus_nyman_1323b911,Rasmus Nyman,se_club_onnereds_hk,se_handbollsligan_herr,100,138,extreme PA-CA gap (>=20)
+player_robin_kozjak_7fbdbe6d,Robin Kozjak,se_club_onnereds_hk,se_handbollsligan_herr,100,140,extreme PA-CA gap (>=20)
+player_sebastian_kallemyr_ef0da952,Sebastian Källemyr,se_club_onnereds_hk,se_handbollsligan_herr,100,125,extreme PA-CA gap (>=20)
+player_anders_forsell_schefvert_a3204666,Anders Forsell Schefvert,se_club_ov_helsingborg,se_handbollsligan_herr,100,122,extreme PA-CA gap (>=20)
+player_anders_thomassen_83e99518,Anders Thomassen,se_club_ov_helsingborg,se_handbollsligan_herr,100,136,extreme PA-CA gap (>=20)
+player_andre_tuzov_4420542b,André Tuzov,se_club_ov_helsingborg,se_handbollsligan_herr,100,125,extreme PA-CA gap (>=20)
+player_edvin_flinck_8f85144f,Edvin Flinck,se_club_ov_helsingborg,se_handbollsligan_herr,100,140,extreme PA-CA gap (>=20)
+player_elliot_eriksson_b0aec1ab,Elliot Eriksson,se_club_ov_helsingborg,se_handbollsligan_herr,100,152,extreme PA-CA gap (>=20)
+player_jakob_andersson_8a28f9bb,Jakob Andersson,se_club_ov_helsingborg,se_handbollsligan_herr,100,127,extreme PA-CA gap (>=20)
+player_max_pedersen_9ca555b9,Max Pedersen,se_club_ov_helsingborg,se_handbollsligan_herr,135,155,extreme PA-CA gap (>=20)
+player_nils_mellert_0b4a0c74,Nils Mellert,se_club_ov_helsingborg,se_handbollsligan_herr,100,149,extreme PA-CA gap (>=20)
+player_olle_berndt_ea0c948a,Olle Berndt,se_club_ov_helsingborg,se_handbollsligan_herr,100,141,extreme PA-CA gap (>=20)
+player_oscar_johansson_75d394a0,Oscar Johansson,se_club_ov_helsingborg,se_handbollsligan_herr,100,154,extreme PA-CA gap (>=20)
+player_patrick_bols_740b2aba,Patrick Bols,se_club_ov_helsingborg,se_handbollsligan_herr,100,150,extreme PA-CA gap (>=20)
+player_simon_petersson_f8a88830,Simon Petersson,se_club_ov_helsingborg,se_handbollsligan_herr,100,141,extreme PA-CA gap (>=20)
+player_sixten_sundstrom_krantz_1d768838,Sixten Sundström Krantz,se_club_ov_helsingborg,se_handbollsligan_herr,100,138,extreme PA-CA gap (>=20)
+player_tobias_ljungmark_ba47e100,Tobias Ljungmark,se_club_ov_helsingborg,se_handbollsligan_herr,100,120,extreme PA-CA gap (>=20)
+player_alex_hill_5047c1db,Alex Hill,se_club_skanela_if,se_handbollsligan_herr,100,146,extreme PA-CA gap (>=20)
+player_alexander_ritter_42f60d18,Alexander Ritter,se_club_skanela_if,se_handbollsligan_herr,100,120,extreme PA-CA gap (>=20)
+player_anton_nilsson_de59a8a9,Anton Nilsson,se_club_skanela_if,se_handbollsligan_herr,100,121,extreme PA-CA gap (>=20)
+player_edvin_westlof_abd3f214,Edvin Westlöf,se_club_skanela_if,se_handbollsligan_herr,100,124,extreme PA-CA gap (>=20)
+player_filip_tapper_32d5cf17,Filip Tapper,se_club_skanela_if,se_handbollsligan_herr,100,146,extreme PA-CA gap (>=20)
+player_linus_karlsson_2913e2f1,Linus Karlsson,se_club_skanela_if,se_handbollsligan_herr,100,129,extreme PA-CA gap (>=20)
+player_malte_haglund_f969fb6d,Malte Haglund,se_club_skanela_if,se_handbollsligan_herr,100,143,extreme PA-CA gap (>=20)
+player_mattias_fristrom_33663a46,Mattias Friström,se_club_skanela_if,se_handbollsligan_herr,100,134,extreme PA-CA gap (>=20)
+player_max_broman_36125fbf,Max Broman,se_club_skanela_if,se_handbollsligan_herr,100,137,extreme PA-CA gap (>=20)
+player_nils_hall_6ecec79a,Nils Håll,se_club_skanela_if,se_handbollsligan_herr,100,127,extreme PA-CA gap (>=20)
+player_oscar_rotsman_10606042,Oscar Rotsman,se_club_skanela_if,se_handbollsligan_herr,100,133,extreme PA-CA gap (>=20)
+player_victor_ekholm_aff81071,Victor Ekholm,se_club_skanela_if,se_handbollsligan_herr,100,133,extreme PA-CA gap (>=20)
+player_william_psajd_5c669bcd,William Psajd,se_club_skanela_if,se_handbollsligan_herr,100,139,extreme PA-CA gap (>=20)
+player_alexander_linden_7f15da04,Alexander Lindén,se_club_ystads_if_hf,se_handbollsligan_herr,100,157,extreme PA-CA gap (>=20)
+player_gustav_mundt_9f5616b1,Gustav Mundt,se_club_ystads_if_hf,se_handbollsligan_herr,100,138,extreme PA-CA gap (>=20)
+player_helge_jerrhag_e8faab3a,Helge Jerrhag,se_club_ystads_if_hf,se_handbollsligan_herr,100,139,extreme PA-CA gap (>=20)
+player_ivano_carrara_431dc941,Ivano Carrara,se_club_ystads_if_hf,se_handbollsligan_herr,100,140,extreme PA-CA gap (>=20)
+player_jakob_nygren_aa608695,Jakob Nygren,se_club_ystads_if_hf,se_handbollsligan_herr,100,135,extreme PA-CA gap (>=20)
+player_johannes_liljeberg_ee116a28,Johannes Liljeberg,se_club_ystads_if_hf,se_handbollsligan_herr,100,149,extreme PA-CA gap (>=20)
+player_julius_lindskog_andersson_837f1533,Julius Lindskog Andersson,se_club_ystads_if_hf,se_handbollsligan_herr,155,158,substantially above league distribution (>140% of median)
+player_liam_hultberg_d2b82295,Liam Hultberg,se_club_ystads_if_hf,se_handbollsligan_herr,161,188,extreme PA-CA gap (>=20)
+player_liam_hultberg_d2b82295,Liam Hultberg,se_club_ystads_if_hf,se_handbollsligan_herr,161,188,substantially above league distribution (>140% of median)
+player_linus_fernebrand_78ad61c3,Linus Fernebrand,se_club_ystads_if_hf,se_handbollsligan_herr,146,150,substantially above league distribution (>140% of median)
+player_loke_fridh_d610b4f4,Loke Fridh,se_club_ystads_if_hf,se_handbollsligan_herr,100,160,extreme PA-CA gap (>=20)
+player_lowe_nilsson_7ae209b5,Lowe Nilsson,se_club_ystads_if_hf,se_handbollsligan_herr,100,131,extreme PA-CA gap (>=20)
+player_manz_hansen_03f19a38,Månz Hansen,se_club_ystads_if_hf,se_handbollsligan_herr,100,130,extreme PA-CA gap (>=20)
+player_niclas_ekberg_db866c2e,Niclas Ekberg,se_club_ystads_if_hf,se_handbollsligan_herr,167,185,substantially above league distribution (>140% of median)
+player_olle_pilman_85ed6203,Olle Pilman,se_club_ystads_if_hf,se_handbollsligan_herr,100,130,extreme PA-CA gap (>=20)
+player_oskar_arnell_75c81864,Oskar Arnell,se_club_ystads_if_hf,se_handbollsligan_herr,100,132,extreme PA-CA gap (>=20)
+player_philip_stenmalm_c5e22c2f,Philip Stenmalm,se_club_ystads_if_hf,se_handbollsligan_herr,145,155,substantially above league distribution (>140% of median)
+player_tim_rantala_e65ccb69,Tim Rantala,se_club_ystads_if_hf,se_handbollsligan_herr,100,142,extreme PA-CA gap (>=20)
+player_vidar_hemmensjo_2001818a,Vidar Hemmensjö,se_club_ystads_if_hf,se_handbollsligan_herr,100,132,extreme PA-CA gap (>=20)
+se_player_elis_andersson_30cb30cf,Elis Andersson,swe2-huddinge,swe-2,84,135,league bottom 10 CA
+se_player_elliott_livre_7aa171f0,Elliott Livré,swe2-huddinge,swe-2,85,150,league bottom 10 CA
+se_player_niclas_stjarnqvist_46c9b577,Niclas Stjärnqvist,swe2-huddinge,swe-2,85,121,league bottom 10 CA
+se_player_oscar_lilja_7b931abd,Oscar Lilja,swe2-huddinge,swe-2,85,118,league bottom 10 CA
+se_player_viggo_mertzig_96e4393f,Viggo Mertzig,swe2-huddinge,swe-2,85,120,league bottom 10 CA
+se_player_fabian_strandwitz_ba76b45a,Fabian Strandwitz,swe2-torslanda,swe-2,85,134,league bottom 10 CA
+se_player_albin_brauer_2847909f,Albin Brauer,swe2-tumba,swe-2,85,125,league bottom 10 CA
+se_player_elliot_hovre_bjorck_40a6f29e,Elliot Hövre Björck,swe2-tumba,swe-2,85,120,league bottom 10 CA
+se_player_eskil_glave_d4f71aff,Eskil Glave,swe2-tumba,swe-2,85,125,league bottom 10 CA
+se_player_filip_westberg_f8c00e47,Filip Westberg,swe2-tumba,swe-2,85,125,league bottom 10 CA
+se_player_fredrik_gustavsson_98b279d6,Fredrik Gustavsson,swe2-guif,swe-2,140,155,league top 10 CA
+se_player_anton_schulze_69fc5c7e,Anton Schulze,swe2-redbergslid,swe-2,140,150,league top 10 CA
+se_player_andreas_flodman_1fb70c61,Andreas Flodman,swe2-guif,swe-2,145,155,league top 10 CA
+se_player_marcus_ekman_40a65f53,Marcus Ekman,swe2-guif,swe-2,145,155,league top 10 CA
+se_player_gustaf_wedberg_32de08b9,Gustaf Wedberg,swe2-tyreso,swe-2,147,155,league top 10 CA
+se_player_adam_jonsson_177d8a41,Adam Jönsson,swe2-kroppskultur,swe-2,150,156,league top 10 CA
+se_player_carl_deliaune_aronius_db8c894c,Carl Deliaune Aronius,swe2-varberg,swe-2,150,156,league top 10 CA
+se_player_pontus_zetterman_b7d5b789,Pontus Zetterman,swe2-varberg,swe-2,150,155,league top 10 CA
+se_player_lowe_knutsson_edd52e78,Lowe Knutsson,swe2-ystad2,swe-2,150,151,league top 10 CA
+se_player_jim_gottfridsson_7323fffc,Jim Gottfridsson,swe2-ystad2,swe-2,168,192,league top 10 CA
+se_player_anton_arfvidsson_e382592e,Anton Arfvidsson,swe2-aranas,swe-2,100,136,extreme PA-CA gap (>=20)
+se_player_arvid_larsson_0fac8bfb,Arvid Larsson,swe2-aranas,swe-2,100,128,extreme PA-CA gap (>=20)
+se_player_axel_levin_eklund_87c76a40,Axel Levin Eklund,swe2-aranas,swe-2,100,120,extreme PA-CA gap (>=20)
+se_player_isak_brandin_5150ba19,Isak Brandin,swe2-aranas,swe-2,100,157,extreme PA-CA gap (>=20)
+se_player_ivar_perez_heselius_e39ab925,Ivar Perez Heselius,swe2-aranas,swe-2,118,165,extreme PA-CA gap (>=20)
+se_player_jonathan_ekman_d0a35bf6,Jonathan Ekman,swe2-aranas,swe-2,100,130,extreme PA-CA gap (>=20)
+se_player_kenan_salkicevic_4cb32042,Kenan Salkicevic,swe2-aranas,swe-2,110,155,extreme PA-CA gap (>=20)
+se_player_liam_magnusson_170cd0eb,Liam Magnusson,swe2-aranas,swe-2,100,142,extreme PA-CA gap (>=20)
+se_player_ludvig_bratt_f558ab21,Ludvig Bratt,swe2-aranas,swe-2,105,144,extreme PA-CA gap (>=20)
+se_player_oliver_himlevik_c17cd4d1,Oliver Himlevik,swe2-aranas,swe-2,100,129,extreme PA-CA gap (>=20)
+se_player_william_lund_a1cef7d9,William Lund,swe2-aranas,swe-2,110,143,extreme PA-CA gap (>=20)
+se_player_adam_bogren_4c60093c,Adam Bogren,swe2-drott,swe-2,100,135,extreme PA-CA gap (>=20)
+se_player_albin_holmqvist_cb7e7ae9,Albin Holmqvist,swe2-drott,swe-2,110,130,extreme PA-CA gap (>=20)
+se_player_alvar_persson_5790b98e,Alvar Persson,swe2-drott,swe-2,100,152,extreme PA-CA gap (>=20)
+se_player_andreja_zafirovic_a69ab4ce,Andreja Zafirovic,swe2-drott,swe-2,100,120,extreme PA-CA gap (>=20)
+se_player_anton_hellstrom_d288164f,Anton Hellström,swe2-drott,swe-2,100,131,extreme PA-CA gap (>=20)
+se_player_daniel_hagstrom_6c1a831b,Daniel Hagström,swe2-drott,swe-2,120,151,extreme PA-CA gap (>=20)
+se_player_jack_mansson_8e97a5cc,Jack Månsson,swe2-drott,swe-2,123,151,extreme PA-CA gap (>=20)
+se_player_lucas_stjernstrom_a43f8b7c,Lucas Stjernström,swe2-drott,swe-2,100,120,extreme PA-CA gap (>=20)
+se_player_oskar_palm_a635ef40,Oskar Palm,swe2-drott,swe-2,100,136,extreme PA-CA gap (>=20)
+se_player_alexander_grunau_7d05e649,Alexander Grünau,swe2-guif,swe-2,117,149,extreme PA-CA gap (>=20)
+se_player_anton_agren_8ef64603,Anton Ågren,swe2-guif,swe-2,100,143,extreme PA-CA gap (>=20)
+se_player_joakim_jorgensen_f59ea9c5,Joakim Jörgensen,swe2-guif,swe-2,100,151,extreme PA-CA gap (>=20)
+se_player_oscar_nilsson_26cc889a,Oscar Nilsson,swe2-guif,swe-2,100,129,extreme PA-CA gap (>=20)
+se_player_viktor_millard_1cc208ce,Viktor Millard,swe2-guif,swe-2,100,120,extreme PA-CA gap (>=20)
+se_player_vilhelm_conrad_c1a36a84,Vilhelm Conrad,swe2-guif,swe-2,105,151,extreme PA-CA gap (>=20)
+se_player_albin_hallengren_d68aa371,Albin Hallengren,swe2-h43lund,swe-2,100,123,extreme PA-CA gap (>=20)
+se_player_alvin_persson_caef10a5,Alvin Persson,swe2-h43lund,swe-2,100,140,extreme PA-CA gap (>=20)
+se_player_anton_celander_43bf74bb,Anton Celander,swe2-h43lund,swe-2,100,133,extreme PA-CA gap (>=20)
+se_player_arvid_wendt_9b4ff62f,Arvid Wendt,swe2-h43lund,swe-2,110,138,extreme PA-CA gap (>=20)
+se_player_erik_altimiras_4e73199c,Erik Altimiras,swe2-h43lund,swe-2,100,136,extreme PA-CA gap (>=20)
+se_player_gustaf_sjoblad_b7580ccb,Gustaf Sjöblad,swe2-h43lund,swe-2,110,146,extreme PA-CA gap (>=20)
+se_player_gustav_molhede_06edf334,Gustav Mölhede,swe2-h43lund,swe-2,100,128,extreme PA-CA gap (>=20)
+se_player_hampus_martensson_85131bfd,Hampus Mårtensson,swe2-h43lund,swe-2,100,136,extreme PA-CA gap (>=20)
+se_player_hugo_svensson_4041dc45,Hugo Svensson,swe2-h43lund,swe-2,110,139,extreme PA-CA gap (>=20)
+se_player_isak_sassersson_2a2e10d5,Isak Sassersson,swe2-h43lund,swe-2,99,128,extreme PA-CA gap (>=20)
+se_player_johan_ekholm_68582611,Johan Ekholm,swe2-h43lund,swe-2,100,126,extreme PA-CA gap (>=20)
+se_player_jonas_stromberg_a360c810,Jonas Strömberg,swe2-h43lund,swe-2,100,129,extreme PA-CA gap (>=20)
+se_player_jonathan_johansson_8a96d4a5,Jonathan Johansson,swe2-h43lund,swe-2,110,147,extreme PA-CA gap (>=20)
+se_player_olle_lundin_2da8dc75,Olle Lundin,swe2-h43lund,swe-2,100,122,extreme PA-CA gap (>=20)
+se_player_olof_lundh_nilsson_7766931d,Olof Lundh-Nilsson,swe2-h43lund,swe-2,100,144,extreme PA-CA gap (>=20)
+se_player_rasmus_nilsson_cd0d2ddc,Rasmus Nilsson,swe2-h43lund,swe-2,100,124,extreme PA-CA gap (>=20)
+se_player_adam_berg_fe7da30a,Adam Berg,swe2-huddinge,swe-2,120,149,extreme PA-CA gap (>=20)
+se_player_axel_kiltorp_a9276b2c,Axel Kiltorp,swe2-huddinge,swe-2,100,133,extreme PA-CA gap (>=20)
+se_player_elis_andersson_30cb30cf,Elis Andersson,swe2-huddinge,swe-2,84,135,extreme PA-CA gap (>=20)
+se_player_elliott_livre_7aa171f0,Elliott Livré,swe2-huddinge,swe-2,85,150,extreme PA-CA gap (>=20)
+se_player_fredrik_kampe_c333aa59,Fredrik Kämpe,swe2-huddinge,swe-2,100,136,extreme PA-CA gap (>=20)
+se_player_joel_gustafsson_ba706608,Joel Gustafsson,swe2-huddinge,swe-2,100,138,extreme PA-CA gap (>=20)
+se_player_marcus_astrom_db9da7ed,Marcus Åström,swe2-huddinge,swe-2,110,151,extreme PA-CA gap (>=20)
+se_player_max_andersson_74fec626,Max Andersson,swe2-huddinge,swe-2,105,138,extreme PA-CA gap (>=20)
+se_player_melvin_andre_b49125e8,Melvin Andre,swe2-huddinge,swe-2,100,130,extreme PA-CA gap (>=20)
+se_player_nicklas_andreasson_ecbbbb4c,Nicklas Andreasson,swe2-huddinge,swe-2,120,153,extreme PA-CA gap (>=20)
+se_player_niclas_stjarnqvist_46c9b577,Niclas Stjärnqvist,swe2-huddinge,swe-2,85,121,extreme PA-CA gap (>=20)
+se_player_oliver_edlund_3ae89600,Oliver Edlund,swe2-huddinge,swe-2,100,143,extreme PA-CA gap (>=20)
+se_player_oscar_lilja_7b931abd,Oscar Lilja,swe2-huddinge,swe-2,85,118,extreme PA-CA gap (>=20)
+se_player_ozgur_yilmaz_fab42d20,Özgür Yilmaz,swe2-huddinge,swe-2,100,144,extreme PA-CA gap (>=20)
+se_player_samuel_woldu_887cd46d,Samuel Woldu,swe2-huddinge,swe-2,110,157,extreme PA-CA gap (>=20)
+se_player_tobias_leile_2d7a55da,Tobias Leile,swe2-huddinge,swe-2,117,146,extreme PA-CA gap (>=20)
+se_player_viggo_mertzig_96e4393f,Viggo Mertzig,swe2-huddinge,swe-2,85,120,extreme PA-CA gap (>=20)
+se_player_adam_jonsson_177d8a41,Adam Jönsson,swe2-kroppskultur,swe-2,150,156,substantially above league distribution (>140% of median)
+se_player_alvin_sundstrom_733a7887,Alvin Sundström,swe2-kroppskultur,swe-2,100,142,extreme PA-CA gap (>=20)
+se_player_jakob_baard_49d98f58,Jakob Baard,swe2-kroppskultur,swe-2,100,146,extreme PA-CA gap (>=20)
+se_player_leon_ring_3ad350a5,Leon Ring,swe2-kroppskultur,swe-2,100,133,extreme PA-CA gap (>=20)
+se_player_love_ljungqvist_3f94aca6,Love Ljungqvist,swe2-kroppskultur,swe-2,100,122,extreme PA-CA gap (>=20)
+se_player_pontus_josefsson_sall_abb9f4af,Pontus Josefsson Säll,swe2-kroppskultur,swe-2,120,145,extreme PA-CA gap (>=20)
+se_player_simon_holmqvist_0f746700,Simon Holmqvist,swe2-kroppskultur,swe-2,100,153,extreme PA-CA gap (>=20)
+se_player_adam_fule_5020dcbf,Adam Füle,swe2-kungalv,swe-2,100,135,extreme PA-CA gap (>=20)
+se_player_alexander_norrbrink_c0b9bb84,Alexander Norrbrink,swe2-kungalv,swe-2,100,142,extreme PA-CA gap (>=20)
+se_player_anton_johansson_e1cb66a6,Anton Johansson,swe2-kungalv,swe-2,100,120,extreme PA-CA gap (>=20)
+se_player_arvid_moradnia_a61c71b2,Arvid Moradnia,swe2-kungalv,swe-2,100,122,extreme PA-CA gap (>=20)
+se_player_birk_larsson_152eee5f,Birk Larsson,swe2-kungalv,swe-2,112,145,extreme PA-CA gap (>=20)
+se_player_elliot_ziba_6a4b51f4,Elliot Ziba,swe2-kungalv,swe-2,100,123,extreme PA-CA gap (>=20)
+se_player_felix_svensson_2d585f02,Felix Svensson,swe2-kungalv,swe-2,100,138,extreme PA-CA gap (>=20)
+se_player_hakan_hekmati_9564e9a9,Håkan Hekmati,swe2-kungalv,swe-2,100,125,extreme PA-CA gap (>=20)
+se_player_hugo_ahlstrom_b9da7113,Hugo Ahlström,swe2-kungalv,swe-2,100,143,extreme PA-CA gap (>=20)
+se_player_tage_barne_ef2b4a8a,Tage Barne,swe2-kungalv,swe-2,100,153,extreme PA-CA gap (>=20)
+se_player_theo_andersson_hjert_14176fa3,Theo Andersson Hjert,swe2-kungalv,swe-2,100,129,extreme PA-CA gap (>=20)
+se_player_victor_paldanius_265cebe9,Victor Paldanius,swe2-kungalv,swe-2,100,128,extreme PA-CA gap (>=20)
+se_player_alexander_ryd_bf7aeff1,Alexander Ryd,swe2-redbergslid,swe-2,100,140,extreme PA-CA gap (>=20)
+se_player_anton_gustafsson_2768598f,Anton Gustafsson,swe2-redbergslid,swe-2,110,147,extreme PA-CA gap (>=20)
+se_player_axel_mundel_97706f6d,Axel Mundel,swe2-redbergslid,swe-2,110,140,extreme PA-CA gap (>=20)
+se_player_colin_lundstrom_af361c28,Colin Lundström,swe2-redbergslid,swe-2,100,131,extreme PA-CA gap (>=20)
+se_player_elliot_svahn_2821b2ef,Elliot Svahn,swe2-redbergslid,swe-2,100,140,extreme PA-CA gap (>=20)
+se_player_helmer_jonsson_ef20cdd2,Helmer Jönsson,swe2-redbergslid,swe-2,105,129,extreme PA-CA gap (>=20)
+se_player_luka_cvjetkovic_9e685b1d,Luka Cvjetkovic,swe2-redbergslid,swe-2,100,145,extreme PA-CA gap (>=20)
+se_player_lukas_radberg_38303eb1,Lukas Rådberg,swe2-redbergslid,swe-2,114,149,extreme PA-CA gap (>=20)
+se_player_noah_larsson_ec1c8ff2,Noah Larsson,swe2-redbergslid,swe-2,100,139,extreme PA-CA gap (>=20)
+se_player_noel_fagerlin_292f4e62,Noel Fagerlin,swe2-redbergslid,swe-2,123,151,extreme PA-CA gap (>=20)
+se_player_oliver_andersson_20b69aa2,Oliver Andersson,swe2-redbergslid,swe-2,100,131,extreme PA-CA gap (>=20)
+se_player_oskar_orwallius_51b7db3c,Oskar Orwallius,swe2-redbergslid,swe-2,100,135,extreme PA-CA gap (>=20)
+se_player_theodor_kapnias_olsson_60beed3c,Theodor Kapnias Olsson,swe2-redbergslid,swe-2,100,130,extreme PA-CA gap (>=20)
+se_player_fabian_strandwitz_ba76b45a,Fabian Strandwitz,swe2-torslanda,swe-2,85,134,extreme PA-CA gap (>=20)
+se_player_felix_fogelholm_2641a250,Felix Fogelholm,swe2-torslanda,swe-2,110,136,extreme PA-CA gap (>=20)
+se_player_gustav_simonsson_a57211f6,Gustav Simonsson,swe2-torslanda,swe-2,100,137,extreme PA-CA gap (>=20)
+se_player_lukas_runge_c86c8178,Lukas Runge,swe2-torslanda,swe-2,100,129,extreme PA-CA gap (>=20)
+se_player_manu_estrada_hammarback_757b5910,Manu Estrada Hammarbäck,swe2-torslanda,swe-2,100,126,extreme PA-CA gap (>=20)
+se_player_rasmus_bohlin_64aace5e,Rasmus Bohlin,swe2-torslanda,swe-2,100,145,extreme PA-CA gap (>=20)
+se_player_albin_brauer_2847909f,Albin Brauer,swe2-tumba,swe-2,85,125,extreme PA-CA gap (>=20)
+se_player_anton_thomsen_eb2b2bb6,Anton Thomsen,swe2-tumba,swe-2,95,122,extreme PA-CA gap (>=20)
+se_player_cazper_falenius_21f21a28,Cazper Falenius,swe2-tumba,swe-2,105,145,extreme PA-CA gap (>=20)
+se_player_david_blazevic_ca6d5fb0,David Blazevic,swe2-tumba,swe-2,109,145,extreme PA-CA gap (>=20)
+se_player_edvin_alm_a2556486,Edvin Alm,swe2-tumba,swe-2,120,147,extreme PA-CA gap (>=20)
+se_player_elliot_hovre_bjorck_40a6f29e,Elliot Hövre Björck,swe2-tumba,swe-2,85,120,extreme PA-CA gap (>=20)
+se_player_eskil_glave_d4f71aff,Eskil Glave,swe2-tumba,swe-2,85,125,extreme PA-CA gap (>=20)
+se_player_filip_westberg_f8c00e47,Filip Westberg,swe2-tumba,swe-2,85,125,extreme PA-CA gap (>=20)
+se_player_jesper_bergman_a712926b,Jesper Bergman,swe2-tumba,swe-2,122,147,extreme PA-CA gap (>=20)
+se_player_olle_soderqvist_467b211d,Olle Söderqvist,swe2-tumba,swe-2,121,150,extreme PA-CA gap (>=20)
+se_player_andreas_lagerstrom_32dc9ce4,Andreas Lagerström,swe2-tyreso,swe-2,115,135,extreme PA-CA gap (>=20)
+se_player_axel_marqvardsen_31d5a281,Axel Marqvardsen,swe2-tyreso,swe-2,100,144,extreme PA-CA gap (>=20)
+se_player_emil_soderholm_5cdc48de,Emil Söderholm,swe2-tyreso,swe-2,115,138,extreme PA-CA gap (>=20)
+se_player_karl_gustav_pintsaar_e207c1b2,Karl-Gustav Pintsaar,swe2-tyreso,swe-2,85,127,extreme PA-CA gap (>=20)
+se_player_leo_andren_5a5396bd,Leo Andrén,swe2-tyreso,swe-2,100,137,extreme PA-CA gap (>=20)
+se_player_ludwig_ase_94b2022a,Ludwig Åse,swe2-tyreso,swe-2,117,147,extreme PA-CA gap (>=20)
+se_player_ludwig_elmgren_efeb44b7,Ludwig Elmgren,swe2-tyreso,swe-2,85,134,extreme PA-CA gap (>=20)
+se_player_martin_borjes_1690df70,Martin Börjes,swe2-tyreso,swe-2,125,152,extreme PA-CA gap (>=20)
+se_player_marvin_barrett_8d02e65e,Marvin Barrett,swe2-tyreso,swe-2,120,147,extreme PA-CA gap (>=20)
+se_player_norton_kjellner_442607e4,Norton Kjellner,swe2-tyreso,swe-2,85,127,extreme PA-CA gap (>=20)
+se_player_oskar_davidsson_e24f41d0,Oskar Davidsson,swe2-tyreso,swe-2,117,140,extreme PA-CA gap (>=20)
+se_player_alvin_ankarbjork_olli_c1c4d25a,Alvin Ankarbjörk Olli,swe2-varberg,swe-2,100,144,extreme PA-CA gap (>=20)
+se_player_carl_deliaune_aronius_db8c894c,Carl Deliaune Aronius,swe2-varberg,swe-2,150,156,substantially above league distribution (>140% of median)
+se_player_emil_fransson_f5a9a0dd,Emil Fransson,swe2-varberg,swe-2,100,140,extreme PA-CA gap (>=20)
+se_player_isak_borg_ad00a07c,Isak Borg,swe2-varberg,swe-2,100,121,extreme PA-CA gap (>=20)
+se_player_julian_sjogren_e2c4eb76,Julian Sjögren,swe2-varberg,swe-2,110,140,extreme PA-CA gap (>=20)
+se_player_linus_lindberg_4d4cce12,Linus Lindberg,swe2-varberg,swe-2,130,151,extreme PA-CA gap (>=20)
+se_player_pontus_zetterman_b7d5b789,Pontus Zetterman,swe2-varberg,swe-2,150,155,substantially above league distribution (>140% of median)
+se_player_simon_brodow_9a4b162f,Simon Brodow,swe2-varberg,swe-2,119,139,extreme PA-CA gap (>=20)
+se_player_valter_warborn_a56cfbbb,Valter Warborn,swe2-varberg,swe-2,110,137,extreme PA-CA gap (>=20)
+se_player_albin_lindblom_ebc224c8,Albin Lindblom,swe2-vasterasirsta,swe-2,110,134,extreme PA-CA gap (>=20)
+se_player_erik_stromstedt_b0f74f26,Erik Strömstedt,swe2-vasterasirsta,swe-2,100,124,extreme PA-CA gap (>=20)
+se_player_gosta_lillhok_e51c1d78,Gösta Lillhök,swe2-vasterasirsta,swe-2,121,148,extreme PA-CA gap (>=20)
+se_player_gustaf_hagskold_f3f9a4cf,Gustaf Hagsköld,swe2-vasterasirsta,swe-2,100,149,extreme PA-CA gap (>=20)
+se_player_jens_lindstrom_d049eae2,Jens Lindström,swe2-vasterasirsta,swe-2,100,154,extreme PA-CA gap (>=20)
+se_player_jonathan_wallgren_d8faf71a,Jonathan Wallgren,swe2-vasterasirsta,swe-2,100,123,extreme PA-CA gap (>=20)
+se_player_mans_lagelius_cc4d9bd4,Måns Lagelius,swe2-vasterasirsta,swe-2,117,143,extreme PA-CA gap (>=20)
+se_player_rasmus_solver_808081cf,Rasmus Solver,swe2-vasterasirsta,swe-2,100,136,extreme PA-CA gap (>=20)
+se_player_william_westlund_d1bf4054,William Westlund,swe2-vasterasirsta,swe-2,120,142,extreme PA-CA gap (>=20)
+se_player_edvin_persson_a930b582,Edvin Persson,swe2-ystad2,swe-2,100,128,extreme PA-CA gap (>=20)
+se_player_jacob_hellstrom_1ad97470,Jacob Hellström,swe2-ystad2,swe-2,100,155,extreme PA-CA gap (>=20)
+se_player_jim_gottfridsson_7323fffc,Jim Gottfridsson,swe2-ystad2,swe-2,168,192,extreme PA-CA gap (>=20)
+se_player_jim_gottfridsson_7323fffc,Jim Gottfridsson,swe2-ystad2,swe-2,168,192,substantially above league distribution (>140% of median)
+se_player_lowe_knutsson_edd52e78,Lowe Knutsson,swe2-ystad2,swe-2,150,151,substantially above league distribution (>140% of median)
+se_player_lukas_larsson_0b13b970,Lukas Larsson,swe2-ystad2,swe-2,100,120,extreme PA-CA gap (>=20)
+se_player_melker_andersson_d551e135,Melker Andersson,swe2-ystad2,swe-2,105,129,extreme PA-CA gap (>=20)
+se_player_melvin_petersen_26d8da3d,Melvin Petersen,swe2-ystad2,swe-2,110,134,extreme PA-CA gap (>=20)
+se_player_oliver_knudsen_831e83e1,Oliver Knudsen,swe2-ystad2,swe-2,110,139,extreme PA-CA gap (>=20)
+se_player_truls_landgren_613cbe9f,Truls Landgren,swe2-ystad2,swe-2,110,135,extreme PA-CA gap (>=20)
