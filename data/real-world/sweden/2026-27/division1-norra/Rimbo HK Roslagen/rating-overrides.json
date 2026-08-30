@@ -1,12 +1,82 @@
 {
   "player_jeff_tollbring_6a336e1b": {
-    "updatedAt": "2026-08-30T07:54:44.217Z",
-    "ca": 100,
-    "pa": 165
+    "updatedAt": "2026-08-30T17:56:57.861Z",
+    "ca": 90,
+    "pa": 90
   },
   "player_ken_tollbring_e7e81dc5": {
+    "updatedAt": "2026-08-30T17:56:58.647Z",
+    "ca": 98,
+    "pa": 98
+  },
+  "player_benjamin_lund_6347e2c4": {
+    "updatedAt": "2026-08-30T17:56:56.315Z",
     "ca": 100,
-    "pa": 150,
-    "updatedAt": "2026-08-30T07:56:58.005Z"
+    "pa": 124
+  },
+  "player_carl_seger_06c2ec34": {
+    "updatedAt": "2026-08-30T17:56:56.718Z",
+    "ca": 104,
+    "pa": 112
+  },
+  "player_endrit_abdullahi_40564870": {
+    "updatedAt": "2026-08-30T17:56:57.102Z",
+    "ca": 96,
+    "pa": 112
+  },
+  "player_isak_thorstrom_dc04b76c": {
+    "updatedAt": "2026-08-30T17:56:57.487Z",
+    "ca": 108,
+    "pa": 116
+  },
+  "player_jonathan_lindqvist_6a623df9": {
+    "updatedAt": "2026-08-30T17:56:58.240Z",
+    "ca": 100,
+    "pa": 104
+  },
+  "player_leo_elvermark_06413d35": {
+    "updatedAt": "2026-08-30T17:56:59.018Z",
+    "ca": 96,
+    "pa": 120
+  },
+  "player_lukas_eriksson_3c4d72b9": {
+    "updatedAt": "2026-08-30T17:56:59.398Z",
+    "ca": 90,
+    "pa": 120
+  },
+  "player_max_eriksson_4aabc1d9": {
+    "updatedAt": "2026-08-30T17:56:59.792Z",
+    "ca": 92,
+    "pa": 108
+  },
+  "player_melker_ramstrom_0c4733f1": {
+    "updatedAt": "2026-08-30T17:57:00.157Z",
+    "ca": 105,
+    "pa": 128
+  },
+  "player_mio_danneker_490a838b": {
+    "updatedAt": "2026-08-30T17:57:00.540Z",
+    "ca": 96,
+    "pa": 120
+  },
+  "player_nicklas_jading_b2b55819": {
+    "updatedAt": "2026-08-30T17:57:00.933Z",
+    "ca": 119,
+    "pa": 122
+  },
+  "player_olle_edlind_01d903a5": {
+    "updatedAt": "2026-08-30T17:57:01.325Z",
+    "ca": 96,
+    "pa": 118
+  },
+  "player_simon_wetter_ac7351dc": {
+    "updatedAt": "2026-08-30T17:57:01.724Z",
+    "ca": 108,
+    "pa": 126
+  },
+  "player_william_nystrom_b836eada": {
+    "ca": 94,
+    "pa": 118,
+    "updatedAt": "2026-08-30T17:57:02.107Z"
   }
 }

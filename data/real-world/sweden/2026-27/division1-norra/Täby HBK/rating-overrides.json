@@ -1,7 +1,112 @@
 {
   "player_leonard_borjesson_e540e472": {
-    "ca": 120,
-    "pa": 150,
-    "updatedAt": "2026-08-30T07:54:48.320Z"
+    "updatedAt": "2026-08-30T17:57:38.899Z",
+    "ca": 108,
+    "pa": 158
+  },
+  "player_adam_bramstang_de78c63a": {
+    "updatedAt": "2026-08-30T17:57:32.966Z",
+    "ca": 98,
+    "pa": 116
+  },
+  "player_adam_magnusson_da786cb2": {
+    "updatedAt": "2026-08-30T17:57:33.345Z",
+    "ca": 98,
+    "pa": 148
+  },
+  "player_alex_lundell_97221cda": {
+    "updatedAt": "2026-08-30T17:57:33.728Z",
+    "ca": 102,
+    "pa": 120
+  },
+  "player_alvin_gohlman_f8f0d37d": {
+    "updatedAt": "2026-08-30T17:57:34.125Z",
+    "ca": 104,
+    "pa": 118
+  },
+  "player_carl_svensson_kallviks_ea415ee0": {
+    "updatedAt": "2026-08-30T17:57:34.509Z",
+    "ca": 100,
+    "pa": 116
+  },
+  "player_casper_lundin_e4e52429": {
+    "updatedAt": "2026-08-30T17:57:34.897Z",
+    "ca": 98,
+    "pa": 122
+  },
+  "player_edvard_ager_b0f291a5": {
+    "updatedAt": "2026-08-30T17:57:35.268Z",
+    "ca": 106,
+    "pa": 130
+  },
+  "player_erik_lillhok_9c5f10c4": {
+    "updatedAt": "2026-08-30T17:57:35.651Z",
+    "ca": 94,
+    "pa": 125
+  },
+  "player_erik_olofsson_a0f95769": {
+    "updatedAt": "2026-08-30T17:57:36.033Z",
+    "ca": 92,
+    "pa": 118
+  },
+  "player_erik_pedersen_b65146ea": {
+    "updatedAt": "2026-08-30T17:57:36.436Z",
+    "ca": 102,
+    "pa": 108
+  },
+  "player_fredrik_helander_6278e4ce": {
+    "updatedAt": "2026-08-30T17:57:36.853Z",
+    "ca": 100,
+    "pa": 120
+  },
+  "player_gustaf_berg_146525e6": {
+    "updatedAt": "2026-08-30T17:57:37.234Z",
+    "ca": 108,
+    "pa": 136
+  },
+  "player_hannes_svanelid_57cea04e": {
+    "updatedAt": "2026-08-30T17:57:37.658Z",
+    "ca": 96,
+    "pa": 125
+  },
+  "player_jonas_umegard_bdd8836c": {
+    "updatedAt": "2026-08-30T17:57:38.050Z",
+    "ca": 110,
+    "pa": 116
+  },
+  "player_kasper_svalstedt_027ccd7b": {
+    "updatedAt": "2026-08-30T17:57:38.474Z",
+    "ca": 110,
+    "pa": 128
+  },
+  "player_mans_moller_55c43ecf": {
+    "updatedAt": "2026-08-30T17:57:39.337Z",
+    "ca": 104,
+    "pa": 125
+  },
+  "player_tom_grenas_29fe897c": {
+    "updatedAt": "2026-08-30T17:57:39.738Z",
+    "ca": 110,
+    "pa": 120
+  },
+  "player_valter_ross_skarvad_98fb4686": {
+    "updatedAt": "2026-08-30T17:57:40.139Z",
+    "ca": 100,
+    "pa": 145
+  },
+  "player_viggo_jahr_0f2bd9ea": {
+    "updatedAt": "2026-08-30T17:57:40.588Z",
+    "ca": 100,
+    "pa": 118
+  },
+  "player_vilgot_torstensson_644f6b96": {
+    "updatedAt": "2026-08-30T17:57:40.989Z",
+    "ca": 108,
+    "pa": 126
+  },
+  "player_vilhelm_ager_dab3f72c": {
+    "ca": 100,
+    "pa": 138,
+    "updatedAt": "2026-08-30T17:57:41.410Z"
   }
 }

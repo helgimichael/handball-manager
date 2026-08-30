@@ -1,7 +1,112 @@
 {
   "player_leonard_borjesson_e540e472": {
     "status": "LOCKED",
-    "updatedAt": "2026-08-30T07:54:49.607Z",
-    "note": "Bulk calibration (Editor -> Spelare -> Kalibrering)."
+    "updatedAt": "2026-08-30T17:57:39.235Z",
+    "note": "DIV1N_rating_import_candidates_v0.6 / DIV1S_rating_import_candidates_v0.5 Division 1 import (DIV1_ONLY_CANONICAL set only)"
+  },
+  "player_adam_bramstang_de78c63a": {
+    "status": "LOCKED",
+    "updatedAt": "2026-08-30T17:57:33.271Z",
+    "note": "DIV1N_rating_import_candidates_v0.6 / DIV1S_rating_import_candidates_v0.5 Division 1 import (DIV1_ONLY_CANONICAL set only)"
+  },
+  "player_adam_magnusson_da786cb2": {
+    "status": "LOCKED",
+    "updatedAt": "2026-08-30T17:57:33.657Z",
+    "note": "DIV1N_rating_import_candidates_v0.6 / DIV1S_rating_import_candidates_v0.5 Division 1 import (DIV1_ONLY_CANONICAL set only)"
+  },
+  "player_alex_lundell_97221cda": {
+    "status": "LOCKED",
+    "updatedAt": "2026-08-30T17:57:34.052Z",
+    "note": "DIV1N_rating_import_candidates_v0.6 / DIV1S_rating_import_candidates_v0.5 Division 1 import (DIV1_ONLY_CANONICAL set only)"
+  },
+  "player_alvin_gohlman_f8f0d37d": {
+    "status": "LOCKED",
+    "updatedAt": "2026-08-30T17:57:34.424Z",
+    "note": "DIV1N_rating_import_candidates_v0.6 / DIV1S_rating_import_candidates_v0.5 Division 1 import (DIV1_ONLY_CANONICAL set only)"
+  },
+  "player_carl_svensson_kallviks_ea415ee0": {
+    "status": "LOCKED",
+    "updatedAt": "2026-08-30T17:57:34.819Z",
+    "note": "DIV1N_rating_import_candidates_v0.6 / DIV1S_rating_import_candidates_v0.5 Division 1 import (DIV1_ONLY_CANONICAL set only)"
+  },
+  "player_casper_lundin_e4e52429": {
+    "status": "LOCKED",
+    "updatedAt": "2026-08-30T17:57:35.196Z",
+    "note": "DIV1N_rating_import_candidates_v0.6 / DIV1S_rating_import_candidates_v0.5 Division 1 import (DIV1_ONLY_CANONICAL set only)"
+  },
+  "player_edvard_ager_b0f291a5": {
+    "status": "LOCKED",
+    "updatedAt": "2026-08-30T17:57:35.575Z",
+    "note": "DIV1N_rating_import_candidates_v0.6 / DIV1S_rating_import_candidates_v0.5 Division 1 import (DIV1_ONLY_CANONICAL set only)"
+  },
+  "player_erik_lillhok_9c5f10c4": {
+    "status": "LOCKED",
+    "updatedAt": "2026-08-30T17:57:35.962Z",
+    "note": "DIV1N_rating_import_candidates_v0.6 / DIV1S_rating_import_candidates_v0.5 Division 1 import (DIV1_ONLY_CANONICAL set only)"
+  },
+  "player_erik_olofsson_a0f95769": {
+    "status": "LOCKED",
+    "updatedAt": "2026-08-30T17:57:36.359Z",
+    "note": "DIV1N_rating_import_candidates_v0.6 / DIV1S_rating_import_candidates_v0.5 Division 1 import (DIV1_ONLY_CANONICAL set only)"
+  },
+  "player_erik_pedersen_b65146ea": {
+    "status": "LOCKED",
+    "updatedAt": "2026-08-30T17:57:36.773Z",
+    "note": "DIV1N_rating_import_candidates_v0.6 / DIV1S_rating_import_candidates_v0.5 Division 1 import (DIV1_ONLY_CANONICAL set only)"
+  },
+  "player_fredrik_helander_6278e4ce": {
+    "status": "LOCKED",
+    "updatedAt": "2026-08-30T17:57:37.158Z",
+    "note": "DIV1N_rating_import_candidates_v0.6 / DIV1S_rating_import_candidates_v0.5 Division 1 import (DIV1_ONLY_CANONICAL set only)"
+  },
+  "player_gustaf_berg_146525e6": {
+    "status": "LOCKED",
+    "updatedAt": "2026-08-30T17:57:37.581Z",
+    "note": "DIV1N_rating_import_candidates_v0.6 / DIV1S_rating_import_candidates_v0.5 Division 1 import (DIV1_ONLY_CANONICAL set only)"
+  },
+  "player_hannes_svanelid_57cea04e": {
+    "status": "LOCKED",
+    "updatedAt": "2026-08-30T17:57:37.982Z",
+    "note": "DIV1N_rating_import_candidates_v0.6 / DIV1S_rating_import_candidates_v0.5 Division 1 import (DIV1_ONLY_CANONICAL set only)"
+  },
+  "player_jonas_umegard_bdd8836c": {
+    "status": "LOCKED",
+    "updatedAt": "2026-08-30T17:57:38.388Z",
+    "note": "DIV1N_rating_import_candidates_v0.6 / DIV1S_rating_import_candidates_v0.5 Division 1 import (DIV1_ONLY_CANONICAL set only)"
+  },
+  "player_kasper_svalstedt_027ccd7b": {
+    "status": "LOCKED",
+    "updatedAt": "2026-08-30T17:57:38.825Z",
+    "note": "DIV1N_rating_import_candidates_v0.6 / DIV1S_rating_import_candidates_v0.5 Division 1 import (DIV1_ONLY_CANONICAL set only)"
+  },
+  "player_mans_moller_55c43ecf": {
+    "status": "LOCKED",
+    "updatedAt": "2026-08-30T17:57:39.670Z",
+    "note": "DIV1N_rating_import_candidates_v0.6 / DIV1S_rating_import_candidates_v0.5 Division 1 import (DIV1_ONLY_CANONICAL set only)"
+  },
+  "player_tom_grenas_29fe897c": {
+    "status": "LOCKED",
+    "updatedAt": "2026-08-30T17:57:40.061Z",
+    "note": "DIV1N_rating_import_candidates_v0.6 / DIV1S_rating_import_candidates_v0.5 Division 1 import (DIV1_ONLY_CANONICAL set only)"
+  },
+  "player_valter_ross_skarvad_98fb4686": {
+    "status": "LOCKED",
+    "updatedAt": "2026-08-30T17:57:40.493Z",
+    "note": "DIV1N_rating_import_candidates_v0.6 / DIV1S_rating_import_candidates_v0.5 Division 1 import (DIV1_ONLY_CANONICAL set only)"
+  },
+  "player_viggo_jahr_0f2bd9ea": {
+    "status": "LOCKED",
+    "updatedAt": "2026-08-30T17:57:40.908Z",
+    "note": "DIV1N_rating_import_candidates_v0.6 / DIV1S_rating_import_candidates_v0.5 Division 1 import (DIV1_ONLY_CANONICAL set only)"
+  },
+  "player_vilgot_torstensson_644f6b96": {
+    "status": "LOCKED",
+    "updatedAt": "2026-08-30T17:57:41.318Z",
+    "note": "DIV1N_rating_import_candidates_v0.6 / DIV1S_rating_import_candidates_v0.5 Division 1 import (DIV1_ONLY_CANONICAL set only)"
+  },
+  "player_vilhelm_ager_dab3f72c": {
+    "status": "LOCKED",
+    "updatedAt": "2026-08-30T17:57:41.753Z",
+    "note": "DIV1N_rating_import_candidates_v0.6 / DIV1S_rating_import_candidates_v0.5 Division 1 import (DIV1_ONLY_CANONICAL set only)"
   }
 }

@@ -1,12 +1,82 @@
 {
   "player_jeff_tollbring_6a336e1b": {
     "status": "LOCKED",
-    "updatedAt": "2026-08-30T07:54:45.223Z",
-    "note": "Bulk calibration (Editor -> Spelare -> Kalibrering)."
+    "updatedAt": "2026-08-30T17:56:58.163Z",
+    "note": "DIV1N_rating_import_candidates_v0.6 / DIV1S_rating_import_candidates_v0.5 Division 1 import (DIV1_ONLY_CANONICAL set only)"
   },
   "player_ken_tollbring_e7e81dc5": {
     "status": "LOCKED",
-    "updatedAt": "2026-08-30T07:56:58.945Z",
-    "note": "Bulk calibration (Editor -> Spelare -> Kalibrering)."
+    "updatedAt": "2026-08-30T17:56:58.945Z",
+    "note": "DIV1N_rating_import_candidates_v0.6 / DIV1S_rating_import_candidates_v0.5 Division 1 import (DIV1_ONLY_CANONICAL set only)"
+  },
+  "player_benjamin_lund_6347e2c4": {
+    "status": "LOCKED",
+    "updatedAt": "2026-08-30T17:56:56.637Z",
+    "note": "DIV1N_rating_import_candidates_v0.6 / DIV1S_rating_import_candidates_v0.5 Division 1 import (DIV1_ONLY_CANONICAL set only)"
+  },
+  "player_carl_seger_06c2ec34": {
+    "status": "LOCKED",
+    "updatedAt": "2026-08-30T17:56:57.028Z",
+    "note": "DIV1N_rating_import_candidates_v0.6 / DIV1S_rating_import_candidates_v0.5 Division 1 import (DIV1_ONLY_CANONICAL set only)"
+  },
+  "player_endrit_abdullahi_40564870": {
+    "status": "LOCKED",
+    "updatedAt": "2026-08-30T17:56:57.413Z",
+    "note": "DIV1N_rating_import_candidates_v0.6 / DIV1S_rating_import_candidates_v0.5 Division 1 import (DIV1_ONLY_CANONICAL set only)"
+  },
+  "player_isak_thorstrom_dc04b76c": {
+    "status": "LOCKED",
+    "updatedAt": "2026-08-30T17:56:57.791Z",
+    "note": "DIV1N_rating_import_candidates_v0.6 / DIV1S_rating_import_candidates_v0.5 Division 1 import (DIV1_ONLY_CANONICAL set only)"
+  },
+  "player_jonathan_lindqvist_6a623df9": {
+    "status": "LOCKED",
+    "updatedAt": "2026-08-30T17:56:58.575Z",
+    "note": "DIV1N_rating_import_candidates_v0.6 / DIV1S_rating_import_candidates_v0.5 Division 1 import (DIV1_ONLY_CANONICAL set only)"
+  },
+  "player_leo_elvermark_06413d35": {
+    "status": "LOCKED",
+    "updatedAt": "2026-08-30T17:56:59.324Z",
+    "note": "DIV1N_rating_import_candidates_v0.6 / DIV1S_rating_import_candidates_v0.5 Division 1 import (DIV1_ONLY_CANONICAL set only)"
+  },
+  "player_lukas_eriksson_3c4d72b9": {
+    "status": "LOCKED",
+    "updatedAt": "2026-08-30T17:56:59.716Z",
+    "note": "DIV1N_rating_import_candidates_v0.6 / DIV1S_rating_import_candidates_v0.5 Division 1 import (DIV1_ONLY_CANONICAL set only)"
+  },
+  "player_max_eriksson_4aabc1d9": {
+    "status": "LOCKED",
+    "updatedAt": "2026-08-30T17:57:00.085Z",
+    "note": "DIV1N_rating_import_candidates_v0.6 / DIV1S_rating_import_candidates_v0.5 Division 1 import (DIV1_ONLY_CANONICAL set only)"
+  },
+  "player_melker_ramstrom_0c4733f1": {
+    "status": "LOCKED",
+    "updatedAt": "2026-08-30T17:57:00.456Z",
+    "note": "DIV1N_rating_import_candidates_v0.6 / DIV1S_rating_import_candidates_v0.5 Division 1 import (DIV1_ONLY_CANONICAL set only)"
+  },
+  "player_mio_danneker_490a838b": {
+    "status": "LOCKED",
+    "updatedAt": "2026-08-30T17:57:00.849Z",
+    "note": "DIV1N_rating_import_candidates_v0.6 / DIV1S_rating_import_candidates_v0.5 Division 1 import (DIV1_ONLY_CANONICAL set only)"
+  },
+  "player_nicklas_jading_b2b55819": {
+    "status": "LOCKED",
+    "updatedAt": "2026-08-30T17:57:01.245Z",
+    "note": "DIV1N_rating_import_candidates_v0.6 / DIV1S_rating_import_candidates_v0.5 Division 1 import (DIV1_ONLY_CANONICAL set only)"
+  },
+  "player_olle_edlind_01d903a5": {
+    "status": "LOCKED",
+    "updatedAt": "2026-08-30T17:57:01.647Z",
+    "note": "DIV1N_rating_import_candidates_v0.6 / DIV1S_rating_import_candidates_v0.5 Division 1 import (DIV1_ONLY_CANONICAL set only)"
+  },
+  "player_simon_wetter_ac7351dc": {
+    "status": "LOCKED",
+    "updatedAt": "2026-08-30T17:57:02.035Z",
+    "note": "DIV1N_rating_import_candidates_v0.6 / DIV1S_rating_import_candidates_v0.5 Division 1 import (DIV1_ONLY_CANONICAL set only)"
+  },
+  "player_william_nystrom_b836eada": {
+    "status": "LOCKED",
+    "updatedAt": "2026-08-30T17:57:02.426Z",
+    "note": "DIV1N_rating_import_candidates_v0.6 / DIV1S_rating_import_candidates_v0.5 Division 1 import (DIV1_ONLY_CANONICAL set only)"
   }
 }

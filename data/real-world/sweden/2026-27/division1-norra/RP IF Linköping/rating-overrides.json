@@ -1,7 +1,92 @@
 {
   "player_markus_stegefelt_8aedec38": {
+    "updatedAt": "2026-08-30T17:57:07.512Z",
+    "ca": 146,
+    "pa": 146
+  },
+  "player_albin_fingal_e2689556": {
+    "updatedAt": "2026-08-30T17:57:02.498Z",
+    "ca": 120,
+    "pa": 132
+  },
+  "player_alvin_lindskog_e934fd54": {
+    "updatedAt": "2026-08-30T17:57:02.907Z",
+    "ca": 108,
+    "pa": 118
+  },
+  "player_christoffer_johansson_8c6573e1": {
+    "updatedAt": "2026-08-30T17:57:03.278Z",
+    "ca": 118,
+    "pa": 123
+  },
+  "player_erik_krantz_10822ffb": {
+    "updatedAt": "2026-08-30T17:57:03.667Z",
+    "ca": 120,
+    "pa": 124
+  },
+  "player_filip_nygren_6ba88308": {
+    "updatedAt": "2026-08-30T17:57:04.086Z",
+    "ca": 112,
+    "pa": 124
+  },
+  "player_gustav_roos_c89f83aa": {
+    "updatedAt": "2026-08-30T17:57:04.474Z",
+    "ca": 94,
+    "pa": 116
+  },
+  "player_hannes_karlsson_edfdc4db": {
+    "updatedAt": "2026-08-30T17:57:04.864Z",
+    "ca": 102,
+    "pa": 118
+  },
+  "player_karl_engberg_389321b6": {
+    "updatedAt": "2026-08-30T17:57:05.257Z",
+    "ca": 108,
+    "pa": 120
+  },
+  "player_karl_lindsten_51273d54": {
+    "updatedAt": "2026-08-30T17:57:05.639Z",
+    "ca": 100,
+    "pa": 108
+  },
+  "player_leo_malmberg_0c315963": {
+    "updatedAt": "2026-08-30T17:57:06.006Z",
+    "ca": 100,
+    "pa": 122
+  },
+  "player_lucas_westerlund_682ff625": {
+    "updatedAt": "2026-08-30T17:57:06.387Z",
+    "ca": 102,
+    "pa": 125
+  },
+  "player_lukas_frisell_c337a7f6": {
+    "updatedAt": "2026-08-30T17:57:06.736Z",
+    "ca": 106,
+    "pa": 118
+  },
+  "player_marcus_gustavsson_f2ddd236": {
+    "updatedAt": "2026-08-30T17:57:07.119Z",
+    "ca": 116,
+    "pa": 120
+  },
+  "player_robin_johansson_758e9b18": {
+    "updatedAt": "2026-08-30T17:57:07.898Z",
     "ca": 110,
-    "pa": 150,
-    "updatedAt": "2026-08-30T07:54:45.563Z"
+    "pa": 116
+  },
+  "player_sebastian_karlsson_58aac618": {
+    "updatedAt": "2026-08-30T17:57:08.278Z",
+    "ca": 122,
+    "pa": 128
+  },
+  "player_svante_eriksson_bae5c781": {
+    "updatedAt": "2026-08-30T17:57:08.661Z",
+    "ca": 122,
+    "pa": 144
+  },
+  "player_vilgot_callheim_6bcc2065": {
+    "ca": 118,
+    "pa": 132,
+    "updatedAt": "2026-08-30T17:57:09.048Z"
   }
 }

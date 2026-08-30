@@ -13,7 +13,10 @@
 // 31-club, 100-player international real-player pool, for a combined
 // 1210-player real-world population -- exercising the same proof against
 // the new international per-competition tiers too (see
-// lib/rating/gamePrior/clubContextTier.ts).
+// lib/rating/gamePrior/clubContextTier.ts). Later reduced to 1200: 10
+// Division 1 player identities were confirmed to be the same real person
+// as an existing HBL player (permanent-B-team duplicates) and removed as
+// separate canonical persons -- one real player, one canonical playerId.
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { buildCatalog } from "../editor/catalog";
@@ -37,9 +40,9 @@ function loadFullLeague(): LeaguePlayer[] {
   return league;
 }
 
-test("HM-RATINGS-0.6/HM-DATA-ALLSVENSKAN-1.1/HM-DATA-DIV1-1.0/HM-WORLD-PLAYER-POOL-1.0 population audit: 1210/1210 real Handbollsligan+Allsvenskan+Division 1+international pool players receive a complete gameplay CA, PA, and attribute branch", () => {
+test("HM-RATINGS-0.6/HM-DATA-ALLSVENSKAN-1.1/HM-DATA-DIV1-1.0/HM-WORLD-PLAYER-POOL-1.0 population audit: 1200/1200 real Handbollsligan+Allsvenskan+Division 1+international pool players receive a complete gameplay CA, PA, and attribute branch", () => {
   const league = loadFullLeague();
-  assert.equal(league.length, 1210, `expected exactly 1210 real players, found ${league.length}`);
+  assert.equal(league.length, 1200, `expected exactly 1200 real players, found ${league.length}`);
 
   let outcourtCount = 0;
   let gkCount = 0;
@@ -69,7 +72,7 @@ test("HM-RATINGS-0.6/HM-DATA-ALLSVENSKAN-1.1/HM-DATA-DIV1-1.0/HM-WORLD-PLAYER-PO
     bySource[player.caSource] = (bySource[player.caSource] ?? 0) + 1;
   }
 
-  assert.equal(outcourtCount + gkCount, 1210);
+  assert.equal(outcourtCount + gkCount, 1200);
 
   caValues.sort((a, b) => a - b);
   const mean = caValues.reduce((a, b) => a + b, 0) / caValues.length;
@@ -192,11 +195,21 @@ test("HM-RATINGS-0.6 population audit: zero accidental complete-attribute-profil
   assert.equal(duplicates, 0, `found ${duplicates} exact-duplicate complete attribute profiles`);
 });
 
-test("HM-RATINGS-0.6 population audit: two generated-prior players sharing CA and position still show meaningfully different attribute profiles", () => {
+test("HM-RATINGS-0.6 population audit: two players sharing CA and position still show meaningfully different attribute profiles", () => {
+  // Deliberately not restricted to caSource === "GENERATED_GAME_PRIOR": as
+  // real research imports (HBL/Allsvenskan/World Pool/Division 1) lock more
+  // of the population, that pool shrinks -- restricting to it made this test
+  // flaky/vacuous once too few generated-prior players remained to guarantee
+  // a same-CA/same-position collision by chance. The underlying anti-clone
+  // concern (attribute generation must vary per player, not just per
+  // CA+position) applies identically to EDITOR_OVERRIDE/CALIBRATED players,
+  // whose attribute branch is regenerated the same way (see
+  // ratingCalibration.ts's buildLockedRecordFromRow), so comparing the whole
+  // population is both more robust and still a faithful test of the claim.
   const league = loadFullLeague();
-  const generated = league.filter((p) => p.caSource === "GENERATED_GAME_PRIOR" && p.branch.branch === "OUTCOURT");
+  const outcourt = league.filter((p) => p.branch.branch === "OUTCOURT");
   const byCAAndPosition = new Map<string, LeaguePlayer[]>();
-  for (const player of generated) {
+  for (const player of outcourt) {
     const key = `${player.ca}:${player.position}`;
     if (!byCAAndPosition.has(key)) byCAAndPosition.set(key, []);
     byCAAndPosition.get(key)!.push(player);
@@ -211,7 +224,7 @@ test("HM-RATINGS-0.6 population audit: two generated-prior players sharing CA an
     const differences = OUTCOURT_ATTRIBUTES.filter((attr) => attrsA[attr].value !== attrsB[attr].value).length;
     assert.ok(differences > 0, `${a.playerId} and ${b.playerId} share CA+position but have identical attribute profiles`);
   }
-  assert.ok(comparedAtLeastOnePair, "expected at least one same-CA/same-position pair among generated players to compare");
+  assert.ok(comparedAtLeastOnePair, "expected at least one same-CA/same-position pair among outcourt players to compare");
 });
 
 test("HM-RATINGS-0.6 population audit: every one of the 6 outcourt positions and GK are represented", () => {

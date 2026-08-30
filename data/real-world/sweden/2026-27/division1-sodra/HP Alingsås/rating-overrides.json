@@ -1,0 +1,37 @@
+{
+  "player_johan_forsman_677a8d0d": {
+    "updatedAt": "2026-08-30T17:58:57.063Z",
+    "ca": 110,
+    "pa": 150
+  },
+  "player_kasper_langendoen_6dc20d8a": {
+    "updatedAt": "2026-08-30T17:58:57.459Z",
+    "ca": 98,
+    "pa": 150
+  },
+  "player_malte_nilsson_7a702daf": {
+    "updatedAt": "2026-08-30T17:58:57.845Z",
+    "ca": 114,
+    "pa": 160
+  },
+  "player_max_bengtsson_1db2bbee": {
+    "updatedAt": "2026-08-30T17:58:58.250Z",
+    "ca": 104,
+    "pa": 136
+  },
+  "player_melker_ringqvist_57c1f534": {
+    "updatedAt": "2026-08-30T17:58:58.672Z",
+    "ca": 100,
+    "pa": 142
+  },
+  "player_melwin_hagstrom_b885b42f": {
+    "updatedAt": "2026-08-30T17:58:59.050Z",
+    "ca": 96,
+    "pa": 122
+  },
+  "player_oscar_ernelind_c8bb4605": {
+    "ca": 100,
+    "pa": 136,
+    "updatedAt": "2026-08-30T17:58:59.447Z"
+  }
+}

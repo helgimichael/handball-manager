@@ -1,0 +1,102 @@
+{
+  "player_albin_sandell_0e14ff1a": {
+    "updatedAt": "2026-08-30T17:59:16.017Z",
+    "ca": 100,
+    "pa": 102
+  },
+  "player_axel_hegedus_a78e9c1b": {
+    "updatedAt": "2026-08-30T17:59:16.439Z",
+    "ca": 96,
+    "pa": 102
+  },
+  "player_axel_paulsson_53909930": {
+    "updatedAt": "2026-08-30T17:59:16.888Z",
+    "ca": 92,
+    "pa": 125
+  },
+  "player_elias_persson_1889f5ae": {
+    "updatedAt": "2026-08-30T17:59:17.285Z",
+    "ca": 110,
+    "pa": 112
+  },
+  "player_erik_friberg_lindskoug_3bfca348": {
+    "updatedAt": "2026-08-30T17:59:17.709Z",
+    "ca": 96,
+    "pa": 112
+  },
+  "player_felix_hylander_960a63e9": {
+    "updatedAt": "2026-08-30T17:59:18.103Z",
+    "ca": 98,
+    "pa": 116
+  },
+  "player_hampus_schwarz_82da0252": {
+    "updatedAt": "2026-08-30T17:59:18.504Z",
+    "ca": 102,
+    "pa": 112
+  },
+  "player_henrik_nordstrom_6d00da67": {
+    "updatedAt": "2026-08-30T17:59:18.904Z",
+    "ca": 96,
+    "pa": 96
+  },
+  "player_isac_sandstrom_a9cdd24f": {
+    "updatedAt": "2026-08-30T17:59:19.302Z",
+    "ca": 92,
+    "pa": 128
+  },
+  "player_isac_svensson_2f5135bb": {
+    "updatedAt": "2026-08-30T17:59:19.690Z",
+    "ca": 100,
+    "pa": 132
+  },
+  "player_jakob_sandstrom_e13f0949": {
+    "updatedAt": "2026-08-30T17:59:20.071Z",
+    "ca": 100,
+    "pa": 108
+  },
+  "player_jonathan_hellstrom_44730544": {
+    "updatedAt": "2026-08-30T17:59:20.460Z",
+    "ca": 116,
+    "pa": 116
+  },
+  "player_liam_thulin_c1345228": {
+    "updatedAt": "2026-08-30T17:59:20.849Z",
+    "ca": 110,
+    "pa": 114
+  },
+  "player_melvin_nilsson_5a0b0e47": {
+    "updatedAt": "2026-08-30T17:59:21.792Z",
+    "ca": 104,
+    "pa": 132
+  },
+  "player_nakkve_rosenberg_36655a82": {
+    "updatedAt": "2026-08-30T17:59:22.185Z",
+    "ca": 94,
+    "pa": 118
+  },
+  "player_nicolas_salgado_wallstrom_f6f39fc9": {
+    "updatedAt": "2026-08-30T17:59:22.575Z",
+    "ca": 96,
+    "pa": 118
+  },
+  "player_oliver_siken_caeaeb10": {
+    "updatedAt": "2026-08-30T17:59:22.960Z",
+    "ca": 108,
+    "pa": 114
+  },
+  "player_richard_hellstrom_46e05515": {
+    "updatedAt": "2026-08-30T17:59:23.338Z",
+    "ca": 96,
+    "pa": 96
+  },
+  "player_sebastian_svensson_1c09f03d": {
+    "updatedAt": "2026-08-30T17:59:23.740Z",
+    "ca": 98,
+    "pa": 112
+  },
+  "player_ville_sjoberg_c1d67770": {
+    "ca": 112,
+    "pa": 120,
+    "updatedAt": "2026-08-30T17:59:24.165Z"
+  }
+}

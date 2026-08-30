@@ -1,0 +1,97 @@
+{
+  "player_anton_flood_8a433ada": {
+    "updatedAt": "2026-08-30T17:56:40.315Z",
+    "ca": 118,
+    "pa": 122
+  },
+  "player_anton_hjalmarsson_bb8f2932": {
+    "updatedAt": "2026-08-30T17:56:40.713Z",
+    "ca": 100,
+    "pa": 122
+  },
+  "player_aron_kelecsenyi_83f9be08": {
+    "updatedAt": "2026-08-30T17:56:41.106Z",
+    "ca": 110,
+    "pa": 118
+  },
+  "player_august_svebeus_808a41d7": {
+    "updatedAt": "2026-08-30T17:56:41.489Z",
+    "ca": 100,
+    "pa": 120
+  },
+  "player_axel_carlberg_06cb9283": {
+    "updatedAt": "2026-08-30T17:56:41.893Z",
+    "ca": 90,
+    "pa": 125
+  },
+  "player_benjamin_stolth_45b8dbb8": {
+    "updatedAt": "2026-08-30T17:56:42.305Z",
+    "ca": 96,
+    "pa": 120
+  },
+  "player_charlie_auer_4490b79d": {
+    "updatedAt": "2026-08-30T17:56:42.722Z",
+    "ca": 94,
+    "pa": 128
+  },
+  "player_gustav_mellgren_d8d94ca9": {
+    "updatedAt": "2026-08-30T17:56:43.134Z",
+    "ca": 108,
+    "pa": 154
+  },
+  "player_joel_karlstrom_e65a3ef4": {
+    "updatedAt": "2026-08-30T17:56:43.512Z",
+    "ca": 98,
+    "pa": 118
+  },
+  "player_karl_zetterlund_ab53b228": {
+    "updatedAt": "2026-08-30T17:56:43.884Z",
+    "ca": 92,
+    "pa": 125
+  },
+  "player_ludwig_ahlgren_dcfddc91": {
+    "updatedAt": "2026-08-30T17:56:44.270Z",
+    "ca": 96,
+    "pa": 112
+  },
+  "player_marcus_hansson_e75c989b": {
+    "updatedAt": "2026-08-30T17:56:44.661Z",
+    "ca": 98,
+    "pa": 108
+  },
+  "player_martin_boija_aec6665c": {
+    "updatedAt": "2026-08-30T17:56:45.054Z",
+    "ca": 102,
+    "pa": 104
+  },
+  "player_melwin_kolmskog_3007b61b": {
+    "updatedAt": "2026-08-30T17:56:45.429Z",
+    "ca": 110,
+    "pa": 134
+  },
+  "player_nils_svebeus_8a08e66f": {
+    "updatedAt": "2026-08-30T17:56:45.839Z",
+    "ca": 108,
+    "pa": 125
+  },
+  "player_valter_alenback_885fb956": {
+    "updatedAt": "2026-08-30T17:56:46.233Z",
+    "ca": 98,
+    "pa": 120
+  },
+  "player_viktor_arenvang_33edefe2": {
+    "updatedAt": "2026-08-30T17:56:46.641Z",
+    "ca": 108,
+    "pa": 126
+  },
+  "player_vilmer_hjelm_melin_99d0cdda": {
+    "updatedAt": "2026-08-30T17:56:47.041Z",
+    "ca": 94,
+    "pa": 124
+  },
+  "player_zeke_hedblad_2ab9d287": {
+    "ca": 104,
+    "pa": 120,
+    "updatedAt": "2026-08-30T17:56:47.424Z"
+  }
+}

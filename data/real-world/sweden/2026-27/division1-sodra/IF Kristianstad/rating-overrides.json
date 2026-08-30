@@ -1,0 +1,87 @@
+{
+  "player_axel_bendz_0cc36b49": {
+    "updatedAt": "2026-08-30T17:59:08.359Z",
+    "ca": 100,
+    "pa": 132
+  },
+  "player_benjamin_frank_fc206a8e": {
+    "updatedAt": "2026-08-30T17:59:08.746Z",
+    "ca": 120,
+    "pa": 150
+  },
+  "player_eddie_jorgensen_30b4ca9e": {
+    "updatedAt": "2026-08-30T17:59:09.155Z",
+    "ca": 110,
+    "pa": 140
+  },
+  "player_felix_wandas_6808fc40": {
+    "updatedAt": "2026-08-30T17:59:09.555Z",
+    "ca": 104,
+    "pa": 132
+  },
+  "player_fritz_andersson_c57c7cac": {
+    "updatedAt": "2026-08-30T17:59:09.937Z",
+    "ca": 112,
+    "pa": 145
+  },
+  "player_gustav_karlsson_91eb472a": {
+    "updatedAt": "2026-08-30T17:59:10.624Z",
+    "ca": 100,
+    "pa": 138
+  },
+  "player_hannes_ohlsson_d89a7e00": {
+    "updatedAt": "2026-08-30T17:59:11.635Z",
+    "ca": 120,
+    "pa": 148
+  },
+  "player_love_barnestam_dae279e4": {
+    "updatedAt": "2026-08-30T17:59:12.063Z",
+    "ca": 112,
+    "pa": 144
+  },
+  "player_luc_hansson_b1dea6ff": {
+    "updatedAt": "2026-08-30T17:59:12.460Z",
+    "ca": 114,
+    "pa": 140
+  },
+  "player_lucas_ekelund_a4934648": {
+    "updatedAt": "2026-08-30T17:59:12.858Z",
+    "ca": 100,
+    "pa": 142
+  },
+  "player_ludvig_jonsson_68307d19": {
+    "updatedAt": "2026-08-30T17:59:13.242Z",
+    "ca": 100,
+    "pa": 134
+  },
+  "player_ludvig_svanstrom_93f7676c": {
+    "updatedAt": "2026-08-30T17:59:13.650Z",
+    "ca": 122,
+    "pa": 158
+  },
+  "player_melvin_elofsson_a42c1a72": {
+    "updatedAt": "2026-08-30T17:59:14.044Z",
+    "ca": 112,
+    "pa": 146
+  },
+  "player_noah_kjellman_d46fbb67": {
+    "updatedAt": "2026-08-30T17:59:14.434Z",
+    "ca": 114,
+    "pa": 145
+  },
+  "player_noah_malmsten_ba7443bb": {
+    "updatedAt": "2026-08-30T17:59:14.839Z",
+    "ca": 100,
+    "pa": 138
+  },
+  "player_ossian_oredsson_c46a06f7": {
+    "updatedAt": "2026-08-30T17:59:15.216Z",
+    "ca": 118,
+    "pa": 146
+  },
+  "player_svante_bjurman_359755a5": {
+    "ca": 98,
+    "pa": 136,
+    "updatedAt": "2026-08-30T17:59:15.621Z"
+  }
+}

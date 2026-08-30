@@ -1,27 +1,172 @@
 {
   "player_joel_tornblom_johansson_bd1547d6": {
-    "updatedAt": "2026-08-30T07:35:04.547Z",
-    "ca": 100,
-    "pa": 141
+    "updatedAt": "2026-08-30T17:55:54.683Z",
+    "ca": 105,
+    "pa": 105
   },
   "player_gustav_carlsson_4a8b9745": {
-    "updatedAt": "2026-08-30T07:54:38.534Z",
-    "ca": 115,
-    "pa": 120
+    "updatedAt": "2026-08-30T17:55:52.269Z",
+    "ca": 112,
+    "pa": 115
   },
   "player_alexander_anglov_53fa8679": {
-    "updatedAt": "2026-08-30T07:54:39.922Z",
-    "ca": 115,
-    "pa": 120
+    "updatedAt": "2026-08-30T17:55:48.640Z",
+    "ca": 113,
+    "pa": 113
   },
   "player_vilgot_vikstrom_bcbf6a86": {
-    "updatedAt": "2026-08-30T07:59:59.741Z",
-    "ca": 110,
-    "pa": 130
+    "updatedAt": "2026-08-30T17:56:01.254Z",
+    "ca": 112,
+    "pa": 116
   },
   "player_arvid_pettersson_7a61f136": {
+    "updatedAt": "2026-08-30T17:55:49.719Z",
+    "ca": 100,
+    "pa": 100
+  },
+  "player_adam_hauser_5e3ce3ae": {
+    "updatedAt": "2026-08-30T17:55:47.797Z",
+    "ca": 92,
+    "pa": 92
+  },
+  "player_albin_borg_0c41ac5c": {
+    "updatedAt": "2026-08-30T17:55:48.223Z",
+    "ca": 98,
+    "pa": 104
+  },
+  "player_benjamin_rubin_bauer_a784bff5": {
+    "updatedAt": "2026-08-30T17:55:50.192Z",
+    "ca": 94,
+    "pa": 118
+  },
+  "player_dennis_sjolund_746b0f31": {
+    "updatedAt": "2026-08-30T17:55:50.604Z",
+    "ca": 88,
+    "pa": 120
+  },
+  "player_edward_finndahl_bf7ff2ba": {
+    "updatedAt": "2026-08-30T17:55:51.040Z",
+    "ca": 94,
+    "pa": 116
+  },
+  "player_erik_vikstrom_e486a3da": {
+    "updatedAt": "2026-08-30T17:55:51.441Z",
+    "ca": 98,
+    "pa": 150
+  },
+  "player_filip_sigfrinius_a36c95d6": {
+    "updatedAt": "2026-08-30T17:55:51.865Z",
+    "ca": 82,
+    "pa": 112
+  },
+  "player_hampus_vennberg_4f2106a9": {
+    "updatedAt": "2026-08-30T17:55:52.690Z",
     "ca": 90,
-    "pa": 120,
-    "updatedAt": "2026-08-30T08:00:00.870Z"
+    "pa": 145
+  },
+  "player_harry_keith_09c11583": {
+    "updatedAt": "2026-08-30T17:55:53.105Z",
+    "ca": 92,
+    "pa": 130
+  },
+  "player_henrik_ledin_2408c6e7": {
+    "updatedAt": "2026-08-30T17:55:53.484Z",
+    "ca": 98,
+    "pa": 125
+  },
+  "player_isak_larsson_e892d24e": {
+    "updatedAt": "2026-08-30T17:55:53.890Z",
+    "ca": 88,
+    "pa": 143
+  },
+  "player_joel_lindstrom_bcc9107a": {
+    "updatedAt": "2026-08-30T17:55:54.292Z",
+    "ca": 86,
+    "pa": 118
+  },
+  "player_jonatan_vidgren_690ebb35": {
+    "updatedAt": "2026-08-30T17:55:55.079Z",
+    "ca": 92,
+    "pa": 92
+  },
+  "player_kaleb_sami_4131239d": {
+    "updatedAt": "2026-08-30T17:55:55.483Z",
+    "ca": 88,
+    "pa": 145
+  },
+  "player_kjell_eriksson_aada2661": {
+    "updatedAt": "2026-08-30T17:55:55.908Z",
+    "ca": 96,
+    "pa": 148
+  },
+  "player_leo_hansson_e0019d4a": {
+    "updatedAt": "2026-08-30T17:55:56.324Z",
+    "ca": 104,
+    "pa": 130
+  },
+  "player_leon_bynander_31bb652c": {
+    "updatedAt": "2026-08-30T17:55:56.726Z",
+    "ca": 92,
+    "pa": 120
+  },
+  "player_lucas_kneissl_ffbc83a4": {
+    "updatedAt": "2026-08-30T17:55:57.107Z",
+    "ca": 105,
+    "pa": 105
+  },
+  "player_ludvig_lifbom_c3651541": {
+    "updatedAt": "2026-08-30T17:55:57.533Z",
+    "ca": 102,
+    "pa": 132
+  },
+  "player_lukas_andersson_mannikko_e5cc227c": {
+    "updatedAt": "2026-08-30T17:55:57.941Z",
+    "ca": 101,
+    "pa": 101
+  },
+  "player_mattias_killmey_93e3a257": {
+    "updatedAt": "2026-08-30T17:55:58.361Z",
+    "ca": 88,
+    "pa": 125
+  },
+  "player_max_stigendal_daab3675": {
+    "updatedAt": "2026-08-30T17:55:58.760Z",
+    "ca": 108,
+    "pa": 128
+  },
+  "player_morgan_lindstrom_8ede3dcf": {
+    "updatedAt": "2026-08-30T17:55:59.179Z",
+    "ca": 104,
+    "pa": 104
+  },
+  "player_noah_kaspersen_9ef4bf8d": {
+    "updatedAt": "2026-08-30T17:55:59.586Z",
+    "ca": 94,
+    "pa": 126
+  },
+  "player_oliver_lind_wallgren_1db089fe": {
+    "updatedAt": "2026-08-30T17:55:59.999Z",
+    "ca": 90,
+    "pa": 144
+  },
+  "player_oskar_lundgren_63e30f3f": {
+    "updatedAt": "2026-08-30T17:56:00.425Z",
+    "ca": 92,
+    "pa": 96
+  },
+  "player_ture_keith_a5de5997": {
+    "updatedAt": "2026-08-30T17:56:00.849Z",
+    "ca": 90,
+    "pa": 128
+  },
+  "player_ville_naslund_fc0ce2c9": {
+    "updatedAt": "2026-08-30T17:56:01.663Z",
+    "ca": 82,
+    "pa": 110
+  },
+  "player_wilmer_thuresson_ca8768ca": {
+    "ca": 108,
+    "pa": 115,
+    "updatedAt": "2026-08-30T17:56:02.063Z"
   }
 }

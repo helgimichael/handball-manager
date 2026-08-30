@@ -1,7 +1,87 @@
 {
   "player_mortimer_lundh_a6f89246": {
-    "ca": 120,
-    "pa": 140,
-    "updatedAt": "2026-08-30T08:00:03.113Z"
+    "updatedAt": "2026-08-30T17:56:25.731Z",
+    "ca": 126,
+    "pa": 126
+  },
+  "player_albin_ahlin_355315c7": {
+    "updatedAt": "2026-08-30T17:56:20.429Z",
+    "ca": 95,
+    "pa": 98
+  },
+  "player_albin_osterman_carling_8ed114fb": {
+    "updatedAt": "2026-08-30T17:56:20.833Z",
+    "ca": 98,
+    "pa": 100
+  },
+  "player_daniel_olsson_79347e84": {
+    "updatedAt": "2026-08-30T17:56:21.253Z",
+    "ca": 112,
+    "pa": 112
+  },
+  "player_fabian_jansen_56ce3b43": {
+    "updatedAt": "2026-08-30T17:56:21.693Z",
+    "ca": 104,
+    "pa": 118
+  },
+  "player_filip_johansson_c2c87bca": {
+    "updatedAt": "2026-08-30T17:56:22.093Z",
+    "ca": 96,
+    "pa": 97
+  },
+  "player_hampus_sallstrom_723613f6": {
+    "updatedAt": "2026-08-30T17:56:22.510Z",
+    "ca": 92,
+    "pa": 112
+  },
+  "player_hugo_holmen_3cd5ac81": {
+    "updatedAt": "2026-08-30T17:56:22.925Z",
+    "ca": 98,
+    "pa": 99
+  },
+  "player_isac_larsson_2aa65aa7": {
+    "updatedAt": "2026-08-30T17:56:23.317Z",
+    "ca": 92,
+    "pa": 132
+  },
+  "player_jesper_hedar_a293794a": {
+    "updatedAt": "2026-08-30T17:56:23.729Z",
+    "ca": 98,
+    "pa": 98
+  },
+  "player_linus_gustafsson_434ab04e": {
+    "updatedAt": "2026-08-30T17:56:24.129Z",
+    "ca": 108,
+    "pa": 109
+  },
+  "player_martin_anglenius_f47bb10a": {
+    "updatedAt": "2026-08-30T17:56:24.524Z",
+    "ca": 103,
+    "pa": 104
+  },
+  "player_max_hennstrom_b35eacb8": {
+    "updatedAt": "2026-08-30T17:56:24.921Z",
+    "ca": 100,
+    "pa": 102
+  },
+  "player_max_stahlberg_af227aae": {
+    "updatedAt": "2026-08-30T17:56:25.326Z",
+    "ca": 104,
+    "pa": 128
+  },
+  "player_oliver_ilic_f269b45b": {
+    "updatedAt": "2026-08-30T17:56:26.111Z",
+    "ca": 98,
+    "pa": 98
+  },
+  "player_rasmus_karlsson_pernand_34ab2bd9": {
+    "updatedAt": "2026-08-30T17:56:26.509Z",
+    "ca": 96,
+    "pa": 96
+  },
+  "player_theo_karlsson_2688cee8": {
+    "ca": 110,
+    "pa": 145,
+    "updatedAt": "2026-08-30T17:56:26.894Z"
   }
 }

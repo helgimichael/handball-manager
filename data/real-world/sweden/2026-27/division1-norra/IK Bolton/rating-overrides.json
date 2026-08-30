@@ -1,17 +1,167 @@
 {
   "player_kevin_andersson_79beda68": {
-    "updatedAt": "2026-08-30T07:54:42.879Z",
+    "updatedAt": "2026-08-30T17:56:33.585Z",
     "ca": 110,
-    "pa": 120
+    "pa": 112
   },
   "player_joel_bellander_de377399": {
-    "updatedAt": "2026-08-30T08:00:04.421Z",
-    "ca": 75,
-    "pa": 100
+    "updatedAt": "2026-08-30T17:56:33.183Z",
+    "ca": 92,
+    "pa": 120
   },
   "player_tim_glimmerud_gullbjork_ebb1a272": {
-    "ca": 75,
-    "pa": 100,
-    "updatedAt": "2026-08-30T08:00:05.474Z"
+    "updatedAt": "2026-08-30T17:56:38.760Z",
+    "ca": 92,
+    "pa": 118
+  },
+  "player_adam_alerstedt_c1dcc980": {
+    "updatedAt": "2026-08-30T17:56:27.291Z",
+    "ca": 98,
+    "pa": 105
+  },
+  "player_adam_jonsson_baa08c7e": {
+    "updatedAt": "2026-08-30T17:56:27.686Z",
+    "ca": 96,
+    "pa": 100
+  },
+  "player_alvin_ahlin_307bca50": {
+    "updatedAt": "2026-08-30T17:56:28.066Z",
+    "ca": 98,
+    "pa": 108
+  },
+  "player_casper_sandberg_fe3d90c0": {
+    "updatedAt": "2026-08-30T17:56:28.463Z",
+    "ca": 94,
+    "pa": 140
+  },
+  "player_colin_blom_4b0cd16b": {
+    "updatedAt": "2026-08-30T17:56:28.872Z",
+    "ca": 96,
+    "pa": 112
+  },
+  "player_david_wagman_3fb251b0": {
+    "updatedAt": "2026-08-30T17:56:29.255Z",
+    "ca": 112,
+    "pa": 114
+  },
+  "player_dennis_nilsson_67233d25": {
+    "updatedAt": "2026-08-30T17:56:29.646Z",
+    "ca": 100,
+    "pa": 110
+  },
+  "player_felix_rundqvist_6b7eb77d": {
+    "updatedAt": "2026-08-30T17:56:30.041Z",
+    "ca": 94,
+    "pa": 120
+  },
+  "player_frans_anfalt_a578b89a": {
+    "updatedAt": "2026-08-30T17:56:30.427Z",
+    "ca": 100,
+    "pa": 118
+  },
+  "player_fredrik_broman_b07bb924": {
+    "updatedAt": "2026-08-30T17:56:30.814Z",
+    "ca": 92,
+    "pa": 118
+  },
+  "player_gustav_wickstrom_92b02f14": {
+    "updatedAt": "2026-08-30T17:56:31.210Z",
+    "ca": 114,
+    "pa": 116
+  },
+  "player_holger_martensson_08b25e06": {
+    "updatedAt": "2026-08-30T17:56:31.588Z",
+    "ca": 94,
+    "pa": 105
+  },
+  "player_hugo_aronsson_6592c494": {
+    "updatedAt": "2026-08-30T17:56:31.994Z",
+    "ca": 114,
+    "pa": 145
+  },
+  "player_isak_lauridsen_2437e3d2": {
+    "updatedAt": "2026-08-30T17:56:32.412Z",
+    "ca": 92,
+    "pa": 120
+  },
+  "player_jakob_lundberg_8fec4567": {
+    "updatedAt": "2026-08-30T17:56:32.799Z",
+    "ca": 110,
+    "pa": 110
+  },
+  "player_lucas_hogsander_0ea634ef": {
+    "updatedAt": "2026-08-30T17:56:33.951Z",
+    "ca": 101,
+    "pa": 102
+  },
+  "player_lukas_andersson_6ad902a0": {
+    "updatedAt": "2026-08-30T17:56:34.338Z",
+    "ca": 96,
+    "pa": 96
+  },
+  "player_marcus_pramborg_178bc332": {
+    "updatedAt": "2026-08-30T17:56:34.733Z",
+    "ca": 92,
+    "pa": 96
+  },
+  "player_martin_sjoberg_4909db4a": {
+    "updatedAt": "2026-08-30T17:56:35.142Z",
+    "ca": 90,
+    "pa": 105
+  },
+  "player_nicolai_aasnes_0b909b4d": {
+    "updatedAt": "2026-08-30T17:56:35.572Z",
+    "ca": 92,
+    "pa": 118
+  },
+  "player_oliver_nystrom_eklund_5705718a": {
+    "updatedAt": "2026-08-30T17:56:35.954Z",
+    "ca": 96,
+    "pa": 104
+  },
+  "player_olle_windahl_71c8dc03": {
+    "updatedAt": "2026-08-30T17:56:36.357Z",
+    "ca": 110,
+    "pa": 118
+  },
+  "player_philipp_valina_allo_806b5100": {
+    "updatedAt": "2026-08-30T17:56:36.758Z",
+    "ca": 100,
+    "pa": 100
+  },
+  "player_pontus_bonaguidi_3c6db155": {
+    "updatedAt": "2026-08-30T17:56:37.151Z",
+    "ca": 96,
+    "pa": 108
+  },
+  "player_pontus_landeborn_ffe73803": {
+    "updatedAt": "2026-08-30T17:56:37.561Z",
+    "ca": 94,
+    "pa": 100
+  },
+  "player_robin_nystrom_8e48417a": {
+    "updatedAt": "2026-08-30T17:56:37.942Z",
+    "ca": 103,
+    "pa": 120
+  },
+  "player_samuel_gustafsson_45dd165e": {
+    "updatedAt": "2026-08-30T17:56:38.363Z",
+    "ca": 98,
+    "pa": 105
+  },
+  "player_tom_af_klercker_7ed6489f": {
+    "updatedAt": "2026-08-30T17:56:39.145Z",
+    "ca": 92,
+    "pa": 108
+  },
+  "player_valle_ljunghill_8e92205f": {
+    "updatedAt": "2026-08-30T17:56:39.530Z",
+    "ca": 114,
+    "pa": 116
+  },
+  "player_vigge_juthe_lundin_53892ce6": {
+    "ca": 90,
+    "pa": 116,
+    "updatedAt": "2026-08-30T17:56:39.904Z"
   }
 }

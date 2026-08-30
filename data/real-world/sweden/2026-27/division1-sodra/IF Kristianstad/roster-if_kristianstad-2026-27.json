@@ -476,34 +476,6 @@
     ]
   },
   {
-    "rosterEntryId": "se_2026_27_division1_sodra_if_kristianstad__4a592c8a",
-    "playerId": "player_theo_ivarsson_4a592c8a",
-    "clubId": "se_club_if_kristianstad",
-    "competitionId": "se_division1_sodra",
-    "season": "2026/27",
-    "snapshotDate": "2026-08-27",
-    "shirtNumber": null,
-    "sourcePosition": "",
-    "primaryPosition": "V6",
-    "secondaryPositions": [],
-    "rosterStatus": "CONFIRMED",
-    "contract": {
-      "untilDate": null,
-      "untilSeason": null,
-      "optionUntilSeason": null
-    },
-    "rosterConfidence": "UNKNOWN",
-    "sourceRefs": {
-      "roster": [
-        "src_div1_sodra_2026_27"
-      ],
-      "position": []
-    },
-    "dataNotes": [
-      "HM-DATA-DIV1-1.0: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
-    ]
-  },
-  {
     "rosterEntryId": "se_2026_27_division1_sodra_if_kristianstad__e220ade5",
     "playerId": "player_william_andersson_e220ade5",
     "clubId": "se_club_if_kristianstad",

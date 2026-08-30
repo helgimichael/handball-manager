@@ -1,5 +1,7 @@
-// Covers the HBL v2.13 (268 players), World Pool v1 (100 players), and
-// Allsvenskan v0.13 (261 players) canonical rating imports: identity
+// Covers the HBL v2.13 (268 players), World Pool v1 (100 players),
+// Allsvenskan v0.13 (261 players), and Division 1 v1 (564 DIV1_ONLY_CANONICAL
+// players, 10 confirmed B-team duplicates removed as separate identities, 7
+// UNRESOLVED_IDENTITY left untouched) canonical rating imports: identity
 // coverage, CA/PA fidelity against the source-of-truth CSVs, cross-pool
 // invariants (no dupes, PA>=CA, 1-200 range), import determinism, and that
 // no generator resets a locked value.
@@ -15,8 +17,29 @@ const EXPORTS_DIR = path.join(__dirname, "..", "..", "..", "..", "exports", "pla
 const HBL_CSV_PATH = path.join(EXPORTS_DIR, "HBL_rating_import_candidates_v2.13.csv");
 const WORLD_POOL_CSV_PATH = path.join(EXPORTS_DIR, "WORLD_POOL_FINAL_RATING_RESEARCH_v1.csv");
 const ALLSVENSKAN_CSV_PATH = path.join(EXPORTS_DIR, "ALLSV_rating_import_candidates_v0.13.csv");
+const DIV1N_CSV_PATH = path.join(EXPORTS_DIR, "DIV1N_rating_import_candidates_v0.6.csv");
+const DIV1S_CSV_PATH = path.join(EXPORTS_DIR, "DIV1S_rating_import_candidates_v0.5.csv");
+const DIV1_AUDIT_CSV_PATH = path.join(EXPORTS_DIR, "DIV1_PLAYER_IDENTITY_AUDIT.csv");
 const HBL_COMPETITION_ID = "se_handbollsligan_herr";
 const ALLSVENSKAN_COMPETITION_ID = "swe-2";
+const D1N_COMPETITION_ID = "se_division1_norra";
+const D1S_COMPETITION_ID = "se_division1_sodra";
+const D1_COMPETITION_IDS = [D1N_COMPETITION_ID, D1S_COMPETITION_ID] as const;
+
+// The 10 confirmed B-team duplicates: their Division 1 identity was removed
+// (Option A) since the same real person already has a canonical HBL record.
+const CONFIRMED_B_TEAM_DUPLICATES: { div1PlayerId: string; hblPlayerId: string }[] = [
+  { div1PlayerId: "player_dominic_brigerstrand_e88d285c", hblPlayerId: "player_dominic_brigerstrand_4ac3c690" },
+  { div1PlayerId: "player_elliot_lundstad_33ed7ef3", hblPlayerId: "player_elliot_lundstad_ff8f992c" },
+  { div1PlayerId: "player_fabian_simonsson_d4a53e4f", hblPlayerId: "player_fabian_simonsson_dfdf3f8d" },
+  { div1PlayerId: "player_felix_lilja_24216081", hblPlayerId: "player_felix_lilja_e91d1945" },
+  { div1PlayerId: "player_hannes_malm_lindblom_20784e09", hblPlayerId: "player_hannes_malm_lindblom_14a6be17" },
+  { div1PlayerId: "player_max_blomberg_romero_1afaa101", hblPlayerId: "player_max_blomberg_romero_992b2a4a" },
+  { div1PlayerId: "player_milo_knaapinen_3a3d7aa7", hblPlayerId: "player_milo_knaapinen_59a3a0cd" },
+  { div1PlayerId: "player_oliver_andersson_2285d6b0", hblPlayerId: "player_oliver_andersson_ef8ef0a2" },
+  { div1PlayerId: "player_sebastian_kallemyr_3674d2fb", hblPlayerId: "player_sebastian_kallemyr_ef0da952" },
+  { div1PlayerId: "player_theo_ivarsson_4a592c8a", hblPlayerId: "player_theo_ivarsson_77eb2224" },
+];
 
 function parseCsvLine(line: string): string[] {
   const out: string[] = [];
@@ -250,5 +273,126 @@ test("HBL + World Pool + Allsvenskan: non-rating player fields are untouched by 
     assert.ok(dbPlayer, `player ${playerId} missing from DB`);
     const dbFullName = `${dbPlayer!.firstName} ${dbPlayer!.lastName}`;
     assert.equal(dbFullName, csvPlayerName, `name mismatch for ${playerId}: DB="${dbFullName}" CSV="${csvPlayerName}"`);
+  }
+});
+
+test("Division 1 v1: the identity audit classifies all 581 source rows and the DIV1_ONLY_CANONICAL set matches the imported CA/PA exactly", () => {
+  const { header: nHeader, rows: nRows } = loadCsv(DIV1N_CSV_PATH);
+  const { header: sHeader, rows: sRows } = loadCsv(DIV1S_CSV_PATH);
+  assert.equal(nRows.length, 308);
+  assert.equal(sRows.length, 273);
+  const nIdx = (name: string) => nHeader.indexOf(name);
+  const sIdx = (name: string) => sHeader.indexOf(name);
+
+  const { header: auditHeader, rows: auditRows } = loadCsv(DIV1_AUDIT_CSV_PATH);
+  const auditIdx = (name: string) => auditHeader.indexOf(name);
+  assert.equal(auditRows.length, 581, "the identity audit must classify every Division 1 source row");
+  const statusById = new Map(auditRows.map((r) => [r[auditIdx("sourcePlayerId")], r[auditIdx("Status")]]));
+
+  const statusCounts = new Map<string, number>();
+  for (const status of statusById.values()) statusCounts.set(status, (statusCounts.get(status) ?? 0) + 1);
+  assert.equal(statusCounts.get("DIV1_ONLY_CANONICAL"), 564);
+  assert.equal(statusCounts.get("ALREADY_CANONICAL_HIGHER_LEVEL"), 10);
+  assert.equal(statusCounts.get("DIV1_DUPLICATE_CONFIRMED") ?? 0, 0);
+  assert.equal(statusCounts.get("UNRESOLVED_IDENTITY"), 7);
+
+  const ratings = collectRatings(D1_COMPETITION_IDS);
+  let checkedOnlyCanonical = 0;
+  for (const [rows, idx] of [[nRows, nIdx] as const, [sRows, sIdx] as const]) {
+    for (const r of rows) {
+      const playerId = r[idx("playerId")];
+      const status = statusById.get(playerId);
+      assert.ok(status, `playerId ${playerId} missing from the identity audit`);
+      if (status !== "DIV1_ONLY_CANONICAL") continue;
+      const expectedCA = Number(r[idx("New CA")]);
+      const expectedPA = Number(r[idx("New PA")]);
+      const actual = ratings.get(playerId);
+      assert.ok(actual, `no live rating found for DIV1_ONLY_CANONICAL playerId ${playerId}`);
+      assert.equal(actual!.ca, expectedCA, `CA mismatch for ${playerId}`);
+      assert.equal(actual!.pa, expectedPA, `PA mismatch for ${playerId}`);
+      checkedOnlyCanonical++;
+    }
+  }
+  assert.equal(checkedOnlyCanonical, 564);
+});
+
+test("Division 1 v1: the 10 confirmed B-team duplicates no longer exist as separate Division 1 identities, and the surviving HBL playerId is unaffected", () => {
+  const dbIds = new Set<string>();
+  for (const competitionId of D1_COMPETITION_IDS) {
+    const squads = snapshotWorldSquads(competitionId);
+    for (const clubId of Object.keys(squads)) for (const p of squads[clubId]) dbIds.add(p.id);
+  }
+  const hblIds = new Set<string>();
+  const hblSquads = snapshotWorldSquads(HBL_COMPETITION_ID);
+  for (const clubId of Object.keys(hblSquads)) for (const p of hblSquads[clubId]) hblIds.add(p.id);
+
+  const { header: hblHeader, rows: hblRows } = loadCsv(HBL_CSV_PATH);
+  const hblIdx = (name: string) => hblHeader.indexOf(name);
+  const hblCsvById = new Map(hblRows.map((r) => [r[hblIdx("playerId")], { ca: Number(r[hblIdx("New CA")]), pa: Number(r[hblIdx("New PA")]) }]));
+  const hblRatings = collectRatings([HBL_COMPETITION_ID]);
+
+  for (const { div1PlayerId, hblPlayerId } of CONFIRMED_B_TEAM_DUPLICATES) {
+    assert.ok(!dbIds.has(div1PlayerId), `${div1PlayerId} must no longer exist as a separate Division 1 identity`);
+    for (const competitionId of D1_COMPETITION_IDS) {
+      const squads = snapshotWorldSquads(competitionId);
+      for (const clubId of Object.keys(squads)) {
+        assert.ok(!loadRatingDatabase(clubId)[div1PlayerId], `no leftover locked rating record may exist for removed playerId ${div1PlayerId}`);
+      }
+    }
+    assert.ok(hblIds.has(hblPlayerId), `higher-level playerId ${hblPlayerId} must still exist exactly once in HBL`);
+    const live = hblRatings.get(hblPlayerId);
+    const expected = hblCsvById.get(hblPlayerId);
+    assert.ok(live && expected, `no HBL rating found for ${hblPlayerId}`);
+    assert.equal(live!.ca, expected!.ca, `HBL CA for ${hblPlayerId} must be unaffected by the Division 1 import`);
+    assert.equal(live!.pa, expected!.pa, `HBL PA for ${hblPlayerId} must be unaffected by the Division 1 import`);
+  }
+});
+
+test("Division 1 v1: the 7 UNRESOLVED_IDENTITY playerIds received no rating write and remain at their pre-import baseline", () => {
+  const { header: auditHeader, rows: auditRows } = loadCsv(DIV1_AUDIT_CSV_PATH);
+  const auditIdx = (name: string) => auditHeader.indexOf(name);
+  const unresolvedIds = auditRows.filter((r) => r[auditIdx("Status")] === "UNRESOLVED_IDENTITY").map((r) => r[auditIdx("sourcePlayerId")]);
+  assert.equal(unresolvedIds.length, 7);
+
+  const { header: nHeader, rows: nRows } = loadCsv(DIV1N_CSV_PATH);
+  const { header: sHeader, rows: sRows } = loadCsv(DIV1S_CSV_PATH);
+  const nIdx = (name: string) => nHeader.indexOf(name);
+  const sIdx = (name: string) => sHeader.indexOf(name);
+  const currentById = new Map<string, { ca: number; pa: number }>();
+  for (const r of nRows) currentById.set(r[nIdx("playerId")], { ca: Number(r[nIdx("Current CA")]), pa: Number(r[nIdx("Current PA")]) });
+  for (const r of sRows) currentById.set(r[sIdx("playerId")], { ca: Number(r[sIdx("Current CA")]), pa: Number(r[sIdx("Current PA")]) });
+
+  const ratings = collectRatings(D1_COMPETITION_IDS);
+  for (const id of unresolvedIds) {
+    const live = ratings.get(id);
+    const baseline = currentById.get(id);
+    assert.ok(live && baseline, `no rating/baseline found for unresolved playerId ${id}`);
+    assert.equal(live!.ca, baseline!.ca, `unresolved playerId ${id} CA must remain unchanged (no import applied)`);
+    assert.equal(live!.pa, baseline!.pa, `unresolved playerId ${id} PA must remain unchanged (no import applied)`);
+  }
+});
+
+test("HBL + World Pool + Allsvenskan + Division 1 combined: no PA < CA, all ratings in [1, 200], and no playerId duplicated across the four imported pools", () => {
+  const hblIds = new Set(collectRatings([HBL_COMPETITION_ID]).keys());
+  const worldPoolIds = new Set(collectRatings(WORLD_POOL_COMPETITION_IDS).keys());
+  const allsvIds = new Set(collectRatings([ALLSVENSKAN_COMPETITION_ID]).keys());
+  const div1Ids = new Set(collectRatings(D1_COMPETITION_IDS).keys());
+
+  for (const id of div1Ids) {
+    assert.ok(!hblIds.has(id), `playerId ${id} present in both Division 1 and HBL`);
+    assert.ok(!worldPoolIds.has(id), `playerId ${id} present in both Division 1 and World Pool`);
+    assert.ok(!allsvIds.has(id), `playerId ${id} present in both Division 1 and Allsvenskan`);
+  }
+
+  const combined = new Map([
+    ...collectRatings([HBL_COMPETITION_ID]),
+    ...collectRatings(WORLD_POOL_COMPETITION_IDS),
+    ...collectRatings([ALLSVENSKAN_COMPETITION_ID]),
+    ...collectRatings(D1_COMPETITION_IDS),
+  ]);
+  for (const [playerId, { ca, pa }] of combined) {
+    assert.ok(pa >= ca, `PA < CA for ${playerId}: ca=${ca} pa=${pa}`);
+    assert.ok(ca >= 1 && ca <= 200, `CA out of range for ${playerId}: ${ca}`);
+    assert.ok(pa >= 1 && pa <= 200, `PA out of range for ${playerId}: ${pa}`);
   }
 });

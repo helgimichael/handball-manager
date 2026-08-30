@@ -1,0 +1,87 @@
+{
+  "player_adam_romberg_a06609bb": {
+    "updatedAt": "2026-08-30T17:56:02.470Z",
+    "ca": 104,
+    "pa": 106
+  },
+  "player_albin_sandell_22b7afca": {
+    "updatedAt": "2026-08-30T17:56:02.894Z",
+    "ca": 108,
+    "pa": 110
+  },
+  "player_albin_skold_10cfd3dc": {
+    "updatedAt": "2026-08-30T17:56:03.316Z",
+    "ca": 110,
+    "pa": 112
+  },
+  "player_anton_segersten_ea7fb8ef": {
+    "updatedAt": "2026-08-30T17:56:03.729Z",
+    "ca": 101,
+    "pa": 108
+  },
+  "player_emil_bytoft_ce7209bd": {
+    "updatedAt": "2026-08-30T17:56:04.119Z",
+    "ca": 106,
+    "pa": 114
+  },
+  "player_felix_silen_0cd98af0": {
+    "updatedAt": "2026-08-30T17:56:04.525Z",
+    "ca": 96,
+    "pa": 134
+  },
+  "player_filip_andersson_89dde5bf": {
+    "updatedAt": "2026-08-30T17:56:04.922Z",
+    "ca": 96,
+    "pa": 112
+  },
+  "player_jakob_hammar_d9a049a3": {
+    "updatedAt": "2026-08-30T17:56:05.327Z",
+    "ca": 106,
+    "pa": 112
+  },
+  "player_kalle_larsson_e5e9df41": {
+    "updatedAt": "2026-08-30T17:56:05.720Z",
+    "ca": 92,
+    "pa": 125
+  },
+  "player_karl_soderquist_7522212b": {
+    "updatedAt": "2026-08-30T17:56:06.111Z",
+    "ca": 90,
+    "pa": 120
+  },
+  "player_linus_hjortman_8e853363": {
+    "updatedAt": "2026-08-30T17:56:06.522Z",
+    "ca": 98,
+    "pa": 142
+  },
+  "player_ludvig_ljungberg_d457fe3f": {
+    "updatedAt": "2026-08-30T17:56:06.926Z",
+    "ca": 110,
+    "pa": 124
+  },
+  "player_ludwig_isegren_69beeea8": {
+    "updatedAt": "2026-08-30T17:56:07.322Z",
+    "ca": 112,
+    "pa": 114
+  },
+  "player_matteo_bubini_cbced427": {
+    "updatedAt": "2026-08-30T17:56:07.745Z",
+    "ca": 92,
+    "pa": 128
+  },
+  "player_milton_grip_7dd8598d": {
+    "updatedAt": "2026-08-30T17:56:08.159Z",
+    "ca": 92,
+    "pa": 128
+  },
+  "player_pelle_hellberg_b47d0c89": {
+    "updatedAt": "2026-08-30T17:56:08.562Z",
+    "ca": 104,
+    "pa": 136
+  },
+  "player_sigge_hedin_c53a98c8": {
+    "ca": 108,
+    "pa": 138,
+    "updatedAt": "2026-08-30T17:56:08.988Z"
+  }
+}

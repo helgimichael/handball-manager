@@ -1,0 +1,92 @@
+{
+  "player_alec_morton_ef4931ab": {
+    "updatedAt": "2026-08-30T17:59:24.553Z",
+    "ca": 94,
+    "pa": 118
+  },
+  "player_alexander_franzen_bfa5c246": {
+    "updatedAt": "2026-08-30T17:59:24.955Z",
+    "ca": 100,
+    "pa": 150
+  },
+  "player_axel_winstrom_bc00d39f": {
+    "updatedAt": "2026-08-30T17:59:25.351Z",
+    "ca": 118,
+    "pa": 148
+  },
+  "player_elias_azar_24c8e045": {
+    "updatedAt": "2026-08-30T17:59:25.744Z",
+    "ca": 120,
+    "pa": 124
+  },
+  "player_elias_lundqvist_e0fb985f": {
+    "updatedAt": "2026-08-30T17:59:26.147Z",
+    "ca": 102,
+    "pa": 116
+  },
+  "player_fabio_carlos_pereira_f2f96196": {
+    "updatedAt": "2026-08-30T17:59:26.529Z",
+    "ca": 112,
+    "pa": 122
+  },
+  "player_fredrik_fritzen_d43436ee": {
+    "updatedAt": "2026-08-30T17:59:26.916Z",
+    "ca": 108,
+    "pa": 112
+  },
+  "player_joel_blomstrand_152380bf": {
+    "updatedAt": "2026-08-30T17:59:27.302Z",
+    "ca": 104,
+    "pa": 110
+  },
+  "player_norton_birath_jonson_bd3c746b": {
+    "updatedAt": "2026-08-30T17:59:27.681Z",
+    "ca": 100,
+    "pa": 116
+  },
+  "player_oliver_todorovic_5f2cdb19": {
+    "updatedAt": "2026-08-30T17:59:28.073Z",
+    "ca": 120,
+    "pa": 124
+  },
+  "player_olle_gustafsson_18bc8c3b": {
+    "updatedAt": "2026-08-30T17:59:28.465Z",
+    "ca": 112,
+    "pa": 114
+  },
+  "player_oscar_carlsson_0f841e02": {
+    "updatedAt": "2026-08-30T17:59:28.865Z",
+    "ca": 112,
+    "pa": 116
+  },
+  "player_simon_kallstrom_0819b376": {
+    "updatedAt": "2026-08-30T17:59:29.266Z",
+    "ca": 116,
+    "pa": 116
+  },
+  "player_simon_lilja_b926d085": {
+    "updatedAt": "2026-08-30T17:59:29.655Z",
+    "ca": 96,
+    "pa": 112
+  },
+  "player_simon_robertsson_61d2dc18": {
+    "updatedAt": "2026-08-30T17:59:30.044Z",
+    "ca": 112,
+    "pa": 130
+  },
+  "player_theodor_heier_5a37c664": {
+    "updatedAt": "2026-08-30T17:59:30.456Z",
+    "ca": 112,
+    "pa": 126
+  },
+  "player_victor_tasevski_14ec6a52": {
+    "updatedAt": "2026-08-30T17:59:30.837Z",
+    "ca": 104,
+    "pa": 152
+  },
+  "player_william_nyman_0f67635d": {
+    "ca": 114,
+    "pa": 122,
+    "updatedAt": "2026-08-30T17:59:31.251Z"
+  }
+}

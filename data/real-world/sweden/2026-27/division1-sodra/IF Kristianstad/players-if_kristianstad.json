@@ -340,26 +340,6 @@
     "dataNotes": []
   },
   {
-    "playerId": "player_theo_ivarsson_4a592c8a",
-    "firstName": "Theo",
-    "lastName": "Ivarsson",
-    "fullName": "Theo Ivarsson",
-    "aliases": [],
-    "dateOfBirth": null,
-    "birthYear": null,
-    "nationalities": null,
-    "heightCm": null,
-    "handedness": null,
-    "recordConfidence": "VERIFIED",
-    "fieldConfidence": {},
-    "sourceRefs": {
-      "identity": [
-        "src_div1_sodra_2026_27"
-      ]
-    },
-    "dataNotes": []
-  },
-  {
     "playerId": "player_william_andersson_e220ade5",
     "firstName": "William",
     "lastName": "Andersson",

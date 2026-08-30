@@ -1,0 +1,87 @@
+{
+  "player_albin_nilsson_a2e3bcb3": {
+    "updatedAt": "2026-08-30T17:58:02.035Z",
+    "ca": 112,
+    "pa": 118
+  },
+  "player_alexander_bergqvist_22e53103": {
+    "updatedAt": "2026-08-30T17:58:02.431Z",
+    "ca": 104,
+    "pa": 152
+  },
+  "player_alexander_fagervold_0980ceb6": {
+    "updatedAt": "2026-08-30T17:58:02.827Z",
+    "ca": 102,
+    "pa": 130
+  },
+  "player_anton_krig_3fc230a7": {
+    "updatedAt": "2026-08-30T17:58:03.234Z",
+    "ca": 100,
+    "pa": 120
+  },
+  "player_antonio_thyborn_72b9f145": {
+    "updatedAt": "2026-08-30T17:58:03.654Z",
+    "ca": 112,
+    "pa": 114
+  },
+  "player_axel_magnusson_ac70503b": {
+    "updatedAt": "2026-08-30T17:58:04.027Z",
+    "ca": 104,
+    "pa": 152
+  },
+  "player_edis_sarda_c4b1998a": {
+    "updatedAt": "2026-08-30T17:58:04.421Z",
+    "ca": 98,
+    "pa": 118
+  },
+  "player_elias_mohlin_788e5bef": {
+    "updatedAt": "2026-08-30T17:58:04.836Z",
+    "ca": 116,
+    "pa": 124
+  },
+  "player_emil_sjodell_8c5f9bec": {
+    "updatedAt": "2026-08-30T17:58:05.243Z",
+    "ca": 98,
+    "pa": 118
+  },
+  "player_filip_damgaard_fda0a56c": {
+    "updatedAt": "2026-08-30T17:58:05.624Z",
+    "ca": 118,
+    "pa": 124
+  },
+  "player_linus_thulin_39452643": {
+    "updatedAt": "2026-08-30T17:58:06.045Z",
+    "ca": 112,
+    "pa": 138
+  },
+  "player_maximilian_werner_553a3a44": {
+    "updatedAt": "2026-08-30T17:58:06.431Z",
+    "ca": 98,
+    "pa": 112
+  },
+  "player_oliver_risberg_b4d8f046": {
+    "updatedAt": "2026-08-30T17:58:06.836Z",
+    "ca": 106,
+    "pa": 118
+  },
+  "player_robert_ladan_c25f3dda": {
+    "updatedAt": "2026-08-30T17:58:07.209Z",
+    "ca": 130,
+    "pa": 130
+  },
+  "player_sebastian_wald_a965e099": {
+    "updatedAt": "2026-08-30T17:58:07.598Z",
+    "ca": 112,
+    "pa": 128
+  },
+  "player_theo_arrhenius_b78f3c97": {
+    "updatedAt": "2026-08-30T17:58:07.970Z",
+    "ca": 122,
+    "pa": 150
+  },
+  "player_wilmer_gustafsson_33d2e4f5": {
+    "ca": 112,
+    "pa": 138,
+    "updatedAt": "2026-08-30T17:58:08.433Z"
+  }
+}

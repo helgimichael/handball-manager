@@ -40,26 +40,6 @@
     "dataNotes": []
   },
   {
-    "playerId": "player_dominic_brigerstrand_e88d285c",
-    "firstName": "Dominic",
-    "lastName": "Brigerstrand",
-    "fullName": "Dominic Brigerstrand",
-    "aliases": [],
-    "dateOfBirth": null,
-    "birthYear": null,
-    "nationalities": null,
-    "heightCm": null,
-    "handedness": null,
-    "recordConfidence": "VERIFIED",
-    "fieldConfidence": {},
-    "sourceRefs": {
-      "identity": [
-        "src_div1_sodra_2026_27"
-      ]
-    },
-    "dataNotes": []
-  },
-  {
     "playerId": "player_william_samuelsson_rajic_e0053329",
     "firstName": "William",
     "lastName": "Samuelsson Rajic",
@@ -84,26 +64,6 @@
     "firstName": "Adam",
     "lastName": "Lindquist",
     "fullName": "Adam Lindquist",
-    "aliases": [],
-    "dateOfBirth": null,
-    "birthYear": null,
-    "nationalities": null,
-    "heightCm": null,
-    "handedness": null,
-    "recordConfidence": "VERIFIED",
-    "fieldConfidence": {},
-    "sourceRefs": {
-      "identity": [
-        "src_div1_sodra_2026_27"
-      ]
-    },
-    "dataNotes": []
-  },
-  {
-    "playerId": "player_oliver_andersson_2285d6b0",
-    "firstName": "Oliver",
-    "lastName": "Andersson",
-    "fullName": "Oliver Andersson",
     "aliases": [],
     "dateOfBirth": null,
     "birthYear": null,
@@ -280,50 +240,10 @@
     "dataNotes": []
   },
   {
-    "playerId": "player_elliot_lundstad_33ed7ef3",
-    "firstName": "Elliot",
-    "lastName": "Lundstad",
-    "fullName": "Elliot Lundstad",
-    "aliases": [],
-    "dateOfBirth": null,
-    "birthYear": null,
-    "nationalities": null,
-    "heightCm": null,
-    "handedness": null,
-    "recordConfidence": "VERIFIED",
-    "fieldConfidence": {},
-    "sourceRefs": {
-      "identity": [
-        "src_div1_sodra_2026_27"
-      ]
-    },
-    "dataNotes": []
-  },
-  {
     "playerId": "player_viggo_steenson_e4c48c4a",
     "firstName": "Viggo",
     "lastName": "Steenson",
     "fullName": "Viggo Steenson",
-    "aliases": [],
-    "dateOfBirth": null,
-    "birthYear": null,
-    "nationalities": null,
-    "heightCm": null,
-    "handedness": null,
-    "recordConfidence": "VERIFIED",
-    "fieldConfidence": {},
-    "sourceRefs": {
-      "identity": [
-        "src_div1_sodra_2026_27"
-      ]
-    },
-    "dataNotes": []
-  },
-  {
-    "playerId": "player_sebastian_kallemyr_3674d2fb",
-    "firstName": "Sebastian",
-    "lastName": "Källemyr",
-    "fullName": "Sebastian Källemyr",
     "aliases": [],
     "dateOfBirth": null,
     "birthYear": null,
@@ -604,106 +524,6 @@
     "firstName": "Liam",
     "lastName": "Kozjak",
     "fullName": "Liam Kozjak",
-    "aliases": [],
-    "dateOfBirth": null,
-    "birthYear": null,
-    "nationalities": null,
-    "heightCm": null,
-    "handedness": null,
-    "recordConfidence": "VERIFIED",
-    "fieldConfidence": {},
-    "sourceRefs": {
-      "identity": [
-        "src_div1_sodra_2026_27"
-      ]
-    },
-    "dataNotes": []
-  },
-  {
-    "playerId": "player_milo_knaapinen_3a3d7aa7",
-    "firstName": "Milo",
-    "lastName": "Knaapinen",
-    "fullName": "Milo Knaapinen",
-    "aliases": [],
-    "dateOfBirth": null,
-    "birthYear": null,
-    "nationalities": null,
-    "heightCm": null,
-    "handedness": null,
-    "recordConfidence": "VERIFIED",
-    "fieldConfidence": {},
-    "sourceRefs": {
-      "identity": [
-        "src_div1_sodra_2026_27"
-      ]
-    },
-    "dataNotes": []
-  },
-  {
-    "playerId": "player_max_blomberg_romero_1afaa101",
-    "firstName": "Max",
-    "lastName": "Blomberg Romero",
-    "fullName": "Max Blomberg Romero",
-    "aliases": [],
-    "dateOfBirth": null,
-    "birthYear": null,
-    "nationalities": null,
-    "heightCm": null,
-    "handedness": null,
-    "recordConfidence": "VERIFIED",
-    "fieldConfidence": {},
-    "sourceRefs": {
-      "identity": [
-        "src_div1_sodra_2026_27"
-      ]
-    },
-    "dataNotes": []
-  },
-  {
-    "playerId": "player_fabian_simonsson_d4a53e4f",
-    "firstName": "Fabian",
-    "lastName": "Simonsson",
-    "fullName": "Fabian Simonsson",
-    "aliases": [],
-    "dateOfBirth": null,
-    "birthYear": null,
-    "nationalities": null,
-    "heightCm": null,
-    "handedness": null,
-    "recordConfidence": "VERIFIED",
-    "fieldConfidence": {},
-    "sourceRefs": {
-      "identity": [
-        "src_div1_sodra_2026_27"
-      ]
-    },
-    "dataNotes": []
-  },
-  {
-    "playerId": "player_felix_lilja_24216081",
-    "firstName": "Felix",
-    "lastName": "Lilja",
-    "fullName": "Felix Lilja",
-    "aliases": [],
-    "dateOfBirth": null,
-    "birthYear": null,
-    "nationalities": null,
-    "heightCm": null,
-    "handedness": null,
-    "recordConfidence": "VERIFIED",
-    "fieldConfidence": {},
-    "sourceRefs": {
-      "identity": [
-        "src_div1_sodra_2026_27"
-      ]
-    },
-    "dataNotes": []
-  },
-  {
-    "playerId": "player_hannes_malm_lindblom_20784e09",
-    "firstName": "Hannes",
-    "lastName": "Malm Lindblom",
-    "fullName": "Hannes Malm Lindblom",
     "aliases": [],
     "dateOfBirth": null,
     "birthYear": null,
