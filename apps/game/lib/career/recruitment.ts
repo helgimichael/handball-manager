@@ -30,7 +30,8 @@ import { getPlayerContract, getPlayerContractStatus, getPlayerMarketValueEur } f
 import type { ContractStatus } from "../economy/types";
 import { getPlayerScoutReports, type ScoutAssignmentType } from "./scouting";
 import { getPlayerScoutDiscoveries } from "./scoutDiscovery";
-import { getClub, playerAge, type HandballPosition } from "../game-data";
+import { getClub, type HandballPosition } from "../game-data";
+import { playerAgeAtDate } from "../development/developmentIntegration";
 import { findStaffMember } from "../staff/staffCareerIntegration";
 import type { TransferOffer, TransferOfferStatus } from "../transfers/types";
 import { getFreeAgents, isFreeAgentClubId } from "./contractExpiry";
@@ -236,7 +237,7 @@ function buildCandidate(state: CareerState, playerId: string): RecruitmentCandid
     clubName: club?.name ?? (isFreeAgentClubId(clubId) ? "Fri agent" : clubId),
     competitionId: club?.competitionId ?? "",
     position: player.position,
-    ageYears: playerAge(player.dateOfBirth, player.birthYear),
+    ageYears: playerAgeAtDate(player.dateOfBirth, player.birthYear, state.gameDate),
     nationality: player.nationality,
     knowledgeTier: tier,
     knowledgePct,

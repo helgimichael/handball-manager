@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useMemo, useState, type CSSProperties } from "react";
-import { playerAge, positionLabel, type Club, type HandballPosition } from "@/lib/game-data";
+import { positionLabel, type Club, type HandballPosition } from "@/lib/game-data";
+import { playerAgeAtDate } from "@/lib/development/developmentIntegration";
 import { useCareer } from "@/lib/career/CareerContext";
 import { getCareerClubSquad, getExternalCandidateClubs } from "@/lib/career/careerWorld";
 import { getFreeAgents } from "@/lib/career/contractExpiry";
@@ -192,7 +193,7 @@ export default function TransfersPage() {
                   <tr key={player.id} data-clickable="true" onClick={() => selectPlayer(player.id)} style={{ background: selectedPlayerId === player.id ? "var(--hm-surface-2)" : undefined }}>
                     <td className="hm-td-strong">{player.firstName} {player.lastName}</td>
                     <td title={positionLabel(player.position)}>{player.position}</td>
-                    <td>{playerAge(player.dateOfBirth, player.birthYear) ?? "–"}</td>
+                    <td>{playerAgeAtDate(player.dateOfBirth, player.birthYear, career.gameDate) ?? "–"}</td>
                     <td className="hm-text-muted">{club ? club.shortName : "Fri agent"}</td>
                     <td>{status ? <span className={`hm-badge hm-badge-${CONTRACT_STATUS_TONE[status]}`}>{CONTRACT_STATUS_LABEL[status]}</span> : "—"}</td>
                     <td className="hm-table-num">{valueRange ? (valueRange.min === valueRange.max ? formatEur(valueRange.min) : `${formatEur(valueRange.min)} – ${formatEur(valueRange.max)}`) : "—"}</td>

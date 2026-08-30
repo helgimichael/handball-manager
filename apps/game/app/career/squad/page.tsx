@@ -2,8 +2,9 @@
 
 import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
-import { playerAge, positionLabel } from "@/lib/game-data";
+import { positionLabel } from "@/lib/game-data";
 import type { HandballPosition } from "@/lib/game-data";
+import { playerAgeAtDate } from "@/lib/development/developmentIntegration";
 import { useCareer } from "@/lib/career/CareerContext";
 import { getCareerClub, getCareerSquad } from "@/lib/career/careerWorld";
 import { averageRating, emptyPlayerSeasonStats } from "@/lib/career/types";
@@ -39,7 +40,7 @@ export default function SquadPage() {
           cmp = a.lastName.localeCompare(b.lastName);
           break;
         case "age":
-          cmp = (playerAge(a.dateOfBirth, a.birthYear) ?? 0) - (playerAge(b.dateOfBirth, b.birthYear) ?? 0);
+          cmp = (playerAgeAtDate(a.dateOfBirth, a.birthYear, career.gameDate) ?? 0) - (playerAgeAtDate(b.dateOfBirth, b.birthYear, career.gameDate) ?? 0);
           break;
         case "status":
           cmp = (SQUAD_STATUS_RANK[career.playerSquadStatus[a.id]] ?? 9) - (SQUAD_STATUS_RANK[career.playerSquadStatus[b.id]] ?? 9);
@@ -131,7 +132,7 @@ export default function SquadPage() {
                     {p.position}
                   </td>
                   <td onClick={() => router.push(`/career/squad/${p.id}`)} data-clickable="true">
-                    {playerAge(p.dateOfBirth, p.birthYear) ?? "–"}
+                    {playerAgeAtDate(p.dateOfBirth, p.birthYear, career.gameDate) ?? "–"}
                   </td>
                   <td>
                     {/* HM-DATA-ALLSVENSKAN-1.1B Part 3: the manager's own

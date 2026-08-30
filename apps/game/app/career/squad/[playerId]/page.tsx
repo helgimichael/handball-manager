@@ -2,7 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { abilityStars, getClub, playerAge, positionLabel, potentialStars } from "@/lib/game-data";
+import { abilityStars, getClub, positionLabel, potentialStars } from "@/lib/game-data";
+import { playerAgeAtDate } from "@/lib/development/developmentIntegration";
 import { useCareer } from "@/lib/career/CareerContext";
 import { getCareerPlayer } from "@/lib/career/careerWorld";
 import { isFreeAgentClubId } from "@/lib/career/contractExpiry";
@@ -100,7 +101,7 @@ export default function PlayerProfilePage() {
   }
 
   const seasonStats = career.playerSeasonStats[player.id] ?? emptyPlayerSeasonStats(player.id);
-  const age = playerAge(player.dateOfBirth, player.birthYear);
+  const age = playerAgeAtDate(player.dateOfBirth, player.birthYear, career.gameDate);
   const isWonderkid = age !== null && age <= 19 && potentialStars(player) >= 5;
   const isFreeAgentPlayer = isFreeAgentClubId(player.clubId);
   const isRetiredPlayer = isRetiredClubId(player.clubId);

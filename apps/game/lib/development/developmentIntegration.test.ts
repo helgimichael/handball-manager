@@ -12,7 +12,7 @@ import { TUMBA_CLUB_ID } from "../game-data";
 import { addDays } from "../career/dateUtils";
 import { executeTrainingDay } from "../training/trainingExecution";
 import { mondayOf, setPlayerIndividualFocus, setPlayerTrainingLoad } from "../training/trainingSchedule";
-import { applyMatchDevelopmentStimulus, applyTrainingDayDevelopmentStimulus, resolveWeeklyDevelopmentIfDue, type PlayerMatchExposure } from "./developmentIntegration";
+import { applyMatchDevelopmentStimulus, applyTrainingDayDevelopmentStimulus, playerAgeAtDate, resolveWeeklyDevelopmentIfDue, type PlayerMatchExposure } from "./developmentIntegration";
 import { OUTCOURT_ATTRIBUTES } from "../rating/types";
 import type { GameplayPlayerRating } from "../gameWorld/gameplayRatingSnapshot";
 import type { CareerState } from "../career/types";
@@ -58,6 +58,38 @@ function advanceOneTrainingWeek(state: CareerState, mondayDate: string, matchExp
 function withExposure(playerId: string, attackExposure: number, defenceExposure: number): ReadonlyMap<string, PlayerMatchExposure> {
   return new Map([[playerId, { attackExposure, defenceExposure, goalkeeperExposure: 0 }]]);
 }
+
+// playerAgeAtDate: the ONE canonical age calculation -- always relative to
+// the career's own gameDate, never a hardcoded literal.
+test("playerAgeAtDate: DOB 2000-01-01 ages correctly as the game date advances", () => {
+  assert.equal(playerAgeAtDate("2000-01-01", null, "2026-08-30"), 26);
+  assert.equal(playerAgeAtDate("2000-01-01", null, "2027-08-30"), 27);
+  assert.equal(playerAgeAtDate("2000-01-01", null, "2030-08-30"), 30);
+});
+
+test("playerAgeAtDate: birthday not yet reached this year does not count the year as complete", () => {
+  // Born 2000-09-15; as of 2026-08-30 (before the birthday) still 25, not 26.
+  assert.equal(playerAgeAtDate("2000-09-15", null, "2026-08-30"), 25);
+  // The day of the birthday itself is already the new age.
+  assert.equal(playerAgeAtDate("2000-09-15", null, "2026-09-15"), 26);
+  // The day after is unambiguously the new age too.
+  assert.equal(playerAgeAtDate("2000-09-15", null, "2026-09-16"), 26);
+});
+
+test("playerAgeAtDate: birthday already passed this year counts the year as complete", () => {
+  // Born 2000-03-01; as of 2026-08-30 (well after the birthday) is 26.
+  assert.equal(playerAgeAtDate("2000-03-01", null, "2026-08-30"), 26);
+});
+
+test("playerAgeAtDate: falls back to birthYear-only estimation when exact DOB is unknown, never fabricating a day/month", () => {
+  assert.equal(playerAgeAtDate(null, 2000, "2026-08-30"), 26);
+  assert.equal(playerAgeAtDate(null, 2000, "2027-01-01"), 27);
+});
+
+test("playerAgeAtDate: returns null (never a fabricated age) when neither DOB nor birthYear is known", () => {
+  assert.equal(playerAgeAtDate(null, null, "2026-08-30"), null);
+  assert.equal(playerAgeAtDate(null, undefined, "2026-08-30"), null);
+});
 
 // (27) development event created when visible attribute changes.
 // (28) no event created when only hidden progress changes.

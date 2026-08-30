@@ -9,7 +9,8 @@
 //   Player Profile, components/ScoutReportPanel.tsx).
 import { useMemo, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { getClub, getCompetition, playerAge, positionLabel, type HandballPosition } from "@/lib/game-data";
+import { getClub, getCompetition, positionLabel, type HandballPosition } from "@/lib/game-data";
+import { playerAgeAtDate } from "@/lib/development/developmentIntegration";
 import { useCareer } from "@/lib/career/CareerContext";
 import { getCareerClubSquad, getCareerPlayer, getExternalCandidateClubs } from "@/lib/career/careerWorld";
 import { getAllScoutingAssignments, computeAssignmentProgressPct, getClubScouts, type ScoutAssignmentType } from "@/lib/career/scouting";
@@ -214,7 +215,7 @@ export default function ScoutingPage() {
                     <tr key={player.id} data-clickable="true" onClick={() => setSelectedPlayerId(player.id)} style={{ background: selectedPlayerId === player.id ? "var(--hm-surface-2)" : undefined }}>
                       <td className="hm-td-strong">{player.firstName} {player.lastName}</td>
                       <td title={positionLabel(player.position)}>{player.position}</td>
-                      <td>{playerAge(player.dateOfBirth, player.birthYear) ?? "–"}</td>
+                      <td>{playerAgeAtDate(player.dateOfBirth, player.birthYear, career.gameDate) ?? "–"}</td>
                       <td className="hm-text-muted">{club.shortName}</td>
                       <td className="hm-table-num">{KNOWLEDGE_TIER_LABEL_SV[knowledgeTier(pct)]}</td>
                       <td>

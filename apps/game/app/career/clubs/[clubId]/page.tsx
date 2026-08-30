@@ -14,7 +14,8 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
-import { COMPETITIONS, getClub, playerAge, positionLabel } from "@/lib/game-data";
+import { COMPETITIONS, getClub, positionLabel } from "@/lib/game-data";
+import { playerAgeAtDate } from "@/lib/development/developmentIntegration";
 import { useCareer } from "@/lib/career/CareerContext";
 import { getCareerClubSquad } from "@/lib/career/careerWorld";
 import { getLiveStandings } from "@/lib/career/standings";
@@ -199,7 +200,7 @@ export default function ClubProfilePage() {
                       </PlayerLink>
                     </td>
                     <td title={positionLabel(p.position)}>{p.position}</td>
-                    <td>{playerAge(p.dateOfBirth, p.birthYear) ?? "–"}</td>
+                    <td>{playerAgeAtDate(p.dateOfBirth, p.birthYear, career.gameDate) ?? "–"}</td>
                   </tr>
                 ))}
               </tbody>

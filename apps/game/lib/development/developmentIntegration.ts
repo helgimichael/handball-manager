@@ -153,11 +153,12 @@ function isSunday(date: string): boolean {
 }
 
 /**
- * Part 5/E: age relative to the CAREER's own current date, never a
- * hardcoded literal (unlike lib/game-data/players.ts's own `playerAge`,
- * which is fixed to a single build-time date and is deliberately NOT
- * reused here -- a live career's `gameDate` advances, and age must
- * advance with it).
+ * Part 5/E: THE canonical player-age calculation -- every call site across
+ * the app (UI pages, recruitment, transfers, development/retirement,
+ * scouting, etc.) uses this, always passing the live career's `gameDate`
+ * (never a hardcoded literal), so age advances correctly as a career
+ * progresses. dateOfBirth is the canonical source; birthYear is only a
+ * fallback when the exact date isn't known -- never fabricates a day/month.
  */
 export function playerAgeAtDate(dateOfBirth: string | null, birthYear: number | null | undefined, asOfDate: string): number | null {
   if (dateOfBirth) {
