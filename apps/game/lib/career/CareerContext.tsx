@@ -362,6 +362,45 @@ async function fetchAllClubsStaffIdentity(competitionId: string): Promise<Record
   }
 }
 
+/**
+ * HM-SAVE-STORAGE-1.0: `saveCareerState` became async when persistence
+ * moved to IndexedDB, but the ~40 call sites below are inside React
+ * state updaters and event handlers where awaiting is not possible --
+ * and making them awaitable would mean reworking the whole career
+ * action flow, which is exactly the domain risk this storage-only
+ * milestone is meant to avoid.
+ *
+ * So the write stays fire-and-forget, as it effectively was before, but
+ * its rejection is NEVER dropped: it is logged and pushed to the
+ * provider, which renders a persistent banner. A silent write failure
+ * would let the manager keep playing a career that is no longer being
+ * saved -- the precise failure mode this milestone exists to remove.
+ */
+let persistenceFailureListener: ((message: string) => void) | null = null;
+
+function CareerPersistenceError({ message }: { message: string }) {
+  return (
+    <div style={{ minHeight: "100vh", background: "var(--hm-bg-app)", display: "flex", alignItems: "center", justifyContent: "center", padding: 20 }}>
+      <div className="hm-panel" style={{ maxWidth: 560 }}>
+        <div className="hm-panel-body">
+          <strong>Karriären kunde inte sparas eller läsas</strong>
+          <p className="hm-text-muted" style={{ marginTop: 8 }}>{message}</p>
+          <p className="hm-text-muted" style={{ marginTop: 8, fontSize: "12px" }}>
+            Ingen sparad data har raderats. Stäng andra flikar med spelet öppet och försök igen.
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function persistCareerState(saveId: string, careerState: CareerState): void {
+  void saveCareerState(saveId, careerState).catch((cause: unknown) => {
+    console.error("[save] Failed to persist career state", cause);
+    persistenceFailureListener?.(cause instanceof Error ? cause.message : "Karriären kunde inte sparas.");
+  });
+}
+
 async function getOrCreateCareerState(save: CareerSave): Promise<CareerState> {
   if (save.careerState) {
     let migrated = migrateCareerState(save.careerState);
@@ -436,7 +475,7 @@ async function getOrCreateCareerState(save: CareerSave): Promise<CareerState> {
     // a cheap no-op on every subsequent load once nothing is missing.
     migrated = ensureCareerAllClubEconomies(migrated);
     if (migrated !== save.careerState) {
-      saveCareerState(save.saveId, migrated);
+      await saveCareerState(save.saveId, migrated);
     }
     return migrated;
   }
@@ -465,25 +504,43 @@ async function getOrCreateCareerState(save: CareerSave): Promise<CareerState> {
     staffIdentityByClub,
     save.preseasonStart,
   );
-  saveCareerState(save.saveId, fresh);
+  await saveCareerState(save.saveId, fresh);
   return fresh;
 }
 
 export function CareerProvider({ children }: { children: ReactNode }) {
   const [value, setValue] = useState<{ save: CareerSave; career: CareerState } | null>(null);
+  const [persistError, setPersistError] = useState<string | null>(null);
 
   useEffect(() => {
-    const save = getActiveSave();
-    if (!save) {
-      return;
-    }
     let cancelled = false;
-    getOrCreateCareerState(save).then((career) => {
-      if (cancelled) return;
-      setValue({ save, career });
-    });
+    // HM-SAVE-STORAGE-1.0: both the active-save read and the career
+    // load/creation are async now. A rejection here is a real
+    // persistence fault (not "no career") and is surfaced, never
+    // swallowed into a permanent loading state.
+    getActiveSave()
+      .then((save) => {
+        if (cancelled || !save) return null;
+        return getOrCreateCareerState(save).then((career) => {
+          if (cancelled) return null;
+          setValue({ save, career });
+          return null;
+        });
+      })
+      .catch((cause: unknown) => {
+        if (cancelled) return;
+        setPersistError(cause instanceof Error ? cause.message : "Karriären kunde inte läsas eller sparas.");
+      });
     return () => {
       cancelled = true;
+    };
+  }, []);
+
+  // Every background persist (see persistCareerState) reports here.
+  useEffect(() => {
+    persistenceFailureListener = (message) => setPersistError(message);
+    return () => {
+      persistenceFailureListener = null;
     };
   }, []);
 
@@ -506,7 +563,7 @@ export function CareerProvider({ children }: { children: ReactNode }) {
       if (!current) return current;
       const nextCareer = startLiveMatchSession(current.career, fixtureId, current.career.tacticalProfile);
       if (nextCareer === current.career) return current;
-      saveCareerState(current.save.saveId, nextCareer);
+      persistCareerState(current.save.saveId, nextCareer);
       return { save: current.save, career: nextCareer };
     });
   }, []);
@@ -516,7 +573,7 @@ export function CareerProvider({ children }: { children: ReactNode }) {
       if (!current) return current;
       const nextCareer = updateLiveMatchSession(current.career, fixtureId, session);
       if (nextCareer === current.career) return current;
-      saveCareerState(current.save.saveId, nextCareer);
+      persistCareerState(current.save.saveId, nextCareer);
       return { save: current.save, career: nextCareer };
     });
   }, []);
@@ -526,13 +583,14 @@ export function CareerProvider({ children }: { children: ReactNode }) {
       if (!current) return current;
       const nextCareer = clearLiveMatchSession(current.career, fixtureId);
       if (nextCareer === current.career) return current;
-      saveCareerState(current.save.saveId, nextCareer);
+      persistCareerState(current.save.saveId, nextCareer);
       return { save: current.save, career: nextCareer };
     });
   }, []);
 
   if (!value) {
-    return null;
+    // A persistence fault must not present as an endless blank load.
+    return persistError ? <CareerPersistenceError message={persistError} /> : null;
   }
 
   function continueCareer() {
@@ -547,14 +605,14 @@ export function CareerProvider({ children }: { children: ReactNode }) {
     // re-deciding or re-processing anything itself.
     const startDate = addDays(value!.career.processedThroughDate, 1);
     const { state: nextCareer, events, stopReason, daysProcessed } = continueCareerRhythm(value!.career);
-    saveCareerState(value!.save.saveId, nextCareer);
+    persistCareerState(value!.save.saveId, nextCareer);
     setValue({ save: value!.save, career: nextCareer });
     return { events, stopReason, daysProcessed, startDate };
   }
 
   function playManagerFixtureAction() {
     const { state: nextCareer, result } = playManagerFixture(value!.career);
-    saveCareerState(value!.save.saveId, nextCareer);
+    persistCareerState(value!.save.saveId, nextCareer);
     setValue({ save: value!.save, career: nextCareer });
     return { result };
   }
@@ -564,7 +622,7 @@ export function CareerProvider({ children }: { children: ReactNode }) {
     if (nextCareer === value!.career) {
       return;
     }
-    saveCareerState(value!.save.saveId, nextCareer);
+    persistCareerState(value!.save.saveId, nextCareer);
     setValue({ save: value!.save, career: nextCareer });
   }
 
@@ -573,7 +631,7 @@ export function CareerProvider({ children }: { children: ReactNode }) {
     if (nextCareer === value!.career) {
       return;
     }
-    saveCareerState(value!.save.saveId, nextCareer);
+    persistCareerState(value!.save.saveId, nextCareer);
     setValue({ save: value!.save, career: nextCareer });
   }
 
@@ -582,27 +640,27 @@ export function CareerProvider({ children }: { children: ReactNode }) {
     if (nextCareer === value!.career) {
       return;
     }
-    saveCareerState(value!.save.saveId, nextCareer);
+    persistCareerState(value!.save.saveId, nextCareer);
     setValue({ save: value!.save, career: nextCareer });
   }
 
   function updateTacticalProfileAction(changes: Partial<TeamTacticalProfile>) {
     const nextCareer = updateTacticalProfile(value!.career, changes);
-    saveCareerState(value!.save.saveId, nextCareer);
+    persistCareerState(value!.save.saveId, nextCareer);
     setValue({ save: value!.save, career: nextCareer });
   }
 
   function updateSquadStatusAction(playerId: string, tier: SquadStatusTier) {
     const nextCareer = updatePlayerSquadStatus(value!.career, playerId, tier);
     if (nextCareer === value!.career) return;
-    saveCareerState(value!.save.saveId, nextCareer);
+    persistCareerState(value!.save.saveId, nextCareer);
     setValue({ save: value!.save, career: nextCareer });
   }
 
   function offerStaffContractAction(params: StaffOfferParams): StaffOfferResult {
     const { state: nextCareer, result } = offerStaffContract(value!.career, params);
     if (nextCareer !== value!.career) {
-      saveCareerState(value!.save.saveId, nextCareer);
+      persistCareerState(value!.save.saveId, nextCareer);
       setValue({ save: value!.save, career: nextCareer });
     }
     return result;
@@ -625,7 +683,7 @@ export function CareerProvider({ children }: { children: ReactNode }) {
       const prevPlan = current.career.matchPlans[fixtureId];
       const nextPlan = typeof planOrUpdater === "function" ? planOrUpdater(prevPlan) : planOrUpdater;
       const nextCareer = setMatchPlan(current.career, fixtureId, nextPlan);
-      saveCareerState(current.save.saveId, nextCareer);
+      persistCareerState(current.save.saveId, nextCareer);
       return { save: current.save, career: nextCareer };
     });
   }
@@ -635,7 +693,7 @@ export function CareerProvider({ children }: { children: ReactNode }) {
     setValue((current) => {
       if (!current) return current;
       const nextCareer = setPlayerMatchDefault(current.career, playerId, value);
-      saveCareerState(current.save.saveId, nextCareer);
+      persistCareerState(current.save.saveId, nextCareer);
       return { save: current.save, career: nextCareer };
     });
   }
@@ -644,7 +702,7 @@ export function CareerProvider({ children }: { children: ReactNode }) {
     setValue((current) => {
       if (!current) return current;
       const nextCareer = setSpecialPlayPlan(current.career, clubId, plan);
-      saveCareerState(current.save.saveId, nextCareer);
+      persistCareerState(current.save.saveId, nextCareer);
       return { save: current.save, career: nextCareer };
     });
   }
@@ -671,7 +729,7 @@ export function CareerProvider({ children }: { children: ReactNode }) {
       if (nextCareer === current.career) {
         return current;
       }
-      saveCareerState(current.save.saveId, nextCareer);
+      persistCareerState(current.save.saveId, nextCareer);
       return { save: current.save, career: nextCareer };
     });
   }
@@ -697,7 +755,7 @@ export function CareerProvider({ children }: { children: ReactNode }) {
       if (nextCareer === current.career) {
         return current;
       }
-      saveCareerState(current.save.saveId, nextCareer);
+      persistCareerState(current.save.saveId, nextCareer);
       return { save: current.save, career: nextCareer };
     });
   }
@@ -711,7 +769,7 @@ export function CareerProvider({ children }: { children: ReactNode }) {
     setValue((current) => {
       if (!current) return current;
       const nextCareer = setTrainingDayTypeAction(current.career, weekStart, date, dayType);
-      saveCareerState(current.save.saveId, nextCareer);
+      persistCareerState(current.save.saveId, nextCareer);
       return { save: current.save, career: nextCareer };
     });
   }
@@ -720,7 +778,7 @@ export function CareerProvider({ children }: { children: ReactNode }) {
     setValue((current) => {
       if (!current) return current;
       const nextCareer = addTrainingSessionAction(current.career, weekStart, date, seed);
-      saveCareerState(current.save.saveId, nextCareer);
+      persistCareerState(current.save.saveId, nextCareer);
       return { save: current.save, career: nextCareer };
     });
   }
@@ -729,7 +787,7 @@ export function CareerProvider({ children }: { children: ReactNode }) {
     setValue((current) => {
       if (!current) return current;
       const nextCareer = removeTrainingSessionAction(current.career, weekStart, date, sessionId);
-      saveCareerState(current.save.saveId, nextCareer);
+      persistCareerState(current.save.saveId, nextCareer);
       return { save: current.save, career: nextCareer };
     });
   }
@@ -743,7 +801,7 @@ export function CareerProvider({ children }: { children: ReactNode }) {
     setValue((current) => {
       if (!current) return current;
       const nextCareer = updateTrainingSessionAction(current.career, weekStart, date, sessionId, patch);
-      saveCareerState(current.save.saveId, nextCareer);
+      persistCareerState(current.save.saveId, nextCareer);
       return { save: current.save, career: nextCareer };
     });
   }
@@ -752,7 +810,7 @@ export function CareerProvider({ children }: { children: ReactNode }) {
     setValue((current) => {
       if (!current) return current;
       const nextCareer = applyWeeklyTemplateAction(current.career, weekStart, template);
-      saveCareerState(current.save.saveId, nextCareer);
+      persistCareerState(current.save.saveId, nextCareer);
       return { save: current.save, career: nextCareer };
     });
   }
@@ -761,7 +819,7 @@ export function CareerProvider({ children }: { children: ReactNode }) {
     setValue((current) => {
       if (!current) return current;
       const nextCareer = setPlayerTrainingLoad(current.career, playerId, loadSetting);
-      saveCareerState(current.save.saveId, nextCareer);
+      persistCareerState(current.save.saveId, nextCareer);
       return { save: current.save, career: nextCareer };
     });
   }
@@ -770,7 +828,7 @@ export function CareerProvider({ children }: { children: ReactNode }) {
     setValue((current) => {
       if (!current) return current;
       const nextCareer = setPlayerIndividualFocus(current.career, playerId, focus);
-      saveCareerState(current.save.saveId, nextCareer);
+      persistCareerState(current.save.saveId, nextCareer);
       return { save: current.save, career: nextCareer };
     });
   }
@@ -779,7 +837,7 @@ export function CareerProvider({ children }: { children: ReactNode }) {
     if (!value) return { ok: false, error: "Ingen aktiv karriär." };
     const result = bookFriendly(value.career, date, opponentClubId);
     if (result.ok) {
-      saveCareerState(value.save.saveId, result.state);
+      persistCareerState(value.save.saveId, result.state);
       setValue({ save: value.save, career: result.state });
     }
     return { ok: result.ok, error: result.error };
@@ -788,7 +846,7 @@ export function CareerProvider({ children }: { children: ReactNode }) {
   function submitTransferOfferActionWrapper(params: SubmitTransferOfferParams): TransferOffer {
     if (!value) throw new Error("Ingen aktiv karriär.");
     const result = submitTransferOffer(value.career, params);
-    saveCareerState(value.save.saveId, result.state);
+    persistCareerState(value.save.saveId, result.state);
     setValue({ save: value.save, career: result.state });
     return result.offer;
   }
@@ -797,7 +855,7 @@ export function CareerProvider({ children }: { children: ReactNode }) {
     if (!value) throw new Error("Ingen aktiv karriär.");
     const result = createScoutingAssignment(value.career, scoutStaffId, targetPlayerId, targetClubId, value.career.gameDate);
     if (result.ok) {
-      saveCareerState(value.save.saveId, result.state);
+      persistCareerState(value.save.saveId, result.state);
       setValue({ save: value.save, career: result.state });
     }
     return result;
@@ -811,7 +869,7 @@ export function CareerProvider({ children }: { children: ReactNode }) {
     if (!value) throw new Error("Ingen aktiv karriär.");
     const result = createBroadScoutingAssignment(value.career, scoutStaffId, assignmentType, scope, value.career.gameDate);
     if (result.ok) {
-      saveCareerState(value.save.saveId, result.state);
+      persistCareerState(value.save.saveId, result.state);
       setValue({ save: value.save, career: result.state });
     }
     return result;
@@ -820,35 +878,35 @@ export function CareerProvider({ children }: { children: ReactNode }) {
   function cancelScoutingAssignmentActionWrapper(assignmentId: string): void {
     if (!value) throw new Error("Ingen aktiv karriär.");
     const nextState = cancelScoutingAssignment(value.career, assignmentId);
-    saveCareerState(value.save.saveId, nextState);
+    persistCareerState(value.save.saveId, nextState);
     setValue({ save: value.save, career: nextState });
   }
 
   function addToShortlistActionWrapper(playerId: string): void {
     if (!value) throw new Error("Ingen aktiv karriär.");
     const nextState = addToShortlist(value.career, playerId, value.career.gameDate);
-    saveCareerState(value.save.saveId, nextState);
+    persistCareerState(value.save.saveId, nextState);
     setValue({ save: value.save, career: nextState });
   }
 
   function removeFromShortlistActionWrapper(playerId: string): void {
     if (!value) throw new Error("Ingen aktiv karriär.");
     const nextState = removeFromShortlist(value.career, playerId);
-    saveCareerState(value.save.saveId, nextState);
+    persistCareerState(value.save.saveId, nextState);
     setValue({ save: value.save, career: nextState });
   }
 
   function setRecruitmentPriorityActionWrapper(playerId: string, priority: RecruitmentPriority): void {
     if (!value) throw new Error("Ingen aktiv karriär.");
     const nextState = setRecruitmentPriority(value.career, playerId, priority, value.career.gameDate);
-    saveCareerState(value.save.saveId, nextState);
+    persistCareerState(value.save.saveId, nextState);
     setValue({ save: value.save, career: nextState });
   }
 
   function setRecruitmentNoteActionWrapper(playerId: string, note: string): void {
     if (!value) throw new Error("Ingen aktiv karriär.");
     const nextState = setRecruitmentNote(value.career, playerId, note, value.career.gameDate);
-    saveCareerState(value.save.saveId, nextState);
+    persistCareerState(value.save.saveId, nextState);
     setValue({ save: value.save, career: nextState });
   }
 
@@ -857,7 +915,7 @@ export function CareerProvider({ children }: { children: ReactNode }) {
     const result = requestPartnershipSearch(value.career, value.career.playerClubId, value.career.gameDate);
     if (result.ok && result.assignment) {
       const nextCareer = { ...value.career, partnershipSearches: { ...value.career.partnershipSearches, [result.assignment.id]: result.assignment } };
-      saveCareerState(value.save.saveId, nextCareer);
+      persistCareerState(value.save.saveId, nextCareer);
       setValue({ save: value.save, career: nextCareer });
     }
     return result;
@@ -868,7 +926,7 @@ export function CareerProvider({ children }: { children: ReactNode }) {
     const result = startDevelopmentPartnership(value.career, searchId, chosenClubId, monthlyCostEur, durationMonths, value.career.gameDate);
     if (result.ok && result.partnership) {
       const nextCareer = { ...value.career, clubPartnerships: { ...value.career.clubPartnerships, [result.partnership.id]: result.partnership } };
-      saveCareerState(value.save.saveId, nextCareer);
+      persistCareerState(value.save.saveId, nextCareer);
       setValue({ save: value.save, career: nextCareer });
     }
     return result;
@@ -878,7 +936,7 @@ export function CareerProvider({ children }: { children: ReactNode }) {
     if (!value) throw new Error("Ingen aktiv karriär.");
     const nextCareer = terminatePartnership(value.career, partnershipId, value.career.gameDate);
     if (nextCareer === value.career) return;
-    saveCareerState(value.save.saveId, nextCareer);
+    persistCareerState(value.save.saveId, nextCareer);
     setValue({ save: value.save, career: nextCareer });
   }
 
@@ -886,7 +944,7 @@ export function CareerProvider({ children }: { children: ReactNode }) {
     if (!value) throw new Error("Ingen aktiv karriär.");
     const nextCareer = renewPartnership(value.career, partnershipId, additionalMonths);
     if (nextCareer === value.career) return;
-    saveCareerState(value.save.saveId, nextCareer);
+    persistCareerState(value.save.saveId, nextCareer);
     setValue({ save: value.save, career: nextCareer });
   }
 
@@ -899,7 +957,7 @@ export function CareerProvider({ children }: { children: ReactNode }) {
         playerPlacements: { ...value.career.playerPlacements, [result.placement.id]: result.placement },
         playerStatuses: { ...value.career.playerStatuses, [playerId]: { playerId, availability: "ON_PLACEMENT" } },
       };
-      saveCareerState(value.save.saveId, nextCareer);
+      persistCareerState(value.save.saveId, nextCareer);
       setValue({ save: value.save, career: nextCareer });
     }
     return result;
@@ -909,7 +967,7 @@ export function CareerProvider({ children }: { children: ReactNode }) {
     if (!value) throw new Error("Ingen aktiv karriär.");
     const nextCareer = recallPlayerFromPlacement(value.career, playerId, value.career.gameDate);
     if (nextCareer === value.career) return;
-    saveCareerState(value.save.saveId, nextCareer);
+    persistCareerState(value.save.saveId, nextCareer);
     setValue({ save: value.save, career: nextCareer });
   }
 
@@ -917,7 +975,7 @@ export function CareerProvider({ children }: { children: ReactNode }) {
     if (!value) throw new Error("Ingen aktiv karriär.");
     const result = startInternationalPartnershipLoan(value.career, partnershipId, playerId, wageShareBorrowingPct, endDate, value.career.gameDate);
     if (result.ok && result.state) {
-      saveCareerState(value.save.saveId, result.state);
+      persistCareerState(value.save.saveId, result.state);
       setValue({ save: value.save, career: result.state });
     }
     return result;
@@ -927,7 +985,7 @@ export function CareerProvider({ children }: { children: ReactNode }) {
     if (!value) throw new Error("Ingen aktiv karriär.");
     const { state: nextCareer, result } = signFreeAgentScout(value.career, personId, value.career.playerClubId, offeredWageEurPerMonth, contractYears, value.career.gameDate);
     if (result.outcome === "COMPLETED") {
-      saveCareerState(value.save.saveId, nextCareer);
+      persistCareerState(value.save.saveId, nextCareer);
       setValue({ save: value.save, career: nextCareer });
     }
     return result;
@@ -980,8 +1038,27 @@ export function CareerProvider({ children }: { children: ReactNode }) {
         startInternationalPartnershipLoan: startInternationalPartnershipLoanActionWrapper,
       }}
     >
+      {/* A write that failed AFTER the career loaded: the manager keeps
+          playing, but must be told their progress is not being saved. */}
+      {persistError ? <CareerPersistenceBanner message={persistError} /> : null}
       {children}
     </CareerContext.Provider>
+  );
+}
+
+function CareerPersistenceBanner({ message }: { message: string }) {
+  return (
+    <div
+      role="alert"
+      style={{
+        position: "fixed", bottom: 12, left: "50%", transform: "translateX(-50%)", zIndex: 1000,
+        maxWidth: 620, padding: "10px 14px", borderRadius: 6,
+        background: "var(--hm-bg-panel)", border: "1px solid var(--hm-accent-strong)",
+        color: "var(--hm-text-primary)", fontSize: "12px",
+      }}
+    >
+      <strong>Karriären sparas inte längre.</strong> {message}
+    </div>
   );
 }
 

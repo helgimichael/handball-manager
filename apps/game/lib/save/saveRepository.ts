@@ -11,11 +11,43 @@
 // inferred as 1 for any save missing the field, never assumed to be
 // current. Loading a v1 save does not crash: lib/career's
 // CareerProvider lazily creates a fresh CareerState for it on first
-// load (see getOrCreateCareerState in this file) and persists the
-// upgrade, rather than silently discarding the save or throwing.
+// load (see getOrCreateCareerState in CareerContext.tsx) and persists
+// the upgrade, rather than silently discarding the save or throwing.
+//
+// HM-SAVE-STORAGE-1.0 (Phase 0): the BACKING STORE moved from
+// localStorage to IndexedDB. A fresh career serializes to ~5.2 MB --
+// larger than localStorage's ~5 MiB per-origin quota on its own, which
+// made `QuotaExceededError` unavoidable at career creation. Three
+// things changed and nothing else:
+//
+//   1. Saves live in IndexedDB, ONE RECORD PER SAVE (lib/save/
+//      saveStorage.ts), instead of every career sharing one giant
+//      JSON string under a single localStorage key. Writing one career
+//      no longer re-serializes the others, and one career's growth can
+//      no longer evict another.
+//   2. Every record-touching function is now ASYNC. IndexedDB has no
+//      synchronous API, so this is unavoidable; the function names,
+//      arguments and semantics are otherwise unchanged.
+//   3. Read failures are no longer swallowed. The old readStore()
+//      caught everything and returned {}, which made a corrupt or
+//      unreadable store look exactly like "this browser has no saves".
+//      Persistence failures now surface as SavePersistenceError.
+//
+// DELIBERATELY UNCHANGED in Phase 0: CareerState's shape. Whatever the
+// domain hands over is stored verbatim -- no normalization, no
+// baseline+delta, no rating-attribute flattening. Those are later
+// phases with real domain risk; this milestone is storage only.
+//
+// The active-save POINTER (a single short save id) stays in
+// localStorage: it is a few dozen bytes, has never been near the quota,
+// and keeping it synchronous avoids an await in every route guard.
 
 import type { CareerState } from "../career/types";
 import type { PreseasonStartOption } from "../career/preseason";
+import { createIndexedDbBackend, createMemoryBackend, SavePersistenceError, type SaveStorageBackend } from "./saveStorage";
+
+export { SavePersistenceError };
+export type { SaveStorageBackend };
 
 export type ManagerProfile = {
   name: string;
@@ -37,6 +69,10 @@ export type ManagerProfile = {
 // integration -- not consumed by Fast Match yet).
 // v7 (HM-PRESEASON-1.0): CareerSave gained `preseasonStart` (the New
 // Game "Starta" step's own preseason-length choice).
+//
+// NOTE: HM-SAVE-STORAGE-1.0 does NOT bump this. The save ENVELOPE and
+// CareerState are byte-identical to v7; only where they are stored
+// changed. Bumping would falsely imply a data-model migration.
 export const CURRENT_SAVE_SCHEMA_VERSION = 7;
 
 export type CareerSave = {
@@ -55,62 +91,179 @@ export type CareerSave = {
   careerState?: CareerState;
 };
 
-const STORAGE_KEY = "hm-game:saves:v1";
-
-type SaveStore = Record<string, CareerSave>;
+/** The pre-Phase-0 localStorage key. Read for migration, never written, never deleted. */
+export const LEGACY_STORAGE_KEY = "hm-game:saves:v1";
+const ACTIVE_SAVE_KEY = "hm-game:active-save:v1";
+const MIGRATION_META_KEY = "legacy-localstorage-migration:v1";
 
 function isBrowser(): boolean {
   return typeof window !== "undefined" && typeof window.localStorage !== "undefined";
 }
 
-function readStore(): SaveStore {
-  if (!isBrowser()) {
-    return {};
-  }
+// ---------------------------------------------------------------------------
+// Backend resolution
+// ---------------------------------------------------------------------------
+
+let backend: SaveStorageBackend | null = null;
+
+function resolveBackend(): SaveStorageBackend {
+  if (backend) return backend;
+  // Outside a browser (SSR, unit tests) nothing is persisted anywhere --
+  // exactly as before Phase 0, where every function short-circuited on
+  // `isBrowser()`. This is a legitimate empty context, NOT a swallowed
+  // error: inside a browser, a missing/failing IndexedDB throws instead.
+  backend = isBrowser() ? createIndexedDbBackend() : createMemoryBackend("ssr");
+  return backend;
+}
+
+/** Test seam: swaps the backend and resets the once-per-process migration guard. Never called by app code. */
+export function __setSaveBackendForTests(next: SaveStorageBackend | null): void {
+  backend = next;
+  migrationPromise = null;
+}
+
+// ---------------------------------------------------------------------------
+// Legacy localStorage migration
+// ---------------------------------------------------------------------------
+
+export type LegacyMigrationOutcome = {
+  /** True once the legacy store has been fully accounted for (including "there was nothing to migrate"). */
+  completed: boolean;
+  /** Saves copied into IndexedDB by THIS invocation. 0 on every run after the first. */
+  migrated: number;
+  /** Legacy saves skipped because IndexedDB already held that saveId -- never overwritten, the IndexedDB copy may be newer. */
+  skippedExisting: number;
+  reason: "NOTHING_TO_MIGRATE" | "ALREADY_MIGRATED" | "MIGRATED";
+};
+
+function readLegacyStore(): Record<string, CareerSave> | null {
+  if (!isBrowser()) return null;
+  const raw = window.localStorage.getItem(LEGACY_STORAGE_KEY);
+  if (raw === null || raw.trim() === "") return null;
+
+  let parsed: unknown;
   try {
-    const raw = window.localStorage.getItem(STORAGE_KEY);
-    if (!raw) {
-      return {};
-    }
-    const parsed = JSON.parse(raw) as SaveStore;
-    // Normalize: any save missing schemaVersion is a pre-HM-GAME-0.2A
-    // (v1) save -- tag it explicitly rather than leaving it undefined,
-    // so every other function in this module can rely on the field
-    // always being present.
-    for (const save of Object.values(parsed)) {
-      if (typeof save.schemaVersion !== "number") {
-        save.schemaVersion = 1;
-      }
-    }
-    return parsed;
-  } catch {
-    return {};
+    parsed = JSON.parse(raw);
+  } catch (error) {
+    // Explicitly NOT `return {}`. A corrupt legacy store is a recoverable
+    // persistence fault the user must be told about -- pretending it is
+    // an empty store is how saves get silently abandoned. The source is
+    // left byte-for-byte intact so it stays recoverable by hand.
+    throw new SavePersistenceError(
+      "LEGACY_STORE_CORRUPT",
+      `The existing localStorage save data under "${LEGACY_STORAGE_KEY}" could not be parsed. It has been left untouched so it can be recovered; no saves were migrated or overwritten.`,
+      { cause: error },
+    );
   }
-}
-
-function writeStore(store: SaveStore): void {
-  if (!isBrowser()) {
-    return;
+  if (parsed === null || typeof parsed !== "object" || Array.isArray(parsed)) {
+    throw new SavePersistenceError(
+      "LEGACY_STORE_CORRUPT",
+      `The existing localStorage save data under "${LEGACY_STORAGE_KEY}" is not a save store (expected an object keyed by saveId). It has been left untouched.`,
+    );
   }
-  window.localStorage.setItem(STORAGE_KEY, JSON.stringify(store));
+
+  const store: Record<string, CareerSave> = {};
+  for (const [key, value] of Object.entries(parsed as Record<string, unknown>)) {
+    if (value === null || typeof value !== "object" || Array.isArray(value)) {
+      throw new SavePersistenceError("LEGACY_STORE_CORRUPT", `Legacy save "${key}" is not an object. The localStorage source has been left untouched.`);
+    }
+    const save = value as CareerSave;
+    if (typeof save.saveId !== "string" || save.saveId === "") {
+      throw new SavePersistenceError("LEGACY_STORE_CORRUPT", `Legacy save "${key}" has no saveId. The localStorage source has been left untouched.`);
+    }
+    // Normalize exactly as the pre-Phase-0 readStore() did: a save
+    // missing schemaVersion is a v1 save, tagged explicitly rather than
+    // left undefined.
+    store[save.saveId] = typeof save.schemaVersion === "number" ? save : { ...save, schemaVersion: 1 };
+  }
+  return store;
 }
 
-export function listSaves(): readonly CareerSave[] {
-  const store = readStore();
-  return Object.values(store).sort((a, b) => (a.lastPlayedAt < b.lastPlayedAt ? 1 : -1));
+async function runMigration(): Promise<LegacyMigrationOutcome> {
+  const store = resolveBackend();
+  if ((await store.getMeta(MIGRATION_META_KEY)) !== null) {
+    return { completed: true, migrated: 0, skippedExisting: 0, reason: "ALREADY_MIGRATED" };
+  }
+
+  const legacy = readLegacyStore(); // throws SavePersistenceError on corrupt input -- marker is NOT set, so it stays retryable
+  if (legacy === null || Object.keys(legacy).length === 0) {
+    await store.setMeta(MIGRATION_META_KEY, new Date().toISOString());
+    return { completed: true, migrated: 0, skippedExisting: 0, reason: "NOTHING_TO_MIGRATE" };
+  }
+
+  const written: CareerSave[] = [];
+  let skippedExisting = 0;
+  for (const save of Object.values(legacy)) {
+    // Idempotency AND safety: an existing IndexedDB record is authoritative.
+    // Re-running migration must never replay a stale legacy snapshot over a
+    // career that has been played since the first migration.
+    if ((await store.getSave(save.saveId)) !== null) {
+      skippedExisting++;
+      continue;
+    }
+    await store.putSave(save);
+    written.push(save);
+  }
+
+  // Verify before declaring success -- the marker is what stops the
+  // legacy source from ever being re-read, so it may only be set once
+  // every record has been confirmed to read back identically.
+  for (const save of written) {
+    const readBack = await store.getSave(save.saveId);
+    if (readBack === null || JSON.stringify(readBack) !== JSON.stringify(save)) {
+      throw new SavePersistenceError(
+        "MIGRATION_VERIFICATION_FAILED",
+        `Migrated save "${save.saveId}" did not read back identically from IndexedDB. Migration has NOT been marked complete and the localStorage source is untouched.`,
+      );
+    }
+  }
+
+  await store.setMeta(MIGRATION_META_KEY, new Date().toISOString());
+  return { completed: true, migrated: written.length, skippedExisting, reason: "MIGRATED" };
 }
 
-export function getMostRecentSave(): CareerSave | null {
-  const saves = listSaves();
+let migrationPromise: Promise<LegacyMigrationOutcome> | null = null;
+
+/**
+ * Runs the one-time legacy migration, at most once per process. A
+ * FAILED attempt is not cached: a corrupt legacy store that the user
+ * repairs, or a transient IndexedDB fault, must be retryable without a
+ * page reload.
+ */
+export function ensureLegacySavesMigrated(): Promise<LegacyMigrationOutcome> {
+  if (!migrationPromise) {
+    migrationPromise = runMigration().catch((error) => {
+      migrationPromise = null;
+      throw error;
+    });
+  }
+  return migrationPromise;
+}
+
+// ---------------------------------------------------------------------------
+// Public API
+// ---------------------------------------------------------------------------
+
+export async function listSaves(): Promise<readonly CareerSave[]> {
+  await ensureLegacySavesMigrated();
+  const saves = await resolveBackend().listSaves();
+  return saves.sort((a, b) => (a.lastPlayedAt < b.lastPlayedAt ? 1 : -1));
+}
+
+export async function getMostRecentSave(): Promise<CareerSave | null> {
+  const saves = await listSaves();
   return saves[0] ?? null;
 }
 
-export function getSave(saveId: string): CareerSave | null {
-  const store = readStore();
-  return store[saveId] ?? null;
+export async function getSave(saveId: string): Promise<CareerSave | null> {
+  await ensureLegacySavesMigrated();
+  return resolveBackend().getSave(saveId);
 }
 
-export function createSave(input: Omit<CareerSave, "saveId" | "schemaVersion" | "createdAt" | "lastPlayedAt" | "careerState">): CareerSave {
+export async function createSave(
+  input: Omit<CareerSave, "saveId" | "schemaVersion" | "createdAt" | "lastPlayedAt" | "careerState">,
+): Promise<CareerSave> {
+  await ensureLegacySavesMigrated();
   const now = new Date().toISOString();
   const save: CareerSave = {
     ...input,
@@ -119,43 +272,43 @@ export function createSave(input: Omit<CareerSave, "saveId" | "schemaVersion" | 
     createdAt: now,
     lastPlayedAt: now,
   };
-  const store = readStore();
-  store[save.saveId] = save;
-  writeStore(store);
+  await resolveBackend().putSave(save);
   return save;
 }
 
-export function touchSave(saveId: string): void {
-  const store = readStore();
-  const save = store[saveId];
+export async function touchSave(saveId: string): Promise<void> {
+  await ensureLegacySavesMigrated();
+  const store = resolveBackend();
+  const save = await store.getSave(saveId);
   if (!save) {
     return;
   }
-  save.lastPlayedAt = new Date().toISOString();
-  writeStore(store);
+  await store.putSave({ ...save, lastPlayedAt: new Date().toISOString() });
 }
 
-export function deleteSave(saveId: string): void {
-  const store = readStore();
-  delete store[saveId];
-  writeStore(store);
+export async function deleteSave(saveId: string): Promise<void> {
+  await ensureLegacySavesMigrated();
+  await resolveBackend().deleteSave(saveId);
 }
 
 /** Persists domain state only (never React component state) -- called after every calendar advance. */
-export function saveCareerState(saveId: string, careerState: CareerState): void {
-  const store = readStore();
-  const save = store[saveId];
+export async function saveCareerState(saveId: string, careerState: CareerState): Promise<void> {
+  await ensureLegacySavesMigrated();
+  const store = resolveBackend();
+  const save = await store.getSave(saveId);
   if (!save) {
     return;
   }
-  save.careerState = careerState;
-  save.schemaVersion = CURRENT_SAVE_SCHEMA_VERSION;
-  save.gameDate = careerState.gameDate;
-  save.lastPlayedAt = new Date().toISOString();
-  writeStore(store);
+  await store.putSave({
+    ...save,
+    careerState,
+    schemaVersion: CURRENT_SAVE_SCHEMA_VERSION,
+    gameDate: careerState.gameDate,
+    lastPlayedAt: new Date().toISOString(),
+  });
 }
 
-const ACTIVE_SAVE_KEY = "hm-game:active-save:v1";
+// --- Active-save pointer (stays in localStorage: a single short id) ---
 
 export function setActiveSaveId(saveId: string): void {
   if (!isBrowser()) {
@@ -171,7 +324,7 @@ export function getActiveSaveId(): string | null {
   return window.localStorage.getItem(ACTIVE_SAVE_KEY);
 }
 
-export function getActiveSave(): CareerSave | null {
+export async function getActiveSave(): Promise<CareerSave | null> {
   const id = getActiveSaveId();
   if (!id) {
     return null;

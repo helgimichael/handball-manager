@@ -30,6 +30,8 @@ export default function NewGamePage() {
   const [managerNationality, setManagerNationality] = useState<NationCode>("SWE");
   const [managerDob, setManagerDob] = useState("1988-01-01");
   const [preseasonStart, setPreseasonStart] = useState<PreseasonStartOption>("4_WEEKS");
+  const [starting, setStarting] = useState(false);
+  const [startError, setStartError] = useState<string | null>(null);
 
   // HM-DATA-DIV1-1.0: Division 1 Norra/Södra are never offered as a
   // selectable league here -- every club there is a non-playable
@@ -76,17 +78,28 @@ export default function NewGamePage() {
     return true;
   }
 
-  function handleStartCareer() {
-    const save = createSave({
-      selectedNations: nations,
-      selectedCompetitionIds: competitionIds,
-      clubId,
-      manager: { name: managerName.trim(), nationality: managerNationality, dateOfBirth: managerDob },
-      gameDate: GAME_CURRENT_DATE,
-      preseasonStart,
-    });
-    setActiveSaveId(save.saveId);
-    router.push("/career");
+  // HM-SAVE-STORAGE-1.0: createSave is async (IndexedDB). A failure here
+  // must be shown -- this is exactly where the old localStorage backend
+  // threw QuotaExceededError and the manager was left on a dead button.
+  async function handleStartCareer() {
+    if (starting) return;
+    setStarting(true);
+    setStartError(null);
+    try {
+      const save = await createSave({
+        selectedNations: nations,
+        selectedCompetitionIds: competitionIds,
+        clubId,
+        manager: { name: managerName.trim(), nationality: managerNationality, dateOfBirth: managerDob },
+        gameDate: GAME_CURRENT_DATE,
+        preseasonStart,
+      });
+      setActiveSaveId(save.saveId);
+      router.push("/career");
+    } catch (cause: unknown) {
+      setStartError(cause instanceof Error ? cause.message : "Karriären kunde inte sparas.");
+      setStarting(false);
+    }
   }
 
   return (
@@ -319,11 +332,19 @@ export default function NewGamePage() {
                 Nästa →
               </button>
             ) : (
-              <button type="button" className="hm-btn hm-btn-primary" disabled={!canProceed()} onClick={handleStartCareer}>
-                STARTA KARRIÄR
+              <button type="button" className="hm-btn hm-btn-primary" disabled={!canProceed() || starting} onClick={handleStartCareer}>
+                {starting ? "STARTAR…" : "STARTA KARRIÄR"}
               </button>
             )}
           </div>
+          {startError ? (
+            <div className="hm-panel" style={{ marginTop: 12 }}>
+              <div className="hm-panel-body">
+                <strong>Karriären kunde inte startas</strong>
+                <p className="hm-text-muted" style={{ marginTop: 8 }}>{startError}</p>
+              </div>
+            </div>
+          ) : null}
         </div>
       </div>
     </div>

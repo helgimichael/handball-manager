@@ -8,23 +8,38 @@ import { getClub } from "@/lib/game-data";
 export default function LoadGamePage() {
   const router = useRouter();
   const [saves, setSaves] = useState<readonly CareerSave[]>([]);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    // One-shot client-only localStorage read on mount -- see
+    // One-shot client-only persistence read on mount -- see
     // career/layout.tsx for why useSyncExternalStore isn't used here.
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setSaves(listSaves());
+    // HM-SAVE-STORAGE-1.0: async, and a read failure renders an explicit
+    // error rather than an empty "Inga sparade karriärer" list.
+    let cancelled = false;
+    listSaves()
+      .then((next) => { if (!cancelled) setSaves(next); })
+      .catch((cause: unknown) => { if (!cancelled) setError(cause instanceof Error ? cause.message : "Kunde inte läsa sparade karriärer."); });
+    return () => { cancelled = true; };
   }, []);
 
-  function handleLoad(save: CareerSave) {
+  async function handleLoad(save: CareerSave) {
     setActiveSaveId(save.saveId);
-    touchSave(save.saveId);
+    try {
+      await touchSave(save.saveId);
+    } catch (cause: unknown) {
+      setError(cause instanceof Error ? cause.message : "Kunde inte uppdatera karriären.");
+      return;
+    }
     router.push("/career");
   }
 
-  function handleDelete(saveId: string) {
-    deleteSave(saveId);
-    setSaves(listSaves());
+  async function handleDelete(saveId: string) {
+    try {
+      await deleteSave(saveId);
+      setSaves(await listSaves());
+    } catch (cause: unknown) {
+      setError(cause instanceof Error ? cause.message : "Kunde inte ta bort karriären.");
+    }
   }
 
   return (
@@ -33,7 +48,16 @@ export default function LoadGamePage() {
         <div className="hm-eyebrow" style={{ marginBottom: 6 }}>Handball Manager</div>
         <h1 style={{ fontSize: "var(--hm-text-xl)", fontWeight: 800, marginBottom: 20 }}>Ladda spel</h1>
 
-        {saves.length === 0 ? (
+        {error ? (
+          <div className="hm-panel" style={{ marginBottom: 16 }}>
+            <div className="hm-panel-body">
+              <strong>Sparade karriärer kunde inte läsas</strong>
+              <p className="hm-text-muted" style={{ marginTop: 8 }}>{error}</p>
+            </div>
+          </div>
+        ) : null}
+
+        {error ? null : saves.length === 0 ? (
           <div className="hm-panel">
             <div className="hm-panel-body hm-text-muted">Inga sparade karriärer hittades.</div>
           </div>

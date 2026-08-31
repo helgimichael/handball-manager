@@ -7,22 +7,33 @@ import { getMostRecentSave, setActiveSaveId, touchSave, type CareerSave } from "
 export default function TitleScreen() {
   const router = useRouter();
   const [lastSave, setLastSave] = useState<CareerSave | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    // One-shot client-only localStorage read on mount -- see
+    // One-shot client-only persistence read on mount -- see
     // career/layout.tsx for why useSyncExternalStore isn't used here
     // (saveRepository has no cache layer, so its snapshots aren't
     // referentially stable across calls).
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setLastSave(getMostRecentSave());
+    // HM-SAVE-STORAGE-1.0: async, and a read failure is shown rather
+    // than silently hiding the "Fortsätt" button as if no save existed.
+    let cancelled = false;
+    getMostRecentSave()
+      .then((save) => { if (!cancelled) setLastSave(save); })
+      .catch((cause: unknown) => { if (!cancelled) setError(cause instanceof Error ? cause.message : "Kunde inte läsa sparade karriärer."); });
+    return () => { cancelled = true; };
   }, []);
 
-  function handleContinue() {
+  async function handleContinue() {
     if (!lastSave) {
       return;
     }
     setActiveSaveId(lastSave.saveId);
-    touchSave(lastSave.saveId);
+    try {
+      await touchSave(lastSave.saveId);
+    } catch (cause: unknown) {
+      setError(cause instanceof Error ? cause.message : "Kunde inte uppdatera karriären.");
+      return;
+    }
     router.push("/career");
   }
 
@@ -86,7 +97,7 @@ export default function TitleScreen() {
         <TitleMenuItem label="NYTT SPEL" onClick={() => router.push("/new-game")} />
         <TitleMenuItem
           label="FORTSÄTT"
-          subLabel={lastSave ? lastSave.manager.name : "Ingen sparad karriär ännu"}
+          subLabel={error ? "Sparade karriärer kunde inte läsas" : lastSave ? lastSave.manager.name : "Ingen sparad karriär ännu"}
           disabled={!lastSave}
           onClick={handleContinue}
         />
@@ -94,6 +105,12 @@ export default function TitleScreen() {
         <TitleMenuItem label="INSTÄLLNINGAR" disabled subLabel="Ej tillgängligt i denna version" />
         <TitleMenuItem label="AVSLUTA" disabled subLabel="Ej tillgängligt i webbläsaren" />
       </nav>
+
+      {error ? (
+        <div style={{ zIndex: 1, marginTop: 18, maxWidth: 420, textAlign: "center", fontSize: "12px", color: "var(--hm-text-muted)" }}>
+          {error}
+        </div>
+      ) : null}
 
       <div style={{ position: "absolute", bottom: 18, fontSize: "10px", color: "var(--hm-text-disabled)", letterSpacing: "0.05em" }}>
         HM-GAME-0.1 — vertical slice build
