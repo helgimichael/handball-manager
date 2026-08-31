@@ -5,9 +5,11 @@
     "lastName": "Norén",
     "fullName": "Arvid Norén",
     "aliases": [],
-    "dateOfBirth": null,
-    "birthYear": null,
-    "nationalities": null,
+    "dateOfBirth": "2004-02-21",
+    "birthYear": 2004,
+    "nationalities": [
+      "SE"
+    ],
     "heightCm": null,
     "handedness": null,
     "recordConfidence": "PARTIAL",
@@ -24,9 +26,11 @@
     "lastName": "Andersson",
     "fullName": "Erik Andersson",
     "aliases": [],
-    "dateOfBirth": null,
-    "birthYear": null,
-    "nationalities": null,
+    "dateOfBirth": "2007-03-21",
+    "birthYear": 2007,
+    "nationalities": [
+      "SE"
+    ],
     "heightCm": null,
     "handedness": null,
     "recordConfidence": "PARTIAL",
@@ -43,9 +47,11 @@
     "lastName": "Johannesson",
     "fullName": "Peter Johannesson",
     "aliases": [],
-    "dateOfBirth": null,
-    "birthYear": null,
-    "nationalities": null,
+    "dateOfBirth": "1992-05-12",
+    "birthYear": 1992,
+    "nationalities": [
+      "SE"
+    ],
     "heightCm": null,
     "handedness": null,
     "recordConfidence": "PARTIAL",
@@ -62,9 +68,11 @@
     "lastName": "Spante",
     "fullName": "Sebastian Spante",
     "aliases": [],
-    "dateOfBirth": null,
-    "birthYear": null,
-    "nationalities": null,
+    "dateOfBirth": "2000-07-26",
+    "birthYear": 2000,
+    "nationalities": [
+      "SE"
+    ],
     "heightCm": null,
     "handedness": null,
     "recordConfidence": "PARTIAL",
@@ -81,9 +89,11 @@
     "lastName": "Halén",
     "fullName": "Leon Halén",
     "aliases": [],
-    "dateOfBirth": null,
+    "dateOfBirth": "2006-05-25",
     "birthYear": 2006,
-    "nationalities": null,
+    "nationalities": [
+      "SE"
+    ],
     "heightCm": null,
     "handedness": null,
     "recordConfidence": "PARTIAL",
@@ -103,9 +113,11 @@
     "lastName": "Trommler",
     "fullName": "Tobias Trommler",
     "aliases": [],
-    "dateOfBirth": null,
-    "birthYear": null,
-    "nationalities": null,
+    "dateOfBirth": "2004-07-06",
+    "birthYear": 2004,
+    "nationalities": [
+      "SE"
+    ],
     "heightCm": null,
     "handedness": null,
     "recordConfidence": "PARTIAL",
@@ -122,9 +134,11 @@
     "lastName": "Poyet",
     "fullName": "Tom Poyet",
     "aliases": [],
-    "dateOfBirth": null,
-    "birthYear": null,
-    "nationalities": null,
+    "dateOfBirth": "1999-11-29",
+    "birthYear": 1999,
+    "nationalities": [
+      "FR"
+    ],
     "heightCm": null,
     "handedness": null,
     "recordConfidence": "PARTIAL",
@@ -141,9 +155,11 @@
     "lastName": "Delkvist",
     "fullName": "Janne Delkvist",
     "aliases": [],
-    "dateOfBirth": null,
-    "birthYear": null,
-    "nationalities": null,
+    "dateOfBirth": "2006-04-28",
+    "birthYear": 2006,
+    "nationalities": [
+      "SE"
+    ],
     "heightCm": null,
     "handedness": null,
     "recordConfidence": "PARTIAL",
@@ -160,9 +176,11 @@
     "lastName": "Celander",
     "fullName": "Malte Celander",
     "aliases": [],
-    "dateOfBirth": null,
-    "birthYear": null,
-    "nationalities": null,
+    "dateOfBirth": "2002-03-18",
+    "birthYear": 2002,
+    "nationalities": [
+      "SE"
+    ],
     "heightCm": null,
     "handedness": null,
     "recordConfidence": "PARTIAL",
@@ -179,9 +197,11 @@
     "lastName": "Uusvoog",
     "fullName": "Arvid Uusvoog",
     "aliases": [],
-    "dateOfBirth": null,
-    "birthYear": null,
-    "nationalities": null,
+    "dateOfBirth": "2005-08-02",
+    "birthYear": 2005,
+    "nationalities": [
+      "SE"
+    ],
     "heightCm": null,
     "handedness": null,
     "recordConfidence": "PARTIAL",
@@ -198,9 +218,11 @@
     "lastName": "Sandberg",
     "fullName": "David Sandberg",
     "aliases": [],
-    "dateOfBirth": null,
-    "birthYear": null,
-    "nationalities": null,
+    "dateOfBirth": "1998-05-10",
+    "birthYear": 1998,
+    "nationalities": [
+      "SE"
+    ],
     "heightCm": null,
     "handedness": null,
     "recordConfidence": "PARTIAL",
@@ -219,9 +241,11 @@
     "aliases": [
       "Birgir Steinn Jónsson"
     ],
-    "dateOfBirth": null,
-    "birthYear": null,
-    "nationalities": null,
+    "dateOfBirth": "1999-12-11",
+    "birthYear": 1999,
+    "nationalities": [
+      "IS"
+    ],
     "heightCm": null,
     "handedness": null,
     "recordConfidence": "PARTIAL",
@@ -238,9 +262,11 @@
     "lastName": "Lagerkvist",
     "fullName": "Oliver Lagerkvist",
     "aliases": [],
-    "dateOfBirth": null,
-    "birthYear": null,
-    "nationalities": null,
+    "dateOfBirth": "2007-12-06",
+    "birthYear": 2007,
+    "nationalities": [
+      "SE"
+    ],
     "heightCm": null,
     "handedness": null,
     "recordConfidence": "PARTIAL",
@@ -257,9 +283,11 @@
     "lastName": "Durlanu",
     "fullName": "Sebastian Durlanu",
     "aliases": [],
-    "dateOfBirth": null,
-    "birthYear": null,
-    "nationalities": null,
+    "dateOfBirth": "2004-05-24",
+    "birthYear": 2004,
+    "nationalities": [
+      "SE"
+    ],
     "heightCm": null,
     "handedness": null,
     "recordConfidence": "PARTIAL",
@@ -276,9 +304,11 @@
     "lastName": "Grøtta",
     "fullName": "Truls Grøtta",
     "aliases": [],
-    "dateOfBirth": null,
-    "birthYear": null,
-    "nationalities": null,
+    "dateOfBirth": "1997-08-13",
+    "birthYear": 1997,
+    "nationalities": [
+      "NO"
+    ],
     "heightCm": null,
     "handedness": null,
     "recordConfidence": "PARTIAL",
@@ -295,9 +325,11 @@
     "lastName": "Frederiksen",
     "fullName": "Thure Frederiksen",
     "aliases": [],
-    "dateOfBirth": null,
-    "birthYear": null,
-    "nationalities": null,
+    "dateOfBirth": "2007-06-08",
+    "birthYear": 2007,
+    "nationalities": [
+      "SE"
+    ],
     "heightCm": null,
     "handedness": null,
     "recordConfidence": "PARTIAL",
@@ -314,9 +346,11 @@
     "lastName": "Persson",
     "fullName": "Magnus Persson",
     "aliases": [],
-    "dateOfBirth": null,
-    "birthYear": null,
-    "nationalities": null,
+    "dateOfBirth": "1990-12-17",
+    "birthYear": 1990,
+    "nationalities": [
+      "SE"
+    ],
     "heightCm": null,
     "handedness": null,
     "recordConfidence": "PARTIAL",
@@ -333,9 +367,11 @@
     "lastName": "Røisland",
     "fullName": "Jesper Røisland",
     "aliases": [],
-    "dateOfBirth": null,
-    "birthYear": null,
-    "nationalities": null,
+    "dateOfBirth": "2004-01-02",
+    "birthYear": 2004,
+    "nationalities": [
+      "NO"
+    ],
     "heightCm": null,
     "handedness": null,
     "recordConfidence": "PARTIAL",

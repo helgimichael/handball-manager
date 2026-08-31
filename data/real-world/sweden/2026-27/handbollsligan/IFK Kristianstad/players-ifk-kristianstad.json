@@ -5,9 +5,11 @@
     "lastName": "Al-Khafadji",
     "fullName": "Hayder Al-Khafadji",
     "aliases": [],
-    "dateOfBirth": null,
+    "dateOfBirth": "1997-09-21",
     "birthYear": 1997,
-    "nationalities": null,
+    "nationalities": [
+      "SE"
+    ],
     "heightCm": null,
     "handedness": null,
     "recordConfidence": "PARTIAL",
@@ -24,9 +26,11 @@
     "lastName": "Skoog",
     "fullName": "Alexander Skoog",
     "aliases": [],
-    "dateOfBirth": null,
+    "dateOfBirth": "2003-12-23",
     "birthYear": 2003,
-    "nationalities": null,
+    "nationalities": [
+      "SE"
+    ],
     "heightCm": 195,
     "handedness": null,
     "recordConfidence": "PARTIAL",
@@ -49,9 +53,11 @@
     "lastName": "Frend Öfors",
     "fullName": "Emil Frend Öfors",
     "aliases": [],
-    "dateOfBirth": null,
-    "birthYear": null,
-    "nationalities": null,
+    "dateOfBirth": "1994-09-13",
+    "birthYear": 1994,
+    "nationalities": [
+      "SE"
+    ],
     "heightCm": null,
     "handedness": null,
     "recordConfidence": "PARTIAL",
@@ -68,9 +74,11 @@
     "lastName": "Leyman",
     "fullName": "Albin Leyman",
     "aliases": [],
-    "dateOfBirth": null,
-    "birthYear": null,
-    "nationalities": null,
+    "dateOfBirth": "2003-04-02",
+    "birthYear": 2003,
+    "nationalities": [
+      "SE"
+    ],
     "heightCm": null,
     "handedness": null,
     "recordConfidence": "PARTIAL",
@@ -87,9 +95,11 @@
     "lastName": "Höghielm",
     "fullName": "William Höghielm",
     "aliases": [],
-    "dateOfBirth": null,
-    "birthYear": null,
-    "nationalities": null,
+    "dateOfBirth": "1999-11-30",
+    "birthYear": 1999,
+    "nationalities": [
+      "SE"
+    ],
     "heightCm": null,
     "handedness": null,
     "recordConfidence": "PARTIAL",
@@ -107,8 +117,10 @@
     "fullName": "Niko Petrovic",
     "aliases": [],
     "dateOfBirth": null,
-    "birthYear": null,
-    "nationalities": null,
+    "birthYear": 2006,
+    "nationalities": [
+      "HR"
+    ],
     "heightCm": null,
     "handedness": null,
     "recordConfidence": "PARTIAL",
@@ -125,9 +137,11 @@
     "lastName": "Selin",
     "fullName": "Albin Selin",
     "aliases": [],
-    "dateOfBirth": null,
-    "birthYear": null,
-    "nationalities": null,
+    "dateOfBirth": "2001-11-17",
+    "birthYear": 2001,
+    "nationalities": [
+      "SE"
+    ],
     "heightCm": null,
     "handedness": null,
     "recordConfidence": "PARTIAL",
@@ -144,9 +158,11 @@
     "lastName": "Kjellman",
     "fullName": "Liam Kjellman",
     "aliases": [],
-    "dateOfBirth": null,
-    "birthYear": null,
-    "nationalities": null,
+    "dateOfBirth": "2003-11-03",
+    "birthYear": 2003,
+    "nationalities": [
+      "SE"
+    ],
     "heightCm": null,
     "handedness": null,
     "recordConfidence": "PARTIAL",
@@ -163,9 +179,11 @@
     "lastName": "Henningsson",
     "fullName": "Philip Henningsson",
     "aliases": [],
-    "dateOfBirth": null,
-    "birthYear": null,
-    "nationalities": null,
+    "dateOfBirth": "1995-06-14",
+    "birthYear": 1995,
+    "nationalities": [
+      "SE"
+    ],
     "heightCm": null,
     "handedness": null,
     "recordConfidence": "PARTIAL",
@@ -185,9 +203,11 @@
       "Einar Bragi Aðalsteinsson",
       "Einar Aðalsteinsson"
     ],
-    "dateOfBirth": null,
-    "birthYear": null,
-    "nationalities": null,
+    "dateOfBirth": "2002-02-08",
+    "birthYear": 2002,
+    "nationalities": [
+      "IS"
+    ],
     "heightCm": null,
     "handedness": null,
     "recordConfidence": "PARTIAL",
@@ -204,9 +224,11 @@
     "lastName": "Ivarsson",
     "fullName": "Theo Ivarsson",
     "aliases": [],
-    "dateOfBirth": null,
+    "dateOfBirth": "2006-05-22",
     "birthYear": 2006,
-    "nationalities": null,
+    "nationalities": [
+      "SE"
+    ],
     "heightCm": null,
     "handedness": null,
     "recordConfidence": "PARTIAL",
@@ -226,7 +248,7 @@
     "lastName": "Fritz Bjarnason",
     "fullName": "Baldur Fritz Bjarnason",
     "aliases": [],
-    "dateOfBirth": null,
+    "dateOfBirth": "2007-01-03",
     "birthYear": 2007,
     "nationalities": [
       "IS"
@@ -259,9 +281,11 @@
     "lastName": "Erlingsson",
     "fullName": "Andri Erlingsson",
     "aliases": [],
-    "dateOfBirth": null,
-    "birthYear": null,
-    "nationalities": null,
+    "dateOfBirth": "2007-06-29",
+    "birthYear": 2007,
+    "nationalities": [
+      "IS"
+    ],
     "heightCm": null,
     "handedness": null,
     "recordConfidence": "PARTIAL",
@@ -280,7 +304,9 @@
     "aliases": [],
     "dateOfBirth": "1996-01-15",
     "birthYear": 1996,
-    "nationalities": null,
+    "nationalities": [
+      "SE"
+    ],
     "heightCm": null,
     "handedness": null,
     "recordConfidence": "PARTIAL",
@@ -303,9 +329,11 @@
     "lastName": "Biel Nilsen",
     "fullName": "Isaac Biel Nilsen",
     "aliases": [],
-    "dateOfBirth": null,
-    "birthYear": null,
-    "nationalities": null,
+    "dateOfBirth": "2004-01-19",
+    "birthYear": 2004,
+    "nationalities": [
+      "SE"
+    ],
     "heightCm": null,
     "handedness": null,
     "recordConfidence": "PARTIAL",

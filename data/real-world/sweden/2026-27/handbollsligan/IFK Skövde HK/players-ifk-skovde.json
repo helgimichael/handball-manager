@@ -5,9 +5,11 @@
     "lastName": "Kaufmann",
     "fullName": "Nikolai Kaufmann",
     "aliases": [],
-    "dateOfBirth": null,
-    "birthYear": null,
-    "nationalities": null,
+    "dateOfBirth": "2004-05-08",
+    "birthYear": 2004,
+    "nationalities": [
+      "DK"
+    ],
     "heightCm": null,
     "handedness": null,
     "recordConfidence": "PARTIAL",
@@ -25,7 +27,7 @@
     "lastName": "Jacobsen",
     "fullName": "Pauli Jacobsen",
     "aliases": [],
-    "dateOfBirth": null,
+    "dateOfBirth": "2002-07-11",
     "birthYear": 2002,
     "nationalities": [
       "FO"
@@ -56,9 +58,11 @@
     "lastName": "Dyberg",
     "fullName": "Herman Dyberg",
     "aliases": [],
-    "dateOfBirth": null,
-    "birthYear": null,
-    "nationalities": null,
+    "dateOfBirth": "2001-04-16",
+    "birthYear": 2001,
+    "nationalities": [
+      "SE"
+    ],
     "heightCm": null,
     "handedness": null,
     "recordConfidence": "PARTIAL",
@@ -76,9 +80,11 @@
     "lastName": "Adam",
     "fullName": "Elias Adam",
     "aliases": [],
-    "dateOfBirth": null,
-    "birthYear": null,
-    "nationalities": null,
+    "dateOfBirth": "2007-12-13",
+    "birthYear": 2007,
+    "nationalities": [
+      "SE"
+    ],
     "heightCm": null,
     "handedness": null,
     "recordConfidence": "PARTIAL",
@@ -96,9 +102,11 @@
     "lastName": "Sjöbrink",
     "fullName": "Markus Sjöbrink",
     "aliases": [],
-    "dateOfBirth": null,
-    "birthYear": null,
-    "nationalities": null,
+    "dateOfBirth": "1996-04-12",
+    "birthYear": 1996,
+    "nationalities": [
+      "SE"
+    ],
     "heightCm": null,
     "handedness": null,
     "recordConfidence": "PARTIAL",
@@ -116,9 +124,11 @@
     "lastName": "Franzén",
     "fullName": "Axel Franzén",
     "aliases": [],
-    "dateOfBirth": null,
-    "birthYear": null,
-    "nationalities": null,
+    "dateOfBirth": "1996-11-22",
+    "birthYear": 1996,
+    "nationalities": [
+      "SE"
+    ],
     "heightCm": null,
     "handedness": null,
     "recordConfidence": "PARTIAL",
@@ -136,9 +146,11 @@
     "lastName": "Rydberg",
     "fullName": "Albin Rydberg",
     "aliases": [],
-    "dateOfBirth": null,
-    "birthYear": null,
-    "nationalities": null,
+    "dateOfBirth": "2007-07-03",
+    "birthYear": 2007,
+    "nationalities": [
+      "SE"
+    ],
     "heightCm": null,
     "handedness": null,
     "recordConfidence": "PARTIAL",
@@ -156,9 +168,11 @@
     "lastName": "Samuelsson",
     "fullName": "Jonas Samuelsson",
     "aliases": [],
-    "dateOfBirth": null,
-    "birthYear": null,
-    "nationalities": null,
+    "dateOfBirth": "1991-04-10",
+    "birthYear": 1991,
+    "nationalities": [
+      "SE"
+    ],
     "heightCm": null,
     "handedness": null,
     "recordConfidence": "PARTIAL",
@@ -176,9 +190,11 @@
     "lastName": "Gustafson",
     "fullName": "Noel Gustafson",
     "aliases": [],
-    "dateOfBirth": null,
-    "birthYear": null,
-    "nationalities": null,
+    "dateOfBirth": "2002-03-04",
+    "birthYear": 2002,
+    "nationalities": [
+      "SE"
+    ],
     "heightCm": null,
     "handedness": null,
     "recordConfidence": "PARTIAL",
@@ -196,9 +212,11 @@
     "lastName": "Mbumba",
     "fullName": "Fidel Mbumba",
     "aliases": [],
-    "dateOfBirth": null,
-    "birthYear": null,
-    "nationalities": null,
+    "dateOfBirth": "2007-10-08",
+    "birthYear": 2007,
+    "nationalities": [
+      "SE"
+    ],
     "heightCm": null,
     "handedness": null,
     "recordConfidence": "PARTIAL",
@@ -216,9 +234,11 @@
     "lastName": "Stenersen",
     "fullName": "Thomas Stenersen",
     "aliases": [],
-    "dateOfBirth": null,
-    "birthYear": null,
-    "nationalities": null,
+    "dateOfBirth": "2003-06-29",
+    "birthYear": 2003,
+    "nationalities": [
+      "NO"
+    ],
     "heightCm": null,
     "handedness": null,
     "recordConfidence": "PARTIAL",
@@ -236,7 +256,7 @@
     "lastName": "Kruse Kristensen",
     "fullName": "Jonas Kruse Kristensen",
     "aliases": [],
-    "dateOfBirth": null,
+    "dateOfBirth": "2002-08-09",
     "birthYear": 2002,
     "nationalities": [
       "DK"
@@ -267,9 +287,11 @@
     "lastName": "Ekman",
     "fullName": "Daniel Ekman",
     "aliases": [],
-    "dateOfBirth": null,
-    "birthYear": null,
-    "nationalities": null,
+    "dateOfBirth": "1995-03-31",
+    "birthYear": 1995,
+    "nationalities": [
+      "SE"
+    ],
     "heightCm": null,
     "handedness": null,
     "recordConfidence": "PARTIAL",
@@ -287,9 +309,11 @@
     "lastName": "Bozic",
     "fullName": "Zoran Bozic",
     "aliases": [],
-    "dateOfBirth": null,
-    "birthYear": null,
-    "nationalities": null,
+    "dateOfBirth": "2001-04-03",
+    "birthYear": 2001,
+    "nationalities": [
+      "SE"
+    ],
     "heightCm": null,
     "handedness": null,
     "recordConfidence": "PARTIAL",
@@ -307,9 +331,11 @@
     "lastName": "Dzanic",
     "fullName": "Ajdin Dzanic",
     "aliases": [],
-    "dateOfBirth": null,
-    "birthYear": null,
-    "nationalities": null,
+    "dateOfBirth": "2007-10-03",
+    "birthYear": 2007,
+    "nationalities": [
+      "SE"
+    ],
     "heightCm": null,
     "handedness": null,
     "recordConfidence": "PARTIAL",
@@ -327,9 +353,11 @@
     "lastName": "Burud",
     "fullName": "Jonas Burud",
     "aliases": [],
-    "dateOfBirth": null,
-    "birthYear": null,
-    "nationalities": null,
+    "dateOfBirth": "1993-10-20",
+    "birthYear": 1993,
+    "nationalities": [
+      "NO"
+    ],
     "heightCm": null,
     "handedness": null,
     "recordConfidence": "PARTIAL",
@@ -347,9 +375,11 @@
     "lastName": "Gustavsson",
     "fullName": "Linus Gustavsson",
     "aliases": [],
-    "dateOfBirth": null,
-    "birthYear": null,
-    "nationalities": null,
+    "dateOfBirth": "2004-02-05",
+    "birthYear": 2004,
+    "nationalities": [
+      "SE"
+    ],
     "heightCm": null,
     "handedness": null,
     "recordConfidence": "PARTIAL",

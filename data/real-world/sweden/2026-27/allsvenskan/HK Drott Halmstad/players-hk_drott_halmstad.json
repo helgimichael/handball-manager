@@ -6,8 +6,10 @@
     "fullName": "Albin Holmqvist",
     "aliases": [],
     "dateOfBirth": null,
-    "birthYear": null,
-    "nationalities": null,
+    "birthYear": 2006,
+    "nationalities": [
+      "SE"
+    ],
     "heightCm": null,
     "handedness": null,
     "recordConfidence": "VERIFIED",
@@ -27,7 +29,9 @@
     "aliases": [],
     "dateOfBirth": "2005-11-02",
     "birthYear": 2005,
-    "nationalities": null,
+    "nationalities": [
+      "SE"
+    ],
     "heightCm": null,
     "handedness": null,
     "recordConfidence": "VERIFIED",
@@ -100,8 +104,8 @@
     "lastName": "Hellström",
     "fullName": "Anton Hellström",
     "aliases": [],
-    "dateOfBirth": null,
-    "birthYear": null,
+    "dateOfBirth": "2005-06-05",
+    "birthYear": 2005,
     "nationalities": null,
     "heightCm": null,
     "handedness": null,
@@ -121,7 +125,7 @@
     "fullName": "Jesper Sivertsson",
     "aliases": [],
     "dateOfBirth": null,
-    "birthYear": null,
+    "birthYear": 1993,
     "nationalities": null,
     "heightCm": null,
     "handedness": null,
@@ -242,7 +246,9 @@
     "aliases": [],
     "dateOfBirth": "2004-06-02",
     "birthYear": 2004,
-    "nationalities": null,
+    "nationalities": [
+      "SE"
+    ],
     "heightCm": null,
     "handedness": null,
     "recordConfidence": "VERIFIED",
@@ -366,7 +372,7 @@
     "fullName": "Johan Petersson",
     "aliases": [],
     "dateOfBirth": null,
-    "birthYear": null,
+    "birthYear": 1999,
     "nationalities": null,
     "heightCm": null,
     "handedness": null,

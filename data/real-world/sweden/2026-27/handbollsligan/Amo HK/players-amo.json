@@ -68,9 +68,11 @@
     "lastName": "Beverskog",
     "fullName": "Lynx Beverskog",
     "aliases": [],
-    "dateOfBirth": null,
-    "birthYear": null,
-    "nationalities": null,
+    "dateOfBirth": "1999-07-15",
+    "birthYear": 1999,
+    "nationalities": [
+      "SE"
+    ],
     "heightCm": null,
     "handedness": null,
     "recordConfidence": "PARTIAL",
@@ -88,9 +90,11 @@
     "lastName": "Ader",
     "fullName": "Oscar Ader",
     "aliases": [],
-    "dateOfBirth": null,
-    "birthYear": null,
-    "nationalities": null,
+    "dateOfBirth": "2006-06-11",
+    "birthYear": 2006,
+    "nationalities": [
+      "SE"
+    ],
     "heightCm": null,
     "handedness": null,
     "recordConfidence": "PARTIAL",
@@ -142,9 +146,11 @@
     "lastName": "Jensen",
     "fullName": "Jesper Jensen",
     "aliases": [],
-    "dateOfBirth": null,
-    "birthYear": null,
-    "nationalities": null,
+    "dateOfBirth": "2000-09-28",
+    "birthYear": 2000,
+    "nationalities": [
+      "SE"
+    ],
     "heightCm": null,
     "handedness": null,
     "recordConfidence": "PARTIAL",
@@ -163,8 +169,10 @@
     "fullName": "Simon Roos",
     "aliases": [],
     "dateOfBirth": null,
-    "birthYear": null,
-    "nationalities": null,
+    "birthYear": 2005,
+    "nationalities": [
+      "SE"
+    ],
     "heightCm": null,
     "handedness": null,
     "recordConfidence": "PARTIAL",
@@ -182,9 +190,11 @@
     "lastName": "Hugosson",
     "fullName": "Allex Hugosson",
     "aliases": [],
-    "dateOfBirth": null,
-    "birthYear": null,
-    "nationalities": null,
+    "dateOfBirth": "2006-07-27",
+    "birthYear": 2006,
+    "nationalities": [
+      "SE"
+    ],
     "heightCm": null,
     "handedness": null,
     "recordConfidence": "PARTIAL",
@@ -202,9 +212,11 @@
     "lastName": "Karlsson",
     "fullName": "Hampus Karlsson",
     "aliases": [],
-    "dateOfBirth": null,
-    "birthYear": null,
-    "nationalities": null,
+    "dateOfBirth": "2001-02-23",
+    "birthYear": 2001,
+    "nationalities": [
+      "SE"
+    ],
     "heightCm": 183,
     "handedness": null,
     "recordConfidence": "PARTIAL",
@@ -225,9 +237,11 @@
     "lastName": "Jensen",
     "fullName": "Jonas Jensen",
     "aliases": [],
-    "dateOfBirth": null,
-    "birthYear": null,
-    "nationalities": null,
+    "dateOfBirth": "1997-09-23",
+    "birthYear": 1997,
+    "nationalities": [
+      "DK"
+    ],
     "heightCm": null,
     "handedness": null,
     "recordConfidence": "PARTIAL",
@@ -247,7 +261,9 @@
     "aliases": [],
     "dateOfBirth": null,
     "birthYear": null,
-    "nationalities": null,
+    "nationalities": [
+      "DK"
+    ],
     "heightCm": null,
     "handedness": null,
     "recordConfidence": "PARTIAL",
@@ -265,9 +281,11 @@
     "lastName": "Zogaj",
     "fullName": "Shaban Zogaj",
     "aliases": [],
-    "dateOfBirth": null,
+    "dateOfBirth": "2002-03-07",
     "birthYear": 2002,
-    "nationalities": null,
+    "nationalities": [
+      "XK"
+    ],
     "heightCm": null,
     "handedness": null,
     "recordConfidence": "PARTIAL",
@@ -290,9 +308,11 @@
     "lastName": "Rylander",
     "fullName": "Lukas Rylander",
     "aliases": [],
-    "dateOfBirth": null,
-    "birthYear": null,
-    "nationalities": null,
+    "dateOfBirth": "1999-07-19",
+    "birthYear": 1999,
+    "nationalities": [
+      "SE"
+    ],
     "heightCm": null,
     "handedness": null,
     "recordConfidence": "PARTIAL",
@@ -378,9 +398,11 @@
     "lastName": "Lindström",
     "fullName": "Richard Lindström",
     "aliases": [],
-    "dateOfBirth": null,
-    "birthYear": null,
-    "nationalities": null,
+    "dateOfBirth": "1996-06-03",
+    "birthYear": 1996,
+    "nationalities": [
+      "SE"
+    ],
     "heightCm": 205,
     "handedness": null,
     "recordConfidence": "PARTIAL",

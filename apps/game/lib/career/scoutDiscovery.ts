@@ -296,6 +296,22 @@ export const NATION_LABEL_SV: Record<string, string> = {
   POR: "Portugal",
   QAT: "Qatar",
   CHE: "Schweiz",
+  // HM-BIO-NATIONALITY-1.0: the rest of the observed real-world nationality set.
+  FRA: "Frankrike",
+  SRB: "Serbien",
+  HRV: "Kroatien",
+  BIH: "Bosnien och Hercegovina",
+  FIN: "Finland",
+  ARG: "Argentina",
+  LTU: "Litauen",
+  ROU: "Rumänien",
+  DZA: "Algeriet",
+  EST: "Estland",
+  KOS: "Kosovo",
+  GBR: "Storbritannien",
+  CHL: "Chile",
+  USA: "USA",
+  UNK: "Okänd",
 };
 
 /** Deterministic, template-based Swedish scope description for an assignment -- used by both the inbox summary (careerEvents.ts's buildScoutDiscoveryReadyEvent) and the Scouting UI. */

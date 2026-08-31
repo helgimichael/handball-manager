@@ -15,7 +15,26 @@ import type { PlayerTag } from "./playerTags";
  * registry only, never selectable/playable, per that milestone's own
  * "Foreign leagues/clubs ska INTE bli selectable/playable i New Game".
  */
-export type NationCode = "SWE" | "DEN" | "NOR" | "GER" | "ESP" | "HUN" | "SVN" | "ISL" | "AUT" | "FRO" | "ITA" | "NED" | "POL" | "POR" | "QAT" | "CHE";
+/**
+ * The game's own (3-letter) nation vocabulary. Deliberately BROADER than
+ * `NATIONS` in nations.ts -- that list is the New-Game-selectable set and
+ * keeps its own narrower meaning; this union is every nation a player
+ * record can legitimately carry.
+ *
+ * HM-BIO-NATIONALITY-1.0: extended to cover every ISO nationality actually
+ * observed in the real-world player database (see
+ * gameWorldAdapter.ts's ISO_TO_NATION_CODE, which must stay exhaustive over
+ * the observed set -- lib/gameWorld/nationality.test.ts enforces this).
+ * "UNK" is the explicit unknown-nationality representation: a player whose
+ * source data carries no verified nationality resolves to UNK, never to a
+ * silently-assumed SWE.
+ */
+export type NationCode =
+  | "SWE" | "DEN" | "NOR" | "GER" | "ESP" | "HUN" | "SVN" | "ISL"
+  | "AUT" | "FRO" | "ITA" | "NED" | "POL" | "POR" | "QAT" | "CHE"
+  | "FRA" | "SRB" | "HRV" | "BIH" | "FIN" | "ARG" | "LTU" | "ROU" | "DZA" | "EST" | "KOS"
+  | "GBR" | "CHL" | "USA"
+  | "UNK";
 
 export type Nation = {
   code: NationCode;

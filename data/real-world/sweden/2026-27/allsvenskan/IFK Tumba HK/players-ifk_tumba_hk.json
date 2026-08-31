@@ -30,9 +30,11 @@
     "lastName": "Magnusson",
     "fullName": "Jakob Magnusson",
     "aliases": [],
-    "dateOfBirth": null,
+    "dateOfBirth": "2003-03-20",
     "birthYear": 2003,
-    "nationalities": null,
+    "nationalities": [
+      "SE"
+    ],
     "heightCm": null,
     "handedness": null,
     "recordConfidence": "VERIFIED",
@@ -52,7 +54,9 @@
     "aliases": [],
     "dateOfBirth": "2005-01-27",
     "birthYear": 2005,
-    "nationalities": null,
+    "nationalities": [
+      "IS"
+    ],
     "heightCm": null,
     "handedness": null,
     "recordConfidence": "VERIFIED",
@@ -102,7 +106,9 @@
     "aliases": [],
     "dateOfBirth": "2004-09-19",
     "birthYear": 2004,
-    "nationalities": null,
+    "nationalities": [
+      "SE"
+    ],
     "heightCm": null,
     "handedness": null,
     "recordConfidence": "VERIFIED",
@@ -152,7 +158,9 @@
     "aliases": [],
     "dateOfBirth": "2005-05-23",
     "birthYear": 2005,
-    "nationalities": null,
+    "nationalities": [
+      "SE"
+    ],
     "heightCm": null,
     "handedness": null,
     "recordConfidence": "VERIFIED",

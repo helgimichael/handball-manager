@@ -5,8 +5,8 @@
     "lastName": "Svensson",
     "fullName": "Felix Svensson",
     "aliases": [],
-    "dateOfBirth": null,
-    "birthYear": null,
+    "dateOfBirth": "2006-10-23",
+    "birthYear": 2006,
     "nationalities": null,
     "heightCm": null,
     "handedness": null,
@@ -135,7 +135,9 @@
     "aliases": [],
     "dateOfBirth": "2004-06-25",
     "birthYear": 2004,
-    "nationalities": null,
+    "nationalities": [
+      "SE"
+    ],
     "heightCm": null,
     "handedness": null,
     "recordConfidence": "PARTIAL",

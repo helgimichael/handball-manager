@@ -38,13 +38,30 @@ function toHandballPosition(raw: string): HandballPosition | null {
 // DISPLAY simplification only -- the full, faithful ISO list is kept
 // verbatim on PlayerMock.nationalities; `nationality` exists purely
 // because many existing screens already read that one field.
+/**
+ * HM-BIO-NATIONALITY-1.0: must stay EXHAUSTIVE over every ISO code actually
+ * present in the real-world player database. It previously covered only 8
+ * of the 27 observed codes, so 19 of them (FO/FR/RS/HR/IT/QA/NL/PT/AT/CH/
+ * BA/FI/AR/LT/PL/RO/DZ/EE/XK) silently resolved to "SWE" -- e.g. Dika Mem
+ * (FR) rendered as Swedish. lib/gameWorld/nationality.test.ts fails if any
+ * observed code is missing here, so new imported nationalities can never
+ * regress to the silent-SWE behaviour again.
+ */
 const ISO_TO_NATION_CODE: Record<string, NationCode> = {
   SE: "SWE", DK: "DEN", NO: "NOR", DE: "GER", ES: "ESP", HU: "HUN", SI: "SVN", IS: "ISL",
+  FO: "FRO", IT: "ITA", QA: "QAT", NL: "NED", PT: "POR", AT: "AUT", CH: "CHE", PL: "POL",
+  FR: "FRA", RS: "SRB", HR: "HRV", BA: "BIH", FI: "FIN", AR: "ARG", LT: "LTU", RO: "ROU",
+  DZ: "DZA", EE: "EST", XK: "KOS", GB: "GBR", CL: "CHL", US: "USA",
 };
 
+/**
+ * An absent/empty source nationality list is genuinely UNKNOWN, not Swedish.
+ * The previous "SWE" fallback silently mislabelled every player whose bio
+ * data simply hadn't been researched yet.
+ */
 function primaryNationCode(nationalities: string[] | null): NationCode {
-  if (!nationalities || nationalities.length === 0) return "SWE";
-  return ISO_TO_NATION_CODE[nationalities[0]] ?? "SWE";
+  if (!nationalities || nationalities.length === 0) return "UNK";
+  return ISO_TO_NATION_CODE[nationalities[0]] ?? "UNK";
 }
 
 function toHandedness(h: RealWorldPlayer["handedness"]): PlayerMock["foot"] {
