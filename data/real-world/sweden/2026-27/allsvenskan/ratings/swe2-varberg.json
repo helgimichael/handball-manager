@@ -4,20 +4,20 @@
     "clubId": "swe2-varberg",
     "position": "GK",
     "ca": {
-      "value": 134,
+      "value": 140,
       "confidence": "HIGH",
       "plausibleRange": {
-        "min": 134,
-        "max": 134
+        "min": 140,
+        "max": 140
       },
       "source": "EDITOR_OVERRIDE"
     },
     "pa": {
-      "value": 134,
+      "value": 140,
       "confidence": "HIGH",
       "plausibleRange": {
-        "min": 134,
-        "max": 134
+        "min": 140,
+        "max": 140
       },
       "source": "EDITOR_OVERRIDE"
     },
@@ -114,8 +114,8 @@
     "defenceRoleProficiencies": [],
     "caEstimationModelVersion": "HM-RATINGS-0.5-v1",
     "attributeGenerationModelVersion": "HM-RATINGS-0.4-v1",
-    "lockedAt": "2026-08-30T15:46:31.036Z",
-    "lockedNote": "ALLSV_rating_import_candidates_v0.13 Allsvenskan final import (261/261, individually researched, 0 REVIEW)"
+    "lockedAt": "2026-08-31T19:50:29.775Z",
+    "lockedNote": "Bulk calibration (Editor -> Spelare -> Kalibrering)."
   },
   "se_player_julian_sjogren_e2c4eb76": {
     "playerId": "se_player_julian_sjogren_e2c4eb76",

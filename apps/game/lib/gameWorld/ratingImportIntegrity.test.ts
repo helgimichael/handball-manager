@@ -12,6 +12,7 @@ import * as path from "node:path";
 import { snapshotWorldSquads, snapshotGameplayRatings } from "./serverSnapshot";
 import { WORLD_POOL_COMPETITION_IDS } from "../career/careerWorld";
 import { loadRatingDatabase } from "../editor/ratingDatabaseRepository";
+import { buildCatalog, findClubById } from "../editor/catalog";
 
 const EXPORTS_DIR = path.join(__dirname, "..", "..", "..", "..", "exports", "player-rating-research");
 const HBL_CSV_PATH = path.join(EXPORTS_DIR, "HBL_rating_import_candidates_v2.13.csv");
@@ -80,6 +81,146 @@ function collectRatings(competitionIds: readonly string[]): Map<string, { ca: nu
   return out;
 }
 
+/**
+ * A canonical rating import is the source of truth for a player only for
+ * as long as nobody has deliberately re-calibrated that player since.
+ * The Player Data Editor (Spelare -> Kalibrering) is an intentional,
+ * canonical authoring surface: when a human overrides a CA/PA there, the
+ * NEW value -- not the frozen import CSV -- is what the game should ship.
+ *
+ * So the fidelity tests below assert two DIFFERENT things rather than one:
+ *
+ *   1. IMPORT CORRECTNESS -- every player still carrying the import's own
+ *      provenance note in rating-review.json must match the import CSV
+ *      exactly. This is what proves the import was applied faithfully and
+ *      has not drifted.
+ *   2. OVERRIDE ACCOUNTABILITY -- a player who DIVERGES from the CSV is
+ *      acceptable only if the divergence is recorded: their review note is
+ *      no longer the import's, and rating-overrides.json holds the exact
+ *      live value. Silent drift (a value that differs with no recorded
+ *      override) still fails, which is the property that actually matters.
+ *
+ * Without this split the tests treat a frozen CSV as permanent truth, and a
+ * deliberate editor decision is indistinguishable from data corruption.
+ */
+function playerClubIds(competitionIds: readonly string[]): Map<string, string> {
+  const out = new Map<string, string>();
+  for (const competitionId of competitionIds) {
+    const squads = snapshotWorldSquads(competitionId);
+    for (const clubId of Object.keys(squads)) for (const p of squads[clubId]) out.set(p.id, clubId);
+  }
+  return out;
+}
+
+interface RatingProvenance {
+  /** rating-review.json note -- the import stamps its own CSV name here; an editor calibration replaces it. */
+  reviewNote: string;
+  /** rating-overrides.json entry, when the player has an explicit override recorded. */
+  override: { ca?: number; pa?: number } | undefined;
+}
+
+function readJsonIfPresent(filePath: string): Record<string, Record<string, unknown>> {
+  if (!fs.existsSync(filePath)) return {};
+  try {
+    const raw: unknown = JSON.parse(fs.readFileSync(filePath, "utf8"));
+    return raw !== null && typeof raw === "object" && !Array.isArray(raw) ? (raw as Record<string, Record<string, unknown>>) : {};
+  } catch {
+    return {};
+  }
+}
+
+function loadProvenance(competitionIds: readonly string[]): Map<string, RatingProvenance> {
+  // buildCatalog() deliberately re-walks the whole data tree on every call
+  // (see its own doc), and loadRatingReviewState/loadRatingOverrideState each
+  // build it internally. Calling those per club would mean ~166 full-tree
+  // walks across the three fidelity tests -- so the catalog is built ONCE
+  // here and the two small provenance files are read directly.
+  const catalog = buildCatalog();
+  const out = new Map<string, RatingProvenance>();
+  const perClub = new Map<string, { review: Record<string, Record<string, unknown>>; override: Record<string, Record<string, unknown>> }>();
+
+  for (const [playerId, clubId] of playerClubIds(competitionIds)) {
+    if (!perClub.has(clubId)) {
+      const club = findClubById(catalog, clubId);
+      perClub.set(clubId, club
+        ? {
+            review: readJsonIfPresent(path.join(club.clubDir, "rating-review.json")),
+            override: readJsonIfPresent(path.join(club.clubDir, "rating-overrides.json")),
+          }
+        : { review: {}, override: {} });
+    }
+    const files = perClub.get(clubId)!;
+    const review = files.review[playerId];
+    const override = files.override[playerId];
+    out.set(playerId, {
+      reviewNote: typeof review?.note === "string" ? review.note : "",
+      override: override
+        ? {
+            ...(typeof override.ca === "number" ? { ca: override.ca } : {}),
+            ...(typeof override.pa === "number" ? { pa: override.pa } : {}),
+          }
+        : undefined,
+    });
+  }
+  return out;
+}
+
+/**
+ * Shared body for the three "imported CA/PA matches the CSV" tests.
+ * `importTag` is the marker the import wrote into its own review note (its
+ * own CSV name), which is how a still-pristine import row is recognised.
+ */
+function assertImportFidelity(opts: {
+  label: string;
+  rows: string[][];
+  idOf: (row: string[]) => string;
+  caOf: (row: string[]) => number;
+  paOf: (row: string[]) => number;
+  competitionIds: readonly string[];
+  importTag: string;
+}): void {
+  const ratings = collectRatings(opts.competitionIds);
+  const provenance = loadProvenance(opts.competitionIds);
+  let pristine = 0;
+
+  for (const row of opts.rows) {
+    const playerId = opts.idOf(row);
+    const expectedCA = opts.caOf(row);
+    const expectedPA = opts.paOf(row);
+    const actual = ratings.get(playerId);
+    assert.ok(actual, `no live rating found for ${opts.label} playerId ${playerId}`);
+
+    const p = provenance.get(playerId);
+    if ((p?.reviewNote ?? "").includes(opts.importTag)) {
+      // (1) Untouched since the import, so it must still match it exactly.
+      assert.equal(actual!.ca, expectedCA, `CA drifted for ${playerId} (${opts.label}) -- it still carries the import's own provenance note, so this is drift, not a deliberate override`);
+      assert.equal(actual!.pa, expectedPA, `PA drifted for ${playerId} (${opts.label}) -- it still carries the import's own provenance note, so this is drift, not a deliberate override`);
+      pristine++;
+      continue;
+    }
+
+    // (2) Re-calibrated after the import: the live value must be exactly
+    //     what the recorded override says, and an override must exist.
+    assert.ok(p?.override, `${playerId} (${opts.label}) no longer carries the import's provenance note but has no rating-overrides.json record -- an unrecorded rating change`);
+    if (p!.override!.ca !== undefined) {
+      assert.equal(actual!.ca, p!.override!.ca, `CA for ${playerId} (${opts.label}) does not match its recorded override`);
+    }
+    if (p!.override!.pa !== undefined) {
+      assert.equal(actual!.pa, p!.override!.pa, `PA for ${playerId} (${opts.label}) does not match its recorded override`);
+    }
+  }
+
+  // Guard against this test quietly becoming vacuous: if most rows stopped
+  // carrying the import's provenance, the CSV is no longer a meaningful
+  // baseline and the import should be re-exported, rather than the test
+  // silently verifying almost nothing.
+  const floor = Math.floor(opts.rows.length * 0.9);
+  assert.ok(
+    pristine >= floor,
+    `${opts.label}: only ${pristine}/${opts.rows.length} rows still carry the import's provenance note (need >= ${floor}) -- re-export the import CSV instead of letting this test verify almost nothing`,
+  );
+}
+
 test("HBL v2.13: all 268 playerIds exist exactly once in the canonical DB", () => {
   const { header, rows } = loadCsv(HBL_CSV_PATH);
   const idx = (name: string) => header.indexOf(name);
@@ -93,19 +234,20 @@ test("HBL v2.13: all 268 playerIds exist exactly once in the canonical DB", () =
   for (const id of ids) assert.ok(dbIds.has(id), `playerId ${id} missing from canonical HBL DB`);
 });
 
-test("HBL v2.13: imported CA/PA matches the v2.13 New CA/New PA columns exactly", () => {
+test("HBL v2.13: imported CA/PA matches the v2.13 CSV, except where a later editor override is recorded", () => {
   const { header, rows } = loadCsv(HBL_CSV_PATH);
   const idx = (name: string) => header.indexOf(name);
-  const ratings = collectRatings([HBL_COMPETITION_ID]);
-  for (const r of rows) {
-    const playerId = r[idx("playerId")];
-    const expectedCA = Number(r[idx("New CA")]);
-    const expectedPA = Number(r[idx("New PA")]);
-    const actual = ratings.get(playerId);
-    assert.ok(actual, `no live rating found for HBL playerId ${playerId}`);
-    assert.equal(actual!.ca, expectedCA, `CA mismatch for ${playerId}`);
-    assert.equal(actual!.pa, expectedPA, `PA mismatch for ${playerId}`);
-  }
+  assertImportFidelity({
+    label: "HBL v2.13",
+    rows,
+    idOf: (r) => r[idx("playerId")],
+    caOf: (r) => Number(r[idx("New CA")]),
+    paOf: (r) => Number(r[idx("New PA")]),
+    competitionIds: [HBL_COMPETITION_ID],
+    // The note the HBL import stamped -- named after its own research
+    // source, not after the candidates CSV this test reads.
+    importTag: "HM_Player_Rating_Research_v2.13",
+  });
 });
 
 test("World Pool v1: all 100 identities are unique and present in the canonical DB", () => {
@@ -123,20 +265,19 @@ test("World Pool v1: all 100 identities are unique and present in the canonical 
   for (const id of ids) assert.ok(dbIds.has(id), `playerId ${id} missing from canonical World Pool DB`);
 });
 
-test("World Pool v1: imported CA/PA matches the Final CA/Final PA columns exactly", () => {
+test("World Pool v1: imported CA/PA matches the Final CA/Final PA columns, except where a later editor override is recorded", () => {
   const { header, rows } = loadCsv(WORLD_POOL_CSV_PATH);
   const idx = (name: string) => header.indexOf(name);
-  const ratings = collectRatings(WORLD_POOL_COMPETITION_IDS);
-  for (const r of rows) {
-    assert.equal(r[idx("Research Status")], "FINAL");
-    const playerId = r[idx("playerId")];
-    const expectedCA = Number(r[idx("Final CA")]);
-    const expectedPA = Number(r[idx("Final PA")]);
-    const actual = ratings.get(playerId);
-    assert.ok(actual, `no live rating found for World Pool playerId ${playerId}`);
-    assert.equal(actual!.ca, expectedCA, `CA mismatch for ${playerId}`);
-    assert.equal(actual!.pa, expectedPA, `PA mismatch for ${playerId}`);
-  }
+  for (const r of rows) assert.equal(r[idx("Research Status")], "FINAL");
+  assertImportFidelity({
+    label: "World Pool v1",
+    rows,
+    idOf: (r) => r[idx("playerId")],
+    caOf: (r) => Number(r[idx("Final CA")]),
+    paOf: (r) => Number(r[idx("Final PA")]),
+    competitionIds: WORLD_POOL_COMPETITION_IDS,
+    importTag: "WORLD_POOL_FINAL_RATING_RESEARCH_v1",
+  });
 });
 
 test("Allsvenskan v0.13: all 261 playerIds exist exactly once in the canonical DB", () => {
@@ -152,19 +293,18 @@ test("Allsvenskan v0.13: all 261 playerIds exist exactly once in the canonical D
   for (const id of ids) assert.ok(dbIds.has(id), `playerId ${id} missing from canonical Allsvenskan DB`);
 });
 
-test("Allsvenskan v0.13: imported CA/PA matches the v0.13 New CA/New PA columns exactly", () => {
+test("Allsvenskan v0.13: imported CA/PA matches the v0.13 CSV, except where a later editor override is recorded", () => {
   const { header, rows } = loadCsv(ALLSVENSKAN_CSV_PATH);
   const idx = (name: string) => header.indexOf(name);
-  const ratings = collectRatings([ALLSVENSKAN_COMPETITION_ID]);
-  for (const r of rows) {
-    const playerId = r[idx("playerId")];
-    const expectedCA = Number(r[idx("New CA")]);
-    const expectedPA = Number(r[idx("New PA")]);
-    const actual = ratings.get(playerId);
-    assert.ok(actual, `no live rating found for Allsvenskan playerId ${playerId}`);
-    assert.equal(actual!.ca, expectedCA, `CA mismatch for ${playerId}`);
-    assert.equal(actual!.pa, expectedPA, `PA mismatch for ${playerId}`);
-  }
+  assertImportFidelity({
+    label: "Allsvenskan v0.13",
+    rows,
+    idOf: (r) => r[idx("playerId")],
+    caOf: (r) => Number(r[idx("New CA")]),
+    paOf: (r) => Number(r[idx("New PA")]),
+    competitionIds: [ALLSVENSKAN_COMPETITION_ID],
+    importTag: "ALLSV_rating_import_candidates_v0.13",
+  });
 });
 
 test("HBL + World Pool + Allsvenskan combined: no PA < CA and all ratings in [1, 200]", () => {

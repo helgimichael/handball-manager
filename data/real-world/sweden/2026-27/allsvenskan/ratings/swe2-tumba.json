@@ -537,11 +537,11 @@
       "source": "EDITOR_OVERRIDE"
     },
     "pa": {
-      "value": 129,
+      "value": 140,
       "confidence": "HIGH",
       "plausibleRange": {
-        "min": 129,
-        "max": 129
+        "min": 140,
+        "max": 140
       },
       "source": "EDITOR_OVERRIDE"
     },
@@ -782,8 +782,8 @@
     "defenceRoleProficiencies": [],
     "caEstimationModelVersion": "HM-RATINGS-0.5-v1",
     "attributeGenerationModelVersion": "HM-RATINGS-0.4-v1",
-    "lockedAt": "2026-08-30T15:46:19.306Z",
-    "lockedNote": "ALLSV_rating_import_candidates_v0.13 Allsvenskan final import (261/261, individually researched, 0 REVIEW)"
+    "lockedAt": "2026-08-31T19:49:17.546Z",
+    "lockedNote": "Bulk calibration (Editor -> Spelare -> Kalibrering)."
   },
   "se_player_albin_brauer_2847909f": {
     "playerId": "se_player_albin_brauer_2847909f",
@@ -1052,11 +1052,11 @@
     "clubId": "swe2-tumba",
     "position": "M6",
     "ca": {
-      "value": 114,
+      "value": 121,
       "confidence": "HIGH",
       "plausibleRange": {
-        "min": 114,
-        "max": 114
+        "min": 121,
+        "max": 121
       },
       "source": "EDITOR_OVERRIDE"
     },
@@ -1306,8 +1306,8 @@
     "defenceRoleProficiencies": [],
     "caEstimationModelVersion": "HM-RATINGS-0.5-v1",
     "attributeGenerationModelVersion": "HM-RATINGS-0.4-v1",
-    "lockedAt": "2026-08-30T15:46:22.023Z",
-    "lockedNote": "ALLSV_rating_import_candidates_v0.13 Allsvenskan final import (261/261, individually researched, 0 REVIEW)"
+    "lockedAt": "2026-08-31T19:49:18.489Z",
+    "lockedNote": "Bulk calibration (Editor -> Spelare -> Kalibrering)."
   },
   "se_player_anton_thomsen_eb2b2bb6": {
     "playerId": "se_player_anton_thomsen_eb2b2bb6",
@@ -3655,11 +3655,11 @@
       "source": "EDITOR_OVERRIDE"
     },
     "pa": {
-      "value": 151,
+      "value": 144,
       "confidence": "HIGH",
       "plausibleRange": {
-        "min": 151,
-        "max": 151
+        "min": 144,
+        "max": 144
       },
       "source": "EDITOR_OVERRIDE"
     },
@@ -3900,8 +3900,8 @@
     "defenceRoleProficiencies": [],
     "caEstimationModelVersion": "HM-RATINGS-0.5-v1",
     "attributeGenerationModelVersion": "HM-RATINGS-0.4-v1",
-    "lockedAt": "2026-08-30T15:46:18.502Z",
-    "lockedNote": "ALLSV_rating_import_candidates_v0.13 Allsvenskan final import (261/261, individually researched, 0 REVIEW)"
+    "lockedAt": "2026-08-31T19:49:19.462Z",
+    "lockedNote": "Bulk calibration (Editor -> Spelare -> Kalibrering)."
   },
   "se_player_filip_westberg_f8c00e47": {
     "playerId": "se_player_filip_westberg_f8c00e47",
