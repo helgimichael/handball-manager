@@ -205,6 +205,49 @@ export function loadPlayerRecord(catalog: EditorCatalog, clubId: string, playerI
 export type SavePlayerResult = { ok: true; diff: FieldDiffEntry[] } | { ok: false; errors: string[] };
 
 /**
+ * Applies ONLY the fields whose validated value genuinely differs from
+ * what is already on disk -- never the whole validated object.
+ *
+ * `validate*Edit` always returns a COMPLETE, defaulted record (an absent
+ * optional field comes back as `null` / `[]`, mirroring what
+ * loadPlayerRecord handed the client in the first place). Spreading that
+ * wholesale used to materialize every optional key on every save, so a
+ * one-field position edit silently added `"defaultSquadStatus": null`
+ * and `"specialTags": []` to the entry -- unrelated byte noise the
+ * editor had no instruction to write.
+ *
+ * An absent key and its reader default are therefore treated as EQUAL
+ * (that round trip is not an edit), while a real change -- including
+ * deliberately clearing a set value back to `null`/`[]` -- still writes.
+ * Untouched keys keep both their original value AND their original
+ * absence, and key order is preserved for everything else (Spec S22/S23).
+ */
+function applyChangedFields(
+  before: Record<string, unknown>,
+  validated: Record<string, unknown>,
+  fields: readonly string[],
+): Record<string, unknown> {
+  const after: Record<string, unknown> = { ...before };
+  for (const field of fields) {
+    const nextValue = validated[field];
+    if (!Object.prototype.hasOwnProperty.call(before, field)) {
+      // Absent on disk: only write if the client is setting something
+      // other than the default it was given for an absent field.
+      if (isReaderDefault(nextValue)) continue;
+    } else if (JSON.stringify(before[field]) === JSON.stringify(nextValue)) {
+      continue;
+    }
+    after[field] = nextValue;
+  }
+  return after;
+}
+
+/** The values loadPlayerRecord substitutes for an absent optional field -- writing one back is a no-op, not an edit. */
+function isReaderDefault(value: unknown): boolean {
+  return value === null || (Array.isArray(value) && value.length === 0);
+}
+
+/**
  * Validates, diffs, and atomically writes one player's edits. Only the
  * one matching array element in each file is replaced (via object
  * spread, which preserves the original's key order for unchanged keys
@@ -246,8 +289,8 @@ export function savePlayerEdit(
   const beforePlayer = players[playerIndex];
   const beforeRoster = roster[rosterIndex];
 
-  const afterPlayer: Record<string, unknown> = { ...beforePlayer, ...playerValidation.value };
-  const afterRoster: Record<string, unknown> = { ...beforeRoster, ...rosterValidation.value };
+  const afterPlayer = applyChangedFields(beforePlayer, playerValidation.value as unknown as Record<string, unknown>, PLAYER_FIELDS);
+  const afterRoster = applyChangedFields(beforeRoster, rosterValidation.value as unknown as Record<string, unknown>, ROSTER_FIELDS);
 
   const playerDiff = diffFields(beforePlayer, afterPlayer, PLAYER_FIELDS);
   const rosterDiff = diffFields(beforeRoster, afterRoster, ROSTER_FIELDS);

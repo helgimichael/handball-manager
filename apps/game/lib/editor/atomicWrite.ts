@@ -1,9 +1,10 @@
 // Atomic, backed-up JSON file writes (HM-DATA-EDITOR-0.1, Spec S20-S22).
 //
 // Strategy:
-//   1. serialize the already-validated data (2-space indent, no added
-//      trailing newline -- matches the existing source files' exact
-//      formatting byte-for-byte, Spec S22),
+//   1. serialize the already-validated data (2-space indent), then
+//      re-apply the TARGET FILE'S OWN newline-at-EOF style so the write
+//      is byte-for-byte minimal (Spec S22). The canonical data set is
+//      not uniform on this -- see endsWithNewline below.
 //   2. write it to a temp file in the SAME directory (same filesystem
 //      volume, required for the rename below to be atomic),
 //   3. back up the current on-disk file to `<file>.bak` (one backup per
@@ -23,12 +24,35 @@ export function serializeJson(data: unknown): string {
   return JSON.stringify(data, null, 2);
 }
 
+/**
+ * Whether the file already on disk ends with a newline. The canonical
+ * data set is NOT uniform -- 508 files end with one and 319 do not -- so
+ * serializing without it turned every save into a whole-file byte change
+ * on the majority of files. Each file's own existing style is preserved
+ * instead; the repository is never normalized. A file that does not yet
+ * exist gets no trailing newline, matching serializeJson's own output.
+ */
+function endsWithNewline(filePath: string): boolean {
+  if (!fs.existsSync(filePath)) return false;
+  const fd = fs.openSync(filePath, "r");
+  try {
+    const size = fs.fstatSync(fd).size;
+    if (size === 0) return false;
+    const last = Buffer.alloc(1);
+    fs.readSync(fd, last, 0, 1, size - 1);
+    return last[0] === 0x0a; // "\n"
+  } finally {
+    fs.closeSync(fd);
+  }
+}
+
 export function atomicWriteJsonFile(filePath: string, data: unknown): void {
   const dir = path.dirname(filePath);
   const tmpPath = path.join(dir, `.${path.basename(filePath)}.tmp-${process.pid}-${Date.now()}`);
   const backupPath = `${filePath}.bak`;
+  const trailingNewline = endsWithNewline(filePath) ? "\n" : "";
 
-  fs.writeFileSync(tmpPath, serializeJson(data), "utf8");
+  fs.writeFileSync(tmpPath, serializeJson(data) + trailingNewline, "utf8");
 
   try {
     if (fs.existsSync(filePath)) {
