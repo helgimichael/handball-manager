@@ -28,6 +28,15 @@ import { useRouter } from "next/navigation";
 import { abilityStarsFromCA, potentialStarsFromPA } from "@/lib/development/types";
 import { SortableTh, applySortDirection, type SortState } from "@/components/SortableTh";
 import StarRating from "@/components/StarRating";
+import {
+  isSourceDirty,
+  isRatingDirty,
+  isDirty,
+  matchesFilters,
+  dirtyPlayerIds as computeDirtyPlayerIds,
+  runSaveAll,
+  applySaveOutcome,
+} from "@/lib/editor/bulkEditorState";
 
 const CANONICAL_POSITIONS = ["MV", "V6", "V9", "M9", "M6", "H9", "H6"] as const;
 type CanonicalPosition = (typeof CANONICAL_POSITIONS)[number];
@@ -145,23 +154,9 @@ function toRowVM(p: ApiPlayer): RowVM {
 // header comment above. Tracking them separately lets save-orchestration
 // dispatch only the part that actually changed (HM-PLAYER-DATA-EDITOR-1.0A),
 // instead of coupling a pure position edit to CA/PA validation/writes.
-function isSourceDirty(row: RowVM, original: RowVM): boolean {
-  return (
-    row.primaryPosition !== original.primaryPosition ||
-    row.dateOfBirth !== original.dateOfBirth ||
-    row.birthYear !== original.birthYear ||
-    row.defaultSquadStatus !== original.defaultSquadStatus ||
-    JSON.stringify(row.specialTags) !== JSON.stringify(original.specialTags)
-  );
-}
-
-function isRatingDirty(row: RowVM, original: RowVM): boolean {
-  return row.ca !== original.ca || row.pa !== original.pa;
-}
-
-function isDirty(row: RowVM, original: RowVM): boolean {
-  return isSourceDirty(row, original) || isRatingDirty(row, original);
-}
+//
+// The rules themselves live in lib/editor/bulkEditorState.ts so the save
+// lifecycle is testable without a DOM (HM-PLAYER-DATA-EDITOR-1.0C).
 
 function formatEur(v: number | null): string {
   if (v === null) return "—";
@@ -185,6 +180,11 @@ export default function PlayerCalibrationWorkspace() {
   const [loading, setLoading] = useState(true);
   const [loadError, setLoadError] = useState<string | null>(null);
   const [rowState, setRowState] = useState<Record<string, { saving?: boolean; error?: string | null; savedAt?: number }>>({});
+  // HM-PLAYER-DATA-EDITOR-1.0C: the outcome of the last "Spara alla" run,
+  // shown as a banner. The per-row error cell lives in the LAST column of a
+  // 17-column table and is therefore off-screen at any normal window width --
+  // a failure must never be reported only there.
+  const [saveAllState, setSaveAllState] = useState<{ running: boolean; done: number; total: number; failed: { playerId: string; name: string }[] } | null>(null);
 
   const [leagueFilter, setLeagueFilter] = useState<string>("");
   const [clubFilter, setClubFilter] = useState<string>("");
@@ -220,17 +220,17 @@ export default function PlayerCalibrationWorkspace() {
     return Array.from(new Map(scoped.map((r) => [r.clubId, r.clubName])).entries()).sort((a, b) => a[1].localeCompare(b[1]));
   }, [rows, leagueFilter]);
 
+  // HM-PLAYER-DATA-EDITOR-1.0C: POSITION and TRUPPSTATUS match on the row's
+  // SAVED value, never on the in-progress draft. Filtering on the draft made
+  // a row delete itself from the table the instant it was edited -- filter by
+  // POSITION=MV, correct a goalkeeper to H9, and the row (and its own Spara
+  // button) vanished mid-edit, which reads exactly like "the edit did not
+  // take". The filter now describes what is ON DISK; a row leaves the view
+  // only once its edit has actually been saved.
   const filtered = useMemo(() => {
-    const term = search.trim().toLowerCase();
-    return rows.filter((r) => {
-      if (leagueFilter && r.competitionSlug !== leagueFilter) return false;
-      if (clubFilter && r.clubId !== clubFilter) return false;
-      if (positionFilter && r.primaryPosition !== positionFilter) return false;
-      if (statusFilter && r.defaultSquadStatus !== statusFilter) return false;
-      if (term && !r.fullName.toLowerCase().includes(term)) return false;
-      return true;
-    });
-  }, [rows, leagueFilter, clubFilter, positionFilter, statusFilter, search]);
+    const filters = { league: leagueFilter, club: clubFilter, position: positionFilter, status: statusFilter, search };
+    return rows.filter((r) => matchesFilters(r, originals[r.playerId], filters));
+  }, [rows, originals, leagueFilter, clubFilter, positionFilter, statusFilter, search]);
 
   const sorted = useMemo(() => {
     if (!sort) return filtered;
@@ -330,7 +330,10 @@ export default function PlayerCalibrationWorkspace() {
         setRowState((prev) => ({ ...prev, [playerId]: { saving: false, error: (data.errors ?? [data.error]).join("; ") } }));
         return false;
       }
-      setOriginals((prev) => ({ ...prev, [playerId]: row }));
+      // Baseline is promoted ONLY here, after a confirmed 2xx -- never
+      // optimistically, so a failed or never-dispatched save always leaves
+      // the row dirty (HM-PLAYER-DATA-EDITOR-1.0C).
+      setOriginals((prev) => applySaveOutcome(prev, playerId, row, true));
       setRowState((prev) => ({ ...prev, [playerId]: { saving: false, error: null, savedAt: Date.now() } }));
       return true;
     } catch (err) {
@@ -339,12 +342,45 @@ export default function PlayerCalibrationWorkspace() {
     }
   }
 
-  const dirtyPlayerIds = useMemo(() => rows.filter((r) => originals[r.playerId] && isDirty(r, originals[r.playerId])).map((r) => r.playerId), [rows, originals]);
+  const dirtyPlayerIds = useMemo(() => computeDirtyPlayerIds(rows, originals), [rows, originals]);
 
   async function saveAll() {
-    for (const id of dirtyPlayerIds) {
-      await saveRow(id);
-    }
+    const ids = dirtyPlayerIds;
+    if (ids.length === 0) return;
+    setSaveAllState({ running: true, done: 0, total: ids.length, failed: [] });
+    let done = 0;
+    const outcome = await runSaveAll(ids, async (id) => {
+      const ok = await saveRow(id);
+      done += 1;
+      setSaveAllState((prev) => ({ running: true, done, total: ids.length, failed: prev?.failed ?? [] }));
+      return ok;
+    });
+    setSaveAllState({
+      running: false,
+      done: outcome.attempted.length,
+      total: ids.length,
+      failed: outcome.failed.map((id) => ({ playerId: id, name: rows.find((r) => r.playerId === id)?.fullName ?? id })),
+    });
+  }
+
+  // HM-PLAYER-DATA-EDITOR-1.0C: unsaved edits live only in this component's
+  // state -- a reload, a dev-server full refresh, or an in-app navigation
+  // silently destroyed every pending edit and returned the page to
+  // "Spara alla (0)", which is indistinguishable from never having edited at
+  // all. Both exits are now guarded.
+  useEffect(() => {
+    if (dirtyPlayerIds.length === 0) return;
+    const onBeforeUnload = (e: BeforeUnloadEvent) => {
+      e.preventDefault();
+      e.returnValue = "";
+    };
+    window.addEventListener("beforeunload", onBeforeUnload);
+    return () => window.removeEventListener("beforeunload", onBeforeUnload);
+  }, [dirtyPlayerIds.length]);
+
+  function leaveEditor() {
+    if (dirtyPlayerIds.length > 0 && !window.confirm(`${dirtyPlayerIds.length} osparade ändringar går förlorade om du lämnar sidan. Lämna ändå?`)) return;
+    router.push("/editor");
   }
 
   function focusNextRow(playerId: string, columnSelector: string) {
@@ -366,18 +402,50 @@ export default function PlayerCalibrationWorkspace() {
 
   return (
     <div style={{ maxWidth: 1600, margin: "24px auto", padding: "0 16px" }}>
-      <div className="hm-panel">
-        <div className="hm-panel-header">
+      {/* `overflow: visible` overrides .hm-panel's own `overflow: hidden`,
+          which would otherwise silently disable the sticky header below --
+          a sticky element is inert inside ANY clipping ancestor. Scoped to
+          this page's panel only; the shared class is untouched. */}
+      <div className="hm-panel" style={{ overflow: "visible" }}>
+        {/* Sticky: the table is 17 columns and 1200 rows, so a header that
+            scrolls away leaves the ONLY control that can save an edited row
+            unreachable from wherever the editing actually happens. */}
+        <div className="hm-panel-header" style={{ position: "sticky", top: 0, zIndex: 5, background: "var(--hm-surface-1)" }}>
           <span className="hm-panel-title">EDITOR — Spelarkalibrering ({rows.length} spelare)</span>
-          <div style={{ display: "flex", gap: 8 }}>
-            <button type="button" className="hm-btn hm-btn-sm hm-btn-primary" disabled={dirtyPlayerIds.length === 0} onClick={saveAll}>
-              Spara alla ({dirtyPlayerIds.length})
+          <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+            {saveAllState?.running ? (
+              <span style={{ fontSize: "var(--hm-text-2xs)", color: "var(--hm-text-muted)" }}>
+                Sparar… {saveAllState.done}/{saveAllState.total}
+              </span>
+            ) : null}
+            {dirtyPlayerIds.length > 0 && !saveAllState?.running ? (
+              <span style={{ fontSize: "var(--hm-text-2xs)", color: "var(--hm-accent)", fontWeight: 700 }}>
+                {dirtyPlayerIds.length} osparade
+              </span>
+            ) : null}
+            <button type="button" className="hm-btn hm-btn-sm hm-btn-primary" disabled={dirtyPlayerIds.length === 0 || saveAllState?.running} onClick={saveAll}>
+              {saveAllState?.running ? "Sparar…" : `Spara alla (${dirtyPlayerIds.length})`}
             </button>
-            <button type="button" className="hm-btn hm-btn-sm hm-btn-ghost" onClick={() => router.push("/editor")}>
+            <button type="button" className="hm-btn hm-btn-sm hm-btn-ghost" onClick={leaveEditor}>
               ← Editor
             </button>
           </div>
         </div>
+
+        {saveAllState && !saveAllState.running ? (
+          <div
+            className="hm-panel-body"
+            style={{
+              fontSize: "var(--hm-text-2xs)",
+              color: saveAllState.failed.length > 0 ? "var(--hm-negative, #b23a2e)" : "var(--hm-positive)",
+              fontWeight: 700,
+            }}
+          >
+            {saveAllState.failed.length > 0
+              ? `${saveAllState.total - saveAllState.failed.length} av ${saveAllState.total} sparade — ${saveAllState.failed.length} MISSLYCKADES och är fortfarande osparade: ${saveAllState.failed.map((f) => f.name).join(", ")}`
+              : `${saveAllState.total} ${saveAllState.total === 1 ? "ändring sparad" : "ändringar sparade"}.`}
+          </div>
+        ) : null}
 
         <div className="hm-panel-body" style={{ display: "flex", gap: 10, flexWrap: "wrap", alignItems: "flex-end" }}>
           <label style={{ display: "flex", flexDirection: "column", gap: 4, fontSize: "var(--hm-text-2xs)" }}>
@@ -485,8 +553,21 @@ export default function PlayerCalibrationWorkspace() {
                   const err = state.error ?? ratingErr;
                   return (
                     <tr key={row.playerId} data-row={row.playerId} style={{ background: dirty ? "color-mix(in srgb, var(--hm-accent) 6%, transparent)" : undefined }}>
-                      <td title={dirty ? "Osparade ändringar" : state.savedAt ? "Sparad" : ""}>
-                        {dirty ? <span style={{ color: "var(--hm-accent)", fontWeight: 700 }}>●</span> : state.savedAt ? <span style={{ color: "var(--hm-positive)" }}>✓</span> : null}
+                      {/* The row's own Spara button and error cell sit in the
+                          LAST column, off-screen at any normal width -- so the
+                          save state is mirrored here, in the first column,
+                          which is always visible. "Sparad" appears only after
+                          the server confirmed the write. */}
+                      <td title={state.saving ? "Sparar…" : state.error ? `Fel: ${state.error}` : dirty ? "Osparade ändringar" : state.savedAt ? "Sparad" : ""}>
+                        {state.saving ? (
+                          <span style={{ color: "var(--hm-text-muted)" }}>…</span>
+                        ) : state.error ? (
+                          <span style={{ color: "var(--hm-negative, #b23a2e)", fontWeight: 700 }}>⚠</span>
+                        ) : dirty ? (
+                          <span style={{ color: "var(--hm-accent)", fontWeight: 700 }}>●</span>
+                        ) : state.savedAt ? (
+                          <span style={{ color: "var(--hm-positive)" }}>✓</span>
+                        ) : null}
                       </td>
                       <td className="hm-td-strong">{row.fullName}</td>
                       <td>{row.clubName}</td>
@@ -601,7 +682,7 @@ export default function PlayerCalibrationWorkspace() {
                       </td>
                       <td>
                         <button type="button" className="hm-btn hm-btn-sm" disabled={!dirty || state.saving} onClick={() => saveRow(row.playerId)}>
-                          {state.saving ? "..." : "Spara"}
+                          {state.saving ? "Sparar…" : !dirty && state.savedAt ? "Sparad" : "Spara"}
                         </button>
                         {err ? (
                           <div className="hm-text-muted" style={{ color: "var(--hm-negative, #b23a2e)", fontSize: "10px", marginTop: 2, maxWidth: 160 }}>
