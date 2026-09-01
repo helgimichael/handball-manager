@@ -317,7 +317,9 @@
     "shirtNumber": 4,
     "sourcePosition": "Vänster 9",
     "primaryPosition": "V9",
-    "secondaryPositions": [],
+    "secondaryPositions": [
+      "M9"
+    ],
     "rosterStatus": "CONFIRMED",
     "contract": {
       "untilDate": null,

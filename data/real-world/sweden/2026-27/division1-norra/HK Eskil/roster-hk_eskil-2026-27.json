@@ -121,7 +121,9 @@
     "shirtNumber": 9,
     "sourcePosition": "Vänster 6",
     "primaryPosition": "V6",
-    "secondaryPositions": [],
+    "secondaryPositions": [
+      "V9"
+    ],
     "rosterStatus": "CONFIRMED",
     "contract": {
       "untilDate": null,
@@ -288,8 +290,10 @@
     "snapshotDate": "2026-08-27",
     "shirtNumber": 4,
     "sourcePosition": "Vänster 9",
-    "primaryPosition": "V9",
-    "secondaryPositions": [],
+    "primaryPosition": "M6",
+    "secondaryPositions": [
+      "V9"
+    ],
     "rosterStatus": "CONFIRMED",
     "contract": {
       "untilDate": null,
@@ -317,7 +321,9 @@
     "shirtNumber": 5,
     "sourcePosition": "Vänster 9",
     "primaryPosition": "V9",
-    "secondaryPositions": [],
+    "secondaryPositions": [
+      "M9"
+    ],
     "rosterStatus": "CONFIRMED",
     "contract": {
       "untilDate": null,
@@ -344,8 +350,10 @@
     "snapshotDate": "2026-08-27",
     "shirtNumber": 10,
     "sourcePosition": "Vänster 9",
-    "primaryPosition": "V9",
-    "secondaryPositions": [],
+    "primaryPosition": "M9",
+    "secondaryPositions": [
+      "V9"
+    ],
     "rosterStatus": "CONFIRMED",
     "contract": {
       "untilDate": null,
@@ -401,7 +409,9 @@
     "shirtNumber": 18,
     "sourcePosition": "Mitt 9",
     "primaryPosition": "M9",
-    "secondaryPositions": [],
+    "secondaryPositions": [
+      "V9"
+    ],
     "rosterStatus": "CONFIRMED",
     "contract": {
       "untilDate": null,
@@ -428,8 +438,10 @@
     "snapshotDate": "2026-08-27",
     "shirtNumber": 21,
     "sourcePosition": "Höger 9",
-    "primaryPosition": "H9",
-    "secondaryPositions": [],
+    "primaryPosition": "M9",
+    "secondaryPositions": [
+      "H9"
+    ],
     "rosterStatus": "CONFIRMED",
     "contract": {
       "untilDate": null,

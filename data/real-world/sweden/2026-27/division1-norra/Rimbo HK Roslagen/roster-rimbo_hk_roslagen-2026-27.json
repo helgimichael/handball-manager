@@ -148,7 +148,7 @@
     "snapshotDate": "2026-08-27",
     "shirtNumber": 3,
     "sourcePosition": "",
-    "primaryPosition": "H6",
+    "primaryPosition": "V9",
     "secondaryPositions": [],
     "rosterStatus": "CONFIRMED",
     "contract": {
@@ -176,7 +176,7 @@
     "snapshotDate": "2026-08-27",
     "shirtNumber": 5,
     "sourcePosition": "",
-    "primaryPosition": "H6",
+    "primaryPosition": "V9",
     "secondaryPositions": [],
     "rosterStatus": "CONFIRMED",
     "contract": {
@@ -204,8 +204,10 @@
     "snapshotDate": "2026-08-27",
     "shirtNumber": 10,
     "sourcePosition": "",
-    "primaryPosition": "V6",
-    "secondaryPositions": [],
+    "primaryPosition": "M9",
+    "secondaryPositions": [
+      "H9"
+    ],
     "rosterStatus": "CONFIRMED",
     "contract": {
       "untilDate": null,
@@ -260,7 +262,7 @@
     "snapshotDate": "2026-08-27",
     "shirtNumber": 17,
     "sourcePosition": "",
-    "primaryPosition": "MV",
+    "primaryPosition": "V9",
     "secondaryPositions": [],
     "rosterStatus": "CONFIRMED",
     "contract": {
@@ -288,7 +290,7 @@
     "snapshotDate": "2026-08-27",
     "shirtNumber": 18,
     "sourcePosition": "",
-    "primaryPosition": "MV",
+    "primaryPosition": "H9",
     "secondaryPositions": [],
     "rosterStatus": "CONFIRMED",
     "contract": {
@@ -316,8 +318,10 @@
     "snapshotDate": "2026-08-27",
     "shirtNumber": 27,
     "sourcePosition": "",
-    "primaryPosition": "M9",
-    "secondaryPositions": [],
+    "primaryPosition": "V9",
+    "secondaryPositions": [
+      "M6"
+    ],
     "rosterStatus": "CONFIRMED",
     "contract": {
       "untilDate": null,
@@ -344,7 +348,7 @@
     "snapshotDate": "2026-08-27",
     "shirtNumber": 34,
     "sourcePosition": "",
-    "primaryPosition": "M6",
+    "primaryPosition": "M9",
     "secondaryPositions": [],
     "rosterStatus": "CONFIRMED",
     "contract": {
@@ -428,7 +432,7 @@
     "snapshotDate": "2026-08-27",
     "shirtNumber": null,
     "sourcePosition": "",
-    "primaryPosition": "H6",
+    "primaryPosition": "M6",
     "secondaryPositions": [],
     "rosterStatus": "CONFIRMED",
     "contract": {

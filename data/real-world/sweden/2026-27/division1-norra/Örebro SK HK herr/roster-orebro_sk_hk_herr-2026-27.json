@@ -149,7 +149,9 @@
     "shirtNumber": 20,
     "sourcePosition": "Höger 6",
     "primaryPosition": "H6",
-    "secondaryPositions": [],
+    "secondaryPositions": [
+      "H9"
+    ],
     "rosterStatus": "PROVISIONAL",
     "contract": {
       "untilDate": null,
@@ -261,7 +263,9 @@
     "shirtNumber": null,
     "sourcePosition": "Mitt 9",
     "primaryPosition": "M9",
-    "secondaryPositions": [],
+    "secondaryPositions": [
+      "V6"
+    ],
     "rosterStatus": "PROVISIONAL",
     "contract": {
       "untilDate": null,
@@ -289,7 +293,9 @@
     "shirtNumber": null,
     "sourcePosition": "Mitt 9",
     "primaryPosition": "M9",
-    "secondaryPositions": [],
+    "secondaryPositions": [
+      "V9"
+    ],
     "rosterStatus": "PROVISIONAL",
     "contract": {
       "untilDate": null,
@@ -317,7 +323,9 @@
     "shirtNumber": null,
     "sourcePosition": "Höger 9",
     "primaryPosition": "H9",
-    "secondaryPositions": [],
+    "secondaryPositions": [
+      "H6"
+    ],
     "rosterStatus": "PROVISIONAL",
     "contract": {
       "untilDate": null,
@@ -344,7 +352,7 @@
     "snapshotDate": "2026-08-27",
     "shirtNumber": 5,
     "sourcePosition": "",
-    "primaryPosition": "V6",
+    "primaryPosition": "H6",
     "secondaryPositions": [],
     "rosterStatus": "PROVISIONAL",
     "contract": {
@@ -372,7 +380,7 @@
     "snapshotDate": "2026-08-27",
     "shirtNumber": 9,
     "sourcePosition": "",
-    "primaryPosition": "M6",
+    "primaryPosition": "V9",
     "secondaryPositions": [],
     "rosterStatus": "PROVISIONAL",
     "contract": {
@@ -428,7 +436,7 @@
     "snapshotDate": "2026-08-27",
     "shirtNumber": 22,
     "sourcePosition": "",
-    "primaryPosition": "M6",
+    "primaryPosition": "V9",
     "secondaryPositions": [],
     "rosterStatus": "PROVISIONAL",
     "contract": {
@@ -456,7 +464,7 @@
     "snapshotDate": "2026-08-27",
     "shirtNumber": null,
     "sourcePosition": "",
-    "primaryPosition": "H9",
+    "primaryPosition": "V6",
     "secondaryPositions": [],
     "rosterStatus": "PROVISIONAL",
     "contract": {
@@ -484,7 +492,7 @@
     "snapshotDate": "2026-08-27",
     "shirtNumber": null,
     "sourcePosition": "",
-    "primaryPosition": "H9",
+    "primaryPosition": "M6",
     "secondaryPositions": [],
     "rosterStatus": "PROVISIONAL",
     "contract": {
@@ -540,7 +548,7 @@
     "snapshotDate": "2026-08-27",
     "shirtNumber": null,
     "sourcePosition": "",
-    "primaryPosition": "H6",
+    "primaryPosition": "MV",
     "secondaryPositions": [],
     "rosterStatus": "PROVISIONAL",
     "contract": {
@@ -568,7 +576,7 @@
     "snapshotDate": "2026-08-27",
     "shirtNumber": null,
     "sourcePosition": "",
-    "primaryPosition": "M9",
+    "primaryPosition": "M6",
     "secondaryPositions": [],
     "rosterStatus": "PROVISIONAL",
     "contract": {
@@ -596,7 +604,7 @@
     "snapshotDate": "2026-08-27",
     "shirtNumber": null,
     "sourcePosition": "",
-    "primaryPosition": "H9",
+    "primaryPosition": "M9",
     "secondaryPositions": [],
     "rosterStatus": "PROVISIONAL",
     "contract": {
