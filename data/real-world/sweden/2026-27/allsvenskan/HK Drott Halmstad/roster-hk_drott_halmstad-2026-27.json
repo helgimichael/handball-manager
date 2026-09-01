@@ -116,7 +116,7 @@
     "dataNotes": [
       "HM-DATA-ALLSVENSKAN-1.1: broad role (goalkeeper/wing/back-court/pivot) is real, sourced evidence from the club's own current roster page; the specific left/centre/right side was not published there and was deterministically assigned."
     ],
-    "defaultSquadStatus": null,
+    "defaultSquadStatus": "KEY_PLAYER",
     "specialTags": []
   },
   {
