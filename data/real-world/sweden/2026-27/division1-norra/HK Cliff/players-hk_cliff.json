@@ -7,7 +7,9 @@
     "aliases": [],
     "dateOfBirth": "2008-09-18",
     "birthYear": 2008,
-    "nationalities": null,
+    "nationalities": [
+      "SE"
+    ],
     "heightCm": null,
     "handedness": null,
     "recordConfidence": "VERIFIED",
@@ -47,7 +49,9 @@
     "aliases": [],
     "dateOfBirth": "2009-09-07",
     "birthYear": 2009,
-    "nationalities": null,
+    "nationalities": [
+      "SE"
+    ],
     "heightCm": null,
     "handedness": null,
     "recordConfidence": "VERIFIED",
@@ -147,7 +151,9 @@
     "aliases": [],
     "dateOfBirth": "2009-01-07",
     "birthYear": 2009,
-    "nationalities": null,
+    "nationalities": [
+      "SE"
+    ],
     "heightCm": null,
     "handedness": null,
     "recordConfidence": "VERIFIED",
@@ -167,7 +173,9 @@
     "aliases": [],
     "dateOfBirth": "2008-08-21",
     "birthYear": 2008,
-    "nationalities": null,
+    "nationalities": [
+      "SE"
+    ],
     "heightCm": null,
     "handedness": null,
     "recordConfidence": "VERIFIED",
@@ -227,7 +235,9 @@
     "aliases": [],
     "dateOfBirth": "2008-02-06",
     "birthYear": 2008,
-    "nationalities": null,
+    "nationalities": [
+      "SE"
+    ],
     "heightCm": null,
     "handedness": null,
     "recordConfidence": "VERIFIED",
@@ -247,7 +257,9 @@
     "aliases": [],
     "dateOfBirth": "2008-04-13",
     "birthYear": 2008,
-    "nationalities": null,
+    "nationalities": [
+      "SE"
+    ],
     "heightCm": null,
     "handedness": null,
     "recordConfidence": "VERIFIED",
@@ -267,7 +279,9 @@
     "aliases": [],
     "dateOfBirth": "2008-07-22",
     "birthYear": 2008,
-    "nationalities": null,
+    "nationalities": [
+      "SE"
+    ],
     "heightCm": null,
     "handedness": null,
     "recordConfidence": "VERIFIED",
@@ -307,7 +321,9 @@
     "aliases": [],
     "dateOfBirth": "2009-07-31",
     "birthYear": 2009,
-    "nationalities": null,
+    "nationalities": [
+      "SE"
+    ],
     "heightCm": null,
     "handedness": null,
     "recordConfidence": "VERIFIED",
@@ -327,7 +343,9 @@
     "aliases": [],
     "dateOfBirth": "2008-06-10",
     "birthYear": 2008,
-    "nationalities": null,
+    "nationalities": [
+      "SE"
+    ],
     "heightCm": null,
     "handedness": null,
     "recordConfidence": "VERIFIED",
@@ -347,7 +365,9 @@
     "aliases": [],
     "dateOfBirth": "2008-10-29",
     "birthYear": 2008,
-    "nationalities": null,
+    "nationalities": [
+      "SE"
+    ],
     "heightCm": null,
     "handedness": null,
     "recordConfidence": "VERIFIED",
@@ -467,7 +487,9 @@
     "aliases": [],
     "dateOfBirth": "2009-07-27",
     "birthYear": 2009,
-    "nationalities": null,
+    "nationalities": [
+      "SE"
+    ],
     "heightCm": null,
     "handedness": null,
     "recordConfidence": "VERIFIED",

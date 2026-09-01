@@ -385,7 +385,9 @@
     "aliases": [],
     "dateOfBirth": "2006-07-23",
     "birthYear": 2006,
-    "nationalities": null,
+    "nationalities": [
+      "SE"
+    ],
     "heightCm": null,
     "handedness": null,
     "recordConfidence": "PARTIAL",

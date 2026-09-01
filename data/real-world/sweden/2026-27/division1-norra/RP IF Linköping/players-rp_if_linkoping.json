@@ -367,7 +367,9 @@
     "aliases": [],
     "dateOfBirth": "1994-04-05",
     "birthYear": 1994,
-    "nationalities": null,
+    "nationalities": [
+      "SE"
+    ],
     "heightCm": null,
     "handedness": null,
     "recordConfidence": "VERIFIED",

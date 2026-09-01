@@ -187,7 +187,9 @@
     "aliases": [],
     "dateOfBirth": "2007-02-16",
     "birthYear": 2007,
-    "nationalities": null,
+    "nationalities": [
+      "SE"
+    ],
     "heightCm": null,
     "handedness": null,
     "recordConfidence": "VERIFIED",

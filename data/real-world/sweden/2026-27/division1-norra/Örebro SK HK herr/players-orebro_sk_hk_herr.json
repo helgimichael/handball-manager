@@ -73,7 +73,9 @@
     "aliases": [],
     "dateOfBirth": "2006-04-06",
     "birthYear": 2006,
-    "nationalities": null,
+    "nationalities": [
+      "SE"
+    ],
     "heightCm": null,
     "handedness": null,
     "recordConfidence": "PARTIAL",
@@ -227,7 +229,9 @@
     "aliases": [],
     "dateOfBirth": "2006-03-25",
     "birthYear": 2006,
-    "nationalities": null,
+    "nationalities": [
+      "SE"
+    ],
     "heightCm": null,
     "handedness": null,
     "recordConfidence": "PARTIAL",

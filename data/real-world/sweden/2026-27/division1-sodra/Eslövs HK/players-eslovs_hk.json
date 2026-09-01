@@ -132,7 +132,9 @@
     "aliases": [],
     "dateOfBirth": "2000-04-18",
     "birthYear": 2000,
-    "nationalities": null,
+    "nationalities": [
+      "SE"
+    ],
     "heightCm": null,
     "handedness": null,
     "recordConfidence": "VERIFIED",

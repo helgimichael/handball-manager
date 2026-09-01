@@ -147,7 +147,10 @@
     "aliases": [],
     "dateOfBirth": "1995-12-08",
     "birthYear": 1995,
-    "nationalities": null,
+    "nationalities": [
+      "XK",
+      "SE"
+    ],
     "heightCm": null,
     "handedness": null,
     "recordConfidence": "VERIFIED",

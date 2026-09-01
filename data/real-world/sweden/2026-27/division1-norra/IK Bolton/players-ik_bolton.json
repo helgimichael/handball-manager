@@ -29,7 +29,9 @@
     "aliases": [],
     "dateOfBirth": "1993-09-22",
     "birthYear": 1993,
-    "nationalities": null,
+    "nationalities": [
+      "IE"
+    ],
     "heightCm": null,
     "handedness": null,
     "recordConfidence": "PARTIAL",
