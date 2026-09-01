@@ -52,6 +52,8 @@ const ISO_TO_NATION_CODE: Record<string, NationCode> = {
   FO: "FRO", IT: "ITA", QA: "QAT", NL: "NED", PT: "POR", AT: "AUT", CH: "CHE", PL: "POL",
   FR: "FRA", RS: "SRB", HR: "HRV", BA: "BIH", FI: "FIN", AR: "ARG", LT: "LTU", RO: "ROU",
   DZ: "DZA", EE: "EST", XK: "KOS", GB: "GBR", CL: "CHL", US: "USA",
+  // HM-DIV1-NATIONALITY-1.0: Ireland, first observed in the Division 1 player set.
+  IE: "IRL",
 };
 
 /**

@@ -34,6 +34,8 @@ export type NationCode =
   | "AUT" | "FRO" | "ITA" | "NED" | "POL" | "POR" | "QAT" | "CHE"
   | "FRA" | "SRB" | "HRV" | "BIH" | "FIN" | "ARG" | "LTU" | "ROU" | "DZA" | "EST" | "KOS"
   | "GBR" | "CHL" | "USA"
+  // HM-DIV1-NATIONALITY-1.0: Ireland, first observed in the Division 1 player set.
+  | "IRL"
   | "UNK";
 
 export type Nation = {

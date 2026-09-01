@@ -311,6 +311,8 @@ export const NATION_LABEL_SV: Record<string, string> = {
   GBR: "Storbritannien",
   CHL: "Chile",
   USA: "USA",
+  // HM-DIV1-NATIONALITY-1.0: Ireland, first observed in the Division 1 player set.
+  IRL: "Irland",
   UNK: "Okänd",
 };
 
