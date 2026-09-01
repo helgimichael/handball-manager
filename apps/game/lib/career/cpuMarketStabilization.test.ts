@@ -113,22 +113,71 @@ function syntheticPlayer(id: string, clubId: string, position: PlayerMock["posit
 }
 
 /**
- * Replaces ONLY the given position's players with `count` synthetic
- * (weak, CA~100) ones, leaving every OTHER real position untouched --
- * critical for the quality-rule tests, which compare the target
- * position's own average CA against the CLUB's overall average: if this
- * replaced the whole squad, position average would trivially equal club
- * average (both would be the same synthetic players) and the rule could
- * never be exercised honestly.
+ * How good the synthetic players are RELATIVE TO the club they are
+ * injected into. assessPositionNeed applies two independent rules -- a
+ * COUNT rule (levelForCount) and a QUALITY rule (positionAvg <
+ * clubAvg * 0.85) -- and a fixture that hardcodes an absolute CA
+ * silently couples them: it depends on whatever the club's real average
+ * happens to be that week.
+ *
+ * That is exactly what went stale. The fixture used a fixed CA ~100,
+ * which sat near the club average when these tests were written; once
+ * the researched Handbollsligan ratings landed, real clubs moved to
+ * ~115-132 average and CA 100 fell below the 85% line for 13 of 14
+ * clubs. The count tests then started measuring the quality rule by
+ * accident. Deriving the CA from the club makes each test state which
+ * rule it is exercising.
  */
-function withSyntheticSquad(state: CareerState, clubId: string, count: number, position: PlayerMock["position"] = "MV"): CareerState {
+type SyntheticQuality =
+  /** On par with the club's own retained players -- the quality rule cannot fire, so the COUNT rule is isolated. */
+  | "CLUB_AVERAGE"
+  /** Deliberately far below the club's average -- the quality rule SHOULD fire. */
+  | "FAR_BELOW_CLUB_AVERAGE";
+
+/** Mean CA of the players this club keeps (i.e. every position except the one being replaced). */
+function retainedAverageCA(state: CareerState, clubId: string, position: PlayerMock["position"]): number {
+  const retained = (state.worldSquads[clubId] ?? []).filter((p) => p.position !== position);
+  const retainedIds = new Set(retained.map((p) => p.id));
+  const cas = (state.gameplayRatings[clubId] ?? []).filter((r) => retainedIds.has(r.playerId)).map((r) => r.ca);
+  if (cas.length === 0) return 120; // no real squad to anchor to (never happens for the real HBL fixtures)
+  return cas.reduce((sum, v) => sum + v, 0) / cas.length;
+}
+
+/**
+ * Replaces ONLY the given position's players with `count` synthetic
+ * ones, leaving every OTHER real position untouched -- critical for the
+ * quality-rule tests, which compare the target position's own average CA
+ * against the CLUB's overall average: if this replaced the whole squad,
+ * position average would trivially equal club average (both would be the
+ * same synthetic players) and the rule could never be exercised honestly.
+ *
+ * The synthetic CA is derived from the club's own retained players (see
+ * SyntheticQuality) rather than hardcoded, so a count test stays a count
+ * test no matter how the canonical rating data moves.
+ */
+function withSyntheticSquad(
+  state: CareerState,
+  clubId: string,
+  count: number,
+  position: PlayerMock["position"] = "MV",
+  quality: SyntheticQuality = "CLUB_AVERAGE",
+): CareerState {
+  const clubAverage = retainedAverageCA(state, clubId, position);
+  // CLUB_AVERAGE: sits ON the club's own level, so positionAvg >= clubAvg * 0.85 always holds.
+  // FAR_BELOW:    half the club's level, comfortably under the 85% line whatever that level is.
+  const baseCA = quality === "CLUB_AVERAGE" ? Math.round(clubAverage) : Math.max(1, Math.round(clubAverage * 0.5));
   const players = Array.from({ length: count }, (_, i) => syntheticPlayer(`${clubId}-${position}-${i}`, clubId, position));
   const ratingPosition = position === "MV" ? "GK" : position;
-  const ratings: GameplayPlayerRating[] = players.map((p, i) => ({
-    playerId: p.id, position: ratingPosition, ca: 100 + i, pa: 150, caSource: "GENERATED_GAME_PRIOR" as GameplayPlayerRating["caSource"],
-    branch: { branch: position === "MV" ? "GOALKEEPER" : "OUTCOURT", attributes: {} } as GameplayPlayerRating["branch"],
-    attackRoleProficiencies: [], defenceRoleProficiencies: [], attributeGenerationModelVersion: "test", locked: false,
-  }));
+  const ratings: GameplayPlayerRating[] = players.map((p, i) => {
+    // +i keeps the synthetic players distinguishable (depth ordering) without
+    // moving the position average below the club's own level.
+    const ca = baseCA + i;
+    return {
+      playerId: p.id, position: ratingPosition, ca, pa: Math.max(ca, 150), caSource: "GENERATED_GAME_PRIOR" as GameplayPlayerRating["caSource"],
+      branch: { branch: position === "MV" ? "GOALKEEPER" : "OUTCOURT", attributes: {} } as GameplayPlayerRating["branch"],
+      attackRoleProficiencies: [], defenceRoleProficiencies: [], attributeGenerationModelVersion: "test", locked: false,
+    };
+  });
   const restOfSquad = (state.worldSquads[clubId] ?? []).filter((p) => p.position !== position);
   const restOfSquadIds = new Set(restOfSquad.map((p) => p.id));
   const restOfRatings = (state.gameplayRatings[clubId] ?? []).filter((r) => restOfSquadIds.has(r.playerId));
@@ -294,25 +343,35 @@ test("pending incoming counts toward depth: an AGREED_AWAITING_WINDOW signee low
 // Part 5: squad-need feedback loop / goalkeeper count scenarios
 // ---------------------------------------------------------------------------
 
+// The next three tests isolate the COUNT rule: the goalkeepers are on par
+// with their own club, so the quality rule provably cannot fire and the
+// level reflects depth alone.
+
 test("1 GK = HIGH", () => {
   const state = fullWorldState("stabilize-gk-1", "se_club_hammarby_if_hf");
   const clubId = rivalClubId(state);
   const withGk = withSyntheticSquad(state, clubId, 1, "MV");
-  assert.equal(assessPositionNeed(withGk, clubId, "MV", withGk.worldSquads[clubId]).level, "HIGH");
+  const assessment = assessPositionNeed(withGk, clubId, "MV", withGk.worldSquads[clubId]);
+  assert.equal(assessment.level, "HIGH");
+  assert.doesNotMatch(assessment.reason, /klart under klubbens eget snitt/, "must be a depth verdict, not a quality one");
 });
 
 test("2 GK is MEDIUM (sensible, not HIGH, not satisfied)", () => {
   const state = fullWorldState("stabilize-gk-2", "se_club_hammarby_if_hf");
   const clubId = rivalClubId(state);
   const withGk = withSyntheticSquad(state, clubId, 2, "MV");
-  assert.equal(assessPositionNeed(withGk, clubId, "MV", withGk.worldSquads[clubId]).level, "MEDIUM");
+  const assessment = assessPositionNeed(withGk, clubId, "MV", withGk.worldSquads[clubId]);
+  assert.equal(assessment.level, "MEDIUM");
+  assert.doesNotMatch(assessment.reason, /klart under klubbens eget snitt/, "must be a depth verdict, not a quality one");
 });
 
 test("3 usable GK is satisfied (LOW), even when their average quality is weak relative to the club", () => {
   const state = fullWorldState("stabilize-gk-3", "se_club_hammarby_if_hf");
   const clubId = rivalClubId(state);
-  // 3 weak goalkeepers (CA ~100-102) alongside the real (much stronger) outfield squad -- exactly the scenario the 85% rule used to keep escalating.
-  const withGk = withSyntheticSquad(state, clubId, 3, "MV");
+  // 3 goalkeepers at HALF the club's own average, alongside the real (much
+  // stronger) outfield squad -- exactly the scenario the 85% rule used to
+  // keep escalating. Reaching adequate depth must settle it regardless.
+  const withGk = withSyntheticSquad(state, clubId, 3, "MV", "FAR_BELOW_CLUB_AVERAGE");
   const assessment = assessPositionNeed(withGk, clubId, "MV", withGk.worldSquads[clubId]);
   assert.equal(assessment.level, "LOW");
 });
@@ -321,20 +380,41 @@ test("5+ GK never generates HIGH solely from the quality rule (the confirmed 1.0
   const state = fullWorldState("stabilize-gk-5", "se_club_hammarby_if_hf");
   const clubId = rivalClubId(state);
   for (const count of [5, 7, 10]) {
-    const withGk = withSyntheticSquad(state, clubId, count, "MV");
+    // Deliberately weak, so this really is "solely from the quality rule".
+    const withGk = withSyntheticSquad(state, clubId, count, "MV", "FAR_BELOW_CLUB_AVERAGE");
     const assessment = assessPositionNeed(withGk, clubId, "MV", withGk.worldSquads[clubId]);
     assert.notEqual(assessment.level, "HIGH", `${count} goalkeepers must never register as HIGH need`);
     assert.notEqual(assessment.level, "MEDIUM", `${count} goalkeepers must never register as MEDIUM need`);
   }
 });
 
+test("the count and quality rules are separable: the SAME 2-goalkeeper depth is MEDIUM at club level and HIGH far below it", () => {
+  const state = fullWorldState("stabilize-gk-quality-contrast", "se_club_hammarby_if_hf");
+  const clubId = rivalClubId(state);
+
+  const atClubLevel = withSyntheticSquad(state, clubId, 2, "MV", "CLUB_AVERAGE");
+  const atLevelAssessment = assessPositionNeed(atClubLevel, clubId, "MV", atClubLevel.worldSquads[clubId]);
+
+  const farBelow = withSyntheticSquad(state, clubId, 2, "MV", "FAR_BELOW_CLUB_AVERAGE");
+  const farBelowAssessment = assessPositionNeed(farBelow, clubId, "MV", farBelow.worldSquads[clubId]);
+
+  // Identical depth in both cases -- only the goalkeepers' quality differs.
+  assert.equal(atLevelAssessment.usableCount, 2);
+  assert.equal(farBelowAssessment.usableCount, 2);
+
+  assert.equal(atLevelAssessment.level, "MEDIUM", "2 goalkeepers on par with their club is a depth concern, not an emergency");
+  assert.equal(farBelowAssessment.level, "HIGH", "2 goalkeepers far below their club's own level must escalate MEDIUM -> HIGH");
+  assert.match(farBelowAssessment.reason, /klart under klubbens eget snitt/);
+  assert.doesNotMatch(atLevelAssessment.reason, /klart under klubbens eget snitt/);
+});
+
 test("quality rule still matters when depth is genuinely thin (1-2 players, weak relative to club)", () => {
   const state = fullWorldState("stabilize-quality-thin", "se_club_hammarby_if_hf");
   const clubId = rivalClubId(state);
-  // Exactly 2 MVs, deliberately far below any real squad's own average CA
-  // (real Handbollsligan CA baselines run ~100+) -- an unambiguous gap
-  // regardless of this specific club's own real average, so quality
-  // should be able to bump MEDIUM -> HIGH.
+  // Exactly 2 MVs at a hard-floor CA of 20 -- an unambiguous gap regardless
+  // of this specific club's own real average, so quality should be able to
+  // bump MEDIUM -> HIGH. (Kept as an absolute floor rather than the relative
+  // FAR_BELOW_CLUB_AVERAGE mode, so this stays a fixed worst-case anchor.)
   const withGk = withSyntheticSquad(state, clubId, 2, "MV");
   const veryWeak = { ...withGk, gameplayRatings: { ...withGk.gameplayRatings, [clubId]: withGk.gameplayRatings[clubId]!.map((r) => (r.position === "GK" ? { ...r, ca: 20 } : r)) } };
   const assessment = assessPositionNeed(veryWeak, clubId, "MV", veryWeak.worldSquads[clubId]);
