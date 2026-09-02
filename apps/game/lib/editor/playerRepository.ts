@@ -265,13 +265,11 @@ export function savePlayerEdit(
     return { ok: false, errors: ["unknown clubId"] };
   }
 
-  const playerValidation = validatePlayerEdit(playerInput);
-  const rosterValidation = validateRosterEdit(rosterInput);
-  const errors = [...(playerValidation.ok ? [] : playerValidation.errors), ...(rosterValidation.ok ? [] : rosterValidation.errors)];
-  if (!playerValidation.ok || !rosterValidation.ok) {
-    return { ok: false, errors };
-  }
-
+  // The stored record is read FIRST so it can be handed to the validators as
+  // the baseline: a submitted field identical to what is already on disk is
+  // not part of this edit and must not be able to reject it
+  // (HM-EDITOR-SAVE-SCOPE-1.0, see schema.ts's keepIfUnchanged). A field the
+  // caller genuinely changes is still validated in full.
   const players = readJsonArray(club.playersFile);
   const roster = readJsonArray(club.rosterFile);
 
@@ -288,6 +286,13 @@ export function savePlayerEdit(
   const rosterIndex = roster.findIndex((r) => r.playerId === playerId);
   const beforePlayer = players[playerIndex];
   const beforeRoster = roster[rosterIndex];
+
+  const playerValidation = validatePlayerEdit(playerInput, beforePlayer);
+  const rosterValidation = validateRosterEdit(rosterInput, beforeRoster);
+  const errors = [...(playerValidation.ok ? [] : playerValidation.errors), ...(rosterValidation.ok ? [] : rosterValidation.errors)];
+  if (!playerValidation.ok || !rosterValidation.ok) {
+    return { ok: false, errors };
+  }
 
   const afterPlayer = applyChangedFields(beforePlayer, playerValidation.value as unknown as Record<string, unknown>, PLAYER_FIELDS);
   const afterRoster = applyChangedFields(beforeRoster, rosterValidation.value as unknown as Record<string, unknown>, ROSTER_FIELDS);

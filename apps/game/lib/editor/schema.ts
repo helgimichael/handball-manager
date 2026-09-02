@@ -177,21 +177,57 @@ function validateEnum<T extends string>(value: unknown, allowed: readonly T[], f
   return undefined;
 }
 
-export function validatePlayerEdit(input: unknown): ValidationResult<PlayerEditableFields> {
+/**
+ * HM-EDITOR-SAVE-SCOPE-1.0: a field the caller is NOT changing must never
+ * block a save.
+ *
+ * The bulk workspace echoes back a player's WHOLE stored record and edits one
+ * field of it, so every save re-submitted values the editor never exposed for
+ * editing. Validating those unchanged values meant one unacceptable stored
+ * value made the player permanently uneditable: 199 Division 1 players carry
+ * `rosterStatus: "PROVISIONAL"`, a value the game itself reads fine (the
+ * loader types rosterStatus as a plain string) but that is absent from
+ * ROSTER_STATUS_VALUES -- so every save of those players failed with 422,
+ * including position-only edits that never touched rosterStatus.
+ *
+ * When `baseline` (the record as stored on disk) is supplied, a field whose
+ * submitted value is identical to the stored one is passed through unchecked:
+ * it is not part of this edit, it is already what the file contains, and
+ * re-validating it can only reject work the user actually did. A field the
+ * caller genuinely CHANGES is always validated in full -- writing a NEW
+ * invalid value is still rejected.
+ */
+function keepIfUnchanged<T>(
+  input: Record<string, unknown>,
+  baseline: Record<string, unknown> | undefined,
+  field: string,
+  validate: () => T,
+): T {
+  if (baseline && field in baseline && JSON.stringify(input[field]) === JSON.stringify(baseline[field])) {
+    return baseline[field] as T;
+  }
+  return validate();
+}
+
+export function validatePlayerEdit(input: unknown, baseline?: Record<string, unknown>): ValidationResult<PlayerEditableFields> {
   const errors: string[] = [];
   if (!isPlainObject(input)) {
     return { ok: false, errors: ["player edit payload must be an object"] };
   }
+  const K = <T,>(field: string, validate: () => T): T => keepIfUnchanged(input, baseline, field, validate);
 
-  const firstName = requireNonEmptyString(input.firstName, "firstName", errors);
-  const lastName = requireNonEmptyString(input.lastName, "lastName", errors);
-  const fullName = requireNonEmptyString(input.fullName, "fullName", errors);
-  const dateOfBirth = validateNullableDate(input.dateOfBirth, "dateOfBirth", errors);
-  const birthYear = validateNullableInt(input.birthYear, "birthYear", MIN_BIRTH_YEAR, MAX_BIRTH_YEAR, errors);
-  const heightCm = validateNullableInt(input.heightCm, "heightCm", MIN_HEIGHT_CM, MAX_HEIGHT_CM, errors);
+  const firstName = K("firstName", () => requireNonEmptyString(input.firstName, "firstName", errors));
+  const lastName = K("lastName", () => requireNonEmptyString(input.lastName, "lastName", errors));
+  const fullName = K("fullName", () => requireNonEmptyString(input.fullName, "fullName", errors));
+  const dateOfBirth = K("dateOfBirth", () => validateNullableDate(input.dateOfBirth, "dateOfBirth", errors));
+  const birthYear = K("birthYear", () => validateNullableInt(input.birthYear, "birthYear", MIN_BIRTH_YEAR, MAX_BIRTH_YEAR, errors));
+  const heightCm = K("heightCm", () => validateNullableInt(input.heightCm, "heightCm", MIN_HEIGHT_CM, MAX_HEIGHT_CM, errors));
 
   let nationalities: string[] | null = null;
-  if (input.nationalities !== null && input.nationalities !== undefined) {
+  const nationalitiesUnchanged = baseline && "nationalities" in baseline && JSON.stringify(input.nationalities) === JSON.stringify(baseline.nationalities);
+  if (nationalitiesUnchanged) {
+    nationalities = (baseline!.nationalities as string[] | null) ?? null;
+  } else if (input.nationalities !== null && input.nationalities !== undefined) {
     if (!Array.isArray(input.nationalities) || !input.nationalities.every((n) => typeof n === "string" && NATIONALITY_RE.test(n))) {
       errors.push("nationalities must be null or an array of 2-letter uppercase country codes");
     } else {
@@ -203,12 +239,13 @@ export function validatePlayerEdit(input: unknown): ValidationResult<PlayerEdita
     }
   }
 
-  let handedness: Handedness = null;
-  if (input.handedness !== null && input.handedness !== undefined) {
-    handedness = validateEnum(input.handedness, HANDEDNESS_VALUES, "handedness", errors) ?? null;
-  }
+  const handedness = K<Handedness>("handedness", () =>
+    input.handedness !== null && input.handedness !== undefined
+      ? validateEnum(input.handedness, HANDEDNESS_VALUES, "handedness", errors) ?? null
+      : null,
+  );
 
-  const recordConfidence = validateEnum(input.recordConfidence, CONFIDENCE_VALUES, "recordConfidence", errors);
+  const recordConfidence = K("recordConfidence", () => validateEnum(input.recordConfidence, CONFIDENCE_VALUES, "recordConfidence", errors));
 
   if (errors.length > 0) {
     return { ok: false, errors };
@@ -219,20 +256,27 @@ export function validatePlayerEdit(input: unknown): ValidationResult<PlayerEdita
   };
 }
 
-export function validateRosterEdit(input: unknown): ValidationResult<RosterEditableFields> {
+export function validateRosterEdit(input: unknown, baseline?: Record<string, unknown>): ValidationResult<RosterEditableFields> {
   const errors: string[] = [];
   if (!isPlainObject(input)) {
     return { ok: false, errors: ["roster edit payload must be an object"] };
   }
+  const K = <T,>(field: string, validate: () => T): T => keepIfUnchanged(input, baseline, field, validate);
+  const isUnchanged = (field: string) => baseline !== undefined && field in baseline && JSON.stringify(input[field]) === JSON.stringify(baseline[field]);
 
-  const shirtNumber = validateNullableInt(input.shirtNumber, "shirtNumber", MIN_SHIRT_NUMBER, MAX_SHIRT_NUMBER, errors);
-  const sourcePosition = requireString(input.sourcePosition, "sourcePosition", errors, 60);
-  const primaryPosition = validateEnum(input.primaryPosition, CANONICAL_POSITIONS, "primaryPosition", errors);
-  const rosterStatus = validateEnum(input.rosterStatus, ROSTER_STATUS_VALUES, "rosterStatus", errors);
-  const rosterConfidence = validateEnum(input.rosterConfidence, CONFIDENCE_VALUES, "rosterConfidence", errors);
+  const shirtNumber = K("shirtNumber", () => validateNullableInt(input.shirtNumber, "shirtNumber", MIN_SHIRT_NUMBER, MAX_SHIRT_NUMBER, errors));
+  const sourcePosition = K("sourcePosition", () => requireString(input.sourcePosition, "sourcePosition", errors, 60));
+  const primaryPosition = K("primaryPosition", () => validateEnum(input.primaryPosition, CANONICAL_POSITIONS, "primaryPosition", errors));
+  // rosterStatus is NOT editable in any editor surface -- it is only ever
+  // echoed back. See keepIfUnchanged: 199 Division 1 players store
+  // "PROVISIONAL" here, which is outside this enum but valid to the game.
+  const rosterStatus = K("rosterStatus", () => validateEnum(input.rosterStatus, ROSTER_STATUS_VALUES, "rosterStatus", errors));
+  const rosterConfidence = K("rosterConfidence", () => validateEnum(input.rosterConfidence, CONFIDENCE_VALUES, "rosterConfidence", errors));
 
   let secondaryPositions: CanonicalPosition[] = [];
-  if (!Array.isArray(input.secondaryPositions)) {
+  if (isUnchanged("secondaryPositions")) {
+    secondaryPositions = (baseline!.secondaryPositions as CanonicalPosition[] | undefined) ?? [];
+  } else if (!Array.isArray(input.secondaryPositions)) {
     errors.push("secondaryPositions must be an array");
   } else {
     const values: CanonicalPosition[] = [];
@@ -247,7 +291,9 @@ export function validateRosterEdit(input: unknown): ValidationResult<RosterEdita
   }
 
   let contract: ContractFields = { untilDate: null, untilSeason: null, optionUntilSeason: null };
-  if (!isPlainObject(input.contract)) {
+  if (isUnchanged("contract")) {
+    contract = baseline!.contract as ContractFields;
+  } else if (!isPlainObject(input.contract)) {
     errors.push("contract must be an object");
   } else {
     contract = {
@@ -257,13 +303,16 @@ export function validateRosterEdit(input: unknown): ValidationResult<RosterEdita
     };
   }
 
-  let defaultSquadStatus: SquadStatusTierValue | null = null;
-  if (input.defaultSquadStatus !== null && input.defaultSquadStatus !== undefined) {
-    defaultSquadStatus = validateEnum(input.defaultSquadStatus, SQUAD_STATUS_TIER_VALUES, "defaultSquadStatus", errors) ?? null;
-  }
+  const defaultSquadStatus = K<SquadStatusTierValue | null>("defaultSquadStatus", () =>
+    input.defaultSquadStatus !== null && input.defaultSquadStatus !== undefined
+      ? validateEnum(input.defaultSquadStatus, SQUAD_STATUS_TIER_VALUES, "defaultSquadStatus", errors) ?? null
+      : null,
+  );
 
   let specialTags: PlayerTagValue[] = [];
-  if (!Array.isArray(input.specialTags)) {
+  if (isUnchanged("specialTags")) {
+    specialTags = (baseline!.specialTags as PlayerTagValue[] | undefined) ?? [];
+  } else if (!Array.isArray(input.specialTags)) {
     errors.push("specialTags must be an array");
   } else {
     const values: PlayerTagValue[] = [];
