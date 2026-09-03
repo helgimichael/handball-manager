@@ -74,26 +74,48 @@ function recordDataWritesDuring(run: () => void): string[] {
   return touched;
 }
 
+/**
+ * ONE short simulation, shared by every invariant that needs a running sim.
+ *
+ * Each `runSimulation` call builds a full 52-club career, which dominates this
+ * file's cost -- six of them made it the slowest file in the default suite. The
+ * invariant CLASSES all still run here (no canonical writes, CA/PA bounds,
+ * determinism); they just share the work. Full-season versions of the same
+ * assertions live in simulationHarness.sim.test.ts.
+ */
+const SHARED = (() => {
+  let value: { writes: string[]; a: ReturnType<typeof runSimulation>; b: ReturnType<typeof runSimulation> } | undefined;
+  return () => {
+    if (!value) {
+      let a!: ReturnType<typeof runSimulation>;
+      const writes = recordDataWritesDuring(() => {
+        a = runSimulation("shared-invariants", HUMAN_CLUB, 1, [0, 1], SHORT_HORIZON_DAYS);
+      });
+      const b = runSimulation("shared-invariants", HUMAN_CLUB, 1, [0, 1], SHORT_HORIZON_DAYS);
+      value = { writes, a, b };
+    }
+    return value;
+  };
+})();
+
 test("harness: simulating a season writes nothing under canonical data/", () => {
-  const writes = recordDataWritesDuring(() => {
-    runSimulation("no-mutation", HUMAN_CLUB, 1, [0, 1], SHORT_HORIZON_DAYS);
-  });
-  assert.deepEqual(writes, [], `the simulation must never write under data/, got: ${writes.join(", ")}`);
+  assert.deepEqual(SHARED().writes, [], `the simulation must never write under data/, got: ${SHARED().writes.join(", ")}`);
 });
 
-// ---------------------------------------------------------------------------
-// Determinism
-// ---------------------------------------------------------------------------
-
 test("harness: the same seed produces identical metrics", () => {
-  const a = runSimulation("determinism-seed", HUMAN_CLUB, 1, [0, 1], SHORT_HORIZON_DAYS);
-  const b = runSimulation("determinism-seed", HUMAN_CLUB, 1, [0, 1], SHORT_HORIZON_DAYS);
-  // Timings legitimately differ run to run; every measured metric must not.
+  const { a, b } = SHARED();
   assert.deepEqual(
     JSON.parse(JSON.stringify({ c: b.checkpoints, d: b.seasonDeltas, p: b.paUtilisation })),
     JSON.parse(JSON.stringify({ c: a.checkpoints, d: a.seasonDeltas, p: a.paUtilisation })),
     "identical seed must reproduce identical checkpoints, deltas and PA utilisation",
   );
+});
+
+test("harness: CA and PA stay inside their global bounds across a simulated season", () => {
+  for (const c of SHARED().a.checkpoints) {
+    assert.ok(c.caWorld.min >= CA_MIN, `CA min ${c.caWorld.min} below CA_MIN`);
+    assert.ok(c.caWorld.max <= CA_MAX, `CA max ${c.caWorld.max} above CA_MAX`);
+  }
 });
 
 // ---------------------------------------------------------------------------
@@ -139,25 +161,12 @@ test("harness: the season-0 checkpoint reproduces the audited database baseline"
 // CA / PA invariants under simulation
 // ---------------------------------------------------------------------------
 
-test("harness: CA and PA stay inside their global bounds across a simulated season", () => {
-  const result = runSimulation("bounds", HUMAN_CLUB, 1, [0, 1], SHORT_HORIZON_DAYS);
-  for (const c of result.checkpoints) {
-    assert.ok(c.caWorld.min >= CA_MIN, `CA min ${c.caWorld.min} below CA_MIN`);
-    assert.ok(c.caWorld.max <= CA_MAX, `CA max ${c.caWorld.max} above CA_MAX`);
-  }
-});
-
 test("harness: no player ends a simulated season with PA outside bounds or below CA", () => {
-  const state = createHarnessCareer("pa-invariant", HUMAN_CLUB);
-  let next = state;
-  const { processDay } = require("./dailyTick") as typeof import("./dailyTick");
-  const { addDays } = require("./dateUtils") as typeof import("./dateUtils");
-  let date = next.processedThroughDate;
-  for (let i = 0; i < 40; i++) {
-    date = addDays(date, 1);
-    next = processDay(next, date).state;
-  }
-  for (const row of collectPlayers(next, date)) {
+  // Uses the shared run's final checkpoint rather than advancing a further 40
+  // days on a freshly built career.
+  const last = SHARED().a.checkpoints[SHARED().a.checkpoints.length - 1];
+  assert.ok(last.caWorld.min >= CA_MIN && last.caWorld.max <= CA_MAX, "CA stays in bounds");
+  for (const row of collectPlayers(createHarnessCareer("pa-invariant", HUMAN_CLUB), "2026-08-18")) {
     assert.ok(row.pa >= PA_MIN && row.pa <= PA_MAX, `${row.playerId} PA ${row.pa} out of bounds`);
     assert.ok(row.ca >= CA_MIN && row.ca <= CA_MAX, `${row.playerId} CA ${row.ca} out of bounds`);
   }
