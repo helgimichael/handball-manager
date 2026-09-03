@@ -497,6 +497,12 @@ export function migrateCareerState(career: CareerState): CareerState {
   // eligible again the next time the annual evaluation date passes after
   // this migration runs, never mass-retired/mass-declined during
   // migration itself.
+  // HM-PLAYER-DEVELOPMENT-2.0 PHASE 1B: additive, same pattern as
+  // playerLifecycleYears -- an existing save simply has no world-development
+  // history yet and starts developing at the next quarterly date.
+  if (next.worldDevelopmentPeriods === undefined) {
+    next = { ...next, worldDevelopmentPeriods: {} };
+  }
   if (next.playerLifecycleYears === undefined) {
     next = { ...next, playerLifecycleYears: {} };
   }

@@ -44,6 +44,7 @@ import {
 import { progressContractExpiry } from "./contractExpiry";
 import { progressYouthIntake } from "./youthIntake";
 import { progressPlayerLifecycle } from "./playerLifecycle";
+import { progressWorldDevelopment } from "./worldDevelopment";
 import { applyTrainingDayInjuryResolution, progressDailyRehab } from "../medical/injuryIntegration";
 import { ensureOpponentAnalysisTask, progressCareerTasks } from "./careerTasks";
 import { progressScoutingAssignments } from "./scouting";
@@ -225,6 +226,12 @@ export function processDay(state: CareerState, date: string): DailyTickResult {
   // BEFORE youth intake (1 July) adds fresh graduates -- see
   // playerLifecycle.ts's own doc on this exact ordering. Silent for
   // every CPU club, one event per human-club player who actually retires.
+  // HM-PLAYER-DEVELOPMENT-2.0 PHASE 1B: quarterly world development for every
+  // CPU club and the free-agent pool -- the managed club keeps its own weekly
+  // training model. Runs BEFORE the lifecycle pass so a player develops before
+  // being evaluated for decline/retirement in the same season.
+  next = progressWorldDevelopment(next, date);
+
   const { state: afterLifecycle, events: lifecycleEvents } = progressPlayerLifecycle(next, date);
   next = afterLifecycle;
   for (const event of lifecycleEvents) emit(event);

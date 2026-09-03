@@ -656,6 +656,15 @@ export type CareerState = {
    * next time the evaluation date passes after migration.
    */
   playerLifecycleYears: Record<string, string>;
+  /**
+   * HM-PLAYER-DEVELOPMENT-2.0 PHASE 1B: the last world-development period
+   * (e.g. "2027-Q2") each player was developed in. The idempotency identity is
+   * PLAYER + PERIOD, deliberately not player + club, so a mid-season transfer
+   * neither develops a player twice nor drops them out of development because
+   * their club changed. Same shape and lifecycle as `playerLifecycleYears`.
+   * Absent on pre-1B saves; saveMigration defaults it to {}.
+   */
+  worldDevelopmentPeriods: Record<string, string>;
 };
 
 export type CareerSaveEnvelope = {
