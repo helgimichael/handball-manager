@@ -181,12 +181,26 @@ test("contracts: ownership is correct across every tier after career creation", 
   }
 });
 
-test("Youth Intake scope: eligibility stays limited to the manager's own competition, unaffected by Allsvenskan/Division 1 now having real worldSquads", () => {
+// SUPERSEDED BY HM-PLAYER-DEVELOPMENT-2.0 PHASE 1B.1. This test previously
+// asserted the opposite -- that youth intake stayed scoped to the manager's own
+// competition -- which was this milestone's own deliberate, documented choice
+// and an explicit "seam for a future Youth Intake 1.1 to revisit with real
+// population evidence for the full world". That evidence now exists: with the
+// narrow scope, a 5-season world benchmark gave Handbollsligan 22-24 entrants a
+// year and Herrallsvenskan / Division 1 exactly ZERO, so those tiers only aged
+// (Herrallsvenskan 23.9 -> 27.7 mean age in five seasons) while Handbollsligan
+// alone absorbed the low-CA youth diluting its mean -- which inverted the league
+// table and made quality calibration meaningless. Intake is now a world rule on
+// the same membership source retirement and CPU recruitment already use.
+test("Youth Intake scope: eligibility spans the whole career world, like retirement and CPU recruitment", () => {
   const state = fullWorldState("world-youth-scope", "se_club_hammarby_if_hf");
-  const eligible = eligibleYouthIntakeClubIds(state);
-  const hblClubIds = new Set(getClubsByCompetition(HBL_ID).map((c) => c.id));
-  assert.ok(eligible.every((id) => hblClubIds.has(id)), "eligibility must stay scoped to the manager's own (Handbollsligan) competition only");
-  assert.equal(eligible.length, getClubsByCompetition(HBL_ID).length, "must be exactly the 14 Handbollsligan clubs, not 14+24+14 from the wider world");
+  const eligible = new Set(eligibleYouthIntakeClubIds(state));
+  for (const competitionId of [HBL_ID, ALLSVENSKAN_ID, D1_NORRA_ID, D1_SODRA_ID]) {
+    const clubs = getClubsByCompetition(competitionId).map((c) => c.id).filter((id) => state.worldSquads[id] !== undefined);
+    assert.ok(clubs.length > 0, `${competitionId} should have clubs with squads`);
+    assert.ok(clubs.every((id) => eligible.has(id)), `${competitionId} clubs must all receive youth intake`);
+  }
+  assert.deepEqual([...eligible].sort(), [...careerWorldClubIds(state)].sort(), "intake scope must BE the career-world club set, not a parallel list");
 });
 
 test("lifecycle: retirement/decline evaluation spans every tier (Handbollsligan, Allsvenskan, Division 1), not just the manager's own competition", () => {

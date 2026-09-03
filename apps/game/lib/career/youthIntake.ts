@@ -45,7 +45,7 @@
 // deterministic primitive every other generator in this codebase uses,
 // still hard-bounded within the same global CA_MIN/CA_MAX/PA_MIN/PA_MAX
 // scale (never a separate scale).
-import { getClub, getClubsByCompetition, getCompetition, type HandballPosition, type NationCode, type PlayerMock, type PlayerMockAttributes } from "../game-data";
+import { getClub, getCompetition, type HandballPosition, type NationCode, type PlayerMock, type PlayerMockAttributes } from "../game-data";
 import { mapHandballPositionToMatchPlanPosition } from "../matchPlan/careerSquadBridge";
 import { seededOffset } from "../rating/generation/deterministicVariation";
 import { generateGamePriorCA, type PopulationBaselineProfile } from "../rating/gamePrior/populationModel";
@@ -59,6 +59,7 @@ import { generateInitialContract } from "../economy/contractGeneration";
 import type { EconomyProfileInputs } from "../economy/marketValue";
 import { computeSquadDerivedClubStrength } from "./squadDerivedClubStrength";
 import { DIVISION_1_COMPETITION_IDS } from "./division1Integration";
+import { careerWorldClubIds } from "./worldCompetitions";
 import { buildYouthIntakeCompleteEvent, type CareerEvent } from "./careerEvents";
 import { generateYouthName } from "./youthNames";
 import type { GameplayPlayerRating } from "../gameWorld/gameplayRatingSnapshot";
@@ -133,27 +134,37 @@ function seededIndex(seedKey: string, n: number): number {
  * deliberately excluded (their own squad depth isn't populated the same
  * way -- a genuine extension seam for a later milestone).
  *
- * Division 1 was PREVIOUSLY included here too, and -- because Division 1
- * worldSquads have always been unconditionally fetched into every
- * CareerState (CareerContext.tsx's fetchDivision1WorldSquads, present
- * since HM-DATA-DIV1-1.0) -- Division 1 clubs were therefore ALREADY
- * silently receiving annual youth intake in real gameplay, undetected by
- * the Population Calibration milestone's own narrower test harness
- * (which only ever snapshotted one competition, so never saw Division 1
- * worldSquads populated, and so never saw this inclusion actually fire).
- * That milestone's calibrated intake distribution (mean 1.65/club) was
- * measured and tuned against a 14-club assumption; the REAL eligible
- * count before this fix was 14 (HBL) + 24 (Division 1) = 38 clubs --
- * silently ~2.7x the assumed volume. Division 1 is removed here
- * deliberately (Part 37: "Do NOT automatically activate D1 youth
- * generation merely because their worldSquads now exist... prefer
- * architectural truth over automatic inclusion") to restore the actual
- * calibrated 14-club volume, now that this Foundation milestone also
- * makes Allsvenskan's own worldSquads unconditionally present (which
- * would otherwise have silently doubled eligibility again to 28 clubs
- * had this list been left unchanged). This is a deliberate, documented
- * seam for a future Youth Intake 1.1 to revisit with real population
- * evidence for the full world, not an oversight.
+ * HM-PLAYER-DEVELOPMENT-2.0 PHASE 1B.1 -- SCOPE CORRECTED. The paragraph
+ * above describes the PREVIOUS behaviour, kept for provenance: intake was
+ * deliberately narrowed to the manager's own competition to restore a
+ * volume calibrated against a 14-club assumption, and left as an explicit
+ * "seam for a future Youth Intake 1.1 to revisit with real population
+ * evidence for the full world". This is that revisit, and the evidence is
+ * measured:
+ *
+ * With intake scoped to one competition, a 5-season world benchmark showed
+ * Handbollsligan receiving 22-24 entrants a year while Herrallsvenskan and
+ * both Division 1 groups received EXACTLY ZERO. Those three tiers therefore
+ * only aged and developed -- Herrallsvenskan's mean squad age climbed from
+ * 23.9 to 27.7 in five seasons with no replacement cohort at all -- while
+ * Handbollsligan alone absorbed low-CA youth that diluted its mean. That is
+ * not a development effect; it made league-quality calibration meaningless,
+ * because the one league being replenished looked worst.
+ *
+ * Youth intake is a WORLD RULE, exactly like retirement, decline and CPU
+ * recruitment, and now uses the same canonical membership source they do
+ * (`careerWorldClubIds`). Nothing about generation changes: intake size is
+ * still per club (mean 1.65), tier profiles were ALREADY per club via
+ * youthTierForClub, and every generated player was already derived from its
+ * own club's competition -- so a Division 1 intake has always carried
+ * Division 1 context, never the manager's. Only eligibility was narrow.
+ *
+ * Volume follows from the existing per-club rule rather than a new world
+ * quota: ~52 eligible clubs x 1.65 = ~86 entrants/year, against the 56-75
+ * annual retirements Phase 1A measured late in a 20-season run.
+ *
+ * World Pool clubs remain excluded -- they are not in careerWorldClubIds,
+ * and their squad depth is not populated the same way.
  *
  * Deliberately checks key PRESENCE, not current length: a club whose
  * squad has legitimately collapsed to zero players (e.g. an unattended
@@ -163,9 +174,7 @@ function seededIndex(seedKey: string, n: number): number {
  * unreachable for the exact clubs that need it most.
  */
 export function eligibleYouthIntakeClubIds(state: CareerState): string[] {
-  return getClubsByCompetition(state.competitionId)
-    .map((c) => c.id)
-    .filter((clubId) => state.worldSquads[clubId] !== undefined);
+  return careerWorldClubIds(state);
 }
 
 // ---------------------------------------------------------------------------
