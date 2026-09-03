@@ -40,6 +40,20 @@ export function isFreeAgentClubId(clubId: string): boolean {
   return clubId === FREE_AGENT_CLUB_ID;
 }
 
+/**
+ * The reserved, non-catalog worldSquads/gameplayRatings key for "retired" --
+ * the sibling of FREE_AGENT_CLUB_ID above, and the reason both live here:
+ * this module's own contract-expiry sweep has to be able to tell the two
+ * apart, and importing it from playerLifecycle.ts (which already imports this
+ * module) would be a cycle. playerLifecycle.ts re-exports both names, so
+ * every existing importer is unaffected.
+ */
+export const RETIRED_CLUB_ID = "retired";
+
+export function isRetiredClubId(clubId: string): boolean {
+  return clubId === RETIRED_CLUB_ID;
+}
+
 /** Every player currently unattached -- the free-agent pool, for recruitment/UI candidate scanning. */
 export function getFreeAgents(state: CareerState): readonly PlayerMock[] {
   return state.worldSquads[FREE_AGENT_CLUB_ID] ?? [];
@@ -122,6 +136,15 @@ export function progressContractExpiry(state: CareerState, date: string): { stat
 
   for (const clubId of Object.keys(next.worldSquads)) {
     if (isFreeAgentClubId(clubId)) continue; // the free-agent pool itself has no "expiry" to process.
+    // HM-PLAYER-DEVELOPMENT-2.0 PHASE 1A: retirement is TERMINAL. retirePlayer
+    // deliberately sets contractEndDate to the retirement date so no reader
+    // still reports a retired player as UNDER_CONTRACT -- which also makes
+    // their contract read as expired here. Without this guard the sweep
+    // released them to free agency, CPU recruitment re-signed them, and
+    // retirement never removed anyone from the world: a 5-season trace showed
+    // 43 executed retirements and 0 permanent exits. The retired sentinel is
+    // not a club with expiring contracts; it is the exit.
+    if (isRetiredClubId(clubId)) continue;
     const squad = next.worldSquads[clubId] ?? [];
     for (const player of squad) {
       if (getPlayerContractStatus(next, player.id) !== "FREE_AGENT") continue;

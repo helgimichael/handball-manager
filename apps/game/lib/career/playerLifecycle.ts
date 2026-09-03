@@ -32,10 +32,19 @@
 //     getFreeAgents/getExternalCandidateClubs/rankCandidates/
 //     getRecruitmentCandidates already structurally exclude anyone NOT
 //     at FREE_AGENT_CLUB_ID or a real catalog club -- a retired player
-//     (clubId === RETIRED_CLUB_ID, never "") is therefore ALREADY
-//     invisible to every candidate/discovery/recruitment system with
-//     ZERO changes to any of them (Part 19's own "not the same thing as
-//     an active free agent" is true purely because the sentinel differs).
+//     (clubId === RETIRED_CLUB_ID, never "") is therefore invisible to
+//     every candidate/discovery/recruitment system (Part 19's own "not
+//     the same thing as an active free agent" is true purely because the
+//     sentinel differs).
+//     CORRECTED (HM-PLAYER-DEVELOPMENT-2.0 PHASE 1A): that reasoning is
+//     sound but was NOT sufficient on its own. It holds only while a
+//     retired player STAYS at the sentinel -- and contractExpiry.ts's
+//     sweep iterated every worldSquads key, including "retired". Since
+//     retirePlayer sets contractEndDate to the retirement date, those
+//     players read as expired, were released to FREE_AGENT_CLUB_ID, and
+//     were re-signed by CPU recruitment. A 5-season trace measured 43
+//     executed retirements and ZERO permanent exits. The sweep now skips
+//     the retired sentinel explicitly; see contractExpiry.ts.
 //   - Contract/release mechanics: transferPlayerPermanently, reused
 //     completely unmodified (retirePlayer below mirrors
 //     contractExpiry.ts's own releasePlayerToFreeAgency almost verbatim,
@@ -76,11 +85,12 @@ import type { CareerState } from "./types";
 // established.
 // ---------------------------------------------------------------------------
 
-export const RETIRED_CLUB_ID = "retired";
-
-export function isRetiredClubId(clubId: string): boolean {
-  return clubId === RETIRED_CLUB_ID;
-}
+// The sentinel itself now lives beside FREE_AGENT_CLUB_ID in contractExpiry.ts
+// (its sibling, and the module whose expiry sweep must distinguish the two --
+// see PHASE 1A there). Re-exported here so this module remains the canonical
+// import site for everything retirement-related.
+export { RETIRED_CLUB_ID, isRetiredClubId } from "./contractExpiry";
+import { RETIRED_CLUB_ID, isRetiredClubId } from "./contractExpiry";
 
 export function isPlayerRetired(state: CareerState, playerId: string): boolean {
   const player = getCareerPlayer(state, playerId);
@@ -192,6 +202,68 @@ export interface RetirementProbabilityInputs {
   tier: SquadStatusTier;
   contractStatus: ContractStatus | undefined;
   daysUnattached: number;
+}
+
+// ---------------------------------------------------------------------------
+// HM-PLAYER-DEVELOPMENT-2.0 PHASE 0.5: an OPT-IN diagnostic sink for the
+// retirement decision. Off by default (null), so a normal career pays
+// nothing for it -- no branch cost beyond one null check per evaluated
+// player, no behaviour change whatsoever. It exists because a 20-season
+// audit measured ZERO retirements against a non-zero expected count, and
+// the only honest way to find out why is to observe the REAL lifecycle
+// path rather than re-derive the formula somewhere else.
+// ---------------------------------------------------------------------------
+
+export interface RetirementDecisionTrace {
+  date: string;
+  playerId: string;
+  clubId: string;
+  age: number;
+  isGoalkeeper: boolean;
+  tier: SquadStatusTier;
+  contractStatus: ContractStatus | undefined;
+  daysUnattached: number;
+  baseProbability: number;
+  tierMultiplier: number;
+  contractMultiplier: number;
+  freeAgentMultiplier: number;
+  probability: number;
+  seedKey: string;
+  roll: number;
+  rollPassed: boolean;
+  /** True only when the state actually changed as a result of retiring this player. */
+  executed: boolean;
+  /** When `rollPassed` but not `executed`, the guard that swallowed it. */
+  blockedReason: string | null;
+}
+
+let retirementTraceSink: ((trace: RetirementDecisionTrace) => void) | null = null;
+
+/** Attach (or clear, with `null`) the retirement decision sink. Test/audit only. */
+export function setRetirementTraceSink(sink: ((trace: RetirementDecisionTrace) => void) | null): void {
+  retirementTraceSink = sink;
+}
+
+/** Exported for the Phase 0.5 audit so a trace can attribute the final probability to its factors. */
+export function retirementProbabilityFactors(inputs: RetirementProbabilityInputs): {
+  base: number; tier: number; contract: number; freeAgent: number;
+} {
+  return {
+    base: baseRetirementProbability(inputs.age, inputs.isGoalkeeper),
+    tier: TIER_RETIREMENT_MULTIPLIER[inputs.tier],
+    contract: contractSituationMultiplier(inputs.contractStatus),
+    freeAgent: isFreeAgentStatus(inputs.contractStatus) ? freeAgentDurationMultiplier(inputs.daysUnattached) : 1.0,
+  };
+}
+
+/** The exact seed key the retirement roll uses -- exported so an audit can analyse the generator's distribution over the REAL key namespace. */
+export function retirementSeedKey(playerId: string, year: string): string {
+  return `${playerId}:${year}:retirement-roll`;
+}
+
+/** The exact roll the retirement decision uses. Exported for the same reason. */
+export function retirementRoll(playerId: string, year: string): number {
+  return seededProbability(retirementSeedKey(playerId, year));
 }
 
 /** Pure -- the full retirement-probability composition, unit-testable without a CareerState. */
@@ -307,6 +379,15 @@ function applyPlayerDecline(state: CareerState, playerId: string, clubId: string
  * established, so a retiring player can never leave a stale loan/
  * placement pointing at them (Part 29's own correctness invariants).
  */
+/** Diagnostic only: why `retirePlayer` would decline to move this player. Mirrors its own guards exactly, in order. */
+function retirementBlockReason(state: CareerState, playerId: string): string {
+  const player = getCareerPlayer(state, playerId);
+  if (!player) return "getCareerPlayer returned nothing";
+  if (isRetiredClubId(player.clubId)) return "already retired";
+  if (!getPlayerContract(state, playerId)) return "no contract record";
+  return "transferPlayerPermanently returned the same state (ownership//destination guard)";
+}
+
 export function retirePlayer(state: CareerState, playerId: string, date: string): CareerState {
   const player = getCareerPlayer(state, playerId);
   const contract = getPlayerContract(state, playerId);
@@ -399,15 +480,35 @@ export function progressPlayerLifecycle(state: CareerState, date: string): Playe
         const status = getPlayerContractStatus(next, player.id);
         const daysUnattached = isFreeAgentClubId(player.clubId) ? Math.max(0, daysBetween(contract.contractEndDate, date)) : 0;
         const probability = computeRetirementProbability({ age, isGoalkeeper, tier, contractStatus: status, daysUnattached });
-        const roll = seededProbability(`${player.id}:${year}:retirement-roll`);
+        const seedKey = retirementSeedKey(player.id, year);
+        const roll = seededProbability(seedKey);
 
         if (roll < probability) {
           const wasHumanClub = player.clubId === next.playerClubId;
           const playerName = `${player.firstName} ${player.lastName}`;
+          const beforeRetire = next;
           next = retirePlayer(next, player.id, date);
+          const executed = next !== beforeRetire;
+          if (retirementTraceSink) {
+            const f = retirementProbabilityFactors({ age, isGoalkeeper, tier, contractStatus: status, daysUnattached });
+            retirementTraceSink({
+              date, playerId: player.id, clubId, age, isGoalkeeper, tier, contractStatus: status, daysUnattached,
+              baseProbability: f.base, tierMultiplier: f.tier, contractMultiplier: f.contract, freeAgentMultiplier: f.freeAgent,
+              probability, seedKey, roll, rollPassed: true, executed,
+              blockedReason: executed ? null : retirementBlockReason(beforeRetire, player.id),
+            });
+          }
           retiredPlayerIds.push(player.id);
           if (wasHumanClub) events.push(buildPlayerRetiredEvent(player.id, playerName, age, date));
           continue; // a retiring player never also declines the same evaluation.
+        }
+        if (retirementTraceSink) {
+          const f = retirementProbabilityFactors({ age, isGoalkeeper, tier, contractStatus: status, daysUnattached });
+          retirementTraceSink({
+            date, playerId: player.id, clubId, age, isGoalkeeper, tier, contractStatus: status, daysUnattached,
+            baseProbability: f.base, tierMultiplier: f.tier, contractMultiplier: f.contract, freeAgentMultiplier: f.freeAgent,
+            probability, seedKey, roll, rollPassed: false, executed: false, blockedReason: null,
+          });
         }
       }
 
