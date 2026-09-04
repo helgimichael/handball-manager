@@ -218,25 +218,88 @@ function generateYouthCA(playerId: string, clubShift: number, tier: YouthTier): 
 }
 
 // ---------------------------------------------------------------------------
-// Part 10: PA -- a purpose-built long-tail band model. Most players land
-// in the low band; the wonderkid band is rare by construction (a flat
-// 3% roll) AND bounded, so PA >170 is structurally impossible here
-// (YOUTH_PA_CEILING), not merely "rare by luck".
+// HM-YOUTH-INTAKE-1.1A: PA is an INDEPENDENT talent draw, not a function of
+// current ability.
+//
+// THE DEFECT THIS REPLACES. The previous model computed
+//   PA = min(ceiling, ca + headroom)      headroom <= 45, top 3% band only
+// so potential was a bounded shadow of what a 17-year-old could already do.
+// Measured over 3377 generated players across 40 intake seasons, that produced
+// world-wide rates of PA>=130 at 0.3/season, PA>=140 at 0.03/season (one player
+// in the entire sample) and PA>=150 at EXACTLY ZERO -- against a replacement
+// requirement of roughly tens, mid-teens and a few per season respectively. It
+// also made the most interesting prospect in the sport impossible to express:
+// with CA 75 the old model could not exceed PA 120, so a raw elite talent who
+// is years away from ready simply could not be generated.
+//
+// The draw below is independent of CA, of the club, and of the competition
+// tier. Tier deliberately has NO influence on potential in this phase: the old
+// tier signal reached PA only through CA, and reintroducing it here would make
+// Division 1 structurally incapable of producing an exceptional talent. Club-
+// level variation is the job of Academy Quality (Youth Intake 1.1c), which will
+// shift these odds per club without ever making a tier a ceiling.
+//
+// STATISTICAL INDEPENDENCE IS THE POINT, NOT AN OVERSIGHT. The resulting
+// CA<->PA Pearson correlation is ~0.02, down from ~0.90 under the old model,
+// and that is deliberate for this phase. Phase 1.1a has exactly one
+// responsibility: remove the structural dependency of potential on current
+// ability. Feeding CA (or a tier-relative CA percentile) back in as a PA input
+// would partially recouple them before a proper maturity / development-stage
+// model exists, and -- because CA is tier-scaled -- would quietly reintroduce
+// competition tier as a soft ceiling on potential, which is precisely what a
+// Division 1 club must not have. A modest correlation is expected to EMERGE in
+// later phases through maturity, player profile, academy context and
+// development stage. It must not be imposed here by a direct CA -> PA rule.
+//
+// SHAPE. A five-band mixture over PA itself, each band drawing uniformly within
+// its own range. Bands are the cleanest deterministic way to build a long tail
+// from the existing seeded-integer primitive: the mass sits in the ordinary
+// range, and each better band is both rarer and narrower, so exceptional
+// potential is rare BY CONSTRUCTION rather than by luck -- the same guarantee
+// the previous model's own doc claimed, now applied to a range that can
+// actually reach the top of the scale. No categorical label is stored on the
+// player; the band exists only inside this function.
 // ---------------------------------------------------------------------------
 
 const YOUTH_PA_CEILING = 165;
-const YOUTH_PA_BANDS: readonly { upToPercentile: number; minHeadroom: number; maxHeadroom: number }[] = [
-  { upToPercentile: 60, minHeadroom: 0, maxHeadroom: 8 }, // 60%: limited/moderate potential
-  { upToPercentile: 85, minHeadroom: 9, maxHeadroom: 18 }, // 25%: good senior potential
-  { upToPercentile: 97, minHeadroom: 19, maxHeadroom: 30 }, // 12%: high-level talent
-  { upToPercentile: 100, minHeadroom: 31, maxHeadroom: 45 }, // 3%: true wonderkid
+
+/**
+ * Percentile bands over POTENTIAL. `upToPercentile` is exclusive; `minPA`/
+ * `maxPA` are inclusive bounds of a uniform draw within the band.
+ *
+ * Calibrated against the measured elite-replacement requirement for a 52-club
+ * Swedish world taking ~87 players a year -- see this milestone's report for
+ * the derivation and the realised rates.
+ */
+const YOUTH_PA_BANDS: readonly { upToPercentile: number; minPA: number; maxPA: number }[] = [
+  { upToPercentile: 46, minPA: 85, maxPA: 115 },    // 46%: ordinary -- lower-tier senior at best
+  { upToPercentile: 76, minPA: 115, maxPA: 135 },   // 30%: useful professional
+  { upToPercentile: 93.8, minPA: 135, maxPA: 150 }, // 17.8%: strong prospect
+  { upToPercentile: 98.8, minPA: 150, maxPA: 160 }, // 5%: national-level talent
+  { upToPercentile: 100, minPA: 160, maxPA: 165 },  // 1.2%: rare wonderkid
 ];
 
+/** Percentile in [0,100) with one decimal of resolution, so fractional band edges are honoured. */
+function seededPercentile(seedKey: string): number {
+  return seededIndex(seedKey, 1000) / 10;
+}
+
+/**
+ * Independent potential for one generated youth player.
+ *
+ * `ca` is used for ONE thing only: the PA >= CA invariant. A player whose
+ * current ability already exceeds his drawn potential has simply finished
+ * developing -- that is a legitimate state the rating model already supports
+ * (headroom 0), and it is the smallest coherent handling of the invariant. It
+ * is deliberately NOT a headroom floor, which would quietly rebuild the old
+ * `CA + offset` coupling for exactly the high-CA players it applied to.
+ */
 function generateYouthPA(playerId: string, ca: number): number {
-  const percentile = seededIndex(`${playerId}:youth-pa-band`, 100);
+  const percentile = seededPercentile(`${playerId}:youth-pa-talent:v2`);
   const band = YOUTH_PA_BANDS.find((b) => percentile < b.upToPercentile) ?? YOUTH_PA_BANDS[YOUTH_PA_BANDS.length - 1];
-  const headroom = band.minHeadroom + seededIndex(`${playerId}:youth-pa-headroom`, band.maxHeadroom - band.minHeadroom + 1);
-  return Math.min(YOUTH_PA_CEILING, Math.min(PA_MAX, ca + headroom));
+  const drawn = band.minPA + seededIndex(`${playerId}:youth-pa-value:v2`, band.maxPA - band.minPA + 1);
+  const bounded = Math.min(YOUTH_PA_CEILING, Math.min(PA_MAX, drawn));
+  return Math.max(bounded, ca); // PA >= CA, always.
 }
 
 // ---------------------------------------------------------------------------

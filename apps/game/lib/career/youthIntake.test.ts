@@ -226,8 +226,20 @@ test("PA long-tail: bounded and not uniform/wonderkid-heavy across a large gener
   }
   assert.ok(paValues.length > 200, `fixture assumption: expected a large sample, got ${paValues.length}`);
   assert.ok(paValues.every((pa) => pa <= 165), "PA must never exceed the youth ceiling (structurally near-impossible >170)");
-  const highTalent = paValues.filter((pa) => pa >= 140).length;
-  assert.ok(highTalent / paValues.length < 0.1, `expected few high-PA outliers, got ${((highTalent / paValues.length) * 100).toFixed(1)}%`);
+
+  // HM-YOUTH-INTAKE-1.1A: this test previously required PA>=140 to be under 10%
+  // of the sample. That bound described the OLD model, where PA was ca +
+  // headroom(<=45) and the real measured rate was 0.03 PLAYERS PER SEASON --
+  // one in 3377 -- against a world needing roughly mid-teens per season to
+  // replace its CA140 players. The scarcity it protected was the defect.
+  // The bounds below guard BOTH failure modes instead of only one: too few
+  // elite prospects (the world cannot replace its best players) and too many
+  // (wonderkid inflation).
+  const share = (threshold: number) => paValues.filter((pa) => pa >= threshold).length / paValues.length;
+  assert.ok(share(130) > 0.2, `elite pipeline too thin: PA>=130 at ${(100 * share(130)).toFixed(1)}%`);
+  assert.ok(share(140) > 0.1 && share(140) < 0.3, `PA>=140 must be a real but bounded tail, got ${(100 * share(140)).toFixed(1)}%`);
+  assert.ok(share(150) > 0.02 && share(150) < 0.15, `PA>=150 must be rare but present, got ${(100 * share(150)).toFixed(1)}%`);
+  assert.ok(share(160) < 0.05, `PA>=160 must stay exceptional, got ${(100 * share(160)).toFixed(1)}%`);
 });
 
 test("club level: a stronger club's own squad-quality shift produces a higher average CA than a weaker club, without ever guaranteeing the single best player", () => {
