@@ -74,6 +74,7 @@ import { daysBetween } from "./dateUtils";
 import { careerWorldClubIds } from "./worldCompetitions";
 import { FREE_AGENT_CLUB_ID, isFreeAgentClubId } from "./contractExpiry";
 import { buildPlayerRetiredEvent, type CareerEvent } from "./careerEvents";
+import { computeProfessionalCareerExitProbability, professionalCareerExitRoll } from "./professionalCareerExit";
 import { ATTRIBUTE_MAX, ATTRIBUTE_MIN, GOALKEEPER_ATTRIBUTES, OUTCOURT_ATTRIBUTES } from "../rating/types";
 import type { DevelopableAttribute } from "../development/types";
 import type { ContractStatus } from "../economy/types";
@@ -430,6 +431,13 @@ export interface PlayerLifecycleResult {
   events: CareerEvent[];
   retiredPlayerIds: string[];
   declinedPlayerIds: string[];
+  /**
+   * HM-PLAYER-DEVELOPMENT-2.0 PHASE 1B.3: players who left professional
+   * handball because they could not find a club -- deliberately reported
+   * SEPARATELY from `retiredPlayerIds`, even though both use the same terminal
+   * storage, so metrics and career history can tell the two apart.
+   */
+  careerExitPlayerIds: string[];
 }
 
 /**
@@ -444,13 +452,14 @@ export interface PlayerLifecycleResult {
  * club-scoped.
  */
 export function progressPlayerLifecycle(state: CareerState, date: string): PlayerLifecycleResult {
-  if (date.slice(5, 10) !== LIFECYCLE_EVALUATION_DATE_MMDD) return { state, events: [], retiredPlayerIds: [], declinedPlayerIds: [] };
+  if (date.slice(5, 10) !== LIFECYCLE_EVALUATION_DATE_MMDD) return { state, events: [], retiredPlayerIds: [], declinedPlayerIds: [], careerExitPlayerIds: [] };
 
   const year = date.slice(0, 4);
   let next = state;
   const events: CareerEvent[] = [];
   const retiredPlayerIds: string[] = [];
   const declinedPlayerIds: string[] = [];
+  const careerExitPlayerIds: string[] = [];
 
   // HM-MULTI-COMPETITION-WORLD-FOUNDATION-1.0 Part 18: retirement/decline
   // is a WORLD RULE that must apply across every tier (Handbollsligan,
@@ -474,6 +483,38 @@ export function progressPlayerLifecycle(state: CareerState, date: string): Playe
       if (!contract || age === null) continue;
 
       const isGoalkeeper = player.position === "MV";
+
+      // PHASE 1B.3: PROFESSIONAL CAREER EXIT -- unattached players only, at any
+      // age. This runs BEFORE the age-gated retirement check below because the
+      // two are different endings and a player can only have one: a free agent
+      // who leaves the professional game did not retire, and RETIREMENT_MIN_EVAL_AGE
+      // (28) is deliberately NOT lowered to accommodate him. Reuses the same
+      // annual pass and the same playerLifecycleYears idempotency key already
+      // written above, so no new state and no second evaluation date.
+      if (isFreeAgentClubId(player.clubId)) {
+        const yearsUnattached = Math.max(0, daysBetween(contract.contractEndDate, date)) / 365;
+        const rating = next.gameplayRatings[player.clubId]?.find((r) => r.playerId === player.id);
+        const exitProbability = computeProfessionalCareerExitProbability({
+          yearsUnattached,
+          age,
+          ca: rating?.ca ?? 0,
+          headroom: rating ? rating.pa - rating.ca : 0,
+        });
+        if (professionalCareerExitRoll(player.id, year) < exitProbability) {
+          const before = next;
+          next = retirePlayer(next, player.id, date);
+          // SILENT for the world, exactly like a CPU club's retirement: a free
+          // agent has no club, so `wasHumanClub` can never be true for them and
+          // emitting one inbox message per exit (~50/year) would be pure noise.
+          // The distinction still survives where it matters -- careerExitPlayerIds
+          // below, and buildPlayerCareerExitEvent for any surface that later
+          // knows the player was the manager's own (no last-club signal exists
+          // today: transferPlayerPermanently overwrites the contract's clubId on
+          // release, so a free agent retains no former employer).
+          if (next !== before) careerExitPlayerIds.push(player.id);
+          continue; // a player who leaves the game never also retires or declines this year.
+        }
+      }
 
       if (age >= RETIREMENT_MIN_EVAL_AGE) {
         const tier = deriveDefaultSquadStatusTier(player);
@@ -518,5 +559,5 @@ export function progressPlayerLifecycle(state: CareerState, date: string): Playe
     }
   }
 
-  return { state: next, events, retiredPlayerIds, declinedPlayerIds };
+  return { state: next, events, retiredPlayerIds, declinedPlayerIds, careerExitPlayerIds };
 }

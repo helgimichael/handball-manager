@@ -24,7 +24,8 @@ export type CareerEventType =
   | "PLAYER_PLACEMENT_EXPIRED"
   | "PLAYER_CONTRACT_EXPIRED"
   | "YOUTH_INTAKE_COMPLETE"
-  | "PLAYER_RETIRED";
+  | "PLAYER_RETIRED"
+  | "PLAYER_CAREER_EXIT";
 
 /** Spec S3: the three-tier priority model. */
 export type EventPriority = "INFORMATION" | "IMPORTANT" | "ACTION_REQUIRED";
@@ -340,6 +341,29 @@ export function buildYouthIntakeCompleteEvent(clubId: string, date: string, play
 }
 
 /** HM-PLAYER-CAREER-LIFECYCLE-1.0 Part 15/16: only ever emitted for the manager's OWN club's own player (same silent-for-every-other-club precedent as contract expiry/youth intake). Name/age are baked in as PARAMETERS at build time (the caller already has the full player object) rather than resolved later by the inbox bridge -- Part 15's own "Do not expose probability/roll/CA" is satisfied by construction: nothing beyond identity/age/club context is ever passed in. */
+/**
+ * HM-PLAYER-DEVELOPMENT-2.0 PHASE 1B.3: a player who never found another club
+ * and has left professional handball. Deliberately a SEPARATE event type from
+ * PLAYER_RETIRED with its own copy: both end a career and both use the same
+ * terminal storage, but telling the manager that an unattached 22-year-old
+ * "avslutade karriären" would be a lie about what happened to him.
+ */
+export function buildPlayerCareerExitEvent(playerId: string, playerDisplayName: string, age: number | null, seasonsUnattached: number, date: string): CareerEvent {
+  const years = Math.max(1, Math.round(seasonsUnattached));
+  return baseEvent(
+    `PLAYER_CAREER_EXIT:${playerId}:${date}`,
+    "PLAYER_CAREER_EXIT",
+    date,
+    "INFORMATION",
+    `${playerDisplayName} lämnar proffshandbollen`,
+    age !== null
+      ? `${playerDisplayName} (${age} år) har varit utan klubb i ${years} ${years === 1 ? "säsong" : "säsonger"} och lämnar proffshandbollen.`
+      : `${playerDisplayName} har varit utan klubb i ${years} ${years === 1 ? "säsong" : "säsonger"} och lämnar proffshandbollen.`,
+    [{ route: "PLAYER_PROFILE", playerId }],
+    { primaryEntity: { entityType: "player", entityId: playerId } },
+  );
+}
+
 export function buildPlayerRetiredEvent(playerId: string, playerDisplayName: string, age: number | null, date: string): CareerEvent {
   return baseEvent(
     `PLAYER_RETIRED:${playerId}:${date}`,
