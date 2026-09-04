@@ -9,12 +9,15 @@
 //
 // It reweights the potential bands from 1.1a; it never adds potential points.
 //
-// REAL CLUB BASELINES ARE NOT YET CALIBRATED. Every club is currently unset and
-// resolves to neutral 50, which is exactly the 1.1a distribution. The
-// statistical tests below therefore drive `generateYouthPA` with SYNTHETIC
-// academy values (20/35/50/65/80) rather than leaning on whichever real clubs
-// happen to be calibrated -- the properties under test belong to the model, not
-// to any club.
+// HM-YOUTH-INTAKE-1.1B-DATA superseded the original first test here, which
+// asserted that NO real club was calibrated. Seven now are (see CALIBRATED
+// below); the remaining forty academy-producing clubs are deliberately still
+// unset and resolve to neutral 50.
+//
+// The statistical tests below drive `generateYouthPA` with SYNTHETIC academy
+// values (20/35/50/65/80) rather than leaning on whichever real clubs happen to
+// be calibrated -- the properties under test belong to the model, not to any
+// club, and must not start failing when research data changes.
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import {
@@ -54,14 +57,86 @@ const q = (xs: number[], p: number) => { const s = [...xs].sort((a, b) => a - b)
 // The uncalibrated world is exactly 1.1a
 // ---------------------------------------------------------------------------
 
-test("no real club is currently calibrated, so every club resolves to neutral", () => {
+/**
+ * The complete researched set (Academy Quality Research Protocol v1.1, 47-club
+ * evidence pass). A club is here only because dimension A was scorable from
+ * named, identity-checked developed players. Every other Swedish club is
+ * intentionally absent.
+ */
+const CALIBRATED: ReadonlyMap<string, number> = new Map([
+  ["se_club_ystads_if_hf", 62],
+  ["se_club_ifk_skovde_hk", 62],
+  ["se_club_alingsas_hk", 61],
+  ["se_club_ik_savehof", 59],
+  ["se_club_ov_helsingborg", 56],
+  ["se_club_onnereds_hk", 56],
+  ["se_club_ifk_kristianstad", 48],
+]);
+
+/** Affiliated B teams: play/development destinations with no youth intake of their own. */
+const AFFILIATED_B_TEAMS: readonly string[] = [
+  "se_club_hk_cliff",
+  "se_club_hk_s_hof",
+  "se_club_hp_alingsas",
+  "se_club_if_kristianstad",
+  "se_club_hk_onnerediterna",
+];
+
+test("each researched club resolves to its exact explicit academy quality", () => {
+  for (const [clubId, expected] of CALIBRATED) {
+    assert.ok(getClub(clubId), `${clubId} must exist in the club registry`);
+    assert.equal(resolveAcademyQuality(clubId), expected, `${clubId} must resolve to its researched value`);
+  }
+});
+
+test("an academy-producing club without a researched value still resolves to neutral", () => {
+  // The distinction the data must preserve: an absent field means "not known",
+  // and the neutral 50 is supplied here at runtime -- never written into the
+  // club registry, where it would be indistinguishable from "assessed as
+  // ordinary".
   for (const competitionId of SWEDISH_WORLD_COMPETITION_IDS) {
     for (const club of getClubsByCompetition(competitionId)) {
-      assert.equal(
-        resolveAcademyQuality(club.id),
-        ACADEMY_QUALITY_NEUTRAL,
-        `${club.id} must use the neutral fallback until real academy data exists -- never an invented club-specific value`,
-      );
+      if (CALIBRATED.has(club.id)) continue;
+      assert.equal(club.academyQuality, undefined, `${club.id} must carry no academyQuality field`);
+      assert.equal(resolveAcademyQuality(club.id), ACADEMY_QUALITY_NEUTRAL, `${club.id} must fall back to neutral`);
+    }
+  }
+});
+
+test("no club outside the researched set gained a value", () => {
+  const withField: string[] = [];
+  for (const competitionId of SWEDISH_WORLD_COMPETITION_IDS) {
+    for (const club of getClubsByCompetition(competitionId)) {
+      if (typeof club.academyQuality === "number") withField.push(club.id);
+    }
+  }
+  assert.deepEqual(withField.sort(), [...CALIBRATED.keys()].sort(), "exactly the researched clubs may carry an explicit value");
+});
+
+test("affiliated B teams never receive an academy quality", () => {
+  // They run no independent youth intake, so they get no value, no neutral 50
+  // written into data, and never their parent club's number.
+  for (const clubId of AFFILIATED_B_TEAMS) {
+    assert.ok(getClub(clubId), `${clubId} must exist in the club registry`);
+    assert.equal(getClub(clubId)?.academyQuality, undefined, `${clubId} is a B team and must carry no academyQuality field`);
+  }
+});
+
+test("researched values are not a restatement of competition tier", () => {
+  // All seven happen to sit in tier 1 -- an artefact of where evidence exists,
+  // not a tier rule. What must hold is that the values do not order themselves
+  // by league strength: the spread is real and the reigning-elite club is not
+  // at the top.
+  const values = [...CALIBRATED.values()];
+  assert.ok(Math.max(...values) - Math.min(...values) >= 10, "researched values must actually separate clubs");
+  const elite = CALIBRATED.get("se_club_ifk_kristianstad")!;
+  assert.equal(elite, Math.min(...values), "senior strength must not imply academy strength");
+  for (const competitionId of SWEDISH_WORLD_COMPETITION_IDS) {
+    for (const club of getClubsByCompetition(competitionId)) {
+      const explicit = CALIBRATED.get(club.id);
+      if (explicit === undefined) continue;
+      // Resolution reads the club id alone; tier is never consulted.
+      assert.equal(resolveAcademyQuality(club.id), explicit, `${club.id} must resolve identically regardless of its competition`);
     }
   }
 });

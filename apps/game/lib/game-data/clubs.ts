@@ -22,21 +22,44 @@ function club(input: Omit<Club, "playable"> & { playable?: boolean }): Club {
 // was missing ("Lugi HF", "Skånela IF") were added. All 14 are `playable`
 // and `dataSource: "REAL_WORLD"` -- their squads are imported from real
 // player identity data, not invented.
+//
+// HM-YOUTH-INTAKE-1.1B-DATA: `academyQuality` carries researched values for
+// SEVEN clubs, all of them here in tier 1. They come from a 47-club evidence
+// pass under Academy Quality Research Protocol v1.1: a club receives a value
+// only when dimension A (senior-player production) is scorable from named,
+// identity-checked developed players and at least four of six dimensions are
+// scored. Forty academy-producing clubs did not clear that bar and are
+// DELIBERATELY LEFT WITHOUT THE FIELD -- `resolveAcademyQuality` supplies the
+// neutral 50 at runtime, which keeps "assessed as ordinary" distinguishable
+// from "not known". Writing 50 into the data here would erase that difference.
+//
+// The seven are not a league table. Within this tier the values do not track
+// senior strength -- the reigning-elite club scores lowest of the seven,
+// because its young international was recruited at 20 rather than developed.
+// That every value happens to sit in tier 1 reflects where Swedish handball
+// journalism points, not a tier rule: no club in tiers 2-4 could evidence a
+// second cohort, and one Allsvenskan club came within a single player history
+// of qualifying.
+//
+// Five Division 1 entities (HK Cliff, HK S-hof, HP Alingsås, IF Kristianstad,
+// HK Önnerediterna) are affiliated B teams that run no independent youth
+// intake. They must never receive this field -- not a value, not a neutral 50,
+// and not their parent's value.
 const SWE_1: Club[] = [
-  club({ id: "se_club_alingsas_hk", competitionId: "se_handbollsligan_herr", dataSource: "REAL_WORLD", playable: true, name: "Alingsås HK", shortName: "Alingsås", city: "Alingsås", primaryColor: "#c8102e", secondaryColor: "#111318" }),
+  club({ id: "se_club_alingsas_hk", competitionId: "se_handbollsligan_herr", dataSource: "REAL_WORLD", playable: true, name: "Alingsås HK", shortName: "Alingsås", city: "Alingsås", primaryColor: "#c8102e", secondaryColor: "#111318", academyQuality: 61 }),
   club({ id: "se_club_amo_hk", competitionId: "se_handbollsligan_herr", dataSource: "REAL_WORLD", playable: true, name: "Amo HK", shortName: "Amo", city: "Amål", primaryColor: "#0b6e4f", secondaryColor: "#ffffff" }),
   club({ id: "se_club_hammarby_if_hf", competitionId: "se_handbollsligan_herr", dataSource: "REAL_WORLD", playable: true, name: "Hammarby IF HF", shortName: "Hammarby", city: "Stockholm", primaryColor: "#0a7a3d", secondaryColor: "#ffffff" }),
   club({ id: "se_club_hf_karlskrona", competitionId: "se_handbollsligan_herr", dataSource: "REAL_WORLD", playable: true, name: "HF Karlskrona", shortName: "Karlskrona", city: "Karlskrona", primaryColor: "#e2b13c", secondaryColor: "#111318" }),
   club({ id: "se_club_hk_malmo", competitionId: "se_handbollsligan_herr", dataSource: "REAL_WORLD", playable: true, name: "HK Malmö", shortName: "Malmö", city: "Malmö", primaryColor: "#1e3a8a", secondaryColor: "#ffffff" }),
   club({ id: "se_club_if_hallby_hk", competitionId: "se_handbollsligan_herr", dataSource: "REAL_WORLD", playable: true, name: "IF Hallby HK", shortName: "Hallby", city: "Kristianstad", primaryColor: "#111318", secondaryColor: "#e2b13c" }),
-  club({ id: "se_club_ifk_kristianstad", competitionId: "se_handbollsligan_herr", dataSource: "REAL_WORLD", playable: true, name: "IFK Kristianstad", shortName: "Kristianstad", city: "Kristianstad", primaryColor: "#1e3a8a", secondaryColor: "#ffffff" }),
-  club({ id: "se_club_ifk_skovde_hk", competitionId: "se_handbollsligan_herr", dataSource: "REAL_WORLD", playable: true, name: "IFK Skövde HK", shortName: "Skövde", city: "Skövde", primaryColor: "#1e3a8a", secondaryColor: "#ffffff" }),
-  club({ id: "se_club_ik_savehof", competitionId: "se_handbollsligan_herr", dataSource: "REAL_WORLD", playable: true, name: "IK Sävehof", shortName: "Sävehof", city: "Göteborg", primaryColor: "#111318", secondaryColor: "#e2b13c" }),
+  club({ id: "se_club_ifk_kristianstad", competitionId: "se_handbollsligan_herr", dataSource: "REAL_WORLD", playable: true, name: "IFK Kristianstad", shortName: "Kristianstad", city: "Kristianstad", primaryColor: "#1e3a8a", secondaryColor: "#ffffff", academyQuality: 48 }),
+  club({ id: "se_club_ifk_skovde_hk", competitionId: "se_handbollsligan_herr", dataSource: "REAL_WORLD", playable: true, name: "IFK Skövde HK", shortName: "Skövde", city: "Skövde", primaryColor: "#1e3a8a", secondaryColor: "#ffffff", academyQuality: 62 }),
+  club({ id: "se_club_ik_savehof", competitionId: "se_handbollsligan_herr", dataSource: "REAL_WORLD", playable: true, name: "IK Sävehof", shortName: "Sävehof", city: "Göteborg", primaryColor: "#111318", secondaryColor: "#e2b13c", academyQuality: 59 }),
   club({ id: "se_club_lugi_hf", competitionId: "se_handbollsligan_herr", dataSource: "REAL_WORLD", playable: true, name: "Lugi HF", shortName: "Lugi", city: "Lund", primaryColor: "#111318", secondaryColor: "#e2b13c" }),
-  club({ id: "se_club_ov_helsingborg", competitionId: "se_handbollsligan_herr", dataSource: "REAL_WORLD", playable: true, name: "OV Helsingborg", shortName: "OV Helsingborg", city: "Helsingborg", primaryColor: "#c8102e", secondaryColor: "#111318" }),
+  club({ id: "se_club_ov_helsingborg", competitionId: "se_handbollsligan_herr", dataSource: "REAL_WORLD", playable: true, name: "OV Helsingborg", shortName: "OV Helsingborg", city: "Helsingborg", primaryColor: "#c8102e", secondaryColor: "#111318", academyQuality: 56 }),
   club({ id: "se_club_skanela_if", competitionId: "se_handbollsligan_herr", dataSource: "REAL_WORLD", playable: true, name: "Skånela IF", shortName: "Skånela", city: "Sigtuna", primaryColor: "#0b6e4f", secondaryColor: "#111318" }),
-  club({ id: "se_club_ystads_if_hf", competitionId: "se_handbollsligan_herr", dataSource: "REAL_WORLD", playable: true, name: "Ystads IF HF", shortName: "Ystad", city: "Ystad", primaryColor: "#111318", secondaryColor: "#e2b13c" }),
-  club({ id: "se_club_onnereds_hk", competitionId: "se_handbollsligan_herr", dataSource: "REAL_WORLD", playable: true, name: "Önnereds HK", shortName: "Önnered", city: "Göteborg", primaryColor: "#0b6e4f", secondaryColor: "#ffffff" }),
+  club({ id: "se_club_ystads_if_hf", competitionId: "se_handbollsligan_herr", dataSource: "REAL_WORLD", playable: true, name: "Ystads IF HF", shortName: "Ystad", city: "Ystad", primaryColor: "#111318", secondaryColor: "#e2b13c", academyQuality: 62 }),
+  club({ id: "se_club_onnereds_hk", competitionId: "se_handbollsligan_herr", dataSource: "REAL_WORLD", playable: true, name: "Önnereds HK", shortName: "Önnered", city: "Göteborg", primaryColor: "#0b6e4f", secondaryColor: "#ffffff", academyQuality: 56 }),
 ];
 
 // --- Sweden, tier 2: Allsvenskan (2026/27) --- HM-DATA-ALLSVENSKAN-1.0:
