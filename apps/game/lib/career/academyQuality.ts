@@ -27,23 +27,40 @@
 // would not belong in a document that cites approved profile evidence for
 // every value it holds.
 //
-// ACADEMY QUALITY SUPPORT EXISTS, BUT REAL CLUB BASELINES ARE NOT YET
-// CALIBRATED. The field is OPTIONAL and currently unset for every club, so
-// every club resolves to neutral 50 and the youth potential distribution is
-// bit-for-bit the one Youth Intake 1.1a produced.
+// CALIBRATION STATUS. Academy Quality is ACTIVE. The field is OPTIONAL and
+// partially populated: seven Swedish academy-producing clubs carry researched
+// explicit values, and forty remain deliberately unset because the evidence
+// pass could not reach the required research confidence for them. Because some
+// clubs are now calibrated, the national youth-potential distribution is no
+// longer bit-for-bit the one Youth Intake 1.1a produced -- an individual
+// UNSET club still generates it unchanged, but the world in aggregate does not.
+// The club registry is the authority on which clubs hold a value; these counts
+// are a snapshot of it, not a second source of truth.
+//
+// UNSET IS NOT A KNOWN 50. An absent field means "no admissible evidence",
+// which is a different claim from "assessed and found ordinary". The two are
+// indistinguishable at runtime by design -- both resolve to neutral 50 here --
+// but they must stay distinguishable in the DATA, so a club without research
+// backing is never written as 50 in the registry. Collapsing them would
+// permanently destroy the provenance and silently convert an unknown into an
+// assessment.
 //
 // That fallback is a deliberate refusal, not a placeholder. An earlier draft
 // derived it from a hash of the clubId, which is stable and league-independent
 // and therefore looked harmless -- but a deterministic arbitrary number is
 // still an invented characteristic of a real club. It would have permanently
-// declared, on no evidence, that Kungälv runs an elite academy and Uppsala a
-// poor one, purely because their ids hash differently. Neutral 50 gives no real
-// club an unsupported advantage or disadvantage and leaves global talent supply
-// untouched until real data exists.
+// declared, on no evidence, that one club runs an elite academy and another a
+// poor one, purely because their ids hash differently. Neutral 50 gives no
+// uncalibrated club an unsupported advantage or disadvantage.
 //
-// Populating real values is a dedicated data/research pass. When it happens it
-// is a pure data change: set Club.academyQuality and this function prefers it
-// automatically, with no code change anywhere.
+// AFFILIATED B TEAMS CARRY NO VALUE AT ALL. Five catalog entries are play and
+// development destinations for a parent club and run no independent youth
+// intake, so Academy Quality does not apply to them: they receive no researched
+// value, are never written as 50, and never inherit their parent's number as a
+// separate figure. They are excluded from the academy-producing population.
+//
+// Extending calibration remains a pure data change: set Club.academyQuality and
+// this function prefers it automatically, with no code change anywhere.
 import { getClub } from "../game-data";
 
 /**
