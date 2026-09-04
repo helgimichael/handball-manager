@@ -60,6 +60,7 @@ import type { EconomyProfileInputs } from "../economy/marketValue";
 import { computeSquadDerivedClubStrength } from "./squadDerivedClubStrength";
 import { DIVISION_1_COMPETITION_IDS } from "./division1Integration";
 import { careerWorldClubIds } from "./worldCompetitions";
+import { resolveAcademyQuality, academyPotentialGamma } from "./academyQuality";
 import { buildYouthIntakeCompleteEvent, type CareerEvent } from "./careerEvents";
 import { generateYouthName } from "./youthNames";
 import type { GameplayPlayerRating } from "../gameWorld/gameplayRatingSnapshot";
@@ -294,8 +295,22 @@ function seededPercentile(seedKey: string): number {
  * is deliberately NOT a headroom floor, which would quietly rebuild the old
  * `CA + offset` coupling for exactly the high-CA players it applied to.
  */
-function generateYouthPA(playerId: string, ca: number): number {
-  const percentile = seededPercentile(`${playerId}:youth-pa-talent:v2`);
+/**
+ * Exported for calibration and distribution tests, which must be able to supply
+ * SYNTHETIC academy-quality values (20/35/50/65/80) rather than depend on which
+ * real clubs happen to be calibrated. Production has exactly one caller,
+ * generateYouthPlayer below.
+ */
+export function generateYouthPA(playerId: string, ca: number, academyQuality: number): number {
+  // HM-YOUTH-INTAKE-1.1B: academy quality REWEIGHTS the bands, it never adds
+  // potential points. `p' = 100 * (p/100)^gamma` is monotone and continuous, so
+  // a better academy shifts mass toward the upper bands without ever closing
+  // the lower ones or guaranteeing the upper ones -- the weakest academy keeps
+  // a real chance of a wonderkid, the strongest is never promised one. gamma
+  // is exactly 1 at neutral, leaving the 1.1a distribution untouched.
+  const raw = seededPercentile(`${playerId}:youth-pa-talent:v2`);
+  const gamma = academyPotentialGamma(academyQuality);
+  const percentile = 100 * Math.pow(raw / 100, gamma);
   const band = YOUTH_PA_BANDS.find((b) => percentile < b.upToPercentile) ?? YOUTH_PA_BANDS[YOUTH_PA_BANDS.length - 1];
   const drawn = band.minPA + seededIndex(`${playerId}:youth-pa-value:v2`, band.maxPA - band.minPA + 1);
   const bounded = Math.min(YOUTH_PA_CEILING, Math.min(PA_MAX, drawn));
@@ -475,7 +490,7 @@ interface GeneratedYouthPlayer {
  * the club's own REAL, career-seed-independent squad) could not
  * otherwise produce any variation across different careers at all.
  */
-function generateYouthPlayer(saveSeed: string, clubId: string, intakeYear: number, index: number, weights: Record<HandballPosition, number>, clubShift: number, tier: YouthTier): GeneratedYouthPlayer {
+function generateYouthPlayer(saveSeed: string, clubId: string, intakeYear: number, index: number, weights: Record<HandballPosition, number>, clubShift: number, tier: YouthTier, academyQuality: number): GeneratedYouthPlayer {
   const playerId = `youth-${clubId}-${intakeYear}-${index}`;
   const seedKey = `${saveSeed}:${playerId}`;
   const name = generateYouthName(seedKey);
@@ -484,7 +499,7 @@ function generateYouthPlayer(saveSeed: string, clubId: string, intakeYear: numbe
   const dateOfBirth = generateYouthDateOfBirth(seedKey, intakeYear, age);
   const nationality = generateYouthNationality(seedKey);
   const ca = generateYouthCA(seedKey, clubShift, tier);
-  const pa = generateYouthPA(seedKey, ca);
+  const pa = generateYouthPA(seedKey, ca, academyQuality);
 
   const rating = generateYouthGameplayRating(playerId, position, ca, pa);
 
@@ -568,6 +583,7 @@ export function progressYouthIntake(state: CareerState, date: string): YouthInta
     const tier = youthTierForClub(clubId);
     const clubShift = clubQualityShift(next, clubId);
     const size = intakeSizeForClub(next.saveSeed, clubId, intakeYear);
+    const academyQuality = resolveAcademyQuality(clubId);
 
     const newPlayers: PlayerMock[] = [];
     const newRatings: GameplayPlayerRating[] = [];
@@ -576,7 +592,7 @@ export function progressYouthIntake(state: CareerState, date: string): YouthInta
     let statuses = next.playerStatuses;
 
     for (let i = 0; i < size; i++) {
-      const { player, rating, contract } = generateYouthPlayer(next.saveSeed, clubId, intakeYear, i, weights, clubShift, tier);
+      const { player, rating, contract } = generateYouthPlayer(next.saveSeed, clubId, intakeYear, i, weights, clubShift, tier, academyQuality);
       newPlayers.push(player);
       newRatings.push(rating);
       contracts = { ...contracts, [player.id]: contract };

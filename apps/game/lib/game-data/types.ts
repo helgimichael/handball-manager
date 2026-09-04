@@ -69,6 +69,17 @@ export type Club = {
   founded?: number;
   venue?: string;
   city?: string;
+  /**
+   * HM-YOUTH-INTAKE-1.1B: the club's standing ability to produce young talent,
+   * 0-100 (neutral 50, the same shape as ClubStrength.overall). Part of a real
+   * club's identity, so it is deliberately NOT derived from the current squad,
+   * the current league, or the save seed -- a promoted club does not acquire a
+   * youth system overnight. Optional: unset clubs resolve through the stable
+   * club-identity fallback in career/academyQuality.ts, which is where the one
+   * canonical reader lives. Populating this for real clubs is a research data
+   * pass, not something to invent.
+   */
+  academyQuality?: number;
   /** Hex accent used for crest placeholder + club chrome. */
   primaryColor: string;
   secondaryColor: string;
