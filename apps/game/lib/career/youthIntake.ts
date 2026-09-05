@@ -52,6 +52,7 @@ import { generateGamePriorCA, type PopulationBaselineProfile } from "../rating/g
 import { GAME_PRIOR_MODEL_VERSION } from "../rating/gamePrior/types";
 import { assignArchetypeForPosition } from "../rating/gamePrior/archetypeAssignment";
 import { generatePlayerRatingProfile } from "../rating/generation/generationEngine";
+import { applyProfileTilt, type TiltableBranch } from "../rating/generation/profileTilt";
 import { GENERATION_MODEL_VERSION } from "../rating/generation/types";
 import { unassessedAbilityRating } from "../rating/validators";
 import { CA_MAX, CA_MIN, PA_MAX, PA_MIN, type AttackRole, type PlayerRatingClaim, type PlayerRatingProfile } from "../rating/types";
@@ -485,7 +486,13 @@ function generateYouthGameplayRating(playerId: string, position: HandballPositio
   profile = { ...profile, pa: { value: pa, confidence: "LOW", plausibleRange: { min: Math.max(PA_MIN, pa - 20), max: Math.min(PA_MAX, pa + 20) } } };
 
   const generation = generatePlayerRatingProfile(profile, GENERATION_MODEL_VERSION);
-  const branch = generation.status === "OK" ? generation.profile.branch : { branch: "OUTCOURT" as const, attributes: {} as never };
+  const generated = generation.status === "OK" ? generation.profile.branch : { branch: "OUTCOURT" as const, attributes: {} as never };
+  // HM-YOUTH-INTAKE-1.1D-A: give the player a profile identity -- two lifted
+  // attribute families and two depressed ones, on top of (never instead of)
+  // the position emphasis, archetype role boosts and jitter above. Exactly
+  // CA-neutral by construction; see profileTilt.ts for why simple zero-sum is
+  // not sufficient under clampAttribute.
+  const branch = applyProfileTilt(generated as unknown as TiltableBranch, position, playerId) as unknown as typeof generated;
   const caSource: RatingValueSource = "GENERATED_GAME_PRIOR";
 
   return {
