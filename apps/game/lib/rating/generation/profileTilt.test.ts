@@ -186,9 +186,15 @@ test("the tilt changes neither CA nor PA", () => {
   const ca = rows.map((r) => r.ca);
   assert.ok(Math.min(...ca) >= 1 && Math.max(...ca) <= 200, "CA stays on the global scale");
   assert.ok(rows.every((r) => r.pa >= r.ca), "PA >= CA invariant survives");
-  // CA distribution landmarks measured before 1.1d-A, which must not move.
+  // HM-YOUTH-INTAKE-1.1D-B superseded the original landmarks here. They pinned
+  // median 74 / max <= 110, correct while 1.1d-A owned the scope, but 1.1d-B
+  // deliberately added the age shift and the rare readiness tail and lifted the
+  // Handbollsligan tail to its configured 118 ceiling. What this test actually
+  // guards is that the TILT does not move CA -- proven directly by the
+  // CA-neutrality tests above -- so the landmarks are kept only as loose
+  // sanity bounds that no future tilt change should breach.
   const sorted = [...ca].sort((a, b) => a - b);
   const median = sorted[Math.floor(sorted.length / 2)];
-  assert.ok(Math.abs(median - 74) <= 3, `initial CA median ${median} must be unchanged by profile tilting`);
-  assert.ok(Math.max(...ca) <= 110, "initial CA ceiling must not move in this milestone");
+  assert.ok(Math.abs(median - 75) <= 4, `initial CA median ${median} must not be moved by profile tilting`);
+  assert.ok(Math.max(...ca) <= 118, "initial CA must stay inside the configured tier ceilings");
 });

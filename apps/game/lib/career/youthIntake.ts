@@ -232,8 +232,70 @@ function clubQualityShift(state: CareerState, clubId: string): number {
   return Math.round(clamp((strength.overall - 50) * 0.24, -8, 8));
 }
 
-function generateYouthCA(playerId: string, clubShift: number, tier: YouthTier): number {
-  return generateGamePriorCA(playerId, clubShift, YOUTH_MODEL_VERSION, "STANDARD", YOUTH_CA_PROFILES[tier]);
+// ---------------------------------------------------------------------------
+// HM-YOUTH-INTAKE-1.1D-B: initial senior READINESS.
+//
+// THE TWO DEFECTS THIS FIXES, both measured before any constant moved.
+//
+// 1. AGE CARRIED NO SIGNAL. `generateYouthCA` never received the player's age,
+//    so a 16-year-old and an 18-year-old were statistically identical: mean CA
+//    73.0 / 73.7 / 73.7 at 16/17/18, corr(age, CA) = 0.019.
+//
+// 2. THE DISTRIBUTION HAD NO UPPER TAIL, AND THE CEILINGS WERE DEAD CONFIG.
+//    generateGamePriorCA computes `baseline + shift + seededOffset(key, spread)`,
+//    and seededOffset is a UNIFORM integer in [-spread, +spread] -- hard edges,
+//    no tail. Worse, the arithmetic maximum sat BELOW the configured ceiling in
+//    every tier even at the +8 clubShift bound (85+8+18 = 111 vs ceiling 118;
+//    104 vs 110; 96 vs 102), so no player could ever approach a ceiling and the
+//    ceiling could never bind. Measured clubShift is also never negative in
+//    practice (HBL 2..5, Allsvenskan 1..4, Division 1 0..1), so realistic
+//    maxima were 108/100/89 against observed 103/96/87. The result was
+//    CA >= 100 at 7.1% in Handbollsligan and EXACTLY ZERO in both lower tiers.
+//
+// THE MODEL. Two additive terms are folded into the shift argument
+// generateGamePriorCA already accepts, so the shared generator -- used by other
+// callers -- is not touched at all, and its existing floor/ceiling clamp
+// applies to the result unchanged. The ceilings stop being dead configuration
+// and become what they were always described as: a rare safety cap.
+//
+// Deliberately NOT changed: PA is drawn independently and never sees any of
+// this, Academy Quality and the cohort-year state affect potential only, and no
+// readiness term consults PA or headroom. Present readiness and future
+// potential remain separate dimensions.
+// ---------------------------------------------------------------------------
+
+/**
+ * Age -> readiness, mean-zero over the 25/50/25 age distribution so world-wide
+ * mean CA is unchanged by this term alone. Deliberately small relative to the
+ * +-18/20 jitter, so the age bands overlap heavily: an exceptional 16-year-old
+ * still outranks most 18-year-olds, and ordinary 18-year-olds remain common.
+ */
+const YOUTH_AGE_READINESS_SHIFT: Record<number, number> = { 16: -3, 17: 0, 18: 3 };
+
+/**
+ * The rare readiness tail, as a one-sided continuous mixture rather than a
+ * "prodigy" boolean: below the threshold percentile it contributes exactly
+ * nothing, and above it the bonus grows with a convex exponent so a small
+ * bonus is common within the tail and a large one is genuinely rare. This is
+ * what lets a Division 1 club occasionally produce a teenager already capable
+ * well above his own tier -- without any second player class, and without ever
+ * consulting potential.
+ */
+const READINESS_TAIL_THRESHOLD = 90;   // percentile above which any bonus exists
+const READINESS_TAIL_MAX = 22;         // CA points at the extreme of the tail
+const READINESS_TAIL_EXPONENT = 1.5;   // >1 makes large bonuses rarer than small ones
+
+function readinessTailBonus(seedKey: string): number {
+  const p = seededPercentile(`${seedKey}:youth-readiness-tail:v1`);
+  if (p < READINESS_TAIL_THRESHOLD) return 0;
+  const t = (p - READINESS_TAIL_THRESHOLD) / (100 - READINESS_TAIL_THRESHOLD);
+  return Math.round(Math.pow(t, READINESS_TAIL_EXPONENT) * READINESS_TAIL_MAX);
+}
+
+function generateYouthCA(playerId: string, clubShift: number, tier: YouthTier, age: number): number {
+  const ageShift = YOUTH_AGE_READINESS_SHIFT[age] ?? 0;
+  const shift = clubShift + ageShift + readinessTailBonus(playerId);
+  return generateGamePriorCA(playerId, shift, YOUTH_MODEL_VERSION, "STANDARD", YOUTH_CA_PROFILES[tier]);
 }
 
 // ---------------------------------------------------------------------------
@@ -538,7 +600,7 @@ function generateYouthPlayer(saveSeed: string, clubId: string, intakeYear: numbe
   const age = generateYouthAge(seedKey);
   const dateOfBirth = generateYouthDateOfBirth(seedKey, intakeYear, age);
   const nationality = generateYouthNationality(seedKey);
-  const ca = generateYouthCA(seedKey, clubShift, tier);
+  const ca = generateYouthCA(seedKey, clubShift, tier, age);
   const pa = generateYouthPA(seedKey, ca, academyQuality, cohortExponentOffset);
 
   const rating = generateYouthGameplayRating(playerId, position, ca, pa);
