@@ -62,6 +62,7 @@ import { DIVISION_1_COMPETITION_IDS } from "./division1Integration";
 import { careerWorldClubIds } from "./worldCompetitions";
 import { isPermanentBTeamClub } from "./clubPartnerships";
 import { resolveAcademyQuality, academyPotentialGamma } from "./academyQuality";
+import { academyCohortExponentOffset } from "./academyCohortYear";
 import { buildYouthIntakeCompleteEvent, type CareerEvent } from "./careerEvents";
 import { generateYouthName } from "./youthNames";
 import type { GameplayPlayerRating } from "../gameWorld/gameplayRatingSnapshot";
@@ -281,6 +282,15 @@ function generateYouthCA(playerId: string, clubShift: number, tier: YouthTier): 
 const YOUTH_PA_CEILING = 165;
 
 /**
+ * HM-YOUTH-INTAKE-1.1C: floor on the cohort-adjusted exponent `u = 1/gamma`.
+ * Purely defensive -- the shipped table's most negative offset (-0.163) against
+ * the weakest possible academy (AQ 0, u = 0.588) still leaves u = 0.425, so
+ * this never binds today. It exists so a future recalibration cannot drive u to
+ * zero or negative and invert the transform.
+ */
+export const MIN_COHORT_ADJUSTED_EXPONENT = 0.05;
+
+/**
  * Percentile bands over POTENTIAL. `upToPercentile` is exclusive; `minPA`/
  * `maxPA` are inclusive bounds of a uniform draw within the band.
  *
@@ -317,16 +327,23 @@ function seededPercentile(seedKey: string): number {
  * real clubs happen to be calibrated. Production has exactly one caller,
  * generateYouthPlayer below.
  */
-export function generateYouthPA(playerId: string, ca: number, academyQuality: number): number {
+export function generateYouthPA(playerId: string, ca: number, academyQuality: number, cohortExponentOffset = 0): number {
   // HM-YOUTH-INTAKE-1.1B: academy quality REWEIGHTS the bands, it never adds
   // potential points. `p' = 100 * (p/100)^gamma` is monotone and continuous, so
   // a better academy shifts mass toward the upper bands without ever closing
   // the lower ones or guaranteeing the upper ones -- the weakest academy keeps
   // a real chance of a wonderkid, the strongest is never promised one. gamma
   // is exactly 1 at neutral, leaving the 1.1a distribution untouched.
+  // HM-YOUTH-INTAKE-1.1C: the club-year cohort offset composes with academy
+  // quality by ADDITION in u-space (u = 1/gamma), never by adding to AQ -- see
+  // academyCohortYear.ts for why the AQ-delta form inflates elite output. The
+  // default of 0 leaves this function bit-for-bit the 1.1b draw, so every
+  // existing caller and test is unaffected. `raw` is still one draw per player
+  // from the player's own seed, so a shared cohort signal never makes a cohort
+  // uniform.
   const raw = seededPercentile(`${playerId}:youth-pa-talent:v2`);
-  const gamma = academyPotentialGamma(academyQuality);
-  const percentile = 100 * Math.pow(raw / 100, gamma);
+  const u = Math.max(MIN_COHORT_ADJUSTED_EXPONENT, 1 / academyPotentialGamma(academyQuality) + cohortExponentOffset);
+  const percentile = 100 * Math.pow(raw / 100, 1 / u);
   const band = YOUTH_PA_BANDS.find((b) => percentile < b.upToPercentile) ?? YOUTH_PA_BANDS[YOUTH_PA_BANDS.length - 1];
   const drawn = band.minPA + seededIndex(`${playerId}:youth-pa-value:v2`, band.maxPA - band.minPA + 1);
   const bounded = Math.min(YOUTH_PA_CEILING, Math.min(PA_MAX, drawn));
@@ -506,7 +523,7 @@ interface GeneratedYouthPlayer {
  * the club's own REAL, career-seed-independent squad) could not
  * otherwise produce any variation across different careers at all.
  */
-function generateYouthPlayer(saveSeed: string, clubId: string, intakeYear: number, index: number, weights: Record<HandballPosition, number>, clubShift: number, tier: YouthTier, academyQuality: number): GeneratedYouthPlayer {
+function generateYouthPlayer(saveSeed: string, clubId: string, intakeYear: number, index: number, weights: Record<HandballPosition, number>, clubShift: number, tier: YouthTier, academyQuality: number, cohortExponentOffset: number): GeneratedYouthPlayer {
   const playerId = `youth-${clubId}-${intakeYear}-${index}`;
   const seedKey = `${saveSeed}:${playerId}`;
   const name = generateYouthName(seedKey);
@@ -515,7 +532,7 @@ function generateYouthPlayer(saveSeed: string, clubId: string, intakeYear: numbe
   const dateOfBirth = generateYouthDateOfBirth(seedKey, intakeYear, age);
   const nationality = generateYouthNationality(seedKey);
   const ca = generateYouthCA(seedKey, clubShift, tier);
-  const pa = generateYouthPA(seedKey, ca, academyQuality);
+  const pa = generateYouthPA(seedKey, ca, academyQuality, cohortExponentOffset);
 
   const rating = generateYouthGameplayRating(playerId, position, ca, pa);
 
@@ -600,6 +617,13 @@ export function progressYouthIntake(state: CareerState, date: string): YouthInta
     const clubShift = clubQualityShift(next, clubId);
     const size = intakeSizeForClub(next.saveSeed, clubId, intakeYear);
     const academyQuality = resolveAcademyQuality(clubId);
+    // HM-YOUTH-INTAKE-1.1C: one cohort roll per club-year, resolved beside the
+    // standing academy quality and shared by every player generated below --
+    // which is exactly what gives a cohort a common signal. Rolled only for
+    // clubs that actually run an intake, so the five affiliated B teams
+    // (already excluded by eligibleYouthIntakeClubIds) contribute no club-years
+    // to cohort statistics.
+    const cohortOffset = academyCohortExponentOffset(next.saveSeed, clubId, intakeYear);
 
     const newPlayers: PlayerMock[] = [];
     const newRatings: GameplayPlayerRating[] = [];
@@ -608,7 +632,7 @@ export function progressYouthIntake(state: CareerState, date: string): YouthInta
     let statuses = next.playerStatuses;
 
     for (let i = 0; i < size; i++) {
-      const { player, rating, contract } = generateYouthPlayer(next.saveSeed, clubId, intakeYear, i, weights, clubShift, tier, academyQuality);
+      const { player, rating, contract } = generateYouthPlayer(next.saveSeed, clubId, intakeYear, i, weights, clubShift, tier, academyQuality, cohortOffset);
       newPlayers.push(player);
       newRatings.push(rating);
       contracts = { ...contracts, [player.id]: contract };
