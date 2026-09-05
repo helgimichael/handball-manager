@@ -60,6 +60,7 @@ import type { EconomyProfileInputs } from "../economy/marketValue";
 import { computeSquadDerivedClubStrength } from "./squadDerivedClubStrength";
 import { DIVISION_1_COMPETITION_IDS } from "./division1Integration";
 import { careerWorldClubIds } from "./worldCompetitions";
+import { isPermanentBTeamClub } from "./clubPartnerships";
 import { resolveAcademyQuality, academyPotentialGamma } from "./academyQuality";
 import { buildYouthIntakeCompleteEvent, type CareerEvent } from "./careerEvents";
 import { generateYouthName } from "./youthNames";
@@ -161,8 +162,23 @@ function seededIndex(seedKey: string, n: number): number {
  * Division 1 context, never the manager's. Only eligibility was narrow.
  *
  * Volume follows from the existing per-club rule rather than a new world
- * quota: ~52 eligible clubs x 1.65 = ~86 entrants/year, against the 56-75
+ * quota: ~47 eligible clubs x 1.65 = ~78 entrants/year, against the 56-75
  * annual retirements Phase 1A measured late in a 20-season run.
+ *
+ * AFFILIATED_B_TEAM clubs are excluded. The five canonical permanent B
+ * teams are playing and development destinations for their parent club,
+ * not independent academies, so they must never run an intake of their
+ * own -- doing so invented five extra youth pipelines that no real club
+ * operates. The exclusion derives from the EXISTING canonical source,
+ * `isPermanentBTeamClub` in clubPartnerships.ts, rather than a second
+ * B-team marker on Club: one truth, already used to keep the same five
+ * clubs out of DEVELOPMENT_PARTNERSHIP candidacy. That predicate is
+ * deliberately static rather than a scan of `state.clubPartnerships` --
+ * the relations are permanent and un-endable, and a save loaded before
+ * `seedPermanentBTeamPartnerships` has run would otherwise briefly let
+ * the B teams back in. Their PARENT clubs are unaffected and keep
+ * generating intake normally, and DEVELOPMENT_PARTNERSHIP /
+ * INTERNATIONAL_LOAN_PARTNERSHIP relations are not consulted here at all.
  *
  * World Pool clubs remain excluded -- they are not in careerWorldClubIds,
  * and their squad depth is not populated the same way.
@@ -175,7 +191,7 @@ function seededIndex(seedKey: string, n: number): number {
  * unreachable for the exact clubs that need it most.
  */
 export function eligibleYouthIntakeClubIds(state: CareerState): string[] {
-  return careerWorldClubIds(state);
+  return careerWorldClubIds(state).filter((clubId) => !isPermanentBTeamClub(clubId));
 }
 
 // ---------------------------------------------------------------------------

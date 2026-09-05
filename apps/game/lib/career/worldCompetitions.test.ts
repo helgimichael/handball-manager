@@ -14,6 +14,7 @@ import { cpuRecruiterClubIds, progressCpuRecruitment } from "./cpuRecruitment";
 import { rankCandidates } from "./cpuCandidateEvaluation";
 import { assessSquadNeeds, priorityNeeds } from "./cpuSquadNeeds";
 import { eligibleYouthIntakeClubIds } from "./youthIntake";
+import { isPermanentBTeamClub, PERMANENT_B_TEAM_PAIRS } from "./clubPartnerships";
 import { progressPlayerLifecycle } from "./playerLifecycle";
 import { getClubBudgets, ensureCareerClubEconomy } from "../economy/clubEconomyIntegration";
 import { getPlayerContract } from "../economy/contractIntegration";
@@ -192,15 +193,30 @@ test("contracts: ownership is correct across every tier after career creation", 
 // alone absorbed the low-CA youth diluting its mean -- which inverted the league
 // table and made quality calibration meaningless. Intake is now a world rule on
 // the same membership source retirement and CPU recruitment already use.
-test("Youth Intake scope: eligibility spans the whole career world, like retirement and CPU recruitment", () => {
+// HM-YOUTH-INTAKE-ELIGIBILITY-1.1: the final assertion here previously demanded
+// that intake scope BE careerWorldClubIds exactly. That is what let the five
+// canonical AFFILIATED_B_TEAM clubs run academies of their own. The world scope
+// this test exists to protect -- every tier, not just the manager's -- is
+// unchanged; only the documented B-team exclusion is applied on top of it.
+test("Youth Intake scope: eligibility spans the whole career world, minus permanent B teams", () => {
   const state = fullWorldState("world-youth-scope", "se_club_hammarby_if_hf");
   const eligible = new Set(eligibleYouthIntakeClubIds(state));
   for (const competitionId of [HBL_ID, ALLSVENSKAN_ID, D1_NORRA_ID, D1_SODRA_ID]) {
-    const clubs = getClubsByCompetition(competitionId).map((c) => c.id).filter((id) => state.worldSquads[id] !== undefined);
+    const clubs = getClubsByCompetition(competitionId)
+      .map((c) => c.id)
+      .filter((id) => state.worldSquads[id] !== undefined && !isPermanentBTeamClub(id));
     assert.ok(clubs.length > 0, `${competitionId} should have clubs with squads`);
     assert.ok(clubs.every((id) => eligible.has(id)), `${competitionId} clubs must all receive youth intake`);
   }
-  assert.deepEqual([...eligible].sort(), [...careerWorldClubIds(state)].sort(), "intake scope must BE the career-world club set, not a parallel list");
+  assert.deepEqual(
+    [...eligible].sort(),
+    careerWorldClubIds(state).filter((id) => !isPermanentBTeamClub(id)).sort(),
+    "intake scope must BE the career-world club set minus B teams, not a parallel list",
+  );
+  for (const { clubAId, clubBId } of PERMANENT_B_TEAM_PAIRS) {
+    assert.ok(!eligible.has(clubBId), `${clubBId} is a development destination, not an academy`);
+    assert.ok(eligible.has(clubAId), `${clubAId} is the parent club and keeps its academy`);
+  }
 });
 
 test("lifecycle: retirement/decline evaluation spans every tier (Handbollsligan, Allsvenskan, Division 1), not just the manager's own competition", () => {

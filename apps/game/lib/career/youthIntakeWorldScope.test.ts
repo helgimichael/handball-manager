@@ -25,6 +25,7 @@ import { progressYouthIntake, eligibleYouthIntakeClubIds, YOUTH_INTAKE_DATE_MMDD
 import { RETIRED_CLUB_ID } from "./playerLifecycle";
 import { FREE_AGENT_CLUB_ID } from "./contractExpiry";
 import { SWEDISH_WORLD_COMPETITION_IDS, careerWorldClubIds } from "./worldCompetitions";
+import { isPermanentBTeamClub, PERMANENT_B_TEAM_PAIRS } from "./clubPartnerships";
 import { createNewCareerState } from "./newCareer";
 import { getClub, getClubsByCompetition, type PlayerMock } from "../game-data";
 import { CA_MIN, CA_MAX, PA_MIN, PA_MAX } from "../rating/types";
@@ -68,19 +69,102 @@ test("every Swedish world competition receives youth intake", () => {
   }
 });
 
-test("eligibility IS the career-world club set, not a parallel list", () => {
+// HM-YOUTH-INTAKE-ELIGIBILITY-1.1: this test previously asserted that
+// eligibility was EXACTLY careerWorldClubIds. That was the bug -- it made the
+// five canonical AFFILIATED_B_TEAM clubs run academies of their own. Eligibility
+// is now that set MINUS the permanent B teams; the membership source is
+// unchanged, only the one documented exclusion is applied on top.
+test("eligibility is the career-world club set minus the permanent B teams", () => {
   const state = syntheticWorld();
-  assert.deepEqual(
-    [...eligibleYouthIntakeClubIds(state)].sort(),
-    [...careerWorldClubIds(state)].sort(),
-    "intake must reuse the same membership source retirement and CPU recruitment use",
-  );
   const eligible = new Set(eligibleYouthIntakeClubIds(state));
+  const world = careerWorldClubIds(state);
+
+  assert.deepEqual(
+    [...eligible].sort(),
+    world.filter((id) => !isPermanentBTeamClub(id)).sort(),
+    "intake must reuse the same membership source retirement and CPU recruitment use, minus B teams",
+  );
   for (const competitionId of SWEDISH_WORLD_COMPETITION_IDS) {
-    const clubs = getClubsByCompetition(competitionId).map((c) => c.id);
-    assert.ok(clubs.every((id) => eligible.has(id)), `${competitionId} clubs must all be eligible`);
+    for (const club of getClubsByCompetition(competitionId)) {
+      if (isPermanentBTeamClub(club.id)) continue;
+      assert.ok(eligible.has(club.id), `${club.id} (${competitionId}) must be eligible`);
+    }
   }
-  assert.ok(eligible.size >= 40, `expected the full world club set, got ${eligible.size}`);
+  assert.equal(eligible.size, 47, "47 Swedish clubs run an independent youth intake");
+});
+
+test("no permanent B team is eligible, and every parent club still is", () => {
+  const state = syntheticWorld();
+  const eligible = new Set(eligibleYouthIntakeClubIds(state));
+  assert.equal(PERMANENT_B_TEAM_PAIRS.length, 5, "the canonical B-team set is five pairs");
+  for (const { clubAId, clubBId } of PERMANENT_B_TEAM_PAIRS) {
+    assert.ok(!eligible.has(clubBId), `${clubBId} is a B team and must not run its own academy`);
+    assert.ok(eligible.has(clubAId), `${clubAId} is a parent club and must keep its academy`);
+  }
+});
+
+test("no youth player is ever generated for a permanent B team", () => {
+  let state = syntheticWorld();
+  for (let year = 2027; year < 2037; year++) {
+    const { state: next, generated } = progressYouthIntake(state, `${year}-${YOUTH_INTAKE_DATE_MMDD}`);
+    for (const { clubBId } of PERMANENT_B_TEAM_PAIRS) {
+      assert.equal(generated[clubBId], undefined, `${clubBId} must generate nobody in ${year}`);
+      assert.equal((next.worldSquads[clubBId] ?? []).length, 0, `${clubBId} squad must stay empty in ${year}`);
+      assert.equal(next.youthIntakeClubYears[clubBId], undefined, `${clubBId} must not even record an intake year`);
+    }
+    state = next;
+  }
+});
+
+test("the exclusion derives from the partnership source, not a second B-team list", () => {
+  // Guards against duplicate truth: if clubPartnerships ever changes which
+  // clubs are permanent B teams, eligibility must follow automatically.
+  const state = syntheticWorld();
+  const eligible = new Set(eligibleYouthIntakeClubIds(state));
+  for (const clubId of careerWorldClubIds(state)) {
+    assert.equal(eligible.has(clubId), !isPermanentBTeamClub(clubId), `${clubId} eligibility must equal !isPermanentBTeamClub`);
+  }
+});
+
+test("other partnership types do not affect intake eligibility", () => {
+  // DEVELOPMENT_PARTNERSHIP and INTERNATIONAL_LOAN_PARTNERSHIP are ordinary,
+  // endable relations between clubs that both keep their own academies.
+  const base = syntheticWorld();
+  const partnerId = "se_club_bodens_bk_hf";
+  const withOthers = {
+    ...base,
+    clubPartnerships: {
+      ...base.clubPartnerships,
+      dp1: { id: "dp1", type: "DEVELOPMENT_PARTNERSHIP", clubAId: HUMAN_CLUB, clubBId: partnerId, status: "ACTIVE", startDate: "2026-01-01", endDate: "2027-01-01", permanent: false, monthlyCostEur: 1000, lastBilledDate: null },
+      il1: { id: "il1", type: "INTERNATIONAL_LOAN_PARTNERSHIP", clubAId: HUMAN_CLUB, clubBId: "se_club_taby_hbk", status: "ACTIVE", startDate: "2026-01-01", endDate: "2027-01-01", permanent: false, monthlyCostEur: 0, lastBilledDate: null },
+    },
+  } as CareerState;
+
+  const eligible = new Set(eligibleYouthIntakeClubIds(withOthers));
+  assert.ok(eligible.has(partnerId), "a DEVELOPMENT_PARTNERSHIP partner keeps its own academy");
+  assert.ok(eligible.has("se_club_taby_hbk"), "an INTERNATIONAL_LOAN_PARTNERSHIP partner keeps its own academy");
+  assert.ok(eligible.has(HUMAN_CLUB), "the club holding those partnerships keeps its own academy");
+  assert.deepEqual(
+    [...eligible].sort(),
+    [...new Set(eligibleYouthIntakeClubIds(base))].sort(),
+    "adding non-B-team partnerships must not change eligibility at all",
+  );
+});
+
+test("excluding B teams leaves every other club's intake bit-for-bit unchanged", () => {
+  // The correction is eligibility ONLY: no generation input changes, so an
+  // unaffected club must produce exactly the players it produced before.
+  const state = syntheticWorld();
+  const { generated } = progressYouthIntake(state, INTAKE_DATE);
+  const survivors = Object.keys(generated).filter((id) => !isPermanentBTeamClub(id));
+  assert.ok(survivors.length > 30, `expected a broad intake, got ${survivors.length} clubs`);
+  // Cohort sizes still follow the untouched 1/2/3 rule.
+  for (const clubId of survivors) {
+    const n = generated[clubId].length;
+    assert.ok(n >= 1 && n <= 3, `${clubId} generated ${n} players, outside the unchanged 1-3 rule`);
+  }
+  const total = survivors.reduce((a, id) => a + generated[id].length, 0);
+  assert.ok(total / survivors.length > 1.3 && total / survivors.length < 2.0, `mean cohort ${(total / survivors.length).toFixed(2)} must still sit near 1.65`);
 });
 
 // ---------------------------------------------------------------------------
