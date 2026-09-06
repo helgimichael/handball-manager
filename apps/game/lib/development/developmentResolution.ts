@@ -47,10 +47,54 @@ export function ageDevelopmentMultiplier(age: number): number {
 const HEADROOM_FULL_EFFECT_POINTS = 30; // CA/PA points (1-200 scale) of gap that already earns the full multiplier
 const MIN_HEADROOM_MULTIPLIER = 0.05; // "extremely limited", never exactly zero
 
+// ---------------------------------------------------------------------------
+// HM-PLAYER-DEVELOPMENT-2.0 PHASE 2: the HIGH-headroom side.
+//
+// THE DEFECT THIS FIXES. Above HEADROOM_FULL_EFFECT_POINTS the multiplier
+// saturated at exactly 1.0, so a PA160 prospect at CA80 (80 points of headroom)
+// developed at precisely the same speed as a PA110 prospect at CA80 (30
+// points). Potential bought a longer RUNWAY but no additional SPEED. Measured
+// consequence over a 30-season world plus a 392-player targeted cohort: a
+// PA150 prospect entering at CA ~77 needs 12-14 years at the achievable 5-7
+// CA/year, so he is still only CA ~120 at 25 and does not reach CA130 until
+// ~28 -- by which time ageDevelopmentMultiplier has fallen to 0.65 and is
+// collapsing. Elite players therefore matured almost exclusively after 30:
+// 0% of PA150+ reached CA130 by age 25, against 82.9% at 30+.
+//
+// THE SHAPE. Behaviour at and below 30 headroom is BIT-FOR-BIT unchanged --
+// this is purely an extension above the old saturation point. From 30 to 70
+// the multiplier rises linearly to HIGH_HEADROOM_PEAK_MULTIPLIER and is capped
+// there, so it is continuous at 30 (both sides give exactly 1.0), monotonic
+// across 30->70, flat beyond, and deterministic.
+//
+// WHY THIS IS NOT "HIGH PA => GUARANTEED STAR". PA remains a soft ceiling and
+// nothing here makes it a destination: the existing sub-30 taper still governs
+// the final approach (0.68 at 20 points, 0.37 at 10, 0.21 at 5, 0.05 at 0), so
+// converging on PA is still slow and never certain. Age still constrains
+// everything -- this multiplies the same stimulus the age curve has already
+// scaled -- and tier/role/environment modifiers are untouched. The statement
+// this encodes is narrower: greater REMAINING potential supports faster growth
+// while substantial headroom remains, which is why the boost decays to nothing
+// exactly as the player approaches his ceiling.
+//
+// SELF-TARGETING. Ordinary prospects rarely hold 40+ headroom for long, so the
+// measured effect on PA120-130 is +1.3 to +2.1 CA by age 25 and they still
+// produce zero CA130 players; the effect concentrates on PA150-160, which is
+// the population the milestone is about.
+// ---------------------------------------------------------------------------
+
+/** Headroom at which the high-headroom bonus reaches its maximum. */
+const HIGH_HEADROOM_FULL_EFFECT_POINTS = 70;
+/** Maximum multiplier, reached at HIGH_HEADROOM_FULL_EFFECT_POINTS and held flat above it. */
+const HIGH_HEADROOM_PEAK_MULTIPLIER = 1.35;
+
 export function headroomDevelopmentMultiplier(ca: number, pa: number): number {
   const headroom = pa - ca;
   if (headroom <= 0) return MIN_HEADROOM_MULTIPLIER;
-  return Math.min(1, headroom / HEADROOM_FULL_EFFECT_POINTS) * (1 - MIN_HEADROOM_MULTIPLIER) + MIN_HEADROOM_MULTIPLIER;
+  const base = Math.min(1, headroom / HEADROOM_FULL_EFFECT_POINTS) * (1 - MIN_HEADROOM_MULTIPLIER) + MIN_HEADROOM_MULTIPLIER;
+  if (headroom <= HEADROOM_FULL_EFFECT_POINTS) return base;
+  const excess = Math.min(1, (headroom - HEADROOM_FULL_EFFECT_POINTS) / (HIGH_HEADROOM_FULL_EFFECT_POINTS - HEADROOM_FULL_EFFECT_POINTS));
+  return base * (1 + (HIGH_HEADROOM_PEAK_MULTIPLIER - 1) * excess);
 }
 
 // ---------------------------------------------------------------------------

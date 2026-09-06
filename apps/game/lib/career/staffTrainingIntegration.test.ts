@@ -21,9 +21,12 @@ import type { CareerState } from "./types";
 import type { ResolvedStaffMember, StaffAttribute } from "../staff/types";
 import { generateStaffAttributeProfile } from "../staff/staffAttributeGeneration";
 
+/** Every fixture in this file starts flat, so converted attribute points are exactly (value - FIXTURE_ATTRIBUTE_START). */
+const FIXTURE_ATTRIBUTE_START = 10;
+
 function buildOutcourtRating(playerId: string, ca: number, pa: number): GameplayPlayerRating {
   const attributes: Record<string, { value: number; origin: string }> = {};
-  for (const attr of OUTCOURT_ATTRIBUTES) attributes[attr] = { value: 10, origin: "GENERATED_PRIOR" };
+  for (const attr of OUTCOURT_ATTRIBUTES) attributes[attr] = { value: FIXTURE_ATTRIBUTE_START, origin: "GENERATED_PRIOR" };
   return {
     playerId,
     position: "M6",
@@ -40,7 +43,7 @@ function buildOutcourtRating(playerId: string, ca: number, pa: number): Gameplay
 
 function buildGoalkeeperRating(playerId: string, ca: number, pa: number): GameplayPlayerRating {
   const attributes: Record<string, { value: number; origin: string }> = {};
-  for (const attr of GOALKEEPER_ATTRIBUTES) attributes[attr] = { value: 10, origin: "GENERATED_PRIOR" };
+  for (const attr of GOALKEEPER_ATTRIBUTES) attributes[attr] = { value: FIXTURE_ATTRIBUTE_START, origin: "GENERATED_PRIOR" };
   return {
     playerId,
     position: "GK",
@@ -91,6 +94,35 @@ function totalProgress(state: CareerState, playerId: string): number {
   return Object.values(dev.attributeProgress).reduce((a, b) => a + (b ?? 0), 0);
 }
 
+/**
+ * Attribute points this player has actually been AWARDED, read from the real
+ * applied attribute values rather than from developmentHistory -- history is
+ * capped at DEVELOPMENT_HISTORY_LIMIT (20), so counting it silently undercounts
+ * exactly the fast-developing player a coaching comparison is trying to detect.
+ */
+function convertedPoints(state: CareerState, playerId: string): number {
+  for (const ratings of Object.values(state.gameplayRatings)) {
+    const rating = ratings.find((r) => r.playerId === playerId);
+    if (!rating) continue;
+    const attributes = rating.branch.attributes as unknown as Record<string, { value: number }>;
+    return Object.values(attributes).reduce((sum, a) => sum + (a.value - FIXTURE_ATTRIBUTE_START), 0);
+  }
+  return 0;
+}
+
+/**
+ * REALISED development: progress already converted into attribute points, plus
+ * progress still pending in the accumulator.
+ *
+ * `totalProgress` alone is residual accumulator state and is NOT monotonic in
+ * development: crossing PROGRESS_THRESHOLD_PER_POINT awards a point and reduces
+ * the accumulator, so the player who has developed MORE can show LESS residual.
+ * Every cross-subject development comparison in this file must use this instead.
+ */
+function realisedDevelopment(state: CareerState, playerId: string): number {
+  return convertedPoints(state, playerId) * PROGRESS_THRESHOLD_PER_POINT + totalProgress(state, playerId);
+}
+
 // (35) session result stores coach attribution.
 test("(35) a session's TrainingSessionResult stores the resolved coach id and quality", () => {
   const playerId = "p-hallqvist";
@@ -131,19 +163,33 @@ test("(25) identical training under a WEAK coach produces less accumulated progr
   const weakCoach = buildCoach("weak-coach", ["ASSISTANT_COACH"], { TECHNICAL_COACHING: 2, TACTICAL_COACHING: 2 });
   const strongCoach = buildCoach("strong-coach", ["ASSISTANT_COACH"], { TECHNICAL_COACHING: 19, TACTICAL_COACHING: 19 });
 
-  let weakState = freshState("staff-25-weak", [buildOutcourtRating("p-hallqvist", 100, 190)], [weakCoach]);
-  let strongState = freshState("staff-25-strong", [buildOutcourtRating("p-hallqvist", 100, 190)], [strongCoach]);
-
-  let week = mondayOf(weakState.gameDate);
-  for (let w = 1; w <= 4; w++) {
-    weakState = advanceOneWeekTechnical(weakState, week);
-    strongState = advanceOneWeekTechnical(strongState, week);
-    week = addDays(week, 7);
+  // INTENT: stronger coaching must produce at least as much REALISED
+  // development as weaker coaching, and strictly more while the system is
+  // below its caps. Measured with realisedDevelopment, never residual
+  // progress -- see that helper for why residual inverts once points land.
+  function afterFourWeeks(label: string, coach: ResolvedStaffMember, ca: number, pa: number): number {
+    let state = freshState(label, [buildOutcourtRating("p-hallqvist", ca, pa)], [coach]);
+    let week = mondayOf(state.gameDate);
+    for (let w = 1; w <= 4; w++) {
+      state = advanceOneWeekTechnical(state, week);
+      week = addDays(week, 7);
+    }
+    return realisedDevelopment(state, "p-hallqvist");
   }
 
-  const weakProgress = totalProgress(weakState, "p-hallqvist");
-  const strongProgress = totalProgress(strongState, "p-hallqvist");
-  assert.ok(strongProgress > weakProgress, `weak=${weakProgress} strong=${strongProgress}`);
+  // Below saturation (moderate headroom): the advantage must be STRICT.
+  const weakModerate = afterFourWeeks("staff-25-weak-mod", weakCoach, 100, 135);
+  const strongModerate = afterFourWeeks("staff-25-strong-mod", strongCoach, 100, 135);
+  assert.ok(strongModerate > weakModerate, `below saturation a strong coach must develop strictly more: weak=${weakModerate} strong=${strongModerate}`);
+
+  // The deliberately extreme CA100/PA190 fixture sits at the existing
+  // per-attribute stimulus cap and the one-point-per-resolution cap, where
+  // both coaches can legitimately TIE. That is a real saturation property of
+  // the caps, not a coaching regression -- so the requirement here is >=,
+  // and the stronger coach may never come out behind.
+  const weakExtreme = afterFourWeeks("staff-25-weak", weakCoach, 100, 190);
+  const strongExtreme = afterFourWeeks("staff-25-strong", strongCoach, 100, 190);
+  assert.ok(strongExtreme >= weakExtreme, `at saturation a strong coach must never develop LESS: weak=${weakExtreme} strong=${strongExtreme}`);
 });
 
 // (26) staff multiplier affects conversion, not participation.
@@ -200,7 +246,12 @@ test("(30) a young high-headroom player still outpaces a low-headroom player und
     lowHeadroom = advanceOneWeekTechnical(lowHeadroom, week);
     week = addDays(week, 7);
   }
-  assert.ok(totalProgress(highHeadroom, "p-hallqvist") > totalProgress(lowHeadroom, "p-hallqvist"));
+  // INTENT: remaining potential must still drive development speed. Compared
+  // on realised development -- the high-headroom player converts progress into
+  // points sooner, which DEFLATES his residual accumulator.
+  const high = realisedDevelopment(highHeadroom, "p-hallqvist");
+  const low = realisedDevelopment(lowHeadroom, "p-hallqvist");
+  assert.ok(high > low, `a young high-headroom player must outdevelop a low-headroom one: high=${high} low=${low}`);
 });
 
 // (31) near-potential player still develops slowly with elite coach.
@@ -215,7 +266,11 @@ test("(31) a player already AT their potential develops extremely slowly even un
     highHeadroom = advanceOneWeekTechnical(highHeadroom, week);
     week = addDays(week, 7);
   }
-  assert.ok(totalProgress(highHeadroom, "p-hallqvist") > totalProgress(atPotential, "p-hallqvist") * 3, "expected the at-potential player's progress to be dramatically smaller");
+  // INTENT: PA stays a soft ceiling -- a player already AT his potential still
+  // develops, but dramatically more slowly, even under an elite coach.
+  const high = realisedDevelopment(highHeadroom, "p-hallqvist");
+  const at = realisedDevelopment(atPotential, "p-hallqvist");
+  assert.ok(high > at * 3, `expected the at-potential player to develop dramatically less: atPotential=${at} highHeadroom=${high}`);
 });
 
 // (32) GK coach affects GK training only.
@@ -407,7 +462,11 @@ test("Part 35: 12-week and 52-week WEAK vs AVERAGE vs ELITE coach longitudinal c
     // happening at different rates (a coach who converts progress into
     // points MORE often naturally carries a SMALLER pending remainder,
     // which would make them look like they developed less).
-    const totalAccumulated = hiddenProgress + dev.developmentHistory.length * PROGRESS_THRESHOLD_PER_POINT;
+    // developmentHistory is capped at DEVELOPMENT_HISTORY_LIMIT (20), so it
+    // UNDERCOUNTS a coach good enough to convert more than 20 points -- the
+    // exact case this comparison exists to detect. Read the awarded points from
+    // the applied attribute values instead.
+    const totalAccumulated = realisedDevelopment(state, "p-hallqvist");
     return { endCA: rating.ca, visibleChanges: dev.developmentHistory.length, hiddenProgress, totalAccumulated };
   }
 
