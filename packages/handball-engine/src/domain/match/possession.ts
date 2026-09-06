@@ -37,12 +37,11 @@ import type { TeamId } from "../handball/player";
 export type AttackingGoalSide = CanonicalGoalSide;
 
 /**
- * The minimum phase vocabulary M1 needs. Deliberately not the whole future
- * system: first wave, second wave, early offense and defensive retreat are
- * transition phases that arrive later. They can be added as further members
- * WITHOUT replacing the full-court spatial state, which is the property that
- * matters -- the state is already court-wide, so a transition phase is new
- * behaviour over the same coordinates, never a new world.
+ * The phase vocabulary. M1 established the organized-attack phases; M2 added
+ * the transition ones. Adding them required no change to the spatial state --
+ * exactly the property the full-court foundation was chosen for: a transition
+ * phase is new behaviour over the same coordinates, never a new world. Second
+ * wave and the fuller taxonomy can arrive the same way.
  */
 export const POSSESSION_PHASES = [
   "ORGANIZED_SETUP",
@@ -50,13 +49,54 @@ export const POSSESSION_PHASES = [
   "ATTACK_ACTION",
   "RESOLUTION",
   "DEAD_BALL",
+  // MATCH-EXPERIENCE-2.0 M2: transition. A defensive regain becomes a real
+  // handball transition in the opposite direction, over the SAME full-court
+  // state -- these are added members, not a second world.
+  "POSSESSION_CHANGE",
+  "DEFENSIVE_RETREAT",
+  "FIRST_WAVE",
+  "EARLY_OFFENSE",
   "COMPLETE",
 ] as const;
 export type PossessionPhase = (typeof POSSESSION_PHASES)[number];
 
-/** The terminal results M1 supports. 7m, suspensions and waves are explicitly out of scope. */
-export const POSSESSION_OUTCOMES = ["SHOT_GOAL", "SHOT_SAVED", "SHOT_MISSED", "TURNOVER", "FREE_THROW"] as const;
+/**
+ * Terminal results. The first five end a possession; M2 adds
+ * ORGANIZED_ATTACK_REACHED, which is how a transition ends when the fast break
+ * does NOT resolve -- the team has simply arrived and settled into an
+ * organized attacking shape at the opposite end. It exists so the engine never
+ * has to fake a shot merely to terminate a transition.
+ */
+export const POSSESSION_OUTCOMES = [
+  "SHOT_GOAL",
+  "SHOT_SAVED",
+  "SHOT_MISSED",
+  "TURNOVER",
+  "FREE_THROW",
+  "ORGANIZED_ATTACK_REACHED",
+] as const;
+
 export type PossessionOutcome = (typeof POSSESSION_OUTCOMES)[number];
+
+/**
+ * The outcomes an ORGANIZED POSSESSION can end in. ORGANIZED_ATTACK_REACHED is
+ * deliberately excluded: it means "the fast break did not resolve and the team
+ * settled", which only a transition can produce.
+ */
+export const ORGANIZED_POSSESSION_OUTCOMES = [
+  "SHOT_GOAL",
+  "SHOT_SAVED",
+  "SHOT_MISSED",
+  "TURNOVER",
+  "FREE_THROW",
+] as const;
+
+/** The outcomes that hand the ball to the team that was defending. */
+export const POSSESSION_CHANGING_OUTCOMES = ["SHOT_SAVED", "TURNOVER"] as const;
+
+export function changesPossession(outcome: PossessionOutcome): boolean {
+  return (POSSESSION_CHANGING_OUTCOMES as readonly string[]).includes(outcome);
+}
 
 /** Spatial/match context that the raw HandballState (players + ball + defense) does not itself carry. */
 export type PossessionContext = {

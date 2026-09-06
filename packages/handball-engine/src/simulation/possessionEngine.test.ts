@@ -17,7 +17,7 @@ import {
 import { createFullCourt6v6State } from "../scenarios/fullCourt6v6";
 import { simulatePossession, deriveMatchEvent, MAX_POSSESSION_STEPS } from "./possessionEngine";
 import { COURT_BOUNDS_METERS, COURT_LENGTH_METERS, COURT_WIDTH_METERS } from "../domain/geometry/court";
-import { goalCentre, POSSESSION_OUTCOMES, type PossessionOutcome } from "../domain/match/possession";
+import { goalCentre, ORGANIZED_POSSESSION_OUTCOMES, type PossessionOutcome } from "../domain/match/possession";
 
 const TOP = createFullCourt6v6State({ attackingGoalSide: "TOP" });
 const BOTTOM = createFullCourt6v6State({ attackingGoalSide: "BOTTOM" });
@@ -53,9 +53,11 @@ test("SIM geometry and the shared canonical contract agree rather than being rec
 test("an organized 6v6 can be positioned at either goal of the full court", () => {
   for (const state of [TOP, BOTTOM]) {
     const players = state.handball.players;
-    assert.equal(players.filter((p) => p.team === "ATTACK").length, 6, "six attackers");
+    assert.equal(players.filter((p) => p.team === "ATTACK" && p.kind === "FIELD_PLAYER").length, 6, "six outfield attackers");
     assert.equal(players.filter((p) => p.team === "DEFENSE" && p.kind === "FIELD_PLAYER").length, 6, "six defenders");
-    assert.equal(players.filter((p) => p.kind === "GOALKEEPER").length, 1, "a defending goalkeeper");
+    // A full court has two defended goals, so the canonical scenario carries
+    // BOTH keepers -- see the two-goalkeeper tests in sequenceEngine.test.ts.
+    assert.equal(players.filter((p) => p.kind === "GOALKEEPER").length, 2, "a goalkeeper in each goal");
     assert.equal(state.handball.ball.status, "POSSESSED");
     assert.ok(state.handball.ball.possessorId, "an attacker starts with the ball");
     for (const p of players) {
@@ -142,7 +144,7 @@ test("every possession reaches one of the five supported terminal outcomes", () 
   for (let seed = 1; seed <= 60; seed += 1) {
     const result = simulatePossession({ seed, initialState: TOP });
     assert.ok(
-      (POSSESSION_OUTCOMES as readonly string[]).includes(result.outcome),
+      (ORGANIZED_POSSESSION_OUTCOMES as readonly string[]).includes(result.outcome),
       `seed ${seed} produced an unsupported outcome ${result.outcome}`,
     );
     assert.equal(result.finalState.possession.outcome, result.outcome);
@@ -243,15 +245,15 @@ test("TURNOVER is reachable through the natural loop, not only via the guard", (
   assert.equal(event.playerId, result.resolvingPlayerId, "the event names the player who lost it");
 });
 
-test("all five M1 terminal outcomes are reachable from the production loop", () => {
+test("all five ORGANIZED-possession terminal outcomes are reachable from the production loop", () => {
   // The 400-seed sample used during development happened to contain no
   // TURNOVER, which is why the specific seed above is pinned separately.
   const seen = new Set<PossessionOutcome>();
   for (let seed = 1; seed <= 1400; seed += 1) {
     seen.add(simulatePossession({ seed, initialState: TOP }).outcome);
-    if (seen.size === POSSESSION_OUTCOMES.length) break;
+    if (seen.size === ORGANIZED_POSSESSION_OUTCOMES.length) break;
   }
-  for (const outcome of POSSESSION_OUTCOMES) {
+  for (const outcome of ORGANIZED_POSSESSION_OUTCOMES) {
     assert.ok(seen.has(outcome), `${outcome} was never produced by the natural loop`);
   }
 });

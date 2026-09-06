@@ -99,8 +99,14 @@ function ratingOf(ratings: SimulatePossessionInput["ratings"], playerId: string,
   return ratings?.[playerId]?.[key] ?? DEFAULT_RATING;
 }
 
+/**
+ * Outfield attackers only. The full-court scenario carries BOTH goalkeepers, so
+ * filtering on team alone would make the attacking team's own keeper -- stood
+ * in his goal at the far end -- a legal circulation target, and the attack
+ * would casually pass the ball 39 metres backwards.
+ */
 function attackers(state: HandballState): readonly Player[] {
-  return state.players.filter((p) => p.team === "ATTACK");
+  return state.players.filter((p) => p.team === "ATTACK" && p.kind === "FIELD_PLAYER");
 }
 
 function defenders(state: HandballState): readonly Player[] {
