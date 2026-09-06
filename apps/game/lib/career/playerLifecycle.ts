@@ -59,9 +59,19 @@
 //     never auto-recomputed from CA -- a PRE-EXISTING characteristic of
 //     the codebase, not a new gap this milestone introduces. Documented,
 //     not patched, per Part 14's own instruction ("only fix if it
-//     creates correctness or severe decision pathology" -- audited via
-//     simulation, see this milestone's own final report; no pathology
-//     found).
+//     creates correctness or severe decision pathology").
+//     CORRECTED (HM-PLAYER-DEVELOPMENT-2.0 PHASE 1): "no pathology found"
+//     was WRONG, and the 30-season benchmark falsified it. Because the
+//     tier is a lifetime constant, a player's protective multiplier can
+//     never decay -- so once the age curve stopped rising at 43 (see
+//     RETIREMENT_AGE_ANCHORS below) a contracted KEY_PLAYER sat at a
+//     fixed 6.9% annual retirement probability forever. The benchmark
+//     measured active players aged 56-66 on all four seeds, with the
+//     maximum climbing ~1 year per season without settling. The tier is
+//     STILL static -- that remains deliberate and unpatched -- but it can
+//     no longer produce an indefinite protected state, because
+//     EXTREME_AGE_RETIREMENT_FLOOR_ANCHORS now bounds the final
+//     probability from below regardless of tier or contract.
 import { getCareerPlayer } from "./careerWorld";
 import { getPlayerContract, getPlayerContractStatus } from "../economy/contractIntegration";
 import { transferPlayerPermanently } from "../transfers/transferExecution";
@@ -166,7 +176,67 @@ const RETIREMENT_AGE_ANCHORS: readonly (readonly [number, number])[] = [
   [39, 0.6],
   [40, 0.75],
   [43, 0.92],
+  // HM-PLAYER-DEVELOPMENT-2.0 PHASE 1: the table previously ENDED at 43, and
+  // `interpolate` returns the final anchor for every x beyond the table -- so
+  // the base probability was exactly flat from 43 to infinity. These two
+  // anchors keep it rising instead of freezing.
+  [46, 0.96],
+  [50, 0.99],
 ];
+
+// ---------------------------------------------------------------------------
+// HM-PLAYER-DEVELOPMENT-2.0 PHASE 1: EXTREME-AGE RETIREMENT FLOOR.
+//
+// THE DEFECT THIS FIXES. The 30-season benchmark found active players aged
+// 56-66 on every seed, with the maximum climbing ~1 year per season and never
+// settling. Root cause, proven from code rather than inferred:
+//
+//   1. RETIREMENT_AGE_ANCHORS ended at 43, so base froze at 0.92 forever.
+//   2. TIER_RETIREMENT_MULTIPLIER is read from deriveDefaultSquadStatusTier,
+//      which resolves from STATIC PlayerMock fields (calibratedSquadStatusTier
+//      or the squadStatus string) and has NO dependence on CA, age or form.
+//      A player's tier is therefore a lifetime constant.
+//   3. contractSituationMultiplier returns 0.15 while comfortably contracted.
+//
+// Together those gave a contracted KEY_PLAYER a 0.92*0.5*0.15 = 6.9% annual
+// retirement probability at EVERY age past 43 -- an absorbing state, since
+// nothing about getting older could ever raise it again.
+//
+// WHY A FLOOR RATHER THAN BIGGER MULTIPLIERS. The multipliers are bounded
+// below by 0.5 (KEY_PLAYER) * 0.15 (contracted) = 0.075. For age to dominate
+// multiplicatively the base would have to exceed 13.0, which is impossible for
+// a probability. So no reformulation of the existing product can satisfy "age
+// must eventually dominate all protective multipliers" -- the floor has to be
+// applied AFTER the multipliers, which is exactly what makes it a floor.
+//
+// WHY NOT EXTEND THE DECLINE CURVE INSTEAD. Measured, not assumed:
+// declinePointsForPlayer ends in clamp(points, 0, 3), and expectedDeclinePoints
+// is already 2.8 at age 43. Any anchor producing an expected value >= 3.0
+// yields exactly 3 points after the clamp, so additional decline anchors are
+// INERT unless the clamp itself is raised. And because the tier is a lifetime
+// constant (point 2 above), even unlimited decline could never move a player
+// into a higher-retirement tier. The decline curve is structurally incapable of
+// breaking this lock-in, so this milestone deliberately leaves it untouched.
+//
+// SHAPE. Zero below 38 so nothing about ordinary careers changes; the floor
+// only overtakes the multiplier path around 39-40, then rises steeply. Read on
+// effectiveAge like every other curve here, so goalkeepers keep the same
+// consistent discount rather than acquiring a second, special rule.
+// ---------------------------------------------------------------------------
+const EXTREME_AGE_RETIREMENT_FLOOR_ANCHORS: readonly (readonly [number, number])[] = [
+  [38, 0.0],
+  [40, 0.12],
+  [42, 0.3],
+  [44, 0.55],
+  [46, 0.78],
+  [48, 0.93],
+  [50, 0.99],
+];
+
+/** The minimum annual retirement probability at `age`, irrespective of tier, contract or any other protective multiplier. */
+export function extremeAgeRetirementFloor(age: number, isGoalkeeper: boolean): number {
+  return interpolate(EXTREME_AGE_RETIREMENT_FLOOR_ANCHORS, effectiveAge(age, isGoalkeeper));
+}
 
 /** Nobody is even evaluated below this age -- avoids spending a seeded roll (and any audit noise) on players the curve already treats as ~0. */
 const RETIREMENT_MIN_EVAL_AGE = 28;
@@ -228,6 +298,9 @@ export interface RetirementDecisionTrace {
   tierMultiplier: number;
   contractMultiplier: number;
   freeAgentMultiplier: number;
+  /** PHASE 1: the extreme-age floor, and whether it (rather than the multiplier path) decided `probability`. */
+  extremeAgeFloor: number;
+  floorBinds: boolean;
   probability: number;
   seedKey: string;
   roll: number;
@@ -247,14 +320,16 @@ export function setRetirementTraceSink(sink: ((trace: RetirementDecisionTrace) =
 
 /** Exported for the Phase 0.5 audit so a trace can attribute the final probability to its factors. */
 export function retirementProbabilityFactors(inputs: RetirementProbabilityInputs): {
-  base: number; tier: number; contract: number; freeAgent: number;
+  base: number; tier: number; contract: number; freeAgent: number; floor: number; floorBinds: boolean;
 } {
-  return {
-    base: baseRetirementProbability(inputs.age, inputs.isGoalkeeper),
-    tier: TIER_RETIREMENT_MULTIPLIER[inputs.tier],
-    contract: contractSituationMultiplier(inputs.contractStatus),
-    freeAgent: isFreeAgentStatus(inputs.contractStatus) ? freeAgentDurationMultiplier(inputs.daysUnattached) : 1.0,
-  };
+  const base = baseRetirementProbability(inputs.age, inputs.isGoalkeeper);
+  const tier = TIER_RETIREMENT_MULTIPLIER[inputs.tier];
+  const contract = contractSituationMultiplier(inputs.contractStatus);
+  const freeAgent = isFreeAgentStatus(inputs.contractStatus) ? freeAgentDurationMultiplier(inputs.daysUnattached) : 1.0;
+  const floor = extremeAgeRetirementFloor(inputs.age, inputs.isGoalkeeper);
+  // `floorBinds` says which of the two paths actually decided this player's
+  // probability -- the diagnostic the age-tail audit needs.
+  return { base, tier, contract, freeAgent, floor, floorBinds: floor > base * tier * contract * freeAgent };
 }
 
 /** The exact seed key the retirement roll uses -- exported so an audit can analyse the generator's distribution over the REAL key namespace. */
@@ -273,7 +348,10 @@ export function computeRetirementProbability(inputs: RetirementProbabilityInputs
   const tierMult = TIER_RETIREMENT_MULTIPLIER[inputs.tier];
   const contractMult = contractSituationMultiplier(inputs.contractStatus);
   const faMult = isFreeAgentStatus(inputs.contractStatus) ? freeAgentDurationMultiplier(inputs.daysUnattached) : 1.0;
-  return clamp(base * tierMult * contractMult * faMult, 0, 0.98);
+  // PHASE 1: the multiplier path stays exactly as it was -- the floor only ever
+  // RAISES the result, and is 0 below age 38, so no ordinary career changes.
+  const floor = extremeAgeRetirementFloor(inputs.age, inputs.isGoalkeeper);
+  return clamp(Math.max(base * tierMult * contractMult * faMult, floor), 0, 0.98);
 }
 
 function isFreeAgentStatus(status: ContractStatus | undefined): boolean {
@@ -535,6 +613,7 @@ export function progressPlayerLifecycle(state: CareerState, date: string): Playe
             retirementTraceSink({
               date, playerId: player.id, clubId, age, isGoalkeeper, tier, contractStatus: status, daysUnattached,
               baseProbability: f.base, tierMultiplier: f.tier, contractMultiplier: f.contract, freeAgentMultiplier: f.freeAgent,
+              extremeAgeFloor: f.floor, floorBinds: f.floorBinds,
               probability, seedKey, roll, rollPassed: true, executed,
               blockedReason: executed ? null : retirementBlockReason(beforeRetire, player.id),
             });
@@ -548,6 +627,7 @@ export function progressPlayerLifecycle(state: CareerState, date: string): Playe
           retirementTraceSink({
             date, playerId: player.id, clubId, age, isGoalkeeper, tier, contractStatus: status, daysUnattached,
             baseProbability: f.base, tierMultiplier: f.tier, contractMultiplier: f.contract, freeAgentMultiplier: f.freeAgent,
+              extremeAgeFloor: f.floor, floorBinds: f.floorBinds,
             probability, seedKey, roll, rollPassed: false, executed: false, blockedReason: null,
           });
         }
