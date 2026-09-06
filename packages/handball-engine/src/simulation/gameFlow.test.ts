@@ -14,10 +14,16 @@ import { simulateGameSequence, createGameFlowState, teamOf, type GameFlowResult,
 
 const START = createFullCourt6v6State({ attackingGoalSide: "TOP" });
 
-/** Seeds pinned from an 800-seed scan so each required behaviour has a deterministic witness. */
-const SEED_FREE_THROW = 12; // free throw, continued by the same team, ending in a goal
-const SEED_MIXED = 7; // goals, centre restarts, saves, transitions
-const SEED_TURNOVER = 4; // a turnover mid-run, followed by the transition it causes
+/**
+ * Seeds pinned from a scan so each required behaviour has a deterministic
+ * witness. Re-pinned after the organized-shape fix: restoring positional width
+ * legitimately changes trajectories, so the old witnesses no longer produce the
+ * same outcomes. The assertions are unchanged -- only the seeds that exercise
+ * them.
+ */
+const SEED_FREE_THROW = 21; // free throw, continued by the same team
+const SEED_MIXED = 1; // goals, centre restarts, saves, settled breaks
+const SEED_TURNOVER = 8; // a turnover mid-run, followed by the transition it causes
 
 function run(seed: number, maxPossessions = 8): GameFlowResult {
   return simulateGameSequence(START, seed, { maxPossessions });

@@ -26,6 +26,7 @@ import { SIMULATION_DT_SECONDS } from "./fixedStep";
 import { step } from "./engine";
 import { createPossessionRng, type PossessionRng } from "./possessionRng";
 import { evaluateSixZeroDefense } from "../policies/defense/sixZeroDefensePolicy";
+import { organizedShapeTarget } from "./transition";
 import { distanceBetween } from "../domain/geometry/coordinates";
 import { goalCentre, type FullCourtMatchState, type PossessionOutcome, type PossessionPhase } from "../domain/match/possession";
 import type { MeterPoint } from "../domain/geometry/coordinates";
@@ -297,8 +298,21 @@ export function simulatePossession(input: SimulatePossessionInput): PossessionRe
     const carrier = findPlayer(handball, handball.ball.possessorId);
 
     if (phase === "ORGANIZED_SETUP") {
+      // Re-establish organized WIDTH before circulating. Every other movement
+      // target in the engine pulls players toward the goal or the ball, so
+      // without this the six roles drift onto the centre line over a match and
+      // the attack degenerates into a single file. Only the lateral lane is
+      // restored, from FIELD's own canonical formation; depth is left alone.
+      let restored = 0;
+      for (const player of handball.players) {
+        if (player.kind === "GOALKEEPER") continue;
+        const target = organizedShapeTarget(player);
+        if (!target) continue;
+        actions.push({ type: "MOVE", playerId: player.id, target });
+        restored += 1;
+      }
       phase = "CIRCULATION";
-      record("attack is set; beginning ball circulation");
+      record(restored > 0 ? `attack is set; ${restored} players recover organized width` : "attack is set; beginning ball circulation");
     } else if (phase === "CIRCULATION" && carrier && handball.ball.status === "POSSESSED") {
       const disruption = checkDisruption(handball, carrier, rng, ratings);
       if (disruption) {

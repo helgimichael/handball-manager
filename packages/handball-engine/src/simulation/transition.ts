@@ -26,6 +26,7 @@ import { distanceBetween } from "../domain/geometry/coordinates";
 import type { MeterPoint } from "../domain/geometry/coordinates";
 import type { AttackRole, DefenseRole, Player, PlayerRole } from "../domain/handball/player";
 import type { HandballState } from "../domain/handball/state";
+import { createHalfCourt6v6StateWithGoalkeeper } from "../scenarios/halfCourt6v6";
 
 /** Attack roles assigned left-to-right across the court when a team gains the ball. */
 const ATTACK_ROLE_BY_LANE: readonly AttackRole[] = ["LEFT_WING", "LEFT_BACK", "CENTER_BACK", "RIGHT_BACK", "RIGHT_WING", "PIVOT"];
@@ -218,4 +219,50 @@ export function leadRunner(state: HandballState, goalSide: AttackingGoalSide, ex
   return [...candidates].sort(
     (a, b) => distanceBetween(a.position, goal) - distanceBetween(b.position, goal) || a.id.localeCompare(b.id),
   )[0];
+}
+
+
+// ---------------------------------------------------------------------------
+// Organized positional shape
+// ---------------------------------------------------------------------------
+
+/**
+ * The lateral lane each handball role occupies, read ONCE from FIELD's own
+ * canonical 6v6 formation rather than invented here. Wings sit wide, backs
+ * inside them, the centre back and pivot central; the 6:0 defenders spread
+ * L1..R1 across the goal.
+ *
+ * WHY THIS EXISTS. Every movement target in M1-M4 pulls a player toward the
+ * goal or the ball: the attacking drive alone moves a carrier 35% of the way
+ * toward goal.x (the centre line) each time he attacks. Nothing ever restored
+ * organized shape, so across a full match every outfield player converged on
+ * x = 10 -- measured mean outfield width fell from 18.8m at kickoff to 1.11m,
+ * with 93% of frames under 8m on a 20m court. The six roles stopped occupying
+ * recognisable handball positions and the attack became a single file through
+ * the centre.
+ */
+const ROLE_LANE_X: Record<string, number> = (() => {
+  const lanes: Record<string, number> = {};
+  for (const player of createHalfCourt6v6StateWithGoalkeeper().players) {
+    if (player.kind === "GOALKEEPER") continue;
+    lanes[player.role] = player.position.x;
+  }
+  return lanes;
+})();
+
+/** The canonical lane for a role, or undefined for a role the formation does not define. */
+export function roleLaneX(role: string): number | undefined {
+  return ROLE_LANE_X[role];
+}
+
+/**
+ * Where a player should stand to re-establish organized width, keeping his
+ * CURRENT depth. Only the lateral position is restored -- how deep the attack
+ * stands is left to the possession itself.
+ */
+export function organizedShapeTarget(player: Player): MeterPoint | null {
+  const lane = roleLaneX(player.role);
+  if (lane === undefined) return null;
+  if (Math.abs(player.position.x - lane) < 0.6) return null; // already in his lane
+  return { x: lane, y: player.position.y };
 }

@@ -53,6 +53,24 @@ export const MAX_SEGMENTS_PER_HALF = 400;
 
 export type MatchHalf = 1 | 2;
 
+/**
+ * A spatial trace entry stamped with official match time.
+ *
+ * Presentation metadata only -- the simulation is untouched. A renderer needs
+ * to know WHEN on the match clock a recorded spatial state belongs, and the
+ * underlying simulationTime is preserved alongside it so replay/debugging still
+ * has the engine's own clock. Entries within a segment are spread linearly
+ * across that segment's match-clock span, which is the smallest honest mapping
+ * given the engine resolves an attack faster than official time elapses.
+ */
+export type MatchTraceEntry = GameFlowTraceEntry & {
+  readonly half: MatchHalf;
+  /** Seconds within the half. */
+  readonly clockSeconds: number;
+  /** Seconds since the opening throw-off. */
+  readonly matchSeconds: number;
+};
+
 export type MatchEventRecord = {
   readonly half: MatchHalf;
   /** Seconds within the half, 0..1800. */
@@ -81,8 +99,8 @@ export type MatchResult = {
   /** Every event, in order, with official match-clock timestamps. */
   readonly events: readonly MatchEventRecord[];
   readonly segments: readonly (GameFlowSegment & { readonly half: MatchHalf; readonly clockSeconds: number })[];
-  /** The underlying spatial trace, preserved separately from match time. */
-  readonly trace: readonly GameFlowTraceEntry[];
+  /** The underlying spatial trace, stamped with match time but keeping simulationTime too. */
+  readonly trace: readonly MatchTraceEntry[];
   readonly finalState: GameFlowState;
   readonly simulationSeconds: number;
   readonly steps: number;
@@ -125,7 +143,7 @@ type HalfRun = {
   readonly flow: GameFlowState;
   readonly events: readonly MatchEventRecord[];
   readonly segments: readonly (GameFlowSegment & { readonly half: MatchHalf; readonly clockSeconds: number })[];
-  readonly trace: readonly GameFlowTraceEntry[];
+  readonly trace: readonly MatchTraceEntry[];
   readonly steps: number;
   readonly simulationSeconds: number;
   readonly guardTripped: boolean;
@@ -147,7 +165,7 @@ function playHalf(
 ): HalfRun {
   const events: MatchEventRecord[] = [];
   const segments: (GameFlowSegment & { half: MatchHalf; clockSeconds: number })[] = [];
-  const trace: GameFlowTraceEntry[] = [];
+  const trace: MatchTraceEntry[] = [];
   let current = flow;
   let clock = 0;
   let steps = 0;
@@ -170,7 +188,15 @@ function playHalf(
     simulationSeconds += advance.simulatedSeconds;
 
     const clockAfter = Math.min(HALF_LENGTH_SECONDS, clock + advance.simulatedSeconds * MATCH_PACING_FACTOR);
-    trace.push(...advance.trace);
+    // Spread this segment's spatial entries across the match-clock span it
+    // consumed, so a renderer can place every recorded state on the official
+    // clock without the engine having to know anything about presentation.
+    const span = clockAfter - clock;
+    const count = advance.trace.length;
+    advance.trace.forEach((entry, i) => {
+      const at = count <= 1 ? clockAfter : clock + (span * i) / (count - 1);
+      trace.push({ ...entry, half, clockSeconds: at, matchSeconds: (half - 1) * HALF_LENGTH_SECONDS + at });
+    });
     segments.push({ ...advance.segment, half, clockSeconds: clockAfter });
     events.push({
       half,

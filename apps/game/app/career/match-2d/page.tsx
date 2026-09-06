@@ -1,0 +1,301 @@
+"use client";
+
+// MATCH-EXPERIENCE-2.0 M5: the dev 2D match viewer.
+//
+// Plays back a deterministic match produced by handball-engine's M4 runner.
+// This page is a pure CONSUMER: it never decides a player target, a pass, a
+// shot, possession, an outcome or the score. It advances a playback clock,
+// asks match-integration for the frame at that clock, and hands the resulting
+// snapshot to FIELD's own MasterCourt. Presentation speed changes only how
+// fast the official clock is consumed -- the match is already fully simulated
+// before the first frame is drawn.
+//
+// Dev-only, exactly like /career/match-center. Career matches still come from
+// the legacy Fast Match Engine; nothing here writes to career state.
+
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
+import MasterCourt, {
+  type InteractionMode,
+  type ToolId,
+} from "@handball-manager/match-renderer/src/ui/workspaces/tactics-board/MasterCourt.tsx";
+import {
+  APPROVED_DEFENSIVE_ZONE_CALIBRATION,
+  APPROVED_DEFENSIVE_ZONE_LABEL_CALIBRATION,
+} from "@handball-manager/match-renderer/src/ui/workspaces/tactics-board/geometry/HandballCourtGeometry.ts";
+import { DEFAULT_CAMERA } from "@handball-manager/match-renderer/src/ui/camera/Camera2D.ts";
+import { designSystemTheme } from "@handball-manager/match-renderer/src/ui/design-system/index.ts";
+import { createFullCourt6v6State } from "@handball-manager/handball-engine/src/scenarios/fullCourt6v6.ts";
+import { simulateMatch } from "@handball-manager/handball-engine/src/simulation/matchRunner.ts";
+import {
+  buildPlaybackFrames,
+  frameAtMatchSeconds,
+  playbackDurationSeconds,
+  advancePlaybackClock,
+  formatMatchClock,
+  snapshotToScene,
+  PLAYBACK_SPEEDS,
+  type PlaybackSpeed,
+} from "@handball-manager/match-integration";
+
+function noop() {}
+
+const DEFAULT_SEED = 12;
+
+export default function Match2DPage() {
+  const [seed, setSeed] = useState(DEFAULT_SEED);
+  const [clock, setClock] = useState(0);
+  const [playing, setPlaying] = useState(false);
+  const [speed, setSpeed] = useState<PlaybackSpeed>(1);
+
+  // The match is simulated ONCE, up front and in full. Playback never re-runs
+  // it, which is what makes speed purely presentational.
+  const { frames, duration, finalScore } = useMemo(() => {
+    const start = createFullCourt6v6State({ attackingGoalSide: "TOP" });
+    const match = simulateMatch(start, seed);
+    const goalkeeperIds = start.handball.players.filter((p) => p.kind === "GOALKEEPER").map((p) => p.id);
+    const built = buildPlaybackFrames(match, { goalkeeperIds, rosters: match.finalState.rosters });
+    return { frames: built, duration: playbackDurationSeconds(built), finalScore: match.finalScore };
+  }, [seed]);
+
+  const frame = frameAtMatchSeconds(frames, clock) ?? frames[0];
+  const scene = useMemo(() => (frame ? snapshotToScene(frame.snapshot) : null), [frame]);
+
+  // Fit the portrait court into the landscape stage. Measured, so the court
+  // scales with the window instead of collapsing into a letterboxed sliver.
+  const stageRef = useRef<HTMLDivElement | null>(null);
+  const [stage, setStage] = useState({ width: 0, height: 0 });
+  useLayoutEffect(() => {
+    const el = stageRef.current;
+    if (!el) return;
+    const measure = () => setStage({ width: el.clientWidth, height: el.clientHeight });
+    measure();
+    const observer = new ResizeObserver(measure);
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+  const courtPixels = useMemo(() => {
+    // After a quarter turn the court occupies (length x width) on screen, so
+    // fit against the swapped axes and keep the true 20:40 proportion.
+    const scale = Math.min(stage.width / 40, stage.height / 20);
+    const s = Number.isFinite(scale) && scale > 0 ? scale : 0;
+    return { width: 20 * s, height: 40 * s };
+  }, [stage.width, stage.height]);
+
+  // Presentation loop: real elapsed time * speed advances the OFFICIAL clock.
+  const lastTickRef = useRef<number | null>(null);
+  useEffect(() => {
+    if (!playing) {
+      lastTickRef.current = null;
+      return;
+    }
+    let raf = 0;
+    const tick = (now: number) => {
+      const previous = lastTickRef.current ?? now;
+      lastTickRef.current = now;
+      const deltaRealSeconds = Math.min(0.25, (now - previous) / 1000);
+      setClock((current) => {
+        const next = advancePlaybackClock(current, deltaRealSeconds, speed, duration);
+        if (next >= duration) setPlaying(false);
+        return next;
+      });
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [playing, speed, duration]);
+
+  if (!frame || !scene) return <div style={{ padding: 24 }}>Ingen match att spela upp.</div>;
+
+  const possessorId = frame.snapshot.ball.possessorPlayerId;
+  const possessor = possessorId ? frame.snapshot.players.find((p) => p.id === possessorId) : undefined;
+
+  return (
+    <div style={{ display: "flex", flexDirection: "column", height: "100%", gap: 0 }}>
+      {/* HUD -- every value below comes from the engine's own match output. */}
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          gap: 20,
+          padding: "10px 16px",
+          borderBottom: "1px solid var(--hm-border-subtle)",
+          background: "var(--hm-surface-2)",
+          fontVariantNumeric: "tabular-nums",
+        }}
+      >
+        <strong style={{ fontSize: 20 }}>
+          HOME {frame.score.HOME} – {frame.score.AWAY} AWAY
+        </strong>
+        <span style={{ fontSize: 18 }}>{formatMatchClock(frame.matchSeconds)}</span>
+        <span style={{ opacity: 0.75 }}>{frame.half === 1 ? "Första halvlek" : "Andra halvlek"}</span>
+        <span style={{ marginLeft: "auto", display: "flex", gap: 8, alignItems: "center" }}>
+          <button type="button" className="hm-btn hm-btn-primary" onClick={() => setPlaying((p) => !p)}>
+            {playing ? "PAUSE" : "PLAY"}
+          </button>
+          <button type="button" className="hm-btn" onClick={() => { setPlaying(false); setClock(0); }}>
+            RESTART
+          </button>
+          {PLAYBACK_SPEEDS.map((s) => (
+            <button
+              key={s}
+              type="button"
+              className={s === speed ? "hm-btn hm-btn-primary" : "hm-btn"}
+              onClick={() => setSpeed(s)}
+            >
+              {s}x
+            </button>
+          ))}
+        </span>
+      </div>
+
+      {/* Seek across the whole match. Seeking only moves the clock. */}
+      <div style={{ padding: "8px 16px", borderBottom: "1px solid var(--hm-border-subtle)" }}>
+        <input
+          type="range"
+          min={0}
+          max={Math.max(1, Math.round(duration))}
+          value={Math.round(clock)}
+          onChange={(e) => setClock(Number(e.target.value))}
+          style={{ width: "100%" }}
+          aria-label="Sök i matchen"
+        />
+      </div>
+
+      {/*
+        PRESENTATION ONLY. The canonical court is 20m wide x 40m long, i.e.
+        portrait, which letterboxes into a thin strip on a desktop viewport.
+        FIELD's Camera2D supports zoom/pan but not rotation, so the court is
+        fitted to the container at its true aspect ratio and then rotated a
+        quarter turn in CSS for landscape viewing. Simulation coordinates are
+        completely untouched -- this is a transform on pixels, nothing else.
+      */}
+      {/*
+        FIELD's court styling is driven by its own design-system custom
+        properties: MasterCourt.module.css strokes every line with
+        var(--ds-color-text) over var(--ds-color-surface). Those variables are
+        supplied by designSystemTheme, which /career/match-center already
+        applies to its court container. Without it the tokens are unset here and
+        the markings render with no contrast against the dark surface. Applying
+        the theme reuses FIELD's existing styling system verbatim -- no colours
+        are overridden and no geometry is redrawn.
+      */}
+      <div
+        ref={stageRef}
+        style={{
+          flex: 1,
+          minHeight: 0,
+          position: "relative",
+          overflow: "hidden",
+          ...designSystemTheme,
+          background: "var(--ds-color-background)",
+        }}
+      >
+        <div
+          style={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            width: courtPixels.width,
+            height: courtPixels.height,
+            transform: "translate(-50%, -50%) rotate(-90deg)",
+            transformOrigin: "center center",
+          }}
+        >
+        <MasterCourt
+          scene={scene}
+          activeTool={"SELECT" as ToolId}
+          presentationMode
+          interactionMode={"SELECT" as InteractionMode}
+          interactionCancelVersion={0}
+          isContextMenuOpen={false}
+          camera={DEFAULT_CAMERA}
+          onPlaceObject={noop}
+          onSelectObject={noop}
+          onMoveObject={noop}
+          onDeleteObject={noop}
+          onRotateObject={noop}
+          onObjectMoveGestureStart={noop}
+          onObjectMoveGestureEnd={noop}
+          onObjectRotateGestureStart={noop}
+          onObjectRotateGestureEnd={noop}
+          onPanBy={noop}
+          onZoomAt={noop}
+          onEmptyCourtPointerDown={noop}
+          onCancelToSelect={noop}
+          onFinishContinuousDrawingToSelect={noop}
+          defensiveZoneCalibration={APPROVED_DEFENSIVE_ZONE_CALIBRATION}
+          calibrationMode={false}
+          onDragDividerPoint={noop}
+          onDividerDragStart={noop}
+          onDividerDragEnd={noop}
+          defensiveZoneLabelCalibration={APPROVED_DEFENSIVE_ZONE_LABEL_CALIBRATION}
+          defensiveZoneLabelCalibrationMode={false}
+          selectedDefensiveZoneLabelKey="center"
+          onSelectDefensiveZoneLabel={noop}
+          onDragDefensiveZoneLabel={noop}
+          onRotateDefensiveZoneLabel={noop}
+          onDefensiveZoneLabelGestureStart={noop}
+          onDefensiveZoneLabelGestureEnd={noop}
+          drawings={[]}
+          onSelectDrawing={noop}
+          onMoveDrawing={noop}
+          onMoveDrawingPoint={noop}
+          onAnchorDrawingPoint={noop}
+          onDeleteDrawing={noop}
+          onDrawingGestureStart={noop}
+          onDrawingGestureEnd={noop}
+          pathDraftAnchors={null}
+          onPathAnchorAdd={noop}
+          onPathFinishDroppingLastAnchor={noop}
+          onPathPreviewMove={noop}
+          areas={[]}
+          onCreateArea={noop}
+          onSelectArea={noop}
+          onMoveArea={noop}
+          onMoveAreaPoint={noop}
+          onResizeAreaRectangle={noop}
+          onRotateArea={noop}
+          onDeleteArea={noop}
+          onAreaGestureStart={noop}
+          onAreaGestureEnd={noop}
+          onCreatePlayerAction={noop}
+          onMovePlayerActionScreenAnchor={noop}
+          onPlayerActionGestureStart={noop}
+          onPlayerActionGestureEnd={noop}
+          onOpenPlayerActionsContextMenu={noop}
+          pendingPlayerAction={null}
+          onPendingPlayerActionCommit={noop}
+        />
+        </div>
+      </div>
+
+      {/* Debug/event label -- the engine's own note for the state on screen. */}
+      <div
+        style={{
+          display: "flex",
+          gap: 16,
+          alignItems: "center",
+          padding: "8px 16px",
+          borderTop: "1px solid var(--hm-border-subtle)",
+          background: "var(--hm-surface-2)",
+          fontSize: 13,
+        }}
+      >
+        <span style={{ opacity: 0.85 }}>{frame.note}</span>
+        <span style={{ marginLeft: "auto", opacity: 0.6 }}>
+          boll: {frame.snapshot.ball.status}
+          {possessor ? ` · ${possessor.id}` : ""} · sim {frame.simulationTime.toFixed(1)}s · slutresultat {finalScore.HOME}–{finalScore.AWAY}
+        </span>
+        <label style={{ display: "flex", gap: 6, alignItems: "center", opacity: 0.8 }}>
+          seed
+          <input
+            type="number"
+            value={seed}
+            onChange={(e) => { setSeed(Number(e.target.value) || 0); setClock(0); setPlaying(false); }}
+            style={{ width: 80 }}
+          />
+        </label>
+      </div>
+    </div>
+  );
+}

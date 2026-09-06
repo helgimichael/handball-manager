@@ -76,5 +76,9 @@ export function snapshotToBoardObjects(snapshot: MatchRenderSnapshot): BoardObje
  * that want a ready-to-render scene rather than a bare object list.
  */
 export function snapshotToScene(snapshot: MatchRenderSnapshot): TacticsBoardScene {
-  return createInitialScene({ objects: snapshotToBoardObjects(snapshot) });
+  // The snapshot's own court view must reach the scene: createInitialScene
+  // defaults to HALF_COURT, which is right for a tactics-board exercise but
+  // wrong for a match. A full-court match rendered on a half-court viewport
+  // would simply hide everything happening at the far goal.
+  return createInitialScene({ objects: snapshotToBoardObjects(snapshot), courtView: snapshot.court.view });
 }

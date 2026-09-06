@@ -8,3 +8,15 @@ export {
   type MatchSequenceState,
   type MatchSequenceAdvanceResult,
 } from "./sequenceController";
+export {
+  buildPlaybackFrames,
+  frameAtMatchSeconds,
+  playbackDurationSeconds,
+  advancePlaybackClock,
+  formatMatchClock,
+  PLAYBACK_SPEEDS,
+  type PlaybackFrame,
+  type PlaybackRoster,
+  type PlaybackSpeed,
+  type PlaybackSourceMatch,
+} from "./matchPlayback";
