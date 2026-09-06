@@ -10,8 +10,11 @@ import { submitTransferOffer } from "../transfers/transferIntegration";
 import { isTransferWindowOpen } from "../transfers/transferWindow";
 import { seededOffset } from "../rating/generation/deterministicVariation";
 import { addDays, isSameOrBefore } from "./dateUtils";
-import { assessPositionNeed, assessSquadNeeds, priorityNeeds, projectedSquadSize, positionEmergencyLevel, isSquadFloorEmergency, type NeedLevel } from "./cpuSquadNeeds";
+import { assessPositionNeed, assessSquadNeeds, priorityNeeds, projectedSquadSize, positionEmergencyLevel, isSquadFloorEmergency, isUsableForSquadPlanning, type NeedLevel } from "./cpuSquadNeeds";
 import { bestAffordableCandidate, rankCandidates } from "./cpuCandidateEvaluation";
+// The SAME constant that decides a player has been "clearly replaced" on the
+// release side -- one threshold governs both arrival and departure.
+import { CLEARLY_REPLACED_CA_GAP } from "./cpuContractDecisions";
 import { careerWorldClubIds } from "./worldCompetitions";
 import type { CareerState } from "./types";
 
@@ -204,7 +207,14 @@ function evaluateClub(state: CareerState, clubId: string, date: string): { state
   }
 
   if (needy.length === 0) {
-    return { state: next, urgent: false }; // Part: "Balanced squad ska kunna ge NO ACTION" -- nothing logged as a pursuit, nothing pursued.
+    // Part: "Balanced squad ska kunna ge NO ACTION" -- no DEPTH pursuit. But a
+    // squad with no depth need at all is exactly the population
+    // HM-CPU-SQUAD-QUALITY-UPGRADES-1.0 exists for, so the replacement pathway
+    // still runs before returning. It logs and pursues only when a materially
+    // better player is actually available; a balanced AND strong squad still
+    // does nothing, which is what that requirement really protects.
+    const upgraded = pursueQualityUpgrades(next, clubId, date, CPU_RECRUITMENT_MAX_ACTIVE_PURSUITS - activePursuitCount(next, clubId));
+    return { state: upgraded, urgent: false };
   }
 
   let slotsRemaining = CPU_RECRUITMENT_MAX_ACTIVE_PURSUITS - activePursuitCount(next, clubId);
@@ -227,7 +237,165 @@ function evaluateClub(state: CareerState, clubId: string, date: string): { state
     if (result.pursued) slotsRemaining -= 1;
   }
 
+  // HM-CPU-SQUAD-QUALITY-UPGRADES-1.0: replacement recruitment, strictly
+  // AFTER every depth need above has had its chance and only with capacity
+  // left over -- depth priority is unchanged.
+  next = pursueQualityUpgrades(next, clubId, date, slotsRemaining);
+
   return { state: next, urgent };
+}
+
+// ---------------------------------------------------------------------------
+// HM-CPU-SQUAD-QUALITY-UPGRADES-1.0: the quality-upgrade pathway.
+//
+// THE DEFECT THIS FIXES. cpuSquadNeeds.ts is a DEPTH model: levelForCount
+// returns LOW at 3+ players, priorityNeeds pursues only HIGH/MEDIUM, and
+// qualityAdjustedLevel hard-gates itself off once effectiveCount reaches
+// ADEQUATE_DEPTH_COUNT. So once every position had three bodies a club became
+// permanently self-satisfied, however weak it was. Measured over a 30-season
+// canonical world: Handbollsligan carried ~84 generated players below CA 98
+// while 98 CA130+ generated players played in lower divisions, and the top
+// flight settled at mean CA 111.8 against 131.3 under perfect allocation --
+// i.e. the world already contained the quality, it simply never moved.
+//
+// WHY NOT LOW -> MEDIUM. That was the first design and it is provably dead:
+// evaluateClub skips MEDIUM entirely once projectedSquadSize reaches
+// SQUAD_SIZE_LARGE_THRESHOLD (24), and Handbollsligan squads average exactly
+// 24. The branch would never have produced a pursuit for the squads it exists
+// to improve. MEDIUM also means "needs another body", which is the opposite of
+// what this is -- so it is a separate pathway, not an overloaded need level.
+//
+// REPLACEMENT, NOT ACCUMULATION. Qualification compares the best AFFORDABLE
+// candidate the ordinary ranker returns against the WEAKEST USABLE INCUMBENT
+// at that same position, and requires CLEARLY_REPLACED_CA_GAP. That is the
+// same constant cpuContractDecisions.ts already uses to decide a player is
+// "clearly replaced" (positionRank >= 2 && caGapToPositionBest >= gap), so
+// every upgrade this path signs is one the existing release path will act on
+// -- one threshold governs both arrival and departure, never two.
+//
+// WHY IT CANNOT RUN AWAY. The historic failure (clubs with 7-11 goalkeepers)
+// came from a rule keyed on a LOW AVERAGE: buying cheap depth lowered the
+// average and re-triggered the same rule on its own output. This rule is keyed
+// on beating the weakest incumbent by 12, so each successful upgrade RAISES
+// that position's floor and the next one needs a strictly better player --
+// monotonically convergent rather than divergent. Squad size is additionally
+// bounded outright: the club must be under SQUAD_SIZE_LARGE_THRESHOLD + 1, so
+// exactly one replacement may be in flight and 24 -> 25 is the only growth
+// possible before a displaced incumbent leaves.
+// ---------------------------------------------------------------------------
+
+/** Maximum projected squad size at which a quality upgrade may START -- allows exactly one in-flight replacement (24 -> 25), never a second. */
+export const UPGRADE_MAX_PROJECTED_SQUAD_SIZE = SQUAD_SIZE_LARGE_THRESHOLD + 1;
+
+/** The weakest usable incumbent's CA at `position`, or undefined when the position has nobody usable (then it is a DEPTH problem, not an upgrade one). */
+function weakestUsableIncumbentCA(state: CareerState, clubId: string, position: HandballPosition): number | undefined {
+  const ratings = state.gameplayRatings[clubId] ?? [];
+  const caById = new Map(ratings.map((r) => [r.playerId, r.ca]));
+  let weakest: number | undefined;
+  for (const player of state.worldSquads[clubId] ?? []) {
+    if (player.position !== position) continue;
+    if (!isUsableForSquadPlanning(state, player)) continue;
+    const ca = caById.get(player.id) ?? player.currentAbility;
+    if (typeof ca !== "number") continue;
+    if (weakest === undefined || ca < weakest) weakest = ca;
+  }
+  return weakest;
+}
+
+/**
+ * True while a permanent signing this club has already committed to has not
+ * physically joined yet (an AGREED_AWAITING_WINDOW deal). Starting a second
+ * quality upgrade before the first one lands would commit the club to two
+ * bodies against one piece of capacity.
+ *
+ * This is the whole safety condition, and it is deliberately narrow. An earlier
+ * design also tried to infer "the arrival HAS joined but the incumbent it
+ * outclasses is still here" from positionStanding + CLEARLY_REPLACED_CA_GAP.
+ * That was WRONG, and measurably so: **52 of 52 CPU clubs already satisfy it at
+ * S0, before any upgrade has ever happened**, because an ordinary squad has a
+ * starter and a weaker backup at the same position (Alingsås carried a keeper
+ * 29 CA behind their best; Ymo an M6 38 behind). It classified normal squad
+ * structure as an unresolved replacement and switched the whole feature off for
+ * every club permanently -- that, not the contract lifecycle, is what cut
+ * arrivals from 8 to 2.
+ *
+ * Runaway accumulation is prevented by size, which is what the historic 7-11
+ * goalkeeper failure was actually about: projected permanent squad size may
+ * never exceed UPGRADE_MAX_PROJECTED_SQUAD_SIZE, and one evaluation pass may
+ * start at most one upgrade.
+ */
+function hasCommittedIncomingArrival(state: CareerState, clubId: string): boolean {
+  const usable = (state.worldSquads[clubId] ?? []).filter((p) => isUsableForSquadPlanning(state, p));
+  return projectedSquadSize(state, clubId) > usable.length;
+}
+
+/**
+ * Considers every ADEQUATE-DEPTH position for a replacement signing. Depth
+ * needs have already been served by the caller; `slotsRemaining` is whatever
+ * the active-pursuit cap left behind.
+ */
+function pursueQualityUpgrades(state: CareerState, clubId: string, date: string, slotsRemaining: number): CareerState {
+  if (slotsRemaining <= 0) return state;
+  // Absolute temporary ceiling -- retained as a safety net.
+  if (projectedSquadSize(state, clubId) >= UPGRADE_MAX_PROJECTED_SQUAD_SIZE) return state;
+  // ...and never a second commitment against the same capacity.
+  if (hasCommittedIncomingArrival(state, clubId)) return state;
+
+  let next = state;
+  const assessment = assessSquadNeeds(next, clubId, date);
+  // Only positions the depth model considers adequately staffed -- a HIGH or
+  // MEDIUM position is a shortage and was already handled as one.
+  const adequate = assessment.positions.filter((p) => p.level === "LOW" || p.level === "NONE");
+
+  for (const position of adequate) {
+    if (slotsRemaining <= 0) break;
+    if (projectedSquadSize(next, clubId) >= UPGRADE_MAX_PROJECTED_SQUAD_SIZE) break;
+    // A saturated position is explicitly full, not merely low-need -- exactly
+    // what assessPositionNeed's own `saturated` flag was exposed for. Without
+    // this the whole-squad size ceiling alone permits POSITIONAL runaway: an
+    // adversarial stress fixture (goalkeepers at CA 60 behind outfielders at
+    // CA 130, so a keeper is always the best available upgrade) drove clubs to
+    // SEVEN goalkeepers inside the 25-player ceiling -- squarely back in the
+    // historic 7-11 failure range this pathway must never reopen.
+    if (position.saturated) continue;
+
+    const existing = existingPlan(next, clubId, position.position);
+    if (existing?.status === "SEARCHING") continue; // duplicate-pursuit prevention, exactly as for depth needs.
+    if (existing?.cooldownUntil !== null && existing?.cooldownUntil !== undefined && !isSameOrBefore(existing.cooldownUntil, date)) continue;
+
+    const weakest = weakestUsableIncumbentCA(next, clubId, position.position);
+    if (weakest === undefined) continue;
+
+    // The REAL candidate the ordinary pipeline would sign -- same ranking,
+    // same affordability, same reach, same scouting gates. Never a
+    // hypothetical global best, and never an unaffordable one.
+    const chosen = bestAffordableCandidate(rankCandidates(next, clubId, position.position, date));
+    if (!chosen || chosen.ca - weakest < CLEARLY_REPLACED_CA_GAP) continue;
+
+    next = {
+      ...next,
+      cpuDecisionLog: pushLog(next.cpuDecisionLog, [{
+        id: `cpu-upgrade-${clubId}-${position.position}-${date}`,
+        date,
+        clubId,
+        category: "SQUAD_NEED",
+        summary: `Upgrade: ${position.position} — +${Math.round(chosen.ca - weakest)} CA`,
+        reason: `Djupet räcker, men en klart bättre spelare (nivå ${Math.round(chosen.ca)}) kan ersätta klubbens svagaste på positionen (nivå ${Math.round(weakest)}).`,
+      }]),
+    };
+
+    const result = pursuePosition(next, clubId, position.position, "MEDIUM", date);
+    next = result.state;
+    if (result.pursued) {
+      // A pursued upgrade IS an unresolved replacement by definition, so this
+      // club is done considering upgrades until the displaced incumbent goes.
+      // Without this break the loop would keep walking the remaining positions
+      // and stack one replacement per position in a single pass.
+      break;
+    }
+  }
+
+  return next;
 }
 
 /**

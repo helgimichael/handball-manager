@@ -58,7 +58,7 @@ const WAGE_OVERPAY_RATIO_RELEASE = 1.5;
 const TALENT_PA_HEADROOM_THRESHOLD = 15;
 const TALENT_PROTECT_AGE = 23;
 /** Part 3: the minimum genuine CA gap (in the same 90-185-ish economy-scale CA population marketValue.ts's own curve is anchored to) before another teammate at the same position counts as "clearly better", not just marginally ahead -- the season-boundary audit's own first run found positionRank>=2 alone firing on essentially EVERY KEY_PLAYER whenever a club happened to carry two similarly-elite players at one position (co-starters, rotation goalkeepers), releasing 71/71 of the season's total RELEASE volume this way. A real gap requirement fixes that without removing the signal item 3 itself asks for. */
-const CLEARLY_REPLACED_CA_GAP = 12;
+export const CLEARLY_REPLACED_CA_GAP = 12;
 
 function clubUnderPressure(pressure: FinancialPressureLevel): boolean {
   return pressure === "SERIOUS" || pressure === "CRITICAL";

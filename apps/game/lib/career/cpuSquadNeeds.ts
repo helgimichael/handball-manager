@@ -56,7 +56,7 @@ export interface SquadNeedAssessment {
 }
 
 /** A player ON_PLACEMENT is functionally not at this club right now (HM-CLUB-PARTNERSHIPS-1.1) -- excluded from depth counting. Everyone else (including injured/suspended, a temporary state) still counts as a real squad member for roster-construction purposes. */
-function isUsableForSquadPlanning(state: CareerState, player: PlayerMock): boolean {
+export function isUsableForSquadPlanning(state: CareerState, player: PlayerMock): boolean {
   return state.playerStatuses[player.id]?.availability !== "ON_PLACEMENT";
 }
 
