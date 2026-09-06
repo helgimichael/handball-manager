@@ -21,8 +21,8 @@ const START = createFullCourt6v6State({ attackingGoalSide: "TOP" });
  * same outcomes. The assertions are unchanged -- only the seeds that exercise
  * them.
  */
-const SEED_FREE_THROW = 21; // free throw, continued by the same team
-const SEED_MIXED = 1; // goals, centre restarts, saves, settled breaks
+const SEED_FREE_THROW = 20; // free throw, continued by the same team (re-pinned for M6)
+const SEED_MIXED = 4; // goals, centre restarts, saves, settled breaks (re-pinned for M6)
 const SEED_TURNOVER = 8; // a turnover mid-run, followed by the transition it causes
 
 function run(seed: number, maxPossessions = 8): GameFlowResult {

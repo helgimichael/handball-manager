@@ -31,6 +31,7 @@ import {
   type SimulatePossessionInput,
 } from "./possessionEngine";
 import { simulateTransition } from "./sequenceEngine";
+import type { AttackTactics } from "./organizedAttack";
 import { switchPossession } from "./transition";
 import {
   goalCentre,
@@ -279,6 +280,7 @@ export function advanceOneSegment(
   isTransition: boolean,
   kind: GameFlowSegment["kind"],
   ratings?: SimulatePossessionInput["ratings"],
+  tactics?: Partial<AttackTactics>,
 ): SegmentAdvance {
   const team = attackingTeam(flow);
   const goalSide = flow.match.possession.attackingGoalSide;
@@ -286,7 +288,7 @@ export function advanceOneSegment(
 
   const result: PossessionResult = isTransition
     ? (simulateTransition({ seed: segmentSeed(seed, segmentIndex), initialState: flow.match, ratings }) as unknown as PossessionResult)
-    : simulatePossession({ seed: segmentSeed(seed, segmentIndex), initialState: flow.match, ratings });
+    : simulatePossession({ seed: segmentSeed(seed, segmentIndex), initialState: flow.match, ratings, tactics });
 
   const trace: GameFlowTraceEntry[] = result.trace.map((entry) => ({
     ...entry,
@@ -371,6 +373,7 @@ export function simulateGameSequence(
   seed: number,
   limits: GameFlowLimits,
   ratings?: SimulatePossessionInput["ratings"],
+  tactics?: Partial<AttackTactics>,
 ): GameFlowResult {
   const maxSteps = limits.maxSteps ?? Number.POSITIVE_INFINITY;
   let flow = createGameFlowState(initialState);
@@ -383,7 +386,7 @@ export function simulateGameSequence(
   let kind: GameFlowSegment["kind"] = "ORGANIZED";
 
   while (flow.possessionNumber <= limits.maxPossessions && steps < maxSteps) {
-    const advance = advanceOneSegment(flow, seed, segmentIndex, isTransition, kind, ratings);
+    const advance = advanceOneSegment(flow, seed, segmentIndex, isTransition, kind, ratings, tactics);
     segmentIndex += 1;
     steps += advance.steps;
     trace.push(...advance.trace);

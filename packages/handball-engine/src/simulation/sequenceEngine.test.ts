@@ -17,11 +17,14 @@ import { goalCentre, type PossessionOutcome } from "../domain/match/possession";
 const TOP = createFullCourt6v6State({ attackingGoalSide: "TOP" });
 
 /** Seeds pinned from a 4000-seed scan, so each required behaviour has a deterministic witness. */
-const SEED_SAVE_THEN_FREE_THROW = 13;
-const SEED_SAVE_THEN_ORGANIZED = 46;
-const SEED_SAVE_THEN_GOAL = 72;
-const SEED_SAVE_THEN_TURNOVER = 121;
-const SEED_TURNOVER_START = 849;
+// Re-pinned for M6: state-dependent attacking decisions legitimately change
+// every trajectory, so the M2 witnesses no longer produce the same outcomes.
+// The assertions are unchanged -- only the seeds that exercise them.
+const SEED_SAVE_THEN_FREE_THROW = 590;
+const SEED_SAVE_THEN_ORGANIZED = 341;
+const SEED_SAVE_THEN_GOAL = 23;
+const SEED_SAVE_THEN_TURNOVER = 248;
+const SEED_TURNOVER_START = 47;
 
 function sequence(seed: number) {
   return simulateSequence({ seed, initialState: TOP });

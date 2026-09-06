@@ -225,12 +225,15 @@ test("no possession ever runs unbounded at the default budget", () => {
 });
 
 test("TURNOVER is reachable through the natural loop, not only via the guard", () => {
-  // Seed 849 is the first seed at which defensive pressure on the carrier
+  // Seed 329 is the first seed at which defensive pressure on the carrier
   // wins the ball outright. Pinned because the outcome is rare by
   // construction (checkDisruption only fires inside 1.6m, and then splits
   // ~45/55 against FREE_THROW), so a small seed sample can miss it entirely
-  // and leave the fifth M1 outcome silently unexercised.
-  const result = simulatePossession({ seed: 849, initialState: TOP });
+  // and leave the fifth M1 outcome silently unexercised. Re-pinned for M6
+  // (was 849): a carrier who reads a closed gap now passes off instead of
+  // standing in contact, so pressure-forced turnovers are rarer still -- most
+  // M6 turnovers are failed passes, which the M6 tests cover separately.
+  const result = simulatePossession({ seed: 329, initialState: TOP });
   assert.equal(result.outcome, "TURNOVER");
   assert.equal(result.guardTripped, false, "this must be a real resolution, not the max-step guard");
   // ...and it must be explained by the state that produced it.

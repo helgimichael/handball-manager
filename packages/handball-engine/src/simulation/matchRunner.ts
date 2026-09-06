@@ -32,6 +32,7 @@ import { advanceOneSegment, createGameFlowState, type GameFlowSegment, type Game
 import { createFullCourt6v6State } from "../scenarios/fullCourt6v6";
 import { switchPossession } from "./transition";
 import type { SimulatePossessionInput } from "./possessionEngine";
+import type { AttackTactics } from "./organizedAttack";
 import type { PossessionMatchEvent } from "./possessionEngine";
 import type { FullCourtMatchState, AttackingGoalSide, PossessionOutcome } from "../domain/match/possession";
 
@@ -112,6 +113,8 @@ export type SimulateMatchOptions = {
   /** Which side takes the opening throw-off. The other starts the second half. */
   readonly firstHalfStartingTeam?: MatchTeamId;
   readonly ratings?: SimulatePossessionInput["ratings"];
+  /** M6: tactical bias for the organized attack, applied to both sides alike until manager tactics exist. */
+  readonly tactics?: Partial<AttackTactics>;
 };
 
 /** Distinct possessions in a run: continuations share a possession number with the segment they continue. */
@@ -162,6 +165,7 @@ function playHalf(
   half: MatchHalf,
   seed: number,
   ratings: SimulatePossessionInput["ratings"] | undefined,
+  tactics: Partial<AttackTactics> | undefined,
 ): HalfRun {
   const events: MatchEventRecord[] = [];
   const segments: (GameFlowSegment & { half: MatchHalf; clockSeconds: number })[] = [];
@@ -182,7 +186,7 @@ function playHalf(
     }
     // Distinct per half as well as per segment, so the two halves never replay
     // the same random sequence.
-    const advance = advanceOneSegment(current, seed ^ (half * 0x85ebca6b), segmentIndex, isTransition, kind, ratings);
+    const advance = advanceOneSegment(current, seed ^ (half * 0x85ebca6b), segmentIndex, isTransition, kind, ratings, tactics);
     segmentIndex += 1;
     steps += advance.steps;
     simulationSeconds += advance.simulatedSeconds;
@@ -231,13 +235,14 @@ function playHalf(
 export function simulateMatch(initialState: FullCourtMatchState, seed: number, options: SimulateMatchOptions = {}): MatchResult {
   const startingTeam = options.firstHalfStartingTeam ?? "HOME";
   const ratings = options.ratings;
+  const tactics = options.tactics;
 
   // HOME is whoever holds the ball in `initialState`; if AWAY is meant to start,
   // the same scenario is used from the other end so the intended side kicks off.
   const firstHalfGoalSide = initialState.possession.attackingGoalSide;
   const firstHalfState = startingTeam === "HOME" ? initialState : buildHalfStartState(firstHalfGoalSide);
 
-  const first = playHalf(createGameFlowState(firstHalfState), 1, seed, ratings);
+  const first = playHalf(createGameFlowState(firstHalfState), 1, seed, ratings, tactics);
   const halftimeScore = first.flow.score;
 
   // Ends switch AND the throw-off changes hands. createFullCourt6v6State always
@@ -259,7 +264,7 @@ export function simulateMatch(initialState: FullCourtMatchState, seed: number, o
     possessionNumber: first.flow.possessionNumber,
   };
 
-  const second = playHalf(secondHalfFlow, 2, seed, ratings);
+  const second = playHalf(secondHalfFlow, 2, seed, ratings, tactics);
 
   const events = [...first.events, ...second.events];
   const finalScore = second.flow.score;

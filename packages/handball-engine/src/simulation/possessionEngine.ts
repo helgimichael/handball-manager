@@ -1,5 +1,6 @@
 /**
- * MATCH-EXPERIENCE-2.0 M1: the possession loop.
+ * MATCH-EXPERIENCE-2.0 M1: the possession loop. M6: the organized attack
+ * inside it makes state-dependent decisions.
  *
  * THE ARCHITECTURAL POINT. The legacy engine draws a scoreline first and
  * invents a timeline to justify it. This loop inverts that completely:
@@ -16,19 +17,39 @@
  * standing, pressure from where the nearest defender is standing, and the save
  * from the goalkeeper's own position and rating.
  *
- * SCOPE. M1 is an organized attack. It reuses the existing fixed-step
- * integration, the existing MOVE/PASS commands and the existing 6:0 defensive
- * policy unchanged. It does NOT implement waves, retreat, 7m, suspensions or
- * the match clock -- but it runs in full-court space, so those are later
- * behaviours over the same state rather than a replacement of it.
+ * M6 -- ORGANIZED ATTACK INTELLIGENCE. M1 circulated a fixed number of random
+ * passes and then drove at goal centre. Now the carrier perceives the
+ * situation (attackDecision.ts) and chooses between circulating, attacking an
+ * actual gap in the defensive line, feeding the pivot, shooting, or resetting
+ * -- and, crucially, RE-DECIDES while a drive is under way from what the
+ * defence has done about it. A step-out that closes the gap he is attacking
+ * is read from the defender's real position, and the next action (pass to the
+ * player that step-out freed, feed the pivot behind it, or reset) is chosen
+ * from that changed state. No decision is taken in advance of the state that
+ * justifies it.
  */
 import { SIMULATION_DT_SECONDS } from "./fixedStep";
 import { step } from "./engine";
 import { createPossessionRng, type PossessionRng } from "./possessionRng";
 import { evaluateSixZeroDefense } from "../policies/defense/sixZeroDefensePolicy";
-import { organizedShapeTarget } from "./transition";
 import { distanceBetween } from "../domain/geometry/coordinates";
-import { goalCentre, type FullCourtMatchState, type PossessionOutcome, type PossessionPhase } from "../domain/match/possession";
+import { defendedGoalSide, goalCentre, type FullCourtMatchState, type PossessionOutcome, type PossessionPhase } from "../domain/match/possession";
+import {
+  decideAttackAction,
+  describeDecision,
+  fieldAttackers,
+  nearestDefenderTo,
+  shootingAngleQuality,
+  type AttackDecision,
+  type AttackPlayerRatings,
+} from "./attackDecision";
+import {
+  describeAttacker,
+  ensureSixZeroHomePositions,
+  organizedShapeTargetFor,
+  resolveAttackTactics,
+  type AttackTactics,
+} from "./organizedAttack";
 import type { MeterPoint } from "../domain/geometry/coordinates";
 import type { HandballAction } from "../domain/handball/actions";
 import type { Player } from "../domain/handball/player";
@@ -43,10 +64,8 @@ import type { AttackGapId } from "../domain/geometry/attackGaps";
  */
 export const MAX_POSSESSION_STEPS = 2400; // 120 simulated seconds at dt = 0.05
 
-/** Per-player ratings the resolution reads. 1-20, the same scale the game's attributes use. */
-export type PossessionPlayerRatings = {
-  /** Finishing quality for an attacker. */
-  readonly shooting?: number;
+/** Per-player ratings the resolution and the decision layer read. 1-20, the same scale the game's attributes use. */
+export type PossessionPlayerRatings = AttackPlayerRatings & {
   /** Shot-stopping quality for a goalkeeper. */
   readonly shotStopping?: number;
   /** Ball-winning quality for a defender. */
@@ -60,6 +79,8 @@ export type SimulatePossessionInput = {
   readonly initialState: FullCourtMatchState;
   /** Optional per-playerId ratings; anything omitted uses a neutral 10. */
   readonly ratings?: Readonly<Record<string, PossessionPlayerRatings>>;
+  /** Optional tactical bias for the attacking decisions; neutral when omitted. */
+  readonly tactics?: Partial<AttackTactics>;
   readonly maxSteps?: number;
 };
 
@@ -75,6 +96,8 @@ export type PossessionTraceEntry = {
   readonly primaryDefenderId: string | null;
   /** What happened at this instant, in plain language, for development and tests. */
   readonly note: string;
+  /** M6: the carrier's decision, when this entry records one. */
+  readonly decision?: AttackDecision;
 };
 
 export type PossessionResult = {
@@ -100,52 +123,12 @@ function ratingOf(ratings: SimulatePossessionInput["ratings"], playerId: string,
   return ratings?.[playerId]?.[key] ?? DEFAULT_RATING;
 }
 
-/**
- * Outfield attackers only. The full-court scenario carries BOTH goalkeepers, so
- * filtering on team alone would make the attacking team's own keeper -- stood
- * in his goal at the far end -- a legal circulation target, and the attack
- * would casually pass the ball 39 metres backwards.
- */
-function attackers(state: HandballState): readonly Player[] {
-  return state.players.filter((p) => p.team === "ATTACK" && p.kind === "FIELD_PLAYER");
-}
-
-function defenders(state: HandballState): readonly Player[] {
-  return state.players.filter((p) => p.team === "DEFENSE" && p.kind === "FIELD_PLAYER");
-}
-
 function goalkeeper(state: HandballState): Player | undefined {
   return state.players.find((p) => p.team === "DEFENSE" && p.kind === "GOALKEEPER");
 }
 
 function findPlayer(state: HandballState, playerId: string | null): Player | undefined {
   return playerId === null ? undefined : state.players.find((p) => p.id === playerId);
-}
-
-/** Distance from the nearest defender -- the pressure the carrier is actually under. */
-function nearestDefenderDistance(state: HandballState, point: MeterPoint): { distance: number; defenderId: string | null } {
-  let best = Number.POSITIVE_INFINITY;
-  let id: string | null = null;
-  for (const defender of defenders(state)) {
-    const d = distanceBetween(defender.position, point);
-    if (d < best) {
-      best = d;
-      id = defender.id;
-    }
-  }
-  return { distance: Number.isFinite(best) ? best : 99, defenderId: id };
-}
-
-/**
- * How square the shooter is to the goal, 0 (from the goal line, no angle) to 1
- * (dead centre). Derived from the shooter's own lateral offset relative to how
- * far out they are, so a wing shooting from the corner is genuinely harder.
- */
-function shootingAngleQuality(origin: MeterPoint, goal: MeterPoint): number {
-  const lateral = Math.abs(origin.x - goal.x);
-  const depth = Math.abs(origin.y - goal.y);
-  if (depth <= 0.01) return 0;
-  return Math.max(0, Math.min(1, depth / (depth + lateral)));
 }
 
 // ---------------------------------------------------------------------------
@@ -175,7 +158,7 @@ export function resolveShot(
 ): ShotResolution {
   const distance = distanceBetween(shooter.position, goal);
   const angleQuality = shootingAngleQuality(shooter.position, goal);
-  const { distance: defenderDistance } = nearestDefenderDistance(state, shooter.position);
+  const { distance: defenderDistance } = nearestDefenderTo(state, shooter.position);
   // Pressure rises as the nearest defender closes; 0 at 4m+, 1 when on top of him.
   const pressure = Math.max(0, Math.min(1, 1 - defenderDistance / 4));
   const shooting = ratingOf(ratings, shooter.id, "shooting");
@@ -217,7 +200,7 @@ function checkDisruption(
   rng: PossessionRng,
   ratings: SimulatePossessionInput["ratings"],
 ): Extract<PossessionOutcome, "TURNOVER" | "FREE_THROW"> | null {
-  const { distance, defenderId } = nearestDefenderDistance(state, carrier.position);
+  const { distance, defenderId } = nearestDefenderTo(state, carrier.position);
   if (distance > 1.6 || defenderId === null) return null;
   const defending = ratingOf(ratings, defenderId, "defending");
   // Per-step probability, so a carrier held under pressure for longer is
@@ -228,23 +211,75 @@ function checkDisruption(
   return rng.chance(0.55) ? "FREE_THROW" : "TURNOVER";
 }
 
+/** A defender inside this distance of the passing lane can get a hand to the ball. */
+const INTERCEPT_RANGE_METERS = 1.2;
+
+export type PassResolution = { readonly kind: "COMPLETE" } | { readonly kind: "INTERCEPTED"; readonly defenderId: string } | { readonly kind: "TECHNICAL_ERROR" };
+
+/**
+ * Whether a pass the carrier has decided on actually reaches its receiver.
+ *
+ * M6 NEEDS THIS. Before M6 the carrier drove into the defence and stood in
+ * contact, which is where the per-step disruption model won the ball. A
+ * carrier who reads a closed gap and passes off never stands in contact, so
+ * without a pass model an organized attack could not lose the ball at all --
+ * TURNOVER would vanish from the possession's outcome space and every
+ * transition in a match would follow a save. Two ways a pass fails, both read
+ * from the state at the moment of the pass: a defender close enough to the
+ * lane intercepts it (his ball-winning rating counts), or the passer, under
+ * the pressure he is actually under, makes a technical error (his passing
+ * rating counts). Nothing here is scripted or chosen ahead of the state.
+ */
+export function resolvePass(
+  state: HandballState,
+  passer: Player,
+  receiver: Player,
+  rng: PossessionRng,
+  ratings: SimulatePossessionInput["ratings"],
+): PassResolution {
+  const from = passer.position;
+  const to = receiver.position;
+  const length = distanceBetween(from, to);
+  for (const defender of state.players) {
+    if (defender.team !== "DEFENSE" || defender.kind !== "FIELD_PLAYER") continue;
+    // A defender on top of either end is pressure, not a lane.
+    if (distanceBetween(defender.position, from) < 0.8 || distanceBetween(defender.position, to) < 0.8 || length < 1.6) continue;
+    const lane = distanceToLane(defender.position, from, to);
+    if (lane >= INTERCEPT_RANGE_METERS) continue;
+    const defending = ratingOf(ratings, defender.id, "defending");
+    const interception = 0.25 * (1 - lane / INTERCEPT_RANGE_METERS) * (1 + 0.03 * (defending - DEFAULT_RATING));
+    if (rng.chance(Math.max(0, interception))) return { kind: "INTERCEPTED", defenderId: defender.id };
+  }
+  const pressure = Math.max(0, Math.min(1, 1 - nearestDefenderTo(state, from).distance / 4));
+  const passing = ratingOf(ratings, passer.id, "passing");
+  const error = 0.008 + 0.01 * pressure - 0.001 * (passing - DEFAULT_RATING);
+  return rng.chance(Math.max(0, error)) ? { kind: "TECHNICAL_ERROR" } : { kind: "COMPLETE" };
+}
+
+function distanceToLane(p: MeterPoint, a: MeterPoint, b: MeterPoint): number {
+  const abx = b.x - a.x;
+  const aby = b.y - a.y;
+  const len2 = abx * abx + aby * aby;
+  if (len2 < 1e-9) return distanceBetween(p, a);
+  const t = Math.max(0, Math.min(1, ((p.x - a.x) * abx + (p.y - a.y) * aby) / len2));
+  return distanceBetween(p, { x: a.x + abx * t, y: a.y + aby * t });
+}
+
 // ---------------------------------------------------------------------------
 // The loop
 // ---------------------------------------------------------------------------
 
-/**
- * Which defensive gap this carrier is driving at, chosen from his own lateral
- * position on the court. Symbolic and defence-relative -- the real spatial
- * target is passed alongside it, so this stays correct at either goal.
- */
-function gapForCarrier(carrier: Player): AttackGapId {
-  const x = carrier.position.x;
-  if (x < 4) return "V1_V2";
-  if (x < 8) return "V2_V3";
-  if (x < 12) return "V3_H3";
-  if (x < 16) return "H3_H2";
-  return "H2_H1";
-}
+/** How long a receiver holds the ball before deciding, in fixed steps (0.2-0.6s). */
+const HOLD_MIN_STEPS = 4;
+const HOLD_MAX_STEPS = 12;
+/** The pivot decides faster: he is on the line with a defender on his back. */
+const PIVOT_HOLD_MAX_STEPS = 5;
+/** While driving at a gap the carrier re-reads the defence this often (0.3s). */
+const DRIVE_REEVALUATE_STEPS = 6;
+/** How often organized shape is re-asserted for players off their spot. */
+const SHAPE_REFRESH_STEPS = 10;
+/** Within this distance of the goal a drive has "arrived" whatever its intent says. */
+const ARRIVAL_GOAL_DISTANCE_METERS = 8;
 
 function positionsOf(state: HandballState): PossessionTraceEntry["playerPositions"] {
   return state.players.map((p) => ({ playerId: p.id, position: { ...p.position } }));
@@ -257,8 +292,10 @@ function positionsOf(state: HandballState): PossessionTraceEntry["playerPosition
 export function simulatePossession(input: SimulatePossessionInput): PossessionResult {
   const rng = createPossessionRng(input.seed);
   const maxSteps = input.maxSteps ?? MAX_POSSESSION_STEPS;
-  const goal = goalCentre(input.initialState.possession.attackingGoalSide);
+  const goalSide = input.initialState.possession.attackingGoalSide;
+  const goal = goalCentre(goalSide);
   const ratings = input.ratings;
+  const tactics = resolveAttackTactics(input.tactics);
 
   let handball = input.initialState.handball;
   let phase: PossessionPhase = "ORGANIZED_SETUP";
@@ -271,14 +308,19 @@ export function simulatePossession(input: SimulatePossessionInput): PossessionRe
   let shotOrigin: MeterPoint | null = null;
   const trace: PossessionTraceEntry[] = [];
 
-  // How many passes this possession circulates before looking for its action.
-  const passesBeforeAction = rng.nextInt(2, 4);
   let passesMade = 0;
+  let resets = 0;
+  let lastPasserId: string | null = null;
+  let trackedCarrierId: string | null = handball.ball.possessorId;
+  let nextDecisionStep = 0;
+  let nextReevaluateStep = 0;
+  let drivingGapId: AttackGapId | null = null;
+  let reshapeOnReception = false;
   let steps = 0;
   let guardTripped = false;
   let lastPrimaryDefenderId: string | null = null;
 
-  function record(note: string): void {
+  function record(note: string, decision?: AttackDecision): void {
     trace.push({
       simulationTime: Number(handball.simulationTime.toFixed(4)),
       phase,
@@ -288,7 +330,98 @@ export function simulatePossession(input: SimulatePossessionInput): PossessionRe
       playerPositions: positionsOf(handball),
       primaryDefenderId: lastPrimaryDefenderId,
       note,
+      ...(decision ? { decision } : {}),
     });
+  }
+
+  // Read through a function so control-flow narrowing (which cannot see the
+  // assignments made inside applyDecision) does not exclude phases the closure
+  // legitimately sets.
+  function phaseIs(candidate: PossessionPhase): boolean {
+    return phase === candidate;
+  }
+
+  function holdFor(player: Player): number {
+    return rng.nextInt(HOLD_MIN_STEPS, player.role === "PIVOT" ? PIVOT_HOLD_MAX_STEPS : HOLD_MAX_STEPS);
+  }
+
+  /** MOVE commands that bring every off-spot attacker back into organized shape. */
+  function shapeActions(state: HandballState, exceptId: string | null, force: boolean): HandballAction[] {
+    const actions: HandballAction[] = [];
+    for (const player of fieldAttackers(state)) {
+      if (player.id === exceptId) continue;
+      const target = organizedShapeTargetFor(player, state, goalSide, tactics);
+      if (!target) continue;
+      // Do not re-issue an order a player is already carrying out.
+      if (!force && player.intent.type === "MOVE" && !player.intent.completed && distanceBetween(player.intent.target, target) < 0.3) continue;
+      actions.push({ type: "MOVE", playerId: player.id, target });
+    }
+    return actions;
+  }
+
+  /** Applies the carrier's decision as ordinary engine commands. */
+  function applyDecision(decision: AttackDecision, carrier: Player, actions: HandballAction[]): void {
+    const chosen = decision.chosen;
+    switch (chosen.kind) {
+      case "PASS":
+      case "PLAY_PIVOT":
+      case "RESET": {
+        const receiver = findPlayer(handball, chosen.targetPlayerId ?? null);
+        const resolution = receiver ? resolvePass(handball, carrier, receiver, rng, ratings) : ({ kind: "COMPLETE" } as const);
+        if (resolution.kind !== "COMPLETE") {
+          outcome = "TURNOVER";
+          resolvingPlayerId = carrier.id;
+          phase = "RESOLUTION";
+          record(
+            resolution.kind === "INTERCEPTED"
+              ? `${resolution.defenderId} intercepts the pass from ${describeAttacker(carrier)} -> TURNOVER`
+              : `${describeAttacker(carrier)} loses the ball on a technical error -> TURNOVER`,
+          );
+          break;
+        }
+        actions.push({ type: "PASS", fromPlayerId: carrier.id, toPlayerId: chosen.targetPlayerId! });
+        lastPasserId = carrier.id;
+        drivingGapId = null;
+        if (chosen.kind === "RESET") {
+          // The attack starts again: patience is restored (a little less each
+          // time), so the next carrier circulates before the next action.
+          resets += 1;
+          passesMade = 0;
+          reshapeOnReception = true;
+        } else {
+          passesMade += 1;
+        }
+        phase = "CIRCULATION";
+        break;
+      }
+      case "ATTACK_GAP": {
+        actions.push({ type: "ATTACK", playerId: carrier.id, gapId: chosen.gapId!, target: chosen.target });
+        drivingGapId = chosen.gapId!;
+        nextReevaluateStep = steps + DRIVE_REEVALUATE_STEPS;
+        phase = "ATTACK_ACTION";
+        break;
+      }
+      case "CONTINUE": {
+        // A take-on re-aims the drive beside the defender who stepped out; an
+        // open drive simply carries on toward the same point.
+        if (chosen.target && (carrier.intent.type !== "ATTACK" || distanceBetween(carrier.intent.target, chosen.target) > 0.3)) {
+          actions.push({ type: "ATTACK", playerId: carrier.id, gapId: chosen.gapId!, target: chosen.target });
+        }
+        nextReevaluateStep = steps + DRIVE_REEVALUATE_STEPS;
+        break;
+      }
+      case "SHOOT": {
+        const shot = resolveShot(handball, carrier, goal, rng, ratings);
+        outcome = shot.outcome;
+        resolvingPlayerId = carrier.id;
+        shotOrigin = { ...carrier.position };
+        phase = "RESOLUTION";
+        record(
+          `${describeAttacker(carrier)} shoots from ${shot.distance.toFixed(2)}m (angle ${shot.angleQuality.toFixed(2)}, pressure ${shot.pressure.toFixed(2)}) -> ${shot.outcome}`,
+        );
+        break;
+      }
+    }
   }
 
   record("possession begins: organized 6v6 in full-court space");
@@ -298,66 +431,95 @@ export function simulatePossession(input: SimulatePossessionInput): PossessionRe
     const carrier = findPlayer(handball, handball.ball.possessorId);
 
     if (phase === "ORGANIZED_SETUP") {
-      // Re-establish organized WIDTH before circulating. Every other movement
-      // target in the engine pulls players toward the goal or the ball, so
-      // without this the six roles drift onto the centre line over a match and
-      // the attack degenerates into a single file. Only the lateral lane is
-      // restored, from FIELD's own canonical formation; depth is left alone.
-      let restored = 0;
-      for (const player of handball.players) {
-        if (player.kind === "GOALKEEPER") continue;
-        const target = organizedShapeTarget(player);
-        if (!target) continue;
-        actions.push({ type: "MOVE", playerId: player.id, target });
-        restored += 1;
-      }
+      // The defence needs a home shape to step out of and recover to; after a
+      // change of possession it has none, so the canonical 6:0 is established
+      // here. Attackers re-establish organized width AND depth from FIELD's
+      // canonical roles; the pivot takes his spot on the actual line.
+      handball = ensureSixZeroHomePositions(handball, defendedGoalSide(goalSide));
+      actions.push(...shapeActions(handball, null, true));
+      if (carrier) nextDecisionStep = steps + holdFor(carrier);
       phase = "CIRCULATION";
-      record(restored > 0 ? `attack is set; ${restored} players recover organized width` : "attack is set; beginning ball circulation");
-    } else if (phase === "CIRCULATION" && carrier && handball.ball.status === "POSSESSED") {
+      record(`attack is set; ${actions.length} players take up organized shape`);
+    } else if ((phaseIs("CIRCULATION") || phaseIs("ATTACK_ACTION")) && carrier && handball.ball.status === "POSSESSED") {
+      if (carrier.id !== trackedCarrierId) {
+        // Reception. The new carrier holds for a moment before deciding; after
+        // a reset the whole attack re-forms around him.
+        trackedCarrierId = carrier.id;
+        nextDecisionStep = steps + holdFor(carrier);
+        drivingGapId = null;
+        phase = "CIRCULATION";
+        if (reshapeOnReception) {
+          reshapeOnReception = false;
+          actions.push(...shapeActions(handball, carrier.id, true));
+          record(`${describeAttacker(carrier)} receives; the attack re-forms`);
+        } else {
+          record(`${describeAttacker(carrier)} receives`);
+        }
+      }
+
       const disruption = checkDisruption(handball, carrier, rng, ratings);
       if (disruption) {
         outcome = disruption;
         resolvingPlayerId = carrier.id;
         phase = disruption === "FREE_THROW" ? "DEAD_BALL" : "RESOLUTION";
-        record(`defensive pressure on ${carrier.id} forces ${disruption}`);
-      } else if (passesMade >= passesBeforeAction) {
-        phase = "ATTACK_ACTION";
-        // Drive at the goal. This is an ATTACK command, not a MOVE, because
-        // ATTACK is what observeDefensiveThreat promotes to an
-        // ACTIVE_ATTACK_THREAT -- i.e. it is what makes the 6:0 policy
-        // actually pick a primary defender and react. The gap id names WHICH
-        // gap is being attacked (a symbolic, defence-relative choice), while
-        // `target` carries the real full-court point, so the same command
-        // works at either goal even though ATTACK_GAPS' own default positions
-        // are authored against the TOP goal.
-        const driveTarget: MeterPoint = {
-          x: carrier.position.x + (goal.x - carrier.position.x) * 0.35,
-          y: carrier.position.y + (goal.y - carrier.position.y) * 0.45,
-        };
-        actions.push({ type: "ATTACK", playerId: carrier.id, gapId: gapForCarrier(carrier), target: driveTarget });
-        record(`${carrier.id} attacks the ${gapForCarrier(carrier)} gap toward the ${input.initialState.possession.attackingGoalSide} goal`);
-      } else {
-        // Circulate to a teammate -- a real pass through real ball flight.
-        const options = attackers(handball).filter((p) => p.id !== carrier.id);
-        if (options.length > 0) {
-          const receiver = options[rng.nextInt(0, options.length - 1)];
-          actions.push({ type: "PASS", fromPlayerId: carrier.id, toPlayerId: receiver.id });
-          passesMade += 1;
-          record(`${carrier.id} passes to ${receiver.id}`);
+        record(`defensive pressure on ${describeAttacker(carrier)} forces ${disruption}`);
+      } else if (phaseIs("CIRCULATION") && steps >= nextDecisionStep) {
+        const decision = decideAttackAction({
+          state: handball,
+          goalSide,
+          carrier,
+          trigger: "SETTLED",
+          drivingGapId: null,
+          passesMade,
+          resets,
+          possessionSeconds: handball.simulationTime - input.initialState.handball.simulationTime,
+          lastPasserId,
+          ratings,
+          tactics,
+          rng,
+        });
+        record(describeDecision(decision, handball), decision);
+        applyDecision(decision, carrier, actions);
+      } else if (phaseIs("ATTACK_ACTION")) {
+        const distance = distanceBetween(carrier.position, goal);
+        const arrived =
+          carrier.intent.type !== "ATTACK" || carrier.intent.completed || distance <= ARRIVAL_GOAL_DISTANCE_METERS;
+        if (arrived || steps >= nextReevaluateStep) {
+          // The drive is re-read from the defence's ACTUAL reaction: the
+          // defender who stepped out is found on the carrier's path, not
+          // assumed, and the next action follows from that.
+          const decision = decideAttackAction({
+            state: handball,
+            goalSide,
+            carrier,
+            trigger: arrived ? "ARRIVED" : "DRIVE_REEVALUATION",
+            drivingGapId,
+            passesMade,
+            resets,
+            possessionSeconds: handball.simulationTime - input.initialState.handball.simulationTime,
+            lastPasserId,
+            ratings,
+            tactics,
+            rng,
+          });
+          // A quiet "still open, keep going" is not worth a trace entry; every
+          // change of plan -- and every take-on -- is.
+          if (decision.chosen.kind !== "CONTINUE" || decision.blockedBy) {
+            const prefix = decision.blockedBy
+              ? `${decision.blockedBy} steps out and closes ${drivingGapId} for ${describeAttacker(carrier)} -> `
+              : arrived
+                ? `${describeAttacker(carrier)} completes his drive (pressure ${decision.pressure.toFixed(2)}) -> `
+                : "";
+            record(`${prefix}${describeDecision(decision, handball)}`, decision);
+          }
+          applyDecision(decision, carrier, actions);
         }
       }
-    } else if (phase === "ATTACK_ACTION" && carrier && handball.ball.status === "POSSESSED") {
-      const distance = distanceBetween(carrier.position, goal);
-      const settled = (carrier.intent.type !== "MOVE" && carrier.intent.type !== "ATTACK") || carrier.intent.completed;
-      if (settled || distance <= 9) {
-        const shot = resolveShot(handball, carrier, goal, rng, ratings);
-        outcome = shot.outcome;
-        resolvingPlayerId = carrier.id;
-        shotOrigin = { ...carrier.position };
-        phase = "RESOLUTION";
-        record(
-          `${carrier.id} shoots from ${distance.toFixed(2)}m (angle ${shot.angleQuality.toFixed(2)}, pressure ${shot.pressure.toFixed(2)}) -> ${shot.outcome}`,
-        );
+
+      // Everyone else keeps or recovers organized shape; the pivot follows the
+      // line as it moves.
+      if (!completed && steps % SHAPE_REFRESH_STEPS === 0) {
+        actions.push(...shapeActions(handball, carrier.id, false));
       }
     } else if (phase === "RESOLUTION" || phase === "DEAD_BALL") {
       phase = "COMPLETE";
@@ -367,6 +529,9 @@ export function simulatePossession(input: SimulatePossessionInput): PossessionRe
     }
 
     if (completed) break;
+    // A resolution recorded this step completes on the next iteration without
+    // advancing the world further.
+    if (phase === "RESOLUTION" || phase === "DEAD_BALL") continue;
 
     // Defence reacts to the situation the attack has actually created, then a
     // single fixed timestep advances every player and the ball.
