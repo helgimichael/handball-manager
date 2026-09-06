@@ -250,6 +250,122 @@ function nearestDefenderId(state: HandballState, point: MeterPoint): string | nu
  * trace and score. Presentation speed cannot affect it -- nothing here reads a
  * wall clock, and every segment advances by the same fixed timestep.
  */
+/** One segment of play, plus everything the caller needs to continue from it. */
+export type SegmentAdvance = {
+  readonly flow: GameFlowState;
+  readonly segment: GameFlowSegment;
+  readonly trace: readonly GameFlowTraceEntry[];
+  readonly event: PossessionMatchEvent;
+  readonly steps: number;
+  /** Simulated seconds this segment consumed, including any restart settle. */
+  readonly simulatedSeconds: number;
+  readonly nextIsTransition: boolean;
+  readonly nextKind: GameFlowSegment["kind"];
+};
+
+/**
+ * Runs ONE segment -- an organized possession, a transition, a free-throw
+ * continuation or a restart -- and applies its continuation rule.
+ *
+ * Exported so higher layers (the match runner, and any future clock model) can
+ * drive play a segment at a time without duplicating either the possession
+ * engine or these continuation rules. simulateGameSequence below is just a loop
+ * over this function.
+ */
+export function advanceOneSegment(
+  flow: GameFlowState,
+  seed: number,
+  segmentIndex: number,
+  isTransition: boolean,
+  kind: GameFlowSegment["kind"],
+  ratings?: SimulatePossessionInput["ratings"],
+): SegmentAdvance {
+  const team = attackingTeam(flow);
+  const goalSide = flow.match.possession.attackingGoalSide;
+  const startedAt = flow.match.handball.simulationTime;
+
+  const result: PossessionResult = isTransition
+    ? (simulateTransition({ seed: segmentSeed(seed, segmentIndex), initialState: flow.match, ratings }) as unknown as PossessionResult)
+    : simulatePossession({ seed: segmentSeed(seed, segmentIndex), initialState: flow.match, ratings });
+
+  const trace: GameFlowTraceEntry[] = result.trace.map((entry) => ({
+    ...entry,
+    possessionNumber: flow.possessionNumber,
+    possessionTeam: team,
+    attackingGoalSide: goalSide,
+    score: flow.score,
+  }));
+
+  const segment: GameFlowSegment = { possessionNumber: flow.possessionNumber, team, attackingGoalSide: goalSide, kind, outcome: result.outcome };
+  const event = deriveMatchEvent(result);
+  let next: GameFlowState = { ...flow, match: result.finalState };
+  let steps = result.steps;
+  let nextIsTransition = false;
+  let nextKind: GameFlowSegment["kind"] = "ORGANIZED";
+  const ended = result.finalState.handball;
+
+  if (result.outcome === "SHOT_GOAL") {
+    // A goal may ONLY be added from an actual simulated shot.
+    const scorer = result.resolvingPlayerId;
+    const scoringTeam = (scorer ? teamOf(flow.rosters as Record<MatchTeamId, readonly string[]>, scorer) : null) ?? team;
+    const conceding: MatchTeamId = scoringTeam === "HOME" ? "AWAY" : "HOME";
+    next = { ...next, score: { ...next.score, [scoringTeam]: next.score[scoringTeam] + 1 } };
+    const restart = centreRestart(next, conceding, (entry) =>
+      trace.push({ ...entry, possessionNumber: next.possessionNumber + 1, possessionTeam: conceding, score: next.score }),
+    );
+    steps += restart.steps;
+    next = { ...restart.state, possessionNumber: next.possessionNumber + 1 };
+    nextKind = "CENTRE_RESTART";
+  } else if (result.outcome === "SHOT_SAVED" || result.outcome === "SHOT_MISSED") {
+    // Both give the ball to the defending goalkeeper: a save is caught, a miss
+    // goes out over the end line for a goalkeeper throw. The smallest correct
+    // restart the engine already supports -- no rebound model is added.
+    const keeper = findGoalkeeper(ended, "DEFENSE");
+    const regain = keeper?.id ?? nearestDefenderId(ended, ended.ball.position);
+    if (regain) {
+      next = { ...next, match: switchPossession(next.match, "SHOT_SAVED", regain).state, possessionNumber: next.possessionNumber + 1 };
+      nextIsTransition = true;
+      nextKind = "TRANSITION";
+    }
+  } else if (result.outcome === "TURNOVER") {
+    const regain = nearestDefenderId(ended, ended.ball.position) ?? findGoalkeeper(ended, "DEFENSE")?.id ?? null;
+    if (regain) {
+      next = { ...next, match: switchPossession(next.match, "TURNOVER", regain).state, possessionNumber: next.possessionNumber + 1 };
+      nextIsTransition = true;
+      nextKind = "TRANSITION";
+    }
+  } else if (result.outcome === "FREE_THROW") {
+    // M1 treated a free throw as terminal. It is not: the SAME attacking team
+    // restarts from where the action stopped, so the possession number does not
+    // advance -- this is not a new possession.
+    next = { ...next, match: { handball: ended, possession: { ...result.finalState.possession, phase: "ORGANIZED_SETUP", outcome: null } } };
+    nextKind = "FREE_THROW_CONTINUATION";
+  } else {
+    // ORGANIZED_ATTACK_REACHED: the break did not resolve, so the same team
+    // plays on through the organized possession engine.
+    next = { ...next, match: { handball: ended, possession: { ...result.finalState.possession, phase: "ORGANIZED_SETUP", outcome: null } } };
+    nextKind = "ORGANIZED";
+  }
+
+  return {
+    flow: next,
+    segment,
+    trace,
+    event,
+    steps,
+    simulatedSeconds: Math.max(0, next.match.handball.simulationTime - startedAt),
+    nextIsTransition,
+    nextKind,
+  };
+}
+
+/**
+ * Runs continuous play from `initialState` until a limit stops it.
+ *
+ * Deterministic: the same state, seed and limits always produce an identical
+ * trace and score. Presentation speed cannot affect it -- nothing here reads a
+ * wall clock, and every segment advances by the same fixed timestep.
+ */
 export function simulateGameSequence(
   initialState: FullCourtMatchState,
   seed: number,
@@ -263,103 +379,20 @@ export function simulateGameSequence(
   const events: PossessionMatchEvent[] = [];
   let steps = 0;
   let segmentIndex = 0;
-  let limitReached = false;
-  /** The next segment is a transition when the previous outcome handed the ball over mid-play. */
-  let nextIsTransition = false;
-  let nextKind: GameFlowSegment["kind"] = "ORGANIZED";
-
-  function push(entries: readonly PossessionTraceEntry[], team: MatchTeamId, goalSide: AttackingGoalSide): void {
-    for (const entry of entries) {
-      trace.push({
-        ...entry,
-        possessionNumber: flow.possessionNumber,
-        possessionTeam: team,
-        attackingGoalSide: goalSide,
-        score: flow.score,
-      });
-    }
-  }
+  let isTransition = false;
+  let kind: GameFlowSegment["kind"] = "ORGANIZED";
 
   while (flow.possessionNumber <= limits.maxPossessions && steps < maxSteps) {
-    const team = attackingTeam(flow);
-    const goalSide = flow.match.possession.attackingGoalSide;
-    const kind = nextKind;
-
-    const result: PossessionResult = nextIsTransition
-      ? (simulateTransition({
-          seed: segmentSeed(seed, segmentIndex),
-          initialState: flow.match,
-          ratings,
-        }) as unknown as PossessionResult)
-      : simulatePossession({ seed: segmentSeed(seed, segmentIndex), initialState: flow.match, ratings });
+    const advance = advanceOneSegment(flow, seed, segmentIndex, isTransition, kind, ratings);
     segmentIndex += 1;
-    steps += result.steps;
-
-    push(result.trace, team, goalSide);
-    events.push(deriveMatchEvent(result));
-    segments.push({ possessionNumber: flow.possessionNumber, team, attackingGoalSide: goalSide, kind, outcome: result.outcome });
-
-    flow = { ...flow, match: result.finalState };
-
-    // --- continuation rules -------------------------------------------------
-    const ended = result.finalState.handball;
-    if (result.outcome === "SHOT_GOAL") {
-      // A goal may ONLY be added from an actual simulated shot.
-      const scorer = result.resolvingPlayerId;
-      const scoringTeam = scorer ? teamOf(flow.rosters as Record<MatchTeamId, readonly string[]>, scorer) : team;
-      const conceding: MatchTeamId = (scoringTeam ?? team) === "HOME" ? "AWAY" : "HOME";
-      flow = {
-        ...flow,
-        score: { ...flow.score, [(scoringTeam ?? team)]: flow.score[scoringTeam ?? team] + 1 },
-      };
-      const restart = centreRestart(flow, conceding, (entry) =>
-        trace.push({ ...entry, possessionNumber: flow.possessionNumber + 1, possessionTeam: conceding, score: flow.score }),
-      );
-      steps += restart.steps;
-      flow = { ...restart.state, possessionNumber: flow.possessionNumber + 1 };
-      nextIsTransition = false;
-      nextKind = "CENTRE_RESTART";
-    } else if (result.outcome === "SHOT_SAVED" || result.outcome === "SHOT_MISSED") {
-      // Both give the ball to the defending goalkeeper: a save is caught, and a
-      // miss goes out over the end line for a goalkeeper throw. That is the
-      // smallest correct restart the engine already supports -- M3 adds no
-      // rebound model.
-      const keeper = findGoalkeeper(ended, "DEFENSE");
-      const regain = keeper?.id ?? nearestDefenderId(ended, ended.ball.position);
-      if (!regain) { limitReached = true; break; }
-      flow = { ...flow, match: switchPossession(flow.match, "SHOT_SAVED", regain).state, possessionNumber: flow.possessionNumber + 1 };
-      nextIsTransition = true;
-      nextKind = "TRANSITION";
-    } else if (result.outcome === "TURNOVER") {
-      const regain = nearestDefenderId(ended, ended.ball.position) ?? findGoalkeeper(ended, "DEFENSE")?.id ?? null;
-      if (!regain) { limitReached = true; break; }
-      flow = { ...flow, match: switchPossession(flow.match, "TURNOVER", regain).state, possessionNumber: flow.possessionNumber + 1 };
-      nextIsTransition = true;
-      nextKind = "TRANSITION";
-    } else if (result.outcome === "FREE_THROW") {
-      // M1 treated a free throw as terminal. It is not: the SAME attacking team
-      // restarts from where the action actually stopped and the possession
-      // continues. The possession number does not advance, because this is not
-      // a new possession.
-      flow = {
-        ...flow,
-        match: { handball: ended, possession: { ...result.finalState.possession, phase: "ORGANIZED_SETUP", outcome: null } },
-      };
-      nextIsTransition = false;
-      nextKind = "FREE_THROW_CONTINUATION";
-    } else {
-      // ORGANIZED_ATTACK_REACHED: the break did not resolve, so the same team
-      // simply plays on through the organized possession engine.
-      flow = {
-        ...flow,
-        match: { handball: ended, possession: { ...result.finalState.possession, phase: "ORGANIZED_SETUP", outcome: null } },
-      };
-      nextIsTransition = false;
-      nextKind = "ORGANIZED";
-    }
+    steps += advance.steps;
+    trace.push(...advance.trace);
+    segments.push(advance.segment);
+    events.push(advance.event);
+    flow = advance.flow;
+    isTransition = advance.nextIsTransition;
+    kind = advance.nextKind;
   }
-
-  if (flow.possessionNumber > limits.maxPossessions || steps >= maxSteps) limitReached = true;
 
   return {
     finalState: flow,
@@ -369,6 +402,6 @@ export function simulateGameSequence(
     events,
     possessionsPlayed: Math.min(flow.possessionNumber, limits.maxPossessions),
     steps,
-    limitReached,
+    limitReached: flow.possessionNumber > limits.maxPossessions || steps >= maxSteps,
   };
 }

@@ -1,0 +1,257 @@
+/**
+ * MATCH-EXPERIENCE-2.0 M4: the 2x30 match clock and a complete match.
+ *
+ * Runs PRE_MATCH -> FIRST_HALF -> HALF_TIME -> SECOND_HALF -> FULL_TIME over
+ * the existing continuous engine. No possession engine is created here: this
+ * module drives gameFlow's advanceOneSegment and adds only the official clock,
+ * the halftime side switch, and match-clock timestamps.
+ *
+ * TWO CLOCKS, DELIBERATELY NOT CONFLATED.
+ *
+ *   simulationTime -- the spatial engine's own fixed-step seconds. Real metres
+ *     at real speeds; this is what a replay or renderer would play back.
+ *   matchClockSeconds -- the official 0..1800 clock within each half, which is
+ *     what a score sheet and a UI show.
+ *
+ * They are not the same, because the micro-simulation resolves an attack faster
+ * than a real handball possession takes. M1 circulates two to four passes and
+ * shoots, so a possession costs roughly four to eight simulated seconds, while a
+ * real possession consumes around thirty seconds of match clock including the
+ * dead time the engine does not model (walking back, referee, setting up). Left
+ * 1:1 a match would contain many hundreds of possessions and an absurd
+ * scoreline, so official time advances by:
+ *
+ *   matchClockDelta = simulatedSeconds * MATCH_PACING_FACTOR
+ *
+ * This is an explicit, deterministic pacing constant, NOT calibration. It is
+ * the smallest model that produces a plausible cadence, and it is expected to
+ * be replaced by richer possession behaviour (longer circulation, real dead
+ * time) rather than tuned. Final statistical calibration is out of M4's scope.
+ */
+import { advanceOneSegment, createGameFlowState, type GameFlowSegment, type GameFlowState, type GameFlowTraceEntry, type MatchScore, type MatchTeamId } from "./gameFlow";
+import { createFullCourt6v6State } from "../scenarios/fullCourt6v6";
+import { switchPossession } from "./transition";
+import type { SimulatePossessionInput } from "./possessionEngine";
+import type { PossessionMatchEvent } from "./possessionEngine";
+import type { FullCourtMatchState, AttackingGoalSide, PossessionOutcome } from "../domain/match/possession";
+
+export const MATCH_PHASES = ["PRE_MATCH", "FIRST_HALF", "HALF_TIME", "SECOND_HALF", "FULL_TIME"] as const;
+export type MatchPhase = (typeof MATCH_PHASES)[number];
+
+/** Official length of one half, in match-clock seconds. */
+export const HALF_LENGTH_SECONDS = 30 * 60;
+export const FULL_TIME_SECONDS = 2 * HALF_LENGTH_SECONDS;
+
+/**
+ * How much official match clock one simulated second costs. See the header:
+ * an explicit provisional pacing constant, not a calibrated figure.
+ */
+export const MATCH_PACING_FACTOR = 5;
+
+/** Hard bound on segments per half, so a clock or pacing error can never hang a match. */
+export const MAX_SEGMENTS_PER_HALF = 400;
+
+export type MatchHalf = 1 | 2;
+
+export type MatchEventRecord = {
+  readonly half: MatchHalf;
+  /** Seconds within the half, 0..1800. */
+  readonly clockSeconds: number;
+  /** Seconds since the opening throw-off, 0..3600 -- what a score sheet shows. */
+  readonly matchSeconds: number;
+  /** The spatial engine's own time, kept separate for replay/debugging. */
+  readonly simulationTime: number;
+  readonly team: MatchTeamId;
+  readonly attackingGoalSide: AttackingGoalSide;
+  readonly outcome: PossessionOutcome;
+  readonly event: PossessionMatchEvent;
+  readonly scoreAfter: MatchScore;
+};
+
+export type MatchResult = {
+  readonly phase: MatchPhase;
+  readonly halftimeScore: MatchScore;
+  readonly finalScore: MatchScore;
+  readonly winner: MatchTeamId | "DRAW";
+  /** Distinct possessions -- a free-throw continuation or a settled break is the SAME possession, not a new one. */
+  readonly totalPossessions: number;
+  /** Segments of play, which is always >= totalPossessions. */
+  readonly totalSegments: number;
+  readonly possessionsByHalf: Readonly<Record<MatchHalf, number>>;
+  /** Every event, in order, with official match-clock timestamps. */
+  readonly events: readonly MatchEventRecord[];
+  readonly segments: readonly (GameFlowSegment & { readonly half: MatchHalf; readonly clockSeconds: number })[];
+  /** The underlying spatial trace, preserved separately from match time. */
+  readonly trace: readonly GameFlowTraceEntry[];
+  readonly finalState: GameFlowState;
+  readonly simulationSeconds: number;
+  readonly steps: number;
+  /** True if a safety bound stopped a half rather than the clock running out. */
+  readonly guardTripped: boolean;
+};
+
+export type SimulateMatchOptions = {
+  /** Which side takes the opening throw-off. The other starts the second half. */
+  readonly firstHalfStartingTeam?: MatchTeamId;
+  readonly ratings?: SimulatePossessionInput["ratings"];
+};
+
+/** Distinct possessions in a run: continuations share a possession number with the segment they continue. */
+function countPossessions(segments: readonly (GameFlowSegment & { half: MatchHalf })[]): number {
+  return new Set(segments.map((s) => `${s.half}:${s.possessionNumber}`)).size;
+}
+
+function winnerOf(score: MatchScore): MatchTeamId | "DRAW" {
+  if (score.HOME > score.AWAY) return "HOME";
+  if (score.AWAY > score.HOME) return "AWAY";
+  return "DRAW";
+}
+
+/**
+ * Builds the state a half starts from.
+ *
+ * Halftime is the one point in a match where a spatial reset is real rather
+ * than an artefact -- the teams leave the court and change ends. So the second
+ * half legitimately begins from a fresh kickoff shape, with the ENDS SWITCHED:
+ * whichever goal a side attacked in the first half, it attacks the other one
+ * now. Player identity is unaffected, because HOME/AWAY comes from the flow
+ * layer's rosters and never from the situational ATTACK/DEFENSE labels.
+ */
+function buildHalfStartState(attackingGoalSide: AttackingGoalSide): FullCourtMatchState {
+  return createFullCourt6v6State({ attackingGoalSide });
+}
+
+type HalfRun = {
+  readonly flow: GameFlowState;
+  readonly events: readonly MatchEventRecord[];
+  readonly segments: readonly (GameFlowSegment & { readonly half: MatchHalf; readonly clockSeconds: number })[];
+  readonly trace: readonly GameFlowTraceEntry[];
+  readonly steps: number;
+  readonly simulationSeconds: number;
+  readonly guardTripped: boolean;
+};
+
+/**
+ * Plays one half until the official clock reaches HALF_LENGTH_SECONDS.
+ *
+ * A segment is only STARTED while the clock is still short of the end of the
+ * half, and its event timestamp is clamped to the half boundary. So at most one
+ * attack straddles the whistle, no event is ever recorded beyond it, and the
+ * ordering of events at the boundary stays deterministic.
+ */
+function playHalf(
+  flow: GameFlowState,
+  half: MatchHalf,
+  seed: number,
+  ratings: SimulatePossessionInput["ratings"] | undefined,
+): HalfRun {
+  const events: MatchEventRecord[] = [];
+  const segments: (GameFlowSegment & { half: MatchHalf; clockSeconds: number })[] = [];
+  const trace: GameFlowTraceEntry[] = [];
+  let current = flow;
+  let clock = 0;
+  let steps = 0;
+  let simulationSeconds = 0;
+  let segmentIndex = 0;
+  let isTransition = false;
+  let kind: GameFlowSegment["kind"] = "ORGANIZED";
+  let guardTripped = false;
+
+  while (clock < HALF_LENGTH_SECONDS) {
+    if (segmentIndex >= MAX_SEGMENTS_PER_HALF) {
+      guardTripped = true;
+      break;
+    }
+    // Distinct per half as well as per segment, so the two halves never replay
+    // the same random sequence.
+    const advance = advanceOneSegment(current, seed ^ (half * 0x85ebca6b), segmentIndex, isTransition, kind, ratings);
+    segmentIndex += 1;
+    steps += advance.steps;
+    simulationSeconds += advance.simulatedSeconds;
+
+    const clockAfter = Math.min(HALF_LENGTH_SECONDS, clock + advance.simulatedSeconds * MATCH_PACING_FACTOR);
+    trace.push(...advance.trace);
+    segments.push({ ...advance.segment, half, clockSeconds: clockAfter });
+    events.push({
+      half,
+      clockSeconds: clockAfter,
+      matchSeconds: (half - 1) * HALF_LENGTH_SECONDS + clockAfter,
+      simulationTime: advance.flow.match.handball.simulationTime,
+      team: advance.segment.team,
+      attackingGoalSide: advance.segment.attackingGoalSide,
+      outcome: advance.segment.outcome,
+      event: advance.event,
+      scoreAfter: advance.flow.score,
+    });
+
+    clock = clockAfter;
+    current = advance.flow;
+    isTransition = advance.nextIsTransition;
+    kind = advance.nextKind;
+  }
+
+  return { flow: current, events, segments, trace, steps, simulationSeconds, guardTripped };
+}
+
+/**
+ * Simulates one complete 2x30 handball match.
+ *
+ * Deterministic: the same starting state, seed, starting team and ratings
+ * always produce the same halftime score, final score, event sequence, event
+ * timestamps and final spatial state. Nothing reads a wall clock, so
+ * presentation speed can never affect the result, and no scoreline is
+ * precomputed -- every goal comes from a simulated SHOT_GOAL.
+ */
+export function simulateMatch(initialState: FullCourtMatchState, seed: number, options: SimulateMatchOptions = {}): MatchResult {
+  const startingTeam = options.firstHalfStartingTeam ?? "HOME";
+  const ratings = options.ratings;
+
+  // HOME is whoever holds the ball in `initialState`; if AWAY is meant to start,
+  // the same scenario is used from the other end so the intended side kicks off.
+  const firstHalfGoalSide = initialState.possession.attackingGoalSide;
+  const firstHalfState = startingTeam === "HOME" ? initialState : buildHalfStartState(firstHalfGoalSide);
+
+  const first = playHalf(createGameFlowState(firstHalfState), 1, seed, ratings);
+  const halftimeScore = first.flow.score;
+
+  // Ends switch AND the throw-off changes hands. createFullCourt6v6State always
+  // hands the ball to the same player group, so building the second half with
+  // the starting side's new end and then applying the ordinary possession
+  // switch gives both at once: the other team kicks off, attacking the goal the
+  // starters attacked in the first half.
+  const startersSecondHalfGoal: AttackingGoalSide = firstHalfGoalSide === "TOP" ? "BOTTOM" : "TOP";
+  const secondHalfBase = buildHalfStartState(startersSecondHalfGoal);
+  const openingThrower = secondHalfBase.handball.players.find((p) => p.team === "DEFENSE" && p.kind === "FIELD_PLAYER");
+  const secondHalfState = openingThrower
+    ? switchPossession(secondHalfBase, "TURNOVER", openingThrower.id).state
+    : secondHalfBase;
+  const secondHalfFlow: GameFlowState = {
+    ...createGameFlowState(secondHalfState),
+    // Score and identity persist across the interval; only the court does not.
+    score: halftimeScore,
+    rosters: first.flow.rosters,
+    possessionNumber: first.flow.possessionNumber,
+  };
+
+  const second = playHalf(secondHalfFlow, 2, seed, ratings);
+
+  const events = [...first.events, ...second.events];
+  const finalScore = second.flow.score;
+
+  return {
+    phase: "FULL_TIME",
+    halftimeScore,
+    finalScore,
+    winner: winnerOf(finalScore),
+    totalPossessions: countPossessions([...first.segments, ...second.segments]),
+    totalSegments: first.segments.length + second.segments.length,
+    possessionsByHalf: { 1: countPossessions(first.segments), 2: countPossessions(second.segments) },
+    events,
+    segments: [...first.segments, ...second.segments],
+    trace: [...first.trace, ...second.trace],
+    finalState: second.flow,
+    simulationSeconds: first.simulationSeconds + second.simulationSeconds,
+    steps: first.steps + second.steps,
+    guardTripped: first.guardTripped || second.guardTripped,
+  };
+}
