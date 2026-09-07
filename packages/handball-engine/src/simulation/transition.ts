@@ -201,12 +201,27 @@ const RECOVERED_DEPTH_METERS = 12;
  * ORGANIZED_ATTACK_REACHED was unreachable across 4000 seeds. Whether the
  * carrier has beaten the defence is decided separately, by the shot condition.
  */
-export function defenceHasRecovered(state: HandballState, defendedGoal: AttackingGoalSide): boolean {
+export function defenceHasRecovered(state: HandballState, defendedGoal: AttackingGoalSide, fraction = 0.66): boolean {
   const defenders = state.players.filter((p) => p.team === "DEFENSE" && p.kind === "FIELD_PLAYER");
   if (defenders.length === 0) return true;
   const goal = goalCentre(defendedGoal);
   const recovered = defenders.filter((d) => distanceBetween(d.position, goal) <= RECOVERED_DEPTH_METERS).length;
-  return recovered >= Math.ceil(defenders.length * 0.66);
+  return recovered >= Math.ceil(defenders.length * fraction);
+}
+
+/**
+ * MATCH-EXPERIENCE-2.0 M8: the stricter question of whether the defence is
+ * SET, as opposed to merely back.
+ *
+ * Two thirds of a team being home is enough to say a fast break is dead, and
+ * that is what the break itself asks. It is NOT enough to start an organized
+ * attack against: doing so left the last men still running and the "defensive
+ * line" spread the length of the court. Early offense therefore waits for
+ * everybody bar one.
+ */
+export const DEFENCE_SET_FRACTION = 0.95;
+export function defenceIsSet(state: HandballState, defendedGoal: AttackingGoalSide): boolean {
+  return defenceHasRecovered(state, defendedGoal, DEFENCE_SET_FRACTION);
 }
 
 /** The attacker furthest up the court toward `goalSide` -- the natural outlet for the first pass. */

@@ -55,6 +55,10 @@ export const POSSESSION_PHASES = [
   "POSSESSION_CHANGE",
   "DEFENSIVE_RETREAT",
   "FIRST_WAVE",
+  // MATCH-EXPERIENCE-2.0 M8: the supporting runner arriving behind the first
+  // wave. Added the same way the M2 phases were -- new behaviour over the same
+  // coordinates, not a new world.
+  "SECOND_WAVE",
   "EARLY_OFFENSE",
   "COMPLETE",
 ] as const;

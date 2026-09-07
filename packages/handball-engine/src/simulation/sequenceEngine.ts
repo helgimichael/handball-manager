@@ -1,6 +1,7 @@
 /**
  * MATCH-EXPERIENCE-2.0 M2: the transition loop, and the continuous sequence
  * that joins an organized possession to the transition it causes.
+ * M8: the decisions inside that transition.
  *
  * The required dependency, end to end and without reconstruction:
  *
@@ -16,6 +17,20 @@
  * whether a runner is actually clear of the retreating defenders at the moment
  * he arrives, measured from their real positions -- never rolled for.
  *
+ * M8 -- TRANSITION INTELLIGENCE. M2 ran everybody at the goal and threw the
+ * ball to whoever happened to be furthest forward. Now the regain is READ:
+ *
+ *   REGAIN -> READ NUMBERS + SPACE -> ASSIGN RUNNING ROLES -> ADVANCE BALL
+ *     -> DEFENSIVE RETREAT -> RE-EVALUATE
+ *     -> FINISH / SECOND WAVE / EARLY OFFENSE / ORGANIZED ATTACK
+ *
+ * transitionDecision.ts owns the reading; this module remains the loop. The
+ * outlet is scored against real passing lanes and thrown through the SAME
+ * pass-risk model an organized attack uses, so a long ball into a covered lane
+ * is intercepted rather than assumed to arrive. The carrier re-evaluates while
+ * he runs, and when the numbers have gone the break slows into early offense
+ * instead of manufacturing a shot.
+ *
  * BOTH GOALS ARE DEFENDED. The canonical full-court scenario carries two
  * goalkeepers, one in each goal, so a transition shot at the far end is always
  * faced by that end's keeper and a derived event never reports a null
@@ -25,11 +40,12 @@
  */
 import { SIMULATION_DT_SECONDS } from "./fixedStep";
 import { step } from "./engine";
-import { createPossessionRng, type PossessionRng } from "./possessionRng";
+import { createPossessionRng } from "./possessionRng";
 import { distanceBetween } from "../domain/geometry/coordinates";
 import {
   MAX_POSSESSION_STEPS,
   deriveMatchEvent,
+  resolvePass,
   resolveShot,
   simulatePossession,
   type PossessionMatchEvent,
@@ -37,13 +53,26 @@ import {
   type PossessionTraceEntry,
   type SimulatePossessionInput,
 } from "./possessionEngine";
+import { defenceHasRecovered, defenceIsSet, switchPossession } from "./transition";
+import { sixZeroHomePosition } from "./organizedAttack";
 import {
-  defenceHasRecovered,
-  firstWaveTarget,
-  leadRunner,
-  retreatTarget,
-  switchPossession,
-} from "./transition";
+  BREAK_SHOT_RANGE_METERS,
+  MAX_OUTLET_HOLD_STEPS,
+  OUTLET_WORTH_PLAYING_SCORE,
+  assignRetreatRoles,
+  assignRunningRoles,
+  decideBreakAction,
+  decideOutlet,
+  describeNumbers,
+  describeRetreat,
+  describeRunning,
+  findSecondWaveRunner,
+  perceiveTransition,
+  retreatTargetFor,
+  runningTarget,
+  type RetreatAssignment,
+  type RunningAssignment,
+} from "./transitionDecision";
 import {
   changesPossession,
   defendedGoalSide,
@@ -55,12 +84,21 @@ import {
 import type { MeterPoint } from "../domain/geometry/coordinates";
 import type { HandballAction } from "../domain/handball/actions";
 import type { HandballState } from "../domain/handball/state";
-import type { Player } from "../domain/handball/player";
+import type { DefenseRole, Player } from "../domain/handball/player";
 
-/** Distance from the target goal at which a clear runner will take his fast-break shot. */
-const BREAK_SHOT_RANGE_METERS = 10;
-/** A runner is "clear" when the nearest defender is at least this far behind him. */
-const CLEAR_OF_DEFENCE_METERS = 3;
+/** How often the carrier re-reads the break, in fixed steps (0.3s). */
+const REEVALUATE_STEPS = 6;
+/** How often off-ball runners and retreating defenders refresh their targets (0.25s). */
+const REFRESH_STEPS = 5;
+/** How often the retreat re-assigns its jobs (0.5s), with the sticky roles kept. */
+const RETREAT_REASSESS_STEPS = 10;
+/**
+ * How long early offense may last before the attack is simply set (6s). A
+ * bound, not a duration: normally the defence recovering ends it sooner.
+ */
+const MAX_EARLY_OFFENSE_STEPS = 120;
+/** How close to the goal the ball is walked during early offense. */
+const ORGANIZED_APPROACH_METERS = 11;
 
 export type SimulateTransitionInput = {
   readonly seed: number;
@@ -132,6 +170,7 @@ export function simulateTransition(input: SimulateTransitionInput): TransitionRe
   // every break died within a couple of seconds.
   const defendedGoal = defendedGoalSide(attackingGoal);
   const goal = goalCentre(attackingGoal);
+  const ratings = input.ratings;
 
   let handball = input.initialState.handball;
   let phase: PossessionPhase = "POSSESSION_CHANGE";
@@ -141,8 +180,18 @@ export function simulateTransition(input: SimulateTransitionInput): TransitionRe
   let shotOrigin: MeterPoint | null = null;
   let steps = 0;
   let guardTripped = false;
-  let outletMade = false;
   const trace: PossessionTraceEntry[] = [];
+
+  // The reading of the break, assigned at the regain and refreshed as it runs.
+  let running: RunningAssignment[] = [];
+  let retreat: RetreatAssignment[] = [];
+  let nextReevaluateStep = 0;
+  let nextRefreshStep = 0;
+  let nextRetreatAssessStep = RETREAT_REASSESS_STEPS;
+  let secondWaveUsed = false;
+  let outletHoldStartedAt = 0;
+  let outletLookedUp = false;
+  let earlyOffenseStartedAt = -1;
 
   function record(note: string): void {
     trace.push({
@@ -157,78 +206,212 @@ export function simulateTransition(input: SimulateTransitionInput): TransitionRe
     });
   }
 
+  /**
+   * MOVE commands for everyone who is not carrying the ball: runners to their
+   * lane at their wave's depth, defenders to whatever their retreat job is.
+   * Refreshed as positions change, so nobody stops on an old target.
+   */
+  function offBallActions(carrierId: string | null, settling = false): HandballAction[] {
+    const perception = perceiveTransition(handball, attackingGoal);
+    const actions: HandballAction[] = [];
+    for (const assignment of running) {
+      if (assignment.playerId === carrierId) continue;
+      const player = findPlayer(handball, assignment.playerId);
+      if (!player || player.kind === "GOALKEEPER") continue;
+      actions.push({ type: "MOVE", playerId: player.id, target: runningTarget(assignment, attackingGoal) });
+    }
+    for (const assignment of retreat) {
+      const defender = findPlayer(handball, assignment.defenderId);
+      if (!defender || defender.kind === "GOALKEEPER") continue;
+      // Once the break is dead, the retreat jobs are over. Marking a trailer
+      // 22m from goal is a transition job, not a defensive one, and leaving it
+      // running was measurably wrong: the "defensive line" the following
+      // organized attack faced was spread twenty metres down the court. In
+      // early offense everybody recovers into the canonical 6:0 instead, which
+      // is the shape M7's collective defence then takes over.
+      const home = settling ? sixZeroHomePosition(defender.role as DefenseRole, defendedGoal) : null;
+      actions.push({
+        type: "MOVE",
+        playerId: defender.id,
+        target: home ?? retreatTargetFor(assignment, defender, perception, handball),
+      });
+    }
+    return actions;
+  }
+
   record(`possession changes: ${handball.ball.possessorId} regains, attack now toward the ${attackingGoal} goal`);
 
   while (!completed && steps < maxSteps) {
     const actions: HandballAction[] = [];
     const carrier = findPlayer(handball, handball.ball.possessorId);
+    const perception = perceiveTransition(handball, attackingGoal);
 
     if (phase === "POSSESSION_CHANGE") {
-      // Both teams react at once: the losing side turns and runs for its own
-      // goal, the winning side breaks forward. Neither teleports.
-      for (const player of handball.players) {
-        if (player.kind === "GOALKEEPER") continue;
-        if (player.team === "DEFENSE") {
-          actions.push({ type: "MOVE", playerId: player.id, target: retreatTarget(player, defendedGoal) });
-        } else if (player.id !== carrier?.id) {
-          actions.push({ type: "MOVE", playerId: player.id, target: firstWaveTarget(player, attackingGoal) });
-        }
-      }
+      // READ NUMBERS + SPACE, then ASSIGN RUNNING ROLES. Both teams react at
+      // once: the losing side turns for its own goal with a job each, the
+      // winning side breaks forward into distinct lanes. Neither teleports.
+      running = assignRunningRoles(perception);
+      retreat = assignRetreatRoles(perception, undefined, ratings);
+      actions.push(...offBallActions(carrier?.id ?? null));
+      outletHoldStartedAt = steps;
       phase = "DEFENSIVE_RETREAT";
-      record(`defenders turn and retreat toward the ${defendedGoal} goal; attackers break forward`);
-    } else if (phase === "DEFENSIVE_RETREAT") {
-      phase = "FIRST_WAVE";
-      record("first wave under way");
-    } else if (phase === "FIRST_WAVE" && carrier && handball.ball.status === "POSSESSED") {
-      const runner = leadRunner(handball, attackingGoal, carrier.id);
-      const carrierToGoal = distanceBetween(carrier.position, goal);
-
-      if (!outletMade && runner && distanceBetween(runner.position, goal) < carrierToGoal - 2) {
-        // The outlet: a real forward pass to whoever is furthest up the court.
-        actions.push({ type: "PASS", fromPlayerId: carrier.id, toPlayerId: runner.id });
-        outletMade = true;
-        record(`outlet pass from ${carrier.id} to ${runner.id}`);
+      record(`regain read: ${describeNumbers(perception)}`);
+      record(`attack: ${describeRunning(running)}`);
+      record(`retreat: ${describeRetreat(retreat)}`);
+    } else if (phase === "DEFENSIVE_RETREAT" && carrier && handball.ball.status === "POSSESSED") {
+      // ADVANCE BALL. The regainer -- usually the goalkeeper after a save --
+      // chooses between a safe short ball, a medium one, the long outlet, and
+      // (if he is an outfield player) simply carrying it.
+      //
+      // A GOALKEEPER looks up first. Deciding on the instant of the save is
+      // the wrong reading and was measurably so: at that moment nobody has run
+      // yet, so no long option can exist and every save produced a short ball.
+      // He therefore holds while the break develops, plays the moment somebody
+      // is genuinely on, and plays the safe ball if nobody ever is. An
+      // OUTFIELD regainer does not stand and look -- he takes the ball and
+      // goes, and his "pass or keep going" question is the same one the break
+      // re-evaluation already asks every 0.3s while he runs.
+      const outlet = decideOutlet(perception, carrier, rng, ratings);
+      const chosen = outlet.chosen;
+      const held = steps - outletHoldStartedAt;
+      const mayHold = carrier.kind === "GOALKEEPER" && held < MAX_OUTLET_HOLD_STEPS;
+      if (chosen.score < OUTLET_WORTH_PLAYING_SCORE && mayHold) {
+        if (!outletLookedUp) {
+          outletLookedUp = true;
+          record(`${carrier.id} looks up: ${describeNumbers(perception)}; nothing on yet, the break develops`);
+        }
+        actions.push(...offBallActions(carrier.id));
+      } else if (chosen.targetPlayerId) {
+        const receiver = findPlayer(handball, chosen.targetPlayerId);
+        const resolution = receiver ? resolvePass(handball, carrier, receiver, rng, ratings) : ({ kind: "COMPLETE" } as const);
+        if (resolution.kind !== "COMPLETE") {
+          outcome = "TURNOVER";
+          resolvingPlayerId = carrier.id;
+          phase = "RESOLUTION";
+          record(
+            resolution.kind === "INTERCEPTED"
+              ? `${resolution.defenderId} reads the ${chosen.kind.toLowerCase()} outlet from ${carrier.id} and intercepts -> TURNOVER`
+              : `${carrier.id} throws the outlet away -> TURNOVER`,
+          );
+        } else {
+          actions.push({ type: "PASS", fromPlayerId: carrier.id, toPlayerId: chosen.targetPlayerId });
+          phase = "FIRST_WAVE";
+          record(`${carrier.id} plays the ${chosen.detail}`);
+        }
       } else {
-        const { distance: pressure, id: pressuringId } = nearestDefender(handball, carrier.position);
-        if (carrierToGoal > BREAK_SHOT_RANGE_METERS && defenceHasRecovered(handball, defendedGoal)) {
-          // Checked BEFORE the shot: once the retreat is physically complete
-          // the situation is no longer a fast break, however close the carrier
-          // happens to be. Testing the shot first meant a set defence could
-          // still be beaten by a "break", and ORGANIZED_ATTACK_REACHED was
-          // unreachable in 4000 seeds.
-          phase = "EARLY_OFFENSE";
-          record("defence has recovered goal-side; the break becomes early offense");
-        } else if (carrierToGoal <= BREAK_SHOT_RANGE_METERS && pressure >= CLEAR_OF_DEFENCE_METERS) {
-          // Genuinely clear, in range: the break has EARNED a shot.
-          const shot = resolveShot(handball, carrier, goal, rng, input.ratings);
+        phase = "FIRST_WAVE";
+        record(`${carrier.id} keeps it: ${chosen.detail}`);
+      }
+      nextReevaluateStep = steps + REEVALUATE_STEPS;
+      actions.push(...offBallActions(carrier.id));
+    } else if ((phase === "FIRST_WAVE" || phase === "SECOND_WAVE") && carrier && handball.ball.status === "POSSESSED") {
+      const { distance: pressure, id: pressuringId } = nearestDefender(handball, carrier.position);
+      if (pressuringId && rng.chance(catchProbability(pressure))) {
+        // Caught by the retreat. A PER-STEP probability that grows as the
+        // recovering defender closes, exactly like the organized-attack
+        // disruption model -- not a deterministic "within 1.4m ends it".
+        const lost = rng.chance(0.5) ? "TURNOVER" : "FREE_THROW";
+        outcome = lost;
+        resolvingPlayerId = carrier.id;
+        phase = lost === "FREE_THROW" ? "DEAD_BALL" : "RESOLUTION";
+        record(`${pressuringId} catches ${carrier.id} in transition (${pressure.toFixed(2)}m) -> ${lost}`);
+      } else if (steps >= nextReevaluateStep) {
+        // RE-EVALUATE from the state as it now is.
+        nextReevaluateStep = steps + REEVALUATE_STEPS;
+        const recovered = defenceHasRecovered(handball, defendedGoal);
+        const decision = decideBreakAction(perception, carrier, recovered, ratings);
+        if (decision.kind === "SHOOT") {
+          const shot = resolveShot(handball, carrier, goal, rng, ratings);
           outcome = shot.outcome;
           resolvingPlayerId = carrier.id;
           shotOrigin = { ...carrier.position };
           phase = "RESOLUTION";
-          record(
-            `${carrier.id} breaks clear (nearest defender ${pressure.toFixed(2)}m) and shoots from ${carrierToGoal.toFixed(2)}m -> ${shot.outcome}`,
-          );
-        } else if (pressuringId && rng.chance(catchProbability(pressure))) {
-          // Caught by the retreat. This is a PER-STEP probability that grows as
-          // the recovering defender closes, exactly like the organized-attack
-          // disruption model -- not a deterministic "within 1.4m ends it",
-          // which made every break die the instant a trailing defender was
-          // alongside and meant no first wave ever reached the goal.
-          const lost = rng.chance(0.5) ? "TURNOVER" : "FREE_THROW";
-          outcome = lost;
-          resolvingPlayerId = carrier.id;
-          phase = lost === "FREE_THROW" ? "DEAD_BALL" : "RESOLUTION";
-          record(`${pressuringId} catches ${carrier.id} in transition (${pressure.toFixed(2)}m) -> ${lost}`);
+          record(`${carrier.id} breaks clear (${decision.detail}) and shoots -> ${shot.outcome}`);
+        } else if (decision.kind === "PASS" && decision.targetPlayerId) {
+          const receiver = findPlayer(handball, decision.targetPlayerId);
+          const resolution = receiver ? resolvePass(handball, carrier, receiver, rng, ratings) : ({ kind: "COMPLETE" } as const);
+          if (resolution.kind !== "COMPLETE") {
+            outcome = "TURNOVER";
+            resolvingPlayerId = carrier.id;
+            phase = "RESOLUTION";
+            record(
+              resolution.kind === "INTERCEPTED"
+                ? `${resolution.defenderId} intercepts ${carrier.id}'s pass in the break -> TURNOVER`
+                : `${carrier.id} loses it in the break -> TURNOVER`,
+            );
+          } else {
+            actions.push({ type: "PASS", fromPlayerId: carrier.id, toPlayerId: decision.targetPlayerId });
+            record(`${carrier.id} plays it on: ${decision.detail}`);
+          }
+        } else if (decision.kind === "SLOW_DOWN") {
+          phase = "EARLY_OFFENSE";
+          record(`the break slows: ${decision.detail} (${describeNumbers(perception)})`);
         } else {
-          // Keep running at the goal.
-          actions.push({ type: "MOVE", playerId: carrier.id, target: firstWaveTarget(carrier, attackingGoal) });
+          record(`${carrier.id} runs on: ${decision.detail}`);
+        }
+      }
+      if (!completed && phase !== "RESOLUTION" && phase !== "DEAD_BALL" && phase !== "EARLY_OFFENSE") {
+        // The carrier attacks the goal down his own lane rather than the
+        // centre; everybody else keeps their running or retreat job.
+        const lane = running.find((r) => r.playerId === carrier.id)?.laneX ?? carrier.position.x;
+        const toGoal = distanceBetween(carrier.position, goal);
+        actions.push({
+          type: "MOVE",
+          playerId: carrier.id,
+          target: toGoal <= BREAK_SHOT_RANGE_METERS ? goal : { x: lane, y: carrier.position.y + (goal.y - carrier.position.y) * 0.8 },
+        });
+        if (steps >= nextRefreshStep) {
+          nextRefreshStep = steps + REFRESH_STEPS;
+          actions.push(...offBallActions(carrier.id));
         }
       }
     } else if (phase === "EARLY_OFFENSE") {
-      // The fast break did not resolve. Rather than fake a shot, the team
-      // simply arrives and settles -- a real handball outcome.
-      phase = "ORGANIZED_SETUP";
-      record("attack settles into an organized shape at the opposite end");
+      // The first wave did not resolve. Early offense is a REAL phase, not a
+      // relabel: the ball is walked up while the retreat finishes. Ending the
+      // transition the instant the break slowed was measurably wrong -- the
+      // organized possession then began against a defence still strung 18m
+      // deep down the court, because nothing had waited for it to set.
+      if (earlyOffenseStartedAt < 0) {
+        earlyOffenseStartedAt = steps;
+        record("early offense: the ball is brought up while the defence sets");
+      }
+      const secondWave = carrier && !secondWaveUsed ? findSecondWaveRunner(perception, carrier, running) : null;
+      const settled = defenceIsSet(handball, defendedGoal) || steps - earlyOffenseStartedAt >= MAX_EARLY_OFFENSE_STEPS;
+      if (!secondWave && !settled) {
+        // Keep advancing at a controlled pace; the retreat keeps running.
+        if (carrier && handball.ball.status === "POSSESSED") {
+          const toGoal = distanceBetween(carrier.position, goal);
+          if (toGoal > ORGANIZED_APPROACH_METERS) {
+            const t = Math.min(1, (toGoal - ORGANIZED_APPROACH_METERS) / Math.max(toGoal, 1e-6));
+            actions.push({
+              type: "MOVE",
+              playerId: carrier.id,
+              target: { x: carrier.position.x + (goal.x - carrier.position.x) * t, y: carrier.position.y + (goal.y - carrier.position.y) * t },
+            });
+          }
+        }
+        if (steps >= nextRefreshStep) {
+          nextRefreshStep = steps + REFRESH_STEPS;
+          actions.push(...offBallActions(handball.ball.possessorId, true));
+        }
+      } else if (carrier && secondWave) {
+        secondWaveUsed = true;
+        const resolution = resolvePass(handball, carrier, secondWave, rng, ratings);
+        if (resolution.kind !== "COMPLETE") {
+          outcome = "TURNOVER";
+          resolvingPlayerId = carrier.id;
+          phase = "RESOLUTION";
+          record(`the second wave ball is lost -> TURNOVER`);
+        } else {
+          actions.push({ type: "PASS", fromPlayerId: carrier.id, toPlayerId: secondWave.id });
+          phase = "SECOND_WAVE";
+          nextReevaluateStep = steps + REEVALUATE_STEPS;
+          record(`second wave: ${carrier.id} finds ${secondWave.id} arriving behind the break`);
+        }
+      } else {
+        phase = "ORGANIZED_SETUP";
+        record("attack settles into an organized shape at the opposite end");
+      }
     } else if (phase === "ORGANIZED_SETUP") {
       outcome = "ORGANIZED_ATTACK_REACHED";
       resolvingPlayerId = handball.ball.possessorId;
@@ -244,6 +427,24 @@ export function simulateTransition(input: SimulateTransitionInput): TransitionRe
     }
 
     if (completed) break;
+
+    // While the ball is in the air nobody carries it, but the break does not
+    // stop: runners keep filling their lanes and defenders keep retreating.
+    if (actions.length === 0 && steps >= nextRefreshStep) {
+      nextRefreshStep = steps + REFRESH_STEPS;
+      actions.push(...offBallActions(handball.ball.possessorId));
+    }
+    // The retreat re-reads its jobs periodically: who is now the danger, who
+    // can still get to the ball. Sticky roles keep it from thrashing.
+    if (steps >= nextRetreatAssessStep) {
+      nextRetreatAssessStep = steps + RETREAT_REASSESS_STEPS;
+      const reassigned = assignRetreatRoles(perception, retreat, ratings);
+      if (describeRetreat(reassigned) !== describeRetreat(retreat)) {
+        retreat = reassigned;
+        record(`retreat: ${describeRetreat(retreat)}`);
+      }
+    }
+
     handball = step(handball, { actions }, SIMULATION_DT_SECONDS);
     steps += 1;
   }

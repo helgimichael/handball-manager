@@ -17,13 +17,13 @@ import { goalCentre, type PossessionOutcome } from "../domain/match/possession";
 const TOP = createFullCourt6v6State({ attackingGoalSide: "TOP" });
 
 /** Seeds pinned from a 4000-seed scan, so each required behaviour has a deterministic witness. */
-// Re-pinned for M6 and again for M7 (a coordinated defence changes every trajectory): state-dependent attacking decisions legitimately change
+// Re-pinned for M6 and again for M7 (a coordinated defence) and M8 (an intelligent transition): state-dependent attacking decisions legitimately change
 // every trajectory, so the M2 witnesses no longer produce the same outcomes.
 // The assertions are unchanged -- only the seeds that exercise them.
-const SEED_SAVE_THEN_FREE_THROW = 39;
+const SEED_SAVE_THEN_FREE_THROW = 1;
 const SEED_SAVE_THEN_ORGANIZED = 13;
-const SEED_SAVE_THEN_GOAL = 58;
-const SEED_SAVE_THEN_TURNOVER = 568;
+const SEED_SAVE_THEN_GOAL = 135;
+const SEED_SAVE_THEN_TURNOVER = 39;
 const SEED_TURNOVER_START = 3;
 
 function sequence(seed: number) {
@@ -136,13 +136,26 @@ test("defenders retreat toward the goal they must now protect", () => {
     if (distAfter < distBefore - 1) closer += 1;
   }
   assert.ok(closer >= 4, `${closer} of ${defenders.length} defenders physically retreated toward their own goal`);
-  assert.ok(transition.trace.some((t) => t.note.includes("retreat toward the BOTTOM goal")), "the retreat is traced");
+  // M8 gives each retreating defender a job, so the retreat is traced as those
+  // jobs rather than as one line about everybody running back. The behaviour
+  // asserted above -- defenders physically closer to the goal they now defend
+  // -- is unchanged.
+  assert.ok(
+    transition.trace.some((t) => t.note.startsWith("retreat:") && t.note.includes("protects the middle")),
+    "the retreat is traced, with who is doing what",
+  );
 });
 
 test("the ball advances through a real transition pass", () => {
   const result = sequence(SEED_SAVE_THEN_GOAL);
   const transition = result.transition!;
-  assert.ok(transition.trace.some((t) => t.note.includes("outlet pass")), "an outlet pass was played");
+  // M8: the outlet is a choice between a short, medium or long ball rather
+  // than one hard-coded pass to whoever is furthest forward, so the trace
+  // names which one was played.
+  assert.ok(
+    transition.trace.some((t) => /plays the (short|medium|long) to/.test(t.note)),
+    "an outlet was chosen and played",
+  );
   const possessors = new Set(transition.trace.map((t) => t.ballPossessorId).filter((id): id is string => id !== null));
   assert.ok(possessors.size >= 2, "the ball moved between players during the transition");
 });
