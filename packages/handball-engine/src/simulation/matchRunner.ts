@@ -28,7 +28,18 @@
  * be replaced by richer possession behaviour (longer circulation, real dead
  * time) rather than tuned. Final statistical calibration is out of M4's scope.
  */
-import { advanceOneSegment, createGameFlowState, teamOf, type GameFlowSegment, type GameFlowState, type GameFlowTraceEntry, type MatchScore, type MatchTeamId } from "./gameFlow";
+import {
+  advanceOneSegment,
+  createGameFlowState,
+  teamOf,
+  type GameFlowSegment,
+  type GameFlowSetup,
+  type GameFlowState,
+  type GameFlowTraceEntry,
+  type MatchScore,
+  type MatchTeamId,
+} from "./gameFlow";
+import type { CoachController } from "./coach";
 import { buildMatchBench } from "../scenarios/matchSquad";
 import { createFullCourt6v6State } from "../scenarios/fullCourt6v6";
 import { switchPossession } from "./transition";
@@ -120,6 +131,17 @@ export type SimulateMatchOptions = {
   readonly tactics?: Partial<AttackTactics>;
   /** M11: the match squad beyond the starters. A deterministic bench is built when omitted. */
   readonly bench?: Record<MatchTeamId, readonly Player[]>;
+  /**
+   * M12: per-team standing instructions and the timeout allowance. Takes
+   * precedence over `tactics`, which stays as the M6 both-sides shorthand.
+   */
+  readonly setup?: GameFlowSetup;
+  /**
+   * M12: the coaches. Each is asked once per side at every segment boundary and
+   * may stop the match, change instructions or ask for a substitution. Omitted,
+   * nobody intervenes and the match runs exactly as it did in M11.
+   */
+  readonly coaches?: Partial<Record<MatchTeamId, CoachController>>;
 };
 
 /** Distinct possessions in a run: continuations share a possession number with the segment they continue. */
@@ -170,7 +192,7 @@ function playHalf(
   half: MatchHalf,
   seed: number,
   ratings: SimulatePossessionInput["ratings"] | undefined,
-  tactics: Partial<AttackTactics> | undefined,
+  coaches: Partial<Record<MatchTeamId, CoachController>> | undefined,
 ): HalfRun {
   const events: MatchEventRecord[] = [];
   const segments: (GameFlowSegment & { half: MatchHalf; clockSeconds: number })[] = [];
@@ -191,7 +213,7 @@ function playHalf(
     }
     // Distinct per half as well as per segment, so the two halves never replay
     // the same random sequence.
-    const advance = advanceOneSegment(current, seed ^ (half * 0x85ebca6b), segmentIndex, isTransition, kind, ratings, tactics);
+    const advance = advanceOneSegment(current, seed ^ (half * 0x85ebca6b), segmentIndex, isTransition, kind, { ratings, coaches });
     segmentIndex += 1;
     steps += advance.steps;
     simulationSeconds += advance.simulatedSeconds;
@@ -243,7 +265,10 @@ function playHalf(
 export function simulateMatch(initialState: FullCourtMatchState, seed: number, options: SimulateMatchOptions = {}): MatchResult {
   const startingTeam = options.firstHalfStartingTeam ?? "HOME";
   const ratings = options.ratings;
-  const tactics = options.tactics;
+  // M12: what the coaches bring with them. `tactics` stays the M6 shorthand --
+  // one attacking bias for both sides -- and `setup` is the per-team form.
+  const setup: GameFlowSetup =
+    options.setup ?? (options.tactics ? { instructions: { HOME: { attack: options.tactics }, AWAY: { attack: options.tactics } } } : {});
 
   // HOME is whoever holds the ball in `initialState`; if AWAY is meant to start,
   // the same scenario is used from the other end so the intended side kicks off.
@@ -254,7 +279,7 @@ export function simulateMatch(initialState: FullCourtMatchState, seed: number, o
   // deterministically around the starters so a dev or test match has somebody
   // to rotate, without careers or the legacy engine being involved.
   const bench = options.bench ?? buildMatchBench(firstHalfState);
-  const first = playHalf(createGameFlowState(firstHalfState, 0, bench), 1, seed, ratings, tactics);
+  const first = playHalf(createGameFlowState(firstHalfState, 0, bench, setup), 1, seed, ratings, options.coaches);
   const halftimeScore = first.flow.score;
 
   // Ends switch AND the throw-off changes hands. createFullCourt6v6State always
@@ -275,12 +300,20 @@ export function simulateMatch(initialState: FullCourtMatchState, seed: number, o
   // M11: the second half starts from the canonical line-up, so anybody who was
   // substituted on in the first half goes back to the bench and the starters
   // come back out. The SQUAD is unchanged; only who is on the court is reset.
+  //
+  // M12: the coaching survives the interval. Instructions, the timeout
+  // allowance already spent and how each side is going are all carried over --
+  // a coach does not start the second half with a clean sheet and three fresh
+  // timeouts because the teams changed ends.
   let secondHalfFlow: GameFlowState = {
-    ...createGameFlowState(secondHalfState, HALF_LENGTH_SECONDS, bench),
+    ...createGameFlowState(secondHalfState, HALF_LENGTH_SECONDS, bench, setup),
     score: halftimeScore,
     rosters: first.flow.rosters,
     possessionNumber: first.flow.possessionNumber,
     suspensions: first.flow.suspensions,
+    instructions: first.flow.instructions,
+    timeouts: first.flow.timeouts,
+    momentum: first.flow.momentum,
   };
   // A side is short by however many men it has serving, whoever they are. The
   // suspended player is taken out of the fresh line-up when he is one of the
@@ -308,7 +341,7 @@ export function simulateMatch(initialState: FullCourtMatchState, seed: number, o
     };
   }
 
-  const second = playHalf(secondHalfFlow, 2, seed, ratings, tactics);
+  const second = playHalf(secondHalfFlow, 2, seed, ratings, options.coaches);
 
   const events = [...first.events, ...second.events];
   const finalScore = second.flow.score;

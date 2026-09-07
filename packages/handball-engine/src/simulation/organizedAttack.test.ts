@@ -344,7 +344,9 @@ test("the decision layer honours a tactical side preference without any script",
   const left = hSide(-1);
   const right = hSide(1);
   assert.ok(right.h / Math.max(1, right.h + right.v) > left.h / Math.max(1, left.h + left.v), "preferring the H side shifts the attacks toward it");
-  assert.deepEqual(DEFAULT_ATTACK_TACTICS, { width: 0, tempo: 0, side: 0, pivotUsage: 0 });
+  // M12 adds a fifth dial (gapAppetite). The point of this assertion is that
+  // the DEFAULT is neutral on every dial there is -- so it grows with them.
+  assert.deepEqual(DEFAULT_ATTACK_TACTICS, { width: 0, tempo: 0, side: 0, pivotUsage: 0, gapAppetite: 0 });
 });
 
 test("an organized possession gives a home-less 6:0 its canonical homes, and leaves an existing shape alone", () => {

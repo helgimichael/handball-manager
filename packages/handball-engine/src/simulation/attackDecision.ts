@@ -338,6 +338,14 @@ const MAX_SHOOTING_DISTANCE_METERS = 11;
 const RESET_SCORE = 0.22;
 /** Longer than this is a cross-court hoof, not a handball pass. */
 const MAX_PASS_DISTANCE_METERS = 16;
+/**
+ * M12: how much the gapAppetite instruction moves the appeal of going AT the
+ * defence rather than working the ball again. Applied to both ends of the same
+ * choice -- taking a gap on gains, resetting loses -- so a directness
+ * instruction shifts the balance between them without ever forcing either.
+ */
+const GAP_APPETITE_SCALE = 0.18;
+
 /** Small seeded noise so identical situations can diverge across seeds. */
 const DECISION_NOISE = 0.1;
 /** A possession this old has exhausted the referee's patience as well as the carrier's. */
@@ -414,14 +422,21 @@ export function decideAttackAction(ctx: DecisionContext): AttackDecision {
       const smallGapPenalty = gap.openness < 0.5 ? (0.5 - gap.openness) * (1 - 0.05 * (attacking - DEFAULT_ATTACK_RATING)) : 0;
       if (isCurrent) {
         if (!blocked) {
-          const score = gap.openness * relevance + DRIVE_PERSISTENCE_BONUS - smallGapPenalty + noise();
+          const score = gap.openness * relevance + DRIVE_PERSISTENCE_BONUS - smallGapPenalty + GAP_APPETITE_SCALE * tactics.gapAppetite + noise();
           options.push({ kind: "CONTINUE", score, gapId: gap.gapId, target: pathTarget, detail: `continue: ${gap.gapId} still open (${gap.openness.toFixed(2)})` });
         } else {
           // The defender has stepped into the path. Taking him on is an option
           // whose appeal depends on the carrier's ability, how much of the gap
           // is still there beside him, and how close he already is.
           const closeness = 1 - Math.min(1, blocked.along / BLOCK_LOOKAHEAD_METERS);
-          const score = 0.4 + 0.035 * (attacking - DEFAULT_ATTACK_RATING) + 0.25 * gap.openness - 0.2 * closeness + 0.15 * urgency + noise();
+          const score =
+            0.4 +
+            0.035 * (attacking - DEFAULT_ATTACK_RATING) +
+            0.25 * gap.openness -
+            0.2 * closeness +
+            0.15 * urgency +
+            GAP_APPETITE_SCALE * tactics.gapAppetite +
+            noise();
           options.push({
             kind: "CONTINUE",
             score,
@@ -443,6 +458,7 @@ export function decideAttackAction(ctx: DecisionContext): AttackDecision {
           redirectPenalty -
           patience +
           sideBias(gap.attackPoint.x, tactics) +
+          GAP_APPETITE_SCALE * tactics.gapAppetite +
           noise();
       const detail = blocked
         ? `${gap.gapId} closed by ${blocked.player.id}`
@@ -555,7 +571,7 @@ export function decideAttackAction(ctx: DecisionContext): AttackDecision {
   if (resetTo) {
     options.push({
       kind: "RESET",
-      score: RESET_SCORE - 0.3 * urgency + noise(),
+      score: RESET_SCORE - 0.3 * urgency - GAP_APPETITE_SCALE * tactics.gapAppetite + noise(),
       targetPlayerId: resetTo.id,
       detail: `pass back out to ${attackRoleLabel(resetTo.role) ?? resetTo.role} and re-form`,
     });

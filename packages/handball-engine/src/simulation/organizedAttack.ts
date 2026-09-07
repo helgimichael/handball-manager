@@ -87,9 +87,15 @@ export type AttackTactics = {
   readonly side: number;
   /** +1 looks for the pivot more, -1 less. */
   readonly pivotUsage: number;
+  /**
+   * M12: +1 takes gaps on rather than circulating, -1 resets and works the ball
+   * again. A willingness, not an instruction to attack: a closed gap is still
+   * closed however direct the coach wants his team to be.
+   */
+  readonly gapAppetite: number;
 };
 
-export const DEFAULT_ATTACK_TACTICS: AttackTactics = Object.freeze({ width: 0, tempo: 0, side: 0, pivotUsage: 0 });
+export const DEFAULT_ATTACK_TACTICS: AttackTactics = Object.freeze({ width: 0, tempo: 0, side: 0, pivotUsage: 0, gapAppetite: 0 });
 
 function clampBias(value: number | undefined): number {
   if (value === undefined || !Number.isFinite(value)) return 0;
@@ -102,6 +108,7 @@ export function resolveAttackTactics(partial?: Partial<AttackTactics>): AttackTa
     tempo: clampBias(partial?.tempo),
     side: clampBias(partial?.side),
     pivotUsage: clampBias(partial?.pivotUsage),
+    gapAppetite: clampBias(partial?.gapAppetite),
   };
 }
 

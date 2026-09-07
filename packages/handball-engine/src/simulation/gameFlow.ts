@@ -38,6 +38,10 @@ import { SUBSTITUTION_AREA, squadGoalkeeperIds } from "../scenarios/matchSquad";
 import { SUBSTITUTION_POLICY, decideSubstitutions, describeSubstitution } from "./substitutionDecision";
 import { isLeavingCourt, markLeavingCourt, stepWithSubstitutions, withExchange, withoutExchanges } from "./substitutionExit";
 import { createPossessionRng } from "./possessionRng";
+import { changeAttackTactics, changeDefenceTactics, describeInstructionDeltas, resolveTeamInstructions, type DefenceTactics, type MatchInstructions } from "./coaching";
+import { describeIntervention, type CoachCommand, type CoachController, type CoachView, type InterventionRecord } from "./coach";
+import { halfOf } from "./matchClock";
+import { resolveTimeoutRules, timeoutAllowed, timeoutsUsed, type TimeoutRecord, type TimeoutRules } from "./timeout";
 import {
   goalCentre,
   type AttackingGoalSide,
@@ -127,6 +131,19 @@ export type GameFlowState = {
   readonly pendingSubstitutions: readonly PendingSubstitution[];
   /** Every goalkeeper in either squad, so a substitute keeper is known to be one. */
   readonly goalkeeperIds: readonly string[];
+  /**
+   * M12: what each coach has told his team. Live, mutable state -- changing it
+   * changes how the SAME players read the SAME situations from the next step
+   * on, and rebuilds nothing else.
+   */
+  readonly instructions: MatchInstructions;
+  /** M12: timeouts taken so far, and the allowance they count against. */
+  readonly timeouts: readonly TimeoutRecord[];
+  readonly timeoutRules: TimeoutRules;
+  /** M12: the timeout in progress, while the match is stopped. */
+  readonly activeTimeout: TimeoutRecord | null;
+  /** M12: how each side is going, in the terms a coach reacts to. */
+  readonly momentum: Readonly<Record<MatchTeamId, TeamMomentum>>;
 };
 
 export type GameFlowTraceEntry = PossessionTraceEntry & {
@@ -154,6 +171,8 @@ export type GameFlowSegment = {
   readonly fouls: readonly FoulAward[];
   /** M11: substitutions taken at the boundary that opened this segment. */
   readonly substitutions: readonly SubstitutionRecord[];
+  /** M12: what the coaches did at the boundary that opened this segment. */
+  readonly interventions: readonly InterventionRecord[];
 };
 
 export type GameFlowResult = {
@@ -193,10 +212,19 @@ function attackingTeam(state: GameFlowState): MatchTeamId {
   return anyAttacker ? (teamOf(state.rosters as Record<MatchTeamId, readonly string[]>, anyAttacker.id) ?? "HOME") : "HOME";
 }
 
+/** M12: what the coaches bring to the match before it starts. */
+export type GameFlowSetup = {
+  /** Standing instructions per side. Omitted dials are neutral, which is exactly M6/M7 behaviour. */
+  readonly instructions?: Partial<Record<MatchTeamId, { readonly attack?: Partial<AttackTactics>; readonly defence?: Partial<DefenceTactics> }>>;
+  /** Timeout allowance. A competition rule, so it arrives as a value. */
+  readonly timeoutRules?: Partial<TimeoutRules>;
+};
+
 export function createGameFlowState(
   match: FullCourtMatchState,
   matchSeconds = 0,
   bench: Record<MatchTeamId, readonly Player[]> = { HOME: [], AWAY: [] },
+  setup: GameFlowSetup = {},
 ): GameFlowState {
   const onCourt = buildRosters(match);
   // The squad is who is available, not who happens to be standing on the court.
@@ -217,6 +245,14 @@ export function createGameFlowState(
     onCourtSince,
     pendingSubstitutions: [],
     goalkeeperIds: squadGoalkeeperIds(match, bench),
+    instructions: {
+      HOME: resolveTeamInstructions(setup.instructions?.HOME),
+      AWAY: resolveTeamInstructions(setup.instructions?.AWAY),
+    },
+    timeouts: [],
+    timeoutRules: resolveTimeoutRules(setup.timeoutRules),
+    activeTimeout: null,
+    momentum: { HOME: NEUTRAL_MOMENTUM, AWAY: NEUTRAL_MOMENTUM },
   };
 }
 
@@ -671,6 +707,236 @@ function centreRestart(
 }
 
 // ---------------------------------------------------------------------------
+// M12: the coach -- timeouts, instructions and personnel, on the live match
+// ---------------------------------------------------------------------------
+
+/**
+ * How a side's match is going, in the two numbers a coach actually reacts to.
+ *
+ * Read from real results only: goals scored and possessions played. Nothing
+ * here feeds back into how a shot or a pass is resolved -- it exists so a coach
+ * can NOTICE something, which is a different thing from it changing anything.
+ */
+export type TeamMomentum = {
+  /** Opponent goals since this side last scored. */
+  readonly concededInARow: number;
+  /** This side's completed possessions since it last scored. */
+  readonly attacksWithoutGoal: number;
+};
+
+const NEUTRAL_MOMENTUM: TeamMomentum = Object.freeze({ concededInARow: 0, attacksWithoutGoal: 0 });
+
+function otherTeam(team: MatchTeamId): MatchTeamId {
+  return team === "HOME" ? "AWAY" : "HOME";
+}
+
+function updateMomentum(
+  current: Readonly<Record<MatchTeamId, TeamMomentum>>,
+  attackingTeam: MatchTeamId,
+  scoringTeam: MatchTeamId | null,
+  possessionEnded: boolean,
+): Readonly<Record<MatchTeamId, TeamMomentum>> {
+  if (scoringTeam) {
+    const conceding = otherTeam(scoringTeam);
+    return {
+      [scoringTeam]: NEUTRAL_MOMENTUM,
+      [conceding]: { ...current[conceding], concededInARow: current[conceding].concededInARow + 1 },
+    } as Readonly<Record<MatchTeamId, TeamMomentum>>;
+  }
+  // A free throw or a settled break continues the SAME possession, so only a
+  // possession that really ended counts against the attack.
+  if (!possessionEnded) return current;
+  return {
+    ...current,
+    [attackingTeam]: { ...current[attackingTeam], attacksWithoutGoal: current[attackingTeam].attacksWithoutGoal + 1 },
+  };
+}
+
+/** The situation a coach is deciding in, at one segment boundary. */
+export type CoachBoundary = {
+  readonly kind: GameFlowSegment["kind"];
+  readonly possessionTeam: MatchTeamId;
+  /**
+   * True when the ball is dead and a timeout could legally be granted. In this
+   * engine that is a restart after a goal and a free-throw restart: both are
+   * genuine stoppages the flow layer already models.
+   */
+  readonly deadBall: boolean;
+};
+
+export function deadBallBoundary(kind: GameFlowSegment["kind"]): boolean {
+  return kind === "CENTRE_RESTART" || kind === "FREE_THROW_CONTINUATION";
+}
+
+/** Everything a coach may read, assembled from the real state. Read-only by construction. */
+export function buildCoachView(flow: GameFlowState, team: MatchTeamId, boundary: CoachBoundary): CoachView {
+  const roster = flow.rosters[team];
+  const half = halfOf(flow.matchSeconds);
+  const onCourt = flow.match.handball.players
+    .filter((p) => roster.includes(p.id))
+    .map((p) => ({ id: p.id, kind: p.kind, onCourtSince: flow.onCourtSince[p.id] ?? flow.matchSeconds }));
+  return {
+    team,
+    opponent: otherTeam(team),
+    matchSeconds: flow.matchSeconds,
+    half,
+    score: flow.score,
+    deadBall: boundary.deadBall,
+    possessionTeam: boundary.possessionTeam,
+    timeoutsLeft: Math.max(0, flow.timeoutRules.perMatch - timeoutsUsed(flow.timeouts, team)),
+    timeoutsLeftThisHalf: Math.max(0, flow.timeoutRules.perHalf - timeoutsUsed(flow.timeouts, team, half)),
+    entitlement: outfieldEntitlement(flow, team),
+    opponentEntitlement: outfieldEntitlement(flow, otherTeam(team)),
+    concededInARow: flow.momentum[team].concededInARow,
+    attacksWithoutGoal: flow.momentum[team].attacksWithoutGoal,
+    instructions: flow.instructions[team],
+    onCourt,
+    bench: flow.bench[team].map((p) => ({ id: p.id, kind: p.kind, onCourtSince: 0 })),
+    substitutionInProgress: flow.pendingSubstitutions.some((p) => p.team === team),
+  };
+}
+
+/**
+ * Applies one coach command to the real match.
+ *
+ * Every branch changes an INPUT and nothing else. A timeout adds a record and
+ * moves no clock; an instruction moves bias dials the decision layers read; a
+ * substitution goes straight into M11's lifecycle. Not one of them touches the
+ * spatial state, the score, the RNG stream, or an outcome.
+ */
+export function applyCoachCommand(
+  flow: GameFlowState,
+  command: CoachCommand,
+  boundary: CoachBoundary,
+): { flow: GameFlowState; records: readonly InterventionRecord[] } {
+  const at = flow.matchSeconds;
+  const refuse = (detail: string): { flow: GameFlowState; records: readonly InterventionRecord[] } => ({
+    flow,
+    records: [{ kind: "REFUSED", team: command.team, atMatchSeconds: at, detail, reason: command.reason }],
+  });
+
+  switch (command.kind) {
+    case "TIMEOUT": {
+      const half = halfOf(at);
+      const verdict = timeoutAllowed(flow.timeoutRules, flow.timeouts, command.team, {
+        deadBall: boundary.deadBall,
+        possessionTeam: boundary.possessionTeam,
+        matchSeconds: at,
+        half,
+      });
+      if (!verdict.ok) return refuse(`timeout refused: ${verdict.reason}`);
+      const record: TimeoutRecord = { team: command.team, half, atMatchSeconds: at, reason: command.reason };
+      const used = timeoutsUsed(flow.timeouts, command.team) + 1;
+      return {
+        // The clock does not move, the court does not move, nothing is
+        // simulated. A timeout is dead time, so there is nothing to simulate.
+        flow: { ...flow, timeouts: [...flow.timeouts, record], activeTimeout: record },
+        records: [
+          {
+            kind: "TIMEOUT_BEGINS",
+            team: command.team,
+            atMatchSeconds: at,
+            detail: `timeout ${used} of ${flow.timeoutRules.perMatch}, half ${half}`,
+            reason: command.reason,
+          },
+        ],
+      };
+    }
+
+    case "SET_ATTACK": {
+      const before = flow.instructions[command.team].attack;
+      const { next, deltas } = changeAttackTactics(before, command.changes);
+      if (deltas.length === 0) return { flow, records: [] };
+      return {
+        flow: { ...flow, instructions: { ...flow.instructions, [command.team]: { ...flow.instructions[command.team], attack: next } } },
+        records: [{ kind: "INSTRUCTION", team: command.team, atMatchSeconds: at, detail: `attack: ${describeInstructionDeltas(deltas)}`, reason: command.reason }],
+      };
+    }
+
+    case "SET_DEFENCE": {
+      const before = flow.instructions[command.team].defence;
+      const { next, deltas } = changeDefenceTactics(before, command.changes);
+      if (deltas.length === 0) return { flow, records: [] };
+      return {
+        flow: { ...flow, instructions: { ...flow.instructions, [command.team]: { ...flow.instructions[command.team], defence: next } } },
+        records: [{ kind: "INSTRUCTION", team: command.team, atMatchSeconds: at, detail: `defence: ${describeInstructionDeltas(deltas)}`, reason: command.reason }],
+      };
+    }
+
+    case "SUBSTITUTE": {
+      // M11 IS the substitution mechanism. A manager change is the same
+      // request an automatic rotation makes, and goes through the same
+      // REQUESTED -> EXITING -> COMPLETE lifecycle: the man going off still has
+      // to walk to his line before anybody replaces him.
+      const outcome = requestSubstitution(flow, {
+        team: command.team,
+        outgoingPlayerId: command.outgoingPlayerId,
+        incomingPlayerId: command.incomingPlayerId,
+        reason: `COACH:${command.reason || "personnel"}`,
+      });
+      if (!outcome.ok) return refuse(`substitution refused: ${outcome.reason}`);
+      return {
+        flow: outcome.flow,
+        records: [
+          {
+            kind: "SUBSTITUTION_REQUESTED",
+            team: command.team,
+            atMatchSeconds: at,
+            detail: `${command.incomingPlayerId} to come on for ${command.outgoingPlayerId}`,
+            reason: command.reason,
+          },
+        ],
+      };
+    }
+  }
+}
+
+/**
+ * Runs both coaches at one segment boundary and applies what they ask for.
+ *
+ * Deterministic and side-free: HOME is asked first, then AWAY, each sees the
+ * state as it stands when asked, and no random number is drawn. That last point
+ * matters -- a coach who consumed RNG would shift every later possession in the
+ * match simply by having had an opinion.
+ */
+export function runCoachBoundary(
+  flow: GameFlowState,
+  coaches: Partial<Record<MatchTeamId, CoachController>> | undefined,
+  boundary: CoachBoundary,
+): { flow: GameFlowState; records: readonly InterventionRecord[] } {
+  if (!coaches) return { flow, records: [] };
+  const records: InterventionRecord[] = [];
+  let current = flow;
+  let timeoutTeam: MatchTeamId | null = null;
+
+  for (const team of ["HOME", "AWAY"] as const) {
+    const controller = coaches[team];
+    if (!controller) continue;
+    for (const command of controller(buildCoachView(current, team, boundary))) {
+      if (command.team !== team) continue;
+      const applied = applyCoachCommand(current, command, boundary);
+      current = applied.flow;
+      records.push(...applied.records);
+      if (applied.records.some((r) => r.kind === "TIMEOUT_BEGINS")) timeoutTeam = team;
+    }
+  }
+
+  // The timeout is over as soon as the coaching is: play restarts from the
+  // restart that was already due, with the state exactly as the whistle left it.
+  if (timeoutTeam) {
+    records.push({
+      kind: "TIMEOUT_ENDS",
+      team: timeoutTeam,
+      atMatchSeconds: current.matchSeconds,
+      detail: `play restarts: ${boundary.kind}`,
+      reason: "",
+    });
+    current = { ...current, activeTimeout: null };
+  }
+  return { flow: current, records };
+}
+
+// ---------------------------------------------------------------------------
 // The continuous runner
 // ---------------------------------------------------------------------------
 
@@ -717,15 +983,25 @@ export type SegmentAdvance = {
  * engine or these continuation rules. simulateGameSequence below is just a loop
  * over this function.
  */
+/** What a caller supplies for one segment, beyond the state itself. */
+export type SegmentOptions = {
+  readonly ratings?: SimulatePossessionInput["ratings"];
+  /**
+   * M12: the coaches, asked once each at this boundary. Omitted, nobody
+   * intervenes and the match plays out exactly as it did in M11.
+   */
+  readonly coaches?: Partial<Record<MatchTeamId, CoachController>>;
+};
+
 export function advanceOneSegment(
   flow: GameFlowState,
   seed: number,
   segmentIndex: number,
   isTransition: boolean,
   kind: GameFlowSegment["kind"],
-  ratings?: SimulatePossessionInput["ratings"],
-  tactics?: Partial<AttackTactics>,
+  options: SegmentOptions = {},
 ): SegmentAdvance {
+  const ratings = options.ratings;
   // M10: this segment IS the restart. Anybody sent off at the dead ball that
   // preceded it starts his two minutes now, and anybody whose time is already
   // up comes back on before play resumes.
@@ -748,6 +1024,18 @@ export function advanceOneSegment(
   const substitutions: SubstitutionRecord[] = [...settled.completed];
   const substitutionRng = createPossessionRng((seed ^ Math.imul(segmentIndex + 1, 0x27d4eb2d)) >>> 0);
   const possessionTeam = attackingTeam(flow);
+
+  // M12: THE COACH. He observes the match as it stands at this boundary and may
+  // stop it, change what his team is trying to do, or ask for a man. All three
+  // change INPUTS -- an allowance record, a set of bias dials, an M11
+  // substitution request -- and none of them touches the court, the score, the
+  // official clock or the random stream. Play then continues into the next
+  // segment, on the same state, under the new instructions.
+  const boundary: CoachBoundary = { kind, possessionTeam, deadBall: deadBallBoundary(kind) };
+  const coached = runCoachBoundary(flow, options.coaches, boundary);
+  flow = coached.flow;
+  const interventions: readonly InterventionRecord[] = coached.records;
+
   for (const side of ["HOME", "AWAY"] as const) {
     const requests = decideSubstitutions(flow, side, { atRestart: kind === "CENTRE_RESTART", possessionTeam }, substitutionRng);
     for (const request of requests.slice(0, SUBSTITUTION_POLICY.maxPerTeamPerSegment)) {
@@ -761,9 +1049,15 @@ export function advanceOneSegment(
   const goalSide = flow.match.possession.attackingGoalSide;
   const startedAt = flow.match.handball.simulationTime;
 
+  // M12: the two sides play under DIFFERENT instructions. Whoever has the ball
+  // attacks under his own coach's attacking intentions; the other side defends
+  // under his own coach's defensive ones.
+  const tactics = flow.instructions[team].attack;
+  const defenceTactics = flow.instructions[otherTeam(team)].defence;
+
   const result: PossessionResult = isTransition
     ? (simulateTransition({ seed: segmentSeed(seed, segmentIndex), initialState: flow.match, ratings }) as unknown as PossessionResult)
-    : simulatePossession({ seed: segmentSeed(seed, segmentIndex), initialState: flow.match, ratings, tactics });
+    : simulatePossession({ seed: segmentSeed(seed, segmentIndex), initialState: flow.match, ratings, tactics, defenceTactics });
 
   const trace: GameFlowTraceEntry[] = result.trace.map((entry) => ({
     ...entry,
@@ -792,6 +1086,13 @@ export function advanceOneSegment(
   }
   for (const change of settled.completed) {
     returnedTrace.push(noteEntry(`SUB (${change.team}): ${describeSubstitution(change)}`, flow));
+  }
+  // M12: every coach intervention is its own dead-ball frame, in the order it
+  // happened, so the trace can be read back as an account of what the coach
+  // changed and when -- timeout begins, instructions, substitution requested,
+  // timeout ends, and then the restart that was already due.
+  for (const record of interventions) {
+    returnedTrace.push(noteEntry(describeIntervention(record), flow));
   }
   trace.unshift(...returnedTrace);
 
@@ -823,6 +1124,7 @@ export function advanceOneSegment(
     }
   }
   let steps = result.steps;
+  let scoredBy: MatchTeamId | null = null;
   let nextIsTransition = false;
   let nextKind: GameFlowSegment["kind"] = "ORGANIZED";
   // The state play continues FROM is the one after the referee's decisions --
@@ -835,6 +1137,7 @@ export function advanceOneSegment(
     // A goal may ONLY be added from an actual simulated shot.
     const scorer = result.resolvingPlayerId;
     const scoringTeam = (scorer ? teamOf(flow.rosters as Record<MatchTeamId, readonly string[]>, scorer) : null) ?? team;
+    scoredBy = scoringTeam;
     const conceding: MatchTeamId = scoringTeam === "HOME" ? "AWAY" : "HOME";
     next = { ...next, score: { ...next.score, [scoringTeam]: next.score[scoringTeam] + 1 } };
     const restart = centreRestart(next, conceding, (entry) =>
@@ -874,6 +1177,11 @@ export function advanceOneSegment(
     nextKind = "ORGANIZED";
   }
 
+  // M12: how the match is going, in the two numbers a coach reacts to. Read
+  // from real results only -- a goal, or a possession that ended without one --
+  // and never fed back into how anything is resolved.
+  next = { ...next, momentum: updateMomentum(next.momentum, team, scoredBy, nextKind === "CENTRE_RESTART" || nextIsTransition) };
+
   // M11: follow up the exchanges the COURT made while this segment was played.
   // The swaps themselves already happened, mid-play, on the step each man
   // reached his line -- this only moves him to the bench, starts his
@@ -897,6 +1205,7 @@ export function advanceOneSegment(
     outcome: result.outcome,
     fouls: result.fouls ?? [],
     substitutions,
+    interventions,
   };
 
   return {
@@ -924,9 +1233,13 @@ export function simulateGameSequence(
   limits: GameFlowLimits,
   ratings?: SimulatePossessionInput["ratings"],
   tactics?: Partial<AttackTactics>,
+  run: { readonly setup?: GameFlowSetup; readonly coaches?: Partial<Record<MatchTeamId, CoachController>> } = {},
 ): GameFlowResult {
   const maxSteps = limits.maxSteps ?? Number.POSITIVE_INFINITY;
-  let flow = createGameFlowState(initialState);
+  // M12: `tactics` remains the M6 shorthand -- one attacking bias applied to
+  // both sides. A caller who wants the two coaches to differ passes `setup`.
+  const setup: GameFlowSetup = run.setup ?? (tactics ? { instructions: { HOME: { attack: tactics }, AWAY: { attack: tactics } } } : {});
+  let flow = createGameFlowState(initialState, 0, { HOME: [], AWAY: [] }, setup);
   const trace: GameFlowTraceEntry[] = [];
   const segments: GameFlowSegment[] = [];
   const events: PossessionMatchEvent[] = [];
@@ -936,7 +1249,7 @@ export function simulateGameSequence(
   let kind: GameFlowSegment["kind"] = "ORGANIZED";
 
   while (flow.possessionNumber <= limits.maxPossessions && steps < maxSteps) {
-    const advance = advanceOneSegment(flow, seed, segmentIndex, isTransition, kind, ratings, tactics);
+    const advance = advanceOneSegment(flow, seed, segmentIndex, isTransition, kind, { ratings, coaches: run.coaches });
     segmentIndex += 1;
     steps += advance.steps;
     trace.push(...advance.trace);

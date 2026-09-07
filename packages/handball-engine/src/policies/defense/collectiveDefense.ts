@@ -51,6 +51,7 @@ import type { DefenseRole, Player } from "../../domain/handball/player";
 import type { HandballState } from "../../domain/handball/state";
 import { SIX_ZERO_ROLE_ADJACENCY, SIX_ZERO_ROLE_ORDER, type SixZeroDefender } from "./responsibility";
 import type { DefensiveThreatObservation } from "./types";
+import type { DefenceTactics } from "../../simulation/coaching";
 
 export type DefendedGoalSide = "TOP" | "BOTTOM";
 
@@ -61,7 +62,28 @@ export type DefensivePlayerRatings = {
 
 export type CollectiveDefenseOptions = {
   readonly ratings?: Readonly<Record<string, DefensivePlayerRatings>>;
+  /**
+   * M12: the coach standing instructions for this defence. Every value is a
+   * bias in [-1, 1] and 0 is neutral, so an omitted set is exactly the M7
+   * behaviour. They are consumed here as DISTANCES AND TARGETS -- how far a man
+   * steps, where the line stands, how hard the neighbours collapse, how readily
+   * the pivot is picked up -- and never as an outcome.
+   */
+  readonly tactics?: DefenceTactics;
 };
+
+/** M12: how far each defensive instruction is allowed to move the 6:0. */
+export const DEFENCE_TACTIC_SCALE = Object.freeze({
+  /** Step-out reach, on top of the defender own willingness. */
+  aggression: 0.35,
+  /** Lateral squeeze of every home toward the middle of the court. */
+  compactness: 0.18,
+  /** How much further a helper collapses behind the man who stepped out. */
+  help: 0.5,
+  /** Pivot marking reach, and how far off the line a pivot still counts as one. */
+  pivotProtection: 0.5,
+  pivotDepth: 0.4,
+});
 
 export const COLLECTIVE_DEFENSE_LIMITS = Object.freeze({
   /** How far the line slides toward the ball, per metre the ball is off centre, and its cap. */
@@ -93,7 +115,11 @@ const DEFAULT_RATING = 10;
 /** 0.7 .. 1.4: how far a defender is willing to step, from his defending rating. */
 export function aggressionFor(defenderId: string, options?: CollectiveDefenseOptions): number {
   const defending = options?.ratings?.[defenderId]?.defending ?? DEFAULT_RATING;
-  return Math.max(0.7, Math.min(1.4, 1 + 0.04 * (defending - DEFAULT_RATING)));
+  const ability = Math.max(0.7, Math.min(1.4, 1 + 0.04 * (defending - DEFAULT_RATING)));
+  // M12: the coach ASKS for more or less; the player supplies what he can. A
+  // timid defender told to press still steps less than a brave one told to sit.
+  const instructed = ability * (1 + DEFENCE_TACTIC_SCALE.aggression * (options?.tactics?.aggression ?? 0));
+  return Math.max(0.4, Math.min(2, instructed));
 }
 
 // ---------------------------------------------------------------------------
@@ -134,7 +160,12 @@ export function towardGoal(y: number, goalSide: DefendedGoalSide, distance: numb
   return goalSide === "TOP" ? y - distance : y + distance;
 }
 
-export function perceiveAttack(state: HandballState, threat: DefensiveThreatObservation, defenders: readonly SixZeroDefender[]): DefensivePerception {
+export function perceiveAttack(
+  state: HandballState,
+  threat: DefensiveThreatObservation,
+  defenders: readonly SixZeroDefender[],
+  options?: CollectiveDefenseOptions,
+): DefensivePerception {
   const goalSide = defendedGoalSideOf(state);
   const attackers = state.players.filter((p) => p.team === "ATTACK" && p.kind === "FIELD_PLAYER");
   const carrier = state.ball.possessorId ? (attackers.find((p) => p.id === state.ball.possessorId) ?? null) : null;
@@ -142,7 +173,11 @@ export function perceiveAttack(state: HandballState, threat: DefensiveThreatObse
   const lineDepth = homes.length > 0 ? homes.reduce((s, h) => s + h.y, 0) / homes.length : towardGoal(goalSideLine(goalSide), goalSide, 0);
   // The pivot is whoever works the line: the PIVOT by role if he is near it,
   // otherwise any attacker standing on it.
-  const nearLine = (p: Player) => Math.abs(p.position.y - lineDepth) <= COLLECTIVE_DEFENSE_LIMITS.pivotThreatDepthMeters;
+  // M12: a defence told to protect the pivot notices him a little further off
+  // the line, so he is picked up before he has settled on it.
+  const pivotDepth =
+    COLLECTIVE_DEFENSE_LIMITS.pivotThreatDepthMeters * (1 + DEFENCE_TACTIC_SCALE.pivotDepth * (options?.tactics?.pivotProtection ?? 0));
+  const nearLine = (p: Player) => Math.abs(p.position.y - lineDepth) <= pivotDepth;
   const byRole = attackers.find((p) => p.role === "PIVOT" && nearLine(p));
   const anyOnLine = attackers.filter((p) => p.id !== carrier?.id && nearLine(p)).sort((a, b) => Math.abs(a.position.y - lineDepth) - Math.abs(b.position.y - lineDepth) || a.id.localeCompare(b.id))[0];
   const pivot = byRole ?? anyOnLine ?? null;
@@ -279,10 +314,22 @@ export type CollectiveReactionLimits = {
 };
 
 /** Every defender's home slid toward the ball; a width-holding wing only partly. */
-export function shiftedHomes(state: HandballState, defenders: readonly SixZeroDefender[], perception: DefensivePerception): Map<string, MeterPoint> {
+export function shiftedHomes(
+  state: HandballState,
+  defenders: readonly SixZeroDefender[],
+  perception: DefensivePerception,
+  options?: CollectiveDefenseOptions,
+): Map<string, MeterPoint> {
   const map = new Map<string, MeterPoint>();
+  // M12: compactness squeezes every home toward the middle of the court (or
+  // spreads it out toward the wings). It changes WHERE THE LINE STANDS, which
+  // is what makes a narrow defence concede the wing and a wide one concede the
+  // middle -- the attack then decides what to do about it.
+  const squeeze = 1 - DEFENCE_TACTIC_SCALE.compactness * (options?.tactics?.compactness ?? 0);
+  const centreX = COURT_WIDTH_METERS / 2;
   for (const defender of defenders) {
-    const home = homeOf(state, defender).position;
+    const canonical = homeOf(state, defender).position;
+    const home = { x: centreX + (canonical.x - centreX) * squeeze, y: canonical.y };
     const fraction = holdsWidth(defender, home, perception) ? COLLECTIVE_DEFENSE_LIMITS.widthHoldShiftFraction : 1;
     map.set(defender.id, clampPointToBounds({ x: home.x + perception.lineShift * fraction, y: home.y }, COURT_BOUNDS_METERS));
   }
@@ -331,13 +378,16 @@ export function collectiveReactions(
     if (defender.id === assignment.pivotMarkerId && perception.pivot) {
       // Sit goal-side of the pivot, without abandoning the line.
       const raw = { x: perception.pivot.position.x, y: towardGoal(perception.pivot.position.y, perception.goalSide, COLLECTIVE_DEFENSE_LIMITS.pivotMarkOffsetMeters) };
-      return make("MARK_PIVOT", limitedFrom(base, raw, COLLECTIVE_DEFENSE_LIMITS.pivotMarkReachMeters * aggression));
+      const reach =
+        COLLECTIVE_DEFENSE_LIMITS.pivotMarkReachMeters * aggression * (1 + DEFENCE_TACTIC_SCALE.pivotProtection * (options?.tactics?.pivotProtection ?? 0));
+      return make("MARK_PIVOT", limitedFrom(base, raw, reach));
     }
 
     if (assignment.helperIds.includes(defender.id) && primaryHome) {
       // Close toward the gap the primary left, staying on the line.
       const raw = { x: primaryHome.x, y: base.y };
-      return make("SUPPORT", limitedFrom(base, raw, limits.supportMaxDisplacementMeters));
+      const collapse = limits.supportMaxDisplacementMeters * (1 + DEFENCE_TACTIC_SCALE.help * (options?.tactics?.helpEmphasis ?? 0));
+      return make("SUPPORT", limitedFrom(base, raw, collapse));
     }
 
     if (defender.id === assignment.presserId && perception.carrier) {

@@ -79,6 +79,7 @@ import type { HandballAction } from "../domain/handball/actions";
 import type { Player } from "../domain/handball/player";
 import type { HandballState } from "../domain/handball/state";
 import { applyExitOrders, settleArrivedExchanges, stepWithSubstitutions } from "./substitutionExit";
+import { resolveDefenceTactics, type DefenceTactics } from "./coaching";
 import type { AttackGapId } from "../domain/geometry/attackGaps";
 
 /**
@@ -106,6 +107,13 @@ export type SimulatePossessionInput = {
   readonly ratings?: Readonly<Record<string, PossessionPlayerRatings>>;
   /** Optional tactical bias for the attacking decisions; neutral when omitted. */
   readonly tactics?: Partial<AttackTactics>;
+  /**
+   * M12: the DEFENDING coach's instructions for this possession. The two sides
+   * play under different intentions, so the attack and the defence read
+   * different inputs during the same possession. Neutral when omitted, which is
+   * exactly the M7 behaviour.
+   */
+  readonly defenceTactics?: Partial<DefenceTactics>;
   readonly maxSteps?: number;
 };
 
@@ -511,6 +519,7 @@ export function simulatePossession(input: SimulatePossessionInput): PossessionRe
   const goal = goalCentre(goalSide);
   const ratings = input.ratings;
   const tactics = resolveAttackTactics(input.tactics);
+  const defenceTactics = resolveDefenceTactics(input.defenceTactics);
 
   let handball = input.initialState.handball;
   let phase: PossessionPhase = "ORGANIZED_SETUP";
@@ -797,7 +806,7 @@ export function simulatePossession(input: SimulatePossessionInput): PossessionRe
     // hysteresis from one step to the next (handover only when an attacker
     // really crosses a zone), and the collective assignment is traced
     // whenever it changes.
-    const reaction = evaluateSixZeroDefense(handball, { ratings });
+    const reaction = evaluateSixZeroDefense(handball, { ratings, tactics: defenceTactics });
     if (reaction.primaryDefenderId !== lastPrimaryDefenderId) {
       lastPrimaryDefenderId = reaction.primaryDefenderId;
       record(`defensive responsibility -> ${reaction.primaryDefenderId ?? "none"}`);

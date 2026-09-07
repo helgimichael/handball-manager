@@ -26,6 +26,7 @@ import { DEFAULT_CAMERA } from "@handball-manager/match-renderer/src/ui/camera/C
 import { designSystemTheme } from "@handball-manager/match-renderer/src/ui/design-system/index.ts";
 import { createFullCourt6v6State } from "@handball-manager/handball-engine/src/scenarios/fullCourt6v6.ts";
 import { simulateMatch } from "@handball-manager/handball-engine/src/simulation/matchRunner.ts";
+import { autonomousCoach } from "@handball-manager/handball-engine/src/simulation/coach.ts";
 import {
   buildPlaybackFrames,
   frameAtMatchSeconds,
@@ -51,7 +52,12 @@ export default function Match2DPage() {
   // it, which is what makes speed purely presentational.
   const { frames, duration, finalScore } = useMemo(() => {
     const start = createFullCourt6v6State({ attackingGoalSide: "TOP" });
-    const match = simulateMatch(start, seed);
+    // M12: both benches have a coach. He is the minimal automatic one -- he
+    // notices a scoring run, a drought or a numerical situation and answers
+    // with a timeout, a tactical adjustment or a substitution request. What he
+    // does lands in the ordinary trace, so the HUD below shows it without the
+    // renderer knowing anything about coaching.
+    const match = simulateMatch(start, seed, { coaches: { HOME: autonomousCoach(), AWAY: autonomousCoach() } });
     // M11: the squad's goalkeepers, not just the two who started -- a reserve
     // keeper who comes on must still be drawn as a keeper. The match carries
     // that list; the starting line-up is only the fallback.

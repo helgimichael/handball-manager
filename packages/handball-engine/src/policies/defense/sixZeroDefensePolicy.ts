@@ -13,7 +13,7 @@ import {
 } from "./collectiveDefense";
 
 export { SIX_ZERO_GAP_RESPONSIBILITIES } from "./responsibility";
-export { COLLECTIVE_DEFENSE_LIMITS } from "./collectiveDefense";
+export { COLLECTIVE_DEFENSE_LIMITS, DEFENCE_TACTIC_SCALE } from "./collectiveDefense";
 
 export type SixZeroDefensePolicy = {
   name: "six-zero-defense";
@@ -66,8 +66,8 @@ export function evaluateSixZeroDefense(state: HandballState, options?: Collectiv
   const responsibility = resolveSixZeroResponsibility(state, defenders, activeThreat);
   const primary = activeThreat.type === "ACTIVE_ATTACK_THREAT" ? responsibility.primary : null;
 
-  const perception = perceiveAttack(state, activeThreat, defenders);
-  const homes = shiftedHomes(state, defenders, perception);
+  const perception = perceiveAttack(state, activeThreat, defenders, options);
+  const homes = shiftedHomes(state, defenders, perception, options);
   const assignment = assignResponsibilities(perception, defenders, primary?.id ?? null, homes, state.defense.lastReaction?.pivotMarkerId ?? null, state);
   const reactions = collectiveReactions(state, defenders, perception, assignment, homes, SIX_ZERO_DEFENSE_LIMITS, options);
 

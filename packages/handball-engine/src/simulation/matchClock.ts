@@ -23,3 +23,17 @@ export const MATCH_PACING_FACTOR = 5;
 export function officialSecondsFor(simulatedSeconds: number): number {
   return simulatedSeconds * MATCH_PACING_FACTOR;
 }
+
+/**
+ * Official length of one half, in match-clock seconds.
+ *
+ * Lives here rather than in matchRunner so the layers below the runner -- the
+ * flow layer, and M12's per-half timeout allowance -- can ask which half an
+ * official second belongs to without depending on the runner.
+ */
+export const HALF_LENGTH_SECONDS = 30 * 60;
+
+/** Which half an absolute official second (0..3600) falls in. */
+export function halfOf(matchSeconds: number): 1 | 2 {
+  return matchSeconds >= HALF_LENGTH_SECONDS ? 2 : 1;
+}
