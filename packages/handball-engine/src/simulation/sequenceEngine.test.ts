@@ -17,13 +17,13 @@ import { goalCentre, type PossessionOutcome } from "../domain/match/possession";
 const TOP = createFullCourt6v6State({ attackingGoalSide: "TOP" });
 
 /** Seeds pinned from a 4000-seed scan, so each required behaviour has a deterministic witness. */
-// Re-pinned for M6 and again for M7 (a coordinated defence) and M8 (an intelligent transition): state-dependent attacking decisions legitimately change
+// Re-pinned for M6 and again for M7 (a coordinated defence) M8 (an intelligent transition) and M9 (a real shot contest): state-dependent attacking decisions legitimately change
 // every trajectory, so the M2 witnesses no longer produce the same outcomes.
 // The assertions are unchanged -- only the seeds that exercise them.
-const SEED_SAVE_THEN_FREE_THROW = 1;
-const SEED_SAVE_THEN_ORGANIZED = 13;
-const SEED_SAVE_THEN_GOAL = 135;
-const SEED_SAVE_THEN_TURNOVER = 39;
+const SEED_SAVE_THEN_FREE_THROW = 11;
+const SEED_SAVE_THEN_ORGANIZED = 5;
+const SEED_SAVE_THEN_GOAL = 6;
+const SEED_SAVE_THEN_TURNOVER = 2;
 const SEED_TURNOVER_START = 3;
 
 function sequence(seed: number) {
@@ -51,8 +51,8 @@ test("a turnover changes possession and flips the attacking direction", () => {
 
 test("outcomes that keep the ball do not start a transition", () => {
   // A goal or a miss is not a defensive regain.
-  const goal = simulatePossession({ seed: 2, initialState: TOP });
-  const result = sequence(2);
+  const goal = simulatePossession({ seed: 1, initialState: TOP });
+  const result = sequence(1);
   assert.equal(result.transition, null);
   assert.equal(result.trace.length, goal.trace.length, "the trace is just the possession");
 });

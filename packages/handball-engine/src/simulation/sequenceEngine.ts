@@ -55,6 +55,7 @@ import {
 } from "./possessionEngine";
 import { defenceHasRecovered, defenceIsSet, switchPossession } from "./transition";
 import { sixZeroHomePosition } from "./organizedAttack";
+import { goalkeeperSetPosition } from "../policies/goalkeeper/goalkeeperPolicy";
 import {
   BREAK_SHOT_RANGE_METERS,
   MAX_OUTLET_HOLD_STEPS,
@@ -236,6 +237,13 @@ export function simulateTransition(input: SimulateTransitionInput): TransitionRe
         target: home ?? retreatTargetFor(assignment, defender, perception, handball),
       });
     }
+    // M9: the goalkeeper defending this end tracks the ball as the break comes
+    // at him, so a transition shot is faced by a keeper who has actually set
+    // himself rather than one standing where the match started.
+    const keeper = handball.players.find((p) => p.team === "DEFENSE" && p.kind === "GOALKEEPER");
+    if (keeper && keeper.id !== carrierId) {
+      actions.push({ type: "MOVE", playerId: keeper.id, target: goalkeeperSetPosition(handball.ball.position, defendedGoal, ratings, keeper.id) });
+    }
     return actions;
   }
 
@@ -321,12 +329,18 @@ export function simulateTransition(input: SimulateTransitionInput): TransitionRe
         const recovered = defenceHasRecovered(handball, defendedGoal);
         const decision = decideBreakAction(perception, carrier, recovered, ratings);
         if (decision.kind === "SHOOT") {
-          const shot = resolveShot(handball, carrier, goal, rng, ratings);
+          shotOrigin = { ...carrier.position };
+          record(`${carrier.id} breaks clear (${decision.detail}) and shoots`);
+          const event = resolveShot(handball, carrier, attackingGoal, rng, ratings, (flying, note) => {
+            handball = flying;
+            record(note);
+          });
+          handball = event.state;
+          const shot = event.resolution;
           outcome = shot.outcome;
           resolvingPlayerId = carrier.id;
-          shotOrigin = { ...carrier.position };
           phase = "RESOLUTION";
-          record(`${carrier.id} breaks clear (${decision.detail}) and shoots -> ${shot.outcome}`);
+          record(`${carrier.id}: ${shot.detail}`);
         } else if (decision.kind === "PASS" && decision.targetPlayerId) {
           const receiver = findPlayer(handball, decision.targetPlayerId);
           const resolution = receiver ? resolvePass(handball, carrier, receiver, rng, ratings) : ({ kind: "COMPLETE" } as const);

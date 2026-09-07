@@ -33,16 +33,33 @@ import { step } from "./engine";
 import { createPossessionRng, type PossessionRng } from "./possessionRng";
 import { evaluateSixZeroDefense } from "../policies/defense/sixZeroDefensePolicy";
 import { distanceBetween } from "../domain/geometry/coordinates";
-import { defendedGoalSide, goalCentre, type FullCourtMatchState, type PossessionOutcome, type PossessionPhase } from "../domain/match/possession";
+import { defendedGoalSide, goalCentre, type AttackingGoalSide, type FullCourtMatchState, type PossessionOutcome, type PossessionPhase } from "../domain/match/possession";
 import {
   decideAttackAction,
   describeDecision,
   fieldAttackers,
   nearestDefenderTo,
-  shootingAngleQuality,
   type AttackDecision,
   type AttackPlayerRatings,
 } from "./attackDecision";
+import {
+  SHOT_LIMITS,
+  decideShot,
+  executionSpreadMeters,
+  isOnTarget,
+  perceiveShot,
+  sampleError,
+  shotLanding,
+  type ShotDecision,
+} from "./shotDecision";
+import {
+  attemptSave,
+  goalkeeperSetPosition,
+  readShot,
+  reactionDelaySeconds,
+  type GoalkeeperRead,
+  type SaveContest,
+} from "../policies/goalkeeper/goalkeeperPolicy";
 import {
   describeAttacker,
   ensureSixZeroHomePositions,
@@ -140,57 +157,182 @@ export type ShotResolution = {
   readonly distance: number;
   readonly angleQuality: number;
   readonly pressure: number;
-  readonly onTargetProbability: number;
-  readonly saveProbability: number;
+  /** What the shooter chose, and every option he weighed. */
+  readonly decision: ShotDecision;
+  /** Where the ball actually crossed the goal line, and how high. */
+  readonly landing: { readonly x: number; readonly height: number };
+  /** What the keeper committed to at release. Null when there is no keeper. */
+  readonly keeperRead: GoalkeeperRead | null;
+  /** Where the keeper actually got to by the time the ball arrived. */
+  readonly keeperAtArrival: MeterPoint | null;
+  /** The geometric contest, when the ball reached the goal on target. */
+  readonly contest: SaveContest | null;
+  /** The defender who got a hand to it on the way, when one did. */
+  readonly blockedByDefenderId: string | null;
+  readonly flightSeconds: number;
+  /** A one-line account of the shot, for the trace and the dev HUD. */
+  readonly detail: string;
 };
 
+export type ShotEvent = {
+  readonly resolution: ShotResolution;
+  /** The world after the ball has travelled and the keeper has reacted. */
+  readonly state: HandballState;
+};
+
+/** Distance from a point to the segment a-b. */
+function distanceToSegment(point: MeterPoint, a: MeterPoint, b: MeterPoint): number {
+  const abx = b.x - a.x;
+  const aby = b.y - a.y;
+  const len2 = abx * abx + aby * aby;
+  if (len2 < 1e-9) return distanceBetween(point, a);
+  const t = Math.max(0, Math.min(1, ((point.x - a.x) * abx + (point.y - a.y) * aby) / len2));
+  return distanceBetween(point, { x: a.x + abx * t, y: a.y + aby * t });
+}
+
+/** Hard bound on a shot's flight, so a pathological speed cannot stall the loop. */
+const MAX_SHOT_FLIGHT_STEPS = 40;
+
 /**
- * A deliberately simple, explainable first model. It is NOT a calibrated
- * handball shot model and is not tuned here -- M1 proves the architecture, and
- * every input below is read from the simulated situation rather than assumed.
+ * MATCH-EXPERIENCE-2.0 M9: a shot is a decision and a contest, not a roll.
+ *
+ *   SHOOTER PERCEIVES -> SELECTS SHOT -> KEEPER READS AND COMMITS
+ *     -> BALL TRAVELS -> KEEPER REACTS -> GOAL / SAVE / MISS / BLOCK
+ *
+ * The old model drew two probabilities -- on target, then saved -- from
+ * distance, angle and pressure. Nothing was ever aimed anywhere, so there was
+ * no goal mouth to beat and no keeper to beat it past; his position entered as
+ * a term that never changed, because he never moved.
+ *
+ * Now the shooter aims at a POINT chosen from the goal the keeper has actually
+ * left open, the keeper commits to a side and a height from that same
+ * geometry, the ball is flown across the court by the ordinary fixed step
+ * while the keeper dives, and the result is read off where the ball crossed
+ * against where he got to.
+ *
+ * THE RNG NEVER DECIDES THE OUTCOME. It perturbs the inputs -- which option
+ * the shooter picks between close-scored ones, how far his execution strays
+ * from where he aimed, which way the keeper reads it -- and then the contest
+ * is pure geometry. There is no save probability anywhere in this file.
  */
 export function resolveShot(
   state: HandballState,
   shooter: Player,
-  goal: MeterPoint,
+  goalSide: AttackingGoalSide,
   rng: PossessionRng,
   ratings: SimulatePossessionInput["ratings"],
-): ShotResolution {
-  const distance = distanceBetween(shooter.position, goal);
-  const angleQuality = shootingAngleQuality(shooter.position, goal);
-  const { distance: defenderDistance } = nearestDefenderTo(state, shooter.position);
-  // Pressure rises as the nearest defender closes; 0 at 4m+, 1 when on top of him.
-  const pressure = Math.max(0, Math.min(1, 1 - defenderDistance / 4));
-  const shooting = ratingOf(ratings, shooter.id, "shooting");
+  onFlightStep?: (state: HandballState, note: string) => void,
+): ShotEvent {
+  const goal = goalCentre(goalSide);
+  const perception = perceiveShot(state, shooter, goalSide);
+  const decision = decideShot(perception, rng, ratings);
+  const keeper = goalkeeper(state);
 
-  const onTargetProbability = clamp01(
-    0.62 + (shooting - DEFAULT_RATING) * 0.018 + (angleQuality - 0.7) * 0.35 - pressure * 0.22 - Math.max(0, distance - 6) * 0.012,
-  );
-  if (!rng.chance(onTargetProbability)) {
-    return { outcome: "SHOT_MISSED", distance, angleQuality, pressure, onTargetProbability, saveProbability: 0 };
+  // The keeper commits as the ball leaves the hand, from the geometry in front
+  // of him. He is never shown the target.
+  const keeperRead = keeper ? readShot(perception.window, perception.distance, keeper.id, rng, ratings) : null;
+
+  // Execution: where it actually goes, given how hard the shot was to place.
+  const shooting = ratingOf(ratings, shooter.id, "shooting");
+  const spread = executionSpreadMeters(perception, decision.intention, shooting);
+  const landing = shotLanding(decision, sampleError(rng, spread), sampleError(rng, spread * 0.7));
+
+  // A defender close to the line, close to the shooter, can get a hand to it.
+  const goalLinePoint: MeterPoint = { x: landing.x, y: goal.y };
+  let blockedByDefenderId: string | null = null;
+  let blockPoint: MeterPoint | null = null;
+  for (const defender of state.players) {
+    if (defender.team !== "DEFENSE" || defender.kind !== "FIELD_PLAYER") continue;
+    const toShooter = distanceBetween(defender.position, shooter.position);
+    if (toShooter > SHOT_LIMITS.blockRangeMeters) continue;
+    if (distanceToSegment(defender.position, shooter.position, goalLinePoint) > SHOT_LIMITS.blockLaneMeters) continue;
+    // A low shot goes under an arm; a lob goes over everybody.
+    if (decision.height === "LOB") continue;
+    if (blockedByDefenderId === null || toShooter < distanceBetween(state.players.find((p) => p.id === blockedByDefenderId)!.position, shooter.position)) {
+      blockedByDefenderId = defender.id;
+      blockPoint = { ...defender.position };
+    }
   }
 
-  const keeper = goalkeeper(state);
-  const shotStopping = keeper ? ratingOf(ratings, keeper.id, "shotStopping") : DEFAULT_RATING;
-  // A keeper further off his line covers more angle; distance to the shot's
-  // origin is the simplest honest expression of that in M1.
-  const keeperAdvance = keeper ? Math.max(0, 6 - distanceBetween(keeper.position, goal)) : 0;
-  const saveProbability = clamp01(
-    0.30 + (shotStopping - DEFAULT_RATING) * 0.022 + Math.max(0, distance - 6) * 0.014 - (angleQuality - 0.7) * 0.18 - keeperAdvance * 0.02,
-  );
+  const target = blockPoint ?? goalLinePoint;
+  const flightDistance = distanceBetween(shooter.position, target);
+  const flightSeconds = flightDistance / Math.max(1, decision.speedMetersPerSecond);
+  const reactionSeconds = keeper ? reactionDelaySeconds(keeper.id, ratings) : 0;
+
+  // BALL TRAVELS. The ordinary fixed step advances the world while it does, so
+  // the keeper's dive, the defenders' recovery and everybody else's momentum
+  // are all real simulated movement rather than a cut to the result.
+  let flying: HandballState = {
+    ...state,
+    ball: { position: { ...shooter.position }, possessorId: null, status: "LOOSE", flight: null },
+  };
+  const flightSteps = Math.min(MAX_SHOT_FLIGHT_STEPS, Math.max(1, Math.ceil(flightSeconds / SIMULATION_DT_SECONDS)));
+  for (let i = 1; i <= flightSteps; i += 1) {
+    const actions: HandballAction[] = [];
+    const elapsed = i * SIMULATION_DT_SECONDS;
+    if (keeper && keeperRead && elapsed >= reactionSeconds) {
+      // He goes where he committed, not where the ball is.
+      actions.push({ type: "MOVE", playerId: keeper.id, target: { x: keeperRead.commitX, y: goal.y + (goalSide === "TOP" ? 0.35 : -0.35) } });
+    }
+    flying = step(flying, { actions }, SIMULATION_DT_SECONDS);
+    const t = i / flightSteps;
+    flying = {
+      ...flying,
+      ball: {
+        ...flying.ball,
+        position: { x: shooter.position.x + (target.x - shooter.position.x) * t, y: shooter.position.y + (target.y - shooter.position.y) * t },
+      },
+    };
+    onFlightStep?.(flying, i === flightSteps ? "the ball reaches the goal line" : "the shot is on its way");
+  }
+
+  const keeperAtArrival = keeper ? (flying.players.find((p) => p.id === keeper.id)?.position ?? keeper.position) : null;
+
+  // KEEPER REACTS -> the result, read off the geometry.
+  let outcome: ShotResolution["outcome"];
+  let contest: SaveContest | null = null;
+  let detail: string;
+  if (blockedByDefenderId) {
+    outcome = "SHOT_MISSED";
+    detail = `${decision.intention} blocked by ${blockedByDefenderId} on the way`;
+  } else if (!isOnTarget(landing)) {
+    outcome = "SHOT_MISSED";
+    detail = `${decision.intention} misses: crossed at x=${landing.x.toFixed(2)}, ${landing.height.toFixed(2)}m high`;
+  } else if (keeper && keeperRead && keeperAtArrival) {
+    contest = attemptSave(
+      landing.x,
+      landing.height,
+      decision.height,
+      keeperAtArrival,
+      Math.abs(keeperAtArrival.y - goal.y),
+      keeperRead,
+      keeper.id,
+      ratings,
+    );
+    outcome = contest.saved ? "SHOT_SAVED" : "SHOT_GOAL";
+    detail = `${decision.intention} at x=${landing.x.toFixed(2)} (${decision.detail}); keeper ${keeperRead.detail}; ${contest.detail} -> ${contest.saved ? "saved" : "goal"}`;
+  } else {
+    outcome = "SHOT_GOAL";
+    detail = `${decision.intention} into an unguarded goal`;
+  }
 
   return {
-    outcome: rng.chance(saveProbability) ? "SHOT_SAVED" : "SHOT_GOAL",
-    distance,
-    angleQuality,
-    pressure,
-    onTargetProbability,
-    saveProbability,
+    resolution: {
+      outcome,
+      distance: perception.distance,
+      angleQuality: perception.angleQuality,
+      pressure: perception.pressure,
+      decision,
+      landing,
+      keeperRead,
+      keeperAtArrival,
+      contest,
+      blockedByDefenderId,
+      flightSeconds,
+      detail,
+    },
+    state: flying,
   };
-}
-
-function clamp01(value: number): number {
-  return Math.max(0.02, Math.min(0.98, value));
 }
 
 /** Whether the defence disrupts the carrier this step, and how. Read from real proximity. */
@@ -412,14 +554,18 @@ export function simulatePossession(input: SimulatePossessionInput): PossessionRe
         break;
       }
       case "SHOOT": {
-        const shot = resolveShot(handball, carrier, goal, rng, ratings);
+        shotOrigin = { ...carrier.position };
+        record(`${describeAttacker(carrier)} shoots from ${distanceBetween(carrier.position, goal).toFixed(2)}m`);
+        const event = resolveShot(handball, carrier, goalSide, rng, ratings, (flying, note) => {
+          handball = flying;
+          record(note);
+        });
+        handball = event.state;
+        const shot = event.resolution;
         outcome = shot.outcome;
         resolvingPlayerId = carrier.id;
-        shotOrigin = { ...carrier.position };
         phase = "RESOLUTION";
-        record(
-          `${describeAttacker(carrier)} shoots from ${shot.distance.toFixed(2)}m (angle ${shot.angleQuality.toFixed(2)}, pressure ${shot.pressure.toFixed(2)}) -> ${shot.outcome}`,
-        );
+        record(`${describeAttacker(carrier)}: ${shot.detail}`);
         break;
       }
     }
@@ -533,6 +679,20 @@ export function simulatePossession(input: SimulatePossessionInput): PossessionRe
     // A resolution recorded this step completes on the next iteration without
     // advancing the world further.
     if (phase === "RESOLUTION" || phase === "DEAD_BALL") continue;
+
+    // M9: the goalkeeper plays too, and he tracks the ball EVERY step. Giving
+    // him a new target only twice a second left him chronically behind the
+    // ball's lateral movement, and since the open goal is barely a metre wide
+    // that lag was enough to skew which side of him was open on every shot in
+    // the match.
+    const trackingKeeper = goalkeeper(handball);
+    if (trackingKeeper) {
+      actions.push({
+        type: "MOVE",
+        playerId: trackingKeeper.id,
+        target: goalkeeperSetPosition(handball.ball.position, goalSide, ratings, trackingKeeper.id),
+      });
+    }
 
     // Defence reacts to the situation the attack has actually created, then a
     // single fixed timestep advances every player and the ball. M7: the
