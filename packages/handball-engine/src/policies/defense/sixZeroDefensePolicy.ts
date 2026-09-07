@@ -1,24 +1,19 @@
 import type { HandballState } from "../../domain/handball/state";
-import { COURT_BOUNDS_METERS } from "../../domain/geometry/court";
-import {
-  addVectors,
-  clampPointToBounds,
-  distanceBetween,
-  normalizeVector,
-  scaleVector,
-  subtractPoints,
-  type MeterPoint
-} from "../../domain/geometry/coordinates";
 import type { DefenseRole, Player } from "../../domain/handball/player";
 import type { DefensivePolicyResult, DefensiveReaction, DefensiveResponsibility, DefensiveThreat } from "./types";
 import { observeDefensiveThreat } from "./threat";
+import { SIX_ZERO_ROLE_ORDER, resolveSixZeroResponsibility, type SixZeroDefender } from "./responsibility";
 import {
-  SIX_ZERO_ROLE_ORDER,
-  resolveSixZeroResponsibility,
-  type SixZeroDefender
-} from "./responsibility";
+  assignResponsibilities,
+  collectiveReactions,
+  describeAssignment,
+  perceiveAttack,
+  shiftedHomes,
+  type CollectiveDefenseOptions,
+} from "./collectiveDefense";
 
 export { SIX_ZERO_GAP_RESPONSIBILITIES } from "./responsibility";
+export { COLLECTIVE_DEFENSE_LIMITS } from "./collectiveDefense";
 
 export type SixZeroDefensePolicy = {
   name: "six-zero-defense";
@@ -36,11 +31,11 @@ export const SIX_ZERO_DEFENSE_LIMITS = Object.freeze({
   recoveryEpsilonMeters: 0.08
 });
 
-export function createSixZeroDefensePolicy(): SixZeroDefensePolicy {
+export function createSixZeroDefensePolicy(options?: CollectiveDefenseOptions): SixZeroDefensePolicy {
   return {
     name: "six-zero-defense",
     describeInitialShape: () => "Six defenders aligned near the 6-meter arc with deterministic gap responsibility.",
-    react: evaluateSixZeroDefense
+    react: (state) => evaluateSixZeroDefense(state, options)
   };
 }
 
@@ -48,59 +43,44 @@ export function previewSixZeroDefense(state: HandballState): readonly DefensiveR
   return evaluateSixZeroDefense(state).reactions;
 }
 
-export function evaluateSixZeroDefense(state: HandballState): DefensivePolicyResult {
+/**
+ * The 6:0 policy. M7: perception -> responsibility -> collective reaction.
+ *
+ * Responsibility for an active drive is still resolved by the existing
+ * gap/adjacency resolver with its hysteresis; the collective layer
+ * (collectiveDefense.ts) then decides who helps, who marks the pivot, who
+ * presses, who holds width, and how far the whole line has slid toward the
+ * ball. Every target is bounded relative to the line and applied as an
+ * ordinary MOVE intent, so defenders run to where they decided to go.
+ *
+ * `options.ratings` lets a defender's defending rating scale how far he
+ * steps; omitted, every defender is a neutral 10.
+ */
+export function evaluateSixZeroDefense(state: HandballState, options?: CollectiveDefenseOptions): DefensivePolicyResult {
   if (state.defense.formationId !== SIX_ZERO_DEFENSE_FORMATION_ID) {
-    return createResult(false, null, null, [], [], []);
+    return createResult(false, null, null, [], null, 0, [], "", [], []);
   }
 
   const defenders = state.players.filter(isDefenderInSixZeroOrder);
   const activeThreat = observeDefensiveThreat(state);
   const responsibility = resolveSixZeroResponsibility(state, defenders, activeThreat);
+  const primary = activeThreat.type === "ACTIVE_ATTACK_THREAT" ? responsibility.primary : null;
 
-  if (activeThreat.type !== "ACTIVE_ATTACK_THREAT") {
-    return createRecoveryResult(state, defenders, activeThreat, responsibility.responsibilities);
-  }
+  const perception = perceiveAttack(state, activeThreat, defenders);
+  const homes = shiftedHomes(state, defenders, perception);
+  const assignment = assignResponsibilities(perception, defenders, primary?.id ?? null, homes, state.defense.lastReaction?.pivotMarkerId ?? null, state);
+  const reactions = collectiveReactions(state, defenders, perception, assignment, homes, SIX_ZERO_DEFENSE_LIMITS, options);
 
-  const primary = responsibility.primary;
+  // Responsibilities: the resolver's PRIMARY/support/far-side structure for a
+  // drive, RECOVER otherwise -- with the pivot marker labelled as such.
+  const responsibilities: DefensiveResponsibility[] = responsibility.responsibilities.map((item) =>
+    item.defenderId === assignment.pivotMarkerId && item.kind !== "PRIMARY" ? { ...item, kind: "PIVOT" } : item,
+  );
 
-  if (!primary) {
-    return createResult(true, activeThreat, null, [], responsibility.responsibilities, []);
-  }
-
-  const supportRoles = new Set<DefenseRole>([...responsibility.directSupportRoles, ...responsibility.secondarySupportRoles]);
-  const supportIds: string[] = [];
-  const reactions = defenders.map((defender) => {
-    const home = homeFor(state, defender);
-    const towardThreat = targetFromHome(home.position, activeThreat.threatPosition, SIX_ZERO_DEFENSE_LIMITS.farSideShiftMaxDisplacementMeters);
-    if (defender.id === primary.id) {
-      return createReaction(defender, "ENGAGE", primaryTarget(home.position, activeThreat.threatPosition));
-    }
-    if (supportRoles.has(defender.role)) {
-      supportIds.push(defender.id);
-      return createReaction(defender, "SUPPORT", targetFromHome(home.position, activeThreat.threatPosition, SIX_ZERO_DEFENSE_LIMITS.supportMaxDisplacementMeters));
-    }
-    return createReaction(defender, "SHIFT", towardThreat);
-  });
-
-  return createResult(true, activeThreat, primary.id, supportIds, responsibility.responsibilities, reactions);
-}
-
-function createRecoveryResult(
-  state: HandballState,
-  defenders: readonly SixZeroDefender[],
-  activeThreat: DefensiveThreat,
-  responsibilities: readonly DefensiveResponsibility[]
-): DefensivePolicyResult {
-  const reactions = defenders
-    .map((defender) => {
-      const home = homeFor(state, defender);
-      return distanceBetween(defender.position, home.position) > SIX_ZERO_DEFENSE_LIMITS.recoveryEpsilonMeters
-        ? createReaction(defender, "RECOVER", home.position)
-        : null;
-    })
-    .filter((reaction): reaction is DefensiveReaction => reaction !== null);
-
-  return createResult(true, activeThreat, null, [], responsibilities, reactions);
+  const supportIds = assignment.helperIds;
+  const summary = describeAssignment(assignment, defenders);
+  const lineHomes = defenders.map((d) => ({ defenderId: d.id, position: homes.get(d.id) ?? d.position }));
+  return createResult(true, activeThreat, primary?.id ?? null, supportIds, assignment.pivotMarkerId, perception.lineShift, lineHomes, summary, responsibilities, reactions);
 }
 
 function createResult(
@@ -108,6 +88,10 @@ function createResult(
   activeThreat: DefensiveThreat | null,
   primaryDefenderId: string | null,
   supportDefenderIds: readonly string[],
+  pivotMarkerId: string | null,
+  lineShift: number,
+  lineHomes: readonly { defenderId: string; position: { x: number; y: number } }[],
+  summary: string,
   responsibilities: readonly DefensiveResponsibility[],
   reactions: readonly DefensiveReaction[]
 ): DefensivePolicyResult {
@@ -117,6 +101,10 @@ function createResult(
     activeThreat,
     primaryDefenderId,
     supportDefenderIds: Object.freeze([...supportDefenderIds]),
+    pivotMarkerId,
+    lineShift,
+    lineHomes: Object.freeze(lineHomes.map((h) => Object.freeze({ defenderId: h.defenderId, position: Object.freeze({ ...h.position }) }))),
+    summary,
     responsibilities: Object.freeze(responsibilities.map((item) => Object.freeze({ ...item }))),
     reactions: Object.freeze(reactions.map((reaction) => Object.freeze({ ...reaction, target: Object.freeze({ ...reaction.target }) }))),
     actions: Object.freeze(
@@ -133,40 +121,4 @@ function createResult(
 
 function isDefenderInSixZeroOrder(player: Player): player is SixZeroDefender {
   return player.team === "DEFENSE" && SIX_ZERO_ROLE_ORDER.includes(player.role as DefenseRole);
-}
-
-function homeFor(state: HandballState, defender: SixZeroDefender) {
-  return (
-    state.defense.homePositions.find((home) => home.playerId === defender.id) ?? {
-      playerId: defender.id,
-      role: defender.role,
-      position: defender.position
-    }
-  );
-}
-
-function primaryTarget(home: MeterPoint, threatTarget: MeterPoint): MeterPoint {
-  const raw = {
-    x: threatTarget.x,
-    y: Math.max(COURT_BOUNDS_METERS.minY, threatTarget.y - SIX_ZERO_DEFENSE_LIMITS.goalSideOffsetMeters)
-  };
-  return targetFromHome(home, raw, SIX_ZERO_DEFENSE_LIMITS.primaryMaxDisplacementMeters);
-}
-
-function targetFromHome(home: MeterPoint, target: MeterPoint, maxDisplacement: number): MeterPoint {
-  const vector = subtractPoints(target, home);
-  const distance = distanceBetween(home, target);
-  if (distance <= maxDisplacement) {
-    return clampPointToBounds(target, COURT_BOUNDS_METERS);
-  }
-  return clampPointToBounds(addVectors(home, scaleVector(normalizeVector(vector), maxDisplacement)), COURT_BOUNDS_METERS);
-}
-
-function createReaction(defender: SixZeroDefender, reactionType: DefensiveReaction["reactionType"], target: MeterPoint): DefensiveReaction {
-  return Object.freeze({
-    defenderId: defender.id,
-    role: defender.role,
-    reactionType,
-    target: Object.freeze({ ...target })
-  });
 }

@@ -177,6 +177,10 @@ export function ensureSixZeroHomePositions(state: HandballState, defendedGoalSid
 const PIVOT_GAPS: readonly AttackGapId[] = ["V2_V3", "V3_H3", "H3_H2"];
 /** How far in front of the line (away from goal) the pivot holds his spot. */
 const PIVOT_LINE_STANDOFF_METERS = 0.35;
+/** A pivot within this lateral distance of a gap's midpoint is working that gap. */
+const PIVOT_HOLD_RADIUS_METERS = 2.0;
+/** Score bonus for the gap he is already working -- the hysteresis of a pivot's position. */
+const PIVOT_HOLD_BONUS = 1.0;
 
 export function defendersByRole(state: HandballState): Map<DefenseRole, Player> {
   const map = new Map<DefenseRole, Player>();
@@ -203,7 +207,7 @@ export function awayFromGoal(y: number, goalSide: AttackingGoalSide, distance: n
  * steps out at the carrier the pivot slides in behind him -- which is exactly
  * when he becomes a passing option.
  */
-export function pivotTarget(state: HandballState, goalSide: AttackingGoalSide, ballX: number): MeterPoint | null {
+export function pivotTarget(state: HandballState, goalSide: AttackingGoalSide, ballX: number, pivotPosition?: MeterPoint): MeterPoint | null {
   const defenders = defendersByRole(state);
   const all = [...defenders.values()];
   let best: { point: MeterPoint; score: number } | null = null;
@@ -215,8 +219,11 @@ export function pivotTarget(state: HandballState, goalSide: AttackingGoalSide, b
     const midX = (a.position.x + b.position.x) / 2;
     const point = { x: midX, y: awayFromGoal(lineDepth(a.position, b.position, goalSide), goalSide, PIVOT_LINE_STANDOFF_METERS) };
     const freedom = Math.min(...all.map((d) => distanceBetween(d.position, point)));
-    // Room first, ball side second.
-    const score = freedom - 0.15 * Math.abs(midX - ballX);
+    // Room first, ball side second. The gap he is already working keeps a
+    // bonus (M7): a marked pivot holds his spot and fights for it rather than
+    // sprinting to the other side of the line every time his marker closes.
+    const holding = pivotPosition && Math.abs(pivotPosition.x - midX) <= PIVOT_HOLD_RADIUS_METERS ? PIVOT_HOLD_BONUS : 0;
+    const score = freedom - 0.15 * Math.abs(midX - ballX) + holding;
     if (!best || score > best.score) best = { point, score };
   }
   if (!best) {
@@ -237,7 +244,7 @@ export function organizedShapeTargetFor(
   goalSide: AttackingGoalSide,
   tactics: AttackTactics = DEFAULT_ATTACK_TACTICS,
 ): MeterPoint | null {
-  const target = player.role === "PIVOT" ? pivotTarget(state, goalSide, state.ball.position.x) : organizedRolePosition(player.role, goalSide, tactics);
+  const target = player.role === "PIVOT" ? pivotTarget(state, goalSide, state.ball.position.x, player.position) : organizedRolePosition(player.role, goalSide, tactics);
   if (!target) return null;
   if (distanceBetween(player.position, target) < 0.5) return null;
   return target;

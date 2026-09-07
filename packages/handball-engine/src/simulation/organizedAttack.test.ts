@@ -31,9 +31,9 @@ import type { HandballState } from "../domain/handball/state";
 const TOP = createFullCourt6v6State({ attackingGoalSide: "TOP" });
 
 /** Witness seeds from a 4000-seed scan; the assertions are what matter, the seeds only make them deterministic. */
-const SEED_BLOCKED_THEN_PASS = 1;
+const SEED_BLOCKED_THEN_PASS = 4;
 const SEED_PIVOT_FEED = 1;
-const SEED_BLOCKED_THEN_RESET = 4;
+const SEED_BLOCKED_THEN_RESET = 6;
 
 function possession(seed: number, initialState: FullCourtMatchState = TOP) {
   return simulatePossession({ seed, initialState });
@@ -95,7 +95,7 @@ test("organized shape uses FIELD's canonical six roles, at either goal", () => {
   assert.ok(at("CENTER_BACK").y > 9, "the centre back starts outside 9m");
   assert.ok(at("PIVOT").y > 6 && at("PIVOT").y < 7.5, "the pivot lives on the 6:0 line");
   // And a possession actually assigns all six.
-  const seen = new Set(decisions(12).map((d) => d.decision.carrierLabel));
+  const seen = new Set(decisions(1).map((d) => d.decision.carrierLabel));
   assert.ok(seen.size >= 4, `several distinct roles carried the ball (${[...seen].join(", ")})`);
 });
 

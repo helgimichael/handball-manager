@@ -5,7 +5,12 @@ import type { MoveAction } from "../../domain/handball/actions";
 import type { DefenseRole } from "../../domain/handball/player";
 import type { HandballState } from "../../domain/handball/state";
 
-export type DefensiveReactionType = "ENGAGE" | "SUPPORT" | "SHIFT" | "RECOVER";
+/**
+ * ENGAGE/SUPPORT/SHIFT/RECOVER are the original 6:0 reactions. M7 adds
+ * PRESS (the defender in front of a held ball comes half a metre out) and
+ * MARK_PIVOT (the defender responsible for the pivot sits goal-side of him).
+ */
+export type DefensiveReactionType = "ENGAGE" | "SUPPORT" | "SHIFT" | "RECOVER" | "PRESS" | "MARK_PIVOT";
 
 export type DefensiveThreatType = "ACTIVE_ATTACK_THREAT" | "POSSESSION_THREAT" | "NO_DIRECT_BALL_THREAT";
 
@@ -36,7 +41,8 @@ export type DefensiveThreatObservation =
 
 export type DefensiveThreat = DefensiveThreatObservation;
 
-export type DefensiveResponsibilityKind = "PRIMARY" | "DIRECT_SUPPORT" | "SECONDARY_SUPPORT" | "FAR_SIDE" | "RECOVER";
+/** M7 adds PIVOT: the defender currently responsible for the pivot. */
+export type DefensiveResponsibilityKind = "PRIMARY" | "DIRECT_SUPPORT" | "SECONDARY_SUPPORT" | "FAR_SIDE" | "RECOVER" | "PIVOT";
 
 export type DefensiveResponsibility = {
   defenderId: string;
@@ -57,6 +63,14 @@ export type DefensivePolicyResult = {
   activeThreat: DefensiveThreat | null;
   primaryDefenderId: string | null;
   supportDefenderIds: readonly string[];
+  /** M7: who is responsible for the pivot right now; null when nobody can be. */
+  pivotMarkerId: string | null;
+  /** M7: the line's lateral slide toward the ball at this instant, in metres. */
+  lineShift: number;
+  /** M7: the spot on the shifted line each defender is holding -- what he recovers to and steps from. */
+  lineHomes: readonly { defenderId: string; position: MeterPoint }[];
+  /** M7: the collective assignment in plain language, for traces and the dev HUD. */
+  summary: string;
   responsibilities: readonly DefensiveResponsibility[];
   reactions: readonly DefensiveReaction[];
   actions: readonly MoveAction[];

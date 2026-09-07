@@ -336,6 +336,8 @@ const MAX_GAP_APPROACH_METERS = 9;
 const MAX_SHOOTING_DISTANCE_METERS = 11;
 /** Scores below this are not worth acting on -- reset instead. */
 const RESET_SCORE = 0.22;
+/** Longer than this is a cross-court hoof, not a handball pass. */
+const MAX_PASS_DISTANCE_METERS = 16;
 /** Small seeded noise so identical situations can diverge across seeds. */
 const DECISION_NOISE = 0.1;
 /** A possession this old has exhausted the referee's patience as well as the carrier's. */
@@ -498,6 +500,10 @@ export function decideAttackAction(ctx: DecisionContext): AttackDecision {
       });
       continue;
     }
+    // A pass across the whole width of the court is not circulation and is
+    // not on the menu, whatever the pressure -- a pressed wing plays back to
+    // his own back, not to the far wing.
+    if (dist > MAX_PASS_DISTANCE_METERS) continue;
     const relation = PASS_RELATIONS[carrier.role]?.[mate.role] ?? 0.1;
     const distancePenalty = Math.max(0, dist - 12) * 0.06 + (dist < 2 ? 0.3 : 0);
     const backPassPenalty = mate.id === ctx.lastPasserId ? 0.2 : 0;

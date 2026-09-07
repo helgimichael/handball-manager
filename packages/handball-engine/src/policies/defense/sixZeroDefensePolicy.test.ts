@@ -78,20 +78,34 @@ test("primary engagement remains goal-side and within displacement limits", () =
 });
 
 test("support and far-side shifts stay below their policy limits", () => {
+  // M7: the whole line slides toward the ball (result.lineShift), so the
+  // limits are measured from each defender's SHIFTED home -- the line he is
+  // actually holding -- rather than the canonical spot. The limits themselves
+  // are unchanged.
   const next = step(initialHalfCourt6v6State, { actions: [{ type: "ATTACK", playerId: attackerId, gapId: "V3_H3" }], defensivePolicy: evaluateSixZeroDefense }, 0);
   const reaction = next.defense.lastReaction;
   assert.ok(reaction);
+  assert.notEqual(reaction.lineShift, 0, "the line has slid toward the ball");
+  const shiftedHomeDistance = (playerId: string) => {
+    const defender = player(next, playerId);
+    const lineHome = reaction.lineHomes.find((h) => h.defenderId === playerId);
+    assert.ok(lineHome);
+    return distanceBetween(lineHome.position, defender.intent.type === "MOVE" ? defender.intent.target : defender.position);
+  };
 
   for (const supportId of reaction.supportDefenderIds) {
-    assert.ok(homeDistance(next, supportId) <= SIX_ZERO_DEFENSE_LIMITS.supportMaxDisplacementMeters + 1e-9);
+    assert.ok(shiftedHomeDistance(supportId) <= SIX_ZERO_DEFENSE_LIMITS.supportMaxDisplacementMeters + 1e-9);
   }
 
   for (const shifted of reaction.reactions.filter((candidate) => candidate.reactionType === "SHIFT")) {
-    assert.ok(homeDistance(next, shifted.defenderId) <= SIX_ZERO_DEFENSE_LIMITS.farSideShiftMaxDisplacementMeters + 1e-9);
+    assert.ok(shiftedHomeDistance(shifted.defenderId) <= SIX_ZERO_DEFENSE_LIMITS.farSideShiftMaxDisplacementMeters + 1e-9);
   }
 });
 
-test("defenders recover to canonical home when no attack is active", () => {
+test("defenders recover toward the line when no attack is active", () => {
+  // M7: with the ball held but nobody driving, the line is not six players
+  // walking home -- one presses the ball, one marks the pivot, the rest
+  // recover to the shifted line. What must NOT happen is a step-out.
   let state = step(initialHalfCourt6v6State, { actions: [{ type: "ATTACK", playerId: attackerId, gapId: "V3_H3" }], defensivePolicy: evaluateSixZeroDefense }, 0.2);
   const attackingPlayer = player(state, attackerId);
   state = {
@@ -100,9 +114,12 @@ test("defenders recover to canonical home when no attack is active", () => {
   };
   const recovering = step(state, { defensivePolicy: evaluateSixZeroDefense }, 0);
 
-  assert.equal(recovering.defense.lastReaction?.activeThreat?.type, "POSSESSION_THREAT");
-  assert.ok(recovering.defense.lastReaction?.reactions.every((reaction) => reaction.reactionType === "RECOVER"));
-  assert.ok(recovering.defense.lastReaction?.responsibilities.every((responsibility) => responsibility.kind === "RECOVER"));
+  const reaction = recovering.defense.lastReaction;
+  assert.equal(reaction?.activeThreat?.type, "POSSESSION_THREAT");
+  assert.equal(reaction?.primaryDefenderId, null);
+  assert.ok(reaction?.reactions.every((r) => r.reactionType === "RECOVER" || r.reactionType === "PRESS" || r.reactionType === "MARK_PIVOT"));
+  assert.ok(reaction?.reactions.some((r) => r.reactionType === "RECOVER"), "the line recovers");
+  assert.ok(reaction?.responsibilities.every((responsibility) => responsibility.kind === "RECOVER" || responsibility.kind === "PIVOT"));
 });
 
 test("policy result is deterministic", () => {

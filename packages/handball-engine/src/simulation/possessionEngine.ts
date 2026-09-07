@@ -319,6 +319,7 @@ export function simulatePossession(input: SimulatePossessionInput): PossessionRe
   let steps = 0;
   let guardTripped = false;
   let lastPrimaryDefenderId: string | null = null;
+  let lastDefenceSummary: string | null = null;
 
   function record(note: string, decision?: AttackDecision): void {
     trace.push({
@@ -534,13 +535,22 @@ export function simulatePossession(input: SimulatePossessionInput): PossessionRe
     if (phase === "RESOLUTION" || phase === "DEAD_BALL") continue;
 
     // Defence reacts to the situation the attack has actually created, then a
-    // single fixed timestep advances every player and the ball.
-    const reaction = evaluateSixZeroDefense(handball);
+    // single fixed timestep advances every player and the ball. M7: the
+    // reaction is kept on the state so responsibility and pivot marking carry
+    // hysteresis from one step to the next (handover only when an attacker
+    // really crosses a zone), and the collective assignment is traced
+    // whenever it changes.
+    const reaction = evaluateSixZeroDefense(handball, { ratings });
     if (reaction.primaryDefenderId !== lastPrimaryDefenderId) {
       lastPrimaryDefenderId = reaction.primaryDefenderId;
       record(`defensive responsibility -> ${reaction.primaryDefenderId ?? "none"}`);
     }
+    if (reaction.summary !== lastDefenceSummary) {
+      lastDefenceSummary = reaction.summary;
+      record(`defence: ${reaction.summary}`);
+    }
     actions.push(...reaction.actions);
+    handball = { ...handball, defense: { ...handball.defense, lastReaction: reaction } };
 
     handball = step(handball, { actions }, SIMULATION_DT_SECONDS);
     steps += 1;

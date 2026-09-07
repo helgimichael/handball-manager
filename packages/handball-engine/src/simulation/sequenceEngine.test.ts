@@ -17,14 +17,14 @@ import { goalCentre, type PossessionOutcome } from "../domain/match/possession";
 const TOP = createFullCourt6v6State({ attackingGoalSide: "TOP" });
 
 /** Seeds pinned from a 4000-seed scan, so each required behaviour has a deterministic witness. */
-// Re-pinned for M6: state-dependent attacking decisions legitimately change
+// Re-pinned for M6 and again for M7 (a coordinated defence changes every trajectory): state-dependent attacking decisions legitimately change
 // every trajectory, so the M2 witnesses no longer produce the same outcomes.
 // The assertions are unchanged -- only the seeds that exercise them.
-const SEED_SAVE_THEN_FREE_THROW = 590;
-const SEED_SAVE_THEN_ORGANIZED = 341;
-const SEED_SAVE_THEN_GOAL = 23;
-const SEED_SAVE_THEN_TURNOVER = 248;
-const SEED_TURNOVER_START = 47;
+const SEED_SAVE_THEN_FREE_THROW = 39;
+const SEED_SAVE_THEN_ORGANIZED = 13;
+const SEED_SAVE_THEN_GOAL = 58;
+const SEED_SAVE_THEN_TURNOVER = 568;
+const SEED_TURNOVER_START = 3;
 
 function sequence(seed: number) {
   return simulateSequence({ seed, initialState: TOP });
@@ -51,8 +51,8 @@ test("a turnover changes possession and flips the attacking direction", () => {
 
 test("outcomes that keep the ball do not start a transition", () => {
   // A goal or a miss is not a defensive regain.
-  const goal = simulatePossession({ seed: 1, initialState: TOP });
-  const result = sequence(1);
+  const goal = simulatePossession({ seed: 2, initialState: TOP });
+  const result = sequence(2);
   assert.equal(result.transition, null);
   assert.equal(result.trace.length, goal.trace.length, "the trace is just the possession");
 });
@@ -83,7 +83,7 @@ test("the state is continuous, not reset, across the change of possession", () =
     assert.ok(Math.abs(carried!.position.y - player.position.y) < 1e-9, `${player.id} y is unchanged`);
   }
   // Simulation time runs on rather than restarting at zero.
-  assert.ok(switched.simulationTime >= ended.simulationTime, "the clock is continuous");
+  assert.ok(switched.simulationTime >= ended.simulationTime - 1e-3, "the clock is continuous (trace times are rounded to 4 decimals)");
   assert.ok(switched.simulationTime > 0, "the transition does not start from t=0");
   // And the trace is ONE sequence, not two stitched recordings.
   assert.equal(result.trace.length, result.possession.trace.length + result.transition!.trace.length);
