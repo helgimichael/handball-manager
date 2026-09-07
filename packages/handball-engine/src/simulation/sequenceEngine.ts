@@ -39,7 +39,6 @@
  * and is never given a running order.
  */
 import { SIMULATION_DT_SECONDS } from "./fixedStep";
-import { step } from "./engine";
 import { createPossessionRng } from "./possessionRng";
 import { distanceBetween } from "../domain/geometry/coordinates";
 import {
@@ -87,6 +86,7 @@ import {
 import type { MeterPoint } from "../domain/geometry/coordinates";
 import type { HandballAction } from "../domain/handball/actions";
 import type { HandballState } from "../domain/handball/state";
+import { settleArrivedExchanges, stepWithSubstitutions } from "./substitutionExit";
 import type { DefenseRole, Player } from "../domain/handball/player";
 
 /** How often the carrier re-reads the break, in fixed steps (0.3s). */
@@ -493,7 +493,7 @@ export function simulateTransition(input: SimulateTransitionInput): TransitionRe
       }
     }
 
-    handball = step(handball, { actions }, SIMULATION_DT_SECONDS);
+    handball = stepWithSubstitutions(handball, actions, SIMULATION_DT_SECONDS);
     steps += 1;
   }
 
@@ -504,6 +504,11 @@ export function simulateTransition(input: SimulateTransitionInput): TransitionRe
     phase = "COMPLETE";
     record(`max-step guard (${maxSteps}) reached; terminating deterministically as TURNOVER`);
   }
+
+  // M11: same as the possession engine -- a break can end on the step a man
+  // reaches his line, so the exchange is settled once more here rather than
+  // being held over to the next segment.
+  handball = settleArrivedExchanges(handball);
 
   return {
     outcome: outcome ?? "TURNOVER",

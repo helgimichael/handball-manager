@@ -474,7 +474,9 @@ export function decideAttackAction(ctx: DecisionContext): AttackDecision {
   }
 
   // --- pass / play pivot -----------------------------------------------------
-  const teammates = fieldAttackers(state).filter((p) => p.id !== carrier.id);
+  // M11: a man walking off for a substitution is not a passing option -- he is
+  // leaving the court, not offering himself.
+  const teammates = fieldAttackers(state).filter((p) => p.id !== carrier.id && p.leavingCourt !== true);
   let bestReset: { player: Player; score: number } | null = null;
   for (const mate of teammates) {
     const dist = distanceBetween(carrier.position, mate.position);

@@ -78,6 +78,7 @@ import type { MeterPoint } from "../domain/geometry/coordinates";
 import type { HandballAction } from "../domain/handball/actions";
 import type { Player } from "../domain/handball/player";
 import type { HandballState } from "../domain/handball/state";
+import { applyExitOrders, settleArrivedExchanges, stepWithSubstitutions } from "./substitutionExit";
 import type { AttackGapId } from "../domain/geometry/attackGaps";
 
 /**
@@ -285,7 +286,11 @@ export function resolveShot(
       // He goes where he committed, not where the ball is.
       actions.push({ type: "MOVE", playerId: keeper.id, target: { x: keeperRead.commitX, y: goal.y + (goalSide === "TOP" ? 0.35 : -0.35) } });
     }
-    flying = step(flying, { actions }, SIMULATION_DT_SECONDS);
+    // Orders are still overridden for anybody leaving, but no exchange is
+    // completed mid-flight: the keeper is committed to a dive and the shooter
+    // is mid-shot, so a swap here would resolve the contest against a player
+    // who had just been taken off. A flight lasts under a second; he waits.
+    flying = step(flying, { actions: applyExitOrders(flying, actions) }, SIMULATION_DT_SECONDS);
     const t = i / flightSteps;
     flying = {
       ...flying,
@@ -407,7 +412,7 @@ export function takeSevenMetre(
       playerId: player.id,
       target: sevenMetreFormationTarget(player, takerId, goalSide),
     }));
-    handball = step(handball, { actions }, SIMULATION_DT_SECONDS);
+    handball = stepWithSubstitutions(handball, actions, SIMULATION_DT_SECONDS);
     // The taker carries the ball to the mark.
     const taker = handball.players.find((p) => p.id === takerId);
     if (taker) handball = { ...handball, ball: { position: { ...taker.position }, possessorId: takerId, status: "POSSESSED", flight: null } };
@@ -804,7 +809,7 @@ export function simulatePossession(input: SimulatePossessionInput): PossessionRe
     actions.push(...reaction.actions);
     handball = { ...handball, defense: { ...handball.defense, lastReaction: reaction } };
 
-    handball = step(handball, { actions }, SIMULATION_DT_SECONDS);
+    handball = stepWithSubstitutions(handball, actions, SIMULATION_DT_SECONDS);
     steps += 1;
   }
 
@@ -815,6 +820,12 @@ export function simulatePossession(input: SimulatePossessionInput): PossessionRe
     phase = "COMPLETE";
     record(`max-step guard (${maxSteps}) reached; terminating deterministically as TURNOVER`);
   }
+
+  // M11: a possession can end on the very step a man reaches his substitution
+  // area -- through a shot, a turnover or a dead ball -- and those last phases
+  // record no further step. Settling once more here means the exchange still
+  // lands the instant he arrives instead of waiting for the next segment.
+  handball = settleArrivedExchanges(handball);
 
   const keeper = goalkeeper(handball);
   return {

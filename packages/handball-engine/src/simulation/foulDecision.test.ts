@@ -323,7 +323,8 @@ test("the goalkeeper is never sent off, because no keeper ever commits these fou
 });
 
 test("a suspension in a running match removes a player and returns him on the official clock", () => {
-  const match = simulateMatch(TOP, 7);
+  // Re-pinned for M11: substitutions change every trajectory.
+  const match = simulateMatch(TOP, 8);
   const sent = match.trace.filter((t) => t.note.includes("is suspended for two minutes"));
   const returned = match.trace.filter((t) => t.note.includes("returns from two minutes"));
   assert.ok(sent.length > 0, "somebody was sent off during the match");

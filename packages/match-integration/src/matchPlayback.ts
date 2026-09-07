@@ -41,6 +41,12 @@ export type PlaybackSourceMatch = {
   }[];
   readonly finalState: {
     readonly rosters: Readonly<Record<"HOME" | "AWAY", readonly string[]>>;
+    /**
+     * M11: every goalkeeper in either squad, bench included. Present on matches
+     * that have a bench, and preferred over the caller's list so a substitute
+     * keeper is still drawn as a keeper after he comes on.
+     */
+    readonly goalkeeperIds?: readonly string[];
   };
 };
 
@@ -76,6 +82,11 @@ function sideOf(playerId: string, possessionTeam: "HOME" | "AWAY", rosters: Play
  * never does.
  */
 export function buildPlaybackFrames(match: PlaybackSourceMatch, roster: PlaybackRoster): PlaybackFrame[] {
+  // A substitute goalkeeper is a goalkeeper. Taking the set from the match's own
+  // squad rather than from the starting line-up is what keeps that true after a
+  // keeper change; the caller's list remains the fallback for a match with no
+  // bench at all.
+  const goalkeeperIds = match.finalState.goalkeeperIds ?? roster.goalkeeperIds;
   return match.trace.map((entry, index) => {
     // Orientation is DERIVED from the player's own recorded movement toward the
     // next recorded state -- read off engine positions, never invented. A
@@ -90,7 +101,7 @@ export function buildPlaybackFrames(match: PlaybackSourceMatch, roster: Playback
       return {
         id: p.playerId,
         side: sideOf(p.playerId, entry.possessionTeam, roster.rosters),
-        kind: roster.goalkeeperIds.includes(p.playerId) ? "GOALKEEPER" : "FIELD_PLAYER",
+        kind: goalkeeperIds.includes(p.playerId) ? "GOALKEEPER" : "FIELD_PLAYER",
         x: p.position.x,
         y: p.position.y,
         orientationDegrees: moving ? (Math.atan2(dy, dx) * 180) / Math.PI : 0,

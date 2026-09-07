@@ -90,14 +90,29 @@ test("both goalkeepers render, one at each end", () => {
   }
 });
 
-test("a goalkeeper stays a goalkeeper even when his side changes", () => {
+test("a goalkeeper stays a goalkeeper even when his side changes, and a substitute keeper is one too", () => {
   // Side is situational and flips with possession; kind never does.
+  //
+  // M11: a keeper can be substituted, so he is not present in every frame. What
+  // must hold is that WHENEVER he is on the court he is drawn as a goalkeeper --
+  // and that goes for a reserve who comes on as much as for the man who started.
   for (const id of GOALKEEPER_IDS) {
-    const kinds = new Set(FRAMES.map((f) => f.snapshot.players.find((p) => p.id === id)?.kind));
-    assert.deepEqual([...kinds], ["GOALKEEPER"], `${id} is always a goalkeeper`);
+    const kinds = new Set(FRAMES.flatMap((f) => f.snapshot.players.filter((p) => p.id === id).map((p) => p.kind)));
+    assert.deepEqual([...kinds], ["GOALKEEPER"], `${id} is a goalkeeper whenever he is on court`);
   }
-  const sidesSeen = new Set(FRAMES.map((f) => f.snapshot.players.find((p) => p.id === GOALKEEPER_IDS[0])?.side));
+  const sidesSeen = new Set(FRAMES.flatMap((f) => f.snapshot.players.filter((p) => p.id === GOALKEEPER_IDS[0]).map((p) => p.side)));
   assert.ok(sidesSeen.size >= 1, "his side is read from the engine's possession, not fixed by the renderer");
+
+  // Every frame shows exactly two goalkeepers, whoever they currently are.
+  for (const frame of FRAMES) {
+    const keepers = frame.snapshot.players.filter((p) => p.kind === "GOALKEEPER");
+    assert.equal(keepers.length, 2, "one in each goal, starters or substitutes");
+  }
+  // And a keeper who never started does appear once he comes on.
+  const startingKeepers = new Set(GOALKEEPER_IDS);
+  const keepersSeen = new Set(FRAMES.flatMap((f) => f.snapshot.players.filter((p) => p.kind === "GOALKEEPER").map((p) => p.id)));
+  const substituteKeepers = [...keepersSeen].filter((id) => !startingKeepers.has(id));
+  assert.ok(substituteKeepers.length > 0, `a substitute goalkeeper played and was drawn as one (${substituteKeepers.join(", ")})`);
 });
 
 test("HOME and AWAY are distinguishable, and both sides appear", () => {

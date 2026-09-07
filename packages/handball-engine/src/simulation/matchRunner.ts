@@ -28,13 +28,15 @@
  * be replaced by richer possession behaviour (longer circulation, real dead
  * time) rather than tuned. Final statistical calibration is out of M4's scope.
  */
-import { advanceOneSegment, createGameFlowState, type GameFlowSegment, type GameFlowState, type GameFlowTraceEntry, type MatchScore, type MatchTeamId } from "./gameFlow";
+import { advanceOneSegment, createGameFlowState, teamOf, type GameFlowSegment, type GameFlowState, type GameFlowTraceEntry, type MatchScore, type MatchTeamId } from "./gameFlow";
+import { buildMatchBench } from "../scenarios/matchSquad";
 import { createFullCourt6v6State } from "../scenarios/fullCourt6v6";
 import { switchPossession } from "./transition";
 import type { SimulatePossessionInput } from "./possessionEngine";
 import type { AttackTactics } from "./organizedAttack";
 import type { PossessionMatchEvent } from "./possessionEngine";
 import type { FullCourtMatchState, AttackingGoalSide, PossessionOutcome } from "../domain/match/possession";
+import type { Player } from "../domain/handball/player";
 
 export const MATCH_PHASES = ["PRE_MATCH", "FIRST_HALF", "HALF_TIME", "SECOND_HALF", "FULL_TIME"] as const;
 export type MatchPhase = (typeof MATCH_PHASES)[number];
@@ -116,6 +118,8 @@ export type SimulateMatchOptions = {
   readonly ratings?: SimulatePossessionInput["ratings"];
   /** M6: tactical bias for the organized attack, applied to both sides alike until manager tactics exist. */
   readonly tactics?: Partial<AttackTactics>;
+  /** M11: the match squad beyond the starters. A deterministic bench is built when omitted. */
+  readonly bench?: Record<MatchTeamId, readonly Player[]>;
 };
 
 /** Distinct possessions in a run: continuations share a possession number with the segment they continue. */
@@ -246,7 +250,11 @@ export function simulateMatch(initialState: FullCourtMatchState, seed: number, o
   const firstHalfGoalSide = initialState.possession.attackingGoalSide;
   const firstHalfState = startingTeam === "HOME" ? initialState : buildHalfStartState(firstHalfGoalSide);
 
-  const first = playHalf(createGameFlowState(firstHalfState, 0), 1, seed, ratings, tactics);
+  // M11: a match squad, not just the seven who start. The bench is built
+  // deterministically around the starters so a dev or test match has somebody
+  // to rotate, without careers or the legacy engine being involved.
+  const bench = options.bench ?? buildMatchBench(firstHalfState);
+  const first = playHalf(createGameFlowState(firstHalfState, 0, bench), 1, seed, ratings, tactics);
   const halftimeScore = first.flow.score;
 
   // Ends switch AND the throw-off changes hands. createFullCourt6v6State always
@@ -263,23 +271,40 @@ export function simulateMatch(initialState: FullCourtMatchState, seed: number, o
   // Score, identity AND discipline persist across the interval; only the court
   // does not. A player sent off at 29:00 is still serving his two minutes after
   // the break, so the fresh half state has to give him back up again.
+  //
+  // M11: the second half starts from the canonical line-up, so anybody who was
+  // substituted on in the first half goes back to the bench and the starters
+  // come back out. The SQUAD is unchanged; only who is on the court is reset.
   let secondHalfFlow: GameFlowState = {
-    ...createGameFlowState(secondHalfState, HALF_LENGTH_SECONDS),
+    ...createGameFlowState(secondHalfState, HALF_LENGTH_SECONDS, bench),
     score: halftimeScore,
     rosters: first.flow.rosters,
     possessionNumber: first.flow.possessionNumber,
     suspensions: first.flow.suspensions,
   };
+  // A side is short by however many men it has serving, whoever they are. The
+  // suspended player is taken out of the fresh line-up when he is one of the
+  // starters; when he is a substitute who was sent off after coming on, a
+  // starter stands down in his place and joins the bench. Either way the team
+  // is genuinely a man light, which is the point of the punishment.
   for (const suspension of first.flow.suspensions) {
+    const players = secondHalfFlow.match.handball.players;
+    const onCourt = players.find((p) => p.id === suspension.playerId);
+    const standDown =
+      onCourt ??
+      [...players]
+        .filter((p) => p.kind === "FIELD_PLAYER" && teamOf(secondHalfFlow.rosters as Record<MatchTeamId, readonly string[]>, p.id) === suspension.team)
+        .sort((a, b) => a.id.localeCompare(b.id))[0];
+    if (!standDown) continue;
     secondHalfFlow = {
       ...secondHalfFlow,
       match: {
         ...secondHalfFlow.match,
-        handball: {
-          ...secondHalfFlow.match.handball,
-          players: secondHalfFlow.match.handball.players.filter((p) => p.id !== suspension.playerId),
-        },
+        handball: { ...secondHalfFlow.match.handball, players: players.filter((p) => p.id !== standDown.id) },
       },
+      bench: onCourt
+        ? secondHalfFlow.bench
+        : { ...secondHalfFlow.bench, [suspension.team]: [...secondHalfFlow.bench[suspension.team], standDown] },
     };
   }
 

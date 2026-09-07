@@ -52,7 +52,10 @@ export default function Match2DPage() {
   const { frames, duration, finalScore } = useMemo(() => {
     const start = createFullCourt6v6State({ attackingGoalSide: "TOP" });
     const match = simulateMatch(start, seed);
-    const goalkeeperIds = start.handball.players.filter((p) => p.kind === "GOALKEEPER").map((p) => p.id);
+    // M11: the squad's goalkeepers, not just the two who started -- a reserve
+    // keeper who comes on must still be drawn as a keeper. The match carries
+    // that list; the starting line-up is only the fallback.
+    const goalkeeperIds = match.finalState.goalkeeperIds ?? start.handball.players.filter((p) => p.kind === "GOALKEEPER").map((p) => p.id);
     const built = buildPlaybackFrames(match, { goalkeeperIds, rosters: match.finalState.rosters });
     return { frames: built, duration: playbackDurationSeconds(built), finalScore: match.finalScore };
   }, [seed]);

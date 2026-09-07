@@ -42,4 +42,15 @@ export type Player = {
   velocity: MeterVector;
   movementProfile: MovementProfile;
   intent: PlayerIntent;
+  /**
+   * MATCH-EXPERIENCE-2.0 M11: true while this player is on his way off for a
+   * substitution.
+   *
+   * He is still a real player on the court -- he counts, he occupies space, he
+   * can still be fouled -- but he has stopped taking part in his team's shape:
+   * the attack, the defence and the transition all leave him alone and he heads
+   * for the substitution area instead. His replacement does not come on until he
+   * gets there, which is what stops an exchange ever producing an eighth player.
+   */
+  leavingCourt?: boolean;
 };

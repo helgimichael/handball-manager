@@ -19,7 +19,6 @@
  * label that swaps every possession, so this module resolves each player once
  * to a HOME/AWAY roster and scores against that. The spatial model is untouched.
  */
-import { step } from "./engine";
 import { SIMULATION_DT_SECONDS } from "./fixedStep";
 import { distanceBetween } from "../domain/geometry/coordinates";
 import {
@@ -35,6 +34,10 @@ import type { AttackTactics } from "./organizedAttack";
 import { switchPossession } from "./transition";
 import { FOUL_LIMITS, type FoulAward } from "./foulDecision";
 import { officialSecondsFor } from "./matchClock";
+import { SUBSTITUTION_AREA, squadGoalkeeperIds } from "../scenarios/matchSquad";
+import { SUBSTITUTION_POLICY, decideSubstitutions, describeSubstitution } from "./substitutionDecision";
+import { isLeavingCourt, markLeavingCourt, stepWithSubstitutions, withExchange, withoutExchanges } from "./substitutionExit";
+import { createPossessionRng } from "./possessionRng";
 import {
   goalCentre,
   type AttackingGoalSide,
@@ -82,16 +85,48 @@ export type Suspension = {
   readonly reason: string;
 };
 
+/** MATCH-EXPERIENCE-2.0 M11: one player replaced by another, both real. */
+export type SubstitutionRecord = {
+  readonly team: MatchTeamId;
+  readonly outgoingPlayerId: string;
+  readonly incomingPlayerId: string;
+  readonly role: Player["role"];
+  readonly kind: Player["kind"];
+  /** When the change was asked for. */
+  readonly requestedAtMatchSeconds: number;
+  /** When he actually reached the line and the exchange was made. */
+  readonly atMatchSeconds: number;
+  /** The spatial instant of the swap, so it can be placed exactly in the trace. */
+  readonly atSimulationTime: number;
+  readonly reason: string;
+};
+
 export type GameFlowState = {
   readonly match: FullCourtMatchState;
   readonly score: MatchScore;
-  /** Fixed for the whole run: which players belong to which side. */
+  /** Fixed for the whole run: which players belong to which side. Includes the bench. */
   readonly rosters: Readonly<Record<MatchTeamId, readonly string[]>>;
   readonly possessionNumber: number;
   /** Official match seconds elapsed. Canonical for suspension expiry. */
   readonly matchSeconds: number;
   /** Players currently off the court serving two minutes. */
   readonly suspensions: readonly Suspension[];
+  /**
+   * M11: squad members who are not on the court and are free to come on. Real
+   * player entities, held here rather than in the spatial state -- which is
+   * exactly what makes "on court" and "in the squad" different things.
+   */
+  readonly bench: Readonly<Record<MatchTeamId, readonly Player[]>>;
+  /** Official second each player currently on court came on. Starters are 0. */
+  readonly onCourtSince: Readonly<Record<string, number>>;
+  /**
+   * M11: substitutions that have been asked for and not yet made. The outgoing
+   * player is still on the court and the incoming one is still on the bench for
+   * every second one of these exists.
+   */
+  readonly pendingSubstitutions: readonly PendingSubstitution[];
+  /** Every goalkeeper in either squad, so a substitute keeper is known to be one. */
+  readonly goalkeeperIds: readonly string[];
 };
 
 export type GameFlowTraceEntry = PossessionTraceEntry & {
@@ -117,6 +152,8 @@ export type GameFlowSegment = {
   readonly outcome: PossessionOutcome;
   /** M10: fouls the referee gave during this segment. */
   readonly fouls: readonly FoulAward[];
+  /** M11: substitutions taken at the boundary that opened this segment. */
+  readonly substitutions: readonly SubstitutionRecord[];
 };
 
 export type GameFlowResult = {
@@ -156,8 +193,250 @@ function attackingTeam(state: GameFlowState): MatchTeamId {
   return anyAttacker ? (teamOf(state.rosters as Record<MatchTeamId, readonly string[]>, anyAttacker.id) ?? "HOME") : "HOME";
 }
 
-export function createGameFlowState(match: FullCourtMatchState, matchSeconds = 0): GameFlowState {
-  return { match, score: { HOME: 0, AWAY: 0 }, rosters: buildRosters(match), possessionNumber: 1, matchSeconds, suspensions: [] };
+export function createGameFlowState(
+  match: FullCourtMatchState,
+  matchSeconds = 0,
+  bench: Record<MatchTeamId, readonly Player[]> = { HOME: [], AWAY: [] },
+): GameFlowState {
+  const onCourt = buildRosters(match);
+  // The squad is who is available, not who happens to be standing on the court.
+  const rosters: Record<MatchTeamId, readonly string[]> = {
+    HOME: [...onCourt.HOME, ...bench.HOME.map((p) => p.id)],
+    AWAY: [...onCourt.AWAY, ...bench.AWAY.map((p) => p.id)],
+  };
+  const onCourtSince: Record<string, number> = {};
+  for (const player of match.handball.players) onCourtSince[player.id] = matchSeconds;
+  return {
+    match,
+    score: { HOME: 0, AWAY: 0 },
+    rosters,
+    possessionNumber: 1,
+    matchSeconds,
+    suspensions: [],
+    bench,
+    onCourtSince,
+    pendingSubstitutions: [],
+    goalkeeperIds: squadGoalkeeperIds(match, bench),
+  };
+}
+
+// ---------------------------------------------------------------------------
+// M11: substitutions -- a real swap of the spatial population
+// ---------------------------------------------------------------------------
+
+/** Outfield players a side is entitled to have on court, given who is suspended. */
+export const STARTING_OUTFIELD_PER_TEAM = 6;
+
+export function activeSuspensionCount(flow: GameFlowState, team: MatchTeamId): number {
+  return flow.suspensions.filter((s) => s.team === team).length;
+}
+
+/**
+ * How many outfield players this side may legally have on court right now.
+ *
+ * This is the number that makes a suspension real: it drops by one for every
+ * man serving two minutes, so a team can never substitute its way back to full
+ * strength while somebody is off.
+ */
+export function outfieldEntitlement(flow: GameFlowState, team: MatchTeamId): number {
+  return STARTING_OUTFIELD_PER_TEAM - activeSuspensionCount(flow, team);
+}
+
+export type SubstitutionRequest = {
+  readonly team: MatchTeamId;
+  readonly outgoingPlayerId: string;
+  readonly incomingPlayerId: string;
+  readonly reason: string;
+};
+
+export type SubstitutionOutcome =
+  | { readonly ok: true; readonly flow: GameFlowState }
+  | { readonly ok: false; readonly reason: string };
+
+/**
+ * A substitution that has been asked for but not yet made.
+ *
+ * The lifecycle is REQUESTED -> EXITING -> COMPLETE, and this record is the
+ * whole of the middle. While it exists the outgoing player is still a real
+ * player on the court -- he counts against his side's entitlement, he occupies
+ * space, he can be fouled -- and the incoming player is still on the bench.
+ * That is precisely what stops an exchange producing a seventh outfield player:
+ * at no instant do both of them exist on the court.
+ *
+ * The COMPLETE step does not happen here. It happens inside the fixed-step loop
+ * (see settleArrivedExchanges), on whichever step the outgoing player actually
+ * reaches his substitution area, so play never waits for a possession to end.
+ * This layer only reconciles the ledgers afterwards -- bench, clock, record.
+ */
+export type PendingSubstitution = {
+  readonly team: MatchTeamId;
+  readonly outgoingPlayerId: string;
+  readonly incomingPlayerId: string;
+  /** The man going off, kept so he can be put on the bench after the court has already swapped him out. */
+  readonly outgoing: Player;
+  readonly reason: string;
+  readonly requestedAtMatchSeconds: number;
+};
+
+/**
+ * How long a man is given to get to the line before the change is abandoned,
+ * in official seconds.
+ *
+ * A safety net, not a rule. If some future situation ever pins a player where
+ * he cannot walk off -- carrying the ball through a long possession, say -- the
+ * request lapses and he rejoins his team's shape, rather than his side playing
+ * a man short for the rest of the match waiting for a swap that never lands.
+ */
+export const SUBSTITUTION_EXIT_LIMIT_SECONDS = 120;
+
+/**
+ * Asks for a substitution. Nothing about the population changes yet.
+ *
+ * This is the REQUESTED step. Every legality check the swap will need is made
+ * now, at the point the coach decides -- like for like, the incoming man really
+ * on the bench and not serving a suspension, the outgoing man really on the
+ * court and really this team's -- and the only two things it changes in the
+ * world are that the outgoing player starts heading for the substitution area,
+ * and that the exchange is put on the spatial state so the step loop can
+ * complete it the instant he gets there.
+ */
+export function requestSubstitution(flow: GameFlowState, request: SubstitutionRequest): SubstitutionOutcome {
+  const { team, outgoingPlayerId, incomingPlayerId } = request;
+  const outgoing = flow.match.handball.players.find((p) => p.id === outgoingPlayerId);
+  if (!outgoing) return { ok: false, reason: `${outgoingPlayerId} is not on the court` };
+  if (teamOf(flow.rosters as Record<MatchTeamId, readonly string[]>, outgoingPlayerId) !== team) {
+    return { ok: false, reason: `${outgoingPlayerId} does not play for ${team}` };
+  }
+  if (isLeavingCourt(outgoing)) return { ok: false, reason: `${outgoingPlayerId} is already leaving the court` };
+  // One change at a time per side: two men walking off at once would leave a
+  // team two short for as long as they both took to get there.
+  if (flow.pendingSubstitutions.some((p) => p.team === team)) {
+    return { ok: false, reason: `${team} already has a substitution in progress` };
+  }
+  const incoming = flow.bench[team].find((p) => p.id === incomingPlayerId);
+  if (!incoming) return { ok: false, reason: `${incomingPlayerId} is not on ${team}'s bench` };
+  if (flow.suspensions.some((s) => s.playerId === incomingPlayerId)) {
+    return { ok: false, reason: `${incomingPlayerId} is serving a suspension` };
+  }
+  if (flow.match.handball.players.some((p) => p.id === incomingPlayerId)) {
+    return { ok: false, reason: `${incomingPlayerId} is already on the court` };
+  }
+  // Like for like: a goalkeeper is replaced by a goalkeeper, and he walks off
+  // through the same area as everybody else.
+  if (outgoing.kind !== incoming.kind) {
+    return { ok: false, reason: `${incomingPlayerId} cannot replace a ${outgoing.kind.toLowerCase()}` };
+  }
+
+  const handball = withExchange(
+    { ...flow.match.handball, players: markLeavingCourt(flow.match.handball.players, outgoingPlayerId, true) },
+    { outgoingPlayerId, incoming, completedAtSimulationTime: null },
+  );
+  return {
+    ok: true,
+    flow: {
+      ...flow,
+      match: { ...flow.match, handball },
+      pendingSubstitutions: [
+        ...flow.pendingSubstitutions,
+        { team, outgoingPlayerId, incomingPlayerId, outgoing, reason: request.reason, requestedAtMatchSeconds: flow.matchSeconds },
+      ],
+    },
+  };
+}
+
+/**
+ * Where a stretch of simulation began, so a swap that happened part-way through
+ * it can be dated on the official clock.
+ */
+export type SubstitutionOrigin = {
+  readonly simulationTime: number;
+  readonly matchSeconds: number;
+};
+
+/**
+ * Reconciles the bench and the records against exchanges the COURT has already
+ * made, and abandons any request that can no longer happen.
+ *
+ * This does NOT decide when a substitution completes -- the fixed-step hook
+ * does, mid-play, the moment the outgoing player reaches the line. By the time
+ * this runs the two players have already swapped places in the spatial state;
+ * what is left is bookkeeping: put the man who came off on the bench, start the
+ * newcomer's clock at the second he actually came on, and emit the record.
+ *
+ * Called at every segment boundary and again immediately after each stretch of
+ * simulation, so a change is never held over.
+ */
+export function settlePendingSubstitutions(
+  flow: GameFlowState,
+  origin?: SubstitutionOrigin,
+): { flow: GameFlowState; completed: readonly SubstitutionRecord[] } {
+  if (flow.pendingSubstitutions.length === 0) return { flow, completed: [] };
+  const from = origin ?? { simulationTime: flow.match.handball.simulationTime, matchSeconds: flow.matchSeconds };
+  const officialAt = (simulationTime: number): number =>
+    from.matchSeconds + officialSecondsFor(Math.max(0, simulationTime - from.simulationTime));
+
+  let players = [...flow.match.handball.players];
+  const exchanges = new Map((flow.match.handball.exchanges ?? []).map((exchange) => [exchange.outgoingPlayerId, exchange]));
+  const bench = { HOME: [...flow.bench.HOME], AWAY: [...flow.bench.AWAY] };
+  const onCourtSince = { ...flow.onCourtSince };
+  const pending: PendingSubstitution[] = [];
+  const completed: SubstitutionRecord[] = [];
+  const finished: string[] = [];
+
+  for (const request of flow.pendingSubstitutions) {
+    const exchange = exchanges.get(request.outgoingPlayerId);
+    const swappedAt = exchange?.completedAtSimulationTime ?? null;
+
+    if (swappedAt !== null) {
+      // COMPLETE. The court did the swap; here we only follow it.
+      finished.push(request.outgoingPlayerId);
+      const cameOnAt = officialAt(swappedAt);
+      bench[request.team] = [
+        ...bench[request.team].filter((p) => p.id !== request.incomingPlayerId),
+        { ...request.outgoing, leavingCourt: undefined, position: { ...SUBSTITUTION_AREA }, velocity: { x: 0, y: 0 }, intent: { type: "IDLE" } },
+      ];
+      delete onCourtSince[request.outgoingPlayerId];
+      onCourtSince[request.incomingPlayerId] = cameOnAt;
+      completed.push({
+        team: request.team,
+        outgoingPlayerId: request.outgoingPlayerId,
+        incomingPlayerId: request.incomingPlayerId,
+        role: request.outgoing.role,
+        kind: request.outgoing.kind,
+        requestedAtMatchSeconds: request.requestedAtMatchSeconds,
+        atMatchSeconds: cameOnAt,
+        atSimulationTime: swappedAt,
+        reason: request.reason,
+      });
+      continue;
+    }
+
+    const outgoing = players.find((p) => p.id === request.outgoingPlayerId);
+    // He is not out there any more -- sent off while walking, or half time came.
+    // There is nobody to replace, so the change lapses.
+    if (!outgoing) {
+      finished.push(request.outgoingPlayerId);
+      continue;
+    }
+    // His replacement can no longer come on, so he stops leaving and plays on.
+    if (flow.suspensions.some((s) => s.playerId === request.incomingPlayerId)) {
+      players = markLeavingCourt(players, outgoing.id, false);
+      finished.push(request.outgoingPlayerId);
+      continue;
+    }
+    if (flow.matchSeconds - request.requestedAtMatchSeconds > SUBSTITUTION_EXIT_LIMIT_SECONDS) {
+      players = markLeavingCourt(players, outgoing.id, false);
+      finished.push(request.outgoingPlayerId);
+      continue;
+    }
+    pending.push(request);
+  }
+
+  const handball = withoutExchanges({ ...flow.match.handball, players }, finished);
+  return {
+    flow: { ...flow, match: { ...flow.match, handball }, bench, onCourtSince, pendingSubstitutions: pending },
+    completed,
+  };
 }
 
 // ---------------------------------------------------------------------------
@@ -165,7 +444,7 @@ export function createGameFlowState(match: FullCourtMatchState, matchSeconds = 0
 // ---------------------------------------------------------------------------
 
 /** Where a returning player comes back on: his own substitution line, at halfway. */
-export const SUBSTITUTION_LINE: MeterPoint = { x: 0.6, y: CANONICAL_COURT_LENGTH_METERS / 2 };
+export const SUBSTITUTION_LINE: MeterPoint = SUBSTITUTION_AREA;
 
 function withPlayers(state: FullCourtMatchState, players: readonly Player[]): FullCourtMatchState {
   return { ...state, handball: { ...state.handball, players } };
@@ -228,19 +507,41 @@ export function expireSuspensions(flow: GameFlowState): { flow: GameFlowState; r
   // Only a suspension that has actually started can expire.
   const due = flow.suspensions.filter((s) => s.returnsAtMatchSeconds !== null && flow.matchSeconds >= s.returnsAtMatchSeconds);
   if (due.length === 0) return { flow, returned: [] };
-  const players = [...flow.match.handball.players];
+  const remaining = flow.suspensions.filter((s) => !due.includes(s));
+  let players = [...flow.match.handball.players];
+  const bench = { HOME: [...flow.bench.HOME], AWAY: [...flow.bench.AWAY] };
+  const onCourtSince = { ...flow.onCourtSince };
+
   for (const suspension of due) {
-    const mate = players.find((p) => teamOf(flow.rosters as Record<MatchTeamId, readonly string[]>, p.id) === suspension.team);
-    players.push({
-      ...suspension.player,
-      team: mate?.team ?? suspension.player.team,
-      position: { ...SUBSTITUTION_LINE },
-      velocity: { x: 0, y: 0 },
-      intent: { type: "IDLE" },
-    });
+    const team = suspension.team;
+    const onCourtOutfield = players.filter(
+      (p) => p.kind === "FIELD_PLAYER" && teamOf(flow.rosters as Record<MatchTeamId, readonly string[]>, p.id) === team,
+    ).length;
+    const stillServing = remaining.filter((s) => s.team === team).length;
+    const entitlement = STARTING_OUTFIELD_PER_TEAM - stillServing;
+    if (onCourtOutfield >= entitlement) {
+      // M11: his side is already at full permitted strength -- somebody came on
+      // in his place while he was off. He rejoins the BENCH, not the court, so
+      // serving a suspension can never end up giving a team an extra man.
+      bench[team] = [...bench[team], { ...suspension.player, leavingCourt: undefined, position: { ...SUBSTITUTION_AREA }, velocity: { x: 0, y: 0 }, intent: { type: "IDLE" } }];
+      continue;
+    }
+    const mate = players.find((p) => teamOf(flow.rosters as Record<MatchTeamId, readonly string[]>, p.id) === team);
+    players = [
+      ...players,
+      {
+        ...suspension.player,
+        leavingCourt: undefined,
+        team: mate?.team ?? suspension.player.team,
+        position: { ...SUBSTITUTION_AREA },
+        velocity: { x: 0, y: 0 },
+        intent: { type: "IDLE" },
+      },
+    ];
+    onCourtSince[suspension.playerId] = flow.matchSeconds;
   }
   return {
-    flow: { ...flow, match: withPlayers(flow.match, players), suspensions: flow.suspensions.filter((s) => !due.includes(s)) },
+    flow: { ...flow, match: withPlayers(flow.match, players), suspensions: remaining, bench, onCourtSince },
     returned: due,
   };
 }
@@ -296,7 +597,7 @@ function centreRestart(
   // Reuse the M2 possession switch for the role/direction flip, then walk the
   // ball to the centre rather than dropping it there.
   const concedingPlayers = state.match.handball.players.filter(
-    (p) => teamOf(state.rosters as Record<MatchTeamId, readonly string[]>, p.id) === concedingTeam && p.kind === "FIELD_PLAYER",
+    (p) => teamOf(state.rosters as Record<MatchTeamId, readonly string[]>, p.id) === concedingTeam && p.kind === "FIELD_PLAYER" && !isLeavingCourt(p),
   );
   const thrower = nearestTo(concedingPlayers, COURT_CENTRE);
   if (!thrower) return { state, steps: 0 };
@@ -334,7 +635,7 @@ function centreRestart(
         actions.push({ type: "MOVE", playerId: player.id, target: restartTarget(player, ownSide) });
       }
     }
-    handball = step(handball, { actions }, SIMULATION_DT_SECONDS);
+    handball = stepWithSubstitutions(handball, actions, SIMULATION_DT_SECONDS);
     // The ball travels with the thrower.
     const moved = handball.players.find((p) => p.id === thrower.id)!;
     handball = { ...handball, ball: { ...handball.ball, position: { ...moved.position } } };
@@ -433,6 +734,29 @@ export function advanceOneSegment(
   const returnedTrace: GameFlowTraceEntry[] = [];
   flow = expiry.flow;
 
+  // M11: the bench. Handball substitutions are rolling -- they need no
+  // stoppage -- so a change is asked for here, at the boundary between
+  // segments, and then COMPLETES during live play, on whichever fixed step the
+  // man going off reaches his substitution area (see settleArrivedExchanges).
+  //
+  // This boundary pass is only reconciliation: it follows up any swap the court
+  // made during the segment just played and abandons any request that can no
+  // longer happen, so that neither side asks for a second change while one is
+  // still walking.
+  const settled = settlePendingSubstitutions(flow);
+  flow = settled.flow;
+  const substitutions: SubstitutionRecord[] = [...settled.completed];
+  const substitutionRng = createPossessionRng((seed ^ Math.imul(segmentIndex + 1, 0x27d4eb2d)) >>> 0);
+  const possessionTeam = attackingTeam(flow);
+  for (const side of ["HOME", "AWAY"] as const) {
+    const requests = decideSubstitutions(flow, side, { atRestart: kind === "CENTRE_RESTART", possessionTeam }, substitutionRng);
+    for (const request of requests.slice(0, SUBSTITUTION_POLICY.maxPerTeamPerSegment)) {
+      const outcome = requestSubstitution(flow, request);
+      if (!outcome.ok) continue;
+      flow = outcome.flow;
+    }
+  }
+
   const team = attackingTeam(flow);
   const goalSide = flow.match.possession.attackingGoalSide;
   const startedAt = flow.match.handball.simulationTime;
@@ -466,16 +790,11 @@ export function advanceOneSegment(
   for (const back of expiry.returned) {
     returnedTrace.push(noteEntry(`${back.playerId} returns from two minutes; ${back.team} back to full strength`, flow));
   }
+  for (const change of settled.completed) {
+    returnedTrace.push(noteEntry(`SUB (${change.team}): ${describeSubstitution(change)}`, flow));
+  }
   trace.unshift(...returnedTrace);
 
-  const segment: GameFlowSegment = {
-    possessionNumber: flow.possessionNumber,
-    team,
-    attackingGoalSide: goalSide,
-    kind,
-    outcome: result.outcome,
-    fouls: result.fouls ?? [],
-  };
   const event = deriveMatchEvent(result);
   // The official clock moves with the simulated seconds this segment consumed,
   // and it moves BEFORE the referee's decisions are applied: the foul happened
@@ -554,6 +873,31 @@ export function advanceOneSegment(
     next = { ...next, match: { handball: ended, possession: { ...result.finalState.possession, phase: "ORGANIZED_SETUP", outcome: null } } };
     nextKind = "ORGANIZED";
   }
+
+  // M11: follow up the exchanges the COURT made while this segment was played.
+  // The swaps themselves already happened, mid-play, on the step each man
+  // reached his line -- this only moves him to the bench, starts his
+  // replacement's clock at the second he actually came on, and writes the note
+  // into the trace entry for that instant rather than at a boundary.
+  const drained = settlePendingSubstitutions(next, { simulationTime: startedAt, matchSeconds: flow.matchSeconds });
+  next = drained.flow;
+  for (const change of drained.completed) {
+    substitutions.push(change);
+    const note = `SUB (${change.team}): ${describeSubstitution(change)}`;
+    const index = trace.findIndex((entry) => entry.simulationTime >= change.atSimulationTime);
+    if (index < 0) trace.push(noteEntry(note, next));
+    else trace[index] = { ...trace[index], note: trace[index].note ? `${trace[index].note}; ${note}` : note };
+  }
+
+  const segment: GameFlowSegment = {
+    possessionNumber: flow.possessionNumber,
+    team,
+    attackingGoalSide: goalSide,
+    kind,
+    outcome: result.outcome,
+    fouls: result.fouls ?? [],
+    substitutions,
+  };
 
   return {
     flow: next,

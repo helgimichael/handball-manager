@@ -15,11 +15,34 @@ export type DefenseState = {
   lastReaction: DefensivePolicyResult | null;
 };
 
+/**
+ * MATCH-EXPERIENCE-2.0 M11: an exchange that is under way on the court.
+ *
+ * A rolling substitution completes DURING live play, on whichever fixed step
+ * the outgoing player actually reaches his substitution area. That instant is
+ * only visible inside the step loop, so the exchange has to travel with the
+ * spatial state rather than being held by the flow layer and applied at the
+ * next segment boundary -- otherwise a man who got to the line early would
+ * stand there, out of his team's shape, until the possession happened to end.
+ *
+ * The entity coming on is carried here so the swap needs nothing but the state
+ * itself: no engine ever has to know what a bench is.
+ */
+export type CourtExchange = {
+  readonly outgoingPlayerId: string;
+  /** The man waiting to come on. He is NOT in `players` until the swap happens. */
+  readonly incoming: Player;
+  /** Null while the outgoing player is still walking; the simulation time of the swap once it has happened. */
+  readonly completedAtSimulationTime: number | null;
+};
+
 export type HandballState = {
   simulationTime: number;
   players: readonly Player[];
   ball: Ball;
   defense: DefenseState;
+  /** M11: substitutions in progress. Absent in every state that has no bench behind it. */
+  exchanges?: readonly CourtExchange[];
 };
 
 function cloneDefensiveThreat(threat: DefensiveThreat): DefensiveThreat {
@@ -51,6 +74,9 @@ function cloneDefensiveThreat(threat: DefensiveThreat): DefensiveThreat {
 export function cloneHandballState(state: HandballState): HandballState {
   return {
     simulationTime: state.simulationTime,
+    // Carried explicitly: this clone builds its result field by field, so an
+    // exchange in progress would otherwise be dropped on the very next step.
+    ...(state.exchanges ? { exchanges: state.exchanges.map((exchange) => ({ ...exchange })) } : {}),
     players: state.players.map((player) => ({
       ...player,
       position: { ...player.position },
