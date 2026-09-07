@@ -47,6 +47,7 @@ import {
   deriveMatchEvent,
   resolvePass,
   resolveShot,
+  takeSevenMetre,
   simulatePossession,
   type PossessionMatchEvent,
   type PossessionResult,
@@ -54,6 +55,7 @@ import {
   type SimulatePossessionInput,
 } from "./possessionEngine";
 import { defenceHasRecovered, defenceIsSet, switchPossession } from "./transition";
+import { judgeFoul, sevenMetreMark, type FoulAward } from "./foulDecision";
 import { sixZeroHomePosition } from "./organizedAttack";
 import { goalkeeperSetPosition } from "../policies/goalkeeper/goalkeeperPolicy";
 import {
@@ -118,6 +120,9 @@ export type TransitionResult = {
   readonly shotOrigin: MeterPoint | null;
   readonly steps: number;
   readonly guardTripped: boolean;
+  /** M10: fouls the referee gave during the transition. */
+  readonly fouls: readonly FoulAward[];
+  readonly sevenMetreTaken: boolean;
 };
 
 function positionsOf(state: HandballState): PossessionTraceEntry["playerPositions"] {
@@ -181,6 +186,8 @@ export function simulateTransition(input: SimulateTransitionInput): TransitionRe
   let shotOrigin: MeterPoint | null = null;
   let steps = 0;
   let guardTripped = false;
+  const fouls: FoulAward[] = [];
+  let sevenMetreTaken = false;
   const trace: PossessionTraceEntry[] = [];
 
   // The reading of the break, assigned at the regain and refreshed as it runs.
@@ -318,11 +325,38 @@ export function simulateTransition(input: SimulateTransitionInput): TransitionRe
         // Caught by the retreat. A PER-STEP probability that grows as the
         // recovering defender closes, exactly like the organized-attack
         // disruption model -- not a deterministic "within 1.4m ends it".
-        const lost = rng.chance(0.5) ? "TURNOVER" : "FREE_THROW";
-        outcome = lost;
-        resolvingPlayerId = carrier.id;
-        phase = lost === "FREE_THROW" ? "DEAD_BALL" : "RESOLUTION";
-        record(`${pressuringId} catches ${carrier.id} in transition (${pressure.toFixed(2)}m) -> ${lost}`);
+        //
+        // M10: this is the single most likely place in handball for a clear
+        // chance to be destroyed -- a man chasing back at a breaking attacker
+        // -- so the same judgement the organized attack uses applies here.
+        if (!rng.chance(0.5)) {
+          outcome = "TURNOVER";
+          resolvingPlayerId = carrier.id;
+          phase = "RESOLUTION";
+          record(`${pressuringId} catches ${carrier.id} cleanly in transition (${pressure.toFixed(2)}m) -> TURNOVER`);
+        } else {
+          const defender = handball.players.find((p) => p.id === pressuringId)!;
+          const award = judgeFoul(handball, carrier, defender, attackingGoal, handball.simulationTime);
+          fouls.push(award);
+          record(`FOUL in transition: ${award.reason} -> ${award.restart === "SEVEN_METRE" ? "7 metres" : "free throw"}${award.suspend ? " and two minutes" : ""}`);
+          if (award.restart === "SEVEN_METRE") {
+            sevenMetreTaken = true;
+            const event = takeSevenMetre(handball, carrier.id, attackingGoal, rng, ratings, (flying, note) => {
+              handball = flying;
+              record(note);
+            });
+            handball = event.state;
+            outcome = event.resolution.outcome;
+            resolvingPlayerId = carrier.id;
+            shotOrigin = { ...sevenMetreMark(attackingGoal) };
+            phase = "RESOLUTION";
+            record(`7m: ${event.resolution.detail ?? outcome}`);
+          } else {
+            outcome = "FREE_THROW";
+            resolvingPlayerId = carrier.id;
+            phase = "DEAD_BALL";
+          }
+        }
       } else if (steps >= nextReevaluateStep) {
         // RE-EVALUATE from the state as it now is.
         nextReevaluateStep = steps + REEVALUATE_STEPS;
@@ -483,6 +517,8 @@ export function simulateTransition(input: SimulateTransitionInput): TransitionRe
     shotOrigin,
     steps,
     guardTripped,
+    fouls,
+    sevenMetreTaken,
   };
 }
 

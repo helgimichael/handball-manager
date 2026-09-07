@@ -279,7 +279,13 @@ test("a transition can finish, and only when the advantage is real", () => {
       shots += 1;
       // Every break shot was taken in range, and the trace says he was clear.
       assert.ok(distanceBetween(transition.shotOrigin, { x: 10, y: 40 }) <= BREAK_SHOT_RANGE_METERS + 0.5 || distanceBetween(transition.shotOrigin, { x: 10, y: 0 }) <= BREAK_SHOT_RANGE_METERS + 0.5);
-      assert.ok(transition.trace.some((t) => t.note.includes("breaks clear")), "a break shot is explained by the clearance that earned it");
+      // M10: a transition can also produce a shot by winning a 7 metre, so a
+      // shot is explained either by the clearance that earned it or by the
+      // foul that stopped it.
+      assert.ok(
+        transition.trace.some((t) => t.note.includes("breaks clear")) || transition.sevenMetreTaken,
+        "a break shot is explained by the clearance that earned it, or by a 7 metre",
+      );
     }
     if (transition.outcome === "ORGANIZED_ATTACK_REACHED") settled += 1;
     assert.equal(transition.guardTripped, false, `seed ${seed} needed the guard`);

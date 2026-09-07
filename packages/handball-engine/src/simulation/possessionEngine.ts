@@ -53,6 +53,13 @@ import {
   type ShotDecision,
 } from "./shotDecision";
 import {
+  judgeFoul,
+  sevenMetreFormationTarget,
+  sevenMetreMark,
+  sevenMetreReady,
+  type FoulAward,
+} from "./foulDecision";
+import {
   attemptSave,
   goalkeeperSetPosition,
   readShot,
@@ -130,6 +137,10 @@ export type PossessionResult = {
   readonly steps: number;
   /** True when the max-step guard fired instead of a natural resolution. */
   readonly guardTripped: boolean;
+  /** M10: every foul the referee gave during this possession. */
+  readonly fouls: readonly FoulAward[];
+  /** M10: true when the possession was decided by a 7 metre throw. */
+  readonly sevenMetreTaken: boolean;
 };
 
 // ---------------------------------------------------------------------------
@@ -335,13 +346,24 @@ export function resolveShot(
   };
 }
 
-/** Whether the defence disrupts the carrier this step, and how. Read from real proximity. */
-function checkDisruption(
+export type Disruption = { readonly kind: "TURNOVER" } | { readonly kind: "FOUL"; readonly award: FoulAward };
+
+/**
+ * Whether the defence disrupts the carrier this step, and what it was. Read
+ * from real proximity.
+ *
+ * M10: the per-step contact model is unchanged; what changed is that contact
+ * which is NOT a clean ball-win is now judged rather than coin-flipped. A
+ * defender who holds his ground concedes a free throw; one who wipes out an
+ * open run at goal concedes a 7 metre and two minutes.
+ */
+export function checkDisruption(
   state: HandballState,
   carrier: Player,
+  goalSide: AttackingGoalSide,
   rng: PossessionRng,
   ratings: SimulatePossessionInput["ratings"],
-): Extract<PossessionOutcome, "TURNOVER" | "FREE_THROW"> | null {
+): Disruption | null {
   const { distance, defenderId } = nearestDefenderTo(state, carrier.position);
   if (distance > 1.6 || defenderId === null) return null;
   const defending = ratingOf(ratings, defenderId, "defending");
@@ -349,8 +371,54 @@ function checkDisruption(
   // genuinely more likely to lose it.
   const disruption = Math.max(0, (1.6 - distance) / 1.6) * (0.004 + (defending - DEFAULT_RATING) * 0.0004);
   if (!rng.chance(disruption)) return null;
-  // A defender who arrives late concedes a free throw rather than winning it.
-  return rng.chance(0.55) ? "FREE_THROW" : "TURNOVER";
+  // Either he took the ball cleanly, or he fouled -- and if he fouled, the
+  // situation says what kind of foul it was.
+  if (!rng.chance(0.55)) return { kind: "TURNOVER" };
+  const defender = state.players.find((p) => p.id === defenderId)!;
+  return { kind: "FOUL", award: judgeFoul(state, carrier, defender, goalSide, state.simulationTime) };
+}
+
+/** Bound on the walk into a 7m formation, so a dead ball can never stall the loop. */
+const MAX_SEVEN_METRE_SETUP_STEPS = 200;
+
+/**
+ * A 7 metre throw: the dead ball, the walk into position, and the shot.
+ *
+ * It is NOT a separate penalty model. Everybody walks into a legal 7m
+ * formation through the ordinary fixed step -- taker on the mark, keeper on
+ * his line, everyone else outside the free-throw line and three metres clear
+ * -- and then the SAME M9 contest resolves it: the taker reads the goal the
+ * keeper has left him, the keeper reads it back, the ball flies, and the
+ * result is the gap against the reach.
+ */
+export function takeSevenMetre(
+  state: HandballState,
+  takerId: string,
+  goalSide: AttackingGoalSide,
+  rng: PossessionRng,
+  ratings: SimulatePossessionInput["ratings"],
+  onStep: (state: HandballState, note: string) => void,
+): ShotEvent {
+  let handball = state;
+  for (let i = 0; i < MAX_SEVEN_METRE_SETUP_STEPS; i += 1) {
+    if (sevenMetreReady(handball, takerId, goalSide)) break;
+    const actions: HandballAction[] = handball.players.map((player) => ({
+      type: "MOVE" as const,
+      playerId: player.id,
+      target: sevenMetreFormationTarget(player, takerId, goalSide),
+    }));
+    handball = step(handball, { actions }, SIMULATION_DT_SECONDS);
+    // The taker carries the ball to the mark.
+    const taker = handball.players.find((p) => p.id === takerId);
+    if (taker) handball = { ...handball, ball: { position: { ...taker.position }, possessorId: takerId, status: "POSSESSED", flight: null } };
+  }
+  const taker = handball.players.find((p) => p.id === takerId);
+  if (!taker) {
+    // Nobody to take it: give the ball back rather than inventing a shooter.
+    return { resolution: { outcome: "SHOT_MISSED" } as ShotResolution, state: handball };
+  }
+  onStep(handball, `7m: ${takerId} on the mark, everybody clear`);
+  return resolveShot(handball, taker, goalSide, rng, ratings, onStep);
 }
 
 /** A defender inside this distance of the passing lane can get a hand to the ball. */
@@ -462,6 +530,8 @@ export function simulatePossession(input: SimulatePossessionInput): PossessionRe
   let guardTripped = false;
   let lastPrimaryDefenderId: string | null = null;
   let lastDefenceSummary: string | null = null;
+  const fouls: FoulAward[] = [];
+  let sevenMetreTaken = false;
 
   function record(note: string, decision?: AttackDecision): void {
     trace.push({
@@ -604,12 +674,34 @@ export function simulatePossession(input: SimulatePossessionInput): PossessionRe
         }
       }
 
-      const disruption = checkDisruption(handball, carrier, rng, ratings);
-      if (disruption) {
-        outcome = disruption;
+      const disruption = checkDisruption(handball, carrier, goalSide, rng, ratings);
+      if (disruption?.kind === "TURNOVER") {
+        outcome = "TURNOVER";
         resolvingPlayerId = carrier.id;
-        phase = disruption === "FREE_THROW" ? "DEAD_BALL" : "RESOLUTION";
-        record(`defensive pressure on ${describeAttacker(carrier)} forces ${disruption}`);
+        phase = "RESOLUTION";
+        record(`${disruption.kind === "TURNOVER" ? "defensive pressure" : ""} on ${describeAttacker(carrier)} forces TURNOVER`);
+      } else if (disruption?.kind === "FOUL") {
+        const award = disruption.award;
+        fouls.push(award);
+        record(`FOUL: ${award.reason} -> ${award.restart === "SEVEN_METRE" ? "7 metres" : "free throw"}${award.suspend ? " and two minutes" : ""}`);
+        if (award.restart === "SEVEN_METRE") {
+          // Dead ball, then the throw itself -- resolved by the M9 contest.
+          sevenMetreTaken = true;
+          const event = takeSevenMetre(handball, carrier.id, goalSide, rng, ratings, (flying, note) => {
+            handball = flying;
+            record(note);
+          });
+          handball = event.state;
+          outcome = event.resolution.outcome;
+          resolvingPlayerId = carrier.id;
+          shotOrigin = { ...sevenMetreMark(goalSide) };
+          phase = "RESOLUTION";
+          record(`7m: ${event.resolution.detail ?? outcome}`);
+        } else {
+          outcome = "FREE_THROW";
+          resolvingPlayerId = carrier.id;
+          phase = "DEAD_BALL";
+        }
       } else if (phaseIs("CIRCULATION") && steps >= nextDecisionStep) {
         const decision = decideAttackAction({
           state: handball,
@@ -737,6 +829,8 @@ export function simulatePossession(input: SimulatePossessionInput): PossessionRe
     shotOrigin,
     steps,
     guardTripped,
+    fouls,
+    sevenMetreTaken,
   };
 }
 

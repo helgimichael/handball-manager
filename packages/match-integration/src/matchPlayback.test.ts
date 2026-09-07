@@ -61,12 +61,24 @@ test("both goals are represented, and play occurs at both ends", () => {
 // Players and goalkeepers
 // ---------------------------------------------------------------------------
 
-test("all 14 players render in every frame", () => {
+test("every player on the court renders in every frame, and nobody is invented", () => {
+  // M10: a suspended player genuinely leaves the court for two minutes, so a
+  // frame can legitimately carry fewer than fourteen. What the renderer must
+  // never do is invent, drop or duplicate somebody who IS on -- it draws
+  // exactly the engine's own player list.
+  assert.equal(FRAMES[0].snapshot.players.length, 14, "a match starts 6 + 6 outfield players and two goalkeepers");
+  let sawShortHanded = false;
   for (const frame of FRAMES) {
-    assert.equal(frame.snapshot.players.length, 14, "6 + 6 outfield players and two goalkeepers");
+    const ids = frame.snapshot.players.map((p) => p.id);
+    assert.ok(ids.length <= 14, "nobody is added to the court");
+    assert.ok(ids.length >= 12, `a court never empties beyond two suspensions (${ids.length})`);
+    assert.equal(new Set(ids).size, ids.length, "every player on court is distinct");
+    if (ids.length < 14) sawShortHanded = true;
   }
-  const ids = new Set(FRAMES[0].snapshot.players.map((p) => p.id));
-  assert.equal(ids.size, 14, "every player is distinct");
+  // And the frames are the engine's own: a short-handed frame in the trace is a
+  // short-handed frame on screen.
+  const shortInTrace = MATCH.trace.some((t) => t.playerPositions.length < 14);
+  assert.equal(sawShortHanded, shortInTrace, "the renderer shows short-handed play exactly when the engine had it");
 });
 
 test("both goalkeepers render, one at each end", () => {

@@ -21,9 +21,9 @@ const START = createFullCourt6v6State({ attackingGoalSide: "TOP" });
  * same outcomes. The assertions are unchanged -- only the seeds that exercise
  * them.
  */
-const SEED_FREE_THROW = 4; // free throw, continued by the same team (re-pinned for M6, M7, M8, M9)
-const SEED_MIXED = 1; // goals, centre restarts, saves, settled breaks (re-pinned for M6, M7, M8, M9)
-const SEED_TURNOVER = 1; // a turnover mid-run, followed by the transition it causes
+const SEED_FREE_THROW = 8; // free throw, continued by the same team (re-pinned for M6-M10)
+const SEED_MIXED = 1; // goals, centre restarts, saves, settled breaks (re-pinned for M6-M10)
+const SEED_TURNOVER = 2; // a turnover mid-run, followed by the transition it causes
 
 function run(seed: number, maxPossessions = 8): GameFlowResult {
   return simulateGameSequence(START, seed, { maxPossessions });
@@ -157,7 +157,20 @@ test("spatial state stays continuous across possessions", () => {
     // Time never restarts: possessions run on from one clock.
     assert.ok(entry.simulationTime >= previousTime - 1e-9, `time went backwards at ${entry.note}`);
     previousTime = entry.simulationTime;
-    assert.equal(entry.playerPositions.length, START.handball.players.length, "the squad never changes size");
+    // M10: the squad on court CAN shrink now, because a suspended player
+    // genuinely leaves it. What must never happen -- which is what this
+    // assertion has always been for -- is a player being invented or
+    // duplicated by reconstruction, so every man on court is checked against
+    // the stable rosters instead of against a fixed headcount.
+    assert.ok(entry.playerPositions.length <= START.handball.players.length, "nobody is added to the court");
+    const ids = entry.playerPositions.map((p) => p.playerId);
+    assert.equal(new Set(ids).size, ids.length, "no player appears twice");
+    for (const id of ids) {
+      assert.ok(
+        result.finalState.rosters.HOME.includes(id) || result.finalState.rosters.AWAY.includes(id),
+        `${id} is a real member of a squad, not a reconstruction`,
+      );
+    }
     for (const p of entry.playerPositions) {
       assert.ok(isWithinCanonicalBounds(p.position, CANONICAL_FULL_COURT_BOUNDS), `${p.playerId} stayed on court`);
     }

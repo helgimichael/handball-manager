@@ -47,7 +47,8 @@ export const FULL_TIME_SECONDS = 2 * HALF_LENGTH_SECONDS;
  * How much official match clock one simulated second costs. See the header:
  * an explicit provisional pacing constant, not a calibrated figure.
  */
-export const MATCH_PACING_FACTOR = 5;
+export { MATCH_PACING_FACTOR } from "./matchClock";
+import { MATCH_PACING_FACTOR } from "./matchClock";
 
 /** Hard bound on segments per half, so a clock or pacing error can never hang a match. */
 export const MAX_SEGMENTS_PER_HALF = 400;
@@ -215,7 +216,10 @@ function playHalf(
     });
 
     clock = clockAfter;
-    current = advance.flow;
+    // The runner's clock is the authoritative one -- it is the clamped, official
+    // 0..1800 of this half -- so the flow's ledger is synced to it. Two minutes
+    // are then always two minutes of the clock a score sheet would show.
+    current = { ...advance.flow, matchSeconds: (half - 1) * HALF_LENGTH_SECONDS + clockAfter };
     isTransition = advance.nextIsTransition;
     kind = advance.nextKind;
   }
@@ -242,7 +246,7 @@ export function simulateMatch(initialState: FullCourtMatchState, seed: number, o
   const firstHalfGoalSide = initialState.possession.attackingGoalSide;
   const firstHalfState = startingTeam === "HOME" ? initialState : buildHalfStartState(firstHalfGoalSide);
 
-  const first = playHalf(createGameFlowState(firstHalfState), 1, seed, ratings, tactics);
+  const first = playHalf(createGameFlowState(firstHalfState, 0), 1, seed, ratings, tactics);
   const halftimeScore = first.flow.score;
 
   // Ends switch AND the throw-off changes hands. createFullCourt6v6State always
@@ -256,13 +260,28 @@ export function simulateMatch(initialState: FullCourtMatchState, seed: number, o
   const secondHalfState = openingThrower
     ? switchPossession(secondHalfBase, "TURNOVER", openingThrower.id).state
     : secondHalfBase;
-  const secondHalfFlow: GameFlowState = {
-    ...createGameFlowState(secondHalfState),
-    // Score and identity persist across the interval; only the court does not.
+  // Score, identity AND discipline persist across the interval; only the court
+  // does not. A player sent off at 29:00 is still serving his two minutes after
+  // the break, so the fresh half state has to give him back up again.
+  let secondHalfFlow: GameFlowState = {
+    ...createGameFlowState(secondHalfState, HALF_LENGTH_SECONDS),
     score: halftimeScore,
     rosters: first.flow.rosters,
     possessionNumber: first.flow.possessionNumber,
+    suspensions: first.flow.suspensions,
   };
+  for (const suspension of first.flow.suspensions) {
+    secondHalfFlow = {
+      ...secondHalfFlow,
+      match: {
+        ...secondHalfFlow.match,
+        handball: {
+          ...secondHalfFlow.match.handball,
+          players: secondHalfFlow.match.handball.players.filter((p) => p.id !== suspension.playerId),
+        },
+      },
+    };
+  }
 
   const second = playHalf(secondHalfFlow, 2, seed, ratings, tactics);
 

@@ -33,6 +33,8 @@ import {
 import { simulateTransition } from "./sequenceEngine";
 import type { AttackTactics } from "./organizedAttack";
 import { switchPossession } from "./transition";
+import { FOUL_LIMITS, type FoulAward } from "./foulDecision";
+import { officialSecondsFor } from "./matchClock";
 import {
   goalCentre,
   type AttackingGoalSide,
@@ -54,12 +56,42 @@ export type MatchTeamId = "HOME" | "AWAY";
 
 export type MatchScore = Readonly<Record<MatchTeamId, number>>;
 
+/**
+ * MATCH-EXPERIENCE-2.0 M10: a player serving two minutes.
+ *
+ * The suspended man is REMOVED from the spatial state, and the entity itself is
+ * kept here so he can be put back exactly as he was. Nothing about the
+ * disadvantage is faked with a modifier: his team plays with five outfield
+ * players because there are five outfield players on the court.
+ */
+export type Suspension = {
+  readonly playerId: string;
+  readonly team: MatchTeamId;
+  /** The player as he left the court, so he can return rather than be rebuilt. */
+  readonly player: Player;
+  /** When the referee gave it. The two minutes do NOT run from here. */
+  readonly awardedAtMatchSeconds: number;
+  /**
+   * When play restarted and his two minutes actually began. Null while the ball
+   * is still dead: a suspension is served in playing time, so the dead ball
+   * between the decision and the restart is not part of it.
+   */
+  readonly startedAtMatchSeconds: number | null;
+  /** Official match second at which he may come back on. Null until started. */
+  readonly returnsAtMatchSeconds: number | null;
+  readonly reason: string;
+};
+
 export type GameFlowState = {
   readonly match: FullCourtMatchState;
   readonly score: MatchScore;
   /** Fixed for the whole run: which players belong to which side. */
   readonly rosters: Readonly<Record<MatchTeamId, readonly string[]>>;
   readonly possessionNumber: number;
+  /** Official match seconds elapsed. Canonical for suspension expiry. */
+  readonly matchSeconds: number;
+  /** Players currently off the court serving two minutes. */
+  readonly suspensions: readonly Suspension[];
 };
 
 export type GameFlowTraceEntry = PossessionTraceEntry & {
@@ -83,6 +115,8 @@ export type GameFlowSegment = {
   readonly attackingGoalSide: AttackingGoalSide;
   readonly kind: "ORGANIZED" | "TRANSITION" | "FREE_THROW_CONTINUATION" | "CENTRE_RESTART";
   readonly outcome: PossessionOutcome;
+  /** M10: fouls the referee gave during this segment. */
+  readonly fouls: readonly FoulAward[];
 };
 
 export type GameFlowResult = {
@@ -122,8 +156,100 @@ function attackingTeam(state: GameFlowState): MatchTeamId {
   return anyAttacker ? (teamOf(state.rosters as Record<MatchTeamId, readonly string[]>, anyAttacker.id) ?? "HOME") : "HOME";
 }
 
-export function createGameFlowState(match: FullCourtMatchState): GameFlowState {
-  return { match, score: { HOME: 0, AWAY: 0 }, rosters: buildRosters(match), possessionNumber: 1 };
+export function createGameFlowState(match: FullCourtMatchState, matchSeconds = 0): GameFlowState {
+  return { match, score: { HOME: 0, AWAY: 0 }, rosters: buildRosters(match), possessionNumber: 1, matchSeconds, suspensions: [] };
+}
+
+// ---------------------------------------------------------------------------
+// M10: suspensions -- players genuinely off the court
+// ---------------------------------------------------------------------------
+
+/** Where a returning player comes back on: his own substitution line, at halfway. */
+export const SUBSTITUTION_LINE: MeterPoint = { x: 0.6, y: CANONICAL_COURT_LENGTH_METERS / 2 };
+
+function withPlayers(state: FullCourtMatchState, players: readonly Player[]): FullCourtMatchState {
+  return { ...state, handball: { ...state.handball, players } };
+}
+
+/**
+ * Sends a player off. He is taken out of the spatial state entirely, and kept
+ * on the ledger so he can be restored unchanged.
+ */
+export function applySuspension(flow: GameFlowState, playerId: string, reason: string): GameFlowState {
+  const player = flow.match.handball.players.find((p) => p.id === playerId);
+  const team = teamOf(flow.rosters as Record<MatchTeamId, readonly string[]>, playerId);
+  if (!player || !team || player.kind === "GOALKEEPER") return flow;
+  return {
+    ...flow,
+    match: withPlayers(flow.match, flow.match.handball.players.filter((p) => p.id !== playerId)),
+    suspensions: [
+      ...flow.suspensions,
+      {
+        playerId,
+        team,
+        player,
+        awardedAtMatchSeconds: flow.matchSeconds,
+        // Not running yet: it starts when play restarts.
+        startedAtMatchSeconds: null,
+        returnsAtMatchSeconds: null,
+        reason,
+      },
+    ],
+  };
+}
+
+/**
+ * Play restarts. Every suspension awarded at the preceding dead ball starts
+ * running now.
+ *
+ * The two minutes are served in PLAYING time. Starting them at the moment the
+ * referee raised his arm would have the dead ball -- the walk into a 7 metre
+ * formation, players trooping back for a free throw -- counting against the
+ * offender's punishment, which is not what the rule says.
+ */
+export function startPendingSuspensions(flow: GameFlowState, atMatchSeconds: number): GameFlowState {
+  if (!flow.suspensions.some((s) => s.startedAtMatchSeconds === null)) return flow;
+  return {
+    ...flow,
+    suspensions: flow.suspensions.map((s) =>
+      s.startedAtMatchSeconds === null
+        ? { ...s, startedAtMatchSeconds: atMatchSeconds, returnsAtMatchSeconds: atMatchSeconds + FOUL_LIMITS.suspensionSeconds }
+        : s,
+    ),
+  };
+}
+
+/**
+ * Puts back everybody whose two minutes are up, at the substitution line. He
+ * re-enters as himself -- the same entity, with his side's current ATTACK or
+ * DEFENSE label taken from a team-mate who is still on.
+ */
+export function expireSuspensions(flow: GameFlowState): { flow: GameFlowState; returned: readonly Suspension[] } {
+  // Only a suspension that has actually started can expire.
+  const due = flow.suspensions.filter((s) => s.returnsAtMatchSeconds !== null && flow.matchSeconds >= s.returnsAtMatchSeconds);
+  if (due.length === 0) return { flow, returned: [] };
+  const players = [...flow.match.handball.players];
+  for (const suspension of due) {
+    const mate = players.find((p) => teamOf(flow.rosters as Record<MatchTeamId, readonly string[]>, p.id) === suspension.team);
+    players.push({
+      ...suspension.player,
+      team: mate?.team ?? suspension.player.team,
+      position: { ...SUBSTITUTION_LINE },
+      velocity: { x: 0, y: 0 },
+      intent: { type: "IDLE" },
+    });
+  }
+  return {
+    flow: { ...flow, match: withPlayers(flow.match, players), suspensions: flow.suspensions.filter((s) => !due.includes(s)) },
+    returned: due,
+  };
+}
+
+/** How many outfield players each side currently has on the court. */
+export function outfieldCount(flow: GameFlowState, team: MatchTeamId): number {
+  return flow.match.handball.players.filter(
+    (p) => p.kind === "FIELD_PLAYER" && teamOf(flow.rosters as Record<MatchTeamId, readonly string[]>, p.id) === team,
+  ).length;
 }
 
 // ---------------------------------------------------------------------------
@@ -299,6 +425,14 @@ export function advanceOneSegment(
   ratings?: SimulatePossessionInput["ratings"],
   tactics?: Partial<AttackTactics>,
 ): SegmentAdvance {
+  // M10: this segment IS the restart. Anybody sent off at the dead ball that
+  // preceded it starts his two minutes now, and anybody whose time is already
+  // up comes back on before play resumes.
+  flow = startPendingSuspensions(flow, flow.matchSeconds);
+  const expiry = expireSuspensions(flow);
+  const returnedTrace: GameFlowTraceEntry[] = [];
+  flow = expiry.flow;
+
   const team = attackingTeam(flow);
   const goalSide = flow.match.possession.attackingGoalSide;
   const startedAt = flow.match.handball.simulationTime;
@@ -315,13 +449,68 @@ export function advanceOneSegment(
     score: flow.score,
   }));
 
-  const segment: GameFlowSegment = { possessionNumber: flow.possessionNumber, team, attackingGoalSide: goalSide, kind, outcome: result.outcome };
+  const noteEntry = (note: string, state: GameFlowState): GameFlowTraceEntry => ({
+    simulationTime: Number(state.match.handball.simulationTime.toFixed(4)),
+    phase: "DEAD_BALL",
+    ballPossessorId: state.match.handball.ball.possessorId,
+    ballStatus: state.match.handball.ball.status,
+    ballPosition: { ...state.match.handball.ball.position },
+    playerPositions: state.match.handball.players.map((p) => ({ playerId: p.id, position: { ...p.position } })),
+    primaryDefenderId: null,
+    note,
+    possessionNumber: state.possessionNumber,
+    possessionTeam: team,
+    attackingGoalSide: goalSide,
+    score: state.score,
+  });
+  for (const back of expiry.returned) {
+    returnedTrace.push(noteEntry(`${back.playerId} returns from two minutes; ${back.team} back to full strength`, flow));
+  }
+  trace.unshift(...returnedTrace);
+
+  const segment: GameFlowSegment = {
+    possessionNumber: flow.possessionNumber,
+    team,
+    attackingGoalSide: goalSide,
+    kind,
+    outcome: result.outcome,
+    fouls: result.fouls ?? [],
+  };
   const event = deriveMatchEvent(result);
-  let next: GameFlowState = { ...flow, match: result.finalState };
+  // The official clock moves with the simulated seconds this segment consumed,
+  // and it moves BEFORE the referee's decisions are applied: the foul happened
+  // during this segment, so his two minutes start from the dead ball that ended
+  // it, not from the moment the segment began.
+  const simulatedSeconds = Math.max(0, result.finalState.handball.simulationTime - startedAt);
+  let next: GameFlowState = {
+    ...flow,
+    match: result.finalState,
+    matchSeconds: flow.matchSeconds + officialSecondsFor(simulatedSeconds),
+  };
+
+  // M10: the referee's decisions are applied at the dead ball they created.
+  for (const foul of result.fouls ?? []) {
+    if (!foul.suspend) continue;
+    const before = next.match.handball.players.length;
+    next = applySuspension(next, foul.defenderId, foul.reason);
+    if (next.match.handball.players.length < before) {
+      const offenderTeam = teamOf(next.rosters as Record<MatchTeamId, readonly string[]>, foul.defenderId);
+      trace.push(
+        noteEntry(
+          `${foul.defenderId} is suspended for two minutes (${foul.reason}); ${offenderTeam} play short until two minutes of playing time from the restart`,
+          next,
+        ),
+      );
+    }
+  }
   let steps = result.steps;
   let nextIsTransition = false;
   let nextKind: GameFlowSegment["kind"] = "ORGANIZED";
-  const ended = result.finalState.handball;
+  // The state play continues FROM is the one after the referee's decisions --
+  // not the one the segment ended in. Reading the pre-suspension state here
+  // put the sent-off player straight back on the court, and he was then added
+  // a second time when his two minutes expired.
+  const ended = next.match.handball;
 
   if (result.outcome === "SHOT_GOAL") {
     // A goal may ONLY be added from an actual simulated shot.
@@ -372,7 +561,7 @@ export function advanceOneSegment(
     trace,
     event,
     steps,
-    simulatedSeconds: Math.max(0, next.match.handball.simulationTime - startedAt),
+    simulatedSeconds,
     nextIsTransition,
     nextKind,
   };
