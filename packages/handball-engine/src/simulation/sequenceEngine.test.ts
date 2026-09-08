@@ -31,7 +31,7 @@ const TOP = createFullCourt6v6State({ attackingGoalSide: "TOP" });
 const SEED_SAVE_THEN_FREE_THROW = 31;
 const SEED_SAVE_THEN_ORGANIZED = 6;
 const SEED_SAVE_THEN_GOAL = 1;
-const SEED_SAVE_THEN_TURNOVER = 2;
+const SEED_SAVE_THEN_TURNOVER = 5; // re-pinned for M18: contact is read from the race, so seed 2's break now survives
 const SEED_TURNOVER_START = 3;
 
 function sequence(seed: number) {

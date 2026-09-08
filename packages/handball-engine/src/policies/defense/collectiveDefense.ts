@@ -52,6 +52,7 @@ import type { HandballState } from "../../domain/handball/state";
 import { SIX_ZERO_ROLE_ADJACENCY, SIX_ZERO_ROLE_ORDER, type SixZeroDefender } from "./responsibility";
 import type { DefensiveThreatObservation } from "./types";
 import type { DefenceTactics } from "../../simulation/coaching";
+import { DEFENDER_REACTION_SECONDS, reachProfileOf, timeToReach } from "../../simulation/spatialControl";
 
 export type DefendedGoalSide = "TOP" | "BOTTOM";
 
@@ -111,6 +112,23 @@ export const COLLECTIVE_DEFENSE_LIMITS = Object.freeze({
 });
 
 const DEFAULT_RATING = 10;
+
+/**
+ * M18: how far behind the carrier a stepping defender may be and still be worth
+ * committing. Beyond this he is chasing a man he cannot reach, and the hole he
+ * leaves costs more than the pressure he never applies.
+ *
+ * Deliberately generous. A 6:0 defender stepping out is not racing the carrier
+ * to a spot -- he is showing himself, and arriving a little late still bends the
+ * attack. Only a race lost by more than a second and a half, which at full
+ * speed is the width of the gap he is guarding, means the step-out has become
+ * pure cost. A tighter reading here is not a better model, it is a weaker
+ * defence: at half a second this gate alone moved the bench from 103 possessions
+ * and 47 goals to 114 and 54, which is a calibration change wearing a decision
+ * change's clothes. At this value the bench sits on M13's numbers and only the
+ * hopeless step-out is declined.
+ */
+const STEP_OUT_LOST_RACE_SECONDS = 1.5;
 
 /** 0.7 .. 1.4: how far a defender is willing to step, from his defending rating. */
 export function aggressionFor(defenderId: string, options?: CollectiveDefenseOptions): number {
@@ -372,6 +390,19 @@ export function collectiveReactions(
       // Step out at the drive: to the carrier, goal-side of him, bounded by
       // how far this defender is willing to leave the line.
       const raw = { x: threatPosition.x, y: towardGoal(threatPosition.y, perception.goalSide, limits.goalSideOffsetMeters) };
+      // M18: he only commits if he can actually get there in time. A defender
+      // who is going to lose that race gains nothing by chasing it -- he
+      // abandons the line for a man he will not reach -- so instead he holds
+      // his shifted position and stays part of the shape. This is spatial
+      // control telling M7 whether the role it assigned can be executed; the
+      // ASSIGNMENT itself is untouched, and so is every bound on how far he may
+      // travel when he does commit.
+      const carrier = perception.carrier;
+      if (carrier) {
+        const reachable = timeToReach(reachProfileOf(defender, DEFENDER_REACTION_SECONDS), raw);
+        const arrival = timeToReach(reachProfileOf(carrier), raw);
+        if (reachable - arrival > STEP_OUT_LOST_RACE_SECONDS) return make("RECOVER", base);
+      }
       return make("ENGAGE", limitedFrom(base, raw, limits.primaryMaxDisplacementMeters * aggression));
     }
 

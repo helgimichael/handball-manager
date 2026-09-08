@@ -80,6 +80,7 @@ import type { Player } from "../domain/handball/player";
 import type { HandballState } from "../domain/handball/state";
 import { applyExitOrders, settleArrivedExchanges, stepWithSubstitutions } from "./substitutionExit";
 import { resolveDefenceTactics, type DefenceTactics } from "./coaching";
+import { contactSituation, type ContactContext } from "./defensiveReach";
 import type { AttackGapId } from "../domain/geometry/attackGaps";
 
 /**
@@ -159,6 +160,13 @@ export type PossessionResult = {
   readonly fouls: readonly FoulAward[];
   /** M10: true when the possession was decided by a 7 metre throw. */
   readonly sevenMetreTaken: boolean;
+  /**
+   * M18: how many separate times a defender actually got into contact with the
+   * carrier during this possession -- episodes, not steps, so a duel held for a
+   * second counts once. Diagnosis: it says how much contact organized play
+   * creates, independently of how often contact is punished.
+   */
+  readonly contacts: number;
 };
 
 // ---------------------------------------------------------------------------
@@ -368,16 +376,29 @@ export function resolveShot(
   };
 }
 
-export type Disruption = { readonly kind: "TURNOVER" } | { readonly kind: "FOUL"; readonly award: FoulAward };
+export type Disruption =
+  | { readonly kind: "TURNOVER"; readonly contact: ContactContext }
+  | { readonly kind: "FOUL"; readonly award: FoulAward; readonly contact: ContactContext };
 
 /**
- * Whether the defence disrupts the carrier this step, and what it was. Read
- * from real proximity.
+ * Whether the defence disrupts the carrier this step, and what it was.
  *
- * M10: the per-step contact model is unchanged; what changed is that contact
- * which is NOT a clean ball-win is now judged rather than coin-flipped. A
- * defender who holds his ground concedes a free throw; one who wipes out an
- * open run at goal concedes a 7 metre and two minutes.
+ * M10: contact which is NOT a clean ball-win is judged rather than
+ * coin-flipped. A defender who holds his ground concedes a free throw; one who
+ * wipes out an open run at goal concedes a 7 metre and two minutes.
+ *
+ * M18: WHO IS IN THE CONTACT is now a spatial answer rather than a radius.
+ * Before, any defender inside 1.6m was applying pressure -- including one
+ * recovering the other way, who influences nothing -- and a defender genuinely
+ * meeting a drive from 1.8m and closing was not. The gate is now the contact
+ * CONTEXT: he has to be goal-side of the action and able to get to the meeting
+ * point in time, which is exactly M17's race asked from the defensive side.
+ *
+ * The rate itself is deliberately untouched. What changed is which situations
+ * are understood to be contact at all -- a defender who has been BEATEN cannot
+ * produce front-on pressure however close he is standing, and one who has
+ * genuinely converged can. The clean-win/foul split, and the whole of M10's
+ * judgement after it, are exactly as they were.
  */
 export function checkDisruption(
   state: HandballState,
@@ -386,18 +407,28 @@ export function checkDisruption(
   rng: PossessionRng,
   ratings: SimulatePossessionInput["ratings"],
 ): Disruption | null {
-  const { distance, defenderId } = nearestDefenderTo(state, carrier.position);
-  if (distance > 1.6 || defenderId === null) return null;
+  const contact = contactSituation(state, carrier, goalSide);
+  if (!contact) return null;
+
+  const defenderId = contact.defenderId;
+  const distance = contact.reach.separationMeters;
   const defending = ratingOf(ratings, defenderId, "defending");
-  // Per-step probability, so a carrier held under pressure for longer is
-  // genuinely more likely to lose it.
+
+  // The consequence rate is M10's, unchanged, deliberately. M18 changes which
+  // situations are put in front of the rules layer -- and it changed them a
+  // lot, because a beaten defender recovering from behind used to count as no
+  // contact at all -- but not how often contact costs the attack something.
+  // That level is calibration and is not this milestone's to move. Per-step, so
+  // a carrier held under pressure for longer is genuinely more likely to lose it.
   const disruption = Math.max(0, (1.6 - distance) / 1.6) * (0.004 + (defending - DEFAULT_RATING) * 0.0004);
   if (!rng.chance(disruption)) return null;
-  // Either he took the ball cleanly, or he fouled -- and if he fouled, the
-  // situation says what kind of foul it was.
-  if (!rng.chance(0.55)) return { kind: "TURNOVER" };
+  if (!rng.chance(0.55)) return { kind: "TURNOVER", contact };
   const defender = state.players.find((p) => p.id === defenderId)!;
-  return { kind: "FOUL", award: judgeFoul(state, carrier, defender, goalSide, state.simulationTime) };
+  // M10 still decides everything about the consequence: whether the restart is
+  // a free throw or a 7 metre, and independently whether the challenge itself
+  // was worth two minutes. The context above says who met whom and how; it
+  // never says what the referee gives.
+  return { kind: "FOUL", award: judgeFoul(state, carrier, defender, goalSide, state.simulationTime), contact };
 }
 
 /** Bound on the walk into a 7m formation, so a dead ball can never stall the loop. */
@@ -555,6 +586,8 @@ export function simulatePossession(input: SimulatePossessionInput): PossessionRe
   let lastPrimaryDefenderId: string | null = null;
   let lastDefenceSummary: string | null = null;
   const fouls: FoulAward[] = [];
+  let contacts = 0;
+  let inContactWith: string | null = null;
   let sevenMetreTaken = false;
 
   function record(note: string, decision?: AttackDecision): void {
@@ -697,6 +730,16 @@ export function simulatePossession(input: SimulatePossessionInput): PossessionRe
         } else {
           record(`${describeAttacker(carrier)} receives`);
         }
+      }
+
+      // M18: count the contact episode before its consequence is rolled, so
+      // the diagnosis measures contact itself rather than punished contact.
+      const situation = contactSituation(handball, carrier, goalSide);
+      if (situation === null) {
+        inContactWith = null;
+      } else if (situation.defenderId !== inContactWith) {
+        inContactWith = situation.defenderId;
+        contacts += 1;
       }
 
       const disruption = checkDisruption(handball, carrier, goalSide, rng, ratings);
@@ -863,6 +906,7 @@ export function simulatePossession(input: SimulatePossessionInput): PossessionRe
     steps,
     guardTripped,
     fouls,
+    contacts,
     sevenMetreTaken,
   };
 }

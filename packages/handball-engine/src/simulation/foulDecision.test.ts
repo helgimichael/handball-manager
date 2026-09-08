@@ -149,9 +149,25 @@ test("the restart and the punishment are judged independently: all four combinat
   assert.notEqual(cleanSevenMetre.restart, ordinary.restart);
 });
 
+// M18 NOTE, and the reason the seed ranges below are what they are.
+//
+// Organized fouls became very rare when contact stopped meaning "a defender is
+// inside 1.6m" and started meaning "a defender who can reach and influence the
+// carrier is in the duel with him". The old test fired on every step a defender
+// happened to stand near the ball, most of which were not contact at all, and
+// M10's per-step rate was measured against that. Against real contact the same
+// rate yields roughly one organized free throw in two thousand possessions.
+//
+// These tests are widened rather than weakened: what they assert -- that
+// organized play does produce ordinary fouls, and that a foul stops play -- is
+// still true and still worth pinning. That it now takes a thousand possessions
+// to witness is an M18 finding for calibration to answer, not something to hide
+// by lowering the bar to "sometimes, maybe".
+const ORGANIZED_FOUL_SEED_LIMIT = 1300;
+
 test("an ordinary foul produces a free throw in a running possession", () => {
   let seen = false;
-  for (let seed = 1; seed <= 400 && !seen; seed += 1) {
+  for (let seed = 1; seed <= ORGANIZED_FOUL_SEED_LIMIT && !seen; seed += 1) {
     const result = simulatePossession({ seed, initialState: TOP });
     const ordinary = result.fouls.find((f) => f.restart === "FREE_THROW");
     if (!ordinary) continue;
@@ -392,7 +408,7 @@ test("attack and defence keep working with a man short, without inventing player
 // ---------------------------------------------------------------------------
 
 test("a foul creates a dead ball that does not flow on as ordinary play", () => {
-  for (let seed = 1; seed <= 400; seed += 1) {
+  for (let seed = 1; seed <= ORGANIZED_FOUL_SEED_LIMIT; seed += 1) {
     const result = simulatePossession({ seed, initialState: TOP });
     if (result.outcome !== "FREE_THROW") continue;
     const foulIndex = result.trace.findIndex((t) => t.note.startsWith("FOUL:"));
@@ -409,7 +425,7 @@ test("a foul creates a dead ball that does not flow on as ordinary play", () => 
     }
     return;
   }
-  assert.fail("no free throw occurred in 400 possessions");
+  assert.fail(`no free throw occurred in ${ORGANIZED_FOUL_SEED_LIMIT} possessions`);
 });
 
 test("the official clock stays canonical, and suspensions are counted on it", () => {

@@ -69,6 +69,23 @@ export type BenchMatchRow = {
   readonly sevenMetreGoals: number;
   readonly freeThrows: number;
   readonly suspensions: number;
+  /**
+   * M18: where the contact happened.
+   *
+   * Bench-only, and read from the segment each foul belongs to -- a segment
+   * already knows whether it was an organized possession, a transition or a
+   * restart, so nothing has to be added to the canonical event stream to
+   * measure this. M13 found that essentially every foul in a match came from
+   * the break, and this is how that is watched.
+   */
+  /** M18: contact episodes in organized play -- the opportunity count. */
+  readonly organizedContacts: number;
+  readonly organizedFouls: number;
+  readonly organizedFreeThrows: number;
+  readonly organizedSevenMetres: number;
+  readonly transitionFouls: number;
+  readonly transitionFreeThrows: number;
+  readonly transitionSevenMetres: number;
   readonly substitutions: number;
   readonly timeouts: number;
   readonly interventions: number;
@@ -121,6 +138,13 @@ const COUNTED_METRICS = [
   "sevenMetreGoals",
   "freeThrows",
   "suspensions",
+  "organizedContacts",
+  "organizedFouls",
+  "organizedFreeThrows",
+  "organizedSevenMetres",
+  "transitionFouls",
+  "transitionFreeThrows",
+  "transitionSevenMetres",
   "substitutions",
   "timeouts",
   "interventions",
@@ -153,6 +177,12 @@ export function measureMatch(seed: number, match: MatchResult, events: readonly 
   const goals = eventsOfType(events, "GOAL");
   const sevenMetres = shots.filter((s) => s.sevenMetre);
   const interventions = match.segments.flatMap((s) => s.interventions);
+  // A TRANSITION segment is the break; everything else -- an organized
+  // possession, a centre restart, a free-throw continuation -- is set play.
+  const foulsIn = (fromBreak: boolean) =>
+    match.segments.filter((s) => (s.kind === "TRANSITION") === fromBreak).flatMap((s) => s.fouls);
+  const organized = foulsIn(false);
+  const transition = foulsIn(true);
   return {
     seed,
     possessions: match.totalPossessions,
@@ -170,6 +200,13 @@ export function measureMatch(seed: number, match: MatchResult, events: readonly 
     sevenMetreGoals: sevenMetres.filter((s) => s.outcome === "GOAL").length,
     freeThrows: eventsOfType(events, "FOUL").filter((f) => f.restart === "FREE_THROW").length,
     suspensions: eventsOfType(events, "SUSPENSION").length,
+    organizedContacts: match.segments.reduce((n, s) => n + (s.kind === "TRANSITION" ? 0 : s.contacts), 0),
+    organizedFouls: organized.length,
+    organizedFreeThrows: organized.filter((f) => f.restart === "FREE_THROW").length,
+    organizedSevenMetres: organized.filter((f) => f.restart === "SEVEN_METRE").length,
+    transitionFouls: transition.length,
+    transitionFreeThrows: transition.filter((f) => f.restart === "FREE_THROW").length,
+    transitionSevenMetres: transition.filter((f) => f.restart === "SEVEN_METRE").length,
     substitutions: eventsOfType(events, "SUBSTITUTION_COMPLETED").length,
     timeouts: eventsOfType(events, "TIMEOUT_STARTED").length,
     interventions: interventions.length,
@@ -254,6 +291,15 @@ export function formatBenchReport(report: BenchReport): string {
   out.push(`  ${pad("GK save rate", 20)}${(report.rates.goalkeeperSaveRate * 100).toFixed(1)}%`);
   out.push(`  ${pad("shots/possession", 20)}${report.rates.shotsPerPossession.toFixed(2)}`);
   out.push(`  ${pad("turnover rate", 20)}${(report.rates.turnoverRate * 100).toFixed(1)}%`);
+  out.push("");
+  out.push("FOUL ORIGIN");
+  out.push(`  organized contact episodes  ${report.counts.organizedContacts.mean.toFixed(1)}`);
+  const share = (a: number, b: number) => (a + b === 0 ? 0 : (a / (a + b)) * 100);
+  out.push(
+    `  organized/transition fouls ${report.counts.organizedFouls.mean.toFixed(1)} / ${report.counts.transitionFouls.mean.toFixed(1)}  (${share(report.counts.organizedFouls.mean, report.counts.transitionFouls.mean).toFixed(1)}% organized)`,
+  );
+  out.push(`  organized free throws / 7m  ${report.counts.organizedFreeThrows.mean.toFixed(1)} / ${report.counts.organizedSevenMetres.mean.toFixed(1)}`);
+  out.push(`  transition free throws / 7m ${report.counts.transitionFreeThrows.mean.toFixed(1)} / ${report.counts.transitionSevenMetres.mean.toFixed(1)}`);
   out.push("");
   out.push("SYMMETRY");
   out.push(`  home/away goals     ${report.symmetry.homeGoals} / ${report.symmetry.awayGoals}  (${(report.symmetry.homeShare * 100).toFixed(1)}% home)`);

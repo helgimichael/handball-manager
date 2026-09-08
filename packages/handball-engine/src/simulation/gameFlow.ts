@@ -169,6 +169,8 @@ export type GameFlowSegment = {
   readonly outcome: PossessionOutcome;
   /** M10: fouls the referee gave during this segment. */
   readonly fouls: readonly FoulAward[];
+  /** M18: contact episodes between a defender and the carrier in this segment. */
+  readonly contacts: number;
   /** M11: substitutions taken at the boundary that opened this segment. */
   readonly substitutions: readonly SubstitutionRecord[];
   /** M12: what the coaches did at the boundary that opened this segment. */
@@ -1210,6 +1212,7 @@ export function advanceOneSegment(
     kind,
     outcome: result.outcome,
     fouls: result.fouls ?? [],
+    contacts: result.contacts ?? 0,
     substitutions,
     interventions,
   };

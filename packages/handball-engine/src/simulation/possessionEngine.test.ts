@@ -233,9 +233,13 @@ test("TURNOVER is reachable through the natural loop, not only via the guard", (
   // (was 849, 329, 288): a carrier who reads a closed gap now passes off instead of
   // standing in contact, so pressure-forced turnovers are rarer still -- most
   // M6 turnovers are failed passes, which the M6 tests cover separately.
-  // M17 left this witness where it was: seed 206 still ends in contact once the
-  // lane and the gap are read in seconds.
-  const result = simulatePossession({ seed: 206, initialState: TOP });
+  // M17 left this witness where it was. M18 could not: once contact means a
+  // defender who can actually reach and influence the carrier rather than one
+  // standing within 1.6m of him, seed 206's pressure is no longer contact at
+  // all and the possession ends in a goal. Re-pinned to 901, the first seed at
+  // which a defender genuinely in the duel wins the ball. The rarity itself is
+  // now much greater and is reported as an M18 finding, not hidden here.
+  const result = simulatePossession({ seed: 901, initialState: TOP });
   assert.equal(result.outcome, "TURNOVER");
   assert.equal(result.guardTripped, false, "this must be a real resolution, not the max-step guard");
   // ...and it must be explained by the state that produced it.
