@@ -329,7 +329,15 @@ export function simulateTransition(input: SimulateTransitionInput): TransitionRe
         // M10: this is the single most likely place in handball for a clear
         // chance to be destroyed -- a man chasing back at a breaking attacker
         // -- so the same judgement the organized attack uses applies here.
-        if (!rng.chance(0.5)) {
+        // M13 (Calibration 1.0): how a chase actually ends. At an even split
+        // this produced seven 7-metre throws a match against a real three to
+        // five, because ~97% of all fouls in this engine happen on the break
+        // and a foul on a breaking carrier is, correctly, a clear chance
+        // destroyed. The split is the honest lever: a defender who catches a
+        // man running at goal more often knocks the ball away or forces him
+        // wide than commits a bookable foul. 0.4 gives five 7 metres a match
+        // and leaves the turnover rate at 21.6%.
+        if (!rng.chance(0.4)) {
           outcome = "TURNOVER";
           resolvingPlayerId = carrier.id;
           phase = "RESOLUTION";

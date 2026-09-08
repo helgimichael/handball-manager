@@ -42,10 +42,26 @@ export const FOUL_LIMITS = Object.freeze({
    * between him and the goal". A defender three metres to the side and
    * goal-side of the attacker can plainly still stop him legally, which is
    * exactly what rule 14 asks.
+   *
+   * M13 (Calibration 1.0) MEASURED how wide "wide" had to be. At 3m, 80% of all
+   * fouls were still being judged clear chances, and of the ones that were not,
+   * eleven in thirteen had found exactly ONE covering defender and none ever
+   * found three. That is the tell: a 6:0 line stands about 2.5-3.5m between
+   * neighbours, so at 3m the test could only ever see the man directly in
+   * front, and removing him -- as the rule requires, since he is the offender --
+   * left the goal apparently open every time. 4.5m is the distance at which the
+   * fouler's NEIGHBOURS count, which is what a referee is actually judging.
    */
-  coverLaneMeters: 3,
-  /** Beyond this range from goal a chance is not "clear" however open it is. */
-  clearChanceRangeMeters: 11,
+  coverLaneMeters: 4.5,
+  /**
+   * Beyond this range from goal a chance is not "clear" however open it is.
+   *
+   * M13: 11m was a shot's range, not a chance's. Measured, a quarter of the
+   * awarded 7 metres were for fouls 8-10m out with a set defence behind the
+   * ball, which no referee gives. A clear chance is a man going THROUGH, and by
+   * the time he is inside 8m with only the keeper left, he is going through.
+   */
+  clearChanceRangeMeters: 8,
   /** Closing faster than this is a late challenge rather than a held position. */
   hardChallengeSpeed: 2.6,
   /** How long a suspension lasts, in official match seconds. */

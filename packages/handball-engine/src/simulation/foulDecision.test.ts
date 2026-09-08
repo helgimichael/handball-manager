@@ -91,10 +91,16 @@ test("a clear scoring chance is measured, not flagged", () => {
 });
 
 test("the restart and the punishment are judged independently: all four combinations exist", () => {
-  // Nine metres out, central, with a defender on his back. Two independent
+  // Seven metres out, central, with a defender on his back. Two independent
   // questions: was a clear chance destroyed (the restart), and was the
   // challenge itself worth two minutes (the punishment)?
-  const runner = { x: 10, y: 9 };
+  //
+  // M13 moved him in from nine metres: calibration measured that a foul nine
+  // metres out with a defence behind the ball is not a chance a referee gives
+  // a 7 metre for, and tightened clearChanceRangeMeters to 8. The point of this
+  // test is that all four combinations exist, so the fixture now stands where a
+  // clear chance genuinely is.
+  const runner = { x: 10, y: 7 };
   const offender = "defense-defence-6-0-4";
   const held = { x: 0, y: 0 };
   const sprinting = { x: 0, y: 4 };

@@ -20,7 +20,10 @@ const TOP = createFullCourt6v6State({ attackingGoalSide: "TOP" });
 // Re-pinned for M6 and again for M7 (a coordinated defence) M8 (an intelligent transition) M9 (a real shot contest) and M10 (fouls and 7 metres): state-dependent attacking decisions legitimately change
 // every trajectory, so the M2 witnesses no longer produce the same outcomes.
 // The assertions are unchanged -- only the seeds that exercise them.
-const SEED_SAVE_THEN_FREE_THROW = 43;
+// M13 (calibration) re-pinned the free-throw witness: the split between a clean
+// catch and a foul on the break moved, so seed 43's chase now ends as a clean
+// steal. The assertion is unchanged.
+const SEED_SAVE_THEN_FREE_THROW = 31;
 const SEED_SAVE_THEN_ORGANIZED = 5;
 const SEED_SAVE_THEN_GOAL = 6;
 const SEED_SAVE_THEN_TURNOVER = 2;
