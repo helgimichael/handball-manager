@@ -28,7 +28,7 @@ const TOP = createFullCourt6v6State({ attackingGoalSide: "TOP" });
 // trajectory downstream of it. The assertions are unchanged -- only the seeds
 // that exercise them. (M16's scenario layer exists so new behavioural tests do
 // not have to be written this way.)
-const SEED_SAVE_THEN_FREE_THROW = 31;
+const SEED_SAVE_THEN_FREE_THROW = 34; // re-pinned for M19: organized episodes draw differently, so seed 31 no longer reaches a transition
 const SEED_SAVE_THEN_ORGANIZED = 6;
 const SEED_SAVE_THEN_GOAL = 1;
 const SEED_SAVE_THEN_TURNOVER = 5; // re-pinned for M18: contact is read from the race, so seed 2's break now survives

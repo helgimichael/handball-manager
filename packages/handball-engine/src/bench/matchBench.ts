@@ -80,12 +80,16 @@ export type BenchMatchRow = {
    */
   /** M18: contact episodes in organized play -- the opportunity count. */
   readonly organizedContacts: number;
+  /** M19: how many of those episodes were put to a decision. */
+  readonly organizedContactsResolved: number;
   readonly organizedFouls: number;
   readonly organizedFreeThrows: number;
   readonly organizedSevenMetres: number;
+  readonly organizedTwoMinutes: number;
   readonly transitionFouls: number;
   readonly transitionFreeThrows: number;
   readonly transitionSevenMetres: number;
+  readonly transitionTwoMinutes: number;
   readonly substitutions: number;
   readonly timeouts: number;
   readonly interventions: number;
@@ -139,12 +143,15 @@ const COUNTED_METRICS = [
   "freeThrows",
   "suspensions",
   "organizedContacts",
+  "organizedContactsResolved",
   "organizedFouls",
   "organizedFreeThrows",
   "organizedSevenMetres",
+  "organizedTwoMinutes",
   "transitionFouls",
   "transitionFreeThrows",
   "transitionSevenMetres",
+  "transitionTwoMinutes",
   "substitutions",
   "timeouts",
   "interventions",
@@ -201,12 +208,15 @@ export function measureMatch(seed: number, match: MatchResult, events: readonly 
     freeThrows: eventsOfType(events, "FOUL").filter((f) => f.restart === "FREE_THROW").length,
     suspensions: eventsOfType(events, "SUSPENSION").length,
     organizedContacts: match.segments.reduce((n, s) => n + (s.kind === "TRANSITION" ? 0 : s.contacts), 0),
+    organizedContactsResolved: match.segments.reduce((n, s) => n + (s.kind === "TRANSITION" ? 0 : s.resolvedContacts), 0),
     organizedFouls: organized.length,
     organizedFreeThrows: organized.filter((f) => f.restart === "FREE_THROW").length,
     organizedSevenMetres: organized.filter((f) => f.restart === "SEVEN_METRE").length,
+    organizedTwoMinutes: organized.filter((f) => f.suspend).length,
     transitionFouls: transition.length,
     transitionFreeThrows: transition.filter((f) => f.restart === "FREE_THROW").length,
     transitionSevenMetres: transition.filter((f) => f.restart === "SEVEN_METRE").length,
+    transitionTwoMinutes: transition.filter((f) => f.suspend).length,
     substitutions: eventsOfType(events, "SUBSTITUTION_COMPLETED").length,
     timeouts: eventsOfType(events, "TIMEOUT_STARTED").length,
     interventions: interventions.length,
@@ -293,13 +303,16 @@ export function formatBenchReport(report: BenchReport): string {
   out.push(`  ${pad("turnover rate", 20)}${(report.rates.turnoverRate * 100).toFixed(1)}%`);
   out.push("");
   out.push("FOUL ORIGIN");
-  out.push(`  organized contact episodes  ${report.counts.organizedContacts.mean.toFixed(1)}`);
+  const episodes = report.counts.organizedContacts.mean;
+  const perEpisode = episodes === 0 ? 0 : (report.counts.organizedFouls.mean / episodes) * 100;
+  out.push(`  organized contact episodes  ${episodes.toFixed(1)}  (resolved ${report.counts.organizedContactsResolved.mean.toFixed(1)})`);
+  out.push(`  organized fouls / episode   ${perEpisode.toFixed(1)}%`);
   const share = (a: number, b: number) => (a + b === 0 ? 0 : (a / (a + b)) * 100);
   out.push(
     `  organized/transition fouls ${report.counts.organizedFouls.mean.toFixed(1)} / ${report.counts.transitionFouls.mean.toFixed(1)}  (${share(report.counts.organizedFouls.mean, report.counts.transitionFouls.mean).toFixed(1)}% organized)`,
   );
-  out.push(`  organized free throws / 7m  ${report.counts.organizedFreeThrows.mean.toFixed(1)} / ${report.counts.organizedSevenMetres.mean.toFixed(1)}`);
-  out.push(`  transition free throws / 7m ${report.counts.transitionFreeThrows.mean.toFixed(1)} / ${report.counts.transitionSevenMetres.mean.toFixed(1)}`);
+  out.push(`  organized free throws / 7m / 2min  ${report.counts.organizedFreeThrows.mean.toFixed(1)} / ${report.counts.organizedSevenMetres.mean.toFixed(1)} / ${report.counts.organizedTwoMinutes.mean.toFixed(1)}`);
+  out.push(`  transition free throws / 7m / 2min ${report.counts.transitionFreeThrows.mean.toFixed(1)} / ${report.counts.transitionSevenMetres.mean.toFixed(1)} / ${report.counts.transitionTwoMinutes.mean.toFixed(1)}`);
   out.push("");
   out.push("SYMMETRY");
   out.push(`  home/away goals     ${report.symmetry.homeGoals} / ${report.symmetry.awayGoals}  (${(report.symmetry.homeShare * 100).toFixed(1)}% home)`);

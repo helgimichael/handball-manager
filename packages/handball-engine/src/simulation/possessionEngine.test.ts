@@ -119,7 +119,10 @@ test("the ball travels between players and the possessor actually changes", () =
 });
 
 test("the defence reacts and resolves a responsible defender", () => {
-  const result = simulatePossession({ seed: 12345, initialState: TOP });
+  // Re-pinned for M19 (was 12345): a contact episode is now decided once, at the
+  // moment the duel starts, so seed 12345's possession ends a little earlier --
+  // before the 6:0 has anybody to take responsibility for.
+  const result = simulatePossession({ seed: 12346, initialState: TOP });
   assert.ok(
     result.trace.some((t) => t.primaryDefenderId !== null),
     "the 6:0 policy took primary responsibility during the possession",
