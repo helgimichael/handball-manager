@@ -36,6 +36,7 @@ import { simulateMatch } from "@handball-manager/handball-engine/src/simulation/
 import { autonomousCoach } from "@handball-manager/handball-engine/src/simulation/coach.ts";
 import { useCareer } from "../../../lib/career/CareerContext";
 import { isSpatialMatchFailure, playCareerFixtureSpatially } from "../../../lib/career/spatialMatch/spatialCareerMatch";
+import { buildCanonicalMatchEvents, type CanonicalMatchEvent } from "@handball-manager/handball-engine/src/simulation/canonicalEvents.ts";
 import {
   buildPlaybackFrames,
   frameAtMatchSeconds,
@@ -50,6 +51,52 @@ import {
 function noop() {}
 
 const DEFAULT_SEED = 12;
+
+/**
+ * M15: one line of commentary, DERIVED from a canonical event.
+ *
+ * This is the direction the event layer exists for. The engine records the fact
+ * -- type, players, outcome -- and the sentence is composed here, at the point
+ * of display, from that data. The reverse (an engine sentence read back as
+ * data) is exactly what the canonical layer replaces.
+ */
+function describeCanonicalEvent(event: CanonicalMatchEvent): string {
+  const side = event.teamId ?? "";
+  switch (event.type) {
+    case "GOAL":
+      return `MÅL ${side}: ${event.playerId ?? "?"}${event.sevenMetre ? " (7m)" : ""} — ${event.score.HOME}–${event.score.AWAY}`;
+    case "SHOT":
+      return `SKOTT ${side}: ${event.playerId ?? "?"} → ${event.outcome}${event.blockedByDefenderId ? ` (${event.blockedByDefenderId})` : ""}`;
+    case "PASS":
+      return `PASS ${side}: ${event.playerId} → ${event.targetPlayerId ?? "?"} (${event.intent})`;
+    case "DRIVE":
+      return `GENOMBROTT ${side}: ${event.playerId}${event.gapId ? ` mot ${event.gapId}` : ""}`;
+    case "TURNOVER":
+      return `BOLLFÖRLUST ${side}: ${event.playerId ?? "?"}`;
+    case "FOUL":
+      return `FRIKAST/7M ${side}: ${event.playerId} på ${event.victimPlayerId} → ${event.restart}`;
+    case "SUSPENSION":
+      return `UTVISNING ${side}: ${event.playerId} (${event.seconds}s)`;
+    case "SUBSTITUTION_COMPLETED":
+      return `BYTE ${side}: ${event.incomingPlayerId} in för ${event.outgoingPlayerId}`;
+    case "SUBSTITUTION_REQUESTED":
+      return `BYTE BEGÄRT ${side}: ${event.incomingPlayerId} för ${event.outgoingPlayerId}`;
+    case "TIMEOUT_STARTED":
+      return `TIMEOUT ${side}`;
+    case "TIMEOUT_ENDED":
+      return `TIMEOUT SLUT ${side}`;
+    case "INSTRUCTION_CHANGED":
+      return `INSTRUKTION ${side} (${event.scope}): ${event.changes.map((c) => `${c.key} ${c.from.toFixed(2)}→${c.to.toFixed(2)}`).join("; ")}`;
+    case "POSSESSION_CHANGE":
+      return `ANFALL ${side} (#${event.possessionNumber})`;
+    case "HALF_START":
+      return `HALVLEK ${event.half} BÖRJAR`;
+    case "HALF_END":
+      return `HALVLEK ${event.half} SLUT`;
+    case "FULL_TIME":
+      return `SLUTSIGNAL ${event.finalScore.HOME}–${event.finalScore.AWAY}`;
+  }
+}
 
 export default function Match2DPage() {
   const { career } = useCareer();
@@ -74,7 +121,7 @@ export default function Match2DPage() {
 
   // The match is simulated ONCE, up front and in full. Playback never re-runs
   // it, which is what makes speed purely presentational.
-  const { frames, duration, finalScore } = useMemo(() => {
+  const { frames, duration, finalScore, canonicalEvents } = useMemo(() => {
     if (playingCareerMatch && careerFixture) {
       // The SAME seam the career used. Same state, same fixture, same inputs,
       // therefore the same match -- re-derived rather than re-invented.
@@ -84,7 +131,7 @@ export default function Match2DPage() {
           goalkeeperIds: spatial.match.finalState.goalkeeperIds,
           rosters: spatial.match.finalState.rosters,
         });
-        return { frames: built, duration: playbackDurationSeconds(built), finalScore: spatial.match.finalScore };
+        return { frames: built, duration: playbackDurationSeconds(built), finalScore: spatial.match.finalScore, canonicalEvents: spatial.events };
       }
     }
     const start = createFullCourt6v6State({ attackingGoalSide: "TOP" });
@@ -99,10 +146,24 @@ export default function Match2DPage() {
     // that list; the starting line-up is only the fallback.
     const goalkeeperIds = match.finalState.goalkeeperIds ?? start.handball.players.filter((p) => p.kind === "GOALKEEPER").map((p) => p.id);
     const built = buildPlaybackFrames(match, { goalkeeperIds, rosters: match.finalState.rosters });
-    return { frames: built, duration: playbackDurationSeconds(built), finalScore: match.finalScore };
+    // M15: the same match, described as canonical facts. The trace above is the
+    // high-frequency playback state; this is the low-frequency fact stream, and
+    // the commentary line below is composed FROM it rather than read out of the
+    // engine's own development notes.
+    return { frames: built, duration: playbackDurationSeconds(built), finalScore: match.finalScore, canonicalEvents: buildCanonicalMatchEvents(match) };
   }, [seed, career, careerFixture, playingCareerMatch]);
 
   const frame = frameAtMatchSeconds(frames, clock) ?? frames[0];
+  // M15: the most recent canonical fact the playback clock has reached.
+  const latestEvent = useMemo(() => {
+    let found: CanonicalMatchEvent | null = null;
+    for (const event of canonicalEvents) {
+      if (event.matchSeconds > clock) break;
+      if (event.type === "PASS" || event.type === "DRIVE" || event.type === "POSSESSION_CHANGE") continue;
+      found = event;
+    }
+    return found;
+  }, [canonicalEvents, clock]);
   const scene = useMemo(() => (frame ? snapshotToScene(frame.snapshot) : null), [frame]);
 
   // Fit the portrait court into the landscape stage. Measured, so the court
@@ -337,6 +398,9 @@ export default function Match2DPage() {
           {playingCareerMatch && careerFixture ? (
             <> · karriär {careerFixture.stored.homeGoals}–{careerFixture.stored.awayGoals} ({careerFixture.stored.engine})</>
           ) : null}
+          {" · "}
+          {canonicalEvents.length} händelser
+          {latestEvent ? <> · {describeCanonicalEvent(latestEvent)}</> : null}
         </span>
         <label style={{ display: "flex", gap: 6, alignItems: "center", opacity: 0.8 }}>
           {careerFixture ? (

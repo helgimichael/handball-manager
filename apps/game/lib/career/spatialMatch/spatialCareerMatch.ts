@@ -28,6 +28,7 @@ import type { PlayerMock } from "../../game-data/types";
 import type { GameplayPlayerRating } from "../../gameWorld/gameplayRatingSnapshot";
 import type { MatchPlan } from "../../matchPlan/types";
 import { toFastMatchResult } from "./spatialMatchResult";
+import { buildCanonicalMatchEvents, type CanonicalMatchEvent } from "@handball-manager/handball-engine/src/simulation/canonicalEvents.ts";
 import { getCareerClubSquad } from "../careerWorld";
 import { isSelectableForMatch } from "../playerStatus";
 import { resolveClubMatchPlanForFixture } from "../playerMatchStrength";
@@ -60,6 +61,13 @@ export type SpatialCareerMatch = {
   readonly result: FastMatchResult;
   /** The spatial match itself, including the trace Match 2D plays back. */
   readonly match: MatchResult;
+  /**
+   * M15: the canonical event stream of this match -- the typed facts it
+   * produced. The career result above is derived from exactly this, and any
+   * other consumer (commentary, the report, later analytics) reads the same
+   * list rather than re-deriving its own.
+   */
+  readonly events: readonly CanonicalMatchEvent[];
   readonly seed: number;
   readonly home: CareerLineup;
   readonly away: CareerLineup;
@@ -126,14 +134,24 @@ export function simulateCareerFixtureSpatially(input: SpatialCareerMatchInput): 
     coaches: { HOME: autonomousCoach(), AWAY: autonomousCoach() },
   });
 
+  // M15: the canonical facts of the match, derived once from its typed output.
+  // Nothing here influences the match -- it has already been played.
+  const events = buildCanonicalMatchEvents(match);
+  // Who the match actually put on the court. Read from the spatial trace, which
+  // is the only place that knows a substitute came on.
+  const playedPlayerIds = new Set<string>();
+  for (const entry of match.trace) for (const p of entry.playerPositions) playedPlayerIds.add(p.playerId);
+
   return {
     match,
+    events,
     seed,
     home,
     away,
     ratings,
     result: toFastMatchResult({
-      match,
+      events,
+      playedPlayerIds,
       fixtureId: input.fixtureId,
       seed,
       homeClubId: input.home.clubId,

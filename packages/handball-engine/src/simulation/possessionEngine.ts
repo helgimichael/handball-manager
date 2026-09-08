@@ -143,6 +143,15 @@ export type PossessionResult = {
   readonly goalkeeperId: string | null;
   /** Where the shot was taken from, when the possession ended in a shot. */
   readonly shotOrigin: MeterPoint | null;
+  /**
+   * M15: the defender who got a hand to the shot on its way, when one did.
+   *
+   * The shot resolution has always known this -- it is what separates a block
+   * from a shot that simply missed -- but it only ever reached the outside
+   * world inside a sentence. A canonical event layer must not read sentences,
+   * so the fact itself is carried out here.
+   */
+  readonly shotBlockedByDefenderId: string | null;
   readonly steps: number;
   /** True when the max-step guard fired instead of a natural resolution. */
   readonly guardTripped: boolean;
@@ -530,6 +539,7 @@ export function simulatePossession(input: SimulatePossessionInput): PossessionRe
   let outcome: PossessionOutcome | null = null;
   let resolvingPlayerId: string | null = null;
   let shotOrigin: MeterPoint | null = null;
+  let shotBlockedByDefenderId: string | null = null;
   const trace: PossessionTraceEntry[] = [];
 
   let passesMade = 0;
@@ -648,6 +658,7 @@ export function simulatePossession(input: SimulatePossessionInput): PossessionRe
         const shot = event.resolution;
         outcome = shot.outcome;
         resolvingPlayerId = carrier.id;
+        shotBlockedByDefenderId = shot.blockedByDefenderId;
         phase = "RESOLUTION";
         record(`${describeAttacker(carrier)}: ${shot.detail}`);
         break;
@@ -709,6 +720,7 @@ export function simulatePossession(input: SimulatePossessionInput): PossessionRe
           outcome = event.resolution.outcome;
           resolvingPlayerId = carrier.id;
           shotOrigin = { ...sevenMetreMark(goalSide) };
+          shotBlockedByDefenderId = event.resolution.blockedByDefenderId;
           phase = "RESOLUTION";
           record(`7m: ${event.resolution.detail ?? outcome}`);
         } else {
@@ -847,6 +859,7 @@ export function simulatePossession(input: SimulatePossessionInput): PossessionRe
     resolvingPlayerId,
     goalkeeperId: shotOrigin ? (keeper?.id ?? null) : null,
     shotOrigin,
+    shotBlockedByDefenderId,
     steps,
     guardTripped,
     fouls,
@@ -865,6 +878,8 @@ export type PossessionMatchEvent = {
   readonly playerId: string | null;
   readonly goalkeeperId: string | null;
   readonly shotOrigin: MeterPoint | null;
+  /** M15: the defender who blocked it, when the shot was blocked on its way. */
+  readonly blockedByDefenderId: string | null;
   readonly simulationTime: number;
 };
 
@@ -877,6 +892,7 @@ export function deriveMatchEvent(result: PossessionResult): PossessionMatchEvent
     playerId: result.resolvingPlayerId,
     goalkeeperId: result.goalkeeperId,
     shotOrigin: result.shotOrigin,
+    blockedByDefenderId: result.shotBlockedByDefenderId,
     simulationTime: result.finalState.handball.simulationTime,
   };
 }

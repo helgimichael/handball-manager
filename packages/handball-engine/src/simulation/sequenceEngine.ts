@@ -118,6 +118,8 @@ export type TransitionResult = {
   readonly resolvingPlayerId: string | null;
   readonly goalkeeperId: string | null;
   readonly shotOrigin: MeterPoint | null;
+  /** M15: the defender who blocked the shot, when one did. */
+  readonly shotBlockedByDefenderId: string | null;
   readonly steps: number;
   readonly guardTripped: boolean;
   /** M10: fouls the referee gave during the transition. */
@@ -184,6 +186,7 @@ export function simulateTransition(input: SimulateTransitionInput): TransitionRe
   let outcome: PossessionOutcome | null = null;
   let resolvingPlayerId: string | null = null;
   let shotOrigin: MeterPoint | null = null;
+  let shotBlockedByDefenderId: string | null = null;
   let steps = 0;
   let guardTripped = false;
   const fouls: FoulAward[] = [];
@@ -381,6 +384,7 @@ export function simulateTransition(input: SimulateTransitionInput): TransitionRe
           const shot = event.resolution;
           outcome = shot.outcome;
           resolvingPlayerId = carrier.id;
+          shotBlockedByDefenderId = shot.blockedByDefenderId;
           phase = "RESOLUTION";
           record(`${carrier.id}: ${shot.detail}`);
         } else if (decision.kind === "PASS" && decision.targetPlayerId) {
@@ -528,6 +532,7 @@ export function simulateTransition(input: SimulateTransitionInput): TransitionRe
     resolvingPlayerId,
     goalkeeperId: shotOrigin ? (goalkeeperOf(handball, "DEFENSE")?.id ?? null) : null,
     shotOrigin,
+    shotBlockedByDefenderId,
     steps,
     guardTripped,
     fouls,

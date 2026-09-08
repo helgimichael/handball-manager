@@ -23,7 +23,7 @@
  * thresholds and a fixed set of responses. It is not CPU manager intelligence
  * and does not pretend to be.
  */
-import { describeInstructionDeltas, type CoachTeamId, type DefenceTactics, type TeamInstructions } from "./coaching";
+import { describeInstructionDeltas, type CoachTeamId, type DefenceTactics, type InstructionDelta, type TeamInstructions } from "./coaching";
 import type { AttackTactics } from "./organizedAttack";
 
 // ---------------------------------------------------------------------------
@@ -52,6 +52,21 @@ export type InterventionRecord = {
   /** What changed, in readable terms -- `tempo 0.00 -> 0.60`, or why it was refused. */
   readonly detail: string;
   readonly reason: string;
+  /**
+   * M15: the same change as DATA rather than as a sentence.
+   *
+   * `detail` above is a human-readable rendering, and a canonical event layer
+   * must never read it back. These two fields carry the identical facts in a
+   * form a consumer can use: which phase was re-instructed, and exactly which
+   * dials moved from what to what.
+   *
+   * Present on INSTRUCTION records only.
+   */
+  readonly scope?: "ATTACK" | "DEFENCE";
+  readonly deltas?: readonly InstructionDelta[];
+  /** M15: on SUBSTITUTION_REQUESTED, the two players -- as ids, not as a sentence. */
+  readonly outgoingPlayerId?: string;
+  readonly incomingPlayerId?: string;
 };
 
 export function describeIntervention(record: InterventionRecord): string {

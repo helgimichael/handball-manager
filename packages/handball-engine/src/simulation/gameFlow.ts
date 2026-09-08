@@ -849,7 +849,9 @@ export function applyCoachCommand(
       if (deltas.length === 0) return { flow, records: [] };
       return {
         flow: { ...flow, instructions: { ...flow.instructions, [command.team]: { ...flow.instructions[command.team], attack: next } } },
-        records: [{ kind: "INSTRUCTION", team: command.team, atMatchSeconds: at, detail: `attack: ${describeInstructionDeltas(deltas)}`, reason: command.reason }],
+        records: [
+          { kind: "INSTRUCTION", team: command.team, atMatchSeconds: at, detail: `attack: ${describeInstructionDeltas(deltas)}`, reason: command.reason, scope: "ATTACK", deltas },
+        ],
       };
     }
 
@@ -859,7 +861,9 @@ export function applyCoachCommand(
       if (deltas.length === 0) return { flow, records: [] };
       return {
         flow: { ...flow, instructions: { ...flow.instructions, [command.team]: { ...flow.instructions[command.team], defence: next } } },
-        records: [{ kind: "INSTRUCTION", team: command.team, atMatchSeconds: at, detail: `defence: ${describeInstructionDeltas(deltas)}`, reason: command.reason }],
+        records: [
+          { kind: "INSTRUCTION", team: command.team, atMatchSeconds: at, detail: `defence: ${describeInstructionDeltas(deltas)}`, reason: command.reason, scope: "DEFENCE", deltas },
+        ],
       };
     }
 
@@ -884,6 +888,8 @@ export function applyCoachCommand(
             atMatchSeconds: at,
             detail: `${command.incomingPlayerId} to come on for ${command.outgoingPlayerId}`,
             reason: command.reason,
+            outgoingPlayerId: command.outgoingPlayerId,
+            incomingPlayerId: command.incomingPlayerId,
           },
         ],
       };
