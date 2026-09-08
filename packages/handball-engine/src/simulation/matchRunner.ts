@@ -142,6 +142,21 @@ export type SimulateMatchOptions = {
    * nobody intervenes and the match runs exactly as it did in M11.
    */
   readonly coaches?: Partial<Record<MatchTeamId, CoachController>>;
+  /**
+   * M14: how to build the line-up a half starts from, at a given goal.
+   *
+   * Halftime is the one point in a match where a spatial reset is real: the
+   * teams leave the court and change ends. The runner therefore has to be able
+   * to build a fresh starting shape for the second half, and by default it
+   * builds the canonical dev 6v6. A caller with its OWN players -- a career
+   * fixture, say -- supplies this so that the second half starts with the same
+   * squad rather than the canonical placeholders.
+   *
+   * Deliberately a shape builder and nothing else: it takes a goal side and
+   * returns a state. It carries no notion of who the players are, so the engine
+   * still knows nothing about wherever they came from.
+   */
+  readonly halfStartState?: (attackingGoalSide: AttackingGoalSide) => FullCourtMatchState;
 };
 
 /** Distinct possessions in a run: continuations share a possession number with the segment they continue. */
@@ -272,8 +287,9 @@ export function simulateMatch(initialState: FullCourtMatchState, seed: number, o
 
   // HOME is whoever holds the ball in `initialState`; if AWAY is meant to start,
   // the same scenario is used from the other end so the intended side kicks off.
+  const buildHalfState = options.halfStartState ?? buildHalfStartState;
   const firstHalfGoalSide = initialState.possession.attackingGoalSide;
-  const firstHalfState = startingTeam === "HOME" ? initialState : buildHalfStartState(firstHalfGoalSide);
+  const firstHalfState = startingTeam === "HOME" ? initialState : buildHalfState(firstHalfGoalSide);
 
   // M11: a match squad, not just the seven who start. The bench is built
   // deterministically around the starters so a dev or test match has somebody
@@ -288,7 +304,7 @@ export function simulateMatch(initialState: FullCourtMatchState, seed: number, o
   // switch gives both at once: the other team kicks off, attacking the goal the
   // starters attacked in the first half.
   const startersSecondHalfGoal: AttackingGoalSide = firstHalfGoalSide === "TOP" ? "BOTTOM" : "TOP";
-  const secondHalfBase = buildHalfStartState(startersSecondHalfGoal);
+  const secondHalfBase = buildHalfState(startersSecondHalfGoal);
   const openingThrower = secondHalfBase.handball.players.find((p) => p.team === "DEFENSE" && p.kind === "FIELD_PLAYER");
   const secondHalfState = openingThrower
     ? switchPossession(secondHalfBase, "TURNOVER", openingThrower.id).state

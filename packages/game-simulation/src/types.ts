@@ -59,8 +59,25 @@ export type PlayerMatchContribution = {
   started: boolean;
 };
 
+/**
+ * MATCH-EXPERIENCE-2.0 M14: which engine actually produced a result.
+ *
+ * "FAST" is this package's own probability-first Fast Match Engine. "SPATIAL"
+ * is the M1-M13 handball-engine, which plays the match out on a real court and
+ * derives every number from what happened there.
+ *
+ * It exists so a result can never be ambiguous about its own provenance: a
+ * career path that has been migrated writes SPATIAL, and a reader can assert
+ * that no Fast result was produced for the same fixture. Optional, so every
+ * result saved before this milestone still loads unchanged and reads as the
+ * Fast Match Engine it was.
+ */
+export type MatchEngineId = "FAST" | "SPATIAL";
+
 export type FastMatchResult = {
   fixtureId: string;
+  /** M14: which engine simulated this match. Absent means the Fast Match Engine. */
+  engine?: MatchEngineId;
   seed: number;
   homeClubId: string;
   awayClubId: string;

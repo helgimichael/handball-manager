@@ -10,8 +10,15 @@
 // fast the official clock is consumed -- the match is already fully simulated
 // before the first frame is drawn.
 //
-// Dev-only, exactly like /career/match-center. Career matches still come from
-// the legacy Fast Match Engine; nothing here writes to career state.
+// M14: it now plays back REAL CAREER MATCHES. When a career is loaded and its
+// most recent result was produced by the spatial engine, this page re-derives
+// that same fixture through the SAME seam the matchday action used
+// (playCareerFixtureSpatially) and plays back its trace. That is not a second
+// simulation dressed up for the visuals: the seam is a pure function of the
+// saved career state, so the trace shown here IS the match whose score the
+// career recorded -- and the header asserts it by displaying that stored score
+// alongside the one the trace ends on. The dev scenario remains available for
+// engine work, and nothing here ever writes to career state.
 
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import MasterCourt, {
@@ -27,6 +34,8 @@ import { designSystemTheme } from "@handball-manager/match-renderer/src/ui/desig
 import { createFullCourt6v6State } from "@handball-manager/handball-engine/src/scenarios/fullCourt6v6.ts";
 import { simulateMatch } from "@handball-manager/handball-engine/src/simulation/matchRunner.ts";
 import { autonomousCoach } from "@handball-manager/handball-engine/src/simulation/coach.ts";
+import { useCareer } from "../../../lib/career/CareerContext";
+import { isSpatialMatchFailure, playCareerFixtureSpatially } from "../../../lib/career/spatialMatch/spatialCareerMatch";
 import {
   buildPlaybackFrames,
   frameAtMatchSeconds,
@@ -43,7 +52,22 @@ function noop() {}
 const DEFAULT_SEED = 12;
 
 export default function Match2DPage() {
+  const { career } = useCareer();
   const [seed, setSeed] = useState(DEFAULT_SEED);
+
+  // M14: the most recently played fixture this career owns spatially. Chosen
+  // from the career's own results rather than re-simulated speculatively, so
+  // the page only ever plays back a match that actually happened.
+  const careerFixture = useMemo(() => {
+    const spatial = Object.values(career.results).filter((r) => r.engine === "SPATIAL");
+    if (spatial.length === 0) return null;
+    const played = new Set(spatial.map((r) => r.fixtureId));
+    const fixtures = career.fixtures.filter((f) => played.has(f.id));
+    const latest = [...fixtures].sort((a, b) => a.date.localeCompare(b.date) || a.id.localeCompare(b.id)).pop();
+    return latest ? { fixture: latest, stored: career.results[latest.id] } : null;
+  }, [career]);
+  const [showCareerMatch, setShowCareerMatch] = useState(true);
+  const playingCareerMatch = showCareerMatch && careerFixture !== null;
   const [clock, setClock] = useState(0);
   const [playing, setPlaying] = useState(false);
   const [speed, setSpeed] = useState<PlaybackSpeed>(1);
@@ -51,6 +75,18 @@ export default function Match2DPage() {
   // The match is simulated ONCE, up front and in full. Playback never re-runs
   // it, which is what makes speed purely presentational.
   const { frames, duration, finalScore } = useMemo(() => {
+    if (playingCareerMatch && careerFixture) {
+      // The SAME seam the career used. Same state, same fixture, same inputs,
+      // therefore the same match -- re-derived rather than re-invented.
+      const spatial = playCareerFixtureSpatially(career, careerFixture.fixture);
+      if (!isSpatialMatchFailure(spatial)) {
+        const built = buildPlaybackFrames(spatial.match, {
+          goalkeeperIds: spatial.match.finalState.goalkeeperIds,
+          rosters: spatial.match.finalState.rosters,
+        });
+        return { frames: built, duration: playbackDurationSeconds(built), finalScore: spatial.match.finalScore };
+      }
+    }
     const start = createFullCourt6v6State({ attackingGoalSide: "TOP" });
     // M12: both benches have a coach. He is the minimal automatic one -- he
     // notices a scoring run, a drought or a numerical situation and answers
@@ -64,7 +100,7 @@ export default function Match2DPage() {
     const goalkeeperIds = match.finalState.goalkeeperIds ?? start.handball.players.filter((p) => p.kind === "GOALKEEPER").map((p) => p.id);
     const built = buildPlaybackFrames(match, { goalkeeperIds, rosters: match.finalState.rosters });
     return { frames: built, duration: playbackDurationSeconds(built), finalScore: match.finalScore };
-  }, [seed]);
+  }, [seed, career, careerFixture, playingCareerMatch]);
 
   const frame = frameAtMatchSeconds(frames, clock) ?? frames[0];
   const scene = useMemo(() => (frame ? snapshotToScene(frame.snapshot) : null), [frame]);
@@ -294,8 +330,24 @@ export default function Match2DPage() {
         <span style={{ marginLeft: "auto", opacity: 0.6 }}>
           boll: {frame.snapshot.ball.status}
           {possessor ? ` · ${possessor.id}` : ""} · sim {frame.simulationTime.toFixed(1)}s · slutresultat {finalScore.HOME}–{finalScore.AWAY}
+          {/* M14: the score the CAREER recorded for this fixture, printed beside
+              the one this trace ends on. They are the same simulation, so they
+              are the same number -- and if they ever were not, it would be
+              visible here rather than silently wrong. */}
+          {playingCareerMatch && careerFixture ? (
+            <> · karriär {careerFixture.stored.homeGoals}–{careerFixture.stored.awayGoals} ({careerFixture.stored.engine})</>
+          ) : null}
         </span>
         <label style={{ display: "flex", gap: 6, alignItems: "center", opacity: 0.8 }}>
+          {careerFixture ? (
+            <button
+              type="button"
+              onClick={() => setShowCareerMatch((v) => !v)}
+              style={{ marginRight: 8, padding: "2px 8px", cursor: "pointer" }}
+            >
+              {playingCareerMatch ? "karriärmatch" : "dev-scenario"}
+            </button>
+          ) : null}
           seed
           <input
             type="number"

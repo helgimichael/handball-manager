@@ -16,5 +16,6 @@ export type {
   MatchEventType,
   PlayerMatchContribution,
   FastMatchResult,
+  MatchEngineId,
   MatchRosterPlayer,
 } from "./types";

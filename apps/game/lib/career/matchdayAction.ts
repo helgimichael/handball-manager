@@ -9,6 +9,7 @@
 // Rhythm does not recreate match-result logic (Spec S37.15).
 
 import { simulateFixture, type FastMatchResult } from "@handball-manager/game-simulation";
+import { isSpatialMatchFailure, playCareerFixtureSpatially } from "./spatialMatch/spatialCareerMatch";
 import { computeSquadDerivedClubStrength } from "./squadDerivedClubStrength";
 import { checkSeasonComplete, getPlayerFixtureOn } from "./calendar";
 import { buildMatchCompletedEvent, buildPlayerInjuredEvent } from "./careerEvents";
@@ -224,13 +225,33 @@ export function playManagerFixture(state: CareerState): PlayManagerFixtureResult
     home: tacticalAdjustment.home + playerStrength.home + tacticalPlanAdjustment.home,
     away: tacticalAdjustment.away + playerStrength.away + tacticalPlanAdjustment.away,
   };
-  const result = simulateFixture(
-    fixture,
-    state.saveSeed,
-    (clubId) => computeSquadDerivedClubStrength(clubId, getCareerClubSquad(state, clubId), state.gameplayRatings[clubId] ?? []),
-    (clubId) => (clubId === state.playerClubId ? roster : clubId === opponentClubId ? opponentRoster : undefined),
-    combinedAdjustment,
-  );
+  // MATCH-EXPERIENCE-2.0 M14: THE MANAGER'S OWN FIXTURE IS PLAYED ON THE
+  // SPATIAL ENGINE.
+  //
+  // This is the career path migrated in M14. The M1-M13 handball-engine plays
+  // the match out on a real court with the real selected squads, and its
+  // scoreline IS the career's scoreline. The result is stamped
+  // `engine: "SPATIAL"` so no reader ever has to guess which engine owned it.
+  //
+  // EXACTLY ONE ENGINE RUNS PER FIXTURE. simulateFixture below is reached only
+  // when the spatial engine genuinely CANNOT play the match -- a club with no
+  // squad data in this save cannot field seven real players, and inventing
+  // identities for them is precisely what this milestone forbids. Such a
+  // fixture is stamped `engine: "FAST"` and is honestly not migrated. The two
+  // are never both run, and never merged.
+  const spatial = playCareerFixtureSpatially(state, fixture);
+  const result: FastMatchResult = isSpatialMatchFailure(spatial)
+    ? {
+        ...simulateFixture(
+          fixture,
+          state.saveSeed,
+          (clubId) => computeSquadDerivedClubStrength(clubId, getCareerClubSquad(state, clubId), state.gameplayRatings[clubId] ?? []),
+          (clubId) => (clubId === state.playerClubId ? roster : clubId === opponentClubId ? opponentRoster : undefined),
+          combinedAdjustment,
+        ),
+        engine: "FAST",
+      }
+    : spatial.result;
 
   // HM-PHYSICAL-1.0 Part 21, updated by HM-MATCH-USAGE-1.4 Part 14/24
   // #23/24: the SAME per-player energy trajectories playerStrength's own
