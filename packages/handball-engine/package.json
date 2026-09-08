@@ -7,7 +7,8 @@
   "scripts": {
     "test": "tsc -p tsconfig.test.json && node --test .tmp/tests/domain/geometry/court.test.js .tmp/tests/domain/geometry/zones.test.js .tmp/tests/domain/geometry/attackGapCalibration.test.js .tmp/tests/scenarios/fieldFormationAdapter.test.js .tmp/tests/scenarios/halfCourt6v6.test.js .tmp/tests/scenarios/halfCourt6v6WithGoalkeeper.test.js .tmp/tests/simulation/engine.test.js .tmp/tests/simulation/fixedStep.test.js .tmp/tests/ui/actionFlow.test.js .tmp/tests/ui/plannedSequence.test.js .tmp/tests/ui/simulationRuntime.test.js .tmp/tests/policies/defense/threat.test.js .tmp/tests/policies/defense/responsibility.test.js .tmp/tests/policies/defense/sixZeroDefensePolicy.test.js .tmp/tests/policies/defense/sixZeroDefensePolicyGoalkeeperExclusion.test.js",
     "typecheck": "tsc --noEmit",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "bench": "node --import tsx scripts/matchBench.ts"
   },
   "devDependencies": {
     "@types/node": "^22.0.0",
