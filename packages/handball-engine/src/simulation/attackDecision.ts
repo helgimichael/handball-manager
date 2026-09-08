@@ -35,6 +35,15 @@ import {
   type AttackTactics,
 } from "./organizedAttack";
 import type { AttackGapId } from "../domain/geometry/attackGaps";
+import {
+  DEFENDER_REACTION_SECONDS,
+  controlQuality,
+  laneControl,
+  pointControl,
+  reachProfileOf,
+  type LaneControl,
+  type PointControl,
+} from "./spatialControl";
 import type { Player, PlayerRole } from "../domain/handball/player";
 import type { HandballState } from "../domain/handball/state";
 import type { PossessionRng } from "./possessionRng";
@@ -75,6 +84,16 @@ export type PerceivedGap = {
   readonly attackPoint: MeterPoint;
   readonly goalDistance: number;
   readonly angleQuality: number;
+  /**
+   * M17: the race for this gap, when a carrier was named.
+   *
+   * A gap that is wide in metres is not open if the help defender gets to it
+   * first, and a narrow one is usable if he cannot. `marginSeconds` is positive
+   * when the carrier would arrive before the quickest defender could close it.
+   * Null when nobody was named -- perceiving the shape of a defence does not
+   * require somebody to be attacking it.
+   */
+  readonly control: PointControl | null;
 };
 
 /** A gap starts counting as open above this width, and is fully open at this width plus the range. */
@@ -143,7 +162,7 @@ function distanceToSegment(p: MeterPoint, a: MeterPoint, b: MeterPoint): number 
  * defenders ACTUALLY stand. A gap whose defenders are not both on court is
  * not perceived at all.
  */
-export function perceiveGaps(state: HandballState, goalSide: AttackingGoalSide): readonly PerceivedGap[] {
+export function perceiveGaps(state: HandballState, goalSide: AttackingGoalSide, carrier?: Player): readonly PerceivedGap[] {
   const goal = goalCentre(goalSide);
   const byRole = defendersByRole(state);
   const all = fieldDefenders(state);
@@ -171,8 +190,20 @@ export function perceiveGaps(state: HandballState, goalSide: AttackingGoalSide):
       clamp01((width - GAP_CLOSED_WIDTH_METERS) / GAP_OPEN_RANGE_METERS) + 0.25 * Math.min(1, depthSplit / 1.2) - 0.35 * cover,
     );
     const attackPoint = { x: midX, y: awayFromGoal(line, goalSide, ATTACK_POINT_STANDOFF_METERS) };
+    // M17: can he actually get there before they shut it? Every outfield
+    // defender is a candidate closer -- the two responsible for the gap and
+    // anybody who could help -- so the answer is a race against the whole line
+    // rather than against the two men who happen to name the gap.
+    const control = carrier
+      ? pointControl(
+          attackPoint,
+          reachProfileOf(carrier),
+          all.map((d) => reachProfileOf(d, DEFENDER_REACTION_SECONDS)),
+        )
+      : null;
     gaps.push({
       gapId,
+      control,
       defenderIds: [a.id, b.id],
       width,
       depthSplit,
@@ -239,16 +270,70 @@ export function takeOnTarget(blocker: Player, gapPoint: MeterPoint, goalSide: At
 }
 
 /** True when a defender sits on the passing lane between two attackers. */
-const LANE_BLOCK_RADIUS_METERS = 0.9;
+/**
+ * A defender this close to the line is standing in it already -- no reaction
+ * time, no run, nothing to race for.
+ *
+ * Kept at the value M6 was measured with. M17 ADDS the race for defenders
+ * further out than this; it does not relax what was already known to be a
+ * blocked lane. Loosening it measured badly: the bench showed passes being
+ * played into lanes the pass model then intercepted, which cost ten points of
+ * turnover rate and a third of the shots.
+ */
+const LANE_STANDING_BLOCK_METERS = 0.9;
+/** M17: the margin at which a passing lane counts as half won. A pass is a fast, short contest. */
+const LANE_CONTROL_HALF_SECONDS = 0.25;
+/**
+ * M17: the margin at which a running gap counts as half won. Longer than a
+ * pass's, because a drive at the line is a contest measured in strides rather
+ * than in the flight of a ball.
+ */
+const GAP_CONTROL_HALF_SECONDS = 0.6;
+/**
+ * How much of a gap option's score the race for it can move, either way.
+ *
+ * Deliberately bounded and deliberately not decisive: at most this much is
+ * added to a gap he clearly wins and subtracted from one he clearly loses. A
+ * gap still has to be wide, relevant and worth attacking on the existing terms.
+ */
+const GAP_CONTROL_WEIGHT = 0.12;
+/** The same, for a pass. */
+const LANE_CONTROL_WEIGHT = 0.1;
+/**
+ * M17: how contested this pass is, in seconds.
+ *
+ * The defenders are read with a reaction allowance and with the direction they
+ * are already moving in, so the model can tell two defenders apart who stand
+ * the same distance from the lane -- one closing on it, one recovering away
+ * from it. That distinction is the whole point of asking in time rather than in
+ * metres.
+ */
+export function passingLaneControl(state: HandballState, from: MeterPoint, to: MeterPoint): LaneControl {
+  return laneControl(from, to, fieldDefenders(state).map((d) => reachProfileOf(d, DEFENDER_REACTION_SECONDS)));
+}
+
+/**
+ * A lane a defender can actually get to before the ball does.
+ *
+ * M17 replaced a purely geometric test here. Being within 0.9m of the line was
+ * treated as blocking it, which is a claim about where a defender STANDS rather
+ * than about what he can reach: a man that close but already running the other
+ * way cannot intercept, and a man slightly further out but closing can. The
+ * question is now asked in seconds -- can he be on the lane by the time the
+ * ball is there -- and the old radius is kept only as the geometric shortcut
+ * for a defender who is already standing in the ball's path.
+ */
 export function passingLaneBlocked(state: HandballState, from: MeterPoint, to: MeterPoint): boolean {
   const length = distanceBetween(from, to);
+  if (length <= 1.6) return false;
   for (const d of fieldDefenders(state)) {
     // A defender standing on the receiver is "pressure on the receiver", not a
     // blocked lane; only the middle of the lane counts.
     if (distanceBetween(d.position, to) < 0.8 || distanceBetween(d.position, from) < 0.8) continue;
-    if (length > 1.6 && distanceToSegment(d.position, from, to) <= LANE_BLOCK_RADIUS_METERS) return true;
+    // Already in the ball's path: no race to run.
+    if (distanceToSegment(d.position, from, to) <= LANE_STANDING_BLOCK_METERS) return true;
   }
-  return false;
+  return passingLaneControl(state, from, to).marginSeconds <= 0;
 }
 
 // ---------------------------------------------------------------------------
@@ -256,6 +341,27 @@ export function passingLaneBlocked(state: HandballState, from: MeterPoint, to: M
 // ---------------------------------------------------------------------------
 
 export type AttackOptionKind = "PASS" | "ATTACK_GAP" | "SHOOT" | "PLAY_PIVOT" | "RESET" | "CONTINUE";
+
+/**
+ * M17: the spatial-control working behind an option, as data.
+ *
+ * DECISION EVIDENCE, NOT A MATCH FACT. It lives on the option, which lives on
+ * the decision, which lives on the internal trace -- exactly where a future
+ * debug tool would look for "why did he think that pass was on?". It is
+ * deliberately NOT a canonical match event: M15's stream records what happened,
+ * and a weighing that was considered and rejected did not happen.
+ */
+export type OptionControlEvidence = {
+  /** Seconds until the ball or the carrier reaches the contested place. */
+  readonly attackerSeconds: number;
+  /** Seconds until the quickest defender could influence it. */
+  readonly defenderSeconds: number;
+  /** defenderSeconds - attackerSeconds. Positive: the attack wins that race. */
+  readonly marginSeconds: number;
+  readonly defenderId: string | null;
+  /** How much of the option's own score this margin accounted for. */
+  readonly quality: number;
+};
 
 export type AttackOption = {
   readonly kind: AttackOptionKind;
@@ -265,6 +371,8 @@ export type AttackOption = {
   readonly target?: MeterPoint;
   /** Why it scored what it scored, in plain language. */
   readonly detail: string;
+  /** M17: the race behind it, when the option was decided by one. */
+  readonly control?: OptionControlEvidence;
 };
 
 export type DecisionTrigger = "SETTLED" | "DRIVE_REEVALUATION" | "ARRIVED";
@@ -399,7 +507,7 @@ export function decideAttackAction(ctx: DecisionContext): AttackDecision {
   const noise = () => (rng.nextFloat() - 0.5) * 2 * DECISION_NOISE;
 
   const options: AttackOption[] = [];
-  const gaps = perceiveGaps(state, goalSide);
+  const gaps = perceiveGaps(state, goalSide, carrier);
   let blockedBy: string | null = null;
 
   // --- attack a gap / continue the current drive ---------------------------
@@ -418,12 +526,37 @@ export function decideAttackAction(ctx: DecisionContext): AttackDecision {
       // Nearer gaps are preferred, but not so steeply that the same gap is
       // attacked every time from the same spot.
       const relevance = 1 - 0.6 * Math.min(1, (lateral / MAX_GAP_LATERAL_METERS) ** 2);
+      // M17: a gap is only usable if he can get to it before it shuts. The
+      // openness above says how wide it is in metres; this says whether the
+      // metres are reachable. A gap he loses the race to is heavily discounted
+      // -- but never forbidden, because the utility layer still decides and a
+      // carrier with nothing better may still go at it.
+      const gapControl = gap.control;
+      const gapQuality = gapControl ? controlQuality(gapControl.marginSeconds, GAP_CONTROL_HALF_SECONDS) : 0.5;
+      const gapEvidence: OptionControlEvidence | undefined = gapControl
+        ? {
+            attackerSeconds: gapControl.attackerSeconds,
+            defenderSeconds: gapControl.defenderSeconds,
+            marginSeconds: gapControl.marginSeconds,
+            defenderId: gapControl.defenderId,
+            quality: gapQuality,
+          }
+        : undefined;
+      const controlBias = GAP_CONTROL_WEIGHT * (gapQuality - 0.5) * 2;
       // A small gap needs a player willing to take it on; a big one does not.
       const smallGapPenalty = gap.openness < 0.5 ? (0.5 - gap.openness) * (1 - 0.05 * (attacking - DEFAULT_ATTACK_RATING)) : 0;
       if (isCurrent) {
         if (!blocked) {
-          const score = gap.openness * relevance + DRIVE_PERSISTENCE_BONUS - smallGapPenalty + GAP_APPETITE_SCALE * tactics.gapAppetite + noise();
-          options.push({ kind: "CONTINUE", score, gapId: gap.gapId, target: pathTarget, detail: `continue: ${gap.gapId} still open (${gap.openness.toFixed(2)})` });
+          const score =
+            gap.openness * relevance + DRIVE_PERSISTENCE_BONUS - smallGapPenalty + GAP_APPETITE_SCALE * tactics.gapAppetite + controlBias + noise();
+          options.push({
+            kind: "CONTINUE",
+            score,
+            gapId: gap.gapId,
+            target: pathTarget,
+            control: gapEvidence,
+            detail: `continue: ${gap.gapId} still open (${gap.openness.toFixed(2)}${gapControl ? `, control ${gapControl.marginSeconds >= 0 ? "+" : ""}${gapControl.marginSeconds.toFixed(2)}s` : ""})`,
+          });
         } else {
           // The defender has stepped into the path. Taking him on is an option
           // whose appeal depends on the carrier's ability, how much of the gap
@@ -442,6 +575,7 @@ export function decideAttackAction(ctx: DecisionContext): AttackDecision {
             score,
             gapId: gap.gapId,
             target: takeOnTarget(blocked.player, gap.attackPoint, goalSide),
+            control: gapEvidence,
             detail: `takes on ${blocked.player.id} (${blocked.along.toFixed(1)}m ahead)`,
           });
         }
@@ -459,11 +593,14 @@ export function decideAttackAction(ctx: DecisionContext): AttackDecision {
           patience +
           sideBias(gap.attackPoint.x, tactics) +
           GAP_APPETITE_SCALE * tactics.gapAppetite +
+          controlBias +
           noise();
       const detail = blocked
         ? `${gap.gapId} closed by ${blocked.player.id}`
-        : `${gap.gapId} openness ${gap.openness.toFixed(2)} (${gap.width.toFixed(1)}m wide, split ${gap.depthSplit.toFixed(1)}m), ${approach.toFixed(1)}m away`;
-      options.push({ kind: "ATTACK_GAP", score, gapId: gap.gapId, target: gap.attackPoint, detail });
+        : `${gap.gapId} openness ${gap.openness.toFixed(2)} (${gap.width.toFixed(1)}m wide, split ${gap.depthSplit.toFixed(1)}m), ${approach.toFixed(1)}m away${
+            gapControl ? `; control ${gapControl.marginSeconds >= 0 ? "+" : ""}${gapControl.marginSeconds.toFixed(2)}s vs ${gapControl.defenderId ?? "nobody"}` : ""
+          }`;
+      options.push({ kind: "ATTACK_GAP", score, gapId: gap.gapId, target: gap.attackPoint, control: gapEvidence, detail });
     }
   }
 
@@ -496,7 +633,24 @@ export function decideAttackAction(ctx: DecisionContext): AttackDecision {
   let bestReset: { player: Player; score: number } | null = null;
   for (const mate of teammates) {
     const dist = distanceBetween(carrier.position, mate.position);
+    // M17: the race for this lane, read once. `laneBlocked` is the same
+    // question asked as a yes/no, and the margin below is the same answer used
+    // as a weight -- so an option is never called playable by one and unplayable
+    // by the other.
+    const lane = passingLaneControl(state, carrier.position, mate.position);
     const laneBlocked = passingLaneBlocked(state, carrier.position, mate.position);
+    const laneQuality = controlQuality(lane.marginSeconds, LANE_CONTROL_HALF_SECONDS);
+    const laneEvidence: OptionControlEvidence = {
+      attackerSeconds: lane.ballAtInterceptSeconds,
+      defenderSeconds: lane.defenderSeconds,
+      marginSeconds: lane.marginSeconds,
+      defenderId: lane.defenderId,
+      quality: laneQuality,
+    };
+    const laneBias = LANE_CONTROL_WEIGHT * (laneQuality - 0.5) * 2;
+    const laneDetail = Number.isFinite(lane.marginSeconds)
+      ? `window ${lane.ballAtInterceptSeconds.toFixed(2)}s vs ${lane.defenderId ?? "nobody"} ${lane.defenderSeconds.toFixed(2)}s, margin ${lane.marginSeconds >= 0 ? "+" : ""}${lane.marginSeconds.toFixed(2)}s`
+      : "lane uncontested";
     const freedomMeters = nearestDefenderTo(state, mate.position).distance;
     const freedom = clamp01(freedomMeters / 3);
     if (mate.role === "PIVOT" && !isPivot) {
@@ -506,15 +660,17 @@ export function decideAttackAction(ctx: DecisionContext): AttackDecision {
       const score = available
         ? (0.3 + 0.35 * clamp01((freedomMeters - 1) / 1.5) + 0.35 * pressure + 0.02 * (passing - DEFAULT_ATTACK_RATING)) *
             (1 + 0.5 * tactics.pivotUsage) +
+          laneBias +
           noise()
         : 0;
       options.push({
         kind: "PLAY_PIVOT",
         score,
         targetPlayerId: mate.id,
+        control: laneEvidence,
         detail: available
-          ? `pivot free ${freedomMeters.toFixed(1)}m, ${dist.toFixed(1)}m away`
-          : `pivot not available (free ${freedomMeters.toFixed(1)}m${laneBlocked ? ", lane blocked" : ""}${dist > 10 ? ", too far" : ""})`,
+          ? `pivot free ${freedomMeters.toFixed(1)}m, ${dist.toFixed(1)}m away; ${laneDetail}`
+          : `pivot not available (free ${freedomMeters.toFixed(1)}m${laneBlocked ? `, lane lost: ${laneDetail}` : ""}${dist > 10 ? ", too far" : ""})`,
       });
       continue;
     }
@@ -546,6 +702,7 @@ export function decideAttackAction(ctx: DecisionContext): AttackDecision {
       0.3 * urgency +
       widthBias +
       sideBias(mate.position.x, tactics) +
+      laneBias +
       noise();
     // A pass back out to a back behind the play, made after the carrier had
     // committed to an action, IS the reset: the attack starts again from it.
@@ -555,9 +712,10 @@ export function decideAttackAction(ctx: DecisionContext): AttackDecision {
       kind: isReset ? "RESET" : "PASS",
       score,
       targetPlayerId: mate.id,
+      control: laneEvidence,
       detail: isReset
         ? `pass back out to ${mateLabel} (free ${freedomMeters.toFixed(1)}m) and re-form`
-        : `${mateLabel} relation ${relation}, free ${freedomMeters.toFixed(1)}m${laneBlocked ? ", lane blocked" : ""}`,
+        : `${mateLabel} relation ${relation}, free ${freedomMeters.toFixed(1)}m; ${laneDetail}${laneBlocked ? " (lost)" : ""}`,
     });
     // The reset outlet: the freest back, the centre back for preference.
     if (BACK_ROLES.includes(mate.role) && !laneBlocked) {

@@ -644,7 +644,13 @@ test("no substitution waits at the line: nobody stands there un-exchanged", () =
 
   // Almost nobody is ever RECORDED standing at his line, because the exchange
   // happens on the step he arrives -- no frame catches him waiting there.
-  assert.ok(everSeenWaiting <= 2, `hardly a change is ever seen waiting at the line (${everSeenWaiting} of ${substitutions.length})`);
+  // Expressed as a share rather than a count: "hardly ever" is the claim, and a
+  // fixed integer was really a fact about one seed. M17 changed which shots are
+  // taken, so the same match now has a few more exchanges land during a flight.
+  assert.ok(
+    everSeenWaiting / substitutions.length < 0.15,
+    `hardly a change is ever seen waiting at the line (${everSeenWaiting} of ${substitutions.length})`,
+  );
   // The one thing that can hold a change up is a shot already in flight: the
   // keeper is committed to a dive and the ball is resolving against him, so no
   // swap is made until it lands. That is a fraction of a second.

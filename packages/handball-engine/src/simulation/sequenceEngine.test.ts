@@ -23,9 +23,14 @@ const TOP = createFullCourt6v6State({ attackingGoalSide: "TOP" });
 // M13 (calibration) re-pinned the free-throw witness: the split between a clean
 // catch and a foul on the break moved, so seed 43's chase now ends as a clean
 // steal. The assertion is unchanged.
+// M17 re-pinned these: reading a passing lane and an attacking gap in SECONDS
+// rather than in metres changes which option wins, and therefore every
+// trajectory downstream of it. The assertions are unchanged -- only the seeds
+// that exercise them. (M16's scenario layer exists so new behavioural tests do
+// not have to be written this way.)
 const SEED_SAVE_THEN_FREE_THROW = 31;
-const SEED_SAVE_THEN_ORGANIZED = 5;
-const SEED_SAVE_THEN_GOAL = 6;
+const SEED_SAVE_THEN_ORGANIZED = 6;
+const SEED_SAVE_THEN_GOAL = 1;
 const SEED_SAVE_THEN_TURNOVER = 2;
 const SEED_TURNOVER_START = 3;
 
@@ -53,9 +58,9 @@ test("a turnover changes possession and flips the attacking direction", () => {
 });
 
 test("outcomes that keep the ball do not start a transition", () => {
-  // A goal or a miss is not a defensive regain.
-  const goal = simulatePossession({ seed: 1, initialState: TOP });
-  const result = sequence(1);
+  // A goal or a miss is not a defensive regain. (M17 re-pinned the seed.)
+  const goal = simulatePossession({ seed: 7, initialState: TOP });
+  const result = sequence(7);
   assert.equal(result.transition, null);
   assert.equal(result.trace.length, goal.trace.length, "the trace is just the possession");
 });

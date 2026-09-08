@@ -31,9 +31,9 @@ import type { HandballState } from "../domain/handball/state";
 const TOP = createFullCourt6v6State({ attackingGoalSide: "TOP" });
 
 /** Witness seeds from a 4000-seed scan; the assertions are what matter, the seeds only make them deterministic. */
-const SEED_BLOCKED_THEN_PASS = 4;
+const SEED_BLOCKED_THEN_PASS = 7; // re-pinned for M17 (was 4)
 const SEED_PIVOT_FEED = 1;
-const SEED_BLOCKED_THEN_RESET = 6;
+const SEED_BLOCKED_THEN_RESET = 8; // re-pinned for M17 (was 6)
 
 function possession(seed: number, initialState: FullCourtMatchState = TOP) {
   return simulatePossession({ seed, initialState });

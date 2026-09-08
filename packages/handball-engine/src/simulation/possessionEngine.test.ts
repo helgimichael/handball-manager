@@ -233,6 +233,8 @@ test("TURNOVER is reachable through the natural loop, not only via the guard", (
   // (was 849, 329, 288): a carrier who reads a closed gap now passes off instead of
   // standing in contact, so pressure-forced turnovers are rarer still -- most
   // M6 turnovers are failed passes, which the M6 tests cover separately.
+  // M17 left this witness where it was: seed 206 still ends in contact once the
+  // lane and the gap are read in seconds.
   const result = simulatePossession({ seed: 206, initialState: TOP });
   assert.equal(result.outcome, "TURNOVER");
   assert.equal(result.guardTripped, false, "this must be a real resolution, not the max-step guard");

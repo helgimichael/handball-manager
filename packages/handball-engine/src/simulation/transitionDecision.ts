@@ -27,6 +27,7 @@
  */
 import { COURT_LENGTH_METERS, COURT_WIDTH_METERS } from "../domain/geometry/court";
 import { distanceBetween, type MeterPoint } from "../domain/geometry/coordinates";
+import { constantSpeedProfileOf, pointControl } from "./spatialControl";
 import { goalCentre, type AttackingGoalSide } from "../domain/match/possession";
 import { roleLaneX } from "./transition";
 import type { Player } from "../domain/handball/player";
@@ -160,12 +161,22 @@ function shootingPointFor(from: MeterPoint, goal: MeterPoint): MeterPoint {
  */
 export function breakMarginSeconds(perception: TransitionPerception, attacker: Player): number {
   const point = shootingPointFor(attacker.position, perception.goal);
-  const attackerTime = distanceBetween(attacker.position, point) / Math.max(0.1, attacker.movementProfile.maxSpeed);
-  let defenderTime = Number.POSITIVE_INFINITY;
-  for (const defender of perception.defenders) {
-    defenderTime = Math.min(defenderTime, distanceBetween(defender.position, point) / Math.max(0.1, defender.movementProfile.maxSpeed));
-  }
-  return (Number.isFinite(defenderTime) ? defenderTime : 99) - attackerTime;
+  // M17: the same race, now expressed through the shared spatial-control
+  // primitive rather than repeating the arithmetic here.
+  //
+  // DELIBERATELY THE CONSTANT-SPEED PROFILE. M17 gives the model a richer
+  // reading -- reaction time, and credit for the direction a player is already
+  // running -- and the organized attack uses it. The break does not, because
+  // the break was measured and calibrated on this simpler question and M17 is
+  // not a calibration milestone. `constantSpeedProfileOf` reproduces
+  // distance / maxSpeed exactly, so every number this function returns is
+  // unchanged; what has gone is the second copy of the formula.
+  const control = pointControl(
+    point,
+    constantSpeedProfileOf(attacker),
+    perception.defenders.map(constantSpeedProfileOf),
+  );
+  return Number.isFinite(control.defenderSeconds) ? control.marginSeconds : 99 - control.attackerSeconds;
 }
 
 export function perceiveTransition(state: HandballState, attackingGoalSide: AttackingGoalSide): TransitionPerception {

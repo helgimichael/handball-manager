@@ -383,8 +383,9 @@ test("the regain read is recorded, so a transition can be explained", () => {
   assert.ok(notes.some((n) => n.startsWith("regain read:")), "the numbers at the regain");
   assert.ok(notes.some((n) => n.startsWith("attack: first wave")), "who runs where");
   assert.ok(notes.some((n) => n.startsWith("retreat:") && n.includes("protects the middle")), "and what each defender is doing");
-  // A possession that keeps the ball never enters any of this.
-  const kept = simulatePossession({ seed: 1, initialState: TOP });
+  // A possession that keeps the ball never enters any of this. (M17 re-pinned
+  // the witness seed; the assertion is unchanged.)
+  const kept = simulatePossession({ seed: 7, initialState: TOP });
   assert.ok(kept.outcome === "SHOT_GOAL" || kept.outcome === "SHOT_MISSED");
-  assert.equal(simulateSequence({ seed: 1, initialState: TOP }).transition, null);
+  assert.equal(simulateSequence({ seed: 7, initialState: TOP }).transition, null);
 });
