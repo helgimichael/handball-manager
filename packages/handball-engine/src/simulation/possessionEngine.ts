@@ -87,6 +87,7 @@ import {
   markResolved,
   resolveContactEpisode,
   type ContactEpisode,
+  type ContactResolution,
 } from "./contactEpisode";
 import type { AttackGapId } from "../domain/geometry/attackGaps";
 
@@ -182,6 +183,18 @@ export type PossessionResult = {
    * exceeds the episode count, a duel is being rolled more than once.
    */
   readonly resolvedContacts: number;
+  /**
+   * M20: what those decisions came to, so the consequence of contact can be
+   * followed rather than inferred. They sum to `resolvedContacts`.
+   */
+  readonly contactNothing: number;
+  readonly contactBallWon: number;
+  readonly contactIllegal: number;
+  /**
+   * M20: clean ball-wins that did NOT change possession, because the defender
+   * was in no position to actually take it. See `resolveDisruption`.
+   */
+  readonly contactBallWonDeclined: number;
 };
 
 // ---------------------------------------------------------------------------
@@ -417,6 +430,18 @@ export type Disruption =
  * was illegal; `judgeFoul` still decides independently what the restart is and
  * whether the challenge was worth two minutes.
  */
+export type ContactConsequence = {
+  /** M19's verdict on the duel, unchanged and unfiltered. */
+  readonly resolution: ContactResolution;
+  /** What it does to this possession, or null when it does nothing. */
+  readonly disruption: Disruption | null;
+  /**
+   * M20: true when the duel was won cleanly but the defender was in no position
+   * to actually take the ball, so possession did not change.
+   */
+  readonly ballWonDeclined: boolean;
+};
+
 export function resolveDisruption(
   state: HandballState,
   carrier: Player,
@@ -424,17 +449,38 @@ export function resolveDisruption(
   goalSide: AttackingGoalSide,
   rng: PossessionRng,
   ratings: SimulatePossessionInput["ratings"],
-): Disruption | null {
+): ContactConsequence {
   const defending = ratingOf(ratings, contact.defenderId, "defending");
   const resolution = resolveContactEpisode(contact, defending, rng);
-  if (resolution === "NOTHING") return null;
-  if (resolution === "DEFENCE_WINS_BALL") return { kind: "TURNOVER", contact };
+
+  if (resolution === "NOTHING") {
+    // M20: and nothing means nothing. No possession change, no phase change,
+    // no note -- the attack carries on exactly as it would have.
+    return { resolution, disruption: null, ballWonDeclined: false };
+  }
+
+  if (resolution === "DEFENCE_WINS_BALL") {
+    // M20: winning the duel is not the same as winning the BALL, and only the
+    // second one changes possession. To take it off a man you have to be in
+    // front of him and able to get to what he is doing -- which is exactly
+    // M18's `canEngage`. A defender who has been gone past can force a mistake,
+    // and he can foul, but he cannot cleanly pick the ball out of the hands of
+    // somebody who is already past him. Without this the resolver's clean-win
+    // branch handed the defence a possession from behind.
+    if (!contact.reach.canEngage) return { resolution, disruption: null, ballWonDeclined: true };
+    return { resolution, disruption: { kind: "TURNOVER", contact }, ballWonDeclined: false };
+  }
+
   const defender = state.players.find((p) => p.id === contact.defenderId)!;
   // M10 still decides everything about the consequence: whether the restart is
   // a free throw or a 7 metre, and independently whether the challenge itself
   // was worth two minutes. The context above says who met whom and how; it
   // never says what the referee gives.
-  return { kind: "FOUL", award: judgeFoul(state, carrier, defender, goalSide, state.simulationTime), contact };
+  return {
+    resolution,
+    disruption: { kind: "FOUL", award: judgeFoul(state, carrier, defender, goalSide, state.simulationTime), contact },
+    ballWonDeclined: false,
+  };
 }
 
 /** Bound on the walk into a 7m formation, so a dead ball can never stall the loop. */
@@ -594,6 +640,10 @@ export function simulatePossession(input: SimulatePossessionInput): PossessionRe
   const fouls: FoulAward[] = [];
   let contacts = 0;
   let resolvedContacts = 0;
+  let contactNothing = 0;
+  let contactBallWon = 0;
+  let contactIllegal = 0;
+  let contactBallWonDeclined = 0;
   let episode: ContactEpisode | null = null;
   let sevenMetreTaken = false;
 
@@ -750,7 +800,12 @@ export function simulatePossession(input: SimulatePossessionInput): PossessionRe
       if (situation !== null && episode !== null && episodeNeedsResolving(episode)) {
         episode = markResolved(episode, situation.posture);
         resolvedContacts += 1;
-        disruption = resolveDisruption(handball, carrier, situation, goalSide, rng, ratings);
+        const consequence = resolveDisruption(handball, carrier, situation, goalSide, rng, ratings);
+        disruption = consequence.disruption;
+        if (consequence.resolution === "NOTHING") contactNothing += 1;
+        else if (consequence.resolution === "DEFENCE_WINS_BALL") contactBallWon += 1;
+        else contactIllegal += 1;
+        if (consequence.ballWonDeclined) contactBallWonDeclined += 1;
       }
       if (disruption?.kind === "TURNOVER") {
         outcome = "TURNOVER";
@@ -917,6 +972,10 @@ export function simulatePossession(input: SimulatePossessionInput): PossessionRe
     fouls,
     contacts,
     resolvedContacts,
+    contactNothing,
+    contactBallWon,
+    contactIllegal,
+    contactBallWonDeclined,
     sevenMetreTaken,
   };
 }

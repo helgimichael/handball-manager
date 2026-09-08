@@ -82,6 +82,13 @@ export type BenchMatchRow = {
   readonly organizedContacts: number;
   /** M19: how many of those episodes were put to a decision. */
   readonly organizedContactsResolved: number;
+  /** M20: what the resolutions came to, and what possession did about it. */
+  readonly contactNothing: number;
+  readonly contactBallWon: number;
+  readonly contactIllegal: number;
+  readonly contactBallWonDeclined: number;
+  /** M20: organized possessions that ended in a turnover NOT caused by contact. */
+  readonly organizedTurnovers: number;
   readonly organizedFouls: number;
   readonly organizedFreeThrows: number;
   readonly organizedSevenMetres: number;
@@ -144,6 +151,11 @@ const COUNTED_METRICS = [
   "suspensions",
   "organizedContacts",
   "organizedContactsResolved",
+  "contactNothing",
+  "contactBallWon",
+  "contactIllegal",
+  "contactBallWonDeclined",
+  "organizedTurnovers",
   "organizedFouls",
   "organizedFreeThrows",
   "organizedSevenMetres",
@@ -188,6 +200,8 @@ export function measureMatch(seed: number, match: MatchResult, events: readonly 
   // possession, a centre restart, a free-throw continuation -- is set play.
   const foulsIn = (fromBreak: boolean) =>
     match.segments.filter((s) => (s.kind === "TRANSITION") === fromBreak).flatMap((s) => s.fouls);
+  const organizedSum = (pick: (s: (typeof match.segments)[number]) => number) =>
+    match.segments.reduce((n, s) => n + (s.kind === "TRANSITION" ? 0 : pick(s)), 0);
   const organized = foulsIn(false);
   const transition = foulsIn(true);
   return {
@@ -209,6 +223,11 @@ export function measureMatch(seed: number, match: MatchResult, events: readonly 
     suspensions: eventsOfType(events, "SUSPENSION").length,
     organizedContacts: match.segments.reduce((n, s) => n + (s.kind === "TRANSITION" ? 0 : s.contacts), 0),
     organizedContactsResolved: match.segments.reduce((n, s) => n + (s.kind === "TRANSITION" ? 0 : s.resolvedContacts), 0),
+    contactNothing: organizedSum((s) => s.contactNothing),
+    contactBallWon: organizedSum((s) => s.contactBallWon),
+    contactIllegal: organizedSum((s) => s.contactIllegal),
+    contactBallWonDeclined: organizedSum((s) => s.contactBallWonDeclined),
+    organizedTurnovers: match.segments.filter((s) => s.kind !== "TRANSITION" && s.outcome === "TURNOVER").length,
     organizedFouls: organized.length,
     organizedFreeThrows: organized.filter((f) => f.restart === "FREE_THROW").length,
     organizedSevenMetres: organized.filter((f) => f.restart === "SEVEN_METRE").length,
@@ -307,6 +326,10 @@ export function formatBenchReport(report: BenchReport): string {
   const perEpisode = episodes === 0 ? 0 : (report.counts.organizedFouls.mean / episodes) * 100;
   out.push(`  organized contact episodes  ${episodes.toFixed(1)}  (resolved ${report.counts.organizedContactsResolved.mean.toFixed(1)})`);
   out.push(`  organized fouls / episode   ${perEpisode.toFixed(1)}%`);
+  out.push(
+    `  outcome split               nothing ${report.counts.contactNothing.mean.toFixed(1)} | ball won ${report.counts.contactBallWon.mean.toFixed(1)} (declined ${report.counts.contactBallWonDeclined.mean.toFixed(1)}) | illegal ${report.counts.contactIllegal.mean.toFixed(1)}`,
+  );
+  out.push(`  organized turnovers (all)   ${report.counts.organizedTurnovers.mean.toFixed(1)}`);
   const share = (a: number, b: number) => (a + b === 0 ? 0 : (a / (a + b)) * 100);
   out.push(
     `  organized/transition fouls ${report.counts.organizedFouls.mean.toFixed(1)} / ${report.counts.transitionFouls.mean.toFixed(1)}  (${share(report.counts.organizedFouls.mean, report.counts.transitionFouls.mean).toFixed(1)}% organized)`,

@@ -173,6 +173,11 @@ export type GameFlowSegment = {
   readonly contacts: number;
   /** M19: how many of those episodes were resolved. */
   readonly resolvedContacts: number;
+  /** M20: what those resolutions came to. */
+  readonly contactNothing: number;
+  readonly contactBallWon: number;
+  readonly contactIllegal: number;
+  readonly contactBallWonDeclined: number;
   /** M11: substitutions taken at the boundary that opened this segment. */
   readonly substitutions: readonly SubstitutionRecord[];
   /** M12: what the coaches did at the boundary that opened this segment. */
@@ -1216,6 +1221,10 @@ export function advanceOneSegment(
     fouls: result.fouls ?? [],
     contacts: result.contacts ?? 0,
     resolvedContacts: result.resolvedContacts ?? 0,
+    contactNothing: result.contactNothing ?? 0,
+    contactBallWon: result.contactBallWon ?? 0,
+    contactIllegal: result.contactIllegal ?? 0,
+    contactBallWonDeclined: result.contactBallWonDeclined ?? 0,
     substitutions,
     interventions,
   };
