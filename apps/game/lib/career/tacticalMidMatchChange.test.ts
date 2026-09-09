@@ -310,3 +310,49 @@ test("HM-MATCH-0.2: a mid-match splice keeps the opponent's player goal totals r
   const summedManagerGoals = managerContributions.reduce((sum, c) => sum + c.goals, 0);
   assert.equal(summedManagerGoals, managerTeamGoals);
 });
+
+test("HM-MATCH-0.2: every scoring player in the spliced timeline keeps his own real goals, and no scorer is invented", () => {
+  // The reconciliation above can be satisfied two ways, and only one of them is
+  // honest. This pins the honest one: every goal in the timeline is attributed
+  // to a real player id, that player has a contribution line, and his line
+  // carries exactly the goals the timeline says he scored -- with nobody
+  // credited for a goal the events never gave him.
+  //
+  // The defect this guards against: the contribution roster is rebuilt from the
+  // club's CURRENT squad, while the spliced timeline keeps the prefix of a match
+  // played earlier. A man who scored before the change can be missing from that
+  // selection, and mapping over the roster alone silently dropped his goals.
+  const { state, fixture } = playedRealClubFixture("midmatch-scorer-attribution-seed");
+  const next = applyMidMatchTacticalChange(state, fixture.id, 25, ALTERNATE_PROFILE, false, null);
+  const spliced = next.results[fixture.id];
+
+  for (const side of ["home", "away"] as const) {
+    const contributions = side === "home" ? spliced.homePlayerContributions : spliced.awayPlayerContributions;
+    const goalEvents = spliced.events.filter((e) => e.type === "GOAL" && e.side === side);
+
+    // Nothing unattributed: the engines know who scored, and the splice keeps it.
+    assert.equal(
+      goalEvents.filter((e) => !e.playerId).length,
+      0,
+      `${side}: every goal in the timeline names its scorer`,
+    );
+
+    // Every scorer is represented, with exactly his own goals.
+    const fromEvents = new Map<string, number>();
+    for (const event of goalEvents) fromEvents.set(event.playerId!, (fromEvents.get(event.playerId!) ?? 0) + 1);
+    for (const [playerId, goals] of fromEvents) {
+      const line = contributions.find((c) => c.playerId === playerId);
+      assert.ok(line, `${side}: ${playerId} scored and must have a contribution line`);
+      assert.equal(line.goals, goals, `${side}: ${playerId} is credited with the goals he actually scored`);
+    }
+
+    // And nobody is credited for goals the timeline never gave him.
+    for (const line of contributions) {
+      assert.equal(
+        line.goals,
+        fromEvents.get(line.playerId) ?? 0,
+        `${side}: ${line.playerId} is credited only from real goal events`,
+      );
+    }
+  }
+});

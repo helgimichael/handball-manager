@@ -114,7 +114,7 @@ export function rebuildContributions(
     return [];
   }
   const rng = createRng(seed);
-  return roster.map((p) => {
+  const contributions = roster.map((p) => {
     if (p.isGoalkeeper) {
       const rating = Math.max(1, Math.min(10, 6 + (saves / Math.max(1, shotsFaced)) * 5 + (rng.nextFloat() - 0.5)));
       return { playerId: p.playerId, goals: 0, shots: 0, saves, shotsFaced, rating: Math.round(rating * 10) / 10, started: p.started };
@@ -125,6 +125,29 @@ export function rebuildContributions(
     const rating = Math.max(1, Math.min(10, 5.5 + shareOfTeamGoals * 8 + (rng.nextFloat() - 0.5) * 1.5));
     return { playerId: p.playerId, goals, shots, rating: Math.round(rating * 10) / 10, started: p.started };
   });
+
+  // A scorer who is not in this roster still scored.
+  //
+  // The roster above is rebuilt from the club's CURRENT squad, but the spliced
+  // timeline keeps the prefix of a match that was played earlier, and the two
+  // need not contain the same players -- a man who scored before the change can
+  // be absent from the freshly selected match squad. Mapping over the roster
+  // alone silently dropped his goals, so the team total counted a goal that no
+  // player's line accounted for, and the totals stopped reconciling.
+  //
+  // Nothing is invented here. The goal is real, it is attributed in the event
+  // stream to a real player id, and this only stops that attribution being
+  // thrown away: he appears with the goals he actually scored, and as a man who
+  // did not start, because he is not in the current selection.
+  const covered = new Set(contributions.map((c) => c.playerId));
+  for (const [playerId, goals] of goalCounts) {
+    if (covered.has(playerId) || goals <= 0) continue;
+    const shots = goals + rng.nextInt(0, 3);
+    const shareOfTeamGoals = teamGoals > 0 ? goals / teamGoals : 0;
+    const rating = Math.max(1, Math.min(10, 5.5 + shareOfTeamGoals * 8 + (rng.nextFloat() - 0.5) * 1.5));
+    contributions.push({ playerId, goals, shots, rating: Math.round(rating * 10) / 10, started: false });
+  }
+  return contributions;
 }
 
 /**
