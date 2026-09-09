@@ -262,8 +262,11 @@ test("M10 still decides restart and punishment independently of the episode", ()
   // Same resolver verdict, two places on the court: the consequences differ
   // because M10 read them, not because the episode said anything about them.
   const run = (seed: number) => simulatePossession({ seed, initialState: TOP });
+  // Widened for M21: the attack commits more, so the mix of organized fouls
+  // changed and a 400-seed window no longer reliably contains both punishments.
+  // The assertion below is the point of the test and is kept intact.
   const awards = [];
-  for (let seed = 1; seed <= 400 && awards.length < 40; seed += 1) awards.push(...run(seed).fouls);
+  for (let seed = 1; seed <= 500 && awards.length < 40; seed += 1) awards.push(...run(seed).fouls);
   assert.ok(awards.length > 0, "organized play produces fouls to inspect");
 
   for (const award of awards) {

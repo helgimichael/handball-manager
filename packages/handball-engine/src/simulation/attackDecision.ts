@@ -299,6 +299,41 @@ const GAP_CONTROL_HALF_SECONDS = 0.6;
 const GAP_CONTROL_WEIGHT = 0.12;
 /** The same, for a pass. */
 const LANE_CONTROL_WEIGHT = 0.1;
+
+/**
+ * M21: what a control reading is measured AGAINST.
+ *
+ * This is the correction, and it is worth stating plainly because the bug was
+ * invisible in the code and obvious in the data. Control was compared to 0.5 --
+ * the midpoint of the quality scale -- on the assumption that a typical option
+ * sits there, so the bias would add as often as it subtracted. It does not. A
+ * 6:0 defence controls most gaps most of the time: measured over real matches,
+ * gap quality averages 0.33 and is below 0.5 in 81% of readings, while a
+ * passing lane inside your own attack is usually free and averages 0.84.
+ *
+ * So the "bounded refinement" was neither. It was a standing levy of about
+ * -0.04 on every drive and a standing bonus of about +0.07 on every pass --
+ * roughly a tenth of a point, permanently, in favour of not committing. The
+ * attack passed instead of driving, circulated longer, and organized
+ * possessions grew by more than a second each. With the match clock fixed that
+ * bought ten fewer possessions and around four goals a match.
+ *
+ * The fix keeps Spatial Control exactly as it is and only changes what zero
+ * means: an option is compared to the OTHER OPTIONS IN FRONT OF HIM, which is
+ * what the weight was always described as doing -- "added to a gap he clearly
+ * wins and subtracted from one he clearly loses". Clearly relative to what?
+ * To the alternatives. If every gap is shut, none of them is singled out for
+ * punishment and he still has to attack something, which is handball. If one is
+ * genuinely better than the rest, it still gets the whole bonus.
+ */
+function centredBias(quality: number, centre: number, weight: number): number {
+  return Math.max(-weight, Math.min(weight, weight * (quality - centre) * 2));
+}
+
+/** The average of some control readings, or the neutral 0.5 when there are none. */
+function meanQuality(values: readonly number[]): number {
+  return values.length === 0 ? 0.5 : values.reduce((a, b) => a + b, 0) / values.length;
+}
 /**
  * M17: how contested this pass is, in seconds.
  *
@@ -509,6 +544,10 @@ export function decideAttackAction(ctx: DecisionContext): AttackDecision {
   const options: AttackOption[] = [];
   const gaps = perceiveGaps(state, goalSide, carrier);
   let blockedBy: string | null = null;
+  // M21: the field this decision is actually choosing between.
+  const gapCentre = meanQuality(
+    gaps.map((gap) => (gap.control ? controlQuality(gap.control.marginSeconds, GAP_CONTROL_HALF_SECONDS) : 0.5)),
+  );
 
   // --- attack a gap / continue the current drive ---------------------------
   if (!isPivot) {
@@ -542,7 +581,7 @@ export function decideAttackAction(ctx: DecisionContext): AttackDecision {
             quality: gapQuality,
           }
         : undefined;
-      const controlBias = GAP_CONTROL_WEIGHT * (gapQuality - 0.5) * 2;
+      const controlBias = centredBias(gapQuality, gapCentre, GAP_CONTROL_WEIGHT);
       // A small gap needs a player willing to take it on; a big one does not.
       const smallGapPenalty = gap.openness < 0.5 ? (0.5 - gap.openness) * (1 - 0.05 * (attacking - DEFAULT_ATTACK_RATING)) : 0;
       if (isCurrent) {
@@ -631,6 +670,11 @@ export function decideAttackAction(ctx: DecisionContext): AttackDecision {
   // leaving the court, not offering himself.
   const teammates = fieldAttackers(state).filter((p) => p.id !== carrier.id && p.leavingCourt !== true);
   let bestReset: { player: Player; score: number } | null = null;
+  const laneCentre = meanQuality(
+    teammates.map((mate) =>
+      controlQuality(passingLaneControl(state, carrier.position, mate.position).marginSeconds, LANE_CONTROL_HALF_SECONDS),
+    ),
+  );
   for (const mate of teammates) {
     const dist = distanceBetween(carrier.position, mate.position);
     // M17: the race for this lane, read once. `laneBlocked` is the same
@@ -647,7 +691,7 @@ export function decideAttackAction(ctx: DecisionContext): AttackDecision {
       defenderId: lane.defenderId,
       quality: laneQuality,
     };
-    const laneBias = LANE_CONTROL_WEIGHT * (laneQuality - 0.5) * 2;
+    const laneBias = centredBias(laneQuality, laneCentre, LANE_CONTROL_WEIGHT);
     const laneDetail = Number.isFinite(lane.marginSeconds)
       ? `window ${lane.ballAtInterceptSeconds.toFixed(2)}s vs ${lane.defenderId ?? "nobody"} ${lane.defenderSeconds.toFixed(2)}s, margin ${lane.marginSeconds >= 0 ? "+" : ""}${lane.marginSeconds.toFixed(2)}s`
       : "lane uncontested";

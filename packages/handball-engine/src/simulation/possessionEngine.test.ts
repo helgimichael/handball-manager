@@ -239,10 +239,12 @@ test("TURNOVER is reachable through the natural loop, not only via the guard", (
   // M17 left this witness where it was. M18 could not: once contact means a
   // defender who can actually reach and influence the carrier rather than one
   // standing within 1.6m of him, seed 206's pressure is no longer contact at
-  // all and the possession ends in a goal. Re-pinned to 901, the first seed at
-  // which a defender genuinely in the duel wins the ball. The rarity itself is
-  // now much greater and is reported as an M18 finding, not hidden here.
-  const result = simulatePossession({ seed: 901, initialState: TOP });
+  // all and the possession ends in a goal. Re-pinned again for M21 (was 901):
+  // the attack no longer pays a standing penalty for driving, so seed 901's
+  // carrier goes at the gap and scores. 629 is the first seed at which a
+  // defender genuinely in the duel wins the ball. The rarity itself is now much
+  // greater and is reported as an M18 finding, not hidden here.
+  const result = simulatePossession({ seed: 629, initialState: TOP });
   assert.equal(result.outcome, "TURNOVER");
   assert.equal(result.guardTripped, false, "this must be a real resolution, not the max-step guard");
   // ...and it must be explained by the state that produced it.

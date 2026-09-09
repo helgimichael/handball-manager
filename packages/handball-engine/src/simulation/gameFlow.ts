@@ -167,6 +167,14 @@ export type GameFlowSegment = {
   readonly attackingGoalSide: AttackingGoalSide;
   readonly kind: "ORGANIZED" | "TRANSITION" | "FREE_THROW_CONTINUATION" | "CENTRE_RESTART";
   readonly outcome: PossessionOutcome;
+  /**
+   * M21: how many fixed steps this segment actually took.
+   *
+   * Segments are not separable from the trace -- a free-throw continuation
+   * deliberately shares its possession number with the attack it continues --
+   * so the only honest way to ask how long a restart takes is to carry it here.
+   */
+  readonly steps: number;
   /** M10: fouls the referee gave during this segment. */
   readonly fouls: readonly FoulAward[];
   /** M18: contact episodes between a defender and the carrier in this segment. */
@@ -1218,6 +1226,7 @@ export function advanceOneSegment(
     attackingGoalSide: goalSide,
     kind,
     outcome: result.outcome,
+    steps: result.steps ?? 0,
     fouls: result.fouls ?? [],
     contacts: result.contacts ?? 0,
     resolvedContacts: result.resolvedContacts ?? 0,
