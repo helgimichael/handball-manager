@@ -30,6 +30,7 @@ import { distanceBetween, type MeterPoint } from "../domain/geometry/coordinates
 import { constantSpeedProfileOf, pointControl } from "./spatialControl";
 import { goalCentre, type AttackingGoalSide } from "../domain/match/possession";
 import { roleLaneX } from "./transition";
+import { ownGoalIsEmpty } from "./sevenVsSix";
 import type { Player } from "../domain/handball/player";
 import type { HandballState } from "../domain/handball/state";
 import type { PossessionRng } from "./possessionRng";
@@ -132,6 +133,16 @@ export type TransitionPerception = {
   /** The runner who wins his race by most, and by how much. */
   readonly bestRunner: Player | null;
   readonly bestRunnerMarginSeconds: number;
+  /**
+   * M22: the goal being attacked has nobody in it.
+   *
+   * Read from the court like everything else here -- the defending side has no
+   * goalkeeper on it, because he has gone off for a seventh outfield player or
+   * has not finished walking back. It is a fact about the situation, not a
+   * licence: what the break DOES about it is decided below, against the same
+   * race and the same defenders as any other break.
+   */
+  readonly goalIsEmpty: boolean;
 };
 
 function outfield(state: HandballState, team: "ATTACK" | "DEFENSE"): readonly Player[] {
@@ -200,6 +211,7 @@ export function perceiveTransition(state: HandballState, attackingGoalSide: Atta
     defendersGoalSide,
     advantage: attackersAhead.length - defendersGoalSide.length,
     ballAdvancement,
+    goalIsEmpty: ownGoalIsEmpty(state, "DEFENSE"),
     carrierMarginSeconds: null,
     bestRunner: null,
     bestRunnerMarginSeconds: Number.NEGATIVE_INFINITY,
@@ -570,11 +582,26 @@ export function decideBreakAction(
   );
   const pressure = Number.isFinite(nearest) ? nearest : 99;
 
-  if (toGoal <= BREAK_SHOT_RANGE_METERS && pressure >= CLEAR_OF_DEFENCE_METERS) {
+  // M22: an empty goal changes what "in range" means, and only that.
+  //
+  // The reason a break has a shooting range at all is the keeper: get close
+  // enough to beat him. With nobody in the goal that constraint is simply not
+  // there, and the one that remains is the one already written here -- being
+  // clear of the defence. So the distance gate is replaced by a court fact the
+  // engine already keeps, being in the attacking half, rather than by a second
+  // invented number. Nothing is added to the shot: M9 still has to put it on
+  // target from wherever he lets it go, and its execution spread still grows
+  // with distance, so a hopeful effort from the halfway line misses honestly.
+  const inShootingRange = perception.goalIsEmpty
+    ? perception.ballAdvancement > COURT_LENGTH_METERS / 2
+    : toGoal <= BREAK_SHOT_RANGE_METERS;
+  if (inShootingRange && pressure >= CLEAR_OF_DEFENCE_METERS) {
     return {
       kind: "SHOOT",
       targetPlayerId: null,
-      detail: `clear at ${toGoal.toFixed(1)}m, nearest defender ${pressure.toFixed(1)}m`,
+      detail: perception.goalIsEmpty
+        ? `the goal is empty: clear at ${toGoal.toFixed(1)}m, nearest defender ${pressure.toFixed(1)}m`
+        : `clear at ${toGoal.toFixed(1)}m, nearest defender ${pressure.toFixed(1)}m`,
       advantage: perception.advantage,
     };
   }

@@ -42,7 +42,26 @@ export type CoachCommand =
    * REQUESTED -> EXITING -> COMPLETE lifecycle exactly as an automatic rotation
    * does; there is no second mechanism for manager changes.
    */
-  | { readonly kind: "SUBSTITUTE"; readonly team: CoachTeamId; readonly outgoingPlayerId: string; readonly incomingPlayerId: string; readonly reason: string };
+  | { readonly kind: "SUBSTITUTE"; readonly team: CoachTeamId; readonly outgoingPlayerId: string; readonly incomingPlayerId: string; readonly reason: string }
+  /**
+   * M22: play seven out, or stop.
+   *
+   * The smallest instruction that expresses the decision, and deliberately only
+   * the decision. It carries no mechanism: taking the keeper off and putting a
+   * seventh outfield player on is an ordinary M11 exchange, and stopping is the
+   * same exchange the other way round. A coach saying this is asking for a
+   * substitution he is entitled to ask for, which is exactly what it is in the
+   * hall.
+   */
+  | {
+      readonly kind: "SEVEN_V_SIX";
+      readonly team: CoachTeamId;
+      /** True to take the keeper off, false to bring him back. */
+      readonly active: boolean;
+      /** Who comes on for the keeper, or goes off for his return. Null lets the engine choose. */
+      readonly playerId: string | null;
+      readonly reason: string;
+    };
 
 /** One thing a coach actually did (or was refused), in the order it happened. */
 export type InterventionRecord = {

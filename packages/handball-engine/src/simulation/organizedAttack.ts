@@ -45,7 +45,12 @@ import type { HandballState } from "../domain/handball/state";
 // ---------------------------------------------------------------------------
 
 /** Handball shorthand for the six organized attacking roles. */
-export type AttackRoleLabel = "V6" | "V9" | "M9" | "H9" | "H6" | "M6";
+/**
+ * M22: "M6B" is the second line player -- the seventh outfield man who comes on
+ * when the goalkeeper goes off. He is a pivot in every sense that matters here:
+ * he works the line, in a different gap from the first one.
+ */
+export type AttackRoleLabel = "V6" | "V9" | "M9" | "H9" | "H6" | "M6" | "M6B";
 
 const ROLE_LABELS: Partial<Record<PlayerRole, AttackRoleLabel>> = {
   LEFT_WING: "V6",
@@ -54,9 +59,13 @@ const ROLE_LABELS: Partial<Record<PlayerRole, AttackRoleLabel>> = {
   RIGHT_BACK: "H9",
   RIGHT_WING: "H6",
   PIVOT: "M6",
+  EXTRA_ATTACKER: "M6B",
 };
 
 export const ORGANIZED_ATTACK_LABELS: readonly AttackRoleLabel[] = ["V6", "V9", "M9", "H9", "H6", "M6"];
+
+/** M22: the same six, plus the second line player a 7v6 attack puts on. */
+export const SEVEN_V_SIX_ATTACK_LABELS: readonly AttackRoleLabel[] = [...ORGANIZED_ATTACK_LABELS, "M6B"];
 
 export function attackRoleLabel(role: PlayerRole): AttackRoleLabel | null {
   return ROLE_LABELS[role] ?? null;
@@ -214,7 +223,19 @@ export function awayFromGoal(y: number, goalSide: AttackingGoalSide, distance: n
  * steps out at the carrier the pivot slides in behind him -- which is exactly
  * when he becomes a passing option.
  */
-export function pivotTarget(state: HandballState, goalSide: AttackingGoalSide, ballX: number, pivotPosition?: MeterPoint): MeterPoint | null {
+export function pivotTarget(
+  state: HandballState,
+  goalSide: AttackingGoalSide,
+  ballX: number,
+  pivotPosition?: MeterPoint,
+  /**
+   * M22: a gap another line player is already working, which this one should
+   * therefore leave alone. Two pivots standing in the same gap are one pivot
+   * and a wasted man; the whole point of the seventh player is that the defence
+   * has to account for a second place on the line.
+   */
+  occupiedX?: number,
+): MeterPoint | null {
   const defenders = defendersByRole(state);
   const all = [...defenders.values()];
   let best: { point: MeterPoint; score: number } | null = null;
@@ -224,6 +245,7 @@ export function pivotTarget(state: HandballState, goalSide: AttackingGoalSide, b
     const b = defenders.get(roleB);
     if (!a || !b) continue;
     const midX = (a.position.x + b.position.x) / 2;
+    if (occupiedX !== undefined && Math.abs(midX - occupiedX) <= PIVOT_HOLD_RADIUS_METERS) continue;
     const point = { x: midX, y: awayFromGoal(lineDepth(a.position, b.position, goalSide), goalSide, PIVOT_LINE_STANDOFF_METERS) };
     const freedom = Math.min(...all.map((d) => distanceBetween(d.position, point)));
     // Room first, ball side second. The gap he is already working keeps a
@@ -241,6 +263,11 @@ export function pivotTarget(state: HandballState, goalSide: AttackingGoalSide, b
   return clampPointToBounds(best.point, COURT_BOUNDS_METERS);
 }
 
+/** M22: where the recognised pivot is standing, so a second line player can avoid him. */
+function firstPivotX(state: HandballState): number | undefined {
+  return state.players.find((p) => p.team === "ATTACK" && p.role === "PIVOT")?.position.x;
+}
+
 /**
  * Where `player` should move to re-establish organized shape while attacking
  * `goalSide`. Null when he is already there (within 0.5m) or has no spot.
@@ -251,7 +278,15 @@ export function organizedShapeTargetFor(
   goalSide: AttackingGoalSide,
   tactics: AttackTactics = DEFAULT_ATTACK_TACTICS,
 ): MeterPoint | null {
-  const target = player.role === "PIVOT" ? pivotTarget(state, goalSide, state.ball.position.x, player.position) : organizedRolePosition(player.role, goalSide, tactics);
+  const target =
+    player.role === "PIVOT"
+      ? pivotTarget(state, goalSide, state.ball.position.x, player.position)
+      : player.role === "EXTRA_ATTACKER"
+        ? // M22: the second line player works the line too, in a gap the first
+          // pivot is not already in. Same geometry, same read of the defenders'
+          // real positions -- no new shape was invented for him.
+          pivotTarget(state, goalSide, state.ball.position.x, player.position, firstPivotX(state))
+        : organizedRolePosition(player.role, goalSide, tactics);
   if (!target) return null;
   if (distanceBetween(player.position, target) < 0.5) return null;
   return target;

@@ -300,6 +300,13 @@ export type SubstitutionRequest = {
   readonly outgoingPlayerId: string;
   readonly incomingPlayerId: string;
   readonly reason: string;
+  /**
+   * M22: this change is deliberately swapping a goalkeeper for an outfield
+   * player, or back. Only a seven-out instruction sets it. Ordinary rotation
+   * leaves it unset and stays like-for-like, so a routine change can never
+   * empty a goal by accident.
+   */
+  readonly changesGoalkeeper?: boolean;
 };
 
 export type SubstitutionOutcome =
@@ -376,8 +383,21 @@ export function requestSubstitution(flow: GameFlowState, request: SubstitutionRe
   }
   // Like for like: a goalkeeper is replaced by a goalkeeper, and he walks off
   // through the same area as everybody else.
-  if (outgoing.kind !== incoming.kind) {
+  //
+  // M22: unless the change is a deliberate one. Handball has no like-for-like
+  // rule -- any player may come on for any player -- but until 7v6 existed the
+  // simplification was harmless and it kept ordinary rotation honest. It still
+  // does: only a seven-out instruction may cross the kinds, so a routine
+  // rotation cannot empty a goal by picking the wrong pair. What can never
+  // happen either way is two goalkeepers at once.
+  if (outgoing.kind !== incoming.kind && !request.changesGoalkeeper) {
     return { ok: false, reason: `${incomingPlayerId} cannot replace a ${outgoing.kind.toLowerCase()}` };
+  }
+  if (incoming.kind === "GOALKEEPER" && outgoing.kind !== "GOALKEEPER") {
+    const keeperAlready = flow.match.handball.players.some(
+      (p) => p.kind === "GOALKEEPER" && teamOf(flow.rosters as Record<MatchTeamId, readonly string[]>, p.id) === team,
+    );
+    if (keeperAlready) return { ok: false, reason: `${team} already has a goalkeeper on the court` };
   }
 
   const handball = withExchange(
@@ -907,6 +927,81 @@ export function applyCoachCommand(
             reason: command.reason,
             outgoingPlayerId: command.outgoingPlayerId,
             incomingPlayerId: command.incomingPlayerId,
+          },
+        ],
+      };
+    }
+
+    case "SEVEN_V_SIX": {
+      // M22: an instruction, resolved into the substitution it actually is.
+      //
+      // Nothing here moves a player or empties a goal. It works out who swaps
+      // with whom and hands that to M11, so going seven out is the same
+      // request, with the same walk to the line and the same refusals, as any
+      // other change. That is why the keeper cannot reappear in his goal the
+      // instant a coach wants him: he has to come on.
+      const roster = flow.rosters[command.team];
+      const onCourtPlayers = flow.match.handball.players.filter((p) => roster.includes(p.id));
+      const keeperOnCourt = onCourtPlayers.find((p) => p.kind === "GOALKEEPER") ?? null;
+
+      if (command.active) {
+        if (!keeperOnCourt) return refuse("already playing seven out");
+        const incoming =
+          (command.playerId ? flow.bench[command.team].find((p) => p.id === command.playerId) : undefined) ??
+          flow.bench[command.team].find((p) => p.kind === "FIELD_PLAYER");
+        if (!incoming) return refuse("no outfield player on the bench to bring on");
+        const outcome = requestSubstitution(flow, {
+          team: command.team,
+          outgoingPlayerId: keeperOnCourt.id,
+          incomingPlayerId: incoming.id,
+          reason: `COACH:${command.reason || "seven out"}`,
+          changesGoalkeeper: true,
+        });
+        if (!outcome.ok) return refuse(`seven out refused: ${outcome.reason}`);
+        return {
+          flow: outcome.flow,
+          records: [
+            {
+              kind: "SUBSTITUTION_REQUESTED",
+              team: command.team,
+              atMatchSeconds: at,
+              detail: `${incoming.id} comes on for the goalkeeper ${keeperOnCourt.id}: seven out`,
+              reason: command.reason,
+              outgoingPlayerId: keeperOnCourt.id,
+              incomingPlayerId: incoming.id,
+            },
+          ],
+        };
+      }
+
+      if (keeperOnCourt) return refuse("the goalkeeper is already on the court");
+      const returningKeeper = flow.bench[command.team].find((p) => p.kind === "GOALKEEPER");
+      if (!returningKeeper) return refuse("no goalkeeper on the bench to bring back");
+      const outgoing =
+        (command.playerId ? onCourtPlayers.find((p) => p.id === command.playerId) : undefined) ??
+        [...onCourtPlayers]
+          .filter((p) => p.kind === "FIELD_PLAYER")
+          .sort((a, b) => a.id.localeCompare(b.id))[0];
+      if (!outgoing) return refuse("nobody to come off for the goalkeeper");
+      const outcome = requestSubstitution(flow, {
+        team: command.team,
+        outgoingPlayerId: outgoing.id,
+        incomingPlayerId: returningKeeper.id,
+        reason: `COACH:${command.reason || "keeper back"}`,
+        changesGoalkeeper: true,
+      });
+      if (!outcome.ok) return refuse(`keeper return refused: ${outcome.reason}`);
+      return {
+        flow: outcome.flow,
+        records: [
+          {
+            kind: "SUBSTITUTION_REQUESTED",
+            team: command.team,
+            atMatchSeconds: at,
+            detail: `the goalkeeper ${returningKeeper.id} comes back on for ${outgoing.id}`,
+            reason: command.reason,
+            outgoingPlayerId: outgoing.id,
+            incomingPlayerId: returningKeeper.id,
           },
         ],
       };

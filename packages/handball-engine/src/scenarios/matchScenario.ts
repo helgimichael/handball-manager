@@ -57,6 +57,16 @@ export type MatchScenarioSpec = {
   readonly phase?: PossessionPhase;
   /** The spatial clock this situation starts at. Defaults to 0. */
   readonly simulationTime?: number;
+  /**
+   * M22: put a seventh outfield attacker on the court, here.
+   *
+   * The situation a team plays when it takes its goalkeeper off, which is
+   * written as a fixture rather than as an outcome: pair it with
+   * `without: ["GK_ATTACK"]` and the attack has seven out and an empty goal.
+   * The exchange that legally gets a team into that state is M11's, and is
+   * proven separately -- this only states the position on the court.
+   */
+  readonly extraAttacker?: MeterPoint;
 };
 
 function isDefenseRole(ref: string): ref is DefenseRole {
@@ -126,6 +136,25 @@ export function scenario(spec: MatchScenarioSpec = {}): FullCourtMatchState {
     if (target) removedIds.add(target.id);
   }
   if (removedIds.size > 0) players = players.filter((p) => !removedIds.has(p.id));
+
+  // M22: the seventh outfield man, built from a real attacker so he has the
+  // same movement profile and rating shape as everybody else, and given the
+  // EXTRA_ATTACKER role the organized shape already knows how to place.
+  if (spec.extraAttacker) {
+    const template = players.find((p) => p.team === "ATTACK" && p.role === "PIVOT") ?? players.find((p) => p.team === "ATTACK" && p.kind === "FIELD_PLAYER");
+    if (!template) throw new Error("Scenario asks for a seventh attacker with no attacker to model him on");
+    players = [
+      ...players,
+      {
+        ...template,
+        id: `${template.id}-extra`,
+        role: "EXTRA_ATTACKER",
+        position: { ...spec.extraAttacker },
+        velocity: { x: 0, y: 0 },
+        intent: { type: "IDLE" },
+      },
+    ];
+  }
 
   // Who has it, and where it is. A possessed ball sits on its carrier unless
   // the scenario says otherwise, because that is what possession means.

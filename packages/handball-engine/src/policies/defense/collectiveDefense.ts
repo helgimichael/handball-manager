@@ -111,6 +111,9 @@ export const COLLECTIVE_DEFENSE_LIMITS = Object.freeze({
   pivotHandoverThresholdMeters: 1.6,
 });
 
+/** A full side has six outfield players; a seventh means the keeper has come off. */
+const FULL_SIDE_OUTFIELD_COUNT = 6;
+
 const DEFAULT_RATING = 10;
 
 /**
@@ -152,6 +155,11 @@ export type DefensivePerception = {
   /** The attacker working the line, when one is close enough to it to matter. */
   readonly pivot: Player | null;
   readonly attackers: readonly Player[];
+  /**
+   * M22: every attacker working the line this instant, the marked one included.
+   * More than one of these is the seventh man's whole purpose.
+   */
+  readonly linePlayers: readonly Player[];
   /** The whole line's lateral slide toward the ball. */
   readonly lineShift: number;
   /** Depth of the defensive line (mean home y). */
@@ -199,9 +207,13 @@ export function perceiveAttack(
   const byRole = attackers.find((p) => p.role === "PIVOT" && nearLine(p));
   const anyOnLine = attackers.filter((p) => p.id !== carrier?.id && nearLine(p)).sort((a, b) => Math.abs(a.position.y - lineDepth) - Math.abs(b.position.y - lineDepth) || a.id.localeCompare(b.id))[0];
   const pivot = byRole ?? anyOnLine ?? null;
+  // M22: everybody working the line, not just the one man the defence marks.
+  // A 7v6 attack puts a second player there, and a defence that can only see
+  // one of them is not being outnumbered -- it is being lied to.
+  const linePlayers = attackers.filter((p) => p.id !== carrier?.id && nearLine(p)).sort((a, b) => a.id.localeCompare(b.id));
   const rawShift = COLLECTIVE_DEFENSE_LIMITS.lineShiftPerMeter * (state.ball.position.x - COURT_WIDTH_METERS / 2);
   const lineShift = Math.max(-COLLECTIVE_DEFENSE_LIMITS.lineShiftMaxMeters, Math.min(COLLECTIVE_DEFENSE_LIMITS.lineShiftMaxMeters, rawShift));
-  return { goalSide, ball: { ...state.ball.position }, carrier, threat, pivot, attackers, lineShift, lineDepth };
+  return { goalSide, ball: { ...state.ball.position }, carrier, threat, pivot, linePlayers, attackers, lineShift, lineDepth };
 }
 
 function goalSideLine(goalSide: DefendedGoalSide): number {
@@ -229,6 +241,8 @@ export type DefensiveAssignment = {
   readonly helperIds: readonly string[];
   /** Responsible for the pivot. Null when responsibility has genuinely broken down. */
   readonly pivotMarkerId: string | null;
+  /** M22: the defender picking up a SECOND line player, when one can be spared. */
+  readonly secondPivotMarkerId: string | null;
   /** Comes out of the line to the held ball when nobody is driving. */
   readonly presserId: string | null;
   /** Wing defenders holding width against a wide attacker. */
@@ -308,7 +322,37 @@ export function assignResponsibilities(
 
   const widthHolderIds = defenders.filter((d) => holdsWidth(d, homeOf(state, d).position, perception)).map((d) => d.id);
 
-  return { primaryId: primary?.id ?? null, helperIds, pivotMarkerId, presserId, widthHolderIds };
+  // M22: a second man on the line gets a marker only if one is genuinely spare.
+  //
+  // This is where being outnumbered has to be allowed to hurt. Six defenders
+  // cannot cover seven attackers, and the honest way to say so is to let the
+  // second line player go unmarked whenever every defender already has a job --
+  // not to invent a rule that the defence copes. He is picked up when somebody
+  // is free, and left when nobody is, which is exactly what a 6:0 facing seven
+  // actually looks like.
+  // Only against a seventh attacker.
+  //
+  // The obvious gate here -- "more attackers than defenders" -- is wrong, and
+  // the bench caught it: a side serving a two-minute suspension is also
+  // outnumbered, so that reading quietly changed how every short-handed defence
+  // in every match marks the line, and moved the scoring baseline by more than
+  // two goals a match. Being a man down is a different problem, it is already
+  // modelled, and it is not M22's to rewrite. What is M22's is a seventh
+  // attacker, so that is exactly what this asks about.
+  const outnumbered = perception.attackers.length > FULL_SIDE_OUTFIELD_COUNT;
+  const busy = new Set<string>([primary?.id ?? "", pivotMarkerId ?? "", presserId ?? "", ...helperIds]);
+  const secondLinePlayer = outnumbered ? perception.linePlayers.find((p) => p.id !== perception.pivot?.id) ?? null : null;
+  const secondPivotMarkerId = secondLinePlayer
+    ? ([...defenders]
+        .filter((d) => !busy.has(d.id))
+        .sort(
+          (a, b) =>
+            Math.abs((shiftedHomes.get(a.id) ?? a.position).x - secondLinePlayer.position.x) -
+              Math.abs((shiftedHomes.get(b.id) ?? b.position).x - secondLinePlayer.position.x) || a.id.localeCompare(b.id),
+        )[0]?.id ?? null)
+    : null;
+
+  return { primaryId: primary?.id ?? null, helperIds, pivotMarkerId, secondPivotMarkerId, presserId, widthHolderIds };
 }
 
 // ---------------------------------------------------------------------------
@@ -412,6 +456,19 @@ export function collectiveReactions(
       const reach =
         COLLECTIVE_DEFENSE_LIMITS.pivotMarkReachMeters * aggression * (1 + DEFENCE_TACTIC_SCALE.pivotProtection * (options?.tactics?.pivotProtection ?? 0));
       return make("MARK_PIVOT", limitedFrom(base, raw, reach));
+    }
+
+    // M22: the same job, done to a second man on the line. He only ever reaches
+    // this branch when no other role wanted him, so marking the extra attacker
+    // costs the defence nothing it needed elsewhere.
+    if (defender.id === assignment.secondPivotMarkerId) {
+      const second = perception.linePlayers.find((p) => p.id !== perception.pivot?.id);
+      if (second) {
+        const raw = { x: second.position.x, y: towardGoal(second.position.y, perception.goalSide, COLLECTIVE_DEFENSE_LIMITS.pivotMarkOffsetMeters) };
+        const reach =
+          COLLECTIVE_DEFENSE_LIMITS.pivotMarkReachMeters * aggression * (1 + DEFENCE_TACTIC_SCALE.pivotProtection * (options?.tactics?.pivotProtection ?? 0));
+        return make("MARK_PIVOT", limitedFrom(base, raw, reach));
+      }
     }
 
     if (assignment.helperIds.includes(defender.id) && primaryHome) {
