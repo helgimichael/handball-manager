@@ -19,6 +19,7 @@
  * label that swaps every possession, so this module resolves each player once
  * to a HOME/AWAY roster and scores against that. The spatial model is untouched.
  */
+import type { DefensiveSystemId } from "../policies/defense/defensiveSystem";
 import { SIMULATION_DT_SECONDS } from "./fixedStep";
 import { distanceBetween } from "../domain/geometry/coordinates";
 import {
@@ -232,7 +233,12 @@ function attackingTeam(state: GameFlowState): MatchTeamId {
 /** M12: what the coaches bring to the match before it starts. */
 export type GameFlowSetup = {
   /** Standing instructions per side. Omitted dials are neutral, which is exactly M6/M7 behaviour. */
-  readonly instructions?: Partial<Record<MatchTeamId, { readonly attack?: Partial<AttackTactics>; readonly defence?: Partial<DefenceTactics> }>>;
+  readonly instructions?: Partial<
+    Record<
+      MatchTeamId,
+      { readonly attack?: Partial<AttackTactics>; readonly defence?: Partial<DefenceTactics>; readonly defenceSystem?: DefensiveSystemId }
+    >
+  >;
   /** Timeout allowance. A competition rule, so it arrives as a value. */
   readonly timeoutRules?: Partial<TimeoutRules>;
 };
@@ -1173,9 +1179,28 @@ export function advanceOneSegment(
   const tactics = flow.instructions[team].attack;
   const defenceTactics = flow.instructions[otherTeam(team)].defence;
 
+  // M23: the defending side sets up in the system its coach asked for.
+  //
+  // Stamped here, at the boundary, rather than written into the court by the
+  // coach: changing system does not move anybody, it changes what the defence
+  // forms up as the next time it forms up. Clearing the home positions is what
+  // makes it take effect -- the organized setup seeds a fresh shape when there
+  // is none, which is the same path every defence has always taken.
+  const defenceSystem = flow.instructions[otherTeam(team)].defenceSystem;
+  const match =
+    flow.match.handball.defense.formationId === defenceSystem
+      ? flow.match
+      : {
+          ...flow.match,
+          handball: {
+            ...flow.match.handball,
+            defense: { ...flow.match.handball.defense, formationId: defenceSystem, homePositions: [] },
+          },
+        };
+
   const result: PossessionResult = isTransition
-    ? (simulateTransition({ seed: segmentSeed(seed, segmentIndex), initialState: flow.match, ratings }) as unknown as PossessionResult)
-    : simulatePossession({ seed: segmentSeed(seed, segmentIndex), initialState: flow.match, ratings, tactics, defenceTactics });
+    ? (simulateTransition({ seed: segmentSeed(seed, segmentIndex), initialState: match, ratings }) as unknown as PossessionResult)
+    : simulatePossession({ seed: segmentSeed(seed, segmentIndex), initialState: match, ratings, tactics, defenceTactics });
 
   const trace: GameFlowTraceEntry[] = result.trace.map((entry) => ({
     ...entry,

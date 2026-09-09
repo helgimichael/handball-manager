@@ -50,6 +50,7 @@ import {
 import type { DefenseRole, Player } from "../../domain/handball/player";
 import type { HandballState } from "../../domain/handball/state";
 import { SIX_ZERO_ROLE_ADJACENCY, SIX_ZERO_ROLE_ORDER, type SixZeroDefender } from "./responsibility";
+import { frontDefenderRoleOf } from "./defensiveSystem";
 import type { DefensiveThreatObservation } from "./types";
 import type { DefenceTactics } from "../../simulation/coaching";
 import { DEFENDER_REACTION_SECONDS, reachProfileOf, timeToReach } from "../../simulation/spatialControl";
@@ -87,6 +88,8 @@ export const DEFENCE_TACTIC_SCALE = Object.freeze({
 });
 
 export const COLLECTIVE_DEFENSE_LIMITS = Object.freeze({
+  /** M23: how far the man in front of a 5:1 may travel from his home. */
+  frontMaxDisplacementMeters: 3.2,
   /** How far the line slides toward the ball, per metre the ball is off centre, and its cap. */
   lineShiftPerMeter: 0.12,
   lineShiftMaxMeters: 1.2,
@@ -132,6 +135,18 @@ const DEFAULT_RATING = 10;
  * hopeless step-out is declined.
  */
 const STEP_OUT_LOST_RACE_SECONDS = 1.5;
+
+/**
+ * M23: how far in front of the carrier the man in a 5:1 tries to stand.
+ *
+ * Close enough to be in his passing and driving space, not so close that he is
+ * marking him. A metre and a quarter is an arm and a step.
+ */
+const FRONT_STANDOFF_METERS = 1.25;
+/** How badly he may be losing the race to that spot and still push up to it. */
+const FRONT_COMMIT_SECONDS = 0.6;
+/** How much of his range he uses when he is not winning that race: he holds instead. */
+const FRONT_HOLD_FRACTION = 0.45;
 
 /** 0.7 .. 1.4: how far a defender is willing to step, from his defending rating. */
 export function aggressionFor(defenderId: string, options?: CollectiveDefenseOptions): number {
@@ -243,6 +258,8 @@ export type DefensiveAssignment = {
   readonly pivotMarkerId: string | null;
   /** M22: the defender picking up a SECOND line player, when one can be spared. */
   readonly secondPivotMarkerId: string | null;
+  /** M23: the man playing in front, in a system that has one. */
+  readonly frontDefenderId: string | null;
   /** Comes out of the line to the held ball when nobody is driving. */
   readonly presserId: string | null;
   /** Wing defenders holding width against a wide attacker. */
@@ -297,7 +314,20 @@ export function assignResponsibilities(
   const byId = new Map(defenders.map((d) => [d.id, d]));
   const primary = primaryId ? byId.get(primaryId) ?? null : null;
 
-  const pivotMarkerId = naturalPivotMarker(perception, defenders, shiftedHomes, primary?.id ?? null, previousMarkerId);
+  // M23: in a 5:1 one man is in front, and he is not part of the line behind
+  // him. He is therefore never the pivot's marker and never a width holder --
+  // both of those are jobs on the line, and giving them to him would be running
+  // a six-man line with somebody standing in an odd place.
+  const frontRole = frontDefenderRoleOf(state.defense.formationId);
+  const frontDefenderId = frontRole ? (defenders.find((d) => d.role === frontRole)?.id ?? null) : null;
+
+  const pivotMarkerId = naturalPivotMarker(
+    perception,
+    defenders.filter((d) => d.id !== frontDefenderId),
+    shiftedHomes,
+    primary?.id ?? null,
+    previousMarkerId,
+  );
 
   // Help comes from the primary's neighbours -- except the one who is busy
   // with the pivot. That is the "two threats" rule: a step-out never pulls
@@ -320,7 +350,9 @@ export function assignResponsibilities(
     presserId = nearest?.id ?? null;
   }
 
-  const widthHolderIds = defenders.filter((d) => holdsWidth(d, homeOf(state, d).position, perception)).map((d) => d.id);
+  const widthHolderIds = defenders
+    .filter((d) => d.id !== frontDefenderId && holdsWidth(d, homeOf(state, d).position, perception))
+    .map((d) => d.id);
 
   // M22: a second man on the line gets a marker only if one is genuinely spare.
   //
@@ -340,7 +372,7 @@ export function assignResponsibilities(
   // modelled, and it is not M22's to rewrite. What is M22's is a seventh
   // attacker, so that is exactly what this asks about.
   const outnumbered = perception.attackers.length > FULL_SIDE_OUTFIELD_COUNT;
-  const busy = new Set<string>([primary?.id ?? "", pivotMarkerId ?? "", presserId ?? "", ...helperIds]);
+  const busy = new Set<string>([primary?.id ?? "", pivotMarkerId ?? "", presserId ?? "", frontDefenderId ?? "", ...helperIds]);
   const secondLinePlayer = outnumbered ? perception.linePlayers.find((p) => p.id !== perception.pivot?.id) ?? null : null;
   const secondPivotMarkerId = secondLinePlayer
     ? ([...defenders]
@@ -352,14 +384,15 @@ export function assignResponsibilities(
         )[0]?.id ?? null)
     : null;
 
-  return { primaryId: primary?.id ?? null, helperIds, pivotMarkerId, secondPivotMarkerId, presserId, widthHolderIds };
+  return { primaryId: primary?.id ?? null, helperIds, pivotMarkerId, secondPivotMarkerId, presserId, widthHolderIds, frontDefenderId };
 }
 
 // ---------------------------------------------------------------------------
 // Targets -- where each defender goes, all bounded, all from real positions
 // ---------------------------------------------------------------------------
 
-export type CollectiveReactionType = "ENGAGE" | "SUPPORT" | "SHIFT" | "RECOVER" | "PRESS" | "MARK_PIVOT";
+/** M23: FRONT is the man playing in front of a 5:1. No other system produces one. */
+export type CollectiveReactionType = "ENGAGE" | "SUPPORT" | "SHIFT" | "RECOVER" | "PRESS" | "MARK_PIVOT" | "FRONT";
 
 export type CollectiveReaction = {
   readonly defenderId: string;
@@ -429,6 +462,43 @@ export function collectiveReactions(
       reactionType,
       target: clampPointToBounds(target, COURT_BOUNDS_METERS),
     });
+
+    // M23: THE MAN IN FRONT.
+    //
+    // He is doing a different job from anybody on the line, and it is a job of
+    // position rather than pursuit: stand between the ball and the middle of the
+    // attack, close enough to make the backcourt uncomfortable, and hand a man
+    // on rather than chase him. What makes it a real defensive behaviour and not
+    // a player standing at a fixed spot is that his depth is decided by the same
+    // race M18 asks everywhere else -- he pushes up on a carrier he can reach
+    // and drops toward his line against one he cannot.
+    //
+    // Three things he deliberately does NOT do. He does not follow a man across
+    // the court, which would be man-marking rather than a 5:1. He does not hold
+    // width or mark the pivot, because those are the line's jobs and he is not
+    // in the line. And once he has been beaten -- the carrier is goal-side of
+    // him -- he stops pressing and recovers, because pressure from behind a man
+    // is not pressure, a lesson M18 already learned for the line.
+    if (defender.id === assignment.frontDefenderId) {
+      const front = perception.carrier ?? null;
+      if (!front) return make("FRONT", base);
+
+      // Beaten: he is no longer between the ball and the goal he defends.
+      const goalSide = perception.goalSide;
+      const beaten =
+        goalSide === "TOP" ? front.position.y < defender.position.y : front.position.y > defender.position.y;
+      if (beaten) return make("RECOVER", base);
+
+      // How far up he is willing to be: as far as he can actually get to the
+      // man before the man gets past him, bounded so he never leaves the five
+      // behind him defending alone.
+      const raw = { x: front.position.x, y: towardGoal(front.position.y, goalSide, FRONT_STANDOFF_METERS) };
+      const reachable = timeToReach(reachProfileOf(defender, DEFENDER_REACTION_SECONDS), raw);
+      const arrival = timeToReach(reachProfileOf(front), raw);
+      const committed = reachable - arrival <= FRONT_COMMIT_SECONDS;
+      const reach = COLLECTIVE_DEFENSE_LIMITS.frontMaxDisplacementMeters * aggression * (committed ? 1 : FRONT_HOLD_FRACTION);
+      return make("FRONT", limitedFrom(base, raw, reach));
+    }
 
     if (defender.id === assignment.primaryId) {
       // Step out at the drive: to the carrier, goal-side of him, bounded by

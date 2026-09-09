@@ -128,14 +128,30 @@ test("policy result is deterministic", () => {
   assert.deepEqual(evaluateSixZeroDefense(state), evaluateSixZeroDefense(state));
 });
 
-test("non-6:0 formations do not receive 6:0 reactions", () => {
-  const state = createHalfCourt6v6State({ defenseFormationId: "defence-5-1" });
+test("a formation the engine does not implement receives no reactions", () => {
+  // Re-pinned for M23. This used "defence-5-1" as its example of a formation
+  // the engine does not know, and M23 makes it one the engine does know. The
+  // assertion is unchanged and still worth having -- a defence the collective
+  // layer cannot run must produce nothing rather than a 6:0 by accident -- so
+  // it now names a formation that genuinely is not implemented.
+  const state = createHalfCourt6v6State({ defenseFormationId: "defence-3-2-1" });
   const result = evaluateSixZeroDefense(state);
 
   assert.equal(result.implemented, false);
   assert.equal(result.primaryDefenderId, null);
   assert.deepEqual(result.reactions, []);
   assert.deepEqual(previewSixZeroDefense(state), []);
+});
+
+test("the 5:1 IS implemented, and produces a man in front", () => {
+  const state = createHalfCourt6v6State({ defenseFormationId: "defence-5-1" });
+  const result = evaluateSixZeroDefense(state);
+  assert.equal(result.implemented, true, "M23 runs the 5:1 through the same collective layer");
+  assert.equal(result.reactions.length, 6);
+  assert.ok(
+    result.reactions.some((r) => r.reactionType === "FRONT"),
+    "and exactly the 5:1 produces a FRONT reaction",
+  );
 });
 
 test("6:0 home positions preserve canonical formation id", () => {

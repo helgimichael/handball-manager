@@ -24,6 +24,7 @@ import { createFullCourt6v6State } from "./fullCourt6v6";
 import { attackRoleLabel, type AttackRoleLabel } from "../simulation/organizedAttack";
 import { SIX_ZERO_ROLE_ORDER } from "../policies/defense/responsibility";
 import type { MeterPoint } from "../domain/geometry/coordinates";
+import { FIVE_ONE_DEFENSE_FORMATION_ID, fiveOneHomePosition, type DefensiveSystemId } from "../policies/defense/defensiveSystem";
 import type { DefenseRole, Player } from "../domain/handball/player";
 import type { HandballState } from "../domain/handball/state";
 import type { AttackingGoalSide, FullCourtMatchState, PossessionPhase } from "../domain/match/possession";
@@ -67,6 +68,14 @@ export type MatchScenarioSpec = {
    * proven separately -- this only states the position on the court.
    */
   readonly extraAttacker?: MeterPoint;
+  /**
+   * M23: which system the defence sets up in. Defaults to the canonical 6:0.
+   *
+   * Stated as a fixture, like every other placement here: the home shape is
+   * seeded from the system, so a scenario can put the same attack in front of
+   * either defence and compare what the court looks like.
+   */
+  readonly defenceSystem?: DefensiveSystemId;
 };
 
 function isDefenseRole(ref: string): ref is DefenseRole {
@@ -110,8 +119,21 @@ function moved(player: Player, position: MeterPoint): Player {
  * `resolveShot` with nothing in between.
  */
 export function scenario(spec: MatchScenarioSpec = {}): FullCourtMatchState {
-  const canonical = createFullCourt6v6State({ attackingGoalSide: spec.attackingGoalSide ?? "TOP" });
+  const attackingGoalSide = spec.attackingGoalSide ?? "TOP";
+  const canonical = createFullCourt6v6State({ attackingGoalSide });
   let players = canonical.handball.players;
+
+  // M23: stand the defence in its system's shape FIRST, so an explicit
+  // placement below still overrides it and a 5:1 fixture is a real 5:1 rather
+  // than a 6:0 line carrying a different formation id.
+  const requestedSystem = spec.defenceSystem ?? canonical.handball.defense.formationId;
+  if (requestedSystem === FIVE_ONE_DEFENSE_FORMATION_ID) {
+    players = players.map((p) => {
+      if (p.team !== "DEFENSE" || p.kind !== "FIELD_PLAYER") return p;
+      const home = fiveOneHomePosition(p.role as DefenseRole, attackingGoalSide);
+      return home ? moved(p, home) : p;
+    });
+  }
 
   // Move whoever the scenario placed. Everybody else keeps his canonical spot.
   const relocate = (ref: PlayerRef, position: MeterPoint) => {
@@ -165,9 +187,26 @@ export function scenario(spec: MatchScenarioSpec = {}): FullCourtMatchState {
   const status = spec.ballStatus ?? (holder ? "POSSESSED" : "LOOSE");
   const position = spec.ball ?? (holder ? holder.position : canonical.handball.ball.position);
 
+  // M23: seed the requested system's home shape, so the collective layer reads
+  // a real 5:1 line rather than a 6:0 with a different name on it.
+  const defense =
+    requestedSystem === canonical.handball.defense.formationId
+      ? canonical.handball.defense
+      : {
+          ...canonical.handball.defense,
+          formationId: requestedSystem,
+          homePositions: players
+            .filter((p) => p.team === "DEFENSE" && p.kind === "FIELD_PLAYER")
+            .flatMap((d) => {
+              const home = fiveOneHomePosition(d.role as DefenseRole, attackingGoalSide);
+              return home ? [{ playerId: d.id, role: d.role as DefenseRole, position: home }] : [];
+            }),
+        };
+
   return {
     handball: {
       ...canonical.handball,
+      defense,
       simulationTime: spec.simulationTime ?? canonical.handball.simulationTime,
       players,
       ball: {

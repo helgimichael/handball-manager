@@ -33,6 +33,7 @@ import { mirrorYForOppositeGoalSide } from "@handball-manager/match-contract";
 import { COURT_BOUNDS_METERS, COURT_WIDTH_METERS } from "../domain/geometry/court";
 import { clampPointToBounds, distanceBetween, type MeterPoint } from "../domain/geometry/coordinates";
 import { SIX_ZERO_GAP_RESPONSIBILITIES } from "../policies/defense/responsibility";
+import { fiveOneHomePosition, isKnownDefensiveSystem } from "../policies/defense/defensiveSystem";
 import { SIX_ZERO_DEFENSE_FORMATION_ID } from "../policies/defense/sixZeroDefensePolicy";
 import { createHalfCourt6v6StateWithGoalkeeper } from "../scenarios/halfCourt6v6";
 import { goalCentre, type AttackingGoalSide } from "../domain/match/possession";
@@ -173,12 +174,17 @@ export function sixZeroHomePosition(role: DefenseRole, defendedGoalSide: Attacki
  * a home shape (a free-throw continuation, a fresh kickoff) is left as it is.
  */
 export function ensureSixZeroHomePositions(state: HandballState, defendedGoalSide: AttackingGoalSide): HandballState {
-  if (state.defense.formationId !== SIX_ZERO_DEFENSE_FORMATION_ID) return state;
+  // M23: whichever system this defence is playing. The name is kept because
+  // every caller means "make sure the defence has a home shape", and the shape
+  // it should have is now a property of the system rather than a constant.
+  if (!isKnownDefensiveSystem(state.defense.formationId)) return state;
   if (state.defense.homePositions.length > 0) return state;
+  const homeFor =
+    state.defense.formationId === SIX_ZERO_DEFENSE_FORMATION_ID ? sixZeroHomePosition : fiveOneHomePosition;
   const homePositions = state.players
     .filter((p) => p.team === "DEFENSE" && p.kind === "FIELD_PLAYER")
     .flatMap((defender) => {
-      const home = sixZeroHomePosition(defender.role as DefenseRole, defendedGoalSide);
+      const home = homeFor(defender.role as DefenseRole, defendedGoalSide);
       return home ? [{ playerId: defender.id, role: defender.role as DefenseRole, position: home }] : [];
     });
   if (homePositions.length === 0) return state;

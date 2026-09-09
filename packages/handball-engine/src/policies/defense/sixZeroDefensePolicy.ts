@@ -2,6 +2,7 @@ import type { HandballState } from "../../domain/handball/state";
 import type { DefenseRole, Player } from "../../domain/handball/player";
 import type { DefensivePolicyResult, DefensiveReaction, DefensiveResponsibility, DefensiveThreat } from "./types";
 import { observeDefensiveThreat } from "./threat";
+import { isKnownDefensiveSystem } from "./defensiveSystem";
 import { SIX_ZERO_ROLE_ORDER, resolveSixZeroResponsibility, type SixZeroDefender } from "./responsibility";
 import {
   assignResponsibilities,
@@ -57,7 +58,11 @@ export function previewSixZeroDefense(state: HandballState): readonly DefensiveR
  * steps; omitted, every defender is a neutral 10.
  */
 export function evaluateSixZeroDefense(state: HandballState, options?: CollectiveDefenseOptions): DefensivePolicyResult {
-  if (state.defense.formationId !== SIX_ZERO_DEFENSE_FORMATION_ID) {
+  // M23: both systems run through here. What differs between them is the home
+  // shape they were seeded with and whether one of their roles plays in front;
+  // perception, responsibility, help, the pivot marker and every reach and
+  // contact reading below are identical for both, which is the point.
+  if (!isKnownDefensiveSystem(state.defense.formationId)) {
     return createResult(false, null, null, [], null, 0, [], "", [], []);
   }
 

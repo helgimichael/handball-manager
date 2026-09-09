@@ -20,6 +20,8 @@
  * opinion". A neutral instruction set is exactly the M6/M7 behaviour.
  */
 import { DEFAULT_ATTACK_TACTICS, resolveAttackTactics, type AttackTactics } from "./organizedAttack";
+import { isKnownDefensiveSystem, type DefensiveSystemId } from "../policies/defense/defensiveSystem";
+import { SIX_ZERO_DEFENSE_FORMATION_ID } from "../policies/defense/sixZeroDefensePolicy";
 
 /** Stable side identity. Declared locally so the instruction model has no dependency on the flow layer. */
 export type CoachTeamId = "HOME" | "AWAY";
@@ -69,11 +71,23 @@ export function resolveDefenceTactics(partial?: Partial<DefenceTactics>): Defenc
 export type TeamInstructions = {
   readonly attack: AttackTactics;
   readonly defence: DefenceTactics;
+  /**
+   * M23: which defensive system this side sets up in.
+   *
+   * An instruction, not spatial state, and deliberately so: a coach changing
+   * system does not teleport his line into a new shape, he changes what the
+   * defence forms up as the next time it forms up. The shape itself is
+   * established where every other defensive shape is, when the possession
+   * organizes.
+   */
+  readonly defenceSystem: DefensiveSystemId;
 };
 
 export const DEFAULT_TEAM_INSTRUCTIONS: TeamInstructions = Object.freeze({
   attack: DEFAULT_ATTACK_TACTICS,
   defence: DEFAULT_DEFENCE_TACTICS,
+  // 6:0 remains what a team plays unless it is told otherwise.
+  defenceSystem: SIX_ZERO_DEFENSE_FORMATION_ID,
 });
 
 export type MatchInstructions = Readonly<Record<CoachTeamId, TeamInstructions>>;
@@ -85,8 +99,18 @@ export function defaultMatchInstructions(): MatchInstructions {
 export function resolveTeamInstructions(partial?: {
   readonly attack?: Partial<AttackTactics>;
   readonly defence?: Partial<DefenceTactics>;
+  readonly defenceSystem?: DefensiveSystemId;
 }): TeamInstructions {
-  return { attack: resolveAttackTactics(partial?.attack), defence: resolveDefenceTactics(partial?.defence) };
+  return {
+    attack: resolveAttackTactics(partial?.attack),
+    defence: resolveDefenceTactics(partial?.defence),
+    // An unknown system is not a system: a team asked to play something the
+    // engine cannot run falls back to the 6:0 rather than defending nothing.
+    defenceSystem:
+      partial?.defenceSystem && isKnownDefensiveSystem(partial.defenceSystem)
+        ? partial.defenceSystem
+        : SIX_ZERO_DEFENSE_FORMATION_ID,
+  };
 }
 
 // ---------------------------------------------------------------------------

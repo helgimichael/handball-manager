@@ -10,7 +10,11 @@ import type { HandballState } from "../../domain/handball/state";
  * PRESS (the defender in front of a held ball comes half a metre out) and
  * MARK_PIVOT (the defender responsible for the pivot sits goal-side of him).
  */
-export type DefensiveReactionType = "ENGAGE" | "SUPPORT" | "SHIFT" | "RECOVER" | "PRESS" | "MARK_PIVOT";
+/**
+ * M23: FRONT is the man who plays ahead of the line in a 5:1 -- pressuring the
+ * backcourt rather than holding a place in it. A flat system never produces one.
+ */
+export type DefensiveReactionType = "ENGAGE" | "SUPPORT" | "SHIFT" | "RECOVER" | "PRESS" | "MARK_PIVOT" | "FRONT";
 
 export type DefensiveThreatType = "ACTIVE_ATTACK_THREAT" | "POSSESSION_THREAT" | "NO_DIRECT_BALL_THREAT";
 
