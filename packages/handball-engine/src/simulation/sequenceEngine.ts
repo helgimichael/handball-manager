@@ -87,6 +87,7 @@ import type { MeterPoint } from "../domain/geometry/coordinates";
 import type { HandballAction } from "../domain/handball/actions";
 import type { HandballState } from "../domain/handball/state";
 import { settleArrivedExchanges, stepWithSubstitutions } from "./substitutionExit";
+import { keeperRecoveryActions } from "./sevenVsSix";
 import type { DefenseRole, Player } from "../domain/handball/player";
 
 /** How often the carrier re-reads the break, in fixed steps (0.3s). */
@@ -504,6 +505,15 @@ export function simulateTransition(input: SimulateTransitionInput): TransitionRe
         record(`retreat: ${describeRetreat(retreat)}`);
       }
     }
+
+    // QA GATE 1B: a keeper substituted during a break is still a keeper. He was
+    // never told to go home here, so he stayed at the substitution area for the
+    // rest of the match with his goal standing open behind him.
+    actions.push(
+      ...keeperRecoveryActions(handball, (keeper) =>
+        keeper.team === "DEFENSE" ? attackingGoal : attackingGoal === "TOP" ? "BOTTOM" : "TOP",
+      ),
+    );
 
     handball = stepWithSubstitutions(handball, actions, SIMULATION_DT_SECONDS);
     steps += 1;

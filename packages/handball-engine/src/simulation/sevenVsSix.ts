@@ -27,7 +27,9 @@
  * that; it only says who swaps with whom.
  */
 import { isLeavingCourt, markLeavingCourt, withExchange } from "./substitutionExit";
-import { distanceBetween } from "../domain/geometry/coordinates";
+import { CANONICAL_GOAL_WIDTH_METERS } from "@handball-manager/match-contract";
+import { GOALKEEPER_LIMITS } from "../policies/goalkeeper/goalkeeperPolicy";
+import { distanceBetween, type MeterPoint } from "../domain/geometry/coordinates";
 import { goalCentre, type AttackingGoalSide } from "../domain/match/possession";
 import type { Player, TeamId } from "../domain/handball/player";
 import type { HandballState } from "../domain/handball/state";
@@ -61,16 +63,38 @@ export function isSevenVsSix(state: HandballState, team: TeamId): boolean {
 }
 
 /**
+ * How near his goal a keeper has to be for that goal to be guarded.
+ *
+ * Derived from M9's own limits rather than invented: `goalkeeperSetPosition`
+ * never places a keeper more than `maxAdvanceMeters` off his line, and clamps
+ * him to within 0.6m of a post across it, so the furthest he is ever legitimately
+ * standing from the middle of his goal is the diagonal of those two. His reach
+ * is added on top, because a man that far out is still defending the goal.
+ *
+ * Anything beyond it is a goalkeeper who is somewhere else.
+ */
+export const GOAL_GUARDED_WITHIN_METERS =
+  Math.hypot(CANONICAL_GOAL_WIDTH_METERS / 2 + 0.6, GOALKEEPER_LIMITS.maxAdvanceMeters) + GOALKEEPER_LIMITS.baseReachMeters;
+
+/**
  * Is this team's own goal empty?
  *
- * The question a breaking opponent actually asks, and it is not the same as the
- * question above: a keeper who is mid-substitution has left the court and has
- * not yet come back, so the goal is open even though there are not yet seven
- * outfield players. That window is the whole risk of 7v6 and it must not be
- * papered over by only recognising the tidy end states.
+ * The question a breaking opponent actually asks, and it is NOT "has a
+ * goalkeeper been substituted on". Being on the court is not guarding a goal:
+ * a keeper who has just completed his exchange is standing at the substitution
+ * area on the halfway line, twenty metres away, and until he has run back the
+ * goal behind him is as open as it was while he was on the bench. Reading his
+ * presence alone reported the goal guarded from the instant of the swap, which
+ * is the one moment in 7v6 where the truth matters most.
+ *
+ * So it asks where he is. The keeper has to be on the court AND near enough to
+ * his goal to be defending it; the walk back is genuinely an empty goal, which
+ * is exactly the risk the team accepted when it took him off.
  */
-export function ownGoalIsEmpty(state: HandballState, team: TeamId): boolean {
-  return goalkeeperOnCourt(state, team) === null;
+export function ownGoalIsEmpty(state: HandballState, team: TeamId, ownGoalSide: AttackingGoalSide): boolean {
+  const keeper = goalkeeperOnCourt(state, team);
+  if (!keeper) return true;
+  return distanceBetween(keeper.position, goalCentre(ownGoalSide)) > GOAL_GUARDED_WITHIN_METERS;
 }
 
 /**
@@ -176,6 +200,58 @@ export function emptyGoalDistance(
   attackedGoalSide: AttackingGoalSide,
   defendingTeam: TeamId,
 ): number | null {
-  if (!ownGoalIsEmpty(state, defendingTeam)) return null;
+  if (!ownGoalIsEmpty(state, defendingTeam, attackedGoalSide)) return null;
   return distanceBetween(shooter.position, goalCentre(attackedGoalSide));
+}
+
+// ---------------------------------------------------------------------------
+// Keepers go back to their goal
+// ---------------------------------------------------------------------------
+
+/** Where a goalkeeper stands when he is simply guarding his goal. */
+export function goalkeeperHomePosition(ownGoalSide: AttackingGoalSide): MeterPoint {
+  const goal = goalCentre(ownGoalSide);
+  return { x: goal.x, y: ownGoalSide === "TOP" ? goal.y + 0.5 : goal.y - 0.5 };
+}
+
+/**
+ * QA GATE 1B: orders for any goalkeeper who is not in his goal.
+ *
+ * A keeper arrives from an exchange at the substitution area on the halfway
+ * line, and until now only one code path ever told him to go home -- so a
+ * keeper substituted during a transition or a restart simply stayed there.
+ * Measured over one match, every one of the four keepers spent time twenty-two
+ * metres from the nearest goal, and the QA panel correctly but alarmingly
+ * reported both goals empty at once.
+ *
+ * This is the rule that was missing, stated once and used by every engine that
+ * steps the court: a keeper who is not guarding his goal is going back to it.
+ * He walks -- it returns an order, not a position -- so the goal stays honestly
+ * empty until he arrives.
+ */
+/**
+ * How far from his goal a keeper has to be before he is ordered back.
+ *
+ * Deliberately much larger than the guard distance. M9 moves the keeper around
+ * his goal to cut angles and to commit to a shot, and an order issued every
+ * step at the guard distance fought that -- measured, it cost twelve goals a
+ * match. This only catches a keeper who is somewhere he could not possibly be
+ * doing his job: stranded at the substitution area, twenty metres away.
+ */
+const KEEPER_RECOVERY_TRIGGER_METERS = 9;
+
+export function keeperRecoveryActions(
+  state: HandballState,
+  ownGoalSideOf: (keeper: Player) => AttackingGoalSide,
+): { readonly type: "MOVE"; readonly playerId: string; readonly target: MeterPoint }[] {
+  const orders: { readonly type: "MOVE"; readonly playerId: string; readonly target: MeterPoint }[] = [];
+  for (const keeper of state.players) {
+    if (keeper.kind !== "GOALKEEPER" || keeper.leavingCourt) continue;
+    const home = goalkeeperHomePosition(ownGoalSideOf(keeper));
+    if (distanceBetween(keeper.position, home) <= KEEPER_RECOVERY_TRIGGER_METERS) continue;
+    // Already on his way there; leave the order he is carrying out alone.
+    if (keeper.intent.type === "MOVE" && !keeper.intent.completed && distanceBetween(keeper.intent.target, home) < 0.5) continue;
+    orders.push({ type: "MOVE", playerId: keeper.id, target: home });
+  }
+  return orders;
 }

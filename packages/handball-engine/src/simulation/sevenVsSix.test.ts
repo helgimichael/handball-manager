@@ -24,6 +24,7 @@ import { perceiveTransition, decideBreakAction } from "./transitionDecision";
 import { createPossessionRng } from "./possessionRng";
 import { stepWithSubstitutions } from "./substitutionExit";
 import { mirrorYForOppositeGoalSide } from "@handball-manager/match-contract";
+import { goalCentre } from "../domain/match/possession";
 import {
   COURT_SIDE_SIZE,
   courtPopulationIsLegal,
@@ -65,7 +66,7 @@ test("seven out means seven outfield players and no goalkeeper, never eight of a
   assert.equal(fieldPlayersOnCourt(state, "ATTACK").length, COURT_SIDE_SIZE, "seven outfield attackers");
   assert.equal(goalkeeperOnCourt(state, "ATTACK"), null, "and no goalkeeper of their own");
   assert.equal(isSevenVsSix(state, "ATTACK"), true);
-  assert.equal(ownGoalIsEmpty(state, "ATTACK"), true, "so their goal is empty");
+  assert.equal(ownGoalIsEmpty(state, "ATTACK", "BOTTOM"), true, "so their goal is empty");
 
   // The other side is untouched and still a normal six plus a keeper.
   assert.equal(fieldPlayersOnCourt(state, "DEFENSE").length, 6);
@@ -247,7 +248,7 @@ test("the goalkeeper is not in his goal until he has actually come on", () => {
   // Out he goes -- and he is still on the court until he reaches the line.
   const going = startSevenVsSix(base, "ATTACK", seventh);
   assert.ok(goalkeeperOnCourt(going, "ATTACK"), "he has been told to go, not teleported off");
-  assert.equal(ownGoalIsEmpty(going, "ATTACK"), false, "and the goal is not empty yet");
+  assert.equal(ownGoalIsEmpty(going, "ATTACK", "BOTTOM"), false, "and the goal is not empty yet");
 
   // Run the ordinary substitution machinery until the swap completes.
   let state = going;
@@ -256,20 +257,29 @@ test("the goalkeeper is not in his goal until he has actually come on", () => {
     assert.ok(courtPopulationIsLegal(state, "ATTACK"), "never more than seven, at any instant of the walk");
   }
   assert.equal(goalkeeperOnCourt(state, "ATTACK"), null, "he is off");
-  assert.equal(ownGoalIsEmpty(state, "ATTACK"), true, "and only now is the goal empty");
+  assert.equal(ownGoalIsEmpty(state, "ATTACK", "BOTTOM"), true, "and only now is the goal empty");
   assert.equal(fieldPlayersOnCourt(state, "ATTACK").length, COURT_SIDE_SIZE, "with seven out");
 
   // And back again, through the same machinery.
   const returning = endSevenVsSix(state, "ATTACK", keeper);
-  assert.equal(ownGoalIsEmpty(returning, "ATTACK"), true, "asking for him back does not put him back");
+  assert.equal(ownGoalIsEmpty(returning, "ATTACK", "BOTTOM"), true, "asking for him back does not put him back");
 
+  // He has to be driven back to his goal, which is what the possession engine
+  // does for an arriving keeper. Stepping with no orders at all would only prove
+  // that a man nobody has told to move does not move.
   let coming = returning;
   let stepsToReturn = 0;
-  for (; stepsToReturn < 400 && ownGoalIsEmpty(coming, "ATTACK"); stepsToReturn += 1) {
-    coming = stepWithSubstitutions(coming, [], 0.05);
+  const ownGoal = goalCentre("BOTTOM");
+  for (; stepsToReturn < 600 && ownGoalIsEmpty(coming, "ATTACK", "BOTTOM"); stepsToReturn += 1) {
+    const back = goalkeeperOnCourt(coming, "ATTACK");
+    const actions = back
+      ? [{ type: "MOVE" as const, playerId: back.id, target: { x: ownGoal.x, y: ownGoal.y - 0.5 } }]
+      : [];
+    coming = stepWithSubstitutions(coming, actions, 0.05);
     assert.ok(courtPopulationIsLegal(coming, "ATTACK"), "still never eight");
   }
   assert.ok(goalkeeperOnCourt(coming, "ATTACK"), "he is on");
+  assert.equal(ownGoalIsEmpty(coming, "ATTACK", "BOTTOM"), false, "and the goal is guarded once he is in it");
   assert.ok(stepsToReturn > 0, "and it took him real time to get there -- the race the opponent is running against");
 });
 

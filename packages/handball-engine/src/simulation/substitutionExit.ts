@@ -111,12 +111,27 @@ export function settleArrivedExchanges(state: HandballState): HandballState {
     if (state.ball.possessorId === outgoing.id) return exchange;
     if (!hasReachedSubstitutionArea(outgoing)) return exchange;
 
+    // He inherits the side of the man he replaces, and his ROLE only when the
+    // two are the same kind of player -- so an ordinary rotation keeps the shape
+    // M6 and M7 are holding, which is why the rule was written.
+    //
+    // QA GATE 1: it was wrong for the one case where the kinds differ. A
+    // seventh outfield man coming on for the goalkeeper inherited the role
+    // GOALKEEPER, which the organized shape has no spot for, so he stood at the
+    // substitution area for the rest of the possession; and the keeper coming
+    // back inherited an outfield role and never went to his goal. A man who
+    // replaces a different kind of player keeps his own role -- and the outfield
+    // man who comes on for a keeper is by definition the extra attacker.
+    const sameKind = exchange.incoming.kind === outgoing.kind;
+    const role = sameKind
+      ? outgoing.role
+      : exchange.incoming.kind === "FIELD_PLAYER"
+        ? "EXTRA_ATTACKER"
+        : exchange.incoming.role;
     const replacement: Player = {
       ...exchange.incoming,
-      // He inherits the side and the role of the man he replaces -- so the shape
-      // M6 and M7 are holding survives the change -- but never his position.
       team: outgoing.team,
-      role: outgoing.role,
+      role,
       position: { ...SUBSTITUTION_AREA },
       velocity: { x: 0, y: 0 },
       intent: { type: "IDLE" },

@@ -91,8 +91,17 @@ export const FIVE_ONE_BASE_ROLE_ORDER: readonly DefenseRole[] = Object.freeze(["
  * has built any speed; the point man works the centre. It gives away the wings
  * and buys pressure on the backcourt, which is the trade the system exists for.
  *
- * Symmetric about the middle of the court by construction (4/16, 6.3/13.7, and
- * 10 for both the centre of the base and the point).
+ * Symmetric about the middle of the court by construction (5.5/14.5, 6.8/13.2,
+ * and 10 for both the centre of the base and the point).
+ *
+ * QA GATE 1: the base stands ON the goal-area line, not inside it. The first
+ * version of this shape put all three base defenders inside the six-metre area
+ * -- the middle man was 3.2m from his own goal line -- which is not a defence,
+ * it is three players standing where no player may stand, and a human saw it
+ * immediately. The area is not a circle around the goal centre but two quarter
+ * circles around the POSTS joined by a straight line, so the outside men can
+ * stand shallower than the middle one and still be legal; that is what these
+ * numbers are, with a little clearance so they are visibly outside it.
  *
  * The point man stands a little further out than the one in a 5:1, and
  * deliberately: a 5:1's front man is the only thing between the backcourt and a
@@ -103,12 +112,12 @@ export const FIVE_ONE_BASE_ROLE_ORDER: readonly DefenseRole[] = Object.freeze(["
  * spend the possession recovering.
  */
 const THREE_TWO_ONE_SHAPE: Readonly<Record<DefenseRole, MeterPoint>> = Object.freeze({
-  L1: Object.freeze({ x: 4.0, y: 2.6 }),
-  R3: Object.freeze({ x: 10.0, y: 3.2 }),
-  R1: Object.freeze({ x: 16.0, y: 2.6 }),
-  L2: Object.freeze({ x: 6.3, y: 8.0 }),
-  R2: Object.freeze({ x: 13.7, y: 8.0 }),
-  L3: Object.freeze({ x: 10.0, y: 11.8 }),
+  L1: Object.freeze({ x: 5.5, y: 5.6 }),
+  R3: Object.freeze({ x: 10.0, y: 6.5 }),
+  R1: Object.freeze({ x: 14.5, y: 5.6 }),
+  L2: Object.freeze({ x: 6.8, y: 9.4 }),
+  R2: Object.freeze({ x: 13.2, y: 9.4 }),
+  L3: Object.freeze({ x: 10.0, y: 12.0 }),
 });
 
 /** The point man in a 3:2:1, and in a 5:1: the same job in both. */

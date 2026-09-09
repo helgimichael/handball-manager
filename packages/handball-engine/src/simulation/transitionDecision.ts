@@ -211,7 +211,8 @@ export function perceiveTransition(state: HandballState, attackingGoalSide: Atta
     defendersGoalSide,
     advantage: attackersAhead.length - defendersGoalSide.length,
     ballAdvancement,
-    goalIsEmpty: ownGoalIsEmpty(state, "DEFENSE"),
+    // The defending side's own goal IS the goal being attacked.
+    goalIsEmpty: ownGoalIsEmpty(state, "DEFENSE", attackingGoalSide),
     carrierMarginSeconds: null,
     bestRunner: null,
     bestRunnerMarginSeconds: Number.NEGATIVE_INFINITY,

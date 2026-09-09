@@ -81,6 +81,7 @@ import type { HandballState } from "../domain/handball/state";
 import { applyExitOrders, settleArrivedExchanges, stepWithSubstitutions } from "./substitutionExit";
 import { resolveDefenceTactics, type DefenceTactics } from "./coaching";
 import { contactSituation, type ContactContext } from "./defensiveReach";
+import { keeperRecoveryActions } from "./sevenVsSix";
 import {
   advanceEpisode,
   episodeNeedsResolving,
@@ -638,6 +639,7 @@ export function simulatePossession(input: SimulatePossessionInput): PossessionRe
   let lastPrimaryDefenderId: string | null = null;
   let lastDefenceSummary: string | null = null;
   const fouls: FoulAward[] = [];
+  let lastSquad = "";
   let contacts = 0;
   let resolvedContacts = 0;
   let contactNothing = 0;
@@ -670,6 +672,11 @@ export function simulatePossession(input: SimulatePossessionInput): PossessionRe
 
   function holdFor(player: Player): number {
     return rng.nextInt(HOLD_MIN_STEPS, player.role === "PIVOT" ? PIVOT_HOLD_MAX_STEPS : HOLD_MAX_STEPS);
+  }
+
+  /** The goal a keeper defends: the attacking side's own goal is the far one. */
+  function ownGoalSideOf(keeper: Player): AttackingGoalSide {
+    return keeper.team === "DEFENSE" ? goalSide : goalSide === "TOP" ? "BOTTOM" : "TOP";
   }
 
   /** MOVE commands that bring every off-spot attacker back into organized shape. */
@@ -761,6 +768,32 @@ export function simulatePossession(input: SimulatePossessionInput): PossessionRe
   while (!completed && steps < maxSteps) {
     const actions: HandballAction[] = [];
     const carrier = findPlayer(handball, handball.ball.possessorId);
+
+    // QA GATE 1B: any keeper who is not in his goal is going back to it.
+    // Asked every step rather than only when the squad changes, because a
+    // keeper substituted during a transition or a restart never passed through
+    // that moment and simply stayed on the halfway line.
+    actions.push(...keeperRecoveryActions(handball, (keeper) => ownGoalSideOf(keeper)));
+
+    // QA GATE 1: somebody has just come on.
+    //
+    // An exchange completes mid-possession and drops the incoming player at the
+    // substitution area with no intent at all. Until now nothing gave him one,
+    // so a seventh attacker stood on the halfway line for the rest of the
+    // attack and a returning goalkeeper stood next to him instead of going to
+    // his goal. The engine notices the squad changed and hands the new man the
+    // ordinary target for what he is -- his organized spot, or his goal.
+    const squadNow = handball.players.map((p) => p.id).sort().join("|");
+    if (squadNow !== lastSquad) {
+      lastSquad = squadNow;
+      for (const player of handball.players) {
+        if (player.intent.type !== "IDLE" || player.kind === "GOALKEEPER") continue;
+        if (player.team === "ATTACK") {
+          const target = organizedShapeTargetFor(player, handball, goalSide, tactics);
+          if (target) actions.push({ type: "MOVE", playerId: player.id, target });
+        }
+      }
+    }
 
     if (phase === "ORGANIZED_SETUP") {
       // The defence needs a home shape to step out of and recover to; after a
