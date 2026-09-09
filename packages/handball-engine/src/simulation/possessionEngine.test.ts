@@ -179,8 +179,10 @@ test("the outcome is produced BY the simulation, not chosen before it", () => {
   const weak = simulatePossession({ seed: 7, initialState: TOP, ratings: { [attacker.id]: { shooting: 1 } } });
   // Same seed, same start, different player quality -> the trace must reflect
   // the ratings somewhere (either a different outcome or a different shot line).
-  const strongShot = strong.trace.find((t) => t.note.includes("shoots from"));
-  const weakShot = weak.trace.find((t) => t.note.includes("shoots from"));
+  // QA FIX 2A: the note now names WHY he shot as well as from where, because a
+  // take-off and a chosen shot are both releases and the trace has to say which.
+  const strongShot = strong.trace.find((t) => t.note.includes("shoots ("));
+  const weakShot = weak.trace.find((t) => t.note.includes("shoots ("));
   assert.ok(strongShot || weakShot, "at least one run reached a shot");
   assert.ok(strong.shotOrigin === null || isWithinCanonicalBounds(strong.shotOrigin, CANONICAL_FULL_COURT_BOUNDS));
 });

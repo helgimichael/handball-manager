@@ -29,6 +29,7 @@ import {
   GOAL_GUARDED_WITHIN_METERS,
 } from "./sevenVsSix";
 import { goalCentre } from "../domain/match/possession";
+import { insideGoalArea as insideRealGoalArea } from "../domain/geometry/goalArea";
 import {
   THREE_TWO_ONE_BASE_ROLE_ORDER,
   FIVE_ONE_DEFENSE_FORMATION_ID,
@@ -48,23 +49,13 @@ const DT = 0.05;
 // 3. No 3:2:1 defender may stand inside the goal area
 // ---------------------------------------------------------------------------
 
-/**
- * The goal area, as the court actually defines it: two quarter circles of six
- * metres around the POSTS, joined by a straight line between them. Not a circle
- * around the goal centre -- getting that wrong is how the broken shape looked
- * plausible on paper while putting three men inside the D.
- */
-const GOAL_AREA_RADIUS = 6;
-const POST_LEFT_X = 8.5;
-const POST_RIGHT_X = 11.5;
-
-function insideGoalArea(point: MeterPoint, goalSide: "TOP" | "BOTTOM"): boolean {
-  const goalY = goalSide === "TOP" ? 0 : 40;
-  const depth = Math.abs(point.y - goalY);
-  if (point.x >= POST_LEFT_X && point.x <= POST_RIGHT_X) return depth < GOAL_AREA_RADIUS;
-  const postX = point.x < POST_LEFT_X ? POST_LEFT_X : POST_RIGHT_X;
-  return Math.hypot(point.x - postX, depth) < GOAL_AREA_RADIUS;
-}
+// QA FIX 2A: the goal area now has ONE definition, in the domain geometry, and
+// this file uses it. It used to carry a copy -- correct, but a copy, written
+// here because the engine had no predicate of its own. Two shapes that must
+// agree and are maintained apart is how the 3:2:1 base ended up in the D in the
+// first place.
+const insideGoalArea = (point: MeterPoint, goalSide: "TOP" | "BOTTOM"): boolean =>
+  insideRealGoalArea(point, goalSide);
 
 test("no 3:2:1 home position is inside the goal area, at either end", () => {
   // THE invariant this pass exists to add. A human saw three defenders standing

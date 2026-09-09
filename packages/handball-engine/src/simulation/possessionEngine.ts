@@ -82,6 +82,7 @@ import { applyExitOrders, settleArrivedExchanges, stepWithSubstitutions } from "
 import { resolveDefenceTactics, type DefenceTactics } from "./coaching";
 import { contactSituation, type ContactContext } from "./defensiveReach";
 import { keeperRecoveryActions } from "./sevenVsSix";
+import { goalAreaRecoveryActions, landAfterRelease, releasePointOf, releaseRequiredBefore } from "./shotRelease";
 import {
   advanceEpisode,
   episodeNeedsResolving,
@@ -244,6 +245,13 @@ export type ShotEvent = {
   readonly resolution: ShotResolution;
   /** The world after the ball has travelled and the keeper has reacted. */
   readonly state: HandballState;
+  /**
+   * QA FIX 2A: where the ball actually left the hand -- always a legal release
+   * position, and never simply "wherever the shooter was standing". Callers
+   * report THIS as the shot's location; taking the shooter's position instead
+   * is what put a tenth of all shots inside the goal area.
+   */
+  readonly origin: MeterPoint;
 };
 
 /** Distance from a point to the segment a-b. */
@@ -290,7 +298,13 @@ export function resolveShot(
   onFlightStep?: (state: HandballState, note: string) => void,
 ): ShotEvent {
   const goal = goalCentre(goalSide);
-  const perception = perceiveShot(state, shooter, goalSide);
+  // QA FIX 2A: the ball leaves from a legal position, and everything about the
+  // shot -- the angle he sees, the lane a defender can block, the flight -- is
+  // read from THERE rather than from the shooter's feet. The shooter himself is
+  // untouched: he keeps his momentum and may land inside the area, which is the
+  // whole point of separating the release from the player.
+  const release = releasePointOf(shooter);
+  const perception = perceiveShot(state, { ...shooter, position: release }, goalSide);
   const decision = decideShot(perception, rng, ratings);
   const keeper = goalkeeper(state);
 
@@ -309,19 +323,19 @@ export function resolveShot(
   let blockPoint: MeterPoint | null = null;
   for (const defender of state.players) {
     if (defender.team !== "DEFENSE" || defender.kind !== "FIELD_PLAYER") continue;
-    const toShooter = distanceBetween(defender.position, shooter.position);
+    const toShooter = distanceBetween(defender.position, release);
     if (toShooter > SHOT_LIMITS.blockRangeMeters) continue;
-    if (distanceToSegment(defender.position, shooter.position, goalLinePoint) > SHOT_LIMITS.blockLaneMeters) continue;
+    if (distanceToSegment(defender.position, release, goalLinePoint) > SHOT_LIMITS.blockLaneMeters) continue;
     // A low shot goes under an arm; a lob goes over everybody.
     if (decision.height === "LOB") continue;
-    if (blockedByDefenderId === null || toShooter < distanceBetween(state.players.find((p) => p.id === blockedByDefenderId)!.position, shooter.position)) {
+    if (blockedByDefenderId === null || toShooter < distanceBetween(state.players.find((p) => p.id === blockedByDefenderId)!.position, release)) {
       blockedByDefenderId = defender.id;
       blockPoint = { ...defender.position };
     }
   }
 
   const target = blockPoint ?? goalLinePoint;
-  const flightDistance = distanceBetween(shooter.position, target);
+  const flightDistance = distanceBetween(release, target);
   const flightSeconds = flightDistance / Math.max(1, decision.speedMetersPerSecond);
   const reactionSeconds = keeper ? reactionDelaySeconds(keeper.id, ratings) : 0;
 
@@ -330,7 +344,7 @@ export function resolveShot(
   // are all real simulated movement rather than a cut to the result.
   let flying: HandballState = {
     ...state,
-    ball: { position: { ...shooter.position }, possessorId: null, status: "LOOSE", flight: null },
+    ball: { position: { ...release }, possessorId: null, status: "LOOSE", flight: null },
   };
   const flightSteps = Math.min(MAX_SHOT_FLIGHT_STEPS, Math.max(1, Math.ceil(flightSeconds / SIMULATION_DT_SECONDS)));
   for (let i = 1; i <= flightSteps; i += 1) {
@@ -350,7 +364,7 @@ export function resolveShot(
       ...flying,
       ball: {
         ...flying.ball,
-        position: { x: shooter.position.x + (target.x - shooter.position.x) * t, y: shooter.position.y + (target.y - shooter.position.y) * t },
+        position: { x: release.x + (target.x - release.x) * t, y: release.y + (target.y - release.y) * t },
       },
     };
     onFlightStep?.(flying, i === flightSteps ? "the ball reaches the goal line" : "the shot is on its way");
@@ -402,6 +416,7 @@ export function resolveShot(
       detail,
     },
     state: flying,
+    origin: release,
   };
 }
 
@@ -521,7 +536,7 @@ export function takeSevenMetre(
   const taker = handball.players.find((p) => p.id === takerId);
   if (!taker) {
     // Nobody to take it: give the ball back rather than inventing a shooter.
-    return { resolution: { outcome: "SHOT_MISSED" } as ShotResolution, state: handball };
+    return { resolution: { outcome: "SHOT_MISSED" } as ShotResolution, state: handball, origin: sevenMetreMark(goalSide) };
   }
   onStep(handball, `7m: ${takerId} on the mark, everybody clear`);
   return resolveShot(handball, taker, goalSide, rng, ratings, onStep);
@@ -693,6 +708,32 @@ export function simulatePossession(input: SimulatePossessionInput): PossessionRe
     return actions;
   }
 
+  /**
+   * QA FIX 2A: release the shot from `from`, then land.
+   *
+   * The one place an organized shot is resolved, shared by the carrier's own
+   * decision to shoot and by the take-off. Sharing it is the point: the origin
+   * the match reports and the origin M9 resolved from can never drift apart,
+   * and the take-off is the same shot as any other rather than a special case.
+   */
+  function shootFrom(carrier: Player, from: MeterPoint, detail: string): void {
+    const event = resolveShot(handball, { ...carrier, position: { ...from } }, goalSide, rng, ratings, (flying, note) => {
+      handball = flying;
+      record(note);
+    });
+    shotOrigin = { ...event.origin };
+    record(`${describeAttacker(carrier)} shoots (${detail}) from ${distanceBetween(event.origin, goal).toFixed(2)}m`);
+    // The approach is over the instant the ball goes: he lands and recovers
+    // rather than carrying on into the area with nothing to do there.
+    handball = landAfterRelease(event.state, carrier.id);
+    const shot = event.resolution;
+    outcome = shot.outcome;
+    resolvingPlayerId = carrier.id;
+    shotBlockedByDefenderId = shot.blockedByDefenderId;
+    phase = "RESOLUTION";
+    record(`${describeAttacker(carrier)}: ${shot.detail}`);
+  }
+
   /** Applies the carrier's decision as ordinary engine commands. */
   function applyDecision(decision: AttackDecision, carrier: Player, actions: HandballAction[]): void {
     const chosen = decision.chosen;
@@ -745,19 +786,7 @@ export function simulatePossession(input: SimulatePossessionInput): PossessionRe
         break;
       }
       case "SHOOT": {
-        shotOrigin = { ...carrier.position };
-        record(`${describeAttacker(carrier)} shoots from ${distanceBetween(carrier.position, goal).toFixed(2)}m`);
-        const event = resolveShot(handball, carrier, goalSide, rng, ratings, (flying, note) => {
-          handball = flying;
-          record(note);
-        });
-        handball = event.state;
-        const shot = event.resolution;
-        outcome = shot.outcome;
-        resolvingPlayerId = carrier.id;
-        shotBlockedByDefenderId = shot.blockedByDefenderId;
-        phase = "RESOLUTION";
-        record(`${describeAttacker(carrier)}: ${shot.detail}`);
+        shootFrom(carrier, carrier.position, "from the shape");
         break;
       }
     }
@@ -774,6 +803,9 @@ export function simulatePossession(input: SimulatePossessionInput): PossessionRe
     // keeper substituted during a transition or a restart never passed through
     // that moment and simply stayed on the halfway line.
     actions.push(...keeperRecoveryActions(handball, (keeper) => ownGoalSideOf(keeper)));
+
+    // QA FIX 2A: and any field player who has landed in an area is leaving it.
+    actions.push(...goalAreaRecoveryActions(handball));
 
     // QA GATE 1: somebody has just come on.
     //
@@ -969,6 +1001,20 @@ export function simulatePossession(input: SimulatePossessionInput): PossessionRe
     }
     actions.push(...reaction.actions);
     handball = { ...handball, defense: { ...handball.defense, lastReaction: reaction } };
+
+    // QA FIX 2A: THE TAKE-OFF, asked last and of the real step -- the same
+    // question the break asks, for the same reason. A driving carrier reaches
+    // the line between decision points, and the ball goes before the line does.
+    if (!completed && !phaseIs("RESOLUTION") && !phaseIs("DEAD_BALL")) {
+      const release = releaseRequiredBefore(handball, actions, handball.ball.possessorId, SIMULATION_DT_SECONDS);
+      const releasing = release === null ? null : findPlayer(handball, handball.ball.possessorId);
+      if (release !== null && releasing) {
+        record(`${describeAttacker(releasing)} takes off at the line and releases`);
+        shootFrom(releasing, release, "the take-off");
+        steps += 1;
+        continue;
+      }
+    }
 
     handball = stepWithSubstitutions(handball, actions, SIMULATION_DT_SECONDS);
     steps += 1;

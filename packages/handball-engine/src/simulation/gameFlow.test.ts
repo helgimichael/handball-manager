@@ -125,9 +125,19 @@ test("a free throw preserves the attacking team, and the possession continues", 
 });
 
 test("ORGANIZED_ATTACK_REACHED flows straight into an organized possession", () => {
-  const result = run(SEED_MIXED);
-  const index = result.segments.findIndex((s) => s.outcome === "ORGANIZED_ATTACK_REACHED");
-  assert.ok(index >= 0, "this seed settles a break at least once");
+  // QA FIX 2A: found rather than pinned to one seed. The property under test is
+  // structural -- a break that settles continues as the SAME possession -- and
+  // pinning it to seed 1 made it a hostage of every change to how a break ends.
+  // The take-off finishes some breaks that used to peter out, so seed 1 no
+  // longer happens to settle one within eight possessions; the behaviour is
+  // unchanged and the first seed that does settle one proves it just as well.
+  let result = run(SEED_MIXED);
+  let index = result.segments.findIndex((s) => s.outcome === "ORGANIZED_ATTACK_REACHED");
+  for (let seed = SEED_MIXED; index < 0 && seed <= SEED_MIXED + 20; seed += 1) {
+    result = run(seed);
+    index = result.segments.findIndex((s) => s.outcome === "ORGANIZED_ATTACK_REACHED");
+  }
+  assert.ok(index >= 0, "some seed settles a break at least once");
   const before = result.segments[index];
   const after = result.segments[index + 1];
   assert.ok(after, "the settled attack plays on");

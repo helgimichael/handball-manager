@@ -1,5 +1,6 @@
 import { COURT_BOUNDS_METERS } from "../domain/geometry/court";
 import { distanceBetween, isPointWithinBounds } from "../domain/geometry/coordinates";
+import { insideAnyGoalArea } from "../domain/geometry/goalArea";
 import { getAttackGap, isValidAttackGapTarget } from "../domain/geometry/attackGaps";
 import type { AttackAction, HandballAction, MoveAction, PassAction } from "../domain/handball/actions";
 import type { Ball, BallFlight } from "../domain/handball/ball";
@@ -212,6 +213,28 @@ function advanceBall(ball: Ball, players: readonly Player[], dt: number): Ball {
   const elapsedSeconds = ball.flight.elapsedSeconds + dt;
   if (elapsedSeconds >= ball.flight.durationSeconds) {
     const receiver = findPlayerById(players, ball.flight.receiverId);
+    // QA FIX 2A: nobody receives the ball in the goal area.
+    //
+    // A pass is aimed at where the receiver stood; he keeps running while it
+    // travels, and a runner heading for goal is often over the line by the time
+    // it arrives. Handing it to him there made an outfield player the ball
+    // carrier inside the D -- the largest remaining source of it once the shot
+    // release was fixed.
+    //
+    // The ball therefore waits on the line of its flight rather than being
+    // caught illegally. Nothing is invented to make that happen: the receiver
+    // is told to come out for it by the same recovery order that gets a landed
+    // shooter out, and he collects it a few frames later, on legal ground. A
+    // goalkeeper is not covered, because his own area is exactly where he is
+    // entitled to catch it.
+    if (receiver && receiver.kind === "FIELD_PLAYER" && insideAnyGoalArea(receiver.position)) {
+      return {
+        position: { ...ball.flight.to },
+        possessorId: null,
+        status: "IN_FLIGHT",
+        flight: { ...ball.flight, elapsedSeconds: ball.flight.durationSeconds, from: { ...ball.flight.from }, to: { ...ball.flight.to } }
+      };
+    }
     const receivedPosition = receiver?.position ?? ball.flight.to;
     return {
       position: { ...receivedPosition },

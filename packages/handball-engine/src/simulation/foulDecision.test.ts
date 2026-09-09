@@ -179,26 +179,78 @@ test("an ordinary foul produces a free throw in a running possession", () => {
   assert.ok(seen, "ordinary fouls do occur in organized play");
 });
 
-test("all four restart/punishment combinations really occur in running play", () => {
-  // The constructed cases above prove the model supports them; this proves the
-  // simulation actually produces them, and in particular that a 7 metre
-  // WITHOUT a suspension is the common case rather than an unreachable branch.
+/**
+ * A genuine clear chance, built rather than waited for: the carrier seven
+ * metres out and central with every defender cleared away except one, who is on
+ * him. `chasing` is the only difference between the two cases -- a defender who
+ * arrives at speed is the late challenge, one who is simply there is not.
+ */
+function destroyedClearChance(chasing: boolean): HandballState {
+  const runner = { x: 10, y: 7 };
+  const offender = "defense-defence-6-0-4";
+  const players = BASE.players.map((player) => {
+    if (player.id === CARRIER_ID) return { ...player, position: { ...runner } };
+    if (player.team !== "DEFENSE" || player.kind !== "FIELD_PLAYER") return player;
+    if (player.id === offender) {
+      return { ...player, position: { x: 10, y: 9.4 }, velocity: chasing ? { x: 0, y: 4 } : { x: 0, y: 0 } };
+    }
+    // Everybody else is out of it -- that is what makes the chance clear.
+    return { ...player, position: { x: 1, y: 30 } };
+  });
+  return { ...BASE, players, ball: { position: { ...runner }, possessorId: CARRIER_ID, status: "POSSESSED", flight: null } };
+}
+
+test("a destroyed clear chance really produces a 7 metre in running play", () => {
+  // QA FIX 2A replaced the old witness for this.
+  //
+  // It used to scan six hundred random sequences and rely on one of them
+  // happening to produce each combination. That worked only because a breaking
+  // carrier ran ILLEGALLY on into the goal area with a defender chasing him
+  // there, which is a second of handball that no longer happens -- so the sweep
+  // stopped finding 7 metres, and re-pinning it to a wider sweep would have
+  // been preserving a witness that the old defect used to fire.
+  //
+  // The claim worth keeping is that the branch is reachable from real play, not
+  // that random play reaches it often. So the chance is CONSTRUCTED and the
+  // real possession engine is run on it: same contact model, same M19 episode,
+  // same M10 judgement, nothing staged about the outcome.
   const seen = new Map<string, number>();
-  for (let seed = 1; seed <= 600; seed += 1) {
-    const sequence = simulateSequence({ seed, initialState: TOP });
-    for (const part of [sequence.possession, sequence.transition]) {
-      for (const foul of part?.fouls ?? []) {
+  for (const chasing of [false, true]) {
+    for (let seed = 1; seed <= 200; seed += 1) {
+      const result = simulatePossession({ seed, initialState: { ...TOP, handball: destroyedClearChance(chasing) } });
+      for (const foul of result.fouls) {
         const key = `${foul.restart}${foul.punishment === "TWO_MINUTES" ? "+2min" : ""}`;
         seen.set(key, (seen.get(key) ?? 0) + 1);
       }
     }
   }
+  const saw = [...seen].map(([k, v]) => `${k}=${v}`).join(", ");
   for (const combination of ["FREE_THROW", "FREE_THROW+2min", "SEVEN_METRE", "SEVEN_METRE+2min"]) {
-    assert.ok((seen.get(combination) ?? 0) > 0, `${combination} occurs in play (saw ${[...seen].map(([k, v]) => `${k}=${v}`).join(", ")})`);
+    assert.ok((seen.get(combination) ?? 0) > 0, `${combination} is reachable from real play (saw ${saw})`);
   }
+});
+
+test("a 7 metre and a suspension remain separate decisions in running play", () => {
+  // The defender who is simply there gives 7 metres without two minutes; the
+  // one who arrives at speed gives both. Same chance, same engine, and the two
+  // axes still move independently once a real possession has run.
+  const countOf = (chasing: boolean) => {
+    const seen = new Map<string, number>();
+    for (let seed = 1; seed <= 200; seed += 1) {
+      for (const foul of simulatePossession({ seed, initialState: { ...TOP, handball: destroyedClearChance(chasing) } }).fouls) {
+        const key = `${foul.restart}${foul.punishment === "TWO_MINUTES" ? "+2min" : ""}`;
+        seen.set(key, (seen.get(key) ?? 0) + 1);
+      }
+    }
+    return seen;
+  };
+  const standing = countOf(false);
+  const arriving = countOf(true);
+  assert.ok((standing.get("SEVEN_METRE") ?? 0) > 0, "a defender who is merely there concedes 7 metres and no more");
+  assert.ok((arriving.get("SEVEN_METRE+2min") ?? 0) > 0, "one who arrives late concedes 7 metres and two minutes");
   assert.ok(
-    seen.get("SEVEN_METRE")! > seen.get("SEVEN_METRE+2min")!,
-    "most 7 metres carry no personal punishment, which is the whole point of separating them",
+    (arriving.get("SEVEN_METRE+2min") ?? 0) > (standing.get("SEVEN_METRE+2min") ?? 0),
+    "the suspension tracks the challenge, not the chance",
   );
 });
 

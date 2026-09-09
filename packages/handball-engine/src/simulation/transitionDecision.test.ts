@@ -282,9 +282,16 @@ test("a transition can finish, and only when the advantage is real", () => {
       // M10: a transition can also produce a shot by winning a 7 metre, so a
       // shot is explained either by the clearance that earned it or by the
       // foul that stopped it.
+      //
+      // QA FIX 2A adds the third honest ending, and it is the one this pass
+      // exists for: a carrier who never got clear still reaches the goal area,
+      // and at that point the ball has to go. He takes off at the line and
+      // shoots. Widened rather than weakened -- a break shot must still name
+      // which of the three things produced it.
       assert.ok(
-        transition.trace.some((t) => t.note.includes("breaks clear")) || transition.sevenMetreTaken,
-        "a break shot is explained by the clearance that earned it, or by a 7 metre",
+        transition.trace.some((t) => t.note.includes("breaks clear") || t.note.includes("takes off at the line")) ||
+          transition.sevenMetreTaken,
+        "a break shot is explained by the clearance, the take-off, or a 7 metre",
       );
     }
     if (transition.outcome === "ORGANIZED_ATTACK_REACHED") settled += 1;

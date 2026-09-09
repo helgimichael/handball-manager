@@ -23,6 +23,7 @@ import type { DefensiveSystemId } from "../policies/defense/defensiveSystem";
 import { SIMULATION_DT_SECONDS } from "./fixedStep";
 import { recoverOnBench } from "./condition";
 import { distanceBetween } from "../domain/geometry/coordinates";
+import { insideAnyGoalArea } from "../domain/geometry/goalArea";
 import {
   deriveMatchEvent,
   simulatePossession,
@@ -1076,7 +1077,16 @@ function findGoalkeeper(state: HandballState, team: "ATTACK" | "DEFENSE"): Playe
 
 function nearestDefenderId(state: HandballState, point: MeterPoint): string | null {
   const defenders = state.players.filter((p) => p.team === "DEFENSE" && p.kind === "FIELD_PLAYER");
-  return nearestTo(defenders, point)?.id ?? null;
+  // QA FIX 2A: a field player standing in a goal area cannot pick the ball up
+  // there -- inside the area the ball is the goalkeeper's. The ball at the end
+  // of a shot sits on the goal line, so "nearest defender" used to hand it to
+  // whoever was deepest, and that was routinely a man standing in the D: 75 of
+  // every 80 frames in which a field player held the ball inside an area began
+  // exactly here. He is skipped in favour of the nearest man who can legally
+  // play it; if literally nobody can, the old answer stands rather than leaving
+  // the ball with nobody.
+  const legal = defenders.filter((p) => !insideAnyGoalArea(p.position));
+  return (nearestTo(legal, point) ?? nearestTo(defenders, point))?.id ?? null;
 }
 
 /**

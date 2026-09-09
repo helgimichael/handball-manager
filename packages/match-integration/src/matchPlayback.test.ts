@@ -243,7 +243,10 @@ test("event situations are visible in the trace the renderer plays", () => {
   // carried on the frame, so the rendered situation can be labelled without the
   // renderer inferring anything.
   const notes = FRAMES.map((f) => f.note);
-  assert.ok(notes.some((n) => n.includes("shoots from")), "shots are visible");
+  // QA FIX 2A: the note now names why the shot was released as well as from
+  // where, because a take-off at the goal-area line and a chosen shot are both
+  // releases and the trace has to say which one the renderer is showing.
+  assert.ok(notes.some((n) => n.includes("shoots (")), "shots are visible");
   assert.ok(notes.some((n) => n.includes("centre restart")), "restarts are visible");
   assert.ok(notes.some((n) => n.includes("possession changes")), "possession changes are visible");
 });

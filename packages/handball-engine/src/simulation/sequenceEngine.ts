@@ -88,6 +88,9 @@ import type { HandballAction } from "../domain/handball/actions";
 import type { HandballState } from "../domain/handball/state";
 import { settleArrivedExchanges, stepWithSubstitutions } from "./substitutionExit";
 import { keeperRecoveryActions } from "./sevenVsSix";
+import { goalAreaRecoveryActions, landAfterRelease, releaseRequiredBefore } from "./shotRelease";
+import { COURT_LENGTH_METERS, COURT_WIDTH_METERS } from "../domain/geometry/court";
+import { insideAnyGoalArea } from "../domain/geometry/goalArea";
 import type { DefenseRole, Player } from "../domain/handball/player";
 
 /** How often the carrier re-reads the break, in fixed steps (0.3s). */
@@ -152,10 +155,17 @@ function catchProbability(distance: number): number {
 }
 
 /** Nearest defender to a point, and how far away they are. */
-function nearestDefender(state: HandballState, point: MeterPoint): { distance: number; id: string | null } {
+function nearestDefender(
+  state: HandballState,
+  point: MeterPoint,
+  /** QA FIX 2A: for a regain, skip men standing where they may not play it. */
+  options: { readonly legalGroundOnly?: boolean } = {},
+): { distance: number; id: string | null } {
   let best = Number.POSITIVE_INFINITY;
   let id: string | null = null;
-  for (const d of state.players.filter((p) => p.team === "DEFENSE" && p.kind === "FIELD_PLAYER")) {
+  const candidates = state.players.filter((p) => p.team === "DEFENSE" && p.kind === "FIELD_PLAYER");
+  const eligible = options.legalGroundOnly ? candidates.filter((p) => !insideAnyGoalArea(p.position)) : candidates;
+  for (const d of (eligible.length > 0 ? eligible : candidates)) {
     const distance = distanceBetween(d.position, point);
     if (distance < best) {
       best = distance;
@@ -265,6 +275,30 @@ export function simulateTransition(input: SimulateTransitionInput): TransitionRe
     const carrier = findPlayer(handball, handball.ball.possessorId);
     const perception = perceiveTransition(handball, attackingGoal);
 
+    /**
+     * QA FIX 2A: release the shot from `from`, and land.
+     *
+     * One place for every ending that puts the ball in the air, so the origin
+     * reported to the match and the origin M9 resolved from can never drift
+     * apart, and so a take-off is the same shot as any other.
+     */
+    const shootFrom = (shooter: Player, from: MeterPoint, detail: string): void => {
+      const event = resolveShot(handball, { ...shooter, position: { ...from } }, attackingGoal, rng, ratings, (flying, note) => {
+        handball = flying;
+        record(note);
+      });
+      // The approach is over the instant the ball goes: he lands and recovers
+      // rather than carrying on to the goal centre and standing in the D.
+      handball = landAfterRelease(event.state, shooter.id);
+      const shot = event.resolution;
+      shotOrigin = { ...event.origin };
+      outcome = shot.outcome;
+      resolvingPlayerId = shooter.id;
+      shotBlockedByDefenderId = shot.blockedByDefenderId;
+      phase = "RESOLUTION";
+      record(`${shooter.id} shoots (${detail}) from ${distanceBetween(event.origin, goal).toFixed(2)}m: ${shot.detail}`);
+    };
+
     if (phase === "POSSESSION_CHANGE") {
       // READ NUMBERS + SPACE, then ASSIGN RUNNING ROLES. Both teams react at
       // once: the losing side turns for its own goal with a job each, the
@@ -325,6 +359,15 @@ export function simulateTransition(input: SimulateTransitionInput): TransitionRe
       actions.push(...offBallActions(carrier.id));
     } else if ((phase === "FIRST_WAVE" || phase === "SECOND_WAVE") && carrier && handball.ball.status === "POSSESSED") {
       const { distance: pressure, id: pressuringId } = nearestDefender(handball, carrier.position);
+      // QA FIX 2A: the contact that is actually there, at the moment it is
+      // actually there.
+      //
+      // An earlier version of this fix compounded this per-step probability
+      // over the steps the take-off removed, to hold the old 7-metre rate. That
+      // was wrong: those steps were a carrier running illegally on into the goal
+      // area with a defender chasing him there, and replaying their odds is
+      // preserving an invalid sequence by arithmetic. The chase is whatever the
+      // chase is, judged from the real state each real step.
       if (pressuringId && rng.chance(catchProbability(pressure))) {
         // Caught by the retreat. A PER-STEP probability that grows as the
         // recovering defender closes, exactly like the organized-attack
@@ -375,19 +418,8 @@ export function simulateTransition(input: SimulateTransitionInput): TransitionRe
         const recovered = defenceHasRecovered(handball, defendedGoal);
         const decision = decideBreakAction(perception, carrier, recovered, ratings);
         if (decision.kind === "SHOOT") {
-          shotOrigin = { ...carrier.position };
           record(`${carrier.id} breaks clear (${decision.detail}) and shoots`);
-          const event = resolveShot(handball, carrier, attackingGoal, rng, ratings, (flying, note) => {
-            handball = flying;
-            record(note);
-          });
-          handball = event.state;
-          const shot = event.resolution;
-          outcome = shot.outcome;
-          resolvingPlayerId = carrier.id;
-          shotBlockedByDefenderId = shot.blockedByDefenderId;
-          phase = "RESOLUTION";
-          record(`${carrier.id}: ${shot.detail}`);
+          shootFrom(carrier, carrier.position, decision.detail);
         } else if (decision.kind === "PASS" && decision.targetPlayerId) {
           const receiver = findPlayer(handball, decision.targetPlayerId);
           const resolution = receiver ? resolvePass(handball, carrier, receiver, rng, ratings) : ({ kind: "COMPLETE" } as const);
@@ -416,6 +448,15 @@ export function simulateTransition(input: SimulateTransitionInput): TransitionRe
         // centre; everybody else keeps their running or retreat job.
         const lane = running.find((r) => r.playerId === carrier.id)?.laneX ?? carrier.position.x;
         const toGoal = distanceBetween(carrier.position, goal);
+        // QA FIX 2A: he still attacks the GOAL, not the line.
+        //
+        // Clamping this target to the last legal point was tried and measured,
+        // and it is the wrong model: it makes a man running at an open goal
+        // decelerate into the six-metre line and stand on it, which cost 42% of
+        // all possessions and 40% of all goals. A breaking attacker does not
+        // brake at the D -- he takes off over it. What keeps him legal is the
+        // take-off above, which puts the ball out of his hands before the line
+        // rather than putting a wall in front of him.
         actions.push({
           type: "MOVE",
           playerId: carrier.id,
@@ -441,15 +482,27 @@ export function simulateTransition(input: SimulateTransitionInput): TransitionRe
       if (!secondWave && !settled) {
         // Keep advancing at a controlled pace; the retreat keeps running.
         if (carrier && handball.ball.status === "POSSESSED") {
+          // QA FIX 2A: he is walked TO the approach distance, from either
+          // side of it. Only the "still too far away" case was ordered before,
+          // so a carrier who arrived here closer than eleven metres -- which is
+          // every carrier whose break was called off near the goal -- kept the
+          // break's own order to run at the goal and carried the ball into the
+          // area. Early offense means bringing the ball up and holding it at an
+          // organized distance, and that is a distance he can be on the wrong
+          // side of.
           const toGoal = distanceBetween(carrier.position, goal);
-          if (toGoal > ORGANIZED_APPROACH_METERS) {
-            const t = Math.min(1, (toGoal - ORGANIZED_APPROACH_METERS) / Math.max(toGoal, 1e-6));
-            actions.push({
-              type: "MOVE",
-              playerId: carrier.id,
-              target: { x: carrier.position.x + (goal.x - carrier.position.x) * t, y: carrier.position.y + (goal.y - carrier.position.y) * t },
-            });
-          }
+          const t = (toGoal - ORGANIZED_APPROACH_METERS) / Math.max(toGoal, 1e-6);
+          // Backing away from the goal can run off the end of the court, so the
+          // target is kept on it -- he retreats as far as there is court to
+          // retreat into.
+          actions.push({
+            type: "MOVE",
+            playerId: carrier.id,
+            target: {
+              x: Math.min(COURT_WIDTH_METERS - 0.2, Math.max(0.2, carrier.position.x + (goal.x - carrier.position.x) * t)),
+              y: Math.min(COURT_LENGTH_METERS - 0.2, Math.max(0.2, carrier.position.y + (goal.y - carrier.position.y) * t)),
+            },
+          });
         }
         if (steps >= nextRefreshStep) {
           nextRefreshStep = steps + REFRESH_STEPS;
@@ -514,6 +567,28 @@ export function simulateTransition(input: SimulateTransitionInput): TransitionRe
         keeper.team === "DEFENSE" ? attackingGoal : attackingGoal === "TOP" ? "BOTTOM" : "TOP",
       ),
     );
+
+    // QA FIX 2A: and any field player who has landed in an area is leaving it.
+    actions.push(...goalAreaRecoveryActions(handball));
+
+    // QA FIX 2A: THE TAKE-OFF, asked last and of the real step.
+    //
+    // Last, because the orders collected above are what he is about to do, and
+    // the question is whether THEY carry the ball over the line. Asking at the
+    // top of the loop instead used the intent he arrived with, said no, and let
+    // him cross under an order issued moments later. And of every phase,
+    // because the rule does not know what phase it is: the retreat and early
+    // offense have no shot in them and could still walk a carrier in.
+    if (!completed && phase !== "RESOLUTION" && phase !== "DEAD_BALL") {
+      const release = releaseRequiredBefore(handball, actions, handball.ball.possessorId, SIMULATION_DT_SECONDS);
+      const releasing = release === null ? null : findPlayer(handball, handball.ball.possessorId);
+      if (release !== null && releasing) {
+        record(`${releasing.id} takes off at the line and releases`);
+        shootFrom(releasing, release, "the take-off");
+        steps += 1;
+        continue;
+      }
+    }
 
     handball = stepWithSubstitutions(handball, actions, SIMULATION_DT_SECONDS);
     steps += 1;
@@ -583,7 +658,10 @@ export function simulateSequence(input: SimulatePossessionInput): SequenceResult
   // possession actually ended in.
   const ended = possession.finalState.handball;
   const keeper = goalkeeperOf(ended, "DEFENSE");
-  const nearest = nearestDefender(ended, ended.ball.position);
+  // QA FIX 2A: whoever wins it must be able to LEGALLY win it where he stands.
+  // A field player inside the goal area may not play the ball there, so the
+  // nearest legally placed defender takes it instead.
+  const nearest = nearestDefender(ended, ended.ball.position, { legalGroundOnly: true });
   const regainingPlayerId =
     possession.outcome === "SHOT_SAVED" ? (keeper?.id ?? nearest.id) : (nearest.id ?? keeper?.id ?? null);
   if (!regainingPlayerId) {
