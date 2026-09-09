@@ -28,6 +28,23 @@ import type { DefenseRole } from "../../domain/handball/player";
 import type { AttackingGoalSide } from "../../domain/match/possession";
 
 export const FIVE_ONE_DEFENSE_FORMATION_ID = "defence-5-1";
+export const THREE_TWO_ONE_DEFENSE_FORMATION_ID = "defence-3-2-1";
+
+/**
+ * M24: WHICH LAYER A DEFENDER BELONGS TO.
+ *
+ * This is the role identity M23 did without and said so. A 5:1 only needed to
+ * know which man was in front; a 3:2:1 has a middle layer that is neither the
+ * line nor the point, and calling those men "L2" and "R2" says where they stand
+ * in a 6:0 and nothing about the job they are doing here.
+ *
+ * Deliberately a property of the SYSTEM rather than a new `DefenseRole`. The
+ * role ids are woven through gap responsibility, adjacency and the canonical
+ * shapes; adding members to that union would touch all of it to express
+ * something none of it needs. What the engine actually needs to ask is "what
+ * layer is this man in", and the system is the only thing that knows.
+ */
+export type DefensiveLayer = "BASE" | "INTERMEDIATE" | "FRONT";
 
 /** The goal the shapes below are authored against; the other end is mirrored. */
 const SOURCE_GOAL_SIDE: AttackingGoalSide = "TOP";
@@ -65,11 +82,87 @@ export const FIVE_ONE_FRONT_ROLE: DefenseRole = "L3";
 /** The five who hold the line, in left-to-right order. */
 export const FIVE_ONE_BASE_ROLE_ORDER: readonly DefenseRole[] = Object.freeze(["L1", "L2", "R3", "R2", "R1"]);
 
-export type DefensiveSystemId = typeof SIX_ZERO_DEFENSE_FORMATION_ID | typeof FIVE_ONE_DEFENSE_FORMATION_ID;
+/**
+ * The 3:2:1: three across the line, two in the half-spaces, one at the point.
+ *
+ * Three genuine depths. The base is tight and deep because three men cannot
+ * hold the width six did and must instead hold the middle and the line; the two
+ * intermediates sit in the half-spaces, high enough to reach a back before he
+ * has built any speed; the point man works the centre. It gives away the wings
+ * and buys pressure on the backcourt, which is the trade the system exists for.
+ *
+ * Symmetric about the middle of the court by construction (4/16, 6.3/13.7, and
+ * 10 for both the centre of the base and the point).
+ *
+ * The point man stands a little further out than the one in a 5:1, and
+ * deliberately: a 5:1's front man is the only thing between the backcourt and a
+ * flat line, so he cannot afford to stray far from it, while this one has two
+ * men in the half-spaces behind him and can meet the attack earlier. It is only
+ * a little further, though -- a point man who stands deeper than the centre
+ * back he is supposed to be pressing is not in front of anybody, and would
+ * spend the possession recovering.
+ */
+const THREE_TWO_ONE_SHAPE: Readonly<Record<DefenseRole, MeterPoint>> = Object.freeze({
+  L1: Object.freeze({ x: 4.0, y: 2.6 }),
+  R3: Object.freeze({ x: 10.0, y: 3.2 }),
+  R1: Object.freeze({ x: 16.0, y: 2.6 }),
+  L2: Object.freeze({ x: 6.3, y: 8.0 }),
+  R2: Object.freeze({ x: 13.7, y: 8.0 }),
+  L3: Object.freeze({ x: 10.0, y: 11.8 }),
+});
+
+/** The point man in a 3:2:1, and in a 5:1: the same job in both. */
+const FRONT_ROLE: DefenseRole = "L3";
+/** The two half-space defenders of a 3:2:1. */
+export const THREE_TWO_ONE_INTERMEDIATE_ROLES: readonly DefenseRole[] = Object.freeze(["L2", "R2"]);
+/** The three who hold the line, left to right. */
+export const THREE_TWO_ONE_BASE_ROLE_ORDER: readonly DefenseRole[] = Object.freeze(["L1", "R3", "R1"]);
+
+export type DefensiveSystemId =
+  | typeof SIX_ZERO_DEFENSE_FORMATION_ID
+  | typeof FIVE_ONE_DEFENSE_FORMATION_ID
+  | typeof THREE_TWO_ONE_DEFENSE_FORMATION_ID;
 
 /** Is this formation one the collective layer knows how to run? */
 export function isKnownDefensiveSystem(formationId: string): boolean {
-  return formationId === SIX_ZERO_DEFENSE_FORMATION_ID || formationId === FIVE_ONE_DEFENSE_FORMATION_ID;
+  return (
+    formationId === SIX_ZERO_DEFENSE_FORMATION_ID ||
+    formationId === FIVE_ONE_DEFENSE_FORMATION_ID ||
+    formationId === THREE_TWO_ONE_DEFENSE_FORMATION_ID
+  );
+}
+
+/**
+ * Which layer this role plays in, in this system.
+ *
+ * A flat system has one layer and every man is in it. That is not a special
+ * case being tolerated -- it is what "6:0" means -- and it is why nothing
+ * downstream needs to know which system it is looking at, only which layer the
+ * man in front of it belongs to.
+ */
+export function defensiveLayerOf(formationId: string, role: DefenseRole): DefensiveLayer {
+  if (formationId === FIVE_ONE_DEFENSE_FORMATION_ID) return role === FRONT_ROLE ? "FRONT" : "BASE";
+  if (formationId === THREE_TWO_ONE_DEFENSE_FORMATION_ID) {
+    if (role === FRONT_ROLE) return "FRONT";
+    return THREE_TWO_ONE_INTERMEDIATE_ROLES.includes(role) ? "INTERMEDIATE" : "BASE";
+  }
+  return "BASE";
+}
+
+/** Canonical home for a role in whichever system, at the goal it protects. */
+export function defensiveHomePosition(
+  formationId: string,
+  role: DefenseRole,
+  defendedGoalSide: AttackingGoalSide,
+): MeterPoint | null {
+  if (formationId === FIVE_ONE_DEFENSE_FORMATION_ID) return fiveOneHomePosition(role, defendedGoalSide);
+  if (formationId === THREE_TWO_ONE_DEFENSE_FORMATION_ID) return atGoalSide(THREE_TWO_ONE_SHAPE[role], defendedGoalSide);
+  return null;
+}
+
+function atGoalSide(point: MeterPoint | undefined, defendedGoalSide: AttackingGoalSide): MeterPoint | null {
+  if (!point) return null;
+  return defendedGoalSide === SOURCE_GOAL_SIDE ? { ...point } : { x: point.x, y: mirrorYForOppositeGoalSide(point.y) };
 }
 
 /**
@@ -80,14 +173,17 @@ export function isKnownDefensiveSystem(formationId: string): boolean {
  * defender, and a defence without one does not.
  */
 export function frontDefenderRoleOf(formationId: string): DefenseRole | null {
-  return formationId === FIVE_ONE_DEFENSE_FORMATION_ID ? FIVE_ONE_FRONT_ROLE : null;
+  return formationId === FIVE_ONE_DEFENSE_FORMATION_ID || formationId === THREE_TWO_ONE_DEFENSE_FORMATION_ID
+    ? FRONT_ROLE
+    : null;
+}
+
+/** The roles playing between the line and the point, if the system has any. */
+export function intermediateRolesOf(formationId: string): readonly DefenseRole[] {
+  return formationId === THREE_TWO_ONE_DEFENSE_FORMATION_ID ? THREE_TWO_ONE_INTERMEDIATE_ROLES : [];
 }
 
 /** Canonical 5:1 home for a defensive role at the goal it protects. */
 export function fiveOneHomePosition(role: DefenseRole, defendedGoalSide: AttackingGoalSide): MeterPoint | null {
-  const canonical = FIVE_ONE_SHAPE[role];
-  if (!canonical) return null;
-  return defendedGoalSide === SOURCE_GOAL_SIDE
-    ? { ...canonical }
-    : { x: canonical.x, y: mirrorYForOppositeGoalSide(canonical.y) };
+  return atGoalSide(FIVE_ONE_SHAPE[role], defendedGoalSide);
 }

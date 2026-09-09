@@ -24,7 +24,7 @@ import { createFullCourt6v6State } from "./fullCourt6v6";
 import { attackRoleLabel, type AttackRoleLabel } from "../simulation/organizedAttack";
 import { SIX_ZERO_ROLE_ORDER } from "../policies/defense/responsibility";
 import type { MeterPoint } from "../domain/geometry/coordinates";
-import { FIVE_ONE_DEFENSE_FORMATION_ID, fiveOneHomePosition, type DefensiveSystemId } from "../policies/defense/defensiveSystem";
+import { defensiveHomePosition, type DefensiveSystemId } from "../policies/defense/defensiveSystem";
 import type { DefenseRole, Player } from "../domain/handball/player";
 import type { HandballState } from "../domain/handball/state";
 import type { AttackingGoalSide, FullCourtMatchState, PossessionPhase } from "../domain/match/possession";
@@ -127,10 +127,10 @@ export function scenario(spec: MatchScenarioSpec = {}): FullCourtMatchState {
   // placement below still overrides it and a 5:1 fixture is a real 5:1 rather
   // than a 6:0 line carrying a different formation id.
   const requestedSystem = spec.defenceSystem ?? canonical.handball.defense.formationId;
-  if (requestedSystem === FIVE_ONE_DEFENSE_FORMATION_ID) {
+  if (requestedSystem !== canonical.handball.defense.formationId) {
     players = players.map((p) => {
       if (p.team !== "DEFENSE" || p.kind !== "FIELD_PLAYER") return p;
-      const home = fiveOneHomePosition(p.role as DefenseRole, attackingGoalSide);
+      const home = defensiveHomePosition(requestedSystem, p.role as DefenseRole, attackingGoalSide);
       return home ? moved(p, home) : p;
     });
   }
@@ -198,7 +198,7 @@ export function scenario(spec: MatchScenarioSpec = {}): FullCourtMatchState {
           homePositions: players
             .filter((p) => p.team === "DEFENSE" && p.kind === "FIELD_PLAYER")
             .flatMap((d) => {
-              const home = fiveOneHomePosition(d.role as DefenseRole, attackingGoalSide);
+              const home = defensiveHomePosition(requestedSystem, d.role as DefenseRole, attackingGoalSide);
               return home ? [{ playerId: d.id, role: d.role as DefenseRole, position: home }] : [];
             }),
         };

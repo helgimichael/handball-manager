@@ -13,8 +13,12 @@ import type { HandballState } from "../../domain/handball/state";
 /**
  * M23: FRONT is the man who plays ahead of the line in a 5:1 -- pressuring the
  * backcourt rather than holding a place in it. A flat system never produces one.
+ *
+ * M24: STEP_OUT is a half-space defender of a 3:2:1 coming forward out of the
+ * middle layer at a back. It is distinct from ENGAGE, which is a man leaving
+ * the LINE: these two are leaving a layer that already stands in front of it.
  */
-export type DefensiveReactionType = "ENGAGE" | "SUPPORT" | "SHIFT" | "RECOVER" | "PRESS" | "MARK_PIVOT" | "FRONT";
+export type DefensiveReactionType = "ENGAGE" | "SUPPORT" | "SHIFT" | "RECOVER" | "PRESS" | "MARK_PIVOT" | "FRONT" | "STEP_OUT";
 
 export type DefensiveThreatType = "ACTIVE_ATTACK_THREAT" | "POSSESSION_THREAT" | "NO_DIRECT_BALL_THREAT";
 

@@ -33,7 +33,7 @@ import { mirrorYForOppositeGoalSide } from "@handball-manager/match-contract";
 import { COURT_BOUNDS_METERS, COURT_WIDTH_METERS } from "../domain/geometry/court";
 import { clampPointToBounds, distanceBetween, type MeterPoint } from "../domain/geometry/coordinates";
 import { SIX_ZERO_GAP_RESPONSIBILITIES } from "../policies/defense/responsibility";
-import { fiveOneHomePosition, isKnownDefensiveSystem } from "../policies/defense/defensiveSystem";
+import { defensiveHomePosition, isKnownDefensiveSystem } from "../policies/defense/defensiveSystem";
 import { SIX_ZERO_DEFENSE_FORMATION_ID } from "../policies/defense/sixZeroDefensePolicy";
 import { createHalfCourt6v6StateWithGoalkeeper } from "../scenarios/halfCourt6v6";
 import { goalCentre, type AttackingGoalSide } from "../domain/match/possession";
@@ -179,13 +179,16 @@ export function ensureSixZeroHomePositions(state: HandballState, defendedGoalSid
   // it should have is now a property of the system rather than a constant.
   if (!isKnownDefensiveSystem(state.defense.formationId)) return state;
   if (state.defense.homePositions.length > 0) return state;
-  const homeFor =
-    state.defense.formationId === SIX_ZERO_DEFENSE_FORMATION_ID ? sixZeroHomePosition : fiveOneHomePosition;
+  const formationId = state.defense.formationId;
   const homePositions = state.players
     .filter((p) => p.team === "DEFENSE" && p.kind === "FIELD_PLAYER")
     .flatMap((defender) => {
-      const home = homeFor(defender.role as DefenseRole, defendedGoalSide);
-      return home ? [{ playerId: defender.id, role: defender.role as DefenseRole, position: home }] : [];
+      const role = defender.role as DefenseRole;
+      const home =
+        formationId === SIX_ZERO_DEFENSE_FORMATION_ID
+          ? sixZeroHomePosition(role, defendedGoalSide)
+          : defensiveHomePosition(formationId, role, defendedGoalSide);
+      return home ? [{ playerId: defender.id, role, position: home }] : [];
     });
   if (homePositions.length === 0) return state;
   return { ...state, defense: { ...state.defense, homePositions } };

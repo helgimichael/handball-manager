@@ -50,7 +50,7 @@ import {
 import type { DefenseRole, Player } from "../../domain/handball/player";
 import type { HandballState } from "../../domain/handball/state";
 import { SIX_ZERO_ROLE_ADJACENCY, SIX_ZERO_ROLE_ORDER, type SixZeroDefender } from "./responsibility";
-import { frontDefenderRoleOf } from "./defensiveSystem";
+import { frontDefenderRoleOf, intermediateRolesOf } from "./defensiveSystem";
 import type { DefensiveThreatObservation } from "./types";
 import type { DefenceTactics } from "../../simulation/coaching";
 import { DEFENDER_REACTION_SECONDS, reachProfileOf, timeToReach } from "../../simulation/spatialControl";
@@ -90,6 +90,8 @@ export const DEFENCE_TACTIC_SCALE = Object.freeze({
 export const COLLECTIVE_DEFENSE_LIMITS = Object.freeze({
   /** M23: how far the man in front of a 5:1 may travel from his home. */
   frontMaxDisplacementMeters: 3.2,
+  /** M24: how far a half-space defender may travel from his layer. */
+  intermediateMaxDisplacementMeters: 2.6,
   /** How far the line slides toward the ball, per metre the ball is off centre, and its cap. */
   lineShiftPerMeter: 0.12,
   lineShiftMaxMeters: 1.2,
@@ -147,6 +149,18 @@ const FRONT_STANDOFF_METERS = 1.25;
 const FRONT_COMMIT_SECONDS = 0.6;
 /** How much of his range he uses when he is not winning that race: he holds instead. */
 const FRONT_HOLD_FRACTION = 0.45;
+
+/**
+ * M24: how far in front of a back the half-space defender tries to get.
+ *
+ * A little further off than the point man: he is closing a lane and a driving
+ * angle rather than standing on the ball.
+ */
+const INTERMEDIATE_STANDOFF_METERS = 1.6;
+/** How badly he may be losing the race to that spot and still come forward. */
+const INTERMEDIATE_COMMIT_SECONDS = 0.45;
+/** How far past the middle of the court a half-space defender still counts a man as his. */
+const HALF_SPACE_OVERLAP_METERS = 2.0;
 
 /** 0.7 .. 1.4: how far a defender is willing to step, from his defending rating. */
 export function aggressionFor(defenderId: string, options?: CollectiveDefenseOptions): number {
@@ -260,6 +274,8 @@ export type DefensiveAssignment = {
   readonly secondPivotMarkerId: string | null;
   /** M23: the man playing in front, in a system that has one. */
   readonly frontDefenderId: string | null;
+  /** M24: the half-space defenders of a three-layer system. */
+  readonly intermediateIds: readonly string[];
   /** Comes out of the line to the held ball when nobody is driving. */
   readonly presserId: string | null;
   /** Wing defenders holding width against a wide attacker. */
@@ -321,9 +337,15 @@ export function assignResponsibilities(
   const frontRole = frontDefenderRoleOf(state.defense.formationId);
   const frontDefenderId = frontRole ? (defenders.find((d) => d.role === frontRole)?.id ?? null) : null;
 
+  // M24: the middle layer. Like the front man they are not part of the line, so
+  // the line's jobs -- the pivot, width, help inside the line -- are not theirs.
+  const intermediateRoles = intermediateRolesOf(state.defense.formationId);
+  const intermediateIds = defenders.filter((d) => intermediateRoles.includes(d.role)).map((d) => d.id);
+  const advanced = new Set<string>([frontDefenderId ?? "", ...intermediateIds]);
+
   const pivotMarkerId = naturalPivotMarker(
     perception,
-    defenders.filter((d) => d.id !== frontDefenderId),
+    defenders.filter((d) => !advanced.has(d.id)),
     shiftedHomes,
     primary?.id ?? null,
     previousMarkerId,
@@ -351,7 +373,7 @@ export function assignResponsibilities(
   }
 
   const widthHolderIds = defenders
-    .filter((d) => d.id !== frontDefenderId && holdsWidth(d, homeOf(state, d).position, perception))
+    .filter((d) => !advanced.has(d.id) && holdsWidth(d, homeOf(state, d).position, perception))
     .map((d) => d.id);
 
   // M22: a second man on the line gets a marker only if one is genuinely spare.
@@ -372,7 +394,7 @@ export function assignResponsibilities(
   // modelled, and it is not M22's to rewrite. What is M22's is a seventh
   // attacker, so that is exactly what this asks about.
   const outnumbered = perception.attackers.length > FULL_SIDE_OUTFIELD_COUNT;
-  const busy = new Set<string>([primary?.id ?? "", pivotMarkerId ?? "", presserId ?? "", frontDefenderId ?? "", ...helperIds]);
+  const busy = new Set<string>([primary?.id ?? "", pivotMarkerId ?? "", presserId ?? "", ...advanced, ...helperIds]);
   const secondLinePlayer = outnumbered ? perception.linePlayers.find((p) => p.id !== perception.pivot?.id) ?? null : null;
   const secondPivotMarkerId = secondLinePlayer
     ? ([...defenders]
@@ -384,7 +406,16 @@ export function assignResponsibilities(
         )[0]?.id ?? null)
     : null;
 
-  return { primaryId: primary?.id ?? null, helperIds, pivotMarkerId, secondPivotMarkerId, presserId, widthHolderIds, frontDefenderId };
+  return {
+    primaryId: primary?.id ?? null,
+    helperIds,
+    pivotMarkerId,
+    secondPivotMarkerId,
+    presserId,
+    widthHolderIds,
+    frontDefenderId,
+    intermediateIds,
+  };
 }
 
 // ---------------------------------------------------------------------------
@@ -392,7 +423,8 @@ export function assignResponsibilities(
 // ---------------------------------------------------------------------------
 
 /** M23: FRONT is the man playing in front of a 5:1. No other system produces one. */
-export type CollectiveReactionType = "ENGAGE" | "SUPPORT" | "SHIFT" | "RECOVER" | "PRESS" | "MARK_PIVOT" | "FRONT";
+/** M24: STEP_OUT is a half-space defender committing forward from the middle layer. */
+export type CollectiveReactionType = "ENGAGE" | "SUPPORT" | "SHIFT" | "RECOVER" | "PRESS" | "MARK_PIVOT" | "FRONT" | "STEP_OUT";
 
 export type CollectiveReaction = {
   readonly defenderId: string;
@@ -498,6 +530,49 @@ export function collectiveReactions(
       const committed = reachable - arrival <= FRONT_COMMIT_SECONDS;
       const reach = COLLECTIVE_DEFENSE_LIMITS.frontMaxDisplacementMeters * aggression * (committed ? 1 : FRONT_HOLD_FRACTION);
       return make("FRONT", limitedFrom(base, raw, reach));
+    }
+
+    // M24: THE MIDDLE LAYER, AND THE HANDOVER.
+    //
+    // A half-space defender is neither the point nor the line, and what makes
+    // him a layer rather than a spare man is WHEN he comes forward and when he
+    // gives the man up. He steps out at a threat in his own half of the court
+    // that he can still get in front of; he does not follow one across the
+    // court, and he does not chase one who is already past him.
+    //
+    // That last clause is the handover, and it is deliberately not a protocol
+    // between defenders. Each layer simply declines a threat it is behind, and
+    // the layer behind it picks the man up because that is whose space he is
+    // now in: front hands to the intermediates, intermediates hand to the base.
+    // Nothing negotiates -- responsibility moves because the geometry moved,
+    // which is the only way it can move without somebody chasing.
+    if (assignment.intermediateIds.includes(defender.id)) {
+      const threat = perception.carrier;
+      const goalSide = perception.goalSide;
+      if (!threat) return make("SHIFT", base);
+
+      // Past him already: the base has him now.
+      const beaten =
+        goalSide === "TOP" ? threat.position.y < defender.position.y : threat.position.y > defender.position.y;
+      if (beaten) return make("RECOVER", base);
+
+      // Not his half of the court: his neighbour's man, and going after him
+      // would leave the half-space he is there to hold.
+      const centre = COURT_WIDTH_METERS / 2;
+      const home = homes.get(defender.id) ?? defender.position;
+      const ownSide = home.x <= centre ? threat.position.x <= centre + HALF_SPACE_OVERLAP_METERS : threat.position.x >= centre - HALF_SPACE_OVERLAP_METERS;
+      if (!ownSide) return make("SHIFT", limitedFrom(base, { x: centre, y: base.y }, limits.farSideShiftMaxDisplacementMeters));
+
+      // His man, and he can still get in front of him: come and take him.
+      const raw = { x: threat.position.x, y: towardGoal(threat.position.y, goalSide, INTERMEDIATE_STANDOFF_METERS) };
+      const reachable = timeToReach(reachProfileOf(defender, DEFENDER_REACTION_SECONDS), raw);
+      const arrival = timeToReach(reachProfileOf(threat), raw);
+      if (reachable - arrival > INTERMEDIATE_COMMIT_SECONDS) {
+        // He would arrive after the man had gone; stepping out would only open
+        // the space behind him for nothing. He holds his layer instead.
+        return make("SHIFT", base);
+      }
+      return make("STEP_OUT", limitedFrom(base, raw, COLLECTIVE_DEFENSE_LIMITS.intermediateMaxDisplacementMeters * aggression));
     }
 
     if (defender.id === assignment.primaryId) {
