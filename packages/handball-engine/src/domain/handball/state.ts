@@ -83,6 +83,7 @@ export function cloneHandballState(state: HandballState): HandballState {
       facing: { ...player.facing },
       velocity: { ...player.velocity },
       movementProfile: { ...player.movementProfile },
+      condition: player.condition,
       intent:
         player.intent.type === "MOVE"
           ? { type: "MOVE", target: { ...player.intent.target }, completed: player.intent.completed }

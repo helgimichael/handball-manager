@@ -1,3 +1,4 @@
+import { applyExertion, effectiveMovementProfile } from "./condition";
 import {
   addVectors,
   distanceBetween,
@@ -49,43 +50,54 @@ export function canReach(player: Player, target: MeterPoint, timeAvailable: numb
 
 export function advancePlayerMovement(player: Player, dt: number): Player {
   if ((player.intent.type !== "MOVE" && player.intent.type !== "ATTACK") || player.intent.completed || dt === 0) {
-    return { ...player, velocity: { ...player.velocity } };
+    // M25: standing on a court is not free, but it is nearly free.
+    return applyExertion({ ...player, velocity: { ...player.velocity } }, 0, 0, dt);
   }
+
+  // M25: what he can produce right now. A tired player accelerates less and
+  // tops out lower, and because this is the same profile the reach model reads,
+  // what he can be seen to do and what he actually does stay the same thing.
+  const capability = effectiveMovementProfile(player);
+  const speedBefore = speed(player.velocity);
 
   const targetVector = subtractPoints(player.intent.target, player.position);
   const distance = vectorLength(targetVector);
   if (distance <= MOVEMENT_EPSILON_METERS) {
-    return {
-      ...player,
-      position: { ...player.intent.target },
-      velocity: ZERO_VECTOR,
-      intent: { type: "IDLE" }
-    };
+    return applyExertion(
+      { ...player, position: { ...player.intent.target }, velocity: ZERO_VECTOR, intent: { type: "IDLE" } },
+      0,
+      speedBefore,
+      dt,
+    );
   }
 
   const direction = normalizeVector(targetVector);
-  const currentSpeed = Math.min(speed(player.velocity), player.movementProfile.maxSpeed);
-  const acceleratedSpeed = Math.min(player.movementProfile.maxSpeed, currentSpeed + player.movementProfile.acceleration * dt);
+  const currentSpeed = Math.min(speedBefore, capability.maxSpeed);
+  const acceleratedSpeed = Math.min(capability.maxSpeed, currentSpeed + capability.acceleration * dt);
   const maxTravel = acceleratedSpeed * dt;
 
   if (maxTravel >= distance - MOVEMENT_EPSILON_METERS) {
-    return {
-      ...player,
-      position: { ...player.intent.target },
-      facing: direction,
-      velocity: ZERO_VECTOR,
-      intent: { type: "IDLE" }
-    };
+    return applyExertion(
+      {
+        ...player,
+        position: { ...player.intent.target },
+        facing: direction,
+        velocity: ZERO_VECTOR,
+        intent: { type: "IDLE" },
+      },
+      distance,
+      speedBefore,
+      dt,
+    );
   }
 
   const velocity = scaleVector(direction, acceleratedSpeed);
   const position = addVectors(player.position, scaleVector(direction, maxTravel));
 
-  return {
-    ...player,
-    position,
-    facing: direction,
-    velocity,
-    intent: { ...player.intent, completed: false }
-  };
+  return applyExertion(
+    { ...player, position, facing: direction, velocity, intent: { ...player.intent, completed: false } },
+    maxTravel,
+    acceleratedSpeed - speedBefore,
+    dt,
+  );
 }

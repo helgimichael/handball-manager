@@ -41,6 +41,15 @@ export type Player = {
   facing: MeterVector;
   velocity: MeterVector;
   movementProfile: MovementProfile;
+  /**
+   * M25: how much this player has left, between 0 and 1, for THIS match.
+   *
+   * Optional, and absent means full. That is what lets every state built before
+   * M25 -- every fixture and every scenario -- behave exactly as it did, and it
+   * is deliberately match-local: nothing here is a career attribute, and it is
+   * never written back to a squad.
+   */
+  condition?: number;
   intent: PlayerIntent;
   /**
    * MATCH-EXPERIENCE-2.0 M11: true while this player is on his way off for a

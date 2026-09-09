@@ -21,6 +21,7 @@
  */
 import type { DefensiveSystemId } from "../policies/defense/defensiveSystem";
 import { SIMULATION_DT_SECONDS } from "./fixedStep";
+import { recoverOnBench } from "./condition";
 import { distanceBetween } from "../domain/geometry/coordinates";
 import {
   deriveMatchEvent,
@@ -1332,6 +1333,28 @@ export function advanceOneSegment(
   // into the trace entry for that instant rather than at a boundary.
   const drained = settlePendingSubstitutions(next, { simulationTime: startedAt, matchSeconds: flow.matchSeconds });
   next = drained.flow;
+
+  // M25: the bench gets its breath back.
+  //
+  // Applied here, once per segment, for the time the segment actually took --
+  // the men on the court paid for their own work step by step inside it, and
+  // this is the other half of the ledger. Deliberately slower than the work
+  // rate, so a rotation buys something real without buying a new player: three
+  // minutes off is worth about a fifth of a tank.
+  //
+  // Only for a squad that HAS condition. A match played without fatigue has no
+  // condition values anywhere, and `recoverOnBench` leaves those players
+  // untouched, so this costs such a match nothing at all.
+  const restedSeconds = result.steps * SIMULATION_DT_SECONDS;
+  if (restedSeconds > 0) {
+    next = {
+      ...next,
+      bench: {
+        HOME: next.bench.HOME.map((p) => recoverOnBench(p, restedSeconds)),
+        AWAY: next.bench.AWAY.map((p) => recoverOnBench(p, restedSeconds)),
+      },
+    };
+  }
   for (const change of drained.completed) {
     substitutions.push(change);
     const note = `SUB (${change.team}): ${describeSubstitution(change)}`;

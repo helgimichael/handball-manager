@@ -28,6 +28,7 @@
  * hidden rating, no probability blob -- the output is seconds, and seconds can
  * be read, printed and argued with.
  */
+import { effectiveMovementProfile } from "./condition";
 import { distanceBetween } from "../domain/geometry/coordinates";
 import type { MeterPoint, MeterVector } from "../domain/geometry/coordinates";
 import type { Player } from "../domain/handball/player";
@@ -77,8 +78,11 @@ export function reachProfileOf(player: Player, reactionSeconds = 0): ReachProfil
     id: player.id,
     position: player.position,
     velocity: player.velocity,
-    maxSpeed: Math.max(0.1, player.movementProfile.maxSpeed),
-    acceleration: Math.max(0.1, player.movementProfile.acceleration),
+    // M25: what he can produce NOW, not what he could at kick-off. This one
+    // substitution is why fatigue reaches M18's reach, M19's contact, M8's
+    // races and M7's step-outs without any of them knowing it exists.
+    maxSpeed: Math.max(0.1, effectiveMovementProfile(player).maxSpeed),
+    acceleration: Math.max(0.1, effectiveMovementProfile(player).acceleration),
     reactionSeconds,
   };
 }
@@ -98,7 +102,7 @@ export function constantSpeedProfileOf(player: Player): ReachProfile {
     id: player.id,
     position: player.position,
     velocity: { x: 0, y: 0 },
-    maxSpeed: Math.max(0.1, player.movementProfile.maxSpeed),
+    maxSpeed: Math.max(0.1, effectiveMovementProfile(player).maxSpeed),
     acceleration: Number.POSITIVE_INFINITY,
     reactionSeconds: 0,
   };

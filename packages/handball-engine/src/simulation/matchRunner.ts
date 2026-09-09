@@ -28,6 +28,7 @@
  * be replaced by richer possession behaviour (longer circulation, real dead
  * time) rather than tuned. Final statistical calibration is out of M4's scope.
  */
+import { FULL_CONDITION, conditionOf } from "./condition";
 import {
   advanceOneSegment,
   createGameFlowState,
@@ -131,6 +132,16 @@ export type SimulateMatchOptions = {
   readonly tactics?: Partial<AttackTactics>;
   /** M11: the match squad beyond the starters. A deterministic bench is built when omitted. */
   readonly bench?: Record<MatchTeamId, readonly Player[]>;
+  /**
+   * M25: play this match with physical condition.
+   *
+   * Off by default, and deliberately so for now. Turning it on stamps every
+   * player -- court and bench -- with a full tank at kick-off, after which the
+   * model runs itself: with it off nobody has a condition value, nothing
+   * fatigues anybody, and the match is identical to the one M24 played. What
+   * the level of fatigue should be is a calibration question and not M25's.
+   */
+  readonly fatigue?: boolean;
   /**
    * M12: per-team standing instructions and the timeout allowance. Takes
    * precedence over `tactics`, which stays as the M6 both-sides shorthand.
@@ -269,6 +280,58 @@ function playHalf(
 }
 
 /**
+ * M25: hand everybody a full tank.
+ *
+ * Only called when the match is played with fatigue on. Without it no player
+ * carries a condition value at all, and the model is inert by construction
+ * rather than by a flag being checked in a hundred places.
+ */
+function courtWithFullCondition(state: FullCourtMatchState): FullCourtMatchState {
+  return {
+    ...state,
+    handball: {
+      ...state.handball,
+      players: state.handball.players.map((p) => ({ ...p, condition: FULL_CONDITION })),
+    },
+  };
+}
+
+function withFullCondition(bench: Record<MatchTeamId, readonly Player[]>): Record<MatchTeamId, readonly Player[]> {
+  return {
+    HOME: bench.HOME.map((p) => ({ ...p, condition: FULL_CONDITION })),
+    AWAY: bench.AWAY.map((p) => ({ ...p, condition: FULL_CONDITION })),
+  };
+}
+
+/** Every player's condition at the end of a half, court and bench alike, by id. */
+function conditionByPlayer(flow: GameFlowState): ReadonlyMap<string, number> {
+  const map = new Map<string, number>();
+  for (const player of flow.match.handball.players) map.set(player.id, conditionOf(player));
+  for (const team of ["HOME", "AWAY"] as const) {
+    for (const player of flow.bench[team]) map.set(player.id, conditionOf(player));
+  }
+  return map;
+}
+
+function applyCarriedCondition(state: FullCourtMatchState, carried: ReadonlyMap<string, number>): FullCourtMatchState {
+  return {
+    ...state,
+    handball: {
+      ...state.handball,
+      players: state.handball.players.map((p) => ({ ...p, condition: carried.get(p.id) ?? FULL_CONDITION })),
+    },
+  };
+}
+
+function benchWithCarriedCondition(
+  bench: Record<MatchTeamId, readonly Player[]>,
+  carried: ReadonlyMap<string, number>,
+): Record<MatchTeamId, readonly Player[]> {
+  const apply = (players: readonly Player[]) => players.map((p) => ({ ...p, condition: carried.get(p.id) ?? FULL_CONDITION }));
+  return { HOME: apply(bench.HOME), AWAY: apply(bench.AWAY) };
+}
+
+/**
  * Simulates one complete 2x30 handball match.
  *
  * Deterministic: the same starting state, seed, starting team and ratings
@@ -294,8 +357,11 @@ export function simulateMatch(initialState: FullCourtMatchState, seed: number, o
   // M11: a match squad, not just the seven who start. The bench is built
   // deterministically around the starters so a dev or test match has somebody
   // to rotate, without careers or the legacy engine being involved.
-  const bench = options.bench ?? buildMatchBench(firstHalfState);
-  const first = playHalf(createGameFlowState(firstHalfState, 0, bench, setup), 1, seed, ratings, options.coaches);
+  const benchSquad = options.bench ?? buildMatchBench(firstHalfState);
+  // M25: everybody starts full, or nobody has a tank at all.
+  const bench = options.fatigue ? withFullCondition(benchSquad) : benchSquad;
+  const firstHalfCourt = options.fatigue ? courtWithFullCondition(firstHalfState) : firstHalfState;
+  const first = playHalf(createGameFlowState(firstHalfCourt, 0, bench, setup), 1, seed, ratings, options.coaches);
   const halftimeScore = first.flow.score;
 
   // Ends switch AND the throw-off changes hands. createFullCourt6v6State always
@@ -321,8 +387,18 @@ export function simulateMatch(initialState: FullCourtMatchState, seed: number, o
   // allowance already spent and how each side is going are all carried over --
   // a coach does not start the second half with a clean sheet and three fresh
   // timeouts because the teams changed ends.
+  // M25: condition crosses the interval with the men who earned it. The second
+  // half rebuilds the court from the canonical line-up, so without this a tired
+  // starter would jog out after the break as good as new -- which is the one
+  // thing a fatigue model must never do.
+  const carried = options.fatigue ? conditionByPlayer(first.flow) : null;
   let secondHalfFlow: GameFlowState = {
-    ...createGameFlowState(secondHalfState, HALF_LENGTH_SECONDS, bench, setup),
+    ...createGameFlowState(
+      carried ? applyCarriedCondition(secondHalfState, carried) : secondHalfState,
+      HALF_LENGTH_SECONDS,
+      carried ? benchWithCarriedCondition(bench, carried) : bench,
+      setup,
+    ),
     score: halftimeScore,
     rosters: first.flow.rosters,
     possessionNumber: first.flow.possessionNumber,
