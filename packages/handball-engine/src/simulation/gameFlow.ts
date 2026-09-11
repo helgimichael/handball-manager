@@ -169,6 +169,15 @@ export type GameFlowSegment = {
   readonly team: MatchTeamId;
   readonly attackingGoalSide: AttackingGoalSide;
   readonly kind: "ORGANIZED" | "TRANSITION" | "FREE_THROW_CONTINUATION" | "CENTRE_RESTART";
+  /**
+   * QA FIX 2B: when the attack became READY, in seconds from the start of this
+   * segment. 0 for a segment that began established, null when it ended before
+   * the attack ever formed, and undefined for a transition, which has no
+   * organized structure to build.
+   */
+  readonly attackReadyAtSeconds?: number | null;
+  /** QA FIX 2B: committed finishes held back while the attack was forming. */
+  readonly finishesHeldWhileEstablishing?: number;
   readonly outcome: PossessionOutcome;
   /**
    * M21: how many fixed steps this segment actually took.
@@ -1211,7 +1220,19 @@ export function advanceOneSegment(
 
   const result: PossessionResult = isTransition
     ? (simulateTransition({ seed: segmentSeed(seed, segmentIndex), initialState: match, ratings }) as unknown as PossessionResult)
-    : simulatePossession({ seed: segmentSeed(seed, segmentIndex), initialState: match, ratings, tactics, defenceTactics });
+    : simulatePossession({
+        seed: segmentSeed(seed, segmentIndex),
+        initialState: match,
+        ratings,
+        tactics,
+        defenceTactics,
+        // QA FIX 2B: a centre restart hands the attack every player in his own
+        // half and nothing resembling a shape, so this possession begins by
+        // BUILDING one. Every other organized possession is already established
+        // and is told so -- an established attack must not pay an establishment
+        // delay, and a generic "settle first" was measured and rejected.
+        establishing: kind === "CENTRE_RESTART" ? "CENTRE_RESTART" : null,
+      });
 
   const trace: GameFlowTraceEntry[] = result.trace.map((entry) => ({
     ...entry,
@@ -1380,6 +1401,8 @@ export function advanceOneSegment(
     kind,
     outcome: result.outcome,
     steps: result.steps ?? 0,
+    attackReadyAtSeconds: isTransition ? undefined : (result as { attackReadyAtSeconds?: number | null }).attackReadyAtSeconds ?? null,
+    finishesHeldWhileEstablishing: (result as { finishesHeldWhileEstablishing?: number }).finishesHeldWhileEstablishing ?? 0,
     fouls: result.fouls ?? [],
     contacts: result.contacts ?? 0,
     resolvedContacts: result.resolvedContacts ?? 0,

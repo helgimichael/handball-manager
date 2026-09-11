@@ -40,6 +40,7 @@ import {
   fieldAttackers,
   nearestDefenderTo,
   type AttackDecision,
+  type AttackOption,
   type AttackPlayerRatings,
 } from "./attackDecision";
 import {
@@ -53,6 +54,7 @@ import {
   type ShotDecision,
 } from "./shotDecision";
 import {
+  clearScoringChance,
   judgeFoul,
   sevenMetreFormationTarget,
   sevenMetreMark,
@@ -78,11 +80,18 @@ import type { MeterPoint } from "../domain/geometry/coordinates";
 import type { HandballAction } from "../domain/handball/actions";
 import type { Player } from "../domain/handball/player";
 import type { HandballState } from "../domain/handball/state";
-import { applyExitOrders, settleArrivedExchanges, stepWithSubstitutions } from "./substitutionExit";
+import { applyExitOrders, isLeavingCourt, settleArrivedExchanges, stepWithSubstitutions } from "./substitutionExit";
 import { resolveDefenceTactics, type DefenceTactics } from "./coaching";
 import { contactSituation, type ContactContext } from "./defensiveReach";
 import { keeperRecoveryActions } from "./sevenVsSix";
 import { goalAreaRecoveryActions, landAfterRelease, releasePointOf, releaseRequiredBefore } from "./shotRelease";
+import {
+  MAX_ESTABLISHING_SECONDS,
+  describeEstablishment,
+  isCommittedFinish,
+  readEstablishment,
+  type EstablishmentTrigger,
+} from "./attackEstablishment";
 import {
   advanceEpisode,
   episodeNeedsResolving,
@@ -126,6 +135,16 @@ export type SimulatePossessionInput = {
    */
   readonly defenceTactics?: Partial<DefenceTactics>;
   readonly maxSteps?: number;
+  /**
+   * QA FIX 2B: this possession begins with an attack that has to be BUILT.
+   *
+   * Set for a centre restart, where every attacker starts in his own half and
+   * nothing on the court yet resembles an organized attack. Omitted for an
+   * ordinary possession, which is already established and must not pay an
+   * establishment delay -- that generic version was tried and measured and cost
+   * a fifth of every match's possessions.
+   */
+  readonly establishing?: EstablishmentTrigger | null;
 };
 
 export type PossessionTraceEntry = {
@@ -170,6 +189,20 @@ export type PossessionResult = {
   readonly fouls: readonly FoulAward[];
   /** M10: true when the possession was decided by a 7 metre throw. */
   readonly sevenMetreTaken: boolean;
+  /**
+   * QA FIX 2B: how long the attack took to build, in seconds from the start of
+   * the possession. 0 for an ordinary possession, which starts established;
+   * null when the possession ended before the attack ever formed.
+   */
+  readonly attackReadyAtSeconds: number | null;
+  /**
+   * QA FIX 2B: committed finishes M6 chose while the attack was still forming,
+   * and which were held back for the next-best option instead.
+   *
+   * The diagnosis number. It says how often the engine would have shot or
+   * driven at a defence before its own attack existed.
+   */
+  readonly finishesHeldWhileEstablishing: number;
   /**
    * M18: how many separate times a defender actually got into contact with the
    * carrier during this possession -- episodes, not steps, so a duel held for a
@@ -655,6 +688,17 @@ export function simulatePossession(input: SimulatePossessionInput): PossessionRe
   let lastDefenceSummary: string | null = null;
   const fouls: FoulAward[] = [];
   let lastSquad = "";
+  /**
+   * QA FIX 2B: the attack this possession is still building, if it is building
+   * one. Null means READY -- an established attack, with M6 fully in charge.
+   */
+  let establishing: { readonly trigger: EstablishmentTrigger; readonly since: number } | null =
+    input.establishing ? { trigger: input.establishing, since: 0 } : null;
+  let announcedEstablishing = false;
+  let sevenOutEstablished = false;
+  /** For the report and the proofs: when the attack became READY, in seconds. */
+  let readyAtSeconds: number | null = input.establishing ? null : 0;
+  let finishesHeld = 0;
   let contacts = 0;
   let resolvedContacts = 0;
   let contactNothing = 0;
@@ -732,6 +776,36 @@ export function simulatePossession(input: SimulatePossessionInput): PossessionRe
     shotBlockedByDefenderId = shot.blockedByDefenderId;
     phase = "RESOLUTION";
     record(`${describeAttacker(carrier)}: ${shot.detail}`);
+  }
+
+  /**
+   * QA FIX 2B: what an establishing attack is allowed to do with M6's answer.
+   *
+   * Not a veto and not a script. M6 ranks every option as it always did; while
+   * the attack is still forming, the COMMITTED FINISH is simply not yet one of
+   * the things it may pick, so the next-best option -- a pass, the pivot, a
+   * reset -- is taken instead and the attack works the ball while it builds.
+   * The instant it is READY this function stops existing as far as play is
+   * concerned.
+   *
+   * The exception matters as much as the rule. A genuine chance does not wait
+   * for a formation: if the engine's own clear-chance test says this is one, it
+   * is taken. That is the same definition M10 uses to decide whether a foul
+   * destroyed a scoring chance, so "good enough to shoot before the attack has
+   * formed" means the same thing in both places.
+   */
+  function asPlayed(decision: AttackDecision, carrier: Player): AttackDecision {
+    const chosen = allowedNow(decision, carrier);
+    return chosen === decision.chosen ? decision : { ...decision, chosen };
+  }
+
+  function allowedNow(decision: AttackDecision, carrier: Player): AttackOption {
+    if (establishing === null || !isCommittedFinish(decision.chosen.kind)) return decision.chosen;
+    if (clearScoringChance(handball, carrier, goalSide).clear) return decision.chosen;
+    const alternative = decision.options.find((option) => !isCommittedFinish(option.kind));
+    if (!alternative) return decision.chosen;
+    finishesHeld += 1;
+    return alternative;
   }
 
   /** Applies the carrier's decision as ordinary engine commands. */
@@ -827,6 +901,46 @@ export function simulatePossession(input: SimulatePossessionInput): PossessionRe
       }
     }
 
+    // QA FIX 2B: the attack lifecycle -- ESTABLISHING, then READY, then M6.
+    const possessionSeconds = handball.simulationTime - input.initialState.handball.simulationTime;
+    // A seventh attacker arriving starts a rebuild of its own. A seven-out
+    // attack is a different structure, not the same one with a spare man, and
+    // seven outfield players existing on the court is not the same fact as the
+    // seventh of them having joined the attack.
+    if (
+      establishing === null &&
+      !sevenOutEstablished &&
+      handball.players.some((p) => p.team === "ATTACK" && p.kind === "FIELD_PLAYER" && p.role === "EXTRA_ATTACKER" && !isLeavingCourt(p))
+    ) {
+      establishing = { trigger: "SEVENTH_ATTACKER", since: possessionSeconds };
+      announcedEstablishing = false;
+    }
+    if (establishing !== null) {
+      const reading = readEstablishment(handball, goalSide, establishing.trigger);
+      const spent = possessionSeconds - establishing.since;
+      if (!announcedEstablishing) {
+        announcedEstablishing = true;
+        record(`ESTABLISHING (${establishing.trigger}): ${describeEstablishment(reading)}`);
+      }
+      if (reading.ready || spent >= MAX_ESTABLISHING_SECONDS) {
+        record(
+          reading.ready
+            ? `READY: the attack is established after ${spent.toFixed(2)}s`
+            : `READY: the attack plays what it has after ${spent.toFixed(2)}s (${describeEstablishment(reading)})`,
+        );
+        if (establishing.trigger === "SEVENTH_ATTACKER") sevenOutEstablished = true;
+        establishing = null;
+        readyAtSeconds = possessionSeconds;
+      } else {
+        // Everybody except the man on the ball gets his organized target --
+        // issued through the ordinary shape machinery, which already skips a
+        // player who is on his way there. The carrier is never steered: that is
+        // exactly what the abandoned Fix Pass 1 settle did, and it cost a fifth
+        // of every match's possessions.
+        actions.push(...shapeActions(handball, carrier?.id ?? null, false));
+      }
+    }
+
     if (phase === "ORGANIZED_SETUP") {
       // The defence needs a home shape to step out of and recover to; after a
       // change of possession it has none, so the canonical 6:0 is established
@@ -915,8 +1029,12 @@ export function simulatePossession(input: SimulatePossessionInput): PossessionRe
           tactics,
           rng,
         });
-        record(describeDecision(decision, handball), decision);
-        applyDecision(decision, carrier, actions);
+        // QA FIX 2B: what he actually does, not what M6 would have liked to do
+        // -- a trace that says "attacks the gap" while a pass is played is a
+        // trace nobody can debug from.
+        const played = asPlayed(decision, carrier);
+        record(describeDecision(played, handball), played);
+        applyDecision(played, carrier, actions);
       } else if (phaseIs("ATTACK_ACTION")) {
         const distance = distanceBetween(carrier.position, goal);
         const arrived =
@@ -941,15 +1059,16 @@ export function simulatePossession(input: SimulatePossessionInput): PossessionRe
           });
           // A quiet "still open, keep going" is not worth a trace entry; every
           // change of plan -- and every take-on -- is.
-          if (decision.chosen.kind !== "CONTINUE" || decision.blockedBy) {
-            const prefix = decision.blockedBy
-              ? `${decision.blockedBy} steps out and closes ${drivingGapId} for ${describeAttacker(carrier)} -> `
+          const played = asPlayed(decision, carrier);
+          if (played.chosen.kind !== "CONTINUE" || played.blockedBy) {
+            const prefix = played.blockedBy
+              ? `${played.blockedBy} steps out and closes ${drivingGapId} for ${describeAttacker(carrier)} -> `
               : arrived
-                ? `${describeAttacker(carrier)} completes his drive (pressure ${decision.pressure.toFixed(2)}) -> `
+                ? `${describeAttacker(carrier)} completes his drive (pressure ${played.pressure.toFixed(2)}) -> `
                 : "";
-            record(`${prefix}${describeDecision(decision, handball)}`, decision);
+            record(`${prefix}${describeDecision(played, handball)}`, played);
           }
-          applyDecision(decision, carrier, actions);
+          applyDecision(played, carrier, actions);
         }
       }
 
@@ -1056,6 +1175,8 @@ export function simulatePossession(input: SimulatePossessionInput): PossessionRe
     contactIllegal,
     contactBallWonDeclined,
     sevenMetreTaken,
+    attackReadyAtSeconds: readyAtSeconds,
+    finishesHeldWhileEstablishing: finishesHeld,
   };
 }
 

@@ -129,9 +129,18 @@ test("a defender in front of the man does win the ball, and it is a turnover", (
 test("a regain changes possession exactly once", () => {
   // At the flow level: a turnover hands the ball over, advances the possession
   // by one, and does not do it twice.
-  const run = simulateGameSequence(TOP, 12, { maxPossessions: 24 });
-  const index = run.segments.findIndex((s) => s.outcome === "TURNOVER");
-  assert.ok(index >= 0, "this seed contains a turnover");
+  // QA FIX 2B: found rather than pinned. What is under test is structural --
+  // one regain, one new possession -- and pinning it to seed 12 made it a
+  // hostage of every change to how a possession develops. Establishment moves
+  // trajectories, so seed 12 no longer happens to turn the ball over inside
+  // twenty-four possessions; the first seed that does proves the same thing.
+  let run = simulateGameSequence(TOP, 12, { maxPossessions: 24 });
+  let index = run.segments.findIndex((s) => s.outcome === "TURNOVER");
+  for (let seed = 12; index < 0 && seed <= 32; seed += 1) {
+    run = simulateGameSequence(TOP, seed, { maxPossessions: 24 });
+    index = run.segments.findIndex((s) => s.outcome === "TURNOVER");
+  }
+  assert.ok(index >= 0, "some seed contains a turnover");
   const before = run.segments[index];
   const after = run.segments[index + 1];
   assert.ok(after, "play continues after it");

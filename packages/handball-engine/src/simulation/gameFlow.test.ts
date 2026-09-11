@@ -112,9 +112,15 @@ test("a turnover continues into a transition", () => {
 });
 
 test("a free throw preserves the attacking team, and the possession continues", () => {
-  const result = run(SEED_FREE_THROW);
-  const index = result.segments.findIndex((s) => s.outcome === "FREE_THROW");
-  assert.ok(index >= 0, "this seed contains a free throw");
+  // QA FIX 2B: found rather than pinned, for the same reason as the settled
+  // break above. The assertions are the structural ones and are untouched.
+  let result = run(SEED_FREE_THROW);
+  let index = result.segments.findIndex((s) => s.outcome === "FREE_THROW");
+  for (let seed = SEED_FREE_THROW; index < 0 && seed <= SEED_FREE_THROW + 20; seed += 1) {
+    result = run(seed);
+    index = result.segments.findIndex((s) => s.outcome === "FREE_THROW");
+  }
+  assert.ok(index >= 0, "some seed contains a free throw");
   const before = result.segments[index];
   const after = result.segments[index + 1];
   assert.ok(after, "a free throw does not terminate the sequence -- M1 treated it as terminal, M3 does not");
