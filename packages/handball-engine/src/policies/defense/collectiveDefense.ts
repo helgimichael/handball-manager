@@ -50,7 +50,7 @@ import {
 import type { DefenseRole, Player } from "../../domain/handball/player";
 import type { HandballState } from "../../domain/handball/state";
 import { SIX_ZERO_ROLE_ADJACENCY, SIX_ZERO_ROLE_ORDER, type SixZeroDefender } from "./responsibility";
-import { frontDefenderRoleOf, intermediateRolesOf } from "./defensiveSystem";
+import { defensiveLayerOf, frontDefenderRoleOf, intermediateRolesOf, shiftProfileOf } from "./defensiveSystem";
 import type { DefensiveThreatObservation } from "./types";
 import type { DefenceTactics } from "../../simulation/coaching";
 import { DEFENDER_REACTION_SECONDS, reachProfileOf, timeToReach } from "../../simulation/spatialControl";
@@ -162,6 +162,21 @@ const INTERMEDIATE_COMMIT_SECONDS = 0.45;
 /** How far past the middle of the court a half-space defender still counts a man as his. */
 const HALF_SPACE_OVERLAP_METERS = 2.0;
 
+/**
+ * QA FIX 2C: how much sooner an intermediate has to be able to reach the
+ * carrier before the point man gives him up.
+ *
+ * The lateral half of the handover. M24 built the depth half -- a defender who
+ * is behind the man declines him -- and left the sideways case to the
+ * displacement cap, which produces a point man stretched to the end of his
+ * leash, still leaning at a back he cannot reach, while the half-space defender
+ * beside him already has the man. That is not a handover; it is two men on one
+ * attacker and a hole where the point should be. A quarter of a second is a
+ * real margin at these distances and keeps him from giving up a man he is only
+ * fractionally slower to.
+ */
+const FRONT_HANDOVER_MARGIN_SECONDS = 0.25;
+
 /** 0.7 .. 1.4: how far a defender is willing to step, from his defending rating. */
 export function aggressionFor(defenderId: string, options?: CollectiveDefenseOptions): number {
   const defending = options?.ratings?.[defenderId]?.defending ?? DEFAULT_RATING;
@@ -240,8 +255,12 @@ export function perceiveAttack(
   // A 7v6 attack puts a second player there, and a defence that can only see
   // one of them is not being outnumbered -- it is being lied to.
   const linePlayers = attackers.filter((p) => p.id !== carrier?.id && nearLine(p)).sort((a, b) => a.id.localeCompare(b.id));
-  const rawShift = COLLECTIVE_DEFENSE_LIMITS.lineShiftPerMeter * (state.ball.position.x - COURT_WIDTH_METERS / 2);
-  const lineShift = Math.max(-COLLECTIVE_DEFENSE_LIMITS.lineShiftMaxMeters, Math.min(COLLECTIVE_DEFENSE_LIMITS.lineShiftMaxMeters, rawShift));
+  // QA FIX 2C: how far a defence slides with the ball is a property of the
+  // SYSTEM. A 6:0 leans; a 3:2:1 shifts. The constants below are what every
+  // system used to share, and the flat ones still return exactly them.
+  const shiftProfile = shiftProfileOf(state.defense.formationId);
+  const rawShift = shiftProfile.perMeter * (state.ball.position.x - COURT_WIDTH_METERS / 2);
+  const lineShift = Math.max(-shiftProfile.maxMeters, Math.min(shiftProfile.maxMeters, rawShift));
   return { goalSide, ball: { ...state.ball.position }, carrier, threat, pivot, linePlayers, attackers, lineShift, lineDepth };
 }
 
@@ -454,11 +473,38 @@ export function shiftedHomes(
   // middle -- the attack then decides what to do about it.
   const squeeze = 1 - DEFENCE_TACTIC_SCALE.compactness * (options?.tactics?.compactness ?? 0);
   const centreX = COURT_WIDTH_METERS / 2;
+  // QA FIX 2C: the whole system breathes with the ball, layer by layer.
+  const formationId = state.defense.formationId;
+  const profile = shiftProfileOf(formationId);
+  const ballOffset = perception.ball.x - centreX;
+  // How far off centre the ball is, as a fraction of a half-court. A ball in
+  // the middle produces no lean, no step-up and no narrowing -- the system
+  // recentres, which is the third of the four positions a human will watch.
+  const bias = Math.min(1, Math.abs(ballOffset) / centreX);
   for (const defender of defenders) {
     const canonical = homeOf(state, defender).position;
     const home = { x: centreX + (canonical.x - centreX) * squeeze, y: canonical.y };
-    const fraction = holdsWidth(defender, home, perception) ? COLLECTIVE_DEFENSE_LIMITS.widthHoldShiftFraction : 1;
-    map.set(defender.id, clampPointToBounds({ x: home.x + perception.lineShift * fraction, y: home.y }, COURT_BOUNDS_METERS));
+    const widthFraction =
+      profile.holdsWidth && holdsWidth(defender, home, perception) ? COLLECTIVE_DEFENSE_LIMITS.widthHoldShiftFraction : 1;
+    const layer = defensiveLayerOf(formationId, defender.role);
+    let x = home.x + perception.lineShift * widthFraction * profile.layerFraction[layer];
+    let y = home.y;
+    if (layer === "BASE" && bias > 0) {
+      // Which side of the middle this man's home is, and whether the ball is on
+      // it. The middle man of a base three has no side and is therefore neither
+      // the one who steps up nor the one who narrows: he holds the inside space
+      // and the line, which is his job in every system.
+      const side = Math.sign(home.x - centreX);
+      const ballSide = side !== 0 && Math.sign(ballOffset) === side;
+      if (ballSide) {
+        // Up behind the intermediate who has gone out, closing that space.
+        y = towardGoal(y, perception.goalSide, -profile.ballSideBaseCloseMeters * bias);
+      } else if (side !== 0) {
+        // Narrow toward the middle, without abandoning the side entirely.
+        x += (centreX - x) * profile.weakSideNarrowFraction * bias;
+      }
+    }
+    map.set(defender.id, clampPointToBounds({ x, y }, COURT_BOUNDS_METERS));
   }
   return map;
 }
@@ -527,6 +573,18 @@ export function collectiveReactions(
       const raw = { x: front.position.x, y: towardGoal(front.position.y, goalSide, FRONT_STANDOFF_METERS) };
       const reachable = timeToReach(reachProfileOf(defender, DEFENDER_REACTION_SECONDS), raw);
       const arrival = timeToReach(reachProfileOf(front), raw);
+
+      // QA FIX 2C: THE LATERAL HANDOVER. The ball has circulated out of his
+      // zone and a half-space defender is plainly closer to it than he is, so
+      // the man is that defender's now and the point man goes back to the
+      // point. Decided by the same reach race everything else here uses -- no
+      // zone boundary is drawn, because the thing that actually matters is who
+      // can get there.
+      const handedOver = defenders.some((other) => {
+        if (!assignment.intermediateIds.includes(other.id)) return false;
+        return timeToReach(reachProfileOf(other, DEFENDER_REACTION_SECONDS), raw) + FRONT_HANDOVER_MARGIN_SECONDS < reachable;
+      });
+      if (handedOver) return make("RECOVER", base);
       const committed = reachable - arrival <= FRONT_COMMIT_SECONDS;
       const reach = COLLECTIVE_DEFENSE_LIMITS.frontMaxDisplacementMeters * aggression * (committed ? 1 : FRONT_HOLD_FRACTION);
       return make("FRONT", limitedFrom(base, raw, reach));

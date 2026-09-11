@@ -196,3 +196,93 @@ export function intermediateRolesOf(formationId: string): readonly DefenseRole[]
 export function fiveOneHomePosition(role: DefenseRole, defendedGoalSide: AttackingGoalSide): MeterPoint | null {
   return atGoalSide(FIVE_ONE_SHAPE[role], defendedGoalSide);
 }
+
+// ---------------------------------------------------------------------------
+// QA FIX 2C: how a system MOVES, not just where it stands
+// ---------------------------------------------------------------------------
+
+/**
+ * HOW FAR THIS SYSTEM SLIDES WITH THE BALL, AND WHICH LAYERS SLIDE.
+ *
+ * M24 gave the 3:2:1 three genuine depths and stopped there, and a human
+ * watching it said what the shape alone could not tell us: it looked like a
+ * static triangle. Measured, it was. The point man tracked the ball across
+ * nearly eight metres of court and the two half-space men stepped out and
+ * recovered, but the three men on the line moved a metre and a half between the
+ * ball being on the far left and the far right, and the middle one moved half a
+ * metre. A defence whose advanced layers move and whose base does not is not a
+ * system shifting as one unit; it is two men working in front of a wall.
+ *
+ * The cause was one constant. `lineShift` slid every home by 0.12m per metre
+ * the ball is off centre, capped at 1.2m -- numbers written for a 6:0, where
+ * six men cover the width and a small collective lean is exactly right. Three
+ * men cannot cover that width, so a 3:2:1 does not lean: it SHIFTS, hard, and
+ * accepts that the far wing is open. That is the trade the system exists to
+ * make, and it was being made in the shape without ever being made in the
+ * movement.
+ *
+ * So the slide becomes a property of the system, like the shape and the front
+ * role already are. 6:0 and 5:1 keep their numbers to the digit.
+ */
+export type SystemShiftProfile = {
+  /** Lateral slide per metre the ball is off centre, and its cap. */
+  readonly perMeter: number;
+  readonly maxMeters: number;
+  /** How much of that slide each layer follows. */
+  readonly layerFraction: Readonly<Record<DefensiveLayer, number>>;
+  /**
+   * Whether an outside defender anchors on a wing attacker instead of sliding.
+   * A 6:0 and a 5:1 hold the width; a 3:2:1 concedes it on purpose, and a base
+   * man who stops to mind the far wing is the thing that made it look frozen.
+   */
+  readonly holdsWidth: boolean;
+  /**
+   * How far the BALL-SIDE base defender steps up, to close the space behind the
+   * intermediate who has gone out. Scaled by how far the ball is off centre, so
+   * a ball in the middle produces a flat base and nothing else.
+   */
+  readonly ballSideBaseCloseMeters: number;
+  /**
+   * How far the WEAK-SIDE base defender narrows toward the middle, as a
+   * fraction of his distance from it. He narrows to support the centre; he does
+   * not abandon his side, which is why this is a fraction and a small one.
+   */
+  readonly weakSideNarrowFraction: number;
+};
+
+/** What every system did before QA FIX 2C, and what the flat ones still do. */
+const FLAT_SHIFT_PROFILE: SystemShiftProfile = Object.freeze({
+  perMeter: 0.12,
+  maxMeters: 1.2,
+  layerFraction: Object.freeze({ BASE: 1, INTERMEDIATE: 1, FRONT: 1 }),
+  holdsWidth: true,
+  ballSideBaseCloseMeters: 0,
+  weakSideNarrowFraction: 0,
+});
+
+/**
+ * The 3:2:1 slides about three times as far as a flat line, and every layer
+ * slides together.
+ *
+ * The numbers are the system's own logic rather than a dial. Three base men
+ * across twenty metres sit 4.5m apart against a 6:0's 3.2m, so each of them
+ * owns half again as much ground and has to travel it; 0.32m per metre reaches
+ * the 3.0m cap at about the point the ball arrives on the wing, which is where
+ * a 3:2:1 has genuinely given that side up. The ball-side base man steps up a
+ * metre and a bit -- enough to be behind his intermediate rather than beside
+ * the goal -- and the weak-side man draws a third of the way toward the middle,
+ * which supports the centre without pretending he can still cover his wing.
+ */
+const THREE_TWO_ONE_SHIFT_PROFILE: SystemShiftProfile = Object.freeze({
+  perMeter: 0.32,
+  maxMeters: 3.0,
+  layerFraction: Object.freeze({ BASE: 1, INTERMEDIATE: 1, FRONT: 1 }),
+  holdsWidth: false,
+  ballSideBaseCloseMeters: 1.2,
+  weakSideNarrowFraction: 0.32,
+});
+
+/** How this system shifts with the ball. */
+export function shiftProfileOf(formationId: string): SystemShiftProfile {
+  return formationId === THREE_TWO_ONE_DEFENSE_FORMATION_ID ? THREE_TWO_ONE_SHIFT_PROFILE : FLAT_SHIFT_PROFILE;
+}
