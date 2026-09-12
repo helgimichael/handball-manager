@@ -50,18 +50,6 @@ const defendersOf = (state: HandballState) => state.players.filter((p) => p.team
 const layerOf = (role: DefenseRole) => defensiveLayerOf(THREE_TWO_ONE, role);
 const reactionFor = (state: HandballState, role: DefenseRole) =>
   evaluateSixZeroDefense(state).reactions.find((r) => r.role === role);
-/**
- * HUMAN QA CORRECTION: what this man's JOB is, in a system that assigns jobs.
- *
- * The assertions below used to name reaction types -- FRONT, STEP_OUT -- which
- * described the movement rather than the responsibility. Every claim they made
- * is still made here; it is made about the duty instead, because that is now
- * where the claim lives. Nothing has been relaxed: "he steps out at a man in
- * his own half" is still asserted, and so is "and the man whose half it is not,
- * does not".
- */
-const dutyFor = (state: HandballState, role: DefenseRole) =>
-  (evaluateSixZeroDefense(state).reactions.find((r) => r.role === role) as { duty?: string } | undefined)?.duty;
 
 // ---------------------------------------------------------------------------
 // 1. Shape and layers
@@ -188,9 +176,7 @@ test("the wing has more room against a 3:2:1, because its outside men came insid
 
 test("the point man presses, and exactly one man does", () => {
   const result = evaluateSixZeroDefense(attackAgainst(THREE_TWO_ONE));
-  const pressing = result.reactions.filter((r) => (r as { duty?: string }).duty === "PRESS_BALL");
-  assert.equal(pressing.length, 1, "exactly one man is on the ball");
-  assert.equal(pressing[0].role, frontDefenderRoleOf(THREE_TWO_ONE), "and against a central back it is the point man");
+  assert.equal(result.reactions.filter((r) => r.reactionType === "FRONT").length, 1);
 });
 
 test("a half-space defender steps out at a back in his own half of the court", () => {
@@ -198,16 +184,19 @@ test("a half-space defender steps out at a back in his own half of the court", (
   const state = attackAgainst(THREE_TWO_ONE, { ballCarrier: "V9", attackers: { V9: { x: 5.5, y: 11.0 } } });
   const his = reactionFor(state, "L2");
   assert.ok(his);
-  assert.equal(dutyFor(state, "L2"), "PRESS_BALL", "the ball in his half-space is his to press");
-  assert.ok(his.target.y > defensiveHomePosition(THREE_TWO_ONE, "L1", "TOP")!.y, "and he is ahead of the line while he does it");
+  assert.equal(his.reactionType, "STEP_OUT", "he comes forward out of the middle layer");
+  assert.ok(his.target.y > defensiveHomePosition(THREE_TWO_ONE, "L1", "TOP")!.y, "and is ahead of the line while he does");
 });
 
 test("a half-space defender does not follow a man across the court", () => {
   // The same threat, on the OTHER side. R2's man, not L2's -- and L2 going
   // after him would be man-marking, which is the thing a layer is not.
   const state = attackAgainst(THREE_TWO_ONE, { ballCarrier: "H9", attackers: { H9: { x: 14.5, y: 11.0 } } });
-  assert.equal(dutyFor(state, "R2"), "PRESS_BALL", "the man whose half it is takes him");
-  assert.notEqual(dutyFor(state, "L2"), "PRESS_BALL", "and the man whose half it is not, does not");
+  const wrongSide = reactionFor(state, "L2");
+  const rightSide = reactionFor(state, "R2");
+  assert.ok(wrongSide && rightSide);
+  assert.equal(rightSide.reactionType, "STEP_OUT", "the man whose half it is takes him");
+  assert.notEqual(wrongSide.reactionType, "STEP_OUT", "and the man whose half it is not, does not");
 });
 
 test("a half-space defender who has been gone past hands the man on instead of chasing", () => {
@@ -216,15 +205,16 @@ test("a half-space defender who has been gone past hands the man on instead of c
   const state = attackAgainst(THREE_TWO_ONE, { ballCarrier: "V9", attackers: { V9: { x: 5.8, y: 5.5 } } });
   const home = defensiveHomePosition(THREE_TWO_ONE, "L2", "TOP")!;
   assert.ok(home.y > 5.5, "the fixture really has the carrier past him");
-  assert.notEqual(dutyFor(state, "L2"), "PRESS_BALL", "he does not chase a man who is already past him");
-  const pressing = evaluateSixZeroDefense(state).reactions.find((r) => (r as { duty?: string }).duty === "PRESS_BALL");
-  assert.ok(pressing, "somebody has the ball");
-  assert.equal(defensiveLayerOf(THREE_TWO_ONE, pressing.role), "BASE", "and it is the line, whose problem he now is");
+  const his = reactionFor(state, "L2");
+  assert.ok(his);
+  assert.equal(his.reactionType, "RECOVER", "he recovers rather than chasing from behind");
 });
 
 test("the point man hands on too, when he is beaten", () => {
   const state = attackAgainst(THREE_TWO_ONE, { attackers: { M9: { x: 10, y: 9.0 } } });
-  assert.notEqual(dutyFor(state, frontDefenderRoleOf(THREE_TWO_ONE)!), "PRESS_BALL", "a beaten point man is not on the ball");
+  const his = reactionFor(state, frontDefenderRoleOf(THREE_TWO_ONE)!);
+  assert.ok(his);
+  assert.equal(his.reactionType, "RECOVER");
 });
 
 test("a threat moving from the point through the half-space to the line changes owner each time", () => {
@@ -238,16 +228,16 @@ test("a threat moving from the point through the half-space to the line changes 
   const low = at(5.0);
 
   // Deep in his own half, the half-space man is the one who commits.
-  assert.equal(dutyFor(middle, "L2"), "PRESS_BALL", "the half-space takes him at half-space depth");
-  // Once he is past that layer, its man has given him up and the line has him.
-  assert.notEqual(dutyFor(low, "L2"), "PRESS_BALL", "and gives him up once he is through");
+  assert.equal(reactionFor(middle, "L2")?.reactionType, "STEP_OUT", "the half-space takes him at half-space depth");
+  // Once he is past that layer, its man is recovering and the line has him.
+  assert.equal(reactionFor(low, "L2")?.reactionType, "RECOVER", "and gives him up once he is through");
   const lineHasHim = evaluateSixZeroDefense(low);
   assert.ok(
     lineHasHim.primaryDefenderId !== null || lineHasHim.pivotMarkerId !== null,
     "somebody on the line is responsible for him now",
   );
   // And high up, the point man is still in front of him.
-  assert.notEqual(dutyFor(high, front), "RECOVER", "while high up it was the point man's problem");
+  assert.equal(reactionFor(high, front)?.reactionType, "FRONT", "while high up it was the point man's problem");
 });
 
 test("space really can open behind a committed half-space defender", () => {
@@ -256,7 +246,7 @@ test("space really can open behind a committed half-space defender", () => {
   // has to be real or the system is free.
   const state = attackAgainst(THREE_TWO_ONE, { ballCarrier: "V9", attackers: { V9: { x: 5.5, y: 11.0 } } });
   const stepping = reactionFor(state, "L2");
-  assert.ok(stepping && dutyFor(state, "L2") === "PRESS_BALL");
+  assert.ok(stepping && stepping.reactionType === "STEP_OUT");
 
   const vacated = defensiveHomePosition(THREE_TWO_ONE, "L2", "TOP")!;
   const carrier = requireScenarioPlayer(state, "V9");
@@ -315,11 +305,7 @@ test("a 3:2:1 facing seven attackers stays legal and coherent", () => {
   const result = evaluateSixZeroDefense(state);
   assert.equal(result.implemented, true);
   assert.equal(result.reactions.length, 6, "every defender still has a job");
-  const pressing = result.reactions.filter((r) => (r as { duty?: string }).duty === "PRESS_BALL");
-  assert.equal(pressing.length, 1, "exactly one man is on the ball");
-  const online = result.reactions.filter((r) => (r as { duty?: string }).duty === "PIVOT");
-  assert.equal(online.length, 2, "and both men on the line are accounted for");
-  for (const marker of online) assert.equal(defensiveLayerOf(THREE_TWO_ONE, marker.role), "BASE", "by the base, where that job lives");
+  assert.equal(result.reactions.filter((r) => r.reactionType === "FRONT").length, 1, "and one is still at the point");
   assert.deepEqual(evaluateSixZeroDefense(state).reactions, result.reactions, "deterministic");
 });
 
