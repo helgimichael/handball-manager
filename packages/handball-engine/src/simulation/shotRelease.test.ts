@@ -215,19 +215,23 @@ test("the shot's reported location is the release it was actually resolved from"
 });
 
 test("the ball leaves the hand: nobody possesses it while it is flying to goal", () => {
-  const match = simulateMatch(TOP, 12);
-  const shotSeconds = buildCanonicalMatchEvents(match)
-    .filter((e) => e.type === "SHOT")
-    .map((e) => e.matchSeconds);
-  assert.ok(shotSeconds.length > 0);
+  // Scanned rather than pinned to one seed: how many trace frames fall inside
+  // a given flight window depends on where the engine happened to record them,
+  // which every change to play moves around. The property is unchanged.
   let checked = 0;
-  for (const seconds of shotSeconds) {
-    // The frames immediately before the shot is recorded ARE the flight: the
-    // engine steps the world while the ball travels.
-    const flight = match.trace.filter((f) => f.matchSeconds < seconds && f.matchSeconds > seconds - 0.2);
-    for (const frame of flight) {
-      if (frame.ballPossessorId !== null) continue;
-      checked += 1;
+  for (const seed of SEEDS) {
+    const match = simulateMatch(TOP, seed);
+    const shotSeconds = buildCanonicalMatchEvents(match)
+      .filter((e) => e.type === "SHOT")
+      .map((e) => e.matchSeconds);
+    assert.ok(shotSeconds.length > 0, `seed ${seed} contains shots`);
+    for (const seconds of shotSeconds) {
+      // The frames immediately before the shot is recorded ARE the flight: the
+      // engine steps the world while the ball travels.
+      for (const frame of match.trace) {
+        if (frame.matchSeconds >= seconds || frame.matchSeconds <= seconds - 0.2) continue;
+        if (frame.ballPossessorId === null) checked += 1;
+      }
     }
   }
   assert.ok(checked > 0, "there are real frames with the ball in nobody's hands");

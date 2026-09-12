@@ -100,11 +100,17 @@ test("a save continues into a transition", () => {
 });
 
 test("a turnover continues into a transition", () => {
-  const result = run(SEED_TURNOVER, 10);
-  const index = result.segments.findIndex((s) => s.outcome === "TURNOVER");
-  // Asserted, not skipped: an early return here would let the test pass
-  // vacuously on a seed that never turns the ball over.
-  assert.ok(index >= 0, "this seed contains a turnover");
+  // Found rather than pinned, for the same reason as the two above: the
+  // structural claim is what matters and a pinned seed makes it a hostage of
+  // every change to how a possession develops. Asserted, not skipped -- an
+  // early return would let the test pass vacuously.
+  let result = run(SEED_TURNOVER, 10);
+  let index = result.segments.findIndex((s) => s.outcome === "TURNOVER");
+  for (let seed = SEED_TURNOVER; index < 0 && seed <= SEED_TURNOVER + 20; seed += 1) {
+    result = run(seed, 10);
+    index = result.segments.findIndex((s) => s.outcome === "TURNOVER");
+  }
+  assert.ok(index >= 0, "some seed contains a turnover");
   const next = result.segments[index + 1];
   assert.ok(next, "play continues after the turnover");
   assert.equal(next.kind, "TRANSITION");

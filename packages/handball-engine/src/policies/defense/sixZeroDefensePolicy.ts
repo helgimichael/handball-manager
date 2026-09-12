@@ -2,7 +2,7 @@ import type { HandballState } from "../../domain/handball/state";
 import type { DefenseRole, Player } from "../../domain/handball/player";
 import type { DefensivePolicyResult, DefensiveReaction, DefensiveResponsibility, DefensiveThreat } from "./types";
 import { observeDefensiveThreat } from "./threat";
-import { isKnownDefensiveSystem } from "./defensiveSystem";
+import { isKnownDefensiveSystem, THREE_TWO_ONE_DEFENSE_FORMATION_ID } from "./defensiveSystem";
 import { SIX_ZERO_ROLE_ORDER, resolveSixZeroResponsibility, type SixZeroDefender } from "./responsibility";
 import {
   assignResponsibilities,
@@ -11,6 +11,7 @@ import {
   perceiveAttack,
   shiftedHomes,
   type CollectiveDefenseOptions,
+  describeThreeTwoOneDuties,
 } from "./collectiveDefense";
 
 export { SIX_ZERO_GAP_RESPONSIBILITIES } from "./responsibility";
@@ -83,9 +84,23 @@ export function evaluateSixZeroDefense(state: HandballState, options?: Collectiv
   );
 
   const supportIds = assignment.helperIds;
-  const summary = describeAssignment(assignment, defenders);
   const lineHomes = defenders.map((d) => ({ defenderId: d.id, position: homes.get(d.id) ?? d.position }));
-  return createResult(true, activeThreat, primary?.id ?? null, supportIds, assignment.pivotMarkerId, perception.lineShift, lineHomes, summary, responsibilities, reactions);
+
+  // HUMAN QA CORRECTION: a 3:2:1 reports the duties it actually assigned.
+  //
+  // The press owner has to come back out here for two reasons: it is what the
+  // next step reads to decide whether the ball has changed hands, which is what
+  // makes a handover a handover rather than an oscillation; and it is what a
+  // human watching the HUD needs to see, because in this system "who is on the
+  // ball" moves between three different men.
+  const dutyOf = (duty: string) => reactions.find((r) => r.duty === duty)?.defenderId ?? null;
+  const isThreeTwoOne = state.defense.formationId === THREE_TWO_ONE_DEFENSE_FORMATION_ID;
+  const pressId = isThreeTwoOne ? dutyOf("PRESS_BALL") : primary?.id ?? null;
+  const pivotOwnerId = isThreeTwoOne ? dutyOf("PIVOT") : assignment.pivotMarkerId;
+  const summary = isThreeTwoOne
+    ? describeThreeTwoOneDuties(state, defenders, perception)
+    : describeAssignment(assignment, defenders);
+  return createResult(true, activeThreat, pressId, supportIds, pivotOwnerId, perception.lineShift, lineHomes, summary, responsibilities, reactions);
 }
 
 function createResult(

@@ -25,6 +25,7 @@ import { distanceBetween, type MeterPoint } from "../domain/geometry/coordinates
 import { SIX_ZERO_GAP_RESPONSIBILITIES } from "../policies/defense/responsibility";
 import { ATTACK_GAP_CALIBRATION_IDS } from "../domain/geometry/attackGapCalibration";
 import { goalCentre, type AttackingGoalSide } from "../domain/match/possession";
+import { isOrdinaryReceivingOption } from "./attackRoleResponsibility";
 import {
   attackRoleLabel,
   awayFromGoal,
@@ -669,13 +670,29 @@ export function decideAttackAction(ctx: DecisionContext): AttackDecision {
   // M11: a man walking off for a substitution is not a passing option -- he is
   // leaving the court, not offering himself.
   const teammates = fieldAttackers(state).filter((p) => p.id !== carrier.id && p.leavingCourt !== true);
+  // HUMAN QA CORRECTION: who may be passed to at all.
+  //
+  // A six-metre player who has not reached his six-metre role yet is NOT A
+  // CANDIDATE. Not a low-ranked one -- not one at all. Ranking him last was
+  // tried and it is not the rule the game has: a pivot running back from a
+  // throw-off has one job, and "unless nobody else is free" is exactly the
+  // loophole that put him back on the ball twenty metres out, because penalised
+  // options go negative and a last-resort score keeps winning ties it should
+  // never have been in.
+  //
+  // Filtered HERE, above everything, rather than skipped inside the loop --
+  // because the reset outlet below has its own fallback that never entered the
+  // loop, and that fallback was quietly handing wings the ball at fourteen and
+  // twenty-six metres while they were still running back. One list, one rule,
+  // and he returns to it the instant he is at his line.
+  const receivable = teammates.filter((mate) => isOrdinaryReceivingOption(mate, goalSide));
   let bestReset: { player: Player; score: number } | null = null;
   const laneCentre = meanQuality(
-    teammates.map((mate) =>
+    receivable.map((mate) =>
       controlQuality(passingLaneControl(state, carrier.position, mate.position).marginSeconds, LANE_CONTROL_HALF_SECONDS),
     ),
   );
-  for (const mate of teammates) {
+  for (const mate of receivable) {
     const dist = distanceBetween(carrier.position, mate.position);
     // M17: the race for this lane, read once. `laneBlocked` is the same
     // question asked as a yes/no, and the margin below is the same answer used
@@ -769,7 +786,7 @@ export function decideAttackAction(ctx: DecisionContext): AttackDecision {
   }
 
   // --- abort / reset ---------------------------------------------------------
-  const resetTo = bestReset?.player ?? teammates.find((p) => p.role !== "PIVOT") ?? teammates[0];
+  const resetTo = bestReset?.player ?? receivable.find((p) => p.role !== "PIVOT") ?? receivable[0];
   if (resetTo) {
     options.push({
       kind: "RESET",

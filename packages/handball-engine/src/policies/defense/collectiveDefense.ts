@@ -50,7 +50,15 @@ import {
 import type { DefenseRole, Player } from "../../domain/handball/player";
 import type { HandballState } from "../../domain/handball/state";
 import { SIX_ZERO_ROLE_ADJACENCY, SIX_ZERO_ROLE_ORDER, type SixZeroDefender } from "./responsibility";
-import { defensiveLayerOf, frontDefenderRoleOf, intermediateRolesOf, shiftProfileOf } from "./defensiveSystem";
+import {
+  LINE_SHIFT_MAX_METERS,
+  LINE_SHIFT_PER_METER,
+  frontDefenderRoleOf,
+  intermediateRolesOf,
+  systemHoldsWidth,
+  THREE_TWO_ONE_DEFENSE_FORMATION_ID,
+} from "./defensiveSystem";
+import { assignThreeTwoOneDuties, pressPointFor, type DefensiveDuty, type DutyAssignment } from "./threeTwoOneDuties";
 import type { DefensiveThreatObservation } from "./types";
 import type { DefenceTactics } from "../../simulation/coaching";
 import { DEFENDER_REACTION_SECONDS, reachProfileOf, timeToReach } from "../../simulation/spatialControl";
@@ -255,12 +263,8 @@ export function perceiveAttack(
   // A 7v6 attack puts a second player there, and a defence that can only see
   // one of them is not being outnumbered -- it is being lied to.
   const linePlayers = attackers.filter((p) => p.id !== carrier?.id && nearLine(p)).sort((a, b) => a.id.localeCompare(b.id));
-  // QA FIX 2C: how far a defence slides with the ball is a property of the
-  // SYSTEM. A 6:0 leans; a 3:2:1 shifts. The constants below are what every
-  // system used to share, and the flat ones still return exactly them.
-  const shiftProfile = shiftProfileOf(state.defense.formationId);
-  const rawShift = shiftProfile.perMeter * (state.ball.position.x - COURT_WIDTH_METERS / 2);
-  const lineShift = Math.max(-shiftProfile.maxMeters, Math.min(shiftProfile.maxMeters, rawShift));
+  const rawShift = LINE_SHIFT_PER_METER * (state.ball.position.x - COURT_WIDTH_METERS / 2);
+  const lineShift = Math.max(-LINE_SHIFT_MAX_METERS, Math.min(LINE_SHIFT_MAX_METERS, rawShift));
   return { goalSide, ball: { ...state.ball.position }, carrier, threat, pivot, linePlayers, attackers, lineShift, lineDepth };
 }
 
@@ -450,6 +454,14 @@ export type CollectiveReaction = {
   readonly role: DefenseRole;
   readonly reactionType: CollectiveReactionType;
   readonly target: MeterPoint;
+  /**
+   * HUMAN QA CORRECTION: the JOB this target came from, in a system that
+   * assigns jobs. Additive: the reaction type is unchanged and every existing
+   * consumer keeps working, and this says the thing the type cannot -- two men
+   * can both be SHIFTing while one holds the inside lane and the other watches
+   * the next pass.
+   */
+  readonly duty?: DefensiveDuty;
 };
 
 export type CollectiveReactionLimits = {
@@ -473,38 +485,17 @@ export function shiftedHomes(
   // middle -- the attack then decides what to do about it.
   const squeeze = 1 - DEFENCE_TACTIC_SCALE.compactness * (options?.tactics?.compactness ?? 0);
   const centreX = COURT_WIDTH_METERS / 2;
-  // QA FIX 2C: the whole system breathes with the ball, layer by layer.
-  const formationId = state.defense.formationId;
-  const profile = shiftProfileOf(formationId);
-  const ballOffset = perception.ball.x - centreX;
-  // How far off centre the ball is, as a fraction of a half-court. A ball in
-  // the middle produces no lean, no step-up and no narrowing -- the system
-  // recentres, which is the third of the four positions a human will watch.
-  const bias = Math.min(1, Math.abs(ballOffset) / centreX);
+  // A defence leans toward the ball. How far it MOVES is decided by the jobs
+  // its men are doing, not here: this is the post each man recovers to and
+  // measures his displacement from.
   for (const defender of defenders) {
     const canonical = homeOf(state, defender).position;
     const home = { x: centreX + (canonical.x - centreX) * squeeze, y: canonical.y };
-    const widthFraction =
-      profile.holdsWidth && holdsWidth(defender, home, perception) ? COLLECTIVE_DEFENSE_LIMITS.widthHoldShiftFraction : 1;
-    const layer = defensiveLayerOf(formationId, defender.role);
-    let x = home.x + perception.lineShift * widthFraction * profile.layerFraction[layer];
-    let y = home.y;
-    if (layer === "BASE" && bias > 0) {
-      // Which side of the middle this man's home is, and whether the ball is on
-      // it. The middle man of a base three has no side and is therefore neither
-      // the one who steps up nor the one who narrows: he holds the inside space
-      // and the line, which is his job in every system.
-      const side = Math.sign(home.x - centreX);
-      const ballSide = side !== 0 && Math.sign(ballOffset) === side;
-      if (ballSide) {
-        // Up behind the intermediate who has gone out, closing that space.
-        y = towardGoal(y, perception.goalSide, -profile.ballSideBaseCloseMeters * bias);
-      } else if (side !== 0) {
-        // Narrow toward the middle, without abandoning the side entirely.
-        x += (centreX - x) * profile.weakSideNarrowFraction * bias;
-      }
-    }
-    map.set(defender.id, clampPointToBounds({ x, y }, COURT_BOUNDS_METERS));
+    const fraction =
+      systemHoldsWidth(state.defense.formationId) && holdsWidth(defender, home, perception)
+        ? COLLECTIVE_DEFENSE_LIMITS.widthHoldShiftFraction
+        : 1;
+    map.set(defender.id, clampPointToBounds({ x: home.x + perception.lineShift * fraction, y: home.y }, COURT_BOUNDS_METERS));
   }
   return map;
 }
@@ -530,6 +521,17 @@ export function collectiveReactions(
 ): CollectiveReaction[] {
   const threatPosition = perception.threat.type === "NO_DIRECT_BALL_THREAT" ? perception.ball : perception.threat.threatPosition;
   const primaryHome = assignment.primaryId ? homes.get(assignment.primaryId) : undefined;
+
+  // HUMAN QA CORRECTION: a 3:2:1 is run from its duties, not from its geometry.
+  //
+  // Every target below this line comes from the job the man has been given, and
+  // the shape a human sees is what six different jobs add up to. The flat
+  // systems are untouched: they have one layer, the questions a three-layer
+  // system asks have no answers in them, and they take the branches beneath as
+  // they always did.
+  if (state.defense.formationId === THREE_TWO_ONE_DEFENSE_FORMATION_ID) {
+    return threeTwoOneReactions(state, defenders, perception, assignment, homes, limits, options);
+  }
 
   return defenders.map((defender) => {
     const base = homes.get(defender.id) ?? defender.position;
@@ -706,4 +708,175 @@ export function describeAssignment(assignment: DefensiveAssignment, defenders: r
   parts.push(assignment.pivotMarkerId ? `${role(assignment.pivotMarkerId)} marks the pivot` : "pivot unmarked");
   if (assignment.widthHolderIds.length > 0) parts.push(`${assignment.widthHolderIds.map(role).join("+")} hold width`);
   return parts.join("; ");
+}
+
+// ---------------------------------------------------------------------------
+// HUMAN QA CORRECTION: the 3:2:1, run from its duties
+// ---------------------------------------------------------------------------
+
+/**
+ * How far the man covering behind steps off his line toward the press.
+ *
+ * A quarter of the way. Enough that he is visibly behind the presser rather
+ * than flat with his line, and not so far that the 3:2:1 becomes a 3:3 with a
+ * hole where the line was.
+ */
+const COVER_STEP_FRACTION = 0.25;
+
+/**
+ * The most a base defender narrows toward the middle when the ball is on the
+ * other side. Half the way in: he supports the centre, he does not vacate his
+ * own side of the goal.
+ */
+const MAX_COMPACT_FRACTION = 0.5;
+
+/** How far a man may travel from his post to do each job. */
+const DUTY_REACH_METERS: Readonly<Record<DefensiveDuty, number>> = Object.freeze({
+  PRESS_BALL: 3.6,
+  COVER_BEHIND: 2.4,
+  INSIDE_LANE: 2.2,
+  NEXT_THREAT: 2.2,
+  PIVOT: 1.6,
+  COMPACT_INSIDE: 2.0,
+  RECOVER: 0,
+});
+
+/** The reaction label that best describes each job, for traces and the HUD. */
+const DUTY_REACTION: Readonly<Record<DefensiveDuty, CollectiveReactionType>> = Object.freeze({
+  PRESS_BALL: "ENGAGE",
+  COVER_BEHIND: "SUPPORT",
+  INSIDE_LANE: "SHIFT",
+  NEXT_THREAT: "SHIFT",
+  PIVOT: "MARK_PIVOT",
+  COMPACT_INSIDE: "SHIFT",
+  RECOVER: "RECOVER",
+});
+
+/**
+ * Where a point at depth `y` sits on the line from `from` to `to`.
+ *
+ * The one piece of geometry the duties need, and it is a consequence rather
+ * than a rule: a man covering a lane stands ON that lane, at his own depth. It
+ * is what makes "cover behind the press" and "hold the inside lane" different
+ * places without either of them being a number somebody chose.
+ */
+function laneAtDepth(from: MeterPoint, to: MeterPoint, y: number): number {
+  const span = to.y - from.y;
+  if (Math.abs(span) < 1e-6) return (from.x + to.x) / 2;
+  const t = Math.max(0, Math.min(1, (y - from.y) / span));
+  return from.x + (to.x - from.x) * t;
+}
+
+function threeTwoOneReactions(
+  state: HandballState,
+  defenders: readonly SixZeroDefender[],
+  perception: DefensivePerception,
+  assignment: DefensiveAssignment,
+  homes: ReadonlyMap<string, MeterPoint>,
+  limits: CollectiveReactionLimits,
+  options?: CollectiveDefenseOptions,
+): CollectiveReaction[] {
+  const goal = { x: COURT_WIDTH_METERS / 2, y: perception.goalSide === "TOP" ? 0 : COURT_LENGTH_METERS };
+  const duties: DutyAssignment = assignThreeTwoOneDuties(
+    state.defense.formationId,
+    defenders,
+    {
+      goalSide: perception.goalSide,
+      goal,
+      carrier: perception.carrier,
+      pivot: perception.pivot,
+      attackers: perception.attackers,
+      linePlayers: perception.linePlayers,
+    },
+    state.defense.lastReaction?.primaryDefenderId ?? null,
+  );
+  const carrier = perception.carrier;
+  const press = carrier ? pressPointFor(carrier, goal) : null;
+  const threat = duties.nextThreatTargetId
+    ? perception.attackers.find((a) => a.id === duties.nextThreatTargetId) ?? null
+    : null;
+  const centreX = COURT_WIDTH_METERS / 2;
+
+  return defenders.map((defender) => {
+    const post = homes.get(defender.id) ?? defender.position;
+    const duty = duties.duties.get(defender.id) ?? "RECOVER";
+    const aggression = aggressionFor(defender.id, options);
+    const reach = DUTY_REACH_METERS[duty] * aggression;
+    const make = (target: MeterPoint): CollectiveReaction => ({
+      defenderId: defender.id,
+      role: defender.role,
+      reactionType: DUTY_REACTION[duty],
+      target: clampPointToBounds(limitedFrom(post, target, Math.max(reach, 0.01)), COURT_BOUNDS_METERS),
+      duty,
+    });
+
+    switch (duty) {
+      case "PRESS_BALL":
+        return press ? make(press) : make(post);
+      case "COVER_BEHIND": {
+        // On the carrier's road to goal, so that if the press is beaten the
+        // carrier runs into him rather than into space -- and a step off his
+        // line toward it, because covering behind a man means being behind
+        // him, not level with the goal.
+        if (!press) return make(post);
+        const depth = post.y + (press.y - post.y) * COVER_STEP_FRACTION;
+        return make({ x: laneAtDepth(press, goal, depth), y: depth });
+      }
+      case "INSIDE_LANE": {
+        // Half way between that road and the middle of the court. He is not a
+        // second presser and not a spare man: he is the inside path.
+        if (!press) return make(post);
+        const onLane = laneAtDepth(press, goal, post.y);
+        return make({ x: (onLane + centreX) / 2, y: post.y });
+      }
+      case "NEXT_THREAT": {
+        // On the pass, at his own depth -- so the next handover has already
+        // started before the ball is played.
+        if (!carrier || !threat) return make(post);
+        return make({ x: laneAtDepth(carrier.position, threat.position, post.y), y: post.y });
+      }
+      case "PIVOT": {
+        // Whichever line player is his: the nearest one he has been given.
+        const mine = [...perception.linePlayers, ...(perception.pivot ? [perception.pivot] : [])].sort(
+          (a, b) => Math.abs(a.position.x - post.x) - Math.abs(b.position.x - post.x) || a.id.localeCompare(b.id),
+        )[0];
+        if (!mine) return make(post);
+        return make({ x: mine.position.x, y: towardGoal(mine.position.y, perception.goalSide, COLLECTIVE_DEFENSE_LIMITS.pivotMarkOffsetMeters) });
+      }
+      case "COMPACT_INSIDE": {
+        // Narrowing is a job, not a posture. It exists because the ball is
+        // somewhere else and the next threat is inside him; with the ball in
+        // the middle there is no weak side and he stands on his post. Scaled by
+        // how far away the ball actually is, so the base is at its widest
+        // against a central attack and at its narrowest against a wing.
+        const away = Math.min(1, Math.abs(perception.ball.x - centreX) / centreX);
+        return make({ x: post.x + (centreX - post.x) * MAX_COMPACT_FRACTION * away, y: post.y });
+      }
+      case "RECOVER":
+      default:
+        return make(post);
+    }
+  });
+}
+
+/** The duties a 3:2:1 has assigned this instant, for traces and the dev HUD. */
+export function describeThreeTwoOneDuties(
+  state: HandballState,
+  defenders: readonly SixZeroDefender[],
+  perception: DefensivePerception,
+): string {
+  const goal = { x: COURT_WIDTH_METERS / 2, y: perception.goalSide === "TOP" ? 0 : COURT_LENGTH_METERS };
+  return assignThreeTwoOneDuties(
+    state.defense.formationId,
+    defenders,
+    {
+      goalSide: perception.goalSide,
+      goal,
+      carrier: perception.carrier,
+      pivot: perception.pivot,
+      attackers: perception.attackers,
+      linePlayers: perception.linePlayers,
+    },
+    state.defense.lastReaction?.primaryDefenderId ?? null,
+  ).summary;
 }

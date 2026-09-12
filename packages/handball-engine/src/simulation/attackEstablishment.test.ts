@@ -157,7 +157,10 @@ test("a restart attack enters ESTABLISHING and reaches READY in finite time", ()
     if (ready === null || ready === undefined) continue; // ended before the attack formed
     reached += 1;
     assert.ok(ready > 0, "a restart does not begin established");
-    assert.ok(ready <= MAX_ESTABLISHING_SECONDS, `and it is bounded (${ready.toFixed(2)}s)`);
+    // The bound is inclusive: an attack that runs out of time is declared READY
+    // exactly at it, and a step of floating-point accumulation can land a hair
+    // the far side.
+    assert.ok(ready <= MAX_ESTABLISHING_SECONDS + 1e-6, `and it is bounded (${ready.toFixed(2)}s)`);
     assert.ok(notes.some((n) => READY.test(n)), "and it says so when it is");
   }
   assert.ok(reached > 0, "restart attacks do get built");
