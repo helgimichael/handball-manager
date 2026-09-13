@@ -1,0 +1,1236 @@
+{
+  "checkpointCommit": "e07388028dd9f8eac77051479828111a700389c2",
+  "description": "Uncommitted wing relationship pass. Occupancy samples and outcomes are diagnostics, not realism calibration.",
+  "rows": [
+    {
+      "direction": "TOP",
+      "version": "2.4.0-wing-relationships.1",
+      "seed": 1,
+      "complete": true,
+      "status": "CHECKPOINT",
+      "reason": "FULLTIME",
+      "score": {
+        "HOME": 28,
+        "AWAY": 42
+      },
+      "officialMs": 3600000,
+      "periods": [
+        {
+          "type": "PERIOD_STARTED",
+          "officialMs": 0,
+          "tick": 6
+        },
+        {
+          "type": "PERIOD_ENDED",
+          "officialMs": 1800000,
+          "tick": 36006
+        },
+        {
+          "type": "PERIOD_STARTED",
+          "officialMs": 1800000,
+          "tick": 48403
+        },
+        {
+          "type": "PERIOD_ENDED",
+          "officialMs": 3600000,
+          "tick": 84403
+        }
+      ],
+      "shots": 233,
+      "goals": 70,
+      "passes": 383,
+      "fouls": 22,
+      "suspensions": 12,
+      "exchanges": 18,
+      "tick": 84403,
+      "stateHash": "1463cdd1",
+      "eventHash": "9e5a05a0",
+      "wingShots": 56,
+      "wingReturns": 9,
+      "occupancy": [
+        {
+          "mode": "PIN_CORNER",
+          "samples": 696,
+          "medianInset": 0.6801400166916316,
+          "medianDepth": 1.5843941134490083,
+          "medianTargetDistance": 0.15503052820173818,
+          "fartherThan4m": 58
+        },
+        {
+          "mode": "OFFER_OUTSIDE",
+          "samples": 37,
+          "medianInset": 0.8571662784759744,
+          "medianDepth": 3.572348161229001,
+          "medianTargetDistance": 0.40118914007437595,
+          "fartherThan4m": 5
+        }
+      ],
+      "qaMoments": [
+        {
+          "tick": 139,
+          "type": "ACTION_STARTED",
+          "actor": "H01",
+          "details": {
+            "kind": "RUN",
+            "reason": "Offer the adjacent back an outside receiving lane while retaining width",
+            "duty": "WING_OFFER"
+          }
+        },
+        {
+          "tick": 139,
+          "type": "ACTION_STARTED",
+          "actor": "H05",
+          "details": {
+            "kind": "RUN",
+            "reason": "Pin the outside defender from the corner; preserve the adjacent back lane",
+            "duty": "WING_PIN"
+          }
+        },
+        {
+          "tick": 158,
+          "type": "ACTION_STARTED",
+          "actor": "H01",
+          "details": {
+            "kind": "RUN",
+            "reason": "Offer the adjacent back an outside receiving lane while retaining width",
+            "duty": "WING_OFFER"
+          }
+        },
+        {
+          "tick": 158,
+          "type": "ACTION_STARTED",
+          "actor": "H05",
+          "details": {
+            "kind": "RUN",
+            "reason": "Pin the outside defender from the corner; preserve the adjacent back lane",
+            "duty": "WING_PIN"
+          }
+        },
+        {
+          "tick": 177,
+          "type": "ACTION_STARTED",
+          "actor": "H01",
+          "details": {
+            "kind": "RUN",
+            "reason": "Pin the outside defender from the corner; preserve the adjacent back lane",
+            "duty": "WING_PIN"
+          }
+        },
+        {
+          "tick": 177,
+          "type": "ACTION_STARTED",
+          "actor": "H05",
+          "details": {
+            "kind": "RUN",
+            "reason": "Pin the outside defender from the corner; preserve the adjacent back lane",
+            "duty": "WING_PIN"
+          }
+        },
+        {
+          "tick": 558,
+          "type": "ACTION_STARTED",
+          "actor": "H01",
+          "details": {
+            "kind": "RUN",
+            "reason": "Pin the outside defender from the corner; preserve the adjacent back lane",
+            "duty": "WING_PIN"
+          }
+        },
+        {
+          "tick": 558,
+          "type": "ACTION_STARTED",
+          "actor": "H05",
+          "details": {
+            "kind": "RUN",
+            "reason": "Pin the outside defender from the corner; preserve the adjacent back lane",
+            "duty": "WING_PIN"
+          }
+        },
+        {
+          "tick": 794,
+          "type": "ACTION_STARTED",
+          "actor": "A01",
+          "details": {
+            "kind": "RUN",
+            "reason": "Pin the outside defender from the corner; preserve the adjacent back lane",
+            "duty": "WING_PIN"
+          }
+        },
+        {
+          "tick": 794,
+          "type": "ACTION_STARTED",
+          "actor": "A05",
+          "details": {
+            "kind": "RUN",
+            "reason": "Pin the outside defender from the corner; preserve the adjacent back lane",
+            "duty": "WING_PIN"
+          }
+        },
+        {
+          "tick": 999,
+          "type": "ACTION_STARTED",
+          "actor": "H05",
+          "details": {
+            "kind": "RUN",
+            "reason": "Pin the outside defender from the corner; preserve the adjacent back lane",
+            "duty": "WING_PIN"
+          }
+        },
+        {
+          "tick": 1018,
+          "type": "ACTION_STARTED",
+          "actor": "H05",
+          "details": {
+            "kind": "RUN",
+            "reason": "Pin the outside defender from the corner; preserve the adjacent back lane",
+            "duty": "WING_PIN"
+          }
+        },
+        {
+          "tick": 1252,
+          "type": "PASS_RECEIVED",
+          "actor": "A05",
+          "details": {
+            "passerId": "A04"
+          }
+        },
+        {
+          "tick": 1253,
+          "type": "ACTION_STARTED",
+          "actor": "A05",
+          "details": {
+            "kind": "DRIVE",
+            "reason": "Improve the wing angle through a legal grounded approach",
+            "duty": "CARRIER"
+          }
+        },
+        {
+          "tick": 1255,
+          "type": "ACTION_STARTED",
+          "actor": "A01",
+          "details": {
+            "kind": "RUN",
+            "reason": "Pin the outside defender from the corner; preserve the adjacent back lane",
+            "duty": "WING_PIN"
+          }
+        },
+        {
+          "tick": 1274,
+          "type": "ACTION_STARTED",
+          "actor": "A05",
+          "details": {
+            "kind": "JUMP",
+            "reason": "Use the actual outside shooting window",
+            "duty": "CARRIER"
+          }
+        },
+        {
+          "tick": 1292,
+          "type": "SHOT_RELEASED",
+          "actor": "A05",
+          "details": {
+            "x": 18.036945718633984,
+            "y": 35.612087286361486,
+            "height": 2.3,
+            "shotKind": "WING"
+          }
+        },
+        {
+          "tick": 1592,
+          "type": "PASS_RECEIVED",
+          "actor": "H05",
+          "details": {
+            "passerId": "H04"
+          }
+        },
+        {
+          "tick": 1593,
+          "type": "ACTION_STARTED",
+          "actor": "H05",
+          "details": {
+            "kind": "JUMP",
+            "reason": "Use the actual outside shooting window",
+            "duty": "CARRIER"
+          }
+        },
+        {
+          "tick": 1601,
+          "type": "ACTION_STARTED",
+          "actor": "H01",
+          "details": {
+            "kind": "RUN",
+            "reason": "Pin the outside defender from the corner; preserve the adjacent back lane",
+            "duty": "WING_PIN"
+          }
+        },
+        {
+          "tick": 1611,
+          "type": "SHOT_RELEASED",
+          "actor": "H05",
+          "details": {
+            "x": 18.996497642429112,
+            "y": 7.528363965329889,
+            "height": 2.3,
+            "shotKind": "WING"
+          }
+        },
+        {
+          "tick": 1620,
+          "type": "ACTION_STARTED",
+          "actor": "H01",
+          "details": {
+            "kind": "RUN",
+            "reason": "Pin the outside defender from the corner; preserve the adjacent back lane",
+            "duty": "WING_PIN"
+          }
+        },
+        {
+          "tick": 1779,
+          "type": "PASS_RECEIVED",
+          "actor": "A01",
+          "details": {
+            "passerId": "A03"
+          }
+        },
+        {
+          "tick": 1882,
+          "type": "SHOT_RELEASED",
+          "actor": "A01",
+          "details": {
+            "x": 1.289129419617142,
+            "y": 28.190035381624682,
+            "height": 1.5,
+            "shotKind": "STANDING"
+          }
+        }
+      ]
+    },
+    {
+      "direction": "BOTTOM",
+      "version": "2.4.0-wing-relationships.1",
+      "seed": 1,
+      "complete": true,
+      "status": "CHECKPOINT",
+      "reason": "FULLTIME",
+      "score": {
+        "HOME": 44,
+        "AWAY": 34
+      },
+      "officialMs": 3600000,
+      "periods": [
+        {
+          "type": "PERIOD_STARTED",
+          "officialMs": 0,
+          "tick": 6
+        },
+        {
+          "type": "PERIOD_ENDED",
+          "officialMs": 1800000,
+          "tick": 36006
+        },
+        {
+          "type": "PERIOD_STARTED",
+          "officialMs": 1800000,
+          "tick": 48285
+        },
+        {
+          "type": "PERIOD_ENDED",
+          "officialMs": 3600000,
+          "tick": 84285
+        }
+      ],
+      "shots": 232,
+      "goals": 78,
+      "passes": 386,
+      "fouls": 23,
+      "suspensions": 14,
+      "exchanges": 20,
+      "tick": 84285,
+      "stateHash": "dd18da1f",
+      "eventHash": "c9fa6c1e",
+      "wingShots": 40,
+      "wingReturns": 12,
+      "occupancy": [
+        {
+          "mode": "PIN_CORNER",
+          "samples": 792,
+          "medianInset": 0.6801410777491981,
+          "medianDepth": 1.4581058884386124,
+          "medianTargetDistance": 0.028105895489497358,
+          "fartherThan4m": 37
+        },
+        {
+          "mode": "OFFER_OUTSIDE",
+          "samples": 72,
+          "medianInset": 0.9211091662525924,
+          "medianDepth": 3.3995518005941463,
+          "medianTargetDistance": 0.41227273811065324,
+          "fartherThan4m": 12
+        }
+      ],
+      "qaMoments": [
+        {
+          "tick": 139,
+          "type": "ACTION_STARTED",
+          "actor": "H01",
+          "details": {
+            "kind": "RUN",
+            "reason": "Offer the adjacent back an outside receiving lane while retaining width",
+            "duty": "WING_OFFER"
+          }
+        },
+        {
+          "tick": 139,
+          "type": "ACTION_STARTED",
+          "actor": "H05",
+          "details": {
+            "kind": "RUN",
+            "reason": "Pin the outside defender from the corner; preserve the adjacent back lane",
+            "duty": "WING_PIN"
+          }
+        },
+        {
+          "tick": 158,
+          "type": "ACTION_STARTED",
+          "actor": "H01",
+          "details": {
+            "kind": "RUN",
+            "reason": "Offer the adjacent back an outside receiving lane while retaining width",
+            "duty": "WING_OFFER"
+          }
+        },
+        {
+          "tick": 158,
+          "type": "ACTION_STARTED",
+          "actor": "H05",
+          "details": {
+            "kind": "RUN",
+            "reason": "Pin the outside defender from the corner; preserve the adjacent back lane",
+            "duty": "WING_PIN"
+          }
+        },
+        {
+          "tick": 177,
+          "type": "ACTION_STARTED",
+          "actor": "H01",
+          "details": {
+            "kind": "RUN",
+            "reason": "Pin the outside defender from the corner; preserve the adjacent back lane",
+            "duty": "WING_PIN"
+          }
+        },
+        {
+          "tick": 177,
+          "type": "ACTION_STARTED",
+          "actor": "H05",
+          "details": {
+            "kind": "RUN",
+            "reason": "Pin the outside defender from the corner; preserve the adjacent back lane",
+            "duty": "WING_PIN"
+          }
+        },
+        {
+          "tick": 430,
+          "type": "ACTION_STARTED",
+          "actor": "A01",
+          "details": {
+            "kind": "RUN",
+            "reason": "Pin the outside defender from the corner; preserve the adjacent back lane",
+            "duty": "WING_PIN"
+          }
+        },
+        {
+          "tick": 430,
+          "type": "ACTION_STARTED",
+          "actor": "A05",
+          "details": {
+            "kind": "RUN",
+            "reason": "Pin the outside defender from the corner; preserve the adjacent back lane",
+            "duty": "WING_PIN"
+          }
+        },
+        {
+          "tick": 715,
+          "type": "ACTION_STARTED",
+          "actor": "H01",
+          "details": {
+            "kind": "RUN",
+            "reason": "Offer the adjacent back an outside receiving lane while retaining width",
+            "duty": "WING_OFFER"
+          }
+        },
+        {
+          "tick": 715,
+          "type": "ACTION_STARTED",
+          "actor": "H05",
+          "details": {
+            "kind": "RUN",
+            "reason": "Pin the outside defender from the corner; preserve the adjacent back lane",
+            "duty": "WING_PIN"
+          }
+        },
+        {
+          "tick": 734,
+          "type": "ACTION_STARTED",
+          "actor": "H01",
+          "details": {
+            "kind": "RUN",
+            "reason": "Offer the adjacent back an outside receiving lane while retaining width",
+            "duty": "WING_OFFER"
+          }
+        },
+        {
+          "tick": 734,
+          "type": "ACTION_STARTED",
+          "actor": "H05",
+          "details": {
+            "kind": "RUN",
+            "reason": "Pin the outside defender from the corner; preserve the adjacent back lane",
+            "duty": "WING_PIN"
+          }
+        },
+        {
+          "tick": 753,
+          "type": "ACTION_STARTED",
+          "actor": "H01",
+          "details": {
+            "kind": "RUN",
+            "reason": "Pin the outside defender from the corner; preserve the adjacent back lane",
+            "duty": "WING_PIN"
+          }
+        },
+        {
+          "tick": 753,
+          "type": "ACTION_STARTED",
+          "actor": "H05",
+          "details": {
+            "kind": "RUN",
+            "reason": "Pin the outside defender from the corner; preserve the adjacent back lane",
+            "duty": "WING_PIN"
+          }
+        },
+        {
+          "tick": 947,
+          "type": "ACTION_STARTED",
+          "actor": "H01",
+          "details": {
+            "kind": "RUN",
+            "reason": "Pin the outside defender from the corner; preserve the adjacent back lane",
+            "duty": "WING_PIN"
+          }
+        },
+        {
+          "tick": 947,
+          "type": "ACTION_STARTED",
+          "actor": "H05",
+          "details": {
+            "kind": "RUN",
+            "reason": "Pin the outside defender from the corner; preserve the adjacent back lane",
+            "duty": "WING_PIN"
+          }
+        },
+        {
+          "tick": 966,
+          "type": "ACTION_STARTED",
+          "actor": "H01",
+          "details": {
+            "kind": "RUN",
+            "reason": "Pin the outside defender from the corner; preserve the adjacent back lane",
+            "duty": "WING_PIN"
+          }
+        },
+        {
+          "tick": 966,
+          "type": "ACTION_STARTED",
+          "actor": "H05",
+          "details": {
+            "kind": "RUN",
+            "reason": "Pin the outside defender from the corner; preserve the adjacent back lane",
+            "duty": "WING_PIN"
+          }
+        },
+        {
+          "tick": 985,
+          "type": "ACTION_STARTED",
+          "actor": "H01",
+          "details": {
+            "kind": "RUN",
+            "reason": "Pin the outside defender from the corner; preserve the adjacent back lane",
+            "duty": "WING_PIN"
+          }
+        },
+        {
+          "tick": 985,
+          "type": "ACTION_STARTED",
+          "actor": "H05",
+          "details": {
+            "kind": "RUN",
+            "reason": "Pin the outside defender from the corner; preserve the adjacent back lane",
+            "duty": "WING_PIN"
+          }
+        },
+        {
+          "tick": 1389,
+          "type": "PASS_RECEIVED",
+          "actor": "A05",
+          "details": {
+            "passerId": "A04"
+          }
+        },
+        {
+          "tick": 1390,
+          "type": "ACTION_STARTED",
+          "actor": "A05",
+          "details": {
+            "kind": "DRIVE",
+            "reason": "Improve the wing angle through a legal grounded approach",
+            "duty": "CARRIER"
+          }
+        },
+        {
+          "tick": 1393,
+          "type": "ACTION_STARTED",
+          "actor": "A01",
+          "details": {
+            "kind": "RUN",
+            "reason": "Pin the outside defender from the corner; preserve the adjacent back lane",
+            "duty": "WING_PIN"
+          }
+        },
+        {
+          "tick": 1429,
+          "type": "SHOT_RELEASED",
+          "actor": "A05",
+          "details": {
+            "x": 17.98352850144617,
+            "y": 3.722672336107061,
+            "height": 2.3,
+            "shotKind": "WING"
+          }
+        }
+      ]
+    },
+    {
+      "direction": "TOP",
+      "version": "2.4.0-wing-relationships.1",
+      "seed": 2025,
+      "complete": true,
+      "status": "CHECKPOINT",
+      "reason": "FULLTIME",
+      "score": {
+        "HOME": 31,
+        "AWAY": 45
+      },
+      "officialMs": 3600000,
+      "periods": [
+        {
+          "type": "PERIOD_STARTED",
+          "officialMs": 0,
+          "tick": 6
+        },
+        {
+          "type": "PERIOD_ENDED",
+          "officialMs": 1800000,
+          "tick": 36006
+        },
+        {
+          "type": "PERIOD_STARTED",
+          "officialMs": 1800000,
+          "tick": 48325
+        },
+        {
+          "type": "PERIOD_ENDED",
+          "officialMs": 3600000,
+          "tick": 84355
+        }
+      ],
+      "shots": 229,
+      "goals": 76,
+      "passes": 381,
+      "fouls": 25,
+      "suspensions": 15,
+      "exchanges": 21,
+      "tick": 84355,
+      "stateHash": "47134e34",
+      "eventHash": "013909d2",
+      "wingShots": 44,
+      "wingReturns": 11,
+      "occupancy": [
+        {
+          "mode": "PIN_CORNER",
+          "samples": 782,
+          "medianInset": 0.6801395628505809,
+          "medianDepth": 1.4541882096952392,
+          "medianTargetDistance": 0.025235552628633962,
+          "fartherThan4m": 32
+        },
+        {
+          "mode": "OFFER_OUTSIDE",
+          "samples": 44,
+          "medianInset": 0.8704938972772318,
+          "medianDepth": 3.5961379701998624,
+          "medianTargetDistance": 0.45267331290713325,
+          "fartherThan4m": 8
+        }
+      ],
+      "qaMoments": [
+        {
+          "tick": 139,
+          "type": "ACTION_STARTED",
+          "actor": "H01",
+          "details": {
+            "kind": "RUN",
+            "reason": "Offer the adjacent back an outside receiving lane while retaining width",
+            "duty": "WING_OFFER"
+          }
+        },
+        {
+          "tick": 139,
+          "type": "ACTION_STARTED",
+          "actor": "H05",
+          "details": {
+            "kind": "RUN",
+            "reason": "Pin the outside defender from the corner; preserve the adjacent back lane",
+            "duty": "WING_PIN"
+          }
+        },
+        {
+          "tick": 158,
+          "type": "ACTION_STARTED",
+          "actor": "H01",
+          "details": {
+            "kind": "RUN",
+            "reason": "Offer the adjacent back an outside receiving lane while retaining width",
+            "duty": "WING_OFFER"
+          }
+        },
+        {
+          "tick": 158,
+          "type": "ACTION_STARTED",
+          "actor": "H05",
+          "details": {
+            "kind": "RUN",
+            "reason": "Pin the outside defender from the corner; preserve the adjacent back lane",
+            "duty": "WING_PIN"
+          }
+        },
+        {
+          "tick": 177,
+          "type": "ACTION_STARTED",
+          "actor": "H01",
+          "details": {
+            "kind": "RUN",
+            "reason": "Pin the outside defender from the corner; preserve the adjacent back lane",
+            "duty": "WING_PIN"
+          }
+        },
+        {
+          "tick": 177,
+          "type": "ACTION_STARTED",
+          "actor": "H05",
+          "details": {
+            "kind": "RUN",
+            "reason": "Pin the outside defender from the corner; preserve the adjacent back lane",
+            "duty": "WING_PIN"
+          }
+        },
+        {
+          "tick": 372,
+          "type": "ACTION_STARTED",
+          "actor": "H01",
+          "details": {
+            "kind": "RUN",
+            "reason": "Pin the outside defender from the corner; preserve the adjacent back lane",
+            "duty": "WING_PIN"
+          }
+        },
+        {
+          "tick": 372,
+          "type": "ACTION_STARTED",
+          "actor": "H05",
+          "details": {
+            "kind": "RUN",
+            "reason": "Pin the outside defender from the corner; preserve the adjacent back lane",
+            "duty": "WING_PIN"
+          }
+        },
+        {
+          "tick": 391,
+          "type": "ACTION_STARTED",
+          "actor": "H01",
+          "details": {
+            "kind": "RUN",
+            "reason": "Pin the outside defender from the corner; preserve the adjacent back lane",
+            "duty": "WING_PIN"
+          }
+        },
+        {
+          "tick": 391,
+          "type": "ACTION_STARTED",
+          "actor": "H05",
+          "details": {
+            "kind": "RUN",
+            "reason": "Pin the outside defender from the corner; preserve the adjacent back lane",
+            "duty": "WING_PIN"
+          }
+        },
+        {
+          "tick": 410,
+          "type": "ACTION_STARTED",
+          "actor": "H01",
+          "details": {
+            "kind": "RUN",
+            "reason": "Pin the outside defender from the corner; preserve the adjacent back lane",
+            "duty": "WING_PIN"
+          }
+        },
+        {
+          "tick": 410,
+          "type": "ACTION_STARTED",
+          "actor": "H05",
+          "details": {
+            "kind": "RUN",
+            "reason": "Pin the outside defender from the corner; preserve the adjacent back lane",
+            "duty": "WING_PIN"
+          }
+        },
+        {
+          "tick": 429,
+          "type": "ACTION_STARTED",
+          "actor": "H05",
+          "details": {
+            "kind": "RUN",
+            "reason": "Offer the adjacent back an outside receiving lane while retaining width",
+            "duty": "WING_OFFER"
+          }
+        },
+        {
+          "tick": 448,
+          "type": "ACTION_STARTED",
+          "actor": "H05",
+          "details": {
+            "kind": "RUN",
+            "reason": "Pin the outside defender from the corner; preserve the adjacent back lane",
+            "duty": "WING_PIN"
+          }
+        },
+        {
+          "tick": 751,
+          "type": "ACTION_STARTED",
+          "actor": "A01",
+          "details": {
+            "kind": "RUN",
+            "reason": "Offer the adjacent back an outside receiving lane while retaining width",
+            "duty": "WING_OFFER"
+          }
+        },
+        {
+          "tick": 751,
+          "type": "ACTION_STARTED",
+          "actor": "A05",
+          "details": {
+            "kind": "RUN",
+            "reason": "Pin the outside defender from the corner; preserve the adjacent back lane",
+            "duty": "WING_PIN"
+          }
+        },
+        {
+          "tick": 770,
+          "type": "ACTION_STARTED",
+          "actor": "A01",
+          "details": {
+            "kind": "RUN",
+            "reason": "Offer the adjacent back an outside receiving lane while retaining width",
+            "duty": "WING_OFFER"
+          }
+        },
+        {
+          "tick": 770,
+          "type": "ACTION_STARTED",
+          "actor": "A05",
+          "details": {
+            "kind": "RUN",
+            "reason": "Pin the outside defender from the corner; preserve the adjacent back lane",
+            "duty": "WING_PIN"
+          }
+        },
+        {
+          "tick": 789,
+          "type": "ACTION_STARTED",
+          "actor": "A01",
+          "details": {
+            "kind": "RUN",
+            "reason": "Pin the outside defender from the corner; preserve the adjacent back lane",
+            "duty": "WING_PIN"
+          }
+        },
+        {
+          "tick": 789,
+          "type": "ACTION_STARTED",
+          "actor": "A05",
+          "details": {
+            "kind": "RUN",
+            "reason": "Pin the outside defender from the corner; preserve the adjacent back lane",
+            "duty": "WING_PIN"
+          }
+        },
+        {
+          "tick": 984,
+          "type": "ACTION_STARTED",
+          "actor": "A01",
+          "details": {
+            "kind": "RUN",
+            "reason": "Pin the outside defender from the corner; preserve the adjacent back lane",
+            "duty": "WING_PIN"
+          }
+        },
+        {
+          "tick": 984,
+          "type": "ACTION_STARTED",
+          "actor": "A05",
+          "details": {
+            "kind": "RUN",
+            "reason": "Pin the outside defender from the corner; preserve the adjacent back lane",
+            "duty": "WING_PIN"
+          }
+        },
+        {
+          "tick": 1003,
+          "type": "ACTION_STARTED",
+          "actor": "A01",
+          "details": {
+            "kind": "RUN",
+            "reason": "Pin the outside defender from the corner; preserve the adjacent back lane",
+            "duty": "WING_PIN"
+          }
+        },
+        {
+          "tick": 1003,
+          "type": "ACTION_STARTED",
+          "actor": "A05",
+          "details": {
+            "kind": "RUN",
+            "reason": "Pin the outside defender from the corner; preserve the adjacent back lane",
+            "duty": "WING_PIN"
+          }
+        }
+      ],
+      "resume": {
+        "tick": 2517,
+        "stateHash": "47134e34",
+        "eventHash": "013909d2"
+      }
+    },
+    {
+      "direction": "BOTTOM",
+      "version": "2.4.0-wing-relationships.1",
+      "seed": 2025,
+      "complete": true,
+      "status": "CHECKPOINT",
+      "reason": "FULLTIME",
+      "score": {
+        "HOME": 48,
+        "AWAY": 44
+      },
+      "officialMs": 3600000,
+      "periods": [
+        {
+          "type": "PERIOD_STARTED",
+          "officialMs": 0,
+          "tick": 6
+        },
+        {
+          "type": "PERIOD_ENDED",
+          "officialMs": 1800000,
+          "tick": 36006
+        },
+        {
+          "type": "PERIOD_STARTED",
+          "officialMs": 1800000,
+          "tick": 48248
+        },
+        {
+          "type": "PERIOD_ENDED",
+          "officialMs": 3600000,
+          "tick": 84248
+        }
+      ],
+      "shots": 234,
+      "goals": 92,
+      "passes": 394,
+      "fouls": 23,
+      "suspensions": 16,
+      "exchanges": 23,
+      "tick": 84248,
+      "stateHash": "c9801067",
+      "eventHash": "2078d6b6",
+      "wingShots": 44,
+      "wingReturns": 14,
+      "occupancy": [
+        {
+          "mode": "PIN_CORNER",
+          "samples": 918,
+          "medianInset": 0.6801395628954268,
+          "medianDepth": 1.4589730351701675,
+          "medianTargetDistance": 0.0289730351900471,
+          "fartherThan4m": 54
+        },
+        {
+          "mode": "OFFER_OUTSIDE",
+          "samples": 47,
+          "medianInset": 0.9206229241463244,
+          "medianDepth": 3.624371517844385,
+          "medianTargetDistance": 0.8512677206361277,
+          "fartherThan4m": 10
+        }
+      ],
+      "qaMoments": [
+        {
+          "tick": 139,
+          "type": "ACTION_STARTED",
+          "actor": "H01",
+          "details": {
+            "kind": "RUN",
+            "reason": "Offer the adjacent back an outside receiving lane while retaining width",
+            "duty": "WING_OFFER"
+          }
+        },
+        {
+          "tick": 139,
+          "type": "ACTION_STARTED",
+          "actor": "H05",
+          "details": {
+            "kind": "RUN",
+            "reason": "Pin the outside defender from the corner; preserve the adjacent back lane",
+            "duty": "WING_PIN"
+          }
+        },
+        {
+          "tick": 158,
+          "type": "ACTION_STARTED",
+          "actor": "H01",
+          "details": {
+            "kind": "RUN",
+            "reason": "Offer the adjacent back an outside receiving lane while retaining width",
+            "duty": "WING_OFFER"
+          }
+        },
+        {
+          "tick": 158,
+          "type": "ACTION_STARTED",
+          "actor": "H05",
+          "details": {
+            "kind": "RUN",
+            "reason": "Pin the outside defender from the corner; preserve the adjacent back lane",
+            "duty": "WING_PIN"
+          }
+        },
+        {
+          "tick": 177,
+          "type": "ACTION_STARTED",
+          "actor": "H01",
+          "details": {
+            "kind": "RUN",
+            "reason": "Pin the outside defender from the corner; preserve the adjacent back lane",
+            "duty": "WING_PIN"
+          }
+        },
+        {
+          "tick": 177,
+          "type": "ACTION_STARTED",
+          "actor": "H05",
+          "details": {
+            "kind": "RUN",
+            "reason": "Pin the outside defender from the corner; preserve the adjacent back lane",
+            "duty": "WING_PIN"
+          }
+        },
+        {
+          "tick": 377,
+          "type": "ACTION_STARTED",
+          "actor": "H01",
+          "details": {
+            "kind": "RUN",
+            "reason": "Pin the outside defender from the corner; preserve the adjacent back lane",
+            "duty": "WING_PIN"
+          }
+        },
+        {
+          "tick": 377,
+          "type": "ACTION_STARTED",
+          "actor": "H05",
+          "details": {
+            "kind": "RUN",
+            "reason": "Pin the outside defender from the corner; preserve the adjacent back lane",
+            "duty": "WING_PIN"
+          }
+        },
+        {
+          "tick": 396,
+          "type": "ACTION_STARTED",
+          "actor": "H01",
+          "details": {
+            "kind": "RUN",
+            "reason": "Pin the outside defender from the corner; preserve the adjacent back lane",
+            "duty": "WING_PIN"
+          }
+        },
+        {
+          "tick": 396,
+          "type": "ACTION_STARTED",
+          "actor": "H05",
+          "details": {
+            "kind": "RUN",
+            "reason": "Pin the outside defender from the corner; preserve the adjacent back lane",
+            "duty": "WING_PIN"
+          }
+        },
+        {
+          "tick": 415,
+          "type": "ACTION_STARTED",
+          "actor": "H01",
+          "details": {
+            "kind": "RUN",
+            "reason": "Pin the outside defender from the corner; preserve the adjacent back lane",
+            "duty": "WING_PIN"
+          }
+        },
+        {
+          "tick": 415,
+          "type": "ACTION_STARTED",
+          "actor": "H05",
+          "details": {
+            "kind": "RUN",
+            "reason": "Pin the outside defender from the corner; preserve the adjacent back lane",
+            "duty": "WING_PIN"
+          }
+        },
+        {
+          "tick": 434,
+          "type": "ACTION_STARTED",
+          "actor": "H05",
+          "details": {
+            "kind": "RUN",
+            "reason": "Offer the adjacent back an outside receiving lane while retaining width",
+            "duty": "WING_OFFER"
+          }
+        },
+        {
+          "tick": 453,
+          "type": "ACTION_STARTED",
+          "actor": "H05",
+          "details": {
+            "kind": "RUN",
+            "reason": "Pin the outside defender from the corner; preserve the adjacent back lane",
+            "duty": "WING_PIN"
+          }
+        },
+        {
+          "tick": 756,
+          "type": "ACTION_STARTED",
+          "actor": "A01",
+          "details": {
+            "kind": "RUN",
+            "reason": "Offer the adjacent back an outside receiving lane while retaining width",
+            "duty": "WING_OFFER"
+          }
+        },
+        {
+          "tick": 756,
+          "type": "ACTION_STARTED",
+          "actor": "A05",
+          "details": {
+            "kind": "RUN",
+            "reason": "Pin the outside defender from the corner; preserve the adjacent back lane",
+            "duty": "WING_PIN"
+          }
+        },
+        {
+          "tick": 775,
+          "type": "ACTION_STARTED",
+          "actor": "A01",
+          "details": {
+            "kind": "RUN",
+            "reason": "Offer the adjacent back an outside receiving lane while retaining width",
+            "duty": "WING_OFFER"
+          }
+        },
+        {
+          "tick": 775,
+          "type": "ACTION_STARTED",
+          "actor": "A05",
+          "details": {
+            "kind": "RUN",
+            "reason": "Pin the outside defender from the corner; preserve the adjacent back lane",
+            "duty": "WING_PIN"
+          }
+        },
+        {
+          "tick": 794,
+          "type": "ACTION_STARTED",
+          "actor": "A01",
+          "details": {
+            "kind": "RUN",
+            "reason": "Pin the outside defender from the corner; preserve the adjacent back lane",
+            "duty": "WING_PIN"
+          }
+        },
+        {
+          "tick": 794,
+          "type": "ACTION_STARTED",
+          "actor": "A05",
+          "details": {
+            "kind": "RUN",
+            "reason": "Pin the outside defender from the corner; preserve the adjacent back lane",
+            "duty": "WING_PIN"
+          }
+        },
+        {
+          "tick": 988,
+          "type": "ACTION_STARTED",
+          "actor": "A01",
+          "details": {
+            "kind": "RUN",
+            "reason": "Pin the outside defender from the corner; preserve the adjacent back lane",
+            "duty": "WING_PIN"
+          }
+        },
+        {
+          "tick": 988,
+          "type": "ACTION_STARTED",
+          "actor": "A05",
+          "details": {
+            "kind": "RUN",
+            "reason": "Pin the outside defender from the corner; preserve the adjacent back lane",
+            "duty": "WING_PIN"
+          }
+        },
+        {
+          "tick": 1007,
+          "type": "ACTION_STARTED",
+          "actor": "A01",
+          "details": {
+            "kind": "RUN",
+            "reason": "Pin the outside defender from the corner; preserve the adjacent back lane",
+            "duty": "WING_PIN"
+          }
+        },
+        {
+          "tick": 1007,
+          "type": "ACTION_STARTED",
+          "actor": "A05",
+          "details": {
+            "kind": "RUN",
+            "reason": "Pin the outside defender from the corner; preserve the adjacent back lane",
+            "duty": "WING_PIN"
+          }
+        }
+      ],
+      "resume": {
+        "tick": 2505,
+        "stateHash": "c9801067",
+        "eventHash": "2078d6b6"
+      }
+    }
+  ]
+}

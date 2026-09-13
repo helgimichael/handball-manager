@@ -1,5 +1,6 @@
 import { CORE_VERSION, CORE_RULES, getPlayer, otherTeam, type CoreState, type CorePlayer, type Direction, type Role } from './state';
 import { structurePoint, world } from './space';
+import { defendWing } from './wing';
 
 export const CORE_SCENARIOS = ['ESTABLISHED_6V6','TRANSITION_3V2','FREE_THROW','PIVOT_2V2','WING_FINISH','BACKCOURT_SHOT','DEFENSIVE_HELP','PRESSURE_5_1','EMPTY_GOAL'] as const;
 export type CoreScenario = typeof CORE_SCENARIOS[number];
@@ -20,6 +21,10 @@ export function createCoreScenario(scenario: CoreScenario='ESTABLISHED_6V6',seed
     ball:{mode:'CONTROLLED',position:{...players.find(p=>p.id==='H03')!.position},height:1.2,controllerId:'H03',live:true,flight:null,lastTouchId:'H03'},restart:null,contests:[],events:[],nextId:1,exchanges:[],flow:{continuous:false,outcomes:0,lastOutcomeTick:-1,stopAfter:null,sevenVTeam:null},match:null,
     checkpoint:{maxTicks:1200,stopOnOutcome:true,initialPossessionId:'possession-0',outcome:null}};
   const place=(id:string,x:number,y:number)=>{getPlayer(state,id).position=world({x,y},direction);};
+  for(const d of players.filter(p=>p.team==='AWAY'&&(p.role==='LW'||p.role==='RW'))) {
+    const attacker=players.find(p=>p.team==='HOME'&&p.role===d.role)!;
+    d.position=defendWing(state,d,attacker)??d.position;
+  }
   if(scenario==='TRANSITION_3V2'||scenario==='EMPTY_GOAL') {
     state.possession.phase='TRANSITION';
     place('H03',10,22);place('H02',5,17);place('H04',15,17);

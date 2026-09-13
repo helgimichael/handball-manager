@@ -7,6 +7,7 @@ import { getPlayer, type CoreState } from './state';
 import { legalAction, startAction } from './actions';
 import { distance, fieldLegal } from './space';
 import { advanceBall } from './interactions';
+import { createContinuous } from './continuous';
 import { createContactScenario } from './contactScenarios';
 
 function run(initial=createCoreScenario()) {
@@ -80,7 +81,7 @@ test('level 3: goalkeeper parry is a flight and rebound, not fabricated possessi
   assert.equal(frames.at(-1)!.restart?.kind,'GOALKEEPER_THROW');
 });
 test('levels 4–5: established circulation, defence, shot contest and correct outcome',()=>{
-  const frames=run(),end=frames.at(-1)!;
+  const frames=run(createContinuous('CONTINUOUS_PLAY',2025,'TOP',3)),end=frames.at(-1)!;
   assert.equal(end.status,'CHECKPOINT');
   assert.ok(end.events.filter(e=>e.type==='PASS_RECEIVED').length>=2);
   assert.ok(end.events.some(e=>e.type==='SHOT_RELEASED'));

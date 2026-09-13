@@ -7,3 +7,4 @@ require.extensions['.ts'] = (module, filename) => module._compile(ts.transpileMo
 require('../src/v2/core/core.test.ts');
 require('../src/v2/core/continuous.test.ts');
 require('../src/v2/core/contact.test.ts');
+require('../src/v2/core/wing.test.ts');

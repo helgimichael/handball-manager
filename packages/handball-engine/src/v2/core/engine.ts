@@ -49,7 +49,12 @@ function advanceOneTick(s:CoreState):CoreState {
   const carrier=s.ball.controllerId?getPlayer(s,s.ball.controllerId):null;
   const oldPosition=carrier?{...carrier.position}:null;
   populationBefore(s);
-  if(s.ball.live){coordinate(s);collectLoose(s);selectActions(s);}else restartStep(s);
+  if(s.ball.live) {
+    // A real loose-ball encounter may change the team or award a keeper restart.
+    // Allocate responsibilities and select only after that transition is known.
+    collectLoose(s);if(s.status!=='RUNNING')return s;
+    if(s.ball.live){coordinate(s);selectActions(s);}else restartStep(s);
+  }else restartStep(s);
   if(s.status!=='RUNNING')return s;
   const effects=execute(s);
   resolveHandovers(s);

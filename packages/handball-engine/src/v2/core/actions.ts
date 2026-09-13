@@ -1,6 +1,7 @@
 import { actionAvailable, getPlayer, record, uid, type ActionKind, type CoreAction, type CorePlayer, type CoreState, type Point } from './state';
 import { distance, fieldLegal, goal, local } from './space';
 import { awardRestart } from './transitions';
+import { authorisedRestartMovementLegal } from './rules';
 
 const durations: Record<ActionKind,number>={RUN:12,REPOSITION:12,RECEIVE:36,HOLD:6,DRIBBLE:16,PASS:4,FEINT:7,DRIVE:14,JUMP:3,SHOOT:4,LAND:4,SCREEN:20,PRESS:10,CONTAIN:10,HELP:12,HANDOVER:4,RECOVER:12,BLOCK:12,CONTACT:8,SAVE:18,EXCHANGE:20};
 export const movementActions: ActionKind[]=['RUN','REPOSITION','DRIBBLE','DRIVE','PRESS','CONTAIN','HELP','RECOVER','SAVE','EXCHANGE'];
@@ -8,7 +9,7 @@ export function legalAction(s: CoreState,p: CorePlayer,kind: ActionKind): boolea
   if(s.status!=='RUNNING'||p.population!=='COURT'||!actionAvailable(p))return false;
   const controls=s.ball.controllerId===p.id;
   if(kind==='EXCHANGE')return !controls&&s.exchanges.some(e=>e.phase!=='COMPLETED'&&(e.outId===p.id||e.inId===p.id));
-  if(p.airborne&&!controls)return kind==='LAND';
+  if(p.airborne&&(!controls||!s.ball.live))return kind==='LAND';
   if(!s.ball.live) return kind==='REPOSITION'||kind==='RUN'||kind==='RECEIVE'||
     (kind==='PASS'&&controls&&s.restart?.collectorId===p.id&&s.restart.takerId!==p.id&&s.restart.phase==='PREPARING')||
     (s.restart?.phase==='AUTHORISED'&&s.restart.takerId===p.id&&(kind==='PASS'||kind==='SHOOT'));
@@ -52,7 +53,7 @@ function move(s:CoreState,p:CorePlayer,target:Point) {
     const ordinary=p.kind==='GOALKEEPER'?next.x>=.3&&next.x<=19.7&&next.y>=.3&&next.y<=39.7:fieldLegal(next,p.radius);
     const legal=ordinary||(exchange&&next.x>=-.4&&next.x<.35&&next.y>=15&&next.y<=25);
     const blocked=s.players.some(q=>q.id!==p.id&&q.population==='COURT'&&distance(next,q.position)<p.radius+q.radius);
-    if(legal&&!blocked){chosen={...next,dx:ux,dy:uy};break;}
+    if(legal&&!blocked&&authorisedRestartMovementLegal(s,p,next)){chosen={...next,dx:ux,dy:uy};break;}
   }
   if(!chosen){p.velocity={x:0,y:0};return;}
   p.position={x:chosen.x,y:chosen.y};p.velocity={x:chosen.dx*speed,y:chosen.dy*speed};

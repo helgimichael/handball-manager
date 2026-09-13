@@ -9,13 +9,14 @@ import { v2CoreRenderSnapshot } from '@handball-manager/match-integration/src/v2
 import { CORE_SCENARIOS, createCoreScenario, type CoreScenario } from '@handball-manager/handball-engine/src/v2/core/scenarios';
 import { coreHash, coreEventHash, loadCore, saveCore, replayCore, stepCoreReplay, seekCore, playCore } from '@handball-manager/handball-engine/src/v2/core/replay';
 import { CONTACT_SCENARIOS,createContactScenario,type ContactScenario } from '@handball-manager/handball-engine/src/v2/core/contactScenarios';
+import { WING_SCENARIOS,createWingScenario,type WingScenario } from '@handball-manager/handball-engine/src/v2/core/wingScenarios';
 import { createContinuous } from '@handball-manager/handball-engine/src/v2/core/continuous';
 import type { Direction } from '@handball-manager/handball-engine/src/v2/core/state';
 import '../scenario-lab.css';
 
-type LabScenario=CoreScenario|ContactScenario|'CONTINUOUS_PLAY'|'SEVEN_V_SIX';
-const options:LabScenario[]=[...CORE_SCENARIOS,...CONTACT_SCENARIOS,'CONTINUOUS_PLAY','SEVEN_V_SIX'];
-const names:Record<LabScenario,string>={SHOULDER_BREAKTHROUGH:'Physical shoulder breakthrough',FRONTAL_CONTACT:'Frontal contact and containment',LATE_HOLD:'Late holding attempt',EVADED_CONTACT:'Evaded contact attempt',CONTINUOUS_PLAY:'Continuous play (6 outcomes)',SEVEN_V_SIX:'7v6 and goalkeeper return (6 outcomes)',ESTABLISHED_6V6:'Established 6v6',TRANSITION_3V2:'3v2 transition',FREE_THROW:'Free throw',PIVOT_2V2:'Local 2v2 with pivot',WING_FINISH:'Wing finish / rebound',BACKCOURT_SHOT:'Backcourt jump shot',DEFENSIVE_HELP:'Defensive help',PRESSURE_5_1:'5:1 pressure',EMPTY_GOAL:'Empty-goal opportunity'};
+type LabScenario=CoreScenario|ContactScenario|WingScenario|'CONTINUOUS_PLAY'|'SEVEN_V_SIX';
+const options:LabScenario[]=[...CORE_SCENARIOS,...CONTACT_SCENARIOS,...WING_SCENARIOS,'CONTINUOUS_PLAY','SEVEN_V_SIX'];
+const names:Record<LabScenario,string>={LEFT_WING_LINK:'Left wing / adjacent back',RIGHT_WING_LINK:'Right wing / adjacent back',CLOSED_WING_RETURN:'Closed wing window / return pass',OPEN_WING_FINISH:'Open wing window / actual finish',SHOULDER_BREAKTHROUGH:'Physical shoulder breakthrough',FRONTAL_CONTACT:'Frontal contact and containment',LATE_HOLD:'Late holding attempt',EVADED_CONTACT:'Evaded contact attempt',CONTINUOUS_PLAY:'Continuous play (6 outcomes)',SEVEN_V_SIX:'7v6 and goalkeeper return (6 outcomes)',ESTABLISHED_6V6:'Established 6v6',TRANSITION_3V2:'3v2 transition',FREE_THROW:'Free throw',PIVOT_2V2:'Local 2v2 with pivot',WING_FINISH:'Wing finish / rebound',BACKCOURT_SHOT:'Backcourt jump shot',DEFENSIVE_HELP:'Defensive help',PRESSURE_5_1:'5:1 pressure',EMPTY_GOAL:'Empty-goal opportunity'};
 export default function CoreLab() {
   const [scenario,setScenario]=useState<LabScenario>('ESTABLISHED_6V6');
   const [seed,setSeed]=useState('2025');const [direction,setDirection]=useState<Direction>('TOP');
@@ -27,7 +28,7 @@ export default function CoreLab() {
   const hashes=useMemo(()=>`${coreHash(s)} / ${coreEventHash(s)}`,[s]);
   useEffect(()=>{if(!playing)return;let before=performance.now();const timer=setInterval(()=>{const now=performance.now(),elapsed=now-before;before=now;setReplay(r=>playCore(r,elapsed,speed));},50);return()=>clearInterval(timer);},[playing,speed]);
   useEffect(()=>{if(s.status!=='RUNNING')setPlaying(false);},[s.status]);
-  function reset(){try{if(!seed.trim())throw new Error('Enter a seed');setReplay(replayCore(scenario==='CONTINUOUS_PLAY'||scenario==='SEVEN_V_SIX'?createContinuous(scenario,Number(seed),direction):CONTACT_SCENARIOS.includes(scenario as ContactScenario)?createContactScenario(scenario as ContactScenario,Number(seed),direction):createCoreScenario(scenario as CoreScenario,Number(seed),direction)));setPlaying(false);setError('');}catch(e){setError(String(e));}}
+  function reset(){try{if(!seed.trim())throw new Error('Enter a seed');setReplay(replayCore(scenario==='CONTINUOUS_PLAY'||scenario==='SEVEN_V_SIX'?createContinuous(scenario,Number(seed),direction):WING_SCENARIOS.includes(scenario as WingScenario)?createWingScenario(scenario as WingScenario,Number(seed),direction):CONTACT_SCENARIOS.includes(scenario as ContactScenario)?createContactScenario(scenario as ContactScenario,Number(seed),direction):createCoreScenario(scenario as CoreScenario,Number(seed),direction)));setPlaying(false);setError('');}catch(e){setError(String(e));}}
   function reload(){try{const loaded=loadCore(saved);setReplay(replayCore(loaded));setSeed(String(loaded.seed));setScenario(loaded.scenario as LabScenario);setDirection(loaded.directions.HOME);setPlaying(false);setError('');}catch(e){setError(String(e));}}
   function download(){const data=saveCore(s);setSaved(data);const url=URL.createObjectURL(new Blob([data],{type:'application/json'}));const a=document.createElement('a');a.href=url;a.download=`v2-${s.scenario}-${s.seed}-${s.tick}.json`;a.click();URL.revokeObjectURL(url);}
   const important=s.events.filter(e=>showActions||!['ACTION_STARTED','ACTION_PHASE','RESPONSIBILITY_ASSIGNED','ACTION_INTERRUPTED'].includes(e.type));

@@ -1,6 +1,6 @@
 import { goalAreaClearance } from '../../domain/geometry/goalArea';
 import { actionAvailable,courtPlayers,getPlayer,otherTeam,record,type CorePlayer,type CoreState,type Point } from './state';
-import { clamp,distance,fieldLegal,local,structurePoint,world } from './space';
+import { clamp,distance,fieldLegal,local,structurePoint,world,clearGoalArea } from './space';
 import { startAction } from './actions';
 import { acquire } from './transitions';
 import { exchangeActive,requestExchange } from './population';
@@ -26,7 +26,7 @@ export function restartTarget(s:CoreState,p:CorePlayer):Point {
     target=world({x:structurePoint(p.role,'TOP').x,y:own?(p.role==='P'?29:p.role==='LW'||p.role==='RW'?22:26):18},direction);
   } else {
     const q=local(target,direction);
-    if(own)target=world({x:q.x,y:Math.max(9.7,q.y)},direction);
+    if(own)target=r.kind==='FREE_THROW'?clearGoalArea(target,direction,s.ruleProfile.restartDistance+p.radius+.3):world({x:q.x,y:Math.max(9.7,q.y)},direction);
     else {const x:Record<CorePlayer['role'],number>={LW:2.5,LB:5.5,CB:8,RB:14.5,RW:17.5,P:11,P2:16,GK:10};target=world({x:x[p.role],y:r.kind==='SEVEN_METRE'?10.8:7.5},direction);}
     if(distance(target,r.location)<3.5){const q2=local(target,direction);target=world({x:q2.x,y:Math.max(6.6,local(r.location,direction).y+(own?3.8:-3.8))},direction);
       if(!own&&distance(target,r.location)<3.5)target=world({x:Math.max(.5,Math.min(19.5,local(r.location,direction).x+(q2.x<10?-3.8:3.8))),y:Math.max(6.6,local(r.location,direction).y+3.8)},direction);

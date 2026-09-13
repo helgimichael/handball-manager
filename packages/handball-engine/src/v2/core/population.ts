@@ -29,7 +29,10 @@ export function populationBefore(s:CoreState) {
   for(const e of s.exchanges.filter(e=>e.phase!=='COMPLETED')) {
     if(e.phase==='WAIT_EXIT') {
       const p=getPlayer(s,e.outId!);
-      if(actionAvailable(p)&&s.ball.controllerId!==p.id&&!p.airborne)startAction(s,p,'EXCHANGE','Leave completely over own substitution line before replacement',e.gate);
+      if(actionAvailable(p)&&s.ball.controllerId!==p.id) {
+        if(p.airborne)startAction(s,p,'LAND','Complete the airborne action before leaving for substitution');
+        else startAction(s,p,'EXCHANGE','Leave completely over own substitution line before replacement',e.gate);
+      }
     } else {
       const p=getPlayer(s,e.inId);
       if(p.population==='BENCH'&&courtPlayers(s,e.team).length<courtLimit(s,e.team)) {

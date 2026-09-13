@@ -2,14 +2,14 @@ import type { Point, TeamId, Direction } from '../model';
 import { nextRandom } from '../primitives';
 export type { Point, TeamId, Direction } from '../model';
 
-export const CORE_VERSION = '2.3.0-contact-continuation.1';
+export const CORE_VERSION = '2.4.0-wing-relationships.1';
 export const DT_MS = 50;
 /** Scoped execution profile; not a claim that all IHF rules are implemented. */
 export const CORE_RULES = {id:'IHF_INDOOR_2025' as const,maxHoldMs:3000,maxSteps:3,suspensionMs:120000,restartDistance:3,goalAreaRadius:6};
 export type Role = 'LW' | 'LB' | 'CB' | 'RB' | 'RW' | 'P' | 'P2' | 'GK';
 export type ActionKind = 'RUN' | 'REPOSITION' | 'RECEIVE' | 'HOLD' | 'DRIBBLE' | 'PASS' | 'FEINT' | 'DRIVE' | 'JUMP' | 'SHOOT' | 'LAND' | 'SCREEN' | 'PRESS' | 'CONTAIN' | 'HELP' | 'HANDOVER' | 'RECOVER' | 'BLOCK' | 'CONTACT' | 'SAVE' | 'EXCHANGE';
 export type ActionPhase = 'PREPARING' | 'COMMITTED' | 'EXECUTING' | 'RECOVERING' | 'COMPLETED' | 'INTERRUPTED' | 'FAILED';
-export type Duty = 'CARRIER' | 'WIDTH' | 'CONNECT' | 'PIVOT' | 'FIRST_WAVE' | 'SECOND_WAVE' | 'PRESSURE' | 'MARK' | 'HELP' | 'COVER' | 'RETREAT' | 'RECOVER' | 'GOALKEEPER' | 'COLLECT' | 'RESTART_TAKER' | 'WAIT';
+export type Duty = 'CARRIER' | 'WING_PIN' | 'WING_OFFER' | 'CONNECT' | 'PIVOT' | 'FIRST_WAVE' | 'SECOND_WAVE' | 'PRESSURE' | 'MARK' | 'HELP' | 'COVER' | 'RETREAT' | 'RECOVER' | 'GOALKEEPER' | 'COLLECT' | 'RESTART_TAKER' | 'WAIT';
 export type CorePlayer = {
   id: string; team: TeamId; kind: 'FIELD_PLAYER' | 'GOALKEEPER';
   role: Role; population: 'COURT' | 'BENCH' | 'SUSPENDED' | 'DISQUALIFIED';
