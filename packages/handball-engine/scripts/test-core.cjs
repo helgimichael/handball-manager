@@ -8,3 +8,4 @@ require('../src/v2/core/core.test.ts');
 require('../src/v2/core/continuous.test.ts');
 require('../src/v2/core/contact.test.ts');
 require('../src/v2/core/wing.test.ts');
+require('../src/v2/core/backcourt.test.ts');

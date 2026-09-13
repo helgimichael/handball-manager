@@ -1,0 +1,621 @@
+{
+  "checkpointCommit": "b0d7c02f8ccb071eb301d8fe9216405492126e15",
+  "complete": true,
+  "description": "Backcourt relationship diagnostics. Actual occupied width is measured independently of support targets.",
+  "rows": [
+    {
+      "direction": "TOP",
+      "version": "2.5.0-backcourt-relationships.1",
+      "seed": 1,
+      "complete": true,
+      "status": "CHECKPOINT",
+      "reason": "FULLTIME",
+      "score": {
+        "HOME": 48,
+        "AWAY": 49
+      },
+      "officialMs": 3600000,
+      "periods": [
+        {
+          "type": "PERIOD_STARTED",
+          "officialMs": 0,
+          "tick": 6
+        },
+        {
+          "type": "PERIOD_ENDED",
+          "officialMs": 1800000,
+          "tick": 36006
+        },
+        {
+          "type": "PERIOD_STARTED",
+          "officialMs": 1800000,
+          "tick": 48378
+        },
+        {
+          "type": "PERIOD_ENDED",
+          "officialMs": 3600000,
+          "tick": 84408
+        }
+      ],
+      "shots": 233,
+      "goals": 97,
+      "passes": 387,
+      "fouls": 22,
+      "suspensions": 13,
+      "exchanges": 18,
+      "tick": 84408,
+      "stateHash": "01bf5569",
+      "eventHash": "f8104a5a",
+      "actualBackcourtWidth": {
+        "samples": 878,
+        "p10": 9.609160500320893,
+        "median": 10.948454525657086,
+        "p90": 12.002573464969975,
+        "over12m": 104,
+        "under9m": 31
+      },
+      "support": [
+        {
+          "mode": "STRETCH",
+          "samples": 1272,
+          "medianDepth": 10.889128361342127,
+          "medianTargetDistance": 0.8960203735799958
+        },
+        {
+          "mode": "COMBINE",
+          "samples": 2,
+          "medianDepth": 9.684410867185516,
+          "medianTargetDistance": 2.8063171026935763
+        },
+        {
+          "mode": "CLEAR_LANE",
+          "samples": 24,
+          "medianDepth": 11.980104143395824,
+          "medianTargetDistance": 0.2959072356068902
+        },
+        {
+          "mode": "RECYCLE",
+          "samples": 58,
+          "medianDepth": 11.50137728164678,
+          "medianTargetDistance": 0.5936475421777978
+        },
+        {
+          "mode": "BALANCE",
+          "samples": 688,
+          "medianDepth": 12.440753967198454,
+          "medianTargetDistance": 0.474728780609814
+        }
+      ],
+      "qaMoments": {
+        "STRETCH": {
+          "tick": 140,
+          "actor": "H04",
+          "partner": "H03",
+          "position": {
+            "x": 14.462647425343418,
+            "y": 15.936344295602641
+          },
+          "target": {
+            "x": 16.976822478720866,
+            "y": 12
+          }
+        },
+        "BALANCE": {
+          "tick": 160,
+          "actor": "H03",
+          "partner": "H02",
+          "position": {
+            "x": 10.228662040926082,
+            "y": 12.473306751293016
+          },
+          "target": {
+            "x": 9.99672553757981,
+            "y": 13
+          }
+        },
+        "RECYCLE": {
+          "tick": 4200,
+          "actor": "A04",
+          "partner": "A05",
+          "position": {
+            "x": 14.898943975844972,
+            "y": 23.274118302506803
+          },
+          "target": {
+            "x": 16.104553331009484,
+            "y": 28.5
+          }
+        },
+        "CLEAR_LANE": {
+          "tick": 5680,
+          "actor": "A02",
+          "partner": "A06",
+          "position": {
+            "x": 5.542084719038143,
+            "y": 28.861531512904815
+          },
+          "target": {
+            "x": 6.540910667339083,
+            "y": 28.311330373190017
+          }
+        },
+        "COMBINE": {
+          "tick": 19680,
+          "actor": "A04",
+          "partner": "A06",
+          "position": {
+            "x": 15.281648310654043,
+            "y": 30.315589132814484
+          },
+          "target": {
+            "x": 12.614561995226207,
+            "y": 29.442625063148363
+          }
+        }
+      }
+    },
+    {
+      "direction": "BOTTOM",
+      "version": "2.5.0-backcourt-relationships.1",
+      "seed": 1,
+      "complete": true,
+      "status": "CHECKPOINT",
+      "reason": "FULLTIME",
+      "score": {
+        "HOME": 41,
+        "AWAY": 48
+      },
+      "officialMs": 3600000,
+      "periods": [
+        {
+          "type": "PERIOD_STARTED",
+          "officialMs": 0,
+          "tick": 6
+        },
+        {
+          "type": "PERIOD_ENDED",
+          "officialMs": 1800000,
+          "tick": 36006
+        },
+        {
+          "type": "PERIOD_STARTED",
+          "officialMs": 1800000,
+          "tick": 48209
+        },
+        {
+          "type": "PERIOD_ENDED",
+          "officialMs": 3600000,
+          "tick": 84209
+        }
+      ],
+      "shots": 227,
+      "goals": 89,
+      "passes": 403,
+      "fouls": 23,
+      "suspensions": 14,
+      "exchanges": 20,
+      "tick": 84209,
+      "stateHash": "19b5967a",
+      "eventHash": "4a54e8a9",
+      "actualBackcourtWidth": {
+        "samples": 599,
+        "p10": 9.895124227607308,
+        "median": 11.412619599142662,
+        "p90": 12.24193512175942,
+        "over12m": 86,
+        "under9m": 13
+      },
+      "support": [
+        {
+          "mode": "STRETCH",
+          "samples": 947,
+          "medianDepth": 10.84905578311583,
+          "medianTargetDistance": 0.8861499026830599
+        },
+        {
+          "mode": "COMBINE",
+          "samples": 1,
+          "medianDepth": 9.63443991672018,
+          "medianTargetDistance": 2.863827329533663
+        },
+        {
+          "mode": "CLEAR_LANE",
+          "samples": 6,
+          "medianDepth": 11.631280822479276,
+          "medianTargetDistance": 0.453795341069509
+        },
+        {
+          "mode": "RECYCLE",
+          "samples": 81,
+          "medianDepth": 11.459129704600425,
+          "medianTargetDistance": 0.8370827392070732
+        },
+        {
+          "mode": "BALANCE",
+          "samples": 641,
+          "medianDepth": 12.39811763915177,
+          "medianTargetDistance": 0.47408350632867485
+        }
+      ],
+      "qaMoments": {
+        "STRETCH": {
+          "tick": 140,
+          "actor": "H04",
+          "partner": "H03",
+          "position": {
+            "x": 14.154943333879679,
+            "y": 24.012250461547776
+          },
+          "target": {
+            "x": 17.052439972659037,
+            "y": 28
+          }
+        },
+        "BALANCE": {
+          "tick": 160,
+          "actor": "H03",
+          "partner": "H02",
+          "position": {
+            "x": 10.024434983534139,
+            "y": 27.537415993720337
+          },
+          "target": {
+            "x": 9.771450746979344,
+            "y": 27
+          }
+        },
+        "RECYCLE": {
+          "tick": 1520,
+          "actor": "A04",
+          "partner": "A05",
+          "position": {
+            "x": 15.235041589290718,
+            "y": 12.194993101620069
+          },
+          "target": {
+            "x": 15.515026528218328,
+            "y": 9
+          }
+        },
+        "CLEAR_LANE": {
+          "tick": 8400,
+          "actor": "H04",
+          "partner": "H06",
+          "position": {
+            "x": 14.989585024282263,
+            "y": 28.856137245785742
+          },
+          "target": {
+            "x": 13.31419678095974,
+            "y": 28
+          }
+        },
+        "COMBINE": {
+          "tick": 14020,
+          "actor": "H04",
+          "partner": "H06",
+          "position": {
+            "x": 15.353033175371857,
+            "y": 30.36556008327982
+          },
+          "target": {
+            "x": 12.62752710101452,
+            "y": 29.4862856027988
+          }
+        }
+      }
+    },
+    {
+      "direction": "TOP",
+      "version": "2.5.0-backcourt-relationships.1",
+      "seed": 2025,
+      "complete": true,
+      "status": "CHECKPOINT",
+      "reason": "FULLTIME",
+      "score": {
+        "HOME": 41,
+        "AWAY": 49
+      },
+      "officialMs": 3600000,
+      "periods": [
+        {
+          "type": "PERIOD_STARTED",
+          "officialMs": 0,
+          "tick": 6
+        },
+        {
+          "type": "PERIOD_ENDED",
+          "officialMs": 1800000,
+          "tick": 36006
+        },
+        {
+          "type": "PERIOD_STARTED",
+          "officialMs": 1800000,
+          "tick": 48208
+        },
+        {
+          "type": "PERIOD_ENDED",
+          "officialMs": 3600000,
+          "tick": 84208
+        }
+      ],
+      "shots": 231,
+      "goals": 90,
+      "passes": 395,
+      "fouls": 23,
+      "suspensions": 16,
+      "exchanges": 22,
+      "tick": 84208,
+      "stateHash": "d093b3d7",
+      "eventHash": "74296eb8",
+      "actualBackcourtWidth": {
+        "samples": 850,
+        "p10": 9.87020384490684,
+        "median": 11.422937267994556,
+        "p90": 12.102832778536515,
+        "over12m": 130,
+        "under9m": 15
+      },
+      "support": [
+        {
+          "mode": "STRETCH",
+          "samples": 1238,
+          "medianDepth": 11.034536541952441,
+          "medianTargetDistance": 0.9176913983788512
+        },
+        {
+          "mode": "COMBINE",
+          "samples": 5,
+          "medianDepth": 9.382452279382502,
+          "medianTargetDistance": 2.876998681635612
+        },
+        {
+          "mode": "CLEAR_LANE",
+          "samples": 11,
+          "medianDepth": 11.974803531057878,
+          "medianTargetDistance": 0.028383323274297805
+        },
+        {
+          "mode": "RECYCLE",
+          "samples": 64,
+          "medianDepth": 11.487887608035997,
+          "medianTargetDistance": 0.5367174189924203
+        },
+        {
+          "mode": "BALANCE",
+          "samples": 712,
+          "medianDepth": 12.522811888714603,
+          "medianTargetDistance": 0.45687433510431774
+        }
+      ],
+      "qaMoments": {
+        "STRETCH": {
+          "tick": 140,
+          "actor": "H04",
+          "partner": "H03",
+          "position": {
+            "x": 14.462647425343418,
+            "y": 15.936344295602641
+          },
+          "target": {
+            "x": 16.976822478720866,
+            "y": 12
+          }
+        },
+        "BALANCE": {
+          "tick": 160,
+          "actor": "H03",
+          "partner": "H02",
+          "position": {
+            "x": 10.228662040926082,
+            "y": 12.473306751293016
+          },
+          "target": {
+            "x": 9.99672553757981,
+            "y": 13
+          }
+        },
+        "RECYCLE": {
+          "tick": 1740,
+          "actor": "H02",
+          "partner": "H01",
+          "position": {
+            "x": 5.00049312970399,
+            "y": 10.703008556768328
+          },
+          "target": {
+            "x": 5.0041026184397355,
+            "y": 9.354184476078826
+          }
+        },
+        "COMBINE": {
+          "tick": 6420,
+          "actor": "A04",
+          "partner": "A06",
+          "position": {
+            "x": 15.367883676249075,
+            "y": 30.617547720617498
+          },
+          "target": {
+            "x": 12.627290103550836,
+            "y": 29.413710464231627
+          }
+        },
+        "CLEAR_LANE": {
+          "tick": 12200,
+          "actor": "A04",
+          "partner": "A06",
+          "position": {
+            "x": 15.657690468009834,
+            "y": 28.0150710107942
+          },
+          "target": {
+            "x": 16.081528206992616,
+            "y": 28
+          }
+        }
+      },
+      "resume": {
+        "tick": 6420,
+        "stateHash": "d093b3d7",
+        "eventHash": "74296eb8"
+      }
+    },
+    {
+      "direction": "BOTTOM",
+      "version": "2.5.0-backcourt-relationships.1",
+      "seed": 2025,
+      "complete": true,
+      "status": "CHECKPOINT",
+      "reason": "FULLTIME",
+      "score": {
+        "HOME": 40,
+        "AWAY": 39
+      },
+      "officialMs": 3600000,
+      "periods": [
+        {
+          "type": "PERIOD_STARTED",
+          "officialMs": 0,
+          "tick": 6
+        },
+        {
+          "type": "PERIOD_ENDED",
+          "officialMs": 1800000,
+          "tick": 36006
+        },
+        {
+          "type": "PERIOD_STARTED",
+          "officialMs": 1800000,
+          "tick": 48223
+        },
+        {
+          "type": "PERIOD_ENDED",
+          "officialMs": 3600000,
+          "tick": 84223
+        }
+      ],
+      "shots": 228,
+      "goals": 79,
+      "passes": 398,
+      "fouls": 21,
+      "suspensions": 12,
+      "exchanges": 19,
+      "tick": 84223,
+      "stateHash": "3052ce07",
+      "eventHash": "8f3fd975",
+      "actualBackcourtWidth": {
+        "samples": 793,
+        "p10": 9.386374024552385,
+        "median": 10.956759703571052,
+        "p90": 12.250863206426253,
+        "over12m": 92,
+        "under9m": 48
+      },
+      "support": [
+        {
+          "mode": "STRETCH",
+          "samples": 1132,
+          "medianDepth": 10.874227706967313,
+          "medianTargetDistance": 0.8771609397119382
+        },
+        {
+          "mode": "COMBINE",
+          "samples": 2,
+          "medianDepth": 9.369466422291843,
+          "medianTargetDistance": 1.722403498099187
+        },
+        {
+          "mode": "CLEAR_LANE",
+          "samples": 15,
+          "medianDepth": 11.983831323152485,
+          "medianTargetDistance": 0.028420609394867645
+        },
+        {
+          "mode": "RECYCLE",
+          "samples": 72,
+          "medianDepth": 11.333487188677118,
+          "medianTargetDistance": 0.47527634921344336
+        },
+        {
+          "mode": "BALANCE",
+          "samples": 584,
+          "medianDepth": 12.356389392046218,
+          "medianTargetDistance": 0.5057807550613926
+        }
+      ],
+      "qaMoments": {
+        "STRETCH": {
+          "tick": 140,
+          "actor": "H04",
+          "partner": "H03",
+          "position": {
+            "x": 14.154943333879679,
+            "y": 24.012250461547776
+          },
+          "target": {
+            "x": 17.052439972659037,
+            "y": 28
+          }
+        },
+        "BALANCE": {
+          "tick": 160,
+          "actor": "H03",
+          "partner": "H02",
+          "position": {
+            "x": 10.024434983534139,
+            "y": 27.537415993720337
+          },
+          "target": {
+            "x": 9.771450746979344,
+            "y": 27
+          }
+        },
+        "RECYCLE": {
+          "tick": 1640,
+          "actor": "A04",
+          "partner": "A05",
+          "position": {
+            "x": 15.003011783632529,
+            "y": 13.100419974336765
+          },
+          "target": {
+            "x": 15.510200589142869,
+            "y": 9
+          }
+        },
+        "CLEAR_LANE": {
+          "tick": 2120,
+          "actor": "H04",
+          "partner": "H03",
+          "position": {
+            "x": 14.796378592688336,
+            "y": 28.002615324533004
+          },
+          "target": {
+            "x": 14.500177858707222,
+            "y": 28
+          }
+        },
+        "COMBINE": {
+          "tick": 11320,
+          "actor": "A04",
+          "partner": "A06",
+          "position": {
+            "x": 14.049588650398887,
+            "y": 9.863329225650746
+          },
+          "target": {
+            "x": 13.258213910137261,
+            "y": 11.393165762912215
+          }
+        }
+      },
+      "resume": {
+        "tick": 11320,
+        "stateHash": "3052ce07",
+        "eventHash": "8f3fd975"
+      }
+    }
+  ]
+}

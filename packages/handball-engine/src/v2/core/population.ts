@@ -48,7 +48,7 @@ export function populationAfter(s:CoreState) {
     if(e.phase==='WAIT_EXIT') {
       const p=getPlayer(s,e.outId!);
       if(p.position.x<=-p.radius&&p.action?.kind==='EXCHANGE') {
-        p.population='BENCH';p.velocity={x:0,y:0};p.action.phase='COMPLETED';p.action.phaseTick=s.tick;e.phase='ENTERING';
+        p.population='BENCH';p.support=null;p.velocity={x:0,y:0};p.action.phase='COMPLETED';p.action.phaseTick=s.tick;e.phase='ENTERING';
         delete s.defence.marks[p.id];record(s,'PLAYER_LEFT_COURT',p,{exchangeId:e.id},[e.inId]);
       }
     } else {

@@ -5,10 +5,11 @@ import { exchangeActive } from './population';
 import { goalAreaClearance } from '../../domain/geometry/goalArea';
 import { planContact } from './contact';
 import { isWing,wingRelationship,wingTakeoffWindow,defendWing } from './wing';
+import { isBack,planBackcourtSupport } from './backcourt';
 
 function assign(s:CoreState,p:CorePlayer,kind:Duty,targetId:string|null,reason:string) {
   if(s.ball.mode==='LOOSE'&&p.duty.kind==='COLLECT')return;
-  if(p.duty.kind!==kind||p.duty.targetId!==targetId) {
+  if(p.duty.kind!==kind||p.duty.targetId!==targetId||p.duty.reason!==reason) {
     p.duty={kind,targetId,sinceTick:s.tick,reason};record(s,'RESPONSIBILITY_ASSIGNED',p,{kind,reason},targetId?[targetId]:[]);
   }
 }
@@ -17,6 +18,7 @@ export function coordinate(s: CoreState) {
   const attacking=s.possession.team,defending=otherTeam(attacking),carrier=s.ball.controllerId?getPlayer(s,s.ball.controllerId):null;
   const attackers=courtPlayers(s,attacking).filter(p=>p.kind==='FIELD_PLAYER'),defenders=courtPlayers(s,defending).filter(p=>p.kind==='FIELD_PLAYER');
   const direction=s.directions[attacking];
+  for(const p of s.players)if(p.population!=='COURT'||p.team!==attacking||p.id===carrier?.id||s.possession.phase!=='ESTABLISHED'||!isBack(p))p.support=null;
   if(Object.keys(s.defence.marks).length===0) {
     const available=[...attackers];
     for(const d of defenders) {const index=available.findIndex(a=>a.role===d.role);const a=available.splice(index<0?0:index,1)[0];if(a)s.defence.marks[d.id]=a.id;}
@@ -56,6 +58,10 @@ export function coordinate(s: CoreState) {
     if(a.id===carrier?.id)assign(s,a,'CARRIER',null,'Create advantage while respecting handling budget');
     else if(s.possession.phase==='TRANSITION')assign(s,a,['LB','RB','LW','RW'].includes(a.role)?'FIRST_WAVE':'SECOND_WAVE',null,'Offer width or trailing continuation in transition');
     else if(isWing(a)){const relation=wingRelationship(s,a);assign(s,a,relation.mode==='PIN_CORNER'?'WING_PIN':'WING_OFFER',relation.back?.id??null,relation.reason);}
+    else if(isBack(a)) {
+      if(actionAvailable(a)&&(!a.support||a.support.possessionId!==s.possession.id||s.tick>=a.support.reviewAfterTick))a.support=planBackcourtSupport(s,a);
+      if(a.support)assign(s,a,a.support.mode,a.support.partnerId,a.support.reason);
+    }
     else assign(s,a,a.role==='P'||a.role==='P2'?'PIVOT':'CONNECT',null,'Maintain role relationships and move with the ball-side structure');
   }
   for(const p of courtPlayers(s).filter(p=>p.kind==='GOALKEEPER'))assign(s,p,'GOALKEEPER',null,'Protect own goal; commit only after reading a released shot');
@@ -150,7 +156,7 @@ export function selectActions(s:CoreState) {
       if(carrier?.team!==p.team&&carrier?.airborne&&distance(p.position,carrier.position)<2)startAction(s,p,'BLOCK','Contest visible shooting action',null,carrier.id);
       else startAction(s,p,kind,p.duty.reason,target,p.duty.targetId);
     } else {
-      let target=isWing(p)&&s.possession.phase==='ESTABLISHED'?wingRelationship(s,p).target:structurePoint(p.role,direction,s.ball.position.x);
+      let target=s.possession.phase==='ESTABLISHED'?(isWing(p)?wingRelationship(s,p).target:p.support?.target??structurePoint(p.role,direction,s.ball.position.x)):structurePoint(p.role,direction,s.ball.position.x);
       if(s.possession.phase==='TRANSITION') {const q=local(p.position,direction);target=world({x:p.role==='LB'?5:p.role==='RB'?15:target.x,y:Math.max(local(target,direction).y,q.y-7)},direction);}
       if(p.role==='P'&&distance(p.position,target)<1.2)startAction(s,p,'SCREEN','Establish stationary pivot screen to constrain inside cover',null,s.defence.pressureId);
       else if(distance(p.position,target)>.55)startAction(s,p,'RUN',p.duty.reason,target);

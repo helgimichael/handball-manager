@@ -12,7 +12,7 @@ export function createCoreScenario(scenario: CoreScenario='ESTABLISHED_6V6',seed
     const position=team==='HOME'?structurePoint(role,direction):world(role==='GK'?{x:10,y:1.5}:{x:[2.2,5.5,8.5,13.8,17.8,11.4][i],y:[5.9,6.6,6.6,6.6,5.9,6.6][i]},direction);
     players.push({id:`${team==='HOME'?'H':'A'}${String(i+1).padStart(2,'0')}`,team,kind:role==='GK'?'GOALKEEPER':'FIELD_PLAYER',role,population:'COURT',position,velocity:{x:0,y:0},radius:.28,
       attributes:{speed:role==='GK'?3.5:5.4,acceleration:5.5,skill:.65,defence:.65,keeping:.65},
-      duty:{kind:'WAIT',targetId:null,sinceTick:0,reason:'Scenario setup'},intent:{id:'initial',effect:'WAIT',reason:'Scenario setup',targetId:null},action:null,
+      duty:{kind:'WAIT',targetId:null,sinceTick:0,reason:'Scenario setup'},intent:{id:'initial',effect:'WAIT',reason:'Scenario setup',targetId:null},action:null,support:null,
       handling:{heldSinceTick:0,steps:0,stepDistance:0,dribbleUsed:false,bounceTick:0},airborne:null,beatenUntilTick:0,wrongFootedUntilTick:0,screenedUntilTick:0,suspensionUntilMs:null,sanctions:0,warnings:0,nextAction:null,reception:null});
   });
   const state: CoreState={version:CORE_VERSION,ruleProfile:{...CORE_RULES},scenario,seed,rng:{algorithm:'mulberry32',state:seed,draws:0},tick:0,timeMs:0,period:1,officialClock:{timeMs:0,running:true},status:'RUNNING',reason:null,

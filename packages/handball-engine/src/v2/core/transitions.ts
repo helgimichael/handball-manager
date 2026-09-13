@@ -13,7 +13,7 @@ export function checkpoint(s: CoreState,outcome: string) {
   if(s.checkpoint.stopOnOutcome||(s.flow.stopAfter!==null&&s.flow.outcomes>=s.flow.stopAfter)){s.status='CHECKPOINT';s.reason=outcome;}
 }
 export function awardRestart(s: CoreState,kind: Restart['kind'],owner: CorePlayer['team'],where: Point,reason: string,actor: CorePlayer|null=null,countOutcome=true) {
-  for(const p of s.players)interrupt(s,p,reason);
+  for(const p of s.players){interrupt(s,p,reason);p.support=null;}
   const holder=s.ball.controllerId&&getPlayer(s,s.ball.controllerId).team===owner?s.ball.controllerId:null;
   s.ball={...s.ball,mode:'DEAD',controllerId:holder,flight:null,live:false,height:holder?1.2:0};
   let location={...where};
@@ -29,6 +29,7 @@ export function awardRestart(s: CoreState,kind: Restart['kind'],owner: CorePlaye
 }
 export function changePossession(s: CoreState,player: CorePlayer,reason: string) {
   if(s.possession.team===player.team)return;
+  for(const p of s.players)p.support=null;
   const previous=s.possession.id;
   s.possession={id:uid(s,'possession'),team:player.team,sinceTick:s.tick,phase:'TRANSITION',completedPasses:0,lastPasserId:null};
   s.defence={team:otherTeam(player.team),system:'6:0',marks:{},pressureId:null,helperId:null,lastHandoverTick:s.tick,handover:null};
@@ -41,7 +42,7 @@ export function acquire(s: CoreState,p: CorePlayer,point: Point,reason: string,s
   if(s.ball.live)changePossession(s,p,reason);
   s.ball={...s.ball,position:{...point},mode:p.kind==='GOALKEEPER'?'GOALKEEPER_CONTROL':'RECEPTION',height:1.2,controllerId:p.id,flight:null,lastTouchId:p.id};
   p.handling={heldSinceTick:s.tick,steps:0,stepDistance:0,dribbleUsed:false,bounceTick:s.tick};
-  p.reception=null;
+  p.reception=null;p.support=null;
   interrupt(s,p,'Ball controlled through contact');
   record(s,'BALL_CONTROLLED',p,{reason},[],null,sourceActionId);
   if(turnover)checkpoint(s,'TURNOVER');
