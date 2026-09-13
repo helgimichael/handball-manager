@@ -2,12 +2,13 @@ import { goalAreaClearance } from '../../domain/geometry/goalArea';
 import { CORE_VERSION, CORE_RULES, DT_MS, actionAvailable, courtPlayers, getPlayer, record, type CoreState } from './state';
 import { distance, fieldLegal } from './space';
 import { execute, handlingRules, startAction } from './actions';
-import { coordinate, selectActions } from './structure';
+import { coordinate, selectActions,resolveHandovers } from './structure';
 import { advanceBall, resolveEffects, resolveScreens } from './interactions';
 import { acquire, awardRestart } from './transitions';
 import { restartStep } from './restarts';
 import { populationBefore,populationAfter,exchangeActive,courtLimit } from './population';
 import { matchBefore,matchAfter } from './match';
+import { resolveContacts } from './contact';
 function collectLoose(s:CoreState) {
   if(s.ball.mode!=='LOOSE')return;
   for(const p of courtPlayers(s).filter(p=>p.kind==='GOALKEEPER')) {
@@ -51,13 +52,16 @@ function advanceOneTick(s:CoreState):CoreState {
   if(s.ball.live){coordinate(s);collectLoose(s);selectActions(s);}else restartStep(s);
   if(s.status!=='RUNNING')return s;
   const effects=execute(s);
+  resolveHandovers(s);
   populationAfter(s);
   if(carrier&&oldPosition&&s.ball.controllerId===carrier.id) {
     // Preserve the physical catch offset while the carrier moves; never snap to a target.
     s.ball.position={x:s.ball.position.x+carrier.position.x-oldPosition.x,y:s.ball.position.y+carrier.position.y-oldPosition.y};
   }
   handlingRules(s);if(s.status!=='RUNNING')return s;
-  resolveScreens(s);resolveEffects(s,effects);if(s.status!=='RUNNING')return s;
+  const wasLive=s.ball.live;
+  resolveScreens(s);resolveContacts(s);if(wasLive&&!s.ball.live)return s;
+  resolveEffects(s,effects);if(s.status!=='RUNNING')return s;
   advanceBall(s);
   return s;
 }

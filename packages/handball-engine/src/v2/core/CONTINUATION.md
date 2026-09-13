@@ -1,5 +1,8 @@
 # V2 continuous-match Human QA checkpoint
 
+This is the historical accepted 2.2 checkpoint. The subsequent uncommitted
+realism pass and its QA instructions are in [REALISM.md](./REALISM.md).
+
 Version `2.2.0-continuous-play.1`. The working tree is the deliverable; no commit or push.
 
 The resumed tree already contained the accepted 2.1 possession/transition core,

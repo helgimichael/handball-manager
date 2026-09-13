@@ -6,30 +6,32 @@ import { restartReady } from './rules';
 import { completeRestart } from './restarts';
 import { goalAreaClearance } from '../../domain/geometry/goalArea';
 
-function contest(s:CoreState,kind:CoreContest['kind'],a:CorePlayer,d:CorePlayer,outcome:string,margin:number,duration:number,sourceActionId=a.action?.id??s.ball.flight?.actionId??'contact') {
+export function contest(s:CoreState,kind:CoreContest['kind'],a:CorePlayer,d:CorePlayer,outcome:string,margin:number,duration:number,sourceActionId=a.action?.id??s.ball.flight?.actionId??'contact') {
   const id=uid(s,'contest');
   s.contests.push({id,kind,tick:s.tick,attackerId:a.id,defenderId:d.id,actionId:sourceActionId,outcome,margin,consequenceUntilTick:s.tick+duration});
   if(a.action?.id===sourceActionId)a.action.contestIds.push(id);
   record(s,'CONTEST_RESOLVED',a,{kind,outcome,margin,consequenceUntilTick:s.tick+duration,defenderDuty:d.duty.kind,defenderActionId:d.action?.id??'none'},[d.id],id,sourceActionId);return id;
 }
 function duel(s:CoreState,a:CorePlayer) {
-  const defenders=courtPlayers(s,otherTeam(a.team)).filter(d=>d.kind!=='GOALKEEPER'&&d.beatenUntilTick<=s.tick&&distance(a.position,d.position)<1.35&&['PRESS','HELP','CONTAIN','CONTACT'].includes(d.action?.kind??''));
-  // Only coordinated primary/helper may challenge the carrier; no independent many-to-one predicates.
-  const d=defenders.find(d=>d.id===s.defence.helperId)||defenders.find(d=>d.id===s.defence.pressureId);
-  if(!d)return;
-  a.action!.resolved=true;
-  const screen=d.screenedUntilTick>s.tick?.3:0;
-  const margin=a.attributes.skill-d.attributes.defence+screen+(a.action?.kind==='FEINT'?.15:0)+(random(s)-.5)*.9;
-  if(margin>0) {
-    const id=contest(s,'DUEL',a,d,'BEATEN',margin,32);d.beatenUntilTick=s.tick+32;interrupt(s,d,'Beaten in local contest');
-    record(s,'DEFENDER_BEATEN',a,{untilTick:d.beatenUntilTick},[d.id],id);
-  } else if(margin<-.23) {
-    const clear=local(a.position,s.directions[a.team]).y<8.5&&shootingAngle(a.position,s.directions[a.team])>.25;
-    const severe=margin<-.4;
-    const id=contest(s,'DUEL',a,d,'ILLEGAL_STOP',margin,severe?2400:10);foul(s,a,d,severe,clear,id);
-  } else {
-    const id=contest(s,'DUEL',a,d,'CONTAINED',margin,10);interrupt(s,a,'Legal trunk contact stopped penetration');a.nextAction=null;record(s,'LEGAL_CONTACT',d,{},[a.id],id);
+  const action=a.action!;
+  const defenders=courtPlayers(s,otherTeam(a.team)).filter(d=>d.kind!=='GOALKEEPER'&&d.beatenUntilTick<=s.tick&&
+    (d.id===s.defence.pressureId||d.id===s.defence.helperId||d.id===action.targetId));
+  if(action.kind==='DRIVE') {
+    // A breakthrough is a physical change of relative position, not a won skill roll.
+    const d=defenders.find(d=>(action.driveStart?.[d.id]??-1)>=0&&distance(a.position,d.position)<2.5&&local(a.position,s.directions[a.team]).y+.15<local(d.position,s.directions[a.team]).y);
+    if(!d)return;
+    action.resolved=true;
+    const margin=local(d.position,s.directions[a.team]).y-local(a.position,s.directions[a.team]).y;
+    const id=contest(s,'DUEL',a,d,'BEATEN',margin,32);d.beatenUntilTick=s.tick+32;interrupt(s,d,'Attacker physically crossed the defended shoulder');
+    record(s,'DEFENDER_BEATEN',a,{untilTick:d.beatenUntilTick,attackerY:a.position.y,defenderY:d.position.y},[d.id],id);return;
   }
+  const d=defenders.find(d=>distance(a.position,d.position)<1.6&&d.action?.phase==='EXECUTING'&&['PRESS','HELP','CONTAIN','CONTACT'].includes(d.action.kind));
+  if(!d)return;
+  action.resolved=true;
+  const margin=a.attributes.skill-d.attributes.defence+(d.screenedUntilTick>s.tick?.3:0)+.15+(random(s)-.5)*.9;
+  const wrongFooted=margin>0,id=contest(s,'DUEL',a,d,wrongFooted?'WRONG_FOOTED':'COMPOSED',margin,wrongFooted?16:0);
+  if(wrongFooted){d.wrongFootedUntilTick=s.tick+16;interrupt(s,d,'Committed weight to the feint');}
+  record(s,'FEINT_READ',a,{wrongFooted,untilTick:d.wrongFootedUntilTick},[d.id],id);
 }
 function release(s:CoreState,p:CorePlayer,kind:'PASS'|'SHOOT') {
   if(s.ball.controllerId!==p.id||!p.action){if(p.action)p.action.phase='FAILED';return;}
@@ -45,7 +47,7 @@ function release(s:CoreState,p:CorePlayer,kind:'PASS'|'SHOOT') {
     target={...receiver.position};
     // Lead a currently moving receiver using observable velocity and committed
     // movement extent. This predicts an intercept point, never future ownership.
-    if(receiver.action?.kind==='RUN'||receiver.action?.kind==='REPOSITION')for(let i=0;i<3;i++) {
+    if(receiver.action?.phase==='EXECUTING'&&(receiver.action.kind==='RUN'||receiver.action.kind==='REPOSITION'))for(let i=0;i<3;i++) {
       const time=distance(s.ball.position,target)/12,v=receiver.velocity,speed=Math.hypot(v.x,v.y);
       const extent=receiver.action.target?distance(receiver.position,receiver.action.target):Infinity;
       const scale=speed>0?Math.min(time,extent/speed):0;
@@ -75,6 +77,7 @@ export function resolveEffects(s:CoreState,effects:ExecutionEffect[]) {
   for(const effect of effects) {
     if(s.status!=='RUNNING')break;
     const p=getPlayer(s,effect.playerId);
+    if(!p.action||['FAILED','INTERRUPTED'].includes(p.action.phase))continue;
     if(effect.kind==='PASS'||effect.kind==='SHOOT')release(s,p,effect.kind);
     else duel(s,p);
   }

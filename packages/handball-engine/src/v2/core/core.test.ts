@@ -6,6 +6,8 @@ import { coreHash, coreEventHash, coreSnapshot, loadCore, saveCore, replayCore, 
 import { getPlayer, type CoreState } from './state';
 import { legalAction, startAction } from './actions';
 import { distance, fieldLegal } from './space';
+import { advanceBall } from './interactions';
+import { createContactScenario } from './contactScenarios';
 
 function run(initial=createCoreScenario()) {
   const frames=[initial];assertCore(initial);
@@ -46,7 +48,7 @@ test('level 2: pass decision and release never assign receiver ownership',()=>{
   assert.ok(reception.tick>released.tick);assert.ok(distance(reception.ball.position,getPlayer(reception,reception.ball.controllerId!).position)<=.65);
 });
 test('level 3: beaten defender debt persists and one helper is allocated',()=>{
-  const frames=run(createCoreScenario('PIVOT_2V2'));
+  const frames=run(createContactScenario('SHOULDER_BREAKTHROUGH'));
   const beaten=frames.find(s=>s.events.some(e=>e.type==='DEFENDER_BEATEN'))!;assert.ok(beaten,'An actual duel resolved');
   const event=beaten.events.find(e=>e.type==='DEFENDER_BEATEN')!,id=event.relatedIds[0];
   const after=tickCore(beaten);assert.equal(getPlayer(after,id).beatenUntilTick,getPlayer(beaten,id).beatenUntilTick);
@@ -63,9 +65,17 @@ test('local contest outcomes respond to participants, not the scenario name',()=
   assert.notEqual(coreHash(a),coreHash(b));
 });
 test('level 3: goalkeeper parry is a flight and rebound, not fabricated possession',()=>{
-  const frames=run(createCoreScenario('WING_FINISH'));
-  const parry=frames.find(s=>s.events.some(e=>e.type==='SAVE_PARRY'))!;assert.ok(parry);
+  // Isolate an actual reachable shot outside the catch window. A changed attack
+  // selector may legitimately make the wing scenario choose a different finish.
+  const parry=createCoreScenario('WING_FINISH'),keeper=getPlayer(parry,'A07');
+  parry.tick=1;parry.timeMs=50;parry.officialClock.timeMs=50;
+  keeper.position={x:10,y:1.5};
+  parry.ball.controllerId=null;parry.ball.position={x:9.25,y:2};parry.ball.height=1.2;
+  parry.ball.flight={kind:'SHOT',origin:{x:9.25,y:9},velocity:{x:0,y:-23},fromId:'H01',receiverId:null,actionId:'fixture-shot',possessionId:parry.possession.id,releasedTick:0,height:1.2,goalSide:'TOP',touchedIds:['H01'],purpose:'PLAY'};
+  startAction(parry,keeper,'SAVE','React to physically reachable released shot',keeper.position);keeper.action!.phase='EXECUTING';
+  advanceBall(parry);assert.ok(parry.events.some(e=>e.type==='SAVE_PARRY'));
   assert.equal(parry.ball.controllerId,null);assert.equal(parry.ball.mode,'DEFLECTION');
+  const frames=run(parry);
   assert.ok(frames.at(-1)!.events.some(e=>e.type==='BALL_LOOSE'));
   assert.equal(frames.at(-1)!.restart?.kind,'GOALKEEPER_THROW');
 });

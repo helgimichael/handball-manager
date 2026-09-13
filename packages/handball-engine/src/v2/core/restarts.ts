@@ -10,6 +10,8 @@ const priority=['CB','LB','RB','P','LW','RW','P2'];
 function chooseTaker(s:CoreState) {
   const r=s.restart!;
   const players=courtPlayers(s,r.owner).filter(p=>!exchangeActive(s,p.id));
+  const holder=players.find(p=>p.id===s.ball.controllerId&&p.kind==='FIELD_PLAYER');
+  if(holder&&(r.kind==='FREE_THROW'||r.kind==='THROW_IN'))return holder;
   return r.kind==='GOALKEEPER_THROW'?players.find(p=>p.kind==='GOALKEEPER'):players.filter(p=>p.kind==='FIELD_PLAYER').sort((a,b)=>priority.indexOf(a.role)-priority.indexOf(b.role)||a.id.localeCompare(b.id))[0];
 }
 export function restartTarget(s:CoreState,p:CorePlayer):Point {
@@ -26,7 +28,9 @@ export function restartTarget(s:CoreState,p:CorePlayer):Point {
     const q=local(target,direction);
     if(own)target=world({x:q.x,y:Math.max(9.7,q.y)},direction);
     else {const x:Record<CorePlayer['role'],number>={LW:2.5,LB:5.5,CB:8,RB:14.5,RW:17.5,P:11,P2:16,GK:10};target=world({x:x[p.role],y:r.kind==='SEVEN_METRE'?10.8:7.5},direction);}
-    if(distance(target,r.location)<3.5){const q2=local(target,direction);target=world({x:q2.x,y:Math.max(6.6,local(r.location,direction).y+(own?3.8:-3.8))},direction);}
+    if(distance(target,r.location)<3.5){const q2=local(target,direction);target=world({x:q2.x,y:Math.max(6.6,local(r.location,direction).y+(own?3.8:-3.8))},direction);
+      if(!own&&distance(target,r.location)<3.5)target=world({x:Math.max(.5,Math.min(19.5,local(r.location,direction).x+(q2.x<10?-3.8:3.8))),y:Math.max(6.6,local(r.location,direction).y+3.8)},direction);
+    }
   }
   return fieldLegal(target,p.radius)?target:{...p.position};
 }
@@ -75,6 +79,9 @@ export function restartStep(s:CoreState) {
     return;
   }
   if(s.ball.controllerId===collector.id&&collector.id!==taker.id) {
+    if(distance(collector.position,restartTarget(s,taker))<1) {
+      moveToward(s,collector,restartTarget(s,collector),'Clear the taker location while retaining the dead ball');return;
+    }
     if(distance(taker.position,restartTarget(s,taker))>.15)return;
     if(actionAvailable(taker))startAction(s,taker,'RECEIVE','Receive physical dead-ball return');
     if(actionAvailable(collector)&&taker.action?.kind==='RECEIVE'&&taker.action.phase==='EXECUTING')startAction(s,collector,'PASS','Return the dead ball to the designated restart taker',null,taker.id,null,'DEAD_BALL_RETURN');

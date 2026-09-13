@@ -2,7 +2,7 @@ import { actionAvailable, getPlayer, record, uid, type ActionKind, type CoreActi
 import { distance, fieldLegal, goal, local } from './space';
 import { awardRestart } from './transitions';
 
-const durations: Record<ActionKind,number>={RUN:12,REPOSITION:12,RECEIVE:36,HOLD:6,DRIBBLE:16,PASS:4,FEINT:7,DRIVE:8,JUMP:3,SHOOT:4,LAND:4,SCREEN:20,PRESS:10,CONTAIN:10,HELP:12,HANDOVER:4,RECOVER:12,BLOCK:12,CONTACT:8,SAVE:18,EXCHANGE:20};
+const durations: Record<ActionKind,number>={RUN:12,REPOSITION:12,RECEIVE:36,HOLD:6,DRIBBLE:16,PASS:4,FEINT:7,DRIVE:14,JUMP:3,SHOOT:4,LAND:4,SCREEN:20,PRESS:10,CONTAIN:10,HELP:12,HANDOVER:4,RECOVER:12,BLOCK:12,CONTACT:8,SAVE:18,EXCHANGE:20};
 export const movementActions: ActionKind[]=['RUN','REPOSITION','DRIBBLE','DRIVE','PRESS','CONTAIN','HELP','RECOVER','SAVE','EXCHANGE'];
 export function legalAction(s: CoreState,p: CorePlayer,kind: ActionKind): boolean {
   if(s.status!=='RUNNING'||p.population!=='COURT'||!actionAvailable(p))return false;
@@ -24,7 +24,13 @@ export function startAction(s: CoreState,p: CorePlayer,kind: ActionKind,reason: 
   if(!legalAction(s,p,kind))return false;
   const id=uid(s,'action');
   p.intent={id:`${id}-intent`,effect:kind,reason,targetId};
-  p.action={id,possessionId:s.possession.id,kind,phase:'PREPARING',startedTick:s.tick,phaseTick:s.tick,executeTicks:durations[kind],recoveryTicks:['SHOOT','DRIVE','FEINT','CONTACT','SAVE'].includes(kind)?6:2,target:target&&{...target},targetId,reason,resolved:false,contestIds:[],shotKind,purpose};
+  p.action={id,possessionId:s.possession.id,kind,phase:'PREPARING',startedTick:s.tick,phaseTick:s.tick,executeTicks:durations[kind],recoveryTicks:['SHOOT','DRIVE','FEINT','CONTACT','SAVE'].includes(kind)?6:2,target:target&&{...target},targetId,reason,resolved:false,contestIds:[],shotKind,purpose,contact:null,driveStart:null};
+  if(kind==='DRIVE')p.action.driveStart=Object.fromEntries([s.defence.pressureId,s.defence.helperId].filter((id):id is string=>id!==null).map(id=>[id,local(p.position,s.directions[p.team]).y-local(getPlayer(s,id).position,s.directions[p.team]).y]));
+  if(kind==='DRIVE') {
+    p.action.recoveryTicks=2;
+    // Leave preparation, recovery and a subsequent release inside the held-ball budget.
+    p.action.executeTicks=Math.min(p.action.executeTicks,Math.max(1,s.ruleProfile.maxHoldMs/50-(s.tick-p.handling.heldSinceTick)-15));
+  }
   if(kind==='PASS'&&targetId){const receiver=getPlayer(s,targetId);receiver.reception={passActionId:id,readyTick:s.tick+4};record(s,'RECEPTION_OFFERED',receiver,{passActionId:id,readyTick:s.tick+4},[p.id]);}
   record(s,'ACTION_STARTED',p,{kind,reason,duty:p.duty.kind});return true;
 }
@@ -33,7 +39,7 @@ function phase(s:CoreState,p:CorePlayer,next:CoreAction['phase']) {p.action!.pha
 function move(s:CoreState,p:CorePlayer,target:Point) {
   const d=distance(p.position,target);if(d<.03){p.velocity={x:0,y:0};return;}
   const oldSpeed=Math.hypot(p.velocity.x,p.velocity.y);
-  const impaired=s.tick < p.beatenUntilTick ? 0.4 : s.tick < p.screenedUntilTick ? 0.15 : 1;
+  const impaired=s.tick < p.beatenUntilTick ? 0.4 : s.tick < p.screenedUntilTick ? 0.15 : s.tick<p.wrongFootedUntilTick?.65:1;
   const speed=Math.min(p.attributes.speed*impaired,oldSpeed+p.attributes.acceleration*.05,Math.sqrt(2*p.attributes.acceleration*d));
   const travel=Math.min(d,speed*.05),dx=(target.x-p.position.x)/d,dy=(target.y-p.position.y)/d;
   // Local steering around occupied bodies is execution of the existing duty,
@@ -82,6 +88,8 @@ export function execute(s: CoreState): ExecutionEffect[] {
     }
     if(a.kind==='DRIVE'&&!a.resolved)effects.push({playerId:p.id,kind:'DRIVE'});
     if(a.kind==='EXCHANGE'&&a.target&&distance(p.position,a.target)>.03)continue;
+    if(['RUN','REPOSITION'].includes(a.kind)&&p.reception&&
+      (s.ball.flight?.actionId===p.reception.passActionId||s.players.some(q=>q.action?.id===p.reception!.passActionId&&q.action.kind==='PASS'&&!['COMPLETED','FAILED','INTERRUPTED'].includes(q.action.phase))))continue;
     if(a.kind==='RECEIVE'&&(s.ball.flight?.receiverId===p.id||s.players.some(q=>q.action?.kind==='PASS'&&q.action.targetId===p.id&&!['COMPLETED','FAILED','INTERRUPTED'].includes(q.action.phase))))continue;
     if(elapsed<a.executeTicks)continue;
     if(['PASS','SHOOT','FEINT'].includes(a.kind)&&!a.resolved)effects.push({playerId:p.id,kind:a.kind as ExecutionEffect['kind']});
@@ -105,6 +113,11 @@ export function handlingRules(s:CoreState) {
 }
 export function driveTarget(s:CoreState,p:CorePlayer): Point {
   const direction=s.directions[p.team],q=local(p.position,direction);
+  const primary=s.defence.pressureId?s.players.find(d=>d.id===s.defence.pressureId):null;
+  if(primary) {
+    const shoulder={x:p.position.x+(p.position.x<=primary.position.x?-1:1)*1.3,y:p.position.y+(direction==='TOP'?-1:1)*1.3};
+    if(fieldLegal(shoulder,p.radius))return shoulder;
+  }
   const forward=goal(direction),d=distance(p.position,forward);
   return {x:p.position.x+(forward.x-p.position.x)/d*1.8,y:p.position.y+(forward.y-p.position.y)/d*Math.min(1.8,Math.max(.1,q.y-6.5))};
 }

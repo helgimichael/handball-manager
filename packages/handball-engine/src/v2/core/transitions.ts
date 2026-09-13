@@ -31,7 +31,7 @@ export function changePossession(s: CoreState,player: CorePlayer,reason: string)
   if(s.possession.team===player.team)return;
   const previous=s.possession.id;
   s.possession={id:uid(s,'possession'),team:player.team,sinceTick:s.tick,phase:'TRANSITION',completedPasses:0,lastPasserId:null};
-  s.defence={team:otherTeam(player.team),system:'6:0',marks:{},pressureId:null,helperId:null,lastHandoverTick:s.tick};
+  s.defence={team:otherTeam(player.team),system:'6:0',marks:{},pressureId:null,helperId:null,lastHandoverTick:s.tick,handover:null};
   record(s,'POSSESSION_CHANGED',player,{previous,reason});
 }
 /** Called only by swept physical interaction resolution, never by the selector. */
@@ -47,6 +47,12 @@ export function acquire(s: CoreState,p: CorePlayer,point: Point,reason: string,s
   if(turnover)checkpoint(s,'TURNOVER');
 }
 export function foul(s: CoreState,attacker: CorePlayer,defender: CorePlayer,severe: boolean,clearChance: boolean,contestId: string) {
+  // Body-directed holding is progressive; stronger defence is never evidence of a foul.
+  if(!severe) {
+    const teamWarnings=s.players.filter(p=>p.team===defender.team).reduce((n,p)=>n+p.warnings,0);
+    if(defender.warnings>0||defender.sanctions>0||teamWarnings>=3)severe=true;
+    else {defender.warnings++;record(s,'WARNING',defender,{reason:'Illegal body-directed stopping contact'},[attacker.id],contestId);}
+  }
   if(severe){defender.sanctions++;defender.population=defender.sanctions>=3?'DISQUALIFIED':'SUSPENDED';defender.suspensionUntilMs=s.officialClock.timeMs+s.ruleProfile.suspensionMs;record(s,defender.sanctions>=3?'DISQUALIFICATION':'TWO_MINUTE_SUSPENSION',defender,{},[attacker.id],contestId);}
   record(s,'FOUL',defender,{clearChance,severe},[attacker.id],contestId);
   awardRestart(s,clearChance?'SEVEN_METRE':'FREE_THROW',attacker.team,attacker.position,'Illegal stopping contact',defender);

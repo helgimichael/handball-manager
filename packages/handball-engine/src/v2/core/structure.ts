@@ -3,6 +3,7 @@ import { clamp, distance, goalSide, laneClearance, local, numericalAdvantage, sh
 import { driveTarget, startAction } from './actions';
 import { exchangeActive } from './population';
 import { goalAreaClearance } from '../../domain/geometry/goalArea';
+import { planContact } from './contact';
 
 function assign(s:CoreState,p:CorePlayer,kind:Duty,targetId:string|null,reason:string) {
   if(s.ball.mode==='LOOSE'&&p.duty.kind==='COLLECT')return;
@@ -20,15 +21,16 @@ export function coordinate(s: CoreState) {
     for(const d of defenders) {const index=available.findIndex(a=>a.role===d.role);const a=available.splice(index<0?0:index,1)[0];if(a)s.defence.marks[d.id]=a.id;}
   }
   // Pairwise backcourt crossing handover, with a durable lock and mutual exchange.
-  if(s.tick-s.defence.lastHandoverTick>30) {
+  if(!s.defence.handover&&s.tick-s.defence.lastHandoverTick>30) {
     const backs=defenders.filter(d=>['LB','CB','RB'].includes(d.role));
     outer:for(let i=0;i<backs.length;i++)for(let j=i+1;j<backs.length;j++) {
       const d1=backs[i],d2=backs[j],a1=s.players.find(p=>p.id===s.defence.marks[d1.id]),a2=s.players.find(p=>p.id===s.defence.marks[d2.id]);
-      if(a1&&a2&&(a1.position.x-a2.position.x)*(d1.position.x-d2.position.x)<-.3&&distance(a1.position,a2.position)<5&&actionAvailable(d1)&&actionAvailable(d2)) {
-        s.defence.marks[d1.id]=a2.id;s.defence.marks[d2.id]=a1.id;s.defence.lastHandoverTick=s.tick;
+      if(a1&&a2&&!d1.airborne&&!d2.airborne&&(a1.position.x-a2.position.x)*(d1.position.x-d2.position.x)<-.3&&distance(a1.position,a2.position)<5&&actionAvailable(d1)&&actionAvailable(d2)) {
+        s.defence.lastHandoverTick=s.tick;
         startAction(s,d1,'HANDOVER','Exchange crossing responsibility with adjacent defender',null,a2.id);
         startAction(s,d2,'HANDOVER','Accept paired crossing handover',null,a1.id);
-        record(s,'HANDOVER_COMPLETED',d1,{},[d2.id,a1.id,a2.id]);break outer;
+        s.defence.handover={defenderIds:[d1.id,d2.id],attackerIds:[a1.id,a2.id],actionIds:[d1.action!.id,d2.action!.id]};
+        record(s,'HANDOVER_STARTED',d1,{},[d2.id,a1.id,a2.id]);break outer;
       }
     }
   }
@@ -59,18 +61,34 @@ export function coordinate(s: CoreState) {
     s.possession.phase='ESTABLISHED';record(s,'ATTACK_SETTLED',carrier,{reason:'Defence recovered its line'});
   }
 }
+export function resolveHandovers(s:CoreState) {
+  const h=s.defence.handover;if(!h)return;
+  const [d1,d2]=h.defenderIds.map(id=>getPlayer(s,id));
+  const invalid=[d1,d2].some((d,i)=>d.population!=='COURT'||d.team!==s.defence.team||d.action?.id!==h.actionIds[i]||['INTERRUPTED','FAILED'].includes(d.action.phase))||
+    s.defence.marks[d1.id]!==h.attackerIds[0]||s.defence.marks[d2.id]!==h.attackerIds[1];
+  if(invalid){record(s,'HANDOVER_CANCELLED',d1,{},[d2.id]);s.defence.handover=null;return;}
+  if(d1.action?.phase!=='COMPLETED'||d2.action?.phase!=='COMPLETED')return;
+  s.defence.marks[d1.id]=h.attackerIds[1];s.defence.marks[d2.id]=h.attackerIds[0];s.defence.handover=null;
+  record(s,'HANDOVER_COMPLETED',d1,{},[d2.id,...h.attackerIds]);
+}
 function chooseCarrier(s:CoreState,p:CorePlayer) {
   const direction=s.directions[p.team],q=local(p.position,direction);
   const pressure=courtPlayers(s,otherTeam(p.team)).filter(d=>d.kind!=='GOALKEEPER'&&distance(d.position,p.position)<2).length;
   const keeper=courtPlayers(s,otherTeam(p.team)).find(d=>d.kind==='GOALKEEPER'&&goalAreaClearance(d.position,s.directions[p.team])<0);
   if(s.tick-p.handling.heldSinceTick>36&&q.y<14&&!p.airborne){p.nextAction=null;startAction(s,p,'SHOOT','Handling budget requires a standing release before three seconds',null,null,'STANDING');return;}
   if(p.nextAction==='SHOOT') {p.nextAction=null;startAction(s,p,'SHOOT','Release from actual takeoff position',null,null,p.role==='LW'||p.role==='RW'?'WING':q.y<8?'BREAKTHROUGH':'BACKCOURT_JUMP');return;}
-  if(p.nextAction==='DRIVE') {p.nextAction=null;startAction(s,p,'DRIVE','Exploit committed feint and test inside lane',driveTarget(s,p));return;}
+  if(p.nextAction==='DRIVE') {p.nextAction=null;startAction(s,p,'DRIVE','Exploit committed feint and test inside lane',driveTarget(s,p),s.defence.pressureId);return;}
   if(s.tick-p.handling.heldSinceTick<10){startAction(s,p,'HOLD','Secure control and read coordinated defence');return;}
   const angle=shootingAngle(p.position,direction),advantage=numericalAdvantage(s,p);
   const hasOpportunity=q.y<13.5&&angle>.13&&(pressure<2||advantage>0||q.y<8)&&
     (s.possession.completedPasses>=2||s.possession.phase==='TRANSITION'||p.role==='P'||(q.y<9&&s.defence.helperId!==null));
   if(!keeper&&q.y<28){startAction(s,p,'SHOOT','Goalkeeper absent; executable empty-goal opportunity',null,null,'EMPTY_GOAL');return;}
+  if(pressure===0&&q.y>=9&&q.y<14&&p.handling.steps===0&&s.tick-p.handling.heldSinceTick<26&&s.possession.completedPasses>0) {
+    startAction(s,p,'DRIVE','Attack the available shoulder to engage cover before continuation',driveTarget(s,p),s.defence.pressureId);return;
+  }
+  if(pressure===1&&q.y>=8&&q.y<13.5&&p.handling.steps===0&&s.tick-p.handling.heldSinceTick<30&&!p.handling.dribbleUsed) {
+    startAction(s,p,'FEINT','Engage the pressure defender before committing to a shoulder',null,s.defence.pressureId);return;
+  }
   if(hasOpportunity) {
     startAction(s,p,'JUMP',`Shot opportunity: angle ${shootingAngle(p.position,direction).toFixed(2)}, pressure ${pressure}, local advantage ${numericalAdvantage(s,p)}`);return;
   }
@@ -115,10 +133,11 @@ export function selectActions(s:CoreState) {
     if(p.team!==s.possession.team) {
       const marked=p.duty.targetId?getPlayer(s,p.duty.targetId):null;
       const q=marked?local(marked.position,direction):{x:p.position.x,y:10};
-      const y=p.duty.kind==='PRESSURE'||p.duty.kind==='HELP'?Math.max(6.6,q.y-1.15):Math.max(6.6,Math.min(s.defence.system==='5:1'&&p.role==='CB'?10:7.2,q.y-1.2));
+      const y=p.duty.kind==='PRESSURE'||p.duty.kind==='HELP'?Math.max(6.6,q.y-.7):Math.max(6.6,Math.min(s.defence.system==='5:1'&&p.role==='CB'?10:7.2,q.y-1.2));
       const target=world({x:clamp(q.x,1.5,18.5),y},direction);
       const kind=p.duty.kind==='HELP'?'HELP':p.duty.kind==='RECOVER'||p.duty.kind==='RETREAT'?'RECOVER':p.duty.kind==='PRESSURE'?'PRESS':'CONTAIN';
       const carrier=s.ball.controllerId?getPlayer(s,s.ball.controllerId):null;
+      if(carrier&&carrier.team!==p.team&&planContact(s,p,carrier))continue;
       if(carrier?.team!==p.team&&carrier?.airborne&&distance(p.position,carrier.position)<2)startAction(s,p,'BLOCK','Contest visible shooting action',null,carrier.id);
       else startAction(s,p,kind,p.duty.reason,target,p.duty.targetId);
     } else {

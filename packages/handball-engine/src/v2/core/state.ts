@@ -2,7 +2,7 @@ import type { Point, TeamId, Direction } from '../model';
 import { nextRandom } from '../primitives';
 export type { Point, TeamId, Direction } from '../model';
 
-export const CORE_VERSION = '2.2.0-continuous-play.1';
+export const CORE_VERSION = '2.3.0-contact-continuation.1';
 export const DT_MS = 50;
 /** Scoped execution profile; not a claim that all IHF rules are implemented. */
 export const CORE_RULES = {id:'IHF_INDOOR_2025' as const,maxHoldMs:3000,maxSteps:3,suspensionMs:120000,restartDistance:3,goalAreaRadius:6};
@@ -20,7 +20,7 @@ export type CorePlayer = {
   action: CoreAction | null;
   handling: { heldSinceTick: number; steps: number; stepDistance: number; dribbleUsed: boolean; bounceTick: number };
   airborne: { takeoff: Point; untilTick: number } | null;
-  beatenUntilTick: number; screenedUntilTick: number; suspensionUntilMs: number | null; sanctions: number;
+  beatenUntilTick: number; wrongFootedUntilTick:number; screenedUntilTick: number; suspensionUntilMs: number | null; sanctions: number; warnings:number;
   nextAction: 'SHOOT' | 'LAND' | 'DRIVE' | null;
   reception:{passActionId:string;readyTick:number}|null;
 };
@@ -30,6 +30,8 @@ export type CoreAction = {
   target: Point | null; targetId: string | null; reason: string;
   resolved: boolean; contestIds: string[]; shotKind: 'BACKCOURT_JUMP' | 'STANDING' | 'BREAKTHROUGH' | 'WING' | 'PIVOT' | 'SEVEN_METRE' | 'EMPTY_GOAL' | null;
   purpose: 'PLAY' | 'DEAD_BALL_RETURN';
+  contact:{technique:'BENT_ARMS'|'HOLD';approach:'FRONT'|'SIDE'|'BEHIND'}|null;
+  driveStart:Record<string,number>|null;
 };
 export type CoreFlight = {
   kind: 'PASS' | 'SHOT' | 'DEFLECTION'; origin: Point; velocity: Point;
@@ -43,7 +45,7 @@ export type CoreEvent = {
   relatedIds: string[]; contestId: string | null; details: Record<string, string | number | boolean>;
 };
 export type CoreContest = {
-  id: string; kind: 'DUEL' | 'SCREEN' | 'INTERCEPTION' | 'BLOCK' | 'KEEPER';
+  id: string; kind: 'DUEL' | 'CONTACT' | 'SCREEN' | 'INTERCEPTION' | 'BLOCK' | 'KEEPER';
   tick: number; attackerId: string; defenderId: string; actionId: string;
   outcome: string; margin: number; consequenceUntilTick: number;
 };
@@ -64,7 +66,8 @@ export type CoreState = {
   status: 'RUNNING' | 'CHECKPOINT' | 'INCOMPLETE' | 'FAILED'; reason: string | null;
   directions: Record<TeamId, Direction>; score: Record<TeamId, number>;
   possession: { id: string; team: TeamId; sinceTick: number; phase: 'ESTABLISHED' | 'TRANSITION' | 'RESTART'; completedPasses: number; lastPasserId: string | null };
-  defence: { team: TeamId; system: '6:0' | '5:1'; marks: Record<string, string>; pressureId: string | null; helperId: string | null; lastHandoverTick: number };
+  defence: { team: TeamId; system: '6:0' | '5:1'; marks: Record<string, string>; pressureId: string | null; helperId: string | null; lastHandoverTick: number;
+    handover:{defenderIds:[string,string];attackerIds:[string,string];actionIds:[string,string]}|null };
   players: CorePlayer[];
   ball: { mode: 'DEAD' | 'CONTROLLED' | 'HOLD' | 'DRIBBLE' | 'RELEASE' | 'PASS_FLIGHT' | 'SHOT_FLIGHT' | 'RECEPTION' | 'DEFLECTION' | 'LOOSE' | 'GOALKEEPER_CONTROL' | 'OUT'; position: Point; height: number; controllerId: string | null; live: boolean; flight: CoreFlight | null; lastTouchId: string | null };
   restart: Restart | null; contests: CoreContest[]; events: CoreEvent[]; nextId: number;
