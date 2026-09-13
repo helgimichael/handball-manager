@@ -1,0 +1,197 @@
+{
+  "description": "Actual batch results; scores are observations, not calibration targets. Browser QA is separate.",
+  "rows": [
+    {
+      "seed": 1,
+      "direction": "TOP",
+      "version": "2.2.0-continuous-play.1",
+      "complete": true,
+      "status": "CHECKPOINT",
+      "reason": "FULLTIME",
+      "score": {
+        "HOME": 42,
+        "AWAY": 50
+      },
+      "officialMs": 3600000,
+      "periods": [
+        {
+          "type": "PERIOD_STARTED",
+          "officialMs": 0,
+          "tick": 6
+        },
+        {
+          "type": "PERIOD_ENDED",
+          "officialMs": 1800000,
+          "tick": 36006
+        },
+        {
+          "type": "PERIOD_STARTED",
+          "officialMs": 1800000,
+          "tick": 48207
+        },
+        {
+          "type": "PERIOD_ENDED",
+          "officialMs": 3600000,
+          "tick": 84207
+        }
+      ],
+      "shots": 125,
+      "goals": 92,
+      "passes": 385,
+      "fouls": 0,
+      "suspensions": 0,
+      "exchanges": 6,
+      "tick": 84207,
+      "stateHash": "22933116",
+      "eventHash": "e2e3d788",
+      "lastTickReconstruction": true
+    },
+    {
+      "seed": 1,
+      "direction": "BOTTOM",
+      "version": "2.2.0-continuous-play.1",
+      "complete": true,
+      "status": "CHECKPOINT",
+      "reason": "FULLTIME",
+      "score": {
+        "HOME": 24,
+        "AWAY": 53
+      },
+      "officialMs": 3600000,
+      "periods": [
+        {
+          "type": "PERIOD_STARTED",
+          "officialMs": 0,
+          "tick": 6
+        },
+        {
+          "type": "PERIOD_ENDED",
+          "officialMs": 1800000,
+          "tick": 36006
+        },
+        {
+          "type": "PERIOD_STARTED",
+          "officialMs": 1800000,
+          "tick": 48251
+        },
+        {
+          "type": "PERIOD_ENDED",
+          "officialMs": 3600000,
+          "tick": 84251
+        }
+      ],
+      "shots": 129,
+      "goals": 77,
+      "passes": 389,
+      "fouls": 0,
+      "suspensions": 0,
+      "exchanges": 6,
+      "tick": 84251,
+      "stateHash": "10405580",
+      "eventHash": "8c0187b9",
+      "lastTickReconstruction": true
+    },
+    {
+      "seed": 2025,
+      "direction": "TOP",
+      "version": "2.2.0-continuous-play.1",
+      "complete": true,
+      "status": "CHECKPOINT",
+      "reason": "FULLTIME",
+      "score": {
+        "HOME": 43,
+        "AWAY": 39
+      },
+      "officialMs": 3600000,
+      "periods": [
+        {
+          "type": "PERIOD_STARTED",
+          "officialMs": 0,
+          "tick": 6
+        },
+        {
+          "type": "PERIOD_ENDED",
+          "officialMs": 1800000,
+          "tick": 36006
+        },
+        {
+          "type": "PERIOD_STARTED",
+          "officialMs": 1800000,
+          "tick": 48208
+        },
+        {
+          "type": "PERIOD_ENDED",
+          "officialMs": 3600000,
+          "tick": 84208
+        }
+      ],
+      "shots": 126,
+      "goals": 82,
+      "passes": 386,
+      "fouls": 0,
+      "suspensions": 0,
+      "exchanges": 6,
+      "tick": 84208,
+      "stateHash": "1b8d973e",
+      "eventHash": "df485856",
+      "lastTickReconstruction": true,
+      "halftimeSave": {
+        "tick": 36006,
+        "bytes": 32389273,
+        "resumedStateHash": "1b8d973e",
+        "resumedEventHash": "df485856"
+      }
+    },
+    {
+      "seed": 2025,
+      "direction": "BOTTOM",
+      "version": "2.2.0-continuous-play.1",
+      "complete": true,
+      "status": "CHECKPOINT",
+      "reason": "FULLTIME",
+      "score": {
+        "HOME": 27,
+        "AWAY": 54
+      },
+      "officialMs": 3600000,
+      "periods": [
+        {
+          "type": "PERIOD_STARTED",
+          "officialMs": 0,
+          "tick": 6
+        },
+        {
+          "type": "PERIOD_ENDED",
+          "officialMs": 1800000,
+          "tick": 36006
+        },
+        {
+          "type": "PERIOD_STARTED",
+          "officialMs": 1800000,
+          "tick": 48207
+        },
+        {
+          "type": "PERIOD_ENDED",
+          "officialMs": 3600000,
+          "tick": 84207
+        }
+      ],
+      "shots": 127,
+      "goals": 81,
+      "passes": 386,
+      "fouls": 0,
+      "suspensions": 0,
+      "exchanges": 6,
+      "tick": 84207,
+      "stateHash": "2ed4678a",
+      "eventHash": "27c02a2c",
+      "lastTickReconstruction": true,
+      "halftimeSave": {
+        "tick": 36006,
+        "bytes": 32695100,
+        "resumedStateHash": "2ed4678a",
+        "resumedEventHash": "27c02a2c"
+      }
+    }
+  ]
+}

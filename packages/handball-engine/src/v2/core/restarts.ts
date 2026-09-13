@@ -1,0 +1,105 @@
+import { goalAreaClearance } from '../../domain/geometry/goalArea';
+import { actionAvailable,courtPlayers,getPlayer,otherTeam,record,type CorePlayer,type CoreState,type Point } from './state';
+import { clamp,distance,fieldLegal,local,structurePoint,world } from './space';
+import { startAction } from './actions';
+import { acquire } from './transitions';
+import { exchangeActive,requestExchange } from './population';
+import { restartReady } from './rules';
+
+const priority=['CB','LB','RB','P','LW','RW','P2'];
+function chooseTaker(s:CoreState) {
+  const r=s.restart!;
+  const players=courtPlayers(s,r.owner).filter(p=>!exchangeActive(s,p.id));
+  return r.kind==='GOALKEEPER_THROW'?players.find(p=>p.kind==='GOALKEEPER'):players.filter(p=>p.kind==='FIELD_PLAYER').sort((a,b)=>priority.indexOf(a.role)-priority.indexOf(b.role)||a.id.localeCompare(b.id))[0];
+}
+export function restartTarget(s:CoreState,p:CorePlayer):Point {
+  const r=s.restart!,direction=s.directions[r.owner],own=p.team===r.owner;
+  if(p.id===r.takerId)return {x:clamp(r.location.x,.35,19.65),y:clamp(r.location.y,.35,39.65)};
+  if(p.kind==='GOALKEEPER')return world({x:10,y:1.5},s.directions[otherTeam(p.team)]);
+  let target=structurePoint(p.role,own?direction:s.directions[p.team]);
+  if(r.kind==='CENTRE_THROW_OFF') {
+    const x:Record<CorePlayer['role'],number>={LW:2,LB:5,CB:9,RB:14,RW:18,P:11,P2:16,GK:10};
+    target=world({x:x[p.role],y:own?25+(p.role==='P'?2:0):15-(p.role==='P'?2:0)},direction);
+  } else if(r.kind==='GOALKEEPER_THROW') {
+    target=world({x:structurePoint(p.role,'TOP').x,y:own?(p.role==='P'?29:p.role==='LW'||p.role==='RW'?22:26):18},direction);
+  } else {
+    const q=local(target,direction);
+    if(own)target=world({x:q.x,y:Math.max(9.7,q.y)},direction);
+    else {const x:Record<CorePlayer['role'],number>={LW:2.5,LB:5.5,CB:8,RB:14.5,RW:17.5,P:11,P2:16,GK:10};target=world({x:x[p.role],y:r.kind==='SEVEN_METRE'?10.8:7.5},direction);}
+    if(distance(target,r.location)<3.5){const q2=local(target,direction);target=world({x:q2.x,y:Math.max(6.6,local(r.location,direction).y+(own?3.8:-3.8))},direction);}
+  }
+  return fieldLegal(target,p.radius)?target:{...p.position};
+}
+function moveToward(s:CoreState,p:CorePlayer,target:Point,reason:string) {
+  if(!actionAvailable(p))return;
+  if(distance(p.position,target)>.1)startAction(s,p,'REPOSITION',reason,target);
+}
+export function restartStep(s:CoreState) {
+  const r=s.restart;if(!r||r.phase==='COMPLETED'||r.phase==='RELEASED')return;
+  if(s.tick-r.awardedTick>1600){s.status='INCOMPLETE';s.reason='Physical restart preparation did not finish within its budget';record(s,'INCOMPLETE',null,{reason:s.reason});return;}
+  if(r.phase==='AUTHORISED'&&r.authorisedTick!==null&&(s.tick-r.authorisedTick)*50>s.ruleProfile.maxHoldMs){s.status='FAILED';s.reason='Restart execution exceeded three seconds';record(s,'RESTART_FAILED',null,{reason:s.reason});return;}
+  if(!r.takerId) {
+    const taker=chooseTaker(s);
+    if(!taker) {
+      if(r.kind==='GOALKEEPER_THROW') {const g=s.players.find(p=>p.team===r.owner&&p.kind==='GOALKEEPER'&&p.population==='BENCH');const out=courtPlayers(s,r.owner).find(p=>p.role==='P2');if(g)requestExchange(s,r.owner,out?.id??null,g.id);}
+      return;
+    }
+    r.takerId=taker.id;r.phase='PREPARING';record(s,'RESTART_PREPARATION',taker,{kind:r.kind});
+  }
+  const taker=getPlayer(s,r.takerId);
+  if(taker.population!=='COURT'){r.takerId=null;r.collectorId=null;return;}
+  if(!r.receiverId)r.receiverId=courtPlayers(s,r.owner).filter(p=>p.kind==='FIELD_PLAYER'&&p.id!==taker.id&&!exchangeActive(s,p.id)).sort((a,b)=>(a.role==='RB'?-1:0)-(b.role==='RB'?-1:0)||a.id.localeCompare(b.id))[0]?.id??null;
+  if(!r.collectorId) {
+    const inside=goalAreaClearance(s.ball.position,'TOP')<=0||goalAreaClearance(s.ball.position,'BOTTOM')<=0;
+    const holder=s.ball.controllerId?getPlayer(s,s.ball.controllerId):null;
+    const collector=holder?.team===r.owner?holder:inside?courtPlayers(s,r.owner).find(p=>p.kind==='GOALKEEPER'):taker;
+    if(!collector)return;r.collectorId=collector.id;
+  }
+  const collector=getPlayer(s,r.collectorId);
+  for(const p of courtPlayers(s)) {
+    if(exchangeActive(s,p.id))continue;
+    if(p.airborne&&actionAvailable(p)){startAction(s,p,'LAND','Land before restart preparation');continue;}
+    if(p.id===collector.id&&s.ball.controllerId!==taker.id)continue;
+    if(s.ball.flight&&(p.id===r.takerId||p.id===r.receiverId))continue;
+    const target=restartTarget(s,p);
+    if(p.id===taker.id)p.duty={kind:'RESTART_TAKER',targetId:null,sinceTick:r.awardedTick,reason:`Execute ${r.kind} from its lawful position`};
+    moveToward(s,p,target,'Reach legal restart position through physical movement');
+  }
+  if(!s.ball.controllerId&&!s.ball.flight) {
+    const target={x:clamp(s.ball.position.x,.35,19.65),y:clamp(s.ball.position.y,.35,39.65)};
+    if(distance(collector.position,s.ball.position)<=.65&&collector.action?.kind==='RECEIVE'&&collector.action.phase==='EXECUTING')acquire(s,collector,s.ball.position,'Dead-ball retrieval');
+    else if(actionAvailable(collector)) {
+      if(distance(collector.position,s.ball.position)>.65)moveToward(s,collector,target,'Retrieve stopped ball before restarting');
+      else startAction(s,collector,'RECEIVE','Physically gather the stopped ball');
+    }
+    return;
+  }
+  if(s.ball.controllerId===collector.id&&collector.id!==taker.id) {
+    if(distance(taker.position,restartTarget(s,taker))>.15)return;
+    if(actionAvailable(taker))startAction(s,taker,'RECEIVE','Receive physical dead-ball return');
+    if(actionAvailable(collector)&&taker.action?.kind==='RECEIVE'&&taker.action.phase==='EXECUTING')startAction(s,collector,'PASS','Return the dead ball to the designated restart taker',null,taker.id,null,'DEAD_BALL_RETURN');
+    return;
+  }
+  if(s.ball.controllerId!==taker.id)return;
+  moveToward(s,taker,restartTarget(s,taker),'Carry dead ball to lawful restart location');
+  const receiver=r.receiverId?getPlayer(s,r.receiverId):null;
+  if(receiver&&distance(receiver.position,restartTarget(s,receiver))<.1&&actionAvailable(receiver))startAction(s,receiver,'RECEIVE','Prepare receiving option before restart execution');
+  if(r.phase==='PREPARING'&&distance(taker.position,restartTarget(s,taker))<.1&&actionAvailable(taker)) {
+    r.plantedFoot={...r.location};
+    if(restartReady(s)&&(r.kind==='SEVEN_METRE'||s.match?.phase==='FINAL_THROW'||receiver?.action?.kind==='RECEIVE'&&receiver.action.phase==='EXECUTING')) {r.phase='AUTHORISED';r.authorisedTick=s.tick;taker.handling.heldSinceTick=s.tick;
+      if(s.match&&r.context==='OPENING_HALF'){s.officialClock.running=true;s.match.phase=s.period===1?'FIRST_HALF':'SECOND_HALF';s.match.periodStartMs=s.officialClock.timeMs;record(s,'PERIOD_STARTED',null,{period:s.period});}
+      record(s,r.kind==='GOALKEEPER_THROW'?'RESTART_READY':'RESTART_AUTHORISED',taker,{kind:r.kind,whistle:r.kind!=='GOALKEEPER_THROW'});}
+  }
+  if(r.phase==='AUTHORISED'&&s.tick-r.authorisedTick!>=6&&actionAvailable(taker)) {
+    if(r.kind==='SEVEN_METRE'||s.match?.phase==='FINAL_THROW')startAction(s,taker,'SHOOT','Execute authorised direct throw from planted foot',null,null,r.kind==='SEVEN_METRE'?'SEVEN_METRE':'STANDING');
+    else if(r.receiverId){const receiver=getPlayer(s,r.receiverId);if(actionAvailable(receiver))startAction(s,receiver,'RECEIVE','Prepare reception of legal restart');
+      if(receiver.action?.kind==='RECEIVE'&&receiver.action.phase==='EXECUTING')startAction(s,taker,'PASS','Execute lawful restart',null,receiver.id);}
+  }
+}
+export function completeRestart(s:CoreState,evidence:string) {
+  const r=s.restart;if(!r||r.phase==='COMPLETED')return;
+  r.phase='COMPLETED';s.ball.live=true;
+  s.possession.phase=r.kind==='CENTRE_THROW_OFF'||r.kind==='GOALKEEPER_THROW'?'TRANSITION':'ESTABLISHED';
+  for(const p of courtPlayers(s))p.handling.heldSinceTick=s.tick;
+  record(s,'RESTART_COMPLETED',r.takerId?getPlayer(s,r.takerId):null,{kind:r.kind,evidence});
+}

@@ -5,6 +5,8 @@
   "description": "Framework-free handball match simulation core, migrated verbatim from STARKVIS starkvis-sim (HM-0.1 audit baseline).",
   "main": "src/index.ts",
   "scripts": {
+    "test:v2": "node scripts/test-v2.cjs",
+    "test:v2-core": "node scripts/test-core.cjs",
     "test": "tsc -p tsconfig.test.json && node --test .tmp/tests/domain/geometry/court.test.js .tmp/tests/domain/geometry/zones.test.js .tmp/tests/domain/geometry/attackGapCalibration.test.js .tmp/tests/scenarios/fieldFormationAdapter.test.js .tmp/tests/scenarios/halfCourt6v6.test.js .tmp/tests/scenarios/halfCourt6v6WithGoalkeeper.test.js .tmp/tests/simulation/engine.test.js .tmp/tests/simulation/fixedStep.test.js .tmp/tests/ui/actionFlow.test.js .tmp/tests/ui/plannedSequence.test.js .tmp/tests/ui/simulationRuntime.test.js .tmp/tests/policies/defense/threat.test.js .tmp/tests/policies/defense/responsibility.test.js .tmp/tests/policies/defense/sixZeroDefensePolicy.test.js .tmp/tests/policies/defense/sixZeroDefensePolicyGoalkeeperExclusion.test.js",
     "typecheck": "tsc --noEmit",
     "lint": "eslint .",

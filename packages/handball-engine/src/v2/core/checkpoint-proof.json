@@ -1,0 +1,736 @@
+{
+  "version": "2.1.0-possession-checkpoint.1",
+  "rows": [
+    {
+      "scenario": "ESTABLISHED_6V6",
+      "direction": "TOP",
+      "seed": 2025,
+      "tick": 108,
+      "timeMs": 5400,
+      "outcome": "GOALKEEPER_THROW",
+      "stateHash": "3c5208ed",
+      "eventHash": "f79319bd",
+      "resumeMatches": true,
+      "passReceipts": 2,
+      "contests": [
+        "SCREEN:SCREENED",
+        "SCREEN:SCREENED",
+        "SCREEN:SCREENED",
+        "SCREEN:SCREENED",
+        "KEEPER:CAUGHT"
+      ],
+      "keyTicks": [
+        {
+          "tick": 22,
+          "type": "PASS_RELEASED",
+          "actor": "H03"
+        },
+        {
+          "tick": 30,
+          "type": "PASS_RECEIVED",
+          "actor": "H02"
+        },
+        {
+          "tick": 52,
+          "type": "PASS_RELEASED",
+          "actor": "H02"
+        },
+        {
+          "tick": 67,
+          "type": "PASS_RECEIVED",
+          "actor": "H04"
+        },
+        {
+          "tick": 99,
+          "type": "SHOT_RELEASED",
+          "actor": "H04"
+        },
+        {
+          "tick": 108,
+          "type": "RESTART_AWARDED",
+          "actor": "A07"
+        }
+      ]
+    },
+    {
+      "scenario": "ESTABLISHED_6V6",
+      "direction": "BOTTOM",
+      "seed": 2025,
+      "tick": 108,
+      "timeMs": 5400,
+      "outcome": "GOALKEEPER_THROW",
+      "stateHash": "4e4a0b4a",
+      "eventHash": "7c4af999",
+      "resumeMatches": true,
+      "passReceipts": 2,
+      "contests": [
+        "SCREEN:SCREENED",
+        "SCREEN:SCREENED",
+        "SCREEN:SCREENED",
+        "KEEPER:CAUGHT"
+      ],
+      "keyTicks": [
+        {
+          "tick": 22,
+          "type": "PASS_RELEASED",
+          "actor": "H03"
+        },
+        {
+          "tick": 30,
+          "type": "PASS_RECEIVED",
+          "actor": "H02"
+        },
+        {
+          "tick": 52,
+          "type": "PASS_RELEASED",
+          "actor": "H02"
+        },
+        {
+          "tick": 67,
+          "type": "PASS_RECEIVED",
+          "actor": "H04"
+        },
+        {
+          "tick": 99,
+          "type": "SHOT_RELEASED",
+          "actor": "H04"
+        },
+        {
+          "tick": 108,
+          "type": "RESTART_AWARDED",
+          "actor": "A07"
+        }
+      ]
+    },
+    {
+      "scenario": "TRANSITION_3V2",
+      "direction": "TOP",
+      "seed": 2025,
+      "tick": 134,
+      "timeMs": 6700,
+      "outcome": "CENTRE_THROW_OFF",
+      "stateHash": "b03c3f3b",
+      "eventHash": "4f892a46",
+      "resumeMatches": true,
+      "passReceipts": 1,
+      "contests": [
+        "KEEPER:OUTSIDE_SAVE_WINDOW"
+      ],
+      "keyTicks": [
+        {
+          "tick": 18,
+          "type": "DRIBBLE_STARTED",
+          "actor": "H03"
+        },
+        {
+          "tick": 58,
+          "type": "DRIBBLE_GATHERED",
+          "actor": "H03"
+        },
+        {
+          "tick": 82,
+          "type": "PASS_RELEASED",
+          "actor": "H03"
+        },
+        {
+          "tick": 91,
+          "type": "PASS_RECEIVED",
+          "actor": "H02"
+        },
+        {
+          "tick": 123,
+          "type": "SHOT_RELEASED",
+          "actor": "H02"
+        },
+        {
+          "tick": 134,
+          "type": "GOAL",
+          "actor": "H02"
+        },
+        {
+          "tick": 134,
+          "type": "RESTART_AWARDED",
+          "actor": "H02"
+        }
+      ]
+    },
+    {
+      "scenario": "TRANSITION_3V2",
+      "direction": "BOTTOM",
+      "seed": 2025,
+      "tick": 134,
+      "timeMs": 6700,
+      "outcome": "CENTRE_THROW_OFF",
+      "stateHash": "2417b4e4",
+      "eventHash": "9de479a8",
+      "resumeMatches": true,
+      "passReceipts": 1,
+      "contests": [
+        "KEEPER:OUTSIDE_SAVE_WINDOW"
+      ],
+      "keyTicks": [
+        {
+          "tick": 18,
+          "type": "DRIBBLE_STARTED",
+          "actor": "H03"
+        },
+        {
+          "tick": 58,
+          "type": "DRIBBLE_GATHERED",
+          "actor": "H03"
+        },
+        {
+          "tick": 82,
+          "type": "PASS_RELEASED",
+          "actor": "H03"
+        },
+        {
+          "tick": 91,
+          "type": "PASS_RECEIVED",
+          "actor": "H02"
+        },
+        {
+          "tick": 123,
+          "type": "SHOT_RELEASED",
+          "actor": "H02"
+        },
+        {
+          "tick": 134,
+          "type": "GOAL",
+          "actor": "H02"
+        },
+        {
+          "tick": 134,
+          "type": "RESTART_AWARDED",
+          "actor": "H02"
+        }
+      ]
+    },
+    {
+      "scenario": "FREE_THROW",
+      "direction": "TOP",
+      "seed": 2025,
+      "tick": 61,
+      "timeMs": 3050,
+      "outcome": "TURNOVER",
+      "stateHash": "922639fb",
+      "eventHash": "58941ef0",
+      "resumeMatches": true,
+      "passReceipts": 1,
+      "contests": [
+        "INTERCEPTION:CONTROLLED"
+      ],
+      "keyTicks": [
+        {
+          "tick": 22,
+          "type": "PASS_RELEASED",
+          "actor": "H03"
+        },
+        {
+          "tick": 30,
+          "type": "PASS_RECEIVED",
+          "actor": "H04"
+        },
+        {
+          "tick": 52,
+          "type": "PASS_RELEASED",
+          "actor": "H04"
+        }
+      ]
+    },
+    {
+      "scenario": "FREE_THROW",
+      "direction": "BOTTOM",
+      "seed": 2025,
+      "tick": 61,
+      "timeMs": 3050,
+      "outcome": "TURNOVER",
+      "stateHash": "40704783",
+      "eventHash": "dc4f578f",
+      "resumeMatches": true,
+      "passReceipts": 1,
+      "contests": [
+        "INTERCEPTION:CONTROLLED"
+      ],
+      "keyTicks": [
+        {
+          "tick": 22,
+          "type": "PASS_RELEASED",
+          "actor": "H03"
+        },
+        {
+          "tick": 30,
+          "type": "PASS_RECEIVED",
+          "actor": "H04"
+        },
+        {
+          "tick": 52,
+          "type": "PASS_RELEASED",
+          "actor": "H04"
+        }
+      ]
+    },
+    {
+      "scenario": "PIVOT_2V2",
+      "direction": "TOP",
+      "seed": 2025,
+      "tick": 67,
+      "timeMs": 3350,
+      "outcome": "CENTRE_THROW_OFF",
+      "stateHash": "4025b8c4",
+      "eventHash": "6e02ab67",
+      "resumeMatches": true,
+      "passReceipts": 0,
+      "contests": [
+        "SCREEN:SCREENED",
+        "DUEL:BEATEN",
+        "SCREEN:SCREENED",
+        "KEEPER:OUTSIDE_SAVE_WINDOW"
+      ],
+      "keyTicks": [
+        {
+          "tick": 25,
+          "type": "DEFENDER_BEATEN",
+          "actor": "H03"
+        },
+        {
+          "tick": 59,
+          "type": "SHOT_RELEASED",
+          "actor": "H03"
+        },
+        {
+          "tick": 67,
+          "type": "GOAL",
+          "actor": "H03"
+        },
+        {
+          "tick": 67,
+          "type": "RESTART_AWARDED",
+          "actor": "H03"
+        }
+      ]
+    },
+    {
+      "scenario": "PIVOT_2V2",
+      "direction": "BOTTOM",
+      "seed": 2025,
+      "tick": 67,
+      "timeMs": 3350,
+      "outcome": "CENTRE_THROW_OFF",
+      "stateHash": "5915a5b8",
+      "eventHash": "b1ba6230",
+      "resumeMatches": true,
+      "passReceipts": 0,
+      "contests": [
+        "SCREEN:SCREENED",
+        "DUEL:BEATEN",
+        "SCREEN:SCREENED",
+        "KEEPER:OUTSIDE_SAVE_WINDOW"
+      ],
+      "keyTicks": [
+        {
+          "tick": 25,
+          "type": "DEFENDER_BEATEN",
+          "actor": "H03"
+        },
+        {
+          "tick": 59,
+          "type": "SHOT_RELEASED",
+          "actor": "H03"
+        },
+        {
+          "tick": 67,
+          "type": "GOAL",
+          "actor": "H03"
+        },
+        {
+          "tick": 67,
+          "type": "RESTART_AWARDED",
+          "actor": "H03"
+        }
+      ]
+    },
+    {
+      "scenario": "WING_FINISH",
+      "direction": "TOP",
+      "seed": 2025,
+      "tick": 106,
+      "timeMs": 5300,
+      "outcome": "GOALKEEPER_THROW",
+      "stateHash": "9a48d450",
+      "eventHash": "694c2396",
+      "resumeMatches": true,
+      "passReceipts": 0,
+      "contests": [
+        "SCREEN:SCREENED",
+        "SCREEN:SCREENED",
+        "KEEPER:PARRIED"
+      ],
+      "keyTicks": [
+        {
+          "tick": 32,
+          "type": "SHOT_RELEASED",
+          "actor": "H01"
+        },
+        {
+          "tick": 39,
+          "type": "SAVE_PARRY",
+          "actor": "A07"
+        },
+        {
+          "tick": 106,
+          "type": "RESTART_AWARDED",
+          "actor": null
+        }
+      ]
+    },
+    {
+      "scenario": "WING_FINISH",
+      "direction": "BOTTOM",
+      "seed": 2025,
+      "tick": 106,
+      "timeMs": 5300,
+      "outcome": "GOALKEEPER_THROW",
+      "stateHash": "1f584e46",
+      "eventHash": "da999de1",
+      "resumeMatches": true,
+      "passReceipts": 0,
+      "contests": [
+        "SCREEN:SCREENED",
+        "KEEPER:PARRIED"
+      ],
+      "keyTicks": [
+        {
+          "tick": 32,
+          "type": "SHOT_RELEASED",
+          "actor": "H01"
+        },
+        {
+          "tick": 39,
+          "type": "SAVE_PARRY",
+          "actor": "A07"
+        },
+        {
+          "tick": 106,
+          "type": "RESTART_AWARDED",
+          "actor": null
+        }
+      ]
+    },
+    {
+      "scenario": "BACKCOURT_SHOT",
+      "direction": "TOP",
+      "seed": 2025,
+      "tick": 106,
+      "timeMs": 5300,
+      "outcome": "GOALKEEPER_THROW",
+      "stateHash": "c94dc81f",
+      "eventHash": "b04069ea",
+      "resumeMatches": true,
+      "passReceipts": 0,
+      "contests": [
+        "SCREEN:SCREENED",
+        "SCREEN:SCREENED",
+        "KEEPER:PARRIED"
+      ],
+      "keyTicks": [
+        {
+          "tick": 32,
+          "type": "SHOT_RELEASED",
+          "actor": "H03"
+        },
+        {
+          "tick": 41,
+          "type": "SAVE_PARRY",
+          "actor": "A07"
+        },
+        {
+          "tick": 106,
+          "type": "RESTART_AWARDED",
+          "actor": null
+        }
+      ]
+    },
+    {
+      "scenario": "BACKCOURT_SHOT",
+      "direction": "BOTTOM",
+      "seed": 2025,
+      "tick": 106,
+      "timeMs": 5300,
+      "outcome": "GOALKEEPER_THROW",
+      "stateHash": "702107c3",
+      "eventHash": "3c4402d0",
+      "resumeMatches": true,
+      "passReceipts": 0,
+      "contests": [
+        "SCREEN:SCREENED",
+        "KEEPER:PARRIED"
+      ],
+      "keyTicks": [
+        {
+          "tick": 32,
+          "type": "SHOT_RELEASED",
+          "actor": "H03"
+        },
+        {
+          "tick": 41,
+          "type": "SAVE_PARRY",
+          "actor": "A07"
+        },
+        {
+          "tick": 106,
+          "type": "RESTART_AWARDED",
+          "actor": null
+        }
+      ]
+    },
+    {
+      "scenario": "DEFENSIVE_HELP",
+      "direction": "TOP",
+      "seed": 2025,
+      "tick": 114,
+      "timeMs": 5700,
+      "outcome": "TURNOVER",
+      "stateHash": "e8e951f6",
+      "eventHash": "80c25000",
+      "resumeMatches": true,
+      "passReceipts": 0,
+      "contests": [
+        "SCREEN:SCREENED",
+        "SCREEN:SCREENED",
+        "BLOCK:DEFLECTED"
+      ],
+      "keyTicks": [
+        {
+          "tick": 32,
+          "type": "SHOT_RELEASED",
+          "actor": "H03"
+        }
+      ]
+    },
+    {
+      "scenario": "DEFENSIVE_HELP",
+      "direction": "BOTTOM",
+      "seed": 2025,
+      "tick": 114,
+      "timeMs": 5700,
+      "outcome": "TURNOVER",
+      "stateHash": "3736bf3a",
+      "eventHash": "be55b6bb",
+      "resumeMatches": true,
+      "passReceipts": 0,
+      "contests": [
+        "SCREEN:SCREENED",
+        "BLOCK:DEFLECTED"
+      ],
+      "keyTicks": [
+        {
+          "tick": 32,
+          "type": "SHOT_RELEASED",
+          "actor": "H03"
+        }
+      ]
+    },
+    {
+      "scenario": "PRESSURE_5_1",
+      "direction": "TOP",
+      "seed": 2025,
+      "tick": 227,
+      "timeMs": 11350,
+      "outcome": "CENTRE_THROW_OFF",
+      "stateHash": "09405bdf",
+      "eventHash": "19d08b5c",
+      "resumeMatches": true,
+      "passReceipts": 3,
+      "contests": [
+        "SCREEN:SCREENED",
+        "SCREEN:SCREENED",
+        "BLOCK:DEFLECTED",
+        "SCREEN:SCREENED",
+        "KEEPER:OUTSIDE_SAVE_WINDOW"
+      ],
+      "keyTicks": [
+        {
+          "tick": 22,
+          "type": "PASS_RELEASED",
+          "actor": "H03"
+        },
+        {
+          "tick": 30,
+          "type": "PASS_RECEIVED",
+          "actor": "H02"
+        },
+        {
+          "tick": 52,
+          "type": "PASS_RELEASED",
+          "actor": "H02"
+        },
+        {
+          "tick": 63,
+          "type": "PASS_RECEIVED",
+          "actor": "H06"
+        },
+        {
+          "tick": 95,
+          "type": "SHOT_RELEASED",
+          "actor": "H06"
+        },
+        {
+          "tick": 177,
+          "type": "PASS_RELEASED",
+          "actor": "H06"
+        },
+        {
+          "tick": 184,
+          "type": "PASS_RECEIVED",
+          "actor": "H04"
+        },
+        {
+          "tick": 216,
+          "type": "SHOT_RELEASED",
+          "actor": "H04"
+        },
+        {
+          "tick": 227,
+          "type": "GOAL",
+          "actor": "H04"
+        },
+        {
+          "tick": 227,
+          "type": "RESTART_AWARDED",
+          "actor": "H04"
+        }
+      ]
+    },
+    {
+      "scenario": "PRESSURE_5_1",
+      "direction": "BOTTOM",
+      "seed": 2025,
+      "tick": 227,
+      "timeMs": 11350,
+      "outcome": "CENTRE_THROW_OFF",
+      "stateHash": "42df6e6a",
+      "eventHash": "1b3b8190",
+      "resumeMatches": true,
+      "passReceipts": 3,
+      "contests": [
+        "SCREEN:SCREENED",
+        "BLOCK:DEFLECTED",
+        "SCREEN:SCREENED",
+        "KEEPER:OUTSIDE_SAVE_WINDOW"
+      ],
+      "keyTicks": [
+        {
+          "tick": 22,
+          "type": "PASS_RELEASED",
+          "actor": "H03"
+        },
+        {
+          "tick": 30,
+          "type": "PASS_RECEIVED",
+          "actor": "H02"
+        },
+        {
+          "tick": 52,
+          "type": "PASS_RELEASED",
+          "actor": "H02"
+        },
+        {
+          "tick": 63,
+          "type": "PASS_RECEIVED",
+          "actor": "H06"
+        },
+        {
+          "tick": 95,
+          "type": "SHOT_RELEASED",
+          "actor": "H06"
+        },
+        {
+          "tick": 177,
+          "type": "PASS_RELEASED",
+          "actor": "H06"
+        },
+        {
+          "tick": 184,
+          "type": "PASS_RECEIVED",
+          "actor": "H04"
+        },
+        {
+          "tick": 216,
+          "type": "SHOT_RELEASED",
+          "actor": "H04"
+        },
+        {
+          "tick": 227,
+          "type": "GOAL",
+          "actor": "H04"
+        },
+        {
+          "tick": 227,
+          "type": "RESTART_AWARDED",
+          "actor": "H04"
+        }
+      ]
+    },
+    {
+      "scenario": "EMPTY_GOAL",
+      "direction": "TOP",
+      "seed": 2025,
+      "tick": 42,
+      "timeMs": 2100,
+      "outcome": "CENTRE_THROW_OFF",
+      "stateHash": "4d5c4b3b",
+      "eventHash": "ebe766b2",
+      "resumeMatches": true,
+      "passReceipts": 0,
+      "contests": [],
+      "keyTicks": [
+        {
+          "tick": 22,
+          "type": "SHOT_RELEASED",
+          "actor": "H03"
+        },
+        {
+          "tick": 42,
+          "type": "GOAL",
+          "actor": "H03"
+        },
+        {
+          "tick": 42,
+          "type": "RESTART_AWARDED",
+          "actor": "H03"
+        }
+      ]
+    },
+    {
+      "scenario": "EMPTY_GOAL",
+      "direction": "BOTTOM",
+      "seed": 2025,
+      "tick": 42,
+      "timeMs": 2100,
+      "outcome": "CENTRE_THROW_OFF",
+      "stateHash": "19f309ce",
+      "eventHash": "238693fd",
+      "resumeMatches": true,
+      "passReceipts": 0,
+      "contests": [],
+      "keyTicks": [
+        {
+          "tick": 22,
+          "type": "SHOT_RELEASED",
+          "actor": "H03"
+        },
+        {
+          "tick": 42,
+          "type": "GOAL",
+          "actor": "H03"
+        },
+        {
+          "tick": 42,
+          "type": "RESTART_AWARDED",
+          "actor": "H03"
+        }
+      ]
+    }
+  ]
+}
