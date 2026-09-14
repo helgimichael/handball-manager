@@ -64,6 +64,19 @@ export function startAction(s: CoreState,p: CorePlayer,kind: ActionKind,reason: 
     p.action.recoveryTicks=2;
     // Leave preparation, recovery and a subsequent release inside the held-ball budget.
     p.action.executeTicks=Math.min(p.action.executeTicks,Math.max(1,s.ruleProfile.maxHoldMs/50-(s.tick-p.handling.heldSinceTick)-15));
+    // POSSESSION ECOLOGY: a drive is three steps, because that is the rule.
+    //
+    // The drive used to run for its own duration and the referee then whistled
+    // him: sixty-four three-step violations a match, every one of them ending an
+    // attack that was going somewhere. A carrier attacks the interval with the
+    // steps he actually has, and if he wants more he puts the ball down.
+    if(p.action.target) {
+      const left=Math.max(0,(s.ruleProfile.maxSteps-p.handling.steps)*.8-p.handling.stepDistance-.15);
+      const d=distance(p.position,p.action.target);
+      if(d>left&&d>1e-6) {
+        p.action.target={x:p.position.x+(p.action.target.x-p.position.x)*left/d,y:p.position.y+(p.action.target.y-p.position.y)*left/d};
+      }
+    }
   }
   if(kind==='PASS'&&targetId){const receiver=getPlayer(s,targetId);receiver.reception={passActionId:id,readyTick:s.tick+4};record(s,'RECEPTION_OFFERED',receiver,{passActionId:id,readyTick:s.tick+4},[p.id]);}
   record(s,'ACTION_STARTED',p,{kind,reason,duty:p.duty.kind});return true;

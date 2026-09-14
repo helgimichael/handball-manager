@@ -74,6 +74,13 @@ function advanceOneTick(s:CoreState):CoreState {
   }
   handlingRules(s);if(s.status!=='RUNNING')return s;
   const wasLive=s.ball.live;
+  // A beaten episode closes when the two players come apart, so the same man
+  // can be beaten again later in the same attack by a genuinely new action.
+  for(const d of courtPlayers(s)) {
+    if(!d.beatenBy)continue;
+    const by=s.players.find(p=>p.id===d.beatenBy);
+    if(!by||by.population!=='COURT'||distance(by.position,d.position)>3||s.ball.controllerId!==by.id)d.beatenBy=null;
+  }
   resolveScreens(s);resolveContacts(s);if(wasLive&&!s.ball.live)return s;
   resolveEffects(s,effects);if(s.status!=='RUNNING')return s;
   advanceBall(s);

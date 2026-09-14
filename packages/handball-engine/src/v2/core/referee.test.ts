@@ -45,3 +45,4 @@ test('a second infringement cannot downgrade the recalled clear chance to an ord
   foul(s,getPlayer(s,'H03'),getPlayer(s,'A04'),'PUNISHABLE','Fixture body-directed foul',false,'second');
   assert.equal(s.restart?.kind,'SEVEN_METRE');assert.equal(getPlayer(s,'A03').warnings,1);assert.equal(getPlayer(s,'A04').warnings,1);
 });
+

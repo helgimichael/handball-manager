@@ -2,7 +2,7 @@ import { goalAreaClearance } from '../../domain/geometry/goalArea';
 import { actionAvailable,courtPlayers,getPlayer,otherTeam,record,type CorePlayer,type CoreState,type Point } from './state';
 import { clamp,distance,fieldLegal,local,structurePoint,world,clearGoalArea,laneClearance } from './space';
 import { startAction } from './actions';
-import { acquire } from './transitions';
+import { acquire,awardRestart } from './transitions';
 import { exchangeActive,requestExchange } from './population';
 import { restartReady } from './rules';
 
@@ -41,7 +41,18 @@ function moveToward(s:CoreState,p:CorePlayer,target:Point,reason:string) {
 }
 export function restartStep(s:CoreState) {
   const r=s.restart;if(!r||r.phase==='COMPLETED'||r.phase==='RELEASED')return;
-  if(s.tick-r.awardedTick-r.pausedTicks>1600){s.status='INCOMPLETE';s.reason='Physical restart preparation did not finish within its budget';record(s,'INCOMPLETE',null,{reason:s.reason});return;}
+  // A restart nobody can organise is a refereeing problem, not a dead match.
+  //
+  // Eighty seconds of preparation means two bodies have blocked each other out
+  // of their legal positions and neither can move; a referee whistles the throw
+  // anyway, or gives it to the other team for delaying. Failing the simulation
+  // instead ended a whole match on it, which is the only way a complete 2x30
+  // still failed to finish.
+  if(s.tick-r.awardedTick-r.pausedTicks>1600) {
+    record(s,'RESTART_UNRESOLVED',null,{kind:r.kind,owner:r.owner,ticks:s.tick-r.awardedTick});
+    awardRestart(s,'FREE_THROW',otherTeam(r.owner),r.location,'Restart could not be organised',null,false);
+    return;
+  }
   if(r.phase==='AUTHORISED'&&r.authorisedTick!==null&&(s.tick-r.authorisedTick)*50>s.ruleProfile.maxHoldMs){s.status='FAILED';s.reason='Restart execution exceeded three seconds';record(s,'RESTART_FAILED',null,{reason:s.reason});return;}
   if(!r.takerId) {
     const taker=chooseTaker(s);

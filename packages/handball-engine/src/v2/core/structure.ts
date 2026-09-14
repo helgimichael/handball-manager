@@ -1,5 +1,5 @@
 import { actionAvailable, courtPlayers, getPlayer, otherTeam, random, record, type CorePlayer, type CoreState, type Duty } from './state';
-import { clamp, distance, goalSide, keeperPost, laneClearance, local, numericalAdvantage, shootingAngle, shotQuality, structurePoint, world } from './space';
+import { clamp, distance, goal, goalSide, keeperPost, laneClearance, local, numericalAdvantage, shootingAngle, shotQuality as quality, structurePoint, world } from './space';
 import { driveTarget, startAction } from './actions';
 import { exchangeActive } from './population';
 import { goalAreaClearance } from '../../domain/geometry/goalArea';
@@ -8,7 +8,9 @@ import { interrupt } from './transitions';
 import { isWing,wingRelationship,wingTakeoffWindow,defendWing } from './wing';
 import { isBack,planBackcourtSupport } from './backcourt';
 import { chooseOffensiveAction,offensiveTarget,offensiveScreen,anticipatedDefenceTarget } from './offence';
-import { allocate,assignZones,dutyFeasible,dutyTarget,lineFormed,readDefence,zoneOf,type DefenceRead,type ZoneDuty } from './defence';
+import { PIVOT_FINISH_METERS,isPivot,pivotFinish,pivotOffer,pivotPost,pivotShotQuality,pivotShouldScreen,screenPost } from './pivot';
+import { breakDefence,readContinuation,shotOverCommitted } from './engage';
+import { ZONE_COUNT,allocate,assignZones,dutyFeasible,dutyTarget,lineFormed,readDefence,zoneOf,zonePost,type DefenceRead,type ZoneDuty } from './defence';
 import { sustain } from './actions';
 
 function assign(s:CoreState,p:CorePlayer,kind:Duty,targetId:string|null,reason:string) {
@@ -31,8 +33,9 @@ export function coordinate(s: CoreState) {
   // substitute arriving with a stale zone, or a suspension leaving a hole, both
   // reach here, and a duplicated space is a broken line rather than a tolerable
   // one -- the core invariant refuses it outright.
-  const owned=defenders.map(d=>d.zone);
-  if(owned.some(z=>z===null)||new Set(owned).size!==owned.length)assignZones(s,defenders,direction);
+  const owned=defenders.map(d=>d.zone).filter((z):z is number=>z!==null);
+  const complete=owned.length===Math.min(defenders.length,ZONE_COUNT);
+  if(!complete||new Set(owned).size!==owned.length)assignZones(s,defenders,direction);
   const read=readDefence(s,defenders,carrier?.team===attacking?carrier:null,direction);
   const zoneDuties=allocate(s,defenders,attackers,carrier?.team===attacking?carrier:null,read,direction,s.possession.phase==='TRANSITION');
   s.defence.read={engaged:read.engaged,shift:Number(read.shift.toFixed(3)),compact:read.compact};
@@ -51,6 +54,12 @@ export function coordinate(s: CoreState) {
   const pressureEntry=[...zoneDuties].find(([,duty])=>duty.kind==='PRESSURE');
   const helperEntry=[...zoneDuties].find(([,duty])=>duty.kind==='HELP');
   s.defence.pressureId=pressureEntry?.[0]??null;s.defence.helperId=helperEntry?.[0]??null;
+  // A HELP duty deliberately does NOT open a break. It is an allocation, not an
+  // event: it flickers from tick to tick, and reading it as a defensive
+  // reaction reported four hundred and forty breaks a match and left the
+  // defence permanently "broken". Only the two things that actually happen to a
+  // defender -- being beaten and being screened out -- open one, in duel() and
+  // resolveScreens(), where each already has an episode lifecycle.
   s.defence.marks={};
   for(const d of defenders) {
     const duty=zoneDuties.get(d.id)!;
@@ -114,29 +123,95 @@ function chooseCarrier(s:CoreState,p:CorePlayer) {
     // alternative is a pass back out, and an attack that has worked the ball to
     // the wing and then declines has achieved nothing. The bar is his own
     // finishing, so an elite finisher takes the corner an ordinary wing leaves.
-    const outside=shotQuality(s,p,pressure);
+    const outside=quality(s,p,pressure);
     if(angle>.14&&pressure<=1&&outside>.30-.12*p.profile.wingFinishing&&s.tick-p.handling.heldSinceTick<38){
       startAction(s,p,'JUMP',`Outside window worth taking: quality ${outside.toFixed(2)}`);return;}
     const window=wingTakeoffWindow(s,p);
     if(window&&angle<=.14&&p.handling.steps===0&&s.tick-p.handling.heldSinceTick<24) {startAction(s,p,'DRIVE','Improve the wing angle through a legal grounded approach',window,s.defence.pressureId);return;}
     if(relation.back&&laneClearance(s,p.position,relation.back.position,p.team)>.45){startAction(s,p,'PASS','Wing window closed; reconnect with the adjacent back',null,relation.back.id);return;}
   }
-  if(s.tick-p.handling.heldSinceTick>36&&q.y<14&&!p.airborne){p.nextAction=null;startAction(s,p,'SHOOT','Handling budget requires a standing release before three seconds',null,null,'STANDING');return;}
-  if(p.nextAction==='SHOOT') {p.nextAction=null;startAction(s,p,'SHOOT','Release from actual takeoff position',null,null,q.y<8?(q.x<4||q.x>16?'WING':'BREAKTHROUGH'):'BACKCOURT_JUMP');return;}
+  // Running out of steps is not a reason to shoot. A handball player who has
+  // used his three steps and still has time bounces the ball, and the engine had
+  // him fire from wherever he stood instead: a hundred and nine standing shots a
+  // match, and twenty-nine handling violations for the ones who did not.
+  if(p.handling.steps>=s.ruleProfile.maxSteps-1&&!p.handling.dribbleUsed&&!p.airborne&&s.tick-p.handling.heldSinceTick<30&&q.y<19) {
+    if(startAction(s,p,'DRIBBLE','Out of steps with time left; put the ball down',world({x:clamp(q.x,2,18),y:Math.max(7,q.y-1.5)},direction)))return;
+  }
+  // Running short of time is a reason to MOVE THE BALL, not to shoot from
+  // wherever you happen to be standing. This branch fired seventy-five times a
+  // match and made the standing shot the commonest shot in handball, which it
+  // is not. He shoots here only when there is genuinely nobody to pass to.
+  if(s.tick-p.handling.heldSinceTick>36&&q.y<14&&!p.airborne) {
+    const outlet=courtPlayers(s,p.team).filter(a=>a.id!==p.id&&a.kind!=='GOALKEEPER'&&!a.airborne&&!exchangeActive(s,a.id))
+      .map(a=>({a,lane:laneClearance(s,p.position,a.position,p.team)}))
+      .filter(x=>x.lane>.5&&distance(p.position,x.a.position)<=15)
+      .sort((x,y)=>y.lane-x.lane)[0];
+    if(outlet){startAction(s,p,'PASS','Time is short; move the ball rather than force a shot',null,outlet.a.id);return;}
+    p.nextAction=null;startAction(s,p,'SHOOT','Nobody to pass to before the three seconds expire',null,null,'STANDING');return;
+  }
+  if(p.nextAction==='SHOOT') {
+    p.nextAction=null;
+    // A line player releasing from close range is a PIVOT finish, which is its
+    // own shot and was never produced by any code path before.
+    const kind=isPivot(p)&&distance(p.position,goal(direction))<=PIVOT_FINISH_METERS?'PIVOT'
+      :q.y<8?(q.x<4||q.x>16?'WING':'BREAKTHROUGH'):'BACKCOURT_JUMP';
+    startAction(s,p,'SHOOT','Release from actual takeoff position',null,null,kind);return;
+  }
+  // THE LINE PLAYER FINISHES. He has caught with his back to goal a metre or
+  // two out; he turns, or he goes down and through the line. Either way it is
+  // the most efficient shot in handball and it now exists.
+  if(isPivot(p)&&distance(p.position,goal(direction))<=PIVOT_FINISH_METERS&&!p.airborne&&!p.nextAction) {
+    const worth=pivotShotQuality(s,p);
+    if(worth>.34) {
+      const finish=pivotFinish(s,p);
+      if(finish==='FALL'&&startAction(s,p,'JUMP',`Fall shot through the line: quality ${worth.toFixed(2)}`))return;
+      if(finish==='TURN'&&startAction(s,p,'SHOOT',`Turn and finish on the line: quality ${worth.toFixed(2)}`,null,null,'PIVOT'))return;
+    }
+  }
   if(p.nextAction==='DRIVE') {p.nextAction=null;startAction(s,p,'DRIVE','Exploit committed feint and test inside lane',driveTarget(s,p),s.defence.pressureId);return;}
   if(s.referee.passive.warnedTick!==null&&s.referee.passive.passes>=4&&q.y<18&&!p.airborne){startAction(s,p,'SHOOT','Finish before the passive-play pass allowance is exhausted',null,null,'STANDING');return;}
   if(s.tick-p.handling.heldSinceTick<(s.coaching[p.team].tempo==='QUICK'?6:10)){startAction(s,p,'HOLD','Secure control and read coordinated defence');return;}
   if(!keeper&&q.y<28){startAction(s,p,'SHOOT','Goalkeeper absent; executable empty-goal opportunity',null,null,'EMPTY_GOAL');return;}
-  if(chooseOffensiveAction(s,p))return;
+  // POSSESSION ECOLOGY: solve the problem in front of him.
+  //
+  // Read in the order handball reads it -- a freed man, the line player, an
+  // interval, a feint to make somebody commit, and recycling when none of that
+  // is there. This sits ahead of the entry relationship because a local
+  // advantage that exists NOW outranks a plan, and ahead of the generic
+  // circulation ranking because circulation is what you do when there is no
+  // problem to solve, not instead of solving one.
   const angle=shootingAngle(p.position,direction),advantage=numericalAdvantage(s,p);
   // PLAYER IDENTITY: what counts as a shot worth taking is his judgement about
   // his own finishing, not a shared depth threshold. A shooting back backs
   // himself from ten metres; a wing needs the angle; a poor finisher works for
   // something better and that is why his team circulates instead of firing.
-  const quality=shotQuality(s,p,pressure);
+  const shotWorth=quality(s,p,pressure);
   const threshold=.42/Math.max(.5,p.profile.tendency.shoot)-(advantage>0?.05:0)-(s.possession.phase==='TRANSITION'?.07:0);
-  const hasOpportunity=quality>=threshold&&angle>.13&&
+  const hasOpportunity=shotWorth>=threshold&&angle>.13&&
     (s.possession.completedPasses>=2||s.possession.phase==='TRANSITION'||p.role==='P'||(q.y<9&&s.defence.helperId!==null));
+  if(s.possession.phase==='ESTABLISHED'&&s.tick-p.handling.heldSinceTick>=5) {
+    if(shotOverCommitted(s,p)&&quality(s,p,pressure)>.36&&startAction(s,p,'JUMP','Shoot over the defender who has committed himself'))return;
+    const next=readContinuation(s,p);
+    if(next) {
+      // ONE ATTACK ON AN INTERVAL IS ONE ACTION. The drive is bounded by the
+      // three steps he has; re-issuing it each time those steps ran out split a
+      // single attacking move into a string of them and credited him with
+      // beating the same defender over and over.
+      if(next.kind==='ATTACK_INTERVAL') {
+        if(sustain(s,p,'DRIVE',next.point,next.defenderId,1.3))return;
+        if(startAction(s,p,'DRIVE',next.reason,next.point,next.defenderId))return;
+      }
+      if(next.kind==='FEINT'&&startAction(s,p,'FEINT',next.reason,null,next.defenderId))return;
+      if((next.kind==='PLAY_FREED')&&startAction(s,p,'PASS',next.reason,null,next.receiverId))return;
+      // RECYCLING MUST NOT OUTRANK A SHOT. Reading the continuation before the
+      // shot meant a back who had a shot on never reached it: he held for four
+      // fifths of a second, found somebody to pass to, and passed. The two
+      // backs took eleven shots a match between them while the wings took
+      // fifty-five, which is the wrong way round in any handball match.
+      if(next.kind==='RECYCLE'&&!hasOpportunity&&s.tick-p.handling.heldSinceTick>16&&startAction(s,p,'PASS',next.reason,null,next.receiverId))return;
+    }
+  }
+  if(chooseOffensiveAction(s,p))return;
   if(!keeper&&q.y<28){startAction(s,p,'SHOOT','Goalkeeper absent; executable empty-goal opportunity',null,null,'EMPTY_GOAL');return;}
   if(pressure===0&&q.y>=9&&q.y<14&&p.handling.steps===0&&s.tick-p.handling.heldSinceTick<26&&s.possession.completedPasses>0) {
     startAction(s,p,'DRIVE','Attack the available shoulder to engage cover before continuation',driveTarget(s,p),s.defence.pressureId);return;
@@ -145,7 +220,7 @@ function chooseCarrier(s:CoreState,p:CorePlayer) {
     startAction(s,p,'FEINT','Engage the pressure defender before committing to a shoulder',null,s.defence.pressureId);return;
   }
   if(hasOpportunity) {
-    startAction(s,p,'JUMP',`Shot worth taking: quality ${quality.toFixed(2)} over ${threshold.toFixed(2)}, angle ${angle.toFixed(2)}, pressure ${pressure}`);return;
+    startAction(s,p,'JUMP',`Shot worth taking: quality ${shotWorth.toFixed(2)} over ${threshold.toFixed(2)}, angle ${angle.toFixed(2)}, pressure ${pressure}`);return;
   }
   if(s.possession.phase==='TRANSITION'&&!p.handling.dribbleUsed&&q.y>14&&laneClearance(s,p.position,world({x:q.x,y:q.y-4},direction),p.team)>.7) {
     if(startAction(s,p,'DRIBBLE','Advance through open transition lane with legal continuous bounce',world({x:q.x,y:Math.max(9,q.y-9)},direction)))p.action!.executeTicks=40;
@@ -258,14 +333,37 @@ export function selectActions(s:CoreState) {
         if(!sustain(s,p,kind,aimed,p.duty.targetId,1.4)&&distance(p.position,aimed)>.3)startAction(s,p,kind,p.duty.reason,aimed,p.duty.targetId);
       }
     } else {
-      let target=s.possession.phase==='ESTABLISHED'?(isWing(p)?wingRelationship(s,p).target:p.support?.target??structurePoint(p.role,direction,s.ball.position.x)):structurePoint(p.role,direction,s.ball.position.x);
+      // A line player who has been named for a feed CHECKS AND HOLDS. He is
+      // taking the ball with his back to goal a metre off the line, and a pivot
+      // who keeps working the line while the feed is in the air runs off the
+      // end of it: nineteen of the twenty-two balls that left the court in a
+      // match were feeds to a moving line player.
+      if(isPivot(p)&&p.reception!==null) {
+        if(!sustain(s,p,'RECEIVE',null,null))startAction(s,p,'RECEIVE','Check and present for the feed');
+        continue;
+      }
+      // THE LINE PLAYER works the line: he moves to the interval worth
+      // occupying and screens the man who is about to have to stop the ball,
+      // instead of standing on a fixed anchor and drifting a few tenths.
+      const screenTarget=isPivot(p)&&s.possession.phase==='ESTABLISHED'?pivotShouldScreen(s,p):null;
+      let target=s.possession.phase==='ESTABLISHED'
+        ?(isWing(p)?wingRelationship(s,p).target
+          :isPivot(p)?(screenTarget?screenPost(s,p,screenTarget):pivotPost(s,p))
+          :p.support?.target??structurePoint(p.role,direction,s.ball.position.x))
+        :structurePoint(p.role,direction,s.ball.position.x);
       if(s.possession.phase==='TRANSITION') {
         const q=local(p.position,direction),ballDepth=local(s.ball.position,direction).y;
         const trailing=p.duty.kind==='SECOND_WAVE'?Math.min(q.y,ballDepth+(s.offence.phase==='UPPSPEL'?2:1)):0;
         target=world({x:p.role==='LB'?5:p.role==='RB'?15:target.x,y:Math.max(local(target,direction).y,q.y-7,trailing)},direction);
       }
       const entryTarget=offensiveTarget(s,p);if(entryTarget)target=entryTarget;
-      if((offensiveScreen(s,p)||p.role==='P')&&distance(p.position,target)<.8)startAction(s,p,'SCREEN','Establish stationary screen at the intended defensive interval',null,s.defence.pressureId);
+      // ONE SCREEN IS ONE ACTION. Re-issuing it every time the last one
+      // completed made the same body in the same defender's path count as a
+      // fresh screen again and again.
+      if((offensiveScreen(s,p)||screenTarget)&&distance(p.position,target)<.85) {
+        const mark=screenTarget?.id??s.defence.pressureId;
+        if(!sustain(s,p,'SCREEN',null,mark))startAction(s,p,'SCREEN',screenTarget?'Screen the defender who has to stop the ball':'Establish stationary screen at the intended defensive interval',null,mark);
+      }
       else if(distance(p.position,target)>.55){if(!sustain(s,p,'RUN',target,null))startAction(s,p,'RUN',p.duty.reason,target);}
       else if(!sustain(s,p,'RECEIVE',null,null))startAction(s,p,'RECEIVE','Offer an available passing connection from assigned role');
     }

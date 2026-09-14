@@ -15,3 +15,4 @@ require('../src/v2/core/ecosystem.test.ts');
 require('../src/v2/core/offence.test.ts');
 require('../src/v2/core/identity.test.ts');
 require('../src/v2/core/defence.test.ts');
+require('../src/v2/core/ecology.test.ts');

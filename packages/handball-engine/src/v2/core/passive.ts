@@ -1,6 +1,16 @@
 import { getPlayer,otherTeam,record,type CoreState } from './state';
-import { local } from './space';
 import { awardRestart } from './transitions';
+
+/**
+ * What counts as trying to attack. Each of these is a fact about the defence
+ * having been put under a real problem, which is what the referee is watching
+ * for and what a forward-facing run is not.
+ */
+// A screen is preparation and a rebound is the tail of a shot that already
+// reset the clock; neither is an attempt on its own.
+const THREATS=new Set(['SHOT_RELEASED','DEFENDER_BEATEN','FEINT_READ','FOUL']);
+/** Seconds of no recognisable attempt before the arm goes up. */
+const PASSIVE_IDLE_MS=18000;
 
 export type PassiveState={possessionId:string;idleMs:number;warnedTick:number|null;passes:number;extraPass:boolean;blockedReturn:boolean;eventsSeen:number};
 export const initialPassive=():PassiveState=>({possessionId:'',idleMs:0,warnedTick:null,passes:0,extraPass:false,blockedReturn:false,eventsSeen:0});
@@ -24,6 +34,13 @@ export function passiveAfter(s:CoreState) {
     const e=s.events[i],actor=e.actorId?s.players.find(a=>a.id===e.actorId):null;
     if(['WARNING','TWO_MINUTE_SUSPENSION','DISQUALIFICATION'].includes(e.type)&&actor?.team===otherTeam(s.possession.team))reset(s,'Defending team personal punishment');
     if(e.type==='SAVE_PARRY'||e.type==='SAVE_CAUGHT'||e.type==='GOAL')reset(s,'Shot reached goalkeeper or goal');
+    // A RECOGNISABLE ATTEMPT TO ATTACK (IHF 7:11) is something that happened to
+    // the defence, not something the carrier felt. Reading it off the carrier's
+    // forward velocity meant four hundred drives a match kept resetting the
+    // clock while the attack created nothing, the idle timer never reached
+    // eighteen seconds in a whole match, and attacks ran for seventy seconds
+    // and twenty-three passes without a shot or a whistle.
+    if(THREATS.has(e.type))p.idleMs=0;
     if(p.warnedTick===null)continue;
     if(e.type==='SHOT_BLOCKED')p.blockedReturn=true;
     if(e.type==='BALL_OUT')p.blockedReturn=false;
@@ -42,9 +59,9 @@ export function passiveAfter(s:CoreState) {
   }
   p.eventsSeen=s.events.length;
   if(s.status!=='RUNNING'||!s.ball.live||!s.officialClock.running||!s.ball.controllerId)return;
-  const a=getPlayer(s,s.ball.controllerId),forward=(s.directions[a.team]==='TOP'?-1:1)*a.velocity.y;
-  const threat=a.action?.phase==='EXECUTING'&&['DRIVE','DRIBBLE'].includes(a.action.kind)&&forward>.8&&(s.possession.phase==='TRANSITION'||local(a.position,s.directions[a.team]).y<15);
-  p.idleMs=threat?Math.max(0,p.idleMs-100):p.idleMs+50;
-  if(p.warnedTick===null&&p.idleMs>=18000&&s.possession.completedPasses>=4&&!threat)
-    showPassiveWarning(s,'Repeated circulation without a directed change of pace');
+  // A break is never passive: the attack has not had the chance to be.
+  if(s.possession.phase==='TRANSITION'){p.idleMs=0;return;}
+  p.idleMs+=50;
+  if(p.warnedTick===null&&p.idleMs>=PASSIVE_IDLE_MS&&s.possession.completedPasses>=4)
+    showPassiveWarning(s,'No recognisable attempt to attack');
 }

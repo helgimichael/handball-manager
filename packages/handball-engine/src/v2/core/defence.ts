@@ -108,17 +108,25 @@ export function assignZones(s: CoreState, defenders: readonly CorePlayer[], dire
   const taken = new Set<number>();
   const ordered = [...defenders].sort((a, b) => (ZONE_BY_ROLE[a.role] ?? 3) - (ZONE_BY_ROLE[b.role] ?? 3) || a.id.localeCompare(b.id));
   for (const d of ordered) {
+    // More bodies than spaces. A substitution can briefly leave a seventh man
+    // on the court, and there are six spaces in a 6:0 however many people are
+    // standing in front of the goal. The extra man holds no space and picks up
+    // whoever is in front of him, which is what actually happens; sharing a
+    // space between two defenders is a line that is not a line.
+    if (taken.size >= ZONE_COUNT) { d.zone = null; continue; }
     let want = ZONE_BY_ROLE[d.role] ?? 3;
     // Fewer than six men is a suspension, not a reshuffle: the remaining
     // defenders keep their own spaces and the line simply narrows around the
     // hole, which is what a short-handed team actually does.
     while (taken.has(want) && want < ZONE_COUNT - 1) want++;
     while (taken.has(want) && want > 0) want--;
+    if (taken.has(want)) { d.zone = null; continue; }
     taken.add(want);
     d.zone = want;
   }
-  // Mirrored ends swap left and right, so the lateral order has to follow.
-  if (direction === 'BOTTOM') for (const d of ordered) d.zone = ZONE_COUNT - 1 - (d.zone ?? 0);
+  // No mirroring: a team's left wing stands at low x whichever goal it is
+  // defending, and the spaces are absolute court positions.
+  void direction;
 }
 
 /**
@@ -129,16 +137,23 @@ export function assignZones(s: CoreState, defenders: readonly CorePlayer[], dire
  * behaviour this module exists to remove.
  */
 export function readDefence(s: CoreState, defenders: readonly CorePlayer[], carrier: CorePlayer | null, direction: Direction): DefenceRead {
+  // COORDINATE MODEL: lateral position is ABSOLUTE and is never mirrored.
+  //
+  // Only depth changes with the goal being attacked; `local` and `world` mirror
+  // y and leave x alone. Mirroring the ball's x into a local frame here and
+  // emitting posts through `world`, which does not mirror it back, gave the
+  // shift the wrong sign at one end: with the ball on the left the BOTTOM line
+  // slid right, away from it. The same tactical state now produces the same
+  // line at both ends because there is only one lateral frame.
   const ballX = carrier ? carrier.position.x : s.ball.position.x;
-  const mirrored = direction === 'BOTTOM' ? 20 - ballX : ballX;
-  const engagedZone = carrier ? zoneOf(mirrored) : null;
+  const engagedZone = carrier ? zoneOf(ballX) : null;
   const beaten = defenders.some(d => d.beatenUntilTick > s.tick);
   // The line follows the ball but never abandons the far post. Two thirds of
   // the ball's offset from centre is the working compromise: enough that the
   // ball-side interval is genuinely closed, little enough that a reversal has
   // somewhere to arrive.
-  const shift = clamp((mirrored - 10) * 0.62, -3.6, 3.6);
-  return { engaged: engagedZone, ballX: mirrored, shift, compact: beaten ? BEATEN_SPREAD : BASE_SPREAD };
+  const shift = clamp((ballX - 10) * 0.62, -3.6, 3.6);
+  return { engaged: engagedZone, ballX, shift, compact: beaten ? BEATEN_SPREAD : BASE_SPREAD };
 }
 
 export type ZoneDuty =
@@ -190,7 +205,13 @@ export function allocate(s: CoreState, defenders: readonly CorePlayer[], attacke
   const duties = new Map<string, ZoneDuty>();
   const byZone = new Map<number, CorePlayer>();
   for (const d of defenders) if (d.zone !== null) byZone.set(d.zone, d);
-  const localX = (p: CorePlayer) => direction === 'BOTTOM' ? 20 - p.position.x : p.position.x;
+  // A man without a space still defends: he takes whoever is in front of him.
+  for (const d of defenders) if (d.zone === null && !duties.has(d.id)) {
+    const near = attackers.filter(a => a.id !== carrier?.id)
+      .sort((x, y) => distance(x.position, d.position) - distance(y.position, d.position))[0];
+    duties.set(d.id, { kind: 'MARK', targetId: near?.id ?? null, reason: 'No space of his own; pick up the man in front of him' });
+  }
+  const localX = (p: CorePlayer) => p.position.x;
 
   const line = attackers.filter(a => a.role === 'P' || a.role === 'P2');
   const pivotOwner = new Map<string, string>();

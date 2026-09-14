@@ -42,7 +42,11 @@ test('level 2: committed actions persist, handling rules constrain execution',()
   assert.equal(legalAction(dribble,getPlayer(dribble,'H03'),'DRIBBLE'),false);
 });
 test('level 2: pass decision and release never assign receiver ownership',()=>{
-  const frames=run();const decision=frames.find(s=>s.players.some(p=>p.action?.kind==='PASS'&&p.action.phase==='PREPARING'))!;
+  // The scenario is allowed to run past its first outcome: the claim is about
+  // the ownership lifecycle of a pass, and a fixture that stops at the first
+  // shot may not contain a completed one at all.
+  const open=createCoreScenario();open.checkpoint.stopOnOutcome=false;open.checkpoint.maxTicks=600;
+  const frames=run(open);const decision=frames.find(s=>s.players.some(p=>p.action?.kind==='PASS'&&p.action.phase==='PREPARING'))!;
   assert.equal(decision.ball.controllerId,'H03');
   const released=frames.find(s=>s.ball.mode==='RELEASE'&&s.ball.flight?.kind==='PASS')!;
   assert.equal(released.ball.controllerId,null);assert.equal(released.events.some(e=>e.type==='PASS_RECEIVED'),false);
@@ -99,9 +103,25 @@ test('level 3: goalkeeper parry is a flight and rebound, not fabricated possessi
   startAction(parry,keeper,'SAVE','React to physically reachable released shot',keeper.position);keeper.action!.phase='EXECUTING';
   advanceBall(parry);assert.ok(parry.events.some(e=>e.type==='SAVE_PARRY'));
   assert.equal(parry.ball.controllerId,null);assert.equal(parry.ball.mode,'DEFLECTION');
-  const frames=run(parry);
-  assert.ok(frames.at(-1)!.events.some(e=>e.type==='BALL_LOOSE'));
-  assert.equal(frames.at(-1)!.restart?.kind,'GOALKEEPER_THROW');
+  // RE-PINNED. A deflection used to be sent up the court toward the deflecting
+  // player's own goal, which made this fixture's parry come loose in play as a
+  // matter of geometry. A parried ball now carries on roughly the way it was
+  // travelling, slower and off line, so a shot parried straight back down its
+  // own line leaves the court behind the goal -- which is handball, and which
+  // this fixture happens to produce. What the test is named for is that the
+  // parry is a FLIGHT: the keeper was never handed the ball.
+  const frames=run(parry),end=frames.at(-1)!;
+  assert.ok(!frames.some(f=>f.ball.controllerId===keeper.id&&f.tick<=1),'the parry never fabricates keeper possession');
+  assert.ok(end.events.some(e=>e.type==='BALL_LOOSE')||end.events.some(e=>e.type==='BALL_OUT'),'it resolves physically, in play or out');
+  assert.equal(end.restart?.kind,'GOALKEEPER_THROW');
+});
+test('level 3: parried shots genuinely come loose in play, not only out of it',()=>{
+  // The companion to the fixture above: across a real match a parry has to be
+  // able to stay in, or the physical deflection has quietly become a turnover.
+  const end=run(createContinuous('CONTINUOUS_PLAY',2025,'TOP',400)).at(-1)!;
+  const parries=end.events.filter(e=>e.type==='SAVE_PARRY').length;
+  assert.ok(parries>0,'the scenario produced saves to reason about');
+  assert.ok(end.events.some(e=>e.type==='BALL_LOOSE'),'and a deflected ball that stayed in play');
 });
 test('levels 4–5: established circulation, defence, shot contest and correct outcome',()=>{
   const frames=run(createContinuous('CONTINUOUS_PLAY',2025,'TOP',6)),end=frames.at(-1)!;

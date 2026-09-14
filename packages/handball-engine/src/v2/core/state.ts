@@ -8,7 +8,7 @@ import type { OffenceState } from './offence';
 import type { Profile } from './profile';
 export type { Point, TeamId, Direction } from '../model';
 
-export const CORE_VERSION = '2.8.0-identity-and-zone.1';
+export const CORE_VERSION = '2.9.0-possession-ecology.2';
 export const DT_MS = 50;
 /** Scoped execution profile; not a claim that all IHF rules are implemented. */
 export const CORE_RULES = {id:'IHF_INDOOR_2025' as const,maxHoldMs:3000,maxSteps:3,suspensionMs:120000,restartDistance:3,goalAreaRadius:6};
@@ -35,7 +35,23 @@ export type CorePlayer = {
   support: BackcourtSupport | null;
   handling: { heldSinceTick: number; steps: number; stepDistance: number; dribbleUsed: boolean; bounceTick: number };
   airborne: { takeoff: Point; untilTick: number } | null;
-  beatenUntilTick: number; wrongFootedUntilTick:number; screenedUntilTick: number; suspensionUntilMs: number | null; sanctions: number; warnings:number;
+  beatenUntilTick: number; wrongFootedUntilTick:number; screenedUntilTick: number;
+  /**
+   * DUEL EPISODES: who is currently doing this to him.
+   *
+   * A screen and a beating are EPISODES, not instants. Without these the same
+   * pivot standing in the same defender's path re-screened him every time the
+   * consequence expired -- a hundred and fifty-nine screens a match, most of
+   * them the same handful of interactions counted over and over -- and one
+   * carrier could be credited with beating the same man repeatedly while the
+   * two of them never separated. An episode opens once and closes when the two
+   * players actually come apart.
+   */
+  screenedBy: string | null; beatenBy: string | null;
+  /** When the current screen engagement began, so one screen stays one screen. */
+  screenedSinceTick: number;
+  /** After one ends, the same man is not screened again until he has recovered. */
+  screenCooldownTick: number; suspensionUntilMs: number | null; sanctions: number; warnings:number;
   nextAction: 'SHOOT' | 'LAND' | 'DRIVE' | null;
   reception:{passActionId:string;readyTick:number}|null;
 };
@@ -87,7 +103,18 @@ export type CoreState = {
   defence: { team: TeamId; system: '6:0' | '5:1'; marks: Record<string, string>; pressureId: string | null; helperId: string | null; lastHandoverTick: number;
     /** COLLECTIVE DEFENCE: the shared read that makes six defenders one line. */
     read: { engaged: number | null; shift: number; compact: number };
-    handover:{defenderIds:[string,string];attackerIds:[string,string];actionIds:[string,string]}|null };
+    handover:{defenderIds:[string,string];attackerIds:[string,string];actionIds:[string,string]}|null;
+    /**
+     * ADVANTAGE: the defence is a man short, and stays short until it re-forms.
+     *
+     * A defensive reaction used to be visible only on the tick it happened, so
+     * an advantage resolved terminally: the attack played the freed man and the
+     * read started again from nothing. In handball an advantage propagates --
+     * the man who was left is played, HIS defender has to come out, and the
+     * next man is free in turn. Holding the break open, and extending it every
+     * time another defender has to react, is what lets a chain exist at all.
+     */
+    broken:{possessionId:string;defenderId:string;freedId:string|null;sinceTick:number;untilTick:number;reactions:number;cause:string}|null };
   players: CorePlayer[];
   ball: { mode: 'DEAD' | 'CONTROLLED' | 'HOLD' | 'DRIBBLE' | 'RELEASE' | 'PASS_FLIGHT' | 'SHOT_FLIGHT' | 'RECEPTION' | 'DEFLECTION' | 'LOOSE' | 'GOALKEEPER_CONTROL' | 'OUT'; position: Point; height: number; controllerId: string | null; live: boolean; flight: CoreFlight | null; lastTouchId: string | null };
   restart: Restart | null; contests: CoreContest[]; events: CoreEvent[]; nextId: number;

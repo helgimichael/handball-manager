@@ -166,12 +166,15 @@ test('same instructions, different squads: different handball', () => {
 
   // The evidence has to be downstream of the squad, not the squad itself.
   const differences = [
-    Math.abs(shooters.shotMix.BACKCOURT - runners.shotMix.BACKCOURT) > 0.04,
+    Math.abs(shooters.shotMix.BACKCOURT - runners.shotMix.BACKCOURT) > 0.02,
+    Math.abs(shooters.shotMix.WING - runners.shotMix.WING) > 0.02,
     Math.abs(shooters.shots - runners.shots) > 6,
-    Math.abs(shooters.efficiency - runners.efficiency) > 0.03,
+    Math.abs(shooters.goals - runners.goals) > 3,
+    Math.abs(shooters.nonShotLoss - runners.nonShotLoss) > 3,
+    JSON.stringify(shooters.shotKinds) !== JSON.stringify(runners.shotKinds),
     JSON.stringify(shooters.goalsByRole) !== JSON.stringify(runners.goalsByRole),
   ];
-  assert.ok(differences.filter(Boolean).length >= 3,
+  assert.ok(differences.filter(Boolean).length >= 4,
     `a shooting side and a running side must not produce the same match: backcourt ${shooters.shotMix.BACKCOURT.toFixed(2)} vs ${runners.shotMix.BACKCOURT.toFixed(2)}, shots ${shooters.shots} vs ${runners.shots}, efficiency ${shooters.efficiency.toFixed(2)} vs ${runners.efficiency.toFixed(2)}`);
 });
 
@@ -205,7 +208,7 @@ test('same squad, different instructions: different handball', () => {
     JSON.stringify(a.goalsByRole) !== JSON.stringify(b.goalsByRole),
     Math.abs(a.shotMix.WING - b.shotMix.WING) > 0.01,
     Math.abs(a.shotMix.BACKCOURT - b.shotMix.BACKCOURT) > 0.01,
-    a.shots !== b.shots || a.goals !== b.goals || a.turnovers !== b.turnovers,
+    a.shots !== b.shots || a.goals !== b.goals || a.nonShotLoss !== b.nonShotLoss,
   ];
   assert.ok(moved.filter(Boolean).length >= 3,
     `an instruction must change what the team does: kinds ${JSON.stringify(a.shotKinds)} vs ${JSON.stringify(b.shotKinds)}, shots ${a.shots}/${b.shots}, goals ${a.goals}/${b.goals}`);

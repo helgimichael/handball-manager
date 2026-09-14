@@ -24,11 +24,19 @@ test('defensive personal punishment cancels the warning and starts a new build-u
   assert.equal(s.referee.passive.warnedTick,null);assert.equal(s.referee.passive.passes,0);
   assert.ok(s.events.some(e=>e.type==='PASSIVE_WARNING_CANCELLED'));
 });
-test('warning judgment distinguishes directed advancing play from stagnant circulation',()=>{
-  const s=createCoreScenario();passiveAfter(s);s.referee.passive.idleMs=17950;s.possession.completedPasses=4;
-  const p=getPlayer(s,'H03');p.velocity={x:0,y:-2};
-  p.action={id:'drive',possessionId:s.possession.id,kind:'DRIVE',phase:'EXECUTING',startedTick:0,phaseTick:0,executeTicks:20,recoveryTicks:2,target:{x:10,y:9},targetId:null,reason:'Directed threat',resolved:false,contestIds:[],shotKind:null,purpose:'PLAY',contact:null,driveStart:null};
-  passiveAfter(s);assert.equal(s.referee.passive.warnedTick,null);
-  p.velocity={x:0,y:0};p.action=null;s.referee.passive.idleMs=17950;passiveAfter(s);
-  assert.notEqual(s.referee.passive.warnedTick,null);
+// RE-PINNED. This used to assert that a carrier running forward in a DRIVE
+// suppressed the warning, which is the model the engine no longer holds: with
+// four hundred drives a match the clock was reset perpetually, the idle timer
+// never reached eighteen seconds in a whole match, and attacks ran for seventy
+// seconds and twenty-three passes without a shot or a whistle. A recognisable
+// attempt to attack is now something that happened to the DEFENCE, so the same
+// distinction is asserted against that instead.
+test('warning judgment distinguishes a real attempt on the defence from stagnant circulation',()=>{
+  const s=createCoreScenario();passiveAfter(s);s.possession.completedPasses=4;
+  s.referee.passive.idleMs=17950;
+  record(s,'DEFENDER_BEATEN',getPlayer(s,'H03'),{},['A03']);passiveAfter(s);
+  assert.equal(s.referee.passive.warnedTick,null,'beating a man is an attempt to attack');
+  assert.ok(s.referee.passive.idleMs<1000,'and it restarts the referee clock');
+  s.referee.passive.idleMs=17950;passiveAfter(s);
+  assert.notEqual(s.referee.passive.warnedTick,null,'circulating without one does not');
 });

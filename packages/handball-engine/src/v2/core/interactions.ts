@@ -1,10 +1,12 @@
 import { courtPlayers, getPlayer, otherTeam, random, record, uid, type CoreContest, type CorePlayer, type CoreState, type Point } from './state';
-import { distance, fieldLegal, goal, local, segmentPoint, shootingAngle } from './space';
+import { clamp, distance, fieldLegal, goal, local, segmentPoint, shootingAngle } from './space';
+import { advanceOf, reachOf } from './timing';
 import { acquire, awardRestart, checkpoint, foul, interrupt } from './transitions';
 import type { ExecutionEffect } from './actions';
 import { restartReady } from './rules';
 import { completeRestart } from './restarts';
 import { goalAreaClearance } from '../../domain/geometry/goalArea';
+import { breakDefence } from './engage';
 
 export function contest(s:CoreState,kind:CoreContest['kind'],a:CorePlayer,d:CorePlayer,outcome:string,margin:number,duration:number,sourceActionId=a.action?.id??s.ball.flight?.actionId??'contact') {
   const id=uid(s,'contest');
@@ -18,11 +20,26 @@ function duel(s:CoreState,a:CorePlayer) {
     (d.id===s.defence.pressureId||d.id===s.defence.helperId||d.id===action.targetId));
   if(action.kind==='DRIVE') {
     // A breakthrough is a physical change of relative position, not a won skill roll.
-    const d=defenders.find(d=>(action.driveStart?.[d.id]??-1)>=0&&distance(a.position,d.position)<2.5&&local(a.position,s.directions[a.team]).y+.15<local(d.position,s.directions[a.team]).y);
+    // BEING BEATEN is a meaningful loss of defensive control, not a threshold
+    // his position happened to cross. Fifteen centimetres of gain used to count,
+    // so a defender was "beaten" a hundred and thirty times a match. He is
+    // beaten when the attacker is genuinely past his shoulder, close enough that
+    // it matters, and he is not still in contact with him.
+    const BEATEN_MARGIN=0.65;
+    const d=defenders.find(d=>(action.driveStart?.[d.id]??-1)>=0&&
+      distance(a.position,d.position)<2.2&&
+      local(a.position,s.directions[a.team]).y+BEATEN_MARGIN<local(d.position,s.directions[a.team]).y&&
+      d.action?.kind!=='CONTACT');
     if(!d)return;
     action.resolved=true;
     const margin=local(d.position,s.directions[a.team]).y-local(a.position,s.directions[a.team]).y;
-    const id=contest(s,'DUEL',a,d,'BEATEN',margin,32);d.beatenUntilTick=s.tick+32;interrupt(s,d,'Attacker physically crossed the defended shoulder');
+    // BEATEN EPISODES. One carrier cannot beat the same defender twice without
+    // the two of them separating first: going past a man is one event, not a
+    // threshold his position keeps re-crossing.
+    if(d.beatenBy===a.id)return;
+    const id=contest(s,'DUEL',a,d,'BEATEN',margin,32);d.beatenUntilTick=s.tick+32;d.beatenBy=a.id;
+    breakDefence(s,d,'beaten',a.id);
+    interrupt(s,d,'Attacker physically crossed the defended shoulder');
     record(s,'DEFENDER_BEATEN',a,{untilTick:d.beatenUntilTick,attackerY:a.position.y,defenderY:d.position.y},[d.id],id);return;
   }
   const d=defenders.find(d=>distance(a.position,d.position)<1.6&&d.action?.phase==='EXECUTING'&&['PRESS','HELP','CONTAIN','CONTACT'].includes(d.action.kind));
@@ -62,12 +79,18 @@ function release(s:CoreState,p:CorePlayer,kind:'PASS'|'SHOOT') {
     target={...receiver.position};
     // Lead a currently moving receiver using observable velocity and committed
     // movement extent. This predicts an intercept point, never future ownership.
-    if(receiver.action?.phase==='EXECUTING'&&(receiver.action.kind==='RUN'||receiver.action.kind==='REPOSITION'))for(let i=0;i<3;i++) {
-      const time=distance(s.ball.position,target)/12,v=receiver.velocity,speed=Math.hypot(v.x,v.y);
-      const extent=receiver.action.target?distance(receiver.position,receiver.action.target):Infinity;
-      const scale=speed>0?Math.min(time,extent/speed):0;
-      target={x:receiver.position.x+v.x*scale,y:receiver.position.y+v.y*scale};
+    // POSSESSION ECOLOGY: lead him by what he can cover, not by how fast he
+    // happens to be moving. A man who has just set off is still accelerating,
+    // and a lead taken off his current velocity lands behind him. See advanceOf.
+    if(receiver.action?.phase==='EXECUTING'&&receiver.action.target&&(receiver.action.kind==='RUN'||receiver.action.kind==='REPOSITION')) {
+      const reach=reachOf(s,receiver),to=receiver.action.target;
+      for(let i=0;i<4;i++) {
+        const time=distance(s.ball.position,target)/(10.5+3*p.profile.passing);
+        target=advanceOf(reach,to,time);
+      }
     }
+    // And nobody throws the ball out of play at a teammate.
+    target={x:clamp(target.x,.45,20-.45),y:clamp(target.y,.45,40-.45)};
   }
   else {
     const keeper=courtPlayers(s,otherTeam(p.team)).find(d=>d.kind==='GOALKEEPER');
@@ -114,18 +137,77 @@ export function resolveEffects(s:CoreState,effects:ExecutionEffect[]) {
     else duel(s,p);
   }
 }
+/**
+ * SCREEN EPISODES.
+ *
+ * A screen is one interaction between one attacker and one defender: it begins
+ * when the body gets in the way and it ends when the two of them separate. It
+ * is not re-established every time its consequence expires, which is what the
+ * old rule did -- the same pivot standing in the same defender's path produced
+ * a fresh screen every eighteen ticks, and the match reported a hundred and
+ * fifty-nine of them.
+ */
+const SCREEN_RELEASE_METERS=1.6;
+/** Beyond this the two men are no longer doing the same thing they started. */
+const SCREEN_MAX_TICKS=70;
+/**
+ * After an engagement ends the same defender is not screened again for two
+ * seconds. Leaning back on a man the attack has just worked against is the same
+ * screen continuing, and counting each re-contact put a hundred and sixty
+ * screens in a match.
+ */
+const SCREEN_COOLDOWN_TICKS=40;
 export function resolveScreens(s:CoreState) {
+  // ONE SCREEN IS ONE SCREEN, for as long as the two men stay engaged.
+  //
+  // The episode used to end the moment the screener's action was re-issued, so
+  // a single engagement closed and reopened every few ticks and was counted
+  // again each time: a hundred and twenty-five screens a match, nearly all of
+  // them the same pivot standing against the same defender. The engagement is
+  // a fact about two bodies, so it ends when they come apart, when the screener
+  // leaves the court, or when it has simply gone on longer than a screen lasts.
+  for(const d of courtPlayers(s)) {
+    if(!d.screenedBy)continue;
+    const by=s.players.find(p=>p.id===d.screenedBy);
+    const apart=!by||by.population!=='COURT'||distance(by.position,d.position)>SCREEN_RELEASE_METERS;
+    if(apart||s.tick-d.screenedSinceTick>SCREEN_MAX_TICKS||s.possession.team!==by.team){
+      d.screenedBy=null;d.screenCooldownTick=s.tick+SCREEN_COOLDOWN_TICKS;continue;}
+    // Blocked while the block is actually there, rather than for a fixed
+    // window measured from the frame the contact was first noticed.
+    d.screenedUntilTick=s.tick+4;
+  }
   for(const a of courtPlayers(s,s.possession.team).filter(p=>p.action?.kind==='SCREEN'&&p.action.phase==='EXECUTING')) {
-    for(const d of courtPlayers(s,otherTeam(a.team)).filter(d=>d.kind!=='GOALKEEPER'&&distance(d.position,a.position)<.85&&d.screenedUntilTick<=s.tick&&Math.hypot(d.velocity.x,d.velocity.y)>.1)) {
-      const id=contest(s,'SCREEN',a,d,'SCREENED',distance(a.position,d.position),18);d.screenedUntilTick=s.tick+18;record(s,'SCREEN_CONTACT',a,{untilTick:d.screenedUntilTick},[d.id],id);
+    for(const d of courtPlayers(s,otherTeam(a.team)).filter(d=>d.kind!=='GOALKEEPER'&&distance(d.position,a.position)<.85&&d.screenedBy===null&&d.screenCooldownTick<=s.tick&&Math.hypot(d.velocity.x,d.velocity.y)>.1)) {
+      const id=contest(s,'SCREEN',a,d,'SCREENED',distance(a.position,d.position),18);
+      d.screenedUntilTick=s.tick+18;d.screenedBy=a.id;d.screenedSinceTick=s.tick;breakDefence(s,d,'screened out',a.id);
+      record(s,'SCREEN_CONTACT',a,{untilTick:d.screenedUntilTick},[d.id],id);
     }
   }
 }
+/**
+ * A ball knocked off its line.
+ *
+ * It used to be sent toward the deflecting player's own attacking goal, which
+ * handed every deflection to the defence as a matter of geometry rather than of
+ * physics. A deflected ball carries on roughly the way it was going, slower and
+ * off line, and either team can win it -- which is what makes a deflection a
+ * contest rather than a turnover.
+ */
 function deflect(s:CoreState,p:CorePlayer,point:Point,type:string) {
   const f=s.ball.flight!;
+  const speed=Math.hypot(f.velocity.x,f.velocity.y)||1;
+  const ux=f.velocity.x/speed,uy=f.velocity.y/speed;
+  // Scatter the direction and shed most of the pace, the way a hand does.
+  // A hand takes most of the pace off. Left too fast, a deflected ball simply
+  // carried on out of the court and a parry became a throw-in rather than a
+  // contested rebound.
+  const angle=(random(s)-.5)*1.5;
+  const kept=Math.min(6.5,speed*(.14+.14*random(s)));
   s.ball.position=point;s.ball.mode='DEFLECTION';s.ball.lastTouchId=p.id;
-  f.kind='DEFLECTION';f.velocity={x:(random(s)-.5)*5,y:s.directions[p.team]==='TOP'?-4:4};f.touchedIds.push(p.id);f.releasedTick=s.tick;
-  record(s,type,p,{},[f.fromId],null,f.actionId);
+  f.kind='DEFLECTION';
+  f.velocity={x:(ux*Math.cos(angle)-uy*Math.sin(angle))*kept,y:(ux*Math.sin(angle)+uy*Math.cos(angle))*kept};
+  f.touchedIds.push(p.id);f.releasedTick=s.tick;
+  record(s,type,p,{speed:Number(kept.toFixed(2))},[f.fromId],null,f.actionId);
 }
 export function advanceBall(s:CoreState) {
   const f=s.ball.flight;if(!f||f.releasedTick===s.tick)return;
@@ -157,7 +239,15 @@ export function advanceBall(s:CoreState) {
       // A defending interceptor needs a defensive action, his reaction spent,
       // and a hand within his own reach. Every one of the three is a real
       // requirement and together they are what the old radius was missing.
-      :ready&&!beaten&&reacted&&['RECEIVE','PRESS','HELP','CONTAIN','RECOVER'].includes(p.action?.kind??'')?grasp:0;
+      // A defender who is HOLDING HIS SPACE is not going for the ball. He
+      // occupies a lane and a pass that hits him is knocked down, not plucked
+      // out of the air: forty interceptions a match, twenty-five of them by a
+      // man in CONTAIN standing in his own zone. Only a defender actively
+      // attacking the ball takes it cleanly; everybody else deflects it and the
+      // loose ball is then contested, which is what a real deflection looks
+      // like and which keeps the attack alive instead of ending it.
+      :ready&&!beaten&&reacted&&['RECEIVE','PRESS','HELP'].includes(p.action?.kind??'')?grasp
+      :ready&&!beaten&&['CONTAIN','RECOVER','BLOCK'].includes(p.action?.kind??'')?grasp*.8:0;
     return {p,...hit,hit:reach>0&&distance(hit.point,p.position)<=reach&&(isKeeper||s.ball.height<2.5)};
   }).filter(c=>c.hit).sort((a,b)=>a.t-b.t||a.p.id.localeCompare(b.p.id));
   for(const hit of candidates) {
@@ -188,7 +278,15 @@ export function advanceBall(s:CoreState) {
     }
     if(p.team===shooter.team&&p.action?.kind!=='RECEIVE'&&!(p.reception?.passActionId===f.actionId&&p.reception.readyTick<=s.tick&&['RUN','REPOSITION'].includes(p.action?.kind??'')))continue;
     if(p.kind==='GOALKEEPER'&&f.purpose!=='DEAD_BALL_RETURN')continue;
-    if(p.team!==shooter.team)contest(s,'INTERCEPTION',shooter,p,'CONTROLLED',distance(hit.point,p.position),12,f.actionId);
+    if(p.team!==shooter.team) {
+      // Holding a lane deflects; attacking the ball takes it.
+      const attacking=['RECEIVE','PRESS','HELP'].includes(p.action?.kind??'');
+      if(!attacking) {
+        contest(s,'INTERCEPTION',shooter,p,'DEFLECTED',distance(hit.point,p.position),12,f.actionId);
+        deflect(s,p,hit.point,'PASS_DEFLECTED');return;
+      }
+      contest(s,'INTERCEPTION',shooter,p,'CONTROLLED',distance(hit.point,p.position),12,f.actionId);
+    }
     if(s.restart?.phase==='RELEASED'&&s.restart.kind==='CENTRE_THROW_OFF')completeRestart(s,'TEAMMATE_TOUCH');
     acquire(s,p,hit.point,f.purpose==='DEAD_BALL_RETURN'?'Dead-ball return received':p.team===shooter.team?'Pass received':'Intercepted',f.actionId);
     if(f.purpose==='DEAD_BALL_RETURN')record(s,'BALL_RETURN_RECEIVED',p,{},[shooter.id],null,f.actionId);

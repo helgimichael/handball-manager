@@ -17,6 +17,7 @@
 // a youth competition produces more turnovers. The profile is data so that a
 // competition can carry its own without touching this file.
 import { createMatch, matchReport } from './match';
+import { ledger, type LossClass } from './ledger';
 import { advanceCoreMutable } from './engine';
 import type { CoreState, Direction } from './state';
 import type { CharacterId } from './squads';
@@ -30,7 +31,9 @@ export type RealismProfile = {
   readonly shots: Band;
   readonly efficiency: Band;
   readonly possessions: Band;
-  readonly turnovers: Band;
+  /** Attacks lost without a shot, all causes. See LossClass in ledger.ts. */
+  readonly nonShotLoss: Band;
+  /** One named cause of it, worth watching on its own. */
   readonly interceptions: Band;
   readonly fouls: Band;
   readonly suspensions: Band;
@@ -56,7 +59,7 @@ export const EHF_ELITE: RealismProfile = Object.freeze({
   shots: { min: 88, max: 150 },
   efficiency: { min: 0.42, max: 0.68 },
   possessions: { min: 84, max: 140 },
-  turnovers: { min: 14, max: 46 },
+  nonShotLoss: { min: 14, max: 46 },
   interceptions: { min: 4, max: 34 },
   fouls: { min: 20, max: 70 },
   suspensions: { min: 0, max: 10 },
@@ -76,8 +79,9 @@ export type MatchMeasure = {
   readonly shots: number;
   readonly efficiency: number;
   readonly possessions: number;
-  readonly turnovers: number;
-  readonly interceptions: number;
+  /** Per-cause breakdown, read from the ledger. The canonical names. */
+  readonly losses: Readonly<Record<LossClass, number>>;
+  readonly nonShotLoss: number;
   readonly fouls: number;
   readonly suspensions: number;
   readonly sevenMetres: number;
@@ -113,7 +117,7 @@ export function measure(s: CoreState, seed: number, direction: Direction): Match
   const total = Math.max(1, shots.length);
   const backcourt = Object.entries(shotKinds).filter(([k]) => BACKCOURT.has(k)).reduce((n, [, v]) => n + v, 0);
   const wing = Object.entries(shotKinds).filter(([k]) => WING.has(k)).reduce((n, [, v]) => n + v, 0);
-  const report = matchReport(s);
+  const report = matchReport(s), book = ledger(s);
   return {
     seed, direction, complete: report.complete,
     goals: count.GOAL ?? 0,
@@ -123,13 +127,17 @@ export function measure(s: CoreState, seed: number, direction: Direction): Match
     // a team actually had the ball in play. Counting possession ids counted
     // every dead-ball fragment as well, and adding the two possession events
     // together counted a restart and the reception after it as two.
-    possessions: new Set(s.events.filter(e => ['PASS_RECEIVED', 'SHOT_RELEASED', 'BALL_CONTROLLED'].includes(e.type)).map(e => e.possessionId)).size,
-    // A turnover is losing the ball to the opponent in live play. A goalkeeper
-    // taking a shot is a SAVE, and counting it as a turnover put eighty of them
-    // in a match that contained about thirty.
-    turnovers: s.events.filter(e => e.type === 'POSSESSION_CHANGED' &&
-      s.players.find(p => p.id === e.actorId)?.kind !== 'GOALKEEPER').length,
-    interceptions: count.INTERCEPTION ?? 0,
+    possessions: book.attacks,
+    // LOSSES COME FROM THE LEDGER, by name, and are not re-derived here.
+    //
+    // This used to count POSSESSION_CHANGED events by a non-goalkeeper and call
+    // the result "turnovers". That number (25.8) and the ledger's count of
+    // attacks ending without a shot (43.8) were both reported as turnovers in
+    // the same breath and are not the same quantity: a three-second violation
+    // awards a restart and records no possession change at all, so the event
+    // count simply cannot see it. One definition, in one place.
+    losses: book.losses,
+    nonShotLoss: book.nonShotLoss,
     fouls: count.FOUL ?? 0,
     suspensions: (count.TWO_MINUTE_SUSPENSION ?? 0) + (count.DISQUALIFICATION ?? 0),
     sevenMetres: shotKinds.SEVEN_METRE ?? 0,
@@ -156,7 +164,10 @@ export function against(sample: readonly MatchMeasure[], profile: RealismProfile
   const avg = (pick: (m: MatchMeasure) => number) => sample.reduce((n, m) => n + pick(m), 0) / Math.max(1, sample.length);
   const mean = {
     goals: avg(m => m.goals), shots: avg(m => m.shots), efficiency: avg(m => m.efficiency),
-    possessions: avg(m => m.possessions), turnovers: avg(m => m.turnovers), interceptions: avg(m => m.interceptions),
+    possessions: avg(m => m.possessions), nonShotLoss: avg(m => m.nonShotLoss),
+    interceptions: avg(m => m.losses.INTERCEPTION), technicalTurnovers: avg(m => m.losses.TECHNICAL_TURNOVER),
+    duelLosses: avg(m => m.losses.DUEL_LOSS), receptionFailures: avg(m => m.losses.RECEPTION_FAILURE),
+    badPassOut: avg(m => m.losses.BAD_PASS_OUT),
     fouls: avg(m => m.fouls), suspensions: avg(m => m.suspensions), sevenMetres: avg(m => m.sevenMetres),
     blocks: avg(m => m.blocks), backcourtShare: avg(m => m.shotMix.BACKCOURT), wingShare: avg(m => m.shotMix.WING),
     closeShare: avg(m => m.shotMix.CLOSE), transitionShare: avg(m => m.transitionShare), actionStarts: avg(m => m.actionStarts),
@@ -166,7 +177,7 @@ export function against(sample: readonly MatchMeasure[], profile: RealismProfile
     { metric: 'shots', value: mean.shots, band: profile.shots, inside: false },
     { metric: 'efficiency', value: mean.efficiency, band: profile.efficiency, inside: false },
     { metric: 'possessions', value: mean.possessions, band: profile.possessions, inside: false },
-    { metric: 'turnovers', value: mean.turnovers, band: profile.turnovers, inside: false },
+    { metric: 'nonShotLoss', value: mean.nonShotLoss, band: profile.nonShotLoss, inside: false },
     { metric: 'interceptions', value: mean.interceptions, band: profile.interceptions, inside: false },
     { metric: 'fouls', value: mean.fouls, band: profile.fouls, inside: false },
     { metric: 'suspensions', value: mean.suspensions, band: profile.suspensions, inside: false },

@@ -26,11 +26,11 @@ export function createCoreScenario(scenario: CoreScenario='ESTABLISHED_6V6',seed
     players.push({id:`${team==='HOME'?'H':'A'}${String(i+1).padStart(2,'0')}`,team,kind:role==='GK'?'GOALKEEPER':'FIELD_PLAYER',role,population:'COURT',position,velocity:{x:0,y:0},radius:.28,
       condition:initialCondition(),profile:profileFor(role,characters[team],draw),zone:null,
       duty:{kind:'WAIT',targetId:null,sinceTick:0,reason:'Scenario setup'},intent:{id:'initial',effect:'WAIT',reason:'Scenario setup',targetId:null},action:null,support:null,
-      handling:{heldSinceTick:0,steps:0,stepDistance:0,dribbleUsed:false,bounceTick:0},airborne:null,beatenUntilTick:0,wrongFootedUntilTick:0,screenedUntilTick:0,suspensionUntilMs:null,sanctions:0,warnings:0,nextAction:null,reception:null});
+      handling:{heldSinceTick:0,steps:0,stepDistance:0,dribbleUsed:false,bounceTick:0},airborne:null,beatenUntilTick:0,wrongFootedUntilTick:0,screenedUntilTick:0,screenedBy:null,beatenBy:null,screenedSinceTick:0,screenCooldownTick:0,suspensionUntilMs:null,sanctions:0,warnings:0,nextAction:null,reception:null});
   });
   const state: CoreState={version:CORE_VERSION,ruleProfile:{...CORE_RULES},scenario,seed,rng:{algorithm:'mulberry32',state:seed,draws:0},tick:0,timeMs:0,period:1,officialClock:{timeMs:0,running:true},status:'RUNNING',reason:null,
     directions:{HOME:direction,AWAY:direction==='TOP'?'BOTTOM':'TOP'},score:{HOME:0,AWAY:0},possession:{id:'possession-0',team:'HOME',sinceTick:0,phase:'ESTABLISHED',completedPasses:0,lastPasserId:null},
-    defence:{team:'AWAY',system:scenario==='PRESSURE_5_1'?'5:1':'6:0',marks:{},pressureId:null,helperId:null,lastHandoverTick:0,handover:null,read:{engaged:null,shift:0,compact:1}},players,
+    defence:{team:'AWAY',system:scenario==='PRESSURE_5_1'?'5:1':'6:0',marks:{},pressureId:null,helperId:null,lastHandoverTick:0,handover:null,broken:null,read:{engaged:null,shift:0,compact:1}},players,
     ball:{mode:'CONTROLLED',position:{...players.find(p=>p.id==='H03')!.position},height:1.2,controllerId:'H03',live:true,flight:null,lastTouchId:'H03'},restart:null,contests:[],events:[],nextId:1,exchanges:[],flow:{continuous:false,outcomes:0,lastOutcomeTick:-1,stopAfter:null,sevenVTeam:null},match:null,
     referee:initialReferee(),coaching:initialCoaching(),offence:initialOffence(),checkpoint:{maxTicks:1200,stopOnOutcome:true,initialPossessionId:'possession-0',outcome:null}};
   state.coaching.AWAY.defence=state.defence.system;

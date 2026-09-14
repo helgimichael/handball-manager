@@ -52,6 +52,14 @@ test('suspension expiry uses official time and only permits physical re-entry',(
   assert.equal(courtLimit(s,'AWAY'),7);assert.ok(s.exchanges.some(e=>e.inId===defender.id&&e.outId===null));
   assert.ok(defender.position.x<0);assert.ok(courtPlayers(s,'AWAY').length<=7);
 });
+// IHF 11:1. Who touched it last decides the restart, and the goalkeeper is
+// expressly NOT a court player for this purpose:
+//   defending court player -> throw-in from the CORNER to the attacking team
+//   goalkeeper             -> goalkeeper throw to the defending team
+//   attacker               -> goalkeeper throw to the defending team
+// Spelled out because a review of this engine read the Restart union, concluded
+// there was no corner throw, and claimed the attack was owed one after a
+// goalkeeper parry. There is one, below, and a parry is not it.
 test('end-line last touch distinguishes defender corner, goalkeeper touch and attacking miss',()=>{
   for(const [lastId,kind,owner] of [['A02','THROW_IN','HOME'],['A07','GOALKEEPER_THROW','AWAY'],['H03','GOALKEEPER_THROW','AWAY']] as const) {
     const s=createContinuous();s.tick=1;s.timeMs=50;s.ball.controllerId=null;s.ball.position={x:15,y:.05};s.ball.lastTouchId=lastId;

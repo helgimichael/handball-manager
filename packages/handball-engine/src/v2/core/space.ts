@@ -84,7 +84,19 @@ export function shotQuality(s: CoreState, p: CorePlayer, pressure: number): numb
   const ability=wide?p.profile.wingFinishing*.65+p.profile.shotPlacement*.35
     :p.profile.shotPower*.45+p.profile.shotPlacement*.35+p.profile.finishing*.2;
   const contested=clamp(1-pressure*.32,0,1);
-  const base=range*.32+sight*.24+ability*.28+contested*.16;
+  // POSSESSION ECOLOGY: exploiting an advantage is most of what a shot IS.
+  //
+  // A back who has beaten his man, screened him out or drawn him away has
+  // created the shot, and the engine had no way to say so: quality was read off
+  // geometry and ability alone, so the backcourt never took the chance it had
+  // just manufactured. Over ten matches the line player and the two wings
+  // scored 552 goals and the entire backcourt scored 82.
+  const opponent=courtPlayers(s,p.team==='HOME'?'AWAY':'HOME');
+  const owner=opponent.find(d=>s.defence.marks[d.id]===p.id)??opponent.find(d=>d.id===s.defence.pressureId);
+  const committed=owner!==undefined&&(owner.beatenUntilTick>s.tick||owner.screenedUntilTick>s.tick||owner.wrongFootedUntilTick>s.tick);
+  const separated=owner===undefined?1:clamp((distance(owner.position,p.position)-.9)/2.4,0,1);
+  const advantage=committed?1:separated;
+  const base=range*.28+sight*.22+ability*.26+contested*.10+advantage*.14;
   // Seeing the goal is not one ingredient among four; it gates the whole shot.
   // A ball struck from an angle nobody can score from is not a poor shot, it is
   // not a shot, and that is the difference between a wing who finishes and a

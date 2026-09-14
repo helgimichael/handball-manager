@@ -15,7 +15,8 @@ export function checkpoint(s: CoreState,outcome: string) {
   if(s.checkpoint.stopOnOutcome||(s.flow.stopAfter!==null&&s.flow.outcomes>=s.flow.stopAfter)){s.status='CHECKPOINT';s.reason=outcome;}
 }
 export function awardRestart(s: CoreState,kind: Restart['kind'],owner: CorePlayer['team'],where: Point,reason: string,actor: CorePlayer|null=null,countOutcome=true) {
-  for(const p of s.players){interrupt(s,p,reason);p.support=null;p.zone=null;}
+  for(const p of s.players){interrupt(s,p,reason);p.support=null;p.zone=null;
+    if(p.duty.kind!=='WAIT')p.duty={kind:'WAIT',targetId:null,sinceTick:s.tick,reason:'Dead ball'};}
   const holder=s.ball.controllerId&&getPlayer(s,s.ball.controllerId).team===owner?s.ball.controllerId:null;
   s.ball={...s.ball,mode:'DEAD',controllerId:holder,flight:null,live:false,height:holder?1.2:0};
   let location={...where};
@@ -24,18 +25,29 @@ export function awardRestart(s: CoreState,kind: Restart['kind'],owner: CorePlaye
   if(kind==='GOALKEEPER_THROW')location=world({x:10,y:2},s.directions[otherTeam(owner)]);
   if(kind==='CENTRE_THROW_OFF')location={x:10,y:20};
   s.restart={id:uid(s,'restart'),kind,owner,location,awardedTick:s.tick,pausedTicks:0,phase:'AWARDED',takerId:null,authorisedTick:null,collectorId:null,receiverId:null,context:kind==='CENTRE_THROW_OFF'?'POST_GOAL':null,plantedFoot:null};
-  if(s.possession.team!==owner){const previous=s.possession.id;s.possession={id:uid(s,'possession'),team:owner,sinceTick:s.tick,phase:'RESTART',completedPasses:0,lastPasserId:null};s.defence={...s.defence,team:otherTeam(owner),marks:{},pressureId:null,helperId:null,read:{engaged:null,shift:0,compact:1}};record(s,'POSSESSION_AWARDED',null,{owner,previous});}
+  if(s.possession.team!==owner){const previous=s.possession.id;
+    record(s,'POSSESSION_AWARDED',actor,{owner,previous,reason,ended:true});
+    s.possession={id:uid(s,'possession'),team:owner,sinceTick:s.tick,phase:'RESTART',completedPasses:0,lastPasserId:null};s.defence={...s.defence,team:otherTeam(owner),marks:{},pressureId:null,helperId:null,read:{engaged:null,shift:0,compact:1}};}
   s.possession.phase='RESTART';
   record(s,'RESTART_AWARDED',actor,{kind,owner,reason,x:location.x,y:location.y});
   if(countOutcome)checkpoint(s,kind);
 }
 export function changePossession(s: CoreState,player: CorePlayer,reason: string) {
   if(s.possession.team===player.team)return;
-  for(const p of s.players){p.support=null;p.zone=null;}
+  // A change of possession releases every responsibility. A defender who was
+  // covering keeps that duty otherwise, and once his team is attacking the
+  // engine sees two covers on the court at once -- one real and one left over.
+  for(const p of s.players){p.support=null;p.zone=null;p.duty={kind:'WAIT',targetId:null,sinceTick:s.tick,reason:'Possession changed'};}
   const previous=s.possession.id;
+  // THE POSSESSION LEDGER: the event that ENDS a possession belongs to it.
+  //
+  // This was recorded after the switch, so it landed under the new possession's
+  // id and the attack that had just lost the ball contained no terminal event
+  // at all. Thirty attacks a match were therefore unexplainable, which is not a
+  // gameplay defect but it made every ending taxonomy meaningless.
+  record(s,'POSSESSION_CHANGED',player,{previous,reason,ended:true});
   s.possession={id:uid(s,'possession'),team:player.team,sinceTick:s.tick,phase:'TRANSITION',completedPasses:0,lastPasserId:null};
-  s.defence={team:otherTeam(player.team),system:s.coaching[otherTeam(player.team)].defence,marks:{},pressureId:null,helperId:null,lastHandoverTick:s.tick,handover:null,read:{engaged:null,shift:0,compact:1}};
-  record(s,'POSSESSION_CHANGED',player,{previous,reason});
+  s.defence={team:otherTeam(player.team),system:s.coaching[otherTeam(player.team)].defence,marks:{},pressureId:null,helperId:null,lastHandoverTick:s.tick,handover:null,broken:null,read:{engaged:null,shift:0,compact:1}};
 }
 /** Called only by swept physical interaction resolution, never by the selector. */
 export function acquire(s: CoreState,p: CorePlayer,point: Point,reason: string,sourceActionId: string|null=null) {

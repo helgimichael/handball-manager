@@ -145,3 +145,26 @@ export function laneMargin(s: CoreState, from: Point, to: Point, team: CorePlaye
   }
   return { seconds: clearance, defenderId: who };
 }
+
+/**
+ * Where this player will actually be in `seconds`, running at `target`.
+ *
+ * The passer's half of the same question `timeToReach` answers for the
+ * defender: not "how fast is he going right now" but "how far can he get". A
+ * wing who has just set off is moving at two metres a second and will be moving
+ * at six by the time the ball arrives, and a lead computed from his current
+ * velocity lands behind him. That under-lead put twenty-five balls a match out
+ * over the sideline, every one of them ending an attack that had not finished.
+ */
+export function advanceOf(reach: Reach, target: Point, seconds: number): Point {
+  const d = distance(reach.position, target);
+  if (d < 1e-6 || seconds <= 0) return { ...reach.position };
+  const ux = (target.x - reach.position.x) / d, uy = (target.y - reach.position.y) / d;
+  const carried = Math.max(0, Math.min(reach.topSpeed, reach.velocity.x * ux + reach.velocity.y * uy));
+  const rampSeconds = (reach.topSpeed - carried) / reach.acceleration;
+  const travelled = seconds <= rampSeconds
+    ? carried * seconds + 0.5 * reach.acceleration * seconds * seconds
+    : carried * rampSeconds + 0.5 * reach.acceleration * rampSeconds * rampSeconds + (seconds - rampSeconds) * reach.topSpeed;
+  const covered = Math.min(d, travelled);
+  return { x: reach.position.x + ux * covered, y: reach.position.y + uy * covered };
+}
