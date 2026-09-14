@@ -60,13 +60,13 @@ export function populationAfter(s:CoreState) {
     if(e.phase==='WAIT_EXIT') {
       const p=getPlayer(s,e.outId!);
       if(p.position.x<=-p.radius&&p.action?.kind==='EXCHANGE') {
-        p.population='BENCH';p.condition.exitRequired=false;p.support=null;p.velocity={x:0,y:0};p.action.phase='COMPLETED';p.action.phaseTick=s.tick;e.phase='ENTERING';
+        p.population='BENCH';p.condition.exitRequired=false;p.support=null;p.zone=null;p.velocity={x:0,y:0};p.action.phase='COMPLETED';p.action.phaseTick=s.tick;e.phase='ENTERING';
         delete s.defence.marks[p.id];record(s,'PLAYER_LEFT_COURT',p,{exchangeId:e.id},[e.inId]);
       }
     } else {
       const p=getPlayer(s,e.inId);
       if(p.population==='COURT'&&p.position.x>=.6) {
-        if(p.action){p.action.phase='COMPLETED';p.action.phaseTick=s.tick;}p.velocity={x:0,y:0};e.phase='COMPLETED';
+        if(p.action){p.action.phase='COMPLETED';p.action.phaseTick=s.tick;}p.velocity={x:0,y:0};p.zone=null;e.phase='COMPLETED';
         // Assign the vacated tactical role only for like-for-like field exchanges.
         const out=e.outId?getPlayer(s,e.outId):null;
         if(out?.kind==='FIELD_PLAYER'&&p.kind==='FIELD_PLAYER')p.role=out.role;

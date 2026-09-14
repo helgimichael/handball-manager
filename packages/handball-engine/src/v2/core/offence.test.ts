@@ -1,5 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import { setProfile } from './testProfile';
 import { createCoreScenario } from './scenarios';
 import { createMatch } from './match';
 import { offenceBefore,entryCandidates,chooseOffensiveAction,offensiveTarget,offenceAfter,anticipatedDefenceTarget } from './offence';
@@ -28,7 +29,7 @@ test('identity, actual defender depth, attributes and exposure change determinis
   for(const d of s.players.filter(p=>p.team==='AWAY'&&p.kind==='FIELD_PLAYER'))d.position.y=10;
   const first=entryCandidates(s)[0];assert.equal(first.family,'CROSS');
   s.offence.memory.HOME.recent=Array(10).fill(`${first.family}/${first.side}`);assert.notEqual(entryCandidates(s)[0].family,first.family);
-  const before=entryCandidates(s).find(c=>c.partner.id==='H02')!.score;getPlayer(s,'H02').attributes.skill=.1;
+  const before=entryCandidates(s).find(c=>c.partner.id==='H02')!.score;setProfile(getPlayer(s,'H02'),{decision:.1});
   assert.ok(entryCandidates(s).find(c=>c.partner.id==='H02')!.score<before);assert.equal(s.rng.draws,draws);
 });
 test('an entry creates intentions without assigning positions, possession, crossings or completed screens',()=>{
@@ -96,6 +97,6 @@ test('dead-ball defender pinned beside the taker can step back within physical b
   awardRestart(s,'FREE_THROW','HOME',taker.position,'Pinned defender regression',null,false);s.restart!.takerId=taker.id;
   assert.ok(startAction(s,d,'REPOSITION','Leave restart taker space',{x:17.5,y:7.5}));d.action!.phase='EXECUTING';
   const before={...d.position};execute(s);
-  assert.ok(distance(before,d.position)>0);assert.ok(distance(before,d.position)<=d.attributes.speed*.05);
+  assert.ok(distance(before,d.position)>0);assert.ok(distance(before,d.position)<=d.profile.topSpeed*.05);
   assert.ok(distance(d.position,taker.position)>=d.radius+taker.radius);
 });

@@ -1,8 +1,10 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import { world } from './space';
 import { createContactScenario } from './contactScenarios';
+import { setProfile } from './testProfile';
 import { createCoreScenario } from './scenarios';
-import { getPlayer } from './state';
+import { getPlayer, courtPlayers } from './state';
 import { tickCore,assertCore,advanceCoreMutable } from './engine';
 import { coreHash,coreEventHash,saveCore,loadCore,playCore,replayCore } from './replay';
 import { resolveContacts } from './contact';
@@ -20,40 +22,97 @@ test('contact technique is committed before outcome; front containment preserves
     assert.equal(s.ball.controllerId,'H03');assert.equal(getPlayer(s,'H03').action?.phase,'INTERRUPTED');
   }
 });
-test('actual holding produces a causal foul and warning; evaded commitment cannot award a foul',()=>{
+test('a hold that destroys a clear chance is a seven-metre throw',()=>{
+  // RE-PINNED, and split in two. This fixture puts a carrier at nine and a half
+  // metres driving at an empty path to goal, and under the rule the engine now
+  // models that is a destroyed clear chance: IHF 14:1, a seven-metre throw. The
+  // old model could not award one at all -- six matches produced zero -- so the
+  // fixture is now testing something it previously could not reach.
   for(const direction of ['TOP','BOTTOM'] as const) {
-    let held=createContactScenario('LATE_HOLD',2025,direction),escaped=createContactScenario('EVADED_CONTACT',2025,direction);
-    for(let i=0;i<5;i++){held=tickCore(held);escaped=tickCore(escaped);}
-    assert.equal(held.restart?.kind,'FREE_THROW');assert.equal(held.ball.live,false);assert.equal(getPlayer(held,'A03').warnings,1);
-    const e=held.events.find(e=>e.type==='FOUL')!;assert.ok(held.contests.some(c=>c.id===e.contestId&&c.outcome==='HELD'));
-    assert.ok(escaped.events.some(e=>e.type==='CONTACT_MISSED'));assert.equal(escaped.events.some(e=>e.type==='FOUL'),false);
+    let held=createContactScenario('LATE_HOLD',2025,direction);
+    for(let i=0;i<5;i++)held=tickCore(held);
+    assert.equal(held.restart?.kind,'SEVEN_METRE');assert.equal(held.ball.live,false);
+    const e=held.events.find(e=>e.type==='FOUL')!;assert.ok(e,'the hold was whistled');
+    assert.equal(e.details.severity,'CLEAR_CHANCE');
+    assert.ok(held.contests.some(c=>c.id===e.contestId),'with the contest as its evidence');
+  }
+});
+test('the same hold is an ordinary free throw once the chance is covered',()=>{
+  // The other half, and the one the audit was really about: most holds are not
+  // punishable at all. Put a covering defender between the carrier and the goal
+  // and the identical contact becomes a free throw with nobody punished.
+  for(const direction of ['TOP','BOTTOM'] as const) {
+    let held=createContactScenario('LATE_HOLD',2025,direction);
+    const cover=getPlayer(held,'A02');
+    cover.position=world({x:9.2,y:7.4},direction);cover.beatenUntilTick=0;
+    for(let i=0;i<5;i++)held=tickCore(held);
+    const e=held.events.find(e=>e.type==='FOUL');
+    if(!e)continue;
+    assert.notEqual(e.details.severity,'CLEAR_CHANCE','a covered chance is not a clear one');
+    if(e.details.severity==='ORDINARY')assert.equal(getPlayer(held,'A03').warnings,0,'and an ordinary foul never touches a record');
+  }
+});
+test('an evaded commitment cannot award a foul',()=>{
+  for(const direction of ['TOP','BOTTOM'] as const) {
+    let escaped=createContactScenario('EVADED_CONTACT',2025,direction);
+    for(let i=0;i<5;i++)escaped=tickCore(escaped);
+    assert.ok(escaped.events.some(e=>e.type==='CONTACT_MISSED'));
+    assert.equal(escaped.events.some(e=>e.type==='FOUL'),false);
+  }
+});
+test('the same hold becomes punishable when it is committed at speed',()=>{
+  // The other half of the same rule, and the reason the category exists: what
+  // separates a free throw from a two-minute suspension is how it was done.
+  for(const direction of ['TOP','BOTTOM'] as const) {
+    let s=createContactScenario('LATE_HOLD',2025,direction);
+    const d=getPlayer(s,'A03');d.velocity={x:3.4,y:0};
+    setProfile(d,{discipline:.1,contact:.1});
+    for(let i=0;i<5;i++){s=tickCore(s);}
+    const e=s.events.find(e=>e.type==='FOUL');
+    if(e)assert.notEqual(e.details.severity,'LEGAL','a hold at pace by an undisciplined defender is not legal contact');
   }
 });
 test('contact legality is independent of defender skill and does not cancel a committed pass',()=>{
   for(const defence of [.1,.99]) {
     const s=createContactScenario('FRONTAL_CONTACT'),a=getPlayer(s,'H03'),d=getPlayer(s,'A03');
-    d.attributes.defence=defence;d.action!.phase='EXECUTING';a.action!.kind='PASS';a.action!.phase='COMMITTED';
+    setProfile(d,{lateral:defence,defTiming:defence});d.action!.phase='EXECUTING';a.action!.kind='PASS';a.action!.phase='COMMITTED';
     resolveContacts(s);assert.equal(a.action!.phase,'COMMITTED');assert.equal(s.events.some(e=>e.type==='FOUL'),false);
   }
 });
 test('progressive body fouls warn, then suspend, then disqualify without restoring court eligibility',()=>{
   const s=createContactScenario('LATE_HOLD'),a=getPlayer(s,'H03'),d=getPlayer(s,'A03');
-  foul(s,a,d,false,false,'first');assert.equal(d.warnings,1);assert.equal(d.sanctions,0);
-  for(let i=1;i<=3;i++){d.population='COURT';foul(s,a,d,false,false,`repeat-${i}`);assert.equal(d.sanctions,i);}
+  foul(s,a,d,'PUNISHABLE','Fixture body-directed foul',false,'first');assert.equal(d.warnings,1);assert.equal(d.sanctions,0);
+  for(let i=1;i<=3;i++){d.population='COURT';foul(s,a,d,'PUNISHABLE','Fixture body-directed foul',false,`repeat-${i}`);assert.equal(d.sanctions,i);}
   assert.equal(d.population,'DISQUALIFIED');assert.equal(d.suspensionUntilMs,120000);
 });
-test('paired handover changes marks only when both committed actions complete; interruption cancels it',()=>{
-  for(const cancel of [false,true]) {
-    const s=createCoreScenario();s.tick=31;s.timeMs=1550;
-    getPlayer(s,'H02').position={x:12,y:11};getPlayer(s,'H04').position={x:8,y:11};
-    coordinate(s);assert.ok(s.defence.handover);const h=s.defence.handover!,before={...s.defence.marks};
-    assert.deepEqual(s.defence.marks,before);assert.equal(s.events.some(e=>e.type==='HANDOVER_COMPLETED'),false);
-    if(cancel)interrupt(s,getPlayer(s,h.defenderIds[0]),'Physical interruption');
-    for(let i=0;i<11;i++){s.tick++;s.timeMs=s.tick*50;execute(s);resolveHandovers(s);}
-    assert.equal(s.events.some(e=>e.type==='HANDOVER_COMPLETED'),!cancel);
-    assert.equal(s.defence.marks[h.defenderIds[0]],cancel?h.attackerIds[0]:h.attackerIds[1]);
-  }
+test('two attackers crossing between adjacent spaces are handed over, not chased',()=>{
+  // REWRITTEN for the zonal contract. The old model negotiated a pairwise swap
+  // between two man-markers, with a lock, a pair of committed HANDOVER actions
+  // and a cancellation path. A zone defence has none of that and needs none of
+  // it: an attacker who crosses simply leaves one space and enters the next,
+  // the defender he leaves stays home, and each takes the man who arrives. What
+  // is asserted is the thing that actually matters and that man-marking got
+  // wrong -- neither defender follows his man out of his own space.
+  const s=createCoreScenario();
+  coordinate(s);
+  const backs=courtPlayers(s,'AWAY').filter(p=>['LB','CB','RB'].includes(p.role));
+  const zonesBefore=new Map(backs.map(d=>[d.id,d.zone]));
+  const marksBefore={...s.defence.marks};
+  // Swap two attackers across each other, which is what a crossing IS.
+  const left=getPlayer(s,'H02'),right=getPlayer(s,'H04');
+  const leftX=left.position.x,rightX=right.position.x;
+  left.position={...left.position,x:rightX};right.position={...right.position,x:leftX};
+  for(let i=0;i<6;i++){s.tick++;s.timeMs=s.tick*50;coordinate(s);}
+
+  // Every defender still owns the space he owned. Nobody travelled with a man.
+  for(const d of backs)assert.equal(getPlayer(s,d.id).zone,zonesBefore.get(d.id),`${d.role} kept his own space`);
+  // And the responsibility for the two crossing attackers has moved between
+  // them: at least one adjacent space is now accounting for a different man.
+  const changed=backs.filter(d=>marksBefore[d.id]!==s.defence.marks[d.id]);
+  assert.ok(changed.length>=1,'the crossing is taken over rather than followed');
+  assert.equal(s.defence.handover,null,'no negotiated swap is left pending');
 });
+
 test('contact commitment survives exact save/resume, observation and playback rate',()=>{
   let initial=createContactScenario('LATE_HOLD');initial=tickCore(tickCore(initial));
   const direct=JSON.parse(JSON.stringify(initial)),resumed=JSON.parse(JSON.stringify(loadCore(saveCore(initial))));

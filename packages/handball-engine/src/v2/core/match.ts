@@ -1,13 +1,14 @@
 import { createContinuous } from './continuous';
+import type { SquadCharacter } from './profile';
 import { courtPlayers,getPlayer,record,type CoreState,type Direction } from './state';
 import { world } from './space';
 import { awardRestart,interrupt } from './transitions';
 import { requestExchange } from './population';
 import { refereeAfter } from './referee';
 
-export function createMatch(seed=2025,direction:Direction='TOP',periodLengthMs=1800000,halfBreakMs=600000):CoreState {
+export function createMatch(seed=2025,direction:Direction='TOP',periodLengthMs=1800000,halfBreakMs=600000,squads?:Record<'HOME'|'AWAY',SquadCharacter>):CoreState {
   if(!Number.isInteger(periodLengthMs)||periodLengthMs<1000||periodLengthMs%50||!Number.isInteger(halfBreakMs)||halfBreakMs<0||halfBreakMs%50)throw new Error('Invalid match timing');
-  const s=createContinuous('CONTINUOUS_PLAY',seed,direction,null);s.scenario='FULL_MATCH';s.checkpoint.maxTicks=Math.ceil((periodLengthMs*2+halfBreakMs)/50)+20000;
+  const s=createContinuous('CONTINUOUS_PLAY',seed,direction,null,squads);s.scenario='FULL_MATCH';s.checkpoint.maxTicks=Math.ceil((periodLengthMs*2+halfBreakMs)/50)+20000;
   // A complete match roster includes cover for every field role and the goalkeeper.
   for(const team of ['HOME','AWAY'] as const) {
     const prefix=team==='HOME'?'H':'A';

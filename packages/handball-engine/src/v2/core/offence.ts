@@ -1,5 +1,5 @@
 import { actionAvailable,courtPlayers,getPlayer,otherTeam,record,uid,type CorePlayer,type CoreState,type Point,type TeamId } from './state';
-import { clearGoalArea,clamp,distance,fieldLegal,laneClearance,local,shootingAngle,world } from './space';
+import { clearGoalArea,clamp,distance,fieldLegal,laneClearance,local,shootingAngle,shotQuality,world } from './space';
 import { startAction,driveTarget } from './actions';
 import { exchangeActive } from './population';
 
@@ -52,7 +52,7 @@ export function entryCandidates(s:CoreState) {
     const partner=carrier.id===back?.id?centre:back;
     const defendersOnSide=defenders.filter(d=>(d.position.x-10)*side>0),depth=defendersOnSide.length?defendersOnSide.reduce((n,d)=>n+local(d.position,direction).y,0)/defendersOnSide.length:7;
     const gap=defendersOnSide.length?Math.min(...defendersOnSide.map(d=>Math.abs(d.position.x-(10+side*4)))):4;
-    const skill=partner?partner.attributes.skill*partner.condition.energy:0;
+    const skill=partner?partner.profile.decision*partner.condition.energy:0;
     const spatial=(c.x-10)*side>0?.3:0;
     const add=(family:EntryFamily,who:CorePlayer|undefined,score:number,reason:string)=>{
       if(!who||who.id===carrier.id)return;
@@ -63,7 +63,7 @@ export function entryCandidates(s:CoreState) {
       candidates.push({family,side,partner:who,pivot,score:score+spatial+skill*.6+effort+pace+(memory.value[key]??0)*.4-recent*.8-exposure*.12,reason});
     };
     if(partner&&distance(partner.position,carrier.position)<12)add('CROSS',partner,1.1+(depth>8?.8:0)+(identity==='COMBINATION'?.8:0),'Change the backcourt matchup and test switch versus pursuit');
-    if(pivot&&partner)add('PIVOT_SCREEN',partner,1.15+gap*.2+pivot.attributes.skill*.4+(identity==='COMBINATION'?.6:0),'Bind inside cover to a stationary pivot and attack its adjacent interval');
+    if(pivot&&partner)add('PIVOT_SCREEN',partner,1.15+gap*.2+pivot.profile.screening*.7*pivot.profile.tendency.hold+(identity==='COMBINATION'?.6:0),'Bind inside cover to a stationary pivot and attack its adjacent interval');
     if(pivot&&wing&&players.length>=6)add('WING_TRANSITION',wing,.8+(depth>8?.7:0)+(identity==='COMBINATION'?.3:0)+(defenders.length<6?.5:0),'Move a wing into a second line-player relationship behind advanced cover');
     if(back)add('STRETCH_SHIFT',back,1.25+(depth<8?.5:0)+(identity==='WIDTH'?1:0),'Engage one half of the defence and preserve a weak-side outlet');
     add('FREE',partner??wing,.9+(identity==='DIRECT'?1.3:0)+(s.offence.phase==='UPPFOLJNING'?.8:0),'Keep width and exploit player-led opportunities without a prescribed partner');
@@ -142,7 +142,7 @@ export function anticipatedDefenceTarget(s:CoreState,p:CorePlayer,target:Point):
   const partner=getPlayer(s,e.partnerId);
   if(!partner.action||!['COMMITTED','EXECUTING'].includes(partner.action.phase)||Math.hypot(partner.velocity.x,partner.velocity.y)<.8)return target;
   const carrier=s.ball.controllerId?getPlayer(s,s.ball.controllerId):null;if(!carrier)return target;
-  const read={x:target.x+Math.sign(carrier.position.x-target.x)*.5*p.attributes.defence,y:target.y};
+  const read={x:target.x+Math.sign(carrier.position.x-target.x)*(.45+.85*p.profile.anticipation),y:target.y};
   if(!fieldLegal(read,p.radius))return target;
   if(!e.recognized.includes(p.id)){e.recognized.push(p.id);record(s,'DEFENSIVE_ENTRY_RECOGNIZED',p,{entryId:e.id,family:e.family,observed:s.offence.memory[e.team].observed[`${e.family}/${e.side}`],targetX:read.x,ordinaryTargetX:target.x},[partner.id]);}
   return read;
@@ -157,7 +157,7 @@ export function chooseOffensiveAction(s:CoreState,p:CorePlayer):boolean {
   const e=s.offence.entry;if(!e||e.team!==p.team||p.airborne)return false;
   const direction=s.directions[p.team],q=local(p.position,direction),held=s.tick-p.handling.heldSinceTick;
   const pressure=nearDefenders(s,p,2).length,angle=shootingAngle(p.position,direction);
-  if(q.y<9&&angle>.18&&pressure<2)return action(s,p,'JUMP','Exploit immediate finishing window ahead of the planned relationship');
+  if(angle>.18&&pressure<2&&shotQuality(s,p,pressure)>.5)return action(s,p,'JUMP','Exploit immediate finishing window ahead of the planned relationship');
   const receivers=courtPlayers(s,p.team).filter(a=>a.id!==p.id&&available(s,a)&&!a.airborne);
   const candidates=receivers.map(a=>{
     const point=local(a.position,direction),clear=laneClearance(s,p.position,a.position,p.team),crowded=nearDefenders(s,a,1.7).length;
@@ -167,13 +167,13 @@ export function chooseOffensiveAction(s:CoreState,p:CorePlayer):boolean {
     const wave=s.offence.phase==='UPPFOLJNING'?(q.y-point.y)*.12+Math.hypot(a.velocity.x,a.velocity.y)*.1:0;
     return {a,clear,score:Math.min(clear,2)*.65+finish+relationship+weakSide+wave+(q.y-point.y)*.13-crowded*.45-(a.id===s.possession.lastPasserId?.9:0)-(distance(a.position,p.position)>15?1.5:0)};
   }).filter(c=>c.clear>.5).sort((a,b)=>b.score-a.score||a.a.id.localeCompare(b.a.id));
-  const shot=q.y<13.5&&angle>.13?1.4+(13.5-q.y)*.22+p.attributes.skill*.5-pressure*.8:-10;
+  const shot=angle>.13?(shotQuality(s,p,pressure)*5.4-1.7)*p.profile.tendency.shoot:-10;
   const pass=candidates[0];
   if(shot>(pass?.score??-10)&&held>=6)return action(s,p,'JUMP','Defence leaves a shot worth taking; break the entry');
   if(e.family==='CROSS'&&p.id===e.initiatorId&&e.receipts===0&&held<20&&p.handling.steps===0&&pressure<2) {
     const target=e.targets[p.id];if(target&&distance(p.position,target)>.8)return action(s,p,'DRIVE','Engage across the adjacent defender before reading the crossing partner',target,e.defenderId);
   }
-  if(e.family==='FREE'&&pressure===1&&p.handling.steps===0&&held<24&&!p.handling.dribbleUsed&&p.attributes.skill>.55)return action(s,p,'FEINT','Player-led duel against isolated pressure',null,s.defence.pressureId);
+  if(e.family==='FREE'&&pressure===1&&p.handling.steps===0&&held<24&&!p.handling.dribbleUsed&&p.profile.breakthrough*p.profile.tendency.drive>.5)return action(s,p,'FEINT','Player-led duel against isolated pressure',null,s.defence.pressureId);
   if(e.response==='SWITCH'&&pressure===0&&p.handling.steps===0&&held<24&&q.y<13)return action(s,p,'DRIVE','Attack the interval exposed by the defensive switch',driveTarget(s,p),s.defence.pressureId);
   if(pass&&held>=6)return action(s,p,'PASS',pass.a.id===e.partnerId?'Continue the available entry relationship':e.response==='COLLAPSE'?'Release away from converging cover':'Better opportunity overrides the intended partner',null,pass.a.id);
   return false;

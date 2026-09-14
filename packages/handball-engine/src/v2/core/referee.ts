@@ -2,8 +2,9 @@ import { getPlayer,record,uid,type CorePlayer,type CoreState,type Point,type Tea
 import { distance } from './space';
 import { awardRestart,interrupt } from './transitions';
 import { initialPassive,type PassiveState } from './passive';
+import type { Severity } from './sanction';
 
-export type FoulCase={id:string;attackerId:string;defenderId:string;team:TeamId;location:Point;tick:number;contestId:string;severe:boolean;clearChance:boolean};
+export type FoulCase={id:string;attackerId:string;defenderId:string;team:TeamId;location:Point;tick:number;contestId:string;severe:boolean;clearChance:boolean;severity:Severity;reason:string};
 export type RefereeState={
   advantage:(FoulCase&{expiresTick:number})|null;
   sanctions:FoulCase[];
@@ -32,17 +33,30 @@ function sanctionTimeout(s:CoreState) {
   s.referee.timeout={untilTick:s.tick+40,wasRunning:s.officialClock.running,reason:'PERSONAL_SANCTION'};
   s.officialClock.running=false;record(s,'OFFICIAL_TIMEOUT_STARTED',null,{reason:'PERSONAL_SANCTION'});
 }
+/**
+ * CONTACT AND PUNISHMENT: only an infringement that earns a personal
+ * punishment receives one.
+ *
+ * ORDINARY never escalates, however many of them a team commits, which is the
+ * whole correction. A team that defends hard and legally all match is not
+ * progressively disqualified for it. Escalation applies to PUNISHABLE and
+ * above, and it is per player first: a defender who has already been warned is
+ * suspended for his next punishable foul, and a team that has spent its
+ * warnings loses the benefit for punishable fouls only.
+ */
 function punish(s:CoreState,f:FoulCase) {
-  const d=getPlayer(s,f.defenderId);let suspend=f.severe;
+  if(f.severity==='ORDINARY')return;
+  const d=getPlayer(s,f.defenderId);
+  let suspend=f.severity==='SERIOUS'||f.severity==='CLEAR_CHANCE'&&f.severe;
   if(!suspend) {
-    const warnings=s.players.filter(p=>p.team===d.team).reduce((n,p)=>n+p.warnings,0);
-    suspend=d.warnings>0||d.sanctions>0||warnings>=3;
-    if(!suspend){d.warnings++;record(s,'WARNING',d,{reason:'Illegal body-directed stopping contact',foulId:f.id},[f.attackerId],f.contestId);}
+    const teamWarnings=s.players.filter(p=>p.team===d.team).reduce((n,p)=>n+p.warnings,0);
+    suspend=d.warnings>0||d.sanctions>0||teamWarnings>=3;
+    if(!suspend){d.warnings++;record(s,'WARNING',d,{reason:f.reason,foulId:f.id,severity:f.severity},[f.attackerId],f.contestId);}
   }
   if(suspend) {
     d.sanctions++;d.population=d.sanctions>=3?'DISQUALIFIED':'SUSPENDED';d.suspensionUntilMs=s.officialClock.timeMs+s.ruleProfile.suspensionMs;
-    interrupt(s,d,'Personal sanction');d.support=null;
-    record(s,d.sanctions>=3?'DISQUALIFICATION':'TWO_MINUTE_SUSPENSION',d,{foulId:f.id},[f.attackerId],f.contestId);sanctionTimeout(s);
+    interrupt(s,d,'Personal sanction');d.support=null;d.zone=null;
+    record(s,d.sanctions>=3?'DISQUALIFICATION':'TWO_MINUTE_SUSPENSION',d,{foulId:f.id,severity:f.severity,reason:f.reason},[f.attackerId],f.contestId);sanctionTimeout(s);
   }
 }
 function whistle(s:CoreState,f:FoulCase,reason:string) {
@@ -50,17 +64,19 @@ function whistle(s:CoreState,f:FoulCase,reason:string) {
   awardRestart(s,f.clearChance?'SEVEN_METRE':'FREE_THROW',f.team,f.location,reason,getPlayer(s,f.defenderId));
 }
 /** A physical foul and the decision to stop play are separate transitions (IHF 13:2, 14:2). */
-export function judgeFoul(s:CoreState,a:CorePlayer,d:CorePlayer,severe:boolean,clearChance:boolean,contestId:string) {
-  const f:FoulCase={id:uid(s,'foul'),attackerId:a.id,defenderId:d.id,team:a.team,location:{...a.position},tick:s.tick,contestId,severe,clearChance};
-  const continuing=s.ball.live&&s.ball.controllerId===a.id&&!severe&&!a.airborne&&clearChance&&
+export function judgeFoul(s:CoreState,a:CorePlayer,d:CorePlayer,severity:Severity,reason:string,clearChance:boolean,contestId:string) {
+  if(severity==='LEGAL')return;
+  const f:FoulCase={id:uid(s,'foul'),attackerId:a.id,defenderId:d.id,team:a.team,location:{...a.position},tick:s.tick,contestId,
+    severe:severity==='SERIOUS',clearChance,severity,reason};
+  const continuing=s.ball.live&&s.ball.controllerId===a.id&&severity!=='SERIOUS'&&!a.airborne&&
     a.action?.phase==='EXECUTING'&&['DRIVE','DRIBBLE','SHOOT','PASS'].includes(a.action.kind);
-  record(s,'FOUL',d,{clearChance,severe,advantage:continuing,foulId:f.id},[a.id],contestId);
+  record(s,'FOUL',d,{clearChance,severity,reason,advantage:continuing,foulId:f.id},[a.id],contestId);
   if(s.referee.advantage){recallAdvantage(s,'Further infringement ended the protected opportunity');punish(s,f);return;}
   if(continuing&&s.ball.live) {
     s.referee.advantage={...f,expiresTick:s.tick+40};
     record(s,'ADVANTAGE_PENDING',a,{foulId:f.id,clearChance},[d.id],contestId);return;
   }
-  whistle(s,f,'Illegal stopping contact');
+  whistle(s,f,reason);
 }
 export function recallAdvantage(s:CoreState,reason:string) {
   const f=s.referee.advantage;if(!f)return;s.referee.advantage=null;

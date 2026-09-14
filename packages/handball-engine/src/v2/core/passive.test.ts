@@ -20,7 +20,7 @@ test('a restart after the fourth pass grants one additional pass, not a fresh al
   pass(s);assert.equal(s.restart?.owner,'AWAY');
 });
 test('defensive personal punishment cancels the warning and starts a new build-up allowance',()=>{
-  const s=warned();pass(s);foul(s,getPlayer(s,'H03'),getPlayer(s,'A03'),false,false,'contact');passiveAfter(s);
+  const s=warned();pass(s);foul(s,getPlayer(s,'H03'),getPlayer(s,'A03'),'PUNISHABLE','Fixture body-directed foul',false,'contact');passiveAfter(s);
   assert.equal(s.referee.passive.warnedTick,null);assert.equal(s.referee.passive.passes,0);
   assert.ok(s.events.some(e=>e.type==='PASSIVE_WARNING_CANCELLED'));
 });

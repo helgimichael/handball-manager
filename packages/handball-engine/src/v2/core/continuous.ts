@@ -1,10 +1,11 @@
 import { createCoreScenario } from './scenarios';
 import { type CorePlayer,type Direction,type CoreState } from './state';
 import { requestExchange } from './population';
+import type { SquadCharacter } from './profile';
 
 export type SessionMode='CONTINUOUS_PLAY'|'SEVEN_V_SIX';
-export function createContinuous(mode:SessionMode='CONTINUOUS_PLAY',seed=2025,direction:Direction='TOP',stopAfter:number|null=6):CoreState {
-  const s=createCoreScenario('ESTABLISHED_6V6',seed,direction);
+export function createContinuous(mode:SessionMode='CONTINUOUS_PLAY',seed=2025,direction:Direction='TOP',stopAfter:number|null=6,squads?:Record<'HOME'|'AWAY',SquadCharacter>):CoreState {
+  const s=createCoreScenario('ESTABLISHED_6V6',seed,direction,squads);
   s.scenario=mode;s.flow={continuous:true,outcomes:0,lastOutcomeTick:-1,stopAfter,sevenVTeam:mode==='SEVEN_V_SIX'?'HOME':null};
   s.checkpoint.stopOnOutcome=false;s.checkpoint.maxTicks=12000;
   for(const team of ['HOME','AWAY'] as const) {

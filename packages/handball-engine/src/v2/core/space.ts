@@ -50,6 +50,72 @@ export function wingCorner(role:'LW'|'RW',direction:Direction,radius=.28):Point 
 export function structurePoint(role: CorePlayer['role'],direction: Direction,ballX=10): Point {
   if(role==='LW'||role==='RW')return wingCorner(role,direction);
   const shift=clamp((ballX-10)*.15,-.9,.9);
-  const anchors: Record<Exclude<CorePlayer['role'],'LW'|'RW'>,Point>={LB:{x:5.1,y:10.8},CB:{x:10,y:11.5},RB:{x:14.9,y:10.8},P:{x:10.6,y:6.65},P2:{x:8,y:6.8},GK:{x:10,y:38.5}};
+    // Backs work at nine to ten metres, which is where a backcourt shot is
+  // actually taken. They used to stand at eleven and a half, a metre and a half
+  // further out than any real attack sets up, and against a defence that
+  // genuinely holds its line that difference is the whole backcourt threat.
+  const anchors: Record<Exclude<CorePlayer['role'],'LW'|'RW'>,Point>={LB:{x:5.1,y:9.6},CB:{x:10,y:10.2},RB:{x:14.9,y:9.6},P:{x:10.6,y:6.65},P2:{x:8,y:6.8},GK:{x:10,y:38.5}};
   const a=anchors[role];return world({x:a.x+shift,y:a.y},direction);
+}
+
+/**
+ * How good is this shot, from zero to one.
+ *
+ * Shot selection was the weakest link once the defence started working: the old
+ * gate asked only for a depth under 13.5 m and an angle over 0.13, so a poor
+ * shooter fired from thirteen metres into a set goalkeeper and the match filled
+ * with saves. Quality is the honest question, and it is made of four things a
+ * player can actually perceive: how far out he is, how much of the goal he can
+ * see, how much of it a body is covering, and what he himself can do with a
+ * ball. A shooting back and a wing arrive at very different answers from the
+ * same spot, which is the point.
+ */
+export function shotQuality(s: CoreState, p: CorePlayer, pressure: number): number {
+  const direction=s.directions[p.team];
+  const q=local(p.position,direction),angle=shootingAngle(p.position,direction);
+  const wide=Math.abs(q.x-10)>6.5;
+  // Nine metres is the free-throw line: a shot from there is ordinary, one from
+  // six is good, one from thirteen needs a reason.
+  // Distance to the goal itself, not depth: a wing standing three metres from
+  // the end line is still eight and a half metres from the goal, and treating
+  // him as a six-metre shooter is what filled the match with wing shots.
+  const range=clamp((14-distance(p.position,goal(direction)))/7,0,1);
+  const sight=clamp((angle-.10)/.35,0,1);
+  const ability=wide?p.profile.wingFinishing*.65+p.profile.shotPlacement*.35
+    :p.profile.shotPower*.45+p.profile.shotPlacement*.35+p.profile.finishing*.2;
+  const contested=clamp(1-pressure*.32,0,1);
+  const base=range*.32+sight*.24+ability*.28+contested*.16;
+  // Seeing the goal is not one ingredient among four; it gates the whole shot.
+  // A ball struck from an angle nobody can score from is not a poor shot, it is
+  // not a shot, and that is the difference between a wing who finishes and a
+  // wing who shoots from everywhere.
+  return base*(.55+.45*sight);
+}
+
+/**
+ * Where a goalkeeper stands to cover the goal from a ball at `from`.
+ *
+ * The principled answer, and the one that removes a tuning knob: he stands on
+ * the bisector of the angle the two posts subtend from the ball, at his own
+ * working depth. That single rule covers a centre back at ten metres and a wing
+ * in the corner without a separate case for either, because narrowing the angle
+ * IS the job. A linear fraction of the ball's lateral offset was standing in for
+ * it, and no single fraction can be right for both.
+ */
+export function keeperPost(from: Point, direction: Direction, depth: number): Point {
+  const line = goal(direction).y;
+  const near = { x: 8.5, y: line }, far = { x: 11.5, y: line };
+  const unit = (to: Point) => {
+    const dx = to.x - from.x, dy = to.y - from.y, d = Math.hypot(dx, dy) || 1;
+    return { x: dx / d, y: dy / d };
+  };
+  const a = unit(near), b = unit(far);
+  const bx = a.x + b.x, by = a.y + b.y;
+  const length = Math.hypot(bx, by);
+  // Degenerate only when the ball is on the goal line between the posts.
+  if (length < 1e-6) return { x: clamp(from.x, 8.5, 11.5), y: line + (direction === 'TOP' ? depth : -depth) };
+  const target = line + (direction === 'TOP' ? depth : -depth);
+  const t = (target - from.y) / (by / length);
+  const x = from.x + (bx / length) * t;
+  return { x: clamp(x, 5.5, 14.5), y: target };
 }

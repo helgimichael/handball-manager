@@ -13,3 +13,5 @@ require('../src/v2/core/referee.test.ts');
 require('../src/v2/core/passive.test.ts');
 require('../src/v2/core/ecosystem.test.ts');
 require('../src/v2/core/offence.test.ts');
+require('../src/v2/core/identity.test.ts');
+require('../src/v2/core/defence.test.ts');

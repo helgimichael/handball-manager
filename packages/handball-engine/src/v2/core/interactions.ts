@@ -28,7 +28,9 @@ function duel(s:CoreState,a:CorePlayer) {
   const d=defenders.find(d=>distance(a.position,d.position)<1.6&&d.action?.phase==='EXECUTING'&&['PRESS','HELP','CONTAIN','CONTACT'].includes(d.action.kind));
   if(!d)return;
   action.resolved=true;
-  const margin=a.attributes.skill-d.attributes.defence+(d.screenedUntilTick>s.tick?.3:0)+.15+(random(s)-.5)*.9;
+    // PLAYER IDENTITY: a feint is his one-against-one ability against the
+  // defender's footwork and timing, not two interchangeable 0.65s.
+  const margin=a.profile.breakthrough-(d.profile.lateral*.6+d.profile.defTiming*.4)+(d.screenedUntilTick>s.tick?.3:0)+.1+(random(s)-.5)*.7;
   const wrongFooted=margin>0,id=contest(s,'DUEL',a,d,wrongFooted?'WRONG_FOOTED':'COMPOSED',margin,wrongFooted?16:0);
   if(wrongFooted){d.wrongFootedUntilTick=s.tick+16;interrupt(s,d,'Committed weight to the feint');}
   record(s,'FEINT_READ',a,{wrongFooted,untilTick:d.wrongFootedUntilTick},[d.id],id);
@@ -36,7 +38,20 @@ function duel(s:CoreState,a:CorePlayer) {
 function release(s:CoreState,p:CorePlayer,kind:'PASS'|'SHOOT') {
   if(s.ball.controllerId!==p.id||!p.action){if(p.action)p.action.phase='FAILED';return;}
   const delivery=p.action.purpose==='DEAD_BALL_RETURN';
-  if(!s.ball.live&&!delivery&&s.restart?.phase==='AUTHORISED'&&!restartReady(s)){p.action.phase='FAILED';s.status='FAILED';s.reason='Restart preparation invalid at release';record(s,'RESTART_FAILED',p,{reason:s.reason});return;}
+  // A restart that has become illegal by the moment of release is RETAKEN,
+  // which is what a referee does with one. Killing the simulation instead was
+  // turning an ordinary refereeing event into a dead match, and it is the only
+  // reason a full ninety-minute run ever ended early.
+  if(!s.ball.live&&!delivery&&s.restart?.phase==='AUTHORISED'&&!restartReady(s)) {
+    p.action.phase='FAILED';
+    const r=s.restart;r.retakes=(r.retakes??0)+1;
+    if(r.retakes>3) {
+      record(s,'RESTART_FORFEITED',p,{kind:r.kind,retakes:r.retakes});
+      awardRestart(s,'FREE_THROW',otherTeam(r.owner),p.position,'Repeatedly delayed restart',p,false);return;
+    }
+    r.phase='PREPARING';r.authorisedTick=null;
+    record(s,'RESTART_RETAKEN',p,{kind:r.kind,retakes:r.retakes,reason:'Preparation no longer legal at release'});return;
+  }
   if(kind==='SHOOT'&&!p.airborne&&!fieldLegal(p.position,p.radius)) {awardRestart(s,'GOALKEEPER_THROW',otherTeam(p.team),p.position,'Illegal grounded shot in goal area',p);return;}
   if(p.airborne&&!fieldLegal(p.airborne.takeoff,p.radius)){awardRestart(s,'GOALKEEPER_THROW',otherTeam(p.team),p.position,'Illegal takeoff',p);return;}
   const receiver=kind==='PASS'&&p.action.targetId?getPlayer(s,p.action.targetId):null;
@@ -57,17 +72,34 @@ function release(s:CoreState,p:CorePlayer,kind:'PASS'|'SHOOT') {
   else {
     const keeper=courtPlayers(s,otherTeam(p.team)).find(d=>d.kind==='GOALKEEPER');
     const pressure=courtPlayers(s,otherTeam(p.team)).filter(d=>d.kind!=='GOALKEEPER'&&distance(d.position,p.position)<2&&d.beatenUntilTick<=s.tick).length;
-    const preferred=keeper&&keeper.position.x>=10?9:11;
-    const error=(random(s)-.5)*(1.1-p.attributes.skill+pressure*.3+Math.max(0,.3-shootingAngle(p.position,direction))*4);
-    target={x:preferred+error,y:goal(direction).y};
+    const wide=Math.abs(p.position.x-10)>6.5;
+    // PLAYER IDENTITY: a shooter aims where the goalkeeper is NOT. The old code
+    // picked nine or eleven from the keeper's side of centre and stopped there,
+    // so a wing in the corner fired straight down the keeper's body and was
+    // caught eight times out of ten. The open side is read from the keeper's
+    // actual position, and how close to the post a player dares go is his own
+    // placement: a poor finisher still shoots at the middle.
+    const keeperX=keeper?keeper.position.x:10;
+    const placement=wide?(p.profile.wingFinishing*.7+p.profile.shotPlacement*.3):p.profile.shotPlacement;
+    // From the wing, the near post is the shot the angle actually offers. Aiming
+    // across the mouth at the far post sends the ball straight through the
+    // goalkeeper, who is standing between the two, and that is exactly what
+    // happened: ninety per cent of wing shots were caught. A central shooter has
+    // both posts available and takes the side the keeper has left.
+    const open=wide?Math.sign(p.position.x-10)||1:(keeperX>=10?-1:1);
+    const aim=10+open*(.35+1.15*placement);
+    const spread=(1.25-placement)*(1+pressure*(.45-.25*p.profile.composure))+Math.max(0,.3-shootingAngle(p.position,direction))*1.8;
+    target={x:aim+(random(s)-.5)*spread,y:goal(direction).y};
   }
   const origin={...s.ball.position},d=distance(origin,target);if(d<.1){p.action.phase='FAILED';return;}
-  const speed=kind==='PASS'?12:23;
+    // PLAYER IDENTITY: a hard shooter releases faster, which is what shortens the
+  // keeper's reading time; a good passer puts more on a pass.
+  const speed=kind==='PASS'?10.5+3*p.profile.passing:17+11*p.profile.shotPower;
   p.action.resolved=true;
   s.ball={...s.ball,mode:'RELEASE',height:p.airborne?2.3:1.5,controllerId:null,lastTouchId:p.id,
     flight:{kind:kind==='PASS'?'PASS':'SHOT',origin,velocity:{x:(target.x-origin.x)/d*speed,y:(target.y-origin.y)/d*speed},fromId:p.id,receiverId:receiver?.id??null,actionId:p.action.id,possessionId:s.possession.id,releasedTick:s.tick,height:p.airborne?2.3:1.5,goalSide:direction,touchedIds:[p.id],purpose:p.action.purpose}};
   if(kind==='SHOOT')p.nextAction='LAND';
-  record(s,delivery?'BALL_RETURN_RELEASED':kind==='PASS'?'PASS_RELEASED':'SHOT_RELEASED',p,{x:origin.x,y:origin.y,height:s.ball.height,shotKind:p.action.shotKind??'NONE'},receiver?[receiver.id]:[]);
+  record(s,delivery?'BALL_RETURN_RELEASED':kind==='PASS'?'PASS_RELEASED':'SHOT_RELEASED',p,{x:origin.x,y:origin.y,height:s.ball.height,shotKind:p.action.shotKind??'NONE',phase:s.possession.phase,subphase:s.offence.phase},receiver?[receiver.id]:[]);
   if(!delivery&&s.restart?.phase==='AUTHORISED') {
     s.restart.phase='RELEASED';
     if(s.restart.kind!=='CENTRE_THROW_OFF'&&s.restart.kind!=='GOALKEEPER_THROW')completeRestart(s,'BALL_RELEASE');
@@ -109,7 +141,23 @@ export function advanceBall(s:CoreState) {
     const isKeeper=p.kind==='GOALKEEPER';
     const ready=p.action?.phase==='EXECUTING';
     const runningReceive=p.reception?.passActionId===f.actionId&&p.reception.readyTick<=s.tick&&['RUN','REPOSITION'].includes(p.action?.kind??'');
-    const reach=f.kind==='SHOT'?(isKeeper?(ready&&p.action?.kind==='SAVE'?.9:.28):ready&&p.action?.kind==='BLOCK'?.8:0):ready&&(['RECEIVE','PRESS','HELP','CONTAIN'].includes(p.action?.kind??'')||runningReceive)?.65:0;
+    // SPATIAL TIMING: a defender does not intercept because the ball passed
+    // near him. He intercepts because he could get a hand to it in the time it
+    // gave him. Sixty-odd interceptions a match came from a flat 0.65 m radius
+    // granted to every defender executing any defensive action, including one
+    // holding his post with his weight going the other way.
+    const own=p.team===getPlayer(s,f.fromId).team;
+    const reacted=(s.tick-f.releasedTick)*.05>=p.profile.reaction;
+    const grasp=.22+.33*p.profile.ballWinning;
+    const beaten=p.beatenUntilTick>s.tick||p.screenedUntilTick>s.tick||p.wrongFootedUntilTick>s.tick;
+    const reach=f.kind==='SHOT'
+      ?(isKeeper?(ready&&p.action?.kind==='SAVE'?.31+.40*(p.profile.keeper?.explosiveness??.5):.2)
+        :ready&&p.action?.kind==='BLOCK'&&!beaten?.16+.34*p.profile.blocking:0)
+      :own?(ready&&(p.action?.kind==='RECEIVE'||runningReceive)?.65:0)
+      // A defending interceptor needs a defensive action, his reaction spent,
+      // and a hand within his own reach. Every one of the three is a real
+      // requirement and together they are what the old radius was missing.
+      :ready&&!beaten&&reacted&&['RECEIVE','PRESS','HELP','CONTAIN','RECOVER'].includes(p.action?.kind??'')?grasp:0;
     return {p,...hit,hit:reach>0&&distance(hit.point,p.position)<=reach&&(isKeeper||s.ball.height<2.5)};
   }).filter(c=>c.hit).sort((a,b)=>a.t-b.t||a.p.id.localeCompare(b.p.id));
   for(const hit of candidates) {
@@ -117,7 +165,21 @@ export function advanceBall(s:CoreState) {
     if(f.kind==='SHOT') {
       if(p.team===shooter.team)continue;
       if(p.kind==='GOALKEEPER') {
-        const catchable=p.action?.kind==='SAVE'&&p.action.phase==='EXECUTING'&&distance(hit.point,p.position)<.5;
+        // PLAYER IDENTITY: a keeper holds what he reaches according to his own
+        // save attributes for that height and range, never a shared constant.
+        // And a hard ball is not held. Shot power had no effect on the
+        // goalkeeper at all, which is why a keeper caught between a fifth and
+        // two fifths of everything: the shooter could not hurt him.
+        const k=p.profile.keeper;
+        const local=distance(hit.point,p.position);
+        const range=distance(f.origin,{x:10,y:goal(f.goalSide).y});
+        const pace=Math.hypot(f.velocity.x,f.velocity.y);
+        const family=k?(s.ball.height<.9?k.low:s.ball.height>1.5?k.high:(k.low+k.high)/2)*.5
+          +(range<9?k.close:range>10.5?k.long:(k.close+k.long)/2)*.3
+          +(Math.abs(f.origin.x-10)>6.5?k.wing:k.reaction)*.2:.5;
+        // Holding it needs the ball inside his hands AND slow enough to hold.
+        const holdable=pace<=15+13*family;
+        const catchable=p.action?.kind==='SAVE'&&p.action.phase==='EXECUTING'&&local<.22+.34*family&&holdable;
         contest(s,'KEEPER',shooter,p,catchable?'CAUGHT':'PARRIED',distance(hit.point,p.position),12,f.actionId);
         if(catchable){acquire(s,p,hit.point,'Goalkeeper catch',f.actionId);s.ball.live=false;awardRestart(s,'GOALKEEPER_THROW',p.team,p.position,'Keeper controls ball inside goal area',p);return;}
         deflect(s,p,hit.point,'SAVE_PARRY');return;

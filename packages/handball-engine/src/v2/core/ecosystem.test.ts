@@ -31,11 +31,11 @@ test('timeout preserves the awarded throw and excludes the pause from preparatio
   assert.equal(s.status,'RUNNING',s.reason??'');assert.equal(s.restart!.id,id);assert.ok(s.restart!.pausedTicks>=1199);
 });
 test('fatigue follows activity and recovers at rest without mutating attributes',()=>{
-  const s=createCoreScenario(),p=getPlayer(s,'H03'),attributes={...p.attributes};p.velocity={x:4,y:0};
+  const s=createCoreScenario(),p=getPlayer(s,'H03'),attributes={...p.profile};p.velocity={x:4,y:0};
   for(let i=0;i<10000;i++)conditionAfter(s);
   const tired=p.condition.energy;assert.ok(tired<.9);assert.ok(p.condition.distanceMetres>1900);
   s.officialClock.running=false;for(let i=0;i<1000;i++)conditionAfter(s);
-  assert.ok(p.condition.energy>tired);assert.deepEqual(p.attributes,attributes);
+  assert.ok(p.condition.energy>tired);assert.deepEqual(p.profile,attributes);
 });
 test('medical exit, three attacking possessions and permanent injury constrain re-entry',()=>{
   const s=liveMatch(),p=getPlayer(s,'H02');assert.ok(requestTreatment(s,p,'Observed injury'));
@@ -51,7 +51,7 @@ test('medical exit, three attacking possessions and permanent injury constrain r
 });
 test('sanction during a queued exchange cancels it; expired disqualification permits replacement only',()=>{
   const s=liveMatch();assert.ok(requestExchange(s,'AWAY','A03','A09'));
-  const d=getPlayer(s,'A03');d.sanctions=2;foul(s,getPlayer(s,'H03'),d,true,false,'fixture');populationBefore(s);
+  const d=getPlayer(s,'A03');d.sanctions=2;foul(s,getPlayer(s,'H03'),d,'SERIOUS','Fixture dangerous contact',false,'fixture');populationBefore(s);
   assert.equal(s.exchanges[0].phase,'CANCELLED');assert.equal(d.population,'DISQUALIFIED');
   s.officialClock.timeMs=d.suspensionUntilMs!;populationBefore(s);
   assert.ok(s.exchanges.some(e=>e.outId===null&&getPlayer(s,e.inId).team==='AWAY'));assert.equal(d.population,'DISQUALIFIED');

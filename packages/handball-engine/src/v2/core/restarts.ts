@@ -60,7 +60,7 @@ export function restartStep(s:CoreState) {
       const memory=s.offence.memory[r.owner],identity=s.coaching[r.owner].attackIdentity;
       const score=(p:CorePlayer)=>{
         const target=restartTarget(s,p),length=distance(r.location,target),wing=p.role==='LW'||p.role==='RW';
-        return Math.min(laneClearance(s,r.location,target,r.owner),3)*.45+p.attributes.skill*p.condition.energy+(wing&&identity==='WIDTH'?.7:0)+
+        return Math.min(laneClearance(s,r.location,target,r.owner),3)*.45+p.profile.handling*p.condition.energy+(wing&&identity==='WIDTH'?.7:0)+
           (identity==='DIRECT'?Math.min(length,16)*.06:0)-Math.max(0,length-16)*.3-memory.outlets.filter(id=>id===p.id).length*.45;
       };
       candidates.sort((a,b)=>score(b)-score(a)||a.id.localeCompare(b.id));

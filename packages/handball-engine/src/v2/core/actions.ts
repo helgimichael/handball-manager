@@ -22,6 +22,38 @@ export function legalAction(s: CoreState,p: CorePlayer,kind: ActionKind): boolea
   if(kind==='JUMP'||kind==='SHOOT')return p.kind==='FIELD_PLAYER'&&fieldLegal(p.position,p.radius);
   return true;
 }
+/**
+ * MATCH RHYTHM: keep an intention that is still the right intention.
+ *
+ * The audit measured 48,185 action starts in one match across fourteen players,
+ * roughly ten times what a real match contains. Nothing was choosing badly; the
+ * selector simply re-issued the same correct decision every few ticks, and a
+ * body that restarts its acceleration curve twenty times a second reads on
+ * screen as twitching rather than running.
+ *
+ * The fix is not a global cooldown, which would make players slow to react to
+ * things that genuinely changed. It is to let a live action absorb a small
+ * correction to its own target instead of being replaced. A defender tracking a
+ * moving man, a wing holding width, a player running an entry: each of these is
+ * ONE action whose destination drifts, not a new decision every tick.
+ *
+ * Returns true when the existing action was kept, in which case the caller must
+ * not start a new one. A drift larger than `tolerance` means the situation
+ * really did change and a fresh decision is correct.
+ */
+export function sustain(s:CoreState,p:CorePlayer,kind:ActionKind,target:Point|null=null,targetId:string|null=null,tolerance=1.1):boolean {
+  const a=p.action;
+  if(!a||a.kind!==kind||['COMPLETED','INTERRUPTED','FAILED'].includes(a.phase))return false;
+  if(a.possessionId!==s.possession.id)return false;
+  if(targetId!==null&&a.targetId!==targetId)return false;
+  if(target&&a.target) {
+    if(distance(a.target,target)>tolerance)return false;
+    // Steer toward the corrected point without restarting the lifecycle. The
+    // phase, and therefore the momentum he has already built, are preserved.
+    a.target={...target};
+  } else if(!!target!==!!a.target)return false;
+  return true;
+}
 export function startAction(s: CoreState,p: CorePlayer,kind: ActionKind,reason: string,target: Point|null=null,targetId:string|null=null,shotKind:CoreAction['shotKind']=null,purpose:CoreAction['purpose']='PLAY'): boolean {
   if(!legalAction(s,p,kind))return false;
   const id=uid(s,'action');
@@ -43,7 +75,7 @@ function move(s:CoreState,p:CorePlayer,target:Point) {
   const oldSpeed=Math.hypot(p.velocity.x,p.velocity.y);
   const impaired=s.tick < p.beatenUntilTick ? 0.4 : s.tick < p.screenedUntilTick ? 0.15 : s.tick<p.wrongFootedUntilTick?.65:1;
   const capacity=movementCapacity(p);
-  const speed=Math.min(p.attributes.speed*impaired*capacity,oldSpeed+p.attributes.acceleration*.05*capacity,Math.sqrt(2*p.attributes.acceleration*capacity*d));
+  const speed=Math.min(p.profile.topSpeed*impaired*capacity,oldSpeed+p.profile.acceleration*.05*capacity,Math.sqrt(2*p.profile.acceleration*capacity*d));
   const travel=Math.min(d,speed*.05),dx=(target.x-p.position.x)/d,dy=(target.y-p.position.y)/d;
   // Local steering around occupied bodies is execution of the existing duty,
   // not a new tactical assignment. Every candidate is checked before movement.
@@ -99,6 +131,18 @@ export function execute(s: CoreState): ExecutionEffect[] {
     if(['RUN','REPOSITION'].includes(a.kind)&&p.reception&&
       (s.ball.flight?.actionId===p.reception.passActionId||s.players.some(q=>q.action?.id===p.reception!.passActionId&&q.action.kind==='PASS'&&!['COMPLETED','FAILED','INTERRUPTED'].includes(q.action.phase))))continue;
     if(a.kind==='RECEIVE'&&(s.ball.flight?.receiverId===p.id||s.players.some(q=>q.action?.kind==='PASS'&&q.action.targetId===p.id&&!['COMPLETED','FAILED','INTERRUPTED'].includes(q.action.phase))))continue;
+    // MATCH RHYTHM: a man running somewhere is doing ONE thing until he gets
+    // there. Completing a movement action on a timer and immediately reissuing
+    // it was the single largest source of action churn: nineteen thousand
+    // goalkeeper repositions and twelve thousand containments in one match,
+    // each restarting an acceleration curve that had not finished. A tracking
+    // action now ends when the job ends, with a bound so nothing runs forever.
+    // Live play only. During a dead ball the restart owns every position, and
+    // a movement action that refused to finish would stop it re-aiming anybody:
+    // a blocked player then held a stale target until the preparation budget
+    // ran out and the match stopped. Restart preparation keeps its authority.
+    const tracking=s.ball.live&&movementActions.includes(a.kind)&&a.target!==null&&distance(p.position,a.target)>.35;
+    if(tracking&&s.tick-a.startedTick<400&&Math.hypot(p.velocity.x,p.velocity.y)>.05)continue;
     if(elapsed<a.executeTicks)continue;
     if(['PASS','SHOOT','FEINT'].includes(a.kind)&&!a.resolved)effects.push({playerId:p.id,kind:a.kind as ExecutionEffect['kind']});
     if(a.kind==='DRIBBLE'&&s.ball.controllerId===p.id){s.ball.mode='CONTROLLED';s.ball.height=1.2;p.handling.steps=0;p.handling.stepDistance=0;p.handling.heldSinceTick=s.tick;record(s,'DRIBBLE_GATHERED',p);}

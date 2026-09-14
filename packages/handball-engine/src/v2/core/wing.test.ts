@@ -63,7 +63,7 @@ test('wing scenarios execute bounded physical movement and preserve exact replay
     let s=createWingScenario(name,2025,direction);const frames=[s];
     while(s.status==='RUNNING') {
       const before=s;s=tickCore(s);assertCore(s);frames.push(s);
-      for(const p of s.players)assert.ok(distance(p.position,getPlayer(before,p.id).position)<=p.attributes.speed*.05+1e-8);
+      for(const p of s.players)assert.ok(distance(p.position,getPlayer(before,p.id).position)<=p.profile.topSpeed*.05+1e-8);
     }
     assert.equal(s.status,'CHECKPOINT',`${name}/${direction}: ${s.reason}`);
     const middle=frames[Math.floor(frames.length/2)];let resumed=loadCore(saveCore(middle));

@@ -9,6 +9,7 @@ import { restartStep } from './restarts';
 import { populationBefore,populationAfter,exchangeActive,courtLimit } from './population';
 import { matchBefore,matchAfter } from './match';
 import { resolveContacts } from './contact';
+import { ZONE_COUNT } from './defence';
 import { refereeBefore,refereeAfter } from './referee';
 import { passiveAfter } from './passive';
 import { conditionAfter } from './condition';
@@ -98,9 +99,16 @@ export function assertCore(s:CoreState) {
   if(s.ball.flight){check(s.ball.controllerId===null,'flight has no owner');check(s.ball.flight.releasedTick<=s.tick,'flight chronology');}
   check(Number.isFinite(s.ball.position.x)&&Number.isFinite(s.ball.position.y),'finite ball');
   if(s.restart&&s.restart.phase!=='COMPLETED')check(!s.ball.live,'restart gate');
-  const marks=Object.values(s.defence.marks);check(new Set(marks).size===marks.length,'unique primary marking responsibility');
+  // COLLECTIVE DEFENCE: the structural claim is no longer that two defenders
+  // never look at the same attacker -- a presser and his helper both look at
+  // the carrier, which is what help IS. It is that the six spaces are owned
+  // exactly once, which is what makes the line a line.
+  const zones=courtPlayers(s,s.defence.team).filter(p=>p.kind==='FIELD_PLAYER'&&p.zone!==null).map(p=>p.zone);
+  check(new Set(zones).size===zones.length,'each defensive space is owned exactly once');
+  check(zones.every(z=>z!==null&&z>=0&&z<ZONE_COUNT),'defensive spaces exist on the line');
   check(courtPlayers(s).filter(p=>p.duty.kind==='PRESSURE').length<=1,'single primary pressure');
   check(courtPlayers(s).filter(p=>p.duty.kind==='HELP').length<=1,'single assigned helper');
+  check(courtPlayers(s).filter(p=>p.duty.kind==='COVER').length<=1,'single assigned cover');
   s.events.forEach((e,i)=>{check(e.tick<=s.tick&&e.timeMs===e.tick*DT_MS,'event chronology');if(i)check(s.events[i-1].tick<=e.tick,'ordered events');});
   if(s.status==='CHECKPOINT')check(s.checkpoint.outcome!==null,'checkpoint has executed outcome');
 }

@@ -46,7 +46,7 @@ test('dead-ball return and live pass are distinct; save/resume survives physical
 });
 test('suspension expiry uses official time and only permits physical re-entry',()=>{
   const s=createContinuous(),attacker=getPlayer(s,'H03'),defender=getPlayer(s,'A03');
-  foul(s,attacker,defender,true,false,'test-contest');assert.equal(courtLimit(s,'AWAY'),6);
+  foul(s,attacker,defender,'SERIOUS','Fixture dangerous contact',false,'test-contest');assert.equal(courtLimit(s,'AWAY'),6);
   s.timeMs+=200000;populationBefore(s);assert.equal(defender.population,'SUSPENDED');
   s.officialClock.timeMs=120000;populationBefore(s);
   assert.equal(courtLimit(s,'AWAY'),7);assert.ok(s.exchanges.some(e=>e.inId===defender.id&&e.outId===null));

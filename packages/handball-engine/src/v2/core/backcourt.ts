@@ -17,7 +17,7 @@ export function planBackcourtSupport(s:CoreState,p:CorePlayer):BackcourtSupport 
   let mode:BackcourtSupport['mode']='BALANCE',partnerId=carrier?.id??null,target:Point,reason:string;
   if(p.role==='CB') {
     const backs=team.filter(a=>a.role==='LB'||a.role==='RB'),mean=backs.length?backs.reduce((n,a)=>n+a.position.x,0)/backs.length:10;
-    target={x:clamp(mean,7.5,12.5),y:clamp(Math.max(c.y+2,...backs.map(a=>local(a.position,direction).y+.7)),10.8,13)};
+    target={x:clamp(mean,7.5,12.5),y:clamp(Math.max(c.y+1.4,...backs.map(a=>local(a.position,direction).y+.6)),9.8,11.6)};
     reason='Balance the two backcourt lanes and retain a trailing central outlet';
   } else {
     const wing=team.find(a=>a.role===(left?'LW':'RW'));
@@ -33,24 +33,24 @@ export function planBackcourtSupport(s:CoreState,p:CorePlayer):BackcourtSupport 
     const sameSide=left?c.x<=10.8:c.x>=9.2;
     const penetrating=!!carrier&&(active(carrier,'DRIVE')||active(carrier,'DRIBBLE'));
     if(wing&&carrier?.id===wing.id) {
-      mode='RECYCLE';partnerId=wing!.id;target={x:inLane(wingX-sign*3.2),y:clamp(c.y+5.5,9,11.5)};
+      mode='RECYCLE';partnerId=wing!.id;target={x:inLane(wingX-sign*3.2),y:clamp(c.y+5.5,8.6,10.6)};
       reason='Stay behind the wing as its adjacent return-pass connection';
     } else if(penetrating&&sameSide) {
       mode='CLEAR_LANE';partnerId=carrier!.id;
       const path=carrier!.action!.target?local(carrier!.action!.target!,direction):c;
-      target={x:inLane(path.x+sign*3.2),y:clamp(c.y+2.5,10,12)};
+      target={x:inLane(path.x+sign*3.2),y:clamp(c.y+2.5,9,11)};
       reason='Clear the committed penetration lane while offering a trailing lateral pass';
     } else if(sameSide&&pivot&&active(pivot,'SCREEN')&&mark&&centralMark&&
       distance(pivot.position,mark.position)<3.6&&Math.abs(mark.position.x-centralMark.position.x)>3.6) {
       mode='COMBINE';partnerId=pivot.id;
       const interval=(mark.position.x+centralMark.position.x)/2;
-      target={x:inLane((interval+pivot.position.x)/2),y:clamp(local(pivot.position,direction).y+3.6,9.8,11.5)};
+      target={x:inLane((interval+pivot.position.x)/2),y:clamp(local(pivot.position,direction).y+3.1,9,10.8)};
       reason='Contract into the open inner interval beside the committed pivot screen';
     } else {
       mode='STRETCH';partnerId=centre?.id??wing?.id??null;
       const innerInterval=Math.abs((mark?.position.x??(left?5.5:14.5))-centreX);
       const spread=clamp(8-innerInterval*.4,4,6.8);
-      target={x:inLane(centreX+sign*spread),y:clamp((mark?local(mark.position,direction).y:7.2)+3.5,10,12)};
+      target={x:inLane(centreX+sign*spread),y:clamp((mark?local(mark.position,direction).y:7.2)+2.8,9,11)};
       reason=sameSide?'Stretch outside the half defender to open the adjacent interval':'Hold a wide weak-side outlet against the shifting defence';
     }
     // A committed crossing elsewhere may put the centre temporarily on this flank;

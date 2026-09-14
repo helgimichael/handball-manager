@@ -5,9 +5,10 @@ import type { RefereeState } from './referee';
 import type { PlayerCondition } from './condition';
 import type { TeamTactics } from './coaching';
 import type { OffenceState } from './offence';
+import type { Profile } from './profile';
 export type { Point, TeamId, Direction } from '../model';
 
-export const CORE_VERSION = '2.7.0-adaptive-offence.1';
+export const CORE_VERSION = '2.8.0-identity-and-zone.1';
 export const DT_MS = 50;
 /** Scoped execution profile; not a claim that all IHF rules are implemented. */
 export const CORE_RULES = {id:'IHF_INDOOR_2025' as const,maxHoldMs:3000,maxSteps:3,suspensionMs:120000,restartDistance:3,goalAreaRadius:6};
@@ -20,7 +21,14 @@ export type CorePlayer = {
   id: string; team: TeamId; kind: 'FIELD_PLAYER' | 'GOALKEEPER';
   role: Role; population: 'COURT' | 'BENCH' | 'SUSPENDED' | 'DISQUALIFIED';
   position: Point; velocity: Point; radius: number;
-  attributes: { speed: number; acceleration: number; skill: number; defence: number; keeping: number };
+  /**
+   * PLAYER IDENTITY: execution capacities derived from this player's Handball
+   * Manager attribute sheet. Replaces the five uniform numbers every player
+   * used to share. Built once by the profile adapter; never edited in a tick.
+   */
+  profile: Profile;
+  /** Zonal defensive responsibility, owned by the defence module. */
+  zone: number | null;
   duty: { kind: Duty; targetId: string | null; sinceTick: number; reason: string };
   intent: { id: string; effect: string; reason: string; targetId: string | null };
   action: CoreAction | null;
@@ -64,6 +72,8 @@ export type Restart = {
   collectorId: string | null; receiverId: string | null; context:'OPENING_HALF'|'POST_GOAL'|null;
   plantedFoot: Point | null;
   pausedTicks:number;
+  /** How often this restart has had to be retaken; bounded, then forfeited. */
+  retakes?:number;
 };
 export type Exchange={id:string;team:TeamId;outId:string|null;inId:string;phase:'WAIT_EXIT'|'ENTERING'|'COMPLETED'|'CANCELLED';gate:Point;requestedTick:number};
 export type CoreState = {
@@ -75,6 +85,8 @@ export type CoreState = {
   directions: Record<TeamId, Direction>; score: Record<TeamId, number>;
   possession: { id: string; team: TeamId; sinceTick: number; phase: 'ESTABLISHED' | 'TRANSITION' | 'RESTART'; completedPasses: number; lastPasserId: string | null };
   defence: { team: TeamId; system: '6:0' | '5:1'; marks: Record<string, string>; pressureId: string | null; helperId: string | null; lastHandoverTick: number;
+    /** COLLECTIVE DEFENCE: the shared read that makes six defenders one line. */
+    read: { engaged: number | null; shift: number; compact: number };
     handover:{defenderIds:[string,string];attackerIds:[string,string];actionIds:[string,string]}|null };
   players: CorePlayer[];
   ball: { mode: 'DEAD' | 'CONTROLLED' | 'HOLD' | 'DRIBBLE' | 'RELEASE' | 'PASS_FLIGHT' | 'SHOT_FLIGHT' | 'RECEPTION' | 'DEFLECTION' | 'LOOSE' | 'GOALKEEPER_CONTROL' | 'OUT'; position: Point; height: number; controllerId: string | null; live: boolean; flight: CoreFlight | null; lastTouchId: string | null };

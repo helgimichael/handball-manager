@@ -1,6 +1,7 @@
 import { createCoreScenario } from './scenarios';
 import { getPlayer,type Direction } from './state';
 import { world } from './space';
+import { ZONE_ANCHORS } from './defence';
 import { startAction } from './actions';
 import { planContact } from './contact';
 
@@ -10,18 +11,33 @@ export type ContactScenario=typeof CONTACT_SCENARIOS[number];
 export function createContactScenario(kind:ContactScenario,seed=2025,direction:Direction='TOP') {
   const s=createCoreScenario('ESTABLISHED_6V6',seed,direction);s.scenario=kind;
   const a=getPlayer(s,'H03'),d=getPlayer(s,'A03');
-  a.position=world({x:10,y:9.5},direction);d.position=world(kind==='FRONTAL_CONTACT'?{x:10,y:8.7}:{x:10.8,y:9.5},direction);
+  // COLLECTIVE DEFENCE: the fixture has to stage a situation the line would
+  // actually produce. A03 is the centre back and owns the central space, so the
+  // carrier is placed in THAT space; otherwise the zonal allocation correctly
+  // sends this defender back to his own post and the contact never happens.
+  const lane=ZONE_ANCHORS[2];
+  a.position=world({x:lane,y:9.5},direction);d.position=world(kind==='FRONTAL_CONTACT'?{x:lane,y:8.7}:{x:lane+.8,y:9.5},direction);
+  d.zone=direction==='TOP'?2:ZONE_ANCHORS.length-1-2;
   s.ball.position={...a.position};s.defence.pressureId=d.id;
   if(kind==='SHOULDER_BREAKTHROUGH') {
-    d.position=world({x:9.2,y:9.2},direction);
+    d.position=world({x:lane-.8,y:9.2},direction);
     startAction(s,d,'CONTAIN','Committed to the inside lane before attacker crosses outside',d.position,a.id);
-    startAction(s,a,'DRIVE','Carry through the outside shoulder of the committed defender',world({x:10,y:7.8},direction),d.id);
+    startAction(s,a,'DRIVE','Carry through the outside shoulder of the committed defender',world({x:lane,y:7.8},direction),d.id);
     a.velocity={x:0,y:direction==='TOP'?-3:3};return s;
   }
-  startAction(s,a,kind==='EVADED_CONTACT'?'DRIBBLE':'DRIVE','Attack the available space against an already close defender',world({x:kind==='EVADED_CONTACT'?7:10,y:8},direction));
+  startAction(s,a,kind==='EVADED_CONTACT'?'DRIBBLE':'DRIVE','Attack the available space against an already close defender',world({x:kind==='EVADED_CONTACT'?lane-3:lane,y:8},direction));
   if(kind==='EVADED_CONTACT') {
     a.action!.phase='EXECUTING';a.action!.phaseTick=0;a.velocity={x:-3,y:0};
     a.handling.dribbleUsed=true;s.ball.mode='DRIBBLE';
   }
-  planContact(s,d,a);return s;
+  // A disciplined defender contains rather than grabs, which is correct and
+  // makes a fixture named LATE_HOLD produce legal contact. The defender who is
+  // supposed to hold is given the indiscipline to do it.
+  if(kind==='LATE_HOLD')d.profile={...d.profile,discipline:.1,contact:.2};
+  // The hold is the subject of the LATE_HOLD fixture, so the commitment is live
+  // rather than still preparing: four ticks of preparation were enough for the
+  // zonal line to reposition the defender and the contact then missed.
+  planContact(s,d,a);
+  if(kind==='LATE_HOLD'&&d.action){d.action.phase='EXECUTING';d.action.phaseTick=0;}
+  return s;
 }

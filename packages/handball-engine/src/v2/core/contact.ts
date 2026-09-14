@@ -3,6 +3,7 @@ import { distance,goal,local,shootingAngle } from './space';
 import { startAction } from './actions';
 import { contest } from './interactions';
 import { foul,interrupt } from './transitions';
+import { readContact } from './sanction';
 
 export function contactApproach(s:CoreState,a:CorePlayer,d:CorePlayer):'FRONT'|'SIDE'|'BEHIND' {
   const g=goal(s.directions[a.team]),length=Math.max(.001,distance(a.position,g)*distance(a.position,d.position));
@@ -17,7 +18,10 @@ export function planContact(s:CoreState,d:CorePlayer,a:CorePlayer):boolean {
   const penetration=['DRIVE','DRIBBLE'].includes(a.action?.kind??'');
   const beaten=d.beatenUntilTick>s.tick;
   if(beaten&&!penetration)return false;
-  const technique=(approach!=='FRONT'||beaten)&&penetration?'HOLD':'BENT_ARMS';
+  // A disciplined defender prefers to contain rather than grab, and only
+  // reaches when he has genuinely been beaten to the space.
+  const desperate=(approach!=='FRONT'||beaten)&&penetration;
+  const technique=desperate&&d.profile.discipline<.55+.4*(beaten?1:0)?'HOLD':'BENT_ARMS';
   if(!startAction(s,d,'CONTACT',technique==='HOLD'?'Late to penetration; commit holding attempt':'Establish bent-arm contact while retaining goal-side position',null,a.id))return false;
   d.action!.contact={technique,approach};return true;
 }
@@ -34,14 +38,15 @@ export function resolveContacts(s:CoreState) {
     if(separation>.95||(d.beatenUntilTick>s.tick&&action.contact.technique!=='HOLD')||d.screenedUntilTick>s.tick) {
       record(s,'CONTACT_MISSED',d,{separation,technique:action.contact.technique},[a.id]);continue;
     }
-    const illegal=action.contact.technique==='HOLD';
-    const clear=local(a.position,s.directions[a.team]).y<8.5&&shootingAngle(a.position,s.directions[a.team])>.25&&
-      !courtPlayers(s,d.team).some(q=>q.id!==d.id&&q.kind==='FIELD_PLAYER'&&local(q.position,s.directions[a.team]).y<local(a.position,s.directions[a.team]).y&&distance(q.position,a.position)<3);
-    const id=contest(s,'CONTACT',a,d,illegal?'HELD':approach==='FRONT'?'FRONTAL_CONTACT':'MONITORED',separation,illegal?0:10,action.id);
+    // CONTACT AND PUNISHMENT: the referee reads the contact that actually
+    // happened -- technique, angle, closing speed, and what the attacker was
+    // about to do -- instead of treating every hold as the same offence.
+    const read=readContact(s,a,d,action.contact.technique,approach,separation);
+    const id=contest(s,'CONTACT',a,d,read.severity==='LEGAL'?(approach==='FRONT'?'FRONTAL_CONTACT':'MONITORED'):read.severity,separation,read.severity==='LEGAL'?10:0,action.id);
     action.contestIds.push(id);
-    record(s,'CONTACT_EXECUTED',d,{technique:action.contact.technique,committedApproach:action.contact.approach,approach,separation,carrierAction:a.action?.kind??'NONE',clearChance:clear},[a.id],id,action.id);
-    if(illegal) {foul(s,a,d,!!a.airborne,clear,id);return;}
-    // Legal monitoring does not cancel a committed pass or shot. Frontal trunk
+    record(s,'CONTACT_EXECUTED',d,{technique:action.contact.technique,committedApproach:action.contact.approach,approach,separation,carrierAction:a.action?.kind??'NONE',severity:read.severity,reason:read.reason,clearChance:read.clearChance,...read.detail},[a.id],id,action.id);
+    if(read.severity!=='LEGAL') {foul(s,a,d,read.severity,read.reason,read.clearChance,id);return;}
+    // Legal contact does not cancel a committed pass or shot. Frontal trunk
     // containment stops penetration, while control and its handling clock persist.
     if(approach==='FRONT'&&['DRIVE','DRIBBLE'].includes(a.action?.kind??'')) {
       const dribbling=s.ball.mode==='DRIBBLE';interrupt(s,a,'Frontal legal contact stopped penetration');
