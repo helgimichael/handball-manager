@@ -1,0 +1,370 @@
+{
+  "complete": true,
+  "rows": [
+    {
+      "seed": 1,
+      "direction": "TOP",
+      "version": "2.6.0-match-ecosystem.1",
+      "complete": true,
+      "status": "CHECKPOINT",
+      "reason": "FULLTIME",
+      "score": {
+        "HOME": 54,
+        "AWAY": 46
+      },
+      "officialMs": 3600000,
+      "periods": [
+        {
+          "type": "PERIOD_STARTED",
+          "officialMs": 0,
+          "tick": 6
+        },
+        {
+          "type": "PERIOD_ENDED",
+          "officialMs": 1800000,
+          "tick": 39267
+        },
+        {
+          "type": "PERIOD_STARTED",
+          "officialMs": 1800000,
+          "tick": 51470
+        },
+        {
+          "type": "PERIOD_ENDED",
+          "officialMs": 3600000,
+          "tick": 90678
+        }
+      ],
+      "shots": 242,
+      "goals": 100,
+      "passes": 410,
+      "fouls": 26,
+      "suspensions": 17,
+      "exchanges": 29,
+      "attacksWithShot": 192,
+      "distinctOpeningPaths": 30,
+      "dominantOpeningShare": 0.40625,
+      "openingEntropy": 3.1710914100650496,
+      "topPaths": [
+        [
+          "PASS>PASS>DRIBBLE>PASS>DRIVE",
+          78
+        ],
+        [
+          "PASS>DRIBBLE>PASS>DRIVE>JUMP",
+          38
+        ],
+        [
+          "PASS>PASS>DRIBBLE>PASS>JUMP",
+          15
+        ],
+        [
+          "PASS>PASS>DRIBBLE>PASS>FEINT",
+          7
+        ],
+        [
+          "DRIBBLE>PASS>DRIBBLE>DRIVE>SHOOT",
+          7
+        ],
+        [
+          "DRIBBLE>PASS>DRIVE>PASS>DRIVE",
+          6
+        ],
+        [
+          "DRIBBLE>PASS>DRIBBLE>JUMP>SHOOT",
+          5
+        ],
+        [
+          "DRIBBLE>PASS>PASS>DRIBBLE>JUMP",
+          4
+        ]
+      ],
+      "entries": {},
+      "subphases": {},
+      "responses": {},
+      "executedEntryActions": 0,
+      "abandonedEntries": 0,
+      "shotKinds": {
+        "BACKCOURT_JUMP": 111,
+        "BREAKTHROUGH": 2,
+        "WING": 31,
+        "STANDING": 46,
+        "EMPTY_GOAL": 2
+      },
+      "qaMoments": []
+    },
+    {
+      "seed": 1,
+      "direction": "BOTTOM",
+      "version": "2.6.0-match-ecosystem.1",
+      "complete": true,
+      "status": "CHECKPOINT",
+      "reason": "FULLTIME",
+      "score": {
+        "HOME": 60,
+        "AWAY": 61
+      },
+      "officialMs": 3600000,
+      "periods": [
+        {
+          "type": "PERIOD_STARTED",
+          "officialMs": 0,
+          "tick": 6
+        },
+        {
+          "type": "PERIOD_ENDED",
+          "officialMs": 1800000,
+          "tick": 37990
+        },
+        {
+          "type": "PERIOD_STARTED",
+          "officialMs": 1800000,
+          "tick": 50190
+        },
+        {
+          "type": "PERIOD_ENDED",
+          "officialMs": 3600000,
+          "tick": 88274
+        }
+      ],
+      "shots": 239,
+      "goals": 121,
+      "passes": 395,
+      "fouls": 21,
+      "suspensions": 12,
+      "exchanges": 24,
+      "attacksWithShot": 184,
+      "distinctOpeningPaths": 23,
+      "dominantOpeningShare": 0.483695652173913,
+      "openingEntropy": 2.770607409699144,
+      "topPaths": [
+        [
+          "PASS>PASS>DRIBBLE>PASS>DRIVE",
+          89
+        ],
+        [
+          "PASS>DRIBBLE>PASS>DRIVE>JUMP",
+          30
+        ],
+        [
+          "PASS>PASS>DRIBBLE>PASS>JUMP",
+          17
+        ],
+        [
+          "DRIBBLE>PASS>DRIBBLE>DRIVE>SHOOT",
+          8
+        ],
+        [
+          "PASS>PASS>DRIBBLE>PASS>FEINT",
+          8
+        ],
+        [
+          "PASS>DRIBBLE>PASS>JUMP>SHOOT",
+          4
+        ],
+        [
+          "DRIBBLE>PASS>DRIVE>JUMP>SHOOT",
+          4
+        ],
+        [
+          "DRIBBLE>PASS>DRIVE>PASS>DRIVE",
+          3
+        ]
+      ],
+      "entries": {},
+      "subphases": {},
+      "responses": {},
+      "executedEntryActions": 0,
+      "abandonedEntries": 0,
+      "shotKinds": {
+        "BACKCOURT_JUMP": 107,
+        "STANDING": 54,
+        "WING": 21,
+        "EMPTY_GOAL": 1,
+        "BREAKTHROUGH": 1
+      },
+      "qaMoments": []
+    },
+    {
+      "seed": 2025,
+      "direction": "TOP",
+      "version": "2.6.0-match-ecosystem.1",
+      "complete": true,
+      "status": "CHECKPOINT",
+      "reason": "FULLTIME",
+      "score": {
+        "HOME": 63,
+        "AWAY": 60
+      },
+      "officialMs": 3600000,
+      "periods": [
+        {
+          "type": "PERIOD_STARTED",
+          "officialMs": 0,
+          "tick": 6
+        },
+        {
+          "type": "PERIOD_ENDED",
+          "officialMs": 1800000,
+          "tick": 39236
+        },
+        {
+          "type": "PERIOD_STARTED",
+          "officialMs": 1800000,
+          "tick": 51437
+        },
+        {
+          "type": "PERIOD_ENDED",
+          "officialMs": 3600000,
+          "tick": 90701
+        }
+      ],
+      "shots": 236,
+      "goals": 123,
+      "passes": 398,
+      "fouls": 17,
+      "suspensions": 9,
+      "exchanges": 17,
+      "attacksWithShot": 187,
+      "distinctOpeningPaths": 24,
+      "dominantOpeningShare": 0.5240641711229946,
+      "openingEntropy": 2.6675621478385385,
+      "topPaths": [
+        [
+          "PASS>PASS>DRIBBLE>PASS>DRIVE",
+          98
+        ],
+        [
+          "PASS>DRIBBLE>PASS>DRIVE>JUMP",
+          29
+        ],
+        [
+          "PASS>PASS>DRIBBLE>PASS>FEINT",
+          11
+        ],
+        [
+          "PASS>PASS>DRIBBLE>PASS>JUMP",
+          10
+        ],
+        [
+          "PASS>DRIBBLE>PASS>JUMP>SHOOT",
+          9
+        ],
+        [
+          "DRIBBLE>PASS>DRIBBLE>PASS>DRIVE",
+          3
+        ],
+        [
+          "DRIBBLE>PASS>DRIVE>PASS>DRIVE",
+          3
+        ],
+        [
+          "DRIBBLE>PASS>DRIBBLE>DRIVE>SHOOT",
+          2
+        ]
+      ],
+      "entries": {},
+      "subphases": {},
+      "responses": {},
+      "executedEntryActions": 0,
+      "abandonedEntries": 0,
+      "shotKinds": {
+        "BACKCOURT_JUMP": 112,
+        "STANDING": 49,
+        "WING": 25,
+        "EMPTY_GOAL": 1
+      },
+      "qaMoments": []
+    },
+    {
+      "seed": 2025,
+      "direction": "BOTTOM",
+      "version": "2.6.0-match-ecosystem.1",
+      "complete": true,
+      "status": "CHECKPOINT",
+      "reason": "FULLTIME",
+      "score": {
+        "HOME": 44,
+        "AWAY": 41
+      },
+      "officialMs": 3600000,
+      "periods": [
+        {
+          "type": "PERIOD_STARTED",
+          "officialMs": 0,
+          "tick": 6
+        },
+        {
+          "type": "PERIOD_ENDED",
+          "officialMs": 1800000,
+          "tick": 39176
+        },
+        {
+          "type": "PERIOD_STARTED",
+          "officialMs": 1800000,
+          "tick": 51528
+        },
+        {
+          "type": "PERIOD_ENDED",
+          "officialMs": 3600000,
+          "tick": 90740
+        }
+      ],
+      "shots": 250,
+      "goals": 85,
+      "passes": 407,
+      "fouls": 35,
+      "suspensions": 23,
+      "exchanges": 37,
+      "attacksWithShot": 189,
+      "distinctOpeningPaths": 34,
+      "dominantOpeningShare": 0.30687830687830686,
+      "openingEntropy": 3.3427212652200065,
+      "topPaths": [
+        [
+          "PASS>PASS>DRIBBLE>PASS>DRIVE",
+          58
+        ],
+        [
+          "PASS>DRIBBLE>PASS>DRIVE>JUMP",
+          51
+        ],
+        [
+          "PASS>PASS>DRIBBLE>PASS>JUMP",
+          15
+        ],
+        [
+          "DRIBBLE>PASS>DRIVE>PASS>DRIVE",
+          9
+        ],
+        [
+          "PASS>PASS>DRIBBLE>PASS>FEINT",
+          9
+        ],
+        [
+          "DRIBBLE>PASS>DRIBBLE>JUMP>SHOOT",
+          7
+        ],
+        [
+          "DRIBBLE>PASS>DRIBBLE>DRIVE>SHOOT",
+          6
+        ],
+        [
+          "DRIBBLE>PASS>PASS>DRIVE>JUMP",
+          5
+        ]
+      ],
+      "entries": {},
+      "subphases": {},
+      "responses": {},
+      "executedEntryActions": 0,
+      "abandonedEntries": 0,
+      "shotKinds": {
+        "BACKCOURT_JUMP": 109,
+        "STANDING": 53,
+        "WING": 27
+      },
+      "qaMoments": []
+    }
+  ]
+}

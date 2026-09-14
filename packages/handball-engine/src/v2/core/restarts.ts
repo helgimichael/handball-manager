@@ -1,6 +1,6 @@
 import { goalAreaClearance } from '../../domain/geometry/goalArea';
 import { actionAvailable,courtPlayers,getPlayer,otherTeam,record,type CorePlayer,type CoreState,type Point } from './state';
-import { clamp,distance,fieldLegal,local,structurePoint,world,clearGoalArea } from './space';
+import { clamp,distance,fieldLegal,local,structurePoint,world,clearGoalArea,laneClearance } from './space';
 import { startAction } from './actions';
 import { acquire } from './transitions';
 import { exchangeActive,requestExchange } from './population';
@@ -28,8 +28,9 @@ export function restartTarget(s:CoreState,p:CorePlayer):Point {
     const q=local(target,direction);
     if(own)target=r.kind==='FREE_THROW'?clearGoalArea(target,direction,s.ruleProfile.restartDistance+p.radius+.3):world({x:q.x,y:Math.max(9.7,q.y)},direction);
     else {const x:Record<CorePlayer['role'],number>={LW:2.5,LB:5.5,CB:8,RB:14.5,RW:17.5,P:11,P2:16,GK:10};target=world({x:x[p.role],y:r.kind==='SEVEN_METRE'?10.8:7.5},direction);}
-    if(distance(target,r.location)<3.5){const q2=local(target,direction);target=world({x:q2.x,y:Math.max(6.6,local(r.location,direction).y+(own?3.8:-3.8))},direction);
-      if(!own&&distance(target,r.location)<3.5)target=world({x:Math.max(.5,Math.min(19.5,local(r.location,direction).x+(q2.x<10?-3.8:3.8))),y:Math.max(6.6,local(r.location,direction).y+3.8)},direction);
+    const takerCentre={x:clamp(r.location.x,.35,19.65),y:clamp(r.location.y,.35,39.65)};
+    if(distance(target,takerCentre)<3.6){const q2=local(target,direction);target=world({x:q2.x,y:Math.max(6.6,local(r.location,direction).y+(own?3.8:-3.8))},direction);
+      if(!own&&distance(target,takerCentre)<3.6)target=world({x:clamp(r.location.x+(r.location.x<10?3.8:-3.8),.5,19.5),y:Math.max(6.6,local(r.location,direction).y+3.8)},direction);
     }
   }
   return fieldLegal(target,p.radius)?target:{...p.position};
@@ -40,7 +41,7 @@ function moveToward(s:CoreState,p:CorePlayer,target:Point,reason:string) {
 }
 export function restartStep(s:CoreState) {
   const r=s.restart;if(!r||r.phase==='COMPLETED'||r.phase==='RELEASED')return;
-  if(s.tick-r.awardedTick>1600){s.status='INCOMPLETE';s.reason='Physical restart preparation did not finish within its budget';record(s,'INCOMPLETE',null,{reason:s.reason});return;}
+  if(s.tick-r.awardedTick-r.pausedTicks>1600){s.status='INCOMPLETE';s.reason='Physical restart preparation did not finish within its budget';record(s,'INCOMPLETE',null,{reason:s.reason});return;}
   if(r.phase==='AUTHORISED'&&r.authorisedTick!==null&&(s.tick-r.authorisedTick)*50>s.ruleProfile.maxHoldMs){s.status='FAILED';s.reason='Restart execution exceeded three seconds';record(s,'RESTART_FAILED',null,{reason:s.reason});return;}
   if(!r.takerId) {
     const taker=chooseTaker(s);
@@ -51,8 +52,22 @@ export function restartStep(s:CoreState) {
     r.takerId=taker.id;r.phase='PREPARING';record(s,'RESTART_PREPARATION',taker,{kind:r.kind});
   }
   const taker=getPlayer(s,r.takerId);
-  if(taker.population!=='COURT'){r.takerId=null;r.collectorId=null;return;}
-  if(!r.receiverId)r.receiverId=courtPlayers(s,r.owner).filter(p=>p.kind==='FIELD_PLAYER'&&p.id!==taker.id&&!exchangeActive(s,p.id)).sort((a,b)=>(a.role==='RB'?-1:0)-(b.role==='RB'?-1:0)||a.id.localeCompare(b.id))[0]?.id??null;
+  if(taker.population!=='COURT'){r.takerId=null;r.collectorId=null;r.receiverId=null;return;}
+  if(r.receiverId&&(r.receiverId===taker.id||getPlayer(s,r.receiverId).population!=='COURT'||exchangeActive(s,r.receiverId)))r.receiverId=null;
+  if(!r.receiverId){
+    const candidates=courtPlayers(s,r.owner).filter(p=>p.kind==='FIELD_PLAYER'&&p.id!==taker.id&&!exchangeActive(s,p.id));
+    if(r.kind==='CENTRE_THROW_OFF'||r.kind==='GOALKEEPER_THROW') {
+      const memory=s.offence.memory[r.owner],identity=s.coaching[r.owner].attackIdentity;
+      const score=(p:CorePlayer)=>{
+        const target=restartTarget(s,p),length=distance(r.location,target),wing=p.role==='LW'||p.role==='RW';
+        return Math.min(laneClearance(s,r.location,target,r.owner),3)*.45+p.attributes.skill*p.condition.energy+(wing&&identity==='WIDTH'?.7:0)+
+          (identity==='DIRECT'?Math.min(length,16)*.06:0)-Math.max(0,length-16)*.3-memory.outlets.filter(id=>id===p.id).length*.45;
+      };
+      candidates.sort((a,b)=>score(b)-score(a)||a.id.localeCompare(b.id));
+      r.receiverId=candidates[0]?.id??null;
+      if(r.receiverId){memory.outlets.push(r.receiverId);if(memory.outlets.length>6)memory.outlets.shift();record(s,'ATTACK_OUTLET_SELECTED',taker,{receiverId:r.receiverId,kind:r.kind,identity});}
+    }else r.receiverId=candidates.sort((a,b)=>(a.role==='RB'?-1:0)-(b.role==='RB'?-1:0)||a.id.localeCompare(b.id))[0]?.id??null;
+  }
   if(!r.collectorId) {
     const inside=goalAreaClearance(s.ball.position,'TOP')<=0||goalAreaClearance(s.ball.position,'BOTTOM')<=0;
     const holder=s.ball.controllerId?getPlayer(s,s.ball.controllerId):null;
@@ -94,8 +109,10 @@ export function restartStep(s:CoreState) {
   if(r.phase==='PREPARING'&&distance(taker.position,restartTarget(s,taker))<.1&&actionAvailable(taker)) {
     r.plantedFoot={...r.location};
     if(restartReady(s)&&(r.kind==='SEVEN_METRE'||s.match?.phase==='FINAL_THROW'||receiver?.action?.kind==='RECEIVE'&&receiver.action.phase==='EXECUTING')) {r.phase='AUTHORISED';r.authorisedTick=s.tick;taker.handling.heldSinceTick=s.tick;
+      const timedRestart=s.referee.resumeOnWhistle;
+      if(timedRestart){s.referee.resumeOnWhistle=false;s.officialClock.running=true;record(s,'OFFICIAL_CLOCK_RESTARTED',taker,{reason:'Restart whistle after time-out'});}
       if(s.match&&r.context==='OPENING_HALF'){s.officialClock.running=true;s.match.phase=s.period===1?'FIRST_HALF':'SECOND_HALF';s.match.periodStartMs=s.officialClock.timeMs;record(s,'PERIOD_STARTED',null,{period:s.period});}
-      record(s,r.kind==='GOALKEEPER_THROW'?'RESTART_READY':'RESTART_AUTHORISED',taker,{kind:r.kind,whistle:r.kind!=='GOALKEEPER_THROW'});}
+      record(s,r.kind==='GOALKEEPER_THROW'&&!timedRestart?'RESTART_READY':'RESTART_AUTHORISED',taker,{kind:r.kind,whistle:r.kind!=='GOALKEEPER_THROW'||timedRestart});}
   }
   if(r.phase==='AUTHORISED'&&s.tick-r.authorisedTick!>=6&&actionAvailable(taker)) {
     if(r.kind==='SEVEN_METRE'||s.match?.phase==='FINAL_THROW')startAction(s,taker,'SHOOT','Execute authorised direct throw from planted foot',null,null,r.kind==='SEVEN_METRE'?'SEVEN_METRE':'STANDING');

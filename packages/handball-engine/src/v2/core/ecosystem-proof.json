@@ -1,0 +1,1428 @@
+{
+  "complete": true,
+  "description": "Executed V2 full-match evidence; scores are observations, not calibration targets.",
+  "rows": [
+    {
+      "direction": "TOP",
+      "version": "2.6.0-match-ecosystem.1",
+      "seed": 1,
+      "complete": true,
+      "status": "CHECKPOINT",
+      "reason": "FULLTIME",
+      "score": {
+        "HOME": 54,
+        "AWAY": 46
+      },
+      "officialMs": 3600000,
+      "periods": [
+        {
+          "type": "PERIOD_STARTED",
+          "officialMs": 0,
+          "tick": 6
+        },
+        {
+          "type": "PERIOD_ENDED",
+          "officialMs": 1800000,
+          "tick": 39267
+        },
+        {
+          "type": "PERIOD_STARTED",
+          "officialMs": 1800000,
+          "tick": 51470
+        },
+        {
+          "type": "PERIOD_ENDED",
+          "officialMs": 3600000,
+          "tick": 90678
+        }
+      ],
+      "shots": 242,
+      "goals": 100,
+      "passes": 410,
+      "fouls": 26,
+      "suspensions": 17,
+      "exchanges": 29,
+      "tick": 90678,
+      "stateHash": "fbae2778",
+      "eventHash": "cda59590",
+      "counts": {
+        "PASSIVE_WARNING": 0,
+        "PASSIVE_PLAY": 0,
+        "ADVANTAGE_PENDING": 0,
+        "ADVANTAGE_REALIZED": 0,
+        "ADVANTAGE_RECALLED": 0,
+        "TEAM_TIMEOUT_STARTED": 3,
+        "OFFICIAL_CLOCK_RESTARTED": 23,
+        "TWO_MINUTE_SUSPENSION": 17,
+        "DISQUALIFICATION": 3,
+        "TREATMENT_STARTED": 0,
+        "TREATMENT_ELIGIBILITY_RESTORED": 0,
+        "EXCHANGE_COMPLETED": 29
+      },
+      "energy": [
+        {
+          "id": "H01",
+          "energy": 0.6924827828820671,
+          "distance": 10143.275061253642,
+          "courtMs": 3231450
+        },
+        {
+          "id": "H02",
+          "energy": 0.7325482386376385,
+          "distance": 7715.174368948459,
+          "courtMs": 3600100
+        },
+        {
+          "id": "H03",
+          "energy": 0.8763853519201446,
+          "distance": 3967.0307269997984,
+          "courtMs": 1800700
+        },
+        {
+          "id": "H04",
+          "energy": 0.7054022082552592,
+          "distance": 8479.951819457887,
+          "courtMs": 3600100
+        },
+        {
+          "id": "H05",
+          "energy": 0.70692231894847,
+          "distance": 10314.47130781432,
+          "courtMs": 3294350
+        },
+        {
+          "id": "H06",
+          "energy": 1,
+          "distance": 4562.286747163006,
+          "courtMs": 1719050
+        },
+        {
+          "id": "H07",
+          "energy": 0.9415444705560035,
+          "distance": 1944.6779970343005,
+          "courtMs": 3590900
+        },
+        {
+          "id": "A01",
+          "energy": 0.9576166230526038,
+          "distance": 6303.488881305473,
+          "courtMs": 2013600
+        },
+        {
+          "id": "A02",
+          "energy": 0.7926658471715868,
+          "distance": 7391.212618071746,
+          "courtMs": 3480100
+        },
+        {
+          "id": "A03",
+          "energy": 0.872526960469503,
+          "distance": 3973.9146847632474,
+          "courtMs": 1802150
+        },
+        {
+          "id": "A04",
+          "energy": 0.7091972721799387,
+          "distance": 8470.574376918426,
+          "courtMs": 3600100
+        },
+        {
+          "id": "A05",
+          "energy": 1,
+          "distance": 5529.786672190659,
+          "courtMs": 1771000
+        },
+        {
+          "id": "A06",
+          "energy": 1,
+          "distance": 4411.477324520776,
+          "courtMs": 1650400
+        },
+        {
+          "id": "A07",
+          "energy": 0.9383873621306795,
+          "distance": 1986.4281829424483,
+          "courtMs": 3600100
+        },
+        {
+          "id": "H08",
+          "energy": 1,
+          "distance": 41.87621914946192,
+          "courtMs": 9150
+        },
+        {
+          "id": "H09",
+          "energy": 1,
+          "distance": 3920.1815180953954,
+          "courtMs": 1799300
+        },
+        {
+          "id": "A08",
+          "energy": 1,
+          "distance": 0,
+          "courtMs": 0
+        },
+        {
+          "id": "A09",
+          "energy": 0.9997821761348399,
+          "distance": 3697.6963128116477,
+          "courtMs": 1679900
+        },
+        {
+          "id": "H10",
+          "energy": 1,
+          "distance": 0,
+          "courtMs": 0
+        },
+        {
+          "id": "H11",
+          "energy": 1,
+          "distance": 308.03293652140763,
+          "courtMs": 111600
+        },
+        {
+          "id": "H12",
+          "energy": 1,
+          "distance": 0,
+          "courtMs": 0
+        },
+        {
+          "id": "H13",
+          "energy": 1,
+          "distance": 0,
+          "courtMs": 0
+        },
+        {
+          "id": "H14",
+          "energy": 1,
+          "distance": 0,
+          "courtMs": 0
+        },
+        {
+          "id": "H15",
+          "energy": 0.8886005195416092,
+          "distance": 3311.9016470615784,
+          "courtMs": 1243450
+        },
+        {
+          "id": "A10",
+          "energy": 1,
+          "distance": 0,
+          "courtMs": 0
+        },
+        {
+          "id": "A11",
+          "energy": 0.7844325466239901,
+          "distance": 4993.711203234406,
+          "courtMs": 1586400
+        },
+        {
+          "id": "A12",
+          "energy": 1,
+          "distance": 0,
+          "courtMs": 0
+        },
+        {
+          "id": "A13",
+          "energy": 1,
+          "distance": 0,
+          "courtMs": 0
+        },
+        {
+          "id": "A14",
+          "energy": 0.7958570714082754,
+          "distance": 4759.038158313664,
+          "courtMs": 1589050
+        },
+        {
+          "id": "A15",
+          "energy": 0.9656996058162856,
+          "distance": 3176.395958276027,
+          "courtMs": 1227650
+        }
+      ],
+      "qaMoments": [
+        {
+          "type": "TEAM_TIMEOUT_STARTED",
+          "tick": 29058,
+          "officialMs": 1439000,
+          "actor": null
+        },
+        {
+          "type": "TEAM_TIMEOUT_STARTED",
+          "tick": 33638,
+          "officialMs": 1600150,
+          "actor": null
+        },
+        {
+          "type": "TEAM_TIMEOUT_STARTED",
+          "tick": 85296,
+          "officialMs": 3409350,
+          "actor": null
+        },
+        {
+          "type": "OFFICIAL_CLOCK_RESTARTED",
+          "tick": 15793,
+          "officialMs": 785100,
+          "actor": "A06"
+        },
+        {
+          "type": "OFFICIAL_CLOCK_RESTARTED",
+          "tick": 20918,
+          "officialMs": 1036250,
+          "actor": "H06"
+        },
+        {
+          "type": "OFFICIAL_CLOCK_RESTARTED",
+          "tick": 27903,
+          "officialMs": 1381250,
+          "actor": "H06"
+        },
+        {
+          "type": "TWO_MINUTE_SUSPENSION",
+          "tick": 15708,
+          "officialMs": 785100,
+          "actor": "H06"
+        },
+        {
+          "type": "TWO_MINUTE_SUSPENSION",
+          "tick": 20816,
+          "officialMs": 1036250,
+          "actor": "A06"
+        },
+        {
+          "type": "TWO_MINUTE_SUSPENSION",
+          "tick": 27818,
+          "officialMs": 1381250,
+          "actor": "A06"
+        },
+        {
+          "type": "DISQUALIFICATION",
+          "tick": 53671,
+          "officialMs": 1890350,
+          "actor": "A06"
+        },
+        {
+          "type": "DISQUALIFICATION",
+          "tick": 55167,
+          "officialMs": 1959350,
+          "actor": "H06"
+        },
+        {
+          "type": "DISQUALIFICATION",
+          "tick": 88136,
+          "officialMs": 3478000,
+          "actor": "A15"
+        },
+        {
+          "type": "EXCHANGE_COMPLETED",
+          "tick": 18199,
+          "officialMs": 905400,
+          "actor": "H09"
+        },
+        {
+          "type": "EXCHANGE_COMPLETED",
+          "tick": 18208,
+          "officialMs": 905850,
+          "actor": "A09"
+        },
+        {
+          "type": "EXCHANGE_COMPLETED",
+          "tick": 18218,
+          "officialMs": 906350,
+          "actor": "H06"
+        }
+      ],
+      "resume": {
+        "tick": 29058,
+        "event": "TEAM_TIMEOUT_STARTED",
+        "bytes": 26102705,
+        "exact": true
+      }
+    },
+    {
+      "direction": "BOTTOM",
+      "version": "2.6.0-match-ecosystem.1",
+      "seed": 1,
+      "complete": true,
+      "status": "CHECKPOINT",
+      "reason": "FULLTIME",
+      "score": {
+        "HOME": 60,
+        "AWAY": 61
+      },
+      "officialMs": 3600000,
+      "periods": [
+        {
+          "type": "PERIOD_STARTED",
+          "officialMs": 0,
+          "tick": 6
+        },
+        {
+          "type": "PERIOD_ENDED",
+          "officialMs": 1800000,
+          "tick": 37990
+        },
+        {
+          "type": "PERIOD_STARTED",
+          "officialMs": 1800000,
+          "tick": 50190
+        },
+        {
+          "type": "PERIOD_ENDED",
+          "officialMs": 3600000,
+          "tick": 88274
+        }
+      ],
+      "shots": 239,
+      "goals": 121,
+      "passes": 395,
+      "fouls": 21,
+      "suspensions": 12,
+      "exchanges": 24,
+      "tick": 88274,
+      "stateHash": "8bbcb8e0",
+      "eventHash": "b3c6ec9e",
+      "counts": {
+        "PASSIVE_WARNING": 0,
+        "PASSIVE_PLAY": 0,
+        "ADVANTAGE_PENDING": 0,
+        "ADVANTAGE_REALIZED": 0,
+        "ADVANTAGE_RECALLED": 0,
+        "TEAM_TIMEOUT_STARTED": 2,
+        "OFFICIAL_CLOCK_RESTARTED": 17,
+        "TWO_MINUTE_SUSPENSION": 12,
+        "DISQUALIFICATION": 3,
+        "TREATMENT_STARTED": 0,
+        "TREATMENT_ELIGIBILITY_RESTORED": 0,
+        "EXCHANGE_COMPLETED": 24
+      },
+      "energy": [
+        {
+          "id": "H01",
+          "energy": 0.9662351624822618,
+          "distance": 5955.291967999655,
+          "courtMs": 1999550
+        },
+        {
+          "id": "H02",
+          "energy": 0.7090055435428059,
+          "distance": 7668.001141600342,
+          "courtMs": 3600100
+        },
+        {
+          "id": "H03",
+          "energy": 0.8672785457207484,
+          "distance": 3911.8875210384053,
+          "courtMs": 1801950
+        },
+        {
+          "id": "H04",
+          "energy": 0.7629768732943356,
+          "distance": 8067.104497992214,
+          "courtMs": 3480100
+        },
+        {
+          "id": "H05",
+          "energy": 1,
+          "distance": 5525.192685752576,
+          "courtMs": 1839750
+        },
+        {
+          "id": "H06",
+          "energy": 1,
+          "distance": 1207.771069523585,
+          "courtMs": 431150
+        },
+        {
+          "id": "H07",
+          "energy": 0.9169133781259589,
+          "distance": 1931.943272501341,
+          "courtMs": 3597000
+        },
+        {
+          "id": "A01",
+          "energy": 0.8009179351528528,
+          "distance": 9619.244212866872,
+          "courtMs": 3187700
+        },
+        {
+          "id": "A02",
+          "energy": 0.9955079067822779,
+          "distance": 4966.749152994464,
+          "courtMs": 2443550
+        },
+        {
+          "id": "A03",
+          "energy": 0.8672502971324969,
+          "distance": 3762.130657590439,
+          "courtMs": 1801950
+        },
+        {
+          "id": "A04",
+          "energy": 0.680183898958758,
+          "distance": 8414.651733441691,
+          "courtMs": 3600100
+        },
+        {
+          "id": "A05",
+          "energy": 1,
+          "distance": 5114.721561082373,
+          "courtMs": 1703000
+        },
+        {
+          "id": "A06",
+          "energy": 0.719535745422602,
+          "distance": 8534.580057338055,
+          "courtMs": 3351000
+        },
+        {
+          "id": "A07",
+          "energy": 0.9138360241192114,
+          "distance": 2079.3569837330947,
+          "courtMs": 3600100
+        },
+        {
+          "id": "H08",
+          "energy": 1,
+          "distance": 3.745538000719197,
+          "courtMs": 3000
+        },
+        {
+          "id": "H09",
+          "energy": 1,
+          "distance": 3852.562705291681,
+          "courtMs": 1798050
+        },
+        {
+          "id": "A08",
+          "energy": 1,
+          "distance": 0,
+          "courtMs": 0
+        },
+        {
+          "id": "A09",
+          "energy": 1,
+          "distance": 3805.3744823861684,
+          "courtMs": 1798050
+        },
+        {
+          "id": "H10",
+          "energy": 1,
+          "distance": 0,
+          "courtMs": 0
+        },
+        {
+          "id": "H11",
+          "energy": 0.8011281568517776,
+          "distance": 5020.028700343469,
+          "courtMs": 1600450
+        },
+        {
+          "id": "H12",
+          "energy": 1,
+          "distance": 0,
+          "courtMs": 0
+        },
+        {
+          "id": "H13",
+          "energy": 1,
+          "distance": 0,
+          "courtMs": 0
+        },
+        {
+          "id": "H14",
+          "energy": 0.6778760323223532,
+          "distance": 4374.573761320134,
+          "courtMs": 1400350
+        },
+        {
+          "id": "H15",
+          "energy": 0.7453483910276242,
+          "distance": 6725.004446363744,
+          "courtMs": 2688950
+        },
+        {
+          "id": "A10",
+          "energy": 1,
+          "distance": 0,
+          "courtMs": 0
+        },
+        {
+          "id": "A11",
+          "energy": 0.9640946025304764,
+          "distance": 847.0366932277533,
+          "courtMs": 292350
+        },
+        {
+          "id": "A12",
+          "energy": 0.9286023816081896,
+          "distance": 2151.646295708917,
+          "courtMs": 964300
+        },
+        {
+          "id": "A13",
+          "energy": 1,
+          "distance": 0,
+          "courtMs": 0
+        },
+        {
+          "id": "A14",
+          "energy": 0.7197476952924464,
+          "distance": 5115.534075735484,
+          "courtMs": 1729300
+        },
+        {
+          "id": "A15",
+          "energy": 1,
+          "distance": 0,
+          "courtMs": 0
+        }
+      ],
+      "qaMoments": [
+        {
+          "type": "TEAM_TIMEOUT_STARTED",
+          "tick": 31801,
+          "officialMs": 1553650,
+          "actor": null
+        },
+        {
+          "type": "TEAM_TIMEOUT_STARTED",
+          "tick": 84579,
+          "officialMs": 3483550,
+          "actor": null
+        },
+        {
+          "type": "OFFICIAL_CLOCK_RESTARTED",
+          "tick": 3832,
+          "officialMs": 187100,
+          "actor": "A06"
+        },
+        {
+          "type": "OFFICIAL_CLOCK_RESTARTED",
+          "tick": 10568,
+          "officialMs": 519650,
+          "actor": "A06"
+        },
+        {
+          "type": "OFFICIAL_CLOCK_RESTARTED",
+          "tick": 13683,
+          "officialMs": 671150,
+          "actor": "A06"
+        },
+        {
+          "type": "TWO_MINUTE_SUSPENSION",
+          "tick": 3748,
+          "officialMs": 187100,
+          "actor": "H06"
+        },
+        {
+          "type": "TWO_MINUTE_SUSPENSION",
+          "tick": 10483,
+          "officialMs": 519650,
+          "actor": "H06"
+        },
+        {
+          "type": "TWO_MINUTE_SUSPENSION",
+          "tick": 23379,
+          "officialMs": 1155950,
+          "actor": "A06"
+        },
+        {
+          "type": "DISQUALIFICATION",
+          "tick": 13598,
+          "officialMs": 671150,
+          "actor": "H06"
+        },
+        {
+          "type": "DISQUALIFICATION",
+          "tick": 55868,
+          "officialMs": 2079700,
+          "actor": "H05"
+        },
+        {
+          "type": "DISQUALIFICATION",
+          "tick": 88008,
+          "officialMs": 3590950,
+          "actor": "A06"
+        },
+        {
+          "type": "EXCHANGE_COMPLETED",
+          "tick": 6250,
+          "officialMs": 308000,
+          "actor": "H06"
+        },
+        {
+          "type": "EXCHANGE_COMPLETED",
+          "tick": 12986,
+          "officialMs": 640550,
+          "actor": "H06"
+        },
+        {
+          "type": "EXCHANGE_COMPLETED",
+          "tick": 16101,
+          "officialMs": 792050,
+          "actor": "H15"
+        }
+      ],
+      "resume": {
+        "tick": 31801,
+        "event": "TEAM_TIMEOUT_STARTED",
+        "bytes": 27918841,
+        "exact": true
+      }
+    },
+    {
+      "direction": "TOP",
+      "version": "2.6.0-match-ecosystem.1",
+      "seed": 2025,
+      "complete": true,
+      "status": "CHECKPOINT",
+      "reason": "FULLTIME",
+      "score": {
+        "HOME": 63,
+        "AWAY": 60
+      },
+      "officialMs": 3600000,
+      "periods": [
+        {
+          "type": "PERIOD_STARTED",
+          "officialMs": 0,
+          "tick": 6
+        },
+        {
+          "type": "PERIOD_ENDED",
+          "officialMs": 1800000,
+          "tick": 39236
+        },
+        {
+          "type": "PERIOD_STARTED",
+          "officialMs": 1800000,
+          "tick": 51437
+        },
+        {
+          "type": "PERIOD_ENDED",
+          "officialMs": 3600000,
+          "tick": 90701
+        }
+      ],
+      "shots": 236,
+      "goals": 123,
+      "passes": 398,
+      "fouls": 17,
+      "suspensions": 9,
+      "exchanges": 17,
+      "tick": 90701,
+      "stateHash": "c36fbbc7",
+      "eventHash": "0e53f38a",
+      "counts": {
+        "PASSIVE_WARNING": 0,
+        "PASSIVE_PLAY": 0,
+        "ADVANTAGE_PENDING": 0,
+        "ADVANTAGE_REALIZED": 0,
+        "ADVANTAGE_RECALLED": 0,
+        "TEAM_TIMEOUT_STARTED": 4,
+        "OFFICIAL_CLOCK_RESTARTED": 15,
+        "TWO_MINUTE_SUSPENSION": 9,
+        "DISQUALIFICATION": 2,
+        "TREATMENT_STARTED": 0,
+        "TREATMENT_ELIGIBILITY_RESTORED": 0,
+        "EXCHANGE_COMPLETED": 17
+      },
+      "energy": [
+        {
+          "id": "H01",
+          "energy": 0.7365981695409837,
+          "distance": 10155.781708222938,
+          "courtMs": 3360100
+        },
+        {
+          "id": "H02",
+          "energy": 0.753978842315925,
+          "distance": 7245.626421156734,
+          "courtMs": 3600100
+        },
+        {
+          "id": "H03",
+          "energy": 0.9042949284037151,
+          "distance": 3704.7770938058907,
+          "courtMs": 1802450
+        },
+        {
+          "id": "H04",
+          "energy": 0.7168518393515009,
+          "distance": 8238.550723596096,
+          "courtMs": 3600100
+        },
+        {
+          "id": "H05",
+          "energy": 1,
+          "distance": 5673.882950787044,
+          "courtMs": 1917850
+        },
+        {
+          "id": "H06",
+          "energy": 1,
+          "distance": 3953.7886623197933,
+          "courtMs": 1585450
+        },
+        {
+          "id": "H07",
+          "energy": 0.9435998014581811,
+          "distance": 2004.0771972170303,
+          "courtMs": 3597000
+        },
+        {
+          "id": "A01",
+          "energy": 0.8071069887063682,
+          "distance": 9657.166627925442,
+          "courtMs": 3293900
+        },
+        {
+          "id": "A02",
+          "energy": 0.7540605936543748,
+          "distance": 7144.811539551395,
+          "courtMs": 3600100
+        },
+        {
+          "id": "A03",
+          "energy": 0.9058855405079334,
+          "distance": 3695.9212838016274,
+          "courtMs": 1802350
+        },
+        {
+          "id": "A04",
+          "energy": 0.7278644108987907,
+          "distance": 8162.724507484778,
+          "courtMs": 3600100
+        },
+        {
+          "id": "A05",
+          "energy": 0.6573649926982873,
+          "distance": 10321.408318721738,
+          "courtMs": 3480100
+        },
+        {
+          "id": "A06",
+          "energy": 1,
+          "distance": 3537.894111034586,
+          "courtMs": 1460450
+        },
+        {
+          "id": "A07",
+          "energy": 0.9438158067922255,
+          "distance": 2071.1026607306153,
+          "courtMs": 3600100
+        },
+        {
+          "id": "H08",
+          "energy": 1,
+          "distance": 3.7457261832032005,
+          "courtMs": 3000
+        },
+        {
+          "id": "H09",
+          "energy": 1,
+          "distance": 3651.4185978192,
+          "courtMs": 1797550
+        },
+        {
+          "id": "A08",
+          "energy": 1,
+          "distance": 0,
+          "courtMs": 0
+        },
+        {
+          "id": "A09",
+          "energy": 1,
+          "distance": 3684.3777601354896,
+          "courtMs": 1797650
+        },
+        {
+          "id": "H10",
+          "energy": 1,
+          "distance": 0,
+          "courtMs": 0
+        },
+        {
+          "id": "H11",
+          "energy": 1,
+          "distance": 0,
+          "courtMs": 0
+        },
+        {
+          "id": "H12",
+          "energy": 1,
+          "distance": 0,
+          "courtMs": 0
+        },
+        {
+          "id": "H13",
+          "energy": 1,
+          "distance": 0,
+          "courtMs": 0
+        },
+        {
+          "id": "H14",
+          "energy": 0.6487064472059412,
+          "distance": 5111.231373132961,
+          "courtMs": 1654650
+        },
+        {
+          "id": "H15",
+          "energy": 0.8134434781026538,
+          "distance": 3735.736787627625,
+          "courtMs": 1442250
+        },
+        {
+          "id": "A10",
+          "energy": 1,
+          "distance": 0,
+          "courtMs": 0
+        },
+        {
+          "id": "A11",
+          "energy": 0.9495618617918377,
+          "distance": 1005.5988041480864,
+          "courtMs": 306150
+        },
+        {
+          "id": "A12",
+          "energy": 1,
+          "distance": 0,
+          "courtMs": 0
+        },
+        {
+          "id": "A13",
+          "energy": 1,
+          "distance": 0,
+          "courtMs": 0
+        },
+        {
+          "id": "A14",
+          "energy": 1,
+          "distance": 0,
+          "courtMs": 0
+        },
+        {
+          "id": "A15",
+          "energy": 0.6849383149395487,
+          "distance": 4557.404398238946,
+          "courtMs": 1779600
+        }
+      ],
+      "qaMoments": [
+        {
+          "type": "TEAM_TIMEOUT_STARTED",
+          "tick": 29990,
+          "officialMs": 1481800,
+          "actor": null
+        },
+        {
+          "type": "TEAM_TIMEOUT_STARTED",
+          "tick": 35244,
+          "officialMs": 1672400,
+          "actor": null
+        },
+        {
+          "type": "TEAM_TIMEOUT_STARTED",
+          "tick": 79135,
+          "officialMs": 3154100,
+          "actor": null
+        },
+        {
+          "type": "OFFICIAL_CLOCK_RESTARTED",
+          "tick": 17669,
+          "officialMs": 878900,
+          "actor": "A06"
+        },
+        {
+          "type": "OFFICIAL_CLOCK_RESTARTED",
+          "tick": 19021,
+          "officialMs": 942250,
+          "actor": "H09"
+        },
+        {
+          "type": "OFFICIAL_CLOCK_RESTARTED",
+          "tick": 21934,
+          "officialMs": 1079000,
+          "actor": "H06"
+        },
+        {
+          "type": "TWO_MINUTE_SUSPENSION",
+          "tick": 17584,
+          "officialMs": 878900,
+          "actor": "H06"
+        },
+        {
+          "type": "TWO_MINUTE_SUSPENSION",
+          "tick": 18936,
+          "officialMs": 942250,
+          "actor": "A06"
+        },
+        {
+          "type": "TWO_MINUTE_SUSPENSION",
+          "tick": 21756,
+          "officialMs": 1079000,
+          "actor": "A06"
+        },
+        {
+          "type": "DISQUALIFICATION",
+          "tick": 37067,
+          "officialMs": 1700450,
+          "actor": "A06"
+        },
+        {
+          "type": "DISQUALIFICATION",
+          "tick": 51945,
+          "officialMs": 1825400,
+          "actor": "H06"
+        },
+        {
+          "type": "EXCHANGE_COMPLETED",
+          "tick": 18208,
+          "officialMs": 905850,
+          "actor": "A09"
+        },
+        {
+          "type": "EXCHANGE_COMPLETED",
+          "tick": 18213,
+          "officialMs": 906100,
+          "actor": "H09"
+        },
+        {
+          "type": "EXCHANGE_COMPLETED",
+          "tick": 20172,
+          "officialMs": 999800,
+          "actor": "H06"
+        }
+      ],
+      "resume": {
+        "tick": 29990,
+        "event": "TEAM_TIMEOUT_STARTED",
+        "bytes": 26746168,
+        "exact": true
+      },
+      "commandBranch": {
+        "version": "2.6.0-match-ecosystem.1",
+        "seed": 2025,
+        "complete": true,
+        "status": "CHECKPOINT",
+        "reason": "FULLTIME",
+        "score": {
+          "HOME": 50,
+          "AWAY": 57
+        },
+        "officialMs": 3600000,
+        "periods": [
+          {
+            "type": "PERIOD_STARTED",
+            "officialMs": 0,
+            "tick": 6
+          },
+          {
+            "type": "PERIOD_ENDED",
+            "officialMs": 1800000,
+            "tick": 38697
+          },
+          {
+            "type": "PERIOD_STARTED",
+            "officialMs": 1800000,
+            "tick": 50895
+          },
+          {
+            "type": "PERIOD_ENDED",
+            "officialMs": 3600000,
+            "tick": 87935
+          }
+        ],
+        "shots": 252,
+        "goals": 107,
+        "passes": 400,
+        "fouls": 23,
+        "suspensions": 15,
+        "exchanges": 29,
+        "stateHash": "06783290",
+        "eventHash": "5fb0500c",
+        "injured": "H01",
+        "exactResume": true
+      }
+    },
+    {
+      "direction": "BOTTOM",
+      "version": "2.6.0-match-ecosystem.1",
+      "seed": 2025,
+      "complete": true,
+      "status": "CHECKPOINT",
+      "reason": "FULLTIME",
+      "score": {
+        "HOME": 44,
+        "AWAY": 41
+      },
+      "officialMs": 3600000,
+      "periods": [
+        {
+          "type": "PERIOD_STARTED",
+          "officialMs": 0,
+          "tick": 6
+        },
+        {
+          "type": "PERIOD_ENDED",
+          "officialMs": 1800000,
+          "tick": 39176
+        },
+        {
+          "type": "PERIOD_STARTED",
+          "officialMs": 1800000,
+          "tick": 51528
+        },
+        {
+          "type": "PERIOD_ENDED",
+          "officialMs": 3600000,
+          "tick": 90740
+        }
+      ],
+      "shots": 250,
+      "goals": 85,
+      "passes": 407,
+      "fouls": 35,
+      "suspensions": 23,
+      "exchanges": 37,
+      "tick": 90740,
+      "stateHash": "f51bd682",
+      "eventHash": "14e0bcdb",
+      "counts": {
+        "PASSIVE_WARNING": 0,
+        "PASSIVE_PLAY": 0,
+        "ADVANTAGE_PENDING": 0,
+        "ADVANTAGE_REALIZED": 0,
+        "ADVANTAGE_RECALLED": 0,
+        "TEAM_TIMEOUT_STARTED": 2,
+        "OFFICIAL_CLOCK_RESTARTED": 31,
+        "TWO_MINUTE_SUSPENSION": 23,
+        "DISQUALIFICATION": 6,
+        "TREATMENT_STARTED": 0,
+        "TREATMENT_ELIGIBILITY_RESTORED": 0,
+        "EXCHANGE_COMPLETED": 37
+      },
+      "energy": [
+        {
+          "id": "H01",
+          "energy": 0.6265707880759808,
+          "distance": 10113.139891693561,
+          "courtMs": 3360100
+        },
+        {
+          "id": "H02",
+          "energy": 1,
+          "distance": 5145.767757540203,
+          "courtMs": 2485200
+        },
+        {
+          "id": "H03",
+          "energy": 0.9895164040334633,
+          "distance": 1490.6341790665444,
+          "courtMs": 651200
+        },
+        {
+          "id": "H04",
+          "energy": 0.7624390894887372,
+          "distance": 7954.516419217062,
+          "courtMs": 3360100
+        },
+        {
+          "id": "H05",
+          "energy": 0.8950063577532698,
+          "distance": 6801.577145490008,
+          "courtMs": 2198200
+        },
+        {
+          "id": "H06",
+          "energy": 1,
+          "distance": 2046.4569677233012,
+          "courtMs": 782300
+        },
+        {
+          "id": "H07",
+          "energy": 0.9449547517218865,
+          "distance": 1900.157247991228,
+          "courtMs": 3598200
+        },
+        {
+          "id": "A01",
+          "energy": 0.8349707236080762,
+          "distance": 9720.513006479832,
+          "courtMs": 3224650
+        },
+        {
+          "id": "A02",
+          "energy": 0.7323761513821329,
+          "distance": 7937.224783812364,
+          "courtMs": 3600100
+        },
+        {
+          "id": "A03",
+          "energy": 0.885436742068575,
+          "distance": 3788.81470614047,
+          "courtMs": 1797350
+        },
+        {
+          "id": "A04",
+          "energy": 0.7138818989157062,
+          "distance": 7981.951646624684,
+          "courtMs": 3480100
+        },
+        {
+          "id": "A05",
+          "energy": 0.9206381392717543,
+          "distance": 8630.75155924962,
+          "courtMs": 2862500
+        },
+        {
+          "id": "A06",
+          "energy": 1,
+          "distance": 2847.105852293789,
+          "courtMs": 1068500
+        },
+        {
+          "id": "A07",
+          "energy": 0.9452024767328848,
+          "distance": 1931.0595755578267,
+          "courtMs": 3600100
+        },
+        {
+          "id": "H08",
+          "energy": 1,
+          "distance": 1.8027728009220296,
+          "courtMs": 1800
+        },
+        {
+          "id": "H09",
+          "energy": 0.746875908341305,
+          "distance": 6779.100048707116,
+          "courtMs": 3186050
+        },
+        {
+          "id": "A08",
+          "energy": 1,
+          "distance": 0,
+          "courtMs": 0
+        },
+        {
+          "id": "A09",
+          "energy": 1,
+          "distance": 4096.056693822963,
+          "courtMs": 1802650
+        },
+        {
+          "id": "H10",
+          "energy": 1,
+          "distance": 0,
+          "courtMs": 0
+        },
+        {
+          "id": "H11",
+          "energy": 1,
+          "distance": 0,
+          "courtMs": 0
+        },
+        {
+          "id": "H12",
+          "energy": 0.9800639699975556,
+          "distance": 1391.810629326998,
+          "courtMs": 720650
+        },
+        {
+          "id": "H13",
+          "energy": 1,
+          "distance": 0,
+          "courtMs": 0
+        },
+        {
+          "id": "H14",
+          "energy": 1,
+          "distance": 2760.9432536441773,
+          "courtMs": 956050
+        },
+        {
+          "id": "H15",
+          "energy": 1,
+          "distance": 4104.524438063594,
+          "courtMs": 1615850
+        },
+        {
+          "id": "A10",
+          "energy": 1,
+          "distance": 0,
+          "courtMs": 0
+        },
+        {
+          "id": "A11",
+          "energy": 1,
+          "distance": 889.664602219755,
+          "courtMs": 287900
+        },
+        {
+          "id": "A12",
+          "energy": 1,
+          "distance": 0,
+          "courtMs": 0
+        },
+        {
+          "id": "A13",
+          "energy": 1,
+          "distance": 0,
+          "courtMs": 0
+        },
+        {
+          "id": "A14",
+          "energy": 0.9943497917885427,
+          "distance": 717.2815782639567,
+          "courtMs": 231200
+        },
+        {
+          "id": "A15",
+          "energy": 0.7199414139543081,
+          "distance": 5476.351572574922,
+          "courtMs": 2045500
+        }
+      ],
+      "qaMoments": [
+        {
+          "type": "TEAM_TIMEOUT_STARTED",
+          "tick": 34297,
+          "officialMs": 1638000,
+          "actor": null
+        },
+        {
+          "type": "TEAM_TIMEOUT_STARTED",
+          "tick": 87117,
+          "officialMs": 3481950,
+          "actor": null
+        },
+        {
+          "type": "OFFICIAL_CLOCK_RESTARTED",
+          "tick": 2006,
+          "officialMs": 89200,
+          "actor": "H06"
+        },
+        {
+          "type": "OFFICIAL_CLOCK_RESTARTED",
+          "tick": 6149,
+          "officialMs": 292150,
+          "actor": "A06"
+        },
+        {
+          "type": "OFFICIAL_CLOCK_RESTARTED",
+          "tick": 6755,
+          "officialMs": 317300,
+          "actor": "H04"
+        },
+        {
+          "type": "TWO_MINUTE_SUSPENSION",
+          "tick": 1790,
+          "officialMs": 89200,
+          "actor": "A06"
+        },
+        {
+          "type": "TWO_MINUTE_SUSPENSION",
+          "tick": 6065,
+          "officialMs": 292150,
+          "actor": "H06"
+        },
+        {
+          "type": "TWO_MINUTE_SUSPENSION",
+          "tick": 6652,
+          "officialMs": 317300,
+          "actor": "A04"
+        },
+        {
+          "type": "DISQUALIFICATION",
+          "tick": 22563,
+          "officialMs": 1071900,
+          "actor": "H06"
+        },
+        {
+          "type": "DISQUALIFICATION",
+          "tick": 27380,
+          "officialMs": 1308500,
+          "actor": "A06"
+        },
+        {
+          "type": "DISQUALIFICATION",
+          "tick": 74358,
+          "officialMs": 2883250,
+          "actor": "H14"
+        },
+        {
+          "type": "EXCHANGE_COMPLETED",
+          "tick": 4424,
+          "officialMs": 210100,
+          "actor": "A06"
+        },
+        {
+          "type": "EXCHANGE_COMPLETED",
+          "tick": 8867,
+          "officialMs": 413050,
+          "actor": "H09"
+        },
+        {
+          "type": "EXCHANGE_COMPLETED",
+          "tick": 9370,
+          "officialMs": 438200,
+          "actor": "A04"
+        }
+      ],
+      "resume": {
+        "tick": 34297,
+        "event": "TEAM_TIMEOUT_STARTED",
+        "bytes": 29622156,
+        "exact": true
+      },
+      "commandBranch": {
+        "version": "2.6.0-match-ecosystem.1",
+        "seed": 2025,
+        "complete": true,
+        "status": "CHECKPOINT",
+        "reason": "FULLTIME",
+        "score": {
+          "HOME": 50,
+          "AWAY": 55
+        },
+        "officialMs": 3600000,
+        "periods": [
+          {
+            "type": "PERIOD_STARTED",
+            "officialMs": 0,
+            "tick": 6
+          },
+          {
+            "type": "PERIOD_ENDED",
+            "officialMs": 1800000,
+            "tick": 40321
+          },
+          {
+            "type": "PERIOD_STARTED",
+            "officialMs": 1800000,
+            "tick": 52521
+          },
+          {
+            "type": "PERIOD_ENDED",
+            "officialMs": 3600000,
+            "tick": 91432
+          }
+        ],
+        "shots": 246,
+        "goals": 105,
+        "passes": 401,
+        "fouls": 27,
+        "suspensions": 18,
+        "exchanges": 31,
+        "stateHash": "db06e042",
+        "eventHash": "533ca165",
+        "injured": "H01",
+        "exactResume": true
+      }
+    }
+  ]
+}

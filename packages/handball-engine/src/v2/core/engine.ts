@@ -9,6 +9,11 @@ import { restartStep } from './restarts';
 import { populationBefore,populationAfter,exchangeActive,courtLimit } from './population';
 import { matchBefore,matchAfter } from './match';
 import { resolveContacts } from './contact';
+import { refereeBefore,refereeAfter } from './referee';
+import { passiveAfter } from './passive';
+import { conditionAfter } from './condition';
+import { coachingBefore } from './coaching';
+import { offenceBefore,offenceAfter } from './offence';
 function collectLoose(s:CoreState) {
   if(s.ball.mode!=='LOOSE')return;
   for(const p of courtPlayers(s).filter(p=>p.kind==='GOALKEEPER')) {
@@ -39,13 +44,16 @@ export function tickCore(previous:CoreState):CoreState {
 }
 /** For an exclusively-owned batch runner. UI/replay must use immutable tickCore. */
 export function advanceCoreMutable(s:CoreState):CoreState {
-  advanceOneTick(s);matchAfter(s);return s;
+  if(s.status!=='RUNNING')return s;
+  advanceOneTick(s);refereeAfter(s);passiveAfter(s);conditionAfter(s);matchAfter(s);offenceAfter(s);return s;
 }
 function advanceOneTick(s:CoreState):CoreState {
   if(s.status!=='RUNNING')return s;
   s.tick++;s.timeMs=s.tick*DT_MS;if(s.officialClock.running)s.officialClock.timeMs+=DT_MS;
   if(s.tick>s.checkpoint.maxTicks){s.status='INCOMPLETE';s.reason='Scenario tick budget exhausted';record(s,'INCOMPLETE',null,{reason:s.reason});return s;}
   if(matchBefore(s))return s;
+  coachingBefore(s);
+  if(refereeBefore(s))return s;
   const carrier=s.ball.controllerId?getPlayer(s,s.ball.controllerId):null;
   const oldPosition=carrier?{...carrier.position}:null;
   populationBefore(s);
@@ -53,7 +61,7 @@ function advanceOneTick(s:CoreState):CoreState {
     // A real loose-ball encounter may change the team or award a keeper restart.
     // Allocate responsibilities and select only after that transition is known.
     collectLoose(s);if(s.status!=='RUNNING')return s;
-    if(s.ball.live){coordinate(s);selectActions(s);}else restartStep(s);
+    if(s.ball.live){offenceBefore(s);coordinate(s);selectActions(s);}else restartStep(s);
   }else restartStep(s);
   if(s.status!=='RUNNING')return s;
   const effects=execute(s);
@@ -76,8 +84,9 @@ export function assertCore(s:CoreState) {
   check(s.ruleProfile&&Object.entries(CORE_RULES).every(([key,value])=>s.ruleProfile[key as keyof typeof CORE_RULES]===value),'supported rule profile');
   check(Number.isInteger(s.rng.state)&&s.rng.state>=0&&s.rng.state<=0xffffffff&&Number.isInteger(s.rng.draws),'persisted RNG');
   check(new Set(s.players.map(p=>p.id)).size===s.players.length,'unique identities');
-  for(const team of ['HOME','AWAY'] as const)check(courtPlayers(s,team).length<=courtLimit(s,team),'court population');
+  for(const team of ['HOME','AWAY'] as const){check(courtPlayers(s,team).length<=courtLimit(s,team),'court population');check(courtPlayers(s,team).filter(p=>p.kind==='GOALKEEPER').length<=1,'one goalkeeper per team');}
   for(const p of s.players) {
+    check(p.condition&&Number.isFinite(p.condition.energy)&&p.condition.energy>=.3&&p.condition.energy<=1&&Number.isFinite(p.condition.distanceMetres)&&p.condition.distanceMetres>=0&&Number.isInteger(p.condition.attacksRemaining)&&p.condition.attacksRemaining>=0&&p.condition.attacksRemaining<=3,'player condition');
     check(Number.isFinite(p.position.x)&&Number.isFinite(p.position.y)&&Number.isFinite(p.velocity.x)&&Number.isFinite(p.velocity.y),'finite physical state');
     if(p.population==='COURT'&&p.kind==='FIELD_PLAYER'&&!p.airborne)check(fieldLegal(p.position,p.radius)||(exchangeActive(s,p.id)&&p.position.x>=-.4&&p.position.x<.65&&p.position.y>=15&&p.position.y<=25),'legal grounded position');
     if(p.action)check(p.action.startedTick<=p.action.phaseTick&&p.action.phaseTick<=s.tick,'action chronology');

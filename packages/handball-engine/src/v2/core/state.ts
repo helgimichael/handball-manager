@@ -1,9 +1,13 @@
 import type { Point, TeamId, Direction } from '../model';
 import { nextRandom } from '../primitives';
 import type { BackcourtSupport } from './backcourt';
+import type { RefereeState } from './referee';
+import type { PlayerCondition } from './condition';
+import type { TeamTactics } from './coaching';
+import type { OffenceState } from './offence';
 export type { Point, TeamId, Direction } from '../model';
 
-export const CORE_VERSION = '2.5.0-backcourt-relationships.1';
+export const CORE_VERSION = '2.7.0-adaptive-offence.1';
 export const DT_MS = 50;
 /** Scoped execution profile; not a claim that all IHF rules are implemented. */
 export const CORE_RULES = {id:'IHF_INDOOR_2025' as const,maxHoldMs:3000,maxSteps:3,suspensionMs:120000,restartDistance:3,goalAreaRadius:6};
@@ -12,6 +16,7 @@ export type ActionKind = 'RUN' | 'REPOSITION' | 'RECEIVE' | 'HOLD' | 'DRIBBLE' |
 export type ActionPhase = 'PREPARING' | 'COMMITTED' | 'EXECUTING' | 'RECOVERING' | 'COMPLETED' | 'INTERRUPTED' | 'FAILED';
 export type Duty = 'CARRIER' | 'WING_PIN' | 'WING_OFFER' | 'CONNECT' | 'STRETCH' | 'COMBINE' | 'CLEAR_LANE' | 'RECYCLE' | 'BALANCE' | 'PIVOT' | 'FIRST_WAVE' | 'SECOND_WAVE' | 'PRESSURE' | 'MARK' | 'HELP' | 'COVER' | 'RETREAT' | 'RECOVER' | 'GOALKEEPER' | 'COLLECT' | 'RESTART_TAKER' | 'WAIT';
 export type CorePlayer = {
+  condition:PlayerCondition;
   id: string; team: TeamId; kind: 'FIELD_PLAYER' | 'GOALKEEPER';
   role: Role; population: 'COURT' | 'BENCH' | 'SUSPENDED' | 'DISQUALIFIED';
   position: Point; velocity: Point; radius: number;
@@ -58,8 +63,9 @@ export type Restart = {
   takerId: string | null; authorisedTick: number | null;
   collectorId: string | null; receiverId: string | null; context:'OPENING_HALF'|'POST_GOAL'|null;
   plantedFoot: Point | null;
+  pausedTicks:number;
 };
-export type Exchange={id:string;team:TeamId;outId:string|null;inId:string;phase:'WAIT_EXIT'|'ENTERING'|'COMPLETED';gate:Point;requestedTick:number};
+export type Exchange={id:string;team:TeamId;outId:string|null;inId:string;phase:'WAIT_EXIT'|'ENTERING'|'COMPLETED'|'CANCELLED';gate:Point;requestedTick:number};
 export type CoreState = {
   version: typeof CORE_VERSION; scenario: string; seed: number;
   ruleProfile: typeof CORE_RULES;
@@ -73,6 +79,9 @@ export type CoreState = {
   players: CorePlayer[];
   ball: { mode: 'DEAD' | 'CONTROLLED' | 'HOLD' | 'DRIBBLE' | 'RELEASE' | 'PASS_FLIGHT' | 'SHOT_FLIGHT' | 'RECEPTION' | 'DEFLECTION' | 'LOOSE' | 'GOALKEEPER_CONTROL' | 'OUT'; position: Point; height: number; controllerId: string | null; live: boolean; flight: CoreFlight | null; lastTouchId: string | null };
   restart: Restart | null; contests: CoreContest[]; events: CoreEvent[]; nextId: number;
+  referee:RefereeState;
+  coaching:Record<TeamId,TeamTactics>;
+  offence:OffenceState;
   exchanges:Exchange[];
   flow:{continuous:boolean;outcomes:number;lastOutcomeTick:number;stopAfter:number|null;sevenVTeam:TeamId|null};
   match:{phase:'PREMATCH'|'FIRST_HALF'|'HALFTIME'|'SECOND_HALF'|'FINAL_THROW'|'FULLTIME';periodLengthMs:number;periodStartMs:number;resumeTick:number;halfBreakMs:number;outcomesAtHorn:number;

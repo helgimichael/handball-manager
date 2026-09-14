@@ -1,0 +1,1926 @@
+{
+  "complete": true,
+  "rows": [
+    {
+      "seed": 1,
+      "direction": "TOP",
+      "version": "2.7.0-adaptive-offence.1",
+      "complete": true,
+      "status": "CHECKPOINT",
+      "reason": "FULLTIME",
+      "score": {
+        "HOME": 35,
+        "AWAY": 30
+      },
+      "officialMs": 3600000,
+      "periods": [
+        {
+          "type": "PERIOD_STARTED",
+          "officialMs": 0,
+          "tick": 6
+        },
+        {
+          "type": "PERIOD_ENDED",
+          "officialMs": 1800000,
+          "tick": 38355
+        },
+        {
+          "type": "PERIOD_STARTED",
+          "officialMs": 1800000,
+          "tick": 50565
+        },
+        {
+          "type": "PERIOD_ENDED",
+          "officialMs": 3600000,
+          "tick": 88758
+        }
+      ],
+      "shots": 168,
+      "goals": 65,
+      "passes": 650,
+      "fouls": 26,
+      "suspensions": 18,
+      "exchanges": 29,
+      "attacksWithShot": 141,
+      "distinctOpeningPaths": 35,
+      "dominantOpeningShare": 0.15602836879432624,
+      "openingEntropy": 4.312426666311747,
+      "topPaths": [
+        [
+          "PASS>DRIBBLE>PASS>JUMP>SHOOT",
+          22
+        ],
+        [
+          "PASS>PASS>DRIBBLE>PASS>JUMP",
+          19
+        ],
+        [
+          "PASS>PASS>DRIBBLE>DRIVE>PASS",
+          14
+        ],
+        [
+          "PASS>PASS>DRIBBLE>PASS>PASS",
+          12
+        ],
+        [
+          "PASS>DRIBBLE>PASS>PASS>PASS",
+          8
+        ],
+        [
+          "PASS>DRIBBLE>PASS>DRIVE>JUMP",
+          8
+        ],
+        [
+          "PASS>DRIBBLE>PASS>DRIBBLE>PASS",
+          6
+        ],
+        [
+          "DRIBBLE>PASS>DRIBBLE>PASS>PASS",
+          5
+        ]
+      ],
+      "entries": {
+        "CROSS": 62,
+        "WING_TRANSITION": 36,
+        "PIVOT_SCREEN": 53,
+        "STRETCH_SHIFT": 42,
+        "FREE": 36
+      },
+      "subphases": {
+        "UPPFOLJNING": 125,
+        "UPPBYGGNAD": 204,
+        "UPPSPEL": 225,
+        "AVSLUTNING": 168
+      },
+      "responses": {
+        "STEP_OUT": 184,
+        "HOLD_LINE": 141,
+        "SWITCH": 7,
+        "COLLAPSE": 37,
+        "DENIED": 14
+      },
+      "entryDecisions": 565,
+      "physicalEntryMovements": 385,
+      "establishedRelationships": 52,
+      "endedEntries": 229,
+      "physicalByFamily": {
+        "CROSS": 35,
+        "PIVOT_SCREEN": 3,
+        "WING_TRANSITION": 12,
+        "STRETCH_SHIFT": 2
+      },
+      "shotKinds": {
+        "BACKCOURT_JUMP": 80,
+        "BREAKTHROUGH": 20,
+        "STANDING": 9,
+        "WING": 30,
+        "EMPTY_GOAL": 2
+      },
+      "qaMoments": [
+        {
+          "tick": 96,
+          "type": "ATTACK_ENTRY_SELECTED",
+          "entryId": "entry-407",
+          "family": "CROSS",
+          "side": -1,
+          "partnerId": "H02",
+          "score": 2.8893405488989723,
+          "alternative": "PIVOT_SCREEN",
+          "reason": "Change the backcourt matchup and test switch versus pursuit",
+          "identity": "BALANCED"
+        },
+        {
+          "tick": 96,
+          "type": "ATTACK_RESPONSE",
+          "entryId": "entry-407",
+          "family": "CROSS",
+          "response": "STEP_OUT"
+        },
+        {
+          "tick": 109,
+          "type": "ATTACK_ENTRY_ACTION",
+          "entryId": "entry-407",
+          "family": "CROSS",
+          "response": "STEP_OUT",
+          "kind": "DRIVE",
+          "reason": "Engage across the adjacent defender before reading the crossing partner"
+        },
+        {
+          "tick": 130,
+          "type": "ATTACK_ENTRY_ACTION",
+          "entryId": "entry-407",
+          "family": "CROSS",
+          "response": "STEP_OUT",
+          "kind": "PASS",
+          "reason": "Better opportunity overrides the intended partner"
+        },
+        {
+          "tick": 163,
+          "type": "ATTACK_ENTRY_ACTION",
+          "entryId": "entry-407",
+          "family": "CROSS",
+          "response": "STEP_OUT",
+          "kind": "PASS",
+          "reason": "Continue the available entry relationship"
+        },
+        {
+          "tick": 195,
+          "type": "ATTACK_RESPONSE",
+          "entryId": "entry-407",
+          "family": "CROSS",
+          "response": "HOLD_LINE"
+        },
+        {
+          "tick": 196,
+          "type": "ATTACK_ENTRY_ACTION",
+          "entryId": "entry-407",
+          "family": "CROSS",
+          "response": "HOLD_LINE",
+          "kind": "PASS",
+          "reason": "Better opportunity overrides the intended partner"
+        },
+        {
+          "tick": 220,
+          "type": "ATTACK_ENTRY_ACTION",
+          "entryId": "entry-407",
+          "family": "CROSS",
+          "response": "HOLD_LINE",
+          "kind": "PASS",
+          "reason": "Continue the available entry relationship"
+        },
+        {
+          "tick": 244,
+          "type": "ATTACK_ENTRY_ACTION",
+          "entryId": "entry-407",
+          "family": "CROSS",
+          "response": "HOLD_LINE",
+          "kind": "PASS",
+          "reason": "Better opportunity overrides the intended partner"
+        },
+        {
+          "tick": 257,
+          "type": "ATTACK_ENTRY_ENDED",
+          "entryId": "entry-407",
+          "family": "CROSS",
+          "reason": "Relationship no longer available",
+          "value": 0,
+          "actions": 6,
+          "receipts": 5
+        },
+        {
+          "tick": 674,
+          "type": "ATTACK_ENTRY_SELECTED",
+          "entryId": "entry-3320",
+          "family": "WING_TRANSITION",
+          "side": -1,
+          "partnerId": "H01",
+          "score": 2.4760621944783465,
+          "alternative": "PIVOT_SCREEN",
+          "reason": "Move a wing into a second line-player relationship behind advanced cover",
+          "identity": "BALANCED"
+        },
+        {
+          "tick": 674,
+          "type": "ATTACK_RESPONSE",
+          "entryId": "entry-3320",
+          "family": "WING_TRANSITION",
+          "response": "STEP_OUT"
+        },
+        {
+          "tick": 687,
+          "type": "ATTACK_ENTRY_ACTION",
+          "entryId": "entry-3320",
+          "family": "WING_TRANSITION",
+          "response": "STEP_OUT",
+          "kind": "PASS",
+          "reason": "Better opportunity overrides the intended partner"
+        },
+        {
+          "tick": 714,
+          "type": "ATTACK_ENTRY_ACTION",
+          "entryId": "entry-3320",
+          "family": "WING_TRANSITION",
+          "response": "STEP_OUT",
+          "kind": "PASS",
+          "reason": "Continue the available entry relationship"
+        },
+        {
+          "tick": 749,
+          "type": "ATTACK_ENTRY_ACTION",
+          "entryId": "entry-3320",
+          "family": "WING_TRANSITION",
+          "response": "STEP_OUT",
+          "kind": "JUMP",
+          "reason": "Defence leaves a shot worth taking; break the entry"
+        },
+        {
+          "tick": 760,
+          "type": "ATTACK_RESPONSE",
+          "entryId": "entry-3320",
+          "family": "WING_TRANSITION",
+          "response": "HOLD_LINE"
+        },
+        {
+          "tick": 767,
+          "type": "ATTACK_ENTRY_ENDED",
+          "entryId": "entry-3320",
+          "family": "WING_TRANSITION",
+          "reason": "Shot released from the resulting situation",
+          "value": 0.4625390925225652,
+          "actions": 3,
+          "receipts": 2
+        },
+        {
+          "tick": 1031,
+          "type": "ATTACK_ENTRY_SELECTED",
+          "entryId": "entry-4717",
+          "family": "CROSS",
+          "side": 1,
+          "partnerId": "A03",
+          "score": 2.873701572791642,
+          "alternative": "WING_TRANSITION",
+          "reason": "Change the backcourt matchup and test switch versus pursuit",
+          "identity": "BALANCED"
+        },
+        {
+          "tick": 1031,
+          "type": "ATTACK_RESPONSE",
+          "entryId": "entry-4717",
+          "family": "CROSS",
+          "response": "STEP_OUT"
+        },
+        {
+          "tick": 1044,
+          "type": "ATTACK_ENTRY_ACTION",
+          "entryId": "entry-4717",
+          "family": "CROSS",
+          "response": "STEP_OUT",
+          "kind": "DRIVE",
+          "reason": "Engage across the adjacent defender before reading the crossing partner"
+        },
+        {
+          "tick": 1065,
+          "type": "ATTACK_ENTRY_ACTION",
+          "entryId": "entry-4717",
+          "family": "CROSS",
+          "response": "STEP_OUT",
+          "kind": "PASS",
+          "reason": "Better opportunity overrides the intended partner"
+        },
+        {
+          "tick": 1091,
+          "type": "ATTACK_RESPONSE",
+          "entryId": "entry-4717",
+          "family": "CROSS",
+          "response": "SWITCH"
+        },
+        {
+          "tick": 1091,
+          "type": "ATTACK_ENTRY_ACTION",
+          "entryId": "entry-4717",
+          "family": "CROSS",
+          "response": "SWITCH",
+          "kind": "PASS",
+          "reason": "Continue the available entry relationship"
+        },
+        {
+          "tick": 1109,
+          "type": "ATTACK_RESPONSE",
+          "entryId": "entry-4717",
+          "family": "CROSS",
+          "response": "STEP_OUT"
+        },
+        {
+          "tick": 1122,
+          "type": "ATTACK_ENTRY_ACTION",
+          "entryId": "entry-4717",
+          "family": "CROSS",
+          "response": "STEP_OUT",
+          "kind": "PASS",
+          "reason": "Better opportunity overrides the intended partner"
+        },
+        {
+          "tick": 1153,
+          "type": "ATTACK_ENTRY_ACTION",
+          "entryId": "entry-4717",
+          "family": "CROSS",
+          "response": "STEP_OUT",
+          "kind": "PASS",
+          "reason": "Better opportunity overrides the intended partner"
+        },
+        {
+          "tick": 1181,
+          "type": "ATTACK_ENTRY_ACTION",
+          "entryId": "entry-4717",
+          "family": "CROSS",
+          "response": "STEP_OUT",
+          "kind": "PASS",
+          "reason": "Continue the available entry relationship"
+        },
+        {
+          "tick": 1197,
+          "type": "ATTACK_ENTRY_ENDED",
+          "entryId": "entry-4717",
+          "family": "CROSS",
+          "reason": "Relationship no longer available",
+          "value": 0,
+          "actions": 6,
+          "receipts": 5
+        },
+        {
+          "tick": 1234,
+          "type": "ATTACK_ENTRY_SELECTED",
+          "entryId": "entry-5779",
+          "family": "PIVOT_SCREEN",
+          "side": 1,
+          "partnerId": "A04",
+          "score": 2.1780211117937673,
+          "alternative": "STRETCH_SHIFT",
+          "reason": "Bind inside cover to a stationary pivot and attack its adjacent interval",
+          "identity": "BALANCED"
+        },
+        {
+          "tick": 1234,
+          "type": "ATTACK_RESPONSE",
+          "entryId": "entry-5779",
+          "family": "PIVOT_SCREEN",
+          "response": "HOLD_LINE"
+        },
+        {
+          "tick": 1247,
+          "type": "ATTACK_ENTRY_ACTION",
+          "entryId": "entry-5779",
+          "family": "PIVOT_SCREEN",
+          "response": "HOLD_LINE",
+          "kind": "JUMP",
+          "reason": "Defence leaves a shot worth taking; break the entry"
+        },
+        {
+          "tick": 1265,
+          "type": "ATTACK_ENTRY_ENDED",
+          "entryId": "entry-5779",
+          "family": "PIVOT_SCREEN",
+          "reason": "Shot released from the resulting situation",
+          "value": 0.1494777306042323,
+          "actions": 1,
+          "receipts": 0
+        },
+        {
+          "tick": 1528,
+          "type": "ATTACK_ENTRY_SELECTED",
+          "entryId": "entry-6889",
+          "family": "CROSS",
+          "side": -1,
+          "partnerId": "H03",
+          "score": 2.3455271541752767,
+          "alternative": "PIVOT_SCREEN",
+          "reason": "Change the backcourt matchup and test switch versus pursuit",
+          "identity": "BALANCED"
+        },
+        {
+          "tick": 1528,
+          "type": "ATTACK_RESPONSE",
+          "entryId": "entry-6889",
+          "family": "CROSS",
+          "response": "STEP_OUT"
+        },
+        {
+          "tick": 1541,
+          "type": "ATTACK_ENTRY_ACTION",
+          "entryId": "entry-6889",
+          "family": "CROSS",
+          "response": "STEP_OUT",
+          "kind": "DRIVE",
+          "reason": "Engage across the adjacent defender before reading the crossing partner"
+        },
+        {
+          "tick": 1562,
+          "type": "ATTACK_ENTRY_ACTION",
+          "entryId": "entry-6889",
+          "family": "CROSS",
+          "response": "STEP_OUT",
+          "kind": "PASS",
+          "reason": "Better opportunity overrides the intended partner"
+        },
+        {
+          "tick": 1586,
+          "type": "ATTACK_ENTRY_ENDED",
+          "entryId": "entry-6889",
+          "family": "CROSS",
+          "reason": "POSSESSION_CHANGED",
+          "value": 0,
+          "actions": 2,
+          "receipts": 0
+        },
+        {
+          "tick": 1844,
+          "type": "ATTACK_ENTRY_SELECTED",
+          "entryId": "entry-8162",
+          "family": "STRETCH_SHIFT",
+          "side": -1,
+          "partnerId": "A02",
+          "score": 2.1341394266937272,
+          "alternative": "PIVOT_SCREEN",
+          "reason": "Engage one half of the defence and preserve a weak-side outlet",
+          "identity": "BALANCED"
+        },
+        {
+          "tick": 1844,
+          "type": "ATTACK_RESPONSE",
+          "entryId": "entry-8162",
+          "family": "STRETCH_SHIFT",
+          "response": "HOLD_LINE"
+        },
+        {
+          "tick": 1857,
+          "type": "ATTACK_ENTRY_ACTION",
+          "entryId": "entry-8162",
+          "family": "STRETCH_SHIFT",
+          "response": "HOLD_LINE",
+          "kind": "PASS",
+          "reason": "Continue the available entry relationship"
+        }
+      ]
+    },
+    {
+      "seed": 1,
+      "direction": "BOTTOM",
+      "version": "2.7.0-adaptive-offence.1",
+      "complete": true,
+      "status": "CHECKPOINT",
+      "reason": "FULLTIME",
+      "score": {
+        "HOME": 36,
+        "AWAY": 43
+      },
+      "officialMs": 3600000,
+      "periods": [
+        {
+          "type": "PERIOD_STARTED",
+          "officialMs": 0,
+          "tick": 6
+        },
+        {
+          "type": "PERIOD_ENDED",
+          "officialMs": 1800000,
+          "tick": 37700
+        },
+        {
+          "type": "PERIOD_STARTED",
+          "officialMs": 1800000,
+          "tick": 49905
+        },
+        {
+          "type": "PERIOD_ENDED",
+          "officialMs": 3600000,
+          "tick": 87681
+        }
+      ],
+      "shots": 165,
+      "goals": 79,
+      "passes": 694,
+      "fouls": 19,
+      "suspensions": 12,
+      "exchanges": 23,
+      "attacksWithShot": 139,
+      "distinctOpeningPaths": 31,
+      "dominantOpeningShare": 0.17985611510791366,
+      "openingEntropy": 4.056191760038525,
+      "topPaths": [
+        [
+          "PASS>PASS>DRIBBLE>PASS>JUMP",
+          25
+        ],
+        [
+          "PASS>PASS>DRIBBLE>DRIVE>PASS",
+          23
+        ],
+        [
+          "PASS>DRIBBLE>PASS>JUMP>SHOOT",
+          17
+        ],
+        [
+          "PASS>PASS>DRIBBLE>PASS>PASS",
+          9
+        ],
+        [
+          "PASS>DRIBBLE>PASS>PASS>PASS",
+          8
+        ],
+        [
+          "PASS>DRIBBLE>PASS>DRIVE>JUMP",
+          7
+        ],
+        [
+          "PASS>PASS>JUMP>SHOOT",
+          7
+        ],
+        [
+          "DRIBBLE>PASS>JUMP>SHOOT",
+          4
+        ]
+      ],
+      "entries": {
+        "CROSS": 65,
+        "PIVOT_SCREEN": 55,
+        "WING_TRANSITION": 36,
+        "STRETCH_SHIFT": 46,
+        "FREE": 40
+      },
+      "subphases": {
+        "UPPFOLJNING": 109,
+        "UPPBYGGNAD": 193,
+        "AVSLUTNING": 169,
+        "UPPSPEL": 212
+      },
+      "responses": {
+        "STEP_OUT": 199,
+        "HOLD_LINE": 154,
+        "COLLAPSE": 61,
+        "SWITCH": 20,
+        "DENIED": 12
+      },
+      "entryDecisions": 626,
+      "physicalEntryMovements": 396,
+      "establishedRelationships": 63,
+      "endedEntries": 242,
+      "physicalByFamily": {
+        "CROSS": 40,
+        "WING_TRANSITION": 13,
+        "STRETCH_SHIFT": 5,
+        "PIVOT_SCREEN": 5
+      },
+      "shotKinds": {
+        "BACKCOURT_JUMP": 86,
+        "WING": 28,
+        "BREAKTHROUGH": 18,
+        "STANDING": 5,
+        "EMPTY_GOAL": 2
+      },
+      "qaMoments": [
+        {
+          "tick": 96,
+          "type": "ATTACK_ENTRY_SELECTED",
+          "entryId": "entry-407",
+          "family": "CROSS",
+          "side": -1,
+          "partnerId": "H02",
+          "score": 2.8893405488989723,
+          "alternative": "PIVOT_SCREEN",
+          "reason": "Change the backcourt matchup and test switch versus pursuit",
+          "identity": "BALANCED"
+        },
+        {
+          "tick": 96,
+          "type": "ATTACK_RESPONSE",
+          "entryId": "entry-407",
+          "family": "CROSS",
+          "response": "STEP_OUT"
+        },
+        {
+          "tick": 109,
+          "type": "ATTACK_ENTRY_ACTION",
+          "entryId": "entry-407",
+          "family": "CROSS",
+          "response": "STEP_OUT",
+          "kind": "DRIVE",
+          "reason": "Engage across the adjacent defender before reading the crossing partner"
+        },
+        {
+          "tick": 130,
+          "type": "ATTACK_ENTRY_ACTION",
+          "entryId": "entry-407",
+          "family": "CROSS",
+          "response": "STEP_OUT",
+          "kind": "PASS",
+          "reason": "Better opportunity overrides the intended partner"
+        },
+        {
+          "tick": 163,
+          "type": "ATTACK_ENTRY_ACTION",
+          "entryId": "entry-407",
+          "family": "CROSS",
+          "response": "STEP_OUT",
+          "kind": "PASS",
+          "reason": "Continue the available entry relationship"
+        },
+        {
+          "tick": 196,
+          "type": "ATTACK_ENTRY_ACTION",
+          "entryId": "entry-407",
+          "family": "CROSS",
+          "response": "STEP_OUT",
+          "kind": "PASS",
+          "reason": "Better opportunity overrides the intended partner"
+        },
+        {
+          "tick": 216,
+          "type": "ATTACK_RESPONSE",
+          "entryId": "entry-407",
+          "family": "CROSS",
+          "response": "HOLD_LINE"
+        },
+        {
+          "tick": 229,
+          "type": "ATTACK_ENTRY_ACTION",
+          "entryId": "entry-407",
+          "family": "CROSS",
+          "response": "HOLD_LINE",
+          "kind": "PASS",
+          "reason": "Continue the available entry relationship"
+        },
+        {
+          "tick": 257,
+          "type": "ATTACK_ENTRY_ENDED",
+          "entryId": "entry-407",
+          "family": "CROSS",
+          "reason": "Relationship no longer available",
+          "value": 0,
+          "actions": 5,
+          "receipts": 4
+        },
+        {
+          "tick": 309,
+          "type": "ATTACK_ENTRY_SELECTED",
+          "entryId": "entry-1468",
+          "family": "PIVOT_SCREEN",
+          "side": -1,
+          "partnerId": "H03",
+          "score": 2.5645305781287533,
+          "alternative": "STRETCH_SHIFT",
+          "reason": "Bind inside cover to a stationary pivot and attack its adjacent interval",
+          "identity": "BALANCED"
+        },
+        {
+          "tick": 309,
+          "type": "ATTACK_RESPONSE",
+          "entryId": "entry-1468",
+          "family": "PIVOT_SCREEN",
+          "response": "COLLAPSE"
+        },
+        {
+          "tick": 322,
+          "type": "ATTACK_ENTRY_ACTION",
+          "entryId": "entry-1468",
+          "family": "PIVOT_SCREEN",
+          "response": "COLLAPSE",
+          "kind": "PASS",
+          "reason": "Release away from converging cover"
+        },
+        {
+          "tick": 350,
+          "type": "ATTACK_RESPONSE",
+          "entryId": "entry-1468",
+          "family": "PIVOT_SCREEN",
+          "response": "STEP_OUT"
+        },
+        {
+          "tick": 362,
+          "type": "ATTACK_RESPONSE",
+          "entryId": "entry-1468",
+          "family": "PIVOT_SCREEN",
+          "response": "HOLD_LINE"
+        },
+        {
+          "tick": 363,
+          "type": "ATTACK_ENTRY_ACTION",
+          "entryId": "entry-1468",
+          "family": "PIVOT_SCREEN",
+          "response": "HOLD_LINE",
+          "kind": "JUMP",
+          "reason": "Defence leaves a shot worth taking; break the entry"
+        },
+        {
+          "tick": 381,
+          "type": "ATTACK_ENTRY_ENDED",
+          "entryId": "entry-1468",
+          "family": "PIVOT_SCREEN",
+          "reason": "Shot released from the resulting situation",
+          "value": 0.4597144599481787,
+          "actions": 2,
+          "receipts": 1
+        },
+        {
+          "tick": 644,
+          "type": "ATTACK_ENTRY_SELECTED",
+          "entryId": "entry-2812",
+          "family": "CROSS",
+          "side": 1,
+          "partnerId": "A03",
+          "score": 2.880841724197449,
+          "alternative": "WING_TRANSITION",
+          "reason": "Change the backcourt matchup and test switch versus pursuit",
+          "identity": "BALANCED"
+        },
+        {
+          "tick": 644,
+          "type": "ATTACK_RESPONSE",
+          "entryId": "entry-2812",
+          "family": "CROSS",
+          "response": "STEP_OUT"
+        },
+        {
+          "tick": 657,
+          "type": "ATTACK_ENTRY_ACTION",
+          "entryId": "entry-2812",
+          "family": "CROSS",
+          "response": "STEP_OUT",
+          "kind": "DRIVE",
+          "reason": "Engage across the adjacent defender before reading the crossing partner"
+        },
+        {
+          "tick": 678,
+          "type": "ATTACK_ENTRY_ACTION",
+          "entryId": "entry-2812",
+          "family": "CROSS",
+          "response": "STEP_OUT",
+          "kind": "PASS",
+          "reason": "Better opportunity overrides the intended partner"
+        },
+        {
+          "tick": 704,
+          "type": "ATTACK_RESPONSE",
+          "entryId": "entry-2812",
+          "family": "CROSS",
+          "response": "SWITCH"
+        },
+        {
+          "tick": 704,
+          "type": "ATTACK_ENTRY_ACTION",
+          "entryId": "entry-2812",
+          "family": "CROSS",
+          "response": "SWITCH",
+          "kind": "PASS",
+          "reason": "Continue the available entry relationship"
+        },
+        {
+          "tick": 722,
+          "type": "ATTACK_RESPONSE",
+          "entryId": "entry-2812",
+          "family": "CROSS",
+          "response": "STEP_OUT"
+        },
+        {
+          "tick": 735,
+          "type": "ATTACK_ENTRY_ACTION",
+          "entryId": "entry-2812",
+          "family": "CROSS",
+          "response": "STEP_OUT",
+          "kind": "PASS",
+          "reason": "Better opportunity overrides the intended partner"
+        },
+        {
+          "tick": 766,
+          "type": "ATTACK_ENTRY_ACTION",
+          "entryId": "entry-2812",
+          "family": "CROSS",
+          "response": "STEP_OUT",
+          "kind": "PASS",
+          "reason": "Better opportunity overrides the intended partner"
+        },
+        {
+          "tick": 794,
+          "type": "ATTACK_ENTRY_ACTION",
+          "entryId": "entry-2812",
+          "family": "CROSS",
+          "response": "STEP_OUT",
+          "kind": "PASS",
+          "reason": "Continue the available entry relationship"
+        },
+        {
+          "tick": 810,
+          "type": "ATTACK_ENTRY_ENDED",
+          "entryId": "entry-2812",
+          "family": "CROSS",
+          "reason": "Relationship no longer available",
+          "value": 0,
+          "actions": 6,
+          "receipts": 5
+        },
+        {
+          "tick": 848,
+          "type": "ATTACK_ENTRY_SELECTED",
+          "entryId": "entry-3880",
+          "family": "PIVOT_SCREEN",
+          "side": 1,
+          "partnerId": "A04",
+          "score": 2.2181503883025364,
+          "alternative": "STRETCH_SHIFT",
+          "reason": "Bind inside cover to a stationary pivot and attack its adjacent interval",
+          "identity": "BALANCED"
+        },
+        {
+          "tick": 848,
+          "type": "ATTACK_RESPONSE",
+          "entryId": "entry-3880",
+          "family": "PIVOT_SCREEN",
+          "response": "HOLD_LINE"
+        },
+        {
+          "tick": 861,
+          "type": "ATTACK_ENTRY_ACTION",
+          "entryId": "entry-3880",
+          "family": "PIVOT_SCREEN",
+          "response": "HOLD_LINE",
+          "kind": "JUMP",
+          "reason": "Defence leaves a shot worth taking; break the entry"
+        },
+        {
+          "tick": 879,
+          "type": "ATTACK_ENTRY_ENDED",
+          "entryId": "entry-3880",
+          "family": "PIVOT_SCREEN",
+          "reason": "Shot released from the resulting situation",
+          "value": 0.1734553283252772,
+          "actions": 1,
+          "receipts": 0
+        },
+        {
+          "tick": 1142,
+          "type": "ATTACK_ENTRY_SELECTED",
+          "entryId": "entry-4987",
+          "family": "WING_TRANSITION",
+          "side": -1,
+          "partnerId": "H01",
+          "score": 2.468731638165438,
+          "alternative": "CROSS",
+          "reason": "Move a wing into a second line-player relationship behind advanced cover",
+          "identity": "BALANCED"
+        },
+        {
+          "tick": 1142,
+          "type": "ATTACK_RESPONSE",
+          "entryId": "entry-4987",
+          "family": "WING_TRANSITION",
+          "response": "STEP_OUT"
+        },
+        {
+          "tick": 1155,
+          "type": "ATTACK_ENTRY_ACTION",
+          "entryId": "entry-4987",
+          "family": "WING_TRANSITION",
+          "response": "STEP_OUT",
+          "kind": "PASS",
+          "reason": "Continue the available entry relationship"
+        },
+        {
+          "tick": 1186,
+          "type": "ATTACK_ENTRY_ACTION",
+          "entryId": "entry-4987",
+          "family": "WING_TRANSITION",
+          "response": "STEP_OUT",
+          "kind": "JUMP",
+          "reason": "Defence leaves a shot worth taking; break the entry"
+        },
+        {
+          "tick": 1204,
+          "type": "ATTACK_ENTRY_ENDED",
+          "entryId": "entry-4987",
+          "family": "WING_TRANSITION",
+          "reason": "Shot released from the resulting situation",
+          "value": 0.34903331051856057,
+          "actions": 2,
+          "receipts": 1
+        },
+        {
+          "tick": 1559,
+          "type": "ATTACK_ENTRY_SELECTED",
+          "entryId": "entry-6773",
+          "family": "PIVOT_SCREEN",
+          "side": -1,
+          "partnerId": "A02",
+          "score": 2.7289662505053753,
+          "alternative": "STRETCH_SHIFT",
+          "reason": "Bind inside cover to a stationary pivot and attack its adjacent interval",
+          "identity": "BALANCED"
+        },
+        {
+          "tick": 1559,
+          "type": "ATTACK_RESPONSE",
+          "entryId": "entry-6773",
+          "family": "PIVOT_SCREEN",
+          "response": "STEP_OUT"
+        },
+        {
+          "tick": 1571,
+          "type": "ATTACK_RESPONSE",
+          "entryId": "entry-6773",
+          "family": "PIVOT_SCREEN",
+          "response": "COLLAPSE"
+        },
+        {
+          "tick": 1572,
+          "type": "ATTACK_ENTRY_ACTION",
+          "entryId": "entry-6773",
+          "family": "PIVOT_SCREEN",
+          "response": "COLLAPSE",
+          "kind": "PASS",
+          "reason": "Continue the available entry relationship"
+        }
+      ]
+    },
+    {
+      "seed": 2025,
+      "direction": "TOP",
+      "version": "2.7.0-adaptive-offence.1",
+      "complete": true,
+      "status": "CHECKPOINT",
+      "reason": "FULLTIME",
+      "score": {
+        "HOME": 25,
+        "AWAY": 34
+      },
+      "officialMs": 3600000,
+      "periods": [
+        {
+          "type": "PERIOD_STARTED",
+          "officialMs": 0,
+          "tick": 6
+        },
+        {
+          "type": "PERIOD_ENDED",
+          "officialMs": 1800000,
+          "tick": 38578
+        },
+        {
+          "type": "PERIOD_STARTED",
+          "officialMs": 1800000,
+          "tick": 50997
+        },
+        {
+          "type": "PERIOD_ENDED",
+          "officialMs": 3600000,
+          "tick": 89081
+        }
+      ],
+      "shots": 161,
+      "goals": 59,
+      "passes": 665,
+      "fouls": 19,
+      "suspensions": 13,
+      "exchanges": 22,
+      "attacksWithShot": 140,
+      "distinctOpeningPaths": 41,
+      "dominantOpeningShare": 0.18571428571428572,
+      "openingEntropy": 4.533138906922657,
+      "topPaths": [
+        [
+          "PASS>DRIBBLE>PASS>JUMP>SHOOT",
+          26
+        ],
+        [
+          "PASS>PASS>DRIBBLE>PASS>JUMP",
+          17
+        ],
+        [
+          "PASS>PASS>DRIBBLE>DRIVE>PASS",
+          12
+        ],
+        [
+          "PASS>DRIBBLE>PASS>PASS>PASS",
+          9
+        ],
+        [
+          "DRIBBLE>PASS>DRIBBLE>PASS>PASS",
+          5
+        ],
+        [
+          "PASS>PASS>JUMP>SHOOT",
+          5
+        ],
+        [
+          "PASS>DRIBBLE>PASS>DRIVE>JUMP",
+          5
+        ],
+        [
+          "PASS>PASS>DRIBBLE>PASS>PASS",
+          5
+        ]
+      ],
+      "entries": {
+        "CROSS": 66,
+        "WING_TRANSITION": 35,
+        "PIVOT_SCREEN": 59,
+        "FREE": 44,
+        "STRETCH_SHIFT": 50
+      },
+      "subphases": {
+        "UPPFOLJNING": 137,
+        "UPPBYGGNAD": 207,
+        "UPPSPEL": 236,
+        "AVSLUTNING": 167
+      },
+      "responses": {
+        "STEP_OUT": 209,
+        "HOLD_LINE": 164,
+        "COLLAPSE": 60,
+        "SWITCH": 15,
+        "DENIED": 14
+      },
+      "entryDecisions": 591,
+      "physicalEntryMovements": 399,
+      "establishedRelationships": 51,
+      "endedEntries": 254,
+      "physicalByFamily": {
+        "CROSS": 33,
+        "STRETCH_SHIFT": 4,
+        "WING_TRANSITION": 7,
+        "PIVOT_SCREEN": 7
+      },
+      "shotKinds": {
+        "BACKCOURT_JUMP": 90,
+        "WING": 26,
+        "BREAKTHROUGH": 17,
+        "STANDING": 7
+      },
+      "qaMoments": [
+        {
+          "tick": 96,
+          "type": "ATTACK_ENTRY_SELECTED",
+          "entryId": "entry-407",
+          "family": "CROSS",
+          "side": -1,
+          "partnerId": "H02",
+          "score": 2.8893405488989723,
+          "alternative": "PIVOT_SCREEN",
+          "reason": "Change the backcourt matchup and test switch versus pursuit",
+          "identity": "BALANCED"
+        },
+        {
+          "tick": 96,
+          "type": "ATTACK_RESPONSE",
+          "entryId": "entry-407",
+          "family": "CROSS",
+          "response": "STEP_OUT"
+        },
+        {
+          "tick": 109,
+          "type": "ATTACK_ENTRY_ACTION",
+          "entryId": "entry-407",
+          "family": "CROSS",
+          "response": "STEP_OUT",
+          "kind": "DRIVE",
+          "reason": "Engage across the adjacent defender before reading the crossing partner"
+        },
+        {
+          "tick": 130,
+          "type": "ATTACK_ENTRY_ACTION",
+          "entryId": "entry-407",
+          "family": "CROSS",
+          "response": "STEP_OUT",
+          "kind": "PASS",
+          "reason": "Better opportunity overrides the intended partner"
+        },
+        {
+          "tick": 163,
+          "type": "ATTACK_ENTRY_ACTION",
+          "entryId": "entry-407",
+          "family": "CROSS",
+          "response": "STEP_OUT",
+          "kind": "PASS",
+          "reason": "Continue the available entry relationship"
+        },
+        {
+          "tick": 195,
+          "type": "ATTACK_RESPONSE",
+          "entryId": "entry-407",
+          "family": "CROSS",
+          "response": "HOLD_LINE"
+        },
+        {
+          "tick": 196,
+          "type": "ATTACK_ENTRY_ACTION",
+          "entryId": "entry-407",
+          "family": "CROSS",
+          "response": "HOLD_LINE",
+          "kind": "PASS",
+          "reason": "Better opportunity overrides the intended partner"
+        },
+        {
+          "tick": 220,
+          "type": "ATTACK_ENTRY_ACTION",
+          "entryId": "entry-407",
+          "family": "CROSS",
+          "response": "HOLD_LINE",
+          "kind": "PASS",
+          "reason": "Continue the available entry relationship"
+        },
+        {
+          "tick": 244,
+          "type": "ATTACK_ENTRY_ACTION",
+          "entryId": "entry-407",
+          "family": "CROSS",
+          "response": "HOLD_LINE",
+          "kind": "PASS",
+          "reason": "Better opportunity overrides the intended partner"
+        },
+        {
+          "tick": 257,
+          "type": "ATTACK_ENTRY_ENDED",
+          "entryId": "entry-407",
+          "family": "CROSS",
+          "reason": "Relationship no longer available",
+          "value": 0,
+          "actions": 6,
+          "receipts": 5
+        },
+        {
+          "tick": 674,
+          "type": "ATTACK_ENTRY_SELECTED",
+          "entryId": "entry-3320",
+          "family": "WING_TRANSITION",
+          "side": -1,
+          "partnerId": "H01",
+          "score": 2.4760621944783465,
+          "alternative": "PIVOT_SCREEN",
+          "reason": "Move a wing into a second line-player relationship behind advanced cover",
+          "identity": "BALANCED"
+        },
+        {
+          "tick": 674,
+          "type": "ATTACK_RESPONSE",
+          "entryId": "entry-3320",
+          "family": "WING_TRANSITION",
+          "response": "STEP_OUT"
+        },
+        {
+          "tick": 687,
+          "type": "ATTACK_ENTRY_ACTION",
+          "entryId": "entry-3320",
+          "family": "WING_TRANSITION",
+          "response": "STEP_OUT",
+          "kind": "PASS",
+          "reason": "Better opportunity overrides the intended partner"
+        },
+        {
+          "tick": 714,
+          "type": "ATTACK_ENTRY_ACTION",
+          "entryId": "entry-3320",
+          "family": "WING_TRANSITION",
+          "response": "STEP_OUT",
+          "kind": "PASS",
+          "reason": "Continue the available entry relationship"
+        },
+        {
+          "tick": 749,
+          "type": "ATTACK_ENTRY_ACTION",
+          "entryId": "entry-3320",
+          "family": "WING_TRANSITION",
+          "response": "STEP_OUT",
+          "kind": "JUMP",
+          "reason": "Defence leaves a shot worth taking; break the entry"
+        },
+        {
+          "tick": 760,
+          "type": "ATTACK_RESPONSE",
+          "entryId": "entry-3320",
+          "family": "WING_TRANSITION",
+          "response": "HOLD_LINE"
+        },
+        {
+          "tick": 767,
+          "type": "ATTACK_ENTRY_ENDED",
+          "entryId": "entry-3320",
+          "family": "WING_TRANSITION",
+          "reason": "Shot released from the resulting situation",
+          "value": 0.4625390925225652,
+          "actions": 3,
+          "receipts": 2
+        },
+        {
+          "tick": 1022,
+          "type": "ATTACK_ENTRY_SELECTED",
+          "entryId": "entry-4798",
+          "family": "CROSS",
+          "side": 1,
+          "partnerId": "A03",
+          "score": 2.8750900526697083,
+          "alternative": "WING_TRANSITION",
+          "reason": "Change the backcourt matchup and test switch versus pursuit",
+          "identity": "BALANCED"
+        },
+        {
+          "tick": 1022,
+          "type": "ATTACK_RESPONSE",
+          "entryId": "entry-4798",
+          "family": "CROSS",
+          "response": "STEP_OUT"
+        },
+        {
+          "tick": 1035,
+          "type": "ATTACK_ENTRY_ACTION",
+          "entryId": "entry-4798",
+          "family": "CROSS",
+          "response": "STEP_OUT",
+          "kind": "DRIVE",
+          "reason": "Engage across the adjacent defender before reading the crossing partner"
+        },
+        {
+          "tick": 1056,
+          "type": "ATTACK_ENTRY_ACTION",
+          "entryId": "entry-4798",
+          "family": "CROSS",
+          "response": "STEP_OUT",
+          "kind": "PASS",
+          "reason": "Better opportunity overrides the intended partner"
+        },
+        {
+          "tick": 1083,
+          "type": "ATTACK_ENTRY_ACTION",
+          "entryId": "entry-4798",
+          "family": "CROSS",
+          "response": "STEP_OUT",
+          "kind": "PASS",
+          "reason": "Continue the available entry relationship"
+        },
+        {
+          "tick": 1116,
+          "type": "ATTACK_ENTRY_ACTION",
+          "entryId": "entry-4798",
+          "family": "CROSS",
+          "response": "STEP_OUT",
+          "kind": "PASS",
+          "reason": "Better opportunity overrides the intended partner"
+        },
+        {
+          "tick": 1147,
+          "type": "ATTACK_RESPONSE",
+          "entryId": "entry-4798",
+          "family": "CROSS",
+          "response": "HOLD_LINE"
+        },
+        {
+          "tick": 1198,
+          "type": "ATTACK_ENTRY_ENDED",
+          "entryId": "entry-4798",
+          "family": "CROSS",
+          "reason": "Relationship no longer available",
+          "value": 0,
+          "actions": 4,
+          "receipts": 4
+        },
+        {
+          "tick": 1230,
+          "type": "ATTACK_ENTRY_SELECTED",
+          "entryId": "entry-5844",
+          "family": "PIVOT_SCREEN",
+          "side": -1,
+          "partnerId": "A03",
+          "score": 2.3678521572589246,
+          "alternative": "STRETCH_SHIFT",
+          "reason": "Bind inside cover to a stationary pivot and attack its adjacent interval",
+          "identity": "BALANCED"
+        },
+        {
+          "tick": 1230,
+          "type": "ATTACK_RESPONSE",
+          "entryId": "entry-5844",
+          "family": "PIVOT_SCREEN",
+          "response": "HOLD_LINE"
+        },
+        {
+          "tick": 1243,
+          "type": "ATTACK_ENTRY_ACTION",
+          "entryId": "entry-5844",
+          "family": "PIVOT_SCREEN",
+          "response": "HOLD_LINE",
+          "kind": "JUMP",
+          "reason": "Defence leaves a shot worth taking; break the entry"
+        },
+        {
+          "tick": 1261,
+          "type": "ATTACK_ENTRY_ENDED",
+          "entryId": "entry-5844",
+          "family": "PIVOT_SCREEN",
+          "reason": "Shot released from the resulting situation",
+          "value": 0.4084296584573302,
+          "actions": 1,
+          "receipts": 0
+        },
+        {
+          "tick": 1524,
+          "type": "ATTACK_ENTRY_SELECTED",
+          "entryId": "entry-6968",
+          "family": "CROSS",
+          "side": -1,
+          "partnerId": "H03",
+          "score": 2.3430792988249447,
+          "alternative": "PIVOT_SCREEN",
+          "reason": "Change the backcourt matchup and test switch versus pursuit",
+          "identity": "BALANCED"
+        },
+        {
+          "tick": 1524,
+          "type": "ATTACK_RESPONSE",
+          "entryId": "entry-6968",
+          "family": "CROSS",
+          "response": "STEP_OUT"
+        },
+        {
+          "tick": 1537,
+          "type": "ATTACK_ENTRY_ACTION",
+          "entryId": "entry-6968",
+          "family": "CROSS",
+          "response": "STEP_OUT",
+          "kind": "DRIVE",
+          "reason": "Engage across the adjacent defender before reading the crossing partner"
+        },
+        {
+          "tick": 1558,
+          "type": "ATTACK_ENTRY_ACTION",
+          "entryId": "entry-6968",
+          "family": "CROSS",
+          "response": "STEP_OUT",
+          "kind": "PASS",
+          "reason": "Better opportunity overrides the intended partner"
+        },
+        {
+          "tick": 1634,
+          "type": "ATTACK_ENTRY_ENDED",
+          "entryId": "entry-6968",
+          "family": "CROSS",
+          "reason": "Shot released from the resulting situation",
+          "value": 0.8,
+          "actions": 2,
+          "receipts": 1
+        },
+        {
+          "tick": 1945,
+          "type": "ATTACK_ENTRY_SELECTED",
+          "entryId": "entry-8896",
+          "family": "FREE",
+          "side": 1,
+          "partnerId": "A04",
+          "score": 2.384083169840545,
+          "alternative": "CROSS",
+          "reason": "Keep width and exploit player-led opportunities without a prescribed partner",
+          "identity": "BALANCED"
+        },
+        {
+          "tick": 1945,
+          "type": "ATTACK_RESPONSE",
+          "entryId": "entry-8896",
+          "family": "FREE",
+          "response": "STEP_OUT"
+        },
+        {
+          "tick": 1958,
+          "type": "ATTACK_ENTRY_ACTION",
+          "entryId": "entry-8896",
+          "family": "FREE",
+          "response": "STEP_OUT",
+          "kind": "JUMP",
+          "reason": "Defence leaves a shot worth taking; break the entry"
+        },
+        {
+          "tick": 1969,
+          "type": "ATTACK_RESPONSE",
+          "entryId": "entry-8896",
+          "family": "FREE",
+          "response": "COLLAPSE"
+        },
+        {
+          "tick": 1976,
+          "type": "ATTACK_ENTRY_ENDED",
+          "entryId": "entry-8896",
+          "family": "FREE",
+          "reason": "Shot released from the resulting situation",
+          "value": -0.23737722255174348,
+          "actions": 1,
+          "receipts": 0
+        },
+        {
+          "tick": 2206,
+          "type": "ATTACK_ENTRY_SELECTED",
+          "entryId": "entry-10016",
+          "family": "CROSS",
+          "side": 1,
+          "partnerId": "H03",
+          "score": 2.6088816258386567,
+          "alternative": "FREE",
+          "reason": "Change the backcourt matchup and test switch versus pursuit",
+          "identity": "BALANCED"
+        }
+      ]
+    },
+    {
+      "seed": 2025,
+      "direction": "BOTTOM",
+      "version": "2.7.0-adaptive-offence.1",
+      "complete": true,
+      "status": "CHECKPOINT",
+      "reason": "FULLTIME",
+      "score": {
+        "HOME": 34,
+        "AWAY": 43
+      },
+      "officialMs": 3600000,
+      "periods": [
+        {
+          "type": "PERIOD_STARTED",
+          "officialMs": 0,
+          "tick": 6
+        },
+        {
+          "type": "PERIOD_ENDED",
+          "officialMs": 1800000,
+          "tick": 39178
+        },
+        {
+          "type": "PERIOD_STARTED",
+          "officialMs": 1800000,
+          "tick": 51380
+        },
+        {
+          "type": "PERIOD_ENDED",
+          "officialMs": 3600000,
+          "tick": 91191
+        }
+      ],
+      "shots": 162,
+      "goals": 77,
+      "passes": 708,
+      "fouls": 23,
+      "suspensions": 15,
+      "exchanges": 23,
+      "attacksWithShot": 142,
+      "distinctOpeningPaths": 38,
+      "dominantOpeningShare": 0.14084507042253522,
+      "openingEntropy": 4.521922441468864,
+      "topPaths": [
+        [
+          "PASS>PASS>DRIBBLE>PASS>JUMP",
+          20
+        ],
+        [
+          "PASS>PASS>DRIBBLE>DRIVE>PASS",
+          19
+        ],
+        [
+          "PASS>DRIBBLE>PASS>JUMP>SHOOT",
+          14
+        ],
+        [
+          "PASS>PASS>DRIBBLE>PASS>PASS",
+          11
+        ],
+        [
+          "DRIBBLE>PASS>JUMP>SHOOT",
+          7
+        ],
+        [
+          "PASS>DRIBBLE>PASS>PASS>PASS",
+          5
+        ],
+        [
+          "PASS>DRIBBLE>PASS>DRIBBLE>PASS",
+          5
+        ],
+        [
+          "PASS>DRIBBLE>DRIVE>PASS>PASS",
+          4
+        ]
+      ],
+      "entries": {
+        "CROSS": 69,
+        "PIVOT_SCREEN": 63,
+        "WING_TRANSITION": 41,
+        "STRETCH_SHIFT": 46,
+        "FREE": 41
+      },
+      "subphases": {
+        "UPPFOLJNING": 121,
+        "UPPBYGGNAD": 196,
+        "AVSLUTNING": 169,
+        "UPPSPEL": 223
+      },
+      "responses": {
+        "STEP_OUT": 223,
+        "HOLD_LINE": 167,
+        "COLLAPSE": 53,
+        "SWITCH": 20,
+        "DENIED": 26
+      },
+      "entryDecisions": 641,
+      "physicalEntryMovements": 405,
+      "establishedRelationships": 60,
+      "endedEntries": 260,
+      "physicalByFamily": {
+        "CROSS": 40,
+        "WING_TRANSITION": 12,
+        "STRETCH_SHIFT": 3,
+        "PIVOT_SCREEN": 5
+      },
+      "shotKinds": {
+        "BACKCOURT_JUMP": 83,
+        "WING": 29,
+        "BREAKTHROUGH": 25,
+        "STANDING": 4,
+        "EMPTY_GOAL": 1
+      },
+      "qaMoments": [
+        {
+          "tick": 96,
+          "type": "ATTACK_ENTRY_SELECTED",
+          "entryId": "entry-407",
+          "family": "CROSS",
+          "side": -1,
+          "partnerId": "H02",
+          "score": 2.8893405488989723,
+          "alternative": "PIVOT_SCREEN",
+          "reason": "Change the backcourt matchup and test switch versus pursuit",
+          "identity": "BALANCED"
+        },
+        {
+          "tick": 96,
+          "type": "ATTACK_RESPONSE",
+          "entryId": "entry-407",
+          "family": "CROSS",
+          "response": "STEP_OUT"
+        },
+        {
+          "tick": 109,
+          "type": "ATTACK_ENTRY_ACTION",
+          "entryId": "entry-407",
+          "family": "CROSS",
+          "response": "STEP_OUT",
+          "kind": "DRIVE",
+          "reason": "Engage across the adjacent defender before reading the crossing partner"
+        },
+        {
+          "tick": 130,
+          "type": "ATTACK_ENTRY_ACTION",
+          "entryId": "entry-407",
+          "family": "CROSS",
+          "response": "STEP_OUT",
+          "kind": "PASS",
+          "reason": "Better opportunity overrides the intended partner"
+        },
+        {
+          "tick": 163,
+          "type": "ATTACK_ENTRY_ACTION",
+          "entryId": "entry-407",
+          "family": "CROSS",
+          "response": "STEP_OUT",
+          "kind": "PASS",
+          "reason": "Continue the available entry relationship"
+        },
+        {
+          "tick": 196,
+          "type": "ATTACK_ENTRY_ACTION",
+          "entryId": "entry-407",
+          "family": "CROSS",
+          "response": "STEP_OUT",
+          "kind": "PASS",
+          "reason": "Better opportunity overrides the intended partner"
+        },
+        {
+          "tick": 216,
+          "type": "ATTACK_RESPONSE",
+          "entryId": "entry-407",
+          "family": "CROSS",
+          "response": "HOLD_LINE"
+        },
+        {
+          "tick": 229,
+          "type": "ATTACK_ENTRY_ACTION",
+          "entryId": "entry-407",
+          "family": "CROSS",
+          "response": "HOLD_LINE",
+          "kind": "PASS",
+          "reason": "Continue the available entry relationship"
+        },
+        {
+          "tick": 257,
+          "type": "ATTACK_ENTRY_ENDED",
+          "entryId": "entry-407",
+          "family": "CROSS",
+          "reason": "Relationship no longer available",
+          "value": 0,
+          "actions": 5,
+          "receipts": 4
+        },
+        {
+          "tick": 309,
+          "type": "ATTACK_ENTRY_SELECTED",
+          "entryId": "entry-1468",
+          "family": "PIVOT_SCREEN",
+          "side": -1,
+          "partnerId": "H03",
+          "score": 2.5645305781287533,
+          "alternative": "STRETCH_SHIFT",
+          "reason": "Bind inside cover to a stationary pivot and attack its adjacent interval",
+          "identity": "BALANCED"
+        },
+        {
+          "tick": 309,
+          "type": "ATTACK_RESPONSE",
+          "entryId": "entry-1468",
+          "family": "PIVOT_SCREEN",
+          "response": "COLLAPSE"
+        },
+        {
+          "tick": 322,
+          "type": "ATTACK_ENTRY_ACTION",
+          "entryId": "entry-1468",
+          "family": "PIVOT_SCREEN",
+          "response": "COLLAPSE",
+          "kind": "PASS",
+          "reason": "Release away from converging cover"
+        },
+        {
+          "tick": 350,
+          "type": "ATTACK_RESPONSE",
+          "entryId": "entry-1468",
+          "family": "PIVOT_SCREEN",
+          "response": "STEP_OUT"
+        },
+        {
+          "tick": 362,
+          "type": "ATTACK_RESPONSE",
+          "entryId": "entry-1468",
+          "family": "PIVOT_SCREEN",
+          "response": "HOLD_LINE"
+        },
+        {
+          "tick": 363,
+          "type": "ATTACK_ENTRY_ACTION",
+          "entryId": "entry-1468",
+          "family": "PIVOT_SCREEN",
+          "response": "HOLD_LINE",
+          "kind": "JUMP",
+          "reason": "Defence leaves a shot worth taking; break the entry"
+        },
+        {
+          "tick": 381,
+          "type": "ATTACK_ENTRY_ENDED",
+          "entryId": "entry-1468",
+          "family": "PIVOT_SCREEN",
+          "reason": "Shot released from the resulting situation",
+          "value": 0.4597144599481787,
+          "actions": 2,
+          "receipts": 1
+        },
+        {
+          "tick": 644,
+          "type": "ATTACK_ENTRY_SELECTED",
+          "entryId": "entry-2812",
+          "family": "CROSS",
+          "side": 1,
+          "partnerId": "A03",
+          "score": 2.8808417071338703,
+          "alternative": "WING_TRANSITION",
+          "reason": "Change the backcourt matchup and test switch versus pursuit",
+          "identity": "BALANCED"
+        },
+        {
+          "tick": 644,
+          "type": "ATTACK_RESPONSE",
+          "entryId": "entry-2812",
+          "family": "CROSS",
+          "response": "STEP_OUT"
+        },
+        {
+          "tick": 657,
+          "type": "ATTACK_ENTRY_ACTION",
+          "entryId": "entry-2812",
+          "family": "CROSS",
+          "response": "STEP_OUT",
+          "kind": "DRIVE",
+          "reason": "Engage across the adjacent defender before reading the crossing partner"
+        },
+        {
+          "tick": 678,
+          "type": "ATTACK_ENTRY_ACTION",
+          "entryId": "entry-2812",
+          "family": "CROSS",
+          "response": "STEP_OUT",
+          "kind": "PASS",
+          "reason": "Better opportunity overrides the intended partner"
+        },
+        {
+          "tick": 704,
+          "type": "ATTACK_RESPONSE",
+          "entryId": "entry-2812",
+          "family": "CROSS",
+          "response": "SWITCH"
+        },
+        {
+          "tick": 704,
+          "type": "ATTACK_ENTRY_ACTION",
+          "entryId": "entry-2812",
+          "family": "CROSS",
+          "response": "SWITCH",
+          "kind": "PASS",
+          "reason": "Continue the available entry relationship"
+        },
+        {
+          "tick": 722,
+          "type": "ATTACK_RESPONSE",
+          "entryId": "entry-2812",
+          "family": "CROSS",
+          "response": "STEP_OUT"
+        },
+        {
+          "tick": 735,
+          "type": "ATTACK_ENTRY_ACTION",
+          "entryId": "entry-2812",
+          "family": "CROSS",
+          "response": "STEP_OUT",
+          "kind": "PASS",
+          "reason": "Better opportunity overrides the intended partner"
+        },
+        {
+          "tick": 766,
+          "type": "ATTACK_ENTRY_ACTION",
+          "entryId": "entry-2812",
+          "family": "CROSS",
+          "response": "STEP_OUT",
+          "kind": "PASS",
+          "reason": "Better opportunity overrides the intended partner"
+        },
+        {
+          "tick": 794,
+          "type": "ATTACK_ENTRY_ACTION",
+          "entryId": "entry-2812",
+          "family": "CROSS",
+          "response": "STEP_OUT",
+          "kind": "PASS",
+          "reason": "Continue the available entry relationship"
+        },
+        {
+          "tick": 810,
+          "type": "ATTACK_ENTRY_ENDED",
+          "entryId": "entry-2812",
+          "family": "CROSS",
+          "reason": "Relationship no longer available",
+          "value": 0,
+          "actions": 6,
+          "receipts": 5
+        },
+        {
+          "tick": 848,
+          "type": "ATTACK_ENTRY_SELECTED",
+          "entryId": "entry-3880",
+          "family": "PIVOT_SCREEN",
+          "side": 1,
+          "partnerId": "A04",
+          "score": 2.2181500983876297,
+          "alternative": "STRETCH_SHIFT",
+          "reason": "Bind inside cover to a stationary pivot and attack its adjacent interval",
+          "identity": "BALANCED"
+        },
+        {
+          "tick": 848,
+          "type": "ATTACK_RESPONSE",
+          "entryId": "entry-3880",
+          "family": "PIVOT_SCREEN",
+          "response": "HOLD_LINE"
+        },
+        {
+          "tick": 861,
+          "type": "ATTACK_ENTRY_ACTION",
+          "entryId": "entry-3880",
+          "family": "PIVOT_SCREEN",
+          "response": "HOLD_LINE",
+          "kind": "JUMP",
+          "reason": "Defence leaves a shot worth taking; break the entry"
+        },
+        {
+          "tick": 879,
+          "type": "ATTACK_ENTRY_ENDED",
+          "entryId": "entry-3880",
+          "family": "PIVOT_SCREEN",
+          "reason": "Shot released from the resulting situation",
+          "value": 0.17332281492992047,
+          "actions": 1,
+          "receipts": 0
+        },
+        {
+          "tick": 1142,
+          "type": "ATTACK_ENTRY_SELECTED",
+          "entryId": "entry-4987",
+          "family": "WING_TRANSITION",
+          "side": -1,
+          "partnerId": "H01",
+          "score": 2.468731586474126,
+          "alternative": "CROSS",
+          "reason": "Move a wing into a second line-player relationship behind advanced cover",
+          "identity": "BALANCED"
+        },
+        {
+          "tick": 1142,
+          "type": "ATTACK_RESPONSE",
+          "entryId": "entry-4987",
+          "family": "WING_TRANSITION",
+          "response": "STEP_OUT"
+        },
+        {
+          "tick": 1155,
+          "type": "ATTACK_ENTRY_ACTION",
+          "entryId": "entry-4987",
+          "family": "WING_TRANSITION",
+          "response": "STEP_OUT",
+          "kind": "PASS",
+          "reason": "Continue the available entry relationship"
+        },
+        {
+          "tick": 1186,
+          "type": "ATTACK_ENTRY_ACTION",
+          "entryId": "entry-4987",
+          "family": "WING_TRANSITION",
+          "response": "STEP_OUT",
+          "kind": "JUMP",
+          "reason": "Defence leaves a shot worth taking; break the entry"
+        },
+        {
+          "tick": 1204,
+          "type": "ATTACK_ENTRY_ENDED",
+          "entryId": "entry-4987",
+          "family": "WING_TRANSITION",
+          "reason": "Shot released from the resulting situation",
+          "value": 0.34903331051856057,
+          "actions": 2,
+          "receipts": 1
+        },
+        {
+          "tick": 1767,
+          "type": "ATTACK_ENTRY_SELECTED",
+          "entryId": "entry-7474",
+          "family": "CROSS",
+          "side": 1,
+          "partnerId": "H04",
+          "score": 2.7393768894920827,
+          "alternative": "PIVOT_SCREEN",
+          "reason": "Change the backcourt matchup and test switch versus pursuit",
+          "identity": "BALANCED"
+        },
+        {
+          "tick": 1767,
+          "type": "ATTACK_RESPONSE",
+          "entryId": "entry-7474",
+          "family": "CROSS",
+          "response": "STEP_OUT"
+        },
+        {
+          "tick": 1780,
+          "type": "ATTACK_ENTRY_ACTION",
+          "entryId": "entry-7474",
+          "family": "CROSS",
+          "response": "STEP_OUT",
+          "kind": "DRIVE",
+          "reason": "Engage across the adjacent defender before reading the crossing partner"
+        },
+        {
+          "tick": 1801,
+          "type": "ATTACK_ENTRY_ACTION",
+          "entryId": "entry-7474",
+          "family": "CROSS",
+          "response": "STEP_OUT",
+          "kind": "PASS",
+          "reason": "Better opportunity overrides the intended partner"
+        }
+      ]
+    }
+  ]
+}

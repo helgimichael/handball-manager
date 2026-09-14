@@ -6,6 +6,7 @@ import { goalAreaClearance } from '../../domain/geometry/goalArea';
 import { planContact } from './contact';
 import { isWing,wingRelationship,wingTakeoffWindow,defendWing } from './wing';
 import { isBack,planBackcourtSupport } from './backcourt';
+import { chooseOffensiveAction,offensiveTarget,offensiveScreen,anticipatedDefenceTarget } from './offence';
 
 function assign(s:CoreState,p:CorePlayer,kind:Duty,targetId:string|null,reason:string) {
   if(s.ball.mode==='LOOSE'&&p.duty.kind==='COLLECT')return;
@@ -16,6 +17,7 @@ function assign(s:CoreState,p:CorePlayer,kind:Duty,targetId:string|null,reason:s
 /** One coordinator allocates pressure/help/cover; reachability never creates a second primary. */
 export function coordinate(s: CoreState) {
   const attacking=s.possession.team,defending=otherTeam(attacking),carrier=s.ball.controllerId?getPlayer(s,s.ball.controllerId):null;
+  s.defence.system=s.coaching[defending].defence;
   const attackers=courtPlayers(s,attacking).filter(p=>p.kind==='FIELD_PLAYER'),defenders=courtPlayers(s,defending).filter(p=>p.kind==='FIELD_PLAYER');
   const direction=s.directions[attacking];
   for(const p of s.players)if(p.population!=='COURT'||p.team!==attacking||p.id===carrier?.id||s.possession.phase!=='ESTABLISHED'||!isBack(p))p.support=null;
@@ -56,7 +58,7 @@ export function coordinate(s: CoreState) {
   }
   for(const a of attackers) {
     if(a.id===carrier?.id)assign(s,a,'CARRIER',null,'Create advantage while respecting handling budget');
-    else if(s.possession.phase==='TRANSITION')assign(s,a,['LB','RB','LW','RW'].includes(a.role)?'FIRST_WAVE':'SECOND_WAVE',null,'Offer width or trailing continuation in transition');
+    else if(s.possession.phase==='TRANSITION')assign(s,a,['LW','RW'].includes(a.role)?'FIRST_WAVE':'SECOND_WAVE',null,s.offence.phase==='UPPSPEL'?'Separate wide first-wave outlets from trailing support':'Follow the first wave and attack before the defensive line settles');
     else if(isWing(a)){const relation=wingRelationship(s,a);assign(s,a,relation.mode==='PIN_CORNER'?'WING_PIN':'WING_OFFER',relation.back?.id??null,relation.reason);}
     else if(isBack(a)) {
       if(actionAvailable(a)&&(!a.support||a.support.possessionId!==s.possession.id||s.tick>=a.support.reviewAfterTick))a.support=planBackcourtSupport(s,a);
@@ -93,7 +95,10 @@ function chooseCarrier(s:CoreState,p:CorePlayer) {
   if(s.tick-p.handling.heldSinceTick>36&&q.y<14&&!p.airborne){p.nextAction=null;startAction(s,p,'SHOOT','Handling budget requires a standing release before three seconds',null,null,'STANDING');return;}
   if(p.nextAction==='SHOOT') {p.nextAction=null;startAction(s,p,'SHOOT','Release from actual takeoff position',null,null,q.y<8?(q.x<4||q.x>16?'WING':'BREAKTHROUGH'):'BACKCOURT_JUMP');return;}
   if(p.nextAction==='DRIVE') {p.nextAction=null;startAction(s,p,'DRIVE','Exploit committed feint and test inside lane',driveTarget(s,p),s.defence.pressureId);return;}
-  if(s.tick-p.handling.heldSinceTick<10){startAction(s,p,'HOLD','Secure control and read coordinated defence');return;}
+  if(s.referee.passive.warnedTick!==null&&s.referee.passive.passes>=4&&q.y<18&&!p.airborne){startAction(s,p,'SHOOT','Finish before the passive-play pass allowance is exhausted',null,null,'STANDING');return;}
+  if(s.tick-p.handling.heldSinceTick<(s.coaching[p.team].tempo==='QUICK'?6:10)){startAction(s,p,'HOLD','Secure control and read coordinated defence');return;}
+  if(!keeper&&q.y<28){startAction(s,p,'SHOOT','Goalkeeper absent; executable empty-goal opportunity',null,null,'EMPTY_GOAL');return;}
+  if(chooseOffensiveAction(s,p))return;
   const angle=shootingAngle(p.position,direction),advantage=numericalAdvantage(s,p);
   const hasOpportunity=q.y<13.5&&angle>.13&&(pressure<2||advantage>0||q.y<8)&&
     (s.possession.completedPasses>=2||s.possession.phase==='TRANSITION'||p.role==='P'||(q.y<9&&s.defence.helperId!==null));
@@ -154,11 +159,16 @@ export function selectActions(s:CoreState) {
       const carrier=s.ball.controllerId?getPlayer(s,s.ball.controllerId):null;
       if(carrier&&carrier.team!==p.team&&planContact(s,p,carrier))continue;
       if(carrier?.team!==p.team&&carrier?.airborne&&distance(p.position,carrier.position)<2)startAction(s,p,'BLOCK','Contest visible shooting action',null,carrier.id);
-      else startAction(s,p,kind,p.duty.reason,target,p.duty.targetId);
+      else startAction(s,p,kind,p.duty.reason,anticipatedDefenceTarget(s,p,target),p.duty.targetId);
     } else {
       let target=s.possession.phase==='ESTABLISHED'?(isWing(p)?wingRelationship(s,p).target:p.support?.target??structurePoint(p.role,direction,s.ball.position.x)):structurePoint(p.role,direction,s.ball.position.x);
-      if(s.possession.phase==='TRANSITION') {const q=local(p.position,direction);target=world({x:p.role==='LB'?5:p.role==='RB'?15:target.x,y:Math.max(local(target,direction).y,q.y-7)},direction);}
-      if(p.role==='P'&&distance(p.position,target)<1.2)startAction(s,p,'SCREEN','Establish stationary pivot screen to constrain inside cover',null,s.defence.pressureId);
+      if(s.possession.phase==='TRANSITION') {
+        const q=local(p.position,direction),ballDepth=local(s.ball.position,direction).y;
+        const trailing=p.duty.kind==='SECOND_WAVE'?Math.min(q.y,ballDepth+(s.offence.phase==='UPPSPEL'?2:1)):0;
+        target=world({x:p.role==='LB'?5:p.role==='RB'?15:target.x,y:Math.max(local(target,direction).y,q.y-7,trailing)},direction);
+      }
+      const entryTarget=offensiveTarget(s,p);if(entryTarget)target=entryTarget;
+      if((offensiveScreen(s,p)||p.role==='P')&&distance(p.position,target)<.8)startAction(s,p,'SCREEN','Establish stationary screen at the intended defensive interval',null,s.defence.pressureId);
       else if(distance(p.position,target)>.55)startAction(s,p,'RUN',p.duty.reason,target);
       else startAction(s,p,'RECEIVE','Offer an available passing connection from assigned role');
     }

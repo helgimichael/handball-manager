@@ -2,11 +2,11 @@ import { actionAvailable,courtPlayers,getPlayer,otherTeam,record,uid,type CoreSt
 import { startAction } from './actions';
 import { distance } from './space';
 
-export function exchangeActive(s:CoreState,id:string){return s.exchanges.some(e=>e.phase!=='COMPLETED'&&(e.outId===id||e.inId===id));}
+export function exchangeActive(s:CoreState,id:string){return s.exchanges.some(e=>e.phase!=='COMPLETED'&&e.phase!=='CANCELLED'&&(e.outId===id||e.inId===id));}
 export function courtLimit(s:CoreState,team:TeamId){return 7-s.players.filter(p=>p.team===team&&(p.population==='SUSPENDED'||p.population==='DISQUALIFIED'&&p.suspensionUntilMs!==null&&s.officialClock.timeMs<p.suspensionUntilMs)).length;}
 export function requestExchange(s:CoreState,team:TeamId,outId:string|null,inId:string):boolean {
   const incoming=getPlayer(s,inId),outgoing=outId?getPlayer(s,outId):null;
-  if(s.exchanges.some(e=>e.team===team&&e.phase!=='COMPLETED')||incoming.team!==team||incoming.population!=='BENCH'||(outgoing&&(outgoing.team!==team||outgoing.population!=='COURT'))||(!outgoing&&courtPlayers(s,team).length>=courtLimit(s,team)))return false;
+  if(s.status!=='RUNNING'||s.exchanges.some(e=>e.team===team&&e.phase!=='COMPLETED'&&e.phase!=='CANCELLED')||incoming.team!==team||incoming.population!=='BENCH'||incoming.condition.unavailable||incoming.condition.exitRequired||incoming.condition.attacksRemaining>0||(outgoing&&(outgoing.team!==team||outgoing.population!=='COURT'))||(!outgoing&&courtPlayers(s,team).length>=courtLimit(s,team)))return false;
   const gate={x:-.35,y:s.directions[team]==='TOP'?24:16};
   // Bench staging is off-court. Admission and court movement are separate transitions.
   incoming.position={...gate};incoming.velocity={x:0,y:0};incoming.action=null;
@@ -14,19 +14,31 @@ export function requestExchange(s:CoreState,team:TeamId,outId:string|null,inId:s
   record(s,'EXCHANGE_REQUESTED',outgoing,{incomingId:inId},[inId]);return true;
 }
 export function populationBefore(s:CoreState) {
-  for(const p of s.players)if(p.population==='SUSPENDED'&&p.suspensionUntilMs!==null&&s.officialClock.timeMs>=p.suspensionUntilMs) {
-    p.population='BENCH';p.suspensionUntilMs=null;record(s,'SUSPENSION_EXPIRED',p);
-  }
-  for(const team of ['HOME','AWAY'] as const) {
-    const keeper=s.players.find(p=>p.team===team&&p.kind==='GOALKEEPER'),extra=s.players.find(p=>p.team===team&&p.role==='P2');
-    if(keeper?.population==='BENCH'&&extra?.population==='COURT'&&(s.possession.team!==team||s.restart?.kind==='GOALKEEPER_THROW'&&s.restart.owner===team))requestExchange(s,team,extra.id,keeper.id);
-    // Expired suspensions are permission to re-enter, not instant court teleportation.
-    if(courtPlayers(s,team).length<courtLimit(s,team)) {
-      const eligible=s.players.find(p=>p.team===team&&p.population==='BENCH'&&p.sanctions>0&&p.suspensionUntilMs===null);
-      if(eligible)requestExchange(s,team,null,eligible.id);
+  for(const e of s.exchanges.filter(e=>e.phase!=='COMPLETED'&&e.phase!=='CANCELLED')) {
+    const incoming=getPlayer(s,e.inId),outgoing=e.outId?getPlayer(s,e.outId):null;
+    if(incoming.condition.unavailable||incoming.condition.attacksRemaining>0||['SUSPENDED','DISQUALIFIED'].includes(incoming.population)||e.phase==='WAIT_EXIT'&&outgoing?.population!=='COURT') {
+      e.phase='CANCELLED';record(s,'EXCHANGE_CANCELLED',outgoing,{exchangeId:e.id,reason:'Eligibility changed before exchange completed'});
     }
   }
-  for(const e of s.exchanges.filter(e=>e.phase!=='COMPLETED')) {
+  for(const p of s.players)if(p.population==='SUSPENDED'&&p.suspensionUntilMs!==null&&s.officialClock.timeMs>=p.suspensionUntilMs) {
+    p.population='BENCH';p.suspensionUntilMs=null;p.condition.attacksRemaining=0;record(s,'SUSPENSION_EXPIRED',p);
+  }
+  for(const team of ['HOME','AWAY'] as const) {
+    const medical=courtPlayers(s,team).find(p=>p.condition.exitRequired);
+    if(medical){const replacement=s.players.filter(p=>p.team===team&&p.population==='BENCH'&&p.kind===medical.kind&&!p.condition.unavailable&&!p.condition.exitRequired&&!p.condition.attacksRemaining).sort((a,b)=>Number(b.role===medical.role)-Number(a.role===medical.role)||a.id.localeCompare(b.id))[0];if(replacement)requestExchange(s,team,medical.id,replacement.id);}
+    const keeper=s.players.find(p=>p.team===team&&p.kind==='GOALKEEPER'),extra=s.players.find(p=>p.team===team&&p.role==='P2');
+    if(keeper?.population==='BENCH'&&!courtPlayers(s,team).some(p=>p.kind==='GOALKEEPER')&&extra?.population==='COURT'&&(s.possession.team!==team||s.restart?.kind==='GOALKEEPER_THROW'&&s.restart.owner===team))requestExchange(s,team,extra.id,keeper.id);
+    // Expired suspensions are permission to re-enter, not instant court teleportation.
+    if(s.flow.continuous&&courtPlayers(s,team).length<courtLimit(s,team)) {
+      const needsKeeper=!courtPlayers(s,team).some(p=>p.kind==='GOALKEEPER')&&s.flow.sevenVTeam!==team;
+      const occupied=courtPlayers(s,team).map(p=>p.role);
+      const missing=(['LW','LB','CB','RB','RW','P'] as const).find(role=>!occupied.includes(role));
+      const eligible=s.players.filter(p=>p.team===team&&p.population==='BENCH'&&p.kind===(needsKeeper?'GOALKEEPER':'FIELD_PLAYER')&&p.suspensionUntilMs===null&&!p.condition.unavailable&&!p.condition.exitRequired&&!p.condition.attacksRemaining)
+        .sort((a,b)=>Number(b.role===missing)-Number(a.role===missing)||Number(b.sanctions>0)-Number(a.sanctions>0)||b.condition.energy-a.condition.energy||a.id.localeCompare(b.id))[0];
+      if(eligible&&requestExchange(s,team,null,eligible.id)&&!needsKeeper&&missing)eligible.role=missing;
+    }
+  }
+  for(const e of s.exchanges.filter(e=>e.phase!=='COMPLETED'&&e.phase!=='CANCELLED')) {
     if(e.phase==='WAIT_EXIT') {
       const p=getPlayer(s,e.outId!);
       if(actionAvailable(p)&&s.ball.controllerId!==p.id) {
@@ -44,11 +56,11 @@ export function populationBefore(s:CoreState) {
   }
 }
 export function populationAfter(s:CoreState) {
-  for(const e of s.exchanges.filter(e=>e.phase!=='COMPLETED')) {
+  for(const e of s.exchanges.filter(e=>e.phase!=='COMPLETED'&&e.phase!=='CANCELLED')) {
     if(e.phase==='WAIT_EXIT') {
       const p=getPlayer(s,e.outId!);
       if(p.position.x<=-p.radius&&p.action?.kind==='EXCHANGE') {
-        p.population='BENCH';p.support=null;p.velocity={x:0,y:0};p.action.phase='COMPLETED';p.action.phaseTick=s.tick;e.phase='ENTERING';
+        p.population='BENCH';p.condition.exitRequired=false;p.support=null;p.velocity={x:0,y:0};p.action.phase='COMPLETED';p.action.phaseTick=s.tick;e.phase='ENTERING';
         delete s.defence.marks[p.id];record(s,'PLAYER_LEFT_COURT',p,{exchangeId:e.id},[e.inId]);
       }
     } else {
@@ -58,6 +70,8 @@ export function populationAfter(s:CoreState) {
         // Assign the vacated tactical role only for like-for-like field exchanges.
         const out=e.outId?getPlayer(s,e.outId):null;
         if(out?.kind==='FIELD_PLAYER'&&p.kind==='FIELD_PLAYER')p.role=out.role;
+        if(out?.kind==='GOALKEEPER'&&p.kind==='FIELD_PLAYER'){p.role='P2';s.flow.sevenVTeam=p.team;}
+        if(p.kind==='GOALKEEPER'&&s.flow.sevenVTeam===p.team)s.flow.sevenVTeam=null;
         s.defence.marks={};record(s,'EXCHANGE_COMPLETED',p,{exchangeId:e.id,role:p.role},e.outId?[e.outId]:[]);
       }
     }

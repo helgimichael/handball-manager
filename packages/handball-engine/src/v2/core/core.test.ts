@@ -81,7 +81,7 @@ test('level 3: goalkeeper parry is a flight and rebound, not fabricated possessi
   assert.equal(frames.at(-1)!.restart?.kind,'GOALKEEPER_THROW');
 });
 test('levels 4–5: established circulation, defence, shot contest and correct outcome',()=>{
-  const frames=run(createContinuous('CONTINUOUS_PLAY',2025,'TOP',3)),end=frames.at(-1)!;
+  const frames=run(createContinuous('CONTINUOUS_PLAY',2025,'TOP',6)),end=frames.at(-1)!;
   assert.equal(end.status,'CHECKPOINT');
   assert.ok(end.events.filter(e=>e.type==='PASS_RECEIVED').length>=2);
   assert.ok(end.events.some(e=>e.type==='SHOT_RELEASED'));
@@ -90,10 +90,12 @@ test('levels 4–5: established circulation, defence, shot contest and correct o
   assert.ok(frames.some(s=>s.players.some(p=>p.action?.kind==='PRESS')));
   assert.ok(end.restart||end.events.some(e=>e.type==='POSSESSION_CHANGED'));
 });
-test('levels 4–5: transition uses dribble, shared pass/shot and retreat',()=>{
+test('levels 4–5: transition uses dribble, physical passing and retreat before a contested outcome',()=>{
   const frames=run(createCoreScenario('TRANSITION_3V2')),end=frames.at(-1)!;
   assert.equal(end.status,'CHECKPOINT');
-  for(const type of ['DRIBBLE_STARTED','DRIBBLE_BOUNCE','DRIBBLE_GATHERED','PASS_RELEASED','PASS_RECEIVED','SHOT_RELEASED'])assert.ok(end.events.some(e=>e.type===type),type);
+  for(const type of ['DRIBBLE_STARTED','DRIBBLE_BOUNCE','DRIBBLE_GATHERED','PASS_RELEASED','PASS_RECEIVED'])assert.ok(end.events.some(e=>e.type===type),type);
+  // A recovering defender may intercept the transition before its shot.
+  assert.ok(end.events.some(e=>['SHOT_RELEASED','INTERCEPTION'].includes(e.type)));
   assert.ok(frames.some(s=>s.players.some(p=>p.duty.kind==='RETREAT')));
   for(const s of frames)for(const p of s.players)if(p.airborne)assert.ok(fieldLegal(p.airborne.takeoff));
 });

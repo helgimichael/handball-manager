@@ -1,5 +1,6 @@
 import { getPlayer,otherTeam, record, uid, type CorePlayer, type CoreState, type Restart, type Point } from './state';
 import { distance, local, world } from './space';
+import { judgeFoul } from './referee';
 
 export function interrupt(s: CoreState,p: CorePlayer,reason: string) {
   if(p.action&&!['COMPLETED','FAILED','INTERRUPTED'].includes(p.action.phase)) {
@@ -21,7 +22,7 @@ export function awardRestart(s: CoreState,kind: Restart['kind'],owner: CorePlaye
   if(kind==='SEVEN_METRE')location=world({x:10,y:7},s.directions[owner]);
   if(kind==='GOALKEEPER_THROW')location=world({x:10,y:2},s.directions[otherTeam(owner)]);
   if(kind==='CENTRE_THROW_OFF')location={x:10,y:20};
-  s.restart={id:uid(s,'restart'),kind,owner,location,awardedTick:s.tick,phase:'AWARDED',takerId:null,authorisedTick:null,collectorId:null,receiverId:null,context:kind==='CENTRE_THROW_OFF'?'POST_GOAL':null,plantedFoot:null};
+  s.restart={id:uid(s,'restart'),kind,owner,location,awardedTick:s.tick,pausedTicks:0,phase:'AWARDED',takerId:null,authorisedTick:null,collectorId:null,receiverId:null,context:kind==='CENTRE_THROW_OFF'?'POST_GOAL':null,plantedFoot:null};
   if(s.possession.team!==owner){const previous=s.possession.id;s.possession={id:uid(s,'possession'),team:owner,sinceTick:s.tick,phase:'RESTART',completedPasses:0,lastPasserId:null};s.defence={...s.defence,team:otherTeam(owner),marks:{},pressureId:null,helperId:null};record(s,'POSSESSION_AWARDED',null,{owner,previous});}
   s.possession.phase='RESTART';
   record(s,'RESTART_AWARDED',actor,{kind,owner,reason,x:location.x,y:location.y});
@@ -32,7 +33,7 @@ export function changePossession(s: CoreState,player: CorePlayer,reason: string)
   for(const p of s.players)p.support=null;
   const previous=s.possession.id;
   s.possession={id:uid(s,'possession'),team:player.team,sinceTick:s.tick,phase:'TRANSITION',completedPasses:0,lastPasserId:null};
-  s.defence={team:otherTeam(player.team),system:'6:0',marks:{},pressureId:null,helperId:null,lastHandoverTick:s.tick,handover:null};
+  s.defence={team:otherTeam(player.team),system:s.coaching[otherTeam(player.team)].defence,marks:{},pressureId:null,helperId:null,lastHandoverTick:s.tick,handover:null};
   record(s,'POSSESSION_CHANGED',player,{previous,reason});
 }
 /** Called only by swept physical interaction resolution, never by the selector. */
@@ -48,13 +49,5 @@ export function acquire(s: CoreState,p: CorePlayer,point: Point,reason: string,s
   if(turnover)checkpoint(s,'TURNOVER');
 }
 export function foul(s: CoreState,attacker: CorePlayer,defender: CorePlayer,severe: boolean,clearChance: boolean,contestId: string) {
-  // Body-directed holding is progressive; stronger defence is never evidence of a foul.
-  if(!severe) {
-    const teamWarnings=s.players.filter(p=>p.team===defender.team).reduce((n,p)=>n+p.warnings,0);
-    if(defender.warnings>0||defender.sanctions>0||teamWarnings>=3)severe=true;
-    else {defender.warnings++;record(s,'WARNING',defender,{reason:'Illegal body-directed stopping contact'},[attacker.id],contestId);}
-  }
-  if(severe){defender.sanctions++;defender.population=defender.sanctions>=3?'DISQUALIFIED':'SUSPENDED';defender.suspensionUntilMs=s.officialClock.timeMs+s.ruleProfile.suspensionMs;record(s,defender.sanctions>=3?'DISQUALIFICATION':'TWO_MINUTE_SUSPENSION',defender,{},[attacker.id],contestId);}
-  record(s,'FOUL',defender,{clearChance,severe},[attacker.id],contestId);
-  awardRestart(s,clearChance?'SEVEN_METRE':'FREE_THROW',attacker.team,attacker.position,'Illegal stopping contact',defender);
+  judgeFoul(s,attacker,defender,severe,clearChance,contestId);
 }

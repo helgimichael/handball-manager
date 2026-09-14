@@ -1,5 +1,10 @@
 # V2 continuous-match Human QA checkpoint
 
+**Current continuation:** see [VARIATION.md](./VARIATION.md) for the uncommitted
+2.7 adaptive-offence implementation, current proof and Human QA instructions.
+[ECOSYSTEM.md](./ECOSYSTEM.md) retains the 2.6 full-match roadmap and rule boundaries.
+Everything below is historical 2.2.
+
 This is the historical accepted 2.2 checkpoint. The subsequent uncommitted
 realism pass and its QA instructions are in [REALISM.md](./REALISM.md).
 

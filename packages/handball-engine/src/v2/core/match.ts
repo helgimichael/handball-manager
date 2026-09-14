@@ -3,10 +3,20 @@ import { courtPlayers,getPlayer,record,type CoreState,type Direction } from './s
 import { world } from './space';
 import { awardRestart,interrupt } from './transitions';
 import { requestExchange } from './population';
+import { refereeAfter } from './referee';
 
 export function createMatch(seed=2025,direction:Direction='TOP',periodLengthMs=1800000,halfBreakMs=600000):CoreState {
-  if(!Number.isInteger(periodLengthMs)||periodLengthMs<1000||periodLengthMs%50||halfBreakMs<0||halfBreakMs%50)throw new Error('Invalid match timing');
+  if(!Number.isInteger(periodLengthMs)||periodLengthMs<1000||periodLengthMs%50||!Number.isInteger(halfBreakMs)||halfBreakMs<0||halfBreakMs%50)throw new Error('Invalid match timing');
   const s=createContinuous('CONTINUOUS_PLAY',seed,direction,null);s.scenario='FULL_MATCH';s.checkpoint.maxTicks=Math.ceil((periodLengthMs*2+halfBreakMs)/50)+20000;
+  // A complete match roster includes cover for every field role and the goalkeeper.
+  for(const team of ['HOME','AWAY'] as const) {
+    const prefix=team==='HOME'?'H':'A';
+    for(const [i,role] of (['GK','LW','LB','RB','RW','P'] as const).entries()) {
+      const p=structuredClone(s.players.find(p=>p.team===team&&p.role===role)!);
+      p.id=`${prefix}${i+10}`;p.population='BENCH';p.position={x:-.35,y:direction==='TOP'?24:16};s.players.push(p);
+    }
+    s.coaching[team].rotation=true;s.coaching[team].timeouts=true;
+  }
   s.match={phase:'PREMATCH',periodLengthMs,periodStartMs:0,resumeTick:0,halfBreakMs,outcomesAtHorn:0,coachingPlan:[]};s.officialClock.running=false;
   for(const team of ['HOME','AWAY'] as const){const prefix=team==='HOME'?'H':'A';s.match.coachingPlan.push(
     {team,outId:`${prefix}03`,inId:`${prefix}09`,atMs:periodLengthMs*.5,requested:false,sevenV:false},
@@ -22,6 +32,8 @@ function finishPeriod(s:CoreState) {
   const m=s.match!;s.officialClock.running=false;
   for(const p of s.players)interrupt(s,p,'Period ended');
   s.ball.live=false;s.ball.mode='DEAD';s.ball.flight=null;
+  refereeAfter(s);
+  s.referee.timeout=null;s.referee.resumeOnWhistle=false;
   record(s,'PERIOD_ENDED',null,{period:s.period});
   if(s.period===2){m.phase='FULLTIME';s.status='CHECKPOINT';s.reason='FULLTIME';s.checkpoint.outcome='FULLTIME';record(s,'MATCH_FINISHED',null,{home:s.score.HOME,away:s.score.AWAY});return;}
   m.phase='HALFTIME';m.resumeTick=s.tick+m.halfBreakMs/50;record(s,'HALFTIME',null);
@@ -35,6 +47,7 @@ export function matchBefore(s:CoreState):boolean {
   if(m.phase!=='HALFTIME')return false;
   if(s.tick<m.resumeTick)return true;
   s.period=2;s.directions={HOME:s.directions.HOME==='TOP'?'BOTTOM':'TOP',AWAY:s.directions.AWAY==='TOP'?'BOTTOM':'TOP'};
+  for(const p of s.players)if(p.condition.attacksRemaining){p.condition.attacksRemaining=0;p.condition.treatmentPossession=null;record(s,'TREATMENT_ELIGIBILITY_RESTORED',p,{reason:'Second half begins'});}
   m.phase='PREMATCH';m.periodStartMs=s.officialClock.timeMs;
   awardRestart(s,'CENTRE_THROW_OFF','AWAY',{x:10,y:20},'Opening second half',null,false);s.restart!.context='OPENING_HALF';return false;
 }

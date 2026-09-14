@@ -2,13 +2,14 @@ import { actionAvailable, getPlayer, record, uid, type ActionKind, type CoreActi
 import { distance, fieldLegal, goal, local } from './space';
 import { awardRestart } from './transitions';
 import { authorisedRestartMovementLegal } from './rules';
+import { movementCapacity } from './condition';
 
 const durations: Record<ActionKind,number>={RUN:12,REPOSITION:12,RECEIVE:36,HOLD:6,DRIBBLE:16,PASS:4,FEINT:7,DRIVE:14,JUMP:3,SHOOT:4,LAND:4,SCREEN:20,PRESS:10,CONTAIN:10,HELP:12,HANDOVER:4,RECOVER:12,BLOCK:12,CONTACT:8,SAVE:18,EXCHANGE:20};
 export const movementActions: ActionKind[]=['RUN','REPOSITION','DRIBBLE','DRIVE','PRESS','CONTAIN','HELP','RECOVER','SAVE','EXCHANGE'];
 export function legalAction(s: CoreState,p: CorePlayer,kind: ActionKind): boolean {
   if(s.status!=='RUNNING'||p.population!=='COURT'||!actionAvailable(p))return false;
   const controls=s.ball.controllerId===p.id;
-  if(kind==='EXCHANGE')return !controls&&s.exchanges.some(e=>e.phase!=='COMPLETED'&&(e.outId===p.id||e.inId===p.id));
+  if(kind==='EXCHANGE')return !controls&&s.exchanges.some(e=>e.phase!=='COMPLETED'&&e.phase!=='CANCELLED'&&(e.outId===p.id||e.inId===p.id));
   if(p.airborne&&(!controls||!s.ball.live))return kind==='LAND';
   if(!s.ball.live) return kind==='REPOSITION'||kind==='RUN'||kind==='RECEIVE'||
     (kind==='PASS'&&controls&&s.restart?.collectorId===p.id&&s.restart.takerId!==p.id&&s.restart.phase==='PREPARING')||
@@ -41,12 +42,18 @@ function move(s:CoreState,p:CorePlayer,target:Point) {
   const d=distance(p.position,target);if(d<.03){p.velocity={x:0,y:0};return;}
   const oldSpeed=Math.hypot(p.velocity.x,p.velocity.y);
   const impaired=s.tick < p.beatenUntilTick ? 0.4 : s.tick < p.screenedUntilTick ? 0.15 : s.tick<p.wrongFootedUntilTick?.65:1;
-  const speed=Math.min(p.attributes.speed*impaired,oldSpeed+p.attributes.acceleration*.05,Math.sqrt(2*p.attributes.acceleration*d));
+  const capacity=movementCapacity(p);
+  const speed=Math.min(p.attributes.speed*impaired*capacity,oldSpeed+p.attributes.acceleration*.05*capacity,Math.sqrt(2*p.attributes.acceleration*capacity*d));
   const travel=Math.min(d,speed*.05),dx=(target.x-p.position.x)/d,dy=(target.y-p.position.y)/d;
   // Local steering around occupied bodies is execution of the existing duty,
   // not a new tactical assignment. Every candidate is checked before movement.
   let chosen: {x:number;y:number;dx:number;dy:number}|null=null;
-  for(const angle of [0,.7,-.7,1.3,-1.3,Math.PI/2,-Math.PI/2,1.9,-1.9]) {
+  // During dead-ball preparation a body trapped between the taker and sideline
+  // may need to step backwards before returning to its restart position.
+  const taker=s.restart?.takerId?getPlayer(s,s.restart.takerId):null;
+  const pinned=!s.ball.live&&taker&&p.team!==taker.team&&(p.position.x<1||p.position.x>19)&&distance(p.position,taker.position)<1;
+  const angles=!pinned?[0,.7,-.7,1.3,-1.3,Math.PI/2,-Math.PI/2,1.9,-1.9]:[0,.7,-.7,1.3,-1.3,Math.PI/2,-Math.PI/2,1.9,-1.9,2.5,-2.5,Math.PI];
+  for(const angle of angles) {
     const ux=dx*Math.cos(angle)-dy*Math.sin(angle),uy=dx*Math.sin(angle)+dy*Math.cos(angle);
     const next={x:p.position.x+ux*travel,y:p.position.y+uy*travel};
     const exchange=p.action?.kind==='EXCHANGE';
