@@ -1,0 +1,67 @@
+{
+  "release": "Management Experience v1",
+  "clientDate": "2026-10-07",
+  "applicationUrl": "http://localhost:3004",
+  "productionOutput": "apps/game/.next-management-final",
+  "gameTests": {
+    "command": "npm run test:all:portable --workspace=@handball-manager/game",
+    "passed": 2296,
+    "failed": 0,
+    "durationMs": 394257.995
+  },
+  "browserAcceptance": {
+    "origin": "http://localhost:3004",
+    "files": ["apps/game/e2e/management.spec.ts", "apps/game/e2e/product.spec.ts"],
+    "passed": 2,
+    "failed": 0,
+    "journeys": [
+      "Home, contract inbox event, player profile, squad and real calendar advancement",
+      "Squad search/position filter, sorting, selection and own-player comparison",
+      "Division 1 target search, shortlist, scout hiring, assignment, completed report, external/own comparison, rejected/revised bid and completed signing",
+      "Contract overview, renewal, Save/reload, changed expiry and resolved inbox risk",
+      "Competition table, club, player, statistics, background-match report, return to competition and player match history",
+      "Tactics, lineup change, matchday, live substitution/tactics, live Save/reload, finalization, report, table and played archive replay",
+      "Persisted shortlist, scouting assignment/report, contract, transfer ledger, cash/budget and squad consequences"
+    ],
+    "recruitmentEvidence": {
+      "player": "Albin Ahlin",
+      "sourceClub": "HK Eskil",
+      "newClub": "IFK Tumba HK",
+      "scout": "Agaton Rubin",
+      "reportDate": "2026-08-06",
+      "knowledgeAndReport": "Completed report displayed with moderate knowledge and 38% confidence",
+      "transferOutcome": "COMPLETED",
+      "cashAndTransferBudgetChanged": true,
+      "playerPresentInSavedSquad": true
+    }
+  },
+  "careerRegression": {
+    "command": "npm run test:season:management --workspace=@handball-manager/game",
+    "managerMatchesSeasonOne": 26,
+    "allClubsCompletedLeagueMatches": 26,
+    "seasonOneComplete": true,
+    "seasonTwo": "2027/28",
+    "seasonTwoMatchEngine": "V2",
+    "seasonTwoMatchDate": "2027-09-23",
+    "playedArchivesAfterSeasonTwoMatch": 27,
+    "historicalTableAndPlayerStatsPreserved": true,
+    "evidence": "playable-season-result.json"
+  },
+  "checks": {
+    "workspaceTypecheck": "PASS",
+    "gameTypecheck": "PASS",
+    "productionBuild": "PASS",
+    "changedManagementFilesLintZeroWarnings": "PASS",
+    "repositoryWideLint": "Pre-existing scenario-lab/test errors remain",
+    "visualArtifactsInspected": ["home.png", "comparison.png", "scout-report.png", "live-match-ui.png", "replay-ui.png"]
+  },
+  "scope": {
+    "engineImplementationEditedByThisTask": false,
+    "matchReportOrReplayResimulates": false,
+    "originalPort3001ServerPreserved": true,
+    "motionWorktreePreserved": true,
+    "unrelatedUserChangesCommitted": false,
+    "stashesDeleted": false,
+    "pushed": false
+  }
+}

@@ -126,7 +126,7 @@ test("COMPETITION_UPDATE deep-links to the career's actual competition, and its 
   const career = freshCareer();
   const message = careerEventToInboxMessage(buildCompetitionUpdateEvent("2026-08-20", career.competitionId), career);
   assert.deepEqual(message.destinations, [{ route: "COMPETITION", competitionId: career.competitionId }]);
-  assert.equal(resolveDestinationHref({ route: "COMPETITION", competitionId: career.competitionId }), "/career/competitions");
+  assert.equal(resolveDestinationHref({ route: "COMPETITION", competitionId: career.competitionId }), `/career/competitions/${career.competitionId}`);
 });
 
 test("SCOUT_REPORT_READY identifies the target player in its body and links to Scouting", () => {

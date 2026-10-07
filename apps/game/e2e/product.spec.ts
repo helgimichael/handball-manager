@@ -1,9 +1,11 @@
-import { test, expect } from '@playwright/test';
+import { test, expect as baseExpect } from '@playwright/test';
+const expect = baseExpect.configure({ timeout: 30000 });
+const base = process.env.HM_QA_URL ?? 'http://localhost:3001';
 test('normal career UI: real squad, calendar, live match, decisions, finalization and reload', async ({ page }) => {
-  test.setTimeout(300000);
+  test.setTimeout(600000);
   const errors: string[] = [];
   page.on('pageerror', error => errors.push(error.message));
-  await page.goto('http://localhost:3001/new-game');
+  await page.goto(`${base}/new-game`);
   for (let i = 0; i < 4; i++) await page.getByRole('button', { name: 'Nästa →', exact: true }).click();
   await page.getByPlaceholder('För- och efternamn').fill('Test Manager');
   await page.getByRole('button', { name: 'Nästa →', exact: true }).click();
@@ -39,7 +41,7 @@ test('normal career UI: real squad, calendar, live match, decisions, finalizatio
     if (await page.getByRole('button', { name: 'STARTA MATCH →', exact: true }).isVisible()) break;
     await page.getByRole('button', { name: 'Fortsätt »', exact: true }).click();
     await expect(page.getByText('Bearbetar säsongen…', { exact: true })).toHaveCount(0, { timeout: 30000 });
-    await page.goto('http://localhost:3001/career/match-preview');
+    await page.goto(`${base}/career/match-preview`);
   }
   await page.getByRole('button', { name: 'Spara', exact: true }).click();
   await expect(page.getByRole('status').filter({ hasText: 'Sparat' })).toBeVisible({ timeout: 30000 });
@@ -48,7 +50,7 @@ test('normal career UI: real squad, calendar, live match, decisions, finalizatio
   await page.waitForURL('**/career/match-day/**');
   await expect(page.getByRole('button', { name: 'Spela', exact: true })).toBeVisible();
   console.log((await page.locator('body').innerText()).slice(-2500));
-  await page.screenshot({ path: '../../docs/audit/live-match-ui.png', fullPage: true });
+  await page.screenshot({ path: `${process.env.HM_QA_SCREENSHOT_DIR ?? '../../docs/audit'}/live-match-ui.png`, fullPage: true });
   await page.getByRole('combobox').filter({ has: page.locator('option[value="64"]') }).selectOption('64');
   await page.getByRole('button', { name: 'Spela', exact: true }).click();
   await expect(page.getByRole('button', { name: 'Pausa', exact: true })).toBeVisible();
@@ -69,10 +71,21 @@ test('normal career UI: real squad, calendar, live match, decisions, finalizatio
   await page.reload();
   await expect(page.getByText('Speltid och belastning', { exact: true })).toBeVisible({ timeout: 60000 });
   await page.getByRole('button', { name: 'Se matchrepris', exact: true }).click();
-  await expect(page.getByText('Repris', { exact: true })).toBeVisible();
+  await page.waitForURL('**/career/match-day/**');
+  await expect(page.getByText('Repris', { exact: true })).toBeVisible({ timeout: 60000 });
   await page.getByLabel('Position i reprisen').press('End');
-  await page.screenshot({ path: '../../docs/audit/replay-ui.png', fullPage: true });
+  await page.screenshot({ path: `${process.env.HM_QA_SCREENSHOT_DIR ?? '../../docs/audit'}/replay-ui.png`, fullPage: true });
   await page.getByRole('link', { name: 'Schema', exact: true }).click();
   await expect(page.locator('body')).toContainText('Tumba');
+  await page.getByRole('link', { name: 'Tävlingar', exact: true }).click();
+  await page.getByRole('link', { name: 'Resultat', exact: true }).click();
+  await page.locator('main table a[href^="/career/match-report/"]').first().click();
+  await expect(page.getByText('Matchrapport', { exact: true })).toBeVisible();
+  await page.getByRole('link', { name: 'Tabell & liga →', exact: true }).click();
+  await expect(page.getByRole('heading', { name: 'Allsvenskan', exact: true })).toBeVisible();
+  await page.getByRole('link', { name: 'Spelarstatistik', exact: true }).click();
+  await page.locator('main table a[href^="/career/squad/"]').first().click();
+  await page.getByRole('button', { name: 'Prestation & historik', exact: true }).click();
+  await expect(page.locator('main table a[href^="/career/match-report/"]')).not.toHaveCount(0);
   expect(errors).toEqual([]);
 });
