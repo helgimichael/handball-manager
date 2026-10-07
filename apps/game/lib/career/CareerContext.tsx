@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useCallback, useContext, useEffect, useState, type ReactNode } from "react";
+import { createContext, useCallback, useContext, useEffect, useRef, useState, type ReactNode } from "react";
 import type { FastMatchResult } from "@handball-manager/game-simulation";
 import { GAME_CURRENT_DATE, getClub, getClubsByCompetition, type PlayerMock } from "../game-data";
 import { getActiveSave, saveCareerState, type CareerSave } from "../save/saveRepository";
@@ -86,6 +86,7 @@ type CareerContextValue = {
   continueCareer: () => { events: CareerEvent[]; stopReason: ContinueStopReason; daysProcessed: number; startDate: string };
   /** Resolves the manager's own MATCHDAY_READY fixture for the current date and persists. */
   playManagerFixture: () => { result: FastMatchResult | null };
+  updateCareer: (update: (state: CareerState) => CareerState) => void;
   /** Marks one Inbox message (and its linked CareerEvent, if any) as read, and persists. */
   markInboxMessageRead: (messageId: string) => void;
   /** Archives one Inbox message. No-ops (and the caller should not assume success) for an unresolved ACTION_REQUIRED message (Spec §25). */
@@ -509,6 +510,7 @@ async function getOrCreateCareerState(save: CareerSave): Promise<CareerState> {
 }
 
 export function CareerProvider({ children }: { children: ReactNode }) {
+  const lastMatchAutoSave = useRef(0);
   const [value, setValue] = useState<{ save: CareerSave; career: CareerState } | null>(null);
   const [persistError, setPersistError] = useState<string | null>(null);
 
@@ -615,6 +617,18 @@ export function CareerProvider({ children }: { children: ReactNode }) {
     persistCareerState(value!.save.saveId, nextCareer);
     setValue({ save: value!.save, career: nextCareer });
     return { result };
+  }
+
+  function updateCareer(update: (state: CareerState) => CareerState) {
+    const nextCareer = update(value!.career);
+    if (nextCareer === value!.career) return;
+    const advancing = nextCareer.productionMatch && value!.career.productionMatch && nextCareer.productionMatch.core.tick !== value!.career.productionMatch.core.tick && nextCareer.productionMatch.core.status === 'RUNNING' && !nextCareer.productionMatch.pausedAtHalf;
+    // Wall time schedules storage only; it never enters the simulation or RNG.
+    if (!advancing || performance.now() - lastMatchAutoSave.current >= 1000) {
+      persistCareerState(value!.save.saveId, nextCareer);
+      lastMatchAutoSave.current = performance.now();
+    }
+    setValue({ save: value!.save, career: nextCareer });
   }
 
   function markInboxMessageRead(messageId: string) {
@@ -998,6 +1012,7 @@ export function CareerProvider({ children }: { children: ReactNode }) {
         career: value.career,
         continueCareer,
         playManagerFixture: playManagerFixtureAction,
+        updateCareer,
         markInboxMessageRead,
         archiveInboxMessage,
         unarchiveInboxMessage,

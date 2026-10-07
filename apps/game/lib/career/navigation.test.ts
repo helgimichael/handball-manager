@@ -12,14 +12,14 @@ test("every primary nav item exists exactly once (no duplicate id or href)", () 
 test("nav order is deterministic and matches the approved information architecture (Spec §21)", () => {
   assert.deepEqual(
     CAREER_NAV_ITEMS.map((i) => i.id),
-    ["home", "inbox", "squad", "tactics", "training", "schedule", "analysis", "scouting", "recruitment", "transfers", "staff", "medical", "club", "competitions"],
+    ["home", "inbox", "squad", "tactics", "training", "replays", "schedule", "analysis", "scouting", "recruitment", "transfers", "staff", "medical", "club", "competitions"],
   );
 });
 
 test("there is exactly one Schedule primary entry and no separate Matches entry (Spec §5/§7)", () => {
   assert.equal(CAREER_NAV_ITEMS.filter((i) => i.id === "schedule").length, 1);
   assert.equal(CAREER_NAV_ITEMS.some((i) => i.id === "matches"), false);
-  assert.equal(CAREER_NAV_ITEMS.some((i) => i.label.toLowerCase().includes("match") && i.id !== "schedule"), false);
+  assert.equal(CAREER_NAV_ITEMS.some((i) => i.label.toLowerCase().includes("match") && i.id !== "schedule" && i.id !== 'replays'), false);
 });
 
 test("Editor is never part of the central career nav model (Spec §32 -- it is derived separately from the dev flag)", () => {

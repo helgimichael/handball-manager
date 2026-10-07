@@ -1,6 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import { useState } from 'react';
 import { COMPETITIONS, getClub } from "@/lib/game-data";
 import { useCareer } from "@/lib/career/CareerContext";
 import { getCareerSquad } from "@/lib/career/careerWorld";
@@ -8,10 +9,12 @@ import { getNextPlayerFixture } from "@/lib/career/calendar";
 import { isAvailable, resolveStatusLabel } from "@/lib/career/playerStatus";
 import ClubCrest from "@/components/ClubCrest";
 import { ClubLink, PlayerLink } from "@/components/entityLinks";
+import { startProductionMatch } from '@/lib/career/productionMatch';
 
 export default function MatchPreviewPage() {
   const router = useRouter();
-  const { career, playManagerFixture, startLiveMatchSession } = useCareer();
+  const { career, updateCareer } = useCareer();
+  const [error, setError] = useState<string | null>(null);
   const fixture = getNextPlayerFixture(career);
   const squad = getCareerSquad(career);
   const unavailable = squad.filter((p) => !isAvailable(career.playerStatuses, p.id));
@@ -36,12 +39,12 @@ export default function MatchPreviewPage() {
   // own date with an unresolved MATCHDAY_READY (Spec S11.2) -- that IS the
   // matchday-ready condition, replacing the old jump-model's
   // "is this the next fixture" comparison.
-  const isMatchdayReady = fixture.date === career.gameDate;
+  const isMatchdayReady = fixture.date === career.gameDate && career.careerEvents.some(event => event.id === `MATCHDAY_READY:${fixture.id}` && !event.resolved);
   // HM-MATCH-1.3A Part C: the manager may have already pressed STARTA
   // MATCH once (e.g. they went back to check Squad/Tactics from Live
   // Match) -- an already-active session for THIS fixture means "resume",
   // never "restart".
-  const hasActiveSessionForFixture = career.activeMatchSession?.fixtureId === fixture.id;
+  const hasActiveSessionForFixture = career.productionMatch?.fixture.id === fixture.id;
 
   // HM-MATCH-1.3A Part C: the ONE explicit action that may create a live
   // session and transition into FIRST_HALF. `playManagerFixture()` is
@@ -51,24 +54,17 @@ export default function MatchPreviewPage() {
   // is equally idempotent for the same fixtureId (liveMatchSessionActions.ts),
   // so together this always resumes rather than restarts.
   function handlePlayMatch() {
-    const existingResult = career.results[fixture!.id];
-    const fixtureId = existingResult ? fixture!.id : playManagerFixture().result?.fixtureId;
-    if (!fixtureId) {
-      router.push("/career");
-      return;
-    }
-    startLiveMatchSession(fixtureId);
-    router.push(`/career/match-day/${fixtureId}`);
+    try {
+      updateCareer(state => startProductionMatch(state, fixture!.id));
+      router.push(`/career/match-day/${fixture!.id}`);
+    } catch (cause) { setError(cause instanceof Error ? cause.message : 'Matchen kunde inte startas.'); }
   }
 
   function handleQuickResult() {
-    const { result } = playManagerFixture();
-    const fixtureId = result?.fixtureId ?? (career.results[fixture!.id] ? fixture!.id : null);
-    if (fixtureId) {
-      router.push(`/career/match-report/${fixtureId}`);
-      return;
-    }
-    router.push("/career");
+    try {
+      updateCareer(state => startProductionMatch(state, fixture!.id));
+      router.push(`/career/match-day/${fixture!.id}?finish=1`);
+    } catch (cause) { setError(cause instanceof Error ? cause.message : 'Matchen kunde inte startas.'); }
   }
 
   const home = getClub(fixture.homeClubId)!;
@@ -77,6 +73,7 @@ export default function MatchPreviewPage() {
 
   return (
     <div className="hm-grid" style={{ gap: 12 }}>
+      {error && <div role="alert" className="hm-panel-body">{error}</div>}
       <div className="hm-panel">
         <div className="hm-panel-header">
           <div style={{ display: "flex", alignItems: "center", gap: 10 }}>

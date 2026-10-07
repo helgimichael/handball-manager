@@ -558,5 +558,6 @@ export function migrateCareerState(career: CareerState): CareerState {
     }
   }
 
+  if (next.activeMatchSession && !next.productionMatch) next = { ...next, activeMatchSession: null };
   return next;
 }

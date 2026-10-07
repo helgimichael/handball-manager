@@ -1,3 +1,4 @@
+// Historical match adapter regression. Production lifecycle is covered by productionMatch.test.ts.
 // HM-TRAINING-1.1 Part 30/31/32/33: the career-level proofs -- save
 // migration, "future matches see developed ratings", "completed
 // historical matches stay frozen", and "changing individual focus only
@@ -7,7 +8,7 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import { createNewCareerState } from "./newCareer";
 import { migrateCareerState } from "./saveMigration";
-import { playManagerFixture } from "./matchdayAction";
+import { playManagerFixtureLegacy as playManagerFixture } from "./legacy/matchday";
 import { processDay } from "./dailyTick";
 import { addDays } from "./dateUtils";
 import { TUMBA_CLUB_ID } from "../game-data";

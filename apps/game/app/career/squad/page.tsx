@@ -1,4 +1,5 @@
 "use client";
+import Link from 'next/link';
 
 import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
@@ -125,8 +126,8 @@ export default function SquadPage() {
                   <td onClick={() => router.push(`/career/squad/${p.id}`)} data-clickable="true">
                     <span className="hm-shirt-number">{p.shirtNumber ?? "–"}</span>
                   </td>
-                  <td className="hm-td-strong" onClick={() => router.push(`/career/squad/${p.id}`)} data-clickable="true">
-                    {p.firstName} {p.lastName}
+                  <td className="hm-td-strong" data-clickable="true">
+                    <Link href={`/career/squad/${p.id}`}>{p.firstName} {p.lastName}</Link>
                   </td>
                   <td title={positionLabel(p.position)} onClick={() => router.push(`/career/squad/${p.id}`)} data-clickable="true">
                     {p.position}

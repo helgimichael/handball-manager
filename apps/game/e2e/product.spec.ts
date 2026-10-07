@@ -1,0 +1,78 @@
+import { test, expect } from '@playwright/test';
+test('normal career UI: real squad, calendar, live match, decisions, finalization and reload', async ({ page }) => {
+  test.setTimeout(300000);
+  const errors: string[] = [];
+  page.on('pageerror', error => errors.push(error.message));
+  await page.goto('http://localhost:3001/new-game');
+  for (let i = 0; i < 4; i++) await page.getByRole('button', { name: 'Nästa →', exact: true }).click();
+  await page.getByPlaceholder('För- och efternamn').fill('Test Manager');
+  await page.getByRole('button', { name: 'Nästa →', exact: true }).click();
+  await page.getByRole('radio', { name: 'Vid första tävlingsmatchen', exact: true }).check();
+  await page.getByRole('button', { name: 'STARTA KARRIÄR', exact: true }).click();
+  await page.waitForURL('**/career', { timeout: 90000 });
+  await expect(page.getByRole('link', { name: 'Trupp', exact: true })).toBeVisible({ timeout: 90000 });
+  await page.getByRole('link', { name: 'Trupp', exact: true }).click();
+  await expect(page.locator('body')).toContainText('Tumba');
+  await page.locator('table a[href^="/career/squad/"]').first().click();
+  await expect(page.getByRole('button', { name: 'Förläng kontrakt', exact: true })).toBeVisible({ timeout: 30000 });
+  await page.getByLabel('Förlängning', { exact: true }).selectOption('3');
+  await page.getByRole('button', { name: 'Förläng kontrakt', exact: true }).click();
+  await expect(page.getByRole('status').filter({ hasText: 'Kontraktet är förlängt.' })).toBeVisible();
+  await page.getByRole('link', { name: 'Taktik', exact: true }).click();
+  await expect(page.getByText('Startsju', { exact: true })).toBeVisible({ timeout: 30000 });
+  const starts = page.locator('select[aria-label^="Startspelare"]');
+  const selected = [];
+  for (let n = 0; n < await starts.count(); n++) selected.push(await starts.nth(n).inputValue());
+  const wing = page.getByLabel('Startspelare V6', { exact: true });
+  const formerStarterName = (await wing.locator('option:checked').innerText()).trim();
+  for (let n = 0; n < await wing.locator('option').count(); n++) {
+    const id = await wing.locator('option').nth(n).getAttribute('value');
+    if (id && !selected.includes(id)) { await wing.selectOption(id); break; }
+  }
+  const formerStarter = page.getByRole('checkbox', { name: `Ta ut ${formerStarterName}`, exact: true });
+  await expect(formerStarter).toBeEnabled();
+  await formerStarter.uncheck();
+  await expect(formerStarter).not.toBeChecked();
+  await page.getByLabel('Tempo', { exact: true }).selectOption('FAST');
+  await page.getByRole('link', { name: 'Till matchen →' }).click();
+  for (let n = 0; n < 30; n++) {
+    if (await page.getByRole('button', { name: 'STARTA MATCH →', exact: true }).isVisible()) break;
+    await page.getByRole('button', { name: 'Fortsätt »', exact: true }).click();
+    await expect(page.getByText('Bearbetar säsongen…', { exact: true })).toHaveCount(0, { timeout: 30000 });
+    await page.goto('http://localhost:3001/career/match-preview');
+  }
+  await page.getByRole('button', { name: 'Spara', exact: true }).click();
+  await expect(page.getByRole('status').filter({ hasText: 'Sparat' })).toBeVisible({ timeout: 30000 });
+  await page.reload();
+  await page.getByRole('button', { name: 'STARTA MATCH →', exact: true }).click();
+  await page.waitForURL('**/career/match-day/**');
+  await expect(page.getByRole('button', { name: 'Spela', exact: true })).toBeVisible();
+  console.log((await page.locator('body').innerText()).slice(-2500));
+  await page.screenshot({ path: '../../docs/audit/live-match-ui.png', fullPage: true });
+  await page.getByRole('combobox').filter({ has: page.locator('option[value="64"]') }).selectOption('64');
+  await page.getByRole('button', { name: 'Spela', exact: true }).click();
+  await expect(page.getByRole('button', { name: 'Pausa', exact: true })).toBeVisible();
+  await page.getByRole('button', { name: 'Pausa', exact: true }).click();
+  await page.getByLabel('Spelare ut', { exact: true }).selectOption({ index: 1 });
+  await page.getByLabel('Spelare in', { exact: true }).selectOption({ index: 1 });
+  await page.getByRole('button', { name: 'Genomför byte', exact: true }).click();
+  await page.getByRole('combobox').filter({ has: page.locator('option[value="WIDTH"]') }).selectOption('WIDTH');
+  await page.getByRole('button', { name: 'Spara', exact: true }).click();
+  await expect(page.getByRole('status').filter({ hasText: 'Sparat' })).toBeVisible({ timeout: 30000 });
+  await page.reload();
+  await expect(page.getByRole('button', { name: 'Spela', exact: true })).toBeVisible({ timeout: 60000 });
+  await page.getByRole('button', { name: 'Spela till slut', exact: true }).click();
+  await page.waitForURL('**/career/match-report/**', { timeout: 180000 });
+  await expect(page.getByText('Speltid och belastning', { exact: true })).toBeVisible({ timeout: 30000 });
+  await page.getByRole('button', { name: 'Spara', exact: true }).click();
+  await expect(page.getByRole('status').filter({ hasText: 'Sparat' })).toBeVisible({ timeout: 30000 });
+  await page.reload();
+  await expect(page.getByText('Speltid och belastning', { exact: true })).toBeVisible({ timeout: 60000 });
+  await page.getByRole('button', { name: 'Se matchrepris', exact: true }).click();
+  await expect(page.getByText('Repris', { exact: true })).toBeVisible();
+  await page.getByLabel('Position i reprisen').press('End');
+  await page.screenshot({ path: '../../docs/audit/replay-ui.png', fullPage: true });
+  await page.getByRole('link', { name: 'Schema', exact: true }).click();
+  await expect(page.locator('body')).toContainText('Tumba');
+  expect(errors).toEqual([]);
+});

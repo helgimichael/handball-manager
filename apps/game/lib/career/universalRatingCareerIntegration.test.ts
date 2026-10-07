@@ -1,3 +1,4 @@
+// Historical match adapter regression. Production lifecycle is covered by productionMatch.test.ts.
 // HM-RATINGS-CAREER-1.0 Part 29/30/32/33/34: proves the previously-dead
 // mock-club development/match pipeline is now alive END-TO-END, using
 // ONLY the auto-generated ratings a fresh career already produces --
@@ -16,7 +17,7 @@ import { mondayOf, resolveTrainingWeek, setTrainingDayType, addTrainingSession, 
 import { applyTrainingDayDevelopmentStimulus, resolveWeeklyDevelopmentIfDue } from "../development/developmentIntegration";
 import { computeTeamStrengthTrace } from "./playerMatchStrength";
 import { buildDefaultMatchPlan } from "../matchPlan/defaultMatchPlan";
-import { playManagerFixture } from "./matchdayAction";
+import { playManagerFixtureLegacy as playManagerFixture } from "./legacy/matchday";
 import { processDay } from "./dailyTick";
 import type { MatchSquad } from "../matchPlan/types";
 import type { CareerState } from "./types";

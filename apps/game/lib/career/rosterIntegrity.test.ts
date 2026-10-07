@@ -1,3 +1,4 @@
+// Historical match adapter regression. Production lifecycle is covered by productionMatch.test.ts.
 // HM-MATCH-1.1 Part 9/10/11/12: directional/invariant proofs for the
 // two critical bugs this milestone's audit confirmed in real browser
 // gameplay -- (a) a team fielding more than 16 participants because an
@@ -11,7 +12,7 @@ import { createNewCareerState } from "./newCareer";
 import { getNextPlayerFixture, getPlayerFixtureOn } from "./calendar";
 import { processDay } from "./dailyTick";
 import { continueCareerRhythm } from "./continueController";
-import { playManagerFixture } from "./matchdayAction";
+import { playManagerFixtureLegacy as playManagerFixture } from "./legacy/matchday";
 import { applyMidMatchTacticalChange } from "./tacticalMidMatchChange";
 import { defaultTeamTacticalProfile } from "./teamTacticalProfile";
 import { snapshotAiTacticalPreferences, snapshotWorldSquads } from "../gameWorld/serverSnapshot";

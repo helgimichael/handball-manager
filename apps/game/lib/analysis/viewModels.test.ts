@@ -1,9 +1,10 @@
+// Historical match adapter regression. Production lifecycle is covered by productionMatch.test.ts.
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { TUMBA_CLUB_ID } from "../game-data";
 import { createNewCareerState } from "../career/newCareer";
 import { continueCareerRhythm } from "../career/continueController";
-import { playManagerFixture } from "../career/matchdayAction";
+import { playManagerFixtureLegacy as playManagerFixture } from "../career/legacy/matchday";
 import { snapshotWorldSquads } from "../gameWorld/serverSnapshot";
 import type { CareerState } from "../career/types";
 import { buildLastMatchViewModel, buildOpponentViewModel, buildOurTeamViewModel, buildOverviewViewModel } from "./viewModels";

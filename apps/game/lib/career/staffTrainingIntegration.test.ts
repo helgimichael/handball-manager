@@ -1,3 +1,4 @@
+// Historical match adapter regression. Production lifecycle is covered by productionMatch.test.ts.
 // HM-STAFF-1.0 Part 34/35: the domain-integration layer -- real
 // CareerState, real training execution, real weekly development
 // resolution, with staff quality actually wired through. Plus the
@@ -6,7 +7,7 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import { createNewCareerState } from "./newCareer";
 import { migrateCareerState } from "./saveMigration";
-import { playManagerFixture } from "./matchdayAction";
+import { playManagerFixtureLegacy as playManagerFixture } from "./legacy/matchday";
 import { processDay } from "./dailyTick";
 import { addDays } from "./dateUtils";
 import { TUMBA_CLUB_ID } from "../game-data";

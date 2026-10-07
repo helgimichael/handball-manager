@@ -1,3 +1,4 @@
+// Historical match adapter regression. Production lifecycle is covered by productionMatch.test.ts.
 // MATCH-EXPERIENCE-2.0 M14: a real career fixture, played by the spatial engine.
 //
 // The test that must never be deleted is "the spatial engine is the only source
@@ -11,7 +12,7 @@ import assert from "node:assert/strict";
 import { createNewCareerState } from "../newCareer";
 import { continueCareerRhythm } from "../continueController";
 import { getNextPlayerFixture } from "../calendar";
-import { playManagerFixture } from "../matchdayAction";
+import { playManagerFixtureLegacy as playManagerFixture } from "../legacy/matchday";
 import { getCareerClubSquad } from "../careerWorld";
 import { getLiveStandings } from "../standings";
 import { snapshotAiTacticalPreferences, snapshotWorldSquads } from "../../gameWorld/serverSnapshot";

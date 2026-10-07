@@ -2,8 +2,10 @@
 
 import { useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
+import Link from 'next/link';
 import type { ReactNode } from "react";
 import ClubCrest from "./ClubCrest";
+import CareerSaveControl from './CareerSaveControl';
 import NavIcon, { type NavIconName } from "./NavIcon";
 import ContinueProcessingOverlay, { type ProcessingDay } from "./ContinueProcessingOverlay";
 import { useCareer } from "@/lib/career/CareerContext";
@@ -71,8 +73,8 @@ export default function GameShell({ children }: { children: ReactNode }) {
   // once FULL_TIME is reached Continue is explicitly allowed again
   // (Part I).
   const activeSession = career.activeMatchSession;
-  const isLiveMatchActive = activeSession !== null && activeSession.clock.phase !== "PRE_MATCH" && activeSession.clock.phase !== "FULL_TIME";
-  const liveMatchHref = activeSession ? `/career/match-day/${activeSession.fixtureId}` : null;
+  const isLiveMatchActive = Boolean(career.productionMatch) || (activeSession !== null && activeSession.clock.phase !== "PRE_MATCH" && activeSession.clock.phase !== "FULL_TIME");
+  const liveMatchHref = career.productionMatch ? `/career/match-day/${career.productionMatch.fixture.id}` : activeSession ? `/career/match-day/${activeSession.fixtureId}` : null;
   const isOnLiveMatchRoute = liveMatchHref !== null && pathname === liveMatchHref;
   // Part F: "MATCH PÅGÅR / Hammarby 7–5 Skånela · 13:00" -- a visible,
   // non-obnoxious banner replacing the ordinary date/next-event subline
@@ -155,18 +157,18 @@ export default function GameShell({ children }: { children: ReactNode }) {
           {nav.map((item) => {
             const active = item.id === activeNavId || (item.id === "editor" && pathname.startsWith("/editor"));
             return (
-              <div
+              <Link
                 key={item.href}
                 className="hm-nav-item"
                 data-active={active}
-                onClick={() => router.push(item.href)}
+                href={item.href}
               >
                 <span className="hm-nav-icon">
                   <NavIcon name={item.icon} />
                 </span>
                 <span>{item.label}</span>
                 {item.badge ? <span className="hm-nav-badge">{item.badge}</span> : null}
-              </div>
+              </Link>
             );
           })}
         </div>
@@ -198,7 +200,7 @@ export default function GameShell({ children }: { children: ReactNode }) {
         </div>
       </header>
 
-      <main className="hm-main">{children}</main>
+      <main className="hm-main"><div style={{ display: 'flex', justifyContent: 'end', marginBottom: 12 }}><CareerSaveControl /></div>{children}</main>
       {processing ? <ContinueProcessingOverlay days={processing.days} onFinished={handleProcessingFinished} /> : null}
     </div>
   );

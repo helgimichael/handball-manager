@@ -1,3 +1,4 @@
+// Historical match adapter regression. Production lifecycle is covered by productionMatch.test.ts.
 // HM-GAME-0.4 integration tests: the full chain
 //   Career Event -> Inbox Message -> deep link -> ACTION_REQUIRED semantics
 // exercised through the real Career Rhythm loop (continueCareerRhythm +
@@ -9,7 +10,7 @@ import { TUMBA_CLUB_ID } from "../game-data";
 import { archiveMessage, markMessageRead } from "./inboxActions";
 import { continueCareerRhythm } from "./continueController";
 import { createNewCareerState } from "./newCareer";
-import { playManagerFixture } from "./matchdayAction";
+import { playManagerFixtureLegacy as playManagerFixture } from "./legacy/matchday";
 import { resolveDestinationHref } from "./destinations";
 import { snapshotWorldSquads } from "../gameWorld/serverSnapshot";
 import type { CareerState } from "./types";

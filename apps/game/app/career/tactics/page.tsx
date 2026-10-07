@@ -1,169 +1,45 @@
-"use client";
+'use client';
+import Link from 'next/link';
+import { useCareer } from '@/lib/career/CareerContext';
+import { getCareerSquad } from '@/lib/career/careerWorld';
+import { getNextPlayerFixture } from '@/lib/career/calendar';
+import { buildInitialMatchSquad } from '@/lib/matchPlan/careerSquadBridge';
+import { buildDefaultMatchPlan } from '@/lib/matchPlan/defaultMatchPlan';
+import { addPlayerToSquad, removePlayerFromSquad, assignNormalAttackSlot, isPlayerStarting } from '@/lib/matchPlan/matchPlanEdits';
+import { isSelectableForMatch } from '@/lib/career/playerStatus';
+import type { MatchPlan } from '@/lib/matchPlan/types';
 
-// HM-TACTICS-1.1: turns the Tactics screen into the manager's Match
-// Plan workspace, consuming HM-TACTICS-1.0's headless domain
-// (lib/matchPlan/) instead of the old static, disconnected
-// Startsju/Bänk display.
-//
-// HM-MATCH-1.1 Part 5: the old "Taktisk profil" panel (ATI-001/TI-001
-// machine-language controls, "plumbing inför framtida Fast Match-
-// integration" copy) is REMOVED from this normal manager-facing
-// workspace -- `career.tacticalProfile` still exists and still feeds
-// both the kickoff simulation (matchdayAction.ts) and every live
-// coaching mechanism (tacticalMidMatchChange.ts), so the underlying
-// domain is untouched; only the confusing, internal-terminology UI
-// surface is gone. Its one remaining coach-facing exposure is the LIVE
-// Match "Taktisk justering" panel, whose labels this milestone also
-// rewrote into Swedish coaching language (see match-day/[fixtureId]/page.tsx).
-import { useEffect, useMemo, useState } from "react";
-import { getClub } from "@/lib/game-data";
-import { useCareer } from "@/lib/career/CareerContext";
-import { getCareerSquad } from "@/lib/career/careerWorld";
-import { getNextPlayerFixture } from "@/lib/career/calendar";
-import { buildInitialMatchSquad, toSelectablePlayers } from "@/lib/matchPlan/careerSquadBridge";
-import { buildDefaultMatchPlan } from "@/lib/matchPlan/defaultMatchPlan";
-import { buildMatchIdea } from "@/lib/matchPlan/matchPlanLabels";
-import { defaultSpecialPlayPlan } from "@/lib/matchPlan/specialPlay";
-import type { MatchPlan } from "@/lib/matchPlan/types";
-import MatchSquadPanel from "@/components/matchPlan/MatchSquadPanel";
-import StartingUnitEditor from "@/components/matchPlan/StartingUnitEditor";
-import type { CourtPhase } from "@/components/matchPlan/StartingUnitEditor";
-import TacticalConfigPanel from "@/components/matchPlan/TacticalConfigPanel";
-import PlayerInstructionPanel from "@/components/matchPlan/PlayerInstructionPanel";
+// Production uses one starting seven. Keep the retained plan domain's defence
+// selection aligned so a hidden legacy assignment cannot veto squad removal.
+function sharedStartingSeven(plan: MatchPlan): MatchPlan {
+  if (plan.attackStartingUnit.formation !== 'NORMAL') return plan;
+  const outfield = plan.attackStartingUnit.slots.filter(slot => slot.position !== 'GK');
+  const goalkeeper = plan.attackStartingUnit.slots.find(slot => slot.position === 'GK');
+  return { ...plan, defenceStartingUnit: { ...plan.defenceStartingUnit, goalkeeperId: goalkeeper?.playerId ?? plan.defenceStartingUnit.goalkeeperId, courtSlots: plan.defenceStartingUnit.courtSlots.map((slot, index) => ({ ...slot, playerId: outfield[index]?.playerId ?? slot.playerId })) } };
+}
 
 export default function TacticsPage() {
-  const { career, updateMatchPlan, setPlayerMatchDefault, updateSpecialPlay } = useCareer();
-  const squad = getCareerSquad(career);
+  const { career, updateMatchPlan } = useCareer();
   const fixture = getNextPlayerFixture(career);
-  const specialPlay = career.specialPlay[career.playerClubId] ?? defaultSpecialPlayPlan();
-
-  const selectablePlayers = useMemo(() => toSelectablePlayers(squad), [squad]);
-  const plan = fixture ? career.matchPlans[fixture.id] : undefined;
-
-  const [selectedPlayerId, setSelectedPlayerId] = useState<string | null>(null);
-  // HM-MATCH-1.3B2 Part 6/7: lifted from StartingUnitEditor so
-  // MatchSquadPanel's PÅ PLAN/BÄNK split always matches whichever unit
-  // the board is currently showing -- one shared source of truth for
-  // "phase currently displayed", never two components independently
-  // guessing at it.
-  const [phase, setPhase] = useState<CourtPhase>("ATTACK");
-
-  // HM-TACTICS-1.0 Part O / HM-TACTICS-1.1 Part O: build and persist a
-  // deterministic default plan the first time this fixture has none --
-  // never a second, competing default algorithm here, only
-  // lib/matchPlan's own buildDefaultMatchPlan.
-  useEffect(() => {
-    if (!fixture || plan) return;
-    const initialSquad = buildInitialMatchSquad(squad, fixture.id, career.playerClubId);
-    const result = buildDefaultMatchPlan(initialSquad, career.tactics[career.playerClubId], career.playerMatchDefaults);
-    if (result.ok && result.plan) {
-      updateMatchPlan(fixture.id, result.plan);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- intentionally re-runs only when the fixture or its saved plan changes, not on every squad re-derivation.
-  }, [fixture?.id, plan]);
-
-  if (!fixture) {
-    return (
-      <div className="hm-grid" style={{ gap: 12 }}>
-        <div className="hm-panel">
-          <div className="hm-panel-header">
-            <span className="hm-panel-title">Taktik</span>
-          </div>
-          <div className="hm-panel-body hm-text-muted">Ingen kommande match hittades -- en matchplan kan inte skapas förrän nästa match är inbokad.</div>
-        </div>
-      </div>
-    );
-  }
-
-  const opponentClubId = fixture.homeClubId === career.playerClubId ? fixture.awayClubId : fixture.homeClubId;
-  const opponent = getClub(opponentClubId);
-  const isHome = fixture.homeClubId === career.playerClubId;
-
-  return (
-    <div className="hm-grid" style={{ gap: 20 }}>
-      <div className="hm-panel">
-        <div className="hm-panel-header">
-          <span className="hm-panel-title">Taktik &amp; matchplan</span>
-          <span className="hm-badge hm-badge-neutral">
-            {isHome ? "Hemma" : "Borta"} mot {opponent?.name ?? opponentClubId} · Omgång {fixture.round}
-          </span>
-        </div>
-        {plan ? <MatchIdea plan={plan} /> : null}
-      </div>
-
-      {!plan ? (
-        <div className="hm-panel">
-          <div className="hm-panel-body hm-text-muted">Skapar matchplan…</div>
-        </div>
-      ) : (
-        <>
-          {/* HM-MATCH-1.2 Part B: TAKTIK -- the club's PERSISTENT playing
-              style. These choices stay until you change them, no matter
-              which opponent is next. */}
-          <section>
-            <div style={{ display: "flex", alignItems: "baseline", gap: 10, marginBottom: 8 }}>
-              <h2 style={{ margin: 0, fontSize: "var(--hm-text-sm)", textTransform: "uppercase", letterSpacing: "0.04em" }}>Taktik</h2>
-              <span className="hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)" }}>Hur laget spelar i allmänhet — gäller framtida matcher tills du ändrar det.</span>
-            </div>
-            <TacticalConfigPanel plan={plan} specialPlay={specialPlay} selectablePlayers={selectablePlayers} onChange={(next) => updateMatchPlan(fixture.id, next)} onSpecialPlayChange={(next) => updateSpecialPlay(career.playerClubId, next)} onOpenPlayerPanel={setSelectedPlayerId} />
-          </section>
-
-          {/* HM-MATCH-1.2 Part B: MATCHPLAN -- fixture-specific squad
-              selection and usage for THIS opponent only. */}
-          <section>
-            <div style={{ display: "flex", alignItems: "baseline", gap: 10, marginBottom: 8 }}>
-              <h2 style={{ margin: 0, fontSize: "var(--hm-text-sm)", textTransform: "uppercase", letterSpacing: "0.04em" }}>
-                Matchplan — {isHome ? "hemma" : "borta"} mot {opponent?.name ?? opponentClubId}
-              </h2>
-              <span className="hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)" }}>Trupp, startuppställning och spelarroller för just denna match.</span>
-            </div>
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 280px", gap: 12, alignItems: "start" }}>
-              <div className="hm-grid" style={{ gap: 12 }}>
-                <StartingUnitEditor plan={plan} selectablePlayers={selectablePlayers} onChange={(next) => updateMatchPlan(fixture.id, next)} onOpenPlayerPanel={setSelectedPlayerId} />
-              </div>
-              <div className="hm-grid" style={{ gap: 12 }}>
-                <MatchSquadPanel plan={plan} phase={phase} onPhaseChange={setPhase} selectablePlayers={selectablePlayers} onChange={(next) => updateMatchPlan(fixture.id, next)} onOpenPlayerPanel={setSelectedPlayerId} />
-              </div>
-            </div>
-          </section>
-        </>
-      )}
-
-      {plan && selectedPlayerId ? (
-        <PlayerInstructionPanel
-          plan={plan}
-          playerId={selectedPlayerId}
-          selectablePlayers={selectablePlayers}
-          playerDefault={career.playerMatchDefaults[selectedPlayerId]}
-          onChange={(next) => updateMatchPlan(fixture.id, next)}
-          onSetAsDefault={(value) => setPlayerMatchDefault(selectedPlayerId, value)}
-          onClose={() => setSelectedPlayerId(null)}
-        />
-      ) : null}
-    </div>
-  );
+  const squad = getCareerSquad(career).filter(p => isSelectableForMatch(career.playerStatuses, p.id));
+  if (!fixture) return <div className="hm-panel-body">Ingen kommande match. Börja nästa säsong från Hem när serien är färdig.</div>;
+  const built = buildDefaultMatchPlan(buildInitialMatchSquad(squad, fixture.id, career.playerClubId), career.tactics[career.playerClubId], career.playerMatchDefaults);
+  const candidate = career.matchPlans[fixture.id] ?? (built.ok ? built.plan : null);
+  const plan = candidate ? sharedStartingSeven(candidate) : null;
+  if (!plan) return <div role="alert" className="hm-panel-body">Det behövs minst sex tillgängliga utespelare och en målvakt. Se truppen och rekrytering.</div>;
+  const savedPlan: MatchPlan = plan;
+  const save = (next: MatchPlan) => updateMatchPlan(fixture.id, sharedStartingSeven(next));
+  if (plan.squad.players.some(p => !squad.some(available => available.id === p.playerId))) return <div className="hm-panel-body"><p>Matchplanen innehåller spelare som inte är tillgängliga. Uppdatera uttagningen innan matchstart.</p><button className="hm-btn" disabled={!built.ok} onClick={() => { if (built.ok && built.plan) save(built.plan); }}>Uppdatera till tillgänglig matchtrupp</button><p><Link href="/career/squad">Öppna truppen</Link></p></div>;
+  if (plan.attackStartingUnit.formation !== 'NORMAL') return <div className="hm-panel-body"><p>Den sparade matchplanen använder en spelform som inte är tillgänglig i den här versionen. Välj en normal startsju för att fortsätta.</p><button className="hm-btn" disabled={!built.ok} onClick={() => { if (built.ok && built.plan) save(built.plan); }}>Skapa normal matchplan</button></div>;
+  const attack = plan.attackPlan;
+  const identity = attack.ballCirculation === 'DIRECT' ? 'DIRECT' : attack.wingUsage === 'HIGH' ? 'WIDTH' : attack.structureFreedom === 'STRUCTURED' ? 'COMBINATION' : 'BALANCED';
+  return <div className="hm-grid" style={{ gap: 12 }}>
+    <div className="hm-panel"><div className="hm-panel-header"><strong>Matchplan</strong><Link className="hm-btn hm-btn-primary" href="/career/match-preview">Till matchen →</Link></div><div className="hm-panel-body" style={{ display: 'flex', gap: 20, flexWrap: 'wrap' }}>
+      <label>Försvar<br /><select aria-label="Försvar" value={plan.defencePlan.baseFormation.replace('-', ':') === '5:1' ? '5:1' : '6:0'} onChange={e => save({ ...savedPlan, defencePlan: { ...savedPlan.defencePlan, baseFormation: e.target.value } })}><option>6:0</option><option>5:1</option></select></label>
+      <label>Tempo<br /><select aria-label="Tempo" value={attack.tempo === 'FAST' ? 'FAST' : 'BALANCED'} onChange={e => save({ ...savedPlan, attackPlan: { ...attack, tempo: e.target.value as 'FAST' | 'BALANCED' } })}><option value="BALANCED">Balanserat</option><option value="FAST">Snabbt</option></select></label>
+      <label>Anfall<br /><select aria-label="Anfall" value={identity} onChange={e => save({ ...savedPlan, attackPlan: { ...attack, ballCirculation: e.target.value === 'DIRECT' ? 'DIRECT' : 'BALANCED', wingUsage: e.target.value === 'WIDTH' ? 'HIGH' : 'MEDIUM', structureFreedom: e.target.value === 'COMBINATION' ? 'STRUCTURED' : 'BALANCED' } })}><option value="BALANCED">Balanserat</option><option value="COMBINATION">Kombinationer</option><option value="WIDTH">Bredd</option><option value="DIRECT">Direkt</option></select></label>
+    </div><p className="hm-panel-body hm-text-muted">Du kan ändra dessa instruktioner, göra byten och ta timeout under matchen. Spelarnas egenskaper och trötthet påverkar utförandet.</p></div>
+    <div className="hm-panel"><div className="hm-panel-header"><strong>Startsju</strong></div><div className="hm-panel-body" style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}>{plan.attackStartingUnit.slots.map(slot => <label key={slot.position}>{slot.position === 'GK' ? 'Målvakt' : slot.position}<br /><select aria-label={`Startspelare ${slot.position}`} value={slot.playerId} onChange={e => save(assignNormalAttackSlot(savedPlan, slot.position, e.target.value))}>{plan.squad.players.filter(p => slot.position === 'GK' ? p.position === 'GK' : p.position !== 'GK').map(p => { const person = squad.find(x => x.id === p.playerId); return <option value={p.playerId} key={p.playerId}>{person?.firstName} {person?.lastName}</option>; })}</select></label>)}</div></div>
+    <div className="hm-panel"><div className="hm-panel-header"><strong>Matchtrupp · {plan.squad.players.length} spelare</strong></div><table className="hm-table"><thead><tr><th>Uttagen</th><th>Spelare</th><th>Position</th><th>Energi</th></tr></thead><tbody>{squad.map(p => <tr key={p.id}><td><input aria-label={`Ta ut ${p.firstName} ${p.lastName}`} type="checkbox" disabled={isPlayerStarting(plan, p.id)} title={isPlayerStarting(plan, p.id) ? "Byt startspelare f?rst" : undefined} checked={plan.squad.players.some(x => x.playerId === p.id)} onChange={e => save(e.target.checked ? addPlayerToSquad(savedPlan, p.id, p.position === 'MV' ? 'GK' : p.position) : removePlayerFromSquad(savedPlan, p.id))} /></td><td><Link href={`/career/squad/${p.id}`}>{p.firstName} {p.lastName}</Link></td><td>{p.position}</td><td>{Math.round(career.playerPhysicalState[p.id]?.currentEnergy ?? 100)}%</td></tr>)}</tbody></table></div>
+  </div>;
 }
-
-// HM-TACTICS-1.2 Part 6: a real "Matchidé" -- grouped by phase instead
-// of one long joined line, using only fields that exist on MatchPlan
-// (buildMatchIdea), no AI-generated text.
-function MatchIdea({ plan }: { plan: MatchPlan }) {
-  const idea = buildMatchIdea(plan);
-  const rows: { label: string; value: string }[] = [
-    { label: "Försvar", value: idea.defence },
-    { label: "Anfall", value: idea.attack },
-    { label: "Omställning", value: idea.transition },
-    { label: "Special", value: idea.special },
-  ];
-  return (
-    <div className="hm-panel-body" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: 8 }}>
-      {rows.map((row) => (
-        <div key={row.label}>
-          <div className="hm-eyebrow">{row.label}</div>
-          <div style={{ fontSize: "var(--hm-text-xs)" }}>{row.value}</div>
-        </div>
-      ))}
-    </div>
-  );
-}
-

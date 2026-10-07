@@ -49,9 +49,12 @@ export default function ContinueProcessingOverlay({ days, onFinished }: { days: 
     if (revealedCount < days.length || days.length === 0 || finishedRef.current) {
       return;
     }
-    finishedRef.current = true;
     // A short pause on the final day so the manager can actually read it before navigating away.
-    const timer = setTimeout(onFinished, 350);
+    const timer = setTimeout(() => {
+      if (finishedRef.current) return;
+      finishedRef.current = true;
+      onFinished();
+    }, 350);
     return () => clearTimeout(timer);
   }, [revealedCount, days.length, onFinished]);
 

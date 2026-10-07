@@ -1,3 +1,4 @@
+// Historical match adapter regression. Production lifecycle is covered by productionMatch.test.ts.
 // HM-CAREER-0.5: calendar.ts had no direct test file despite being the
 // module that determines World Rhythm behavior (which fixtures resolve
 // on which day). These tests target that module directly, complementing
@@ -9,7 +10,7 @@ import { createNewCareerState } from "./newCareer";
 import { getNextPlayerFixture, getPlayerFixtureOn, simulateAiFixturesForDate } from "./calendar";
 import { processDay } from "./dailyTick";
 import { continueCareerRhythm } from "./continueController";
-import { playManagerFixture } from "./matchdayAction";
+import { playManagerFixtureLegacy as playManagerFixture } from "./legacy/matchday";
 import { getLiveStandings } from "./standings";
 import { GAME_CURRENT_DATE, TUMBA_CLUB_ID } from "../game-data";
 import { computeSquadDerivedClubStrength } from "./squadDerivedClubStrength";

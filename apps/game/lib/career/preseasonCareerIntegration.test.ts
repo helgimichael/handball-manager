@@ -1,3 +1,4 @@
+// Historical match adapter regression. Production lifecycle is covered by productionMatch.test.ts.
 // HM-PRESEASON-1.0: CareerState-level integration proofs -- real
 // newCareer/dailyTick/matchdayAction/saveMigration flow.
 import { test } from "node:test";
@@ -5,7 +6,7 @@ import assert from "node:assert/strict";
 import { createNewCareerState } from "./newCareer";
 import { migrateCareerState } from "./saveMigration";
 import { processDay } from "./dailyTick";
-import { playManagerFixture } from "./matchdayAction";
+import { playManagerFixtureLegacy as playManagerFixture } from "./legacy/matchday";
 import { addDays } from "./dateUtils";
 import { TUMBA_CLUB_ID } from "../game-data";
 import { bookFriendly, getSeasonPhase, PRESEASON_START_OPTIONS, REAL_LEAGUE_KICKOFF_DATES } from "./preseason";

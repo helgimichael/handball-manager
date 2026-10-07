@@ -34,6 +34,7 @@ export const CAREER_NAV_ITEMS: readonly CareerNavItem[] = [
   { id: "squad", label: "Trupp", href: "/career/squad", icon: "squad", ownsPrefixes: ["/career/squad/"] },
   { id: "tactics", label: "Taktik", href: "/career/tactics", icon: "tactics", ownsPrefixes: [] },
   { id: "training", label: "Träning", href: "/career/training", icon: "training", ownsPrefixes: [] },
+  { id: 'replays', label: 'Matchrepriser', href: '/career/match-2d', icon: 'schedule', ownsPrefixes: [] },
   // Schedule is the canonical fixture surface (Spec §5/§6) -- it also
   // owns the contextual match workflow reached from it (Preview/Day/
   // Report), and the legacy /career/matches route (redirected, Spec §7).

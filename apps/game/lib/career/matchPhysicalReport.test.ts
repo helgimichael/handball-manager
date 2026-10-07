@@ -1,3 +1,4 @@
+// Historical match adapter regression. Production lifecycle is covered by productionMatch.test.ts.
 // HM-PHYSICAL-1.0 Part 21/22/26: proves playManagerFixture persists a
 // per-player energy trajectory alongside the match result, and that
 // Direct Result and Live Match necessarily consume the exact same
@@ -10,7 +11,7 @@ import assert from "node:assert/strict";
 import { createNewCareerState } from "./newCareer";
 import { getNextPlayerFixture } from "./calendar";
 import { processDay } from "./dailyTick";
-import { playManagerFixture } from "./matchdayAction";
+import { playManagerFixtureLegacy as playManagerFixture } from "./legacy/matchday";
 import { TUMBA_CLUB_ID } from "../game-data";
 import { ENERGY_MAX, ENERGY_MIN } from "../matchPlan/physicalModel";
 

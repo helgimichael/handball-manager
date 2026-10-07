@@ -1,3 +1,4 @@
+// Historical match adapter regression. Production lifecycle is covered by productionMatch.test.ts.
 // HM-MATCH-1.3A: integration coverage across matchdayAction.ts +
 // liveMatchSessionActions.ts -- proves the actual matchday boundary
 // (Part C), that navigation/reconstruction is a pure read of already-
@@ -8,7 +9,7 @@ import assert from "node:assert/strict";
 import { createNewCareerState } from "./newCareer";
 import { getNextPlayerFixture } from "./calendar";
 import { processDay } from "./dailyTick";
-import { playManagerFixture } from "./matchdayAction";
+import { playManagerFixtureLegacy as playManagerFixture } from "./legacy/matchday";
 import { startLiveMatchSession, updateLiveMatchSession } from "./liveMatchSessionActions";
 import { isLiveMatchSessionActive } from "../liveMatch/liveMatchSession";
 import { computeLiveMatchView } from "../liveMatch/liveMatchView";

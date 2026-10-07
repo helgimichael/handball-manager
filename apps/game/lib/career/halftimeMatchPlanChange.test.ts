@@ -1,3 +1,4 @@
+// Historical match adapter regression. Production lifecycle is covered by productionMatch.test.ts.
 // HM-MATCH-1.2 Part U/W/X: the halftime workspace reuses
 // applyMidMatchPlanChange exactly like every other live coaching
 // change (no "HalftimeTactics", no parallel splice path -- Part V) --
@@ -9,7 +10,7 @@ import assert from "node:assert/strict";
 import { createNewCareerState } from "./newCareer";
 import { getNextPlayerFixture } from "./calendar";
 import { processDay } from "./dailyTick";
-import { playManagerFixture } from "./matchdayAction";
+import { playManagerFixtureLegacy as playManagerFixture } from "./legacy/matchday";
 import { applyMidMatchPlanChange, resolveCurrentMatchPlan } from "./matchPlanMidMatchChange";
 import { defaultTeamTacticalProfile } from "./teamTacticalProfile";
 import { buildInitialMatchSquad } from "../matchPlan/careerSquadBridge";

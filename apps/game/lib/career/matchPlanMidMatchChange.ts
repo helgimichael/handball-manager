@@ -71,6 +71,7 @@ export function applyMidMatchPlanChange(
   opponentAdaptation: OpponentAdaptationEffect | null,
 ): CareerState {
   const original = state.results[fixtureId];
+  if (original?.engine === 'V2') return state;
   if (!original || adoptionMinute >= 60) {
     return state;
   }

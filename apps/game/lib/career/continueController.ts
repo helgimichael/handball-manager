@@ -33,6 +33,7 @@ export interface ContinueResult {
 }
 
 export function continueCareerRhythm(state: CareerState): ContinueResult {
+  if (state.productionMatch) return { state, events: [], stopReason: 'ACTION_REQUIRED_PENDING', daysProcessed: 0 };
   if (state.seasonComplete) {
     return { state, events: [], stopReason: "SEASON_COMPLETE", daysProcessed: 0 };
   }

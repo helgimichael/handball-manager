@@ -72,7 +72,7 @@ export type PlayerMatchContribution = {
  * result saved before this milestone still loads unchanged and reads as the
  * Fast Match Engine it was.
  */
-export type MatchEngineId = "FAST" | "SPATIAL";
+export type MatchEngineId = "FAST" | "SPATIAL" | "V2";
 
 export type FastMatchResult = {
   fixtureId: string;

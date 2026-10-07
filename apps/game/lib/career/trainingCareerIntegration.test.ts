@@ -1,3 +1,4 @@
+// Historical match adapter regression. Production lifecycle is covered by productionMatch.test.ts.
 // HM-TRAINING-1.0 Part 30/31: the match -> recovery -> training ->
 // next-match loop, save migration, and the required deterministic
 // weekly scenario. This is the domain-integration layer one level above
@@ -8,7 +9,7 @@ import assert from "node:assert/strict";
 import { createNewCareerState } from "./newCareer";
 import { continueCareerRhythm } from "./continueController";
 import { processDay } from "./dailyTick";
-import { playManagerFixture } from "./matchdayAction";
+import { playManagerFixtureLegacy as playManagerFixture } from "./legacy/matchday";
 import { migrateCareerState } from "./saveMigration";
 import { addDays } from "./dateUtils";
 import { TUMBA_CLUB_ID } from "../game-data";

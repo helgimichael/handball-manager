@@ -1,4 +1,5 @@
 "use client";
+import ContractRenewal from '@/components/ContractRenewal';
 
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
@@ -324,6 +325,7 @@ export default function PlayerProfilePage() {
             <ContractRow label="Lön / månad" value={contract ? formatEur(contract.wageEurPerMonth) : "—"} />
             <ContractRow label="Kontrakt t.o.m." value={contract ? contract.contractEndDate : "—"} />
             <ContractRow label="Tröjnummer" value={player.shirtNumber !== null ? String(player.shirtNumber) : "Okänt"} />
+            {player.clubId === career.playerClubId && <ContractRenewal key={player.id} playerId={player.id} />}
           </div>
         </div>
 

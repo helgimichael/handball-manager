@@ -43,6 +43,7 @@
 // and keeping it synchronous avoids an await in every route guard.
 
 import type { CareerState } from "../career/types";
+import { readMatchArchive, storeMatchArchive } from './matchArchiveStorage';
 import type { PreseasonStartOption } from "../career/preseason";
 import { createIndexedDbBackend, createMemoryBackend, SavePersistenceError, type SaveStorageBackend } from "./saveStorage";
 
@@ -73,7 +74,9 @@ export type ManagerProfile = {
 // NOTE: HM-SAVE-STORAGE-1.0 does NOT bump this. The save ENVELOPE and
 // CareerState are byte-identical to v7; only where they are stored
 // changed. Bumping would falsely imply a data-model migration.
-export const CURRENT_SAVE_SCHEMA_VERSION = 7;
+// v8: persistent V2 live sessions and references to immutable match archives.
+// Older careers keep their booked results; the retired reveal session is closed.
+export const CURRENT_SAVE_SCHEMA_VERSION = 8;
 
 export type CareerSave = {
   saveId: string;
@@ -255,9 +258,15 @@ export async function getMostRecentSave(): Promise<CareerSave | null> {
   return saves[0] ?? null;
 }
 
-export async function getSave(saveId: string): Promise<CareerSave | null> {
+export async function getSave(saveId: string, hydrateArchives = true): Promise<CareerSave | null> {
+  await flushCareerSave(saveId);
   await ensureLegacySavesMigrated();
-  return resolveBackend().getSave(saveId);
+  const save = await resolveBackend().getSave(saveId);
+  if (hydrateArchives && save?.careerState?.matchArchiveIds?.length) {
+    const archives = await Promise.all(save.careerState.matchArchiveIds.map(id => readMatchArchive(saveId, id)));
+    return { ...save, careerState: { ...save.careerState, matchArchives: Object.fromEntries(archives.map(a => [a.fixture.id, a])) } };
+  }
+  return save;
 }
 
 export async function createSave(
@@ -267,7 +276,7 @@ export async function createSave(
   const now = new Date().toISOString();
   const save: CareerSave = {
     ...input,
-    saveId: `save-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
+    saveId: `save-${crypto.randomUUID()}`,
     schemaVersion: CURRENT_SAVE_SCHEMA_VERSION,
     createdAt: now,
     lastPlayedAt: now,
@@ -277,6 +286,7 @@ export async function createSave(
 }
 
 export async function touchSave(saveId: string): Promise<void> {
+  await flushCareerSave(saveId);
   await ensureLegacySavesMigrated();
   const store = resolveBackend();
   const save = await store.getSave(saveId);
@@ -292,16 +302,49 @@ export async function deleteSave(saveId: string): Promise<void> {
 }
 
 /** Persists domain state only (never React component state) -- called after every calendar advance. */
-export async function saveCareerState(saveId: string, careerState: CareerState): Promise<void> {
+type SaveWaiter = { resolve: () => void; reject: (cause: unknown) => void };
+type CareerWriteQueue = { running: boolean; next?: { state: CareerState; waiters: SaveWaiter[] }; last?: Promise<void> };
+const careerWrites = new Map<string, CareerWriteQueue>();
+export function saveCareerState(saveId: string, careerState: CareerState): Promise<void> {
+  const queue = careerWrites.get(saveId) ?? { running: false };
+  careerWrites.set(saveId, queue);
+  const promise = new Promise<void>((resolve, reject) => {
+    // Keep the latest pending snapshot and all its callers. A live match can
+    // advance faster than IndexedDB; retaining every intermediate snapshot
+    // would turn autosave into an unbounded memory queue.
+    queue.next = { state: careerState, waiters: [...(queue.next?.waiters ?? []), { resolve, reject }] };
+  });
+  queue.last = promise;
+  if (!queue.running) {
+    queue.running = true;
+    void (async () => {
+      while (queue.next) {
+        const pending = queue.next;
+        queue.next = undefined;
+        try { await saveCareerStateNow(saveId, pending.state); pending.waiters.forEach(w => w.resolve()); }
+        catch (cause) { pending.waiters.forEach(w => w.reject(cause)); }
+      }
+      queue.running = false;
+    })();
+  }
+  return promise;
+}
+export async function flushCareerSave(saveId: string): Promise<void> {
+  await careerWrites.get(saveId)?.last;
+}
+async function saveCareerStateNow(saveId: string, careerState: CareerState): Promise<void> {
   await ensureLegacySavesMigrated();
   const store = resolveBackend();
   const save = await store.getSave(saveId);
   if (!save) {
     return;
   }
+  const archives = Object.values(careerState.matchArchives ?? {});
+  for (const archive of archives) await storeMatchArchive(saveId, archive);
+  const storedCareer = archives.length ? { ...careerState, matchArchives: undefined, matchArchiveIds: archives.map(a => a.fixture.id) } : careerState;
   await store.putSave({
     ...save,
-    careerState,
+    careerState: storedCareer,
     schemaVersion: CURRENT_SAVE_SCHEMA_VERSION,
     gameDate: careerState.gameDate,
     lastPlayedAt: new Date().toISOString(),
@@ -324,10 +367,10 @@ export function getActiveSaveId(): string | null {
   return window.localStorage.getItem(ACTIVE_SAVE_KEY);
 }
 
-export async function getActiveSave(): Promise<CareerSave | null> {
+export async function getActiveSave(hydrateArchives = true): Promise<CareerSave | null> {
   const id = getActiveSaveId();
   if (!id) {
     return null;
   }
-  return getSave(id);
+  return getSave(id, hydrateArchives);
 }

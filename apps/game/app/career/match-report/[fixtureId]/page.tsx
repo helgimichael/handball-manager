@@ -16,8 +16,8 @@ export default function MatchReportPage() {
   const params = useParams<{ fixtureId: string }>();
   const { career } = useCareer();
 
-  const fixture = career.fixtures.find((f) => f.id === params.fixtureId);
-  const result = career.results[params.fixtureId];
+  const fixture = career.fixtures.find((f) => f.id === params.fixtureId) ?? career.matchArchives?.[params.fixtureId]?.fixture;
+  const result = career.results[params.fixtureId] ?? career.matchArchives?.[params.fixtureId]?.result;
 
   if (!fixture || !result) {
     return (
@@ -67,6 +67,7 @@ export default function MatchReportPage() {
         <StatsPanel title={home.name} stats={result.homeStats} />
         <StatsPanel title={away.name} stats={result.awayStats} />
       </div>
+      {career.matchArchives?.[params.fixtureId] && <div className="hm-panel"><div className="hm-panel-header"><strong>Speltid och belastning</strong><button className="hm-btn" onClick={() => router.push(`/career/match-day/${params.fixtureId}`)}>Se matchrepris</button></div><table className="hm-table"><thead><tr><th>Spelare</th><th>Minuter</th><th>Energi efter match</th></tr></thead><tbody>{career.matchArchives[params.fixtureId].people.filter(p => career.matchArchives![params.fixtureId].load[p.id].minutes > 0).map(p => <tr key={p.id}><td>{p.name}</td><td>{career.matchArchives![params.fixtureId].load[p.id].minutes.toFixed(1)}</td><td>{Math.round(career.matchArchives![params.fixtureId].load[p.id].energy)}%</td></tr>)}</tbody></table></div>}
 
       <div className="hm-grid" style={{ gridTemplateColumns: "1fr 1fr" }}>
         <PlayerRatingsPanel title={home.shortName} contributions={result.homePlayerContributions} bestPerformerId={bestPerformer?.playerId} career={career} />

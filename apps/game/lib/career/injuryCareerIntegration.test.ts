@@ -1,3 +1,4 @@
+// Historical match adapter regression. Production lifecycle is covered by productionMatch.test.ts.
 // HM-INJURIES-1.0 Part 42/43/44/45: CareerState-level integration proofs
 // -- real dailyTick/matchdayAction/saveMigration flow, injecting a known
 // ActiveInjury only where the test is about REACTING to an existing
@@ -8,7 +9,7 @@ import assert from "node:assert/strict";
 import { createNewCareerState } from "./newCareer";
 import { migrateCareerState } from "./saveMigration";
 import { processDay } from "./dailyTick";
-import { playManagerFixture } from "./matchdayAction";
+import { playManagerFixtureLegacy as playManagerFixture } from "./legacy/matchday";
 import { addDays } from "./dateUtils";
 import { TUMBA_CLUB_ID } from "../game-data";
 import { getCareerSquad } from "./careerWorld";

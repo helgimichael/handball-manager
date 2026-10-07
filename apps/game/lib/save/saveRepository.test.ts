@@ -157,7 +157,7 @@ test("save -> reload preserves CareerState exactly, and updates gameDate/schemaV
     assert.ok(reloaded);
     assert.deepEqual(reloaded!.careerState, state, "CareerState must round-trip unchanged -- Phase 0 optimizes no data model");
     assert.equal(reloaded!.gameDate, "2026-09-14", "the envelope's gameDate tracks the career");
-    assert.equal(reloaded!.schemaVersion, 7);
+    assert.equal(reloaded!.schemaVersion, 8);
     assert.equal(reloaded!.saveId, save.saveId);
     assert.deepEqual(reloaded!.manager, NEW_SAVE_INPUT.manager);
   } finally {

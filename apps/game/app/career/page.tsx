@@ -1,4 +1,6 @@
 "use client";
+import { rolloverSeason } from '@/lib/career/seasonRollover';
+import SeasonHistory from '@/components/SeasonHistory';
 
 import { useRouter } from "next/navigation";
 import { COMPETITIONS, getClub } from "@/lib/game-data";
@@ -12,7 +14,7 @@ import FormDots from "@/components/FormDots";
 
 export default function HomePage() {
   const router = useRouter();
-  const { career } = useCareer();
+  const { career, updateCareer } = useCareer();
   const club = getCareerClub(career);
   const competitionName = COMPETITIONS.find((c) => c.id === career.competitionId)?.name ?? "Ligan";
   const next = getNextPlayerFixture(career);
@@ -37,7 +39,8 @@ export default function HomePage() {
 
   return (
     <div className="hm-grid" style={{ gridTemplateColumns: "1.4fr 1fr", alignItems: "start" }}>
-      <div className="hm-grid" style={{ gap: 12 }}>
+    <div className="hm-grid" style={{ gap: 12 }}>
+      <SeasonHistory />
         {/* Next match */}
         <div className="hm-panel">
           <div className="hm-panel-header">
@@ -52,6 +55,8 @@ export default function HomePage() {
             {career.seasonComplete ? (
               <div>
                 Slutplacering: <strong>{myPosition}:a plats</strong> i {competitionName} {career.seasonId}.
+                <p style={{ marginTop: 12 }}><button className="hm-btn hm-btn-primary" onClick={() => updateCareer(rolloverSeason)}>Börja nästa säsong →</button></p>
+                <p className="hm-text-muted">Nästa säsong behåller ligans lag. Kalendern fortsätter genom uppehållet.</p>
               </div>
             ) : next ? (
               <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 24 }}>
