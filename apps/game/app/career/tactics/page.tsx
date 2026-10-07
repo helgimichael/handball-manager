@@ -1,4 +1,5 @@
 'use client';
+import { PageHeading } from '@/components/manager/Workspace';
 import Link from 'next/link';
 import { useCareer } from '@/lib/career/CareerContext';
 import { getCareerSquad } from '@/lib/career/careerWorld';
@@ -33,7 +34,7 @@ export default function TacticsPage() {
   if (plan.attackStartingUnit.formation !== 'NORMAL') return <div className="hm-panel-body"><p>Den sparade matchplanen använder en spelform som inte är tillgänglig i den här versionen. Välj en normal startsju för att fortsätta.</p><button className="hm-btn" disabled={!built.ok} onClick={() => { if (built.ok && built.plan) save(built.plan); }}>Skapa normal matchplan</button></div>;
   const attack = plan.attackPlan;
   const identity = attack.ballCirculation === 'DIRECT' ? 'DIRECT' : attack.wingUsage === 'HIGH' ? 'WIDTH' : attack.structureFreedom === 'STRUCTURED' ? 'COMBINATION' : 'BALANCED';
-  return <div className="hm-grid" style={{ gap: 12 }}>
+  return <div className="hm-grid" style={{ gap: 12 }}><PageHeading eyebrow="Matchförberedelse" title="Taktik & matchtrupp" description="Försvar, anfallsinriktning och tempo används i nästa match. Välj startsju och bänk; rotera spelarna genom livebyten på matchdagen." />
     <div className="hm-panel"><div className="hm-panel-header"><strong>Matchplan</strong><Link className="hm-btn hm-btn-primary" href="/career/match-preview">Till matchen →</Link></div><div className="hm-panel-body" style={{ display: 'flex', gap: 20, flexWrap: 'wrap' }}>
       <label>Försvar<br /><select aria-label="Försvar" value={plan.defencePlan.baseFormation.replace('-', ':') === '5:1' ? '5:1' : '6:0'} onChange={e => save({ ...savedPlan, defencePlan: { ...savedPlan.defencePlan, baseFormation: e.target.value } })}><option>6:0</option><option>5:1</option></select></label>
       <label>Tempo<br /><select aria-label="Tempo" value={attack.tempo === 'FAST' ? 'FAST' : 'BALANCED'} onChange={e => save({ ...savedPlan, attackPlan: { ...attack, tempo: e.target.value as 'FAST' | 'BALANCED' } })}><option value="BALANCED">Balanserat</option><option value="FAST">Snabbt</option></select></label>

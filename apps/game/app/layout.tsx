@@ -4,7 +4,7 @@ import { EditorModeWidget } from "./EditorModeWidget";
 
 export const metadata: Metadata = {
   title: "Handball Manager",
-  description: "Handball Manager — career mode vertical slice.",
+  description: "Led din handbollsklubb. Bygg truppen, följ världen och forma klubbens nästa säsong.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

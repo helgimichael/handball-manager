@@ -4,10 +4,15 @@ node_modules/
 dist/
 .DS_Store
 .next/
+.next-management*/
 next-env.d.ts
 apps/game/test-results/
+apps/game/test-results-*/
 apps/game/playwright-report/
 docs/audit/season-end-state.json
+docs/management-experience/season-end-state.json
+docs/management-experience/tests.log
+docs/management-experience/lint.json
 
 # Local-only env config (e.g. HM_EDITOR_ENABLED) -- never committed.
 .env

@@ -102,8 +102,6 @@ export default function TitleScreen() {
           onClick={handleContinue}
         />
         <TitleMenuItem label="LADDA SPEL" onClick={() => router.push("/load-game")} />
-        <TitleMenuItem label="INSTÄLLNINGAR" disabled subLabel="Ej tillgängligt i denna version" />
-        <TitleMenuItem label="AVSLUTA" disabled subLabel="Ej tillgängligt i webbläsaren" />
       </nav>
 
       {error ? (
@@ -113,7 +111,7 @@ export default function TitleScreen() {
       ) : null}
 
       <div style={{ position: "absolute", bottom: 18, fontSize: "10px", color: "var(--hm-text-disabled)", letterSpacing: "0.05em" }}>
-        HM-GAME-0.1 — vertical slice build
+        Management Experience v1
       </div>
     </div>
   );

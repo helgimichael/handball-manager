@@ -1,13 +1,15 @@
 "use client";
 
-import { useMemo, useState } from "react";
-import { useRouter } from "next/navigation";
+import { Suspense, useMemo, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useCareer } from "@/lib/career/CareerContext";
 import { categoryLabel } from "@/lib/career/inboxBridge";
 import { destinationLabel, resolveDestinationHref } from "@/lib/career/destinations";
 import { filterInboxMessages, INBOX_FILTERS, type InboxFilterId } from "@/lib/career/inboxFilters";
 
-export default function InboxPage() {
+export default function InboxPage() { return <Suspense><Inbox /></Suspense>; }
+function Inbox() {
+  const params = useSearchParams();
   const router = useRouter();
   const { career, markInboxMessageRead, archiveInboxMessage, unarchiveInboxMessage } = useCareer();
   const [filter, setFilter] = useState<InboxFilterId>("ALL");
@@ -16,8 +18,8 @@ export default function InboxPage() {
     return [...filterInboxMessages(career.inbox, filter)].reverse();
   }, [career.inbox, filter]);
 
-  const [selectedId, setSelectedId] = useState(messages[0]?.id ?? "");
-  const selected = messages.find((m) => m.id === selectedId) ?? messages[0];
+  const [selectedId, setSelectedId] = useState(params.get("message") ?? "");
+  const selected = messages.find((m) => m.id === selectedId);
 
   function selectMessage(id: string) {
     setSelectedId(id);
@@ -57,12 +59,15 @@ export default function InboxPage() {
             <div className="hm-panel-body hm-text-muted">Inga meddelanden i denna vy.</div>
           ) : (
             messages.map((m) => (
-              <div
+              <button
+                type="button"
+                aria-label={m.subject}
                 key={m.id}
                 onClick={() => selectMessage(m.id)}
                 data-active={m.id === selected?.id}
                 className="hm-nav-item"
                 style={{
+                  width: "100%", background: "transparent", border: 0, color: "inherit",
                   borderRadius: 0,
                   borderLeft: "2px solid transparent",
                   display: "block",
@@ -85,7 +90,7 @@ export default function InboxPage() {
                 <div className="hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
                   {m.preview}
                 </div>
-              </div>
+              </button>
             ))
           )}
         </div>
@@ -134,6 +139,7 @@ export default function InboxPage() {
               </div>
             ) : null}
             <div className="hm-panel-body" style={{ display: "flex", gap: 8, paddingTop: 0 }}>
+              {!selected.read && <button className="hm-btn hm-btn-sm" onClick={() => markInboxMessageRead(selected.id)}>Markera som l?st</button>}
               {selected.archived ? (
                 <button type="button" className="hm-btn hm-btn-sm hm-btn-ghost" onClick={() => unarchiveInboxMessage(selected.id)}>
                   Återställ från arkiv
@@ -152,7 +158,7 @@ export default function InboxPage() {
             </div>
           </>
         ) : (
-          <div className="hm-panel-body hm-text-muted">Inga meddelanden.</div>
+          <div className="hm-empty">{messages.length ? 'Välj ett meddelande för att öppna ärendet och dess relevanta åtgärder.' : 'Inga meddelanden i denna vy.'}</div>
         )}
       </div>
     </div>

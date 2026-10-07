@@ -1,4 +1,8 @@
 "use client";
+import TrainingFeedback from '@/components/manager/TrainingFeedback';
+import Link from "next/link";
+import { PlayerLink } from "@/components/entityLinks";
+import { PageHeading } from "@/components/manager/Workspace";
 
 // HM-TRAINING-1.0 Part 24/25: the live Training workspace -- a WEEK view
 // (Monday-Sunday columns) the manager can apply a template to, edit
@@ -92,6 +96,8 @@ export default function TrainingPage() {
 
   return (
     <div className="hm-grid" style={{ gridTemplateColumns: "1fr", gap: 12 }}>
+      <PageHeading eyebrow="Träning / veckoplanering" title="Träning & återhämtning" description="Pass ger belastning och utvecklingsstimulus när kalendern går framåt. Anpassa fokus och individuell belastning inför matcherna." actions={<Link className="hm-btn" href="/career/calendar">Kalender →</Link>} />
+      <TrainingFeedback />
       <div className="hm-panel">
         <div className="hm-panel-header" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8, flexWrap: "wrap" }}>
           <span className="hm-panel-title">Veckoschema — {weekStart}</span>
@@ -306,7 +312,7 @@ export default function TrainingPage() {
                 return (
                   <tr key={p.id}>
                     <td className="hm-td-strong">
-                      {p.firstName} {p.lastName}
+                      <PlayerLink playerId={p.id}>{p.firstName} {p.lastName}</PlayerLink>
                       {onPlacement ? (
                         <span className="hm-badge hm-badge-neutral" style={{ marginLeft: 6 }}>
                           PLACERAD HOS PARTNERKLUBB
@@ -388,7 +394,7 @@ export default function TrainingPage() {
                 return (
                   <tr key={p.id}>
                     <td className="hm-td-strong">
-                      {p.firstName} {p.lastName}
+                      <PlayerLink playerId={p.id}>{p.firstName} {p.lastName}</PlayerLink>
                     </td>
                     <td className="hm-text-muted">{age ?? "—"}</td>
                     <td>{rating ? "★".repeat(abilityStarsFromCA(rating.ca)) + "☆".repeat(5 - abilityStarsFromCA(rating.ca)) : "—"}</td>

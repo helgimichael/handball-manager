@@ -1,6 +1,12 @@
 "use client";
 
-import { useEffect, useMemo, useState, type CSSProperties } from "react";
+import { Suspense, useEffect, useMemo, useState, type CSSProperties } from "react";
+import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
+import { PlayerLink, ClubLink } from '@/components/entityLinks';
+import { PageHeading } from '@/components/manager/Workspace';
+import { getClubEconomySnapshot } from '@/lib/economy/clubEconomyIntegration';
+import { getClub } from '@/lib/game-data';
 import { positionLabel, type Club, type HandballPosition } from "@/lib/game-data";
 import { playerAgeAtDate } from "@/lib/development/developmentIntegration";
 import { useCareer } from "@/lib/career/CareerContext";
@@ -37,19 +43,23 @@ const STATUS_TONE: Record<TransferOfferStatus, "positive" | "warning" | "negativ
   CANCELLED_STALE: "neutral",
 };
 
-export default function TransfersPage() {
+export default function TransfersPage() { return <Suspense><Transfers /></Suspense>; }
+function Transfers() {
+  const params = useSearchParams();
+  const target = params.get("target");
   const { career, submitTransferOffer } = useCareer();
   const [query, setQuery] = useState("");
   const [positionFilter, setPositionFilter] = useState<HandballPosition | "ALL">("ALL");
-  const [selectedPlayerId, setSelectedPlayerId] = useState<string | null>(null);
+  const [selectedPlayerId, setSelectedPlayerId] = useState<string | null>(target);
   const [dealType, setDealType] = useState<TransferDealType>("PERMANENT");
-  const [transferFeeEur, setTransferFeeEur] = useState(0);
-  const [newWageEurPerMonth, setNewWageEurPerMonth] = useState(0);
+  const [transferFeeEur, setTransferFeeEur] = useState(target ? Math.round((getPlayerMarketValueEur(career, target) ?? 0) * 1.2) : 0);
+  const [newWageEurPerMonth, setNewWageEurPerMonth] = useState(target ? getPlayerContract(career, target)?.wageEurPerMonth ?? 500 : 0);
   const [contractYears, setContractYears] = useState(3);
   const [loanEndDate, setLoanEndDate] = useState("2027-01-15");
   const [wageShareBorrowingPct, setWageShareBorrowingPct] = useState(70);
   const [lastOffer, setLastOffer] = useState<TransferOffer | null>(null);
-  const [recentOffers, setRecentOffers] = useState<TransferOffer[]>([]);
+  const recentOffers = Object.values(career.transferOffers).filter(o => o.toClubId === career.playerClubId || o.fromClubId === career.playerClubId).reverse();
+  const economy = getClubEconomySnapshot(career, career.playerClubId);
 
   const candidates = useMemo(() => {
     const clubs = getExternalCandidateClubs(career);
@@ -93,7 +103,7 @@ export default function TransfersPage() {
       setSelectedRatingRow(undefined);
       return;
     }
-    if (selected.player.dataSource !== "REAL_WORLD") {
+    if (getCareerPlayerRating(career, selected.player.id, selected.player.clubId) || selected.player.dataSource !== "REAL_WORLD") {
       const rating = getCareerPlayerRating(career, selected.player.id, selected.player.clubId);
       setSelectedRatingRow(rating ?? null);
       return;
@@ -137,11 +147,11 @@ export default function TransfersPage() {
       loanTerms: dealType === "LOAN" ? { endDate: loanEndDate, wageShareBorrowingPct } : undefined,
     });
     setLastOffer(offer);
-    setRecentOffers((prev) => [offer, ...prev].slice(0, 10));
+
   }
 
   return (
-    <div className="hm-grid" style={{ gridTemplateColumns: "1.3fr 1fr" }}>
+    <><PageHeading eyebrow="Rekrytering / affärer" title="Transfers" description="Bud prövas av klubb och spelare. Överenskommelser genomförs när transferfönstret tillåter." actions={<Link className="hm-btn" href="/career/players">Spelarsök →</Link>} /><div className="hm-summary-strip"><div><small>Kassa</small><strong>{economy ? formatEur(economy.cashEur) : "—"}</strong></div><div><small>Transferbudget</small><strong>{economy ? formatEur(economy.budgets.transferBudgetEur) : "—"}</strong></div><div><small>Löneutrymme / månad</small><strong>{economy ? formatEur((economy.budgets.wageBudgetEur - economy.playerWageCostsEurAnnual) / 12) : "—"}</strong></div><div><small>Avtal i karriären</small><strong>{recentOffers.length}</strong></div></div><div className="hm-grid" style={{ gridTemplateColumns: "minmax(0, 1.3fr) minmax(280px, 1fr)" }}>
       <div className="hm-panel">
         <div className="hm-panel-header">
           <span className="hm-panel-title">Hitta spelare</span>
@@ -191,10 +201,10 @@ export default function TransfersPage() {
                 const valueRange = value !== undefined ? resolveMarketValueRange(value, knowledgePct) : null;
                 return (
                   <tr key={player.id} data-clickable="true" onClick={() => selectPlayer(player.id)} style={{ background: selectedPlayerId === player.id ? "var(--hm-surface-2)" : undefined }}>
-                    <td className="hm-td-strong">{player.firstName} {player.lastName}</td>
+                    <td className="hm-td-strong"><PlayerLink playerId={player.id} stopPropagation>{player.firstName} {player.lastName}</PlayerLink></td>
                     <td title={positionLabel(player.position)}>{player.position}</td>
                     <td>{playerAgeAtDate(player.dateOfBirth, player.birthYear, career.gameDate) ?? "–"}</td>
-                    <td className="hm-text-muted">{club ? club.shortName : "Fri agent"}</td>
+                    <td className="hm-text-muted">{club ? <ClubLink clubId={club.id} stopPropagation>{club.shortName}</ClubLink> : "Fri agent"}</td>
                     <td>{status ? <span className={`hm-badge hm-badge-${CONTRACT_STATUS_TONE[status]}`}>{CONTRACT_STATUS_LABEL[status]}</span> : "—"}</td>
                     <td className="hm-table-num">{valueRange ? (valueRange.min === valueRange.max ? formatEur(valueRange.min) : `${formatEur(valueRange.min)} – ${formatEur(valueRange.max)}`) : "—"}</td>
                     <td className="hm-text-muted">{KNOWLEDGE_TIER_LABEL_SV[knowledgeTier(knowledgePct)]}</td>
@@ -223,7 +233,7 @@ export default function TransfersPage() {
             <div className="hm-panel-body" style={{ display: "flex", flexDirection: "column", gap: 10 }}>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
                 <div>
-                  <div style={{ fontWeight: 800, fontSize: "var(--hm-text-md)" }}>{selected.player.firstName} {selected.player.lastName}</div>
+                  <div style={{ fontWeight: 800, fontSize: "var(--hm-text-md)" }}><PlayerLink playerId={selected.player.id}>{selected.player.firstName} {selected.player.lastName}</PlayerLink></div>
                   <div className="hm-text-muted" style={{ fontSize: "var(--hm-text-xs)" }}>{selected.club ? selected.club.name : "Ingen klubb — fri agent"} · {positionLabel(selected.player.position)}</div>
                 </div>
                 {selectedKnowledgePct !== null ? <span className="hm-badge hm-badge-neutral">{KNOWLEDGE_TIER_LABEL_SV[knowledgeTier(selectedKnowledgePct)]}</span> : null}
@@ -315,12 +325,12 @@ export default function TransfersPage() {
             <span className="hm-panel-title">Senaste bud</span>
           </div>
           {recentOffers.length === 0 ? (
-            <div className="hm-panel-body hm-text-muted">Inga bud gjorda ännu denna session.</div>
+            <div className="hm-panel-body hm-text-muted">Inga bud registrerade i karriären.</div>
           ) : (
             <div className="hm-panel-body" style={{ display: "flex", flexDirection: "column", gap: 8 }}>
               {recentOffers.map((offer) => (
                 <div key={offer.id} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", fontSize: "var(--hm-text-xs)" }}>
-                  <span>{offer.dealType === "LOAN" ? "Lån" : "Övergång"} · {formatEur(offer.transferFeeEur)}</span>
+                  <span><PlayerLink playerId={offer.playerId}>{Object.values(career.worldSquads).flat().find(p => p.id === offer.playerId)?.lastName ?? offer.playerId}</PlayerLink> · {offer.toClubId === career.playerClubId ? 'In' : 'Ut'} · {offer.offeredDate} · {offer.dealType === "LOAN" ? "Lån" : "Övergång"} · {formatEur(offer.transferFeeEur)}<br />{offer.fromClubId ? <ClubLink clubId={offer.fromClubId}>{getClub(offer.fromClubId)?.shortName ?? offer.fromClubId}</ClubLink> : 'Fri agent'} → <ClubLink clubId={offer.toClubId}>{getClub(offer.toClubId)?.shortName ?? offer.toClubId}</ClubLink></span>
                   <span className={`hm-badge hm-badge-${STATUS_TONE[offer.status]}`}>{STATUS_LABEL[offer.status]}</span>
                 </div>
               ))}
@@ -328,7 +338,7 @@ export default function TransfersPage() {
           )}
         </div>
       </div>
-    </div>
+    </div></>
   );
 }
 

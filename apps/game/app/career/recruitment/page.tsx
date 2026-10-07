@@ -6,8 +6,8 @@
 // lib/career/recruitment.ts's already-composed RecruitmentCandidate
 // view (itself composed entirely from canonical resolvers -- this page
 // never re-derives knowledge/visibility/report/transfer rules itself).
-import { useMemo, useState } from "react";
-import { useRouter } from "next/navigation";
+import { Suspense, useMemo, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { getClub, getCompetition, positionLabel, type HandballPosition } from "@/lib/game-data";
 import { useCareer } from "@/lib/career/CareerContext";
 import { getClubScouts } from "@/lib/career/scouting";
@@ -27,6 +27,10 @@ import {
   type RecruitmentPriority,
 } from "@/lib/career/recruitment";
 
+import Link from 'next/link';
+import { PlayerLink, ClubLink } from '@/components/entityLinks';
+import { PageHeading } from '@/components/manager/Workspace';
+
 type SectionId = "ALL" | "NEW" | "SCOUTING" | "SCOUTED" | "SHORTLIST" | "PRIORITIZED" | "NEGOTIATING";
 
 const SECTIONS: { id: SectionId; label: string; match: (c: RecruitmentCandidate) => boolean }[] = [
@@ -44,14 +48,16 @@ function starRangeLabel(range: { min: number; max: number } | null): string {
   return range.min === range.max ? "★".repeat(range.min) + "☆".repeat(5 - range.min) : `${range.min}–${range.max} ★`;
 }
 
-export default function RecruitmentCentrePage() {
+export default function RecruitmentCentrePage() { return <Suspense><RecruitmentCentre /></Suspense>; }
+function RecruitmentCentre() {
+  const params = useSearchParams();
   const router = useRouter();
   const { career, createScoutingAssignment, addToShortlist, removeFromShortlist, setRecruitmentPriority, setRecruitmentNote, submitTransferOffer } = useCareer();
 
   const allCandidates = useMemo(() => getRecruitmentCandidates(career), [career]);
   const clubScouts = getClubScouts(career);
 
-  const [section, setSection] = useState<SectionId>("ALL");
+  const [section, setSection] = useState<SectionId>(params.get("view") === "SHORTLIST" ? "SHORTLIST" : "ALL");
   const [query, setQuery] = useState("");
   const [positionFilter, setPositionFilter] = useState<HandballPosition | "ALL">("ALL");
   const [nationFilter, setNationFilter] = useState<string>("ALL");
@@ -80,7 +86,7 @@ export default function RecruitmentCentrePage() {
   const selected = selectedPlayerId ? allCandidates.find((c) => c.playerId === selectedPlayerId) ?? null : null;
 
   return (
-    <div className="hm-grid" style={{ gridTemplateColumns: "1.5fr 1fr", alignItems: "start" }}>
+    <><PageHeading eyebrow="Rekrytering / beslutsprocess" title="Rekryteringscentrum" description="Fynd → scouting → kortlista → jämförelse → avtal. Prioriteringar och anteckningar följer din karriär." actions={<Link className="hm-btn" href="/career/players">Spelarsök →</Link>} /><div className="hm-grid" style={{ gridTemplateColumns: "minmax(0, 1.5fr) minmax(280px, 1fr)", alignItems: "start" }}>
       <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
         {/* Pipeline sections */}
         <div className="hm-panel">
@@ -181,9 +187,9 @@ export default function RecruitmentCentrePage() {
                   >
                     <td className="hm-td-strong">
                       {c.shortlisted ? "★ " : ""}
-                      {c.firstName} {c.lastName}
+                      <PlayerLink playerId={c.playerId} stopPropagation>{c.firstName} {c.lastName}</PlayerLink>
                     </td>
-                    <td className="hm-text-muted">{c.clubName}</td>
+                    <td className="hm-text-muted">{c.clubId ? <ClubLink clubId={c.clubId} stopPropagation>{c.clubName}</ClubLink> : c.clubName}</td>
                     <td title={positionLabel(c.position)}>{c.position}</td>
                     <td>{c.ageYears ?? "–"}</td>
                     <td>{KNOWLEDGE_TIER_LABEL_SV[c.knowledgeTier]}</td>
@@ -232,7 +238,7 @@ export default function RecruitmentCentrePage() {
           </div>
         )}
       </div>
-    </div>
+    </div></>
   );
 }
 
@@ -268,10 +274,11 @@ function CandidateDetailPanel({
 
   return (
     <>
+      <div className="hm-actions"><Link className="hm-btn" href={`/career/compare?left=${encodeURIComponent(candidate.playerId)}`}>Jämför med truppen</Link><Link className="hm-btn" href={`/career/transfers?target=${encodeURIComponent(candidate.playerId)}`}>Öppna bud & budget</Link></div>
       <div className="hm-panel">
         <div className="hm-panel-header">
           <span className="hm-panel-title">
-            {candidate.firstName} {candidate.lastName}
+            <PlayerLink playerId={candidate.playerId}>{candidate.firstName} {candidate.lastName}</PlayerLink>
           </span>
           <span className="hm-badge hm-badge-neutral">{RECRUITMENT_STATUS_LABEL_SV[candidate.recruitmentStatus]}</span>
         </div>

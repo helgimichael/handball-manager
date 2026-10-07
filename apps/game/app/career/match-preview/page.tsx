@@ -1,4 +1,5 @@
 "use client";
+import MatchContext from "@/components/manager/MatchContext";
 
 import { useRouter } from "next/navigation";
 import { useState } from 'react';
@@ -6,7 +7,7 @@ import { COMPETITIONS, getClub } from "@/lib/game-data";
 import { useCareer } from "@/lib/career/CareerContext";
 import { getCareerSquad } from "@/lib/career/careerWorld";
 import { getNextPlayerFixture } from "@/lib/career/calendar";
-import { isAvailable, resolveStatusLabel } from "@/lib/career/playerStatus";
+import { isSelectableForMatch, resolveStatusLabel } from "@/lib/career/playerStatus";
 import ClubCrest from "@/components/ClubCrest";
 import { ClubLink, PlayerLink } from "@/components/entityLinks";
 import { startProductionMatch } from '@/lib/career/productionMatch';
@@ -17,7 +18,7 @@ export default function MatchPreviewPage() {
   const [error, setError] = useState<string | null>(null);
   const fixture = getNextPlayerFixture(career);
   const squad = getCareerSquad(career);
-  const unavailable = squad.filter((p) => !isAvailable(career.playerStatuses, p.id));
+  const unavailable = squad.filter((p) => !isSelectableForMatch(career.playerStatuses, p.id));
 
   if (career.seasonComplete) {
     return (
@@ -114,6 +115,7 @@ export default function MatchPreviewPage() {
         </div>
       </div>
 
+      <MatchContext fixture={fixture} />
       <div className="hm-grid" style={{ gridTemplateColumns: "1fr 1fr" }}>
         <div className="hm-panel">
           <div className="hm-panel-header">

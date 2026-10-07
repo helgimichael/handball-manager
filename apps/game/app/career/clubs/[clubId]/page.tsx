@@ -1,4 +1,6 @@
 "use client";
+import ClubContext from "@/components/manager/ClubContext";
+import { CompetitionLink } from "@/components/manager/Workspace";
 
 // HM-UX-0.3: universal club profile for any club that ISN'T the
 // manager's own (ClubLink routes the manager's own club to the
@@ -139,14 +141,14 @@ export default function ClubProfilePage() {
   const activeDevelopmentPartner = getClubPartnerships(career, club.id).find((p) => p.type === "DEVELOPMENT_PARTNERSHIP" && p.status === "ACTIVE");
 
   return (
-    <div className="hm-grid" style={{ gap: 12 }}>
+    <div className="hm-grid" style={{ gap: 12 }}><ClubContext clubId={club.id} />
       <div className="hm-panel">
         <div className="hm-panel-body" style={{ display: "flex", alignItems: "center", gap: 16 }}>
           <ClubCrest shortName={club.shortName} primaryColor={club.primaryColor} size={56} />
           <div style={{ flex: 1 }}>
             <div style={{ fontSize: "var(--hm-text-md)", fontWeight: 800 }}>{club.name}</div>
             <div className="hm-text-muted" style={{ fontSize: "var(--hm-text-xs)" }}>
-              {competitionName} · {club.city ?? "—"}
+              <CompetitionLink id={club.competitionId}>{competitionName}</CompetitionLink> · {club.city ?? "—"}
               {club.founded ? ` · Grundad ${club.founded}` : ""}
             </div>
           </div>
@@ -342,7 +344,7 @@ export default function ClubProfilePage() {
                       <td>{new Date(f.date).toLocaleDateString("sv-SE", { day: "2-digit", month: "2-digit" })}</td>
                       <td>{home ? "Hemma" : "Borta"}</td>
                       <td className="hm-td-strong">{opponent ? <ClubLink clubId={opponent.id}>{opponent.name}</ClubLink> : opponentId}</td>
-                      <td>{result ? <span className="hm-td-strong">{gf}–{ga}</span> : <span className="hm-text-muted">—</span>}</td>
+                      <td>{result ? <Link className="hm-result-link" href={`/career/match-report/${f.id}`}>{gf}–{ga}</Link> : <Link href={`/career/fixtures/${f.id}`}>Förhandsvisa →</Link>}</td>
                     </tr>
                   );
                 })}

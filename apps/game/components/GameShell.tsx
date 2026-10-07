@@ -6,6 +6,7 @@ import Link from 'next/link';
 import type { ReactNode } from "react";
 import ClubCrest from "./ClubCrest";
 import CareerSaveControl from './CareerSaveControl';
+import GlobalSearch from './manager/GlobalSearch';
 import NavIcon, { type NavIconName } from "./NavIcon";
 import ContinueProcessingOverlay, { type ProcessingDay } from "./ContinueProcessingOverlay";
 import { useCareer } from "@/lib/career/CareerContext";
@@ -56,7 +57,7 @@ function useEditorEnabled(): boolean {
 export default function GameShell({ children }: { children: ReactNode }) {
   const pathname = usePathname();
   const router = useRouter();
-  const { career, continueCareer } = useCareer();
+  const { career, save, continueCareer } = useCareer();
   const unread = career.inbox.filter((m) => !m.read && !m.archived).length;
   const editorEnabled = useEditorEnabled();
   const nav = useNav(unread, editorEnabled);
@@ -145,7 +146,9 @@ export default function GameShell({ children }: { children: ReactNode }) {
 
   return (
     <div className="hm-shell">
+      <a href="#manager-content" className="hm-skip-link">Till innehållet</a>
       <aside className="hm-sidebar">
+        <Link href="/career" className="hm-wordmark"><span className="hm-monogram">HM</span><span>HANDBALL<br /><strong>MANAGER</strong></span></Link>
         <div className="hm-club-badge">
           <ClubCrest shortName={club.shortName} primaryColor={club.primaryColor} size={32} />
           <div>
@@ -157,26 +160,32 @@ export default function GameShell({ children }: { children: ReactNode }) {
           {nav.map((item) => {
             const active = item.id === activeNavId || (item.id === "editor" && pathname.startsWith("/editor"));
             return (
+              <div key={item.href}>
+              {({ home: 'Kontoret', squad: 'Laget', calendar: 'Match & kalender', players: 'Rekrytering', staff: 'Klubben' } as Record<string, string>)[item.id] && <div className="hm-nav-group-label">{({ home: 'Kontoret', squad: 'Laget', calendar: 'Match & kalender', players: 'Rekrytering', staff: 'Klubben' } as Record<string, string>)[item.id]}</div>}
               <Link
                 key={item.href}
                 className="hm-nav-item"
                 data-active={active}
                 href={item.href}
+                aria-label={item.label}
+                aria-current={active ? 'page' : undefined}
               >
                 <span className="hm-nav-icon">
                   <NavIcon name={item.icon} />
                 </span>
                 <span>{item.label}</span>
-                {item.badge ? <span className="hm-nav-badge">{item.badge}</span> : null}
+                {item.badge ? <span className="hm-nav-badge" aria-hidden="true">{item.badge}</span> : null}
               </Link>
+              </div>
             );
           })}
         </div>
+        <div className="hm-sidebar-footer"><span>{save.manager.name}</span><Link href="/load-game">Sparade karriärer →</Link></div>
       </aside>
 
       <header className="hm-header">
         <div className="hm-header-title">
-          <div className="hm-header-title-text">{club.name}</div>
+          <div className="hm-header-title-text">{club.name} <span className="hm-text-muted"> / {career.seasonId}</span></div>
           <div className="hm-header-sub">
             {liveMatchBanner ?? (
               <>
@@ -186,8 +195,9 @@ export default function GameShell({ children }: { children: ReactNode }) {
             )}
           </div>
         </div>
+        <GlobalSearch />
         <div className="hm-header-meta">
-          <span>Manager: Du</span>
+          <CareerSaveControl />
           <button
             type="button"
             className="hm-btn hm-btn-primary"
@@ -200,7 +210,7 @@ export default function GameShell({ children }: { children: ReactNode }) {
         </div>
       </header>
 
-      <main className="hm-main"><div style={{ display: 'flex', justifyContent: 'end', marginBottom: 12 }}><CareerSaveControl /></div>{children}</main>
+      <main className="hm-main" id="manager-content"><div className="hm-context-bar"><div className="hm-actions"><button type="button" className="hm-btn hm-btn-sm hm-btn-ghost" onClick={() => router.back()} aria-label="Tillbaka i navigationen">←</button><button type="button" className="hm-btn hm-btn-sm hm-btn-ghost" onClick={() => router.forward()} aria-label="Framåt i navigationen">→</button><Link href="/career">Kontoret</Link><span>/</span><span>{nav.find(item => item.id === activeNavId)?.label ?? 'Detalj'}</span></div><Link href="/career/inbox">{unread} olästa meddelanden</Link></div>{children}</main>
       {processing ? <ContinueProcessingOverlay days={processing.days} onFinished={handleProcessingFinished} /> : null}
     </div>
   );

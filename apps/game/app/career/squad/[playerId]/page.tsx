@@ -1,4 +1,6 @@
 "use client";
+import PlayerActions from '@/components/manager/PlayerActions';
+import PlayerPerformance from '@/components/manager/PlayerPerformance';
 import ContractRenewal from '@/components/ContractRenewal';
 
 import { useEffect, useState } from "react";
@@ -64,11 +66,12 @@ export default function PlayerProfilePage() {
   // this player has no gameplay rating (an honest failure -- falls
   // back to the old mock display, same as any non-real-world player;
   // never fabricated client-side).
+  const [tab, setTab] = useState('overview');
   const [ratingRow, setRatingRow] = useState<GameplayRatingRow | null | undefined>(undefined);
 
   useEffect(() => {
     if (!player) return;
-    if (player.dataSource !== "REAL_WORLD") {
+    if (getCareerPlayerRating(career, player.id, player.clubId) || player.dataSource !== "REAL_WORLD") {
       // HM-RATINGS-CAREER-1.0 Part 25: a mock/generated player's rating
       // already lives in CareerState -- ensureCareerGameplayRatings
       // guarantees every roster player has one, so no fetch is needed.
@@ -138,7 +141,9 @@ export default function PlayerProfilePage() {
   }));
 
   return (
-    <div className="hm-grid" style={{ gridTemplateColumns: "2fr 1fr", alignItems: "start" }}>
+    <>
+    <nav className="hm-tabs" aria-label="Spelarprofil">{[["overview", "Profil & egenskaper"], ["performance", "Prestation & historik"]].map(([id, label]) => <button key={id} aria-pressed={tab === id} onClick={() => setTab(id)}>{label}</button>)}</nav>
+    {tab === "performance" ? <><PlayerActions player={player} /><PlayerPerformance playerId={player.id} /></> : <div className="hm-grid" style={{ gridTemplateColumns: "2fr 1fr", alignItems: "start" }}>
       <div className="hm-grid" style={{ gap: 12 }}>
         {/* Header */}
         <div className="hm-panel">
@@ -213,6 +218,7 @@ export default function PlayerProfilePage() {
           </div>
         </div>
 
+        <PlayerActions player={player} />
         {/* Overview */}
         <div className="hm-panel">
           <div className="hm-panel-header">
@@ -227,7 +233,7 @@ export default function PlayerProfilePage() {
             ) : (
               <MetricBlock label="Skott" value={seasonStats.shots} />
             )}
-            <MetricBlock label="Fitness" value={`${player.fitnessPct}%`} />
+            <MetricBlock label="Energi" value={isOwnPlayer ? `${Math.round(career.playerPhysicalState[player.id]?.currentEnergy ?? player.fitnessPct)}%` : "—"} />
             <MetricBlock label="Status" value={resolveStatusLabel(career.playerStatuses, player)} />
           </div>
         </div>
@@ -422,14 +428,15 @@ export default function PlayerProfilePage() {
         {/* HM-TRAINING-1.1 Part 28: a small, real development section --
             recent attribute changes, individual focus, recent training
             participation. Never a giant redesign. */}
-        <DevelopmentPanel playerId={player.id} />
+        {isOwnPlayer && <DevelopmentPanel playerId={player.id} />}
 
         {/* HM-INJURIES-1.0 Part 31: a compact injury/medical section --
             current status, active injury, expected return, rehab phase,
             recent history. No full medical center here. */}
         <MedicalPanel playerId={player.id} />
       </div>
-    </div>
+    </div>}
+    </>
   );
 }
 

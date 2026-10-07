@@ -39,15 +39,15 @@ export function SortableTh<K extends string>({ label, sortKey, sort, onSort, def
   const activeDirection = active && sort ? sort.direction : null;
   return (
     <th
-      onClick={handleClick}
       className={numeric ? "hm-table-num" : undefined}
       style={{ cursor: "pointer", userSelect: "none", whiteSpace: "nowrap" }}
       aria-sort={activeDirection ? (activeDirection === "asc" ? "ascending" : "descending") : "none"}
     >
-      {label}
-      <span style={{ marginLeft: 4, display: "inline-block", width: 10, color: activeDirection ? "var(--hm-text-strong, currentColor)" : "var(--hm-border-strong)" }}>
+      <button type="button" className="hm-sort-button" aria-label={label} onClick={handleClick}>{label}
+      <span aria-hidden="true" style={{ marginLeft: 4, display: "inline-block", width: 10, color: activeDirection ? "var(--hm-text-strong, currentColor)" : "var(--hm-border-strong)" }}>
         {activeDirection ? (activeDirection === "asc" ? "▲" : "▼") : "▲"}
       </span>
+      </button>
     </th>
   );
 }

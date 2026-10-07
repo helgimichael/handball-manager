@@ -1,4 +1,6 @@
 "use client";
+import Link from "next/link";
+import { PageHeading } from "@/components/manager/Workspace";
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
@@ -26,7 +28,7 @@ export default function SchedulePage() {
     .sort((a, b) => (a.date < b.date ? -1 : 1));
 
   return (
-    <div className="hm-grid" style={{ gap: 12 }}>
+    <div className="hm-grid" style={{ gap: 12 }}><PageHeading eyebrow={career.seasonId} title="Matcher & resultat" description="Ditt lags hela matchprogram, motståndare och rapporter." actions={<div className="hm-actions"><Link href="/career/calendar" className="hm-btn">Kalender →</Link><Link href="/career/match-2d" className="hm-btn">Matchrepriser →</Link></div>} />
       {seasonPhase === "PRESEASON" ? <FriendlyBooking clubId={club.id} onBook={bookFriendly} /> : null}
 
       <div className="hm-panel">
@@ -101,7 +103,7 @@ export default function SchedulePage() {
                       <span className="hm-text-muted">—</span>
                     )}
                   </td>
-                  <td>{outcome ? <span className={`hm-badge hm-badge-${outcomeTone}`}>{outcome}</span> : null}</td>
+                  <td>{!played && <Link href={`/career/fixtures/${f.id}`} onClick={e => e.stopPropagation()}>Förhandsvisa →</Link>}{outcome ? <span className={`hm-badge hm-badge-${outcomeTone}`}>{outcome}</span> : null}</td>
                 </tr>
               );
             })}

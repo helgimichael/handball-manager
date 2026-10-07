@@ -1,0 +1,526 @@
+
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+  background: var(--hm-bg-app);
+  color: var(--hm-text-primary);
+  font-family: var(--hm-font-sans);
+  font-size: var(--hm-text-base);
+  line-height: 1.35;
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font-family: inherit;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--hm-border);
+  border-radius: 6px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--hm-border-strong);
+}
+
+/* ---------- Layout shell ---------- */
+
+.hm-shell {
+  display: grid;
+  grid-template-columns: var(--hm-nav-width) 1fr;
+  grid-template-rows: var(--hm-header-height) 1fr;
+  grid-template-areas: "sidebar header" "sidebar main";
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+}
+
+.hm-sidebar {
+  grid-area: sidebar;
+  background: var(--hm-bg-sidebar);
+  border-right: 1px solid var(--hm-border-subtle);
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+.hm-header {
+  grid-area: header;
+  background: var(--hm-bg-header);
+  border-bottom: 1px solid var(--hm-border-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  gap: 16px;
+}
+
+.hm-main {
+  grid-area: main;
+  overflow-y: auto;
+  padding: 16px;
+}
+
+/* ---------- Sidebar / nav ---------- */
+
+.hm-club-badge {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--hm-border-subtle);
+}
+
+.hm-club-crest {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--hm-surface-2);
+  border: 1px solid var(--hm-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 11px;
+  color: var(--hm-club-primary);
+  flex-shrink: 0;
+}
+
+.hm-club-name {
+  font-size: var(--hm-text-sm);
+  font-weight: 600;
+  color: var(--hm-text-primary);
+  letter-spacing: 0.01em;
+  line-height: 1.2;
+}
+
+.hm-club-sub {
+  font-size: var(--hm-text-2xs);
+  color: var(--hm-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.hm-nav-group {
+  padding: 10px 8px 4px;
+}
+
+.hm-nav-group-label {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--hm-text-disabled);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 4px 8px;
+}
+
+.hm-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 7px 10px;
+  margin: 1px 0;
+  border-radius: var(--hm-radius-sm);
+  font-size: var(--hm-text-xs);
+  font-weight: 500;
+  color: var(--hm-text-secondary);
+  cursor: pointer;
+  border-left: 2px solid transparent;
+}
+
+.hm-nav-item:hover {
+  background: var(--hm-surface-hover);
+  color: var(--hm-text-primary);
+}
+
+.hm-nav-item[data-active="true"] {
+  background: var(--hm-surface-selected);
+  color: var(--hm-text-primary);
+  border-left-color: var(--hm-accent);
+}
+
+.hm-nav-icon {
+  width: 15px;
+  text-align: center;
+  font-size: 12px;
+  opacity: 0.85;
+  flex-shrink: 0;
+}
+
+.hm-nav-badge {
+  margin-left: auto;
+  background: var(--hm-accent);
+  color: var(--hm-accent-text);
+  font-size: 9.5px;
+  font-weight: 700;
+  border-radius: 8px;
+  padding: 1px 6px;
+  line-height: 1.5;
+}
+
+/* ---------- Header ---------- */
+
+.hm-header-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.hm-header-title-text {
+  font-size: var(--hm-text-md);
+  font-weight: 700;
+}
+
+.hm-header-sub {
+  font-size: var(--hm-text-2xs);
+  color: var(--hm-text-muted);
+}
+
+.hm-header-meta {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  font-size: var(--hm-text-xs);
+  color: var(--hm-text-secondary);
+}
+
+.hm-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 14px;
+  border-radius: var(--hm-radius-sm);
+  border: 1px solid var(--hm-border);
+  background: var(--hm-surface-2);
+  color: var(--hm-text-primary);
+  font-size: var(--hm-text-xs);
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.hm-btn:hover {
+  background: var(--hm-surface-3);
+}
+
+.hm-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.hm-btn-primary {
+  background: var(--hm-accent);
+  border-color: var(--hm-accent);
+  color: var(--hm-accent-text);
+}
+
+.hm-btn-primary:hover {
+  background: var(--hm-accent-strong);
+}
+
+.hm-btn-ghost {
+  background: transparent;
+  border-color: transparent;
+}
+
+.hm-btn-ghost:hover {
+  background: var(--hm-surface-hover);
+}
+
+.hm-btn-sm {
+  padding: 4px 9px;
+  font-size: var(--hm-text-2xs);
+}
+
+/* ---------- Panels ---------- */
+
+.hm-panel {
+  background: var(--hm-surface-1);
+  border: 1px solid var(--hm-border-subtle);
+  border-radius: var(--hm-radius-md);
+  overflow: hidden;
+}
+
+.hm-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 9px 12px;
+  border-bottom: 1px solid var(--hm-border-subtle);
+  background: var(--hm-surface-2);
+}
+
+/* HM-MATCH-1.3A Part J: pins the Live Match scoreboard (score/clock/
+   phase) to the top of .hm-main's own scroll container, so it never
+   disappears while reading commentary or coaching further down the
+   page. `top`/`margin` counteract .hm-main's own 16px padding so the
+   panel sits flush against the viewport edge once stuck, instead of
+   leaving a gap. */
+.hm-live-scoreboard-sticky {
+  position: sticky;
+  top: -16px;
+  z-index: 5;
+  margin: -16px -16px 12px -16px;
+  padding: 16px 16px 0 16px;
+  background: var(--hm-bg-app);
+}
+
+.hm-panel-title {
+  font-size: var(--hm-text-2xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--hm-text-secondary);
+}
+
+.hm-panel-body {
+  padding: 12px;
+}
+
+.hm-panel-body-flush {
+  padding: 0;
+}
+
+.hm-grid {
+  display: grid;
+  gap: 12px;
+}
+
+/* ---------- Tables ---------- */
+
+.hm-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--hm-text-xs);
+}
+
+.hm-table thead th {
+  text-align: left;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--hm-text-muted);
+  padding: 6px 10px;
+  border-bottom: 1px solid var(--hm-border);
+  background: var(--hm-surface-2);
+  white-space: nowrap;
+}
+
+.hm-table tbody td {
+  padding: 6px 10px;
+  border-bottom: 1px solid var(--hm-border-subtle);
+  color: var(--hm-text-secondary);
+  height: var(--hm-row-height);
+  white-space: nowrap;
+}
+
+.hm-table tbody tr {
+  cursor: default;
+}
+
+.hm-table tbody tr[data-clickable="true"] {
+  cursor: pointer;
+}
+
+.hm-table tbody tr[data-clickable="true"]:hover td {
+  background: var(--hm-surface-hover);
+}
+
+.hm-table tbody tr[data-highlight="true"] td {
+  background: var(--hm-accent-muted);
+}
+
+.hm-table td.hm-td-strong,
+.hm-table .hm-td-strong {
+  color: var(--hm-text-primary);
+  font-weight: 600;
+}
+
+.hm-table-num {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- Badges / pills ---------- */
+
+.hm-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1px 7px;
+  border-radius: 3px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  line-height: 1.6;
+}
+
+.hm-badge-positive {
+  background: var(--hm-positive-muted);
+  color: var(--hm-positive);
+}
+.hm-badge-warning {
+  background: var(--hm-warning-muted);
+  color: var(--hm-warning);
+}
+.hm-badge-negative {
+  background: var(--hm-negative-muted);
+  color: var(--hm-negative);
+}
+.hm-badge-neutral {
+  background: var(--hm-surface-3);
+  color: var(--hm-text-secondary);
+}
+
+.hm-shirt-number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 3px;
+  background: var(--hm-surface-3);
+  color: var(--hm-gold);
+  font-size: 10.5px;
+  font-weight: 800;
+  flex-shrink: 0;
+}
+
+.hm-form-dot {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  border-radius: 3px;
+  font-size: 9px;
+  font-weight: 800;
+  color: #0b0f16;
+}
+.hm-form-w {
+  background: var(--hm-positive);
+}
+.hm-form-d {
+  background: var(--hm-warning);
+}
+.hm-form-l {
+  background: var(--hm-negative);
+}
+
+/* ---------- Tabs ---------- */
+
+.hm-tabs {
+  display: flex;
+  gap: 2px;
+  border-bottom: 1px solid var(--hm-border-subtle);
+  padding: 0 4px;
+}
+
+.hm-tab {
+  padding: 8px 12px;
+  font-size: var(--hm-text-xs);
+  font-weight: 600;
+  color: var(--hm-text-muted);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+}
+
+.hm-tab:hover {
+  color: var(--hm-text-secondary);
+}
+
+.hm-tab[data-active="true"] {
+  color: var(--hm-text-primary);
+  border-bottom-color: var(--hm-accent);
+}
+
+/* ---------- Stat bars (attributes) ---------- */
+
+.hm-stat-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 3px 0;
+  font-size: var(--hm-text-xs);
+}
+
+.hm-stat-label {
+  color: var(--hm-text-secondary);
+}
+
+.hm-stat-value-box {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 22px;
+  padding: 1px 4px;
+  border-radius: 3px;
+  font-size: 10.5px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+
+.hm-stat-1 { background: var(--hm-negative-muted); color: var(--hm-negative); }
+.hm-stat-2 { background: var(--hm-warning-muted); color: var(--hm-warning); }
+.hm-stat-3 { background: var(--hm-surface-3); color: var(--hm-text-secondary); }
+.hm-stat-4 { background: var(--hm-positive-muted); color: var(--hm-positive); }
+
+/* ---------- Misc text utilities ---------- */
+
+.hm-text-muted {
+  color: var(--hm-text-muted);
+}
+.hm-text-secondary {
+  color: var(--hm-text-secondary);
+}
+.hm-text-positive {
+  color: var(--hm-positive);
+}
+.hm-text-negative {
+  color: var(--hm-negative);
+}
+.hm-text-warning {
+  color: var(--hm-warning);
+}
+.hm-text-accent {
+  color: var(--hm-accent-strong);
+}
+.hm-eyebrow {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--hm-text-muted);
+}
+
+.hm-divider {
+  height: 1px;
+  background: var(--hm-border-subtle);
+  margin: 10px 0;
+}
+
+.hm-not-playable {
+  opacity: 0.55;
+}
+
+.hm-scroll-x {
+  overflow-x: auto;
+}

@@ -1,4 +1,6 @@
 "use client";
+import MatchTimeline from '@/components/manager/MatchTimeline';
+import MatchContext from "@/components/manager/MatchContext";
 
 import { useParams, useRouter } from "next/navigation";
 import { COMPETITIONS, getClub } from "@/lib/game-data";
@@ -63,11 +65,12 @@ export default function MatchReportPage() {
         </div>
       </div>
 
+      <MatchContext fixture={fixture} postMatch /><MatchTimeline result={result} />
       <div className="hm-grid" style={{ gridTemplateColumns: "1fr 1fr" }}>
         <StatsPanel title={home.name} stats={result.homeStats} />
         <StatsPanel title={away.name} stats={result.awayStats} />
       </div>
-      {career.matchArchives?.[params.fixtureId] && <div className="hm-panel"><div className="hm-panel-header"><strong>Speltid och belastning</strong><button className="hm-btn" onClick={() => router.push(`/career/match-day/${params.fixtureId}`)}>Se matchrepris</button></div><table className="hm-table"><thead><tr><th>Spelare</th><th>Minuter</th><th>Energi efter match</th></tr></thead><tbody>{career.matchArchives[params.fixtureId].people.filter(p => career.matchArchives![params.fixtureId].load[p.id].minutes > 0).map(p => <tr key={p.id}><td>{p.name}</td><td>{career.matchArchives![params.fixtureId].load[p.id].minutes.toFixed(1)}</td><td>{Math.round(career.matchArchives![params.fixtureId].load[p.id].energy)}%</td></tr>)}</tbody></table></div>}
+      {career.matchArchives?.[params.fixtureId] && <div className="hm-panel"><div className="hm-panel-header"><strong>Speltid och belastning</strong><button className="hm-btn" onClick={() => router.push(`/career/match-day/${params.fixtureId}`)}>Se matchrepris</button></div><table className="hm-table"><thead><tr><th>Spelare</th><th>Minuter</th><th>Energi efter match</th></tr></thead><tbody>{career.matchArchives[params.fixtureId].people.filter(p => career.matchArchives![params.fixtureId].load[p.id].minutes > 0).map(p => <tr key={p.id}><td><PlayerLink playerId={p.id}>{p.name}</PlayerLink></td><td>{career.matchArchives![params.fixtureId].load[p.id].minutes.toFixed(1)}</td><td>{Math.round(career.matchArchives![params.fixtureId].load[p.id].energy)}%</td></tr>)}</tbody></table></div>}
 
       <div className="hm-grid" style={{ gridTemplateColumns: "1fr 1fr" }}>
         <PlayerRatingsPanel title={home.shortName} contributions={result.homePlayerContributions} bestPerformerId={bestPerformer?.playerId} career={career} />
@@ -102,7 +105,7 @@ export default function MatchReportPage() {
           </div>
           <div className="hm-panel-body">
             <div style={{ fontSize: "var(--hm-text-md)", fontWeight: 800 }}>{position}:a plats</div>
-            <div className="hm-text-muted" style={{ fontSize: "var(--hm-text-xs)" }}>{competitionName}, efter omgång {fixture.round}</div>
+            <div className="hm-text-muted" style={{ fontSize: "var(--hm-text-xs)" }}>{competitionName} · nuvarande tabell</div>
           </div>
         </div>
       </div>
