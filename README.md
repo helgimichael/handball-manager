@@ -1,5 +1,18 @@
 # Handball Manager
 
+Playable alpha: real career squads, V2 live matches, saved 2D replay, contracts and season rollover. See [the delivered build and how to play](docs/PLAYABLE_BUILD.md) for architecture, validation and current limits.
+
+From this repository on Windows:
+
+```powershell
+npm.cmd run build --workspace=@handball-manager/game
+npm.cmd run start --workspace=@handball-manager/game -- --port 3001
+```
+
+Open http://localhost:3001/. For development, run `npm.cmd run dev --workspace=@handball-manager/game -- --port 3001`. The app uses Webpack so it also works where Windows blocks native SWC/Turbopack bindings.
+
+The migration baseline below is historical; the actual game now lives in `apps/game`.
+
 Standalone Handball Manager project. Not part of STARKVIS OS, FIELD, SIM, SIGNAL, or Smiðja — those remain the source/reference repositories.
 
 ## Layout
