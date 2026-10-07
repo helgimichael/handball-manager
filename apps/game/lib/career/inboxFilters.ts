@@ -3,12 +3,14 @@
 // consumer.
 import type { InboxMessage } from "../game-data";
 
-export type InboxFilterId = "ALL" | "UNREAD" | "ACTION_REQUIRED" | "ANALYSIS" | "SCOUTING" | "STAFF" | "ARCHIVED";
+export type InboxFilterId = "ALL" | "UNREAD" | "ACTION_REQUIRED" | "CONTRACTS" | "TRANSFERS" | "ANALYSIS" | "SCOUTING" | "STAFF" | "ARCHIVED";
 
 export const INBOX_FILTERS: { id: InboxFilterId; label: string }[] = [
   { id: "ALL", label: "Alla" },
   { id: "UNREAD", label: "Olästa" },
   { id: "ACTION_REQUIRED", label: "Åtgärd krävs" },
+  { id: "CONTRACTS", label: "Kontrakt" },
+  { id: "TRANSFERS", label: "Transfers" },
   { id: "ANALYSIS", label: "Analys" },
   { id: "SCOUTING", label: "Scouting" },
   { id: "STAFF", label: "Tränarstab" },
@@ -26,6 +28,10 @@ export function matchesInboxFilter(message: InboxMessage, filter: InboxFilterId)
       return !message.archived && Boolean(message.actionRequired) && !message.resolved;
     case "ANALYSIS":
       return !message.archived && message.category === "ANALYSIS";
+    case "CONTRACTS":
+      return !message.archived && message.id.startsWith('management-contract:');
+    case "TRANSFERS":
+      return !message.archived && message.id.startsWith('management-transfer:');
     case "SCOUTING":
       return !message.archived && message.category === "SCOUTING";
     case "STAFF":

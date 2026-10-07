@@ -42,7 +42,7 @@ export function resolveDestinationHref(destination: EventDestination): string | 
     case "RECRUITMENT":
       return "/career/recruitment";
     case "COMPETITION":
-      return "/career/competitions";
+      return `/career/competitions/${encodeURIComponent(destination.competitionId)}`;
     case "CLUB":
       return "/career/club";
     case "ANALYSIS_OVERVIEW":

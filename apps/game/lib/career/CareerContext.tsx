@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useCallback, useContext, useEffect, useRef, useState, type ReactNode } from "react";
+import { createContext, useCallback, useContext, useEffect, useRef, useState, type ReactNode, type SetStateAction } from "react";
 import type { FastMatchResult } from "@handball-manager/game-simulation";
 import { GAME_CURRENT_DATE, getClub, getClubsByCompetition, type PlayerMock } from "../game-data";
 import { getActiveSave, saveCareerState, type CareerSave } from "../save/saveRepository";
@@ -72,6 +72,7 @@ import { ensureDivision1PlayerEconomicIdentity } from "./division1Integration";
 import { ensureWorldPoolPlayerEconomicIdentity } from "./worldPoolIntegration";
 import { WORLD_POOL_COMPETITION_IDS } from "./careerWorld";
 import { ensureCareerAllClubEconomies } from "../economy/clubEconomyIntegration";
+import { syncManagementInbox } from './management';
 
 type CareerContextValue = {
   save: CareerSave;
@@ -511,8 +512,21 @@ async function getOrCreateCareerState(save: CareerSave): Promise<CareerState> {
 
 export function CareerProvider({ children }: { children: ReactNode }) {
   const lastMatchAutoSave = useRef(0);
-  const [value, setValue] = useState<{ save: CareerSave; career: CareerState } | null>(null);
+  type ProviderValue = { save: CareerSave; career: CareerState } | null;
+  const [value, setRawValue] = useState<ProviderValue>(null);
   const [persistError, setPersistError] = useState<string | null>(null);
+  // Reconcile actual management events at the state commit boundary, including load.
+  // No render/effect loop and no reconciliation during live simulation advances.
+  const setValue = useCallback((action: SetStateAction<ProviderValue>) => {
+    setRawValue(current => {
+      const next = typeof action === 'function' ? action(current) : action;
+      if (!next || next === current || next.career.productionMatch) return next;
+      const career = syncManagementInbox(next.career);
+      if (career === next.career) return next;
+      persistCareerState(next.save.saveId, career);
+      return { ...next, career };
+    });
+  }, []);
 
   useEffect(() => {
     let cancelled = false;
@@ -536,7 +550,7 @@ export function CareerProvider({ children }: { children: ReactNode }) {
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [setValue]);
 
   // Every background persist (see persistCareerState) reports here.
   useEffect(() => {
@@ -568,7 +582,7 @@ export function CareerProvider({ children }: { children: ReactNode }) {
       persistCareerState(current.save.saveId, nextCareer);
       return { save: current.save, career: nextCareer };
     });
-  }, []);
+  }, [setValue]);
 
   const updateLiveMatchSessionAction = useCallback((fixtureId: string, session: LiveMatchSessionState) => {
     setValue((current) => {
@@ -578,7 +592,7 @@ export function CareerProvider({ children }: { children: ReactNode }) {
       persistCareerState(current.save.saveId, nextCareer);
       return { save: current.save, career: nextCareer };
     });
-  }, []);
+  }, [setValue]);
 
   const endLiveMatchSessionAction = useCallback((fixtureId: string) => {
     setValue((current) => {
@@ -588,7 +602,7 @@ export function CareerProvider({ children }: { children: ReactNode }) {
       persistCareerState(current.save.saveId, nextCareer);
       return { save: current.save, career: nextCareer };
     });
-  }, []);
+  }, [setValue]);
 
   if (!value) {
     // A persistence fault must not present as an endless blank load.

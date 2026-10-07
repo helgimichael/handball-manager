@@ -32,9 +32,10 @@ export const CAREER_NAV_ITEMS: readonly CareerNavItem[] = [
   { id: "home", label: "Hem", href: "/career", icon: "home", ownsPrefixes: [] },
   { id: "inbox", label: "Inkorg", href: "/career/inbox", icon: "inbox", ownsPrefixes: [] },
   { id: "squad", label: "Trupp", href: "/career/squad", icon: "squad", ownsPrefixes: ["/career/squad/"] },
+  { id: "contracts", label: "Kontrakt", href: "/career/contracts", icon: "transfers", ownsPrefixes: ["/career/compare"] },
   { id: "tactics", label: "Taktik", href: "/career/tactics", icon: "tactics", ownsPrefixes: [] },
   { id: "training", label: "Träning", href: "/career/training", icon: "training", ownsPrefixes: [] },
-  { id: 'replays', label: 'Matchrepriser', href: '/career/match-2d', icon: 'schedule', ownsPrefixes: [] },
+  { id: 'calendar', label: 'Kalender', href: '/career/calendar', icon: 'schedule', ownsPrefixes: [] },
   // Schedule is the canonical fixture surface (Spec §5/§6) -- it also
   // owns the contextual match workflow reached from it (Preview/Day/
   // Report), and the legacy /career/matches route (redirected, Spec §7).
@@ -43,16 +44,19 @@ export const CAREER_NAV_ITEMS: readonly CareerNavItem[] = [
     label: "Schema",
     href: "/career/schedule",
     icon: "schedule",
-    ownsPrefixes: ["/career/matches", "/career/match-preview", "/career/match-day/", "/career/match-report/"],
+    ownsPrefixes: ["/career/matches", "/career/match-preview", "/career/match-day/", "/career/match-report/", "/career/match-2d", "/career/fixtures/"],
   },
   { id: "analysis", label: "Analys", href: "/career/analysis", icon: "analysis", ownsPrefixes: ["/career/analysis/"] },
+  { id: "players", label: "Spelarsök", href: "/career/players", icon: "scouting", ownsPrefixes: [] },
   { id: "scouting", label: "Scouting", href: "/career/scouting", icon: "scouting", ownsPrefixes: [] },
   { id: "recruitment", label: "Rekrytering", href: "/career/recruitment", icon: "recruitment", ownsPrefixes: [] },
   { id: "transfers", label: "Transfers", href: "/career/transfers", icon: "transfers", ownsPrefixes: [] },
   { id: "staff", label: "Personal", href: "/career/staff", icon: "staff", ownsPrefixes: ["/career/staff/"] },
   { id: "medical", label: "Medicinskt", href: "/career/medical", icon: "medical", ownsPrefixes: [] },
-  { id: "club", label: "Klubb", href: "/career/club", icon: "club", ownsPrefixes: [] },
-  { id: "competitions", label: "Tävlingar", href: "/career/competitions", icon: "competitions", ownsPrefixes: [] },
+  { id: "club", label: "Klubb", href: "/career/club", icon: "club", ownsPrefixes: ["/career/club/", "/career/clubs/"] },
+  { id: "competitions", label: "Tävlingar", href: "/career/competitions", icon: "competitions", ownsPrefixes: ["/career/competitions/"] },
+  { id: "statistics", label: "Statistik", href: "/career/statistics", icon: "analysis", ownsPrefixes: [] },
+  { id: "history", label: "Historik", href: "/career/history", icon: "schedule", ownsPrefixes: [] },
 ];
 
 /** The one primary nav item `pathname` belongs to, or `undefined` for a route no primary area owns (e.g. the dev-only /career/match-center demo, or /editor). Never returns more than one id -- exact-href match wins first, then the longest matching owns-prefix, so a route can never highlight two primary sections at once (Spec §23). */

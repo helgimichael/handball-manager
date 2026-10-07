@@ -37,6 +37,8 @@ export interface PlayerContract {
   /** ISO date. */
   contractEndDate: string;
   wageEurPerMonth: number;
+  /** A real agreement must survive legacy formula recalibration on load. */
+  wageAgreed?: boolean;
 }
 
 /** Contract-status day-count thresholds, counting down from contractEndDate. */

@@ -110,7 +110,13 @@ export function recalibratePlayerContractWages(state: CareerState): CareerState 
 
   let changed = false;
   const nextContracts: Record<string, PlayerContract> = {};
+  const transferAgreements = new Set(Object.values(state.transferOffers ?? {}).filter(offer => offer.status === 'COMPLETED').map(offer => `${offer.playerId}:${offer.toClubId}:${offer.newWageEurPerMonth}`));
+  const activeLoanPlayers = new Set(Object.values(state.loans ?? {}).filter(loan => loan.active).map(loan => loan.playerId));
   for (const [playerId, contract] of entries) {
+    if (contract.wageAgreed || transferAgreements.has(`${playerId}:${contract.clubId}:${contract.wageEurPerMonth}`) || activeLoanPlayers.has(playerId)) {
+      nextContracts[playerId] = contract;
+      continue;
+    }
     const player = getCareerPlayer(state, playerId);
     const economyInputs = player ? buildEconomyProfileInputs(state, player) : null;
     if (!economyInputs) {

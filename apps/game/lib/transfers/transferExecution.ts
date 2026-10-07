@@ -110,7 +110,7 @@ export function transferPlayerPermanently(state: CareerState, playerId: string, 
   next = moveSquadMembership(next, player, fromClubId, toClubId);
   next = moveGameplayRating(next, playerId, fromClubId, toClubId);
 
-  const newContract: PlayerContract = { playerId, clubId: toClubId, contractEndDate: newContractEndDate, wageEurPerMonth: newWageEurPerMonth };
+  const newContract: PlayerContract = { playerId, clubId: toClubId, contractEndDate: newContractEndDate, wageEurPerMonth: newWageEurPerMonth, wageAgreed: true };
   next = { ...next, playerContracts: { ...next.playerContracts, [playerId]: newContract } };
 
   const ageNow = playerAgeAtDate(player.dateOfBirth, player.birthYear, state.gameDate);

@@ -23,5 +23,5 @@ export function renewPlayerContract(state: CareerState, playerId: string, years 
   const seasonEndYear = state.gameDate.slice(5) > '05-31' ? year + 1 : year;
   const contractEndDate = `${seasonEndYear + years}-05-31`;
   if (contractEndDate <= current.contractEndDate) throw new Error('Spelaren har redan ett avtal som gäller minst så länge. Välj en längre period.');
-  return { ...state, playerContracts: { ...state.playerContracts, [playerId]: { ...current, contractEndDate, wageEurPerMonth: Math.round(wage * 100) / 100 } } };
+  return { ...state, playerContracts: { ...state.playerContracts, [playerId]: { ...current, contractEndDate, wageEurPerMonth: Math.round(wage * 100) / 100, wageAgreed: true } } };
 }
