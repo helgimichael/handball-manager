@@ -1,0 +1,42 @@
+import type { CSSProperties } from 'react';
+import type { CoreEvent, CorePlayer, Role, TeamId } from '@handball-manager/handball-engine/src/v2/core/state';
+import type { MatchCommand, ProductionMatchSession } from '@/lib/career/productionMatch';
+import { getClub } from '@/lib/game-data';
+import { CoachingChoices } from './CoachingChoices';
+
+const ROLE_LABEL: Record<Role, string> = { LW: 'V6', LB: 'V9', CB: 'M9', RB: 'H9', RW: 'H6', P: 'M6', P2: 'M6', GK: 'MV' };
+const EVENT_LABEL: Record<string, string> = { GOAL: 'Mål', SAVE_CAUGHT: 'Räddning', SAVE_PARRY: 'Räddning', TWO_MINUTE_SUSPENSION: 'Två minuter', DISQUALIFICATION: 'Rött kort', EXCHANGE_COMPLETED: 'Byte klart', TEAM_TIMEOUT_STARTED: 'Timeout', TACTICS_CHANGED: 'Taktiken ändras' };
+
+export function LiveCoachPanel({ session, team, busy, outId, inId, onOut, onIn, onSubstitute, onCommand, recent }: { session: ProductionMatchSession; team: TeamId; busy: boolean; outId: string; inId: string; onOut: (id: string) => void; onIn: (id: string) => void; onSubstitute: () => void; onCommand: (command: MatchCommand) => void; recent: readonly CoreEvent[] }) {
+  const core = session.core;
+  const disabled = busy || !!session.error || core.status !== 'RUNNING';
+  const court = core.players.filter(p => p.team === team && p.population === 'COURT');
+  const outgoing = court.find(p => p.id === outId);
+  const pending = core.exchanges.find(e => e.team === team && e.phase !== 'COMPLETED' && e.phase !== 'CANCELLED');
+  const replacements = outgoing ? core.players.filter(p => p.team === team && p.population === 'BENCH' && !p.condition.unavailable && !p.condition.exitRequired && !(p.condition.attacksRemaining > 0) && p.kind === outgoing.kind) : [];
+  const incoming = replacements.find(p => p.id === inId);
+  const usedTimeout = core.referee.teamTimeouts[team].includes(core.period);
+  const match = core.match;
+  const timeoutReason = disabled ? 'Matchen är stoppad.' : core.referee.timeout ? 'Spelavbrott pågår.' : match?.phase === 'PREMATCH' ? 'Timeout blir tillgänglig efter avkast och vid eget bollinnehav.' : !match || !['FIRST_HALF', 'SECOND_HALF'].includes(match.phase) ? 'Timeout under pågående halvlek.' : usedTimeout ? 'Din timeout i halvleken är använd.' : core.referee.resumeOnWhistle ? 'Vänta på domarens signal.' : core.possession.team !== team ? 'Timeout kräver eget bollinnehav.' : core.officialClock.timeMs - match.periodStartMs >= match.periodLengthMs ? 'Halvleken är slut.' : null;
+  const timeoutEvent = [...core.events].reverse().find(e => e.type === 'TEAM_TIMEOUT_STARTED');
+  const timeoutTeam = timeoutEvent?.details.team as TeamId | undefined;
+  const timeoutOwnerId = timeoutTeam === 'HOME' ? session.fixture.homeClubId : session.fixture.awayClubId;
+  const possessionClubId = core.possession.team === 'HOME' ? session.fixture.homeClubId : session.fixture.awayClubId;
+  const tactics = core.coaching[team];
+  const personName = (id: string | null) => session.people.find(p => p.id === id)?.name ?? 'Spelare';
+
+  function playerButton(player: CorePlayer, direction: 'out' | 'in') {
+    const person = session.people.find(p => p.id === player.id);
+    const energy = Math.round(player.condition.energy * 100);
+    const selected = player.id === (direction === 'out' ? outId : inId);
+    return <button type="button" key={player.id} className="coach-live-player" aria-label={`${direction === 'out' ? 'Byt ut' : 'Byt in'} ${person?.name ?? player.id}`} aria-pressed={selected} data-active={selected} disabled={disabled || !!pending} onClick={() => direction === 'out' ? onOut(player.id) : onIn(player.id)}><span className="coach-live-number">{person?.number ?? '—'}</span><span><strong>{person?.name ?? player.id}</strong><small>{ROLE_LABEL[player.role]} · {energy}% energi</small></span><i className="coach-live-energy" data-low={energy < 70} style={{ '--coach-energy': `${Math.max(0, Math.min(100, energy))}%` } as CSSProperties} aria-hidden="true" /></button>;
+  }
+  return <aside className="game-sideline coach-live-panel" aria-label="Dina matchbeslut"><header className="coach-live-heading"><span className="hm-eyebrow">Vid sidlinjen</span><h2>Dina matchbeslut</h2><div className="coach-live-possession"><span>Bollinnehav</span><strong>{getClub(possessionClubId)?.shortName ?? possessionClubId}</strong></div></header>
+    <section className="coach-live-tactics"><CoachingChoices defence={tactics.defence} tempo={tactics.tempo} attack={tactics.attackIdentity} disabled={disabled} onDefence={value => onCommand({ kind: 'TACTICS', team, patch: { defence: value } })} onTempo={value => onCommand({ kind: 'TACTICS', team, patch: { tempo: value } })} onAttack={value => onCommand({ kind: 'TACTICS', team, patch: { attackIdentity: value } })} /></section>
+    <section className="coach-timeout" data-active={core.referee.timeout?.reason === 'TEAM_TIMEOUT'}><div><strong>{core.referee.timeout?.reason === 'TEAM_TIMEOUT' ? `Timeout · ${getClub(timeoutOwnerId)?.shortName ?? 'Laget'}` : `Timeout · halvlek ${core.period}`}</strong><span>{usedTimeout ? 'Använd i denna halvlek' : '1 timeout kvar i halvleken'}</span></div><button type="button" className="hm-btn" aria-label="Timeout" disabled={!!timeoutReason} title={timeoutReason ?? 'Ta timeout vid eget bollinnehav'} onClick={() => onCommand({ kind: 'TIMEOUT', team })}>Timeout</button><p>{timeoutReason ?? 'Tillgänglig vid eget bollinnehav.'}</p></section>
+    <section className="coach-live-substitution"><header><h3>Byten</h3><span>{pending ? 'Byte pågår' : 'Välj spelare på planen'}</span></header>{pending ? <div className="coach-pending-exchange" role="status"><strong>{personName(pending.outId)} → {personName(pending.inId)}</strong><p>{pending.phase === 'WAIT_EXIT' ? 'Spelaren lämnar planen innan ersättaren går in.' : 'Ersättaren är på väg in.'}</p></div> : <><div className="coach-live-out-list" aria-label="Spelare ut">{court.map(p => playerButton(p, 'out'))}</div>{outgoing && <div className="coach-live-in"><span className="hm-eyebrow">Ersätt {personName(outgoing.id)} · {ROLE_LABEL[outgoing.role]}</span><div className="coach-live-in-list" aria-label="Spelare in">{replacements.map(p => playerButton(p, 'in'))}</div>{!replacements.length && <p className="coach-small-empty">Ingen tillgänglig ersättare på bänken.</p>}<div className="coach-sub-confirm">{incoming && <p>{personName(outgoing.id)} <b>→</b> {personName(incoming.id)}</p>}<button type="button" className="hm-btn hm-btn-primary" disabled={disabled || !outgoing || !incoming} onClick={onSubstitute}>Genomför byte</button></div></div>}</>}
+      <details className="coach-bench-status"><summary>Bänk & tillgänglighet ({core.players.filter(p => p.team === team && p.population !== 'COURT').length})</summary>{core.players.filter(p => p.team === team && p.population !== 'COURT').map(p => <p key={p.id}><strong>{personName(p.id)}</strong><span>{p.population === 'DISQUALIFIED' ? 'Rött kort' : p.population === 'SUSPENDED' ? 'Utvisad' : p.condition.unavailable || p.condition.exitRequired ? 'Ej tillgänglig' : p.condition.attacksRemaining > 0 ? 'Väntar på återinträde' : 'Bänk'} · {Math.round(p.condition.energy * 100)}%</span></p>)}</details>
+    </section>
+    <section className="coach-live-events"><h3>Från planen</h3>{recent.length ? recent.map(event => <div className="coach-live-event" key={event.id}><time>{Math.floor(event.officialMs / 60000)}′</time><div><strong>{EVENT_LABEL[event.type] ?? 'Matchhändelse'}</strong><span>{event.actorId ? personName(event.actorId) : event.details.team === 'HOME' ? getClub(session.fixture.homeClubId)?.shortName : event.details.team === 'AWAY' ? getClub(session.fixture.awayClubId)?.shortName : ''}</span></div></div>) : <p className="coach-small-empty">Matchens händelser visas här från avkast.</p>}</section>
+  </aside>;
+}

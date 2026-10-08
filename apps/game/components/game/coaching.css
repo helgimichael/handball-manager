@@ -1,0 +1,123 @@
+.coach-preparation { min-width: 0; }
+.coach-fixture-strip { display: flex; justify-content: space-between; align-items: center; gap: 25px; background: #e2e5dd; border-top: 3px solid var(--game-ink); padding: 14px 20px; margin-bottom: 20px; }
+.coach-fixture-strip > div:first-child { display: flex; align-items: center; gap: 15px; font-size: 15px; }
+.coach-fixture-strip > div:first-child > span { color: var(--hm-text-muted); font-size: 11px; }
+.coach-fixture-strip > div:last-child { display: grid; gap: 6px; text-align: right; }
+.coach-fixture-strip > div:last-child span { font-size: 11px; color: var(--hm-text-secondary); }
+.coach-preparation-layout { display: grid; grid-template-columns: minmax(0, 1.45fr) minmax(370px, .75fr); gap: 22px; align-items: start; }
+.coach-lineup, .coach-gameplan, .coach-replacements, .coach-roster { min-width: 0; background: var(--hm-surface-1); }
+.coach-section-heading { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; padding: 15px 18px; border-top: 3px solid var(--game-ink); border-bottom: 1px solid var(--hm-border); }
+.coach-section-heading h2 { font-family: var(--game-font-display); font-weight: 400; font-size: 25px; line-height: 1; text-transform: uppercase; margin: 0; }
+.coach-section-heading > span { font-size: 10px; color: var(--hm-text-secondary); text-align: right; }
+.coach-court { height: 425px; position: relative; color: #8ca7b4; background: #173147; overflow: hidden; }
+.coach-court > svg { width: 100%; height: 100%; position: absolute; }
+.coach-court-direction { position: absolute; top: 24px; left: 50%; transform: translateX(-50%); padding: 3px 8px; background: #173147; font-size: 9px; line-height: 1.4; font-weight: 700; letter-spacing: .13em; white-space: nowrap; color: #bfcdd5; }
+.coach-court-slot { position: absolute; transform: translate(-50%, -50%); }
+.coach-position { border: 2px solid #e0e3dd; background: #f2f0e6; color: var(--game-ink); display: grid; grid-template-columns: 45px minmax(0, 1fr); align-items: center; column-gap: 9px; padding: 9px 11px; width: 172px; min-height: 83px; font: inherit; text-align: left; cursor: pointer; position: relative; }
+.coach-position .game-player-glyph { grid-row: 1 / 4; }
+.coach-position-code { font-size: 10px; font-weight: 800; color: #7e512e; }
+.coach-position strong { font-size: 13px; line-height: 1.3; overflow-wrap: anywhere; }
+.coach-position small { font-size: 9px; color: #63727c; margin-top: 3px; }
+.coach-position[data-active="true"] { border-color: #de784a; background: #f8e4d3; box-shadow: 0 0 0 3px #cf6c3926; }
+.coach-position:hover { border-color: var(--game-signal); }
+.coach-position:focus-visible, .coach-choice-options button:focus-visible, .coach-candidate-list button:focus-visible, .coach-live-player:focus-visible { outline: 3px solid var(--game-signal); outline-offset: 3px; }
+.coach-goalkeeper { display: flex; align-items: center; gap: 20px; padding: 12px 18px; background: #e1e5dc; border-top: 1px solid #c1ccc1; }
+.coach-goalkeeper > span { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .07em; max-width: 10ch; }
+.coach-goalkeeper .coach-position { min-height: 65px; width: 245px; }
+.coach-goalkeeper > div:last-child { margin-left: auto; display: grid; gap: 5px; }
+.coach-goalkeeper > div:last-child strong { font-family: var(--game-font-display); font-size: 28px; font-weight: 400; }
+.coach-goalkeeper > div:last-child small { font-size: 10px; color: var(--hm-text-muted); }
+.coach-plan-rail { display: grid; gap: 14px; min-width: 0; }
+.coach-plan-rail .coach-section-heading { padding: 12px 16px; }
+.coach-plan-rail .coach-tactic-choices { padding: 12px 16px; gap: 10px; }
+.coach-plan-rail .coach-choice-group legend { margin-bottom: 6px; }
+.coach-plan-rail .coach-choice-options button { min-height: 32px; padding: 7px; line-height: 1.2; }
+.coach-plan-rail .coach-choice-options button > svg { height: 16px; width: 46px; }
+.coach-plan-rail .coach-active-plan { padding: 10px 16px; }
+.coach-tactic-choices { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 18px; }
+.coach-choice-group { min-width: 0; margin: 0; padding: 0; border: 0; }
+.coach-choice-group:last-child { grid-column: 1 / -1; }
+.coach-choice-group legend { font-size: 10px; font-weight: 750; text-transform: uppercase; letter-spacing: .08em; margin-bottom: 8px; }
+.coach-choice-options { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; }
+.coach-choice-options button { display: flex; align-items: center; justify-content: center; position: relative; gap: 8px; padding: 10px 9px; min-height: 36px; border: 1px solid #bbc5c0; background: #eeeFE8; color: var(--game-ink); font: inherit; font-size: 11px; font-weight: 600; cursor: pointer; }
+.coach-choice-options button > svg { width: 52px; height: 20px; }
+.coach-choice-options button > i { font-size: 9px; font-style: normal; }
+.coach-choice-options button[data-active="true"] { background: #182c40; border-color: #182c40; color: #fff3e6; box-shadow: inset 0 -3px var(--game-signal); }
+.coach-choice-options button:disabled, .coach-choice-group:disabled button, .coach-live-player:disabled { cursor: not-allowed; opacity: .55; }
+.coach-active-plan { margin: 0; padding: 13px 18px; background: #e9e3d7; border-top: 1px solid #d0c8b9; font-size: 11px; font-weight: 650; }
+.coach-current-player { padding: 12px 16px; display: flex; justify-content: space-between; align-items: center; gap: 12px; background: #e6e8df; }
+.coach-current-player .hm-eyebrow { max-width: 8ch; }
+.coach-replacements > p { font-size: 11px; line-height: 1.6; padding: 0 16px; margin: 10px 0; color: var(--hm-text-secondary); }
+.coach-candidate-list { max-height: 180px; overflow-y: auto; }
+.coach-candidate-list button { display: flex; width: 100%; align-items: center; gap: 12px; border: 0; border-top: 1px solid var(--hm-border-subtle); border-left: 3px solid transparent; background: transparent; color: var(--game-ink); font: inherit; padding: 8px 16px; text-align: left; cursor: pointer; }
+.coach-candidate-list button > span:nth-child(2) { display: grid; gap: 4px; }
+.coach-candidate-list button strong { font-size: 12px; }
+.coach-candidate-list button small { font-size: 10px; color: var(--hm-text-muted); }
+.coach-candidate-list button b { margin-left: auto; font-size: 12px; }
+.coach-candidate-list button[data-active="true"] { background: #f2e2d3; border-left-color: var(--game-signal); }
+.coach-candidate-list button:hover { background: #ecece3; }
+.coach-roster-layout { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: 22px; margin-top: 22px; align-items: start; }
+.coach-roster-table th, .coach-roster-table td { padding-left: 11px; padding-right: 11px; }
+.coach-roster-table [data-starter="true"] td:first-child { border-left: 3px solid var(--game-signal); }
+.coach-roster-table [data-unavailable="true"] { background: #f0dfda; }
+.coach-roster-table .game-player-cell { min-width: 170px; }
+.coach-energy { display: flex; align-items: center; gap: 8px; }
+.coach-energy strong { font-size: 11px; }
+.coach-energy meter { width: 55px; height: 8px; accent-color: #416c53; }
+.coach-energy[data-low="true"] meter { accent-color: #a15e34; }
+.coach-small-empty { padding: 10px 0; color: var(--hm-text-secondary); font-size: 11px; line-height: 1.6; }
+.coach-roster .coach-small-empty { padding: 20px; }
+.coach-empty { background: #e4e7df; border-top: 4px solid var(--game-ink); padding: 32px; }
+.coach-empty h2 { font-family: var(--game-font-display); font-size: 35px; font-weight: 400; text-transform: uppercase; margin: 12px 0; }
+.coach-empty p { max-width: 70ch; font-size: 13px; line-height: 1.7; }
+.game-live-layout.coach-live-layout { grid-template-columns: minmax(0, 1fr) 400px; }
+.game-sideline.coach-live-panel { padding: 0; background: #f0f0e6; border-top: 4px solid var(--game-signal); }
+.coach-live-heading { background: #e1e5dc; padding: 16px 18px 13px; border-bottom: 1px solid #c2c9bd; }
+.coach-live-heading h2 { font-family: var(--game-font-display); font-size: 27px; font-weight: 400; text-transform: uppercase; margin: 6px 0 12px; }
+.coach-live-possession { display: flex; align-items: baseline; gap: 12px; font-size: 11px; }
+.coach-live-possession > span { color: var(--hm-text-secondary); }
+.coach-live-panel .coach-tactic-choices { padding: 14px 16px; gap: 12px; }
+.coach-live-panel .coach-choice-options button { padding: 8px 7px; min-height: 33px; font-size: 10px; gap: 5px; }
+.coach-live-panel .coach-choice-options button > svg { width: 38px; }
+.coach-timeout { border-top: 1px solid #cbd0c4; border-bottom: 1px solid #cbd0c4; padding: 13px 16px; display: grid; grid-template-columns: 1fr auto; gap: 8px 10px; background: #e4e6dc; }
+.coach-timeout > div { display: grid; gap: 4px; }
+.coach-timeout strong { font-size: 12px; }
+.coach-timeout span { color: var(--hm-text-secondary); font-size: 10px; }
+.coach-timeout p { grid-column: 1 / -1; font-size: 10px; margin: 0; color: var(--hm-text-muted); }
+.coach-timeout[data-active="true"] { background: #f4e2ce; border-left: 4px solid var(--game-signal); }
+.coach-live-substitution { padding: 14px 16px; }
+.coach-live-substitution > header { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; margin-bottom: 10px; }
+.coach-live-substitution h3, .coach-live-events h3 { font-size: 11px; text-transform: uppercase; margin: 0; letter-spacing: .07em; }
+.coach-live-substitution > header > span { font-size: 10px; color: var(--hm-text-secondary); }
+.coach-live-out-list { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; }
+.coach-live-player { min-width: 0; position: relative; display: flex; align-items: center; gap: 8px; padding: 9px 8px 10px; background: #faf9f1; border: 1px solid #c5cec1; color: var(--game-ink); font: inherit; text-align: left; cursor: pointer; overflow: hidden; }
+.coach-live-number { width: 25px; flex-shrink: 0; text-align: center; font-family: var(--game-font-display); font-size: 24px; }
+.coach-live-player > span:nth-child(2) { display: grid; gap: 4px; min-width: 0; }
+.coach-live-player strong { font-size: 10px; line-height: 1.3; overflow-wrap: anywhere; }
+.coach-live-player small { color: var(--hm-text-secondary); font-size: 9px; }
+.coach-live-player[data-active="true"] { background: #f7e1ce; border-color: #b85a31; }
+.coach-live-energy { height: 3px; width: var(--coach-energy); background: #657d60; position: absolute; bottom: 0; left: 0; }
+.coach-live-energy[data-low="true"] { background: #ae6939; }
+.coach-live-in { margin-top: 14px; border-top: 2px solid #bac7b5; padding-top: 12px; }
+.coach-live-in > .hm-eyebrow { font-size: 9px; }
+.coach-live-in-list { display: grid; gap: 5px; max-height: 195px; overflow-y: auto; margin-top: 9px; }
+.coach-live-in-list .coach-live-player { min-height: 48px; }
+.coach-sub-confirm { margin-top: 10px; }
+.coach-sub-confirm p { font-size: 11px; line-height: 1.5; margin: 0 0 9px; }
+.coach-sub-confirm p b { color: var(--game-signal); margin: 0 5px; }
+.coach-sub-confirm .hm-btn { width: 100%; }
+.coach-pending-exchange { border-left: 3px solid var(--game-signal); padding: 12px; background: #e8e2d5; font-size: 11px; }
+.coach-pending-exchange p { color: var(--hm-text-secondary); font-size: 10px; line-height: 1.6; margin: 6px 0 0; }
+.coach-bench-status { border-top: 1px solid #c8cfc2; margin-top: 12px; padding-top: 10px; font-size: 10px; }
+.coach-bench-status summary { cursor: pointer; font-weight: 650; }
+.coach-bench-status p { display: grid; gap: 3px; padding: 7px 0; border-bottom: 1px solid #d4d9ce; margin: 0; }
+.coach-bench-status p span { color: var(--hm-text-secondary); }
+.coach-live-events { border-top: 1px solid #c7cdc1; padding: 13px 16px; max-height: 260px; overflow-y: auto; }
+.coach-live-event { display: flex; align-items: start; gap: 14px; border-bottom: 1px solid #d1d6ca; padding: 11px 0; font-size: 11px; }
+.coach-live-event > time { width: 25px; flex-shrink: 0; color: var(--game-signal); font-weight: 750; }
+.coach-live-event > div { display: grid; gap: 4px; }
+.coach-live-event span { color: var(--hm-text-secondary); font-size: 10px; }
+@media (min-width: 2200px) { .coach-preparation-layout { grid-template-columns: minmax(0, 1.55fr) minmax(440px, .8fr); gap: 28px; } .coach-court { height: 455px; } .coach-position { width: 190px; min-height: 92px; } .coach-roster-layout { grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 28px; } .game-live-layout.coach-live-layout { grid-template-columns: minmax(0, 1fr) 460px; } .coach-live-player strong { font-size: 11px; } }
+@media (max-width: 1350px) { .coach-preparation-layout { grid-template-columns: minmax(0, 1fr) 340px; gap: 15px; } .coach-position { width: 145px; grid-template-columns: 34px minmax(0, 1fr); column-gap: 6px; padding: 8px; } .coach-position .game-player-glyph { --glyph-size: 36px !important; } .coach-position strong { font-size: 11px; } .coach-roster-layout { grid-template-columns: 1fr; } .coach-goalkeeper { gap: 10px; } .coach-goalkeeper .coach-position { width: 180px; } .game-live-layout.coach-live-layout { grid-template-columns: minmax(0, 1fr) 350px; gap: 16px; } }
+@media (max-width: 1050px) { .coach-preparation-layout, .game-live-layout.coach-live-layout { grid-template-columns: 1fr; } .coach-plan-rail { grid-template-columns: 1fr 1fr; } .coach-live-out-list { grid-template-columns: repeat(4, minmax(0, 1fr)); } .coach-live-in-list { grid-template-columns: 1fr 1fr; } .coach-fixture-strip { flex-wrap: wrap; } }
+@media (max-width: 750px) { .coach-plan-rail { grid-template-columns: 1fr; } .coach-position { width: 112px; padding: 7px; grid-template-columns: 25px minmax(0, 1fr); } .coach-position .game-player-glyph { --glyph-size: 28px !important; } .coach-position strong { font-size: 10px; } .coach-court { height: 370px; } .coach-fixture-strip > div:first-child { flex-wrap: wrap; gap: 10px; } .coach-live-out-list { grid-template-columns: 1fr 1fr; } }
