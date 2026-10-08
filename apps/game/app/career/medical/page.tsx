@@ -1,96 +1,39 @@
 "use client";
-
-// HM-INJURIES-1.0 Part 32: a simple, compact medical workspace -- every
-// injured player, their injury, severity, status, estimated return,
-// rehab progress, plus the club's own resolved medical staff quality.
-// No full medical center (Part 32/48).
-import Link from "next/link";
-import { useCareer } from "@/lib/career/CareerContext";
-import { getCareerClub, getCareerSquad } from "@/lib/career/careerWorld";
-import { resolveStatusLabel } from "@/lib/career/playerStatus";
-import { computeMedicalRehabQuality, findBestPhysio } from "@/lib/medical/medicalStaffQuality";
-import { INJURY_SEVERITY_LABELS, INJURY_TYPE_LABELS, REHAB_PHASE_LABELS } from "@/lib/medical/labels";
+import Link from 'next/link';
+import { useCareer } from '@/lib/career/CareerContext';
+import { getCareerClub,getCareerSquad } from '@/lib/career/careerWorld';
+import { getNextPlayerFixture } from '@/lib/career/calendar';
+import { isSelectableForMatch } from '@/lib/career/playerStatus';
+import { computeMedicalRehabQuality,findBestPhysio } from '@/lib/medical/medicalStaffQuality';
+import { INJURY_SEVERITY_LABELS,INJURY_TYPE_LABELS,REHAB_PHASE_LABELS } from '@/lib/medical/labels';
+import { SectionScene,SceneEmpty,StaffMark } from '@/components/game/Secondary';
+import { PlayerCell,playerAvailabilityLabel } from '@/components/game/Identity';
+import ClubCrest from '@/components/ClubCrest';
+import { Panel } from '@/components/manager/Workspace';
+import { PlayerLink,ClubLink } from '@/components/entityLinks';
+import { getClub } from '@/lib/game-data';
 
 export default function MedicalPage() {
-  const { career } = useCareer();
-  const club = getCareerClub(career);
-  const squad = getCareerSquad(career);
-  const roster = career.staffRoster[career.playerClubId] ?? [];
-  const physio = findBestPhysio(roster);
-  const medicalQuality = computeMedicalRehabQuality(roster);
-
-  const injuredPlayers = squad
-    .map((p) => ({ player: p, injuryState: career.playerInjuries[p.id] }))
-    .filter((entry) => entry.injuryState?.activeInjury);
-
-  return (
-    <div className="hm-grid" style={{ gap: 12 }}>
-      <div className="hm-panel">
-        <div className="hm-panel-header">
-          <span className="hm-panel-title">Medicinsk avdelning — {club.name}</span>
-        </div>
-        <div className="hm-panel-body" style={{ display: "flex", gap: 28 }}>
-          <div>
-            <div className="hm-eyebrow">Ansvarig fysio</div>
-            <div style={{ fontSize: "var(--hm-text-md)", fontWeight: 800 }}>{physio?.displayName ?? "Ingen"}</div>
-          </div>
-          <div>
-            <div className="hm-eyebrow">Rehabkvalitet</div>
-            <div style={{ fontSize: "var(--hm-text-md)", fontWeight: 800 }}>{medicalQuality.toFixed(2)}x</div>
-          </div>
-          <div>
-            <div className="hm-eyebrow">Skadade spelare</div>
-            <div style={{ fontSize: "var(--hm-text-md)", fontWeight: 800 }}>{injuredPlayers.length}</div>
-          </div>
-        </div>
+  const { career }=useCareer();
+  const club=getCareerClub(career),squad=getCareerSquad(career);
+  const roster=career.staffRoster[career.playerClubId] ?? [];
+  const physio=findBestPhysio(roster),medicalQuality=computeMedicalRehabQuality(roster);
+  const injured=squad.map(player => ({player,injury:career.playerInjuries[player.id]?.activeInjury})).filter(e => e.injury).sort((a,b) => a.injury!.expectedReturnDate.localeCompare(b.injury!.expectedReturnDate));
+  const available=squad.filter(p => isSelectableForMatch(career.playerStatuses,p.id));
+  const recoveries=squad.flatMap(player => (career.playerInjuries[player.id]?.injuryHistory ?? []).map(injury => ({player,injury}))).sort((a,b) => b.injury.returnDate.localeCompare(a.injury.returnDate)).slice(0,5);
+  const next=getNextPlayerFixture(career);
+  const opponentId=next ? next.homeClubId===club.id ? next.awayClubId : next.homeClubId : null;
+  return <div className="game-secondary-page">
+    <SectionScene eyebrow={`${club.name} · ${career.gameDate}`} title="Medicinskt" description="Tillgänglighet, rehabilitering och beräknad återgång. Följ spelarnas väg tillbaka till laget." mark={<ClubCrest shortName={club.shortName} primaryColor={club.primaryColor} size={72} />} actions={<><Link className="hm-btn hm-btn-sm" href="/career/training">Belastning & återhämtning →</Link><Link className="hm-btn hm-btn-sm" href="/career/squad">Truppens status →</Link></>}><div><strong>{injured.length}</strong><small>aktiva skador</small></div><div><strong>{available.length}/{squad.length}</strong><small>tillgängliga för uttagning</small></div></SectionScene>
+    <div className="game-secondary-split">
+      <div className="game-secondary-main">
+        {injured.length ? <Panel title="Aktiva skador · beräknad återgång"><div className="hm-scroll-x"><table className="hm-table"><thead><tr><th>Spelare</th><th>Skada</th><th>Allvarlighetsgrad</th><th>Status</th><th>Rehabfas</th><th>Rehabframsteg</th><th>Beräknad återkomst</th></tr></thead><tbody>{injured.map(({player,injury}) => <tr key={player.id}><td><PlayerCell player={player} /></td><td>{INJURY_TYPE_LABELS[injury!.injuryType]}</td><td>{INJURY_SEVERITY_LABELS[injury!.severity]}</td><td><span className="hm-badge hm-badge-negative">{playerAvailabilityLabel(career,player.id)}</span></td><td>{REHAB_PHASE_LABELS[injury!.currentPhase]}</td><td><div className="game-medical-progress"><progress max={1} value={injury!.rehabProgress} aria-label={`Rehabilitering: ${player.firstName} ${player.lastName}`} /><span>{Math.round(injury!.rehabProgress*100)}%</span></div></td><td>{injury!.expectedReturnDate}</td></tr>)}</tbody></table></div></Panel> : <SceneEmpty title="Inga aktiva skador" actions={<Link className="hm-btn hm-btn-sm" href="/career/training">Planera återhämtningen →</Link>}>Truppen har inga registrerade aktiva skador. Belastning och återhämtning följs i träningsveckan; övrig tillgänglighet syns i truppen.</SceneEmpty>}
+        <Panel title="Senaste återgångar">{recoveries.length ? <ul className="game-medical-history">{recoveries.map(({player,injury}) => <li key={injury.injuryId}><PlayerLink playerId={player.id}>{player.firstName} {player.lastName}</PlayerLink><small>{INJURY_TYPE_LABELS[injury.injuryType]} · återgång {injury.returnDate}</small></li>)}</ul> : <div className="hm-panel-body hm-text-muted">Ingen avslutad rehabilitering registrerad ännu.</div>}</Panel>
       </div>
-
-      <div className="hm-panel">
-        <div className="hm-panel-header">
-          <span className="hm-panel-title">Aktiva skador</span>
-        </div>
-        {injuredPlayers.length === 0 ? (
-          <div className="hm-panel-body hm-text-muted">Inga aktiva skador i truppen.</div>
-        ) : (
-          <div className="hm-scroll-x">
-            <table className="hm-table">
-              <thead>
-                <tr>
-                  <th>Spelare</th>
-                  <th>Skada</th>
-                  <th>Allvarlighetsgrad</th>
-                  <th>Status</th>
-                  <th>Rehabfas</th>
-                  <th className="hm-table-num">Rehabframsteg</th>
-                  <th>Beräknad återkomst</th>
-                </tr>
-              </thead>
-              <tbody>
-                {injuredPlayers.map(({ player, injuryState }) => {
-                  const injury = injuryState!.activeInjury!;
-                  return (
-                    <tr key={player.id} data-clickable="true">
-                      <td className="hm-td-strong">
-                        <Link href={`/career/squad/${player.id}`}>
-                          {player.firstName} {player.lastName}
-                        </Link>
-                      </td>
-                      <td>{INJURY_TYPE_LABELS[injury.injuryType]}</td>
-                      <td>{INJURY_SEVERITY_LABELS[injury.severity]}</td>
-                      <td>
-                        <span className="hm-badge hm-badge-negative">{resolveStatusLabel(career.playerStatuses, player)}</span>
-                      </td>
-                      <td>{REHAB_PHASE_LABELS[injury.currentPhase]}</td>
-                      <td className="hm-table-num">{Math.round(injury.rehabProgress * 100)}%</td>
-                      <td className="hm-text-muted">{injury.expectedReturnDate}</td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
-        )}
-      </div>
+      <aside className="game-secondary-rail">
+        <Panel title="Ansvarig fysio"><div className="hm-panel-body">{physio ? <div className="game-staff-cell"><StaffMark name={physio.displayName} size={52} /><div><Link href={`/career/staff/${encodeURIComponent(physio.id)}`}>{physio.displayName}</Link><small>Öppna roll och egenskaper</small></div></div> : <><p>Ingen fysio finns i den registrerade personalgruppen.</p><Link className="hm-btn hm-btn-sm" href="/career/staff/recruitment">Rekrytera personal →</Link></>}<details style={{marginTop:18}}><summary className="hm-text-muted">Rehabiliteringens förutsättningar</summary><p className="hm-text-muted">Personalens aktuella rehabfaktor: {medicalQuality.toFixed(2)}x jämfört med grundnivån.</p></details></div></Panel>
+        <section className="game-secondary-note"><h2>Inför nästa uttagning</h2>{next && opponentId ? <p><ClubLink clubId={opponentId}>{getClub(opponentId)?.name ?? opponentId}</ClubLink> · {next.date}. {available.length} spelare är tillgängliga för uttagning enligt truppens aktuella status.</p> : <p>Ingen kommande match registrerad för laget.</p>}<div className="hm-actions"><Link className="hm-btn hm-btn-sm" href="/career/tactics">Matchtrupp →</Link><Link className="hm-btn hm-btn-sm" href="/career/calendar">Kalender →</Link></div></section>
+      </aside>
     </div>
-  );
+  </div>;
 }

@@ -1,264 +1,45 @@
 "use client";
-
-import { useState } from "react";
-import { useCareer } from "@/lib/career/CareerContext";
-import { getCareerPlayer } from "@/lib/career/careerWorld";
-import { buildLastMatchViewModel } from "@/lib/analysis/viewModels";
-import { fmtMissing, fmtPct } from "@/lib/analysis/format";
-import { InterpretationsList, MissingDataNote, ObservedPatternsList } from "@/components/analysis/EvidenceLists";
-import ClubCrest from "@/components/ClubCrest";
-import { PlayerLink } from "@/components/entityLinks";
-import type { MatchEvent, MatchEventType } from "@handball-manager/game-simulation";
-
-const TIMELINE_FILTERS: { label: string; types: MatchEventType[] | null }[] = [
-  { label: "ALL", types: null },
-  { label: "GOALS", types: ["GOAL"] },
-  { label: "SAVES", types: ["SAVE"] },
-  { label: "TURNOVERS", types: ["TURNOVER"] },
-  { label: "2 MIN", types: ["TWO_MIN"] },
-  { label: "7M", types: ["SEVEN_M"] },
-];
+import { useState } from 'react';
+import Link from 'next/link';
+import { useCareer } from '@/lib/career/CareerContext';
+import { getCareerPlayer } from '@/lib/career/careerWorld';
+import { buildLastMatchViewModel } from '@/lib/analysis/viewModels';
+import { fmtPct } from '@/lib/analysis/format';
+import { InterpretationsList, MissingDataNote, ObservedPatternsList } from '@/components/analysis/EvidenceLists';
+import { ANALYSIS_EVENT_LABEL, missingAnalysisLabel } from '@/components/analysis/presentation';
+import { SceneEmpty } from '@/components/game/Secondary';
+import { PlayerCell, Scoreboard } from '@/components/game/Identity';
+import { ClubLink, PlayerLink } from '@/components/entityLinks';
+import { Panel } from '@/components/manager/Workspace';
+import type { MatchEventType } from '@handball-manager/game-simulation';
+const FILTERS:{label:string;types:MatchEventType[]|null}[]=[{label:'Alla',types:null},{label:'Mål',types:['GOAL']},{label:'Räddningar',types:['SAVE']},{label:'Bollförluster',types:['TURNOVER']},{label:'2 min',types:['TWO_MIN']},{label:'7m',types:['SEVEN_M']}];
 
 export default function AnalysisLastMatchPage() {
-  const { career } = useCareer();
-  const vm = buildLastMatchViewModel(career);
-  const [filterIdx, setFilterIdx] = useState(0);
-
-  if (vm.status !== "OK" || !vm.homeClub || !vm.awayClub) {
-    return (
-      <div className="hm-panel">
-        <div className="hm-panel-body hm-text-muted">{fmtMissing("NO_MATCHES_YET")}</div>
+  const { career }=useCareer();
+  const vm=buildLastMatchViewModel(career);
+  const [filterIdx,setFilterIdx]=useState(0);
+  if(vm.status !== 'OK' || !vm.homeClub || !vm.awayClub) return <SceneEmpty title="Säsongens första match väntar" actions={<><Link className="hm-btn hm-btn-sm" href="/career/schedule">Kommande matcher →</Link><Link className="hm-btn hm-btn-sm" href="/career/history">Tidigare matcharkiv →</Link></>}>Det finns ingen spelad match för ditt lag den här säsongen ännu. Matchfakta och händelser sparas efter slutsignalen.</SceneEmpty>;
+  const us=vm.teamComparison!.us,opp=vm.teamComparison!.opponent;
+  const rows:[string,number|string,number|string][]=[['Mål',us.goals,opp.goals],['Skott',us.shots,opp.shots],['Skotteffektivitet',fmtPct(us.shots > 0 ? us.goals/us.shots : null),fmtPct(opp.shots > 0 ? opp.goals/opp.shots : null)],['Räddningar',us.saves,opp.saves],['Räddningsprocent',fmtPct(us.shotsFaced > 0 ? us.saves/us.shotsFaced : null),fmtPct(opp.shotsFaced > 0 ? opp.saves/opp.shotsFaced : null)],['Bollförluster',us.turnovers,opp.turnovers],['Utvisningar · 2 min',us.twoMinuteSuspensions,opp.twoMinuteSuspensions],['7m · mål / försök',`${us.sevenMetreGoals}/${us.sevenMetreAttempts}`,`${opp.sevenMetreGoals}/${opp.sevenMetreAttempts}`]];
+  const filter=FILTERS[filterIdx];
+  const events=(vm.timeline ?? []).filter(e => !filter.types || filter.types.includes(e.type));
+  const ownClub=vm.isPlayerHome ? vm.homeClub : vm.awayClub;
+  const opponent=vm.isPlayerHome ? vm.awayClub : vm.homeClub;
+  return <div className="game-secondary-page">
+    <Scoreboard homeClubId={vm.homeClub.id} awayClubId={vm.awayClub.id} homeScore={vm.homeGoals!} awayScore={vm.awayGoals!} label={`Senaste matchen · ${vm.date}`}><Link className="hm-btn hm-btn-sm" href={`/career/match-report/${vm.fixtureId}`}>Matchrapport & repris →</Link></Scoreboard>
+    <div className="game-secondary-split">
+      <div className="game-secondary-main">
+        <Panel title="Lagens matchfakta"><div className="hm-scroll-x"><table className="hm-table"><thead><tr><th>Mått</th><th className="hm-table-num"><ClubLink clubId={ownClub.id}>{ownClub.shortName}</ClubLink> · vårt lag</th><th className="hm-table-num"><ClubLink clubId={opponent.id}>{opponent.shortName}</ClubLink></th></tr></thead><tbody>{rows.map(([label,ours,theirs]) => <tr key={label}><th scope="row">{label}</th><td className="hm-table-num hm-td-strong">{ours}</td><td className="hm-table-num">{theirs}</td></tr>)}</tbody></table></div></Panel>
+        <Panel title="Spelarnas bidrag">{vm.ownPlayerProduction.ok ? <div className="hm-scroll-x"><table className="hm-table"><thead><tr><th>Spelare</th><th className="hm-table-num">Mål</th><th className="hm-table-num">Skott</th><th className="hm-table-num">Betyg</th></tr></thead><tbody>{vm.ownPlayerProduction.value.map(c => { const player=getCareerPlayer(career,c.playerId);return <tr key={c.playerId}><td>{player ? <PlayerCell player={player} /> : <PlayerLink playerId={c.playerId}>{c.playerId}</PlayerLink>}</td><td className="hm-table-num">{c.goals}</td><td className="hm-table-num">{c.shots}</td><td className="hm-table-num">{c.rating.toFixed(1)}</td></tr>; })}</tbody></table></div> : <div className="hm-panel-body"><MissingDataNote text={missingAnalysisLabel(vm.ownPlayerProduction.state)} /></div>}</Panel>
+        <Panel title="Matchhändelser" actions={<div className="hm-actions">{FILTERS.map((f,i) => <button key={f.label} className="hm-btn hm-btn-sm" aria-pressed={filterIdx===i} onClick={() => setFilterIdx(i)}>{f.label}</button>)}</div>}>
+          <div className="hm-panel-body game-analysis-timeline">{events.length ? <ul>{events.map((e,i) => { const club=e.side==='home' ? vm.homeClub! : vm.awayClub!; const player=e.playerId ? getCareerPlayer(career,e.playerId) : null;return <li key={i}><time>{e.minute}′</time><span>{ANALYSIS_EVENT_LABEL[e.type] ?? e.type} · <ClubLink clubId={club.id}>{club.shortName}</ClubLink>{player && <> · <PlayerLink playerId={player.id}>{player.lastName}</PlayerLink></>}</span><strong>{e.homeScoreAfter!==undefined && e.awayScoreAfter!==undefined ? `${e.homeScoreAfter}–${e.awayScoreAfter}` : ''}</strong></li>; })}</ul> : <MissingDataNote text="Ingen registrerad händelse av den här typen." />}</div>
+        </Panel>
       </div>
-    );
-  }
-
-  const filter = TIMELINE_FILTERS[filterIdx];
-  const filteredEvents: readonly MatchEvent[] = (vm.timeline ?? []).filter((e) => !filter.types || filter.types.includes(e.type));
-
-  return (
-    <div className="hm-grid" style={{ gap: 12 }}>
-      <div className="hm-panel">
-        <div className="hm-panel-body" style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 24, padding: "20px" }}>
-          <TeamBlock club={vm.homeClub} />
-          <div style={{ textAlign: "center" }}>
-            <div style={{ fontSize: "var(--hm-text-2xl)", fontWeight: 800 }}>
-              {vm.homeGoals} – {vm.awayGoals}
-            </div>
-            <div className="hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)" }}>
-              {vm.competitionName} · {vm.date}
-            </div>
-          </div>
-          <TeamBlock club={vm.awayClub} />
-        </div>
-      </div>
-
-      <div className="hm-panel">
-        <div className="hm-panel-header">
-          <span className="hm-panel-title">Team Comparison</span>
-        </div>
-        <div className="hm-scroll-x">
-          <table className="hm-table">
-            <thead>
-              <tr>
-                <th>Metric</th>
-                <th className="hm-table-num">{vm.isPlayerHome ? vm.homeClub.shortName : vm.awayClub.shortName} (Us)</th>
-                <th className="hm-table-num">Opponent</th>
-              </tr>
-            </thead>
-            <tbody>
-              <Row label="Goals" us={vm.teamComparison!.us.goals} opp={vm.teamComparison!.opponent.goals} />
-              <Row label="Shots" us={vm.teamComparison!.us.shots} opp={vm.teamComparison!.opponent.shots} />
-              <Row label="Shooting %" us={fmtPct(vm.teamComparison!.us.shots > 0 ? vm.teamComparison!.us.goals / vm.teamComparison!.us.shots : null)} opp={fmtPct(vm.teamComparison!.opponent.shots > 0 ? vm.teamComparison!.opponent.goals / vm.teamComparison!.opponent.shots : null)} />
-              <Row label="Saves" us={vm.teamComparison!.us.saves} opp={vm.teamComparison!.opponent.saves} />
-              <Row label="Save %" us={fmtPct(vm.teamComparison!.us.shotsFaced > 0 ? vm.teamComparison!.us.saves / vm.teamComparison!.us.shotsFaced : null)} opp={fmtPct(vm.teamComparison!.opponent.shotsFaced > 0 ? vm.teamComparison!.opponent.saves / vm.teamComparison!.opponent.shotsFaced : null)} />
-              <Row label="Turnovers" us={vm.teamComparison!.us.turnovers} opp={vm.teamComparison!.opponent.turnovers} />
-              <Row label="2 min" us={vm.teamComparison!.us.twoMinuteSuspensions} opp={vm.teamComparison!.opponent.twoMinuteSuspensions} />
-              <Row label="7m" us={`${vm.teamComparison!.us.sevenMetreGoals}/${vm.teamComparison!.us.sevenMetreAttempts}`} opp={`${vm.teamComparison!.opponent.sevenMetreGoals}/${vm.teamComparison!.opponent.sevenMetreAttempts}`} />
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <div className="hm-grid" style={{ gridTemplateColumns: "1fr 1fr" }}>
-        <div className="hm-panel">
-          <div className="hm-panel-header">
-            <span className="hm-panel-title">First Half</span>
-          </div>
-          <div className="hm-panel-body">
-            <MetricRows
-              rows={[
-                ["Goals (us)", String(vm.isPlayerHome ? vm.halfSplit!.firstHalf.home.goals : vm.halfSplit!.firstHalf.away.goals)],
-                ["Goals (opp)", String(vm.isPlayerHome ? vm.halfSplit!.firstHalf.away.goals : vm.halfSplit!.firstHalf.home.goals)],
-              ]}
-            />
-          </div>
-        </div>
-        <div className="hm-panel">
-          <div className="hm-panel-header">
-            <span className="hm-panel-title">Second Half</span>
-          </div>
-          <div className="hm-panel-body">
-            <MetricRows
-              rows={[
-                ["Goals (us)", String(vm.isPlayerHome ? vm.halfSplit!.secondHalf.home.goals : vm.halfSplit!.secondHalf.away.goals)],
-                ["Goals (opp)", String(vm.isPlayerHome ? vm.halfSplit!.secondHalf.away.goals : vm.halfSplit!.secondHalf.home.goals)],
-              ]}
-            />
-          </div>
-        </div>
-      </div>
-
-      <div className="hm-panel">
-        <div className="hm-panel-header">
-          <span className="hm-panel-title">Key Scoring Runs</span>
-        </div>
-        <div className="hm-panel-body">
-          {(vm.scoringRuns ?? []).length === 0 ? (
-            <MissingDataNote text="No scoring run of 3 or more reached this match." />
-          ) : (
-            <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: 4 }}>
-              {vm.scoringRuns!.map((run, i) => {
-                const runClub = run.side === "home" ? vm.homeClub! : vm.awayClub!;
-                return (
-                  <li key={i} style={{ fontSize: "var(--hm-text-xs)", fontFamily: "var(--hm-font-mono, monospace)" }}>
-                    {run.startMinute}&apos;–{run.endMinute}&apos; &nbsp; {runClub.name} &nbsp; {run.goals}–0 run &nbsp;
-                    <span className="hm-text-muted">(score {run.scoreAfter.home}–{run.scoreAfter.away})</span>
-                  </li>
-                );
-              })}
-            </ul>
-          )}
-        </div>
-      </div>
-
-      <div className="hm-panel">
-        <div className="hm-panel-header">
-          <span className="hm-panel-title">Player Production</span>
-        </div>
-        <div className="hm-scroll-x">
-          {vm.ownPlayerProduction.ok ? (
-            <table className="hm-table">
-              <thead>
-                <tr>
-                  <th>Player</th>
-                  <th className="hm-table-num">Goals</th>
-                  <th className="hm-table-num">Shots</th>
-                  <th className="hm-table-num">Rating</th>
-                </tr>
-              </thead>
-              <tbody>
-                {vm.ownPlayerProduction.value.map((c) => (
-                  <tr key={c.playerId}>
-                    <td>{(() => {
-                      const p = getCareerPlayer(career, c.playerId);
-                      return p ? <PlayerLink playerId={c.playerId}>{`${p.firstName} ${p.lastName}`}</PlayerLink> : c.playerId;
-                    })()}</td>
-                    <td className="hm-table-num">{c.goals}</td>
-                    <td className="hm-table-num">{c.shots}</td>
-                    <td className="hm-table-num">{c.rating.toFixed(1)}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          ) : (
-            <MissingDataNote text={fmtMissing(vm.ownPlayerProduction.ok === false ? vm.ownPlayerProduction.state : "NOT_AVAILABLE_YET")} />
-          )}
-        </div>
-      </div>
-
-      <div className="hm-panel">
-        <div className="hm-panel-header">
-          <span className="hm-panel-title">Event Timeline</span>
-          <div style={{ display: "flex", gap: 4 }}>
-            {TIMELINE_FILTERS.map((f, i) => (
-              <button
-                key={f.label}
-                type="button"
-                className="hm-btn hm-btn-sm"
-                style={{
-                  background: filterIdx === i ? "var(--hm-accent)" : undefined,
-                  borderColor: filterIdx === i ? "var(--hm-accent)" : undefined,
-                  color: filterIdx === i ? "#fff" : undefined,
-                  fontSize: "var(--hm-text-2xs)",
-                }}
-                onClick={() => setFilterIdx(i)}
-              >
-                {f.label}
-              </button>
-            ))}
-          </div>
-        </div>
-        <div className="hm-panel-body" style={{ maxHeight: 320, overflowY: "auto" }}>
-          {filteredEvents.length === 0 ? (
-            <MissingDataNote text="No events of this type occurred." />
-          ) : (
-            <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: 2 }}>
-              {filteredEvents.map((e, i) => (
-                <li key={i} style={{ fontSize: "var(--hm-text-2xs)", display: "flex", gap: 8 }}>
-                  <span className="hm-text-muted" style={{ width: 32 }}>
-                    {e.minute}&apos;
-                  </span>
-                  <span>
-                    {e.type} — {e.side === "home" ? vm.homeClub!.shortName : vm.awayClub!.shortName}
-                    {e.type === "GOAL" ? ` (${e.homeScoreAfter}–${e.awayScoreAfter})` : ""}
-                  </span>
-                </li>
-              ))}
-            </ul>
-          )}
-        </div>
-      </div>
-
-      <div className="hm-grid" style={{ gridTemplateColumns: "1fr 1fr" }}>
-        <div className="hm-panel">
-          <div className="hm-panel-header">
-            <span className="hm-panel-title">Observed Patterns</span>
-          </div>
-          <div className="hm-panel-body">
-            <ObservedPatternsList patterns={vm.patterns} />
-          </div>
-        </div>
-        <div className="hm-panel">
-          <div className="hm-panel-header">
-            <span className="hm-panel-title">Interpretation</span>
-          </div>
-          <div className="hm-panel-body">
-            <InterpretationsList interpretations={vm.interpretations} />
-          </div>
-        </div>
-      </div>
+      <aside className="game-secondary-rail" aria-label="Matchens perioder och slutsatser">
+        <Panel title="Halvlekar"><table className="hm-table"><thead><tr><th>Period</th><th>Vårt lag</th><th>Motstånd</th></tr></thead><tbody>{[['Första',vm.halfSplit!.firstHalf],['Andra',vm.halfSplit!.secondHalf]].map(([label,half]) => { const h=half as NonNullable<typeof vm.halfSplit>['firstHalf'];return <tr key={String(label)}><th scope="row">{String(label)}</th><td>{vm.isPlayerHome ? h.home.goals : h.away.goals}</td><td>{vm.isPlayerHome ? h.away.goals : h.home.goals}</td></tr>; })}</tbody></table></Panel>
+        <Panel title="Mål i följd"><div className="hm-panel-body">{vm.scoringRuns?.length ? <ul className="game-analysis-evidence">{vm.scoringRuns.map((run,i) => {const club=run.side==='home' ? vm.homeClub! : vm.awayClub!;return <li key={i}><small>{run.startMinute}′–{run.endMinute}′</small><ClubLink clubId={club.id}>{club.shortName}</ClubLink> · <strong>{run.goals}–0</strong><div className="hm-text-muted">Ställning efter följden: {run.scoreAfter.home}–{run.scoreAfter.away}</div></li>;})}</ul> : <MissingDataNote text="Ingen följd med minst tre mål i den här matchen." />}</div></Panel>
+        <Panel title="Observerade mönster"><div className="hm-panel-body"><ObservedPatternsList patterns={vm.patterns} /></div></Panel><Panel title="Bedömning"><div className="hm-panel-body"><InterpretationsList interpretations={vm.interpretations} /></div></Panel>
+      </aside>
     </div>
-  );
-}
-
-function TeamBlock({ club }: { club: { name: string; shortName: string; primaryColor: string } }) {
-  return (
-    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 6, width: 100 }}>
-      <ClubCrest shortName={club.shortName} primaryColor={club.primaryColor} size={36} />
-      <div style={{ fontSize: "var(--hm-text-2xs)", fontWeight: 700, textAlign: "center" }}>{club.name}</div>
-    </div>
-  );
-}
-
-function Row({ label, us, opp }: { label: string; us: number | string; opp: number | string }) {
-  return (
-    <tr>
-      <td>{label}</td>
-      <td className="hm-table-num hm-td-strong">{us}</td>
-      <td className="hm-table-num">{opp}</td>
-    </tr>
-  );
-}
-
-function MetricRows({ rows }: { rows: [string, string][] }) {
-  return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-      {rows.map(([label, value]) => (
-        <div key={label} style={{ display: "flex", justifyContent: "space-between", fontSize: "var(--hm-text-xs)" }}>
-          <span className="hm-text-muted">{label}</span>
-          <span style={{ fontWeight: 700 }}>{value}</span>
-        </div>
-      ))}
-    </div>
-  );
+  </div>;
 }

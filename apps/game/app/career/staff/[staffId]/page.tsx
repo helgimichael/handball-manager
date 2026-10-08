@@ -6,7 +6,7 @@
 // an inline recruitment offer form. Reachable for ANY club's staff, not
 // only the manager's own (Part 1: "All staff i alla klubbar ska vara
 // klickbar").
-import { useState, type CSSProperties } from "react";
+import { useState, type CSSProperties, type ReactNode } from "react";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { useCareer } from "@/lib/career/CareerContext";
 import { getClub } from "@/lib/game-data";
@@ -22,6 +22,8 @@ import { formatEur } from "@/lib/economy/currency";
 import { mondayOf, resolveTrainingWeek } from "@/lib/training/trainingSchedule";
 import { resolveResponsibleCoach } from "@/lib/staff/roleSuitability";
 import StarRating from "@/components/StarRating";
+import { SectionScene, StaffMark } from "@/components/game/Secondary";
+import Link from "next/link";
 import { ClubLink } from "@/components/entityLinks";
 
 const SESSION_TYPE_LABEL: Record<string, string> = {
@@ -39,7 +41,7 @@ const SESSION_TYPE_LABEL: Record<string, string> = {
   RECOVERY: "Återhämtning",
 };
 
-function ContractRow({ label, value }: { label: string; value: string }) {
+function ContractRow({ label, value }: { label: ReactNode; value: string }) {
   return (
     <div style={{ display: "flex", justifyContent: "space-between", fontSize: "var(--hm-text-xs)" }}>
       <span className="hm-text-muted">{label}</span>
@@ -83,24 +85,8 @@ export default function StaffProfilePage() {
     : [];
 
   return (
-    <div className="hm-grid" style={{ gridTemplateColumns: "2fr 1fr", alignItems: "start" }}>
-      <div className="hm-grid" style={{ gap: 12 }}>
-        <div className="hm-panel">
-          <div className="hm-panel-body" style={{ display: "flex", alignItems: "center", gap: 16 }}>
-            <div style={{ flex: 1 }}>
-              <div style={{ fontSize: "var(--hm-text-lg)", fontWeight: 800 }}>{member.displayName}</div>
-              <div className="hm-text-muted" style={{ fontSize: "var(--hm-text-xs)", marginTop: 2 }}>
-                {member.roles.length > 0 ? member.roles.map((r) => STAFF_ROLE_LABEL[r]).join(" + ") : (member.officialRoleLabel ?? "—")}
-                {" · "}
-                {isFreeAgent ? "Tillgänglig (fri agent)" : club ? <ClubLink clubId={club.id}>{club.name}</ClubLink> : member.clubId}
-              </div>
-            </div>
-            <button type="button" className="hm-btn" onClick={() => router.push(backHref)}>
-              ← Tillbaka
-            </button>
-          </div>
-        </div>
-
+    <div className="game-secondary-page"><SectionScene eyebrow={member.roles.length > 0 ? member.roles.map(r => STAFF_ROLE_LABEL[r]).join(' · ') : member.officialRoleLabel ?? 'Personal'} title={member.displayName} description={isFreeAgent ? 'Tillgänglig scout · fri agent' : club?.name ?? 'Klubb ej registrerad'} mark={<StaffMark name={member.displayName} size={92} />} actions={<><button type="button" className="hm-btn hm-btn-sm" onClick={() => router.push(backHref)}>← Tillbaka</button>{club && <ClubLink clubId={club.id}>Klubb & personal →</ClubLink>}</>}><div><strong>{member.roles.length}</strong><small>{member.roles.length === 1 ? 'roll' : 'roller'} i spelvärlden</small></div>{isOwnClub && <div><strong>{responsibilities.length}</strong><small>pass den här veckan</small></div>}</SectionScene><div className="game-secondary-split">
+      <div className="game-secondary-main">
         <div className="hm-panel">
           <div className="hm-panel-header">
             <span className="hm-panel-title">Egenskaper</span>
@@ -148,14 +134,14 @@ export default function StaffProfilePage() {
             </div>
             <div className="hm-panel-body" style={{ display: "flex", flexDirection: "column", gap: 6 }}>
               {history.entries.map((entry, i) => (
-                <ContractRow key={i} label={getClub(entry.clubId)?.name ?? entry.clubId} value={entry.toDate ? `${entry.fromDate} – ${entry.toDate}` : `${entry.fromDate} – pågående`} />
+                <ContractRow key={i} label={<ClubLink clubId={entry.clubId}>{getClub(entry.clubId)?.name ?? entry.clubId}</ClubLink>} value={entry.toDate ? `${entry.fromDate} – ${entry.toDate}` : `${entry.fromDate} – pågående`} />
               ))}
             </div>
           </div>
         ) : null}
       </div>
 
-      <div className="hm-grid" style={{ gap: 12 }}>
+      <aside className="game-secondary-rail" aria-label="Anställning och veckans ansvar">
         <div className="hm-panel">
           <div className="hm-panel-header">
             <span className="hm-panel-title">Anställning</span>
@@ -181,9 +167,9 @@ export default function StaffProfilePage() {
 
         {recruitable ? (
           isFreeAgent ? (
-            <SignFreeAgentPanel staffId={member.id} signFreeAgentScout={signFreeAgentScout} />
+            <SignFreeAgentPanel key={member.id} staffId={member.id} signFreeAgentScout={signFreeAgentScout} />
           ) : (
-            <RecruitmentPanel staffId={member.id} candidateWageHint={employment?.wageEurPerMonth} offerStaffContract={offerStaffContract} />
+            <RecruitmentPanel key={member.id} staffId={member.id} candidateWageHint={employment?.wageEurPerMonth} offerStaffContract={offerStaffContract} />
           )
         ) : null}
 
@@ -201,15 +187,15 @@ export default function StaffProfilePage() {
                 responsibilities.map((r, i) => (
                   <div key={i} style={{ display: "flex", justifyContent: "space-between", fontSize: "var(--hm-text-xs)" }}>
                     <span className="hm-text-muted">{r.date}</span>
-                    <span style={{ fontWeight: 600 }}>{SESSION_TYPE_LABEL[r.type] ?? r.type}</span>
+                    <Link href="/career/training" style={{ fontWeight: 600 }}>{SESSION_TYPE_LABEL[r.type] ?? "Träningspass"}</Link>
                   </div>
                 ))
               )}
             </div>
           </div>
         ) : null}
-      </div>
-    </div>
+      </aside>
+    </div></div>
   );
 }
 
@@ -256,7 +242,7 @@ function RecruitmentPanel({
         </button>
         {outcome ? (
           <p className={outcome.accepted ? "hm-text-positive" : "hm-text-muted"} style={{ fontSize: "var(--hm-text-2xs)", margin: 0 }}>
-            {outcome.accepted ? "Klart! " : "Avvisat. "}
+            {outcome.accepted ? "Avtalet är klart. " : "Avvisat. "}
             {outcome.reason}
           </p>
         ) : null}

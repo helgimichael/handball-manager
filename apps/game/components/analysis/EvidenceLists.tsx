@@ -1,18 +1,17 @@
 import type { Interpretation, ObservedPattern } from "@/lib/analysis/types";
+import { interpretationLabel, patternLabel } from './presentation';
 
 /** Patterns and interpretations render visually secondary to facts (Spec §22), and are never mixed into one undifferentiated list -- OBSERVED_PATTERN and INTERPRETATION stay in their own labelled sections. */
 export function ObservedPatternsList({ patterns }: { patterns: readonly ObservedPattern[] }) {
   if (patterns.length === 0) {
-    return <div className="hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)" }}>No patterns observed yet.</div>;
+    return <div className="hm-text-muted" style={{ fontSize: "var(--hm-text-xs)" }}>Inga återkommande mönster i matchunderlaget ännu.</div>;
   }
   return (
-    <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: 4 }}>
+    <ul className="game-analysis-evidence">
       {patterns.map((p) => (
-        <li key={p.ruleId} style={{ fontSize: "var(--hm-text-2xs)", display: "flex", gap: 6, alignItems: "baseline" }}>
-          <span className="hm-badge hm-badge-neutral" style={{ fontSize: "9px", flexShrink: 0 }}>
-            PATTERN
-          </span>
-          <span>{p.statement}</span>
+        <li key={p.ruleId}>
+          <small>Observerat · {p.fixtureIds.length} matcher</small>
+          <span>{patternLabel(p)}</span>
         </li>
       ))}
     </ul>
@@ -21,16 +20,14 @@ export function ObservedPatternsList({ patterns }: { patterns: readonly Observed
 
 export function InterpretationsList({ interpretations }: { interpretations: readonly Interpretation[] }) {
   if (interpretations.length === 0) {
-    return <div className="hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)" }}>No interpretation available yet.</div>;
+    return <div className="hm-text-muted" style={{ fontSize: "var(--hm-text-xs)" }}>Ingen bedömning utan ett stödjande matchmönster.</div>;
   }
   return (
-    <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: 4 }}>
+    <ul className="game-analysis-evidence">
       {interpretations.map((i) => (
-        <li key={i.ruleId} style={{ fontSize: "var(--hm-text-2xs)", display: "flex", gap: 6, alignItems: "baseline" }}>
-          <span className="hm-badge hm-badge-neutral" style={{ fontSize: "9px", flexShrink: 0, opacity: 0.7 }}>
-            INTERPRETATION
-          </span>
-          <span className="hm-text-secondary">{i.statement}</span>
+        <li key={i.ruleId}>
+          <small>Bedömning · bygger på observerat mönster</small>
+          <span className="hm-text-secondary">{interpretationLabel(i)}</span>
         </li>
       ))}
     </ul>

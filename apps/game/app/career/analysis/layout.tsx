@@ -1,47 +1,29 @@
 "use client";
 
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import type { ReactNode } from "react";
+import Link from 'next/link';
+import { useCareer } from '@/lib/career/CareerContext';
+import { getCareerClub } from '@/lib/career/careerWorld';
+import ClubCrest from '@/components/ClubCrest';
+import { SectionScene } from '@/components/game/Secondary';
 
 const TABS = [
-  { href: "/career/analysis", label: "Overview" },
-  { href: "/career/analysis/opponent", label: "Opponent" },
-  { href: "/career/analysis/our-team", label: "Our Team" },
-  { href: "/career/analysis/last-match", label: "Last Match" },
+  { href: "/career/analysis", label: "Översikt" },
+  { href: "/career/analysis/opponent", label: "Motståndaren" },
+  { href: "/career/analysis/our-team", label: "Vårt lag" },
+  { href: "/career/analysis/last-match", label: "Senaste matchen" },
 ];
 
 export default function AnalysisLayout({ children }: { children: ReactNode }) {
   const pathname = usePathname();
-  const router = useRouter();
+  const { career } = useCareer();
+  const club = getCareerClub(career);
 
   return (
-    <div className="hm-grid" style={{ gap: 10 }}>
-      <div className="hm-panel" style={{ padding: "4px" }}>
-        <div style={{ display: "flex", gap: 4 }}>
-          {TABS.map((tab) => {
-            const active = pathname === tab.href;
-            return (
-              <button
-                key={tab.href}
-                type="button"
-                className="hm-btn hm-btn-sm"
-                style={{
-                  flex: 1,
-                  background: active ? "var(--hm-accent)" : undefined,
-                  borderColor: active ? "var(--hm-accent)" : undefined,
-                  color: active ? "#fff" : undefined,
-                  textTransform: "uppercase",
-                  letterSpacing: "0.04em",
-                  fontSize: "var(--hm-text-2xs)",
-                }}
-                onClick={() => router.push(tab.href)}
-              >
-                {tab.label}
-              </button>
-            );
-          })}
-        </div>
-      </div>
+    <div className="game-secondary-page">
+      <SectionScene eyebrow={`${club.name} · ${career.seasonId}`} title="Matchanalys" description="Registrerade matcher, lagets prestationer och underlaget inför nästa motståndare." mark={<ClubCrest shortName={club.shortName} primaryColor={club.primaryColor} size={72} />} actions={<><Link className="hm-btn hm-btn-sm" href="/career/tactics">Matchplan →</Link><Link className="hm-btn hm-btn-sm" href="/career/schedule">Matcher & resultat →</Link></>} />
+      <nav className="hm-tabs game-analysis-tabs" aria-label="Analysvyer">{TABS.map(tab => <Link key={tab.href} href={tab.href} aria-current={pathname === tab.href ? 'page' : undefined}>{tab.label}</Link>)}</nav>
       {children}
     </div>
   );

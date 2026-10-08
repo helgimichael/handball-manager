@@ -18,6 +18,8 @@ import { getScoutMarket } from "@/lib/staff/scoutPool";
 import { formatEur } from "@/lib/economy/currency";
 import type { ResolvedStaffMember, StaffRole } from "@/lib/staff/types";
 import StarRating from "@/components/StarRating";
+import { SectionScene, StaffMark } from "@/components/game/Secondary";
+import { ClubLink } from "@/components/entityLinks";
 import { SortableTh, applySortDirection, type SortState } from "@/components/SortableTh";
 
 type SortKey = "name" | "club" | "role" | "suitability" | "wage";
@@ -90,18 +92,20 @@ export default function StaffRecruitmentPage() {
   }, [filtered, sort]);
 
   return (
-    <div className="hm-grid" style={{ gap: 12 }}>
-      {freeAgentScouts.length > 0 ? (
+    <div className="game-secondary-page">
+      <SectionScene eyebrow={`Laget runt laget · ${career.seasonId}`} title="Rekrytera personal" description="Bedöm en person för rätt roll. Öppna profilen för egenskaper, anställning och ett konkret erbjudande." actions={<Link className="hm-btn hm-btn-sm" href="/career/staff">← Personal</Link>}><div><strong>{candidates.length}</strong><small>personer från klubbar</small></div><div><strong>{freeAgentScouts.length}</strong><small>fria scouter</small></div></SectionScene>
+      <div className="game-secondary-split game-staff-recruitment">
+        <aside className="game-secondary-rail" aria-label="Tillgängliga scouter">
+                {freeAgentScouts.length > 0 ? (
         <div className="hm-panel">
           <div className="hm-panel-header">
-            <span className="hm-panel-title">Tillgängliga scouter (fria agenter)</span>
+            <span className="hm-panel-title">Fria scouter</span>
           </div>
-          <div className="hm-scroll-x">
+          <div className="hm-scroll-x game-staff-market-table">
             <table className="hm-table">
               <thead>
                 <tr>
                   <th>Namn</th>
-                  <th>Status</th>
                   <th>Lämplighet</th>
                 </tr>
               </thead>
@@ -110,9 +114,6 @@ export default function StaffRecruitmentPage() {
                   <tr key={scout.id}>
                     <td className="hm-td-strong">
                       <Link href={`/career/staff/${encodeURIComponent(scout.id)}?from=recruitment`}>{scout.displayName}</Link>
-                    </td>
-                    <td>
-                      <span className="hm-badge hm-badge-positive">Tillgänglig</span>
                     </td>
                     <td>
                       <StarRating stars={roleSuitabilityStars(computeRoleSuitability(scout, "SCOUT"))} title="Bedömd lämplighet för scoutrollen" />
@@ -124,8 +125,10 @@ export default function StaffRecruitmentPage() {
           </div>
         </div>
       ) : null}
-
-      <div className="hm-panel">
+          <section className="game-secondary-note"><h2>Rätt person för rollen</h2><p>Lämplighet bygger på personens relevanta egenskaper. Fria scouter kan värvas direkt; klubbpersonal behöver ha en anställning som går att lämna.</p><Link href="/career/scouting">Öppna scoutingarbetet →</Link></section>
+        </aside>
+        <div className="game-secondary-main">
+                <div className="hm-panel">
         <div className="hm-panel-header">
           <span className="hm-panel-title">Rekrytering — Personal</span>
           <Link href="/career/staff" className="hm-btn hm-btn-sm hm-btn-ghost">
@@ -152,7 +155,7 @@ export default function StaffRecruitmentPage() {
       {rows.length === 0 ? (
         <div className="hm-panel-body hm-text-muted">Inga rekryteringsbara kandidater hittades (endast avlönad personal med kontrakt kan värvas).</div>
       ) : (
-        <div className="hm-scroll-x">
+        <div className="hm-scroll-x game-staff-market-table">
           <table className="hm-table">
             <thead>
               <tr>
@@ -167,9 +170,9 @@ export default function StaffRecruitmentPage() {
               {rows.map(({ member, clubName, role, suitability, wageEurPerMonth }) => (
                 <tr key={member.id}>
                   <td className="hm-td-strong">
-                    <Link href={`/career/staff/${encodeURIComponent(member.id)}?from=recruitment`}>{member.displayName}</Link>
+                    <div className="game-staff-cell"><StaffMark name={member.displayName} size={30} /><Link href={`/career/staff/${encodeURIComponent(member.id)}?from=recruitment`}>{member.displayName}</Link></div>
                   </td>
-                  <td>{clubName}</td>
+                  <td><ClubLink clubId={member.clubId}>{clubName}</ClubLink></td>
                   <td>{STAFF_ROLE_LABEL[role]}</td>
                   <td>
                     <StarRating stars={roleSuitabilityStars(suitability)} title="Bedömd lämplighet för rollen" />
@@ -184,6 +187,9 @@ export default function StaffRecruitmentPage() {
       <div className="hm-panel-body hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)" }}>
         Endast avlönad personal (huvudtränare, assisterande tränare, specialister m.fl.) kan värvas -- frivillig eller styrelseliknande personal har ingen anställning att lämna.
       </div>
+      </div>
+
+        </div>
       </div>
     </div>
   );

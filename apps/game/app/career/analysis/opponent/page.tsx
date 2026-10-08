@@ -1,172 +1,40 @@
 "use client";
-
-import { useCareer } from "@/lib/career/CareerContext";
-import { buildOpponentViewModel } from "@/lib/analysis/viewModels";
-import { fmtMissing, fmtNum, fmtPct } from "@/lib/analysis/format";
-import { InterpretationsList, MissingDataNote, ObservedPatternsList } from "@/components/analysis/EvidenceLists";
-import ClubCrest from "@/components/ClubCrest";
-import FormDots from "@/components/FormDots";
-import { getClub } from "@/lib/game-data";
-import type { Evidence } from "@/lib/analysis/types";
-
-function leaguePositionLabel(position: Evidence<number> | undefined): string {
-  if (!position) return fmtMissing("NOT_AVAILABLE_YET");
-  return position.ok ? `${position.value}. plats` : fmtMissing(position.state);
-}
+import Link from 'next/link';
+import { useCareer } from '@/lib/career/CareerContext';
+import { buildOpponentViewModel } from '@/lib/analysis/viewModels';
+import { fmtNum, fmtPct } from '@/lib/analysis/format';
+import { InterpretationsList, MissingDataNote, ObservedPatternsList } from '@/components/analysis/EvidenceLists';
+import { missingAnalysisLabel } from '@/components/analysis/presentation';
+import { SceneEmpty } from '@/components/game/Secondary';
+import { MatchHero } from '@/components/game/Identity';
+import { ClubLink } from '@/components/entityLinks';
+import { getClub } from '@/lib/game-data';
+import { getNextPlayerFixture } from '@/lib/career/calendar';
+import { Panel } from '@/components/manager/Workspace';
+import FormDots from '@/components/FormDots';
 
 export default function AnalysisOpponentPage() {
   const { career } = useCareer();
   const vm = buildOpponentViewModel(career);
-
-  if (vm.status !== "OK" || !vm.club) {
-    return (
-      <div className="hm-panel">
-        <div className="hm-panel-body hm-text-muted">No upcoming fixture to analyze -- the season may be complete.</div>
-      </div>
-    );
-  }
-
-  return (
-    <div className="hm-grid" style={{ gap: 12 }}>
-      <div className="hm-panel">
-        <div className="hm-panel-body" style={{ display: "flex", alignItems: "center", gap: 16 }}>
-          <ClubCrest shortName={vm.club.shortName} primaryColor={vm.club.primaryColor} size={48} />
-          <div style={{ flex: 1 }}>
-            <div style={{ fontSize: "var(--hm-text-md)", fontWeight: 800 }}>{vm.club.name} — Next Opponent</div>
-            <div className="hm-text-muted" style={{ fontSize: "var(--hm-text-xs)" }}>
-              {vm.competitionName} · {leaguePositionLabel(vm.leaguePosition)}
-              {vm.nextFixture?.ok ? ` · ${vm.nextFixture.value.date} · ${vm.nextFixture.value.isHome ? "Home" : "Away"}` : ""}
-            </div>
-          </div>
-          <FormDots results={vm.form ?? []} />
-        </div>
-      </div>
-
-      <div className="hm-panel">
-        <div className="hm-panel-header">
-          <span className="hm-panel-title">Recent Matches</span>
-        </div>
-        <div className="hm-scroll-x">
-          <table className="hm-table">
-            <thead>
-              <tr>
-                <th>Date</th>
-                <th>Opponent</th>
-                <th>H/A</th>
-                <th>Result</th>
-                <th className="hm-table-num">GF</th>
-                <th className="hm-table-num">GA</th>
-              </tr>
-            </thead>
-            <tbody>
-              {(vm.recentMatches ?? []).length === 0 ? (
-                <tr>
-                  <td colSpan={6} className="hm-text-muted">
-                    No completed matches yet.
-                  </td>
-                </tr>
-              ) : (
-                [...(vm.recentMatches ?? [])].reverse().map((row) => {
-                  const opp = getClub(row.opponentClubId);
-                  return (
-                    <tr key={row.fixtureId}>
-                      <td>{row.date}</td>
-                      <td>{opp?.name ?? row.opponentClubId}</td>
-                      <td>{row.isHome ? "H" : "A"}</td>
-                      <td>{row.result}</td>
-                      <td className="hm-table-num">{row.goalsFor}</td>
-                      <td className="hm-table-num">{row.goalsAgainst}</td>
-                    </tr>
-                  );
-                })
-              )}
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <div className="hm-grid" style={{ gridTemplateColumns: "1fr 1fr" }}>
-        <div className="hm-panel">
-          <div className="hm-panel-header">
-            <span className="hm-panel-title">Attack (last 5)</span>
-          </div>
-          <div className="hm-panel-body">
-            {vm.attack ? (
-              <MetricRows
-                rows={[
-                  ["Goals/match", fmtNum(vm.attack.goalsPerMatch)],
-                  ["Shots/match", fmtNum(vm.attack.shotsPerMatch)],
-                  ["Shooting %", fmtPct(vm.attack.shootingPct)],
-                  ["Turnovers/match", fmtNum(vm.attack.turnoversPerMatch)],
-                  ["7m conversion", fmtPct(vm.attack.sevenMetreConversion)],
-                ]}
-              />
-            ) : (
-              <MissingDataNote text={fmtMissing("NO_MATCHES_YET")} />
-            )}
-          </div>
-        </div>
-        <div className="hm-panel">
-          <div className="hm-panel-header">
-            <span className="hm-panel-title">Defence (last 5)</span>
-          </div>
-          <div className="hm-panel-body">
-            {vm.defence ? (
-              <MetricRows
-                rows={[
-                  ["Goals conceded/match", fmtNum(vm.defence.goalsConcededPerMatch)],
-                  ["GK save %", fmtPct(vm.defence.savePct)],
-                  ["Saves/match", fmtNum(vm.defence.savesPerMatch)],
-                  ["2 min/match", fmtNum(vm.defence.twoMinPerMatch)],
-                ]}
-              />
-            ) : (
-              <MissingDataNote text={fmtMissing("NO_MATCHES_YET")} />
-            )}
-          </div>
-        </div>
-      </div>
-
-      <div className="hm-panel">
-        <div className="hm-panel-header">
-          <span className="hm-panel-title">Player Production</span>
-        </div>
-        <div className="hm-panel-body">
-          <MissingDataNote text={fmtMissing("NOT_AVAILABLE_YET")} />
-        </div>
-      </div>
-
-      <div className="hm-grid" style={{ gridTemplateColumns: "1fr 1fr" }}>
-        <div className="hm-panel">
-          <div className="hm-panel-header">
-            <span className="hm-panel-title">Observed Patterns</span>
-          </div>
-          <div className="hm-panel-body">
-            <ObservedPatternsList patterns={vm.patterns} />
-          </div>
-        </div>
-        <div className="hm-panel">
-          <div className="hm-panel-header">
-            <span className="hm-panel-title">Interpretation</span>
-          </div>
-          <div className="hm-panel-body">
-            <InterpretationsList interpretations={vm.interpretations} />
-          </div>
-        </div>
+  const next = getNextPlayerFixture(career);
+  if (vm.status !== 'OK' || !vm.club || !next) return <SceneEmpty title="Ingen kommande motståndare" actions={<Link className="hm-btn hm-btn-sm" href="/career/history">Utforska säsongshistoriken →</Link>}>Det finns ingen ospelad match för ditt lag i det aktuella matchprogrammet.</SceneEmpty>;
+  return <div className="game-secondary-split">
+    <div className="game-secondary-main">
+      <MatchHero career={career} fixture={next} compact context="Motståndaranalys"><Link className="hm-btn hm-btn-sm hm-btn-primary" href="/career/tactics">Öppna matchplan →</Link><Link className="hm-btn hm-btn-sm" href="/career/match-preview">Matchförberedelse →</Link></MatchHero>
+      <Panel title="Motståndarens senaste matcher" actions={<ClubLink clubId={vm.club.id}>Klubb & trupp →</ClubLink>}>
+        <div className="hm-scroll-x"><table className="hm-table"><thead><tr><th>Datum</th><th>Motstånd</th><th>H / B</th><th>Resultat</th><th>Mål framåt</th><th>Insläppta</th></tr></thead><tbody>{(vm.recentMatches ?? []).length ? [...vm.recentMatches!].reverse().map(row => <tr key={row.fixtureId}><td>{row.date}</td><td><ClubLink clubId={row.opponentClubId}>{getClub(row.opponentClubId)?.name ?? row.opponentClubId}</ClubLink></td><td>{row.isHome ? 'H' : 'B'}</td><td><Link className="hm-result-link" href={`/career/match-report/${row.fixtureId}`}>{row.goalsFor}–{row.goalsAgainst}</Link></td><td>{row.goalsFor}</td><td>{row.goalsAgainst}</td></tr>) : <tr><td colSpan={6}>Motståndaren har ingen spelad match den här säsongen ännu.</td></tr>}</tbody></table></div>
+      </Panel>
+      <div className="game-analysis-facts">
+        <Panel title="Anfall · senaste fem"><div className="hm-panel-body">{vm.attack ? <MetricRows rows={[['Mål / match',fmtNum(vm.attack.goalsPerMatch)],['Skott / match',fmtNum(vm.attack.shotsPerMatch)],['Skotteffektivitet',fmtPct(vm.attack.shootingPct)],['Bollförluster / match',fmtNum(vm.attack.turnoversPerMatch)],['7m-effektivitet',fmtPct(vm.attack.sevenMetreConversion)]]} /> : <MissingDataNote text={missingAnalysisLabel('NO_MATCHES_YET')} />}</div></Panel>
+        <Panel title="Försvar · senaste fem"><div className="hm-panel-body">{vm.defence ? <MetricRows rows={[['Insläppta / match',fmtNum(vm.defence.goalsConcededPerMatch)],['Räddningsprocent',fmtPct(vm.defence.savePct)],['Räddningar / match',fmtNum(vm.defence.savesPerMatch)],['Utvisningar / match',fmtNum(vm.defence.twoMinPerMatch)]]} /> : <MissingDataNote text={missingAnalysisLabel('NO_MATCHES_YET')} />}</div></Panel>
       </div>
     </div>
-  );
+    <aside className="game-secondary-rail" aria-label="Motståndarens form och bedömning">
+      <Panel title={vm.club.name}><div className="hm-panel-body"><div className="game-analysis-stat-row"><span>Nuvarande liga</span><strong>{vm.competitionName}</strong></div><div className="game-analysis-stat-row"><span>Tabellplats</span><strong>{vm.leaguePosition?.ok ? vm.leaguePosition.value : '—'}</strong></div><div className="game-analysis-stat-row"><span>Motståndarens form</span><FormDots results={vm.form ?? []} /></div><p className="hm-text-muted">Underlag: {vm.recentMatches?.length ?? 0} registrerade matcher.</p></div></Panel>
+      <Panel title="Observerade mönster"><div className="hm-panel-body"><ObservedPatternsList patterns={vm.patterns} /></div></Panel>
+      <Panel title="Bedömning"><div className="hm-panel-body"><InterpretationsList interpretations={vm.interpretations} /></div></Panel>
+      <section className="game-secondary-note"><h2>Fördjupa bilden</h2><p>Spelarnas individuella matchproduktion ingår inte i det här motståndarunderlaget. Klubbens trupp och scouting ger separat information inför laguttagningen.</p><ClubLink clubId={vm.club.id}>Öppna klubbens trupp →</ClubLink></section>
+    </aside>
+  </div>;
 }
-
-function MetricRows({ rows }: { rows: [string, string][] }) {
-  return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-      {rows.map(([label, value]) => (
-        <div key={label} style={{ display: "flex", justifyContent: "space-between", fontSize: "var(--hm-text-xs)" }}>
-          <span className="hm-text-muted">{label}</span>
-          <span style={{ fontWeight: 700 }}>{value}</span>
-        </div>
-      ))}
-    </div>
-  );
-}
+function MetricRows({ rows }: { rows: [string,string][] }) { return <>{rows.map(([label,value]) => <div className="game-analysis-stat-row" key={label}><span>{label}</span><strong>{value}</strong></div>)}</>; }
