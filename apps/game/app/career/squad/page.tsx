@@ -1,6 +1,7 @@
 'use client';
 import Link from 'next/link';
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
+import { useWorkspaceState } from '@/components/game/WorkspaceMemory';
 import { useCareer } from '@/lib/career/CareerContext';
 import { getCareerClub, getCareerSquad } from '@/lib/career/careerWorld';
 import { averageRating, emptyPlayerSeasonStats } from '@/lib/career/types';
@@ -18,12 +19,12 @@ type View = 'overview' | 'performance' | 'physical' | 'contracts';
 export default function SquadPage() {
   const { career, updateSquadStatus } = useCareer();
   const club = getCareerClub(career);
-  const [query, setQuery] = useState('');
-  const [position, setPosition] = useState('ALL');
-  const [status, setStatus] = useState('ALL');
-  const [view, setView] = useState<View>('overview');
-  const [selected, setSelected] = useState<string[]>([]);
-  const [sort, setSort] = useState<SortState<Key>>({ key: 'position', direction: 'asc' });
+  const [query, setQuery] = useWorkspaceState('squad.query', '');
+  const [position, setPosition] = useWorkspaceState('squad.position', 'ALL');
+  const [status, setStatus] = useWorkspaceState('squad.status', 'ALL');
+  const [view, setView] = useWorkspaceState<View>('squad.view', 'overview');
+  const [selected, setSelected] = useWorkspaceState<string[]>('squad.selected', []);
+  const [sort, setSort] = useWorkspaceState<SortState<Key>>('squad.sort', { key: 'position', direction: 'asc' });
   const squad = getCareerSquad(career);
   const rows = useMemo(() => squad.map(p => {
     const stats = career.playerSeasonStats[p.id] ?? emptyPlayerSeasonStats(p.id);

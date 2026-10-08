@@ -1,6 +1,7 @@
 "use client";
 
-import { Suspense, useMemo, useState } from "react";
+import { Suspense, useMemo } from "react";
+import { useWorkspaceState } from '@/components/game/WorkspaceMemory';
 import { useRouter, useSearchParams } from "next/navigation";
 import { useCareer } from "@/lib/career/CareerContext";
 import { categoryLabel } from "@/lib/career/inboxBridge";
@@ -16,10 +17,16 @@ function Inbox() {
   const params = useSearchParams();
   const router = useRouter();
   const { career, markInboxMessageRead, archiveInboxMessage, unarchiveInboxMessage } = useCareer();
-  const [filter, setFilter] = useState<InboxFilterId>("ALL");
+  const source = params.get('message') ?? '';
+  const linkedMessage = career.inbox.find(m => m.id === source);
+  const defaultReader = { source, id: source, filter: linkedMessage?.archived ? 'ARCHIVED' as const : 'ALL' as const };
+  const [reader, setReader] = useWorkspaceState<{source:string;id:string;filter:InboxFilterId}>('inbox.reader', defaultReader);
+  const currentReader = reader.source === source ? reader : defaultReader;
+  const filter = currentReader.filter;
   const messages = useMemo(() => [...filterInboxMessages(career.inbox, filter)].reverse(), [career.inbox, filter]);
-  const [selectedId, setSelectedId] = useState(params.get("message") ?? "");
-  const selected = selectedId ? messages.find(m => m.id === selectedId) : messages[0];
+  // A message may leave Unread/All after reading or archiving. Keep the article
+  // visible until another selection/filter, and honor a new deep link immediately.
+  const selected = (currentReader.id ? career.inbox.find(m => m.id === currentReader.id) : undefined) ?? messages[0];
   const unread = career.inbox.filter(m => !m.archived && !m.read).length;
   const required = career.inbox.filter(m => !m.archived && m.actionRequired && !m.resolved).length;
   const canArchive = selected ? !(selected.actionRequired && !selected.resolved) : false;
@@ -28,14 +35,14 @@ function Inbox() {
   const matchDestination = selected?.destinations?.find(d => d.route === 'MATCH_REPORT' || d.route === 'MATCH_DAY');
   const fixture = matchDestination ? career.fixtures.find(f => f.id === matchDestination.fixtureId) ?? career.matchArchives?.[matchDestination.fixtureId]?.fixture : undefined;
 
-  function selectMessage(id: string) { setSelectedId(id); markInboxMessageRead(id); }
+  function selectMessage(id: string) { setReader({ ...currentReader, id }); markInboxMessageRead(id); }
 
   return <div className="game-news-page">
     <PageHeading eyebrow={`${getClub(career.playerClubId)?.shortName ?? 'Klubben'} / nyheter & kommunikation`} title="Inkorg" description="Rapporter från laget, besked från klubben och händelser som formar din säsong." />
     <div className="game-news-masthead"><div><span className="hm-eyebrow">Klubbens senaste</span><strong>{new Date(`${career.gameDate}T12:00:00Z`).toLocaleDateString('sv-SE', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' })}</strong></div><div><strong>{unread}</strong><span>olästa besked</span></div><div data-urgent={required > 0}><strong>{required}</strong><span>beslut som kräver dig</span></div><span className="game-news-edition">SÄSONG {career.seasonId}</span></div>
     <div className="game-news-layout">
       <section className="game-news-feed" aria-label="Meddelanden">
-        <div className="game-news-filters">{INBOX_FILTERS.map(f => <button key={f.id} type="button" className="hm-btn hm-btn-sm" aria-pressed={filter === f.id} data-active={filter === f.id} onClick={() => setFilter(f.id)}>{f.label}</button>)}</div>
+        <div className="game-news-filters">{INBOX_FILTERS.map(f => <button key={f.id} type="button" className="hm-btn hm-btn-sm" aria-pressed={filter === f.id} data-active={filter === f.id} onClick={() => setReader({source, id:'', filter:f.id})}>{f.label}</button>)}</div>
         <div className="game-news-feed-label"><span>Senaste först</span><span>{messages.length} meddelanden</span></div>
         <div className="game-news-feed-scroll">{messages.length ? messages.map(m => <button type="button" aria-label={m.subject} aria-pressed={m.id === selected?.id} key={m.id} onClick={() => selectMessage(m.id)} data-active={m.id === selected?.id} data-unread={!m.read} data-urgent={m.actionRequired && !m.resolved} className="game-news-item">
           <div className="game-news-item-meta"><span>{categoryLabel(m.category)}{m.careerEventId ? ' · Karriär' : ''}</span><time>{m.date ? m.date.slice(0, 10) : ''}</time></div>

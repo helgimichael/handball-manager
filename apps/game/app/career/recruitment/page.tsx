@@ -11,6 +11,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { getClub, getCompetition, positionLabel, type HandballPosition } from "@/lib/game-data";
 import { useCareer } from "@/lib/career/CareerContext";
 import { getClubScouts } from "@/lib/career/scouting";
+import { computeAssignmentProgressPct, type CreateScoutingAssignmentResult } from '@/lib/career/scouting';
 import { KNOWLEDGE_TIER_LABEL_SV, KNOWLEDGE_TIERS, type KnowledgeTier } from "@/lib/knowledge/types";
 import { NATION_LABEL_SV } from "@/lib/career/scoutDiscovery";
 import { formatEur } from "@/lib/economy/currency";
@@ -243,7 +244,7 @@ function CandidateDetailPanel({
   hasOwnScout: boolean;
   scouts: { id: string; displayName: string }[];
   onOpenProfile: () => void;
-  onStartScouting: (scoutId: string) => void;
+  onStartScouting: (scoutId: string) => CreateScoutingAssignmentResult;
   onToggleShortlist: () => void;
   onSetPriority: (priority: RecruitmentPriority) => void;
   onSetNote: (note: string) => void;
@@ -254,6 +255,8 @@ function CandidateDetailPanel({
   const [transferFeeEur, setTransferFeeEur] = useState(candidate.scoutReportView?.marketValueRange ? Math.round(candidate.scoutReportView.marketValueRange.max * 1.2) : 0);
   const [newWageEurPerMonth, setNewWageEurPerMonth] = useState(candidate.wageEurPerMonth ?? 500);
   const [contractYears, setContractYears] = useState(3);
+  const [scoutingFeedback, setScoutingFeedback] = useState('');
+  const activeAssignment = Object.values(career.scoutingAssignments).find(a => a.targetPlayerId === candidate.playerId && a.status === 'IN_PROGRESS');
 
   const club = getClub(candidate.clubId);
   const competition = getCompetition(candidate.competitionId);
@@ -346,15 +349,18 @@ function CandidateDetailPanel({
                   </option>
                 ))}
               </select>
-              <button type="button" className="hm-btn hm-btn-sm hm-btn-primary" disabled={candidate.activeAssignment} onClick={() => onStartScouting(scoutId)}>
+              <button type="button" className="hm-btn hm-btn-sm hm-btn-primary" disabled={candidate.activeAssignment || !scoutId} onClick={() => { const result = onStartScouting(scoutId); setScoutingFeedback(result.ok ? 'Scouten följer spelaren. Rapporten kommer när uppdraget är klart.' : result.errors.join(' ')); }}>
                 {candidate.activeAssignment ? "Scoutas redan" : "Starta full scouting"}
               </button>
             </div>
           ) : (
             <p className="hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)", margin: 0 }}>
               Din klubb har ingen anställd scout.
+              {' '}<Link href="/career/staff/recruitment">Rekrytera en scout →</Link>
             </p>
           )}
+          {activeAssignment && <p className="hm-text-muted">{computeAssignmentProgressPct(activeAssignment, career.gameDate)}% av uppdraget · beräknad rapport {activeAssignment.endDate}. <Link href={`/career/scouting?target=${encodeURIComponent(candidate.playerId)}`}>Följ uppdraget →</Link></p>}
+          {scoutingFeedback && <p role="status">{scoutingFeedback}</p>}
         </div>
       </div>
 

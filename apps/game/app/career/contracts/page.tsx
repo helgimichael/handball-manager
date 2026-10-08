@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useWorkspaceState } from '@/components/game/WorkspaceMemory';
 import Link from 'next/link';
 import { useCareer } from '@/lib/career/CareerContext';
 import { contractRows } from '@/lib/career/management';
@@ -11,8 +11,8 @@ import { PageHeading, Panel, EmptyState } from '@/components/manager/Workspace';
 
 export default function ContractsPage() {
   const { career } = useCareer();
-  const [urgentOnly, setUrgentOnly] = useState(false);
-  const [selected, setSelected] = useState('');
+  const [urgentOnly, setUrgentOnly] = useWorkspaceState('contracts.urgent', false);
+  const [selected, setSelected] = useWorkspaceState('contracts.selected', '');
   const all = contractRows(career);
   const rows = urgentOnly ? all.filter(r => r.days === null || r.days <= 365) : all;
   const selectedRow = all.find(r => r.player.id === selected);

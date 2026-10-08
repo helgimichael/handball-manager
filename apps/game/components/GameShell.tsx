@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import Link from 'next/link';
 import type { ReactNode } from "react";
@@ -17,8 +17,7 @@ import { CAREER_NAV_ITEMS, resolveActiveNavId } from "@/lib/career/navigation";
 import { COMPETITIONS, getClub } from "@/lib/game-data";
 import { computeLiveMatchView } from "@/lib/liveMatch/liveMatchView";
 import { formatMatchMinute } from "@/lib/liveMatch/commentary";
-import type { CareerEvent } from "@/lib/career/careerEvents";
-import type { ContinueStopReason } from "@/lib/career/continueController";
+import { progressionNotice, type ProgressionNotice } from './game/progressionPresentation';
 
 type NavEntry = { id: string; href: string; label: string; icon: NavIconName; badge?: number };
 
@@ -97,19 +96,8 @@ export default function GameShell({ children }: { children: ReactNode }) {
   // day-by-day replay of a CONTINUE press that has ALREADY fully run and
   // committed (see ContinueProcessingOverlay.tsx's own doc) -- navigation
   // is deferred until the reveal finishes or the manager skips it.
-  const [processing, setProcessing] = useState<{ days: ProcessingDay[]; navigate: () => void } | null>(null);
-
-  function navigateAfterContinue(events: CareerEvent[], stopReason: ContinueStopReason) {
-    if (stopReason === "ACTION_REQUIRED_PENDING" || events.some((e) => e.type === "MATCHDAY_READY")) {
-      router.push("/career/match-preview");
-      return;
-    }
-    if (events.some((e) => e.priority === "IMPORTANT" || e.priority === "ACTION_REQUIRED")) {
-      router.push("/career/inbox");
-      return;
-    }
-    router.push("/career");
-  }
+  const [processing, setProcessing] = useState<{ days: ProcessingDay[]; notice: ProgressionNotice } | null>(null);
+  const [notice, setNotice] = useState<ProgressionNotice | null>(null);
 
   function handleContinue() {
     // HM-MATCH-1.3A Part G (hard invariant): while a match is actively
@@ -125,9 +113,11 @@ export default function GameShell({ children }: { children: ReactNode }) {
       return;
     }
     const { events, stopReason, daysProcessed, startDate } = continueCareer();
+    const summary = progressionNotice(events, stopReason, career.careerEvents.find(e => e.requiresAction && !e.resolved));
     if (daysProcessed === 0) {
       // ACTION_REQUIRED_PENDING (an unresolved matchday) or SEASON_COMPLETE -- nothing was actually processed, so nothing to visibly replay.
-      navigateAfterContinue(events, stopReason);
+      setNotice(summary);
+      router.push(summary.navigateHref);
       return;
     }
     const days: ProcessingDay[] = [];
@@ -135,14 +125,15 @@ export default function GameShell({ children }: { children: ReactNode }) {
       const date = addDays(startDate, i);
       days.push({ date, events: events.filter((e) => e.date === date) });
     }
-    setProcessing({ days, navigate: () => navigateAfterContinue(events, stopReason) });
+    setProcessing({ days, notice: summary });
   }
 
-  function handleProcessingFinished() {
-    const navigate = processing?.navigate;
+  const handleProcessingFinished = useCallback(() => {
+    if (!processing) return;
+    setNotice(processing.notice);
     setProcessing(null);
-    navigate?.();
-  }
+    router.push(processing.notice.navigateHref);
+  }, [processing, router, setNotice, setProcessing]);
 
   return (
     <div className="hm-shell" data-game-state={career.productionMatch ? 'live' : career.seasonComplete ? 'season-complete' : career.fixtures.some(f => f.date===career.gameDate && !career.results[f.id] && (f.homeClubId===career.playerClubId || f.awayClubId===career.playerClubId)) ? 'matchday' : 'season'}>
@@ -212,8 +203,8 @@ export default function GameShell({ children }: { children: ReactNode }) {
         </div>
       </header>
 
-      <main className="hm-main" id="manager-content"><div className="hm-context-bar"><div className="hm-actions"><button type="button" className="hm-btn hm-btn-sm hm-btn-ghost" onClick={() => router.back()} aria-label="Tillbaka i navigationen">←</button><button type="button" className="hm-btn hm-btn-sm hm-btn-ghost" onClick={() => router.forward()} aria-label="Framåt i navigationen">→</button><Link href="/career">Kontoret</Link><span>/</span><span>{nav.find(item => item.id === activeNavId)?.label ?? 'Detalj'}</span></div><Link href="/career/inbox">{unread} olästa meddelanden</Link></div>{children}</main>
-      {processing ? <ContinueProcessingOverlay days={processing.days} onFinished={handleProcessingFinished} /> : null}
+      <main className="hm-main" id="manager-content"><div className="hm-context-bar"><div className="hm-actions"><button type="button" className="hm-btn hm-btn-sm hm-btn-ghost" onClick={() => router.back()} aria-label="Tillbaka i navigationen">←</button><button type="button" className="hm-btn hm-btn-sm hm-btn-ghost" onClick={() => router.forward()} aria-label="Framåt i navigationen">→</button><Link href="/career">Kontoret</Link><span>/</span><span>{nav.find(item => item.id === activeNavId)?.label ?? 'Detalj'}</span></div><Link href="/career/inbox">{unread} olästa meddelanden</Link></div>{notice && <aside className="game-progression-notice" aria-label="Senaste tidsförflyttningen"><div role="status"><strong>{notice.title}</strong><p>{notice.detail}</p></div><Link className="hm-btn hm-btn-sm" href={notice.actionHref}>{notice.actionLabel}</Link><button className="hm-btn hm-btn-sm hm-btn-ghost" aria-label="Stäng händelsebesked" onClick={() => setNotice(null)}>×</button></aside>}{children}</main>
+      {processing ? <ContinueProcessingOverlay days={processing.days} notice={processing.notice} clubName={club.name} clubShortName={club.shortName} season={career.seasonId} onFinished={handleProcessingFinished} /> : null}
     </div>
   );
 }

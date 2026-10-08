@@ -1,0 +1,34 @@
+.game-world-advance { width:min(1100px,calc(100vw - 64px)); max-width:none; max-height:calc(100dvh - 64px); padding:0; border:0; background:var(--game-paper); color:var(--game-ink); box-shadow:0 22px 80px #06102070; }
+.game-world-advance::backdrop { background:#071222aa; }
+.game-world-advance > header { display:flex; align-items:center; gap:20px; background:var(--game-navy); color:#f8f2e7; padding:25px 30px; }
+.game-world-advance header .game-club-crest { --game-crest-line:#e8b58b; --game-crest-text:#fff6e8; color:#2b3850; }
+.game-world-advance header .game-overline { color:#b6c5d6; }
+.game-world-advance h2 { margin:6px 0 0; font:400 42px/1.1 var(--game-font-display); text-transform:uppercase; }
+.game-world-advance header button { margin-left:auto; background:var(--game-signal); border-color:var(--game-signal); color:white; font-size:12px; }
+.game-advance-body { display:grid; grid-template-columns:minmax(0,1.4fr) minmax(260px,1fr); }
+.game-advance-calendar { padding:30px; }
+.game-advance-calendar > strong { display:block; margin:14px 0 20px; font:400 40px/1 var(--game-font-display); text-transform:uppercase; }
+.game-advance-days { display:flex; gap:6px; flex-wrap:wrap; }
+.game-advance-days span { display:grid; place-items:center; width:34px; height:35px; font-weight:700; background:#dde0d8; color:#707b7b; }
+.game-advance-days [data-revealed=true] { background:var(--game-navy); color:#f8f2e7; }
+.game-advance-calendar > p { color:var(--hm-text-secondary); font-size:12px; }
+.game-advance-events { margin-top:22px; max-height:210px; overflow:auto; }
+.game-advance-events article { display:flex; gap:16px; padding:12px 0; border-top:1px solid #cdd2c9; font-size:12px; }
+.game-advance-events time { color:var(--hm-text-secondary); width:94px; flex-shrink:0; font-size:10px; }
+.game-advance-events article div { display:grid; gap:4px; }.game-advance-events small { color:var(--game-signal); font-weight:600; }
+.game-advance-stop { background:#e0e4dc; border-left:4px solid var(--game-signal); padding:30px; display:flex; flex-direction:column; justify-content:center; }
+.game-advance-stop h3 { font:400 30px/1.1 var(--game-font-display); margin:18px 0 10px; text-transform:uppercase; }
+.game-advance-stop p { max-width:48ch; color:var(--hm-text-secondary); line-height:1.6; font-size:13px; }
+.game-advance-stop > span:last-child { font-weight:700; font-size:12px; margin-top:16px; }
+.game-world-advance footer { display:flex; justify-content:space-between; padding:14px 30px; color:var(--hm-text-secondary); font-size:10px; border-top:1px solid #cdd2c9; }
+.game-progression-notice { display:flex; align-items:center; gap:24px; background:#e2e7de; border-left:4px solid var(--game-signal); padding:16px 20px; margin-bottom:20px; }
+.game-progression-notice > div { flex:1; min-width:0; }.game-progression-notice strong { display:block; font-size:14px; }.game-progression-notice p { margin:5px 0 0; font-size:12px; color:var(--hm-text-secondary); max-width:80ch; }
+.game-career-gate { min-height:100dvh; padding:5vw; display:grid; align-content:center; background:var(--game-navy-deep); color:#f8f2e7; }
+.game-career-gate > section { width:min(700px,100%); border-left:4px solid var(--game-signal); padding:30px; background:#1b2a40; }
+.game-career-gate h1 { font:400 46px/1.1 var(--game-font-display); margin:14px 0; text-transform:uppercase; }.game-career-gate p { line-height:1.6; color:#c4ceda; }.game-career-gate .hm-btn { margin-top:20px; }
+.game-save-control { position:relative; display:flex; gap:8px; align-items:center; }.game-save-feedback { position:absolute; top:calc(100% + 7px); right:0; z-index:10; background:#e4ebe0; color:#244639; padding:8px 12px; width:max-content; max-width:320px; font-size:12px; box-shadow:0 3px 12px #07122230; }.game-save-feedback[data-error=true] { background:#f5e1db; color:#8c2725; }
+.game-season-milestone { display:grid; grid-template-columns:minmax(0,1fr) minmax(310px,.7fr); gap:32px; background:var(--game-navy); color:#f8f2e7; padding:32px; margin-bottom:24px; }
+.game-season-milestone h2 { margin:10px 0 20px; font:400 50px/1 var(--game-font-display); text-transform:uppercase; }.game-season-milestone p { max-width:65ch; color:#bdcbd9; line-height:1.6; }.game-season-milestone .game-overline { color:#e9b38a; }.game-season-milestone .hm-btn:not(.hm-btn-primary) { background:transparent; border-color:#7c8ca2; color:#f9f3e7; }
+.game-milestone-facts { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); align-content:center; gap:24px; border-left:1px solid #506076; padding-left:32px; }.game-milestone-facts strong { display:block; font:400 52px/1 var(--game-font-display); }.game-milestone-facts span { display:block; margin-top:10px; font-size:11px; color:#c1cedc; }.game-new-season-note { margin:0 0 20px; padding:14px 18px; background:#e2e5dc; font-size:12px; border-left:3px solid var(--game-signal); }.game-new-season-note a { font-weight:700; margin-left:12px; }
+@media(max-width:900px) { .game-advance-body,.game-season-milestone { grid-template-columns:1fr; }.game-world-advance header { flex-wrap:wrap; }.game-world-advance h2 { font-size:32px; }.game-progression-notice { flex-wrap:wrap; gap:10px; }.game-milestone-facts { padding-left:0; border-left:0; } }
+@media(prefers-reduced-motion:no-preference) { .game-world-advance[open] { animation:game-advance-enter 200ms var(--game-ease-out); } @keyframes game-advance-enter { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } } }

@@ -7,11 +7,12 @@ export default function CareerSaveControl() {
   const { career, save } = useCareer();
   const router = useRouter();
   const [status, setStatus] = useState(''), [saving, setSaving] = useState(false);
+  const [failed, setFailed] = useState(false);
   async function persist(exit: boolean) {
-    setSaving(true); setStatus('');
+    setSaving(true); setStatus(''); setFailed(false);
     try { await saveCareerState(save.saveId, career); setStatus('Sparat'); if (exit) router.push('/'); }
-    catch (error) { setStatus(error instanceof Error ? error.message : 'Kunde inte spara.'); }
+    catch (error) { setFailed(true); setStatus(error instanceof Error ? error.message : 'Kunde inte spara.'); }
     finally { setSaving(false); }
   }
-  return <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}><button className="hm-btn hm-btn-sm" disabled={saving} onClick={() => void persist(false)}>{saving ? 'Sparar…' : 'Spara'}</button><button className="hm-btn hm-btn-sm" disabled={saving} onClick={() => void persist(true)}>Spara och avsluta</button><span role="status" className="hm-text-muted">{status}</span></div>;
+  return <div className="game-save-control"><button className="hm-btn hm-btn-sm" disabled={saving} onClick={() => void persist(false)}>{saving ? 'Sparar…' : 'Spara'}</button><button className="hm-btn hm-btn-sm" disabled={saving} onClick={() => void persist(true)}>Spara och avsluta</button>{status && <span role={failed ? 'alert' : 'status'} className="game-save-feedback" data-error={failed}>{status}</span>}</div>;
 }

@@ -1,123 +1,63 @@
-"use client";
+﻿"use client";
 
-// HM-CAREER-0.5: a visible day-by-day reveal of a CONTINUE press that has
-// ALREADY fully run (Career Rhythm's exactly-once processing already
-// happened synchronously in CareerContext's continueCareer() before this
-// component is ever shown -- see GameShell.tsx). This is purely a
-// presentation-layer replay of the already-decided `events` it is given,
-// grouped by their own `.date` field, at a UI-controlled pace -- exactly
-// the same "reveal controller over pre-decided data" pattern Live Match
-// uses for a FastMatchResult (see lib/liveMatch/useLiveMatch.ts). It
-// never re-processes, re-decides, or invents anything: a day with no
-// notable events still legitimately shows "Träning genomförd" (every
-// single day always has at least that one real, already-happened event
-// -- see dailyTick.ts), never a fabricated filler line.
-import { useEffect, useRef, useState } from "react";
-import { formatGameDate } from "@/lib/career/dateUtils";
-import type { CareerEvent } from "@/lib/career/careerEvents";
+// Display only: Continue has already committed these dates/events exactly once.
+import { useEffect, useRef, useState } from 'react';
+import { formatGameDate } from '@/lib/career/dateUtils';
+import type { CareerEvent } from '@/lib/career/careerEvents';
+import ClubCrest from './ClubCrest';
+import { CAREER_EVENT_LABEL, type ProgressionNotice } from './game/progressionPresentation';
+import './game/game-feedback.css';
 
-export type ProcessingDay = {
-  date: string;
-  events: CareerEvent[];
-};
+export type ProcessingDay = { date: string; events: CareerEvent[] };
 
-const DAY_TICK_INTERVAL_MS = 450;
-const FAST_DAY_TICK_INTERVAL_MS = 110;
-/** Above this many days, switch to the faster interval -- otherwise a 100-quiet-day CONTINUE press would take nearly a minute to reveal. */
-const FAST_THRESHOLD_DAYS = 10;
-
-function eventPriorityBadge(priority: CareerEvent["priority"]): { label: string; className: string } | null {
-  if (priority === "ACTION_REQUIRED") return { label: "ÅTGÄRD", className: "hm-badge-warning" };
-  if (priority === "IMPORTANT") return { label: "VIKTIGT", className: "hm-badge-neutral" };
-  return null;
-}
-
-export default function ContinueProcessingOverlay({ days, onFinished }: { days: readonly ProcessingDay[]; onFinished: () => void }) {
-  const [revealedCount, setRevealedCount] = useState(0);
-  const finishedRef = useRef(false);
-
+export default function ContinueProcessingOverlay({ days, clubName, clubShortName, season, notice, onFinished }: {
+  days: readonly ProcessingDay[]; clubName: string; clubShortName: string; season: string;
+  notice: ProgressionNotice; onFinished: () => void;
+}) {
+  const [revealed, setRevealed] = useState(1);
+  const dialog = useRef<HTMLDialogElement>(null);
+  const finished = useRef(false);
   useEffect(() => {
-    if (revealedCount >= days.length) {
-      return;
-    }
-    const intervalMs = days.length > FAST_THRESHOLD_DAYS ? FAST_DAY_TICK_INTERVAL_MS : DAY_TICK_INTERVAL_MS;
-    const timer = setTimeout(() => setRevealedCount((n) => n + 1), intervalMs);
+    const element = dialog.current;
+    element?.showModal();
+    return () => element?.close();
+  }, []);
+  useEffect(() => {
+    if (revealed >= days.length) return;
+    // Bounded reveal; long stretches must not become a long wait.
+    const timer = setTimeout(() => setRevealed(n => n + 1), Math.min(180, 900 / Math.max(1, days.length)));
     return () => clearTimeout(timer);
-  }, [revealedCount, days.length]);
-
+  }, [revealed, days.length]);
   useEffect(() => {
-    if (revealedCount < days.length || days.length === 0 || finishedRef.current) {
-      return;
-    }
-    // A short pause on the final day so the manager can actually read it before navigating away.
+    if (revealed < days.length) return;
     const timer = setTimeout(() => {
-      if (finishedRef.current) return;
-      finishedRef.current = true;
+      if (finished.current) return;
+      finished.current = true;
       onFinished();
-    }, 350);
+    }, 500);
     return () => clearTimeout(timer);
-  }, [revealedCount, days.length, onFinished]);
-
-  function handleSkip() {
-    if (!finishedRef.current) {
-      finishedRef.current = true;
-      onFinished();
-    }
+  }, [revealed, days.length, onFinished]);
+  function finish() {
+    if (finished.current) return;
+    finished.current = true;
+    onFinished();
   }
-
-  const revealedDays = days.slice(0, revealedCount);
-  const currentDay = days[Math.min(revealedCount, days.length - 1)];
-
-  return (
-    <div
-      role="status"
-      aria-live="polite"
-      style={{
-        position: "fixed",
-        inset: 0,
-        zIndex: 1000,
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        background: "rgba(0, 0, 0, 0.55)",
-        padding: 20,
-      }}
-    >
-      <div className="hm-panel" style={{ maxWidth: 520, width: "100%" }}>
-        <div className="hm-panel-header">
-          <span className="hm-panel-title">Bearbetar säsongen…</span>
-          <button type="button" className="hm-btn hm-btn-sm" style={{ marginLeft: "auto" }} onClick={handleSkip}>
-            HOPPA ÖVER
-          </button>
-        </div>
-        <div className="hm-panel-body" style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-          <div style={{ textAlign: "center" }}>
-            <div className="hm-eyebrow" style={{ fontSize: "var(--hm-text-md)", fontVariantNumeric: "tabular-nums" }}>
-              {currentDay ? formatGameDate(currentDay.date) : ""}
-            </div>
-          </div>
-          <div style={{ maxHeight: 280, overflowY: "auto", display: "flex", flexDirection: "column", gap: 6 }}>
-            {revealedDays.flatMap((day) =>
-              day.events.map((e) => {
-                const badge = eventPriorityBadge(e.priority);
-                return (
-                  <div key={e.id} style={{ display: "flex", alignItems: "center", gap: 10, fontSize: "var(--hm-text-xs)" }}>
-                    <span className="hm-text-muted" style={{ width: 78, flexShrink: 0, fontVariantNumeric: "tabular-nums" }}>
-                      {formatGameDate(day.date)}
-                    </span>
-                    <span>{e.subject}</span>
-                    {badge ? (
-                      <span className={`hm-badge ${badge.className}`} style={{ marginLeft: "auto", fontSize: "var(--hm-text-2xs)" }}>
-                        {badge.label}
-                      </span>
-                    ) : null}
-                  </div>
-                );
-              }),
-            )}
-          </div>
-        </div>
-      </div>
+  const date = days[Math.min(revealed, days.length) - 1]?.date;
+  const allEvents = days.flatMap(day => day.events);
+  const training = allEvents.filter(e => e.type === 'TRAINING_COMPLETED').length;
+  const highlights = allEvents.filter(e => e.type !== 'TRAINING_COMPLETED').slice(-5);
+  return <dialog ref={dialog} className="game-world-advance" aria-labelledby="world-advance-title" onCancel={event => { event.preventDefault(); finish(); }}>
+    <header><ClubCrest shortName={clubShortName} primaryColor="#121d31" size={62} /><div><span className="game-overline">{clubName} · {season}</span><h2 id="world-advance-title">Världen går vidare.</h2></div><button className="hm-btn hm-btn-sm" onClick={finish}>Visa händelsen →</button></header>
+    <div className="game-advance-body">
+      <section className="game-advance-calendar" aria-label="Säsongens datum">
+        <span className="game-overline">Från {days[0] ? formatGameDate(days[0].date) : 'idag'}</span>
+        <strong role="status" aria-live="polite">{date ? formatGameDate(date) : 'Säsongen uppdaterad'}</strong>
+        <div className="game-advance-days" aria-hidden="true">{days.slice(-12).map((day, index) => <span key={day.date} data-revealed={days.length - Math.min(days.length, 12) + index < revealed}>{Number(day.date.slice(-2))}</span>)}</div>
+        <p>{days.length} dagar i spelvärlden{training > 0 ? ` · ${training} träningsdagar genomförda` : ''}</p>
+        <div className="game-advance-events">{highlights.length ? highlights.map(event => <article key={event.id}><time>{formatGameDate(event.date)}</time><div><small>{CAREER_EVENT_LABEL[event.type]}</small><strong>{event.subject}</strong></div></article>) : <p>Inga ytterligare besked under perioden.</p>}</div>
+      </section>
+      <aside className="game-advance-stop" data-kind={notice.kind}><span className="game-overline">{notice.kind === 'matchday' ? 'Avkast väntar' : notice.kind === 'decision' ? 'Ditt beslut behövs' : notice.kind === 'season' ? 'Säsongsavslut' : 'Vi stannade här'}</span><h3>{notice.title}</h3><p>{notice.detail}</p><span>{notice.actionLabel}</span></aside>
     </div>
-  );
+    <footer><span>Händelserna finns kvar i din karriär.</span><span>Esc · visa händelsen direkt</span></footer>
+  </dialog>;
 }

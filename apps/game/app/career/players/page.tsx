@@ -1,5 +1,6 @@
 'use client';
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
+import { useWorkspaceState } from '@/components/game/WorkspaceMemory';
 import Link from 'next/link';
 import { useCareer } from '@/lib/career/CareerContext';
 import { managementPlayers } from '@/lib/career/management';
@@ -20,15 +21,15 @@ import { getClubScouts } from '@/lib/career/scouting';
 type Key = 'name' | 'age' | 'knowledge' | 'contract' | 'goals';
 export default function PlayerSearchPage() {
   const { career, addToShortlist, removeFromShortlist } = useCareer();
-  const [query, setQuery] = useState('');
-  const [position, setPosition] = useState('ALL');
-  const [league, setLeague] = useState('ALL');
-  const [nation, setNation] = useState('ALL');
-  const [maxAge, setMaxAge] = useState('');
-  const [contract, setContract] = useState('ALL');
-  const [sort, setSort] = useState<SortState<Key>>({ key: 'name', direction: 'asc' });
-  const [page, setPage] = useState(0);
-  const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [query, setQuery] = useWorkspaceState('players.query', '');
+  const [position, setPosition] = useWorkspaceState('players.position', 'ALL');
+  const [league, setLeague] = useWorkspaceState('players.league', 'ALL');
+  const [nation, setNation] = useWorkspaceState('players.nation', 'ALL');
+  const [maxAge, setMaxAge] = useWorkspaceState('players.age', '');
+  const [contract, setContract] = useWorkspaceState('players.contract', 'ALL');
+  const [sort, setSort] = useWorkspaceState<SortState<Key>>('players.sort', { key: 'name', direction: 'asc' });
+  const [page, setPage] = useWorkspaceState('players.page', 0);
+  const [selectedId, setSelectedId] = useWorkspaceState<string | null>('players.selected', null);
   const players = useMemo(() => managementPlayers(career).filter(p => p.clubId !== career.playerClubId && !isRetiredClubId(p.clubId)).map(player => ({ player, age: playerAgeAtDate(player.dateOfBirth, player.birthYear, career.gameDate), contract: career.playerContracts[player.id], status: getPlayerContractStatus(career, player.id), knowledge: getPlayerKnowledgePct(career, player.id, player.clubId), goals: career.playerSeasonStats[player.id]?.goals ?? 0 })), [career]);
   const nations = useMemo(() => [...new Set(players.map(r => r.player.nationality))].sort(), [players]);
   const rows = useMemo(() => players.filter(r => {

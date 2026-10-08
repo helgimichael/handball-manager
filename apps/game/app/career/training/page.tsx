@@ -10,7 +10,8 @@ import { formatGameDate } from "@/lib/career/dateUtils";
 // individual days/sessions on, and a compact player-readiness panel
 // (Part 25). Replaces the previous fully-static mock page.
 
-import { useState } from "react";
+import { Suspense, useState } from "react";
+import { useSearchParams } from 'next/navigation';
 import { useCareer } from "../../../lib/career/CareerContext";
 import { getCareerSquad } from "../../../lib/career/careerWorld";
 import { getClub } from "../../../lib/game-data";
@@ -84,9 +85,12 @@ function addDaysLocal(date: string, delta: number): string {
   return d.toISOString().slice(0, 10);
 }
 
-export default function TrainingPage() {
+export default function TrainingPage() { return <Suspense fallback={<div className="hm-empty" role="status">Förbereder träningsveckan…</div>}><Training /></Suspense>; }
+function Training() {
+  const params = useSearchParams();
+  const requestedWeek = params.get('week');
   const { career, setTrainingDayType, addTrainingSession, removeTrainingSession, updateTrainingSession, applyWeeklyTemplate, setPlayerTrainingLoad, setPlayerIndividualFocus } = useCareer();
-  const [weekStart, setWeekStart] = useState(() => mondayOf(career.gameDate));
+  const [weekStart, setWeekStart] = useState(() => mondayOf(requestedWeek && /^\d{4}-\d{2}-\d{2}$/.test(requestedWeek) && !Number.isNaN(Date.parse(requestedWeek)) ? requestedWeek : career.gameDate));
   const [template, setTemplate] = useState<WeeklyTrainingTemplate>("BALANCED");
 
   const week = resolveTrainingWeek(career, weekStart);

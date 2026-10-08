@@ -5,6 +5,8 @@ import { useRouter } from "next/navigation";
 import GameShell from "@/components/GameShell";
 import { getActiveSave } from "@/lib/save/saveRepository";
 import { CareerProvider } from "@/lib/career/CareerContext";
+import '@/components/game/game-feedback.css';
+import { WorkspaceMemory } from '@/components/game/WorkspaceMemory';
 
 export default function CareerLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter();
@@ -46,31 +48,19 @@ export default function CareerLayout({ children }: { children: React.ReactNode }
 
   if (error) {
     return (
-      <div style={{ minHeight: "100vh", background: "var(--hm-bg-app)", display: "flex", alignItems: "center", justifyContent: "center", padding: 20 }}>
-        <div className="hm-panel" style={{ maxWidth: 560 }}>
-          <div className="hm-panel-body">
-            <strong>Karriären kunde inte laddas</strong>
-            <p className="hm-text-muted" style={{ marginTop: 8 }}>{error}</p>
-            <button type="button" className="hm-btn" style={{ marginTop: 12 }} onClick={() => router.replace("/")}>
-              ← Till huvudmenyn
-            </button>
-          </div>
-        </div>
-      </div>
+      <main className="game-career-gate"><section role="alert"><span className="game-overline">Handball Manager</span><h1>Karriären kunde inte laddas</h1><p>{error}</p><div className="hm-actions"><button className="hm-btn hm-btn-primary" onClick={() => window.location.reload()}>Försök igen</button><button className="hm-btn" onClick={() => router.replace('/')}>← Till huvudmenyn</button></div></section></main>
     );
   }
 
   if (!ready) {
     return (
-      <div style={{ minHeight: "100vh", background: "var(--hm-bg-app)", display: "flex", alignItems: "center", justifyContent: "center", color: "var(--hm-text-muted)" }}>
-        Laddar karriär…
-      </div>
+      <main className="game-career-gate"><section role="status"><span className="game-overline">Handball Manager</span><h1>Laddar karriär…</h1><p>Ditt lag, din säsong och dina sparade beslut.</p></section></main>
     );
   }
 
   return (
     <CareerProvider>
-      <GameShell>{children}</GameShell>
+      <WorkspaceMemory><GameShell>{children}</GameShell></WorkspaceMemory>
     </CareerProvider>
   );
 }
