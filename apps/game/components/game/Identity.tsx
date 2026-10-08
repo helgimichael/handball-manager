@@ -16,6 +16,9 @@ import FormDots from '@/components/FormDots';
 
 type PersonIdentity = Pick<PlayerMock, 'id' | 'firstName' | 'lastName' | 'position' | 'shirtNumber'>;
 const AVAILABILITY_LABEL: Record<PlayerAvailability,string> = { AVAILABLE:'Tillgänglig', INJURED:'Skadad', SUSPENDED:'Avstängd', RECOVERING:'Under återhämtning', LIMITED:'Begränsad återgång', ON_PLACEMENT:'Hos partnerklubb' };
+export function playerAvailabilityLabel(career:CareerState, playerId:string) {
+  return AVAILABILITY_LABEL[career.playerStatuses[playerId]?.availability ?? 'AVAILABLE'];
+}
 export function PlayerGlyph({ player, size = 48 }: { player:PersonIdentity; size?:number }) {
   return <span className="game-player-glyph" style={{'--glyph-size':`${size}px`} as CSSProperties} aria-hidden="true">
     <svg viewBox="0 0 160 176" fill="none"><path d="m48 17 20-8c5 12 19 12 24 0l20 8 40 35-25 33-16-11 5 90H44l5-90-16 11L8 52Z" fill="currentColor"/><path d="m48 17 20-8c5 12 19 12 24 0l20 8M49 74l-1-42m63 42 1-42M44 145h72" stroke="var(--game-jersey-line)" strokeWidth="2"/><text x="80" y="107" textAnchor="middle" className="game-jersey-number">{player.shirtNumber ?? `${player.firstName[0] ?? ''}${player.lastName[0] ?? ''}`}</text><text x="80" y="135" textAnchor="middle" className="game-jersey-position">{player.position}</text></svg>
@@ -33,8 +36,7 @@ export function PlayerHero({ player, career, children }: { player:PlayerMock; ca
   const age=playerAgeAtDate(player.dateOfBirth,player.birthYear,career.gameDate);
   const nationality=NATIONS.find(n => n.code===player.nationality)?.name ?? (player.nationality==='UNK' ? 'Nationalitet okänd' : player.nationality);
   const tier=career.playerSquadStatus[player.id];
-  const availability=career.playerStatuses[player.id]?.availability;
-  const status=player.clubId==='retired' ? 'Pensionerad' : !player.clubId ? 'Kontraktslös' : own ? availability ? AVAILABILITY_LABEL[availability] : 'Ingen tillgänglighetsuppgift' : resolveStatusLabel(career.playerStatuses,player);
+  const status=player.clubId==='retired' ? 'Pensionerad' : !player.clubId ? 'Kontraktslös' : own ? playerAvailabilityLabel(career,player.id) : resolveStatusLabel(career.playerStatuses,player);
   const tierLabel=own && tier ? SQUAD_STATUS_TIER_LABEL_SV[tier] : null;
   return <header className="game-player-hero" data-own={own} data-player-id={player.id}>
     <div className="game-player-portrait"><PlayerGlyph player={player} size={220}/><span className="game-portrait-initials">{player.firstName[0]}{player.lastName[0]}</span></div>
