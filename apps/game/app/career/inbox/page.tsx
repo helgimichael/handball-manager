@@ -26,7 +26,7 @@ function Inbox() {
   const playerDestination = selected?.destinations?.find(d => d.route === 'PLAYER_PROFILE' || d.route === 'SCOUT_REPORT');
   const player = playerDestination ? getCareerPlayer(career, playerDestination.playerId) : undefined;
   const matchDestination = selected?.destinations?.find(d => d.route === 'MATCH_REPORT' || d.route === 'MATCH_DAY');
-  const fixture = matchDestination ? career.fixtures.find(f => f.id === matchDestination.fixtureId) : undefined;
+  const fixture = matchDestination ? career.fixtures.find(f => f.id === matchDestination.fixtureId) ?? career.matchArchives?.[matchDestination.fixtureId]?.fixture : undefined;
 
   function selectMessage(id: string) { setSelectedId(id); markInboxMessageRead(id); }
 
@@ -47,7 +47,7 @@ function Inbox() {
       <article className="game-news-article" key={selected?.id} data-category={selected?.category}>
         {selected ? <>
           <header className="game-news-article-header"><div className="game-news-kicker"><span>{categoryLabel(selected.category)}</span><time>{selected.date?.slice(0, 10)}</time></div><h2>{selected.subject}</h2><div className="game-news-byline"><span>Från <b>{selected.sender}</b></span>{selected.actionRequired && !selected.resolved ? <span className="hm-badge hm-badge-warning">ÅTGÄRD KRÄVS</span> : selected.important ? <span className="hm-badge hm-badge-warning">VIKTIGT</span> : null}</div></header>
-          {fixture && <MatchHero compact career={career} fixture={fixture} result={career.results[fixture.id]} context={categoryLabel(selected.category)} />}
+          {fixture && <MatchHero compact career={career} fixture={fixture} result={career.results[fixture.id] ?? career.matchArchives?.[fixture.id]?.result} context={categoryLabel(selected.category)} />}
           {player && <div className="game-news-player"><PlayerCell player={player} /></div>}
           <div className="game-news-copy">{selected.body.map((paragraph, i) => <p key={i}>{paragraph}</p>)}</div>
           {selected.destinations && selected.destinations.length > 0 && <div className="game-news-destinations"><div className="hm-eyebrow">Nästa steg</div><div className="hm-actions">{selected.destinations.map((destination, i) => { const href = resolveDestinationHref(destination); return href ? <button key={i} type="button" className={i === 0 ? 'hm-btn hm-btn-primary' : 'hm-btn'} onClick={() => router.push(href)}>{destinationLabel(destination)}</button> : null; })}</div></div>}
