@@ -1,0 +1,101 @@
+{
+  "release": "Game Experience v1.1",
+  "verifiedOn": "2026-10-08",
+  "checkpoint": "e365025",
+  "url": "http://localhost:3007",
+  "productionDirectory": "apps/game/.next-game-v11",
+  "buildId": "5Jp-210HFinXeJePZ9iro",
+  "sourceCommits": [
+    "c9d6546",
+    "7a08d03",
+    "fd53489",
+    "6129054"
+  ],
+  "gameTests": {
+    "passed": 2296,
+    "failed": 0,
+    "durationMs": 317717.8531,
+    "command": "npm run test:all:portable --workspace=@handball-manager/game"
+  },
+  "continueContextTests": {
+    "passed": 5,
+    "failed": 0,
+    "command": "npm run test:experience --workspace=@handball-manager/game"
+  },
+  "browserAcceptance": {
+    "accepted": 6,
+    "unresolvedFailures": 0,
+    "command": "npm run test:e2e:experience --workspace=@handball-manager/game",
+    "retainedFinalSuite": {
+      "passed": 5,
+      "supersededColdLoadFailure": 1,
+      "cases": [
+        "e2e\\game-experience-v11.spec.ts:56:5 › Continue identifies the real stop, object navigation retains workspace context, and unread reading stays visible (25.1s)",
+        "e2e\\game-presentation.spec.ts:25:5 › five presentation screens at desktop and ultrawide, with actual career data (31.6s)",
+        "e2e\\game-presentation.spec.ts:53:5 › player identity survives tabs, offer drafts survive selection and sporting screens remain navigable (51.3s)",
+        "e2e\\management.spec.ts:14:5 › connected management journeys, contracts, shortlist, scouting, world links and save/load (40.5s)",
+        "e2e\\product.spec.ts:4:5 › normal career UI: real squad, calendar, live match, decisions, finalization and reload (1.2m)"
+      ]
+    },
+    "targetedCloseout": {
+      "passed": 1,
+      "failed": 0,
+      "cases": [
+        "e2e\\game-experience-v11.spec.ts:15:5 › career setup validates the selected league, starts another club, and safely returns to a saved career (23.1s)"
+      ],
+      "receipt": "apps/game/test-results-experience-closeout/.last-run.json"
+    },
+    "resolvedRegression": "The initial load-screen navigation click could occur before hydration; real href links now work immediately. Only that affected case was rerun."
+  },
+  "visualAcceptance": {
+    "routeSweepStates": 82,
+    "pageErrors": 0,
+    "documentHorizontalOverflow": false,
+    "renderedImagesInspected": true,
+    "beforeAfterImages": 182,
+    "artifactIndex": "capture-index.json",
+    "comparison": "comparison.html",
+    "inAppBrowser": "unavailable; actual repository Chromium used"
+  },
+  "checks": {
+    "workspaceTypecheck": "PASS",
+    "finalGameBuildTypecheck": "PASS",
+    "changedFileLint": "PASS, zero warnings",
+    "productionBuild": "PASS, 48 static pages",
+    "diffCheck": "PASS"
+  },
+  "seasonRegression": {
+    "complete": true,
+    "firstSeasonManagerMatches": 26,
+    "secondSeason": "2027/28",
+    "secondSeasonMatchDate": "2027-09-23",
+    "engine": "V2",
+    "archivedMatches": 27,
+    "evidence": "regression/playable-season-result.json"
+  },
+  "recordedFixtureUi": {
+    "complete": true,
+    "sourceSha256": "7bce7a1224c0f10e6a421a2d94ef9326331ac8547273947d9b5279d8717f39a8",
+    "isolation": true,
+    "rolloverSaveReload": true,
+    "retainedArchives": 26,
+    "retainedHistoricalPlayerStatistics": true,
+    "evidence": "recorded-fixture/milestones.json",
+    "note": "Exact existing canonical recording seeded only into fresh QA saves; distinct from the fresh full-season regression."
+  },
+  "preservation": {
+    "preExistingUserFileHashesUnchanged": 15,
+    "matchEngineImplementationEdited": false,
+    "analysisBuildersEdited": false,
+    "saveSchemaChanged": false,
+    "unrelatedUserChangesDiscarded": false,
+    "motionWorktreePreserved": true,
+    "stashesPreserved": true,
+    "pushed": false
+  },
+  "runtime": {
+    "v11QaServer": "STOPPED_AFTER_QA",
+    "existingUserV1Port3006": "PRESERVED",
+    "approvedV1Build": "apps/game/.next-game-final preserved"
+  }
+}

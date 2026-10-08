@@ -1,0 +1,500 @@
+{
+  "base": "http://localhost:3007",
+  "phase": "after",
+  "resume": false,
+  "captures": [
+    {
+      "name": "title",
+      "route": "/",
+      "width": 1920,
+      "documentWidth": 1920
+    },
+    {
+      "name": "title",
+      "route": "/",
+      "width": 2560,
+      "documentWidth": 2560
+    },
+    {
+      "name": "load-game-empty",
+      "route": "/load-game",
+      "width": 1920,
+      "documentWidth": 1920
+    },
+    {
+      "name": "load-game-empty",
+      "route": "/load-game",
+      "width": 2560,
+      "documentWidth": 2560
+    },
+    {
+      "name": "new-game",
+      "route": "/new-game",
+      "width": 1920,
+      "documentWidth": 1920
+    },
+    {
+      "name": "new-game",
+      "route": "/new-game",
+      "width": 2560,
+      "documentWidth": 2560
+    },
+    {
+      "name": "leagues",
+      "route": "/new-game",
+      "width": 1920,
+      "documentWidth": 1920
+    },
+    {
+      "name": "leagues",
+      "route": "/new-game",
+      "width": 2560,
+      "documentWidth": 2560
+    },
+    {
+      "name": "database",
+      "route": "/new-game",
+      "width": 1920,
+      "documentWidth": 1920
+    },
+    {
+      "name": "database",
+      "route": "/new-game",
+      "width": 2560,
+      "documentWidth": 2560
+    },
+    {
+      "name": "club-selection",
+      "route": "/new-game",
+      "width": 1920,
+      "documentWidth": 1920
+    },
+    {
+      "name": "club-selection",
+      "route": "/new-game",
+      "width": 2560,
+      "documentWidth": 2560
+    },
+    {
+      "name": "manager",
+      "route": "/new-game",
+      "width": 1920,
+      "documentWidth": 1920
+    },
+    {
+      "name": "manager",
+      "route": "/new-game",
+      "width": 2560,
+      "documentWidth": 2560
+    },
+    {
+      "name": "start-career",
+      "route": "/new-game",
+      "width": 1920,
+      "documentWidth": 1920
+    },
+    {
+      "name": "start-career",
+      "route": "/new-game",
+      "width": 2560,
+      "documentWidth": 2560
+    },
+    {
+      "name": "home",
+      "route": "/career",
+      "width": 1920,
+      "documentWidth": 1920
+    },
+    {
+      "name": "home",
+      "route": "/career",
+      "width": 2560,
+      "documentWidth": 2560
+    },
+    {
+      "name": "squad",
+      "route": "/career/squad",
+      "width": 1920,
+      "documentWidth": 1920
+    },
+    {
+      "name": "squad",
+      "route": "/career/squad",
+      "width": 2560,
+      "documentWidth": 2560
+    },
+    {
+      "name": "tactics",
+      "route": "/career/tactics",
+      "width": 1920,
+      "documentWidth": 1920
+    },
+    {
+      "name": "tactics",
+      "route": "/career/tactics",
+      "width": 2560,
+      "documentWidth": 2560
+    },
+    {
+      "name": "inbox",
+      "route": "/career/inbox",
+      "width": 1920,
+      "documentWidth": 1920
+    },
+    {
+      "name": "inbox",
+      "route": "/career/inbox",
+      "width": 2560,
+      "documentWidth": 2560
+    },
+    {
+      "name": "contracts",
+      "route": "/career/contracts",
+      "width": 1920,
+      "documentWidth": 1920
+    },
+    {
+      "name": "contracts",
+      "route": "/career/contracts",
+      "width": 2560,
+      "documentWidth": 2560
+    },
+    {
+      "name": "training",
+      "route": "/career/training",
+      "width": 1920,
+      "documentWidth": 1920
+    },
+    {
+      "name": "training",
+      "route": "/career/training",
+      "width": 2560,
+      "documentWidth": 2560
+    },
+    {
+      "name": "calendar",
+      "route": "/career/calendar",
+      "width": 1920,
+      "documentWidth": 1920
+    },
+    {
+      "name": "calendar",
+      "route": "/career/calendar",
+      "width": 2560,
+      "documentWidth": 2560
+    },
+    {
+      "name": "schedule",
+      "route": "/career/schedule",
+      "width": 1920,
+      "documentWidth": 1920
+    },
+    {
+      "name": "schedule",
+      "route": "/career/schedule",
+      "width": 2560,
+      "documentWidth": 2560
+    },
+    {
+      "name": "matches",
+      "route": "/career/schedule",
+      "width": 1920,
+      "documentWidth": 1920
+    },
+    {
+      "name": "matches",
+      "route": "/career/schedule",
+      "width": 2560,
+      "documentWidth": 2560
+    },
+    {
+      "name": "analysis",
+      "route": "/career/analysis",
+      "width": 1920,
+      "documentWidth": 1920
+    },
+    {
+      "name": "analysis",
+      "route": "/career/analysis",
+      "width": 2560,
+      "documentWidth": 2560
+    },
+    {
+      "name": "analysis-opponent",
+      "route": "/career/analysis/opponent",
+      "width": 1920,
+      "documentWidth": 1920
+    },
+    {
+      "name": "analysis-opponent",
+      "route": "/career/analysis/opponent",
+      "width": 2560,
+      "documentWidth": 2560
+    },
+    {
+      "name": "analysis-team",
+      "route": "/career/analysis/our-team",
+      "width": 1920,
+      "documentWidth": 1920
+    },
+    {
+      "name": "analysis-team",
+      "route": "/career/analysis/our-team",
+      "width": 2560,
+      "documentWidth": 2560
+    },
+    {
+      "name": "analysis-last-match",
+      "route": "/career/analysis/last-match",
+      "width": 1920,
+      "documentWidth": 1920
+    },
+    {
+      "name": "analysis-last-match",
+      "route": "/career/analysis/last-match",
+      "width": 2560,
+      "documentWidth": 2560
+    },
+    {
+      "name": "players",
+      "route": "/career/players",
+      "width": 1920,
+      "documentWidth": 1920
+    },
+    {
+      "name": "players",
+      "route": "/career/players",
+      "width": 2560,
+      "documentWidth": 2560
+    },
+    {
+      "name": "scouting",
+      "route": "/career/scouting",
+      "width": 1920,
+      "documentWidth": 1920
+    },
+    {
+      "name": "scouting",
+      "route": "/career/scouting",
+      "width": 2560,
+      "documentWidth": 2560
+    },
+    {
+      "name": "recruitment",
+      "route": "/career/recruitment",
+      "width": 1920,
+      "documentWidth": 1920
+    },
+    {
+      "name": "recruitment",
+      "route": "/career/recruitment",
+      "width": 2560,
+      "documentWidth": 2560
+    },
+    {
+      "name": "transfers",
+      "route": "/career/transfers",
+      "width": 1920,
+      "documentWidth": 1920
+    },
+    {
+      "name": "transfers",
+      "route": "/career/transfers",
+      "width": 2560,
+      "documentWidth": 2560
+    },
+    {
+      "name": "staff",
+      "route": "/career/staff",
+      "width": 1920,
+      "documentWidth": 1920
+    },
+    {
+      "name": "staff",
+      "route": "/career/staff",
+      "width": 2560,
+      "documentWidth": 2560
+    },
+    {
+      "name": "staff-recruitment",
+      "route": "/career/staff/recruitment",
+      "width": 1920,
+      "documentWidth": 1920
+    },
+    {
+      "name": "staff-recruitment",
+      "route": "/career/staff/recruitment",
+      "width": 2560,
+      "documentWidth": 2560
+    },
+    {
+      "name": "medical",
+      "route": "/career/medical",
+      "width": 1920,
+      "documentWidth": 1920
+    },
+    {
+      "name": "medical",
+      "route": "/career/medical",
+      "width": 2560,
+      "documentWidth": 2560
+    },
+    {
+      "name": "club",
+      "route": "/career/club",
+      "width": 1920,
+      "documentWidth": 1920
+    },
+    {
+      "name": "club",
+      "route": "/career/club",
+      "width": 2560,
+      "documentWidth": 2560
+    },
+    {
+      "name": "partnerships",
+      "route": "/career/club/partnerships",
+      "width": 1920,
+      "documentWidth": 1920
+    },
+    {
+      "name": "partnerships",
+      "route": "/career/club/partnerships",
+      "width": 2560,
+      "documentWidth": 2560
+    },
+    {
+      "name": "competition",
+      "route": "/career/competitions",
+      "width": 1920,
+      "documentWidth": 1920
+    },
+    {
+      "name": "competition",
+      "route": "/career/competitions",
+      "width": 2560,
+      "documentWidth": 2560
+    },
+    {
+      "name": "statistics",
+      "route": "/career/statistics",
+      "width": 1920,
+      "documentWidth": 1920
+    },
+    {
+      "name": "statistics",
+      "route": "/career/statistics",
+      "width": 2560,
+      "documentWidth": 2560
+    },
+    {
+      "name": "history",
+      "route": "/career/history",
+      "width": 1920,
+      "documentWidth": 1920
+    },
+    {
+      "name": "history",
+      "route": "/career/history",
+      "width": 2560,
+      "documentWidth": 2560
+    },
+    {
+      "name": "preview",
+      "route": "/career/match-preview",
+      "width": 1920,
+      "documentWidth": 1920
+    },
+    {
+      "name": "preview",
+      "route": "/career/match-preview",
+      "width": 2560,
+      "documentWidth": 2560
+    },
+    {
+      "name": "load-game",
+      "route": "/load-game",
+      "width": 1920,
+      "documentWidth": 1920
+    },
+    {
+      "name": "load-game",
+      "route": "/load-game",
+      "width": 2560,
+      "documentWidth": 2560
+    },
+    {
+      "name": "world-advance",
+      "route": "/career",
+      "width": 1920,
+      "documentWidth": 1920
+    },
+    {
+      "name": "world-advance",
+      "route": "/career",
+      "width": 2560,
+      "documentWidth": 2560
+    },
+    {
+      "name": "continue-destination",
+      "route": "/career/inbox",
+      "width": 1920,
+      "documentWidth": 1920
+    },
+    {
+      "name": "continue-destination",
+      "route": "/career/inbox",
+      "width": 2560,
+      "documentWidth": 2560
+    },
+    {
+      "name": "matchday-preview",
+      "route": "/career/match-preview",
+      "width": 1920,
+      "documentWidth": 1920
+    },
+    {
+      "name": "matchday-preview",
+      "route": "/career/match-preview",
+      "width": 2560,
+      "documentWidth": 2560
+    },
+    {
+      "name": "live-controls",
+      "route": "/career/match-day/cup-swe-2-r1-4",
+      "width": 1920,
+      "documentWidth": 1920
+    },
+    {
+      "name": "live-controls",
+      "route": "/career/match-day/cup-swe-2-r1-4",
+      "width": 2560,
+      "documentWidth": 2560
+    },
+    {
+      "name": "post-match",
+      "route": "/career/match-report/cup-swe-2-r1-4",
+      "width": 1920,
+      "documentWidth": 1920
+    },
+    {
+      "name": "post-match",
+      "route": "/career/match-report/cup-swe-2-r1-4",
+      "width": 2560,
+      "documentWidth": 2560
+    },
+    {
+      "name": "analysis-played-match",
+      "route": "/career/analysis/last-match",
+      "width": 1920,
+      "documentWidth": 1920
+    },
+    {
+      "name": "analysis-played-match",
+      "route": "/career/analysis/last-match",
+      "width": 2560,
+      "documentWidth": 2560
+    }
+  ],
+  "errors": []
+}

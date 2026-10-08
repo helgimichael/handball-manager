@@ -100,7 +100,7 @@ test('connected management journeys, contracts, shortlist, scouting, world links
     const beforeDate = await page.locator('.hm-header-sub').innerText();
     await page.getByRole('button',{name:'Fortsätt »',exact:true}).click();
     await expect(page.locator('.hm-header-sub')).not.toHaveText(beforeDate);
-    await expect(page.getByText('Bearbetar säsongen…',{exact:true})).toHaveCount(0,{timeout:30000});
+    await expect(page.locator('.game-world-advance')).toHaveCount(0,{timeout:30000});
     await page.getByRole('button',{name:'Spara',exact:true}).click();
     await expect(page.getByRole('status').filter({hasText:'Sparat'})).toBeVisible();
     await page.goto(`${base}${targetHref}`);

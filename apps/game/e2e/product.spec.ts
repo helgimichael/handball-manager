@@ -25,25 +25,28 @@ test('normal career UI: real squad, calendar, live match, decisions, finalizatio
   await expect(page.getByRole('status').filter({ hasText: 'Kontraktet är förlängt.' })).toBeVisible();
   await page.getByRole('link', { name: 'Taktik', exact: true }).click();
   await expect(page.getByText('Startsju', { exact: true })).toBeVisible({ timeout: 30000 });
-  const starts = page.locator('select[aria-label^="Startspelare"]');
-  const selected = [];
-  for (let n = 0; n < await starts.count(); n++) selected.push(await starts.nth(n).inputValue());
-  const wing = page.getByLabel('Startspelare V6', { exact: true });
-  const formerStarterName = (await wing.locator('option:checked').innerText()).trim();
-  for (let n = 0; n < await wing.locator('option').count(); n++) {
-    const id = await wing.locator('option').nth(n).getAttribute('value');
-    if (id && !selected.includes(id)) { await wing.selectOption(id); break; }
-  }
+  await page.getByRole('button', { name: 'Välj startposition V6', exact: true }).click();
+  const formerStarterName = (await page.locator('.coach-current-player .game-player-cell a').innerText()).trim();
+  const reserve = page.locator('.coach-candidate-list button').filter({has:page.locator('small', {hasText:'Bänk'})}).first();
+  const replacementName = (await reserve.locator('strong').innerText()).trim();
+  await reserve.click();
   const formerStarter = page.getByRole('checkbox', { name: `Ta ut ${formerStarterName}`, exact: true });
   await expect(formerStarter).toBeEnabled();
   await formerStarter.uncheck();
   await expect(formerStarter).not.toBeChecked();
-  await page.getByLabel('Tempo', { exact: true }).selectOption('FAST');
+  await page.getByRole('button', { name: 'Tempo Snabbt', exact: true }).click();
+  await expect(page.getByRole('button', { name: 'Tempo Snabbt', exact: true })).toHaveAttribute('aria-pressed','true');
+  for (const width of [1920,2560]) {
+    await page.setViewportSize({width,height:1080});
+    await page.getByRole('button',{name:'Välj startposition V6',exact:true}).focus();
+    await page.screenshot({path:`${process.env.HM_QA_SCREENSHOT_DIR ?? '../../docs/audit'}/tactics-selection-${width}.png`,animations:'disabled'});
+  }
+  await page.setViewportSize({width:1920,height:1080});
   await page.getByRole('link', { name: 'Till matchen →' }).click();
   for (let n = 0; n < 30; n++) {
     if (await page.getByRole('button', { name: 'STARTA MATCH →', exact: true }).isVisible()) break;
     await page.getByRole('button', { name: 'Fortsätt »', exact: true }).click();
-    await expect(page.getByText('Bearbetar säsongen…', { exact: true })).toHaveCount(0, { timeout: 30000 });
+    await expect(page.locator('.game-world-advance')).toHaveCount(0, { timeout: 30000 });
     await page.goto(`${base}/career/match-preview`);
   }
   await page.getByRole('button', { name: 'Spara', exact: true }).click();
@@ -52,20 +55,43 @@ test('normal career UI: real squad, calendar, live match, decisions, finalizatio
   await page.getByRole('button', { name: 'STARTA MATCH →', exact: true }).click();
   await page.waitForURL('**/career/match-day/**');
   await expect(page.getByRole('button', { name: 'Spela', exact: true })).toBeVisible();
+  await expect(page.getByRole('button',{name:'Tempo Snabbt',exact:true})).toHaveAttribute('aria-pressed','true');
+  await expect(page.locator('.coach-live-out-list')).toContainText(replacementName);
   console.log((await page.locator('body').innerText()).slice(-2500));
   await page.screenshot({ path: `${process.env.HM_QA_SCREENSHOT_DIR ?? '../../docs/audit'}/live-match-ui.png`, fullPage: true });
   await page.getByRole('combobox').filter({ has: page.locator('option[value="64"]') }).selectOption('64');
   await page.getByRole('button', { name: 'Spela', exact: true }).click();
   await expect(page.getByRole('button', { name: 'Pausa', exact: true })).toBeVisible();
   await page.getByRole('button', { name: 'Pausa', exact: true }).click();
-  await page.getByLabel('Spelare ut', { exact: true }).selectOption({ index: 1 });
-  await page.getByLabel('Spelare in', { exact: true }).selectOption({ index: 1 });
+  await page.getByRole('button', { name: /^Byt ut / }).first().click();
+  await page.getByRole('button', { name: /^Byt in / }).first().click();
+  for (const width of [1920,2560]) {
+    await page.setViewportSize({width,height:1080});
+    await page.getByRole('button',{name:/^Byt in /}).first().focus();
+    await page.screenshot({path:`${process.env.HM_QA_SCREENSHOT_DIR ?? '../../docs/audit'}/live-substitution-${width}.png`,animations:'disabled'});
+  }
+  await page.setViewportSize({width:1920,height:1080});
   await page.getByRole('button', { name: 'Genomför byte', exact: true }).click();
-  await page.getByRole('combobox').filter({ has: page.locator('option[value="WIDTH"]') }).selectOption('WIDTH');
+  await expect(page.locator('.coach-pending-exchange')).toBeVisible();
+  await page.getByRole('button', { name: 'Anfall Bredd', exact: true }).click();
+  await expect(page.getByRole('button', { name: 'Anfall Bredd', exact: true })).toHaveAttribute('aria-pressed','true');
+  const timeout = page.getByRole('button',{name:'Timeout',exact:true});
+  for (let attempt=0;attempt<8 && !(await timeout.isEnabled());attempt++) {
+    await page.getByRole('button',{name:'Spela',exact:true}).click();
+    await expect.poll(()=>timeout.isEnabled(),{timeout:30000,intervals:[50]}).toBe(true);
+    await page.getByRole('button',{name:'Pausa',exact:true}).click();
+  }
+  await expect(timeout).toBeEnabled();
+  await timeout.click();
+  await expect(page.locator('.coach-timeout[data-active="true"]')).toBeVisible();
+  await expect(timeout).toBeDisabled();
+  await page.screenshot({path:`${process.env.HM_QA_SCREENSHOT_DIR ?? '../../docs/audit'}/live-timeout.png`,animations:'disabled'});
   await page.getByRole('button', { name: 'Spara', exact: true }).click();
   await expect(page.getByRole('status').filter({ hasText: 'Sparat' })).toBeVisible({ timeout: 30000 });
   await page.reload();
   await expect(page.getByRole('button', { name: 'Spela', exact: true })).toBeVisible({ timeout: 60000 });
+  await expect(page.getByRole('button',{name:'Anfall Bredd',exact:true})).toHaveAttribute('aria-pressed','true');
+  await expect(page.getByRole('button',{name:'Timeout',exact:true})).toBeDisabled();
   await page.getByRole('button', { name: 'Spela till slut', exact: true }).click();
   await page.waitForURL('**/career/match-report/**', { timeout: 180000 });
   await expect(page.getByText('Speltid och belastning', { exact: true })).toBeVisible({ timeout: 30000 });

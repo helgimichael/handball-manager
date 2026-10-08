@@ -3,7 +3,8 @@ import { mkdirSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 const base = process.env.HM_QA_URL ?? 'http://localhost:3004';
 const phase = process.env.HM_VISUAL_PHASE ?? 'after';
-const output = path.resolve('../../docs/game-experience', phase);
+const evidenceRoot = path.resolve(process.env.HM_GAME_QA_DIR ?? '../../docs/game-experience');
+const output = path.join(evidenceRoot, phase);
 
 async function ready(page:Page) {
   await expect(page.locator('.hm-shell')).toBeVisible({timeout:90000});
@@ -80,7 +81,7 @@ test('player identity survives tabs, offer drafts survive selection and sporting
   const screens=[{name:'club',route:'/career/club'},{name:'inbox',route:'/career/inbox'},{name:'training',route:'/career/training'},{name:'calendar',route:'/career/calendar'},{name:'preview',route:'/career/match-preview'},{name:'statistics',route:'/career/statistics'},{name:'transfers',route:'/career/transfers'}];
   for(const viewport of [{width:1920,height:1080},{width:2560,height:1080}]) {
     await page.setViewportSize(viewport);
-    const dir=path.resolve('../../docs/game-experience/supplemental',String(viewport.width));mkdirSync(dir,{recursive:true});
+    const dir=path.join(evidenceRoot,'supplemental',String(viewport.width));mkdirSync(dir,{recursive:true});
     for(const screen of screens) {
       await page.goto(`${base}${screen.route}`);await ready(page);
       await expect(page.locator('main h1').first()).toBeVisible({timeout:30000});

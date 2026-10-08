@@ -1,0 +1,116 @@
+{
+  "kind": "recorded-fixture-ui-qa",
+  "source": "docs/game-experience/regression/season-end-state.json",
+  "sourceSha256": "7bce7a1224c0f10e6a421a2d94ef9326331ac8547273947d9b5279d8717f39a8",
+  "isolatedContexts": true,
+  "fabricatedCareerFacts": false,
+  "independentFullSeasonRegression": true,
+  "phases": [
+    {
+      "phase": "before",
+      "base": "http://localhost:3006",
+      "captures": [
+        {
+          "name": "season-complete",
+          "source": "canonical-recorded-fixture",
+          "path": "docs/game-experience/v1.1/before/1920/season-complete-recorded.png",
+          "route": "/career",
+          "width": 1920,
+          "documentWidth": 1920
+        },
+        {
+          "name": "season-complete",
+          "source": "canonical-recorded-fixture",
+          "path": "docs/game-experience/v1.1/before/2560/season-complete-recorded.png",
+          "route": "/career",
+          "width": 2560,
+          "documentWidth": 2560
+        }
+      ],
+      "freshSave": {
+        "saveId": "save-542fb9cc-aabf-4aca-a626-97ffe7b56cd0",
+        "manager": "Recorded Milestone QA before",
+        "schemaVersion": 8,
+        "saveRecords": 1,
+        "seededSeason": "2026/27",
+        "seededDate": "2027-02-13"
+      },
+      "complete": true
+    },
+    {
+      "phase": "after",
+      "base": "http://localhost:3007",
+      "captures": [
+        {
+          "name": "season-complete",
+          "source": "canonical-recorded-fixture",
+          "path": "docs/game-experience/v1.1/after/1920/season-complete-recorded.png",
+          "route": "/career",
+          "width": 1920,
+          "documentWidth": 1920
+        },
+        {
+          "name": "season-complete",
+          "source": "canonical-recorded-fixture",
+          "path": "docs/game-experience/v1.1/after/2560/season-complete-recorded.png",
+          "route": "/career",
+          "width": 2560,
+          "documentWidth": 2560
+        },
+        {
+          "name": "season-start",
+          "source": "canonical-recorded-fixture",
+          "path": "docs/game-experience/v1.1/after/1920/season-start-recorded.png",
+          "route": "/career",
+          "width": 1920,
+          "documentWidth": 1920
+        },
+        {
+          "name": "season-start",
+          "source": "canonical-recorded-fixture",
+          "path": "docs/game-experience/v1.1/after/2560/season-start-recorded.png",
+          "route": "/career",
+          "width": 2560,
+          "documentWidth": 2560
+        },
+        {
+          "name": "history-season",
+          "source": "canonical-recorded-fixture",
+          "path": "docs/game-experience/v1.1/after/1920/history-season-recorded.png",
+          "route": "/career/history",
+          "width": 1920,
+          "documentWidth": 1920
+        },
+        {
+          "name": "history-season",
+          "source": "canonical-recorded-fixture",
+          "path": "docs/game-experience/v1.1/after/2560/history-season-recorded.png",
+          "route": "/career/history",
+          "width": 2560,
+          "documentWidth": 2560
+        }
+      ],
+      "freshSave": {
+        "saveId": "save-ddcd9a9a-d356-4920-9265-e4794299f7e2",
+        "manager": "Recorded Milestone QA after",
+        "schemaVersion": 8,
+        "saveRecords": 1,
+        "seededSeason": "2026/27",
+        "seededDate": "2027-02-13"
+      },
+      "rollover": {
+        "season": "2027/28",
+        "date": "2027-02-13",
+        "archiveCount": 26,
+        "historicalSeason": "2026/27",
+        "historicalClubs": 14,
+        "eachHistoricalClubPlayed": 26,
+        "historicalPlayerStatisticsUnchanged": true,
+        "saveReloadPassed": true
+      },
+      "complete": true
+    }
+  ],
+  "errors": [],
+  "complete": true
+}

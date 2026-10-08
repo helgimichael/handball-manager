@@ -1,0 +1,104 @@
+import { test, expect } from '@playwright/test';
+const base = process.env.HM_QA_URL ?? 'http://localhost:3006';
+
+async function tumbaCareer(page: import('@playwright/test').Page) {
+  await page.goto(`${base}/new-game`);
+  for (let step=0;step<4;step++) await page.getByRole('button',{name:'Nästa →',exact:true}).click();
+  await page.getByPlaceholder('För- och efternamn').fill('Experience v11 QA');
+  await page.getByRole('button',{name:'Nästa →',exact:true}).click();
+  await page.getByRole('radio',{name:'8 veckor före seriestart',exact:true}).check();
+  await page.getByRole('button',{name:'STARTA KARRIÄR',exact:true}).click();
+  await page.waitForURL('**/career',{timeout:90000});
+  await expect(page.locator('.game-home')).toBeVisible({timeout:90000});
+}
+
+test('career setup validates the selected league, starts another club, and safely returns to a saved career', async ({page})=>{
+  test.setTimeout(240000);
+  page.setDefaultTimeout(30000);
+  const errors:string[]=[]; page.on('pageerror',error=>errors.push(error.message));
+  await page.setViewportSize({width:2560,height:1080});
+  await page.goto(`${base}/load-game`);
+  await expect(page.getByRole('link',{name:'Börja en ny karriär →',exact:true})).toBeVisible();
+  await page.getByRole('link',{name:'Börja en ny karriär →',exact:true}).click();
+  await page.waitForURL('**/new-game');
+  await expect(page.getByRole('checkbox',{name:'Sverige',exact:true})).toBeChecked();
+  await page.getByRole('button',{name:'Nästa →',exact:true}).click();
+  await page.getByRole('checkbox',{name:'Allsvenskan',exact:true}).uncheck();
+  await page.getByRole('button',{name:'Nästa →',exact:true}).click();
+  await page.getByRole('button',{name:'Nästa →',exact:true}).click();
+  await expect(page.getByRole('radio',{name:'IFK Tumba HK',exact:true})).toHaveCount(0);
+  await expect(page.getByRole('button',{name:'Nästa →',exact:true})).toBeDisabled();
+  await page.getByRole('radio',{name:/^Hammarby/}).check();
+  await expect(page.locator('.career-entry-context')).toContainText('Hammarby');
+  await page.getByRole('button',{name:'Nästa →',exact:true}).press('Enter');
+  await page.getByPlaceholder('För- och efternamn').fill('Hammarby v11 QA');
+  await page.getByRole('button',{name:'Nästa →',exact:true}).press('Enter');
+  await page.getByRole('radio',{name:'Vid första tävlingsmatchen',exact:true}).check();
+  await expect(page.locator('.career-start-mandate')).toContainText('Hammarby v11 QA');
+  await page.getByRole('button',{name:'STARTA KARRIÄR',exact:true}).click();
+  await page.waitForURL('**/career',{timeout:90000});
+  await expect(page.locator('.hm-club-name')).toContainText('Hammarby',{timeout:90000});
+  await page.getByRole('button',{name:'Spara',exact:true}).click();
+  await expect(page.getByRole('status').filter({hasText:'Sparat'})).toBeVisible();
+  await page.getByRole('link',{name:'Sparade karriärer →',exact:true}).click();
+  const remove=page.getByRole('button',{name:'Ta bort',exact:true}).first();
+  await remove.click();
+  await expect(page.getByRole('button',{name:'Behåll karriären',exact:true})).toBeFocused();
+  await page.getByRole('button',{name:'Behåll karriären',exact:true}).press('Escape');
+  await expect(page.getByRole('button',{name:'Behåll karriären',exact:true})).toHaveCount(0);
+  await expect(remove).toBeFocused();
+  await page.getByRole('button',{name:'Ladda',exact:true}).first().click();
+  await page.waitForURL('**/career',{timeout:90000});
+  await expect(page.locator('.hm-club-name')).toContainText('Hammarby',{timeout:90000});
+  expect(await page.evaluate(()=>document.documentElement.scrollWidth)).toBeLessThanOrEqual(2560);
+  await page.getByRole('link',{name:'Sparade karriärer →',exact:true}).click();
+  await expect(page.getByRole('button',{name:'Ladda',exact:true}).first()).toBeVisible();
+  for (const width of [1920,2560]) {
+    await page.setViewportSize({width,height:1080});
+    await page.screenshot({path:`${process.env.HM_GAME_QA_DIR ?? '../../docs/game-experience/v1.1/acceptance'}/closeout/load-game-${width}.png`,animations:'disabled'});
+  }
+  expect(errors).toEqual([]);
+});
+
+test('Continue identifies the real stop, object navigation retains workspace context, and unread reading stays visible',async ({page})=>{
+  test.setTimeout(240000);
+  page.setDefaultTimeout(30000);
+  const errors:string[]=[]; page.on('pageerror',error=>errors.push(error.message));
+  await page.setViewportSize({width:1920,height:1080});
+  await tumbaCareer(page);
+  await page.getByRole('button',{name:'Fortsätt »',exact:true}).click();
+  await expect(page.getByRole('dialog',{name:'Världen går vidare.',exact:true})).toBeVisible();
+  const stopTitle=(await page.locator('.game-advance-stop h3').innerText()).trim();
+  await page.getByRole('dialog').press('Escape');
+  await expect(page.locator('.game-world-advance')).toHaveCount(0);
+  await page.waitForURL('**/career/inbox?message=*');
+  await expect(page.locator('.game-news-article h2')).toHaveText(stopTitle,{ignoreCase:true});
+  const articleTitle=await page.locator('.game-news-article h2').textContent();
+  await page.getByRole('button',{name:'Olästa',exact:true}).click();
+  const unread=page.locator('.game-news-item[data-unread=true]').first();
+  const unreadTitle=await unread.getAttribute('aria-label');
+  await unread.click();
+  await expect(page.locator('.game-news-article h2')).toHaveText(unreadTitle!);
+  await expect(page.locator('.game-news-article')).not.toContainText('Välj ett meddelande');
+  await page.getByRole('link',{name:'Trupp',exact:true}).click();
+  await page.getByLabel('Sök spelare',{exact:true}).fill('Gabriel Helgason');
+  await page.getByRole('checkbox',{name:'Jämför Gabriel Helgason',exact:true}).check();
+  await page.locator('.hm-roster-table a[href^="/career/squad/"]').first().click();
+  await expect(page.locator('.game-player-hero')).toBeVisible();
+  await page.getByRole('button',{name:'Tillbaka i navigationen',exact:true}).click();
+  await expect(page.getByLabel('Sök spelare',{exact:true})).toHaveValue('Gabriel Helgason');
+  await expect(page.getByRole('checkbox',{name:'Jämför Gabriel Helgason',exact:true})).toBeChecked();
+  await page.getByRole('link',{name:'Spelarsök',exact:true}).click();
+  await page.getByLabel('Sök spelarmarknaden',{exact:true}).fill('Ahlin');
+  await page.getByRole('combobox',{name:'Position',exact:true}).selectOption('M9');
+  await page.locator('.game-target-dossier').getByRole('link',{name:'Öppna spelarprofil →',exact:true}).click();
+  await expect(page.locator('.game-player-hero')).toBeVisible();
+  await page.getByRole('button',{name:'Tillbaka i navigationen',exact:true}).click();
+  await expect(page.getByLabel('Sök spelarmarknaden',{exact:true})).toHaveValue('Ahlin');
+  await expect(page.getByRole('combobox',{name:'Position',exact:true})).toHaveValue('M9');
+  await expect(page.locator('.game-target-dossier')).toContainText('Ahlin');
+  await page.getByRole('link',{name:'Rekrytering',exact:true}).click();
+  await expect(page.getByRole('link',{name:'Rekrytera en scout →',exact:true})).toBeVisible();
+  expect(articleTitle).toBeTruthy();
+  expect(errors).toEqual([]);
+});

@@ -48,7 +48,9 @@
     ".next-game-production/types/**/*.ts",
     ".next-game-production/dev/types/**/*.ts",
     ".next-game-final/types/**/*.ts",
-    ".next-game-final/dev/types/**/*.ts"
+    ".next-game-final/dev/types/**/*.ts",
+    ".next-game-v11/types/**/*.ts",
+    ".next-game-v11/dev/types/**/*.ts"
   ],
   "exclude": [
     "node_modules"
