@@ -42,7 +42,13 @@
     ".next-management-build/types/**/*.ts",
     ".next-management-build/dev/types/**/*.ts",
     ".next-management-final/types/**/*.ts",
-    ".next-management-final/dev/types/**/*.ts"
+    ".next-management-final/dev/types/**/*.ts",
+    ".next-game-experience/types/**/*.ts",
+    ".next-game-experience/dev/types/**/*.ts",
+    ".next-game-production/types/**/*.ts",
+    ".next-game-production/dev/types/**/*.ts",
+    ".next-game-final/types/**/*.ts",
+    ".next-game-final/dev/types/**/*.ts"
   ],
   "exclude": [
     "node_modules"

@@ -1,0 +1,139 @@
+.hm-squad-screen,
+.hm-training-screen,
+.hm-calendar-screen,
+.hm-contract-screen,
+.hm-statistics-screen { display: grid; gap: 14px; min-width: 0; }
+
+.hm-roster-heading { background: var(--game-navy); color: var(--game-paper); padding: 22px 26px 0; border-left: 4px solid var(--game-signal); }
+.hm-roster-heading .hm-page-heading { margin: 0 0 24px; }
+.hm-roster-heading .hm-page-heading h1 { color: var(--game-paper); }
+.hm-roster-heading .hm-page-heading p,
+.hm-roster-heading .hm-eyebrow { color: #b4c1c7; }
+.hm-roster-heading .hm-btn:not(.hm-btn-primary) { color: var(--game-paper); background: transparent; border-color: #64717a; }
+.hm-sports-summary { display: grid; grid-template-columns: .85fr 1fr 1fr 1.2fr; border-top: 1px solid #43515b; }
+.hm-sports-summary > div,
+.hm-sports-summary > a { display: flex; flex-direction: column; justify-content: center; gap: 3px; min-width: 0; padding: 16px 18px 18px 0; }
+.hm-sports-summary > * + * { padding-left: 24px; border-left: 1px solid #43515b; }
+.hm-roster-heading .hm-sports-summary > * + * { padding-left:24px; }
+.hm-sports-summary strong { color: var(--game-paper); font-size: 34px; line-height: 1; letter-spacing: -.035em; font-variant-numeric: tabular-nums; }
+.hm-sports-summary strong small { font-size: 19px; color: #a6b7c1; font-weight: 500; }
+.hm-sports-summary span { color: #b4c1c7; font-size: 11px; }
+.hm-sports-summary b { font-size: 13px; color: var(--game-paper); }
+.hm-sports-summary [data-alert="true"] strong { color: #e9a078; }
+.hm-sports-summary .hm-summary-money { font-size: clamp(19px, 1.8vw, 29px); }
+
+.hm-squad-selection { display: flex; align-items: center; gap: 25px; padding: 13px 16px; border-top: 1px solid var(--hm-border); border-bottom: 1px solid var(--hm-border); background: #e6e4d8; }
+.hm-squad-selection > div { display: grid; gap: 4px; }
+.hm-squad-selection > div:first-child { min-width: 135px; }
+.hm-squad-selection > button { margin-left: auto; }
+.hm-squad-selection .hm-text-muted { font-size: 10px; }
+.hm-roster-table.hm-table td,
+.hm-roster-table.hm-table th { padding-left: 8px; padding-right: 8px; }
+.hm-roster-table .hm-select { min-width: 92px; max-width: 138px; font-size: 11px; }
+.hm-roster-table [data-highlight="true"] { box-shadow: inset 3px 0 var(--game-signal); }
+.hm-position-code { display: inline-grid; place-items: center; min-width: 27px; padding: 4px; font-size: 10px; font-weight: 800; background: #e7e6dc; color: var(--game-ink); }
+.hm-squad-screen .hm-roster-heading { padding-top:18px; }
+.hm-squad-screen .hm-roster-heading .hm-page-heading { margin-bottom:14px; }
+.hm-squad-screen .hm-roster-heading .hm-page-heading h1 { font-size:40px; }
+.hm-squad-screen .hm-sports-summary > * { padding-top:12px; padding-bottom:12px; }
+.hm-squad-screen .game-depth > header { padding-top:12px; padding-bottom:12px; }
+.hm-squad-screen .game-depth h2 { font-size:25px; line-height:1; }
+.hm-squad-screen .game-depth-position { padding:10px 14px; }
+.hm-squad-screen .game-depth-position > div strong { font-size:25px; line-height:1; }
+.hm-squad-screen .game-depth-position > a { margin-top:5px; }
+.hm-roster-table .game-player-glyph { --glyph-size:28px !important; }
+.hm-roster-table.hm-table td { padding-top:6px; padding-bottom:6px; }
+.hm-roster-energy { font-variant-numeric: tabular-nums; font-weight: 700; color: #315d48; }
+.hm-roster-energy[data-low="true"] { color: #a54928; }
+.hm-position-filters { display: flex; gap: 6px; flex-wrap: wrap; }
+.hm-position-filters [aria-pressed="true"] { color: var(--game-paper); background: var(--game-ink); border-color: var(--game-ink); }
+
+.hm-week-context { display: grid; grid-template-columns: minmax(285px, .9fr) minmax(0, 1.4fr); background: #e9e7dc; border-top: 3px solid var(--game-ink); }
+.hm-week-context .game-match-hero { margin: 0; }
+.hm-week-context > div:first-child { padding: 19px 22px; align-self: center; }
+.hm-week-context h2 { margin: 6px 0 8px; font-size: 29px; line-height: 1.05; letter-spacing: -.035em; color: #172d3b; }
+.hm-week-context p { margin: 0 0 11px; color: #55646b; font-size: 12px; }
+.hm-training-metrics { display: flex; gap: 25px; margin-top: 18px; }
+.hm-training-metrics > div { display: grid; gap: 4px; }
+.hm-training-metrics strong { font-size: 27px; font-variant-numeric: tabular-nums; color: #172d3b; line-height: 1; }
+.hm-training-metrics span { font-size: 10px; color: #55646b; max-width: 120px; }
+.hm-training-week { display: grid; grid-template-columns: repeat(7, minmax(150px, 1fr)); gap: 1px; padding: 0; background: #c4c9c6; }
+.hm-training-day { padding: 12px 10px; background: var(--game-paper); min-width: 0; border-top: 3px solid transparent; }
+.hm-training-day[data-today="true"] { border-top-color: var(--game-ink); }
+.hm-training-day[data-matchday="true"] { background: #e8e5d8; border-top-color: var(--game-signal); }
+.hm-training-day[data-recovery="true"] { background: #e7ebe3; }
+.hm-training-day-date { display: flex; align-items: baseline; gap: 7px; margin-bottom: 12px; color: #1c3341; }
+.hm-training-day-date > span { font-weight: 700; font-size: 11px; }
+.hm-training-day-date > strong { font-size: 30px; line-height: 1; letter-spacing: -.04em; font-variant-numeric: tabular-nums; }
+.hm-training-day-date > small { font-size: 10px; color: #66716f; }
+.hm-training-match { display: grid; gap: 4px; background: var(--game-ink); color: var(--game-paper); padding: 10px 9px; }
+.hm-training-match:hover { color: var(--game-paper); background: #2f4958; }
+.hm-training-match > span { font-size: 10px; color: #c5ced0; }
+.hm-training-match > strong { font-size: 16px; line-height: 1.05; overflow-wrap: anywhere; }
+.hm-training-session { background: #e5e3d8; padding: 8px 6px; border-left: 2px solid #99a6aa; }
+.hm-training-session .hm-select { font-size: 10px; padding: 6px 5px; }
+.hm-training-session .hm-btn { font-size: 10px; }
+
+.hm-calendar-screen .hm-calendar-week { display: grid; grid-template-columns: repeat(7, minmax(145px, 1fr)); gap: 1px; padding: 0; background: #c4c9c6; overflow-x: auto; }
+.hm-calendar-screen .hm-calendar-day { border: 0; border-radius: 0; background: var(--game-paper); padding: 14px 11px; min-height: 200px; border-top: 3px solid transparent; }
+.hm-calendar-screen .hm-calendar-day[data-today="true"] { border-top-color: var(--game-ink); box-shadow: inset 0 0 0 2px var(--game-ink); }
+.hm-calendar-screen .hm-calendar-day[data-matchday="true"] { border-top-color: var(--game-signal); background: #e8e5d8; }
+.hm-calendar-screen .hm-calendar-day[data-recovery="true"] { background: #e7ebe3; }
+.hm-calendar-date { display: flex; align-items: baseline; gap: 6px; margin-bottom: 11px; color: #1c3341; }
+.hm-calendar-date span { font-size: 11px; font-weight: 700; }
+.hm-calendar-date strong { font-size: 29px; line-height: 1; letter-spacing: -.04em; font-variant-numeric: tabular-nums; }
+.hm-calendar-date small { font-size: 10px; color: #66716f; }
+.hm-calendar-today { margin-left: 5px; font-size: 10px; color: #172d3b; font-weight: 800; }
+.hm-calendar-screen .hm-calendar-day > p { font-size: 10px; line-height: 1.45; color: #59666a; }
+.hm-calendar-screen .hm-calendar-match { display: grid; gap: 5px; margin: 10px -4px 7px; padding: 10px 9px; background: var(--game-ink); color: var(--game-paper); border: 0; }
+.hm-calendar-match > span,
+.hm-calendar-match > b { font-size: 10px; color: #c5ced0; }
+.hm-calendar-match > strong { font-size: 17px; line-height: 1.05; overflow-wrap: anywhere; }
+.hm-calendar-screen .hm-calendar-match:hover { color: var(--game-paper); background: #2f4958; }
+.hm-calendar-deadline { display: grid; gap: 3px; margin-top: 10px; padding-top: 7px; border-top: 1px solid #c5b3a1; font-size: 11px; }
+.hm-calendar-deadline > span { font-size: 10px; color: #984526; font-weight: 700; }
+.hm-calendar-discovery { display: block; padding-top: 7px; margin-top: 7px; border-top: 1px solid #c4c9c6; font-size: 10px; }
+
+.hm-contract-layout { display: grid; grid-template-columns: minmax(0, 1.9fr) minmax(280px, .9fr); gap: 16px; align-items: start; }
+.hm-contract-layout > section { min-width: 0; }
+.hm-contract-layout > section:last-child { border-top: 3px solid var(--game-signal); }
+.hm-contract-countdown { font-variant-numeric: tabular-nums; font-size: 16px; }
+.hm-contract-countdown[data-urgent="true"] { color: #984526; }
+.hm-contract-player { display: grid; gap: 10px; margin-bottom: 18px; padding-bottom: 14px; border-bottom: 1px solid var(--hm-border); }
+.hm-contract-player > strong { color: #984526; font-size: 13px; }
+.hm-decision-prompt { display: block; margin: 12px 0; font-size: 24px; line-height: 1.05; letter-spacing: -.025em; color: var(--game-ink); }
+
+.hm-leader-strip { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); background: #e9e7dc; border-top: 3px solid var(--game-ink); }
+.hm-leader-strip > article { min-width: 0; padding: 18px 22px; }
+.hm-leader-strip > article + article { border-left: 1px solid #c4c9c6; }
+.hm-leader-number { display: flex; align-items: baseline; gap: 10px; margin: 9px 0 12px; }
+.hm-leader-number strong { font-size: 42px; letter-spacing: -.05em; line-height: 1; font-variant-numeric: tabular-nums; color: #172d3b; }
+.hm-leader-number span { color: #55646b; font-size: 12px; }
+.hm-leader-strip p { color: #55646b; margin: 12px 0 0; font-size: 11px; }
+.hm-leader-awaiting { display: block; margin-top: 15px; font-size: 24px; line-height: 1.05; letter-spacing: -.025em; color: var(--game-ink); }
+.hm-stat-club { display: flex; align-items: center; gap: 10px; }
+.hm-stat-emphasis { color: var(--game-ink); font-weight: 800; font-size: 17px; font-variant-numeric: tabular-nums; }
+
+.hm-sports-summary strong,
+.hm-leader-number strong,
+.hm-training-day-date > strong,
+.hm-calendar-date strong { font-family: var(--game-font-display); font-weight: 400; }
+
+@media (min-width: 2200px) {
+  .hm-roster-table.hm-table td,
+  .hm-roster-table.hm-table th { padding-left: 12px; padding-right: 12px; }
+  .hm-training-week { grid-template-columns: repeat(7, minmax(175px, 1fr)); }
+}
+@media (max-width: 1250px) {
+  .hm-contract-layout { grid-template-columns: minmax(0, 1fr); }
+  .hm-week-context { grid-template-columns: minmax(0, 1fr); }
+  .hm-sports-summary { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .hm-sports-summary > :nth-child(3) { border-left: 0; padding-left: 0; }
+}
+@media (max-width: 800px) {
+  .hm-roster-heading { padding: 17px 17px 0; }
+  .hm-squad-selection { flex-wrap: wrap; gap: 12px; }
+  .hm-leader-strip { grid-template-columns: minmax(0, 1fr); }
+  .hm-leader-strip > article + article { border-left: 0; border-top: 1px solid #c4c9c6; }
+  .hm-training-metrics { gap: 15px; }
+}

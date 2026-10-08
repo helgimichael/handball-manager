@@ -1,0 +1,143 @@
+/* Recruitment is a player discovery fieldbook; communications read as club news. */
+.game-discovery-page, .game-scouting-page, .game-transfers-page, .game-news-page { min-width: 0; }
+.game-market-stage { display: grid; grid-template-columns: minmax(320px, 1.6fr) repeat(3, minmax(100px, .55fr)); gap: 28px; align-items: center; background: #122335; color: #f8f3e9; padding: 24px 28px; margin-bottom: 18px; border-left: 5px solid var(--hm-accent); }
+.game-market-stage .hm-eyebrow { color: #f2a67c; }
+.game-market-stage h2 { font-family: var(--game-font-display); font-weight: 500; letter-spacing: .025em; font-size: clamp(24px, 1.8vw, 38px); line-height: 1.1; margin: 8px 0; }
+.game-market-stage p { margin: 0; color: #bdc8d4; font-size: 12px; }
+.game-market-count { display: flex; flex-direction: column; gap: 2px; border-left: 1px solid #425064; padding-left: 24px; }
+.game-market-count strong { font-family: var(--game-font-display); font-size: 44px; font-weight: 500; line-height: 1; letter-spacing: .03em; }
+.game-market-count span { font-size: 12px; color: #c8d0da; }
+.game-market-layout { display: grid; grid-template-columns: minmax(0, 1fr) minmax(320px, 365px); align-items: start; gap: 18px; }
+.game-market-results { min-width: 0; }
+.game-market-table { max-height: 650px; overflow-y: auto; }
+.game-market-table .hm-table { font-size: 12px; }
+.game-market-table .hm-table th { position: sticky; top: 0; z-index: 1; background: var(--hm-surface-2); }
+.game-market-table .hm-table td { padding: 8px 10px; }
+.game-market-table .hm-actions { gap: 5px; flex-wrap: wrap; }
+.game-market-table .hm-table tr[data-selected="true"], .game-scouting-layout tr[data-selected="true"] { background: #f6e5d4 !important; box-shadow: inset 4px 0 0 var(--hm-accent); }
+.game-knowledge { min-width: 90px; max-width: 240px; }
+.game-knowledge > span { display: flex; justify-content: space-between; gap: 8px; font-size: 11px; white-space: nowrap; color: var(--hm-text-secondary); }
+.game-knowledge b { color: var(--hm-text-primary); font-variant-numeric: tabular-nums; }
+.game-knowledge-track { height: 4px; margin-top: 5px; background: #c6cbd0; overflow: hidden; }
+.game-knowledge-track i { display: block; height: 100%; background: var(--hm-accent); }
+.game-recruitment-tag { display: inline-flex; white-space: nowrap; font-size: 10px; line-height: 1.35; padding: 4px 7px; text-transform: uppercase; font-weight: 750; letter-spacing: .045em; background: #e0e4e8; color: #38495a; }
+.game-recruitment-tag[data-stage="SCOUTING"] { background: #dae4ef; color: #314b69; }
+.game-recruitment-tag[data-stage="SCOUTED"] { background: #dfe9dc; color: #38543b; }
+.game-recruitment-tag[data-stage="SHORTLISTED"], .game-recruitment-tag[data-stage="PRIORITIZED"] { background: #f2dcc4; color: #713a16; }
+.game-recruitment-tag[data-stage="NEGOTIATING"] { background: #f1d0b8; color: #7e3919; }
+.game-recruitment-tag[data-stage="CLOSED"] { background: #d1e1d5; color: #284c33; }
+.game-target-dossier, .game-candidate-dossier { min-width: 0; background: var(--hm-surface-1); border: 1px solid var(--hm-border); }
+.game-dossier-heading { padding: 12px 16px; display: flex; align-items: center; justify-content: space-between; gap: 8px; background: var(--hm-surface-2); border-bottom: 1px solid var(--hm-border); }
+.game-dossier-heading .hm-eyebrow { font-size: 9px; }
+.game-target-dossier .game-player-hero, .game-candidate-dossier .game-player-hero { display: grid; grid-template-columns: 105px minmax(0, 1fr); gap: 14px; padding: 18px 15px 12px; }
+.game-target-dossier .game-player-portrait, .game-candidate-dossier .game-player-portrait { min-height: 130px; }
+.game-target-dossier .game-player-portrait .game-player-glyph, .game-candidate-dossier .game-player-portrait .game-player-glyph { --glyph-size: 115px !important; }
+.game-target-dossier .game-portrait-initials, .game-candidate-dossier .game-portrait-initials { font-size: 24px; }
+.game-target-dossier .game-player-identity h1, .game-candidate-dossier .game-player-identity h1 { font-size: clamp(25px, 2vw, 39px); overflow-wrap: anywhere; }
+.game-target-dossier .game-player-firstname, .game-candidate-dossier .game-player-firstname { font-size: 17px; }
+.game-target-dossier .game-overline, .game-candidate-dossier .game-overline { font-size: 9px; line-height: 1.5; }
+.game-target-dossier .game-person-facts, .game-candidate-dossier .game-person-facts { font-size: 11px; gap: 6px; }
+.game-target-dossier .game-person-status, .game-candidate-dossier .game-person-status { font-size: 10px; margin-top: 10px; }
+.game-target-dossier .game-player-season, .game-candidate-dossier .game-player-season { grid-column: 1 / -1; border-left: 0; border-top: 1px solid #b8c2bc; padding: 10px 0 0; }
+.game-target-dossier .game-hero-stats, .game-candidate-dossier .game-hero-stats { margin-top: 7px; }
+.game-target-dossier .game-hero-stats strong, .game-candidate-dossier .game-hero-stats strong { font-size: 25px; }
+.game-dossier-body { padding: 18px; }
+.game-dossier-facts { margin: 16px 0; }
+.game-dossier-facts > div { display: flex; justify-content: space-between; gap: 14px; padding: 9px 0; border-bottom: 1px solid var(--hm-border-subtle); font-size: 12px; }
+.game-dossier-facts dt { color: var(--hm-text-muted); }
+.game-dossier-facts dd { margin: 0; text-align: right; font-weight: 650; }
+.game-discovery-actions { display: grid; gap: 8px; }
+.game-recruitment-stage { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); border: 1px solid var(--hm-border); margin-bottom: 18px; background: #142538; }
+.game-recruitment-stage button { display: grid; grid-template-columns: 1fr auto; gap: 8px; border: 0; border-right: 1px solid #39485c; background: transparent; color: #c7d1df; padding: 14px 16px 11px; font: inherit; font-size: 11px; text-align: left; cursor: pointer; border-bottom: 4px solid transparent; }
+.game-recruitment-stage button:last-child { border-right: 0; }
+.game-recruitment-stage button .game-stage-index { grid-column: 1 / -1; color: #a2afc1; font-size: 10px; font-weight: 600; letter-spacing: .15em; }
+.game-recruitment-stage button strong { font-size: 20px; font-variant-numeric: tabular-nums; color: #f5efe6; line-height: 1; }
+.game-recruitment-stage button:hover { background: #203448; }
+.game-recruitment-stage button[data-active="true"] { background: #f0e6d8; border-bottom-color: var(--hm-accent); color: #172839; }
+.game-recruitment-stage button[data-active="true"] .game-stage-index { color: #795039; }
+.game-recruitment-stage button[data-active="true"] strong { color: #172839; }
+.game-recruitment-layout { display: grid; grid-template-columns: minmax(0, 1fr) minmax(365px, .43fr); gap: 18px; align-items: start; }
+.game-recruitment-layout > * { min-width: 0; }
+.game-candidate-column { display: flex; flex-direction: column; gap: 16px; min-width: 0; }
+.game-candidate-dossier .hm-panel { border: 0; border-top: 1px solid var(--hm-border); box-shadow: none; border-radius: 0; }
+.game-candidate-facts .hm-panel-header { display: none; }
+.game-dossier-links { padding: 12px 16px; }
+.game-candidate-dossier .hm-panel-body { padding: 14px 16px; }
+.game-report-stamp { display: inline-block; color: #4b6152; border: 1px solid #859488; padding: 4px 7px; font-size: 9px; font-weight: 750; letter-spacing: .1em; text-transform: uppercase; white-space: nowrap; }
+.game-report-attributes { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; border-top: 1px solid var(--hm-border); padding-top: 15px; }
+.game-report-attributes ul { padding-left: 16px; margin: 8px 0; font-size: 12px; line-height: 1.8; }
+.game-report-attributes p { font-size: 11px; line-height: 1.6; color: var(--hm-text-muted); margin: 7px 0; }
+.game-scout-report { border-top: 3px solid #728575; background: #f3efe4; }
+.game-report-meta { display: flex; justify-content: space-between; gap: 10px; font-size: 11px; color: var(--hm-text-muted); }
+.game-report-recommendation { border-left: 3px solid var(--hm-accent); padding: 10px 15px; background: #eae4d7; }
+.game-scouting-layout { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(350px, .85fr); gap: 18px; align-items: start; }
+.game-scouting-layout > * { min-width: 0; }
+.game-scout-assignment, .game-scout-report-row { border-bottom: 1px solid var(--hm-border); padding: 9px 0 13px; }
+.game-scout-assignment:last-child, .game-scout-report-row:last-child { border-bottom: 0; }
+.game-report-row-status { display: grid; justify-items: end; gap: 8px; }
+.game-transfer-budget { background: #142538; color: #f7f0e7; border-top: 3px solid var(--hm-accent); }
+.game-transfer-budget small { color: #b4c2d0; }
+.game-transfer-budget strong { color: #fff8ef; }
+.game-transfer-event { padding: 22px 26px; border: 1px solid var(--hm-border); border-left: 5px solid #6e7e89; background: #ebe7df; margin: 0 0 18px; }
+.game-transfer-event[data-outcome="COMPLETED"] { border-left-color: #557557; background: #e2eadf; }
+.game-transfer-event[data-outcome="AGREED_AWAITING_WINDOW"] { border-left-color: var(--hm-accent); }
+.game-transfer-event[data-outcome="REJECTED_BY_CLUB"], .game-transfer-event[data-outcome="REJECTED_BY_PLAYER"], .game-transfer-event[data-outcome="BLOCKED_UNAFFORDABLE"] { border-left-color: #9b5144; }
+.game-transfer-event-identity { display: flex; align-items: center; gap: 20px; }
+.game-transfer-event h2 { font-family: var(--game-font-display); font-size: 32px; font-weight: 500; letter-spacing: .035em; margin: 7px 0; }
+.game-transfer-event-identity a { font-size: 16px; font-weight: 750; }
+.game-transfer-route { display: flex; align-items: center; gap: 18px; padding: 14px 0; font-size: 13px; }
+.game-transfer-terms { display: flex; gap: 30px; flex-wrap: wrap; border-top: 1px solid #bcc7bc; padding-top: 13px; margin-bottom: 12px; }
+.game-transfer-terms > div { display: flex; flex-direction: column; gap: 5px; }
+.game-transfer-terms small { color: #526057; font-size: 10px; text-transform: uppercase; letter-spacing: .07em; }
+.game-transfer-terms strong { font-size: 17px; }
+.game-transfer-event p { font-size: 12px; line-height: 1.7; max-width: 100ch; }
+.game-offer-empty { padding: 35px 28px; background: #e7e1d5; min-height: 255px; }
+.game-offer-empty-mark { font-size: 45px; color: #a9562c; }
+.game-offer-empty h2 { font-family: var(--game-font-display); font-size: 29px; font-weight: 500; margin: 12px 0; letter-spacing: .02em; }
+.game-offer-empty p { font-size: 12px; line-height: 1.7; max-width: 43ch; }
+.game-offer-impact { padding: 13px 15px; background: #ebe4d8; border-left: 3px solid var(--hm-accent); }
+.game-offer-impact > div { display: flex; justify-content: space-between; gap: 12px; font-size: 12px; margin-top: 10px; }
+.game-transfer-ledger-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; font-size: 11px; border-bottom: 1px solid var(--hm-border); padding: 12px 0; }
+.game-transfer-ledger-player { flex-basis: 100%; }
+.game-news-masthead { display: flex; align-items: center; gap: 44px; background: #142538; color: #f4ede3; padding: 23px 28px; border-bottom: 4px solid var(--hm-accent); margin-bottom: 18px; }
+.game-news-masthead > div { display: flex; align-items: center; gap: 13px; }
+.game-news-masthead > div:first-child { display: flex; flex-direction: column; align-items: start; gap: 5px; margin-right: auto; }
+.game-news-masthead > div:first-child strong { font-size: 21px; font-weight: 650; }
+.game-news-masthead .hm-eyebrow { color: #f3ae88; }
+.game-news-masthead > div:not(:first-child) strong { font-family: var(--game-font-display); font-size: 36px; font-weight: 500; }
+.game-news-masthead > div:not(:first-child) span { font-size: 12px; max-width: 13ch; color: #bbc8d5; }
+.game-news-masthead [data-urgent="true"] strong { color: #f3ae88; }
+.game-news-edition { font-size: 10px; letter-spacing: .1em; color: #bac6d3; }
+.game-news-layout { display: grid; grid-template-columns: minmax(360px, 420px) minmax(0, 1fr); align-items: start; gap: 22px; }
+.game-news-feed { background: var(--hm-surface-1); border: 1px solid var(--hm-border); min-width: 0; }
+.game-news-filters { display: flex; flex-wrap: wrap; padding: 13px; gap: 5px; border-bottom: 1px solid var(--hm-border); }
+.game-news-filters [data-active="true"] { background: #162c40; border-color: #162c40; color: #f7eee1; }
+.game-news-feed-label { display: flex; justify-content: space-between; padding: 12px 16px; color: var(--hm-text-muted); font-size: 10px; text-transform: uppercase; letter-spacing: .05em; }
+.game-news-feed-scroll { max-height: 650px; overflow-y: auto; }
+.game-news-item { display: block; width: 100%; background: transparent; border: 0; border-top: 1px solid var(--hm-border-subtle); border-left: 4px solid transparent; color: var(--hm-text-primary); font: inherit; padding: 16px 18px; text-align: left; cursor: pointer; }
+.game-news-item:hover { background: var(--hm-surface-2); }
+.game-news-item[data-active="true"] { background: #eee5d7; border-left-color: var(--hm-accent); }
+.game-news-item[data-urgent="true"] { border-top-color: #c9b098; }
+.game-news-item-meta { display: flex; justify-content: space-between; gap: 15px; font-size: 10px; color: var(--hm-text-muted); text-transform: uppercase; letter-spacing: .04em; margin-bottom: 8px; }
+.game-news-item > strong { display: block; font-size: 14px; font-weight: 600; line-height: 1.4; }
+.game-news-item[data-unread="true"] > strong { font-weight: 800; }
+.game-news-item p { margin: 7px 0 0; font-size: 11px; line-height: 1.6; color: var(--hm-text-secondary); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.game-unread-dot { display: inline-block; vertical-align: middle; width: 6px; height: 6px; margin-right: 8px; background: var(--hm-accent); border-radius: 50%; }
+.game-news-action-label { display: inline-block; font-size: 9px; font-weight: 800; letter-spacing: .08em; color: #8a4826; margin-top: 10px; }
+.game-news-article { background: #f6f1e6; border-top: 4px solid #172b3d; border-bottom: 1px solid var(--hm-border); padding-bottom: 18px; min-width: 0; min-height: 500px; }
+.game-news-article-header { padding: 30px 38px 25px; }
+.game-news-kicker { display: flex; justify-content: space-between; gap: 16px; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .12em; color: #795239; }
+.game-news-article h2 { font-family: var(--game-font-display); font-size: clamp(30px, 2.6vw, 54px); font-weight: 500; letter-spacing: .02em; line-height: 1.07; margin: 18px 0; max-width: 32ch; text-wrap: balance; }
+.game-news-byline { display: flex; align-items: center; flex-wrap: wrap; gap: 20px; font-size: 12px; color: #59636b; }
+.game-news-player { border-top: 1px solid var(--hm-border); border-bottom: 1px solid var(--hm-border); padding: 15px 38px; background: #ece6da; }
+.game-news-copy { padding: 4px 38px 18px; max-width: 1100px; }
+.game-news-copy p { font-size: 14px; line-height: 1.8; color: #39434c; margin: 20px 0; max-width: 95ch; }
+.game-news-copy p:first-child { font-size: 17px; color: #233345; line-height: 1.6; font-weight: 550; }
+.game-news-destinations { margin: 0 38px 20px; padding-top: 18px; border-top: 1px solid var(--hm-border); }
+.game-news-destinations .hm-eyebrow { margin-bottom: 12px; }
+.game-news-tools { margin: 0 38px; display: flex; flex-wrap: wrap; align-items: center; gap: 12px; font-size: 11px; }
+.game-news-article .game-match-hero { margin: 0 38px 18px; }
+@media (min-width: 2200px) { .game-market-layout { grid-template-columns: minmax(0, 1fr) 425px; } .game-recruitment-layout { grid-template-columns: minmax(0, 1fr) 500px; } .game-news-layout { grid-template-columns: 470px minmax(0, 1fr); } }
+@media (max-width: 1200px) { .game-market-layout, .game-recruitment-layout { grid-template-columns: minmax(0, 1fr) 320px; } .game-market-stage { grid-template-columns: minmax(250px, 1fr) repeat(3, 100px); gap: 14px; padding: 20px; } .game-market-count { padding-left: 12px; } .game-recruitment-stage button { padding: 12px 8px; } .game-news-layout { grid-template-columns: 310px minmax(0, 1fr); } .game-news-masthead { gap: 20px; } .game-news-edition { display: none; } .game-news-article-header, .game-news-copy { padding-left: 24px; padding-right: 24px; } .game-news-tools, .game-news-destinations { margin-left: 24px; margin-right: 24px; } }
+@media (max-width: 900px) { .game-market-layout, .game-recruitment-layout, .game-scouting-layout, .game-news-layout { grid-template-columns: minmax(0, 1fr); } .game-market-stage { grid-template-columns: repeat(3, minmax(0, 1fr)); } .game-market-stage > div:first-child { grid-column: 1 / -1; } .game-recruitment-stage { grid-template-columns: repeat(4, minmax(0, 1fr)); } .game-news-masthead { flex-wrap: wrap; } .game-news-masthead > div:first-child { flex-basis: 100%; } .game-news-feed-scroll { max-height: 420px; } }
+@media (prefers-reduced-motion: no-preference) { .game-transfer-event[data-outcome="COMPLETED"] { transition: opacity 160ms var(--game-ease-out); } @starting-style { .game-transfer-event[data-outcome="COMPLETED"] { opacity: 0; } } }

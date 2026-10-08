@@ -5,6 +5,7 @@ dist/
 .DS_Store
 .next/
 .next-management*/
+.next-game*/
 next-env.d.ts
 apps/game/test-results/
 apps/game/test-results-*/
@@ -13,6 +14,12 @@ docs/audit/season-end-state.json
 docs/management-experience/season-end-state.json
 docs/management-experience/tests.log
 docs/management-experience/lint.json
+docs/game-experience/*.log
+docs/game-experience/lint*.json
+docs/game-experience/review/
+docs/game-experience/agent-world/
+docs/game-experience/agent-recruitment/
+docs/game-experience/regression/season-end-state.json
 
 # Local-only env config (e.g. HM_EDITOR_ENABLED) -- never committed.
 .env

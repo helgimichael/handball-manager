@@ -145,12 +145,12 @@ export default function GameShell({ children }: { children: ReactNode }) {
   }
 
   return (
-    <div className="hm-shell">
+    <div className="hm-shell" data-game-state={career.productionMatch ? 'live' : career.seasonComplete ? 'season-complete' : career.fixtures.some(f => f.date===career.gameDate && !career.results[f.id] && (f.homeClubId===career.playerClubId || f.awayClubId===career.playerClubId)) ? 'matchday' : 'season'}>
       <a href="#manager-content" className="hm-skip-link">Till innehållet</a>
       <aside className="hm-sidebar">
         <Link href="/career" className="hm-wordmark"><span className="hm-monogram">HM</span><span>HANDBALL<br /><strong>MANAGER</strong></span></Link>
         <div className="hm-club-badge">
-          <ClubCrest shortName={club.shortName} primaryColor={club.primaryColor} size={32} />
+          <ClubCrest shortName={club.shortName} primaryColor={club.primaryColor} size={64} />
           <div>
             <div className="hm-club-name">{club.name}</div>
             <div className="hm-club-sub">{competitionName}</div>
@@ -161,7 +161,7 @@ export default function GameShell({ children }: { children: ReactNode }) {
             const active = item.id === activeNavId || (item.id === "editor" && pathname.startsWith("/editor"));
             return (
               <div key={item.href}>
-              {({ home: 'Kontoret', squad: 'Laget', calendar: 'Match & kalender', players: 'Rekrytering', staff: 'Klubben' } as Record<string, string>)[item.id] && <div className="hm-nav-group-label">{({ home: 'Kontoret', squad: 'Laget', calendar: 'Match & kalender', players: 'Rekrytering', staff: 'Klubben' } as Record<string, string>)[item.id]}</div>}
+              {({ home: 'Din säsong', squad: 'Laget', calendar: 'Match & kalender', players: 'Spelarvärlden', staff: 'Klubben' } as Record<string, string>)[item.id] && <div className="hm-nav-group-label">{({ home: 'Din säsong', squad: 'Laget', calendar: 'Match & kalender', players: 'Spelarvärlden', staff: 'Klubben' } as Record<string, string>)[item.id]}</div>}
               <Link
                 key={item.href}
                 className="hm-nav-item"
@@ -200,12 +200,14 @@ export default function GameShell({ children }: { children: ReactNode }) {
           <CareerSaveControl />
           <button
             type="button"
-            className="hm-btn hm-btn-primary"
+            className="hm-btn hm-btn-primary game-continue"
+            aria-label={isLiveMatchActive ? (isOnLiveMatchRoute ? 'Match pågår' : 'TILLBAKA TILL MATCH') : career.seasonComplete ? 'Säsong klar' : 'Fortsätt »'}
             onClick={handleContinue}
             disabled={career.seasonComplete || processing !== null || (isLiveMatchActive && isOnLiveMatchRoute)}
             title={isLiveMatchActive && !isOnLiveMatchRoute ? "En match pågår -- gå tillbaka för att fortsätta coacha." : undefined}
           >
             {isLiveMatchActive ? (isOnLiveMatchRoute ? "Match pågår" : "TILLBAKA TILL MATCH") : career.seasonComplete ? "Säsong klar" : "Fortsätt »"}
+            <small>{isLiveMatchActive ? 'MATCHCENTRAL' : career.seasonComplete ? 'SÄSONGSAVSLUT' : 'TILL NÄSTA HÄNDELSE'}</small>
           </button>
         </div>
       </header>
