@@ -46,8 +46,17 @@ test('level 2: pass decision and release never assign receiver ownership',()=>{
   // the ownership lifecycle of a pass, and a fixture that stops at the first
   // shot may not contain a completed one at all.
   const open=createCoreScenario();open.checkpoint.stopOnOutcome=false;open.checkpoint.maxTicks=600;
-  const frames=run(open);const decision=frames.find(s=>s.players.some(p=>p.action?.kind==='PASS'&&p.action.phase==='PREPARING'))!;
-  assert.equal(decision.ball.controllerId,'H03');
+  // RE-PINNED off the named player H03. The claim is about the ownership
+  // lifecycle of a pass -- the passer still holds the ball while deciding, and
+  // nobody owns it in flight -- and it is true of whoever throws it. Naming H03
+  // made the test depend on which player happened to pass first in this fixture,
+  // and once the attack could work the ball rather than hurry it he no longer
+  // does. The claim is now asserted against the passer, whoever he is.
+  const frames=run(open);
+  const passer=(f:CoreState)=>f.players.find(p=>p.kind==='FIELD_PLAYER'&&p.action?.kind==='PASS'&&p.action.phase==='PREPARING');
+  const decision=frames.find(f=>passer(f)!==undefined)!;
+  assert.ok(decision,'a court player decided to pass');
+  assert.equal(decision.ball.controllerId,passer(decision)!.id,'he still holds the ball while deciding');
   const released=frames.find(s=>s.ball.mode==='RELEASE'&&s.ball.flight?.kind==='PASS')!;
   assert.equal(released.ball.controllerId,null);assert.equal(released.events.some(e=>e.type==='PASS_RECEIVED'),false);
   const reception=frames.find(s=>s.events.some(e=>e.type==='PASS_RECEIVED'))!;
@@ -118,10 +127,19 @@ test('level 3: goalkeeper parry is a flight and rebound, not fabricated possessi
 test('level 3: parried shots genuinely come loose in play, not only out of it',()=>{
   // The companion to the fixture above: across a real match a parry has to be
   // able to stay in, or the physical deflection has quietly become a turnover.
-  const end=run(createContinuous('CONTINUOUS_PLAY',2025,'TOP',400)).at(-1)!;
-  const parries=end.events.filter(e=>e.type==='SAVE_PARRY').length;
-  assert.ok(parries>0,'the scenario produced saves to reason about');
-  assert.ok(end.events.some(e=>e.type==='BALL_LOOSE'),'and a deflected ball that stayed in play');
+  // Staged as a scan rather than one run of one seed, like the transition
+  // repertoire test above: whether a particular five minutes of play happens to
+  // contain a parry that stayed in is chance, and pinning the claim to it made
+  // the test a hostage of the fixture. Across real play both must occur.
+  let parries=0,loose=0;
+  for(const seed of [2025,3,7]) {
+    const end=run(createContinuous('CONTINUOUS_PLAY',seed,'TOP',400)).at(-1)!;
+    parries+=end.events.filter(e=>e.type==='SAVE_PARRY').length;
+    loose+=end.events.filter(e=>e.type==='BALL_LOOSE').length;
+    if(parries>0&&loose>0)break;
+  }
+  assert.ok(parries>0,'the scenarios produced saves to reason about');
+  assert.ok(loose>0,'and a deflected ball that stayed in play');
 });
 test('levels 4–5: established circulation, defence, shot contest and correct outcome',()=>{
   const frames=run(createContinuous('CONTINUOUS_PLAY',2025,'TOP',6)),end=frames.at(-1)!;
@@ -152,7 +170,16 @@ test('levels 4–5: transition uses dribble, physical passing and retreat before
   }
   for(const type of ['DRIBBLE_STARTED','DRIBBLE_BOUNCE','DRIBBLE_GATHERED','PASS_RELEASED','PASS_RECEIVED'])assert.ok(seen.has(type),type);
   // A recovering defender may intercept the transition before its shot.
-  assert.ok(end.events.some(e=>['SHOT_RELEASED','INTERCEPTION'].includes(e.type)));
+  //
+  // RE-STAGED off the event NAME. A defender who reaches a pass but is holding
+  // his space now knocks it down instead of plucking it out of the air, and a
+  // deflected interception records PASS_DEFLECTED and an INTERCEPTION contest
+  // rather than an event called INTERCEPTION. The claim -- that the break ends
+  // in something contested rather than fizzling out -- is asserted against the
+  // contest itself, which is what it was always about.
+  assert.ok(end.events.some(e=>e.type==='SHOT_RELEASED')||
+    end.contests.some(c=>['KEEPER','BLOCK','INTERCEPTION'].includes(c.kind)),
+    'the break ends in a shot or a contested ball');
   assert.ok(frames.some(s=>s.players.some(p=>p.duty.kind==='RETREAT')));
   for(const s of frames)for(const p of s.players)if(p.airborne)assert.ok(fieldLegal(p.airborne.takeoff));
 });
@@ -184,7 +211,18 @@ test('free throw authorisation gates ordinary execution and expires unsuccessful
 test('budget and moved receiver cannot manufacture a successful reception',()=>{
   const limited=createCoreScenario();limited.checkpoint.maxTicks=2;const end=run(limited).at(-1)!;
   assert.equal(end.status,'INCOMPLETE');assert.equal(end.checkpoint.outcome,null);
-  const frames=run();const released=JSON.parse(JSON.stringify(frames.find(s=>s.ball.flight?.kind==='PASS')!)) as CoreState;
+  // Likewise pinned to a pass thrown by a court player: a goalkeeper's restart
+  // delivery has its own dead-ball lifecycle and is not what this is about.
+  // The fixture is allowed past its first outcome for the same reason as the
+  // ownership test above: a scenario that stops at the first shot need not
+  // contain a court player's pass at all now that the attack works the ball.
+  const played=createCoreScenario();played.checkpoint.stopOnOutcome=false;played.checkpoint.maxTicks=600;
+  const frames=run(played);
+  const inFlight=frames.find(s=>s.ball.flight?.kind==='PASS'&&
+    s.players.find(p=>p.id===s.ball.flight!.fromId)?.kind==='FIELD_PLAYER');
+  assert.ok(inFlight,'a court player threw a pass');
+  const released=JSON.parse(JSON.stringify(inFlight)) as CoreState;
+  released.checkpoint.maxTicks=600;
   const intended=getPlayer(released,released.ball.flight!.receiverId!);intended.population='BENCH';
   const after=run(released).at(-1)!;
   assert.equal(after.events.some(e=>e.type==='PASS_RECEIVED'&&e.actorId===intended.id),false);

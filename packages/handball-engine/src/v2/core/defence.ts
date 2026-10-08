@@ -226,6 +226,13 @@ export function allocate(s: CoreState, defenders: readonly CorePlayer[], attacke
   }
 
   let pressureId: string | null = null, helperId: string | null = null;
+  // COVER IS INSURANCE ON A SPACE; the line player is a man. Assigning the cover
+  // first could consume the very defender standing next to the pivot, which
+  // pushed the line player's marker to a space six metres away and left a real
+  // attacker accounted for by nobody -- and that is how a crossing between two
+  // adjacent spaces stopped being handed over at all. The man is allocated
+  // first, and the space is insured with whoever is still free.
+  let coverCandidate: CorePlayer | null = null;
   if (carrier && read.engaged !== null) {
     // Whoever owns the space the ball is in presses it. If that man is beaten
     // or has been screened out, the job passes to the neighbour toward the
@@ -250,10 +257,7 @@ export function allocate(s: CoreState, defenders: readonly CorePlayer[], attacke
     if (helperId) {
       duties.set(helperId, { kind: 'HELP', targetId: carrier!.id, reason: 'Close the interval the step-out opened beside the pressing defender' });
       const helper = getPlayer(s, helperId);
-      const beyond = byZone.get(clamp((helper.zone ?? 0) + ((helper.zone ?? 0) - (presser.zone ?? 0)), 0, ZONE_COUNT - 1));
-      if (beyond && !duties.has(beyond.id) && beyond.beatenUntilTick <= s.tick) {
-        duties.set(beyond.id, { kind: 'COVER', targetId: pivotOwner.get(beyond.id) ?? null, reason: 'Slide behind the helper and take the space he vacated' });
-      }
+      coverCandidate = byZone.get(clamp((helper.zone ?? 0) + ((helper.zone ?? 0) - (presser.zone ?? 0)), 0, ZONE_COUNT - 1)) ?? null;
     }
   }
   // The line player is never left to nobody. If the space he stands in has had
@@ -263,14 +267,30 @@ export function allocate(s: CoreState, defenders: readonly CorePlayer[], attacke
   // produce one whenever the pivot's own space becomes the pressing space.
   for (const [ownerId, pivotId] of [...pivotOwner]) {
     if (!duties.has(ownerId)) continue;
-    const owner = defenders.find(d => d.id === ownerId);
-    const from = owner?.zone ?? 3;
-    const inward = from <= (ZONE_COUNT - 1) / 2 ? 1 : -1;
-    const relay = [from + inward, from - inward, from + 2 * inward]
-      .map(z => byZone.get(clamp(z, 0, ZONE_COUNT - 1)))
-      .find(d => d !== undefined && !duties.has(d.id) && d.beatenUntilTick <= s.tick);
+    // TO THE NEAREST FREE MAN, not along the index. Walking outward by zone
+    // number sent the line player's marker to a space six metres away whenever
+    // the obvious neighbour was already the helper -- and a defender at 6.1
+    // "marking" a pivot standing at 10 leaves a real man unaccounted for
+    // somewhere else, which is exactly how a crossing stopped being handed over.
+    const pivotPlayer = attackers.find(a => a.id === pivotId);
+    const pivotX = pivotPlayer ? pivotPlayer.position.x : 10;
+    const relay = defenders
+      .filter(d => d.zone !== null && !duties.has(d.id) && d.beatenUntilTick <= s.tick && d.id !== ownerId)
+      .sort((a, b) => Math.abs(ZONE_ANCHORS[a.zone!] - pivotX) - Math.abs(ZONE_ANCHORS[b.zone!] - pivotX)
+        || a.id.localeCompare(b.id))[0];
     pivotOwner.delete(ownerId);
     if (relay) pivotOwner.set(relay.id, pivotId);
+  }
+  if (coverCandidate && !duties.has(coverCandidate.id) && !pivotOwner.has(coverCandidate.id) && coverCandidate.beatenUntilTick <= s.tick) {
+    // A COVERING DEFENDER STILL TAKES THE MAN IN HIS SPACE. Covering is holding
+    // a space behind the helper, and in a zone defence holding a space means
+    // accounting for whoever is standing in it -- that is the whole difference
+    // from man-marking. Covering nobody meant that when two attackers crossed
+    // into and out of a covered space the defence recorded no change of
+    // responsibility at all, and the handover simply vanished from the model.
+    const inCover = attackers.filter(a => a.id !== carrier?.id && zoneOf(localX(a)) === coverCandidate!.zone)
+      .sort((a, b) => local(a.position, direction).y - local(b.position, direction).y || a.id.localeCompare(b.id))[0];
+    duties.set(coverCandidate.id, { kind: 'COVER', targetId: inCover?.id ?? null, reason: 'Slide behind the helper and take the space he vacated' });
   }
 
   for (const d of defenders) {
@@ -314,11 +334,23 @@ export function dutyTarget(s: CoreState, d: CorePlayer, duty: ZoneDuty, read: De
   // back into a line is to go to where your place in it will be.
   if (duty.kind === 'RETREAT') return target(q.x, q.y);
   if (duty.kind === 'PRESSURE' && man && manQ) {
-    const depth = pressDepth(man, d, manQ.y);
+    // HE SHIFTS WITH THE PASS BUT DOES NOT MEET A MAN WHO HAS NOT GOT THE BALL.
+    // Reading the flight is what lets the line travel in time; stepping the whole
+    // way out to the intended receiver puts the defender in the passing lane and
+    // turned the anticipation into seventeen interceptions a match. Until the
+    // catch he closes the distance laterally and holds most of his depth.
+    const inFlight = s.ball.controllerId === null && s.ball.flight?.kind === 'PASS';
+    const depth = pressDepth(man, d, manQ.y) * (inFlight ? 0.5 : 1);
     // Steer him away from the middle: stand a little to his inside.
     const inside = Math.sign(10 - manQ.x) || 1;
     const lateral = 0.35 + 0.35 * d.profile.defPositioning;
-    return target(manQ.x + inside * lateral, Math.max(q.y, Math.min(manQ.y - 0.45, q.y + depth)));
+    // Travelling, not arrived. While the ball is in the air he closes half the
+    // distance from his own space toward the man it is going to; going all the
+    // way puts him on the line the pass is travelling down, which is not
+    // anticipation but standing in the lane, and it produced seventeen
+    // interceptions a match where a good defence makes eight or ten.
+    const lane = inFlight ? (q.x + (manQ.x + inside * lateral)) / 2 : manQ.x + inside * lateral;
+    return target(lane, Math.max(q.y, Math.min(manQ.y - 0.45, q.y + depth)));
   }
   if (duty.kind === 'HELP' && manQ) {
     // Between his own post and the ball, goal-side of the carrier, never past

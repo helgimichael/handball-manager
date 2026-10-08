@@ -109,15 +109,63 @@ function release(s:CoreState,p:CorePlayer,kind:'PASS'|'SHOOT') {
     // goalkeeper, who is standing between the two, and that is exactly what
     // happened: ninety per cent of wing shots were caught. A central shooter has
     // both posts available and takes the side the keeper has left.
-    const open=wide?Math.sign(p.position.x-10)||1:(keeperX>=10?-1:1);
-    const aim=10+open*(.35+1.15*placement);
-    const spread=(1.25-placement)*(1+pressure*(.45-.25*p.profile.composure))+Math.max(0,.3-shootingAngle(p.position,direction))*1.8;
+    // HE AIMS INTO THE GAP THE GOALKEEPER HAS LEFT, not at a fixed distance
+    // either side of the goal's centre.
+    //
+    // Aiming at ten plus or minus about ninety centimetres is the middle of the
+    // mouth. From ten metres that is survivable, because the ball arrives before
+    // the keeper can cover the middle; from two it is the one place he certainly
+    // is, and it was why the line player -- the best chance in handball --
+    // converted four in ten, worse than a wing. Reading the aim off the keeper's
+    // actual x makes his positioning matter, which is what makes this a duel,
+    // and makes placement mean what it says: how close to the post a player
+    // dares put it.
+    const NEAR_POST=8.5,FAR_POST=11.5,POST_MARGIN=.18;
+    const leftGap=keeperX-NEAR_POST,rightGap=FAR_POST-keeperX;
+    // How far off line he sprays it. Computed first, because a shooter aims
+    // where he can afford to be WRONG: a man who knows he is inaccurate does
+    // not pick the inside of the post, and one under pressure picks even less
+    // of it. Aiming at the post and then adding the error made four wing shots
+    // in ten miss the goal altogether.
+    // A SEVEN-METRE IS THE MOST ACCURATE THROW IN HANDBALL. Set feet, no defender
+    // and as long as he likes to pick his spot: he does not spray it the way a
+    // man does releasing over a block. Charging him open-play error kept the
+    // ball forty-four centimetres inside the post, which is exactly where a set
+    // goalkeeper already is, so every penalty was saved.
+    const penalty=p.action?.shotKind==='SEVEN_METRE';
+    const spread=((1.25-placement)*(1+pressure*(.45-.25*p.profile.composure))+
+      Math.max(0,.3-shootingAngle(p.position,direction))*1.8)*(penalty?.42:1);
+    // FROM THE WING THE NEAR POST IS THE SHOT. Aiming across the mouth sends
+    // the ball through the goalkeeper standing between the two: sent far-post
+    // when the keeper covered his near, the wings were CAUGHT nineteen times in
+    // twenty-three. So the wide shooter keeps his own side, and the keeper's
+    // position sets how much of it he can have rather than which side it is.
+    const nearSide=Math.sign(p.position.x-10)||1;
+    const open=wide?nearSide:(rightGap>=leftGap?1:-1);
+    const gap=Math.max(0,open>0?rightGap:leftGap);
+    // A confident finisher puts it near the post; a poor one leaves himself room
+    // and shoots nearer the keeper. Never less than a hand's width off him.
+    // FROM SEVEN METRES HE GOES FOR THE CORNER. No defender, no clock and a set
+    // goalkeeper who will cover the middle whatever happens: the only throw
+    // worth taking is one placed near the post, and how near is his placement.
+    const reach=Math.max(.32,gap*((penalty?.58:.42)+(penalty?.40:.5)*placement));
+    // He aims where he can afford to be WRONG, so a man who sprays it does not
+    // pick the inside of the post -- but a wing has no room to be pulled toward
+    // the middle, because the middle is where the keeper is.
+    const safe=POST_MARGIN+spread*(wide?.12:.35);
+    const aim=clamp(wide?10+open*(.35+1.15*placement):keeperX+open*reach,NEAR_POST+safe,FAR_POST-safe);
     target={x:aim+(random(s)-.5)*spread,y:goal(direction).y};
   }
   const origin={...s.ball.position},d=distance(origin,target);if(d<.1){p.action.phase='FAILED';return;}
     // PLAYER IDENTITY: a hard shooter releases faster, which is what shortens the
   // keeper's reading time; a good passer puts more on a pass.
-  const speed=kind==='PASS'?10.5+3*p.profile.passing:17+11*p.profile.shotPower;
+  // A STANDING SHOT IS NOT A JUMP SHOT. It is taken flat-footed, usually
+  // because he has run out of steps or time, and it does not carry a jump
+  // shot's pace -- which, with the goalkeeper's reach now bounded by the time
+  // the ball gives him, is exactly what made it the second most efficient shot
+  // in the match at seventy-two per cent. Less on it, so he gets there.
+  const flat=kind==='SHOOT'&&p.action?.shotKind==='STANDING'&&!p.airborne;
+  const speed=kind==='PASS'?10.5+3*p.profile.passing:(17+11*p.profile.shotPower)*(flat?.82:1);
   p.action.resolved=true;
   s.ball={...s.ball,mode:'RELEASE',height:p.airborne?2.3:1.5,controllerId:null,lastTouchId:p.id,
     flight:{kind:kind==='PASS'?'PASS':'SHOT',origin,velocity:{x:(target.x-origin.x)/d*speed,y:(target.y-origin.y)/d*speed},fromId:p.id,receiverId:receiver?.id??null,actionId:p.action.id,possessionId:s.possession.id,releasedTick:s.tick,height:p.airborne?2.3:1.5,goalSide:direction,touchedIds:[p.id],purpose:p.action.purpose}};
@@ -171,12 +219,20 @@ export function resolveScreens(s:CoreState) {
     const by=s.players.find(p=>p.id===d.screenedBy);
     const apart=!by||by.population!=='COURT'||distance(by.position,d.position)>SCREEN_RELEASE_METERS;
     if(apart||s.tick-d.screenedSinceTick>SCREEN_MAX_TICKS||s.possession.team!==by.team){
-      d.screenedBy=null;d.screenCooldownTick=s.tick+SCREEN_COOLDOWN_TICKS;continue;}
+      d.screenedBy=null;d.screenCooldownTick=s.tick+SCREEN_COOLDOWN_TICKS;
+      // AND THE SCREENER ROLLS OFF. Only the defender used to be held back, so
+      // when one engagement timed out the line player simply leaned on the next
+      // man along and opened another: he was screening somebody continuously
+      // and produced two hundred and seventy engagements a match. Setting a
+      // screen, holding it and coming off it is one action with a beginning and
+      // an end, and he does not immediately start another.
+      if(by)by.screenCooldownTick=s.tick+SCREEN_COOLDOWN_TICKS;
+      continue;}
     // Blocked while the block is actually there, rather than for a fixed
     // window measured from the frame the contact was first noticed.
     d.screenedUntilTick=s.tick+4;
   }
-  for(const a of courtPlayers(s,s.possession.team).filter(p=>p.action?.kind==='SCREEN'&&p.action.phase==='EXECUTING')) {
+  for(const a of courtPlayers(s,s.possession.team).filter(p=>p.action?.kind==='SCREEN'&&p.action.phase==='EXECUTING'&&p.screenCooldownTick<=s.tick)) {
     for(const d of courtPlayers(s,otherTeam(a.team)).filter(d=>d.kind!=='GOALKEEPER'&&distance(d.position,a.position)<.85&&d.screenedBy===null&&d.screenCooldownTick<=s.tick&&Math.hypot(d.velocity.x,d.velocity.y)>.1)) {
       const id=contest(s,'SCREEN',a,d,'SCREENED',distance(a.position,d.position),18);
       d.screenedUntilTick=s.tick+18;d.screenedBy=a.id;d.screenedSinceTick=s.tick;breakDefence(s,d,'screened out',a.id);
@@ -232,8 +288,39 @@ export function advanceBall(s:CoreState) {
     const reacted=(s.tick-f.releasedTick)*.05>=p.profile.reaction;
     const grasp=.22+.33*p.profile.ballWinning;
     const beaten=p.beatenUntilTick>s.tick||p.screenedUntilTick>s.tick||p.wrongFootedUntilTick>s.tick;
+    // WHAT THE SHOT GAVE HIM.
+    //
+    // A goalkeeper's reach was a fixed radius: the same span whether the ball
+    // came from eleven metres and took half a second or from two and took a
+    // tenth. So he saved 43 per cent of everything, close-range shots converted
+    // WORSE than long ones, and the best chance in handball -- a line player
+    // two metres out -- went in four times in ten. What he can actually cover
+    // is his standing body plus as much of his span as the flight time lets him
+    // move into, after his own reaction is spent. This is the whole shooter-
+    // goalkeeper duel: range, pace and explosiveness against reaction.
+    const pace=Math.hypot(f.velocity.x,f.velocity.y)||1;
+    const flightSeconds=distance(f.origin,hit.point)/pace;
+    // On a seven-metre throw he is SET and expecting it: he has no reaction to
+    // spend, which is the whole reason a penalty is saveable at all from seven
+    // metres. Charging him the same reading time as an open-play shot made the
+    // seven-metre throw a certain goal.
+    const set=getPlayer(s,f.fromId).action?.shotKind==='SEVEN_METRE';
+    const spare=Math.max(0,flightSeconds-(set?0:p.profile.reaction));
+    const span=.31+.40*(p.profile.keeper?.explosiveness??.5);
+    // His body covers this much standing still; beyond it he has to travel, and
+    // a hand crosses the goal at about two and a half metres a second.
+    const STANDING=.19,DIVE_SPEED=2.4;
+    // A KEEPER SET FOR A PENALTY SPRINGS. He is loaded on his line, watching the
+    // hand, with no reaction to spend and nothing else to do: what he covers is
+    // a full dive, not what he can walk into in three tenths of a second. Giving
+    // him the open-play formula left him reaching half a metre against a throw
+    // placed a metre away, and every seven-metre in the match went in. The
+    // contest is now his spring against the shooter's placement, which is what a
+    // penalty actually is.
+    const PENALTY_SPAN=.74+.46*(p.profile.keeper?.explosiveness??.5);
+    const keeperReach=set?PENALTY_SPAN:Math.min(span,STANDING+DIVE_SPEED*spare);
     const reach=f.kind==='SHOT'
-      ?(isKeeper?(ready&&p.action?.kind==='SAVE'?.31+.40*(p.profile.keeper?.explosiveness??.5):.2)
+      ?(isKeeper?(ready&&p.action?.kind==='SAVE'?keeperReach:.2)
         :ready&&p.action?.kind==='BLOCK'&&!beaten?.16+.34*p.profile.blocking:0)
       :own?(ready&&(p.action?.kind==='RECEIVE'||runningReceive)?.65:0)
       // A defending interceptor needs a defensive action, his reaction spent,
@@ -271,7 +358,15 @@ export function advanceBall(s:CoreState) {
         const holdable=pace<=15+13*family;
         const catchable=p.action?.kind==='SAVE'&&p.action.phase==='EXECUTING'&&local<.22+.34*family&&holdable;
         contest(s,'KEEPER',shooter,p,catchable?'CAUGHT':'PARRIED',distance(hit.point,p.position),12,f.actionId);
-        if(catchable){acquire(s,p,hit.point,'Goalkeeper catch',f.actionId);s.ball.live=false;awardRestart(s,'GOALKEEPER_THROW',p.team,p.position,'Keeper controls ball inside goal area',p);return;}
+        if(catchable){
+          // A HELD SAVE IS AN EVENT. It had none -- only a contest -- so the
+          // commonest outcome in goalkeeping was invisible to every reading of
+          // the match, and shots the keeper caught appeared in no column at all:
+          // not goals, not saves, not blocks. Nineteen of twenty-three wing
+          // shots in a match were being caught and nothing said so.
+          record(s,'SAVE_CAUGHT',p,{x:hit.point.x,y:hit.point.y,pace:Number(pace.toFixed(2))},[shooter.id],null,f.actionId);
+          acquire(s,p,hit.point,'Goalkeeper catch',f.actionId);s.ball.live=false;
+          awardRestart(s,'GOALKEEPER_THROW',p.team,p.position,'Keeper controls ball inside goal area',p);return;}
         deflect(s,p,hit.point,'SAVE_PARRY');return;
       }
       contest(s,'BLOCK',shooter,p,'DEFLECTED',distance(hit.point,p.position),12,f.actionId);deflect(s,p,hit.point,'SHOT_BLOCKED');return;

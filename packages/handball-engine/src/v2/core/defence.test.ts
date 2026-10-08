@@ -158,12 +158,22 @@ test('a better defender steps out further than a worse one against the same man'
 test('a beaten defender recovers into the line rather than chasing', () => {
   let s = createCoreScenario('DEFENSIVE_HELP');
   let recovered = false;
+  let previous = s;
   for (let i = 0; i < 120 && s.status === 'RUNNING'; i++) {
+    previous = s;
     s = tickCore(s);
     // Only where the defence is actually organising: during a dead ball nobody
     // is allocated anything and the duty from before the whistle still stands.
     if (!s.ball.live || s.possession.phase !== 'ESTABLISHED') continue;
-    const beaten = defenders(s).find(d => d.beatenUntilTick > s.tick);
+    // RE-STAGED to skip the tick a man is beaten ON. Duties are allocated at the
+    // top of a tick and duels resolve near the end of it, so a defender beaten
+    // this tick is still carrying the duty he was given while he was still on
+    // his feet -- which, now that the carrier drives at and beats the PRESSING
+    // defender rather than running past somebody else, is routinely PRESSURE.
+    // The claim is about what the defence does with a beaten man, so it is
+    // asserted from the first allocation that could see he was beaten.
+    const beaten = defenders(s).find(d => d.beatenUntilTick > s.tick &&
+      (previous.players.find(q => q.id === d.id)?.beatenUntilTick ?? 0) > previous.tick);
     if (!beaten) continue;
     assert.equal(beaten.duty.kind, 'RECOVER', 'a beaten man is given his line back, not another man');
     const post = zonePost(s, beaten.zone ?? 3, readDefence(s, defenders(s), null, s.directions[s.possession.team]), s.directions[s.possession.team], beaten.radius);

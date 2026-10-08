@@ -13,7 +13,7 @@ import assert from 'node:assert/strict';
 import { createCoreScenario } from './scenarios';
 import { tickCore } from './engine';
 import { courtPlayers, getPlayer, type CoreState } from './state';
-import { distance, goal, local } from './space';
+import { distance, goal, local, shotQuality, structurePoint } from './space';
 import { readDefence, zonePost, ZONE_COUNT } from './defence';
 import { bestInterval, committed, readContinuation } from './engage';
 import { PIVOT_FINISH_METERS, isPivot, pivotInterval, pivotPost, pivotShotQuality } from './pivot';
@@ -162,7 +162,10 @@ test('recycling keeps the ball instead of ending the attack', () => {
     if (next) seen.add(next.kind);
   }
   assert.ok(seen.size >= 2, `a carrier finds more than one kind of answer (${[...seen].join(', ')})`);
-  for (const kind of seen) assert.ok(['ATTACK_INTERVAL', 'FEINT', 'PLAY_FREED', 'RECYCLE'].includes(kind), kind);
+  // SHOOT joined them: the shot used to sit after the continuation read and so
+  // could never be the answer to the picture, which is why a left back received
+  // a hundred and thirty-six passes a match and took four shots.
+  for (const kind of seen) assert.ok(['SHOOT', 'ATTACK_INTERVAL', 'FEINT', 'PLAY_FREED', 'RECYCLE'].includes(kind), kind);
 });
 
 // ---------------------------------------------------------------------------
@@ -344,5 +347,37 @@ test('there is one turnover number, and it is the sum of its named causes', () =
     const horn = l.records.filter(r => r.ending === 'PERIOD_END' && r.shots === 0).length;
     assert.equal(shot + l.nonShotLoss + horn, l.attacks,
       `seed ${seed}: ${l.attacks - shot - l.nonShotLoss - horn} attacks fall outside every category`);
+  }
+});
+
+test('the attacking structure is laterally symmetric', () => {
+  // With identical players on both sides the model should have no preferred
+  // side. The line player was anchored sixty centimetres right of centre while
+  // every other anchor mirrored about ten, and that one number tilted the whole
+  // attack: he screened right-side defenders more, opened right-side intervals
+  // more, and the right wing scored half as many goals again as the left.
+  const mirrorOf = (p: { x: number; y: number }) => ({ x: 20 - p.x, y: p.y });
+  for (const direction of ['TOP', 'BOTTOM'] as const) {
+    const lw = structurePoint('LW', direction), rw = structurePoint('RW', direction);
+    assert.ok(Math.abs(mirrorOf(lw).x - rw.x) < 1e-9, 'the wings mirror');
+    assert.ok(Math.abs(lw.y - rw.y) < 1e-9, 'at the same depth');
+    const lb = structurePoint('LB', direction), rb = structurePoint('RB', direction);
+    assert.ok(Math.abs(mirrorOf(lb).x - rb.x) < 1e-9, 'the backs mirror');
+    for (const role of ['CB', 'P'] as const) {
+      const c = structurePoint(role, direction);
+      assert.ok(Math.abs(c.x - 10) < 1e-9, `${role} stands in the middle, not ${c.x}`);
+    }
+  }
+});
+test('shot quality does not prefer a side of the court', () => {
+  const s = createCoreScenario();
+  const direction = s.directions.HOME, p = getPlayer(s, 'H01');
+  for (const q of s.players) if (q.id !== 'H01') q.position = { x: q.position.x, y: direction === 'TOP' ? 34 : 6 };
+  const at = (x: number) => {
+    p.position = { x, y: direction === 'TOP' ? 7.5 : 32.5 };
+    return shotQuality(s, p, 0);
+  };
+  for (const x of [1.5, 3, 5, 7]) {
+    assert.ok(Math.abs(at(x) - at(20 - x)) < 1e-9, `x=${x} and x=${20 - x} are the same shot`);
   }
 });

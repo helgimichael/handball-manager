@@ -27,6 +27,7 @@ import { clamp, clearGoalArea, distance, goal, laneClearance, local, shootingAng
 import { courtPlayers, getPlayer, otherTeam, type CorePlayer, type CoreState, type Point } from './state';
 import { ZONE_ANCHORS, readDefence, zoneOf, zonePost } from './defence';
 import { laneMargin, secondsTo } from './timing';
+import { isWing } from './wing';
 
 export const isPivot = (p: CorePlayer) => p.role === 'P' || p.role === 'P2';
 
@@ -125,7 +126,7 @@ export function pivotOffer(s: CoreState, carrier: CorePlayer, pivot: CorePlayer)
   // opening the defence had already closed.
   const covered = courtPlayers(s, otherTeam(carrier.team))
     .some(d => d.kind === 'FIELD_PLAYER' && d.id !== owner?.id && d.screenedUntilTick <= s.tick &&
-      d.beatenUntilTick <= s.tick && distance(d.position, pivot.position) < 1.5);
+      d.beatenUntilTick <= s.tick && distance(d.position, pivot.position) < 1.1);
   const free = !covered && (owner === undefined || screened || sealed || displaced);
   const lane = laneMargin(s, carrier.position, pivot.position, carrier.team, 10.5 + 3 * carrier.profile.passing);
   if (!free) return { available: false, reason: covered ? 'a neighbour has stepped across and covered him' : 'the line defender still owns him', margin: lane.seconds };
@@ -189,6 +190,16 @@ export function pivotShouldScreen(s: CoreState, pivot: CorePlayer): CorePlayer |
   if (!carrier || carrier.team !== pivot.team || isPivot(carrier)) return null;
   const direction = s.directions[pivot.team];
   if (local(carrier.position, direction).y > 13) return null;
+  // A SCREEN IS SET FOR SOMEBODY. It is half of a two-against-two, and the
+  // other half is a backcourt player attacking the space it opens. Asking only
+  // whether a pressure defender was nearby made the answer yes on almost every
+  // frame -- the line player stands among the defenders, so one always is -- and
+  // he set nearly three hundred screens a match, none of them for anyone in
+  // particular. Two conditions make it a relationship: the man with the ball is
+  // coming from the backcourt, and he is coming down THIS side, so the body the
+  // pivot puts in the way is in his path rather than somewhere across the court.
+  if (isWing(carrier)) return null;
+  if (Math.abs(carrier.position.x - pivot.position.x) > 5.5) return null;
   const defenders = courtPlayers(s, otherTeam(pivot.team)).filter(d => d.kind === 'FIELD_PLAYER' && d.screenedUntilTick <= s.tick);
   // The man who is about to have to stop the carrier, and who the pivot can
   // physically get to before the ball does.

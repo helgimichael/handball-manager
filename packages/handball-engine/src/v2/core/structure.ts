@@ -1,6 +1,6 @@
 import { actionAvailable, courtPlayers, getPlayer, otherTeam, random, record, type CorePlayer, type CoreState, type Duty } from './state';
 import { clamp, distance, goal, goalSide, keeperPost, laneClearance, local, numericalAdvantage, shootingAngle, shotQuality as quality, structurePoint, world } from './space';
-import { driveTarget, startAction } from './actions';
+import { driveTarget, resolveAction, startAction } from './actions';
 import { exchangeActive } from './population';
 import { goalAreaClearance } from '../../domain/geometry/goalArea';
 import { planContact } from './contact';
@@ -9,7 +9,7 @@ import { isWing,wingRelationship,wingTakeoffWindow,defendWing } from './wing';
 import { isBack,planBackcourtSupport } from './backcourt';
 import { chooseOffensiveAction,offensiveTarget,offensiveScreen,anticipatedDefenceTarget } from './offence';
 import { PIVOT_FINISH_METERS,isPivot,pivotFinish,pivotOffer,pivotPost,pivotShotQuality,pivotShouldScreen,screenPost } from './pivot';
-import { breakDefence,readContinuation,shotOverCommitted } from './engage';
+import { breakDefence,driveEngagement,readContinuation,rebuildValue,type Continuation } from './engage';
 import { ZONE_COUNT,allocate,assignZones,dutyFeasible,dutyTarget,lineFormed,readDefence,zoneOf,zonePost,type DefenceRead,type ZoneDuty } from './defence';
 import { sustain } from './actions';
 
@@ -21,7 +21,21 @@ function assign(s:CoreState,p:CorePlayer,kind:Duty,targetId:string|null,reason:s
 }
 /** One coordinator allocates pressure/help/cover; reachability never creates a second primary. */
 export function coordinate(s: CoreState) {
-  const attacking=s.possession.team,defending=otherTeam(attacking),carrier=s.ball.controllerId?getPlayer(s,s.ball.controllerId):null;
+  const attacking=s.possession.team,defending=otherTeam(attacking);
+  // A DEFENCE SHIFTS WITH THE PASS, not after the catch.
+  //
+  // Nobody controls the ball while it is in the air, so the defensive read got
+  // no carrier, `engaged` was null, and NOBODY was assigned to pressure for the
+  // whole flight. The line then had to start travelling only once the receiver
+  // had the ball, and a backcourt player needs about half a second to be met
+  // from six-seventy-five -- almost exactly the time he takes to decide. So the
+  // man receiving a swing pass was routinely unmarked at nine metres, which made
+  // his shot look excellent and turned sixty per cent of every shot in the match
+  // into a backcourt jump. A defence reads the pass and moves with it.
+  const carrier=s.ball.controllerId?getPlayer(s,s.ball.controllerId)
+    :s.ball.flight?.kind==='PASS'&&s.ball.flight.receiverId
+      ?s.players.find(p=>p.id===s.ball.flight!.receiverId&&p.population==='COURT')??null
+      :null;
   s.defence.system=s.coaching[defending].defence;
   const attackers=courtPlayers(s,attacking).filter(p=>p.kind==='FIELD_PLAYER'),defenders=courtPlayers(s,defending).filter(p=>p.kind==='FIELD_PLAYER');
   const direction=s.directions[attacking];
@@ -119,15 +133,20 @@ function chooseCarrier(s:CoreState,p:CorePlayer) {
   const keeper=courtPlayers(s,otherTeam(p.team)).find(d=>d.kind==='GOALKEEPER'&&goalAreaClearance(d.position,s.directions[p.team])<0);
   if(isWing(p)&&q.y<8&&!p.airborne&&!p.nextAction) {
     const relation=wingRelationship(s,p),angle=shootingAngle(p.position,direction);
-    // A wing shot is judged like any other, on a lower bar: his realistic
-    // alternative is a pass back out, and an attack that has worked the ball to
-    // the wing and then declines has achieved nothing. The bar is his own
-    // finishing, so an elite finisher takes the corner an ordinary wing leaves.
-    const outside=quality(s,p,pressure);
-    if(angle>.14&&pressure<=1&&outside>.30-.12*p.profile.wingFinishing&&s.tick-p.handling.heldSinceTick<38){
-      startAction(s,p,'JUMP',`Outside window worth taking: quality ${outside.toFixed(2)}`);return;}
+    // FIRST, GET AN ANGLE. From out here he has none worth shooting from, and
+    // improving it is a physical problem before it is a decision.
     const window=wingTakeoffWindow(s,p);
     if(window&&angle<=.14&&p.handling.steps===0&&s.tick-p.handling.heldSinceTick<24) {startAction(s,p,'DRIVE','Improve the wing angle through a legal grounded approach',window,s.defence.pressureId);return;}
+    // THEN RANK IT like anybody else's. The wing used to shoot on a bar of his
+    // own, well below the floor every other player had to clear, because his
+    // alternative was a pass back out and an attack that worked the ball wide
+    // and then declined had achieved nothing. That is no longer true: the ball
+    // goes back through the middle and the attack rebuilds, so declining costs
+    // nothing and a wide shot has to be worth taking on its merits.
+    if(s.tick-p.handling.heldSinceTick<38&&pressure<=1) {
+      const shot=readContinuation(s,p);
+      if(shot?.kind==='SHOOT'&&startAction(s,p,'JUMP',shot.reason))return;
+    }
     if(relation.back&&laneClearance(s,p.position,relation.back.position,p.team)>.45){startAction(s,p,'PASS','Wing window closed; reconnect with the adjacent back',null,relation.back.id);return;}
   }
   // Running out of steps is not a reason to shoot. A handball player who has
@@ -136,18 +155,6 @@ function chooseCarrier(s:CoreState,p:CorePlayer) {
   // match, and twenty-nine handling violations for the ones who did not.
   if(p.handling.steps>=s.ruleProfile.maxSteps-1&&!p.handling.dribbleUsed&&!p.airborne&&s.tick-p.handling.heldSinceTick<30&&q.y<19) {
     if(startAction(s,p,'DRIBBLE','Out of steps with time left; put the ball down',world({x:clamp(q.x,2,18),y:Math.max(7,q.y-1.5)},direction)))return;
-  }
-  // Running short of time is a reason to MOVE THE BALL, not to shoot from
-  // wherever you happen to be standing. This branch fired seventy-five times a
-  // match and made the standing shot the commonest shot in handball, which it
-  // is not. He shoots here only when there is genuinely nobody to pass to.
-  if(s.tick-p.handling.heldSinceTick>36&&q.y<14&&!p.airborne) {
-    const outlet=courtPlayers(s,p.team).filter(a=>a.id!==p.id&&a.kind!=='GOALKEEPER'&&!a.airborne&&!exchangeActive(s,a.id))
-      .map(a=>({a,lane:laneClearance(s,p.position,a.position,p.team)}))
-      .filter(x=>x.lane>.5&&distance(p.position,x.a.position)<=15)
-      .sort((x,y)=>y.lane-x.lane)[0];
-    if(outlet){startAction(s,p,'PASS','Time is short; move the ball rather than force a shot',null,outlet.a.id);return;}
-    p.nextAction=null;startAction(s,p,'SHOOT','Nobody to pass to before the three seconds expire',null,null,'STANDING');return;
   }
   if(p.nextAction==='SHOOT') {
     p.nextAction=null;
@@ -189,27 +196,46 @@ function chooseCarrier(s:CoreState,p:CorePlayer) {
   const threshold=.42/Math.max(.5,p.profile.tendency.shoot)-(advantage>0?.05:0)-(s.possession.phase==='TRANSITION'?.07:0);
   const hasOpportunity=shotWorth>=threshold&&angle>.13&&
     (s.possession.completedPasses>=2||s.possession.phase==='TRANSITION'||p.role==='P'||(q.y<9&&s.defence.helperId!==null));
-  if(s.possession.phase==='ESTABLISHED'&&s.tick-p.handling.heldSinceTick>=5) {
-    if(shotOverCommitted(s,p)&&quality(s,p,pressure)>.36&&startAction(s,p,'JUMP','Shoot over the defender who has committed himself'))return;
+  // THE SAME READ ON A BREAK AS IN A SET ATTACK. What changes on a fast break is
+  // what is AVAILABLE -- readContinuation already knows a transition shot needs
+  // no build-up behind it -- not whether the carrier is allowed to look. Gating
+  // the whole ranked read on an established possession meant that during a break
+  // he could not reach the shot at all: a three-against-two ran for thirty
+  // seconds and twelve passes and ended in a foul without one.
+  if(s.tick-p.handling.heldSinceTick>=5) {
     const next=readContinuation(s,p);
-    if(next) {
-      // ONE ATTACK ON AN INTERVAL IS ONE ACTION. The drive is bounded by the
-      // three steps he has; re-issuing it each time those steps ran out split a
-      // single attacking move into a string of them and credited him with
-      // beating the same defender over and over.
-      if(next.kind==='ATTACK_INTERVAL') {
-        if(sustain(s,p,'DRIVE',next.point,next.defenderId,1.3))return;
-        if(startAction(s,p,'DRIVE',next.reason,next.point,next.defenderId))return;
-      }
-      if(next.kind==='FEINT'&&startAction(s,p,'FEINT',next.reason,null,next.defenderId))return;
-      if((next.kind==='PLAY_FREED')&&startAction(s,p,'PASS',next.reason,null,next.receiverId))return;
-      // RECYCLING MUST NOT OUTRANK A SHOT. Reading the continuation before the
-      // shot meant a back who had a shot on never reached it: he held for four
-      // fifths of a second, found somebody to pass to, and passed. The two
-      // backs took eleven shots a match between them while the wings took
-      // fifty-five, which is the wrong way round in any handball match.
-      if(next.kind==='RECYCLE'&&!hasOpportunity&&s.tick-p.handling.heldSinceTick>16&&startAction(s,p,'PASS',next.reason,null,next.receiverId))return;
-    }
+    if(next&&applyContinuation(s,p,next))return;
+  }
+  // THE EMERGENCY, AND ONLY WHEN IT IS ONE.
+  //
+  // This used to sit ahead of the continuation read, so a carrier who had a
+  // perfectly good answer never got to give it: the read was never consulted and
+  // he threw the ball to whoever had the cleanest lane. Half of every completed
+  // pass in the match arrived from here. It belongs after the read -- he has
+  // looked at the shot, the line player, the interval, the feint and the
+  // recycle, and none of them was there -- which is what makes it an exception.
+  if(s.tick-p.handling.heldSinceTick>36&&q.y<14&&!p.airborne) {
+    // Never out of the line player. A three-second problem is solved by passing
+    // BACK, not by throwing the ball into the middle of the defence at the man
+    // with a defender on his back: thirty-five of his receptions a match came
+    // from here, and none of them were a decision to feed him.
+    const outlet=courtPlayers(s,p.team).filter(a=>a.id!==p.id&&a.kind!=='GOALKEEPER'&&!a.airborne&&!exchangeActive(s,a.id)&&!isPivot(a))
+      .map(a=>({a,lane:laneClearance(s,p.position,a.position,p.team)}))
+      // Any pass he can actually complete beats a shot from wherever he is
+      // standing. Requiring half a metre of clearance within fifteen metres
+      // left him with nothing to do surprisingly often, and firing was the
+      // fallback: a quarter of every shot in the match came from this branch.
+      .filter(x=>x.lane>.28)
+      // The cleanest lane on the court always belongs to the man nobody is
+      // marking, which is a wing standing in the corner. Sorting on it alone
+      // sent sixty balls a match out there, and a wing who receives shoots:
+      // the two of them scored nearly half the goals in the match. Ball-in-
+      // trouble goes to somebody who can rebuild with it, as long as the pass
+      // can actually be completed.
+      .sort((x,y)=>(rebuildValue(s,y.a,direction)+Math.min(y.lane,1.5)*.3)
+                  -(rebuildValue(s,x.a,direction)+Math.min(x.lane,1.5)*.3))[0];
+    if(outlet){startAction(s,p,'PASS','Time is short; move the ball rather than force a shot',null,outlet.a.id);return;}
+    p.nextAction=null;startAction(s,p,'SHOOT','Nobody to pass to before the three seconds expire',null,null,'STANDING');return;
   }
   if(chooseOffensiveAction(s,p))return;
   if(!keeper&&q.y<28){startAction(s,p,'SHOOT','Goalkeeper absent; executable empty-goal opportunity',null,null,'EMPTY_GOAL');return;}
@@ -240,6 +266,97 @@ function chooseCarrier(s:CoreState,p:CorePlayer) {
   else if(ranked.length)startAction(s,p,'PASS','Release before handling violation',null,ranked[0].a.id);
   else startAction(s,p,'HOLD','No legal available outlet; referee handling limit remains authoritative');
 }
+/**
+ * CARRY OUT A CONTINUATION. One dispatch, used by a carrier who is deciding
+ * freshly and by one releasing out of a drive, so that the two cannot drift
+ * apart into different ideas of what "play the freed man" means.
+ */
+export function applyContinuation(s:CoreState,p:CorePlayer,next:NonNullable<Continuation>):boolean {
+  if(next.kind==='SHOOT') {
+    // A BACKCOURT SHOT IS A JUMP SHOT. He takes off, sees over the block and
+    // releases at height, and the standing shot is what is left when he has no
+    // steps to take off with or no time to use them. Grounding him whenever two
+    // defenders were near did the opposite: the centre back, who is marked by
+    // two men by definition, jumped less than once a match and shot standing
+    // instead, and standing shots were a fifth of the match.
+    // THE JUMP IS THE LAST STEP. A back who has driven and spent his steps takes
+    // off from the final one -- that is what a backcourt jump shot IS, and it is
+    // the natural end of a drive. Requiring a SPARE step meant that every shot
+    // taken after driving was flat-footed, and once the drive could release
+    // properly that was forty-eight per cent of every shot in the match.
+    // RUSHED MEANS THERE IS NO TIME TO TAKE OFF, not that some of the three
+    // seconds has gone. A takeoff and release costs about fourteen ticks, so
+    // that is the real deadline; a fixed thirty-four was little over half the
+    // allowance and made every shot after a drive flat-footed.
+    const rushed=s.tick-p.handling.heldSinceTick>s.ruleProfile.maxHoldMs/50-14;
+    const canTakeOff=p.handling.steps<s.ruleProfile.maxSteps&&!rushed;
+    if(canTakeOff&&startAction(s,p,'JUMP',next.reason))return true;
+    return startAction(s,p,'SHOOT',next.reason,null,null,'STANDING');
+  }
+  // ONE ATTACK ON AN INTERVAL IS ONE ACTION. The drive is bounded by the three
+  // steps he has; re-issuing it each time those steps ran out split a single
+  // attacking move into a string of them and credited him with beating the same
+  // defender over and over.
+  if(next.kind==='ATTACK_INTERVAL') {
+    if(sustain(s,p,'DRIVE',next.point,next.defenderId,1.3))return true;
+    return startAction(s,p,'DRIVE',next.reason,next.point,next.defenderId);
+  }
+  if(next.kind==='FEINT')return startAction(s,p,'FEINT',next.reason,null,next.defenderId);
+  if(next.kind==='PLAY_FREED')return startAction(s,p,'PASS',next.reason,null,next.receiverId);
+  if(next.kind==='RECYCLE'&&s.tick-p.handling.heldSinceTick>16)
+    return startAction(s,p,'PASS',next.reason,null,next.receiverId);
+  return false;
+}
+
+/**
+ * RELEASE OUT OF THE DRIVE.
+ *
+ * The missing half of the attack. A running action blocks every other one and a
+ * player who has one is never asked to decide again, so a carrier who had set
+ * off at an interval could neither shoot nor pass out of it: he ran the approach
+ * to its end, ran out of his three seconds, and threw the ball away. Measured at
+ * the tick the three-second branch fired he was inside a DRIVE ninety-one per
+ * cent of the time while his own read said RECYCLE or SHOOT in nine cases out of
+ * ten, and half of every completed pass in the match arrived as that panic.
+ *
+ * Two things make this different from cancelling the drive. It waits until the
+ * drive has actually ENGAGED somebody -- cutting it on the tick a better option
+ * appeared meant no drive ever finished and beaten defenders fell from eighty a
+ * match to three. And it RESOLVES the drive rather than interrupting it: the
+ * engagement, the beaten state, the break, the steps and the ball all stand,
+ * because the pass is what the drive was for.
+ *
+ * A read that says keep working -- attack the interval, feint -- is not a
+ * release, and he carries on.
+ */
+export function releaseFromDrive(s:CoreState,carrier:CorePlayer|null):boolean {
+  if(!carrier||carrier.kind!=='FIELD_PLAYER'||carrier.team!==s.possession.team)return false;
+  if(s.ball.controllerId!==carrier.id||carrier.airborne)return false;
+  const a=carrier.action;
+  if(!a||a.kind!=='DRIVE'||actionAvailable(carrier))return false;
+  const engagement=driveEngagement(s,carrier);
+  if(!engagement.engaged)return false;
+  // THE COVER COMING ACROSS IS THE POINT OF THE DRIVE. A second defender who
+  // has physically arrived at the carrier has left somebody, and that man is
+  // the ball. This is the two-against-two in one line -- a back attacks his
+  // man, the next defender helps, and the line player is free behind him -- and
+  // without it the carrier had nobody to play and simply shot instead.
+  //
+  // Unlike the HELP duty, which flickers from tick to tick and reported four
+  // hundred breaks a match, this is an event: he is here, now, on the ball.
+  if(engagement.defenderId&&engagement.reason==='the cover has come across') {
+    const helper=s.players.find(d=>d.id===engagement.defenderId);
+    if(helper)breakDefence(s,helper,'came across to help');
+  }
+  const next=readContinuation(s,carrier);
+  if(!next||next.kind==='ATTACK_INTERVAL'||next.kind==='FEINT')return false;
+  resolveAction(s,carrier,`Drive engaged: ${engagement.reason}`);
+  if(!applyContinuation(s,carrier,next)){record(s,'DRIVE_RELEASE_FAILED',carrier,{into:next.kind});return false;}
+  record(s,'DRIVE_RELEASED',carrier,{reason:engagement.reason,into:next.kind},
+    'receiverId' in next?[next.receiverId]:[]);
+  return true;
+}
+
 export function selectActions(s:CoreState) {
   const direction=s.directions[s.possession.team];
   const defenders=courtPlayers(s,otherTeam(s.possession.team)).filter(p=>p.kind==='FIELD_PLAYER');
@@ -257,6 +374,9 @@ export function selectActions(s:CoreState) {
       if(k.action&&k.action.kind!=='SAVE'&&!['COMPLETED','INTERRUPTED','FAILED'].includes(k.action.phase))interrupt(s,k,'Shot released; abandon repositioning');
     }
   }
+  // The carrier releases out of his drive before anybody else is asked to do
+  // anything, because what he does decides what the rest of them are reacting to.
+  releaseFromDrive(s,carrierNow);
   for(const p of courtPlayers(s)) {
     if(!actionAvailable(p))continue;
     if(exchangeActive(s,p.id)&&s.ball.controllerId!==p.id)continue;
@@ -274,6 +394,14 @@ export function selectActions(s:CoreState) {
         // per cent of wing shots: he was not saving them, he was already there.
         // Committed already for THIS shot: he stays committed.
         const committed=p.action?.kind==='SAVE'&&p.action.targetId===f.actionId&&!['COMPLETED','INTERRUPTED','FAILED'].includes(p.action.phase);
+        // A keeper already SET -- which is how he waits for a seven-metre -- is
+        // steered onto the ball rather than started again. Starting a fresh save
+        // costs four ticks before it is executing and a seven-metre flight lasts
+        // about six, so he was never ready in time and penalties went in at
+        // ninety-four per cent. This is the difference between reacting from a
+        // stance and setting off from scratch.
+        const set=p.action?.kind==='SAVE'&&p.action.targetId===null&&
+          !['COMPLETED','INTERRUPTED','FAILED'].includes(p.action.phase);
         if(!committed) {
           const t=Math.max(0,(world({x:10,y:1.4},ownGoal).y-s.ball.position.y)/f.velocity.y);
           const read=(k?.reading??.5)*.45+(k?.reaction??.5)*.35+(k?.positioning??.5)*.2;
@@ -289,7 +417,9 @@ export function selectActions(s:CoreState) {
           // He may step outside the posts. Against a wing the ball crosses his
           // own depth line several metres wide of the goal, and a keeper pinned
           // between the posts is standing where the ball has already been.
-          if(startAction(s,p,'SAVE','Read the ball out of the hand, commit and go',world({x:clamp(guess,5.5,14.5),y:1.4},ownGoal),f.actionId))
+          const commitTo=world({x:clamp(guess,5.5,14.5),y:1.4},ownGoal);
+          if(set&&sustain(s,p,'SAVE',commitTo,null,6)){p.action!.targetId=f.actionId;continue;}
+          if(startAction(s,p,'SAVE','Read the ball out of the hand, commit and go',commitTo,f.actionId))
             p.action!.executeTicks=40;
         }
       } else {
@@ -345,7 +475,13 @@ export function selectActions(s:CoreState) {
       // THE LINE PLAYER works the line: he moves to the interval worth
       // occupying and screens the man who is about to have to stop the ball,
       // instead of standing on a fixed anchor and drifting a few tenths.
-      const screenTarget=isPivot(p)&&s.possession.phase==='ESTABLISHED'?pivotShouldScreen(s,p):null;
+      // HE HOLDS THE SCREEN HE HAS STARTED. Re-reading who is worth screening
+      // every tick meant that as the ball circulated the pivot abandoned one man
+      // for the next and set two hundred and forty screens a match. A live
+      // engagement is its own memory: the man he is already screening stays his
+      // man until the engagement ends on its own terms.
+      const engaged=isPivot(p)?courtPlayers(s,otherTeam(p.team)).find(d=>d.screenedBy===p.id)??null:null;
+      const screenTarget=isPivot(p)&&s.possession.phase==='ESTABLISHED'?(engaged??pivotShouldScreen(s,p)):null;
       let target=s.possession.phase==='ESTABLISHED'
         ?(isWing(p)?wingRelationship(s,p).target
           :isPivot(p)?(screenTarget?screenPost(s,p,screenTarget):pivotPost(s,p))

@@ -5,6 +5,7 @@ import { startAction } from './actions';
 import { acquire,awardRestart } from './transitions';
 import { exchangeActive,requestExchange } from './population';
 import { restartReady } from './rules';
+import { isPivot } from './pivot';
 
 const priority=['CB','LB','RB','P','LW','RW','P2'];
 function chooseTaker(s:CoreState) {
@@ -66,7 +67,11 @@ export function restartStep(s:CoreState) {
   if(taker.population!=='COURT'){r.takerId=null;r.collectorId=null;r.receiverId=null;return;}
   if(r.receiverId&&(r.receiverId===taker.id||getPlayer(s,r.receiverId).population!=='COURT'||exchangeActive(s,r.receiverId)))r.receiverId=null;
   if(!r.receiverId){
-    const candidates=courtPlayers(s,r.owner).filter(p=>p.kind==='FIELD_PLAYER'&&p.id!==taker.id&&!exchangeActive(s,p.id));
+    // NOT THE LINE PLAYER. He stands inside the opposing defence with his back
+    // to the ball; a restart is put into a player who can turn and organise
+    // with it. He was receiving thirty-four restarts a match here, which was by
+    // some distance the commonest reason the ball reached him at all.
+    const candidates=courtPlayers(s,r.owner).filter(p=>p.kind==='FIELD_PLAYER'&&p.id!==taker.id&&!exchangeActive(s,p.id)&&!isPivot(p));
     if(r.kind==='CENTRE_THROW_OFF'||r.kind==='GOALKEEPER_THROW') {
       const memory=s.offence.memory[r.owner],identity=s.coaching[r.owner].attackIdentity;
       const score=(p:CorePlayer)=>{
@@ -77,7 +82,12 @@ export function restartStep(s:CoreState) {
       candidates.sort((a,b)=>score(b)-score(a)||a.id.localeCompare(b.id));
       r.receiverId=candidates[0]?.id??null;
       if(r.receiverId){memory.outlets.push(r.receiverId);if(memory.outlets.length>6)memory.outlets.shift();record(s,'ATTACK_OUTLET_SELECTED',taker,{receiverId:r.receiverId,kind:r.kind,identity});}
-    }else r.receiverId=candidates.sort((a,b)=>(a.role==='RB'?-1:0)-(b.role==='RB'?-1:0)||a.id.localeCompare(b.id))[0]?.id??null;
+    }else{
+      // A set restart is rebuilt from the backcourt, not from wherever the
+      // alphabet happened to land.
+      const rank=(p:CorePlayer)=>['CB','LB','RB','LW','RW'].indexOf(p.role);
+      r.receiverId=candidates.sort((a,b)=>rank(a)-rank(b)||a.id.localeCompare(b.id))[0]?.id??null;
+    }
   }
   if(!r.collectorId) {
     const inside=goalAreaClearance(s.ball.position,'TOP')<=0||goalAreaClearance(s.ball.position,'BOTTOM')<=0;
@@ -91,6 +101,18 @@ export function restartStep(s:CoreState) {
     if(p.airborne&&actionAvailable(p)){startAction(s,p,'LAND','Land before restart preparation');continue;}
     if(p.id===collector.id&&s.ball.controllerId!==taker.id)continue;
     if(s.ball.flight&&(p.id===r.takerId||p.id===r.receiverId))continue;
+    // THE GOALKEEPER SETS FOR A SEVEN-METRE. He walks to his line and takes his
+    // stance there, waiting, which is the one moment in handball when the keeper
+    // is ready before the ball moves. Being merely repositioned left him unable
+    // to contest the throw at all: a save started from scratch needs four ticks
+    // to become executing and the flight from seven metres lasts about six.
+    if(r.kind==='SEVEN_METRE'&&p.kind==='GOALKEEPER'&&p.team!==r.owner) {
+      const ownGoal=s.directions[otherTeam(p.team)];
+      const stance=world({x:10,y:.8},ownGoal);
+      if(distance(p.position,stance)>.35){moveToward(s,p,stance,'Take the line for the seven-metre throw');continue;}
+      if(actionAvailable(p))startAction(s,p,'SAVE','Set on the line and read the thrower',stance);
+      continue;
+    }
     const target=restartTarget(s,p);
     if(p.id===taker.id)p.duty={kind:'RESTART_TAKER',targetId:null,sinceTick:r.awardedTick,reason:`Execute ${r.kind} from its lawful position`};
     moveToward(s,p,target,'Reach legal restart position through physical movement');

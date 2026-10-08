@@ -54,7 +54,16 @@ export function structurePoint(role: CorePlayer['role'],direction: Direction,bal
   // actually taken. They used to stand at eleven and a half, a metre and a half
   // further out than any real attack sets up, and against a defence that
   // genuinely holds its line that difference is the whole backcourt threat.
-  const anchors: Record<Exclude<CorePlayer['role'],'LW'|'RW'>,Point>={LB:{x:5.1,y:9.6},CB:{x:10,y:10.2},RB:{x:14.9,y:9.6},P:{x:10.6,y:6.65},P2:{x:8,y:6.8},GK:{x:10,y:38.5}};
+  // The line player stands in the MIDDLE. He was anchored sixty centimetres
+  // right of centre, and in a model that is otherwise exactly symmetric that
+  // one number tilted the whole attack: he screened right-side defenders more
+  // often, opened right-side intervals more often, and with identical players
+  // on both wings the right wing scored half as many goals again as the left.
+  // Every other anchor here mirrors about ten (5.1/14.9); this one now does too.
+  // His depth is the same 6.45 that pivotPost stands him on (six metres plus the
+  // line standoff); it read 6.65 here, which put him inside the defensive line
+  // once he was centred and overlapped a middle defender by a centimetre.
+  const anchors: Record<Exclude<CorePlayer['role'],'LW'|'RW'>,Point>={LB:{x:5.1,y:9.6},CB:{x:10,y:10.2},RB:{x:14.9,y:9.6},P:{x:10,y:6.45},P2:{x:8,y:6.8},GK:{x:10,y:38.5}};
   const a=anchors[role];return world({x:a.x+shift,y:a.y},direction);
 }
 
@@ -96,12 +105,32 @@ export function shotQuality(s: CoreState, p: CorePlayer, pressure: number): numb
   const committed=owner!==undefined&&(owner.beatenUntilTick>s.tick||owner.screenedUntilTick>s.tick||owner.wrongFootedUntilTick>s.tick);
   const separated=owner===undefined?1:clamp((distance(owner.position,p.position)-.9)/2.4,0,1);
   const advantage=committed?1:separated;
-  const base=range*.28+sight*.22+ability*.26+contested*.10+advantage*.14;
+  // WHAT A SHOT IS MADE OF depends on where it is taken from.
+  //
+  // For a back, distance and sight of the goal carry it. For a WING they barely
+  // move: he is always at a bad angle and always about eight and a half metres
+  // out, so those terms are near-constant and what actually decides his shot is
+  // whether he got away from his man. Weighting him like a back gave him a
+  // playable shot whenever he stood still, and the two wings took sixty shots a
+  // match while the two backs took seventeen.
+  const base=wide
+    ?range*.18+sight*.22+ability*.26+contested*.12+advantage*.22
+    // A CONTESTED SHOT IS A DIFFERENT SHOT. Pressure and separation carried a
+    // tenth and a seventh of the weight, so a defender standing on the shooter
+    // cost him about three hundredths of quality -- nothing. Once the carrier
+    // could release out of a drive, that made every penetration a good chance
+    // whether or not anybody was with him, and the match ran to a hundred and
+    // thirty shots and eighty goals. Who is on him matters as much as where he
+    // is standing.
+    :range*.24+sight*.20+ability*.24+contested*.14+advantage*.18;
   // Seeing the goal is not one ingredient among four; it gates the whole shot.
-  // A ball struck from an angle nobody can score from is not a poor shot, it is
-  // not a shot, and that is the difference between a wing who finishes and a
-  // wing who shoots from everywhere.
-  return base*(.55+.45*sight);
+  // But a WING never has a good angle -- that is what being a wing is -- and
+  // wingFinishing is precisely the attribute that describes making a bad one
+  // playable. Gating him on raw geometry like a back left him unable to clear
+  // any sensible floor, so he declined almost everything and took twelve shots
+  // a match between two of them.
+  const usable=wide?clamp(sight+.30*p.profile.wingFinishing,0,1):sight;
+  return base*(.55+.45*usable);
 }
 
 /**

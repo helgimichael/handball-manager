@@ -2,6 +2,7 @@ import { actionAvailable,courtPlayers,getPlayer,otherTeam,record,uid,type CorePl
 import { clearGoalArea,clamp,distance,fieldLegal,laneClearance,local,shootingAngle,shotQuality,world } from './space';
 import { startAction,driveTarget } from './actions';
 import { exchangeActive } from './population';
+import { isPivot,pivotOffer } from './pivot';
 
 export const ENTRY_FAMILIES=['CROSS','PIVOT_SCREEN','WING_TRANSITION','STRETCH_SHIFT','FREE'] as const;
 export type EntryFamily=typeof ENTRY_FAMILIES[number];
@@ -161,12 +162,48 @@ export function chooseOffensiveAction(s:CoreState,p:CorePlayer):boolean {
   const receivers=courtPlayers(s,p.team).filter(a=>a.id!==p.id&&available(s,a)&&!a.airborne);
   const candidates=receivers.map(a=>{
     const point=local(a.position,direction),clear=laneClearance(s,p.position,a.position,p.team),crowded=nearDefenders(s,a,1.7).length;
-    const finish=point.y<9&&shootingAngle(a.position,direction)>.18&&crowded<2?2.4:0;
+    // THE LINE PLAYER IS NOT AN OUTLET. He is the deepest man on the court with
+    // the best angle on it, so a generic "he is in a good finishing position"
+    // bonus made him the best pass in almost every picture: he received the
+    // ball a hundred and thirty times a match, as often as a back, and took
+    // forty shots. Fewer than two of those receptions came from actually
+    // deciding to feed him. Whether a feed exists is pivotOffer's question and
+    // has one answer -- it goes through six defenders and he has to be free --
+    // and passing "forward" into the middle of a defensive line is not a virtue
+    // in itself, so the depth term does not apply to him either.
+    const offer=isPivot(a)?pivotOffer(s,p,a):null;
+    const finish=offer?(offer.available?.9+Math.min(offer.margin,1.2):-10)
+      // HOW GOOD A RECEIVING POSITION IS SCALES WITH HOW MUCH GOAL HE CAN SEE.
+      // A flat bonus for "deep, with an angle over 0.18 and nobody on him" paid
+      // a wing in the corner exactly what it paid a man free at seven metres in
+      // the middle, and the wing is always deep and always unmarked, so the ball
+      // went wide by default: the two wings scored nearly half the goals in the
+      // match. His angle is what makes his position worth less, and now says so.
+      :point.y<9&&crowded<2?2.4*clamp((shootingAngle(a.position,direction)-.16)/.22,0,1):0;
+    const depth=offer?0:(q.y-point.y)*.13;
+    // Width is worth holding, not worth feeding. A wing is deep, uncrowded and
+    // has a clean lane by construction, so every term in this score flattered
+    // him at once; being wide has to cost something or the attack simply drifts
+    // outward and finishes from the corner.
+    // WIDTH IS WORTH HOLDING, NOT WORTH FEEDING -- unless it is a real opening.
+    // A flat penalty on being wide stopped the attack drifting to the corner by
+    // default, but it also meant a wing whose man had been beaten, screened out
+    // or simply left behind was never played either: the two of them ended up
+    // taking under a tenth of the match's shots. A wide advantage IS an
+    // advantage, and the cost of width is waived when he actually has one.
+    const marker=courtPlayers(s,otherTeam(a.team)).find(d=>s.defence.marks[d.id]===a.id);
+    // ...and it is fed from beside him, not from across the court. A ball swung
+    // the width of the floor to a free wing is the pass a shifting defence reads
+    // best: waiving the cost for any free wing, wherever the ball was, put
+    // twenty-four interceptions a match into the model.
+    const freeWide=(marker===undefined||marker.beatenUntilTick>s.tick||marker.screenedUntilTick>s.tick||
+      distance(marker.position,a.position)>3.6)&&distance(p.position,a.position)<9;
+    const wide=freeWide?0:-clamp((Math.abs(a.position.x-10)-4.5)/4,0,1)*1.1;
     const relationship=a.id===e.partnerId?e.response==='DENIED'?0:1.2:a.id===e.pivotId&&e.response==='STEP_OUT'?1.8:0;
     const weakSide=e.response==='COLLAPSE'&&(a.position.x-10)*e.side<0?1.7:0;
     const wave=s.offence.phase==='UPPFOLJNING'?(q.y-point.y)*.12+Math.hypot(a.velocity.x,a.velocity.y)*.1:0;
-    return {a,clear,score:Math.min(clear,2)*.65+finish+relationship+weakSide+wave+(q.y-point.y)*.13-crowded*.45-(a.id===s.possession.lastPasserId?.9:0)-(distance(a.position,p.position)>15?1.5:0)};
-  }).filter(c=>c.clear>.5).sort((a,b)=>b.score-a.score||a.a.id.localeCompare(b.a.id));
+    return {a,clear,score:Math.min(clear,2)*.65+finish+relationship+weakSide+wave+depth+wide-crowded*.45-(a.id===s.possession.lastPasserId?.9:0)-(distance(a.position,p.position)>15?1.5:0)};
+  }).filter(c=>c.clear>.5&&c.score>-5).sort((a,b)=>b.score-a.score||a.a.id.localeCompare(b.a.id));
   const shot=angle>.13?(shotQuality(s,p,pressure)*5.4-1.7)*p.profile.tendency.shoot:-10;
   const pass=candidates[0];
   if(shot>(pass?.score??-10)&&held>=6)return action(s,p,'JUMP','Defence leaves a shot worth taking; break the entry');

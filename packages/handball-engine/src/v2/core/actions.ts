@@ -11,6 +11,11 @@ export function legalAction(s: CoreState,p: CorePlayer,kind: ActionKind): boolea
   const controls=s.ball.controllerId===p.id;
   if(kind==='EXCHANGE')return !controls&&s.exchanges.some(e=>e.phase!=='COMPLETED'&&e.phase!=='CANCELLED'&&(e.outId===p.id||e.inId===p.id));
   if(p.airborne&&(!controls||!s.ball.live))return kind==='LAND';
+  // A goalkeeper taking his stance for a seven-metre is doing it while the ball
+  // is still dead -- that is what being SET means -- so it has to be legal here,
+  // before the dead-ball allowance turns everything else away.
+  if(!s.ball.live&&kind==='SAVE'&&p.kind==='GOALKEEPER'&&
+    s.restart?.kind==='SEVEN_METRE'&&s.restart.owner!==p.team)return true;
   if(!s.ball.live) return kind==='REPOSITION'||kind==='RUN'||kind==='RECEIVE'||
     (kind==='PASS'&&controls&&s.restart?.collectorId===p.id&&s.restart.takerId!==p.id&&s.restart.phase==='PREPARING')||
     (s.restart?.phase==='AUTHORISED'&&s.restart.takerId===p.id&&(kind==='PASS'||kind==='SHOOT'));
@@ -18,7 +23,15 @@ export function legalAction(s: CoreState,p: CorePlayer,kind: ActionKind): boolea
   if(['HOLD','DRIBBLE','PASS','FEINT','DRIVE','JUMP','SHOOT'].includes(kind)&&!controls)return false;
   if(kind==='DRIBBLE'&&p.handling.dribbleUsed)return false;
   if(['RUN','REPOSITION','SCREEN','RECEIVE'].includes(kind)&&controls)return false;
-  if(kind==='SAVE')return p.kind==='GOALKEEPER'&&s.ball.flight?.kind==='SHOT';
+  // A GOALKEEPER SETS HIMSELF FOR A SEVEN-METRE BEFORE IT IS THROWN. Allowing a
+  // save only once the ball is airborne meant he could never contest a penalty
+  // at all: the flight from seven metres lasts about six ticks and the save
+  // action needs four of them before it is executing, so he was still in a
+  // REPOSITION at every single one and they converted at ninety-four per cent.
+  // Standing set on his line waiting for the throw is the one situation in
+  // handball where the keeper is ready before the ball moves.
+  if(kind==='SAVE')return p.kind==='GOALKEEPER'&&(s.ball.flight?.kind==='SHOT'||
+    (s.restart?.kind==='SEVEN_METRE'&&s.restart.owner!==p.team&&s.restart.phase!=='COMPLETED'));
   if(kind==='JUMP'||kind==='SHOOT')return p.kind==='FIELD_PLAYER'&&fieldLegal(p.position,p.radius);
   return true;
 }
@@ -114,6 +127,42 @@ function move(s:CoreState,p:CorePlayer,target:Point) {
     while(p.handling.stepDistance>=.8){p.handling.stepDistance-=.8;p.handling.steps++;record(s,'HANDLING_STEP',p,{steps:p.handling.steps});}
   }
 }
+/**
+ * END AN ACTION BECAUSE IT SUCCEEDED.
+ *
+ * `interrupt` exists for an action that should never have finished -- a
+ * goalkeeper's walk abandoned because a shot is on its way. It zeroes the
+ * player's momentum and his queued follow-up, because the intention is being
+ * thrown away.
+ *
+ * A drive that ends in a pass is the opposite case. The drive DID happen: it
+ * engaged a defender, it may have beaten him, it drew the cover, it spent
+ * steps, and the pass is what those things were for. Marking it INTERRUPTED
+ * says the attack never occurred, and zeroing his momentum stops a man running
+ * into a release. So an action that has done its job completes.
+ */
+export function resolveAction(s:CoreState,p:CorePlayer,reason:string) {
+  const a=p.action;if(!a||['COMPLETED','FAILED','INTERRUPTED'].includes(a.phase))return false;
+  a.resolved=true;phase(s,p,'COMPLETED');
+  record(s,'ACTION_RESOLVED',p,{kind:a.kind,reason});
+  return true;
+}
+/**
+ * Is a seven-metre throw being taken against this goalkeeper, right now?
+ *
+ * True from the award until the throw has finished travelling. The keeper's
+ * stance has to survive BOTH halves of that: he was holding it through the
+ * preparation and then dropping into recovery on the tick after the release,
+ * so on the two or three ticks when the ball was actually near him he no longer
+ * counted as ready and reached a fifth of a metre. He is set until it is over.
+ */
+export function penaltyAgainst(s:CoreState,p:CorePlayer):boolean {
+  if(!s.ball.live&&s.restart?.kind==='SEVEN_METRE'&&s.restart.owner!==p.team)return true;
+  const f=s.ball.flight;
+  if(!f||f.kind!=='SHOT')return false;
+  const shooter=s.players.find(q=>q.id===f.fromId);
+  return !!shooter&&shooter.team!==p.team&&shooter.action?.shotKind==='SEVEN_METRE';
+}
 export type ExecutionEffect = {playerId:string;kind:'PASS'|'SHOOT'|'FEINT'|'DRIVE'};
 export function execute(s: CoreState): ExecutionEffect[] {
   const effects: ExecutionEffect[]=[];
@@ -154,6 +203,12 @@ export function execute(s: CoreState): ExecutionEffect[] {
     // a movement action that refused to finish would stop it re-aiming anybody:
     // a blocked player then held a stale target until the preparation budget
     // ran out and the match stopped. Restart preparation keeps its authority.
+    // A KEEPER SET FOR A PENALTY IS NOT COMPLETING ANYTHING. He is waiting, and
+    // the wait lasts as long as the referee takes. Letting the save run its
+    // eighteen ticks and finish meant he cycled in and out of readiness, so
+    // whether he was actually set when the throw came was a lottery -- and a
+    // save restarted from scratch cannot reach a seven-metre at all.
+    if(a.kind==='SAVE'&&a.targetId===null&&p.kind==='GOALKEEPER'&&penaltyAgainst(s,p))continue;
     const tracking=s.ball.live&&movementActions.includes(a.kind)&&a.target!==null&&distance(p.position,a.target)>.35;
     if(tracking&&s.tick-a.startedTick<400&&Math.hypot(p.velocity.x,p.velocity.y)>.05)continue;
     if(elapsed<a.executeTicks)continue;
