@@ -3,9 +3,9 @@ import { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useCareer } from '@/lib/career/CareerContext';
-import { getClub } from '@/lib/game-data';
 import { advanceProductionMatch, commandProductionMatch, finalizeProductionMatch, observedFrame, archiveFrames, type MatchCommand, type MatchFrame, type MatchPerson, type PlayedMatchArchive } from '@/lib/career/productionMatch';
 import { frameAt } from '@/lib/career/matchFrames';
+import { Scoreboard } from '@/components/game/Identity';
 
 function Court({ frame, people }: { frame: MatchFrame; people: MatchPerson[] }) {
   return <svg viewBox="-150 -100 4300 2200" aria-label="Handbollsplan med matchens spelare och boll" style={{ width: '100%', maxHeight: '64vh', minHeight: 340 }}>
@@ -38,7 +38,7 @@ export function ArchiveReplay({ archive }: { archive: PlayedMatchArchive }) {
   }, [playing, speed, frames]);
   const frame = frames.length ? frameAt(frames, tick) : null;
   if (!frame) return <p role="alert">{decoded.error ?? 'Den här matchen saknar sparad 2D-visning.'}</p>;
-  return <div className="hm-panel"><div className="hm-panel-header"><strong>{getClub(archive.fixture.homeClubId)?.shortName} {frame[3]}–{frame[4]} {getClub(archive.fixture.awayClubId)?.shortName} · {Math.floor(frame[1] / 60000)}:{String(Math.floor(frame[1] / 1000) % 60).padStart(2, '0')}</strong><span>Repris</span></div><Court frame={frame} people={archive.people} /><div className="hm-panel-body"><button className="hm-btn" onClick={() => setPlaying(!playing)}>{playing ? 'Pausa' : 'Spela'}</button> <select aria-label="Reprishastighet" value={speed} onChange={e => setSpeed(Number(e.target.value))}>{[1, 4, 16, 64].map(n => <option key={n} value={n}>{n}×</option>)}</select><input aria-label="Position i reprisen" type="range" min={frames[0][0]} max={frames.at(-1)![0]} value={tick} onChange={e => { setTick(Number(e.target.value)); setPlaying(false); }} style={{ width: '100%', marginTop: 16 }} /><p>Slutresultat: {archive.result.homeGoals}–{archive.result.awayGoals}</p></div></div>;
+  return <div className="game-live-match"><Scoreboard homeClubId={archive.fixture.homeClubId} awayClubId={archive.fixture.awayClubId} homeScore={frame[3]} awayScore={frame[4]} label="Repris"><span>{Math.floor(frame[1] / 60000)}:{String(Math.floor(frame[1] / 1000) % 60).padStart(2, '0')}</span></Scoreboard><div className="game-court-stage"><Court frame={frame} people={archive.people} /></div><div className="game-match-controls"><button className="hm-btn" onClick={() => setPlaying(!playing)}>{playing ? 'Pausa' : 'Spela'}</button> <select aria-label="Reprishastighet" value={speed} onChange={e => setSpeed(Number(e.target.value))}>{[1, 4, 16, 64].map(n => <option key={n} value={n}>{n}×</option>)}</select><input aria-label="Position i reprisen" type="range" min={frames[0][0]} max={frames.at(-1)![0]} value={tick} onChange={e => { setTick(Number(e.target.value)); setPlaying(false); }} style={{ width: '100%', marginTop: 16 }} /><p>Slutresultat: {archive.result.homeGoals}–{archive.result.awayGoals}</p></div></div>;
 }
 
 export default function ProductionMatchView({ fixtureId, quickFinish = false }: { fixtureId: string; quickFinish?: boolean }) {
@@ -64,31 +64,31 @@ export default function ProductionMatchView({ fixtureId, quickFinish = false }: 
     return <div className="hm-panel-body"><p>{career.results[fixtureId] ? 'Den här matchen har inget sparat 2D-arkiv.' : 'Starta matchen från matchförhandsvisningen.'}</p><Link className="hm-btn" href={career.results[fixtureId] ? `/career/match-report/${fixtureId}` : '/career/match-preview'}>Öppna match</Link></div>;
   }
   const c = session.core, team = session.fixture.homeClubId === career.playerClubId ? 'HOME' : 'AWAY';
-  const home = getClub(session.fixture.homeClubId), away = getClub(session.fixture.awayClubId);
   const fulltime = c.match?.phase === 'FULLTIME';
   const minute = Math.floor(c.officialClock.timeMs / 60000), second = String(Math.floor(c.officialClock.timeMs / 1000) % 60).padStart(2, '0');
   function apply(command: MatchCommand) { try { updateCareer(state => commandProductionMatch(state, command)); setError(null); } catch (cause) { setError(cause instanceof Error ? cause.message : 'Beslutet kunde inte genomföras.'); } }
   function finish() { setPlaying(false); setBusy(true); setFinishing(true); }
   const recent = c.events.filter(e => ['GOAL', 'SAVE_CAUGHT', 'SAVE_PARRY', 'TWO_MINUTE_SUSPENSION', 'DISQUALIFICATION', 'EXCHANGE_COMPLETED', 'TEAM_TIMEOUT_STARTED', 'TACTICS_CHANGED'].includes(e.type)).slice(-8).reverse();
   const labels: Record<string, string> = { GOAL: 'Mål', SAVE_CAUGHT: 'Räddning', SAVE_PARRY: 'Räddning', TWO_MINUTE_SUSPENSION: 'Två minuter', DISQUALIFICATION: 'Rött kort', EXCHANGE_COMPLETED: 'Byte', TEAM_TIMEOUT_STARTED: 'Timeout', TACTICS_CHANGED: 'Taktiken ändras' };
-  return <div className="hm-grid" style={{ gap: 12 }}>
-    <div className="hm-panel"><div className="hm-panel-header"><strong>{home?.shortName} {c.score.HOME}–{c.score.AWAY} {away?.shortName}</strong><strong>{minute}:{second} · {fulltime ? 'Slut' : session.pausedAtHalf ? 'Halvtid' : c.period === 1 ? 'Första halvlek' : 'Andra halvlek'}</strong></div>
-      <div className="hm-panel-body" style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+  return <div className="game-live-match" data-phase={fulltime ? 'fulltime' : session.pausedAtHalf ? 'halftime' : 'live'}>
+    <Scoreboard homeClubId={session.fixture.homeClubId} awayClubId={session.fixture.awayClubId} homeScore={c.score.HOME} awayScore={c.score.AWAY} label={fulltime ? 'SLUTSIGNAL' : session.pausedAtHalf ? 'HALVTID' : 'MATCHCENTRAL'}><strong>{minute}:{second} · {fulltime ? 'Slut' : session.pausedAtHalf ? 'Halvtid' : c.period === 1 ? 'Första halvlek' : 'Andra halvlek'}</strong></Scoreboard>
+    <div className="game-live-layout"><div className="game-live-court">
+      <div className="game-match-controls">
         {!fulltime && <><button className="hm-btn hm-btn-primary" disabled={busy || !!session.error} onClick={() => { if (session.pausedAtHalf) apply({ kind: 'SECOND_HALF' }); setPlaying(!playing || session.pausedAtHalf); }}>{session.pausedAtHalf ? 'Starta andra halvlek' : playing ? 'Pausa' : 'Spela'}</button><select aria-label="Matchhastighet" value={speed} onChange={e => setSpeed(Number(e.target.value))}>{[1, 4, 16, 64].map(n => <option value={n} key={n}>{n}×</option>)}</select><button className="hm-btn" disabled={busy} onClick={finish}>{busy ? 'Spelar färdigt…' : 'Spela till slut'}</button></>}
         {fulltime && <button className="hm-btn hm-btn-primary" onClick={() => { updateCareer(finalizeProductionMatch); router.push(`/career/match-report/${fixtureId}`); }}>Slutför match och öppna rapport</button>}
         <Link className="hm-btn" href="/career/squad">Trupp</Link><span className="hm-text-muted">Matchen sparas automatiskt. Pausa innan du lämnar.</span>
       </div>
       {(error || session.error) && <p role="alert" className="hm-panel-body">{error ?? session.error}</p>}
-      <Court frame={observedFrame(session)} people={session.people} />
+      <div className="game-court-stage"><Court frame={observedFrame(session)} people={session.people} /></div>
     </div>
-    {!fulltime && <div className="hm-panel"><div className="hm-panel-header"><strong>Dina matchbeslut</strong></div><div className="hm-panel-body" style={{ display: 'flex', gap: 12, flexWrap: 'wrap', alignItems: 'end' }}>
+    {!fulltime && <aside className="game-sideline"><div className="game-section-heading"><h2>Dina matchbeslut</h2></div><div className="game-sideline-controls">
       <label>Försvar<br /><select value={c.coaching[team].defence} onChange={e => apply({ kind: 'TACTICS', team, patch: { defence: e.target.value as '6:0' | '5:1' } })}><option>6:0</option><option>5:1</option></select></label>
       <label>Tempo<br /><select value={c.coaching[team].tempo} onChange={e => apply({ kind: 'TACTICS', team, patch: { tempo: e.target.value as 'BALANCED' | 'QUICK' } })}><option value="BALANCED">Balanserat</option><option value="QUICK">Snabbt</option></select></label>
       <label>Anfall<br /><select value={c.coaching[team].attackIdentity} onChange={e => apply({ kind: 'TACTICS', team, patch: { attackIdentity: e.target.value as 'BALANCED' | 'COMBINATION' | 'WIDTH' | 'DIRECT' } })}><option value="BALANCED">Balanserat</option><option value="COMBINATION">Kombinationer</option><option value="WIDTH">Bredd</option><option value="DIRECT">Direkt</option></select></label>
       <button className="hm-btn" onClick={() => apply({ kind: 'TIMEOUT', team })}>Timeout</button>
       <label>Spelare ut<br /><select aria-label="Spelare ut" value={outId} onChange={e => { setOutId(e.target.value); setInId(''); }}><option value="">Välj spelare</option>{c.players.filter(p => p.team === team && p.population === 'COURT').map(p => <option key={p.id} value={p.id}>{session.people.find(x => x.id === p.id)?.name} · {Math.round(p.condition.energy * 100)}%</option>)}</select></label>
       <label>Spelare in<br /><select aria-label="Spelare in" value={inId} onChange={e => setInId(e.target.value)}><option value="">Välj ersättare</option>{c.players.filter(p => p.team === team && p.population === 'BENCH' && !p.condition.unavailable && (!outId || p.kind === c.players.find(x => x.id === outId)?.kind)).map(p => <option key={p.id} value={p.id}>{session.people.find(x => x.id === p.id)?.name} · {Math.round(p.condition.energy * 100)}%</option>)}</select></label><button className="hm-btn" disabled={!outId || !inId} onClick={() => { apply({ kind: 'SUBSTITUTION', team, outId, inId }); setOutId(''); setInId(''); }}>Genomför byte</button>
-    </div></div>}
-    <div className="hm-panel"><div className="hm-panel-header"><strong>Matchhändelser</strong></div><div className="hm-panel-body">{recent.map(e => <p key={e.id}>{Math.floor(e.officialMs / 60000)}′ · {labels[e.type]} {session.people.find(p => p.id === e.actorId)?.name ?? ''}</p>)}</div></div>
+    </div><div className="game-sideline-events"><h3>Från planen</h3>{recent.map(e => <p key={e.id}><strong>{Math.floor(e.officialMs / 60000)}′</strong> {labels[e.type]} <span>{session.people.find(p => p.id === e.actorId)?.name ?? ''}</span></p>)}</div></aside>}
+    </div>
   </div>;
 }

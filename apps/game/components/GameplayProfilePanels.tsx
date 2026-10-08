@@ -49,23 +49,12 @@ export interface GameplayRatingRow {
   locked: boolean;
 }
 
-const CA_SOURCE_LABEL: Record<GameplayCASource, string> = {
-  CALIBRATED: "KALIBRERAD",
-  MODEL_ESTIMATE: "SKATTAD",
-  GENERATED_GAME_PRIOR: "GENERERAD",
-  EDITOR_OVERRIDE: "MANUELLT SATT",
-};
-
-/** Right-column panel: gameplay CA/PA with a source badge, plus role/position. */
+/** Club assessment and handball roles. Calibration metadata stays in the editor. */
 export function GameplayAbilityPanel({ row }: { row: GameplayRatingRow }) {
   return (
     <div className="hm-panel">
       <div className="hm-panel-header">
         <span className="hm-panel-title">Förmåga</span>
-        <span className={`hm-badge ${row.locked ? "hm-badge-positive" : "hm-badge-neutral"}`}>
-          {row.locked ? "LÅST · " : ""}
-          {CA_SOURCE_LABEL[row.caSource]}
-        </span>
       </div>
       <div className="hm-panel-body" style={{ display: "flex", flexDirection: "column", gap: 10 }}>
         <AbilityBlock label="Nuvarande nivå" stars={abilityStarsFromCA(row.ca)} title="Tränarstabens bedömning av nuvarande nivå" />
@@ -73,11 +62,6 @@ export function GameplayAbilityPanel({ row }: { row: GameplayRatingRow }) {
         <div className="hm-divider" />
         <RoleRow label="Anfallsroller" roles={row.attackRoleProficiencies} />
         <RoleRow label="Försvarsroller" roles={row.defenceRoleProficiencies} />
-        {row.caSource === "GENERATED_GAME_PRIOR" ? (
-          <p className="hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)", margin: 0, lineHeight: 1.5 }}>
-            Genererad spelrepresentation -- inget forskat underlag finns för denna spelare ännu.
-          </p>
-        ) : null}
       </div>
     </div>
   );
@@ -116,7 +100,6 @@ export function GameplayAttributesPanel({ row }: { row: GameplayRatingRow }) {
     <div className="hm-panel">
       <div className="hm-panel-header">
         <span className="hm-panel-title">{isGoalkeeper ? "Målvaktsegenskaper" : "Egenskaper"} (1–20)</span>
-        <span className="hm-badge hm-badge-neutral">{isGoalkeeper ? "21/21" : "56/56"}</span>
       </div>
       {isGoalkeeper
         ? (Object.keys(GOALKEEPER_ATTRIBUTE_FAMILIES) as GoalkeeperAttributeFamily[]).map((family) => (

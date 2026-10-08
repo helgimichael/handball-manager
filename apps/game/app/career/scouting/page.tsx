@@ -19,7 +19,10 @@ import { clubNation } from "@/lib/staff/scoutPool";
 import { findStaffMember } from "@/lib/staff/staffCareerIntegration";
 import { computeRoleSuitability } from "@/lib/staff/roleSuitability";
 import { getPlayerKnowledgePct } from "@/lib/knowledge/knowledgeIntegration";
-import { KNOWLEDGE_TIER_LABEL_SV, knowledgeTier } from "@/lib/knowledge/types";
+import Link from 'next/link';
+import { PageHeading } from '@/components/manager/Workspace';
+import { PlayerCell, PlayerHero } from '@/components/game/Identity';
+import { KnowledgeMeter } from '@/components/game/RecruitmentPresentation';
 
 const BROAD_TYPE_LABEL_SV: Record<Exclude<ScoutAssignmentType, "PLAYER">, string> = {
   CLUB: "Klubb",
@@ -131,7 +134,9 @@ export default function ScoutingPage() {
   }
 
   return (
-    <div className="hm-grid" style={{ gridTemplateColumns: "1.3fr 1fr" }}>
+    <div className="game-scouting-page"><PageHeading eyebrow="Rekrytering / upptäck & bedöm" title="Scouting" description="Lär känna spelarna innan du bygger nästa lag. Följ scoutens uppdrag från första observation till färdig rapport." actions={<Link className="hm-btn" href="/career/recruitment">Rekryteringscentrum →</Link>} />
+    <div className="game-market-stage game-scouting-stage"><div><span className="hm-eyebrow">Klubbens ögon på marknaden</span><h2>På jakt efter nästa förstärkning.</h2><p>{scouts.length ? `${scouts.length} scouter följer spelare och söker nya namn åt klubben.` : 'Rekrytera en scout för att börja bevaka marknaden.'}</p></div><div className="game-market-count"><strong>{activeAssignments.length + activeBroadAssignments.length}</strong><span>pågående uppdrag</span></div><div className="game-market-count"><strong>{completedAssignments.length}</strong><span>färdiga rapporter</span></div><div className="game-market-count"><strong>{discoveries.length}</strong><span>upptäckta spelare</span></div></div>
+    <div className="game-scouting-layout">
       <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
         {/* Scouts */}
         <div className="hm-panel">
@@ -152,12 +157,9 @@ export default function ScoutingPage() {
                 const activeCount = activeAssignments.filter((a) => a.scoutStaffId === scout.id).length;
                 return (
                   <div key={scout.id} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", fontSize: "var(--hm-text-xs)" }}>
-                    <span
-                      style={{ fontWeight: 700, cursor: "pointer" }}
-                      onClick={() => router.push(`/career/staff/${scout.id}`)}
-                    >
+                    <Link href={`/career/staff/${encodeURIComponent(scout.id)}`} style={{ fontWeight: 700 }}>
                       {scout.displayName}
-                    </span>
+                    </Link>
                     <span className="hm-text-muted">
                       Spelarbedömning/potentialbedömning {suitability.toFixed(1)}/20 · {activeCount} aktiva uppdrag
                     </span>
@@ -175,6 +177,7 @@ export default function ScoutingPage() {
             <input
               style={{ ...inputStyle, maxWidth: 180 }}
               placeholder="Sök spelare..."
+              aria-label="Sök spelare att bevaka"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
             />
@@ -212,12 +215,12 @@ export default function ScoutingPage() {
                 {candidates.slice(0, 60).map(({ player, club }) => {
                   const pct = getPlayerKnowledgePct(career, player.id, player.clubId);
                   return (
-                    <tr key={player.id} data-clickable="true" onClick={() => setSelectedPlayerId(player.id)} style={{ background: selectedPlayerId === player.id ? "var(--hm-surface-2)" : undefined }}>
-                      <td className="hm-td-strong">{player.firstName} {player.lastName}</td>
+                    <tr key={player.id} data-clickable="true" data-selected={selectedPlayerId === player.id} onClick={() => setSelectedPlayerId(player.id)}>
+                      <td className="hm-td-strong"><PlayerCell player={player} /></td>
                       <td title={positionLabel(player.position)}>{player.position}</td>
                       <td>{playerAgeAtDate(player.dateOfBirth, player.birthYear, career.gameDate) ?? "–"}</td>
                       <td className="hm-text-muted">{club.shortName}</td>
-                      <td className="hm-table-num">{KNOWLEDGE_TIER_LABEL_SV[knowledgeTier(pct)]}</td>
+                      <td><KnowledgeMeter pct={pct} /></td>
                       <td>
                         <button type="button" className="hm-btn hm-btn-sm" onClick={(e) => { e.stopPropagation(); setSelectedPlayerId(player.id); }}>
                           Välj
@@ -233,12 +236,8 @@ export default function ScoutingPage() {
 
           {selectedPlayer ? (
             <div className="hm-panel-body" style={{ display: "flex", flexDirection: "column", gap: 8, borderTop: "1px solid var(--hm-border)" }}>
-              <div style={{ fontWeight: 700 }}>
-                {selectedPlayer.firstName} {selectedPlayer.lastName} · {getClub(selectedPlayer.clubId)?.name ?? selectedPlayer.clubId}
-              </div>
-              <div className="hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)" }}>
-                Nuvarande kännedom: {selectedKnowledgePct !== null ? KNOWLEDGE_TIER_LABEL_SV[knowledgeTier(selectedKnowledgePct)] : "—"}
-              </div>
+              <div className="game-target-dossier" key={selectedPlayer.id}><PlayerHero player={selectedPlayer} career={career} /></div>
+              {selectedKnowledgePct !== null && <KnowledgeMeter pct={selectedKnowledgePct} />}
               {scouts.length > 0 ? (
                 <label style={{ display: "flex", flexDirection: "column", gap: 4, fontSize: "var(--hm-text-xs)" }}>
                   Scout
@@ -381,14 +380,9 @@ export default function ScoutingPage() {
                 const scout = findStaffMember(career, a.scoutStaffId);
                 const progress = computeAssignmentProgressPct(a, career.gameDate);
                 return (
-                  <div key={a.id} style={{ display: "flex", flexDirection: "column", gap: 4, fontSize: "var(--hm-text-xs)" }}>
+                  <div key={a.id} className="game-scout-assignment" style={{ display: "flex", flexDirection: "column", gap: 4, fontSize: "var(--hm-text-xs)" }}>
                     <div style={{ display: "flex", justifyContent: "space-between" }}>
-                      <span
-                        style={{ fontWeight: 700, cursor: player ? "pointer" : undefined }}
-                        onClick={() => player && router.push(`/career/squad/${player.id}`)}
-                      >
-                        {player ? `${player.firstName} ${player.lastName}` : a.targetPlayerId}
-                      </span>
+                      {player ? <PlayerCell player={player} /> : <span>{a.targetPlayerId}</span>}
                       <span className="hm-text-muted">{scout?.displayName ?? "Okänd scout"}</span>
                     </div>
                     <div style={{ height: 6, borderRadius: 3, background: "var(--hm-surface-3)", overflow: "hidden" }}>
@@ -423,16 +417,17 @@ export default function ScoutingPage() {
                   <div
                     key={a.id}
                     data-clickable="true"
+                    className="game-scout-report-row"
                     style={{ display: "flex", justifyContent: "space-between", alignItems: "center", fontSize: "var(--hm-text-xs)", cursor: "pointer" }}
                     onClick={() => router.push(`/career/squad/${a.targetPlayerId}`)}
                   >
                     <div>
-                      <div style={{ fontWeight: 700 }}>{player ? `${player.firstName} ${player.lastName}` : a.targetPlayerId}</div>
+                      {player ? <PlayerCell player={player} /> : <div style={{ fontWeight: 700 }}>{a.targetPlayerId}</div>}
                       <div className="hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)" }}>
                         {scout?.displayName ?? "Okänd scout"} · {getClub(a.targetClubId)?.name ?? a.targetClubId}
                       </div>
                     </div>
-                    <span className="hm-badge hm-badge-neutral">{KNOWLEDGE_TIER_LABEL_SV[knowledgeTier(pct)]}</span>
+                    <div className="game-report-row-status"><span className="game-report-stamp">Rapport klar</span><KnowledgeMeter pct={pct} /><Link className="hm-btn hm-btn-sm" href={`/career/squad/${encodeURIComponent(a.targetPlayerId)}`}>Öppna rapport</Link></div>
                   </div>
                 );
               })}
@@ -535,11 +530,11 @@ export default function ScoutingPage() {
                     const pct = getPlayerKnowledgePct(career, d.playerId, d.clubId);
                     return (
                       <tr key={d.id} data-clickable="true" onClick={() => router.push(`/career/squad/${d.playerId}`)}>
-                        <td className="hm-td-strong">{player ? `${player.firstName} ${player.lastName}` : d.playerId}</td>
+                        <td className="hm-td-strong">{player ? <PlayerCell player={player} /> : d.playerId}</td>
                         <td className="hm-text-muted">{getClub(d.clubId)?.shortName ?? d.clubId}</td>
                         <td className="hm-text-muted">{BROAD_TYPE_LABEL_SV[d.assignmentType as Exclude<ScoutAssignmentType, "PLAYER">] ?? d.assignmentType}</td>
                         <td className="hm-text-muted">{scout?.displayName ?? "Okänd scout"}</td>
-                        <td className="hm-table-num">{KNOWLEDGE_TIER_LABEL_SV[knowledgeTier(pct)]}</td>
+                        <td><KnowledgeMeter pct={pct} /></td>
                         <td>
                           <button
                             type="button"
@@ -563,7 +558,7 @@ export default function ScoutingPage() {
           )}
         </div>
       </div>
-    </div>
+    </div></div>
   );
 }
 

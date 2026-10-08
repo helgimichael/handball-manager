@@ -1,6 +1,6 @@
 "use client";
 import ClubContext from "@/components/manager/ClubContext";
-import { CompetitionLink } from "@/components/manager/Workspace";
+import { ClubHero, PlayerCell } from "@/components/game/Identity";
 
 // HM-UX-0.3: universal club profile for any club that ISN'T the
 // manager's own (ClubLink routes the manager's own club to the
@@ -16,7 +16,7 @@ import { CompetitionLink } from "@/components/manager/Workspace";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
-import { COMPETITIONS, getClub, positionLabel } from "@/lib/game-data";
+import { getClub, positionLabel } from "@/lib/game-data";
 import { playerAgeAtDate } from "@/lib/development/developmentIntegration";
 import { useCareer } from "@/lib/career/CareerContext";
 import { getCareerClubSquad } from "@/lib/career/careerWorld";
@@ -24,8 +24,7 @@ import { getLiveStandings } from "@/lib/career/standings";
 import type { ClubIdentityProfile, CoachIdentityProfile, IdentityClaim } from "@/lib/identity";
 import { presentClaim } from "@/lib/identity/presentation";
 import { STAFF_ROLE_LABEL } from "@/lib/staff/labels";
-import ClubCrest from "@/components/ClubCrest";
-import { ClubLink, PlayerLink } from "@/components/entityLinks";
+import { ClubLink } from "@/components/entityLinks";
 import { getClubKnowledgePct } from "@/lib/knowledge/knowledgeIntegration";
 import { resolveClubVisibility } from "@/lib/knowledge/clubVisibility";
 import { KNOWLEDGE_TIER_LABEL_SV } from "@/lib/knowledge/types";
@@ -108,7 +107,6 @@ export default function ClubProfilePage() {
   }
 
   const squad = getCareerClubSquad(career, club.id);
-  const competitionName = COMPETITIONS.find((c) => c.id === club.competitionId)?.name ?? club.competitionId;
   const table = career.competitionId === club.competitionId ? getLiveStandings(career) : [];
   const tableRow = table.find((r) => r.clubId === club.id);
   const tablePosition = tableRow ? table.indexOf(tableRow) + 1 : null;
@@ -141,39 +139,21 @@ export default function ClubProfilePage() {
   const activeDevelopmentPartner = getClubPartnerships(career, club.id).find((p) => p.type === "DEVELOPMENT_PARTNERSHIP" && p.status === "ACTIVE");
 
   return (
-    <div className="hm-grid" style={{ gap: 12 }}><ClubContext clubId={club.id} />
-      <div className="hm-panel">
-        <div className="hm-panel-body" style={{ display: "flex", alignItems: "center", gap: 16 }}>
-          <ClubCrest shortName={club.shortName} primaryColor={club.primaryColor} size={56} />
-          <div style={{ flex: 1 }}>
-            <div style={{ fontSize: "var(--hm-text-md)", fontWeight: 800 }}>{club.name}</div>
-            <div className="hm-text-muted" style={{ fontSize: "var(--hm-text-xs)" }}>
-              <CompetitionLink id={club.competitionId}>{competitionName}</CompetitionLink> · {club.city ?? "—"}
-              {club.founded ? ` · Grundad ${club.founded}` : ""}
-            </div>
-          </div>
-          <button type="button" className="hm-btn hm-btn-sm hm-btn-ghost" onClick={() => router.back()}>
-            ← Tillbaka
-          </button>
-        </div>
-        <div className="hm-panel-body" style={{ display: "flex", gap: 28, paddingTop: 0 }}>
-          <MiniStat label="Tabellplacering" value={tablePosition ? `${tablePosition}:a` : "—"} />
-          <MiniStat label="Poäng" value={tableRow?.points ?? "—"} />
-          <MiniStat label="Trupp" value={squad.length} />
-          <MiniStat label="Personal" value={staffRoster.length} />
-        </div>
-        {permanentParentClubId ? (
-          <div className="hm-panel-body" style={{ paddingTop: 0 }}>
-            <span className="hm-badge hm-badge-neutral">Permanent B-lag till {getClub(permanentParentClubId)?.name ?? permanentParentClubId} -- kan inte väljas som samarbetsklubb</span>
-          </div>
-        ) : activeDevelopmentPartner ? (
-          <div className="hm-panel-body" style={{ paddingTop: 0 }}>
-            <span className="hm-badge hm-badge-neutral">Exklusivt samarbete med {getClub(activeDevelopmentPartner.clubAId)?.name ?? activeDevelopmentPartner.clubAId} -- inte tillgänglig för andra klubbar</span>
-          </div>
-        ) : null}
-      </div>
-
-      <div className="hm-panel">
+    <div className="hm-world-page">
+      <ClubHero clubId={club.id} career={career}>
+        <button type="button" className="hm-btn hm-btn-sm" onClick={() => router.back()}>Tillbaka</button>
+      </ClubHero>
+      <section className="hm-world-facts" aria-label="Klubbens säsong">
+        <div><small>Tabellplacering</small><strong>{tablePosition ? `${tablePosition}:a` : "—"}</strong></div>
+        <div><small>Poäng</small><strong>{tableRow?.points ?? "—"}</strong></div>
+        <div><small>Trupp</small><strong>{squad.length}</strong></div>
+        <div><small>Personal</small><strong>{staffRoster.length}</strong></div>
+      </section>
+      {permanentParentClubId ? <div className="hm-world-note">Permanent B-lag till {getClub(permanentParentClubId)?.name ?? permanentParentClubId} -- kan inte väljas som samarbetsklubb.</div> : activeDevelopmentPartner ? <div className="hm-world-note">Exklusivt samarbete med {getClub(activeDevelopmentPartner.clubAId)?.name ?? activeDevelopmentPartner.clubAId} -- inte tillgänglig för andra klubbar.</div> : null}
+      <div className="hm-world-split">
+        <div className="hm-world-main">
+          <ClubContext clubId={club.id} />
+                <div className="hm-panel">
         <div className="hm-panel-header">
           <span className="hm-panel-title">Trupp</span>
         </div>
@@ -197,9 +177,7 @@ export default function ClubProfilePage() {
                       <span className="hm-shirt-number">{p.shirtNumber ?? "–"}</span>
                     </td>
                     <td className="hm-td-strong">
-                      <PlayerLink playerId={p.id}>
-                        {p.firstName} {p.lastName}
-                      </PlayerLink>
+                      <PlayerCell player={p} />
                     </td>
                     <td title={positionLabel(p.position)}>{p.position}</td>
                     <td>{playerAgeAtDate(p.dateOfBirth, p.birthYear, career.gameDate) ?? "–"}</td>
@@ -211,107 +189,8 @@ export default function ClubProfilePage() {
         )}
       </div>
 
-      <div className="hm-panel">
-        <div className="hm-panel-header">
-          <span className="hm-panel-title">Personal</span>
-        </div>
-        {staffRoster.length === 0 ? (
-          <div className="hm-panel-body hm-text-muted">Ingen personaldata tillgänglig för denna klubb ännu.</div>
-        ) : (
-          <table className="hm-table">
-            <thead>
-              <tr>
-                <th>Namn</th>
-                <th>Roll</th>
-              </tr>
-            </thead>
-            <tbody>
-              {staffRoster.map((m) => (
-                <tr key={m.id}>
-                  <td className="hm-td-strong">
-                    <Link href={`/career/staff/${encodeURIComponent(m.id)}`}>{m.displayName}</Link>
-                  </td>
-                  <td>{m.roles.length > 0 ? m.roles.map((r) => STAFF_ROLE_LABEL[r]).join(" + ") : (m.officialRoleLabel ?? "—")}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        )}
-      </div>
 
-      <div className="hm-panel">
-        <div className="hm-panel-header">
-          <span className="hm-panel-title">Klubbidentitet</span>
-          {visibility ? <span className="hm-badge hm-badge-neutral">{KNOWLEDGE_TIER_LABEL_SV[visibility.tier]}</span> : null}
-        </div>
-        {identity === null ? (
-          <div className="hm-panel-body hm-text-muted">Läser in…</div>
-        ) : !identity.clubIdentity ? (
-          <div className="hm-panel-body hm-text-muted">Ingen klubbidentitetsdata tillgänglig för denna klubb ännu.</div>
-        ) : !visibility?.clubIdentity || Object.values(visibility.clubIdentity).every((claims) => Array.isArray(claims) && claims.length === 0) ? (
-          <div className="hm-panel-body hm-text-muted">
-            För lite kännedom om klubben för djupare insikter ännu. Scouting och möten mot klubben ökar kännedomen över tid.
-          </div>
-        ) : (
-          <>
-            <div className="hm-panel-body" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 16 }}>
-              {(Object.keys(CLUB_IDENTITY_DOMAIN_LABELS) as (keyof typeof CLUB_IDENTITY_DOMAIN_LABELS)[])
-                .filter((field) => visibility.clubIdentity![field].length > 0)
-                .map((field) => (
-                  <div key={field}>
-                    <div className="hm-eyebrow">{CLUB_IDENTITY_DOMAIN_LABELS[field]}</div>
-                    {visibility.clubIdentity![field].map((claim) => (
-                      <ClaimRow key={claim.id} claim={claim} />
-                    ))}
-                  </div>
-                ))}
-            </div>
-            {visibility.hiddenClubClaimCount > 0 ? (
-              <div className="hm-panel-body hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)", paddingTop: 0 }}>
-                {visibility.hiddenClubClaimCount} till, kräver bättre kännedom om klubben.
-              </div>
-            ) : null}
-          </>
-        )}
-      </div>
-
-      <div className="hm-panel">
-        <div className="hm-panel-header">
-          <span className="hm-panel-title">Tränarfilosofi</span>
-          {visibility ? <span className="hm-badge hm-badge-neutral">{KNOWLEDGE_TIER_LABEL_SV[visibility.tier]}</span> : null}
-        </div>
-        {identity === null ? (
-          <div className="hm-panel-body hm-text-muted">Läser in…</div>
-        ) : !identity.coachIdentity ? (
-          <div className="hm-panel-body hm-text-muted">Ingen bedömd tränarfilosofi tillgänglig för nuvarande huvudtränare.</div>
-        ) : !visibility?.coachIdentity || Object.values(visibility.coachIdentity).every((claims) => Array.isArray(claims) && claims.length === 0) ? (
-          <div className="hm-panel-body hm-text-muted">
-            För lite kännedom om tränaren för en bedömd filosofi ännu. Kräver minst måttlig kännedom om klubben.
-          </div>
-        ) : (
-          <>
-            <div className="hm-panel-body" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 16 }}>
-              {(Object.keys(COACH_CLAIM_LABELS) as (keyof typeof COACH_CLAIM_LABELS)[])
-                .filter((field) => visibility.coachIdentity![field].length > 0)
-                .map((field) => (
-                  <div key={field}>
-                    <div className="hm-eyebrow">{COACH_CLAIM_LABELS[field]}</div>
-                    {visibility.coachIdentity![field].map((claim) => (
-                      <ClaimRow key={claim.id} claim={claim} />
-                    ))}
-                  </div>
-                ))}
-            </div>
-            {visibility.hiddenCoachClaimCount > 0 ? (
-              <div className="hm-panel-body hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)", paddingTop: 0 }}>
-                {visibility.hiddenCoachClaimCount} till, kräver bättre kännedom om klubben.
-              </div>
-            ) : null}
-          </>
-        )}
-      </div>
-
-      <div className="hm-panel">
+                <div className="hm-panel">
         <div className="hm-panel-header">
           <span className="hm-panel-title">Matcher</span>
           <span className="hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)" }}>{fixtures.length} matcher</span>
@@ -353,15 +232,114 @@ export default function ClubProfilePage() {
           </div>
         )}
       </div>
-    </div>
-  );
-}
 
-function MiniStat({ label, value }: { label: string; value: string | number }) {
-  return (
-    <div>
-      <div className="hm-eyebrow">{label}</div>
-      <div style={{ fontSize: "var(--hm-text-md)", fontWeight: 800 }}>{value}</div>
+        </div>
+        <aside className="hm-world-rail" aria-label="Organisation och klubbkännedom">
+                <div className="hm-panel">
+        <div className="hm-panel-header">
+          <span className="hm-panel-title">Personal</span>
+        </div>
+        {staffRoster.length === 0 ? (
+          <div className="hm-panel-body hm-text-muted">Ingen personaldata tillgänglig för denna klubb ännu.</div>
+        ) : (
+          <table className="hm-table">
+            <thead>
+              <tr>
+                <th>Namn</th>
+                <th>Roll</th>
+              </tr>
+            </thead>
+            <tbody>
+              {staffRoster.map((m) => (
+                <tr key={m.id}>
+                  <td className="hm-td-strong">
+                    <Link href={`/career/staff/${encodeURIComponent(m.id)}`}>{m.displayName}</Link>
+                  </td>
+                  <td>{m.roles.length > 0 ? m.roles.map((r) => STAFF_ROLE_LABEL[r]).join(" + ") : (m.officialRoleLabel ?? "—")}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
+      </div>
+
+
+                <div className="hm-panel">
+        <div className="hm-panel-header">
+          <span className="hm-panel-title">Klubbidentitet</span>
+          {visibility ? <span className="hm-badge hm-badge-neutral">{KNOWLEDGE_TIER_LABEL_SV[visibility.tier]}</span> : null}
+        </div>
+        {identity === null ? (
+          <div className="hm-panel-body hm-text-muted">Läser in…</div>
+        ) : !identity.clubIdentity ? (
+          <div className="hm-panel-body hm-text-muted">Ingen klubbidentitetsdata tillgänglig för denna klubb ännu.</div>
+        ) : !visibility?.clubIdentity || Object.values(visibility.clubIdentity).every((claims) => Array.isArray(claims) && claims.length === 0) ? (
+          <div className="hm-panel-body hm-text-muted">
+            För lite kännedom om klubben för djupare insikter ännu. Scouting och möten mot klubben ökar kännedomen över tid.
+          </div>
+        ) : (
+          <>
+            <div className="hm-panel-body" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 16 }}>
+              {(Object.keys(CLUB_IDENTITY_DOMAIN_LABELS) as (keyof typeof CLUB_IDENTITY_DOMAIN_LABELS)[])
+                .filter((field) => visibility.clubIdentity![field].length > 0)
+                .map((field) => (
+                  <div key={field}>
+                    <div className="hm-eyebrow">{CLUB_IDENTITY_DOMAIN_LABELS[field]}</div>
+                    {visibility.clubIdentity![field].map((claim) => (
+                      <ClaimRow key={claim.id} claim={claim} />
+                    ))}
+                  </div>
+                ))}
+            </div>
+            {visibility.hiddenClubClaimCount > 0 ? (
+              <div className="hm-panel-body hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)", paddingTop: 0 }}>
+                {visibility.hiddenClubClaimCount} till, kräver bättre kännedom om klubben.
+              </div>
+            ) : null}
+          </>
+        )}
+      </div>
+
+
+                <div className="hm-panel">
+        <div className="hm-panel-header">
+          <span className="hm-panel-title">Tränarfilosofi</span>
+          {visibility ? <span className="hm-badge hm-badge-neutral">{KNOWLEDGE_TIER_LABEL_SV[visibility.tier]}</span> : null}
+        </div>
+        {identity === null ? (
+          <div className="hm-panel-body hm-text-muted">Läser in…</div>
+        ) : !identity.coachIdentity ? (
+          <div className="hm-panel-body hm-text-muted">Ingen bedömd tränarfilosofi tillgänglig för nuvarande huvudtränare.</div>
+        ) : !visibility?.coachIdentity || Object.values(visibility.coachIdentity).every((claims) => Array.isArray(claims) && claims.length === 0) ? (
+          <div className="hm-panel-body hm-text-muted">
+            För lite kännedom om tränaren för en bedömd filosofi ännu. Kräver minst måttlig kännedom om klubben.
+          </div>
+        ) : (
+          <>
+            <div className="hm-panel-body" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 16 }}>
+              {(Object.keys(COACH_CLAIM_LABELS) as (keyof typeof COACH_CLAIM_LABELS)[])
+                .filter((field) => visibility.coachIdentity![field].length > 0)
+                .map((field) => (
+                  <div key={field}>
+                    <div className="hm-eyebrow">{COACH_CLAIM_LABELS[field]}</div>
+                    {visibility.coachIdentity![field].map((claim) => (
+                      <ClaimRow key={claim.id} claim={claim} />
+                    ))}
+                  </div>
+                ))}
+            </div>
+            {visibility.hiddenCoachClaimCount > 0 ? (
+              <div className="hm-panel-body hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)", paddingTop: 0 }}>
+                {visibility.hiddenCoachClaimCount} till, kräver bättre kännedom om klubben.
+              </div>
+            ) : null}
+          </>
+        )}
+      </div>
+
+
+        </aside>
+      </div>
     </div>
   );
 }

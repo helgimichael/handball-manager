@@ -6,6 +6,10 @@ import { useCareer } from "@/lib/career/CareerContext";
 import { categoryLabel } from "@/lib/career/inboxBridge";
 import { destinationLabel, resolveDestinationHref } from "@/lib/career/destinations";
 import { filterInboxMessages, INBOX_FILTERS, type InboxFilterId } from "@/lib/career/inboxFilters";
+import { getClub } from '@/lib/game-data';
+import { getCareerPlayer } from '@/lib/career/careerWorld';
+import { PageHeading } from '@/components/manager/Workspace';
+import { PlayerCell, MatchHero } from '@/components/game/Identity';
 
 export default function InboxPage() { return <Suspense><Inbox /></Suspense>; }
 function Inbox() {
@@ -13,154 +17,43 @@ function Inbox() {
   const router = useRouter();
   const { career, markInboxMessageRead, archiveInboxMessage, unarchiveInboxMessage } = useCareer();
   const [filter, setFilter] = useState<InboxFilterId>("ALL");
-
-  const messages = useMemo(() => {
-    return [...filterInboxMessages(career.inbox, filter)].reverse();
-  }, [career.inbox, filter]);
-
+  const messages = useMemo(() => [...filterInboxMessages(career.inbox, filter)].reverse(), [career.inbox, filter]);
   const [selectedId, setSelectedId] = useState(params.get("message") ?? "");
-  const selected = messages.find((m) => m.id === selectedId);
-
-  function selectMessage(id: string) {
-    setSelectedId(id);
-    markInboxMessageRead(id);
-  }
-
+  const selected = selectedId ? messages.find(m => m.id === selectedId) : messages[0];
+  const unread = career.inbox.filter(m => !m.archived && !m.read).length;
+  const required = career.inbox.filter(m => !m.archived && m.actionRequired && !m.resolved).length;
   const canArchive = selected ? !(selected.actionRequired && !selected.resolved) : false;
+  const playerDestination = selected?.destinations?.find(d => d.route === 'PLAYER_PROFILE' || d.route === 'SCOUT_REPORT');
+  const player = playerDestination ? getCareerPlayer(career, playerDestination.playerId) : undefined;
+  const matchDestination = selected?.destinations?.find(d => d.route === 'MATCH_REPORT' || d.route === 'MATCH_DAY');
+  const fixture = matchDestination ? career.fixtures.find(f => f.id === matchDestination.fixtureId) : undefined;
 
-  return (
-    <div style={{ display: "grid", gridTemplateColumns: "320px 1fr", gap: 12, height: "100%" }}>
-      <div className="hm-panel" style={{ display: "flex", flexDirection: "column" }}>
-        <div className="hm-panel-header">
-          <span className="hm-panel-title">Inkorg</span>
-          <span className="hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)" }}>{messages.length} meddelanden</span>
-        </div>
-        <div style={{ display: "flex", flexWrap: "wrap", gap: 4, padding: "8px 10px", borderBottom: "1px solid var(--hm-border-subtle)" }}>
-          {INBOX_FILTERS.map((f) => (
-            <button
-              key={f.id}
-              type="button"
-              className="hm-btn hm-btn-sm"
-              style={{
-                fontSize: "var(--hm-text-2xs)",
-                padding: "3px 8px",
-                background: filter === f.id ? "var(--hm-accent)" : undefined,
-                borderColor: filter === f.id ? "var(--hm-accent)" : undefined,
-                color: filter === f.id ? "#fff" : undefined,
-              }}
-              onClick={() => setFilter(f.id)}
-            >
-              {f.label}
-            </button>
-          ))}
-        </div>
-        <div style={{ overflowY: "auto" }}>
-          {messages.length === 0 ? (
-            <div className="hm-panel-body hm-text-muted">Inga meddelanden i denna vy.</div>
-          ) : (
-            messages.map((m) => (
-              <button
-                type="button"
-                aria-label={m.subject}
-                key={m.id}
-                onClick={() => selectMessage(m.id)}
-                data-active={m.id === selected?.id}
-                className="hm-nav-item"
-                style={{
-                  width: "100%", background: "transparent", border: 0, color: "inherit",
-                  borderRadius: 0,
-                  borderLeft: "2px solid transparent",
-                  display: "block",
-                  padding: "8px 12px",
-                }}
-              >
-                <div style={{ display: "flex", justifyContent: "space-between", fontSize: "var(--hm-text-2xs)" }}>
-                  <span className="hm-text-muted">
-                    {categoryLabel(m.category)}
-                    {m.careerEventId ? " · Karriär" : ""}
-                  </span>
-                  <span className="hm-text-muted">{m.date ? new Date(m.date).toLocaleDateString("sv-SE", { day: "2-digit", month: "2-digit" }) : ""}</span>
-                </div>
-                <div style={{ fontWeight: m.read ? 500 : 700, fontSize: "var(--hm-text-xs)", display: "flex", alignItems: "center", gap: 6 }}>
-                  {!m.read ? <span style={{ width: 6, height: 6, borderRadius: "50%", background: "var(--hm-accent)", display: "inline-block", flexShrink: 0 }} /> : null}
-                  {m.subject}
-                  {m.actionRequired && !m.resolved ? <span className="hm-badge hm-badge-warning" style={{ marginLeft: "auto" }}>ÅTGÄRD</span> : null}
-                  {m.archived ? <span className="hm-badge hm-badge-neutral" style={{ marginLeft: "auto" }}>ARKIVERAT</span> : null}
-                </div>
-                <div className="hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
-                  {m.preview}
-                </div>
-              </button>
-            ))
-          )}
-        </div>
-      </div>
+  function selectMessage(id: string) { setSelectedId(id); markInboxMessageRead(id); }
 
-      <div className="hm-panel">
-        {selected ? (
-          <>
-            <div className="hm-panel-header">
-              <div>
-                <div style={{ fontWeight: 700, fontSize: "var(--hm-text-sm)" }}>{selected.subject}</div>
-                <div className="hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)" }}>
-                  {selected.sender} · {categoryLabel(selected.category)}
-                  {selected.date ? ` · ${new Date(selected.date).toLocaleDateString("sv-SE")}` : ""}
-                </div>
-              </div>
-              <div style={{ display: "flex", gap: 6, alignItems: "center" }}>
-                {selected.actionRequired && !selected.resolved ? <span className="hm-badge hm-badge-warning">ÅTGÄRD KRÄVS</span> : selected.important ? <span className="hm-badge hm-badge-warning">VIKTIGT</span> : null}
-              </div>
-            </div>
-            <div className="hm-panel-body" style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-              {selected.body.map((paragraph, i) => (
-                <p key={i} style={{ margin: 0, fontSize: "var(--hm-text-sm)", color: "var(--hm-text-secondary)", lineHeight: 1.6 }}>
-                  {paragraph}
-                </p>
-              ))}
-            </div>
-            {selected.destinations && selected.destinations.length > 0 ? (
-              <div className="hm-panel-body" style={{ display: "flex", gap: 8, paddingTop: 0, flexWrap: "wrap" }}>
-                {selected.destinations.map((destination, i) => {
-                  const href = resolveDestinationHref(destination);
-                  if (!href) {
-                    return null; // Reserved destination with no live screen yet -- never render a dead button.
-                  }
-                  return (
-                    <button
-                      key={i}
-                      type="button"
-                      className={i === 0 ? "hm-btn hm-btn-sm hm-btn-primary" : "hm-btn hm-btn-sm"}
-                      onClick={() => router.push(href)}
-                    >
-                      {destinationLabel(destination)}
-                    </button>
-                  );
-                })}
-              </div>
-            ) : null}
-            <div className="hm-panel-body" style={{ display: "flex", gap: 8, paddingTop: 0 }}>
-              {!selected.read && <button className="hm-btn hm-btn-sm" onClick={() => markInboxMessageRead(selected.id)}>Markera som l?st</button>}
-              {selected.archived ? (
-                <button type="button" className="hm-btn hm-btn-sm hm-btn-ghost" onClick={() => unarchiveInboxMessage(selected.id)}>
-                  Återställ från arkiv
-                </button>
-              ) : (
-                <button
-                  type="button"
-                  className="hm-btn hm-btn-sm hm-btn-ghost"
-                  disabled={!canArchive}
-                  title={canArchive ? undefined : "Kan inte arkiveras förrän den obligatoriska åtgärden är genomförd."}
-                  onClick={() => archiveInboxMessage(selected.id)}
-                >
-                  Arkivera
-                </button>
-              )}
-            </div>
-          </>
-        ) : (
-          <div className="hm-empty">{messages.length ? 'Välj ett meddelande för att öppna ärendet och dess relevanta åtgärder.' : 'Inga meddelanden i denna vy.'}</div>
-        )}
-      </div>
+  return <div className="game-news-page">
+    <PageHeading eyebrow={`${getClub(career.playerClubId)?.shortName ?? 'Klubben'} / nyheter & kommunikation`} title="Inkorg" description="Rapporter från laget, besked från klubben och händelser som formar din säsong." />
+    <div className="game-news-masthead"><div><span className="hm-eyebrow">Klubbens senaste</span><strong>{new Date(`${career.gameDate}T12:00:00Z`).toLocaleDateString('sv-SE', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' })}</strong></div><div><strong>{unread}</strong><span>olästa besked</span></div><div data-urgent={required > 0}><strong>{required}</strong><span>beslut som kräver dig</span></div><span className="game-news-edition">SÄSONG {career.seasonId}</span></div>
+    <div className="game-news-layout">
+      <section className="game-news-feed" aria-label="Meddelanden">
+        <div className="game-news-filters">{INBOX_FILTERS.map(f => <button key={f.id} type="button" className="hm-btn hm-btn-sm" aria-pressed={filter === f.id} data-active={filter === f.id} onClick={() => setFilter(f.id)}>{f.label}</button>)}</div>
+        <div className="game-news-feed-label"><span>Senaste först</span><span>{messages.length} meddelanden</span></div>
+        <div className="game-news-feed-scroll">{messages.length ? messages.map(m => <button type="button" aria-label={m.subject} aria-pressed={m.id === selected?.id} key={m.id} onClick={() => selectMessage(m.id)} data-active={m.id === selected?.id} data-unread={!m.read} data-urgent={m.actionRequired && !m.resolved} className="game-news-item">
+          <div className="game-news-item-meta"><span>{categoryLabel(m.category)}{m.careerEventId ? ' · Karriär' : ''}</span><time>{m.date ? m.date.slice(0, 10) : ''}</time></div>
+          <strong>{!m.read && <i className="game-unread-dot" aria-label="Oläst" />}{m.subject}</strong>
+          <p>{m.preview}</p>
+          {m.actionRequired && !m.resolved && <span className="game-news-action-label">ÅTGÄRD KRÄVS →</span>}{m.archived && <span className="game-news-action-label">ARKIVERAT</span>}
+        </button>) : <div className="hm-empty">Inga meddelanden i denna vy.</div>}</div>
+      </section>
+      <article className="game-news-article" key={selected?.id} data-category={selected?.category}>
+        {selected ? <>
+          <header className="game-news-article-header"><div className="game-news-kicker"><span>{categoryLabel(selected.category)}</span><time>{selected.date?.slice(0, 10)}</time></div><h2>{selected.subject}</h2><div className="game-news-byline"><span>Från <b>{selected.sender}</b></span>{selected.actionRequired && !selected.resolved ? <span className="hm-badge hm-badge-warning">ÅTGÄRD KRÄVS</span> : selected.important ? <span className="hm-badge hm-badge-warning">VIKTIGT</span> : null}</div></header>
+          {fixture && <MatchHero compact career={career} fixture={fixture} result={career.results[fixture.id]} context={categoryLabel(selected.category)} />}
+          {player && <div className="game-news-player"><PlayerCell player={player} /></div>}
+          <div className="game-news-copy">{selected.body.map((paragraph, i) => <p key={i}>{paragraph}</p>)}</div>
+          {selected.destinations && selected.destinations.length > 0 && <div className="game-news-destinations"><div className="hm-eyebrow">Nästa steg</div><div className="hm-actions">{selected.destinations.map((destination, i) => { const href = resolveDestinationHref(destination); return href ? <button key={i} type="button" className={i === 0 ? 'hm-btn hm-btn-primary' : 'hm-btn'} onClick={() => router.push(href)}>{destinationLabel(destination)}</button> : null; })}</div></div>}
+          <footer className="game-news-tools">{!selected.read && <button type="button" className="hm-btn hm-btn-sm" onClick={() => markInboxMessageRead(selected.id)}>Markera som läst</button>}{selected.archived ? <button type="button" className="hm-btn hm-btn-sm hm-btn-ghost" onClick={() => unarchiveInboxMessage(selected.id)}>Återställ från arkiv</button> : <button type="button" className="hm-btn hm-btn-sm hm-btn-ghost" disabled={!canArchive} title={canArchive ? undefined : 'Kan inte arkiveras förrän den obligatoriska åtgärden är genomförd.'} onClick={() => archiveInboxMessage(selected.id)}>Arkivera</button>}{!canArchive && <span className="hm-text-muted">Genomför den obligatoriska åtgärden innan du arkiverar.</span>}</footer>
+        </> : <div className="hm-empty">{messages.length ? 'Välj ett meddelande för att läsa beskedet och se nästa steg.' : 'Inga meddelanden i denna vy.'}</div>}
+      </article>
     </div>
-  );
+  </div>;
 }

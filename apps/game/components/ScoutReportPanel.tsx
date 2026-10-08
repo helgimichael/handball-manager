@@ -27,12 +27,13 @@ export function ScoutReportPanel({
   onStartAssignment?: () => void;
 }) {
   return (
-    <div className="hm-panel">
+    <div className="hm-panel game-scout-report">
       <div className="hm-panel-header">
         <span className="hm-panel-title">Scoutingrapport</span>
-        <span className="hm-badge hm-badge-neutral">{KNOWLEDGE_TIER_LABEL_SV[view.tier]}</span>
+        <span className="game-report-stamp">{history.length ? 'Rapport tillgänglig' : 'Första observation'}</span>
       </div>
       <div className="hm-panel-body" style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+        <div className="game-report-meta"><span className="hm-eyebrow">{KNOWLEDGE_TIER_LABEL_SV[view.tier]}</span>{history[0] && <span>Utfärdad {history[0].createdDate} · {history[0].scoutDisplayName}</span>}</div>
         <div style={{ display: "flex", justifyContent: "space-between", fontSize: "var(--hm-text-xs)" }}>
           <span className="hm-text-muted">Uppskattat marknadsvärde</span>
           <span style={{ fontWeight: 700 }}>
@@ -44,10 +45,11 @@ export function ScoutReportPanel({
           <span style={{ fontWeight: 700 }}>{view.confidencePct}%</span>
         </div>
         <div className="hm-divider" />
-        <div>
+        <div className="game-report-recommendation">
           <div className="hm-eyebrow" style={{ marginBottom: 4 }}>Rekommendation</div>
           <p style={{ fontSize: "var(--hm-text-xs)", margin: 0, lineHeight: 1.5 }}>{view.recommendation}</p>
         </div>
+        <div className="game-report-attributes"><div><div className="hm-eyebrow">Styrkor</div>{view.visibility.strengths?.length ? <ul>{view.visibility.strengths.map(s => <li key={s}>{s}</li>)}</ul> : <p>Ännu inte tillräcklig kännedom.</p>}</div><div><div className="hm-eyebrow">Svagheter</div>{view.visibility.weaknesses?.length ? <ul>{view.visibility.weaknesses.map(s => <li key={s}>{s}</li>)}</ul> : <p>Ännu inte tillräcklig kännedom.</p>}</div></div>
 
         <div className="hm-divider" />
         <div className="hm-eyebrow">Rapporthistorik</div>

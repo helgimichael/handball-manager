@@ -1,13 +1,13 @@
 "use client";
 import ClubContext from "@/components/manager/ClubContext";
-import { PageHeading, CompetitionLink } from "@/components/manager/Workspace";
+import { Panel } from "@/components/manager/Workspace";
+import { ClubHero, PlayerCell } from "@/components/game/Identity";
 
 import Link from "next/link";
-import { COMPETITIONS, getClub } from "@/lib/game-data";
+import { getClub } from "@/lib/game-data";
 import { useCareer } from "@/lib/career/CareerContext";
 import { getCareerClub, getCareerSquad } from "@/lib/career/careerWorld";
 import { getPlayerClubPosition } from "@/lib/career/standings";
-import ClubCrest from "@/components/ClubCrest";
 import { getClubEconomySnapshot } from "@/lib/economy/clubEconomyIntegration";
 import { formatEur } from "@/lib/economy/currency";
 import { ECONOMIC_BAND_LABEL, FINANCIAL_PRESSURE_LABEL, FINANCIAL_PRESSURE_TONE, LIQUIDITY_HEALTH_LABEL, STRUCTURAL_HEALTH_LABEL } from "@/lib/economy/clubEconomyLabels";
@@ -18,7 +18,6 @@ export default function ClubPage() {
   const club = getCareerClub(career);
   const squad = getCareerSquad(career);
   const position = getPlayerClubPosition(career);
-  const competitionName = COMPETITIONS.find((c) => c.id === career.competitionId)?.name ?? "Ligan";
   const economy = getClubEconomySnapshot(career, club.id);
   const partnerships = getClubPartnerships(career, club.id);
   const permanentBTeam = partnerships.find((p) => p.type === "AFFILIATED_B_TEAM");
@@ -26,30 +25,27 @@ export default function ClubPage() {
   const pendingSearch = Object.values(career.partnershipSearches).find((s) => s.clubId === club.id && s.status === "IN_PROGRESS");
 
   return (
-    <div className="hm-stack">
-      <PageHeading eyebrow="Klubbledning" title={club.name} description="Ekonomi, organisation och klubbens utveckling över säsongerna." />
-      <ClubContext clubId={club.id} />
-      <div className="hm-panel">
-        <div className="hm-panel-header">
-          <span className="hm-panel-title">Klubböversikt</span>
-        </div>
-        <div className="hm-panel-body" style={{ display: "flex", gap: 16 }}>
-          <ClubCrest shortName={club.shortName} primaryColor={club.primaryColor} size={56} />
-          <div>
-            <div style={{ fontSize: "var(--hm-text-md)", fontWeight: 800 }}>{club.name}</div>
-            <div className="hm-text-muted" style={{ fontSize: "var(--hm-text-xs)" }}>
-              <CompetitionLink id={career.competitionId}>{competitionName}</CompetitionLink> · {club.city} · Grundad {club.founded ?? "—"}
-            </div>
-          </div>
-        </div>
-        <div className="hm-panel-body" style={{ display: "flex", gap: 28 }}>
-          <MiniStat label="Tabellplacering" value={`${position}:a`} />
-          <MiniStat label="Trupp" value={squad.length} />
-          <MiniStat label="Arena" value={club.venue ?? "—"} />
-          <MiniStat label="Personal" value={(career.staffRoster[club.id] ?? []).length} />
-        </div>
+    <div className="hm-world-page">
+      <ClubHero clubId={club.id} career={career}>
+        <Link className="hm-btn hm-btn-sm" href="/career/squad">Öppna truppen →</Link>
+      </ClubHero>
+      <section className="hm-world-facts" aria-label="Klubben den här säsongen">
+        <div><small>Tabellplacering</small><strong>{position > 0 ? `${position}:a` : "—"}</strong></div>
+        <div><small>Spelare i truppen</small><strong>{squad.length}</strong></div>
+        <div><small>Hemmaplan</small><strong>{club.venue ?? "—"}</strong></div>
+        <div><small>Personal</small><strong>{(career.staffRoster[club.id] ?? []).length}</strong></div>
+      </section>
+      <div className="hm-world-split">
+      <div className="hm-world-main">
+        <ClubContext clubId={club.id} />
+        <Panel title="Truppens positioner" actions={<Link href="/career/squad">Trupp & lagbygge →</Link>}>
+          <div className="hm-world-depth">{(["MV", "V6", "V9", "M9", "M6", "H9", "H6"] as const).map(p => <Link href="/career/squad" key={p}><small>{p}</small><strong>{squad.filter(player => player.position === p).length}</strong><small>spelare</small></Link>)}</div>
+        </Panel>
+        <Panel title="Spelarna bakom säsongen" actions={<Link href="/career/statistics">Alla prestationer →</Link>}>
+          <ul className="hm-world-player-list">{[...squad].sort((a,b) => (career.playerSeasonStats[b.id]?.goals ?? 0) - (career.playerSeasonStats[a.id]?.goals ?? 0) || (a.shirtNumber ?? 99) - (b.shirtNumber ?? 99)).slice(0,6).map(player => <li key={player.id}><PlayerCell player={player} /><span className="hm-world-player-score" title="Registrerade mål den här säsongen">{career.playerSeasonStats[player.id]?.goals ?? 0}</span></li>)}</ul>
+        </Panel>
       </div>
-
+      <aside className="hm-world-rail" aria-label="Klubbens förutsättningar">
       <div className="hm-panel">
         <div className="hm-panel-header">
           <span className="hm-panel-title">Ekonomi</span>
@@ -62,8 +58,8 @@ export default function ClubPage() {
         {economy ? (
           <>
             <div className="hm-panel-body" style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-              <div className="hm-eyebrow">{ECONOMIC_BAND_LABEL[economy.band]}</div>
-              <FinanceRow label="Intäkter / år (recurring)" value={formatEur(economy.recurringRevenueEur)} />
+              <div className="hm-eyebrow">{ECONOMIC_BAND_LABEL[economy.band].split(' · ')[1]}</div>
+              <FinanceRow label="Återkommande intäkter / år" value={formatEur(economy.recurringRevenueEur)} />
               <FinanceRow label="· Kommersiellt" value={formatEur(economy.revenue.commercialRevenueEur)} />
               <FinanceRow label="· Media/central" value={formatEur(economy.revenue.mediaRevenueEur)} />
               <FinanceRow label="· Matchdag" value={formatEur(economy.revenue.matchdayRevenueEur)} />
@@ -115,16 +111,8 @@ export default function ClubPage() {
           </Link>
         </div>
       </div>
-
-    </div>
-  );
-}
-
-function MiniStat({ label, value }: { label: string; value: string | number }) {
-  return (
-    <div>
-      <div className="hm-eyebrow">{label}</div>
-      <div style={{ fontSize: "var(--hm-text-md)", fontWeight: 800 }}>{value}</div>
+      </aside>
+      </div>
     </div>
   );
 }

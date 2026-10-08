@@ -30,6 +30,10 @@ import {
 import Link from 'next/link';
 import { PlayerLink, ClubLink } from '@/components/entityLinks';
 import { PageHeading } from '@/components/manager/Workspace';
+import { PlayerCell, PlayerHero } from '@/components/game/Identity';
+import { KnowledgeMeter, RecruitmentTag, TransferEvent } from '@/components/game/RecruitmentPresentation';
+import { getCareerPlayer } from '@/lib/career/careerWorld';
+import type { CareerState } from '@/lib/career/types';
 
 type SectionId = "ALL" | "NEW" | "SCOUTING" | "SCOUTED" | "SHORTLIST" | "PRIORITIZED" | "NEGOTIATING";
 
@@ -83,40 +87,18 @@ function RecruitmentCentre() {
     });
   }, [allCandidates, section, positionFilter, nationFilter, statusFilter, knowledgeFilter, query]);
 
-  const selected = selectedPlayerId ? allCandidates.find((c) => c.playerId === selectedPlayerId) ?? null : null;
+  const selected = selectedPlayerId ? allCandidates.find((c) => c.playerId === selectedPlayerId) ?? null : filtered[0] ?? null;
 
   return (
-    <><PageHeading eyebrow="Rekrytering / beslutsprocess" title="Rekryteringscentrum" description="Fynd → scouting → kortlista → jämförelse → avtal. Prioriteringar och anteckningar följer din karriär." actions={<Link className="hm-btn" href="/career/players">Spelarsök →</Link>} /><div className="hm-grid" style={{ gridTemplateColumns: "minmax(0, 1.5fr) minmax(280px, 1fr)", alignItems: "start" }}>
+    <div className="game-discovery-page"><PageHeading eyebrow="Rekrytering / klubbens nästa kapitel" title="Rekryteringscentrum" description="Bygg ett lag för nästa match och nästa säsong. Dina upptäckter, rapporter och värvningsmål samlade." actions={<Link className="hm-btn" href="/career/players">Spelarsök →</Link>} />
+      <nav className="game-recruitment-stage" aria-label="Rekryteringsprocess">{SECTIONS.map((s, i) => <button key={s.id} type="button" aria-pressed={section === s.id} data-active={section === s.id} onClick={() => setSection(s.id)}><span className="game-stage-index">{String(i + 1).padStart(2, '0')}</span><span>{s.label}</span><strong>{allCandidates.filter(s.match).length}</strong></button>)}</nav>
+      <div className="game-recruitment-layout">
       <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-        {/* Pipeline sections */}
-        <div className="hm-panel">
-          <div className="hm-panel-body" style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
-            {SECTIONS.map((s) => {
-              const count = allCandidates.filter(s.match).length;
-              return (
-                <button
-                  key={s.id}
-                  type="button"
-                  className="hm-btn hm-btn-sm"
-                  style={{
-                    background: section === s.id ? "var(--hm-accent)" : undefined,
-                    borderColor: section === s.id ? "var(--hm-accent)" : undefined,
-                    color: section === s.id ? "#fff" : undefined,
-                  }}
-                  onClick={() => setSection(s.id)}
-                >
-                  {s.label} ({count})
-                </button>
-              );
-            })}
-          </div>
-        </div>
-
         {/* Filters + candidate list */}
         <div className="hm-panel">
           <div className="hm-panel-header">
             <span className="hm-panel-title">Kandidater ({filtered.length})</span>
-            <input style={{ ...inputStyle, maxWidth: 180 }} placeholder="Sök namn..." value={query} onChange={(e) => setQuery(e.target.value)} />
+            <input aria-label="Sök kandidater" style={{ ...inputStyle, maxWidth: 180 }} placeholder="Sök namn..." value={query} onChange={(e) => setQuery(e.target.value)} />
           </div>
           <div className="hm-panel-body" style={{ display: "flex", gap: 6, flexWrap: "wrap", paddingTop: 0 }}>
             {(["ALL", "MV", "V9", "V6", "M9", "M6", "H9", "H6"] as const).map((p) => (
@@ -161,7 +143,7 @@ function RecruitmentCentre() {
               ))}
             </select>
           </div>
-          <div className="hm-scroll-x" style={{ maxHeight: 560, overflowY: "auto" }}>
+          <div className="hm-scroll-x game-market-table" style={{ maxHeight: 650, overflowY: "auto" }}>
             <table className="hm-table">
               <thead>
                 <tr>
@@ -182,17 +164,17 @@ function RecruitmentCentre() {
                   <tr
                     key={c.playerId}
                     data-clickable="true"
+                    data-selected={selected?.playerId === c.playerId}
                     onClick={() => setSelectedPlayerId(c.playerId)}
                     style={{ background: selectedPlayerId === c.playerId ? "var(--hm-surface-2)" : undefined }}
                   >
                     <td className="hm-td-strong">
-                      {c.shortlisted ? "★ " : ""}
-                      <PlayerLink playerId={c.playerId} stopPropagation>{c.firstName} {c.lastName}</PlayerLink>
+                      {getCareerPlayer(career, c.playerId) ? <PlayerCell player={getCareerPlayer(career, c.playerId)!} /> : <PlayerLink playerId={c.playerId} stopPropagation>{c.firstName} {c.lastName}</PlayerLink>}
                     </td>
                     <td className="hm-text-muted">{c.clubId ? <ClubLink clubId={c.clubId} stopPropagation>{c.clubName}</ClubLink> : c.clubName}</td>
                     <td title={positionLabel(c.position)}>{c.position}</td>
                     <td>{c.ageYears ?? "–"}</td>
-                    <td>{KNOWLEDGE_TIER_LABEL_SV[c.knowledgeTier]}</td>
+                    <td><KnowledgeMeter pct={c.knowledgePct} /></td>
                     <td>{starRangeLabel(c.visibility?.abilityRange ?? null)}</td>
                     <td>{starRangeLabel(c.visibility?.potentialRange ?? null)}</td>
                     <td className="hm-table-num">
@@ -203,7 +185,7 @@ function RecruitmentCentre() {
                         : "—"}
                     </td>
                     <td>
-                      <span className="hm-badge hm-badge-neutral">{RECRUITMENT_STATUS_LABEL_SV[c.recruitmentStatus]}</span>
+                      <RecruitmentTag status={c.recruitmentStatus} />
                     </td>
                     <td>
                       <button type="button" className="hm-btn hm-btn-sm" onClick={(e) => { e.stopPropagation(); setSelectedPlayerId(c.playerId); }}>
@@ -219,9 +201,11 @@ function RecruitmentCentre() {
         </div>
       </div>
 
-      <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+      <div className="game-candidate-column">
         {selected ? (
           <CandidateDetailPanel
+            key={selected.playerId}
+            career={career}
             candidate={selected}
             hasOwnScout={clubScouts.length > 0}
             scouts={clubScouts}
@@ -230,7 +214,7 @@ function RecruitmentCentre() {
             onToggleShortlist={() => (selected.shortlisted ? removeFromShortlist(selected.playerId) : addToShortlist(selected.playerId))}
             onSetPriority={(p) => setRecruitmentPriority(selected.playerId, p)}
             onSetNote={(n) => setRecruitmentNote(selected.playerId, n)}
-            onSubmitOffer={(params) => submitTransferOffer({ ...params, playerId: selected.playerId, toClubId: career.playerClubId })}
+            onSubmitOffer={(params) => { if (selected.clubId !== career.playerClubId) submitTransferOffer({ ...params, playerId: selected.playerId, toClubId: career.playerClubId }); }}
           />
         ) : (
           <div className="hm-panel">
@@ -238,11 +222,12 @@ function RecruitmentCentre() {
           </div>
         )}
       </div>
-    </div></>
+    </div></div>
   );
 }
 
 function CandidateDetailPanel({
+  career,
   candidate,
   hasOwnScout,
   scouts,
@@ -253,6 +238,7 @@ function CandidateDetailPanel({
   onSetNote,
   onSubmitOffer,
 }: {
+  career: CareerState;
   candidate: RecruitmentCandidate;
   hasOwnScout: boolean;
   scouts: { id: string; displayName: string }[];
@@ -271,11 +257,15 @@ function CandidateDetailPanel({
 
   const club = getClub(candidate.clubId);
   const competition = getCompetition(candidate.competitionId);
+  const player = getCareerPlayer(career, candidate.playerId);
+  const isOwnPlayer = player?.clubId === career.playerClubId;
 
   return (
-    <>
-      <div className="hm-actions"><Link className="hm-btn" href={`/career/compare?left=${encodeURIComponent(candidate.playerId)}`}>Jämför med truppen</Link><Link className="hm-btn" href={`/career/transfers?target=${encodeURIComponent(candidate.playerId)}`}>Öppna bud & budget</Link></div>
-      <div className="hm-panel">
+    <div className="game-candidate-dossier">
+      <div className="game-dossier-heading"><span className="hm-eyebrow">Spelardossier · {candidate.hasCompletedReport ? 'Rapport tillgänglig' : candidate.activeAssignment ? 'Scout på plats' : 'Första observation'}</span><RecruitmentTag status={candidate.recruitmentStatus} /></div>
+      {player && <PlayerHero player={player} career={career} />}
+      <div className="hm-actions game-dossier-links"><Link className="hm-btn" href={`/career/compare?left=${encodeURIComponent(candidate.playerId)}`}>Jämför med truppen</Link><Link className="hm-btn" href={`/career/transfers?target=${encodeURIComponent(candidate.playerId)}`}>Öppna bud & budget</Link></div>
+      <div className="hm-panel game-candidate-facts">
         <div className="hm-panel-header">
           <span className="hm-panel-title">
             <PlayerLink playerId={candidate.playerId}>{candidate.firstName} {candidate.lastName}</PlayerLink>
@@ -288,7 +278,7 @@ function CandidateDetailPanel({
             {club ? ` · ${club.name}` : ` · ${candidate.clubName}`}
             {competition ? ` (${competition.name})` : ""}
           </div>
-          <div className="hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)" }}>Kännedom: {KNOWLEDGE_TIER_LABEL_SV[candidate.knowledgeTier]}</div>
+          <KnowledgeMeter pct={candidate.knowledgePct} />
           {candidate.scoutDisplayName ? (
             <div className="hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)" }}>
               Källa: {candidate.discoverySource ? DISCOVERY_SOURCE_LABEL_SV[candidate.discoverySource] : "Direktsökning"} · {candidate.scoutDisplayName}
@@ -317,7 +307,8 @@ function CandidateDetailPanel({
 
       <div className="hm-panel">
         <div className="hm-panel-header">
-          <span className="hm-panel-title">Förmåga</span>
+          <span className="hm-panel-title">{candidate.hasCompletedReport ? 'Scoutens bedömning' : 'Bedömningsunderlag'}</span>
+          <span className="game-report-stamp">{candidate.hasCompletedReport ? 'Rapport' : 'Observation'}</span>
         </div>
         <div className="hm-panel-body" style={{ display: "flex", flexDirection: "column", gap: 8 }}>
           <div style={{ display: "flex", justifyContent: "space-between", fontSize: "var(--hm-text-xs)" }}>
@@ -344,10 +335,11 @@ function CandidateDetailPanel({
               <p style={{ fontSize: "var(--hm-text-2xs)", margin: 0, lineHeight: 1.5 }}>{candidate.scoutReportView.recommendation}</p>
             </>
           ) : null}
+          <div className="game-report-attributes"><div><div className="hm-eyebrow">Styrkor</div>{candidate.visibility?.strengths?.length ? <ul>{candidate.visibility.strengths.map(s => <li key={s}>{s}</li>)}</ul> : <p>Ännu inte tillräcklig kännedom.</p>}</div><div><div className="hm-eyebrow">Svagheter</div>{candidate.visibility?.weaknesses?.length ? <ul>{candidate.visibility.weaknesses.map(s => <li key={s}>{s}</li>)}</ul> : <p>Ännu inte tillräcklig kännedom.</p>}</div></div>
           <div className="hm-divider" />
           {hasOwnScout ? (
             <div style={{ display: "flex", gap: 6 }}>
-              <select style={inputStyle} value={scoutId} onChange={(e) => setScoutId(e.target.value)}>
+              <select aria-label="Scout för kandidaten" style={inputStyle} value={scoutId} onChange={(e) => setScoutId(e.target.value)}>
                 {scouts.map((s) => (
                   <option key={s.id} value={s.id}>
                     {s.displayName}
@@ -389,6 +381,7 @@ function CandidateDetailPanel({
             ))}
           </div>
           <textarea
+            aria-label="Anteckning om kandidaten"
             style={{ ...inputStyle, minHeight: 60, resize: "vertical" }}
             placeholder="Anteckning..."
             value={noteDraft}
@@ -403,10 +396,12 @@ function CandidateDetailPanel({
           <span className="hm-panel-title">Transfer</span>
         </div>
         <div className="hm-panel-body" style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+          {candidate.latestTransferOffer && <TransferEvent offer={candidate.latestTransferOffer} career={career} />}
           <div style={{ display: "flex", justifyContent: "space-between", fontSize: "var(--hm-text-xs)" }}>
             <span className="hm-text-muted">Nuvarande status</span>
             <span style={{ fontWeight: 700 }}>{candidate.transferStatusLabel}</span>
           </div>
+          {isOwnPlayer ? <div className="game-offer-impact"><span className="hm-eyebrow">Spelaren tillhör din trupp</span><p>{candidate.contractEndDate ? `Nuvarande avtal gäller till ${candidate.contractEndDate}.` : 'Planera spelarens roll och nästa match med laget.'}</p><div className="hm-actions"><Link className="hm-btn" href="/career/squad">Truppens rollfördelning →</Link><Link className="hm-btn" href="/career/contracts">Kontraktsöversikt →</Link></div></div> : <>
           <label style={{ display: "flex", flexDirection: "column", gap: 4, fontSize: "var(--hm-text-xs)" }}>
             Övergångssumma (€)
             <input style={inputStyle} type="number" min={0} value={transferFeeEur} onChange={(e) => setTransferFeeEur(Number(e.target.value))} />
@@ -426,9 +421,10 @@ function CandidateDetailPanel({
           >
             Lägg transferbud
           </button>
+          </>}
         </div>
       </div>
-    </>
+    </div>
   );
 }
 

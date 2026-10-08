@@ -1,8 +1,9 @@
 "use client";
 import TrainingFeedback from '@/components/manager/TrainingFeedback';
 import Link from "next/link";
-import { PlayerLink } from "@/components/entityLinks";
+import { MatchHero, PlayerCell } from "@/components/game/Identity";
 import { PageHeading } from "@/components/manager/Workspace";
+import { formatGameDate } from "@/lib/career/dateUtils";
 
 // HM-TRAINING-1.0 Part 24/25: the live Training workspace -- a WEEK view
 // (Monday-Sunday columns) the manager can apply a template to, edit
@@ -93,12 +94,17 @@ export default function TrainingPage() {
   const opponentName = (clubId: string) => getClub(clubId)?.shortName ?? getClub(clubId)?.name ?? clubId;
   const staffRoster = career.staffRoster[career.playerClubId] ?? [];
   const headCoach = findHeadCoach(staffRoster);
+  const nextMatch = career.fixtures.filter(f => (f.homeClubId === career.playerClubId || f.awayClubId === career.playerClubId) && !career.results[f.id] && f.date >= career.gameDate).sort((a, b) => a.date.localeCompare(b.date))[0];
+  const averageEnergy = squad.length ? Math.round(squad.reduce((sum, player) => sum + (career.playerPhysicalState[player.id]?.currentEnergy ?? ENERGY_START_DEFAULT), 0) / squad.length) : null;
+  const recoveryDays = week.days.filter(day => day.dayType === 'REST' || day.dayType === 'RECOVERY').length;
+  const sessionCount = week.days.reduce((sum, day) => sum + day.sessions.length, 0);
 
   return (
-    <div className="hm-grid" style={{ gridTemplateColumns: "1fr", gap: 12 }}>
-      <PageHeading eyebrow="Träning / veckoplanering" title="Träning & återhämtning" description="Pass ger belastning och utvecklingsstimulus när kalendern går framåt. Anpassa fokus och individuell belastning inför matcherna." actions={<Link className="hm-btn" href="/career/calendar">Kalender →</Link>} />
+    <div className="hm-training-screen">
+      <PageHeading eyebrow={`${career.seasonId} / träningsplanen`} title="Träning & återhämtning" description="Bygg formen mellan matcherna. Anpassa belastningen till spelarna som ska prestera." actions={<Link className="hm-btn" href="/career/calendar">Kalender →</Link>} />
+      <div className="hm-week-context"><div><span className="hm-eyebrow">Veckans matchberedskap</span><h2>{formatGameDate(weekStart).split(' ').slice(1, 3).join(' ')} — {formatGameDate(addDaysLocal(weekStart, 6)).split(' ').slice(1, 3).join(' ')}</h2><div className="hm-training-metrics"><div><strong>{sessionCount}</strong><span>planerade pass</span></div><div><strong>{recoveryDays}</strong><span>vilo- / återhämtningsdagar</span></div><div><strong>{averageEnergy === null ? '—' : `${averageEnergy}%`}</strong><span>truppens energi idag</span></div></div></div>{nextMatch && <MatchHero career={career} fixture={nextMatch} context="Veckan byggs runt matchen" compact />}</div>
       <TrainingFeedback />
-      <div className="hm-panel">
+      <div className="hm-panel hm-training-planner">
         <div className="hm-panel-header" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8, flexWrap: "wrap" }}>
           <span className="hm-panel-title">Veckoschema — {weekStart}</span>
           <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
@@ -112,7 +118,7 @@ export default function TrainingPage() {
               Nästa vecka →
             </button>
             <span className="hm-divider" style={{ height: 20, width: 1 }} />
-            <select className="hm-select" value={template} onChange={(e) => setTemplate(e.target.value as WeeklyTrainingTemplate)}>
+            <select className="hm-select" aria-label="Veckomall" value={template} onChange={(e) => setTemplate(e.target.value as WeeklyTrainingTemplate)}>
               {WEEKLY_TRAINING_TEMPLATES.map((t) => (
                 <option key={t} value={t}>
                   {TEMPLATE_LABEL[t]}
@@ -126,25 +132,25 @@ export default function TrainingPage() {
         </div>
 
         <div className="hm-scroll-x">
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(7, minmax(180px, 1fr))", gap: 8, padding: "12px 16px" }}>
+          <div className="hm-training-week">
             {week.days.map((day, i) => {
               const fixture = career.fixtures.find((f) => f.date === day.date && (f.homeClubId === career.playerClubId || f.awayClubId === career.playerClubId));
               const opponentClubId = fixture ? (fixture.homeClubId === career.playerClubId ? fixture.awayClubId : fixture.homeClubId) : null;
               const locked = day.executed;
               return (
-                <div key={day.date} className="hm-panel" style={{ padding: 8, background: "var(--hm-surface-2)" }}>
-                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
-                    <span className="hm-td-strong">{DAY_SHORT[i]}</span>
-                    <span className="hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)" }}>{day.date}</span>
+                <div key={day.date} className="hm-training-day" data-matchday={!!fixture} data-today={day.date === career.gameDate} data-recovery={day.dayType === 'REST' || day.dayType === 'RECOVERY'}>
+                  <div className="hm-training-day-date">
+                    <span>{DAY_SHORT[i]}</span>
+                    <strong>{Number(day.date.slice(8, 10))}</strong>
+                    <small>{formatGameDate(day.date).split(' ')[2]}</small>
                   </div>
 
                   {fixture ? (
-                    <div className="hm-badge hm-badge-negative" style={{ marginTop: 6, display: "inline-block" }}>
-                      Match vs {opponentName(opponentClubId!)}
-                    </div>
+                    <Link className="hm-training-match" href={career.results[fixture.id] ? `/career/match-report/${encodeURIComponent(fixture.id)}` : `/career/fixtures/${encodeURIComponent(fixture.id)}`}><span>{fixture.homeClubId === career.playerClubId ? 'Hemma' : 'Borta'}</span><strong>{opponentName(opponentClubId!)}</strong><span>{career.results[fixture.id] ? 'Matchrapport →' : 'Matchförberedelse →'}</span></Link>
                   ) : (
                     <select
                       className="hm-select"
+                      aria-label={`Dagtyp ${day.date}`}
                       style={{ marginTop: 6, width: "100%" }}
                       value={day.dayType}
                       disabled={locked}
@@ -166,9 +172,10 @@ export default function TrainingPage() {
 
                   <div style={{ display: "flex", flexDirection: "column", gap: 6, marginTop: 8 }}>
                     {day.sessions.map((session) => (
-                      <div key={session.id} className="hm-panel" style={{ padding: 6, background: "var(--hm-surface-3)" }}>
+                      <div key={session.id} className="hm-training-session">
                         <select
                           className="hm-select"
+                          aria-label={`Pass ${day.date} ${session.id}`}
                           style={{ width: "100%", marginBottom: 4 }}
                           value={session.type}
                           disabled={locked}
@@ -183,6 +190,7 @@ export default function TrainingPage() {
                         <div style={{ display: "flex", gap: 4 }}>
                           <select
                             className="hm-select"
+                            aria-label={`Intensitet ${day.date} ${session.id}`}
                             style={{ flex: 1 }}
                             value={session.intensity}
                             disabled={locked}
@@ -196,6 +204,7 @@ export default function TrainingPage() {
                           </select>
                           <select
                             className="hm-select"
+                            aria-label={`Längd ${day.date} ${session.id}`}
                             style={{ flex: 1 }}
                             value={session.duration}
                             disabled={locked}
@@ -210,6 +219,7 @@ export default function TrainingPage() {
                         </div>
                         <select
                           className="hm-select"
+                          aria-label={`Målgrupp ${day.date} ${session.id}`}
                           style={{ width: "100%", marginTop: 4 }}
                           value={session.target}
                           disabled={locked}
@@ -230,6 +240,7 @@ export default function TrainingPage() {
                             <>
                               <select
                                 className="hm-select"
+                                aria-label={`Ansvarig tränare ${day.date} ${session.id}`}
                                 style={{ width: "100%", marginTop: 4 }}
                                 value={session.coachId ?? ""}
                                 disabled={locked}
@@ -312,7 +323,7 @@ export default function TrainingPage() {
                 return (
                   <tr key={p.id}>
                     <td className="hm-td-strong">
-                      <PlayerLink playerId={p.id}>{p.firstName} {p.lastName}</PlayerLink>
+                      <PlayerCell player={p} />
                       {onPlacement ? (
                         <span className="hm-badge hm-badge-neutral" style={{ marginLeft: 6 }}>
                           PLACERAD HOS PARTNERKLUBB
@@ -334,6 +345,7 @@ export default function TrainingPage() {
                     <td>
                       <select
                         className="hm-select"
+                        aria-label={`Träningsbelastning ${p.firstName} ${p.lastName}`}
                         value={enforcedLoadSetting}
                         disabled={availability === "UNAVAILABLE"}
                         title={onPlacement ? "Spelaren tränar hos partnerklubben -- ingen belastning här" : availability === "UNAVAILABLE" ? "Skadad spelare -- endast vila tillåten" : availability === "LIMITED" ? "Under återgång -- maximalt reducerad belastning" : undefined}
@@ -349,6 +361,7 @@ export default function TrainingPage() {
                     <td>
                       <select
                         className="hm-select"
+                        aria-label={`Individuellt fokus ${p.firstName} ${p.lastName}`}
                         value={focus}
                         onChange={(e) => setPlayerIndividualFocus(p.id, e.target.value === "NORMAL" ? null : e.target.value)}
                       >
@@ -394,7 +407,7 @@ export default function TrainingPage() {
                 return (
                   <tr key={p.id}>
                     <td className="hm-td-strong">
-                      <PlayerLink playerId={p.id}>{p.firstName} {p.lastName}</PlayerLink>
+                      <PlayerCell player={p} />
                     </td>
                     <td className="hm-text-muted">{age ?? "—"}</td>
                     <td>{rating ? "★".repeat(abilityStarsFromCA(rating.ca)) + "☆".repeat(5 - abilityStarsFromCA(rating.ca)) : "—"}</td>

@@ -1,4 +1,6 @@
 "use client";
+import { MatchHero } from '@/components/game/Identity';
+import { PageHeading } from '@/components/manager/Workspace';
 import MatchTimeline from '@/components/manager/MatchTimeline';
 import MatchContext from "@/components/manager/MatchContext";
 
@@ -10,8 +12,7 @@ import { getLastPlayedPlayerFixture } from "@/lib/career/calendar";
 import { getLiveStandings } from "@/lib/career/standings";
 import type { CareerState } from "@/lib/career/types";
 import type { PlayerMatchContribution } from "@handball-manager/game-simulation";
-import ClubCrest from "@/components/ClubCrest";
-import { ClubLink, PlayerLink } from "@/components/entityLinks";
+import { PlayerLink } from "@/components/entityLinks";
 
 export default function MatchReportPage() {
   const router = useRouter();
@@ -49,28 +50,17 @@ export default function MatchReportPage() {
 
   return (
     <div className="hm-grid" style={{ gap: 12 }}>
-      <div className="hm-panel">
-        <div className="hm-panel-header">
-          <span className="hm-panel-title">Matchrapport</span>
-          <span className="hm-badge hm-badge-neutral">
-            {fixture.type === "LEAGUE" ? `${competitionName} · Omgång ${fixture.round}` : fixture.type === "CUP" ? "Cupmatch" : "Träningsmatch"}
-          </span>
-        </div>
-        <div className="hm-panel-body" style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 40, padding: "20px" }}>
-          <TeamColumn clubId={home.id} />
-          <div style={{ fontSize: "var(--hm-text-2xl)", fontWeight: 800 }}>
-            {result.homeGoals} – {result.awayGoals}
-          </div>
-          <TeamColumn clubId={away.id} />
-        </div>
-      </div>
-
+      <PageHeading eyebrow={fixture.date} title="Matchrapport" description="Slutsignalen har gått. Resultatet, spelarna och nästa steg i säsongen." />
+      <MatchHero career={career} fixture={fixture} result={result} context="SLUTRESULTAT">
+        {career.matchArchives?.[fixture.id] && <button className="hm-btn" onClick={() => router.push(`/career/match-day/${fixture.id}`)}>Se matchrepris</button>}
+        <button className="hm-btn hm-btn-primary" onClick={() => router.push(`/career/competitions/${fixture.competitionId}`)}>Ligaläget →</button>
+      </MatchHero>
       <MatchContext fixture={fixture} postMatch /><MatchTimeline result={result} />
       <div className="hm-grid" style={{ gridTemplateColumns: "1fr 1fr" }}>
         <StatsPanel title={home.name} stats={result.homeStats} />
         <StatsPanel title={away.name} stats={result.awayStats} />
       </div>
-      {career.matchArchives?.[params.fixtureId] && <div className="hm-panel"><div className="hm-panel-header"><strong>Speltid och belastning</strong><button className="hm-btn" onClick={() => router.push(`/career/match-day/${params.fixtureId}`)}>Se matchrepris</button></div><table className="hm-table"><thead><tr><th>Spelare</th><th>Minuter</th><th>Energi efter match</th></tr></thead><tbody>{career.matchArchives[params.fixtureId].people.filter(p => career.matchArchives![params.fixtureId].load[p.id].minutes > 0).map(p => <tr key={p.id}><td><PlayerLink playerId={p.id}>{p.name}</PlayerLink></td><td>{career.matchArchives![params.fixtureId].load[p.id].minutes.toFixed(1)}</td><td>{Math.round(career.matchArchives![params.fixtureId].load[p.id].energy)}%</td></tr>)}</tbody></table></div>}
+      {career.matchArchives?.[params.fixtureId] && <div className="hm-panel"><div className="hm-panel-header"><strong>Speltid och belastning</strong></div><table className="hm-table"><thead><tr><th>Spelare</th><th>Minuter</th><th>Energi efter match</th></tr></thead><tbody>{career.matchArchives[params.fixtureId].people.filter(p => career.matchArchives![params.fixtureId].load[p.id].minutes > 0).map(p => <tr key={p.id}><td><PlayerLink playerId={p.id}>{p.name}</PlayerLink></td><td>{career.matchArchives![params.fixtureId].load[p.id].minutes.toFixed(1)}</td><td>{Math.round(career.matchArchives![params.fixtureId].load[p.id].energy)}%</td></tr>)}</tbody></table></div>}
 
       <div className="hm-grid" style={{ gridTemplateColumns: "1fr 1fr" }}>
         <PlayerRatingsPanel title={home.shortName} contributions={result.homePlayerContributions} bestPerformerId={bestPerformer?.playerId} career={career} />
@@ -122,18 +112,6 @@ export default function MatchReportPage() {
         <button type="button" className="hm-btn hm-btn-primary" onClick={() => router.push("/career")}>
           FORTSÄTT →
         </button>
-      </div>
-    </div>
-  );
-}
-
-function TeamColumn({ clubId }: { clubId: string }) {
-  const c = getClub(clubId)!;
-  return (
-    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 8, width: 140 }}>
-      <ClubCrest shortName={c.shortName} primaryColor={c.primaryColor} size={48} />
-      <div style={{ fontSize: "var(--hm-text-sm)", fontWeight: 800, textAlign: "center" }}>
-        <ClubLink clubId={c.id}>{c.name}</ClubLink>
       </div>
     </div>
   );

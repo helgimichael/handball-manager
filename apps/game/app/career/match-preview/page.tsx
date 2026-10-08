@@ -1,15 +1,15 @@
 "use client";
+import { MatchHero } from '@/components/game/Identity';
+import { PageHeading } from '@/components/manager/Workspace';
 import MatchContext from "@/components/manager/MatchContext";
 
 import { useRouter } from "next/navigation";
 import { useState } from 'react';
-import { COMPETITIONS, getClub } from "@/lib/game-data";
 import { useCareer } from "@/lib/career/CareerContext";
 import { getCareerSquad } from "@/lib/career/careerWorld";
 import { getNextPlayerFixture } from "@/lib/career/calendar";
 import { isSelectableForMatch, resolveStatusLabel } from "@/lib/career/playerStatus";
-import ClubCrest from "@/components/ClubCrest";
-import { ClubLink, PlayerLink } from "@/components/entityLinks";
+import { PlayerLink } from "@/components/entityLinks";
 import { startProductionMatch } from '@/lib/career/productionMatch';
 
 export default function MatchPreviewPage() {
@@ -68,53 +68,14 @@ export default function MatchPreviewPage() {
     } catch (cause) { setError(cause instanceof Error ? cause.message : 'Matchen kunde inte startas.'); }
   }
 
-  const home = getClub(fixture.homeClubId)!;
-  const away = getClub(fixture.awayClubId)!;
-  const competitionName = COMPETITIONS.find((c) => c.id === career.competitionId)?.name ?? "Ligan";
 
   return (
     <div className="hm-grid" style={{ gap: 12 }}>
       {error && <div role="alert" className="hm-panel-body">{error}</div>}
-      <div className="hm-panel">
-        <div className="hm-panel-header">
-          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-            <button type="button" className="hm-btn hm-btn-sm hm-btn-ghost" onClick={() => router.push("/career/schedule")}>
-              ← Schema
-            </button>
-            <span className="hm-panel-title">Matchförhandsvisning</span>
-          </div>
-          <span className="hm-badge hm-badge-neutral">
-            {fixture.type === "LEAGUE" ? `${competitionName} · Omgång ${fixture.round}` : fixture.type === "CUP" ? "Cupmatch" : "Träningsmatch"}
-          </span>
-        </div>
-        <div className="hm-panel-body" style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 40, padding: "28px" }}>
-          <TeamColumn clubId={home.id} />
-          <div style={{ textAlign: "center" }}>
-            <div style={{ fontSize: "var(--hm-text-2xl)", fontWeight: 800, color: "var(--hm-text-muted)" }}>–</div>
-            <div className="hm-eyebrow" style={{ marginTop: 8 }}>
-              {new Date(fixture.date).toLocaleDateString("sv-SE", { weekday: "long", day: "numeric", month: "long" })}
-            </div>
-          </div>
-          <TeamColumn clubId={away.id} />
-        </div>
-        <div style={{ display: "flex", justifyContent: "center", gap: 10, paddingBottom: 20 }}>
-          {isMatchdayReady ? (
-            <>
-              <button type="button" className="hm-btn hm-btn-primary" onClick={handlePlayMatch}>
-                {hasActiveSessionForFixture ? "FORTSÄTT MATCH →" : "STARTA MATCH →"}
-              </button>
-              <button type="button" className="hm-btn" onClick={handleQuickResult}>
-                SNABBRESULTAT
-              </button>
-            </>
-          ) : (
-            <span className="hm-text-muted" style={{ fontSize: "var(--hm-text-xs)" }}>
-              Andra matcher i ligan spelas först — fortsätt via Fortsätt-knappen tills denna match är nästa händelse.
-            </span>
-          )}
-        </div>
-      </div>
-
+      <PageHeading eyebrow={fixture.date} title="Matchförhandsvisning" description="Laget, motståndaren och planen inför avkast." />
+      <MatchHero career={career} fixture={fixture} context={isMatchdayReady ? 'MATCHDAG' : 'INFÖR AVKAST'}>
+        {isMatchdayReady ? <><button type="button" className="hm-btn hm-btn-primary" onClick={handlePlayMatch}>{hasActiveSessionForFixture ? "FORTSÄTT MATCH →" : "STARTA MATCH →"}</button><button type="button" className="hm-btn" onClick={handleQuickResult}>SNABBRESULTAT</button></> : <span>Fortsätt säsongen till matchdagen för att spela.</span>}
+      </MatchHero>
       <MatchContext fixture={fixture} />
       <div className="hm-grid" style={{ gridTemplateColumns: "1fr 1fr" }}>
         <div className="hm-panel">
@@ -145,25 +106,12 @@ export default function MatchPreviewPage() {
         </div>
         <div className="hm-panel">
           <div className="hm-panel-header">
-            <span className="hm-panel-title">Assisterande tränarens analys</span>
+            <span className="hm-panel-title">Din matchförberedelse</span>
           </div>
           <div className="hm-panel-body" style={{ fontSize: "var(--hm-text-xs)", color: "var(--hm-text-secondary)", lineHeight: 1.6 }}>
-            {away.shortName} spelar ett strukturerat 6:0-försvar och förlitar sig på snabba omställningar. Vi bör
-            hålla bollinnehavet högt och utnyttja våra kantspelares fart i öppna ytor.
+            {career.matchPlans[fixture.id] ? <p>Matchtruppen innehåller {career.matchPlans[fixture.id].squad.players.length} spelare. Försvar: {career.matchPlans[fixture.id].defencePlan.baseFormation}. Öppna Taktik för att granska startsjuan och dina instruktioner.</p> : <p>Granska truppens tillgänglighet och välj startsju och instruktioner i Taktik innan avkast.</p>}
           </div>
         </div>
-      </div>
-    </div>
-  );
-}
-
-function TeamColumn({ clubId }: { clubId: string }) {
-  const c = getClub(clubId)!;
-  return (
-    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 8, width: 140 }}>
-      <ClubCrest shortName={c.shortName} primaryColor={c.primaryColor} size={56} />
-      <div style={{ fontSize: "var(--hm-text-sm)", fontWeight: 800, textAlign: "center" }}>
-        <ClubLink clubId={c.id}>{c.name}</ClubLink>
       </div>
     </div>
   );

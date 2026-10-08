@@ -1,21 +1,21 @@
 "use client";
 import PlayerActions from '@/components/manager/PlayerActions';
 import PlayerPerformance from '@/components/manager/PlayerPerformance';
+import { PlayerHero } from '@/components/game/Identity';
 import ContractRenewal from '@/components/ContractRenewal';
 
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { abilityStars, getClub, positionLabel, potentialStars } from "@/lib/game-data";
+import { abilityStars, getClub, potentialStars } from "@/lib/game-data";
 import { playerAgeAtDate } from "@/lib/development/developmentIntegration";
 import { useCareer } from "@/lib/career/CareerContext";
 import { getCareerPlayer } from "@/lib/career/careerWorld";
 import { isFreeAgentClubId } from "@/lib/career/contractExpiry";
 import { isRetiredClubId } from "@/lib/career/playerLifecycle";
-import { averageRating, emptyPlayerSeasonStats } from "@/lib/career/types";
-import { resolveStatusLabel } from "@/lib/career/playerStatus";
+import { emptyPlayerSeasonStats } from "@/lib/career/types";
+import type { PlayerAvailability } from "@/lib/career/playerStatus";
 import StarRating from "@/components/StarRating";
 import StatValue from "@/components/StatValue";
-import { ClubLink } from "@/components/entityLinks";
 import { GameplayAbilityPanel, GameplayAttributesPanel, type GameplayRatingRow } from "@/components/GameplayProfilePanels";
 import { abilityStarsFromCA, potentialStarsFromPA, type IndividualDevelopmentFocus } from "@/lib/development/types";
 import { getCareerPlayerRating } from "@/lib/career/careerRatingNormalization";
@@ -140,105 +140,7 @@ export default function PlayerProfilePage() {
     scoutDisplayName: findStaffMember(career, r.scoutStaffId)?.displayName ?? "Okänd scout",
   }));
 
-  return (
-    <>
-    <nav className="hm-tabs" aria-label="Spelarprofil">{[["overview", "Profil & egenskaper"], ["performance", "Prestation & historik"]].map(([id, label]) => <button key={id} aria-pressed={tab === id} onClick={() => setTab(id)}>{label}</button>)}</nav>
-    {tab === "performance" ? <><PlayerActions player={player} /><PlayerPerformance playerId={player.id} /></> : <div className="hm-grid" style={{ gridTemplateColumns: "2fr 1fr", alignItems: "start" }}>
-      <div className="hm-grid" style={{ gap: 12 }}>
-        {/* Header */}
-        <div className="hm-panel">
-          <div className="hm-panel-body" style={{ display: "flex", alignItems: "center", gap: 16 }}>
-            <div
-              style={{
-                width: 64,
-                height: 64,
-                borderRadius: "50%",
-                background: "var(--hm-surface-3)",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                fontSize: "22px",
-                fontWeight: 800,
-                color: "var(--hm-text-muted)",
-                flexShrink: 0,
-              }}
-            >
-              {player.firstName[0]}
-              {player.lastName[0]}
-            </div>
-            <div style={{ flex: 1 }}>
-              <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                <span className="hm-shirt-number">{player.shirtNumber ?? "–"}</span>
-                <span style={{ fontSize: "var(--hm-text-lg)", fontWeight: 800 }}>
-                  {player.firstName} {player.lastName}
-                </span>
-                {isWonderkid ? <span className="hm-badge hm-badge-warning">TALANG</span> : null}
-                {player.dataSource === "REAL_WORLD" ? (
-                  <span className="hm-badge hm-badge-neutral" title="Importerad från verklig spelardata">
-                    REAL DATA
-                  </span>
-                ) : null}
-              </div>
-              <div className="hm-text-muted" style={{ fontSize: "var(--hm-text-xs)", marginTop: 2 }}>
-                {positionLabel(player.position)}
-                {player.secondaryPosition ? ` / ${positionLabel(player.secondaryPosition)}` : ""} · {age ?? "–"} år · {player.nationality} · {player.foot ?? "Okänd"}
-                {club ? (
-                  <>
-                    {" · "}
-                    <ClubLink clubId={club.id}>{club.name}</ClubLink>
-                  </>
-                ) : isRetiredPlayer ? (
-                  <>
-                    {" · "}
-                    <span className="hm-text-muted">Pensionerad</span>
-                  </>
-                ) : isFreeAgentPlayer ? (
-                  <>
-                    {" · "}
-                    <span className="hm-text-muted">Ingen klubb — fri agent</span>
-                  </>
-                ) : null}
-              </div>
-            </div>
-            <button
-              type="button"
-              className="hm-btn"
-              onClick={() =>
-                player.clubId === career.playerClubId
-                  ? router.push("/career/squad")
-                  : isFreeAgentPlayer
-                    ? router.push("/career/transfers")
-                    : isRetiredPlayer
-                      ? router.push("/career/squad")
-                      : router.push(`/career/clubs/${player.clubId}`)
-              }
-            >
-              ← {player.clubId === career.playerClubId ? "Trupp" : isFreeAgentPlayer ? "Transfers" : isRetiredPlayer ? "Trupp" : "Klubb"}
-            </button>
-          </div>
-        </div>
-
-        <PlayerActions player={player} />
-        {/* Overview */}
-        <div className="hm-panel">
-          <div className="hm-panel-header">
-            <span className="hm-panel-title">Översikt</span>
-          </div>
-          <div className="hm-panel-body" style={{ display: "flex", gap: 28 }}>
-            <MetricBlock label="Matcher" value={seasonStats.appearances} />
-            <MetricBlock label="Mål" value={seasonStats.goals} />
-            <MetricBlock label="Snittbetyg" value={seasonStats.appearances > 0 ? averageRating(seasonStats).toFixed(1) : "—"} />
-            {player.position === "MV" ? (
-              <MetricBlock label="Räddningar" value={`${seasonStats.saves}/${seasonStats.shotsFaced}`} />
-            ) : (
-              <MetricBlock label="Skott" value={seasonStats.shots} />
-            )}
-            <MetricBlock label="Energi" value={isOwnPlayer ? `${Math.round(career.playerPhysicalState[player.id]?.currentEnergy ?? player.fitnessPct)}%` : "—"} />
-            <MetricBlock label="Status" value={resolveStatusLabel(career.playerStatuses, player)} />
-          </div>
-        </div>
-
-        {/* Attributes -- HM-RATINGS-0.6 complete gameplay profile where it exists, otherwise the explicitly-marked mock set. External players NEVER see the raw attribute grid, at any knowledge level (Part 12). */}
+  const attributesContent = <>        {/* Attributes -- HM-RATINGS-0.6 complete gameplay profile where it exists, otherwise the explicitly-marked mock set. External players NEVER see the raw attribute grid, at any knowledge level (Part 12). */}
         {ratingRow === undefined ? (
           <div className="hm-panel">
             <div className="hm-panel-body hm-text-muted">Läser in spelarbetyg…</div>
@@ -251,7 +153,7 @@ export default function PlayerProfilePage() {
           <div className="hm-panel">
             <div className="hm-panel-header">
               <span className="hm-panel-title">Egenskaper</span>
-              <span className="hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)" }}>Mockat attributset — ej slutgiltig modell</span>
+              <span className="hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)" }}>Tränarstabens bedömning</span>
             </div>
             <div className="hm-panel-body" style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 20 }}>
               <AttributeGroup title="Tekniska" entries={[
@@ -283,10 +185,8 @@ export default function PlayerProfilePage() {
             </div>
           </div>
         )}
-      </div>
-
-      <div className="hm-grid" style={{ gap: 12 }}>
-        {/* Ability / potential -- HM-RATINGS-0.6 gameplay CA/PA where it exists, otherwise the old star display. External players go through the knowledge-gated resolver (Part 12) -- raw CA/PA never shown, not even at 100% knowledge. */}
+</>;
+  const abilityContent = <>        {/* Ability / potential -- HM-RATINGS-0.6 gameplay CA/PA where it exists, otherwise the old star display. External players go through the knowledge-gated resolver (Part 12) -- raw CA/PA never shown, not even at 100% knowledge. */}
         {ratingRow === undefined && player.dataSource === "REAL_WORLD" ? (
           <div className="hm-panel">
             <div className="hm-panel-body hm-text-muted">Läser in spelarbetyg…</div>
@@ -319,7 +219,8 @@ export default function PlayerProfilePage() {
           </div>
         )}
 
-        {/* HM-CONTRACTS-1.0 Part: dynamic, persistent contract -- reads
+</>;
+  const contractContent = <>        {/* HM-CONTRACTS-1.0 Part: dynamic, persistent contract -- reads
             career.playerContracts, never the static PlayerMock fields. */}
         <div className="hm-panel">
           <div className="hm-panel-header">
@@ -365,12 +266,8 @@ export default function PlayerProfilePage() {
           </div>
         </div>
 
-        {/* HM-SCOUTING-1.0: the report the scouting loop produces -- only for an external player. */}
-        {!isOwnPlayer && scoutReportView ? (
-          <ScoutReportPanel view={scoutReportView} history={scoutReportHistory} hasOwnScout={clubScouts.length > 0} onStartAssignment={() => router.push(`/career/scouting?target=${player.id}`)} />
-        ) : null}
-
-        {/* HM-CONTRACTS-1.0A Part: club/youth history + training
+</>;
+  const historyContent = <>        {/* HM-CONTRACTS-1.0A Part: club/youth history + training
             compensation -- deliberately SEPARATE from market value/
             contract above (never blended into either number). */}
         <div className="hm-panel">
@@ -412,7 +309,8 @@ export default function PlayerProfilePage() {
           </div>
         </div>
 
-        {/* Body profile */}
+</>;
+  const bodyContent = <>        {/* Body profile */}
         <div className="hm-panel">
           <div className="hm-panel-header">
             <span className="hm-panel-title">Kroppsprofil</span>
@@ -420,23 +318,58 @@ export default function PlayerProfilePage() {
           <div className="hm-panel-body" style={{ display: "flex", flexDirection: "column", gap: 6 }}>
             <ContractRow label="Längd" value={player.heightCm !== null ? `${player.heightCm} cm` : "Okänd"} />
             <ContractRow label="Vikt" value={player.weightKg !== null ? `${player.weightKg} kg` : "Okänd"} />
+            <ContractRow label="Hand" value={player.foot ?? "Okänd"} />
             <ContractRow label="Ålder" value={age !== null ? `${age} år` : "Okänd"} />
             <ContractRow label="Född" value={player.dateOfBirth ? new Date(player.dateOfBirth).toLocaleDateString("sv-SE") : player.birthYear ? String(player.birthYear) : "Okänt"} />
           </div>
         </div>
 
-        {/* HM-TRAINING-1.1 Part 28: a small, real development section --
-            recent attribute changes, individual focus, recent training
-            participation. Never a giant redesign. */}
-        {isOwnPlayer && <DevelopmentPanel playerId={player.id} />}
+</>;
+  const reportContent = !isOwnPlayer && scoutReportView ? (
+    <ScoutReportPanel view={scoutReportView} history={scoutReportHistory} hasOwnScout={clubScouts.length > 0} onStartAssignment={() => router.push(`/career/scouting?target=${player.id}`)} />
+  ) : null;
+  const tabs = [["overview", "Profil & egenskaper"], ["performance", "Prestation & historik"], ["attributes", "Egenskaper"], ["development", "Utveckling"], ["contract", "Kontrakt"], ["history", "Klubbhistorik"]];
 
-        {/* HM-INJURIES-1.0 Part 31: a compact injury/medical section --
-            current status, active injury, expected return, rehab phase,
-            recent history. No full medical center here. */}
-        <MedicalPanel playerId={player.id} />
+  return (
+    <div className="hm-profile-page">
+      <PlayerHero player={player} career={career}>
+        <button type="button" className="hm-btn hm-btn-sm" onClick={() =>
+          isOwnPlayer ? router.push("/career/squad") : isFreeAgentPlayer ? router.push("/career/transfers") : isRetiredPlayer ? router.push("/career/squad") : router.push(`/career/clubs/${player.clubId}`)
+        }>← {isOwnPlayer ? "Trupp" : isFreeAgentPlayer ? "Transfers" : isRetiredPlayer ? "Trupp" : "Klubb"}</button>
+      </PlayerHero>
+      <PlayerActions player={player} />
+      <nav className="hm-tabs hm-profile-tabs" aria-label="Spelarprofil">
+        {tabs.map(([id, label]) => <button key={id} aria-pressed={tab === id} onClick={() => setTab(id)}>{label}</button>)}
+      </nav>
+      <div className="hm-profile-body" key={tab}>
+        {tab === "overview" && <div className="hm-profile-split">
+          <div className="hm-profile-main">
+            <section className="hm-profile-stats" aria-label="Säsongen i siffror">
+              <div><small>Matcher från start</small><strong>{seasonStats.starts}</strong></div>
+              <div><small>{player.position === "MV" ? "Mötta skott" : "Skott"}</small><strong>{player.position === "MV" ? seasonStats.shotsFaced : seasonStats.shots}</strong></div>
+              <div><small>{player.position === "MV" ? "Räddningsprocent" : "Skotteffektivitet"}</small><strong>{player.position === "MV" ? seasonStats.shotsFaced > 0 ? `${Math.round(seasonStats.saves / seasonStats.shotsFaced * 100)}%` : "—" : seasonStats.shots > 0 ? `${Math.round(seasonStats.goals / seasonStats.shots * 100)}%` : "—"}</strong></div>
+              <div><small>{player.position === "MV" ? "Räddningar / mötta" : "Mål / skott"}</small><strong>{player.position === "MV" ? `${seasonStats.saves}/${seasonStats.shotsFaced}` : `${seasonStats.goals}/${seasonStats.shots}`}</strong></div>
+            </section>
+            {attributesContent}
+          </div>
+          <aside className="hm-world-rail" aria-label="Spelarbedömning och tillgänglighet">
+            {abilityContent}
+            {reportContent}
+            <MedicalPanel playerId={player.id} />
+            <section className="hm-world-note">
+              <h2>Din nästa bedömning</h2>
+              <p>{isOwnPlayer ? "Matchprestation, tillgänglighet och utveckling formar spelarens roll i din trupp." : "Fördjupa bedömningen genom scouting och jämför spelaren med din egen trupp innan du tar nästa steg."}</p>
+              <div className="hm-actions"><button className="hm-btn hm-btn-sm" onClick={() => setTab("contract")}>Visa kontrakt</button><button className="hm-btn hm-btn-sm" onClick={() => setTab("performance")}>Visa prestation</button></div>
+            </section>
+          </aside>
+        </div>}
+        {tab === "performance" && <PlayerPerformance playerId={player.id} />}
+        {tab === "attributes" && <div className="hm-profile-split"><div className="hm-profile-main">{attributesContent}</div><aside className="hm-world-rail">{abilityContent}{bodyContent}{reportContent}</aside></div>}
+        {tab === "development" && <div className="hm-profile-split"><div className="hm-profile-main">{isOwnPlayer ? <DevelopmentPanel playerId={player.id} /> : <section className="hm-world-note"><h2>Utvecklingsbedömning</h2><p>Du följer spelarens utveckling genom scouting och registrerade prestationer. Individuell träning hanteras av spelarens klubb.</p></section>}{bodyContent}</div><aside className="hm-world-rail">{abilityContent}<MedicalPanel playerId={player.id} /></aside></div>}
+        {tab === "contract" && <div className="hm-profile-split"><div className="hm-profile-main">{contractContent}</div><aside className="hm-world-rail">{historyContent}</aside></div>}
+        {tab === "history" && <div className="hm-profile-split"><div className="hm-profile-main">{historyContent}<PlayerPerformance playerId={player.id} /></div><aside className="hm-world-rail">{bodyContent}</aside></div>}
       </div>
-    </div>}
-    </>
+    </div>
   );
 }
 
@@ -490,10 +423,11 @@ function DevelopmentPanel({ playerId }: { playerId: string }) {
 
 function MedicalPanel({ playerId }: { playerId: string }) {
   const { career } = useCareer();
-  const player = getCareerPlayer(career, playerId);
   const injuryState = career.playerInjuries[playerId];
   const activeInjury = injuryState?.activeInjury ?? null;
-  const statusLabel = player ? resolveStatusLabel(career.playerStatuses, player) : "—";
+  const availability = career.playerStatuses[playerId]?.availability;
+  const availabilityLabels: Record<PlayerAvailability, string> = { AVAILABLE:'Tillgänglig', INJURED:'Skadad', SUSPENDED:'Avstängd', RECOVERING:'Under återhämtning', LIMITED:'Begränsad återgång', ON_PLACEMENT:'Hos partnerklubb' };
+  const statusLabel = availability ? availabilityLabels[availability] : 'Ingen uppgift';
   const recentHistory = (injuryState?.injuryHistory ?? []).slice(-5).reverse();
 
   return (
@@ -502,7 +436,7 @@ function MedicalPanel({ playerId }: { playerId: string }) {
         <span className="hm-panel-title">Medicinskt</span>
       </div>
       <div className="hm-panel-body" style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-        <ContractRow label="Status" value={statusLabel} />
+        <ContractRow label="Tillgänglighet" value={statusLabel} />
         {activeInjury ? (
           <>
             <ContractRow label="Skada" value={INJURY_TYPE_LABELS[activeInjury.injuryType]} />
@@ -533,15 +467,6 @@ function MedicalPanel({ playerId }: { playerId: string }) {
           ))
         )}
       </div>
-    </div>
-  );
-}
-
-function MetricBlock({ label, value }: { label: string; value: string | number }) {
-  return (
-    <div>
-      <div className="hm-eyebrow">{label}</div>
-      <div style={{ fontSize: "var(--hm-text-md)", fontWeight: 800 }}>{value}</div>
     </div>
   );
 }
