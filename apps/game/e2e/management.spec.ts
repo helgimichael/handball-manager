@@ -9,7 +9,7 @@ async function newCareer(page: Page) {
   await page.getByRole('radio',{name:'8 veckor före seriestart',exact:true}).check();
   await page.getByRole('button',{name:'STARTA KARRIÄR',exact:true}).click();
   await page.waitForURL('**/career',{timeout:90000});
-  await expect(page.getByRole('heading',{name:'Managerkontoret',exact:true})).toBeVisible({timeout:90000});
+  await expect(page.locator('.game-home')).toBeVisible({timeout:90000});
 }
 test('connected management journeys, contracts, shortlist, scouting, world links and save/load',async ({page}) => {
   test.setTimeout(600000);
@@ -18,13 +18,13 @@ test('connected management journeys, contracts, shortlist, scouting, world links
   const errors:string[]=[];
   page.on('pageerror',error=>errors.push(error.message));
   await newCareer(page);
-  await page.screenshot({path:'../../docs/management-experience/home.png',fullPage:true});
+  await page.screenshot({path:`${process.env.HM_QA_SCREENSHOT_DIR ?? '../../docs/management-experience'}/home.png`,fullPage:true});
   await page.getByRole('link',{name:'Inkorg',exact:true}).click();
   await page.getByRole('button',{name:/Kontraktsplanering:/}).first().click();
   await page.getByRole('button',{name:'Öppna spelare',exact:true}).click();
   await page.waitForURL('**/career/squad/*');
   const ownHref = new URL(page.url()).pathname;
-  const ownName = await page.locator('.hm-panel-body').filter({has:page.locator('.hm-shirt-number')}).first().innerText();
+  const ownName = await page.locator('.game-player-hero').textContent();
   await page.getByRole('button',{name:'Prestation & historik',exact:true}).click();
   await expect(page.getByRole('heading',{name:'Senaste matcherna',exact:true})).toBeVisible();
   await page.getByRole('link',{name:'Trupp',exact:true}).click();
@@ -39,7 +39,7 @@ test('connected management journeys, contracts, shortlist, scouting, world links
   await page.getByRole('link',{name:'Jämför valda spelare →',exact:true}).click();
   await expect(page.getByRole('heading',{name:'Jämför spelare',exact:true})).toBeVisible();
   await expect(page.locator('.hm-compare-table thead a')).toHaveCount(2);
-  await page.screenshot({path:'../../docs/management-experience/comparison.png',fullPage:true});
+  await page.screenshot({path:`${process.env.HM_QA_SCREENSHOT_DIR ?? '../../docs/management-experience'}/comparison.png`,fullPage:true});
   await page.goto(`${base}/career/contracts`);
   const firstContract = page.locator('main table tbody tr').first();
   const expiry = await firstContract.locator('td').nth(2).innerText();
@@ -108,7 +108,7 @@ test('connected management journeys, contracts, shortlist, scouting, world links
   }
   await expect(page.getByText('Ingen scoutingrapport ännu.',{exact:true})).toHaveCount(0);
   await expect(page.getByText('Scoutingrapport',{exact:true})).toBeVisible();
-  await page.locator('.hm-panel').filter({has:page.getByText('Scoutingrapport',{exact:true})}).screenshot({path:'../../docs/management-experience/scout-report.png'});
+  await page.locator('.hm-panel').filter({has:page.getByText('Scoutingrapport',{exact:true})}).screenshot({path:`${process.env.HM_QA_SCREENSHOT_DIR ?? '../../docs/management-experience'}/scout-report.png`});
   await page.getByRole('link',{name:'Lägg bud / erbjud avtal',exact:true}).click();
   await expect(page.getByRole('button',{name:'Lägg bud',exact:true})).toBeVisible();
   const fee = Number(await page.getByLabel('Övergångssumma (€)',{exact:true}).inputValue());

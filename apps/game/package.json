@@ -15,6 +15,7 @@
     "test:sim": "node --import tsx --test lib/career/simulationHarness.sim.test.ts lib/career/youthIntakeWorldScope.sim.test.ts",
     "test:management": "node --import tsx --test lib/career/management.test.ts lib/career/navigation.test.ts lib/career/inboxActions.test.ts lib/career/inboxFilters.test.ts lib/career/recruitment.test.ts lib/career/scouting.test.ts lib/career/transferCareerIntegration.test.ts lib/career/contractCareerIntegration.test.ts lib/save/saveRepository.test.ts",
     "test:e2e:management": "playwright test e2e/management.spec.ts e2e/product.spec.ts --workers=1",
+    "test:e2e:game": "playwright test e2e/game-presentation.spec.ts e2e/management.spec.ts e2e/product.spec.ts --workers=1",
     "test:product": "node --import tsx --test lib/career/productionMatch.test.ts lib/save/saveRepository.test.ts",
     "test:e2e": "playwright test e2e/product.spec.ts --workers=1",
     "test:season": "node --import tsx scripts/playable-season-smoke.ts"

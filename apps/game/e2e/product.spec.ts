@@ -3,6 +3,7 @@ const expect = baseExpect.configure({ timeout: 30000 });
 const base = process.env.HM_QA_URL ?? 'http://localhost:3001';
 test('normal career UI: real squad, calendar, live match, decisions, finalization and reload', async ({ page }) => {
   test.setTimeout(600000);
+  await page.setViewportSize({width:1920,height:1080});
   const errors: string[] = [];
   page.on('pageerror', error => errors.push(error.message));
   await page.goto(`${base}/new-game`);
@@ -16,6 +17,8 @@ test('normal career UI: real squad, calendar, live match, decisions, finalizatio
   await page.getByRole('link', { name: 'Trupp', exact: true }).click();
   await expect(page.locator('body')).toContainText('Tumba');
   await page.locator('table a[href^="/career/squad/"]').first().click();
+  await expect(page.locator('.game-player-hero')).toBeVisible();
+  await page.getByRole('button',{name:'Kontrakt',exact:true}).click();
   await expect(page.getByRole('button', { name: 'Förläng kontrakt', exact: true })).toBeVisible({ timeout: 30000 });
   await page.getByLabel('Förlängning', { exact: true }).selectOption('3');
   await page.getByRole('button', { name: 'Förläng kontrakt', exact: true }).click();

@@ -1,0 +1,35 @@
+{
+  "release": "Game Experience v1",
+  "verifiedOn": "2026-10-08",
+  "timezone": "Europe/Stockholm",
+  "resumedFrom": "main@ad603fc with the existing uncommitted Game Experience presentation pass",
+  "url": "http://localhost:3006",
+  "productionDirectory": "apps/game/.next-game-final",
+  "closeOut": {"sourceHead":"0b06204","serverStatus":"STOPPED_BY_USER_AFTER_QA","serverRestarted":false,"implementationRestarted":false,"completedChecksRerun":false},
+  "gameTests": {"passed":2296,"failed":0,"durationMs":505382.1182,"command":"npm run test:all:portable --workspace=@handball-manager/game"},
+  "browserTests": {
+    "passed":4,"failed":0,
+    "files":["apps/game/e2e/game-presentation.spec.ts","apps/game/e2e/management.spec.ts","apps/game/e2e/product.spec.ts"],
+    "covered":["Home/inbox/player/squad/contracts","Player filters, sorting and comparison","Scout hiring, assignment and completed report","Shortlist, revised offer, signing and budget/roster consequence","Competition/club/player/result/statistics/history navigation","Training/calendar and match preparation","Live substitutions/tactics, save/reload, full-time report and immutable replay","Persistent profile identity across six tabs","Same-target bid draft preservation and canonical zero loan fee","Save/reload of management changes"],
+    "pageErrors":0
+  },
+  "visualAcceptance": {
+    "viewports":[{"width":1920,"height":1080},{"width":2560,"height":1080}],
+    "requiredScreens":["home","squad","player","search","competition"],
+    "before":"docs/game-experience/before",
+    "after":"docs/game-experience/after",
+    "comparison":"docs/game-experience/comparison.html",
+    "supplemental":"docs/game-experience/supplemental",
+    "journeys":"docs/game-experience/journeys",
+    "documentHorizontalOverflow":false,
+    "renderedImagesInspected":true,
+    "observations":["Matchup leads Home above club decisions","Player identity persists across tabs","Seven-position roster construction precedes dense rows","League table has round/results/leaders context","Player search has knowledge-aware dossier selection","News reader uses real player/match context","Scoreboard, court and sideline have separate hierarchy"],
+    "assetPolicy":"No downloaded assets or fake photographic portraits; original neutral monograms and jerseys because project crests/colour schemes are unverified"
+  },
+  "seasonRegression": {
+    "complete":true,"firstSeasonManagerMatches":26,"firstSeasonLeagueMatchesPerClub":26,"secondSeason":"2027/28","secondSeasonMatchDate":"2027-09-23","secondSeasonMatchEngine":"V2","archivedManagerMatches":27,"historicalTableAndStatisticsRetained":true,"evidence":"regression/playable-season-result.json"
+  },
+  "checks":{"gameTypecheck":"PASS","workspaceTypecheck":"PASS","productionBuild":"PASS","changedPresentationLintZeroWarnings":"PASS"},
+  "preservation":{"matchEngineImplementationEdited":false,"careerStateOrPersistenceRewritten":false,"reportOrReplayResimulates":false,"unrelatedUserWorkDiscarded":false,"motionWorktreePreserved":true,"stashesDeleted":false,"pushed":false},
+  "sourceCommits":["1d0df25","8a5ec05","54a7a65","0b06204"]
+}

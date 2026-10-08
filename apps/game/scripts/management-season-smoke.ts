@@ -1,6 +1,8 @@
 import fs from 'node:fs';
+import path from 'node:path';
 import { syncManagementInbox } from '../lib/career/management';
-fs.mkdirSync('../../docs/management-experience', { recursive: true });
+const outputDir = process.env.HM_SEASON_QA_DIR ?? '../../docs/management-experience';
+fs.mkdirSync(outputDir, { recursive: true });
 import { createNewCareerState } from '../lib/career/newCareer';
 import { snapshotWorldSquads, snapshotGameplayRatings } from '../lib/gameWorld/serverSnapshot';
 import { continueCareerRhythm } from '../lib/career/continueController';
@@ -9,7 +11,7 @@ import { rolloverSeason } from '../lib/career/seasonRollover';
 import { getLiveStandings } from '../lib/career/standings';
 import { strict as assert } from 'node:assert';
 import { renewPlayerContract } from '../lib/career/contractRenewal';
-const checkpoint = '../../docs/management-experience/season-end-state.json';
+const checkpoint = path.join(outputDir, 'season-end-state.json');
 let state = process.argv.includes('--resume') ? JSON.parse(fs.readFileSync(checkpoint, 'utf8')) : createNewCareerState('end-to-end-season-alpha', 'swe2-tumba', snapshotWorldSquads('swe-2'), undefined, snapshotGameplayRatings('swe-2'));
 let guard = 0, played = process.argv.includes('--resume') ? Object.keys(state.matchArchives ?? {}).length : 0;
 while (!state.seasonComplete && guard++ < 1000) {
@@ -64,5 +66,5 @@ for (let i = 0; i < 600 && !seasonTwoMatch; i++) {
 }
 assert.ok(seasonTwoMatch, 'a real match can be played in season two after the offseason daily ticks');
 const report = { complete: true, managerMatches: played, archivedMatches: Object.keys(state.matchArchives ?? {}).length, season: state.seasonId, date: state.gameDate, seasonTwoMatch, historicalTable: state.seasonHistory![0].table, playerStatistics: finalStats, nextCalendar: { fixtures: state.fixtures.length, firstDate: state.fixtures[0].date } };
-fs.writeFileSync('../../docs/management-experience/playable-season-result.json', JSON.stringify(report, null, 2));
+fs.writeFileSync(path.join(outputDir, 'playable-season-result.json'), JSON.stringify(report, null, 2));
 console.log('COMPLETE: full season, saved match archives, rollover and season-two calendar');

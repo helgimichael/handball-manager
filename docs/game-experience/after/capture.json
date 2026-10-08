@@ -1,0 +1,100 @@
+{
+  "base": "http://localhost:3006",
+  "phase": "after",
+  "club": "IFK Tumba HK",
+  "screens": [
+    {
+      "name": "home",
+      "route": "/career"
+    },
+    {
+      "name": "squad",
+      "route": "/career/squad"
+    },
+    {
+      "name": "player",
+      "route": "/career/squad/se_player_simon_axelsson_eb1ec6dd"
+    },
+    {
+      "name": "search",
+      "route": "/career/players"
+    },
+    {
+      "name": "competition",
+      "route": "/career/competitions"
+    }
+  ],
+  "measurements": [
+    {
+      "screen": "home",
+      "route": "/career",
+      "width": 1920,
+      "documentWidth": 1920,
+      "mainWidth": 1700
+    },
+    {
+      "screen": "squad",
+      "route": "/career/squad",
+      "width": 1920,
+      "documentWidth": 1920,
+      "mainWidth": 1700
+    },
+    {
+      "screen": "player",
+      "route": "/career/squad/se_player_simon_axelsson_eb1ec6dd",
+      "width": 1920,
+      "documentWidth": 1920,
+      "mainWidth": 1700
+    },
+    {
+      "screen": "search",
+      "route": "/career/players",
+      "width": 1920,
+      "documentWidth": 1920,
+      "mainWidth": 1700
+    },
+    {
+      "screen": "competition",
+      "route": "/career/competitions",
+      "width": 1920,
+      "documentWidth": 1920,
+      "mainWidth": 1700
+    },
+    {
+      "screen": "home",
+      "route": "/career",
+      "width": 2560,
+      "documentWidth": 2560,
+      "mainWidth": 2340
+    },
+    {
+      "screen": "squad",
+      "route": "/career/squad",
+      "width": 2560,
+      "documentWidth": 2560,
+      "mainWidth": 2340
+    },
+    {
+      "screen": "player",
+      "route": "/career/squad/se_player_simon_axelsson_eb1ec6dd",
+      "width": 2560,
+      "documentWidth": 2560,
+      "mainWidth": 2340
+    },
+    {
+      "screen": "search",
+      "route": "/career/players",
+      "width": 2560,
+      "documentWidth": 2560,
+      "mainWidth": 2340
+    },
+    {
+      "screen": "competition",
+      "route": "/career/competitions",
+      "width": 2560,
+      "documentWidth": 2560,
+      "mainWidth": 2340
+    }
+  ],
+  "errors": []
+}
