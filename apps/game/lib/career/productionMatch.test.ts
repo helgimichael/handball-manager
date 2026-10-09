@@ -138,6 +138,18 @@ test('career capabilities use the actual attribute sheet and retain a neutral mi
   assert.ok(capable.core.players.some((p, i) => p.profile.passing > neutral.core.players[i].profile.passing), 'real passing reaches canonical execution');
 });
 
+test('developer tick observation leaves the canonical state, RNG, events and frames unchanged',()=>{
+  const started=startProductionMatch(ready());
+  const normal=advanceProductionMatch(started,600,false);
+  let observations=0,lastTick=0,facts=0;
+  const observed=advanceProductionMatch(started,600,false,(core,newEvents)=>{
+    observations++;assert.ok(core.tick>lastTick);lastTick=core.tick;facts+=newEvents.length;
+    assert.ok(newEvents.every(e=>e.tick===core.tick));
+  });
+  assert.equal(observations,600);assert.ok(facts>0);
+  assert.deepEqual(observed,normal,'diagnostics reads do not create a second simulation or consume seeded draws');
+});
+
 test('a legacy unsupported own formation requires a real plan correction rather than silently playing 6:0',()=>{
   const state=ready(),fixture=state.fixtures.find(f=>f.date===state.gameDate&&(f.homeClubId===state.playerClubId||f.awayClubId===state.playerClubId))!;
   const plan=resolveClubMatchPlanForFixture(state.playerClubId,fixture.id,getCareerClubSquad(state,state.playerClubId),undefined)!;

@@ -1,0 +1,67 @@
+﻿{
+    "checkpoint":  "30a946c",
+    "scope":  "Canonical current HEAD reproduces retained v2 initial session, complete final CoreState, result, score/events/RNG/all observed frames for four fixed actual-career recipes before any v2.1 behavior change.",
+    "allIdentical":  true,
+    "cases":  [
+                  {
+                      "index":  0,
+                      "canonicalSeed":  1765851951,
+                      "score":  [
+                                    22,
+                                    28
+                                ],
+                      "hashes":  {
+                                     "initialSessionHash":  "408994a6c6325dc6af92f5d9442ff17417f82fb079c0cdb127dcc8a06ffc2c78",
+                                     "finalCoreHash":  "56d5fc606e47dcce5b5973c35133f01a61d2f3ed56914dfc08be3064bf1552ea",
+                                     "resultHash":  "216084b05651ae041d5420e3fd91cf93026383ede23eead54153e4edd586b90c",
+                                     "truthHash":  "acd03e346877b8dbe58bcc1012eaae1ef63460493b525b5e823247569b27a9c0"
+                                 },
+                      "identical":  true
+                  },
+                  {
+                      "index":  5,
+                      "canonicalSeed":  1793243603,
+                      "score":  [
+                                    12,
+                                    22
+                                ],
+                      "hashes":  {
+                                     "initialSessionHash":  "f6a7ada35fb3c25190529fbd56089af21e9092057fd3d72bbff46dfd81328a18",
+                                     "finalCoreHash":  "d30cc7f8ea8d0632e0717b5bcaaa23d681c31deae8631aaeefe763f75d2feef8",
+                                     "resultHash":  "d472cfe3656247dc28754c6fa7d0a47ffcb7628e0b679241daca57f0c89274f0",
+                                     "truthHash":  "dd5fdb59cfe91d90d6983f98aa97217031c89c2ee5b3298c706695e6f7a00d24"
+                                 },
+                      "identical":  true
+                  },
+                  {
+                      "index":  16,
+                      "canonicalSeed":  3443931976,
+                      "score":  [
+                                    19,
+                                    19
+                                ],
+                      "hashes":  {
+                                     "initialSessionHash":  "8d86b1bb8ef69d00480122337bb796edc5bddd307e6b27853040385f27274957",
+                                     "finalCoreHash":  "e4daaa17cddfdde4bbff1536800adeb7d85e37bf4b4b3f1bd8979a5bdb9e01d0",
+                                     "resultHash":  "44b9962c49b3ac61eee7821622661f6b5755f1ab22f17790788e39732c9434a9",
+                                     "truthHash":  "9d1169b13c3929ccf2da80d0a46b1b68552bf9f35609e5a0e8c59e51bbc36fdc"
+                                 },
+                      "identical":  true
+                  },
+                  {
+                      "index":  18,
+                      "canonicalSeed":  1619981876,
+                      "score":  [
+                                    9,
+                                    9
+                                ],
+                      "hashes":  {
+                                     "initialSessionHash":  "190760bf0754a2d960b9da1e4d644cc82ad6d00a42d1f315913c5b152333d566",
+                                     "finalCoreHash":  "a779732824dbf0561e073c88a8fb8d603c2e99f01e34b0e77bb811aa11bb6d44",
+                                     "resultHash":  "94ef6b2d35c398167a83a5507c4d2dc4b449133ce41f13882c588c14c7dfb045",
+                                     "truthHash":  "433baadcaa90ad77ff8e53a9324de50dd1f525a3d2ece2b338ca27feaa32dcf3"
+                                 },
+                      "identical":  true
+                  }
+              ]
+}

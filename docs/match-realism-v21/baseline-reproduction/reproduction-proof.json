@@ -1,0 +1,187 @@
+{
+  "verifiedAt": "2026-10-09T17:41:26.283Z",
+  "allIdentical": true,
+  "cases": 4,
+  "inputHash": "37b2f9ee4648ede1a422549fb680bad5c172ebdf70c77f65334d2e6487ab0347",
+  "scope": "Current released v2 checkpoint reproduced committed AFTER cases exactly on initial session, complete final CoreState, result, score/full events/RNG/all production frames.",
+  "sourceEquivalence": "Only previously documented unused-import/compatibility-lint cleanup differs in raw source fingerprints; emitted JavaScript equivalence is retained in v2/release-source-equivalence.json.",
+  "performance": "Four cases were launched concurrently and experienced substantial resource contention. Their runtime is not an isolated single-process engine benchmark; later calibration batches run sequentially.",
+  "proofs": [
+    {
+      "index": 0,
+      "checkpoint": "30a946c89b785c6bed9d2fcb85b6daa5086c0f8b",
+      "saveSeed": "match-realism-v2-canonical-2026:0",
+      "canonicalSeed": 1765851951,
+      "score": "22-28",
+      "fixture": {
+        "id": "swe-2-f1",
+        "competitionId": "swe-2",
+        "round": 1,
+        "date": "2026-08-22",
+        "homeClubId": "swe2-aranas",
+        "awayClubId": "swe2-ystad2",
+        "type": "LEAGUE"
+      },
+      "hashes": {
+        "initialSessionHash": {
+          "original": "408994a6c6325dc6af92f5d9442ff17417f82fb079c0cdb127dcc8a06ffc2c78",
+          "current": "408994a6c6325dc6af92f5d9442ff17417f82fb079c0cdb127dcc8a06ffc2c78",
+          "identical": true
+        },
+        "finalCoreHash": {
+          "original": "56d5fc606e47dcce5b5973c35133f01a61d2f3ed56914dfc08be3064bf1552ea",
+          "current": "56d5fc606e47dcce5b5973c35133f01a61d2f3ed56914dfc08be3064bf1552ea",
+          "identical": true
+        },
+        "resultHash": {
+          "original": "216084b05651ae041d5420e3fd91cf93026383ede23eead54153e4edd586b90c",
+          "current": "216084b05651ae041d5420e3fd91cf93026383ede23eead54153e4edd586b90c",
+          "identical": true
+        },
+        "truthHash": {
+          "original": "acd03e346877b8dbe58bcc1012eaae1ef63460493b525b5e823247569b27a9c0",
+          "current": "acd03e346877b8dbe58bcc1012eaae1ef63460493b525b5e823247569b27a9c0",
+          "identical": true
+        }
+      },
+      "documentedLintOnlySourceChanges": [
+        "packages/handball-engine/src/v2/core/defence.ts",
+        "packages/handball-engine/src/v2/core/interactions.ts"
+      ],
+      "identical": true,
+      "concurrentRuntimeMs": 149290.4601
+    },
+    {
+      "index": 5,
+      "checkpoint": "30a946c89b785c6bed9d2fcb85b6daa5086c0f8b",
+      "saveSeed": "match-realism-v2-canonical-2026:5",
+      "canonicalSeed": 1793243603,
+      "score": "12-22",
+      "fixture": {
+        "id": "swe-2-f6",
+        "competitionId": "swe-2",
+        "round": 1,
+        "date": "2026-08-22",
+        "homeClubId": "swe2-torslanda",
+        "awayClubId": "swe2-kroppskultur",
+        "type": "LEAGUE"
+      },
+      "hashes": {
+        "initialSessionHash": {
+          "original": "f6a7ada35fb3c25190529fbd56089af21e9092057fd3d72bbff46dfd81328a18",
+          "current": "f6a7ada35fb3c25190529fbd56089af21e9092057fd3d72bbff46dfd81328a18",
+          "identical": true
+        },
+        "finalCoreHash": {
+          "original": "d30cc7f8ea8d0632e0717b5bcaaa23d681c31deae8631aaeefe763f75d2feef8",
+          "current": "d30cc7f8ea8d0632e0717b5bcaaa23d681c31deae8631aaeefe763f75d2feef8",
+          "identical": true
+        },
+        "resultHash": {
+          "original": "d472cfe3656247dc28754c6fa7d0a47ffcb7628e0b679241daca57f0c89274f0",
+          "current": "d472cfe3656247dc28754c6fa7d0a47ffcb7628e0b679241daca57f0c89274f0",
+          "identical": true
+        },
+        "truthHash": {
+          "original": "dd5fdb59cfe91d90d6983f98aa97217031c89c2ee5b3298c706695e6f7a00d24",
+          "current": "dd5fdb59cfe91d90d6983f98aa97217031c89c2ee5b3298c706695e6f7a00d24",
+          "identical": true
+        }
+      },
+      "documentedLintOnlySourceChanges": [
+        "packages/handball-engine/src/v2/core/defence.ts",
+        "packages/handball-engine/src/v2/core/interactions.ts"
+      ],
+      "identical": true,
+      "concurrentRuntimeMs": 144727.4491
+    },
+    {
+      "index": 16,
+      "checkpoint": "30a946c89b785c6bed9d2fcb85b6daa5086c0f8b",
+      "saveSeed": "match-realism-v2-canonical-2026:16",
+      "canonicalSeed": 3443931976,
+      "score": "19-19",
+      "fixture": {
+        "id": "swe-2-f3",
+        "competitionId": "swe-2",
+        "round": 1,
+        "date": "2026-08-19",
+        "homeClubId": "swe2-guif",
+        "awayClubId": "swe2-varberg",
+        "type": "LEAGUE"
+      },
+      "hashes": {
+        "initialSessionHash": {
+          "original": "8d86b1bb8ef69d00480122337bb796edc5bddd307e6b27853040385f27274957",
+          "current": "8d86b1bb8ef69d00480122337bb796edc5bddd307e6b27853040385f27274957",
+          "identical": true
+        },
+        "finalCoreHash": {
+          "original": "e4daaa17cddfdde4bbff1536800adeb7d85e37bf4b4b3f1bd8979a5bdb9e01d0",
+          "current": "e4daaa17cddfdde4bbff1536800adeb7d85e37bf4b4b3f1bd8979a5bdb9e01d0",
+          "identical": true
+        },
+        "resultHash": {
+          "original": "44b9962c49b3ac61eee7821622661f6b5755f1ab22f17790788e39732c9434a9",
+          "current": "44b9962c49b3ac61eee7821622661f6b5755f1ab22f17790788e39732c9434a9",
+          "identical": true
+        },
+        "truthHash": {
+          "original": "9d1169b13c3929ccf2da80d0a46b1b68552bf9f35609e5a0e8c59e51bbc36fdc",
+          "current": "9d1169b13c3929ccf2da80d0a46b1b68552bf9f35609e5a0e8c59e51bbc36fdc",
+          "identical": true
+        }
+      },
+      "documentedLintOnlySourceChanges": [
+        "packages/handball-engine/src/v2/core/defence.ts",
+        "packages/handball-engine/src/v2/core/interactions.ts"
+      ],
+      "identical": true,
+      "concurrentRuntimeMs": 151509.7903
+    },
+    {
+      "index": 18,
+      "checkpoint": "30a946c89b785c6bed9d2fcb85b6daa5086c0f8b",
+      "saveSeed": "match-realism-v2-canonical-2026:18",
+      "canonicalSeed": 1619981876,
+      "score": "9-9",
+      "fixture": {
+        "id": "swe-2-f5",
+        "competitionId": "swe-2",
+        "round": 1,
+        "date": "2026-08-22",
+        "homeClubId": "swe2-huddinge",
+        "awayClubId": "swe2-tumba",
+        "type": "LEAGUE"
+      },
+      "hashes": {
+        "initialSessionHash": {
+          "original": "190760bf0754a2d960b9da1e4d644cc82ad6d00a42d1f315913c5b152333d566",
+          "current": "190760bf0754a2d960b9da1e4d644cc82ad6d00a42d1f315913c5b152333d566",
+          "identical": true
+        },
+        "finalCoreHash": {
+          "original": "a779732824dbf0561e073c88a8fb8d603c2e99f01e34b0e77bb811aa11bb6d44",
+          "current": "a779732824dbf0561e073c88a8fb8d603c2e99f01e34b0e77bb811aa11bb6d44",
+          "identical": true
+        },
+        "resultHash": {
+          "original": "94ef6b2d35c398167a83a5507c4d2dc4b449133ce41f13882c588c14c7dfb045",
+          "current": "94ef6b2d35c398167a83a5507c4d2dc4b449133ce41f13882c588c14c7dfb045",
+          "identical": true
+        },
+        "truthHash": {
+          "original": "433baadcaa90ad77ff8e53a9324de50dd1f525a3d2ece2b338ca27feaa32dcf3",
+          "current": "433baadcaa90ad77ff8e53a9324de50dd1f525a3d2ece2b338ca27feaa32dcf3",
+          "identical": true
+        }
+      },
+      "documentedLintOnlySourceChanges": [
+        "packages/handball-engine/src/v2/core/defence.ts",
+        "packages/handball-engine/src/v2/core/interactions.ts"
+      ],
+      "identical": true,
+      "concurrentRuntimeMs": 148916.8773
+    }
+  ]
+}
