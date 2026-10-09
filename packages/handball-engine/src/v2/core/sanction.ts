@@ -95,9 +95,22 @@ export function readContact(
   separation: number,
 ): ContactRead {
   const speed = Math.hypot(d.velocity.x, d.velocity.y);
+  const gap=Math.max(.001,distance(a.position,d.position));
+  const nx=(a.position.x-d.position.x)/gap,ny=(a.position.y-d.position.y)/gap;
+  const radialClosingSpeed=Math.max(0,d.velocity.x*nx+d.velocity.y*ny);
+  const lateralSpeed=Math.abs(d.velocity.x*ny-d.velocity.y*nx);
+  const relativeClosingSpeed=Math.max(0,(d.velocity.x-a.velocity.x)*nx+(d.velocity.y-a.velocity.y)*ny);
+  // Balance controls an approaching body. Preserve the existing bounded
+  // speed range, but a better balanced defender can absorb MORE momentum.
+  // Sliding across the line or giving ground is not charging the attacker.
+  const controlledClosingLimit=3.4-1.6*(1-Math.max(0,Math.min(1,d.profile.balance)));
   const chance = clearChanceDestroyed(s, a, d);
   const airborne = a.airborne !== null;
-  const detail = { technique, approach, separation: Number(separation.toFixed(2)), closingSpeed: Number(speed.toFixed(2)), ...chance.detail };
+  const contactClass=airborne?'AIRBORNE_CONTACT':technique==='HOLD'?'HOLDING':approach==='BEHIND'?'CONTACT_FROM_BEHIND':
+    approach==='FRONT'?(radialClosingSpeed>controlledClosingLimit?'FRONTAL_CHARGE':'FRONTAL_CONTAINMENT'):'LATERAL_CONTACT';
+  const detail = { technique, approach,contactClass,separation:Number(separation.toFixed(2)),closingSpeed:Number(speed.toFixed(2)),
+    radialClosingSpeed:Number(radialClosingSpeed.toFixed(3)),lateralSpeed:Number(lateralSpeed.toFixed(3)),
+    relativeClosingSpeed:Number(relativeClosingSpeed.toFixed(3)),controlledClosingLimit:Number(controlledClosingLimit.toFixed(3)),...chance.detail };
 
   // Contact on a man in the air is the one case handball never tolerates.
   if (airborne && (technique === 'HOLD' || approach === 'BEHIND' || speed > 3)) {
@@ -106,7 +119,7 @@ export function readContact(
   if (technique === 'BENT_ARMS' && approach === 'FRONT') {
     // The textbook defensive action. Only punishable when he arrives at a speed
     // that turns containment into a charge.
-    if (speed > 3.4 - 1.6 * d.profile.balance) return { severity: 'ORDINARY', reason: 'Frontal contact made with too much momentum', clearChance: false, detail };
+    if (radialClosingSpeed > controlledClosingLimit) return { severity: 'ORDINARY', reason: 'Frontal contact made with too much momentum', clearChance: false, detail };
     return { severity: 'LEGAL', reason: 'Frontal bent-arm containment from a set position', clearChance: false, detail };
   }
   if (approach === 'BEHIND') {

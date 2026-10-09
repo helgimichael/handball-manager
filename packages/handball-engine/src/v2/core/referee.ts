@@ -4,7 +4,7 @@ import { awardRestart,interrupt } from './transitions';
 import { initialPassive,type PassiveState } from './passive';
 import type { Severity } from './sanction';
 
-export type FoulCase={id:string;attackerId:string;defenderId:string;team:TeamId;location:Point;tick:number;contestId:string;severe:boolean;clearChance:boolean;severity:Severity;reason:string};
+export type FoulCase={id:string;attackerId:string;defenderId:string;team:TeamId;location:Point;tick:number;contestId:string;severe:boolean;clearChance:boolean;severity:Severity;reason:string;whistled?:boolean};
 export type RefereeState={
   advantage:(FoulCase&{expiresTick:number})|null;
   sanctions:FoulCase[];
@@ -60,8 +60,14 @@ function punish(s:CoreState,f:FoulCase) {
   }
 }
 function whistle(s:CoreState,f:FoulCase,reason:string) {
+  if(f.whistled)return;
+  f.whistled=true;
+  const kind=f.clearChance?'SEVEN_METRE':'FREE_THROW';
+  // Assessment is not a stoppage. This is the actual single transition which
+  // stops the protected attack and awards its restart, linked to its evidence.
+  record(s,'WHISTLE_RESTART',getPlayer(s,f.defenderId),{foulId:f.id,kind,owner:f.team,reason,assessedTick:f.tick},[f.attackerId],f.contestId);
   punish(s,f);
-  awardRestart(s,f.clearChance?'SEVEN_METRE':'FREE_THROW',f.team,f.location,reason,getPlayer(s,f.defenderId));
+  awardRestart(s,kind,f.team,f.location,reason,getPlayer(s,f.defenderId));
 }
 /** A physical foul and the decision to stop play are separate transitions (IHF 13:2, 14:2). */
 export function judgeFoul(s:CoreState,a:CorePlayer,d:CorePlayer,severity:Severity,reason:string,clearChance:boolean,contestId:string) {
@@ -70,7 +76,13 @@ export function judgeFoul(s:CoreState,a:CorePlayer,d:CorePlayer,severity:Severit
     severe:severity==='SERIOUS',clearChance,severity,reason};
   const continuing=s.ball.live&&s.ball.controllerId===a.id&&severity!=='SERIOUS'&&!a.airborne&&
     a.action?.phase==='EXECUTING'&&['DRIVE','DRIBBLE','SHOOT','PASS'].includes(a.action.kind);
-  record(s,'FOUL',d,{clearChance,severity,reason,advantage:continuing,foulId:f.id},[a.id],contestId);
+  const pending=continuing&&!s.referee.advantage;
+  const decision=pending?'ADVANTAGE_PENDING':s.referee.advantage?'RECALL_PENDING_ADVANTAGE':'WHISTLE_NOW';
+  // Retain FOUL for old readers, with its exact assessment meaning. A second
+  // infringement which recalls an existing advantage has not itself received
+  // a new pending advantage, even when the carrier was still moving.
+  record(s,'FOUL',d,{clearChance,severity,reason,advantage:pending,foulId:f.id},[a.id],contestId);
+  record(s,'FOUL_ASSESSED',d,{foulId:f.id,clearChance,severity,reason,decision,physicalContactId:contestId},[a.id],contestId);
   if(s.referee.advantage){recallAdvantage(s,'Further infringement ended the protected opportunity');punish(s,f);return;}
   if(continuing&&s.ball.live) {
     s.referee.advantage={...f,expiresTick:s.tick+40};

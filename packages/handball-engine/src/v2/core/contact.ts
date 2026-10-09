@@ -44,7 +44,7 @@ export function resolveContacts(s:CoreState) {
     const read=readContact(s,a,d,action.contact.technique,approach,separation);
     const id=contest(s,'CONTACT',a,d,read.severity==='LEGAL'?(approach==='FRONT'?'FRONTAL_CONTACT':'MONITORED'):read.severity,separation,read.severity==='LEGAL'?10:0,action.id);
     action.contestIds.push(id);
-    record(s,'CONTACT_EXECUTED',d,{technique:action.contact.technique,committedApproach:action.contact.approach,approach,separation,carrierAction:a.action?.kind??'NONE',severity:read.severity,reason:read.reason,clearChance:read.clearChance,...read.detail},[a.id],id,action.id);
+    record(s,'CONTACT_EXECUTED',d,{physicalContactId:id,technique:action.contact.technique,committedApproach:action.contact.approach,approach,separation,carrierAction:a.action?.kind??'NONE',severity:read.severity,reason:read.reason,clearChance:read.clearChance,...read.detail},[a.id],id,action.id);
     if(read.severity!=='LEGAL') {foul(s,a,d,read.severity,read.reason,read.clearChance,id);return;}
     // Legal contact does not cancel a committed pass or shot. Frontal trunk
     // containment stops penetration, while control and its handling clock persist.

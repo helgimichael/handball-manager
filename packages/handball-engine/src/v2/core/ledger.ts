@@ -205,6 +205,7 @@ function endingOf(events: readonly CoreEvent[]): { ending: Ending; evidence: str
   let ending: Ending = 'STILL_IN_PROGRESS';
   let evidence = 'no terminal event recorded';
   let airborneShot = false;
+  const actualWhistle=events.some(e=>e.type==='WHISTLE_RESTART');
 
   for (const e of events) {
     switch (e.type) {
@@ -230,10 +231,24 @@ function endingOf(events: readonly CoreEvent[]): { ending: Ending; evidence: str
         break;
       case 'DEFENDER_BEATEN': break;
       case 'FOUL':
-        // A foul BY the defence restarts this same attack; one by the attack
-        // ends it. The engine only judges defensive contact, so a foul here is
-        // always against the defence and is a restart, not an ending.
-        ending = 'DEFENSIVE_FOUL_RESTART'; evidence = `defensive foul (${e.details.severity})`;
+        // Legacy archives have assessments but no explicit whistle. Read only
+        // an actual correlated restart, never a contact allowed to continue.
+        if(!actualWhistle&&e.details.advantage!==true&&events.some(next=>next.type==='RESTART_AWARDED'&&next.tick===e.tick&&
+          (next.details.kind==='FREE_THROW'||next.details.kind==='SEVEN_METRE'))){
+          ending='DEFENSIVE_FOUL_RESTART';evidence=`defensive foul stopped play (${e.details.severity})`;
+        }
+        break;
+      case 'WHISTLE_RESTART':
+        ending='DEFENSIVE_FOUL_RESTART';evidence=`whistle for ${e.details.foulId} (${e.details.kind})`;
+        break;
+      case 'ADVANTAGE_RECALLED':
+        if(!actualWhistle&&events.some(next=>next.type==='RESTART_AWARDED'&&next.tick===e.tick&&
+          (next.details.kind==='FREE_THROW'||next.details.kind==='SEVEN_METRE'))){
+          ending='DEFENSIVE_FOUL_RESTART';evidence=`legacy recalled foul ${e.details.foulId} stopped play`;
+        }
+        break;
+      case 'RESTART_COMPLETED':
+        if(ending==='DEFENSIVE_FOUL_RESTART'){ending='STILL_IN_PROGRESS';evidence='the same attack resumed after the defensive-foul restart';}
         break;
       case 'RESTART_AWARDED': {
         const reason = String(e.details.reason ?? '');
