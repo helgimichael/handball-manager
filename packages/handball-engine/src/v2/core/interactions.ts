@@ -1,7 +1,7 @@
 import { courtPlayers, getPlayer, otherTeam, random, record, uid, type CoreContest, type CorePlayer, type CoreState, type Point } from './state';
 import { clamp, distance, fieldLegal, goal, local, segmentPoint, shootingAngle, shotContext } from './space';
 import { advanceOf, reachOf } from './timing';
-import { acquire, awardRestart, checkpoint, foul, interrupt } from './transitions';
+import { acquire, awardRestart, interrupt } from './transitions';
 import type { ExecutionEffect } from './actions';
 import { restartReady } from './rules';
 import { completeRestart } from './restarts';

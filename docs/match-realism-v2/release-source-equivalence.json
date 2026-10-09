@@ -1,0 +1,15 @@
+{
+  "scope": "Post-sample unused import cleanup and documented compatibility-parameter lint directive. TypeScript ES2022 CommonJS emission with comments removed is byte-identical; no engine behavior was changed.",
+  "files": [
+    {
+      "path": "packages/handball-engine/src/v2/core/defence.ts",
+      "emittedJsIdentical": true,
+      "sha256": "2911b4064134351e88e855d1bf67b56ef0e3cd0885f870b33b36cad26f813e67"
+    },
+    {
+      "path": "packages/handball-engine/src/v2/core/interactions.ts",
+      "emittedJsIdentical": true,
+      "sha256": "41ff8f24ca28e4575081f6c1f653a0b8ad788bd9c80869988669a6d0a9ddfca0"
+    }
+  ]
+}

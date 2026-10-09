@@ -1,0 +1,765 @@
+{
+  "format": 1,
+  "startedAt": "2026-10-09T12:49:09.534Z",
+  "finishedAt": "2026-10-09T12:49:19.087Z",
+  "sampleSize": 2,
+  "sourceHead": "a35b6478884064fd2d9f4ed32ba457a7b9796b34",
+  "engineVersions": [
+    "2.9.0-possession-ecology.2"
+  ],
+  "inputsHash": "37b2f9ee4648ede1a422549fb680bad5c172ebdf70c77f65334d2e6487ab0347",
+  "behaviorRevisions": [
+    "career-realism-v2.1"
+  ],
+  "canonicalPath": "createNewCareerState -> startProductionMatch -> advanceProductionMatch (10000 ticks, stopAtHalf=false) -> resultFromSession",
+  "sampleDesign": "Fixed save seeds; manager clubs rotate through real-world competition clubs; first actual league fixture; actual career snapshot ratings/availability/lineup; CPU coach active for opponent and manual manager defaults unchanged; no live commands in distribution sample.",
+  "definitions": {
+    "possessions": "Canonical ledger attacks (live touched possessions); procedural fragments excluded; per-team counts use ledger ownership.",
+    "duration": "Recorded possession first-to-last event official span; excludes stopped clock. Simulation span also reported. A trace-span observation, not independently reconstructed wall-clock possession duration.",
+    "turnover": "nonShotLoss is the canonical ledger count lost without any shot; turnoverEndings mirrors resultFromSession lossClassOf-ending count and can include a prior shot.",
+    "saves": "SAVE_CAUGHT + SAVE_PARRY; savePctOnTarget = saves/(saves+goals); saveShareAllAttempts also explicit.",
+    "transition": "Shot phase comes from canonical SHOT_RELEASED.details.phase; transitionPossessionsObserved requires a phase-bearing event, so possession transitions without such events are not counted.",
+    "shotDistance": "Euclidean recorded release location to goal centre; local coordinates invert with actual PERIOD_STARTED event and team.",
+    "shooterPosition": "role/shooterPositions is immutable initial MatchPerson position (starter slot or bench original role), consistently paired with baseline. tacticalRole/shooterTacticalPositions additionally follows actual chronological EXCHANGE_COMPLETED role assignments in post-baseline runs.",
+    "originControl": "Post-baseline diagnostics compare each shot release origin with the original same-tick observed shooter frame, allowing 0.9m for the 0.86m physical catch offset plus centimetre quantization. Missing exact-tick frames are explicitly unavailable. Chunk-boundary actual controller snapshots check 0.86m exclusive on-court control; this is not a claim of every-tick invariant coverage.",
+    "scorerConcentration": "Top scorer goal share and Herfindahl sum of squared scorer goal shares, computed per team then averaged.",
+    "references": "Existing core/realism.ts EHF_ELITE wide engineering plausibility bands, not sourced empirical league targets. Allsvenskan sample is not automatically elite European club calibration."
+  },
+  "unavailableMetrics": [
+    "A separate catch-quality rating or intended shot-quality scalar is not recorded in baseline event data; newer release details are retained when present.",
+    "This event-reading benchmark does not count transition attempts lacking a phase-bearing event; observed transition possessions and released transition shots are reported.",
+    "The baseline benchmark did not retain a separate semantic first-threat classifier; first live release latency is retained per possession and post-baseline causal action windows remain available."
+  ],
+  "sourceFingerprintsStableDuringBatch": true,
+  "distributions": {
+    "homeGoals": {
+      "n": 2,
+      "mean": 21.5,
+      "median": 21.5,
+      "p10": 21.1,
+      "p90": 21.9,
+      "min": 21,
+      "max": 22
+    },
+    "awayGoals": {
+      "n": 2,
+      "mean": 23,
+      "median": 23,
+      "p10": 19,
+      "p90": 27,
+      "min": 18,
+      "max": 28
+    },
+    "goals": {
+      "n": 2,
+      "mean": 44.5,
+      "median": 44.5,
+      "p10": 40.1,
+      "p90": 48.9,
+      "min": 39,
+      "max": 50
+    },
+    "margin": {
+      "n": 2,
+      "mean": 4.5,
+      "median": 4.5,
+      "p10": 3.3,
+      "p90": 5.7,
+      "min": 3,
+      "max": 6
+    },
+    "possessions": {
+      "n": 2,
+      "mean": 110,
+      "median": 110,
+      "p10": 106,
+      "p90": 114,
+      "min": 105,
+      "max": 115
+    },
+    "homePossessions": {
+      "n": 2,
+      "mean": 55.5,
+      "median": 55.5,
+      "p10": 53.5,
+      "p90": 57.5,
+      "min": 53,
+      "max": 58
+    },
+    "awayPossessions": {
+      "n": 2,
+      "mean": 54.5,
+      "median": 54.5,
+      "p10": 52.5,
+      "p90": 56.5,
+      "min": 52,
+      "max": 57
+    },
+    "goalsPerPossession": {
+      "n": 2,
+      "mean": 0.4031055900621118,
+      "median": 0.4031055900621118,
+      "p10": 0.3777639751552795,
+      "p90": 0.42844720496894406,
+      "min": 0.37142857142857144,
+      "max": 0.43478260869565216
+    },
+    "meanPossessionOfficialSeconds": {
+      "n": 2,
+      "mean": 32.79503105590062,
+      "median": 32.79503105590062,
+      "p10": 31.60248447204969,
+      "p90": 33.98757763975156,
+      "min": 31.304347826086953,
+      "max": 34.28571428571429
+    },
+    "meanPossessionSimulationSeconds": {
+      "n": 2,
+      "mean": 32.9738612836439,
+      "median": 32.9738612836439,
+      "p10": 31.749902691511384,
+      "p90": 34.19781987577641,
+      "min": 31.443913043478254,
+      "max": 34.50380952380954
+    },
+    "passesAttempted": {
+      "n": 2,
+      "mean": 962,
+      "median": 962,
+      "p10": 936.4,
+      "p90": 987.6,
+      "min": 930,
+      "max": 994
+    },
+    "passesCompleted": {
+      "n": 2,
+      "mean": 910,
+      "median": 910,
+      "p10": 873.2,
+      "p90": 946.8,
+      "min": 864,
+      "max": 956
+    },
+    "passesPerPossession": {
+      "n": 2,
+      "mean": 8.308902691511387,
+      "median": 8.308902691511387,
+      "p10": 7.672215320910973,
+      "p90": 8.945590062111801,
+      "min": 7.51304347826087,
+      "max": 9.104761904761904
+    },
+    "shots": {
+      "n": 2,
+      "mean": 85.5,
+      "median": 85.5,
+      "p10": 85.1,
+      "p90": 85.9,
+      "min": 85,
+      "max": 86
+    },
+    "goalsPerShot": {
+      "n": 2,
+      "mean": 0.520109439124487,
+      "median": 0.520109439124487,
+      "p10": 0.4710807113543092,
+      "p90": 0.5691381668946649,
+      "min": 0.4588235294117647,
+      "max": 0.5813953488372093
+    },
+    "missesOrBlocks": {
+      "n": 2,
+      "mean": 11,
+      "median": 11,
+      "p10": 9.4,
+      "p90": 12.6,
+      "min": 9,
+      "max": 13
+    },
+    "saves": {
+      "n": 2,
+      "mean": 30,
+      "median": 30,
+      "p10": 27.6,
+      "p90": 32.4,
+      "min": 27,
+      "max": 33
+    },
+    "savePctOnTarget": {
+      "n": 2,
+      "mean": 0.40449134199134196,
+      "median": 0.40449134199134196,
+      "p10": 0.3614177489177489,
+      "p90": 0.44756493506493505,
+      "min": 0.35064935064935066,
+      "max": 0.4583333333333333
+    },
+    "saveShareAllAttempts": {
+      "n": 2,
+      "mean": 0.3510943912448701,
+      "median": 0.3510943912448701,
+      "p10": 0.32138166894664844,
+      "p90": 0.38080711354309166,
+      "min": 0.313953488372093,
+      "max": 0.38823529411764707
+    },
+    "nonShotLoss": {
+      "n": 2,
+      "mean": 25.5,
+      "median": 25.5,
+      "p10": 21.1,
+      "p90": 29.9,
+      "min": 20,
+      "max": 31
+    },
+    "turnoverEndings": {
+      "n": 2,
+      "mean": 30,
+      "median": 30,
+      "p10": 26,
+      "p90": 34,
+      "min": 25,
+      "max": 35
+    },
+    "sevenMetres": {
+      "n": 2,
+      "mean": 1,
+      "median": 1,
+      "p10": 1,
+      "p90": 1,
+      "min": 1,
+      "max": 1
+    },
+    "sevenMetreGoals": {
+      "n": 2,
+      "mean": 0,
+      "median": 0,
+      "p10": 0,
+      "p90": 0,
+      "min": 0,
+      "max": 0
+    },
+    "suspensions": {
+      "n": 2,
+      "mean": 1,
+      "median": 1,
+      "p10": 1,
+      "p90": 1,
+      "min": 1,
+      "max": 1
+    },
+    "fouls": {
+      "n": 2,
+      "mean": 100.5,
+      "median": 100.5,
+      "p10": 100.1,
+      "p90": 100.9,
+      "min": 100,
+      "max": 101
+    },
+    "blocks": {
+      "n": 2,
+      "mean": 11,
+      "median": 11,
+      "p10": 9.4,
+      "p90": 12.6,
+      "min": 9,
+      "max": 13
+    },
+    "backcourtShare": {
+      "n": 2,
+      "mean": 0.6138166894664843,
+      "median": 0.6138166894664843,
+      "p10": 0.5839398084815322,
+      "p90": 0.6436935704514364,
+      "min": 0.5764705882352941,
+      "max": 0.6511627906976745
+    },
+    "wingShare": {
+      "n": 2,
+      "mean": 0.070109439124487,
+      "median": 0.070109439124487,
+      "p10": 0.06108071135430917,
+      "p90": 0.07913816689466485,
+      "min": 0.058823529411764705,
+      "max": 0.08139534883720931
+    },
+    "closeShare": {
+      "n": 2,
+      "mean": 0.3160738714090287,
+      "median": 0.3160738714090287,
+      "p10": 0.27716826265389877,
+      "p90": 0.3549794801641587,
+      "min": 0.26744186046511625,
+      "max": 0.36470588235294116
+    },
+    "standingShots": {
+      "n": 2,
+      "mean": 6,
+      "median": 6,
+      "p10": 5.2,
+      "p90": 6.8,
+      "min": 5,
+      "max": 7
+    },
+    "pivotShots": {
+      "n": 2,
+      "mean": 5.5,
+      "median": 5.5,
+      "p10": 5.1,
+      "p90": 5.9,
+      "min": 5,
+      "max": 6
+    },
+    "wingShots": {
+      "n": 2,
+      "mean": 6,
+      "median": 6,
+      "p10": 5.2,
+      "p90": 6.8,
+      "min": 5,
+      "max": 7
+    },
+    "transitionShots": {
+      "n": 2,
+      "mean": 0,
+      "median": 0,
+      "p10": 0,
+      "p90": 0,
+      "min": 0,
+      "max": 0
+    },
+    "transitionGoals": {
+      "n": 2,
+      "mean": 0,
+      "median": 0,
+      "p10": 0,
+      "p90": 0,
+      "min": 0,
+      "max": 0
+    },
+    "transitionShare": {
+      "n": 2,
+      "mean": 0,
+      "median": 0,
+      "p10": 0,
+      "p90": 0,
+      "min": 0,
+      "max": 0
+    },
+    "transitionPossessionsObserved": {
+      "n": 2,
+      "mean": 102.5,
+      "median": 102.5,
+      "p10": 98.9,
+      "p90": 106.1,
+      "min": 98,
+      "max": 107
+    },
+    "meanShotDistance": {
+      "n": 2,
+      "mean": 8.990604198072361,
+      "median": 8.990604198072361,
+      "p10": 8.973572397466153,
+      "p90": 9.007635998678568,
+      "min": 8.969314447314602,
+      "max": 9.011893948830119
+    },
+    "topScorerShare": {
+      "n": 2,
+      "mean": 0.3365800865800866,
+      "median": 0.3365800865800866,
+      "p10": 0.31493506493506496,
+      "p90": 0.3582251082251082,
+      "min": 0.30952380952380953,
+      "max": 0.36363636363636365
+    },
+    "scorerHHI": {
+      "n": 2,
+      "mean": 0.21959181591216223,
+      "median": 0.21959181591216223,
+      "p10": 0.20164071138097112,
+      "p90": 0.23754292044335334,
+      "min": 0.19715293524817334,
+      "max": 0.24203069657615112
+    },
+    "shotOriginControlErrors": {
+      "n": 2,
+      "mean": 0,
+      "median": 0,
+      "p10": 0,
+      "p90": 0,
+      "min": 0,
+      "max": 0
+    },
+    "shotOriginControlUnavailable": {
+      "n": 2,
+      "mean": 0,
+      "median": 0,
+      "p10": 0,
+      "p90": 0,
+      "min": 0,
+      "max": 0
+    },
+    "sampledControlErrors": {
+      "n": 2,
+      "mean": 0,
+      "median": 0,
+      "p10": 0,
+      "p90": 0,
+      "min": 0,
+      "max": 0
+    },
+    "runtimeMs": {
+      "n": 2,
+      "mean": 3413.049,
+      "median": 3413.049,
+      "p10": 3148.1132399999997,
+      "p90": 3677.9847600000003,
+      "min": 3081.8792999999996,
+      "max": 3744.2187000000004
+    },
+    "ticks": {
+      "n": 2,
+      "mean": 72390.5,
+      "median": 72390.5,
+      "p10": 72335.7,
+      "p90": 72445.3,
+      "min": 72322,
+      "max": 72459
+    },
+    "frames": {
+      "n": 2,
+      "mean": 24146.5,
+      "median": 24146.5,
+      "p10": 23882.1,
+      "p90": 24410.9,
+      "min": 23816,
+      "max": 24477
+    },
+    "rngDraws": {
+      "n": 2,
+      "mean": 3092.5,
+      "median": 3092.5,
+      "p10": 3023.3,
+      "p90": 3161.7,
+      "min": 3006,
+      "max": 3179
+    }
+  },
+  "pooled": {
+    "possessionOfficialSeconds": {
+      "n": 220,
+      "mean": 32.727272727272734,
+      "median": 28.475,
+      "p10": 13.285,
+      "p90": 55.904999999999994,
+      "min": 0,
+      "max": 113.4
+    },
+    "passesPerPossession": {
+      "n": 220,
+      "mean": 8.272727272727273,
+      "median": 6,
+      "p10": 2,
+      "p90": 18,
+      "min": 0,
+      "max": 35
+    },
+    "shotDistanceMetres": {
+      "n": 171,
+      "mean": 8.990728699538783,
+      "median": 9.028283064234985,
+      "p10": 7.425698893344477,
+      "p90": 10.49592111028583,
+      "min": 6.189176243588805,
+      "max": 11.753650425433616
+    },
+    "shotCategories": {
+      "BACKCOURT_JUMP": 93,
+      "BREAKTHROUGH": 41,
+      "WING": 12,
+      "PIVOT": 11,
+      "SEVEN_METRE": 2,
+      "STANDING": 12
+    },
+    "shooterPositions": {
+      "LB": 19,
+      "CB": 72,
+      "RW": 18,
+      "LW": 21,
+      "P": 13,
+      "RB": 28
+    },
+    "shooterTacticalPositions": {
+      "LB": 19,
+      "CB": 72,
+      "RW": 20,
+      "LW": 23,
+      "P": 11,
+      "RB": 26
+    }
+  },
+  "outliers": {
+    "highScoring": [
+      {
+        "index": 0,
+        "canonicalSeed": 1765851951,
+        "score": "22-28",
+        "value": 50
+      },
+      {
+        "index": 1,
+        "canonicalSeed": 299119051,
+        "score": "21-18",
+        "value": 39
+      }
+    ],
+    "lowScoring": [
+      {
+        "index": 1,
+        "canonicalSeed": 299119051,
+        "score": "21-18",
+        "value": 39
+      },
+      {
+        "index": 0,
+        "canonicalSeed": 1765851951,
+        "score": "22-28",
+        "value": 50
+      }
+    ],
+    "highPossessions": [
+      {
+        "index": 0,
+        "canonicalSeed": 1765851951,
+        "score": "22-28",
+        "value": 115
+      },
+      {
+        "index": 1,
+        "canonicalSeed": 299119051,
+        "score": "21-18",
+        "value": 105
+      }
+    ],
+    "highBackcourtShare": [
+      {
+        "index": 0,
+        "canonicalSeed": 1765851951,
+        "score": "22-28",
+        "value": 0.6511627906976745
+      },
+      {
+        "index": 1,
+        "canonicalSeed": 299119051,
+        "score": "21-18",
+        "value": 0.5764705882352941
+      }
+    ],
+    "highScorerConcentration": [
+      {
+        "index": 0,
+        "canonicalSeed": 1765851951,
+        "score": "22-28",
+        "value": 0.36363636363636365
+      },
+      {
+        "index": 1,
+        "canonicalSeed": 299119051,
+        "score": "21-18",
+        "value": 0.30952380952380953
+      }
+    ],
+    "closest": [
+      {
+        "index": 1,
+        "canonicalSeed": 299119051,
+        "score": "21-18",
+        "value": 3
+      },
+      {
+        "index": 0,
+        "canonicalSeed": 1765851951,
+        "score": "22-28",
+        "value": 6
+      }
+    ]
+  },
+  "referenceComparison": [
+    {
+      "metric": "goals",
+      "band": {
+        "min": 42,
+        "max": 76
+      },
+      "mean": 44.5,
+      "outsideSeeds": [
+        {
+          "index": 1,
+          "canonicalSeed": 299119051,
+          "value": 39
+        }
+      ]
+    },
+    {
+      "metric": "shots",
+      "band": {
+        "min": 88,
+        "max": 150
+      },
+      "mean": 85.5,
+      "outsideSeeds": [
+        {
+          "index": 0,
+          "canonicalSeed": 1765851951,
+          "value": 86
+        },
+        {
+          "index": 1,
+          "canonicalSeed": 299119051,
+          "value": 85
+        }
+      ]
+    },
+    {
+      "metric": "possessions",
+      "band": {
+        "min": 84,
+        "max": 140
+      },
+      "mean": 110,
+      "outsideSeeds": []
+    },
+    {
+      "metric": "goalsPerShot",
+      "band": {
+        "min": 0.42,
+        "max": 0.68
+      },
+      "mean": 0.520109439124487,
+      "outsideSeeds": []
+    },
+    {
+      "metric": "nonShotLoss",
+      "band": {
+        "min": 14,
+        "max": 46
+      },
+      "mean": 25.5,
+      "outsideSeeds": []
+    },
+    {
+      "metric": "fouls",
+      "band": {
+        "min": 20,
+        "max": 70
+      },
+      "mean": 100.5,
+      "outsideSeeds": [
+        {
+          "index": 0,
+          "canonicalSeed": 1765851951,
+          "value": 100
+        },
+        {
+          "index": 1,
+          "canonicalSeed": 299119051,
+          "value": 101
+        }
+      ]
+    },
+    {
+      "metric": "suspensions",
+      "band": {
+        "min": 0,
+        "max": 10
+      },
+      "mean": 1,
+      "outsideSeeds": []
+    },
+    {
+      "metric": "sevenMetres",
+      "band": {
+        "min": 0,
+        "max": 14
+      },
+      "mean": 1,
+      "outsideSeeds": []
+    },
+    {
+      "metric": "blocks",
+      "band": {
+        "min": 2,
+        "max": 28
+      },
+      "mean": 11,
+      "outsideSeeds": []
+    },
+    {
+      "metric": "backcourtShare",
+      "band": {
+        "min": 0.18,
+        "max": 0.55
+      },
+      "mean": 0.6138166894664843,
+      "outsideSeeds": [
+        {
+          "index": 0,
+          "canonicalSeed": 1765851951,
+          "value": 0.6511627906976745
+        },
+        {
+          "index": 1,
+          "canonicalSeed": 299119051,
+          "value": 0.5764705882352941
+        }
+      ]
+    },
+    {
+      "metric": "wingShare",
+      "band": {
+        "min": 0.08,
+        "max": 0.34
+      },
+      "mean": 0.070109439124487,
+      "outsideSeeds": [
+        {
+          "index": 1,
+          "canonicalSeed": 299119051,
+          "value": 0.058823529411764705
+        }
+      ]
+    },
+    {
+      "metric": "closeShare",
+      "band": {
+        "min": 0.12,
+        "max": 0.55
+      },
+      "mean": 0.3160738714090287,
+      "outsideSeeds": []
+    },
+    {
+      "metric": "transitionShare",
+      "band": {
+        "min": 0.02,
+        "max": 0.35
+      },
+      "mean": 0,
+      "outsideSeeds": [
+        {
+          "index": 0,
+          "canonicalSeed": 1765851951,
+          "value": 0
+        },
+        {
+          "index": 1,
+          "canonicalSeed": 299119051,
+          "value": 0
+        }
+      ]
+    }
+  ],
+  "totalRuntimeMs": 9525.6647
+}

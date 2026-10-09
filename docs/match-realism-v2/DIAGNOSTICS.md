@@ -1,5 +1,7 @@
 # Canonical career diagnostics
 
+Final delivery evidence is in `DELIVERY.md` and `verification/`. The fifty-match sample and two independent repeats used fixed source bytes. The later unused-import/compatibility-comment lint cleanup has byte-identical emitted JavaScript, recorded in `release-source-equivalence.json`; do not overwrite historical sample fingerprints to conceal this source-only change. Full truth hashes remain the canonical result/continuation proof.
+
 The benchmark calls the actual player-match path: `createNewCareerState` with the repository's real squad/rating snapshots, then `startProductionMatch`, repeated `advanceProductionMatch`, and `resultFromSession`. It does not call the legacy QA `simulateMatch`, the fast background engine, the synthetic V2 `runMatch` or Motion. Render frames are captured by production itself.
 
 Baseline and after use the same 50 fixed save seeds and first actual league fixture for rotating Allsvenskan manager clubs. Seed recipes, actual canonical numerical seeds, fixture identities, selected player IDs, initial profiles/energy, recorded shots/locations and canonical ledger possession endings are retained. CPU substitution/timeout logic remains the actual opponent policy; the manager starts with the unchanged normal default plan. These are independent full-match inputs, not a career-season longitudinal sample.

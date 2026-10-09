@@ -79,6 +79,7 @@ function runOne(config: typeof seeds[number]) {
   career = startProductionMatch(career, fixture.id);
   if (!career.productionMatch) throw new Error('Canonical start refused');
   const initial = career.productionMatch;
+  const initialSessionHash = hash(JSON.stringify({ fixture: initial.fixture, core: initial.core, people: initial.people }));
   const matchStart = performance.now();
   let calls = 0;
   const diagnosticSnapshots: ReturnType<typeof diagnosticSnapshot>[] = [diagnosticSnapshot(initial.core)];
@@ -196,6 +197,7 @@ function runOne(config: typeof seeds[number]) {
     shotCategories: freq(shots.map(s => s.category)), shooterPositions: freq(shots.map(s => s.role)), shooterTacticalPositions: freq(shots.map(s => s.tacticalRole)), shots, playerShotDistribution: freq(shots.map(s => s.playerId ?? 'UNKNOWN')), concentration: { HOME: homeConcentration, AWAY: awayConcentration },
     eventCounts: freq(core.events.map(e => e.type)), causalityEpisodes, longestAttackTraces, diagnosticSnapshots, shotOriginControl, controlSamples, finalLoad: core.players.map(p => ({ id: p.id, energy: p.condition.energy, courtMs: p.condition.courtMs, distance: p.condition.distanceMetres })),
     truthHash: hash(JSON.stringify({ score: core.score, events: core.events, rng: core.rng, frames: session.frames })),
+    initialSessionHash, finalCoreHash: hash(JSON.stringify(core)), resultHash: hash(JSON.stringify(result)),
   };
 }
 

@@ -1,0 +1,2365 @@
+{
+  "status": "PASSED",
+  "url": "http://127.0.0.1:3008",
+  "startedAt": "2026-10-09T12:53:23.064Z",
+  "errors": [],
+  "observations": [
+    {
+      "kind": "layout",
+      "label": "preview",
+      "viewport": 1920,
+      "width": 1920,
+      "scrollWidth": 1920,
+      "height": 1080
+    },
+    {
+      "kind": "max-scroll",
+      "label": "preview",
+      "viewport": 1920,
+      "scrollY": 0,
+      "maximum": 0
+    },
+    {
+      "kind": "layout",
+      "label": "preview",
+      "viewport": 2560,
+      "width": 2560,
+      "scrollWidth": 2560,
+      "height": 1080
+    },
+    {
+      "kind": "max-scroll",
+      "label": "preview",
+      "viewport": 2560,
+      "scrollY": 0,
+      "maximum": 0
+    },
+    {
+      "kind": "match",
+      "fixtureId": "cup-swe-2-r1-4",
+      "matchUrl": "http://127.0.0.1:3008/career/match-day/cup-swe-2-r1-4"
+    },
+    {
+      "kind": "layout",
+      "label": "kickoff",
+      "viewport": 1920,
+      "width": 1920,
+      "scrollWidth": 1920,
+      "height": 1080
+    },
+    {
+      "kind": "max-scroll",
+      "label": "kickoff",
+      "viewport": 1920,
+      "scrollY": 0,
+      "maximum": 0
+    },
+    {
+      "kind": "layout",
+      "label": "kickoff",
+      "viewport": 2560,
+      "width": 2560,
+      "scrollWidth": 2560,
+      "height": 1080
+    },
+    {
+      "kind": "max-scroll",
+      "label": "kickoff",
+      "viewport": 2560,
+      "scrollY": 0,
+      "maximum": 0
+    },
+    {
+      "kind": "rendered-2d",
+      "label": "kickoff",
+      "wallTime": "2026-10-09T12:53:42.119Z",
+      "clock": "MATCHCENTRAL\n0:00 · Första halvlek",
+      "score": "0:0",
+      "players": [
+        {
+          "name": "Simon Larsson",
+          "transform": "translate(150 1000)"
+        },
+        {
+          "name": "Lukas Runge",
+          "transform": "translate(2000 1000)"
+        },
+        {
+          "name": "Alfred Tilly",
+          "transform": "translate(1500 500)"
+        },
+        {
+          "name": "Alvin Sirén",
+          "transform": "translate(1500 1400)"
+        },
+        {
+          "name": "Filip Melin",
+          "transform": "translate(1300 1100)"
+        },
+        {
+          "name": "Oscar Lindell",
+          "transform": "translate(1500 1800)"
+        },
+        {
+          "name": "Gustav Simonsson",
+          "transform": "translate(1500 200)"
+        },
+        {
+          "name": "Olle Söderqvist",
+          "transform": "translate(3850 1000)"
+        },
+        {
+          "name": "Joakim Lindahl",
+          "transform": "translate(2500 1000)"
+        },
+        {
+          "name": "Mattias Windahl",
+          "transform": "translate(2500 500)"
+        },
+        {
+          "name": "David Blazevic",
+          "transform": "translate(2500 1400)"
+        },
+        {
+          "name": "Jakob Magnusson",
+          "transform": "translate(2700 1100)"
+        },
+        {
+          "name": "Edward Berglund",
+          "transform": "translate(2500 200)"
+        },
+        {
+          "name": "Simon Axelsson",
+          "transform": "translate(2500 1800)"
+        }
+      ],
+      "ball": {
+        "x": "2000",
+        "y": "1000"
+      }
+    },
+    {
+      "kind": "rendered-2d",
+      "label": "first-half-1x-1",
+      "wallTime": "2026-10-09T12:53:43.207Z",
+      "clock": "MATCHCENTRAL\n0:00 · Första halvlek",
+      "score": "0:0",
+      "players": [
+        {
+          "name": "Simon Larsson",
+          "transform": "translate(150 1000)"
+        },
+        {
+          "name": "Lukas Runge",
+          "transform": "translate(2000 1000)"
+        },
+        {
+          "name": "Alfred Tilly",
+          "transform": "translate(1500 500)"
+        },
+        {
+          "name": "Alvin Sirén",
+          "transform": "translate(1500 1400)"
+        },
+        {
+          "name": "Filip Melin",
+          "transform": "translate(1300 1100)"
+        },
+        {
+          "name": "Oscar Lindell",
+          "transform": "translate(1500 1800)"
+        },
+        {
+          "name": "Gustav Simonsson",
+          "transform": "translate(1500 200)"
+        },
+        {
+          "name": "Olle Söderqvist",
+          "transform": "translate(3850 1000)"
+        },
+        {
+          "name": "Joakim Lindahl",
+          "transform": "translate(2500 908)"
+        },
+        {
+          "name": "Mattias Windahl",
+          "transform": "translate(2500 500)"
+        },
+        {
+          "name": "David Blazevic",
+          "transform": "translate(2500 1400)"
+        },
+        {
+          "name": "Jakob Magnusson",
+          "transform": "translate(2700 1100)"
+        },
+        {
+          "name": "Edward Berglund",
+          "transform": "translate(2500 200)"
+        },
+        {
+          "name": "Simon Axelsson",
+          "transform": "translate(2500 1800)"
+        }
+      ],
+      "ball": {
+        "x": "2000",
+        "y": "1000"
+      }
+    },
+    {
+      "kind": "rendered-2d",
+      "label": "first-half-1x-2",
+      "wallTime": "2026-10-09T12:53:45.316Z",
+      "clock": "MATCHCENTRAL\n0:02 · Första halvlek",
+      "score": "0:0",
+      "players": [
+        {
+          "name": "Simon Larsson",
+          "transform": "translate(141 1015)"
+        },
+        {
+          "name": "Lukas Runge",
+          "transform": "translate(2000 1000)"
+        },
+        {
+          "name": "Alfred Tilly",
+          "transform": "translate(1500 500)"
+        },
+        {
+          "name": "Alvin Sirén",
+          "transform": "translate(1570 1400)"
+        },
+        {
+          "name": "Filip Melin",
+          "transform": "translate(1322 1057)"
+        },
+        {
+          "name": "Oscar Lindell",
+          "transform": "translate(1974 1866)"
+        },
+        {
+          "name": "Gustav Simonsson",
+          "transform": "translate(1900 142)"
+        },
+        {
+          "name": "Olle Söderqvist",
+          "transform": "translate(3850 1000)"
+        },
+        {
+          "name": "Joakim Lindahl",
+          "transform": "translate(2942 976)"
+        },
+        {
+          "name": "Mattias Windahl",
+          "transform": "translate(2963 630)"
+        },
+        {
+          "name": "David Blazevic",
+          "transform": "translate(2944 1499)"
+        },
+        {
+          "name": "Jakob Magnusson",
+          "transform": "translate(3147 1228)"
+        },
+        {
+          "name": "Edward Berglund",
+          "transform": "translate(2965 295)"
+        },
+        {
+          "name": "Simon Axelsson",
+          "transform": "translate(3012 1853)"
+        }
+      ],
+      "ball": {
+        "x": "1592",
+        "y": "1381"
+      }
+    },
+    {
+      "kind": "rendered-2d",
+      "label": "first-half-1x-3",
+      "wallTime": "2026-10-09T12:53:47.430Z",
+      "clock": "MATCHCENTRAL\n0:04 · Första halvlek",
+      "score": "0:0",
+      "players": [
+        {
+          "name": "Simon Larsson",
+          "transform": "translate(141 1015)"
+        },
+        {
+          "name": "Lukas Runge",
+          "transform": "translate(2089 1048)"
+        },
+        {
+          "name": "Alfred Tilly",
+          "transform": "translate(1500 500)"
+        },
+        {
+          "name": "Alvin Sirén",
+          "transform": "translate(2198 1400)"
+        },
+        {
+          "name": "Filip Melin",
+          "transform": "translate(1322 1057)"
+        },
+        {
+          "name": "Oscar Lindell",
+          "transform": "translate(3191 1921)"
+        },
+        {
+          "name": "Gustav Simonsson",
+          "transform": "translate(2946 84)"
+        },
+        {
+          "name": "Olle Söderqvist",
+          "transform": "translate(3858 1017)"
+        },
+        {
+          "name": "Joakim Lindahl",
+          "transform": "translate(3325 1036)"
+        },
+        {
+          "name": "Mattias Windahl",
+          "transform": "translate(3312 657)"
+        },
+        {
+          "name": "David Blazevic",
+          "transform": "translate(2960 1357)"
+        },
+        {
+          "name": "Jakob Magnusson",
+          "transform": "translate(2999 1212)"
+        },
+        {
+          "name": "Edward Berglund",
+          "transform": "translate(3259 287)"
+        },
+        {
+          "name": "Simon Axelsson",
+          "transform": "translate(3170 1696)"
+        }
+      ],
+      "ball": {
+        "x": "2219",
+        "y": "1381"
+      }
+    },
+    {
+      "kind": "visible-movement",
+      "label": "first-half-1x",
+      "speed": 1,
+      "moved": true,
+      "minimumObservationSeconds": 6
+    },
+    {
+      "kind": "layout",
+      "label": "first-half-1x-paused",
+      "viewport": 1920,
+      "width": 1920,
+      "scrollWidth": 1920,
+      "height": 1080
+    },
+    {
+      "kind": "max-scroll",
+      "label": "first-half-1x-paused",
+      "viewport": 1920,
+      "scrollY": 0,
+      "maximum": 0
+    },
+    {
+      "kind": "layout",
+      "label": "first-half-1x-paused",
+      "viewport": 2560,
+      "width": 2560,
+      "scrollWidth": 2560,
+      "height": 1080
+    },
+    {
+      "kind": "max-scroll",
+      "label": "first-half-1x-paused",
+      "viewport": 2560,
+      "scrollY": 0,
+      "maximum": 0
+    },
+    {
+      "kind": "rendered-2d",
+      "label": "first-half-4x-1",
+      "wallTime": "2026-10-09T12:53:49.946Z",
+      "clock": "MATCHCENTRAL\n0:08 · Första halvlek",
+      "score": "0:0",
+      "players": [
+        {
+          "name": "Simon Larsson",
+          "transform": "translate(141 1015)"
+        },
+        {
+          "name": "Lukas Runge",
+          "transform": "translate(3042 1604)"
+        },
+        {
+          "name": "Alfred Tilly",
+          "transform": "translate(2336 500)"
+        },
+        {
+          "name": "Alvin Sirén",
+          "transform": "translate(2577 1173)"
+        },
+        {
+          "name": "Filip Melin",
+          "transform": "translate(2341 1084)"
+        },
+        {
+          "name": "Oscar Lindell",
+          "transform": "translate(3823 1931)"
+        },
+        {
+          "name": "Gustav Simonsson",
+          "transform": "translate(3830 68)"
+        },
+        {
+          "name": "Olle Söderqvist",
+          "transform": "translate(3860 1046)"
+        },
+        {
+          "name": "Joakim Lindahl",
+          "transform": "translate(3325 1067)"
+        },
+        {
+          "name": "Mattias Windahl",
+          "transform": "translate(3325 669)"
+        },
+        {
+          "name": "David Blazevic",
+          "transform": "translate(3215 1621)"
+        },
+        {
+          "name": "Jakob Magnusson",
+          "transform": "translate(2419 1125)"
+        },
+        {
+          "name": "Edward Berglund",
+          "transform": "translate(3834 230)"
+        },
+        {
+          "name": "Simon Axelsson",
+          "transform": "translate(2908 1545)"
+        }
+      ],
+      "ball": {
+        "x": "3022",
+        "y": "1592"
+      }
+    },
+    {
+      "kind": "rendered-2d",
+      "label": "first-half-4x-2",
+      "wallTime": "2026-10-09T12:53:52.036Z",
+      "clock": "MATCHCENTRAL\n0:15 · Första halvlek",
+      "score": "0:0",
+      "players": [
+        {
+          "name": "Simon Larsson",
+          "transform": "translate(141 1015)"
+        },
+        {
+          "name": "Lukas Runge",
+          "transform": "translate(2852 1042)"
+        },
+        {
+          "name": "Alfred Tilly",
+          "transform": "translate(3021 718)"
+        },
+        {
+          "name": "Alvin Sirén",
+          "transform": "translate(2916 1392)"
+        },
+        {
+          "name": "Filip Melin",
+          "transform": "translate(3272 1299)"
+        },
+        {
+          "name": "Oscar Lindell",
+          "transform": "translate(3794 1925)"
+        },
+        {
+          "name": "Gustav Simonsson",
+          "transform": "translate(3830 68)"
+        },
+        {
+          "name": "Olle Söderqvist",
+          "transform": "translate(3860 1019)"
+        },
+        {
+          "name": "Joakim Lindahl",
+          "transform": "translate(3325 1032)"
+        },
+        {
+          "name": "Mattias Windahl",
+          "transform": "translate(3325 732)"
+        },
+        {
+          "name": "David Blazevic",
+          "transform": "translate(2995 1315)"
+        },
+        {
+          "name": "Jakob Magnusson",
+          "transform": "translate(3192 1242)"
+        },
+        {
+          "name": "Edward Berglund",
+          "transform": "translate(3834 230)"
+        },
+        {
+          "name": "Simon Axelsson",
+          "transform": "translate(3422 1703)"
+        }
+      ],
+      "ball": {
+        "x": "2944",
+        "y": "1364"
+      }
+    },
+    {
+      "kind": "rendered-2d",
+      "label": "first-half-4x-3",
+      "wallTime": "2026-10-09T12:53:54.138Z",
+      "clock": "MATCHCENTRAL\n0:22 · Första halvlek",
+      "score": "0:0",
+      "players": [
+        {
+          "name": "Simon Larsson",
+          "transform": "translate(149 1002)"
+        },
+        {
+          "name": "Lukas Runge",
+          "transform": "translate(2903 1078)"
+        },
+        {
+          "name": "Alfred Tilly",
+          "transform": "translate(3040 512)"
+        },
+        {
+          "name": "Alvin Sirén",
+          "transform": "translate(3040 1491)"
+        },
+        {
+          "name": "Filip Melin",
+          "transform": "translate(2900 1149)"
+        },
+        {
+          "name": "Oscar Lindell",
+          "transform": "translate(3470 1932)"
+        },
+        {
+          "name": "Gustav Simonsson",
+          "transform": "translate(3497 68)"
+        },
+        {
+          "name": "Olle Söderqvist",
+          "transform": "translate(3850 1000)"
+        },
+        {
+          "name": "Joakim Lindahl",
+          "transform": "translate(3250 803)"
+        },
+        {
+          "name": "Mattias Windahl",
+          "transform": "translate(3257 555)"
+        },
+        {
+          "name": "David Blazevic",
+          "transform": "translate(3250 1448)"
+        },
+        {
+          "name": "Jakob Magnusson",
+          "transform": "translate(3277 1099)"
+        },
+        {
+          "name": "Edward Berglund",
+          "transform": "translate(3391 245)"
+        },
+        {
+          "name": "Simon Axelsson",
+          "transform": "translate(3378 1755)"
+        }
+      ],
+      "ball": {
+        "x": "2882",
+        "y": "1101"
+      }
+    },
+    {
+      "kind": "visible-movement",
+      "label": "first-half-4x",
+      "speed": 4,
+      "moved": true,
+      "minimumObservationSeconds": 6
+    },
+    {
+      "kind": "layout",
+      "label": "first-half-4x-paused",
+      "viewport": 1920,
+      "width": 1920,
+      "scrollWidth": 1920,
+      "height": 1080
+    },
+    {
+      "kind": "max-scroll",
+      "label": "first-half-4x-paused",
+      "viewport": 1920,
+      "scrollY": 0,
+      "maximum": 0
+    },
+    {
+      "kind": "layout",
+      "label": "first-half-4x-paused",
+      "viewport": 2560,
+      "width": 2560,
+      "scrollWidth": 2560,
+      "height": 1080
+    },
+    {
+      "kind": "max-scroll",
+      "label": "first-half-4x-paused",
+      "viewport": 2560,
+      "scrollY": 0,
+      "maximum": 0
+    },
+    {
+      "kind": "rendered-2d",
+      "label": "first-half-16x-1",
+      "wallTime": "2026-10-09T12:53:56.722Z",
+      "clock": "MATCHCENTRAL\n0:40 · Första halvlek",
+      "score": "0:0",
+      "players": [
+        {
+          "name": "Simon Larsson",
+          "transform": "translate(134 1042)"
+        },
+        {
+          "name": "Lukas Runge",
+          "transform": "translate(702 1063)"
+        },
+        {
+          "name": "Alfred Tilly",
+          "transform": "translate(677 753)"
+        },
+        {
+          "name": "Alvin Sirén",
+          "transform": "translate(1458 1766)"
+        },
+        {
+          "name": "Filip Melin",
+          "transform": "translate(704 1315)"
+        },
+        {
+          "name": "Oscar Lindell",
+          "transform": "translate(1320 1813)"
+        },
+        {
+          "name": "Gustav Simonsson",
+          "transform": "translate(803 359)"
+        },
+        {
+          "name": "Olle Söderqvist",
+          "transform": "translate(3861 1064)"
+        },
+        {
+          "name": "Joakim Lindahl",
+          "transform": "translate(1807 1084)"
+        },
+        {
+          "name": "Mattias Windahl",
+          "transform": "translate(2101 513)"
+        },
+        {
+          "name": "David Blazevic",
+          "transform": "translate(1753 1498)"
+        },
+        {
+          "name": "Jakob Magnusson",
+          "transform": "translate(1717 1088)"
+        },
+        {
+          "name": "Edward Berglund",
+          "transform": "translate(337 70)"
+        },
+        {
+          "name": "Simon Axelsson",
+          "transform": "translate(1387 1932)"
+        }
+      ],
+      "ball": {
+        "x": "1407",
+        "y": "1896"
+      }
+    },
+    {
+      "kind": "rendered-2d",
+      "label": "first-half-16x-2",
+      "wallTime": "2026-10-09T12:53:58.793Z",
+      "clock": "MATCHCENTRAL\n1:07 · Första halvlek",
+      "score": "0:0",
+      "players": [
+        {
+          "name": "Simon Larsson",
+          "transform": "translate(134 966)"
+        },
+        {
+          "name": "Lukas Runge",
+          "transform": "translate(679 737)"
+        },
+        {
+          "name": "Alfred Tilly",
+          "transform": "translate(998 618)"
+        },
+        {
+          "name": "Alvin Sirén",
+          "transform": "translate(693 1235)"
+        },
+        {
+          "name": "Filip Melin",
+          "transform": "translate(703 1037)"
+        },
+        {
+          "name": "Oscar Lindell",
+          "transform": "translate(167 1772)"
+        },
+        {
+          "name": "Gustav Simonsson",
+          "transform": "translate(588 203)"
+        },
+        {
+          "name": "Olle Söderqvist",
+          "transform": "translate(3850 1000)"
+        },
+        {
+          "name": "Joakim Lindahl",
+          "transform": "translate(1131 1092)"
+        },
+        {
+          "name": "Mattias Windahl",
+          "transform": "translate(1076 565)"
+        },
+        {
+          "name": "David Blazevic",
+          "transform": "translate(1078 1579)"
+        },
+        {
+          "name": "Jakob Magnusson",
+          "transform": "translate(650 1271)"
+        },
+        {
+          "name": "Edward Berglund",
+          "transform": "translate(157 70)"
+        },
+        {
+          "name": "Simon Axelsson",
+          "transform": "translate(169 1932)"
+        }
+      ],
+      "ball": {
+        "x": "1069",
+        "y": "622"
+      }
+    },
+    {
+      "kind": "rendered-2d",
+      "label": "first-half-16x-3",
+      "wallTime": "2026-10-09T12:54:00.897Z",
+      "clock": "MATCHCENTRAL\n1:36 · Första halvlek",
+      "score": "0:0",
+      "players": [
+        {
+          "name": "Simon Larsson",
+          "transform": "translate(148 1000)"
+        },
+        {
+          "name": "Lukas Runge",
+          "transform": "translate(2524 1001)"
+        },
+        {
+          "name": "Alfred Tilly",
+          "transform": "translate(2902 736)"
+        },
+        {
+          "name": "Alvin Sirén",
+          "transform": "translate(3039 1491)"
+        },
+        {
+          "name": "Filip Melin",
+          "transform": "translate(2747 947)"
+        },
+        {
+          "name": "Oscar Lindell",
+          "transform": "translate(3438 1896)"
+        },
+        {
+          "name": "Gustav Simonsson",
+          "transform": "translate(3449 68)"
+        },
+        {
+          "name": "Olle Söderqvist",
+          "transform": "translate(3850 1000)"
+        },
+        {
+          "name": "Joakim Lindahl",
+          "transform": "translate(3276 797)"
+        },
+        {
+          "name": "Mattias Windahl",
+          "transform": "translate(3250 550)"
+        },
+        {
+          "name": "David Blazevic",
+          "transform": "translate(3251 1449)"
+        },
+        {
+          "name": "Jakob Magnusson",
+          "transform": "translate(3250 1100)"
+        },
+        {
+          "name": "Edward Berglund",
+          "transform": "translate(3260 249)"
+        },
+        {
+          "name": "Simon Axelsson",
+          "transform": "translate(3251 1746)"
+        }
+      ],
+      "ball": {
+        "x": "2902",
+        "y": "740"
+      }
+    },
+    {
+      "kind": "visible-movement",
+      "label": "first-half-16x",
+      "speed": 16,
+      "moved": true,
+      "minimumObservationSeconds": 6
+    },
+    {
+      "kind": "layout",
+      "label": "first-half-16x-paused",
+      "viewport": 1920,
+      "width": 1920,
+      "scrollWidth": 1920,
+      "height": 1080
+    },
+    {
+      "kind": "max-scroll",
+      "label": "first-half-16x-paused",
+      "viewport": 1920,
+      "scrollY": 0,
+      "maximum": 0
+    },
+    {
+      "kind": "layout",
+      "label": "first-half-16x-paused",
+      "viewport": 2560,
+      "width": 2560,
+      "scrollWidth": 2560,
+      "height": 1080
+    },
+    {
+      "kind": "max-scroll",
+      "label": "first-half-16x-paused",
+      "viewport": 2560,
+      "scrollY": 0,
+      "maximum": 0
+    },
+    {
+      "kind": "substitution-request",
+      "outName": "Olle Söderqvist",
+      "inName": "Elliot Hövre Björck"
+    },
+    {
+      "kind": "layout",
+      "label": "substitution-requested",
+      "viewport": 1920,
+      "width": 1920,
+      "scrollWidth": 1920,
+      "height": 1080
+    },
+    {
+      "kind": "max-scroll",
+      "label": "substitution-requested",
+      "viewport": 1920,
+      "scrollY": 0,
+      "maximum": 0
+    },
+    {
+      "kind": "layout",
+      "label": "substitution-requested",
+      "viewport": 2560,
+      "width": 2560,
+      "scrollWidth": 2560,
+      "height": 1080
+    },
+    {
+      "kind": "max-scroll",
+      "label": "substitution-requested",
+      "viewport": 2560,
+      "scrollY": 0,
+      "maximum": 0
+    },
+    {
+      "kind": "rendered-2d",
+      "label": "substitution-admitted",
+      "wallTime": "2026-10-09T12:54:04.370Z",
+      "clock": "MATCHCENTRAL\n2:01 · Första halvlek",
+      "score": "0:0",
+      "players": [
+        {
+          "name": "Simon Larsson",
+          "transform": "translate(150 999)"
+        },
+        {
+          "name": "Lukas Runge",
+          "transform": "translate(1052 780)"
+        },
+        {
+          "name": "Alfred Tilly",
+          "transform": "translate(767 416)"
+        },
+        {
+          "name": "Alvin Sirén",
+          "transform": "translate(736 1422)"
+        },
+        {
+          "name": "Filip Melin",
+          "transform": "translate(746 1095)"
+        },
+        {
+          "name": "Oscar Lindell",
+          "transform": "translate(316 1764)"
+        },
+        {
+          "name": "Gustav Simonsson",
+          "transform": "translate(1081 268)"
+        },
+        {
+          "name": "Joakim Lindahl",
+          "transform": "translate(1085 1080)"
+        },
+        {
+          "name": "Mattias Windahl",
+          "transform": "translate(1195 1380)"
+        },
+        {
+          "name": "David Blazevic",
+          "transform": "translate(987 1571)"
+        },
+        {
+          "name": "Jakob Magnusson",
+          "transform": "translate(845 877)"
+        },
+        {
+          "name": "Edward Berglund",
+          "transform": "translate(1014 277)"
+        },
+        {
+          "name": "Simon Axelsson",
+          "transform": "translate(332 1932)"
+        },
+        {
+          "name": "Elliot Hövre Björck",
+          "transform": "translate(3850 1000)"
+        }
+      ],
+      "ball": {
+        "x": "1057",
+        "y": "319"
+      }
+    },
+    {
+      "kind": "substitution-admitted",
+      "outName": "Olle Söderqvist",
+      "inName": "Elliot Hövre Björck"
+    },
+    {
+      "kind": "layout",
+      "label": "substitution-admitted",
+      "viewport": 1920,
+      "width": 1920,
+      "scrollWidth": 1920,
+      "height": 1080
+    },
+    {
+      "kind": "max-scroll",
+      "label": "substitution-admitted",
+      "viewport": 1920,
+      "scrollY": 0,
+      "maximum": 0
+    },
+    {
+      "kind": "layout",
+      "label": "substitution-admitted",
+      "viewport": 2560,
+      "width": 2560,
+      "scrollWidth": 2560,
+      "height": 1080
+    },
+    {
+      "kind": "max-scroll",
+      "label": "substitution-admitted",
+      "viewport": 2560,
+      "scrollY": 0,
+      "maximum": 0
+    },
+    {
+      "kind": "layout",
+      "label": "timeout",
+      "viewport": 1920,
+      "width": 1920,
+      "scrollWidth": 1920,
+      "height": 1080
+    },
+    {
+      "kind": "max-scroll",
+      "label": "timeout",
+      "viewport": 1920,
+      "scrollY": 0,
+      "maximum": 0
+    },
+    {
+      "kind": "layout",
+      "label": "timeout",
+      "viewport": 2560,
+      "width": 2560,
+      "scrollWidth": 2560,
+      "height": 1080
+    },
+    {
+      "kind": "max-scroll",
+      "label": "timeout",
+      "viewport": 2560,
+      "scrollY": 0,
+      "maximum": 0
+    },
+    {
+      "kind": "saved-live",
+      "saveId": "save-29149f13-899b-4d8a-a851-3a56df5ae205",
+      "saveSeed": "save-29149f13-899b-4d8a-a851-3a56df5ae205",
+      "fixtureId": "cup-swe-2-r1-4",
+      "seed": 535064895,
+      "coreHash": "996814002210ec7c3dbeb6aa1eddd13740df460305baa7388203b2e5e49cae4f",
+      "tick": 2444,
+      "officialMs": 121900,
+      "phase": "FIRST_HALF",
+      "rng": {
+        "algorithm": "mulberry32",
+        "state": 1343571556,
+        "draws": 113
+      },
+      "score": {
+        "HOME": 0,
+        "AWAY": 0
+      },
+      "archiveIds": [],
+      "resultCount": 6,
+      "resultScores": {
+        "cup-swe-2-r1-0": [
+          30,
+          25
+        ],
+        "cup-swe-2-r1-1": [
+          25,
+          24
+        ],
+        "cup-swe-2-r1-2": [
+          28,
+          28
+        ],
+        "cup-swe-2-r1-3": [
+          22,
+          28
+        ],
+        "cup-swe-2-r1-5": [
+          29,
+          23
+        ],
+        "cup-swe-2-r1-6": [
+          31,
+          24
+        ]
+      },
+      "commands": [
+        {
+          "type": "TACTICS_CHANGED",
+          "tick": 2220,
+          "actorId": null,
+          "details": {
+            "team": "AWAY",
+            "defence": "5:1"
+          }
+        },
+        {
+          "type": "TACTICS_CHANGED",
+          "tick": 2220,
+          "actorId": null,
+          "details": {
+            "team": "AWAY",
+            "tempo": "QUICK"
+          }
+        },
+        {
+          "type": "TACTICS_CHANGED",
+          "tick": 2220,
+          "actorId": null,
+          "details": {
+            "team": "AWAY",
+            "attackIdentity": "WIDTH"
+          }
+        },
+        {
+          "type": "EXCHANGE_REQUESTED",
+          "tick": 2220,
+          "actorId": "se_player_olle_soderqvist_467b211d",
+          "details": {
+            "incomingId": "se_player_elliot_hovre_bjorck_40a6f29e"
+          }
+        },
+        {
+          "type": "SUBSTITUTE_ADMITTED",
+          "tick": 2310,
+          "actorId": "se_player_elliot_hovre_bjorck_40a6f29e",
+          "details": {
+            "exchangeId": "exchange-8377"
+          }
+        },
+        {
+          "type": "EXCHANGE_COMPLETED",
+          "tick": 2326,
+          "actorId": "se_player_elliot_hovre_bjorck_40a6f29e",
+          "details": {
+            "exchangeId": "exchange-8377",
+            "role": "GK"
+          }
+        },
+        {
+          "type": "TEAM_TIMEOUT_STARTED",
+          "tick": 2444,
+          "actorId": null,
+          "details": {
+            "team": "AWAY",
+            "period": 1,
+            "durationMs": 60000
+          }
+        }
+      ]
+    },
+    {
+      "kind": "live-reloaded",
+      "saveId": "save-29149f13-899b-4d8a-a851-3a56df5ae205",
+      "saveSeed": "save-29149f13-899b-4d8a-a851-3a56df5ae205",
+      "fixtureId": "cup-swe-2-r1-4",
+      "seed": 535064895,
+      "coreHash": "996814002210ec7c3dbeb6aa1eddd13740df460305baa7388203b2e5e49cae4f",
+      "tick": 2444,
+      "officialMs": 121900,
+      "phase": "FIRST_HALF",
+      "rng": {
+        "algorithm": "mulberry32",
+        "state": 1343571556,
+        "draws": 113
+      },
+      "score": {
+        "HOME": 0,
+        "AWAY": 0
+      },
+      "archiveIds": [],
+      "resultCount": 6,
+      "resultScores": {
+        "cup-swe-2-r1-0": [
+          30,
+          25
+        ],
+        "cup-swe-2-r1-1": [
+          25,
+          24
+        ],
+        "cup-swe-2-r1-2": [
+          28,
+          28
+        ],
+        "cup-swe-2-r1-3": [
+          22,
+          28
+        ],
+        "cup-swe-2-r1-5": [
+          29,
+          23
+        ],
+        "cup-swe-2-r1-6": [
+          31,
+          24
+        ]
+      },
+      "commands": [
+        {
+          "type": "TACTICS_CHANGED",
+          "tick": 2220,
+          "actorId": null,
+          "details": {
+            "team": "AWAY",
+            "defence": "5:1"
+          }
+        },
+        {
+          "type": "TACTICS_CHANGED",
+          "tick": 2220,
+          "actorId": null,
+          "details": {
+            "team": "AWAY",
+            "tempo": "QUICK"
+          }
+        },
+        {
+          "type": "TACTICS_CHANGED",
+          "tick": 2220,
+          "actorId": null,
+          "details": {
+            "team": "AWAY",
+            "attackIdentity": "WIDTH"
+          }
+        },
+        {
+          "type": "EXCHANGE_REQUESTED",
+          "tick": 2220,
+          "actorId": "se_player_olle_soderqvist_467b211d",
+          "details": {
+            "incomingId": "se_player_elliot_hovre_bjorck_40a6f29e"
+          }
+        },
+        {
+          "type": "SUBSTITUTE_ADMITTED",
+          "tick": 2310,
+          "actorId": "se_player_elliot_hovre_bjorck_40a6f29e",
+          "details": {
+            "exchangeId": "exchange-8377"
+          }
+        },
+        {
+          "type": "EXCHANGE_COMPLETED",
+          "tick": 2326,
+          "actorId": "se_player_elliot_hovre_bjorck_40a6f29e",
+          "details": {
+            "exchangeId": "exchange-8377",
+            "role": "GK"
+          }
+        },
+        {
+          "type": "TEAM_TIMEOUT_STARTED",
+          "tick": 2444,
+          "actorId": null,
+          "details": {
+            "team": "AWAY",
+            "period": 1,
+            "durationMs": 60000
+          }
+        }
+      ]
+    },
+    {
+      "kind": "layout",
+      "label": "live-reloaded",
+      "viewport": 1920,
+      "width": 1920,
+      "scrollWidth": 1920,
+      "height": 1080
+    },
+    {
+      "kind": "max-scroll",
+      "label": "live-reloaded",
+      "viewport": 1920,
+      "scrollY": 0,
+      "maximum": 0
+    },
+    {
+      "kind": "layout",
+      "label": "live-reloaded",
+      "viewport": 2560,
+      "width": 2560,
+      "scrollWidth": 2560,
+      "height": 1080
+    },
+    {
+      "kind": "max-scroll",
+      "label": "live-reloaded",
+      "viewport": 2560,
+      "scrollY": 0,
+      "maximum": 0
+    },
+    {
+      "kind": "rendered-2d",
+      "label": "halftime",
+      "wallTime": "2026-10-09T12:55:09.272Z",
+      "clock": "HALVTID\n30:00 · Halvtid",
+      "score": "9:15",
+      "players": [
+        {
+          "name": "Simon Larsson",
+          "transform": "translate(133 1001)"
+        },
+        {
+          "name": "Lukas Runge",
+          "transform": "translate(2932 1181)"
+        },
+        {
+          "name": "Alfred Tilly",
+          "transform": "translate(3147 677)"
+        },
+        {
+          "name": "Alvin Sirén",
+          "transform": "translate(3000 1631)"
+        },
+        {
+          "name": "Filip Melin",
+          "transform": "translate(3341 471)"
+        },
+        {
+          "name": "Oscar Lindell",
+          "transform": "translate(3827 1928)"
+        },
+        {
+          "name": "Gustav Simonsson",
+          "transform": "translate(3825 72)"
+        },
+        {
+          "name": "Joakim Lindahl",
+          "transform": "translate(2967 1040)"
+        },
+        {
+          "name": "Mattias Windahl",
+          "transform": "translate(3290 673)"
+        },
+        {
+          "name": "David Blazevic",
+          "transform": "translate(3335 1387)"
+        },
+        {
+          "name": "Jakob Magnusson",
+          "transform": "translate(3268 995)"
+        },
+        {
+          "name": "Edward Berglund",
+          "transform": "translate(3480 303)"
+        },
+        {
+          "name": "Simon Axelsson",
+          "transform": "translate(3842 1769)"
+        },
+        {
+          "name": "Elliot Hövre Björck",
+          "transform": "translate(3863 988)"
+        }
+      ],
+      "ball": {
+        "x": "2975",
+        "y": "1141"
+      }
+    },
+    {
+      "kind": "layout",
+      "label": "halftime",
+      "viewport": 1920,
+      "width": 1920,
+      "scrollWidth": 1920,
+      "height": 1080
+    },
+    {
+      "kind": "max-scroll",
+      "label": "halftime",
+      "viewport": 1920,
+      "scrollY": 0,
+      "maximum": 0
+    },
+    {
+      "kind": "layout",
+      "label": "halftime",
+      "viewport": 2560,
+      "width": 2560,
+      "scrollWidth": 2560,
+      "height": 1080
+    },
+    {
+      "kind": "max-scroll",
+      "label": "halftime",
+      "viewport": 2560,
+      "scrollY": 0,
+      "maximum": 0
+    },
+    {
+      "kind": "halftime-saved",
+      "saveId": "save-29149f13-899b-4d8a-a851-3a56df5ae205",
+      "saveSeed": "save-29149f13-899b-4d8a-a851-3a56df5ae205",
+      "fixtureId": "cup-swe-2-r1-4",
+      "seed": 535064895,
+      "coreHash": "cc8e12931f1d06977d81396963cc6fc4a496ebed56aec769507d360573f3ef2b",
+      "tick": 37239,
+      "officialMs": 1800000,
+      "phase": "HALFTIME",
+      "rng": {
+        "algorithm": "mulberry32",
+        "state": 424751192,
+        "draws": 1557
+      },
+      "score": {
+        "HOME": 9,
+        "AWAY": 15
+      },
+      "archiveIds": [],
+      "resultCount": 6,
+      "resultScores": {
+        "cup-swe-2-r1-0": [
+          30,
+          25
+        ],
+        "cup-swe-2-r1-1": [
+          25,
+          24
+        ],
+        "cup-swe-2-r1-2": [
+          28,
+          28
+        ],
+        "cup-swe-2-r1-3": [
+          22,
+          28
+        ],
+        "cup-swe-2-r1-5": [
+          29,
+          23
+        ],
+        "cup-swe-2-r1-6": [
+          31,
+          24
+        ]
+      },
+      "commands": [
+        {
+          "type": "TACTICS_CHANGED",
+          "tick": 2220,
+          "actorId": null,
+          "details": {
+            "team": "AWAY",
+            "defence": "5:1"
+          }
+        },
+        {
+          "type": "TACTICS_CHANGED",
+          "tick": 2220,
+          "actorId": null,
+          "details": {
+            "team": "AWAY",
+            "tempo": "QUICK"
+          }
+        },
+        {
+          "type": "TACTICS_CHANGED",
+          "tick": 2220,
+          "actorId": null,
+          "details": {
+            "team": "AWAY",
+            "attackIdentity": "WIDTH"
+          }
+        },
+        {
+          "type": "EXCHANGE_REQUESTED",
+          "tick": 2220,
+          "actorId": "se_player_olle_soderqvist_467b211d",
+          "details": {
+            "incomingId": "se_player_elliot_hovre_bjorck_40a6f29e"
+          }
+        },
+        {
+          "type": "SUBSTITUTE_ADMITTED",
+          "tick": 2310,
+          "actorId": "se_player_elliot_hovre_bjorck_40a6f29e",
+          "details": {
+            "exchangeId": "exchange-8377"
+          }
+        },
+        {
+          "type": "EXCHANGE_COMPLETED",
+          "tick": 2326,
+          "actorId": "se_player_elliot_hovre_bjorck_40a6f29e",
+          "details": {
+            "exchangeId": "exchange-8377",
+            "role": "GK"
+          }
+        },
+        {
+          "type": "TEAM_TIMEOUT_STARTED",
+          "tick": 2444,
+          "actorId": null,
+          "details": {
+            "team": "AWAY",
+            "period": 1,
+            "durationMs": 60000
+          }
+        }
+      ]
+    },
+    {
+      "kind": "rendered-2d",
+      "label": "second-half-16x-1",
+      "wallTime": "2026-10-09T12:55:15.820Z",
+      "clock": "MATCHCENTRAL\n30:00 · Andra halvlek",
+      "score": "9:15",
+      "players": [
+        {
+          "name": "Simon Larsson",
+          "transform": "translate(1944 1000)"
+        },
+        {
+          "name": "Lukas Runge",
+          "transform": "translate(2504 903)"
+        },
+        {
+          "name": "Alfred Tilly",
+          "transform": "translate(2503 501)"
+        },
+        {
+          "name": "Alvin Sirén",
+          "transform": "translate(2500 1400)"
+        },
+        {
+          "name": "Filip Melin",
+          "transform": "translate(2702 1098)"
+        },
+        {
+          "name": "Oscar Lindell",
+          "transform": "translate(2503 1801)"
+        },
+        {
+          "name": "Gustav Simonsson",
+          "transform": "translate(2503 200)"
+        },
+        {
+          "name": "Joakim Lindahl",
+          "transform": "translate(2002 1000)"
+        },
+        {
+          "name": "Mattias Windahl",
+          "transform": "translate(1501 500)"
+        },
+        {
+          "name": "David Blazevic",
+          "transform": "translate(1501 1400)"
+        },
+        {
+          "name": "Jakob Magnusson",
+          "transform": "translate(1300 1100)"
+        },
+        {
+          "name": "Edward Berglund",
+          "transform": "translate(1501 200)"
+        },
+        {
+          "name": "Simon Axelsson",
+          "transform": "translate(1502 1800)"
+        },
+        {
+          "name": "Elliot Hövre Björck",
+          "transform": "translate(2025 945)"
+        }
+      ],
+      "ball": {
+        "x": "2003",
+        "y": "1011"
+      }
+    },
+    {
+      "kind": "rendered-2d",
+      "label": "second-half-16x-2",
+      "wallTime": "2026-10-09T12:55:19.061Z",
+      "clock": "MATCHCENTRAL\n30:11 · Andra halvlek",
+      "score": "9:15",
+      "players": [
+        {
+          "name": "Simon Larsson",
+          "transform": "translate(3866 953)"
+        },
+        {
+          "name": "Lukas Runge",
+          "transform": "translate(2993 493)"
+        },
+        {
+          "name": "Alfred Tilly",
+          "transform": "translate(3317 523)"
+        },
+        {
+          "name": "Alvin Sirén",
+          "transform": "translate(3337 1357)"
+        },
+        {
+          "name": "Filip Melin",
+          "transform": "translate(3308 985)"
+        },
+        {
+          "name": "Oscar Lindell",
+          "transform": "translate(3858 1774)"
+        },
+        {
+          "name": "Gustav Simonsson",
+          "transform": "translate(3033 313)"
+        },
+        {
+          "name": "Joakim Lindahl",
+          "transform": "translate(2813 926)"
+        },
+        {
+          "name": "Mattias Windahl",
+          "transform": "translate(3069 419)"
+        },
+        {
+          "name": "David Blazevic",
+          "transform": "translate(3016 1565)"
+        },
+        {
+          "name": "Jakob Magnusson",
+          "transform": "translate(3020 389)"
+        },
+        {
+          "name": "Edward Berglund",
+          "transform": "translate(2575 423)"
+        },
+        {
+          "name": "Simon Axelsson",
+          "transform": "translate(3830 1932)"
+        },
+        {
+          "name": "Elliot Hövre Björck",
+          "transform": "translate(137 984)"
+        }
+      ],
+      "ball": {
+        "x": "2811",
+        "y": "914"
+      }
+    },
+    {
+      "kind": "rendered-2d",
+      "label": "second-half-16x-3",
+      "wallTime": "2026-10-09T12:55:23.279Z",
+      "clock": "MATCHCENTRAL\n30:24 · Andra halvlek",
+      "score": "9:15",
+      "players": [
+        {
+          "name": "Simon Larsson",
+          "transform": "translate(3867 991)"
+        },
+        {
+          "name": "Lukas Runge",
+          "transform": "translate(3008 1000)"
+        },
+        {
+          "name": "Alfred Tilly",
+          "transform": "translate(3221 735)"
+        },
+        {
+          "name": "Alvin Sirén",
+          "transform": "translate(3325 1376)"
+        },
+        {
+          "name": "Filip Melin",
+          "transform": "translate(3303 1149)"
+        },
+        {
+          "name": "Oscar Lindell",
+          "transform": "translate(3858 1774)"
+        },
+        {
+          "name": "Gustav Simonsson",
+          "transform": "translate(3279 270)"
+        },
+        {
+          "name": "Joakim Lindahl",
+          "transform": "translate(2990 947)"
+        },
+        {
+          "name": "Mattias Windahl",
+          "transform": "translate(2968 728)"
+        },
+        {
+          "name": "David Blazevic",
+          "transform": "translate(3030 1600)"
+        },
+        {
+          "name": "Jakob Magnusson",
+          "transform": "translate(3356 1078)"
+        },
+        {
+          "name": "Edward Berglund",
+          "transform": "translate(3664 186)"
+        },
+        {
+          "name": "Simon Axelsson",
+          "transform": "translate(3830 1932)"
+        },
+        {
+          "name": "Elliot Hövre Björck",
+          "transform": "translate(137 984)"
+        }
+      ],
+      "ball": {
+        "x": "2965",
+        "y": "752"
+      }
+    },
+    {
+      "kind": "layout",
+      "label": "second-half-paused",
+      "viewport": 1920,
+      "width": 1920,
+      "scrollWidth": 1920,
+      "height": 1080
+    },
+    {
+      "kind": "max-scroll",
+      "label": "second-half-paused",
+      "viewport": 1920,
+      "scrollY": 0,
+      "maximum": 0
+    },
+    {
+      "kind": "layout",
+      "label": "second-half-paused",
+      "viewport": 2560,
+      "width": 2560,
+      "scrollWidth": 2560,
+      "height": 1080
+    },
+    {
+      "kind": "max-scroll",
+      "label": "second-half-paused",
+      "viewport": 2560,
+      "scrollY": 0,
+      "maximum": 0
+    },
+    {
+      "kind": "layout",
+      "label": "fulltime-report",
+      "viewport": 1920,
+      "width": 1920,
+      "scrollWidth": 1920,
+      "height": 1080
+    },
+    {
+      "kind": "max-scroll",
+      "label": "fulltime-report",
+      "viewport": 1920,
+      "scrollY": 0,
+      "maximum": 0
+    },
+    {
+      "kind": "layout",
+      "label": "fulltime-report",
+      "viewport": 2560,
+      "width": 2560,
+      "scrollWidth": 2560,
+      "height": 1080
+    },
+    {
+      "kind": "max-scroll",
+      "label": "fulltime-report",
+      "viewport": 2560,
+      "scrollY": 0,
+      "maximum": 0
+    },
+    {
+      "kind": "report-saved",
+      "finalScore": "15–29",
+      "saveId": "save-29149f13-899b-4d8a-a851-3a56df5ae205",
+      "saveSeed": "save-29149f13-899b-4d8a-a851-3a56df5ae205",
+      "fixtureId": null,
+      "seed": null,
+      "coreHash": null,
+      "tick": null,
+      "officialMs": null,
+      "phase": null,
+      "rng": null,
+      "score": null,
+      "archiveIds": [
+        "cup-swe-2-r1-4"
+      ],
+      "resultCount": 7,
+      "resultScores": {
+        "cup-swe-2-r1-0": [
+          30,
+          25
+        ],
+        "cup-swe-2-r1-1": [
+          25,
+          24
+        ],
+        "cup-swe-2-r1-2": [
+          28,
+          28
+        ],
+        "cup-swe-2-r1-3": [
+          22,
+          28
+        ],
+        "cup-swe-2-r1-5": [
+          29,
+          23
+        ],
+        "cup-swe-2-r1-6": [
+          31,
+          24
+        ],
+        "cup-swe-2-r1-4": [
+          15,
+          29
+        ]
+      },
+      "commands": []
+    },
+    {
+      "kind": "report-reloaded",
+      "saveId": "save-29149f13-899b-4d8a-a851-3a56df5ae205",
+      "saveSeed": "save-29149f13-899b-4d8a-a851-3a56df5ae205",
+      "fixtureId": null,
+      "seed": null,
+      "coreHash": null,
+      "tick": null,
+      "officialMs": null,
+      "phase": null,
+      "rng": null,
+      "score": null,
+      "archiveIds": [
+        "cup-swe-2-r1-4"
+      ],
+      "resultCount": 7,
+      "resultScores": {
+        "cup-swe-2-r1-0": [
+          30,
+          25
+        ],
+        "cup-swe-2-r1-1": [
+          25,
+          24
+        ],
+        "cup-swe-2-r1-2": [
+          28,
+          28
+        ],
+        "cup-swe-2-r1-3": [
+          22,
+          28
+        ],
+        "cup-swe-2-r1-5": [
+          29,
+          23
+        ],
+        "cup-swe-2-r1-6": [
+          31,
+          24
+        ],
+        "cup-swe-2-r1-4": [
+          15,
+          29
+        ]
+      },
+      "commands": []
+    },
+    {
+      "kind": "rendered-2d",
+      "label": "replay-start",
+      "wallTime": "2026-10-09T12:55:37.940Z",
+      "clock": "REPRIS\n0:00",
+      "score": "0:0",
+      "players": [
+        {
+          "name": "Simon Larsson",
+          "transform": "translate(150 1000)"
+        },
+        {
+          "name": "Lukas Runge",
+          "transform": "translate(2000 1000)"
+        },
+        {
+          "name": "Alfred Tilly",
+          "transform": "translate(1500 500)"
+        },
+        {
+          "name": "Alvin Sirén",
+          "transform": "translate(1500 1400)"
+        },
+        {
+          "name": "Filip Melin",
+          "transform": "translate(1300 1100)"
+        },
+        {
+          "name": "Oscar Lindell",
+          "transform": "translate(1500 1800)"
+        },
+        {
+          "name": "Gustav Simonsson",
+          "transform": "translate(1500 200)"
+        },
+        {
+          "name": "Olle Söderqvist",
+          "transform": "translate(3850 1000)"
+        },
+        {
+          "name": "Joakim Lindahl",
+          "transform": "translate(2500 1000)"
+        },
+        {
+          "name": "Mattias Windahl",
+          "transform": "translate(2500 500)"
+        },
+        {
+          "name": "David Blazevic",
+          "transform": "translate(2500 1400)"
+        },
+        {
+          "name": "Jakob Magnusson",
+          "transform": "translate(2700 1100)"
+        },
+        {
+          "name": "Edward Berglund",
+          "transform": "translate(2500 200)"
+        },
+        {
+          "name": "Simon Axelsson",
+          "transform": "translate(2500 1800)"
+        }
+      ],
+      "ball": {
+        "x": "2000",
+        "y": "1000"
+      }
+    },
+    {
+      "kind": "layout",
+      "label": "replay-start",
+      "viewport": 1920,
+      "width": 1920,
+      "scrollWidth": 1920,
+      "height": 1080
+    },
+    {
+      "kind": "max-scroll",
+      "label": "replay-start",
+      "viewport": 1920,
+      "scrollY": 0,
+      "maximum": 0
+    },
+    {
+      "kind": "layout",
+      "label": "replay-start",
+      "viewport": 2560,
+      "width": 2560,
+      "scrollWidth": 2560,
+      "height": 1080
+    },
+    {
+      "kind": "max-scroll",
+      "label": "replay-start",
+      "viewport": 2560,
+      "scrollY": 0,
+      "maximum": 0
+    },
+    {
+      "kind": "replay-middle",
+      "tick": "36889"
+    },
+    {
+      "kind": "rendered-2d",
+      "label": "replay-middle",
+      "wallTime": "2026-10-09T12:55:38.365Z",
+      "clock": "REPRIS\n29:42",
+      "score": "9:15",
+      "players": [
+        {
+          "name": "Simon Larsson",
+          "transform": "translate(132 1046)"
+        },
+        {
+          "name": "Lukas Runge",
+          "transform": "translate(2259.8 1043)"
+        },
+        {
+          "name": "Alfred Tilly",
+          "transform": "translate(2486.4 483.2)"
+        },
+        {
+          "name": "Alvin Sirén",
+          "transform": "translate(2485 1519.4)"
+        },
+        {
+          "name": "Filip Melin",
+          "transform": "translate(2457.8 1123)"
+        },
+        {
+          "name": "Oscar Lindell",
+          "transform": "translate(2526 1932)"
+        },
+        {
+          "name": "Gustav Simonsson",
+          "transform": "translate(3825 68)"
+        },
+        {
+          "name": "Joakim Lindahl",
+          "transform": "translate(2885.4 1399)"
+        },
+        {
+          "name": "Mattias Windahl",
+          "transform": "translate(3323.6 725.8)"
+        },
+        {
+          "name": "David Blazevic",
+          "transform": "translate(3126.2 1686.8)"
+        },
+        {
+          "name": "Jakob Magnusson",
+          "transform": "translate(3264.8 1204.6)"
+        },
+        {
+          "name": "Edward Berglund",
+          "transform": "translate(3340.8 352.2)"
+        },
+        {
+          "name": "Simon Axelsson",
+          "transform": "translate(2941 1866)"
+        },
+        {
+          "name": "Elliot Hövre Björck",
+          "transform": "translate(3863 1067)"
+        }
+      ],
+      "ball": {
+        "x": "2519",
+        "y": "1904"
+      }
+    },
+    {
+      "kind": "layout",
+      "label": "replay-middle",
+      "viewport": 1920,
+      "width": 1920,
+      "scrollWidth": 1920,
+      "height": 1080
+    },
+    {
+      "kind": "max-scroll",
+      "label": "replay-middle",
+      "viewport": 1920,
+      "scrollY": 0,
+      "maximum": 0
+    },
+    {
+      "kind": "layout",
+      "label": "replay-middle",
+      "viewport": 2560,
+      "width": 2560,
+      "scrollWidth": 2560,
+      "height": 1080
+    },
+    {
+      "kind": "max-scroll",
+      "label": "replay-middle",
+      "viewport": 2560,
+      "scrollY": 0,
+      "maximum": 0
+    },
+    {
+      "kind": "rendered-2d",
+      "label": "replay-end",
+      "wallTime": "2026-10-09T12:55:38.773Z",
+      "clock": "REPRIS\n60:00",
+      "score": "15:29",
+      "players": [
+        {
+          "name": "Simon Larsson",
+          "transform": "translate(3867 969)"
+        },
+        {
+          "name": "Oscar Lindell",
+          "transform": "translate(3289 554)"
+        },
+        {
+          "name": "Fabian Strandwitz",
+          "transform": "translate(3859 226)"
+        },
+        {
+          "name": "Linus Andersson",
+          "transform": "translate(3371 1313)"
+        },
+        {
+          "name": "Felix Fogelholm",
+          "transform": "translate(3070 842)"
+        },
+        {
+          "name": "Erik Rudvall",
+          "transform": "translate(3829 1770)"
+        },
+        {
+          "name": "Manu Estrada Hammarbäck",
+          "transform": "translate(3324 1025)"
+        },
+        {
+          "name": "Joakim Lindahl",
+          "transform": "translate(2865 762)"
+        },
+        {
+          "name": "Mattias Windahl",
+          "transform": "translate(2999 318)"
+        },
+        {
+          "name": "David Blazevic",
+          "transform": "translate(3001 765)"
+        },
+        {
+          "name": "Jakob Magnusson",
+          "transform": "translate(3321 1265)"
+        },
+        {
+          "name": "Edward Berglund",
+          "transform": "translate(3831 68)"
+        },
+        {
+          "name": "Simon Axelsson",
+          "transform": "translate(3825 1932)"
+        },
+        {
+          "name": "Elliot Hövre Björck",
+          "transform": "translate(147 999)"
+        }
+      ],
+      "ball": {
+        "x": "3005",
+        "y": "767"
+      }
+    },
+    {
+      "kind": "layout",
+      "label": "replay-end",
+      "viewport": 1920,
+      "width": 1920,
+      "scrollWidth": 1920,
+      "height": 1080
+    },
+    {
+      "kind": "max-scroll",
+      "label": "replay-end",
+      "viewport": 1920,
+      "scrollY": 0,
+      "maximum": 0
+    },
+    {
+      "kind": "layout",
+      "label": "replay-end",
+      "viewport": 2560,
+      "width": 2560,
+      "scrollWidth": 2560,
+      "height": 1080
+    },
+    {
+      "kind": "max-scroll",
+      "label": "replay-end",
+      "viewport": 2560,
+      "scrollY": 0,
+      "maximum": 0
+    },
+    {
+      "kind": "archive-replay-unchanged",
+      "finalScore": "15–29",
+      "saveId": "save-29149f13-899b-4d8a-a851-3a56df5ae205",
+      "saveSeed": "save-29149f13-899b-4d8a-a851-3a56df5ae205",
+      "fixtureId": null,
+      "seed": null,
+      "coreHash": null,
+      "tick": null,
+      "officialMs": null,
+      "phase": null,
+      "rng": null,
+      "score": null,
+      "archiveIds": [
+        "cup-swe-2-r1-4"
+      ],
+      "resultCount": 7,
+      "resultScores": {
+        "cup-swe-2-r1-0": [
+          30,
+          25
+        ],
+        "cup-swe-2-r1-1": [
+          25,
+          24
+        ],
+        "cup-swe-2-r1-2": [
+          28,
+          28
+        ],
+        "cup-swe-2-r1-3": [
+          22,
+          28
+        ],
+        "cup-swe-2-r1-5": [
+          29,
+          23
+        ],
+        "cup-swe-2-r1-6": [
+          31,
+          24
+        ],
+        "cup-swe-2-r1-4": [
+          15,
+          29
+        ]
+      },
+      "commands": []
+    },
+    {
+      "kind": "layout",
+      "label": "season-player-statistics",
+      "viewport": 1920,
+      "width": 1920,
+      "scrollWidth": 1920,
+      "height": 1080
+    },
+    {
+      "kind": "max-scroll",
+      "label": "season-player-statistics",
+      "viewport": 1920,
+      "scrollY": 0,
+      "maximum": 0
+    },
+    {
+      "kind": "layout",
+      "label": "season-player-statistics",
+      "viewport": 2560,
+      "width": 2560,
+      "scrollWidth": 2560,
+      "height": 1080
+    },
+    {
+      "kind": "max-scroll",
+      "label": "season-player-statistics",
+      "viewport": 2560,
+      "scrollY": 0,
+      "maximum": 0
+    },
+    {
+      "kind": "layout",
+      "label": "player-recorded-match",
+      "viewport": 1920,
+      "width": 1920,
+      "scrollWidth": 1920,
+      "height": 1080
+    },
+    {
+      "kind": "max-scroll",
+      "label": "player-recorded-match",
+      "viewport": 1920,
+      "scrollY": 0,
+      "maximum": 0
+    },
+    {
+      "kind": "layout",
+      "label": "player-recorded-match",
+      "viewport": 2560,
+      "width": 2560,
+      "scrollWidth": 2560,
+      "height": 1080
+    },
+    {
+      "kind": "max-scroll",
+      "label": "player-recorded-match",
+      "viewport": 2560,
+      "scrollY": 0,
+      "maximum": 0
+    }
+  ],
+  "screenshots": [
+    "C:\\Users\\helgi\\Documents\\STARKVIS-HELA\\handball-manager\\docs\\match-realism-v2\\browser\\1920\\preview.png",
+    "C:\\Users\\helgi\\Documents\\STARKVIS-HELA\\handball-manager\\docs\\match-realism-v2\\browser\\1920\\preview-max-scroll.png",
+    "C:\\Users\\helgi\\Documents\\STARKVIS-HELA\\handball-manager\\docs\\match-realism-v2\\browser\\2560\\preview.png",
+    "C:\\Users\\helgi\\Documents\\STARKVIS-HELA\\handball-manager\\docs\\match-realism-v2\\browser\\2560\\preview-max-scroll.png",
+    "C:\\Users\\helgi\\Documents\\STARKVIS-HELA\\handball-manager\\docs\\match-realism-v2\\browser\\1920\\kickoff.png",
+    "C:\\Users\\helgi\\Documents\\STARKVIS-HELA\\handball-manager\\docs\\match-realism-v2\\browser\\1920\\kickoff-max-scroll.png",
+    "C:\\Users\\helgi\\Documents\\STARKVIS-HELA\\handball-manager\\docs\\match-realism-v2\\browser\\2560\\kickoff.png",
+    "C:\\Users\\helgi\\Documents\\STARKVIS-HELA\\handball-manager\\docs\\match-realism-v2\\browser\\2560\\kickoff-max-scroll.png",
+    "C:\\Users\\helgi\\Documents\\STARKVIS-HELA\\handball-manager\\docs\\match-realism-v2\\browser\\1920\\first-half-1x-1.png",
+    "C:\\Users\\helgi\\Documents\\STARKVIS-HELA\\handball-manager\\docs\\match-realism-v2\\browser\\1920\\first-half-1x-2.png",
+    "C:\\Users\\helgi\\Documents\\STARKVIS-HELA\\handball-manager\\docs\\match-realism-v2\\browser\\1920\\first-half-1x-3.png",
+    "C:\\Users\\helgi\\Documents\\STARKVIS-HELA\\handball-manager\\docs\\match-realism-v2\\browser\\1920\\first-half-1x-paused.png",
+    "C:\\Users\\helgi\\Documents\\STARKVIS-HELA\\handball-manager\\docs\\match-realism-v2\\browser\\1920\\first-half-1x-paused-max-scroll.png",
+    "C:\\Users\\helgi\\Documents\\STARKVIS-HELA\\handball-manager\\docs\\match-realism-v2\\browser\\2560\\first-half-1x-paused.png",
+    "C:\\Users\\helgi\\Documents\\STARKVIS-HELA\\handball-manager\\docs\\match-realism-v2\\browser\\2560\\first-half-1x-paused-max-scroll.png",
+    "C:\\Users\\helgi\\Documents\\STARKVIS-HELA\\handball-manager\\docs\\match-realism-v2\\browser\\1920\\first-half-4x-1.png",
+    "C:\\Users\\helgi\\Documents\\STARKVIS-HELA\\handball-manager\\docs\\match-realism-v2\\browser\\1920\\first-half-4x-2.png",
+    "C:\\Users\\helgi\\Documents\\STARKVIS-HELA\\handball-manager\\docs\\match-realism-v2\\browser\\1920\\first-half-4x-3.png",
+    "C:\\Users\\helgi\\Documents\\STARKVIS-HELA\\handball-manager\\docs\\match-realism-v2\\browser\\1920\\first-half-4x-paused.png",
+    "C:\\Users\\helgi\\Documents\\STARKVIS-HELA\\handball-manager\\docs\\match-realism-v2\\browser\\1920\\first-half-4x-paused-max-scroll.png",
+    "C:\\Users\\helgi\\Documents\\STARKVIS-HELA\\handball-manager\\docs\\match-realism-v2\\browser\\2560\\first-half-4x-paused.png",
+    "C:\\Users\\helgi\\Documents\\STARKVIS-HELA\\handball-manager\\docs\\match-realism-v2\\browser\\2560\\first-half-4x-paused-max-scroll.png",
+    "C:\\Users\\helgi\\Documents\\STARKVIS-HELA\\handball-manager\\docs\\match-realism-v2\\browser\\1920\\first-half-16x-1.png",
+    "C:\\Users\\helgi\\Documents\\STARKVIS-HELA\\handball-manager\\docs\\match-realism-v2\\browser\\1920\\first-half-16x-2.png",
+    "C:\\Users\\helgi\\Documents\\STARKVIS-HELA\\handball-manager\\docs\\match-realism-v2\\browser\\1920\\first-half-16x-3.png",
+    "C:\\Users\\helgi\\Documents\\STARKVIS-HELA\\handball-manager\\docs\\match-realism-v2\\browser\\1920\\first-half-16x-paused.png",
+    "C:\\Users\\helgi\\Documents\\STARKVIS-HELA\\handball-manager\\docs\\match-realism-v2\\browser\\1920\\first-half-16x-paused-max-scroll.png",
+    "C:\\Users\\helgi\\Documents\\STARKVIS-HELA\\handball-manager\\docs\\match-realism-v2\\browser\\2560\\first-half-16x-paused.png",
+    "C:\\Users\\helgi\\Documents\\STARKVIS-HELA\\handball-manager\\docs\\match-realism-v2\\browser\\2560\\first-half-16x-paused-max-scroll.png",
+    "C:\\Users\\helgi\\Documents\\STARKVIS-HELA\\handball-manager\\docs\\match-realism-v2\\browser\\1920\\substitution-requested.png",
+    "C:\\Users\\helgi\\Documents\\STARKVIS-HELA\\handball-manager\\docs\\match-realism-v2\\browser\\1920\\substitution-requested-max-scroll.png",
+    "C:\\Users\\helgi\\Documents\\STARKVIS-HELA\\handball-manager\\docs\\match-realism-v2\\browser\\2560\\substitution-requested.png",
+    "C:\\Users\\helgi\\Documents\\STARKVIS-HELA\\handball-manager\\docs\\match-realism-v2\\browser\\2560\\substitution-requested-max-scroll.png",
+    "C:\\Users\\helgi\\Documents\\STARKVIS-HELA\\handball-manager\\docs\\match-realism-v2\\browser\\1920\\substitution-admitted.png",
+    "C:\\Users\\helgi\\Documents\\STARKVIS-HELA\\handball-manager\\docs\\match-realism-v2\\browser\\1920\\substitution-admitted-max-scroll.png",
+    "C:\\Users\\helgi\\Documents\\STARKVIS-HELA\\handball-manager\\docs\\match-realism-v2\\browser\\2560\\substitution-admitted.png",
+    "C:\\Users\\helgi\\Documents\\STARKVIS-HELA\\handball-manager\\docs\\match-realism-v2\\browser\\2560\\substitution-admitted-max-scroll.png",
+    "C:\\Users\\helgi\\Documents\\STARKVIS-HELA\\handball-manager\\docs\\match-realism-v2\\browser\\1920\\timeout.png",
+    "C:\\Users\\helgi\\Documents\\STARKVIS-HELA\\handball-manager\\docs\\match-realism-v2\\browser\\1920\\timeout-max-scroll.png",
+    "C:\\Users\\helgi\\Documents\\STARKVIS-HELA\\handball-manager\\docs\\match-realism-v2\\browser\\2560\\timeout.png",
+    "C:\\Users\\helgi\\Documents\\STARKVIS-HELA\\handball-manager\\docs\\match-realism-v2\\browser\\2560\\timeout-max-scroll.png",
+    "C:\\Users\\helgi\\Documents\\STARKVIS-HELA\\handball-manager\\docs\\match-realism-v2\\browser\\1920\\live-reloaded.png",
+    "C:\\Users\\helgi\\Documents\\STARKVIS-HELA\\handball-manager\\docs\\match-realism-v2\\browser\\1920\\live-reloaded-max-scroll.png",
+    "C:\\Users\\helgi\\Documents\\STARKVIS-HELA\\handball-manager\\docs\\match-realism-v2\\browser\\2560\\live-reloaded.png",
+    "C:\\Users\\helgi\\Documents\\STARKVIS-HELA\\handball-manager\\docs\\match-realism-v2\\browser\\2560\\live-reloaded-max-scroll.png",
+    "C:\\Users\\helgi\\Documents\\STARKVIS-HELA\\handball-manager\\docs\\match-realism-v2\\browser\\1920\\halftime.png",
+    "C:\\Users\\helgi\\Documents\\STARKVIS-HELA\\handball-manager\\docs\\match-realism-v2\\browser\\1920\\halftime-max-scroll.png",
+    "C:\\Users\\helgi\\Documents\\STARKVIS-HELA\\handball-manager\\docs\\match-realism-v2\\browser\\2560\\halftime.png",
+    "C:\\Users\\helgi\\Documents\\STARKVIS-HELA\\handball-manager\\docs\\match-realism-v2\\browser\\2560\\halftime-max-scroll.png",
+    "C:\\Users\\helgi\\Documents\\STARKVIS-HELA\\handball-manager\\docs\\match-realism-v2\\browser\\1920\\second-half-16x-1.png",
+    "C:\\Users\\helgi\\Documents\\STARKVIS-HELA\\handball-manager\\docs\\match-realism-v2\\browser\\1920\\second-half-16x-2.png",
+    "C:\\Users\\helgi\\Documents\\STARKVIS-HELA\\handball-manager\\docs\\match-realism-v2\\browser\\1920\\second-half-16x-3.png",
+    "C:\\Users\\helgi\\Documents\\STARKVIS-HELA\\handball-manager\\docs\\match-realism-v2\\browser\\1920\\second-half-paused.png",
+    "C:\\Users\\helgi\\Documents\\STARKVIS-HELA\\handball-manager\\docs\\match-realism-v2\\browser\\1920\\second-half-paused-max-scroll.png",
+    "C:\\Users\\helgi\\Documents\\STARKVIS-HELA\\handball-manager\\docs\\match-realism-v2\\browser\\2560\\second-half-paused.png",
+    "C:\\Users\\helgi\\Documents\\STARKVIS-HELA\\handball-manager\\docs\\match-realism-v2\\browser\\2560\\second-half-paused-max-scroll.png",
+    "C:\\Users\\helgi\\Documents\\STARKVIS-HELA\\handball-manager\\docs\\match-realism-v2\\browser\\1920\\fulltime-report.png",
+    "C:\\Users\\helgi\\Documents\\STARKVIS-HELA\\handball-manager\\docs\\match-realism-v2\\browser\\1920\\fulltime-report-max-scroll.png",
+    "C:\\Users\\helgi\\Documents\\STARKVIS-HELA\\handball-manager\\docs\\match-realism-v2\\browser\\2560\\fulltime-report.png",
+    "C:\\Users\\helgi\\Documents\\STARKVIS-HELA\\handball-manager\\docs\\match-realism-v2\\browser\\2560\\fulltime-report-max-scroll.png",
+    "C:\\Users\\helgi\\Documents\\STARKVIS-HELA\\handball-manager\\docs\\match-realism-v2\\browser\\1920\\replay-start.png",
+    "C:\\Users\\helgi\\Documents\\STARKVIS-HELA\\handball-manager\\docs\\match-realism-v2\\browser\\1920\\replay-start-max-scroll.png",
+    "C:\\Users\\helgi\\Documents\\STARKVIS-HELA\\handball-manager\\docs\\match-realism-v2\\browser\\2560\\replay-start.png",
+    "C:\\Users\\helgi\\Documents\\STARKVIS-HELA\\handball-manager\\docs\\match-realism-v2\\browser\\2560\\replay-start-max-scroll.png",
+    "C:\\Users\\helgi\\Documents\\STARKVIS-HELA\\handball-manager\\docs\\match-realism-v2\\browser\\1920\\replay-middle.png",
+    "C:\\Users\\helgi\\Documents\\STARKVIS-HELA\\handball-manager\\docs\\match-realism-v2\\browser\\1920\\replay-middle-max-scroll.png",
+    "C:\\Users\\helgi\\Documents\\STARKVIS-HELA\\handball-manager\\docs\\match-realism-v2\\browser\\2560\\replay-middle.png",
+    "C:\\Users\\helgi\\Documents\\STARKVIS-HELA\\handball-manager\\docs\\match-realism-v2\\browser\\2560\\replay-middle-max-scroll.png",
+    "C:\\Users\\helgi\\Documents\\STARKVIS-HELA\\handball-manager\\docs\\match-realism-v2\\browser\\1920\\replay-end.png",
+    "C:\\Users\\helgi\\Documents\\STARKVIS-HELA\\handball-manager\\docs\\match-realism-v2\\browser\\1920\\replay-end-max-scroll.png",
+    "C:\\Users\\helgi\\Documents\\STARKVIS-HELA\\handball-manager\\docs\\match-realism-v2\\browser\\2560\\replay-end.png",
+    "C:\\Users\\helgi\\Documents\\STARKVIS-HELA\\handball-manager\\docs\\match-realism-v2\\browser\\2560\\replay-end-max-scroll.png",
+    "C:\\Users\\helgi\\Documents\\STARKVIS-HELA\\handball-manager\\docs\\match-realism-v2\\browser\\1920\\season-player-statistics.png",
+    "C:\\Users\\helgi\\Documents\\STARKVIS-HELA\\handball-manager\\docs\\match-realism-v2\\browser\\1920\\season-player-statistics-max-scroll.png",
+    "C:\\Users\\helgi\\Documents\\STARKVIS-HELA\\handball-manager\\docs\\match-realism-v2\\browser\\2560\\season-player-statistics.png",
+    "C:\\Users\\helgi\\Documents\\STARKVIS-HELA\\handball-manager\\docs\\match-realism-v2\\browser\\2560\\season-player-statistics-max-scroll.png",
+    "C:\\Users\\helgi\\Documents\\STARKVIS-HELA\\handball-manager\\docs\\match-realism-v2\\browser\\1920\\player-recorded-match.png",
+    "C:\\Users\\helgi\\Documents\\STARKVIS-HELA\\handball-manager\\docs\\match-realism-v2\\browser\\1920\\player-recorded-match-max-scroll.png",
+    "C:\\Users\\helgi\\Documents\\STARKVIS-HELA\\handball-manager\\docs\\match-realism-v2\\browser\\2560\\player-recorded-match.png",
+    "C:\\Users\\helgi\\Documents\\STARKVIS-HELA\\handball-manager\\docs\\match-realism-v2\\browser\\2560\\player-recorded-match-max-scroll.png"
+  ],
+  "finishedAt": "2026-10-09T12:55:40.353Z"
+}

@@ -1,0 +1,52 @@
+﻿{
+    "date":  "2026-10-09",
+    "engineTests":  {
+                        "passed":  175,
+                        "failed":  0
+                    },
+    "gameTests":  {
+                      "passed":  2298,
+                      "failed":  0
+                  },
+    "focusedTests":  {
+                         "passed":  64,
+                         "failed":  0
+                     },
+    "productionAcceptance":  {
+                                 "passed":  5,
+                                 "failed":  0
+                             },
+    "workspaceTypechecks":  {
+                                "passed":  9
+                            },
+    "productionBuild":  {
+                            "buildId":  "XkNsqFziP2f_j3IFTn3Vy",
+                            "status":  "passed",
+                            "distDir":  "apps/game/.next-game-realism-v2"
+                        },
+    "browser":  {
+                    "widths":  [
+                                   1920,
+                                   2560
+                               ],
+                    "selectedLeagueReplays":  "3 passed within one browser test",
+                    "normalLifecycle":  "passed",
+                    "pageErrors":  0,
+                    "screenshotCount":  146
+                },
+    "pairedMatches":  {
+                          "repeated":  2,
+                          "before":  50,
+                          "fullTruthHashesIdentical":  true,
+                          "after":  50
+                      },
+    "lint":  "changed engine and new bridge/tooling files passed",
+    "qaServer":  {
+                     "url":  "http://127.0.0.1:3008",
+                     "stopped":  true,
+                     "pid":  46036,
+                     "listenersRemaining":  0
+                 },
+    "postSampleCleanup":  "unused imports and compatibility parameter lint comment; byte-identical emitted runtime JS in release-source-equivalence.json",
+    "pushed":  false
+}

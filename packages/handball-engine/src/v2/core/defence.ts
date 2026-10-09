@@ -28,7 +28,7 @@
 // line instead of standing in for one.
 import { goalAreaClearance } from '../../domain/geometry/goalArea';
 import { clamp, clearGoalArea, distance, local, world } from './space';
-import { courtPlayers, getPlayer, otherTeam, type CorePlayer, type CoreState, type Direction, type Point, type Role } from './state';
+import { courtPlayers, getPlayer, type CorePlayer, type CoreState, type Direction, type Point } from './state';
 import { secondsTo } from './timing';
 
 /**
@@ -146,6 +146,8 @@ export function assignZones(s: CoreState, defenders: readonly CorePlayer[], dire
  * reads of the same court would drift apart and produce the converging
  * behaviour this module exists to remove.
  */
+// The direction argument remains part of the public API; this read uses absolute lateral coordinates.
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function readDefence(s: CoreState, defenders: readonly CorePlayer[], carrier: CorePlayer | null, direction: Direction): DefenceRead {
   // COORDINATE MODEL: lateral position is ABSOLUTE and is never mirrored.
   //
