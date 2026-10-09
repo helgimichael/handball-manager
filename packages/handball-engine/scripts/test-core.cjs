@@ -16,3 +16,8 @@ require('../src/v2/core/offence.test.ts');
 require('../src/v2/core/identity.test.ts');
 require('../src/v2/core/defence.test.ts');
 require('../src/v2/core/ecology.test.ts');
+require('../src/v2/core/attack-realism.test.ts');
+require('../src/v2/core/realism-defence.test.ts');
+require('../src/v2/core/execution-realism.test.ts');
+require('../src/v2/core/loose-ball-realism.test.ts');
+require('../src/v2/core/restart-realism.test.ts');

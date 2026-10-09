@@ -40,3 +40,11 @@ test('warning judgment distinguishes a real attempt on the defence from stagnant
   s.referee.passive.idleMs=17950;passiveAfter(s);
   assert.notEqual(s.referee.passive.warnedTick,null,'circulating without one does not');
 });
+
+test('a composed defender reading another feint does not disguise stagnant circulation',()=>{
+  for(const wrongFooted of [false,true]) {
+    const s=createCoreScenario();passiveAfter(s);s.possession.completedPasses=4;s.referee.passive.idleMs=17950;
+    record(s,'FEINT_READ',getPlayer(s,'H03'),{wrongFooted},['A03']);passiveAfter(s);
+    assert.equal(s.referee.passive.warnedTick===null,wrongFooted,'only an actual defensive impairment is a new attacking problem');
+  }
+});

@@ -160,8 +160,8 @@ export function buildProfile(sheet: AttributeSheet, role: Role, tendency: Partia
     // A goalkeeper covers his goal, not the court; his top speed is his own.
     topSpeed: keeper ? 3.2 + 1.6 * mean(sheet, 'GK_EXPLOSIVENESS', 'REACTION') : SPEED_FLOOR + SPEED_RANGE * mean(sheet, 'TOP_SPEED', 'TOP_SPEED', 'AGILITY'),
     acceleration: keeper ? 5 + 4 * unit(sheet, 'GK_EXPLOSIVENESS') : ACCEL_FLOOR + ACCEL_RANGE * mean(sheet, 'ACCELERATION', 'EXPLOSIVENESS'),
-    reaction: REACTION_SLOW - REACTION_RANGE * read,
-    passing: mean(sheet, 'PASSING', 'PASSING', 'DECISION_MAKING'),
+    reaction: REACTION_SLOW - REACTION_RANGE * (keeper ? mean(sheet,'REACTION','REACTION','SHOOTER_READING') : read),
+    passing: keeper ? unit(sheet,'OUTLET_PASSING') : mean(sheet, 'PASSING', 'PASSING', 'DECISION_MAKING'),
     handling: mean(sheet, 'BALL_HANDLING', 'COMPOSURE'),
     shotPower: unit(sheet, 'SHOOTING_POWER'),
     shotPlacement: mean(sheet, 'SHOOTING_PLACEMENT', 'FINISHING'),

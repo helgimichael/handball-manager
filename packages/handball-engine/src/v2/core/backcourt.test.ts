@@ -38,7 +38,7 @@ test('penetration clears a lateral outlet and wing possession keeps its adjacent
   }
 });
 
-test('support survives a changed read during commitment and updates only at an available decision',()=>{
+test('support accepts changed live relationships while the committed movement retains its lifecycle',()=>{
   const s=createBackcourtScenario();coordinate(s);selectActions(s);
   const p=getPlayer(s,'H02'),plan=structuredClone(p.support),action=structuredClone(p.action);
   // The stimulus has to be something the read actually depends on. Moving one
@@ -49,17 +49,13 @@ test('support survives a changed read during commitment and updates only at an a
   const carrier=getPlayer(s,s.ball.controllerId!);carrier.position={...carrier.position,x:carrier.position.x+3};
   s.ball.position={...carrier.position};s.tick=100;
   coordinate(s);selectActions(s);
-  // RE-PINNED for action continuity. A live run is no longer REPLACED when the
-  // read changes -- that protection is the point of this test and is asserted
-  // harder than before, on the action id and its phase. What it may now do is
-  // adjust its destination slightly rather than stop and start again, which is
-  // what a supporting player actually does and what removed a third of the
-  // engine's action churn. The adjustment is bounded, and the PLAN behind it
-  // still only changes at an available decision.
-  assert.deepEqual(p.support,plan,'the support plan itself waits for a decision');
+  // The destination responds to the changed ball relationship; its body still
+  // executes one bounded run. Keeping an expired support plan until arrival
+  // left players pursuing obsolete lanes for several seconds.
+  assert.notDeepEqual(p.support,plan,'the live relationship is re-read after its review boundary');
   assert.equal(p.action!.id,action!.id,'no replacement of a committed run');
   assert.equal(p.action!.phase,action!.phase,'and no restart of its lifecycle');
-  assert.ok(distance(p.action!.target!,action!.target!)<=1.2,'only a bounded adjustment of where it is going');
+  assert.notDeepEqual(p.action!.target,action!.target,'the current relationship steers the same run');
   p.action!.phase='COMPLETED';coordinate(s);selectActions(s);
   assert.notDeepEqual(p.support?.target,plan?.target);assert.notEqual(p.action!.id,action!.id);
 });
@@ -76,7 +72,7 @@ test('backcourt scenarios physically evolve, complete in both directions and ret
       // Occupying width takes longer than this possession lasts, so the claim is
       // asserted on a run that is allowed to finish forming rather than on one
       // that happens to be whistled after five seconds.
-      let room=createBackcourtScenario(name,2025,direction);room.checkpoint.stopOnOutcome=false;room.checkpoint.maxTicks=400;
+      const room=createBackcourtScenario(name,2025,direction);room.checkpoint.stopOnOutcome=false;room.checkpoint.maxTicks=400;
       const wide=[room];while(wide.at(-1)!.status==='RUNNING')wide.push(tickCore(wide.at(-1)!));
       // RE-PINNED off a fixed eleven metres. The claim is that width is
       // OCCUPIED rather than merely planned, so it is asserted against the

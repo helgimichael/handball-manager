@@ -23,11 +23,13 @@
 // read produces a different branch depending on what the defence actually did,
 // and that losing the advantage returns the attack to the start rather than
 // ending the possession.
-import { clamp, distance, goal, laneClearance, local, shootingAngle, shotQuality, world } from './space';
-import { courtPlayers, getPlayer, otherTeam, record, type CorePlayer, type CoreState, type Point, type TeamId } from './state';
+import { clamp, distance, goal, laneClearance, local, shootingAngle, shotOpportunity, world } from './space';
+import { courtPlayers, otherTeam, record, type CorePlayer, type CoreState, type Point, type TeamId } from './state';
 import { PIVOT_FINISH_METERS, isPivot, pivotOffer, pivotShotQuality } from './pivot';
 import { isWing } from './wing';
 import { laneMargin, secondsTo } from './timing';
+import { exchangeActive } from './population';
+import { zoneOf } from './defence';
 
 /** A gap between two adjacent defenders, and what it is worth attacking. */
 export type Interval = {
@@ -120,7 +122,18 @@ export function breakDefence(s:CoreState,defender:CorePlayer,cause:string,byId:s
   // No freed man, no advantage. A break that names nobody cannot be played and
   // only makes the attack braver for no reason, which is exactly what turned
   // four hundred flickering help duties into twenty-four interceptions a match.
-  const freed=s.defence.marks[defender.id]??null;
+  let freed=s.defence.marks[defender.id]??null;
+  // PRESSURE/HELP now points at the carrier. That current duty is not the man
+  // the helper LEFT: look at the actual off-ball threat in his vacated space,
+  // and refuse an opening somebody else has already physically covered.
+  if(freed===s.ball.controllerId&&defender.zone!==null) {
+    const direction=s.directions[s.possession.team];
+    const threats=courtPlayers(s,s.possession.team).filter(a=>a.kind==='FIELD_PLAYER'&&a.id!==s.ball.controllerId&&a.id!==byId&&
+      zoneOf(a.position.x)===defender.zone&&!a.airborne&&!a.condition.exitRequired&&!exchangeActive(s,a.id));
+    const uncovered=threats.filter(a=>!courtPlayers(s,otherTeam(a.team)).some(d=>d.kind==='FIELD_PLAYER'&&d.id!==defender.id&&
+      d.beatenUntilTick<=s.tick&&d.screenedUntilTick<=s.tick&&distance(d.position,a.position)<1.15));
+    freed=uncovered.sort((a,b)=>local(a.position,direction).y-local(b.position,direction).y||a.id.localeCompare(b.id))[0]?.id??null;
+  }
   if(!freed)return;
   // A man cannot be freed by his own screen. When the line player screens the
   // defender who marks him, that relationship is already read -- with a lane
@@ -233,9 +246,11 @@ export function readContinuation(s: CoreState, carrier: CorePlayer): Continuatio
   // is whistled. Twenty-nine handling violations a match came from exactly that.
   const held = (s.tick - carrier.handling.heldSinceTick) * 50;
   const pressed = held > s.ruleProfile.maxHoldMs * 0.55 || carrier.handling.steps >= s.ruleProfile.maxSteps - 1;
-  const mates = courtPlayers(s, carrier.team).filter(a => a.id !== carrier.id && !a.airborne);
+  const mates = courtPlayers(s, carrier.team).filter(a => a.id !== carrier.id && a.kind==='FIELD_PLAYER' && !a.airborne &&
+    !a.condition.unavailable&&!a.condition.exitRequired&&!exchangeActive(s,a.id));
   const passSpeed = 10.5 + 3 * carrier.profile.passing;
   const tendency = carrier.profile.tendency;
+  const tactics=s.coaching[carrier.team];
   const broken = liveBreak(s, carrier.team);
 
   // Every option he has, scored the same way: how good it is RIGHT NOW, read
@@ -250,7 +265,17 @@ export function readContinuation(s: CoreState, carrier: CorePlayer): Continuatio
   // differently, which is the entire point of having tendencies at all.
   const options: { c: NonNullable<Continuation>; appeal: number }[] = [];
   const offer = (c: NonNullable<Continuation>, value: number, weight: number) => {
-    if (value > 0) options.push({ c, appeal: clamp(value, 0, 1) * weight });
+    let preference=1;
+    if(tactics.attackIdentity==='DIRECT')preference=c.kind==='SHOOT'?1.10:c.kind==='ATTACK_INTERVAL'?1.16:c.kind==='RECYCLE'?.94:1;
+    if(tactics.attackIdentity==='COMBINATION')preference=c.kind==='PLAY_FREED'?1.18:c.kind==='FEINT'?1.08:1;
+    if(tactics.attackIdentity==='WIDTH'&&'receiverId' in c) {
+      const receiver=mates.find(a=>a.id===c.receiverId);
+      const reversal=receiver&&(receiver.position.x-10)*(carrier.position.x-10)<0;
+      preference=receiver&&isWing(receiver)&&c.kind==='PLAY_FREED'?1.22:reversal?1.10:1;
+    }
+    // Tempo changes willingness to spend an existing advantage, not leg speed.
+    if(tactics.tempo==='QUICK')preference*=c.kind==='RECYCLE'?.94:1.06;
+    if (value > 0) options.push({ c, appeal: clamp(value, 0, 1) * weight*preference });
   };
 
   // SHOOT. His own judgement of the chance, never a depth threshold.
@@ -261,11 +286,10 @@ export function readContinuation(s: CoreState, carrier: CorePlayer): Continuatio
   // him reach the general shot put fourteen backcourt jumps a match on the line
   // player, which is not a shot that exists in handball.
   {
-    const pressure = courtPlayers(s, otherTeam(carrier.team))
-      .filter(d => d.kind !== 'GOALKEEPER' && distance(d.position, carrier.position) < 2).length;
-    const range = distance(carrier.position, goal(direction));
+    const context=shotOpportunity(s,carrier);
+    const range = context?.distance??distance(carrier.position, goal(direction));
     const line = isPivot(carrier);
-    const value = line ? pivotShotQuality(s, carrier) : shotQuality(s, carrier, pressure);
+    const value = line ? pivotShotQuality(s, carrier) : context?.quality??0;
     const angle = shootingAngle(carrier.position, direction);
     const lane = laneClearance(s, carrier.position, goal(direction), carrier.team);
     const inRange = !line || range <= PIVOT_FINISH_METERS;
@@ -283,9 +307,9 @@ export function readContinuation(s: CoreState, carrier: CorePlayer): Continuatio
     // line player and the wing alike.
     const built = s.possession.completedPasses >= 2 || s.possession.phase === 'TRANSITION' ||
       range <= 7.5 || q.y <= 5;
-    if (inRange && built && angle > 0.13 && lane > 0.42) {
+    if (context&&inRange && built && angle > 0.11 && (lane > 0.25||context.blockThreat<.65)) {
       offer({ kind: 'SHOOT', quality: value, reason: `Take the chance: quality ${value.toFixed(2)}` },
-        (value - SHOT_FLOOR) / 0.34, tendency.shoot);
+        (value - SHOT_FLOOR) / 0.42, tendency.shoot);
     }
   }
 
@@ -303,11 +327,23 @@ export function readContinuation(s: CoreState, carrier: CorePlayer): Continuatio
     }
   }
 
+  // Width is rewarded when the outside defender actually abandons it. The
+  // ball-side back releases the wing; a cross-court hope is not the same pass.
+  for(const wing of mates.filter(isWing)) {
+    const marker=courtPlayers(s,otherTeam(carrier.team)).find(d=>s.defence.marks[d.id]===wing.id);
+    const collapsed=marker&&(marker.duty.kind==='HELP'||marker.duty.kind==='PRESSURE')&&marker.duty.targetId!==wing.id;
+    const separated=!marker||marker.beatenUntilTick>s.tick||marker.screenedUntilTick>s.tick||distance(marker.position,wing.position)>3.6;
+    if((collapsed||separated)&&distance(carrier.position,wing.position)<10&&shotOpportunity(s,wing)) {
+      const lane=laneMargin(s,carrier.position,wing.position,carrier.team,passSpeed);
+      if(lane.seconds>.16)offer({kind:'PLAY_FREED',receiverId:wing.id,reason:collapsed?'Release the wing whose defender helped inside':'Use the genuinely separated outside receiver'},.68,tendency.feed);
+    }
+  }
+
   // FEED THE LINE PLAYER, when he is genuinely playable.
   if (!isPivot(carrier)) {
     const line = mates.filter(isPivot).map(a => ({ a, o: pivotOffer(s, carrier, a) }))
       .filter(x => x.o.available).sort((x, y) => y.o.margin - x.o.margin)[0];
-    if (line && line.o.margin > 0.42) {
+    if (line) {
       // A feed that pivotOffer has passed is already rare -- it is available on
       // about one read in ten -- and it is one of the best balls in handball.
       // Scoring it from the margin ABOVE the threshold made it worth 0.17 at the
@@ -357,7 +393,10 @@ export function readContinuation(s: CoreState, carrier: CorePlayer): Continuatio
   // moved him into this instead -- he chose it on nearly half of all ticks,
   // burned his steps on the six-metre line and trebled the technical turnovers.
   // His one-against-one is winning the position, not beating a man off it.
-  if (!pressed && marker && q.y < 13 && !carrier.handling.dribbleUsed && !isPivot(carrier)) {
+  // A feint includes preparation, recovery, its following approach and a
+  // release. Starting one when only the feint fits manufactures a violation.
+  const remainingTicks=s.ruleProfile.maxHoldMs/50-(s.tick-carrier.handling.heldSinceTick);
+  if (!pressed && remainingTicks>=33 && marker && q.y < 13 && !carrier.handling.dribbleUsed && !isPivot(carrier)) {
     offer({ kind: 'FEINT', defenderId: marker.id, reason: 'Make the defender in front of me commit to a side' },
       carrier.profile.breakthrough, tendency.drive);
   }
@@ -376,7 +415,8 @@ export function readContinuation(s: CoreState, carrier: CorePlayer): Continuatio
     // arrived that way. Deciding to move the ball and being forced to are not
     // supposed to be different passes.
     .filter(x => x.lane.seconds > 0.1 && distance(carrier.position, x.a.position) <= 16)
-    .sort((x, y) => rebuildValue(s, y.a, direction) - rebuildValue(s, x.a, direction))[0];
+    .sort((x, y) => (rebuildValue(s, y.a, direction)-(y.a.id===s.possession.lastPasserId?.12:0))
+      -(rebuildValue(s, x.a, direction)-(x.a.id===s.possession.lastPasserId?.12:0)))[0];
   if (outlet) {
     offer({ kind: 'RECYCLE', receiverId: outlet.a.id, reason: 'Nothing is open; keep the ball and rebuild' },
       RECYCLE_APPEAL, 1);

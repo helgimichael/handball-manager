@@ -6,6 +6,7 @@ import { acquire,awardRestart } from './transitions';
 import { exchangeActive,requestExchange } from './population';
 import { restartReady } from './rules';
 import { isPivot } from './pivot';
+import { laneMargin } from './timing';
 
 const priority=['CB','LB','RB','P','LW','RW','P2'];
 function chooseTaker(s:CoreState) {
@@ -17,14 +18,22 @@ function chooseTaker(s:CoreState) {
 }
 export function restartTarget(s:CoreState,p:CorePlayer):Point {
   const r=s.restart!,direction=s.directions[r.owner],own=p.team===r.owner;
-  if(p.id===r.takerId)return {x:clamp(r.location.x,.35,19.65),y:clamp(r.location.y,.35,39.65)};
+  if(p.id===r.takerId) {
+    if(r.kind==='GOALKEEPER_THROW'&&goalAreaClearance(p.position,s.directions[otherTeam(p.team)])<-p.radius)return {...p.position};
+    return {x:clamp(r.location.x,.35,19.65),y:clamp(r.location.y,.35,39.65)};
+  }
   if(p.kind==='GOALKEEPER')return world({x:10,y:1.5},s.directions[otherTeam(p.team)]);
   let target=structurePoint(p.role,own?direction:s.directions[p.team]);
   if(r.kind==='CENTRE_THROW_OFF') {
     const x:Record<CorePlayer['role'],number>={LW:2,LB:5,CB:9,RB:14,RW:18,P:11,P2:16,GK:10};
     target=world({x:x[p.role],y:own?25+(p.role==='P'?2:0):15-(p.role==='P'?2:0)},direction);
   } else if(r.kind==='GOALKEEPER_THROW') {
-    target=world({x:structurePoint(p.role,'TOP').x,y:own?(p.role==='P'?29:p.role==='LW'||p.role==='RW'?22:26):18},direction);
+    // A held save leaves the whole court where it really is. The named outlet
+    // checks at its actual position; others run their first wave or retreat.
+    if(p.id===r.receiverId)return {...p.position};
+    const q=local(p.position,direction),depth=own?local(structurePoint(p.role,direction),direction).y:7.5;
+    const advance=s.coaching[r.owner].tempo==='QUICK'?8:6;
+    target=clearGoalArea(world({x:clamp(q.x,.7,19.3),y:Math.max(depth,q.y-advance)},direction),direction,p.radius+.1);
   } else {
     const q=local(target,direction);
     if(own)target=r.kind==='FREE_THROW'?clearGoalArea(target,direction,s.ruleProfile.restartDistance+p.radius+.3):world({x:q.x,y:Math.max(9.7,q.y)},direction);
@@ -71,16 +80,25 @@ export function restartStep(s:CoreState) {
     // to the ball; a restart is put into a player who can turn and organise
     // with it. He was receiving thirty-four restarts a match here, which was by
     // some distance the commonest reason the ball reached him at all.
-    const candidates=courtPlayers(s,r.owner).filter(p=>p.kind==='FIELD_PLAYER'&&p.id!==taker.id&&!exchangeActive(s,p.id)&&!isPivot(p));
+    const candidates=courtPlayers(s,r.owner).filter(p=>p.kind==='FIELD_PLAYER'&&p.id!==taker.id&&!exchangeActive(s,p.id)&&
+      !p.airborne&&!p.condition.unavailable&&!p.condition.exitRequired&&(r.kind==='GOALKEEPER_THROW'||!isPivot(p)));
     if(r.kind==='CENTRE_THROW_OFF'||r.kind==='GOALKEEPER_THROW') {
       const memory=s.offence.memory[r.owner],identity=s.coaching[r.owner].attackIdentity;
       const score=(p:CorePlayer)=>{
+        if(r.kind==='GOALKEEPER_THROW') {
+          const lane=laneMargin(s,taker.position,p.position,r.owner,10.5+3*taker.profile.passing).seconds;
+          if(!fieldLegal(p.position,p.radius)||lane<=.05)return -Infinity;
+          const gain=clamp((local(taker.position,s.directions[r.owner]).y-local(p.position,s.directions[r.owner]).y)/15,0,1);
+          const wing=p.role==='LW'||p.role==='RW';
+          return Math.min(lane,1)*.6+gain*.55+p.profile.handling*p.condition.energy*.4+(wing&&identity==='WIDTH'?.35:0)+
+            (identity==='DIRECT'?gain*.2:0);
+        }
         const target=restartTarget(s,p),length=distance(r.location,target),wing=p.role==='LW'||p.role==='RW';
         return Math.min(laneClearance(s,r.location,target,r.owner),3)*.45+p.profile.handling*p.condition.energy+(wing&&identity==='WIDTH'?.7:0)+
           (identity==='DIRECT'?Math.min(length,16)*.06:0)-Math.max(0,length-16)*.3-memory.outlets.filter(id=>id===p.id).length*.45;
       };
       candidates.sort((a,b)=>score(b)-score(a)||a.id.localeCompare(b.id));
-      r.receiverId=candidates[0]?.id??null;
+      r.receiverId=candidates[0]&&Number.isFinite(score(candidates[0]))?candidates[0].id:null;
       if(r.receiverId){memory.outlets.push(r.receiverId);if(memory.outlets.length>6)memory.outlets.shift();record(s,'ATTACK_OUTLET_SELECTED',taker,{receiverId:r.receiverId,kind:r.kind,identity});}
     }else{
       // A set restart is rebuilt from the backcourt, not from wherever the
@@ -147,7 +165,7 @@ export function restartStep(s:CoreState) {
       if(s.match&&r.context==='OPENING_HALF'){s.officialClock.running=true;s.match.phase=s.period===1?'FIRST_HALF':'SECOND_HALF';s.match.periodStartMs=s.officialClock.timeMs;record(s,'PERIOD_STARTED',null,{period:s.period});}
       record(s,r.kind==='GOALKEEPER_THROW'&&!timedRestart?'RESTART_READY':'RESTART_AUTHORISED',taker,{kind:r.kind,whistle:r.kind!=='GOALKEEPER_THROW'||timedRestart});}
   }
-  if(r.phase==='AUTHORISED'&&s.tick-r.authorisedTick!>=6&&actionAvailable(taker)) {
+  if(r.phase==='AUTHORISED'&&s.tick-r.authorisedTick!>=(r.kind==='GOALKEEPER_THROW'?0:6)&&actionAvailable(taker)) {
     if(r.kind==='SEVEN_METRE'||s.match?.phase==='FINAL_THROW')startAction(s,taker,'SHOOT','Execute authorised direct throw from planted foot',null,null,r.kind==='SEVEN_METRE'?'SEVEN_METRE':'STANDING');
     else if(r.receiverId){const receiver=getPlayer(s,r.receiverId);if(actionAvailable(receiver))startAction(s,receiver,'RECEIVE','Prepare reception of legal restart');
       if(receiver.action?.kind==='RECEIVE'&&receiver.action.phase==='EXECUTING')startAction(s,taker,'PASS','Execute lawful restart',null,receiver.id);}

@@ -1,5 +1,5 @@
 import { courtPlayers, getPlayer, otherTeam, random, record, uid, type CoreContest, type CorePlayer, type CoreState, type Point } from './state';
-import { clamp, distance, fieldLegal, goal, local, segmentPoint, shootingAngle } from './space';
+import { clamp, distance, fieldLegal, goal, local, segmentPoint, shootingAngle, shotContext } from './space';
 import { advanceOf, reachOf } from './timing';
 import { acquire, awardRestart, checkpoint, foul, interrupt } from './transitions';
 import type { ExecutionEffect } from './actions';
@@ -7,6 +7,8 @@ import { restartReady } from './rules';
 import { completeRestart } from './restarts';
 import { goalAreaClearance } from '../../domain/geometry/goalArea';
 import { breakDefence } from './engage';
+import { executionCapacity } from './condition';
+import { executePass, receptionRisk, releasePressure, shotHeight, type PassExecution } from './execution';
 
 export function contest(s:CoreState,kind:CoreContest['kind'],a:CorePlayer,d:CorePlayer,outcome:string,margin:number,duration:number,sourceActionId=a.action?.id??s.ball.flight?.actionId??'contact') {
   const id=uid(s,'contest');
@@ -75,6 +77,9 @@ function release(s:CoreState,p:CorePlayer,kind:'PASS'|'SHOOT') {
   if(kind==='PASS'&&(!receiver||receiver.team!==p.team||receiver.population!=='COURT')){p.action.phase='FAILED';record(s,'ACTION_FAILED',p,{reason:'Receiver unavailable'});return;}
   const direction=s.directions[p.team];
   let target:Point;
+  let passExecution:PassExecution|null=null;
+  let releaseContext:ReturnType<typeof shotContext>|null=null;
+  let goalHeight=1.1;
   if(receiver) {
     target={...receiver.position};
     // Lead a currently moving receiver using observable velocity and committed
@@ -91,10 +96,13 @@ function release(s:CoreState,p:CorePlayer,kind:'PASS'|'SHOOT') {
     }
     // And nobody throws the ball out of play at a teammate.
     target={x:clamp(target.x,.45,20-.45),y:clamp(target.y,.45,40-.45)};
+    passExecution=executePass(s,p,receiver,target,delivery);
+    target=passExecution.target;
   }
   else {
     const keeper=courtPlayers(s,otherTeam(p.team)).find(d=>d.kind==='GOALKEEPER');
-    const pressure=courtPlayers(s,otherTeam(p.team)).filter(d=>d.kind!=='GOALKEEPER'&&distance(d.position,p.position)<2&&d.beatenUntilTick<=s.tick).length;
+    releaseContext=shotContext(s,p);
+    const pressure=releaseContext.pressure;
     const wide=Math.abs(p.position.x-10)>6.5;
     // PLAYER IDENTITY: a shooter aims where the goalkeeper is NOT. The old code
     // picked nine or eleven from the keeper's side of centre and stopped there,
@@ -103,7 +111,7 @@ function release(s:CoreState,p:CorePlayer,kind:'PASS'|'SHOOT') {
     // actual position, and how close to the post a player dares go is his own
     // placement: a poor finisher still shoots at the middle.
     const keeperX=keeper?keeper.position.x:10;
-    const placement=wide?(p.profile.wingFinishing*.7+p.profile.shotPlacement*.3):p.profile.shotPlacement;
+    const placement=(wide?(p.profile.wingFinishing*.7+p.profile.shotPlacement*.3):p.profile.shotPlacement)*executionCapacity(p);
     // From the wing, the near post is the shot the angle actually offers. Aiming
     // across the mouth at the far post sends the ball straight through the
     // goalkeeper, who is standing between the two, and that is exactly what
@@ -155,6 +163,7 @@ function release(s:CoreState,p:CorePlayer,kind:'PASS'|'SHOOT') {
     const safe=POST_MARGIN+spread*(wide?.12:.35);
     const aim=clamp(wide?10+open*(.35+1.15*placement):keeperX+open*reach,NEAR_POST+safe,FAR_POST-safe);
     target={x:aim+(random(s)-.5)*spread,y:goal(direction).y};
+    goalHeight=shotHeight(s,p,placement,pressure);
   }
   const origin={...s.ball.position},d=distance(origin,target);if(d<.1){p.action.phase='FAILED';return;}
     // PLAYER IDENTITY: a hard shooter releases faster, which is what shortens the
@@ -165,12 +174,16 @@ function release(s:CoreState,p:CorePlayer,kind:'PASS'|'SHOOT') {
   // the ball gives him, is exactly what made it the second most efficient shot
   // in the match at seventy-two per cent. Less on it, so he gets there.
   const flat=kind==='SHOOT'&&p.action?.shotKind==='STANDING'&&!p.airborne;
-  const speed=kind==='PASS'?10.5+3*p.profile.passing:(17+11*p.profile.shotPower)*(flat?.82:1);
+  const speed=kind==='PASS'?passExecution!.speed:(17+11*p.profile.shotPower)*(flat?.82:1)*(.88+.12*executionCapacity(p));
   p.action.resolved=true;
   s.ball={...s.ball,mode:'RELEASE',height:p.airborne?2.3:1.5,controllerId:null,lastTouchId:p.id,
     flight:{kind:kind==='PASS'?'PASS':'SHOT',origin,velocity:{x:(target.x-origin.x)/d*speed,y:(target.y-origin.y)/d*speed},fromId:p.id,receiverId:receiver?.id??null,actionId:p.action.id,possessionId:s.possession.id,releasedTick:s.tick,height:p.airborne?2.3:1.5,goalSide:direction,touchedIds:[p.id],purpose:p.action.purpose}};
+  if(kind==='SHOOT')s.ball.flight!.goalHeight=goalHeight;
   if(kind==='SHOOT')p.nextAction='LAND';
-  record(s,delivery?'BALL_RETURN_RELEASED':kind==='PASS'?'PASS_RELEASED':'SHOT_RELEASED',p,{x:origin.x,y:origin.y,height:s.ball.height,shotKind:p.action.shotKind??'NONE',phase:s.possession.phase,subphase:s.offence.phase},receiver?[receiver.id]:[]);
+  record(s,delivery?'BALL_RETURN_RELEASED':kind==='PASS'?'PASS_RELEASED':'SHOT_RELEASED',p,{x:origin.x,y:origin.y,height:s.ball.height,reason:p.action.reason,shotKind:p.action.shotKind??'NONE',phase:s.possession.phase,subphase:s.offence.phase,
+    ...(passExecution?{difficulty:passExecution.difficulty,executionError:passExecution.error,pressure:passExecution.pressure,passingCapability:passExecution.capability,aimX:target.x,aimY:target.y}:{}),
+    ...(releaseContext?{decisionQuality:releaseContext.quality,pressure:releaseContext.pressure,blockThreat:releaseContext.blockThreat,goalHeight,executionEnergy:p.condition.energy}:{}),
+  },receiver?[receiver.id]:[]);
   if(!delivery&&s.restart?.phase==='AUTHORISED') {
     s.restart.phase='RELEASED';
     if(s.restart.kind!=='CENTRE_THROW_OFF'&&s.restart.kind!=='GOALKEEPER_THROW')completeRestart(s,'BALL_RELEASE');
@@ -249,7 +262,7 @@ export function resolveScreens(s:CoreState) {
  * off line, and either team can win it -- which is what makes a deflection a
  * contest rather than a turnover.
  */
-function deflect(s:CoreState,p:CorePlayer,point:Point,type:string) {
+function deflect(s:CoreState,p:CorePlayer,point:Point,type:string,detail:CoreState['events'][number]['details']={}) {
   const f=s.ball.flight!;
   const speed=Math.hypot(f.velocity.x,f.velocity.y)||1;
   const ux=f.velocity.x/speed,uy=f.velocity.y/speed;
@@ -263,18 +276,20 @@ function deflect(s:CoreState,p:CorePlayer,point:Point,type:string) {
   f.kind='DEFLECTION';
   f.velocity={x:(ux*Math.cos(angle)-uy*Math.sin(angle))*kept,y:(ux*Math.sin(angle)+uy*Math.cos(angle))*kept};
   f.touchedIds.push(p.id);f.releasedTick=s.tick;
-  record(s,type,p,{speed:Number(kept.toFixed(2))},[f.fromId],null,f.actionId);
+  record(s,type,p,{...detail,speed:Number(kept.toFixed(2))},[f.fromId],null,f.actionId);
 }
 export function advanceBall(s:CoreState) {
   const f=s.ball.flight;if(!f||f.releasedTick===s.tick)return;
   const from={...s.ball.position},to={x:from.x+f.velocity.x*.05,y:from.y+f.velocity.y*.05};
   if(f.kind==='SHOT') {
-    const total=distance(f.origin,{x:f.origin.x,y:goal(f.goalSide).y});
-    const fraction=Math.min(1,distance(f.origin,to)/Math.max(.1,total));s.ball.height=f.height+(1.1-f.height)*fraction;
+    const depth=goal(f.goalSide).y-f.origin.y;
+    const fraction=clamp((to.y-f.origin.y)/(Math.abs(depth)>.1?depth:depth<0?-.1:.1),0,1);
+    s.ball.height=f.height+((f.goalHeight??1.1)-f.height)*fraction;
   }
   const candidates=courtPlayers(s).filter(p=>!f.touchedIds.includes(p.id)&&
     (f.purpose!=='DEAD_BALL_RETURN'||p.id===f.receiverId)&&
-    (s.ball.live||p.team===getPlayer(s,f.fromId).team)).map(p=>{
+    (s.ball.live||p.team===getPlayer(s,f.fromId).team||
+      s.restart?.phase==='RELEASED'&&s.restart.kind==='GOALKEEPER_THROW'&&f.purpose==='PLAY')).map(p=>{
     const hit=segmentPoint(from,to,p.position);
     const isKeeper=p.kind==='GOALKEEPER';
     const ready=p.action?.phase==='EXECUTING';
@@ -306,7 +321,7 @@ export function advanceBall(s:CoreState) {
     // seven-metre throw a certain goal.
     const set=getPlayer(s,f.fromId).action?.shotKind==='SEVEN_METRE';
     const spare=Math.max(0,flightSeconds-(set?0:p.profile.reaction));
-    const span=.31+.40*(p.profile.keeper?.explosiveness??.5);
+    const span=(.31+.40*(p.profile.keeper?.explosiveness??.5))*executionCapacity(p);
     // His body covers this much standing still; beyond it he has to travel, and
     // a hand crosses the goal at about two and a half metres a second.
     const STANDING=.19,DIVE_SPEED=2.4;
@@ -318,7 +333,7 @@ export function advanceBall(s:CoreState) {
     // contest is now his spring against the shooter's placement, which is what a
     // penalty actually is.
     const PENALTY_SPAN=.74+.46*(p.profile.keeper?.explosiveness??.5);
-    const keeperReach=set?PENALTY_SPAN:Math.min(span,STANDING+DIVE_SPEED*spare);
+    const keeperReach=set?PENALTY_SPAN*executionCapacity(p):Math.min(span,STANDING+DIVE_SPEED*executionCapacity(p)*spare);
     const reach=f.kind==='SHOT'
       ?(isKeeper?(ready&&p.action?.kind==='SAVE'?keeperReach:.2)
         :ready&&p.action?.kind==='BLOCK'&&!beaten?.16+.34*p.profile.blocking:0)
@@ -373,6 +388,19 @@ export function advanceBall(s:CoreState) {
     }
     if(p.team===shooter.team&&p.action?.kind!=='RECEIVE'&&!(p.reception?.passActionId===f.actionId&&p.reception.readyTick<=s.tick&&['RUN','REPOSITION'].includes(p.action?.kind??'')))continue;
     if(p.kind==='GOALKEEPER'&&f.purpose!=='DEAD_BALL_RETURN')continue;
+    // A catch can happen in the same physical segment as the area exit. The
+    // lawful exit owns the chronology before contact can acquire the ball.
+    // Otherwise an early return left a valid outlet controlled but dead forever.
+    if(s.restart?.phase==='RELEASED'&&s.restart.kind==='GOALKEEPER_THROW'&&f.purpose==='PLAY') {
+      if(goalAreaClearance(hit.point,s.directions[otherTeam(s.restart.owner)])<=.1)continue;
+      s.ball.position={...hit.point};completeRestart(s,'GOAL_AREA_EXIT');
+    }
+    if(p.team===shooter.team&&f.kind==='PASS'&&f.purpose!=='DEAD_BALL_RETURN') {
+      const pace=Math.hypot(f.velocity.x,f.velocity.y),risk=receptionRisk(s,p,hit.point,pace);
+      // Roll once, only after a real reachable catch. A fumble creates a
+      // physical contested rebound; it does not hand possession to anyone.
+      if(risk>0&&random(s)<risk){deflect(s,p,hit.point,'RECEPTION_FAILED',{risk,pace,handling:p.profile.handling,pressure:releasePressure(s,p)});return;}
+    }
     if(p.team!==shooter.team) {
       // Holding a lane deflects; attacking the ball takes it.
       const attacking=['RECEIVE','PRESS','HELP'].includes(p.action?.kind??'');

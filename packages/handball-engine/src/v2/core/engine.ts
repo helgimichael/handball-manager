@@ -1,7 +1,7 @@
 import { goalAreaClearance } from '../../domain/geometry/goalArea';
-import { CORE_VERSION, CORE_RULES, DT_MS, actionAvailable, courtPlayers, getPlayer, record, type CoreState } from './state';
-import { distance, fieldLegal } from './space';
-import { execute, handlingRules, startAction } from './actions';
+import { CORE_VERSION, CORE_RULES, DT_MS, actionAvailable, courtPlayers, getPlayer, record, type CoreState, type CorePlayer, type Point } from './state';
+import { clamp, clearGoalArea, distance, fieldLegal, segmentPoint } from './space';
+import { execute, handlingRules, resolveAction, startAction } from './actions';
 import { coordinate, selectActions,resolveHandovers } from './structure';
 import { advanceBall, resolveEffects, resolveScreens } from './interactions';
 import { acquire, awardRestart } from './transitions';
@@ -15,26 +15,77 @@ import { passiveAfter } from './passive';
 import { conditionAfter } from './condition';
 import { coachingBefore } from './coaching';
 import { offenceBefore,offenceAfter } from './offence';
+import { secondsTo } from './timing';
+
+function collectionPoint(s:CoreState,p:CorePlayer):Point|null {
+  let target={x:clamp(s.ball.position.x,p.radius+.01,20-p.radius-.01),y:clamp(s.ball.position.y,p.radius+.01,40-p.radius-.01)};
+  if(p.kind==='FIELD_PLAYER'){
+    target=clearGoalArea(clearGoalArea(target,'TOP',p.radius+.01),'BOTTOM',p.radius+.01);
+    if(!fieldLegal(target,p.radius)||distance(target,s.ball.position)>.65)return null;
+  }
+  return target;
+}
+function collectionTime(s:CoreState,p:CorePlayer,target:Point):number {
+  // Bodies affect the path as well as the final distance. This estimate charges
+  // their actual lateral detour; the ordinary movement/collision code still
+  // has to execute it, and the estimate never grants ball ownership.
+  let detour=0;
+  for(const body of courtPlayers(s)){
+    if(body.id===p.id)continue;
+    const hit=segmentPoint(p.position,target,body.position);
+    if(hit.t>.05&&hit.t<.95)detour+=Math.max(0,(p.radius+body.radius)-distance(hit.point,body.position))*2;
+  }
+  return secondsTo(s,p,target)+detour/Math.max(.4,p.profile.topSpeed);
+}
+function approachLoose(s:CoreState,p:CorePlayer,target:Point,reason:string) {
+  const near=distance(p.position,s.ball.position)<=.65;
+  const action=p.action;
+  if(action&&!actionAvailable(p)){
+    if((action.kind==='RUN'||action.kind==='REPOSITION')&&action.target&&distance(p.position,action.target)<.35)
+      resolveAction(s,p,'Reached the physical collection approach');
+    else if(!near&&(action.kind==='RUN'||action.kind==='REPOSITION')){action.target={...target};return;}
+    else if(action.kind==='RECEIVE'&&near)return;
+    else {
+      // Reaching with the hands is the next physical action. Discard a stale
+      // stance or finished approach without erasing the momentum already built.
+      action.phase='INTERRUPTED';action.phaseTick=s.tick;
+      record(s,'ACTION_INTERRUPTED',p,{reason:'Loose ball requires a physical collection action'});
+    }
+  }
+  if(actionAvailable(p))startAction(s,p,near?'RECEIVE':p.kind==='GOALKEEPER'?'REPOSITION':'RUN',reason,target);
+}
 function collectLoose(s:CoreState) {
   if(s.ball.mode!=='LOOSE')return;
-  for(const p of courtPlayers(s).filter(p=>p.kind==='GOALKEEPER')) {
-    const ownSide=s.directions[p.team==='HOME'?'AWAY':'HOME'];
-    if(goalAreaClearance(s.ball.position,ownSide)>0)continue;
+  const active=courtPlayers(s);
+  const eligible=(p:CorePlayer)=>!p.airborne&&!exchangeActive(s,p.id)&&!p.condition.unavailable&&!p.condition.exitRequired;
+  const area=(['TOP','BOTTOM'] as const).find(side=>goalAreaClearance(s.ball.position,side)<=0);
+  if(area){
+    for(const p of active)if(p.duty.kind==='COLLECT')p.duty={kind:'WAIT',targetId:null,sinceTick:s.tick,reason:'Only the defending goalkeeper may recover inside this goal area'};
+    const p=active.find(p=>p.kind==='GOALKEEPER'&&s.directions[p.team==='HOME'?'AWAY':'HOME']===area&&eligible(p));
+    if(!p)return;
+    p.duty={kind:'COLLECT',targetId:null,sinceTick:s.tick,reason:'Recover rebound inside own goal area'};
     if(distance(p.position,s.ball.position)<=.65&&p.action?.kind==='RECEIVE'&&p.action.phase==='EXECUTING'){
       acquire(s,p,s.ball.position,'Goalkeeper rebound control');awardRestart(s,'GOALKEEPER_THROW',p.team,p.position,'Keeper recovered rebound');return;
     }
-    if(actionAvailable(p))startAction(s,p,distance(p.position,s.ball.position)>.65?'REPOSITION':'RECEIVE','Recover rebound in own goal area',s.ball.position);
+    const target=collectionPoint(s,p);if(target)approachLoose(s,p,target,'Recover rebound in own goal area');
+    return;
   }
-  // One claimant per team, selected by existing role responsibility before reachability.
+  // A rebound is a race for a physical ball, not a permanent pivot assignment.
+  // One reachable claimant per team; keep him when the alternative offers no
+  // meaningful arrival advantage, so responsibility does not churn each tick.
   for(const team of ['HOME','AWAY'] as const) {
-    const candidates=courtPlayers(s,team).filter(p=>p.kind==='FIELD_PLAYER');
-    const named=candidates.find(p=>p.duty.kind==='COLLECT');
-    const priority=['P','P2','CB','LB','RB','LW','RW'];
-    const claimant=named??candidates.filter(p=>distance(p.position,s.ball.position)<8).sort((a,b)=>priority.indexOf(a.role)-priority.indexOf(b.role)||a.id.localeCompare(b.id))[0];
-    if(!claimant)continue;
-    claimant.duty={kind:'COLLECT',targetId:null,sinceTick:s.tick,reason:'Team-designated rebound claimant'};
+    const candidates=active.filter(p=>p.team===team&&p.kind==='FIELD_PLAYER'&&eligible(p)).flatMap(p=>{
+      const target=collectionPoint(s,p);return target?[{p,target,time:collectionTime(s,p,target)}]:[];
+    }).sort((a,b)=>a.time-b.time||a.p.id.localeCompare(b.p.id));
+    const best=candidates[0],named=candidates.find(c=>c.p.duty.kind==='COLLECT');
+    const choice=named&&best&&named.time<=best.time+.2?named:best;
+    for(const p of active.filter(p=>p.team===team&&p.duty.kind==='COLLECT'&&p.id!==choice?.p.id))
+      p.duty={kind:'WAIT',targetId:null,sinceTick:s.tick,reason:'A more reachable player owns rebound recovery'};
+    if(!choice)continue;
+    const claimant=choice.p;
+    if(claimant.duty.kind!=='COLLECT')claimant.duty={kind:'COLLECT',targetId:null,sinceTick:s.tick,reason:'Reachable team-designated rebound claimant'};
     if(distance(claimant.position,s.ball.position)<=.65&&claimant.action?.phase==='EXECUTING'&&claimant.action.kind==='RECEIVE'){acquire(s,claimant,s.ball.position,'Loose-ball recovery');record(s,'REBOUND_CONTROLLED',claimant);return;}
-    if(actionAvailable(claimant))startAction(s,claimant,distance(claimant.position,s.ball.position)>.65?'RUN':'RECEIVE','Recover physically reachable rebound',s.ball.position);
+    approachLoose(s,claimant,choice.target,'Recover physically reachable rebound');
   }
 }
 export function tickCore(previous:CoreState):CoreState {

@@ -68,6 +68,8 @@ export type CoreFlight = {
   kind: 'PASS' | 'SHOT' | 'DEFLECTION'; origin: Point; velocity: Point;
   fromId: string; receiverId: string | null; actionId: string; possessionId: string;
   releasedTick: number; height: number; goalSide: Direction; touchedIds: string[];
+  /** Optional for older in-progress snapshots; absent retains the original 1.1m endpoint. */
+  goalHeight?:number;
   purpose: 'PLAY' | 'DEAD_BALL_RETURN';
 };
 export type CoreEvent = {

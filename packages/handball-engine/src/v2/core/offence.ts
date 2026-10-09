@@ -1,8 +1,9 @@
 import { actionAvailable,courtPlayers,getPlayer,otherTeam,record,uid,type CorePlayer,type CoreState,type Point,type TeamId } from './state';
-import { clearGoalArea,clamp,distance,fieldLegal,laneClearance,local,shootingAngle,shotQuality,world } from './space';
+import { clearGoalArea,clamp,distance,fieldLegal,laneClearance,local,shootingAngle,shotOpportunity,world } from './space';
 import { startAction,driveTarget } from './actions';
 import { exchangeActive } from './population';
 import { isPivot,pivotOffer } from './pivot';
+import { laneMargin } from './timing';
 
 export const ENTRY_FAMILIES=['CROSS','PIVOT_SCREEN','WING_TRANSITION','STRETCH_SHIFT','FREE'] as const;
 export type EntryFamily=typeof ENTRY_FAMILIES[number];
@@ -158,10 +159,13 @@ export function chooseOffensiveAction(s:CoreState,p:CorePlayer):boolean {
   const e=s.offence.entry;if(!e||e.team!==p.team||p.airborne)return false;
   const direction=s.directions[p.team],q=local(p.position,direction),held=s.tick-p.handling.heldSinceTick;
   const pressure=nearDefenders(s,p,2).length,angle=shootingAngle(p.position,direction);
-  if(angle>.18&&pressure<2&&shotQuality(s,p,pressure)>.5)return action(s,p,'JUMP','Exploit immediate finishing window ahead of the planned relationship');
+  const chance=shotOpportunity(s,p);
+  const built=s.possession.completedPasses>=2||s.possession.phase==='TRANSITION'||(chance?.distance??99)<=8||q.y<=5;
+  if(chance&&built&&chance.distance<=8&&angle>.18&&chance.pressure<1&&chance.quality>.5)return action(s,p,'JUMP','Exploit actual close-range finishing window ahead of the relationship');
   const receivers=courtPlayers(s,p.team).filter(a=>a.id!==p.id&&available(s,a)&&!a.airborne);
   const candidates=receivers.map(a=>{
     const point=local(a.position,direction),clear=laneClearance(s,p.position,a.position,p.team),crowded=nearDefenders(s,a,1.7).length;
+    const timed=laneMargin(s,p.position,a.position,p.team,10.5+3*p.profile.passing).seconds;
     // THE LINE PLAYER IS NOT AN OUTLET. He is the deepest man on the court with
     // the best angle on it, so a generic "he is in a good finishing position"
     // bonus made him the best pass in almost every picture: he received the
@@ -202,9 +206,9 @@ export function chooseOffensiveAction(s:CoreState,p:CorePlayer):boolean {
     const relationship=a.id===e.partnerId?e.response==='DENIED'?0:1.2:a.id===e.pivotId&&e.response==='STEP_OUT'?1.8:0;
     const weakSide=e.response==='COLLAPSE'&&(a.position.x-10)*e.side<0?1.7:0;
     const wave=s.offence.phase==='UPPFOLJNING'?(q.y-point.y)*.12+Math.hypot(a.velocity.x,a.velocity.y)*.1:0;
-    return {a,clear,score:Math.min(clear,2)*.65+finish+relationship+weakSide+wave+depth+wide-crowded*.45-(a.id===s.possession.lastPasserId?.9:0)-(distance(a.position,p.position)>15?1.5:0)};
-  }).filter(c=>c.clear>.5&&c.score>-5).sort((a,b)=>b.score-a.score||a.a.id.localeCompare(b.a.id));
-  const shot=angle>.13?(shotQuality(s,p,pressure)*5.4-1.7)*p.profile.tendency.shoot:-10;
+    return {a,clear,timed,score:Math.min(clear,2)*.65+finish+relationship+weakSide+wave+depth+wide-crowded*.45-(a.id===s.possession.lastPasserId?.9:0)-(distance(a.position,p.position)>15?1.5:0)};
+  }).filter(c=>c.clear>.5&&c.timed>.1&&c.score>-5).sort((a,b)=>b.score-a.score||a.a.id.localeCompare(b.a.id));
+  const shot=chance&&built?(chance.quality*5.4-1.7)*p.profile.tendency.shoot:-10;
   const pass=candidates[0];
   if(shot>(pass?.score??-10)&&held>=6)return action(s,p,'JUMP','Defence leaves a shot worth taking; break the entry');
   if(e.family==='CROSS'&&p.id===e.initiatorId&&e.receipts===0&&held<20&&p.handling.steps===0&&pressure<2) {

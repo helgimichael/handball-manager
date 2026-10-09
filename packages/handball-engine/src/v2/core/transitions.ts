@@ -37,7 +37,20 @@ export function changePossession(s: CoreState,player: CorePlayer,reason: string)
   // A change of possession releases every responsibility. A defender who was
   // covering keeps that duty otherwise, and once his team is attacking the
   // engine sees two covers on the court at once -- one real and one left over.
-  for(const p of s.players){p.support=null;p.zone=null;p.duty={kind:'WAIT',targetId:null,sinceTick:s.tick,reason:'Possession changed'};}
+  for(const p of s.players){
+    p.support=null;p.zone=null;p.reception=null;
+    p.duty={kind:'WAIT',targetId:null,sinceTick:s.tick,reason:'Possession changed'};
+    p.nextAction=null;
+    // A new attack inherits the real court. It abandons the old attacking or
+    // defending intention, not the players' positions, momentum or airborne
+    // state. Exchanges and an actual landing still have to finish physically.
+    const action=p.action;
+    if(action&&!['COMPLETED','FAILED','INTERRUPTED'].includes(action.phase)&&
+      action.kind!=='EXCHANGE'&&action.kind!=='LAND'){
+      action.phase='INTERRUPTED';action.phaseTick=s.tick;
+      record(s,'ACTION_INTERRUPTED',p,{reason:'Possession changed; read the new phase'});
+    }
+  }
   const previous=s.possession.id;
   // THE POSSESSION LEDGER: the event that ENDS a possession belongs to it.
   //
@@ -57,7 +70,9 @@ export function acquire(s: CoreState,p: CorePlayer,point: Point,reason: string,s
   s.ball={...s.ball,position:{...point},mode:p.kind==='GOALKEEPER'?'GOALKEEPER_CONTROL':'RECEPTION',height:1.2,controllerId:p.id,flight:null,lastTouchId:p.id};
   p.handling={heldSinceTick:s.tick,steps:0,stepDistance:0,dribbleUsed:false,bounceTick:s.tick};
   p.reception=null;p.support=null;
+  const momentum={...p.velocity};
   interrupt(s,p,'Ball controlled through contact');
+  p.velocity=momentum;
   record(s,'BALL_CONTROLLED',p,{reason},[],null,sourceActionId);
   if(turnover)checkpoint(s,'TURNOVER');
 }

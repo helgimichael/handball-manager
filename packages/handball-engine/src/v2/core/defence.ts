@@ -44,6 +44,10 @@ export const ZONE_COUNT = ZONE_ANCHORS.length;
 export const LINE_DEPTH_METERS = 6.75;
 /** Defending the outside zones from the corner needs a little more depth. */
 const OUTSIDE_DEPTH_BONUS = 0.5;
+/** Five connected lower spaces and one central point, using the same owners. */
+const FIVE_ONE_ANCHORS = [2.7, 6.2, 10, 10, 13.8, 17.3] as const;
+const POINT_ZONE = 2;
+const POINT_DEPTH_METERS = 10.6;
 
 /** Which zone a defensive role owns by default, left to right. */
 const ZONE_BY_ROLE: Record<string, number> = { LW: 0, LB: 1, CB: 2, P: 3, RB: 4, RW: 5, P2: 3 };
@@ -78,7 +82,13 @@ export type DefenceRead = {
 
 /** Where zone `index` sits right now, given the ball and the line's state. */
 export function zonePost(s: CoreState, index: number, read: DefenceRead, direction: Direction, defenderRadius = 0.28): Point {
-  const anchor = ZONE_ANCHORS[index];
+  const advanced=s.defence.system==='5:1';
+  if(advanced&&index===POINT_ZONE){
+    // The point screens the central backcourt rather than becoming a seventh
+    // private marker. His five neighbours still protect the lower line.
+    return clearGoalArea(world({x:clamp(10+read.shift*.8,5.5,14.5),y:POINT_DEPTH_METERS},direction),direction,defenderRadius+.12);
+  }
+  const anchor = advanced?FIVE_ONE_ANCHORS[index]:ZONE_ANCHORS[index];
   // Gradient by distance from the engaged zone, so the body moves together.
   const centre = read.engaged ?? (read.ballX - 10) / 20 * (ZONE_COUNT - 1) + (ZONE_COUNT - 1) / 2;
   const proximity = 1 - Math.min(1, Math.abs(index - centre) / (ZONE_COUNT - 1));
@@ -205,6 +215,20 @@ export function allocate(s: CoreState, defenders: readonly CorePlayer[], attacke
   const duties = new Map<string, ZoneDuty>();
   const byZone = new Map<number, CorePlayer>();
   for (const d of defenders) if (d.zone !== null) byZone.set(d.zone, d);
+  if(retreating&&!lineFormed(s,defenders,direction)){
+    // A retreat is not a six-man duel. One useful goal-side player delays the
+    // ball; every other player returns through his own lane. Stable ownership
+    // avoids a new nearest-man race on every twentieth of a second.
+    const useful=(d:CorePlayer)=>!!carrier&&d.beatenUntilTick<=s.tick&&d.screenedUntilTick<=s.tick&&
+      local(d.position,direction).y<local(carrier.position,direction).y-.5&&
+      distance(d.position,carrier.position)<9;
+    const current=defenders.find(d=>d.id===s.defence.pressureId&&useful(d));
+    const delay=current??defenders.filter(useful).sort((a,b)=>distance(a.position,carrier!.position)-distance(b.position,carrier!.position)||a.id.localeCompare(b.id))[0];
+    for(const d of defenders) duties.set(d.id,d.id===delay?.id
+      ?{kind:'PRESSURE',targetId:carrier!.id,reason:'Goal-side and able to delay the advancing ball while the line retreats'}
+      :{kind:'RETREAT',targetId:null,reason:'Recover through the owned lane and protect the central goal-side line'});
+    return duties;
+  }
   // A man without a space still defends: he takes whoever is in front of him.
   for (const d of defenders) if (d.zone === null && !duties.has(d.id)) {
     const near = attackers.filter(a => a.id !== carrier?.id)
@@ -219,9 +243,13 @@ export function allocate(s: CoreState, defenders: readonly CorePlayer[], attacke
     // The line player belongs to the space he is standing in. When two line
     // players stand in one space, the second is taken by the neighbour toward
     // the ball, which is the ordinary answer and not an arbitrary nearest man.
-    let want = zoneOf(localX(pivot));
-    if ([...pivotOwner.values()].includes(String(want))) want = clamp(want + (read.shift >= 0 ? -1 : 1), 0, ZONE_COUNT - 1);
-    const owner = byZone.get(want);
+    const want = zoneOf(localX(pivot));
+    const available=defenders.filter(d=>d.zone!==null&&!pivotOwner.has(d.id)&&
+      !(s.defence.system==='5:1'&&d.zone===POINT_ZONE));
+    const natural=byZone.get(want);
+    const owner=natural&&available.includes(natural)?natural:available.sort((a,b)=>
+      Math.abs((s.defence.system==='5:1'?FIVE_ONE_ANCHORS[a.zone!]:ZONE_ANCHORS[a.zone!])-pivot.position.x)-
+      Math.abs((s.defence.system==='5:1'?FIVE_ONE_ANCHORS[b.zone!]:ZONE_ANCHORS[b.zone!])-pivot.position.x)||a.id.localeCompare(b.id))[0];
     if (owner) pivotOwner.set(owner.id, pivot.id);
   }
 
@@ -234,11 +262,21 @@ export function allocate(s: CoreState, defenders: readonly CorePlayer[], attacke
   // first, and the space is insured with whoever is still free.
   let coverCandidate: CorePlayer | null = null;
   if (carrier && read.engaged !== null) {
+    const carrierDepth=local(carrier.position,direction).y;
+    const point=byZone.get(POINT_ZONE);
+    const pointOwns=s.defence.system==='5:1'&&point&&point.beatenUntilTick<=s.tick&&point.screenedUntilTick<=s.tick&&
+      carrierDepth>=9.5&&carrierDepth<=17&&carrier.position.x>=4&&carrier.position.x<=16;
+    if(pointOwns)pressureId=point.id;
     // Whoever owns the space the ball is in presses it. If that man is beaten
     // or has been screened out, the job passes to the neighbour toward the
     // middle: a handover, not a scramble.
     for (const offset of [0, read.shift >= 0 ? -1 : 1, read.shift >= 0 ? 1 : -1]) {
-      const candidate = byZone.get(clamp(read.engaged + offset, 0, ZONE_COUNT - 1));
+      if(pressureId)break;
+      const zone=clamp(read.engaged + offset, 0, ZONE_COUNT - 1);
+      // When the ball reaches the lower line, the point stays high and a lower
+      // neighbour takes the penetration rather than opening a central hole.
+      if(s.defence.system==='5:1'&&zone===POINT_ZONE)continue;
+      const candidate = byZone.get(zone);
       if (candidate && candidate.beatenUntilTick <= s.tick && candidate.screenedUntilTick <= s.tick) { pressureId = candidate.id; break; }
     }
   }
@@ -249,15 +287,22 @@ export function allocate(s: CoreState, defenders: readonly CorePlayer[], attacke
     // because that is the interval the step-out opens. It is a zone
     // relationship, not a proximity search.
     const toward = carrier!.position.x - presser.position.x;
-    const side = (direction === 'BOTTOM' ? -toward : toward) >= 0 ? 1 : -1;
-    for (const offset of [side, -side]) {
-      const neighbour = byZone.get(clamp((presser.zone ?? 0) + offset, 0, ZONE_COUNT - 1));
-      if (neighbour && neighbour.id !== pressureId && neighbour.beatenUntilTick <= s.tick && !pivotOwner.has(neighbour.id)) { helperId = neighbour.id; break; }
+    const side = toward >= 0 ? 1 : -1;
+    const lowerZones=s.defence.system==='5:1'?[0,1,3,4,5]:[0,1,2,3,4,5];
+    const neighbours=s.defence.system==='5:1'&&presser.zone===POINT_ZONE
+      ?side>0?[3,1]:[1,3]
+      :[lowerZones[lowerZones.indexOf(presser.zone??0)+side],lowerZones[lowerZones.indexOf(presser.zone??0)-side]];
+    for (const zone of neighbours) {
+      const neighbour = zone===undefined?undefined:byZone.get(zone);
+      if (neighbour && neighbour.id !== pressureId && neighbour.beatenUntilTick <= s.tick && neighbour.screenedUntilTick <= s.tick && !pivotOwner.has(neighbour.id)) { helperId = neighbour.id; break; }
     }
     if (helperId) {
       duties.set(helperId, { kind: 'HELP', targetId: carrier!.id, reason: 'Close the interval the step-out opened beside the pressing defender' });
       const helper = getPlayer(s, helperId);
-      coverCandidate = byZone.get(clamp((helper.zone ?? 0) + ((helper.zone ?? 0) - (presser.zone ?? 0)), 0, ZONE_COUNT - 1)) ?? null;
+      const helperIndex=lowerZones.indexOf(helper.zone??0);
+      const away=(helper.zone??0)>(presser.zone??0)?1:-1;
+      const coverZone=lowerZones[helperIndex+away];
+      coverCandidate = coverZone===undefined?null:byZone.get(coverZone)??null;
     }
   }
   // The line player is never left to nobody. If the space he stands in has had
@@ -275,8 +320,9 @@ export function allocate(s: CoreState, defenders: readonly CorePlayer[], attacke
     const pivotPlayer = attackers.find(a => a.id === pivotId);
     const pivotX = pivotPlayer ? pivotPlayer.position.x : 10;
     const relay = defenders
-      .filter(d => d.zone !== null && !duties.has(d.id) && d.beatenUntilTick <= s.tick && d.id !== ownerId)
-      .sort((a, b) => Math.abs(ZONE_ANCHORS[a.zone!] - pivotX) - Math.abs(ZONE_ANCHORS[b.zone!] - pivotX)
+      .filter(d => d.zone !== null && !duties.has(d.id) && !pivotOwner.has(d.id) && d.beatenUntilTick <= s.tick && d.id !== ownerId&&
+        !(s.defence.system==='5:1'&&d.zone===POINT_ZONE))
+      .sort((a, b) => Math.abs((s.defence.system==='5:1'?FIVE_ONE_ANCHORS[a.zone!]:ZONE_ANCHORS[a.zone!]) - pivotX) - Math.abs((s.defence.system==='5:1'?FIVE_ONE_ANCHORS[b.zone!]:ZONE_ANCHORS[b.zone!]) - pivotX)
         || a.id.localeCompare(b.id))[0];
     pivotOwner.delete(ownerId);
     if (relay) pivotOwner.set(relay.id, pivotId);
@@ -334,6 +380,13 @@ export function dutyTarget(s: CoreState, d: CorePlayer, duty: ZoneDuty, read: De
   // back into a line is to go to where your place in it will be.
   if (duty.kind === 'RETREAT') return target(q.x, q.y);
   if (duty.kind === 'PRESSURE' && man && manQ) {
+    if(s.possession.phase==='TRANSITION'&&!lineFormed(s,courtPlayers(s,s.defence.team).filter(p=>p.kind==='FIELD_PLAYER'),direction)){
+      // Delay on the carrier's actual path to goal, giving ground as he comes.
+      // The other defenders keep their lanes rather than chasing this point.
+      const toGoal={x:10-manQ.x,y:-manQ.y},length=Math.max(.001,Math.hypot(toGoal.x,toGoal.y));
+      return clearGoalArea(world({x:clamp(manQ.x+toGoal.x/length*1.8,1.1,18.9),
+        y:clamp(Math.max(q.y,manQ.y+toGoal.y/length*1.8),6.2,38)},direction),direction,d.radius+.12);
+    }
     // HE SHIFTS WITH THE PASS BUT DOES NOT MEET A MAN WHO HAS NOT GOT THE BALL.
     // Reading the flight is what lets the line travel in time; stepping the whole
     // way out to the intended receiver puts the defender in the passing lane and
@@ -350,12 +403,20 @@ export function dutyTarget(s: CoreState, d: CorePlayer, duty: ZoneDuty, read: De
     // anticipation but standing in the lane, and it produced seventeen
     // interceptions a match where a good defence makes eight or ten.
     const lane = inFlight ? (q.x + (manQ.x + inside * lateral)) / 2 : manQ.x + inside * lateral;
-    return target(lane, Math.max(q.y, Math.min(manQ.y - 0.45, q.y + depth)));
+    const homeDepth=s.defence.system==='5:1'&&d.zone===POINT_ZONE
+      ?Math.max(LINE_DEPTH_METERS+1,Math.min(q.y,manQ.y-.65)):q.y;
+    return target(lane, Math.max(homeDepth, Math.min(manQ.y - 0.45, homeDepth + depth)));
   }
   if (duty.kind === 'HELP' && manQ) {
     // Between his own post and the ball, goal-side of the carrier, never past
     // him. Helping is closing a door, not chasing a man.
-    return target((q.x * 0.45 + manQ.x * 0.55), Math.max(q.y - 0.2, Math.min(manQ.y - 0.35, q.y + 1.1)));
+    const threatening=['DRIVE','DRIBBLE'].includes(man?.action?.kind??'')||manQ.y<9.2||
+      !!s.defence.pressureId&&getPlayer(s,s.defence.pressureId).beatenUntilTick>s.tick;
+    // Allocation is readiness. Actually leaving the post is a response to a
+    // threat reaching the interval, not an automatic collapse on every pass.
+    const pull=threatening?.55:.2;
+    const covering=.65+.35*d.profile.covering;
+    return target(q.x+(manQ.x-q.x)*pull*covering,Math.max(q.y-.2,Math.min(manQ.y-.35,q.y+(threatening?1.1:.35))));
   }
   if (duty.kind === 'PIVOT' && manQ) {
     // Front him when the ball is on the far side, sit behind him when it is
@@ -391,8 +452,14 @@ export function dutyFeasible(s: CoreState, d: CorePlayer, duty: ZoneDuty, target
 
 /** True when the defence is genuinely organised rather than still retreating. */
 export function lineFormed(s: CoreState, defenders: readonly CorePlayer[], direction: Direction): boolean {
-  const home = defenders.filter(d => local(d.position, direction).y < LINE_DEPTH_METERS + 4.5).length;
-  return home >= Math.min(5, defenders.length);
+  if(defenders.length===0)return false;
+  const carrier=s.ball.controllerId?s.players.find(p=>p.id===s.ball.controllerId&&p.team===s.possession.team)??null:null;
+  const read=readDefence(s,defenders,carrier,direction);
+  const home=defenders.filter(d=>{
+    const q=local(d.position,direction),post=local(zonePost(s,d.zone??3,read,direction,d.radius),direction);
+    return q.y<=post.y+3.25&&Math.abs(q.x-post.x)<3.8;
+  }).length;
+  return home>=Math.min(5,defenders.length);
 }
 
 /** Distance from the goal-area line, for readable trace text. */

@@ -8,7 +8,7 @@ import { awardRestart } from './transitions';
  */
 // A screen is preparation and a rebound is the tail of a shot that already
 // reset the clock; neither is an attempt on its own.
-const THREATS=new Set(['SHOT_RELEASED','DEFENDER_BEATEN','FEINT_READ','FOUL']);
+const THREATS=new Set(['SHOT_RELEASED','DEFENDER_BEATEN','FOUL']);
 /** Seconds of no recognisable attempt before the arm goes up. */
 const PASSIVE_IDLE_MS=18000;
 
@@ -40,7 +40,7 @@ export function passiveAfter(s:CoreState) {
     // clock while the attack created nothing, the idle timer never reached
     // eighteen seconds in a whole match, and attacks ran for seventy seconds
     // and twenty-three passes without a shot or a whistle.
-    if(THREATS.has(e.type))p.idleMs=0;
+    if(THREATS.has(e.type)||e.type==='FEINT_READ'&&e.details.wrongFooted===true)p.idleMs=0;
     if(p.warnedTick===null)continue;
     if(e.type==='SHOT_BLOCKED')p.blockedReturn=true;
     if(e.type==='BALL_OUT')p.blockedReturn=false;

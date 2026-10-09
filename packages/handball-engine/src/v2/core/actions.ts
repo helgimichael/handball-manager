@@ -1,4 +1,4 @@
-import { actionAvailable, getPlayer, record, uid, type ActionKind, type CoreAction, type CorePlayer, type CoreState, type Point } from './state';
+import { actionAvailable, getPlayer, record, uid, type ActionKind, type CoreAction, type CorePlayer, type CoreState, type Point, type TeamId } from './state';
 import { distance, fieldLegal, goal, local } from './space';
 import { awardRestart } from './transitions';
 import { authorisedRestartMovementLegal } from './rules';
@@ -30,7 +30,7 @@ export function legalAction(s: CoreState,p: CorePlayer,kind: ActionKind): boolea
   // REPOSITION at every single one and they converted at ninety-four per cent.
   // Standing set on his line waiting for the throw is the one situation in
   // handball where the keeper is ready before the ball moves.
-  if(kind==='SAVE')return p.kind==='GOALKEEPER'&&(s.ball.flight?.kind==='SHOT'||
+  if(kind==='SAVE')return p.kind==='GOALKEEPER'&&(s.ball.flight?.kind==='SHOT'||visibleShotPreparation(s,p.team)!==null||
     (s.restart?.kind==='SEVEN_METRE'&&s.restart.owner!==p.team&&s.restart.phase!=='COMPLETED'));
   if(kind==='JUMP'||kind==='SHOOT')return p.kind==='FIELD_PLAYER'&&fieldLegal(p.position,p.radius);
   return true;
@@ -98,11 +98,14 @@ function phase(s:CoreState,p:CorePlayer,next:CoreAction['phase']) {p.action!.pha
 /** Proposed physical movement is rejected before integration if illegal; no release-point repairs. */
 function move(s:CoreState,p:CorePlayer,target:Point) {
   const d=distance(p.position,target);if(d<.03){p.velocity={x:0,y:0};return;}
-  const oldSpeed=Math.hypot(p.velocity.x,p.velocity.y);
+  const dx=(target.x-p.position.x)/d,dy=(target.y-p.position.y)/d;
+  // Pace carried toward the new intention, rather than full speed for an
+  // instantaneous reversal. This matches the existing reach-time model.
+  const oldSpeed=Math.max(0,p.velocity.x*dx+p.velocity.y*dy);
   const impaired=s.tick < p.beatenUntilTick ? 0.4 : s.tick < p.screenedUntilTick ? 0.15 : s.tick<p.wrongFootedUntilTick?.65:1;
   const capacity=movementCapacity(p);
   const speed=Math.min(p.profile.topSpeed*impaired*capacity,oldSpeed+p.profile.acceleration*.05*capacity,Math.sqrt(2*p.profile.acceleration*capacity*d));
-  const travel=Math.min(d,speed*.05),dx=(target.x-p.position.x)/d,dy=(target.y-p.position.y)/d;
+  const travel=Math.min(d,speed*.05);
   // Local steering around occupied bodies is execution of the existing duty,
   // not a new tactical assignment. Every candidate is checked before movement.
   let chosen: {x:number;y:number;dx:number;dy:number}|null=null;
@@ -163,6 +166,15 @@ export function penaltyAgainst(s:CoreState,p:CorePlayer):boolean {
   const shooter=s.players.find(q=>q.id===f.fromId);
   return !!shooter&&shooter.team!==p.team&&shooter.action?.shotKind==='SEVEN_METRE';
 }
+/** A visible throwing action, never the future aim or a queued tactical plan. */
+export function visibleShotPreparation(s:CoreState,defendingTeam:TeamId):CorePlayer|null {
+  if(!s.ball.live||!s.ball.controllerId)return null;
+  const carrier=getPlayer(s,s.ball.controllerId);
+  if(carrier.team===defendingTeam||carrier.population!=='COURT')return null;
+  const a=carrier.action;
+  const active=a&&!['COMPLETED','FAILED','INTERRUPTED'].includes(a.phase);
+  return active&&(a.kind==='JUMP'||a.kind==='SHOOT')||carrier.airborne&&carrier.nextAction==='SHOOT'?carrier:null;
+}
 export type ExecutionEffect = {playerId:string;kind:'PASS'|'SHOOT'|'FEINT'|'DRIVE'};
 export function execute(s: CoreState): ExecutionEffect[] {
   const effects: ExecutionEffect[]=[];
@@ -208,8 +220,15 @@ export function execute(s: CoreState): ExecutionEffect[] {
     // eighteen ticks and finish meant he cycled in and out of readiness, so
     // whether he was actually set when the throw came was a lottery -- and a
     // save restarted from scratch cannot reach a seven-metre at all.
-    if(a.kind==='SAVE'&&a.targetId===null&&p.kind==='GOALKEEPER'&&penaltyAgainst(s,p))continue;
-    const tracking=s.ball.live&&movementActions.includes(a.kind)&&a.target!==null&&distance(p.position,a.target)>.35;
+    if(a.kind==='SAVE'&&a.targetId===null&&p.kind==='GOALKEEPER'&&
+      (penaltyAgainst(s,p)||visibleShotPreparation(s,p.team)))continue;
+    // Hands stay up while this assigned throw is being made and travelling.
+    // Nothing here predicts where it will be aimed or manufactures a contest.
+    if(a.kind==='BLOCK'&&a.targetId&&
+      (visibleShotPreparation(s,p.team)?.id===a.targetId||s.ball.flight?.kind==='SHOT'&&s.ball.flight.fromId===a.targetId))continue;
+    // A held-ball drive is bounded by its handling budget even when blocked.
+    // Tracking a moving opponent must never extend the carrier past three seconds.
+    const tracking=s.ball.live&&a.kind!=='DRIVE'&&movementActions.includes(a.kind)&&a.target!==null&&distance(p.position,a.target)>.35;
     if(tracking&&s.tick-a.startedTick<400&&Math.hypot(p.velocity.x,p.velocity.y)>.05)continue;
     if(elapsed<a.executeTicks)continue;
     if(['PASS','SHOOT','FEINT'].includes(a.kind)&&!a.resolved)effects.push({playerId:p.id,kind:a.kind as ExecutionEffect['kind']});

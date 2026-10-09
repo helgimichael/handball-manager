@@ -138,9 +138,11 @@ export function laneMargin(s: CoreState, from: Point, to: Point, team: CorePlaye
     for (let step = 1; step <= 12; step++) {
       const t = travel * step / 12;
       const point = { x: from.x + ux * passSpeed * t, y: from.y + uy * passSpeed * t };
-      // Seconds the ball beats him to this point by, less the reach of a hand.
-      const margin = t - timeToReach(reach, point) - grasp / Math.max(1, reach.topSpeed);
-      if (-margin < clearance) { clearance = -margin; who = p.id; }
+      // His hand gets there before his centre does. Reach therefore REDUCES
+      // the seconds the pass beats him by; adding it reversed that geometry
+      // and rated a defender with longer reach as a safer passing opponent.
+      const margin = timeToReach(reach, point) - t - grasp / Math.max(1, reach.topSpeed);
+      if (margin < clearance) { clearance = margin; who = p.id; }
     }
   }
   return { seconds: clearance, defenderId: who };

@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createWingScenario,WING_SCENARIOS } from './wingScenarios';
 import { wingRelationship,defendWing } from './wing';
-import { coordinate,selectActions } from './structure';
+import { controlReadTicks,coordinate,selectActions } from './structure';
 import { getPlayer } from './state';
 import { fieldLegal,local,distance,world } from './space';
 import { tickCore,assertCore } from './engine';
@@ -39,9 +39,17 @@ test('wings connect to the adjacent back while the far wing preserves corner wid
 
 test('wing finishing and closed-window continuation are selected from physical state, not fixture names',()=>{
   for(const direction of ['TOP','BOTTOM'] as const) {
-    const closed=createWingScenario('CLOSED_WING_RETURN',2025,direction);closed.scenario='ESTABLISHED_6V6';coordinate(closed);selectActions(closed);
-    assert.equal(getPlayer(closed,'H01').action?.kind,'PASS');assert.equal(getPlayer(closed,'H01').action?.targetId,'H02');
-    const open=createWingScenario('OPEN_WING_FINISH',2025,direction);open.scenario='ESTABLISHED_6V6';coordinate(open);selectActions(open);
+    const closed=createWingScenario('CLOSED_WING_RETURN',2025,direction);closed.scenario='ESTABLISHED_6V6';coordinate(closed);
+    const secured=structuredClone(closed);selectActions(closed);
+    assert.equal(getPlayer(closed,'H01').action?.kind,'HOLD','a newly controlled ball is secured before the return read');
+    // Isolate the same closed physical picture after its control read. Running
+    // the whole defence here can legitimately open a new shooting window.
+    secured.tick=controlReadTicks(secured,getPlayer(secured,'H01'));secured.timeMs=secured.tick*50;secured.officialClock.timeMs=secured.timeMs;
+    selectActions(secured);
+    assert.equal(getPlayer(secured,'H01').action?.kind,'FEINT','a closed shot window can create an advantage instead of throwing an unsafe immediate return');
+    assert.equal(getPlayer(secured,'H01').action?.targetId,secured.defence.pressureId);
+    const open=createWingScenario('OPEN_WING_FINISH',2025,direction);open.scenario='ESTABLISHED_6V6';coordinate(open);
+    open.tick=controlReadTicks(open,getPlayer(open,'H01'));open.timeMs=open.tick*50;open.officialClock.timeMs=open.timeMs;selectActions(open);
     assert.equal(getPlayer(open,'H01').action?.kind,'JUMP');assert.equal(open.ball.controllerId,'H01');
     let s=open;while(s.status==='RUNNING')s=tickCore(s);
     const shot=s.events.find(e=>e.type==='SHOT_RELEASED'&&e.actorId==='H01');assert.ok(shot,'Actual wing takeoff produces a released shot');

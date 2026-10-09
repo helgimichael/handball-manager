@@ -45,6 +45,7 @@ export const PIVOT_FINISH_METERS = 8.2;
  * a defender rather than in a gap is marking himself.
  */
 export function pivotInterval(s: CoreState, p: CorePlayer): number {
+  void p; // Both pivots read the ball interval; pivotPost separates their sides.
   // Lateral position is absolute; only depth depends on the goal. See readDefence.
   const ballLane = s.ball.position.x;
   const engaged = zoneOf(ballLane);
@@ -61,6 +62,7 @@ export function pivotInterval(s: CoreState, p: CorePlayer): number {
  * pivots occupy two different problems rather than one doubled one.
  */
 export function pivotPost(s: CoreState, p: CorePlayer): Point {
+  if(p.screenCooldownTick>s.tick)return {...p.position};
   const direction = s.directions[p.team];
   let lane = pivotInterval(s, p);
   if (p.role === 'P2') {
@@ -127,8 +129,11 @@ export function pivotOffer(s: CoreState, carrier: CorePlayer, pivot: CorePlayer)
   const covered = courtPlayers(s, otherTeam(carrier.team))
     .some(d => d.kind === 'FIELD_PLAYER' && d.id !== owner?.id && d.screenedUntilTick <= s.tick &&
       d.beatenUntilTick <= s.tick && distance(d.position, pivot.position) < 1.1);
-  const free = !covered && (owner === undefined || screened || sealed || displaced);
   const lane = laneMargin(s, carrier.position, pivot.position, carrier.team, 10.5 + 3 * carrier.profile.passing);
+  // A remote relay assignment cannot cover by its label. If its actual body
+  // is separated and the timed lane wins, the line player is genuinely free.
+  const unattended=owner===undefined||distance(owner.position,pivot.position)>2.2&&lane.seconds>.3;
+  const free = !covered && (unattended || screened || sealed || displaced);
   if (!free) return { available: false, reason: covered ? 'a neighbour has stepped across and covered him' : 'the line defender still owns him', margin: lane.seconds };
   // A feed goes THROUGH the defensive line, which is where the defenders are
   // standing. A tenth of a second of daylight is not a lane, and feeding into
@@ -158,7 +163,7 @@ export function pivotShotQuality(s: CoreState, p: CorePlayer): number {
   const sight = clamp((angle - 0.18) / 0.5, 0, 1);
   const pressure = courtPlayers(s, otherTeam(p.team)).filter(d => d.kind !== 'GOALKEEPER' && distance(d.position, p.position) < 1.3).length;
   const craft = p.profile.pivotPlay * 0.45 + p.profile.finishing * 0.3 + p.profile.strength * 0.25;
-  return close * 0.34 + sight * 0.24 + craft * 0.30 - pressure * 0.12;
+  return (close * 0.34 + sight * 0.24 + craft * 0.30 - pressure * 0.12)*(.84+.16*p.condition.energy);
 }
 
 /**
@@ -186,6 +191,7 @@ export function pivotFinish(s: CoreState, p: CorePlayer): 'TURN' | 'FALL' {
  * one sentence, and it is the relationship the attack was missing.
  */
 export function pivotShouldScreen(s: CoreState, pivot: CorePlayer): CorePlayer | null {
+  if(pivot.screenCooldownTick>s.tick)return null;
   const carrier = s.ball.controllerId ? getPlayer(s, s.ball.controllerId) : null;
   if (!carrier || carrier.team !== pivot.team || isPivot(carrier)) return null;
   const direction = s.directions[pivot.team];
@@ -200,7 +206,7 @@ export function pivotShouldScreen(s: CoreState, pivot: CorePlayer): CorePlayer |
   // pivot puts in the way is in his path rather than somewhere across the court.
   if (isWing(carrier)) return null;
   if (Math.abs(carrier.position.x - pivot.position.x) > 5.5) return null;
-  const defenders = courtPlayers(s, otherTeam(pivot.team)).filter(d => d.kind === 'FIELD_PLAYER' && d.screenedUntilTick <= s.tick);
+  const defenders = courtPlayers(s, otherTeam(pivot.team)).filter(d => d.kind === 'FIELD_PLAYER' && d.screenedUntilTick <= s.tick&&d.screenCooldownTick<=s.tick);
   // The man who is about to have to stop the carrier, and who the pivot can
   // physically get to before the ball does.
   const candidate = defenders
@@ -221,3 +227,31 @@ export function screenPost(s: CoreState, pivot: CorePlayer, defender: CorePlayer
 /** Is the lane from here to the goal worth a pivot turning into? */
 export const pivotLaneOpen = (s: CoreState, p: CorePlayer) =>
   laneClearance(s, p.position, goal(s.directions[p.team]), p.team) > 0.35;
+
+/** An actual backcourt threat lets the screener roll into adjacent line space. */
+export function pivotRollTarget(s:CoreState,p:CorePlayer,defender:CorePlayer):Point|null {
+  const carrier=s.ball.controllerId?getPlayer(s,s.ball.controllerId):null;
+  if(!carrier||carrier.team!==p.team||isPivot(carrier)||distance(carrier.position,p.position)>5.5)return null;
+  const a=carrier.action;
+  if(!a||!['DRIVE','JUMP','SHOOT'].includes(a.kind)||!['EXECUTING','RECOVERING'].includes(a.phase))return null;
+  const direction=s.directions[p.team],side=Math.sign(defender.position.x-carrier.position.x)||1;
+  const candidates=[side,-side].flatMap(sign=>[1.7,2.2].map(offset=>clearGoalArea(world({x:clamp(defender.position.x+sign*offset,1.6,18.4),y:6+LINE_STANDOFF},direction),direction,p.radius+.1)));
+  return candidates.filter(target=>fieldPointFree(s,p,target))
+    .sort((a,b)=>distance(p.position,a)-distance(p.position,b))[0]??null;
+}
+
+function fieldPointFree(s:CoreState,p:CorePlayer,target:Point):boolean {
+  return courtPlayers(s).every(q=>q.id===p.id||distance(q.position,target)>p.radius+q.radius+.12);
+}
+
+/** A secured line catch can legally approach a closer turning window. */
+export function pivotCatchApproach(s:CoreState,p:CorePlayer):Point|null {
+  if(!isPivot(p)||p.airborne||p.handling.steps>=2||s.tick-p.handling.heldSinceTick>s.ruleProfile.maxHoldMs/50-24)return null;
+  const direction=s.directions[p.team],q=local(p.position,direction),budget=(s.ruleProfile.maxSteps-p.handling.steps)*.8-p.handling.stepDistance-.15;
+  if(q.y<6.9||q.y>10)return null;
+  const current=pivotShotQuality(s,p);
+  const candidates=[0,Math.sign(10-q.x)*.8].map(dx=>clearGoalArea(world({x:clamp(q.x+dx,1.6,18.4),y:q.y-1.3},direction),direction,p.radius+.1));
+  return candidates.filter(target=>distance(p.position,target)>.35&&distance(p.position,target)<=budget&&fieldPointFree(s,p,target)&&
+    laneClearance(s,p.position,target,p.team)>.12&&pivotShotQuality(s,{...p,position:target})>current+.035)
+    .sort((a,b)=>pivotShotQuality(s,{...p,position:b})-pivotShotQuality(s,{...p,position:a}))[0]??null;
+}

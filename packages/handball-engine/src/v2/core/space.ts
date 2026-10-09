@@ -79,7 +79,7 @@ export function structurePoint(role: CorePlayer['role'],direction: Direction,bal
  * ball. A shooting back and a wing arrive at very different answers from the
  * same spot, which is the point.
  */
-export function shotQuality(s: CoreState, p: CorePlayer, pressure: number): number {
+function geometricShotQuality(s: CoreState, p: CorePlayer, pressure: number): number {
   const direction=s.directions[p.team];
   const q=local(p.position,direction),angle=shootingAngle(p.position,direction);
   const wide=Math.abs(q.x-10)>6.5;
@@ -89,7 +89,11 @@ export function shotQuality(s: CoreState, p: CorePlayer, pressure: number): numb
   // the end line is still eight and a half metres from the goal, and treating
   // him as a six-metre shooter is what filled the match with wing shots.
   const range=clamp((14-distance(p.position,goal(direction)))/7,0,1);
-  const sight=clamp((angle-.10)/.35,0,1);
+  // A legal wing takeoff sees a smaller part of the mouth than a central back.
+  // Judge that improvement within the wing's available geometry; applying the
+  // central half-radian scale made a genuinely opened wing look permanently
+  // worse than another return pass. A closed corner still has no usable sight.
+  const sight=wide?clamp((angle-.06)/.20,0,1):clamp((angle-.10)/.35,0,1);
   const ability=wide?p.profile.wingFinishing*.65+p.profile.shotPlacement*.35
     :p.profile.shotPower*.45+p.profile.shotPlacement*.35+p.profile.finishing*.2;
   const contested=clamp(1-pressure*.32,0,1);
@@ -131,6 +135,62 @@ export function shotQuality(s: CoreState, p: CorePlayer, pressure: number): numb
   // a match between two of them.
   const usable=wide?clamp(sight+.30*p.profile.wingFinishing,0,1):sight;
   return base*(.55+.45*usable);
+}
+
+/** What the shooter can see now. This is a chance assessment, not a goal roll. */
+export type ShotContext = {
+  distance: number; angle: number; pressure: number; pressureCount: number;
+  blockThreat: number; keeperPresent: boolean; emptyGoal: boolean; quality: number;
+};
+export function shotContext(s:CoreState,p:CorePlayer):ShotContext {
+  const direction=s.directions[p.team],mouth=goal(direction),q=local(p.position,direction);
+  const opponents=courtPlayers(s,p.team==='HOME'?'AWAY':'HOME');
+  const keeperPresent=opponents.some(d=>d.kind==='GOALKEEPER');
+  let pressure=0,pressureCount=0,blockThreat=0;
+  for(const d of opponents) {
+    if(d.kind==='GOALKEEPER')continue;
+    const separation=distance(d.position,p.position),depth=local(d.position,direction).y;
+    const impaired=d.beatenUntilTick>s.tick||d.screenedUntilTick>s.tick||d.wrongFootedUntilTick>s.tick;
+    // A defender behind the release still supplies contact pressure, but does
+    // not cover the goal as effectively as a goal-side defender.
+    if(separation<2.2&&!impaired) {
+      pressureCount++;
+      pressure+=clamp((2.2-separation)/1.5,0,1)*(depth<=q.y+.3?1:.45);
+    }
+    const crossing=segmentPoint(p.position,mouth,d.position);
+    if(!impaired&&crossing.t>.02&&crossing.t<.75) {
+      const lateral=distance(d.position,crossing.point)-d.radius;
+      const reach=clamp((.95-lateral)/.95,0,1);
+      blockThreat=Math.max(blockThreat,reach*(.35+.65*d.profile.blocking));
+    }
+  }
+  const range=distance(p.position,mouth),angle=shootingAngle(p.position,direction);
+  const geometric=geometricShotQuality(s,p,pressure);
+  // At range the body between hand and goal matters. A legal jump can see over
+  // it; it never makes a set blocking line disappear from the decision.
+  const blockCost=blockThreat*(range>8?.14:.07);
+  const fatigue=.84+.16*p.condition.energy;
+  const quality=clamp((geometric-blockCost)*fatigue,0,1);
+  return {distance:range,angle,pressure,pressureCount,blockThreat,keeperPresent,emptyGoal:!keeperPresent,quality};
+}
+
+/** One geometry contract for normal, emergency and relationship shot choices. */
+export function shotOpportunity(s:CoreState,p:CorePlayer,forced=false):ShotContext|null {
+  if(p.kind!=='FIELD_PLAYER')return null;
+  const context=shotContext(s,p),q=local(p.position,s.directions[p.team]);
+  if(context.emptyGoal)return context.distance<=30&&context.angle>.07?context:null;
+  const pivot=p.role==='P'||p.role==='P2';
+  const wide=Math.abs(q.x-10)>6.5;
+  const rangeLimit=pivot?8.2:wide?11:14;
+  if(context.distance>rangeLimit||context.angle<(wide?.11:.13))return null;
+  // A forced release may be a bad chance, but half-court desperation is not
+  // an ordinary backcourt shot just because a handling clock is running out.
+  return forced||context.quality>.25?context:null;
+}
+/** Backwards-compatible public quality API; all readers share actual pressure. */
+export function shotQuality(s:CoreState,p:CorePlayer,_pressure:number):number {
+  void _pressure; // Legacy callers supply counts; actual bodies now define the pressure.
+  return shotContext(s,p).quality;
 }
 
 /**
