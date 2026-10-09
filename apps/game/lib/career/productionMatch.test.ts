@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { createNewCareerState } from './newCareer';
 import { snapshotWorldSquads, snapshotGameplayRatings } from '../gameWorld/serverSnapshot';
 import { buildMatchdayReadyEvent } from './careerEvents';
-import { startProductionMatch, advanceProductionMatch, commandProductionMatch, finishProductionMatch, finalizeProductionMatch, archiveFrames } from './productionMatch';
+import { createProductionSession, MATCH_BEHAVIOR_REVISION, startProductionMatch, advanceProductionMatch, commandProductionMatch, finishProductionMatch, finalizeProductionMatch, archiveFrames } from './productionMatch';
 import { rolloverSeason } from './seasonRollover';
 import { getLiveStandings } from './standings';
 import { simulateFixture } from '@handball-manager/game-simulation';
@@ -12,6 +12,7 @@ import { getCareerClubSquad } from './careerWorld';
 import { createSave, getSave, saveCareerState, __setSaveBackendForTests } from '../save/saveRepository';
 import { createMemoryBackend } from '../save/saveStorage';
 import { renewPlayerContract } from './contractRenewal';
+import { resolveClubMatchPlanForFixture } from './playerMatchStrength';
 
 function ready() {
   let state = createNewCareerState('playable-product-2026', 'swe2-tumba', snapshotWorldSquads('swe-2'), undefined, snapshotGameplayRatings('swe-2'));
@@ -39,15 +40,34 @@ test('real career match: commands, save continuation, exact archive and exactly-
   assert.equal(running.productionMatch!.core.tick, tick);
   assert.equal(running.productionMatch!.core.seed, seed);
   assert.equal(prefix, '[]');
+  running = advanceProductionMatch(running, 100);
+  const timeoutTeam = running.productionMatch!.core.possession.team;
+  running = commandProductionMatch(running, { kind: 'TIMEOUT', team: timeoutTeam });
+  const stopped = running.productionMatch!.core.officialClock.timeMs;
+  const timeoutReload = JSON.parse(JSON.stringify(running));
+  running = advanceProductionMatch(running, 200);
+  assert.equal(running.productionMatch!.core.officialClock.timeMs, stopped, 'timeout consumes simulation ticks with the official clock stopped');
+  assert.deepEqual(running.productionMatch, advanceProductionMatch(timeoutReload, 200).productionMatch, 'an active timeout resumes identically after save/load');
+  assert.throws(() => commandProductionMatch(running, { kind: 'TIMEOUT', team: timeoutTeam }), /Beslutet/);
   running = advanceProductionMatch(running, 3000);
   assert.ok(running.productionMatch!.core.exchanges.some(e => e.inId === incoming.id && e.phase === 'COMPLETED'));
   const reloaded = JSON.parse(JSON.stringify(running));
+  let halftime = running;
+  for (let i=0;i<20&&!halftime.productionMatch!.pausedAtHalf;i++) halftime=advanceProductionMatch(halftime,10000);
+  assert.equal(halftime.productionMatch!.core.match!.phase,'HALFTIME');
+  assert.equal(halftime.productionMatch!.pausedAtHalf,true);
+  assert.deepEqual(advanceProductionMatch(halftime,100),halftime,'halftime cannot advance until the manager resumes');
+  let second=advanceProductionMatch(commandProductionMatch(halftime,{kind:'SECOND_HALF'}),1);
+  for (let i=0;i<50&&second.productionMatch!.core.match!.phase==='PREMATCH';i++) second=advanceProductionMatch(second,100);
+  assert.equal(second.productionMatch!.core.match!.phase,'SECOND_HALF');
+  assert.equal(second.productionMatch!.core.period,2);
   const done = finishProductionMatch(running);
   const restored = finishProductionMatch(reloaded);
   assert.equal(done.productionMatch, null);
   assert.deepEqual(done.results, restored.results, 'save/load continues the same seeded state');
   assert.deepEqual(done.matchArchives, restored.matchArchives);
   const archive = Object.values(done.matchArchives!)[0];
+  assert.equal(archive.behaviorRevision, MATCH_BEHAVIOR_REVISION);
   const frames = archiveFrames(archive);
   assert.ok(frames.length > 1000);
   assert.equal(archive.result.engine, 'V2');
@@ -56,6 +76,29 @@ test('real career match: commands, save continuation, exact archive and exactly-
   assert.equal(archive.result.awayGoals, archive.result.awayPlayerContributions.reduce((n, p) => n + p.goals, 0));
   assert.equal(frames.at(-1)![3], archive.result.homeGoals);
   assert.equal(frames.at(-1)![4], archive.result.awayGoals);
+  for (const [side, team] of [['home','HOME'],['away','AWAY']] as const) {
+    const ids=new Set(archive.people.filter(p=>p.team===team).map(p=>p.id));
+    const stats=side==='home'?archive.result.homeStats:archive.result.awayStats;
+    const contributions=side==='home'?archive.result.homePlayerContributions:archive.result.awayPlayerContributions;
+    const own=archive.events.filter(e=>ids.has(e.actorId??''));
+    assert.equal(stats.shots,own.filter(e=>e.type==='SHOT_RELEASED').length);
+    assert.equal(stats.saves,own.filter(e=>e.type.startsWith('SAVE_')).length);
+    assert.equal(stats.twoMinuteSuspensions,own.filter(e=>e.type==='TWO_MINUTE_SUSPENSION').length);
+    assert.equal(stats.sevenMetreAttempts,own.filter(e=>e.type==='SHOT_RELEASED'&&e.details.shotKind==='SEVEN_METRE').length);
+    for (const p of contributions) if (team === (archive.fixture.homeClubId===done.playerClubId?'HOME':'AWAY')) {
+      assert.equal(done.playerSeasonStats[p.playerId].goals,p.goals);
+      assert.equal(done.playerSeasonStats[p.playerId].shots,p.shots);
+      assert.equal(done.playerSeasonStats[p.playerId].saves,p.saves??0);
+      assert.equal(done.playerSeasonStats[p.playerId].appearances,1);
+    }
+    for (const id of ids) if (team === (archive.fixture.homeClubId===done.playerClubId?'HOME':'AWAY')) {
+      assert.equal(done.playerPhysicalState[id].currentEnergy,archive.load[id].energy);
+      assert.equal(done.playerPhysicalState[id].recentLoad,(state.playerPhysicalState[id]?.recentLoad??0)+archive.load[id].minutes);
+    }
+  }
+  const altered=structuredClone(done);
+  altered.worldSquads={};altered.gameplayRatings={};altered.matchPlans={};
+  assert.deepEqual(archiveFrames(Object.values(altered.matchArchives!)[0]),frames,'historical replay does not reconstruct from changed career data');
   assert.equal(getLiveStandings(done).find(r => r.clubId === done.playerClubId)!.played, 1);
   assert.deepEqual(finalizeProductionMatch(done), done);
   const duplicate = finalizeProductionMatch({ ...done, productionMatch: { ...running.productionMatch!, core: { ...running.productionMatch!.core, match: { ...running.productionMatch!.core.match!, phase: 'FULLTIME' } } } });
@@ -73,6 +116,37 @@ test('real career match: commands, save continuation, exact archive and exactly-
   assert.deepEqual(loaded!.careerState!.results, done.results);
   assert.equal((await backend.getSave(save.saveId))!.careerState!.matchArchives, undefined, 'career autosave stores archive references, not all historical frames');
   __setSaveBackendForTests(null);
+});
+
+test('career capabilities use the actual attribute sheet and retain a neutral missing-data fallback independent of CA/PA', () => {
+  const state = ready(), fixture = state.fixtures.find(f => f.date === state.gameDate && (f.homeClubId === state.playerClubId || f.awayClubId === state.playerClubId))!;
+  const low = structuredClone(state), high = structuredClone(state);
+  for (const ratings of Object.values(low.gameplayRatings)) for (const rating of ratings) {
+    rating.ca = 1; rating.pa = 1;
+    rating.branch.attributes = {} as typeof rating.branch.attributes;
+  }
+  for (const ratings of Object.values(high.gameplayRatings)) for (const rating of ratings) {
+    rating.ca = 200; rating.pa = 200;
+    rating.branch.attributes = {} as typeof rating.branch.attributes;
+  }
+  const neutral = createProductionSession(low, fixture), same = createProductionSession(high, fixture);
+  assert.deepEqual(neutral.core.players.map(p => p.profile), same.core.players.map(p => p.profile), 'CA/PA are not substituted for unobserved physical skills');
+  const actual = structuredClone(state);
+  for (const ratings of Object.values(actual.gameplayRatings)) for (const rating of ratings) for (const attribute of Object.values(rating.branch.attributes)) if (attribute) attribute.value = 20;
+  const capable = createProductionSession(actual, fixture);
+  assert.ok(capable.core.players.some((p, i) => p.profile.topSpeed > neutral.core.players[i].profile.topSpeed), 'real attributes reach canonical movement');
+  assert.ok(capable.core.players.some((p, i) => p.profile.passing > neutral.core.players[i].profile.passing), 'real passing reaches canonical execution');
+});
+
+test('a legacy unsupported own formation requires a real plan correction rather than silently playing 6:0',()=>{
+  const state=ready(),fixture=state.fixtures.find(f=>f.date===state.gameDate&&(f.homeClubId===state.playerClubId||f.awayClubId===state.playerClubId))!;
+  const plan=resolveClubMatchPlanForFixture(state.playerClubId,fixture.id,getCareerClubSquad(state,state.playerClubId),undefined)!;
+  assert.ok(plan);plan.defencePlan={...plan.defencePlan,baseFormation:'3-2-1'};
+  assert.throws(()=>startProductionMatch({...state,matchPlans:{[fixture.id]:plan}}),/6–0 eller 5–1/);
+  plan.defencePlan={...plan.defencePlan,baseFormation:'5-1'};
+  const started=startProductionMatch({...state,matchPlans:{[fixture.id]:plan}});
+  const team=fixture.homeClubId===state.playerClubId?'HOME':'AWAY';
+  assert.equal(started.productionMatch!.core.coaching[team].defence,'5:1');
 });
 
 test('next season archives table and statistics, gives unique fixtures and preserves contracts/calendar', () => {

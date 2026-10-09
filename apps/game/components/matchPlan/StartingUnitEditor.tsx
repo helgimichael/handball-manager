@@ -176,7 +176,7 @@ export default function StartingUnitEditor({
         <label style={{ display: "flex", flexDirection: "column", gap: 4, fontSize: "var(--hm-text-2xs)" }}>
           <span className="hm-eyebrow">Försvarsformation</span>
           <select className="hm-select" style={selectStyle} value={plan.defencePlan.baseFormation} onChange={(e) => { const baseFormation = e.target.value; onChange((prev) => ({ ...prev, defencePlan: { ...prev.defencePlan, baseFormation } })); }}>
-            {DEFENCE_FORMATION_OPTIONS.map((f) => (
+            {DEFENCE_FORMATION_OPTIONS.filter(f => f === '6-0' || f === '5-1').map((f) => (
               <option key={f} value={f}>
                 {f}
               </option>

@@ -50,7 +50,9 @@
     ".next-game-final/types/**/*.ts",
     ".next-game-final/dev/types/**/*.ts",
     ".next-game-v11/types/**/*.ts",
-    ".next-game-v11/dev/types/**/*.ts"
+    ".next-game-v11/dev/types/**/*.ts",
+    ".next-game-realism-v2/types/**/*.ts",
+    ".next-game-realism-v2/dev/types/**/*.ts"
   ],
   "exclude": [
     "node_modules"

@@ -23,9 +23,10 @@ export type { MatchFrame } from './matchFrames';
 export type MatchPerson = { id: string; name: string; number: number; team: TeamId; role: Role; started: boolean; startEnergy: number };
 // Quantised observed frames, never regenerated from current career data.
 // [tick, officialMs, period, home, away, ballXcm, ballYcm, personIndex, xcm, ycm, ...]
-export type PlayedMatchArchive = { format: 1 | 2; fixture: CareerFixture; version: string; seed: number; people: MatchPerson[]; frames?: MatchFrame[]; frameData?: string; events: CoreEvent[]; result: FastMatchResult; load: Record<string, { minutes: number; energy: number; distance: number }> };
+export type PlayedMatchArchive = { format: 1 | 2; fixture: CareerFixture; version: string; behaviorRevision?:string; seed: number; people: MatchPerson[]; frames?: MatchFrame[]; frameData?: string; events: CoreEvent[]; result: FastMatchResult; load: Record<string, { minutes: number; energy: number; distance: number }> };
 export function archiveFrames(archive: PlayedMatchArchive): MatchFrame[] { return archive.frameData ? decodeFrames(archive.frameData) : archive.frames ?? []; }
-export type ProductionMatchSession = { format: 1; fixture: CareerFixture; core: CoreState; people: MatchPerson[]; frames: MatchFrame[]; pausedAtHalf: boolean; error: string | null };
+export type ProductionMatchSession = { format: 1; behaviorRevision?:string; fixture: CareerFixture; core: CoreState; people: MatchPerson[]; frames: MatchFrame[]; pausedAtHalf: boolean; error: string | null };
+export const MATCH_BEHAVIOR_REVISION = 'career-realism-v2.1';
 export type MatchCommand = { kind: 'TACTICS'; team: TeamId; patch: Partial<Pick<TeamTactics, 'defence' | 'tempo' | 'attackIdentity' | 'rotation'>> } | { kind: 'SUBSTITUTION'; team: TeamId; outId: string; inId: string } | { kind: 'TIMEOUT'; team: TeamId } | { kind: 'SECOND_HALF' };
 
 const roleByPosition: Record<string, Role> = { V6: 'LW', V9: 'LB', M9: 'CB', H9: 'RB', H6: 'RW', M6: 'P', MV: 'GK' };
@@ -42,6 +43,8 @@ export function createProductionSession(state: CareerState, fixture: CareerFixtu
   const input = buildSpatialMatchInput(state, fixture);
   const saved = state.matchPlans[fixture.id];
   const managerInput = fixture.homeClubId === state.playerClubId ? input.home : input.away;
+  const managerFormation=(saved??managerInput.plan)?.defencePlan.baseFormation;
+  if(managerFormation&&!['6-0','5-1'].includes(managerFormation))throw new Error('Välj 6–0 eller 5–1 i matchplanen innan avkast. Den sparade försvarsformationen stöds ännu inte i spelade matcher.');
   if (saved && (saved.attackStartingUnit.formation !== 'NORMAL' || saved.squad.players.some(p => !managerInput.squad.some(available => available.id === p.playerId)))) throw new Error('Matchplanen behöver uppdateras. Öppna Taktik och välj en tillgänglig matchtrupp och normal startsju.');
   const seed = seedFromString(`${state.saveSeed}:${fixture.id}:v2`);
   let core = createMatch(seed, 'TOP', 1800000, 0);
@@ -73,10 +76,8 @@ export function createProductionSession(state: CareerState, fixture: CareerFixtu
       const rating = side.gameplayRatings.find(r => r.playerId === id);
       const sheet: AttributeSheet = {};
       if (rating) for (const [key, value] of Object.entries(rating.branch.attributes)) if (value?.value != null) (sheet as Record<string, number>)[key] = value.value;
-      // Missing evidence uses the existing player's ability, not a generated identity.
-      const fallback = Math.max(1, Math.min(20, player.currentAbility / 10));
-      const keys = role === 'GK' ? ['GK_POSITIONING', 'REACTION', 'LOW_SAVES', 'HIGH_SAVES', 'OUTLET_PASSING'] : ['PASSING', 'BALL_HANDLING', 'SHOOTING_POWER', 'SHOOTING_PLACEMENT', 'FINISHING', 'BREAKTHROUGH', 'GAME_READING', 'DECISION_MAKING', 'TOP_SPEED', 'ACCELERATION', 'DEFENSIVE_POSITIONING', 'CONTACT_ABILITY', 'ENDURANCE'];
-      for (const key of keys) if (!(key in sheet)) (sheet as Record<string, number>)[key] = fallback;
+      // The profile's explicit neutral attribute fallback retains missing-data
+      // provenance. CA/PA must not become substitute gameplay capabilities.
       p.profile = buildProfile(sheet, role);
       const energy = state.playerPhysicalState[id]?.currentEnergy ?? 100;
       p.condition.energy = energy / 100;
@@ -99,7 +100,7 @@ export function createProductionSession(state: CareerState, fixture: CareerFixtu
   core.players = players;
   core = remap(core) as CoreState;
   core.events = [];
-  const session: ProductionMatchSession = { format: 1, fixture: { ...fixture }, core, people, frames: [], pausedAtHalf: false, error: null };
+  const session: ProductionMatchSession = { format: 1, behaviorRevision:MATCH_BEHAVIOR_REVISION, fixture: { ...fixture }, core, people, frames: [], pausedAtHalf: false, error: null };
   session.frames.push(observedFrame(session));
   return session;
 }
@@ -116,7 +117,7 @@ export function advanceProductionMatch(state: CareerState, ticks: number, stopAt
   if (!state.productionMatch || state.productionMatch.pausedAtHalf || state.productionMatch.core.status !== 'RUNNING') return state;
   const previous = state.productionMatch;
   const { events, contests, ...body } = previous.core;
-  const session: ProductionMatchSession = { ...previous, frames: previous.frames.slice(), core: { ...structuredClone(body), events: events.slice(), contests: contests.slice() } };
+  const session: ProductionMatchSession = { ...previous, behaviorRevision:MATCH_BEHAVIOR_REVISION, frames: previous.frames.slice(), core: { ...structuredClone(body), events: events.slice(), contests: contests.slice() } };
   for (let i = 0; i < Math.min(10000, ticks) && session.core.status === 'RUNNING'; i++) {
     const previousEventCount = session.core.events.length;
     advanceCoreMutable(session.core);
@@ -194,8 +195,8 @@ export function finalizeProductionMatch(state: CareerState): CareerState {
   const clubForm = { ...state.clubForm }, playerSeasonStats = { ...state.playerSeasonStats };
   applyMatchResultBookkeeping(result, clubForm, playerSeasonStats, state.playerClubId, session.fixture.type !== 'FRIENDLY');
   const load = Object.fromEntries(session.core.players.map(p => [p.id, { minutes: p.condition.courtMs / 60000, energy: p.condition.energy * 100, distance: p.condition.distanceMetres }]));
-  const archiveEventTypes = new Set(['GOAL', 'SHOT_RELEASED', 'SAVE_CAUGHT', 'SAVE_PARRY', 'SHOT_BLOCKED', 'PASS_RECEIVED', 'FOUL', 'TECHNICAL_VIOLATION', 'PASSIVE_PLAY', 'INTERCEPTION', 'OFFENSIVE_FOUL', 'TWO_MINUTE_SUSPENSION', 'DISQUALIFICATION', 'SUBSTITUTE_ADMITTED', 'EXCHANGE_REQUESTED', 'EXCHANGE_COMPLETED', 'TACTICS_CHANGED', 'TEAM_TIMEOUT_STARTED', 'PERIOD_STARTED', 'PERIOD_ENDED', 'MATCH_FINISHED']);
-  const archive: PlayedMatchArchive = { format: 2, fixture: session.fixture, version: session.core.version, seed: session.core.seed, people: session.people, frameData: encodeFrames(session.frames), events: session.core.events.filter(e => archiveEventTypes.has(e.type)), result, load };
+  const archiveEventTypes = new Set(['GOAL', 'SHOT_RELEASED', 'SAVE_CAUGHT', 'SAVE_PARRY', 'SHOT_BLOCKED', 'PASS_RELEASED', 'PASS_RECEIVED', 'RECEPTION_FAILED', 'PASS_DEFLECTED', 'REBOUND_CONTROLLED', 'ATTACK_SETTLED', 'DRIVE_RELEASED', 'ADVANTAGE_OPENED', 'FOUL', 'TECHNICAL_VIOLATION', 'PASSIVE_PLAY', 'INTERCEPTION', 'OFFENSIVE_FOUL', 'TWO_MINUTE_SUSPENSION', 'DISQUALIFICATION', 'SUBSTITUTE_ADMITTED', 'EXCHANGE_REQUESTED', 'EXCHANGE_COMPLETED', 'TACTICS_CHANGED', 'TEAM_TIMEOUT_STARTED', 'PERIOD_STARTED', 'PERIOD_ENDED', 'MATCH_FINISHED']);
+  const archive: PlayedMatchArchive = { format: 2, fixture: session.fixture, version: session.core.version, behaviorRevision:session.behaviorRevision??MATCH_BEHAVIOR_REVISION, seed: session.core.seed, people: session.people, frameData: encodeFrames(session.frames), events: session.core.events.filter(e => archiveEventTypes.has(e.type)), result, load };
   const readyId = `MATCHDAY_READY:${session.fixture.id}`;
   let next: CareerState = { ...state, productionMatch: null, results: { ...state.results, [session.fixture.id]: result }, matchArchives: { ...state.matchArchives, [session.fixture.id]: archive }, clubForm, playerSeasonStats, careerEvents: state.careerEvents.map(e => e.id === readyId ? { ...e, read: true, resolved: true } : e), inbox: state.inbox.map(m => m.id === `msg:${readyId}` ? { ...m, read: true, resolved: true, actionRequired: false } : m), playerPhysicalState: { ...state.playerPhysicalState } };
   const managerTeam = session.fixture.homeClubId === state.playerClubId ? 'HOME' : 'AWAY';
