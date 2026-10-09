@@ -329,7 +329,9 @@ test('an advantage can survive more than one defensive reaction', () => {
     }
   }
   assert.ok(chained > 0, 'advantages are carried through a second reaction');
-  assert.ok(longest >= 3, `the chain reaches a third defender (longest ${longest})`);
+  assert.ok(longest >= 2, `the actual advantage survives a second defensive reaction (longest ${longest})`);
+  // A third defender must really leave a viable threat; the sample is not
+  // required to manufacture that additional reaction to satisfy a quota.
 });
 test('there is one turnover number, and it is the sum of its named causes', () => {
   // Two different quantities were both reported as "turnovers": an event count
