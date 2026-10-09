@@ -1,0 +1,18 @@
+[
+    {
+        "index":  0,
+        "canonicalSeed":  1765851951,
+        "pilotTruthHash":  "2e526f7c7c95cdf927494faff2289267d299b676235be6dd40181d0ae9f8dc31",
+        "baselineTruthHash":  "2e526f7c7c95cdf927494faff2289267d299b676235be6dd40181d0ae9f8dc31",
+        "identical":  true,
+        "scope":  "Full canonical score, complete event stream, RNG state/draws and all production observed frames; independent pilot/baseline runs."
+    },
+    {
+        "index":  1,
+        "canonicalSeed":  299119051,
+        "pilotTruthHash":  "bf85da6e6ff3dc85ea37222bd0b87e269e5230da6be47780dedb9bc0ccb31c73",
+        "baselineTruthHash":  "bf85da6e6ff3dc85ea37222bd0b87e269e5230da6be47780dedb9bc0ccb31c73",
+        "identical":  true,
+        "scope":  "Full canonical score, complete event stream, RNG state/draws and all production observed frames; independent pilot/baseline runs."
+    }
+]
