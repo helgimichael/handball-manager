@@ -425,6 +425,12 @@ function defensiveMovement(s:CoreState,p:CorePlayer,read:DefenceRead|null,direct
 /** A current relationship steers an executing movement, without restarting its acceleration. */
 function refreshActiveMovement(s:CoreState,p:CorePlayer,read:DefenceRead|null,direction:CoreState['directions']['HOME'],receiverId:string|null|undefined) {
   const a=p.action;
+  // The ball has actually left. The hands can recover while the legs follow
+  // the existing support relationship; PASS completion is not a standing duty.
+  if(a?.kind==='PASS'&&a.resolved&&!actionAvailable(p)&&!p.airborne&&!exchangeActive(s,p.id)&&
+    p.team===s.possession.team&&p.kind==='FIELD_PLAYER'&&s.ball.controllerId!==p.id){
+    a.target={...attackingMovementTarget(s,p,direction).target};return;
+  }
   if(!a||actionAvailable(p)||p.airborne||exchangeActive(s,p.id)||s.ball.controllerId===p.id||
     !['RUN','REPOSITION','PRESS','CONTAIN','HELP','RECOVER'].includes(a.kind))return;
   if(p.id===receiverId) {

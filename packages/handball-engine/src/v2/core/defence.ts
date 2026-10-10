@@ -313,7 +313,7 @@ export function allocate(s: CoreState, defenders: readonly CorePlayer[], attacke
   // single clearest way for a 6:0 to look broken, and the zonal allocation can
   // produce one whenever the pivot's own space becomes the pressing space.
   for (const [ownerId, pivotId] of [...pivotOwner]) {
-    if (!duties.has(ownerId)) continue;
+    if (!duties.has(ownerId)&&getPlayer(s,ownerId).beatenUntilTick<=s.tick) continue;
     // TO THE NEAREST FREE MAN, not along the index. Walking outward by zone
     // number sent the line player's marker to a space six metres away whenever
     // the obvious neighbour was already the helper -- and a defender at 6.1
@@ -321,11 +321,17 @@ export function allocate(s: CoreState, defenders: readonly CorePlayer[], attacke
     // somewhere else, which is exactly how a crossing stopped being handed over.
     const pivotPlayer = attackers.find(a => a.id === pivotId);
     const pivotX = pivotPlayer ? pivotPlayer.position.x : 10;
-    const relay = defenders
-      .filter(d => d.zone !== null && !duties.has(d.id) && !pivotOwner.has(d.id) && d.beatenUntilTick <= s.tick && d.id !== ownerId&&
+    let relay = defenders
+      .filter(d => d.zone !== null && !duties.has(d.id) && !pivotOwner.has(d.id) && d.beatenUntilTick<=s.tick && d.id !== ownerId&&
         !(s.defence.system==='5:1'&&d.zone===POINT_ZONE))
       .sort((a, b) => Math.abs((s.defence.system==='5:1'?FIVE_ONE_ANCHORS[a.zone!]:ZONE_ANCHORS[a.zone!]) - pivotX) - Math.abs((s.defence.system==='5:1'?FIVE_ONE_ANCHORS[b.zone!]:ZONE_ANCHORS[b.zone!]) - pivotX)
         || a.id.localeCompare(b.id))[0];
+    // Accounting for the real line threat outranks optional double pressure.
+    // Keep the beaten owner recovering; hand the pivot to the healthy helper
+    // when no unassigned neighbouring space can take him.
+    if(!relay&&helperId&&helperId!==ownerId&&!pivotOwner.has(helperId)){
+      relay=getPlayer(s,helperId);duties.delete(helperId);helperId=null;coverCandidate=null;
+    }
     pivotOwner.delete(ownerId);
     if (relay) pivotOwner.set(relay.id, pivotId);
   }
@@ -376,6 +382,7 @@ export function dutyTarget(s: CoreState, d: CorePlayer, duty: ZoneDuty, read: De
   const target = (x: number, y: number) => clearGoalArea(world({ x: clamp(x, 1.1, 18.9), y: clamp(y, 6.2, 17) }, direction), direction, d.radius + 0.12);
   const man = duty.targetId ? getPlayer(s, duty.targetId) : null;
   const manQ = man ? local(man.position, direction) : null;
+
 
   if (duty.kind === 'RECOVER') return target(q.x, q.y);
   // Retreating runs at the post itself rather than at any man: the quickest way

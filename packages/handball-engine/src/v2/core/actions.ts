@@ -196,10 +196,11 @@ export function execute(s: CoreState): ExecutionEffect[] {
     // Airborne poses and dead-ball placement keep their existing authority.
     if(s.ball.live&&!p.airborne&&a?.kind!=='SAVE'){
       const active=a&&!['COMPLETED','FAILED','INTERRUPTED'].includes(a.phase);
-      const moving=active&&movementActions.includes(a.kind)&&a.target!==null;
+      const releasedSupport=active&&a.kind==='PASS'&&a.resolved;
+      const moving=active&&(movementActions.includes(a.kind)||releasedSupport)&&a.target!==null;
       // Preparation/recovery retains decision timing. Compatible off-ball
       // phases carry existing pace; they cannot create new forward acceleration.
-      const ready=a?.phase==='EXECUTING';
+      const ready=a?.phase==='EXECUTING'||releasedSupport;
       const carrying=!ready&&s.ball.controllerId!==p.id&&Math.hypot(p.velocity.x,p.velocity.y)>.01;
       const target=moving&&(ready||carrying)?a.target:null;
       // A held ball still has a finite step budget; braking cannot spend a

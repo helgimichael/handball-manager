@@ -6,6 +6,7 @@ import { changePossession } from './transitions';
 import { advanceCoreMutable } from './engine';
 import { movementCapacity } from './condition';
 import { projectMotion } from './locomotion';
+import { selectActions, coordinate } from './structure';
 
 function clear(){const s=createCoreScenario('ESTABLISHED_6V6',83731708);const p=s.players.find(p=>p.role==='LW'&&p.team==='HOME')!;s.players=[p];p.position={x:3,y:18};p.velocity={x:2,y:0};p.action=null;return {s,p};}
 test('compatible target and curved steering preserve momentum with bounded acceleration',()=>{
@@ -42,4 +43,9 @@ test('receiver projection follows the actual unblocked braking and arrival path'
     for(let i=0;i<10;i++)move(s,p,target);
     assert.ok(Math.hypot(projected.x-p.position.x,projected.y-p.position.y)<1e-8);
   }
+});
+test('a released passer starts actual relational support while the hands recover',()=>{
+  const s=createCoreScenario(),p=s.players.find(p=>p.id==='H02')!;coordinate(s);p.position={x:6,y:17};p.velocity={x:0,y:0};
+  startAction(s,p,'RUN','Prior support',{x:8,y:17});p.action!.kind='PASS';p.action!.resolved=true;p.action!.phase='RECOVERING';p.action!.phaseTick=s.tick;p.action!.target=null;
+  selectActions(s);assert.ok(p.action!.target);const before={...p.position};execute(s);assert.ok(Math.hypot(p.position.x-before.x,p.position.y-before.y)>0);assert.ok(Math.hypot(p.velocity.x,p.velocity.y)>0);assert.equal(p.action!.kind,'PASS');
 });
