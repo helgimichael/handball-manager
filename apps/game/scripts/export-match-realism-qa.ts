@@ -12,7 +12,7 @@ import type { GameplayPlayerRating } from '../lib/gameWorld/gameplayRatingSnapsh
 import type { FastMatchResult } from '@handball-manager/game-simulation';
 
 type Inputs={competitionId:string;clubs:string[];worldSquads:Record<string,PlayerMock[]>;gameplayRatings:Record<string,GameplayPlayerRating[]>};
-type Recipe={index:number;saveSeed:string;managerClubId:string};
+type Recipe={index:number;saveSeed:string;managerClubId:string;variant?:string};
 type Selection=Recipe&{purpose:string;canonicalSeed:number;fixture:CareerFixture;homeName:string;awayName:string;selection:string;inspect:string};
 type RecordedMatch=Recipe&{canonicalSeed:number;fixture:CareerFixture;complete:boolean;truthHash:string;initialSessionHash:string;finalCoreHash:string;resultHash:string;result:FastMatchResult};
 const args=process.argv.slice(2);
@@ -24,6 +24,8 @@ const inputPath=resolve(option('--inputs',join(baseline,'inputs.json')));
 const primarySelection=join(after,'human-qa-matches.json');
 const selectionPath=resolve(option('--selections',existsSync(primarySelection)?primarySelection:join(dirname(after),'human-qa-matches.json')));
 const base=option('--url','http://localhost:3008').replace(/\/$/,'');
+const savePrefix=option('--save-prefix','hm-realism-v2');
+if(!/^[a-zA-Z0-9_-]+$/.test(savePrefix))throw new Error('Save prefix must contain only letters, numbers, underscores or hyphens');
 const read=<T>(path:string):T=>JSON.parse(readFileSync(path,'utf8').replace(/^\uFEFF/,'')) as T;
 const hash=(value:unknown)=>createHash('sha256').update(JSON.stringify(value)).digest('hex');
 const same=(actual:unknown,expected:unknown,label:string)=>{if(JSON.stringify(actual)!==JSON.stringify(expected))throw new Error(`${label} differs from the recorded AFTER match`);};
@@ -36,7 +38,7 @@ if(selections.length!==3||new Set(selections.map(s=>s.index)).size!==3)throw new
 
 function envelope(career:CareerState,selection:Selection,phase:'initial'|'completed'):CareerSave{
   const date=`${selection.fixture.date}T12:00:00.000Z`;
-  return {saveId:`hm-realism-v2-${selection.index}-${phase}`,schemaVersion:8,selectedNations:['SWE'],selectedCompetitionIds:[inputs.competitionId],
+  return {saveId:`${savePrefix}-${selection.index}-${phase}`,schemaVersion:8,selectedNations:['SWE'],selectedCompetitionIds:[inputs.competitionId],
     clubId:selection.managerClubId,manager:{name:`Realism QA · ${selection.purpose}`,nationality:'SWE',dateOfBirth:'1985-02-01'},
     gameDate:career.gameDate,createdAt:date,lastPlayedAt:date,
     // Inline archives are supported by getSave when no external archive ids
@@ -48,9 +50,12 @@ const manifestCases=[];
 for(const selection of selections){
   const recipe=afterRecipes.find(r=>r.index===selection.index),baselineRecipe=beforeRecipes.find(r=>r.index===selection.index);
   if(!recipe||!baselineRecipe)throw new Error(`Missing recipe ${selection.index}`);
-  same(recipe,baselineRecipe,`Paired recipe ${selection.index}`);
-  same({index:selection.index,saveSeed:selection.saveSeed,managerClubId:selection.managerClubId},recipe,`Selected recipe ${selection.index}`);
+  for(const candidate of [recipe,baselineRecipe,selection])if(candidate.variant!==undefined&&candidate.variant!=='BASELINE')throw new Error(`Export supports only an unmodified BASELINE recipe, not ${candidate.variant}`);
+  const canonicalRecipe=(r:Recipe)=>({index:r.index,saveSeed:r.saveSeed,managerClubId:r.managerClubId});
+  same(canonicalRecipe(recipe),canonicalRecipe(baselineRecipe),`Paired recipe ${selection.index}`);
+  same(canonicalRecipe(selection),canonicalRecipe(recipe),`Selected recipe ${selection.index}`);
   const recorded=read<RecordedMatch>(join(after,`match-${String(selection.index).padStart(3,'0')}.json`));
+  if(recorded.variant!==undefined&&recorded.variant!=='BASELINE')throw new Error(`Recorded match ${selection.index} is not a BASELINE variant`);
   if(!recorded.complete)throw new Error(`Selected match ${selection.index} is incomplete`);
   let career=createNewCareerState(recipe.saveSeed,recipe.managerClubId,structuredClone(inputs.worldSquads),undefined,structuredClone(inputs.gameplayRatings));
   const fixture=career.fixtures.find(f=>f.type==='LEAGUE'&&(f.homeClubId===recipe.managerClubId||f.awayClubId===recipe.managerClubId));
@@ -88,6 +93,6 @@ for(const selection of selections){
     verifiedAgainstRecordedAfter:true});
   console.log(JSON.stringify({index:selection.index,purpose:selection.purpose,score:core.score,truthIdentical:true}));
 }
-writeFileSync(join(output,'manifest.json'),JSON.stringify({format:1,createdAt:new Date().toISOString(),inputPath,inputHash:hash(inputs),selectionPath,
+writeFileSync(join(output,'manifest.json'),JSON.stringify({format:1,createdAt:new Date().toISOString(),inputPath,inputHash:hash(inputs),selectionPath,savePrefix,
   provenance:'Pinned real-career input and AFTER seed recipes; canonical start/continuation/result/finalization; exact initial/final/result/truth hashes validated before export.',
   saveSchema:8,cases:manifestCases},null,2)+'\n');

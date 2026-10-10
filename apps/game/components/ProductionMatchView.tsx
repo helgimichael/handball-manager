@@ -69,7 +69,7 @@ export default function ProductionMatchView({ fixtureId, quickFinish = false }: 
   const minute = Math.floor(c.officialClock.timeMs / 60000), second = String(Math.floor(c.officialClock.timeMs / 1000) % 60).padStart(2, '0');
   function apply(command: MatchCommand) { try { updateCareer(state => commandProductionMatch(state, command)); setError(null); } catch (cause) { setError(cause instanceof Error ? cause.message : 'Beslutet kunde inte genomföras.'); } }
   function finish() { setPlaying(false); setBusy(true); setFinishing(true); }
-  const recent = c.events.filter(e => ['GOAL', 'SAVE_CAUGHT', 'SAVE_PARRY', 'TWO_MINUTE_SUSPENSION', 'DISQUALIFICATION', 'EXCHANGE_COMPLETED', 'TEAM_TIMEOUT_STARTED', 'TACTICS_CHANGED'].includes(e.type)).slice(-8).reverse();
+  const recent = c.events.filter(e => ['GOAL', 'SAVE_CAUGHT', 'SAVE_PARRY', 'WHISTLE_RESTART', 'ADVANTAGE_REALIZED', 'TWO_MINUTE_SUSPENSION', 'DISQUALIFICATION', 'EXCHANGE_COMPLETED', 'TEAM_TIMEOUT_STARTED', 'TACTICS_CHANGED'].includes(e.type)).slice(-8).reverse();
   return <div className="game-live-match" data-phase={fulltime ? 'fulltime' : session.pausedAtHalf ? 'halftime' : 'live'}>
     <Scoreboard homeClubId={session.fixture.homeClubId} awayClubId={session.fixture.awayClubId} homeScore={c.score.HOME} awayScore={c.score.AWAY} label={fulltime ? 'SLUTSIGNAL' : session.pausedAtHalf ? 'HALVTID' : 'MATCHCENTRAL'}><strong>{minute}:{second} · {fulltime ? 'Slut' : session.pausedAtHalf ? 'Halvtid' : c.period === 1 ? 'Första halvlek' : 'Andra halvlek'}</strong></Scoreboard>
     <div className="game-live-layout coach-live-layout"><div className="game-live-court">

@@ -5,7 +5,7 @@ import { getClub } from '@/lib/game-data';
 import { CoachingChoices } from './CoachingChoices';
 
 const ROLE_LABEL: Record<Role, string> = { LW: 'V6', LB: 'V9', CB: 'M9', RB: 'H9', RW: 'H6', P: 'M6', P2: 'M6', GK: 'MV' };
-const EVENT_LABEL: Record<string, string> = { GOAL: 'Mål', SAVE_CAUGHT: 'Räddning', SAVE_PARRY: 'Räddning', TWO_MINUTE_SUSPENSION: 'Två minuter', DISQUALIFICATION: 'Rött kort', EXCHANGE_COMPLETED: 'Byte klart', TEAM_TIMEOUT_STARTED: 'Timeout', TACTICS_CHANGED: 'Taktiken ändras' };
+const EVENT_LABEL: Record<string, string> = { GOAL: 'Mål', SAVE_CAUGHT: 'Räddning', SAVE_PARRY: 'Räddning', WHISTLE_RESTART: 'Avblåsning', ADVANTAGE_REALIZED: 'Fördel spelad', TWO_MINUTE_SUSPENSION: 'Två minuter', DISQUALIFICATION: 'Rött kort', EXCHANGE_COMPLETED: 'Byte klart', TEAM_TIMEOUT_STARTED: 'Timeout', TACTICS_CHANGED: 'Taktiken ändras' };
 
 export function LiveCoachPanel({ session, team, busy, outId, inId, onOut, onIn, onSubstitute, onCommand, recent }: { session: ProductionMatchSession; team: TeamId; busy: boolean; outId: string; inId: string; onOut: (id: string) => void; onIn: (id: string) => void; onSubstitute: () => void; onCommand: (command: MatchCommand) => void; recent: readonly CoreEvent[] }) {
   const core = session.core;

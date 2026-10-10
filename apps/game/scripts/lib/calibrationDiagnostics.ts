@@ -4,8 +4,8 @@ import { ledger, lossClassOf } from '@handball-manager/handball-engine/src/v2/co
 import { local, laneClearance, distance, shotContext, shootingAngle, world } from '@handball-manager/handball-engine/src/v2/core/space';
 import { goalAreaClearance } from '@handball-manager/handball-engine/src/domain/geometry/goalArea';
 
-export function distribution(values: number[]) {
-  const sorted = values.filter(Number.isFinite).sort((a, b) => a - b);
+export function distribution(values: (number | null)[]) {
+  const sorted = values.filter((value): value is number => typeof value === 'number' && Number.isFinite(value)).sort((a, b) => a - b);
   const q = (fraction: number) => { if (!sorted.length) return null; const at = (sorted.length - 1) * fraction, lo = Math.floor(at), hi = Math.ceil(at); return sorted[lo] + (sorted[hi] - sorted[lo]) * (at - lo); };
   return { n: sorted.length, mean: sorted.length ? sorted.reduce((a, b) => a + b, 0) / sorted.length : null, median: q(.5), p10: q(.1), p90: q(.9), min: sorted[0] ?? null, max: sorted.at(-1) ?? null };
 }
@@ -16,7 +16,7 @@ type Episode = { id: string; possessionId: string; team: TeamId; source: string;
 type ContactEpisode = { id: string; attackerId: string; defenderId: string; possessionId: string; startTick: number; lastTick: number; contacts: number; assessments: string[]; whistles: number; ending: string };
 type Decision = { actorId: string; actionId: string | null; possessionId: string; tick: number; officialMs: number; kind: string | number | boolean; reason: string | number | boolean; context: ReturnType<typeof shotContext>; geometry: Geometry };
 type RestartTiming = { id: string; kind: string; owner: TeamId; startTick: number; endTick: number; startOfficialMs: number; endOfficialMs: number; phaseTicks: Record<string, number>; liveClockTicks: number; ending: string };
-type Shot = { actionId: string; actorId: string; team: TeamId; role: string; period: number; officialMs: number; tick: number; kind: string; phase: string; distance: number; areaClearance: number; angle: number; pressure: number; blockThreat: number; quality: number; opportunityQuality: number | null; decision: unknown; reason: string; energy: number; goalHeight: number | null; aim: { x: number; y: number } | null; keeper: unknown; capabilities: unknown; execution: CoreEvent['details']; transition: unknown; geometry: Geometry; goal: boolean; saved: boolean; keeperTouched: boolean; blocked: boolean; missed: boolean };
+type Shot = { actionId: string; actorId: string; team: TeamId; role: string; period: number; officialMs: number; tick: number; kind: string; phase: string; distance: number; areaClearance: number; angle: number; pressure: number; blockThreat: number; quality: number; opportunityQuality: number | null; decision: unknown; reason: string; energy: number; goalHeight: number | null; aim: { x: number; y: number } | null; keeper: unknown; capabilities: unknown; execution: CoreEvent['details']; committedAim?: CoreEvent | null; keeperFacts?: CoreEvent[]; transition: unknown; geometry: Geometry; originControl: { bodySeparation: number; error: boolean; actorPopulation: string }; goal: boolean; saved: boolean; keeperTouched: boolean; blocked: boolean; missed: boolean };
 
 function geometry(core: Readonly<CoreState>, team: TeamId, point = core.ball.position): Geometry {
   const direction = core.directions[team], ballDepth = local(point, direction).y;
@@ -58,8 +58,19 @@ export class CalibrationDiagnostics {
   private looseSince: number | null = null;
   private readonly assessedIds = new Set<string>();
   private readonly whistleIds = new Set<string>();
+  private controlledTicks = 0;
+  private controlErrors = 0;
+  private readonly firstControlErrors: { tick: number; controllerId: string; population: string | null; separation: number | null; concurrentFlight: boolean }[] = [];
 
   observe = (core: Readonly<CoreState>, events: readonly CoreEvent[]) => {
+    if (core.ball.controllerId) {
+      this.controlledTicks++;
+      const controller = core.players.find(p => p.id === core.ball.controllerId), separation = controller ? distance(core.ball.position, controller.position) : null;
+      if (!controller || controller.population !== 'COURT' || separation! > .860001 || core.ball.flight !== null) {
+        this.controlErrors++;
+        if (this.firstControlErrors.length < 32) this.firstControlErrors.push({ tick: core.tick, controllerId: core.ball.controllerId, population: controller?.population ?? null, separation, concurrentFlight: core.ball.flight !== null });
+      }
+    }
     const phaseKey = `${core.period}:${core.possession.phase}:${core.ball.mode}`;
     const timing = this.phaseTimings[phaseKey] ??= { ticks: 0, liveClockTicks: 0 };
     timing.ticks++; if (core.officialClock.running) timing.liveClockTicks++;
@@ -179,7 +190,7 @@ export class CalibrationDiagnostics {
         keeper: keeper ? { id: keeper.id, position: { ...keeper.position }, velocity: { ...keeper.velocity }, energy: keeper.condition.energy, profile: keeper.profile.keeper, action: keeper.action ? { kind: keeper.action.kind, phase: keeper.action.phase, targetId: keeper.action.targetId, target: keeper.action.target ? { ...keeper.action.target } : null, ageMs: (core.tick - keeper.action.startedTick) * 50, phaseAgeMs: (core.tick - keeper.action.phaseTick) * 50, anticipationForId: keeper.action.anticipationForId ?? null, anticipationAgeMs: keeper.action.anticipationStartedTick === undefined ? null : (core.tick - keeper.action.anticipationStartedTick) * 50 } : null } : null,
         capabilities: { placement: player.profile.shotPlacement, power: player.profile.shotPower, finishing: player.profile.finishing, wing: player.profile.wingFinishing, pivot: player.profile.pivotPlay, decision: player.profile.decision, composure: player.profile.composure }, execution: { ...event.details },
         transition: atGain ? { source: episode?.source ?? atGain.source, gainToShotMs: event.officialMs - atGain.officialMs, phaseToShotMs: episode ? event.officialMs - episode.startOfficialMs : null, advancedMetresFromGain: atGain.geometry.ballDepth - currentGeometry.ballDepth, advancedMetresInLiveTransition: episode ? episode.entry.ballDepth - currentGeometry.ballDepth : null, gainGeometry: atGain.geometry } : null,
-        geometry: currentGeometry, goal: false, saved: false, keeperTouched: false, blocked: false, missed: false });
+        geometry: currentGeometry, originControl: { bodySeparation: distance(point, player.position), error: distance(point, player.position) > .9 || player.population !== 'COURT', actorPopulation: player.population }, goal: false, saved: false, keeperTouched: false, blocked: false, missed: false });
     }
     for (const episode of this.contactByPair.values()) {
       if (episode.ending !== 'ACTIVE') continue;
@@ -195,7 +206,19 @@ export class CalibrationDiagnostics {
     const goals = new Set(core.events.filter(e => e.type === 'GOAL').map(e => e.actionId));
     const saves = new Set(core.events.filter(e => ['SAVE_CAUGHT', 'SAVE_PARRY'].includes(e.type)).map(e => e.actionId));
     const blocks = new Set(core.events.filter(e => e.type === 'SHOT_BLOCKED').map(e => e.actionId));
-    for (const shot of this.shots) { shot.goal = goals.has(shot.actionId); shot.keeperTouched = saves.has(shot.actionId); shot.saved = !shot.goal && shot.keeperTouched; shot.blocked = !shot.goal && !shot.saved && blocks.has(shot.actionId); shot.missed = !shot.goal && !shot.saved && !shot.blocked; }
+    const committed = new Map(core.events.filter(e => e.type === 'SHOT_AIM_COMMITTED').map(event => [event.actionId, event]));
+    const keeperFacts = new Map<string, CoreEvent[]>();
+    for (const event of core.events) {
+      if (!['KEEPER_ANTICIPATED', 'KEEPER_FLIGHT_READ', 'SAVE_CAUGHT', 'SAVE_PARRY'].includes(event.type)) continue;
+      const id = String(event.details.throwActionId ?? event.details.shotActionId ?? event.actionId), facts = keeperFacts.get(id) ?? [];
+      facts.push({ ...event, relatedIds: [...event.relatedIds], details: { ...event.details } }); keeperFacts.set(id, facts);
+    }
+    for (const shot of this.shots) {
+      shot.goal = goals.has(shot.actionId); shot.keeperTouched = saves.has(shot.actionId); shot.saved = !shot.goal && shot.keeperTouched; shot.blocked = !shot.goal && !shot.saved && blocks.has(shot.actionId); shot.missed = !shot.goal && !shot.saved && !shot.blocked;
+      const commitment = committed.get(shot.actionId);
+      shot.committedAim = commitment ? { ...commitment, relatedIds: [...commitment.relatedIds], details: { ...commitment.details } } : null;
+      shot.keeperFacts = keeperFacts.get(shot.actionId) ?? [];
+    }
     for (const episode of this.transitions) episode.goals = episode.shots.filter(id => goals.has(id)).length;
     const groups: Record<string, Shot[]> = {};
     const add = (key: string, shot: Shot) => (groups[key] ??= []).push(shot);
@@ -219,6 +242,7 @@ export class CalibrationDiagnostics {
       transition: { starts: this.transitions.length, distinctPossessions: new Set(this.transitions.map(t => t.possessionId)).size, shots: this.shots.filter(s => s.phase === 'TRANSITION').length, goals: this.shots.filter(s => s.phase === 'TRANSITION' && s.goal).length, conversion: share(this.shots.filter(s => s.phase === 'TRANSITION' && s.goal).length, this.shots.filter(s => s.phase === 'TRANSITION').length), abortToSettled: this.transitions.filter(t => t.ending === 'SETTLED' && !t.shots.length).length, keeperStarted: this.transitions.filter(t => t.source.startsWith('KEEPER') || t.source.startsWith('GOALKEEPER')).length, turnoverStarted: this.transitions.filter(t => t.source === 'TURNOVER_INTERCEPTION' || t.source === 'LOOSE_BALL_RECOVERY').length, sources: count(this.transitions.map(t => t.source)), durationOfficialMs: distribution(this.transitions.map(t => t.endOfficialMs - t.startOfficialMs)), heldMs: distribution(this.transitions.map(t => t.heldMs)), episodes: this.transitions },
       contact: { physicalContacts: this.counters.CONTACT_EXECUTED ?? 0, continuousPairEpisodes: this.contactEpisodes.length, assessedFouls: this.assessments.length, rawFoulEvents: this.counters.FOUL ?? 0, contactWhistles: this.whistles.length, freeThrowAwards: this.restarts.filter(r => r.kind === 'FREE_THROW').length, sevenMetreAwards: this.restarts.filter(r => r.kind === 'SEVEN_METRE').length, advantagesPending: this.counters.ADVANTAGE_PENDING ?? 0, advantagesRealized: this.counters.ADVANTAGE_REALIZED ?? 0, advantagesRecalled: this.counters.ADVANTAGE_RECALLED ?? 0, contactClasses: count(this.physicalContactFacts.map(fact => String(fact.details.contactClass ?? 'LEGACY_UNSPECIFIED'))), radialClosingSpeed: distribution(this.physicalContactFacts.map(fact => Number(fact.details.radialClosingSpeed)).filter(Number.isFinite)), lateralSpeed: distribution(this.physicalContactFacts.map(fact => Number(fact.details.lateralSpeed)).filter(Number.isFinite)), physicalFacts: this.physicalContactFacts, episodes: this.contactEpisodes, assessments: this.assessments, whistles: this.whistles, restarts: this.restarts },
       deadSpots: { longestLooseBall: { ...this.longestLoose, simulationMs: this.longestLoose.ticks * 50 }, phaseTimings: Object.fromEntries(Object.entries(this.phaseTimings).map(([key, timing]) => [key, { simulationMs: timing.ticks * 50, officialRunningMs: timing.liveClockTicks * 50 }])), restartTimings: [...this.restartTimings.values()].map(restart => ({ ...restart, simulationMs: (restart.endTick - restart.startTick) * 50, officialMs: restart.endOfficialMs - restart.startOfficialMs, officialRunningMs: restart.liveClockTicks * 50 })) }, eventCounts: this.counters,
+      control: { controlledPostTicks: this.controlledTicks, errors: this.controlErrors, firstErrors: this.firstControlErrors, shotOriginsChecked: this.shots.length, shotOriginErrors: this.shots.filter(shot => shot.originControl.error).length, releaseBodySeparation: distribution(this.shots.map(shot => shot.originControl.bodySeparation)), definition: 'Every observed post-tick controller must be on court, within canonical0.86m control distance, and coexist with no flight. Every actual release origin is checked against its same-tick body, allowing0.9m for the existing catch offset; no rendered interpolation is used.' },
       definitions: { observer: 'Read-only callback after each canonical production tick; no extra simulation, mutations or RNG.', shotGroups: 'Categories partition attempts. Context/range/quality/pressure rows overlap. Near-six-metre means release within1.5m of the existing curved goal-area boundary; diagnostic region, not an empirical target.', saves: 'Non-goal shots with SAVE_CAUGHT/PARRY count saved; goal-after-keeper-touch is retained as a goal and separate keeperTouched fact.', pressureQuality: '0.2 pressure and0.65 quality cuts are descriptive bins aligned with the prior offline reading, not goal-rate targets.', contactEpisodes: 'Derived continuous attacker/defender pair opened only by real CONTACT_EXECUTED, closed by actual whistle, control/possession ending or1.6m separation. Engineering grouping, not a claim of a canonical referee episode object.', whistles: 'Explicit WHISTLE_RESTART counts contact-rule stops; all FREE_THROW awards separately include technical/passive/restarts. Neither is raw FOUL count.', transition: 'Actual observed phase entries; source follows actual ownership/restart facts. Each released transition shot retains progress from gain and real defenders/lanes/numerical context so relabeling can be distinguished from opportunity.' } };
   }
 }
