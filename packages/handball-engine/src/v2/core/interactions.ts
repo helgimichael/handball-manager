@@ -1,6 +1,7 @@
 import { courtPlayers, getPlayer, otherTeam, random, record, uid, type CoreContest, type CoreFlight, type CorePlayer, type CoreState, type Point } from './state';
 import { clamp, distance, fieldLegal, goal, local, segmentPoint, shotContext } from './space';
-import { advanceOf, reachOf } from './timing';
+import { reachOf } from './timing';
+import { projectMotion } from './locomotion';
 import { acquire, awardRestart, interrupt } from './transitions';
 import type { ExecutionEffect } from './actions';
 import { restartReady } from './rules';
@@ -87,12 +88,14 @@ function release(s:CoreState,p:CorePlayer,kind:'PASS'|'SHOOT') {
     // movement extent. This predicts an intercept point, never future ownership.
     // POSSESSION ECOLOGY: lead him by what he can cover, not by how fast he
     // happens to be moving. A man who has just set off is still accelerating,
-    // and a lead taken off his current velocity lands behind him. See advanceOf.
-    if(receiver.action?.phase==='EXECUTING'&&receiver.action.target&&(receiver.action.kind==='RUN'||receiver.action.kind==='REPOSITION')) {
-      const reach=reachOf(s,receiver),to=receiver.action.target;
+    // and a lead taken off his current velocity lands behind him. Project the
+    // same bounded steering/arrival used by canonical locomotion; the old
+    // straight-line accelerate-and-stop prediction overshoots a settling runner.
+    if(Math.hypot(receiver.velocity.x,receiver.velocity.y)>.01||receiver.action?.target&&(receiver.action.kind==='RUN'||receiver.action.kind==='REPOSITION')) {
+      const reach=reachOf(s,receiver),to=receiver.action?.target&&['RUN','REPOSITION'].includes(receiver.action.kind)?receiver.action.target:null;
       for(let i=0;i<4;i++) {
         const time=distance(s.ball.position,target)/(10.5+3*p.profile.passing);
-        target=advanceOf(reach,to,time);
+        target=projectMotion(receiver.position,receiver.velocity,to,reach.topSpeed,reach.acceleration,time);
       }
     }
     // And nobody throws the ball out of play at a teammate.
@@ -248,7 +251,9 @@ export function advanceBall(s:CoreState) {
     const hit=segmentPoint(from,to,p.position);
     const isKeeper=p.kind==='GOALKEEPER';
     const ready=p.action?.phase==='EXECUTING';
-    const runningReceive=p.reception?.passActionId===f.actionId&&p.reception.readyTick<=s.tick&&['RUN','REPOSITION'].includes(p.action?.kind??'');
+    // The named offer has its own persisted hands-ready tick. A locomotion
+    // phase boundary must not make prepared hands disappear as the ball arrives.
+    const runningReceive=p.reception?.passActionId===f.actionId&&p.reception.readyTick<=s.tick&&['RUN','REPOSITION','RECEIVE'].includes(p.action?.kind??'');
     // SPATIAL TIMING: a defender does not intercept because the ball passed
     // near him. He intercepts because he could get a hand to it in the time it
     // gave him. Sixty-odd interceptions a match came from a flat 0.65 m radius
@@ -272,7 +277,7 @@ export function advanceBall(s:CoreState) {
     const reach=f.kind==='SHOT'
       ?(isKeeper?(ready&&p.action?.kind==='SAVE'?keeperReach:.2)
         :ready&&p.action?.kind==='BLOCK'&&!beaten?.16+.34*p.profile.blocking:0)
-      :own?(ready&&(p.action?.kind==='RECEIVE'||runningReceive)?.65:0)
+      :own?((ready&&p.action?.kind==='RECEIVE'||runningReceive)?.65:0)
       // A defending interceptor needs a defensive action, his reaction spent,
       // and a hand within his own reach. Every one of the three is a real
       // requirement and together they are what the old radius was missing.

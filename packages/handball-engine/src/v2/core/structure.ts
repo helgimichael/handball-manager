@@ -425,6 +425,14 @@ function defensiveMovement(s:CoreState,p:CorePlayer,read:DefenceRead|null,direct
 /** A current relationship steers an executing movement, without restarting its acceleration. */
 function refreshActiveMovement(s:CoreState,p:CorePlayer,read:DefenceRead|null,direction:CoreState['directions']['HOME'],receiverId:string|null|undefined) {
   const a=p.action;
+  p.supportMotion=null;
+  // Offering a connection is a hands/read action, not an instruction to freeze
+  // for its entire 1.8s lifecycle. Track the same tactical relationship while
+  // free; a named reception or an established screen still checks and holds.
+  if(s.ball.live&&a?.kind==='RECEIVE'&&p.id!==receiverId&&!p.reception&&!p.airborne&&
+    p.team===s.possession.team&&p.kind==='FIELD_PLAYER'&&s.ball.controllerId!==p.id&&!exchangeActive(s,p.id)){
+    p.supportMotion={...attackingMovementTarget(s,p,direction).target};
+  }
   if(!a||actionAvailable(p)||p.airborne||exchangeActive(s,p.id)||s.ball.controllerId===p.id||
     !['RUN','REPOSITION','PRESS','CONTAIN','HELP','RECOVER'].includes(a.kind))return;
   if(p.id===receiverId) {

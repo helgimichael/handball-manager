@@ -4,6 +4,7 @@ import { awardRestart } from './transitions';
 import { authorisedRestartMovementLegal } from './rules';
 import { movementCapacity } from './condition';
 import { planShotTarget } from './execution';
+import { steerVelocity } from './locomotion';
 
 const durations: Record<ActionKind,number>={RUN:12,REPOSITION:12,RECEIVE:36,HOLD:6,DRIBBLE:16,PASS:4,FEINT:7,DRIVE:14,JUMP:3,SHOOT:4,LAND:4,SCREEN:20,PRESS:10,CONTAIN:10,HELP:12,HANDOVER:4,RECOVER:12,BLOCK:12,CONTACT:8,SAVE:18,EXCHANGE:20};
 export const movementActions: ActionKind[]=['RUN','REPOSITION','DRIBBLE','DRIVE','PRESS','CONTAIN','HELP','RECOVER','SAVE','EXCHANGE'];
@@ -97,16 +98,21 @@ export function startAction(s: CoreState,p: CorePlayer,kind: ActionKind,reason: 
 }
 function phase(s:CoreState,p:CorePlayer,next:CoreAction['phase']) {p.action!.phase=next;p.action!.phaseTick=s.tick;record(s,'ACTION_PHASE',p,{kind:p.action!.kind,phase:next});}
 /** Proposed physical movement is rejected before integration if illegal; no release-point repairs. */
-function move(s:CoreState,p:CorePlayer,target:Point) {
-  const d=distance(p.position,target);if(d<.03){p.velocity={x:0,y:0};return;}
-  const dx=(target.x-p.position.x)/d,dy=(target.y-p.position.y)/d;
-  // Pace carried toward the new intention, rather than full speed for an
-  // instantaneous reversal. This matches the existing reach-time model.
-  const oldSpeed=Math.max(0,p.velocity.x*dx+p.velocity.y*dy);
+export function move(s:CoreState,p:CorePlayer,target:Point|null,committedSave=false) {
+  const d=target?distance(p.position,target):0;
+  const dx=target&&d>1e-8?(target.x-p.position.x)/d:0,dy=target&&d>1e-8?(target.y-p.position.y)/d:0;
   const impaired=s.tick < p.beatenUntilTick ? 0.4 : s.tick < p.screenedUntilTick ? 0.15 : s.tick<p.wrongFootedUntilTick?.65:1;
   const capacity=movementCapacity(p);
-  const speed=Math.min(p.profile.topSpeed*impaired*capacity,oldSpeed+p.profile.acceleration*.05*capacity,Math.sqrt(2*p.profile.acceleration*capacity*d));
-  const travel=Math.min(d,speed*.05);
+  const acceleration=p.profile.acceleration*capacity;
+  // Arrival is a braking problem, not a velocity reset. Close to a relational
+  // target, proportional approach removes the alternating overshoot/stop cycle.
+  // A committed keeper reach retains v2.1's released-shot timing model. Its
+  // short reaction/reach is not an ordinary outfield support run.
+  const saveSpeed=Math.min(p.profile.topSpeed*impaired*capacity,Math.max(0,p.velocity.x*dx+p.velocity.y*dy)+acceleration*.05,Math.sqrt(2*acceleration*d));
+  const velocity=committedSave?{x:dx*saveSpeed,y:dy*saveSpeed}:steerVelocity(p.position,p.velocity,target,p.profile.topSpeed*impaired*capacity,acceleration);
+  const speed=Math.hypot(velocity.x,velocity.y);
+  if(speed<1e-8){p.velocity={x:0,y:0};return;}
+  const travel=speed*.05,heading={x:velocity.x/speed,y:velocity.y/speed};
   // Local steering around occupied bodies is execution of the existing duty,
   // not a new tactical assignment. Every candidate is checked before movement.
   let chosen: {x:number;y:number;dx:number;dy:number}|null=null;
@@ -116,7 +122,7 @@ function move(s:CoreState,p:CorePlayer,target:Point) {
   const pinned=!s.ball.live&&taker&&p.team!==taker.team&&(p.position.x<1||p.position.x>19)&&distance(p.position,taker.position)<1;
   const angles=!pinned?[0,.7,-.7,1.3,-1.3,Math.PI/2,-Math.PI/2,1.9,-1.9]:[0,.7,-.7,1.3,-1.3,Math.PI/2,-Math.PI/2,1.9,-1.9,2.5,-2.5,Math.PI];
   for(const angle of angles) {
-    const ux=dx*Math.cos(angle)-dy*Math.sin(angle),uy=dx*Math.sin(angle)+dy*Math.cos(angle);
+    const ux=heading.x*Math.cos(angle)-heading.y*Math.sin(angle),uy=heading.x*Math.sin(angle)+heading.y*Math.cos(angle);
     const next={x:p.position.x+ux*travel,y:p.position.y+uy*travel};
     const exchange=p.action?.kind==='EXCHANGE';
     const ordinary=p.kind==='GOALKEEPER'?next.x>=.3&&next.x<=19.7&&next.y>=.3&&next.y<=39.7:fieldLegal(next,p.radius);
@@ -181,7 +187,28 @@ export function execute(s: CoreState): ExecutionEffect[] {
   const effects: ExecutionEffect[]=[];
   for(const p of s.players) {
     if(p.population!=='COURT')continue;
-    const a=p.action;if(!a)continue;
+    const a=p.action;
+    // Locomotion runs every live tick, independently of the hands/action clock.
+    // A standing player still prepares before starting; a moving player steers
+    // through a compatible new intention and brakes through a stationary one.
+    // Airborne poses and dead-ball placement keep their existing authority.
+    if(s.ball.live&&!p.airborne&&a?.kind!=='SAVE'){
+      const active=a&&!['COMPLETED','FAILED','INTERRUPTED'].includes(a.phase);
+      const moving=active&&movementActions.includes(a.kind)&&a.target!==null;
+      const ready=a?.phase==='EXECUTING'||Math.hypot(p.velocity.x,p.velocity.y)>.01;
+      const target=p.supportMotion??(moving&&ready&&(s.ball.controllerId!==p.id||a.phase==='EXECUTING')?a.target:null);
+      // A held ball still has a finite step budget; braking cannot spend a
+      // fourth step. Dribble movement begins only after its actual bounce.
+      const controls=s.ball.controllerId===p.id&&s.ball.mode!=='DRIBBLE';
+      const budget=controls?(s.ruleProfile.maxSteps-p.handling.steps)*.8-p.handling.stepDistance-.01:Infinity;
+      if(controls&&budget<=Math.hypot(p.velocity.x,p.velocity.y)*.05){p.velocity={x:0,y:0};}
+      else move(s,p,target);
+    }
+    if(s.ball.live&&a?.kind==='SAVE'){
+      if(a.phase==='EXECUTING'&&a.target)move(s,p,a.target,true);
+      else p.velocity={x:0,y:0};
+    }
+    if(!a)continue;
     const elapsed=s.tick-a.phaseTick;
     if(a.phase==='PREPARING'&&elapsed>=2){
       if(a.kind==='SHOOT'&&!a.target){
@@ -202,7 +229,7 @@ export function execute(s: CoreState): ExecutionEffect[] {
     }
     if(a.phase==='RECOVERING'&&elapsed>=a.recoveryTicks){phase(s,p,'COMPLETED');continue;}
     if(a.phase!=='EXECUTING')continue;
-    if(movementActions.includes(a.kind)&&a.target)move(s,p,a.target);else p.velocity={x:0,y:0};
+    if(!s.ball.live){if(movementActions.includes(a.kind)&&a.target)move(s,p,a.target);else p.velocity={x:0,y:0};}
     if(a.kind==='DRIBBLE'&&s.ball.controllerId===p.id){
       const bounceAge=(s.tick-p.handling.bounceTick)%8;s.ball.height=Math.abs(4-bounceAge)/4;
       if(bounceAge===4)record(s,'DRIBBLE_BOUNCE',p);
