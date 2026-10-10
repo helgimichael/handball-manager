@@ -4,6 +4,7 @@ import { join, resolve } from 'node:path';
 import type { CareerSave } from '../lib/save/saveRepository';
 import type { PlayedMatchArchive } from '../lib/career/productionMatch';
 import { decodeFrames, frameAt } from '../lib/career/matchFrames';
+import { goalAreaClearance } from '@handball-manager/handball-engine/src/domain/geometry/goalArea';
 
 const expect=baseExpect.configure({timeout:30000});
 const base=process.env.HM_QA_URL??'http://127.0.0.1:3009';
@@ -47,19 +48,29 @@ async function importQa(page:Page,envelope:CareerSave){
 async function recordScenes(page:Page,fixtureId:string,directory:string,observations:unknown[]){
   const evidence=await archiveEvidence(page,fixtureId),person=new Map(evidence.people.map(p=>[p.id,p]));
   const recordedFrames=evidence.frameData?decodeFrames(evidence.frameData):evidence.frames??[];
-  const shotRange=(e:typeof evidence.events[number])=>{
+  const shotSide=(e:typeof evidence.events[number])=>{
     const second=evidence.events.some(p=>p.type==='PERIOD_STARTED'&&p.tick<=e.tick&&p.details.period===2);
     const top=person.get(e.actorId??'')?.team==='HOME'?!second:second;
-    return Math.hypot(Number(e.details.x)-10,top?Number(e.details.y):40-Number(e.details.y));
+    return top?'TOP' as const:'BOTTOM' as const;
+  };
+  const shotRange=(e:typeof evidence.events[number])=>Math.hypot(Number(e.details.x)-10,shotSide(e)==='TOP'?Number(e.details.y):40-Number(e.details.y));
+  const roleAt=(id:string,tick:number)=>{
+    const exchange=evidence.events.filter(e=>e.type==='EXCHANGE_COMPLETED'&&e.actorId===id&&e.tick<=tick).at(-1);
+    return exchange?.details.role??person.get(id)?.role;
   };
   const shots=evidence.events.filter(e=>e.type==='SHOT_RELEASED');
   const savedAction=new Set(evidence.events.filter(e=>e.type.startsWith('SAVE_')).map(e=>e.actionId));
   const cues=[
     {name:'near-six-metres',event:shots.find(e=>shotRange(e)<8)},
     {name:'keeper-backcourt-save',event:shots.find(e=>savedAction.has(e.actionId)&&['BACKCOURT_JUMP','STANDING'].includes(String(e.details.shotKind)))},
+    {name:'pressured-backcourt',event:shots.find(e=>Number(e.details.pressure)>=.2&&shotRange(e)>=8&&shotRange(e)<=12&&['BACKCOURT_JUMP','STANDING'].includes(String(e.details.shotKind)))},
+    {name:'high-quality-close',event:shots.find(e=>Number(e.details.opportunityQuality)>=.65&&goalAreaClearance({x:Number(e.details.x),y:Number(e.details.y)},shotSide(e))<=1.5)},
     {name:'seven-metres',event:shots.find(e=>e.details.shotKind==='SEVEN_METRE')},
     {name:'pivot-cooperation',event:shots.find(e=>e.details.shotKind==='PIVOT')??evidence.events.find(e=>e.type==='PASS_RECEIVED'&&person.get(e.actorId??'')?.role==='P')},
     {name:'wing-shot',event:shots.find(e=>e.details.shotKind==='WING')},
+    {name:'help-created-wing',event:evidence.events.find(e=>e.type==='PASS_RELEASED'&&['LW','RW'].includes(String(roleAt(e.relatedIds[0],e.tick)))&&/wing whose defender helped|defence left.*help/i.test(String(e.details.reason)))},
+    {name:'M6-help-created-space',event:evidence.events.find(e=>e.type==='ADVANTAGE_OPENED'&&['P','P2'].includes(String(roleAt(e.relatedIds[0],e.tick)))&&/help|came across/i.test(String(e.details.cause)))},
+    {name:'screen-created-space',event:evidence.events.find(e=>e.type==='ADVANTAGE_OPENED'&&/screen/i.test(String(e.details.cause)))},
     {name:'keeper-outlet',event:evidence.events.find(e=>e.type==='PASS_RELEASED'&&person.get(e.actorId??'')?.role==='GK')},
     {name:'turnover-retreat',event:evidence.events.find(e=>e.type==='INTERCEPTION'||e.type==='REBOUND_CONTROLLED'&&person.get(e.actorId??'')?.team!==person.get(e.relatedIds[0])?.team)},
     {name:'transition-finish',event:shots.find(e=>e.details.phase==='TRANSITION'&&shotRange(e)<12)},
@@ -349,4 +360,49 @@ test('retained19–19 replay stays immutable on the new build; same pinned recip
     expect(receipt.errors).toEqual([]);receipt.status='PASSED';
   }catch(cause){receipt.status='FAILED';receipt.error=cause instanceof Error?cause.message:String(cause);throw cause;}
   finally{await newContext.close();writeFileSync(join(directory,'receipt.json'),JSON.stringify(receipt,null,2)+'\n');}
+});
+
+test('selected calibration archives: three automatic cases with real replay movement and causal scene evidence',async({browser})=>{
+  test.setTimeout(600000);
+  const qa=resolve(process.env.HM_CALIBRATION_HUMAN_QA_DIR??'../../docs/match-realism-v21/human-qa');
+  const manifest=JSON.parse(readFileSync(join(qa,'manifest.json'),'utf8')) as {cases:{purpose:string;index:number;canonicalSeed:number;fixture:{id:string};score:{HOME:number;AWAY:number};completedFile:string;archiveHash:string;resultHash?:string;verifiedAgainstRecordedAfter:boolean}[]};
+  expect(manifest.cases).toHaveLength(3);
+  const receipt:{status:string;cases:unknown[];errors:string[];error?:string}={status:'RUNNING',cases:[],errors:[]};
+  const directory=join(output,'selected-calibration');mkdirSync(directory,{recursive:true});
+  try{
+    for(const item of manifest.cases){
+      expect(item.verifiedAgainstRecordedAfter).toBe(true);
+      const envelope=JSON.parse(readFileSync(join(qa,item.completedFile),'utf8')) as CareerSave;
+      const context=await browser.newContext({viewport:{width:1920,height:1080}}),page=await context.newPage();page.setDefaultTimeout(30000);
+      page.on('pageerror',error=>receipt.errors.push(error.message));
+      const observations:unknown[]=[],caseDirectory=join(directory,`match-${String(item.index).padStart(3,'0')}`);
+      receipt.cases.push({purpose:item.purpose,index:item.index,seed:item.canonicalSeed,score:item.score,observations});
+      mkdirSync(caseDirectory,{recursive:true});
+      async function frame(label:string){
+        const visible=await page.locator(courtSelector).evaluate(svg=>({players:Array.from(svg.querySelectorAll(':scope > g[transform^="translate("]')).map(g=>({name:g.querySelector('title')?.textContent,transform:g.getAttribute('transform')})),ball:{x:svg.querySelector(':scope > circle')?.getAttribute('cx'),y:svg.querySelector(':scope > circle')?.getAttribute('cy')}}));
+        observations.push({kind:'real-replay-frame',label,clock:await page.locator('.game-scoreboard-top').innerText(),...visible});
+        const target=join(caseDirectory,'1920');mkdirSync(target,{recursive:true});await page.screenshot({path:join(target,`${label}.png`),animations:'disabled'});return visible;
+      }
+      try{
+        await importQa(page,envelope);await page.goto(`${base}/career/match-report/${item.fixture.id}`);
+        await expect(page.locator('.game-match-centre > strong')).toHaveText(`${item.score.HOME}–${item.score.AWAY}`,{timeout:90000});
+        const before=await archiveEvidence(page,item.fixture.id);expect(before.hash).toBe(item.archiveHash);expect(before.activeSession).toBe(false);expect(before.seed).toBe(item.canonicalSeed);
+        if(item.resultHash)expect(before.resultHash).toBe(item.resultHash);
+        observations.push({kind:'verified-export',archiveHash:before.hash,resultHash:before.resultHash,seed:before.seed,score:before.score});
+        await page.getByRole('button',{name:'Se matchrepris',exact:true}).click();await page.waitForURL('**/career/match-day/**');await expect(page.getByText('Repris',{exact:true})).toBeVisible({timeout:60000});
+        await page.getByLabel('Position i reprisen',{exact:true}).press('Home');
+        for(const speed of [1,4,16]){
+          await page.getByLabel('Reprishastighet',{exact:true}).selectOption(String(speed));await page.getByRole('button',{name:'Spela',exact:true}).click();
+          await page.waitForTimeout(1000);const a=await frame(`${speed}x-before`);await page.waitForTimeout(1000);const b=await frame(`${speed}x-after`);
+          expect(b.players.some(p=>a.players.find(prior=>prior.name===p.name)?.transform!==p.transform)).toBe(true);await page.getByRole('button',{name:'Pausa',exact:true}).click();
+        }
+        await recordScenes(page,item.fixture.id,caseDirectory,observations);
+        await page.getByLabel('Position i reprisen',{exact:true}).press('End');await expect(page.locator('.game-live-score')).toHaveText(`${item.score.HOME}:${item.score.AWAY}`);await frame('recorded-end');
+        const after=await archiveEvidence(page,item.fixture.id);expect(after.hash).toBe(before.hash);expect(after.resultHash).toBe(before.resultHash);expect(after.activeSession).toBe(false);
+        observations.push({kind:'archive-unchanged',before:before.hash,after:after.hash,resultHash:after.resultHash,activeSession:false});
+      }finally{await context.close();}
+    }
+    expect(receipt.errors).toEqual([]);receipt.status='PASSED';
+  }catch(cause){receipt.status='FAILED';receipt.error=cause instanceof Error?cause.message:String(cause);throw cause;}
+  finally{writeFileSync(join(directory,'receipt.json'),JSON.stringify(receipt,null,2)+'\n');}
 });

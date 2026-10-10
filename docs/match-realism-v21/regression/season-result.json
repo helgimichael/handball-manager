@@ -1,0 +1,1689 @@
+{
+  "complete": true,
+  "mode": "FULL_NORMAL_SEASON",
+  "checkpoint": null,
+  "startedAt": "2026-10-10T06:33:17.903Z",
+  "finishedAt": "2026-10-10T06:38:41.262Z",
+  "sourceStable": true,
+  "firstSeason": "2026/27",
+  "managerLeagueMatchesVerified": 26,
+  "newMatchesPlayedThisRun": 27,
+  "secondSeason": "2027/28",
+  "secondSeasonDate": "2027-09-23",
+  "secondSeasonFixture": "2027-swe-2-f5",
+  "secondSeasonResult": {
+    "fixtureId": "2027-swe-2-f5",
+    "engine": "V2",
+    "seed": 2339940070,
+    "homeClubId": "swe2-guif",
+    "awayClubId": "swe2-tumba",
+    "homeGoals": 17,
+    "awayGoals": 32,
+    "homeStats": {
+      "goals": 17,
+      "shots": 50,
+      "shootingPct": 34,
+      "saves": 10,
+      "shotsFaced": 49,
+      "turnovers": 16,
+      "twoMinuteSuspensions": 2,
+      "sevenMetreAttempts": 3,
+      "sevenMetreGoals": 0
+    },
+    "awayStats": {
+      "goals": 32,
+      "shots": 49,
+      "shootingPct": 65.3,
+      "saves": 26,
+      "shotsFaced": 50,
+      "turnovers": 16,
+      "twoMinuteSuspensions": 3,
+      "sevenMetreAttempts": 3,
+      "sevenMetreGoals": 3
+    },
+    "events": [
+      {
+        "minute": 1,
+        "side": "home",
+        "type": "GOAL",
+        "playerId": "se_player_andreas_flodman_1fb70c61",
+        "homeScoreAfter": 1,
+        "awayScoreAfter": 0
+      },
+      {
+        "minute": 1,
+        "side": "home",
+        "type": "SAVE",
+        "playerId": "se_player_sebastian_westerlund_206a8015"
+      },
+      {
+        "minute": 2,
+        "side": "home",
+        "type": "SEVEN_M",
+        "playerId": "se_player_marcus_ekman_40a65f53",
+        "sevenMetreOutcome": "MISS"
+      },
+      {
+        "minute": 2,
+        "side": "away",
+        "type": "SAVE",
+        "playerId": "se_player_olle_soderqvist_467b211d"
+      },
+      {
+        "minute": 2,
+        "side": "away",
+        "type": "GOAL",
+        "playerId": "se_player_david_blazevic_ca6d5fb0",
+        "homeScoreAfter": 1,
+        "awayScoreAfter": 1
+      },
+      {
+        "minute": 2,
+        "side": "home",
+        "type": "TURNOVER"
+      },
+      {
+        "minute": 3,
+        "side": "away",
+        "type": "MISS",
+        "playerId": "se_player_joakim_lindahl_d3d6223d"
+      },
+      {
+        "minute": 4,
+        "side": "home",
+        "type": "GOAL",
+        "playerId": "se_player_marcus_ekman_40a65f53",
+        "homeScoreAfter": 2,
+        "awayScoreAfter": 1
+      },
+      {
+        "minute": 4,
+        "side": "away",
+        "type": "GOAL",
+        "playerId": "se_player_david_blazevic_ca6d5fb0",
+        "homeScoreAfter": 2,
+        "awayScoreAfter": 2
+      },
+      {
+        "minute": 5,
+        "side": "home",
+        "type": "MISS",
+        "playerId": "se_player_marcus_ekman_40a65f53"
+      },
+      {
+        "minute": 5,
+        "side": "away",
+        "type": "GOAL",
+        "playerId": "se_player_simon_axelsson_eb1ec6dd",
+        "homeScoreAfter": 2,
+        "awayScoreAfter": 3
+      },
+      {
+        "minute": 5,
+        "side": "away",
+        "type": "SAVE",
+        "playerId": "se_player_olle_soderqvist_467b211d"
+      },
+      {
+        "minute": 6,
+        "side": "away",
+        "type": "GOAL",
+        "playerId": "se_player_david_blazevic_ca6d5fb0",
+        "homeScoreAfter": 2,
+        "awayScoreAfter": 4
+      },
+      {
+        "minute": 7,
+        "side": "away",
+        "type": "SAVE",
+        "playerId": "se_player_olle_soderqvist_467b211d"
+      },
+      {
+        "minute": 7,
+        "side": "away",
+        "type": "SAVE",
+        "playerId": "se_player_olle_soderqvist_467b211d"
+      },
+      {
+        "minute": 7,
+        "side": "away",
+        "type": "TURNOVER"
+      },
+      {
+        "minute": 8,
+        "side": "away",
+        "type": "MISS",
+        "playerId": "se_player_joakim_lindahl_d3d6223d"
+      },
+      {
+        "minute": 9,
+        "side": "home",
+        "type": "GOAL",
+        "playerId": "se_player_vilhelm_conrad_c1a36a84",
+        "homeScoreAfter": 3,
+        "awayScoreAfter": 4
+      },
+      {
+        "minute": 10,
+        "side": "away",
+        "type": "MISS",
+        "playerId": "se_player_joakim_lindahl_d3d6223d"
+      },
+      {
+        "minute": 10,
+        "side": "away",
+        "type": "GOAL",
+        "playerId": "se_player_simon_axelsson_eb1ec6dd",
+        "homeScoreAfter": 3,
+        "awayScoreAfter": 5
+      },
+      {
+        "minute": 10,
+        "side": "home",
+        "type": "TURNOVER"
+      },
+      {
+        "minute": 11,
+        "side": "home",
+        "type": "GOAL",
+        "playerId": "se_player_marcus_ekman_40a65f53",
+        "homeScoreAfter": 4,
+        "awayScoreAfter": 5
+      },
+      {
+        "minute": 11,
+        "side": "away",
+        "type": "SAVE",
+        "playerId": "se_player_olle_soderqvist_467b211d"
+      },
+      {
+        "minute": 11,
+        "side": "away",
+        "type": "TURNOVER"
+      },
+      {
+        "minute": 12,
+        "side": "away",
+        "type": "MISS",
+        "playerId": "se_player_mattias_windahl_32a9e5c0"
+      },
+      {
+        "minute": 12,
+        "side": "away",
+        "type": "SAVE",
+        "playerId": "se_player_olle_soderqvist_467b211d"
+      },
+      {
+        "minute": 12,
+        "side": "away",
+        "type": "TURNOVER"
+      },
+      {
+        "minute": 13,
+        "side": "away",
+        "type": "SAVE",
+        "playerId": "se_player_olle_soderqvist_467b211d"
+      },
+      {
+        "minute": 13,
+        "side": "away",
+        "type": "TURNOVER"
+      },
+      {
+        "minute": 14,
+        "side": "away",
+        "type": "GOAL",
+        "playerId": "se_player_mattias_windahl_32a9e5c0",
+        "homeScoreAfter": 4,
+        "awayScoreAfter": 6
+      },
+      {
+        "minute": 14,
+        "side": "home",
+        "type": "MISS",
+        "playerId": "se_player_marcus_ekman_40a65f53"
+      },
+      {
+        "minute": 14,
+        "side": "home",
+        "type": "TURNOVER"
+      },
+      {
+        "minute": 15,
+        "side": "away",
+        "type": "GOAL",
+        "playerId": "se_player_edward_berglund_a720a212",
+        "homeScoreAfter": 4,
+        "awayScoreAfter": 7
+      },
+      {
+        "minute": 15,
+        "side": "home",
+        "type": "TURNOVER"
+      },
+      {
+        "minute": 16,
+        "side": "away",
+        "type": "SEVEN_M",
+        "playerId": "se_player_joakim_lindahl_d3d6223d",
+        "sevenMetreOutcome": "GOAL"
+      },
+      {
+        "minute": 16,
+        "side": "away",
+        "type": "GOAL",
+        "playerId": "se_player_joakim_lindahl_d3d6223d",
+        "homeScoreAfter": 4,
+        "awayScoreAfter": 8
+      },
+      {
+        "minute": 16,
+        "side": "away",
+        "type": "SAVE",
+        "playerId": "se_player_olle_soderqvist_467b211d"
+      },
+      {
+        "minute": 17,
+        "side": "away",
+        "type": "GOAL",
+        "playerId": "se_player_mattias_windahl_32a9e5c0",
+        "homeScoreAfter": 4,
+        "awayScoreAfter": 9
+      },
+      {
+        "minute": 17,
+        "side": "home",
+        "type": "GOAL",
+        "playerId": "se_player_marcus_ekman_40a65f53",
+        "homeScoreAfter": 5,
+        "awayScoreAfter": 9
+      },
+      {
+        "minute": 18,
+        "side": "home",
+        "type": "SAVE",
+        "playerId": "se_player_sebastian_westerlund_206a8015"
+      },
+      {
+        "minute": 18,
+        "side": "away",
+        "type": "SAVE",
+        "playerId": "se_player_olle_soderqvist_467b211d"
+      },
+      {
+        "minute": 18,
+        "side": "home",
+        "type": "SAVE",
+        "playerId": "se_player_sebastian_westerlund_206a8015"
+      },
+      {
+        "minute": 19,
+        "side": "away",
+        "type": "SAVE",
+        "playerId": "se_player_olle_soderqvist_467b211d"
+      },
+      {
+        "minute": 19,
+        "side": "away",
+        "type": "GOAL",
+        "playerId": "se_player_edward_berglund_a720a212",
+        "homeScoreAfter": 5,
+        "awayScoreAfter": 10
+      },
+      {
+        "minute": 20,
+        "side": "home",
+        "type": "GOAL",
+        "playerId": "se_player_marcus_ekman_40a65f53",
+        "homeScoreAfter": 6,
+        "awayScoreAfter": 10
+      },
+      {
+        "minute": 21,
+        "side": "away",
+        "type": "GOAL",
+        "playerId": "se_player_mattias_windahl_32a9e5c0",
+        "homeScoreAfter": 6,
+        "awayScoreAfter": 11
+      },
+      {
+        "minute": 21,
+        "side": "away",
+        "type": "SAVE",
+        "playerId": "se_player_olle_soderqvist_467b211d"
+      },
+      {
+        "minute": 22,
+        "side": "away",
+        "type": "GOAL",
+        "playerId": "se_player_joakim_lindahl_d3d6223d",
+        "homeScoreAfter": 6,
+        "awayScoreAfter": 12
+      },
+      {
+        "minute": 22,
+        "side": "home",
+        "type": "MISS",
+        "playerId": "se_player_vilhelm_conrad_c1a36a84"
+      },
+      {
+        "minute": 22,
+        "side": "away",
+        "type": "TWO_MIN",
+        "playerId": "se_player_david_blazevic_ca6d5fb0"
+      },
+      {
+        "minute": 22,
+        "side": "home",
+        "type": "SEVEN_M",
+        "playerId": "se_player_marcus_ekman_40a65f53",
+        "sevenMetreOutcome": "MISS"
+      },
+      {
+        "minute": 22,
+        "side": "away",
+        "type": "SAVE",
+        "playerId": "se_player_olle_soderqvist_467b211d"
+      },
+      {
+        "minute": 22,
+        "side": "away",
+        "type": "TURNOVER"
+      },
+      {
+        "minute": 23,
+        "side": "home",
+        "type": "GOAL",
+        "playerId": "se_player_marcus_ekman_40a65f53",
+        "homeScoreAfter": 7,
+        "awayScoreAfter": 12
+      },
+      {
+        "minute": 24,
+        "side": "away",
+        "type": "GOAL",
+        "playerId": "se_player_edward_berglund_a720a212",
+        "homeScoreAfter": 7,
+        "awayScoreAfter": 13
+      },
+      {
+        "minute": 24,
+        "side": "home",
+        "type": "TURNOVER"
+      },
+      {
+        "minute": 25,
+        "side": "away",
+        "type": "GOAL",
+        "playerId": "se_player_joakim_lindahl_d3d6223d",
+        "homeScoreAfter": 7,
+        "awayScoreAfter": 14
+      },
+      {
+        "minute": 26,
+        "side": "home",
+        "type": "GOAL",
+        "playerId": "se_player_marcus_ekman_40a65f53",
+        "homeScoreAfter": 8,
+        "awayScoreAfter": 14
+      },
+      {
+        "minute": 26,
+        "side": "away",
+        "type": "GOAL",
+        "playerId": "se_player_simon_axelsson_eb1ec6dd",
+        "homeScoreAfter": 8,
+        "awayScoreAfter": 15
+      },
+      {
+        "minute": 27,
+        "side": "away",
+        "type": "SAVE",
+        "playerId": "se_player_olle_soderqvist_467b211d"
+      },
+      {
+        "minute": 27,
+        "side": "home",
+        "type": "SAVE",
+        "playerId": "se_player_sebastian_westerlund_206a8015"
+      },
+      {
+        "minute": 28,
+        "side": "away",
+        "type": "SAVE",
+        "playerId": "se_player_olle_soderqvist_467b211d"
+      },
+      {
+        "minute": 28,
+        "side": "away",
+        "type": "MISS",
+        "playerId": "se_player_edward_berglund_a720a212"
+      },
+      {
+        "minute": 28,
+        "side": "away",
+        "type": "TURNOVER"
+      },
+      {
+        "minute": 28,
+        "side": "home",
+        "type": "TURNOVER"
+      },
+      {
+        "minute": 29,
+        "side": "home",
+        "type": "TWO_MIN",
+        "playerId": "se_player_fredrik_lennernas_d6508034"
+      },
+      {
+        "minute": 29,
+        "side": "away",
+        "type": "SEVEN_M",
+        "playerId": "se_player_joakim_lindahl_d3d6223d",
+        "sevenMetreOutcome": "GOAL"
+      },
+      {
+        "minute": 29,
+        "side": "away",
+        "type": "GOAL",
+        "playerId": "se_player_joakim_lindahl_d3d6223d",
+        "homeScoreAfter": 8,
+        "awayScoreAfter": 16
+      },
+      {
+        "minute": 30,
+        "side": "home",
+        "type": "GOAL",
+        "playerId": "se_player_marcus_ekman_40a65f53",
+        "homeScoreAfter": 9,
+        "awayScoreAfter": 16
+      },
+      {
+        "minute": 30,
+        "side": "away",
+        "type": "TURNOVER"
+      },
+      {
+        "minute": 31,
+        "side": "home",
+        "type": "SAVE",
+        "playerId": "se_player_sebastian_westerlund_206a8015"
+      },
+      {
+        "minute": 32,
+        "side": "away",
+        "type": "GOAL",
+        "playerId": "se_player_mattias_windahl_32a9e5c0",
+        "homeScoreAfter": 9,
+        "awayScoreAfter": 17
+      },
+      {
+        "minute": 32,
+        "side": "home",
+        "type": "MISS",
+        "playerId": "se_player_marcus_ekman_40a65f53"
+      },
+      {
+        "minute": 32,
+        "side": "home",
+        "type": "TURNOVER"
+      },
+      {
+        "minute": 33,
+        "side": "away",
+        "type": "SAVE",
+        "playerId": "se_player_olle_soderqvist_467b211d"
+      },
+      {
+        "minute": 33,
+        "side": "away",
+        "type": "TURNOVER"
+      },
+      {
+        "minute": 34,
+        "side": "home",
+        "type": "GOAL",
+        "playerId": "se_player_marcus_ekman_40a65f53",
+        "homeScoreAfter": 10,
+        "awayScoreAfter": 17
+      },
+      {
+        "minute": 34,
+        "side": "away",
+        "type": "GOAL",
+        "playerId": "se_player_mattias_windahl_32a9e5c0",
+        "homeScoreAfter": 10,
+        "awayScoreAfter": 18
+      },
+      {
+        "minute": 34,
+        "side": "away",
+        "type": "TURNOVER"
+      },
+      {
+        "minute": 35,
+        "side": "home",
+        "type": "TURNOVER"
+      },
+      {
+        "minute": 35,
+        "side": "away",
+        "type": "TURNOVER"
+      },
+      {
+        "minute": 36,
+        "side": "away",
+        "type": "SAVE",
+        "playerId": "se_player_olle_soderqvist_467b211d"
+      },
+      {
+        "minute": 36,
+        "side": "home",
+        "type": "TWO_MIN",
+        "playerId": "se_player_fredrik_lennernas_d6508034"
+      },
+      {
+        "minute": 36,
+        "side": "away",
+        "type": "SEVEN_M",
+        "playerId": "se_player_joakim_lindahl_d3d6223d",
+        "sevenMetreOutcome": "GOAL"
+      },
+      {
+        "minute": 36,
+        "side": "away",
+        "type": "GOAL",
+        "playerId": "se_player_joakim_lindahl_d3d6223d",
+        "homeScoreAfter": 10,
+        "awayScoreAfter": 19
+      },
+      {
+        "minute": 37,
+        "side": "home",
+        "type": "TURNOVER"
+      },
+      {
+        "minute": 38,
+        "side": "home",
+        "type": "SAVE",
+        "playerId": "se_player_sebastian_westerlund_206a8015"
+      },
+      {
+        "minute": 38,
+        "side": "away",
+        "type": "GOAL",
+        "playerId": "se_player_edward_berglund_a720a212",
+        "homeScoreAfter": 10,
+        "awayScoreAfter": 20
+      },
+      {
+        "minute": 38,
+        "side": "home",
+        "type": "TURNOVER"
+      },
+      {
+        "minute": 39,
+        "side": "away",
+        "type": "SAVE",
+        "playerId": "se_player_olle_soderqvist_467b211d"
+      },
+      {
+        "minute": 39,
+        "side": "home",
+        "type": "SAVE",
+        "playerId": "se_player_sebastian_westerlund_206a8015"
+      },
+      {
+        "minute": 39,
+        "side": "home",
+        "type": "TURNOVER"
+      },
+      {
+        "minute": 40,
+        "side": "away",
+        "type": "GOAL",
+        "playerId": "se_player_mattias_windahl_32a9e5c0",
+        "homeScoreAfter": 10,
+        "awayScoreAfter": 21
+      },
+      {
+        "minute": 40,
+        "side": "away",
+        "type": "SAVE",
+        "playerId": "se_player_olle_soderqvist_467b211d"
+      },
+      {
+        "minute": 40,
+        "side": "away",
+        "type": "TURNOVER"
+      },
+      {
+        "minute": 41,
+        "side": "home",
+        "type": "GOAL",
+        "playerId": "se_player_marcus_ekman_40a65f53",
+        "homeScoreAfter": 11,
+        "awayScoreAfter": 21
+      },
+      {
+        "minute": 41,
+        "side": "away",
+        "type": "TURNOVER"
+      },
+      {
+        "minute": 42,
+        "side": "away",
+        "type": "SAVE",
+        "playerId": "se_player_olle_soderqvist_467b211d"
+      },
+      {
+        "minute": 42,
+        "side": "away",
+        "type": "GOAL",
+        "playerId": "se_player_joakim_lindahl_d3d6223d",
+        "homeScoreAfter": 11,
+        "awayScoreAfter": 22
+      },
+      {
+        "minute": 43,
+        "side": "home",
+        "type": "GOAL",
+        "playerId": "se_player_alexander_grunau_7d05e649",
+        "homeScoreAfter": 12,
+        "awayScoreAfter": 22
+      },
+      {
+        "minute": 43,
+        "side": "away",
+        "type": "TURNOVER"
+      },
+      {
+        "minute": 44,
+        "side": "home",
+        "type": "MISS",
+        "playerId": "se_player_fredrik_lennernas_d6508034"
+      },
+      {
+        "minute": 44,
+        "side": "away",
+        "type": "GOAL",
+        "playerId": "se_player_simon_axelsson_eb1ec6dd",
+        "homeScoreAfter": 12,
+        "awayScoreAfter": 23
+      },
+      {
+        "minute": 44,
+        "side": "home",
+        "type": "TURNOVER"
+      },
+      {
+        "minute": 45,
+        "side": "away",
+        "type": "SAVE",
+        "playerId": "se_player_olle_soderqvist_467b211d"
+      },
+      {
+        "minute": 45,
+        "side": "away",
+        "type": "GOAL",
+        "playerId": "se_player_simon_axelsson_eb1ec6dd",
+        "homeScoreAfter": 12,
+        "awayScoreAfter": 24
+      },
+      {
+        "minute": 46,
+        "side": "home",
+        "type": "GOAL",
+        "playerId": "se_player_marcus_ekman_40a65f53",
+        "homeScoreAfter": 13,
+        "awayScoreAfter": 24
+      },
+      {
+        "minute": 46,
+        "side": "away",
+        "type": "GOAL",
+        "playerId": "se_player_joakim_lindahl_d3d6223d",
+        "homeScoreAfter": 13,
+        "awayScoreAfter": 25
+      },
+      {
+        "minute": 47,
+        "side": "away",
+        "type": "GOAL",
+        "playerId": "se_player_david_blazevic_ca6d5fb0",
+        "homeScoreAfter": 13,
+        "awayScoreAfter": 26
+      },
+      {
+        "minute": 47,
+        "side": "home",
+        "type": "TURNOVER"
+      },
+      {
+        "minute": 48,
+        "side": "home",
+        "type": "MISS",
+        "playerId": "se_player_viktor_millard_1cc208ce"
+      },
+      {
+        "minute": 48,
+        "side": "away",
+        "type": "MISS",
+        "playerId": "se_player_joakim_lindahl_d3d6223d"
+      },
+      {
+        "minute": 48,
+        "side": "home",
+        "type": "GOAL",
+        "playerId": "se_player_fredrik_lennernas_d6508034",
+        "homeScoreAfter": 14,
+        "awayScoreAfter": 26
+      },
+      {
+        "minute": 49,
+        "side": "away",
+        "type": "GOAL",
+        "playerId": "se_player_mattias_windahl_32a9e5c0",
+        "homeScoreAfter": 14,
+        "awayScoreAfter": 27
+      },
+      {
+        "minute": 49,
+        "side": "home",
+        "type": "TURNOVER"
+      },
+      {
+        "minute": 50,
+        "side": "home",
+        "type": "SAVE",
+        "playerId": "se_player_sebastian_westerlund_206a8015"
+      },
+      {
+        "minute": 50,
+        "side": "away",
+        "type": "SAVE",
+        "playerId": "se_player_olle_soderqvist_467b211d"
+      },
+      {
+        "minute": 50,
+        "side": "home",
+        "type": "TURNOVER"
+      },
+      {
+        "minute": 50,
+        "side": "away",
+        "type": "TURNOVER"
+      },
+      {
+        "minute": 51,
+        "side": "away",
+        "type": "GOAL",
+        "playerId": "se_player_joakim_lindahl_d3d6223d",
+        "homeScoreAfter": 14,
+        "awayScoreAfter": 28
+      },
+      {
+        "minute": 52,
+        "side": "home",
+        "type": "GOAL",
+        "playerId": "se_player_max_moberger_e5f74c95",
+        "homeScoreAfter": 15,
+        "awayScoreAfter": 28
+      },
+      {
+        "minute": 53,
+        "side": "away",
+        "type": "GOAL",
+        "playerId": "se_player_mattias_windahl_32a9e5c0",
+        "homeScoreAfter": 15,
+        "awayScoreAfter": 29
+      },
+      {
+        "minute": 53,
+        "side": "away",
+        "type": "SAVE",
+        "playerId": "se_player_olle_soderqvist_467b211d"
+      },
+      {
+        "minute": 53,
+        "side": "away",
+        "type": "GOAL",
+        "playerId": "se_player_david_blazevic_ca6d5fb0",
+        "homeScoreAfter": 15,
+        "awayScoreAfter": 30
+      },
+      {
+        "minute": 54,
+        "side": "away",
+        "type": "TWO_MIN",
+        "playerId": "se_player_mattias_windahl_32a9e5c0"
+      },
+      {
+        "minute": 54,
+        "side": "home",
+        "type": "SEVEN_M",
+        "playerId": "se_player_max_moberger_e5f74c95",
+        "sevenMetreOutcome": "MISS"
+      },
+      {
+        "minute": 54,
+        "side": "away",
+        "type": "SAVE",
+        "playerId": "se_player_olle_soderqvist_467b211d"
+      },
+      {
+        "minute": 54,
+        "side": "away",
+        "type": "GOAL",
+        "playerId": "se_player_david_blazevic_ca6d5fb0",
+        "homeScoreAfter": 15,
+        "awayScoreAfter": 31
+      },
+      {
+        "minute": 55,
+        "side": "away",
+        "type": "SAVE",
+        "playerId": "se_player_olle_soderqvist_467b211d"
+      },
+      {
+        "minute": 56,
+        "side": "away",
+        "type": "GOAL",
+        "playerId": "se_player_david_blazevic_ca6d5fb0",
+        "homeScoreAfter": 15,
+        "awayScoreAfter": 32
+      },
+      {
+        "minute": 56,
+        "side": "away",
+        "type": "SAVE",
+        "playerId": "se_player_olle_soderqvist_467b211d"
+      },
+      {
+        "minute": 57,
+        "side": "away",
+        "type": "MISS",
+        "playerId": "se_player_david_blazevic_ca6d5fb0"
+      },
+      {
+        "minute": 57,
+        "side": "home",
+        "type": "GOAL",
+        "playerId": "se_player_max_moberger_e5f74c95",
+        "homeScoreAfter": 16,
+        "awayScoreAfter": 32
+      },
+      {
+        "minute": 57,
+        "side": "away",
+        "type": "TWO_MIN",
+        "playerId": "se_player_joakim_lindahl_d3d6223d"
+      },
+      {
+        "minute": 57,
+        "side": "away",
+        "type": "TURNOVER"
+      },
+      {
+        "minute": 58,
+        "side": "away",
+        "type": "SAVE",
+        "playerId": "se_player_olle_soderqvist_467b211d"
+      },
+      {
+        "minute": 58,
+        "side": "home",
+        "type": "SAVE",
+        "playerId": "se_player_sebastian_westerlund_206a8015"
+      },
+      {
+        "minute": 59,
+        "side": "home",
+        "type": "GOAL",
+        "playerId": "se_player_viktor_millard_1cc208ce",
+        "homeScoreAfter": 17,
+        "awayScoreAfter": 32
+      },
+      {
+        "minute": 60,
+        "side": "home",
+        "type": "SAVE",
+        "playerId": "se_player_sebastian_westerlund_206a8015"
+      },
+      {
+        "minute": 60,
+        "side": "home",
+        "type": "MISS",
+        "playerId": "se_player_melker_norrman_8e940787"
+      },
+      {
+        "minute": 60,
+        "side": "home",
+        "type": "TURNOVER"
+      },
+      {
+        "minute": 60,
+        "side": "away",
+        "type": "TURNOVER"
+      }
+    ],
+    "homePlayerContributions": [
+      {
+        "playerId": "se_player_sebastian_westerlund_206a8015",
+        "goals": 0,
+        "shots": 0,
+        "saves": 10,
+        "shotsFaced": 49,
+        "rating": 6.7,
+        "started": true
+      },
+      {
+        "playerId": "se_player_marcus_ekman_40a65f53",
+        "goals": 10,
+        "shots": 20,
+        "rating": 6.7,
+        "started": true
+      },
+      {
+        "playerId": "se_player_fredrik_lennernas_d6508034",
+        "goals": 1,
+        "shots": 4,
+        "rating": 5.91,
+        "started": true
+      },
+      {
+        "playerId": "se_player_vilhelm_conrad_c1a36a84",
+        "goals": 1,
+        "shots": 6,
+        "rating": 5.75,
+        "started": true
+      },
+      {
+        "playerId": "se_player_joakim_jorgensen_f59ea9c5",
+        "goals": 0,
+        "shots": 0,
+        "rating": 6,
+        "started": true
+      },
+      {
+        "playerId": "se_player_philip_tikas_164d102e",
+        "goals": 0,
+        "shots": 5,
+        "rating": 5.6,
+        "started": true
+      },
+      {
+        "playerId": "se_player_andreas_flodman_1fb70c61",
+        "goals": 1,
+        "shots": 2,
+        "rating": 6.07,
+        "started": true
+      },
+      {
+        "playerId": "se_player_max_moberger_e5f74c95",
+        "goals": 2,
+        "shots": 6,
+        "rating": 5.9799999999999995,
+        "started": false
+      },
+      {
+        "playerId": "se_player_gustav_boren_d9cd262e",
+        "goals": 0,
+        "shots": 0,
+        "rating": 6,
+        "started": false
+      },
+      {
+        "playerId": "se_player_melker_norrman_8e940787",
+        "goals": 0,
+        "shots": 1,
+        "rating": 5.92,
+        "started": false
+      },
+      {
+        "playerId": "se_player_viktor_millard_1cc208ce",
+        "goals": 1,
+        "shots": 3,
+        "rating": 5.99,
+        "started": false
+      },
+      {
+        "playerId": "se_player_alexander_grunau_7d05e649",
+        "goals": 1,
+        "shots": 3,
+        "rating": 5.99,
+        "started": false
+      }
+    ],
+    "awayPlayerContributions": [
+      {
+        "playerId": "se_player_olle_soderqvist_467b211d",
+        "goals": 0,
+        "shots": 0,
+        "saves": 26,
+        "shotsFaced": 50,
+        "rating": 7.82,
+        "started": true
+      },
+      {
+        "playerId": "se_player_joakim_lindahl_d3d6223d",
+        "goals": 8,
+        "shots": 12,
+        "rating": 6.88,
+        "started": true
+      },
+      {
+        "playerId": "se_player_mattias_windahl_32a9e5c0",
+        "goals": 8,
+        "shots": 12,
+        "rating": 6.88,
+        "started": true
+      },
+      {
+        "playerId": "se_player_david_blazevic_ca6d5fb0",
+        "goals": 7,
+        "shots": 11,
+        "rating": 6.7299999999999995,
+        "started": true
+      },
+      {
+        "playerId": "se_player_jakob_magnusson_99e346ca",
+        "goals": 0,
+        "shots": 2,
+        "rating": 5.84,
+        "started": true
+      },
+      {
+        "playerId": "se_player_edward_berglund_a720a212",
+        "goals": 4,
+        "shots": 7,
+        "rating": 6.359999999999999,
+        "started": true
+      },
+      {
+        "playerId": "se_player_simon_axelsson_eb1ec6dd",
+        "goals": 5,
+        "shots": 5,
+        "rating": 6.75,
+        "started": true
+      }
+    ]
+  },
+  "archivedMatches": 27,
+  "historicalArchivesUnchanged": true,
+  "historicalStats": {
+    "se_player_olle_soderqvist_467b211d": {
+      "playerId": "se_player_olle_soderqvist_467b211d",
+      "appearances": 26,
+      "starts": 26,
+      "goals": 0,
+      "shots": 0,
+      "saves": 586,
+      "shotsFaced": 1200,
+      "ratingSum": 197.01999999999998
+    },
+    "se_player_joakim_lindahl_d3d6223d": {
+      "playerId": "se_player_joakim_lindahl_d3d6223d",
+      "appearances": 25,
+      "starts": 25,
+      "goals": 236,
+      "shots": 380,
+      "saves": 0,
+      "shotsFaced": 0,
+      "ratingSum": 173.88000000000005
+    },
+    "se_player_mattias_windahl_32a9e5c0": {
+      "playerId": "se_player_mattias_windahl_32a9e5c0",
+      "appearances": 26,
+      "starts": 26,
+      "goals": 186,
+      "shots": 311,
+      "saves": 0,
+      "shotsFaced": 0,
+      "ratingSum": 173.89999999999998
+    },
+    "se_player_david_blazevic_ca6d5fb0": {
+      "playerId": "se_player_david_blazevic_ca6d5fb0",
+      "appearances": 26,
+      "starts": 26,
+      "goals": 60,
+      "shots": 199,
+      "saves": 0,
+      "shotsFaced": 0,
+      "ratingSum": 153.88
+    },
+    "se_player_jakob_magnusson_99e346ca": {
+      "playerId": "se_player_jakob_magnusson_99e346ca",
+      "appearances": 25,
+      "starts": 25,
+      "goals": 52,
+      "shots": 67,
+      "saves": 0,
+      "shotsFaced": 0,
+      "ratingSum": 156.6
+    },
+    "se_player_edward_berglund_a720a212": {
+      "playerId": "se_player_edward_berglund_a720a212",
+      "appearances": 26,
+      "starts": 26,
+      "goals": 71,
+      "shots": 130,
+      "saves": 0,
+      "shotsFaced": 0,
+      "ratingSum": 161.92999999999998
+    },
+    "se_player_simon_axelsson_eb1ec6dd": {
+      "playerId": "se_player_simon_axelsson_eb1ec6dd",
+      "appearances": 26,
+      "starts": 26,
+      "goals": 79,
+      "shots": 128,
+      "saves": 0,
+      "shotsFaced": 0,
+      "ratingSum": 163.93
+    },
+    "se_player_anton_thomsen_eb2b2bb6": {
+      "playerId": "se_player_anton_thomsen_eb2b2bb6",
+      "appearances": 1,
+      "starts": 1,
+      "goals": 8,
+      "shots": 18,
+      "saves": 0,
+      "shotsFaced": 0,
+      "ratingSum": 6.4
+    },
+    "se_player_ted_wettebrandt_dbcf522d": {
+      "playerId": "se_player_ted_wettebrandt_dbcf522d",
+      "appearances": 1,
+      "starts": 1,
+      "goals": 1,
+      "shots": 1,
+      "saves": 0,
+      "shotsFaced": 0,
+      "ratingSum": 6.15
+    }
+  },
+  "historicalTable": [
+    {
+      "clubId": "swe2-tumba",
+      "played": 26,
+      "won": 24,
+      "drawn": 1,
+      "lost": 1,
+      "goalsFor": 693,
+      "goalsAgainst": 440,
+      "goalDifference": 253,
+      "points": 49
+    },
+    {
+      "clubId": "swe2-drott",
+      "played": 26,
+      "won": 15,
+      "drawn": 1,
+      "lost": 10,
+      "goalsFor": 707,
+      "goalsAgainst": 711,
+      "goalDifference": -4,
+      "points": 31
+    },
+    {
+      "clubId": "swe2-vasterasirsta",
+      "played": 26,
+      "won": 15,
+      "drawn": 1,
+      "lost": 10,
+      "goalsFor": 674,
+      "goalsAgainst": 678,
+      "goalDifference": -4,
+      "points": 31
+    },
+    {
+      "clubId": "swe2-guif",
+      "played": 26,
+      "won": 13,
+      "drawn": 3,
+      "lost": 10,
+      "goalsFor": 714,
+      "goalsAgainst": 712,
+      "goalDifference": 2,
+      "points": 29
+    },
+    {
+      "clubId": "swe2-kroppskultur",
+      "played": 26,
+      "won": 12,
+      "drawn": 4,
+      "lost": 10,
+      "goalsFor": 666,
+      "goalsAgainst": 668,
+      "goalDifference": -2,
+      "points": 28
+    },
+    {
+      "clubId": "swe2-tyreso",
+      "played": 26,
+      "won": 12,
+      "drawn": 3,
+      "lost": 11,
+      "goalsFor": 696,
+      "goalsAgainst": 697,
+      "goalDifference": -1,
+      "points": 27
+    },
+    {
+      "clubId": "swe2-varberg",
+      "played": 26,
+      "won": 12,
+      "drawn": 2,
+      "lost": 12,
+      "goalsFor": 683,
+      "goalsAgainst": 672,
+      "goalDifference": 11,
+      "points": 26
+    },
+    {
+      "clubId": "swe2-redbergslid",
+      "played": 26,
+      "won": 11,
+      "drawn": 3,
+      "lost": 12,
+      "goalsFor": 679,
+      "goalsAgainst": 684,
+      "goalDifference": -5,
+      "points": 25
+    },
+    {
+      "clubId": "swe2-ystad2",
+      "played": 26,
+      "won": 12,
+      "drawn": 1,
+      "lost": 13,
+      "goalsFor": 681,
+      "goalsAgainst": 691,
+      "goalDifference": -10,
+      "points": 25
+    },
+    {
+      "clubId": "swe2-h43lund",
+      "played": 26,
+      "won": 9,
+      "drawn": 4,
+      "lost": 13,
+      "goalsFor": 685,
+      "goalsAgainst": 698,
+      "goalDifference": -13,
+      "points": 22
+    },
+    {
+      "clubId": "swe2-kungalv",
+      "played": 26,
+      "won": 9,
+      "drawn": 2,
+      "lost": 15,
+      "goalsFor": 661,
+      "goalsAgainst": 704,
+      "goalDifference": -43,
+      "points": 20
+    },
+    {
+      "clubId": "swe2-aranas",
+      "played": 26,
+      "won": 10,
+      "drawn": 0,
+      "lost": 16,
+      "goalsFor": 673,
+      "goalsAgainst": 745,
+      "goalDifference": -72,
+      "points": 20
+    },
+    {
+      "clubId": "swe2-torslanda",
+      "played": 26,
+      "won": 8,
+      "drawn": 3,
+      "lost": 15,
+      "goalsFor": 685,
+      "goalsAgainst": 725,
+      "goalDifference": -40,
+      "points": 19
+    },
+    {
+      "clubId": "swe2-huddinge",
+      "played": 26,
+      "won": 3,
+      "drawn": 6,
+      "lost": 17,
+      "goalsFor": 654,
+      "goalsAgainst": 726,
+      "goalDifference": -72,
+      "points": 12
+    }
+  ],
+  "played": [
+    {
+      "fixtureId": "swe-2-f5",
+      "date": "2026-08-22",
+      "type": "LEAGUE",
+      "seed": 875664126,
+      "score": [
+        14,
+        20
+      ],
+      "archiveHash": "ebe4e03e26a21e12c0992bab3209fd2b7d86a456f7d9d9a81d09f865baa17293",
+      "engine": "V2"
+    },
+    {
+      "fixtureId": "swe-2-f13",
+      "date": "2026-08-29",
+      "type": "LEAGUE",
+      "seed": 1807187361,
+      "score": [
+        15,
+        23
+      ],
+      "archiveHash": "dc4d5e3deaa27edd65253f2a4712f31a2ece842ea6e486e8051204a2173bb673",
+      "engine": "V2"
+    },
+    {
+      "fixtureId": "swe-2-f21",
+      "date": "2026-09-04",
+      "type": "LEAGUE",
+      "seed": 2470279754,
+      "score": [
+        14,
+        28
+      ],
+      "archiveHash": "270fcf506af1cf0b2d325c22e45a25b2125fdcb0e7c01afe1787253df0b70eb5",
+      "engine": "V2"
+    },
+    {
+      "fixtureId": "swe-2-f28",
+      "date": "2026-09-12",
+      "type": "LEAGUE",
+      "seed": 3232626259,
+      "score": [
+        14,
+        23
+      ],
+      "archiveHash": "8e2f0934e7f2efa0c0badf3448f9b124da10375cd8801a5e2a3246e1f216b5e6",
+      "engine": "V2"
+    },
+    {
+      "fixtureId": "swe-2-f34",
+      "date": "2026-09-19",
+      "type": "LEAGUE",
+      "seed": 595750296,
+      "score": [
+        24,
+        19
+      ],
+      "archiveHash": "446502506e87f1564c0d67695d1f9af487067d0e77c44b8158fbc147c42557ca",
+      "engine": "V2"
+    },
+    {
+      "fixtureId": "swe-2-f40",
+      "date": "2026-09-25",
+      "type": "LEAGUE",
+      "seed": 771795309,
+      "score": [
+        19,
+        30
+      ],
+      "archiveHash": "b8540e8f5f13dd2f175a9faf27ef721588592a13a3e54420503e8eb35a4df492",
+      "engine": "V2"
+    },
+    {
+      "fixtureId": "swe-2-f46",
+      "date": "2026-10-02",
+      "type": "LEAGUE",
+      "seed": 2710203403,
+      "score": [
+        21,
+        24
+      ],
+      "archiveHash": "08d6cd7cc4ec300ba5fea3194625856b44c3e131ff794124cf2ffc0c805d274a",
+      "engine": "V2"
+    },
+    {
+      "fixtureId": "swe-2-f52",
+      "date": "2026-10-08",
+      "type": "LEAGUE",
+      "seed": 110142780,
+      "score": [
+        18,
+        25
+      ],
+      "archiveHash": "0db64cbdcad717aa332de4cf381eda9574b7216724edc011f5e22a0b79a25278",
+      "engine": "V2"
+    },
+    {
+      "fixtureId": "swe-2-f58",
+      "date": "2026-10-15",
+      "type": "LEAGUE",
+      "seed": 1787540326,
+      "score": [
+        19,
+        25
+      ],
+      "archiveHash": "df9fb6bdd615e2c3d5a6c57e6c8710563ab2085ceba75faa31fe704d6ee7bc4f",
+      "engine": "V2"
+    },
+    {
+      "fixtureId": "swe-2-f64",
+      "date": "2026-10-23",
+      "type": "LEAGUE",
+      "seed": 692771459,
+      "score": [
+        36,
+        17
+      ],
+      "archiveHash": "b7937bc6ea5ffa45c0c97d7293a1a4096c6900c186465318101cec0395f29b6a",
+      "engine": "V2"
+    },
+    {
+      "fixtureId": "swe-2-f72",
+      "date": "2026-10-31",
+      "type": "LEAGUE",
+      "seed": 1380324970,
+      "score": [
+        28,
+        15
+      ],
+      "archiveHash": "54202a139da3f0898140e85467648b5efda73897418b0ee7aa9b0a8b7d74ff27",
+      "engine": "V2"
+    },
+    {
+      "fixtureId": "swe-2-f80",
+      "date": "2026-11-05",
+      "type": "LEAGUE",
+      "seed": 1157843609,
+      "score": [
+        29,
+        18
+      ],
+      "archiveHash": "406a454228abcfd008df724ad60ae6ca34895283aaf75e379aebac8c0f3dde9f",
+      "engine": "V2"
+    },
+    {
+      "fixtureId": "swe-2-f88",
+      "date": "2026-11-14",
+      "type": "LEAGUE",
+      "seed": 3118861265,
+      "score": [
+        24,
+        19
+      ],
+      "archiveHash": "49238782e22e76893174bd3cfdc4a6aa82193f67b6ee0d3ad2aa3a2cf5e10f4b",
+      "engine": "V2"
+    },
+    {
+      "fixtureId": "swe-2-f96",
+      "date": "2026-11-19",
+      "type": "LEAGUE",
+      "seed": 295267868,
+      "score": [
+        29,
+        11
+      ],
+      "archiveHash": "a7b867254dfc66212a34871f44c74e455692a7c702fcc31406cc50baad7eb45f",
+      "engine": "V2"
+    },
+    {
+      "fixtureId": "swe-2-f104",
+      "date": "2026-11-25",
+      "type": "LEAGUE",
+      "seed": 1081728894,
+      "score": [
+        25,
+        15
+      ],
+      "archiveHash": "98635ca2b7db4e22b5164636e2baf55ca7f7911b7a9a28d24e5ca97fb6b95716",
+      "engine": "V2"
+    },
+    {
+      "fixtureId": "swe-2-f112",
+      "date": "2026-12-04",
+      "type": "LEAGUE",
+      "seed": 3682382843,
+      "score": [
+        24,
+        14
+      ],
+      "archiveHash": "ad600c08ee7bdbff6f86c22c432bfd05788d2e11c5619f7c71304027056a1003",
+      "engine": "V2"
+    },
+    {
+      "fixtureId": "swe-2-f119",
+      "date": "2026-12-11",
+      "type": "LEAGUE",
+      "seed": 1902108800,
+      "score": [
+        30,
+        16
+      ],
+      "archiveHash": "7a2cb7a42f7cea067eb33bf339e536d45eb6ed7921276ffb9d9292cf9cbcb6e5",
+      "engine": "V2"
+    },
+    {
+      "fixtureId": "swe-2-f125",
+      "date": "2026-12-17",
+      "type": "LEAGUE",
+      "seed": 1543084529,
+      "score": [
+        27,
+        12
+      ],
+      "archiveHash": "9026b576443daf126367d55360738e2cae5b795b7602c52215f50be0eb0539d7",
+      "engine": "V2"
+    },
+    {
+      "fixtureId": "swe-2-f131",
+      "date": "2026-12-24",
+      "type": "LEAGUE",
+      "seed": 3896050722,
+      "score": [
+        31,
+        18
+      ],
+      "archiveHash": "a3eaf5b9df8c105c2955c05503a19e1a1b595dbb334a0f434fb85832fe65c167",
+      "engine": "V2"
+    },
+    {
+      "fixtureId": "swe-2-f137",
+      "date": "2026-12-30",
+      "type": "LEAGUE",
+      "seed": 1709733620,
+      "score": [
+        29,
+        25
+      ],
+      "archiveHash": "e56a1f206ddbfa5e0c9886c97108ef5544417d68030e1db822835c6b43cecb12",
+      "engine": "V2"
+    },
+    {
+      "fixtureId": "swe-2-f143",
+      "date": "2027-01-07",
+      "type": "LEAGUE",
+      "seed": 4013408725,
+      "score": [
+        19,
+        19
+      ],
+      "archiveHash": "70657ef07adb544c58b8bf124855dd5ff6fea31b26e5575d92a947fee19a8357",
+      "engine": "V2"
+    },
+    {
+      "fixtureId": "swe-2-f149",
+      "date": "2027-01-13",
+      "type": "LEAGUE",
+      "seed": 1971929327,
+      "score": [
+        24,
+        9
+      ],
+      "archiveHash": "d9380910189a7402fce73920cb409158c36b5d79b38aa961225a16b1f8aee1d5",
+      "engine": "V2"
+    },
+    {
+      "fixtureId": "swe-2-f155",
+      "date": "2027-01-22",
+      "type": "LEAGUE",
+      "seed": 3615644592,
+      "score": [
+        14,
+        36
+      ],
+      "archiveHash": "c72b500f591b5be1b5c298390805ca2ac2fe34673c05d91ea24cc8b75ff64644",
+      "engine": "V2"
+    },
+    {
+      "fixtureId": "swe-2-f163",
+      "date": "2027-01-29",
+      "type": "LEAGUE",
+      "seed": 2680851475,
+      "score": [
+        18,
+        21
+      ],
+      "archiveHash": "d5f954cd2bcd02b1dd2849a1f4682a4dd526536be175f580feb93125683eae70",
+      "engine": "V2"
+    },
+    {
+      "fixtureId": "swe-2-f171",
+      "date": "2027-02-03",
+      "type": "LEAGUE",
+      "seed": 2531628910,
+      "score": [
+        19,
+        34
+      ],
+      "archiveHash": "d01a4e2c87f95d77a5dc5aecd5c6666b8ed29c2f2fdc93a4c02c071be082a802",
+      "engine": "V2"
+    },
+    {
+      "fixtureId": "swe-2-f179",
+      "date": "2027-02-12",
+      "type": "LEAGUE",
+      "seed": 1849907398,
+      "score": [
+        23,
+        30
+      ],
+      "archiveHash": "1ffc2522ef4e009e4fc19728d9195c1fc7d31a477b208f7e8207851290f32e44",
+      "engine": "V2"
+    },
+    {
+      "fixtureId": "2027-swe-2-f5",
+      "date": "2027-09-23",
+      "type": "LEAGUE",
+      "seed": 2339940070,
+      "score": [
+        17,
+        32
+      ],
+      "archiveHash": "764c8a63ec1ec09e14285e5e059c6e8da113353709bdbb2fd5e0b1f8e031744f",
+      "engine": "V2"
+    }
+  ],
+  "scope": "Full first season through normal Continue; every manager match V2; CPU background may use Fast. Contracts renewed through existing manager agreement, daily offseason preserved, actual V2 season-two match."
+}

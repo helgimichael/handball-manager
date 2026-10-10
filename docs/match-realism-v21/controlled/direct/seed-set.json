@@ -1,0 +1,62 @@
+[
+  {
+    "index": 0,
+    "saveSeed": "match-realism-v2-canonical-2026:0",
+    "managerClubId": "swe2-aranas",
+    "variant": "DIRECT"
+  },
+  {
+    "index": 1,
+    "saveSeed": "match-realism-v2-canonical-2026:1",
+    "managerClubId": "swe2-drott",
+    "variant": "DIRECT"
+  },
+  {
+    "index": 2,
+    "saveSeed": "match-realism-v2-canonical-2026:2",
+    "managerClubId": "swe2-guif",
+    "variant": "DIRECT"
+  },
+  {
+    "index": 3,
+    "saveSeed": "match-realism-v2-canonical-2026:3",
+    "managerClubId": "swe2-h43lund",
+    "variant": "DIRECT"
+  },
+  {
+    "index": 4,
+    "saveSeed": "match-realism-v2-canonical-2026:4",
+    "managerClubId": "swe2-huddinge",
+    "variant": "DIRECT"
+  },
+  {
+    "index": 5,
+    "saveSeed": "match-realism-v2-canonical-2026:5",
+    "managerClubId": "swe2-kroppskultur",
+    "variant": "DIRECT"
+  },
+  {
+    "index": 6,
+    "saveSeed": "match-realism-v2-canonical-2026:6",
+    "managerClubId": "swe2-kungalv",
+    "variant": "DIRECT"
+  },
+  {
+    "index": 7,
+    "saveSeed": "match-realism-v2-canonical-2026:7",
+    "managerClubId": "swe2-redbergslid",
+    "variant": "DIRECT"
+  },
+  {
+    "index": 8,
+    "saveSeed": "match-realism-v2-canonical-2026:8",
+    "managerClubId": "swe2-torslanda",
+    "variant": "DIRECT"
+  },
+  {
+    "index": 9,
+    "saveSeed": "match-realism-v2-canonical-2026:9",
+    "managerClubId": "swe2-tumba",
+    "variant": "DIRECT"
+  }
+]

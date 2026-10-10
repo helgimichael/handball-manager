@@ -1,0 +1,115 @@
+{
+  "verifiedAt": "2026-10-10T11:58:34.251Z",
+  "startingCheckpoint": "30a946c",
+  "engineSourceCheckpoint": "709bfa4",
+  "gameSourceCheckpoint": "29f62e3",
+  "sourceFilesChecked": 40,
+  "currentSourceBytesIdentical": true,
+  "finalCompleteMatches": 100,
+  "controlledCompleteMatches": 130,
+  "controlledVariants": [
+    {
+      "variant": "COMBINATION",
+      "n": 10,
+      "sourceStable": true
+    },
+    {
+      "variant": "DIRECT",
+      "n": 10,
+      "sourceStable": true
+    },
+    {
+      "variant": "FIVE_ONE",
+      "n": 10,
+      "sourceStable": true
+    },
+    {
+      "variant": "KEEPER_STRONG",
+      "n": 10,
+      "sourceStable": true
+    },
+    {
+      "variant": "KEEPER_WEAK",
+      "n": 10,
+      "sourceStable": true
+    },
+    {
+      "variant": "PASSER_STRONG",
+      "n": 10,
+      "sourceStable": true
+    },
+    {
+      "variant": "PASSER_WEAK",
+      "n": 10,
+      "sourceStable": true
+    },
+    {
+      "variant": "QUICK",
+      "n": 10,
+      "sourceStable": true
+    },
+    {
+      "variant": "RUNNER_FAST",
+      "n": 10,
+      "sourceStable": true
+    },
+    {
+      "variant": "RUNNER_SLOW",
+      "n": 10,
+      "sourceStable": true
+    },
+    {
+      "variant": "SHOOTER_STRONG",
+      "n": 10,
+      "sourceStable": true
+    },
+    {
+      "variant": "SHOOTER_WEAK",
+      "n": 10,
+      "sourceStable": true
+    },
+    {
+      "variant": "WIDTH",
+      "n": 10,
+      "sourceStable": true
+    }
+  ],
+  "independentExactDuplicates": 3,
+  "coreTests": {
+    "passed": 210,
+    "failed": 0,
+    "durationMs": 354031.4287
+  },
+  "primitiveV2Tests": {
+    "passed": 9,
+    "failed": 0
+  },
+  "gameTests": {
+    "passed": 2299,
+    "failed": 0,
+    "durationMs": 436854.9727
+  },
+  "workspaceTypechecksPassed": 9,
+  "changedFileLintPassed": true,
+  "browser": {
+    "existingGameExperienceCasesPassed": 6,
+    "calibrationCasesPassed": 3,
+    "normal": "PASSED",
+    "retainedSeed16": "PASSED",
+    "selected": "PASSED"
+  },
+  "season": true,
+  "server": {
+    "pid": 54144,
+    "port": 3009,
+    "url": "http://127.0.0.1:3009",
+    "distDir": ".next-game-realism-v21",
+    "cli": "C:\\Users\\helgi\\Documents\\STARKVIS-HELA\\handball-manager\\node_modules\\next\\dist\\bin\\next",
+    "startedAt": "2026-10-10T06:30:54.4521333Z",
+    "buildId": "MMFsqS1-zfrSWl0fQDdK1",
+    "stoppedAt": "2026-10-10T06:56:37.9267429Z",
+    "stopped": true,
+    "portHasNoListener": true
+  },
+  "nothingPushed": true
+}

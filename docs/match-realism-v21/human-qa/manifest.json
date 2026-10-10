@@ -1,0 +1,123 @@
+{
+  "format": 1,
+  "createdAt": "2026-10-10T06:51:48.739Z",
+  "inputPath": "C:\\Users\\helgi\\Documents\\STARKVIS-HELA\\handball-manager\\docs\\match-realism-v2\\baseline\\inputs.json",
+  "inputHash": "37b2f9ee4648ede1a422549fb680bad5c172ebdf70c77f65334d2e6487ab0347",
+  "selectionPath": "C:\\Users\\helgi\\Documents\\STARKVIS-HELA\\handball-manager\\docs\\match-realism-v21\\human-qa-matches.json",
+  "savePrefix": "hm-realism-v21",
+  "provenance": "Pinned real-career input and AFTER seed recipes; canonical start/continuation/result/finalization; exact initial/final/result/truth hashes validated before export.",
+  "saveSchema": 8,
+  "cases": [
+    {
+      "purpose": "REPRESENTATIVE",
+      "index": 7,
+      "saveSeed": "match-realism-v2-canonical-2026:7",
+      "canonicalSeed": 83731708,
+      "fixture": {
+        "id": "swe-2-f7",
+        "competitionId": "swe-2",
+        "round": 1,
+        "date": "2026-08-20",
+        "homeClubId": "swe2-kungalv",
+        "awayClubId": "swe2-redbergslid",
+        "type": "LEAGUE"
+      },
+      "homeName": "Kungälvs HK",
+      "awayName": "Redbergslids IK",
+      "score": {
+        "HOME": 19,
+        "AWAY": 30
+      },
+      "selection": "Nearest joint paired-sample median of goals, possessions, non-shot losses and mean team top-scorer share, normalized by p10-p90 spread.",
+      "inspect": "Verify live versus settled transition progress and bodies, actual close/pivot/wing releases, keeper commitment/reach, shot miss/save/block denominator, contact/advantage/actual whistle, second-half opportunity and career report/replay truth.",
+      "initialFile": "match-007-initial.json",
+      "completedFile": "match-007-completed.json",
+      "initialSaveId": "hm-realism-v21-7-initial",
+      "completedSaveId": "hm-realism-v21-7-completed",
+      "initialSessionHash": "14a6e103130071bf66a86149193f0713e3dae80ec357432bf14107c581cff7f0",
+      "finalCoreHash": "d202ac43d13f09f979ef01d108373fcdddf284e72a55f121c31e9bb35c1f3800",
+      "resultHash": "4f051b46aa6772b06e3a757e924fea149563f58d695cf8a8fa6954a2abfc21fa",
+      "truthHash": "0dc7a0f66f116b313f906ce3c6f2cdb19d1e74796c9b0c562313a5d34bed88bb",
+      "archiveHash": "f8a3fbddfc9d0984a94d507d818dfd3ef001c4e0dce93fc45944e86fe5545b51",
+      "framesHash": "1a50fbbc272b572054b1506bf710ba78523d55e6e45e7d2187e1b5bab2a16b34",
+      "frameCount": 24546,
+      "resultUrl": "http://127.0.0.1:3009/career/match-report/swe-2-f7",
+      "replayUrl": "http://127.0.0.1:3009/career/match-day/swe-2-f7",
+      "verifiedAgainstRecordedAfter": true
+    },
+    {
+      "purpose": "NATURALLY_CLOSEST",
+      "index": 3,
+      "saveSeed": "match-realism-v2-canonical-2026:3",
+      "canonicalSeed": 2643779579,
+      "fixture": {
+        "id": "swe-2-f4",
+        "competitionId": "swe-2",
+        "round": 1,
+        "date": "2026-08-21",
+        "homeClubId": "swe2-tyreso",
+        "awayClubId": "swe2-h43lund",
+        "type": "LEAGUE"
+      },
+      "homeName": "Tyresö Handboll",
+      "awayName": "H43 Lund HF",
+      "score": {
+        "HOME": 25,
+        "AWAY": 25
+      },
+      "selection": "Smallest natural goal margin among remaining paired cases; ties by index.",
+      "inspect": "Verify live versus settled transition progress and bodies, actual close/pivot/wing releases, keeper commitment/reach, shot miss/save/block denominator, contact/advantage/actual whistle, second-half opportunity and career report/replay truth.",
+      "initialFile": "match-003-initial.json",
+      "completedFile": "match-003-completed.json",
+      "initialSaveId": "hm-realism-v21-3-initial",
+      "completedSaveId": "hm-realism-v21-3-completed",
+      "initialSessionHash": "aaf7fe9268c82f95f8c5d7598b9ce20734bd81ff01350b02c0e51f95fc2d51ef",
+      "finalCoreHash": "2f775e98c00245b1a034ab4716ff28159f25a8fec07a03014b5499adfa4c338b",
+      "resultHash": "65302640866cb98c989c5b1972e0715d0a2aaa585287a54bfc86747520b83ebd",
+      "truthHash": "70272a7172cc2b96e10fc6e752ca1bdf900b9699baa9c6188c582f93b3d971c4",
+      "archiveHash": "ee1c120ba72d8850e5101e00a088beceb6637930f99088d13e9bdae39058f287",
+      "framesHash": "74960b507e7a3eb81354b0c381174bc313efc503b4fbb43e63e98fabeef15a2f",
+      "frameCount": 24938,
+      "resultUrl": "http://127.0.0.1:3009/career/match-report/swe-2-f4",
+      "replayUrl": "http://127.0.0.1:3009/career/match-day/swe-2-f4",
+      "verifiedAgainstRecordedAfter": true
+    },
+    {
+      "purpose": "HIGH_SCORING_OR_UNUSUAL",
+      "index": 28,
+      "saveSeed": "match-realism-v2-canonical-2026:28",
+      "canonicalSeed": 2543053647,
+      "fixture": {
+        "id": "swe-2-f1",
+        "competitionId": "swe-2",
+        "round": 1,
+        "date": "2026-08-22",
+        "homeClubId": "swe2-aranas",
+        "awayClubId": "swe2-ystad2",
+        "type": "LEAGUE"
+      },
+      "homeName": "HK Aranäs",
+      "awayName": "IFK Ystad HK",
+      "score": {
+        "HOME": 25,
+        "AWAY": 37
+      },
+      "selection": "Highest total goals among remaining paired cases; undesirable extremes are retained.",
+      "inspect": "Verify live versus settled transition progress and bodies, actual close/pivot/wing releases, keeper commitment/reach, shot miss/save/block denominator, contact/advantage/actual whistle, second-half opportunity and career report/replay truth.",
+      "initialFile": "match-028-initial.json",
+      "completedFile": "match-028-completed.json",
+      "initialSaveId": "hm-realism-v21-28-initial",
+      "completedSaveId": "hm-realism-v21-28-completed",
+      "initialSessionHash": "a591971a126a5c53eb28ff6a15e36afcdae6e915920e0a9c7bf801faa6443763",
+      "finalCoreHash": "ac85127ad4758d62190dba204d1ea09cbb3f31bdfc9292c8b396dbc53202e2ef",
+      "resultHash": "7e97657ac58c07dea030ed05bb3f5bccab17d1dba0c058adb503179e30ea2509",
+      "truthHash": "20743b19caa1804961e3ff555661cdd7b25b324de23f6dc01180a9b5bad5d47c",
+      "archiveHash": "e2a0a96e12d657ef536f94ccee76dbfe2f66cf2c41cf9b40f2e813d6001f4c6a",
+      "framesHash": "3fbb53b0ed1cf5940684f9edc0cf48cf26f17ceacaf39f0d7ac7830c38163aa1",
+      "frameCount": 25303,
+      "resultUrl": "http://127.0.0.1:3009/career/match-report/swe-2-f1",
+      "replayUrl": "http://127.0.0.1:3009/career/match-day/swe-2-f1",
+      "verifiedAgainstRecordedAfter": true
+    }
+  ]
+}

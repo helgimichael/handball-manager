@@ -1,0 +1,3629 @@
+{
+  "status": "PASSED",
+  "errors": [],
+  "observations": [
+    {
+      "kind": "rendered-2d",
+      "label": "old-1x-before",
+      "clock": "REPRIS\n0:00",
+      "players": [
+        {
+          "name": "Sebastian Westerlund",
+          "transform": "translate(150 1000)"
+        },
+        {
+          "name": "Marcus Ekman",
+          "transform": "translate(2000 1000)"
+        },
+        {
+          "name": "Kasper Larsson",
+          "transform": "translate(1500 500)"
+        },
+        {
+          "name": "Vilhelm Conrad",
+          "transform": "translate(1500 1400)"
+        },
+        {
+          "name": "Oskar Nykvist",
+          "transform": "translate(1300 1100)"
+        },
+        {
+          "name": "Fredrik Gustavsson",
+          "transform": "translate(1500 200)"
+        },
+        {
+          "name": "Andreas Flodman",
+          "transform": "translate(1500 1800)"
+        },
+        {
+          "name": "Carl Deliaune Aronius",
+          "transform": "translate(3850 1000)"
+        },
+        {
+          "name": "Holger Mårtensson",
+          "transform": "translate(2500 909)"
+        },
+        {
+          "name": "Emil Fransson",
+          "transform": "translate(2500 500)"
+        },
+        {
+          "name": "Pontus Zetterman",
+          "transform": "translate(2500 1400)"
+        },
+        {
+          "name": "Rex Blom",
+          "transform": "translate(2700 1100)"
+        },
+        {
+          "name": "Julian Sjögren",
+          "transform": "translate(2500 200)"
+        },
+        {
+          "name": "Daniel Lindroos",
+          "transform": "translate(2500 1800)"
+        }
+      ],
+      "ball": {
+        "x": "1966",
+        "y": "946"
+      }
+    },
+    {
+      "kind": "rendered-2d",
+      "label": "old-1x-after",
+      "clock": "REPRIS\n0:01",
+      "players": [
+        {
+          "name": "Sebastian Westerlund",
+          "transform": "translate(142.5999999999999 957.8)"
+        },
+        {
+          "name": "Marcus Ekman",
+          "transform": "translate(2000 1000)"
+        },
+        {
+          "name": "Kasper Larsson",
+          "transform": "translate(1500 500)"
+        },
+        {
+          "name": "Vilhelm Conrad",
+          "transform": "translate(1500 1493.6)"
+        },
+        {
+          "name": "Oskar Nykvist",
+          "transform": "translate(1324.4 955)"
+        },
+        {
+          "name": "Fredrik Gustavsson",
+          "transform": "translate(1500 200)"
+        },
+        {
+          "name": "Andreas Flodman",
+          "transform": "translate(1703.6 1833.4)"
+        },
+        {
+          "name": "Carl Deliaune Aronius",
+          "transform": "translate(3850 981)"
+        },
+        {
+          "name": "Holger Mårtensson",
+          "transform": "translate(2700.4 852.2)"
+        },
+        {
+          "name": "Emil Fransson",
+          "transform": "translate(2677.6 470.4)"
+        },
+        {
+          "name": "Pontus Zetterman",
+          "transform": "translate(2705.4 1361.4)"
+        },
+        {
+          "name": "Rex Blom",
+          "transform": "translate(2899 1046)"
+        },
+        {
+          "name": "Julian Sjögren",
+          "transform": "translate(2701.8 179.4)"
+        },
+        {
+          "name": "Daniel Lindroos",
+          "transform": "translate(2694.6 1756.8)"
+        }
+      ],
+      "ball": {
+        "x": "1529",
+        "y": "249"
+      }
+    },
+    {
+      "kind": "rendered-2d",
+      "label": "old-4x-before",
+      "clock": "REPRIS\n0:05",
+      "players": [
+        {
+          "name": "Sebastian Westerlund",
+          "transform": "translate(140 960)"
+        },
+        {
+          "name": "Marcus Ekman",
+          "transform": "translate(2100 916)"
+        },
+        {
+          "name": "Kasper Larsson",
+          "transform": "translate(2332.4 337.6)"
+        },
+        {
+          "name": "Vilhelm Conrad",
+          "transform": "translate(2220.6 1500)"
+        },
+        {
+          "name": "Oskar Nykvist",
+          "transform": "translate(1980.2 933.2)"
+        },
+        {
+          "name": "Fredrik Gustavsson",
+          "transform": "translate(2343 286)"
+        },
+        {
+          "name": "Andreas Flodman",
+          "transform": "translate(3831 1932)"
+        },
+        {
+          "name": "Carl Deliaune Aronius",
+          "transform": "translate(3851 959)"
+        },
+        {
+          "name": "Holger Mårtensson",
+          "transform": "translate(2999.2 758)"
+        },
+        {
+          "name": "Emil Fransson",
+          "transform": "translate(3306.6 355)"
+        },
+        {
+          "name": "Pontus Zetterman",
+          "transform": "translate(3325 1255)"
+        },
+        {
+          "name": "Rex Blom",
+          "transform": "translate(3323 933)"
+        },
+        {
+          "name": "Julian Sjögren",
+          "transform": "translate(2804 255.4)"
+        },
+        {
+          "name": "Daniel Lindroos",
+          "transform": "translate(3278.6 1632.8)"
+        }
+      ],
+      "ball": {
+        "x": "2372",
+        "y": "336"
+      }
+    },
+    {
+      "kind": "rendered-2d",
+      "label": "old-4x-after",
+      "clock": "REPRIS\n0:10",
+      "players": [
+        {
+          "name": "Sebastian Westerlund",
+          "transform": "translate(140 991)"
+        },
+        {
+          "name": "Marcus Ekman",
+          "transform": "translate(3068.4 904.2)"
+        },
+        {
+          "name": "Kasper Larsson",
+          "transform": "translate(2518.2 405)"
+        },
+        {
+          "name": "Vilhelm Conrad",
+          "transform": "translate(2244 1500)"
+        },
+        {
+          "name": "Oskar Nykvist",
+          "transform": "translate(2392.4 950.4)"
+        },
+        {
+          "name": "Fredrik Gustavsson",
+          "transform": "translate(2579 428)"
+        },
+        {
+          "name": "Andreas Flodman",
+          "transform": "translate(3831 1932)"
+        },
+        {
+          "name": "Carl Deliaune Aronius",
+          "transform": "translate(3851 978)"
+        },
+        {
+          "name": "Holger Mårtensson",
+          "transform": "translate(2943 941)"
+        },
+        {
+          "name": "Emil Fransson",
+          "transform": "translate(3215 716.4)"
+        },
+        {
+          "name": "Pontus Zetterman",
+          "transform": "translate(3325 1435)"
+        },
+        {
+          "name": "Rex Blom",
+          "transform": "translate(2442.8 1006.8)"
+        },
+        {
+          "name": "Julian Sjögren",
+          "transform": "translate(3287 252.8)"
+        },
+        {
+          "name": "Daniel Lindroos",
+          "transform": "translate(3857 1774)"
+        }
+      ],
+      "ball": {
+        "x": "3072.4",
+        "y": "860.4"
+      }
+    },
+    {
+      "kind": "rendered-2d",
+      "label": "old-16x-before",
+      "clock": "REPRIS\n0:27",
+      "players": [
+        {
+          "name": "Sebastian Westerlund",
+          "transform": "translate(140 1045)"
+        },
+        {
+          "name": "Marcus Ekman",
+          "transform": "translate(675 1066.2)"
+        },
+        {
+          "name": "Kasper Larsson",
+          "transform": "translate(675 667)"
+        },
+        {
+          "name": "Vilhelm Conrad",
+          "transform": "translate(869.1999999999998 1502.2)"
+        },
+        {
+          "name": "Oskar Nykvist",
+          "transform": "translate(1039.6 1205.2)"
+        },
+        {
+          "name": "Fredrik Gustavsson",
+          "transform": "translate(653.4000000000001 316.8)"
+        },
+        {
+          "name": "Andreas Flodman",
+          "transform": "translate(1009.4000000000001 1607.8)"
+        },
+        {
+          "name": "Carl Deliaune Aronius",
+          "transform": "translate(3851 1035)"
+        },
+        {
+          "name": "Holger Mårtensson",
+          "transform": "translate(1500 1619)"
+        },
+        {
+          "name": "Emil Fransson",
+          "transform": "translate(1642 500)"
+        },
+        {
+          "name": "Pontus Zetterman",
+          "transform": "translate(1588 1263.4)"
+        },
+        {
+          "name": "Rex Blom",
+          "transform": "translate(1645 1085)"
+        },
+        {
+          "name": "Julian Sjögren",
+          "transform": "translate(177 69)"
+        },
+        {
+          "name": "Daniel Lindroos",
+          "transform": "translate(172 1932)"
+        }
+      ],
+      "ball": {
+        "x": "1512",
+        "y": "1597"
+      }
+    },
+    {
+      "kind": "rendered-2d",
+      "label": "old-16x-after",
+      "clock": "REPRIS\n0:45",
+      "players": [
+        {
+          "name": "Sebastian Westerlund",
+          "transform": "translate(108 946)"
+        },
+        {
+          "name": "Marcus Ekman",
+          "transform": "translate(1399 922)"
+        },
+        {
+          "name": "Kasper Larsson",
+          "transform": "translate(675 685)"
+        },
+        {
+          "name": "Vilhelm Conrad",
+          "transform": "translate(1332 1419.6)"
+        },
+        {
+          "name": "Oskar Nykvist",
+          "transform": "translate(1347 987)"
+        },
+        {
+          "name": "Fredrik Gustavsson",
+          "transform": "translate(1399.4 144)"
+        },
+        {
+          "name": "Andreas Flodman",
+          "transform": "translate(1919.6 1801)"
+        },
+        {
+          "name": "Carl Deliaune Aronius",
+          "transform": "translate(3850 1001)"
+        },
+        {
+          "name": "Holger Mårtensson",
+          "transform": "translate(1437 1107.2)"
+        },
+        {
+          "name": "Emil Fransson",
+          "transform": "translate(2051 652.2)"
+        },
+        {
+          "name": "Pontus Zetterman",
+          "transform": "translate(2333.8 1510.6)"
+        },
+        {
+          "name": "Rex Blom",
+          "transform": "translate(1779.4 961.2)"
+        },
+        {
+          "name": "Julian Sjögren",
+          "transform": "translate(875.1999999999998 273.8)"
+        },
+        {
+          "name": "Daniel Lindroos",
+          "transform": "translate(1907.8000000000002 1379.2)"
+        }
+      ],
+      "ball": {
+        "x": "626",
+        "y": "706"
+      }
+    },
+    {
+      "kind": "rendered-2d",
+      "label": "old-recorded-end",
+      "clock": "REPRIS\n60:00",
+      "players": [
+        {
+          "name": "Sebastian Westerlund",
+          "transform": "translate(3858 984)"
+        },
+        {
+          "name": "Marcus Ekman",
+          "transform": "translate(3000 989)"
+        },
+        {
+          "name": "Kasper Larsson",
+          "transform": "translate(1693 915)"
+        },
+        {
+          "name": "Vilhelm Conrad",
+          "transform": "translate(3326 1313)"
+        },
+        {
+          "name": "Oskar Nykvist",
+          "transform": "translate(3318 953)"
+        },
+        {
+          "name": "Fredrik Gustavsson",
+          "transform": "translate(3532 191)"
+        },
+        {
+          "name": "Andreas Flodman",
+          "transform": "translate(3633 1735)"
+        },
+        {
+          "name": "Carl Deliaune Aronius",
+          "transform": "translate(149 970)"
+        },
+        {
+          "name": "Holger Mårtensson",
+          "transform": "translate(1198 983)"
+        },
+        {
+          "name": "Alvin Ankarbjörk Olli",
+          "transform": "translate(3831 1932)"
+        },
+        {
+          "name": "Isak Borg",
+          "transform": "translate(1520 962)"
+        },
+        {
+          "name": "Linus Lindberg",
+          "transform": "translate(3826 68)"
+        },
+        {
+          "name": "Valter Warborn",
+          "transform": "translate(966 1490)"
+        },
+        {
+          "name": "Jonathan Sandberg",
+          "transform": "translate(1234 502)"
+        }
+      ],
+      "ball": {
+        "x": "1265",
+        "y": "508"
+      }
+    },
+    {
+      "kind": "old-archive-preserved",
+      "seed": 3443931976,
+      "score": [
+        19,
+        19
+      ],
+      "before": "f7ce6548ee040f41b9d84ca6235dd88c012ae15c26a31895aa0b5607d6f646d6",
+      "after": "f7ce6548ee040f41b9d84ca6235dd88c012ae15c26a31895aa0b5607d6f646d6",
+      "behaviorRevision": "career-realism-v2.1"
+    },
+    {
+      "kind": "new-same-seed-started",
+      "source": "Pinned kickoff envelope with old live session cleared; normal Match Preview start",
+      "saveId": "hm-calibration-v21-seed16-new",
+      "saveSeed": "match-realism-v2-canonical-2026:16",
+      "fixtureId": "swe-2-f3",
+      "seed": 3443931976,
+      "coreHash": "794b0b801119872f242b1ecf8bcb685d908c351f596141cbf49c955c0fabc7ab",
+      "initialSessionHash": "8d86b1bb8ef69d00480122337bb796edc5bddd307e6b27853040385f27274957",
+      "tick": 0,
+      "officialMs": 0,
+      "phase": "PREMATCH",
+      "rng": {
+        "algorithm": "mulberry32",
+        "state": 3443931976,
+        "draws": 0
+      },
+      "score": {
+        "HOME": 0,
+        "AWAY": 0
+      },
+      "archiveIds": [],
+      "resultCount": 0,
+      "resultScores": {},
+      "commands": []
+    },
+    {
+      "kind": "rendered-2d",
+      "label": "new-kickoff",
+      "clock": "MATCHCENTRAL\n0:00 · Första halvlek",
+      "players": [
+        {
+          "name": "Sebastian Westerlund",
+          "transform": "translate(150 1000)"
+        },
+        {
+          "name": "Marcus Ekman",
+          "transform": "translate(2000 1000)"
+        },
+        {
+          "name": "Kasper Larsson",
+          "transform": "translate(1500 500)"
+        },
+        {
+          "name": "Vilhelm Conrad",
+          "transform": "translate(1500 1400)"
+        },
+        {
+          "name": "Oskar Nykvist",
+          "transform": "translate(1300 1100)"
+        },
+        {
+          "name": "Fredrik Gustavsson",
+          "transform": "translate(1500 200)"
+        },
+        {
+          "name": "Andreas Flodman",
+          "transform": "translate(1500 1800)"
+        },
+        {
+          "name": "Carl Deliaune Aronius",
+          "transform": "translate(3850 1000)"
+        },
+        {
+          "name": "Holger Mårtensson",
+          "transform": "translate(2500 1000)"
+        },
+        {
+          "name": "Emil Fransson",
+          "transform": "translate(2500 500)"
+        },
+        {
+          "name": "Pontus Zetterman",
+          "transform": "translate(2500 1400)"
+        },
+        {
+          "name": "Rex Blom",
+          "transform": "translate(2700 1100)"
+        },
+        {
+          "name": "Julian Sjögren",
+          "transform": "translate(2500 200)"
+        },
+        {
+          "name": "Daniel Lindroos",
+          "transform": "translate(2500 1800)"
+        }
+      ],
+      "ball": {
+        "x": "2000",
+        "y": "1000"
+      }
+    },
+    {
+      "kind": "rendered-2d",
+      "label": "new-1x-before",
+      "clock": "MATCHCENTRAL\n0:00 · Första halvlek",
+      "players": [
+        {
+          "name": "Sebastian Westerlund",
+          "transform": "translate(150 1000)"
+        },
+        {
+          "name": "Marcus Ekman",
+          "transform": "translate(2000 1000)"
+        },
+        {
+          "name": "Kasper Larsson",
+          "transform": "translate(1500 500)"
+        },
+        {
+          "name": "Vilhelm Conrad",
+          "transform": "translate(1500 1400)"
+        },
+        {
+          "name": "Oskar Nykvist",
+          "transform": "translate(1300 1100)"
+        },
+        {
+          "name": "Fredrik Gustavsson",
+          "transform": "translate(1500 200)"
+        },
+        {
+          "name": "Andreas Flodman",
+          "transform": "translate(1500 1800)"
+        },
+        {
+          "name": "Carl Deliaune Aronius",
+          "transform": "translate(3850 1000)"
+        },
+        {
+          "name": "Holger Mårtensson",
+          "transform": "translate(2500 925)"
+        },
+        {
+          "name": "Emil Fransson",
+          "transform": "translate(2500 500)"
+        },
+        {
+          "name": "Pontus Zetterman",
+          "transform": "translate(2500 1400)"
+        },
+        {
+          "name": "Rex Blom",
+          "transform": "translate(2700 1100)"
+        },
+        {
+          "name": "Julian Sjögren",
+          "transform": "translate(2500 200)"
+        },
+        {
+          "name": "Daniel Lindroos",
+          "transform": "translate(2500 1800)"
+        }
+      ],
+      "ball": {
+        "x": "2000",
+        "y": "1000"
+      }
+    },
+    {
+      "kind": "rendered-2d",
+      "label": "new-1x-after",
+      "clock": "MATCHCENTRAL\n0:02 · Första halvlek",
+      "players": [
+        {
+          "name": "Sebastian Westerlund",
+          "transform": "translate(140 942)"
+        },
+        {
+          "name": "Marcus Ekman",
+          "transform": "translate(2000 1000)"
+        },
+        {
+          "name": "Kasper Larsson",
+          "transform": "translate(1500 500)"
+        },
+        {
+          "name": "Vilhelm Conrad",
+          "transform": "translate(1500 1495)"
+        },
+        {
+          "name": "Oskar Nykvist",
+          "transform": "translate(1326 941)"
+        },
+        {
+          "name": "Fredrik Gustavsson",
+          "transform": "translate(1500 200)"
+        },
+        {
+          "name": "Andreas Flodman",
+          "transform": "translate(1785 1845)"
+        },
+        {
+          "name": "Carl Deliaune Aronius",
+          "transform": "translate(3850 981)"
+        },
+        {
+          "name": "Holger Mårtensson",
+          "transform": "translate(2776 831)"
+        },
+        {
+          "name": "Emil Fransson",
+          "transform": "translate(2749 458)"
+        },
+        {
+          "name": "Pontus Zetterman",
+          "transform": "translate(2788 1346)"
+        },
+        {
+          "name": "Rex Blom",
+          "transform": "translate(2979 1025)"
+        },
+        {
+          "name": "Julian Sjögren",
+          "transform": "translate(2783 171)"
+        },
+        {
+          "name": "Daniel Lindroos",
+          "transform": "translate(2773 1740)"
+        }
+      ],
+      "ball": {
+        "x": "1529",
+        "y": "249"
+      }
+    },
+    {
+      "kind": "rendered-2d",
+      "label": "new-4x-before",
+      "clock": "MATCHCENTRAL\n0:05 · Första halvlek",
+      "players": [
+        {
+          "name": "Sebastian Westerlund",
+          "transform": "translate(140 942)"
+        },
+        {
+          "name": "Marcus Ekman",
+          "transform": "translate(2100 916)"
+        },
+        {
+          "name": "Kasper Larsson",
+          "transform": "translate(1940 412)"
+        },
+        {
+          "name": "Vilhelm Conrad",
+          "transform": "translate(1938 1498)"
+        },
+        {
+          "name": "Oskar Nykvist",
+          "transform": "translate(1597 931)"
+        },
+        {
+          "name": "Fredrik Gustavsson",
+          "transform": "translate(2281 249)"
+        },
+        {
+          "name": "Andreas Flodman",
+          "transform": "translate(3831 1932)"
+        },
+        {
+          "name": "Carl Deliaune Aronius",
+          "transform": "translate(3851 959)"
+        },
+        {
+          "name": "Holger Mårtensson",
+          "transform": "translate(2999 759)"
+        },
+        {
+          "name": "Emil Fransson",
+          "transform": "translate(3305 352)"
+        },
+        {
+          "name": "Pontus Zetterman",
+          "transform": "translate(3324 1254)"
+        },
+        {
+          "name": "Rex Blom",
+          "transform": "translate(3323 933)"
+        },
+        {
+          "name": "Julian Sjögren",
+          "transform": "translate(2807 244)"
+        },
+        {
+          "name": "Daniel Lindroos",
+          "transform": "translate(3278 1633)"
+        }
+      ],
+      "ball": {
+        "x": "2310",
+        "y": "298"
+      }
+    },
+    {
+      "kind": "rendered-2d",
+      "label": "new-4x-after",
+      "clock": "MATCHCENTRAL\n0:12 · Första halvlek",
+      "players": [
+        {
+          "name": "Sebastian Westerlund",
+          "transform": "translate(140 991)"
+        },
+        {
+          "name": "Marcus Ekman",
+          "transform": "translate(3140 975)"
+        },
+        {
+          "name": "Kasper Larsson",
+          "transform": "translate(2721 1124)"
+        },
+        {
+          "name": "Vilhelm Conrad",
+          "transform": "translate(2729 1460)"
+        },
+        {
+          "name": "Oskar Nykvist",
+          "transform": "translate(3021 967)"
+        },
+        {
+          "name": "Fredrik Gustavsson",
+          "transform": "translate(2579 428)"
+        },
+        {
+          "name": "Andreas Flodman",
+          "transform": "translate(3831 1932)"
+        },
+        {
+          "name": "Carl Deliaune Aronius",
+          "transform": "translate(3851 978)"
+        },
+        {
+          "name": "Holger Mårtensson",
+          "transform": "translate(3094 1008)"
+        },
+        {
+          "name": "Emil Fransson",
+          "transform": "translate(3215 718)"
+        },
+        {
+          "name": "Pontus Zetterman",
+          "transform": "translate(3325 1435)"
+        },
+        {
+          "name": "Rex Blom",
+          "transform": "translate(2633 1004)"
+        },
+        {
+          "name": "Julian Sjögren",
+          "transform": "translate(3290 254)"
+        },
+        {
+          "name": "Daniel Lindroos",
+          "transform": "translate(3857 1774)"
+        }
+      ],
+      "ball": {
+        "x": "3144",
+        "y": "932"
+      }
+    },
+    {
+      "kind": "rendered-2d",
+      "label": "new-16x-before",
+      "clock": "MATCHCENTRAL\n0:24 · Första halvlek",
+      "players": [
+        {
+          "name": "Sebastian Westerlund",
+          "transform": "translate(142 1015)"
+        },
+        {
+          "name": "Marcus Ekman",
+          "transform": "translate(676 1035)"
+        },
+        {
+          "name": "Kasper Larsson",
+          "transform": "translate(684 660)"
+        },
+        {
+          "name": "Vilhelm Conrad",
+          "transform": "translate(1059 1364)"
+        },
+        {
+          "name": "Oskar Nykvist",
+          "transform": "translate(1001 1208)"
+        },
+        {
+          "name": "Fredrik Gustavsson",
+          "transform": "translate(735 288)"
+        },
+        {
+          "name": "Andreas Flodman",
+          "transform": "translate(839 1674)"
+        },
+        {
+          "name": "Carl Deliaune Aronius",
+          "transform": "translate(3851 1035)"
+        },
+        {
+          "name": "Holger Mårtensson",
+          "transform": "translate(1923 1051)"
+        },
+        {
+          "name": "Emil Fransson",
+          "transform": "translate(2501 500)"
+        },
+        {
+          "name": "Pontus Zetterman",
+          "transform": "translate(1804 1400)"
+        },
+        {
+          "name": "Rex Blom",
+          "transform": "translate(2701 1060)"
+        },
+        {
+          "name": "Julian Sjögren",
+          "transform": "translate(936 81)"
+        },
+        {
+          "name": "Daniel Lindroos",
+          "transform": "translate(971 1918)"
+        }
+      ],
+      "ball": {
+        "x": "1804",
+        "y": "1395"
+      }
+    },
+    {
+      "kind": "rendered-2d",
+      "label": "new-16x-after",
+      "clock": "MATCHCENTRAL\n0:48 · Första halvlek",
+      "players": [
+        {
+          "name": "Sebastian Westerlund",
+          "transform": "translate(140 1015)"
+        },
+        {
+          "name": "Marcus Ekman",
+          "transform": "translate(673 887)"
+        },
+        {
+          "name": "Kasper Larsson",
+          "transform": "translate(804 687)"
+        },
+        {
+          "name": "Vilhelm Conrad",
+          "transform": "translate(905 1396)"
+        },
+        {
+          "name": "Oskar Nykvist",
+          "transform": "translate(672 1234)"
+        },
+        {
+          "name": "Fredrik Gustavsson",
+          "transform": "translate(236 231)"
+        },
+        {
+          "name": "Andreas Flodman",
+          "transform": "translate(754 1633)"
+        },
+        {
+          "name": "Carl Deliaune Aronius",
+          "transform": "translate(3851 1009)"
+        },
+        {
+          "name": "Holger Mårtensson",
+          "transform": "translate(1136 1227)"
+        },
+        {
+          "name": "Emil Fransson",
+          "transform": "translate(1000 699)"
+        },
+        {
+          "name": "Pontus Zetterman",
+          "transform": "translate(1041 1617)"
+        },
+        {
+          "name": "Rex Blom",
+          "transform": "translate(712 785)"
+        },
+        {
+          "name": "Julian Sjögren",
+          "transform": "translate(144 69)"
+        },
+        {
+          "name": "Daniel Lindroos",
+          "transform": "translate(684 1309)"
+        }
+      ],
+      "ball": {
+        "x": "997",
+        "y": "722"
+      }
+    },
+    {
+      "kind": "rendered-2d",
+      "label": "new-halftime",
+      "clock": "HALVTID\n30:00 · Halvtid",
+      "players": [
+        {
+          "name": "Sebastian Westerlund",
+          "transform": "translate(53 892)"
+        },
+        {
+          "name": "Marcus Ekman",
+          "transform": "translate(1994 1000)"
+        },
+        {
+          "name": "Kasper Larsson",
+          "transform": "translate(1498 500)"
+        },
+        {
+          "name": "Vilhelm Conrad",
+          "transform": "translate(1500 1400)"
+        },
+        {
+          "name": "Oskar Nykvist",
+          "transform": "translate(1299 1100)"
+        },
+        {
+          "name": "Fredrik Gustavsson",
+          "transform": "translate(1499 200)"
+        },
+        {
+          "name": "Andreas Flodman",
+          "transform": "translate(1498 1800)"
+        },
+        {
+          "name": "Carl Deliaune Aronius",
+          "transform": "translate(3850 999)"
+        },
+        {
+          "name": "Holger Mårtensson",
+          "transform": "translate(2500 900)"
+        },
+        {
+          "name": "Emil Fransson",
+          "transform": "translate(2497 500)"
+        },
+        {
+          "name": "Pontus Zetterman",
+          "transform": "translate(2461 1396)"
+        },
+        {
+          "name": "Rex Blom",
+          "transform": "translate(2495 1110)"
+        },
+        {
+          "name": "Julian Sjögren",
+          "transform": "translate(2097 177)"
+        },
+        {
+          "name": "Daniel Lindroos",
+          "transform": "translate(2054 1825)"
+        }
+      ],
+      "ball": {
+        "x": "243",
+        "y": "891"
+      }
+    },
+    {
+      "kind": "new-same-seed-result",
+      "oldScore": [
+        19,
+        19
+      ],
+      "newScore": [
+        31,
+        26
+      ],
+      "archiveHash": "4277e2f1a7c57879dc2305b4bb3e653593b6c1cc037b4eed8c3138cb002667f9",
+      "behaviorRevision": "career-realism-v2.1-calibration"
+    },
+    {
+      "kind": "actual-recorded-scene",
+      "name": "near-six-metres",
+      "fixtureId": "swe-2-f3",
+      "event": {
+        "id": "event-12701",
+        "tick": 3983,
+        "timeMs": 199150,
+        "officialMs": 198850,
+        "type": "SHOT_RELEASED",
+        "possessionId": "possession-9884",
+        "actionId": "action-12684",
+        "actorId": "se_player_julian_sjogren_e2c4eb76",
+        "relatedIds": [],
+        "contestId": null,
+        "details": {
+          "x": 7.543892705028844,
+          "y": 32.682778942932536,
+          "height": 2.3,
+          "reason": "Release from actual committed takeoff",
+          "shotKind": "BREAKTHROUGH",
+          "phase": "ESTABLISHED",
+          "subphase": "AVSLUTNING",
+          "decisionQuality": 0.49483773571628176,
+          "opportunityQuality": 0.4647827887473268,
+          "pressure": 1.098438639165287,
+          "blockThreat": 0.7605263157894737,
+          "goalHeight": 1.3550321925826931,
+          "executionEnergy": 0.9742098549150547,
+          "executionCapacity": 0.9926313871185871,
+          "executionPlacement": 0.6791688438179806,
+          "executionPowerAttribute": 0.631578947368421,
+          "executionSpread": 0.7622381767430932,
+          "intendedAimX": 11.03656703927412,
+          "aimErrorMetres": 0.1276786000366208,
+          "releasePace": 23.926193354561835,
+          "aimX": 10.908888439237499,
+          "goalkeeperId": "se_player_sebastian_westerlund_206a8015"
+        }
+      },
+      "sequence": [
+        {
+          "tick": 3978,
+          "clock": "REPRIS\n3:18",
+          "players": [
+            {
+              "name": "Sebastian Westerlund",
+              "transform": "translate(140 957)"
+            },
+            {
+              "name": "Marcus Ekman",
+              "transform": "translate(665 933)"
+            },
+            {
+              "name": "Kasper Larsson",
+              "transform": "translate(658 735)"
+            },
+            {
+              "name": "Vilhelm Conrad",
+              "transform": "translate(675 1307)"
+            },
+            {
+              "name": "Oskar Nykvist",
+              "transform": "translate(675 1013)"
+            },
+            {
+              "name": "Fredrik Gustavsson",
+              "transform": "translate(704 427)"
+            },
+            {
+              "name": "Andreas Flodman",
+              "transform": "translate(122 1778)"
+            },
+            {
+              "name": "Carl Deliaune Aronius",
+              "transform": "translate(3851 976)"
+            },
+            {
+              "name": "Holger Mårtensson",
+              "transform": "translate(1128 985)"
+            },
+            {
+              "name": "Emil Fransson",
+              "transform": "translate(1068 392)"
+            },
+            {
+              "name": "Pontus Zetterman",
+              "transform": "translate(958 1579)"
+            },
+            {
+              "name": "Rex Blom",
+              "transform": "translate(629 981)"
+            },
+            {
+              "name": "Julian Sjögren",
+              "transform": "translate(716 735)"
+            },
+            {
+              "name": "Daniel Lindroos",
+              "transform": "translate(144 1932)"
+            }
+          ],
+          "ball": {
+            "x": "732",
+            "y": "754"
+          }
+        },
+        {
+          "tick": 3988,
+          "clock": "REPRIS\n3:19",
+          "players": [
+            {
+              "name": "Sebastian Westerlund",
+              "transform": "translate(140 959)"
+            },
+            {
+              "name": "Marcus Ekman",
+              "transform": "translate(665 933)"
+            },
+            {
+              "name": "Kasper Larsson",
+              "transform": "translate(658 735)"
+            },
+            {
+              "name": "Vilhelm Conrad",
+              "transform": "translate(675 1307)"
+            },
+            {
+              "name": "Oskar Nykvist",
+              "transform": "translate(675 1013)"
+            },
+            {
+              "name": "Fredrik Gustavsson",
+              "transform": "translate(704 427)"
+            },
+            {
+              "name": "Andreas Flodman",
+              "transform": "translate(122 1778)"
+            },
+            {
+              "name": "Carl Deliaune Aronius",
+              "transform": "translate(3851 976)"
+            },
+            {
+              "name": "Holger Mårtensson",
+              "transform": "translate(1128 985)"
+            },
+            {
+              "name": "Emil Fransson",
+              "transform": "translate(1068 392)"
+            },
+            {
+              "name": "Pontus Zetterman",
+              "transform": "translate(958 1579)"
+            },
+            {
+              "name": "Rex Blom",
+              "transform": "translate(630 979)"
+            },
+            {
+              "name": "Julian Sjögren",
+              "transform": "translate(716 735)"
+            },
+            {
+              "name": "Daniel Lindroos",
+              "transform": "translate(144 1932)"
+            }
+          ],
+          "ball": {
+            "x": "188",
+            "y": "1004"
+          }
+        },
+        {
+          "tick": 4008,
+          "clock": "REPRIS\n3:19",
+          "players": [
+            {
+              "name": "Sebastian Westerlund",
+              "transform": "translate(64.59999999999991 1056.2)"
+            },
+            {
+              "name": "Marcus Ekman",
+              "transform": "translate(771.5999999999999 938.6)"
+            },
+            {
+              "name": "Kasper Larsson",
+              "transform": "translate(664.4000000000001 711)"
+            },
+            {
+              "name": "Vilhelm Conrad",
+              "transform": "translate(786.1999999999998 1319.4)"
+            },
+            {
+              "name": "Oskar Nykvist",
+              "transform": "translate(771.1999999999998 1026.4)"
+            },
+            {
+              "name": "Fredrik Gustavsson",
+              "transform": "translate(819.8000000000002 390.4)"
+            },
+            {
+              "name": "Andreas Flodman",
+              "transform": "translate(237.4000000000001 1780)"
+            },
+            {
+              "name": "Carl Deliaune Aronius",
+              "transform": "translate(3850 999)"
+            },
+            {
+              "name": "Holger Mårtensson",
+              "transform": "translate(1229.4 978.8)"
+            },
+            {
+              "name": "Emil Fransson",
+              "transform": "translate(1169.4 399.2)"
+            },
+            {
+              "name": "Pontus Zetterman",
+              "transform": "translate(1074.4 1565)"
+            },
+            {
+              "name": "Rex Blom",
+              "transform": "translate(720.4000000000001 987.2)"
+            },
+            {
+              "name": "Julian Sjögren",
+              "transform": "translate(725.5999999999999 732)"
+            },
+            {
+              "name": "Daniel Lindroos",
+              "transform": "translate(255.80000000000018 1925.8)"
+            }
+          ],
+          "ball": {
+            "x": "0",
+            "y": "1091"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "actual-recorded-scene",
+      "name": "keeper-backcourt-save",
+      "fixtureId": "swe-2-f3",
+      "event": {
+        "id": "event-4292",
+        "tick": 1191,
+        "timeMs": 59550,
+        "officialMs": 59250,
+        "type": "SHOT_RELEASED",
+        "possessionId": "possession-1287",
+        "actionId": "action-4263",
+        "actorId": "se_player_holger_martensson_96612b41",
+        "relatedIds": [],
+        "contestId": null,
+        "details": {
+          "x": 11.061706730718573,
+          "y": 28.43643520151132,
+          "height": 2.3,
+          "reason": "Release from actual committed takeoff",
+          "shotKind": "BACKCOURT_JUMP",
+          "phase": "ESTABLISHED",
+          "subphase": "AVSLUTNING",
+          "decisionQuality": 0.38623920634516656,
+          "opportunityQuality": 0.37598050552051154,
+          "pressure": 0,
+          "blockThreat": 0.5872241376018977,
+          "goalHeight": 0.26254762573155394,
+          "executionEnergy": 0.9934334964222481,
+          "executionCapacity": 0.9981238561206424,
+          "executionPlacement": 0.5515947625929866,
+          "executionPowerAttribute": 0.5789473684210527,
+          "executionSpread": 0.7777125078400118,
+          "intendedAimX": 9.041758903038627,
+          "aimErrorMetres": 0.2553038997917838,
+          "releasePace": 23.363159950216204,
+          "aimX": 9.29706280283041,
+          "goalkeeperId": "se_player_sebastian_westerlund_206a8015"
+        }
+      },
+      "sequence": [
+        {
+          "tick": 1186,
+          "clock": "REPRIS\n0:58",
+          "players": [
+            {
+              "name": "Sebastian Westerlund",
+              "transform": "translate(140 1028)"
+            },
+            {
+              "name": "Marcus Ekman",
+              "transform": "translate(725.8000000000002 923.2)"
+            },
+            {
+              "name": "Kasper Larsson",
+              "transform": "translate(675 561)"
+            },
+            {
+              "name": "Vilhelm Conrad",
+              "transform": "translate(677.8000000000002 1319.2)"
+            },
+            {
+              "name": "Oskar Nykvist",
+              "transform": "translate(840.5999999999999 1140.4)"
+            },
+            {
+              "name": "Fredrik Gustavsson",
+              "transform": "translate(121 222)"
+            },
+            {
+              "name": "Andreas Flodman",
+              "transform": "translate(713 1762)"
+            },
+            {
+              "name": "Carl Deliaune Aronius",
+              "transform": "translate(3851 991)"
+            },
+            {
+              "name": "Holger Mårtensson",
+              "transform": "translate(1159 1087)"
+            },
+            {
+              "name": "Emil Fransson",
+              "transform": "translate(954 483)"
+            },
+            {
+              "name": "Pontus Zetterman",
+              "transform": "translate(1053 1363)"
+            },
+            {
+              "name": "Rex Blom",
+              "transform": "translate(759.4000000000001 1003.4)"
+            },
+            {
+              "name": "Julian Sjögren",
+              "transform": "translate(145 69)"
+            },
+            {
+              "name": "Daniel Lindroos",
+              "transform": "translate(592.5999999999999 1494.6)"
+            }
+          ],
+          "ball": {
+            "x": "1156",
+            "y": "1106"
+          }
+        },
+        {
+          "tick": 1196,
+          "clock": "REPRIS\n0:59",
+          "players": [
+            {
+              "name": "Sebastian Westerlund",
+              "transform": "translate(140 1026)"
+            },
+            {
+              "name": "Marcus Ekman",
+              "transform": "translate(727 928)"
+            },
+            {
+              "name": "Kasper Larsson",
+              "transform": "translate(675 553)"
+            },
+            {
+              "name": "Vilhelm Conrad",
+              "transform": "translate(688 1333)"
+            },
+            {
+              "name": "Oskar Nykvist",
+              "transform": "translate(903 1106)"
+            },
+            {
+              "name": "Fredrik Gustavsson",
+              "transform": "translate(121 222)"
+            },
+            {
+              "name": "Andreas Flodman",
+              "transform": "translate(699 1757)"
+            },
+            {
+              "name": "Carl Deliaune Aronius",
+              "transform": "translate(3851 991)"
+            },
+            {
+              "name": "Holger Mårtensson",
+              "transform": "translate(1159 1087)"
+            },
+            {
+              "name": "Emil Fransson",
+              "transform": "translate(954 483)"
+            },
+            {
+              "name": "Pontus Zetterman",
+              "transform": "translate(1053 1363)"
+            },
+            {
+              "name": "Rex Blom",
+              "transform": "translate(769 1060)"
+            },
+            {
+              "name": "Julian Sjögren",
+              "transform": "translate(145 69)"
+            },
+            {
+              "name": "Daniel Lindroos",
+              "transform": "translate(392 1736)"
+            }
+          ],
+          "ball": {
+            "x": "579",
+            "y": "1018"
+          }
+        },
+        {
+          "tick": 1216,
+          "clock": "REPRIS\n1:00",
+          "players": [
+            {
+              "name": "Sebastian Westerlund",
+              "transform": "translate(125.80000000000018 931.2)"
+            },
+            {
+              "name": "Marcus Ekman",
+              "transform": "translate(688.5999999999999 863)"
+            },
+            {
+              "name": "Kasper Larsson",
+              "transform": "translate(688.1999999999998 534)"
+            },
+            {
+              "name": "Vilhelm Conrad",
+              "transform": "translate(682 1352)"
+            },
+            {
+              "name": "Oskar Nykvist",
+              "transform": "translate(915 1106)"
+            },
+            {
+              "name": "Fredrik Gustavsson",
+              "transform": "translate(134.80000000000018 222)"
+            },
+            {
+              "name": "Andreas Flodman",
+              "transform": "translate(481.4000000000001 1753)"
+            },
+            {
+              "name": "Carl Deliaune Aronius",
+              "transform": "translate(3851 991)"
+            },
+            {
+              "name": "Holger Mårtensson",
+              "transform": "translate(1171.4 1087)"
+            },
+            {
+              "name": "Emil Fransson",
+              "transform": "translate(966.4000000000001 483)"
+            },
+            {
+              "name": "Pontus Zetterman",
+              "transform": "translate(1058.6 1387)"
+            },
+            {
+              "name": "Rex Blom",
+              "transform": "translate(685.4000000000001 1013)"
+            },
+            {
+              "name": "Julian Sjögren",
+              "transform": "translate(158.19999999999982 69)"
+            },
+            {
+              "name": "Daniel Lindroos",
+              "transform": "translate(189.19999999999982 1906)"
+            }
+          ],
+          "ball": {
+            "x": "0",
+            "y": "933"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "actual-recorded-scene",
+      "name": "seven-metres",
+      "fixtureId": "swe-2-f3",
+      "event": {
+        "id": "event-205058",
+        "tick": 62966,
+        "timeMs": 3148300,
+        "officialMs": 3050050,
+        "type": "SHOT_RELEASED",
+        "possessionId": "possession-202675",
+        "actionId": "action-205049",
+        "actorId": "se_player_filip_andersson_moberg_b3746dc3",
+        "relatedIds": [],
+        "contestId": null,
+        "details": {
+          "x": 10.037012826455877,
+          "y": 7.083229116993235,
+          "height": 1.5,
+          "reason": "Execute authorised direct throw from planted foot",
+          "shotKind": "SEVEN_METRE",
+          "phase": "RESTART",
+          "subphase": "UPPBYGGNAD",
+          "decisionQuality": 0.8733153750550839,
+          "opportunityQuality": 0.8316035918378223,
+          "pressure": 0,
+          "blockThreat": 0,
+          "goalHeight": 1.453018500618479,
+          "executionEnergy": 0.978558867562662,
+          "executionCapacity": 0.9938739621607606,
+          "executionPlacement": 0.706173604693172,
+          "executionPowerAttribute": 0.6842105263157895,
+          "executionSpread": 0.22840708602886775,
+          "intendedAimX": 8.75994197263725,
+          "aimErrorMetres": 0.056730384341305395,
+          "releasePace": 24.50828589284367,
+          "aimX": 8.703211588295945,
+          "goalkeeperId": "se_player_sebastian_westerlund_206a8015"
+        }
+      },
+      "sequence": [
+        {
+          "tick": 62961,
+          "clock": "REPRIS\n50:49",
+          "players": [
+            {
+              "name": "Sebastian Westerlund",
+              "transform": "translate(3920 994.8)"
+            },
+            {
+              "name": "Marcus Ekman",
+              "transform": "translate(2922 802)"
+            },
+            {
+              "name": "Kasper Larsson",
+              "transform": "translate(2923 551)"
+            },
+            {
+              "name": "Vilhelm Conrad",
+              "transform": "translate(2922 1449)"
+            },
+            {
+              "name": "Fredrik Gustavsson",
+              "transform": "translate(2979.4 248.4)"
+            },
+            {
+              "name": "Andreas Flodman",
+              "transform": "translate(2985.8 1751.6)"
+            },
+            {
+              "name": "Carl Deliaune Aronius",
+              "transform": "translate(150 1002)"
+            },
+            {
+              "name": "Emil Fransson",
+              "transform": "translate(3029 513)"
+            },
+            {
+              "name": "Pontus Zetterman",
+              "transform": "translate(3030 1490)"
+            },
+            {
+              "name": "Rex Blom",
+              "transform": "translate(2920 1000)"
+            },
+            {
+              "name": "Alvin Ankarbjörk Olli",
+              "transform": "translate(3075 1932)"
+            },
+            {
+              "name": "Linus Lindberg",
+              "transform": "translate(3033.2 68)"
+            },
+            {
+              "name": "Filip Andersson Moberg",
+              "transform": "translate(3299 1001)"
+            }
+          ],
+          "ball": {
+            "x": "3292",
+            "y": "1004"
+          }
+        },
+        {
+          "tick": 62971,
+          "clock": "REPRIS\n50:50",
+          "players": [
+            {
+              "name": "Sebastian Westerlund",
+              "transform": "translate(3920 951)"
+            },
+            {
+              "name": "Marcus Ekman",
+              "transform": "translate(2922 802)"
+            },
+            {
+              "name": "Kasper Larsson",
+              "transform": "translate(2923 551)"
+            },
+            {
+              "name": "Vilhelm Conrad",
+              "transform": "translate(2922 1449)"
+            },
+            {
+              "name": "Fredrik Gustavsson",
+              "transform": "translate(2950 244)"
+            },
+            {
+              "name": "Andreas Flodman",
+              "transform": "translate(2953 1754)"
+            },
+            {
+              "name": "Carl Deliaune Aronius",
+              "transform": "translate(150 1002)"
+            },
+            {
+              "name": "Emil Fransson",
+              "transform": "translate(3029 513)"
+            },
+            {
+              "name": "Pontus Zetterman",
+              "transform": "translate(3030 1490)"
+            },
+            {
+              "name": "Rex Blom",
+              "transform": "translate(2920 1000)"
+            },
+            {
+              "name": "Alvin Ankarbjörk Olli",
+              "transform": "translate(3053 1932)"
+            },
+            {
+              "name": "Linus Lindberg",
+              "transform": "translate(3056 68)"
+            },
+            {
+              "name": "Filip Andersson Moberg",
+              "transform": "translate(3299 1001)"
+            }
+          ],
+          "ball": {
+            "x": "3894",
+            "y": "890"
+          }
+        },
+        {
+          "tick": 62991,
+          "clock": "REPRIS\n50:51",
+          "players": [
+            {
+              "name": "Sebastian Westerlund",
+              "transform": "translate(3965 871)"
+            },
+            {
+              "name": "Marcus Ekman",
+              "transform": "translate(2810 827)"
+            },
+            {
+              "name": "Kasper Larsson",
+              "transform": "translate(2806 536)"
+            },
+            {
+              "name": "Vilhelm Conrad",
+              "transform": "translate(2807 1436)"
+            },
+            {
+              "name": "Fredrik Gustavsson",
+              "transform": "translate(2837 230)"
+            },
+            {
+              "name": "Andreas Flodman",
+              "transform": "translate(2844 1766)"
+            },
+            {
+              "name": "Carl Deliaune Aronius",
+              "transform": "translate(150 1002)"
+            },
+            {
+              "name": "Emil Fransson",
+              "transform": "translate(2924 512)"
+            },
+            {
+              "name": "Pontus Zetterman",
+              "transform": "translate(2906 1484)"
+            },
+            {
+              "name": "Rex Blom",
+              "transform": "translate(2802 1007)"
+            },
+            {
+              "name": "Alvin Ankarbjörk Olli",
+              "transform": "translate(2960 1923)"
+            },
+            {
+              "name": "Linus Lindberg",
+              "transform": "translate(2936 79)"
+            },
+            {
+              "name": "Filip Andersson Moberg",
+              "transform": "translate(3188 994)"
+            }
+          ],
+          "ball": {
+            "x": "4000",
+            "y": "870"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "actual-recorded-scene",
+      "name": "pivot-cooperation",
+      "fixtureId": "swe-2-f3",
+      "event": {
+        "id": "event-112000",
+        "tick": 33526,
+        "timeMs": 1676300,
+        "officialMs": 1671550,
+        "type": "SHOT_RELEASED",
+        "possessionId": "possession-108411",
+        "actionId": "action-111989",
+        "actorId": "se_player_rex_blom_ff8b1367",
+        "relatedIds": [],
+        "contestId": null,
+        "details": {
+          "x": 10.21735563610455,
+          "y": 32.91389173474651,
+          "height": 2.3,
+          "reason": "Release from actual committed takeoff",
+          "shotKind": "PIVOT",
+          "phase": "ESTABLISHED",
+          "subphase": "AVSLUTNING",
+          "decisionQuality": 0.6751359735308274,
+          "opportunityQuality": 0.6594969661926965,
+          "pressure": 0.9040855760558835,
+          "blockThreat": 0,
+          "goalHeight": 0.6111212637574086,
+          "executionEnergy": 0.7732706549110353,
+          "executionCapacity": 0.9352201871174387,
+          "executionPlacement": 0.6398874964487737,
+          "executionPowerAttribute": 0.631578947368421,
+          "executionSpread": 0.7712359890242602,
+          "intendedAimX": 11.013481750327758,
+          "aimErrorMetres": 0.2953546094954298,
+          "releasePace": 23.761211695611166,
+          "aimX": 10.718127140832328,
+          "goalkeeperId": "se_player_sebastian_westerlund_206a8015"
+        }
+      },
+      "sequence": [
+        {
+          "tick": 33521,
+          "clock": "REPRIS\n27:51",
+          "players": [
+            {
+              "name": "Sebastian Westerlund",
+              "transform": "translate(140 968.2)"
+            },
+            {
+              "name": "Marcus Ekman",
+              "transform": "translate(687 989)"
+            },
+            {
+              "name": "Kasper Larsson",
+              "transform": "translate(677 620)"
+            },
+            {
+              "name": "Vilhelm Conrad",
+              "transform": "translate(663 1252.6)"
+            },
+            {
+              "name": "Oskar Nykvist",
+              "transform": "translate(739.1999999999998 966.6)"
+            },
+            {
+              "name": "Fredrik Gustavsson",
+              "transform": "translate(170 229)"
+            },
+            {
+              "name": "Andreas Flodman",
+              "transform": "translate(150 1772)"
+            },
+            {
+              "name": "Carl Deliaune Aronius",
+              "transform": "translate(3851 983)"
+            },
+            {
+              "name": "Holger Mårtensson",
+              "transform": "translate(1073 1020)"
+            },
+            {
+              "name": "Emil Fransson",
+              "transform": "translate(1001 404)"
+            },
+            {
+              "name": "Pontus Zetterman",
+              "transform": "translate(1000 1644)"
+            },
+            {
+              "name": "Rex Blom",
+              "transform": "translate(652 1034)"
+            },
+            {
+              "name": "Julian Sjögren",
+              "transform": "translate(175 68)"
+            },
+            {
+              "name": "Daniel Lindroos",
+              "transform": "translate(177 1932)"
+            }
+          ],
+          "ball": {
+            "x": "709",
+            "y": "1022"
+          }
+        },
+        {
+          "tick": 33531,
+          "clock": "REPRIS\n27:51",
+          "players": [
+            {
+              "name": "Sebastian Westerlund",
+              "transform": "translate(140 1013)"
+            },
+            {
+              "name": "Marcus Ekman",
+              "transform": "translate(687 989)"
+            },
+            {
+              "name": "Kasper Larsson",
+              "transform": "translate(677 620)"
+            },
+            {
+              "name": "Vilhelm Conrad",
+              "transform": "translate(658 1258)"
+            },
+            {
+              "name": "Oskar Nykvist",
+              "transform": "translate(742 969)"
+            },
+            {
+              "name": "Fredrik Gustavsson",
+              "transform": "translate(170 229)"
+            },
+            {
+              "name": "Andreas Flodman",
+              "transform": "translate(150 1772)"
+            },
+            {
+              "name": "Carl Deliaune Aronius",
+              "transform": "translate(3851 983)"
+            },
+            {
+              "name": "Holger Mårtensson",
+              "transform": "translate(1061 1024)"
+            },
+            {
+              "name": "Emil Fransson",
+              "transform": "translate(1001 404)"
+            },
+            {
+              "name": "Pontus Zetterman",
+              "transform": "translate(1000 1644)"
+            },
+            {
+              "name": "Rex Blom",
+              "transform": "translate(652 1034)"
+            },
+            {
+              "name": "Julian Sjögren",
+              "transform": "translate(175 68)"
+            },
+            {
+              "name": "Daniel Lindroos",
+              "transform": "translate(177 1932)"
+            }
+          ],
+          "ball": {
+            "x": "116",
+            "y": "1064"
+          }
+        },
+        {
+          "tick": 33551,
+          "clock": "REPRIS\n27:52",
+          "players": [
+            {
+              "name": "Sebastian Westerlund",
+              "transform": "translate(44 1067)"
+            },
+            {
+              "name": "Marcus Ekman",
+              "transform": "translate(767 997)"
+            },
+            {
+              "name": "Kasper Larsson",
+              "transform": "translate(799 603)"
+            },
+            {
+              "name": "Vilhelm Conrad",
+              "transform": "translate(779 1286)"
+            },
+            {
+              "name": "Oskar Nykvist",
+              "transform": "translate(843 994)"
+            },
+            {
+              "name": "Fredrik Gustavsson",
+              "transform": "translate(297 227)"
+            },
+            {
+              "name": "Andreas Flodman",
+              "transform": "translate(273 1775)"
+            },
+            {
+              "name": "Carl Deliaune Aronius",
+              "transform": "translate(3850 998)"
+            },
+            {
+              "name": "Holger Mårtensson",
+              "transform": "translate(1170 1015)"
+            },
+            {
+              "name": "Emil Fransson",
+              "transform": "translate(1109 411)"
+            },
+            {
+              "name": "Pontus Zetterman",
+              "transform": "translate(1125 1624)"
+            },
+            {
+              "name": "Rex Blom",
+              "transform": "translate(665 1034.4)"
+            },
+            {
+              "name": "Julian Sjögren",
+              "transform": "translate(296 75)"
+            },
+            {
+              "name": "Daniel Lindroos",
+              "transform": "translate(296 1925)"
+            }
+          ],
+          "ball": {
+            "x": "0",
+            "y": "1072"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "actual-recorded-scene",
+      "name": "wing-shot",
+      "fixtureId": "swe-2-f3",
+      "event": {
+        "id": "event-86349",
+        "tick": 25867,
+        "timeMs": 1293350,
+        "officialMs": 1288600,
+        "type": "SHOT_RELEASED",
+        "possessionId": "possession-84436",
+        "actionId": "action-86332",
+        "actorId": "se_player_julian_sjogren_e2c4eb76",
+        "relatedIds": [],
+        "contestId": null,
+        "details": {
+          "x": 1.8921353843056299,
+          "y": 36.27169716447636,
+          "height": 2.3,
+          "reason": "Release from actual committed takeoff",
+          "shotKind": "WING",
+          "phase": "ESTABLISHED",
+          "subphase": "AVSLUTNING",
+          "decisionQuality": 0.3070148437330727,
+          "opportunityQuality": 0.23493919804486718,
+          "pressure": 1,
+          "blockThreat": 0.7263157894736842,
+          "goalHeight": 0.5817728850677132,
+          "executionEnergy": 0.8076480432772656,
+          "executionCapacity": 0.9450422980792188,
+          "executionPlacement": 0.7510599316313791,
+          "executionPowerAttribute": 0.631578947368421,
+          "executionSpread": 0.9487469961952746,
+          "intendedAimX": 8.793849105492352,
+          "aimErrorMetres": 0.33182637971190054,
+          "releasePace": 23.78943734079607,
+          "aimX": 9.125675485204253,
+          "goalkeeperId": "se_player_sebastian_westerlund_206a8015"
+        }
+      },
+      "sequence": [
+        {
+          "tick": 25862,
+          "clock": "REPRIS\n21:28",
+          "players": [
+            {
+              "name": "Sebastian Westerlund",
+              "transform": "translate(140 744)"
+            },
+            {
+              "name": "Marcus Ekman",
+              "transform": "translate(675 678)"
+            },
+            {
+              "name": "Kasper Larsson",
+              "transform": "translate(710 543)"
+            },
+            {
+              "name": "Vilhelm Conrad",
+              "transform": "translate(675 1270.6)"
+            },
+            {
+              "name": "Oskar Nykvist",
+              "transform": "translate(675 916)"
+            },
+            {
+              "name": "Fredrik Gustavsson",
+              "transform": "translate(343 250)"
+            },
+            {
+              "name": "Andreas Flodman",
+              "transform": "translate(145 1773)"
+            },
+            {
+              "name": "Carl Deliaune Aronius",
+              "transform": "translate(3851 979)"
+            },
+            {
+              "name": "Holger Mårtensson",
+              "transform": "translate(1042 331)"
+            },
+            {
+              "name": "Emil Fransson",
+              "transform": "translate(902 434)"
+            },
+            {
+              "name": "Pontus Zetterman",
+              "transform": "translate(1003.4000000000001 1320.8)"
+            },
+            {
+              "name": "Rex Blom",
+              "transform": "translate(656 563)"
+            },
+            {
+              "name": "Julian Sjögren",
+              "transform": "translate(337 191)"
+            },
+            {
+              "name": "Daniel Lindroos",
+              "transform": "translate(175 1932)"
+            }
+          ],
+          "ball": {
+            "x": "373",
+            "y": "189"
+          }
+        },
+        {
+          "tick": 25872,
+          "clock": "REPRIS\n21:28",
+          "players": [
+            {
+              "name": "Sebastian Westerlund",
+              "transform": "translate(140 742)"
+            },
+            {
+              "name": "Marcus Ekman",
+              "transform": "translate(675 678)"
+            },
+            {
+              "name": "Kasper Larsson",
+              "transform": "translate(707 529)"
+            },
+            {
+              "name": "Vilhelm Conrad",
+              "transform": "translate(675 1274)"
+            },
+            {
+              "name": "Oskar Nykvist",
+              "transform": "translate(675 916)"
+            },
+            {
+              "name": "Fredrik Gustavsson",
+              "transform": "translate(316 270)"
+            },
+            {
+              "name": "Andreas Flodman",
+              "transform": "translate(145 1773)"
+            },
+            {
+              "name": "Carl Deliaune Aronius",
+              "transform": "translate(3851 979)"
+            },
+            {
+              "name": "Holger Mårtensson",
+              "transform": "translate(1042 331)"
+            },
+            {
+              "name": "Emil Fransson",
+              "transform": "translate(902 434)"
+            },
+            {
+              "name": "Pontus Zetterman",
+              "transform": "translate(1001 1277)"
+            },
+            {
+              "name": "Rex Blom",
+              "transform": "translate(651 536)"
+            },
+            {
+              "name": "Julian Sjögren",
+              "transform": "translate(337 191)"
+            },
+            {
+              "name": "Daniel Lindroos",
+              "transform": "translate(175 1932)"
+            }
+          ],
+          "ball": {
+            "x": "100",
+            "y": "718"
+          }
+        },
+        {
+          "tick": 25892,
+          "clock": "REPRIS\n21:29",
+          "players": [
+            {
+              "name": "Sebastian Westerlund",
+              "transform": "translate(77 841)"
+            },
+            {
+              "name": "Marcus Ekman",
+              "transform": "translate(779.1999999999998 703.6)"
+            },
+            {
+              "name": "Kasper Larsson",
+              "transform": "translate(820.5999999999999 520.6)"
+            },
+            {
+              "name": "Vilhelm Conrad",
+              "transform": "translate(785.1999999999998 1291.2)"
+            },
+            {
+              "name": "Oskar Nykvist",
+              "transform": "translate(767.4000000000001 943.6)"
+            },
+            {
+              "name": "Fredrik Gustavsson",
+              "transform": "translate(420.5999999999999 271.6)"
+            },
+            {
+              "name": "Andreas Flodman",
+              "transform": "translate(258.5999999999999 1775.4)"
+            },
+            {
+              "name": "Carl Deliaune Aronius",
+              "transform": "translate(3850 1000)"
+            },
+            {
+              "name": "Holger Mårtensson",
+              "transform": "translate(1135.4 367.4)"
+            },
+            {
+              "name": "Emil Fransson",
+              "transform": "translate(1001.8000000000002 438)"
+            },
+            {
+              "name": "Pontus Zetterman",
+              "transform": "translate(1117.6 1286.4)"
+            },
+            {
+              "name": "Rex Blom",
+              "transform": "translate(761.5999999999999 566)"
+            },
+            {
+              "name": "Julian Sjögren",
+              "transform": "translate(346.5999999999999 191)"
+            },
+            {
+              "name": "Daniel Lindroos",
+              "transform": "translate(285.1999999999998 1925.6)"
+            }
+          ],
+          "ball": {
+            "x": "0",
+            "y": "913"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "actual-recorded-scene",
+      "name": "keeper-outlet",
+      "fixtureId": "swe-2-f3",
+      "event": {
+        "id": "event-4540",
+        "tick": 1247,
+        "timeMs": 62350,
+        "officialMs": 62050,
+        "type": "PASS_RELEASED",
+        "possessionId": "possession-4359",
+        "actionId": "action-4490",
+        "actorId": "se_player_sebastian_westerlund_206a8015",
+        "relatedIds": [
+          "se_player_vilhelm_conrad_c1a36a84"
+        ],
+        "contestId": null,
+        "details": {
+          "x": 9.325304065842369,
+          "y": 40,
+          "height": 1.5,
+          "reason": "Execute lawful restart",
+          "shotKind": "NONE",
+          "phase": "RESTART",
+          "subphase": "AVSLUTNING",
+          "difficulty": 0.0390424793955447,
+          "executionError": 0.023696656834898445,
+          "pressure": 0,
+          "passingCapability": 0.5781501049607607,
+          "aimX": 13.525693524293423,
+          "aimY": 33.1574379560845
+        }
+      },
+      "sequence": [
+        {
+          "tick": 1242,
+          "clock": "REPRIS\n1:01",
+          "players": [
+            {
+              "name": "Sebastian Westerlund",
+              "transform": "translate(39 932)"
+            },
+            {
+              "name": "Marcus Ekman",
+              "transform": "translate(1053.4 863)"
+            },
+            {
+              "name": "Kasper Larsson",
+              "transform": "translate(1075.6 534)"
+            },
+            {
+              "name": "Vilhelm Conrad",
+              "transform": "translate(682 1352)"
+            },
+            {
+              "name": "Oskar Nykvist",
+              "transform": "translate(1250.8000000000002 1106)"
+            },
+            {
+              "name": "Fredrik Gustavsson",
+              "transform": "translate(537 222)"
+            },
+            {
+              "name": "Andreas Flodman",
+              "transform": "translate(873 1753)"
+            },
+            {
+              "name": "Carl Deliaune Aronius",
+              "transform": "translate(3851 991)"
+            },
+            {
+              "name": "Holger Mårtensson",
+              "transform": "translate(1515.8000000000002 1087)"
+            },
+            {
+              "name": "Emil Fransson",
+              "transform": "translate(1310.8000000000002 483)"
+            },
+            {
+              "name": "Pontus Zetterman",
+              "transform": "translate(1456.4 1387)"
+            },
+            {
+              "name": "Rex Blom",
+              "transform": "translate(1075.1999999999998 1013)"
+            },
+            {
+              "name": "Julian Sjögren",
+              "transform": "translate(544.5999999999999 69.4)"
+            },
+            {
+              "name": "Daniel Lindroos",
+              "transform": "translate(569.8000000000002 1906)"
+            }
+          ],
+          "ball": {
+            "x": "0",
+            "y": "933"
+          }
+        },
+        {
+          "tick": 1252,
+          "clock": "REPRIS\n1:02",
+          "players": [
+            {
+              "name": "Sebastian Westerlund",
+              "transform": "translate(39 932)"
+            },
+            {
+              "name": "Marcus Ekman",
+              "transform": "translate(1162 863)"
+            },
+            {
+              "name": "Kasper Larsson",
+              "transform": "translate(1185 534)"
+            },
+            {
+              "name": "Vilhelm Conrad",
+              "transform": "translate(682 1352)"
+            },
+            {
+              "name": "Oskar Nykvist",
+              "transform": "translate(1355 1106)"
+            },
+            {
+              "name": "Fredrik Gustavsson",
+              "transform": "translate(648 222)"
+            },
+            {
+              "name": "Andreas Flodman",
+              "transform": "translate(983 1753)"
+            },
+            {
+              "name": "Carl Deliaune Aronius",
+              "transform": "translate(3851 991)"
+            },
+            {
+              "name": "Holger Mårtensson",
+              "transform": "translate(1616 1087)"
+            },
+            {
+              "name": "Emil Fransson",
+              "transform": "translate(1411 483)"
+            },
+            {
+              "name": "Pontus Zetterman",
+              "transform": "translate(1568 1387)"
+            },
+            {
+              "name": "Rex Blom",
+              "transform": "translate(1184 1013)"
+            },
+            {
+              "name": "Julian Sjögren",
+              "transform": "translate(655 70)"
+            },
+            {
+              "name": "Daniel Lindroos",
+              "transform": "translate(678 1906)"
+            }
+          ],
+          "ball": {
+            "x": "261",
+            "y": "1093"
+          }
+        },
+        {
+          "tick": 1272,
+          "clock": "REPRIS\n1:03",
+          "players": [
+            {
+              "name": "Sebastian Westerlund",
+              "transform": "translate(80.80000000000018 987.4)"
+            },
+            {
+              "name": "Marcus Ekman",
+              "transform": "translate(1387 988)"
+            },
+            {
+              "name": "Kasper Larsson",
+              "transform": "translate(1418 518)"
+            },
+            {
+              "name": "Vilhelm Conrad",
+              "transform": "translate(682 1352)"
+            },
+            {
+              "name": "Oskar Nykvist",
+              "transform": "translate(1571 1085)"
+            },
+            {
+              "name": "Fredrik Gustavsson",
+              "transform": "translate(1311.8000000000002 150.4)"
+            },
+            {
+              "name": "Andreas Flodman",
+              "transform": "translate(1639.6 1836.4)"
+            },
+            {
+              "name": "Carl Deliaune Aronius",
+              "transform": "translate(3851 1009)"
+            },
+            {
+              "name": "Holger Mårtensson",
+              "transform": "translate(2201.4 1070.2)"
+            },
+            {
+              "name": "Emil Fransson",
+              "transform": "translate(1993 535)"
+            },
+            {
+              "name": "Pontus Zetterman",
+              "transform": "translate(2245.6 1436.6)"
+            },
+            {
+              "name": "Rex Blom",
+              "transform": "translate(1805.6 1045.8)"
+            },
+            {
+              "name": "Julian Sjögren",
+              "transform": "translate(1288.8000000000002 87.8)"
+            },
+            {
+              "name": "Daniel Lindroos",
+              "transform": "translate(892.4000000000001 1752.4)"
+            }
+          ],
+          "ball": {
+            "x": "678",
+            "y": "1349"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "actual-recorded-scene",
+      "name": "turnover-retreat",
+      "fixtureId": "swe-2-f3",
+      "event": {
+        "id": "event-9886",
+        "tick": 3004,
+        "timeMs": 150200,
+        "officialMs": 149900,
+        "type": "INTERCEPTION",
+        "possessionId": "possession-9884",
+        "actionId": "action-9810",
+        "actorId": "se_player_holger_martensson_96612b41",
+        "relatedIds": [
+          "se_player_kasper_larsson_90a3e096"
+        ],
+        "contestId": null,
+        "details": {}
+      },
+      "sequence": [
+        {
+          "tick": 2999,
+          "clock": "REPRIS\n2:29",
+          "players": [
+            {
+              "name": "Sebastian Westerlund",
+              "transform": "translate(142 984)"
+            },
+            {
+              "name": "Marcus Ekman",
+              "transform": "translate(2930 932)"
+            },
+            {
+              "name": "Kasper Larsson",
+              "transform": "translate(2630 508)"
+            },
+            {
+              "name": "Vilhelm Conrad",
+              "transform": "translate(2887 1147)"
+            },
+            {
+              "name": "Oskar Nykvist",
+              "transform": "translate(2880 958)"
+            },
+            {
+              "name": "Fredrik Gustavsson",
+              "transform": "translate(3787 68)"
+            },
+            {
+              "name": "Andreas Flodman",
+              "transform": "translate(3782 1932)"
+            },
+            {
+              "name": "Carl Deliaune Aronius",
+              "transform": "translate(3851 956)"
+            },
+            {
+              "name": "Holger Mårtensson",
+              "transform": "translate(2798 951)"
+            },
+            {
+              "name": "Emil Fransson",
+              "transform": "translate(3058 560)"
+            },
+            {
+              "name": "Pontus Zetterman",
+              "transform": "translate(3316 1318)"
+            },
+            {
+              "name": "Rex Blom",
+              "transform": "translate(3312 960)"
+            },
+            {
+              "name": "Julian Sjögren",
+              "transform": "translate(3240 188)"
+            },
+            {
+              "name": "Daniel Lindroos",
+              "transform": "translate(3609 1737)"
+            }
+          ],
+          "ball": {
+            "x": "2707",
+            "y": "599"
+          }
+        },
+        {
+          "tick": 3009,
+          "clock": "REPRIS\n2:29",
+          "players": [
+            {
+              "name": "Sebastian Westerlund",
+              "transform": "translate(142 984)"
+            },
+            {
+              "name": "Marcus Ekman",
+              "transform": "translate(2931.2 934.6)"
+            },
+            {
+              "name": "Kasper Larsson",
+              "transform": "translate(2630 508.8)"
+            },
+            {
+              "name": "Vilhelm Conrad",
+              "transform": "translate(2813 1000.6)"
+            },
+            {
+              "name": "Oskar Nykvist",
+              "transform": "translate(2882.2 966)"
+            },
+            {
+              "name": "Fredrik Gustavsson",
+              "transform": "translate(3826.4 68)"
+            },
+            {
+              "name": "Andreas Flodman",
+              "transform": "translate(3823.2 1932)"
+            },
+            {
+              "name": "Carl Deliaune Aronius",
+              "transform": "translate(3851 956.8)"
+            },
+            {
+              "name": "Holger Mårtensson",
+              "transform": "translate(2860 905)"
+            },
+            {
+              "name": "Emil Fransson",
+              "transform": "translate(3060 565.4)"
+            },
+            {
+              "name": "Pontus Zetterman",
+              "transform": "translate(3321.6 1304.6)"
+            },
+            {
+              "name": "Rex Blom",
+              "transform": "translate(3297.8 975)"
+            },
+            {
+              "name": "Julian Sjögren",
+              "transform": "translate(3240.4 188.2)"
+            },
+            {
+              "name": "Daniel Lindroos",
+              "transform": "translate(3728.4 1754.8)"
+            }
+          ],
+          "ball": {
+            "x": "2849",
+            "y": "880"
+          }
+        },
+        {
+          "tick": 3029,
+          "clock": "REPRIS\n2:30",
+          "players": [
+            {
+              "name": "Sebastian Westerlund",
+              "transform": "translate(142 984)"
+            },
+            {
+              "name": "Marcus Ekman",
+              "transform": "translate(2814.6 952.6)"
+            },
+            {
+              "name": "Kasper Larsson",
+              "transform": "translate(2630 813.4)"
+            },
+            {
+              "name": "Vilhelm Conrad",
+              "transform": "translate(2348 1077.8)"
+            },
+            {
+              "name": "Oskar Nykvist",
+              "transform": "translate(2583 979.8)"
+            },
+            {
+              "name": "Fredrik Gustavsson",
+              "transform": "translate(3465 86.4)"
+            },
+            {
+              "name": "Andreas Flodman",
+              "transform": "translate(3471.2 1907.2)"
+            },
+            {
+              "name": "Carl Deliaune Aronius",
+              "transform": "translate(3851 974)"
+            },
+            {
+              "name": "Holger Mårtensson",
+              "transform": "translate(2760.6 905)"
+            },
+            {
+              "name": "Emil Fransson",
+              "transform": "translate(3045 500)"
+            },
+            {
+              "name": "Pontus Zetterman",
+              "transform": "translate(3049 1470.6)"
+            },
+            {
+              "name": "Rex Blom",
+              "transform": "translate(3019 981.8)"
+            },
+            {
+              "name": "Julian Sjögren",
+              "transform": "translate(2895.8 141.4)"
+            },
+            {
+              "name": "Daniel Lindroos",
+              "transform": "translate(3394 1822.8)"
+            }
+          ],
+          "ball": {
+            "x": "2748.8",
+            "y": "880"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "actual-recorded-scene",
+      "name": "transition-finish",
+      "fixtureId": "swe-2-f3",
+      "event": {
+        "id": "event-156116",
+        "tick": 47674,
+        "timeMs": 2383700,
+        "officialMs": 2352800,
+        "type": "SHOT_RELEASED",
+        "possessionId": "possession-155699",
+        "actionId": "action-156098",
+        "actorId": "se_player_daniel_lindroos_4603a381",
+        "relatedIds": [],
+        "contestId": null,
+        "details": {
+          "x": 19.342558180344817,
+          "y": 5.200800184600709,
+          "height": 2.3,
+          "reason": "Release from actual committed takeoff",
+          "shotKind": "WING",
+          "phase": "TRANSITION",
+          "subphase": "AVSLUTNING",
+          "decisionQuality": 0.494355239484204,
+          "opportunityQuality": 0.47212469206970287,
+          "pressure": 0.04530021457585143,
+          "blockThreat": 0,
+          "goalHeight": 1.7221487749753306,
+          "executionEnergy": 0.6453342560523022,
+          "executionCapacity": 0.8986669303006578,
+          "executionPlacement": 0.6077826344401818,
+          "executionPowerAttribute": 0.7368421052631579,
+          "executionSpread": 0.9441211842089172,
+          "intendedAimX": 11.048953513751243,
+          "aimErrorMetres": 0.20349284564880676,
+          "releasePace": 24.799983952126823,
+          "aimX": 10.845460668102437,
+          "goalkeeperId": "se_player_sebastian_westerlund_206a8015"
+        }
+      },
+      "sequence": [
+        {
+          "tick": 47669,
+          "clock": "REPRIS\n39:12",
+          "players": [
+            {
+              "name": "Sebastian Westerlund",
+              "transform": "translate(3860 1179)"
+            },
+            {
+              "name": "Marcus Ekman",
+              "transform": "translate(2447 112.4)"
+            },
+            {
+              "name": "Kasper Larsson",
+              "transform": "translate(3325 761.8)"
+            },
+            {
+              "name": "Vilhelm Conrad",
+              "transform": "translate(3326.6 1664)"
+            },
+            {
+              "name": "Oskar Nykvist",
+              "transform": "translate(3295.6 1337.4)"
+            },
+            {
+              "name": "Fredrik Gustavsson",
+              "transform": "translate(3284.6 381.6)"
+            },
+            {
+              "name": "Andreas Flodman",
+              "transform": "translate(3169 1803.2)"
+            },
+            {
+              "name": "Carl Deliaune Aronius",
+              "transform": "translate(149 1046)"
+            },
+            {
+              "name": "Holger Mårtensson",
+              "transform": "translate(2218.8 1115.2)"
+            },
+            {
+              "name": "Emil Fransson",
+              "transform": "translate(2264.8 500)"
+            },
+            {
+              "name": "Pontus Zetterman",
+              "transform": "translate(1998 1516)"
+            },
+            {
+              "name": "Rex Blom",
+              "transform": "translate(1810.6 1081.8)"
+            },
+            {
+              "name": "Julian Sjögren",
+              "transform": "translate(3825 68)"
+            },
+            {
+              "name": "Daniel Lindroos",
+              "transform": "translate(3492 1932)"
+            }
+          ],
+          "ball": {
+            "x": "3480",
+            "y": "1934"
+          }
+        },
+        {
+          "tick": 47679,
+          "clock": "REPRIS\n39:13",
+          "players": [
+            {
+              "name": "Sebastian Westerlund",
+              "transform": "translate(3860 1180)"
+            },
+            {
+              "name": "Marcus Ekman",
+              "transform": "translate(2591 270)"
+            },
+            {
+              "name": "Kasper Larsson",
+              "transform": "translate(3325 698)"
+            },
+            {
+              "name": "Vilhelm Conrad",
+              "transform": "translate(3331 1676)"
+            },
+            {
+              "name": "Oskar Nykvist",
+              "transform": "translate(3202 1318)"
+            },
+            {
+              "name": "Fredrik Gustavsson",
+              "transform": "translate(3405 349)"
+            },
+            {
+              "name": "Andreas Flodman",
+              "transform": "translate(3431 1773)"
+            },
+            {
+              "name": "Carl Deliaune Aronius",
+              "transform": "translate(149 1046)"
+            },
+            {
+              "name": "Holger Mårtensson",
+              "transform": "translate(2490 1106)"
+            },
+            {
+              "name": "Emil Fransson",
+              "transform": "translate(2538 500)"
+            },
+            {
+              "name": "Pontus Zetterman",
+              "transform": "translate(2014 1515)"
+            },
+            {
+              "name": "Rex Blom",
+              "transform": "translate(2003 1083)"
+            },
+            {
+              "name": "Julian Sjögren",
+              "transform": "translate(3825 68)"
+            },
+            {
+              "name": "Daniel Lindroos",
+              "transform": "translate(3492 1932)"
+            }
+          ],
+          "ball": {
+            "x": "3804",
+            "y": "1405"
+          }
+        },
+        {
+          "tick": 47699,
+          "clock": "REPRIS\n39:13",
+          "players": [
+            {
+              "name": "Sebastian Westerlund",
+              "transform": "translate(3931.2 1123.2)"
+            },
+            {
+              "name": "Marcus Ekman",
+              "transform": "translate(2604.8 425.8)"
+            },
+            {
+              "name": "Kasper Larsson",
+              "transform": "translate(3223 673.6)"
+            },
+            {
+              "name": "Vilhelm Conrad",
+              "transform": "translate(3228.8 1602.2)"
+            },
+            {
+              "name": "Oskar Nykvist",
+              "transform": "translate(3047.8 1263.6)"
+            },
+            {
+              "name": "Fredrik Gustavsson",
+              "transform": "translate(3389.8 310.8)"
+            },
+            {
+              "name": "Andreas Flodman",
+              "transform": "translate(3412.4 1738)"
+            },
+            {
+              "name": "Carl Deliaune Aronius",
+              "transform": "translate(150 1002)"
+            },
+            {
+              "name": "Holger Mårtensson",
+              "transform": "translate(2505.6 1074.4)"
+            },
+            {
+              "name": "Emil Fransson",
+              "transform": "translate(2553.6 500)"
+            },
+            {
+              "name": "Pontus Zetterman",
+              "transform": "translate(1949.6 1492.4)"
+            },
+            {
+              "name": "Rex Blom",
+              "transform": "translate(2013.6 1078.6)"
+            },
+            {
+              "name": "Julian Sjögren",
+              "transform": "translate(3722.2 74.2)"
+            },
+            {
+              "name": "Daniel Lindroos",
+              "transform": "translate(3490.4 1932)"
+            }
+          ],
+          "ball": {
+            "x": "4000",
+            "y": "1085"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "actual-recorded-scene",
+      "name": "settled-handoff",
+      "fixtureId": "swe-2-f3",
+      "event": {
+        "id": "event-1058",
+        "tick": 194,
+        "timeMs": 9700,
+        "officialMs": 9400,
+        "type": "ATTACK_SETTLED",
+        "possessionId": "possession-0",
+        "actionId": "action-1027",
+        "actorId": "se_player_marcus_ekman_40a65f53",
+        "relatedIds": [],
+        "contestId": null,
+        "details": {
+          "reason": "Recovered line contains the actual ball and playable finishing threats",
+          "carrierDepth": 14.84
+        }
+      },
+      "sequence": [
+        {
+          "tick": 189,
+          "clock": "REPRIS\n0:08",
+          "players": [
+            {
+              "name": "Sebastian Westerlund",
+              "transform": "translate(140 991)"
+            },
+            {
+              "name": "Marcus Ekman",
+              "transform": "translate(2454.2 910)"
+            },
+            {
+              "name": "Kasper Larsson",
+              "transform": "translate(2499 300)"
+            },
+            {
+              "name": "Vilhelm Conrad",
+              "transform": "translate(2244 1500)"
+            },
+            {
+              "name": "Oskar Nykvist",
+              "transform": "translate(2349 948)"
+            },
+            {
+              "name": "Fredrik Gustavsson",
+              "transform": "translate(2579 428)"
+            },
+            {
+              "name": "Andreas Flodman",
+              "transform": "translate(3831 1932)"
+            },
+            {
+              "name": "Carl Deliaune Aronius",
+              "transform": "translate(3851 978)"
+            },
+            {
+              "name": "Holger Mårtensson",
+              "transform": "translate(2943 941)"
+            },
+            {
+              "name": "Emil Fransson",
+              "transform": "translate(3150.6 555.6)"
+            },
+            {
+              "name": "Pontus Zetterman",
+              "transform": "translate(3330.4 1398.4)"
+            },
+            {
+              "name": "Rex Blom",
+              "transform": "translate(3243.2 1030.4)"
+            },
+            {
+              "name": "Julian Sjögren",
+              "transform": "translate(3256.4 267.2)"
+            },
+            {
+              "name": "Daniel Lindroos",
+              "transform": "translate(3729.6 1742.4)"
+            }
+          ],
+          "ball": {
+            "x": "2458.2",
+            "y": "866"
+          }
+        },
+        {
+          "tick": 199,
+          "clock": "REPRIS\n0:09",
+          "players": [
+            {
+              "name": "Sebastian Westerlund",
+              "transform": "translate(140 991)"
+            },
+            {
+              "name": "Marcus Ekman",
+              "transform": "translate(2664.4 910)"
+            },
+            {
+              "name": "Kasper Larsson",
+              "transform": "translate(2499 300)"
+            },
+            {
+              "name": "Vilhelm Conrad",
+              "transform": "translate(2244 1500)"
+            },
+            {
+              "name": "Oskar Nykvist",
+              "transform": "translate(2349 948)"
+            },
+            {
+              "name": "Fredrik Gustavsson",
+              "transform": "translate(2579 428)"
+            },
+            {
+              "name": "Andreas Flodman",
+              "transform": "translate(3831 1932)"
+            },
+            {
+              "name": "Carl Deliaune Aronius",
+              "transform": "translate(3851 978)"
+            },
+            {
+              "name": "Holger Mårtensson",
+              "transform": "translate(2943 941)"
+            },
+            {
+              "name": "Emil Fransson",
+              "transform": "translate(3200.2 687.6)"
+            },
+            {
+              "name": "Pontus Zetterman",
+              "transform": "translate(3325 1435)"
+            },
+            {
+              "name": "Rex Blom",
+              "transform": "translate(3030.2 1022)"
+            },
+            {
+              "name": "Julian Sjögren",
+              "transform": "translate(3264 265)"
+            },
+            {
+              "name": "Daniel Lindroos",
+              "transform": "translate(3828 1767)"
+            }
+          ],
+          "ball": {
+            "x": "2668.4",
+            "y": "866"
+          }
+        },
+        {
+          "tick": 219,
+          "clock": "REPRIS\n0:10",
+          "players": [
+            {
+              "name": "Sebastian Westerlund",
+              "transform": "translate(140 991)"
+            },
+            {
+              "name": "Marcus Ekman",
+              "transform": "translate(3068.4 904.2)"
+            },
+            {
+              "name": "Kasper Larsson",
+              "transform": "translate(2518.2 405)"
+            },
+            {
+              "name": "Vilhelm Conrad",
+              "transform": "translate(2244 1500)"
+            },
+            {
+              "name": "Oskar Nykvist",
+              "transform": "translate(2392.4 950.4)"
+            },
+            {
+              "name": "Fredrik Gustavsson",
+              "transform": "translate(2579 428)"
+            },
+            {
+              "name": "Andreas Flodman",
+              "transform": "translate(3831 1932)"
+            },
+            {
+              "name": "Carl Deliaune Aronius",
+              "transform": "translate(3851 978)"
+            },
+            {
+              "name": "Holger Mårtensson",
+              "transform": "translate(2943 941)"
+            },
+            {
+              "name": "Emil Fransson",
+              "transform": "translate(3215 716.4)"
+            },
+            {
+              "name": "Pontus Zetterman",
+              "transform": "translate(3325 1435)"
+            },
+            {
+              "name": "Rex Blom",
+              "transform": "translate(2442.8 1006.8)"
+            },
+            {
+              "name": "Julian Sjögren",
+              "transform": "translate(3287 252.8)"
+            },
+            {
+              "name": "Daniel Lindroos",
+              "transform": "translate(3857 1774)"
+            }
+          ],
+          "ball": {
+            "x": "3072.4",
+            "y": "860.4"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "actual-recorded-scene",
+      "name": "actual-whistle",
+      "fixtureId": "swe-2-f3",
+      "event": {
+        "id": "event-9524",
+        "tick": 2915,
+        "timeMs": 145750,
+        "officialMs": 145450,
+        "type": "WHISTLE_RESTART",
+        "possessionId": "possession-8121",
+        "actionId": "action-9509",
+        "actorId": "se_player_holger_martensson_96612b41",
+        "relatedIds": [
+          "se_player_marcus_ekman_40a65f53"
+        ],
+        "contestId": "contest-9518",
+        "details": {
+          "foulId": "foul-9521",
+          "kind": "FREE_THROW",
+          "owner": "HOME",
+          "reason": "Contact from behind the attacker",
+          "assessedTick": 2915
+        }
+      },
+      "sequence": [
+        {
+          "tick": 2910,
+          "clock": "REPRIS\n2:25",
+          "players": [
+            {
+              "name": "Sebastian Westerlund",
+              "transform": "translate(140 1010)"
+            },
+            {
+              "name": "Marcus Ekman",
+              "transform": "translate(2951 792)"
+            },
+            {
+              "name": "Kasper Larsson",
+              "transform": "translate(2923 385)"
+            },
+            {
+              "name": "Vilhelm Conrad",
+              "transform": "translate(2924 1359)"
+            },
+            {
+              "name": "Oskar Nykvist",
+              "transform": "translate(3267 670)"
+            },
+            {
+              "name": "Fredrik Gustavsson",
+              "transform": "translate(3830 67)"
+            },
+            {
+              "name": "Andreas Flodman",
+              "transform": "translate(3826 1928)"
+            },
+            {
+              "name": "Carl Deliaune Aronius",
+              "transform": "translate(3851 980)"
+            },
+            {
+              "name": "Holger Mårtensson",
+              "transform": "translate(2965 857)"
+            },
+            {
+              "name": "Emil Fransson",
+              "transform": "translate(3289 608)"
+            },
+            {
+              "name": "Pontus Zetterman",
+              "transform": "translate(3250 1380)"
+            },
+            {
+              "name": "Rex Blom",
+              "transform": "translate(3224 939)"
+            },
+            {
+              "name": "Julian Sjögren",
+              "transform": "translate(3715 240)"
+            },
+            {
+              "name": "Daniel Lindroos",
+              "transform": "translate(3827 1775)"
+            }
+          ],
+          "ball": {
+            "x": "2960",
+            "y": "833"
+          }
+        },
+        {
+          "tick": 2920,
+          "clock": "REPRIS\n2:25",
+          "players": [
+            {
+              "name": "Sebastian Westerlund",
+              "transform": "translate(140 1010)"
+            },
+            {
+              "name": "Marcus Ekman",
+              "transform": "translate(3004 792)"
+            },
+            {
+              "name": "Kasper Larsson",
+              "transform": "translate(2923 385)"
+            },
+            {
+              "name": "Vilhelm Conrad",
+              "transform": "translate(2924 1359)"
+            },
+            {
+              "name": "Oskar Nykvist",
+              "transform": "translate(3289 731)"
+            },
+            {
+              "name": "Fredrik Gustavsson",
+              "transform": "translate(3830 67)"
+            },
+            {
+              "name": "Andreas Flodman",
+              "transform": "translate(3826 1928)"
+            },
+            {
+              "name": "Carl Deliaune Aronius",
+              "transform": "translate(3851 980)"
+            },
+            {
+              "name": "Holger Mårtensson",
+              "transform": "translate(2965 857)"
+            },
+            {
+              "name": "Emil Fransson",
+              "transform": "translate(3259 643)"
+            },
+            {
+              "name": "Pontus Zetterman",
+              "transform": "translate(3308 1357)"
+            },
+            {
+              "name": "Rex Blom",
+              "transform": "translate(3224 939)"
+            },
+            {
+              "name": "Julian Sjögren",
+              "transform": "translate(3807 231)"
+            },
+            {
+              "name": "Daniel Lindroos",
+              "transform": "translate(3827 1775)"
+            }
+          ],
+          "ball": {
+            "x": "3013",
+            "y": "833"
+          }
+        },
+        {
+          "tick": 2940,
+          "clock": "REPRIS\n2:26",
+          "players": [
+            {
+              "name": "Sebastian Westerlund",
+              "transform": "translate(150 1000)"
+            },
+            {
+              "name": "Marcus Ekman",
+              "transform": "translate(3004 792)"
+            },
+            {
+              "name": "Kasper Larsson",
+              "transform": "translate(2784 443)"
+            },
+            {
+              "name": "Vilhelm Conrad",
+              "transform": "translate(3013 1460)"
+            },
+            {
+              "name": "Oskar Nykvist",
+              "transform": "translate(3170 779)"
+            },
+            {
+              "name": "Fredrik Gustavsson",
+              "transform": "translate(3672 67)"
+            },
+            {
+              "name": "Andreas Flodman",
+              "transform": "translate(3673 1929)"
+            },
+            {
+              "name": "Carl Deliaune Aronius",
+              "transform": "translate(3850 997)"
+            },
+            {
+              "name": "Holger Mårtensson",
+              "transform": "translate(2867 948)"
+            },
+            {
+              "name": "Emil Fransson",
+              "transform": "translate(3330 561)"
+            },
+            {
+              "name": "Pontus Zetterman",
+              "transform": "translate(3254 1443)"
+            },
+            {
+              "name": "Rex Blom",
+              "transform": "translate(3245 1071)"
+            },
+            {
+              "name": "Julian Sjögren",
+              "transform": "translate(3656 236)"
+            },
+            {
+              "name": "Daniel Lindroos",
+              "transform": "translate(3679 1769)"
+            }
+          ],
+          "ball": {
+            "x": "3013",
+            "y": "833"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "actual-recorded-scene",
+      "name": "advantage-continuation",
+      "fixtureId": "swe-2-f3",
+      "event": {
+        "id": "event-29661",
+        "tick": 9480,
+        "timeMs": 474000,
+        "officialMs": 469250,
+        "type": "ADVANTAGE_REALIZED",
+        "possessionId": "possession-28271",
+        "actionId": "action-29602",
+        "actorId": "se_player_pontus_zetterman_b7d5b789",
+        "relatedIds": [
+          "se_player_marcus_ekman_40a65f53"
+        ],
+        "contestId": "contest-29534",
+        "details": {
+          "foulId": "foul-29537",
+          "evidence": "RETAINED_BALL_AND_BODY_CONTROL"
+        }
+      },
+      "sequence": [
+        {
+          "tick": 9475,
+          "clock": "REPRIS\n7:49",
+          "players": [
+            {
+              "name": "Sebastian Westerlund",
+              "transform": "translate(140 990)"
+            },
+            {
+              "name": "Marcus Ekman",
+              "transform": "translate(776 937)"
+            },
+            {
+              "name": "Kasper Larsson",
+              "transform": "translate(676 595)"
+            },
+            {
+              "name": "Vilhelm Conrad",
+              "transform": "translate(785 1217)"
+            },
+            {
+              "name": "Oskar Nykvist",
+              "transform": "translate(770 996)"
+            },
+            {
+              "name": "Fredrik Gustavsson",
+              "transform": "translate(149 228)"
+            },
+            {
+              "name": "Andreas Flodman",
+              "transform": "translate(142 1774)"
+            },
+            {
+              "name": "Carl Deliaune Aronius",
+              "transform": "translate(3851 997)"
+            },
+            {
+              "name": "Holger Mårtensson",
+              "transform": "translate(1143 760)"
+            },
+            {
+              "name": "Emil Fransson",
+              "transform": "translate(1067 480)"
+            },
+            {
+              "name": "Pontus Zetterman",
+              "transform": "translate(826 1004)"
+            },
+            {
+              "name": "Rex Blom",
+              "transform": "translate(649 1020)"
+            },
+            {
+              "name": "Julian Sjögren",
+              "transform": "translate(178 69)"
+            },
+            {
+              "name": "Daniel Lindroos",
+              "transform": "translate(168 1931)"
+            }
+          ],
+          "ball": {
+            "x": "798",
+            "y": "992"
+          }
+        },
+        {
+          "tick": 9485,
+          "clock": "REPRIS\n7:49",
+          "players": [
+            {
+              "name": "Sebastian Westerlund",
+              "transform": "translate(140 990)"
+            },
+            {
+              "name": "Marcus Ekman",
+              "transform": "translate(780 940)"
+            },
+            {
+              "name": "Kasper Larsson",
+              "transform": "translate(712 648)"
+            },
+            {
+              "name": "Vilhelm Conrad",
+              "transform": "translate(745 1275)"
+            },
+            {
+              "name": "Oskar Nykvist",
+              "transform": "translate(770 996)"
+            },
+            {
+              "name": "Fredrik Gustavsson",
+              "transform": "translate(149 228)"
+            },
+            {
+              "name": "Andreas Flodman",
+              "transform": "translate(142 1774)"
+            },
+            {
+              "name": "Carl Deliaune Aronius",
+              "transform": "translate(3851 997)"
+            },
+            {
+              "name": "Holger Mårtensson",
+              "transform": "translate(1146 636)"
+            },
+            {
+              "name": "Emil Fransson",
+              "transform": "translate(1067 480)"
+            },
+            {
+              "name": "Pontus Zetterman",
+              "transform": "translate(824 977)"
+            },
+            {
+              "name": "Rex Blom",
+              "transform": "translate(649 1020)"
+            },
+            {
+              "name": "Julian Sjögren",
+              "transform": "translate(178 69)"
+            },
+            {
+              "name": "Daniel Lindroos",
+              "transform": "translate(168 1931)"
+            }
+          ],
+          "ball": {
+            "x": "796",
+            "y": "964"
+          }
+        },
+        {
+          "tick": 9505,
+          "clock": "REPRIS\n7:50",
+          "players": [
+            {
+              "name": "Sebastian Westerlund",
+              "transform": "translate(140 990)"
+            },
+            {
+              "name": "Marcus Ekman",
+              "transform": "translate(776 951)"
+            },
+            {
+              "name": "Kasper Larsson",
+              "transform": "translate(770 742)"
+            },
+            {
+              "name": "Vilhelm Conrad",
+              "transform": "translate(693 1351)"
+            },
+            {
+              "name": "Oskar Nykvist",
+              "transform": "translate(747 1014)"
+            },
+            {
+              "name": "Fredrik Gustavsson",
+              "transform": "translate(149 228)"
+            },
+            {
+              "name": "Andreas Flodman",
+              "transform": "translate(142 1774)"
+            },
+            {
+              "name": "Carl Deliaune Aronius",
+              "transform": "translate(3851 997)"
+            },
+            {
+              "name": "Holger Mårtensson",
+              "transform": "translate(1149 483)"
+            },
+            {
+              "name": "Emil Fransson",
+              "transform": "translate(1067 480)"
+            },
+            {
+              "name": "Pontus Zetterman",
+              "transform": "translate(829 921)"
+            },
+            {
+              "name": "Rex Blom",
+              "transform": "translate(658 1006)"
+            },
+            {
+              "name": "Julian Sjögren",
+              "transform": "translate(178 69)"
+            },
+            {
+              "name": "Daniel Lindroos",
+              "transform": "translate(168 1931)"
+            }
+          ],
+          "ball": {
+            "x": "801",
+            "y": "908"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "scene-archive-unchanged",
+      "fixtureId": "swe-2-f3",
+      "before": "4277e2f1a7c57879dc2305b4bb3e653593b6c1cc037b4eed8c3138cb002667f9",
+      "after": "4277e2f1a7c57879dc2305b4bb3e653593b6c1cc037b4eed8c3138cb002667f9",
+      "score": [
+        31,
+        26
+      ]
+    }
+  ]
+}

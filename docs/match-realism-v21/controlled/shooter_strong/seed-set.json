@@ -1,0 +1,62 @@
+[
+  {
+    "index": 0,
+    "saveSeed": "match-realism-v2-canonical-2026:0",
+    "managerClubId": "swe2-aranas",
+    "variant": "SHOOTER_STRONG"
+  },
+  {
+    "index": 1,
+    "saveSeed": "match-realism-v2-canonical-2026:1",
+    "managerClubId": "swe2-drott",
+    "variant": "SHOOTER_STRONG"
+  },
+  {
+    "index": 2,
+    "saveSeed": "match-realism-v2-canonical-2026:2",
+    "managerClubId": "swe2-guif",
+    "variant": "SHOOTER_STRONG"
+  },
+  {
+    "index": 3,
+    "saveSeed": "match-realism-v2-canonical-2026:3",
+    "managerClubId": "swe2-h43lund",
+    "variant": "SHOOTER_STRONG"
+  },
+  {
+    "index": 4,
+    "saveSeed": "match-realism-v2-canonical-2026:4",
+    "managerClubId": "swe2-huddinge",
+    "variant": "SHOOTER_STRONG"
+  },
+  {
+    "index": 5,
+    "saveSeed": "match-realism-v2-canonical-2026:5",
+    "managerClubId": "swe2-kroppskultur",
+    "variant": "SHOOTER_STRONG"
+  },
+  {
+    "index": 6,
+    "saveSeed": "match-realism-v2-canonical-2026:6",
+    "managerClubId": "swe2-kungalv",
+    "variant": "SHOOTER_STRONG"
+  },
+  {
+    "index": 7,
+    "saveSeed": "match-realism-v2-canonical-2026:7",
+    "managerClubId": "swe2-redbergslid",
+    "variant": "SHOOTER_STRONG"
+  },
+  {
+    "index": 8,
+    "saveSeed": "match-realism-v2-canonical-2026:8",
+    "managerClubId": "swe2-torslanda",
+    "variant": "SHOOTER_STRONG"
+  },
+  {
+    "index": 9,
+    "saveSeed": "match-realism-v2-canonical-2026:9",
+    "managerClubId": "swe2-tumba",
+    "variant": "SHOOTER_STRONG"
+  }
+]

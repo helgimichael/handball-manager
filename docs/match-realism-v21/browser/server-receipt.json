@@ -1,0 +1,12 @@
+﻿{
+    "pid":  54144,
+    "port":  3009,
+    "url":  "http://127.0.0.1:3009",
+    "distDir":  ".next-game-realism-v21",
+    "cli":  "C:\\Users\\helgi\\Documents\\STARKVIS-HELA\\handball-manager\\node_modules\\next\\dist\\bin\\next",
+    "startedAt":  "2026-10-10T06:30:54.4521333Z",
+    "buildId":  "MMFsqS1-zfrSWl0fQDdK1",
+    "stoppedAt":  "2026-10-10T06:56:37.9267429Z",
+    "stopped":  true,
+    "portHasNoListener":  true
+}

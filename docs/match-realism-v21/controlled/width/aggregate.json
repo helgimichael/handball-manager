@@ -1,0 +1,759 @@
+{
+  "format": 1,
+  "sourceHead": "29f62e38fa1acb26a014a416a8192d87d2e1f466",
+  "sampleSize": 10,
+  "startedAt": "2026-10-10T06:52:27.376Z",
+  "finishedAt": "2026-10-10T06:54:03.586Z",
+  "inputsHash": "37b2f9ee4648ede1a422549fb680bad5c172ebdf70c77f65334d2e6487ab0347",
+  "variant": "WIDTH",
+  "sourceFingerprintsStableDuringBatch": true,
+  "totalRuntimeMs": 96236.5247,
+  "canonicalPath": "Actual career constructor/start/advance with read-only post-tick observer; no competing simulation.",
+  "distributions": {
+    "homeGoals": {
+      "n": 10,
+      "mean": 19.2,
+      "median": 21,
+      "p10": 12.5,
+      "p90": 23.999999999999996,
+      "min": 8,
+      "max": 33
+    },
+    "awayGoals": {
+      "n": 10,
+      "mean": 25.2,
+      "median": 25,
+      "p10": 19.9,
+      "p90": 30.299999999999997,
+      "min": 19,
+      "max": 33
+    },
+    "goals": {
+      "n": 10,
+      "mean": 44.4,
+      "median": 42.5,
+      "p10": 37,
+      "p90": 56.2,
+      "min": 28,
+      "max": 58
+    },
+    "margin": {
+      "n": 10,
+      "mean": 8.4,
+      "median": 9,
+      "p10": 2,
+      "p90": 12.499999999999998,
+      "min": 2,
+      "max": 17
+    },
+    "possessions": {
+      "n": 10,
+      "mean": 108.5,
+      "median": 109.5,
+      "p10": 97,
+      "p90": 117.89999999999999,
+      "min": 97,
+      "max": 126
+    },
+    "homePossessions": {
+      "n": 10,
+      "mean": 54.5,
+      "median": 55,
+      "p10": 49,
+      "p90": 59.4,
+      "min": 49,
+      "max": 63
+    },
+    "awayPossessions": {
+      "n": 10,
+      "mean": 54,
+      "median": 54.5,
+      "p10": 48,
+      "p90": 58.5,
+      "min": 48,
+      "max": 63
+    },
+    "meanPossessionSeconds": {
+      "n": 10,
+      "mean": 33.379821750493214,
+      "median": 32.87739783152627,
+      "p10": 30.54945054945056,
+      "p90": 37.11340206185567,
+      "min": 28.571428571428577,
+      "max": 37.11340206185568
+    },
+    "possessionRateEquivalentSeconds": {
+      "n": 10,
+      "mean": 33.37982175049321,
+      "median": 32.87739783152627,
+      "p10": 30.54945054945055,
+      "p90": 37.11340206185567,
+      "min": 28.571428571428573,
+      "max": 37.11340206185567
+    },
+    "passes": {
+      "n": 10,
+      "mean": 1004,
+      "median": 995,
+      "p10": 970.5,
+      "p90": 1035.8,
+      "min": 966,
+      "max": 1070
+    },
+    "passesPerPossession": {
+      "n": 10,
+      "mean": 9.321773562092918,
+      "median": 9.426327632763275,
+      "p10": 8.251282051282052,
+      "p90": 10.639175257731958,
+      "min": 7.666666666666667,
+      "max": 10.639175257731958
+    },
+    "shots": {
+      "n": 10,
+      "mean": 87.4,
+      "median": 87,
+      "p10": 76.8,
+      "p90": 95.89999999999999,
+      "min": 75,
+      "max": 104
+    },
+    "saves": {
+      "n": 10,
+      "mean": 30.2,
+      "median": 31.5,
+      "p10": 24.3,
+      "p90": 36.3,
+      "min": 18,
+      "max": 39
+    },
+    "misses": {
+      "n": 10,
+      "mean": 0.6,
+      "median": 0.5,
+      "p10": 0,
+      "p90": 1.0999999999999996,
+      "min": 0,
+      "max": 2
+    },
+    "blocks": {
+      "n": 10,
+      "mean": 12.2,
+      "median": 12,
+      "p10": 9.8,
+      "p90": 14.299999999999999,
+      "min": 8,
+      "max": 17
+    },
+    "savePctOnTarget": {
+      "n": 10,
+      "mean": 0.40585886936920373,
+      "median": 0.3849798625918029,
+      "p10": 0.3434616850934045,
+      "p90": 0.48452474469756474,
+      "min": 0.29508196721311475,
+      "max": 0.582089552238806
+    },
+    "saveShareAllAttempts": {
+      "n": 10,
+      "mean": 0.34499429510879315,
+      "median": 0.32579920079920077,
+      "p10": 0.29185714285714287,
+      "p90": 0.41219309196837284,
+      "min": 0.24,
+      "max": 0.48148148148148145
+    },
+    "nonShotLoss": {
+      "n": 10,
+      "mean": 22.9,
+      "median": 23.5,
+      "p10": 16,
+      "p90": 29.1,
+      "min": 16,
+      "max": 30
+    },
+    "careerTurnovers": {
+      "n": 10,
+      "mean": 27.5,
+      "median": 28.5,
+      "p10": 22.8,
+      "p90": 31.2,
+      "min": 21,
+      "max": 33
+    },
+    "transitionStarts": {
+      "n": 10,
+      "mean": 105.3,
+      "median": 106,
+      "p10": 94.7,
+      "p90": 113.3,
+      "min": 92,
+      "max": 125
+    },
+    "transitionShots": {
+      "n": 10,
+      "mean": 3.6,
+      "median": 3.5,
+      "p10": 2,
+      "p90": 6,
+      "min": 2,
+      "max": 6
+    },
+    "transitionGoals": {
+      "n": 10,
+      "mean": 2.1,
+      "median": 2,
+      "p10": 0.9,
+      "p90": 3.0999999999999996,
+      "min": 0,
+      "max": 4
+    },
+    "transitionAbortToSettled": {
+      "n": 10,
+      "mean": 94.8,
+      "median": 95.5,
+      "p10": 85,
+      "p90": 102.2,
+      "min": 85,
+      "max": 104
+    },
+    "physicalContacts": {
+      "n": 10,
+      "mean": 539.5,
+      "median": 541.5,
+      "p10": 503.5,
+      "p90": 578.1,
+      "min": 490,
+      "max": 579
+    },
+    "contactEpisodes": {
+      "n": 10,
+      "mean": 394.8,
+      "median": 397.5,
+      "p10": 375.2,
+      "p90": 412.8,
+      "min": 359,
+      "max": 429
+    },
+    "assessedFouls": {
+      "n": 10,
+      "mean": 33.6,
+      "median": 34.5,
+      "p10": 27.2,
+      "p90": 38.5,
+      "min": 20,
+      "max": 43
+    },
+    "rawFoulEvents": {
+      "n": 10,
+      "mean": 33.6,
+      "median": 34.5,
+      "p10": 27.2,
+      "p90": 38.5,
+      "min": 20,
+      "max": 43
+    },
+    "contactWhistles": {
+      "n": 10,
+      "mean": 20.1,
+      "median": 20,
+      "p10": 14,
+      "p90": 24.299999999999997,
+      "min": 14,
+      "max": 27
+    },
+    "freeThrowAwards": {
+      "n": 10,
+      "mean": 20.1,
+      "median": 20,
+      "p10": 15.9,
+      "p90": 26,
+      "min": 15,
+      "max": 26
+    },
+    "advantagePending": {
+      "n": 10,
+      "mean": 13.5,
+      "median": 14,
+      "p10": 11.4,
+      "p90": 17,
+      "min": 6,
+      "max": 17
+    },
+    "advantageRealized": {
+      "n": 10,
+      "mean": 11.8,
+      "median": 12,
+      "p10": 8.6,
+      "p90": 14.299999999999999,
+      "min": 5,
+      "max": 17
+    },
+    "advantageRecalled": {
+      "n": 10,
+      "mean": 1.7,
+      "median": 1.5,
+      "p10": 0.9,
+      "p90": 3,
+      "min": 0,
+      "max": 3
+    },
+    "sevenMetres": {
+      "n": 10,
+      "mean": 2.9,
+      "median": 3,
+      "p10": 0,
+      "p90": 5.199999999999999,
+      "min": 0,
+      "max": 7
+    },
+    "sevenMetreGoals": {
+      "n": 10,
+      "mean": 2.1,
+      "median": 2.5,
+      "p10": 0,
+      "p90": 3.0999999999999996,
+      "min": 0,
+      "max": 4
+    },
+    "suspensions": {
+      "n": 10,
+      "mean": 3,
+      "median": 3,
+      "p10": 1,
+      "p90": 5.1,
+      "min": 1,
+      "max": 6
+    },
+    "scorerConcentration": {
+      "n": 10,
+      "mean": 0.4076243624861947,
+      "median": 0.42938595637246313,
+      "p10": 0.27099999999999996,
+      "p90": 0.5199491233404276,
+      "min": 0.25,
+      "max": 0.5339393939393939
+    },
+    "shotConcentration": {
+      "n": 10,
+      "mean": 0.3543129033934563,
+      "median": 0.35150709219858156,
+      "p10": 0.2721449793258304,
+      "p90": 0.41609925788497215,
+      "min": 0.25861195542046606,
+      "max": 0.4340909090909091
+    },
+    "backcourtShare": {
+      "n": 10,
+      "mean": 0.6045854420713066,
+      "median": 0.6011363636363636,
+      "p10": 0.5593021880544057,
+      "p90": 0.6885281385281385,
+      "min": 0.5368421052631579,
+      "max": 0.6904761904761905
+    },
+    "wingShare": {
+      "n": 10,
+      "mean": 0.08685735532507086,
+      "median": 0.0984596798550287,
+      "p10": 0.04706766917293233,
+      "p90": 0.11266205704407951,
+      "min": 0.042105263157894736,
+      "max": 0.11538461538461539
+    },
+    "closeShare": {
+      "n": 10,
+      "mean": 0.30855720260362257,
+      "median": 0.3229213483146067,
+      "p10": 0.2564935064935065,
+      "p90": 0.35789473684210527,
+      "min": 0.2077922077922078,
+      "max": 0.35789473684210527
+    },
+    "transitionShare": {
+      "n": 10,
+      "mean": 0.04065818443943631,
+      "median": 0.04195242959287903,
+      "p10": 0.023533834586466164,
+      "p90": 0.0638188494492044,
+      "min": 0.021052631578947368,
+      "max": 0.06976744186046512
+    },
+    "meanShotDistance": {
+      "n": 10,
+      "mean": 9.32387196026118,
+      "median": 9.266381254006177,
+      "p10": 9.135702058672669,
+      "p90": 9.628122599940644,
+      "min": 9.116480664088902,
+      "max": 9.6511848616511
+    },
+    "managerGoals": {
+      "n": 10,
+      "mean": 23.2,
+      "median": 21.5,
+      "p10": 14.8,
+      "p90": 33,
+      "min": 13,
+      "max": 33
+    },
+    "managerGoalsAgainst": {
+      "n": 10,
+      "mean": 21.2,
+      "median": 23,
+      "p10": 12.5,
+      "p90": 25.4,
+      "min": 8,
+      "max": 29
+    },
+    "controlledPostTicks": {
+      "n": 10,
+      "mean": 57285.3,
+      "median": 57189,
+      "p10": 56470.2,
+      "p90": 58234,
+      "min": 55941,
+      "max": 58630
+    },
+    "controlErrors": {
+      "n": 10,
+      "mean": 0,
+      "median": 0,
+      "p10": 0,
+      "p90": 0,
+      "min": 0,
+      "max": 0
+    },
+    "shotOriginErrors": {
+      "n": 10,
+      "mean": 0,
+      "median": 0,
+      "p10": 0,
+      "p90": 0,
+      "min": 0,
+      "max": 0
+    },
+    "runtimeMs": {
+      "n": 10,
+      "mean": 7492.669669999998,
+      "median": 7482.518450000003,
+      "p10": 7022.911339999999,
+      "p90": 8160.184669999995,
+      "min": 5710.697300000001,
+      "max": 8290.589900000003
+    }
+  },
+  "shotGroups": {
+    "ALL": {
+      "attempts": 874,
+      "goals": 444,
+      "saves": 302,
+      "misses": 6,
+      "blocks": 122,
+      "conversion": 0.5080091533180778,
+      "savePctOnTarget": 0.40482573726541554,
+      "saveShareAllAttempts": 0.34553775743707094
+    },
+    "CATEGORY:STANDING": {
+      "attempts": 46,
+      "goals": 16,
+      "saves": 28,
+      "misses": 0,
+      "blocks": 2,
+      "conversion": 0.34782608695652173,
+      "savePctOnTarget": 0.6363636363636364,
+      "saveShareAllAttempts": 0.6086956521739131
+    },
+    "HALF:1": {
+      "attempts": 457,
+      "goals": 223,
+      "saves": 165,
+      "misses": 4,
+      "blocks": 65,
+      "conversion": 0.487964989059081,
+      "savePctOnTarget": 0.4252577319587629,
+      "saveShareAllAttempts": 0.3610503282275711
+    },
+    "POSITION:CB": {
+      "attempts": 315,
+      "goals": 188,
+      "saves": 70,
+      "misses": 0,
+      "blocks": 57,
+      "conversion": 0.5968253968253968,
+      "savePctOnTarget": 0.2713178294573643,
+      "saveShareAllAttempts": 0.2222222222222222
+    },
+    "TEAM:HOME": {
+      "attempts": 418,
+      "goals": 192,
+      "saves": 152,
+      "misses": 2,
+      "blocks": 72,
+      "conversion": 0.45933014354066987,
+      "savePctOnTarget": 0.4418604651162791,
+      "saveShareAllAttempts": 0.36363636363636365
+    },
+    "PRESSURE:PRESENT_AT_LEAST_0.2": {
+      "attempts": 626,
+      "goals": 327,
+      "saves": 216,
+      "misses": 5,
+      "blocks": 78,
+      "conversion": 0.5223642172523961,
+      "savePctOnTarget": 0.39779005524861877,
+      "saveShareAllAttempts": 0.3450479233226837
+    },
+    "QUALITY:LOWER_UNDER_0.65": {
+      "attempts": 773,
+      "goals": 376,
+      "saves": 269,
+      "misses": 6,
+      "blocks": 122,
+      "conversion": 0.48641655886157825,
+      "savePctOnTarget": 0.4170542635658915,
+      "saveShareAllAttempts": 0.34799482535575677
+    },
+    "OPPORTUNITY_QUALITY:LOWER_UNDER_0.65": {
+      "attempts": 791,
+      "goals": 387,
+      "saves": 276,
+      "misses": 6,
+      "blocks": 122,
+      "conversion": 0.4892541087231353,
+      "savePctOnTarget": 0.416289592760181,
+      "saveShareAllAttempts": 0.34892541087231355
+    },
+    "DISTANCE:8_TO_10.5M": {
+      "attempts": 463,
+      "goals": 246,
+      "saves": 164,
+      "misses": 6,
+      "blocks": 47,
+      "conversion": 0.531317494600432,
+      "savePctOnTarget": 0.4,
+      "saveShareAllAttempts": 0.3542116630669546
+    },
+    "CATEGORY:BACKCOURT_JUMP": {
+      "attempts": 481,
+      "goals": 236,
+      "saves": 138,
+      "misses": 0,
+      "blocks": 107,
+      "conversion": 0.49064449064449067,
+      "savePctOnTarget": 0.3689839572192513,
+      "saveShareAllAttempts": 0.2869022869022869
+    },
+    "POSITION:LB": {
+      "attempts": 125,
+      "goals": 50,
+      "saves": 51,
+      "misses": 0,
+      "blocks": 24,
+      "conversion": 0.4,
+      "savePctOnTarget": 0.504950495049505,
+      "saveShareAllAttempts": 0.408
+    },
+    "TEAM:AWAY": {
+      "attempts": 456,
+      "goals": 252,
+      "saves": 150,
+      "misses": 4,
+      "blocks": 50,
+      "conversion": 0.5526315789473685,
+      "savePctOnTarget": 0.373134328358209,
+      "saveShareAllAttempts": 0.32894736842105265
+    },
+    "DISTANCE:BEYOND_10.5M": {
+      "attempts": 209,
+      "goals": 74,
+      "saves": 67,
+      "misses": 0,
+      "blocks": 68,
+      "conversion": 0.35406698564593303,
+      "savePctOnTarget": 0.475177304964539,
+      "saveShareAllAttempts": 0.32057416267942584
+    },
+    "CATEGORY:BREAKTHROUGH": {
+      "attempts": 186,
+      "goals": 83,
+      "saves": 92,
+      "misses": 0,
+      "blocks": 11,
+      "conversion": 0.44623655913978494,
+      "savePctOnTarget": 0.5257142857142857,
+      "saveShareAllAttempts": 0.4946236559139785
+    },
+    "POSITION:RW": {
+      "attempts": 100,
+      "goals": 44,
+      "saves": 46,
+      "misses": 2,
+      "blocks": 8,
+      "conversion": 0.44,
+      "savePctOnTarget": 0.5111111111111111,
+      "saveShareAllAttempts": 0.46
+    },
+    "CATEGORY:PIVOT": {
+      "attempts": 56,
+      "goals": 35,
+      "saves": 21,
+      "misses": 0,
+      "blocks": 0,
+      "conversion": 0.625,
+      "savePctOnTarget": 0.375,
+      "saveShareAllAttempts": 0.375
+    },
+    "POSITION:P": {
+      "attempts": 56,
+      "goals": 35,
+      "saves": 21,
+      "misses": 0,
+      "blocks": 0,
+      "conversion": 0.625,
+      "savePctOnTarget": 0.375,
+      "saveShareAllAttempts": 0.375
+    },
+    "DISTANCE:UP_TO_8M": {
+      "attempts": 202,
+      "goals": 124,
+      "saves": 71,
+      "misses": 0,
+      "blocks": 7,
+      "conversion": 0.6138613861386139,
+      "savePctOnTarget": 0.3641025641025641,
+      "saveShareAllAttempts": 0.35148514851485146
+    },
+    "CONTEXT:NEAR_SIX_METRE_AREA": {
+      "attempts": 195,
+      "goals": 123,
+      "saves": 63,
+      "misses": 4,
+      "blocks": 5,
+      "conversion": 0.6307692307692307,
+      "savePctOnTarget": 0.3387096774193548,
+      "saveShareAllAttempts": 0.3230769230769231
+    },
+    "POSITION:LW": {
+      "attempts": 126,
+      "goals": 68,
+      "saves": 49,
+      "misses": 4,
+      "blocks": 5,
+      "conversion": 0.5396825396825397,
+      "savePctOnTarget": 0.4188034188034188,
+      "saveShareAllAttempts": 0.3888888888888889
+    },
+    "PRESSURE:LOW_UNDER_0.2": {
+      "attempts": 248,
+      "goals": 117,
+      "saves": 86,
+      "misses": 1,
+      "blocks": 44,
+      "conversion": 0.4717741935483871,
+      "savePctOnTarget": 0.4236453201970443,
+      "saveShareAllAttempts": 0.3467741935483871
+    },
+    "QUALITY:HIGH_AT_LEAST_0.65": {
+      "attempts": 101,
+      "goals": 68,
+      "saves": 33,
+      "misses": 0,
+      "blocks": 0,
+      "conversion": 0.6732673267326733,
+      "savePctOnTarget": 0.32673267326732675,
+      "saveShareAllAttempts": 0.32673267326732675
+    },
+    "CATEGORY:SEVEN_METRE": {
+      "attempts": 29,
+      "goals": 21,
+      "saves": 8,
+      "misses": 0,
+      "blocks": 0,
+      "conversion": 0.7241379310344828,
+      "savePctOnTarget": 0.27586206896551724,
+      "saveShareAllAttempts": 0.27586206896551724
+    },
+    "OPPORTUNITY_QUALITY:HIGH_AT_LEAST_0.65": {
+      "attempts": 83,
+      "goals": 57,
+      "saves": 26,
+      "misses": 0,
+      "blocks": 0,
+      "conversion": 0.6867469879518072,
+      "savePctOnTarget": 0.3132530120481928,
+      "saveShareAllAttempts": 0.3132530120481928
+    },
+    "POSITION:RB": {
+      "attempts": 152,
+      "goals": 59,
+      "saves": 65,
+      "misses": 0,
+      "blocks": 28,
+      "conversion": 0.3881578947368421,
+      "savePctOnTarget": 0.5241935483870968,
+      "saveShareAllAttempts": 0.4276315789473684
+    },
+    "CATEGORY:WING": {
+      "attempts": 76,
+      "goals": 53,
+      "saves": 15,
+      "misses": 6,
+      "blocks": 2,
+      "conversion": 0.6973684210526315,
+      "savePctOnTarget": 0.22058823529411764,
+      "saveShareAllAttempts": 0.19736842105263158
+    },
+    "HALF:2": {
+      "attempts": 417,
+      "goals": 221,
+      "saves": 137,
+      "misses": 2,
+      "blocks": 57,
+      "conversion": 0.5299760191846523,
+      "savePctOnTarget": 0.38268156424581007,
+      "saveShareAllAttempts": 0.328537170263789
+    },
+    "CONTEXT:TRANSITION": {
+      "attempts": 36,
+      "goals": 21,
+      "saves": 12,
+      "misses": 2,
+      "blocks": 1,
+      "conversion": 0.5833333333333334,
+      "savePctOnTarget": 0.36363636363636365,
+      "saveShareAllAttempts": 0.3333333333333333
+    }
+  },
+  "terminalCounts": {
+    "GOAL": 444,
+    "SHOT_SAVED_REBOUND_LOST": 301,
+    "DUEL_LOSS": 99,
+    "RECEPTION_FAILED": 52,
+    "INTERCEPTION": 93,
+    "PASSIVE_PLAY": 7,
+    "BAD_PASS_OUT": 9,
+    "SHOT_BLOCKED_REBOUND_LOST": 42,
+    "TECHNICAL_VIOLATION": 15,
+    "PERIOD_END": 17,
+    "SHOT_WIDE": 6
+  },
+  "transitionSources": {
+    "OPENING_HALF_THROW_OFF": 20,
+    "POST_GOAL_THROW_OFF": 443,
+    "GOALKEEPER_THROW_OTHER": 209,
+    "LOOSE_BALL_RECOVERY": 141,
+    "KEEPER_SAVE_CONTROL_OR_REBOUND": 147,
+    "TURNOVER_INTERCEPTION": 93
+  },
+  "definitions": {
+    "observer": "Read-only callback after each canonical production tick; no extra simulation, mutations or RNG.",
+    "shotGroups": "Categories partition attempts. Context/range/quality/pressure rows overlap. Near-six-metre means release within1.5m of the existing curved goal-area boundary; diagnostic region, not an empirical target.",
+    "saves": "Non-goal shots with SAVE_CAUGHT/PARRY count saved; goal-after-keeper-touch is retained as a goal and separate keeperTouched fact.",
+    "pressureQuality": "0.2 pressure and0.65 quality cuts are descriptive bins aligned with the prior offline reading, not goal-rate targets.",
+    "contactEpisodes": "Derived continuous attacker/defender pair opened only by real CONTACT_EXECUTED, closed by actual whistle, control/possession ending or1.6m separation. Engineering grouping, not a claim of a canonical referee episode object.",
+    "whistles": "Explicit WHISTLE_RESTART counts contact-rule stops; all FREE_THROW awards separately include technical/passive/restarts. Neither is raw FOUL count.",
+    "transition": "Actual observed phase entries; source follows actual ownership/restart facts. Each released transition shot retains progress from gain and real defenders/lanes/numerical context so relabeling can be distinguished from opportunity."
+  },
+  "experimentPolicy": "Variants change only cloned in-memory actual gameplay attributes or canonical live manager tactics; canonical player files, IDs, CA/PA and pinned input files remain unchanged. Baseline defaults otherwise retain manual manager coaching and normal CPU coaching."
+}

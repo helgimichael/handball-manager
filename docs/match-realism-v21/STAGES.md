@@ -1,0 +1,47 @@
+# Calibration stage evidence
+
+The released v2 AFTER sample remains intact. Before any calibration, cases 0, 5, 16 and 18 reproduced its initial-session, final-core, result and score/events/RNG/frames hashes exactly. See [reproduction proof](baseline-reproduction/reproduction-proof.json).
+
+Every stage below uses the same pinned inputs and eleven indices: 0–9 and 16. All eleven matches finished naturally at full time in every stage; source fingerprints stayed fixed during each batch. Figures are both-team per-match means except the pooled attempt/goal columns. No case was excluded.
+
+| Recorded stage | Goals | Shots | Possessions | Physical contacts | Raw FOUL | Actual contact whistles | 7m attempts / goals | Transition shots / goals |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|
+| Released v2, same eleven recipes | 34.27 | 84.91 | 112.64 | 508.00 | 99.45 | unavailable | 35 / 4 | 0 / 0 |
+| [Handoff and whistle semantics](pilot-handoff-1/aggregate.json) | 34.00 | 81.64 | 108.00 | 526.36 | 100.18 | 58.36 | 24 / 5 | 22 / 17 |
+| [Time-bounded penalty hand reach](pilot-keeper-1/aggregate.json) | 34.64 | 83.18 | 110.45 | 535.09 | 99.45 | 57.55 | 25 / 25 | 30 / 20 |
+| [Radial closing and balance](pilot-contact-1/aggregate.json) | 36.27 | 87.45 | 116.64 | 546.55 | 35.91 | 21.00 | 37 / 37 | 20 / 14 |
+| [Grounded pivot dispatch](pilot-M6-1/aggregate.json) | 36.27 | 87.45 | 116.64 | 546.55 | 35.91 | 21.00 | 37 / 37 | 20 / 14 |
+| [Committed target and keeper read](pilot-commitment-1/aggregate.json) | 41.73 | 88.82 | 114.18 | 559.45 | 35.55 | 21.73 | 26 / 18 | 18 / 8 |
+| [Actual takeoff completes jump](pilot-airborne-1/aggregate.json) | 45.82 | 91.91 | 115.36 | 545.91 | 36.73 | 20.73 | 32 / 23 | 25 / 15 |
+
+The handoff stage produced real transition release progress rather than only more phase labels: its 22 transition attempts advanced a mean 27.25m during the live transition, with a minimum 14.34m; 19 releases faced at most three goal-side field defenders. Some old deep-wing forward-lane diagnostics were clipped backwards and are excluded from that conclusion. Keeper/outlet, intercepted-ball and throw-off sources remain separately inspectable in the raw records.
+
+The first keeper correction removed the unconditional full penalty dive reach. It exposed an overcorrection: all 25 subsequent penalty attempts scored, and all 37 in the next stage scored. This is not accepted as final calibration. The pending commitment/read correction must be measured separately; a blanket reduction in ordinary save probability would ignore the healthy pivot/wing outcomes already present in the released baseline.
+
+The radial-contact stage preserved frequent real contact while reducing judged infringements and actual stopped flow. Contacts rose from 535.09 to 546.55 per match, while raw/assessed fouls fell from 99.45 to 35.91 and explicit whistles from 57.55 to 21.00. These are distinct denominators. Continuous pair episodes are diagnostic groupings, not canonical referee objects. Technical/passive free throws remain separate from contact whistles.
+
+All four truth hashes are exactly equal between the contact and grounded-pivot stages for every one of the eleven cases. The targeted dispatch branch was not reached in this cohort; its focused causal tests do not justify claiming a measured aggregate benefit here. The explicit proof is in [stored comparison](stage-review/M6-dispatch-delta/calibration-comparison.json). The later pilot's mean wall time was 9.11s versus 2.86s for the exact same outcomes under different machine load; it is not evidence that the engine behavior became slower.
+
+These are intermediate calibration measurements, not the final larger sample. The full paired table, contextual shot splits, terminal/half distributions and undesirable outliers for the latest completed stage are in [stage review](stage-review/METRICS.md). Earlier decision-selection context has the documented instrumentation boundary in [METHODS](METHODS.md); no historical pilot file is backfilled or rewritten.
+
+## Commitment and read stage
+
+All 977 release targets retained their actual committed goal window without changing the intended aim after commitment. There were 338 real anticipations and 832 flight reads, with no read before the actual supplied reaction time and no repeated read of one released shot. All 630,329 observed controlled post-ticks and all 977 release body-origin checks had zero errors. Natural penalty conversion was 18/26 (69.23%), rather than the prior all-goal outcome. Fixed-geometry strong-keeper extremes remain boundary probes, not substitutes for this real-career population.
+
+This stage had 459 goals and 367 saved attempts from 977 attempts, with 143 blocks and eight true neither-saved-nor-blocked misses. Per-match mean conventional save percentage was 44.77%; pooled conventional save percentage was 44.43%. Mean total goals was 41.73, median 41, p10–p90 29–52 and range 28–55. Low and high cases remain present. The new [comparison with prior stage](stage-review/commitment-delta/METRICS.md) and [comparison with released v2](stage-review/commitment-v2/METRICS.md) preserve every distribution.
+
+The overall pivot conversion fell from 39/46 in the prior stage to 22/51. A context split matters: only one pivot release had pressure ≤0.2; its one save cannot establish a population of excessive free-pivot catches. Independent opportunity quality ≥0.65 produced 15/23 goals (65.22%); the lower group produced 7/28 (25%). Saved actual rays crossed the keeper depth observed at release at mean 0.334m from his body, versus 0.758m for goals. This is a release snapshot and does not measure later moving-body/catch reach. See [actual pivot rays and context](stage-review/commitment-geometry/pivot-geometry.json). These mixed and unfavorable outcomes are retained while the next causal timing correction is measured.
+
+Across the eleven cases, first-half conversion was 250/505 (49.50%) and second-half conversion 209/472 (44.28%). Pressure means were nearly equal (0.6406 and 0.6410); independent opportunity means were 0.4689 and 0.4566. This does not support attributing every second-half result to a universal fatigue collapse. The same stage still selected jumps 900ms before release, with 300ms from target commitment to release; the airborne-timing stage is isolated next.
+
+The original naturally drawn case16 was exactly reproducible as 19–19 before behavior changes. It had 22/47 backcourt-jump goals, 1/12 standing goals, 3/4 pivot goals, 5/7 wing goals, 7/18 breakthrough goals and 0/2 penalty goals. It was not uniformly unable to score close/wing chances. The successive natural scores were handoff 20–19, keeper 21–16, radial-contact/M6 28–19 and commitment 30–22. Commitment case16 produced 29 first-half goals and 23 second-half goals with nearly equal conversion (52.73% and 52.27%). No mechanism preserves a draw by seed; the same pinned players/fixture/seed remain the comparison inputs while the actual action/RNG path changes with behavior.
+
+## Actual takeoff timing stage
+
+The sixth stage completed all eleven recipes with fixed source bytes. Actual takeoff completes the existing jump, followed by normal SHOOT preparation/commitment/execution; redundant waiting after takeoff is removed. Measured jump-selection-to-release latency is 650ms instead of 900ms, while grounded preparation remains 400ms and commitment-to-release remains 300ms. No shot power, goal/save probability or keeper profile coefficient changed in this stage. Between stages five and six, the production bridge also received the calibration behavior revision, archived commitment/keeper labels and Swedish event labels; this is disclosed in the distinct source fingerprints and did not change frame capture.
+
+Mean goals was 45.82, median 47, p10–p90 36–53 and range 33–57. Mean shots was 91.91 and mean non-shot loss 24.73. Per-match mean conventional save percentage was 43.72%; all-attempt save share was 38.55%. Scorer concentration declined from mean 45.63% to 41.26%, with the same denominator (mean team top-scorer share). There were 1,011 releases, 504 goals, 390 saved attempts, 113 blocks and four true misses. All 629,620 observed controlled post-ticks and all release body-origin checks had zero errors. Every committed intended window was retained, with 896 once-only flight reads and no early read.
+
+Backcourt release pressure declined from 0.564 to 0.486 as the shorter wind-up preserved more of the physical chance. Backcourt-jump goals were 279/558 (50.00%), wing 50/63 (79.37%), pivot 23/48 (47.92%), breakthrough 100/230 (43.48%) and penalties 23/32 (71.88%). Only two pivot releases had pressure ≤0.2 (one goal); high-opportunity pivots scored 17/29 (58.62%). Those small unpressured samples cannot establish a universal free-close-chance save defect. [Context and actual rays](stage-review/airborne-geometry/pivot-geometry.json) preserve the unfavorable outcomes.
+
+The 25 transition releases advanced mean 26.37m during the live phase (minimum 14.34m), faced mean 1.48 goal-side defenders and scored 15 goals. Their mean live-phase-to-shot time was 11.54s. These are physical progress/body facts, rather than a phase-label count alone. First-half conversion was 265/541 (48.98%) and second-half conversion 239/470 (50.85%), with no second-half collapse in this cohort. Case16 naturally finished 31–26. All intermediate comparisons are in the [airborne paired table](stage-review/airborne-delta/METRICS.md); the final larger sample will be separately identified.
