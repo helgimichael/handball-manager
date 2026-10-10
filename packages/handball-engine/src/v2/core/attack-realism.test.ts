@@ -179,6 +179,8 @@ test('a set save reacts to the actual flight once while retaining its identity a
   const id=k.action!.id,started=k.action!.startedTick;
   s.ball.controllerId=null;s.ball.mode='SHOT_FLIGHT';s.ball.flight={kind:'SHOT',origin:{...p.position},velocity:{x:0,y:-24},fromId:p.id,receiverId:null,
     actionId:'real-released-shot',possessionId:s.possession.id,releasedTick:s.tick,height:2.3,goalSide:'TOP',touchedIds:[p.id],purpose:'PLAY'};
+  const releasedTick=s.tick,drawsBefore=s.rng.draws;selectActions(s);assert.equal(k.action!.targetId,null);assert.equal(s.rng.draws,drawsBefore);
+  s.tick=releasedTick+Math.ceil(k.profile.reaction/.05);s.timeMs=s.tick*50;
   selectActions(s);
   assert.equal(k.action!.id,id);assert.equal(k.action!.startedTick,started);assert.equal(k.action!.phase,'EXECUTING');assert.equal(k.action!.targetId,'real-released-shot');
   const target={...k.action!.target!},draws=s.rng.draws;selectActions(s);assert.deepEqual(k.action!.target,target);assert.equal(s.rng.draws,draws,'the same flight is not guessed repeatedly');
@@ -204,6 +206,7 @@ test('specialized seven-metre reading improves the same seeded penalty read with
     p.action!.shotKind=penalty?'SEVEN_METRE':'BACKCOURT_JUMP';s.ball.controllerId=null;s.ball.mode='SHOT_FLIGHT';
     s.ball.flight={kind:'SHOT',origin:{...p.position},velocity:{x:0,y:-24},fromId:p.id,receiverId:null,
       actionId:'specialized-read-shot',possessionId:s.possession.id,releasedTick:s.tick,height:1.5,goalSide:'TOP',touchedIds:[p.id],purpose:'PLAY'};
+    s.tick+=Math.ceil(k.profile.reaction/.05);s.timeMs=s.tick*50;
     const strong=structuredClone(s),weak=structuredClone(s);
     getPlayer(strong,k.id).profile={...k.profile,keeper:{...k.profile.keeper!,sevenMetre:1}};
     getPlayer(weak,k.id).profile={...k.profile,keeper:{...k.profile.keeper!,sevenMetre:0}};

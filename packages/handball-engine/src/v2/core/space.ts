@@ -79,7 +79,7 @@ export function structurePoint(role: CorePlayer['role'],direction: Direction,bal
  * ball. A shooting back and a wing arrive at very different answers from the
  * same spot, which is the point.
  */
-function geometricShotQuality(s: CoreState, p: CorePlayer, pressure: number): number {
+function geometricShotQuality(s: CoreState, p: CorePlayer, pressure: number,referenceAbility=false): number {
   const direction=s.directions[p.team];
   const q=local(p.position,direction),angle=shootingAngle(p.position,direction);
   const wide=Math.abs(q.x-10)>6.5;
@@ -94,7 +94,7 @@ function geometricShotQuality(s: CoreState, p: CorePlayer, pressure: number): nu
   // central half-radian scale made a genuinely opened wing look permanently
   // worse than another return pass. A closed corner still has no usable sight.
   const sight=wide?clamp((angle-.06)/.20,0,1):clamp((angle-.10)/.35,0,1);
-  const ability=wide?p.profile.wingFinishing*.65+p.profile.shotPlacement*.35
+  const ability=referenceAbility?.5:wide?p.profile.wingFinishing*.65+p.profile.shotPlacement*.35
     :p.profile.shotPower*.45+p.profile.shotPlacement*.35+p.profile.finishing*.2;
   const contested=clamp(1-pressure*.32,0,1);
   // POSSESSION ECOLOGY: exploiting an advantage is most of what a shot IS.
@@ -133,7 +133,7 @@ function geometricShotQuality(s: CoreState, p: CorePlayer, pressure: number): nu
   // playable. Gating him on raw geometry like a back left him unable to clear
   // any sensible floor, so he declined almost everything and took twelve shots
   // a match between two of them.
-  const usable=wide?clamp(sight+.30*p.profile.wingFinishing,0,1):sight;
+  const usable=wide?clamp(sight+.30*(referenceAbility?.5:p.profile.wingFinishing),0,1):sight;
   return base*(.55+.45*usable);
 }
 
@@ -141,6 +141,8 @@ function geometricShotQuality(s: CoreState, p: CorePlayer, pressure: number): nu
 export type ShotContext = {
   distance: number; angle: number; pressure: number; pressureCount: number;
   blockThreat: number; keeperPresent: boolean; emptyGoal: boolean; quality: number;
+  /** Reference-capability opportunity, independent of shooter ability/energy; not an xG probability. */
+  opportunityQuality:number;
 };
 export function shotContext(s:CoreState,p:CorePlayer):ShotContext {
   const direction=s.directions[p.team],mouth=goal(direction),q=local(p.position,direction);
@@ -171,7 +173,8 @@ export function shotContext(s:CoreState,p:CorePlayer):ShotContext {
   const blockCost=blockThreat*(range>8?.14:.07);
   const fatigue=.84+.16*p.condition.energy;
   const quality=clamp((geometric-blockCost)*fatigue,0,1);
-  return {distance:range,angle,pressure,pressureCount,blockThreat,keeperPresent,emptyGoal:!keeperPresent,quality};
+  const opportunityQuality=clamp(geometricShotQuality(s,p,pressure,true)-blockCost,0,1);
+  return {distance:range,angle,pressure,pressureCount,blockThreat,keeperPresent,emptyGoal:!keeperPresent,quality,opportunityQuality};
 }
 
 /** One geometry contract for normal, emergency and relationship shot choices. */

@@ -1,5 +1,5 @@
 import { actionAvailable, courtPlayers, getPlayer, otherTeam, random, record, type CorePlayer, type CoreState, type Duty } from './state';
-import { clamp, clearGoalArea, distance, goal, goalSide, keeperPost, laneClearance, local, shootingAngle, shotOpportunity, structurePoint, world } from './space';
+import { clamp, clearGoalArea, distance, goal, goalSide, keeperPost, laneClearance, local, segmentPoint, shootingAngle, shotOpportunity, structurePoint, world } from './space';
 import { driveTarget, resolveAction, startAction, visibleShotPreparation } from './actions';
 import { exchangeActive } from './population';
 import { planContact } from './contact';
@@ -12,6 +12,7 @@ import { breakDefence,driveEngagement,readContinuation,rebuildValue,type Continu
 import { ZONE_COUNT,allocate,assignZones,dutyFeasible,dutyTarget,lineFormed,readDefence,zoneOf,type DefenceRead,type ZoneDuty } from './defence';
 import { sustain } from './actions';
 import { laneMargin } from './timing';
+import { prepareKeeperAnticipation } from './execution';
 const PIVOT_ROLL_REASON='Roll into the line space created by the backcourt threat';
 const PIVOT_CATCH_REASON='Turn the secured pivot catch toward the actual close-range window';
 
@@ -20,6 +21,42 @@ function assign(s:CoreState,p:CorePlayer,kind:Duty,targetId:string|null,reason:s
   if(p.duty.kind!==kind||p.duty.targetId!==targetId||p.duty.reason!==reason) {
     p.duty={kind,targetId,sinceTick:s.tick,reason};record(s,'RESPONSIBILITY_ASSIGNED',p,{kind,reason},targetId?[targetId]:[]);
   }
+}
+function finishingThreat(s:CoreState,p:CorePlayer,direction:CoreState['directions']['HOME']):boolean {
+  const q=local(p.position,direction);
+  if(isWing(p))return q.y<8&&(shotOpportunity(s,p)!==null||wingTakeoffWindow(s,p)!==null);
+  if(isPivot(p))return q.y<10&&distance(p.position,goal(direction))<=PIVOT_FINISH_METERS+1.3;
+  return q.y<9.5&&shotOpportunity(s,p)!==null;
+}
+function threatContained(s:CoreState,p:CorePlayer,defenders:CorePlayer[],direction:CoreState['directions']['HOME']):boolean {
+  return defenders.some(d=>{
+    if(d.beatenUntilTick>s.tick||d.screenedUntilTick>s.tick||d.wrongFootedUntilTick>s.tick||distance(d.position,p.position)>2.6)return false;
+    // A line defender can deny the turn while staying physically on M6. A
+    // remote PIVOT label cannot replace that actual contact relationship.
+    if(isPivot(p)&&d.duty.kind==='PIVOT'&&d.duty.targetId===p.id&&distance(d.position,p.position)<1.35)return true;
+    // Goal-side is a goalward path, not only end-line depth. The defender of a
+    // wing closes inward toward the near post, often at nearly equal depth.
+    const path=segmentPoint(p.position,goal(direction),d.position);
+    return path.t>0&&path.t<1&&distance(d.position,path.point)<1.1;
+  });
+}
+/** A recovered central line must also account for the actual finishing threats. */
+export function transitionReadyToSettle(s:CoreState):boolean {
+  if(s.possession.phase!=='TRANSITION'||!s.ball.controllerId||s.ball.flight)return false;
+  const carrier=getPlayer(s,s.ball.controllerId),direction=s.directions[s.possession.team];
+  if(carrier.team!==s.possession.team||carrier.kind!=='FIELD_PLAYER'||local(carrier.position,direction).y>=15)return false;
+  // The finish already selected from this transition owns its physical
+  // takeoff/release. A recovering line does not turn that action into buildup.
+  if(carrier.airborne||carrier.action&&['JUMP','SHOOT'].includes(carrier.action.kind)&&!actionAvailable(carrier))return false;
+  const defenders=courtPlayers(s,otherTeam(carrier.team)).filter(d=>d.kind==='FIELD_PLAYER');
+  if(!lineFormed(s,defenders,direction))return false;
+  if(finishingThreat(s,carrier,direction)&&!threatContained(s,carrier,defenders,direction))return false;
+  const outlets=courtPlayers(s,carrier.team).filter(a=>a.id!==carrier.id&&a.kind==='FIELD_PLAYER'&&a.duty.kind==='FIRST_WAVE'&&
+    !a.airborne&&!a.condition.unavailable&&!a.condition.exitRequired&&!exchangeActive(s,a.id)&&finishingThreat(s,a,direction));
+  return outlets.every(a=>{
+    if(laneMargin(s,carrier.position,a.position,carrier.team,10.5+3*carrier.profile.passing).seconds<=.05)return true;
+    return threatContained(s,a,defenders,direction);
+  });
 }
 /** One coordinator allocates pressure/help/cover; reachability never creates a second primary. */
 export function coordinate(s: CoreState) {
@@ -115,8 +152,9 @@ export function coordinate(s: CoreState) {
     else assign(s,a,a.role==='P'||a.role==='P2'?'PIVOT':'CONNECT',null,'Maintain role relationships and move with the ball-side structure');
   }
   for(const p of courtPlayers(s).filter(p=>p.kind==='GOALKEEPER'))assign(s,p,'GOALKEEPER',null,'Protect own goal; commit only after reading a released shot');
-  if(s.possession.phase==='TRANSITION'&&carrier&&local(carrier.position,direction).y<15&&lineFormed(s,defenders,direction)) {
-    s.possession.phase='ESTABLISHED';record(s,'ATTACK_SETTLED',carrier,{reason:'Defence recovered its line'});
+  if(transitionReadyToSettle(s)) {
+    const controlled=getPlayer(s,s.ball.controllerId!);
+    s.possession.phase='ESTABLISHED';record(s,'ATTACK_SETTLED',controlled,{reason:'Recovered line contains the actual ball and playable finishing threats',carrierDepth:Number(local(controlled.position,direction).y.toFixed(2))});
   }
 }
 /**
@@ -264,7 +302,8 @@ export function applyContinuation(s:CoreState,p:CorePlayer,next:NonNullable<Cont
     const rushed=s.tick-p.handling.heldSinceTick>s.ruleProfile.maxHoldMs/50-14;
     const canTakeOff=p.handling.steps<s.ruleProfile.maxSteps&&!rushed;
     if(canTakeOff&&startAction(s,p,'JUMP',next.reason))return true;
-    return startAction(s,p,'SHOOT',next.reason,null,null,'STANDING');
+    const grounded=isPivot(p)&&shotOpportunity(s,p)!==null&&distance(p.position,goal(s.directions[p.team]))<=PIVOT_FINISH_METERS?'PIVOT':'STANDING';
+    return startAction(s,p,'SHOOT',next.reason,null,null,grounded);
   }
   // ONE ATTACK ON AN INTERVAL IS ONE ACTION. The drive is bounded by the three
   // steps he has; re-issuing it each time those steps ran out split a single
@@ -419,6 +458,10 @@ function prepareVisibleShot(s:CoreState,shooter:CorePlayer|null) {
     if(p.airborne||exchangeActive(s,p.id))continue;
     const a=p.action;
     if(p.kind==='GOALKEEPER') {
+      if(a?.kind==='SAVE'&&!actionAvailable(p)) {
+        prepareKeeperAnticipation(s,p,shooter);
+        continue;
+      }
       if(a&&!actionAvailable(p)&&a.kind!=='REPOSITION')continue;
       if(a?.kind==='REPOSITION'&&!actionAvailable(p))resolveAction(s,p,'Visible shooting preparation: settle the current goal position');
       startAction(s,p,'SAVE','Set at the current post for the visible shooting preparation',{...p.position});
@@ -443,23 +486,35 @@ function commitReleasedKeeper(s:CoreState,p:CorePlayer) {
   if(committed)return;
   const set=a?.kind==='SAVE'&&a.targetId===null&&!actionAvailable(p);
   if(a&&!actionAvailable(p)&&!set)resolveAction(s,p,'New released shot: finish the previous keeper intention');
+  const flown=(s.tick-f.releasedTick)*.05;
+  // The stance may load from a visible committed wind-up. Reading the ball's
+  // released direction is a different observation and costs actual reaction.
+  if(flown+1e-9<p.profile.reaction) {
+    if(actionAvailable(p))startAction(s,p,'SAVE','Hold the current stance until the released direction can be perceived',{...p.position});
+    return;
+  }
   const ownGoal=s.directions[otherTeam(p.team)],k=p.profile.keeper;
-  const t=Math.max(0,(world({x:10,y:1.4},ownGoal).y-s.ball.position.y)/f.velocity.y);
   const penalty=getPlayer(s,f.fromId).action?.shotKind==='SEVEN_METRE';
+  const depth=penalty?local(p.position,ownGoal).y:1.4;
+  const t=Math.max(0,(world({x:10,y:depth},ownGoal).y-s.ball.position.y)/f.velocity.y);
   const read=penalty
     ?(k?.reading??.5)*.35+(k?.reaction??.5)*.20+(k?.positioning??.5)*.15+(k?.sevenMetre??.5)*.30
     :(k?.reading??.5)*.45+(k?.reaction??.5)*.35+(k?.positioning??.5)*.2;
-  const flown=(s.tick-f.releasedTick)*.05,pace=Math.hypot(f.velocity.x,f.velocity.y);
+  const pace=Math.hypot(f.velocity.x,f.velocity.y);
   const blind=(1.5-read)*Math.max(.4,1-flown*1.6)*(.82+pace/56);
   const guess=s.ball.position.x+f.velocity.x*t+(random(s)-.5)*2*blind;
-  const commitTo=world({x:clamp(guess,5.5,14.5),y:1.4},ownGoal);
+  const commitTo=world({x:clamp(guess,5.5,14.5),y:depth},ownGoal);
   if(set) {
     // There is now a real flight to react to. Re-aim the existing stance even
     // across a large angle change; position and movement still obey execution.
     a!.target={...commitTo};a!.targetId=f.actionId;a!.executeTicks=40;
+    record(s,'KEEPER_FLIGHT_READ',p,{shotActionId:f.actionId,releasedTick:f.releasedTick,reactionSeconds:p.profile.reaction,observedSeconds:flown,penalty},[f.fromId]);
     return;
   }
-  if(startAction(s,p,'SAVE','Read the actual ball out of the hand, commit once and go',commitTo,f.actionId))p.action!.executeTicks=40;
+  if(startAction(s,p,'SAVE','Read the actual ball out of the hand, commit once and go',commitTo,f.actionId)) {
+    p.action!.executeTicks=40;
+    record(s,'KEEPER_FLIGHT_READ',p,{shotActionId:f.actionId,releasedTick:f.releasedTick,reactionSeconds:p.profile.reaction,observedSeconds:flown,penalty},[f.fromId]);
+  }
 }
 
 export function selectActions(s:CoreState) {
@@ -481,6 +536,13 @@ export function selectActions(s:CoreState) {
   }
   // The carrier releases out of his drive before anybody else is asked to do
   // anything, because what he does decides what the rest of them are reacting to.
+  if(carrierNow?.airborne&&carrierNow.nextAction==='SHOOT'&&carrierNow.action?.kind==='JUMP'&&
+    ['EXECUTING','RECOVERING'].includes(carrierNow.action.phase)) {
+    // The jump's job is the actual takeoff. Its airborne state and eventual
+    // landing continue independently; do not wait through a second recovery
+    // before starting the already committed throwing preparation.
+    resolveAction(s,carrierNow,'Actual takeoff completed; carry the finish into normal throwing preparation');
+  }
   releaseFromDrive(s,carrierNow);
   preparePivotRoll(s);
   prepareVisibleShot(s,visibleShotPreparation(s,otherTeam(s.possession.team)));

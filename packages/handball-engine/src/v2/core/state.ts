@@ -63,6 +63,9 @@ export type CoreAction = {
   purpose: 'PLAY' | 'DEAD_BALL_RETURN';
   contact:{technique:'BENT_ARMS'|'HOLD';approach:'FRONT'|'SIDE'|'BEHIND'}|null;
   driveStart:Record<string,number>|null;
+  /** Optional persisted cue episode; old active saves have no anticipatory loading step. */
+  anticipationForId?:string;
+  anticipationStartedTick?:number;
 };
 export type CoreFlight = {
   kind: 'PASS' | 'SHOT' | 'DEFLECTION'; origin: Point; velocity: Point;

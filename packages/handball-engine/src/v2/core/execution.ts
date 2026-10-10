@@ -1,12 +1,51 @@
 // Execution uncertainty follows the actual throw/catch problem. These are
 // engineering coefficients, not event-rate targets or a turnover lottery.
-import { courtPlayers, otherTeam, random, type CorePlayer, type CoreState, type Point } from './state';
-import { clamp, distance, laneClearance } from './space';
+import { courtPlayers, otherTeam, random, record, type CorePlayer, type CoreState, type Point } from './state';
+import { clamp, distance, laneClearance, local, shotContext, shootingAngle, world } from './space';
 import { executionCapacity } from './condition';
 
 export function releasePressure(s:CoreState,p:CorePlayer):number {
   return clamp(courtPlayers(s,otherTeam(p.team)).filter(d=>d.kind==='FIELD_PLAYER'&&d.beatenUntilTick<=s.tick&&d.screenedUntilTick<=s.tick)
     .reduce((n,d)=>n+Math.max(0,1-distance(p.position,d.position)/2)*(d.action?.kind==='CONTACT'?1.2:.7),0),0,2);
+}
+
+/** A deterministic intended window, based on the visible world at commitment. */
+export function planShotTarget(s:CoreState,p:CorePlayer) {
+  const direction=s.directions[p.team],context=shotContext(s,p);
+  const keeper=courtPlayers(s,otherTeam(p.team)).find(d=>d.kind==='GOALKEEPER');
+  const keeperX=keeper?.position.x??10,wide=Math.abs(p.position.x-10)>6.5;
+  const placement=(wide?p.profile.wingFinishing*.7+p.profile.shotPlacement*.3:p.profile.shotPlacement)*executionCapacity(p);
+  const penalty=p.action?.shotKind==='SEVEN_METRE';
+  const spread=((1.25-placement)*(1+context.pressure*(.45-.25*p.profile.composure))+
+    Math.max(0,.3-shootingAngle(p.position,direction))*1.8)*(penalty?.42:1);
+  const leftGap=keeperX-8.5,rightGap=11.5-keeperX;
+  const side=wide?Math.sign(p.position.x-10)||1:rightGap>=leftGap?1:-1;
+  const gap=Math.max(0,side>0?rightGap:leftGap);
+  const reach=Math.max(.32,gap*((penalty?.58:.42)+(penalty?.40:.5)*placement));
+  const safe=.18+spread*(wide?.12:.35);
+  const aimX=clamp(wide?10+side*(.35+1.15*placement):keeperX+side*reach,8.5+safe,11.5-safe);
+  return {aimX,placement,spread,direction,context};
+}
+
+/** A visible committed wind-up can justify a physical loading step, never knowledge of future aim. */
+export function prepareKeeperAnticipation(s:CoreState,keeper:CorePlayer,thrower:CorePlayer):boolean {
+  const action=keeper.action,throwing=thrower.action,k=keeper.profile.keeper;
+  if(keeper.population!=='COURT'||thrower.population!=='COURT'||keeper.team===thrower.team||!k||
+    action?.kind!=='SAVE'||action.phase!=='EXECUTING'||action.targetId!==null||throwing?.kind!=='SHOOT'||
+    !['COMMITTED','EXECUTING'].includes(throwing.phase)||s.ball.controllerId!==thrower.id||s.ball.flight||
+    action.anticipationForId===throwing.id)return false;
+  const context=shotContext(s,thrower),penalty=throwing.shotKind==='SEVEN_METRE';
+  // A blocked backcourt wind-up supplies no readable direction. Short clear
+  // encounters require prediction because the ball leaves little reaction time.
+  if(!penalty&&(distance(thrower.position,keeper.position)>8||context.blockThreat>.2))return false;
+  const expected=Math.abs(thrower.position.x-10)>6.5?Math.sign(thrower.position.x-10)||1:keeper.position.x<=10?1:-1;
+  const read=penalty?k.reading*.35+k.reaction*.20+k.positioning*.15+k.sevenMetre*.30:k.reading*.45+k.reaction*.35+k.positioning*.20;
+  const side=random(s)<read?expected:random(s)<.5?-1:1;
+  const ownGoal=s.directions[otherTeam(keeper.team)],depth=local(keeper.position,ownGoal).y;
+  action.target=world({x:clamp(keeper.position.x+side*.5,.3,19.7),y:depth},ownGoal);
+  action.anticipationForId=throwing.id;action.anticipationStartedTick=s.tick;
+  record(s,'KEEPER_ANTICIPATED',keeper,{throwActionId:throwing.id,side,read,penalty,basis:'Visible committed wind-up and available goal space'},[thrower.id]);
+  return true;
 }
 
 export type PassExecution = { target:Point; speed:number; difficulty:number; spread:number; pressure:number; error:number; capability:number };

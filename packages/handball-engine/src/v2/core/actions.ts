@@ -3,6 +3,7 @@ import { distance, fieldLegal, goal, local } from './space';
 import { awardRestart } from './transitions';
 import { authorisedRestartMovementLegal } from './rules';
 import { movementCapacity } from './condition';
+import { planShotTarget } from './execution';
 
 const durations: Record<ActionKind,number>={RUN:12,REPOSITION:12,RECEIVE:36,HOLD:6,DRIBBLE:16,PASS:4,FEINT:7,DRIVE:14,JUMP:3,SHOOT:4,LAND:4,SCREEN:20,PRESS:10,CONTAIN:10,HELP:12,HANDOVER:4,RECOVER:12,BLOCK:12,CONTACT:8,SAVE:18,EXCHANGE:20};
 export const movementActions: ActionKind[]=['RUN','REPOSITION','DRIBBLE','DRIVE','PRESS','CONTAIN','HELP','RECOVER','SAVE','EXCHANGE'];
@@ -182,7 +183,13 @@ export function execute(s: CoreState): ExecutionEffect[] {
     if(p.population!=='COURT')continue;
     const a=p.action;if(!a)continue;
     const elapsed=s.tick-a.phaseTick;
-    if(a.phase==='PREPARING'&&elapsed>=2){phase(s,p,'COMMITTED');continue;}
+    if(a.phase==='PREPARING'&&elapsed>=2){
+      if(a.kind==='SHOOT'&&!a.target){
+        const plan=planShotTarget(s,p);a.target={x:plan.aimX,y:goal(plan.direction).y};
+        record(s,'SHOT_AIM_COMMITTED',p,{aimX:plan.aimX,pressure:plan.context.pressure,opportunityQuality:plan.context.opportunityQuality,decisionQuality:plan.context.quality});
+      }
+      phase(s,p,'COMMITTED');continue;
+    }
     if(a.phase==='COMMITTED'&&elapsed>=2){
       phase(s,p,'EXECUTING');
       if(a.kind==='DRIBBLE') {s.ball.mode='DRIBBLE';p.handling.dribbleUsed=true;p.handling.bounceTick=s.tick;record(s,'DRIBBLE_STARTED',p);}
@@ -221,7 +228,8 @@ export function execute(s: CoreState): ExecutionEffect[] {
     // whether he was actually set when the throw came was a lottery -- and a
     // save restarted from scratch cannot reach a seven-metre at all.
     if(a.kind==='SAVE'&&a.targetId===null&&p.kind==='GOALKEEPER'&&
-      (penaltyAgainst(s,p)||visibleShotPreparation(s,p.team)))continue;
+      (penaltyAgainst(s,p)||visibleShotPreparation(s,p.team)||
+        s.ball.flight?.kind==='SHOT'&&getPlayer(s,s.ball.flight.fromId).team!==p.team))continue;
     // Hands stay up while this assigned throw is being made and travelling.
     // Nothing here predicts where it will be aimed or manufactures a contest.
     if(a.kind==='BLOCK'&&a.targetId&&

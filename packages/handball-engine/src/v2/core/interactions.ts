@@ -1,5 +1,5 @@
-import { courtPlayers, getPlayer, otherTeam, random, record, uid, type CoreContest, type CorePlayer, type CoreState, type Point } from './state';
-import { clamp, distance, fieldLegal, goal, local, segmentPoint, shootingAngle, shotContext } from './space';
+import { courtPlayers, getPlayer, otherTeam, random, record, uid, type CoreContest, type CoreFlight, type CorePlayer, type CoreState, type Point } from './state';
+import { clamp, distance, fieldLegal, goal, local, segmentPoint, shotContext } from './space';
 import { advanceOf, reachOf } from './timing';
 import { acquire, awardRestart, interrupt } from './transitions';
 import type { ExecutionEffect } from './actions';
@@ -8,7 +8,7 @@ import { completeRestart } from './restarts';
 import { goalAreaClearance } from '../../domain/geometry/goalArea';
 import { breakDefence } from './engage';
 import { executionCapacity } from './condition';
-import { executePass, receptionRisk, releasePressure, shotHeight, type PassExecution } from './execution';
+import { executePass, planShotTarget, receptionRisk, releasePressure, shotHeight, type PassExecution } from './execution';
 
 export function contest(s:CoreState,kind:CoreContest['kind'],a:CorePlayer,d:CorePlayer,outcome:string,margin:number,duration:number,sourceActionId=a.action?.id??s.ball.flight?.actionId??'contact') {
   const id=uid(s,'contest');
@@ -80,6 +80,7 @@ function release(s:CoreState,p:CorePlayer,kind:'PASS'|'SHOOT') {
   let passExecution:PassExecution|null=null;
   let releaseContext:ReturnType<typeof shotContext>|null=null;
   let goalHeight=1.1;
+  let shotPlacement=0,shotSpread=0,intendedAimX=0;
   if(receiver) {
     target={...receiver.position};
     // Lead a currently moving receiver using observable velocity and committed
@@ -100,70 +101,16 @@ function release(s:CoreState,p:CorePlayer,kind:'PASS'|'SHOOT') {
     target=passExecution.target;
   }
   else {
-    const keeper=courtPlayers(s,otherTeam(p.team)).find(d=>d.kind==='GOALKEEPER');
     releaseContext=shotContext(s,p);
     const pressure=releaseContext.pressure;
-    const wide=Math.abs(p.position.x-10)>6.5;
-    // PLAYER IDENTITY: a shooter aims where the goalkeeper is NOT. The old code
-    // picked nine or eleven from the keeper's side of centre and stopped there,
-    // so a wing in the corner fired straight down the keeper's body and was
-    // caught eight times out of ten. The open side is read from the keeper's
-    // actual position, and how close to the post a player dares go is his own
-    // placement: a poor finisher still shoots at the middle.
-    const keeperX=keeper?keeper.position.x:10;
-    const placement=(wide?(p.profile.wingFinishing*.7+p.profile.shotPlacement*.3):p.profile.shotPlacement)*executionCapacity(p);
-    // From the wing, the near post is the shot the angle actually offers. Aiming
-    // across the mouth at the far post sends the ball straight through the
-    // goalkeeper, who is standing between the two, and that is exactly what
-    // happened: ninety per cent of wing shots were caught. A central shooter has
-    // both posts available and takes the side the keeper has left.
-    // HE AIMS INTO THE GAP THE GOALKEEPER HAS LEFT, not at a fixed distance
-    // either side of the goal's centre.
-    //
-    // Aiming at ten plus or minus about ninety centimetres is the middle of the
-    // mouth. From ten metres that is survivable, because the ball arrives before
-    // the keeper can cover the middle; from two it is the one place he certainly
-    // is, and it was why the line player -- the best chance in handball --
-    // converted four in ten, worse than a wing. Reading the aim off the keeper's
-    // actual x makes his positioning matter, which is what makes this a duel,
-    // and makes placement mean what it says: how close to the post a player
-    // dares put it.
-    const NEAR_POST=8.5,FAR_POST=11.5,POST_MARGIN=.18;
-    const leftGap=keeperX-NEAR_POST,rightGap=FAR_POST-keeperX;
-    // How far off line he sprays it. Computed first, because a shooter aims
-    // where he can afford to be WRONG: a man who knows he is inaccurate does
-    // not pick the inside of the post, and one under pressure picks even less
-    // of it. Aiming at the post and then adding the error made four wing shots
-    // in ten miss the goal altogether.
-    // A SEVEN-METRE IS THE MOST ACCURATE THROW IN HANDBALL. Set feet, no defender
-    // and as long as he likes to pick his spot: he does not spray it the way a
-    // man does releasing over a block. Charging him open-play error kept the
-    // ball forty-four centimetres inside the post, which is exactly where a set
-    // goalkeeper already is, so every penalty was saved.
-    const penalty=p.action?.shotKind==='SEVEN_METRE';
-    const spread=((1.25-placement)*(1+pressure*(.45-.25*p.profile.composure))+
-      Math.max(0,.3-shootingAngle(p.position,direction))*1.8)*(penalty?.42:1);
-    // FROM THE WING THE NEAR POST IS THE SHOT. Aiming across the mouth sends
-    // the ball through the goalkeeper standing between the two: sent far-post
-    // when the keeper covered his near, the wings were CAUGHT nineteen times in
-    // twenty-three. So the wide shooter keeps his own side, and the keeper's
-    // position sets how much of it he can have rather than which side it is.
-    const nearSide=Math.sign(p.position.x-10)||1;
-    const open=wide?nearSide:(rightGap>=leftGap?1:-1);
-    const gap=Math.max(0,open>0?rightGap:leftGap);
-    // A confident finisher puts it near the post; a poor one leaves himself room
-    // and shoots nearer the keeper. Never less than a hand's width off him.
-    // FROM SEVEN METRES HE GOES FOR THE CORNER. No defender, no clock and a set
-    // goalkeeper who will cover the middle whatever happens: the only throw
-    // worth taking is one placed near the post, and how near is his placement.
-    const reach=Math.max(.32,gap*((penalty?.58:.42)+(penalty?.40:.5)*placement));
-    // He aims where he can afford to be WRONG, so a man who sprays it does not
-    // pick the inside of the post -- but a wing has no room to be pulled toward
-    // the middle, because the middle is where the keeper is.
-    const safe=POST_MARGIN+spread*(wide?.12:.35);
-    const aim=clamp(wide?10+open*(.35+1.15*placement):keeperX+open*reach,NEAR_POST+safe,FAR_POST-safe);
-    target={x:aim+(random(s)-.5)*spread,y:goal(direction).y};
-    goalHeight=shotHeight(s,p,placement,pressure);
+    const plan=planShotTarget(s,p);
+    shotPlacement=plan.placement;shotSpread=plan.spread;
+    // A throw already committed to a window cannot magically pick the other
+    // post from the keeper's latest position at the release tick. Old active
+    // actions without a committed point retain the compatible visible-world read.
+    intendedAimX=p.action.target?.y===goal(direction).y?p.action.target.x:plan.aimX;
+    target={x:intendedAimX+(random(s)-.5)*plan.spread,y:goal(direction).y};
+    goalHeight=shotHeight(s,p,plan.placement,pressure);
   }
   const origin={...s.ball.position},d=distance(origin,target);if(d<.1){p.action.phase='FAILED';return;}
     // PLAYER IDENTITY: a hard shooter releases faster, which is what shortens the
@@ -182,7 +129,7 @@ function release(s:CoreState,p:CorePlayer,kind:'PASS'|'SHOOT') {
   if(kind==='SHOOT')p.nextAction='LAND';
   record(s,delivery?'BALL_RETURN_RELEASED':kind==='PASS'?'PASS_RELEASED':'SHOT_RELEASED',p,{x:origin.x,y:origin.y,height:s.ball.height,reason:p.action.reason,shotKind:p.action.shotKind??'NONE',phase:s.possession.phase,subphase:s.offence.phase,
     ...(passExecution?{difficulty:passExecution.difficulty,executionError:passExecution.error,pressure:passExecution.pressure,passingCapability:passExecution.capability,aimX:target.x,aimY:target.y}:{}),
-    ...(releaseContext?{decisionQuality:releaseContext.quality,pressure:releaseContext.pressure,blockThreat:releaseContext.blockThreat,goalHeight,executionEnergy:p.condition.energy}:{}),
+    ...(releaseContext?{decisionQuality:releaseContext.quality,opportunityQuality:releaseContext.opportunityQuality,pressure:releaseContext.pressure,blockThreat:releaseContext.blockThreat,goalHeight,executionEnergy:p.condition.energy,executionCapacity:executionCapacity(p),executionPlacement:shotPlacement,executionPowerAttribute:p.profile.shotPower,executionSpread:shotSpread,intendedAimX,aimErrorMetres:Math.abs(target.x-intendedAimX),releasePace:speed,aimX:target.x}:{}),
   },receiver?[receiver.id]:[]);
   if(!delivery&&s.restart?.phase==='AUTHORISED') {
     s.restart.phase='RELEASED';
@@ -278,6 +225,14 @@ function deflect(s:CoreState,p:CorePlayer,point:Point,type:string,detail:CoreSta
   f.touchedIds.push(p.id);f.releasedTick=s.tick;
   record(s,type,p,{...detail,speed:Number(kept.toFixed(2))},[f.fromId],null,f.actionId);
 }
+/** Actual hand travel budget, including a prepared penalty stance but never a full dive before flight time. */
+export function keeperReachForShot(s:CoreState,p:CorePlayer,f:CoreFlight,point:Point):number {
+  const capacity=executionCapacity(p),span=(.31+.40*(p.profile.keeper?.explosiveness??.5))*capacity;
+  const pace=Math.hypot(f.velocity.x,f.velocity.y)||1,flightSeconds=distance(f.origin,point)/pace;
+  const loaded=getPlayer(s,f.fromId).action?.shotKind==='SEVEN_METRE';
+  const spare=Math.max(0,flightSeconds-(loaded?0:p.profile.reaction));
+  return Math.min(span,.19+2.4*capacity*spare);
+}
 export function advanceBall(s:CoreState) {
   const f=s.ball.flight;if(!f||f.releasedTick===s.tick)return;
   const from={...s.ball.position},to={x:from.x+f.velocity.x*.05,y:from.y+f.velocity.y*.05};
@@ -313,27 +268,7 @@ export function advanceBall(s:CoreState) {
     // is his standing body plus as much of his span as the flight time lets him
     // move into, after his own reaction is spent. This is the whole shooter-
     // goalkeeper duel: range, pace and explosiveness against reaction.
-    const pace=Math.hypot(f.velocity.x,f.velocity.y)||1;
-    const flightSeconds=distance(f.origin,hit.point)/pace;
-    // On a seven-metre throw he is SET and expecting it: he has no reaction to
-    // spend, which is the whole reason a penalty is saveable at all from seven
-    // metres. Charging him the same reading time as an open-play shot made the
-    // seven-metre throw a certain goal.
-    const set=getPlayer(s,f.fromId).action?.shotKind==='SEVEN_METRE';
-    const spare=Math.max(0,flightSeconds-(set?0:p.profile.reaction));
-    const span=(.31+.40*(p.profile.keeper?.explosiveness??.5))*executionCapacity(p);
-    // His body covers this much standing still; beyond it he has to travel, and
-    // a hand crosses the goal at about two and a half metres a second.
-    const STANDING=.19,DIVE_SPEED=2.4;
-    // A KEEPER SET FOR A PENALTY SPRINGS. He is loaded on his line, watching the
-    // hand, with no reaction to spend and nothing else to do: what he covers is
-    // a full dive, not what he can walk into in three tenths of a second. Giving
-    // him the open-play formula left him reaching half a metre against a throw
-    // placed a metre away, and every seven-metre in the match went in. The
-    // contest is now his spring against the shooter's placement, which is what a
-    // penalty actually is.
-    const PENALTY_SPAN=.74+.46*(p.profile.keeper?.explosiveness??.5);
-    const keeperReach=set?PENALTY_SPAN*executionCapacity(p):Math.min(span,STANDING+DIVE_SPEED*executionCapacity(p)*spare);
+    const keeperReach=isKeeper&&f.kind==='SHOT'?keeperReachForShot(s,p,f,hit.point):0;
     const reach=f.kind==='SHOT'
       ?(isKeeper?(ready&&p.action?.kind==='SAVE'?keeperReach:.2)
         :ready&&p.action?.kind==='BLOCK'&&!beaten?.16+.34*p.profile.blocking:0)

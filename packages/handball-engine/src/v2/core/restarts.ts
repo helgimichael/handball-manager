@@ -7,6 +7,7 @@ import { exchangeActive,requestExchange } from './population';
 import { restartReady } from './rules';
 import { isPivot } from './pivot';
 import { laneMargin } from './timing';
+import { prepareKeeperAnticipation } from './execution';
 
 const priority=['CB','LB','RB','P','LW','RW','P2'];
 function chooseTaker(s:CoreState) {
@@ -125,6 +126,10 @@ export function restartStep(s:CoreState) {
     // to contest the throw at all: a save started from scratch needs four ticks
     // to become executing and the flight from seven metres lasts about six.
     if(r.kind==='SEVEN_METRE'&&p.kind==='GOALKEEPER'&&p.team!==r.owner) {
+      if(p.action?.kind==='SAVE'&&!actionAvailable(p)) {
+        prepareKeeperAnticipation(s,p,taker);
+        continue;
+      }
       const ownGoal=s.directions[otherTeam(p.team)];
       const stance=world({x:10,y:.8},ownGoal);
       if(distance(p.position,stance)>.35){moveToward(s,p,stance,'Take the line for the seven-metre throw');continue;}
