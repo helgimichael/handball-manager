@@ -98,8 +98,9 @@ export function startAction(s: CoreState,p: CorePlayer,kind: ActionKind,reason: 
 }
 function phase(s:CoreState,p:CorePlayer,next:CoreAction['phase']) {p.action!.phase=next;p.action!.phaseTick=s.tick;record(s,'ACTION_PHASE',p,{kind:p.action!.kind,phase:next});}
 /** Proposed physical movement is rejected before integration if illegal; no release-point repairs. */
-export function move(s:CoreState,p:CorePlayer,target:Point|null,committedSave=false) {
+export function move(s:CoreState,p:CorePlayer,target:Point|null,committedSave=false,carryOnly=false) {
   const d=target?distance(p.position,target):0;
+  if(committedSave&&d<.03){p.velocity={x:0,y:0};return;}
   const dx=target&&d>1e-8?(target.x-p.position.x)/d:0,dy=target&&d>1e-8?(target.y-p.position.y)/d:0;
   const impaired=s.tick < p.beatenUntilTick ? 0.4 : s.tick < p.screenedUntilTick ? 0.15 : s.tick<p.wrongFootedUntilTick?.65:1;
   const capacity=movementCapacity(p);
@@ -109,10 +110,11 @@ export function move(s:CoreState,p:CorePlayer,target:Point|null,committedSave=fa
   // A committed keeper reach retains v2.1's released-shot timing model. Its
   // short reaction/reach is not an ordinary outfield support run.
   const saveSpeed=Math.min(p.profile.topSpeed*impaired*capacity,Math.max(0,p.velocity.x*dx+p.velocity.y*dy)+acceleration*.05,Math.sqrt(2*acceleration*d));
-  const velocity=committedSave?{x:dx*saveSpeed,y:dy*saveSpeed}:steerVelocity(p.position,p.velocity,target,p.profile.topSpeed*impaired*capacity,acceleration);
+  const limit=carryOnly?Math.min(p.profile.topSpeed*impaired*capacity,Math.hypot(p.velocity.x,p.velocity.y)):p.profile.topSpeed*impaired*capacity;
+  const velocity=committedSave?{x:dx*saveSpeed,y:dy*saveSpeed}:steerVelocity(p.position,p.velocity,target,limit,acceleration);
   const speed=Math.hypot(velocity.x,velocity.y);
   if(speed<1e-8){p.velocity={x:0,y:0};return;}
-  const travel=speed*.05,heading={x:velocity.x/speed,y:velocity.y/speed};
+  const travel=target?Math.min(d,speed*.05):speed*.05,heading={x:velocity.x/speed,y:velocity.y/speed};
   // Local steering around occupied bodies is execution of the existing duty,
   // not a new tactical assignment. Every candidate is checked before movement.
   let chosen: {x:number;y:number;dx:number;dy:number}|null=null;
@@ -131,7 +133,7 @@ export function move(s:CoreState,p:CorePlayer,target:Point|null,committedSave=fa
     if(legal&&!blocked&&authorisedRestartMovementLegal(s,p,next)){chosen={...next,dx:ux,dy:uy};break;}
   }
   if(!chosen){p.velocity={x:0,y:0};return;}
-  p.position={x:chosen.x,y:chosen.y};p.velocity={x:chosen.dx*speed,y:chosen.dy*speed};
+  p.position={x:chosen.x,y:chosen.y};p.velocity={x:chosen.dx*travel/.05,y:chosen.dy*travel/.05};
   if(s.ball.live&&s.ball.controllerId===p.id&&s.ball.mode!=='DRIBBLE') {
     p.handling.stepDistance+=travel;
     while(p.handling.stepDistance>=.8){p.handling.stepDistance-=.8;p.handling.steps++;record(s,'HANDLING_STEP',p,{steps:p.handling.steps});}
@@ -195,14 +197,17 @@ export function execute(s: CoreState): ExecutionEffect[] {
     if(s.ball.live&&!p.airborne&&a?.kind!=='SAVE'){
       const active=a&&!['COMPLETED','FAILED','INTERRUPTED'].includes(a.phase);
       const moving=active&&movementActions.includes(a.kind)&&a.target!==null;
-      const ready=a?.phase==='EXECUTING'||Math.hypot(p.velocity.x,p.velocity.y)>.01;
-      const target=p.supportMotion??(moving&&ready&&(s.ball.controllerId!==p.id||a.phase==='EXECUTING')?a.target:null);
+      // Preparation/recovery retains decision timing. Compatible off-ball
+      // phases carry existing pace; they cannot create new forward acceleration.
+      const ready=a?.phase==='EXECUTING';
+      const carrying=!ready&&s.ball.controllerId!==p.id&&Math.hypot(p.velocity.x,p.velocity.y)>.01;
+      const target=moving&&(ready||carrying)?a.target:null;
       // A held ball still has a finite step budget; braking cannot spend a
       // fourth step. Dribble movement begins only after its actual bounce.
       const controls=s.ball.controllerId===p.id&&s.ball.mode!=='DRIBBLE';
       const budget=controls?(s.ruleProfile.maxSteps-p.handling.steps)*.8-p.handling.stepDistance-.01:Infinity;
       if(controls&&budget<=Math.hypot(p.velocity.x,p.velocity.y)*.05){p.velocity={x:0,y:0};}
-      else move(s,p,target);
+      else move(s,p,target,false,carrying);
     }
     if(s.ball.live&&a?.kind==='SAVE'){
       if(a.phase==='EXECUTING'&&a.target)move(s,p,a.target,true);
@@ -211,6 +216,9 @@ export function execute(s: CoreState): ExecutionEffect[] {
     if(!a)continue;
     const elapsed=s.tick-a.phaseTick;
     if(a.phase==='PREPARING'&&elapsed>=2){
+      // A stationary screen first plants its feet instead of relabelling a
+      // running body as a legal stationary obstacle on a hands-clock boundary.
+      if(a.kind==='SCREEN'&&Math.hypot(p.velocity.x,p.velocity.y)>.15)continue;
       if(a.kind==='SHOOT'&&!a.target){
         const plan=planShotTarget(s,p);a.target={x:plan.aimX,y:goal(plan.direction).y};
         record(s,'SHOT_AIM_COMMITTED',p,{aimX:plan.aimX,pressure:plan.context.pressure,opportunityQuality:plan.context.opportunityQuality,decisionQuality:plan.context.quality});
@@ -229,7 +237,7 @@ export function execute(s: CoreState): ExecutionEffect[] {
     }
     if(a.phase==='RECOVERING'&&elapsed>=a.recoveryTicks){phase(s,p,'COMPLETED');continue;}
     if(a.phase!=='EXECUTING')continue;
-    if(!s.ball.live){if(movementActions.includes(a.kind)&&a.target)move(s,p,a.target);else p.velocity={x:0,y:0};}
+    if(!s.ball.live){if(movementActions.includes(a.kind)&&a.target)move(s,p,a.target,true);else p.velocity={x:0,y:0};}
     if(a.kind==='DRIBBLE'&&s.ball.controllerId===p.id){
       const bounceAge=(s.tick-p.handling.bounceTick)%8;s.ball.height=Math.abs(4-bounceAge)/4;
       if(bounceAge===4)record(s,'DRIBBLE_BOUNCE',p);

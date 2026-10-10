@@ -54,8 +54,6 @@ export type CorePlayer = {
   screenCooldownTick: number; suspensionUntilMs: number | null; sanctions: number; warnings:number;
   nextAction: 'SHOOT' | 'LAND' | 'DRIVE' | null;
   reception:{passActionId:string;readyTick:number}|null;
-  /** Optional persisted relational locomotion during an ordinary passing offer. */
-  supportMotion?:Point|null;
 };
 export type CoreAction = {
   id: string; possessionId: string; kind: ActionKind; phase: ActionPhase;

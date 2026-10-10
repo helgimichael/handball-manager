@@ -7,7 +7,7 @@ export function interrupt(s: CoreState,p: CorePlayer,reason: string) {
   if(p.action&&!['COMPLETED','FAILED','INTERRUPTED'].includes(p.action.phase)) {
     p.action.phase='INTERRUPTED';p.action.phaseTick=s.tick;record(s,'ACTION_INTERRUPTED',p,{reason});
   }
-  p.velocity={x:0,y:0};p.nextAction=null;p.supportMotion=null;
+  p.velocity={x:0,y:0};p.nextAction=null;
 }
 export function checkpoint(s: CoreState,outcome: string) {
   s.checkpoint.outcome=outcome;
@@ -38,7 +38,7 @@ export function changePossession(s: CoreState,player: CorePlayer,reason: string)
   // covering keeps that duty otherwise, and once his team is attacking the
   // engine sees two covers on the court at once -- one real and one left over.
   for(const p of s.players){
-    p.support=null;p.zone=null;p.reception=null;p.supportMotion=null;
+    p.support=null;p.zone=null;p.reception=null;
     p.duty={kind:'WAIT',targetId:null,sinceTick:s.tick,reason:'Possession changed'};
     p.nextAction=null;
     // A new attack inherits the real court. It abandons the old attacking or

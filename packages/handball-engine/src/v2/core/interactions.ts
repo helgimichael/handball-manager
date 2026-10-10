@@ -32,7 +32,9 @@ function duel(s:CoreState,a:CorePlayer) {
     const d=defenders.find(d=>(action.driveStart?.[d.id]??-1)>=0&&
       distance(a.position,d.position)<2.2&&
       local(a.position,s.directions[a.team]).y+BEATEN_MARGIN<local(d.position,s.directions[a.team]).y&&
-      d.action?.kind!=='CONTACT');
+      // A contact intention/recovery is not an actual containing body. Only a
+      // physically reachable executing contact can still hold this shoulder.
+      !(d.action?.kind==='CONTACT'&&d.action.phase==='EXECUTING'&&distance(a.position,d.position)<=.95));
     if(!d)return;
     action.resolved=true;
     const margin=local(d.position,s.directions[a.team]).y-local(a.position,s.directions[a.team]).y;
