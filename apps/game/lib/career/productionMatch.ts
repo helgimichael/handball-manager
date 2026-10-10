@@ -28,7 +28,7 @@ export function archiveFrames(archive: PlayedMatchArchive): MatchFrame[] { retur
 export type ProductionMatchSession = { format: 1; behaviorRevision?:string; fixture: CareerFixture; core: CoreState; people: MatchPerson[]; frames: MatchFrame[]; pausedAtHalf: boolean; error: string | null };
 /** Developer measurement hook. Readers must not mutate state or consume RNG. */
 export type ProductionMatchObserver=(core:Readonly<CoreState>,newEvents:readonly CoreEvent[])=>void;
-export const MATCH_BEHAVIOR_REVISION = 'career-realism-v2.1-calibration';
+export const MATCH_BEHAVIOR_REVISION = 'career-motion-continuity-v1';
 export type MatchCommand = { kind: 'TACTICS'; team: TeamId; patch: Partial<Pick<TeamTactics, 'defence' | 'tempo' | 'attackIdentity' | 'rotation'>> } | { kind: 'SUBSTITUTION'; team: TeamId; outId: string; inId: string } | { kind: 'TIMEOUT'; team: TeamId } | { kind: 'SECOND_HALF' };
 
 const roleByPosition: Record<string, Role> = { V6: 'LW', V9: 'LB', M9: 'CB', H9: 'RB', H6: 'RW', M6: 'P', MV: 'GK' };
@@ -122,6 +122,7 @@ export function advanceProductionMatch(state: CareerState, ticks: number, stopAt
   const session: ProductionMatchSession = { ...previous, behaviorRevision:MATCH_BEHAVIOR_REVISION, frames: previous.frames.slice(), core: { ...structuredClone(body), events: events.slice(), contests: contests.slice() } };
   for (let i = 0; i < Math.min(10000, ticks) && session.core.status === 'RUNNING'; i++) {
     const previousEventCount = session.core.events.length;
+    const wasLive = session.core.ball.live;
     advanceCoreMutable(session.core);
     for (const event of session.core.events.slice(previousEventCount)) if (event.type === 'SHOT_RELEASED') {
       const shooter = session.core.players.find(p => p.id === event.actorId);
@@ -129,7 +130,9 @@ export function advanceProductionMatch(state: CareerState, ticks: number, stopAt
       event.details.goalkeeperId = keeper?.id ?? '';
     }
     const facts = session.core.events.slice(previousEventCount);
-    if (session.core.tick % 5 === 0 || session.core.ball.flight || facts.some(e => ['GOAL', 'SUBSTITUTE_ADMITTED', 'EXCHANGE_COMPLETED', 'PERIOD_ENDED', 'TWO_MINUTE_SUSPENSION'].includes(e.type)) || session.core.status !== 'RUNNING') session.frames.push(observedFrame(session));
+    // Every live 50ms pose retains real stops, steering and action boundaries.
+    // Dead-ball positioning keeps the existing lower-rate/event sampling.
+    if (wasLive || session.core.ball.live || session.core.tick % 5 === 0 || session.core.ball.flight || facts.some(e => ['GOAL', 'SUBSTITUTE_ADMITTED', 'EXCHANGE_COMPLETED', 'PERIOD_ENDED', 'TWO_MINUTE_SUSPENSION'].includes(e.type)) || session.core.status !== 'RUNNING') session.frames.push(observedFrame(session));
     observer?.(session.core,facts);
     if (stopAtHalf && session.core.match?.phase === 'HALFTIME') { session.pausedAtHalf = true; break; }
   }

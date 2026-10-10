@@ -41,6 +41,9 @@ export function frameAt(frames: readonly MatchFrame[], tick: number): MatchFrame
   while (low < high) { const mid = Math.ceil((low + high) / 2); if (frames[mid][0] <= tick) low = mid; else high = mid - 1; }
   const first = frames[low], next = frames[low + 1];
   if (!next || tick <= first[0]) return first;
+  // Period flips and goals are discrete placements. Never draw a path through
+  // a halftime switch or a goal-to-restart relocation that was not recorded.
+  if(next[2]!==first[2]||next[3]!==first[3]||next[4]!==first[4])return first;
   const fraction = (tick - first[0]) / (next[0] - first[0]);
   const row = first.slice();
   row[0] = tick;

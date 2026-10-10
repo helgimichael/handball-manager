@@ -1,15 +1,17 @@
 'use client';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useCareer } from '@/lib/career/CareerContext';
 import { advanceProductionMatch, commandProductionMatch, finalizeProductionMatch, observedFrame, archiveFrames, type MatchCommand, type MatchFrame, type MatchPerson, type PlayedMatchArchive } from '@/lib/career/productionMatch';
 import { frameAt } from '@/lib/career/matchFrames';
+import { playbackTick } from '@/lib/career/matchPlayback';
+import type { ProductionMatchSession } from '@/lib/career/productionMatch';
 import { Scoreboard } from '@/components/game/Identity';
 import { LiveCoachPanel } from '@/components/game/LiveCoachPanel';
 
 function Court({ frame, people }: { frame: MatchFrame; people: MatchPerson[] }) {
-  return <svg viewBox="-150 -100 4300 2200" aria-label="Handbollsplan med matchens spelare och boll" style={{ width: '100%', maxHeight: '64vh', minHeight: 340 }}>
+  return <svg data-render-tick={frame[0]} viewBox="-150 -100 4300 2200" aria-label="Handbollsplan med matchens spelare och boll" style={{ width: '100%', maxHeight: '64vh', minHeight: 340 }}>
     <g transform="matrix(0 1 -1 0 4000 0)">
     <rect x="0" y="0" width="2000" height="4000" rx="10" fill="#173e51" stroke="#d2e7ee" strokeWidth="8" />
     <g fill="none" stroke="#d2e7ee" strokeWidth="7">
@@ -28,18 +30,38 @@ function Court({ frame, people }: { frame: MatchFrame; people: MatchPerson[] }) 
   </svg>;
 }
 
+/** A display may trail the engine, but never extrapolates beyond its buffer. */
+function LiveCourt({session,playing,speed}:{session:ProductionMatchSession;playing:boolean;speed:number}) {
+  const latest=useRef(session);
+  useEffect(()=>{latest.current=session;},[session]);
+  const cursor=useRef(session.core.tick),[tick,setTick]=useState(session.core.tick);
+  useEffect(()=>{
+    if(!playing)return;
+    let request=0,last:number|null=null;
+    const render=(now:number)=>{
+      const elapsed=last===null||document.hidden?0:now-last;last=now;
+      cursor.current=playbackTick(cursor.current,elapsed,speed,latest.current.core.tick);
+      setTick(cursor.current);request=requestAnimationFrame(render);
+    };
+    request=requestAnimationFrame(render);return()=>cancelAnimationFrame(request);
+  },[playing,speed]);
+  return <Court frame={frameAt(session.frames,tick)} people={session.people}/>;
+}
+
 export function ArchiveReplay({ archive }: { archive: PlayedMatchArchive }) {
   const decoded = useMemo(() => { try { return { frames: archiveFrames(archive), error: null }; } catch (cause) { return { frames: [], error: cause instanceof Error ? cause.message : 'Reprisen kunde inte läsas.' }; } }, [archive]);
   const frames = decoded.frames;
   const [tick, setTick] = useState(frames[0]?.[0] ?? 0), [playing, setPlaying] = useState(false), [speed, setSpeed] = useState(4);
   useEffect(() => {
     if (!playing) return;
-    const timer = setInterval(() => setTick(i => Math.min(frames.at(-1)?.[0] ?? 0, i + speed)), 50);
-    return () => clearInterval(timer);
+    let request=0,last:number|null=null;
+    const render=(now:number)=>{const elapsed=last===null||document.hidden?0:now-last;last=now;setTick(i=>playbackTick(i,elapsed,speed,frames.at(-1)?.[0]??0));request=requestAnimationFrame(render);};
+    request=requestAnimationFrame(render);
+    return () => cancelAnimationFrame(request);
   }, [playing, speed, frames]);
   const frame = frames.length ? frameAt(frames, tick) : null;
   if (!frame) return <p role="alert">{decoded.error ?? 'Den här matchen saknar sparad 2D-visning.'}</p>;
-  return <div className="game-live-match"><Scoreboard homeClubId={archive.fixture.homeClubId} awayClubId={archive.fixture.awayClubId} homeScore={frame[3]} awayScore={frame[4]} label="Repris"><span>{Math.floor(frame[1] / 60000)}:{String(Math.floor(frame[1] / 1000) % 60).padStart(2, '0')}</span></Scoreboard><div className="game-court-stage"><Court frame={frame} people={archive.people} /></div><div className="game-match-controls"><button className="hm-btn" onClick={() => setPlaying(!playing)}>{playing ? 'Pausa' : 'Spela'}</button> <select aria-label="Reprishastighet" value={speed} onChange={e => setSpeed(Number(e.target.value))}>{[1, 4, 16, 64].map(n => <option key={n} value={n}>{n}×</option>)}</select><input aria-label="Position i reprisen" type="range" min={frames[0][0]} max={frames.at(-1)![0]} value={tick} onChange={e => { setTick(Number(e.target.value)); setPlaying(false); }} style={{ width: '100%', marginTop: 16 }} /><p>Slutresultat: {archive.result.homeGoals}–{archive.result.awayGoals}</p></div></div>;
+  return <div className="game-live-match"><Scoreboard homeClubId={archive.fixture.homeClubId} awayClubId={archive.fixture.awayClubId} homeScore={frame[3]} awayScore={frame[4]} label="Repris"><span>{Math.floor(frame[1] / 60000)}:{String(Math.floor(frame[1] / 1000) % 60).padStart(2, '0')}</span></Scoreboard><div className="game-court-stage"><Court frame={frame} people={archive.people} /></div><div className="game-match-controls"><button className="hm-btn" onClick={() => setPlaying(!playing)}>{playing ? 'Pausa' : 'Spela'}</button> <select aria-label="Reprishastighet" value={speed} onChange={e => setSpeed(Number(e.target.value))}>{[1, 4, 16, 64].map(n => <option key={n} value={n}>{n}×</option>)}</select><input aria-label="Position i reprisen" type="range" min={frames[0][0]} max={frames.at(-1)![0]} value={Math.floor(tick)} onChange={e => { setTick(Number(e.target.value)); setPlaying(false); }} style={{ width: '100%', marginTop: 16 }} /><p>Slutresultat: {archive.result.homeGoals}–{archive.result.awayGoals}</p></div></div>;
 }
 
 export default function ProductionMatchView({ fixtureId, quickFinish = false }: { fixtureId: string; quickFinish?: boolean }) {
@@ -79,7 +101,7 @@ export default function ProductionMatchView({ fixtureId, quickFinish = false }: 
         <Link className="hm-btn" href="/career/squad">Trupp</Link><span className="hm-text-muted">Matchen sparas automatiskt. Pausa innan du lämnar.</span>
       </div>
       {(error || session.error) && <p role="alert" className="hm-panel-body">{error ?? session.error}</p>}
-      <div className="game-court-stage"><Court frame={observedFrame(session)} people={session.people} /></div>
+      <div className="game-court-stage">{finishing?<Court frame={observedFrame(session)} people={session.people}/>:<LiveCourt key={session.fixture.id} session={session} playing={playing} speed={speed}/>}</div>
     </div>
     {!fulltime && <LiveCoachPanel session={session} team={team} busy={busy} outId={outId} inId={inId} onOut={id => { setOutId(id); setInId(''); }} onIn={setInId} onSubstitute={() => { apply({ kind: 'SUBSTITUTION', team, outId, inId }); setOutId(''); setInId(''); }} onCommand={apply} recent={recent} />}
     </div>
