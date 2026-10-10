@@ -1,0 +1,41 @@
+﻿{
+    "head":  "357f311f891a90638f7f6b496333d19900f147d9",
+    "status":  [
+                   " M apps/game/app/match-qa/page.tsx",
+                   " M apps/game/lib/matchQa/qaHarness.ts",
+                   " M apps/game/scripts/season-audit.ts",
+                   "?? .claude/",
+                   "?? apps/game/.tmp-final-benchmark.ts",
+                   "?? apps/game/e2e/match-motion.spec.ts",
+                   "?? apps/game/scripts/lib/motionDiagnostics.ts",
+                   "?? apps/game/scripts/match-motion-diagnostics.ts",
+                   "?? docs/audit/",
+                   "?? docs/match-motion-continuity/"
+               ],
+    "worktrees":  [
+                      "C:/Users/helgi/Documents/STARKVIS-HELA/handball-manager    357f311 [main]",
+                      "C:/Users/helgi/Documents/STARKVIS-HELA/handball-motion-lab 197d2a8 [motion-lab]"
+                  ],
+    "stashes":  [
+                    "stash@{0}: On motion-lab: WIP Pack #5 M6 breakthrough screen paused before Human QA",
+                    "stash@{1}: On motion-lab: WIP Pack #5 M6 line game paused before Human QA"
+                ],
+    "preservedHashes":  [
+                            {
+                                "Path":  "C:\\Users\\helgi\\Documents\\STARKVIS-HELA\\handball-manager\\apps\\game\\app\\match-qa\\page.tsx",
+                                "Hash":  "A245EC398A29F3C8B7AB7317682433DBFE81E4A46E249A60C8F5A5A024FECE8F"
+                            },
+                            {
+                                "Path":  "C:\\Users\\helgi\\Documents\\STARKVIS-HELA\\handball-manager\\apps\\game\\lib\\matchQa\\qaHarness.ts",
+                                "Hash":  "F100717310EA08F43C33B49DBABE7ACEE338B40884E9182030F59DB7C62FECE9"
+                            },
+                            {
+                                "Path":  "C:\\Users\\helgi\\Documents\\STARKVIS-HELA\\handball-manager\\apps\\game\\scripts\\season-audit.ts",
+                                "Hash":  "7BA6F05B9F1E9CFA491961C1A6C644D7CE5FB2123FED5BAC0D1FB3A869B07266"
+                            },
+                            {
+                                "Path":  "C:\\Users\\helgi\\Documents\\STARKVIS-HELA\\handball-manager\\apps\\game\\.tmp-final-benchmark.ts",
+                                "Hash":  "BA9D04161DFD8FBA50732356598D92323BC71F93CFB5F827170EA804846A5B76"
+                            }
+                        ]
+}
