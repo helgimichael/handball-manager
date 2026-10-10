@@ -1,0 +1,34 @@
+﻿{
+    "verifiedAt":  "2026-10-10T12:01:10.2432460Z",
+    "evidenceCheckpoint":  "b6a0e38",
+    "files":  [
+                  {
+                      "path":  "apps/game/app/match-qa/page.tsx",
+                      "originalSha256":  "A245EC398A29F3C8B7AB7317682433DBFE81E4A46E249A60C8F5A5A024FECE8F",
+                      "currentSha256":  "A245EC398A29F3C8B7AB7317682433DBFE81E4A46E249A60C8F5A5A024FECE8F",
+                      "identical":  true
+                  },
+                  {
+                      "path":  "apps/game/lib/matchQa/qaHarness.ts",
+                      "originalSha256":  "F100717310EA08F43C33B49DBABE7ACEE338B40884E9182030F59DB7C62FECE9",
+                      "currentSha256":  "F100717310EA08F43C33B49DBABE7ACEE338B40884E9182030F59DB7C62FECE9",
+                      "identical":  true
+                  },
+                  {
+                      "path":  "apps/game/scripts/season-audit.ts",
+                      "originalSha256":  "7BA6F05B9F1E9CFA491961C1A6C644D7CE5FB2123FED5BAC0D1FB3A869B07266",
+                      "currentSha256":  "7BA6F05B9F1E9CFA491961C1A6C644D7CE5FB2123FED5BAC0D1FB3A869B07266",
+                      "identical":  true
+                  }
+              ],
+    "motionHead":  "197d2a80ecea3b70efdcf8ef347cfc68e0e86b2b",
+    "motionBranch":  "motion-lab",
+    "motionStatus":  [
+                         "?? .claude/"
+                     ],
+    "stashes":  [
+                    "ddba79055949b76898b12fc1b947e8f8645589cb",
+                    "b068a9586209b9405b8d5f0dc6fae6384dd09001"
+                ],
+    "nothingPushed":  true
+}
