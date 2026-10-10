@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { playbackTick } from './matchPlayback';
 import { encodeFrames, decodeFrames, frameAt } from './matchFrames';
+import { observedFrame, type ProductionMatchSession } from './productionMatch';
 const frames=[[0,0,1,0,0,100,100,0,200,200],[1,50,1,0,0,110,100,0,220,200],[2,100,1,0,0,120,100,0,240,200]];
 test('fractional playback follows recorded geometry monotonically at all speeds',()=>{
   for(const speed of [1,4,16]){let tick=0,last=0;while(tick<2){tick=playbackTick(tick,1,speed,2);const frame=frameAt(frames,tick);assert.ok(frame[8]>=last);assert.ok(Math.abs(frame[8]-(200+20*tick))<1e-9);last=frame[8];}assert.equal(tick,2);}
@@ -14,4 +15,8 @@ test('archive codec keeps exact canonical poses and interpolation is immutable',
 });
 test('period and score boundaries do not invent trajectories across placements',()=>{
   const flip=[frames[0],[1,50,2,0,0,1000,1000,0,1800,3800]];assert.deepEqual(frameAt(flip,.5),flip[0]);assert.deepEqual(frameAt(flip,1),flip[1]);
+});
+test('a centimetre pose near the sideline has one canonical zero through JSON and archive storage',()=>{
+  const row=observedFrame({core:{tick:1,officialClock:{timeMs:50},period:1,score:{HOME:0,AWAY:0},ball:{position:{x:-.001,y:5}},players:[]},people:[]} as unknown as ProductionMatchSession);
+  assert.equal(Object.is(row[5],-0),false);assert.deepEqual(JSON.parse(JSON.stringify(row)),row);assert.deepEqual(decodeFrames(encodeFrames([row])),[row]);
 });

@@ -36,8 +36,11 @@ const engineRoles: Record<string, Role> = { LEFT_WING: 'LW', LEFT_BACK: 'LB', CE
 
 export function observedFrame(s: ProductionMatchSession): MatchFrame {
   const c = s.core;
-  const row = [c.tick, c.officialClock.timeMs, c.period, c.score.HOME, c.score.AWAY, Math.round(c.ball.position.x * 100), Math.round(c.ball.position.y * 100)];
-  for (const p of c.players) if (p.population === 'COURT') row.push(s.people.findIndex(x => x.id === p.id), Math.round(p.position.x * 100), Math.round(p.position.y * 100));
+  // Integer centimetres have one zero. JSON and the i16 archive codec both
+  // encode -0 as 0; normalize at observation so the raw pose round-trips too.
+  const cm=(coordinate:number)=>Math.round(coordinate*100)+0;
+  const row = [c.tick, c.officialClock.timeMs, c.period, c.score.HOME, c.score.AWAY, cm(c.ball.position.x), cm(c.ball.position.y)];
+  for (const p of c.players) if (p.population === 'COURT') row.push(s.people.findIndex(x => x.id === p.id), cm(p.position.x), cm(p.position.y));
   return row;
 }
 
