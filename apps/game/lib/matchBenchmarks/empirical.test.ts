@@ -26,7 +26,7 @@ test('goal sums, penalties, negative/impossible statistics and keeper denominato
 });
 test('distribution, coverage, evidence tier and source provenance survive derivation',()=>{
   const d=deriveProfile(actual),goals=d.profile.metrics.find(m=>m.metric==='goals')!;
-  assert.equal(goals.distribution.n,182);assert.equal(goals.distribution.mean,11214/182);assert.equal(goals.evidence!.coverage,1);assert.equal(goals.evidence!.tier,'D');assert.equal(goals.provenance.normalizedHash,d.normalizedHash);assert.ok(goals.provenance.sourceHashes!.length>182);
+  assert.equal(goals.distribution.n,182);assert.equal(goals.distribution.mean,11214/182);assert.equal(goals.evidence!.coverage,1);assert.equal(goals.evidence!.tier,'D');assert.equal(goals.provenance.normalizedHash,d.normalizedHash);assert.equal(goals.provenance.sourceManifestHash,digest(actual.sources));
   const thin=deriveProfile(sample()).profile;assert.equal(thin.evidence!.coverage,2/182);assert.equal(thin.metrics[0].provenance.confidence,'LOW');assert.equal(evaluate({metric:'goals',scope:'MATCH',value:80,n:1},[thin],{competition:'swe-2',season:'2025-26',country:'SE',category:'men-senior'}).status,'INSUFFICIENT_SAMPLE');
   const q=distribution([10,20,30,40]);assert.equal(q.p25,17.5);assert.equal(q.p95,38.5);
 });
