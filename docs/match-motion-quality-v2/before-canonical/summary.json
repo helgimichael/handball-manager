@@ -1,0 +1,1407 @@
+{
+  "metadata": {
+    "head": "5569b59cf3124ffcb533da67f70fd69afa06e6aa",
+    "schemaVersion": "match-benchmarks/1",
+    "identity": {
+      "competition": "se_handbollsligan_herr",
+      "season": "2025-26",
+      "country": "SE",
+      "category": "men-senior"
+    },
+    "profileVersions": [],
+    "inputHash": "8773162275c76de70511889789a7a7bbc4e1b9cbb4c8b2c5030eb8cafee530a7",
+    "referenceHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "recipes": [
+      {
+        "index": 0,
+        "saveSeed": "match-realism-v2-canonical-2026:0",
+        "managerClubId": "se_club_alingsas_hk"
+      },
+      {
+        "index": 1,
+        "saveSeed": "match-realism-v2-canonical-2026:1",
+        "managerClubId": "se_club_amo_hk"
+      }
+    ],
+    "tactics": null,
+    "sourceFingerprints": [
+      {
+        "path": "/packages/handball-engine/src/v2/core/actions.ts",
+        "sha256": "1d37e65aaf60e5efb2985a7b8998a51ef47171e7834eda1c4a653841dff739cf"
+      },
+      {
+        "path": "/packages/handball-engine/src/v2/core/backcourt.ts",
+        "sha256": "00ab4e44f0520b83f771cf5dd8a0e1212b34272410e5027b856eabddebddc120"
+      },
+      {
+        "path": "/packages/handball-engine/src/v2/core/backcourtScenarios.ts",
+        "sha256": "6137722469db2dc0a9567b9ff3bccd9c8d3f070e9db58bb93fe225cbccd655be"
+      },
+      {
+        "path": "/packages/handball-engine/src/v2/core/coaching.ts",
+        "sha256": "b943276328e1df36f43173af08fe008d8376f419e5afae4aeae5e1466a28a599"
+      },
+      {
+        "path": "/packages/handball-engine/src/v2/core/condition.ts",
+        "sha256": "f27c2d555258dbb0a56f562ed25e0416aa31a2e90640143ea7f7b874f92cad91"
+      },
+      {
+        "path": "/packages/handball-engine/src/v2/core/contact.ts",
+        "sha256": "51c5c45017537c88bb92b43e46022ff2ba64210aab1895762ec57e30e10babd1"
+      },
+      {
+        "path": "/packages/handball-engine/src/v2/core/contactScenarios.ts",
+        "sha256": "79e6fc938ed175948f2a2e3a0bdf4fff318e0eda44077d615be68011156e6901"
+      },
+      {
+        "path": "/packages/handball-engine/src/v2/core/continuous.ts",
+        "sha256": "3bc0e25ee0474aab3162df83b5e228bcd5953ddc5b29622592e5fd5bfdda55c5"
+      },
+      {
+        "path": "/packages/handball-engine/src/v2/core/defence.ts",
+        "sha256": "21deda90b4cdce41ef01ec50604ce67eaf53b7cb3b176678f350f2aa9cc72c23"
+      },
+      {
+        "path": "/packages/handball-engine/src/v2/core/engage.ts",
+        "sha256": "d9667810754883bd80dc77d632a8e3ba2f479d20abd65c66ae104bdb71555221"
+      },
+      {
+        "path": "/packages/handball-engine/src/v2/core/engine.ts",
+        "sha256": "06a491914837f8be7c3a28209a7843a2952a6f762bd7c3a967cf542597aba2ea"
+      },
+      {
+        "path": "/packages/handball-engine/src/v2/core/execution.ts",
+        "sha256": "007e762da12b99b50cf90541895512657edafb4804a663eece2bd6726e844527"
+      },
+      {
+        "path": "/packages/handball-engine/src/v2/core/interactions.ts",
+        "sha256": "288a4fd89a98f4f977a6d2e04db9fc36a084c8e60e7257186e6b152ed4dd8c97"
+      },
+      {
+        "path": "/packages/handball-engine/src/v2/core/ledger.ts",
+        "sha256": "dd801ce6401a106d772eac46c5800eb46f218d34495f41ec1ff536aec24116c9"
+      },
+      {
+        "path": "/packages/handball-engine/src/v2/core/locomotion.ts",
+        "sha256": "da0030eced1567a65a644af51dfb341191d67d3ccdf3ccc115dcfaf21beff3a5"
+      },
+      {
+        "path": "/packages/handball-engine/src/v2/core/match.ts",
+        "sha256": "4ced473266ede54a0d9689c6e06a28e2a5b009464fdd994fce6c61e8186c08dd"
+      },
+      {
+        "path": "/packages/handball-engine/src/v2/core/matchReplay.ts",
+        "sha256": "6796c275154da7145cd06558835524075013528ecb2354a1f3439e5b537ea499"
+      },
+      {
+        "path": "/packages/handball-engine/src/v2/core/offence.ts",
+        "sha256": "8e4a37b6a87cc000094bf402d8d0a26471689ec782af8aa7a3ecb555cc95740b"
+      },
+      {
+        "path": "/packages/handball-engine/src/v2/core/passive.ts",
+        "sha256": "0c405269406b4a8b124ea432ce036a0008118aa59c186954cded0957a0c2381f"
+      },
+      {
+        "path": "/packages/handball-engine/src/v2/core/pivot.ts",
+        "sha256": "3021f9ab217e9e4eb8f5adf996365e86338ac0fa9e738fc7491a25228c6bf783"
+      },
+      {
+        "path": "/packages/handball-engine/src/v2/core/population.ts",
+        "sha256": "49ce36826bec8344be94e5fc8cd763abeb9fb2525728df0d1526d799bc24bd7f"
+      },
+      {
+        "path": "/packages/handball-engine/src/v2/core/profile.ts",
+        "sha256": "2470fad59a2bb1570ee67561b8ca9e79edead74bc7082c7fe0007f2e252f38b0"
+      },
+      {
+        "path": "/packages/handball-engine/src/v2/core/realism.ts",
+        "sha256": "615271e0bc0217a08b296fa0777754f28b02fa136e5c0e55f07a8af616780897"
+      },
+      {
+        "path": "/packages/handball-engine/src/v2/core/referee.ts",
+        "sha256": "35feaf4d17b6b5bd011702384be061081b52b220e5d897e37aa24bc297d04387"
+      },
+      {
+        "path": "/packages/handball-engine/src/v2/core/replay.ts",
+        "sha256": "7a636b1b374a10d7f8aa02ade08957ac67920aacd33b37db2f412f2fefa42e6b"
+      },
+      {
+        "path": "/packages/handball-engine/src/v2/core/restarts.ts",
+        "sha256": "20a9bfbb0ebbffe9daf74da6557dc735595b5af2ec99b4bc586a4219fbb37f24"
+      },
+      {
+        "path": "/packages/handball-engine/src/v2/core/rules.ts",
+        "sha256": "46325a43317b15edfc4773265989ffa2ab0500c9fdefb32a7fc3363dd39147d4"
+      },
+      {
+        "path": "/packages/handball-engine/src/v2/core/sanction.ts",
+        "sha256": "9e73fa8151c2f4d86c46883c1939aca437d341a34aa2767ae827cb525dd67dd2"
+      },
+      {
+        "path": "/packages/handball-engine/src/v2/core/scenarios.ts",
+        "sha256": "c48ddb2c75ce34fd03c439261e40e77f676b1ffb2fc8abeb1a3f9b1a5d286dbe"
+      },
+      {
+        "path": "/packages/handball-engine/src/v2/core/space.ts",
+        "sha256": "e9c1d8c3bb9e0a813ef82abd38cb8229a245dcee5b21b215ff9acee7bb701c7f"
+      },
+      {
+        "path": "/packages/handball-engine/src/v2/core/squads.ts",
+        "sha256": "fc2aeaa594f3ef8a119656d1056178bf5f6414f6ee4c2082641b97fc216749a4"
+      },
+      {
+        "path": "/packages/handball-engine/src/v2/core/state.ts",
+        "sha256": "c86e46360775cee3e9d0dcf5a60a0d9df225fe147a748daa9f51c292670258da"
+      },
+      {
+        "path": "/packages/handball-engine/src/v2/core/structure.ts",
+        "sha256": "4c0ef606a9f03990cda2941d5af7f71adc56b353fe090e11c5fe58c12b816276"
+      },
+      {
+        "path": "/packages/handball-engine/src/v2/core/testProfile.ts",
+        "sha256": "35a3ac5a0a0fbb6614de81c449fde37b880af96bc10a1cd2dcf4b4e3e9077d6d"
+      },
+      {
+        "path": "/packages/handball-engine/src/v2/core/timing.ts",
+        "sha256": "0356bb3de1dc1aa32359d6e198cce8155bbd7010c9f76592f6f33c24c131b169"
+      },
+      {
+        "path": "/packages/handball-engine/src/v2/core/transitions.ts",
+        "sha256": "ee453a4af139da47de2249d4ebf8f73f44e94372c2c231f654f65651cef77ec3"
+      },
+      {
+        "path": "/packages/handball-engine/src/v2/core/wing.ts",
+        "sha256": "31d7f39cf38918717d3723fadcce80948a13650a45a2f680e1bbc5c66fd3a556"
+      },
+      {
+        "path": "/packages/handball-engine/src/v2/core/wingScenarios.ts",
+        "sha256": "8d553b1c254f0953cf5508ca1a37463891f631cdfd0df81b436be487541ee031"
+      },
+      {
+        "path": "/apps/game/lib/career/productionMatch.ts",
+        "sha256": "6b826bb59ba571d70f745f6139002ca47c331489ecdbd2ccfd7c4bf2c51cef6c"
+      },
+      {
+        "path": "/apps/game/scripts/lib/calibrationDiagnostics.ts",
+        "sha256": "75b4d75ab6951abd13939eb69661ef9a926654ce95d33d36434709c9a038223e"
+      },
+      {
+        "path": "/apps/game/lib/matchBenchmarks/empirical.ts",
+        "sha256": "1b05cfb0cfdb7e96870875b1042860b13221c852078eff953d31016123464d6c"
+      },
+      {
+        "path": "/apps/game/lib/matchBenchmarks/empiricalComparison.ts",
+        "sha256": "e49e86aca79b3e30cbe57ea0e6ce1da16a778417e936be4f3a1405a312e1a975"
+      },
+      {
+        "path": "/apps/game/lib/matchBenchmarks/evaluate.ts",
+        "sha256": "2f4d5bc893fbd482dfcd10baeaa1f3aa72c943dbcfa0e8dca0ba050fd3c9f3f0"
+      },
+      {
+        "path": "/apps/game/lib/matchBenchmarks/extract.ts",
+        "sha256": "4ac1e4094d2b76ba34dd157df4b32ba6309c1853aab18c7329890231681bb873"
+      },
+      {
+        "path": "/apps/game/lib/matchBenchmarks/reference.ts",
+        "sha256": "25cb435b7824faa1fc58429264d3e91a4833e678170bb5bfa75d5b5c98009e8a"
+      },
+      {
+        "path": "/apps/game/lib/matchBenchmarks/report.ts",
+        "sha256": "c7c77e53ba8b07212362ec36f4a31f2d8b263ea0f17ce8f0fd730292035b7444"
+      },
+      {
+        "path": "/apps/game/lib/matchBenchmarks/statistics.ts",
+        "sha256": "9b3c1f8e5dc5590302b8b6115f5e7c86d9a5693e14af80f0880b334f7752e2d0"
+      },
+      {
+        "path": "/apps/game/scripts/match-benchmarks.ts",
+        "sha256": "5faab03540db0b3232ed2b6e8b1f12add01c85b6cf1784337080dbf0399f8cde"
+      }
+    ],
+    "sourceStable": true,
+    "timings": [
+      {
+        "simulationMs": 23302.3125,
+        "analysisMs": 4029.074199999999,
+        "observerMs": 4849.008400000379
+      },
+      {
+        "simulationMs": 19348.886699999995,
+        "analysisMs": 8841.729900000006,
+        "observerMs": 4255.9415000000445
+      }
+    ],
+    "proofs": [],
+    "totalRuntimeMs": 61283.7843,
+    "normalMatchOverhead": "Zero: benchmark modules are developer-only and never imported by production simulation."
+  },
+  "matches": 2,
+  "distributions": {
+    "outfieldShots": {
+      "n": 2,
+      "mean": 98.5,
+      "median": 98.5,
+      "sd": 4.949747468305833,
+      "min": 95,
+      "max": 102,
+      "p05": 95.35,
+      "p10": 95.7,
+      "p25": 96.75,
+      "p75": 100.25,
+      "p90": 101.3,
+      "p95": 101.65
+    },
+    "outfieldConversion": {
+      "n": 2,
+      "mean": 0.6081011351909185,
+      "median": 0.6081011351909185,
+      "sd": 0.04122965236020629,
+      "min": 0.5789473684210527,
+      "max": 0.6372549019607843,
+      "p05": 0.5818627450980393,
+      "p10": 0.5847781217750259,
+      "p25": 0.5935242518059856,
+      "p75": 0.6226780185758514,
+      "p90": 0.6314241486068111,
+      "p95": 0.6343395252837977
+    },
+    "goals": {
+      "n": 2,
+      "mean": 60,
+      "median": 60,
+      "sd": 7.0710678118654755,
+      "min": 55,
+      "max": 65,
+      "p05": 55.5,
+      "p10": 56,
+      "p25": 57.5,
+      "p75": 62.5,
+      "p90": 64,
+      "p95": 64.5
+    },
+    "possessions": {
+      "n": 2,
+      "mean": 130.5,
+      "median": 130.5,
+      "sd": 0.7071067811865476,
+      "min": 130,
+      "max": 131,
+      "p05": 130.05,
+      "p10": 130.1,
+      "p25": 130.25,
+      "p75": 130.75,
+      "p90": 130.9,
+      "p95": 130.95
+    },
+    "shots": {
+      "n": 2,
+      "mean": 98.5,
+      "median": 98.5,
+      "sd": 4.949747468305833,
+      "min": 95,
+      "max": 102,
+      "p05": 95.35,
+      "p10": 95.7,
+      "p25": 96.75,
+      "p75": 100.25,
+      "p90": 101.3,
+      "p95": 101.65
+    },
+    "saves": {
+      "n": 2,
+      "mean": 18.5,
+      "median": 18.5,
+      "sd": 4.949747468305833,
+      "min": 15,
+      "max": 22,
+      "p05": 15.35,
+      "p10": 15.7,
+      "p25": 16.75,
+      "p75": 20.25,
+      "p90": 21.3,
+      "p95": 21.65
+    },
+    "shotsFaced": {
+      "n": 2,
+      "mean": 78.5,
+      "median": 78.5,
+      "sd": 2.1213203435596424,
+      "min": 77,
+      "max": 80,
+      "p05": 77.15,
+      "p10": 77.3,
+      "p25": 77.75,
+      "p75": 79.25,
+      "p90": 79.7,
+      "p95": 79.85
+    },
+    "conversion": {
+      "n": 2,
+      "mean": 0.6081011351909185,
+      "median": 0.6081011351909185,
+      "sd": 0.04122965236020629,
+      "min": 0.5789473684210527,
+      "max": 0.6372549019607843,
+      "p05": 0.5818627450980393,
+      "p10": 0.5847781217750259,
+      "p25": 0.5935242518059856,
+      "p75": 0.6226780185758514,
+      "p90": 0.6314241486068111,
+      "p95": 0.6343395252837977
+    },
+    "savePct": {
+      "n": 2,
+      "mean": 0.23660714285714285,
+      "median": 0.23660714285714285,
+      "sd": 0.06944798743796449,
+      "min": 0.1875,
+      "max": 0.2857142857142857,
+      "p05": 0.1924107142857143,
+      "p10": 0.19732142857142856,
+      "p25": 0.21205357142857142,
+      "p75": 0.2611607142857143,
+      "p90": 0.27589285714285716,
+      "p95": 0.2808035714285714
+    },
+    "goalsPerPossession": {
+      "n": 2,
+      "mean": 0.45992366412213737,
+      "median": 0.45992366412213737,
+      "sd": 0.05667649772869276,
+      "min": 0.4198473282442748,
+      "max": 0.5,
+      "p05": 0.42385496183206106,
+      "p10": 0.4278625954198473,
+      "p25": 0.4398854961832061,
+      "p75": 0.4799618320610687,
+      "p90": 0.49198473282442745,
+      "p95": 0.4959923664122137
+    },
+    "turnovers": {
+      "n": 2,
+      "mean": 40,
+      "median": 40,
+      "sd": 1.4142135623730951,
+      "min": 39,
+      "max": 41,
+      "p05": 39.1,
+      "p10": 39.2,
+      "p25": 39.5,
+      "p75": 40.5,
+      "p90": 40.8,
+      "p95": 40.9
+    },
+    "technicalErrors": {
+      "n": 2,
+      "mean": 0.5,
+      "median": 0.5,
+      "sd": 0.7071067811865476,
+      "min": 0,
+      "max": 1,
+      "p05": 0.05,
+      "p10": 0.1,
+      "p25": 0.25,
+      "p75": 0.75,
+      "p90": 0.9,
+      "p95": 0.95
+    },
+    "offensiveFouls": {
+      "n": 2,
+      "mean": 0,
+      "median": 0,
+      "sd": 0,
+      "min": 0,
+      "max": 0,
+      "p05": 0,
+      "p10": 0,
+      "p25": 0,
+      "p75": 0,
+      "p90": 0,
+      "p95": 0
+    },
+    "sevenMetres": {
+      "n": 2,
+      "mean": 6,
+      "median": 6,
+      "sd": 0,
+      "min": 6,
+      "max": 6,
+      "p05": 6,
+      "p10": 6,
+      "p25": 6,
+      "p75": 6,
+      "p90": 6,
+      "p95": 6
+    },
+    "sevenMetreConversion": {
+      "n": 2,
+      "mean": 0.9166666666666667,
+      "median": 0.9166666666666667,
+      "sd": 0.11785113019775789,
+      "min": 0.8333333333333334,
+      "max": 1,
+      "p05": 0.8416666666666667,
+      "p10": 0.8500000000000001,
+      "p25": 0.875,
+      "p75": 0.9583333333333334,
+      "p90": 0.9833333333333334,
+      "p95": 0.9916666666666667
+    },
+    "suspensions": {
+      "n": 2,
+      "mean": 6.5,
+      "median": 6.5,
+      "sd": 0.7071067811865476,
+      "min": 6,
+      "max": 7,
+      "p05": 6.05,
+      "p10": 6.1,
+      "p25": 6.25,
+      "p75": 6.75,
+      "p90": 6.9,
+      "p95": 6.95
+    },
+    "contacts": {
+      "n": 2,
+      "mean": 633,
+      "median": 633,
+      "sd": 26.870057685088806,
+      "min": 614,
+      "max": 652,
+      "p05": 615.9,
+      "p10": 617.8,
+      "p25": 623.5,
+      "p75": 642.5,
+      "p90": 648.2,
+      "p95": 650.1
+    },
+    "assessedFouls": {
+      "n": 2,
+      "mean": 36.5,
+      "median": 36.5,
+      "sd": 6.363961030678928,
+      "min": 32,
+      "max": 41,
+      "p05": 32.45,
+      "p10": 32.9,
+      "p25": 34.25,
+      "p75": 38.75,
+      "p90": 40.1,
+      "p95": 40.55
+    },
+    "advantages": {
+      "n": 2,
+      "mean": 17.5,
+      "median": 17.5,
+      "sd": 9.192388155425117,
+      "min": 11,
+      "max": 24,
+      "p05": 11.65,
+      "p10": 12.3,
+      "p25": 14.25,
+      "p75": 20.75,
+      "p90": 22.700000000000003,
+      "p95": 23.35
+    },
+    "whistles": {
+      "n": 2,
+      "mean": 19,
+      "median": 19,
+      "sd": 2.8284271247461903,
+      "min": 17,
+      "max": 21,
+      "p05": 17.2,
+      "p10": 17.4,
+      "p25": 18,
+      "p75": 20,
+      "p90": 20.6,
+      "p95": 20.8
+    },
+    "freeThrows": {
+      "n": 2,
+      "mean": 14.5,
+      "median": 14.5,
+      "sd": 3.5355339059327378,
+      "min": 12,
+      "max": 17,
+      "p05": 12.25,
+      "p10": 12.5,
+      "p25": 13.25,
+      "p75": 15.75,
+      "p90": 16.5,
+      "p95": 16.75
+    },
+    "possessionSeconds": {
+      "n": 2,
+      "mean": 27.58661186142102,
+      "median": 27.58661186142102,
+      "sd": 0.14947647752622997,
+      "min": 27.480916030534345,
+      "max": 27.692307692307697,
+      "p05": 27.491485613623013,
+      "p10": 27.50205519671168,
+      "p25": 27.533763945977682,
+      "p75": 27.63945977686436,
+      "p90": 27.671168526130362,
+      "p95": 27.68173810921903
+    },
+    "transitionPossessions": {
+      "n": 2,
+      "mean": 129,
+      "median": 129,
+      "sd": 1.4142135623730951,
+      "min": 128,
+      "max": 130,
+      "p05": 128.1,
+      "p10": 128.2,
+      "p25": 128.5,
+      "p75": 129.5,
+      "p90": 129.8,
+      "p95": 129.9
+    },
+    "transitionAttempts": {
+      "n": 2,
+      "mean": 129.5,
+      "median": 129.5,
+      "sd": 0.7071067811865476,
+      "min": 129,
+      "max": 130,
+      "p05": 129.05,
+      "p10": 129.1,
+      "p25": 129.25,
+      "p75": 129.75,
+      "p90": 129.9,
+      "p95": 129.95
+    },
+    "transitionShots": {
+      "n": 2,
+      "mean": 4,
+      "median": 4,
+      "sd": 1.4142135623730951,
+      "min": 3,
+      "max": 5,
+      "p05": 3.1,
+      "p10": 3.2,
+      "p25": 3.5,
+      "p75": 4.5,
+      "p90": 4.8,
+      "p95": 4.9
+    },
+    "transitionGoals": {
+      "n": 2,
+      "mean": 2.5,
+      "median": 2.5,
+      "sd": 0.7071067811865476,
+      "min": 2,
+      "max": 3,
+      "p05": 2.05,
+      "p10": 2.1,
+      "p25": 2.25,
+      "p75": 2.75,
+      "p90": 2.9,
+      "p95": 2.95
+    },
+    "transitionConversion": {
+      "n": 2,
+      "mean": 0.6333333333333333,
+      "median": 0.6333333333333333,
+      "sd": 0.04714045207910316,
+      "min": 0.6,
+      "max": 0.6666666666666666,
+      "p05": 0.6033333333333333,
+      "p10": 0.6066666666666667,
+      "p25": 0.6166666666666667,
+      "p75": 0.6499999999999999,
+      "p90": 0.6599999999999999,
+      "p95": 0.6633333333333333
+    },
+    "transitionRate": {
+      "n": 2,
+      "mean": 0.9885496183206106,
+      "median": 0.9885496183206106,
+      "sd": 0.016193285065340807,
+      "min": 0.9770992366412213,
+      "max": 1,
+      "p05": 0.9782442748091603,
+      "p10": 0.9793893129770992,
+      "p25": 0.982824427480916,
+      "p75": 0.9942748091603053,
+      "p90": 0.9977099236641221,
+      "p95": 0.998854961832061
+    }
+  },
+  "shotGroups": {
+    "CATEGORY:BACKCOURT_JUMP": {
+      "matches": 2,
+      "attempts": 53,
+      "goals": 34,
+      "saves": 5,
+      "shotsFaced": 39,
+      "conversion": 0.6415094339622641,
+      "savePct": 0.1282051282051282,
+      "matchSavePct": {
+        "n": 2,
+        "mean": 0.12916666666666665,
+        "median": 0.12916666666666665,
+        "sd": 0.005892556509887895,
+        "min": 0.125,
+        "max": 0.13333333333333333,
+        "p05": 0.12541666666666668,
+        "p10": 0.12583333333333332,
+        "p25": 0.12708333333333333,
+        "p75": 0.13125,
+        "p90": 0.1325,
+        "p95": 0.13291666666666666
+      }
+    },
+    "POSITION:V9": {
+      "matches": 2,
+      "attempts": 38,
+      "goals": 28,
+      "saves": 3,
+      "shotsFaced": 31,
+      "conversion": 0.7368421052631579,
+      "savePct": 0.0967741935483871,
+      "matchSavePct": {
+        "n": 2,
+        "mean": 0.10597826086956522,
+        "median": 0.10597826086956522,
+        "sd": 0.026900801458183875,
+        "min": 0.08695652173913043,
+        "max": 0.125,
+        "p05": 0.08885869565217391,
+        "p10": 0.0907608695652174,
+        "p25": 0.09646739130434782,
+        "p75": 0.11548913043478261,
+        "p90": 0.12119565217391304,
+        "p95": 0.12309782608695652
+      }
+    },
+    "PRESSURE:PRESENT_AT_LEAST_0.2": {
+      "matches": 2,
+      "attempts": 157,
+      "goals": 96,
+      "saves": 27,
+      "shotsFaced": 123,
+      "conversion": 0.6114649681528662,
+      "savePct": 0.21951219512195122,
+      "matchSavePct": {
+        "n": 2,
+        "mean": 0.21998942358540452,
+        "median": 0.21998942358540452,
+        "sd": 0.08301306474003889,
+        "min": 0.16129032258064516,
+        "max": 0.2786885245901639,
+        "p05": 0.1671602326811211,
+        "p10": 0.17303014278159703,
+        "p25": 0.19063987308302485,
+        "p75": 0.24933897408778422,
+        "p90": 0.26694870438921203,
+        "p95": 0.27281861448968797
+      }
+    },
+    "QUALITY:LOWER_UNDER_0.65": {
+      "matches": 2,
+      "attempts": 157,
+      "goals": 93,
+      "saves": 29,
+      "shotsFaced": 122,
+      "conversion": 0.5923566878980892,
+      "savePct": 0.23770491803278687,
+      "matchSavePct": {
+        "n": 2,
+        "mean": 0.23655913978494625,
+        "median": 0.23655913978494625,
+        "sd": 0.09884288339166794,
+        "min": 0.16666666666666666,
+        "max": 0.3064516129032258,
+        "p05": 0.1736559139784946,
+        "p10": 0.18064516129032257,
+        "p25": 0.20161290322580644,
+        "p75": 0.271505376344086,
+        "p90": 0.2924731182795699,
+        "p95": 0.2994623655913978
+      }
+    },
+    "PHASE:ESTABLISHED": {
+      "matches": 2,
+      "attempts": 177,
+      "goals": 104,
+      "saves": 34,
+      "shotsFaced": 138,
+      "conversion": 0.5875706214689266,
+      "savePct": 0.2463768115942029,
+      "matchSavePct": {
+        "n": 2,
+        "mean": 0.2463768115942029,
+        "median": 0.2463768115942029,
+        "sd": 0.08198339492017943,
+        "min": 0.18840579710144928,
+        "max": 0.30434782608695654,
+        "p05": 0.19420289855072465,
+        "p10": 0.2,
+        "p25": 0.2173913043478261,
+        "p75": 0.2753623188405797,
+        "p90": 0.2927536231884058,
+        "p95": 0.2985507246376812
+      }
+    },
+    "DISTANCE:8_TO_10.5M": {
+      "matches": 2,
+      "attempts": 94,
+      "goals": 58,
+      "saves": 21,
+      "shotsFaced": 79,
+      "conversion": 0.6170212765957447,
+      "savePct": 0.26582278481012656,
+      "matchSavePct": {
+        "n": 2,
+        "mean": 0.2707792207792208,
+        "median": 0.2707792207792208,
+        "sd": 0.06152747316818011,
+        "min": 0.22727272727272727,
+        "max": 0.3142857142857143,
+        "p05": 0.23162337662337662,
+        "p10": 0.23597402597402597,
+        "p25": 0.249025974025974,
+        "p75": 0.29253246753246753,
+        "p90": 0.30558441558441557,
+        "p95": 0.30993506493506495
+      }
+    },
+    "CATEGORY:STANDING": {
+      "matches": 2,
+      "attempts": 11,
+      "goals": 7,
+      "saves": 3,
+      "shotsFaced": 10,
+      "conversion": 0.6363636363636364,
+      "savePct": 0.3,
+      "matchSavePct": {
+        "n": 2,
+        "mean": 0.25,
+        "median": 0.25,
+        "sd": 0.3535533905932738,
+        "min": 0,
+        "max": 0.5,
+        "p05": 0.025,
+        "p10": 0.05,
+        "p25": 0.125,
+        "p75": 0.375,
+        "p90": 0.45,
+        "p95": 0.475
+      }
+    },
+    "POSITION:H6": {
+      "matches": 2,
+      "attempts": 26,
+      "goals": 11,
+      "saves": 6,
+      "shotsFaced": 17,
+      "conversion": 0.4230769230769231,
+      "savePct": 0.35294117647058826,
+      "matchSavePct": {
+        "n": 2,
+        "mean": 0.3472222222222222,
+        "median": 0.3472222222222222,
+        "sd": 0.13749298523071754,
+        "min": 0.25,
+        "max": 0.4444444444444444,
+        "p05": 0.25972222222222224,
+        "p10": 0.26944444444444443,
+        "p25": 0.2986111111111111,
+        "p75": 0.3958333333333333,
+        "p90": 0.425,
+        "p95": 0.4347222222222222
+      }
+    },
+    "CONTEXT:NEAR_SIX_METRE_AREA": {
+      "matches": 2,
+      "attempts": 71,
+      "goals": 40,
+      "saves": 16,
+      "shotsFaced": 56,
+      "conversion": 0.5633802816901409,
+      "savePct": 0.2857142857142857,
+      "matchSavePct": {
+        "n": 2,
+        "mean": 0.26877470355731226,
+        "median": 0.26877470355731226,
+        "sd": 0.13415464623302087,
+        "min": 0.17391304347826086,
+        "max": 0.36363636363636365,
+        "p05": 0.183399209486166,
+        "p10": 0.19288537549407114,
+        "p25": 0.22134387351778656,
+        "p75": 0.31620553359683795,
+        "p90": 0.34466403162055337,
+        "p95": 0.3541501976284585
+      }
+    },
+    "POSITION:H9": {
+      "matches": 2,
+      "attempts": 31,
+      "goals": 17,
+      "saves": 8,
+      "shotsFaced": 25,
+      "conversion": 0.5483870967741935,
+      "savePct": 0.32,
+      "matchSavePct": {
+        "n": 2,
+        "mean": 0.3205128205128205,
+        "median": 0.3205128205128205,
+        "sd": 0.018130943107347346,
+        "min": 0.3076923076923077,
+        "max": 0.3333333333333333,
+        "p05": 0.308974358974359,
+        "p10": 0.31025641025641026,
+        "p25": 0.3141025641025641,
+        "p75": 0.3269230769230769,
+        "p90": 0.33076923076923076,
+        "p95": 0.33205128205128204
+      }
+    },
+    "PHASE:TRANSITION": {
+      "matches": 2,
+      "attempts": 8,
+      "goals": 5,
+      "saves": 2,
+      "shotsFaced": 7,
+      "conversion": 0.625,
+      "savePct": 0.2857142857142857,
+      "matchSavePct": {
+        "n": 2,
+        "mean": 0.2,
+        "median": 0.2,
+        "sd": 0.28284271247461906,
+        "min": 0,
+        "max": 0.4,
+        "p05": 0.020000000000000004,
+        "p10": 0.04000000000000001,
+        "p25": 0.1,
+        "p75": 0.30000000000000004,
+        "p90": 0.36000000000000004,
+        "p95": 0.38
+      }
+    },
+    "CATEGORY:BREAKTHROUGH": {
+      "matches": 2,
+      "attempts": 65,
+      "goals": 34,
+      "saves": 18,
+      "shotsFaced": 52,
+      "conversion": 0.5230769230769231,
+      "savePct": 0.34615384615384615,
+      "matchSavePct": {
+        "n": 2,
+        "mean": 0.34615384615384615,
+        "median": 0.34615384615384615,
+        "sd": 0.05439282932204212,
+        "min": 0.3076923076923077,
+        "max": 0.38461538461538464,
+        "p05": 0.31153846153846154,
+        "p10": 0.3153846153846154,
+        "p25": 0.3269230769230769,
+        "p75": 0.3653846153846154,
+        "p90": 0.3769230769230769,
+        "p95": 0.3807692307692308
+      }
+    },
+    "PRESSURE:LOW_UNDER_0.2": {
+      "matches": 2,
+      "attempts": 40,
+      "goals": 24,
+      "saves": 10,
+      "shotsFaced": 34,
+      "conversion": 0.6,
+      "savePct": 0.29411764705882354,
+      "matchSavePct": {
+        "n": 2,
+        "mean": 0.2951388888888889,
+        "median": 0.2951388888888889,
+        "sd": 0.024552318791199557,
+        "min": 0.2777777777777778,
+        "max": 0.3125,
+        "p05": 0.2795138888888889,
+        "p10": 0.28125,
+        "p25": 0.28645833333333337,
+        "p75": 0.3038194444444444,
+        "p90": 0.3090277777777778,
+        "p95": 0.3107638888888889
+      }
+    },
+    "DISTANCE:UP_TO_8M": {
+      "matches": 2,
+      "attempts": 83,
+      "goals": 52,
+      "saves": 15,
+      "shotsFaced": 67,
+      "conversion": 0.6265060240963856,
+      "savePct": 0.22388059701492538,
+      "matchSavePct": {
+        "n": 2,
+        "mean": 0.21846846846846846,
+        "median": 0.21846846846846846,
+        "sd": 0.07325881066347116,
+        "min": 0.16666666666666666,
+        "max": 0.2702702702702703,
+        "p05": 0.17184684684684684,
+        "p10": 0.17702702702702702,
+        "p25": 0.19256756756756757,
+        "p75": 0.24436936936936937,
+        "p90": 0.2599099099099099,
+        "p95": 0.2650900900900901
+      }
+    },
+    "CATEGORY:PIVOT": {
+      "matches": 2,
+      "attempts": 32,
+      "goals": 20,
+      "saves": 6,
+      "shotsFaced": 26,
+      "conversion": 0.625,
+      "savePct": 0.23076923076923078,
+      "matchSavePct": {
+        "n": 2,
+        "mean": 0.23076923076923078,
+        "median": 0.23076923076923078,
+        "sd": 0.10878565864408424,
+        "min": 0.15384615384615385,
+        "max": 0.3076923076923077,
+        "p05": 0.16153846153846155,
+        "p10": 0.16923076923076924,
+        "p25": 0.19230769230769232,
+        "p75": 0.2692307692307693,
+        "p90": 0.2923076923076923,
+        "p95": 0.30000000000000004
+      }
+    },
+    "POSITION:M6": {
+      "matches": 2,
+      "attempts": 32,
+      "goals": 20,
+      "saves": 6,
+      "shotsFaced": 26,
+      "conversion": 0.625,
+      "savePct": 0.23076923076923078,
+      "matchSavePct": {
+        "n": 2,
+        "mean": 0.23076923076923078,
+        "median": 0.23076923076923078,
+        "sd": 0.10878565864408424,
+        "min": 0.15384615384615385,
+        "max": 0.3076923076923077,
+        "p05": 0.16153846153846155,
+        "p10": 0.16923076923076924,
+        "p25": 0.19230769230769232,
+        "p75": 0.2692307692307693,
+        "p90": 0.2923076923076923,
+        "p95": 0.30000000000000004
+      }
+    },
+    "CATEGORY:WING": {
+      "matches": 2,
+      "attempts": 24,
+      "goals": 14,
+      "saves": 4,
+      "shotsFaced": 18,
+      "conversion": 0.5833333333333334,
+      "savePct": 0.2222222222222222,
+      "matchSavePct": {
+        "n": 2,
+        "mean": 0.18181818181818182,
+        "median": 0.18181818181818182,
+        "sd": 0.25712973861329,
+        "min": 0,
+        "max": 0.36363636363636365,
+        "p05": 0.018181818181818184,
+        "p10": 0.03636363636363637,
+        "p25": 0.09090909090909091,
+        "p75": 0.2727272727272727,
+        "p90": 0.32727272727272727,
+        "p95": 0.34545454545454546
+      }
+    },
+    "POSITION:V6": {
+      "matches": 2,
+      "attempts": 35,
+      "goals": 20,
+      "saves": 10,
+      "shotsFaced": 30,
+      "conversion": 0.5714285714285714,
+      "savePct": 0.3333333333333333,
+      "matchSavePct": {
+        "n": 2,
+        "mean": 0.32057416267942584,
+        "median": 0.32057416267942584,
+        "sd": 0.06766572068770789,
+        "min": 0.2727272727272727,
+        "max": 0.3684210526315789,
+        "p05": 0.27751196172248804,
+        "p10": 0.2822966507177033,
+        "p25": 0.2966507177033493,
+        "p75": 0.34449760765550236,
+        "p90": 0.3588516746411483,
+        "p95": 0.3636363636363636
+      }
+    },
+    "QUALITY:HIGH_AT_LEAST_0.65": {
+      "matches": 2,
+      "attempts": 40,
+      "goals": 27,
+      "saves": 8,
+      "shotsFaced": 35,
+      "conversion": 0.675,
+      "savePct": 0.22857142857142856,
+      "matchSavePct": {
+        "n": 2,
+        "mean": 0.225,
+        "median": 0.225,
+        "sd": 0.03535533905932737,
+        "min": 0.2,
+        "max": 0.25,
+        "p05": 0.2025,
+        "p10": 0.20500000000000002,
+        "p25": 0.21250000000000002,
+        "p75": 0.2375,
+        "p90": 0.245,
+        "p95": 0.2475
+      }
+    },
+    "DISTANCE:BEYOND_10.5M": {
+      "matches": 2,
+      "attempts": 20,
+      "goals": 10,
+      "saves": 1,
+      "shotsFaced": 11,
+      "conversion": 0.5,
+      "savePct": 0.09090909090909091,
+      "matchSavePct": {
+        "n": 2,
+        "mean": 0.1,
+        "median": 0.1,
+        "sd": 0.14142135623730953,
+        "min": 0,
+        "max": 0.2,
+        "p05": 0.010000000000000002,
+        "p10": 0.020000000000000004,
+        "p25": 0.05,
+        "p75": 0.15000000000000002,
+        "p90": 0.18000000000000002,
+        "p95": 0.19
+      }
+    },
+    "CATEGORY:SEVEN_METRE": {
+      "matches": 2,
+      "attempts": 12,
+      "goals": 11,
+      "saves": 1,
+      "shotsFaced": 12,
+      "conversion": 0.9166666666666666,
+      "savePct": 0.08333333333333333,
+      "matchSavePct": {
+        "n": 2,
+        "mean": 0.08333333333333333,
+        "median": 0.08333333333333333,
+        "sd": 0.11785113019775792,
+        "min": 0,
+        "max": 0.16666666666666666,
+        "p05": 0.008333333333333333,
+        "p10": 0.016666666666666666,
+        "p25": 0.041666666666666664,
+        "p75": 0.125,
+        "p90": 0.15,
+        "p95": 0.15833333333333333
+      }
+    },
+    "POSITION:M9": {
+      "matches": 2,
+      "attempts": 35,
+      "goals": 24,
+      "saves": 4,
+      "shotsFaced": 28,
+      "conversion": 0.6857142857142857,
+      "savePct": 0.14285714285714285,
+      "matchSavePct": {
+        "n": 2,
+        "mean": 0.14583333333333331,
+        "median": 0.14583333333333331,
+        "sd": 0.029462782549439473,
+        "min": 0.125,
+        "max": 0.16666666666666666,
+        "p05": 0.12708333333333333,
+        "p10": 0.12916666666666665,
+        "p25": 0.13541666666666666,
+        "p75": 0.15625,
+        "p90": 0.16249999999999998,
+        "p95": 0.16458333333333333
+      }
+    },
+    "PHASE:RESTART": {
+      "matches": 2,
+      "attempts": 12,
+      "goals": 11,
+      "saves": 1,
+      "shotsFaced": 12,
+      "conversion": 0.9166666666666666,
+      "savePct": 0.08333333333333333,
+      "matchSavePct": {
+        "n": 2,
+        "mean": 0.08333333333333333,
+        "median": 0.08333333333333333,
+        "sd": 0.11785113019775792,
+        "min": 0,
+        "max": 0.16666666666666666,
+        "p05": 0.008333333333333333,
+        "p10": 0.016666666666666666,
+        "p25": 0.041666666666666664,
+        "p75": 0.125,
+        "p90": 0.15,
+        "p95": 0.15833333333333333
+      }
+    }
+  },
+  "teamDistributions": {
+    "goals": {
+      "n": 4,
+      "mean": 30,
+      "median": 29.5,
+      "sd": 3.1622776601683795,
+      "min": 27,
+      "max": 34,
+      "p05": 27.15,
+      "p10": 27.3,
+      "p25": 27.75,
+      "p75": 31.75,
+      "p90": 33.1,
+      "p95": 33.55
+    },
+    "possessions": {
+      "n": 4,
+      "mean": 65.25,
+      "median": 65,
+      "sd": 0.5,
+      "min": 65,
+      "max": 66,
+      "p05": 65,
+      "p10": 65,
+      "p25": 65,
+      "p75": 65.25,
+      "p90": 65.7,
+      "p95": 65.85
+    },
+    "shots": {
+      "n": 4,
+      "mean": 49.25,
+      "median": 48.5,
+      "sd": 2.6299556396765835,
+      "min": 47,
+      "max": 53,
+      "p05": 47.15,
+      "p10": 47.3,
+      "p25": 47.75,
+      "p75": 50,
+      "p90": 51.8,
+      "p95": 52.4
+    },
+    "scorerConcentration": {
+      "n": 4,
+      "mean": 0.2981517875967591,
+      "median": 0.3077731092436975,
+      "sd": 0.05638199768359181,
+      "min": 0.2222222222222222,
+      "max": 0.3548387096774194,
+      "p05": 0.23300653594771242,
+      "p10": 0.2437908496732026,
+      "p25": 0.2761437908496732,
+      "p75": 0.3297811059907834,
+      "p90": 0.344815668202765,
+      "p95": 0.3498271889400922
+    },
+    "shotConcentration": {
+      "n": 4,
+      "mean": 0.24285194557550036,
+      "median": 0.2490967482938579,
+      "sd": 0.04255298964627846,
+      "min": 0.1875,
+      "max": 0.2857142857142857,
+      "p05": 0.19448138297872342,
+      "p10": 0.2014627659574468,
+      "p25": 0.22240691489361702,
+      "p75": 0.2695417789757412,
+      "p90": 0.2792452830188679,
+      "p95": 0.2824797843665768
+    }
+  },
+  "keeperDistributions": {
+    "saves": {
+      "n": 4,
+      "mean": 9.25,
+      "median": 8,
+      "sd": 4.031128874149275,
+      "min": 6,
+      "max": 15,
+      "p05": 6.15,
+      "p10": 6.3,
+      "p25": 6.75,
+      "p75": 10.5,
+      "p90": 13.200000000000001,
+      "p95": 14.099999999999998
+    },
+    "shotsFaced": {
+      "n": 4,
+      "mean": 39.25,
+      "median": 39.5,
+      "sd": 3.8622100754188224,
+      "min": 35,
+      "max": 43,
+      "p05": 35.3,
+      "p10": 35.6,
+      "p25": 36.5,
+      "p75": 42.25,
+      "p90": 42.7,
+      "p95": 42.85
+    },
+    "savePct": {
+      "n": 4,
+      "mean": 0.23215183622160368,
+      "median": 0.20465116279069767,
+      "sd": 0.08578490639345576,
+      "min": 0.16216216216216217,
+      "max": 0.35714285714285715,
+      "p05": 0.16783783783783784,
+      "p10": 0.17351351351351352,
+      "p25": 0.19054054054054054,
+      "p75": 0.24626245847176081,
+      "p90": 0.31279069767441864,
+      "p95": 0.33496677740863784
+    }
+  },
+  "referenceCoverage": {
+    "comparisons": 634,
+    "noReference": 600
+  },
+  "sanity": [
+    {
+      "match": 0,
+      "metric": "goals",
+      "value": 65,
+      "band": {
+        "min": 42,
+        "max": 76
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 0,
+      "metric": "shots",
+      "value": 102,
+      "band": {
+        "min": 88,
+        "max": 150
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 0,
+      "metric": "possessions",
+      "value": 130,
+      "band": {
+        "min": 84,
+        "max": 140
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 0,
+      "metric": "suspensions",
+      "value": 7,
+      "band": {
+        "min": 0,
+        "max": 10
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 0,
+      "metric": "sevenMetres",
+      "value": 6,
+      "band": {
+        "min": 0,
+        "max": 14
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 1,
+      "metric": "goals",
+      "value": 55,
+      "band": {
+        "min": 42,
+        "max": 76
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 1,
+      "metric": "shots",
+      "value": 95,
+      "band": {
+        "min": 88,
+        "max": 150
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 1,
+      "metric": "possessions",
+      "value": 131,
+      "band": {
+        "min": 84,
+        "max": 140
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 1,
+      "metric": "suspensions",
+      "value": 6,
+      "band": {
+        "min": 0,
+        "max": 10
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 1,
+      "metric": "sevenMetres",
+      "value": 6,
+      "band": {
+        "min": 0,
+        "max": 14
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    }
+  ],
+  "compact": true
+}

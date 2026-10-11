@@ -1,0 +1,2752 @@
+{
+  "schemaVersion": "empirical-calibration-experiments/1",
+  "inputHash": "8773162275c76de70511889789a7a7bbc4e1b9cbb4c8b2c5030eb8cafee530a7",
+  "seeds": [
+    0,
+    1
+  ],
+  "notes": [
+    "Two full canonical recipes per condition; descriptive sensitivity check, not an estimated population effect",
+    "Named gameplay capacities only, no CA/PA or empirical targets",
+    "Tactic experiments use the same initial squad; capability experiments change only the named family in the recorded players",
+    "Strong/weak keeper and shooter causal direction is also tested in 160 matched isolated duels"
+  ],
+  "rows": [
+    {
+      "name": "BALANCED",
+      "index": 0,
+      "fixture": "se_handbollsligan_herr-f1",
+      "seed": 910961888,
+      "treatment": null,
+      "changed": [],
+      "team": "HOME",
+      "score": {
+        "HOME": 31,
+        "AWAY": 32
+      },
+      "totals": {
+        "outfieldShots": 101,
+        "outfieldConversion": 0.6237623762376238,
+        "goals": 63,
+        "possessions": 130,
+        "shots": 101,
+        "saves": 23,
+        "shotsFaced": 86,
+        "conversion": 0.6237623762376238,
+        "savePct": 0.26744186046511625,
+        "goalsPerPossession": 0.4846153846153846,
+        "turnovers": 34,
+        "technicalErrors": 1,
+        "offensiveFouls": 0,
+        "sevenMetres": 3,
+        "sevenMetreConversion": 0.6666666666666666,
+        "suspensions": 3,
+        "contacts": 716,
+        "assessedFouls": 32,
+        "advantages": 24,
+        "whistles": 8,
+        "freeThrows": 7,
+        "possessionSeconds": 27.692307692307686,
+        "transitionPossessions": 127,
+        "transitionAttempts": 128,
+        "transitionShots": 7,
+        "transitionGoals": 1,
+        "transitionConversion": 0.14285714285714285,
+        "transitionRate": 0.9769230769230769
+      },
+      "own": {
+        "team": "HOME",
+        "attempts": 47,
+        "goals": 31,
+        "saves": 7,
+        "shotsFaced": 38,
+        "savePct": 0.18421052631578946,
+        "conversion": 0.6595744680851063,
+        "saveInterval": {
+          "low": 0.09221765185221271,
+          "high": 0.334188580711314,
+          "confidence": 0.95,
+          "n": 38
+        },
+        "pressure": {
+          "n": 47,
+          "mean": 0.6785191235711197,
+          "median": 0.7753575121168755,
+          "sd": 0.4882945354365191,
+          "min": 0,
+          "max": 1.6525648650470233,
+          "p05": 0,
+          "p10": 0.02970738953181409,
+          "p25": 0.25157339690533026,
+          "p75": 1,
+          "p90": 1.276754472834501,
+          "p95": 1.555382615904541
+        },
+        "quality": {
+          "n": 47,
+          "mean": 0.5496347560256298,
+          "median": 0.5514410589478975,
+          "sd": 0.1334149833108763,
+          "min": 0.2680058972754562,
+          "max": 0.8305881303660114,
+          "p05": 0.307998898766182,
+          "p10": 0.33147833270622185,
+          "p25": 0.4824209165149418,
+          "p75": 0.6341390491298737,
+          "p90": 0.717465206610912,
+          "p95": 0.7393793672470603
+        },
+        "opportunityQuality": {
+          "n": 47,
+          "mean": 0.5137507848006743,
+          "median": 0.5352340228186315,
+          "sd": 0.1390293642564852,
+          "min": 0.23046987820664866,
+          "max": 0.8316889947932491,
+          "p05": 0.2520012034816179,
+          "p10": 0.2936763604756875,
+          "p25": 0.4271149287986884,
+          "p75": 0.6033890502262917,
+          "p90": 0.6656238915171152,
+          "p95": 0.7254353026097675
+        },
+        "distance": {
+          "n": 47,
+          "mean": 8.491288125590758,
+          "median": 8.41015007270657,
+          "sd": 1.2358701769092346,
+          "min": 6.584652894876997,
+          "max": 11.460776027223854,
+          "p05": 6.739188182080361,
+          "p10": 7.019673993099229,
+          "p25": 7.500330568207632,
+          "p75": 9.163739370326105,
+          "p90": 10.28435278943901,
+          "p95": 10.775601643451585
+        },
+        "angle": {
+          "n": 47,
+          "mean": 0.31461155275689,
+          "median": 0.3259923880846474,
+          "sd": 0.08702909274700862,
+          "min": 0.14866527946622266,
+          "max": 0.4455193213932904,
+          "p05": 0.15305302374867058,
+          "p10": 0.15907976818462582,
+          "p25": 0.2746614054023412,
+          "p75": 0.3773556657216306,
+          "p90": 0.41694498170760447,
+          "p95": 0.4309335844744817
+        },
+        "blockThreat": {
+          "n": 47,
+          "mean": 0.23964719412346455,
+          "median": 0,
+          "sd": 0.319775384798663,
+          "min": 0,
+          "max": 0.8973684210526316,
+          "p05": 0,
+          "p10": 0,
+          "p25": 0,
+          "p75": 0.5723988962831252,
+          "p90": 0.733157894736842,
+          "p95": 0.7947368421052632
+        },
+        "possessions": 65,
+        "scorerConcentration": 0.22580645161290322,
+        "shotConcentration": 0.2127659574468085,
+        "scorerHHI": 0.19250780437044746,
+        "features": {
+          "context.home": 1,
+          "context.energy": 0.548325899507372,
+          "team.topSpeed": 6.575438596491229,
+          "team.acceleration": 6.564912280701754,
+          "team.reaction": 0.20157894736842108,
+          "team.passing": 0.7280701754385965,
+          "team.handling": 0.7061403508771931,
+          "team.shotPower": 0.7543859649122807,
+          "team.shotPlacement": 0.7412280701754385,
+          "team.breakthrough": 0.7412280701754387,
+          "team.finishing": 0.7719298245614035,
+          "team.wingFinishing": 0.7719298245614035,
+          "team.pivotPlay": 0.7456140350877193,
+          "team.screening": 0.7412280701754386,
+          "team.anticipation": 0.6578947368421053,
+          "team.decision": 0.6535087719298246,
+          "team.offBall": 0.6842105263157894,
+          "team.contact": 0.6929824561403508,
+          "team.defPositioning": 0.6403508771929824,
+          "team.defTiming": 0.6754385964912281,
+          "team.lateral": 0.6885964912280701,
+          "team.covering": 0.6228070175438596,
+          "team.handover": 0.6228070175438596,
+          "team.ballWinning": 0.6403508771929824,
+          "team.blocking": 0.6228070175438596,
+          "team.strength": 0.7456140350877193,
+          "team.balance": 0.7456140350877193,
+          "team.endurance": 0.7192982456140351,
+          "team.composure": 0.6666666666666667,
+          "team.discipline": 0.6842105263157894
+        }
+      },
+      "player": {
+        "shots": 0,
+        "goals": 0,
+        "conversion": null
+      },
+      "positions": {
+        "POSITION:CB": {
+          "attempts": 14,
+          "goals": 10
+        },
+        "POSITION:P": {
+          "attempts": 22,
+          "goals": 15
+        },
+        "POSITION:RB": {
+          "attempts": 15,
+          "goals": 7
+        },
+        "POSITION:RW": {
+          "attempts": 12,
+          "goals": 8
+        },
+        "POSITION:LW": {
+          "attempts": 20,
+          "goals": 11
+        },
+        "POSITION:LB": {
+          "attempts": 18,
+          "goals": 12
+        }
+      },
+      "halves": [
+        {
+          "period": 1,
+          "attempts": 54,
+          "conversion": 0.6111111111111112,
+          "savePct": 0.2826086956521739,
+          "turnovers": 15
+        },
+        {
+          "period": 2,
+          "attempts": 47,
+          "conversion": 0.6382978723404256,
+          "savePct": 0.25,
+          "turnovers": 19
+        }
+      ],
+      "resultHash": "0391b686a0a223db8061ed91a2852746e9b09ea5cc5aedbc0a11ced2e3c7f4fd",
+      "sessionHash": "e44964397eaf0c762927ce376fc2b579b0154b13678b115315b0e3b8dacffa51",
+      "runtimeMs": 66003.1154
+    },
+    {
+      "name": "BALANCED",
+      "index": 1,
+      "fixture": "se_handbollsligan_herr-f2",
+      "seed": 2337324462,
+      "treatment": null,
+      "changed": [],
+      "team": "AWAY",
+      "score": {
+        "HOME": 34,
+        "AWAY": 31
+      },
+      "totals": {
+        "outfieldShots": 99,
+        "outfieldConversion": 0.6565656565656566,
+        "goals": 65,
+        "possessions": 127,
+        "shots": 99,
+        "saves": 23,
+        "shotsFaced": 88,
+        "conversion": 0.6565656565656566,
+        "savePct": 0.26136363636363635,
+        "goalsPerPossession": 0.5118110236220472,
+        "turnovers": 30,
+        "technicalErrors": 1,
+        "offensiveFouls": 0,
+        "sevenMetres": 4,
+        "sevenMetreConversion": 0.5,
+        "suspensions": 2,
+        "contacts": 759,
+        "assessedFouls": 30,
+        "advantages": 19,
+        "whistles": 11,
+        "freeThrows": 8,
+        "possessionSeconds": 28.34645669291339,
+        "transitionPossessions": 122,
+        "transitionAttempts": 122,
+        "transitionShots": 2,
+        "transitionGoals": 0,
+        "transitionConversion": 0,
+        "transitionRate": 0.9606299212598425
+      },
+      "own": {
+        "team": "AWAY",
+        "attempts": 49,
+        "goals": 31,
+        "saves": 11,
+        "shotsFaced": 42,
+        "savePct": 0.2619047619047619,
+        "conversion": 0.6326530612244898,
+        "saveInterval": {
+          "low": 0.1530264028783298,
+          "high": 0.4106873070577196,
+          "confidence": 0.95,
+          "n": 42
+        },
+        "pressure": {
+          "n": 49,
+          "mean": 0.8074449740591887,
+          "median": 0.9356390497028987,
+          "sd": 0.5601549523181887,
+          "min": 0,
+          "max": 2.5185239986959225,
+          "p05": 0,
+          "p10": 0,
+          "p25": 0.4428757902323208,
+          "p75": 1.008458534692636,
+          "p90": 1.4398006635047857,
+          "p95": 1.7083394559905076
+        },
+        "quality": {
+          "n": 49,
+          "mean": 0.5530130071125707,
+          "median": 0.5604105449042788,
+          "sd": 0.16367573687429016,
+          "min": 0.24822468348218038,
+          "max": 0.8731516543363786,
+          "p05": 0.30748758853372826,
+          "p10": 0.34142636730629594,
+          "p25": 0.42154450054043496,
+          "p75": 0.6770051236163136,
+          "p90": 0.781668336519316,
+          "p95": 0.8452562514622406
+        },
+        "opportunityQuality": {
+          "n": 49,
+          "mean": 0.5106935725084241,
+          "median": 0.513252158407147,
+          "sd": 0.1716517935512866,
+          "min": 0.19878313961724975,
+          "max": 0.8330425105821354,
+          "p05": 0.2618881509840809,
+          "p10": 0.27649767122007385,
+          "p25": 0.3885123723002316,
+          "p75": 0.6132785376076905,
+          "p90": 0.7506635685116575,
+          "p95": 0.832161838938601
+        },
+        "distance": {
+          "n": 49,
+          "mean": 8.565888263005984,
+          "median": 8.41400327755175,
+          "sd": 1.2909524747724421,
+          "min": 6.539431354380954,
+          "max": 11.094574333270916,
+          "p05": 6.930264821596,
+          "p10": 7.074905238763203,
+          "p25": 7.408463967241511,
+          "p75": 9.903316952740045,
+          "p90": 10.327499540358016,
+          "p95": 10.420707191409594
+        },
+        "angle": {
+          "n": 49,
+          "mean": 0.32642880865551493,
+          "median": 0.3405785096637352,
+          "sd": 0.0723282261440269,
+          "min": 0.1301635143101345,
+          "max": 0.44318793850666993,
+          "p05": 0.17346187804912036,
+          "p10": 0.2617734969279863,
+          "p25": 0.28516935292312484,
+          "p75": 0.3776134334370046,
+          "p90": 0.41495241286313805,
+          "p95": 0.4248856018041849
+        },
+        "blockThreat": {
+          "n": 49,
+          "mean": 0.30303925586777425,
+          "median": 0,
+          "sd": 0.3369315511239992,
+          "min": 0,
+          "max": 0.7947368421052632,
+          "p05": 0,
+          "p10": 0,
+          "p25": 0,
+          "p75": 0.6236842105263158,
+          "p90": 0.7414942557305946,
+          "p95": 0.7947368421052632
+        },
+        "possessions": 63,
+        "scorerConcentration": 0.3870967741935484,
+        "shotConcentration": 0.30612244897959184,
+        "scorerHHI": 0.24661810613943808,
+        "features": {
+          "context.home": 0,
+          "context.energy": 0.5427363295291898,
+          "team.topSpeed": 6.803508771929825,
+          "team.acceleration": 6.722807017543859,
+          "team.reaction": 0.19210526315789475,
+          "team.passing": 0.7456140350877193,
+          "team.handling": 0.7499999999999999,
+          "team.shotPower": 0.7982456140350876,
+          "team.shotPlacement": 0.7719298245614035,
+          "team.breakthrough": 0.8070175438596491,
+          "team.finishing": 0.7631578947368421,
+          "team.wingFinishing": 0.8245614035087718,
+          "team.pivotPlay": 0.8157894736842104,
+          "team.screening": 0.7894736842105263,
+          "team.anticipation": 0.7105263157894737,
+          "team.decision": 0.6973684210526315,
+          "team.offBall": 0.706140350877193,
+          "team.contact": 0.7149122807017544,
+          "team.defPositioning": 0.7017543859649124,
+          "team.defTiming": 0.6842105263157895,
+          "team.lateral": 0.7324561403508771,
+          "team.covering": 0.6842105263157894,
+          "team.handover": 0.719298245614035,
+          "team.ballWinning": 0.6973684210526315,
+          "team.blocking": 0.6929824561403508,
+          "team.strength": 0.7807017543859649,
+          "team.balance": 0.7719298245614035,
+          "team.endurance": 0.780701754385965,
+          "team.composure": 0.7192982456140351,
+          "team.discipline": 0.7456140350877192
+        }
+      },
+      "player": {
+        "shots": 0,
+        "goals": 0,
+        "conversion": null
+      },
+      "positions": {
+        "POSITION:LB": {
+          "attempts": 20,
+          "goals": 15
+        },
+        "POSITION:CB": {
+          "attempts": 14,
+          "goals": 10
+        },
+        "POSITION:RB": {
+          "attempts": 22,
+          "goals": 16
+        },
+        "POSITION:P": {
+          "attempts": 23,
+          "goals": 16
+        },
+        "POSITION:LW": {
+          "attempts": 13,
+          "goals": 5
+        },
+        "POSITION:RW": {
+          "attempts": 7,
+          "goals": 3
+        }
+      },
+      "halves": [
+        {
+          "period": 1,
+          "attempts": 51,
+          "conversion": 0.7058823529411765,
+          "savePct": 0.23404255319148937,
+          "turnovers": 18
+        },
+        {
+          "period": 2,
+          "attempts": 48,
+          "conversion": 0.6041666666666666,
+          "savePct": 0.2926829268292683,
+          "turnovers": 12
+        }
+      ],
+      "resultHash": "7e7884d3ab89adadbcaad25caff7dec205676e1ed10c9861e4249f72df09fa70",
+      "sessionHash": "0c21411fc71ec4223488bc9c9329cc9e6f92aef4b5c8b648068a45fc1c58a879",
+      "runtimeMs": 77237.5759
+    },
+    {
+      "name": "QUICK",
+      "index": 0,
+      "fixture": "se_handbollsligan_herr-f1",
+      "seed": 910961888,
+      "treatment": null,
+      "changed": [],
+      "team": "HOME",
+      "score": {
+        "HOME": 37,
+        "AWAY": 28
+      },
+      "totals": {
+        "outfieldShots": 106,
+        "outfieldConversion": 0.6132075471698113,
+        "goals": 65,
+        "possessions": 142,
+        "shots": 106,
+        "saves": 26,
+        "shotsFaced": 91,
+        "conversion": 0.6132075471698113,
+        "savePct": 0.2857142857142857,
+        "goalsPerPossession": 0.45774647887323944,
+        "turnovers": 39,
+        "technicalErrors": 2,
+        "offensiveFouls": 0,
+        "sevenMetres": 1,
+        "sevenMetreConversion": 1,
+        "suspensions": 0,
+        "contacts": 631,
+        "assessedFouls": 25,
+        "advantages": 18,
+        "whistles": 7,
+        "freeThrows": 9,
+        "possessionSeconds": 25.35211267605634,
+        "transitionPossessions": 135,
+        "transitionAttempts": 135,
+        "transitionShots": 7,
+        "transitionGoals": 3,
+        "transitionConversion": 0.42857142857142855,
+        "transitionRate": 0.9507042253521126
+      },
+      "own": {
+        "team": "HOME",
+        "attempts": 52,
+        "goals": 37,
+        "saves": 7,
+        "shotsFaced": 44,
+        "savePct": 0.1590909090909091,
+        "conversion": 0.7115384615384616,
+        "saveInterval": {
+          "low": 0.0792667701220125,
+          "high": 0.29366205062240613,
+          "confidence": 0.95,
+          "n": 44
+        },
+        "pressure": {
+          "n": 52,
+          "mean": 0.725591718856564,
+          "median": 0.6965034326996207,
+          "sd": 0.5273906552312708,
+          "min": 0,
+          "max": 1.9194483258279003,
+          "p05": 0,
+          "p10": 0.008981630970975738,
+          "p25": 0.3082398090025359,
+          "p75": 1.0684241564505081,
+          "p90": 1.389389095421257,
+          "p95": 1.6061698810120684
+        },
+        "quality": {
+          "n": 52,
+          "mean": 0.525943893185405,
+          "median": 0.5294049256059967,
+          "sd": 0.13685566757068027,
+          "min": 0.22826643552119733,
+          "max": 0.83936549400883,
+          "p05": 0.3118045502299201,
+          "p10": 0.3775305653753745,
+          "p25": 0.4202752661281131,
+          "p75": 0.5927892785551571,
+          "p90": 0.7285186622584532,
+          "p95": 0.7541535965903355
+        },
+        "opportunityQuality": {
+          "n": 52,
+          "mean": 0.4938997382324741,
+          "median": 0.4941021402232954,
+          "sd": 0.14664310528188068,
+          "min": 0.18068061353414916,
+          "max": 0.832869341182656,
+          "p05": 0.2693483150300021,
+          "p10": 0.3214823998995792,
+          "p25": 0.40310371381708443,
+          "p75": 0.5838156681144788,
+          "p90": 0.6969341069031069,
+          "p95": 0.7396476054513152
+        },
+        "distance": {
+          "n": 52,
+          "mean": 8.551487914846678,
+          "median": 8.466256057787952,
+          "sd": 1.20534439489426,
+          "min": 6.600051076077015,
+          "max": 12.041746753361934,
+          "p05": 6.828029849448562,
+          "p10": 7.071729646514931,
+          "p25": 7.723733276894977,
+          "p75": 9.22536960659622,
+          "p90": 10.201055706559455,
+          "p95": 10.47713488983808
+        },
+        "angle": {
+          "n": 52,
+          "mean": 0.31470146715167097,
+          "median": 0.3171343743967239,
+          "sd": 0.07649719883136252,
+          "min": 0.13680175340843936,
+          "max": 0.44207453572142297,
+          "p05": 0.15684836317784798,
+          "p10": 0.21577597080497035,
+          "p25": 0.2763702726965192,
+          "p75": 0.3619359138896595,
+          "p90": 0.400485021590779,
+          "p95": 0.4244744523622685
+        },
+        "blockThreat": {
+          "n": 52,
+          "mean": 0.2714995032015751,
+          "median": 0,
+          "sd": 0.32441664145341803,
+          "min": 0,
+          "max": 0.8973684210526316,
+          "p05": 0,
+          "p10": 0,
+          "p25": 0,
+          "p75": 0.6236842105263158,
+          "p90": 0.7192830399966107,
+          "p95": 0.8030778231423413
+        },
+        "possessions": 71,
+        "scorerConcentration": 0.2702702702702703,
+        "shotConcentration": 0.2692307692307692,
+        "scorerHHI": 0.2008765522279036,
+        "features": {
+          "context.home": 1,
+          "context.energy": 0.47921388156915223,
+          "team.topSpeed": 6.575438596491229,
+          "team.acceleration": 6.564912280701754,
+          "team.reaction": 0.20157894736842108,
+          "team.passing": 0.7280701754385965,
+          "team.handling": 0.7061403508771931,
+          "team.shotPower": 0.7543859649122807,
+          "team.shotPlacement": 0.7412280701754385,
+          "team.breakthrough": 0.7412280701754387,
+          "team.finishing": 0.7719298245614035,
+          "team.wingFinishing": 0.7719298245614035,
+          "team.pivotPlay": 0.7456140350877193,
+          "team.screening": 0.7412280701754386,
+          "team.anticipation": 0.6578947368421053,
+          "team.decision": 0.6535087719298246,
+          "team.offBall": 0.6842105263157894,
+          "team.contact": 0.6929824561403508,
+          "team.defPositioning": 0.6403508771929824,
+          "team.defTiming": 0.6754385964912281,
+          "team.lateral": 0.6885964912280701,
+          "team.covering": 0.6228070175438596,
+          "team.handover": 0.6228070175438596,
+          "team.ballWinning": 0.6403508771929824,
+          "team.blocking": 0.6228070175438596,
+          "team.strength": 0.7456140350877193,
+          "team.balance": 0.7456140350877193,
+          "team.endurance": 0.7192982456140351,
+          "team.composure": 0.6666666666666667,
+          "team.discipline": 0.6842105263157894
+        }
+      },
+      "player": {
+        "shots": 0,
+        "goals": 0,
+        "conversion": null
+      },
+      "positions": {
+        "POSITION:RB": {
+          "attempts": 14,
+          "goals": 9
+        },
+        "POSITION:LB": {
+          "attempts": 24,
+          "goals": 16
+        },
+        "POSITION:CB": {
+          "attempts": 16,
+          "goals": 11
+        },
+        "POSITION:RW": {
+          "attempts": 12,
+          "goals": 6
+        },
+        "POSITION:LW": {
+          "attempts": 18,
+          "goals": 9
+        },
+        "POSITION:P": {
+          "attempts": 22,
+          "goals": 14
+        }
+      },
+      "halves": [
+        {
+          "period": 1,
+          "attempts": 58,
+          "conversion": 0.5862068965517241,
+          "savePct": 0.32,
+          "turnovers": 23
+        },
+        {
+          "period": 2,
+          "attempts": 48,
+          "conversion": 0.6458333333333334,
+          "savePct": 0.24390243902439024,
+          "turnovers": 16
+        }
+      ],
+      "resultHash": "ff5ad16dbb5931d6c2dce6345ffc6a5f1e04b56074ac41d95484fe9d45eb6391",
+      "sessionHash": "f7ada0037dcafaf7ceeb7f9527610e5e80b69ee3faec96cfc8bc24685567b155",
+      "runtimeMs": 38567.288300000015
+    },
+    {
+      "name": "QUICK",
+      "index": 1,
+      "fixture": "se_handbollsligan_herr-f2",
+      "seed": 2337324462,
+      "treatment": null,
+      "changed": [],
+      "team": "AWAY",
+      "score": {
+        "HOME": 28,
+        "AWAY": 37
+      },
+      "totals": {
+        "outfieldShots": 104,
+        "outfieldConversion": 0.625,
+        "goals": 65,
+        "possessions": 138,
+        "shots": 104,
+        "saves": 24,
+        "shotsFaced": 89,
+        "conversion": 0.625,
+        "savePct": 0.2696629213483146,
+        "goalsPerPossession": 0.47101449275362317,
+        "turnovers": 42,
+        "technicalErrors": 2,
+        "offensiveFouls": 0,
+        "sevenMetres": 3,
+        "sevenMetreConversion": 1,
+        "suspensions": 3,
+        "contacts": 735,
+        "assessedFouls": 30,
+        "advantages": 22,
+        "whistles": 8,
+        "freeThrows": 9,
+        "possessionSeconds": 26.086956521739125,
+        "transitionPossessions": 129,
+        "transitionAttempts": 129,
+        "transitionShots": 3,
+        "transitionGoals": 0,
+        "transitionConversion": 0,
+        "transitionRate": 0.9347826086956522
+      },
+      "own": {
+        "team": "AWAY",
+        "attempts": 54,
+        "goals": 37,
+        "saves": 11,
+        "shotsFaced": 48,
+        "savePct": 0.22916666666666666,
+        "conversion": 0.6851851851851852,
+        "saveInterval": {
+          "low": 0.13307826266911232,
+          "high": 0.3653926409000346,
+          "confidence": 0.95,
+          "n": 48
+        },
+        "pressure": {
+          "n": 54,
+          "mean": 0.7700589989377938,
+          "median": 0.8917673395687412,
+          "sd": 0.5665213508270618,
+          "min": 0,
+          "max": 2,
+          "p05": 0,
+          "p10": 0,
+          "p25": 0.30746238887990557,
+          "p75": 1.146238490897145,
+          "p90": 1.574655026236174,
+          "p95": 1.6419913036123681
+        },
+        "quality": {
+          "n": 54,
+          "mean": 0.5636013714881284,
+          "median": 0.558388878008282,
+          "sd": 0.1286925036340929,
+          "min": 0.23583160007017978,
+          "max": 0.8777421863347215,
+          "p05": 0.35165606023862067,
+          "p10": 0.42028380921462527,
+          "p25": 0.48782421589068303,
+          "p75": 0.6397266257377956,
+          "p90": 0.7150025973871434,
+          "p95": 0.7812008323227999
+        },
+        "opportunityQuality": {
+          "n": 54,
+          "mean": 0.5165222844850588,
+          "median": 0.5152077408637821,
+          "sd": 0.12633182586945954,
+          "min": 0.19463997852962509,
+          "max": 0.832276355780832,
+          "p05": 0.32416210156135045,
+          "p10": 0.3794443163507286,
+          "p25": 0.4551325775504502,
+          "p75": 0.5757001323522497,
+          "p90": 0.6481893611977911,
+          "p95": 0.7440274198834574
+        },
+        "distance": {
+          "n": 54,
+          "mean": 8.508602930382015,
+          "median": 8.261784899777451,
+          "sd": 1.297916090973221,
+          "min": 6.420301415906727,
+          "max": 11.73372782258482,
+          "p05": 6.874012222419102,
+          "p10": 6.967717298750018,
+          "p25": 7.310877796612913,
+          "p75": 9.332346200860425,
+          "p90": 10.387143857454541,
+          "p95": 10.73296310195846
+        },
+        "angle": {
+          "n": 54,
+          "mean": 0.32449830205035285,
+          "median": 0.3287980098418847,
+          "sd": 0.07505516012698987,
+          "min": 0.13875350336600678,
+          "max": 0.4589243277843259,
+          "p05": 0.20275161752875212,
+          "p10": 0.21625191359281123,
+          "p25": 0.27492956482646247,
+          "p75": 0.38380815052952827,
+          "p90": 0.4155266442825079,
+          "p95": 0.4261856691554795
+        },
+        "blockThreat": {
+          "n": 54,
+          "mean": 0.22271085942854732,
+          "median": 0.011834956206343115,
+          "sd": 0.28244496511885664,
+          "min": 0,
+          "max": 0.7947368421052632,
+          "p05": 0,
+          "p10": 0,
+          "p25": 0,
+          "p75": 0.5013011906997122,
+          "p90": 0.666597231181446,
+          "p95": 0.7303289535660312
+        },
+        "possessions": 69,
+        "scorerConcentration": 0.2972972972972973,
+        "shotConcentration": 0.25925925925925924,
+        "scorerHHI": 0.23155588020452889,
+        "features": {
+          "context.home": 0,
+          "context.energy": 0.5101687141087548,
+          "team.topSpeed": 6.803508771929825,
+          "team.acceleration": 6.722807017543859,
+          "team.reaction": 0.19210526315789475,
+          "team.passing": 0.7456140350877193,
+          "team.handling": 0.7499999999999999,
+          "team.shotPower": 0.7982456140350876,
+          "team.shotPlacement": 0.7719298245614035,
+          "team.breakthrough": 0.8070175438596491,
+          "team.finishing": 0.7631578947368421,
+          "team.wingFinishing": 0.8245614035087718,
+          "team.pivotPlay": 0.8157894736842104,
+          "team.screening": 0.7894736842105263,
+          "team.anticipation": 0.7105263157894737,
+          "team.decision": 0.6973684210526315,
+          "team.offBall": 0.706140350877193,
+          "team.contact": 0.7149122807017544,
+          "team.defPositioning": 0.7017543859649124,
+          "team.defTiming": 0.6842105263157895,
+          "team.lateral": 0.7324561403508771,
+          "team.covering": 0.6842105263157894,
+          "team.handover": 0.719298245614035,
+          "team.ballWinning": 0.6973684210526315,
+          "team.blocking": 0.6929824561403508,
+          "team.strength": 0.7807017543859649,
+          "team.balance": 0.7719298245614035,
+          "team.endurance": 0.780701754385965,
+          "team.composure": 0.7192982456140351,
+          "team.discipline": 0.7456140350877192
+        }
+      },
+      "player": {
+        "shots": 0,
+        "goals": 0,
+        "conversion": null
+      },
+      "positions": {
+        "POSITION:LB": {
+          "attempts": 26,
+          "goals": 18
+        },
+        "POSITION:RB": {
+          "attempts": 16,
+          "goals": 10
+        },
+        "POSITION:CB": {
+          "attempts": 26,
+          "goals": 20
+        },
+        "POSITION:P": {
+          "attempts": 14,
+          "goals": 9
+        },
+        "POSITION:LW": {
+          "attempts": 11,
+          "goals": 4
+        },
+        "POSITION:RW": {
+          "attempts": 11,
+          "goals": 4
+        }
+      },
+      "halves": [
+        {
+          "period": 1,
+          "attempts": 50,
+          "conversion": 0.7,
+          "savePct": 0.16666666666666666,
+          "turnovers": 23
+        },
+        {
+          "period": 2,
+          "attempts": 54,
+          "conversion": 0.5555555555555556,
+          "savePct": 0.3617021276595745,
+          "turnovers": 19
+        }
+      ],
+      "resultHash": "3a89a34eadd0ba19558c30e4940fd5a03ceec9ded0dc5b999d9293176a17f19b",
+      "sessionHash": "e5e52999af30299496a86ee78ad73ee01153ed0e8178f3c462aea715ec54f045",
+      "runtimeMs": 24690.71590000001
+    },
+    {
+      "name": "WIDTH",
+      "index": 0,
+      "fixture": "se_handbollsligan_herr-f1",
+      "seed": 910961888,
+      "treatment": null,
+      "changed": [],
+      "team": "HOME",
+      "score": {
+        "HOME": 28,
+        "AWAY": 29
+      },
+      "totals": {
+        "outfieldShots": 93,
+        "outfieldConversion": 0.6129032258064516,
+        "goals": 57,
+        "possessions": 131,
+        "shots": 93,
+        "saves": 22,
+        "shotsFaced": 79,
+        "conversion": 0.6129032258064516,
+        "savePct": 0.27848101265822783,
+        "goalsPerPossession": 0.4351145038167939,
+        "turnovers": 44,
+        "technicalErrors": 2,
+        "offensiveFouls": 0,
+        "sevenMetres": 4,
+        "sevenMetreConversion": 0.75,
+        "suspensions": 2,
+        "contacts": 702,
+        "assessedFouls": 32,
+        "advantages": 18,
+        "whistles": 14,
+        "freeThrows": 14,
+        "possessionSeconds": 27.48091603053436,
+        "transitionPossessions": 125,
+        "transitionAttempts": 126,
+        "transitionShots": 8,
+        "transitionGoals": 5,
+        "transitionConversion": 0.625,
+        "transitionRate": 0.9541984732824428
+      },
+      "own": {
+        "team": "HOME",
+        "attempts": 45,
+        "goals": 28,
+        "saves": 7,
+        "shotsFaced": 35,
+        "savePct": 0.2,
+        "conversion": 0.6222222222222222,
+        "saveInterval": {
+          "low": 0.10042446473798625,
+          "high": 0.3589161306566562,
+          "confidence": 0.95,
+          "n": 35
+        },
+        "pressure": {
+          "n": 45,
+          "mean": 0.8323097568654589,
+          "median": 0.9664152161974014,
+          "sd": 0.5143377291521397,
+          "min": 0,
+          "max": 2.243091235590617,
+          "p05": 0,
+          "p10": 0.14246594206340332,
+          "p25": 0.4463903821275548,
+          "p75": 1,
+          "p90": 1.45,
+          "p95": 1.6021581365954938
+        },
+        "quality": {
+          "n": 45,
+          "mean": 0.5355994057856863,
+          "median": 0.5371384313586698,
+          "sd": 0.12141680964621353,
+          "min": 0.25338152964601013,
+          "max": 0.8748724325797896,
+          "p05": 0.31866705074246465,
+          "p10": 0.41027704825633626,
+          "p25": 0.47035237314396494,
+          "p75": 0.5990634343937995,
+          "p90": 0.6548179309657474,
+          "p95": 0.7157408266206075
+        },
+        "opportunityQuality": {
+          "n": 45,
+          "mean": 0.4975468876971156,
+          "median": 0.5194229998862955,
+          "sd": 0.13016709858189415,
+          "min": 0.2043064267046919,
+          "max": 0.8329789737634887,
+          "p05": 0.2661081339333144,
+          "p10": 0.3442190241829962,
+          "p25": 0.4331498139587386,
+          "p75": 0.576251468540975,
+          "p90": 0.6279481165021726,
+          "p95": 0.6882367449420339
+        },
+        "distance": {
+          "n": 45,
+          "mean": 8.444082756217451,
+          "median": 8.338233062854611,
+          "sd": 1.1750661119094266,
+          "min": 6.967664657408766,
+          "max": 11.059874692159523,
+          "p05": 7.083018617832893,
+          "p10": 7.151288059502894,
+          "p25": 7.403819414133591,
+          "p75": 9.001149022317886,
+          "p90": 10.373323154704448,
+          "p95": 10.690765664440788
+        },
+        "angle": {
+          "n": 45,
+          "mean": 0.30186602537421303,
+          "median": 0.31560522328396245,
+          "sd": 0.09296347915609983,
+          "min": 0.1303129986656264,
+          "max": 0.42386373808732314,
+          "p05": 0.15050809327235318,
+          "p10": 0.15260864252343564,
+          "p25": 0.25768779309065587,
+          "p75": 0.3866745318509146,
+          "p90": 0.40521662145953063,
+          "p95": 0.4164057481572722
+        },
+        "blockThreat": {
+          "n": 45,
+          "mean": 0.29547693903533295,
+          "median": 0,
+          "sd": 0.3253629496047469,
+          "min": 0,
+          "max": 0.8244019280331553,
+          "p05": 0,
+          "p10": 0,
+          "p25": 0,
+          "p75": 0.6236842105263158,
+          "p90": 0.6938136198472964,
+          "p95": 0.7889496910409467
+        },
+        "possessions": 66,
+        "scorerConcentration": 0.21428571428571427,
+        "shotConcentration": 0.2,
+        "scorerHHI": 0.18112244897959182,
+        "features": {
+          "context.home": 1,
+          "context.energy": 0.5448935497791517,
+          "team.topSpeed": 6.575438596491229,
+          "team.acceleration": 6.564912280701754,
+          "team.reaction": 0.20157894736842108,
+          "team.passing": 0.7280701754385965,
+          "team.handling": 0.7061403508771931,
+          "team.shotPower": 0.7543859649122807,
+          "team.shotPlacement": 0.7412280701754385,
+          "team.breakthrough": 0.7412280701754387,
+          "team.finishing": 0.7719298245614035,
+          "team.wingFinishing": 0.7719298245614035,
+          "team.pivotPlay": 0.7456140350877193,
+          "team.screening": 0.7412280701754386,
+          "team.anticipation": 0.6578947368421053,
+          "team.decision": 0.6535087719298246,
+          "team.offBall": 0.6842105263157894,
+          "team.contact": 0.6929824561403508,
+          "team.defPositioning": 0.6403508771929824,
+          "team.defTiming": 0.6754385964912281,
+          "team.lateral": 0.6885964912280701,
+          "team.covering": 0.6228070175438596,
+          "team.handover": 0.6228070175438596,
+          "team.ballWinning": 0.6403508771929824,
+          "team.blocking": 0.6228070175438596,
+          "team.strength": 0.7456140350877193,
+          "team.balance": 0.7456140350877193,
+          "team.endurance": 0.7192982456140351,
+          "team.composure": 0.6666666666666667,
+          "team.discipline": 0.6842105263157894
+        }
+      },
+      "player": {
+        "shots": 0,
+        "goals": 0,
+        "conversion": null
+      },
+      "positions": {
+        "POSITION:RW": {
+          "attempts": 15,
+          "goals": 10
+        },
+        "POSITION:LW": {
+          "attempts": 15,
+          "goals": 8
+        },
+        "POSITION:CB": {
+          "attempts": 16,
+          "goals": 11
+        },
+        "POSITION:P": {
+          "attempts": 22,
+          "goals": 13
+        },
+        "POSITION:LB": {
+          "attempts": 13,
+          "goals": 9
+        },
+        "POSITION:RB": {
+          "attempts": 12,
+          "goals": 6
+        }
+      },
+      "halves": [
+        {
+          "period": 1,
+          "attempts": 47,
+          "conversion": 0.574468085106383,
+          "savePct": 0.35714285714285715,
+          "turnovers": 21
+        },
+        {
+          "period": 2,
+          "attempts": 46,
+          "conversion": 0.6521739130434783,
+          "savePct": 0.1891891891891892,
+          "turnovers": 23
+        }
+      ],
+      "resultHash": "503c54554a6167589192f05774949884c57b9af291aaf8ebe517b9ee003c1633",
+      "sessionHash": "a51fd2f033c02c35ad212c35929682386cb191e658c921e380c9adb491bf66ff",
+      "runtimeMs": 38031.28030000001
+    },
+    {
+      "name": "WIDTH",
+      "index": 1,
+      "fixture": "se_handbollsligan_herr-f2",
+      "seed": 2337324462,
+      "treatment": null,
+      "changed": [],
+      "team": "AWAY",
+      "score": {
+        "HOME": 18,
+        "AWAY": 29
+      },
+      "totals": {
+        "outfieldShots": 94,
+        "outfieldConversion": 0.5,
+        "goals": 47,
+        "possessions": 115,
+        "shots": 94,
+        "saves": 30,
+        "shotsFaced": 77,
+        "conversion": 0.5,
+        "savePct": 0.38961038961038963,
+        "goalsPerPossession": 0.40869565217391307,
+        "turnovers": 28,
+        "technicalErrors": 1,
+        "offensiveFouls": 0,
+        "sevenMetres": 4,
+        "sevenMetreConversion": 1,
+        "suspensions": 1,
+        "contacts": 769,
+        "assessedFouls": 23,
+        "advantages": 12,
+        "whistles": 11,
+        "freeThrows": 9,
+        "possessionSeconds": 31.30434782608695,
+        "transitionPossessions": 111,
+        "transitionAttempts": 111,
+        "transitionShots": 0,
+        "transitionGoals": 0,
+        "transitionConversion": null,
+        "transitionRate": 0.9652173913043478
+      },
+      "own": {
+        "team": "AWAY",
+        "attempts": 50,
+        "goals": 29,
+        "saves": 13,
+        "shotsFaced": 42,
+        "savePct": 0.30952380952380953,
+        "conversion": 0.58,
+        "saveInterval": {
+          "low": 0.19071102858794878,
+          "high": 0.4602599393608908,
+          "confidence": 0.95,
+          "n": 42
+        },
+        "pressure": {
+          "n": 50,
+          "mean": 0.7417379649618603,
+          "median": 0.8076836762396254,
+          "sd": 0.4707386160409085,
+          "min": 0,
+          "max": 1.6987555458041892,
+          "p05": 0,
+          "p10": 0,
+          "p25": 0.44320171694702415,
+          "p75": 1,
+          "p90": 1.3265505452789084,
+          "p95": 1.506135740848014
+        },
+        "quality": {
+          "n": 50,
+          "mean": 0.5503308664407269,
+          "median": 0.5760652958086113,
+          "sd": 0.15580434083565087,
+          "min": 0.20835571088411536,
+          "max": 0.8760134818554496,
+          "p05": 0.25964556433160074,
+          "p10": 0.29595848315702256,
+          "p25": 0.47597120079307703,
+          "p75": 0.6504153312372183,
+          "p90": 0.7209994969732625,
+          "p95": 0.7458019927303344
+        },
+        "opportunityQuality": {
+          "n": 50,
+          "mean": 0.49645720544937005,
+          "median": 0.5276636420013883,
+          "sd": 0.15389019375245647,
+          "min": 0.16071026446862244,
+          "max": 0.8328886243165347,
+          "p05": 0.21694584738569223,
+          "p10": 0.24682211671008994,
+          "p25": 0.40185049789240984,
+          "p75": 0.6097323851665705,
+          "p90": 0.6502064581181966,
+          "p95": 0.678326371436478
+        },
+        "distance": {
+          "n": 50,
+          "mean": 8.508505298766128,
+          "median": 8.57210954746926,
+          "sd": 1.1771789229041132,
+          "min": 6.732529618235949,
+          "max": 10.462945246081409,
+          "p05": 6.8698548408949485,
+          "p10": 6.9406765426750345,
+          "p25": 7.46928417699047,
+          "p75": 9.2927068708768,
+          "p90": 10.295857165908856,
+          "p95": 10.357326819277926
+        },
+        "angle": {
+          "n": 50,
+          "mean": 0.30485790687002856,
+          "median": 0.32121062883488155,
+          "sd": 0.08728106822383995,
+          "min": 0.14214064376394608,
+          "max": 0.42920769084140276,
+          "p05": 0.15427415868437266,
+          "p10": 0.1566417991122042,
+          "p25": 0.2688410303287983,
+          "p75": 0.3701438176167905,
+          "p90": 0.4222382757058568,
+          "p95": 0.4270966780090579
+        },
+        "blockThreat": {
+          "n": 50,
+          "mean": 0.28777755880603634,
+          "median": 0.06950449475314516,
+          "sd": 0.33977241834880145,
+          "min": 0,
+          "max": 0.8631578947368421,
+          "p05": 0,
+          "p10": 0,
+          "p25": 0,
+          "p75": 0.6077880045750806,
+          "p90": 0.7947368421052632,
+          "p95": 0.8135526315789473
+        },
+        "possessions": 57,
+        "scorerConcentration": 0.3103448275862069,
+        "shotConcentration": 0.28,
+        "scorerHHI": 0.23900118906064213,
+        "features": {
+          "context.home": 0,
+          "context.energy": 0.5867866147644614,
+          "team.topSpeed": 6.803508771929825,
+          "team.acceleration": 6.722807017543859,
+          "team.reaction": 0.19210526315789475,
+          "team.passing": 0.7456140350877193,
+          "team.handling": 0.7499999999999999,
+          "team.shotPower": 0.7982456140350876,
+          "team.shotPlacement": 0.7719298245614035,
+          "team.breakthrough": 0.8070175438596491,
+          "team.finishing": 0.7631578947368421,
+          "team.wingFinishing": 0.8245614035087718,
+          "team.pivotPlay": 0.8157894736842104,
+          "team.screening": 0.7894736842105263,
+          "team.anticipation": 0.7105263157894737,
+          "team.decision": 0.6973684210526315,
+          "team.offBall": 0.706140350877193,
+          "team.contact": 0.7149122807017544,
+          "team.defPositioning": 0.7017543859649124,
+          "team.defTiming": 0.6842105263157895,
+          "team.lateral": 0.7324561403508771,
+          "team.covering": 0.6842105263157894,
+          "team.handover": 0.719298245614035,
+          "team.ballWinning": 0.6973684210526315,
+          "team.blocking": 0.6929824561403508,
+          "team.strength": 0.7807017543859649,
+          "team.balance": 0.7719298245614035,
+          "team.endurance": 0.780701754385965,
+          "team.composure": 0.7192982456140351,
+          "team.discipline": 0.7456140350877192
+        }
+      },
+      "player": {
+        "shots": 0,
+        "goals": 0,
+        "conversion": null
+      },
+      "positions": {
+        "POSITION:LB": {
+          "attempts": 19,
+          "goals": 8
+        },
+        "POSITION:RB": {
+          "attempts": 21,
+          "goals": 11
+        },
+        "POSITION:P": {
+          "attempts": 21,
+          "goals": 13
+        },
+        "POSITION:RW": {
+          "attempts": 14,
+          "goals": 4
+        },
+        "POSITION:LW": {
+          "attempts": 9,
+          "goals": 2
+        },
+        "POSITION:CB": {
+          "attempts": 10,
+          "goals": 9
+        }
+      },
+      "halves": [
+        {
+          "period": 1,
+          "attempts": 47,
+          "conversion": 0.6170212765957447,
+          "savePct": 0.23684210526315788,
+          "turnovers": 12
+        },
+        {
+          "period": 2,
+          "attempts": 47,
+          "conversion": 0.3829787234042553,
+          "savePct": 0.5384615384615384,
+          "turnovers": 16
+        }
+      ],
+      "resultHash": "243a505470394038c866b10438fe5b6820b2679981c9346691b96a4594127f10",
+      "sessionHash": "ac18616fa26d73f23160905e34a7fc86297ac17d933506cb26653c00ab83db21",
+      "runtimeMs": 51560.716199999995
+    },
+    {
+      "name": "COMBINATION",
+      "index": 0,
+      "fixture": "se_handbollsligan_herr-f1",
+      "seed": 910961888,
+      "treatment": null,
+      "changed": [],
+      "team": "HOME",
+      "score": {
+        "HOME": 34,
+        "AWAY": 38
+      },
+      "totals": {
+        "outfieldShots": 105,
+        "outfieldConversion": 0.6857142857142857,
+        "goals": 72,
+        "possessions": 127,
+        "shots": 105,
+        "saves": 20,
+        "shotsFaced": 92,
+        "conversion": 0.6857142857142857,
+        "savePct": 0.21739130434782608,
+        "goalsPerPossession": 0.5669291338582677,
+        "turnovers": 29,
+        "technicalErrors": 0,
+        "offensiveFouls": 0,
+        "sevenMetres": 5,
+        "sevenMetreConversion": 0.8,
+        "suspensions": 2,
+        "contacts": 668,
+        "assessedFouls": 20,
+        "advantages": 12,
+        "whistles": 8,
+        "freeThrows": 4,
+        "possessionSeconds": 28.330314960629924,
+        "transitionPossessions": 122,
+        "transitionAttempts": 122,
+        "transitionShots": 10,
+        "transitionGoals": 5,
+        "transitionConversion": 0.5,
+        "transitionRate": 0.9606299212598425
+      },
+      "own": {
+        "team": "HOME",
+        "attempts": 45,
+        "goals": 34,
+        "saves": 7,
+        "shotsFaced": 41,
+        "savePct": 0.17073170731707318,
+        "conversion": 0.7555555555555555,
+        "saveInterval": {
+          "low": 0.08525251977594998,
+          "high": 0.3126261240040417,
+          "confidence": 0.95,
+          "n": 41
+        },
+        "pressure": {
+          "n": 45,
+          "mean": 0.5818769629398846,
+          "median": 0.5256074597925484,
+          "sd": 0.4835251301249863,
+          "min": 0,
+          "max": 1.7523366690895588,
+          "p05": 0,
+          "p10": 0,
+          "p25": 0.13331346594472482,
+          "p75": 0.9974079625031121,
+          "p90": 1.1141923741311894,
+          "p95": 1.3164274915980407
+        },
+        "quality": {
+          "n": 45,
+          "mean": 0.560380395185926,
+          "median": 0.5796707886103782,
+          "sd": 0.14073051794797736,
+          "min": 0.2649607682011636,
+          "max": 0.8519759888224357,
+          "p05": 0.3286201483797514,
+          "p10": 0.38568544830750084,
+          "p25": 0.46732871277434324,
+          "p75": 0.6413196695434855,
+          "p90": 0.7063504428598187,
+          "p95": 0.8306727842454562
+        },
+        "opportunityQuality": {
+          "n": 45,
+          "mean": 0.5269601415193034,
+          "median": 0.5281736138198402,
+          "sd": 0.15268609529955568,
+          "min": 0.20810497282197238,
+          "max": 0.8330390784702008,
+          "p05": 0.28533439419377127,
+          "p10": 0.33729111242405696,
+          "p25": 0.43267862549237834,
+          "p75": 0.6278977730763993,
+          "p90": 0.6830035500603471,
+          "p95": 0.8309294013618818
+        },
+        "distance": {
+          "n": 45,
+          "mean": 8.430593238689074,
+          "median": 8.500332438303857,
+          "sd": 1.0737909602383602,
+          "min": 6.618141852927576,
+          "max": 10.615059854744812,
+          "p05": 6.888398784816607,
+          "p10": 7.020821375060184,
+          "p25": 7.641579694673717,
+          "p75": 9.152245029866126,
+          "p90": 9.949800466069114,
+          "p95": 10.100865307897944
+        },
+        "angle": {
+          "n": 45,
+          "mean": 0.30377343490427333,
+          "median": 0.31551562843621034,
+          "sd": 0.09282934155549036,
+          "min": 0.126910826775386,
+          "max": 0.43784324577677763,
+          "p05": 0.1436851120796955,
+          "p10": 0.1538583063213666,
+          "p25": 0.2628774840222525,
+          "p75": 0.35102137166736724,
+          "p90": 0.42030832107816196,
+          "p95": 0.4264099415954444
+        },
+        "blockThreat": {
+          "n": 45,
+          "mean": 0.18821357697808797,
+          "median": 0,
+          "sd": 0.29180255813150807,
+          "min": 0,
+          "max": 0.8973684210526316,
+          "p05": 0,
+          "p10": 0,
+          "p25": 0,
+          "p75": 0.39844179101260363,
+          "p90": 0.6903493173674805,
+          "p95": 0.8008567321459376
+        },
+        "possessions": 64,
+        "scorerConcentration": 0.20588235294117646,
+        "shotConcentration": 0.24444444444444444,
+        "scorerHHI": 0.1764705882352941,
+        "features": {
+          "context.home": 1,
+          "context.energy": 0.5085622448611313,
+          "team.topSpeed": 6.575438596491229,
+          "team.acceleration": 6.564912280701754,
+          "team.reaction": 0.20157894736842108,
+          "team.passing": 0.7280701754385965,
+          "team.handling": 0.7061403508771931,
+          "team.shotPower": 0.7543859649122807,
+          "team.shotPlacement": 0.7412280701754385,
+          "team.breakthrough": 0.7412280701754387,
+          "team.finishing": 0.7719298245614035,
+          "team.wingFinishing": 0.7719298245614035,
+          "team.pivotPlay": 0.7456140350877193,
+          "team.screening": 0.7412280701754386,
+          "team.anticipation": 0.6578947368421053,
+          "team.decision": 0.6535087719298246,
+          "team.offBall": 0.6842105263157894,
+          "team.contact": 0.6929824561403508,
+          "team.defPositioning": 0.6403508771929824,
+          "team.defTiming": 0.6754385964912281,
+          "team.lateral": 0.6885964912280701,
+          "team.covering": 0.6228070175438596,
+          "team.handover": 0.6228070175438596,
+          "team.ballWinning": 0.6403508771929824,
+          "team.blocking": 0.6228070175438596,
+          "team.strength": 0.7456140350877193,
+          "team.balance": 0.7456140350877193,
+          "team.endurance": 0.7192982456140351,
+          "team.composure": 0.6666666666666667,
+          "team.discipline": 0.6842105263157894
+        }
+      },
+      "player": {
+        "shots": 0,
+        "goals": 0,
+        "conversion": null
+      },
+      "positions": {
+        "POSITION:CB": {
+          "attempts": 12,
+          "goals": 9
+        },
+        "POSITION:P": {
+          "attempts": 21,
+          "goals": 16
+        },
+        "POSITION:RW": {
+          "attempts": 11,
+          "goals": 7
+        },
+        "POSITION:LB": {
+          "attempts": 23,
+          "goals": 15
+        },
+        "POSITION:RB": {
+          "attempts": 21,
+          "goals": 16
+        },
+        "POSITION:LW": {
+          "attempts": 17,
+          "goals": 9
+        }
+      },
+      "halves": [
+        {
+          "period": 1,
+          "attempts": 54,
+          "conversion": 0.6851851851851852,
+          "savePct": 0.26,
+          "turnovers": 14
+        },
+        {
+          "period": 2,
+          "attempts": 51,
+          "conversion": 0.6862745098039216,
+          "savePct": 0.16666666666666666,
+          "turnovers": 15
+        }
+      ],
+      "resultHash": "ee1a67df87c97af98b7bf95ff8e767fdec4be41ee76e37cbfac9dfef56dcd2f6",
+      "sessionHash": "143c797f704930fa16c30162b5c8984bf6b2db1035736ef1268513bc3ccbf0f4",
+      "runtimeMs": 54214.182900000014
+    },
+    {
+      "name": "COMBINATION",
+      "index": 1,
+      "fixture": "se_handbollsligan_herr-f2",
+      "seed": 2337324462,
+      "treatment": null,
+      "changed": [],
+      "team": "AWAY",
+      "score": {
+        "HOME": 31,
+        "AWAY": 31
+      },
+      "totals": {
+        "outfieldShots": 103,
+        "outfieldConversion": 0.6019417475728155,
+        "goals": 62,
+        "possessions": 132,
+        "shots": 103,
+        "saves": 23,
+        "shotsFaced": 85,
+        "conversion": 0.6019417475728155,
+        "savePct": 0.27058823529411763,
+        "goalsPerPossession": 0.4696969696969697,
+        "turnovers": 34,
+        "technicalErrors": 0,
+        "offensiveFouls": 0,
+        "sevenMetres": 4,
+        "sevenMetreConversion": 0.75,
+        "suspensions": 0,
+        "contacts": 702,
+        "assessedFouls": 26,
+        "advantages": 17,
+        "whistles": 9,
+        "freeThrows": 5,
+        "possessionSeconds": 27.27272727272727,
+        "transitionPossessions": 128,
+        "transitionAttempts": 128,
+        "transitionShots": 4,
+        "transitionGoals": 1,
+        "transitionConversion": 0.25,
+        "transitionRate": 0.9696969696969697
+      },
+      "own": {
+        "team": "AWAY",
+        "attempts": 48,
+        "goals": 31,
+        "saves": 12,
+        "shotsFaced": 43,
+        "savePct": 0.27906976744186046,
+        "conversion": 0.6458333333333334,
+        "saveInterval": {
+          "low": 0.16746613786237488,
+          "high": 0.42691028681878873,
+          "confidence": 0.95,
+          "n": 43
+        },
+        "pressure": {
+          "n": 48,
+          "mean": 0.8757376022920794,
+          "median": 0.9604023620558404,
+          "sd": 0.5444387909698992,
+          "min": 0,
+          "max": 2.1762585414757174,
+          "p05": 0.04015645496706398,
+          "p10": 0.17139013711726775,
+          "p25": 0.44516052886448637,
+          "p75": 1.1440132002356376,
+          "p90": 1.6042329546369851,
+          "p95": 1.7909173417344175
+        },
+        "quality": {
+          "n": 48,
+          "mean": 0.5464531865607233,
+          "median": 0.5420250107364053,
+          "sd": 0.11989413806052897,
+          "min": 0.29262215621840365,
+          "max": 0.8773215989531153,
+          "p05": 0.3098159639129852,
+          "p10": 0.4282679756397404,
+          "p25": 0.4749275632040336,
+          "p75": 0.6316146974574225,
+          "p90": 0.6697178778501467,
+          "p95": 0.7329685912764891
+        },
+        "opportunityQuality": {
+          "n": 48,
+          "mean": 0.4928562498640829,
+          "median": 0.4861325457424075,
+          "sd": 0.12579442127424528,
+          "min": 0.18920899612089304,
+          "max": 0.8309895887782481,
+          "p05": 0.24996446649054815,
+          "p10": 0.36243249723099896,
+          "p25": 0.4184863832600631,
+          "p75": 0.5917999509746397,
+          "p90": 0.6216246521207106,
+          "p95": 0.6718770355543902
+        },
+        "distance": {
+          "n": 48,
+          "mean": 8.29777930558822,
+          "median": 8.301910218038453,
+          "sd": 1.083345047154414,
+          "min": 6.340603153670029,
+          "max": 10.633877779189797,
+          "p05": 6.839199376827789,
+          "p10": 6.910389021314619,
+          "p25": 7.491366416658663,
+          "p75": 8.72806508717462,
+          "p90": 9.766838981826279,
+          "p95": 10.336713112867802
+        },
+        "angle": {
+          "n": 48,
+          "mean": 0.30539340043429625,
+          "median": 0.32781750256424297,
+          "sd": 0.09551569543033514,
+          "min": 0.12921073772858604,
+          "max": 0.46415574288371475,
+          "p05": 0.14694591332288118,
+          "p10": 0.15519981872511063,
+          "p25": 0.26034772292129077,
+          "p75": 0.3788071741979551,
+          "p90": 0.4203738329570464,
+          "p95": 0.4247201120215907
+        },
+        "blockThreat": {
+          "n": 48,
+          "mean": 0.3217036141344512,
+          "median": 0.29684227441959454,
+          "sd": 0.32207597766120616,
+          "min": 0,
+          "max": 0.8631578947368421,
+          "p05": 0,
+          "p10": 0,
+          "p25": 0,
+          "p75": 0.6216924851591701,
+          "p90": 0.7947368421052632,
+          "p95": 0.7947368421052632
+        },
+        "possessions": 66,
+        "scorerConcentration": 0.3870967741935484,
+        "shotConcentration": 0.3125,
+        "scorerHHI": 0.2715920915712799,
+        "features": {
+          "context.home": 0,
+          "context.energy": 0.5104001212443129,
+          "team.topSpeed": 6.803508771929825,
+          "team.acceleration": 6.722807017543859,
+          "team.reaction": 0.19210526315789475,
+          "team.passing": 0.7456140350877193,
+          "team.handling": 0.7499999999999999,
+          "team.shotPower": 0.7982456140350876,
+          "team.shotPlacement": 0.7719298245614035,
+          "team.breakthrough": 0.8070175438596491,
+          "team.finishing": 0.7631578947368421,
+          "team.wingFinishing": 0.8245614035087718,
+          "team.pivotPlay": 0.8157894736842104,
+          "team.screening": 0.7894736842105263,
+          "team.anticipation": 0.7105263157894737,
+          "team.decision": 0.6973684210526315,
+          "team.offBall": 0.706140350877193,
+          "team.contact": 0.7149122807017544,
+          "team.defPositioning": 0.7017543859649124,
+          "team.defTiming": 0.6842105263157895,
+          "team.lateral": 0.7324561403508771,
+          "team.covering": 0.6842105263157894,
+          "team.handover": 0.719298245614035,
+          "team.ballWinning": 0.6973684210526315,
+          "team.blocking": 0.6929824561403508,
+          "team.strength": 0.7807017543859649,
+          "team.balance": 0.7719298245614035,
+          "team.endurance": 0.780701754385965,
+          "team.composure": 0.7192982456140351,
+          "team.discipline": 0.7456140350877192
+        }
+      },
+      "player": {
+        "shots": 0,
+        "goals": 0,
+        "conversion": null
+      },
+      "positions": {
+        "POSITION:LB": {
+          "attempts": 19,
+          "goals": 8
+        },
+        "POSITION:CB": {
+          "attempts": 12,
+          "goals": 9
+        },
+        "POSITION:LW": {
+          "attempts": 15,
+          "goals": 9
+        },
+        "POSITION:RW": {
+          "attempts": 16,
+          "goals": 5
+        },
+        "POSITION:RB": {
+          "attempts": 21,
+          "goals": 15
+        },
+        "POSITION:P": {
+          "attempts": 20,
+          "goals": 16
+        }
+      },
+      "halves": [
+        {
+          "period": 1,
+          "attempts": 53,
+          "conversion": 0.5849056603773585,
+          "savePct": 0.225,
+          "turnovers": 16
+        },
+        {
+          "period": 2,
+          "attempts": 50,
+          "conversion": 0.62,
+          "savePct": 0.3111111111111111,
+          "turnovers": 18
+        }
+      ],
+      "resultHash": "860c7bf7fc4ce45e07b831d02e6bd2dac3dd256b03f13fb41c62f978d6b17124",
+      "sessionHash": "ea7ab5f2649ba07aa06305b8e42508b53eae496be74be5d43dcc29607afe543c",
+      "runtimeMs": 56815.17960000003
+    },
+    {
+      "name": "DIRECT",
+      "index": 0,
+      "fixture": "se_handbollsligan_herr-f1",
+      "seed": 910961888,
+      "treatment": null,
+      "changed": [],
+      "team": "HOME",
+      "score": {
+        "HOME": 24,
+        "AWAY": 22
+      },
+      "totals": {
+        "outfieldShots": 69,
+        "outfieldConversion": 0.6666666666666666,
+        "goals": 46,
+        "possessions": 87,
+        "shots": 69,
+        "saves": 15,
+        "shotsFaced": 61,
+        "conversion": 0.6666666666666666,
+        "savePct": 0.2459016393442623,
+        "goalsPerPossession": 0.5287356321839081,
+        "turnovers": 20,
+        "technicalErrors": 1,
+        "offensiveFouls": 0,
+        "sevenMetres": 5,
+        "sevenMetreConversion": 1,
+        "suspensions": 1,
+        "contacts": 447,
+        "assessedFouls": 18,
+        "advantages": 9,
+        "whistles": 9,
+        "freeThrows": 7,
+        "possessionSeconds": 41.37931034482759,
+        "transitionPossessions": 84,
+        "transitionAttempts": 84,
+        "transitionShots": 1,
+        "transitionGoals": 1,
+        "transitionConversion": 1,
+        "transitionRate": 0.9655172413793104
+      },
+      "own": {
+        "team": "HOME",
+        "attempts": 35,
+        "goals": 24,
+        "saves": 6,
+        "shotsFaced": 30,
+        "savePct": 0.2,
+        "conversion": 0.6857142857142857,
+        "saveInterval": {
+          "low": 0.0950510717728987,
+          "high": 0.3730569641314825,
+          "confidence": 0.95,
+          "n": 30
+        },
+        "pressure": {
+          "n": 35,
+          "mean": 0.5720574615983498,
+          "median": 0.42291472626119153,
+          "sd": 0.5349074214461609,
+          "min": 0,
+          "max": 2,
+          "p05": 0,
+          "p10": 0,
+          "p25": 0.07753581604178095,
+          "p75": 0.9753509175664059,
+          "p90": 1.029478291661089,
+          "p95": 1.5968466324690802
+        },
+        "quality": {
+          "n": 35,
+          "mean": 0.5323456890328534,
+          "median": 0.519426363887409,
+          "sd": 0.13878258386901107,
+          "min": 0.23504672348814548,
+          "max": 0.8569338781894031,
+          "p05": 0.34401018008853795,
+          "p10": 0.39648570544165623,
+          "p25": 0.46591516898364904,
+          "p75": 0.5745214527738955,
+          "p90": 0.7408530544440662,
+          "p95": 0.8235765203027927
+        },
+        "opportunityQuality": {
+          "n": 35,
+          "mean": 0.49081782516357736,
+          "median": 0.4668265145162888,
+          "sd": 0.1400380393893182,
+          "min": 0.17693176730826654,
+          "max": 0.8320188998819068,
+          "p05": 0.29265921285119895,
+          "p10": 0.3762443323055584,
+          "p25": 0.41731450643070866,
+          "p75": 0.5548166668542116,
+          "p90": 0.6810359309112275,
+          "p95": 0.7448144187315956
+        },
+        "distance": {
+          "n": 35,
+          "mean": 8.94076948778554,
+          "median": 8.832958081258125,
+          "sd": 1.0681869837197548,
+          "min": 6.992521490925869,
+          "max": 11.040777963928942,
+          "p05": 7.400958604813508,
+          "p10": 7.711436062160649,
+          "p25": 8.23686207671485,
+          "p75": 9.685889025225432,
+          "p90": 10.373334879554744,
+          "p95": 10.714533676645559
+        },
+        "angle": {
+          "n": 35,
+          "mean": 0.29707796480204046,
+          "median": 0.31212865862109507,
+          "sd": 0.06464378454686004,
+          "min": 0.12532769189481074,
+          "max": 0.42162888520118147,
+          "p05": 0.16108270484966536,
+          "p10": 0.22600816236021248,
+          "p25": 0.2713582883131934,
+          "p75": 0.33257520028333015,
+          "p90": 0.34408153659395246,
+          "p95": 0.39566206922282765
+        },
+        "blockThreat": {
+          "n": 35,
+          "mean": 0.2123313667234106,
+          "median": 0,
+          "sd": 0.3017115002105076,
+          "min": 0,
+          "max": 0.8155412379909486,
+          "p05": 0,
+          "p10": 0,
+          "p25": 0,
+          "p75": 0.406884942555757,
+          "p90": 0.702947541722945,
+          "p95": 0.763223775440397
+        },
+        "possessions": 44,
+        "scorerConcentration": 0.4166666666666667,
+        "shotConcentration": 0.37142857142857144,
+        "scorerHHI": 0.3298611111111111,
+        "features": {
+          "context.home": 1,
+          "context.energy": 0.661483347279869,
+          "team.topSpeed": 6.575438596491229,
+          "team.acceleration": 6.564912280701754,
+          "team.reaction": 0.20157894736842108,
+          "team.passing": 0.7280701754385965,
+          "team.handling": 0.7061403508771931,
+          "team.shotPower": 0.7543859649122807,
+          "team.shotPlacement": 0.7412280701754385,
+          "team.breakthrough": 0.7412280701754387,
+          "team.finishing": 0.7719298245614035,
+          "team.wingFinishing": 0.7719298245614035,
+          "team.pivotPlay": 0.7456140350877193,
+          "team.screening": 0.7412280701754386,
+          "team.anticipation": 0.6578947368421053,
+          "team.decision": 0.6535087719298246,
+          "team.offBall": 0.6842105263157894,
+          "team.contact": 0.6929824561403508,
+          "team.defPositioning": 0.6403508771929824,
+          "team.defTiming": 0.6754385964912281,
+          "team.lateral": 0.6885964912280701,
+          "team.covering": 0.6228070175438596,
+          "team.handover": 0.6228070175438596,
+          "team.ballWinning": 0.6403508771929824,
+          "team.blocking": 0.6228070175438596,
+          "team.strength": 0.7456140350877193,
+          "team.balance": 0.7456140350877193,
+          "team.endurance": 0.7192982456140351,
+          "team.composure": 0.6666666666666667,
+          "team.discipline": 0.6842105263157894
+        }
+      },
+      "player": {
+        "shots": 0,
+        "goals": 0,
+        "conversion": null
+      },
+      "positions": {
+        "POSITION:LB": {
+          "attempts": 20,
+          "goals": 15
+        },
+        "POSITION:P": {
+          "attempts": 7,
+          "goals": 3
+        },
+        "POSITION:RB": {
+          "attempts": 10,
+          "goals": 2
+        },
+        "POSITION:LW": {
+          "attempts": 3,
+          "goals": 2
+        },
+        "POSITION:RW": {
+          "attempts": 8,
+          "goals": 5
+        },
+        "POSITION:CB": {
+          "attempts": 21,
+          "goals": 19
+        }
+      },
+      "halves": [
+        {
+          "period": 1,
+          "attempts": 17,
+          "conversion": 0.5294117647058824,
+          "savePct": 0.35714285714285715,
+          "turnovers": 6
+        },
+        {
+          "period": 2,
+          "attempts": 52,
+          "conversion": 0.7115384615384616,
+          "savePct": 0.2127659574468085,
+          "turnovers": 14
+        }
+      ],
+      "resultHash": "018988beffd05143ef12701a3896d208563c057bb67e26b31d3a414a55c1daa7",
+      "sessionHash": "cf5205dee02fc8af1f2e670c36160b7dfe058a255f3e005e702a6494a093941e",
+      "runtimeMs": 29846.88420000003
+    },
+    {
+      "name": "DIRECT",
+      "index": 1,
+      "fixture": "se_handbollsligan_herr-f2",
+      "seed": 2337324462,
+      "treatment": null,
+      "changed": [],
+      "team": "AWAY",
+      "score": {
+        "HOME": 32,
+        "AWAY": 31
+      },
+      "totals": {
+        "outfieldShots": 111,
+        "outfieldConversion": 0.5675675675675675,
+        "goals": 63,
+        "possessions": 142,
+        "shots": 111,
+        "saves": 34,
+        "shotsFaced": 97,
+        "conversion": 0.5675675675675675,
+        "savePct": 0.35051546391752575,
+        "goalsPerPossession": 0.44366197183098594,
+        "turnovers": 36,
+        "technicalErrors": 3,
+        "offensiveFouls": 0,
+        "sevenMetres": 6,
+        "sevenMetreConversion": 0.8333333333333334,
+        "suspensions": 2,
+        "contacts": 706,
+        "assessedFouls": 24,
+        "advantages": 12,
+        "whistles": 12,
+        "freeThrows": 9,
+        "possessionSeconds": 25.35211267605635,
+        "transitionPossessions": 137,
+        "transitionAttempts": 138,
+        "transitionShots": 8,
+        "transitionGoals": 3,
+        "transitionConversion": 0.375,
+        "transitionRate": 0.9647887323943662
+      },
+      "own": {
+        "team": "AWAY",
+        "attempts": 61,
+        "goals": 31,
+        "saves": 22,
+        "shotsFaced": 53,
+        "savePct": 0.41509433962264153,
+        "conversion": 0.5081967213114754,
+        "saveInterval": {
+          "low": 0.29260908779813966,
+          "high": 0.549055778186556,
+          "confidence": 0.95,
+          "n": 53
+        },
+        "pressure": {
+          "n": 61,
+          "mean": 0.6560728849993154,
+          "median": 0.7021674084012771,
+          "sd": 0.46923362190708645,
+          "min": 0,
+          "max": 1.6803268801832596,
+          "p05": 0,
+          "p10": 0,
+          "p25": 0.20770048634292612,
+          "p75": 0.9808313690772278,
+          "p90": 1.2306536095807705,
+          "p95": 1.45
+        },
+        "quality": {
+          "n": 61,
+          "mean": 0.5505299912238555,
+          "median": 0.5341277059457024,
+          "sd": 0.13089946352067272,
+          "min": 0.3260343369953874,
+          "max": 0.8604088679134216,
+          "p05": 0.34411979205099263,
+          "p10": 0.3596521399349985,
+          "p25": 0.4831916305206685,
+          "p75": 0.637389908213413,
+          "p90": 0.6992699168017305,
+          "p95": 0.7930343379496393
+        },
+        "opportunityQuality": {
+          "n": 61,
+          "mean": 0.49983367738232326,
+          "median": 0.4810631920149203,
+          "sd": 0.13748500168952682,
+          "min": 0.27418981015826327,
+          "max": 0.8310761079572218,
+          "p05": 0.29616029687613943,
+          "p10": 0.29822967730544037,
+          "p25": 0.40194176862689907,
+          "p75": 0.603154161411851,
+          "p90": 0.6316539654771639,
+          "p95": 0.7563184147746184
+        },
+        "distance": {
+          "n": 61,
+          "mean": 8.631132991639175,
+          "median": 8.528991278247199,
+          "sd": 1.2587250305610653,
+          "min": 6.353072243780056,
+          "max": 12.454203859742554,
+          "p05": 6.8335185077694245,
+          "p10": 7.0671157482473514,
+          "p25": 7.619188222719031,
+          "p75": 9.495450594473922,
+          "p90": 10.276905973647878,
+          "p95": 10.58327009463072
+        },
+        "angle": {
+          "n": 61,
+          "mean": 0.3032141259542079,
+          "median": 0.310246374378811,
+          "sd": 0.08600181523459068,
+          "min": 0.1284405072414596,
+          "max": 0.4637139161434998,
+          "p05": 0.13287548267805493,
+          "p10": 0.15660908368566995,
+          "p25": 0.2713111004467904,
+          "p75": 0.36338399330363386,
+          "p90": 0.41829335289539143,
+          "p95": 0.4311001422057858
+        },
+        "blockThreat": {
+          "n": 61,
+          "mean": 0.22618791757968282,
+          "median": 0,
+          "sd": 0.2804097212455739,
+          "min": 0,
+          "max": 0.7947368421052632,
+          "p05": 0,
+          "p10": 0,
+          "p25": 0,
+          "p75": 0.5392844104580478,
+          "p90": 0.6236842105263158,
+          "p95": 0.6921052631578948
+        },
+        "possessions": 71,
+        "scorerConcentration": 0.3225806451612903,
+        "shotConcentration": 0.26229508196721313,
+        "scorerHHI": 0.22372528616024973,
+        "features": {
+          "context.home": 0,
+          "context.energy": 0.5185504852103837,
+          "team.topSpeed": 6.803508771929825,
+          "team.acceleration": 6.722807017543859,
+          "team.reaction": 0.19210526315789475,
+          "team.passing": 0.7456140350877193,
+          "team.handling": 0.7499999999999999,
+          "team.shotPower": 0.7982456140350876,
+          "team.shotPlacement": 0.7719298245614035,
+          "team.breakthrough": 0.8070175438596491,
+          "team.finishing": 0.7631578947368421,
+          "team.wingFinishing": 0.8245614035087718,
+          "team.pivotPlay": 0.8157894736842104,
+          "team.screening": 0.7894736842105263,
+          "team.anticipation": 0.7105263157894737,
+          "team.decision": 0.6973684210526315,
+          "team.offBall": 0.706140350877193,
+          "team.contact": 0.7149122807017544,
+          "team.defPositioning": 0.7017543859649124,
+          "team.defTiming": 0.6842105263157895,
+          "team.lateral": 0.7324561403508771,
+          "team.covering": 0.6842105263157894,
+          "team.handover": 0.719298245614035,
+          "team.ballWinning": 0.6973684210526315,
+          "team.blocking": 0.6929824561403508,
+          "team.strength": 0.7807017543859649,
+          "team.balance": 0.7719298245614035,
+          "team.endurance": 0.780701754385965,
+          "team.composure": 0.7192982456140351,
+          "team.discipline": 0.7456140350877192
+        }
+      },
+      "player": {
+        "shots": 0,
+        "goals": 0,
+        "conversion": null
+      },
+      "positions": {
+        "POSITION:LB": {
+          "attempts": 21,
+          "goals": 14
+        },
+        "POSITION:CB": {
+          "attempts": 25,
+          "goals": 18
+        },
+        "POSITION:RB": {
+          "attempts": 22,
+          "goals": 11
+        },
+        "POSITION:RW": {
+          "attempts": 6,
+          "goals": 4
+        },
+        "POSITION:LW": {
+          "attempts": 21,
+          "goals": 7
+        },
+        "POSITION:P": {
+          "attempts": 16,
+          "goals": 9
+        }
+      },
+      "halves": [
+        {
+          "period": 1,
+          "attempts": 57,
+          "conversion": 0.5789473684210527,
+          "savePct": 0.35294117647058826,
+          "turnovers": 19
+        },
+        {
+          "period": 2,
+          "attempts": 54,
+          "conversion": 0.5555555555555556,
+          "savePct": 0.34782608695652173,
+          "turnovers": 17
+        }
+      ],
+      "resultHash": "f535f12cdbf40087b29929d213bb1a4e282264f83c9c59c47748484ac03a9398",
+      "sessionHash": "3f66f4ca3dc48c67a59a0c47b02a36de2ed13439755f5b29c9cb2a2135ba27dc",
+      "runtimeMs": 39282.37190000003
+    },
+    {
+      "name": "5:1",
+      "index": 0,
+      "fixture": "se_handbollsligan_herr-f1",
+      "seed": 910961888,
+      "treatment": null,
+      "changed": [],
+      "team": "HOME",
+      "score": {
+        "HOME": 39,
+        "AWAY": 33
+      },
+      "totals": {
+        "outfieldShots": 111,
+        "outfieldConversion": 0.6486486486486487,
+        "goals": 72,
+        "possessions": 145,
+        "shots": 111,
+        "saves": 22,
+        "shotsFaced": 94,
+        "conversion": 0.6486486486486487,
+        "savePct": 0.23404255319148937,
+        "goalsPerPossession": 0.496551724137931,
+        "turnovers": 39,
+        "technicalErrors": 1,
+        "offensiveFouls": 0,
+        "sevenMetres": 6,
+        "sevenMetreConversion": 0.8333333333333334,
+        "suspensions": 3,
+        "contacts": 673,
+        "assessedFouls": 27,
+        "advantages": 10,
+        "whistles": 17,
+        "freeThrows": 13,
+        "possessionSeconds": 24.827586206896548,
+        "transitionPossessions": 143,
+        "transitionAttempts": 144,
+        "transitionShots": 4,
+        "transitionGoals": 3,
+        "transitionConversion": 0.75,
+        "transitionRate": 0.9862068965517241
+      },
+      "own": {
+        "team": "HOME",
+        "attempts": 57,
+        "goals": 39,
+        "saves": 10,
+        "shotsFaced": 49,
+        "savePct": 0.20408163265306123,
+        "conversion": 0.6842105263157895,
+        "saveInterval": {
+          "low": 0.11481849605782132,
+          "high": 0.3363700091951255,
+          "confidence": 0.95,
+          "n": 49
+        },
+        "pressure": {
+          "n": 57,
+          "mean": 0.6118389110563551,
+          "median": 0.4549351381262852,
+          "sd": 0.4927941222741754,
+          "min": 0,
+          "max": 1.7528647960864074,
+          "p05": 0,
+          "p10": 0,
+          "p25": 0.1882513657379882,
+          "p75": 1,
+          "p90": 1.246934238413718,
+          "p95": 1.440194874051073
+        },
+        "quality": {
+          "n": 57,
+          "mean": 0.5477170152994604,
+          "median": 0.5394862647071249,
+          "sd": 0.13186107634977273,
+          "min": 0.270098486053248,
+          "max": 0.8694647243258417,
+          "p05": 0.3218395730813849,
+          "p10": 0.36408900744163253,
+          "p25": 0.4862020746988349,
+          "p75": 0.6245533835192493,
+          "p90": 0.7091257483566556,
+          "p95": 0.7482542987776478
+        },
+        "opportunityQuality": {
+          "n": 57,
+          "mean": 0.5140698094788082,
+          "median": 0.515151647163388,
+          "sd": 0.13936686590375677,
+          "min": 0.23864919372429763,
+          "max": 0.8514311220307709,
+          "p05": 0.2738355297170333,
+          "p10": 0.31663165876479027,
+          "p25": 0.43658367208579263,
+          "p75": 0.58902286943372,
+          "p90": 0.6828274168451723,
+          "p95": 0.7403687086119572
+        },
+        "distance": {
+          "n": 57,
+          "mean": 8.34805192712991,
+          "median": 8.134753537640838,
+          "sd": 1.23224684874302,
+          "min": 6.426706403439212,
+          "max": 11.1560736534388,
+          "p05": 6.828053440213197,
+          "p10": 6.901635197590051,
+          "p25": 7.21115557023915,
+          "p75": 9.449305279155173,
+          "p90": 9.892089006451387,
+          "p95": 10.558061709770833
+        },
+        "angle": {
+          "n": 57,
+          "mean": 0.3180032277728162,
+          "median": 0.32184466413028856,
+          "sd": 0.08878002206721984,
+          "min": 0.13083546809655244,
+          "max": 0.4582769018872243,
+          "p05": 0.1399817070094902,
+          "p10": 0.15702193643282558,
+          "p25": 0.28433100315037596,
+          "p75": 0.3828875035501256,
+          "p90": 0.4215740345312769,
+          "p95": 0.4303002932831816
+        },
+        "blockThreat": {
+          "n": 57,
+          "mean": 0.20121008155074313,
+          "median": 0,
+          "sd": 0.3009915231567464,
+          "min": 0,
+          "max": 0.8480774465586924,
+          "p05": 0,
+          "p10": 0,
+          "p25": 0,
+          "p75": 0.5602380177571195,
+          "p90": 0.6731517404911413,
+          "p95": 0.7288741980276238
+        },
+        "possessions": 73,
+        "scorerConcentration": 0.23076923076923078,
+        "shotConcentration": 0.24561403508771928,
+        "scorerHHI": 0.18080210387902695,
+        "features": {
+          "context.home": 1,
+          "context.energy": 0.514192983941823,
+          "team.topSpeed": 6.575438596491229,
+          "team.acceleration": 6.564912280701754,
+          "team.reaction": 0.20157894736842108,
+          "team.passing": 0.7280701754385965,
+          "team.handling": 0.7061403508771931,
+          "team.shotPower": 0.7543859649122807,
+          "team.shotPlacement": 0.7412280701754385,
+          "team.breakthrough": 0.7412280701754387,
+          "team.finishing": 0.7719298245614035,
+          "team.wingFinishing": 0.7719298245614035,
+          "team.pivotPlay": 0.7456140350877193,
+          "team.screening": 0.7412280701754386,
+          "team.anticipation": 0.6578947368421053,
+          "team.decision": 0.6535087719298246,
+          "team.offBall": 0.6842105263157894,
+          "team.contact": 0.6929824561403508,
+          "team.defPositioning": 0.6403508771929824,
+          "team.defTiming": 0.6754385964912281,
+          "team.lateral": 0.6885964912280701,
+          "team.covering": 0.6228070175438596,
+          "team.handover": 0.6228070175438596,
+          "team.ballWinning": 0.6403508771929824,
+          "team.blocking": 0.6228070175438596,
+          "team.strength": 0.7456140350877193,
+          "team.balance": 0.7456140350877193,
+          "team.endurance": 0.7192982456140351,
+          "team.composure": 0.6666666666666667,
+          "team.discipline": 0.6842105263157894
+        }
+      },
+      "player": {
+        "shots": 0,
+        "goals": 0,
+        "conversion": null
+      },
+      "positions": {
+        "POSITION:CB": {
+          "attempts": 14,
+          "goals": 11
+        },
+        "POSITION:RB": {
+          "attempts": 24,
+          "goals": 12
+        },
+        "POSITION:P": {
+          "attempts": 31,
+          "goals": 22
+        },
+        "POSITION:LB": {
+          "attempts": 17,
+          "goals": 11
+        },
+        "POSITION:LW": {
+          "attempts": 11,
+          "goals": 8
+        },
+        "POSITION:RW": {
+          "attempts": 14,
+          "goals": 8
+        }
+      },
+      "halves": [
+        {
+          "period": 1,
+          "attempts": 55,
+          "conversion": 0.6909090909090909,
+          "savePct": 0.24,
+          "turnovers": 24
+        },
+        {
+          "period": 2,
+          "attempts": 56,
+          "conversion": 0.6071428571428571,
+          "savePct": 0.22727272727272727,
+          "turnovers": 15
+        }
+      ],
+      "resultHash": "c1825660e19b3d14809053193ac3fbc488e3429da9b5dd9048d3e5758e895173",
+      "sessionHash": "30aea381a891523313f080062335dc4a87ef0ceb8a0e093ef66f7274a47a3588",
+      "runtimeMs": 17577.559100000013
+    },
+    {
+      "name": "5:1",
+      "index": 1,
+      "fixture": "se_handbollsligan_herr-f2",
+      "seed": 2337324462,
+      "treatment": null,
+      "changed": [],
+      "team": "AWAY",
+      "score": {
+        "HOME": 32,
+        "AWAY": 32
+      },
+      "totals": {
+        "outfieldShots": 109,
+        "outfieldConversion": 0.5871559633027523,
+        "goals": 64,
+        "possessions": 145,
+        "shots": 109,
+        "saves": 31,
+        "shotsFaced": 95,
+        "conversion": 0.5871559633027523,
+        "savePct": 0.3263157894736842,
+        "goalsPerPossession": 0.4413793103448276,
+        "turnovers": 39,
+        "technicalErrors": 4,
+        "offensiveFouls": 0,
+        "sevenMetres": 7,
+        "sevenMetreConversion": 0.5714285714285714,
+        "suspensions": 5,
+        "contacts": 679,
+        "assessedFouls": 33,
+        "advantages": 21,
+        "whistles": 12,
+        "freeThrows": 9,
+        "possessionSeconds": 24.827586206896548,
+        "transitionPossessions": 137,
+        "transitionAttempts": 137,
+        "transitionShots": 0,
+        "transitionGoals": 0,
+        "transitionConversion": null,
+        "transitionRate": 0.9448275862068966
+      },
+      "own": {
+        "team": "AWAY",
+        "attempts": 53,
+        "goals": 32,
+        "saves": 17,
+        "shotsFaced": 49,
+        "savePct": 0.3469387755102041,
+        "conversion": 0.6037735849056604,
+        "saveInterval": {
+          "low": 0.22924392834538948,
+          "high": 0.48688805713027256,
+          "confidence": 0.95,
+          "n": 49
+        },
+        "pressure": {
+          "n": 53,
+          "mean": 0.8130065092405715,
+          "median": 0.9413980212203253,
+          "sd": 0.5662728857920077,
+          "min": 0,
+          "max": 2.48244595006829,
+          "p05": 0,
+          "p10": 0,
+          "p25": 0.45,
+          "p75": 1,
+          "p90": 1.3296909477521945,
+          "p95": 1.6161462005011087
+        },
+        "quality": {
+          "n": 53,
+          "mean": 0.5648492657501207,
+          "median": 0.5721345380118739,
+          "sd": 0.18406065570736158,
+          "min": 0.23280412799338146,
+          "max": 0.8891014034907848,
+          "p05": 0.2639566201803905,
+          "p10": 0.3226208701639002,
+          "p25": 0.42154052742390585,
+          "p75": 0.6757756864951959,
+          "p90": 0.8467514367154946,
+          "p95": 0.8699574100943954
+        },
+        "opportunityQuality": {
+          "n": 53,
+          "mean": 0.5133615047734109,
+          "median": 0.5197333638045547,
+          "sd": 0.18835123783807942,
+          "min": 0.1829388263938096,
+          "max": 0.8327876278076751,
+          "p05": 0.22083777734377838,
+          "p10": 0.26255800743776125,
+          "p25": 0.37350403755028316,
+          "p75": 0.6393957833146826,
+          "p90": 0.8124979474231325,
+          "p95": 0.8314249814244226
+        },
+        "distance": {
+          "n": 53,
+          "mean": 8.406101962289357,
+          "median": 8.12598931642514,
+          "sd": 1.303116399164783,
+          "min": 6.71456812331561,
+          "max": 11.18760713974259,
+          "p05": 6.8540393629701555,
+          "p10": 6.985557487708026,
+          "p25": 7.165925851374912,
+          "p75": 9.790177295165668,
+          "p90": 10.358239512750592,
+          "p95": 10.64577741165053
+        },
+        "angle": {
+          "n": 53,
+          "mean": 0.3282766726584708,
+          "median": 0.34159019402393864,
+          "sd": 0.08214805444130337,
+          "min": 0.12857442203073077,
+          "max": 0.4317473694236997,
+          "p05": 0.1526707694779356,
+          "p10": 0.2163398338371483,
+          "p25": 0.2926964668337984,
+          "p75": 0.40444211388312357,
+          "p90": 0.4168148252735351,
+          "p95": 0.4217277274353689
+        },
+        "blockThreat": {
+          "n": 53,
+          "mean": 0.26814661556583536,
+          "median": 0,
+          "sd": 0.329981846089763,
+          "min": 0,
+          "max": 0.8289473684210527,
+          "p05": 0,
+          "p10": 0,
+          "p25": 0,
+          "p75": 0.5567552552048255,
+          "p90": 0.791674239714251,
+          "p95": 0.8031224385419852
+        },
+        "possessions": 72,
+        "scorerConcentration": 0.28125,
+        "shotConcentration": 0.3018867924528302,
+        "scorerHHI": 0.20703125,
+        "features": {
+          "context.home": 0,
+          "context.energy": 0.6288088114664329,
+          "team.topSpeed": 6.693233082706766,
+          "team.acceleration": 6.5774436090225565,
+          "team.reaction": 0.19142857142857142,
+          "team.passing": 0.7368421052631577,
+          "team.handling": 0.7330827067669173,
+          "team.shotPower": 0.7744360902255638,
+          "team.shotPlacement": 0.7556390977443609,
+          "team.breakthrough": 0.7781954887218044,
+          "team.finishing": 0.7518796992481204,
+          "team.wingFinishing": 0.7969924812030075,
+          "team.pivotPlay": 0.7894736842105262,
+          "team.screening": 0.7706766917293233,
+          "team.anticipation": 0.7142857142857142,
+          "team.decision": 0.7105263157894738,
+          "team.offBall": 0.6954887218045113,
+          "team.contact": 0.7030075187969925,
+          "team.defPositioning": 0.6992481203007519,
+          "team.defTiming": 0.6729323308270677,
+          "team.lateral": 0.7180451127819548,
+          "team.covering": 0.6691729323308272,
+          "team.handover": 0.7142857142857143,
+          "team.ballWinning": 0.6954887218045113,
+          "team.blocking": 0.6766917293233083,
+          "team.strength": 0.7593984962406015,
+          "team.balance": 0.7518796992481203,
+          "team.endurance": 0.7443609022556391,
+          "team.composure": 0.699248120300752,
+          "team.discipline": 0.736842105263158
+        }
+      },
+      "player": {
+        "shots": 0,
+        "goals": 0,
+        "conversion": null
+      },
+      "positions": {
+        "POSITION:LB": {
+          "attempts": 21,
+          "goals": 13
+        },
+        "POSITION:P": {
+          "attempts": 27,
+          "goals": 15
+        },
+        "POSITION:RB": {
+          "attempts": 17,
+          "goals": 11
+        },
+        "POSITION:LW": {
+          "attempts": 17,
+          "goals": 10
+        },
+        "POSITION:RW": {
+          "attempts": 8,
+          "goals": 4
+        },
+        "POSITION:CB": {
+          "attempts": 19,
+          "goals": 11
+        }
+      },
+      "halves": [
+        {
+          "period": 1,
+          "attempts": 58,
+          "conversion": 0.5689655172413793,
+          "savePct": 0.32653061224489793,
+          "turnovers": 18
+        },
+        {
+          "period": 2,
+          "attempts": 51,
+          "conversion": 0.6078431372549019,
+          "savePct": 0.32608695652173914,
+          "turnovers": 21
+        }
+      ],
+      "resultHash": "5417f288720a02649e90115313a65ff5807412ee54a68889454871a3f1ac4bf4",
+      "sessionHash": "7eabb26b181a2e19e1aa7f3d2cc09064d09c8b87a8343d024d9d40c28261750d",
+      "runtimeMs": 17289.06170000002
+    }
+  ]
+}
