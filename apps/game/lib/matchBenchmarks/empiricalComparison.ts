@@ -3,7 +3,10 @@ import{ratio}from'./statistics';
 import type{ReferenceProfile,Identity}from'./reference';
 import type{Distribution}from'./statistics';
 export function compareDistributions(metric:string,scope:string,actual:Distribution,profiles:readonly ReferenceProfile[],identity:Identity,engineMatches:number,values:number[]=[]){
-  const comparison=evaluate({metric,scope,value:actual.mean,n:actual.n},profiles,identity),reference=comparison.reference;
+  const projected=evaluate({metric,scope,value:actual.mean,n:actual.n},profiles,identity);
+  // N here counts observed match rates/counts, not pooled shot events. Do not
+  // reuse an individual-match z flag as a significance test of a batch mean.
+  const comparison={...projected,z:null,status:projected.reference?'BATCH_MEAN_COMPARISON':'NO_REFERENCE',sampleUnit:scope==='KEEPER'?'keeper-match metric observations':scope==='TEAM'?'team-match metric observations':'match metric observations'},reference=comparison.reference;
   if(!reference||actual.mean===null)return{metric,scope,actual,comparison,status:'NO REFERENCE',priority:0};
   const d=reference.row.distribution,expected=d.mean??d.median;if(expected==null)return{metric,scope,actual,comparison,status:'UNRESOLVED',priority:0};
   const standardized=typeof d.sd==='number'&&d.sd>0?(actual.mean-expected)/d.sd:null;

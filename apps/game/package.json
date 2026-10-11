@@ -23,7 +23,12 @@
     "test:season": "node --import tsx scripts/playable-season-smoke.ts",
     "test:benchmarks": "node --import tsx --test lib/matchBenchmarks/benchmarks.test.ts",
     "benchmark:fast": "node --import tsx scripts/match-benchmarks.ts --mode fast",
-    "benchmark:calibration": "node --import tsx scripts/match-benchmarks.ts --mode calibration"
+    "benchmark:calibration": "node --import tsx scripts/match-benchmarks.ts --mode calibration",
+    "empirical:rebuild": "node --import tsx scripts/rebuild-empirical-benchmarks.ts",
+    "empirical:report": "node scripts/report-empirical-data.mjs",
+    "empirical:compare": "node --import tsx scripts/compare-empirical-benchmarks.ts",
+    "empirical:verify": "node scripts/verify-empirical-evidence.mjs",
+    "test:empirical": "node --import tsx --test lib/matchBenchmarks/benchmarks.test.ts lib/matchBenchmarks/empirical.test.ts"
   },
   "dependencies": {
     "@handball-manager/game-simulation": "*",
