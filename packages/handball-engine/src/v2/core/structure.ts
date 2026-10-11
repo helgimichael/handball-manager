@@ -13,6 +13,7 @@ import { ZONE_COUNT,allocate,assignZones,dutyFeasible,dutyTarget,lineFormed,read
 import { sustain } from './actions';
 import { laneMargin } from './timing';
 import { prepareKeeperAnticipation } from './execution';
+import {readMovementTarget,receivingApproach,recoveryRoute} from './movement';
 const PIVOT_ROLL_REASON='Roll into the line space created by the backcourt threat';
 const PIVOT_CATCH_REASON='Turn the secured pivot catch toward the actual close-range window';
 
@@ -420,16 +421,24 @@ function defensiveMovement(s:CoreState,p:CorePlayer,read:DefenceRead|null,direct
   const line=read?dutyTarget(s,p,duty,read,direction):p.position;
   const spot=marked&&isWing(marked)&&local(marked.position,direction).y<8&&['MARK','PRESSURE','COVER'].includes(p.duty.kind)?defendWing(s,p,marked)??line:line;
   const kind=p.duty.kind==='HELP'?'HELP':p.duty.kind==='RECOVER'||p.duty.kind==='RETREAT'?'RECOVER':p.duty.kind==='PRESSURE'?'PRESS':'CONTAIN';
-  return {target:anticipatedDefenceTarget(s,p,spot),kind} as const;
+  return {target:recoveryRoute(s,p,anticipatedDefenceTarget(s,p,spot)),kind} as const;
 }
 /** A current relationship steers an executing movement, without restarting its acceleration. */
 function refreshActiveMovement(s:CoreState,p:CorePlayer,read:DefenceRead|null,direction:CoreState['directions']['HOME'],receiverId:string|null|undefined) {
   const a=p.action;
+  // An unclaimed offering position is not a two-second frozen appointment.
+  // When the ball changes the relationship, the hands can remain available
+  // while the legs leave the old post. Named feeds retain their prepared window.
+  if(a?.kind==='RECEIVE'&&!actionAvailable(p)&&p.team===s.possession.team&&p.id!==receiverId&&
+    !p.reception&&!p.airborne&&s.ball.controllerId!==p.id&&s.ball.mode!=='LOOSE'){
+    const next=attackingMovementTarget(s,p,direction).target;
+    if(distance(p.position,next)>.55){a.kind='RUN';a.target=readMovementTarget(s,p,next);a.reason=p.duty.reason;p.intent={...p.intent,effect:'RUN',reason:p.duty.reason};}
+  }
   // The ball has actually left. The hands can recover while the legs follow
   // the existing support relationship; PASS completion is not a standing duty.
   if(a?.kind==='PASS'&&a.resolved&&!actionAvailable(p)&&!p.airborne&&!exchangeActive(s,p.id)&&
     p.team===s.possession.team&&p.kind==='FIELD_PLAYER'&&s.ball.controllerId!==p.id){
-    a.target={...attackingMovementTarget(s,p,direction).target};return;
+    a.target=readMovementTarget(s,p,attackingMovementTarget(s,p,direction).target);return;
   }
   if(!a||actionAvailable(p)||p.airborne||exchangeActive(s,p.id)||s.ball.controllerId===p.id||
     !['RUN','REPOSITION','PRESS','CONTAIN','HELP','RECOVER'].includes(a.kind))return;
@@ -453,8 +462,8 @@ function refreshActiveMovement(s:CoreState,p:CorePlayer,read:DefenceRead|null,di
       a.kind=current.kind;a.targetId=p.duty.targetId;
       a.reason=p.duty.reason;p.intent={...p.intent,effect:current.kind,targetId:p.duty.targetId,reason:p.duty.reason};
     }
-    a.target={...current.target};
-  }else if(a.kind==='RUN'||a.kind==='REPOSITION')a.target={...attackingMovementTarget(s,p,direction).target};
+    a.target=readMovementTarget(s,p,current.target);
+  }else if(a.kind==='RUN'||a.kind==='REPOSITION')a.target=readMovementTarget(s,p,attackingMovementTarget(s,p,direction).target);
 }
 
 /** React to a visible wind-up, never to a shot target that has not been released. */
@@ -583,7 +592,7 @@ export function selectActions(s:CoreState) {
         if(!sustain(s,p,'REPOSITION',spot,null,.6)&&distance(p.position,spot)>.22&&startAction(s,p,'REPOSITION','Position between ball and defended goal',spot))p.action!.executeTicks=4;
       continue;
     }
-    if(p.id===receiverId){startAction(s,p,'RECEIVE','Prepare hands for named pass; ownership requires contact',null,prospective?.id??s.ball.flight?.fromId??null);continue;}
+    if(p.id===receiverId){const passer=prospective??s.players.find(q=>q.id===s.ball.flight?.fromId)??null;startAction(s,p,'RECEIVE','Open a legal receiving window for the named pass; ownership requires contact',receivingApproach(s,p,passer),passer?.id??null);continue;}
     if(s.ball.mode==='LOOSE') {if(p.duty.kind==='COLLECT')startAction(s,p,'RECEIVE','Contest the loose ball',s.ball.position);continue;}
     if(p.team!==s.possession.team) {
       const current=defensiveMovement(s,p,defenceRead,direction);

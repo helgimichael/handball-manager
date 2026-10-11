@@ -5,9 +5,10 @@ import { authorisedRestartMovementLegal } from './rules';
 import { movementCapacity } from './condition';
 import { planShotTarget } from './execution';
 import { steerVelocity } from './locomotion';
+import {bodyRoute,movementPace} from './movement';
 
 const durations: Record<ActionKind,number>={RUN:12,REPOSITION:12,RECEIVE:36,HOLD:6,DRIBBLE:16,PASS:4,FEINT:7,DRIVE:14,JUMP:3,SHOOT:4,LAND:4,SCREEN:20,PRESS:10,CONTAIN:10,HELP:12,HANDOVER:4,RECOVER:12,BLOCK:12,CONTACT:8,SAVE:18,EXCHANGE:20};
-export const movementActions: ActionKind[]=['RUN','REPOSITION','DRIBBLE','DRIVE','PRESS','CONTAIN','HELP','RECOVER','SAVE','EXCHANGE'];
+export const movementActions: ActionKind[]=['RUN','REPOSITION','RECEIVE','DRIBBLE','DRIVE','PRESS','CONTAIN','HELP','RECOVER','SAVE','EXCHANGE'];
 export function legalAction(s: CoreState,p: CorePlayer,kind: ActionKind): boolean {
   if(s.status!=='RUNNING'||p.population!=='COURT'||!actionAvailable(p))return false;
   const controls=s.ball.controllerId===p.id;
@@ -74,6 +75,10 @@ export function startAction(s: CoreState,p: CorePlayer,kind: ActionKind,reason: 
   const id=uid(s,'action');
   p.intent={id:`${id}-intent`,effect:kind,reason,targetId};
   p.action={id,possessionId:s.possession.id,kind,phase:'PREPARING',startedTick:s.tick,phaseTick:s.tick,executeTicks:durations[kind],recoveryTicks:['SHOOT','DRIVE','FEINT','CONTACT','SAVE'].includes(kind)?6:2,target:target&&{...target},targetId,reason,resolved:false,contestIds:[],shotKind,purpose,contact:null,driveStart:null};
+  if(kind==='PASS'&&s.ball.live&&s.ball.controllerId===p.id&&!target){
+    const speed=Math.hypot(p.velocity.x,p.velocity.y),budget=(s.ruleProfile.maxSteps-p.handling.steps)*.8-p.handling.stepDistance-.05;
+    if(speed>.4&&budget>.05){const extent=Math.min(.45,budget);p.action.target={x:p.position.x+p.velocity.x/speed*extent,y:p.position.y+p.velocity.y/speed*extent};}
+  }
   if(kind==='DRIVE')p.action.driveStart=Object.fromEntries([s.defence.pressureId,s.defence.helperId].filter((id):id is string=>id!==null).map(id=>[id,local(p.position,s.directions[p.team]).y-local(getPlayer(s,id).position,s.directions[p.team]).y]));
   if(kind==='DRIVE') {
     p.action.recoveryTicks=2;
@@ -110,8 +115,10 @@ export function move(s:CoreState,p:CorePlayer,target:Point|null,committedSave=fa
   // A committed keeper reach retains v2.1's released-shot timing model. Its
   // short reaction/reach is not an ordinary outfield support run.
   const saveSpeed=Math.min(p.profile.topSpeed*impaired*capacity,Math.max(0,p.velocity.x*dx+p.velocity.y*dy)+acceleration*.05,Math.sqrt(2*acceleration*d));
-  const limit=carryOnly?Math.min(p.profile.topSpeed*impaired*capacity,Math.hypot(p.velocity.x,p.velocity.y)):p.profile.topSpeed*impaired*capacity;
-  const velocity=committedSave?{x:dx*saveSpeed,y:dy*saveSpeed}:steerVelocity(p.position,p.velocity,target,limit,acceleration);
+  const maximum=p.profile.topSpeed*impaired*capacity*movementPace(s,p,target);
+  const limit=carryOnly?Math.min(maximum,Math.hypot(p.velocity.x,p.velocity.y)):maximum;
+  const route=target?bodyRoute(s,p,target):null;
+  const velocity=committedSave?{x:dx*saveSpeed,y:dy*saveSpeed}:steerVelocity(p.position,p.velocity,route,limit,acceleration);
   const speed=Math.hypot(velocity.x,velocity.y);
   if(speed<1e-8){p.velocity={x:0,y:0};return;}
   const travel=target?Math.min(d,speed*.05):speed*.05,heading={x:velocity.x/speed,y:velocity.y/speed};
@@ -122,10 +129,11 @@ export function move(s:CoreState,p:CorePlayer,target:Point|null,committedSave=fa
   // may need to step backwards before returning to its restart position.
   const taker=s.restart?.takerId?getPlayer(s,s.restart.takerId):null;
   const pinned=!s.ball.live&&taker&&p.team!==taker.team&&(p.position.x<1||p.position.x>19)&&distance(p.position,taker.position)<1;
-  const angles=!pinned?[0,.7,-.7,1.3,-1.3,Math.PI/2,-Math.PI/2,1.9,-1.9]:[0,.7,-.7,1.3,-1.3,Math.PI/2,-Math.PI/2,1.9,-1.9,2.5,-2.5,Math.PI];
+  const angles=s.ball.live?[0,.12,-.12,.25,-.25,.45,-.45,.7,-.7]:!pinned?[0,.7,-.7,1.3,-1.3,Math.PI/2,-Math.PI/2,1.9,-1.9]:[0,.7,-.7,1.3,-1.3,Math.PI/2,-Math.PI/2,1.9,-1.9,2.5,-2.5,Math.PI];
   for(const angle of angles) {
     const ux=heading.x*Math.cos(angle)-heading.y*Math.sin(angle),uy=heading.x*Math.sin(angle)+heading.y*Math.cos(angle);
     const next={x:p.position.x+ux*travel,y:p.position.y+uy*travel};
+    if(s.ball.live&&!committedSave&&Math.hypot(ux*travel/.05-p.velocity.x,uy*travel/.05-p.velocity.y)>2*acceleration*.05+1e-8)continue;
     const exchange=p.action?.kind==='EXCHANGE';
     const ordinary=p.kind==='GOALKEEPER'?next.x>=.3&&next.x<=19.7&&next.y>=.3&&next.y<=39.7:fieldLegal(next,p.radius);
     const legal=ordinary||(exchange&&next.x>=-.4&&next.x<.35&&next.y>=15&&next.y<=25);
@@ -197,11 +205,11 @@ export function execute(s: CoreState): ExecutionEffect[] {
     if(s.ball.live&&!p.airborne&&a?.kind!=='SAVE'){
       const active=a&&!['COMPLETED','FAILED','INTERRUPTED'].includes(a.phase);
       const releasedSupport=active&&a.kind==='PASS'&&a.resolved;
-      const moving=active&&(movementActions.includes(a.kind)||releasedSupport)&&a.target!==null;
+      const moving=active&&(movementActions.includes(a.kind)||a.kind==='PASS')&&a.target!==null;
       // Preparation/recovery retains decision timing. Compatible off-ball
       // phases carry existing pace; they cannot create new forward acceleration.
       const ready=a?.phase==='EXECUTING'||releasedSupport;
-      const carrying=!ready&&s.ball.controllerId!==p.id&&Math.hypot(p.velocity.x,p.velocity.y)>.01;
+      const carrying=!ready&&(s.ball.controllerId!==p.id||a?.kind==='PASS')&&Math.hypot(p.velocity.x,p.velocity.y)>.01;
       const target=moving&&(ready||carrying)?a.target:null;
       // A held ball still has a finite step budget; braking cannot spend a
       // fourth step. Dribble movement begins only after its actual bounce.

@@ -5,6 +5,7 @@ require.extensions['.ts'] = (module, filename) => module._compile(ts.transpileMo
     module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2020, esModuleInterop: true,
   }}).outputText, filename);
 require('../src/v2/core/core.test.ts');
+require('../src/v2/core/motion-quality.test.ts');
 require('../src/v2/core/continuous.test.ts');
 require('../src/v2/core/contact.test.ts');
 require('../src/v2/core/wing.test.ts');

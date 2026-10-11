@@ -16,7 +16,9 @@ export function steerVelocity(position:Point,velocity:Point,target:Point|null,to
   const braking=pace<oldSpeed||oldSpeed>1e-8&&d>1e-8&&(velocity.x*desired.x+velocity.y*desired.y)<oldSpeed*pace*.98;
   const fraction=change>0?Math.min(1,acceleration*(braking?2:1)*dt/change):0;
   const next={x:velocity.x+delta.x*fraction,y:velocity.y+delta.y*fraction};
-  const speed=Math.hypot(next.x,next.y),limit=Math.min(topSpeed,oldSpeed+acceleration*dt);
+  // A changing tactical pace is a desired ceiling, not permission to discard
+  // existing momentum. Brake down to it within the same physical budget.
+  const speed=Math.hypot(next.x,next.y),limit=Math.min(Math.max(topSpeed,oldSpeed-2*acceleration*dt),oldSpeed+acceleration*dt);
   return speed>limit&&speed>0?{x:next.x*limit/speed,y:next.y*limit/speed}:next;
 }
 export function projectMotion(position:Point,velocity:Point,target:Point|null,topSpeed:number,acceleration:number,seconds:number):Point {

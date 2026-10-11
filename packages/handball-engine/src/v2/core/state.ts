@@ -6,6 +6,7 @@ import type { PlayerCondition } from './condition';
 import type { TeamTactics } from './coaching';
 import type { OffenceState } from './offence';
 import type { Profile } from './profile';
+import type {MovementRead} from './movement';
 export type { Point, TeamId, Direction } from '../model';
 
 export const CORE_VERSION = '2.9.0-possession-ecology.2';
@@ -33,6 +34,7 @@ export type CorePlayer = {
   intent: { id: string; effect: string; reason: string; targetId: string | null };
   action: CoreAction | null;
   support: BackcourtSupport | null;
+  motion?:MovementRead;
   handling: { heldSinceTick: number; steps: number; stepDistance: number; dribbleUsed: boolean; bounceTick: number };
   airborne: { takeoff: Point; untilTick: number } | null;
   beatenUntilTick: number; wrongFootedUntilTick:number; screenedUntilTick: number;

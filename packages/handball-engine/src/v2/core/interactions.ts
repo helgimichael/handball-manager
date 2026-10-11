@@ -2,6 +2,7 @@ import { courtPlayers, getPlayer, otherTeam, random, record, uid, type CoreConte
 import { clamp, distance, fieldLegal, goal, local, segmentPoint, shotContext } from './space';
 import { reachOf } from './timing';
 import { projectMotion } from './locomotion';
+import {movementPace} from './movement';
 import { acquire, awardRestart, interrupt } from './transitions';
 import type { ExecutionEffect } from './actions';
 import { restartReady } from './rules';
@@ -94,10 +95,10 @@ function release(s:CoreState,p:CorePlayer,kind:'PASS'|'SHOOT') {
     // same bounded steering/arrival used by canonical locomotion; the old
     // straight-line accelerate-and-stop prediction overshoots a settling runner.
     if(Math.hypot(receiver.velocity.x,receiver.velocity.y)>.01||receiver.action?.target&&(receiver.action.kind==='RUN'||receiver.action.kind==='REPOSITION')) {
-      const reach=reachOf(s,receiver),to=receiver.action?.target&&['RUN','REPOSITION'].includes(receiver.action.kind)?receiver.action.target:null;
+      const reach=reachOf(s,receiver),to=receiver.action?.target&&['RUN','REPOSITION','RECEIVE'].includes(receiver.action.kind)?receiver.action.target:null;
       for(let i=0;i<4;i++) {
         const time=distance(s.ball.position,target)/(10.5+3*p.profile.passing);
-        target=projectMotion(receiver.position,receiver.velocity,to,reach.topSpeed,reach.acceleration,time);
+        target=projectMotion(receiver.position,receiver.velocity,to,reach.topSpeed*movementPace(s,receiver,to),reach.acceleration,time);
       }
     }
     // And nobody throws the ball out of play at a teammate.
