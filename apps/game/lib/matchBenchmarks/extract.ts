@@ -14,7 +14,8 @@ export function summarizeShots(shots:readonly Shot[]) {
 }
 export function extract(session:ProductionMatchSession,diagnostics:Diagnostics,result:Result) {
   const observations:Observation[]=[],shots=diagnostics.shots,terminals=diagnostics.terminals,goals=result.homeGoals+result.awayGoals,contact=diagnostics.contact;
-  const add=(metric:string,value:number|null,n=1,scope='MATCH',features?:Record<string,number>)=>observations.push({metric,value,n,scope,features});
+  const add=(metric:string,value:number|null,n=1,scope='MATCH',features?:Record<string,number>,entityId?:string)=>observations.push({metric,value,n,scope,features,entityId,
+    contributors:[`Canonical scope: ${scope}`, ...(features?Object.entries(features).map(([key,v])=>`${key} = ${v}`):[])]});
   const all=summarizeShots(shots);
   const totals={goals,possessions:terminals.length,shots:shots.length,saves:all.saves,shotsFaced:all.shotsFaced,conversion:all.conversion,savePct:all.savePct,goalsPerPossession:ratio(goals,terminals.length),turnovers:result.homeStats.turnovers+result.awayStats.turnovers,
     technicalErrors:terminals.filter(t=>t.ending==='TECHNICAL_VIOLATION').length,offensiveFouls:terminals.filter(t=>t.ending==='OFFENSIVE_FOUL').length,
@@ -34,7 +35,7 @@ export function extract(session:ProductionMatchSession,diagnostics:Diagnostics,r
     const list=shots.filter(s=>(s.keeper&&typeof s.keeper==='object'&&'id'in s.keeper?String(s.keeper.id):'UNATTRIBUTED')===id),summary=summarizeShots(list);
     const features:Record<string,number>={};for(const s of list){if(s.keeper&&typeof s.keeper==='object'&&'profile'in s.keeper)for(const[k,v]of Object.entries(numericFeatures(s.keeper.profile,'keeper')))features[k]=(features[k]??0)+v/list.length;for(const[k,v]of Object.entries(numericFeatures(s.capabilities,'shooter')))features[k]=(features[k]??0)+v/list.length;}
     Object.assign(features,{'shot.pressure':summary.pressure.mean??0,'shot.quality':summary.quality.mean??0,'shot.distance':summary.distance.mean??0});
-    if(id!=='UNATTRIBUTED')add('savePct',summary.savePct,summary.shotsFaced,'KEEPER',features);
+    if(id!=='UNATTRIBUTED'){add('savePct',summary.savePct,summary.shotsFaced,'KEEPER',features,id);add('saves',summary.saves,1,'KEEPER',features,id);add('shotsFaced',summary.shotsFaced,1,'KEEPER',features,id);}
     const byContext:Record<string,ReturnType<typeof summarizeShots>>={};
     for(const key of Object.keys(groups).filter(k=>!k.startsWith('POSITION:'))){const group=summarizeShots(list.filter(s=>groups[key].includes(s)));if(group.attempts)byContext[key]=group;}
     return {id,...summary,features,byContext,shots:list.map(s=>({category:s.kind,saved:s.saved,goal:s.goal,pressure:s.pressure,quality:s.quality,distance:s.distance,angle:s.angle,blockThreat:s.blockThreat,phase:s.phase,energy:s.energy,capabilities:s.capabilities,keeper:s.keeper,execution:s.execution})),
@@ -44,7 +45,7 @@ export function extract(session:ProductionMatchSession,diagnostics:Diagnostics,r
     const list=shots.filter(s=>s.actorId===p.id),g=summarizeShots(list),teamShots=shots.filter(s=>s.team===p.team),teamGoals=teamShots.filter(s=>s.goal).length;
     const contribution=(p.team==='HOME'?result.homePlayerContributions:result.awayPlayerContributions).find(c=>c.playerId===p.id);
     const features={...numericFeatures(p.profile,'player'),'context.home':p.team==='HOME'?1:0,'context.energy':p.condition.energy};
-    add('conversion',g.conversion,list.length,`PLAYER:${position[p.role]??p.role}`,features);add('minutes',p.condition.courtMs/60000,1,`PLAYER:${position[p.role]??p.role}`,features);
+    add('conversion',g.conversion,list.length,`PLAYER:${position[p.role]??p.role}`,features,p.id);add('minutes',p.condition.courtMs/60000,1,`PLAYER:${position[p.role]??p.role}`,features,p.id);
     return {id:p.id,team:p.team,position:position[p.role]??p.role,minutes:p.condition.courtMs/60000,energy:p.condition.energy,...g,shotShare:ratio(list.length,teamShots.length),goalShare:ratio(g.goals,teamGoals),features,contribution:contribution??null};
   });
   const teams=(['HOME','AWAY']as const).map(team=>{
@@ -52,7 +53,7 @@ export function extract(session:ProductionMatchSession,diagnostics:Diagnostics,r
     const scorerConcentration=ratio(Math.max(0,...people.map(p=>p.goals)),g.goals),shotConcentration=ratio(Math.max(0,...people.map(p=>p.attempts)),list.length),scorerHHI=g.goals?people.reduce((sum,p)=>sum+(p.goals/g.goals)**2,0):null;
     const court=people.filter(p=>p.minutes>0&&p.position!=='MV'),features:Record<string,number>={'context.home':team==='HOME'?1:0,'context.energy':court.length?court.reduce((n,p)=>n+p.energy,0)/court.length:0};
     for(const p of court)for(const[k,v]of Object.entries(p.features))if(k.startsWith('player.'))features[k.replace('player.','team.')]=(features[k.replace('player.','team.')]??0)+v/court.length;
-    add('goalsPerTeam',g.goals,1,'TEAM',features);add('possessionsPerTeam',pos,1,'TEAM',features);add('shotsPerTeam',list.length,1,'TEAM',features);add('scorerConcentration',scorerConcentration,g.goals,'TEAM',features);add('shotConcentration',shotConcentration,list.length,'TEAM',features);add('scorerHHI',scorerHHI,g.goals,'TEAM',features);
+    add('goalsPerTeam',g.goals,1,'TEAM',features,team);add('possessionsPerTeam',pos,1,'TEAM',features,team);add('shotsPerTeam',list.length,1,'TEAM',features,team);add('scorerConcentration',scorerConcentration,g.goals,'TEAM',features,team);add('shotConcentration',shotConcentration,list.length,'TEAM',features,team);add('scorerHHI',scorerHHI,g.goals,'TEAM',features,team);
     return {team,...g,possessions:pos,scorerConcentration,shotConcentration,scorerHHI,features};
   });
   const context={fixture:session.fixture,tactics:session.core.coaching,lineup:session.people,players:players.map(p=>({id:p.id,minutes:p.minutes,energy:p.energy})),score:session.core.score};

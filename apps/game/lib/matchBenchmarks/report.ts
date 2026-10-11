@@ -12,7 +12,7 @@ export function matchReport(actual:Extracted,profiles:readonly ReferenceProfile[
       if(shot.keeper&&typeof shot.keeper==='object'&&'profile'in shot.keeper&&shot.keeper.profile&&typeof shot.keeper.profile==='object')for(const[k,v]of Object.entries(shot.keeper.profile))if(typeof v==='number')Object.assign(features,{[`keeper.${k}`]:v});
       return evaluate({metric:'savePct',scope:`CATEGORY:${shot.category}`,value:shot.saved?1:0,n:1,features},profiles,identity);
     });
-    const covered=conditional.filter(c=>c.expectation!==null&&!c.expectation.missingFeatures.length&&c.status!=='INVALID_EXPECTATION'),coverage=ratio(covered.length,conditional.length);
+    const covered=conditional.filter(c=>c.expectation!==null&&!c.expectation.missingFeatures.length&&c.status!=='INVALID_EXPECTATION'&&c.reference!.row.distribution.n>=30&&c.reference!.row.provenance.confidence!=='LOW'),coverage=ratio(covered.length,conditional.length);
     return {...keeper,contextExpectation:{status:covered.length===conditional.length&&covered.length?'AVAILABLE':'NO_REFERENCE_OR_PARTIAL_COVERAGE',coverage,shotsFaced:conditional.length,expectedSaves:covered.reduce((n,c)=>n+c.expectation!.value,0),expectedSavePct:covered.length===conditional.length&&covered.length?covered.reduce((n,c)=>n+c.expectation!.value,0)/covered.length:null,
       references:[...new Set(covered.map(c=>`${c.reference!.profileId}@${c.reference!.profileVersion}:${c.reference!.fallback}`))],definition:'Sum conditional reference expectations over attributed on-target shots; incomplete coverage cannot yield a total contextual save rate.'}};
   });

@@ -20,7 +20,10 @@
     "test:e2e:experience": "playwright test e2e/game-experience-v11.spec.ts e2e/game-presentation.spec.ts e2e/management.spec.ts e2e/product.spec.ts --workers=1",
     "test:product": "node --import tsx --test lib/career/productionMatch.test.ts lib/save/saveRepository.test.ts",
     "test:e2e": "playwright test e2e/product.spec.ts --workers=1",
-    "test:season": "node --import tsx scripts/playable-season-smoke.ts"
+    "test:season": "node --import tsx scripts/playable-season-smoke.ts",
+    "test:benchmarks": "node --import tsx --test lib/matchBenchmarks/benchmarks.test.ts",
+    "benchmark:fast": "node --import tsx scripts/match-benchmarks.ts --mode fast",
+    "benchmark:calibration": "node --import tsx scripts/match-benchmarks.ts --mode calibration"
   },
   "dependencies": {
     "@handball-manager/game-simulation": "*",

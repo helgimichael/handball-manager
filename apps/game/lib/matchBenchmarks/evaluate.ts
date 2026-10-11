@@ -1,5 +1,5 @@
 import { METRICS, lookup, type Identity, type ReferenceProfile } from './reference';
-export type Observation={metric:string;scope:string;value:number|null;n:number;features?:Record<string,number>;contributors?:string[]};
+export type Observation={metric:string;scope:string;entityId?:string;value:number|null;n:number;features?:Record<string,number>;contributors?:string[]};
 export function evaluate(observation:Observation,profiles:readonly ReferenceProfile[],identity:Identity) {
   const reference=lookup(profiles,identity,observation.metric,observation.scope),definition=METRICS[observation.metric];
   if(!definition)throw new Error(`Unsupported metric ${observation.metric}`);
