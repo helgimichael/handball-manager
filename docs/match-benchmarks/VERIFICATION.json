@@ -1,0 +1,47 @@
+﻿{
+    "startingCheckpoint":  "18f5677",
+    "frameworkSourceCommit":  "3de1ecc035294dfe0b81e4f1653379968cd917ba",
+    "focusedTests":  {
+                         "passed":  8,
+                         "failed":  0
+                     },
+    "v2ProtocolTests":  {
+                            "passed":  9,
+                            "failed":  0
+                        },
+    "v2CoreTests":  {
+                        "passed":  218,
+                        "failed":  0
+                    },
+    "fullGameRegression":  {
+                               "passed":  2304,
+                               "failed":  0
+                           },
+    "allWorkspaceTypechecks":  "PASS",
+    "benchmarkTypecheck":  "PASS",
+    "productionBuild":  {
+                            "run":  false,
+                            "reason":  "Only developer tooling, tests, package scripts and documentation changed; no production runtime import or UI path changed."
+                        },
+    "engineAndProductionSourceDiff":  {
+
+                                      },
+    "preExistingUserChangesPreserved":  [
+                                            "apps/game/app/match-qa/page.tsx",
+                                            "apps/game/lib/matchQa/qaHarness.ts",
+                                            "apps/game/scripts/season-audit.ts",
+                                            ".claude/",
+                                            "apps/game/.tmp-final-benchmark.ts",
+                                            "docs/audit/"
+                                        ],
+    "motionWorktree":  {
+                           "status":  "?? .claude/",
+                           "path":  "C:/Users/helgi/Documents/STARKVIS-HELA/handball-motion-lab",
+                           "head":  "197d2a80ecea3b70efdcf8ef347cfc68e0e86b2b"
+                       },
+    "stashes":  [
+                    "ddba79055949b76898b12fc1b947e8f8645589cb On motion-lab: WIP Pack #5 M6 breakthrough screen paused before Human QA",
+                    "b068a9586209b9405b8d5f0dc6fae6384dd09001 On motion-lab: WIP Pack #5 M6 line game paused before Human QA"
+                ],
+    "pushed":  false
+}
