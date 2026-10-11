@@ -37,7 +37,7 @@ const fixtures=option('--fixtures')?.split(',');
 const seeds=option('--seeds')?.split(',');if(seeds&&seeds.length!==indices.length)throw new Error('Provide one save seed per index');
 const prefix=option('--seed-prefix','match-realism-v2-canonical-2026')!;
 const referencePath=option('--reference'),profiles=referencePath?JSON.parse(readFileSync(resolve(referencePath),'utf8')).map(ingestReference):[];
-const season=option('--season','2026-27')!,identity:Identity={competition:inputs.competitionId,season,country:option('--country','SE'),level:option('--level'),category:option('--category','men-senior')};
+const season=option('--season','2026-27')!,knownSwedishMen=['swe-1','swe-2'].includes(inputs.competitionId),identity:Identity={competition:inputs.competitionId,season,country:option('--country',knownSwedishMen?'SE':undefined),level:option('--level'),category:option('--category',knownSwedishMen?'men-senior':undefined)};
 const tacticsPath=option('--tactics'),tactics=tacticsPath?JSON.parse(readFileSync(resolve(tacticsPath),'utf8')):null;
 const root=resolve('../..'),sourceDir=join(root,'packages/handball-engine/src/v2/core');
 const paths=[...readdirSync(sourceDir).filter(f=>f.endsWith('.ts')&&!f.endsWith('.test.ts')).map(f=>join(sourceDir,f)),resolve('lib/career/productionMatch.ts'),resolve('scripts/lib/calibrationDiagnostics.ts'),...readdirSync(resolve('lib/matchBenchmarks')).filter(f=>f.endsWith('.ts')&&!f.endsWith('.test.ts')).map(f=>resolve('lib/matchBenchmarks',f)),resolve('scripts/match-benchmarks.ts')];
@@ -51,6 +51,7 @@ for(const recipe of recipes){
   let career=createNewCareerState(recipe.saveSeed,recipe.managerClubId,structuredClone(inputs.worldSquads),undefined,structuredClone(inputs.gameplayRatings));
   const fixture=career.fixtures.find(f=>recipe.fixtureId?f.id===recipe.fixtureId:f.type==='LEAGUE'&&(f.homeClubId===recipe.managerClubId||f.awayClubId===recipe.managerClubId));
   if(!fixture)throw new Error(`Fixture unavailable ${recipe.fixtureId??recipe.managerClubId}`);
+  if(fixture.competitionId!==identity.competition)throw new Error(`Fixture competition ${fixture.competitionId} does not match selected reference competition ${identity.competition}`);
   career={...career,gameDate:fixture.date,careerEvents:[buildMatchdayReadyEvent(fixture.id,fixture.date)]};career=startProductionMatch(career,fixture.id);
   if(!career.productionMatch)throw new Error('Canonical start refused');
   if(tactics)career=commandProductionMatch(career,{kind:'TACTICS',team:fixture.homeClubId===career.playerClubId?'HOME':'AWAY',patch:tactics});

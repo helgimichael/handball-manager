@@ -64,4 +64,8 @@ test('canonical observation, shot/keeper/position extraction, deterministic repo
   const a=matchReport(actual,[],identity),b=matchReport(structuredClone(actual),[],identity);assert.deepEqual(a,b);assert.equal(JSON.stringify(session),before);assert.equal(a.schemaVersion,SCHEMA_VERSION);assert.ok(a.actual.keepers.every(k=>k.contextExpectation.expectedSavePct===null));
   const sum=aggregate([a,b]);assert.equal(sum.matches,2);assert.equal(sum.distributions.shots.n,2);assert.equal(sum.distributions.shots.mean,d.shots.length);assert.equal(summarizeShots([]).savePct,null);
   const refs=profile({metrics:[{...profile().metrics[0],scope:`CATEGORY:${d.shots[0].kind}`}]}),partial=matchReport(actual,[refs],identity);assert.ok(partial.actual.keepers.every(k=>k.contextExpectation.coverage!==null));
+  const complete=profile({metrics:[...new Set(d.shots.map(s=>s.kind))].map(kind=>({...profile().metrics[0],scope:`CATEGORY:${kind}`}))});
+  const contextual=matchReport(actual,[complete],identity);
+  for(const keeper of contextual.actual.keepers.filter(k=>k.shotsFaced>0)){assert.equal(keeper.contextExpectation.coverage,1);assert.ok(Math.abs(keeper.contextExpectation.expectedSavePct!-.3)<1e-10);assert.ok(Math.abs(keeper.contextExpectation.expectedSaves-keeper.shotsFaced*.3)<1e-10);}
+  const invalid=structuredClone(complete);invalid.metrics.forEach(m=>{m.distribution.n=1;});assert.ok(matchReport(actual,[invalid],identity).actual.keepers.every(k=>k.contextExpectation.expectedSavePct===null));
 });

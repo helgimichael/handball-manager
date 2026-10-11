@@ -26,5 +26,10 @@ docs/game-experience/regression/season-end-state.json
 .env.local
 .env.*.local
 
+# Reproducible benchmark detail stays local; commit summaries, recipes and reports.
+docs/match-benchmarks/**/match-*.json
+docs/match-benchmarks/**/inputs.json
+docs/match-benchmarks/*.log
+
 # HM-DATA-EDITOR-0.1: single-backup-per-file safety copies created on save.
 *.bak
