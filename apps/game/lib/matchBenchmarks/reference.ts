@@ -5,6 +5,9 @@ export type Definition={unit:Unit;denominator:string;minimumSample:number;sample
 const count=(denominator:string):Definition=>({unit:'count',denominator,minimumSample:1,sampleUnit:'matches'});
 const rate=(denominator:string):Definition=>({unit:'ratio',denominator,minimumSample:10,sampleUnit:'denominator events'});
 export const METRICS:Record<string,Definition>={
+  margin:count('absolute difference between home and away full-time goals'),homeGoals:count('home team full-time goals per match'),awayGoals:count('away team full-time goals per match'),homeWin:rate('home wins / completed matches'),draw:rate('draws / completed matches'),awayWin:rate('away wins / completed matches'),
+  sourceTechnicalErrors:count('official recorded pass errors + lost balls + rule errors per match; not assumed equivalent to canonical turnover endings'),playerGoalsPerAppearance:{unit:'count',denominator:'official player season goals / recorded appearances',minimumSample:10,sampleUnit:'appearances'},
+  outfieldShots:count('recorded released shot attempts by field players, both teams; keeper attempts excluded'),outfieldConversion:rate('field player goals / recorded field player shot attempts, including 7m'),
   goals:count('both teams per completed match'),goalsPerTeam:count('one team per completed match'), possessions:count('completed canonical ledger attacks, both teams'),possessionsPerTeam:count('completed ledger attacks for one team'),
   shots:count('SHOT_RELEASED attempts, both teams'),shotsPerTeam:count('released shots for one team'),saves:count('non-goal SAVE_CAUGHT/PARRY shot actions'),shotsFaced:count('saves + goals; misses and blocks excluded'),
   savePct:rate('saves / (saves + goals); goalkeeper-attributed shots only'),conversion:rate('goals / released attempts'),goalsPerPossession:rate('goals / completed ledger attacks'),
@@ -16,15 +19,24 @@ export const METRICS:Record<string,Definition>={
   minutes:{unit:'minutes',denominator:'canonical courtMs / 60000',minimumSample:1,sampleUnit:'players'},
   pressure:{unit:'capability',denominator:'mean canonical release pressure per attempt',minimumSample:10,sampleUnit:'shots'},quality:{unit:'capability',denominator:'mean canonical decisionQuality per attempt',minimumSample:10,sampleUnit:'shots'},distance:{unit:'metres',denominator:'mean distance from goal centre at release',minimumSample:10,sampleUnit:'shots'},angle:{unit:'radians',denominator:'mean canonical shooting angle at release',minimumSample:10,sampleUnit:'shots'},blockThreat:{unit:'capability',denominator:'mean release block threat per attempt',minimumSample:10,sampleUnit:'shots'},
 };
-export type Provenance={name:string;location:string;collectionMethod:string;extractionVersion:string;timestamp:string;confidence:'LOW'|'MEDIUM'|'HIGH';matches:number;events?:number;notes:string[]};
+export type Evidence={tier:'A'|'B'|'C'|'D';seasonStatus:'COMPLETE_SEASON'|'PARTIAL_SEASON'|'MULTI_SEASON';expectedMatches:number|null;foundMatches:number;parsedMatches:number;coverage:number|null;playerObservations:number;keeperObservations:number;missingMetrics:string[]};
+export type Provenance={name:string;location:string;collectionMethod:string;extractionVersion:string;timestamp:string;confidence:'LOW'|'MEDIUM'|'HIGH';matches:number;events?:number;notes:string[];sourceHashes?:string[];normalizedHash?:string;coverage?:number|null};
 export type Adjustment={layer:'TEAM'|'PLAYER'|'MATCH_CONTEXT';feature:string;centre:number;coefficient:number;provenance:Provenance};
-export type ReferenceMetric={metric:string;unit:Unit;definition:string;scope:string;distribution:Partial<Distribution>&{n:number};provenance:Provenance;transformations:string[];adjustments?:Adjustment[]};
-export type ReferenceProfile={schemaVersion:typeof SCHEMA_VERSION;id:string;version:string;kind:'REAL_WORLD_REFERENCE'|'ENGINEERING_SANITY_RANGE';sport:'handball';country?:string;competition?:string;level?:string;category?:string;season?:string;dateRange?:{start:string;end:string};metrics:ReferenceMetric[];notes:string[]};
+export type ReferenceMetric={metric:string;unit:Unit;definition:string;scope:string;distribution:Partial<Distribution>&{n:number};provenance:Provenance;transformations:string[];adjustments?:Adjustment[];evidence?:Evidence};
+export type ReferenceProfile={schemaVersion:typeof SCHEMA_VERSION;id:string;version:string;kind:'REAL_WORLD_REFERENCE'|'ENGINEERING_SANITY_RANGE';sport:'handball';country?:string;competition?:string;level?:string;category?:string;season?:string;dateRange?:{start:string;end:string};metrics:ReferenceMetric[];notes:string[];evidence?:Evidence};
 const object=(x:unknown):x is Record<string,unknown>=>!!x&&typeof x==='object'&&!Array.isArray(x);
 const required=(x:Record<string,unknown>,names:string[])=> { for(const name of names) if(typeof x[name]!=='string'||!String(x[name]).trim()) throw new Error(`Missing ${name}`); };
 export function validateProvenance(x:unknown):asserts x is Provenance {
   if(!object(x))throw new Error('Provenance required');required(x,['name','location','collectionMethod','extractionVersion','timestamp']);
   if(!Number.isFinite(Date.parse(String(x.timestamp)))||!['LOW','MEDIUM','HIGH'].includes(String(x.confidence))||!Number.isInteger(x.matches)||Number(x.matches)<0||!Array.isArray(x.notes)||x.notes.some(n=>typeof n!=='string')||x.events!==undefined&&(!Number.isInteger(x.events)||Number(x.events)<0))throw new Error('Malformed provenance');
+  if(x.sourceHashes!==undefined&&(!Array.isArray(x.sourceHashes)||x.sourceHashes.some(h=>typeof h!=='string'||!/^[a-f0-9]{64}$/.test(h)))||x.normalizedHash!==undefined&&(typeof x.normalizedHash!=='string'||!/^[a-f0-9]{64}$/.test(x.normalizedHash))||x.coverage!==undefined&&x.coverage!==null&&(typeof x.coverage!=='number'||x.coverage<0||x.coverage>1))throw new Error('Invalid empirical provenance');
+}
+function validateEvidence(x:unknown) {
+  if(!object(x)||!['A','B','C','D'].includes(String(x.tier))||!['COMPLETE_SEASON','PARTIAL_SEASON','MULTI_SEASON'].includes(String(x.seasonStatus)))throw new Error('Invalid empirical evidence');
+  for(const k of ['foundMatches','parsedMatches','playerObservations','keeperObservations'])if(!Number.isInteger(x[k])||Number(x[k])<0)throw new Error('Invalid evidence counts');
+  if(x.expectedMatches!==null&&(!Number.isInteger(x.expectedMatches)||Number(x.expectedMatches)<1)||Number(x.parsedMatches)>Number(x.foundMatches))throw new Error('Invalid coverage counts');
+  const expected=x.expectedMatches===null?null:Number(x.parsedMatches)/Number(x.expectedMatches);
+  if(x.coverage!==expected||expected!==null&&(expected<0||expected>1)||!Array.isArray(x.missingMetrics))throw new Error('Invalid coverage');
 }
 export function ingestReference(x:unknown):ReferenceProfile {
   if(!object(x))throw new Error('Profile required'); required(x,['id','version','sport']);
@@ -33,12 +45,14 @@ export function ingestReference(x:unknown):ReferenceProfile {
   if(x.season&&!x.competition)throw new Error('Season requires competition identity');
   if(x.competition&&!x.country)throw new Error('Competition requires country');
   if(x.dateRange!==undefined&&(!object(x.dateRange)||!Number.isFinite(Date.parse(String(x.dateRange.start)))||!Number.isFinite(Date.parse(String(x.dateRange.end)))||String(x.dateRange.start)>String(x.dateRange.end)))throw new Error('Invalid date range');
+  if(x.evidence!==undefined)validateEvidence(x.evidence);
   const seen=new Set<string>();
   for(const row of x.metrics){
     if(!object(row)||typeof row.metric!=='string'||!METRICS[row.metric]||row.unit!==METRICS[row.metric].unit)throw new Error('Unknown metric/unit'); required(row,['definition','scope']);
     if(row.definition!==METRICS[row.metric].denominator)throw new Error('Metric definition mismatch');
     const key=`${row.metric}:${row.scope}`;if(seen.has(key))throw new Error('Duplicate metric scope');seen.add(key);
     validateProvenance(row.provenance);
+    if(row.evidence!==undefined)validateEvidence(row.evidence);
     if(!Array.isArray(row.transformations)||row.transformations.some(t=>typeof t!=='string'))throw new Error('Transformations required');
     const d=row.distribution;if(!object(d)||!Number.isInteger(d.n)||Number(d.n)<1)throw new Error('Invalid distribution sample');
     for(const [field,v] of Object.entries(d))if(!['n','mean','median','sd','min','max','p05','p10','p25','p75','p90','p95'].includes(field)||v!==null&&(typeof v!=='number'||!Number.isFinite(v)))throw new Error('Invalid distribution field');

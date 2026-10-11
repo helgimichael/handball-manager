@@ -30,6 +30,10 @@ docs/game-experience/regression/season-end-state.json
 docs/match-benchmarks/**/match-*.json
 docs/match-benchmarks/**/inputs.json
 docs/match-benchmarks/*.log
+docs/empirical-handball-benchmarks/**/match-*.json
+docs/empirical-handball-benchmarks/**/inputs.json
+docs/empirical-handball-benchmarks/*.log
+apps/game/scripts/__pycache__/
 
 # HM-DATA-EDITOR-0.1: single-backup-per-file safety copies created on save.
 *.bak

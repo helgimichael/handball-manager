@@ -1,5 +1,5 @@
 {
   "extends": "./tsconfig.json",
-  "include": ["scripts/match-benchmarks.ts", "lib/matchBenchmarks/**/*.ts"],
+  "include": ["scripts/match-benchmarks.ts", "scripts/rebuild-empirical-benchmarks.ts", "scripts/compare-empirical-benchmarks.ts", "lib/matchBenchmarks/**/*.ts"],
   "exclude": ["node_modules"]
 }
