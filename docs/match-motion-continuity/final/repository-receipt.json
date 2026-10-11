@@ -1,0 +1,132 @@
+﻿{
+    "capturedAt":  "2026-10-11T04:27:20.4345974+02:00",
+    "startingHead":  "357f311",
+    "resumedImplementationHead":  "706cec7",
+    "deliveryEvidenceHead":  "679c06f0b23d603185f5a333b90bc339cec8fbc3",
+    "branch":  "main",
+    "localCommits":  [
+                         "679c06f docs(game): deliver motion continuity evidence and exact QA steps",
+                         "ea85a7d test(game): verify motion diagnostics and canonical browser trajectories",
+                         "706cec7 fix(engine): continue passer support and retain pivot coverage during recovery",
+                         "27eb0e7 fix(game): canonicalize integer poses across JSON and replay storage",
+                         "0654d4a fix(game): interpolate faithful live and archived match poses",
+                         "25b341b fix(engine): retain V2 pace and distinguish physical contact from intent",
+                         "5fcb206 fix(engine): carry canonical locomotion through action phases",
+                         "1934e14 test(game): measure canonical motion and retained playback discontinuity"
+                     ],
+    "workingTree":  [
+                        " M apps/game/app/match-qa/page.tsx",
+                        " M apps/game/lib/matchQa/qaHarness.ts",
+                        " M apps/game/scripts/season-audit.ts",
+                        "?? .claude/",
+                        "?? apps/game/.tmp-final-benchmark.ts",
+                        "?? docs/audit/"
+                    ],
+    "onlyPreExistingChangesRemain":  true,
+    "preservation":  {
+                         "allPreserved":  true,
+                         "files":  [
+                                       {
+                                           "path":  "C:\\Users\\helgi\\Documents\\STARKVIS-HELA\\handball-manager\\apps\\game\\app\\match-qa\\page.tsx",
+                                           "before":  "A245EC398A29F3C8B7AB7317682433DBFE81E4A46E249A60C8F5A5A024FECE8F",
+                                           "after":  "A245EC398A29F3C8B7AB7317682433DBFE81E4A46E249A60C8F5A5A024FECE8F"
+                                       },
+                                       {
+                                           "path":  "C:\\Users\\helgi\\Documents\\STARKVIS-HELA\\handball-manager\\apps\\game\\lib\\matchQa\\qaHarness.ts",
+                                           "before":  "F100717310EA08F43C33B49DBABE7ACEE338B40884E9182030F59DB7C62FECE9",
+                                           "after":  "F100717310EA08F43C33B49DBABE7ACEE338B40884E9182030F59DB7C62FECE9"
+                                       },
+                                       {
+                                           "path":  "C:\\Users\\helgi\\Documents\\STARKVIS-HELA\\handball-manager\\apps\\game\\scripts\\season-audit.ts",
+                                           "before":  "7BA6F05B9F1E9CFA491961C1A6C644D7CE5FB2123FED5BAC0D1FB3A869B07266",
+                                           "after":  "7BA6F05B9F1E9CFA491961C1A6C644D7CE5FB2123FED5BAC0D1FB3A869B07266"
+                                       },
+                                       {
+                                           "path":  "C:\\Users\\helgi\\Documents\\STARKVIS-HELA\\handball-manager\\apps\\game\\.tmp-final-benchmark.ts",
+                                           "before":  "BA9D04161DFD8FBA50732356598D92323BC71F93CFB5F827170EA804846A5B76",
+                                           "after":  "BA9D04161DFD8FBA50732356598D92323BC71F93CFB5F827170EA804846A5B76"
+                                       }
+                                   ]
+                     },
+    "worktrees":  [
+                      "C:/Users/helgi/Documents/STARKVIS-HELA/handball-manager    679c06f [main]",
+                      "C:/Users/helgi/Documents/STARKVIS-HELA/handball-motion-lab 197d2a8 [motion-lab]"
+                  ],
+    "motionWorktreeHead":  "197d2a80ecea3b70efdcf8ef347cfc68e0e86b2b",
+    "motionWorktreeStatus":  [
+                                 "?? .claude/"
+                             ],
+    "stashes":  [
+                    "stash@{0}: On motion-lab: WIP Pack #5 M6 breakthrough screen paused before Human QA",
+                    "stash@{1}: On motion-lab: WIP Pack #5 M6 line game paused before Human QA"
+                ],
+    "checks":  {
+                   "startingHead":  "357f311",
+                   "canonicalEngine":  "V2",
+                   "behaviorRevision":  "career-motion-continuity-v1",
+                   "humanAcceptance":  "PENDING",
+                   "v21FullyHumanApproved":  false,
+                   "pushes":  0,
+                   "checks":  {
+                                  "fullExistingGameRecipe":  {
+                                                                 "tests":  2304,
+                                                                 "passed":  2304,
+                                                                 "exitCode":  0,
+                                                                 "note":  "Final registered portable full recipe on implementation 706cec7; includes all five playback tests. Zero failures, skips or cancellations."
+                                                             },
+                                  "v2Core":  {
+                                                 "tests":  218,
+                                                 "passed":  218,
+                                                 "exitCode":  0
+                                             },
+                                  "v2Protocol":  {
+                                                     "tests":  9,
+                                                     "passed":  9,
+                                                     "exitCode":  0
+                                                 },
+                                  "production":  {
+                                                     "tests":  11,
+                                                     "passed":  11,
+                                                     "exitCode":  0
+                                                 },
+                                  "playbackIncludingCanonicalZero":  {
+                                                                         "tests":  5,
+                                                                         "passed":  5,
+                                                                         "exitCode":  0
+                                                                     },
+                                  "diagnostics":  {
+                                                      "tests":  4,
+                                                      "passed":  4,
+                                                      "exitCode":  0
+                                                  },
+                                  "workspaceTypechecks":  {
+                                                              "exitCode":  0
+                                                          },
+                                  "finalGameTypecheck":  {
+                                                             "exitCode":  0
+                                                         },
+                                  "productionBuild":  {
+                                                          "exitCode":  0
+                                                      },
+                                  "browser":  {
+                                                  "tests":  3,
+                                                  "passed":  3,
+                                                  "exitCode":  0,
+                                                  "note":  "Final delivery-browser run: real live/replay speeds, full replay/all three scenes, and frame-hash-verified canonical cues; all passed."
+                                              }
+                              },
+                   "retainedOrigin":  "http://127.0.0.1:3009",
+                   "motionOrigin":  "http://127.0.0.1:3010",
+                   "sourceStableDuringTwentyMatchBatch":  true,
+                   "calibrationCoefficientsRetuned":  false,
+                   "materialOutcomeAndContactChangesDisclosed":  true
+               },
+    "lockedDataAndV21ArtifactDiff":  [
+
+                                     ],
+    "motionLoadGameHttpStatus":  200,
+    "pushesPerformed":  0,
+    "noNewDiagnosticsOrBenchmarksOnResumption":  true,
+    "humanAcceptance":  "PENDING",
+    "receiptScope":  "Status at completed evidence commit. A subsequent documentation-only commit records this receipt and adds the closeout commit IDs to REPORT.md."
+}
