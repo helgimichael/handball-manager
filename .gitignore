@@ -34,6 +34,10 @@ docs/empirical-handball-benchmarks/**/match-*.json
 docs/empirical-handball-benchmarks/**/inputs.json
 docs/empirical-handball-benchmarks/*.log
 apps/game/scripts/__pycache__/
+docs/match-empirical-calibration/**/match-*.json
+docs/match-empirical-calibration/**/causal-*.json
+docs/match-empirical-calibration/**/inputs.json
+docs/match-empirical-calibration/**/*.log
 
 # HM-DATA-EDITOR-0.1: single-backup-per-file safety copies created on save.
 *.bak
