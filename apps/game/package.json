@@ -30,6 +30,7 @@
     "empirical:verify": "node scripts/verify-empirical-evidence.mjs",
     "empirical:calibration:report": "node --import tsx scripts/report-empirical-calibration.ts",
     "empirical:calibration:checks": "node --import tsx scripts/check-empirical-calibration.ts",
+    "motion:quality:report": "node --import tsx scripts/report-motion-quality.ts",
     "test:empirical": "node --import tsx --test lib/matchBenchmarks/benchmarks.test.ts lib/matchBenchmarks/empirical.test.ts"
   },
   "dependencies": {

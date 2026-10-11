@@ -4,11 +4,11 @@ import{createNewCareerState}from'../lib/career/newCareer';import{buildMatchdayRe
 import{startProductionMatch,advanceProductionMatch,commandProductionMatch,resultFromSession}from'../lib/career/productionMatch';
 import{CalibrationDiagnostics}from'./lib/calibrationDiagnostics';import{extract}from'../lib/matchBenchmarks/extract';
 import{digest}from'../lib/matchBenchmarks/empirical';
-const root=resolve('../..'),out=join(root,'docs/match-empirical-calibration');mkdirSync(out,{recursive:true});
+const root=resolve('../..'),argv=process.argv.slice(2),outputAt=argv.indexOf('--out'),out=outputAt<0?join(root,'docs/match-empirical-calibration'):resolve(argv[outputAt+1]);mkdirSync(out,{recursive:true});
 const inputs=JSON.parse(readFileSync(join(root,'docs/empirical-handball-benchmarks/hbl-engine/inputs.json'),'utf8'));
 const specs: {name:string;family?:string;level?:number}[]=[{name:'BALANCED'},...['QUICK','WIDTH','COMBINATION','DIRECT','5:1'].map(name=>({name})),...['SHOOTING','KEEPER','CREATION','SPEED','M6','DEFENDING'].flatMap(family=>[.25,.9].map(level=>({name:`${family}:${level}`,family,level})))];
 const rows:any[]=[];
-for(const spec of specs)for(const index of [0,1]){
+for(const spec of specs.filter(s=>!argv.includes('--tactics-only')||!s.family))for(const index of [0,1]){
  let career=createNewCareerState(`match-realism-v2-canonical-2026:${index}`,inputs.clubs[index],structuredClone(inputs.worldSquads),undefined,structuredClone(inputs.gameplayRatings));
  const fixture=career.fixtures.find(f=>f.type==='LEAGUE'&&(f.homeClubId===career.playerClubId||f.awayClubId===career.playerClubId))!;
  career={...career,gameDate:fixture.date,careerEvents:[buildMatchdayReadyEvent(fixture.id,fixture.date)]};career=startProductionMatch(career,fixture.id);

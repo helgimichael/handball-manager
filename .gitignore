@@ -41,5 +41,24 @@ docs/match-empirical-calibration/**/*.log
 docs/match-empirical-calibration/*-iteration/
 docs/match-empirical-calibration/baseline-causal/
 
+# Motion-quality diagnostic detail is retained locally; commit release summaries.
+docs/match-motion-quality-v2/**/match-*.json
+docs/match-motion-quality-v2/**/causal-*.json
+docs/match-motion-quality-v2/**/motion-*.json
+docs/match-motion-quality-v2/**/inputs.json
+docs/match-motion-quality-v2/allsv-final/
+docs/match-motion-quality-v2/hbl-final/
+docs/match-motion-quality-v2/allsv-verified/
+docs/match-motion-quality-v2/hbl-verified/
+docs/match-motion-quality-v2/before-hbl/
+docs/match-motion-quality-v2/contact-diagnosis/
+docs/match-motion-quality-v2/engagement-*/
+docs/match-motion-quality-v2/handoff-*/
+docs/match-motion-quality-v2/initial-hbl/
+docs/match-motion-quality-v2/penetration-hbl/
+docs/match-motion-quality-v2/protected-hbl/
+docs/match-motion-quality-v2/relational-hbl/
+docs/match-motion-quality-v2/tactics/
+
 # HM-DATA-EDITOR-0.1: single-backup-per-file safety copies created on save.
 *.bak

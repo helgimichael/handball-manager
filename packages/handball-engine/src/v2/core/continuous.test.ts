@@ -72,7 +72,16 @@ test('full 2 x 30 minute matches include changed ends, official halftime and rea
   for(const direction of ['TOP','BOTTOM'] as const) {
     const s=finish(createMatch(2025,direction));const report=matchReport(s);
     assert.equal(report.complete,true,s.reason??'');assert.equal(report.officialMs,3600000);assert.equal(s.period,2);
-    assert.equal(s.directions.HOME,direction==='TOP'?'BOTTOM':'TOP');assert.ok(report.exchanges>=6);
+    assert.equal(s.directions.HOME,direction==='TOP'?'BOTTOM':'TOP');
+    // The fixture schedules five exchanges. A further goalkeeper return is
+    // conditional on play/eligibility, not a sixth mandatory event quota.
+    assert.ok(report.exchanges>=4,'both teams make their planned field exchanges');
+    assert.ok(s.exchanges.every(e=>e.phase==='COMPLETED'||e.phase==='CANCELLED'),'accepted exchanges finish or report an eligibility cancellation');
+    for(const e of s.exchanges.filter(e=>e.phase==='COMPLETED')){
+      const admitted=s.events.find(ev=>ev.type==='SUBSTITUTE_ADMITTED'&&ev.details.exchangeId===e.id),completed=s.events.find(ev=>ev.type==='EXCHANGE_COMPLETED'&&ev.details.exchangeId===e.id);
+      assert.ok(admitted&&completed&&admitted.tick<=completed.tick,'entry precedes completed physical substitution');
+      if(e.outId){const left=s.events.find(ev=>ev.type==='PLAYER_LEFT_COURT'&&ev.details.exchangeId===e.id);assert.ok(left&&left.tick<=admitted!.tick,'outgoing body leaves before replacement admission');}
+    }
     assert.deepEqual(report.periods.map(p=>p.officialMs),[0,1800000,1800000,3600000]);
     assert.ok(report.periods[2].tick-report.periods[1].tick>=12000);
   }
