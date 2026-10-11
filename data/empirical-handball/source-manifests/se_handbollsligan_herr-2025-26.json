@@ -1,0 +1,1734 @@
+{
+  "schemaVersion": "empirical-source-manifest/1",
+  "competition": "se_handbollsligan_herr",
+  "season": "2025-26",
+  "seasonStatus": "COMPLETE_SEASON",
+  "stage": "REGULAR_SEASON",
+  "parserVersion": "sweden-public/1.1.0",
+  "expectedMatches": 182,
+  "foundMatches": 182,
+  "sourceManifestHash": "6a54f0c6ef8402e0e1605687721610c568de8eb9eca113bfd33decb9e93e75ef",
+  "normalizedHash": "2ad78bc166c3f71cd742c66f8d8a1f5d406d84d2bdd92fbec1e2598d96eca773",
+  "sources": [
+    {
+      "url": "https://www.profixio.com/app/lx/competition/leagueid17951?t=schedule&f=played",
+      "retrievedAt": "2026-10-11T04:06:59.851604+00:00",
+      "method": "GET",
+      "sha256": "1cfd491776ff48472ec76ef26080ddac9186cd151599908c05f6f8d5e58c2769",
+      "contentType": "text/html; charset=utf-8",
+      "status": 200,
+      "cacheKey": "8c5caaee1092e1c0782706a8ced73c870d7e8c568abd85a5d91587bc33b5d274"
+    },
+    {
+      "url": "https://www.profixio.com/app/livewire/update",
+      "retrievedAt": "2026-10-11T04:07:01.011803+00:00",
+      "method": "POST public infinite-scroll",
+      "sha256": "ee1847da19415d6d7fcbe204114a2f9e91614cc5f7f8b3b23ffbb1aa8142a3d0",
+      "contentType": "application/json",
+      "status": 200,
+      "cacheKey": "07445c1ae9bc9cf579e18b2842686b2fd2303b546eff037505eb6ce531b41dba"
+    },
+    {
+      "url": "https://www.profixio.com/app/livewire/update",
+      "retrievedAt": "2026-10-11T04:07:02.160439+00:00",
+      "method": "POST public infinite-scroll",
+      "sha256": "f89ded836b11451b5f1969a6a046e194811d226cb8683323dbcf7e3dd8029ecc",
+      "contentType": "application/json",
+      "status": 200,
+      "cacheKey": "07c514d6949fa527e1b90d8b5579ff3566b5ef2228ebfaf899ea4c0deedca290"
+    },
+    {
+      "url": "https://www.profixio.com/app/livewire/update",
+      "retrievedAt": "2026-10-11T04:07:04.037946+00:00",
+      "method": "POST public infinite-scroll",
+      "sha256": "4411d4f179a79992ca32730c0ff873955233558cfde9ca2479ea9b1b0da1316b",
+      "contentType": "application/json",
+      "status": 200,
+      "cacheKey": "237ada6f2acb6b7e13b06251ad1890d07cb826feeacafdf52e306c7d60112737"
+    },
+    {
+      "url": "https://www.profixio.com/app/livewire/update",
+      "retrievedAt": "2026-10-11T04:07:06.082331+00:00",
+      "method": "POST public infinite-scroll",
+      "sha256": "e93d8b7d2848ba5fbe091433525637da86aaa295c7a553928b09c1aaedc906cd",
+      "contentType": "application/json",
+      "status": 200,
+      "cacheKey": "8952cf0ddc7229af23d3062093dd936f43d1aa5404702f475e0342a888803e03"
+    },
+    {
+      "url": "https://www.profixio.com/app/livewire/update",
+      "retrievedAt": "2026-10-11T04:07:08.013341+00:00",
+      "method": "POST public infinite-scroll",
+      "sha256": "ddcab0f7c95fe783df73de829a5cb61b6fbb2ea96372fff5072c2d75b00d3516",
+      "contentType": "application/json",
+      "status": 200,
+      "cacheKey": "da0828dd21bab8e3d5b8550e1099b30773c6caa21a4702ecea03a7bf434a01f7"
+    },
+    {
+      "url": "https://www.profixio.com/app/livewire/update",
+      "retrievedAt": "2026-10-11T04:07:09.453146+00:00",
+      "method": "POST public infinite-scroll",
+      "sha256": "32d51bed11d3312484dc734910b991e909bbb75b381515ef3917510593126e22",
+      "contentType": "application/json",
+      "status": 200,
+      "cacheKey": "bac3b881fb48edc2ae6d27367c1dca2064da4661752f4399ac7c39778abfb1f8"
+    },
+    {
+      "url": "https://www.profixio.com/app/livewire/update",
+      "retrievedAt": "2026-10-11T04:07:11.157153+00:00",
+      "method": "POST public infinite-scroll",
+      "sha256": "2ad6b17bb50cf6ce4ff1f30e36b068035f040f3297731a055e8516ea82cf517b",
+      "contentType": "application/json",
+      "status": 200,
+      "cacheKey": "c2ba93580fb27ff632e7594915f6357c557023152c4817314a93b2c709711f2e"
+    },
+    {
+      "url": "https://www.profixio.com/app/livewire/update",
+      "retrievedAt": "2026-10-11T04:07:12.735998+00:00",
+      "method": "POST public infinite-scroll",
+      "sha256": "65b0495f8b4d2dd7feb87065646d2150623d44413c898accd4ced8cd5877218e",
+      "contentType": "application/json",
+      "status": 200,
+      "cacheKey": "1633a297d1e799c436f5f087cd07b27d2ae7a3137e2abd273e13bdd017e41100"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336531_s.pdf",
+      "retrievedAt": "2026-10-11T04:07:14.959995+00:00",
+      "method": "GET",
+      "sha256": "909b961d52cf691249e017988f4e4e94bbacb23a21481bcc66ea2a07f6fa6490",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "1c12791189b5a32e07c222ffdeec5536d7a20566fb26dbe84cbaea52f21a3cda"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336532_s.pdf",
+      "retrievedAt": "2026-10-11T04:07:19.115362+00:00",
+      "method": "GET",
+      "sha256": "61ae261096228998b57da77bf2b7e9e1768652e5663ab9b388f530b348daeba2",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "b8c1ae30a5842e880167f9f806d4d7a80949f3b5984c45573dabadff7c1a70cc"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336533_s.pdf",
+      "retrievedAt": "2026-10-11T04:07:22.403889+00:00",
+      "method": "GET",
+      "sha256": "ca2c92190a68cf3b334782dd2bf49adbfcc7a6016853999206c6d6156b995179",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "7269666c707c033b1d13a8f716f506a90ca8f407a60c1c16cfc853798ad31589"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336534_s.pdf",
+      "retrievedAt": "2026-10-11T04:07:26.014153+00:00",
+      "method": "GET",
+      "sha256": "9c398fc300980f6e216b592caff8116a9c7d541bc81066b47676b1b412722f3a",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "eaab29753e05b99c45d54a5d5177cc0745dc2c916309da77e302962b4294ff56"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336535_s.pdf",
+      "retrievedAt": "2026-10-11T04:07:29.011047+00:00",
+      "method": "GET",
+      "sha256": "4d0d623d011a9dc444af7bbef04fcb0c70ef1bf113fff063c6aa16b6874021c1",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "dfcc54da0479383b4762a25ed611b9b9ae5eef0c68d0ffd017536ff1a84769cf"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336536_s.pdf",
+      "retrievedAt": "2026-10-11T04:07:31.499422+00:00",
+      "method": "GET",
+      "sha256": "5ace37c8d7910665288e62d5fc023213d81b517712de575fe29f7fbb7091ec9b",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "3ad0657aeae680c06166c76aa3bc3f1070958bcf81788dc68630b3f019457b15"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336537_s.pdf",
+      "retrievedAt": "2026-10-11T04:07:34.031793+00:00",
+      "method": "GET",
+      "sha256": "5655fd9857ea6ff3267deadbd3d96dd2f3ef8fc2bb00f3896c52df2bbe084c48",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "25c39b2dee284a632824ae14b55ab530a60b7577283bd275329116cd40874756"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336525_s.pdf",
+      "retrievedAt": "2026-10-11T04:07:36.152430+00:00",
+      "method": "GET",
+      "sha256": "f3ed8d957ecb55d225186c01214024c8665e30e3e9711bc152e019af708414fe",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "476a012ea6a547973085975374f3c723a36e22805865fb80f6ab1558e80b65a9"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336526_s.pdf",
+      "retrievedAt": "2026-10-11T04:07:39.252929+00:00",
+      "method": "GET",
+      "sha256": "cb8fa63008ee5c0a7a11e2f19b54c8187e2a6cd0656c1ea8b5c9584cc4ff2a28",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "fdc9a7e5e2766fd19a5e3c9254c2b922cbe41a7cd24a7323fdb22b0132126347"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336527_s.pdf",
+      "retrievedAt": "2026-10-11T04:07:42.184361+00:00",
+      "method": "GET",
+      "sha256": "4f86892b9925f0d8488189f5aa045d3757a45550f052dfc01dd7343add4b1e79",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "e2c3f966701fae2085a022ff0032dfa75dfd695bc980a420e86058131d609e3f"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336529_s.pdf",
+      "retrievedAt": "2026-10-11T04:07:45.168251+00:00",
+      "method": "GET",
+      "sha256": "33fbed0a1c919eadacb12346827bd7613ccf72edf725959acb4748926e120014",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "e09b2aabbb60a429ec61c94e4202ebcc60dbeec4ff1f8dfd17ae3cb847effcfd"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336530_s.pdf",
+      "retrievedAt": "2026-10-11T04:07:48.022324+00:00",
+      "method": "GET",
+      "sha256": "7217f43e5f970789e694b5244e00c64813b0087aa22834cd238df4fa9c423828",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "97102e248bb062dbce1d0d3937b886d0bbe5df473777d4ad5808b151c90a991d"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336524_s.pdf",
+      "retrievedAt": "2026-10-11T04:07:50.959304+00:00",
+      "method": "GET",
+      "sha256": "454e5cb762eb4fdec28f2d546bdf64e9499e87ae26a664b6a3b3fd7824d2ec4b",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "c04a5eb78e7cddf3ad23b0a0b1e637b1d6809574c8e622d871e8aa353126c3c4"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336528_s.pdf",
+      "retrievedAt": "2026-10-11T04:07:53.018004+00:00",
+      "method": "GET",
+      "sha256": "21b1b2e7d289a37fee8bbe3bb9c5322b1afa01698ea19221b75979c5fa6c8a0d",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "da43c5b51cbdebd88a85f7cf0760e86d225876b8a718923663046a63b9fe4cd6"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336517_s.pdf",
+      "retrievedAt": "2026-10-11T04:07:55.650494+00:00",
+      "method": "GET",
+      "sha256": "e7aa1a5925fac07a715eba869b4b8f773752eab344439f450aaf142e4d31dbfc",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "cd54563cefa4ae2b4044f7161eb3446611ea359e49e29cffcf128684c9c10d19"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336519_s.pdf",
+      "retrievedAt": "2026-10-11T04:07:58.054799+00:00",
+      "method": "GET",
+      "sha256": "30be6ac8b3a9701b8b6461dec8cdcd7e9a4645787764adc51606aa9618a97207",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "71460a91d8dc2579ccc2207a57459bfafc165c33b8fd7b73f7dec03eaf0bd269"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336523_s.pdf",
+      "retrievedAt": "2026-10-11T04:08:00.618396+00:00",
+      "method": "GET",
+      "sha256": "b15cd0db205f44000ad3e7be43a11ea80d11156d608b5697e0365072d700c4ef",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "a342f4e2978713899dd89676d6529f2df09d6aee1f788a3455aacd15149df99d"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336521_s.pdf",
+      "retrievedAt": "2026-10-11T04:08:03.148357+00:00",
+      "method": "GET",
+      "sha256": "a9657116d5da687b47e155ca264721020ce5007c922e5ebd67652e3ba363e498",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "374588fe84d295d58e44a9a88e92881c0526a248d9ec6af773ba291879041ee8"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336520_s.pdf",
+      "retrievedAt": "2026-10-11T04:08:05.428569+00:00",
+      "method": "GET",
+      "sha256": "49afcc19e14469b442dfc12a8573129458d6610ec1111b21c240cb63fb7a7b00",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "caf22bd857d8dc5fcb25ba1320c02138e2ddabe607039243b46fcbe4cae46860"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336518_s.pdf",
+      "retrievedAt": "2026-10-11T04:08:08.139464+00:00",
+      "method": "GET",
+      "sha256": "bb37a584e8e0aef892027a8d81a59c1c0fc0c1af3ca0d6934dfc9cd92cee5637",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "d07a36f5ac9f41a3caa83f4b5722f5b71201aa1fb7bb55aa50f55363ebfa997f"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336522_s.pdf",
+      "retrievedAt": "2026-10-11T04:08:10.496738+00:00",
+      "method": "GET",
+      "sha256": "9c2f3a664db7c27db2ba35d890585ea455411add7da6d05d10d88c306b3e36e2",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "87d41ff2d9d89b021e57924e3142ab2b57aa45edc579d9f7b831c85d4ec892ef"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336513_s.pdf",
+      "retrievedAt": "2026-10-11T04:08:13.449104+00:00",
+      "method": "GET",
+      "sha256": "cb306c76ad3c4ac9f4c40daa51600ba99738c148a72ecf1d640b38d8ba3f97be",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "716e3d97a545ff31e13ca7ef07be6dacc0f5e25f62051d91bac05e54ad1f0044"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336514_s.pdf",
+      "retrievedAt": "2026-10-11T04:08:17.126930+00:00",
+      "method": "GET",
+      "sha256": "4929f34996536ba8f32e4982a065f677cf1c34ba3453026850d1dc50a804bda6",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "552938301f6d0e544cecc2878bf765840c1d9f1fa8702545b1ad9021ac5574d8"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336516_s.pdf",
+      "retrievedAt": "2026-10-11T04:08:20.079935+00:00",
+      "method": "GET",
+      "sha256": "7fbe0e79081b6c58f84520f7c440db016ed6d783e88fb56f5b5221ed469d1d3c",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "ace82e4cfd89e02bb755b9c303bcf6f59f762085123978eb4ba5b9eb235fb80e"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336511_s.pdf",
+      "retrievedAt": "2026-10-11T04:08:23.366086+00:00",
+      "method": "GET",
+      "sha256": "5fd9d674d2a6d73f81cb2baf8d601f326b2a40fe9c4523e8dfb684b22c56b8e3",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "5f011a7101fa31efae15b6e35ee9725ab8c2e3166b6ebeedfa730f15792c90f6"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336510_s.pdf",
+      "retrievedAt": "2026-10-11T04:08:26.173281+00:00",
+      "method": "GET",
+      "sha256": "d35d424b734037aba373c811db3e2076978cd6b4ea1a4bb327497138e88ec336",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "1f9f46a5a2f8f365cdc96e044d5164a6012eae85968dae639641981dd54c380a"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336515_s.pdf",
+      "retrievedAt": "2026-10-11T04:08:28.181241+00:00",
+      "method": "GET",
+      "sha256": "4cffe704917d53dca3bc7e4f7fdc3d8dec48c06cded87c6a6d1df6dd4ef489e1",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "c3962d5049bdff8b9a6eb6d0439cdd31858d811a56adf987e2b0e335ca1e337f"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336512_s.pdf",
+      "retrievedAt": "2026-10-11T04:08:30.181837+00:00",
+      "method": "GET",
+      "sha256": "5a938557462378a6d4ba4d314ac0aef08ad9f56386be909e11252e90b3c2b6b5",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "106cdca7d820c9c24fa78dcbd20a4c433d1bdb6789fe7e01f8d09bf4b02e82fa"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336422_s.pdf",
+      "retrievedAt": "2026-10-11T04:08:33.262313+00:00",
+      "method": "GET",
+      "sha256": "0d9d923604d24ac94ba8873addbab679095ba8e3d83f822a688e5ef98e8c75a8",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "e511dce70a0bf77694a18a7eb1ecd426554f6164ced8669a259950e32cf20299"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336503_s.pdf",
+      "retrievedAt": "2026-10-11T04:08:36.591550+00:00",
+      "method": "GET",
+      "sha256": "11574903a473320b45fcd1e40e9fc79907dfb1d3904576b1181181b80db29427",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "a34fd3db05cfa9eda4eb663ce8b28771f4b84585c947326016cc7598b4779fb5"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336508_s.pdf",
+      "retrievedAt": "2026-10-11T04:08:40.225616+00:00",
+      "method": "GET",
+      "sha256": "6a4adc26e5b56735ddcbcf54316c063bfd894a476f33b2535aff5f247d8868ee",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "87b155639d13ef474fb81ea5c0d68ca639d1cad901f0bb7cec538240e1bc8d07"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336507_s.pdf",
+      "retrievedAt": "2026-10-11T04:08:43.989261+00:00",
+      "method": "GET",
+      "sha256": "b1e387e277171a482ad46e19c3ca98932e346ad1089c5b1eeb249a47f6c1cf09",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "504d37d68251705cc664a73ed2a23ffe3aa818ae7be92fea28488a9d69fde15c"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336504_s.pdf",
+      "retrievedAt": "2026-10-11T04:08:47.151457+00:00",
+      "method": "GET",
+      "sha256": "58a275e5ddf6ba30ca798ddd4e0cd5d0c4c6b3e9123db7b182ad9f677cbaba57",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "5cffae6149c2808aae57b734eb59c80f0cd6173f12244805235e9812d2554eab"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336505_s.pdf",
+      "retrievedAt": "2026-10-11T04:08:49.118682+00:00",
+      "method": "GET",
+      "sha256": "c9ccd9b9d7b546c7d8fea470f9eb10373cd274ca009e3ecd687bdc7f39c58df7",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "c3c3ef1095dd14782ee79f555f43d767494800edeead1613fce2ff420d983bea"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336506_s.pdf",
+      "retrievedAt": "2026-10-11T04:08:52.209508+00:00",
+      "method": "GET",
+      "sha256": "42a9857b8978dfe0553b1bb7e9f119b9647e1a0cc6356554f6c1e63063c4142e",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "2e00e93924c49a3fb1ca6e8bf8f3a1749a7041a95c661ab76e09499b40a7c9ec"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336509_s.pdf",
+      "retrievedAt": "2026-10-11T04:08:54.690821+00:00",
+      "method": "GET",
+      "sha256": "385c662b65578a8e048350ab71ae446c244233611526823ee6024c6ae322cb05",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "94b783b3db86984e7e5458295a612cba50ec15dbe2a2a9a5ae0a55108ffdd838"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336497_s.pdf",
+      "retrievedAt": "2026-10-11T04:08:57.204264+00:00",
+      "method": "GET",
+      "sha256": "81caaaf6a890bc30ef34709162116afccce1bbdf26d87917a24773dc1182c0ce",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "9c9e514abbad6f78b5a383ced61990ff29796da5e6f044753fde4756423ff192"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336499_s.pdf",
+      "retrievedAt": "2026-10-11T04:08:59.938649+00:00",
+      "method": "GET",
+      "sha256": "6e6daedebe4830cea9e66d5cef5f39185f78a83b122ea8bd676b9f9e7cc53a5d",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "8feec97cfe96b8a1724481497ef718eabd95ef1f1ce0c7cee8ffdd87aae9a628"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336498_s.pdf",
+      "retrievedAt": "2026-10-11T04:09:01.604275+00:00",
+      "method": "GET",
+      "sha256": "20f86b7d28ac84df126ceb11a99d69f24c5c7fc1c3cd8d0f7179e72d250d2139",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "2a4a93bd5eaecbcaa538d0071074649db5dff167f5584787619e9a58471b1c29"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336417_s.pdf",
+      "retrievedAt": "2026-10-11T04:09:05.127869+00:00",
+      "method": "GET",
+      "sha256": "c278ad6f4c6737e735d98ee3ace0e13418c3eb60e7b7bcc2bf0d4a2164cf7d90",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "5e00698d92aaef89a55706e679c613f66c352ad2bd416f56e5cfbc53b860a989"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336501_s.pdf",
+      "retrievedAt": "2026-10-11T04:09:07.871628+00:00",
+      "method": "GET",
+      "sha256": "b1b100f8cb7fd3daf71b27db02557344ac867fa3e2f51b83f2b7cc1b5dc3b59a",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "fc6dd7ae5f50c9b5466e311b11f1f73ba4bfcc464c6d7b781188717807d0fdca"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336502_s.pdf",
+      "retrievedAt": "2026-10-11T04:09:09.844176+00:00",
+      "method": "GET",
+      "sha256": "7f8d371bdff9c6989ba449e17be498416c5b8b0051c3da1decc0ce618545623b",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "160387f5a009f86e80a41d220f5f43d25551ccf9d1126a49d9f9548ed14cee53"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336496_s.pdf",
+      "retrievedAt": "2026-10-11T04:09:12.078338+00:00",
+      "method": "GET",
+      "sha256": "852ca22f679bd0448cd75ece260b78c5d8e878c98392a8f8e269361aa68cd409",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "c8a67b5b5f752d7b15b7072207d78a69d128b1733b32062a61d758059eca21f7"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336500_s.pdf",
+      "retrievedAt": "2026-10-11T04:09:14.391673+00:00",
+      "method": "GET",
+      "sha256": "2b6dc3a3519ba584d9c934771a80712c606a04b4db4eea00e8407dbb53eba147",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "f9dfd68f72c0fb8ad718c441002da644dc6d3215c180311718e88e3a82873bc7"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336493_s.pdf",
+      "retrievedAt": "2026-10-11T04:09:16.946483+00:00",
+      "method": "GET",
+      "sha256": "7f4706e97af10e8c0989155d85c40df30978a7a148792f9e487334280564e466",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "dfe3250ea1bef7c0bbd3f9d3249254714cc9e2944ef294da63f53a061241bfbc"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336490_s.pdf",
+      "retrievedAt": "2026-10-11T04:09:19.216506+00:00",
+      "method": "GET",
+      "sha256": "3e6e9c2e72ddf398c5006d0633c803714590e6273b37b7608583b645d92c4839",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "31cef3d02608fdcbc680dd3b6028785896190ca43f60f22fc5e828ac10623b55"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336489_s.pdf",
+      "retrievedAt": "2026-10-11T04:10:47.575736+00:00",
+      "method": "GET",
+      "sha256": "8e92ddf4dabe14901063c6b0dd9074ddb6785485e7159f11c88dd29a8326f653",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "2b96d13f1a4f218093a6f92fbf428d5facb7cdfc3d35de840e7cdc2482c5636a"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336494_s.pdf",
+      "retrievedAt": "2026-10-11T04:10:49.972626+00:00",
+      "method": "GET",
+      "sha256": "1b64c44565f2f996d0ba21a07a3ad3e79e06618f36a3240fea986434a74722b7",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "411c192fea0dcd3deda225e9a2490b46e1302368a6dec39e03accc2952b3b750"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336495_s.pdf",
+      "retrievedAt": "2026-10-11T04:10:51.871300+00:00",
+      "method": "GET",
+      "sha256": "fe04c0b7f32db36de2813fbf592e84e879c18c17a684e9816dcfa9e349f7da88",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "8af01beca12a0334b6e3648872002417f703624d55134816684705bd4788df3e"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336491_s.pdf",
+      "retrievedAt": "2026-10-11T04:10:54.949070+00:00",
+      "method": "GET",
+      "sha256": "d33108ea3c12c917e0de8857b5d3dcc39e3f9c47b60c2975a3ff3acef9c81a65",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "0d16c96e79bc9537522a8c2d71390d98b0f816276649aa0f690090515c9b4e0b"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336492_s.pdf",
+      "retrievedAt": "2026-10-11T04:10:56.563253+00:00",
+      "method": "GET",
+      "sha256": "eac03f6cc425c6952c143de07a771925e7b717ba92ebbb494cabb0abb156052e",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "afeef14e3bdcd7ac342dd7e84dcf407f943328576c2d9204db64539a13fa162c"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336484_s.pdf",
+      "retrievedAt": "2026-10-11T04:10:58.949322+00:00",
+      "method": "GET",
+      "sha256": "17257ff565ddddf73dfa90b39595d16e0ec3044ba158371e4f55ec3811a6a5d1",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "d72ff944cfa2af599dfcb362500f2bcf8f085d7ddd8c8f8892e21aac1209d9a6"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336482_s.pdf",
+      "retrievedAt": "2026-10-11T04:11:01.997108+00:00",
+      "method": "GET",
+      "sha256": "607ec8fc486b088c716058724b5ff4c831affb162e0d0b5a5703b2e4f3b22ad5",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "9bbcc582a26c39eb16ed9386af65afb94a9c21d495eb455e486e0afcf0d5ea44"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336483_s.pdf",
+      "retrievedAt": "2026-10-11T04:11:04.090406+00:00",
+      "method": "GET",
+      "sha256": "48fc8c612896c3004ff29771a66489c8643f7f244d4696cd2c9dc4e0c77aa57c",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "177838d13b5efd78b9ecc293956004839f09f0404d7cb504ed73b48b3c9926af"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336485_s.pdf",
+      "retrievedAt": "2026-10-11T04:11:06.127749+00:00",
+      "method": "GET",
+      "sha256": "eec789c4a646f1d92babcef9154c685e58eff9dc8fd20d31532d60dfa855a04f",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "1b19e3ed676e8278ee54f85bc2d47edc03c275b74e58195f693e0fae3b0a3b54"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336487_s.pdf",
+      "retrievedAt": "2026-10-11T04:11:08.942273+00:00",
+      "method": "GET",
+      "sha256": "8129f5d090b62caea1d79a72db2dc18d5c204694a6ff6c5ce7570ba5ab14f665",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "e24e41d923be87f7bcdbce06450d9628d13d53f9b9d7a79c244686da64b03dcd"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336488_s.pdf",
+      "retrievedAt": "2026-10-11T04:11:12.138927+00:00",
+      "method": "GET",
+      "sha256": "a65da026e57ede0cfb43ddc466aeda96d6c7292e70138d7757b58f16632efddf",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "4577acc65032f065ee288457e9b2a176456f9237ffc58a2c75b0ba1a674b0db2"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336486_s.pdf",
+      "retrievedAt": "2026-10-11T04:11:14.022014+00:00",
+      "method": "GET",
+      "sha256": "477f456d21b0eb9aa05abf7d7e3c1782bb261709cc8b926d0653487d8e411b6d",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "20dedd0ca989ae7592b15fb094473671bee770915bd8af5151f169ceb7fdb566"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336475_s.pdf",
+      "retrievedAt": "2026-10-11T04:11:15.787051+00:00",
+      "method": "GET",
+      "sha256": "b48be865281ba54fb0f81df7848c1fe0fa15a66eee25d2e9440a1fad57441556",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "74c5634e60be962478c39dbd75ac6f90bb36823aebf8f1b6281d5ef2548f2d5d"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336476_s.pdf",
+      "retrievedAt": "2026-10-11T04:11:18.135230+00:00",
+      "method": "GET",
+      "sha256": "ff7a2f82b4e17d73173c74ebd0139700c5910f62826dc5d907b6050d50d3d8dc",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "e04d962e16482adebb1f382c80f3714e78245a8fd526577272616b893ca76cf1"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336479_s.pdf",
+      "retrievedAt": "2026-10-11T04:11:20.180174+00:00",
+      "method": "GET",
+      "sha256": "5e8532d952562e0ac4cd31da53bcd8706107738edc58f5111259681536ab58ef",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "6f7757f462bf126ef8d9c339c073cb87b5836c8d99bdeb80348783c935d815af"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336480_s.pdf",
+      "retrievedAt": "2026-10-11T04:11:21.964695+00:00",
+      "method": "GET",
+      "sha256": "8dc5360a89a7824f2037756b082022492a4d060bb2f915587270825e4ab979d5",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "55099e4bba46e6061ca0d1fb39bf21b8df36648760a0c08a1c854b6ada409c80"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336481_s.pdf",
+      "retrievedAt": "2026-10-11T04:11:23.980903+00:00",
+      "method": "GET",
+      "sha256": "5bc03a7afd288c5eab0afe5e59fa5a332d1a740f47c320ac197766a306a25c5f",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "e8707e7cfce8ab285165ed7baf0914deea2c8b7c18d6e937a3a95aca9b2c085b"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336477_s.pdf",
+      "retrievedAt": "2026-10-11T04:11:25.977846+00:00",
+      "method": "GET",
+      "sha256": "0cb9ff7e0770c663ff963432f154a5d174dddbc07f04514188639f01638e0436",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "d24301a4d1fcd87830e05c2db9c7ef1a181f0982cfd08b90502d5476993c302c"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336478_s.pdf",
+      "retrievedAt": "2026-10-11T04:00:05.382420+00:00",
+      "method": "GET",
+      "sha256": "a547384c9d91c9488aae3aca63d841c5097f5ba62dc4d3edca0b371b491c9027",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "37856319cce7a55c358e6b3aa8ba48e2c5e7168dad86a70d9af156aa684dd3a2"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336474_s.pdf",
+      "retrievedAt": "2026-10-11T04:11:29.202860+00:00",
+      "method": "GET",
+      "sha256": "fba82a0698cd42d8e2b64859e05113ae696c42d01af370509de9c663eea401f5",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "f8fc41735a7194cab2c3da6c22fbccd143929d17b60042709da36484f5f40e30"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336471_s.pdf",
+      "retrievedAt": "2026-10-11T04:11:31.175949+00:00",
+      "method": "GET",
+      "sha256": "28be64c36ce502f93a60c11703419226265b8cc6ef1af938b058f9e03f345ca8",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "8971761bd50b363f8fd080bd2aad104e3e62d3468e47174cda5fa213b38289b4"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336470_s.pdf",
+      "retrievedAt": "2026-10-11T04:11:33.506961+00:00",
+      "method": "GET",
+      "sha256": "4d2d1dbfff0f7b710dc1f170c63f1bd594050ba51350d69ee469d2378d1d34eb",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "8e93f7048fbac27bee9146ed97e314e22a4dbdf16d53c812048b3334db934444"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336473_s.pdf",
+      "retrievedAt": "2026-10-11T04:11:35.455742+00:00",
+      "method": "GET",
+      "sha256": "6bc89ddb55d2efbe1a288df3af8c2d265ed4d1d8346bf78fe9923f228d93a66f",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "9f7c441dec77aa1b9537144d8d44ab64c3b8345a32fd9dc9fd200637f44ae13c"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336469_s.pdf",
+      "retrievedAt": "2026-10-11T04:11:37.411272+00:00",
+      "method": "GET",
+      "sha256": "0b77d4fd91e74df1a6bff3adf472ee566771f334a37d4600ba1187e2a6d65d5a",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "8dfb45568762c05e299ad1037752fb6c356b89eb7b0d49f0b4a6f29ba3a6d63b"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336472_s.pdf",
+      "retrievedAt": "2026-10-11T04:11:39.610202+00:00",
+      "method": "GET",
+      "sha256": "7dd25c454558d0b4021d83dcc1310689cfec884cd4866f8cfd35a922885421af",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "e88994e77ba44f2b53736a7991ddfb81c412eb739992a7cf5795afd3445b2fa7"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336468_s.pdf",
+      "retrievedAt": "2026-10-11T04:11:41.638956+00:00",
+      "method": "GET",
+      "sha256": "d8124b12b1702b73bd3b740a9d379d41a985fb408429ef5fe64a99a8d0cdae7a",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "03ceeab338cb6f7a272eb9285ca261be6d64cfa648a75fc941c58b0e28b6871e"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336461_s.pdf",
+      "retrievedAt": "2026-10-11T04:11:43.518355+00:00",
+      "method": "GET",
+      "sha256": "0debb5540b452a12ddbd5101ed9a062ff3c052047af6358e5b69472a987920a1",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "37db7351683317951efbec946b3aad0ed7c1d804dcb5bd05d7d8266ef5e924b5"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336464_s.pdf",
+      "retrievedAt": "2026-10-11T04:11:45.193693+00:00",
+      "method": "GET",
+      "sha256": "6e49dd20bc52a307e148dab3aa797561490f5bcdee059dfa1e637f0f80a4e497",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "17ef8455c21c9221a58be76e81f9b9c8f1efd5ca9fdd4bdcff287fcfaf748717"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336466_s.pdf",
+      "retrievedAt": "2026-10-11T04:11:47.546391+00:00",
+      "method": "GET",
+      "sha256": "2ea5678a745c2a47f7ae4cae81f64d456f5d05011fa96895fd5c472f24f08849",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "55d55d1701fd578680e1be13284659774bde10fcce61938278573b3c82d59c4e"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336467_s.pdf",
+      "retrievedAt": "2026-10-11T04:11:49.246301+00:00",
+      "method": "GET",
+      "sha256": "2ae5efc06b587a4a949aa1ece5908690b50116b8b6c183070db252b63d34e8ef",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "2f1b4a2e0c2da3b2e9dc883f27fde57f3d9fb0ab99348ca8cf2bb69c84ea9b23"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336462_s.pdf",
+      "retrievedAt": "2026-10-11T04:11:51.321985+00:00",
+      "method": "GET",
+      "sha256": "67511afcb5cb25bc948661036e5aa27ea0a295a76f8b2b87b97c608a144f78f4",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "57ba564ef5638dec084e9a3aa3afbb6ce9721fc03db12875e8371a1cae81e971"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336463_s.pdf",
+      "retrievedAt": "2026-10-11T04:11:53.599695+00:00",
+      "method": "GET",
+      "sha256": "6a990d2b357e006fcf2fa93ebc5e79bc327d70e254241046d10758625120f3da",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "76392590942e53e87539e61d043483beffe44bd495fdd69f1d8920ba311f1eb7"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336465_s.pdf",
+      "retrievedAt": "2026-10-11T04:11:55.409522+00:00",
+      "method": "GET",
+      "sha256": "d34699c9d6afdd2dbc64915c188438ed244326ded5249e91898a9cd47eeab1bd",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "c0192094dfc4d508c70a045f4a0bfcee8f546cf2bb9b7f87dfb7cabd308cef5b"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336360_s.pdf",
+      "retrievedAt": "2026-10-11T04:11:57.218447+00:00",
+      "method": "GET",
+      "sha256": "b4e36c4de16f39b6c657b5c87eea3bd849c87555c793fbdb7586988f5b6c4e2e",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "8f0c99201d4cc799ee32ca4e61daefd49e0be7e3fe084a885d6925d1fd68b27b"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336454_s.pdf",
+      "retrievedAt": "2026-10-11T04:11:59.202130+00:00",
+      "method": "GET",
+      "sha256": "5abe258695f0801e3bc339504f31e1943fa8f8c8c69147b6e7a4daf3764b4031",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "bf5b7698309d548c7579f6614926b859397f5c65a26eaad99becbd1cbae4d292"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336456_s.pdf",
+      "retrievedAt": "2026-10-11T04:12:01.288550+00:00",
+      "method": "GET",
+      "sha256": "e84cde24d3ef053f129d2f495e9f31b730c0e8a963f4ea37832bc4a00e350629",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "3a5d8fa548fca863a523dadc48b5ae255311ddfd83ee337e0be59fe314528eb2"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336460_s.pdf",
+      "retrievedAt": "2026-10-11T04:12:03.810255+00:00",
+      "method": "GET",
+      "sha256": "86384542523f9526b060a94692f7d4538b462e77c0806e3ab2a519598e0160df",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "0814a0ba21bbfbcbdb021477907ecb74b312e25559789475674ef12b9c4282c1"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336455_s.pdf",
+      "retrievedAt": "2026-10-11T04:12:05.677366+00:00",
+      "method": "GET",
+      "sha256": "9d3f7016d54e63651b1fe2741e066d2da7e98a552a4e95e61ab51a57575971df",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "b2ab8b17abe17599251ef4664ad530996af72849083bac8afe6f057fa066eb54"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336458_s.pdf",
+      "retrievedAt": "2026-10-11T04:12:07.687379+00:00",
+      "method": "GET",
+      "sha256": "f969c4d4b7c707535aa16c67d20a28c3d8ac90f24d38cf4d3b193e7d3c9e990f",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "f3efb956337bb14a1600be6cc1476809b58b79903055b056555bb88feb9f8c06"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336459_s.pdf",
+      "retrievedAt": "2026-10-11T04:12:09.677942+00:00",
+      "method": "GET",
+      "sha256": "ef45bf0ee47fc153d963d78b2ac41fa938d3349210bad5989ac308072529730c",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "79b5db8b8b74a0d87a2657c313640cdae27b06ae30651cafd24d305d24bbee6d"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336457_s.pdf",
+      "retrievedAt": "2026-10-11T04:12:12.020701+00:00",
+      "method": "GET",
+      "sha256": "0f2c1d7885e4975847778e903293fc52abfd51456eacbdc71de932c026167362",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "db02dece5dd0c3fc4458246773a62293264698527596c17675d4e00b70c47820"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336421_s.pdf",
+      "retrievedAt": "2026-10-11T04:12:14.461139+00:00",
+      "method": "GET",
+      "sha256": "4e2966dd9f9ca69cdcd95266d1e7616ce26c930d8062d0c55f514e7d6b5ea8e0",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "deb5dae7c9c24b25bfcfd9d04c8a094f686e3679bed06a9774dd40b60aa446ce"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336451_s.pdf",
+      "retrievedAt": "2026-10-11T04:12:16.312025+00:00",
+      "method": "GET",
+      "sha256": "2fcb7b2a8e3ed5db2823a98cc28c2d83059b2fdf15b2fd3bd15503bcbb6aed39",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "fb73d615f25505a5909de2d04aca64b54a5f06bddc89e6935c269452aa2d2621"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336450_s.pdf",
+      "retrievedAt": "2026-10-11T04:12:18.049888+00:00",
+      "method": "GET",
+      "sha256": "8ffbdabe86788d2df6e6df2c42424c46ecd3fe4b572447ce329cbfa6f647e204",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "e05a16dc7401b3aaa04a82c1dc19d8860ae96711f84aa403d3f4bd24cba57d75"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336452_s.pdf",
+      "retrievedAt": "2026-10-11T04:12:20.730832+00:00",
+      "method": "GET",
+      "sha256": "19213c7833a96024a1d2487cd0901a8866b355acb04e51800ecc9b70fc268fb0",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "66265134a400f9b6cfde0febc5a2b119d256477c75299b77488a4e1d1907fffe"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336447_s.pdf",
+      "retrievedAt": "2026-10-11T04:12:22.177366+00:00",
+      "method": "GET",
+      "sha256": "e9f3baad7dfdb1ea9b8fad2dd26833c08b1c0f9e8895dd7864d04b9951121247",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "b60790a9e1ba53d1ea7b56515dea4a667bce21917e95f0263b8ff80f666fb9e8"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336449_s.pdf",
+      "retrievedAt": "2026-10-11T04:12:24.383838+00:00",
+      "method": "GET",
+      "sha256": "abeee5bfb711d610f86ac63abc1fa3b7d10ae008aee5c096122b5dce5051a665",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "f47dcaa1e57f606b2dfdc1fe074be3bfa9ffdf2a32003a99e04dcbfce9b398b2"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336448_s.pdf",
+      "retrievedAt": "2026-10-11T04:12:26.771464+00:00",
+      "method": "GET",
+      "sha256": "1890639649c687d731ac9a908c64451045cff2aff48796f86dd1073d1b6a8ea4",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "f0cf05bddd1ddb3e8964ffe4f705dedaf12ff47a3cde30dd4531f4f03eeaa376"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336453_s.pdf",
+      "retrievedAt": "2026-10-11T04:12:28.829740+00:00",
+      "method": "GET",
+      "sha256": "4bf7c4a476e1823504d7aded1c48f2044313b00ca4821783c5d59bfbda371e42",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "0d031d089b31921910b9aafd05d313baeecff06215e1c406a34ec109f044f4ba"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336388_s.pdf",
+      "retrievedAt": "2026-10-11T04:12:31.169191+00:00",
+      "method": "GET",
+      "sha256": "624021030e06b8cb784c513bdc46a8a3ab1836a2680be2020ce69fa3fbf67447",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "4a67e4774ea0de41f1bfe8f9d7cb74aa5de2fb3c8427a845632d8fd07594b231"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336445_s.pdf",
+      "retrievedAt": "2026-10-11T04:12:32.951821+00:00",
+      "method": "GET",
+      "sha256": "94825ac85233eed794ee028ce50e3cf22bdd55e0aace8f2870ba94d316dc2688",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "a8187e46a48648e1f2ebe645e426570c14711384fb383b2ce12fcb4140468ed6"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336441_s.pdf",
+      "retrievedAt": "2026-10-11T04:12:35.470057+00:00",
+      "method": "GET",
+      "sha256": "9c32c43042f55ab7a560bfb2b7293791e6d81f25ebce8b01d885427828f033f8",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "c3ced36c3d1caaee8d2366b0d4889495366c654b9347fe1561fc806ffb5f6e3d"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336446_s.pdf",
+      "retrievedAt": "2026-10-11T04:12:37.208720+00:00",
+      "method": "GET",
+      "sha256": "957f65448faf538e6c7d111a2f04c95b4bb52bb28951e5d1cccdbfece22b42ea",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "88e70bd6516d94f46c85c0a834d31e244b7ecd256e385069e663124a393cbbcc"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336440_s.pdf",
+      "retrievedAt": "2026-10-11T04:12:39.793732+00:00",
+      "method": "GET",
+      "sha256": "61b20bd1af2480ae402bb42500de726fecc6a4c82b393d05344794a7a5e7bf83",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "6a0a0be7e639db44232c4957a65041668812a566d6695befa000b1a12ff7ec5b"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336443_s.pdf",
+      "retrievedAt": "2026-10-11T04:12:57.158655+00:00",
+      "method": "GET",
+      "sha256": "116da2cdf4eeea7ebf114c6aa6b4ed16f8ec238dd92e9c4bfb56936b5c3285e4",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "95d7676846800e090558b8f917c8bdbc205f94428b833cc3671814b1e302f78c"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336444_s.pdf",
+      "retrievedAt": "2026-10-11T04:12:59.263062+00:00",
+      "method": "GET",
+      "sha256": "1bac4a184bc28ad93e040ba3f7de3c33bdad8de271304566c04670c11b0032a7",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "056d61ae94ece2efca15411c1d9019faf5d3a80a31ae223bde05aacad4c9a582"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336442_s.pdf",
+      "retrievedAt": "2026-10-11T04:13:00.893003+00:00",
+      "method": "GET",
+      "sha256": "5155f5ed3f291e60f7db3f2f64d20e47522a9d83eb16b0eece7b4adfad007982",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "987668af8fde180c20a9fbcf80d3b061ca561d68be38767638036d34f140680b"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336439_s.pdf",
+      "retrievedAt": "2026-10-11T04:13:03.741749+00:00",
+      "method": "GET",
+      "sha256": "c4087effc28919524cb2a1654f417f06b18ca4a219453bd6526d4949c3afbe3e",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "2110559168ada48ac7d45259038bacecdd074a615060a45d033c87cfed43dff2"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336435_s.pdf",
+      "retrievedAt": "2026-10-11T04:13:05.631459+00:00",
+      "method": "GET",
+      "sha256": "92dcb1fddca992a4432a70f3a958006edf110e145976f22abea1c567b6ba8c06",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "272eec96370c5b667447f9f92f8c2e410e26c80046a6b43f92159ce04a42715d"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336436_s.pdf",
+      "retrievedAt": "2026-10-11T04:13:07.302863+00:00",
+      "method": "GET",
+      "sha256": "c78c4f97b606a761a8f1e7b560eb56a90978ad236bbdf7b281441b4623915478",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "29e9aff9640d08a2d2816e5472a20be397597ddffa329d362d6d3979318fa1fd"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336437_s.pdf",
+      "retrievedAt": "2026-10-11T04:13:09.896858+00:00",
+      "method": "GET",
+      "sha256": "916bc730fdde798a4fbd738fd335d63f6c70a5480d7a6e5e6dd33aa0fa205e3f",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "2477f542c5d9c9a47eb2f4bb7e09043df1a49db762d0a9dea261682849177e37"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336438_s.pdf",
+      "retrievedAt": "2026-10-11T04:13:11.722410+00:00",
+      "method": "GET",
+      "sha256": "0e7b0258e3d34fae7a75831489b02daf028aeeac549280e2fc041215ddb0d60a",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "aab6e004a459043ac3db7e987cf4e49f1f0be9023dd82e67139af6fdb5a5caf3"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336434_s.pdf",
+      "retrievedAt": "2026-10-11T04:13:13.543057+00:00",
+      "method": "GET",
+      "sha256": "8501b6b4dc94fedbae9c8ec0a542e99a11def45b70834890f93d83ddc31cfd49",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "2148ba56fe2e679279b4d3adcfafeb00ff6b87b33ac269cbc154158ec2d92e62"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336433_s.pdf",
+      "retrievedAt": "2026-10-11T04:13:15.895163+00:00",
+      "method": "GET",
+      "sha256": "5fa6fc2748baa6cd8378e4c97f0d56c2c4e0aa5a001d64f7fa6e67f292dbe30d",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "007c93086bb7d9afdb50b31e815be05911d8ac870611faa26b0c52f555054faa"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336426_s.pdf",
+      "retrievedAt": "2026-10-11T04:13:17.782416+00:00",
+      "method": "GET",
+      "sha256": "a0a4c4a5a414b371a8788cdb8a2b4c40e58c5a242ce00d018604c8f233a644e2",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "233fc372ed071b8077a42943f0ebb0acc472a21b680b3caf344dc30e7113be72"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336428_s.pdf",
+      "retrievedAt": "2026-10-11T04:13:19.573356+00:00",
+      "method": "GET",
+      "sha256": "14f00f569d58efbc4e4c87afeedceff3d72543d4b088e55ec127277aa1d79832",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "c98bf1ee222f3d3427a9443335c888b5cba9849b80a02c5a84ad5296c8898e61"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336429_s.pdf",
+      "retrievedAt": "2026-10-11T04:13:21.578862+00:00",
+      "method": "GET",
+      "sha256": "2ffeba0c3aa96936aead275dc1e4473d4b44400e4acd1644e0a30f7c43d213b3",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "96b227dfb089ea042ea4398e1793da2e998a60300d6bc23efb9b82c0a79e300c"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336427_s.pdf",
+      "retrievedAt": "2026-10-11T04:13:24.388535+00:00",
+      "method": "GET",
+      "sha256": "4801717137661d02ad05bca874b2fcd99df1fad3bdf94dffa25f63dbfd346322",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "b811fbc9a22265137817a2f45e7cd7371cebaa89a6263d6d232ebcd1e0a428ea"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336432_s.pdf",
+      "retrievedAt": "2026-10-11T04:13:26.076844+00:00",
+      "method": "GET",
+      "sha256": "58b2e7d3d7afa4041423c2d0e0669f62b9d6b08b17a007f0552e94c95f6d26b3",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "106e7a1a6d13e7e93b87101c19538ba7b78ee331cccee58e53cb7f9ceb18e8b2"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336430_s.pdf",
+      "retrievedAt": "2026-10-11T04:13:28.343641+00:00",
+      "method": "GET",
+      "sha256": "29ce09b5f2af4f29e733364776ffd6cab9cdc96a8b22590944798f131182d8ee",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "554f43b8b3fbb253edc25ff236bfad0e27af48d5145f1cfa6799335f92a8f8d3"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336431_s.pdf",
+      "retrievedAt": "2026-10-11T04:13:30.195488+00:00",
+      "method": "GET",
+      "sha256": "e436f246496d342d3a464aecec77421891511ce6316340a7bf8a0fc91e5ec58c",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "06cc30b7b8eac1c777708491f07d94462bd88615e0805654ff19f48b2dbb887c"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336423_s.pdf",
+      "retrievedAt": "2026-10-11T04:13:32.283368+00:00",
+      "method": "GET",
+      "sha256": "e702b976c835f7dca375d5080121dd26234d8b3229f80b68eda658cfd5ec715d",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "688d5ce8e394a1d3d3864c76715a965c4afd278d28a97d1fd0ec7ab16569c5e6"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336424_s.pdf",
+      "retrievedAt": "2026-10-11T04:13:34.294287+00:00",
+      "method": "GET",
+      "sha256": "5fd37bdab7c89c5c8a07dbd86e264b6e5b5391c8bc42899f7f5b1bf19df5a5f5",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "4de50fedb96e414f9c71a4e0a9a81057a437b4bd678e46ba6c805ebde690ef4b"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336425_s.pdf",
+      "retrievedAt": "2026-10-11T04:13:36.292389+00:00",
+      "method": "GET",
+      "sha256": "9d8c3da5ed6322510b0dbe48454b3a90ec51ffec2b0b62577a49ff9dc41e0498",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "abbba36b5680286bee0bf3f9a2c05c6ff8b453f2258ba8534dfc4544ef1c5e2e"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336419_s.pdf",
+      "retrievedAt": "2026-10-11T04:13:38.321611+00:00",
+      "method": "GET",
+      "sha256": "ef22a75bf87ef631d28fdc763eb1d571273a0fe760578bccb7637f67feed765d",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "39e844536adae95a20a425066dcdbd2acdc0517aedbb7b7978fe18f64bb9a694"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336420_s.pdf",
+      "retrievedAt": "2026-10-11T04:13:40.359862+00:00",
+      "method": "GET",
+      "sha256": "7dd1971e1abd3378b4ee2f3f418130a1b1fcf0cb0bb2c9a2150dc527b781f908",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "a41f87a6f659fb14be3903972bff9d43b0dc944963df26045f0dcda172262707"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336413_s.pdf",
+      "retrievedAt": "2026-10-11T04:13:43.233767+00:00",
+      "method": "GET",
+      "sha256": "6d5ea6ab474c42b099caec757519623cf1a8b5295bfa0be6a5a625611a273bdb",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "a86a566b15f40e53a16ee4663944ffa6227d097245510b8e5901bb8d0c0d8e9b"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336416_s.pdf",
+      "retrievedAt": "2026-10-11T04:13:45.113615+00:00",
+      "method": "GET",
+      "sha256": "6bd5b426457d32f03f311de3425f3355a54e04233c48a8fd6ada9dfed34a48cd",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "45c66dcc782582134d9d914dce0a625aeb543b8baa7149aa665a2e5468a7340c"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336415_s.pdf",
+      "retrievedAt": "2026-10-11T04:13:46.844565+00:00",
+      "method": "GET",
+      "sha256": "32b7171db934f3ed40857e53af9656a588844d952c02d67e1f1a075099a21741",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "e5bfa3a3d766422be516d3f25716e2dcc2c9fa9c1df8a6ebcc9e500e1282bca6"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336418_s.pdf",
+      "retrievedAt": "2026-10-11T04:13:49.489785+00:00",
+      "method": "GET",
+      "sha256": "9f60a475d3ab4e46cc184a8764269a6f81c69edab6fd78e9680b97e65af1818b",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "f0e5a9f06dd6035329c3fa1dafc73d59d78d573593a392e2614d7e6604124612"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336414_s.pdf",
+      "retrievedAt": "2026-10-11T04:13:51.101975+00:00",
+      "method": "GET",
+      "sha256": "561ee81c200ecc360a78b547aeb7a9fbb8c92bd9792eaaef7cb5791d783e2bb5",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "a9668a1cd689efbb7a54197b4665ed357247d4e4ed2730bfd65c2adb7dadbe47"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336412_s.pdf",
+      "retrievedAt": "2026-10-11T04:13:53.375858+00:00",
+      "method": "GET",
+      "sha256": "ffa544df31010872bb8649537bc66652174fcd9c804b50bd24888d6493fd8744",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "2c9fcb8dd2a4513acbd6e2444998e813cb7077736171b9621a9e5827b7147f1c"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336406_s.pdf",
+      "retrievedAt": "2026-10-11T04:13:55.156907+00:00",
+      "method": "GET",
+      "sha256": "a5cc836ccfa05239d9a91f4d4552581620415543b6b17164b54a05344c8e64ea",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "fe91a06bf9536b6c5fcfe252af6066a8256eac8532e4f33bacde3d93ea376a54"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336408_s.pdf",
+      "retrievedAt": "2026-10-11T04:13:57.161314+00:00",
+      "method": "GET",
+      "sha256": "54900d280f29fb512d4b09de93266a0e4c9d6b662cac551ec7d6043dc8106459",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "f9815e8927b1a5ebaf6d318440214af98731bb977afcec18c0c46caf4e9f7847"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336411_s.pdf",
+      "retrievedAt": "2026-10-11T04:13:59.203370+00:00",
+      "method": "GET",
+      "sha256": "8ad01a9d67c486395601325a9b6ac4ec983e58049158fcdb86c78465dcfc07c7",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "efdc6a2c57e05c00d0872e47170586e245eed8f082a199a5019e239b45a933a0"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336410_s.pdf",
+      "retrievedAt": "2026-10-11T04:14:01.739213+00:00",
+      "method": "GET",
+      "sha256": "3147ecf672969c3f55059fc8e9a0cfdc7d47e81520cd6bae228ce87bc4fe082f",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "56ddd5202aed0eed5edd76e1832c489f3cef833c1ec2ceed5d0b39abbfb3452a"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336405_s.pdf",
+      "retrievedAt": "2026-10-11T04:14:03.984625+00:00",
+      "method": "GET",
+      "sha256": "b9d726368840107d430ff48ff8812f15458e004bdcb0b9f5d3cf2a9b84c603ca",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "f23bfef2109aa67a7d4b66185605d0fe4c16e5ad567df104a11f2f9752ef8b9b"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336407_s.pdf",
+      "retrievedAt": "2026-10-11T04:14:05.922222+00:00",
+      "method": "GET",
+      "sha256": "a91b63a0951285e82ed90e121bc6b2feca451724218175622a6ff3260edb8161",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "eaa808695c52ff3db76791a2a962733d9678d0c0bded664f07ac5261093b49bb"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336383_s.pdf",
+      "retrievedAt": "2026-10-11T04:14:07.987706+00:00",
+      "method": "GET",
+      "sha256": "2d9aecb7bde408482a9eb3faca7f3442c8b25c92bfe07460f425710c9f7f28de",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "92073ac980f214bf373ff0eb0b9d2e13d3788ca6ee672b58b091eb25483195cb"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336409_s.pdf",
+      "retrievedAt": "2026-10-11T04:14:09.946347+00:00",
+      "method": "GET",
+      "sha256": "a787b9b6ea641a5e73a4a66340758b5ea969918ce502c8625c062e0ac54c67d1",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "f3ec2efcdab9362e2f560e541fed7c5c40ccf2f85f533bcd06c0fea01b27be4a"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336400_s.pdf",
+      "retrievedAt": "2026-10-11T04:14:12.025339+00:00",
+      "method": "GET",
+      "sha256": "f0934eef4f8decc994d87b70c2a36b92e9bf80c65bc85c63cfa309d18d85c5c6",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "3f9dae4aa71342b492026de1d366c5dbc17621f4dbd2b033d9eb0f0aeb4c795f"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336401_s.pdf",
+      "retrievedAt": "2026-10-11T04:14:14.407689+00:00",
+      "method": "GET",
+      "sha256": "da3ffb7f98ba694a8fc04f39e198d95a1e353833ead3d6e3c600063eed4752f4",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "eaaf5c72ecff30c3fc7772f9fa90abf504c4b3c8dfe949e8803bb5407aa4b3ba"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336403_s.pdf",
+      "retrievedAt": "2026-10-11T04:14:16.311143+00:00",
+      "method": "GET",
+      "sha256": "66154c72bfe79aebca20de53e4622a49ffc6264d8bbd8704eb35632859dd02ae",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "051e358d5b8f27154505e1b59d54b946db84499e915e3aa11d0291b9f4895254"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336404_s.pdf",
+      "retrievedAt": "2026-10-11T04:14:18.503329+00:00",
+      "method": "GET",
+      "sha256": "6e3c3ae6de87d03e65ed4c2c5831d9c84478c61abc52679e9aeedfd528fb0c0b",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "7dafb1a0237ac841255701084b5febabfc6af00abee754625117e45a195f3386"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336398_s.pdf",
+      "retrievedAt": "2026-10-11T04:14:20.526885+00:00",
+      "method": "GET",
+      "sha256": "ffa2c089c1d41e5613da7dfd145f025f5e2ec1e54f501b6df139f849832121a2",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "0639adff0ef8b2335143a4656c0c4595ab46064e19fdcacf32b7860103b42c34"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336399_s.pdf",
+      "retrievedAt": "2026-10-11T04:14:22.378693+00:00",
+      "method": "GET",
+      "sha256": "5d70a2acd9fef1ff917a2b6e42988f203cc284fcdcc31a4ae752768e0fa6b233",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "249eafdeea2660ba3795aa6cb91daf41868f1fa073602dfafe02d65da62c0b81"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336402_s.pdf",
+      "retrievedAt": "2026-10-11T04:14:24.407450+00:00",
+      "method": "GET",
+      "sha256": "f7da0db8a2b961e09741aa3dc07583a2669420ddbb92e0eb5934c13d61290f61",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "7398b4e68562452e5e0c04c1b083bbfe087c4fdbbf74bdeadf700d8640a08efd"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336391_s.pdf",
+      "retrievedAt": "2026-10-11T04:14:26.434846+00:00",
+      "method": "GET",
+      "sha256": "4ef6ed60eb7de502abc6fde505c01e3494db34238e1ab6bb59c2cb2f378e838a",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "8eea16dd11da2c4d5345ad7d902db50911efcadbacfd63c45737ba5c21dffe2b"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336394_s.pdf",
+      "retrievedAt": "2026-10-11T04:14:29.344159+00:00",
+      "method": "GET",
+      "sha256": "8eed1910772556b134484ea241be8017bff2f647c63f0e533066e0b9dae145f2",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "d47deee71006131e9a035aa0d5ad42cff4f8280ad74fdd50bbede78417980b36"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336397_s.pdf",
+      "retrievedAt": "2026-10-11T04:14:31.620440+00:00",
+      "method": "GET",
+      "sha256": "030df5dbaafc9646ccca21aaabe9913ea2072e752a7d94ff1bf9267da5f06a8a",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "efd12dacd386acb3ec150a3180552120e7db71baf35bf55bf889d04db5ed22a8"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336396_s.pdf",
+      "retrievedAt": "2026-10-11T04:14:34.537841+00:00",
+      "method": "GET",
+      "sha256": "68708df0721bdd29e20985925a33371530c85ea2c3872c7bca814226ede4c07a",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "4ed82a129018546e63d750c654220d6a3246e848435d12f2ab3861218b5b7db6"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336392_s.pdf",
+      "retrievedAt": "2026-10-11T04:14:36.468281+00:00",
+      "method": "GET",
+      "sha256": "827967002afa063a5123146fa9774c996e8bbcca9024bbc0be0c05f606ba7b24",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "23aba0799bcb282232f9c64513517f045b52e6c0a56fe4f544ebd4a50374188d"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336393_s.pdf",
+      "retrievedAt": "2026-10-11T04:14:38.306585+00:00",
+      "method": "GET",
+      "sha256": "57f2cff27f5449136654e6fe3c4912597d2a535fb65b6a0e8bab1ebbc5acbc23",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "0e77251528f8f0f06a11ea434d21f5ceee74984e3d400cc2ee2fb726848f102d"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336395_s.pdf",
+      "retrievedAt": "2026-10-11T04:14:40.378717+00:00",
+      "method": "GET",
+      "sha256": "0cdc01869add623d98ed4465d8fda660b1284989f02d479ae5e75051654df8c9",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "0bdd23f5b4a5af64bbe189c2ee19a52daf2ef5520b24656766154e6c48b5e0de"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336385_s.pdf",
+      "retrievedAt": "2026-10-11T04:14:43.101666+00:00",
+      "method": "GET",
+      "sha256": "da639b53428961d1bc35c22ceeff2da03ad07e5ba57d655c9e5fae86136d972d",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "3c0fa31598ab901b412c53c050e480c1c0cb76d2350bcccb783ac0eeaacbbc8d"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336386_s.pdf",
+      "retrievedAt": "2026-10-11T04:14:44.817451+00:00",
+      "method": "GET",
+      "sha256": "5184e850a25742a73009591541b43902507a3a5da123a6a8b09f3d4dcd6b52f1",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "07f2e0d2fd74234480bc951bda5f0a1db78553462b5b2d51664b775ce8b76c10"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336389_s.pdf",
+      "retrievedAt": "2026-10-11T04:14:46.884918+00:00",
+      "method": "GET",
+      "sha256": "9e728baafee38ed738c4cdd8cc64fecc0e66f9cf2a4bf61e1fdfe0a45c94df2b",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "897dfb7be0f51ffd58b6a7a524e09a825d7706f093657e84f01bdfc6b0288b41"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336384_s.pdf",
+      "retrievedAt": "2026-10-11T04:20:12.754558+00:00",
+      "method": "GET",
+      "sha256": "0e70241e4b6a213d0a2b1252dba09de91f750d10ef4d8d5346e2815630a6c0c1",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "12799df9984e3b4582bb0e3f1e864383fd702b1cf96a992c4479d45f838b370d"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336387_s.pdf",
+      "retrievedAt": "2026-10-11T04:15:12.015856+00:00",
+      "method": "GET",
+      "sha256": "036b2a06521f0744d3a2e15dee7e6c182fddd5efbe07e2e1e566489d358fab81",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "64752990688b70fee49d54d898d0121f71e039e00aeb97f6e1b7aaf3acd1b242"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336390_s.pdf",
+      "retrievedAt": "2026-10-11T04:15:13.619530+00:00",
+      "method": "GET",
+      "sha256": "cfc67da5449a5bb45c37fbbb4e488338c85bafbc6ad0d7808568eb10134a40b2",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "c23fac06554734f08eb09acbd96565bf8cb4528eff9fd401c757dd62b887efea"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336380_s.pdf",
+      "retrievedAt": "2026-10-11T04:15:31.250580+00:00",
+      "method": "GET",
+      "sha256": "188fe73d1666d0a0236f0f26bc9a00b2b0a5b818b41b429de132b4201325d613",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "75de4bb21159ad507cb4e1721db004be1fc71f830287c873db975cf1fb9fef1a"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336381_s.pdf",
+      "retrievedAt": "2026-10-11T04:15:33.525181+00:00",
+      "method": "GET",
+      "sha256": "bc65b231d7f9313c980c85f4506580fe557f29b326615201edbfd3fcc0dbaf34",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "133a839b8727a42cab9723da619a638bb5e0e33f36eeaa2292e768a08e86c73e"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336378_s.pdf",
+      "retrievedAt": "2026-10-11T04:15:35.939191+00:00",
+      "method": "GET",
+      "sha256": "3a1dde684c6d3b688876789701c0eead361798a44d9273c70107e5d9637c0b1f",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "d26733f6285af6c47e365e0932cf1812e1ccf1a4b2382dbce290dbb55dc819f2"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336377_s.pdf",
+      "retrievedAt": "2026-10-11T04:15:37.965220+00:00",
+      "method": "GET",
+      "sha256": "cd5678d8935d1c02c12b8d8757fcbdbc5bc33c6a56364c6e105964c20eedd0a6",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "655699055fc49077f0a93cd9b24f399a8f303d810fac80a7cfe2e21f03a29eb6"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336382_s.pdf",
+      "retrievedAt": "2026-10-11T04:15:40.571393+00:00",
+      "method": "GET",
+      "sha256": "a3fb7d14ee1c1e17eb40d7991e30c5c7a60c053e980c73007acda93af7f63d0e",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "c0b2bfcc9ccd0623522633118cb74b8d54956adf8cd51d2cde35e38a5eef75f4"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336379_s.pdf",
+      "retrievedAt": "2026-10-11T04:15:42.127682+00:00",
+      "method": "GET",
+      "sha256": "2ba72ec53751de120a47bf9446525b2b35635ef83bb0cd8bf7affb7972fe8f92",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "d992bdebf3fb612aee5338da15f4c20aedf73e07e1b7bd3df1159f3b381960f4"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336372_s.pdf",
+      "retrievedAt": "2026-10-11T04:15:44.312787+00:00",
+      "method": "GET",
+      "sha256": "d58457316c194317593a69473603b61c470ae85b89ed32774602d18a849ecb0f",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "5a990463ebcb489f8ecba5acb33f855b7e79ea73e89c2227365f835eebe06f54"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336374_s.pdf",
+      "retrievedAt": "2026-10-11T04:15:46.303126+00:00",
+      "method": "GET",
+      "sha256": "412737f63892f6121091eebc8e03367c9ea407c991b764150d4de69d001d3985",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "b741d2df85a280b97887032aaa3e251c5894a42296a47063429dbef3e5bd4457"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336376_s.pdf",
+      "retrievedAt": "2026-10-11T04:15:48.527756+00:00",
+      "method": "GET",
+      "sha256": "fff8856e73f458d8c40a661c505ef451175d1e0a6a2b02520b45649ad782d4dd",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "fa6b98e9a34d3610e522046dc5978a096d78cffa7cb9dbae9c653bd8d6726e18"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336373_s.pdf",
+      "retrievedAt": "2026-10-11T04:15:50.107013+00:00",
+      "method": "GET",
+      "sha256": "80d11c19ff47eb43c5c6d6211a3dc313e573b151612c2d10f9f15d656d26b747",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "2f56bce2cff5f88a2503e9c5bcd48e2f63ef2e690dc3df968f727a1d3e6088c6"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336375_s.pdf",
+      "retrievedAt": "2026-10-11T04:15:52.693966+00:00",
+      "method": "GET",
+      "sha256": "e1110be7ddd88836893abaac31de807869a8cb3998bff40b65b001e07e51c020",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "1c183aa4af2541895a99d1c8556a6cb233a8a3f662750fa0736c9218cec3ad93"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336370_s.pdf",
+      "retrievedAt": "2026-10-11T04:15:54.784134+00:00",
+      "method": "GET",
+      "sha256": "95334c1ec8e4870a8ddeb77e0af06ae78b4b2d5749099c066ab0d96431a9d2d7",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "26f938bce5461b9b3ebb9a2e50215570468f3b774837f98663731b971ea90c67"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336371_s.pdf",
+      "retrievedAt": "2026-10-11T04:15:56.726710+00:00",
+      "method": "GET",
+      "sha256": "e133a5179bf96fd61f661a936ce9eea840b146e001a065ca09601deb02f614e0",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "59ceb1526a1e36af01ca2781a27f7bd8e7f8208f8627052844d6df638c54b66b"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336369_s.pdf",
+      "retrievedAt": "2026-10-11T04:15:58.953736+00:00",
+      "method": "GET",
+      "sha256": "897ac4fae40ba94032f57327cc912bda09f4a4202745cbccfccd76837a66cf21",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "e0cdfcd23e42d849fb6b67d7b56621c81a2614b3fb12d6ece50da943485146e6"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336364_s.pdf",
+      "retrievedAt": "2026-10-11T04:16:00.996214+00:00",
+      "method": "GET",
+      "sha256": "e610c86fc014ee7981f68db42011cbfe019b2435a61cfaf452c9a4b1fe261200",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "d80ae5ab4eca852868a5a12f52c8a18dfc7a6121a9f5476f99017235d8fa01e9"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336366_s.pdf",
+      "retrievedAt": "2026-10-11T04:16:02.989119+00:00",
+      "method": "GET",
+      "sha256": "a007354f911469b803c8ac2c3c1ec8075c754c0bdc4e5e1dca0f72e3730c0f14",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "5bf2d9d72e94b749e0e31c28a5f405a4fdf8668473b96126f9dc3a27b2e58263"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336363_s.pdf",
+      "retrievedAt": "2026-10-11T04:16:04.986306+00:00",
+      "method": "GET",
+      "sha256": "121194c272b1e6813b298029d620d0d2ca76d80a43c2d8d65477814b454386b0",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "de0707140189d1855cd6783d2ffffdaffbcd2d5731f62b709f1ac42da1ee3393"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336368_s.pdf",
+      "retrievedAt": "2026-10-11T04:16:07.341392+00:00",
+      "method": "GET",
+      "sha256": "be2debd3b1b258a3c870eb6b3e6db9451b4692f717d11f78ff059acad9d6706d",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "de5f51d3568db6ebcb871d972453ebf69c2716dd660f88ff6861db7e40bde72c"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336365_s.pdf",
+      "retrievedAt": "2026-10-11T04:16:08.981268+00:00",
+      "method": "GET",
+      "sha256": "42e938da9c429a3a6d6f73c1397f6a9a0663f0212c4a753a8fcade16ca346a7c",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "fbace7c913582d0127d246333e7d427ede843d82eacb99507a060b12befef03c"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336367_s.pdf",
+      "retrievedAt": "2026-10-11T04:16:11.440914+00:00",
+      "method": "GET",
+      "sha256": "3e261b2587572efd93bf7f2a32d566616da95516ac03576fe225022c4457c972",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "7aca13e9c79a72efb30b11283b8bd5a4f0c5f647a806b99a8472472cc1ea705b"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336362_s.pdf",
+      "retrievedAt": "2026-10-11T04:16:13.172575+00:00",
+      "method": "GET",
+      "sha256": "127dc5857899786ce7a925ba0872ce54363c5bc01cdd24fc93c1515edd240b18",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "a8da9159bc2f9072f219f0670d32bfa24ac6315afa336efad1636c79b19c0b7a"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336356_s.pdf",
+      "retrievedAt": "2026-10-11T04:16:15.209718+00:00",
+      "method": "GET",
+      "sha256": "f56ce02938406129e194fd469b6420194d2f9bb138fe35d0d9bd4c617df9e7f6",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "f3c929271f9f2d5488e0ab2bc6761a64798e05e4ed9d30f7fd70f3d15d052141"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336357_s.pdf",
+      "retrievedAt": "2026-10-11T04:16:17.411199+00:00",
+      "method": "GET",
+      "sha256": "02100cd1dbcb076da880f68d7332adb34def98ba4aca3bdb31e3ab8d3ae345dd",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "edf4b95771b7038000064a57d2969f6d37fccbf7c83cc2a358ee2df9106afdcc"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336358_s.pdf",
+      "retrievedAt": "2026-10-11T04:16:19.933228+00:00",
+      "method": "GET",
+      "sha256": "73e09c8a135cf093060d5f406fa142a5cc3c6bef94ed02e26fdaf91a6cb5356b",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "c89aa3e6271b148e9aee0d86ae9c9cb7754bf279e670760db28ed9b8a27af4e5"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336359_s.pdf",
+      "retrievedAt": "2026-10-11T04:16:25.691446+00:00",
+      "method": "GET",
+      "sha256": "b557b3063d15156175acda63cc1c82609d74801743ad7afe60d1db20562ea49d",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "0747bd018fad41f9ff22768b17c3919bbf65fb71066f784e6eb8859154dbf6a6"
+    },
+    {
+      "url": "https://handballstats.se/stat_sve/xml/2025/2500101/PDF/32336361_s.pdf",
+      "retrievedAt": "2026-10-11T04:16:29.997820+00:00",
+      "method": "GET",
+      "sha256": "7eab5c3a1a3626f3d256e5060977a5a3f6908f5b91ce2387f098ed7db02ee3e2",
+      "contentType": "application/pdf",
+      "status": 200,
+      "cacheKey": "7ecada39c3622aa7ef90111ac70aebd40371bb62fbeca73e13735a03054ac1c0"
+    }
+  ],
+  "policy": "Public GET pages, published PDFs and only the rendered public infinite-scroll action. No signed live-event feed, login, private API or access-control bypass. Raw HTML/PDF buffers remain in the local cache."
+}

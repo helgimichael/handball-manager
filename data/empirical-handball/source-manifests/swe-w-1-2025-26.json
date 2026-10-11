@@ -1,0 +1,1266 @@
+{
+  "schemaVersion": "empirical-source-manifest/1",
+  "competition": "swe-w-1",
+  "season": "2025-26",
+  "seasonStatus": "COMPLETE_SEASON",
+  "stage": "REGULAR_SEASON",
+  "parserVersion": "sweden-public/1.1.0",
+  "expectedMatches": 132,
+  "foundMatches": 132,
+  "sourceManifestHash": "c62f18df1c963d7a3aa457224917f24c908c2bf73bc857f93b9bf741a5777274",
+  "normalizedHash": "a558ddbc9c5e57fd6335167908f29170a8ca9785d2663c06633c4d2329ab608c",
+  "sources": [
+    {
+      "url": "https://www.profixio.com/app/lx/competition/leagueid17958?t=schedule&f=played",
+      "retrievedAt": "2026-10-11T04:16:32.256048+00:00",
+      "method": "GET",
+      "sha256": "400cc616e535db64dbd5f9a9a406487d35cdfc830bdf0fdbb1108ce7fd68b5f3",
+      "contentType": "text/html; charset=utf-8",
+      "status": 200,
+      "cacheKey": "8f9b48228c8bc4817e17a270f77195af79a4975115b851d9c898d7adc0b799c5"
+    },
+    {
+      "url": "https://www.profixio.com/app/livewire/update",
+      "retrievedAt": "2026-10-11T04:16:33.621507+00:00",
+      "method": "POST public infinite-scroll",
+      "sha256": "1394aeb162ed6efbde737730772d8410181ee38d467a9e6fba83de6b1e36dc36",
+      "contentType": "application/json",
+      "status": 200,
+      "cacheKey": "0477049f5f19e011a3497072dadcee05a243165326e7f4b3c20a0537c2ed1c8b"
+    },
+    {
+      "url": "https://www.profixio.com/app/livewire/update",
+      "retrievedAt": "2026-10-11T04:16:34.268329+00:00",
+      "method": "POST public infinite-scroll",
+      "sha256": "c6b36a70a768ae1bd0bf654a5e3f4486c793d4f161402157f27091bc39e26842",
+      "contentType": "application/json",
+      "status": 200,
+      "cacheKey": "7fcc6d7e87c6ae4d20820bc592ae04fce1b62d405e4290cd6d795b4d13822bc7"
+    },
+    {
+      "url": "https://www.profixio.com/app/livewire/update",
+      "retrievedAt": "2026-10-11T04:16:35.255843+00:00",
+      "method": "POST public infinite-scroll",
+      "sha256": "76fc9ee3ef8085033baa8f00404512c894dea2be095de973ff09e96935c44a03",
+      "contentType": "application/json",
+      "status": 200,
+      "cacheKey": "864039ea73ce7fc7f9865294860bec82e514cccae63550227010fc3e29a39eb1"
+    },
+    {
+      "url": "https://www.profixio.com/app/livewire/update",
+      "retrievedAt": "2026-10-11T04:16:36.609235+00:00",
+      "method": "POST public infinite-scroll",
+      "sha256": "3aeef2bda53c2e3b787ec6194bfc084e9b5be7b261e185e310722740ee066b1d",
+      "contentType": "application/json",
+      "status": 200,
+      "cacheKey": "e361ef8eb33ffcec0a6041406cf02a5aaf06d2edb905b7c35b3af0389c5d43c3"
+    },
+    {
+      "url": "https://www.profixio.com/app/livewire/update",
+      "retrievedAt": "2026-10-11T04:16:37.393239+00:00",
+      "method": "POST public infinite-scroll",
+      "sha256": "e1cd86fd12ade2979a6a1bed3bc576df9016c7fce159aedb74795d1c6a317fdd",
+      "contentType": "application/json",
+      "status": 200,
+      "cacheKey": "1896dd0939f7ea8837e8e96e01c590ffb92e6dca10a7eed3611f469f11c9eac9"
+    },
+    {
+      "url": "https://www.profixio.com/app/livewire/update",
+      "retrievedAt": "2026-10-11T04:16:38.322469+00:00",
+      "method": "POST public infinite-scroll",
+      "sha256": "18bdbd4cbd8c69211ba14e85e0283e50473de600792cc276d5fede0b8e454813",
+      "contentType": "application/json",
+      "status": 200,
+      "cacheKey": "a563921e44db362b1dc891330e69f14f31440d623be55c809c949d6c2ba2481b"
+    },
+    {
+      "url": "https://www.profixio.com/app/lx/match/32336355",
+      "retrievedAt": "2026-10-11T04:16:40.178737+00:00",
+      "method": "GET",
+      "sha256": "7dc7b51747045e2aa7e10546f03e9cdb14741172481560431a1c9321d3a8dc26",
+      "contentType": "text/html; charset=utf-8",
+      "status": 200,
+      "cacheKey": "56b056df1881d9d94c85cd623221a50686533d3233f2802855e67260341bec4c"
+    },
+    {
+      "url": "https://www.profixio.com/app/lx/match/32336350",
+      "retrievedAt": "2026-10-11T04:16:41.143649+00:00",
+      "method": "GET",
+      "sha256": "9c02adff71f73ed1adb02022880449108d62cd3285ed1da3a5822995f2106c78",
+      "contentType": "text/html; charset=utf-8",
+      "status": 200,
+      "cacheKey": "ffd92e25da55786c7601e1b1d5b798656238161cc737a112cf834203cda5da45"
+    },
+    {
+      "url": "https://www.profixio.com/app/lx/match/32336351",
+      "retrievedAt": "2026-10-11T04:16:42.295853+00:00",
+      "method": "GET",
+      "sha256": "88224570b3b99367e6bd9fca35544ff2159a148e77ceba3bdae356fcd1317973",
+      "contentType": "text/html; charset=utf-8",
+      "status": 200,
+      "cacheKey": "a48bd36845d40081097f49b12f72d9ce0a3ec864399ee7ef123db67c3387f9a3"
+    },
+    {
+      "url": "https://www.profixio.com/app/lx/match/32336352",
+      "retrievedAt": "2026-10-11T04:16:43.101298+00:00",
+      "method": "GET",
+      "sha256": "b3a740053b17d04f303b0437b58ff395127525d27a5b6baeed225f22f75535f0",
+      "contentType": "text/html; charset=utf-8",
+      "status": 200,
+      "cacheKey": "323026031f33874795b97ee88ea4791acc9e7954d38836815637d570abb4c76a"
+    },
+    {
+      "url": "https://www.profixio.com/app/lx/match/32336353",
+      "retrievedAt": "2026-10-11T04:16:44.007333+00:00",
+      "method": "GET",
+      "sha256": "2925685140724efc50b113a8c75ce7982baca5d6d3432091c8a169b5ab86a4f6",
+      "contentType": "text/html; charset=utf-8",
+      "status": 200,
+      "cacheKey": "a38cd6cb3cbb98b32cd0f639b3a96a4744dcb7c5731cccdf6532e3a214be42a7"
+    },
+    {
+      "url": "https://www.profixio.com/app/lx/match/32336354",
+      "retrievedAt": "2026-10-11T04:16:45.116530+00:00",
+      "method": "GET",
+      "sha256": "efb03eef2476b5d2e699490b12f4d03f2031ae04da79c1ded9433b8118003e02",
+      "contentType": "text/html; charset=utf-8",
+      "status": 200,
+      "cacheKey": "2225d4b9a6a842e803d76b2f6d9ead55d0fa1b2c1dc24dc1fedfc43b337314e9"
+    },
+    {
+      "url": "https://www.profixio.com/app/lx/match/32336308",
+      "retrievedAt": "2026-10-11T04:16:45.992385+00:00",
+      "method": "GET",
+      "sha256": "fcbadebb2bbb9b14f2926ee8df900aac8f488004285ac935ef5b40dad5c74642",
+      "contentType": "text/html; charset=utf-8",
+      "status": 200,
+      "cacheKey": "62b7651d3fd051d332df27b889c87e1d773d46c90f73f087e890da66856b6639"
+    },
+    {
+      "url": "https://www.profixio.com/app/lx/match/32336305",
+      "retrievedAt": "2026-10-11T04:16:47.013415+00:00",
+      "method": "GET",
+      "sha256": "83d139271dd59a1088202d5420f9b1981d6730160ae048e46540ad6c50b9c156",
+      "contentType": "text/html; charset=utf-8",
+      "status": 200,
+      "cacheKey": "2e7b764a06178ffd08b2a94fcc9ad52e70a8ad6a25b9df6d63b988d5b3fec6fd"
+    },
+    {
+      "url": "https://www.profixio.com/app/lx/match/32336345",
+      "retrievedAt": "2026-10-11T04:16:48.102846+00:00",
+      "method": "GET",
+      "sha256": "23334edb7a3d73c967bd5de1441c57a70e49114f2fb152a0f72a8d1333ddab89",
+      "contentType": "text/html; charset=utf-8",
+      "status": 200,
+      "cacheKey": "5395eeb2f7a9f01917506a6025e7f660fec549ee6a7ab9d7661e64371194e708"
+    },
+    {
+      "url": "https://www.profixio.com/app/lx/match/32336346",
+      "retrievedAt": "2026-10-11T04:16:49.204527+00:00",
+      "method": "GET",
+      "sha256": "5da2bbf76a83857dc7a973d96c4c5ba55c386676b19691801b3880375650525c",
+      "contentType": "text/html; charset=utf-8",
+      "status": 200,
+      "cacheKey": "f48954c7394f2e4c5420e2155240f8e1a30ef325ca94715ae60ac1a51288cbb2"
+    },
+    {
+      "url": "https://www.profixio.com/app/lx/match/32336347",
+      "retrievedAt": "2026-10-11T04:16:50.044570+00:00",
+      "method": "GET",
+      "sha256": "bcfc6094e4649a6fb426fa9f106b6916d55c27fd7eef95023b0d8653badba1b5",
+      "contentType": "text/html; charset=utf-8",
+      "status": 200,
+      "cacheKey": "a7394b528624b69f45562aa42ed473f27f7b25b86bcf2a22bb0163c29deadfa9"
+    },
+    {
+      "url": "https://www.profixio.com/app/lx/match/32336348",
+      "retrievedAt": "2026-10-11T04:16:51.225366+00:00",
+      "method": "GET",
+      "sha256": "a21d7393d3f32741cec1ea687282da21ecad1a30a8b63785f9773d33dcf46c6f",
+      "contentType": "text/html; charset=utf-8",
+      "status": 200,
+      "cacheKey": "3e631c9ed3ce20bd501e574afef0cb3c10f2e39d4dd15c03f2ff1263c8463573"
+    },
+    {
+      "url": "https://www.profixio.com/app/lx/match/32336344",
+      "retrievedAt": "2026-10-11T04:16:52.381289+00:00",
+      "method": "GET",
+      "sha256": "86eebc7dd989c6f3cb6c689b577daf3d331d96798d14f1cd0abf884cf36f134b",
+      "contentType": "text/html; charset=utf-8",
+      "status": 200,
+      "cacheKey": "d906b281a90268c213f36c0940fba5350a4fd5762148e1129c9f673284569f3f"
+    },
+    {
+      "url": "https://www.profixio.com/app/lx/match/32336349",
+      "retrievedAt": "2026-10-11T04:16:53.604647+00:00",
+      "method": "GET",
+      "sha256": "2550f25316c9df2bfc089513a17ec06e6c0efd01a861c50685a14109351642cb",
+      "contentType": "text/html; charset=utf-8",
+      "status": 200,
+      "cacheKey": "4d013e413c841491da1bee567ffc432cb8984fc2c603d2ddbeda37ece2158c15"
+    },
+    {
+      "url": "https://www.profixio.com/app/lx/match/32336339",
+      "retrievedAt": "2026-10-11T04:16:54.479199+00:00",
+      "method": "GET",
+      "sha256": "0a691b1bb82b801d1ef37c47e55bb99c1cd6956e2aae33576283698dffeda681",
+      "contentType": "text/html; charset=utf-8",
+      "status": 200,
+      "cacheKey": "565eb6f826d7aa816fc22b4d022cf8a57df7541ffe9d777eb7aedea8bd184e17"
+    },
+    {
+      "url": "https://www.profixio.com/app/lx/match/32336338",
+      "retrievedAt": "2026-10-11T04:16:55.484890+00:00",
+      "method": "GET",
+      "sha256": "c3285bec9d922419a10de265fd25a58e784a676155adea7f5747da5f25c367e7",
+      "contentType": "text/html; charset=utf-8",
+      "status": 200,
+      "cacheKey": "ba3f7837ffd2ab561178a540f61f3f3da037a349d1ce13ee86adbbf94f7abb0c"
+    },
+    {
+      "url": "https://www.profixio.com/app/lx/match/32336340",
+      "retrievedAt": "2026-10-11T04:16:56.483662+00:00",
+      "method": "GET",
+      "sha256": "925892081fb60d24cc8739eb8ffa6514b44c0ab828170c54fa3ba81901fb7e80",
+      "contentType": "text/html; charset=utf-8",
+      "status": 200,
+      "cacheKey": "6d21be30f96210a160a3bc0755e08dfe549fbfd36e0149f7f70807b651233c2c"
+    },
+    {
+      "url": "https://www.profixio.com/app/lx/match/32336342",
+      "retrievedAt": "2026-10-11T04:16:57.727611+00:00",
+      "method": "GET",
+      "sha256": "40a7b76559a2e26c0c22e701dbf57bcdbf8d305bc32953e5683cce023b33937e",
+      "contentType": "text/html; charset=utf-8",
+      "status": 200,
+      "cacheKey": "b12c8abefa5090986d5f5f172c2696bed1907c7dc2879940855e681ca6414ea9"
+    },
+    {
+      "url": "https://www.profixio.com/app/lx/match/32336341",
+      "retrievedAt": "2026-10-11T04:16:59.124041+00:00",
+      "method": "GET",
+      "sha256": "88f3d8d10a30b451692c5a85a4bfce00436707326ca7da8b7d731cab4d9e840e",
+      "contentType": "text/html; charset=utf-8",
+      "status": 200,
+      "cacheKey": "8283b50c1022738dbc076238b80528e6154a6f8222ad2431d39e009b6dc932ff"
+    },
+    {
+      "url": "https://www.profixio.com/app/lx/match/32336343",
+      "retrievedAt": "2026-10-11T04:17:00.744220+00:00",
+      "method": "GET",
+      "sha256": "c0bbac92f7dffb4706a24fc9d74089295b4bfb0ecfa08c5724572516ea21e01c",
+      "contentType": "text/html; charset=utf-8",
+      "status": 200,
+      "cacheKey": "c61cfce5d100728113c37cad129612382cf28f4370f0848257385a058cac91c9"
+    },
+    {
+      "url": "https://www.profixio.com/app/lx/match/32336332",
+      "retrievedAt": "2026-10-11T04:17:01.776797+00:00",
+      "method": "GET",
+      "sha256": "345c5ef88c1ca78b6cfaf24ff8edbf00964fb6961f6a75150fe232d0dc88dbff",
+      "contentType": "text/html; charset=utf-8",
+      "status": 200,
+      "cacheKey": "6d2b5d21b2153acae161ecca819450ddacf15651006d3b31cfe8351fed60b88f"
+    },
+    {
+      "url": "https://www.profixio.com/app/lx/match/32336334",
+      "retrievedAt": "2026-10-11T04:17:03.043594+00:00",
+      "method": "GET",
+      "sha256": "73bb5fdcf0ece65740de658f489b42d3b10788e1aac4783346e5d71e87bec9e8",
+      "contentType": "text/html; charset=utf-8",
+      "status": 200,
+      "cacheKey": "22a032850eb38cf18784106b38e795b28e51ec16557c210761c39a84a10ece24"
+    },
+    {
+      "url": "https://www.profixio.com/app/lx/match/32336333",
+      "retrievedAt": "2026-10-11T04:17:03.937277+00:00",
+      "method": "GET",
+      "sha256": "7bc342fc14bddd5f53ba41a9ddd4777a8a66a16de7b49b7b6cb7818e986019db",
+      "contentType": "text/html; charset=utf-8",
+      "status": 200,
+      "cacheKey": "5483883413b55c4ae70acac82e5e21b1c06625c7f08852485de0176ed7d11861"
+    },
+    {
+      "url": "https://www.profixio.com/app/lx/match/32336335",
+      "retrievedAt": "2026-10-11T04:17:05.164528+00:00",
+      "method": "GET",
+      "sha256": "d74283ecd7b8e5b76ebf4c3824bab469ebaed72ec62442753d4b893c1a8198a9",
+      "contentType": "text/html; charset=utf-8",
+      "status": 200,
+      "cacheKey": "afe0d84382d14fdb2fbf3a04866afcb9c468fd88a0a48328c10db560907dafde"
+    },
+    {
+      "url": "https://www.profixio.com/app/lx/match/32336337",
+      "retrievedAt": "2026-10-11T04:17:05.926229+00:00",
+      "method": "GET",
+      "sha256": "49732370299d283de0fd591b33492534abbbcc04c35bb44d93937c4ef218970e",
+      "contentType": "text/html; charset=utf-8",
+      "status": 200,
+      "cacheKey": "ae444dd17a306c8cb313f951e6abe6e8207a5c4fd1394c9733529a7e4af1609b"
+    },
+    {
+      "url": "https://www.profixio.com/app/lx/match/32336336",
+      "retrievedAt": "2026-10-11T04:17:06.879617+00:00",
+      "method": "GET",
+      "sha256": "99f976ea7ad05f5b6ab5cb29afa8c49eae1d5b60a4c3fca7a7a4d3c97a0ee30d",
+      "contentType": "text/html; charset=utf-8",
+      "status": 200,
+      "cacheKey": "3c00d3a6925c8b93db7297ec9397086f91b61778ded3f51dd1e8ee0b5c0d193a"
+    },
+    {
+      "url": "https://www.profixio.com/app/lx/match/32336330",
+      "retrievedAt": "2026-10-11T04:17:07.897222+00:00",
+      "method": "GET",
+      "sha256": "90682c090562d950c69427fd2c334ed248cc1141aaf0f3c61f73c72487092493",
+      "contentType": "text/html; charset=utf-8",
+      "status": 200,
+      "cacheKey": "b8f04f2162cff785b601cd59b759b64f2f995896ee5c5ffe801ceae1108817cc"
+    },
+    {
+      "url": "https://www.profixio.com/app/lx/match/32336329",
+      "retrievedAt": "2026-10-11T04:17:09.052691+00:00",
+      "method": "GET",
+      "sha256": "4b70a054c46b88b8563d107875b557059e6172d26768df2a88a2fccdf170e8cf",
+      "contentType": "text/html; charset=utf-8",
+      "status": 200,
+      "cacheKey": "4fc8b50d6d840772273f754298b37d59bd9dd075670b3235e2064b07ac4381c9"
+    },
+    {
+      "url": "https://www.profixio.com/app/lx/match/32336328",
+      "retrievedAt": "2026-10-11T04:17:10.074512+00:00",
+      "method": "GET",
+      "sha256": "aa47153752f4dc0199d0ca3981a80c7f61cfad33631e3e1b585b13d656997d13",
+      "contentType": "text/html; charset=utf-8",
+      "status": 200,
+      "cacheKey": "5c67c9b3c016360a498f90b58989c0872550796199c87050117a227409697821"
+    },
+    {
+      "url": "https://www.profixio.com/app/lx/match/32336326",
+      "retrievedAt": "2026-10-11T04:17:11.079045+00:00",
+      "method": "GET",
+      "sha256": "f07bedccd205e85957b1d9ebfd82bc412cda334df7d088a57be6289007b16921",
+      "contentType": "text/html; charset=utf-8",
+      "status": 200,
+      "cacheKey": "ae353a0df65851bfc82ee0482721ef49c582e732f8a7e22e7ebfb07184c29a7e"
+    },
+    {
+      "url": "https://www.profixio.com/app/lx/match/32336331",
+      "retrievedAt": "2026-10-11T04:17:12.051780+00:00",
+      "method": "GET",
+      "sha256": "ddb3dbdb2ef0bb786609500c4e1e320fbf521563dc681390e120424c8fb7ecb8",
+      "contentType": "text/html; charset=utf-8",
+      "status": 200,
+      "cacheKey": "299aa29f84c46364237e37cd74860534784ab859163a3c2566d6130af34b5bfe"
+    },
+    {
+      "url": "https://www.profixio.com/app/lx/match/32336327",
+      "retrievedAt": "2026-10-11T04:17:12.824429+00:00",
+      "method": "GET",
+      "sha256": "e8caf7f5796029a64c145b8eb6e7b28b5ff2a5c22647a3ed2249bded358891eb",
+      "contentType": "text/html; charset=utf-8",
+      "status": 200,
+      "cacheKey": "efa32e4138e2df3432f274f6db9620656067a7d9aa941e71598fa5237f176464"
+    },
+    {
+      "url": "https://www.profixio.com/app/lx/match/32336321",
+      "retrievedAt": "2026-10-11T04:17:13.844911+00:00",
+      "method": "GET",
+      "sha256": "014e1334031abbe11c8eaa7b55cd7343563574204f3b6745037a2119176d9719",
+      "contentType": "text/html; charset=utf-8",
+      "status": 200,
+      "cacheKey": "aad81994017f77cea71774ae98e83cb4d0148092d35550e71820ffe1edd36458"
+    },
+    {
+      "url": "https://www.profixio.com/app/lx/match/32336322",
+      "retrievedAt": "2026-10-11T04:17:14.930052+00:00",
+      "method": "GET",
+      "sha256": "485ee9cac5d35b66a5bc5045793a6c94110e5d372dc7494830123c682011c27d",
+      "contentType": "text/html; charset=utf-8",
+      "status": 200,
+      "cacheKey": "ccccd468e811e9877b66d0d8912b5106215619895367f57cce1178aaee494fb1"
+    },
+    {
+      "url": "https://www.profixio.com/app/lx/match/32336325",
+      "retrievedAt": "2026-10-11T04:17:15.873322+00:00",
+      "method": "GET",
+      "sha256": "dbe48c4180d2116892c247eb810cf023c0e0cbe9ca9e1171d9bd285b65f238d3",
+      "contentType": "text/html; charset=utf-8",
+      "status": 200,
+      "cacheKey": "9e70b111eb5b33475a61b41895f8017a25c28126ec3f80d621f32acadb337286"
+    },
+    {
+      "url": "https://www.profixio.com/app/lx/match/32336320",
+      "retrievedAt": "2026-10-11T04:17:17.230182+00:00",
+      "method": "GET",
+      "sha256": "7bdb4f9c2ebe8d981326b5cefe253aac6861f8fe3f188c12b256224c79177f7c",
+      "contentType": "text/html; charset=utf-8",
+      "status": 200,
+      "cacheKey": "97a481353215938101e42d2ecb809e85c26a41ec204a707fccf65d4691defd17"
+    },
+    {
+      "url": "https://www.profixio.com/app/lx/match/32336324",
+      "retrievedAt": "2026-10-11T04:17:18.272424+00:00",
+      "method": "GET",
+      "sha256": "74bb6a5609b2653847e7e636ba2e9f1fba8c90678250115342fe4e4b3a3f46dc",
+      "contentType": "text/html; charset=utf-8",
+      "status": 200,
+      "cacheKey": "9acc7a07017fe805d90c5e52420127f82e8f890934c5ad944c80820f8a5e0e2c"
+    },
+    {
+      "url": "https://www.profixio.com/app/lx/match/32336323",
+      "retrievedAt": "2026-10-11T04:17:20.146270+00:00",
+      "method": "GET",
+      "sha256": "a846f5a455cd068b037a3b814958adb3fb68e5b53db8dd53aaab45b639be8585",
+      "contentType": "text/html; charset=utf-8",
+      "status": 200,
+      "cacheKey": "e3b21a2c0d51c4c9861f4201aa324bea315eefcea81c2ad2566a8a7ccbe677b2"
+    },
+    {
+      "url": "https://www.profixio.com/app/lx/match/32336315",
+      "retrievedAt": "2026-10-11T04:17:20.924506+00:00",
+      "method": "GET",
+      "sha256": "27f31cf17ac482b16ea869348d42af848bdb5af33df0dec3dbc6f357228425ce",
+      "contentType": "text/html; charset=utf-8",
+      "status": 200,
+      "cacheKey": "3b3aa7c0929ea2788ad60cbb340b8cc5c026307e33bc8443cc824e8897747bc4"
+    },
+    {
+      "url": "https://www.profixio.com/app/lx/match/32336316",
+      "retrievedAt": "2026-10-11T04:17:21.885380+00:00",
+      "method": "GET",
+      "sha256": "d51d14069cb80f26d6e44fd8d125b0bdf4c77d0f43e93648844ee4224cfb9ff4",
+      "contentType": "text/html; charset=utf-8",
+      "status": 200,
+      "cacheKey": "47b0befcbc1ea8218750df5dbcdf67bfd47869f8f0a2ce38820a41ef7cd1ded3"
+    },
+    {
+      "url": "https://www.profixio.com/app/lx/match/32336319",
+      "retrievedAt": "2026-10-11T04:17:23.037043+00:00",
+      "method": "GET",
+      "sha256": "928f04ae1577f2618cc69f74dc51a16a5c3be0204e7b56384113f89576df36c9",
+      "contentType": "text/html; charset=utf-8",
+      "status": 200,
+      "cacheKey": "17fe305596e57f9d62b5c66bc8dd60f218270993745569ace30350e2b5a71e10"
+    },
+    {
+      "url": "https://www.profixio.com/app/lx/match/32336314",
+      "retrievedAt": "2026-10-11T04:17:23.952746+00:00",
+      "method": "GET",
+      "sha256": "ce6d888e76f8e6fea6407dfa3d8398c63005a8eccc5882b8125844ad9b6ab9b1",
+      "contentType": "text/html; charset=utf-8",
+      "status": 200,
+      "cacheKey": "d815a403bd276407f46dfe9bb33cc49fba45fd3a189f35e553387deaf6dc039e"
+    },
+    {
+      "url": "https://www.profixio.com/app/lx/match/32336318",
+      "retrievedAt": "2026-10-11T04:17:25.131395+00:00",
+      "method": "GET",
+      "sha256": "3c355eb19e9f4571dc108f22991bb402130991b3acf32df29b5681df1dfdb962",
+      "contentType": "text/html; charset=utf-8",
+      "status": 200,
+      "cacheKey": "30bd1ddc170ec4b2dbeadda543c550c5e711050af9d84f4406b27179bb13b24d"
+    },
+    {
+      "url": "https://www.profixio.com/app/lx/match/32336317",
+      "retrievedAt": "2026-10-11T04:17:26.217637+00:00",
+      "method": "GET",
+      "sha256": "8489b0bd89807c4823c1bba6165f7e072c7e34d4af0ede6ddec17e9dea41a8a7",
+      "contentType": "text/html; charset=utf-8",
+      "status": 200,
+      "cacheKey": "dd868e19a6bc8e06f7e2ebca34ebe77e5fb668af8d6f7d398663737d5e4bdb2f"
+    },
+    {
+      "url": "https://www.profixio.com/app/lx/match/32336309",
+      "retrievedAt": "2026-10-11T04:17:26.967486+00:00",
+      "method": "GET",
+      "sha256": "a34807e46471896d8d462fc68a0b37ddf69705bc55c90cbdb02085a554e162ee",
+      "contentType": "text/html; charset=utf-8",
+      "status": 200,
+      "cacheKey": "4f8dbeaaa6dfb4f2bcf17e474c79a873b5d3e4fd0168eadead11a27fe0c107bf"
+    },
+    {
+      "url": "https://www.profixio.com/app/lx/match/32336310",
+      "retrievedAt": "2026-10-11T04:17:28.498021+00:00",
+      "method": "GET",
+      "sha256": "6ed90ce7dd9314ced5ab2ed288579b11cb6de3ea692c6f2c8625b3f69cc3f3fc",
+      "contentType": "text/html; charset=utf-8",
+      "status": 200,
+      "cacheKey": "64df75d7517e3d0189f50d760b235d9f9fe320e866be57d87df2205fc89f70ad"
+    },
+    {
+      "url": "https://www.profixio.com/app/lx/match/32336311",
+      "retrievedAt": "2026-10-11T04:17:29.678882+00:00",
+      "method": "GET",
+      "sha256": "48c244e53a0e7b1844f0914f5f0d8d80b69edd759cd19f6170a9a5043ac0ebb3",
+      "contentType": "text/html; charset=utf-8",
+      "status": 200,
+      "cacheKey": "c35e847ed4aa1c9fce01b499aeed18d71cbb53acf35e3110058166d0f26c79fb"
+    },
+    {
+      "url": "https://www.profixio.com/app/lx/match/32336312",
+      "retrievedAt": "2026-10-11T04:17:30.338658+00:00",
+      "method": "GET",
+      "sha256": "517e6b620b58dfde2ddb40a7d86884e6ed3a8de7da0f7a82e903a5d6b49c5386",
+      "contentType": "text/html; charset=utf-8",
+      "status": 200,
+      "cacheKey": "3d2b46333ecd3cf55d37c4e1c891b35bbff85eae8f49d792dbcc8fa3bafb1a5a"
+    },
+    {
+      "url": "https://www.profixio.com/app/lx/match/32336313",
+      "retrievedAt": "2026-10-11T04:17:31.623034+00:00",
+      "method": "GET",
+      "sha256": "87871064cfc6b3183746c7054626520b672f2aeff8a4334a76727d546c181df2",
+      "contentType": "text/html; charset=utf-8",
+      "status": 200,
+      "cacheKey": "8b0a6f96b0d58a1ff097e48bc380a9755207ff4c6fb900bad59923d597393591"
+    },
+    {
+      "url": "https://www.profixio.com/app/lx/match/32336304",
+      "retrievedAt": "2026-10-11T04:17:32.739726+00:00",
+      "method": "GET",
+      "sha256": "029b32348a55c406b2ad6ac212667f75644c6c871428f10f33039c0ac4ae7af3",
+      "contentType": "text/html; charset=utf-8",
+      "status": 200,
+      "cacheKey": "4b9f9dc04c33f1b2ba9ac73de32ac278c534533bfc8ec7747edf5b8f894ce390"
+    },
+    {
+      "url": "https://www.profixio.com/app/lx/match/32336307",
+      "retrievedAt": "2026-10-11T04:17:33.797346+00:00",
+      "method": "GET",
+      "sha256": "6b272d6b22c09b98ef4c1aa69f4d5aa64818352e81957eedca07849773c602a8",
+      "contentType": "text/html; charset=utf-8",
+      "status": 200,
+      "cacheKey": "ff91df8b4e1937bee260d42806cdafcba09fae4626871f5d3e982e0d29ec72d4"
+    },
+    {
+      "url": "https://www.profixio.com/app/lx/match/32336306",
+      "retrievedAt": "2026-10-11T04:17:34.601468+00:00",
+      "method": "GET",
+      "sha256": "047ee00f23ef6168fb29ec5fbfeac45f1d031236bccf9ddc061d96279c7ecfbd",
+      "contentType": "text/html; charset=utf-8",
+      "status": 200,
+      "cacheKey": "c64cc8848203ecb0ff2f28ba1a4ab3876c601e791fa3b2f4476e0d7c50932153"
+    },
+    {
+      "url": "https://www.profixio.com/app/lx/match/32336302",
+      "retrievedAt": "2026-10-11T04:17:35.472097+00:00",
+      "method": "GET",
+      "sha256": "adbda28628f9e6c118a00c88e780ae9fdb2fd06cf2e1258ed8edca5bca840dca",
+      "contentType": "text/html; charset=utf-8",
+      "status": 200,
+      "cacheKey": "600746dc8914bc398aa0a2bcad246459d5a44f146f42f9b0d578522deae6d6f2"
+    },
+    {
+      "url": "https://www.profixio.com/app/lx/match/32336303",
+      "retrievedAt": "2026-10-11T04:17:36.478537+00:00",
+      "method": "GET",
+      "sha256": "c4b57f1d68c891d0a9d65d6f89618c5c8ccb84fd5f43dfbf9fc8fef5f85b78d2",
+      "contentType": "text/html; charset=utf-8",
+      "status": 200,
+      "cacheKey": "1b18710d48cf177d9d1e3b9d15ababfe79f1446b68ecf756c8dd42242e8b3fe1"
+    },
+    {
+      "url": "https://www.profixio.com/app/lx/match/32336290",
+      "retrievedAt": "2026-10-11T04:17:37.609581+00:00",
+      "method": "GET",
+      "sha256": "bcade5414e03f9a65688372b4f314f86f98a1c3708374bedeb67f4a06e13079a",
+      "contentType": "text/html; charset=utf-8",
+      "status": 200,
+      "cacheKey": "e65cd931598771f573fbac1a3b420e84bf280650bb52a24f0d37164a9844f8f6"
+    },
+    {
+      "url": "https://www.profixio.com/app/lx/match/32336294",
+      "retrievedAt": "2026-10-11T04:17:38.415198+00:00",
+      "method": "GET",
+      "sha256": "467fe1f3f7a4dd51c08f7d6f2dbd7981adbc43d77029f5fca06e7f2b13f7590d",
+      "contentType": "text/html; charset=utf-8",
+      "status": 200,
+      "cacheKey": "e7febc97a93935e1732e48ab4f67a63bfc58896cc9676dd77b982e584280bbec"
+    },
+    {
+      "url": "https://www.profixio.com/app/lx/match/32336297",
+      "retrievedAt": "2026-10-11T04:17:39.684384+00:00",
+      "method": "GET",
+      "sha256": "a2689de7b5e2f1124ebd5cf7eceef2c8a47e4c42f20c8bd5424bd27b4cef6ba1",
+      "contentType": "text/html; charset=utf-8",
+      "status": 200,
+      "cacheKey": "56ac66a100a978bb4bb5cdac54c1e49b6e49e2f92200cafb32416341e2fcc2d4"
+    },
+    {
+      "url": "https://www.profixio.com/app/lx/match/32336298",
+      "retrievedAt": "2026-10-11T04:17:40.547981+00:00",
+      "method": "GET",
+      "sha256": "8e7437b5006b249fd39d14ef949e119a715cca3fd7da181ac4ca99b0652ae7d2",
+      "contentType": "text/html; charset=utf-8",
+      "status": 200,
+      "cacheKey": "e323cb211429c5e90022fe0113766cdc4775369f8a60b185e0b22d1e404edf3b"
+    },
+    {
+      "url": "https://www.profixio.com/app/lx/match/32336300",
+      "retrievedAt": "2026-10-11T04:17:41.657684+00:00",
+      "method": "GET",
+      "sha256": "46f21257612ced89152cb56120f06d271dded175e17487b6dc799945739bf851",
+      "contentType": "text/html; charset=utf-8",
+      "status": 200,
+      "cacheKey": "dccd659a5109bc2a256df1befdeefa41acd1465a3c3c36f6243230b40092a8d7"
+    },
+    {
+      "url": "https://www.profixio.com/app/lx/match/32336296",
+      "retrievedAt": "2026-10-11T04:17:42.433754+00:00",
+      "method": "GET",
+      "sha256": "c93b95630f2dc7ff0df5ecaa042dd4721db6658afef511916c7487dff6375331",
+      "contentType": "text/html; charset=utf-8",
+      "status": 200,
+      "cacheKey": "76d089f3f8335546066962915f9af57f62a00a60fb6ac0da562689e2cfe5d0a8"
+    },
+    {
+      "url": "https://www.profixio.com/app/lx/match/32336299",
+      "retrievedAt": "2026-10-11T04:17:43.758433+00:00",
+      "method": "GET",
+      "sha256": "f9a26307e434207fae003796cd2f93add6b5f36c3a4d24c2ed87fdd261169054",
+      "contentType": "text/html; charset=utf-8",
+      "status": 200,
+      "cacheKey": "595fa457c0721aae40a0d3e27f8d88d5996c10eb7769bad3feed9bbb7e884308"
+    },
+    {
+      "url": "https://www.profixio.com/app/lx/match/32336301",
+      "retrievedAt": "2026-10-11T04:17:45.625952+00:00",
+      "method": "GET",
+      "sha256": "f85b24c9c6e4788cd0846cfca36467ee6049a987d4fb269fe11bd6cc63b284a6",
+      "contentType": "text/html; charset=utf-8",
+      "status": 200,
+      "cacheKey": "34ab9fc55a40c2eda6317d75db353226e40ee285e5048e854f3686cc30535526"
+    },
+    {
+      "url": "https://www.profixio.com/app/lx/match/32336292",
+      "retrievedAt": "2026-10-11T04:17:47.253662+00:00",
+      "method": "GET",
+      "sha256": "ece3cf955d04ac756dee074598f85a674f51706a0134ffe4eb06c180e407dd69",
+      "contentType": "text/html; charset=utf-8",
+      "status": 200,
+      "cacheKey": "38955ac6cfd910b2f08701a0fbe3fad06221d77f70e15ccbbb9546e9f34a99a9"
+    },
+    {
+      "url": "https://www.profixio.com/app/lx/match/32336291",
+      "retrievedAt": "2026-10-11T04:17:48.089833+00:00",
+      "method": "GET",
+      "sha256": "aebbab83890deaa2c26f74f256a245741456c2c5d8c50cd4fde835b9b9c7a009",
+      "contentType": "text/html; charset=utf-8",
+      "status": 200,
+      "cacheKey": "b8f0f032ba22d3e94bb9114eacedcdc7ae5098349958c0f36183e7b668b5eba4"
+    },
+    {
+      "url": "https://www.profixio.com/app/lx/match/32336293",
+      "retrievedAt": "2026-10-11T04:17:49.005900+00:00",
+      "method": "GET",
+      "sha256": "76205f1a6224eb46325812430b184034aa6a02c28ce6ea657801897af7a85b6b",
+      "contentType": "text/html; charset=utf-8",
+      "status": 200,
+      "cacheKey": "5e6f6291862944543fd18167b5ef03d270663366bbe488961186cf64bfd9ac37"
+    },
+    {
+      "url": "https://www.profixio.com/app/lx/match/32336295",
+      "retrievedAt": "2026-10-11T04:17:50.170177+00:00",
+      "method": "GET",
+      "sha256": "3889a7ca345954668fefbccd5190f452ab6a343f88e45b87fbf5621e3ad2faaa",
+      "contentType": "text/html; charset=utf-8",
+      "status": 200,
+      "cacheKey": "54fd8d58ad892f79bb59720148657045e80b9d6b7363299b369f3a66016c76f7"
+    },
+    {
+      "url": "https://www.profixio.com/app/lx/match/32336288",
+      "retrievedAt": "2026-10-11T04:17:51.153239+00:00",
+      "method": "GET",
+      "sha256": "74daef6558eed62045af9c09f0843971559f9174b6cd0927e67c13e1b5e61aff",
+      "contentType": "text/html; charset=utf-8",
+      "status": 200,
+      "cacheKey": "de50cd82ad77b265fca81ab54d5fcc67f6e3ac684dfd743046503fe35c376504"
+    },
+    {
+      "url": "https://www.profixio.com/app/lx/match/32336287",
+      "retrievedAt": "2026-10-11T04:17:52.108003+00:00",
+      "method": "GET",
+      "sha256": "f1d3712888415c9909e758d55570ebbed5843990e63afae5b3f68c1f2c348da4",
+      "contentType": "text/html; charset=utf-8",
+      "status": 200,
+      "cacheKey": "9ecc83be18795463b7d4362af771ccbf1043d0aa2424c6a82733decd1c7e2287"
+    },
+    {
+      "url": "https://www.profixio.com/app/lx/match/32336284",
+      "retrievedAt": "2026-10-11T04:17:53.129809+00:00",
+      "method": "GET",
+      "sha256": "874bbeacdb289e400c0ddc2acde6fd37ee6af76547ae3c2a4849086a2184bc63",
+      "contentType": "text/html; charset=utf-8",
+      "status": 200,
+      "cacheKey": "1a397ccb1b0932cc047a2fdb8245adb4f31cf4b4649c7dc3100b369623d10682"
+    },
+    {
+      "url": "https://www.profixio.com/app/lx/match/32336286",
+      "retrievedAt": "2026-10-11T04:17:54.215530+00:00",
+      "method": "GET",
+      "sha256": "efb833cae3a8f148ebe62e1ebfd949be6e7c39073a16ae6a2b7e69bf13ab7a60",
+      "contentType": "text/html; charset=utf-8",
+      "status": 200,
+      "cacheKey": "a22ff7a969ae1604266530e55628c8f8fbe56a092a2e5345a2aa3b1949eb7505"
+    },
+    {
+      "url": "https://www.profixio.com/app/lx/match/32336289",
+      "retrievedAt": "2026-10-11T04:17:55.327477+00:00",
+      "method": "GET",
+      "sha256": "3b368419446e4375865a8bf2255c654fa3da84668a2c8e45e5158bec5c50dd8a",
+      "contentType": "text/html; charset=utf-8",
+      "status": 200,
+      "cacheKey": "d16caec0f73796396f282fcd1f10c86f3c8d1cc39ed7cc9387eb5648e0650998"
+    },
+    {
+      "url": "https://www.profixio.com/app/lx/match/32336285",
+      "retrievedAt": "2026-10-11T04:17:56.049958+00:00",
+      "method": "GET",
+      "sha256": "f7b6e83710182f803d651699d9caa4acf09808154927cf853c33a4367e9a62ab",
+      "contentType": "text/html; charset=utf-8",
+      "status": 200,
+      "cacheKey": "c17f3ef7b93156233b1ed41af9e977ef4ad283e3b58f443f885945560461756e"
+    },
+    {
+      "url": "https://www.profixio.com/app/lx/match/32336278",
+      "retrievedAt": "2026-10-11T04:17:57.231427+00:00",
+      "method": "GET",
+      "sha256": "97d3395ff74c4cf08eed857c1579fa9fb2f3d5dd9e57b4933be6c91eca41f69a",
+      "contentType": "text/html; charset=utf-8",
+      "status": 200,
+      "cacheKey": "55ce9a04f5a2d6819487557dc0df70fbc501fbd6c47e68ac57aff1ce1a7190e2"
+    },
+    {
+      "url": "https://www.profixio.com/app/lx/match/32336283",
+      "retrievedAt": "2026-10-11T04:17:58.344352+00:00",
+      "method": "GET",
+      "sha256": "138f094dd210ae3a4fc2fa46d71693a1a17cbbb7d58b0ca3c3e63e51bbfed338",
+      "contentType": "text/html; charset=utf-8",
+      "status": 200,
+      "cacheKey": "9f176eff11f68eb541d6c50cb113527ab7585b25cb57e987882b39ea2dfd1c09"
+    },
+    {
+      "url": "https://www.profixio.com/app/lx/match/32336280",
+      "retrievedAt": "2026-10-11T04:17:59.219826+00:00",
+      "method": "GET",
+      "sha256": "32feff1bea7a2a25a4c64249defd017aec3c7fc439b28f34bea676f273a06de9",
+      "contentType": "text/html; charset=utf-8",
+      "status": 200,
+      "cacheKey": "7ed25392c616a126fa77f3e9dd4232d22c5a929e97fc5ea556e2a5211d710c41"
+    },
+    {
+      "url": "https://www.profixio.com/app/lx/match/32336281",
+      "retrievedAt": "2026-10-11T04:18:00.035400+00:00",
+      "method": "GET",
+      "sha256": "ddb8651ed506ba5cc6b9d4a774fbea3bf976ca5dd453aa33f6b12733f8e095e3",
+      "contentType": "text/html; charset=utf-8",
+      "status": 200,
+      "cacheKey": "d5699efdf395933d9a17efe55f8c57f14199e78b4ba42d2c315a5e382c0705d6"
+    },
+    {
+      "url": "https://www.profixio.com/app/lx/match/32336279",
+      "retrievedAt": "2026-10-11T04:18:01.493016+00:00",
+      "method": "GET",
+      "sha256": "fd037eccd2921fd07905e0a31a170637b0db1c5233bf454804772581925786ff",
+      "contentType": "text/html; charset=utf-8",
+      "status": 200,
+      "cacheKey": "24d663af88f5cd641572b95ce5f4c2efda6b470ba330aa702c84c85f0b9b5474"
+    },
+    {
+      "url": "https://www.profixio.com/app/lx/match/32336282",
+      "retrievedAt": "2026-10-11T04:18:02.720822+00:00",
+      "method": "GET",
+      "sha256": "6db1f8f731e639a6e271c889e0a50287ff2d0dd66d810a5d9875c9861539f5e6",
+      "contentType": "text/html; charset=utf-8",
+      "status": 200,
+      "cacheKey": "3ea536d4609f7b693ee9cfb500b64beb1708b10c718f8adc66435925fd0caf53"
+    },
+    {
+      "url": "https://www.profixio.com/app/lx/match/32336276",
+      "retrievedAt": "2026-10-11T04:18:03.630047+00:00",
+      "method": "GET",
+      "sha256": "f2a300e6e9a122587c0f15633d0ee63dcc546a321b3eecfa7182dc935364823c",
+      "contentType": "text/html; charset=utf-8",
+      "status": 200,
+      "cacheKey": "28a77d85b33ae20d14ef85904f56c41ad78622d3e7467918584e281d86dfb7b9"
+    },
+    {
+      "url": "https://www.profixio.com/app/lx/match/32336272",
+      "retrievedAt": "2026-10-11T04:18:05.007125+00:00",
+      "method": "GET",
+      "sha256": "d150918a6165bd77562e6f04bf199ab3d4ba67b3af2ae2cffb1993578fb2dfec",
+      "contentType": "text/html; charset=utf-8",
+      "status": 200,
+      "cacheKey": "814c655000e35f96087d2f187c3109be4786e150246b34f3337c4e35d8560f2c"
+    },
+    {
+      "url": "https://www.profixio.com/app/lx/match/32336274",
+      "retrievedAt": "2026-10-11T04:18:05.785925+00:00",
+      "method": "GET",
+      "sha256": "c397e25297fd40701229260c302ebac621ea9e8f24894e5176c2d2af77449e83",
+      "contentType": "text/html; charset=utf-8",
+      "status": 200,
+      "cacheKey": "3a5d31e721d48ee06085779c4cc0f3adb938d63f66df6d0f3f10d1e4e9c7b48c"
+    },
+    {
+      "url": "https://www.profixio.com/app/lx/match/32336275",
+      "retrievedAt": "2026-10-11T04:18:07.129779+00:00",
+      "method": "GET",
+      "sha256": "e6f607e363b2f6c58ea6cc9f3ea0339d23aecba8b1f5a49078badc63a174d433",
+      "contentType": "text/html; charset=utf-8",
+      "status": 200,
+      "cacheKey": "768ba915fd9c24369084fb881da11cf4092850baf96f8a6f9fb15f79886b98c4"
+    },
+    {
+      "url": "https://www.profixio.com/app/lx/match/32336277",
+      "retrievedAt": "2026-10-11T04:18:07.854275+00:00",
+      "method": "GET",
+      "sha256": "576a9357c39f0be6f09e582243de56b2c47383ee68dbf75e4e1e5c78e018d3d3",
+      "contentType": "text/html; charset=utf-8",
+      "status": 200,
+      "cacheKey": "614892e7ddcbf02ac422efdf248b077cc9ec50c4fda2ee3ab1b1658a2ea6bcae"
+    },
+    {
+      "url": "https://www.profixio.com/app/lx/match/32336273",
+      "retrievedAt": "2026-10-11T04:18:09.122491+00:00",
+      "method": "GET",
+      "sha256": "ee33ae4206c57640615545537edd0785875bc8a7a33cfb02282233e5762ed503",
+      "contentType": "text/html; charset=utf-8",
+      "status": 200,
+      "cacheKey": "c5fa2cdf2ea235ccc09535ef8907a27b73479a531396a4ae52cf3ec3c47a780b"
+    },
+    {
+      "url": "https://www.profixio.com/app/lx/match/32336271",
+      "retrievedAt": "2026-10-11T04:18:10.550928+00:00",
+      "method": "GET",
+      "sha256": "335d788be6e8ed131dab038cc4f056e66238d9df911280cffb9357f2e39bfbcd",
+      "contentType": "text/html; charset=utf-8",
+      "status": 200,
+      "cacheKey": "345df029d7fac2a799c4634781cde7d59599ba94c58af415c46ef0a642fb9bb7"
+    },
+    {
+      "url": "https://www.profixio.com/app/lx/match/32336268",
+      "retrievedAt": "2026-10-11T04:18:11.224850+00:00",
+      "method": "GET",
+      "sha256": "77d11d0999d227c1bb9127f43a20ef90484f98718dad573d00512ea76f35bdff",
+      "contentType": "text/html; charset=utf-8",
+      "status": 200,
+      "cacheKey": "93cd8ccd8d7ea0b2f24d159e70a2d1e8c0044a67b66fa38546d260088ff8953e"
+    },
+    {
+      "url": "https://www.profixio.com/app/lx/match/32336266",
+      "retrievedAt": "2026-10-11T04:18:12.249853+00:00",
+      "method": "GET",
+      "sha256": "56607c3b8e43ff8a44bdae87b1bc8292789e02b21aaa3f8842c575f51b460339",
+      "contentType": "text/html; charset=utf-8",
+      "status": 200,
+      "cacheKey": "df16b161763923d3fa750b5de467ebe526d3e488cb6d62cd1bc0bab2eedd66f9"
+    },
+    {
+      "url": "https://www.profixio.com/app/lx/match/32336267",
+      "retrievedAt": "2026-10-11T04:18:13.310028+00:00",
+      "method": "GET",
+      "sha256": "c6e7ac5f8af4831ea7059d20ba24485d8b2e3b370103a6bb09d648ff55de22c9",
+      "contentType": "text/html; charset=utf-8",
+      "status": 200,
+      "cacheKey": "ae35b1bf3b4906468bd2868cfea9310e5bfc9088bff534a84defab91eaabd373"
+    },
+    {
+      "url": "https://www.profixio.com/app/lx/match/32336269",
+      "retrievedAt": "2026-10-11T04:18:14.465633+00:00",
+      "method": "GET",
+      "sha256": "d3dc9b1fe13be76c84b411f6a1b86ceba4b8a43ab9bc6ba8a577911bbedaa91a",
+      "contentType": "text/html; charset=utf-8",
+      "status": 200,
+      "cacheKey": "e39e72ffee6b22f2506434cbd72074fbd0392950ce7172a95c9c25128ec2b2a0"
+    },
+    {
+      "url": "https://www.profixio.com/app/lx/match/32336270",
+      "retrievedAt": "2026-10-11T04:18:15.478023+00:00",
+      "method": "GET",
+      "sha256": "312f76bf8da6eac9583cc9d45377a2303d5666b67a8e4210b0d485a4d6ca5e42",
+      "contentType": "text/html; charset=utf-8",
+      "status": 200,
+      "cacheKey": "1128fe40cbad104ce3a84e6db411dbe19638d4d0fbf1387c9e54602d520ee9ed"
+    },
+    {
+      "url": "https://www.profixio.com/app/lx/match/32336261",
+      "retrievedAt": "2026-10-11T04:18:16.793204+00:00",
+      "method": "GET",
+      "sha256": "07a14a6d024c314929ea7d8b78c2b575e66886b0faeaa5f07dcd6f91d36a9dd9",
+      "contentType": "text/html; charset=utf-8",
+      "status": 200,
+      "cacheKey": "493fde88405cf7853ed5ff31821d3b2f1fd2b1d8052eac2159761a68efefb7f0"
+    },
+    {
+      "url": "https://www.profixio.com/app/lx/match/32336262",
+      "retrievedAt": "2026-10-11T04:18:17.734013+00:00",
+      "method": "GET",
+      "sha256": "720fdacf3c0ce6ffddde709258f8125e4ba24295ee57762ed031106f3c823678",
+      "contentType": "text/html; charset=utf-8",
+      "status": 200,
+      "cacheKey": "8b3801652f1838aa05bd2c312e08f75e36cf4984d92bb0290a03843bcc9beef4"
+    },
+    {
+      "url": "https://www.profixio.com/app/lx/match/32336263",
+      "retrievedAt": "2026-10-11T04:18:18.984145+00:00",
+      "method": "GET",
+      "sha256": "8f65b188c2ebf0d2f4c28f6e27e50f00175854dc5b4c40074617382ba2594fa2",
+      "contentType": "text/html; charset=utf-8",
+      "status": 200,
+      "cacheKey": "16ff2e5096fc8257a1de5f9171aef061296e899692098898ff61aaac93333acc"
+    },
+    {
+      "url": "https://www.profixio.com/app/lx/match/32336264",
+      "retrievedAt": "2026-10-11T04:18:19.935921+00:00",
+      "method": "GET",
+      "sha256": "d8615d11765119f7458019ab3297f5d975ffe28f6bdd6eeed888fb61f7350b33",
+      "contentType": "text/html; charset=utf-8",
+      "status": 200,
+      "cacheKey": "2e48e2842770b948713045a00b02a467dd05e4dc34bb48b5641d71355aed367e"
+    },
+    {
+      "url": "https://www.profixio.com/app/lx/match/32336260",
+      "retrievedAt": "2026-10-11T04:18:21.047263+00:00",
+      "method": "GET",
+      "sha256": "573906050c64a513e5c17c7e8c4eaea7c9ff9eb3b27b6134d9866bb772236019",
+      "contentType": "text/html; charset=utf-8",
+      "status": 200,
+      "cacheKey": "2c601c18cc1b2998d137d30374a5a4d0e5cdbda8f9b4f743c0c3336bb4b7e11d"
+    },
+    {
+      "url": "https://www.profixio.com/app/lx/match/32336265",
+      "retrievedAt": "2026-10-11T04:18:21.731033+00:00",
+      "method": "GET",
+      "sha256": "bbb9e80884995459873dd68ac355c2562aed5367fe6142f8b33d39efee0d73ec",
+      "contentType": "text/html; charset=utf-8",
+      "status": 200,
+      "cacheKey": "0372a1296a57329bb4d2c440efd209bac6f4179c96634dab24175fed2e3489bb"
+    },
+    {
+      "url": "https://www.profixio.com/app/lx/match/32336255",
+      "retrievedAt": "2026-10-11T04:18:23.183294+00:00",
+      "method": "GET",
+      "sha256": "cccf34caa97925e3d1a51d6586e524a89ee215cf49b79f2b15c7cd5f85263609",
+      "contentType": "text/html; charset=utf-8",
+      "status": 200,
+      "cacheKey": "faa4d01f77bbc1b328fcdd813c3c580e486665ea37de00bad69c4e5915223ada"
+    },
+    {
+      "url": "https://www.profixio.com/app/lx/match/32336259",
+      "retrievedAt": "2026-10-11T04:18:23.956459+00:00",
+      "method": "GET",
+      "sha256": "035800a7919f18ea7a3e5ffa2f55087bc1da0350b33a74bbe3d79ec2515d0c7f",
+      "contentType": "text/html; charset=utf-8",
+      "status": 200,
+      "cacheKey": "af0b1346f181ee54d931410d27086f4e89c2487652623d944ff6e3f64d03f4b7"
+    },
+    {
+      "url": "https://www.profixio.com/app/lx/match/32336256",
+      "retrievedAt": "2026-10-11T04:18:25.050662+00:00",
+      "method": "GET",
+      "sha256": "6137b0d044594475df3868064e890fc2117eaee8d16e19d6d4a0644672f6361f",
+      "contentType": "text/html; charset=utf-8",
+      "status": 200,
+      "cacheKey": "6381be7263e0610e77e7bfbf47a08354cb1121cefee1360b8460d1c1ec089e3e"
+    },
+    {
+      "url": "https://www.profixio.com/app/lx/match/32336257",
+      "retrievedAt": "2026-10-11T04:18:26.285453+00:00",
+      "method": "GET",
+      "sha256": "df63a3eb7a11507dc83f0cbaa1283eab59b3d9553d6a21cadfb875515c41bf62",
+      "contentType": "text/html; charset=utf-8",
+      "status": 200,
+      "cacheKey": "12ebb7666fa4df43b0cc365622dc029643c76c460a50e02a3928171c102e785a"
+    },
+    {
+      "url": "https://www.profixio.com/app/lx/match/32336258",
+      "retrievedAt": "2026-10-11T04:18:27.266811+00:00",
+      "method": "GET",
+      "sha256": "04ba55dd7b7ba6ec84636bbc5faa2b4d04b08e6e23a5af9a8f5646c887d63d44",
+      "contentType": "text/html; charset=utf-8",
+      "status": 200,
+      "cacheKey": "4e7d5acd22fa3b282f1dfbdd4d30a96a5624af02d9ff51e522546740a630ad46"
+    },
+    {
+      "url": "https://www.profixio.com/app/lx/match/32336254",
+      "retrievedAt": "2026-10-11T04:18:28.185946+00:00",
+      "method": "GET",
+      "sha256": "aec515aad3ed436394798c35951f056e281a7ea73912ff37f24ce0eb1385947a",
+      "contentType": "text/html; charset=utf-8",
+      "status": 200,
+      "cacheKey": "7df10d7e692f61795945b81f82360d4339d1fa2d46cd054e8ca6394a51dcf072"
+    },
+    {
+      "url": "https://www.profixio.com/app/lx/match/32336253",
+      "retrievedAt": "2026-10-11T04:18:29.189680+00:00",
+      "method": "GET",
+      "sha256": "d73b9b1817b5c159314612297d1c8b17b234a3d625f5f373818dd2dcde9b08e9",
+      "contentType": "text/html; charset=utf-8",
+      "status": 200,
+      "cacheKey": "26a17a4f6ac5d8f573f8dcfc80946714efe060c47dcdf61bec3101d82ba39b52"
+    },
+    {
+      "url": "https://www.profixio.com/app/lx/match/32336251",
+      "retrievedAt": "2026-10-11T04:18:30.495589+00:00",
+      "method": "GET",
+      "sha256": "7edcc5d1015897f37eecb236d794dec041000eec4d4306855211151b98a236df",
+      "contentType": "text/html; charset=utf-8",
+      "status": 200,
+      "cacheKey": "4d49db8ab1fb70fd24fad094ce712c73162b5000ac57ac0c14bcc21ed176ca85"
+    },
+    {
+      "url": "https://www.profixio.com/app/lx/match/32336252",
+      "retrievedAt": "2026-10-11T04:18:31.609421+00:00",
+      "method": "GET",
+      "sha256": "b368b53d08e21a99cc35baec6a42832d8a448eba0061a8f57f6a9be19e68c1c0",
+      "contentType": "text/html; charset=utf-8",
+      "status": 200,
+      "cacheKey": "a0a84afb56ef20ac5e82996df879000d6d1889116ad12cf5b8ca54232c3571af"
+    },
+    {
+      "url": "https://www.profixio.com/app/lx/match/32336248",
+      "retrievedAt": "2026-10-11T04:18:33.131107+00:00",
+      "method": "GET",
+      "sha256": "5ec0e5c86b1854f3498366406ab47eec82468f14bdc979d0affe3169e1498ba0",
+      "contentType": "text/html; charset=utf-8",
+      "status": 200,
+      "cacheKey": "a65bc75645dabb71f32b16c28af2f3e10d0710a96ae7b0b15d0e71a7ec623409"
+    },
+    {
+      "url": "https://www.profixio.com/app/lx/match/32336249",
+      "retrievedAt": "2026-10-11T04:18:33.832294+00:00",
+      "method": "GET",
+      "sha256": "49dfc3b409ef490d4ad25d6d9bdc0302948793a8b19699d70a1b2ced4d509aeb",
+      "contentType": "text/html; charset=utf-8",
+      "status": 200,
+      "cacheKey": "56893832808fdf8f9e4264584727c0c48ac09c7aed1e909b7548d42c09528cf2"
+    },
+    {
+      "url": "https://www.profixio.com/app/lx/match/32336250",
+      "retrievedAt": "2026-10-11T04:18:34.776223+00:00",
+      "method": "GET",
+      "sha256": "40c0ff17d1c195a4d3793eeec3cc709252f8079d82cd606d2780c007e8d6c718",
+      "contentType": "text/html; charset=utf-8",
+      "status": 200,
+      "cacheKey": "270199fcdddba5590b191275a67d34c17ba3e1642b9031ba5c0d5a91208c4cab"
+    },
+    {
+      "url": "https://www.profixio.com/app/lx/match/32336242",
+      "retrievedAt": "2026-10-11T04:18:35.767643+00:00",
+      "method": "GET",
+      "sha256": "e6dc58e3b639d4e5ad35c9ec88028f4c9c38342868cfff494b69a5bf8b5b5286",
+      "contentType": "text/html; charset=utf-8",
+      "status": 200,
+      "cacheKey": "760403038fd96e5b0066355342f43977a5560e0731f31496ba34718e958beeda"
+    },
+    {
+      "url": "https://www.profixio.com/app/lx/match/32336243",
+      "retrievedAt": "2026-10-11T04:18:37.153919+00:00",
+      "method": "GET",
+      "sha256": "6ae262d94f409d19013d3c17097430276f3f612dba729f73d32e71aef990f860",
+      "contentType": "text/html; charset=utf-8",
+      "status": 200,
+      "cacheKey": "ad2ed136c3fd00e098f4d7fd02ee562ad9126abc55a9781e44e72a63d553d880"
+    },
+    {
+      "url": "https://www.profixio.com/app/lx/match/32336244",
+      "retrievedAt": "2026-10-11T04:18:37.839759+00:00",
+      "method": "GET",
+      "sha256": "bc207703d244765ad4ab79fd941ecf2cb9d24520d2329510f63077b1b6be2c6a",
+      "contentType": "text/html; charset=utf-8",
+      "status": 200,
+      "cacheKey": "dd92a9e6df570e87b496179233181613d0df2f60dde73ef337cfb6310c94a029"
+    },
+    {
+      "url": "https://www.profixio.com/app/lx/match/32336245",
+      "retrievedAt": "2026-10-11T04:18:39.017310+00:00",
+      "method": "GET",
+      "sha256": "d78b4664487eea90e4627aef0fbe948a3f53ac0047b6150a7c3d08dc6b8cbf52",
+      "contentType": "text/html; charset=utf-8",
+      "status": 200,
+      "cacheKey": "593fbbf0eff66dce36151551a70c03cbc9a024967591ed39ea1e59987cf5d9ff"
+    },
+    {
+      "url": "https://www.profixio.com/app/lx/match/32336246",
+      "retrievedAt": "2026-10-11T04:18:39.784446+00:00",
+      "method": "GET",
+      "sha256": "0e0d696660b507bb11c8e52b0692af74d8b129f57ffa91e34855551cbd3a2b55",
+      "contentType": "text/html; charset=utf-8",
+      "status": 200,
+      "cacheKey": "0bea3c19b2618d1d52c604b7ff7e6b246f656b4b8a704a6aa6154cdd825c2df1"
+    },
+    {
+      "url": "https://www.profixio.com/app/lx/match/32336247",
+      "retrievedAt": "2026-10-11T04:18:40.955297+00:00",
+      "method": "GET",
+      "sha256": "b1cfdc4a2b6677ccedb0723d83582c3cf7f1c3832d741f32d338fd630e5eb6f1",
+      "contentType": "text/html; charset=utf-8",
+      "status": 200,
+      "cacheKey": "7ff98bbfe3c32902e67169bb6b1dcc564c4b93df725a67bda0d14ed5b984f43c"
+    },
+    {
+      "url": "https://www.profixio.com/app/lx/match/32336236",
+      "retrievedAt": "2026-10-11T04:18:41.990188+00:00",
+      "method": "GET",
+      "sha256": "0123f8d34ba3e6560d061593e0a956e45f0b31f06d9f17f6b9420764b5d0968a",
+      "contentType": "text/html; charset=utf-8",
+      "status": 200,
+      "cacheKey": "de1cc7be5f208082db75a3e22a8949809e49abe0e96cb6630950f3e1f3e92c6d"
+    },
+    {
+      "url": "https://www.profixio.com/app/lx/match/32336240",
+      "retrievedAt": "2026-10-11T04:18:42.992132+00:00",
+      "method": "GET",
+      "sha256": "b10328edfe09c1ed4ed7171f6bca9811a00a5100b0c9ac1cf13672349679e772",
+      "contentType": "text/html; charset=utf-8",
+      "status": 200,
+      "cacheKey": "b3b8873ccbe07532155c96acf71d97f8a04819f2b2a0a55263107303691074f5"
+    },
+    {
+      "url": "https://www.profixio.com/app/lx/match/32336241",
+      "retrievedAt": "2026-10-11T04:18:44.220301+00:00",
+      "method": "GET",
+      "sha256": "292389281c913d9efb3bcb8aec3630e8c534c3bfae1e55f12f8ab1c5f7856f6c",
+      "contentType": "text/html; charset=utf-8",
+      "status": 200,
+      "cacheKey": "42e58c70b9945d990caa0246d7b5c894fb20e3eaa57a9def27048359e36e5a3f"
+    },
+    {
+      "url": "https://www.profixio.com/app/lx/match/32336237",
+      "retrievedAt": "2026-10-11T04:18:44.923238+00:00",
+      "method": "GET",
+      "sha256": "0b717bed4e39cfad3b2b2ea255bfe7fbb96afe5d330e152711638c396c1ab379",
+      "contentType": "text/html; charset=utf-8",
+      "status": 200,
+      "cacheKey": "4e19ae264f3702d77352b5a97c0d192cea623f0457da72f0322eb5a94a4e02ee"
+    },
+    {
+      "url": "https://www.profixio.com/app/lx/match/32336239",
+      "retrievedAt": "2026-10-11T04:18:46.147559+00:00",
+      "method": "GET",
+      "sha256": "634bc3149699d2de4366fb459cd3e16719e48ec68ac982a97710241379358207",
+      "contentType": "text/html; charset=utf-8",
+      "status": 200,
+      "cacheKey": "97241f06459df784856dad8e10ef4166759788ae43b00f5304cb57018f67338c"
+    },
+    {
+      "url": "https://www.profixio.com/app/lx/match/32336238",
+      "retrievedAt": "2026-10-11T04:18:46.970201+00:00",
+      "method": "GET",
+      "sha256": "90ca2c9683caacf61965d6aa15b9fe5f4eec15f696d7618f5b63fa56296da69b",
+      "contentType": "text/html; charset=utf-8",
+      "status": 200,
+      "cacheKey": "10401cd4260ade77fd87395180caabbc0fabb71245745113002f0d8687feb865"
+    },
+    {
+      "url": "https://www.profixio.com/app/lx/match/32336230",
+      "retrievedAt": "2026-10-11T04:18:47.940911+00:00",
+      "method": "GET",
+      "sha256": "c1571a170e70ea340d68a6808a3283d563caa1ed1a54423567589fe77b290dcf",
+      "contentType": "text/html; charset=utf-8",
+      "status": 200,
+      "cacheKey": "f65abe34b3027e4db3beafe76612a99e28b87d396ba53ab6622f7914789938cd"
+    },
+    {
+      "url": "https://www.profixio.com/app/lx/match/32336232",
+      "retrievedAt": "2026-10-11T04:18:49.281987+00:00",
+      "method": "GET",
+      "sha256": "4dea492910230151bed613effa3899ba642765fda13a2c417a997104a95253aa",
+      "contentType": "text/html; charset=utf-8",
+      "status": 200,
+      "cacheKey": "2a3046319db47c220c6193d8307fc433ebd17aaf477fb29c8bbd6c3b60956972"
+    },
+    {
+      "url": "https://www.profixio.com/app/lx/match/32336233",
+      "retrievedAt": "2026-10-11T04:18:50.167299+00:00",
+      "method": "GET",
+      "sha256": "ad7d69e268180ad37d269a6efe40fa956f60fe9915e3fc156d28d649f1d6867a",
+      "contentType": "text/html; charset=utf-8",
+      "status": 200,
+      "cacheKey": "091c1e5604889e41c2bc1981c7b9518921553b63a220788b1a7b5f32b8a0e07a"
+    },
+    {
+      "url": "https://www.profixio.com/app/lx/match/32336234",
+      "retrievedAt": "2026-10-11T04:18:51.045068+00:00",
+      "method": "GET",
+      "sha256": "a38e76a7927397dff6aacb9101a1b941e10b96f1b26e82e141efebfd5b021300",
+      "contentType": "text/html; charset=utf-8",
+      "status": 200,
+      "cacheKey": "dfc1ca16991f4e46affc6475f91ed4954a9c637abbc10313072e2e2f7c7ab657"
+    },
+    {
+      "url": "https://www.profixio.com/app/lx/match/32336231",
+      "retrievedAt": "2026-10-11T04:18:52.044521+00:00",
+      "method": "GET",
+      "sha256": "adf9b4f8737e9565d8aa8bad8c16fa322d86358392eb162381a68aa887b67a08",
+      "contentType": "text/html; charset=utf-8",
+      "status": 200,
+      "cacheKey": "91c26c96f570de605217ff3ce00c83d1ebe24f9e8bd47a09093419697b84551b"
+    },
+    {
+      "url": "https://www.profixio.com/app/lx/match/32336235",
+      "retrievedAt": "2026-10-11T04:18:53.135038+00:00",
+      "method": "GET",
+      "sha256": "ccf69905ba062bf6f97e3870975d98d9dc6155446e098352ee57787abaf8961d",
+      "contentType": "text/html; charset=utf-8",
+      "status": 200,
+      "cacheKey": "0c2137ad7b5291f1e4dbd09049d43c6222a09b65fac13624f18f426e1620548a"
+    },
+    {
+      "url": "https://www.profixio.com/app/lx/match/32336224",
+      "retrievedAt": "2026-10-11T04:18:53.954821+00:00",
+      "method": "GET",
+      "sha256": "b9e0c9a1dea2ccfb2f38313342fe5619eef882f8bd964a88d10d1a74f31209fe",
+      "contentType": "text/html; charset=utf-8",
+      "status": 200,
+      "cacheKey": "947ff771858ad76f7f5985215189ded87930ffde968e3c6573e63c865acff8b6"
+    },
+    {
+      "url": "https://www.profixio.com/app/lx/match/32336226",
+      "retrievedAt": "2026-10-11T04:18:55.163678+00:00",
+      "method": "GET",
+      "sha256": "7c25139b6d15932bb2045566db600433a3bd6718548fad2e8be35f416b6b19f3",
+      "contentType": "text/html; charset=utf-8",
+      "status": 200,
+      "cacheKey": "9465723867cb5a9e5b3a81d363c7bb1322864ad236f8c0e578255a0abab41262"
+    },
+    {
+      "url": "https://www.profixio.com/app/lx/match/32336228",
+      "retrievedAt": "2026-10-11T04:18:56.370502+00:00",
+      "method": "GET",
+      "sha256": "50b4b1c3577c0f9ed852b429a3b86cfe690bf093fbcd75dadf96d7d3cc614f75",
+      "contentType": "text/html; charset=utf-8",
+      "status": 200,
+      "cacheKey": "f4c53431480364ca03824a5fe1a3641d2186d72c3d170e8293b4843c5f1f6015"
+    },
+    {
+      "url": "https://www.profixio.com/app/lx/match/32336229",
+      "retrievedAt": "2026-10-11T04:18:57.313181+00:00",
+      "method": "GET",
+      "sha256": "0b736de781c6b91a7077083f1b2ae15bce65a2a33f1599ff6fed958a6f6ff23f",
+      "contentType": "text/html; charset=utf-8",
+      "status": 200,
+      "cacheKey": "54b12def24890079b38e4d78730e7a32cd582c71d8ab83adddfbe02e95350650"
+    },
+    {
+      "url": "https://www.profixio.com/app/lx/match/32336225",
+      "retrievedAt": "2026-10-11T04:18:58.486980+00:00",
+      "method": "GET",
+      "sha256": "d0292ff5bd8231bccf47b705dde1543cf232637a37aa2a681111c9f5798930f9",
+      "contentType": "text/html; charset=utf-8",
+      "status": 200,
+      "cacheKey": "f79d25d98f1e54b58f553f1db42ec40d48d99441ee9092702ed35814529922bd"
+    },
+    {
+      "url": "https://www.profixio.com/app/lx/match/32336227",
+      "retrievedAt": "2026-10-11T04:18:59.637457+00:00",
+      "method": "GET",
+      "sha256": "a6bca5c359b4b6210a352c6c75d0657fcb155d4025c1e0ea2b0cf5cf9be7cddb",
+      "contentType": "text/html; charset=utf-8",
+      "status": 200,
+      "cacheKey": "3424232e03f4b418820565579d467f9aae1abd3126e1c3be5cd7e61631d2d4f7"
+    }
+  ],
+  "policy": "Public GET pages, published PDFs and only the rendered public infinite-scroll action. No signed live-event feed, login, private API or access-control bypass. Raw HTML/PDF buffers remain in the local cache."
+}

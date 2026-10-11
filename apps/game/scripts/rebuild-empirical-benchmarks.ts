@@ -5,6 +5,7 @@ import{deriveProfile,digest,resolveTeam,type EmpiricalDataset}from'../lib/matchB
 import{SCHEMA_VERSION,ingestReference,METRICS,type ReferenceProfile,type ReferenceMetric}from'../lib/matchBenchmarks/reference';
 import{distribution,ratio}from'../lib/matchBenchmarks/statistics';
 import{CLUBS}from'../lib/game-data/clubs';
+import{rebuildPositions}from'./rebuild-empirical-positions';
 
 const root=resolve('../..'),input=join(root,'data/empirical-handball/normalized'),out=join(root,'data/empirical-handball/derived');mkdirSync(out,{recursive:true});
 const write=(name:string,x:unknown)=>writeFileSync(join(out,name),JSON.stringify(x,null,2)+'\n');
@@ -44,3 +45,4 @@ write('profiles.json',profiles);write('quality.json',derived.map(d=>({competitio
 write('league-outcomes.json',datasets.map(d=>({competition:d.competition,season:d.season,n:d.matches.length,homeWins:d.matches.filter(m=>m.homeGoals>m.awayGoals).length,draws:d.matches.filter(m=>m.homeGoals===m.awayGoals).length,awayWins:d.matches.filter(m=>m.homeGoals<m.awayGoals).length,homeWinRate:ratio(d.matches.filter(m=>m.homeGoals>m.awayGoals).length,d.matches.length),drawRate:ratio(d.matches.filter(m=>m.homeGoals===m.awayGoals).length,d.matches.length),awayWinRate:ratio(d.matches.filter(m=>m.homeGoals<m.awayGoals).length,d.matches.length),definition:'Count and share of official completed regular-season full-time results; no playoff or penalty-shootout outcomes mixed',sourceManifestHash:digest(d.sources),normalizedHash:digest(d)})));
 write('manifest.json',{schemaVersion:SCHEMA_VERSION,normalized:derived.map(d=>({competition:d.profile.competition,hash:d.normalizedHash})),profiles:profiles.map(p=>({id:p.id,version:p.version,hash:digest(p)})),regeneration:'node --import tsx scripts/rebuild-empirical-benchmarks.ts (from apps/game)',network:false});
 console.log(JSON.stringify({profiles:profiles.length,competitions:datasets.length,out}));
+rebuildPositions();

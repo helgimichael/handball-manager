@@ -1,0 +1,68 @@
+[
+  {
+    "competition": "se_handbollsligan_herr",
+    "expected": 182,
+    "found": 182,
+    "coverage": 1,
+    "protocols": 0,
+    "pdfs": 182,
+    "keeperMatches": 480,
+    "rejected": [],
+    "pdfIssues": [],
+    "duplicates": [],
+    "unresolvedPlayers": "Protocol IDs remain source identities; PDF IDs are match-local, never merged by name",
+    "unresolvedPositions": true
+  },
+  {
+    "competition": "swe-2",
+    "expected": 182,
+    "found": 182,
+    "coverage": 1,
+    "protocols": 182,
+    "pdfs": 0,
+    "keeperMatches": 0,
+    "rejected": [],
+    "pdfIssues": [],
+    "duplicates": [],
+    "unresolvedPlayers": "Protocol IDs remain source identities; PDF IDs are match-local, never merged by name",
+    "unresolvedPositions": true
+  },
+  {
+    "competition": "swe-w-1",
+    "expected": 132,
+    "found": 132,
+    "coverage": 1,
+    "protocols": 132,
+    "pdfs": 0,
+    "keeperMatches": 0,
+    "rejected": [],
+    "pdfIssues": [],
+    "duplicates": [],
+    "unresolvedPlayers": "Protocol IDs remain source identities; PDF IDs are match-local, never merged by name",
+    "unresolvedPositions": true
+  },
+  {
+    "competition": "swe-w-2",
+    "expected": 132,
+    "found": 132,
+    "coverage": 1,
+    "protocols": 131,
+    "pdfs": 0,
+    "keeperMatches": 0,
+    "rejected": [
+      {
+        "id": "profixio:32356562",
+        "issues": [
+          {
+            "kind": "PROTOCOL_REJECTED",
+            "reason": "Unattributed goal"
+          }
+        ]
+      }
+    ],
+    "pdfIssues": [],
+    "duplicates": [],
+    "unresolvedPlayers": "Protocol IDs remain source identities; PDF IDs are match-local, never merged by name",
+    "unresolvedPositions": true
+  }
+]

@@ -37,4 +37,10 @@ Utespelare Mål/ 7m mål/
         self.assertEqual(result['players'][1]['goals'],2);self.assertEqual(result['players'][1]['shots'],3);self.assertTrue(result['players'][2]['denominatorValid']);self.assertEqual(result['issues'],[])
     def test_official_table_layout_is_required(self):
         self.assertRaises(ValueError,players.player_table,'<html>no statistics</html>')
+    def test_goal_view_includes_penalties_once(self):
+        headers=['#','Lag','Namn','pos','SM','må','s','%','STM','STS','ST%','MEP'];values=['1','Team','<a href="?player=7&amp;team=2">Test</a>','M9','26','206','334','61','37','43','86','0']
+        html='<table id="ContentPlaceHolder_GridViewStatistics"><tr>'+''.join('<th>'+h+'</th>'for h in headers)+'</tr><tr>'+''.join('<td>'+v+'</td>'for v in values)+'</tr></table>'
+        row=players.player_table(html,goal_view=True)[0];self.assertEqual((row['goals'],row['shots'],row['sevenMetreGoals'],row['sevenMetreAttempts']),(206,334,37,43))
+        self.assertRaises(ValueError,players.player_table,html.replace('<td>43</td>','<td>335</td>'),goal_view=True)
+        self.assertRaises(ValueError,players.player_table,html.replace('<th>STS</th>','<th>changed</th>'),goal_view=True)
 if __name__=='__main__':unittest.main()

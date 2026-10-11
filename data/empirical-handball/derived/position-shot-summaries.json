@@ -1,0 +1,180 @@
+[
+  {
+    "competition": "se_handbollsligan_herr",
+    "season": "2025-26",
+    "players": 273,
+    "totals": {
+      "goals": 11041,
+      "shots": 17816
+    },
+    "positions": {
+      "?": {
+        "players": 3,
+        "goals": 21,
+        "shots": 27,
+        "goalShare": 0.0019020016302871117,
+        "shotShare": 0.0015154916928603501,
+        "conversion": 0.7777777777777778,
+        "sevenMetreGoals": 0,
+        "sevenMetreAttempts": 0
+      },
+      "H6": {
+        "players": 38,
+        "goals": 1610,
+        "shots": 2275,
+        "goalShare": 0.14582012498867855,
+        "shotShare": 0.12769420745397395,
+        "conversion": 0.7076923076923077,
+        "sevenMetreGoals": 338,
+        "sevenMetreAttempts": 440
+      },
+      "H9": {
+        "players": 36,
+        "goals": 1846,
+        "shots": 3338,
+        "goalShare": 0.16719500045285754,
+        "shotShare": 0.18735967669510553,
+        "conversion": 0.5530257639304973,
+        "sevenMetreGoals": 55,
+        "sevenMetreAttempts": 78
+      },
+      "M6": {
+        "players": 50,
+        "goals": 1587,
+        "shots": 2167,
+        "goalShare": 0.14373698034598315,
+        "shotShare": 0.12163224068253256,
+        "conversion": 0.732348869404707,
+        "sevenMetreGoals": 42,
+        "sevenMetreAttempts": 54
+      },
+      "M9": {
+        "players": 49,
+        "goals": 2094,
+        "shots": 3592,
+        "goalShare": 0.18965673399148628,
+        "shotShare": 0.20161652447238437,
+        "conversion": 0.5829621380846325,
+        "sevenMetreGoals": 197,
+        "sevenMetreAttempts": 257
+      },
+      "V6": {
+        "players": 41,
+        "goals": 1552,
+        "shots": 2257,
+        "goalShare": 0.14056697762883796,
+        "shotShare": 0.12668387965873373,
+        "conversion": 0.6876384581302614,
+        "sevenMetreGoals": 187,
+        "sevenMetreAttempts": 265
+      },
+      "V9": {
+        "players": 56,
+        "goals": 2331,
+        "shots": 4160,
+        "goalShare": 0.21112218096186938,
+        "shotShare": 0.23349797934440952,
+        "conversion": 0.5603365384615384,
+        "sevenMetreGoals": 82,
+        "sevenMetreAttempts": 104
+      }
+    },
+    "sourceHash": "2134b334cec0b680813a12f0a5e5b1892c9503b0a69fa7409934f7af1f9634c2",
+    "sourceManifestHash": "1d45038d008c53b93ae2fba284e6346b41f9a05f86e999d1f27d6c101661db70",
+    "notes": [
+      "N=1 pooled complete-season aggregate; no match variance or position z-score",
+      "Registered season positions, not shot locations or engine role at release",
+      "Total shot/goals columns already include 7m; no double addition",
+      "Unknown positions retained in league denominators"
+    ]
+  },
+  {
+    "competition": "swe-w-1",
+    "season": "2025-26",
+    "players": 210,
+    "totals": {
+      "goals": 7132,
+      "shots": 12474
+    },
+    "positions": {
+      "-": {
+        "players": 9,
+        "goals": 31,
+        "shots": 52,
+        "goalShare": 0.004346606842400448,
+        "shotShare": 0.004168670835337502,
+        "conversion": 0.5961538461538461,
+        "sevenMetreGoals": 12,
+        "sevenMetreAttempts": 14
+      },
+      "H6": {
+        "players": 28,
+        "goals": 920,
+        "shots": 1622,
+        "goalShare": 0.12899607403252944,
+        "shotShare": 0.1300304633637967,
+        "conversion": 0.5672009864364982,
+        "sevenMetreGoals": 3,
+        "sevenMetreAttempts": 7
+      },
+      "H9": {
+        "players": 26,
+        "goals": 948,
+        "shots": 1871,
+        "goalShare": 0.13292204150308468,
+        "shotShare": 0.14999198332531666,
+        "conversion": 0.5066809192944949,
+        "sevenMetreGoals": 67,
+        "sevenMetreAttempts": 92
+      },
+      "M6": {
+        "players": 41,
+        "goals": 921,
+        "shots": 1317,
+        "goalShare": 0.12913628715647785,
+        "shotShare": 0.10557960557960558,
+        "conversion": 0.6993166287015945,
+        "sevenMetreGoals": 6,
+        "sevenMetreAttempts": 8
+      },
+      "M9": {
+        "players": 39,
+        "goals": 1765,
+        "shots": 3152,
+        "goalShare": 0.24747616376892878,
+        "shotShare": 0.25268558601891933,
+        "conversion": 0.5599619289340102,
+        "sevenMetreGoals": 322,
+        "sevenMetreAttempts": 416
+      },
+      "V6": {
+        "players": 29,
+        "goals": 999,
+        "shots": 1647,
+        "goalShare": 0.14007291082445317,
+        "shotShare": 0.13203463203463203,
+        "conversion": 0.6065573770491803,
+        "sevenMetreGoals": 95,
+        "sevenMetreAttempts": 133
+      },
+      "V9": {
+        "players": 38,
+        "goals": 1548,
+        "shots": 2813,
+        "goalShare": 0.21704991587212563,
+        "shotShare": 0.22550905884239217,
+        "conversion": 0.5503021685033772,
+        "sevenMetreGoals": 242,
+        "sevenMetreAttempts": 310
+      }
+    },
+    "sourceHash": "3851022c6d5e4e56a35bdb341b7c4c96ddda6ecfaed18c607269226d8b04e230",
+    "sourceManifestHash": "00959483217dc0697238efa9a94e87ce94f63d8d942e55d491e88932569553c3",
+    "notes": [
+      "N=1 pooled complete-season aggregate; no match variance or position z-score",
+      "Registered season positions, not shot locations or engine role at release",
+      "Total shot/goals columns already include 7m; no double addition",
+      "Unknown positions retained in league denominators"
+    ]
+  }
+]

@@ -1,0 +1,50 @@
+{
+  "schemaVersion": "match-benchmarks/1",
+  "normalized": [
+    {
+      "competition": "se_handbollsligan_herr",
+      "hash": "2ad78bc166c3f71cd742c66f8d8a1f5d406d84d2bdd92fbec1e2598d96eca773"
+    },
+    {
+      "competition": "swe-2",
+      "hash": "ec96354a996417cb628ef7821eab9ff0784313260781bf4c69db18efbb2996f1"
+    },
+    {
+      "competition": "swe-w-1",
+      "hash": "a558ddbc9c5e57fd6335167908f29170a8ca9785d2663c06633c4d2329ab608c"
+    },
+    {
+      "competition": "swe-w-2",
+      "hash": "e35e1ca0fe970ce568468612c98fffc6f740352639758a6cadd338aac890123e"
+    }
+  ],
+  "profiles": [
+    {
+      "id": "SE:se_handbollsligan_herr:2025-26:regular",
+      "version": "empirical-sweden/1",
+      "hash": "20ba047b100104febd26474afe9572545b656ff7929918c277c18c329ced5f33"
+    },
+    {
+      "id": "SE:swe-2:2025-26:regular",
+      "version": "empirical-sweden/1",
+      "hash": "27d796ab9ab07a9e856b6f779a53fa35dda6d8ff58ddc136edce55a4e738797c"
+    },
+    {
+      "id": "SE:swe-w-1:2025-26:regular",
+      "version": "empirical-sweden/1",
+      "hash": "1c466951e8d365eb5ef617c43d96602979959c6f0bd90497563d6f2d4dca7537"
+    },
+    {
+      "id": "SE:swe-w-2:2025-26:regular",
+      "version": "empirical-sweden/1",
+      "hash": "eccf65fb82a6ff19b9118bb023c702e562f58e548d4928e96a27a9114f15ae38"
+    },
+    {
+      "id": "SE:HBL_HERR:2025-26:KEEPER_PROXY",
+      "version": "empirical-sweden/1",
+      "hash": "c1fa5a3f723e04c149af5b7eee21775b7c094761290c339c4983b2ce5b467f36"
+    }
+  ],
+  "regeneration": "node --import tsx scripts/rebuild-empirical-benchmarks.ts (from apps/game)",
+  "network": false
+}

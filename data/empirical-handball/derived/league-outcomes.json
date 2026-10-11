@@ -1,0 +1,58 @@
+[
+  {
+    "competition": "se_handbollsligan_herr",
+    "season": "2025-26",
+    "n": 182,
+    "homeWins": 91,
+    "draws": 14,
+    "awayWins": 77,
+    "homeWinRate": 0.5,
+    "drawRate": 0.07692307692307693,
+    "awayWinRate": 0.4230769230769231,
+    "definition": "Count and share of official completed regular-season full-time results; no playoff or penalty-shootout outcomes mixed",
+    "sourceManifestHash": "6a54f0c6ef8402e0e1605687721610c568de8eb9eca113bfd33decb9e93e75ef",
+    "normalizedHash": "2ad78bc166c3f71cd742c66f8d8a1f5d406d84d2bdd92fbec1e2598d96eca773"
+  },
+  {
+    "competition": "swe-2",
+    "season": "2025-26",
+    "n": 182,
+    "homeWins": 93,
+    "draws": 19,
+    "awayWins": 70,
+    "homeWinRate": 0.510989010989011,
+    "drawRate": 0.1043956043956044,
+    "awayWinRate": 0.38461538461538464,
+    "definition": "Count and share of official completed regular-season full-time results; no playoff or penalty-shootout outcomes mixed",
+    "sourceManifestHash": "9d61bf06c4a259e35d2fd6d62ce7172ee94845ccdc6b0762b6c2d7264a682554",
+    "normalizedHash": "ec96354a996417cb628ef7821eab9ff0784313260781bf4c69db18efbb2996f1"
+  },
+  {
+    "competition": "swe-w-1",
+    "season": "2025-26",
+    "n": 132,
+    "homeWins": 76,
+    "draws": 6,
+    "awayWins": 50,
+    "homeWinRate": 0.5757575757575758,
+    "drawRate": 0.045454545454545456,
+    "awayWinRate": 0.3787878787878788,
+    "definition": "Count and share of official completed regular-season full-time results; no playoff or penalty-shootout outcomes mixed",
+    "sourceManifestHash": "c62f18df1c963d7a3aa457224917f24c908c2bf73bc857f93b9bf741a5777274",
+    "normalizedHash": "a558ddbc9c5e57fd6335167908f29170a8ca9785d2663c06633c4d2329ab608c"
+  },
+  {
+    "competition": "swe-w-2",
+    "season": "2025-26",
+    "n": 132,
+    "homeWins": 68,
+    "draws": 9,
+    "awayWins": 55,
+    "homeWinRate": 0.5151515151515151,
+    "drawRate": 0.06818181818181818,
+    "awayWinRate": 0.4166666666666667,
+    "definition": "Count and share of official completed regular-season full-time results; no playoff or penalty-shootout outcomes mixed",
+    "sourceManifestHash": "5a02dace43122a41e2fd2711e812be483ffd48b096eb0c5040b587cae493b83b",
+    "normalizedHash": "e35e1ca0fe970ce568468612c98fffc6f740352639758a6cadd338aac890123e"
+  }
+]

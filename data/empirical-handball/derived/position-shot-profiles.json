@@ -1,0 +1,1228 @@
+[
+  {
+    "schemaVersion": "match-benchmarks/1",
+    "id": "SE:se_handbollsligan_herr:2025-26:regular:POSITION_SHOTS",
+    "version": "empirical-sweden/1",
+    "kind": "REAL_WORLD_REFERENCE",
+    "sport": "handball",
+    "country": "SE",
+    "competition": "se_handbollsligan_herr",
+    "category": "men-senior",
+    "season": "2025-26",
+    "dateRange": {
+      "start": "2025-09-17",
+      "end": "2026-03-25"
+    },
+    "metrics": [
+      {
+        "metric": "shotShare",
+        "scope": "POSITION_SEASON:H6",
+        "unit": "ratio",
+        "definition": "group attempts / team or match attempts as identified by scope",
+        "distribution": {
+          "n": 1,
+          "mean": 0.12769420745397395,
+          "median": 0.12769420745397395,
+          "sd": null,
+          "min": 0.12769420745397395,
+          "max": 0.12769420745397395,
+          "p05": 0.12769420745397395,
+          "p10": 0.12769420745397395,
+          "p25": 0.12769420745397395,
+          "p75": 0.12769420745397395,
+          "p90": 0.12769420745397395,
+          "p95": 0.12769420745397395
+        },
+        "provenance": {
+          "name": "Handbollsligan official goal-view season statistics",
+          "location": "https://handballstats.se/statistics/herr/statistics/statistics.aspx?y=2025&l=2500101&p=Alla&t=0&o=0&ha=Alla&c=goal",
+          "collectionMethod": "Public official season HTML goal view; validated cached offline parse",
+          "extractionVersion": "handballstats-goal-html/1",
+          "timestamp": "2026-10-11T07:52:41.265933+00:00",
+          "confidence": "MEDIUM",
+          "matches": 182,
+          "events": 17816,
+          "coverage": 1,
+          "sourceManifestHash": "1d45038d008c53b93ae2fba284e6346b41f9a05f86e999d1f27d6c101661db70",
+          "normalizedHash": "2134b334cec0b680813a12f0a5e5b1892c9503b0a69fa7409934f7af1f9634c2",
+          "notes": [
+            "N=1 pooled complete-season aggregate; no match variance or position z-score",
+            "Registered season positions, not shot locations or engine role at release",
+            "Total shot/goals columns already include 7m; no double addition",
+            "Unknown positions retained in league denominators"
+          ],
+          "sourceHashes": [
+            "e2dad65e048f6999925cea9cc8a13275bfc63ed699600d7dba24f8013e0a7b4d"
+          ]
+        },
+        "transformations": [
+          "N=1 pooled complete-season aggregate; no match variance or position z-score",
+          "Registered season positions, not shot locations or engine role at release",
+          "Total shot/goals columns already include 7m; no double addition",
+          "Unknown positions retained in league denominators"
+        ]
+      },
+      {
+        "metric": "conversion",
+        "scope": "POSITION_SEASON:H6",
+        "unit": "ratio",
+        "definition": "goals / released attempts",
+        "distribution": {
+          "n": 1,
+          "mean": 0.7076923076923077,
+          "median": 0.7076923076923077,
+          "sd": null,
+          "min": 0.7076923076923077,
+          "max": 0.7076923076923077,
+          "p05": 0.7076923076923077,
+          "p10": 0.7076923076923077,
+          "p25": 0.7076923076923077,
+          "p75": 0.7076923076923077,
+          "p90": 0.7076923076923077,
+          "p95": 0.7076923076923077
+        },
+        "provenance": {
+          "name": "Handbollsligan official goal-view season statistics",
+          "location": "https://handballstats.se/statistics/herr/statistics/statistics.aspx?y=2025&l=2500101&p=Alla&t=0&o=0&ha=Alla&c=goal",
+          "collectionMethod": "Public official season HTML goal view; validated cached offline parse",
+          "extractionVersion": "handballstats-goal-html/1",
+          "timestamp": "2026-10-11T07:52:41.265933+00:00",
+          "confidence": "MEDIUM",
+          "matches": 182,
+          "events": 2275,
+          "coverage": 1,
+          "sourceManifestHash": "1d45038d008c53b93ae2fba284e6346b41f9a05f86e999d1f27d6c101661db70",
+          "normalizedHash": "2134b334cec0b680813a12f0a5e5b1892c9503b0a69fa7409934f7af1f9634c2",
+          "notes": [
+            "N=1 pooled complete-season aggregate; no match variance or position z-score",
+            "Registered season positions, not shot locations or engine role at release",
+            "Total shot/goals columns already include 7m; no double addition",
+            "Unknown positions retained in league denominators"
+          ],
+          "sourceHashes": [
+            "e2dad65e048f6999925cea9cc8a13275bfc63ed699600d7dba24f8013e0a7b4d"
+          ]
+        },
+        "transformations": [
+          "N=1 pooled complete-season aggregate; no match variance or position z-score",
+          "Registered season positions, not shot locations or engine role at release",
+          "Total shot/goals columns already include 7m; no double addition",
+          "Unknown positions retained in league denominators"
+        ]
+      },
+      {
+        "metric": "shotShare",
+        "scope": "POSITION_SEASON:H9",
+        "unit": "ratio",
+        "definition": "group attempts / team or match attempts as identified by scope",
+        "distribution": {
+          "n": 1,
+          "mean": 0.18735967669510553,
+          "median": 0.18735967669510553,
+          "sd": null,
+          "min": 0.18735967669510553,
+          "max": 0.18735967669510553,
+          "p05": 0.18735967669510553,
+          "p10": 0.18735967669510553,
+          "p25": 0.18735967669510553,
+          "p75": 0.18735967669510553,
+          "p90": 0.18735967669510553,
+          "p95": 0.18735967669510553
+        },
+        "provenance": {
+          "name": "Handbollsligan official goal-view season statistics",
+          "location": "https://handballstats.se/statistics/herr/statistics/statistics.aspx?y=2025&l=2500101&p=Alla&t=0&o=0&ha=Alla&c=goal",
+          "collectionMethod": "Public official season HTML goal view; validated cached offline parse",
+          "extractionVersion": "handballstats-goal-html/1",
+          "timestamp": "2026-10-11T07:52:41.265933+00:00",
+          "confidence": "MEDIUM",
+          "matches": 182,
+          "events": 17816,
+          "coverage": 1,
+          "sourceManifestHash": "1d45038d008c53b93ae2fba284e6346b41f9a05f86e999d1f27d6c101661db70",
+          "normalizedHash": "2134b334cec0b680813a12f0a5e5b1892c9503b0a69fa7409934f7af1f9634c2",
+          "notes": [
+            "N=1 pooled complete-season aggregate; no match variance or position z-score",
+            "Registered season positions, not shot locations or engine role at release",
+            "Total shot/goals columns already include 7m; no double addition",
+            "Unknown positions retained in league denominators"
+          ],
+          "sourceHashes": [
+            "e2dad65e048f6999925cea9cc8a13275bfc63ed699600d7dba24f8013e0a7b4d"
+          ]
+        },
+        "transformations": [
+          "N=1 pooled complete-season aggregate; no match variance or position z-score",
+          "Registered season positions, not shot locations or engine role at release",
+          "Total shot/goals columns already include 7m; no double addition",
+          "Unknown positions retained in league denominators"
+        ]
+      },
+      {
+        "metric": "conversion",
+        "scope": "POSITION_SEASON:H9",
+        "unit": "ratio",
+        "definition": "goals / released attempts",
+        "distribution": {
+          "n": 1,
+          "mean": 0.5530257639304973,
+          "median": 0.5530257639304973,
+          "sd": null,
+          "min": 0.5530257639304973,
+          "max": 0.5530257639304973,
+          "p05": 0.5530257639304973,
+          "p10": 0.5530257639304973,
+          "p25": 0.5530257639304973,
+          "p75": 0.5530257639304973,
+          "p90": 0.5530257639304973,
+          "p95": 0.5530257639304973
+        },
+        "provenance": {
+          "name": "Handbollsligan official goal-view season statistics",
+          "location": "https://handballstats.se/statistics/herr/statistics/statistics.aspx?y=2025&l=2500101&p=Alla&t=0&o=0&ha=Alla&c=goal",
+          "collectionMethod": "Public official season HTML goal view; validated cached offline parse",
+          "extractionVersion": "handballstats-goal-html/1",
+          "timestamp": "2026-10-11T07:52:41.265933+00:00",
+          "confidence": "MEDIUM",
+          "matches": 182,
+          "events": 3338,
+          "coverage": 1,
+          "sourceManifestHash": "1d45038d008c53b93ae2fba284e6346b41f9a05f86e999d1f27d6c101661db70",
+          "normalizedHash": "2134b334cec0b680813a12f0a5e5b1892c9503b0a69fa7409934f7af1f9634c2",
+          "notes": [
+            "N=1 pooled complete-season aggregate; no match variance or position z-score",
+            "Registered season positions, not shot locations or engine role at release",
+            "Total shot/goals columns already include 7m; no double addition",
+            "Unknown positions retained in league denominators"
+          ],
+          "sourceHashes": [
+            "e2dad65e048f6999925cea9cc8a13275bfc63ed699600d7dba24f8013e0a7b4d"
+          ]
+        },
+        "transformations": [
+          "N=1 pooled complete-season aggregate; no match variance or position z-score",
+          "Registered season positions, not shot locations or engine role at release",
+          "Total shot/goals columns already include 7m; no double addition",
+          "Unknown positions retained in league denominators"
+        ]
+      },
+      {
+        "metric": "shotShare",
+        "scope": "POSITION_SEASON:M6",
+        "unit": "ratio",
+        "definition": "group attempts / team or match attempts as identified by scope",
+        "distribution": {
+          "n": 1,
+          "mean": 0.12163224068253256,
+          "median": 0.12163224068253256,
+          "sd": null,
+          "min": 0.12163224068253256,
+          "max": 0.12163224068253256,
+          "p05": 0.12163224068253256,
+          "p10": 0.12163224068253256,
+          "p25": 0.12163224068253256,
+          "p75": 0.12163224068253256,
+          "p90": 0.12163224068253256,
+          "p95": 0.12163224068253256
+        },
+        "provenance": {
+          "name": "Handbollsligan official goal-view season statistics",
+          "location": "https://handballstats.se/statistics/herr/statistics/statistics.aspx?y=2025&l=2500101&p=Alla&t=0&o=0&ha=Alla&c=goal",
+          "collectionMethod": "Public official season HTML goal view; validated cached offline parse",
+          "extractionVersion": "handballstats-goal-html/1",
+          "timestamp": "2026-10-11T07:52:41.265933+00:00",
+          "confidence": "MEDIUM",
+          "matches": 182,
+          "events": 17816,
+          "coverage": 1,
+          "sourceManifestHash": "1d45038d008c53b93ae2fba284e6346b41f9a05f86e999d1f27d6c101661db70",
+          "normalizedHash": "2134b334cec0b680813a12f0a5e5b1892c9503b0a69fa7409934f7af1f9634c2",
+          "notes": [
+            "N=1 pooled complete-season aggregate; no match variance or position z-score",
+            "Registered season positions, not shot locations or engine role at release",
+            "Total shot/goals columns already include 7m; no double addition",
+            "Unknown positions retained in league denominators"
+          ],
+          "sourceHashes": [
+            "e2dad65e048f6999925cea9cc8a13275bfc63ed699600d7dba24f8013e0a7b4d"
+          ]
+        },
+        "transformations": [
+          "N=1 pooled complete-season aggregate; no match variance or position z-score",
+          "Registered season positions, not shot locations or engine role at release",
+          "Total shot/goals columns already include 7m; no double addition",
+          "Unknown positions retained in league denominators"
+        ]
+      },
+      {
+        "metric": "conversion",
+        "scope": "POSITION_SEASON:M6",
+        "unit": "ratio",
+        "definition": "goals / released attempts",
+        "distribution": {
+          "n": 1,
+          "mean": 0.732348869404707,
+          "median": 0.732348869404707,
+          "sd": null,
+          "min": 0.732348869404707,
+          "max": 0.732348869404707,
+          "p05": 0.732348869404707,
+          "p10": 0.732348869404707,
+          "p25": 0.732348869404707,
+          "p75": 0.732348869404707,
+          "p90": 0.732348869404707,
+          "p95": 0.732348869404707
+        },
+        "provenance": {
+          "name": "Handbollsligan official goal-view season statistics",
+          "location": "https://handballstats.se/statistics/herr/statistics/statistics.aspx?y=2025&l=2500101&p=Alla&t=0&o=0&ha=Alla&c=goal",
+          "collectionMethod": "Public official season HTML goal view; validated cached offline parse",
+          "extractionVersion": "handballstats-goal-html/1",
+          "timestamp": "2026-10-11T07:52:41.265933+00:00",
+          "confidence": "MEDIUM",
+          "matches": 182,
+          "events": 2167,
+          "coverage": 1,
+          "sourceManifestHash": "1d45038d008c53b93ae2fba284e6346b41f9a05f86e999d1f27d6c101661db70",
+          "normalizedHash": "2134b334cec0b680813a12f0a5e5b1892c9503b0a69fa7409934f7af1f9634c2",
+          "notes": [
+            "N=1 pooled complete-season aggregate; no match variance or position z-score",
+            "Registered season positions, not shot locations or engine role at release",
+            "Total shot/goals columns already include 7m; no double addition",
+            "Unknown positions retained in league denominators"
+          ],
+          "sourceHashes": [
+            "e2dad65e048f6999925cea9cc8a13275bfc63ed699600d7dba24f8013e0a7b4d"
+          ]
+        },
+        "transformations": [
+          "N=1 pooled complete-season aggregate; no match variance or position z-score",
+          "Registered season positions, not shot locations or engine role at release",
+          "Total shot/goals columns already include 7m; no double addition",
+          "Unknown positions retained in league denominators"
+        ]
+      },
+      {
+        "metric": "shotShare",
+        "scope": "POSITION_SEASON:M9",
+        "unit": "ratio",
+        "definition": "group attempts / team or match attempts as identified by scope",
+        "distribution": {
+          "n": 1,
+          "mean": 0.20161652447238437,
+          "median": 0.20161652447238437,
+          "sd": null,
+          "min": 0.20161652447238437,
+          "max": 0.20161652447238437,
+          "p05": 0.20161652447238437,
+          "p10": 0.20161652447238437,
+          "p25": 0.20161652447238437,
+          "p75": 0.20161652447238437,
+          "p90": 0.20161652447238437,
+          "p95": 0.20161652447238437
+        },
+        "provenance": {
+          "name": "Handbollsligan official goal-view season statistics",
+          "location": "https://handballstats.se/statistics/herr/statistics/statistics.aspx?y=2025&l=2500101&p=Alla&t=0&o=0&ha=Alla&c=goal",
+          "collectionMethod": "Public official season HTML goal view; validated cached offline parse",
+          "extractionVersion": "handballstats-goal-html/1",
+          "timestamp": "2026-10-11T07:52:41.265933+00:00",
+          "confidence": "MEDIUM",
+          "matches": 182,
+          "events": 17816,
+          "coverage": 1,
+          "sourceManifestHash": "1d45038d008c53b93ae2fba284e6346b41f9a05f86e999d1f27d6c101661db70",
+          "normalizedHash": "2134b334cec0b680813a12f0a5e5b1892c9503b0a69fa7409934f7af1f9634c2",
+          "notes": [
+            "N=1 pooled complete-season aggregate; no match variance or position z-score",
+            "Registered season positions, not shot locations or engine role at release",
+            "Total shot/goals columns already include 7m; no double addition",
+            "Unknown positions retained in league denominators"
+          ],
+          "sourceHashes": [
+            "e2dad65e048f6999925cea9cc8a13275bfc63ed699600d7dba24f8013e0a7b4d"
+          ]
+        },
+        "transformations": [
+          "N=1 pooled complete-season aggregate; no match variance or position z-score",
+          "Registered season positions, not shot locations or engine role at release",
+          "Total shot/goals columns already include 7m; no double addition",
+          "Unknown positions retained in league denominators"
+        ]
+      },
+      {
+        "metric": "conversion",
+        "scope": "POSITION_SEASON:M9",
+        "unit": "ratio",
+        "definition": "goals / released attempts",
+        "distribution": {
+          "n": 1,
+          "mean": 0.5829621380846325,
+          "median": 0.5829621380846325,
+          "sd": null,
+          "min": 0.5829621380846325,
+          "max": 0.5829621380846325,
+          "p05": 0.5829621380846325,
+          "p10": 0.5829621380846325,
+          "p25": 0.5829621380846325,
+          "p75": 0.5829621380846325,
+          "p90": 0.5829621380846325,
+          "p95": 0.5829621380846325
+        },
+        "provenance": {
+          "name": "Handbollsligan official goal-view season statistics",
+          "location": "https://handballstats.se/statistics/herr/statistics/statistics.aspx?y=2025&l=2500101&p=Alla&t=0&o=0&ha=Alla&c=goal",
+          "collectionMethod": "Public official season HTML goal view; validated cached offline parse",
+          "extractionVersion": "handballstats-goal-html/1",
+          "timestamp": "2026-10-11T07:52:41.265933+00:00",
+          "confidence": "MEDIUM",
+          "matches": 182,
+          "events": 3592,
+          "coverage": 1,
+          "sourceManifestHash": "1d45038d008c53b93ae2fba284e6346b41f9a05f86e999d1f27d6c101661db70",
+          "normalizedHash": "2134b334cec0b680813a12f0a5e5b1892c9503b0a69fa7409934f7af1f9634c2",
+          "notes": [
+            "N=1 pooled complete-season aggregate; no match variance or position z-score",
+            "Registered season positions, not shot locations or engine role at release",
+            "Total shot/goals columns already include 7m; no double addition",
+            "Unknown positions retained in league denominators"
+          ],
+          "sourceHashes": [
+            "e2dad65e048f6999925cea9cc8a13275bfc63ed699600d7dba24f8013e0a7b4d"
+          ]
+        },
+        "transformations": [
+          "N=1 pooled complete-season aggregate; no match variance or position z-score",
+          "Registered season positions, not shot locations or engine role at release",
+          "Total shot/goals columns already include 7m; no double addition",
+          "Unknown positions retained in league denominators"
+        ]
+      },
+      {
+        "metric": "shotShare",
+        "scope": "POSITION_SEASON:V6",
+        "unit": "ratio",
+        "definition": "group attempts / team or match attempts as identified by scope",
+        "distribution": {
+          "n": 1,
+          "mean": 0.12668387965873373,
+          "median": 0.12668387965873373,
+          "sd": null,
+          "min": 0.12668387965873373,
+          "max": 0.12668387965873373,
+          "p05": 0.12668387965873373,
+          "p10": 0.12668387965873373,
+          "p25": 0.12668387965873373,
+          "p75": 0.12668387965873373,
+          "p90": 0.12668387965873373,
+          "p95": 0.12668387965873373
+        },
+        "provenance": {
+          "name": "Handbollsligan official goal-view season statistics",
+          "location": "https://handballstats.se/statistics/herr/statistics/statistics.aspx?y=2025&l=2500101&p=Alla&t=0&o=0&ha=Alla&c=goal",
+          "collectionMethod": "Public official season HTML goal view; validated cached offline parse",
+          "extractionVersion": "handballstats-goal-html/1",
+          "timestamp": "2026-10-11T07:52:41.265933+00:00",
+          "confidence": "MEDIUM",
+          "matches": 182,
+          "events": 17816,
+          "coverage": 1,
+          "sourceManifestHash": "1d45038d008c53b93ae2fba284e6346b41f9a05f86e999d1f27d6c101661db70",
+          "normalizedHash": "2134b334cec0b680813a12f0a5e5b1892c9503b0a69fa7409934f7af1f9634c2",
+          "notes": [
+            "N=1 pooled complete-season aggregate; no match variance or position z-score",
+            "Registered season positions, not shot locations or engine role at release",
+            "Total shot/goals columns already include 7m; no double addition",
+            "Unknown positions retained in league denominators"
+          ],
+          "sourceHashes": [
+            "e2dad65e048f6999925cea9cc8a13275bfc63ed699600d7dba24f8013e0a7b4d"
+          ]
+        },
+        "transformations": [
+          "N=1 pooled complete-season aggregate; no match variance or position z-score",
+          "Registered season positions, not shot locations or engine role at release",
+          "Total shot/goals columns already include 7m; no double addition",
+          "Unknown positions retained in league denominators"
+        ]
+      },
+      {
+        "metric": "conversion",
+        "scope": "POSITION_SEASON:V6",
+        "unit": "ratio",
+        "definition": "goals / released attempts",
+        "distribution": {
+          "n": 1,
+          "mean": 0.6876384581302614,
+          "median": 0.6876384581302614,
+          "sd": null,
+          "min": 0.6876384581302614,
+          "max": 0.6876384581302614,
+          "p05": 0.6876384581302614,
+          "p10": 0.6876384581302614,
+          "p25": 0.6876384581302614,
+          "p75": 0.6876384581302614,
+          "p90": 0.6876384581302614,
+          "p95": 0.6876384581302614
+        },
+        "provenance": {
+          "name": "Handbollsligan official goal-view season statistics",
+          "location": "https://handballstats.se/statistics/herr/statistics/statistics.aspx?y=2025&l=2500101&p=Alla&t=0&o=0&ha=Alla&c=goal",
+          "collectionMethod": "Public official season HTML goal view; validated cached offline parse",
+          "extractionVersion": "handballstats-goal-html/1",
+          "timestamp": "2026-10-11T07:52:41.265933+00:00",
+          "confidence": "MEDIUM",
+          "matches": 182,
+          "events": 2257,
+          "coverage": 1,
+          "sourceManifestHash": "1d45038d008c53b93ae2fba284e6346b41f9a05f86e999d1f27d6c101661db70",
+          "normalizedHash": "2134b334cec0b680813a12f0a5e5b1892c9503b0a69fa7409934f7af1f9634c2",
+          "notes": [
+            "N=1 pooled complete-season aggregate; no match variance or position z-score",
+            "Registered season positions, not shot locations or engine role at release",
+            "Total shot/goals columns already include 7m; no double addition",
+            "Unknown positions retained in league denominators"
+          ],
+          "sourceHashes": [
+            "e2dad65e048f6999925cea9cc8a13275bfc63ed699600d7dba24f8013e0a7b4d"
+          ]
+        },
+        "transformations": [
+          "N=1 pooled complete-season aggregate; no match variance or position z-score",
+          "Registered season positions, not shot locations or engine role at release",
+          "Total shot/goals columns already include 7m; no double addition",
+          "Unknown positions retained in league denominators"
+        ]
+      },
+      {
+        "metric": "shotShare",
+        "scope": "POSITION_SEASON:V9",
+        "unit": "ratio",
+        "definition": "group attempts / team or match attempts as identified by scope",
+        "distribution": {
+          "n": 1,
+          "mean": 0.23349797934440952,
+          "median": 0.23349797934440952,
+          "sd": null,
+          "min": 0.23349797934440952,
+          "max": 0.23349797934440952,
+          "p05": 0.23349797934440952,
+          "p10": 0.23349797934440952,
+          "p25": 0.23349797934440952,
+          "p75": 0.23349797934440952,
+          "p90": 0.23349797934440952,
+          "p95": 0.23349797934440952
+        },
+        "provenance": {
+          "name": "Handbollsligan official goal-view season statistics",
+          "location": "https://handballstats.se/statistics/herr/statistics/statistics.aspx?y=2025&l=2500101&p=Alla&t=0&o=0&ha=Alla&c=goal",
+          "collectionMethod": "Public official season HTML goal view; validated cached offline parse",
+          "extractionVersion": "handballstats-goal-html/1",
+          "timestamp": "2026-10-11T07:52:41.265933+00:00",
+          "confidence": "MEDIUM",
+          "matches": 182,
+          "events": 17816,
+          "coverage": 1,
+          "sourceManifestHash": "1d45038d008c53b93ae2fba284e6346b41f9a05f86e999d1f27d6c101661db70",
+          "normalizedHash": "2134b334cec0b680813a12f0a5e5b1892c9503b0a69fa7409934f7af1f9634c2",
+          "notes": [
+            "N=1 pooled complete-season aggregate; no match variance or position z-score",
+            "Registered season positions, not shot locations or engine role at release",
+            "Total shot/goals columns already include 7m; no double addition",
+            "Unknown positions retained in league denominators"
+          ],
+          "sourceHashes": [
+            "e2dad65e048f6999925cea9cc8a13275bfc63ed699600d7dba24f8013e0a7b4d"
+          ]
+        },
+        "transformations": [
+          "N=1 pooled complete-season aggregate; no match variance or position z-score",
+          "Registered season positions, not shot locations or engine role at release",
+          "Total shot/goals columns already include 7m; no double addition",
+          "Unknown positions retained in league denominators"
+        ]
+      },
+      {
+        "metric": "conversion",
+        "scope": "POSITION_SEASON:V9",
+        "unit": "ratio",
+        "definition": "goals / released attempts",
+        "distribution": {
+          "n": 1,
+          "mean": 0.5603365384615384,
+          "median": 0.5603365384615384,
+          "sd": null,
+          "min": 0.5603365384615384,
+          "max": 0.5603365384615384,
+          "p05": 0.5603365384615384,
+          "p10": 0.5603365384615384,
+          "p25": 0.5603365384615384,
+          "p75": 0.5603365384615384,
+          "p90": 0.5603365384615384,
+          "p95": 0.5603365384615384
+        },
+        "provenance": {
+          "name": "Handbollsligan official goal-view season statistics",
+          "location": "https://handballstats.se/statistics/herr/statistics/statistics.aspx?y=2025&l=2500101&p=Alla&t=0&o=0&ha=Alla&c=goal",
+          "collectionMethod": "Public official season HTML goal view; validated cached offline parse",
+          "extractionVersion": "handballstats-goal-html/1",
+          "timestamp": "2026-10-11T07:52:41.265933+00:00",
+          "confidence": "MEDIUM",
+          "matches": 182,
+          "events": 4160,
+          "coverage": 1,
+          "sourceManifestHash": "1d45038d008c53b93ae2fba284e6346b41f9a05f86e999d1f27d6c101661db70",
+          "normalizedHash": "2134b334cec0b680813a12f0a5e5b1892c9503b0a69fa7409934f7af1f9634c2",
+          "notes": [
+            "N=1 pooled complete-season aggregate; no match variance or position z-score",
+            "Registered season positions, not shot locations or engine role at release",
+            "Total shot/goals columns already include 7m; no double addition",
+            "Unknown positions retained in league denominators"
+          ],
+          "sourceHashes": [
+            "e2dad65e048f6999925cea9cc8a13275bfc63ed699600d7dba24f8013e0a7b4d"
+          ]
+        },
+        "transformations": [
+          "N=1 pooled complete-season aggregate; no match variance or position z-score",
+          "Registered season positions, not shot locations or engine role at release",
+          "Total shot/goals columns already include 7m; no double addition",
+          "Unknown positions retained in league denominators"
+        ]
+      }
+    ],
+    "notes": [
+      "N=1 pooled complete-season aggregate; no match variance or position z-score",
+      "Registered season positions, not shot locations or engine role at release",
+      "Total shot/goals columns already include 7m; no double addition",
+      "Unknown positions retained in league denominators"
+    ],
+    "evidence": {
+      "tier": "C",
+      "seasonStatus": "COMPLETE_SEASON",
+      "expectedMatches": 182,
+      "foundMatches": 182,
+      "parsedMatches": 182,
+      "coverage": 1,
+      "playerObservations": 273,
+      "keeperObservations": 0,
+      "missingMetrics": [
+        "positionMatchVariance",
+        "shotContext"
+      ]
+    }
+  },
+  {
+    "schemaVersion": "match-benchmarks/1",
+    "id": "SE:swe-w-1:2025-26:regular:POSITION_SHOTS",
+    "version": "empirical-sweden/1",
+    "kind": "REAL_WORLD_REFERENCE",
+    "sport": "handball",
+    "country": "SE",
+    "competition": "swe-w-1",
+    "category": "women-senior",
+    "season": "2025-26",
+    "dateRange": {
+      "start": "2025-09-24",
+      "end": "2026-03-24"
+    },
+    "metrics": [
+      {
+        "metric": "shotShare",
+        "scope": "POSITION_SEASON:H6",
+        "unit": "ratio",
+        "definition": "group attempts / team or match attempts as identified by scope",
+        "distribution": {
+          "n": 1,
+          "mean": 0.1300304633637967,
+          "median": 0.1300304633637967,
+          "sd": null,
+          "min": 0.1300304633637967,
+          "max": 0.1300304633637967,
+          "p05": 0.1300304633637967,
+          "p10": 0.1300304633637967,
+          "p25": 0.1300304633637967,
+          "p75": 0.1300304633637967,
+          "p90": 0.1300304633637967,
+          "p95": 0.1300304633637967
+        },
+        "provenance": {
+          "name": "Handbollsligan official goal-view season statistics",
+          "location": "https://handballstats.se/statistics/dam/overview.aspx?y=2025&l=2500201&p=Alla&t=0&o=0&ha=Alla&c=goal",
+          "collectionMethod": "Public official season HTML goal view; validated cached offline parse",
+          "extractionVersion": "handballstats-goal-html/1",
+          "timestamp": "2026-10-11T07:52:46.311308+00:00",
+          "confidence": "MEDIUM",
+          "matches": 132,
+          "events": 12474,
+          "coverage": 1,
+          "sourceManifestHash": "00959483217dc0697238efa9a94e87ce94f63d8d942e55d491e88932569553c3",
+          "normalizedHash": "3851022c6d5e4e56a35bdb341b7c4c96ddda6ecfaed18c607269226d8b04e230",
+          "notes": [
+            "N=1 pooled complete-season aggregate; no match variance or position z-score",
+            "Registered season positions, not shot locations or engine role at release",
+            "Total shot/goals columns already include 7m; no double addition",
+            "Unknown positions retained in league denominators"
+          ],
+          "sourceHashes": [
+            "95c7fab4daa0a6efeea2329def8a771406badc5c3e098c78042b6b458ed952ea"
+          ]
+        },
+        "transformations": [
+          "N=1 pooled complete-season aggregate; no match variance or position z-score",
+          "Registered season positions, not shot locations or engine role at release",
+          "Total shot/goals columns already include 7m; no double addition",
+          "Unknown positions retained in league denominators"
+        ]
+      },
+      {
+        "metric": "conversion",
+        "scope": "POSITION_SEASON:H6",
+        "unit": "ratio",
+        "definition": "goals / released attempts",
+        "distribution": {
+          "n": 1,
+          "mean": 0.5672009864364982,
+          "median": 0.5672009864364982,
+          "sd": null,
+          "min": 0.5672009864364982,
+          "max": 0.5672009864364982,
+          "p05": 0.5672009864364982,
+          "p10": 0.5672009864364982,
+          "p25": 0.5672009864364982,
+          "p75": 0.5672009864364982,
+          "p90": 0.5672009864364982,
+          "p95": 0.5672009864364982
+        },
+        "provenance": {
+          "name": "Handbollsligan official goal-view season statistics",
+          "location": "https://handballstats.se/statistics/dam/overview.aspx?y=2025&l=2500201&p=Alla&t=0&o=0&ha=Alla&c=goal",
+          "collectionMethod": "Public official season HTML goal view; validated cached offline parse",
+          "extractionVersion": "handballstats-goal-html/1",
+          "timestamp": "2026-10-11T07:52:46.311308+00:00",
+          "confidence": "MEDIUM",
+          "matches": 132,
+          "events": 1622,
+          "coverage": 1,
+          "sourceManifestHash": "00959483217dc0697238efa9a94e87ce94f63d8d942e55d491e88932569553c3",
+          "normalizedHash": "3851022c6d5e4e56a35bdb341b7c4c96ddda6ecfaed18c607269226d8b04e230",
+          "notes": [
+            "N=1 pooled complete-season aggregate; no match variance or position z-score",
+            "Registered season positions, not shot locations or engine role at release",
+            "Total shot/goals columns already include 7m; no double addition",
+            "Unknown positions retained in league denominators"
+          ],
+          "sourceHashes": [
+            "95c7fab4daa0a6efeea2329def8a771406badc5c3e098c78042b6b458ed952ea"
+          ]
+        },
+        "transformations": [
+          "N=1 pooled complete-season aggregate; no match variance or position z-score",
+          "Registered season positions, not shot locations or engine role at release",
+          "Total shot/goals columns already include 7m; no double addition",
+          "Unknown positions retained in league denominators"
+        ]
+      },
+      {
+        "metric": "shotShare",
+        "scope": "POSITION_SEASON:H9",
+        "unit": "ratio",
+        "definition": "group attempts / team or match attempts as identified by scope",
+        "distribution": {
+          "n": 1,
+          "mean": 0.14999198332531666,
+          "median": 0.14999198332531666,
+          "sd": null,
+          "min": 0.14999198332531666,
+          "max": 0.14999198332531666,
+          "p05": 0.14999198332531666,
+          "p10": 0.14999198332531666,
+          "p25": 0.14999198332531666,
+          "p75": 0.14999198332531666,
+          "p90": 0.14999198332531666,
+          "p95": 0.14999198332531666
+        },
+        "provenance": {
+          "name": "Handbollsligan official goal-view season statistics",
+          "location": "https://handballstats.se/statistics/dam/overview.aspx?y=2025&l=2500201&p=Alla&t=0&o=0&ha=Alla&c=goal",
+          "collectionMethod": "Public official season HTML goal view; validated cached offline parse",
+          "extractionVersion": "handballstats-goal-html/1",
+          "timestamp": "2026-10-11T07:52:46.311308+00:00",
+          "confidence": "MEDIUM",
+          "matches": 132,
+          "events": 12474,
+          "coverage": 1,
+          "sourceManifestHash": "00959483217dc0697238efa9a94e87ce94f63d8d942e55d491e88932569553c3",
+          "normalizedHash": "3851022c6d5e4e56a35bdb341b7c4c96ddda6ecfaed18c607269226d8b04e230",
+          "notes": [
+            "N=1 pooled complete-season aggregate; no match variance or position z-score",
+            "Registered season positions, not shot locations or engine role at release",
+            "Total shot/goals columns already include 7m; no double addition",
+            "Unknown positions retained in league denominators"
+          ],
+          "sourceHashes": [
+            "95c7fab4daa0a6efeea2329def8a771406badc5c3e098c78042b6b458ed952ea"
+          ]
+        },
+        "transformations": [
+          "N=1 pooled complete-season aggregate; no match variance or position z-score",
+          "Registered season positions, not shot locations or engine role at release",
+          "Total shot/goals columns already include 7m; no double addition",
+          "Unknown positions retained in league denominators"
+        ]
+      },
+      {
+        "metric": "conversion",
+        "scope": "POSITION_SEASON:H9",
+        "unit": "ratio",
+        "definition": "goals / released attempts",
+        "distribution": {
+          "n": 1,
+          "mean": 0.5066809192944949,
+          "median": 0.5066809192944949,
+          "sd": null,
+          "min": 0.5066809192944949,
+          "max": 0.5066809192944949,
+          "p05": 0.5066809192944949,
+          "p10": 0.5066809192944949,
+          "p25": 0.5066809192944949,
+          "p75": 0.5066809192944949,
+          "p90": 0.5066809192944949,
+          "p95": 0.5066809192944949
+        },
+        "provenance": {
+          "name": "Handbollsligan official goal-view season statistics",
+          "location": "https://handballstats.se/statistics/dam/overview.aspx?y=2025&l=2500201&p=Alla&t=0&o=0&ha=Alla&c=goal",
+          "collectionMethod": "Public official season HTML goal view; validated cached offline parse",
+          "extractionVersion": "handballstats-goal-html/1",
+          "timestamp": "2026-10-11T07:52:46.311308+00:00",
+          "confidence": "MEDIUM",
+          "matches": 132,
+          "events": 1871,
+          "coverage": 1,
+          "sourceManifestHash": "00959483217dc0697238efa9a94e87ce94f63d8d942e55d491e88932569553c3",
+          "normalizedHash": "3851022c6d5e4e56a35bdb341b7c4c96ddda6ecfaed18c607269226d8b04e230",
+          "notes": [
+            "N=1 pooled complete-season aggregate; no match variance or position z-score",
+            "Registered season positions, not shot locations or engine role at release",
+            "Total shot/goals columns already include 7m; no double addition",
+            "Unknown positions retained in league denominators"
+          ],
+          "sourceHashes": [
+            "95c7fab4daa0a6efeea2329def8a771406badc5c3e098c78042b6b458ed952ea"
+          ]
+        },
+        "transformations": [
+          "N=1 pooled complete-season aggregate; no match variance or position z-score",
+          "Registered season positions, not shot locations or engine role at release",
+          "Total shot/goals columns already include 7m; no double addition",
+          "Unknown positions retained in league denominators"
+        ]
+      },
+      {
+        "metric": "shotShare",
+        "scope": "POSITION_SEASON:M6",
+        "unit": "ratio",
+        "definition": "group attempts / team or match attempts as identified by scope",
+        "distribution": {
+          "n": 1,
+          "mean": 0.10557960557960558,
+          "median": 0.10557960557960558,
+          "sd": null,
+          "min": 0.10557960557960558,
+          "max": 0.10557960557960558,
+          "p05": 0.10557960557960558,
+          "p10": 0.10557960557960558,
+          "p25": 0.10557960557960558,
+          "p75": 0.10557960557960558,
+          "p90": 0.10557960557960558,
+          "p95": 0.10557960557960558
+        },
+        "provenance": {
+          "name": "Handbollsligan official goal-view season statistics",
+          "location": "https://handballstats.se/statistics/dam/overview.aspx?y=2025&l=2500201&p=Alla&t=0&o=0&ha=Alla&c=goal",
+          "collectionMethod": "Public official season HTML goal view; validated cached offline parse",
+          "extractionVersion": "handballstats-goal-html/1",
+          "timestamp": "2026-10-11T07:52:46.311308+00:00",
+          "confidence": "MEDIUM",
+          "matches": 132,
+          "events": 12474,
+          "coverage": 1,
+          "sourceManifestHash": "00959483217dc0697238efa9a94e87ce94f63d8d942e55d491e88932569553c3",
+          "normalizedHash": "3851022c6d5e4e56a35bdb341b7c4c96ddda6ecfaed18c607269226d8b04e230",
+          "notes": [
+            "N=1 pooled complete-season aggregate; no match variance or position z-score",
+            "Registered season positions, not shot locations or engine role at release",
+            "Total shot/goals columns already include 7m; no double addition",
+            "Unknown positions retained in league denominators"
+          ],
+          "sourceHashes": [
+            "95c7fab4daa0a6efeea2329def8a771406badc5c3e098c78042b6b458ed952ea"
+          ]
+        },
+        "transformations": [
+          "N=1 pooled complete-season aggregate; no match variance or position z-score",
+          "Registered season positions, not shot locations or engine role at release",
+          "Total shot/goals columns already include 7m; no double addition",
+          "Unknown positions retained in league denominators"
+        ]
+      },
+      {
+        "metric": "conversion",
+        "scope": "POSITION_SEASON:M6",
+        "unit": "ratio",
+        "definition": "goals / released attempts",
+        "distribution": {
+          "n": 1,
+          "mean": 0.6993166287015945,
+          "median": 0.6993166287015945,
+          "sd": null,
+          "min": 0.6993166287015945,
+          "max": 0.6993166287015945,
+          "p05": 0.6993166287015945,
+          "p10": 0.6993166287015945,
+          "p25": 0.6993166287015945,
+          "p75": 0.6993166287015945,
+          "p90": 0.6993166287015945,
+          "p95": 0.6993166287015945
+        },
+        "provenance": {
+          "name": "Handbollsligan official goal-view season statistics",
+          "location": "https://handballstats.se/statistics/dam/overview.aspx?y=2025&l=2500201&p=Alla&t=0&o=0&ha=Alla&c=goal",
+          "collectionMethod": "Public official season HTML goal view; validated cached offline parse",
+          "extractionVersion": "handballstats-goal-html/1",
+          "timestamp": "2026-10-11T07:52:46.311308+00:00",
+          "confidence": "MEDIUM",
+          "matches": 132,
+          "events": 1317,
+          "coverage": 1,
+          "sourceManifestHash": "00959483217dc0697238efa9a94e87ce94f63d8d942e55d491e88932569553c3",
+          "normalizedHash": "3851022c6d5e4e56a35bdb341b7c4c96ddda6ecfaed18c607269226d8b04e230",
+          "notes": [
+            "N=1 pooled complete-season aggregate; no match variance or position z-score",
+            "Registered season positions, not shot locations or engine role at release",
+            "Total shot/goals columns already include 7m; no double addition",
+            "Unknown positions retained in league denominators"
+          ],
+          "sourceHashes": [
+            "95c7fab4daa0a6efeea2329def8a771406badc5c3e098c78042b6b458ed952ea"
+          ]
+        },
+        "transformations": [
+          "N=1 pooled complete-season aggregate; no match variance or position z-score",
+          "Registered season positions, not shot locations or engine role at release",
+          "Total shot/goals columns already include 7m; no double addition",
+          "Unknown positions retained in league denominators"
+        ]
+      },
+      {
+        "metric": "shotShare",
+        "scope": "POSITION_SEASON:M9",
+        "unit": "ratio",
+        "definition": "group attempts / team or match attempts as identified by scope",
+        "distribution": {
+          "n": 1,
+          "mean": 0.25268558601891933,
+          "median": 0.25268558601891933,
+          "sd": null,
+          "min": 0.25268558601891933,
+          "max": 0.25268558601891933,
+          "p05": 0.25268558601891933,
+          "p10": 0.25268558601891933,
+          "p25": 0.25268558601891933,
+          "p75": 0.25268558601891933,
+          "p90": 0.25268558601891933,
+          "p95": 0.25268558601891933
+        },
+        "provenance": {
+          "name": "Handbollsligan official goal-view season statistics",
+          "location": "https://handballstats.se/statistics/dam/overview.aspx?y=2025&l=2500201&p=Alla&t=0&o=0&ha=Alla&c=goal",
+          "collectionMethod": "Public official season HTML goal view; validated cached offline parse",
+          "extractionVersion": "handballstats-goal-html/1",
+          "timestamp": "2026-10-11T07:52:46.311308+00:00",
+          "confidence": "MEDIUM",
+          "matches": 132,
+          "events": 12474,
+          "coverage": 1,
+          "sourceManifestHash": "00959483217dc0697238efa9a94e87ce94f63d8d942e55d491e88932569553c3",
+          "normalizedHash": "3851022c6d5e4e56a35bdb341b7c4c96ddda6ecfaed18c607269226d8b04e230",
+          "notes": [
+            "N=1 pooled complete-season aggregate; no match variance or position z-score",
+            "Registered season positions, not shot locations or engine role at release",
+            "Total shot/goals columns already include 7m; no double addition",
+            "Unknown positions retained in league denominators"
+          ],
+          "sourceHashes": [
+            "95c7fab4daa0a6efeea2329def8a771406badc5c3e098c78042b6b458ed952ea"
+          ]
+        },
+        "transformations": [
+          "N=1 pooled complete-season aggregate; no match variance or position z-score",
+          "Registered season positions, not shot locations or engine role at release",
+          "Total shot/goals columns already include 7m; no double addition",
+          "Unknown positions retained in league denominators"
+        ]
+      },
+      {
+        "metric": "conversion",
+        "scope": "POSITION_SEASON:M9",
+        "unit": "ratio",
+        "definition": "goals / released attempts",
+        "distribution": {
+          "n": 1,
+          "mean": 0.5599619289340102,
+          "median": 0.5599619289340102,
+          "sd": null,
+          "min": 0.5599619289340102,
+          "max": 0.5599619289340102,
+          "p05": 0.5599619289340102,
+          "p10": 0.5599619289340102,
+          "p25": 0.5599619289340102,
+          "p75": 0.5599619289340102,
+          "p90": 0.5599619289340102,
+          "p95": 0.5599619289340102
+        },
+        "provenance": {
+          "name": "Handbollsligan official goal-view season statistics",
+          "location": "https://handballstats.se/statistics/dam/overview.aspx?y=2025&l=2500201&p=Alla&t=0&o=0&ha=Alla&c=goal",
+          "collectionMethod": "Public official season HTML goal view; validated cached offline parse",
+          "extractionVersion": "handballstats-goal-html/1",
+          "timestamp": "2026-10-11T07:52:46.311308+00:00",
+          "confidence": "MEDIUM",
+          "matches": 132,
+          "events": 3152,
+          "coverage": 1,
+          "sourceManifestHash": "00959483217dc0697238efa9a94e87ce94f63d8d942e55d491e88932569553c3",
+          "normalizedHash": "3851022c6d5e4e56a35bdb341b7c4c96ddda6ecfaed18c607269226d8b04e230",
+          "notes": [
+            "N=1 pooled complete-season aggregate; no match variance or position z-score",
+            "Registered season positions, not shot locations or engine role at release",
+            "Total shot/goals columns already include 7m; no double addition",
+            "Unknown positions retained in league denominators"
+          ],
+          "sourceHashes": [
+            "95c7fab4daa0a6efeea2329def8a771406badc5c3e098c78042b6b458ed952ea"
+          ]
+        },
+        "transformations": [
+          "N=1 pooled complete-season aggregate; no match variance or position z-score",
+          "Registered season positions, not shot locations or engine role at release",
+          "Total shot/goals columns already include 7m; no double addition",
+          "Unknown positions retained in league denominators"
+        ]
+      },
+      {
+        "metric": "shotShare",
+        "scope": "POSITION_SEASON:V6",
+        "unit": "ratio",
+        "definition": "group attempts / team or match attempts as identified by scope",
+        "distribution": {
+          "n": 1,
+          "mean": 0.13203463203463203,
+          "median": 0.13203463203463203,
+          "sd": null,
+          "min": 0.13203463203463203,
+          "max": 0.13203463203463203,
+          "p05": 0.13203463203463203,
+          "p10": 0.13203463203463203,
+          "p25": 0.13203463203463203,
+          "p75": 0.13203463203463203,
+          "p90": 0.13203463203463203,
+          "p95": 0.13203463203463203
+        },
+        "provenance": {
+          "name": "Handbollsligan official goal-view season statistics",
+          "location": "https://handballstats.se/statistics/dam/overview.aspx?y=2025&l=2500201&p=Alla&t=0&o=0&ha=Alla&c=goal",
+          "collectionMethod": "Public official season HTML goal view; validated cached offline parse",
+          "extractionVersion": "handballstats-goal-html/1",
+          "timestamp": "2026-10-11T07:52:46.311308+00:00",
+          "confidence": "MEDIUM",
+          "matches": 132,
+          "events": 12474,
+          "coverage": 1,
+          "sourceManifestHash": "00959483217dc0697238efa9a94e87ce94f63d8d942e55d491e88932569553c3",
+          "normalizedHash": "3851022c6d5e4e56a35bdb341b7c4c96ddda6ecfaed18c607269226d8b04e230",
+          "notes": [
+            "N=1 pooled complete-season aggregate; no match variance or position z-score",
+            "Registered season positions, not shot locations or engine role at release",
+            "Total shot/goals columns already include 7m; no double addition",
+            "Unknown positions retained in league denominators"
+          ],
+          "sourceHashes": [
+            "95c7fab4daa0a6efeea2329def8a771406badc5c3e098c78042b6b458ed952ea"
+          ]
+        },
+        "transformations": [
+          "N=1 pooled complete-season aggregate; no match variance or position z-score",
+          "Registered season positions, not shot locations or engine role at release",
+          "Total shot/goals columns already include 7m; no double addition",
+          "Unknown positions retained in league denominators"
+        ]
+      },
+      {
+        "metric": "conversion",
+        "scope": "POSITION_SEASON:V6",
+        "unit": "ratio",
+        "definition": "goals / released attempts",
+        "distribution": {
+          "n": 1,
+          "mean": 0.6065573770491803,
+          "median": 0.6065573770491803,
+          "sd": null,
+          "min": 0.6065573770491803,
+          "max": 0.6065573770491803,
+          "p05": 0.6065573770491803,
+          "p10": 0.6065573770491803,
+          "p25": 0.6065573770491803,
+          "p75": 0.6065573770491803,
+          "p90": 0.6065573770491803,
+          "p95": 0.6065573770491803
+        },
+        "provenance": {
+          "name": "Handbollsligan official goal-view season statistics",
+          "location": "https://handballstats.se/statistics/dam/overview.aspx?y=2025&l=2500201&p=Alla&t=0&o=0&ha=Alla&c=goal",
+          "collectionMethod": "Public official season HTML goal view; validated cached offline parse",
+          "extractionVersion": "handballstats-goal-html/1",
+          "timestamp": "2026-10-11T07:52:46.311308+00:00",
+          "confidence": "MEDIUM",
+          "matches": 132,
+          "events": 1647,
+          "coverage": 1,
+          "sourceManifestHash": "00959483217dc0697238efa9a94e87ce94f63d8d942e55d491e88932569553c3",
+          "normalizedHash": "3851022c6d5e4e56a35bdb341b7c4c96ddda6ecfaed18c607269226d8b04e230",
+          "notes": [
+            "N=1 pooled complete-season aggregate; no match variance or position z-score",
+            "Registered season positions, not shot locations or engine role at release",
+            "Total shot/goals columns already include 7m; no double addition",
+            "Unknown positions retained in league denominators"
+          ],
+          "sourceHashes": [
+            "95c7fab4daa0a6efeea2329def8a771406badc5c3e098c78042b6b458ed952ea"
+          ]
+        },
+        "transformations": [
+          "N=1 pooled complete-season aggregate; no match variance or position z-score",
+          "Registered season positions, not shot locations or engine role at release",
+          "Total shot/goals columns already include 7m; no double addition",
+          "Unknown positions retained in league denominators"
+        ]
+      },
+      {
+        "metric": "shotShare",
+        "scope": "POSITION_SEASON:V9",
+        "unit": "ratio",
+        "definition": "group attempts / team or match attempts as identified by scope",
+        "distribution": {
+          "n": 1,
+          "mean": 0.22550905884239217,
+          "median": 0.22550905884239217,
+          "sd": null,
+          "min": 0.22550905884239217,
+          "max": 0.22550905884239217,
+          "p05": 0.22550905884239217,
+          "p10": 0.22550905884239217,
+          "p25": 0.22550905884239217,
+          "p75": 0.22550905884239217,
+          "p90": 0.22550905884239217,
+          "p95": 0.22550905884239217
+        },
+        "provenance": {
+          "name": "Handbollsligan official goal-view season statistics",
+          "location": "https://handballstats.se/statistics/dam/overview.aspx?y=2025&l=2500201&p=Alla&t=0&o=0&ha=Alla&c=goal",
+          "collectionMethod": "Public official season HTML goal view; validated cached offline parse",
+          "extractionVersion": "handballstats-goal-html/1",
+          "timestamp": "2026-10-11T07:52:46.311308+00:00",
+          "confidence": "MEDIUM",
+          "matches": 132,
+          "events": 12474,
+          "coverage": 1,
+          "sourceManifestHash": "00959483217dc0697238efa9a94e87ce94f63d8d942e55d491e88932569553c3",
+          "normalizedHash": "3851022c6d5e4e56a35bdb341b7c4c96ddda6ecfaed18c607269226d8b04e230",
+          "notes": [
+            "N=1 pooled complete-season aggregate; no match variance or position z-score",
+            "Registered season positions, not shot locations or engine role at release",
+            "Total shot/goals columns already include 7m; no double addition",
+            "Unknown positions retained in league denominators"
+          ],
+          "sourceHashes": [
+            "95c7fab4daa0a6efeea2329def8a771406badc5c3e098c78042b6b458ed952ea"
+          ]
+        },
+        "transformations": [
+          "N=1 pooled complete-season aggregate; no match variance or position z-score",
+          "Registered season positions, not shot locations or engine role at release",
+          "Total shot/goals columns already include 7m; no double addition",
+          "Unknown positions retained in league denominators"
+        ]
+      },
+      {
+        "metric": "conversion",
+        "scope": "POSITION_SEASON:V9",
+        "unit": "ratio",
+        "definition": "goals / released attempts",
+        "distribution": {
+          "n": 1,
+          "mean": 0.5503021685033772,
+          "median": 0.5503021685033772,
+          "sd": null,
+          "min": 0.5503021685033772,
+          "max": 0.5503021685033772,
+          "p05": 0.5503021685033772,
+          "p10": 0.5503021685033772,
+          "p25": 0.5503021685033772,
+          "p75": 0.5503021685033772,
+          "p90": 0.5503021685033772,
+          "p95": 0.5503021685033772
+        },
+        "provenance": {
+          "name": "Handbollsligan official goal-view season statistics",
+          "location": "https://handballstats.se/statistics/dam/overview.aspx?y=2025&l=2500201&p=Alla&t=0&o=0&ha=Alla&c=goal",
+          "collectionMethod": "Public official season HTML goal view; validated cached offline parse",
+          "extractionVersion": "handballstats-goal-html/1",
+          "timestamp": "2026-10-11T07:52:46.311308+00:00",
+          "confidence": "MEDIUM",
+          "matches": 132,
+          "events": 2813,
+          "coverage": 1,
+          "sourceManifestHash": "00959483217dc0697238efa9a94e87ce94f63d8d942e55d491e88932569553c3",
+          "normalizedHash": "3851022c6d5e4e56a35bdb341b7c4c96ddda6ecfaed18c607269226d8b04e230",
+          "notes": [
+            "N=1 pooled complete-season aggregate; no match variance or position z-score",
+            "Registered season positions, not shot locations or engine role at release",
+            "Total shot/goals columns already include 7m; no double addition",
+            "Unknown positions retained in league denominators"
+          ],
+          "sourceHashes": [
+            "95c7fab4daa0a6efeea2329def8a771406badc5c3e098c78042b6b458ed952ea"
+          ]
+        },
+        "transformations": [
+          "N=1 pooled complete-season aggregate; no match variance or position z-score",
+          "Registered season positions, not shot locations or engine role at release",
+          "Total shot/goals columns already include 7m; no double addition",
+          "Unknown positions retained in league denominators"
+        ]
+      }
+    ],
+    "notes": [
+      "N=1 pooled complete-season aggregate; no match variance or position z-score",
+      "Registered season positions, not shot locations or engine role at release",
+      "Total shot/goals columns already include 7m; no double addition",
+      "Unknown positions retained in league denominators"
+    ],
+    "evidence": {
+      "tier": "C",
+      "seasonStatus": "COMPLETE_SEASON",
+      "expectedMatches": 132,
+      "foundMatches": 132,
+      "parsedMatches": 132,
+      "coverage": 1,
+      "playerObservations": 210,
+      "keeperObservations": 0,
+      "missingMetrics": [
+        "positionMatchVariance",
+        "shotContext"
+      ]
+    }
+  }
+]

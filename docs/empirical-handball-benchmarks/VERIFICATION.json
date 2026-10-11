@@ -1,0 +1,189 @@
+{
+  "startingCheckpoint": "6641224",
+  "frameworkSchema": "match-benchmarks/1",
+  "parserVersion": "sweden-public/1.1.0",
+  "referenceCatalogHash": "28a89cbdb4b4646da550d6875cea2a86bc26717fe983ab375e8291f12911ad7a",
+  "derivedByteDeterministic": true,
+  "derivedHashes": {
+    "keeper-matches.json": "0912f51828414ae71cec23fb24aa7f4914ea89b8a8ff1aaab4a7e8009613cbff",
+    "league-outcomes.json": "2ef2ddbaf2b09d98d943c27bf57ea88f0f3429d982b11a97e828f61173ad3ed5",
+    "manifest.json": "fe23c0f49368fee36d5f7fddd856fcf8d69be5467ee87c9b21a28243691ca4f2",
+    "player-season-summaries.json": "df29b5711f5696db46c54bda88c95e52c5f12d16e0345a834e1ed8bbcd0dd64a",
+    "position-shot-profiles.json": "1adea87e2912e646a605ff93e1d9bb58f77ccfc8889985c8bd266c04ea384e79",
+    "position-shot-summaries.json": "2f6eeeb7306fa9f3bfb94282b5b19b3c7e79d7a199b04d5bc1a897a582cc2362",
+    "profiles.json": "a55e42b65defe94c9e0aa7e78100685c68513e2de035db6c10c872d35b9e22f8",
+    "quality.json": "4cf67c51e130a0443d9180349d87d70f9633c24d4d5262f0ba471fe9dd9471f9",
+    "team-mapping.json": "18d66157d54b68c2262aa2b4398222da0cd585c2460ce219e52b100796cbab88",
+    "team-profiles.json": "814935445d4405628e969571c764e8039a59a6ab8f98df4de155b7c59c10100b"
+  },
+  "comparisonRepeatDeterministic": true,
+  "retainedCanonicalSamplePairs": [
+    {
+      "file": "match-000.json",
+      "resultEqual": true,
+      "sessionEqual": true
+    },
+    {
+      "file": "match-001.json",
+      "resultEqual": true,
+      "sessionEqual": true
+    },
+    {
+      "file": "match-002.json",
+      "resultEqual": true,
+      "sessionEqual": true
+    },
+    {
+      "file": "match-003.json",
+      "resultEqual": true,
+      "sessionEqual": true
+    },
+    {
+      "file": "match-004.json",
+      "resultEqual": true,
+      "sessionEqual": true
+    },
+    {
+      "file": "match-005.json",
+      "resultEqual": true,
+      "sessionEqual": true
+    },
+    {
+      "file": "match-006.json",
+      "resultEqual": true,
+      "sessionEqual": true
+    },
+    {
+      "file": "match-007.json",
+      "resultEqual": true,
+      "sessionEqual": true
+    },
+    {
+      "file": "match-008.json",
+      "resultEqual": true,
+      "sessionEqual": true
+    },
+    {
+      "file": "match-009.json",
+      "resultEqual": true,
+      "sessionEqual": true
+    },
+    {
+      "file": "match-010.json",
+      "resultEqual": true,
+      "sessionEqual": true
+    },
+    {
+      "file": "match-011.json",
+      "resultEqual": true,
+      "sessionEqual": true
+    },
+    {
+      "file": "match-012.json",
+      "resultEqual": true,
+      "sessionEqual": true
+    },
+    {
+      "file": "match-013.json",
+      "resultEqual": true,
+      "sessionEqual": true
+    },
+    {
+      "file": "match-014.json",
+      "resultEqual": true,
+      "sessionEqual": true
+    },
+    {
+      "file": "match-015.json",
+      "resultEqual": true,
+      "sessionEqual": true
+    },
+    {
+      "file": "match-016.json",
+      "resultEqual": true,
+      "sessionEqual": true
+    },
+    {
+      "file": "match-017.json",
+      "resultEqual": true,
+      "sessionEqual": true
+    },
+    {
+      "file": "match-018.json",
+      "resultEqual": true,
+      "sessionEqual": true
+    },
+    {
+      "file": "match-019.json",
+      "resultEqual": true,
+      "sessionEqual": true
+    }
+  ],
+  "fullMatchProofs": {
+    "allsvenskan": [
+      {
+        "index": 0,
+        "fullMatch": true,
+        "exactSessionEqual": true,
+        "sessionHash": "5c20eceefe370b763128da0b44a58b80f03e14ce1da1281fdaa6cb1416f5a6fa",
+        "resultHash": "c5f5818a2d8ed97dcb1a9086a272146be8bd88c97de18a8459e2ae728791ce8c",
+        "observedMs": 11097.936699999998,
+        "unobservedMs": 10092.0753,
+        "observerMs": 605.8152999999609,
+        "analysisMs": 1439.5895,
+        "includes": [
+          "result",
+          "events",
+          "rng",
+          "archive frames",
+          "core statistics"
+        ],
+        "postAnalysisSessionUnchanged": true
+      }
+    ],
+    "handbollsligan": [
+      {
+        "index": 0,
+        "fullMatch": true,
+        "exactSessionEqual": true,
+        "sessionHash": "313fe884c429aa2b2bc6aaf37326cb02ecab6a81a12a89e8790cb317562e097d",
+        "resultHash": "7f2c20466d2c189d315c50d5093df8ee26ac17a7dec74d64b15199d9dac3d372",
+        "observedMs": 13720.9031,
+        "unobservedMs": 8853.6992,
+        "observerMs": 789.9280000004583,
+        "analysisMs": 1469.607899999999,
+        "includes": [
+          "result",
+          "events",
+          "rng",
+          "archive frames",
+          "core statistics"
+        ],
+        "postAnalysisSessionUnchanged": true
+      }
+    ]
+  },
+  "sourceStable": {
+    "allsvenskan": true,
+    "handbollsligan": true
+  },
+  "tests": {
+    "pythonIngestion": 5,
+    "empiricalAndBenchmark": 15,
+    "v2Protocol": 9,
+    "v2Core": 218,
+    "fullGame": 2304,
+    "failed": 0
+  },
+  "testContinuation": "Completed regressions retained from pre-interruption run; only the new goal-view denominator/header test and dedicated typecheck were added on resume",
+  "typechecks": "All workspace and dedicated benchmark PASS",
+  "productionBuild": "Not required: developer-only measurement, data and scripts; no production runtime/UI import changed",
+  "engineBehaviorChanged": false,
+  "normalGameplayNetworkRequests": 0,
+  "committedRawWebpageDumps": 0,
+  "elapsedMs": {
+    "allsvenskan": 242670.122,
+    "handbollsligan": 245020.8647
+  },
+  "pushed": false
+}
