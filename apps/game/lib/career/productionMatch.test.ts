@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { createNewCareerState } from './newCareer';
 import { snapshotWorldSquads, snapshotGameplayRatings } from '../gameWorld/serverSnapshot';
 import { buildMatchdayReadyEvent } from './careerEvents';
-import { createProductionSession, MATCH_BEHAVIOR_REVISION, startProductionMatch, advanceProductionMatch, commandProductionMatch, finishProductionMatch, finalizeProductionMatch, archiveFrames } from './productionMatch';
+import { createProductionSession, MATCH_BEHAVIOR_REVISION, startProductionMatch, advanceProductionMatch, commandProductionMatch, finishProductionMatch, finalizeProductionMatch, archiveFrames,resultFromSession } from './productionMatch';
 import { rolloverSeason } from './seasonRollover';
 import { getLiveStandings } from './standings';
 import { simulateFixture } from '@handball-manager/game-simulation';
@@ -82,7 +82,7 @@ test('real career match: commands, save continuation, exact archive and exactly-
     const contributions=side==='home'?archive.result.homePlayerContributions:archive.result.awayPlayerContributions;
     const own=archive.events.filter(e=>ids.has(e.actorId??''));
     assert.equal(stats.shots,own.filter(e=>e.type==='SHOT_RELEASED').length);
-    assert.equal(stats.saves,own.filter(e=>e.type.startsWith('SAVE_')).length);
+    assert.equal(stats.saves,own.filter(e=>e.type.startsWith('SAVE_')&&!archive.events.some(g=>g.type==='GOAL'&&g.actionId===e.actionId)).length);
     assert.equal(stats.twoMinuteSuspensions,own.filter(e=>e.type==='TWO_MINUTE_SUSPENSION').length);
     assert.equal(stats.sevenMetreAttempts,own.filter(e=>e.type==='SHOT_RELEASED'&&e.details.shotKind==='SEVEN_METRE').length);
     for (const p of contributions) if (team === (archive.fixture.homeClubId===done.playerClubId?'HOME':'AWAY')) {
@@ -148,6 +148,26 @@ test('developer tick observation leaves the canonical state, RNG, events and fra
   });
   assert.equal(observations,600);assert.ok(facts>0);
   assert.deepEqual(observed,normal,'diagnostics reads do not create a second simulation or consume seeded draws');
+});
+
+test('career role tendencies retain basic duties and respect recorded personal roles without changing capabilities',()=>{
+ const state=ready(),fixture=state.fixtures.find(f=>f.date===state.gameDate&&(f.homeClubId===state.playerClubId||f.awayClubId===state.playerClubId))!;
+ for(const ratings of Object.values(state.gameplayRatings))for(const r of ratings)r.attackRoleProficiencies=[];
+ const normal=createProductionSession(state,fixture),centre=normal.core.players.find(p=>p.population==='COURT'&&p.role==='CB')!;
+ assert.ok(centre.profile.tendency.feed>centre.profile.tendency.shoot);
+ const changed=structuredClone(state);for(const ratings of Object.values(changed.gameplayRatings))for(const r of ratings)if(r.playerId===centre.id)r.attackRoleProficiencies=[{role:'SCORING_CENTRE_BACK',value:14},{role:'PRIMARY_PLAYMAKER',value:10}];
+ const scorer=createProductionSession(changed,fixture).core.players.find(p=>p.id===centre.id)!;
+ assert.ok(scorer.profile.tendency.shoot>scorer.profile.tendency.feed);
+ assert.deepEqual({...scorer.profile,tendency:null},{...centre.profile,tendency:null});
+});
+
+test('keeper result shots faced count saves and attributed goals, excluding wide, blocks and parry goals',()=>{
+ const state=ready(),fixture=state.fixtures.find(f=>f.date===state.gameDate&&(f.homeClubId===state.playerClubId||f.awayClubId===state.playerClubId))!,session=createProductionSession(state,fixture);
+ const keeper=session.core.players.find(p=>p.team==='AWAY'&&p.kind==='GOALKEEPER')!,shooter=session.core.players.find(p=>p.team==='HOME'&&p.role==='CB')!;
+ const event=(type:string,actionId:string,actorId:string,details:Record<string,string|number|boolean>={})=>({id:type+actionId,tick:1,timeMs:50,officialMs:50,type,possessionId:'fixture-possession',actionId,actorId,relatedIds:[],contestId:null,details});
+ session.core.events=[event('SHOT_RELEASED','saved',shooter.id,{goalkeeperId:keeper.id}),event('SAVE_CAUGHT','saved',keeper.id),event('SHOT_RELEASED','goal',shooter.id,{goalkeeperId:keeper.id}),event('GOAL','goal',shooter.id),event('SHOT_RELEASED','wide',shooter.id,{goalkeeperId:keeper.id}),event('SHOT_RELEASED','block',shooter.id,{goalkeeperId:keeper.id}),event('SHOT_BLOCKED','block',keeper.id),event('SHOT_RELEASED','parry-goal',shooter.id,{goalkeeperId:keeper.id}),event('SAVE_PARRY','parry-goal',keeper.id),event('GOAL','parry-goal',shooter.id)];
+ const result=resultFromSession(session),k=result.awayPlayerContributions.find(p=>p.playerId===keeper.id)!;
+ assert.equal(k.saves,1);assert.equal(k.shotsFaced,3);assert.equal(result.awayStats.saves,1);
 });
 
 test('a legacy unsupported own formation requires a real plan correction rather than silently playing 6:0',()=>{

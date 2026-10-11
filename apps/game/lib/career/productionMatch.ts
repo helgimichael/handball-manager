@@ -1,7 +1,7 @@
 import { seedFromString, type FastMatchResult, type MatchEvent, type PlayerMatchContribution, type TeamMatchStats } from '@handball-manager/game-simulation';
 import { createMatch } from '@handball-manager/handball-engine/src/v2/core/match';
 import { advanceCoreMutable } from '@handball-manager/handball-engine/src/v2/core/engine';
-import { buildProfile, type AttributeSheet } from '@handball-manager/handball-engine/src/v2/core/profile';
+import { buildProfile, ROLE_TENDENCIES, defaultAttackRole, type AttributeSheet } from '@handball-manager/handball-engine/src/v2/core/profile';
 import { setTactics, type TeamTactics } from '@handball-manager/handball-engine/src/v2/core/coaching';
 import { requestExchange } from '@handball-manager/handball-engine/src/v2/core/population';
 import { requestTeamTimeout } from '@handball-manager/handball-engine/src/v2/core/referee';
@@ -28,7 +28,7 @@ export function archiveFrames(archive: PlayedMatchArchive): MatchFrame[] { retur
 export type ProductionMatchSession = { format: 1; behaviorRevision?:string; fixture: CareerFixture; core: CoreState; people: MatchPerson[]; frames: MatchFrame[]; pausedAtHalf: boolean; error: string | null };
 /** Developer measurement hook. Readers must not mutate state or consume RNG. */
 export type ProductionMatchObserver=(core:Readonly<CoreState>,newEvents:readonly CoreEvent[])=>void;
-export const MATCH_BEHAVIOR_REVISION = 'career-motion-continuity-v1';
+export const MATCH_BEHAVIOR_REVISION = 'career-empirical-calibration-v1';
 export type MatchCommand = { kind: 'TACTICS'; team: TeamId; patch: Partial<Pick<TeamTactics, 'defence' | 'tempo' | 'attackIdentity' | 'rotation'>> } | { kind: 'SUBSTITUTION'; team: TeamId; outId: string; inId: string } | { kind: 'TIMEOUT'; team: TeamId } | { kind: 'SECOND_HALF' };
 
 const roleByPosition: Record<string, Role> = { V6: 'LW', V9: 'LB', M9: 'CB', H9: 'RB', H6: 'RW', M6: 'P', MV: 'GK' };
@@ -83,7 +83,14 @@ export function createProductionSession(state: CareerState, fixture: CareerFixtu
       if (rating) for (const [key, value] of Object.entries(rating.branch.attributes)) if (value?.value != null) (sheet as Record<string, number>)[key] = value.value;
       // The profile's explicit neutral attribute fallback retains missing-data
       // provenance. CA/PA must not become substitute gameplay capabilities.
-      p.profile = buildProfile(sheet, role);
+      const preferred=rating?.attackRoleProficiencies.filter(r=>Number.isFinite(r.value)&&r.role in ROLE_TENDENCIES).sort((a,b)=>(b.value??0)-(a.value??0)||a.role.localeCompare(b.role))[0]?.role;
+      const attackRole=preferred&&preferred in ROLE_TENDENCIES?preferred as keyof typeof ROLE_TENDENCIES:defaultAttackRole(role);
+      const style=ROLE_TENDENCIES[attackRole];
+      // An unrecorded personal role is not evidence for the full archetype.
+      // Retain basic positional duties with a neutral blend; recorded roles
+      // carry their existing complete tendencies. Neither changes execution.
+      const tendency=preferred?style:Object.fromEntries(Object.entries(style).map(([k,v])=>[k,1+(v-1)*.5]));
+      p.profile = buildProfile(sheet, role, tendency);
       const energy = state.playerPhysicalState[id]?.currentEnergy ?? 100;
       p.condition.energy = energy / 100;
       players.push(p);
@@ -158,6 +165,8 @@ export function commandProductionMatch(state: CareerState, command: MatchCommand
 export function resultFromSession(session: ProductionMatchSession): FastMatchResult {
   const c = session.core;
   const possessionLedger = ledger(c);
+  const goalActions=new Set(c.events.filter(e=>e.type==='GOAL').map(e=>e.actionId));
+  const releasedShots=new Map(c.events.filter(e=>e.type==='SHOT_RELEASED').map(e=>[e.actionId,e]));
   const person = (id: string | null) => session.people.find(p => p.id === id);
   const events: MatchEvent[] = [];
   let home = 0, away = 0;
@@ -172,14 +181,15 @@ export function resultFromSession(session: ProductionMatchSession): FastMatchRes
       if (!goal && !saved) events.push({ minute, side, type: 'MISS', playerId: p.id });
     }
     if (e.type === 'GOAL') { if (p.team === 'HOME') home++; else away++; events.push({ minute, side, type: 'GOAL', playerId: p.id, homeScoreAfter: home, awayScoreAfter: away }); }
-    else if (e.type.startsWith('SAVE_')) events.push({ minute, side, type: 'SAVE', playerId: p.id });
+    else if (e.type.startsWith('SAVE_')&&!goalActions.has(e.actionId)) events.push({ minute, side, type: 'SAVE', playerId: p.id });
     else if (e.type === 'TWO_MINUTE_SUSPENSION' || e.type === 'DISQUALIFICATION') events.push({ minute, side, type: 'TWO_MIN', playerId: p.id });
   }
   const contributions = (team: TeamId): PlayerMatchContribution[] => session.people.filter(p => p.team === team && (p.started || c.players.find(x => x.id === p.id)!.condition.courtMs > 0 || c.events.some(e => e.actorId === p.id && ['GOAL', 'SHOT_RELEASED', 'SAVE_CAUGHT', 'SAVE_PARRY'].includes(e.type)))).map(p => {
     const goals = c.events.filter(e => e.type === 'GOAL' && e.actorId === p.id).length;
     const shots = c.events.filter(e => e.type === 'SHOT_RELEASED' && e.actorId === p.id).length;
-    const saves = c.events.filter(e => e.type.startsWith('SAVE_') && e.actorId === p.id).length;
-    return { playerId: p.id, goals, shots, ...(p.role === 'GK' ? { saves, shotsFaced: c.events.filter(e => e.type === 'SHOT_RELEASED' && e.details.goalkeeperId === p.id).length } : {}), rating: Math.max(1, Math.min(10, 6 + goals * .15 + saves * .07 - Math.max(0, shots - goals) * .08)), started: p.started };
+    const saves = c.events.filter(e => e.type.startsWith('SAVE_') && e.actorId === p.id&&!goalActions.has(e.actionId)).length;
+    const conceded=c.events.filter(e=>e.type==='GOAL'&&releasedShots.get(e.actionId)?.details.goalkeeperId===p.id).length;
+    return { playerId: p.id, goals, shots, ...(p.role === 'GK' ? { saves, shotsFaced: saves+conceded } : {}), rating: Math.max(1, Math.min(10, 6 + goals * .15 + saves * .07 - Math.max(0, shots - goals) * .08)), started: p.started };
   });
   for (const attack of possessionLedger.records) if (lossClassOf(attack.ending)) {
     const last = c.events.findLast(e => e.tick <= attack.lastTick && e.possessionId === attack.possessionId);
@@ -204,7 +214,7 @@ export function finalizeProductionMatch(state: CareerState): CareerState {
   const clubForm = { ...state.clubForm }, playerSeasonStats = { ...state.playerSeasonStats };
   applyMatchResultBookkeeping(result, clubForm, playerSeasonStats, state.playerClubId, session.fixture.type !== 'FRIENDLY');
   const load = Object.fromEntries(session.core.players.map(p => [p.id, { minutes: p.condition.courtMs / 60000, energy: p.condition.energy * 100, distance: p.condition.distanceMetres }]));
-  const archiveEventTypes = new Set(['GOAL', 'SHOT_RELEASED', 'SHOT_AIM_COMMITTED', 'KEEPER_ANTICIPATED', 'KEEPER_FLIGHT_READ', 'SAVE_CAUGHT', 'SAVE_PARRY', 'SHOT_BLOCKED', 'PASS_RELEASED', 'PASS_RECEIVED', 'RECEPTION_FAILED', 'PASS_DEFLECTED', 'REBOUND_CONTROLLED', 'ATTACK_SETTLED', 'DRIVE_RELEASED', 'ADVANTAGE_OPENED', 'FOUL', 'FOUL_ASSESSED', 'WHISTLE_RESTART', 'ADVANTAGE_PENDING', 'ADVANTAGE_REALIZED', 'ADVANTAGE_RECALLED', 'TECHNICAL_VIOLATION', 'PASSIVE_PLAY', 'INTERCEPTION', 'OFFENSIVE_FOUL', 'TWO_MINUTE_SUSPENSION', 'DISQUALIFICATION', 'SUBSTITUTE_ADMITTED', 'EXCHANGE_REQUESTED', 'EXCHANGE_COMPLETED', 'TACTICS_CHANGED', 'TEAM_TIMEOUT_STARTED', 'PERIOD_STARTED', 'PERIOD_ENDED', 'MATCH_FINISHED']);
+  const archiveEventTypes = new Set(['GOAL', 'SHOT_RELEASED', 'SHOT_AIM_COMMITTED', 'KEEPER_ANTICIPATED', 'KEEPER_FLIGHT_READ', 'SAVE_CAUGHT', 'SAVE_PARRY', 'KEEPER_COLLECTED_OFF_TARGET', 'OFF_TARGET_KEEPER_TOUCH', 'SHOT_BLOCKED', 'PASS_RELEASED', 'PASS_RECEIVED', 'RECEPTION_FAILED', 'PASS_DEFLECTED', 'REBOUND_CONTROLLED', 'ATTACK_SETTLED', 'DRIVE_RELEASED', 'ADVANTAGE_OPENED', 'FOUL', 'FOUL_ASSESSED', 'WHISTLE_RESTART', 'ADVANTAGE_PENDING', 'ADVANTAGE_REALIZED', 'ADVANTAGE_RECALLED', 'TECHNICAL_VIOLATION', 'PASSIVE_PLAY', 'INTERCEPTION', 'OFFENSIVE_FOUL', 'TWO_MINUTE_SUSPENSION', 'DISQUALIFICATION', 'SUBSTITUTE_ADMITTED', 'EXCHANGE_REQUESTED', 'EXCHANGE_COMPLETED', 'TACTICS_CHANGED', 'TEAM_TIMEOUT_STARTED', 'PERIOD_STARTED', 'PERIOD_ENDED', 'MATCH_FINISHED']);
   const archive: PlayedMatchArchive = { format: 2, fixture: session.fixture, version: session.core.version, behaviorRevision:session.behaviorRevision??MATCH_BEHAVIOR_REVISION, seed: session.core.seed, people: session.people, frameData: encodeFrames(session.frames), events: session.core.events.filter(e => archiveEventTypes.has(e.type)), result, load };
   const readyId = `MATCHDAY_READY:${session.fixture.id}`;
   let next: CareerState = { ...state, productionMatch: null, results: { ...state.results, [session.fixture.id]: result }, matchArchives: { ...state.matchArchives, [session.fixture.id]: archive }, clubForm, playerSeasonStats, careerEvents: state.careerEvents.map(e => e.id === readyId ? { ...e, read: true, resolved: true } : e), inbox: state.inbox.map(m => m.id === `msg:${readyId}` ? { ...m, read: true, resolved: true, actionRequired: false } : m), playerPhysicalState: { ...state.playerPhysicalState } };
