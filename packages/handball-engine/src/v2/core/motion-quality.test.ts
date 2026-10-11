@@ -17,6 +17,11 @@ test('movement work separates close adjustment, support, penetration, help and t
 test('a reduced preferred pace brakes physically rather than clipping current speed',()=>{
  let velocity={x:5,y:0};for(let i=0;i<12;i++){const before=velocity;velocity=steerVelocity({x:0,y:0},velocity,{x:20,y:0},2,5);assert.ok(Math.hypot(velocity.x-before.x,velocity.y-before.y)<=.5+1e-9);}assert.ok(Math.hypot(velocity.x,velocity.y)<=2.01);
 });
+test('soft arrival spends bounded braking distance instead of slamming onto a nearby coordinate',()=>{
+ const{s,p}=fixture();s.players=[p];p.velocity={x:2,y:0};const target={x:p.position.x+.02,y:p.position.y},old={...p.velocity};move(s,p,target);
+ assert.ok(p.position.x>target.x,'a tactical relation permits physical braking overshoot');assert.ok(Math.hypot(p.velocity.x-old.x,p.velocity.y-old.y)<=2*p.profile.acceleration*movementCapacity(p)*.05+1e-8);
+ for(let i=0;i<80;i++)move(s,p,target);assert.ok(Math.hypot(p.position.x-target.x,p.position.y-target.y)<.1);
+});
 test('compatible direction changes retain pace and bounded vector acceleration',()=>{
  const{s,p}=fixture();s.players=[p];p.velocity={x:2,y:0};for(let i=0;i<20;i++){const old={...p.velocity};move(s,p,{x:9,y:18});assert.ok(Math.hypot(p.velocity.x-old.x,p.velocity.y-old.y)<=2*p.profile.acceleration*movementCapacity(p)*.05+1e-8);assert.ok(Math.hypot(p.velocity.x,p.velocity.y)>.4);}
 });

@@ -121,7 +121,11 @@ export function move(s:CoreState,p:CorePlayer,target:Point|null,committedSave=fa
   const velocity=committedSave?{x:dx*saveSpeed,y:dy*saveSpeed}:steerVelocity(p.position,p.velocity,route,limit,acceleration);
   const speed=Math.hypot(velocity.x,velocity.y);
   if(speed<1e-8){p.velocity={x:0,y:0};return;}
-  const travel=target?Math.min(d,speed*.05):speed*.05,heading={x:velocity.x/speed,y:velocity.y/speed};
+  // A support post is a soft relation, not a wall. If momentum requires a
+  // little more braking distance, travel that actual bounded step and steer
+  // back. Held-ball budgets, goalkeeper reach and dead-ball placement stay hard.
+  const soft=s.ball.live&&p.kind==='FIELD_PLAYER'&&s.ball.controllerId!==p.id&&p.action?.kind!=='EXCHANGE';
+  const travel=target&&!soft?Math.min(d,speed*.05):speed*.05,heading={x:velocity.x/speed,y:velocity.y/speed};
   // Local steering around occupied bodies is execution of the existing duty,
   // not a new tactical assignment. Every candidate is checked before movement.
   let chosen: {x:number;y:number;dx:number;dy:number}|null=null;

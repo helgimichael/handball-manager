@@ -25,8 +25,8 @@ export function projectMotion(position:Point,velocity:Point,target:Point|null,to
   let at={...position},pace={...velocity},left=seconds;
   while(left>1e-8){
     const dt=Math.min(.05,left);pace=steerVelocity(at,pace,target,topSpeed,acceleration,dt);
-    const step=Math.hypot(pace.x,pace.y)*dt,d=target?Math.hypot(target.x-at.x,target.y-at.y):Infinity;
-    if(step>d&&step>0)pace={x:pace.x*d/step,y:pace.y*d/step};
+    // Receiver/support destinations are soft. Integrate retained momentum
+    // through bounded braking rather than clipping travel to the reference.
     at={x:at.x+pace.x*dt,y:at.y+pace.y*dt};left-=dt;
   }
   return at;
