@@ -1,0 +1,10 @@
+{
+  "id": "se_player_carl_hamberg_b2db41f2",
+  "name": "Carl Hamberg",
+  "role": "RW",
+  "ticks": [
+    400,
+    800
+  ],
+  "baselineFrozenDespiteVelocitySamples": 57
+}

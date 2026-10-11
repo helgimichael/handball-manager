@@ -1,0 +1,361 @@
+{
+  "fixtureId": "swe-2-f7",
+  "seed": 83731708,
+  "frameHash": "e886605e0804deac5c58b35b4067a6b6ffe51a986768aa838029214dba97ec84",
+  "source": "Actual canonical events; actor snapshots are observed at the end of the same tick. No fabricated cues.",
+  "scenes": [
+    {
+      "name": "passer after release",
+      "event": {
+        "id": "event-24",
+        "tick": 20,
+        "timeMs": 1000,
+        "officialMs": 700,
+        "type": "PASS_RELEASED",
+        "possessionId": "possession-0",
+        "actionId": "action-16",
+        "actorId": "se_player_birk_larsson_152eee5f",
+        "relatedIds": [
+          "se_player_hugo_andersson_6443099d"
+        ],
+        "contestId": null,
+        "details": {
+          "x": 10,
+          "y": 20,
+          "height": 1.5,
+          "reason": "Execute lawful restart",
+          "shotKind": "NONE",
+          "phase": "RESTART",
+          "subphase": "UPPSPEL",
+          "difficulty": 0.06677185534554506,
+          "executionError": 0.08265126963732738,
+          "pressure": 0,
+          "passingCapability": 0.7543777460757157,
+          "aimX": 18.025658464359264,
+          "aimY": 24.92143235029997
+        }
+      },
+      "actor": {
+        "id": "se_player_birk_larsson_152eee5f",
+        "role": "CB",
+        "team": "HOME",
+        "duty": "RESTART_TAKER",
+        "position": {
+          "x": 10,
+          "y": 20
+        },
+        "velocity": {
+          "x": 0,
+          "y": 0
+        }
+      }
+    },
+    {
+      "name": "defensive help",
+      "event": {
+        "id": "event-138",
+        "tick": 57,
+        "timeMs": 2850,
+        "officialMs": 2550,
+        "type": "MOVEMENT_REAIMED",
+        "possessionId": "possession-0",
+        "actionId": "action-55",
+        "actorId": "se_player_david_johansson_2badcc23",
+        "relatedIds": [],
+        "contestId": null,
+        "details": {
+          "from": "RECOVER",
+          "to": "HELP",
+          "reason": "Close the interval the step-out opened beside the pressing defender"
+        }
+      },
+      "actor": {
+        "id": "se_player_david_johansson_2badcc23",
+        "role": "RB",
+        "team": "AWAY",
+        "duty": "HELP",
+        "position": {
+          "x": 15.59531207410307,
+          "y": 9.530351553359592
+        },
+        "velocity": {
+          "x": 2.1704556887359083,
+          "y": -5.715492110976685
+        }
+      }
+    },
+    {
+      "name": "transition and retreat",
+      "event": {
+        "id": "event-296",
+        "tick": 129,
+        "timeMs": 6450,
+        "officialMs": 6150,
+        "type": "PASS_RELEASED",
+        "possessionId": "possession-0",
+        "actionId": "action-279",
+        "actorId": "se_player_hugo_andersson_6443099d",
+        "relatedIds": [
+          "se_player_felix_svensson_2d585f02"
+        ],
+        "contestId": null,
+        "details": {
+          "x": 16.41541723182397,
+          "y": 16.28130439937736,
+          "height": 1.5,
+          "reason": "Continue the available entry relationship",
+          "shotKind": "NONE",
+          "phase": "TRANSITION",
+          "subphase": "UPPBYGGNAD",
+          "difficulty": 0.14377445087552065,
+          "executionError": 0.13625265993562666,
+          "pressure": 0,
+          "passingCapability": 0.6489793932415943,
+          "aimX": 17.5019429629874,
+          "aimY": 17.03734863625144
+        }
+      },
+      "actor": {
+        "id": "se_player_hugo_andersson_6443099d",
+        "role": "RW",
+        "team": "HOME",
+        "duty": "CARRIER",
+        "position": {
+          "x": 16.799155371275997,
+          "y": 16.610919075193383
+        },
+        "velocity": {
+          "x": 0,
+          "y": 0
+        }
+      }
+    },
+    {
+      "name": "off-ball support",
+      "event": {
+        "id": "event-424",
+        "tick": 174,
+        "timeMs": 8700,
+        "officialMs": 8400,
+        "type": "ACTION_STARTED",
+        "possessionId": "possession-0",
+        "actionId": "action-423",
+        "actorId": "se_player_hakan_hekmati_9564e9a9",
+        "relatedIds": [],
+        "contestId": null,
+        "details": {
+          "kind": "RUN",
+          "reason": "Hold a wide weak-side outlet against the shifting defence",
+          "duty": "STRETCH"
+        }
+      },
+      "actor": {
+        "id": "se_player_hakan_hekmati_9564e9a9",
+        "role": "LB",
+        "team": "HOME",
+        "duty": "STRETCH",
+        "position": {
+          "x": 5,
+          "y": 17.34249422013998
+        },
+        "velocity": {
+          "x": 0,
+          "y": 0
+        }
+      }
+    },
+    {
+      "name": "M6 screen",
+      "event": {
+        "id": "event-502",
+        "tick": 205,
+        "timeMs": 10250,
+        "officialMs": 9950,
+        "type": "SCREEN_CONTACT",
+        "possessionId": "possession-0",
+        "actionId": "action-490",
+        "actorId": "se_player_alexander_norrbrink_c0b9bb84",
+        "relatedIds": [
+          "se_player_carl_hamberg_b2db41f2"
+        ],
+        "contestId": "contest-500",
+        "details": {
+          "untilTick": 223
+        }
+      },
+      "actor": {
+        "id": "se_player_alexander_norrbrink_c0b9bb84",
+        "role": "P",
+        "team": "HOME",
+        "duty": "PIVOT",
+        "position": {
+          "x": 17.228856593221394,
+          "y": 10.372580481036493
+        },
+        "velocity": {
+          "x": 0,
+          "y": 0
+        }
+      }
+    },
+    {
+      "name": "settled circulation",
+      "event": {
+        "id": "event-568",
+        "tick": 225,
+        "timeMs": 11250,
+        "officialMs": 10950,
+        "type": "PASS_RELEASED",
+        "possessionId": "possession-0",
+        "actionId": "action-538",
+        "actorId": "se_player_felix_svensson_2d585f02",
+        "relatedIds": [
+          "se_player_alexander_norrbrink_c0b9bb84"
+        ],
+        "contestId": null,
+        "details": {
+          "x": 16.158096414196912,
+          "y": 8.447859015543216,
+          "height": 1.5,
+          "reason": "Feed the line player: his defender has been pulled off the line",
+          "shotKind": "NONE",
+          "phase": "ESTABLISHED",
+          "subphase": "AVSLUTNING",
+          "difficulty": 0.28466223818284947,
+          "executionError": 0.13123817313908268,
+          "pressure": 0.8673845736968144,
+          "passingCapability": 0.5611297713945411,
+          "aimX": 17.361563943624052,
+          "aimY": 10.078827249468288
+        }
+      },
+      "actor": {
+        "id": "se_player_felix_svensson_2d585f02",
+        "role": "RB",
+        "team": "HOME",
+        "duty": "CARRIER",
+        "position": {
+          "x": 16.435161555990398,
+          "y": 8.972018708588887
+        },
+        "velocity": {
+          "x": 0,
+          "y": 0
+        }
+      }
+    },
+    {
+      "name": "helper recovery or reconnection",
+      "event": {
+        "id": "event-767",
+        "tick": 301,
+        "timeMs": 15050,
+        "officialMs": 14750,
+        "type": "MOVEMENT_REAIMED",
+        "possessionId": "possession-0",
+        "actionId": "action-744",
+        "actorId": "se_player_linus_lovgren_38890f0d",
+        "relatedIds": [],
+        "contestId": null,
+        "details": {
+          "from": "HELP",
+          "to": "CONTAIN",
+          "reason": "Hold the space; nobody is in it yet"
+        }
+      },
+      "actor": {
+        "id": "se_player_linus_lovgren_38890f0d",
+        "role": "CB",
+        "team": "AWAY",
+        "duty": "MARK",
+        "position": {
+          "x": 9.890826788315477,
+          "y": 7.648794208797417
+        },
+        "velocity": {
+          "x": 0.989982602014041,
+          "y": 1.392611231644214
+        }
+      }
+    },
+    {
+      "name": "breakthrough",
+      "event": {
+        "id": "event-1900",
+        "tick": 680,
+        "timeMs": 34000,
+        "officialMs": 33700,
+        "type": "DRIVE_RELEASED",
+        "possessionId": "possession-0",
+        "actionId": "action-1898",
+        "actorId": "se_player_birk_larsson_152eee5f",
+        "relatedIds": [],
+        "contestId": null,
+        "details": {
+          "reason": "The legal approach must release while a pass or shot still fits",
+          "into": "SHOOT"
+        }
+      },
+      "actor": {
+        "id": "se_player_birk_larsson_152eee5f",
+        "role": "CB",
+        "team": "HOME",
+        "duty": "CARRIER",
+        "position": {
+          "x": 11.17691299585836,
+          "y": 9.057624758571261
+        },
+        "velocity": {
+          "x": 0.8722564044073492,
+          "y": -0.8722564044073492
+        }
+      }
+    },
+    {
+      "name": "keeper distribution",
+      "event": {
+        "id": "event-2182",
+        "tick": 745,
+        "timeMs": 37250,
+        "officialMs": 36950,
+        "type": "PASS_RELEASED",
+        "possessionId": "possession-2001",
+        "actionId": "action-2132",
+        "actorId": "se_player_pontus_axelsson_3a4455c6",
+        "relatedIds": [
+          "se_player_anton_gustafsson_2768598f"
+        ],
+        "contestId": null,
+        "details": {
+          "x": 10.151141870443142,
+          "y": 0,
+          "height": 1.5,
+          "reason": "Execute lawful restart",
+          "shotKind": "NONE",
+          "phase": "RESTART",
+          "subphase": "AVSLUTNING",
+          "difficulty": 0.04042507418583763,
+          "executionError": 0.13291115901787773,
+          "pressure": 0,
+          "passingCapability": 0.5785468693756501,
+          "aimX": 5.63137097652592,
+          "aimY": 6.644182283749808
+        }
+      },
+      "actor": {
+        "id": "se_player_pontus_axelsson_3a4455c6",
+        "role": "GK",
+        "team": "AWAY",
+        "duty": "RESTART_TAKER",
+        "position": {
+          "x": 10.184448212607775,
+          "y": 0.40392016926285657
+        },
+        "velocity": {
+          "x": 0,
+          "y": 0
+        }
+      }
+    }
+  ]
+}

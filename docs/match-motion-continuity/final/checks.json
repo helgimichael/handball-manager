@@ -1,0 +1,61 @@
+﻿{
+    "startingHead":  "357f311",
+    "canonicalEngine":  "V2",
+    "behaviorRevision":  "career-motion-continuity-v1",
+    "humanAcceptance":  "PENDING",
+    "v21FullyHumanApproved":  false,
+    "pushes":  0,
+    "checks":  {
+                   "fullExistingGameRecipe":  {
+                                                  "tests":  2304,
+                                                  "passed":  2304,
+                                                  "exitCode":  0,
+                                                  "note":  "Final registered portable full recipe on implementation 706cec7; includes all five playback tests. Zero failures, skips or cancellations."
+                                              },
+                   "v2Core":  {
+                                  "tests":  218,
+                                  "passed":  218,
+                                  "exitCode":  0
+                              },
+                   "v2Protocol":  {
+                                      "tests":  9,
+                                      "passed":  9,
+                                      "exitCode":  0
+                                  },
+                   "production":  {
+                                      "tests":  11,
+                                      "passed":  11,
+                                      "exitCode":  0
+                                  },
+                   "playbackIncludingCanonicalZero":  {
+                                                          "tests":  5,
+                                                          "passed":  5,
+                                                          "exitCode":  0
+                                                      },
+                   "diagnostics":  {
+                                       "tests":  4,
+                                       "passed":  4,
+                                       "exitCode":  0
+                                   },
+                   "workspaceTypechecks":  {
+                                               "exitCode":  0
+                                           },
+                   "finalGameTypecheck":  {
+                                              "exitCode":  0
+                                          },
+                   "productionBuild":  {
+                                           "exitCode":  0
+                                       },
+                   "browser":  {
+                                   "tests":  3,
+                                   "passed":  3,
+                                   "exitCode":  0,
+                                   "note":  "Final delivery-browser run: real live/replay speeds, full replay/all three scenes, and frame-hash-verified canonical cues; all passed."
+                               }
+               },
+    "retainedOrigin":  "http://127.0.0.1:3009",
+    "motionOrigin":  "http://127.0.0.1:3010",
+    "sourceStableDuringTwentyMatchBatch":  true,
+    "calibrationCoefficientsRetuned":  false,
+    "materialOutcomeAndContactChangesDisclosed":  true
+}

@@ -1,0 +1,363 @@
+{
+  "fixtureId": "swe-2-f4",
+  "seed": 2643779579,
+  "frameHash": "ec50b094d3fac74e2fe1b17cce64a235799a2349abcdd0f7bcf30fd16eaa238b",
+  "source": "Actual canonical events; actor snapshots are observed at the end of the same tick. No fabricated cues.",
+  "scenes": [
+    {
+      "name": "passer after release",
+      "event": {
+        "id": "event-24",
+        "tick": 20,
+        "timeMs": 1000,
+        "officialMs": 700,
+        "type": "PASS_RELEASED",
+        "possessionId": "possession-0",
+        "actionId": "action-16",
+        "actorId": "se_player_oskar_davidsson_e24f41d0",
+        "relatedIds": [
+          "se_player_gustaf_wedberg_32de08b9"
+        ],
+        "contestId": null,
+        "details": {
+          "x": 10,
+          "y": 20,
+          "height": 1.5,
+          "reason": "Execute lawful restart",
+          "shotKind": "NONE",
+          "phase": "RESTART",
+          "subphase": "UPPSPEL",
+          "difficulty": 0.007838526838972053,
+          "executionError": 0.07673320631728325,
+          "pressure": 0,
+          "passingCapability": 0.7192897730378577,
+          "aimX": 14.06329691969937,
+          "aimY": 24.9566239131744
+        }
+      },
+      "actor": {
+        "id": "se_player_oskar_davidsson_e24f41d0",
+        "role": "CB",
+        "team": "HOME",
+        "duty": "RESTART_TAKER",
+        "position": {
+          "x": 10,
+          "y": 20
+        },
+        "velocity": {
+          "x": 0,
+          "y": 0
+        }
+      }
+    },
+    {
+      "name": "defensive help",
+      "event": {
+        "id": "event-129",
+        "tick": 56,
+        "timeMs": 2800,
+        "officialMs": 2500,
+        "type": "MOVEMENT_REAIMED",
+        "possessionId": "possession-0",
+        "actionId": "action-61",
+        "actorId": "se_player_adam_wennerholm_e65caf67",
+        "relatedIds": [],
+        "contestId": null,
+        "details": {
+          "from": "RECOVER",
+          "to": "HELP",
+          "reason": "Close the interval the step-out opened beside the pressing defender"
+        }
+      },
+      "actor": {
+        "id": "se_player_adam_wennerholm_e65caf67",
+        "role": "RW",
+        "team": "AWAY",
+        "duty": "HELP",
+        "position": {
+          "x": 18.577861675412187,
+          "y": 9.249076921637826
+        },
+        "velocity": {
+          "x": 0.23148401620389383,
+          "y": -5.30026336310727
+        }
+      }
+    },
+    {
+      "name": "helper recovery or reconnection",
+      "event": {
+        "id": "event-204",
+        "tick": 89,
+        "timeMs": 4450,
+        "officialMs": 4150,
+        "type": "MOVEMENT_REAIMED",
+        "possessionId": "possession-0",
+        "actionId": "action-188",
+        "actorId": "se_player_adam_wennerholm_e65caf67",
+        "relatedIds": [],
+        "contestId": null,
+        "details": {
+          "from": "HELP",
+          "to": "RECOVER",
+          "reason": "Recover through the owned lane and protect the central goal-side line"
+        }
+      },
+      "actor": {
+        "id": "se_player_adam_wennerholm_e65caf67",
+        "role": "RW",
+        "team": "AWAY",
+        "duty": "RETREAT",
+        "position": {
+          "x": 16.59100354737782,
+          "y": 8.348096703861234
+        },
+        "velocity": {
+          "x": 0,
+          "y": 0
+        }
+      }
+    },
+    {
+      "name": "transition and retreat",
+      "event": {
+        "id": "event-293",
+        "tick": 124,
+        "timeMs": 6200,
+        "officialMs": 5900,
+        "type": "PASS_RELEASED",
+        "possessionId": "possession-0",
+        "actionId": "action-252",
+        "actorId": "se_player_gustaf_wedberg_32de08b9",
+        "relatedIds": [
+          "se_player_oskar_davidsson_e24f41d0"
+        ],
+        "contestId": null,
+        "details": {
+          "x": 12.998661642579629,
+          "y": 16.20498145868969,
+          "height": 1.5,
+          "reason": "Continue the available entry relationship",
+          "shotKind": "NONE",
+          "phase": "TRANSITION",
+          "subphase": "UPPBYGGNAD",
+          "difficulty": 0.06298315194887946,
+          "executionError": 0.059450961051410844,
+          "pressure": 0.06909126240062798,
+          "passingCapability": 0.7717797905790373,
+          "aimX": 16.162782501943354,
+          "aimY": 14.953639730281845
+        }
+      },
+      "actor": {
+        "id": "se_player_gustaf_wedberg_32de08b9",
+        "role": "RB",
+        "team": "HOME",
+        "duty": "CARRIER",
+        "position": {
+          "x": 12.98628004376551,
+          "y": 16.31046673960918
+        },
+        "velocity": {
+          "x": 0,
+          "y": 0
+        }
+      }
+    },
+    {
+      "name": "breakthrough",
+      "event": {
+        "id": "event-564",
+        "tick": 221,
+        "timeMs": 11050,
+        "officialMs": 10750,
+        "type": "DRIVE_RELEASED",
+        "possessionId": "possession-0",
+        "actionId": "action-561",
+        "actorId": "se_player_oskar_davidsson_e24f41d0",
+        "relatedIds": [
+          "se_player_gustaf_wedberg_32de08b9"
+        ],
+        "contestId": null,
+        "details": {
+          "reason": "the cover has come across",
+          "into": "RECYCLE"
+        }
+      },
+      "actor": {
+        "id": "se_player_oskar_davidsson_e24f41d0",
+        "role": "CB",
+        "team": "HOME",
+        "duty": "CARRIER",
+        "position": {
+          "x": 16.15043292651148,
+          "y": 8.75827049912285
+        },
+        "velocity": {
+          "x": 0,
+          "y": 0
+        }
+      }
+    },
+    {
+      "name": "settled circulation",
+      "event": {
+        "id": "event-672",
+        "tick": 257,
+        "timeMs": 12850,
+        "officialMs": 12550,
+        "type": "PASS_RELEASED",
+        "possessionId": "possession-0",
+        "actionId": "action-663",
+        "actorId": "se_player_gustaf_wedberg_32de08b9",
+        "relatedIds": [
+          "se_player_fredrik_hellgren_18c9943d"
+        ],
+        "contestId": null,
+        "details": {
+          "x": 12.03187515688399,
+          "y": 13.77186943636219,
+          "height": 1.5,
+          "reason": "Nothing is open; keep the ball and rebuild",
+          "shotKind": "NONE",
+          "phase": "ESTABLISHED",
+          "subphase": "UPPBYGGNAD",
+          "difficulty": 0.03977590285330321,
+          "executionError": 0.07425173883584403,
+          "pressure": 0,
+          "passingCapability": 0.7716957144136255,
+          "aimX": 5.039345599780408,
+          "aimY": 9.799334242023338
+        }
+      },
+      "actor": {
+        "id": "se_player_gustaf_wedberg_32de08b9",
+        "role": "RB",
+        "team": "HOME",
+        "duty": "CARRIER",
+        "position": {
+          "x": 11.634073706280953,
+          "y": 14.056789510468255
+        },
+        "velocity": {
+          "x": 0,
+          "y": 0
+        }
+      }
+    },
+    {
+      "name": "off-ball support",
+      "event": {
+        "id": "event-691",
+        "tick": 260,
+        "timeMs": 13000,
+        "officialMs": 12700,
+        "type": "ACTION_STARTED",
+        "possessionId": "possession-0",
+        "actionId": "action-690",
+        "actorId": "se_player_gustaf_wedberg_32de08b9",
+        "relatedIds": [],
+        "contestId": null,
+        "details": {
+          "kind": "RUN",
+          "reason": "Stretch outside the half defender to open the adjacent interval",
+          "duty": "STRETCH"
+        }
+      },
+      "actor": {
+        "id": "se_player_gustaf_wedberg_32de08b9",
+        "role": "RB",
+        "team": "HOME",
+        "duty": "STRETCH",
+        "position": {
+          "x": 11.704087846884617,
+          "y": 14.005006598772487
+        },
+        "velocity": {
+          "x": 0.5601130932822904,
+          "y": -0.4142632702337846
+        }
+      }
+    },
+    {
+      "name": "M6 screen",
+      "event": {
+        "id": "event-956",
+        "tick": 349,
+        "timeMs": 17450,
+        "officialMs": 17150,
+        "type": "SCREEN_CONTACT",
+        "possessionId": "possession-0",
+        "actionId": "action-941",
+        "actorId": "se_player_martin_brandt_4e85963b",
+        "relatedIds": [
+          "se_player_gustaf_sjoblad_b7580ccb"
+        ],
+        "contestId": "contest-954",
+        "details": {
+          "untilTick": 367
+        }
+      },
+      "actor": {
+        "id": "se_player_martin_brandt_4e85963b",
+        "role": "P",
+        "team": "HOME",
+        "duty": "PIVOT",
+        "position": {
+          "x": 4.786508745023456,
+          "y": 7.120711943235337
+        },
+        "velocity": {
+          "x": 0,
+          "y": 0
+        }
+      }
+    },
+    {
+      "name": "keeper distribution",
+      "event": {
+        "id": "event-8254",
+        "tick": 2924,
+        "timeMs": 146200,
+        "officialMs": 145900,
+        "type": "PASS_RELEASED",
+        "possessionId": "possession-8189",
+        "actionId": "action-8248",
+        "actorId": "se_player_martin_borjes_1690df70",
+        "relatedIds": [
+          "se_player_ludvig_nystrom_a3450b2b"
+        ],
+        "contestId": null,
+        "details": {
+          "x": 11.058113475135388,
+          "y": 34.944926827358515,
+          "height": 1.5,
+          "reason": "Execute lawful restart",
+          "shotKind": "NONE",
+          "phase": "RESTART",
+          "subphase": "AVSLUTNING",
+          "difficulty": 0.006422890541436271,
+          "executionError": 0.04784151724826061,
+          "pressure": 0,
+          "passingCapability": 0.8397542117254334,
+          "aimX": 17.016209577672917,
+          "aimY": 32.793234880373184
+        }
+      },
+      "actor": {
+        "id": "se_player_martin_borjes_1690df70",
+        "role": "GK",
+        "team": "HOME",
+        "duty": "RESTART_TAKER",
+        "position": {
+          "x": 11.012553720270747,
+          "y": 35.21881553681571
+        },
+        "velocity": {
+          "x": 0,
+          "y": 0
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,1886 @@
+{
+  "sampleSize": 20,
+  "sourceStable": true,
+  "motion": [
+    {
+      "index": 7,
+      "before": {
+        "livePlayerMinutes": 679.4775000000001,
+        "fullStops": 12183,
+        "fullStopsPerPlayerMinute": 17.929953530470105,
+        "stopDurationSeconds": {
+          "n": 12183,
+          "mean": 1.6262168595584034,
+          "median": 0.8500000000000001,
+          "p10": 0.35000000000000003,
+          "p90": 3.4000000000000004,
+          "min": 0.15000000000000002,
+          "max": 34.75
+        },
+        "continuousMovementSeconds": {
+          "n": 13984,
+          "mean": 1.087807494279164,
+          "median": 0.6000000000000001,
+          "p10": 0.2,
+          "p90": 2.45,
+          "min": 0.05,
+          "max": 19.75
+        },
+        "movementSegments": 13984,
+        "targetChangesPerPlayerMinute": 147.87980470287832,
+        "intentChangesPerPlayerMinute": 48.99941499166639,
+        "actionChangesPerPlayerMinute": 32.055513243632056,
+        "velocityResets": 6030,
+        "distanceMetres": 45523.331356063885,
+        "exactZeroTicks": 499961,
+        "lowSpeedTicks": 529971,
+        "stationaryLiveSeconds": 24998.050000000003,
+        "frozenDespiteVelocityTicks": 193822,
+        "directionChanges": 20661,
+        "maxAbsAcceleration": 132.85494377494533,
+        "possessions": 109,
+        "stopsPerPossession": 111.77064220183486
+      },
+      "after": {
+        "livePlayerMinutes": 650.0433333333333,
+        "fullStops": 8079,
+        "fullStopsPerPlayerMinute": 12.428402209083497,
+        "stopDurationSeconds": {
+          "n": 8079,
+          "mean": 2.0032120311919956,
+          "median": 1.2000000000000002,
+          "p10": 0.35000000000000003,
+          "p90": 4.45,
+          "min": 0.15000000000000002,
+          "max": 36.800000000000004
+        },
+        "continuousMovementSeconds": {
+          "n": 10631,
+          "mean": 1.5438858056626812,
+          "median": 0.9,
+          "p10": 0.25,
+          "p90": 3.6500000000000004,
+          "min": 0.05,
+          "max": 18.150000000000002
+        },
+        "movementSegments": 10631,
+        "targetChangesPerPlayerMinute": 130.99126724885008,
+        "intentChangesPerPlayerMinute": 28.624245563116304,
+        "actionChangesPerPlayerMinute": 28.521175511376168,
+        "velocityResets": 3512,
+        "distanceMetres": 49565.40620710686,
+        "exactZeroTicks": 435840,
+        "lowSpeedTicks": 471817,
+        "stationaryLiveSeconds": 21995.850000000002,
+        "frozenDespiteVelocityTicks": 0,
+        "directionChanges": 9683,
+        "maxAbsAcceleration": 122.29460018541212,
+        "possessions": 128,
+        "stopsPerPossession": 63.1171875
+      },
+      "beforeGroups": {
+        "keeper": {
+          "livePlayerMinutes": 97.54333333333334,
+          "fullStops": 1920,
+          "fullStopsPerPlayerMinute": 19.683559443666063,
+          "stopDurationSeconds": {
+            "n": 1920,
+            "mean": 2.1941406249999975,
+            "median": 1.4500000000000002,
+            "p10": 0.35000000000000003,
+            "p90": 4.9,
+            "min": 0.25,
+            "max": 29.75
+          },
+          "continuousMovementSeconds": {
+            "n": 2152,
+            "mean": 0.22476765799256193,
+            "median": 0.2,
+            "p10": 0.15000000000000002,
+            "p90": 0.35000000000000003,
+            "min": 0.05,
+            "max": 3.35
+          },
+          "movementSegments": 2152,
+          "targetChangesPerPlayerMinute": 21.44687831049448,
+          "intentChangesPerPlayerMinute": 1.3532447117520419,
+          "actionChangesPerPlayerMinute": 21.83644875781704,
+          "velocityResets": 315,
+          "distanceMetres": 823.7859937585364,
+          "exactZeroTicks": 106348,
+          "lowSpeedTicks": 107397,
+          "stationaryLiveSeconds": 5317.400000000001,
+          "frozenDespiteVelocityTicks": 82882,
+          "directionChanges": 31,
+          "maxAbsAcceleration": 70.47507685171517
+        },
+        "carrier": {
+          "livePlayerMinutes": 26.22416666666667,
+          "fullStops": 696,
+          "fullStopsPerPlayerMinute": 26.54040484286123,
+          "stopDurationSeconds": {
+            "n": 696,
+            "mean": 2.123994252873563,
+            "median": 1.6500000000000001,
+            "p10": 0.25,
+            "p90": 4.425000000000001,
+            "min": 0.25,
+            "max": 27.200000000000003
+          },
+          "continuousMovementSeconds": {
+            "n": 878,
+            "mean": 0.5141230068337075,
+            "median": 0.65,
+            "p10": 0.05,
+            "p90": 0.65,
+            "min": 0.05,
+            "max": 1.85
+          },
+          "movementSegments": 878,
+          "targetChangesPerPlayerMinute": 67.1899329498872,
+          "intentChangesPerPlayerMinute": 90.87038037433665,
+          "actionChangesPerPlayerMinute": 94.91245352569196,
+          "velocityResets": 818,
+          "distanceMetres": 923.4912808506807,
+          "exactZeroTicks": 21603,
+          "lowSpeedTicks": 22823,
+          "stationaryLiveSeconds": 1080.15,
+          "frozenDespiteVelocityTicks": 4128,
+          "directionChanges": 276,
+          "maxAbsAcceleration": 130.1521556392203
+        },
+        "support": {
+          "livePlayerMinutes": 137.02916666666667,
+          "fullStops": 1388,
+          "fullStopsPerPlayerMinute": 10.129230394988902,
+          "stopDurationSeconds": {
+            "n": 1388,
+            "mean": 2.95904178674352,
+            "median": 2.45,
+            "p10": 0.8,
+            "p90": 6.800000000000001,
+            "min": 0.15000000000000002,
+            "max": 34.75
+          },
+          "continuousMovementSeconds": {
+            "n": 1694,
+            "mean": 1.085005903187722,
+            "median": 0.75,
+            "p10": 0.5,
+            "p90": 2.1350000000000025,
+            "min": 0.05,
+            "max": 6.65
+          },
+          "movementSegments": 1694,
+          "targetChangesPerPlayerMinute": 29.847660169671908,
+          "intentChangesPerPlayerMinute": 20.265758506400704,
+          "actionChangesPerPlayerMinute": 31.854532185970143,
+          "velocityResets": 1362,
+          "distanceMetres": 5656.658688211879,
+          "exactZeroTicks": 126145,
+          "lowSpeedTicks": 128194,
+          "stationaryLiveSeconds": 6307.25,
+          "frozenDespiteVelocityTicks": 9439,
+          "directionChanges": 626,
+          "maxAbsAcceleration": 127.43424935503876
+        },
+        "pivot": {
+          "livePlayerMinutes": 31.835,
+          "fullStops": 500,
+          "fullStopsPerPlayerMinute": 15.70598397989634,
+          "stopDurationSeconds": {
+            "n": 500,
+            "mean": 2.0612,
+            "median": 1.7000000000000002,
+            "p10": 0.35000000000000003,
+            "p90": 4.5,
+            "min": 0.35000000000000003,
+            "max": 10.450000000000001
+          },
+          "continuousMovementSeconds": {
+            "n": 592,
+            "mean": 1.3320945945945932,
+            "median": 0.8500000000000001,
+            "p10": 0.45,
+            "p90": 3,
+            "min": 0.05,
+            "max": 6.5
+          },
+          "movementSegments": 592,
+          "targetChangesPerPlayerMinute": 74.72907177634679,
+          "intentChangesPerPlayerMinute": 27.485471964818597,
+          "actionChangesPerPlayerMinute": 38.322600910947074,
+          "velocityResets": 357,
+          "distanceMetres": 2207.355977149573,
+          "exactZeroTicks": 21723,
+          "lowSpeedTicks": 23573,
+          "stationaryLiveSeconds": 1086.15,
+          "frozenDespiteVelocityTicks": 3380,
+          "directionChanges": 1037,
+          "maxAbsAcceleration": 129.17516230865263
+        },
+        "defensiveShift": {
+          "livePlayerMinutes": 195.79500000000002,
+          "fullStops": 5044,
+          "fullStopsPerPlayerMinute": 25.76163844837713,
+          "stopDurationSeconds": {
+            "n": 5044,
+            "mean": 1.0865681998414054,
+            "median": 0.6000000000000001,
+            "p10": 0.35000000000000003,
+            "p90": 2.25,
+            "min": 0.15000000000000002,
+            "max": 25.3
+          },
+          "continuousMovementSeconds": {
+            "n": 5694,
+            "mean": 0.8942658939234257,
+            "median": 0.6000000000000001,
+            "p10": 0.2,
+            "p90": 1.8,
+            "min": 0.05,
+            "max": 6.15
+          },
+          "movementSegments": 5694,
+          "targetChangesPerPlayerMinute": 179.0035496309916,
+          "intentChangesPerPlayerMinute": 24.35710819990296,
+          "actionChangesPerPlayerMinute": 31.29293393600449,
+          "velocityResets": 1774,
+          "distanceMetres": 12372.630287335502,
+          "exactZeroTicks": 129257,
+          "lowSpeedTicks": 136887,
+          "stationaryLiveSeconds": 6462.85,
+          "frozenDespiteVelocityTicks": 69499,
+          "directionChanges": 4066,
+          "maxAbsAcceleration": 130.94297734185392
+        },
+        "transitionRun": {
+          "livePlayerMinutes": 95.50166666666668,
+          "fullStops": 896,
+          "fullStopsPerPlayerMinute": 9.38203521753547,
+          "stopDurationSeconds": {
+            "n": 896,
+            "mean": 2.2757812500000028,
+            "median": 2.5,
+            "p10": 0.7000000000000001,
+            "p90": 4.65,
+            "min": 0.25,
+            "max": 19.05
+          },
+          "continuousMovementSeconds": {
+            "n": 1422,
+            "mean": 1.7037623066104082,
+            "median": 1.4000000000000001,
+            "p10": 0.4,
+            "p90": 4.1000000000000005,
+            "min": 0.05,
+            "max": 7
+          },
+          "movementSegments": 1422,
+          "targetChangesPerPlayerMinute": 235.2733809183086,
+          "intentChangesPerPlayerMinute": 28.910490218320795,
+          "actionChangesPerPlayerMinute": 34.00987766356608,
+          "velocityResets": 1019,
+          "distanceMetres": 10207.280773374217,
+          "exactZeroTicks": 64929,
+          "lowSpeedTicks": 66496,
+          "stationaryLiveSeconds": 3246.4500000000003,
+          "frozenDespiteVelocityTicks": 7029,
+          "directionChanges": 458,
+          "maxAbsAcceleration": 132.85494377494533
+        },
+        "retreat": {
+          "livePlayerMinutes": 95.54916666666668,
+          "fullStops": 1739,
+          "fullStopsPerPlayerMinute": 18.200054073382812,
+          "stopDurationSeconds": {
+            "n": 1739,
+            "mean": 0.841661874640598,
+            "median": 0.35000000000000003,
+            "p10": 0.35000000000000003,
+            "p90": 1.7000000000000002,
+            "min": 0.15000000000000002,
+            "max": 20.85
+          },
+          "continuousMovementSeconds": {
+            "n": 2334,
+            "mean": 1.7718508997429314,
+            "median": 0.7000000000000001,
+            "p10": 0.2,
+            "p90": 4.65,
+            "min": 0.05,
+            "max": 18.7
+          },
+          "movementSegments": 2334,
+          "targetChangesPerPlayerMinute": 341.61470098291454,
+          "intentChangesPerPlayerMinute": 205.09859670850085,
+          "actionChangesPerPlayerMinute": 23.04572689453074,
+          "velocityResets": 385,
+          "distanceMetres": 13332.128355383538,
+          "exactZeroTicks": 29956,
+          "lowSpeedTicks": 44601,
+          "stationaryLiveSeconds": 1497.8000000000002,
+          "frozenDespiteVelocityTicks": 17465,
+          "directionChanges": 14167,
+          "maxAbsAcceleration": 130.22524098554413
+        }
+      },
+      "afterGroups": {
+        "keeper": {
+          "livePlayerMinutes": 95.36500000000001,
+          "fullStops": 1082,
+          "fullStopsPerPlayerMinute": 11.345881612751008,
+          "stopDurationSeconds": {
+            "n": 1082,
+            "mean": 3.4083641404805918,
+            "median": 2.3000000000000003,
+            "p10": 0.65,
+            "p90": 7,
+            "min": 0.2,
+            "max": 36.800000000000004
+          },
+          "continuousMovementSeconds": {
+            "n": 1388,
+            "mean": 0.3911383285302606,
+            "median": 0.30000000000000004,
+            "p10": 0.25,
+            "p90": 0.65,
+            "min": 0.05,
+            "max": 8.950000000000001
+          },
+          "movementSegments": 1388,
+          "targetChangesPerPlayerMinute": 20.804278299166363,
+          "intentChangesPerPlayerMinute": 1.7826246526503433,
+          "actionChangesPerPlayerMinute": 14.638494206469879,
+          "velocityResets": 646,
+          "distanceMetres": 844.3741086465118,
+          "exactZeroTicks": 101909,
+          "lowSpeedTicks": 104381,
+          "stationaryLiveSeconds": 5111.5,
+          "frozenDespiteVelocityTicks": 0,
+          "directionChanges": 58,
+          "maxAbsAcceleration": 87.99250550060631
+        },
+        "carrier": {
+          "livePlayerMinutes": 22.89,
+          "fullStops": 611,
+          "fullStopsPerPlayerMinute": 26.692878986456968,
+          "stopDurationSeconds": {
+            "n": 611,
+            "mean": 1.4049099836333878,
+            "median": 0.8,
+            "p10": 0.25,
+            "p90": 3.35,
+            "min": 0.15000000000000002,
+            "max": 13.4
+          },
+          "continuousMovementSeconds": {
+            "n": 912,
+            "mean": 0.6321820175438589,
+            "median": 0.7000000000000001,
+            "p10": 0.15000000000000002,
+            "p90": 0.9,
+            "min": 0.05,
+            "max": 2
+          },
+          "movementSegments": 912,
+          "targetChangesPerPlayerMinute": 69.37527304499781,
+          "intentChangesPerPlayerMinute": 85.10266491917868,
+          "actionChangesPerPlayerMinute": 91.34993446920053,
+          "velocityResets": 401,
+          "distanceMetres": 1047.8964440599536,
+          "exactZeroTicks": 14814,
+          "lowSpeedTicks": 16784,
+          "stationaryLiveSeconds": 748.1,
+          "frozenDespiteVelocityTicks": 0,
+          "directionChanges": 364,
+          "maxAbsAcceleration": 71.22158881683615
+        },
+        "support": {
+          "livePlayerMinutes": 110.90166666666667,
+          "fullStops": 1009,
+          "fullStopsPerPlayerMinute": 9.098150012774079,
+          "stopDurationSeconds": {
+            "n": 1009,
+            "mean": 2.713924677898909,
+            "median": 2.3000000000000003,
+            "p10": 0.30000000000000004,
+            "p90": 6.6000000000000005,
+            "min": 0.15000000000000002,
+            "max": 25.950000000000003
+          },
+          "continuousMovementSeconds": {
+            "n": 1386,
+            "mean": 1.3668470418470404,
+            "median": 1.1,
+            "p10": 0.35000000000000003,
+            "p90": 2.6500000000000004,
+            "min": 0.05,
+            "max": 9.35
+          },
+          "movementSegments": 1386,
+          "targetChangesPerPlayerMinute": 30.75697690145925,
+          "intentChangesPerPlayerMinute": 19.702138531131183,
+          "actionChangesPerPlayerMinute": 31.144707774154277,
+          "velocityResets": 281,
+          "distanceMetres": 5390.2202203973575,
+          "exactZeroTicks": 93669,
+          "lowSpeedTicks": 96871,
+          "stationaryLiveSeconds": 4696.35,
+          "frozenDespiteVelocityTicks": 0,
+          "directionChanges": 556,
+          "maxAbsAcceleration": 122.02755780114184
+        },
+        "pivot": {
+          "livePlayerMinutes": 22.968333333333337,
+          "fullStops": 269,
+          "fullStopsPerPlayerMinute": 11.711777084391555,
+          "stopDurationSeconds": {
+            "n": 269,
+            "mean": 2.279182156133831,
+            "median": 2.15,
+            "p10": 0.4,
+            "p90": 4.460000000000001,
+            "min": 0.15000000000000002,
+            "max": 13.15
+          },
+          "continuousMovementSeconds": {
+            "n": 369,
+            "mean": 1.7018970189701885,
+            "median": 1.4000000000000001,
+            "p10": 0.25,
+            "p90": 3.4000000000000004,
+            "min": 0.05,
+            "max": 10.700000000000001
+          },
+          "movementSegments": 369,
+          "targetChangesPerPlayerMinute": 66.48283869095131,
+          "intentChangesPerPlayerMinute": 25.426311588418837,
+          "actionChangesPerPlayerMinute": 38.83607865902329,
+          "velocityResets": 100,
+          "distanceMetres": 1677.0073126877558,
+          "exactZeroTicks": 14474,
+          "lowSpeedTicks": 16632,
+          "stationaryLiveSeconds": 726.1500000000001,
+          "frozenDespiteVelocityTicks": 0,
+          "directionChanges": 1027,
+          "maxAbsAcceleration": 111.4518055127927
+        },
+        "defensiveShift": {
+          "livePlayerMinutes": 163.05333333333334,
+          "fullStops": 2624,
+          "fullStopsPerPlayerMinute": 16.092893940632923,
+          "stopDurationSeconds": {
+            "n": 2624,
+            "mean": 1.5727705792682927,
+            "median": 1.1,
+            "p10": 0.4,
+            "p90": 3.1500000000000004,
+            "min": 0.15000000000000002,
+            "max": 20.25
+          },
+          "continuousMovementSeconds": {
+            "n": 3356,
+            "mean": 1.2935637663885635,
+            "median": 1,
+            "p10": 0.30000000000000004,
+            "p90": 2.6500000000000004,
+            "min": 0.05,
+            "max": 8.6
+          },
+          "movementSegments": 3356,
+          "targetChangesPerPlayerMinute": 156.73399296753618,
+          "intentChangesPerPlayerMinute": 23.15193392754927,
+          "actionChangesPerPlayerMinute": 26.531196336576986,
+          "velocityResets": 876,
+          "distanceMetres": 9516.760048248761,
+          "exactZeroTicks": 104063,
+          "lowSpeedTicks": 116413,
+          "stationaryLiveSeconds": 5269.150000000001,
+          "frozenDespiteVelocityTicks": 0,
+          "directionChanges": 3045,
+          "maxAbsAcceleration": 78.27903639473362
+        },
+        "transitionRun": {
+          "livePlayerMinutes": 117.94500000000001,
+          "fullStops": 1041,
+          "fullStopsPerPlayerMinute": 8.826147780745263,
+          "stopDurationSeconds": {
+            "n": 1041,
+            "mean": 2.329538904899132,
+            "median": 2.3000000000000003,
+            "p10": 0.6000000000000001,
+            "p90": 4.5,
+            "min": 0.15000000000000002,
+            "max": 22.200000000000003
+          },
+          "continuousMovementSeconds": {
+            "n": 1692,
+            "mean": 1.9305260047281287,
+            "median": 1.6,
+            "p10": 0.45,
+            "p90": 4.5,
+            "min": 0.05,
+            "max": 7.300000000000001
+          },
+          "movementSegments": 1692,
+          "targetChangesPerPlayerMinute": 239.7558183899275,
+          "intentChangesPerPlayerMinute": 28.05544957395396,
+          "actionChangesPerPlayerMinute": 33.48170757556488,
+          "velocityResets": 360,
+          "distanceMetres": 12975.141071923566,
+          "exactZeroTicks": 74544,
+          "lowSpeedTicks": 77499,
+          "stationaryLiveSeconds": 3741.3500000000004,
+          "frozenDespiteVelocityTicks": 0,
+          "directionChanges": 361,
+          "maxAbsAcceleration": 107.75621706219795
+        },
+        "retreat": {
+          "livePlayerMinutes": 116.92000000000002,
+          "fullStops": 1443,
+          "fullStopsPerPlayerMinute": 12.341772151898734,
+          "stopDurationSeconds": {
+            "n": 1443,
+            "mean": 1.2018364518364537,
+            "median": 0.65,
+            "p10": 0.35000000000000003,
+            "p90": 2.4000000000000004,
+            "min": 0.15000000000000002,
+            "max": 27.05
+          },
+          "continuousMovementSeconds": {
+            "n": 2411,
+            "mean": 2.141642472003317,
+            "median": 1.4000000000000001,
+            "p10": 0.25,
+            "p90": 5.300000000000001,
+            "min": 0.05,
+            "max": 16
+          },
+          "movementSegments": 2411,
+          "targetChangesPerPlayerMinute": 195.0564488539172,
+          "intentChangesPerPlayerMinute": 56.75675675675676,
+          "actionChangesPerPlayerMinute": 20.800547382825865,
+          "velocityResets": 848,
+          "distanceMetres": 18114.007001142807,
+          "exactZeroTicks": 32367,
+          "lowSpeedTicks": 43237,
+          "stationaryLiveSeconds": 1703.25,
+          "frozenDespiteVelocityTicks": 0,
+          "directionChanges": 4272,
+          "maxAbsAcceleration": 122.29460018541212
+        }
+      }
+    },
+    {
+      "index": 3,
+      "before": {
+        "livePlayerMinutes": 676.2,
+        "fullStops": 12056,
+        "fullStopsPerPlayerMinute": 17.8290446613428,
+        "stopDurationSeconds": {
+          "n": 12056,
+          "mean": 1.5790892501658997,
+          "median": 0.8500000000000001,
+          "p10": 0.35000000000000003,
+          "p90": 3.3000000000000003,
+          "min": 0.15000000000000002,
+          "max": 37.25
+        },
+        "continuousMovementSeconds": {
+          "n": 14004,
+          "mean": 1.1093151956583789,
+          "median": 0.6000000000000001,
+          "p10": 0.2,
+          "p90": 2.6,
+          "min": 0.05,
+          "max": 15.4
+        },
+        "movementSegments": 14004,
+        "targetChangesPerPlayerMinute": 150.98935226264416,
+        "intentChangesPerPlayerMinute": 48.40875480627034,
+        "actionChangesPerPlayerMinute": 31.733215025140492,
+        "velocityResets": 6139,
+        "distanceMetres": 47947.16823399474,
+        "exactZeroTicks": 489793,
+        "lowSpeedTicks": 518427,
+        "stationaryLiveSeconds": 24489.65,
+        "frozenDespiteVelocityTicks": 190741,
+        "directionChanges": 19543,
+        "maxAbsAcceleration": 131.37906000649045,
+        "possessions": 127,
+        "stopsPerPossession": 94.92913385826772
+      },
+      "after": {
+        "livePlayerMinutes": 655.9916666666667,
+        "fullStops": 8078,
+        "fullStopsPerPlayerMinute": 12.314180820386438,
+        "stopDurationSeconds": {
+          "n": 8078,
+          "mean": 1.9047907897994687,
+          "median": 1.2000000000000002,
+          "p10": 0.35000000000000003,
+          "p90": 4.3,
+          "min": 0.15000000000000002,
+          "max": 45.7
+        },
+        "continuousMovementSeconds": {
+          "n": 10835,
+          "mean": 1.5900830641439747,
+          "median": 0.9500000000000001,
+          "p10": 0.25,
+          "p90": 3.8000000000000003,
+          "min": 0.05,
+          "max": 16.75
+        },
+        "movementSegments": 10835,
+        "targetChangesPerPlayerMinute": 136.91637342954053,
+        "intentChangesPerPlayerMinute": 27.393640671248367,
+        "actionChangesPerPlayerMinute": 28.58268016616065,
+        "velocityResets": 3448,
+        "distanceMetres": 52577.81848408513,
+        "exactZeroTicks": 427422,
+        "lowSpeedTicks": 462046,
+        "stationaryLiveSeconds": 21569.300000000003,
+        "frozenDespiteVelocityTicks": 0,
+        "directionChanges": 8441,
+        "maxAbsAcceleration": 125.6068918574194,
+        "possessions": 134,
+        "stopsPerPossession": 60.28358208955224
+      },
+      "beforeGroups": {
+        "keeper": {
+          "livePlayerMinutes": 97.79,
+          "fullStops": 1908,
+          "fullStopsPerPlayerMinute": 19.51119746395337,
+          "stopDurationSeconds": {
+            "n": 1908,
+            "mean": 2.1397798742138345,
+            "median": 1.4500000000000002,
+            "p10": 0.35000000000000003,
+            "p90": 4.964999999999998,
+            "min": 0.25,
+            "max": 31.200000000000003
+          },
+          "continuousMovementSeconds": {
+            "n": 2178,
+            "mean": 0.22105142332414748,
+            "median": 0.2,
+            "p10": 0.15000000000000002,
+            "p90": 0.35000000000000003,
+            "min": 0.05,
+            "max": 1.6500000000000001
+          },
+          "movementSegments": 2178,
+          "targetChangesPerPlayerMinute": 19.31690356887207,
+          "intentChangesPerPlayerMinute": 1.6872890888638918,
+          "actionChangesPerPlayerMinute": 21.81204622149504,
+          "velocityResets": 387,
+          "distanceMetres": 801.1835155530266,
+          "exactZeroTicks": 106671,
+          "lowSpeedTicks": 107725,
+          "stationaryLiveSeconds": 5333.55,
+          "frozenDespiteVelocityTicks": 80915,
+          "directionChanges": 28,
+          "maxAbsAcceleration": 70.04997626029687
+        },
+        "carrier": {
+          "livePlayerMinutes": 25.030000000000005,
+          "fullStops": 670,
+          "fullStopsPerPlayerMinute": 26.76787854574511,
+          "stopDurationSeconds": {
+            "n": 670,
+            "mean": 1.8267910447761195,
+            "median": 1.35,
+            "p10": 0.25,
+            "p90": 3.7050000000000014,
+            "min": 0.25,
+            "max": 10.350000000000001
+          },
+          "continuousMovementSeconds": {
+            "n": 854,
+            "mean": 0.5253512880562017,
+            "median": 0.65,
+            "p10": 0.05,
+            "p90": 0.65,
+            "min": 0.05,
+            "max": 1.9500000000000002
+          },
+          "movementSegments": 854,
+          "targetChangesPerPlayerMinute": 67.59888134238913,
+          "intentChangesPerPlayerMinute": 89.93208150219736,
+          "actionChangesPerPlayerMinute": 94.36675988813424,
+          "velocityResets": 784,
+          "distanceMetres": 931.7862090540233,
+          "exactZeroTicks": 20268,
+          "lowSpeedTicks": 21375,
+          "stationaryLiveSeconds": 1013.4000000000001,
+          "frozenDespiteVelocityTicks": 4032,
+          "directionChanges": 312,
+          "maxAbsAcceleration": 131.37906000649045
+        },
+        "support": {
+          "livePlayerMinutes": 130.20250000000001,
+          "fullStops": 1323,
+          "fullStopsPerPlayerMinute": 10.161095217065725,
+          "stopDurationSeconds": {
+            "n": 1323,
+            "mean": 2.914058956916106,
+            "median": 2.5,
+            "p10": 0.8,
+            "p90": 6.800000000000001,
+            "min": 0.15000000000000002,
+            "max": 32.6
+          },
+          "continuousMovementSeconds": {
+            "n": 1626,
+            "mean": 1.1029520295202966,
+            "median": 0.8,
+            "p10": 0.45,
+            "p90": 2.15,
+            "min": 0.05,
+            "max": 6.5
+          },
+          "movementSegments": 1626,
+          "targetChangesPerPlayerMinute": 30.314318081450047,
+          "intentChangesPerPlayerMinute": 20.260747681496134,
+          "actionChangesPerPlayerMinute": 31.62765691902997,
+          "velocityResets": 1283,
+          "distanceMetres": 5652.430760034552,
+          "exactZeroTicks": 118921,
+          "lowSpeedTicks": 120928,
+          "stationaryLiveSeconds": 5946.05,
+          "frozenDespiteVelocityTicks": 8762,
+          "directionChanges": 666,
+          "maxAbsAcceleration": 122.13604549842006
+        },
+        "pivot": {
+          "livePlayerMinutes": 27.713333333333335,
+          "fullStops": 443,
+          "fullStopsPerPlayerMinute": 15.985085398123646,
+          "stopDurationSeconds": {
+            "n": 443,
+            "mean": 1.9498871331828438,
+            "median": 1.6500000000000001,
+            "p10": 0.35000000000000003,
+            "p90": 4.4,
+            "min": 0.25,
+            "max": 8.950000000000001
+          },
+          "continuousMovementSeconds": {
+            "n": 533,
+            "mean": 1.2987804878048774,
+            "median": 0.8,
+            "p10": 0.35000000000000003,
+            "p90": 2.9900000000000007,
+            "min": 0.05,
+            "max": 10
+          },
+          "movementSegments": 533,
+          "targetChangesPerPlayerMinute": 72.3839307192687,
+          "intentChangesPerPlayerMinute": 28.4700505171999,
+          "actionChangesPerPlayerMinute": 39.547750781813804,
+          "velocityResets": 330,
+          "distanceMetres": 1935.4263826772096,
+          "exactZeroTicks": 18847,
+          "lowSpeedTicks": 20469,
+          "stationaryLiveSeconds": 942.35,
+          "frozenDespiteVelocityTicks": 2922,
+          "directionChanges": 887,
+          "maxAbsAcceleration": 119.48012894703129
+        },
+        "defensiveShift": {
+          "livePlayerMinutes": 185.02083333333334,
+          "fullStops": 4795,
+          "fullStopsPerPlayerMinute": 25.91600045039973,
+          "stopDurationSeconds": {
+            "n": 4795,
+            "mean": 1.0683420229405658,
+            "median": 0.6000000000000001,
+            "p10": 0.35000000000000003,
+            "p90": 2.25,
+            "min": 0.15000000000000002,
+            "max": 26.650000000000002
+          },
+          "continuousMovementSeconds": {
+            "n": 5438,
+            "mean": 0.877436557557925,
+            "median": 0.6000000000000001,
+            "p10": 0.2,
+            "p90": 1.8,
+            "min": 0.05,
+            "max": 6.550000000000001
+          },
+          "movementSegments": 5438,
+          "targetChangesPerPlayerMinute": 171.96982321810606,
+          "intentChangesPerPlayerMinute": 23.27845963292422,
+          "actionChangesPerPlayerMinute": 31.212701272379235,
+          "velocityResets": 1728,
+          "distanceMetres": 11639.662958941362,
+          "exactZeroTicks": 123124,
+          "lowSpeedTicks": 129925,
+          "stationaryLiveSeconds": 6156.200000000001,
+          "frozenDespiteVelocityTicks": 68002,
+          "directionChanges": 3496,
+          "maxAbsAcceleration": 123.38111522010865
+        },
+        "transitionRun": {
+          "livePlayerMinutes": 105.21583333333335,
+          "fullStops": 1007,
+          "fullStopsPerPlayerMinute": 9.570802873458526,
+          "stopDurationSeconds": {
+            "n": 1007,
+            "mean": 2.2172790466732897,
+            "median": 2.5,
+            "p10": 0.6800000000000005,
+            "p90": 3.869999999999999,
+            "min": 0.25,
+            "max": 16.1
+          },
+          "continuousMovementSeconds": {
+            "n": 1634,
+            "mean": 1.7037943696450448,
+            "median": 1.4000000000000001,
+            "p10": 0.35000000000000003,
+            "p90": 4.15,
+            "min": 0.05,
+            "max": 8.05
+          },
+          "movementSegments": 1634,
+          "targetChangesPerPlayerMinute": 252.15786597391076,
+          "intentChangesPerPlayerMinute": 29.548784641094894,
+          "actionChangesPerPlayerMinute": 33.91124593098314,
+          "velocityResets": 1158,
+          "distanceMetres": 11737.575662479963,
+          "exactZeroTicks": 69155,
+          "lowSpeedTicks": 70931,
+          "stationaryLiveSeconds": 3457.75,
+          "frozenDespiteVelocityTicks": 7707,
+          "directionChanges": 437,
+          "maxAbsAcceleration": 128.22064649815243
+        },
+        "retreat": {
+          "livePlayerMinutes": 105.2275,
+          "fullStops": 1910,
+          "fullStopsPerPlayerMinute": 18.151148701622674,
+          "stopDurationSeconds": {
+            "n": 1910,
+            "mean": 0.8671465968586397,
+            "median": 0.35000000000000003,
+            "p10": 0.35000000000000003,
+            "p90": 1.6,
+            "min": 0.15000000000000002,
+            "max": 37.25
+          },
+          "continuousMovementSeconds": {
+            "n": 2597,
+            "mean": 1.7572583750481336,
+            "median": 0.75,
+            "p10": 0.2,
+            "p90": 4.55,
+            "min": 0.05,
+            "max": 14
+          },
+          "movementSegments": 2597,
+          "targetChangesPerPlayerMinute": 325.16214867786465,
+          "intentChangesPerPlayerMinute": 185.0751942220427,
+          "actionChangesPerPlayerMinute": 22.864745432515264,
+          "velocityResets": 469,
+          "distanceMetres": 15249.102745254486,
+          "exactZeroTicks": 32807,
+          "lowSpeedTicks": 47074,
+          "stationaryLiveSeconds": 1640.3500000000001,
+          "frozenDespiteVelocityTicks": 18401,
+          "directionChanges": 13717,
+          "maxAbsAcceleration": 130.08306378897962
+        }
+      },
+      "afterGroups": {
+        "keeper": {
+          "livePlayerMinutes": 96.925,
+          "fullStops": 1134,
+          "fullStopsPerPlayerMinute": 11.699767861748775,
+          "stopDurationSeconds": {
+            "n": 1134,
+            "mean": 3.124074074074073,
+            "median": 2.25,
+            "p10": 0.8500000000000001,
+            "p90": 6.035000000000003,
+            "min": 0.25,
+            "max": 45.7
+          },
+          "continuousMovementSeconds": {
+            "n": 1487,
+            "mean": 0.3829186281102907,
+            "median": 0.30000000000000004,
+            "p10": 0.25,
+            "p90": 0.6700000000000046,
+            "min": 0.05,
+            "max": 3.5
+          },
+          "movementSegments": 1487,
+          "targetChangesPerPlayerMinute": 20.469435130255352,
+          "intentChangesPerPlayerMinute": 2.156306422491617,
+          "actionChangesPerPlayerMinute": 15.50683518184163,
+          "velocityResets": 662,
+          "distanceMetres": 855.3454997954974,
+          "exactZeroTicks": 103158,
+          "lowSpeedTicks": 105813,
+          "stationaryLiveSeconds": 5173.700000000001,
+          "frozenDespiteVelocityTicks": 0,
+          "directionChanges": 79,
+          "maxAbsAcceleration": 57.23564658022977
+        },
+        "carrier": {
+          "livePlayerMinutes": 22.991666666666667,
+          "fullStops": 588,
+          "fullStopsPerPlayerMinute": 25.574483508517577,
+          "stopDurationSeconds": {
+            "n": 588,
+            "mean": 1.3838435374149662,
+            "median": 0.75,
+            "p10": 0.25,
+            "p90": 3.2,
+            "min": 0.15000000000000002,
+            "max": 15.350000000000001
+          },
+          "continuousMovementSeconds": {
+            "n": 884,
+            "mean": 0.6307126696832578,
+            "median": 0.7000000000000001,
+            "p10": 0.15000000000000002,
+            "p90": 0.9,
+            "min": 0.05,
+            "max": 1.9500000000000002
+          },
+          "movementSegments": 884,
+          "targetChangesPerPlayerMinute": 68.98151504168176,
+          "intentChangesPerPlayerMinute": 88.3363537513592,
+          "actionChangesPerPlayerMinute": 93.90358825661473,
+          "velocityResets": 359,
+          "distanceMetres": 984.7838584069573,
+          "exactZeroTicks": 15461,
+          "lowSpeedTicks": 17324,
+          "stationaryLiveSeconds": 779,
+          "frozenDespiteVelocityTicks": 0,
+          "directionChanges": 383,
+          "maxAbsAcceleration": 67.89789189575491
+        },
+        "support": {
+          "livePlayerMinutes": 114.69250000000001,
+          "fullStops": 1073,
+          "fullStopsPerPlayerMinute": 9.355450443577393,
+          "stopDurationSeconds": {
+            "n": 1073,
+            "mean": 2.7582013047530256,
+            "median": 2.3000000000000003,
+            "p10": 0.35000000000000003,
+            "p90": 6.6000000000000005,
+            "min": 0.15000000000000002,
+            "max": 25.950000000000003
+          },
+          "continuousMovementSeconds": {
+            "n": 1510,
+            "mean": 1.3720198675496678,
+            "median": 1.1500000000000001,
+            "p10": 0.35000000000000003,
+            "p90": 2.6500000000000004,
+            "min": 0.05,
+            "max": 7.050000000000001
+          },
+          "movementSegments": 1510,
+          "targetChangesPerPlayerMinute": 32.2776118752316,
+          "intentChangesPerPlayerMinute": 20.062340606404078,
+          "actionChangesPerPlayerMinute": 31.022080781219348,
+          "velocityResets": 333,
+          "distanceMetres": 5787.795351697046,
+          "exactZeroTicks": 94484,
+          "lowSpeedTicks": 98076,
+          "stationaryLiveSeconds": 4739,
+          "frozenDespiteVelocityTicks": 0,
+          "directionChanges": 619,
+          "maxAbsAcceleration": 125.6068918574194
+        },
+        "pivot": {
+          "livePlayerMinutes": 24.228333333333335,
+          "fullStops": 288,
+          "fullStopsPerPlayerMinute": 11.886909266010868,
+          "stopDurationSeconds": {
+            "n": 288,
+            "mean": 2.1791666666666694,
+            "median": 2.15,
+            "p10": 0.4,
+            "p90": 4.465000000000001,
+            "min": 0.15000000000000002,
+            "max": 9.05
+          },
+          "continuousMovementSeconds": {
+            "n": 401,
+            "mean": 1.7784289276807983,
+            "median": 1.55,
+            "p10": 0.55,
+            "p90": 3.5500000000000003,
+            "min": 0.05,
+            "max": 7.550000000000001
+          },
+          "movementSegments": 401,
+          "targetChangesPerPlayerMinute": 68.47355025108345,
+          "intentChangesPerPlayerMinute": 26.951915801059364,
+          "actionChangesPerPlayerMinute": 37.72442732338172,
+          "velocityResets": 96,
+          "distanceMetres": 1971.9089234221499,
+          "exactZeroTicks": 14310,
+          "lowSpeedTicks": 16137,
+          "stationaryLiveSeconds": 718.9000000000001,
+          "frozenDespiteVelocityTicks": 0,
+          "directionChanges": 717,
+          "maxAbsAcceleration": 122.21493767114514
+        },
+        "defensiveShift": {
+          "livePlayerMinutes": 165.42666666666668,
+          "fullStops": 2654,
+          "fullStopsPerPlayerMinute": 16.043362617877005,
+          "stopDurationSeconds": {
+            "n": 2654,
+            "mean": 1.4474943481537288,
+            "median": 1.1,
+            "p10": 0.35000000000000003,
+            "p90": 2.9000000000000004,
+            "min": 0.15000000000000002,
+            "max": 20.6
+          },
+          "continuousMovementSeconds": {
+            "n": 3476,
+            "mean": 1.369116800920601,
+            "median": 1.05,
+            "p10": 0.30000000000000004,
+            "p90": 2.9000000000000004,
+            "min": 0.05,
+            "max": 10
+          },
+          "movementSegments": 3476,
+          "targetChangesPerPlayerMinute": 175.5400177319255,
+          "intentChangesPerPlayerMinute": 24.627226565648424,
+          "actionChangesPerPlayerMinute": 27.12984605464657,
+          "velocityResets": 880,
+          "distanceMetres": 10684.40295417438,
+          "exactZeroTicks": 98421,
+          "lowSpeedTicks": 111286,
+          "stationaryLiveSeconds": 4989.450000000001,
+          "frozenDespiteVelocityTicks": 0,
+          "directionChanges": 3284,
+          "maxAbsAcceleration": 79.76387665215968
+        },
+        "transitionRun": {
+          "livePlayerMinutes": 115.60416666666667,
+          "fullStops": 999,
+          "fullStopsPerPlayerMinute": 8.641557037304018,
+          "stopDurationSeconds": {
+            "n": 999,
+            "mean": 2.094344344344341,
+            "median": 2.3000000000000003,
+            "p10": 0.55,
+            "p90": 4.45,
+            "min": 0.15000000000000002,
+            "max": 9.65
+          },
+          "continuousMovementSeconds": {
+            "n": 1664,
+            "mean": 2.0146935096153795,
+            "median": 1.6750000000000003,
+            "p10": 0.5,
+            "p90": 4.5,
+            "min": 0.05,
+            "max": 8.35
+          },
+          "movementSegments": 1664,
+          "targetChangesPerPlayerMinute": 259.1169580104523,
+          "intentChangesPerPlayerMinute": 28.346729140385655,
+          "actionChangesPerPlayerMinute": 33.08704271039827,
+          "velocityResets": 403,
+          "distanceMetres": 13613.972574421874,
+          "exactZeroTicks": 70009,
+          "lowSpeedTicks": 72873,
+          "stationaryLiveSeconds": 3515.6000000000004,
+          "frozenDespiteVelocityTicks": 0,
+          "directionChanges": 314,
+          "maxAbsAcceleration": 110.87231256545701
+        },
+        "retreat": {
+          "livePlayerMinutes": 116.12333333333335,
+          "fullStops": 1342,
+          "fullStopsPerPlayerMinute": 11.556678244395327,
+          "stopDurationSeconds": {
+            "n": 1342,
+            "mean": 1.12477645305514,
+            "median": 0.7000000000000001,
+            "p10": 0.35000000000000003,
+            "p90": 2.45,
+            "min": 0.15000000000000002,
+            "max": 23.85
+          },
+          "continuousMovementSeconds": {
+            "n": 2278,
+            "mean": 2.284986830553117,
+            "median": 1.6,
+            "p10": 0.30000000000000004,
+            "p90": 5.3500000000000005,
+            "min": 0.05,
+            "max": 16.25
+          },
+          "movementSegments": 2278,
+          "targetChangesPerPlayerMinute": 188.51508453655597,
+          "intentChangesPerPlayerMinute": 46.717570399288114,
+          "actionChangesPerPlayerMinute": 19.832362143697793,
+          "velocityResets": 715,
+          "distanceMetres": 18679.609322167245,
+          "exactZeroTicks": 31579,
+          "lowSpeedTicks": 40537,
+          "stationaryLiveSeconds": 1653.65,
+          "frozenDespiteVelocityTicks": 0,
+          "directionChanges": 3045,
+          "maxAbsAcceleration": 123.2156189868164
+        }
+      }
+    },
+    {
+      "index": 28,
+      "before": {
+        "livePlayerMinutes": 679.6058333333334,
+        "fullStops": 12143,
+        "fullStopsPerPlayerMinute": 17.86771008194701,
+        "stopDurationSeconds": {
+          "n": 12143,
+          "mean": 1.5815408054022935,
+          "median": 0.8500000000000001,
+          "p10": 0.35000000000000003,
+          "p90": 3.4400000000000546,
+          "min": 0.15000000000000002,
+          "max": 35
+        },
+        "continuousMovementSeconds": {
+          "n": 13966,
+          "mean": 1.1337140197622797,
+          "median": 0.6000000000000001,
+          "p10": 0.2,
+          "p90": 2.7,
+          "min": 0.05,
+          "max": 16.2
+        },
+        "movementSegments": 13966,
+        "targetChangesPerPlayerMinute": 159.07456160249754,
+        "intentChangesPerPlayerMinute": 51.65935646520594,
+        "actionChangesPerPlayerMinute": 31.25635325378559,
+        "velocityResets": 6074,
+        "distanceMetres": 48920.13530621964,
+        "exactZeroTicks": 487781,
+        "lowSpeedTicks": 518953,
+        "stationaryLiveSeconds": 24389.050000000003,
+        "frozenDespiteVelocityTicks": 197169,
+        "directionChanges": 22074,
+        "maxAbsAcceleration": 134.19049539361944,
+        "possessions": 136,
+        "stopsPerPossession": 89.28676470588235
+      },
+      "after": {
+        "livePlayerMinutes": 646.0616666666667,
+        "fullStops": 8206,
+        "fullStopsPerPlayerMinute": 12.701573895164806,
+        "stopDurationSeconds": {
+          "n": 8206,
+          "mean": 1.9331830368023581,
+          "median": 1.25,
+          "p10": 0.35000000000000003,
+          "p90": 4.3,
+          "min": 0.15000000000000002,
+          "max": 30
+        },
+        "continuousMovementSeconds": {
+          "n": 10653,
+          "mean": 1.5568431427766818,
+          "median": 0.9,
+          "p10": 0.25,
+          "p90": 3.6500000000000004,
+          "min": 0.05,
+          "max": 15.5
+        },
+        "movementSegments": 10653,
+        "targetChangesPerPlayerMinute": 133.1962635145768,
+        "intentChangesPerPlayerMinute": 26.62594128011516,
+        "actionChangesPerPlayerMinute": 28.842447960334024,
+        "velocityResets": 3489,
+        "distanceMetres": 49174.76167997345,
+        "exactZeroTicks": 428317,
+        "lowSpeedTicks": 463517,
+        "stationaryLiveSeconds": 21610.050000000003,
+        "frozenDespiteVelocityTicks": 0,
+        "directionChanges": 8613,
+        "maxAbsAcceleration": 127.88592629720821,
+        "possessions": 135,
+        "stopsPerPossession": 60.785185185185185
+      },
+      "beforeGroups": {
+        "keeper": {
+          "livePlayerMinutes": 99.76166666666668,
+          "fullStops": 1901,
+          "fullStopsPerPlayerMinute": 19.055415406719348,
+          "stopDurationSeconds": {
+            "n": 1901,
+            "mean": 2.2492898474487104,
+            "median": 1.5,
+            "p10": 0.35000000000000003,
+            "p90": 5.15,
+            "min": 0.25,
+            "max": 27
+          },
+          "continuousMovementSeconds": {
+            "n": 2158,
+            "mean": 0.2218257645968456,
+            "median": 0.2,
+            "p10": 0.15000000000000002,
+            "p90": 0.35000000000000003,
+            "min": 0.05,
+            "max": 2.7
+          },
+          "movementSegments": 2158,
+          "targetChangesPerPlayerMinute": 19.406251566232854,
+          "intentChangesPerPlayerMinute": 1.4133685283258433,
+          "actionChangesPerPlayerMinute": 21.100289022169505,
+          "velocityResets": 321,
+          "distanceMetres": 789.9338507899139,
+          "exactZeroTicks": 109139,
+          "lowSpeedTicks": 110146,
+          "stationaryLiveSeconds": 5456.950000000001,
+          "frozenDespiteVelocityTicks": 88942,
+          "directionChanges": 18,
+          "maxAbsAcceleration": 65.34856424568247
+        },
+        "carrier": {
+          "livePlayerMinutes": 24.015833333333333,
+          "fullStops": 684,
+          "fullStopsPerPlayerMinute": 28.481210312640965,
+          "stopDurationSeconds": {
+            "n": 684,
+            "mean": 1.8510964912280703,
+            "median": 1.1500000000000001,
+            "p10": 0.25,
+            "p90": 3.75,
+            "min": 0.25,
+            "max": 17.45
+          },
+          "continuousMovementSeconds": {
+            "n": 851,
+            "mean": 0.5390716803760234,
+            "median": 0.65,
+            "p10": 0.05,
+            "p90": 0.65,
+            "min": 0.05,
+            "max": 7.25
+          },
+          "movementSegments": 851,
+          "targetChangesPerPlayerMinute": 68.49647801797425,
+          "intentChangesPerPlayerMinute": 87.90034352337,
+          "actionChangesPerPlayerMinute": 92.73049030153719,
+          "velocityResets": 770,
+          "distanceMetres": 964.692263946994,
+          "exactZeroTicks": 18903,
+          "lowSpeedTicks": 20156,
+          "stationaryLiveSeconds": 945.1500000000001,
+          "frozenDespiteVelocityTicks": 4039,
+          "directionChanges": 412,
+          "maxAbsAcceleration": 125.26635501701283
+        },
+        "support": {
+          "livePlayerMinutes": 120.24833333333335,
+          "fullStops": 1212,
+          "fullStopsPerPlayerMinute": 10.079141776046791,
+          "stopDurationSeconds": {
+            "n": 1212,
+            "mean": 2.8537953795379587,
+            "median": 2.5,
+            "p10": 0.8,
+            "p90": 6.800000000000001,
+            "min": 0.15000000000000002,
+            "max": 30.450000000000003
+          },
+          "continuousMovementSeconds": {
+            "n": 1452,
+            "mean": 1.1110881542699713,
+            "median": 0.8,
+            "p10": 0.5,
+            "p90": 2.15,
+            "min": 0.05,
+            "max": 7.3500000000000005
+          },
+          "movementSegments": 1452,
+          "targetChangesPerPlayerMinute": 28.931793926457747,
+          "intentChangesPerPlayerMinute": 19.750793496791363,
+          "actionChangesPerPlayerMinute": 31.3185213932279,
+          "velocityResets": 1174,
+          "distanceMetres": 5123.099947598222,
+          "exactZeroTicks": 110711,
+          "lowSpeedTicks": 112450,
+          "stationaryLiveSeconds": 5535.55,
+          "frozenDespiteVelocityTicks": 7679,
+          "directionChanges": 498,
+          "maxAbsAcceleration": 128.5163985044957
+        },
+        "pivot": {
+          "livePlayerMinutes": 26.48166666666667,
+          "fullStops": 398,
+          "fullStopsPerPlayerMinute": 15.029265529611681,
+          "stopDurationSeconds": {
+            "n": 398,
+            "mean": 2.0298994974874356,
+            "median": 1.6500000000000001,
+            "p10": 0.35000000000000003,
+            "p90": 4.65,
+            "min": 0.25,
+            "max": 9.25
+          },
+          "continuousMovementSeconds": {
+            "n": 482,
+            "mean": 1.3885892116182568,
+            "median": 0.9,
+            "p10": 0.35000000000000003,
+            "p90": 3.0500000000000003,
+            "min": 0.05,
+            "max": 7.25
+          },
+          "movementSegments": 482,
+          "targetChangesPerPlayerMinute": 75.07080370067342,
+          "intentChangesPerPlayerMinute": 26.99981119013154,
+          "actionChangesPerPlayerMinute": 37.08225816602681,
+          "velocityResets": 301,
+          "distanceMetres": 1936.9770642974522,
+          "exactZeroTicks": 17769,
+          "lowSpeedTicks": 19444,
+          "stationaryLiveSeconds": 888.45,
+          "frozenDespiteVelocityTicks": 2654,
+          "directionChanges": 919,
+          "maxAbsAcceleration": 133.0194102733377
+        },
+        "defensiveShift": {
+          "livePlayerMinutes": 175.40833333333333,
+          "fullStops": 4626,
+          "fullStopsPerPlayerMinute": 26.37274929925412,
+          "stopDurationSeconds": {
+            "n": 4626,
+            "mean": 1.070600951145699,
+            "median": 0.6000000000000001,
+            "p10": 0.35000000000000003,
+            "p90": 2.25,
+            "min": 0.15000000000000002,
+            "max": 24.150000000000002
+          },
+          "continuousMovementSeconds": {
+            "n": 5229,
+            "mean": 0.8660355708548471,
+            "median": 0.6000000000000001,
+            "p10": 0.2,
+            "p90": 1.8,
+            "min": 0.05,
+            "max": 7.4
+          },
+          "movementSegments": 5229,
+          "targetChangesPerPlayerMinute": 179.22181576321915,
+          "intentChangesPerPlayerMinute": 23.84151266093401,
+          "actionChangesPerPlayerMinute": 31.110266520974868,
+          "velocityResets": 1665,
+          "distanceMetres": 10967.436939289257,
+          "exactZeroTicks": 116523,
+          "lowSpeedTicks": 123383,
+          "stationaryLiveSeconds": 5826.150000000001,
+          "frozenDespiteVelocityTicks": 63158,
+          "directionChanges": 3635,
+          "maxAbsAcceleration": 122.78819123893595
+        },
+        "transitionRun": {
+          "livePlayerMinutes": 117.25250000000001,
+          "fullStops": 1143,
+          "fullStopsPerPlayerMinute": 9.748193002281402,
+          "stopDurationSeconds": {
+            "n": 1143,
+            "mean": 2.2060367454068284,
+            "median": 2.5,
+            "p10": 0.5600000000000002,
+            "p90": 4.289999999999997,
+            "min": 0.25,
+            "max": 21.85
+          },
+          "continuousMovementSeconds": {
+            "n": 1751,
+            "mean": 1.7967447173044016,
+            "median": 1.4500000000000002,
+            "p10": 0.4,
+            "p90": 4.3500000000000005,
+            "min": 0.05,
+            "max": 8.25
+          },
+          "movementSegments": 1751,
+          "targetChangesPerPlayerMinute": 251.49996801773952,
+          "intentChangesPerPlayerMinute": 29.798938188951198,
+          "actionChangesPerPlayerMinute": 34.037653781369265,
+          "velocityResets": 1275,
+          "distanceMetres": 13175.178244098002,
+          "exactZeroTicks": 76249,
+          "lowSpeedTicks": 78109,
+          "stationaryLiveSeconds": 3812.4500000000003,
+          "frozenDespiteVelocityTicks": 8548,
+          "directionChanges": 436,
+          "maxAbsAcceleration": 134.19049539361944
+        },
+        "retreat": {
+          "livePlayerMinutes": 116.4375,
+          "fullStops": 2179,
+          "fullStopsPerPlayerMinute": 18.713902308105208,
+          "stopDurationSeconds": {
+            "n": 2179,
+            "mean": 0.881964203763196,
+            "median": 0.35000000000000003,
+            "p10": 0.35000000000000003,
+            "p90": 1.9000000000000001,
+            "min": 0.15000000000000002,
+            "max": 35
+          },
+          "continuousMovementSeconds": {
+            "n": 2890,
+            "mean": 1.7089273356401404,
+            "median": 0.7000000000000001,
+            "p10": 0.2,
+            "p90": 4.65,
+            "min": 0.05,
+            "max": 15.3
+          },
+          "movementSegments": 2890,
+          "targetChangesPerPlayerMinute": 327.5061728395062,
+          "intentChangesPerPlayerMinute": 189.71551261406336,
+          "actionChangesPerPlayerMinute": 23.308641975308642,
+          "velocityResets": 568,
+          "distanceMetres": 15962.816996199734,
+          "exactZeroTicks": 38487,
+          "lowSpeedTicks": 55265,
+          "stationaryLiveSeconds": 1924.3500000000001,
+          "frozenDespiteVelocityTicks": 22149,
+          "directionChanges": 16156,
+          "maxAbsAcceleration": 128.42575209401824
+        }
+      },
+      "afterGroups": {
+        "keeper": {
+          "livePlayerMinutes": 94.65833333333333,
+          "fullStops": 1139,
+          "fullStopsPerPlayerMinute": 12.032749361739588,
+          "stopDurationSeconds": {
+            "n": 1139,
+            "mean": 3.216900790166813,
+            "median": 2.25,
+            "p10": 0.8,
+            "p90": 6.5,
+            "min": 0.30000000000000004,
+            "max": 30
+          },
+          "continuousMovementSeconds": {
+            "n": 1450,
+            "mean": 0.3840000000000011,
+            "median": 0.30000000000000004,
+            "p10": 0.25,
+            "p90": 0.7000000000000001,
+            "min": 0.05,
+            "max": 3.95
+          },
+          "movementSegments": 1450,
+          "targetChangesPerPlayerMinute": 22.142794260058103,
+          "intentChangesPerPlayerMinute": 1.7008539484109515,
+          "actionChangesPerPlayerMinute": 15.28655691522141,
+          "velocityResets": 621,
+          "distanceMetres": 788.9380275025788,
+          "exactZeroTicks": 100715,
+          "lowSpeedTicks": 103337,
+          "stationaryLiveSeconds": 5052.35,
+          "frozenDespiteVelocityTicks": 0,
+          "directionChanges": 69,
+          "maxAbsAcceleration": 56.01178461799764
+        },
+        "carrier": {
+          "livePlayerMinutes": 23.779166666666665,
+          "fullStops": 659,
+          "fullStopsPerPlayerMinute": 27.7133345014894,
+          "stopDurationSeconds": {
+            "n": 659,
+            "mean": 1.4460546282245832,
+            "median": 0.75,
+            "p10": 0.25,
+            "p90": 3.35,
+            "min": 0.15000000000000002,
+            "max": 22.5
+          },
+          "continuousMovementSeconds": {
+            "n": 928,
+            "mean": 0.6376616379310346,
+            "median": 0.7000000000000001,
+            "p10": 0.15000000000000002,
+            "p90": 0.9,
+            "min": 0.05,
+            "max": 7.15
+          },
+          "movementSegments": 928,
+          "targetChangesPerPlayerMinute": 68.75766602418084,
+          "intentChangesPerPlayerMinute": 85.74732784299982,
+          "actionChangesPerPlayerMinute": 92.68617487296304,
+          "velocityResets": 400,
+          "distanceMetres": 1057.2899969183745,
+          "exactZeroTicks": 15552,
+          "lowSpeedTicks": 17796,
+          "stationaryLiveSeconds": 784.25,
+          "frozenDespiteVelocityTicks": 0,
+          "directionChanges": 554,
+          "maxAbsAcceleration": 72.28363080780152
+        },
+        "support": {
+          "livePlayerMinutes": 120.41666666666667,
+          "fullStops": 1123,
+          "fullStopsPerPlayerMinute": 9.325951557093425,
+          "stopDurationSeconds": {
+            "n": 1123,
+            "mean": 2.749732858414958,
+            "median": 2.3000000000000003,
+            "p10": 0.30000000000000004,
+            "p90": 6.6000000000000005,
+            "min": 0.15000000000000002,
+            "max": 25.950000000000003
+          },
+          "continuousMovementSeconds": {
+            "n": 1506,
+            "mean": 1.4188247011952198,
+            "median": 1.1,
+            "p10": 0.35000000000000003,
+            "p90": 2.7,
+            "min": 0.05,
+            "max": 10.05
+          },
+          "movementSegments": 1506,
+          "targetChangesPerPlayerMinute": 30.751557093425603,
+          "intentChangesPerPlayerMinute": 19.34948096885813,
+          "actionChangesPerPlayerMinute": 30.660207612456748,
+          "velocityResets": 364,
+          "distanceMetres": 5998.06849561588,
+          "exactZeroTicks": 100009,
+          "lowSpeedTicks": 103770,
+          "stationaryLiveSeconds": 5017.05,
+          "frozenDespiteVelocityTicks": 0,
+          "directionChanges": 697,
+          "maxAbsAcceleration": 114.7510731428956
+        },
+        "pivot": {
+          "livePlayerMinutes": 21.523333333333333,
+          "fullStops": 269,
+          "fullStopsPerPlayerMinute": 12.498064116462755,
+          "stopDurationSeconds": {
+            "n": 269,
+            "mean": 2.1667286245353172,
+            "median": 2.2,
+            "p10": 0.4,
+            "p90": 4.45,
+            "min": 0.2,
+            "max": 11
+          },
+          "continuousMovementSeconds": {
+            "n": 358,
+            "mean": 1.826955307262569,
+            "median": 1.55,
+            "p10": 0.4,
+            "p90": 3.9650000000000007,
+            "min": 0.05,
+            "max": 6.75
+          },
+          "movementSegments": 358,
+          "targetChangesPerPlayerMinute": 67.60105312064427,
+          "intentChangesPerPlayerMinute": 25.832429921015954,
+          "actionChangesPerPlayerMinute": 36.750813071085645,
+          "velocityResets": 86,
+          "distanceMetres": 1789.038031979912,
+          "exactZeroTicks": 12196,
+          "lowSpeedTicks": 14173,
+          "stationaryLiveSeconds": 611.3000000000001,
+          "frozenDespiteVelocityTicks": 0,
+          "directionChanges": 876,
+          "maxAbsAcceleration": 127.88592629720821
+        },
+        "defensiveShift": {
+          "livePlayerMinutes": 169.3325,
+          "fullStops": 2809,
+          "fullStopsPerPlayerMinute": 16.588664314292885,
+          "stopDurationSeconds": {
+            "n": 2809,
+            "mean": 1.5137771448914195,
+            "median": 1.1,
+            "p10": 0.35000000000000003,
+            "p90": 3,
+            "min": 0.15000000000000002,
+            "max": 21.85
+          },
+          "continuousMovementSeconds": {
+            "n": 3549,
+            "mean": 1.30070442378135,
+            "median": 0.9500000000000001,
+            "p10": 0.30000000000000004,
+            "p90": 2.7,
+            "min": 0.05,
+            "max": 8.4
+          },
+          "movementSegments": 3549,
+          "targetChangesPerPlayerMinute": 158.79999409445915,
+          "intentChangesPerPlayerMinute": 23.096570357137583,
+          "actionChangesPerPlayerMinute": 27.053282742533185,
+          "velocityResets": 961,
+          "distanceMetres": 9935.740654281564,
+          "exactZeroTicks": 105969,
+          "lowSpeedTicks": 119377,
+          "stationaryLiveSeconds": 5368.55,
+          "frozenDespiteVelocityTicks": 0,
+          "directionChanges": 3349,
+          "maxAbsAcceleration": 100.40675547499671
+        },
+        "transitionRun": {
+          "livePlayerMinutes": 108.38916666666667,
+          "fullStops": 943,
+          "fullStopsPerPlayerMinute": 8.70013147070356,
+          "stopDurationSeconds": {
+            "n": 943,
+            "mean": 2.024284199363729,
+            "median": 2.3000000000000003,
+            "p10": 0.5,
+            "p90": 4.240000000000004,
+            "min": 0.15000000000000002,
+            "max": 12.200000000000001
+          },
+          "continuousMovementSeconds": {
+            "n": 1609,
+            "mean": 2.0103480422622733,
+            "median": 1.7000000000000002,
+            "p10": 0.5,
+            "p90": 4.65,
+            "min": 0.05,
+            "max": 7.75
+          },
+          "movementSegments": 1609,
+          "targetChangesPerPlayerMinute": 265.1279725064774,
+          "intentChangesPerPlayerMinute": 29.477115640400715,
+          "actionChangesPerPlayerMinute": 33.62882206862617,
+          "velocityResets": 376,
+          "distanceMetres": 12836.52325244868,
+          "exactZeroTicks": 63699,
+          "lowSpeedTicks": 66591,
+          "stationaryLiveSeconds": 3199.9,
+          "frozenDespiteVelocityTicks": 0,
+          "directionChanges": 358,
+          "maxAbsAcceleration": 111.51282998044562
+        },
+        "retreat": {
+          "livePlayerMinutes": 107.9625,
+          "fullStops": 1264,
+          "fullStopsPerPlayerMinute": 11.707768901238856,
+          "stopDurationSeconds": {
+            "n": 1264,
+            "mean": 1.1193037974683553,
+            "median": 0.75,
+            "p10": 0.35000000000000003,
+            "p90": 2.35,
+            "min": 0.15000000000000002,
+            "max": 22.950000000000003
+          },
+          "continuousMovementSeconds": {
+            "n": 2161,
+            "mean": 2.2188107357704765,
+            "median": 1.6500000000000001,
+            "p10": 0.30000000000000004,
+            "p90": 5.25,
+            "min": 0.05,
+            "max": 12.8
+          },
+          "movementSegments": 2161,
+          "targetChangesPerPlayerMinute": 199.4859326154915,
+          "intentChangesPerPlayerMinute": 46.40500173671414,
+          "actionChangesPerPlayerMinute": 21.06286905175408,
+          "velocityResets": 681,
+          "distanceMetres": 16769.163221226325,
+          "exactZeroTicks": 30177,
+          "lowSpeedTicks": 38473,
+          "stationaryLiveSeconds": 1576.65,
+          "frozenDespiteVelocityTicks": 0,
+          "directionChanges": 2710,
+          "maxAbsAcceleration": 122.72875968158176
+        }
+      }
+    }
+  ],
+  "regression": {
+    "goals": {
+      "before": 47.25,
+      "after": 50.65,
+      "relativeChange": 0.071957671957672,
+      "beforeRange": [
+        33,
+        60
+      ],
+      "afterRange": [
+        32,
+        67
+      ]
+    },
+    "possessions": {
+      "before": 115.2,
+      "after": 129.8,
+      "relativeChange": 0.12673611111111116,
+      "beforeRange": [
+        103,
+        127
+      ],
+      "afterRange": [
+        118,
+        150
+      ]
+    },
+    "shots": {
+      "before": 92.65,
+      "after": 103.2,
+      "relativeChange": 0.11386940097139764,
+      "beforeRange": [
+        82,
+        104
+      ],
+      "afterRange": [
+        85,
+        118
+      ]
+    },
+    "careerTurnovers": {
+      "before": 27.8,
+      "after": 31.55,
+      "relativeChange": 0.1348920863309353,
+      "beforeRange": [
+        19,
+        37
+      ],
+      "afterRange": [
+        22,
+        47
+      ]
+    },
+    "nonShotLoss": {
+      "before": 24,
+      "after": 26.1,
+      "relativeChange": 0.08750000000000013,
+      "beforeRange": [
+        16,
+        35
+      ],
+      "afterRange": [
+        16,
+        44
+      ]
+    },
+    "savePctOnTarget": {
+      "before": 0.4222662837750989,
+      "after": 0.4651877622429955,
+      "relativeChange": 0.101645525861489,
+      "beforeRange": [
+        0.3023255813953488,
+        0.5769230769230769
+      ],
+      "afterRange": [
+        0.34444444444444444,
+        0.6276595744680851
+      ]
+    },
+    "transitionStarts": {
+      "before": 111.55,
+      "after": 124.95,
+      "relativeChange": 0.12012550425818014,
+      "beforeRange": [
+        100,
+        125
+      ],
+      "afterRange": [
+        108,
+        150
+      ]
+    },
+    "transitionShots": {
+      "before": 2.35,
+      "after": 6,
+      "relativeChange": 1.5531914893617018,
+      "beforeRange": [
+        0,
+        5
+      ],
+      "afterRange": [
+        1,
+        10
+      ]
+    },
+    "backcourtShare": {
+      "before": 0.6197744775560394,
+      "after": 0.4576712631241177,
+      "relativeChange": -0.26155193590924286,
+      "beforeRange": [
+        0.5376344086021505,
+        0.7111111111111111
+      ],
+      "afterRange": [
+        0.3853211009174312,
+        0.5363636363636364
+      ]
+    },
+    "wingShare": {
+      "before": 0.06714481263524827,
+      "after": 0.09370594196640927,
+      "relativeChange": 0.39557976690544083,
+      "beforeRange": [
+        0.022988505747126436,
+        0.10752688172043011
+      ],
+      "afterRange": [
+        0.030927835051546393,
+        0.1559633027522936
+      ]
+    },
+    "closeShare": {
+      "before": 0.31308070980871233,
+      "after": 0.4486227949094731,
+      "relativeChange": 0.432930170573508,
+      "beforeRange": [
+        0.2111111111111111,
+        0.3877551020408163
+      ],
+      "afterRange": [
+        0.33636363636363636,
+        0.5222222222222223
+      ]
+    },
+    "contactWhistles": {
+      "before": 21.1,
+      "after": 43.55,
+      "relativeChange": 1.0639810426540284,
+      "beforeRange": [
+        11,
+        30
+      ],
+      "afterRange": [
+        34,
+        51
+      ]
+    }
+  },
+  "definitions": {
+    "tickSeconds": 0.05,
+    "movingMetresPerSecond": 0.5,
+    "stoppedMetresPerSecond": 0.1,
+    "minStopTicks": 3,
+    "episode": "Meaningful movement followed by >=3 near-zero ticks then meaningful movement, within uninterrupted live play; dead balls excluded",
+    "speed": "Actual per-tick displacement / 0.05s; stored velocity measured separately",
+    "targetChangeMetres": 0.1
+  }
+}

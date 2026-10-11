@@ -1,0 +1,43 @@
+{
+  "base": "http://127.0.0.1:3010",
+  "errors": [],
+  "records": [
+    {
+      "mode": "live",
+      "speed": 1,
+      "renderSamples": 226,
+      "changedPoses": 188
+    },
+    {
+      "mode": "live",
+      "speed": 4,
+      "renderSamples": 223,
+      "changedPoses": 166
+    },
+    {
+      "mode": "live",
+      "speed": 16,
+      "renderSamples": 221,
+      "changedPoses": 185
+    },
+    {
+      "mode": "replay",
+      "speed": 1,
+      "renderSamples": 186,
+      "changedPoses": 184
+    },
+    {
+      "mode": "replay",
+      "speed": 4,
+      "renderSamples": 176,
+      "changedPoses": 163
+    },
+    {
+      "mode": "replay",
+      "speed": 16,
+      "renderSamples": 158,
+      "changedPoses": 156
+    }
+  ],
+  "archiveUnchanged": true
+}

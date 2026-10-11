@@ -1,0 +1,363 @@
+{
+  "fixtureId": "swe-2-f1",
+  "seed": 2543053647,
+  "frameHash": "1b58e11e9284c14126c6a18bf7f2908d65829a39d13f37713a3b7d61dbe940b9",
+  "source": "Actual canonical events; actor snapshots are observed at the end of the same tick. No fabricated cues.",
+  "scenes": [
+    {
+      "name": "passer after release",
+      "event": {
+        "id": "event-24",
+        "tick": 20,
+        "timeMs": 1000,
+        "officialMs": 700,
+        "type": "PASS_RELEASED",
+        "possessionId": "possession-0",
+        "actionId": "action-16",
+        "actorId": "se_player_hannes_rybo_d534a6d2",
+        "relatedIds": [
+          "se_player_felix_dahlen_landstrom_cd6686d8"
+        ],
+        "contestId": null,
+        "details": {
+          "x": 10,
+          "y": 20,
+          "height": 1.5,
+          "reason": "Execute lawful restart",
+          "shotKind": "NONE",
+          "phase": "RESTART",
+          "subphase": "UPPSPEL",
+          "difficulty": 0.02082631856405091,
+          "executionError": 0.0685275124830901,
+          "pressure": 0,
+          "passingCapability": 0.6842027695290859,
+          "aimX": 5.05974234674454,
+          "aimY": 25.033568913783075
+        }
+      },
+      "actor": {
+        "id": "se_player_hannes_rybo_d534a6d2",
+        "role": "CB",
+        "team": "HOME",
+        "duty": "RESTART_TAKER",
+        "position": {
+          "x": 10,
+          "y": 20
+        },
+        "velocity": {
+          "x": 0,
+          "y": 0
+        }
+      }
+    },
+    {
+      "name": "defensive help",
+      "event": {
+        "id": "event-134",
+        "tick": 55,
+        "timeMs": 2750,
+        "officialMs": 2450,
+        "type": "MOVEMENT_REAIMED",
+        "possessionId": "possession-0",
+        "actionId": "action-59",
+        "actorId": "se_player_oliver_knudsen_831e83e1",
+        "relatedIds": [],
+        "contestId": null,
+        "details": {
+          "from": "RECOVER",
+          "to": "HELP",
+          "reason": "Close the interval the step-out opened beside the pressing defender"
+        }
+      },
+      "actor": {
+        "id": "se_player_oliver_knudsen_831e83e1",
+        "role": "LW",
+        "team": "AWAY",
+        "duty": "HELP",
+        "position": {
+          "x": 1.508677311354202,
+          "y": 10.00912828412162
+        },
+        "velocity": {
+          "x": -0.13061646929013082,
+          "y": -5.889010438692431
+        }
+      }
+    },
+    {
+      "name": "transition and retreat",
+      "event": {
+        "id": "event-291",
+        "tick": 126,
+        "timeMs": 6300,
+        "officialMs": 6000,
+        "type": "PASS_RELEASED",
+        "possessionId": "possession-0",
+        "actionId": "action-265",
+        "actorId": "se_player_felix_dahlen_landstrom_cd6686d8",
+        "relatedIds": [
+          "se_player_hannes_rybo_d534a6d2"
+        ],
+        "contestId": null,
+        "details": {
+          "x": 6.1153791712252055,
+          "y": 16.351756886651977,
+          "height": 1.5,
+          "reason": "Continue the available entry relationship",
+          "shotKind": "NONE",
+          "phase": "TRANSITION",
+          "subphase": "UPPBYGGNAD",
+          "difficulty": 0.016666666666666663,
+          "executionError": 0.07348358975936899,
+          "pressure": 0,
+          "passingCapability": 0.6138944287252253,
+          "aimX": 9.346935224416002,
+          "aimY": 19.09172756849695
+        }
+      },
+      "actor": {
+        "id": "se_player_felix_dahlen_landstrom_cd6686d8",
+        "role": "LB",
+        "team": "HOME",
+        "duty": "CARRIER",
+        "position": {
+          "x": 5.951317562526842,
+          "y": 16.424477610158014
+        },
+        "velocity": {
+          "x": 0,
+          "y": 0
+        }
+      }
+    },
+    {
+      "name": "helper recovery or reconnection",
+      "event": {
+        "id": "event-318",
+        "tick": 130,
+        "timeMs": 6500,
+        "officialMs": 6200,
+        "type": "MOVEMENT_REAIMED",
+        "possessionId": "possession-0",
+        "actionId": "action-271",
+        "actorId": "se_player_rasmus_broman_777c2960",
+        "relatedIds": [],
+        "contestId": null,
+        "details": {
+          "from": "HELP",
+          "to": "CONTAIN",
+          "reason": "The line player is standing in this space and belongs to it"
+        }
+      },
+      "actor": {
+        "id": "se_player_rasmus_broman_777c2960",
+        "role": "P",
+        "team": "AWAY",
+        "duty": "PIVOT",
+        "position": {
+          "x": 9.544235110130634,
+          "y": 6.898786785498573
+        },
+        "velocity": {
+          "x": 0.15181302110127826,
+          "y": 1.0444292055643267
+        }
+      }
+    },
+    {
+      "name": "off-ball support",
+      "event": {
+        "id": "event-498",
+        "tick": 174,
+        "timeMs": 8700,
+        "officialMs": 8400,
+        "type": "ACTION_STARTED",
+        "possessionId": "possession-0",
+        "actionId": "action-497",
+        "actorId": "se_player_ivar_perez_heselius_e39ab925",
+        "relatedIds": [],
+        "contestId": null,
+        "details": {
+          "kind": "RUN",
+          "reason": "Clear the committed penetration lane while offering a trailing lateral pass",
+          "duty": "CLEAR_LANE"
+        }
+      },
+      "actor": {
+        "id": "se_player_ivar_perez_heselius_e39ab925",
+        "role": "RB",
+        "team": "HOME",
+        "duty": "CLEAR_LANE",
+        "position": {
+          "x": 14.99996428068565,
+          "y": 17.813597090004514
+        },
+        "velocity": {
+          "x": 0,
+          "y": 0
+        }
+      }
+    },
+    {
+      "name": "settled circulation",
+      "event": {
+        "id": "event-597",
+        "tick": 226,
+        "timeMs": 11300,
+        "officialMs": 11000,
+        "type": "PASS_RELEASED",
+        "possessionId": "possession-0",
+        "actionId": "action-580",
+        "actorId": "se_player_hannes_rybo_d534a6d2",
+        "relatedIds": [
+          "se_player_felix_dahlen_landstrom_cd6686d8"
+        ],
+        "contestId": null,
+        "details": {
+          "x": 10.101171165037137,
+          "y": 10.799303667483246,
+          "height": 1.5,
+          "reason": "Nothing is open; keep the ball and rebuild",
+          "shotKind": "NONE",
+          "phase": "ESTABLISHED",
+          "subphase": "UPPBYGGNAD",
+          "difficulty": 0.39602544110904087,
+          "executionError": 0.19731924991571223,
+          "pressure": 0.6467938722118709,
+          "passingCapability": 0.6839901287150951,
+          "aimX": 7.5205959012073045,
+          "aimY": 14.177213274019486
+        }
+      },
+      "actor": {
+        "id": "se_player_hannes_rybo_d534a6d2",
+        "role": "CB",
+        "team": "HOME",
+        "duty": "CARRIER",
+        "position": {
+          "x": 10.454503620375164,
+          "y": 11.194473665110136
+        },
+        "velocity": {
+          "x": 0,
+          "y": 0
+        }
+      }
+    },
+    {
+      "name": "breakthrough",
+      "event": {
+        "id": "event-1109",
+        "tick": 443,
+        "timeMs": 22150,
+        "officialMs": 21850,
+        "type": "DRIVE_RELEASED",
+        "possessionId": "possession-631",
+        "actionId": "action-1106",
+        "actorId": "se_player_lowe_knutsson_edd52e78",
+        "relatedIds": [
+          "se_player_edvin_persson_a930b582"
+        ],
+        "contestId": null,
+        "details": {
+          "reason": "The legal approach must release while a pass or shot still fits",
+          "into": "PLAY_FREED"
+        }
+      },
+      "actor": {
+        "id": "se_player_lowe_knutsson_edd52e78",
+        "role": "RB",
+        "team": "AWAY",
+        "duty": "CARRIER",
+        "position": {
+          "x": 17.504720332924002,
+          "y": 31.80528532366366
+        },
+        "velocity": {
+          "x": 1.6355027113254095,
+          "y": 1.9333047322916688
+        }
+      }
+    },
+    {
+      "name": "M6 screen",
+      "event": {
+        "id": "event-1567",
+        "tick": 609,
+        "timeMs": 30450,
+        "officialMs": 30150,
+        "type": "SCREEN_CONTACT",
+        "possessionId": "possession-631",
+        "actionId": "action-1524",
+        "actorId": "se_player_rasmus_broman_777c2960",
+        "relatedIds": [
+          "se_player_marcus_kl_ve_9d423086"
+        ],
+        "contestId": "contest-1564",
+        "details": {
+          "untilTick": 627
+        }
+      },
+      "actor": {
+        "id": "se_player_rasmus_broman_777c2960",
+        "role": "P",
+        "team": "AWAY",
+        "duty": "PIVOT",
+        "position": {
+          "x": 14.169057194035222,
+          "y": 32.66340888945531
+        },
+        "velocity": {
+          "x": 0,
+          "y": 0
+        }
+      }
+    },
+    {
+      "name": "keeper distribution",
+      "event": {
+        "id": "event-3128",
+        "tick": 1103,
+        "timeMs": 55150,
+        "officialMs": 54850,
+        "type": "PASS_RELEASED",
+        "possessionId": "possession-2938",
+        "actionId": "action-3080",
+        "actorId": "se_player_mans_landgren_0afb78ec",
+        "relatedIds": [
+          "se_player_jim_gottfridsson_7323fffc"
+        ],
+        "contestId": null,
+        "details": {
+          "x": 8.67985530955965,
+          "y": 0,
+          "height": 1.5,
+          "reason": "Execute lawful restart",
+          "shotKind": "NONE",
+          "phase": "RESTART",
+          "subphase": "AVSLUTNING",
+          "difficulty": 0.022130118054311365,
+          "executionError": 0.060677027647653974,
+          "pressure": 0,
+          "passingCapability": 0.7886793437596299,
+          "aimX": 9.280630337879487,
+          "aimY": 7.127941271151726
+        }
+      },
+      "actor": {
+        "id": "se_player_mans_landgren_0afb78ec",
+        "role": "GK",
+        "team": "AWAY",
+        "duty": "RESTART_TAKER",
+        "position": {
+          "x": 8.75094930194148,
+          "y": 0.451433188543403
+        },
+        "velocity": {
+          "x": 0,
+          "y": 0
+        }
+      }
+    }
+  ]
+}

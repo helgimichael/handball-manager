@@ -1,0 +1,3613 @@
+{
+  "stage": "Rejected full-speed offer revision, before braking receiver projection",
+  "passes": [
+    {
+      "release": {
+        "id": "event-2316",
+        "tick": 820,
+        "timeMs": 41000,
+        "officialMs": 40700,
+        "type": "PASS_RELEASED",
+        "possessionId": "possession-1556",
+        "actionId": "action-2301",
+        "actorId": "se_player_hugo_andersson_6443099d",
+        "relatedIds": [
+          "se_player_birk_larsson_152eee5f"
+        ],
+        "contestId": null,
+        "details": {
+          "x": 19.467088398310338,
+          "y": 15.01287464115408,
+          "height": 1.5,
+          "reason": "Nothing is open; keep the ball and rebuild",
+          "shotKind": "NONE",
+          "phase": "ESTABLISHED",
+          "subphase": "UPPBYGGNAD",
+          "difficulty": 0.12904239964661612,
+          "executionError": 0.14627154942175496,
+          "pressure": 0,
+          "passingCapability": 0.6475046812097216,
+          "aimX": 10.714906264742375,
+          "aimY": 15.208850344467132
+        }
+      },
+      "receiverAtRelease": {
+        "id": "se_player_birk_larsson_152eee5f",
+        "team": "HOME",
+        "kind": "FIELD_PLAYER",
+        "role": "CB",
+        "population": "COURT",
+        "position": {
+          "x": 10.764900011250914,
+          "y": 15.071387653236817
+        },
+        "velocity": {
+          "x": -0.42903066176803617,
+          "y": -3.2084317494364796
+        },
+        "radius": 0.28,
+        "condition": {
+          "energy": 0.9929898043974301,
+          "distanceMetres": 83.95863172700234,
+          "courtMs": 40750,
+          "unavailable": false,
+          "attacksRemaining": 0,
+          "treatmentPossession": null,
+          "exitRequired": false
+        },
+        "profile": {
+          "topSpeed": 6.347368421052632,
+          "acceleration": 6.336842105263157,
+          "reaction": 0.20157894736842105,
+          "passing": 0.7543859649122807,
+          "handling": 0.6842105263157894,
+          "shotPower": 0.7368421052631579,
+          "shotPlacement": 0.763157894736842,
+          "breakthrough": 0.763157894736842,
+          "finishing": 0.7368421052631579,
+          "wingFinishing": 0.7368421052631579,
+          "pivotPlay": 0.6842105263157895,
+          "screening": 0.6578947368421053,
+          "anticipation": 0.6578947368421053,
+          "decision": 0.6842105263157895,
+          "offBall": 0.5789473684210527,
+          "contact": 0.5789473684210527,
+          "defPositioning": 0.5263157894736842,
+          "defTiming": 0.5789473684210527,
+          "lateral": 0.6578947368421053,
+          "covering": 0.631578947368421,
+          "handover": 0.5263157894736842,
+          "ballWinning": 0.631578947368421,
+          "blocking": 0.631578947368421,
+          "strength": 0.631578947368421,
+          "balance": 0.631578947368421,
+          "endurance": 0.631578947368421,
+          "composure": 0.631578947368421,
+          "discipline": 0.631578947368421,
+          "keeper": null,
+          "tendency": {
+            "shoot": 1,
+            "drive": 1,
+            "feed": 1,
+            "run": 1,
+            "hold": 1
+          },
+          "source": {
+            "complete": true,
+            "missing": [],
+            "supplied": 31,
+            "expected": 31
+          }
+        },
+        "zone": null,
+        "duty": {
+          "kind": "BALANCE",
+          "targetId": "se_player_hugo_andersson_6443099d",
+          "sinceTick": 803,
+          "reason": "Balance the two backcourt lanes and retain a trailing central outlet"
+        },
+        "intent": {
+          "id": "action-2214-intent",
+          "effect": "RECEIVE",
+          "reason": "Offer an available passing connection from assigned role",
+          "targetId": null
+        },
+        "action": {
+          "id": "action-2214",
+          "possessionId": "possession-1556",
+          "kind": "RECEIVE",
+          "phase": "EXECUTING",
+          "startedTick": 784,
+          "phaseTick": 788,
+          "executeTicks": 36,
+          "recoveryTicks": 2,
+          "target": null,
+          "targetId": null,
+          "reason": "Offer an available passing connection from assigned role",
+          "resolved": false,
+          "contestIds": [],
+          "shotKind": null,
+          "purpose": "PLAY",
+          "contact": null,
+          "driveStart": null
+        },
+        "support": {
+          "possessionId": "possession-1556",
+          "mode": "BALANCE",
+          "partnerId": "se_player_hugo_andersson_6443099d",
+          "target": {
+            "x": 10.012898395110128,
+            "y": 11.6
+          },
+          "reason": "Balance the two backcourt lanes and retain a trailing central outlet",
+          "reviewAfterTick": 827
+        },
+        "handling": {
+          "heldSinceTick": 740,
+          "steps": 0,
+          "stepDistance": 0,
+          "dribbleUsed": false,
+          "bounceTick": 716
+        },
+        "airborne": null,
+        "beatenUntilTick": 0,
+        "wrongFootedUntilTick": 0,
+        "screenedUntilTick": 0,
+        "screenedBy": null,
+        "beatenBy": null,
+        "screenedSinceTick": 0,
+        "screenCooldownTick": 0,
+        "suspensionUntilMs": null,
+        "sanctions": 0,
+        "warnings": 0,
+        "nextAction": null,
+        "reception": {
+          "passActionId": "action-2301",
+          "readyTick": 816
+        },
+        "supportMotion": null
+      },
+      "minGap": 0.8803884496183374,
+      "closest": {
+        "tick": 835,
+        "point": {
+          "x": 10.685382473747675,
+          "y": 15.209511430538745
+        },
+        "receiver": {
+          "id": "se_player_birk_larsson_152eee5f",
+          "team": "HOME",
+          "kind": "FIELD_PLAYER",
+          "role": "CB",
+          "population": "COURT",
+          "position": {
+            "x": 10.665674073486057,
+            "y": 14.329343604961993
+          },
+          "velocity": {
+            "x": 0,
+            "y": 0
+          },
+          "radius": 0.28,
+          "condition": {
+            "energy": 0.9929294555527352,
+            "distanceMetres": 84.70728061420206,
+            "courtMs": 41500,
+            "unavailable": false,
+            "attacksRemaining": 0,
+            "treatmentPossession": null,
+            "exitRequired": false
+          },
+          "profile": {
+            "topSpeed": 6.347368421052632,
+            "acceleration": 6.336842105263157,
+            "reaction": 0.20157894736842105,
+            "passing": 0.7543859649122807,
+            "handling": 0.6842105263157894,
+            "shotPower": 0.7368421052631579,
+            "shotPlacement": 0.763157894736842,
+            "breakthrough": 0.763157894736842,
+            "finishing": 0.7368421052631579,
+            "wingFinishing": 0.7368421052631579,
+            "pivotPlay": 0.6842105263157895,
+            "screening": 0.6578947368421053,
+            "anticipation": 0.6578947368421053,
+            "decision": 0.6842105263157895,
+            "offBall": 0.5789473684210527,
+            "contact": 0.5789473684210527,
+            "defPositioning": 0.5263157894736842,
+            "defTiming": 0.5789473684210527,
+            "lateral": 0.6578947368421053,
+            "covering": 0.631578947368421,
+            "handover": 0.5263157894736842,
+            "ballWinning": 0.631578947368421,
+            "blocking": 0.631578947368421,
+            "strength": 0.631578947368421,
+            "balance": 0.631578947368421,
+            "endurance": 0.631578947368421,
+            "composure": 0.631578947368421,
+            "discipline": 0.631578947368421,
+            "keeper": null,
+            "tendency": {
+              "shoot": 1,
+              "drive": 1,
+              "feed": 1,
+              "run": 1,
+              "hold": 1
+            },
+            "source": {
+              "complete": true,
+              "missing": [],
+              "supplied": 31,
+              "expected": 31
+            }
+          },
+          "zone": null,
+          "duty": {
+            "kind": "CARRIER",
+            "targetId": null,
+            "sinceTick": 821,
+            "reason": "Create advantage while respecting handling budget"
+          },
+          "intent": {
+            "id": "action-2214-intent",
+            "effect": "RECEIVE",
+            "reason": "Offer an available passing connection from assigned role",
+            "targetId": null
+          },
+          "action": {
+            "id": "action-2214",
+            "possessionId": "possession-1556",
+            "kind": "RECEIVE",
+            "phase": "EXECUTING",
+            "startedTick": 784,
+            "phaseTick": 788,
+            "executeTicks": 36,
+            "recoveryTicks": 2,
+            "target": null,
+            "targetId": null,
+            "reason": "Offer an available passing connection from assigned role",
+            "resolved": false,
+            "contestIds": [],
+            "shotKind": null,
+            "purpose": "PLAY",
+            "contact": null,
+            "driveStart": null
+          },
+          "support": null,
+          "handling": {
+            "heldSinceTick": 740,
+            "steps": 0,
+            "stepDistance": 0,
+            "dribbleUsed": false,
+            "bounceTick": 716
+          },
+          "airborne": null,
+          "beatenUntilTick": 0,
+          "wrongFootedUntilTick": 0,
+          "screenedUntilTick": 0,
+          "screenedBy": null,
+          "beatenBy": null,
+          "screenedSinceTick": 0,
+          "screenCooldownTick": 0,
+          "suspensionUntilMs": null,
+          "sanctions": 0,
+          "warnings": 0,
+          "nextAction": null,
+          "reception": {
+            "passActionId": "action-2301",
+            "readyTick": 816
+          },
+          "supportMotion": null
+        }
+      }
+    },
+    {
+      "release": {
+        "id": "event-9662",
+        "tick": 3342,
+        "timeMs": 167100,
+        "officialMs": 166800,
+        "type": "PASS_RELEASED",
+        "possessionId": "possession-8911",
+        "actionId": "action-9650",
+        "actorId": "se_player_anton_schulze_69fc5c7e",
+        "relatedIds": [
+          "se_player_linus_lovgren_38890f0d"
+        ],
+        "contestId": null,
+        "details": {
+          "x": 1.0157871373951304,
+          "y": 25.27837024128364,
+          "height": 1.5,
+          "reason": "Nothing is open; keep the ball and rebuild",
+          "shotKind": "NONE",
+          "phase": "ESTABLISHED",
+          "subphase": "UPPBYGGNAD",
+          "difficulty": 0.12016374169913728,
+          "executionError": 0.09497671797618458,
+          "pressure": 0,
+          "passingCapability": 0.7134611836706206,
+          "aimX": 9.209414514286827,
+          "aimY": 24.764674538889178
+        }
+      },
+      "receiverAtRelease": {
+        "id": "se_player_linus_lovgren_38890f0d",
+        "team": "AWAY",
+        "kind": "FIELD_PLAYER",
+        "role": "CB",
+        "population": "COURT",
+        "position": {
+          "x": 9.20828946967974,
+          "y": 24.859644593286127
+        },
+        "velocity": {
+          "x": 0.3616038126209606,
+          "y": 3.2519758904696214
+        },
+        "radius": 0.28,
+        "condition": {
+          "energy": 0.9710128925197579,
+          "distanceMetres": 347.8755150445194,
+          "courtMs": 166850,
+          "unavailable": false,
+          "attacksRemaining": 0,
+          "treatmentPossession": null,
+          "exitRequired": false
+        },
+        "profile": {
+          "topSpeed": 6.347368421052632,
+          "acceleration": 5.91578947368421,
+          "reaction": 0.17315789473684212,
+          "passing": 0.7368421052631579,
+          "handling": 0.6578947368421053,
+          "shotPower": 0.6842105263157895,
+          "shotPlacement": 0.6842105263157894,
+          "breakthrough": 0.6578947368421053,
+          "finishing": 0.631578947368421,
+          "wingFinishing": 0.631578947368421,
+          "pivotPlay": 0.6842105263157895,
+          "screening": 0.6578947368421053,
+          "anticipation": 0.8157894736842105,
+          "decision": 0.8421052631578947,
+          "offBall": 0.7105263157894737,
+          "contact": 0.6842105263157895,
+          "defPositioning": 0.631578947368421,
+          "defTiming": 0.7105263157894737,
+          "lateral": 0.6052631578947368,
+          "covering": 0.7368421052631579,
+          "handover": 0.631578947368421,
+          "ballWinning": 0.7105263157894737,
+          "blocking": 0.7368421052631579,
+          "strength": 0.6842105263157895,
+          "balance": 0.5789473684210527,
+          "endurance": 0.5789473684210527,
+          "composure": 0.631578947368421,
+          "discipline": 0.6842105263157895,
+          "keeper": null,
+          "tendency": {
+            "shoot": 1,
+            "drive": 1,
+            "feed": 1,
+            "run": 1,
+            "hold": 1
+          },
+          "source": {
+            "complete": true,
+            "missing": [],
+            "supplied": 31,
+            "expected": 31
+          }
+        },
+        "zone": null,
+        "duty": {
+          "kind": "BALANCE",
+          "targetId": "se_player_anton_schulze_69fc5c7e",
+          "sinceTick": 3325,
+          "reason": "Balance the two backcourt lanes and retain a trailing central outlet"
+        },
+        "intent": {
+          "id": "action-9561-intent",
+          "effect": "RECEIVE",
+          "reason": "Offer an available passing connection from assigned role",
+          "targetId": null
+        },
+        "action": {
+          "id": "action-9561",
+          "possessionId": "possession-8911",
+          "kind": "RECEIVE",
+          "phase": "EXECUTING",
+          "startedTick": 3306,
+          "phaseTick": 3310,
+          "executeTicks": 36,
+          "recoveryTicks": 2,
+          "target": null,
+          "targetId": null,
+          "reason": "Offer an available passing connection from assigned role",
+          "resolved": false,
+          "contestIds": [],
+          "shotKind": null,
+          "purpose": "PLAY",
+          "contact": null,
+          "driveStart": null
+        },
+        "support": {
+          "possessionId": "possession-8911",
+          "mode": "BALANCE",
+          "partnerId": "se_player_anton_schulze_69fc5c7e",
+          "target": {
+            "x": 9.985080407941926,
+            "y": 28.4
+          },
+          "reason": "Balance the two backcourt lanes and retain a trailing central outlet",
+          "reviewAfterTick": 3349
+        },
+        "handling": {
+          "heldSinceTick": 3262,
+          "steps": 0,
+          "stepDistance": 0,
+          "dribbleUsed": false,
+          "bounceTick": 3212
+        },
+        "airborne": null,
+        "beatenUntilTick": 0,
+        "wrongFootedUntilTick": 3071,
+        "screenedUntilTick": 2732,
+        "screenedBy": null,
+        "beatenBy": null,
+        "screenedSinceTick": 2696,
+        "screenCooldownTick": 2769,
+        "suspensionUntilMs": null,
+        "sanctions": 0,
+        "warnings": 0,
+        "nextAction": null,
+        "reception": {
+          "passActionId": "action-9650",
+          "readyTick": 3338
+        },
+        "supportMotion": null
+      },
+      "minGap": 0.924052868388641,
+      "closest": {
+        "tick": 3356,
+        "point": {
+          "x": 9.242229767260445,
+          "y": 24.762617201686723
+        },
+        "receiver": {
+          "id": "se_player_linus_lovgren_38890f0d",
+          "team": "AWAY",
+          "kind": "FIELD_PLAYER",
+          "role": "CB",
+          "population": "COURT",
+          "position": {
+            "x": 9.300049315654109,
+            "y": 25.684859362618887
+          },
+          "velocity": {
+            "x": 0,
+            "y": 0
+          },
+          "radius": 0.28,
+          "condition": {
+            "energy": 0.9709503588147826,
+            "distanceMetres": 348.70581576405306,
+            "courtMs": 167550,
+            "unavailable": false,
+            "attacksRemaining": 0,
+            "treatmentPossession": null,
+            "exitRequired": false
+          },
+          "profile": {
+            "topSpeed": 6.347368421052632,
+            "acceleration": 5.91578947368421,
+            "reaction": 0.17315789473684212,
+            "passing": 0.7368421052631579,
+            "handling": 0.6578947368421053,
+            "shotPower": 0.6842105263157895,
+            "shotPlacement": 0.6842105263157894,
+            "breakthrough": 0.6578947368421053,
+            "finishing": 0.631578947368421,
+            "wingFinishing": 0.631578947368421,
+            "pivotPlay": 0.6842105263157895,
+            "screening": 0.6578947368421053,
+            "anticipation": 0.8157894736842105,
+            "decision": 0.8421052631578947,
+            "offBall": 0.7105263157894737,
+            "contact": 0.6842105263157895,
+            "defPositioning": 0.631578947368421,
+            "defTiming": 0.7105263157894737,
+            "lateral": 0.6052631578947368,
+            "covering": 0.7368421052631579,
+            "handover": 0.631578947368421,
+            "ballWinning": 0.7105263157894737,
+            "blocking": 0.7368421052631579,
+            "strength": 0.6842105263157895,
+            "balance": 0.5789473684210527,
+            "endurance": 0.5789473684210527,
+            "composure": 0.631578947368421,
+            "discipline": 0.6842105263157895,
+            "keeper": null,
+            "tendency": {
+              "shoot": 1,
+              "drive": 1,
+              "feed": 1,
+              "run": 1,
+              "hold": 1
+            },
+            "source": {
+              "complete": true,
+              "missing": [],
+              "supplied": 31,
+              "expected": 31
+            }
+          },
+          "zone": null,
+          "duty": {
+            "kind": "CARRIER",
+            "targetId": null,
+            "sinceTick": 3343,
+            "reason": "Create advantage while respecting handling budget"
+          },
+          "intent": {
+            "id": "action-9561-intent",
+            "effect": "RECEIVE",
+            "reason": "Offer an available passing connection from assigned role",
+            "targetId": null
+          },
+          "action": {
+            "id": "action-9561",
+            "possessionId": "possession-8911",
+            "kind": "RECEIVE",
+            "phase": "EXECUTING",
+            "startedTick": 3306,
+            "phaseTick": 3310,
+            "executeTicks": 36,
+            "recoveryTicks": 2,
+            "target": null,
+            "targetId": null,
+            "reason": "Offer an available passing connection from assigned role",
+            "resolved": false,
+            "contestIds": [],
+            "shotKind": null,
+            "purpose": "PLAY",
+            "contact": null,
+            "driveStart": null
+          },
+          "support": null,
+          "handling": {
+            "heldSinceTick": 3262,
+            "steps": 0,
+            "stepDistance": 0,
+            "dribbleUsed": false,
+            "bounceTick": 3212
+          },
+          "airborne": null,
+          "beatenUntilTick": 0,
+          "wrongFootedUntilTick": 3071,
+          "screenedUntilTick": 2732,
+          "screenedBy": null,
+          "beatenBy": null,
+          "screenedSinceTick": 2696,
+          "screenCooldownTick": 2769,
+          "suspensionUntilMs": null,
+          "sanctions": 0,
+          "warnings": 0,
+          "nextAction": null,
+          "reception": {
+            "passActionId": "action-9650",
+            "readyTick": 3338
+          },
+          "supportMotion": null
+        }
+      }
+    },
+    {
+      "release": {
+        "id": "event-11796",
+        "tick": 4009,
+        "timeMs": 200450,
+        "officialMs": 200150,
+        "type": "PASS_RELEASED",
+        "possessionId": "possession-11064",
+        "actionId": "action-11784",
+        "actorId": "se_player_carl_hamberg_b2db41f2",
+        "relatedIds": [
+          "se_player_linus_lovgren_38890f0d"
+        ],
+        "contestId": null,
+        "details": {
+          "x": 18.990005435491714,
+          "y": 25.372112710306467,
+          "height": 1.5,
+          "reason": "Nothing is open; keep the ball and rebuild",
+          "shotKind": "NONE",
+          "phase": "ESTABLISHED",
+          "subphase": "UPPBYGGNAD",
+          "difficulty": 0.115482388702727,
+          "executionError": 0.03859599623834739,
+          "pressure": 0,
+          "passingCapability": 0.6938809714400386,
+          "aimX": 10.813107678701433,
+          "aimY": 24.71656620710721
+        }
+      },
+      "receiverAtRelease": {
+        "id": "se_player_linus_lovgren_38890f0d",
+        "team": "AWAY",
+        "kind": "FIELD_PLAYER",
+        "role": "CB",
+        "population": "COURT",
+        "position": {
+          "x": 10.851435879050946,
+          "y": 24.721104927587493
+        },
+        "velocity": {
+          "x": -0.3107857040409222,
+          "y": 3.0901198209034755
+        },
+        "radius": 0.28,
+        "condition": {
+          "energy": 0.9642758851507871,
+          "distanceMetres": 428.5403167546543,
+          "courtMs": 200200,
+          "unavailable": false,
+          "attacksRemaining": 0,
+          "treatmentPossession": null,
+          "exitRequired": false
+        },
+        "profile": {
+          "topSpeed": 6.347368421052632,
+          "acceleration": 5.91578947368421,
+          "reaction": 0.17315789473684212,
+          "passing": 0.7368421052631579,
+          "handling": 0.6578947368421053,
+          "shotPower": 0.6842105263157895,
+          "shotPlacement": 0.6842105263157894,
+          "breakthrough": 0.6578947368421053,
+          "finishing": 0.631578947368421,
+          "wingFinishing": 0.631578947368421,
+          "pivotPlay": 0.6842105263157895,
+          "screening": 0.6578947368421053,
+          "anticipation": 0.8157894736842105,
+          "decision": 0.8421052631578947,
+          "offBall": 0.7105263157894737,
+          "contact": 0.6842105263157895,
+          "defPositioning": 0.631578947368421,
+          "defTiming": 0.7105263157894737,
+          "lateral": 0.6052631578947368,
+          "covering": 0.7368421052631579,
+          "handover": 0.631578947368421,
+          "ballWinning": 0.7105263157894737,
+          "blocking": 0.7368421052631579,
+          "strength": 0.6842105263157895,
+          "balance": 0.5789473684210527,
+          "endurance": 0.5789473684210527,
+          "composure": 0.631578947368421,
+          "discipline": 0.6842105263157895,
+          "keeper": null,
+          "tendency": {
+            "shoot": 1,
+            "drive": 1,
+            "feed": 1,
+            "run": 1,
+            "hold": 1
+          },
+          "source": {
+            "complete": true,
+            "missing": [],
+            "supplied": 31,
+            "expected": 31
+          }
+        },
+        "zone": null,
+        "duty": {
+          "kind": "BALANCE",
+          "targetId": "se_player_carl_hamberg_b2db41f2",
+          "sinceTick": 3992,
+          "reason": "Balance the two backcourt lanes and retain a trailing central outlet"
+        },
+        "intent": {
+          "id": "action-11696-intent",
+          "effect": "RECEIVE",
+          "reason": "Offer an available passing connection from assigned role",
+          "targetId": null
+        },
+        "action": {
+          "id": "action-11696",
+          "possessionId": "possession-11064",
+          "kind": "RECEIVE",
+          "phase": "EXECUTING",
+          "startedTick": 3973,
+          "phaseTick": 3977,
+          "executeTicks": 36,
+          "recoveryTicks": 2,
+          "target": null,
+          "targetId": null,
+          "reason": "Offer an available passing connection from assigned role",
+          "resolved": false,
+          "contestIds": [],
+          "shotKind": null,
+          "purpose": "PLAY",
+          "contact": null,
+          "driveStart": null
+        },
+        "support": {
+          "possessionId": "possession-11064",
+          "mode": "BALANCE",
+          "partnerId": "se_player_carl_hamberg_b2db41f2",
+          "target": {
+            "x": 10.015303200511424,
+            "y": 28.4
+          },
+          "reason": "Balance the two backcourt lanes and retain a trailing central outlet",
+          "reviewAfterTick": 4016
+        },
+        "handling": {
+          "heldSinceTick": 3929,
+          "steps": 0,
+          "stepDistance": 0,
+          "dribbleUsed": false,
+          "bounceTick": 3906
+        },
+        "airborne": null,
+        "beatenUntilTick": 0,
+        "wrongFootedUntilTick": 3071,
+        "screenedUntilTick": 3769,
+        "screenedBy": null,
+        "beatenBy": null,
+        "screenedSinceTick": 3729,
+        "screenCooldownTick": 3806,
+        "suspensionUntilMs": null,
+        "sanctions": 0,
+        "warnings": 0,
+        "nextAction": null,
+        "reception": {
+          "passActionId": "action-11784",
+          "readyTick": 4005
+        },
+        "supportMotion": null
+      },
+      "minGap": 0.7477196304917104,
+      "closest": {
+        "tick": 4022,
+        "point": {
+          "x": 10.836496514928793,
+          "y": 24.718441303293886
+        },
+        "receiver": {
+          "id": "se_player_linus_lovgren_38890f0d",
+          "team": "AWAY",
+          "kind": "FIELD_PLAYER",
+          "role": "CB",
+          "population": "COURT",
+          "position": {
+            "x": 10.776743130071523,
+            "y": 25.46376953891948
+          },
+          "velocity": {
+            "x": 0,
+            "y": 0
+          },
+          "radius": 0.28,
+          "condition": {
+            "energy": 0.9642196110305332,
+            "distanceMetres": 429.28672798961463,
+            "courtMs": 200850,
+            "unavailable": false,
+            "attacksRemaining": 0,
+            "treatmentPossession": null,
+            "exitRequired": false
+          },
+          "profile": {
+            "topSpeed": 6.347368421052632,
+            "acceleration": 5.91578947368421,
+            "reaction": 0.17315789473684212,
+            "passing": 0.7368421052631579,
+            "handling": 0.6578947368421053,
+            "shotPower": 0.6842105263157895,
+            "shotPlacement": 0.6842105263157894,
+            "breakthrough": 0.6578947368421053,
+            "finishing": 0.631578947368421,
+            "wingFinishing": 0.631578947368421,
+            "pivotPlay": 0.6842105263157895,
+            "screening": 0.6578947368421053,
+            "anticipation": 0.8157894736842105,
+            "decision": 0.8421052631578947,
+            "offBall": 0.7105263157894737,
+            "contact": 0.6842105263157895,
+            "defPositioning": 0.631578947368421,
+            "defTiming": 0.7105263157894737,
+            "lateral": 0.6052631578947368,
+            "covering": 0.7368421052631579,
+            "handover": 0.631578947368421,
+            "ballWinning": 0.7105263157894737,
+            "blocking": 0.7368421052631579,
+            "strength": 0.6842105263157895,
+            "balance": 0.5789473684210527,
+            "endurance": 0.5789473684210527,
+            "composure": 0.631578947368421,
+            "discipline": 0.6842105263157895,
+            "keeper": null,
+            "tendency": {
+              "shoot": 1,
+              "drive": 1,
+              "feed": 1,
+              "run": 1,
+              "hold": 1
+            },
+            "source": {
+              "complete": true,
+              "missing": [],
+              "supplied": 31,
+              "expected": 31
+            }
+          },
+          "zone": null,
+          "duty": {
+            "kind": "CARRIER",
+            "targetId": null,
+            "sinceTick": 4010,
+            "reason": "Create advantage while respecting handling budget"
+          },
+          "intent": {
+            "id": "action-11696-intent",
+            "effect": "RECEIVE",
+            "reason": "Offer an available passing connection from assigned role",
+            "targetId": null
+          },
+          "action": {
+            "id": "action-11696",
+            "possessionId": "possession-11064",
+            "kind": "RECEIVE",
+            "phase": "EXECUTING",
+            "startedTick": 3973,
+            "phaseTick": 3977,
+            "executeTicks": 36,
+            "recoveryTicks": 2,
+            "target": null,
+            "targetId": null,
+            "reason": "Offer an available passing connection from assigned role",
+            "resolved": false,
+            "contestIds": [],
+            "shotKind": null,
+            "purpose": "PLAY",
+            "contact": null,
+            "driveStart": null
+          },
+          "support": null,
+          "handling": {
+            "heldSinceTick": 3929,
+            "steps": 0,
+            "stepDistance": 0,
+            "dribbleUsed": false,
+            "bounceTick": 3906
+          },
+          "airborne": null,
+          "beatenUntilTick": 0,
+          "wrongFootedUntilTick": 3071,
+          "screenedUntilTick": 3769,
+          "screenedBy": null,
+          "beatenBy": null,
+          "screenedSinceTick": 3729,
+          "screenCooldownTick": 3806,
+          "suspensionUntilMs": null,
+          "sanctions": 0,
+          "warnings": 0,
+          "nextAction": null,
+          "reception": {
+            "passActionId": "action-11784",
+            "readyTick": 4005
+          },
+          "supportMotion": null
+        }
+      }
+    },
+    {
+      "release": {
+        "id": "event-16736",
+        "tick": 5765,
+        "timeMs": 288250,
+        "officialMs": 287950,
+        "type": "PASS_RELEASED",
+        "possessionId": "possession-16217",
+        "actionId": "action-16721",
+        "actorId": "se_player_noel_fagerlin_292f4e62",
+        "relatedIds": [
+          "se_player_carl_hamberg_b2db41f2"
+        ],
+        "contestId": null,
+        "details": {
+          "x": 16.302856311407155,
+          "y": 33.538073151969336,
+          "height": 1.5,
+          "reason": "Use the genuinely separated outside receiver",
+          "shotKind": "NONE",
+          "phase": "ESTABLISHED",
+          "subphase": "AVSLUTNING",
+          "difficulty": 0.46383388090699695,
+          "executionError": 0.3272352510947511,
+          "pressure": 1.154316311034526,
+          "passingCapability": 0.621553324754831,
+          "aimX": 19.714177988610707,
+          "aimY": 36.71183849027093
+        }
+      },
+      "receiverAtRelease": {
+        "id": "se_player_carl_hamberg_b2db41f2",
+        "team": "AWAY",
+        "kind": "FIELD_PLAYER",
+        "role": "RW",
+        "population": "COURT",
+        "position": {
+          "x": 19.266569328964565,
+          "y": 34.96269976346651
+        },
+        "velocity": {
+          "x": 1.0998847097971942,
+          "y": 4.135106745761118
+        },
+        "radius": 0.28,
+        "condition": {
+          "energy": 0.9444400210284183,
+          "distanceMetres": 736.9627028470126,
+          "courtMs": 288000,
+          "unavailable": false,
+          "attacksRemaining": 0,
+          "treatmentPossession": null,
+          "exitRequired": false
+        },
+        "profile": {
+          "topSpeed": 6.873684210526316,
+          "acceleration": 6.757894736842106,
+          "reaction": 0.21105263157894738,
+          "passing": 0.7017543859649122,
+          "handling": 0.6842105263157895,
+          "shotPower": 0.7368421052631579,
+          "shotPlacement": 0.6842105263157895,
+          "breakthrough": 0.7894736842105263,
+          "finishing": 0.6842105263157895,
+          "wingFinishing": 0.7894736842105263,
+          "pivotPlay": 0.6842105263157895,
+          "screening": 0.8157894736842105,
+          "anticipation": 0.6052631578947368,
+          "decision": 0.631578947368421,
+          "offBall": 0.7105263157894737,
+          "contact": 0.7105263157894737,
+          "defPositioning": 0.7894736842105263,
+          "defTiming": 0.6578947368421053,
+          "lateral": 0.6842105263157895,
+          "covering": 0.5789473684210527,
+          "handover": 0.631578947368421,
+          "ballWinning": 0.6052631578947368,
+          "blocking": 0.5789473684210527,
+          "strength": 0.8421052631578947,
+          "balance": 0.7368421052631579,
+          "endurance": 0.8421052631578947,
+          "composure": 0.6842105263157895,
+          "discipline": 0.7368421052631579,
+          "keeper": null,
+          "tendency": {
+            "shoot": 1,
+            "drive": 1,
+            "feed": 1,
+            "run": 1,
+            "hold": 1
+          },
+          "source": {
+            "complete": true,
+            "missing": [],
+            "supplied": 31,
+            "expected": 31
+          }
+        },
+        "zone": null,
+        "duty": {
+          "kind": "WING_PIN",
+          "targetId": "se_player_david_johansson_2badcc23",
+          "sinceTick": 5744,
+          "reason": "Pin the outside defender from the corner; preserve the adjacent back lane"
+        },
+        "intent": {
+          "id": "action-16695-intent",
+          "effect": "RUN",
+          "reason": "Pin the outside defender from the corner; preserve the adjacent back lane",
+          "targetId": null
+        },
+        "action": {
+          "id": "action-16695",
+          "possessionId": "possession-16217",
+          "kind": "RUN",
+          "phase": "EXECUTING",
+          "startedTick": 5746,
+          "phaseTick": 5750,
+          "executeTicks": 12,
+          "recoveryTicks": 2,
+          "target": {
+            "x": 19.32,
+            "y": 38.57
+          },
+          "targetId": null,
+          "reason": "Pin the outside defender from the corner; preserve the adjacent back lane",
+          "resolved": false,
+          "contestIds": [],
+          "shotKind": null,
+          "purpose": "PLAY",
+          "contact": null,
+          "driveStart": null
+        },
+        "support": null,
+        "handling": {
+          "heldSinceTick": 5687,
+          "steps": 1,
+          "stepDistance": 0.3133147931724338,
+          "dribbleUsed": false,
+          "bounceTick": 5687
+        },
+        "airborne": null,
+        "beatenUntilTick": 0,
+        "wrongFootedUntilTick": 0,
+        "screenedUntilTick": 327,
+        "screenedBy": null,
+        "beatenBy": null,
+        "screenedSinceTick": 269,
+        "screenCooldownTick": 364,
+        "suspensionUntilMs": null,
+        "sanctions": 0,
+        "warnings": 0,
+        "nextAction": null,
+        "reception": {
+          "passActionId": "action-16721",
+          "readyTick": 5761
+        },
+        "supportMotion": null
+      },
+      "minGap": 1.0343675276935642,
+      "closest": {
+        "tick": 5770,
+        "point": {
+          "x": 18.567923656464878,
+          "y": 35.64540658718967
+        },
+        "receiver": {
+          "id": "se_player_carl_hamberg_b2db41f2",
+          "team": "AWAY",
+          "kind": "FIELD_PLAYER",
+          "role": "RW",
+          "population": "COURT",
+          "position": {
+            "x": 19.429721624831597,
+            "y": 36.217438443003566
+          },
+          "velocity": {
+            "x": 0.24124943532521048,
+            "y": 5.531053662415313
+          },
+          "radius": 0.28,
+          "condition": {
+            "energy": 0.9443598464494032,
+            "distanceMetres": 738.2303599399518,
+            "courtMs": 288250,
+            "unavailable": false,
+            "attacksRemaining": 0,
+            "treatmentPossession": null,
+            "exitRequired": false
+          },
+          "profile": {
+            "topSpeed": 6.873684210526316,
+            "acceleration": 6.757894736842106,
+            "reaction": 0.21105263157894738,
+            "passing": 0.7017543859649122,
+            "handling": 0.6842105263157895,
+            "shotPower": 0.7368421052631579,
+            "shotPlacement": 0.6842105263157895,
+            "breakthrough": 0.7894736842105263,
+            "finishing": 0.6842105263157895,
+            "wingFinishing": 0.7894736842105263,
+            "pivotPlay": 0.6842105263157895,
+            "screening": 0.8157894736842105,
+            "anticipation": 0.6052631578947368,
+            "decision": 0.631578947368421,
+            "offBall": 0.7105263157894737,
+            "contact": 0.7105263157894737,
+            "defPositioning": 0.7894736842105263,
+            "defTiming": 0.6578947368421053,
+            "lateral": 0.6842105263157895,
+            "covering": 0.5789473684210527,
+            "handover": 0.631578947368421,
+            "ballWinning": 0.6052631578947368,
+            "blocking": 0.5789473684210527,
+            "strength": 0.8421052631578947,
+            "balance": 0.7368421052631579,
+            "endurance": 0.8421052631578947,
+            "composure": 0.6842105263157895,
+            "discipline": 0.7368421052631579,
+            "keeper": null,
+            "tendency": {
+              "shoot": 1,
+              "drive": 1,
+              "feed": 1,
+              "run": 1,
+              "hold": 1
+            },
+            "source": {
+              "complete": true,
+              "missing": [],
+              "supplied": 31,
+              "expected": 31
+            }
+          },
+          "zone": null,
+          "duty": {
+            "kind": "CARRIER",
+            "targetId": null,
+            "sinceTick": 5766,
+            "reason": "Create advantage while respecting handling budget"
+          },
+          "intent": {
+            "id": "action-16695-intent",
+            "effect": "RUN",
+            "reason": "Pin the outside defender from the corner; preserve the adjacent back lane",
+            "targetId": null
+          },
+          "action": {
+            "id": "action-16695",
+            "possessionId": "possession-16217",
+            "kind": "RUN",
+            "phase": "EXECUTING",
+            "startedTick": 5746,
+            "phaseTick": 5750,
+            "executeTicks": 12,
+            "recoveryTicks": 2,
+            "target": {
+              "x": 19.32,
+              "y": 38.57
+            },
+            "targetId": null,
+            "reason": "Pin the outside defender from the corner; preserve the adjacent back lane",
+            "resolved": false,
+            "contestIds": [],
+            "shotKind": null,
+            "purpose": "PLAY",
+            "contact": null,
+            "driveStart": null
+          },
+          "support": null,
+          "handling": {
+            "heldSinceTick": 5687,
+            "steps": 1,
+            "stepDistance": 0.3133147931724338,
+            "dribbleUsed": false,
+            "bounceTick": 5687
+          },
+          "airborne": null,
+          "beatenUntilTick": 0,
+          "wrongFootedUntilTick": 0,
+          "screenedUntilTick": 327,
+          "screenedBy": null,
+          "beatenBy": null,
+          "screenedSinceTick": 269,
+          "screenCooldownTick": 364,
+          "suspensionUntilMs": null,
+          "sanctions": 0,
+          "warnings": 0,
+          "nextAction": null,
+          "reception": {
+            "passActionId": "action-16721",
+            "readyTick": 5761
+          },
+          "supportMotion": null
+        }
+      }
+    },
+    {
+      "release": {
+        "id": "event-20574",
+        "tick": 7047,
+        "timeMs": 352350,
+        "officialMs": 352050,
+        "type": "PASS_RELEASED",
+        "possessionId": "possession-19807",
+        "actionId": "action-20559",
+        "actorId": "se_player_emil_setterlund_f609d264",
+        "relatedIds": [
+          "se_player_birk_larsson_152eee5f"
+        ],
+        "contestId": null,
+        "details": {
+          "x": 1.1558831508448844,
+          "y": 14.846002859735535,
+          "height": 1.5,
+          "reason": "Nothing is open; keep the ball and rebuild",
+          "shotKind": "NONE",
+          "phase": "ESTABLISHED",
+          "subphase": "UPPBYGGNAD",
+          "difficulty": 0.11608016492675852,
+          "executionError": 0.026301446148443156,
+          "pressure": 0,
+          "passingCapability": 0.6016731285823378,
+          "aimX": 9.259517951769455,
+          "aimY": 15.164363622522433
+        }
+      },
+      "receiverAtRelease": {
+        "id": "se_player_birk_larsson_152eee5f",
+        "team": "HOME",
+        "kind": "FIELD_PLAYER",
+        "role": "CB",
+        "population": "COURT",
+        "position": {
+          "x": 9.238574852649121,
+          "y": 15.18027439461983
+        },
+        "velocity": {
+          "x": 0.3865935748164099,
+          "y": -3.169193333001316
+        },
+        "radius": 0.28,
+        "condition": {
+          "energy": 0.9382339643591562,
+          "distanceMetres": 762.8510397714405,
+          "courtMs": 352100,
+          "unavailable": false,
+          "attacksRemaining": 0,
+          "treatmentPossession": null,
+          "exitRequired": false
+        },
+        "profile": {
+          "topSpeed": 6.347368421052632,
+          "acceleration": 6.336842105263157,
+          "reaction": 0.20157894736842105,
+          "passing": 0.7543859649122807,
+          "handling": 0.6842105263157894,
+          "shotPower": 0.7368421052631579,
+          "shotPlacement": 0.763157894736842,
+          "breakthrough": 0.763157894736842,
+          "finishing": 0.7368421052631579,
+          "wingFinishing": 0.7368421052631579,
+          "pivotPlay": 0.6842105263157895,
+          "screening": 0.6578947368421053,
+          "anticipation": 0.6578947368421053,
+          "decision": 0.6842105263157895,
+          "offBall": 0.5789473684210527,
+          "contact": 0.5789473684210527,
+          "defPositioning": 0.5263157894736842,
+          "defTiming": 0.5789473684210527,
+          "lateral": 0.6578947368421053,
+          "covering": 0.631578947368421,
+          "handover": 0.5263157894736842,
+          "ballWinning": 0.631578947368421,
+          "blocking": 0.631578947368421,
+          "strength": 0.631578947368421,
+          "balance": 0.631578947368421,
+          "endurance": 0.631578947368421,
+          "composure": 0.631578947368421,
+          "discipline": 0.631578947368421,
+          "keeper": null,
+          "tendency": {
+            "shoot": 1,
+            "drive": 1,
+            "feed": 1,
+            "run": 1,
+            "hold": 1
+          },
+          "source": {
+            "complete": true,
+            "missing": [],
+            "supplied": 31,
+            "expected": 31
+          }
+        },
+        "zone": null,
+        "duty": {
+          "kind": "BALANCE",
+          "targetId": "se_player_emil_setterlund_f609d264",
+          "sinceTick": 7030,
+          "reason": "Balance the two backcourt lanes and retain a trailing central outlet"
+        },
+        "intent": {
+          "id": "action-20476-intent",
+          "effect": "RECEIVE",
+          "reason": "Offer an available passing connection from assigned role",
+          "targetId": null
+        },
+        "action": {
+          "id": "action-20476",
+          "possessionId": "possession-19807",
+          "kind": "RECEIVE",
+          "phase": "EXECUTING",
+          "startedTick": 7012,
+          "phaseTick": 7016,
+          "executeTicks": 36,
+          "recoveryTicks": 2,
+          "target": null,
+          "targetId": null,
+          "reason": "Offer an available passing connection from assigned role",
+          "resolved": false,
+          "contestIds": [],
+          "shotKind": null,
+          "purpose": "PLAY",
+          "contact": null,
+          "driveStart": null
+        },
+        "support": {
+          "possessionId": "possession-19807",
+          "mode": "BALANCE",
+          "partnerId": "se_player_emil_setterlund_f609d264",
+          "target": {
+            "x": 9.985640035771137,
+            "y": 11.6
+          },
+          "reason": "Balance the two backcourt lanes and retain a trailing central outlet",
+          "reviewAfterTick": 7054
+        },
+        "handling": {
+          "heldSinceTick": 6968,
+          "steps": 0,
+          "stepDistance": 0,
+          "dribbleUsed": false,
+          "bounceTick": 6944
+        },
+        "airborne": null,
+        "beatenUntilTick": 0,
+        "wrongFootedUntilTick": 0,
+        "screenedUntilTick": 4758,
+        "screenedBy": null,
+        "beatenBy": null,
+        "screenedSinceTick": 4714,
+        "screenCooldownTick": 4795,
+        "suspensionUntilMs": null,
+        "sanctions": 0,
+        "warnings": 0,
+        "nextAction": null,
+        "reception": {
+          "passActionId": "action-20559",
+          "readyTick": 7043
+        },
+        "supportMotion": null
+      },
+      "minGap": 0.718739669256026,
+      "closest": {
+        "tick": 7061,
+        "point": {
+          "x": 9.29971609083524,
+          "y": 15.165942853389824
+        },
+        "receiver": {
+          "id": "se_player_birk_larsson_152eee5f",
+          "team": "HOME",
+          "kind": "FIELD_PLAYER",
+          "role": "CB",
+          "population": "COURT",
+          "position": {
+            "x": 9.327930853656179,
+            "y": 14.44775719541466
+          },
+          "velocity": {
+            "x": 0,
+            "y": 0
+          },
+          "radius": 0.28,
+          "condition": {
+            "energy": 0.9381768808229488,
+            "distanceMetres": 763.5889868847537,
+            "courtMs": 352800,
+            "unavailable": false,
+            "attacksRemaining": 0,
+            "treatmentPossession": null,
+            "exitRequired": false
+          },
+          "profile": {
+            "topSpeed": 6.347368421052632,
+            "acceleration": 6.336842105263157,
+            "reaction": 0.20157894736842105,
+            "passing": 0.7543859649122807,
+            "handling": 0.6842105263157894,
+            "shotPower": 0.7368421052631579,
+            "shotPlacement": 0.763157894736842,
+            "breakthrough": 0.763157894736842,
+            "finishing": 0.7368421052631579,
+            "wingFinishing": 0.7368421052631579,
+            "pivotPlay": 0.6842105263157895,
+            "screening": 0.6578947368421053,
+            "anticipation": 0.6578947368421053,
+            "decision": 0.6842105263157895,
+            "offBall": 0.5789473684210527,
+            "contact": 0.5789473684210527,
+            "defPositioning": 0.5263157894736842,
+            "defTiming": 0.5789473684210527,
+            "lateral": 0.6578947368421053,
+            "covering": 0.631578947368421,
+            "handover": 0.5263157894736842,
+            "ballWinning": 0.631578947368421,
+            "blocking": 0.631578947368421,
+            "strength": 0.631578947368421,
+            "balance": 0.631578947368421,
+            "endurance": 0.631578947368421,
+            "composure": 0.631578947368421,
+            "discipline": 0.631578947368421,
+            "keeper": null,
+            "tendency": {
+              "shoot": 1,
+              "drive": 1,
+              "feed": 1,
+              "run": 1,
+              "hold": 1
+            },
+            "source": {
+              "complete": true,
+              "missing": [],
+              "supplied": 31,
+              "expected": 31
+            }
+          },
+          "zone": null,
+          "duty": {
+            "kind": "CARRIER",
+            "targetId": null,
+            "sinceTick": 7048,
+            "reason": "Create advantage while respecting handling budget"
+          },
+          "intent": {
+            "id": "action-20476-intent",
+            "effect": "RECEIVE",
+            "reason": "Offer an available passing connection from assigned role",
+            "targetId": null
+          },
+          "action": {
+            "id": "action-20476",
+            "possessionId": "possession-19807",
+            "kind": "RECEIVE",
+            "phase": "EXECUTING",
+            "startedTick": 7012,
+            "phaseTick": 7016,
+            "executeTicks": 36,
+            "recoveryTicks": 2,
+            "target": null,
+            "targetId": null,
+            "reason": "Offer an available passing connection from assigned role",
+            "resolved": false,
+            "contestIds": [],
+            "shotKind": null,
+            "purpose": "PLAY",
+            "contact": null,
+            "driveStart": null
+          },
+          "support": null,
+          "handling": {
+            "heldSinceTick": 6968,
+            "steps": 0,
+            "stepDistance": 0,
+            "dribbleUsed": false,
+            "bounceTick": 6944
+          },
+          "airborne": null,
+          "beatenUntilTick": 0,
+          "wrongFootedUntilTick": 0,
+          "screenedUntilTick": 4758,
+          "screenedBy": null,
+          "beatenBy": null,
+          "screenedSinceTick": 4714,
+          "screenCooldownTick": 4795,
+          "suspensionUntilMs": null,
+          "sanctions": 0,
+          "warnings": 0,
+          "nextAction": null,
+          "reception": {
+            "passActionId": "action-20559",
+            "readyTick": 7043
+          },
+          "supportMotion": null
+        }
+      }
+    },
+    {
+      "release": {
+        "id": "event-25091",
+        "tick": 8649,
+        "timeMs": 432450,
+        "officialMs": 432150,
+        "type": "PASS_RELEASED",
+        "possessionId": "possession-24338",
+        "actionId": "action-25078",
+        "actorId": "se_player_anton_schulze_69fc5c7e",
+        "relatedIds": [
+          "se_player_linus_lovgren_38890f0d"
+        ],
+        "contestId": null,
+        "details": {
+          "x": 1.0607387805592454,
+          "y": 25.319040905668963,
+          "height": 1.5,
+          "reason": "Nothing is open; keep the ball and rebuild",
+          "shotKind": "NONE",
+          "phase": "ESTABLISHED",
+          "subphase": "UPPBYGGNAD",
+          "difficulty": 0.11128427986208597,
+          "executionError": 0.021544280520948658,
+          "pressure": 0,
+          "passingCapability": 0.7034392293287878,
+          "aimX": 9.096291893607162,
+          "aimY": 24.537329165778896
+        }
+      },
+      "receiverAtRelease": {
+        "id": "se_player_linus_lovgren_38890f0d",
+        "team": "AWAY",
+        "kind": "FIELD_PLAYER",
+        "role": "CB",
+        "population": "COURT",
+        "position": {
+          "x": 9.113212800260781,
+          "y": 24.55066479254275
+        },
+        "velocity": {
+          "x": 0.27602212138437837,
+          "y": 2.9774297401871124
+        },
+        "radius": 0.28,
+        "condition": {
+          "energy": 0.9259792618111622,
+          "distanceMetres": 886.7343745750916,
+          "courtMs": 432200,
+          "unavailable": false,
+          "attacksRemaining": 0,
+          "treatmentPossession": null,
+          "exitRequired": false
+        },
+        "profile": {
+          "topSpeed": 6.347368421052632,
+          "acceleration": 5.91578947368421,
+          "reaction": 0.17315789473684212,
+          "passing": 0.7368421052631579,
+          "handling": 0.6578947368421053,
+          "shotPower": 0.6842105263157895,
+          "shotPlacement": 0.6842105263157894,
+          "breakthrough": 0.6578947368421053,
+          "finishing": 0.631578947368421,
+          "wingFinishing": 0.631578947368421,
+          "pivotPlay": 0.6842105263157895,
+          "screening": 0.6578947368421053,
+          "anticipation": 0.8157894736842105,
+          "decision": 0.8421052631578947,
+          "offBall": 0.7105263157894737,
+          "contact": 0.6842105263157895,
+          "defPositioning": 0.631578947368421,
+          "defTiming": 0.7105263157894737,
+          "lateral": 0.6052631578947368,
+          "covering": 0.7368421052631579,
+          "handover": 0.631578947368421,
+          "ballWinning": 0.7105263157894737,
+          "blocking": 0.7368421052631579,
+          "strength": 0.6842105263157895,
+          "balance": 0.5789473684210527,
+          "endurance": 0.5789473684210527,
+          "composure": 0.631578947368421,
+          "discipline": 0.6842105263157895,
+          "keeper": null,
+          "tendency": {
+            "shoot": 1,
+            "drive": 1,
+            "feed": 1,
+            "run": 1,
+            "hold": 1
+          },
+          "source": {
+            "complete": true,
+            "missing": [],
+            "supplied": 31,
+            "expected": 31
+          }
+        },
+        "zone": null,
+        "duty": {
+          "kind": "BALANCE",
+          "targetId": "se_player_anton_schulze_69fc5c7e",
+          "sinceTick": 8632,
+          "reason": "Balance the two backcourt lanes and retain a trailing central outlet"
+        },
+        "intent": {
+          "id": "action-24992-intent",
+          "effect": "RECEIVE",
+          "reason": "Offer an available passing connection from assigned role",
+          "targetId": null
+        },
+        "action": {
+          "id": "action-24992",
+          "possessionId": "possession-24338",
+          "kind": "RECEIVE",
+          "phase": "EXECUTING",
+          "startedTick": 8613,
+          "phaseTick": 8617,
+          "executeTicks": 36,
+          "recoveryTicks": 2,
+          "target": null,
+          "targetId": null,
+          "reason": "Offer an available passing connection from assigned role",
+          "resolved": false,
+          "contestIds": [],
+          "shotKind": null,
+          "purpose": "PLAY",
+          "contact": null,
+          "driveStart": null
+        },
+        "support": {
+          "possessionId": "possession-24338",
+          "mode": "BALANCE",
+          "partnerId": "se_player_anton_schulze_69fc5c7e",
+          "target": {
+            "x": 9.98532291316308,
+            "y": 28.4
+          },
+          "reason": "Balance the two backcourt lanes and retain a trailing central outlet",
+          "reviewAfterTick": 8656
+        },
+        "handling": {
+          "heldSinceTick": 8569,
+          "steps": 0,
+          "stepDistance": 0,
+          "dribbleUsed": false,
+          "bounceTick": 8546
+        },
+        "airborne": null,
+        "beatenUntilTick": 0,
+        "wrongFootedUntilTick": 3071,
+        "screenedUntilTick": 6540,
+        "screenedBy": null,
+        "beatenBy": null,
+        "screenedSinceTick": 6522,
+        "screenCooldownTick": 6577,
+        "suspensionUntilMs": null,
+        "sanctions": 0,
+        "warnings": 0,
+        "nextAction": null,
+        "reception": {
+          "passActionId": "action-25078",
+          "readyTick": 8645
+        },
+        "supportMotion": null
+      },
+      "minGap": 0.7110353670702944,
+      "closest": {
+        "tick": 8662,
+        "point": {
+          "x": 9.108626306958877,
+          "y": 24.536129253889058
+        },
+        "receiver": {
+          "id": "se_player_linus_lovgren_38890f0d",
+          "team": "AWAY",
+          "kind": "FIELD_PLAYER",
+          "role": "CB",
+          "population": "COURT",
+          "position": {
+            "x": 9.177471988676405,
+            "y": 25.243823796282623
+          },
+          "velocity": {
+            "x": 0,
+            "y": 0
+          },
+          "radius": 0.28,
+          "condition": {
+            "energy": 0.9259249929160366,
+            "distanceMetres": 887.4305057751981,
+            "courtMs": 432850,
+            "unavailable": false,
+            "attacksRemaining": 0,
+            "treatmentPossession": null,
+            "exitRequired": false
+          },
+          "profile": {
+            "topSpeed": 6.347368421052632,
+            "acceleration": 5.91578947368421,
+            "reaction": 0.17315789473684212,
+            "passing": 0.7368421052631579,
+            "handling": 0.6578947368421053,
+            "shotPower": 0.6842105263157895,
+            "shotPlacement": 0.6842105263157894,
+            "breakthrough": 0.6578947368421053,
+            "finishing": 0.631578947368421,
+            "wingFinishing": 0.631578947368421,
+            "pivotPlay": 0.6842105263157895,
+            "screening": 0.6578947368421053,
+            "anticipation": 0.8157894736842105,
+            "decision": 0.8421052631578947,
+            "offBall": 0.7105263157894737,
+            "contact": 0.6842105263157895,
+            "defPositioning": 0.631578947368421,
+            "defTiming": 0.7105263157894737,
+            "lateral": 0.6052631578947368,
+            "covering": 0.7368421052631579,
+            "handover": 0.631578947368421,
+            "ballWinning": 0.7105263157894737,
+            "blocking": 0.7368421052631579,
+            "strength": 0.6842105263157895,
+            "balance": 0.5789473684210527,
+            "endurance": 0.5789473684210527,
+            "composure": 0.631578947368421,
+            "discipline": 0.6842105263157895,
+            "keeper": null,
+            "tendency": {
+              "shoot": 1,
+              "drive": 1,
+              "feed": 1,
+              "run": 1,
+              "hold": 1
+            },
+            "source": {
+              "complete": true,
+              "missing": [],
+              "supplied": 31,
+              "expected": 31
+            }
+          },
+          "zone": null,
+          "duty": {
+            "kind": "CARRIER",
+            "targetId": null,
+            "sinceTick": 8650,
+            "reason": "Create advantage while respecting handling budget"
+          },
+          "intent": {
+            "id": "action-24992-intent",
+            "effect": "RECEIVE",
+            "reason": "Offer an available passing connection from assigned role",
+            "targetId": null
+          },
+          "action": {
+            "id": "action-24992",
+            "possessionId": "possession-24338",
+            "kind": "RECEIVE",
+            "phase": "EXECUTING",
+            "startedTick": 8613,
+            "phaseTick": 8617,
+            "executeTicks": 36,
+            "recoveryTicks": 2,
+            "target": null,
+            "targetId": null,
+            "reason": "Offer an available passing connection from assigned role",
+            "resolved": false,
+            "contestIds": [],
+            "shotKind": null,
+            "purpose": "PLAY",
+            "contact": null,
+            "driveStart": null
+          },
+          "support": null,
+          "handling": {
+            "heldSinceTick": 8569,
+            "steps": 0,
+            "stepDistance": 0,
+            "dribbleUsed": false,
+            "bounceTick": 8546
+          },
+          "airborne": null,
+          "beatenUntilTick": 0,
+          "wrongFootedUntilTick": 3071,
+          "screenedUntilTick": 6540,
+          "screenedBy": null,
+          "beatenBy": null,
+          "screenedSinceTick": 6522,
+          "screenCooldownTick": 6577,
+          "suspensionUntilMs": null,
+          "sanctions": 0,
+          "warnings": 0,
+          "nextAction": null,
+          "reception": {
+            "passActionId": "action-25078",
+            "readyTick": 8645
+          },
+          "supportMotion": null
+        }
+      }
+    },
+    {
+      "release": {
+        "id": "event-41623",
+        "tick": 14810,
+        "timeMs": 740500,
+        "officialMs": 740200,
+        "type": "PASS_RELEASED",
+        "possessionId": "possession-40855",
+        "actionId": "action-41603",
+        "actorId": "se_player_hugo_andersson_6443099d",
+        "relatedIds": [
+          "se_player_birk_larsson_152eee5f"
+        ],
+        "contestId": null,
+        "details": {
+          "x": 19.201918318831414,
+          "y": 13.485271802252218,
+          "height": 1.5,
+          "reason": "Nothing is open; keep the ball and rebuild",
+          "shotKind": "NONE",
+          "phase": "ESTABLISHED",
+          "subphase": "UPPBYGGNAD",
+          "difficulty": 0.1418020698339204,
+          "executionError": 0.10241121554800998,
+          "pressure": 0,
+          "passingCapability": 0.6218438390578438,
+          "aimX": 10.450668330433649,
+          "aimY": 13.99297148163069
+        }
+      },
+      "receiverAtRelease": {
+        "id": "se_player_birk_larsson_152eee5f",
+        "team": "HOME",
+        "kind": "FIELD_PLAYER",
+        "role": "CB",
+        "population": "COURT",
+        "position": {
+          "x": 10.414441713396526,
+          "y": 13.897181663340506
+        },
+        "velocity": {
+          "x": -0.6333386557971985,
+          "y": -3.6443486525362885
+        },
+        "radius": 0.28,
+        "condition": {
+          "energy": 0.8755541501325566,
+          "distanceMetres": 1516.7716938094495,
+          "courtMs": 740250,
+          "unavailable": false,
+          "attacksRemaining": 0,
+          "treatmentPossession": null,
+          "exitRequired": false
+        },
+        "profile": {
+          "topSpeed": 6.347368421052632,
+          "acceleration": 6.336842105263157,
+          "reaction": 0.20157894736842105,
+          "passing": 0.7543859649122807,
+          "handling": 0.6842105263157894,
+          "shotPower": 0.7368421052631579,
+          "shotPlacement": 0.763157894736842,
+          "breakthrough": 0.763157894736842,
+          "finishing": 0.7368421052631579,
+          "wingFinishing": 0.7368421052631579,
+          "pivotPlay": 0.6842105263157895,
+          "screening": 0.6578947368421053,
+          "anticipation": 0.6578947368421053,
+          "decision": 0.6842105263157895,
+          "offBall": 0.5789473684210527,
+          "contact": 0.5789473684210527,
+          "defPositioning": 0.5263157894736842,
+          "defTiming": 0.5789473684210527,
+          "lateral": 0.6578947368421053,
+          "covering": 0.631578947368421,
+          "handover": 0.5263157894736842,
+          "ballWinning": 0.631578947368421,
+          "blocking": 0.631578947368421,
+          "strength": 0.631578947368421,
+          "balance": 0.631578947368421,
+          "endurance": 0.631578947368421,
+          "composure": 0.631578947368421,
+          "discipline": 0.631578947368421,
+          "keeper": null,
+          "tendency": {
+            "shoot": 1,
+            "drive": 1,
+            "feed": 1,
+            "run": 1,
+            "hold": 1
+          },
+          "source": {
+            "complete": true,
+            "missing": [],
+            "supplied": 31,
+            "expected": 31
+          }
+        },
+        "zone": null,
+        "duty": {
+          "kind": "BALANCE",
+          "targetId": "se_player_hugo_andersson_6443099d",
+          "sinceTick": 14793,
+          "reason": "Balance the two backcourt lanes and retain a trailing central outlet"
+        },
+        "intent": {
+          "id": "action-41524-intent",
+          "effect": "RECEIVE",
+          "reason": "Offer an available passing connection from assigned role",
+          "targetId": null
+        },
+        "action": {
+          "id": "action-41524",
+          "possessionId": "possession-40855",
+          "kind": "RECEIVE",
+          "phase": "EXECUTING",
+          "startedTick": 14773,
+          "phaseTick": 14777,
+          "executeTicks": 36,
+          "recoveryTicks": 2,
+          "target": null,
+          "targetId": null,
+          "reason": "Offer an available passing connection from assigned role",
+          "resolved": false,
+          "contestIds": [],
+          "shotKind": null,
+          "purpose": "PLAY",
+          "contact": null,
+          "driveStart": null
+        },
+        "support": {
+          "possessionId": "possession-40855",
+          "mode": "BALANCE",
+          "partnerId": "se_player_hugo_andersson_6443099d",
+          "target": {
+            "x": 10.01522251526368,
+            "y": 11.6
+          },
+          "reason": "Balance the two backcourt lanes and retain a trailing central outlet",
+          "reviewAfterTick": 14817
+        },
+        "handling": {
+          "heldSinceTick": 14729,
+          "steps": 0,
+          "stepDistance": 0,
+          "dribbleUsed": false,
+          "bounceTick": 14705
+        },
+        "airborne": null,
+        "beatenUntilTick": 0,
+        "wrongFootedUntilTick": 0,
+        "screenedUntilTick": 12419,
+        "screenedBy": null,
+        "beatenBy": null,
+        "screenedSinceTick": 12345,
+        "screenCooldownTick": 12456,
+        "suspensionUntilMs": null,
+        "sanctions": 0,
+        "warnings": 0,
+        "nextAction": null,
+        "reception": {
+          "passActionId": "action-41603",
+          "readyTick": 14806
+        },
+        "supportMotion": null
+      },
+      "minGap": 1.1117019689574872,
+      "closest": {
+        "tick": 14825,
+        "point": {
+          "x": 10.3040787311025,
+          "y": 14.001475808747315
+        },
+        "receiver": {
+          "id": "se_player_birk_larsson_152eee5f",
+          "team": "HOME",
+          "kind": "FIELD_PLAYER",
+          "role": "CB",
+          "population": "COURT",
+          "position": {
+            "x": 10.239692122312423,
+            "y": 12.891639950436517
+          },
+          "velocity": {
+            "x": 0,
+            "y": 0
+          },
+          "radius": 0.28,
+          "condition": {
+            "energy": 0.8754826419447327,
+            "distanceMetres": 1517.792307132885,
+            "courtMs": 741000,
+            "unavailable": false,
+            "attacksRemaining": 0,
+            "treatmentPossession": null,
+            "exitRequired": false
+          },
+          "profile": {
+            "topSpeed": 6.347368421052632,
+            "acceleration": 6.336842105263157,
+            "reaction": 0.20157894736842105,
+            "passing": 0.7543859649122807,
+            "handling": 0.6842105263157894,
+            "shotPower": 0.7368421052631579,
+            "shotPlacement": 0.763157894736842,
+            "breakthrough": 0.763157894736842,
+            "finishing": 0.7368421052631579,
+            "wingFinishing": 0.7368421052631579,
+            "pivotPlay": 0.6842105263157895,
+            "screening": 0.6578947368421053,
+            "anticipation": 0.6578947368421053,
+            "decision": 0.6842105263157895,
+            "offBall": 0.5789473684210527,
+            "contact": 0.5789473684210527,
+            "defPositioning": 0.5263157894736842,
+            "defTiming": 0.5789473684210527,
+            "lateral": 0.6578947368421053,
+            "covering": 0.631578947368421,
+            "handover": 0.5263157894736842,
+            "ballWinning": 0.631578947368421,
+            "blocking": 0.631578947368421,
+            "strength": 0.631578947368421,
+            "balance": 0.631578947368421,
+            "endurance": 0.631578947368421,
+            "composure": 0.631578947368421,
+            "discipline": 0.631578947368421,
+            "keeper": null,
+            "tendency": {
+              "shoot": 1,
+              "drive": 1,
+              "feed": 1,
+              "run": 1,
+              "hold": 1
+            },
+            "source": {
+              "complete": true,
+              "missing": [],
+              "supplied": 31,
+              "expected": 31
+            }
+          },
+          "zone": null,
+          "duty": {
+            "kind": "CARRIER",
+            "targetId": null,
+            "sinceTick": 14811,
+            "reason": "Create advantage while respecting handling budget"
+          },
+          "intent": {
+            "id": "action-41524-intent",
+            "effect": "RECEIVE",
+            "reason": "Offer an available passing connection from assigned role",
+            "targetId": null
+          },
+          "action": {
+            "id": "action-41524",
+            "possessionId": "possession-40855",
+            "kind": "RECEIVE",
+            "phase": "EXECUTING",
+            "startedTick": 14773,
+            "phaseTick": 14777,
+            "executeTicks": 36,
+            "recoveryTicks": 2,
+            "target": null,
+            "targetId": null,
+            "reason": "Offer an available passing connection from assigned role",
+            "resolved": false,
+            "contestIds": [],
+            "shotKind": null,
+            "purpose": "PLAY",
+            "contact": null,
+            "driveStart": null
+          },
+          "support": null,
+          "handling": {
+            "heldSinceTick": 14729,
+            "steps": 0,
+            "stepDistance": 0,
+            "dribbleUsed": false,
+            "bounceTick": 14705
+          },
+          "airborne": null,
+          "beatenUntilTick": 0,
+          "wrongFootedUntilTick": 0,
+          "screenedUntilTick": 12419,
+          "screenedBy": null,
+          "beatenBy": null,
+          "screenedSinceTick": 12345,
+          "screenCooldownTick": 12456,
+          "suspensionUntilMs": null,
+          "sanctions": 0,
+          "warnings": 0,
+          "nextAction": null,
+          "reception": {
+            "passActionId": "action-41603",
+            "readyTick": 14806
+          },
+          "supportMotion": null
+        }
+      }
+    },
+    {
+      "release": {
+        "id": "event-51092",
+        "tick": 18142,
+        "timeMs": 907100,
+        "officialMs": 906800,
+        "type": "PASS_RELEASED",
+        "possessionId": "possession-50346",
+        "actionId": "action-51076",
+        "actorId": "se_player_emil_setterlund_f609d264",
+        "relatedIds": [
+          "se_player_birk_larsson_152eee5f"
+        ],
+        "contestId": null,
+        "details": {
+          "x": 1.2560571531488627,
+          "y": 14.785828089245003,
+          "height": 1.5,
+          "reason": "Nothing is open; keep the ball and rebuild",
+          "shotKind": "NONE",
+          "phase": "ESTABLISHED",
+          "subphase": "UPPBYGGNAD",
+          "difficulty": 0.1123878133746237,
+          "executionError": 0.06571356580637432,
+          "pressure": 0,
+          "passingCapability": 0.5831967105465873,
+          "aimX": 9.197963973715217,
+          "aimY": 15.220327603071388
+        }
+      },
+      "receiverAtRelease": {
+        "id": "se_player_birk_larsson_152eee5f",
+        "team": "HOME",
+        "kind": "FIELD_PLAYER",
+        "role": "CB",
+        "population": "COURT",
+        "position": {
+          "x": 9.228747834677764,
+          "y": 15.278384701132067
+        },
+        "velocity": {
+          "x": 0.36780181546233226,
+          "y": -3.0983739295460446
+        },
+        "radius": 0.28,
+        "condition": {
+          "energy": 0.8520504648007562,
+          "distanceMetres": 1800.6832031662514,
+          "courtMs": 906850,
+          "unavailable": false,
+          "attacksRemaining": 0,
+          "treatmentPossession": null,
+          "exitRequired": false
+        },
+        "profile": {
+          "topSpeed": 6.347368421052632,
+          "acceleration": 6.336842105263157,
+          "reaction": 0.20157894736842105,
+          "passing": 0.7543859649122807,
+          "handling": 0.6842105263157894,
+          "shotPower": 0.7368421052631579,
+          "shotPlacement": 0.763157894736842,
+          "breakthrough": 0.763157894736842,
+          "finishing": 0.7368421052631579,
+          "wingFinishing": 0.7368421052631579,
+          "pivotPlay": 0.6842105263157895,
+          "screening": 0.6578947368421053,
+          "anticipation": 0.6578947368421053,
+          "decision": 0.6842105263157895,
+          "offBall": 0.5789473684210527,
+          "contact": 0.5789473684210527,
+          "defPositioning": 0.5263157894736842,
+          "defTiming": 0.5789473684210527,
+          "lateral": 0.6578947368421053,
+          "covering": 0.631578947368421,
+          "handover": 0.5263157894736842,
+          "ballWinning": 0.631578947368421,
+          "blocking": 0.631578947368421,
+          "strength": 0.631578947368421,
+          "balance": 0.631578947368421,
+          "endurance": 0.631578947368421,
+          "composure": 0.631578947368421,
+          "discipline": 0.631578947368421,
+          "keeper": null,
+          "tendency": {
+            "shoot": 1,
+            "drive": 1,
+            "feed": 1,
+            "run": 1,
+            "hold": 1
+          },
+          "source": {
+            "complete": true,
+            "missing": [],
+            "supplied": 31,
+            "expected": 31
+          }
+        },
+        "zone": null,
+        "duty": {
+          "kind": "BALANCE",
+          "targetId": "se_player_emil_setterlund_f609d264",
+          "sinceTick": 18125,
+          "reason": "Balance the two backcourt lanes and retain a trailing central outlet"
+        },
+        "intent": {
+          "id": "action-50997-intent",
+          "effect": "RECEIVE",
+          "reason": "Offer an available passing connection from assigned role",
+          "targetId": null
+        },
+        "action": {
+          "id": "action-50997",
+          "possessionId": "possession-50346",
+          "kind": "RECEIVE",
+          "phase": "EXECUTING",
+          "startedTick": 18107,
+          "phaseTick": 18111,
+          "executeTicks": 36,
+          "recoveryTicks": 2,
+          "target": null,
+          "targetId": null,
+          "reason": "Offer an available passing connection from assigned role",
+          "resolved": false,
+          "contestIds": [],
+          "shotKind": null,
+          "purpose": "PLAY",
+          "contact": null,
+          "driveStart": null
+        },
+        "support": {
+          "possessionId": "possession-50346",
+          "mode": "BALANCE",
+          "partnerId": "se_player_emil_setterlund_f609d264",
+          "target": {
+            "x": 9.985453382512082,
+            "y": 11.6
+          },
+          "reason": "Balance the two backcourt lanes and retain a trailing central outlet",
+          "reviewAfterTick": 18149
+        },
+        "handling": {
+          "heldSinceTick": 18063,
+          "steps": 0,
+          "stepDistance": 0,
+          "dribbleUsed": false,
+          "bounceTick": 18039
+        },
+        "airborne": null,
+        "beatenUntilTick": 0,
+        "wrongFootedUntilTick": 0,
+        "screenedUntilTick": 17862,
+        "screenedBy": null,
+        "beatenBy": null,
+        "screenedSinceTick": 17788,
+        "screenCooldownTick": 17899,
+        "suspensionUntilMs": null,
+        "sanctions": 0,
+        "warnings": 0,
+        "nextAction": null,
+        "reception": {
+          "passActionId": "action-51076",
+          "readyTick": 18138
+        },
+        "supportMotion": null
+      },
+      "minGap": 0.6619513724082937,
+      "closest": {
+        "tick": 18156,
+        "point": {
+          "x": 9.277424123475619,
+          "y": 15.224674845770084
+        },
+        "receiver": {
+          "id": "se_player_birk_larsson_152eee5f",
+          "team": "HOME",
+          "kind": "FIELD_PLAYER",
+          "role": "CB",
+          "population": "COURT",
+          "position": {
+            "x": 9.313585221571316,
+            "y": 14.563711916085115
+          },
+          "velocity": {
+            "x": 0,
+            "y": 0
+          },
+          "radius": 0.28,
+          "condition": {
+            "energy": 0.8519942700109245,
+            "distanceMetres": 1801.402893774709,
+            "courtMs": 907550,
+            "unavailable": false,
+            "attacksRemaining": 0,
+            "treatmentPossession": null,
+            "exitRequired": false
+          },
+          "profile": {
+            "topSpeed": 6.347368421052632,
+            "acceleration": 6.336842105263157,
+            "reaction": 0.20157894736842105,
+            "passing": 0.7543859649122807,
+            "handling": 0.6842105263157894,
+            "shotPower": 0.7368421052631579,
+            "shotPlacement": 0.763157894736842,
+            "breakthrough": 0.763157894736842,
+            "finishing": 0.7368421052631579,
+            "wingFinishing": 0.7368421052631579,
+            "pivotPlay": 0.6842105263157895,
+            "screening": 0.6578947368421053,
+            "anticipation": 0.6578947368421053,
+            "decision": 0.6842105263157895,
+            "offBall": 0.5789473684210527,
+            "contact": 0.5789473684210527,
+            "defPositioning": 0.5263157894736842,
+            "defTiming": 0.5789473684210527,
+            "lateral": 0.6578947368421053,
+            "covering": 0.631578947368421,
+            "handover": 0.5263157894736842,
+            "ballWinning": 0.631578947368421,
+            "blocking": 0.631578947368421,
+            "strength": 0.631578947368421,
+            "balance": 0.631578947368421,
+            "endurance": 0.631578947368421,
+            "composure": 0.631578947368421,
+            "discipline": 0.631578947368421,
+            "keeper": null,
+            "tendency": {
+              "shoot": 1,
+              "drive": 1,
+              "feed": 1,
+              "run": 1,
+              "hold": 1
+            },
+            "source": {
+              "complete": true,
+              "missing": [],
+              "supplied": 31,
+              "expected": 31
+            }
+          },
+          "zone": null,
+          "duty": {
+            "kind": "CARRIER",
+            "targetId": null,
+            "sinceTick": 18143,
+            "reason": "Create advantage while respecting handling budget"
+          },
+          "intent": {
+            "id": "action-50997-intent",
+            "effect": "RECEIVE",
+            "reason": "Offer an available passing connection from assigned role",
+            "targetId": null
+          },
+          "action": {
+            "id": "action-50997",
+            "possessionId": "possession-50346",
+            "kind": "RECEIVE",
+            "phase": "EXECUTING",
+            "startedTick": 18107,
+            "phaseTick": 18111,
+            "executeTicks": 36,
+            "recoveryTicks": 2,
+            "target": null,
+            "targetId": null,
+            "reason": "Offer an available passing connection from assigned role",
+            "resolved": false,
+            "contestIds": [],
+            "shotKind": null,
+            "purpose": "PLAY",
+            "contact": null,
+            "driveStart": null
+          },
+          "support": null,
+          "handling": {
+            "heldSinceTick": 18063,
+            "steps": 0,
+            "stepDistance": 0,
+            "dribbleUsed": false,
+            "bounceTick": 18039
+          },
+          "airborne": null,
+          "beatenUntilTick": 0,
+          "wrongFootedUntilTick": 0,
+          "screenedUntilTick": 17862,
+          "screenedBy": null,
+          "beatenBy": null,
+          "screenedSinceTick": 17788,
+          "screenCooldownTick": 17899,
+          "suspensionUntilMs": null,
+          "sanctions": 0,
+          "warnings": 0,
+          "nextAction": null,
+          "reception": {
+            "passActionId": "action-51076",
+            "readyTick": 18138
+          },
+          "supportMotion": null
+        }
+      }
+    },
+    {
+      "release": {
+        "id": "event-54015",
+        "tick": 19191,
+        "timeMs": 959550,
+        "officialMs": 959250,
+        "type": "PASS_RELEASED",
+        "possessionId": "possession-53307",
+        "actionId": "action-54000",
+        "actorId": "se_player_anton_schulze_69fc5c7e",
+        "relatedIds": [
+          "se_player_linus_lovgren_38890f0d"
+        ],
+        "contestId": null,
+        "details": {
+          "x": 1.3026263079491578,
+          "y": 26.758326636141042,
+          "height": 1.5,
+          "reason": "Nothing is open; keep the ball and rebuild",
+          "shotKind": "NONE",
+          "phase": "ESTABLISHED",
+          "subphase": "UPPBYGGNAD",
+          "difficulty": 0.13513854272003611,
+          "executionError": 0.026728090437253653,
+          "pressure": 0,
+          "passingCapability": 0.6836328792242007,
+          "aimX": 9.582933827343378,
+          "aimY": 25.875017625742874
+        }
+      },
+      "receiverAtRelease": {
+        "id": "se_player_linus_lovgren_38890f0d",
+        "team": "AWAY",
+        "kind": "FIELD_PLAYER",
+        "role": "CB",
+        "population": "COURT",
+        "position": {
+          "x": 9.557186974165662,
+          "y": 25.86784194669019
+        },
+        "velocity": {
+          "x": 0.637092435144337,
+          "y": 3.770575025502413
+        },
+        "radius": 0.28,
+        "condition": {
+          "energy": 0.8367473281865082,
+          "distanceMetres": 1974.7155530176121,
+          "courtMs": 959300,
+          "unavailable": false,
+          "attacksRemaining": 0,
+          "treatmentPossession": null,
+          "exitRequired": false
+        },
+        "profile": {
+          "topSpeed": 6.347368421052632,
+          "acceleration": 5.91578947368421,
+          "reaction": 0.17315789473684212,
+          "passing": 0.7368421052631579,
+          "handling": 0.6578947368421053,
+          "shotPower": 0.6842105263157895,
+          "shotPlacement": 0.6842105263157894,
+          "breakthrough": 0.6578947368421053,
+          "finishing": 0.631578947368421,
+          "wingFinishing": 0.631578947368421,
+          "pivotPlay": 0.6842105263157895,
+          "screening": 0.6578947368421053,
+          "anticipation": 0.8157894736842105,
+          "decision": 0.8421052631578947,
+          "offBall": 0.7105263157894737,
+          "contact": 0.6842105263157895,
+          "defPositioning": 0.631578947368421,
+          "defTiming": 0.7105263157894737,
+          "lateral": 0.6052631578947368,
+          "covering": 0.7368421052631579,
+          "handover": 0.631578947368421,
+          "ballWinning": 0.7105263157894737,
+          "blocking": 0.7368421052631579,
+          "strength": 0.6842105263157895,
+          "balance": 0.5789473684210527,
+          "endurance": 0.5789473684210527,
+          "composure": 0.631578947368421,
+          "discipline": 0.6842105263157895,
+          "keeper": null,
+          "tendency": {
+            "shoot": 1,
+            "drive": 1,
+            "feed": 1,
+            "run": 1,
+            "hold": 1
+          },
+          "source": {
+            "complete": true,
+            "missing": [],
+            "supplied": 31,
+            "expected": 31
+          }
+        },
+        "zone": null,
+        "duty": {
+          "kind": "BALANCE",
+          "targetId": "se_player_anton_schulze_69fc5c7e",
+          "sinceTick": 19174,
+          "reason": "Balance the two backcourt lanes and retain a trailing central outlet"
+        },
+        "intent": {
+          "id": "action-53916-intent",
+          "effect": "RECEIVE",
+          "reason": "Offer an available passing connection from assigned role",
+          "targetId": null
+        },
+        "action": {
+          "id": "action-53916",
+          "possessionId": "possession-53307",
+          "kind": "RECEIVE",
+          "phase": "EXECUTING",
+          "startedTick": 19154,
+          "phaseTick": 19158,
+          "executeTicks": 36,
+          "recoveryTicks": 2,
+          "target": null,
+          "targetId": null,
+          "reason": "Offer an available passing connection from assigned role",
+          "resolved": false,
+          "contestIds": [],
+          "shotKind": null,
+          "purpose": "PLAY",
+          "contact": null,
+          "driveStart": null
+        },
+        "support": {
+          "possessionId": "possession-53307",
+          "mode": "BALANCE",
+          "partnerId": "se_player_anton_schulze_69fc5c7e",
+          "target": {
+            "x": 9.985868215069988,
+            "y": 28.4
+          },
+          "reason": "Balance the two backcourt lanes and retain a trailing central outlet",
+          "reviewAfterTick": 19198
+        },
+        "handling": {
+          "heldSinceTick": 19110,
+          "steps": 0,
+          "stepDistance": 0,
+          "dribbleUsed": false,
+          "bounceTick": 19068
+        },
+        "airborne": null,
+        "beatenUntilTick": 0,
+        "wrongFootedUntilTick": 16930,
+        "screenedUntilTick": 16886,
+        "screenedBy": null,
+        "beatenBy": null,
+        "screenedSinceTick": 16827,
+        "screenCooldownTick": 16923,
+        "suspensionUntilMs": null,
+        "sanctions": 0,
+        "warnings": 0,
+        "nextAction": null,
+        "reception": {
+          "passActionId": "action-54000",
+          "readyTick": 19187
+        },
+        "supportMotion": null
+      },
+      "minGap": 1.1804197093824436,
+      "closest": {
+        "tick": 19205,
+        "point": {
+          "x": 9.63065096337745,
+          "y": 25.86992735873161
+        },
+        "receiver": {
+          "id": "se_player_linus_lovgren_38890f0d",
+          "team": "AWAY",
+          "kind": "FIELD_PLAYER",
+          "role": "CB",
+          "population": "COURT",
+          "position": {
+            "x": 9.755862839128369,
+            "y": 27.043687417887426
+          },
+          "velocity": {
+            "x": 0,
+            "y": 0
+          },
+          "radius": 0.28,
+          "condition": {
+            "energy": 0.8366689912385648,
+            "distanceMetres": 1975.9080649343045,
+            "courtMs": 960000,
+            "unavailable": false,
+            "attacksRemaining": 0,
+            "treatmentPossession": null,
+            "exitRequired": false
+          },
+          "profile": {
+            "topSpeed": 6.347368421052632,
+            "acceleration": 5.91578947368421,
+            "reaction": 0.17315789473684212,
+            "passing": 0.7368421052631579,
+            "handling": 0.6578947368421053,
+            "shotPower": 0.6842105263157895,
+            "shotPlacement": 0.6842105263157894,
+            "breakthrough": 0.6578947368421053,
+            "finishing": 0.631578947368421,
+            "wingFinishing": 0.631578947368421,
+            "pivotPlay": 0.6842105263157895,
+            "screening": 0.6578947368421053,
+            "anticipation": 0.8157894736842105,
+            "decision": 0.8421052631578947,
+            "offBall": 0.7105263157894737,
+            "contact": 0.6842105263157895,
+            "defPositioning": 0.631578947368421,
+            "defTiming": 0.7105263157894737,
+            "lateral": 0.6052631578947368,
+            "covering": 0.7368421052631579,
+            "handover": 0.631578947368421,
+            "ballWinning": 0.7105263157894737,
+            "blocking": 0.7368421052631579,
+            "strength": 0.6842105263157895,
+            "balance": 0.5789473684210527,
+            "endurance": 0.5789473684210527,
+            "composure": 0.631578947368421,
+            "discipline": 0.6842105263157895,
+            "keeper": null,
+            "tendency": {
+              "shoot": 1,
+              "drive": 1,
+              "feed": 1,
+              "run": 1,
+              "hold": 1
+            },
+            "source": {
+              "complete": true,
+              "missing": [],
+              "supplied": 31,
+              "expected": 31
+            }
+          },
+          "zone": null,
+          "duty": {
+            "kind": "CARRIER",
+            "targetId": null,
+            "sinceTick": 19192,
+            "reason": "Create advantage while respecting handling budget"
+          },
+          "intent": {
+            "id": "action-53916-intent",
+            "effect": "RECEIVE",
+            "reason": "Offer an available passing connection from assigned role",
+            "targetId": null
+          },
+          "action": {
+            "id": "action-53916",
+            "possessionId": "possession-53307",
+            "kind": "RECEIVE",
+            "phase": "EXECUTING",
+            "startedTick": 19154,
+            "phaseTick": 19158,
+            "executeTicks": 36,
+            "recoveryTicks": 2,
+            "target": null,
+            "targetId": null,
+            "reason": "Offer an available passing connection from assigned role",
+            "resolved": false,
+            "contestIds": [],
+            "shotKind": null,
+            "purpose": "PLAY",
+            "contact": null,
+            "driveStart": null
+          },
+          "support": null,
+          "handling": {
+            "heldSinceTick": 19110,
+            "steps": 0,
+            "stepDistance": 0,
+            "dribbleUsed": false,
+            "bounceTick": 19068
+          },
+          "airborne": null,
+          "beatenUntilTick": 0,
+          "wrongFootedUntilTick": 16930,
+          "screenedUntilTick": 16886,
+          "screenedBy": null,
+          "beatenBy": null,
+          "screenedSinceTick": 16827,
+          "screenCooldownTick": 16923,
+          "suspensionUntilMs": null,
+          "sanctions": 0,
+          "warnings": 0,
+          "nextAction": null,
+          "reception": {
+            "passActionId": "action-54000",
+            "readyTick": 19187
+          },
+          "supportMotion": null
+        }
+      }
+    },
+    {
+      "release": {
+        "id": "event-56693",
+        "tick": 20057,
+        "timeMs": 1002850,
+        "officialMs": 1002550,
+        "type": "PASS_RELEASED",
+        "possessionId": "possession-55912",
+        "actionId": "action-56669",
+        "actorId": "se_player_carl_hamberg_b2db41f2",
+        "relatedIds": [
+          "se_player_linus_lovgren_38890f0d"
+        ],
+        "contestId": null,
+        "details": {
+          "x": 18.88966882841757,
+          "y": 25.371515855659393,
+          "height": 1.5,
+          "reason": "Nothing is open; keep the ball and rebuild",
+          "shotKind": "NONE",
+          "phase": "ESTABLISHED",
+          "subphase": "UPPBYGGNAD",
+          "difficulty": 0.11531708700055318,
+          "executionError": 0.1432376839793671,
+          "pressure": 0,
+          "passingCapability": 0.6638598753820223,
+          "aimX": 10.780523429074815,
+          "aimY": 24.859732302660078
+        }
+      },
+      "receiverAtRelease": {
+        "id": "se_player_linus_lovgren_38890f0d",
+        "team": "AWAY",
+        "kind": "FIELD_PLAYER",
+        "role": "CB",
+        "population": "COURT",
+        "position": {
+          "x": 10.81058667029061,
+          "y": 24.719685040496998
+        },
+        "velocity": {
+          "x": -0.33379903723520626,
+          "y": 3.1296989585580977
+        },
+        "radius": 0.28,
+        "condition": {
+          "energy": 0.8297684047583641,
+          "distanceMetres": 2052.392290659592,
+          "courtMs": 1002600,
+          "unavailable": false,
+          "attacksRemaining": 0,
+          "treatmentPossession": null,
+          "exitRequired": false
+        },
+        "profile": {
+          "topSpeed": 6.347368421052632,
+          "acceleration": 5.91578947368421,
+          "reaction": 0.17315789473684212,
+          "passing": 0.7368421052631579,
+          "handling": 0.6578947368421053,
+          "shotPower": 0.6842105263157895,
+          "shotPlacement": 0.6842105263157894,
+          "breakthrough": 0.6578947368421053,
+          "finishing": 0.631578947368421,
+          "wingFinishing": 0.631578947368421,
+          "pivotPlay": 0.6842105263157895,
+          "screening": 0.6578947368421053,
+          "anticipation": 0.8157894736842105,
+          "decision": 0.8421052631578947,
+          "offBall": 0.7105263157894737,
+          "contact": 0.6842105263157895,
+          "defPositioning": 0.631578947368421,
+          "defTiming": 0.7105263157894737,
+          "lateral": 0.6052631578947368,
+          "covering": 0.7368421052631579,
+          "handover": 0.631578947368421,
+          "ballWinning": 0.7105263157894737,
+          "blocking": 0.7368421052631579,
+          "strength": 0.6842105263157895,
+          "balance": 0.5789473684210527,
+          "endurance": 0.5789473684210527,
+          "composure": 0.631578947368421,
+          "discipline": 0.6842105263157895,
+          "keeper": null,
+          "tendency": {
+            "shoot": 1,
+            "drive": 1,
+            "feed": 1,
+            "run": 1,
+            "hold": 1
+          },
+          "source": {
+            "complete": true,
+            "missing": [],
+            "supplied": 31,
+            "expected": 31
+          }
+        },
+        "zone": null,
+        "duty": {
+          "kind": "BALANCE",
+          "targetId": "se_player_carl_hamberg_b2db41f2",
+          "sinceTick": 20040,
+          "reason": "Balance the two backcourt lanes and retain a trailing central outlet"
+        },
+        "intent": {
+          "id": "action-56583-intent",
+          "effect": "RECEIVE",
+          "reason": "Offer an available passing connection from assigned role",
+          "targetId": null
+        },
+        "action": {
+          "id": "action-56583",
+          "possessionId": "possession-55912",
+          "kind": "RECEIVE",
+          "phase": "EXECUTING",
+          "startedTick": 20021,
+          "phaseTick": 20025,
+          "executeTicks": 36,
+          "recoveryTicks": 2,
+          "target": null,
+          "targetId": null,
+          "reason": "Offer an available passing connection from assigned role",
+          "resolved": false,
+          "contestIds": [],
+          "shotKind": null,
+          "purpose": "PLAY",
+          "contact": null,
+          "driveStart": null
+        },
+        "support": {
+          "possessionId": "possession-55912",
+          "mode": "BALANCE",
+          "partnerId": "se_player_carl_hamberg_b2db41f2",
+          "target": {
+            "x": 10.014728770080426,
+            "y": 28.4
+          },
+          "reason": "Balance the two backcourt lanes and retain a trailing central outlet",
+          "reviewAfterTick": 20064
+        },
+        "handling": {
+          "heldSinceTick": 19977,
+          "steps": 0,
+          "stepDistance": 0,
+          "dribbleUsed": false,
+          "bounceTick": 19954
+        },
+        "airborne": null,
+        "beatenUntilTick": 0,
+        "wrongFootedUntilTick": 16930,
+        "screenedUntilTick": 19533,
+        "screenedBy": null,
+        "beatenBy": null,
+        "screenedSinceTick": 19487,
+        "screenCooldownTick": 19570,
+        "suspensionUntilMs": null,
+        "sanctions": 0,
+        "warnings": 0,
+        "nextAction": null,
+        "reception": {
+          "passActionId": "action-56669",
+          "readyTick": 20053
+        },
+        "supportMotion": null
+      },
+      "minGap": 0.6524709471216775,
+      "closest": {
+        "tick": 20070,
+        "point": {
+          "x": 10.767383926418109,
+          "y": 24.858903043715618
+        },
+        "receiver": {
+          "id": "se_player_linus_lovgren_38890f0d",
+          "team": "AWAY",
+          "kind": "FIELD_PLAYER",
+          "role": "CB",
+          "population": "COURT",
+          "position": {
+            "x": 10.726287012360558,
+            "y": 25.510078427535372
+          },
+          "velocity": {
+            "x": 0,
+            "y": 0
+          },
+          "radius": 0.28,
+          "condition": {
+            "energy": 0.8297105109017007,
+            "distanceMetres": 2053.187166837749,
+            "courtMs": 1003250,
+            "unavailable": false,
+            "attacksRemaining": 0,
+            "treatmentPossession": null,
+            "exitRequired": false
+          },
+          "profile": {
+            "topSpeed": 6.347368421052632,
+            "acceleration": 5.91578947368421,
+            "reaction": 0.17315789473684212,
+            "passing": 0.7368421052631579,
+            "handling": 0.6578947368421053,
+            "shotPower": 0.6842105263157895,
+            "shotPlacement": 0.6842105263157894,
+            "breakthrough": 0.6578947368421053,
+            "finishing": 0.631578947368421,
+            "wingFinishing": 0.631578947368421,
+            "pivotPlay": 0.6842105263157895,
+            "screening": 0.6578947368421053,
+            "anticipation": 0.8157894736842105,
+            "decision": 0.8421052631578947,
+            "offBall": 0.7105263157894737,
+            "contact": 0.6842105263157895,
+            "defPositioning": 0.631578947368421,
+            "defTiming": 0.7105263157894737,
+            "lateral": 0.6052631578947368,
+            "covering": 0.7368421052631579,
+            "handover": 0.631578947368421,
+            "ballWinning": 0.7105263157894737,
+            "blocking": 0.7368421052631579,
+            "strength": 0.6842105263157895,
+            "balance": 0.5789473684210527,
+            "endurance": 0.5789473684210527,
+            "composure": 0.631578947368421,
+            "discipline": 0.6842105263157895,
+            "keeper": null,
+            "tendency": {
+              "shoot": 1,
+              "drive": 1,
+              "feed": 1,
+              "run": 1,
+              "hold": 1
+            },
+            "source": {
+              "complete": true,
+              "missing": [],
+              "supplied": 31,
+              "expected": 31
+            }
+          },
+          "zone": null,
+          "duty": {
+            "kind": "CARRIER",
+            "targetId": null,
+            "sinceTick": 20058,
+            "reason": "Create advantage while respecting handling budget"
+          },
+          "intent": {
+            "id": "action-56583-intent",
+            "effect": "RECEIVE",
+            "reason": "Offer an available passing connection from assigned role",
+            "targetId": null
+          },
+          "action": {
+            "id": "action-56583",
+            "possessionId": "possession-55912",
+            "kind": "RECEIVE",
+            "phase": "EXECUTING",
+            "startedTick": 20021,
+            "phaseTick": 20025,
+            "executeTicks": 36,
+            "recoveryTicks": 2,
+            "target": null,
+            "targetId": null,
+            "reason": "Offer an available passing connection from assigned role",
+            "resolved": false,
+            "contestIds": [],
+            "shotKind": null,
+            "purpose": "PLAY",
+            "contact": null,
+            "driveStart": null
+          },
+          "support": null,
+          "handling": {
+            "heldSinceTick": 19977,
+            "steps": 0,
+            "stepDistance": 0,
+            "dribbleUsed": false,
+            "bounceTick": 19954
+          },
+          "airborne": null,
+          "beatenUntilTick": 0,
+          "wrongFootedUntilTick": 16930,
+          "screenedUntilTick": 19533,
+          "screenedBy": null,
+          "beatenBy": null,
+          "screenedSinceTick": 19487,
+          "screenCooldownTick": 19570,
+          "suspensionUntilMs": null,
+          "sanctions": 0,
+          "warnings": 0,
+          "nextAction": null,
+          "reception": {
+            "passActionId": "action-56669",
+            "readyTick": 20053
+          },
+          "supportMotion": null
+        }
+      }
+    },
+    {
+      "release": {
+        "id": "event-59956",
+        "tick": 21139,
+        "timeMs": 1056950,
+        "officialMs": 1056650,
+        "type": "PASS_RELEASED",
+        "possessionId": "possession-59207",
+        "actionId": "action-59935",
+        "actorId": "se_player_hugo_andersson_6443099d",
+        "relatedIds": [
+          "se_player_birk_larsson_152eee5f"
+        ],
+        "contestId": null,
+        "details": {
+          "x": 19.21796023380776,
+          "y": 13.530380488415204,
+          "height": 1.5,
+          "reason": "Nothing is open; keep the ball and rebuild",
+          "shotKind": "NONE",
+          "phase": "ESTABLISHED",
+          "subphase": "UPPBYGGNAD",
+          "difficulty": 0.14080379112442595,
+          "executionError": 0.14276966857403328,
+          "pressure": 0.002864214400792786,
+          "passingCapability": 0.610182270419073,
+          "aimX": 10.442741549231425,
+          "aimY": 14.264171871847902
+        }
+      },
+      "receiverAtRelease": {
+        "id": "se_player_birk_larsson_152eee5f",
+        "team": "HOME",
+        "kind": "FIELD_PLAYER",
+        "role": "CB",
+        "population": "COURT",
+        "position": {
+          "x": 10.46517300231395,
+          "y": 14.12317538899338
+        },
+        "velocity": {
+          "x": -0.6415096930058941,
+          "y": -3.5956947954392127
+        },
+        "radius": 0.28,
+        "condition": {
+          "energy": 0.8247416584491267,
+          "distanceMetres": 2146.5016010632417,
+          "courtMs": 1056700,
+          "unavailable": false,
+          "attacksRemaining": 0,
+          "treatmentPossession": null,
+          "exitRequired": false
+        },
+        "profile": {
+          "topSpeed": 6.347368421052632,
+          "acceleration": 6.336842105263157,
+          "reaction": 0.20157894736842105,
+          "passing": 0.7543859649122807,
+          "handling": 0.6842105263157894,
+          "shotPower": 0.7368421052631579,
+          "shotPlacement": 0.763157894736842,
+          "breakthrough": 0.763157894736842,
+          "finishing": 0.7368421052631579,
+          "wingFinishing": 0.7368421052631579,
+          "pivotPlay": 0.6842105263157895,
+          "screening": 0.6578947368421053,
+          "anticipation": 0.6578947368421053,
+          "decision": 0.6842105263157895,
+          "offBall": 0.5789473684210527,
+          "contact": 0.5789473684210527,
+          "defPositioning": 0.5263157894736842,
+          "defTiming": 0.5789473684210527,
+          "lateral": 0.6578947368421053,
+          "covering": 0.631578947368421,
+          "handover": 0.5263157894736842,
+          "ballWinning": 0.631578947368421,
+          "blocking": 0.631578947368421,
+          "strength": 0.631578947368421,
+          "balance": 0.631578947368421,
+          "endurance": 0.631578947368421,
+          "composure": 0.631578947368421,
+          "discipline": 0.631578947368421,
+          "keeper": null,
+          "tendency": {
+            "shoot": 1,
+            "drive": 1,
+            "feed": 1,
+            "run": 1,
+            "hold": 1
+          },
+          "source": {
+            "complete": true,
+            "missing": [],
+            "supplied": 31,
+            "expected": 31
+          }
+        },
+        "zone": null,
+        "duty": {
+          "kind": "BALANCE",
+          "targetId": "se_player_hugo_andersson_6443099d",
+          "sinceTick": 21122,
+          "reason": "Balance the two backcourt lanes and retain a trailing central outlet"
+        },
+        "intent": {
+          "id": "action-59853-intent",
+          "effect": "RECEIVE",
+          "reason": "Offer an available passing connection from assigned role",
+          "targetId": null
+        },
+        "action": {
+          "id": "action-59853",
+          "possessionId": "possession-59207",
+          "kind": "RECEIVE",
+          "phase": "EXECUTING",
+          "startedTick": 21101,
+          "phaseTick": 21105,
+          "executeTicks": 36,
+          "recoveryTicks": 2,
+          "target": null,
+          "targetId": null,
+          "reason": "Offer an available passing connection from assigned role",
+          "resolved": false,
+          "contestIds": [],
+          "shotKind": null,
+          "purpose": "PLAY",
+          "contact": null,
+          "driveStart": null
+        },
+        "support": {
+          "possessionId": "possession-59207",
+          "mode": "BALANCE",
+          "partnerId": "se_player_hugo_andersson_6443099d",
+          "target": {
+            "x": 10.0150120289059,
+            "y": 11.6
+          },
+          "reason": "Balance the two backcourt lanes and retain a trailing central outlet",
+          "reviewAfterTick": 21146
+        },
+        "handling": {
+          "heldSinceTick": 21057,
+          "steps": 0,
+          "stepDistance": 0,
+          "dribbleUsed": false,
+          "bounceTick": 21033
+        },
+        "airborne": null,
+        "beatenUntilTick": 0,
+        "wrongFootedUntilTick": 20874,
+        "screenedUntilTick": 17862,
+        "screenedBy": null,
+        "beatenBy": null,
+        "screenedSinceTick": 17788,
+        "screenCooldownTick": 17899,
+        "suspensionUntilMs": null,
+        "sanctions": 0,
+        "warnings": 0,
+        "nextAction": null,
+        "reception": {
+          "passActionId": "action-59935",
+          "readyTick": 21135
+        },
+        "supportMotion": null
+      },
+      "minGap": 1.022170119629132,
+      "closest": {
+        "tick": 21153,
+        "point": {
+          "x": 10.838136680778561,
+          "y": 14.231108588639879
+        },
+        "receiver": {
+          "id": "se_player_birk_larsson_152eee5f",
+          "team": "HOME",
+          "kind": "FIELD_PLAYER",
+          "role": "CB",
+          "population": "COURT",
+          "position": {
+            "x": 10.752959211233946,
+            "y": 13.212493571990011
+          },
+          "velocity": {
+            "x": 0,
+            "y": 0
+          },
+          "radius": 0.28,
+          "condition": {
+            "energy": 0.8246736397924322,
+            "distanceMetres": 2147.509383668402,
+            "courtMs": 1057400,
+            "unavailable": false,
+            "attacksRemaining": 0,
+            "treatmentPossession": null,
+            "exitRequired": false
+          },
+          "profile": {
+            "topSpeed": 6.347368421052632,
+            "acceleration": 6.336842105263157,
+            "reaction": 0.20157894736842105,
+            "passing": 0.7543859649122807,
+            "handling": 0.6842105263157894,
+            "shotPower": 0.7368421052631579,
+            "shotPlacement": 0.763157894736842,
+            "breakthrough": 0.763157894736842,
+            "finishing": 0.7368421052631579,
+            "wingFinishing": 0.7368421052631579,
+            "pivotPlay": 0.6842105263157895,
+            "screening": 0.6578947368421053,
+            "anticipation": 0.6578947368421053,
+            "decision": 0.6842105263157895,
+            "offBall": 0.5789473684210527,
+            "contact": 0.5789473684210527,
+            "defPositioning": 0.5263157894736842,
+            "defTiming": 0.5789473684210527,
+            "lateral": 0.6578947368421053,
+            "covering": 0.631578947368421,
+            "handover": 0.5263157894736842,
+            "ballWinning": 0.631578947368421,
+            "blocking": 0.631578947368421,
+            "strength": 0.631578947368421,
+            "balance": 0.631578947368421,
+            "endurance": 0.631578947368421,
+            "composure": 0.631578947368421,
+            "discipline": 0.631578947368421,
+            "keeper": null,
+            "tendency": {
+              "shoot": 1,
+              "drive": 1,
+              "feed": 1,
+              "run": 1,
+              "hold": 1
+            },
+            "source": {
+              "complete": true,
+              "missing": [],
+              "supplied": 31,
+              "expected": 31
+            }
+          },
+          "zone": null,
+          "duty": {
+            "kind": "CARRIER",
+            "targetId": null,
+            "sinceTick": 21140,
+            "reason": "Create advantage while respecting handling budget"
+          },
+          "intent": {
+            "id": "action-59853-intent",
+            "effect": "RECEIVE",
+            "reason": "Offer an available passing connection from assigned role",
+            "targetId": null
+          },
+          "action": {
+            "id": "action-59853",
+            "possessionId": "possession-59207",
+            "kind": "RECEIVE",
+            "phase": "EXECUTING",
+            "startedTick": 21101,
+            "phaseTick": 21105,
+            "executeTicks": 36,
+            "recoveryTicks": 2,
+            "target": null,
+            "targetId": null,
+            "reason": "Offer an available passing connection from assigned role",
+            "resolved": false,
+            "contestIds": [],
+            "shotKind": null,
+            "purpose": "PLAY",
+            "contact": null,
+            "driveStart": null
+          },
+          "support": null,
+          "handling": {
+            "heldSinceTick": 21057,
+            "steps": 0,
+            "stepDistance": 0,
+            "dribbleUsed": false,
+            "bounceTick": 21033
+          },
+          "airborne": null,
+          "beatenUntilTick": 0,
+          "wrongFootedUntilTick": 20874,
+          "screenedUntilTick": 17862,
+          "screenedBy": null,
+          "beatenBy": null,
+          "screenedSinceTick": 17788,
+          "screenCooldownTick": 17899,
+          "suspensionUntilMs": null,
+          "sanctions": 0,
+          "warnings": 0,
+          "nextAction": null,
+          "reception": {
+            "passActionId": "action-59935",
+            "readyTick": 21135
+          },
+          "supportMotion": null
+        }
+      }
+    },
+    {
+      "release": {
+        "id": "event-76351",
+        "tick": 26868,
+        "timeMs": 1343400,
+        "officialMs": 1343100,
+        "type": "PASS_RELEASED",
+        "possessionId": "possession-75588",
+        "actionId": "action-76334",
+        "actorId": "se_player_emil_setterlund_f609d264",
+        "relatedIds": [
+          "se_player_birk_larsson_152eee5f"
+        ],
+        "contestId": null,
+        "details": {
+          "x": 1.0107367473895854,
+          "y": 15.225964364348087,
+          "height": 1.5,
+          "reason": "Nothing is open; keep the ball and rebuild",
+          "shotKind": "NONE",
+          "phase": "ESTABLISHED",
+          "subphase": "UPPBYGGNAD",
+          "difficulty": 0.12258169402587982,
+          "executionError": 0.025826410310826074,
+          "pressure": 0,
+          "passingCapability": 0.5679986644481891,
+          "aimX": 9.287305532879678,
+          "aimY": 15.08817129577875
+        }
+      },
+      "receiverAtRelease": {
+        "id": "se_player_birk_larsson_152eee5f",
+        "team": "HOME",
+        "kind": "FIELD_PLAYER",
+        "role": "CB",
+        "population": "COURT",
+        "position": {
+          "x": 9.296863970158041,
+          "y": 15.112163789320247
+        },
+        "velocity": {
+          "x": 0.47950013990385676,
+          "y": -3.270492844067113
+        },
+        "radius": 0.28,
+        "condition": {
+          "energy": 0.7823669625183878,
+          "distanceMetres": 2650.3624924395826,
+          "courtMs": 1343150,
+          "unavailable": false,
+          "attacksRemaining": 0,
+          "treatmentPossession": null,
+          "exitRequired": false
+        },
+        "profile": {
+          "topSpeed": 6.347368421052632,
+          "acceleration": 6.336842105263157,
+          "reaction": 0.20157894736842105,
+          "passing": 0.7543859649122807,
+          "handling": 0.6842105263157894,
+          "shotPower": 0.7368421052631579,
+          "shotPlacement": 0.763157894736842,
+          "breakthrough": 0.763157894736842,
+          "finishing": 0.7368421052631579,
+          "wingFinishing": 0.7368421052631579,
+          "pivotPlay": 0.6842105263157895,
+          "screening": 0.6578947368421053,
+          "anticipation": 0.6578947368421053,
+          "decision": 0.6842105263157895,
+          "offBall": 0.5789473684210527,
+          "contact": 0.5789473684210527,
+          "defPositioning": 0.5263157894736842,
+          "defTiming": 0.5789473684210527,
+          "lateral": 0.6578947368421053,
+          "covering": 0.631578947368421,
+          "handover": 0.5263157894736842,
+          "ballWinning": 0.631578947368421,
+          "blocking": 0.631578947368421,
+          "strength": 0.631578947368421,
+          "balance": 0.631578947368421,
+          "endurance": 0.631578947368421,
+          "composure": 0.631578947368421,
+          "discipline": 0.631578947368421,
+          "keeper": null,
+          "tendency": {
+            "shoot": 1,
+            "drive": 1,
+            "feed": 1,
+            "run": 1,
+            "hold": 1
+          },
+          "source": {
+            "complete": true,
+            "missing": [],
+            "supplied": 31,
+            "expected": 31
+          }
+        },
+        "zone": null,
+        "duty": {
+          "kind": "BALANCE",
+          "targetId": "se_player_emil_setterlund_f609d264",
+          "sinceTick": 26850,
+          "reason": "Balance the two backcourt lanes and retain a trailing central outlet"
+        },
+        "intent": {
+          "id": "action-76253-intent",
+          "effect": "RECEIVE",
+          "reason": "Offer an available passing connection from assigned role",
+          "targetId": null
+        },
+        "action": {
+          "id": "action-76253",
+          "possessionId": "possession-75588",
+          "kind": "RECEIVE",
+          "phase": "EXECUTING",
+          "startedTick": 26832,
+          "phaseTick": 26836,
+          "executeTicks": 36,
+          "recoveryTicks": 2,
+          "target": null,
+          "targetId": null,
+          "reason": "Offer an available passing connection from assigned role",
+          "resolved": false,
+          "contestIds": [],
+          "shotKind": null,
+          "purpose": "PLAY",
+          "contact": null,
+          "driveStart": null
+        },
+        "support": {
+          "possessionId": "possession-75588",
+          "mode": "BALANCE",
+          "partnerId": "se_player_emil_setterlund_f609d264",
+          "target": {
+            "x": 9.985698235166865,
+            "y": 11.6
+          },
+          "reason": "Balance the two backcourt lanes and retain a trailing central outlet",
+          "reviewAfterTick": 26874
+        },
+        "handling": {
+          "heldSinceTick": 26788,
+          "steps": 0,
+          "stepDistance": 0,
+          "dribbleUsed": false,
+          "bounceTick": 26764
+        },
+        "airborne": null,
+        "beatenUntilTick": 0,
+        "wrongFootedUntilTick": 20874,
+        "screenedUntilTick": 21484,
+        "screenedBy": null,
+        "beatenBy": null,
+        "screenedSinceTick": 21444,
+        "screenCooldownTick": 21521,
+        "suspensionUntilMs": null,
+        "sanctions": 0,
+        "warnings": 0,
+        "nextAction": null,
+        "reception": {
+          "passActionId": "action-76334",
+          "readyTick": 26864
+        },
+        "supportMotion": null
+      },
+      "minGap": 0.7920333265648352,
+      "closest": {
+        "tick": 26882,
+        "point": {
+          "x": 9.43002147119108,
+          "y": 15.085795278907105
+        },
+        "receiver": {
+          "id": "se_player_birk_larsson_152eee5f",
+          "team": "HOME",
+          "kind": "FIELD_PLAYER",
+          "role": "CB",
+          "population": "COURT",
+          "position": {
+            "x": 9.416837072744766,
+            "y": 14.293871695455413
+          },
+          "velocity": {
+            "x": 0,
+            "y": 0
+          },
+          "radius": 0.28,
+          "condition": {
+            "energy": 0.7823067198770379,
+            "distanceMetres": 2651.1895326418858,
+            "courtMs": 1343850,
+            "unavailable": false,
+            "attacksRemaining": 0,
+            "treatmentPossession": null,
+            "exitRequired": false
+          },
+          "profile": {
+            "topSpeed": 6.347368421052632,
+            "acceleration": 6.336842105263157,
+            "reaction": 0.20157894736842105,
+            "passing": 0.7543859649122807,
+            "handling": 0.6842105263157894,
+            "shotPower": 0.7368421052631579,
+            "shotPlacement": 0.763157894736842,
+            "breakthrough": 0.763157894736842,
+            "finishing": 0.7368421052631579,
+            "wingFinishing": 0.7368421052631579,
+            "pivotPlay": 0.6842105263157895,
+            "screening": 0.6578947368421053,
+            "anticipation": 0.6578947368421053,
+            "decision": 0.6842105263157895,
+            "offBall": 0.5789473684210527,
+            "contact": 0.5789473684210527,
+            "defPositioning": 0.5263157894736842,
+            "defTiming": 0.5789473684210527,
+            "lateral": 0.6578947368421053,
+            "covering": 0.631578947368421,
+            "handover": 0.5263157894736842,
+            "ballWinning": 0.631578947368421,
+            "blocking": 0.631578947368421,
+            "strength": 0.631578947368421,
+            "balance": 0.631578947368421,
+            "endurance": 0.631578947368421,
+            "composure": 0.631578947368421,
+            "discipline": 0.631578947368421,
+            "keeper": null,
+            "tendency": {
+              "shoot": 1,
+              "drive": 1,
+              "feed": 1,
+              "run": 1,
+              "hold": 1
+            },
+            "source": {
+              "complete": true,
+              "missing": [],
+              "supplied": 31,
+              "expected": 31
+            }
+          },
+          "zone": null,
+          "duty": {
+            "kind": "CARRIER",
+            "targetId": null,
+            "sinceTick": 26869,
+            "reason": "Create advantage while respecting handling budget"
+          },
+          "intent": {
+            "id": "action-76253-intent",
+            "effect": "RECEIVE",
+            "reason": "Offer an available passing connection from assigned role",
+            "targetId": null
+          },
+          "action": {
+            "id": "action-76253",
+            "possessionId": "possession-75588",
+            "kind": "RECEIVE",
+            "phase": "EXECUTING",
+            "startedTick": 26832,
+            "phaseTick": 26836,
+            "executeTicks": 36,
+            "recoveryTicks": 2,
+            "target": null,
+            "targetId": null,
+            "reason": "Offer an available passing connection from assigned role",
+            "resolved": false,
+            "contestIds": [],
+            "shotKind": null,
+            "purpose": "PLAY",
+            "contact": null,
+            "driveStart": null
+          },
+          "support": null,
+          "handling": {
+            "heldSinceTick": 26788,
+            "steps": 0,
+            "stepDistance": 0,
+            "dribbleUsed": false,
+            "bounceTick": 26764
+          },
+          "airborne": null,
+          "beatenUntilTick": 0,
+          "wrongFootedUntilTick": 20874,
+          "screenedUntilTick": 21484,
+          "screenedBy": null,
+          "beatenBy": null,
+          "screenedSinceTick": 21444,
+          "screenCooldownTick": 21521,
+          "suspensionUntilMs": null,
+          "sanctions": 0,
+          "warnings": 0,
+          "nextAction": null,
+          "reception": {
+            "passActionId": "action-76334",
+            "readyTick": 26864
+          },
+          "supportMotion": null
+        }
+      }
+    }
+  ]
+}

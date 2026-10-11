@@ -1,0 +1,25 @@
+﻿{
+    "allPreserved":  true,
+    "files":  [
+                  {
+                      "path":  "C:\\Users\\helgi\\Documents\\STARKVIS-HELA\\handball-manager\\apps\\game\\app\\match-qa\\page.tsx",
+                      "before":  "A245EC398A29F3C8B7AB7317682433DBFE81E4A46E249A60C8F5A5A024FECE8F",
+                      "after":  "A245EC398A29F3C8B7AB7317682433DBFE81E4A46E249A60C8F5A5A024FECE8F"
+                  },
+                  {
+                      "path":  "C:\\Users\\helgi\\Documents\\STARKVIS-HELA\\handball-manager\\apps\\game\\lib\\matchQa\\qaHarness.ts",
+                      "before":  "F100717310EA08F43C33B49DBABE7ACEE338B40884E9182030F59DB7C62FECE9",
+                      "after":  "F100717310EA08F43C33B49DBABE7ACEE338B40884E9182030F59DB7C62FECE9"
+                  },
+                  {
+                      "path":  "C:\\Users\\helgi\\Documents\\STARKVIS-HELA\\handball-manager\\apps\\game\\scripts\\season-audit.ts",
+                      "before":  "7BA6F05B9F1E9CFA491961C1A6C644D7CE5FB2123FED5BAC0D1FB3A869B07266",
+                      "after":  "7BA6F05B9F1E9CFA491961C1A6C644D7CE5FB2123FED5BAC0D1FB3A869B07266"
+                  },
+                  {
+                      "path":  "C:\\Users\\helgi\\Documents\\STARKVIS-HELA\\handball-manager\\apps\\game\\.tmp-final-benchmark.ts",
+                      "before":  "BA9D04161DFD8FBA50732356598D92323BC71F93CFB5F827170EA804846A5B76",
+                      "after":  "BA9D04161DFD8FBA50732356598D92323BC71F93CFB5F827170EA804846A5B76"
+                  }
+              ]
+}

@@ -1,0 +1,17 @@
+{
+  "seed": 83731708,
+  "reloadTick": 555,
+  "coreHash": "c4422b9ff05815b2973f56179408ce6994e0fd60cc8c8d03921c6c7c2e13df50",
+  "sameSeedAndState": true,
+  "saveLoadCoreEqual": true,
+  "saveLoadFramesEqual": true,
+  "saveLoadResultsEqual": true,
+  "immutableArchiveEqual": true,
+  "archiveCodecFramesEqual": true,
+  "diagnosticAndProductionArchiveEqual": true,
+  "score": {
+    "HOME": 18,
+    "AWAY": 26
+  },
+  "frameCount": 62533
+}
