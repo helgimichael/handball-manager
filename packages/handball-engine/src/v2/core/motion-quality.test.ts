@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createCoreScenario} from './scenarios';
-import {movementMode,movementPace,movementReadTicks,readMovementTarget,receivingApproach,bodyRoute,recoveryRoute} from './movement';
+import {engagementMovement,movementMode,movementPace,movementReadTicks,readMovementTarget,receivingApproach,bodyRoute,recoveryRoute} from './movement';
 import {startAction,execute,move} from './actions';
 import {steerVelocity} from './locomotion';
 import {movementCapacity} from './condition';
@@ -30,7 +30,7 @@ test('body avoidance is a relational route only when a real body occupies the co
  body.position.y=18;assert.deepEqual(bodyRoute(s,p,target),target);body.position.y=15;startAction(s,p,'RUN','Test',target);p.action!.kind='DRIVE';assert.deepEqual(bodyRoute(s,p,target),target,'committed penetration remains a contest, not a cosmetic detour');
 });
 test('the named receiver opens a bounded legal window; a planted pivot remains available',()=>{
- const{s,p}=fixture(),passer=s.players.find(q=>q.team===p.team&&q.role==='CB')!;const target=receivingApproach(s,p,passer);assert.ok(target);assert.ok(Math.hypot(target!.x-p.position.x,target!.y-p.position.y)<.5);
+ const{s,p}=fixture(),passer=s.players.find(q=>q.team===p.team&&q.role==='CB')!,marker=s.players.find(q=>q.team!==p.team&&q.kind==='FIELD_PLAYER')!;marker.position={x:5.5,y:15};const target=receivingApproach(s,p,passer);assert.ok(target);assert.ok(Math.hypot(target!.x-p.position.x,target!.y-p.position.y)<.5);
  p.role='P';assert.equal(receivingApproach(s,p,passer),null);
 });
 test('passing preparation overlaps carried locomotion without spending an illegal fourth step',()=>{
@@ -59,4 +59,7 @@ test('fatigue and movement capacities still affect real travel, never source att
 test('an obsolete unclaimed offering position becomes useful support without a lifecycle reset',()=>{
  const{s,p}=fixture();coordinate(s);p.position={x:5,y:18};p.action=null;startAction(s,p,'RECEIVE','Old available post');p.action!.phase='EXECUTING';const id=p.action!.id,phaseTick=p.action!.phaseTick;
  selectActions(s);assert.equal(p.action!.kind,'RUN');assert.ok(p.action!.target);assert.equal(p.action!.id,id);assert.equal(p.action!.phaseTick,phaseTick);
+});
+test('a goal-side engagement retains its calibrated approach instead of becoming soft traffic steering',()=>{
+ const{s,p}=fixture();p.team='AWAY';p.duty.kind='PRESSURE';startAction(s,p,'PRESS','Establish containment',{x:5.3,y:15});assert.ok(engagementMovement(s,p));assert.equal(movementPace(s,p,p.action!.target),1);assert.deepEqual(readMovementTarget(s,p,{x:6,y:15}),{x:6,y:15});assert.deepEqual(bodyRoute(s,p,{x:6,y:15}),{x:6,y:15});
 });

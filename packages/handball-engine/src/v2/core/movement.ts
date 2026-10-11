@@ -1,8 +1,12 @@
 import {courtPlayers,otherTeam,type CorePlayer,type CoreState,type Point} from './state';
-import {clearGoalArea,distance,local,world} from './space';
+import {clearGoalArea,distance,laneClearance,local,world} from './space';
 export type MovementMode='HOLD'|'ADJUST'|'SUPPORT'|'THREATEN'|'RECEIVE'|'DRIVE'|'SHIFT'|'STEP_OUT'|'HELP'|'RECOVER'|'RETREAT'|'SPRINT_TRANSITION';
 /** Optional persisted perception memory. Old active saves initialize it from their current action. */
 export type MovementRead={mode:MovementMode;relation:string;target:Point;reviewTick:number};
+/** A goal-side engagement owns its approach; traffic steering cannot replace it. */
+export function engagementMovement(s:CoreState,p:CorePlayer):boolean {
+ return p.kind==='FIELD_PLAYER'&&p.team!==s.possession.team&&['PRESSURE','PIVOT'].includes(p.duty.kind);
+}
 export function movementMode(s:CoreState,p:CorePlayer):MovementMode {
  const a=p.action;
  if(a?.kind==='DRIVE'||a?.kind==='DRIBBLE')return 'DRIVE';
@@ -16,7 +20,7 @@ export function movementMode(s:CoreState,p:CorePlayer):MovementMode {
 }
 /** Speed follows work and remaining travel. Threats retain their calibrated capacity. */
 export function movementPace(s:CoreState,p:CorePlayer,target:Point|null):number {
- if(!p.action||p.kind==='GOALKEEPER'||!s.ball.live)return 1;
+ if(!p.action||p.kind==='GOALKEEPER'||!s.ball.live||engagementMovement(s,p))return 1;
  const mode=movementMode(s,p),d=target?distance(p.position,target):0;
  if(['DRIVE','STEP_OUT','HELP','RETREAT','SPRINT_TRANSITION','THREATEN'].includes(mode))return 1;
  if(mode==='HOLD')return 1; // Braking remains physical, not a pace clamp.
@@ -32,6 +36,7 @@ export function movementReadTicks(s:CoreState,p:CorePlayer):number {
 }
 /** Re-read evolving relational destinations without restarting action or resetting velocity. */
 export function readMovementTarget(s:CoreState,p:CorePlayer,target:Point):Point {
+ if(engagementMovement(s,p))return {...target};
  const mode=movementMode(s,p),relation=[s.possession.id,p.duty.kind,p.duty.targetId??'',mode].join(':');
  const old=p.motion;
  if(!old){p.motion={mode,relation,target:{...(p.action?.target??target)},reviewTick:s.tick};}
@@ -45,12 +50,20 @@ export function readMovementTarget(s:CoreState,p:CorePlayer,target:Point):Point 
 /** Receiver opens a small legal window before the named pass, never chasing its future endpoint. */
 export function receivingApproach(s:CoreState,p:CorePlayer,passer:CorePlayer|null):Point|null {
  if(!passer||p.role==='P'||p.role==='P2'||p.team!==passer.team)return null;
- const direction=s.directions[p.team],q=local(p.position,direction),toward=Math.sign(passer.position.x-p.position.x);
- return clearGoalArea(world({x:q.x+toward*.18,y:q.y-.28},direction),direction,p.radius+.12);
+ const direction=s.directions[p.team],dx=p.position.x-passer.position.x,dy=p.position.y-passer.position.y,length=Math.max(.01,Math.hypot(dx,dy));
+ const defenders=courtPlayers(s,otherTeam(p.team)).filter(d=>d.kind==='FIELD_PLAYER');
+ const quality=(at:Point)=>Math.min(2,laneClearance(s,passer.position,at,p.team))*.55+
+   Math.min(3,...defenders.map(d=>distance(d.position,at)))*.45;
+ const current=quality(p.position);
+ const options=[-1,1].map(side=>clearGoalArea({x:p.position.x-dy/length*.35*side,y:p.position.y+dx/length*.35*side},direction,p.radius+.12))
+   .filter(at=>distance(at,p.position)<=.45).map(at=>({at,gain:quality(at)-current})).sort((a,b)=>b.gain-a.gain);
+ // A clear receiver can wait. Only a real lane/separation improvement justifies
+ // the adjustment; there is no compulsory goalward step on every pass.
+ return options[0]?.gain>.06?options[0].at:null;
 }
 /** Only an actual body on the projected travel corridor justifies a lateral route. */
 export function bodyRoute(s:CoreState,p:CorePlayer,target:Point):Point {
- if(p.kind==='GOALKEEPER'||!s.ball.live||p.action?.kind==='DRIVE'||p.action?.kind==='DRIBBLE'||p.action?.kind==='SCREEN')return target;
+ if(p.kind==='GOALKEEPER'||!s.ball.live||engagementMovement(s,p)||p.action?.kind==='DRIVE'||p.action?.kind==='DRIBBLE'||p.action?.kind==='SCREEN')return target;
  const d=distance(p.position,target);if(d<.3)return target;
  const ux=(target.x-p.position.x)/d,uy=(target.y-p.position.y)/d;
  const body=courtPlayers(s).filter(q=>q.id!==p.id).map(q=>{

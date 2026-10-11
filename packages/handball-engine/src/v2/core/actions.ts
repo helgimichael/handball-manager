@@ -5,7 +5,7 @@ import { authorisedRestartMovementLegal } from './rules';
 import { movementCapacity } from './condition';
 import { planShotTarget } from './execution';
 import { steerVelocity } from './locomotion';
-import {bodyRoute,movementPace} from './movement';
+import {bodyRoute,engagementMovement,movementPace} from './movement';
 
 const durations: Record<ActionKind,number>={RUN:12,REPOSITION:12,RECEIVE:36,HOLD:6,DRIBBLE:16,PASS:4,FEINT:7,DRIVE:14,JUMP:3,SHOOT:4,LAND:4,SCREEN:20,PRESS:10,CONTAIN:10,HELP:12,HANDOVER:4,RECOVER:12,BLOCK:12,CONTACT:8,SAVE:18,EXCHANGE:20};
 export const movementActions: ActionKind[]=['RUN','REPOSITION','RECEIVE','DRIBBLE','DRIVE','PRESS','CONTAIN','HELP','RECOVER','SAVE','EXCHANGE'];
@@ -124,7 +124,8 @@ export function move(s:CoreState,p:CorePlayer,target:Point|null,committedSave=fa
   // A support post is a soft relation, not a wall. If momentum requires a
   // little more braking distance, travel that actual bounded step and steer
   // back. Held-ball budgets, goalkeeper reach and dead-ball placement stay hard.
-  const soft=s.ball.live&&p.kind==='FIELD_PLAYER'&&s.ball.controllerId!==p.id&&p.action?.kind!=='EXCHANGE';
+  const engagement=engagementMovement(s,p);
+  const soft=s.ball.live&&p.kind==='FIELD_PLAYER'&&!engagement&&s.ball.controllerId!==p.id&&p.action?.kind!=='EXCHANGE';
   const travel=target&&!soft?Math.min(d,speed*.05):speed*.05,heading={x:velocity.x/speed,y:velocity.y/speed};
   // Local steering around occupied bodies is execution of the existing duty,
   // not a new tactical assignment. Every candidate is checked before movement.
@@ -133,11 +134,11 @@ export function move(s:CoreState,p:CorePlayer,target:Point|null,committedSave=fa
   // may need to step backwards before returning to its restart position.
   const taker=s.restart?.takerId?getPlayer(s,s.restart.takerId):null;
   const pinned=!s.ball.live&&taker&&p.team!==taker.team&&(p.position.x<1||p.position.x>19)&&distance(p.position,taker.position)<1;
-  const angles=s.ball.live?[0,.12,-.12,.25,-.25,.45,-.45,.7,-.7]:!pinned?[0,.7,-.7,1.3,-1.3,Math.PI/2,-Math.PI/2,1.9,-1.9]:[0,.7,-.7,1.3,-1.3,Math.PI/2,-Math.PI/2,1.9,-1.9,2.5,-2.5,Math.PI];
+  const angles=s.ball.live&&!engagement&&p.kind!=='GOALKEEPER'?[0,.12,-.12,.25,-.25,.45,-.45,.7,-.7]:!pinned?[0,.7,-.7,1.3,-1.3,Math.PI/2,-Math.PI/2,1.9,-1.9]:[0,.7,-.7,1.3,-1.3,Math.PI/2,-Math.PI/2,1.9,-1.9,2.5,-2.5,Math.PI];
   for(const angle of angles) {
     const ux=heading.x*Math.cos(angle)-heading.y*Math.sin(angle),uy=heading.x*Math.sin(angle)+heading.y*Math.cos(angle);
     const next={x:p.position.x+ux*travel,y:p.position.y+uy*travel};
-    if(s.ball.live&&!committedSave&&Math.hypot(ux*travel/.05-p.velocity.x,uy*travel/.05-p.velocity.y)>2*acceleration*.05+1e-8)continue;
+    if(s.ball.live&&!committedSave&&!engagement&&p.kind!=='GOALKEEPER'&&Math.hypot(ux*travel/.05-p.velocity.x,uy*travel/.05-p.velocity.y)>2*acceleration*.05+1e-8)continue;
     const exchange=p.action?.kind==='EXCHANGE';
     const ordinary=p.kind==='GOALKEEPER'?next.x>=.3&&next.x<=19.7&&next.y>=.3&&next.y<=39.7:fieldLegal(next,p.radius);
     const legal=ordinary||(exchange&&next.x>=-.4&&next.x<.35&&next.y>=15&&next.y<=25);
