@@ -265,6 +265,11 @@ export const ROLE_TENDENCIES = {
   KEEPER: { shoot: 1, drive: 1, feed: 1, run: 1, hold: 1 },
 } as const satisfies Record<string, Tendency>;
 
+/** Basic positional duties used when no explicit attack role is supplied. */
+export function defaultAttackRole(role:Role):keyof typeof ROLE_TENDENCIES {
+  return role==='GK'?'KEEPER':role==='P'||role==='P2'?'PHYSICAL_PIVOT':role==='CB'?'PRIMARY_PLAYMAKER':role==='LW'||role==='RW'?'TWO_WAY_WING':'COMPLETE_BACK';
+}
+
 /** Which HM keys each emphasis family moves. */
 const FAMILIES = {
   SHOOTING: ['SHOOTING_POWER', 'SHOOTING_PLACEMENT', 'FINISHING', 'WING_FINISHING'],
@@ -317,7 +322,7 @@ export function generateSheet(role: Role, character: SquadCharacter, draw: Draw)
 }
 
 export function profileFor(role: Role, character: SquadCharacter, draw: Draw): Profile {
-  const roleName = character.roles[role] ?? (role === 'GK' ? 'KEEPER' : role === 'P' || role === 'P2' ? 'PHYSICAL_PIVOT' : role === 'CB' ? 'PRIMARY_PLAYMAKER' : role === 'LW' || role === 'RW' ? 'TWO_WAY_WING' : 'COMPLETE_BACK');
+  const roleName = character.roles[role] ?? defaultAttackRole(role);
   return buildProfile(generateSheet(role, character, draw), role, ROLE_TENDENCIES[roleName]);
 }
 

@@ -22,9 +22,10 @@
 // and uses his bent arms is defending. The same defender arriving late across
 // the attacker's back at speed is not, and that difference is the whole model.
 import { courtPlayers, type CoreState } from './state';
-import { distance, goal, local, shootingAngle } from './space';
+import { clearGoalArea, distance, goal, local, shootingAngle } from './space';
 import type { CorePlayer } from './state';
 import { secondsTo } from './timing';
+import { goalAreaClearance } from '../../domain/geometry/goalArea';
 
 /**
  * What the referee has to decide, in the order the rules decide it.
@@ -64,18 +65,35 @@ export function clearChanceDestroyed(s: CoreState, a: CorePlayer, d: CorePlayer)
   const angle = shootingAngle(a.position, direction);
   const controlled = s.ball.controllerId === a.id;
   const goingAtGoal = a.action !== null && ['DRIVE', 'DRIBBLE', 'JUMP', 'SHOOT'].includes(a.action.kind) && !['COMPLETED', 'FAILED', 'INTERRUPTED'].includes(a.action.phase);
+  let approachTarget=a.action?.target&&['DRIVE','DRIBBLE'].includes(a.action.kind)&&a.action.phase==='EXECUTING'&&local(a.action.target,direction).y<q.y-.3?a.action.target:null;
+  // A controlled dribbler can gather into three legal steps. Evaluate the
+  // immediately reachable takeoff window rather than pretending a hold only
+  // destroys the stationary bounce point. Cover must still arrive in time.
+  if(s.ball.mode==='DRIBBLE'&&a.action?.kind==='DRIBBLE'&&a.action.phase==='EXECUTING'&&
+    (!a.action.target||local(a.action.target,direction).y<=q.y+.1)){
+    const g=goal(direction),length=distance(a.position,g),travel=Math.min(s.ruleProfile.maxSteps*.8,Math.max(0,length-6.5));
+    approachTarget=clearGoalArea({x:a.position.x+(g.x-a.position.x)*travel/length,y:a.position.y+(g.y-a.position.y)*travel/length},direction,a.radius+.1);
+  }
   // A shot from here, at his pace, is about this far off.
-  const releaseSeconds = q.y < 8 ? 0.45 : 0.75;
-  const point = { x: a.position.x, y: a.position.y };
+  const releaseSeconds = approachTarget?distance(a.position,approachTarget)/Math.max(1,a.profile.topSpeed)+.25:q.y < 8 ? 0.45 : 0.75;
+  const point = approachTarget??{ x: a.position.x, y: a.position.y };
   const others = courtPlayers(s, d.team).filter(o => o.id !== d.id && o.kind === 'FIELD_PLAYER' && o.beatenUntilTick <= s.tick);
   const covering = others.filter(o => {
     // Between him and the goal, and able to be there before he could shoot.
     const g = goal(direction);
     const oq = local(o.position, direction);
-    return oq.y < q.y + 0.4 && secondsTo(s, o, point) <= releaseSeconds + 0.35 && distance(o.position, g) < distance(a.position, g) + 1.5;
+    return oq.y < local(point,direction).y + 0.1 && secondsTo(s, o, point) <= releaseSeconds + 0.1 && distance(o.position, g) < distance(a.position, g) + 1.5;
   });
-  const clear = controlled && goingAtGoal && angle > 0.14 && q.y < 12.5 && covering.length === 0;
-  return { clear, detail: { angle: Number(angle.toFixed(3)), depth: Number(q.y.toFixed(2)), covering: covering.length, controlled, goingAtGoal } };
+  const keeper=courtPlayers(s,d.team).some(p=>p.kind==='GOALKEEPER');
+  // IHF clarification 6: a controlled finish at the area line, an unopposed
+  // counterattack, or a direct empty-goal throw. Forward intent at 12m alone
+  // is not a clear chance. The 2m band accounts for a reachable takeoff/release approach.
+  const nearLine=goalAreaClearance(point,direction)<=2&&angle>.14;
+  const forwardSpeed=a.velocity.y*(direction==='TOP'?-1:1);
+  const counterattack=s.possession.phase==='TRANSITION'&&forwardSpeed>.7&&others.every(o=>local(o.position,direction).y>=q.y-.3);
+  const immediateFinish=nearLine||counterattack||!keeper&&a.action?.kind==='SHOOT';
+  const clear = controlled && immediateFinish && covering.length === 0;
+  return { clear, detail: { angle: Number(angle.toFixed(3)), depth: Number(q.y.toFixed(2)), covering: covering.length, controlled, goingAtGoal,immediateFinish } };
 }
 
 /**
@@ -113,9 +131,10 @@ export function readContact(
     relativeClosingSpeed:Number(relativeClosingSpeed.toFixed(3)),controlledClosingLimit:Number(controlledClosingLimit.toFixed(3)),...chance.detail };
 
   // Contact on a man in the air is the one case handball never tolerates.
-  if (airborne && (technique === 'HOLD' || approach === 'BEHIND' || speed > 3)) {
+  if (airborne && (technique === 'HOLD' || relativeClosingSpeed > 2.2 || approach === 'BEHIND' && radialClosingSpeed > 1.4)) {
     return { severity: 'SERIOUS', reason: 'Contact on an airborne attacker', clearChance: chance.clear, detail };
   }
+  if(airborne)return {severity:'PUNISHABLE',reason:'Body-directed contact during an airborne release',clearChance:chance.clear,detail};
   if (technique === 'BENT_ARMS' && approach === 'FRONT') {
     // The textbook defensive action. Only punishable when he arrives at a speed
     // that turns containment into a charge.
@@ -125,7 +144,7 @@ export function readContact(
   if (approach === 'BEHIND') {
     // Coming through the back is directed at the body by definition.
     return {
-      severity: chance.clear ? 'CLEAR_CHANCE' : speed > 2.4 ? 'PUNISHABLE' : 'ORDINARY',
+      severity: technique==='HOLD'?(chance.clear?'CLEAR_CHANCE':'PUNISHABLE'):radialClosingSpeed > 2.4 ? 'PUNISHABLE' : 'ORDINARY',
       reason: 'Contact from behind the attacker', clearChance: chance.clear, detail,
     };
   }
@@ -134,7 +153,8 @@ export function readContact(
     // going nowhere is a free throw and nothing else. That single sentence is
     // what the old model could not express.
     const disciplined = d.profile.discipline * 0.5 + d.profile.contact * 0.5;
-    const severe = speed > 2.8 - 1.2 * disciplined;
+    const restraining=d.beatenUntilTick>s.tick||approach!=='FRONT'&&['DRIVE','DRIBBLE','JUMP','SHOOT'].includes(a.action?.kind??'');
+    const severe = restraining || radialClosingSpeed > 2.8 - 1.2 * disciplined;
     return {
       severity: chance.clear ? 'CLEAR_CHANCE' : severe ? 'PUNISHABLE' : 'ORDINARY',
       reason: chance.clear ? 'Holding that destroyed a clear chance to score' : severe ? 'Holding committed with intensity' : 'Ordinary holding contact', clearChance: chance.clear, detail,

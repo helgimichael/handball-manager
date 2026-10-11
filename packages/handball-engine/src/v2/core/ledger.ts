@@ -205,11 +205,14 @@ function endingOf(events: readonly CoreEvent[]): { ending: Ending; evidence: str
   let ending: Ending = 'STILL_IN_PROGRESS';
   let evidence = 'no terminal event recorded';
   let airborneShot = false;
+  let offTargetKeeperTouch=false;
   const actualWhistle=events.some(e=>e.type==='WHISTLE_RESTART');
 
   for (const e of events) {
     switch (e.type) {
-      case 'SHOT_RELEASED': airborneShot = true; ending = 'SHOT_WIDE'; evidence = `shot released (${e.details.shotKind})`; break;
+      case 'SHOT_RELEASED': airborneShot = true;offTargetKeeperTouch=false; ending = 'SHOT_WIDE'; evidence = `shot released (${e.details.shotKind})`; break;
+      case 'KEEPER_COLLECTED_OFF_TARGET':
+      case 'OFF_TARGET_KEEPER_TOUCH':offTargetKeeperTouch=true;airborneShot=true;ending='SHOT_WIDE';evidence='off-target attempt touched by the goalkeeper';break;
       case 'GOAL': ending = 'GOAL'; evidence = 'goal'; airborneShot = false; break;
       case 'SAVE_PARRY': ending = 'SHOT_SAVED_REBOUND_LOST'; evidence = 'goalkeeper parried'; airborneShot = false; break;
       case 'SHOT_BLOCKED': ending = 'SHOT_BLOCKED_REBOUND_LOST'; evidence = 'shot blocked'; airborneShot = false; break;
@@ -284,13 +287,15 @@ function endingOf(events: readonly CoreEvent[]): { ending: Ending; evidence: str
           // ball in open play is a duel the attack lost, and failing to separate
           // the two took fifteen saves a match out of the goalkeeper's column
           // and filed them as contested losses.
-          if (ending.startsWith('SHOT_SAVED')) { ending = 'SHOT_SAVED_REBOUND_LOST'; evidence = 'parry won by the defence'; }
+          if(offTargetKeeperTouch){ending='SHOT_WIDE';evidence='off-target attempt recovered by the defence';}
+          else if (ending.startsWith('SHOT_SAVED')) { ending = 'SHOT_SAVED_REBOUND_LOST'; evidence = 'parry won by the defence'; }
           else if (ending.startsWith('SHOT_BLOCKED')) { ending = 'SHOT_BLOCKED_REBOUND_LOST'; evidence = 'block won by the defence'; }
           else { ending = 'DUEL_LOSS'; evidence = 'loose ball lost to the opponent'; }
         }
         else if (reason.startsWith('Goalkeeper')) {
           // The keeper taking the ball is the end of a SHOT, not a turnover.
-          if (ending === 'SHOT_WIDE' || ending === 'SHOT_SAVED_REBOUND_LOST') { ending = 'SHOT_SAVED_REBOUND_LOST'; evidence = reason; }
+          if(offTargetKeeperTouch){ending='SHOT_WIDE';evidence='off-target attempt collected by the goalkeeper';}
+          else if (ending === 'SHOT_WIDE' || ending === 'SHOT_SAVED_REBOUND_LOST') { ending = 'SHOT_SAVED_REBOUND_LOST'; evidence = reason; }
           else { ending = 'RECEPTION_FAILED'; evidence = reason; }
         }
         else if (ending === 'STILL_IN_PROGRESS' || ending === 'DEFENSIVE_FOUL_RESTART') { ending = 'RECEPTION_FAILED'; evidence = reason || 'ball taken by the opponent'; }

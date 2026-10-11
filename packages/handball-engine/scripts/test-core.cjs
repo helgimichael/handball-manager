@@ -29,3 +29,4 @@ require('../src/v2/core/contact-direction-realism.test.ts');
 require('../src/v2/core/pivot-dispatch-calibration.test.ts');
 require('../src/v2/core/takeoff-calibration.test.ts');
 require('../src/v2/core/motion-continuity.test.ts');
+require('../src/v2/core/empirical-calibration.test.ts');

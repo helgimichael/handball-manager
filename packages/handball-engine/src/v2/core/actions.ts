@@ -1,4 +1,4 @@
-import { actionAvailable, getPlayer, record, uid, type ActionKind, type CoreAction, type CorePlayer, type CoreState, type Point, type TeamId } from './state';
+import { actionAvailable, getPlayer, random, record, uid, type ActionKind, type CoreAction, type CorePlayer, type CoreState, type Point, type TeamId } from './state';
 import { distance, fieldLegal, goal, local } from './space';
 import { awardRestart } from './transitions';
 import { authorisedRestartMovementLegal } from './rules';
@@ -221,7 +221,7 @@ export function execute(s: CoreState): ExecutionEffect[] {
       // running body as a legal stationary obstacle on a hands-clock boundary.
       if(a.kind==='SCREEN'&&Math.hypot(p.velocity.x,p.velocity.y)>.15)continue;
       if(a.kind==='SHOOT'&&!a.target){
-        const plan=planShotTarget(s,p);a.target={x:plan.aimX,y:goal(plan.direction).y};
+        const plan=planShotTarget(s,p,random(s)<.5?-1:1);a.target={x:plan.aimX,y:goal(plan.direction).y};
         record(s,'SHOT_AIM_COMMITTED',p,{aimX:plan.aimX,pressure:plan.context.pressure,opportunityQuality:plan.context.opportunityQuality,decisionQuality:plan.context.quality});
       }
       phase(s,p,'COMMITTED');continue;

@@ -73,6 +73,8 @@ export type CoreFlight = {
   releasedTick: number; height: number; goalSide: Direction; touchedIds: string[];
   /** Optional for older in-progress snapshots; absent retains the original 1.1m endpoint. */
   goalHeight?:number;
+  /** Persist original release kind through a physical rebound. Older flights omit it. */
+  sourceKind?:'PASS'|'SHOT';
   purpose: 'PLAY' | 'DEAD_BALL_RETURN';
 };
 export type CoreEvent = {

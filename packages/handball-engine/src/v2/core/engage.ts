@@ -26,7 +26,7 @@
 import { clamp, distance, goal, laneClearance, local, shootingAngle, shotOpportunity, world } from './space';
 import { courtPlayers, otherTeam, record, type CorePlayer, type CoreState, type Point, type TeamId } from './state';
 import { PIVOT_FINISH_METERS, isPivot, pivotOffer, pivotShotQuality } from './pivot';
-import { isWing } from './wing';
+import { isWing, wingTakeoffWindow } from './wing';
 import { laneMargin, secondsTo } from './timing';
 import { exchangeActive } from './population';
 import { zoneOf } from './defence';
@@ -309,7 +309,7 @@ export function readContinuation(s: CoreState, carrier: CorePlayer): Continuatio
       range <= 7.5 || q.y <= 5;
     if (context&&inRange && built && angle > 0.11 && (lane > 0.25||context.blockThreat<.65)) {
       offer({ kind: 'SHOOT', quality: value, reason: `Take the chance: quality ${value.toFixed(2)}` },
-        (value - SHOT_FLOOR) / 0.42, tendency.shoot);
+        (value - SHOT_FLOOR) / 0.44, tendency.shoot);
     }
   }
 
@@ -335,11 +335,23 @@ export function readContinuation(s: CoreState, carrier: CorePlayer): Continuatio
     const separated=!marker||marker.beatenUntilTick>s.tick||marker.screenedUntilTick>s.tick||distance(marker.position,wing.position)>3.6;
     if((collapsed||separated)&&distance(carrier.position,wing.position)<10&&shotOpportunity(s,wing)) {
       const lane=laneMargin(s,carrier.position,wing.position,carrier.team,passSpeed);
-      if(lane.seconds>.16)offer({kind:'PLAY_FREED',receiverId:wing.id,reason:collapsed?'Release the wing whose defender helped inside':'Use the genuinely separated outside receiver'},.68,tendency.feed);
+      const window=wingTakeoffWindow(s,wing),improvement=window?clamp(shootingAngle(window,direction)-shootingAngle(wing.position,direction),0,.25):0;
+      if(lane.seconds>.16)offer({kind:'PLAY_FREED',receiverId:wing.id,reason:collapsed?'Release the wing whose defender helped inside':'Use the genuinely separated outside receiver'},.68+improvement,tendency.feed);
     }
   }
 
   // FEED THE LINE PLAYER, when he is genuinely playable.
+  // A half-back in a genuinely better receiving window is also a finisher.
+  // Recycling through the central connector alone could never spend this
+  // opportunity, even after the defence had left the adjacent lane.
+  const currentChance=shotOpportunity(s,carrier);
+  for(const back of mates.filter(a=>['LB','CB','RB'].includes(a.role))){
+    const chance=shotOpportunity(s,back),lane=laneMargin(s,carrier.position,back.position,carrier.team,passSpeed);
+    const marker=courtPlayers(s,otherTeam(carrier.team)).find(d=>s.defence.marks[d.id]===back.id);
+    const freed=marker&&(marker.beatenUntilTick>s.tick||marker.screenedUntilTick>s.tick||['HELP','PRESSURE'].includes(marker.duty.kind)&&marker.duty.targetId!==back.id);
+    if(freed&&chance&&chance.distance<13&&chance.pressure<.6&&lane.seconds>.16&&chance.quality>(currentChance?.quality??0)+.03)
+      offer({kind:'PLAY_FREED',receiverId:back.id,reason:'Connect the back whose receiving window is better than the current release'},.62+Math.min(.25,chance.quality-(currentChance?.quality??0)),tendency.feed);
+  }
   if (!isPivot(carrier)) {
     const line = mates.filter(isPivot).map(a => ({ a, o: pivotOffer(s, carrier, a) }))
       .filter(x => x.o.available).sort((x, y) => y.o.margin - x.o.margin)[0];
@@ -350,7 +362,7 @@ export function readContinuation(s: CoreState, carrier: CorePlayer): Continuatio
       // median, well under what keeping the ball is worth, so the line player
       // was almost never played even when he was genuinely free.
       offer({ kind: 'PLAY_FREED', receiverId: line.a.id, reason: `Feed the line player: ${line.o.reason}` },
-        0.45 + Math.min(line.o.margin, 1) * 0.35, tendency.feed);
+        Math.max(.45+Math.min(line.o.margin,1)*.35,(pivotShotQuality(s,line.a)-SHOT_FLOOR)/.44*(.8+Math.min(line.o.margin,.8)*.25)), tendency.feed);
     }
   }
 
@@ -415,8 +427,8 @@ export function readContinuation(s: CoreState, carrier: CorePlayer): Continuatio
     // arrived that way. Deciding to move the ball and being forced to are not
     // supposed to be different passes.
     .filter(x => x.lane.seconds > 0.1 && distance(carrier.position, x.a.position) <= 16)
-    .sort((x, y) => (rebuildValue(s, y.a, direction)-(y.a.id===s.possession.lastPasserId?.12:0))
-      -(rebuildValue(s, x.a, direction)-(x.a.id===s.possession.lastPasserId?.12:0)))[0];
+    .sort((x, y) => (rebuildValue(s, y.a, direction)-(y.a.id===s.possession.lastPasserId?.35:0))
+      -(rebuildValue(s, x.a, direction)-(x.a.id===s.possession.lastPasserId?.35:0)))[0];
   if (outlet) {
     offer({ kind: 'RECYCLE', receiverId: outlet.a.id, reason: 'Nothing is open; keep the ball and rebuild' },
       RECYCLE_APPEAL, 1);
@@ -453,7 +465,13 @@ export function rebuildValue(s: CoreState, a: CorePlayer, direction: CoreState['
   const p = local(a.position, direction);
   const central = clamp(1 - Math.abs(p.x - 10) / 9, 0, 1);
   const depth = clamp((p.y - 7) / 5, 0, 1);
-  return central * 0.62 + depth * 0.38;
+  const pressure=courtPlayers(s,otherTeam(a.team)).filter(d=>d.kind==='FIELD_PLAYER'&&d.beatenUntilTick<=s.tick&&d.screenedUntilTick<=s.tick)
+    .reduce((n,d)=>n+Math.max(0,1-distance(d.position,a.position)/2.5),0);
+  // Rebuild into usable receiving space, not repeatedly into the central slot.
+  // All backs can initiate from a connected lane; width alone does not turn a
+  // wing in the corner into the preferred playmaker.
+  const connected=['LB','CB','RB'].includes(a.role)?1:central;
+  return connected*.3+depth*.4+clamp(1-pressure,0,1)*.3;
 }
 
 /** Is the shot over a committed defender actually on? */

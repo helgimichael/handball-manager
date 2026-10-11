@@ -34,10 +34,18 @@ export function createContactScenario(kind:ContactScenario,seed=2025,direction:D
   // makes a fixture named LATE_HOLD produce legal contact. The defender who is
   // supposed to hold is given the indiscipline to do it.
   if(kind==='LATE_HOLD')d.profile={...d.profile,discipline:.1,contact:.2};
+  if(kind==='LATE_HOLD'){
+    // A genuine near-line chance, rather than any forward drive from 9.5m.
+    a.position=world({x:lane,y:7.4},direction);d.position=world({x:lane+.8,y:7.4},direction);s.ball.position={...a.position};
+    a.action!.target=world({x:lane,y:6.9},direction);
+    a.action!.phase='EXECUTING';
+    for(const other of s.players.filter(p=>p.team===d.team&&p.kind==='FIELD_PLAYER'&&p.id!==d.id))other.position=world({x:18,y:12+Number(other.id.slice(1))*1.2},direction);
+  }
   // The hold is the subject of the LATE_HOLD fixture, so the commitment is live
   // rather than still preparing: four ticks of preparation were enough for the
   // zonal line to reposition the defender and the contact then missed.
   planContact(s,d,a);
   if(kind==='LATE_HOLD'&&d.action){d.action.phase='EXECUTING';d.action.phaseTick=0;}
+  if(kind==='LATE_HOLD')a.action!.phase='COMMITTED';
   return s;
 }

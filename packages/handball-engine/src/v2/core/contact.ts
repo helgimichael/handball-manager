@@ -15,13 +15,17 @@ export function planContact(s:CoreState,d:CorePlayer,a:CorePlayer):boolean {
   if(distance(a.position,d.position)>1.05||a.airborne||d.screenedUntilTick>s.tick)return false;
   if(d.id!==s.defence.pressureId&&d.id!==s.defence.helperId)return false;
   const approach=contactApproach(s,a,d);
-  const penetration=['DRIVE','DRIBBLE'].includes(a.action?.kind??'');
+  const penetration=['DRIVE','DRIBBLE'].includes(a.action?.kind??'')&&a.action?.phase==='EXECUTING';
   const beaten=d.beatenUntilTick>s.tick;
   if(beaten&&!penetration)return false;
+  // A defender already behind a settled passer/shooter cannot establish
+  // bent-arm containment. Recover instead of repeatedly committing a phantom
+  // contact against the back of a stationary ball carrier.
+  if(approach==='BEHIND'&&!penetration)return false;
   // A disciplined defender prefers to contain rather than grab, and only
   // reaches when he has genuinely been beaten to the space.
   const desperate=(approach!=='FRONT'||beaten)&&penetration;
-  const technique=desperate&&d.profile.discipline<.55+.4*(beaten?1:0)?'HOLD':'BENT_ARMS';
+  const technique=desperate&&d.profile.discipline<.55+.4*(beaten||approach==='BEHIND'?1:0)?'HOLD':'BENT_ARMS';
   if(!startAction(s,d,'CONTACT',technique==='HOLD'?'Late to penetration; commit holding attempt':'Establish bent-arm contact while retaining goal-side position',null,a.id))return false;
   d.action!.contact={technique,approach};return true;
 }

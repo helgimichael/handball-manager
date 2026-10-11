@@ -223,20 +223,46 @@ function deflect(s:CoreState,p:CorePlayer,point:Point,type:string,detail:CoreSta
   // carried on out of the court and a parry became a throw-in rather than a
   // contested rebound.
   const angle=(random(s)-.5)*1.5;
-  const kept=Math.min(6.5,speed*(.14+.14*random(s)));
+  const loss=.14+.14*random(s);
+  let outX=ux,outY=uy,kept=Math.min(6.5,speed*loss);
+  if(type==='SAVE_PARRY'||type==='OFF_TARGET_KEEPER_TOUCH'){
+    const reach=keeperReachForShot(s,p,f,point),coverage=clamp(1-distance(point,p.position)/Math.max(.001,reach),0,1);
+    const skill=Number(detail.stoppingCapability??.5),torso=distance(point,p.position)<p.radius&&s.ball.height>.7&&s.ball.height<1.75;
+    const intervention=Math.max(torso?.9:0,clamp((coverage*(.75+.25*skill)+.3*skill)*executionCapacity(p),0,1));
+    const side=Math.sign(point.x-p.position.x)||Math.sign(f.velocity.x)||1,away=f.goalSide==='TOP'?1:-1;
+    outX=ux*(1-intervention)+side*.9*intervention;outY=uy*(1-intervention)+away*.35*intervention;
+    const length=Math.hypot(outX,outY)||1;outX/=length;outY/=length;
+    kept=speed*(loss*intervention+.75*(1-intervention));
+    detail={...detail,intervention,coverage};
+  }
   s.ball.position=point;s.ball.mode='DEFLECTION';s.ball.lastTouchId=p.id;
-  f.kind='DEFLECTION';
-  f.velocity={x:(ux*Math.cos(angle)-uy*Math.sin(angle))*kept,y:(ux*Math.sin(angle)+uy*Math.cos(angle))*kept};
+  f.sourceKind??=f.kind==='SHOT'?'SHOT':'PASS';f.kind='DEFLECTION';
+  f.velocity={x:(outX*Math.cos(angle)-outY*Math.sin(angle))*kept,y:(outX*Math.sin(angle)+outY*Math.cos(angle))*kept};
   f.touchedIds.push(p.id);f.releasedTick=s.tick;
   record(s,type,p,{...detail,speed:Number(kept.toFixed(2))},[f.fromId],null,f.actionId);
 }
 /** Actual hand travel budget, including a prepared penalty stance but never a full dive before flight time. */
 export function keeperReachForShot(s:CoreState,p:CorePlayer,f:CoreFlight,point:Point):number {
-  const capacity=executionCapacity(p),span=(.31+.40*(p.profile.keeper?.explosiveness??.5))*capacity;
+  const capacity=executionCapacity(p),span=(.36+.44*(p.profile.keeper?.explosiveness??.5))*capacity;
   const pace=Math.hypot(f.velocity.x,f.velocity.y)||1,flightSeconds=distance(f.origin,point)/pace;
   const loaded=getPlayer(s,f.fromId).action?.shotKind==='SEVEN_METRE';
   const spare=Math.max(0,flightSeconds-(loaded?0:p.profile.reaction));
-  return Math.min(span,.19+2.4*capacity*spare);
+  const hands=Math.min(span,.19+2.4*capacity*spare);
+  // The same hand cannot simultaneously cover its full lateral and vertical
+  // extent. A low/high ball spends part of the finite save envelope. Body
+  // travel is already integrated and is not added again here.
+  const depth=goal(f.goalSide).y-f.origin.y;
+  const fraction=clamp((point.y-f.origin.y)/(Math.abs(depth)>.001?depth:.001),0,1);
+  const height=f.height+((f.goalHeight??1.1)-f.height)*fraction;
+  const family=height<1?p.profile.keeper?.low??.5:p.profile.keeper?.high??.5;
+  const vertical=Math.abs(height-1.05)/(1.05+.3*family);
+  return hands*Math.sqrt(Math.max(0,1-vertical*vertical));
+}
+/** Conventional save attribution requires a goal-bound released trajectory. */
+export function goalBoundShot(f:CoreFlight):boolean {
+  if(f.kind!=='SHOT'||Math.abs(f.velocity.y)<1e-9)return false;
+  const t=(goal(f.goalSide).y-f.origin.y)/f.velocity.y,x=f.origin.x+f.velocity.x*t,height=f.goalHeight??1.1;
+  return t>0&&x>=8.5&&x<=11.5&&height>=0&&height<=2;
 }
 export function advanceBall(s:CoreState) {
   const f=s.ball.flight;if(!f||f.releasedTick===s.tick)return;
@@ -314,6 +340,7 @@ export function advanceBall(s:CoreState) {
         // Holding it needs the ball inside his hands AND slow enough to hold.
         const holdable=pace<=15+13*family;
         const catchable=p.action?.kind==='SAVE'&&p.action.phase==='EXECUTING'&&local<.22+.34*family&&holdable;
+        const goalBound=goalBoundShot(f),saveDetail={ballHeight:s.ball.height,keeperX:p.position.x,keeperY:p.position.y,horizontalReach:keeperReachForShot(s,p,f,hit.point),bodySeparation:local,flightSeconds:(s.tick-f.releasedTick)*.05,reactionSeconds:p.profile.reaction,goalBound,stoppingCapability:family};
         contest(s,'KEEPER',shooter,p,catchable?'CAUGHT':'PARRIED',distance(hit.point,p.position),12,f.actionId);
         if(catchable){
           // A HELD SAVE IS AN EVENT. It had none -- only a contest -- so the
@@ -321,10 +348,10 @@ export function advanceBall(s:CoreState) {
           // the match, and shots the keeper caught appeared in no column at all:
           // not goals, not saves, not blocks. Nineteen of twenty-three wing
           // shots in a match were being caught and nothing said so.
-          record(s,'SAVE_CAUGHT',p,{x:hit.point.x,y:hit.point.y,pace:Number(pace.toFixed(2))},[shooter.id],null,f.actionId);
+          record(s,goalBound?'SAVE_CAUGHT':'KEEPER_COLLECTED_OFF_TARGET',p,{x:hit.point.x,y:hit.point.y,pace:Number(pace.toFixed(2)),...saveDetail},[shooter.id],null,f.actionId);
           acquire(s,p,hit.point,'Goalkeeper catch',f.actionId);s.ball.live=false;
           awardRestart(s,'GOALKEEPER_THROW',p.team,p.position,'Keeper controls ball inside goal area',p);return;}
-        deflect(s,p,hit.point,'SAVE_PARRY');return;
+        deflect(s,p,hit.point,goalBound?'SAVE_PARRY':'OFF_TARGET_KEEPER_TOUCH',saveDetail);return;
       }
       contest(s,'BLOCK',shooter,p,'DEFLECTED',distance(hit.point,p.position),12,f.actionId);deflect(s,p,hit.point,'SHOT_BLOCKED');return;
     }
@@ -365,7 +392,7 @@ export function advanceBall(s:CoreState) {
     if(s.restart.kind==='CENTRE_THROW_OFF'&&distance(to,{x:10,y:20})-.1>2)completeRestart(s,'THROW_OFF_AREA_EXIT');
     if(s.restart.kind==='GOALKEEPER_THROW'&&goalAreaClearance(to,s.directions[otherTeam(s.restart.owner)])>.1)completeRestart(s,'GOAL_AREA_EXIT');
   }
-  if(f.kind==='SHOT'&&((f.goalSide==='TOP'&&to.y<0)||(f.goalSide==='BOTTOM'&&to.y>40))) {
+  if((f.kind==='SHOT'||f.kind==='DEFLECTION'&&(f.sourceKind==='SHOT'||f.sourceKind===undefined&&f.goalHeight!==undefined))&&((f.goalSide==='TOP'&&to.y<0)||(f.goalSide==='BOTTOM'&&to.y>40))) {
     const y=goal(f.goalSide).y,t=(y-from.y)/(to.y-from.y),x=from.x+t*(to.x-from.x);
     s.ball.position={x,y};
     if(x>8.5&&x<11.5&&s.ball.height<2) {

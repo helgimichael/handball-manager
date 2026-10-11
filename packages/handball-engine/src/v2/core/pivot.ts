@@ -107,8 +107,11 @@ export function pivotOffer(s: CoreState, carrier: CorePlayer, pivot: CorePlayer)
   // worth of separation AND the defender close enough to actually be sealed --
   // a man three metres away is not sealed, he is somewhere else, which is what
   // the displaced branch below is for.
-  const sealed = owner !== undefined && local(owner.position, direction).y > q.y + 0.9 &&
-    distance(owner.position, pivot.position) < 2.2;
+  const toBall={x:carrier.position.x-pivot.position.x,y:carrier.position.y-pivot.position.y};
+  const toOwner=owner?{x:owner.position.x-pivot.position.x,y:owner.position.y-pivot.position.y}:null;
+  const alignment=toOwner?(toBall.x*toOwner.x+toBall.y*toOwner.y)/Math.max(.001,Math.hypot(toBall.x,toBall.y)*Math.hypot(toOwner.x,toOwner.y)):1;
+  const sealed = owner !== undefined && alignment<-.6&&distance(owner.position,pivot.position)<1.25&&
+    !(owner.screenedBy===pivot.id&&owner.screenedUntilTick>s.tick);
   // "Stepped out" has to mean genuinely displaced from his own space, not
   // merely standing where a 6:0 defender normally stands. Reading it as a depth
   // threshold made the feed available on almost every frame and the line player
@@ -129,17 +132,21 @@ export function pivotOffer(s: CoreState, carrier: CorePlayer, pivot: CorePlayer)
   const covered = courtPlayers(s, otherTeam(carrier.team))
     .some(d => d.kind === 'FIELD_PLAYER' && d.id !== owner?.id && d.screenedUntilTick <= s.tick &&
       d.beatenUntilTick <= s.tick && distance(d.position, pivot.position) < 1.1);
-  const lane = laneMargin(s, carrier.position, pivot.position, carrier.team, 10.5 + 3 * carrier.profile.passing);
+  // A marker behind the receiving body cannot legally intercept by travelling
+  // straight through it. Other defenders still contest the entire feeding
+  // lane; actual reception physics remains authoritative for the executed pass.
+  const laneState=sealed?{...s,players:s.players.filter(p=>p.id!==owner!.id)}:s;
+  const lane = laneMargin(laneState, carrier.position, pivot.position, carrier.team, 10.5 + 3 * carrier.profile.passing);
   // A remote relay assignment cannot cover by its label. If its actual body
   // is separated and the timed lane wins, the line player is genuinely free.
-  const unattended=owner===undefined||distance(owner.position,pivot.position)>2.2&&lane.seconds>.3;
+  const unattended=owner===undefined||distance(owner.position,pivot.position)>2.2&&lane.seconds>.25;
   const free = !covered && (unattended || screened || sealed || displaced);
   if (!free) return { available: false, reason: covered ? 'a neighbour has stepped across and covered him' : 'the line defender still owns him', margin: lane.seconds };
   // A feed goes THROUGH the defensive line, which is where the defenders are
   // standing. A tenth of a second of daylight is not a lane, and feeding into
   // one made the pivot pass the single largest source of turnovers in the match
   // as well as the largest source of goals. Real daylight, or no feed.
-  if (lane.seconds < 0.3) return { available: false, reason: 'the feeding lane is closed', margin: lane.seconds };
+  if (lane.seconds < 0.25) return { available: false, reason: 'the feeding lane is closed', margin: lane.seconds };
   return {
     available: true,
     margin: lane.seconds,
@@ -159,8 +166,10 @@ export function pivotShotQuality(s: CoreState, p: CorePlayer): number {
   const direction = s.directions[p.team];
   const range = distance(p.position, goal(direction));
   const angle = shootingAngle(p.position, direction);
-  const close = clamp((PIVOT_FINISH_METERS - range) / 3, 0, 1);
-  const sight = clamp((angle - 0.18) / 0.5, 0, 1);
+  const close = clamp((PIVOT_FINISH_METERS - range) / 2, 0, 1);
+  // The same visible goal aperture as other central finishing decisions.
+  // The old .5-radian scale marked a clean 6m turn as half a sight window.
+  const sight = clamp((angle - 0.10) / 0.35, 0, 1);
   const pressure = courtPlayers(s, otherTeam(p.team)).filter(d => d.kind !== 'GOALKEEPER' && distance(d.position, p.position) < 1.3).length;
   const craft = p.profile.pivotPlay * 0.45 + p.profile.finishing * 0.3 + p.profile.strength * 0.25;
   return (close * 0.34 + sight * 0.24 + craft * 0.30 - pressure * 0.12)*(.84+.16*p.condition.energy);

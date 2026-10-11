@@ -10,7 +10,7 @@ export function releasePressure(s:CoreState,p:CorePlayer):number {
 }
 
 /** A deterministic intended window, based on the visible world at commitment. */
-export function planShotTarget(s:CoreState,p:CorePlayer) {
+export function planShotTarget(s:CoreState,p:CorePlayer,tieSide?:-1|1) {
   const direction=s.directions[p.team],context=shotContext(s,p);
   const keeper=courtPlayers(s,otherTeam(p.team)).find(d=>d.kind==='GOALKEEPER');
   const keeperX=keeper?.position.x??10,wide=Math.abs(p.position.x-10)>6.5;
@@ -19,11 +19,12 @@ export function planShotTarget(s:CoreState,p:CorePlayer) {
   const spread=((1.25-placement)*(1+context.pressure*(.45-.25*p.profile.composure))+
     Math.max(0,.3-shootingAngle(p.position,direction))*1.8)*(penalty?.42:1);
   const leftGap=keeperX-8.5,rightGap=11.5-keeperX;
-  const side=wide?Math.sign(p.position.x-10)||1:rightGap>=leftGap?1:-1;
-  const gap=Math.max(0,side>0?rightGap:leftGap);
-  const reach=Math.max(.32,gap*((penalty?.58:.42)+(penalty?.40:.5)*placement));
-  const safe=.18+spread*(wide?.12:.35);
-  const aimX=clamp(wide?10+side*(.35+1.15*placement):keeperX+side*reach,8.5+safe,11.5-safe);
+  const side=wide?Math.sign(p.position.x-10)||1:Math.abs(rightGap-leftGap)<.6&&tieSide?tieSide:rightGap>=leftGap?1:-1;
+  // The posts define the intended window. A fraction of the keeper-to-post gap
+  // aimed too many competent central throws back within his standing reach.
+  // Precision buys a smaller safety margin, not an automatic goal.
+  const safe=.14+spread*(wide?.12:.22);
+  const aimX=clamp(wide?10+side*(.35+1.15*placement):10+side*(1.5-safe),8.5+safe,11.5-safe);
   return {aimX,placement,spread,direction,context};
 }
 

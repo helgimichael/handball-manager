@@ -227,14 +227,14 @@ function chooseCarrier(s:CoreState,p:CorePlayer) {
   if(chance?.emptyGoal&&q.y<28) {
     startAction(s,p,'SHOOT','Actual defending goalkeeper is off court',null,null,'EMPTY_GOAL');return;
   }
+  if(isPivot(p)) {
+    const approach=pivotCatchApproach(s,p);
+    if(approach&&startAction(s,p,'DRIVE',PIVOT_CATCH_REASON,approach))return;
+  }
   if(isPivot(p)&&chance&&!p.airborne&&pivotShotQuality(s,p)>.34) {
     const worth=pivotShotQuality(s,p),finish=pivotFinish(s,p);
     if(finish==='FALL'&&startAction(s,p,'JUMP',`Pivot catch: turn and finish through the line (${worth.toFixed(2)})`))return;
     if(finish==='TURN'&&startAction(s,p,'SHOOT',`Pivot catch: finish from the actual line position (${worth.toFixed(2)})`,null,null,'PIVOT'))return;
-  }
-  if(isPivot(p)) {
-    const approach=pivotCatchApproach(s,p);
-    if(approach&&startAction(s,p,'DRIVE',PIVOT_CATCH_REASON,approach))return;
   }
   if(p.handling.steps>=s.ruleProfile.maxSteps-1&&!p.handling.dribbleUsed&&!p.airborne&&s.ruleProfile.maxHoldMs/50-held>=8) {
     const finish=readContinuation(s,p);

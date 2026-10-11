@@ -46,8 +46,8 @@ test('the committed throwing window cannot instantly switch posts from the lates
  const s=createCoreScenario(),p=getPlayer(s,'H03'),k=getPlayer(s,'A07');
  k.position={x:10,y:1.4};startAction(s,p,'SHOOT','A real committed throw',null,null,'STANDING');
  s.tick=2;s.timeMs=100;execute(s);
- assert.equal(p.action!.phase,'COMMITTED');const intended=p.action!.target!.x;assert.ok(intended>10);
- k.position={x:12,y:1.4};assert.ok(planShotTarget(s,p).aimX<10,'the visible opening changed after commitment');
+ assert.equal(p.action!.phase,'COMMITTED');const intended=p.action!.target!.x;assert.ok(Math.abs(intended-10)>1);
+ k.position={x:intended>10?12:8,y:1.4};assert.ok((planShotTarget(s,p).aimX-10)*(intended-10)<0,'the visible opening changed after commitment');
  p.action!.phase='EXECUTING';resolveEffects(s,[{playerId:p.id,kind:'SHOOT'}]);
  assert.equal(s.events.findLast(e=>e.type==='SHOT_RELEASED')!.details.intendedAimX,intended);
 });

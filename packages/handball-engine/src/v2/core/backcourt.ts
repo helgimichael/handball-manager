@@ -49,7 +49,9 @@ export function planBackcourtSupport(s:CoreState,p:CorePlayer):BackcourtSupport 
     } else {
       mode='STRETCH';partnerId=centre?.id??wing?.id??null;
       const innerInterval=Math.abs((mark?.position.x??(left?5.5:14.5))-centreX);
-      const spread=clamp(8-innerInterval*.4,4,6.8);
+      // Width is shared with the wing. A half-back parked almost in the wing's
+      // corner is an outlet but cannot threaten the adjacent central interval.
+      const spread=clamp(6-innerInterval*.3,3,5);
       target={x:inLane(centreX+sign*spread),y:clamp((mark?local(mark.position,direction).y:7.2)+2.8,9,11)};
       reason=sameSide?'Stretch outside the half defender to open the adjacent interval':'Hold a wide weak-side outlet against the shifting defence';
     }
