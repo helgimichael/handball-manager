@@ -1,0 +1,381 @@
+{
+  "schemaVersion": "empirical-calibration-verification/1",
+  "date": "2026-10-11T10:44:48.152Z",
+  "startingCheckpoint": "6c2c494ca5a3002a0d6a317f026a925dfbc8a016",
+  "implementationHead": "25dee012e39dc73953578a8e0b843b48b8d1a0b7",
+  "preserved": [
+    {
+      "file": "apps/game/app/match-qa/page.tsx",
+      "unchanged": true,
+      "sha256": "a245ec398a29f3c8b7ab7317682433dbfe81e4a46e249a60c8f5a5a024fece8f"
+    },
+    {
+      "file": "apps/game/lib/matchQa/qaHarness.ts",
+      "unchanged": true,
+      "sha256": "f100717310ea08f43c33b49dbabe7acee338b40884e9182030f59db7c62fece9"
+    },
+    {
+      "file": "apps/game/scripts/season-audit.ts",
+      "unchanged": true,
+      "sha256": "7ba6f05b9f1e9cfa491961c1a6c644d7ce5fb2123fed5bac0d1fb3a869b07266"
+    },
+    {
+      "file": ".claude/launch.json",
+      "unchanged": true,
+      "sha256": "5479537912ebe024d9340205e0a1d178b0fa2330a3f8b5af62723a6fe7a82185"
+    },
+    {
+      "file": "docs/audit/browser-product-test.txt",
+      "unchanged": true,
+      "sha256": "55cec35a72a07fd9a83260aeea2c50d494d12e30f779e01ff428d313a7cd0883"
+    },
+    {
+      "file": "docs/audit/build-turbopack.txt",
+      "unchanged": true,
+      "sha256": "2fd132c42c004e7361e70694d07d0a6102f28fdedc8067b9387a3ba17a216c66"
+    },
+    {
+      "file": "docs/audit/build-webpack.txt",
+      "unchanged": true,
+      "sha256": "5c2d02af267569779c65731f10df3278891b13dc31128623944945e58513f0c6"
+    },
+    {
+      "file": "docs/audit/final-browser-product.txt",
+      "unchanged": true,
+      "sha256": "7377b7c69495b0e588e6f139cd6eadaef6c079779707d5a17393ea61004fb9f3"
+    },
+    {
+      "file": "docs/audit/final-changed-lint.txt",
+      "unchanged": true,
+      "sha256": "10fe5fd65982ca6b71ae329a8731176307eddc2346c756729adb904b141991a0"
+    },
+    {
+      "file": "docs/audit/final-production-build.txt",
+      "unchanged": true,
+      "sha256": "3e086a657ed1ec890895f8ba058b992aeeaeaeb407c547f713bbbb9dd3f9b930"
+    },
+    {
+      "file": "docs/audit/final-production-server.txt",
+      "unchanged": true,
+      "sha256": "d051ae0dc6f38d8d8ae596a96b099a9afbd551a40ee8fb798a6a1419ce05d06a"
+    },
+    {
+      "file": "docs/audit/final-seam-tests.txt",
+      "unchanged": true,
+      "sha256": "ebcc50a912655b26e24b44d0435982216afded32012c2c8a3db0bc947aad5cc7"
+    },
+    {
+      "file": "docs/audit/final-tactics-lint.txt",
+      "unchanged": true,
+      "sha256": "f85a22592459ae068e83da87ae3aba7285a83be904522a9371af5c31aca551b0"
+    },
+    {
+      "file": "docs/audit/HANDBALL_MANAGER_AUDIT_2026-10-07.md",
+      "unchanged": true,
+      "sha256": "2b2c7ec28fe32540d3b10018b601d0086422f93adcbb8efeff621d42ec0c5abb"
+    },
+    {
+      "file": "docs/audit/implementation-typecheck.txt",
+      "unchanged": true,
+      "sha256": "f3b2774d27874c5cf70a348b259f0ddadb51563e9ad76bf8b8a491dd336b5ef8"
+    },
+    {
+      "file": "docs/audit/lint-output.txt",
+      "unchanged": true,
+      "sha256": "1ec929b802136bcbe0e4c02ee80213fd75e8b386368f7f2b28ee61c60d8bb46c"
+    },
+    {
+      "file": "docs/audit/live-match-ui.png",
+      "unchanged": true,
+      "sha256": "c233b35cf42f44fa52d68bf60316c2333b3a74933ebff30c5be983ebaceed0e6"
+    },
+    {
+      "file": "docs/audit/match-audit-2026-10-07.json",
+      "unchanged": true,
+      "sha256": "61efad8267317d4e4991fbeebf59e8a7372e0fa8f75029e4570935221fc133f8"
+    },
+    {
+      "file": "docs/audit/match-audit-run.txt",
+      "unchanged": true,
+      "sha256": "d09a491f6a0bbe22c7c9c8eaee111c5f2c5895f5824db8981f7afc45d1e51971"
+    },
+    {
+      "file": "docs/audit/new-career-ui.png",
+      "unchanged": true,
+      "sha256": "f3d80add59a98c0d25afc659b0b2bfe6ff187c76dbc12dec849388b3b24ec34a"
+    },
+    {
+      "file": "docs/audit/playable-changed-lint.txt",
+      "unchanged": true,
+      "sha256": "4c9248decf2ac5327c2e8fe43ca3e35d734efabaaec877bf43cd46026f183b10"
+    },
+    {
+      "file": "docs/audit/playable-dev-server.txt",
+      "unchanged": true,
+      "sha256": "f7d15aa576a0ce148d221bfe2156cafc6cfda7a3a9089de423c22f9d7ab4660f"
+    },
+    {
+      "file": "docs/audit/playable-production-build.txt",
+      "unchanged": true,
+      "sha256": "2b884fadb3a3ab392782cc9c282cd7536d9401e5e1da33ebc3234636ef50d099"
+    },
+    {
+      "file": "docs/audit/playable-regression-tests.txt",
+      "unchanged": true,
+      "sha256": "abc669873c0500af2bfd9225a810ba7fa120e9d2db9a683f632ee63963459210"
+    },
+    {
+      "file": "docs/audit/playable-season-result.json",
+      "unchanged": true,
+      "sha256": "d59f2a4d57540ab8a9cabf387ac74219ef2dc992a0111073173557a5a234e641"
+    },
+    {
+      "file": "docs/audit/playable-season-run.txt",
+      "unchanged": true,
+      "sha256": "2dd9f3ff09fa22a9339904ca73d969bd2c16ab83fa5655b145da85b5b23b5069"
+    },
+    {
+      "file": "docs/audit/playable-typecheck.txt",
+      "unchanged": true,
+      "sha256": "0a620e650841e459ad7ad0731843e88c9ac33659453405d353111d19f79355a5"
+    },
+    {
+      "file": "docs/audit/playwright-browser-install.txt",
+      "unchanged": true,
+      "sha256": "ae2f1cec95b19d534d62db477bbac92952fe3ed4029090db3787be47ef2744b6"
+    },
+    {
+      "file": "docs/audit/playwright-install.txt",
+      "unchanged": true,
+      "sha256": "93ac21b04b8d7ac66a05ca700048cdcabd49e96689ce68de332a8cfaa5e100db"
+    },
+    {
+      "file": "docs/audit/product-seam-tests.txt",
+      "unchanged": true,
+      "sha256": "d993f94a0cffe2d9bc06d2d05f419c7a0aead9cb7f499035445298c33e0be513"
+    },
+    {
+      "file": "docs/audit/replay-ui.png",
+      "unchanged": true,
+      "sha256": "8e9c8f2f9a70b9f49e561908f97f63f896b4b0daf4ad3be3a25fab3d604fa1ed"
+    },
+    {
+      "file": "docs/audit/run-match-audit.cjs",
+      "unchanged": true,
+      "sha256": "6cdd1aa4b89830b0abf0e9fc264c6571dc52d6fa4e15699e0a585c519d1bfd5b"
+    },
+    {
+      "file": "docs/audit/season-end-state.json",
+      "unchanged": true,
+      "sha256": "d29c4d145921f5e5226bc7b45b6c13a2c8d18e8cb9c40de4c25e679f6d31fa4d"
+    },
+    {
+      "file": "docs/audit/season-size-check.txt",
+      "unchanged": true,
+      "sha256": "18a0bb9a090471aa27ccd670ce9191f24275c49cdcc0f49b70e202753f5e5eb7"
+    },
+    {
+      "file": "docs/audit/season-two-run.txt",
+      "unchanged": true,
+      "sha256": "9661c526299567788de1ac068abd51605274d0bdb8564530e50fa552b015ac6b"
+    },
+    {
+      "file": "docs/audit/test-sandbox.txt",
+      "unchanged": true,
+      "sha256": "019e443d76ee2c51a9c1fbed59057cbb0de113763a31156b9644f9b1a1a488fe"
+    },
+    {
+      "file": "docs/audit/test-v2-core.txt",
+      "unchanged": true,
+      "sha256": "98ec487e81550da5754e1e617fbabe2c02c56e961f3d3852112e9c5fd630baae"
+    },
+    {
+      "file": "docs/audit/test-workspaces.txt",
+      "unchanged": true,
+      "sha256": "c3e5f0a9a88294014a30397016a07fe9bdf954921d5e76f5a34b139c5941b199"
+    },
+    {
+      "file": "apps/game/.tmp-final-benchmark.ts",
+      "unchanged": true,
+      "sha256": "ba9d04161dfd8fba50732356598d92323bc71f93cfb5f827170ea804846a5b76"
+    }
+  ],
+  "stashes": "ddba79055949b76898b12fc1b947e8f8645589cb On motion-lab: WIP Pack #5 M6 breakthrough screen paused before Human QA\nb068a9586209b9405b8d5f0dc6fae6384dd09001 On motion-lab: WIP Pack #5 M6 line game paused before Human QA",
+  "motionHead": "197d2a80ecea3b70efdcf8ef347cfc68e0e86b2b",
+  "motionStatus": "?? .claude/",
+  "batches": [
+    {
+      "name": "hbl-final",
+      "n": 60,
+      "head": "db3bda2fc94e728cd2e787802595a75205bfe40a",
+      "sourceStableDuringBatch": true,
+      "postBatchSourceDelta": [
+        {
+          "path": "/apps/game/lib/career/productionMatch.ts",
+          "batchHash": "8a61bb159074bae359f377676560bcfa2a7072dd2a248ca88ee68042dc75c447",
+          "currentHash": "6b826bb59ba571d70f745f6139002ca47c331489ecdbd2ccfd7c4bf2c51cef6c"
+        }
+      ],
+      "postBatchChange": "Output-only team saves/shotsFaced accounting; no dynamics/RNG/event/frame mutation. Extracted benchmark shots/keepers already use terminal outcomes. Historical result hashes remain receipts of the cohort revision.",
+      "proofs": [
+        {
+          "index": 0,
+          "fullMatch": true,
+          "exactSessionEqual": true,
+          "sessionHash": "d9fa241e43138d34800d5d2c9284b12b4115a8e0db5fab381d499ad98de37aef",
+          "resultHash": "763cff11c0f2edec6186845b8359af7a2ce68acacd135cb1ebc97a8d71f86029",
+          "observedMs": 6930.7906,
+          "unobservedMs": 5865.6026,
+          "observerMs": 357.84189999997363,
+          "analysisMs": 1121.4507000000012,
+          "includes": [
+            "result",
+            "events",
+            "rng",
+            "archive frames",
+            "core statistics"
+          ],
+          "postAnalysisSessionUnchanged": true
+        },
+        {
+          "index": 0,
+          "saveReloadFullMatch": true,
+          "exactSessionEqual": true,
+          "checkpoint": "JSON persisted career after two 10000-tick chunks",
+          "includes": [
+            "result",
+            "events",
+            "rng",
+            "trajectories",
+            "archive frames",
+            "statistics"
+          ]
+        }
+      ],
+      "inputHash": "8773162275c76de70511889789a7a7bbc4e1b9cbb4c8b2c5030eb8cafee530a7",
+      "referenceHash": "28a89cbdb4b4646da550d6875cea2a86bc26717fe983ab375e8291f12911ad7a",
+      "runtimeMs": 360309.7492
+    },
+    {
+      "name": "allsv-final",
+      "n": 60,
+      "head": "db3bda2fc94e728cd2e787802595a75205bfe40a",
+      "sourceStableDuringBatch": true,
+      "postBatchSourceDelta": [
+        {
+          "path": "/apps/game/lib/career/productionMatch.ts",
+          "batchHash": "8a61bb159074bae359f377676560bcfa2a7072dd2a248ca88ee68042dc75c447",
+          "currentHash": "6b826bb59ba571d70f745f6139002ca47c331489ecdbd2ccfd7c4bf2c51cef6c"
+        }
+      ],
+      "postBatchChange": "Output-only team saves/shotsFaced accounting; no dynamics/RNG/event/frame mutation. Extracted benchmark shots/keepers already use terminal outcomes. Historical result hashes remain receipts of the cohort revision.",
+      "proofs": [
+        {
+          "index": 0,
+          "fullMatch": true,
+          "exactSessionEqual": true,
+          "sessionHash": "bab9944383c8dc279eaebd2805deebb17029d8e434adbd6836fbfb2416712001",
+          "resultHash": "12ba96a8a2ed5daa193590acca25479b422b768533c808d7f79582025e3ca730",
+          "observedMs": 7281.8288999999995,
+          "unobservedMs": 8493.908900000002,
+          "observerMs": 383.15220000000613,
+          "analysisMs": 954.3678,
+          "includes": [
+            "result",
+            "events",
+            "rng",
+            "archive frames",
+            "core statistics"
+          ],
+          "postAnalysisSessionUnchanged": true
+        },
+        {
+          "index": 0,
+          "saveReloadFullMatch": true,
+          "exactSessionEqual": true,
+          "checkpoint": "JSON persisted career after two 10000-tick chunks",
+          "includes": [
+            "result",
+            "events",
+            "rng",
+            "trajectories",
+            "archive frames",
+            "statistics"
+          ]
+        }
+      ],
+      "inputHash": "37b2f9ee4648ede1a422549fb680bad5c172ebdf70c77f65334d2e6487ab0347",
+      "referenceHash": "28a89cbdb4b4646da550d6875cea2a86bc26717fe983ab375e8291f12911ad7a",
+      "runtimeMs": 358929.8896
+    }
+  ],
+  "tests": {
+    "core": {
+      "log": ".tmp/empirical-calibration-core-verified.log",
+      "sha256": "b1c6e75c0a5b275ceeaa5883e64a41b17f0d15515b447d3badffe4a7b2501961",
+      "pass": 228,
+      "fail": 0
+    },
+    "game": {
+      "log": ".tmp/empirical-calibration-game-closeout.log",
+      "sha256": "18a7f7c3bb5f3b76d6ab67f53eb60a8c9067d82c3e9c178d1494353e1767b700",
+      "pass": 2306,
+      "fail": 0
+    },
+    "v2": {
+      "log": ".tmp/empirical-calibration-v2-final.log",
+      "sha256": "87d311fcb2d087cdd60515ccd71ee77e8d9be6d720b99f300551b050b986c3be",
+      "pass": 9,
+      "fail": 0
+    },
+    "empirical": {
+      "log": ".tmp/empirical-calibration-bench-tests.log",
+      "sha256": "5154fec553b42948621418ca6cb6c345668159aba0a3d48f196b77b80ac71e26",
+      "pass": 15,
+      "fail": 0
+    },
+    "focused": {
+      "log": ".tmp/empirical-calibration-focused-final.log",
+      "sha256": "c11f0eee17a6748dacfdbf86d4b3c5950825bbe82daf5ea0b3a9d883b8f55888",
+      "pass": 67,
+      "fail": 0
+    },
+    "mechanism": {
+      "log": ".tmp/empirical-calibration-mechanism-final.log",
+      "sha256": "571f08cdd0a1fbb6405d7f5afb0e3bed97035e55df54fdf9cc1cc289d68ce0cd",
+      "pass": 42,
+      "fail": 0
+    },
+    "causal": {
+      "log": ".tmp/empirical-calibration-duels-final.log",
+      "sha256": "17acfd30680ff11d26fe174843cd220cecceebef56c47c12d1ef55056495d2a3",
+      "pass": 10,
+      "fail": 0
+    }
+  },
+  "typechecks": {
+    "workspace": "All prior workspace checks passed; final handball-engine enum check passed separately. Both new scripts explicitly included and benchmark tsc passed after treatment typing fix.",
+    "finalTargetedCommand": "npx tsc --noEmit -p apps/game/tsconfig.benchmarks.json; npm run typecheck --workspace @handball-manager/handball-engine",
+    "exitCode": 0
+  },
+  "build": {
+    "directory": ".next-game-empirical-cal-v1",
+    "log": ".tmp/empirical-calibration-build-closeout.log",
+    "sha256": "a4be058419310cb3fa7013251d8ff3f94f843f9daf85696ec0114db8c9bd6631",
+    "passed": true
+  },
+  "season": {
+    "complete": true,
+    "managerMatches": 26,
+    "archivedMatches": 27,
+    "season": "2027/28",
+    "date": "2027-09-23",
+    "receiptHash": "4446e549caf2edeae6d32ed478fe1d461a908b7938fddcf0726f815ae1c005de"
+  },
+  "browserQA": {
+    "status": "UNVERIFIED",
+    "reason": "CUA inventory has no available browsers; iab and chrome creation both return Browser is not available.",
+    "url": "http://127.0.0.1:3011"
+  },
+  "nothingPushed": true
+}

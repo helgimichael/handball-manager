@@ -1,0 +1,161 @@
+[
+  {
+    "schemaVersion": "match-benchmarks/1",
+    "id": "SE:se_handbollsligan_herr:2025-26:regular:TEAM_KEEPING",
+    "version": "empirical-sweden/1",
+    "kind": "REAL_WORLD_REFERENCE",
+    "sport": "handball",
+    "country": "SE",
+    "competition": "se_handbollsligan_herr",
+    "category": "men-senior",
+    "season": "2025-26",
+    "dateRange": {
+      "start": "2025-09-17",
+      "end": "2026-03-25"
+    },
+    "metrics": [
+      {
+        "metric": "saves",
+        "scope": "TEAM_KEEPING",
+        "unit": "count",
+        "definition": "non-goal SAVE_CAUGHT/PARRY shot actions",
+        "distribution": {
+          "n": 364,
+          "mean": 12.14010989010989,
+          "median": 12,
+          "sd": 3.3623479906055986,
+          "min": 4,
+          "max": 21,
+          "p05": 7,
+          "p10": 8,
+          "p25": 10,
+          "p75": 14,
+          "p90": 16.69999999999999,
+          "p95": 18
+        },
+        "provenance": {
+          "name": "Svenska Handbollförbundet / Profixio + Handbollsligan / Jilsén System player-statistics PDFs",
+          "location": "https://www.profixio.com/app/lx/competition/leagueid17951?t=schedule&f=played",
+          "collectionMethod": "Public rendered results and protocols; official published player-statistics PDF tables",
+          "extractionVersion": "sweden-public/1.1.0/team-keeping-1",
+          "timestamp": "2026-10-11T04:20:12.754558+00:00",
+          "confidence": "HIGH",
+          "matches": 182,
+          "events": 15092,
+          "coverage": 1,
+          "sourceManifestHash": "6a54f0c6ef8402e0e1605687721610c568de8eb9eca113bfd33decb9e93e75ef",
+          "normalizedHash": "2ad78bc166c3f71cd742c66f8d8a1f5d406d84d2bdd92fbec1e2598d96eca773",
+          "notes": [
+            "Sum all valid official keeper rows within one team-match, including substitutes below the keeper-match 10-shot threshold. Denominator: attributed saves + goals conceded; empty/unattributed goals are not charged automatically.",
+            "364 team-match observations; no substitution of team variance for keeper-match variance"
+          ]
+        },
+        "transformations": [
+          "Sum valid keeper rows within each source team-match; preserve unattributed/empty goal exclusion"
+        ]
+      },
+      {
+        "metric": "shotsFaced",
+        "scope": "TEAM_KEEPING",
+        "unit": "count",
+        "definition": "saves + goals; misses and blocks excluded",
+        "distribution": {
+          "n": 364,
+          "mean": 41.46153846153846,
+          "median": 42,
+          "sd": 4.7506593825241294,
+          "min": 28,
+          "max": 54,
+          "p05": 33.150000000000006,
+          "p10": 36,
+          "p25": 38,
+          "p75": 45,
+          "p90": 47,
+          "p95": 49
+        },
+        "provenance": {
+          "name": "Svenska Handbollförbundet / Profixio + Handbollsligan / Jilsén System player-statistics PDFs",
+          "location": "https://www.profixio.com/app/lx/competition/leagueid17951?t=schedule&f=played",
+          "collectionMethod": "Public rendered results and protocols; official published player-statistics PDF tables",
+          "extractionVersion": "sweden-public/1.1.0/team-keeping-1",
+          "timestamp": "2026-10-11T04:20:12.754558+00:00",
+          "confidence": "HIGH",
+          "matches": 182,
+          "events": 15092,
+          "coverage": 1,
+          "sourceManifestHash": "6a54f0c6ef8402e0e1605687721610c568de8eb9eca113bfd33decb9e93e75ef",
+          "normalizedHash": "2ad78bc166c3f71cd742c66f8d8a1f5d406d84d2bdd92fbec1e2598d96eca773",
+          "notes": [
+            "Sum all valid official keeper rows within one team-match, including substitutes below the keeper-match 10-shot threshold. Denominator: attributed saves + goals conceded; empty/unattributed goals are not charged automatically.",
+            "364 team-match observations; no substitution of team variance for keeper-match variance"
+          ]
+        },
+        "transformations": [
+          "Sum valid keeper rows within each source team-match; preserve unattributed/empty goal exclusion"
+        ]
+      },
+      {
+        "metric": "savePct",
+        "scope": "TEAM_KEEPING",
+        "unit": "ratio",
+        "definition": "saves / (saves + goals); goalkeeper-attributed shots only",
+        "distribution": {
+          "n": 364,
+          "mean": 0.29228060563459185,
+          "median": 0.2857142857142857,
+          "sd": 0.07310018643435086,
+          "min": 0.1111111111111111,
+          "max": 0.47619047619047616,
+          "p05": 0.17983682983682983,
+          "p10": 0.20472027972027973,
+          "p25": 0.23809523809523808,
+          "p75": 0.34146341463414637,
+          "p90": 0.3902439024390244,
+          "p95": 0.425531914893617
+        },
+        "provenance": {
+          "name": "Svenska Handbollförbundet / Profixio + Handbollsligan / Jilsén System player-statistics PDFs",
+          "location": "https://www.profixio.com/app/lx/competition/leagueid17951?t=schedule&f=played",
+          "collectionMethod": "Public rendered results and protocols; official published player-statistics PDF tables",
+          "extractionVersion": "sweden-public/1.1.0/team-keeping-1",
+          "timestamp": "2026-10-11T04:20:12.754558+00:00",
+          "confidence": "HIGH",
+          "matches": 182,
+          "events": 15092,
+          "coverage": 1,
+          "sourceManifestHash": "6a54f0c6ef8402e0e1605687721610c568de8eb9eca113bfd33decb9e93e75ef",
+          "normalizedHash": "2ad78bc166c3f71cd742c66f8d8a1f5d406d84d2bdd92fbec1e2598d96eca773",
+          "notes": [
+            "Sum all valid official keeper rows within one team-match, including substitutes below the keeper-match 10-shot threshold. Denominator: attributed saves + goals conceded; empty/unattributed goals are not charged automatically.",
+            "364 team-match observations; no substitution of team variance for keeper-match variance"
+          ]
+        },
+        "transformations": [
+          "Sum valid keeper rows within each source team-match; preserve unattributed/empty goal exclusion"
+        ]
+      }
+    ],
+    "notes": [
+      "Sum all valid official keeper rows within one team-match, including substitutes below the keeper-match 10-shot threshold. Denominator: attributed saves + goals conceded; empty/unattributed goals are not charged automatically.",
+      "Supplemental match-benchmarks/1 reference; the committed main catalog remains unchanged"
+    ],
+    "evidence": {
+      "tier": "C",
+      "seasonStatus": "COMPLETE_SEASON",
+      "expectedMatches": 182,
+      "foundMatches": 182,
+      "parsedMatches": 182,
+      "coverage": 1,
+      "playerObservations": 5615,
+      "keeperObservations": 480,
+      "missingMetrics": [
+        "possessions",
+        "possession duration",
+        "whistles/free throws",
+        "transition",
+        "detailed shot context",
+        "per-match outfield position"
+      ]
+    }
+  }
+]

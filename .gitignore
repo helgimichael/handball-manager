@@ -38,6 +38,8 @@ docs/match-empirical-calibration/**/match-*.json
 docs/match-empirical-calibration/**/causal-*.json
 docs/match-empirical-calibration/**/inputs.json
 docs/match-empirical-calibration/**/*.log
+docs/match-empirical-calibration/*-iteration/
+docs/match-empirical-calibration/baseline-causal/
 
 # HM-DATA-EDITOR-0.1: single-backup-per-file safety copies created on save.
 *.bak

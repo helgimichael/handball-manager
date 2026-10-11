@@ -1,0 +1,5522 @@
+{
+  "metadata": {
+    "head": "db3bda2fc94e728cd2e787802595a75205bfe40a",
+    "schemaVersion": "match-benchmarks/1",
+    "identity": {
+      "competition": "se_handbollsligan_herr",
+      "season": "2025-26",
+      "country": "SE",
+      "category": "men-senior"
+    },
+    "profileVersions": [
+      {
+        "id": "SE:se_handbollsligan_herr:2025-26:regular",
+        "version": "empirical-sweden/1"
+      },
+      {
+        "id": "SE:swe-2:2025-26:regular",
+        "version": "empirical-sweden/1"
+      },
+      {
+        "id": "SE:swe-w-1:2025-26:regular",
+        "version": "empirical-sweden/1"
+      },
+      {
+        "id": "SE:swe-w-2:2025-26:regular",
+        "version": "empirical-sweden/1"
+      },
+      {
+        "id": "SE:HBL_HERR:2025-26:KEEPER_PROXY",
+        "version": "empirical-sweden/1"
+      }
+    ],
+    "inputHash": "8773162275c76de70511889789a7a7bbc4e1b9cbb4c8b2c5030eb8cafee530a7",
+    "referenceHash": "28a89cbdb4b4646da550d6875cea2a86bc26717fe983ab375e8291f12911ad7a",
+    "recipes": [
+      {
+        "index": 0,
+        "saveSeed": "match-realism-v2-canonical-2026:0",
+        "managerClubId": "se_club_alingsas_hk"
+      },
+      {
+        "index": 1,
+        "saveSeed": "match-realism-v2-canonical-2026:1",
+        "managerClubId": "se_club_amo_hk"
+      },
+      {
+        "index": 2,
+        "saveSeed": "match-realism-v2-canonical-2026:2",
+        "managerClubId": "se_club_hammarby_if_hf"
+      },
+      {
+        "index": 3,
+        "saveSeed": "match-realism-v2-canonical-2026:3",
+        "managerClubId": "se_club_hf_karlskrona"
+      },
+      {
+        "index": 4,
+        "saveSeed": "match-realism-v2-canonical-2026:4",
+        "managerClubId": "se_club_hk_malmo"
+      },
+      {
+        "index": 5,
+        "saveSeed": "match-realism-v2-canonical-2026:5",
+        "managerClubId": "se_club_if_hallby_hk"
+      },
+      {
+        "index": 6,
+        "saveSeed": "match-realism-v2-canonical-2026:6",
+        "managerClubId": "se_club_ifk_kristianstad"
+      },
+      {
+        "index": 7,
+        "saveSeed": "match-realism-v2-canonical-2026:7",
+        "managerClubId": "se_club_ifk_skovde_hk"
+      },
+      {
+        "index": 8,
+        "saveSeed": "match-realism-v2-canonical-2026:8",
+        "managerClubId": "se_club_ik_savehof"
+      },
+      {
+        "index": 9,
+        "saveSeed": "match-realism-v2-canonical-2026:9",
+        "managerClubId": "se_club_lugi_hf"
+      },
+      {
+        "index": 10,
+        "saveSeed": "match-realism-v2-canonical-2026:10",
+        "managerClubId": "se_club_onnereds_hk"
+      },
+      {
+        "index": 11,
+        "saveSeed": "match-realism-v2-canonical-2026:11",
+        "managerClubId": "se_club_ov_helsingborg"
+      },
+      {
+        "index": 12,
+        "saveSeed": "match-realism-v2-canonical-2026:12",
+        "managerClubId": "se_club_skanela_if"
+      },
+      {
+        "index": 13,
+        "saveSeed": "match-realism-v2-canonical-2026:13",
+        "managerClubId": "se_club_ystads_if_hf"
+      },
+      {
+        "index": 14,
+        "saveSeed": "match-realism-v2-canonical-2026:14",
+        "managerClubId": "se_club_alingsas_hk"
+      },
+      {
+        "index": 15,
+        "saveSeed": "match-realism-v2-canonical-2026:15",
+        "managerClubId": "se_club_amo_hk"
+      },
+      {
+        "index": 16,
+        "saveSeed": "match-realism-v2-canonical-2026:16",
+        "managerClubId": "se_club_hammarby_if_hf"
+      },
+      {
+        "index": 17,
+        "saveSeed": "match-realism-v2-canonical-2026:17",
+        "managerClubId": "se_club_hf_karlskrona"
+      },
+      {
+        "index": 18,
+        "saveSeed": "match-realism-v2-canonical-2026:18",
+        "managerClubId": "se_club_hk_malmo"
+      },
+      {
+        "index": 19,
+        "saveSeed": "match-realism-v2-canonical-2026:19",
+        "managerClubId": "se_club_if_hallby_hk"
+      },
+      {
+        "index": 20,
+        "saveSeed": "match-realism-v2-canonical-2026:20",
+        "managerClubId": "se_club_ifk_kristianstad"
+      },
+      {
+        "index": 21,
+        "saveSeed": "match-realism-v2-canonical-2026:21",
+        "managerClubId": "se_club_ifk_skovde_hk"
+      },
+      {
+        "index": 22,
+        "saveSeed": "match-realism-v2-canonical-2026:22",
+        "managerClubId": "se_club_ik_savehof"
+      },
+      {
+        "index": 23,
+        "saveSeed": "match-realism-v2-canonical-2026:23",
+        "managerClubId": "se_club_lugi_hf"
+      },
+      {
+        "index": 24,
+        "saveSeed": "match-realism-v2-canonical-2026:24",
+        "managerClubId": "se_club_onnereds_hk"
+      },
+      {
+        "index": 25,
+        "saveSeed": "match-realism-v2-canonical-2026:25",
+        "managerClubId": "se_club_ov_helsingborg"
+      },
+      {
+        "index": 26,
+        "saveSeed": "match-realism-v2-canonical-2026:26",
+        "managerClubId": "se_club_skanela_if"
+      },
+      {
+        "index": 27,
+        "saveSeed": "match-realism-v2-canonical-2026:27",
+        "managerClubId": "se_club_ystads_if_hf"
+      },
+      {
+        "index": 28,
+        "saveSeed": "match-realism-v2-canonical-2026:28",
+        "managerClubId": "se_club_alingsas_hk"
+      },
+      {
+        "index": 29,
+        "saveSeed": "match-realism-v2-canonical-2026:29",
+        "managerClubId": "se_club_amo_hk"
+      },
+      {
+        "index": 30,
+        "saveSeed": "match-realism-v2-canonical-2026:30",
+        "managerClubId": "se_club_hammarby_if_hf"
+      },
+      {
+        "index": 31,
+        "saveSeed": "match-realism-v2-canonical-2026:31",
+        "managerClubId": "se_club_hf_karlskrona"
+      },
+      {
+        "index": 32,
+        "saveSeed": "match-realism-v2-canonical-2026:32",
+        "managerClubId": "se_club_hk_malmo"
+      },
+      {
+        "index": 33,
+        "saveSeed": "match-realism-v2-canonical-2026:33",
+        "managerClubId": "se_club_if_hallby_hk"
+      },
+      {
+        "index": 34,
+        "saveSeed": "match-realism-v2-canonical-2026:34",
+        "managerClubId": "se_club_ifk_kristianstad"
+      },
+      {
+        "index": 35,
+        "saveSeed": "match-realism-v2-canonical-2026:35",
+        "managerClubId": "se_club_ifk_skovde_hk"
+      },
+      {
+        "index": 36,
+        "saveSeed": "match-realism-v2-canonical-2026:36",
+        "managerClubId": "se_club_ik_savehof"
+      },
+      {
+        "index": 37,
+        "saveSeed": "match-realism-v2-canonical-2026:37",
+        "managerClubId": "se_club_lugi_hf"
+      },
+      {
+        "index": 38,
+        "saveSeed": "match-realism-v2-canonical-2026:38",
+        "managerClubId": "se_club_onnereds_hk"
+      },
+      {
+        "index": 39,
+        "saveSeed": "match-realism-v2-canonical-2026:39",
+        "managerClubId": "se_club_ov_helsingborg"
+      },
+      {
+        "index": 40,
+        "saveSeed": "match-realism-v2-canonical-2026:40",
+        "managerClubId": "se_club_skanela_if"
+      },
+      {
+        "index": 41,
+        "saveSeed": "match-realism-v2-canonical-2026:41",
+        "managerClubId": "se_club_ystads_if_hf"
+      },
+      {
+        "index": 42,
+        "saveSeed": "match-realism-v2-canonical-2026:42",
+        "managerClubId": "se_club_alingsas_hk"
+      },
+      {
+        "index": 43,
+        "saveSeed": "match-realism-v2-canonical-2026:43",
+        "managerClubId": "se_club_amo_hk"
+      },
+      {
+        "index": 44,
+        "saveSeed": "match-realism-v2-canonical-2026:44",
+        "managerClubId": "se_club_hammarby_if_hf"
+      },
+      {
+        "index": 45,
+        "saveSeed": "match-realism-v2-canonical-2026:45",
+        "managerClubId": "se_club_hf_karlskrona"
+      },
+      {
+        "index": 46,
+        "saveSeed": "match-realism-v2-canonical-2026:46",
+        "managerClubId": "se_club_hk_malmo"
+      },
+      {
+        "index": 47,
+        "saveSeed": "match-realism-v2-canonical-2026:47",
+        "managerClubId": "se_club_if_hallby_hk"
+      },
+      {
+        "index": 48,
+        "saveSeed": "match-realism-v2-canonical-2026:48",
+        "managerClubId": "se_club_ifk_kristianstad"
+      },
+      {
+        "index": 49,
+        "saveSeed": "match-realism-v2-canonical-2026:49",
+        "managerClubId": "se_club_ifk_skovde_hk"
+      },
+      {
+        "index": 50,
+        "saveSeed": "match-realism-v2-canonical-2026:50",
+        "managerClubId": "se_club_ik_savehof"
+      },
+      {
+        "index": 51,
+        "saveSeed": "match-realism-v2-canonical-2026:51",
+        "managerClubId": "se_club_lugi_hf"
+      },
+      {
+        "index": 52,
+        "saveSeed": "match-realism-v2-canonical-2026:52",
+        "managerClubId": "se_club_onnereds_hk"
+      },
+      {
+        "index": 53,
+        "saveSeed": "match-realism-v2-canonical-2026:53",
+        "managerClubId": "se_club_ov_helsingborg"
+      },
+      {
+        "index": 54,
+        "saveSeed": "match-realism-v2-canonical-2026:54",
+        "managerClubId": "se_club_skanela_if"
+      },
+      {
+        "index": 55,
+        "saveSeed": "match-realism-v2-canonical-2026:55",
+        "managerClubId": "se_club_ystads_if_hf"
+      },
+      {
+        "index": 56,
+        "saveSeed": "match-realism-v2-canonical-2026:56",
+        "managerClubId": "se_club_alingsas_hk"
+      },
+      {
+        "index": 57,
+        "saveSeed": "match-realism-v2-canonical-2026:57",
+        "managerClubId": "se_club_amo_hk"
+      },
+      {
+        "index": 58,
+        "saveSeed": "match-realism-v2-canonical-2026:58",
+        "managerClubId": "se_club_hammarby_if_hf"
+      },
+      {
+        "index": 59,
+        "saveSeed": "match-realism-v2-canonical-2026:59",
+        "managerClubId": "se_club_hf_karlskrona"
+      }
+    ],
+    "tactics": null,
+    "sourceFingerprints": [
+      {
+        "path": "/packages/handball-engine/src/v2/core/actions.ts",
+        "sha256": "1d37e65aaf60e5efb2985a7b8998a51ef47171e7834eda1c4a653841dff739cf"
+      },
+      {
+        "path": "/packages/handball-engine/src/v2/core/backcourt.ts",
+        "sha256": "00ab4e44f0520b83f771cf5dd8a0e1212b34272410e5027b856eabddebddc120"
+      },
+      {
+        "path": "/packages/handball-engine/src/v2/core/backcourtScenarios.ts",
+        "sha256": "6137722469db2dc0a9567b9ff3bccd9c8d3f070e9db58bb93fe225cbccd655be"
+      },
+      {
+        "path": "/packages/handball-engine/src/v2/core/coaching.ts",
+        "sha256": "b943276328e1df36f43173af08fe008d8376f419e5afae4aeae5e1466a28a599"
+      },
+      {
+        "path": "/packages/handball-engine/src/v2/core/condition.ts",
+        "sha256": "f27c2d555258dbb0a56f562ed25e0416aa31a2e90640143ea7f7b874f92cad91"
+      },
+      {
+        "path": "/packages/handball-engine/src/v2/core/contact.ts",
+        "sha256": "51c5c45017537c88bb92b43e46022ff2ba64210aab1895762ec57e30e10babd1"
+      },
+      {
+        "path": "/packages/handball-engine/src/v2/core/contactScenarios.ts",
+        "sha256": "79e6fc938ed175948f2a2e3a0bdf4fff318e0eda44077d615be68011156e6901"
+      },
+      {
+        "path": "/packages/handball-engine/src/v2/core/continuous.ts",
+        "sha256": "3bc0e25ee0474aab3162df83b5e228bcd5953ddc5b29622592e5fd5bfdda55c5"
+      },
+      {
+        "path": "/packages/handball-engine/src/v2/core/defence.ts",
+        "sha256": "21deda90b4cdce41ef01ec50604ce67eaf53b7cb3b176678f350f2aa9cc72c23"
+      },
+      {
+        "path": "/packages/handball-engine/src/v2/core/engage.ts",
+        "sha256": "d9667810754883bd80dc77d632a8e3ba2f479d20abd65c66ae104bdb71555221"
+      },
+      {
+        "path": "/packages/handball-engine/src/v2/core/engine.ts",
+        "sha256": "06a491914837f8be7c3a28209a7843a2952a6f762bd7c3a967cf542597aba2ea"
+      },
+      {
+        "path": "/packages/handball-engine/src/v2/core/execution.ts",
+        "sha256": "007e762da12b99b50cf90541895512657edafb4804a663eece2bd6726e844527"
+      },
+      {
+        "path": "/packages/handball-engine/src/v2/core/interactions.ts",
+        "sha256": "288a4fd89a98f4f977a6d2e04db9fc36a084c8e60e7257186e6b152ed4dd8c97"
+      },
+      {
+        "path": "/packages/handball-engine/src/v2/core/ledger.ts",
+        "sha256": "dd801ce6401a106d772eac46c5800eb46f218d34495f41ec1ff536aec24116c9"
+      },
+      {
+        "path": "/packages/handball-engine/src/v2/core/locomotion.ts",
+        "sha256": "da0030eced1567a65a644af51dfb341191d67d3ccdf3ccc115dcfaf21beff3a5"
+      },
+      {
+        "path": "/packages/handball-engine/src/v2/core/match.ts",
+        "sha256": "4ced473266ede54a0d9689c6e06a28e2a5b009464fdd994fce6c61e8186c08dd"
+      },
+      {
+        "path": "/packages/handball-engine/src/v2/core/matchReplay.ts",
+        "sha256": "6796c275154da7145cd06558835524075013528ecb2354a1f3439e5b537ea499"
+      },
+      {
+        "path": "/packages/handball-engine/src/v2/core/offence.ts",
+        "sha256": "8e4a37b6a87cc000094bf402d8d0a26471689ec782af8aa7a3ecb555cc95740b"
+      },
+      {
+        "path": "/packages/handball-engine/src/v2/core/passive.ts",
+        "sha256": "0c405269406b4a8b124ea432ce036a0008118aa59c186954cded0957a0c2381f"
+      },
+      {
+        "path": "/packages/handball-engine/src/v2/core/pivot.ts",
+        "sha256": "3021f9ab217e9e4eb8f5adf996365e86338ac0fa9e738fc7491a25228c6bf783"
+      },
+      {
+        "path": "/packages/handball-engine/src/v2/core/population.ts",
+        "sha256": "49ce36826bec8344be94e5fc8cd763abeb9fb2525728df0d1526d799bc24bd7f"
+      },
+      {
+        "path": "/packages/handball-engine/src/v2/core/profile.ts",
+        "sha256": "2470fad59a2bb1570ee67561b8ca9e79edead74bc7082c7fe0007f2e252f38b0"
+      },
+      {
+        "path": "/packages/handball-engine/src/v2/core/realism.ts",
+        "sha256": "615271e0bc0217a08b296fa0777754f28b02fa136e5c0e55f07a8af616780897"
+      },
+      {
+        "path": "/packages/handball-engine/src/v2/core/referee.ts",
+        "sha256": "35feaf4d17b6b5bd011702384be061081b52b220e5d897e37aa24bc297d04387"
+      },
+      {
+        "path": "/packages/handball-engine/src/v2/core/replay.ts",
+        "sha256": "7a636b1b374a10d7f8aa02ade08957ac67920aacd33b37db2f412f2fefa42e6b"
+      },
+      {
+        "path": "/packages/handball-engine/src/v2/core/restarts.ts",
+        "sha256": "20a9bfbb0ebbffe9daf74da6557dc735595b5af2ec99b4bc586a4219fbb37f24"
+      },
+      {
+        "path": "/packages/handball-engine/src/v2/core/rules.ts",
+        "sha256": "46325a43317b15edfc4773265989ffa2ab0500c9fdefb32a7fc3363dd39147d4"
+      },
+      {
+        "path": "/packages/handball-engine/src/v2/core/sanction.ts",
+        "sha256": "9e73fa8151c2f4d86c46883c1939aca437d341a34aa2767ae827cb525dd67dd2"
+      },
+      {
+        "path": "/packages/handball-engine/src/v2/core/scenarios.ts",
+        "sha256": "c48ddb2c75ce34fd03c439261e40e77f676b1ffb2fc8abeb1a3f9b1a5d286dbe"
+      },
+      {
+        "path": "/packages/handball-engine/src/v2/core/space.ts",
+        "sha256": "e9c1d8c3bb9e0a813ef82abd38cb8229a245dcee5b21b215ff9acee7bb701c7f"
+      },
+      {
+        "path": "/packages/handball-engine/src/v2/core/squads.ts",
+        "sha256": "fc2aeaa594f3ef8a119656d1056178bf5f6414f6ee4c2082641b97fc216749a4"
+      },
+      {
+        "path": "/packages/handball-engine/src/v2/core/state.ts",
+        "sha256": "c86e46360775cee3e9d0dcf5a60a0d9df225fe147a748daa9f51c292670258da"
+      },
+      {
+        "path": "/packages/handball-engine/src/v2/core/structure.ts",
+        "sha256": "4c0ef606a9f03990cda2941d5af7f71adc56b353fe090e11c5fe58c12b816276"
+      },
+      {
+        "path": "/packages/handball-engine/src/v2/core/testProfile.ts",
+        "sha256": "35a3ac5a0a0fbb6614de81c449fde37b880af96bc10a1cd2dcf4b4e3e9077d6d"
+      },
+      {
+        "path": "/packages/handball-engine/src/v2/core/timing.ts",
+        "sha256": "0356bb3de1dc1aa32359d6e198cce8155bbd7010c9f76592f6f33c24c131b169"
+      },
+      {
+        "path": "/packages/handball-engine/src/v2/core/transitions.ts",
+        "sha256": "ee453a4af139da47de2249d4ebf8f73f44e94372c2c231f654f65651cef77ec3"
+      },
+      {
+        "path": "/packages/handball-engine/src/v2/core/wing.ts",
+        "sha256": "31d7f39cf38918717d3723fadcce80948a13650a45a2f680e1bbc5c66fd3a556"
+      },
+      {
+        "path": "/packages/handball-engine/src/v2/core/wingScenarios.ts",
+        "sha256": "8d553b1c254f0953cf5508ca1a37463891f631cdfd0df81b436be487541ee031"
+      },
+      {
+        "path": "/apps/game/lib/career/productionMatch.ts",
+        "sha256": "8a61bb159074bae359f377676560bcfa2a7072dd2a248ca88ee68042dc75c447"
+      },
+      {
+        "path": "/apps/game/scripts/lib/calibrationDiagnostics.ts",
+        "sha256": "75b4d75ab6951abd13939eb69661ef9a926654ce95d33d36434709c9a038223e"
+      },
+      {
+        "path": "/apps/game/lib/matchBenchmarks/empirical.ts",
+        "sha256": "1b05cfb0cfdb7e96870875b1042860b13221c852078eff953d31016123464d6c"
+      },
+      {
+        "path": "/apps/game/lib/matchBenchmarks/empiricalComparison.ts",
+        "sha256": "e49e86aca79b3e30cbe57ea0e6ce1da16a778417e936be4f3a1405a312e1a975"
+      },
+      {
+        "path": "/apps/game/lib/matchBenchmarks/evaluate.ts",
+        "sha256": "2f4d5bc893fbd482dfcd10baeaa1f3aa72c943dbcfa0e8dca0ba050fd3c9f3f0"
+      },
+      {
+        "path": "/apps/game/lib/matchBenchmarks/extract.ts",
+        "sha256": "4ac1e4094d2b76ba34dd157df4b32ba6309c1853aab18c7329890231681bb873"
+      },
+      {
+        "path": "/apps/game/lib/matchBenchmarks/reference.ts",
+        "sha256": "25cb435b7824faa1fc58429264d3e91a4833e678170bb5bfa75d5b5c98009e8a"
+      },
+      {
+        "path": "/apps/game/lib/matchBenchmarks/report.ts",
+        "sha256": "c7c77e53ba8b07212362ec36f4a31f2d8b263ea0f17ce8f0fd730292035b7444"
+      },
+      {
+        "path": "/apps/game/lib/matchBenchmarks/statistics.ts",
+        "sha256": "9b3c1f8e5dc5590302b8b6115f5e7c86d9a5693e14af80f0880b334f7752e2d0"
+      },
+      {
+        "path": "/apps/game/scripts/match-benchmarks.ts",
+        "sha256": "ee918889479832ea6239c2ed7da241b23dbb1d71f2be94502b6cbf97780d01dd"
+      }
+    ],
+    "sourceStable": true,
+    "timings": [
+      {
+        "simulationMs": 6930.7906,
+        "analysisMs": 1121.4507000000012,
+        "observerMs": 357.84189999997363
+      },
+      {
+        "simulationMs": 5263.7729,
+        "analysisMs": 1112.300900000002,
+        "observerMs": 268.25439999973605
+      },
+      {
+        "simulationMs": 4840.740599999997,
+        "analysisMs": 1174.2776000000013,
+        "observerMs": 334.3844000010977
+      },
+      {
+        "simulationMs": 4539.8937000000005,
+        "analysisMs": 1021.9957000000068,
+        "observerMs": 228.44010000048002
+      },
+      {
+        "simulationMs": 4449.706299999998,
+        "analysisMs": 968.8628000000026,
+        "observerMs": 215.41220000050816
+      },
+      {
+        "simulationMs": 4625.858399999997,
+        "analysisMs": 1677.1381000000038,
+        "observerMs": 222.63959999926738
+      },
+      {
+        "simulationMs": 6554.696299999996,
+        "analysisMs": 1520.731200000002,
+        "observerMs": 353.4604000017789
+      },
+      {
+        "simulationMs": 6838.099300000002,
+        "analysisMs": 1617.1530000000057,
+        "observerMs": 381.5893999984255
+      },
+      {
+        "simulationMs": 6657.816500000001,
+        "analysisMs": 1424.7367000000086,
+        "observerMs": 359.1248999998934
+      },
+      {
+        "simulationMs": 6676.654999999999,
+        "analysisMs": 1305.900099999999,
+        "observerMs": 356.9484999970591
+      },
+      {
+        "simulationMs": 6247.508700000006,
+        "analysisMs": 1336.9526000000042,
+        "observerMs": 338.6378000042314
+      },
+      {
+        "simulationMs": 5810.512000000002,
+        "analysisMs": 1063.1233000000066,
+        "observerMs": 291.9622999983694
+      },
+      {
+        "simulationMs": 5486.023300000001,
+        "analysisMs": 1415.3557,
+        "observerMs": 262.60159999949974
+      },
+      {
+        "simulationMs": 7121.999599999996,
+        "analysisMs": 1551.3962000000029,
+        "observerMs": 390.7586000003648
+      },
+      {
+        "simulationMs": 5888.2981000000145,
+        "analysisMs": 1063.4766999999993,
+        "observerMs": 293.52720000022964
+      },
+      {
+        "simulationMs": 4845.652000000002,
+        "analysisMs": 997.0460000000021,
+        "observerMs": 233.45720000157598
+      },
+      {
+        "simulationMs": 4728.546100000007,
+        "analysisMs": 1022.2387999999919,
+        "observerMs": 242.47020000239718
+      },
+      {
+        "simulationMs": 4921.1836000000185,
+        "analysisMs": 869.7532000000065,
+        "observerMs": 241.03809999948135
+      },
+      {
+        "simulationMs": 4417.062000000005,
+        "analysisMs": 968.7646999999997,
+        "observerMs": 220.57439999628696
+      },
+      {
+        "simulationMs": 4972.799800000008,
+        "analysisMs": 1030.4046999999846,
+        "observerMs": 239.89739999605808
+      },
+      {
+        "simulationMs": 5240.404500000004,
+        "analysisMs": 967.5243999999948,
+        "observerMs": 249.60550000725198
+      },
+      {
+        "simulationMs": 5681.437999999995,
+        "analysisMs": 1148.1146999999764,
+        "observerMs": 266.6990000005462
+      },
+      {
+        "simulationMs": 5639.65300000002,
+        "analysisMs": 1236.0503999999783,
+        "observerMs": 289.2901999998139
+      },
+      {
+        "simulationMs": 5196.503700000001,
+        "analysisMs": 1323.4627000000037,
+        "observerMs": 227.10900000159745
+      },
+      {
+        "simulationMs": 4481.197000000015,
+        "analysisMs": 1306.514599999995,
+        "observerMs": 209.46229999655043
+      },
+      {
+        "simulationMs": 4113.969800000021,
+        "analysisMs": 985.38400000002,
+        "observerMs": 185.04849999869475
+      },
+      {
+        "simulationMs": 4275.561699999991,
+        "analysisMs": 1079.7255000000005,
+        "observerMs": 191.95429999715998
+      },
+      {
+        "simulationMs": 3958.9792999999772,
+        "analysisMs": 966.7937000000093,
+        "observerMs": 176.98439999713446
+      },
+      {
+        "simulationMs": 4249.809600000008,
+        "analysisMs": 865.41770000002,
+        "observerMs": 177.3318000040017
+      },
+      {
+        "simulationMs": 3861.863400000002,
+        "analysisMs": 824.825600000011,
+        "observerMs": 166.4901000011305
+      },
+      {
+        "simulationMs": 3401.1553999999887,
+        "analysisMs": 892.2884999999951,
+        "observerMs": 140.62739999676705
+      },
+      {
+        "simulationMs": 3100.141899999988,
+        "analysisMs": 911.9829999999783,
+        "observerMs": 141.03260000166483
+      },
+      {
+        "simulationMs": 3273.7505999999994,
+        "analysisMs": 985.1382000000158,
+        "observerMs": 136.55469999607885
+      },
+      {
+        "simulationMs": 3777.179300000018,
+        "analysisMs": 1042.794200000004,
+        "observerMs": 162.0144000002183
+      },
+      {
+        "simulationMs": 3426.123099999997,
+        "analysisMs": 931.074099999998,
+        "observerMs": 147.48859999960405
+      },
+      {
+        "simulationMs": 3240.781400000007,
+        "analysisMs": 870.5883999999787,
+        "observerMs": 141.76929999570712
+      },
+      {
+        "simulationMs": 3270.4022000000114,
+        "analysisMs": 900.0843000000168,
+        "observerMs": 139.52680000005057
+      },
+      {
+        "simulationMs": 3358.0308000000077,
+        "analysisMs": 924.7251000000397,
+        "observerMs": 151.58789999582223
+      },
+      {
+        "simulationMs": 3371.466199999966,
+        "analysisMs": 861.5224999999627,
+        "observerMs": 157.99100000591716
+      },
+      {
+        "simulationMs": 3243.869100000011,
+        "analysisMs": 841.7548000000534,
+        "observerMs": 136.95919999526814
+      },
+      {
+        "simulationMs": 3115.2848999999696,
+        "analysisMs": 906.8731000000262,
+        "observerMs": 132.73609999852488
+      },
+      {
+        "simulationMs": 3276.7796999999555,
+        "analysisMs": 1038.276200000022,
+        "observerMs": 138.06249999592546
+      },
+      {
+        "simulationMs": 3094.7551000000094,
+        "analysisMs": 993.2848999999696,
+        "observerMs": 138.01840000599623
+      },
+      {
+        "simulationMs": 3018.4255999999586,
+        "analysisMs": 1024.0141000000294,
+        "observerMs": 134.4894999920507
+      },
+      {
+        "simulationMs": 3143.092400000023,
+        "analysisMs": 876.3828999999678,
+        "observerMs": 134.055899998697
+      },
+      {
+        "simulationMs": 3064.6975000000093,
+        "analysisMs": 837.8428000000422,
+        "observerMs": 131.94259999640053
+      },
+      {
+        "simulationMs": 3019.0935999999638,
+        "analysisMs": 747.985800000024,
+        "observerMs": 129.38390000048093
+      },
+      {
+        "simulationMs": 2949.614899999986,
+        "analysisMs": 803.9039999999804,
+        "observerMs": 126.26339999010088
+      },
+      {
+        "simulationMs": 3161.3367000000435,
+        "analysisMs": 766.608499999973,
+        "observerMs": 134.16119999223156
+      },
+      {
+        "simulationMs": 3111.973699999973,
+        "analysisMs": 800.2268999999505,
+        "observerMs": 139.1073000099277
+      },
+      {
+        "simulationMs": 2988.4413999999524,
+        "analysisMs": 798.7123999999603,
+        "observerMs": 121.71720000141067
+      },
+      {
+        "simulationMs": 3137.305799999973,
+        "analysisMs": 721.9807000000146,
+        "observerMs": 132.7776000087615
+      },
+      {
+        "simulationMs": 3175.7823000000208,
+        "analysisMs": 913.5153000000282,
+        "observerMs": 133.62830001616385
+      },
+      {
+        "simulationMs": 2848.534400000004,
+        "analysisMs": 582.5673999999999,
+        "observerMs": 104.02089999453165
+      },
+      {
+        "simulationMs": 2969.2521000000415,
+        "analysisMs": 790.4687999999733,
+        "observerMs": 115.0992999963928
+      },
+      {
+        "simulationMs": 2981.474199999997,
+        "analysisMs": 445.5556000000215,
+        "observerMs": 95.63660001172684
+      },
+      {
+        "simulationMs": 3027.386300000013,
+        "analysisMs": 702.0749000000069,
+        "observerMs": 126.32620001171017
+      },
+      {
+        "simulationMs": 2883.188699999999,
+        "analysisMs": 760.4012000000221,
+        "observerMs": 123.19469999725698
+      },
+      {
+        "simulationMs": 3070.361200000043,
+        "analysisMs": 744.4259000000311,
+        "observerMs": 127.15899998316308
+      },
+      {
+        "simulationMs": 2824.0654000000213,
+        "analysisMs": 766.1586999999708,
+        "observerMs": 118.73510001128307
+      }
+    ],
+    "proofs": [
+      {
+        "index": 0,
+        "fullMatch": true,
+        "exactSessionEqual": true,
+        "sessionHash": "d9fa241e43138d34800d5d2c9284b12b4115a8e0db5fab381d499ad98de37aef",
+        "resultHash": "763cff11c0f2edec6186845b8359af7a2ce68acacd135cb1ebc97a8d71f86029",
+        "observedMs": 6930.7906,
+        "unobservedMs": 5865.6026,
+        "observerMs": 357.84189999997363,
+        "analysisMs": 1121.4507000000012,
+        "includes": [
+          "result",
+          "events",
+          "rng",
+          "archive frames",
+          "core statistics"
+        ],
+        "postAnalysisSessionUnchanged": true
+      },
+      {
+        "index": 0,
+        "saveReloadFullMatch": true,
+        "exactSessionEqual": true,
+        "checkpoint": "JSON persisted career after two 10000-tick chunks",
+        "includes": [
+          "result",
+          "events",
+          "rng",
+          "trajectories",
+          "archive frames",
+          "statistics"
+        ]
+      }
+    ],
+    "totalRuntimeMs": 360309.7492,
+    "normalMatchOverhead": "Zero: benchmark modules are developer-only and never imported by production simulation."
+  },
+  "matches": 60,
+  "distributions": {
+    "outfieldShots": {
+      "n": 60,
+      "mean": 101.63333333333334,
+      "median": 102,
+      "sd": 7.8221039838692565,
+      "min": 77,
+      "max": 116,
+      "p05": 89.95,
+      "p10": 92.8,
+      "p25": 97.75,
+      "p75": 108,
+      "p90": 111.1,
+      "p95": 113.05
+    },
+    "outfieldConversion": {
+      "n": 60,
+      "mean": 0.6169089844188304,
+      "median": 0.6261363636363637,
+      "sd": 0.06711858519264723,
+      "min": 0.44554455445544555,
+      "max": 0.71875,
+      "p05": 0.4990909090909091,
+      "p10": 0.5281004709576138,
+      "p25": 0.5740338164251207,
+      "p75": 0.6716949666464523,
+      "p90": 0.709820788530466,
+      "p95": 0.7142857142857143
+    },
+    "goals": {
+      "n": 60,
+      "mean": 62.63333333333333,
+      "median": 64,
+      "sd": 7.620148729957093,
+      "min": 37,
+      "max": 78,
+      "p05": 48.85,
+      "p10": 52.9,
+      "p25": 58.75,
+      "p75": 67.5,
+      "p90": 70,
+      "p95": 72.14999999999999
+    },
+    "possessions": {
+      "n": 60,
+      "mean": 128.73333333333332,
+      "median": 130,
+      "sd": 7.94017176663174,
+      "min": 91,
+      "max": 140,
+      "p05": 119.95,
+      "p10": 120,
+      "p25": 124,
+      "p75": 134,
+      "p90": 136,
+      "p95": 138
+    },
+    "shots": {
+      "n": 60,
+      "mean": 101.63333333333334,
+      "median": 102,
+      "sd": 7.8221039838692565,
+      "min": 77,
+      "max": 116,
+      "p05": 89.95,
+      "p10": 92.8,
+      "p25": 97.75,
+      "p75": 108,
+      "p90": 111.1,
+      "p95": 113.05
+    },
+    "saves": {
+      "n": 60,
+      "mean": 23.05,
+      "median": 22.5,
+      "sd": 6.288070491690959,
+      "min": 13,
+      "max": 42,
+      "p05": 15,
+      "p10": 15.9,
+      "p25": 19,
+      "p75": 27,
+      "p90": 30,
+      "p95": 34.05
+    },
+    "shotsFaced": {
+      "n": 60,
+      "mean": 85.68333333333334,
+      "median": 86,
+      "sd": 7.768889863906819,
+      "min": 63,
+      "max": 100,
+      "p05": 74.9,
+      "p10": 76.9,
+      "p25": 80.75,
+      "p75": 91,
+      "p90": 96.1,
+      "p95": 99
+    },
+    "conversion": {
+      "n": 60,
+      "mean": 0.6169089844188304,
+      "median": 0.6261363636363637,
+      "sd": 0.06711858519264723,
+      "min": 0.44554455445544555,
+      "max": 0.71875,
+      "p05": 0.4990909090909091,
+      "p10": 0.5281004709576138,
+      "p25": 0.5740338164251207,
+      "p75": 0.6716949666464523,
+      "p90": 0.709820788530466,
+      "p95": 0.7142857142857143
+    },
+    "savePct": {
+      "n": 60,
+      "mean": 0.26865445132555416,
+      "median": 0.2598183603338242,
+      "sd": 0.0674279196367584,
+      "min": 0.15853658536585366,
+      "max": 0.4421052631578947,
+      "p05": 0.18975474683544305,
+      "p10": 0.1927710843373494,
+      "p25": 0.21314266258086484,
+      "p75": 0.309082483781279,
+      "p90": 0.3593008739076155,
+      "p95": 0.40447330447330443
+    },
+    "goalsPerPossession": {
+      "n": 60,
+      "mean": 0.48619146776177813,
+      "median": 0.48871925360474977,
+      "sd": 0.04951703143146785,
+      "min": 0.3709677419354839,
+      "max": 0.5769230769230769,
+      "p05": 0.39465383168192647,
+      "p10": 0.4219847328244275,
+      "p25": 0.45149163230657285,
+      "p75": 0.5234704340890964,
+      "p90": 0.5456709956709956,
+      "p95": 0.5543117463758298
+    },
+    "turnovers": {
+      "n": 60,
+      "mean": 34.4,
+      "median": 34.5,
+      "sd": 5.362139719634444,
+      "min": 21,
+      "max": 47,
+      "p05": 27.85,
+      "p10": 28.9,
+      "p25": 30,
+      "p75": 39,
+      "p90": 41,
+      "p95": 41.14999999999999
+    },
+    "technicalErrors": {
+      "n": 60,
+      "mean": 0.9333333333333333,
+      "median": 1,
+      "sd": 0.8994662573007389,
+      "min": 0,
+      "max": 4,
+      "p05": 0,
+      "p10": 0,
+      "p25": 0,
+      "p75": 1,
+      "p90": 2,
+      "p95": 2.049999999999997
+    },
+    "offensiveFouls": {
+      "n": 60,
+      "mean": 0,
+      "median": 0,
+      "sd": 0,
+      "min": 0,
+      "max": 0,
+      "p05": 0,
+      "p10": 0,
+      "p25": 0,
+      "p75": 0,
+      "p90": 0,
+      "p95": 0
+    },
+    "sevenMetres": {
+      "n": 60,
+      "mean": 4.2,
+      "median": 4,
+      "sd": 2.073235414695052,
+      "min": 0,
+      "max": 8,
+      "p05": 1,
+      "p10": 2,
+      "p25": 3,
+      "p75": 6,
+      "p90": 7,
+      "p95": 8
+    },
+    "sevenMetreConversion": {
+      "n": 59,
+      "mean": 0.8364406779661019,
+      "median": 1,
+      "sd": 0.21262240072842215,
+      "min": 0,
+      "max": 1,
+      "p05": 0.49000000000000005,
+      "p10": 0.5571428571428572,
+      "p25": 0.7321428571428572,
+      "p75": 1,
+      "p90": 1,
+      "p95": 1
+    },
+    "suspensions": {
+      "n": 60,
+      "mean": 4.483333333333333,
+      "median": 5,
+      "sd": 2.143114055086044,
+      "min": 0,
+      "max": 11,
+      "p05": 1,
+      "p10": 2,
+      "p25": 3,
+      "p75": 6,
+      "p90": 7,
+      "p95": 7
+    },
+    "contacts": {
+      "n": 60,
+      "mean": 653.8166666666667,
+      "median": 651.5,
+      "sd": 48.15704945726408,
+      "min": 429,
+      "max": 745,
+      "p05": 592.7,
+      "p10": 613.8,
+      "p25": 633,
+      "p75": 680.5,
+      "p90": 701.5,
+      "p95": 719.5999999999999
+    },
+    "assessedFouls": {
+      "n": 60,
+      "mean": 33.96666666666667,
+      "median": 34,
+      "sd": 6.732080210068968,
+      "min": 21,
+      "max": 52,
+      "p05": 23,
+      "p10": 24.9,
+      "p25": 29,
+      "p75": 38.25,
+      "p90": 42,
+      "p95": 45.05
+    },
+    "advantages": {
+      "n": 60,
+      "mean": 15.633333333333333,
+      "median": 15,
+      "sd": 4.468217961493423,
+      "min": 8,
+      "max": 29,
+      "p05": 9.95,
+      "p10": 10.9,
+      "p25": 12,
+      "p75": 19,
+      "p90": 21.1,
+      "p95": 22.099999999999994
+    },
+    "whistles": {
+      "n": 60,
+      "mean": 18.333333333333332,
+      "median": 18,
+      "sd": 4.351764367167028,
+      "min": 9,
+      "max": 28,
+      "p05": 11,
+      "p10": 12.9,
+      "p25": 15,
+      "p75": 21.25,
+      "p90": 24,
+      "p95": 24.099999999999994
+    },
+    "freeThrows": {
+      "n": 60,
+      "mean": 16.383333333333333,
+      "median": 17,
+      "sd": 4.266907214264361,
+      "min": 5,
+      "max": 26,
+      "p05": 8.95,
+      "p10": 11,
+      "p25": 14,
+      "p75": 19,
+      "p90": 22,
+      "p95": 23.049999999999997
+    },
+    "possessionSeconds": {
+      "n": 60,
+      "mean": 28.087282253788793,
+      "median": 27.68403846153846,
+      "sd": 2.053392931263699,
+      "min": 25.71428571428571,
+      "max": 39.56043956043957,
+      "p05": 26.086956521739125,
+      "p10": 26.470588235294112,
+      "p25": 26.86567164179104,
+      "p75": 29.031955645161286,
+      "p90": 29.999999999999996,
+      "p95": 30.012605042016816
+    },
+    "transitionPossessions": {
+      "n": 60,
+      "mean": 125.78333333333333,
+      "median": 127.5,
+      "sd": 8.169998167472084,
+      "min": 88,
+      "max": 138,
+      "p05": 116,
+      "p10": 118,
+      "p25": 121,
+      "p75": 131,
+      "p90": 134,
+      "p95": 136
+    },
+    "transitionAttempts": {
+      "n": 60,
+      "mean": 126.2,
+      "median": 128,
+      "sd": 8.062888408723355,
+      "min": 89,
+      "max": 139,
+      "p05": 116,
+      "p10": 118.9,
+      "p25": 122,
+      "p75": 131,
+      "p90": 134.1,
+      "p95": 136
+    },
+    "transitionShots": {
+      "n": 60,
+      "mean": 3.6333333333333333,
+      "median": 4,
+      "sd": 2.0499414350184857,
+      "min": 0,
+      "max": 8,
+      "p05": 0,
+      "p10": 1,
+      "p25": 2,
+      "p75": 5,
+      "p90": 7,
+      "p95": 7
+    },
+    "transitionGoals": {
+      "n": 60,
+      "mean": 1.8333333333333333,
+      "median": 1,
+      "sd": 1.5855990331055676,
+      "min": 0,
+      "max": 6,
+      "p05": 0,
+      "p10": 0,
+      "p25": 1,
+      "p75": 3,
+      "p90": 4,
+      "p95": 5
+    },
+    "transitionConversion": {
+      "n": 56,
+      "mean": 0.47028061224489787,
+      "median": 0.5,
+      "sd": 0.29420185101854707,
+      "min": 0,
+      "max": 1,
+      "p05": 0,
+      "p10": 0,
+      "p25": 0.25,
+      "p75": 0.6666666666666666,
+      "p90": 0.8452380952380952,
+      "p95": 1
+    },
+    "transitionRate": {
+      "n": 60,
+      "mean": 0.9769740323208685,
+      "median": 0.9772714228318888,
+      "sd": 0.014494034256306527,
+      "min": 0.9393939393939394,
+      "max": 1,
+      "p05": 0.9532213608957796,
+      "p10": 0.956984126984127,
+      "p25": 0.9676763703120903,
+      "p75": 0.9852941176470589,
+      "p90": 0.9924518911745189,
+      "p95": 1
+    }
+  },
+  "shotGroups": {
+    "CATEGORY:BACKCOURT_JUMP": {
+      "matches": 60,
+      "attempts": 1884,
+      "goals": 1319,
+      "saves": 269,
+      "shotsFaced": 1588,
+      "conversion": 0.7001061571125266,
+      "savePct": 0.16939546599496222,
+      "matchSavePct": {
+        "n": 60,
+        "mean": 0.1710801979653301,
+        "median": 0.16954022988505746,
+        "sd": 0.08065599305648033,
+        "min": 0,
+        "max": 0.35,
+        "p05": 0.041249999999999995,
+        "p10": 0.09015151515151515,
+        "p25": 0.11997885835095137,
+        "p75": 0.20888157894736842,
+        "p90": 0.29045698924731184,
+        "p95": 0.3431055900621118
+      }
+    },
+    "POSITION:V9": {
+      "matches": 60,
+      "attempts": 1272,
+      "goals": 841,
+      "saves": 262,
+      "shotsFaced": 1103,
+      "conversion": 0.6611635220125787,
+      "savePct": 0.23753399818676338,
+      "matchSavePct": {
+        "n": 60,
+        "mean": 0.2409101366310784,
+        "median": 0.25,
+        "sd": 0.1297652700891423,
+        "min": 0.047619047619047616,
+        "max": 0.7,
+        "p05": 0.062006578947368426,
+        "p10": 0.0990909090909091,
+        "p25": 0.1412337662337662,
+        "p75": 0.3076923076923077,
+        "p90": 0.38901098901098907,
+        "p95": 0.438125
+      }
+    },
+    "PRESSURE:PRESENT_AT_LEAST_0.2": {
+      "matches": 60,
+      "attempts": 4961,
+      "goals": 3045,
+      "saves": 1033,
+      "shotsFaced": 4078,
+      "conversion": 0.6137875428341061,
+      "savePct": 0.2533104462972045,
+      "matchSavePct": {
+        "n": 60,
+        "mean": 0.25267559780292675,
+        "median": 0.24642857142857144,
+        "sd": 0.06807880813395355,
+        "min": 0.12307692307692308,
+        "max": 0.43037974683544306,
+        "p05": 0.16639784946236558,
+        "p10": 0.17660049627791563,
+        "p25": 0.19718309859154928,
+        "p75": 0.3006578947368421,
+        "p90": 0.34077620967741934,
+        "p95": 0.36260958503798946
+      }
+    },
+    "QUALITY:LOWER_UNDER_0.65": {
+      "matches": 60,
+      "attempts": 4851,
+      "goals": 2815,
+      "saves": 1147,
+      "shotsFaced": 3962,
+      "conversion": 0.580292723149866,
+      "savePct": 0.2895002523977789,
+      "matchSavePct": {
+        "n": 60,
+        "mean": 0.28862044593332115,
+        "median": 0.27941176470588236,
+        "sd": 0.07103249890688067,
+        "min": 0.16666666666666666,
+        "max": 0.4675324675324675,
+        "p05": 0.18634941329856586,
+        "p10": 0.1996969696969697,
+        "p25": 0.23565840938722296,
+        "p75": 0.33224946695095947,
+        "p90": 0.4005063291139241,
+        "p95": 0.41227022058823526
+      }
+    },
+    "PHASE:ESTABLISHED": {
+      "matches": 60,
+      "attempts": 5624,
+      "goals": 3435,
+      "saves": 1266,
+      "shotsFaced": 4701,
+      "conversion": 0.6107752489331437,
+      "savePct": 0.2693044033184429,
+      "matchSavePct": {
+        "n": 60,
+        "mean": 0.2688719237329988,
+        "median": 0.25416559856447063,
+        "sd": 0.06797064686182624,
+        "min": 0.14864864864864866,
+        "max": 0.42696629213483145,
+        "p05": 0.1855835010060362,
+        "p10": 0.18972665565951202,
+        "p25": 0.21156004489337824,
+        "p75": 0.30624474348191755,
+        "p90": 0.37956493078444303,
+        "p95": 0.40297787193973633
+      }
+    },
+    "DISTANCE:8_TO_10.5M": {
+      "matches": 60,
+      "attempts": 3083,
+      "goals": 1823,
+      "saves": 763,
+      "shotsFaced": 2586,
+      "conversion": 0.5913071683425235,
+      "savePct": 0.29505027068832174,
+      "matchSavePct": {
+        "n": 60,
+        "mean": 0.29706295178070813,
+        "median": 0.28867521367521365,
+        "sd": 0.09791448060685819,
+        "min": 0.13513513513513514,
+        "max": 0.5714285714285714,
+        "p05": 0.15683210784313725,
+        "p10": 0.18070953436807097,
+        "p25": 0.23036858974358976,
+        "p75": 0.3439171122994652,
+        "p90": 0.4250614250614251,
+        "p95": 0.48658076681332496
+      }
+    },
+    "CATEGORY:STANDING": {
+      "matches": 60,
+      "attempts": 496,
+      "goals": 211,
+      "saves": 252,
+      "shotsFaced": 463,
+      "conversion": 0.4254032258064516,
+      "savePct": 0.5442764578833693,
+      "matchSavePct": {
+        "n": 60,
+        "mean": 0.5177405927405928,
+        "median": 0.5,
+        "sd": 0.21599207132151976,
+        "min": 0,
+        "max": 1,
+        "p05": 0,
+        "p10": 0.27936507936507937,
+        "p25": 0.39375000000000004,
+        "p75": 0.6666666666666666,
+        "p90": 0.7550000000000001,
+        "p95": 0.82012987012987
+      }
+    },
+    "POSITION:H6": {
+      "matches": 60,
+      "attempts": 760,
+      "goals": 394,
+      "saves": 178,
+      "shotsFaced": 572,
+      "conversion": 0.5184210526315789,
+      "savePct": 0.3111888111888112,
+      "matchSavePct": {
+        "n": 60,
+        "mean": 0.3013114663114663,
+        "median": 0.2792207792207792,
+        "sd": 0.1652373631567146,
+        "min": 0,
+        "max": 0.7222222222222222,
+        "p05": 0.09500000000000003,
+        "p10": 0.1111111111111111,
+        "p25": 0.19166666666666668,
+        "p75": 0.4,
+        "p90": 0.5045454545454546,
+        "p95": 0.5841666666666666
+      }
+    },
+    "CONTEXT:NEAR_SIX_METRE_AREA": {
+      "matches": 60,
+      "attempts": 2267,
+      "goals": 1372,
+      "saves": 560,
+      "shotsFaced": 1932,
+      "conversion": 0.6052051168945743,
+      "savePct": 0.2898550724637681,
+      "matchSavePct": {
+        "n": 60,
+        "mean": 0.28903780227678333,
+        "median": 0.280625,
+        "sd": 0.09426809462257824,
+        "min": 0.09090909090909091,
+        "max": 0.5625,
+        "p05": 0.17166900420757364,
+        "p10": 0.18869132290184923,
+        "p25": 0.22430555555555556,
+        "p75": 0.3333333333333333,
+        "p90": 0.4183333333333334,
+        "p95": 0.44255514705882343
+      }
+    },
+    "POSITION:H9": {
+      "matches": 60,
+      "attempts": 1280,
+      "goals": 788,
+      "saves": 309,
+      "shotsFaced": 1097,
+      "conversion": 0.615625,
+      "savePct": 0.28167730173199634,
+      "matchSavePct": {
+        "n": 60,
+        "mean": 0.2897986606075011,
+        "median": 0.29411764705882354,
+        "sd": 0.1316003399109404,
+        "min": 0,
+        "max": 0.5714285714285714,
+        "p05": 0.06627450980392156,
+        "p10": 0.1582857142857143,
+        "p25": 0.2,
+        "p75": 0.3547058823529412,
+        "p90": 0.47631578947368425,
+        "p95": 0.5016666666666666
+      }
+    },
+    "PHASE:TRANSITION": {
+      "matches": 56,
+      "attempts": 218,
+      "goals": 110,
+      "saves": 74,
+      "shotsFaced": 184,
+      "conversion": 0.5045871559633027,
+      "savePct": 0.40217391304347827,
+      "matchSavePct": {
+        "n": 55,
+        "mean": 0.4343722943722943,
+        "median": 0.5,
+        "sd": 0.31624163026887836,
+        "min": 0,
+        "max": 1,
+        "p05": 0,
+        "p10": 0,
+        "p25": 0.18333333333333335,
+        "p75": 0.6666666666666666,
+        "p90": 1,
+        "p95": 1
+      }
+    },
+    "CATEGORY:BREAKTHROUGH": {
+      "matches": 60,
+      "attempts": 1713,
+      "goals": 945,
+      "saves": 400,
+      "shotsFaced": 1345,
+      "conversion": 0.5516637478108581,
+      "savePct": 0.29739776951672864,
+      "matchSavePct": {
+        "n": 60,
+        "mean": 0.2982757627277462,
+        "median": 0.30434782608695654,
+        "sd": 0.1016323843082417,
+        "min": 0.1,
+        "max": 0.5333333333333333,
+        "p05": 0.13579545454545455,
+        "p10": 0.1830357142857143,
+        "p25": 0.22910216718266252,
+        "p75": 0.35714285714285715,
+        "p90": 0.41589205397301354,
+        "p95": 0.4762939958592132
+      }
+    },
+    "PRESSURE:LOW_UNDER_0.2": {
+      "matches": 60,
+      "attempts": 1137,
+      "goals": 713,
+      "saves": 350,
+      "shotsFaced": 1063,
+      "conversion": 0.6270888302550571,
+      "savePct": 0.3292568203198495,
+      "matchSavePct": {
+        "n": 60,
+        "mean": 0.3271414989765374,
+        "median": 0.3125,
+        "sd": 0.1289852226264623,
+        "min": 0,
+        "max": 0.625,
+        "p05": 0.1568181818181818,
+        "p10": 0.16666666666666666,
+        "p25": 0.23739495798319327,
+        "p75": 0.41776315789473684,
+        "p90": 0.5,
+        "p95": 0.5407051282051281
+      }
+    },
+    "DISTANCE:UP_TO_8M": {
+      "matches": 60,
+      "attempts": 2476,
+      "goals": 1603,
+      "saves": 546,
+      "shotsFaced": 2149,
+      "conversion": 0.6474151857835219,
+      "savePct": 0.254071661237785,
+      "matchSavePct": {
+        "n": 60,
+        "mean": 0.25345636615356987,
+        "median": 0.25,
+        "sd": 0.0825780003387082,
+        "min": 0.11764705882352941,
+        "max": 0.45,
+        "p05": 0.14223602484472048,
+        "p10": 0.1496341463414634,
+        "p25": 0.18794452347083926,
+        "p75": 0.29744105807935595,
+        "p90": 0.3792502179598954,
+        "p95": 0.394455190199871
+      }
+    },
+    "CATEGORY:PIVOT": {
+      "matches": 60,
+      "attempts": 1135,
+      "goals": 738,
+      "saves": 279,
+      "shotsFaced": 1017,
+      "conversion": 0.6502202643171806,
+      "savePct": 0.2743362831858407,
+      "matchSavePct": {
+        "n": 60,
+        "mean": 0.2793659479943638,
+        "median": 0.2649122807017544,
+        "sd": 0.12820238784666058,
+        "min": 0,
+        "max": 0.6666666666666666,
+        "p05": 0.105,
+        "p10": 0.14107142857142857,
+        "p25": 0.2,
+        "p75": 0.3333333333333333,
+        "p90": 0.4150326797385621,
+        "p95": 0.5459595959595959
+      }
+    },
+    "POSITION:M6": {
+      "matches": 60,
+      "attempts": 1135,
+      "goals": 738,
+      "saves": 279,
+      "shotsFaced": 1017,
+      "conversion": 0.6502202643171806,
+      "savePct": 0.2743362831858407,
+      "matchSavePct": {
+        "n": 60,
+        "mean": 0.2793659479943638,
+        "median": 0.2649122807017544,
+        "sd": 0.12820238784666058,
+        "min": 0,
+        "max": 0.6666666666666666,
+        "p05": 0.105,
+        "p10": 0.14107142857142857,
+        "p25": 0.2,
+        "p75": 0.3333333333333333,
+        "p90": 0.4150326797385621,
+        "p95": 0.5459595959595959
+      }
+    },
+    "CATEGORY:WING": {
+      "matches": 60,
+      "attempts": 618,
+      "goals": 335,
+      "saves": 141,
+      "shotsFaced": 476,
+      "conversion": 0.5420711974110033,
+      "savePct": 0.296218487394958,
+      "matchSavePct": {
+        "n": 60,
+        "mean": 0.29320608041196267,
+        "median": 0.26136363636363635,
+        "sd": 0.22278504560578197,
+        "min": 0,
+        "max": 0.8333333333333334,
+        "p05": 0,
+        "p10": 0,
+        "p25": 0.13839285714285715,
+        "p75": 0.40714285714285714,
+        "p90": 0.6025,
+        "p95": 0.7149350649350649
+      }
+    },
+    "POSITION:V6": {
+      "matches": 60,
+      "attempts": 772,
+      "goals": 417,
+      "saves": 206,
+      "shotsFaced": 623,
+      "conversion": 0.5401554404145078,
+      "savePct": 0.3306581059390048,
+      "matchSavePct": {
+        "n": 60,
+        "mean": 0.3393257765626188,
+        "median": 0.3205128205128205,
+        "sd": 0.17388676848006196,
+        "min": 0,
+        "max": 0.8888888888888888,
+        "p05": 0.125,
+        "p10": 0.14285714285714285,
+        "p25": 0.2222222222222222,
+        "p75": 0.4583333333333333,
+        "p90": 0.5338461538461539,
+        "p95": 0.5746753246753245
+      }
+    },
+    "QUALITY:HIGH_AT_LEAST_0.65": {
+      "matches": 60,
+      "attempts": 1247,
+      "goals": 943,
+      "saves": 236,
+      "shotsFaced": 1179,
+      "conversion": 0.756214915797915,
+      "savePct": 0.2001696352841391,
+      "matchSavePct": {
+        "n": 60,
+        "mean": 0.19768099525182134,
+        "median": 0.19047619047619047,
+        "sd": 0.106093328699115,
+        "min": 0,
+        "max": 0.55,
+        "p05": 0.06627450980392156,
+        "p10": 0.07637362637362638,
+        "p25": 0.13043478260869565,
+        "p75": 0.23599439775910364,
+        "p90": 0.3196969696969697,
+        "p95": 0.3917391304347826
+      }
+    },
+    "DISTANCE:BEYOND_10.5M": {
+      "matches": 60,
+      "attempts": 539,
+      "goals": 332,
+      "saves": 74,
+      "shotsFaced": 406,
+      "conversion": 0.6159554730983302,
+      "savePct": 0.18226600985221675,
+      "matchSavePct": {
+        "n": 60,
+        "mean": 0.17805435305435305,
+        "median": 0.14285714285714285,
+        "sd": 0.18197195877283612,
+        "min": 0,
+        "max": 0.75,
+        "p05": 0,
+        "p10": 0,
+        "p25": 0,
+        "p75": 0.275974025974026,
+        "p90": 0.40444444444444455,
+        "p95": 0.46515151515151454
+      }
+    },
+    "CATEGORY:SEVEN_METRE": {
+      "matches": 59,
+      "attempts": 252,
+      "goals": 210,
+      "saves": 42,
+      "shotsFaced": 252,
+      "conversion": 0.8333333333333334,
+      "savePct": 0.16666666666666666,
+      "matchSavePct": {
+        "n": 59,
+        "mean": 0.1635593220338983,
+        "median": 0,
+        "sd": 0.21262240072842215,
+        "min": 0,
+        "max": 1,
+        "p05": 0,
+        "p10": 0,
+        "p25": 0,
+        "p75": 0.26785714285714285,
+        "p90": 0.44285714285714306,
+        "p95": 0.5099999999999995
+      }
+    },
+    "POSITION:M9": {
+      "matches": 60,
+      "attempts": 879,
+      "goals": 580,
+      "saves": 149,
+      "shotsFaced": 729,
+      "conversion": 0.6598407281001137,
+      "savePct": 0.20438957475994513,
+      "matchSavePct": {
+        "n": 60,
+        "mean": 0.20750497681999233,
+        "median": 0.2,
+        "sd": 0.13217144741630665,
+        "min": 0,
+        "max": 0.6,
+        "p05": 0.05937500000000001,
+        "p10": 0.07142857142857142,
+        "p25": 0.11601307189542484,
+        "p75": 0.25,
+        "p90": 0.3626050420168068,
+        "p95": 0.5
+      }
+    },
+    "PHASE:RESTART": {
+      "matches": 59,
+      "attempts": 256,
+      "goals": 213,
+      "saves": 43,
+      "shotsFaced": 256,
+      "conversion": 0.83203125,
+      "savePct": 0.16796875,
+      "matchSavePct": {
+        "n": 59,
+        "mean": 0.16688861985472156,
+        "median": 0.125,
+        "sd": 0.2107712708766503,
+        "min": 0,
+        "max": 1,
+        "p05": 0,
+        "p10": 0,
+        "p25": 0,
+        "p75": 0.26785714285714285,
+        "p90": 0.4200000000000003,
+        "p95": 0.5099999999999995
+      }
+    }
+  },
+  "teamDistributions": {
+    "goals": {
+      "n": 120,
+      "mean": 31.316666666666666,
+      "median": 32,
+      "sd": 5.04431343586178,
+      "min": 16,
+      "max": 46,
+      "p05": 23.9,
+      "p10": 24.9,
+      "p25": 29,
+      "p75": 34,
+      "p90": 36.10000000000001,
+      "p95": 39.05
+    },
+    "possessions": {
+      "n": 120,
+      "mean": 64.36666666666666,
+      "median": 65,
+      "sd": 3.966102871685948,
+      "min": 45,
+      "max": 70,
+      "p05": 60,
+      "p10": 60,
+      "p25": 62,
+      "p75": 67,
+      "p90": 68,
+      "p95": 69
+    },
+    "shots": {
+      "n": 120,
+      "mean": 50.81666666666667,
+      "median": 51,
+      "sd": 4.73318932988033,
+      "min": 38,
+      "max": 61,
+      "p05": 43,
+      "p10": 45,
+      "p25": 48,
+      "p75": 54,
+      "p90": 57,
+      "p95": 59
+    },
+    "scorerConcentration": {
+      "n": 120,
+      "mean": 0.30089324204783263,
+      "median": 0.29411764705882354,
+      "sd": 0.0662926826021913,
+      "min": 0.16666666666666666,
+      "max": 0.5238095238095238,
+      "p05": 0.20925387596899225,
+      "p10": 0.22472222222222224,
+      "p25": 0.25535714285714284,
+      "p75": 0.3333333333333333,
+      "p90": 0.387781036168133,
+      "p95": 0.4444444444444444
+    },
+    "shotConcentration": {
+      "n": 120,
+      "mean": 0.26318360482614966,
+      "median": 0.2604347826086957,
+      "sd": 0.04831708105974002,
+      "min": 0.1702127659574468,
+      "max": 0.4117647058823529,
+      "p05": 0.19128989361702128,
+      "p10": 0.19642857142857142,
+      "p25": 0.22916666666666666,
+      "p75": 0.28846153846153844,
+      "p90": 0.32787878787878794,
+      "p95": 0.3532428355957768
+    }
+  },
+  "keeperDistributions": {
+    "saves": {
+      "n": 120,
+      "mean": 11.525,
+      "median": 12,
+      "sd": 4.260355648546356,
+      "min": 4,
+      "max": 25,
+      "p05": 5,
+      "p10": 6,
+      "p25": 8.75,
+      "p75": 15,
+      "p90": 17,
+      "p95": 18
+    },
+    "shotsFaced": {
+      "n": 120,
+      "mean": 42.84166666666667,
+      "median": 43,
+      "sd": 4.99410717171518,
+      "min": 30,
+      "max": 54,
+      "p05": 35,
+      "p10": 35.9,
+      "p25": 40,
+      "p75": 46,
+      "p90": 48,
+      "p95": 52
+    },
+    "savePct": {
+      "n": 120,
+      "mean": 0.267911034870021,
+      "median": 0.2649122807017544,
+      "sd": 0.09330387353626411,
+      "min": 0.09523809523809523,
+      "max": 0.5263157894736842,
+      "p05": 0.12804487179487178,
+      "p10": 0.145993031358885,
+      "p25": 0.2,
+      "p75": 0.32558139534883723,
+      "p90": 0.3907543959160522,
+      "p95": 0.42335164835164835
+    }
+  },
+  "referenceCoverage": {
+    "comparisons": 18950,
+    "noReference": 16722
+  },
+  "sanity": [
+    {
+      "match": 0,
+      "metric": "goals",
+      "value": 65,
+      "band": {
+        "min": 42,
+        "max": 76
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 0,
+      "metric": "shots",
+      "value": 102,
+      "band": {
+        "min": 88,
+        "max": 150
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 0,
+      "metric": "possessions",
+      "value": 130,
+      "band": {
+        "min": 84,
+        "max": 140
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 0,
+      "metric": "suspensions",
+      "value": 7,
+      "band": {
+        "min": 0,
+        "max": 10
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 0,
+      "metric": "sevenMetres",
+      "value": 6,
+      "band": {
+        "min": 0,
+        "max": 14
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 1,
+      "metric": "goals",
+      "value": 55,
+      "band": {
+        "min": 42,
+        "max": 76
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 1,
+      "metric": "shots",
+      "value": 95,
+      "band": {
+        "min": 88,
+        "max": 150
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 1,
+      "metric": "possessions",
+      "value": 131,
+      "band": {
+        "min": 84,
+        "max": 140
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 1,
+      "metric": "suspensions",
+      "value": 6,
+      "band": {
+        "min": 0,
+        "max": 10
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 1,
+      "metric": "sevenMetres",
+      "value": 6,
+      "band": {
+        "min": 0,
+        "max": 14
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 2,
+      "metric": "goals",
+      "value": 78,
+      "band": {
+        "min": 42,
+        "max": 76
+      },
+      "status": "OUTSIDE_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 2,
+      "metric": "shots",
+      "value": 109,
+      "band": {
+        "min": 88,
+        "max": 150
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 2,
+      "metric": "possessions",
+      "value": 136,
+      "band": {
+        "min": 84,
+        "max": 140
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 2,
+      "metric": "suspensions",
+      "value": 7,
+      "band": {
+        "min": 0,
+        "max": 10
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 2,
+      "metric": "sevenMetres",
+      "value": 8,
+      "band": {
+        "min": 0,
+        "max": 14
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 3,
+      "metric": "goals",
+      "value": 69,
+      "band": {
+        "min": 42,
+        "max": 76
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 3,
+      "metric": "shots",
+      "value": 96,
+      "band": {
+        "min": 88,
+        "max": 150
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 3,
+      "metric": "possessions",
+      "value": 126,
+      "band": {
+        "min": 84,
+        "max": 140
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 3,
+      "metric": "suspensions",
+      "value": 4,
+      "band": {
+        "min": 0,
+        "max": 10
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 3,
+      "metric": "sevenMetres",
+      "value": 2,
+      "band": {
+        "min": 0,
+        "max": 14
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 4,
+      "metric": "goals",
+      "value": 60,
+      "band": {
+        "min": 42,
+        "max": 76
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 4,
+      "metric": "shots",
+      "value": 96,
+      "band": {
+        "min": 88,
+        "max": 150
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 4,
+      "metric": "possessions",
+      "value": 124,
+      "band": {
+        "min": 84,
+        "max": 140
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 4,
+      "metric": "suspensions",
+      "value": 7,
+      "band": {
+        "min": 0,
+        "max": 10
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 4,
+      "metric": "sevenMetres",
+      "value": 5,
+      "band": {
+        "min": 0,
+        "max": 14
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 5,
+      "metric": "goals",
+      "value": 67,
+      "band": {
+        "min": 42,
+        "max": 76
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 5,
+      "metric": "shots",
+      "value": 112,
+      "band": {
+        "min": 88,
+        "max": 150
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 5,
+      "metric": "possessions",
+      "value": 138,
+      "band": {
+        "min": 84,
+        "max": 140
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 5,
+      "metric": "suspensions",
+      "value": 2,
+      "band": {
+        "min": 0,
+        "max": 10
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 5,
+      "metric": "sevenMetres",
+      "value": 4,
+      "band": {
+        "min": 0,
+        "max": 14
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 6,
+      "metric": "goals",
+      "value": 55,
+      "band": {
+        "min": 42,
+        "max": 76
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 6,
+      "metric": "shots",
+      "value": 99,
+      "band": {
+        "min": 88,
+        "max": 150
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 6,
+      "metric": "possessions",
+      "value": 125,
+      "band": {
+        "min": 84,
+        "max": 140
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 6,
+      "metric": "suspensions",
+      "value": 6,
+      "band": {
+        "min": 0,
+        "max": 10
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 6,
+      "metric": "sevenMetres",
+      "value": 4,
+      "band": {
+        "min": 0,
+        "max": 14
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 7,
+      "metric": "goals",
+      "value": 65,
+      "band": {
+        "min": 42,
+        "max": 76
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 7,
+      "metric": "shots",
+      "value": 111,
+      "band": {
+        "min": 88,
+        "max": 150
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 7,
+      "metric": "possessions",
+      "value": 136,
+      "band": {
+        "min": 84,
+        "max": 140
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 7,
+      "metric": "suspensions",
+      "value": 3,
+      "band": {
+        "min": 0,
+        "max": 10
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 7,
+      "metric": "sevenMetres",
+      "value": 1,
+      "band": {
+        "min": 0,
+        "max": 14
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 8,
+      "metric": "goals",
+      "value": 56,
+      "band": {
+        "min": 42,
+        "max": 76
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 8,
+      "metric": "shots",
+      "value": 104,
+      "band": {
+        "min": 88,
+        "max": 150
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 8,
+      "metric": "possessions",
+      "value": 125,
+      "band": {
+        "min": 84,
+        "max": 140
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 8,
+      "metric": "suspensions",
+      "value": 3,
+      "band": {
+        "min": 0,
+        "max": 10
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 8,
+      "metric": "sevenMetres",
+      "value": 6,
+      "band": {
+        "min": 0,
+        "max": 14
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 9,
+      "metric": "goals",
+      "value": 64,
+      "band": {
+        "min": 42,
+        "max": 76
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 9,
+      "metric": "shots",
+      "value": 90,
+      "band": {
+        "min": 88,
+        "max": 150
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 9,
+      "metric": "possessions",
+      "value": 129,
+      "band": {
+        "min": 84,
+        "max": 140
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 9,
+      "metric": "suspensions",
+      "value": 6,
+      "band": {
+        "min": 0,
+        "max": 10
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 9,
+      "metric": "sevenMetres",
+      "value": 3,
+      "band": {
+        "min": 0,
+        "max": 14
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 10,
+      "metric": "goals",
+      "value": 67,
+      "band": {
+        "min": 42,
+        "max": 76
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 10,
+      "metric": "shots",
+      "value": 103,
+      "band": {
+        "min": 88,
+        "max": 150
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 10,
+      "metric": "possessions",
+      "value": 133,
+      "band": {
+        "min": 84,
+        "max": 140
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 10,
+      "metric": "suspensions",
+      "value": 5,
+      "band": {
+        "min": 0,
+        "max": 10
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 10,
+      "metric": "sevenMetres",
+      "value": 8,
+      "band": {
+        "min": 0,
+        "max": 14
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 11,
+      "metric": "goals",
+      "value": 60,
+      "band": {
+        "min": 42,
+        "max": 76
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 11,
+      "metric": "shots",
+      "value": 84,
+      "band": {
+        "min": 88,
+        "max": 150
+      },
+      "status": "OUTSIDE_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 11,
+      "metric": "possessions",
+      "value": 125,
+      "band": {
+        "min": 84,
+        "max": 140
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 11,
+      "metric": "suspensions",
+      "value": 7,
+      "band": {
+        "min": 0,
+        "max": 10
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 11,
+      "metric": "sevenMetres",
+      "value": 4,
+      "band": {
+        "min": 0,
+        "max": 14
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 12,
+      "metric": "goals",
+      "value": 67,
+      "band": {
+        "min": 42,
+        "max": 76
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 12,
+      "metric": "shots",
+      "value": 98,
+      "band": {
+        "min": 88,
+        "max": 150
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 12,
+      "metric": "possessions",
+      "value": 140,
+      "band": {
+        "min": 84,
+        "max": 140
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 12,
+      "metric": "suspensions",
+      "value": 3,
+      "band": {
+        "min": 0,
+        "max": 10
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 12,
+      "metric": "sevenMetres",
+      "value": 6,
+      "band": {
+        "min": 0,
+        "max": 14
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 13,
+      "metric": "goals",
+      "value": 45,
+      "band": {
+        "min": 42,
+        "max": 76
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 13,
+      "metric": "shots",
+      "value": 101,
+      "band": {
+        "min": 88,
+        "max": 150
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 13,
+      "metric": "possessions",
+      "value": 119,
+      "band": {
+        "min": 84,
+        "max": 140
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 13,
+      "metric": "suspensions",
+      "value": 6,
+      "band": {
+        "min": 0,
+        "max": 10
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 13,
+      "metric": "sevenMetres",
+      "value": 5,
+      "band": {
+        "min": 0,
+        "max": 14
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 14,
+      "metric": "goals",
+      "value": 70,
+      "band": {
+        "min": 42,
+        "max": 76
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 14,
+      "metric": "shots",
+      "value": 103,
+      "band": {
+        "min": 88,
+        "max": 150
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 14,
+      "metric": "possessions",
+      "value": 131,
+      "band": {
+        "min": 84,
+        "max": 140
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 14,
+      "metric": "suspensions",
+      "value": 4,
+      "band": {
+        "min": 0,
+        "max": 10
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 14,
+      "metric": "sevenMetres",
+      "value": 3,
+      "band": {
+        "min": 0,
+        "max": 14
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 15,
+      "metric": "goals",
+      "value": 69,
+      "band": {
+        "min": 42,
+        "max": 76
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 15,
+      "metric": "shots",
+      "value": 108,
+      "band": {
+        "min": 88,
+        "max": 150
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 15,
+      "metric": "possessions",
+      "value": 129,
+      "band": {
+        "min": 84,
+        "max": 140
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 15,
+      "metric": "suspensions",
+      "value": 6,
+      "band": {
+        "min": 0,
+        "max": 10
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 15,
+      "metric": "sevenMetres",
+      "value": 7,
+      "band": {
+        "min": 0,
+        "max": 14
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 16,
+      "metric": "goals",
+      "value": 63,
+      "band": {
+        "min": 42,
+        "max": 76
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 16,
+      "metric": "shots",
+      "value": 110,
+      "band": {
+        "min": 88,
+        "max": 150
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 16,
+      "metric": "possessions",
+      "value": 135,
+      "band": {
+        "min": 84,
+        "max": 140
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 16,
+      "metric": "suspensions",
+      "value": 5,
+      "band": {
+        "min": 0,
+        "max": 10
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 16,
+      "metric": "sevenMetres",
+      "value": 5,
+      "band": {
+        "min": 0,
+        "max": 14
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 17,
+      "metric": "goals",
+      "value": 52,
+      "band": {
+        "min": 42,
+        "max": 76
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 17,
+      "metric": "shots",
+      "value": 98,
+      "band": {
+        "min": 88,
+        "max": 150
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 17,
+      "metric": "possessions",
+      "value": 120,
+      "band": {
+        "min": 84,
+        "max": 140
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 17,
+      "metric": "suspensions",
+      "value": 3,
+      "band": {
+        "min": 0,
+        "max": 10
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 17,
+      "metric": "sevenMetres",
+      "value": 4,
+      "band": {
+        "min": 0,
+        "max": 14
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 18,
+      "metric": "goals",
+      "value": 62,
+      "band": {
+        "min": 42,
+        "max": 76
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 18,
+      "metric": "shots",
+      "value": 98,
+      "band": {
+        "min": 88,
+        "max": 150
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 18,
+      "metric": "possessions",
+      "value": 124,
+      "band": {
+        "min": 84,
+        "max": 140
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 18,
+      "metric": "suspensions",
+      "value": 3,
+      "band": {
+        "min": 0,
+        "max": 10
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 18,
+      "metric": "sevenMetres",
+      "value": 5,
+      "band": {
+        "min": 0,
+        "max": 14
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 19,
+      "metric": "goals",
+      "value": 69,
+      "band": {
+        "min": 42,
+        "max": 76
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 19,
+      "metric": "shots",
+      "value": 112,
+      "band": {
+        "min": 88,
+        "max": 150
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 19,
+      "metric": "possessions",
+      "value": 131,
+      "band": {
+        "min": 84,
+        "max": 140
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 19,
+      "metric": "suspensions",
+      "value": 4,
+      "band": {
+        "min": 0,
+        "max": 10
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 19,
+      "metric": "sevenMetres",
+      "value": 6,
+      "band": {
+        "min": 0,
+        "max": 14
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 20,
+      "metric": "goals",
+      "value": 64,
+      "band": {
+        "min": 42,
+        "max": 76
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 20,
+      "metric": "shots",
+      "value": 103,
+      "band": {
+        "min": 88,
+        "max": 150
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 20,
+      "metric": "possessions",
+      "value": 129,
+      "band": {
+        "min": 84,
+        "max": 140
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 20,
+      "metric": "suspensions",
+      "value": 8,
+      "band": {
+        "min": 0,
+        "max": 10
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 20,
+      "metric": "sevenMetres",
+      "value": 7,
+      "band": {
+        "min": 0,
+        "max": 14
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 21,
+      "metric": "goals",
+      "value": 56,
+      "band": {
+        "min": 42,
+        "max": 76
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 21,
+      "metric": "shots",
+      "value": 98,
+      "band": {
+        "min": 88,
+        "max": 150
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 21,
+      "metric": "possessions",
+      "value": 124,
+      "band": {
+        "min": 84,
+        "max": 140
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 21,
+      "metric": "suspensions",
+      "value": 5,
+      "band": {
+        "min": 0,
+        "max": 10
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 21,
+      "metric": "sevenMetres",
+      "value": 3,
+      "band": {
+        "min": 0,
+        "max": 14
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 22,
+      "metric": "goals",
+      "value": 65,
+      "band": {
+        "min": 42,
+        "max": 76
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 22,
+      "metric": "shots",
+      "value": 116,
+      "band": {
+        "min": 88,
+        "max": 150
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 22,
+      "metric": "possessions",
+      "value": 137,
+      "band": {
+        "min": 84,
+        "max": 140
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 22,
+      "metric": "suspensions",
+      "value": 5,
+      "band": {
+        "min": 0,
+        "max": 10
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 22,
+      "metric": "sevenMetres",
+      "value": 6,
+      "band": {
+        "min": 0,
+        "max": 14
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 23,
+      "metric": "goals",
+      "value": 52,
+      "band": {
+        "min": 42,
+        "max": 76
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 23,
+      "metric": "shots",
+      "value": 90,
+      "band": {
+        "min": 88,
+        "max": 150
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 23,
+      "metric": "possessions",
+      "value": 120,
+      "band": {
+        "min": 84,
+        "max": 140
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 23,
+      "metric": "suspensions",
+      "value": 2,
+      "band": {
+        "min": 0,
+        "max": 10
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 23,
+      "metric": "sevenMetres",
+      "value": 3,
+      "band": {
+        "min": 0,
+        "max": 14
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 24,
+      "metric": "goals",
+      "value": 62,
+      "band": {
+        "min": 42,
+        "max": 76
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 24,
+      "metric": "shots",
+      "value": 108,
+      "band": {
+        "min": 88,
+        "max": 150
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 24,
+      "metric": "possessions",
+      "value": 136,
+      "band": {
+        "min": 84,
+        "max": 140
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 24,
+      "metric": "suspensions",
+      "value": 5,
+      "band": {
+        "min": 0,
+        "max": 10
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 24,
+      "metric": "sevenMetres",
+      "value": 2,
+      "band": {
+        "min": 0,
+        "max": 14
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 25,
+      "metric": "goals",
+      "value": 67,
+      "band": {
+        "min": 42,
+        "max": 76
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 25,
+      "metric": "shots",
+      "value": 94,
+      "band": {
+        "min": 88,
+        "max": 150
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 25,
+      "metric": "possessions",
+      "value": 121,
+      "band": {
+        "min": 84,
+        "max": 140
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 25,
+      "metric": "suspensions",
+      "value": 3,
+      "band": {
+        "min": 0,
+        "max": 10
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 25,
+      "metric": "sevenMetres",
+      "value": 3,
+      "band": {
+        "min": 0,
+        "max": 14
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 26,
+      "metric": "goals",
+      "value": 70,
+      "band": {
+        "min": 42,
+        "max": 76
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 26,
+      "metric": "shots",
+      "value": 108,
+      "band": {
+        "min": 88,
+        "max": 150
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 26,
+      "metric": "possessions",
+      "value": 131,
+      "band": {
+        "min": 84,
+        "max": 140
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 26,
+      "metric": "suspensions",
+      "value": 1,
+      "band": {
+        "min": 0,
+        "max": 10
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 26,
+      "metric": "sevenMetres",
+      "value": 6,
+      "band": {
+        "min": 0,
+        "max": 14
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 27,
+      "metric": "goals",
+      "value": 59,
+      "band": {
+        "min": 42,
+        "max": 76
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 27,
+      "metric": "shots",
+      "value": 110,
+      "band": {
+        "min": 88,
+        "max": 150
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 27,
+      "metric": "possessions",
+      "value": 133,
+      "band": {
+        "min": 84,
+        "max": 140
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 27,
+      "metric": "suspensions",
+      "value": 3,
+      "band": {
+        "min": 0,
+        "max": 10
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 27,
+      "metric": "sevenMetres",
+      "value": 3,
+      "band": {
+        "min": 0,
+        "max": 14
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 28,
+      "metric": "goals",
+      "value": 64,
+      "band": {
+        "min": 42,
+        "max": 76
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 28,
+      "metric": "shots",
+      "value": 94,
+      "band": {
+        "min": 88,
+        "max": 150
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 28,
+      "metric": "possessions",
+      "value": 126,
+      "band": {
+        "min": 84,
+        "max": 140
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 28,
+      "metric": "suspensions",
+      "value": 1,
+      "band": {
+        "min": 0,
+        "max": 10
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 28,
+      "metric": "sevenMetres",
+      "value": 3,
+      "band": {
+        "min": 0,
+        "max": 14
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 29,
+      "metric": "goals",
+      "value": 61,
+      "band": {
+        "min": 42,
+        "max": 76
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 29,
+      "metric": "shots",
+      "value": 100,
+      "band": {
+        "min": 88,
+        "max": 150
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 29,
+      "metric": "possessions",
+      "value": 140,
+      "band": {
+        "min": 84,
+        "max": 140
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 29,
+      "metric": "suspensions",
+      "value": 5,
+      "band": {
+        "min": 0,
+        "max": 10
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 29,
+      "metric": "sevenMetres",
+      "value": 5,
+      "band": {
+        "min": 0,
+        "max": 14
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 30,
+      "metric": "goals",
+      "value": 66,
+      "band": {
+        "min": 42,
+        "max": 76
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 30,
+      "metric": "shots",
+      "value": 115,
+      "band": {
+        "min": 88,
+        "max": 150
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 30,
+      "metric": "possessions",
+      "value": 135,
+      "band": {
+        "min": 84,
+        "max": 140
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 30,
+      "metric": "suspensions",
+      "value": 2,
+      "band": {
+        "min": 0,
+        "max": 10
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 30,
+      "metric": "sevenMetres",
+      "value": 4,
+      "band": {
+        "min": 0,
+        "max": 14
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 31,
+      "metric": "goals",
+      "value": 70,
+      "band": {
+        "min": 42,
+        "max": 76
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 31,
+      "metric": "shots",
+      "value": 98,
+      "band": {
+        "min": 88,
+        "max": 150
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 31,
+      "metric": "possessions",
+      "value": 130,
+      "band": {
+        "min": 84,
+        "max": 140
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 31,
+      "metric": "suspensions",
+      "value": 6,
+      "band": {
+        "min": 0,
+        "max": 10
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 31,
+      "metric": "sevenMetres",
+      "value": 4,
+      "band": {
+        "min": 0,
+        "max": 14
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 32,
+      "metric": "goals",
+      "value": 65,
+      "band": {
+        "min": 42,
+        "max": 76
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 32,
+      "metric": "shots",
+      "value": 97,
+      "band": {
+        "min": 88,
+        "max": 150
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 32,
+      "metric": "possessions",
+      "value": 120,
+      "band": {
+        "min": 84,
+        "max": 140
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 32,
+      "metric": "suspensions",
+      "value": 6,
+      "band": {
+        "min": 0,
+        "max": 10
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 32,
+      "metric": "sevenMetres",
+      "value": 3,
+      "band": {
+        "min": 0,
+        "max": 14
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 33,
+      "metric": "goals",
+      "value": 46,
+      "band": {
+        "min": 42,
+        "max": 76
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 33,
+      "metric": "shots",
+      "value": 91,
+      "band": {
+        "min": 88,
+        "max": 150
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 33,
+      "metric": "possessions",
+      "value": 124,
+      "band": {
+        "min": 84,
+        "max": 140
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 33,
+      "metric": "suspensions",
+      "value": 4,
+      "band": {
+        "min": 0,
+        "max": 10
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 33,
+      "metric": "sevenMetres",
+      "value": 2,
+      "band": {
+        "min": 0,
+        "max": 14
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 34,
+      "metric": "goals",
+      "value": 66,
+      "band": {
+        "min": 42,
+        "max": 76
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 34,
+      "metric": "shots",
+      "value": 103,
+      "band": {
+        "min": 88,
+        "max": 150
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 34,
+      "metric": "possessions",
+      "value": 124,
+      "band": {
+        "min": 84,
+        "max": 140
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 34,
+      "metric": "suspensions",
+      "value": 5,
+      "band": {
+        "min": 0,
+        "max": 10
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 34,
+      "metric": "sevenMetres",
+      "value": 5,
+      "band": {
+        "min": 0,
+        "max": 14
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 35,
+      "metric": "goals",
+      "value": 64,
+      "band": {
+        "min": 42,
+        "max": 76
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 35,
+      "metric": "shots",
+      "value": 99,
+      "band": {
+        "min": 88,
+        "max": 150
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 35,
+      "metric": "possessions",
+      "value": 132,
+      "band": {
+        "min": 84,
+        "max": 140
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 35,
+      "metric": "suspensions",
+      "value": 0,
+      "band": {
+        "min": 0,
+        "max": 10
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 35,
+      "metric": "sevenMetres",
+      "value": 5,
+      "band": {
+        "min": 0,
+        "max": 14
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 36,
+      "metric": "goals",
+      "value": 57,
+      "band": {
+        "min": 42,
+        "max": 76
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 36,
+      "metric": "shots",
+      "value": 114,
+      "band": {
+        "min": 88,
+        "max": 150
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 36,
+      "metric": "possessions",
+      "value": 135,
+      "band": {
+        "min": 84,
+        "max": 140
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 36,
+      "metric": "suspensions",
+      "value": 7,
+      "band": {
+        "min": 0,
+        "max": 10
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 36,
+      "metric": "sevenMetres",
+      "value": 5,
+      "band": {
+        "min": 0,
+        "max": 14
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 37,
+      "metric": "goals",
+      "value": 69,
+      "band": {
+        "min": 42,
+        "max": 76
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 37,
+      "metric": "shots",
+      "value": 102,
+      "band": {
+        "min": 88,
+        "max": 150
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 37,
+      "metric": "possessions",
+      "value": 122,
+      "band": {
+        "min": 84,
+        "max": 140
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 37,
+      "metric": "suspensions",
+      "value": 3,
+      "band": {
+        "min": 0,
+        "max": 10
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 37,
+      "metric": "sevenMetres",
+      "value": 4,
+      "band": {
+        "min": 0,
+        "max": 14
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 38,
+      "metric": "goals",
+      "value": 75,
+      "band": {
+        "min": 42,
+        "max": 76
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 38,
+      "metric": "shots",
+      "value": 108,
+      "band": {
+        "min": 88,
+        "max": 150
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 38,
+      "metric": "possessions",
+      "value": 130,
+      "band": {
+        "min": 84,
+        "max": 140
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 38,
+      "metric": "suspensions",
+      "value": 7,
+      "band": {
+        "min": 0,
+        "max": 10
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 38,
+      "metric": "sevenMetres",
+      "value": 3,
+      "band": {
+        "min": 0,
+        "max": 14
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 39,
+      "metric": "goals",
+      "value": 70,
+      "band": {
+        "min": 42,
+        "max": 76
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 39,
+      "metric": "shots",
+      "value": 105,
+      "band": {
+        "min": 88,
+        "max": 150
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 39,
+      "metric": "possessions",
+      "value": 134,
+      "band": {
+        "min": 84,
+        "max": 140
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 39,
+      "metric": "suspensions",
+      "value": 2,
+      "band": {
+        "min": 0,
+        "max": 10
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 39,
+      "metric": "sevenMetres",
+      "value": 0,
+      "band": {
+        "min": 0,
+        "max": 14
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 40,
+      "metric": "goals",
+      "value": 64,
+      "band": {
+        "min": 42,
+        "max": 76
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 40,
+      "metric": "shots",
+      "value": 105,
+      "band": {
+        "min": 88,
+        "max": 150
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 40,
+      "metric": "possessions",
+      "value": 133,
+      "band": {
+        "min": 84,
+        "max": 140
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 40,
+      "metric": "suspensions",
+      "value": 5,
+      "band": {
+        "min": 0,
+        "max": 10
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 40,
+      "metric": "sevenMetres",
+      "value": 3,
+      "band": {
+        "min": 0,
+        "max": 14
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 41,
+      "metric": "goals",
+      "value": 58,
+      "band": {
+        "min": 42,
+        "max": 76
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 41,
+      "metric": "shots",
+      "value": 95,
+      "band": {
+        "min": 88,
+        "max": 150
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 41,
+      "metric": "possessions",
+      "value": 120,
+      "band": {
+        "min": 84,
+        "max": 140
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 41,
+      "metric": "suspensions",
+      "value": 5,
+      "band": {
+        "min": 0,
+        "max": 10
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 41,
+      "metric": "sevenMetres",
+      "value": 6,
+      "band": {
+        "min": 0,
+        "max": 14
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 42,
+      "metric": "goals",
+      "value": 64,
+      "band": {
+        "min": 42,
+        "max": 76
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 42,
+      "metric": "shots",
+      "value": 101,
+      "band": {
+        "min": 88,
+        "max": 150
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 42,
+      "metric": "possessions",
+      "value": 128,
+      "band": {
+        "min": 84,
+        "max": 140
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 42,
+      "metric": "suspensions",
+      "value": 4,
+      "band": {
+        "min": 0,
+        "max": 10
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 42,
+      "metric": "sevenMetres",
+      "value": 2,
+      "band": {
+        "min": 0,
+        "max": 14
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 43,
+      "metric": "goals",
+      "value": 64,
+      "band": {
+        "min": 42,
+        "max": 76
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 43,
+      "metric": "shots",
+      "value": 111,
+      "band": {
+        "min": 88,
+        "max": 150
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 43,
+      "metric": "possessions",
+      "value": 131,
+      "band": {
+        "min": 84,
+        "max": 140
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 43,
+      "metric": "suspensions",
+      "value": 5,
+      "band": {
+        "min": 0,
+        "max": 10
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 43,
+      "metric": "sevenMetres",
+      "value": 8,
+      "band": {
+        "min": 0,
+        "max": 14
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 44,
+      "metric": "goals",
+      "value": 75,
+      "band": {
+        "min": 42,
+        "max": 76
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 44,
+      "metric": "shots",
+      "value": 113,
+      "band": {
+        "min": 88,
+        "max": 150
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 44,
+      "metric": "possessions",
+      "value": 136,
+      "band": {
+        "min": 84,
+        "max": 140
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 44,
+      "metric": "suspensions",
+      "value": 5,
+      "band": {
+        "min": 0,
+        "max": 10
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 44,
+      "metric": "sevenMetres",
+      "value": 5,
+      "band": {
+        "min": 0,
+        "max": 14
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 45,
+      "metric": "goals",
+      "value": 70,
+      "band": {
+        "min": 42,
+        "max": 76
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 45,
+      "metric": "shots",
+      "value": 103,
+      "band": {
+        "min": 88,
+        "max": 150
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 45,
+      "metric": "possessions",
+      "value": 135,
+      "band": {
+        "min": 84,
+        "max": 140
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 45,
+      "metric": "suspensions",
+      "value": 5,
+      "band": {
+        "min": 0,
+        "max": 10
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 45,
+      "metric": "sevenMetres",
+      "value": 4,
+      "band": {
+        "min": 0,
+        "max": 14
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 46,
+      "metric": "goals",
+      "value": 63,
+      "band": {
+        "min": 42,
+        "max": 76
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 46,
+      "metric": "shots",
+      "value": 100,
+      "band": {
+        "min": 88,
+        "max": 150
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 46,
+      "metric": "possessions",
+      "value": 124,
+      "band": {
+        "min": 84,
+        "max": 140
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 46,
+      "metric": "suspensions",
+      "value": 7,
+      "band": {
+        "min": 0,
+        "max": 10
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 46,
+      "metric": "sevenMetres",
+      "value": 8,
+      "band": {
+        "min": 0,
+        "max": 14
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 47,
+      "metric": "goals",
+      "value": 69,
+      "band": {
+        "min": 42,
+        "max": 76
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 47,
+      "metric": "shots",
+      "value": 110,
+      "band": {
+        "min": 88,
+        "max": 150
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 47,
+      "metric": "possessions",
+      "value": 136,
+      "band": {
+        "min": 84,
+        "max": 140
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 47,
+      "metric": "suspensions",
+      "value": 4,
+      "band": {
+        "min": 0,
+        "max": 10
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 47,
+      "metric": "sevenMetres",
+      "value": 2,
+      "band": {
+        "min": 0,
+        "max": 14
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 48,
+      "metric": "goals",
+      "value": 63,
+      "band": {
+        "min": 42,
+        "max": 76
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 48,
+      "metric": "shots",
+      "value": 105,
+      "band": {
+        "min": 88,
+        "max": 150
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 48,
+      "metric": "possessions",
+      "value": 128,
+      "band": {
+        "min": 84,
+        "max": 140
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 48,
+      "metric": "suspensions",
+      "value": 6,
+      "band": {
+        "min": 0,
+        "max": 10
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 48,
+      "metric": "sevenMetres",
+      "value": 2,
+      "band": {
+        "min": 0,
+        "max": 14
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 49,
+      "metric": "goals",
+      "value": 57,
+      "band": {
+        "min": 42,
+        "max": 76
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 49,
+      "metric": "shots",
+      "value": 100,
+      "band": {
+        "min": 88,
+        "max": 150
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 49,
+      "metric": "possessions",
+      "value": 132,
+      "band": {
+        "min": 84,
+        "max": 140
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 49,
+      "metric": "suspensions",
+      "value": 6,
+      "band": {
+        "min": 0,
+        "max": 10
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 49,
+      "metric": "sevenMetres",
+      "value": 1,
+      "band": {
+        "min": 0,
+        "max": 14
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 50,
+      "metric": "goals",
+      "value": 53,
+      "band": {
+        "min": 42,
+        "max": 76
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 50,
+      "metric": "shots",
+      "value": 110,
+      "band": {
+        "min": 88,
+        "max": 150
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 50,
+      "metric": "possessions",
+      "value": 134,
+      "band": {
+        "min": 84,
+        "max": 140
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 50,
+      "metric": "suspensions",
+      "value": 4,
+      "band": {
+        "min": 0,
+        "max": 10
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 50,
+      "metric": "sevenMetres",
+      "value": 2,
+      "band": {
+        "min": 0,
+        "max": 14
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 51,
+      "metric": "goals",
+      "value": 59,
+      "band": {
+        "min": 42,
+        "max": 76
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 51,
+      "metric": "shots",
+      "value": 94,
+      "band": {
+        "min": 88,
+        "max": 150
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 51,
+      "metric": "possessions",
+      "value": 123,
+      "band": {
+        "min": 84,
+        "max": 140
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 51,
+      "metric": "suspensions",
+      "value": 5,
+      "band": {
+        "min": 0,
+        "max": 10
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 51,
+      "metric": "sevenMetres",
+      "value": 7,
+      "band": {
+        "min": 0,
+        "max": 14
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 52,
+      "metric": "goals",
+      "value": 66,
+      "band": {
+        "min": 42,
+        "max": 76
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 52,
+      "metric": "shots",
+      "value": 93,
+      "band": {
+        "min": 88,
+        "max": 150
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 52,
+      "metric": "possessions",
+      "value": 134,
+      "band": {
+        "min": 84,
+        "max": 140
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 52,
+      "metric": "suspensions",
+      "value": 11,
+      "band": {
+        "min": 0,
+        "max": 10
+      },
+      "status": "OUTSIDE_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 52,
+      "metric": "sevenMetres",
+      "value": 2,
+      "band": {
+        "min": 0,
+        "max": 14
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 53,
+      "metric": "goals",
+      "value": 56,
+      "band": {
+        "min": 42,
+        "max": 76
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 53,
+      "metric": "shots",
+      "value": 89,
+      "band": {
+        "min": 88,
+        "max": 150
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 53,
+      "metric": "possessions",
+      "value": 108,
+      "band": {
+        "min": 84,
+        "max": 140
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 53,
+      "metric": "suspensions",
+      "value": 2,
+      "band": {
+        "min": 0,
+        "max": 10
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 53,
+      "metric": "sevenMetres",
+      "value": 1,
+      "band": {
+        "min": 0,
+        "max": 14
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 54,
+      "metric": "goals",
+      "value": 60,
+      "band": {
+        "min": 42,
+        "max": 76
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 54,
+      "metric": "shots",
+      "value": 104,
+      "band": {
+        "min": 88,
+        "max": 150
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 54,
+      "metric": "possessions",
+      "value": 133,
+      "band": {
+        "min": 84,
+        "max": 140
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 54,
+      "metric": "suspensions",
+      "value": 1,
+      "band": {
+        "min": 0,
+        "max": 10
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 54,
+      "metric": "sevenMetres",
+      "value": 4,
+      "band": {
+        "min": 0,
+        "max": 14
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 55,
+      "metric": "goals",
+      "value": 37,
+      "band": {
+        "min": 42,
+        "max": 76
+      },
+      "status": "OUTSIDE_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 55,
+      "metric": "shots",
+      "value": 77,
+      "band": {
+        "min": 88,
+        "max": 150
+      },
+      "status": "OUTSIDE_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 55,
+      "metric": "possessions",
+      "value": 91,
+      "band": {
+        "min": 84,
+        "max": 140
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 55,
+      "metric": "suspensions",
+      "value": 0,
+      "band": {
+        "min": 0,
+        "max": 10
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 55,
+      "metric": "sevenMetres",
+      "value": 1,
+      "band": {
+        "min": 0,
+        "max": 14
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 56,
+      "metric": "goals",
+      "value": 69,
+      "band": {
+        "min": 42,
+        "max": 76
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 56,
+      "metric": "shots",
+      "value": 100,
+      "band": {
+        "min": 88,
+        "max": 150
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 56,
+      "metric": "possessions",
+      "value": 128,
+      "band": {
+        "min": 84,
+        "max": 140
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 56,
+      "metric": "suspensions",
+      "value": 2,
+      "band": {
+        "min": 0,
+        "max": 10
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 56,
+      "metric": "sevenMetres",
+      "value": 2,
+      "band": {
+        "min": 0,
+        "max": 14
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 57,
+      "metric": "goals",
+      "value": 49,
+      "band": {
+        "min": 42,
+        "max": 76
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 57,
+      "metric": "shots",
+      "value": 98,
+      "band": {
+        "min": 88,
+        "max": 150
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 57,
+      "metric": "possessions",
+      "value": 130,
+      "band": {
+        "min": 84,
+        "max": 140
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 57,
+      "metric": "suspensions",
+      "value": 7,
+      "band": {
+        "min": 0,
+        "max": 10
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 57,
+      "metric": "sevenMetres",
+      "value": 8,
+      "band": {
+        "min": 0,
+        "max": 14
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 58,
+      "metric": "goals",
+      "value": 64,
+      "band": {
+        "min": 42,
+        "max": 76
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 58,
+      "metric": "shots",
+      "value": 103,
+      "band": {
+        "min": 88,
+        "max": 150
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 58,
+      "metric": "possessions",
+      "value": 138,
+      "band": {
+        "min": 84,
+        "max": 140
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 58,
+      "metric": "suspensions",
+      "value": 2,
+      "band": {
+        "min": 0,
+        "max": 10
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 58,
+      "metric": "sevenMetres",
+      "value": 3,
+      "band": {
+        "min": 0,
+        "max": 14
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 59,
+      "metric": "goals",
+      "value": 72,
+      "band": {
+        "min": 42,
+        "max": 76
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 59,
+      "metric": "shots",
+      "value": 105,
+      "band": {
+        "min": 88,
+        "max": 150
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 59,
+      "metric": "possessions",
+      "value": 132,
+      "band": {
+        "min": 84,
+        "max": 140
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 59,
+      "metric": "suspensions",
+      "value": 6,
+      "band": {
+        "min": 0,
+        "max": 10
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    },
+    {
+      "match": 59,
+      "metric": "sevenMetres",
+      "value": 7,
+      "band": {
+        "min": 0,
+        "max": 14
+      },
+      "status": "WITHIN_SANITY_RANGE",
+      "kind": "ENGINEERING_SANITY_RANGE",
+      "source": "packages/handball-engine/src/v2/core/realism.ts:EHF_ELITE"
+    }
+  ],
+  "compact": true
+}
