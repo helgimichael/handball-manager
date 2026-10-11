@@ -6,7 +6,7 @@ import{CalibrationDiagnostics}from'./lib/calibrationDiagnostics';import{extract}
 import{digest}from'../lib/matchBenchmarks/empirical';
 const root=resolve('../..'),out=join(root,'docs/match-empirical-calibration');mkdirSync(out,{recursive:true});
 const inputs=JSON.parse(readFileSync(join(root,'docs/empirical-handball-benchmarks/hbl-engine/inputs.json'),'utf8'));
-const specs=[{name:'BALANCED'},...['QUICK','WIDTH','COMBINATION','DIRECT','5:1'].map(name=>({name})),...['SHOOTING','KEEPER','CREATION','SPEED','M6','DEFENDING'].flatMap(family=>[.25,.9].map(level=>({name:`${family}:${level}`,family,level})))];
+const specs: {name:string;family?:string;level?:number}[]=[{name:'BALANCED'},...['QUICK','WIDTH','COMBINATION','DIRECT','5:1'].map(name=>({name})),...['SHOOTING','KEEPER','CREATION','SPEED','M6','DEFENDING'].flatMap(family=>[.25,.9].map(level=>({name:`${family}:${level}`,family,level})))];
 const rows:any[]=[];
 for(const spec of specs)for(const index of [0,1]){
  let career=createNewCareerState(`match-realism-v2-canonical-2026:${index}`,inputs.clubs[index],structuredClone(inputs.worldSquads),undefined,structuredClone(inputs.gameplayRatings));
@@ -14,9 +14,9 @@ for(const spec of specs)for(const index of [0,1]){
  career={...career,gameDate:fixture.date,careerEvents:[buildMatchdayReadyEvent(fixture.id,fixture.date)]};career=startProductionMatch(career,fixture.id);
  const team=fixture.homeClubId===career.playerClubId?'HOME':'AWAY';
  if(['QUICK','WIDTH','COMBINATION','DIRECT','5:1'].includes(spec.name))career=commandProductionMatch(career,{kind:'TACTICS',team,patch:spec.name==='QUICK'?{tempo:'QUICK'}:spec.name==='5:1'?{defence:'5:1'}:{attackIdentity:spec.name as'WIDTH'|'COMBINATION'|'DIRECT'}});
- const treatment='family'in spec?spec:null,players=career.productionMatch!.core.players.filter(p=>p.team===team&&p.population==='COURT');
+ const treatment=spec.family?spec:null,players=career.productionMatch!.core.players.filter(p=>p.team===team&&p.population==='COURT');
  let changed:string[]=[];
- if(treatment){const value=treatment.level;for(const p of players){
+ if(treatment){const value=treatment.level!;for(const p of players){
   const role=treatment.family==='KEEPER'?'GK':treatment.family==='SPEED'?'LW':treatment.family==='M6'?'P':'CB';if(treatment.family==='DEFENDING'?p.kind!=='FIELD_PLAYER':p.role!==role)continue;
   changed.push(p.id);const profile=p.profile;
   if(treatment.family==='SHOOTING')p.profile={...profile,shotPower:value,shotPlacement:value,finishing:value,composure:value};

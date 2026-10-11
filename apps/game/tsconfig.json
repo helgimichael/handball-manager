@@ -56,7 +56,9 @@
     ".next-game-realism-v21/types/**/*.ts",
     ".next-game-realism-v21/dev/types/**/*.ts",
     ".next-game-motion-v1/types/**/*.ts",
-    ".next-game-motion-v1/dev/types/**/*.ts"
+    ".next-game-motion-v1/dev/types/**/*.ts",
+    ".next-game-empirical-cal-v1/types/**/*.ts",
+    ".next-game-empirical-cal-v1/dev/types/**/*.ts"
   ],
   "exclude": [
     "node_modules"

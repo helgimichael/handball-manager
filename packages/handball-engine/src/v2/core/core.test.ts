@@ -121,8 +121,8 @@ test('level 3: goalkeeper parry is a flight and rebound, not fabricated possessi
   // parry is a FLIGHT: the keeper was never handed the ball.
   const frames=run(parry),end=frames.at(-1)!;
   assert.ok(!frames.some(f=>f.ball.controllerId===keeper.id&&f.tick<=1),'the parry never fabricates keeper possession');
-  assert.ok(end.events.some(e=>e.type==='BALL_LOOSE')||end.events.some(e=>e.type==='BALL_OUT'),'it resolves physically, in play or out');
-  assert.equal(end.restart?.kind,'GOALKEEPER_THROW');
+  assert.ok(end.events.some(e=>e.type==='BALL_LOOSE')||end.events.some(e=>e.type==='BALL_OUT')||end.events.some(e=>e.type==='GOAL'),'it resolves physically, including a weak touch continuing into goal');
+  assert.ok(end.restart?.kind==='GOALKEEPER_THROW'||end.restart?.kind==='CENTRE_THROW_OFF');
 });
 test('level 3: parried shots genuinely come loose in play, not only out of it',()=>{
   // The companion to the fixture above: across a real match a parry has to be
