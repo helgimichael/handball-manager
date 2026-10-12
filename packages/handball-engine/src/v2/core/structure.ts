@@ -223,7 +223,8 @@ function executeIntelligence(s:CoreState,p:CorePlayer,d:Decision):boolean {
 function chooseCarrier(s:CoreState,p:CorePlayer) {
   // Committed airborne release and pivot turning retain their existing authority.
   const d=decideHandball(s,p);
-  if(!p.airborne&&!p.nextAction&&intelligenceRelevant(d,p)&&s.tick-p.handling.heldSinceTick<controlReadTicks(s,p)){
+  const gatheredKnownThreat=p.action?.kind==='DRIBBLE'&&p.handling.dribbleUsed&&!!d.previous&&['EXPLOIT_ADVANTAGE','ATTACK_NEXT_DEFENDER','BIND_HELP'].includes(d.previous.kind);
+  if(!p.airborne&&!p.nextAction&&!gatheredKnownThreat&&intelligenceRelevant(d,p)&&s.tick-p.handling.heldSinceTick<controlReadTicks(s,p)){
     // Perception and purpose can form while the hands secure the catch. Keep
     // the existing capability-dependent read budget rather than granting
     // instantaneous pass/shot execution to a newly recognized advantage.
