@@ -162,7 +162,7 @@ export function presentationEvents(events: readonly CoreEvent[], people: readonl
         let headline = '', detail = '', importance: Importance = 'NORMAL';
         switch (event.type) {
             case 'PASS_RELEASED':
-                if (!String(event.details.reason).includes('HELP_COMMITTED') || !known.has(event.relatedIds[0]))
+                if (!String(event.details.reason).includes('HELP_COMMITTED') || !String(event.details.reason).includes('created=true') || !String(event.details.reason).includes('coverCommitted=true') || !known.has(event.relatedIds[0]))
                     continue;
                 headline = `Öppning · ${known.get(event.relatedIds[0])!.name}`;
                 detail = tacticalContext ?? `${name} spelar vidare efter att hjälpen gått över.`;
