@@ -266,15 +266,22 @@ test('a normal completed approach can still bounce legally when its real prepara
   assert.equal(p.handling.dribbleUsed,true);assert.equal(s.ball.mode,'DRIBBLE');assert.equal(s.ball.controllerId,p.id);
 });
 
-test('transition reads an actual free ahead first-wave runner before settled relationship circulation',()=>{
-  const s=createCoreScenario('TRANSITION_3V2'),p=getPlayer(s,'H03'),runner=getPlayer(s,'H01');
-  runner.position={x:2,y:15};s.tick=12;s.timeMs=600;coordinate(s);selectActions(s);
-  assert.equal(p.action?.kind,'PASS');assert.equal(p.action?.targetId,runner.id);assert.equal(s.ball.controllerId,p.id);
+test('transition retains an open personal lane but releases its ahead runner when actually contained',()=>{
+  for(const contained of [false,true]) {
+    const s=createCoreScenario('TRANSITION_3V2'),p=getPlayer(s,'H03'),runner=getPlayer(s,'H01');
+    runner.position={x:2,y:15};
+    if(contained)getPlayer(s,'A03').position={x:10,y:21};
+    s.tick=12;s.timeMs=600;coordinate(s);selectActions(s);
+    if(contained){assert.equal(p.action?.kind,'PASS');assert.equal(p.action?.targetId,runner.id);}
+    else {assert.equal(p.action?.kind,'DRIVE');assert.equal(p.handballIntent?.kind,'EXPLOIT_ADVANTAGE');assert.ok(p.action!.target!.y<p.position.y);}
+    assert.equal(s.ball.controllerId,p.id);
+  }
 });
 
 test('a transition carries the actual open lane when a settled entry would otherwise own the read',()=>{
   const s=createCoreScenario('TRANSITION_3V2'),p=getPlayer(s,'H03');p.position={x:10,y:16.5};s.ball.position={...p.position};
   s.tick=12;s.timeMs=600;offenceBefore(s);assert.ok(s.offence.entry);coordinate(s);selectActions(s);
-  assert.equal(p.action?.kind,'DRIBBLE');assert.ok(p.action?.reason.startsWith('TRANSITION:'));
+  assert.equal(p.action?.kind,'DRIVE');assert.equal(p.handballIntent?.kind,'ATTACK_NEXT_DEFENDER');
+  assert.ok(p.action!.target!.y<p.position.y);assert.equal(p.handling.dribbleUsed,false,'legal steps remain available before a required bounce');
   assert.deepEqual(p.position,{x:10,y:16.5});assert.equal(s.possession.phase,'TRANSITION');
 });
