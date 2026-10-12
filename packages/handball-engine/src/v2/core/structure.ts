@@ -404,6 +404,15 @@ export function releaseFromDrive(s:CoreState,carrier:CorePlayer|null):boolean {
       if(carrier.handballIntent?.sinceTick===s.tick||s.tick%10===0)traceDecision(s,carrier,d);
       return false;
     }
+    const r=d.perception,receiver=r.receivers.find(x=>x.id===c.targetId);
+    const primaryBound=!!receiver?.created&&receiver.creatorId===r.primary?.id&&!!r.primary?.goalSide&&r.primary.distance<1.65;
+    const superiorReceiver=!!receiver&&receiver.advantage>.85&&receiver.quality>(r.shot?.quality??0)+.22;
+    const legalRelease=d.breakCondition==='LEGAL_RELEASE_REQUIRED';
+    // A receiver being visible during the approach is not a reason to end it.
+    // Preserve the old duel/contact authority until containment is actually lost,
+    // cover is physically bound, a real close shot window appears or rules require release.
+    if(c.motor==='PASS'&&!r.help?.committed&&!primaryBound&&!superiorReceiver&&!legalRelease)return false;
+    if(c.motor==='SHOOT'&&!r.primary?.beaten&&!d.situations.includes('CLEAR_SHOT_WINDOW')&&!legalRelease)return false;
     if(['EXECUTING','RECOVERING'].includes(a.phase)&&(d.breakCondition||c.motor!=='DRIVE')){
       resolveAction(s,carrier,`Tactical continuation: ${d.reason}`);
       if(executeIntelligence(s,carrier,d)){traceDecision(s,carrier,d);return true;}

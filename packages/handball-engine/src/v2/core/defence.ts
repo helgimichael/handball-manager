@@ -218,8 +218,8 @@ export function allocate(s: CoreState, defenders: readonly CorePlayer[], attacke
   const duties = new Map<string, ZoneDuty>();
   const byZone = new Map<number, CorePlayer>();
   // A physically passed primary cannot retain containment just because its duel timer expired.
-  const lostPrimary=carrier?defenders.find(d=>d.id===s.defence.pressureId&&distance(d.position,carrier.position)<4&&
-    Math.hypot(carrier.velocity.x,carrier.velocity.y)>.5&&defenderRelation(carrier,d,goal(direction)).beaten):undefined;
+  const containmentLost=(d:CorePlayer)=>!!carrier&&distance(d.position,carrier.position)<4&&
+    Math.hypot(carrier.velocity.x,carrier.velocity.y)>.5&&defenderRelation(carrier,d,goal(direction)).beaten;
   for (const d of defenders) if (d.zone !== null) byZone.set(d.zone, d);
   if(retreating&&!lineFormed(s,defenders,direction)){
     // A retreat is not a six-man duel. One useful goal-side player delays the
@@ -270,7 +270,7 @@ export function allocate(s: CoreState, defenders: readonly CorePlayer[], attacke
   if (carrier && read.engaged !== null) {
     const carrierDepth=local(carrier.position,direction).y;
     const point=byZone.get(POINT_ZONE);
-    const pointOwns=s.defence.system==='5:1'&&point&&point!==lostPrimary&&point.beatenUntilTick<=s.tick&&point.screenedUntilTick<=s.tick&&
+    const pointOwns=s.defence.system==='5:1'&&point&&!containmentLost(point)&&point.beatenUntilTick<=s.tick&&point.screenedUntilTick<=s.tick&&
       carrierDepth>=9.5&&carrierDepth<=17&&carrier.position.x>=4&&carrier.position.x<=16;
     if(pointOwns)pressureId=point.id;
     // Whoever owns the space the ball is in presses it. If that man is beaten
@@ -283,7 +283,7 @@ export function allocate(s: CoreState, defenders: readonly CorePlayer[], attacke
       // neighbour takes the penetration rather than opening a central hole.
       if(s.defence.system==='5:1'&&zone===POINT_ZONE)continue;
       const candidate = byZone.get(zone);
-      if (candidate && candidate!==lostPrimary&&candidate.beatenUntilTick <= s.tick && candidate.screenedUntilTick <= s.tick) { pressureId = candidate.id; break; }
+      if (candidate && !containmentLost(candidate)&&candidate.beatenUntilTick <= s.tick && candidate.screenedUntilTick <= s.tick) { pressureId = candidate.id; break; }
     }
   }
   if (pressureId) {
@@ -300,7 +300,7 @@ export function allocate(s: CoreState, defenders: readonly CorePlayer[], attacke
       :[lowerZones[lowerZones.indexOf(presser.zone??0)+side],lowerZones[lowerZones.indexOf(presser.zone??0)-side]];
     for (const zone of neighbours) {
       const neighbour = zone===undefined?undefined:byZone.get(zone);
-      if (neighbour && neighbour!==lostPrimary&&neighbour.id !== pressureId && neighbour.beatenUntilTick <= s.tick && neighbour.screenedUntilTick <= s.tick && !pivotOwner.has(neighbour.id)) { helperId = neighbour.id; break; }
+      if (neighbour && !containmentLost(neighbour)&&neighbour.id !== pressureId && neighbour.beatenUntilTick <= s.tick && neighbour.screenedUntilTick <= s.tick && !pivotOwner.has(neighbour.id)) { helperId = neighbour.id; break; }
     }
     if (helperId) {
       duties.set(helperId, { kind: 'HELP', targetId: carrier!.id, reason: 'Close the interval the step-out opened beside the pressing defender' });
@@ -317,7 +317,7 @@ export function allocate(s: CoreState, defenders: readonly CorePlayer[], attacke
   // single clearest way for a 6:0 to look broken, and the zonal allocation can
   // produce one whenever the pivot's own space becomes the pressing space.
   for (const [ownerId, pivotId] of [...pivotOwner]) {
-    if (!duties.has(ownerId)&&getPlayer(s,ownerId).beatenUntilTick<=s.tick) continue;
+    if (!duties.has(ownerId)&&getPlayer(s,ownerId).beatenUntilTick<=s.tick&&!containmentLost(getPlayer(s,ownerId))) continue;
     // TO THE NEAREST FREE MAN, not along the index. Walking outward by zone
     // number sent the line player's marker to a space six metres away whenever
     // the obvious neighbour was already the helper -- and a defender at 6.1
@@ -326,7 +326,7 @@ export function allocate(s: CoreState, defenders: readonly CorePlayer[], attacke
     const pivotPlayer = attackers.find(a => a.id === pivotId);
     const pivotX = pivotPlayer ? pivotPlayer.position.x : 10;
     let relay = defenders
-      .filter(d => d.zone !== null && !duties.has(d.id) && !pivotOwner.has(d.id) && d.beatenUntilTick<=s.tick && d.id !== ownerId&&
+      .filter(d => d.zone !== null && !duties.has(d.id) && !pivotOwner.has(d.id) && d.beatenUntilTick<=s.tick && !containmentLost(d)&&d.id !== ownerId&&
         !(s.defence.system==='5:1'&&d.zone===POINT_ZONE))
       .sort((a, b) => Math.abs((s.defence.system==='5:1'?FIVE_ONE_ANCHORS[a.zone!]:ZONE_ANCHORS[a.zone!]) - pivotX) - Math.abs((s.defence.system==='5:1'?FIVE_ONE_ANCHORS[b.zone!]:ZONE_ANCHORS[b.zone!]) - pivotX)
         || a.id.localeCompare(b.id))[0];
@@ -353,7 +353,7 @@ export function allocate(s: CoreState, defenders: readonly CorePlayer[], attacke
 
   for (const d of defenders) {
     if (duties.has(d.id)) continue;
-    if (d.beatenUntilTick > s.tick||d===lostPrimary) { duties.set(d.id, { kind: 'RECOVER', targetId: null, reason: 'Beaten; recover into the line before taking anything else' }); continue; }
+    if (d.beatenUntilTick > s.tick||containmentLost(d)) { duties.set(d.id, { kind: 'RECOVER', targetId: null, reason: 'Beaten; recover into the line before taking anything else' }); continue; }
     // A defender who is still up the court has no space to hold yet. Getting
     // goal-side of the ball comes first, and the line forms out of the players
     // who have arrived.

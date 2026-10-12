@@ -438,7 +438,7 @@ export function readContinuation(s: CoreState, carrier: CorePlayer): Continuatio
 }
 
 /** Below this a shot is not a shot, whoever is taking it. */
-const SHOT_FLOOR = 0.26;
+export const SHOT_FLOOR = 0.26;
 /**
  * What keeping the ball is worth. Every other option has to beat it.
  *
