@@ -61,4 +61,11 @@ docs/match-motion-quality-v2/relational-hbl/
 docs/match-motion-quality-v2/tactics/
 
 # HM-DATA-EDITOR-0.1: single-backup-per-file safety copies created on save.
+docs/match-intelligence-v1/**/match-*.json
+docs/match-intelligence-v1/**/causal-*.json
+docs/match-intelligence-v1/**/motion-*.json
+docs/match-intelligence-v1/**/intelligence-*.json
+docs/match-intelligence-v1/**/inputs.json
+docs/match-intelligence-v1/**/*.log
+docs/match-intelligence-v1/iteration*/
 *.bak

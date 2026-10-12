@@ -18,6 +18,7 @@ import {extract} from '../lib/matchBenchmarks/extract';
 import {matchReport,aggregate,markdown} from '../lib/matchBenchmarks/report';
 import {ingestReference,SCHEMA_VERSION,type Identity} from '../lib/matchBenchmarks/reference';
 import {EHF_ELITE} from '@handball-manager/handball-engine/src/v2/core/realism';
+import {enableDecisionTrace,intelligenceMetrics} from '@handball-manager/handball-engine/src/v2/core/intelligence';
 
 const args=process.argv.slice(2),option=(k:string,d?:string)=>{const i=args.indexOf(k);return i<0?d:args[i+1];};
 const mode=option('--mode','fast')!,defaults:Record<string,number>={fast:20,calibration:100,deep:500};
@@ -60,6 +61,7 @@ for(const recipe of recipes){
   if(tactics)career=commandProductionMatch(career,{kind:'TACTICS',team:fixture.homeClubId===career.playerClubId?'HOME':'AWAY',patch:tactics});
   const initial=structuredClone(career),initialProfiles=career.productionMatch!.core.players.map(p=>({id:p.id,team:p.team,role:p.role,profile:p.profile,energy:p.condition.energy})),initialTactics=structuredClone(career.productionMatch!.core.coaching);
   const motion=args.includes('--motion-quality')&&reports.length<2?new MotionQualityDiagnostics():null;
+  const intelligence=args.includes('--intelligence')?enableDecisionTrace(career.productionMatch!.core,reports.length<2?256:0):null;
   const observer=new CalibrationDiagnostics();let observerMs=0,calls=0,simulationStart=performance.now(),savedMidMatch:typeof career|null=null;
   while(career.productionMatch!.core.status==='RUNNING'&&calls++<40){career=advanceProductionMatch(career,10000,false,(core,events)=>{const t=performance.now();observer.observe(core,events);motion?.observe(core);observerMs+=performance.now()-t;});if(args.includes('--prove')&&reports.length===0&&calls===2)savedMidMatch=JSON.parse(JSON.stringify(career));}
   const simulationMs=performance.now()-simulationStart,session=career.productionMatch!;
@@ -71,6 +73,7 @@ for(const recipe of recipes){
   if(savedMidMatch){let resumed=savedMidMatch,n=0;while(resumed.productionMatch!.core.status==='RUNNING'&&n++<40)resumed=advanceProductionMatch(resumed,10000,false);const equal=hash(resumed.productionMatch)===before&&hash(resultFromSession(resumed.productionMatch!))===hash(result);if(!equal)throw new Error('Mid-match save/reload changed final truth');proofs.push({index:recipe.index,saveReloadFullMatch:true,exactSessionEqual:equal,checkpoint:'JSON persisted career after two 10000-tick chunks',includes:['result','events','rng','trajectories','archive frames','statistics']});}
   const compact={...report,actual:{...report.actual,keepers:report.actual.keepers.map(k=>({...k,shots:undefined}))}};
   if(motion)write(`motion-${String(recipe.index).padStart(3,'0')}.json`,motion.report());
+  if(intelligence)write(`intelligence-${String(recipe.index).padStart(3,'0')}.json`,{metrics:intelligenceMetrics(intelligence),traces:intelligence.traces,defensiveTraces:intelligence.defensiveTraces});
   if(args.includes('--causal'))write(`causal-${String(recipe.index).padStart(3,'0')}.json`,{shots:diagnostics.shots,halves:diagnostics.halves,ruleFacts:session.core.events.filter(e=>['CONTACT_EXECUTED','FOUL_ASSESSED','WHISTLE_RESTART','TWO_MINUTE_SUSPENSION','WARNING','DISQUALIFICATION','ADVANTAGE_PENDING','ADVANTAGE_REALIZED','ADVANTAGE_RECALLED'].includes(e.type))});
   write(`match-${String(recipe.index).padStart(3,'0')}.json`,{metadata:{recipe,fixture,head,engineVersion:session.core.version,behaviorRevision:session.behaviorRevision,initialSessionHash:hash(initial.productionMatch),truthHash:before,resultHash:hash(result),initialProfiles,initialTactics,...(motion?{archiveFrameCount:session.frames.length,archiveEncodedBytes:encodeFrames(session.frames).length*3/4}: {})},...compact});
   reports.push(report);timings.push({simulationMs,analysisMs,observerMs});console.log(JSON.stringify({index:recipe.index,score:session.core.score,shots:actual.totals.shots,saves:actual.totals.saves,simulationMs:Math.round(simulationMs),analysisMs:Math.round(analysisMs)}));
