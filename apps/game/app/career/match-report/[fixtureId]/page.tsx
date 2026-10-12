@@ -1,5 +1,6 @@
 "use client";
 import { MatchHero } from '@/components/game/Identity';
+import { ArchiveReplay } from '@/components/ProductionMatchView';
 import { PageHeading } from '@/components/manager/Workspace';
 import MatchTimeline from '@/components/manager/MatchTimeline';
 import MatchContext from "@/components/manager/MatchContext";
@@ -25,7 +26,7 @@ export default function MatchReportPage() {
   if (!fixture || !result) {
     return (
       <div className="hm-panel">
-        <div className="hm-panel-body hm-text-muted">Ingen matchrapport hittades för denna fixture.</div>
+        <div className="hm-panel-body hm-text-muted">Den här matchen saknar en rapport.</div>
       </div>
     );
   }
@@ -47,6 +48,9 @@ export default function MatchReportPage() {
   // one. Only offer "Öppna matchanalys" when this report IS that match;
   // an older report reached via Schedule only ever gets Match Report.
   const isCurrentLastMatch = getLastPlayedPlayerFixture(career)?.fixture.id === fixture.id;
+
+  const archive=career.matchArchives?.[fixture.id];
+  if(archive)return <div className="mc-report-page"><PageHeading eyebrow={fixture.date} title="Matchrapport" description="Resultatet, prestationerna och de avgörande ögonblicken."/><ArchiveReplay archive={archive}/><div className="mc-report-actions"><button type="button" className="hm-btn" onClick={()=>router.push('/career/schedule')}>← Schema</button>{isCurrentLastMatch&&<button type="button" className="hm-btn" onClick={()=>router.push('/career/analysis/last-match')}>Öppna matchanalys</button>}<button type="button" className="hm-btn" onClick={()=>router.push(`/career/competitions/${fixture.competitionId}`)}>Ligaläget</button><button type="button" className="hm-btn hm-btn-primary" onClick={()=>router.push('/career')}>Fortsätt →</button></div></div>;
 
   return (
     <div className="hm-grid" style={{ gap: 12 }}>

@@ -1,0 +1,5 @@
+{
+  "extends": "./tsconfig.json",
+  "include": ["lib/matchCenter/**/*.ts", "components/matchCenter/**/*.tsx", "scripts/prove-match-center.ts"],
+  "exclude": ["node_modules"]
+}

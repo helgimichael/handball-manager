@@ -9,6 +9,9 @@ import { playbackTick } from '@/lib/career/matchPlayback';
 import type { ProductionMatchSession } from '@/lib/career/productionMatch';
 import { Scoreboard } from '@/components/game/Identity';
 import { LiveCoachPanel } from '@/components/game/LiveCoachPanel';
+import { LiveMatchCenter, ArchivedMatchCenter } from '@/components/matchCenter/MatchCenter';
+import { MATCH_SPEEDS } from '@/lib/matchCenter/model';
+import { advanceMatchCenter, resumeMatchTimeout } from '@/lib/matchCenter/control';
 
 function Court({ frame, people }: { frame: MatchFrame; people: MatchPerson[] }) {
   return <svg data-render-tick={frame[0]} viewBox="-150 -100 4300 2200" aria-label="Handbollsplan med matchens spelare och boll" style={{ width: '100%', maxHeight: '64vh', minHeight: 340 }}>
@@ -48,7 +51,7 @@ function LiveCourt({session,playing,speed}:{session:ProductionMatchSession;playi
   return <Court frame={frameAt(session.frames,tick)} people={session.people}/>;
 }
 
-export function ArchiveReplay({ archive }: { archive: PlayedMatchArchive }) {
+function ExperimentalArchiveReplay({ archive }: { archive: PlayedMatchArchive }) {
   const decoded = useMemo(() => { try { return { frames: archiveFrames(archive), error: null }; } catch (cause) { return { frames: [], error: cause instanceof Error ? cause.message : 'Reprisen kunde inte läsas.' }; } }, [archive]);
   const frames = decoded.frames;
   const [tick, setTick] = useState(frames[0]?.[0] ?? 0), [playing, setPlaying] = useState(false), [speed, setSpeed] = useState(4);
@@ -64,10 +67,18 @@ export function ArchiveReplay({ archive }: { archive: PlayedMatchArchive }) {
   return <div className="game-live-match"><Scoreboard homeClubId={archive.fixture.homeClubId} awayClubId={archive.fixture.awayClubId} homeScore={frame[3]} awayScore={frame[4]} label="Repris"><span>{Math.floor(frame[1] / 60000)}:{String(Math.floor(frame[1] / 1000) % 60).padStart(2, '0')}</span></Scoreboard><div className="game-court-stage"><Court frame={frame} people={archive.people} /></div><div className="game-match-controls"><button className="hm-btn" onClick={() => setPlaying(!playing)}>{playing ? 'Pausa' : 'Spela'}</button> <select aria-label="Reprishastighet" value={speed} onChange={e => setSpeed(Number(e.target.value))}>{[1, 4, 16, 64].map(n => <option key={n} value={n}>{n}×</option>)}</select><input aria-label="Position i reprisen" type="range" min={frames[0][0]} max={frames.at(-1)![0]} value={Math.floor(tick)} onChange={e => { setTick(Number(e.target.value)); setPlaying(false); }} style={{ width: '100%', marginTop: 16 }} /><p>Slutresultat: {archive.result.homeGoals}–{archive.result.awayGoals}</p></div></div>;
 }
 
+/** Normal replay is the recorded event/key-moment experience. 2D remains optional. */
+export function ArchiveReplay({archive}:{archive:PlayedMatchArchive}){
+  const decoded=useMemo(()=>{try{return{frames:archiveFrames(archive),error:null};}catch{return{frames:[],error:'Positionsbilderna kunde inte läsas. Matchrapporten finns kvar.'};}},[archive]);
+  return <>{decoded.error&&<p role="alert">{decoded.error}</p>}<ArchivedMatchCenter archive={archive} frames={decoded.frames} experimental={<ExperimentalArchiveReplay archive={archive}/>}/></>;
+}
+
 export default function ProductionMatchView({ fixtureId, quickFinish = false }: { fixtureId: string; quickFinish?: boolean }) {
   const router = useRouter();
   const { career, updateCareer } = useCareer();
-  const [playing, setPlaying] = useState(false), [speed, setSpeed] = useState(16), [error, setError] = useState<string | null>(null), [busy, setBusy] = useState(quickFinish);
+  const [playing, setPlaying] = useState(false), [speed, setSpeed] = useState(4), [error, setError] = useState<string | null>(null), [busy, setBusy] = useState(quickFinish);
+  const [keyMode,setKeyMode]=useState(false),[untilKey,setUntilKey]=useState(false);
+  const stopped=useRef(false),coachRef=useRef<HTMLDivElement>(null);
   const [outId, setOutId] = useState(''), [inId, setInId] = useState('');
   const [finishing, setFinishing] = useState(quickFinish);
   const session = career.productionMatch;
@@ -78,32 +89,30 @@ export default function ProductionMatchView({ fixtureId, quickFinish = false }: 
       return () => clearTimeout(timer);
     }
     if (session.core.status !== 'RUNNING' || (session.pausedAtHalf && !finishing)) return;
-    const timer = setTimeout(() => updateCareer(state => advanceProductionMatch(state.productionMatch?.pausedAtHalf ? commandProductionMatch(state, { kind: 'SECOND_HALF' }) : state, finishing ? 1000 : Math.max(1, speed), !finishing)), finishing ? 10 : 50);
+    const timer = setTimeout(() => updateCareer(state => {
+      if(finishing)return advanceProductionMatch(state.productionMatch?.pausedAtHalf?commandProductionMatch(state,{kind:'SECOND_HALF'}):state,1000,false);
+      const ticks=untilKey?128:Math.max(1,speed)*4,next=advanceMatchCenter(state,ticks,keyMode||untilKey,()=>{stopped.current=true;});
+      if(next.productionMatch&&(next.productionMatch.pausedAtHalf||next.productionMatch.core.match?.phase==='FULLTIME'))stopped.current=true;
+      return next;
+    }), finishing ? 10 : untilKey?50:200);
     return () => clearTimeout(timer);
-  }, [playing, finishing, speed, session, fixtureId, updateCareer, router]);
+  }, [playing, finishing, speed, session, fixtureId, updateCareer, router,keyMode,untilKey]);
+  useEffect(()=>{if(stopped.current){stopped.current=false;setPlaying(false);setUntilKey(false);}},[session]);
   const archive = career.matchArchives?.[fixtureId];
   if (!session || session.fixture.id !== fixtureId) {
     if (archive) return <><div style={{ marginBottom: 12 }}><Link className="hm-btn" href={`/career/match-report/${fixtureId}`}>Matchrapport</Link> <Link className="hm-btn hm-btn-primary" href="/career">Fortsätt karriären</Link></div><ArchiveReplay archive={archive} /></>;
-    return <div className="hm-panel-body"><p>{career.results[fixtureId] ? 'Den här matchen har inget sparat 2D-arkiv.' : 'Starta matchen från matchförhandsvisningen.'}</p><Link className="hm-btn" href={career.results[fixtureId] ? `/career/match-report/${fixtureId}` : '/career/match-preview'}>Öppna match</Link></div>;
+    return <div className="hm-panel-body"><p>{career.results[fixtureId] ? 'Resultatet finns i matchrapporten. Den här matchen saknar sparade händelser för repris.' : 'Starta matchen från matchförhandsvisningen.'}</p><Link className="hm-btn" href={career.results[fixtureId] ? `/career/match-report/${fixtureId}` : '/career/match-preview'}>Öppna match</Link></div>;
   }
   const c = session.core, team = session.fixture.homeClubId === career.playerClubId ? 'HOME' : 'AWAY';
   const fulltime = c.match?.phase === 'FULLTIME';
-  const minute = Math.floor(c.officialClock.timeMs / 60000), second = String(Math.floor(c.officialClock.timeMs / 1000) % 60).padStart(2, '0');
-  function apply(command: MatchCommand) { try { updateCareer(state => commandProductionMatch(state, command)); setError(null); } catch (cause) { setError(cause instanceof Error ? cause.message : 'Beslutet kunde inte genomföras.'); } }
+  function apply(command: MatchCommand) { try { updateCareer(state => commandProductionMatch(state, command)); if(command.kind==='TIMEOUT'){setPlaying(false);setUntilKey(false);} setError(null); } catch (cause) { setError(cause instanceof Error ? cause.message : 'Beslutet kunde inte genomföras.'); } }
   function finish() { setPlaying(false); setBusy(true); setFinishing(true); }
   const recent = c.events.filter(e => ['GOAL', 'SAVE_CAUGHT', 'SAVE_PARRY', 'WHISTLE_RESTART', 'ADVANTAGE_REALIZED', 'TWO_MINUTE_SUSPENSION', 'DISQUALIFICATION', 'EXCHANGE_COMPLETED', 'TEAM_TIMEOUT_STARTED', 'TACTICS_CHANGED'].includes(e.type)).slice(-8).reverse();
-  return <div className="game-live-match" data-phase={fulltime ? 'fulltime' : session.pausedAtHalf ? 'halftime' : 'live'}>
-    <Scoreboard homeClubId={session.fixture.homeClubId} awayClubId={session.fixture.awayClubId} homeScore={c.score.HOME} awayScore={c.score.AWAY} label={fulltime ? 'SLUTSIGNAL' : session.pausedAtHalf ? 'HALVTID' : 'MATCHCENTRAL'}><strong>{minute}:{second} · {fulltime ? 'Slut' : session.pausedAtHalf ? 'Halvtid' : c.period === 1 ? 'Första halvlek' : 'Andra halvlek'}</strong></Scoreboard>
-    <div className="game-live-layout coach-live-layout"><div className="game-live-court">
-      <div className="game-match-controls">
-        {!fulltime && <><button className="hm-btn hm-btn-primary" disabled={busy || !!session.error} onClick={() => { if (session.pausedAtHalf) apply({ kind: 'SECOND_HALF' }); setPlaying(!playing || session.pausedAtHalf); }}>{session.pausedAtHalf ? 'Starta andra halvlek' : playing ? 'Pausa' : 'Spela'}</button><select aria-label="Matchhastighet" value={speed} onChange={e => setSpeed(Number(e.target.value))}>{[1, 4, 16, 64].map(n => <option value={n} key={n}>{n}×</option>)}</select><button className="hm-btn" disabled={busy} onClick={finish}>{busy ? 'Spelar färdigt…' : 'Spela till slut'}</button></>}
-        {fulltime && <button className="hm-btn hm-btn-primary" onClick={() => { updateCareer(finalizeProductionMatch); router.push(`/career/match-report/${fixtureId}`); }}>Slutför match och öppna rapport</button>}
-        <Link className="hm-btn" href="/career/squad">Trupp</Link><span className="hm-text-muted">Matchen sparas automatiskt. Pausa innan du lämnar.</span>
-      </div>
-      {(error || session.error) && <p role="alert" className="hm-panel-body">{error ?? session.error}</p>}
-      <div className="game-court-stage">{finishing?<Court frame={observedFrame(session)} people={session.people}/>:<LiveCourt key={session.fixture.id} session={session} playing={playing} speed={speed}/>}</div>
-    </div>
-    {!fulltime && <LiveCoachPanel session={session} team={team} busy={busy} outId={outId} inId={inId} onOut={id => { setOutId(id); setInId(''); }} onIn={setInId} onSubstitute={() => { apply({ kind: 'SUBSTITUTION', team, outId, inId }); setOutId(''); setInId(''); }} onCommand={apply} recent={recent} />}
-    </div>
-  </div>;
+  function choosePlayer(id:string){setOutId(id);setInId('');coachRef.current?.scrollIntoView({block:'nearest'});coachRef.current?.focus();}
+  const timeout=c.referee.timeout?.reason==='TEAM_TIMEOUT';
+  return <><LiveMatchCenter session={session} playing={playing} team={team} importantOnly={playing&&speed>=8} onPlayer={!fulltime&&!busy?choosePlayer:undefined}
+    controls={<>{!fulltime&&<><button type="button" className="hm-btn hm-btn-primary" disabled={busy||!!session.error} onClick={()=>{if(timeout)updateCareer(resumeMatchTimeout);if(session.pausedAtHalf)apply({kind:'SECOND_HALF'});setUntilKey(false);setPlaying(!playing||session.pausedAtHalf||timeout);}}>{timeout?'Återuppta efter timeout':session.pausedAtHalf?'Starta andra halvlek':playing?'Pausa':'Spela'}</button><label>Hastighet <select aria-label="Matchhastighet" value={speed} onChange={e=>setSpeed(Number(e.target.value))}>{MATCH_SPEEDS.map(n=><option value={n} key={n}>{n}×</option>)}</select></label><button type="button" className="hm-btn" disabled={busy||session.pausedAtHalf||timeout} onClick={()=>{setUntilKey(true);setPlaying(true);}}>Nästa viktiga händelse</button><button type="button" className="hm-btn" aria-pressed={keyMode} disabled={busy} onClick={()=>setKeyMode(!keyMode)}>Nyckelhändelser {keyMode?'på':'av'}</button><button type="button" className="hm-btn" disabled={busy} onClick={finish}>{busy?'Spelar färdigt…':'Spela till slut'}</button></>}{fulltime&&<button type="button" className="hm-btn hm-btn-primary" onClick={()=>{updateCareer(finalizeProductionMatch);router.push(`/career/match-report/${fixtureId}`);}}>Slutför match och öppna rapport</button>}<span className="mc-autosave">Matchen sparas automatiskt. Pausa innan du lämnar.</span>{(error||session.error)&&<p role="alert">{error??session.error}</p>}</>}
+    coach={!fulltime?<div ref={coachRef} tabIndex={-1} aria-label="Byten och instruktioner"><LiveCoachPanel session={session} team={team} busy={busy} outId={outId} inId={inId} onOut={id=>{setOutId(id);setInId('');}} onIn={setInId} onSubstitute={()=>{apply({kind:'SUBSTITUTION',team,outId,inId});setOutId('');setInId('');}} onCommand={apply} recent={recent} showEvents={false}/></div>:undefined}
+    experimental={<div className="game-court-stage">{finishing?<Court frame={observedFrame(session)} people={session.people}/>:<LiveCourt key={session.fixture.id} session={session} playing={playing} speed={speed}/>}</div>}
+  /></>;
 }
