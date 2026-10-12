@@ -50,7 +50,7 @@ export function perceiveHandball(s:CoreState,p:CorePlayer):Perception {
   const d=o.d,dist=distance(d.position,p.position),toward=dist>.001?((p.position.x-d.position.x)*d.velocity.x+(p.position.y-d.position.y)*d.velocity.y)/dist:0;
   const intercept={x:p.position.x+ux*Math.min(1.5,distance(p.position,target)),y:p.position.y+uy*Math.min(1.5,distance(p.position,target))};
   return{id:d.id,distance:dist,arrivalSeconds:secondsTo(s,d,intercept),closingSpeed:toward,committed:dist<1.65&&o.r.forward>-.35&&o.r.lateral<1.6&&toward>-.3};
- }).sort((a,b)=>a.arrivalSeconds-b.arrivalSeconds||a.id.localeCompare(b.id));
+ }).sort((a,b)=>Number(b.committed)-Number(a.committed)||a.arrivalSeconds-b.arrivalSeconds||a.id.localeCompare(b.id));
  const help=helpers[0]??null;
  const receivers=mates.filter(a=>a.id!==p.id&&!a.airborne).map(a=>{
   const observed=p.carrierRead?.possessionId===s.possession.id?p.carrierRead.receiverCovers[a.id]:null;

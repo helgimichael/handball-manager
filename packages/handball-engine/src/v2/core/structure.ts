@@ -433,10 +433,11 @@ export function releaseFromDrive(s:CoreState,carrier:CorePlayer|null):boolean {
     const primaryBound=!!receiver?.created&&receiver.creatorId===r.primary?.id&&!!r.primary?.goalSide&&r.primary.distance<1.65;
     const superiorReceiver=!!receiver&&receiver.advantage>.85&&receiver.quality>(r.shot?.quality??0)+.22;
     const legalRelease=d.breakCondition==='LEGAL_RELEASE_REQUIRED';
+    const materialBreak=!!d.previous&&['EXPLOIT_ADVANTAGE','ATTACK_NEXT_DEFENDER','BIND_HELP'].includes(d.previous.kind)&&['LANE_CLOSED','DEFENDER_RECOVERED','BALL_CONTROL_CHANGED'].includes(d.breakCondition??'');
     // A receiver being visible during the approach is not a reason to end it.
     // Preserve the old duel/contact authority until containment is actually lost,
     // cover is physically bound, a real close shot window appears or rules require release.
-    if(c.motor==='PASS'&&!r.help?.committed&&!primaryBound&&!superiorReceiver&&!legalRelease)return false;
+    if(c.motor==='PASS'&&!r.help?.committed&&!primaryBound&&!superiorReceiver&&!legalRelease&&!materialBreak)return false;
     if(c.motor==='SHOOT'&&!r.primary?.beaten&&!d.situations.includes('CLEAR_SHOT_WINDOW')&&!legalRelease)return false;
     if(['EXECUTING','RECOVERING'].includes(a.phase)&&(d.breakCondition||c.motor!=='DRIVE')){
       resolveAction(s,carrier,`Tactical continuation: ${d.reason}`);
