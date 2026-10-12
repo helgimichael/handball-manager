@@ -9,6 +9,7 @@ import { restartReady } from './rules';
 import { completeRestart } from './restarts';
 import { goalAreaClearance } from '../../domain/geometry/goalArea';
 import { breakDefence } from './engage';
+import {BEATEN_LEVERAGE_METRES} from './threatRelation';
 import { executionCapacity } from './condition';
 import { executePass, planShotTarget, receptionRisk, releasePressure, shotHeight, type PassExecution } from './execution';
 
@@ -29,7 +30,7 @@ function duel(s:CoreState,a:CorePlayer) {
     // so a defender was "beaten" a hundred and thirty times a match. He is
     // beaten when the attacker is genuinely past his shoulder, close enough that
     // it matters, and he is not still in contact with him.
-    const BEATEN_MARGIN=0.65;
+    const BEATEN_MARGIN=BEATEN_LEVERAGE_METRES;
     const d=defenders.find(d=>(action.driveStart?.[d.id]??-1)>=0&&
       distance(a.position,d.position)<2.2&&
       local(a.position,s.directions[a.team]).y+BEATEN_MARGIN<local(d.position,s.directions[a.team]).y&&
