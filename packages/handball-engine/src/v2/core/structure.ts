@@ -14,6 +14,7 @@ import { sustain } from './actions';
 import { laneMargin } from './timing';
 import { prepareKeeperAnticipation } from './execution';
 import {readMovementTarget,receivingApproach,recoveryRoute} from './movement';
+import {commitHandball,decideHandball,intelligenceRelevant,observeCarrierRelationships,traceDecision,traceDefensiveIntent,type Decision,type TacticalIntent} from './intelligence';
 const PIVOT_ROLL_REASON='Roll into the line space created by the backcourt threat';
 const PIVOT_CATCH_REASON='Turn the secured pivot catch toward the actual close-range window';
 
@@ -21,6 +22,15 @@ function assign(s:CoreState,p:CorePlayer,kind:Duty,targetId:string|null,reason:s
   if(s.ball.mode==='LOOSE'&&p.duty.kind==='COLLECT')return;
   if(p.duty.kind!==kind||p.duty.targetId!==targetId||p.duty.reason!==reason) {
     p.duty={kind,targetId,sinceTick:s.tick,reason};record(s,'RESPONSIBILITY_ASSIGNED',p,{kind,reason},targetId?[targetId]:[]);
+  }
+  if(p.kind==='FIELD_PLAYER'&&kind!=='CARRIER'){
+    delete p.carrierRead;
+    const intent:TacticalIntent=kind==='HELP'?'DEFENSIVE_HELP':kind==='RECOVER'?'DEFENSIVE_RECOVER':kind==='RETREAT'?'RETREAT_GOAL_SIDE':p.team!==s.possession.team?'DEFENSIVE_CONTAIN':'SUPPORT_BALL';
+    const old=p.handballIntent;
+    if(!old||old.possessionId!==s.possession.id||old.kind!==intent||old.targetId!==targetId){
+      p.handballIntent={id:`${s.possession.id}:${p.id}:${s.tick}:${intent}`,possessionId:s.possession.id,kind:intent,sinceTick:s.tick,primaryId:null,targetId,target:null,commitment:.4+p.profile.composure*.3,originalAdvantage:0,reason,lastMotor:p.action?.kind??'NONE'};
+      if(p.team!==s.possession.team)traceDefensiveIntent(s,p);
+    }
   }
 }
 function finishingThreat(s:CoreState,p:CorePlayer,direction:CoreState['directions']['HOME']):boolean {
@@ -76,6 +86,7 @@ export function coordinate(s: CoreState) {
     :s.ball.flight?.kind==='PASS'&&s.ball.flight.receiverId
       ?s.players.find(p=>p.id===s.ball.flight!.receiverId&&p.population==='COURT')??null
       :null;
+  if(carrier&&s.ball.controllerId===carrier.id&&carrier.kind==='FIELD_PLAYER')observeCarrierRelationships(s,carrier);
   s.defence.system=s.coaching[defending].defence;
   const attackers=courtPlayers(s,attacking).filter(p=>p.kind==='FIELD_PLAYER'),defenders=courtPlayers(s,defending).filter(p=>p.kind==='FIELD_PLAYER');
   const direction=s.directions[attacking];
@@ -199,7 +210,28 @@ function transitionProgress(s:CoreState,p:CorePlayer):boolean {
   }
   return false;
 }
+function executeIntelligence(s:CoreState,p:CorePlayer,d:Decision):boolean {
+  const c=d.chosen;if(!c)return false;
+  let ok=false;
+  if(c.motor==='SHOOT') {
+    const q=local(p.position,s.directions[p.team]);
+    const kind=d.perception.shot?.emptyGoal?'EMPTY_GOAL':q.y<8?(q.x<4||q.x>16?'WING':'BREAKTHROUGH'):'BACKCOURT_JUMP';
+    ok=startAction(s,p,p.handling.steps>=s.ruleProfile.maxSteps?'SHOOT':'JUMP',`INTELLIGENCE: ${d.reason}; ${c.reason}`,null,null,kind);
+  }else ok=startAction(s,p,c.motor,`INTELLIGENCE: ${d.reason}; ${c.reason}`,c.target,c.targetId);
+  if(ok)commitHandball(s,p,d);return ok;
+}
 function chooseCarrier(s:CoreState,p:CorePlayer) {
+  // Committed airborne release and pivot turning retain their existing authority.
+  const d=decideHandball(s,p);
+  if(!p.airborne&&!p.nextAction&&intelligenceRelevant(d,p)&&executeIntelligence(s,p,d)){traceDecision(s,p,d);return;}
+  chooseCarrierLegacy(s,p);
+  // Trace the actual fallback, rather than claiming the hypothetical top score won.
+  const actual=d.affordances.find(c=>c.motor===p.action?.kind&&c.targetId===p.action?.targetId)??null;
+  d.chosen=actual;d.reason=p.action?.reason??'No legal motor action';
+  if(actual)commitHandball(s,p,d);
+  traceDecision(s,p,d);
+}
+function chooseCarrierLegacy(s:CoreState,p:CorePlayer) {
   const direction=s.directions[p.team],q=local(p.position,direction),held=s.tick-p.handling.heldSinceTick;
   const chance=shotOpportunity(s,p),forced=shotOpportunity(s,p,true);
   if(p.nextAction==='SHOOT') {
@@ -361,6 +393,24 @@ export function releaseFromDrive(s:CoreState,carrier:CorePlayer|null):boolean {
   if(s.ball.controllerId!==carrier.id||carrier.airborne)return false;
   const a=carrier.action;
   if(!a||a.kind!=='DRIVE'||actionAvailable(carrier))return false;
+  const d=decideHandball(s,carrier);
+  if(intelligenceRelevant(d,carrier)&&d.chosen){
+    const c=d.chosen;
+    if(c.motor==='DRIVE'&&!d.breakCondition){
+      // Continue the same physical approach, within the remaining legal steps.
+      if(c.target){const travel=distance(carrier.position,c.target),budget=d.perception.legalTravel;
+        a.target=travel>budget&&travel>0?{x:carrier.position.x+(c.target.x-carrier.position.x)*budget/travel,y:carrier.position.y+(c.target.y-carrier.position.y)*budget/travel}:{...c.target};}
+      commitHandball(s,carrier,d);
+      if(carrier.handballIntent?.sinceTick===s.tick||s.tick%10===0)traceDecision(s,carrier,d);
+      return false;
+    }
+    if(['EXECUTING','RECOVERING'].includes(a.phase)&&(d.breakCondition||c.motor!=='DRIVE')){
+      resolveAction(s,carrier,`Tactical continuation: ${d.reason}`);
+      if(executeIntelligence(s,carrier,d)){traceDecision(s,carrier,d);return true;}
+    }
+    // Ordinary ticks and beating the first man cannot independently discard a threat.
+    if(!d.breakCondition)return false;
+  }
   if(isPivot(carrier)&&a.reason===PIVOT_CATCH_REASON&&a.target&&distance(carrier.position,a.target)>.35&&
     s.tick-carrier.handling.heldSinceTick<s.ruleProfile.maxHoldMs/50-12)return false;
   const engagement=driveEngagement(s,carrier);

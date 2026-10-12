@@ -16,6 +16,7 @@ import { conditionAfter } from './condition';
 import { coachingBefore } from './coaching';
 import { offenceBefore,offenceAfter } from './offence';
 import { secondsTo } from './timing';
+import {transferDecisionTrace} from './intelligence';
 
 function collectionPoint(s:CoreState,p:CorePlayer):Point|null {
   let target={x:clamp(s.ball.position.x,p.radius+.01,20-p.radius-.01),y:clamp(s.ball.position.y,p.radius+.01,40-p.radius-.01)};
@@ -92,6 +93,7 @@ export function tickCore(previous:CoreState):CoreState {
   if(previous.status!=='RUNNING')return previous;
   const {events,contests,...body}=previous;
   const s:CoreState={...JSON.parse(JSON.stringify(body)),events:events.slice(),contests:contests.slice()};
+  transferDecisionTrace(previous,s);
   return advanceCoreMutable(s);
 }
 /** For an exclusively-owned batch runner. UI/replay must use immutable tickCore. */

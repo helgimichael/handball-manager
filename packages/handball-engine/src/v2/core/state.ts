@@ -7,6 +7,7 @@ import type { TeamTactics } from './coaching';
 import type { OffenceState } from './offence';
 import type { Profile } from './profile';
 import type {MovementRead} from './movement';
+import type {HandballIntent} from './intelligence';
 export type { Point, TeamId, Direction } from '../model';
 
 export const CORE_VERSION = '2.9.0-possession-ecology.2';
@@ -35,6 +36,10 @@ export type CorePlayer = {
   action: CoreAction | null;
   support: BackcourtSupport | null;
   motion?:MovementRead;
+  /** Tactical purpose survives motor actions; optional for existing active saves. */
+  handballIntent?:HandballIntent;
+  /** Observed threat ownership on receipt, before the defence reallocates help. */
+  carrierRead?:{possessionId:string;primaryId:string|null;receiverCovers:Record<string,string>};
   handling: { heldSinceTick: number; steps: number; stepDistance: number; dribbleUsed: boolean; bounceTick: number };
   airborne: { takeoff: Point; untilTick: number } | null;
   beatenUntilTick: number; wrongFootedUntilTick:number; screenedUntilTick: number;

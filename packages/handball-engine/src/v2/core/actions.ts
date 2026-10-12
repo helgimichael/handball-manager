@@ -214,7 +214,12 @@ export function execute(s: CoreState): ExecutionEffect[] {
       // Preparation/recovery retains decision timing. Compatible off-ball
       // phases carry existing pace; they cannot create new forward acceleration.
       const ready=a?.phase==='EXECUTING'||releasedSupport;
-      const carrying=!ready&&(s.ball.controllerId!==p.id||a?.kind==='PASS')&&Math.hypot(p.velocity.x,p.velocity.y)>.01;
+      const threat=p.handballIntent&&['EXPLOIT_ADVANTAGE','ATTACK_GAP','ATTACK_NEXT_DEFENDER','BIND_HELP'].includes(p.handballIntent.kind);
+      const compatibleThreat=!!(threat&&a&&['DRIVE','DRIBBLE'].includes(a.kind)&&a.target&&
+        (a.target.x-p.position.x)*p.velocity.x+(a.target.y-p.position.y)*p.velocity.y>0);
+      // A continuing tactical threat can carry existing momentum through hand
+      // preparation. It cannot accelerate before readiness or evade step/bounce legality.
+      const carrying=!ready&&(s.ball.controllerId!==p.id||a?.kind==='PASS'||compatibleThreat)&&Math.hypot(p.velocity.x,p.velocity.y)>.01;
       const target=moving&&(ready||carrying)?a.target:null;
       // A held ball still has a finite step budget; braking cannot spend a
       // fourth step. Dribble movement begins only after its actual bounce.
