@@ -23,7 +23,7 @@ const usable=(s:CoreState,p:CorePlayer)=>p.kind==='FIELD_PLAYER'&&p.population==
 /** Remember who was beaten and whose cover was drawn; reassigned duties do not rewrite history. */
 export function observeCarrierRelationships(s:CoreState,p:CorePlayer){
  if(p.carrierRead?.possessionId===s.possession.id)return;
- const opponents=courtPlayers(s,otherTeam(p.team)).filter(d=>usable(s,d));
+ const opponents=courtPlayers(s,otherTeam(p.team)).filter(d=>d.kind==='FIELD_PLAYER');
  const primary=opponents.find(d=>d.id===p.action?.targetId&&p.action.kind==='DRIVE')??opponents.find(d=>s.defence.marks[d.id]===p.id&&d.id!==s.defence.helperId)??opponents.slice().sort((a,b)=>distance(a.position,p.position)-distance(b.position,p.position)||a.id.localeCompare(b.id))[0];
  const receiverCovers:Record<string,string>={};
  for(const mate of courtPlayers(s,p.team).filter(a=>usable(s,a)&&a.id!==p.id)){
@@ -37,7 +37,7 @@ export function observeCarrierRelationships(s:CoreState,p:CorePlayer){
 export function perceiveHandball(s:CoreState,p:CorePlayer):Perception {
  const dir=s.directions[p.team],g=goal(dir),q=local(p.position,dir),len=Math.max(.001,distance(p.position,g));
  const ux=(g.x-p.position.x)/len,uy=(g.y-p.position.y)/len;
- const defenders=courtPlayers(s,otherTeam(p.team)).filter(d=>usable(s,d)),mates=courtPlayers(s,p.team).filter(a=>usable(s,a));
+ const defenders=courtPlayers(s,otherTeam(p.team)).filter(d=>d.kind==='FIELD_PLAYER'),mates=courtPlayers(s,p.team).filter(a=>usable(s,a));
  const remembered=p.carrierRead?.possessionId===s.possession.id?p.carrierRead.primaryId:p.handballIntent?.possessionId===s.possession.id?p.handballIntent.primaryId:p.action?.kind==='DRIVE'?p.action.targetId:null;
  const marked=defenders.find(d=>d.id===remembered)??defenders.find(d=>s.defence.marks[d.id]===p.id&&d.id!==s.defence.helperId);
  const primary=marked??defenders.slice().sort((a,b)=>distance(a.position,p.position)-distance(b.position,p.position)||a.id.localeCompare(b.id))[0];
