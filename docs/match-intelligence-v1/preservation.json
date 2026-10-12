@@ -1,0 +1,50 @@
+{
+    "worktrees":  [
+                      "worktree C:/Users/helgi/Documents/STARKVIS-HELA/handball-manager",
+                      "HEAD 939efd38d442a41224d8dc8d08d3bcb4a948b33a",
+                      "branch refs/heads/main",
+                      "",
+                      "worktree C:/Users/helgi/Documents/STARKVIS-HELA/handball-motion-lab",
+                      "HEAD 197d2a80ecea3b70efdcf8ef347cfc68e0e86b2b",
+                      "branch refs/heads/motion-lab",
+                      ""
+                  ],
+    "stashes":  [
+                    "ddba79055949b76898b12fc1b947e8f8645589cb On motion-lab: WIP Pack #5 M6 breakthrough screen paused before Human QA",
+                    "b068a9586209b9405b8d5f0dc6fae6384dd09001 On motion-lab: WIP Pack #5 M6 line game paused before Human QA"
+                ],
+    "files":  [
+                  {
+                      "hash":  "A245EC398A29F3C8B7AB7317682433DBFE81E4A46E249A60C8F5A5A024FECE8F",
+                      "path":  "apps/game/app/match-qa/page.tsx"
+                  },
+                  {
+                      "hash":  "F100717310EA08F43C33B49DBABE7ACEE338B40884E9182030F59DB7C62FECE9",
+                      "path":  "apps/game/lib/matchQa/qaHarness.ts"
+                  },
+                  {
+                      "hash":  "7BA6F05B9F1E9CFA491961C1A6C644D7CE5FB2123FED5BAC0D1FB3A869B07266",
+                      "path":  "apps/game/scripts/season-audit.ts"
+                  },
+                  {
+                      "hash":  "BA9D04161DFD8FBA50732356598D92323BC71F93CFB5F827170EA804846A5B76",
+                      "path":  "apps/game/.tmp-final-benchmark.ts"
+                  }
+              ],
+    "status":  [
+                   " M apps/game/app/match-qa/page.tsx",
+                   " M apps/game/lib/matchQa/qaHarness.ts",
+                   " M apps/game/scripts/season-audit.ts",
+                   " M packages/handball-engine/src/v2/core/defence.ts",
+                   " M packages/handball-engine/src/v2/core/engine.ts",
+                   " M packages/handball-engine/src/v2/core/state.ts",
+                   " M packages/handball-engine/src/v2/core/structure.ts",
+                   "?? .claude/",
+                   "?? apps/game/.tmp-final-benchmark.ts",
+                   "?? docs/audit/",
+                   "?? docs/match-intelligence-v1/",
+                   "?? packages/handball-engine/src/v2/core/intelligence.ts",
+                   "?? packages/handball-engine/src/v2/core/threatRelation.ts"
+               ],
+    "head":  "939efd38d442a41224d8dc8d08d3bcb4a948b33a"
+}

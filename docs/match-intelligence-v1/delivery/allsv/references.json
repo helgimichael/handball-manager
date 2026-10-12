@@ -1,0 +1,4050 @@
+[
+  {
+    "schemaVersion": "match-benchmarks/1",
+    "id": "SE:se_handbollsligan_herr:2025-26:regular",
+    "version": "empirical-sweden/1",
+    "kind": "REAL_WORLD_REFERENCE",
+    "sport": "handball",
+    "country": "SE",
+    "competition": "se_handbollsligan_herr",
+    "category": "men-senior",
+    "season": "2025-26",
+    "dateRange": {
+      "start": "2025-09-17",
+      "end": "2026-03-25"
+    },
+    "metrics": [
+      {
+        "metric": "goals",
+        "scope": "MATCH",
+        "unit": "count",
+        "definition": "both teams per completed match",
+        "distribution": {
+          "n": 182,
+          "mean": 60.857142857142854,
+          "median": 62,
+          "sd": 6.664114218031586,
+          "min": 42,
+          "max": 75,
+          "p05": 49,
+          "p10": 53,
+          "p25": 56.25,
+          "p75": 65,
+          "p90": 69,
+          "p95": 71
+        },
+        "evidence": {
+          "tier": "D",
+          "seasonStatus": "COMPLETE_SEASON",
+          "expectedMatches": 182,
+          "foundMatches": 182,
+          "parsedMatches": 182,
+          "coverage": 1,
+          "playerObservations": 5615,
+          "keeperObservations": 480,
+          "missingMetrics": [
+            "possessions",
+            "possession duration",
+            "whistles/free throws",
+            "transition",
+            "detailed shot context",
+            "per-match outfield position"
+          ]
+        },
+        "provenance": {
+          "name": "Svenska Handbollförbundet / Profixio",
+          "location": "https://www.profixio.com/app/lx/competition/leagueid17951?t=schedule&f=played",
+          "collectionMethod": "Public rendered results and protocols; official published player-statistics PDF tables",
+          "extractionVersion": "sweden-public/1.1.0",
+          "timestamp": "2026-10-11T04:20:12.754558+00:00",
+          "confidence": "HIGH",
+          "matches": 182,
+          "events": 182,
+          "coverage": 1,
+          "sourceManifestHash": "6a54f0c6ef8402e0e1605687721610c568de8eb9eca113bfd33decb9e93e75ef",
+          "normalizedHash": "2ad78bc166c3f71cd742c66f8d8a1f5d406d84d2bdd92fbec1e2598d96eca773",
+          "notes": [
+            "Regular season only; no playoff or cross-season blending",
+            "Individual public source URLs, timestamps and body hashes are retained in normalized dataset.sources; sourceManifestHash hashes that ordered manifest",
+            "Scope MATCH; values are descriptive match/keeper-match observations"
+          ]
+        },
+        "transformations": [
+          "deduplicate using official source match ID",
+          "sample SD; linearly interpolated quantiles"
+        ]
+      },
+      {
+        "metric": "margin",
+        "scope": "MATCH",
+        "unit": "count",
+        "definition": "absolute difference between home and away full-time goals",
+        "distribution": {
+          "n": 182,
+          "mean": 4.846153846153846,
+          "median": 4,
+          "sd": 3.6305124272598053,
+          "min": 0,
+          "max": 18,
+          "p05": 0,
+          "p10": 1,
+          "p25": 2,
+          "p75": 7,
+          "p90": 10,
+          "p95": 12
+        },
+        "evidence": {
+          "tier": "D",
+          "seasonStatus": "COMPLETE_SEASON",
+          "expectedMatches": 182,
+          "foundMatches": 182,
+          "parsedMatches": 182,
+          "coverage": 1,
+          "playerObservations": 5615,
+          "keeperObservations": 480,
+          "missingMetrics": [
+            "possessions",
+            "possession duration",
+            "whistles/free throws",
+            "transition",
+            "detailed shot context",
+            "per-match outfield position"
+          ]
+        },
+        "provenance": {
+          "name": "Svenska Handbollförbundet / Profixio",
+          "location": "https://www.profixio.com/app/lx/competition/leagueid17951?t=schedule&f=played",
+          "collectionMethod": "Public rendered results and protocols; official published player-statistics PDF tables",
+          "extractionVersion": "sweden-public/1.1.0",
+          "timestamp": "2026-10-11T04:20:12.754558+00:00",
+          "confidence": "HIGH",
+          "matches": 182,
+          "events": 182,
+          "coverage": 1,
+          "sourceManifestHash": "6a54f0c6ef8402e0e1605687721610c568de8eb9eca113bfd33decb9e93e75ef",
+          "normalizedHash": "2ad78bc166c3f71cd742c66f8d8a1f5d406d84d2bdd92fbec1e2598d96eca773",
+          "notes": [
+            "Regular season only; no playoff or cross-season blending",
+            "Individual public source URLs, timestamps and body hashes are retained in normalized dataset.sources; sourceManifestHash hashes that ordered manifest",
+            "Scope MATCH; values are descriptive match/keeper-match observations"
+          ]
+        },
+        "transformations": [
+          "deduplicate using official source match ID",
+          "sample SD; linearly interpolated quantiles"
+        ]
+      },
+      {
+        "metric": "homeGoals",
+        "scope": "MATCH",
+        "unit": "count",
+        "definition": "home team full-time goals per match",
+        "distribution": {
+          "n": 182,
+          "mean": 30.895604395604394,
+          "median": 31,
+          "sd": 4.72270668922671,
+          "min": 18,
+          "max": 43,
+          "p05": 22.05,
+          "p10": 25,
+          "p25": 28,
+          "p75": 34,
+          "p90": 36.900000000000006,
+          "p95": 39
+        },
+        "evidence": {
+          "tier": "D",
+          "seasonStatus": "COMPLETE_SEASON",
+          "expectedMatches": 182,
+          "foundMatches": 182,
+          "parsedMatches": 182,
+          "coverage": 1,
+          "playerObservations": 5615,
+          "keeperObservations": 480,
+          "missingMetrics": [
+            "possessions",
+            "possession duration",
+            "whistles/free throws",
+            "transition",
+            "detailed shot context",
+            "per-match outfield position"
+          ]
+        },
+        "provenance": {
+          "name": "Svenska Handbollförbundet / Profixio",
+          "location": "https://www.profixio.com/app/lx/competition/leagueid17951?t=schedule&f=played",
+          "collectionMethod": "Public rendered results and protocols; official published player-statistics PDF tables",
+          "extractionVersion": "sweden-public/1.1.0",
+          "timestamp": "2026-10-11T04:20:12.754558+00:00",
+          "confidence": "HIGH",
+          "matches": 182,
+          "events": 182,
+          "coverage": 1,
+          "sourceManifestHash": "6a54f0c6ef8402e0e1605687721610c568de8eb9eca113bfd33decb9e93e75ef",
+          "normalizedHash": "2ad78bc166c3f71cd742c66f8d8a1f5d406d84d2bdd92fbec1e2598d96eca773",
+          "notes": [
+            "Regular season only; no playoff or cross-season blending",
+            "Individual public source URLs, timestamps and body hashes are retained in normalized dataset.sources; sourceManifestHash hashes that ordered manifest",
+            "Scope MATCH; values are descriptive match/keeper-match observations"
+          ]
+        },
+        "transformations": [
+          "deduplicate using official source match ID",
+          "sample SD; linearly interpolated quantiles"
+        ]
+      },
+      {
+        "metric": "awayGoals",
+        "scope": "MATCH",
+        "unit": "count",
+        "definition": "away team full-time goals per match",
+        "distribution": {
+          "n": 182,
+          "mean": 29.96153846153846,
+          "median": 30,
+          "sd": 4.226155580456688,
+          "min": 18,
+          "max": 40,
+          "p05": 22.05,
+          "p10": 25,
+          "p25": 28,
+          "p75": 33,
+          "p90": 35,
+          "p95": 36.94999999999999
+        },
+        "evidence": {
+          "tier": "D",
+          "seasonStatus": "COMPLETE_SEASON",
+          "expectedMatches": 182,
+          "foundMatches": 182,
+          "parsedMatches": 182,
+          "coverage": 1,
+          "playerObservations": 5615,
+          "keeperObservations": 480,
+          "missingMetrics": [
+            "possessions",
+            "possession duration",
+            "whistles/free throws",
+            "transition",
+            "detailed shot context",
+            "per-match outfield position"
+          ]
+        },
+        "provenance": {
+          "name": "Svenska Handbollförbundet / Profixio",
+          "location": "https://www.profixio.com/app/lx/competition/leagueid17951?t=schedule&f=played",
+          "collectionMethod": "Public rendered results and protocols; official published player-statistics PDF tables",
+          "extractionVersion": "sweden-public/1.1.0",
+          "timestamp": "2026-10-11T04:20:12.754558+00:00",
+          "confidence": "HIGH",
+          "matches": 182,
+          "events": 182,
+          "coverage": 1,
+          "sourceManifestHash": "6a54f0c6ef8402e0e1605687721610c568de8eb9eca113bfd33decb9e93e75ef",
+          "normalizedHash": "2ad78bc166c3f71cd742c66f8d8a1f5d406d84d2bdd92fbec1e2598d96eca773",
+          "notes": [
+            "Regular season only; no playoff or cross-season blending",
+            "Individual public source URLs, timestamps and body hashes are retained in normalized dataset.sources; sourceManifestHash hashes that ordered manifest",
+            "Scope MATCH; values are descriptive match/keeper-match observations"
+          ]
+        },
+        "transformations": [
+          "deduplicate using official source match ID",
+          "sample SD; linearly interpolated quantiles"
+        ]
+      },
+      {
+        "metric": "goalsPerTeam",
+        "scope": "TEAM",
+        "unit": "count",
+        "definition": "one team per completed match",
+        "distribution": {
+          "n": 364,
+          "mean": 30.428571428571427,
+          "median": 31,
+          "sd": 4.4995080407983465,
+          "min": 18,
+          "max": 43,
+          "p05": 22,
+          "p10": 25,
+          "p25": 28,
+          "p75": 33,
+          "p90": 36,
+          "p95": 38
+        },
+        "evidence": {
+          "tier": "D",
+          "seasonStatus": "COMPLETE_SEASON",
+          "expectedMatches": 182,
+          "foundMatches": 182,
+          "parsedMatches": 182,
+          "coverage": 1,
+          "playerObservations": 5615,
+          "keeperObservations": 480,
+          "missingMetrics": [
+            "possessions",
+            "possession duration",
+            "whistles/free throws",
+            "transition",
+            "detailed shot context",
+            "per-match outfield position"
+          ]
+        },
+        "provenance": {
+          "name": "Svenska Handbollförbundet / Profixio",
+          "location": "https://www.profixio.com/app/lx/competition/leagueid17951?t=schedule&f=played",
+          "collectionMethod": "Public rendered results and protocols; official published player-statistics PDF tables",
+          "extractionVersion": "sweden-public/1.1.0",
+          "timestamp": "2026-10-11T04:20:12.754558+00:00",
+          "confidence": "HIGH",
+          "matches": 182,
+          "events": 364,
+          "coverage": 1,
+          "sourceManifestHash": "6a54f0c6ef8402e0e1605687721610c568de8eb9eca113bfd33decb9e93e75ef",
+          "normalizedHash": "2ad78bc166c3f71cd742c66f8d8a1f5d406d84d2bdd92fbec1e2598d96eca773",
+          "notes": [
+            "Regular season only; no playoff or cross-season blending",
+            "Individual public source URLs, timestamps and body hashes are retained in normalized dataset.sources; sourceManifestHash hashes that ordered manifest",
+            "Scope TEAM; values are descriptive match/keeper-match observations"
+          ]
+        },
+        "transformations": [
+          "deduplicate using official source match ID",
+          "sample SD; linearly interpolated quantiles"
+        ]
+      },
+      {
+        "metric": "scorerConcentration",
+        "scope": "TEAM",
+        "unit": "ratio",
+        "definition": "largest player goal count / team goals",
+        "distribution": {
+          "n": 364,
+          "mean": 0.2502312929557239,
+          "median": 0.24242424242424243,
+          "sd": 0.05574778018154636,
+          "min": 0.13636363636363635,
+          "max": 0.45161290322580644,
+          "p05": 0.17647058823529413,
+          "p10": 0.1875,
+          "p25": 0.20833333333333334,
+          "p75": 0.2823660714285714,
+          "p90": 0.32142857142857145,
+          "p95": 0.35455407969639463
+        },
+        "evidence": {
+          "tier": "D",
+          "seasonStatus": "COMPLETE_SEASON",
+          "expectedMatches": 182,
+          "foundMatches": 182,
+          "parsedMatches": 182,
+          "coverage": 1,
+          "playerObservations": 5615,
+          "keeperObservations": 480,
+          "missingMetrics": [
+            "possessions",
+            "possession duration",
+            "whistles/free throws",
+            "transition",
+            "detailed shot context",
+            "per-match outfield position"
+          ]
+        },
+        "provenance": {
+          "name": "Svenska Handbollförbundet / Profixio",
+          "location": "https://www.profixio.com/app/lx/competition/leagueid17951?t=schedule&f=played",
+          "collectionMethod": "Public rendered results and protocols; official published player-statistics PDF tables",
+          "extractionVersion": "sweden-public/1.1.0",
+          "timestamp": "2026-10-11T04:20:12.754558+00:00",
+          "confidence": "HIGH",
+          "matches": 182,
+          "events": 11076,
+          "coverage": 1,
+          "sourceManifestHash": "6a54f0c6ef8402e0e1605687721610c568de8eb9eca113bfd33decb9e93e75ef",
+          "normalizedHash": "2ad78bc166c3f71cd742c66f8d8a1f5d406d84d2bdd92fbec1e2598d96eca773",
+          "notes": [
+            "Regular season only; no playoff or cross-season blending",
+            "Individual public source URLs, timestamps and body hashes are retained in normalized dataset.sources; sourceManifestHash hashes that ordered manifest",
+            "Scope TEAM; values are descriptive match/keeper-match observations"
+          ]
+        },
+        "transformations": [
+          "deduplicate using official source match ID",
+          "sample SD; linearly interpolated quantiles"
+        ]
+      },
+      {
+        "metric": "scorerHHI",
+        "scope": "TEAM",
+        "unit": "ratio",
+        "definition": "sum of squared player shares of team goals",
+        "distribution": {
+          "n": 364,
+          "mean": 0.1580347284407489,
+          "median": 0.15506575622508728,
+          "sd": 0.029398579715183337,
+          "min": 0.09250000000000001,
+          "max": 0.2638888888888889,
+          "p05": 0.11660148057454453,
+          "p10": 0.12437837040436656,
+          "p25": 0.13840560402406663,
+          "p75": 0.17338842975206614,
+          "p90": 0.1971259375,
+          "p95": 0.20896955735202663
+        },
+        "evidence": {
+          "tier": "D",
+          "seasonStatus": "COMPLETE_SEASON",
+          "expectedMatches": 182,
+          "foundMatches": 182,
+          "parsedMatches": 182,
+          "coverage": 1,
+          "playerObservations": 5615,
+          "keeperObservations": 480,
+          "missingMetrics": [
+            "possessions",
+            "possession duration",
+            "whistles/free throws",
+            "transition",
+            "detailed shot context",
+            "per-match outfield position"
+          ]
+        },
+        "provenance": {
+          "name": "Svenska Handbollförbundet / Profixio",
+          "location": "https://www.profixio.com/app/lx/competition/leagueid17951?t=schedule&f=played",
+          "collectionMethod": "Public rendered results and protocols; official published player-statistics PDF tables",
+          "extractionVersion": "sweden-public/1.1.0",
+          "timestamp": "2026-10-11T04:20:12.754558+00:00",
+          "confidence": "HIGH",
+          "matches": 182,
+          "events": 11076,
+          "coverage": 1,
+          "sourceManifestHash": "6a54f0c6ef8402e0e1605687721610c568de8eb9eca113bfd33decb9e93e75ef",
+          "normalizedHash": "2ad78bc166c3f71cd742c66f8d8a1f5d406d84d2bdd92fbec1e2598d96eca773",
+          "notes": [
+            "Regular season only; no playoff or cross-season blending",
+            "Individual public source URLs, timestamps and body hashes are retained in normalized dataset.sources; sourceManifestHash hashes that ordered manifest",
+            "Scope TEAM; values are descriptive match/keeper-match observations"
+          ]
+        },
+        "transformations": [
+          "deduplicate using official source match ID",
+          "sample SD; linearly interpolated quantiles"
+        ]
+      },
+      {
+        "metric": "sevenMetres",
+        "scope": "MATCH",
+        "unit": "count",
+        "definition": "career result 7m attempts",
+        "distribution": {
+          "n": 182,
+          "mean": 6.582417582417582,
+          "median": 6,
+          "sd": 2.454293493847728,
+          "min": 1,
+          "max": 14,
+          "p05": 3,
+          "p10": 4,
+          "p25": 5,
+          "p75": 8,
+          "p90": 10,
+          "p95": 11
+        },
+        "evidence": {
+          "tier": "C",
+          "seasonStatus": "COMPLETE_SEASON",
+          "expectedMatches": 182,
+          "foundMatches": 182,
+          "parsedMatches": 182,
+          "coverage": 1,
+          "playerObservations": 5615,
+          "keeperObservations": 480,
+          "missingMetrics": [
+            "possessions",
+            "possession duration",
+            "whistles/free throws",
+            "transition",
+            "detailed shot context",
+            "per-match outfield position"
+          ]
+        },
+        "provenance": {
+          "name": "Svenska Handbollförbundet / Profixio + Handbollsligan / Jilsén System player-statistics PDFs",
+          "location": "https://www.profixio.com/app/lx/competition/leagueid17951?t=schedule&f=played",
+          "collectionMethod": "Public rendered results and protocols; official published player-statistics PDF tables",
+          "extractionVersion": "sweden-public/1.1.0",
+          "timestamp": "2026-10-11T04:20:12.754558+00:00",
+          "confidence": "HIGH",
+          "matches": 182,
+          "events": 182,
+          "coverage": 1,
+          "sourceManifestHash": "6a54f0c6ef8402e0e1605687721610c568de8eb9eca113bfd33decb9e93e75ef",
+          "normalizedHash": "2ad78bc166c3f71cd742c66f8d8a1f5d406d84d2bdd92fbec1e2598d96eca773",
+          "notes": [
+            "Regular season only; no playoff or cross-season blending",
+            "Individual public source URLs, timestamps and body hashes are retained in normalized dataset.sources; sourceManifestHash hashes that ordered manifest",
+            "Scope MATCH; values are descriptive match/keeper-match observations"
+          ]
+        },
+        "transformations": [
+          "deduplicate using official source match ID",
+          "sample SD; linearly interpolated quantiles"
+        ]
+      },
+      {
+        "metric": "sevenMetreConversion",
+        "scope": "MATCH",
+        "unit": "ratio",
+        "definition": "7m goals / 7m attempts",
+        "distribution": {
+          "n": 182,
+          "mean": 0.7565157065157064,
+          "median": 0.75,
+          "sd": 0.17851850908829622,
+          "min": 0.25,
+          "max": 1,
+          "p05": 0.45681818181818185,
+          "p10": 0.5,
+          "p25": 0.6439393939393939,
+          "p75": 0.875,
+          "p90": 1,
+          "p95": 1
+        },
+        "evidence": {
+          "tier": "C",
+          "seasonStatus": "COMPLETE_SEASON",
+          "expectedMatches": 182,
+          "foundMatches": 182,
+          "parsedMatches": 182,
+          "coverage": 1,
+          "playerObservations": 5615,
+          "keeperObservations": 480,
+          "missingMetrics": [
+            "possessions",
+            "possession duration",
+            "whistles/free throws",
+            "transition",
+            "detailed shot context",
+            "per-match outfield position"
+          ]
+        },
+        "provenance": {
+          "name": "Svenska Handbollförbundet / Profixio + Handbollsligan / Jilsén System player-statistics PDFs",
+          "location": "https://www.profixio.com/app/lx/competition/leagueid17951?t=schedule&f=played",
+          "collectionMethod": "Public rendered results and protocols; official published player-statistics PDF tables",
+          "extractionVersion": "sweden-public/1.1.0",
+          "timestamp": "2026-10-11T04:20:12.754558+00:00",
+          "confidence": "HIGH",
+          "matches": 182,
+          "events": 1198,
+          "coverage": 1,
+          "sourceManifestHash": "6a54f0c6ef8402e0e1605687721610c568de8eb9eca113bfd33decb9e93e75ef",
+          "normalizedHash": "2ad78bc166c3f71cd742c66f8d8a1f5d406d84d2bdd92fbec1e2598d96eca773",
+          "notes": [
+            "Regular season only; no playoff or cross-season blending",
+            "Individual public source URLs, timestamps and body hashes are retained in normalized dataset.sources; sourceManifestHash hashes that ordered manifest",
+            "Scope MATCH; values are descriptive match/keeper-match observations"
+          ]
+        },
+        "transformations": [
+          "deduplicate using official source match ID",
+          "sample SD; linearly interpolated quantiles"
+        ]
+      },
+      {
+        "metric": "suspensions",
+        "scope": "MATCH",
+        "unit": "count",
+        "definition": "career result two-minute suspensions",
+        "distribution": {
+          "n": 182,
+          "mean": 4.802197802197802,
+          "median": 5,
+          "sd": 1.8310989377349742,
+          "min": 1,
+          "max": 12,
+          "p05": 2,
+          "p10": 3,
+          "p25": 3,
+          "p75": 6,
+          "p90": 7,
+          "p95": 8
+        },
+        "evidence": {
+          "tier": "C",
+          "seasonStatus": "COMPLETE_SEASON",
+          "expectedMatches": 182,
+          "foundMatches": 182,
+          "parsedMatches": 182,
+          "coverage": 1,
+          "playerObservations": 5615,
+          "keeperObservations": 480,
+          "missingMetrics": [
+            "possessions",
+            "possession duration",
+            "whistles/free throws",
+            "transition",
+            "detailed shot context",
+            "per-match outfield position"
+          ]
+        },
+        "provenance": {
+          "name": "Svenska Handbollförbundet / Profixio + Handbollsligan / Jilsén System player-statistics PDFs",
+          "location": "https://www.profixio.com/app/lx/competition/leagueid17951?t=schedule&f=played",
+          "collectionMethod": "Public rendered results and protocols; official published player-statistics PDF tables",
+          "extractionVersion": "sweden-public/1.1.0",
+          "timestamp": "2026-10-11T04:20:12.754558+00:00",
+          "confidence": "HIGH",
+          "matches": 182,
+          "events": 182,
+          "coverage": 1,
+          "sourceManifestHash": "6a54f0c6ef8402e0e1605687721610c568de8eb9eca113bfd33decb9e93e75ef",
+          "normalizedHash": "2ad78bc166c3f71cd742c66f8d8a1f5d406d84d2bdd92fbec1e2598d96eca773",
+          "notes": [
+            "Regular season only; no playoff or cross-season blending",
+            "Individual public source URLs, timestamps and body hashes are retained in normalized dataset.sources; sourceManifestHash hashes that ordered manifest",
+            "Scope MATCH; values are descriptive match/keeper-match observations"
+          ]
+        },
+        "transformations": [
+          "deduplicate using official source match ID",
+          "sample SD; linearly interpolated quantiles"
+        ]
+      },
+      {
+        "metric": "savePct",
+        "scope": "CATEGORY:SEVEN_METRE",
+        "unit": "ratio",
+        "definition": "saves / (saves + goals); goalkeeper-attributed shots only",
+        "distribution": {
+          "n": 182,
+          "mean": 0.19748991850640177,
+          "median": 0.2,
+          "sd": 0.1670662648819657,
+          "min": 0,
+          "max": 0.75,
+          "p05": 0,
+          "p10": 0,
+          "p25": 0,
+          "p75": 0.2857142857142857,
+          "p90": 0.4,
+          "p95": 0.5
+        },
+        "evidence": {
+          "tier": "C",
+          "seasonStatus": "COMPLETE_SEASON",
+          "expectedMatches": 182,
+          "foundMatches": 182,
+          "parsedMatches": 182,
+          "coverage": 1,
+          "playerObservations": 5615,
+          "keeperObservations": 480,
+          "missingMetrics": [
+            "possessions",
+            "possession duration",
+            "whistles/free throws",
+            "transition",
+            "detailed shot context",
+            "per-match outfield position"
+          ]
+        },
+        "provenance": {
+          "name": "Svenska Handbollförbundet / Profixio + Handbollsligan / Jilsén System player-statistics PDFs",
+          "location": "https://www.profixio.com/app/lx/competition/leagueid17951?t=schedule&f=played",
+          "collectionMethod": "Public rendered results and protocols; official published player-statistics PDF tables",
+          "extractionVersion": "sweden-public/1.1.0",
+          "timestamp": "2026-10-11T04:20:12.754558+00:00",
+          "confidence": "HIGH",
+          "matches": 182,
+          "events": 1129,
+          "coverage": 1,
+          "sourceManifestHash": "6a54f0c6ef8402e0e1605687721610c568de8eb9eca113bfd33decb9e93e75ef",
+          "normalizedHash": "2ad78bc166c3f71cd742c66f8d8a1f5d406d84d2bdd92fbec1e2598d96eca773",
+          "notes": [
+            "Regular season only; no playoff or cross-season blending",
+            "Individual public source URLs, timestamps and body hashes are retained in normalized dataset.sources; sourceManifestHash hashes that ordered manifest",
+            "Scope CATEGORY:SEVEN_METRE; values are descriptive match/keeper-match observations"
+          ]
+        },
+        "transformations": [
+          "deduplicate using official source match ID",
+          "sample SD; linearly interpolated quantiles",
+          "7m saves / (7m saves + 7m goals); wide/post attempts excluded; match-level conditional rate"
+        ]
+      },
+      {
+        "metric": "outfieldShots",
+        "scope": "MATCH",
+        "unit": "count",
+        "definition": "recorded released shot attempts by field players, both teams; keeper attempts excluded",
+        "distribution": {
+          "n": 182,
+          "mean": 97.89010989010988,
+          "median": 98,
+          "sd": 7.528143218573164,
+          "min": 80,
+          "max": 119,
+          "p05": 85,
+          "p10": 89,
+          "p25": 92,
+          "p75": 103,
+          "p90": 107,
+          "p95": 109
+        },
+        "evidence": {
+          "tier": "C",
+          "seasonStatus": "COMPLETE_SEASON",
+          "expectedMatches": 182,
+          "foundMatches": 182,
+          "parsedMatches": 182,
+          "coverage": 1,
+          "playerObservations": 5615,
+          "keeperObservations": 480,
+          "missingMetrics": [
+            "possessions",
+            "possession duration",
+            "whistles/free throws",
+            "transition",
+            "detailed shot context",
+            "per-match outfield position"
+          ]
+        },
+        "provenance": {
+          "name": "Svenska Handbollförbundet / Profixio + Handbollsligan / Jilsén System player-statistics PDFs",
+          "location": "https://www.profixio.com/app/lx/competition/leagueid17951?t=schedule&f=played",
+          "collectionMethod": "Public rendered results and protocols; official published player-statistics PDF tables",
+          "extractionVersion": "sweden-public/1.1.0",
+          "timestamp": "2026-10-11T04:20:12.754558+00:00",
+          "confidence": "HIGH",
+          "matches": 182,
+          "events": 182,
+          "coverage": 1,
+          "sourceManifestHash": "6a54f0c6ef8402e0e1605687721610c568de8eb9eca113bfd33decb9e93e75ef",
+          "normalizedHash": "2ad78bc166c3f71cd742c66f8d8a1f5d406d84d2bdd92fbec1e2598d96eca773",
+          "notes": [
+            "Regular season only; no playoff or cross-season blending",
+            "Individual public source URLs, timestamps and body hashes are retained in normalized dataset.sources; sourceManifestHash hashes that ordered manifest",
+            "Scope MATCH; values are descriptive match/keeper-match observations"
+          ]
+        },
+        "transformations": [
+          "deduplicate using official source match ID",
+          "sample SD; linearly interpolated quantiles",
+          "sum ordinary field player attempts + 7m field player attempts; goalkeeper attempts unavailable"
+        ]
+      },
+      {
+        "metric": "outfieldConversion",
+        "scope": "MATCH",
+        "unit": "ratio",
+        "definition": "field player goals / recorded field player shot attempts, including 7m",
+        "distribution": {
+          "n": 182,
+          "mean": 0.6197929853078333,
+          "median": 0.6210526315789474,
+          "sd": 0.050183129965910185,
+          "min": 0.4827586206896552,
+          "max": 0.75,
+          "p05": 0.5456818181818182,
+          "p10": 0.5569055944055944,
+          "p25": 0.5833333333333334,
+          "p75": 0.6588573463573464,
+          "p90": 0.6793588187702266,
+          "p95": 0.6969038208168643
+        },
+        "evidence": {
+          "tier": "C",
+          "seasonStatus": "COMPLETE_SEASON",
+          "expectedMatches": 182,
+          "foundMatches": 182,
+          "parsedMatches": 182,
+          "coverage": 1,
+          "playerObservations": 5615,
+          "keeperObservations": 480,
+          "missingMetrics": [
+            "possessions",
+            "possession duration",
+            "whistles/free throws",
+            "transition",
+            "detailed shot context",
+            "per-match outfield position"
+          ]
+        },
+        "provenance": {
+          "name": "Svenska Handbollförbundet / Profixio + Handbollsligan / Jilsén System player-statistics PDFs",
+          "location": "https://www.profixio.com/app/lx/competition/leagueid17951?t=schedule&f=played",
+          "collectionMethod": "Public rendered results and protocols; official published player-statistics PDF tables",
+          "extractionVersion": "sweden-public/1.1.0",
+          "timestamp": "2026-10-11T04:20:12.754558+00:00",
+          "confidence": "HIGH",
+          "matches": 182,
+          "events": 17816,
+          "coverage": 1,
+          "sourceManifestHash": "6a54f0c6ef8402e0e1605687721610c568de8eb9eca113bfd33decb9e93e75ef",
+          "normalizedHash": "2ad78bc166c3f71cd742c66f8d8a1f5d406d84d2bdd92fbec1e2598d96eca773",
+          "notes": [
+            "Regular season only; no playoff or cross-season blending",
+            "Individual public source URLs, timestamps and body hashes are retained in normalized dataset.sources; sourceManifestHash hashes that ordered manifest",
+            "Scope MATCH; values are descriptive match/keeper-match observations"
+          ]
+        },
+        "transformations": [
+          "deduplicate using official source match ID",
+          "sample SD; linearly interpolated quantiles"
+        ]
+      },
+      {
+        "metric": "sourceTechnicalErrors",
+        "scope": "MATCH",
+        "unit": "count",
+        "definition": "official recorded pass errors + lost balls + rule errors per match; not assumed equivalent to canonical turnover endings",
+        "distribution": {
+          "n": 182,
+          "mean": 20.247252747252748,
+          "median": 20,
+          "sd": 4.799789144985265,
+          "min": 9,
+          "max": 41,
+          "p05": 13,
+          "p10": 14.100000000000001,
+          "p25": 17,
+          "p75": 23,
+          "p90": 27,
+          "p95": 28
+        },
+        "evidence": {
+          "tier": "C",
+          "seasonStatus": "COMPLETE_SEASON",
+          "expectedMatches": 182,
+          "foundMatches": 182,
+          "parsedMatches": 182,
+          "coverage": 1,
+          "playerObservations": 5615,
+          "keeperObservations": 480,
+          "missingMetrics": [
+            "possessions",
+            "possession duration",
+            "whistles/free throws",
+            "transition",
+            "detailed shot context",
+            "per-match outfield position"
+          ]
+        },
+        "provenance": {
+          "name": "Svenska Handbollförbundet / Profixio + Handbollsligan / Jilsén System player-statistics PDFs",
+          "location": "https://www.profixio.com/app/lx/competition/leagueid17951?t=schedule&f=played",
+          "collectionMethod": "Public rendered results and protocols; official published player-statistics PDF tables",
+          "extractionVersion": "sweden-public/1.1.0",
+          "timestamp": "2026-10-11T04:20:12.754558+00:00",
+          "confidence": "HIGH",
+          "matches": 182,
+          "events": 182,
+          "coverage": 1,
+          "sourceManifestHash": "6a54f0c6ef8402e0e1605687721610c568de8eb9eca113bfd33decb9e93e75ef",
+          "normalizedHash": "2ad78bc166c3f71cd742c66f8d8a1f5d406d84d2bdd92fbec1e2598d96eca773",
+          "notes": [
+            "Regular season only; no playoff or cross-season blending",
+            "Individual public source URLs, timestamps and body hashes are retained in normalized dataset.sources; sourceManifestHash hashes that ordered manifest",
+            "Scope MATCH; values are descriptive match/keeper-match observations"
+          ]
+        },
+        "transformations": [
+          "deduplicate using official source match ID",
+          "sample SD; linearly interpolated quantiles"
+        ]
+      },
+      {
+        "metric": "shotConcentration",
+        "scope": "TEAM",
+        "unit": "ratio",
+        "definition": "largest player shot count / team shots",
+        "distribution": {
+          "n": 364,
+          "mean": 0.2373419572983402,
+          "median": 0.22916666666666666,
+          "sd": 0.052632698804840145,
+          "min": 0.11363636363636363,
+          "max": 0.4090909090909091,
+          "p05": 0.16666666666666666,
+          "p10": 0.17686274509803923,
+          "p25": 0.2,
+          "p75": 0.2746323529411765,
+          "p90": 0.30559006211180123,
+          "p95": 0.3323129251700678
+        },
+        "evidence": {
+          "tier": "C",
+          "seasonStatus": "COMPLETE_SEASON",
+          "expectedMatches": 182,
+          "foundMatches": 182,
+          "parsedMatches": 182,
+          "coverage": 1,
+          "playerObservations": 5615,
+          "keeperObservations": 480,
+          "missingMetrics": [
+            "possessions",
+            "possession duration",
+            "whistles/free throws",
+            "transition",
+            "detailed shot context",
+            "per-match outfield position"
+          ]
+        },
+        "provenance": {
+          "name": "Svenska Handbollförbundet / Profixio + Handbollsligan / Jilsén System player-statistics PDFs",
+          "location": "https://www.profixio.com/app/lx/competition/leagueid17951?t=schedule&f=played",
+          "collectionMethod": "Public rendered results and protocols; official published player-statistics PDF tables",
+          "extractionVersion": "sweden-public/1.1.0",
+          "timestamp": "2026-10-11T04:20:12.754558+00:00",
+          "confidence": "HIGH",
+          "matches": 182,
+          "events": 17816,
+          "coverage": 1,
+          "sourceManifestHash": "6a54f0c6ef8402e0e1605687721610c568de8eb9eca113bfd33decb9e93e75ef",
+          "normalizedHash": "2ad78bc166c3f71cd742c66f8d8a1f5d406d84d2bdd92fbec1e2598d96eca773",
+          "notes": [
+            "Regular season only; no playoff or cross-season blending",
+            "Individual public source URLs, timestamps and body hashes are retained in normalized dataset.sources; sourceManifestHash hashes that ordered manifest",
+            "Scope TEAM; values are descriptive match/keeper-match observations"
+          ]
+        },
+        "transformations": [
+          "deduplicate using official source match ID",
+          "sample SD; linearly interpolated quantiles",
+          "field player shot share; no recorded goalkeeper attempts"
+        ]
+      },
+      {
+        "metric": "saves",
+        "scope": "KEEPER",
+        "unit": "count",
+        "definition": "non-goal SAVE_CAUGHT/PARRY shot actions",
+        "distribution": {
+          "n": 480,
+          "mean": 8.9,
+          "median": 9,
+          "sd": 4.667929046872804,
+          "min": 0,
+          "max": 21,
+          "p05": 2,
+          "p10": 3,
+          "p25": 5,
+          "p75": 12,
+          "p90": 16,
+          "p95": 17
+        },
+        "evidence": {
+          "tier": "C",
+          "seasonStatus": "COMPLETE_SEASON",
+          "expectedMatches": 182,
+          "foundMatches": 182,
+          "parsedMatches": 182,
+          "coverage": 1,
+          "playerObservations": 5615,
+          "keeperObservations": 480,
+          "missingMetrics": [
+            "possessions",
+            "possession duration",
+            "whistles/free throws",
+            "transition",
+            "detailed shot context",
+            "per-match outfield position"
+          ]
+        },
+        "provenance": {
+          "name": "Svenska Handbollförbundet / Profixio + Handbollsligan / Jilsén System player-statistics PDFs",
+          "location": "https://www.profixio.com/app/lx/competition/leagueid17951?t=schedule&f=played",
+          "collectionMethod": "Public rendered results and protocols; official published player-statistics PDF tables",
+          "extractionVersion": "sweden-public/1.1.0",
+          "timestamp": "2026-10-11T04:20:12.754558+00:00",
+          "confidence": "HIGH",
+          "matches": 182,
+          "events": 480,
+          "coverage": 1,
+          "sourceManifestHash": "6a54f0c6ef8402e0e1605687721610c568de8eb9eca113bfd33decb9e93e75ef",
+          "normalizedHash": "2ad78bc166c3f71cd742c66f8d8a1f5d406d84d2bdd92fbec1e2598d96eca773",
+          "notes": [
+            "Regular season only; no playoff or cross-season blending",
+            "Individual public source URLs, timestamps and body hashes are retained in normalized dataset.sources; sourceManifestHash hashes that ordered manifest",
+            "Scope KEEPER; values are descriptive match/keeper-match observations"
+          ]
+        },
+        "transformations": [
+          "deduplicate using official source match ID",
+          "sample SD; linearly interpolated quantiles",
+          "ordinary saves + 7m saves; ordinary shots faced + 7m shots faced",
+          "require recorded goalsConceded = shotsFaced - saves; minimum 10 on-target shots per keeper-match"
+        ]
+      },
+      {
+        "metric": "shotsFaced",
+        "scope": "KEEPER",
+        "unit": "count",
+        "definition": "saves + goals; misses and blocks excluded",
+        "distribution": {
+          "n": 480,
+          "mean": 29.814583333333335,
+          "median": 31,
+          "sd": 10.625185536060686,
+          "min": 10,
+          "max": 50,
+          "p05": 12,
+          "p10": 14,
+          "p25": 21,
+          "p75": 38,
+          "p90": 43.10000000000002,
+          "p95": 46
+        },
+        "evidence": {
+          "tier": "C",
+          "seasonStatus": "COMPLETE_SEASON",
+          "expectedMatches": 182,
+          "foundMatches": 182,
+          "parsedMatches": 182,
+          "coverage": 1,
+          "playerObservations": 5615,
+          "keeperObservations": 480,
+          "missingMetrics": [
+            "possessions",
+            "possession duration",
+            "whistles/free throws",
+            "transition",
+            "detailed shot context",
+            "per-match outfield position"
+          ]
+        },
+        "provenance": {
+          "name": "Svenska Handbollförbundet / Profixio + Handbollsligan / Jilsén System player-statistics PDFs",
+          "location": "https://www.profixio.com/app/lx/competition/leagueid17951?t=schedule&f=played",
+          "collectionMethod": "Public rendered results and protocols; official published player-statistics PDF tables",
+          "extractionVersion": "sweden-public/1.1.0",
+          "timestamp": "2026-10-11T04:20:12.754558+00:00",
+          "confidence": "HIGH",
+          "matches": 182,
+          "events": 480,
+          "coverage": 1,
+          "sourceManifestHash": "6a54f0c6ef8402e0e1605687721610c568de8eb9eca113bfd33decb9e93e75ef",
+          "normalizedHash": "2ad78bc166c3f71cd742c66f8d8a1f5d406d84d2bdd92fbec1e2598d96eca773",
+          "notes": [
+            "Regular season only; no playoff or cross-season blending",
+            "Individual public source URLs, timestamps and body hashes are retained in normalized dataset.sources; sourceManifestHash hashes that ordered manifest",
+            "Scope KEEPER; values are descriptive match/keeper-match observations"
+          ]
+        },
+        "transformations": [
+          "deduplicate using official source match ID",
+          "sample SD; linearly interpolated quantiles",
+          "ordinary saves + 7m saves; ordinary shots faced + 7m shots faced",
+          "require recorded goalsConceded = shotsFaced - saves; minimum 10 on-target shots per keeper-match"
+        ]
+      },
+      {
+        "metric": "savePct",
+        "scope": "KEEPER",
+        "unit": "ratio",
+        "definition": "saves / (saves + goals); goalkeeper-attributed shots only",
+        "distribution": {
+          "n": 480,
+          "mean": 0.28565487560078895,
+          "median": 0.2857142857142857,
+          "sd": 0.09905324146480127,
+          "min": 0,
+          "max": 0.6363636363636364,
+          "p05": 0.11753393665158371,
+          "p10": 0.16666666666666666,
+          "p25": 0.22857142857142856,
+          "p75": 0.34515915119363394,
+          "p90": 0.40920745920745927,
+          "p95": 0.45011904761904753
+        },
+        "evidence": {
+          "tier": "C",
+          "seasonStatus": "COMPLETE_SEASON",
+          "expectedMatches": 182,
+          "foundMatches": 182,
+          "parsedMatches": 182,
+          "coverage": 1,
+          "playerObservations": 5615,
+          "keeperObservations": 480,
+          "missingMetrics": [
+            "possessions",
+            "possession duration",
+            "whistles/free throws",
+            "transition",
+            "detailed shot context",
+            "per-match outfield position"
+          ]
+        },
+        "provenance": {
+          "name": "Svenska Handbollförbundet / Profixio + Handbollsligan / Jilsén System player-statistics PDFs",
+          "location": "https://www.profixio.com/app/lx/competition/leagueid17951?t=schedule&f=played",
+          "collectionMethod": "Public rendered results and protocols; official published player-statistics PDF tables",
+          "extractionVersion": "sweden-public/1.1.0",
+          "timestamp": "2026-10-11T04:20:12.754558+00:00",
+          "confidence": "HIGH",
+          "matches": 182,
+          "events": 14311,
+          "coverage": 1,
+          "sourceManifestHash": "6a54f0c6ef8402e0e1605687721610c568de8eb9eca113bfd33decb9e93e75ef",
+          "normalizedHash": "2ad78bc166c3f71cd742c66f8d8a1f5d406d84d2bdd92fbec1e2598d96eca773",
+          "notes": [
+            "Regular season only; no playoff or cross-season blending",
+            "Individual public source URLs, timestamps and body hashes are retained in normalized dataset.sources; sourceManifestHash hashes that ordered manifest",
+            "Scope KEEPER; values are descriptive match/keeper-match observations"
+          ]
+        },
+        "transformations": [
+          "deduplicate using official source match ID",
+          "sample SD; linearly interpolated quantiles",
+          "ordinary saves + 7m saves; ordinary shots faced + 7m shots faced",
+          "require recorded goalsConceded = shotsFaced - saves; minimum 10 on-target shots per keeper-match"
+        ]
+      },
+      {
+        "metric": "playerGoalsPerAppearance",
+        "scope": "PLAYER_SEASON",
+        "unit": "count",
+        "definition": "official player season goals / recorded appearances",
+        "distribution": {
+          "n": 207,
+          "mean": 2.24226007979061,
+          "median": 2.08,
+          "sd": 1.6560927028632264,
+          "min": 0,
+          "max": 7.923076923076923,
+          "p05": 0.1266304347826087,
+          "p10": 0.2666666666666667,
+          "p25": 0.8321678321678322,
+          "p75": 3.26,
+          "p90": 4.4990000000000006,
+          "p95": 5.237254901960784
+        },
+        "provenance": {
+          "name": "Handbollsligan official player-season statistics",
+          "location": "https://handballstats.se/statistics/herr/statistics/statistics.aspx?y=2025&l=2500101&p=Alla&t=0&o=0&ha=Alla ; https://handballstats.se/statistics/herr/statistics/statistics.aspx?y=2025&l=2500101&p=MV&t=0&o=0&ha=Alla",
+          "collectionMethod": "Public rendered results and protocols; official published player-statistics PDF tables",
+          "extractionVersion": "handballstats-html/1",
+          "timestamp": "2026-10-11T04:09:07.279536+00:00",
+          "confidence": "MEDIUM",
+          "matches": 182,
+          "events": 4592,
+          "coverage": 1,
+          "sourceManifestHash": "6a54f0c6ef8402e0e1605687721610c568de8eb9eca113bfd33decb9e93e75ef",
+          "normalizedHash": "738ad4db8c2e805e64760b356c486b8e834a8fd99fd7ebf9df751aca292a5339",
+          "notes": [
+            "player-season observations; minimum 10 appearances; not player-match variance"
+          ],
+          "sourceHashes": [
+            "35c8049c36b8280243081f3bc9cb23bddefa19f8ae1cdedb3496837e5778fc20",
+            "cec144072b0ecbf58bc8083b2619c499a826264e3afe82d1042e325a2c598c09"
+          ]
+        },
+        "transformations": [
+          "player-season observations; minimum 10 appearances; not player-match variance"
+        ]
+      },
+      {
+        "metric": "savePct",
+        "scope": "KEEPER_SEASON",
+        "unit": "ratio",
+        "definition": "saves / (saves + goals); goalkeeper-attributed shots only",
+        "distribution": {
+          "n": 28,
+          "mean": 0.27827143950467526,
+          "median": 0.2779017857142857,
+          "sd": 0.03720341152668745,
+          "min": 0.15625,
+          "max": 0.3408662900188324,
+          "p05": 0.23716775920578378,
+          "p10": 0.25368288689722684,
+          "p25": 0.2589465925227364,
+          "p75": 0.2978135780226533,
+          "p90": 0.3229002213590611,
+          "p95": 0.33595166361016504
+        },
+        "provenance": {
+          "name": "Handbollsligan official player-season statistics",
+          "location": "https://handballstats.se/statistics/herr/statistics/statistics.aspx?y=2025&l=2500101&p=Alla&t=0&o=0&ha=Alla ; https://handballstats.se/statistics/herr/statistics/statistics.aspx?y=2025&l=2500101&p=MV&t=0&o=0&ha=Alla",
+          "collectionMethod": "Public rendered results and protocols; official published player-statistics PDF tables",
+          "extractionVersion": "handballstats-html/1",
+          "timestamp": "2026-10-11T04:09:07.279536+00:00",
+          "confidence": "MEDIUM",
+          "matches": 182,
+          "events": 15806,
+          "coverage": 1,
+          "sourceManifestHash": "6a54f0c6ef8402e0e1605687721610c568de8eb9eca113bfd33decb9e93e75ef",
+          "normalizedHash": "738ad4db8c2e805e64760b356c486b8e834a8fd99fd7ebf9df751aca292a5339",
+          "notes": [
+            "ordinary + 7m saves and shots faced; minimum 10 appearances and 100 shots faced",
+            "variance across keeper-seasons, never substituted for keeper-match variance"
+          ],
+          "sourceHashes": [
+            "35c8049c36b8280243081f3bc9cb23bddefa19f8ae1cdedb3496837e5778fc20",
+            "cec144072b0ecbf58bc8083b2619c499a826264e3afe82d1042e325a2c598c09"
+          ]
+        },
+        "transformations": [
+          "ordinary + 7m saves and shots faced; minimum 10 appearances and 100 shots faced",
+          "variance across keeper-seasons, never substituted for keeper-match variance"
+        ]
+      },
+      {
+        "metric": "goalShare",
+        "scope": "POSITION_SEASON:M9",
+        "unit": "ratio",
+        "definition": "group goals / team or match goals as identified by scope",
+        "distribution": {
+          "n": 1,
+          "mean": 0.18965673399148628,
+          "median": 0.18965673399148628,
+          "sd": null,
+          "min": 0.18965673399148628,
+          "max": 0.18965673399148628,
+          "p05": 0.18965673399148628,
+          "p10": 0.18965673399148628,
+          "p25": 0.18965673399148628,
+          "p75": 0.18965673399148628,
+          "p90": 0.18965673399148628,
+          "p95": 0.18965673399148628
+        },
+        "provenance": {
+          "name": "Handbollsligan official player-season statistics",
+          "location": "https://handballstats.se/statistics/herr/statistics/statistics.aspx?y=2025&l=2500101&p=Alla&t=0&o=0&ha=Alla ; https://handballstats.se/statistics/herr/statistics/statistics.aspx?y=2025&l=2500101&p=MV&t=0&o=0&ha=Alla",
+          "collectionMethod": "Public rendered results and protocols; official published player-statistics PDF tables",
+          "extractionVersion": "handballstats-html/1",
+          "timestamp": "2026-10-11T04:09:07.279536+00:00",
+          "confidence": "MEDIUM",
+          "matches": 182,
+          "events": 11041,
+          "coverage": 1,
+          "sourceManifestHash": "6a54f0c6ef8402e0e1605687721610c568de8eb9eca113bfd33decb9e93e75ef",
+          "normalizedHash": "738ad4db8c2e805e64760b356c486b8e834a8fd99fd7ebf9df751aca292a5339",
+          "notes": [
+            "single pooled season share, N=1 aggregate; no match-level z-score",
+            "denominator is all goals recorded in this official player-season table, including unresolved positions"
+          ],
+          "sourceHashes": [
+            "35c8049c36b8280243081f3bc9cb23bddefa19f8ae1cdedb3496837e5778fc20",
+            "cec144072b0ecbf58bc8083b2619c499a826264e3afe82d1042e325a2c598c09"
+          ]
+        },
+        "transformations": [
+          "single pooled season share, N=1 aggregate; no match-level z-score",
+          "denominator is all goals recorded in this official player-season table, including unresolved positions"
+        ]
+      },
+      {
+        "metric": "goalShare",
+        "scope": "POSITION_SEASON:V9",
+        "unit": "ratio",
+        "definition": "group goals / team or match goals as identified by scope",
+        "distribution": {
+          "n": 1,
+          "mean": 0.21112218096186938,
+          "median": 0.21112218096186938,
+          "sd": null,
+          "min": 0.21112218096186938,
+          "max": 0.21112218096186938,
+          "p05": 0.21112218096186938,
+          "p10": 0.21112218096186938,
+          "p25": 0.21112218096186938,
+          "p75": 0.21112218096186938,
+          "p90": 0.21112218096186938,
+          "p95": 0.21112218096186938
+        },
+        "provenance": {
+          "name": "Handbollsligan official player-season statistics",
+          "location": "https://handballstats.se/statistics/herr/statistics/statistics.aspx?y=2025&l=2500101&p=Alla&t=0&o=0&ha=Alla ; https://handballstats.se/statistics/herr/statistics/statistics.aspx?y=2025&l=2500101&p=MV&t=0&o=0&ha=Alla",
+          "collectionMethod": "Public rendered results and protocols; official published player-statistics PDF tables",
+          "extractionVersion": "handballstats-html/1",
+          "timestamp": "2026-10-11T04:09:07.279536+00:00",
+          "confidence": "MEDIUM",
+          "matches": 182,
+          "events": 11041,
+          "coverage": 1,
+          "sourceManifestHash": "6a54f0c6ef8402e0e1605687721610c568de8eb9eca113bfd33decb9e93e75ef",
+          "normalizedHash": "738ad4db8c2e805e64760b356c486b8e834a8fd99fd7ebf9df751aca292a5339",
+          "notes": [
+            "single pooled season share, N=1 aggregate; no match-level z-score",
+            "denominator is all goals recorded in this official player-season table, including unresolved positions"
+          ],
+          "sourceHashes": [
+            "35c8049c36b8280243081f3bc9cb23bddefa19f8ae1cdedb3496837e5778fc20",
+            "cec144072b0ecbf58bc8083b2619c499a826264e3afe82d1042e325a2c598c09"
+          ]
+        },
+        "transformations": [
+          "single pooled season share, N=1 aggregate; no match-level z-score",
+          "denominator is all goals recorded in this official player-season table, including unresolved positions"
+        ]
+      },
+      {
+        "metric": "goalShare",
+        "scope": "POSITION_SEASON:M6",
+        "unit": "ratio",
+        "definition": "group goals / team or match goals as identified by scope",
+        "distribution": {
+          "n": 1,
+          "mean": 0.14373698034598315,
+          "median": 0.14373698034598315,
+          "sd": null,
+          "min": 0.14373698034598315,
+          "max": 0.14373698034598315,
+          "p05": 0.14373698034598315,
+          "p10": 0.14373698034598315,
+          "p25": 0.14373698034598315,
+          "p75": 0.14373698034598315,
+          "p90": 0.14373698034598315,
+          "p95": 0.14373698034598315
+        },
+        "provenance": {
+          "name": "Handbollsligan official player-season statistics",
+          "location": "https://handballstats.se/statistics/herr/statistics/statistics.aspx?y=2025&l=2500101&p=Alla&t=0&o=0&ha=Alla ; https://handballstats.se/statistics/herr/statistics/statistics.aspx?y=2025&l=2500101&p=MV&t=0&o=0&ha=Alla",
+          "collectionMethod": "Public rendered results and protocols; official published player-statistics PDF tables",
+          "extractionVersion": "handballstats-html/1",
+          "timestamp": "2026-10-11T04:09:07.279536+00:00",
+          "confidence": "MEDIUM",
+          "matches": 182,
+          "events": 11041,
+          "coverage": 1,
+          "sourceManifestHash": "6a54f0c6ef8402e0e1605687721610c568de8eb9eca113bfd33decb9e93e75ef",
+          "normalizedHash": "738ad4db8c2e805e64760b356c486b8e834a8fd99fd7ebf9df751aca292a5339",
+          "notes": [
+            "single pooled season share, N=1 aggregate; no match-level z-score",
+            "denominator is all goals recorded in this official player-season table, including unresolved positions"
+          ],
+          "sourceHashes": [
+            "35c8049c36b8280243081f3bc9cb23bddefa19f8ae1cdedb3496837e5778fc20",
+            "cec144072b0ecbf58bc8083b2619c499a826264e3afe82d1042e325a2c598c09"
+          ]
+        },
+        "transformations": [
+          "single pooled season share, N=1 aggregate; no match-level z-score",
+          "denominator is all goals recorded in this official player-season table, including unresolved positions"
+        ]
+      },
+      {
+        "metric": "goalShare",
+        "scope": "POSITION_SEASON:H6",
+        "unit": "ratio",
+        "definition": "group goals / team or match goals as identified by scope",
+        "distribution": {
+          "n": 1,
+          "mean": 0.14582012498867855,
+          "median": 0.14582012498867855,
+          "sd": null,
+          "min": 0.14582012498867855,
+          "max": 0.14582012498867855,
+          "p05": 0.14582012498867855,
+          "p10": 0.14582012498867855,
+          "p25": 0.14582012498867855,
+          "p75": 0.14582012498867855,
+          "p90": 0.14582012498867855,
+          "p95": 0.14582012498867855
+        },
+        "provenance": {
+          "name": "Handbollsligan official player-season statistics",
+          "location": "https://handballstats.se/statistics/herr/statistics/statistics.aspx?y=2025&l=2500101&p=Alla&t=0&o=0&ha=Alla ; https://handballstats.se/statistics/herr/statistics/statistics.aspx?y=2025&l=2500101&p=MV&t=0&o=0&ha=Alla",
+          "collectionMethod": "Public rendered results and protocols; official published player-statistics PDF tables",
+          "extractionVersion": "handballstats-html/1",
+          "timestamp": "2026-10-11T04:09:07.279536+00:00",
+          "confidence": "MEDIUM",
+          "matches": 182,
+          "events": 11041,
+          "coverage": 1,
+          "sourceManifestHash": "6a54f0c6ef8402e0e1605687721610c568de8eb9eca113bfd33decb9e93e75ef",
+          "normalizedHash": "738ad4db8c2e805e64760b356c486b8e834a8fd99fd7ebf9df751aca292a5339",
+          "notes": [
+            "single pooled season share, N=1 aggregate; no match-level z-score",
+            "denominator is all goals recorded in this official player-season table, including unresolved positions"
+          ],
+          "sourceHashes": [
+            "35c8049c36b8280243081f3bc9cb23bddefa19f8ae1cdedb3496837e5778fc20",
+            "cec144072b0ecbf58bc8083b2619c499a826264e3afe82d1042e325a2c598c09"
+          ]
+        },
+        "transformations": [
+          "single pooled season share, N=1 aggregate; no match-level z-score",
+          "denominator is all goals recorded in this official player-season table, including unresolved positions"
+        ]
+      },
+      {
+        "metric": "goalShare",
+        "scope": "POSITION_SEASON:V6",
+        "unit": "ratio",
+        "definition": "group goals / team or match goals as identified by scope",
+        "distribution": {
+          "n": 1,
+          "mean": 0.14056697762883796,
+          "median": 0.14056697762883796,
+          "sd": null,
+          "min": 0.14056697762883796,
+          "max": 0.14056697762883796,
+          "p05": 0.14056697762883796,
+          "p10": 0.14056697762883796,
+          "p25": 0.14056697762883796,
+          "p75": 0.14056697762883796,
+          "p90": 0.14056697762883796,
+          "p95": 0.14056697762883796
+        },
+        "provenance": {
+          "name": "Handbollsligan official player-season statistics",
+          "location": "https://handballstats.se/statistics/herr/statistics/statistics.aspx?y=2025&l=2500101&p=Alla&t=0&o=0&ha=Alla ; https://handballstats.se/statistics/herr/statistics/statistics.aspx?y=2025&l=2500101&p=MV&t=0&o=0&ha=Alla",
+          "collectionMethod": "Public rendered results and protocols; official published player-statistics PDF tables",
+          "extractionVersion": "handballstats-html/1",
+          "timestamp": "2026-10-11T04:09:07.279536+00:00",
+          "confidence": "MEDIUM",
+          "matches": 182,
+          "events": 11041,
+          "coverage": 1,
+          "sourceManifestHash": "6a54f0c6ef8402e0e1605687721610c568de8eb9eca113bfd33decb9e93e75ef",
+          "normalizedHash": "738ad4db8c2e805e64760b356c486b8e834a8fd99fd7ebf9df751aca292a5339",
+          "notes": [
+            "single pooled season share, N=1 aggregate; no match-level z-score",
+            "denominator is all goals recorded in this official player-season table, including unresolved positions"
+          ],
+          "sourceHashes": [
+            "35c8049c36b8280243081f3bc9cb23bddefa19f8ae1cdedb3496837e5778fc20",
+            "cec144072b0ecbf58bc8083b2619c499a826264e3afe82d1042e325a2c598c09"
+          ]
+        },
+        "transformations": [
+          "single pooled season share, N=1 aggregate; no match-level z-score",
+          "denominator is all goals recorded in this official player-season table, including unresolved positions"
+        ]
+      },
+      {
+        "metric": "goalShare",
+        "scope": "POSITION_SEASON:H9",
+        "unit": "ratio",
+        "definition": "group goals / team or match goals as identified by scope",
+        "distribution": {
+          "n": 1,
+          "mean": 0.16719500045285754,
+          "median": 0.16719500045285754,
+          "sd": null,
+          "min": 0.16719500045285754,
+          "max": 0.16719500045285754,
+          "p05": 0.16719500045285754,
+          "p10": 0.16719500045285754,
+          "p25": 0.16719500045285754,
+          "p75": 0.16719500045285754,
+          "p90": 0.16719500045285754,
+          "p95": 0.16719500045285754
+        },
+        "provenance": {
+          "name": "Handbollsligan official player-season statistics",
+          "location": "https://handballstats.se/statistics/herr/statistics/statistics.aspx?y=2025&l=2500101&p=Alla&t=0&o=0&ha=Alla ; https://handballstats.se/statistics/herr/statistics/statistics.aspx?y=2025&l=2500101&p=MV&t=0&o=0&ha=Alla",
+          "collectionMethod": "Public rendered results and protocols; official published player-statistics PDF tables",
+          "extractionVersion": "handballstats-html/1",
+          "timestamp": "2026-10-11T04:09:07.279536+00:00",
+          "confidence": "MEDIUM",
+          "matches": 182,
+          "events": 11041,
+          "coverage": 1,
+          "sourceManifestHash": "6a54f0c6ef8402e0e1605687721610c568de8eb9eca113bfd33decb9e93e75ef",
+          "normalizedHash": "738ad4db8c2e805e64760b356c486b8e834a8fd99fd7ebf9df751aca292a5339",
+          "notes": [
+            "single pooled season share, N=1 aggregate; no match-level z-score",
+            "denominator is all goals recorded in this official player-season table, including unresolved positions"
+          ],
+          "sourceHashes": [
+            "35c8049c36b8280243081f3bc9cb23bddefa19f8ae1cdedb3496837e5778fc20",
+            "cec144072b0ecbf58bc8083b2619c499a826264e3afe82d1042e325a2c598c09"
+          ]
+        },
+        "transformations": [
+          "single pooled season share, N=1 aggregate; no match-level z-score",
+          "denominator is all goals recorded in this official player-season table, including unresolved positions"
+        ]
+      }
+    ],
+    "notes": [
+      "Handbollsligan Herr",
+      "Regular-season environment; season status and metric-specific coverage remain explicit"
+    ],
+    "evidence": {
+      "tier": "C",
+      "seasonStatus": "COMPLETE_SEASON",
+      "expectedMatches": 182,
+      "foundMatches": 182,
+      "parsedMatches": 182,
+      "coverage": 1,
+      "playerObservations": 5615,
+      "keeperObservations": 480,
+      "missingMetrics": [
+        "possessions",
+        "possession duration",
+        "whistles/free throws",
+        "transition",
+        "detailed shot context",
+        "per-match outfield position"
+      ]
+    }
+  },
+  {
+    "schemaVersion": "match-benchmarks/1",
+    "id": "SE:swe-2:2025-26:regular",
+    "version": "empirical-sweden/1",
+    "kind": "REAL_WORLD_REFERENCE",
+    "sport": "handball",
+    "country": "SE",
+    "competition": "swe-2",
+    "category": "men-senior",
+    "season": "2025-26",
+    "dateRange": {
+      "start": "2025-09-17",
+      "end": "2026-03-26"
+    },
+    "metrics": [
+      {
+        "metric": "goals",
+        "scope": "MATCH",
+        "unit": "count",
+        "definition": "both teams per completed match",
+        "distribution": {
+          "n": 182,
+          "mean": 61.61538461538461,
+          "median": 61.5,
+          "sd": 7.334576000006578,
+          "min": 43,
+          "max": 90,
+          "p05": 50.05,
+          "p10": 52.1,
+          "p25": 56,
+          "p75": 67,
+          "p90": 71,
+          "p95": 72
+        },
+        "evidence": {
+          "tier": "D",
+          "seasonStatus": "COMPLETE_SEASON",
+          "expectedMatches": 182,
+          "foundMatches": 182,
+          "parsedMatches": 182,
+          "coverage": 1,
+          "playerObservations": 4849,
+          "keeperObservations": 0,
+          "missingMetrics": [
+            "possessions",
+            "possession duration",
+            "whistles/free throws",
+            "transition",
+            "detailed shot context",
+            "per-match outfield position"
+          ]
+        },
+        "provenance": {
+          "name": "Svenska Handbollförbundet / Profixio",
+          "location": "https://www.profixio.com/app/lx/competition/leagueid17956?t=schedule&f=played",
+          "collectionMethod": "Public rendered results and protocols; official published player-statistics PDF tables",
+          "extractionVersion": "sweden-public/1.1.0",
+          "timestamp": "2026-10-11T04:06:57.979235+00:00",
+          "confidence": "HIGH",
+          "matches": 182,
+          "events": 182,
+          "coverage": 1,
+          "sourceManifestHash": "9d61bf06c4a259e35d2fd6d62ce7172ee94845ccdc6b0762b6c2d7264a682554",
+          "normalizedHash": "ec96354a996417cb628ef7821eab9ff0784313260781bf4c69db18efbb2996f1",
+          "notes": [
+            "Regular season only; no playoff or cross-season blending",
+            "Individual public source URLs, timestamps and body hashes are retained in normalized dataset.sources; sourceManifestHash hashes that ordered manifest",
+            "Scope MATCH; values are descriptive match/keeper-match observations"
+          ]
+        },
+        "transformations": [
+          "deduplicate using official source match ID",
+          "sample SD; linearly interpolated quantiles"
+        ]
+      },
+      {
+        "metric": "margin",
+        "scope": "MATCH",
+        "unit": "count",
+        "definition": "absolute difference between home and away full-time goals",
+        "distribution": {
+          "n": 182,
+          "mean": 4.945054945054945,
+          "median": 4,
+          "sd": 4.044948114077999,
+          "min": 0,
+          "max": 18,
+          "p05": 0,
+          "p10": 0.10000000000000142,
+          "p25": 2,
+          "p75": 7,
+          "p90": 10,
+          "p95": 12.949999999999989
+        },
+        "evidence": {
+          "tier": "D",
+          "seasonStatus": "COMPLETE_SEASON",
+          "expectedMatches": 182,
+          "foundMatches": 182,
+          "parsedMatches": 182,
+          "coverage": 1,
+          "playerObservations": 4849,
+          "keeperObservations": 0,
+          "missingMetrics": [
+            "possessions",
+            "possession duration",
+            "whistles/free throws",
+            "transition",
+            "detailed shot context",
+            "per-match outfield position"
+          ]
+        },
+        "provenance": {
+          "name": "Svenska Handbollförbundet / Profixio",
+          "location": "https://www.profixio.com/app/lx/competition/leagueid17956?t=schedule&f=played",
+          "collectionMethod": "Public rendered results and protocols; official published player-statistics PDF tables",
+          "extractionVersion": "sweden-public/1.1.0",
+          "timestamp": "2026-10-11T04:06:57.979235+00:00",
+          "confidence": "HIGH",
+          "matches": 182,
+          "events": 182,
+          "coverage": 1,
+          "sourceManifestHash": "9d61bf06c4a259e35d2fd6d62ce7172ee94845ccdc6b0762b6c2d7264a682554",
+          "normalizedHash": "ec96354a996417cb628ef7821eab9ff0784313260781bf4c69db18efbb2996f1",
+          "notes": [
+            "Regular season only; no playoff or cross-season blending",
+            "Individual public source URLs, timestamps and body hashes are retained in normalized dataset.sources; sourceManifestHash hashes that ordered manifest",
+            "Scope MATCH; values are descriptive match/keeper-match observations"
+          ]
+        },
+        "transformations": [
+          "deduplicate using official source match ID",
+          "sample SD; linearly interpolated quantiles"
+        ]
+      },
+      {
+        "metric": "homeGoals",
+        "scope": "MATCH",
+        "unit": "count",
+        "definition": "home team full-time goals per match",
+        "distribution": {
+          "n": 182,
+          "mean": 31.186813186813186,
+          "median": 31,
+          "sd": 5.041073480153947,
+          "min": 20,
+          "max": 44,
+          "p05": 23,
+          "p10": 25,
+          "p25": 27,
+          "p75": 35,
+          "p90": 38,
+          "p95": 39
+        },
+        "evidence": {
+          "tier": "D",
+          "seasonStatus": "COMPLETE_SEASON",
+          "expectedMatches": 182,
+          "foundMatches": 182,
+          "parsedMatches": 182,
+          "coverage": 1,
+          "playerObservations": 4849,
+          "keeperObservations": 0,
+          "missingMetrics": [
+            "possessions",
+            "possession duration",
+            "whistles/free throws",
+            "transition",
+            "detailed shot context",
+            "per-match outfield position"
+          ]
+        },
+        "provenance": {
+          "name": "Svenska Handbollförbundet / Profixio",
+          "location": "https://www.profixio.com/app/lx/competition/leagueid17956?t=schedule&f=played",
+          "collectionMethod": "Public rendered results and protocols; official published player-statistics PDF tables",
+          "extractionVersion": "sweden-public/1.1.0",
+          "timestamp": "2026-10-11T04:06:57.979235+00:00",
+          "confidence": "HIGH",
+          "matches": 182,
+          "events": 182,
+          "coverage": 1,
+          "sourceManifestHash": "9d61bf06c4a259e35d2fd6d62ce7172ee94845ccdc6b0762b6c2d7264a682554",
+          "normalizedHash": "ec96354a996417cb628ef7821eab9ff0784313260781bf4c69db18efbb2996f1",
+          "notes": [
+            "Regular season only; no playoff or cross-season blending",
+            "Individual public source URLs, timestamps and body hashes are retained in normalized dataset.sources; sourceManifestHash hashes that ordered manifest",
+            "Scope MATCH; values are descriptive match/keeper-match observations"
+          ]
+        },
+        "transformations": [
+          "deduplicate using official source match ID",
+          "sample SD; linearly interpolated quantiles"
+        ]
+      },
+      {
+        "metric": "awayGoals",
+        "scope": "MATCH",
+        "unit": "count",
+        "definition": "away team full-time goals per match",
+        "distribution": {
+          "n": 182,
+          "mean": 30.428571428571427,
+          "median": 30,
+          "sd": 4.655283595144698,
+          "min": 19,
+          "max": 48,
+          "p05": 23,
+          "p10": 25,
+          "p25": 27,
+          "p75": 33,
+          "p90": 36,
+          "p95": 38
+        },
+        "evidence": {
+          "tier": "D",
+          "seasonStatus": "COMPLETE_SEASON",
+          "expectedMatches": 182,
+          "foundMatches": 182,
+          "parsedMatches": 182,
+          "coverage": 1,
+          "playerObservations": 4849,
+          "keeperObservations": 0,
+          "missingMetrics": [
+            "possessions",
+            "possession duration",
+            "whistles/free throws",
+            "transition",
+            "detailed shot context",
+            "per-match outfield position"
+          ]
+        },
+        "provenance": {
+          "name": "Svenska Handbollförbundet / Profixio",
+          "location": "https://www.profixio.com/app/lx/competition/leagueid17956?t=schedule&f=played",
+          "collectionMethod": "Public rendered results and protocols; official published player-statistics PDF tables",
+          "extractionVersion": "sweden-public/1.1.0",
+          "timestamp": "2026-10-11T04:06:57.979235+00:00",
+          "confidence": "HIGH",
+          "matches": 182,
+          "events": 182,
+          "coverage": 1,
+          "sourceManifestHash": "9d61bf06c4a259e35d2fd6d62ce7172ee94845ccdc6b0762b6c2d7264a682554",
+          "normalizedHash": "ec96354a996417cb628ef7821eab9ff0784313260781bf4c69db18efbb2996f1",
+          "notes": [
+            "Regular season only; no playoff or cross-season blending",
+            "Individual public source URLs, timestamps and body hashes are retained in normalized dataset.sources; sourceManifestHash hashes that ordered manifest",
+            "Scope MATCH; values are descriptive match/keeper-match observations"
+          ]
+        },
+        "transformations": [
+          "deduplicate using official source match ID",
+          "sample SD; linearly interpolated quantiles"
+        ]
+      },
+      {
+        "metric": "goalsPerTeam",
+        "scope": "TEAM",
+        "unit": "count",
+        "definition": "one team per completed match",
+        "distribution": {
+          "n": 364,
+          "mean": 30.807692307692307,
+          "median": 31,
+          "sd": 4.860176753561902,
+          "min": 19,
+          "max": 48,
+          "p05": 23,
+          "p10": 25,
+          "p25": 27,
+          "p75": 34,
+          "p90": 37,
+          "p95": 39
+        },
+        "evidence": {
+          "tier": "D",
+          "seasonStatus": "COMPLETE_SEASON",
+          "expectedMatches": 182,
+          "foundMatches": 182,
+          "parsedMatches": 182,
+          "coverage": 1,
+          "playerObservations": 4849,
+          "keeperObservations": 0,
+          "missingMetrics": [
+            "possessions",
+            "possession duration",
+            "whistles/free throws",
+            "transition",
+            "detailed shot context",
+            "per-match outfield position"
+          ]
+        },
+        "provenance": {
+          "name": "Svenska Handbollförbundet / Profixio",
+          "location": "https://www.profixio.com/app/lx/competition/leagueid17956?t=schedule&f=played",
+          "collectionMethod": "Public rendered results and protocols; official published player-statistics PDF tables",
+          "extractionVersion": "sweden-public/1.1.0",
+          "timestamp": "2026-10-11T04:06:57.979235+00:00",
+          "confidence": "HIGH",
+          "matches": 182,
+          "events": 364,
+          "coverage": 1,
+          "sourceManifestHash": "9d61bf06c4a259e35d2fd6d62ce7172ee94845ccdc6b0762b6c2d7264a682554",
+          "normalizedHash": "ec96354a996417cb628ef7821eab9ff0784313260781bf4c69db18efbb2996f1",
+          "notes": [
+            "Regular season only; no playoff or cross-season blending",
+            "Individual public source URLs, timestamps and body hashes are retained in normalized dataset.sources; sourceManifestHash hashes that ordered manifest",
+            "Scope TEAM; values are descriptive match/keeper-match observations"
+          ]
+        },
+        "transformations": [
+          "deduplicate using official source match ID",
+          "sample SD; linearly interpolated quantiles"
+        ]
+      },
+      {
+        "metric": "scorerConcentration",
+        "scope": "TEAM",
+        "unit": "ratio",
+        "definition": "largest player goal count / team goals",
+        "distribution": {
+          "n": 364,
+          "mean": 0.24518429721506182,
+          "median": 0.2413793103448276,
+          "sd": 0.05750599736224376,
+          "min": 0.12121212121212122,
+          "max": 0.4838709677419355,
+          "p05": 0.1614210985178727,
+          "p10": 0.17710084033613446,
+          "p25": 0.20588235294117646,
+          "p75": 0.2702702702702703,
+          "p90": 0.321,
+          "p95": 0.3609444444444444
+        },
+        "evidence": {
+          "tier": "D",
+          "seasonStatus": "COMPLETE_SEASON",
+          "expectedMatches": 182,
+          "foundMatches": 182,
+          "parsedMatches": 182,
+          "coverage": 1,
+          "playerObservations": 4849,
+          "keeperObservations": 0,
+          "missingMetrics": [
+            "possessions",
+            "possession duration",
+            "whistles/free throws",
+            "transition",
+            "detailed shot context",
+            "per-match outfield position"
+          ]
+        },
+        "provenance": {
+          "name": "Svenska Handbollförbundet / Profixio",
+          "location": "https://www.profixio.com/app/lx/competition/leagueid17956?t=schedule&f=played",
+          "collectionMethod": "Public rendered results and protocols; official published player-statistics PDF tables",
+          "extractionVersion": "sweden-public/1.1.0",
+          "timestamp": "2026-10-11T04:06:57.979235+00:00",
+          "confidence": "HIGH",
+          "matches": 182,
+          "events": 11214,
+          "coverage": 1,
+          "sourceManifestHash": "9d61bf06c4a259e35d2fd6d62ce7172ee94845ccdc6b0762b6c2d7264a682554",
+          "normalizedHash": "ec96354a996417cb628ef7821eab9ff0784313260781bf4c69db18efbb2996f1",
+          "notes": [
+            "Regular season only; no playoff or cross-season blending",
+            "Individual public source URLs, timestamps and body hashes are retained in normalized dataset.sources; sourceManifestHash hashes that ordered manifest",
+            "Scope TEAM; values are descriptive match/keeper-match observations"
+          ]
+        },
+        "transformations": [
+          "deduplicate using official source match ID",
+          "sample SD; linearly interpolated quantiles"
+        ]
+      },
+      {
+        "metric": "scorerHHI",
+        "scope": "TEAM",
+        "unit": "ratio",
+        "definition": "sum of squared player shares of team goals",
+        "distribution": {
+          "n": 364,
+          "mean": 0.1565768703084911,
+          "median": 0.15368403079214482,
+          "sd": 0.03093228620121164,
+          "min": 0.08723599632690543,
+          "max": 0.2967863894139887,
+          "p05": 0.11245674740484429,
+          "p10": 0.12109780493079585,
+          "p25": 0.1343638525564804,
+          "p75": 0.17410614186221463,
+          "p90": 0.19790163136109085,
+          "p95": 0.21417553993501662
+        },
+        "evidence": {
+          "tier": "D",
+          "seasonStatus": "COMPLETE_SEASON",
+          "expectedMatches": 182,
+          "foundMatches": 182,
+          "parsedMatches": 182,
+          "coverage": 1,
+          "playerObservations": 4849,
+          "keeperObservations": 0,
+          "missingMetrics": [
+            "possessions",
+            "possession duration",
+            "whistles/free throws",
+            "transition",
+            "detailed shot context",
+            "per-match outfield position"
+          ]
+        },
+        "provenance": {
+          "name": "Svenska Handbollförbundet / Profixio",
+          "location": "https://www.profixio.com/app/lx/competition/leagueid17956?t=schedule&f=played",
+          "collectionMethod": "Public rendered results and protocols; official published player-statistics PDF tables",
+          "extractionVersion": "sweden-public/1.1.0",
+          "timestamp": "2026-10-11T04:06:57.979235+00:00",
+          "confidence": "HIGH",
+          "matches": 182,
+          "events": 11214,
+          "coverage": 1,
+          "sourceManifestHash": "9d61bf06c4a259e35d2fd6d62ce7172ee94845ccdc6b0762b6c2d7264a682554",
+          "normalizedHash": "ec96354a996417cb628ef7821eab9ff0784313260781bf4c69db18efbb2996f1",
+          "notes": [
+            "Regular season only; no playoff or cross-season blending",
+            "Individual public source URLs, timestamps and body hashes are retained in normalized dataset.sources; sourceManifestHash hashes that ordered manifest",
+            "Scope TEAM; values are descriptive match/keeper-match observations"
+          ]
+        },
+        "transformations": [
+          "deduplicate using official source match ID",
+          "sample SD; linearly interpolated quantiles"
+        ]
+      },
+      {
+        "metric": "sevenMetres",
+        "scope": "MATCH",
+        "unit": "count",
+        "definition": "career result 7m attempts",
+        "distribution": {
+          "n": 182,
+          "mean": 7.115384615384615,
+          "median": 7,
+          "sd": 2.611678957744527,
+          "min": 2,
+          "max": 14,
+          "p05": 3,
+          "p10": 4,
+          "p25": 5,
+          "p75": 9,
+          "p90": 11,
+          "p95": 11.949999999999989
+        },
+        "evidence": {
+          "tier": "D",
+          "seasonStatus": "COMPLETE_SEASON",
+          "expectedMatches": 182,
+          "foundMatches": 182,
+          "parsedMatches": 182,
+          "coverage": 1,
+          "playerObservations": 4849,
+          "keeperObservations": 0,
+          "missingMetrics": [
+            "possessions",
+            "possession duration",
+            "whistles/free throws",
+            "transition",
+            "detailed shot context",
+            "per-match outfield position"
+          ]
+        },
+        "provenance": {
+          "name": "Svenska Handbollförbundet / Profixio",
+          "location": "https://www.profixio.com/app/lx/competition/leagueid17956?t=schedule&f=played",
+          "collectionMethod": "Public rendered results and protocols; official published player-statistics PDF tables",
+          "extractionVersion": "sweden-public/1.1.0",
+          "timestamp": "2026-10-11T04:06:57.979235+00:00",
+          "confidence": "HIGH",
+          "matches": 182,
+          "events": 182,
+          "coverage": 1,
+          "sourceManifestHash": "9d61bf06c4a259e35d2fd6d62ce7172ee94845ccdc6b0762b6c2d7264a682554",
+          "normalizedHash": "ec96354a996417cb628ef7821eab9ff0784313260781bf4c69db18efbb2996f1",
+          "notes": [
+            "Regular season only; no playoff or cross-season blending",
+            "Individual public source URLs, timestamps and body hashes are retained in normalized dataset.sources; sourceManifestHash hashes that ordered manifest",
+            "Scope MATCH; values are descriptive match/keeper-match observations"
+          ]
+        },
+        "transformations": [
+          "deduplicate using official source match ID",
+          "sample SD; linearly interpolated quantiles"
+        ]
+      },
+      {
+        "metric": "sevenMetreConversion",
+        "scope": "MATCH",
+        "unit": "ratio",
+        "definition": "7m goals / 7m attempts",
+        "distribution": {
+          "n": 182,
+          "mean": 0.7499430209595046,
+          "median": 0.75,
+          "sd": 0.180110018465442,
+          "min": 0,
+          "max": 1,
+          "p05": 0.5,
+          "p10": 0.5,
+          "p25": 0.625,
+          "p75": 0.875,
+          "p90": 1,
+          "p95": 1
+        },
+        "evidence": {
+          "tier": "D",
+          "seasonStatus": "COMPLETE_SEASON",
+          "expectedMatches": 182,
+          "foundMatches": 182,
+          "parsedMatches": 182,
+          "coverage": 1,
+          "playerObservations": 4849,
+          "keeperObservations": 0,
+          "missingMetrics": [
+            "possessions",
+            "possession duration",
+            "whistles/free throws",
+            "transition",
+            "detailed shot context",
+            "per-match outfield position"
+          ]
+        },
+        "provenance": {
+          "name": "Svenska Handbollförbundet / Profixio",
+          "location": "https://www.profixio.com/app/lx/competition/leagueid17956?t=schedule&f=played",
+          "collectionMethod": "Public rendered results and protocols; official published player-statistics PDF tables",
+          "extractionVersion": "sweden-public/1.1.0",
+          "timestamp": "2026-10-11T04:06:57.979235+00:00",
+          "confidence": "HIGH",
+          "matches": 182,
+          "events": 1295,
+          "coverage": 1,
+          "sourceManifestHash": "9d61bf06c4a259e35d2fd6d62ce7172ee94845ccdc6b0762b6c2d7264a682554",
+          "normalizedHash": "ec96354a996417cb628ef7821eab9ff0784313260781bf4c69db18efbb2996f1",
+          "notes": [
+            "Regular season only; no playoff or cross-season blending",
+            "Individual public source URLs, timestamps and body hashes are retained in normalized dataset.sources; sourceManifestHash hashes that ordered manifest",
+            "Scope MATCH; values are descriptive match/keeper-match observations"
+          ]
+        },
+        "transformations": [
+          "deduplicate using official source match ID",
+          "sample SD; linearly interpolated quantiles"
+        ]
+      },
+      {
+        "metric": "suspensions",
+        "scope": "MATCH",
+        "unit": "count",
+        "definition": "career result two-minute suspensions",
+        "distribution": {
+          "n": 182,
+          "mean": 5.769230769230769,
+          "median": 6,
+          "sd": 2.4111936159573895,
+          "min": 0,
+          "max": 12,
+          "p05": 2,
+          "p10": 3,
+          "p25": 4,
+          "p75": 7,
+          "p90": 9,
+          "p95": 10
+        },
+        "evidence": {
+          "tier": "D",
+          "seasonStatus": "COMPLETE_SEASON",
+          "expectedMatches": 182,
+          "foundMatches": 182,
+          "parsedMatches": 182,
+          "coverage": 1,
+          "playerObservations": 4849,
+          "keeperObservations": 0,
+          "missingMetrics": [
+            "possessions",
+            "possession duration",
+            "whistles/free throws",
+            "transition",
+            "detailed shot context",
+            "per-match outfield position"
+          ]
+        },
+        "provenance": {
+          "name": "Svenska Handbollförbundet / Profixio",
+          "location": "https://www.profixio.com/app/lx/competition/leagueid17956?t=schedule&f=played",
+          "collectionMethod": "Public rendered results and protocols; official published player-statistics PDF tables",
+          "extractionVersion": "sweden-public/1.1.0",
+          "timestamp": "2026-10-11T04:06:57.979235+00:00",
+          "confidence": "HIGH",
+          "matches": 182,
+          "events": 182,
+          "coverage": 1,
+          "sourceManifestHash": "9d61bf06c4a259e35d2fd6d62ce7172ee94845ccdc6b0762b6c2d7264a682554",
+          "normalizedHash": "ec96354a996417cb628ef7821eab9ff0784313260781bf4c69db18efbb2996f1",
+          "notes": [
+            "Regular season only; no playoff or cross-season blending",
+            "Individual public source URLs, timestamps and body hashes are retained in normalized dataset.sources; sourceManifestHash hashes that ordered manifest",
+            "Scope MATCH; values are descriptive match/keeper-match observations"
+          ]
+        },
+        "transformations": [
+          "deduplicate using official source match ID",
+          "sample SD; linearly interpolated quantiles"
+        ]
+      }
+    ],
+    "notes": [
+      "Herrallsvenskan",
+      "Regular-season environment; season status and metric-specific coverage remain explicit"
+    ],
+    "evidence": {
+      "tier": "D",
+      "seasonStatus": "COMPLETE_SEASON",
+      "expectedMatches": 182,
+      "foundMatches": 182,
+      "parsedMatches": 182,
+      "coverage": 1,
+      "playerObservations": 4849,
+      "keeperObservations": 0,
+      "missingMetrics": [
+        "possessions",
+        "possession duration",
+        "whistles/free throws",
+        "transition",
+        "detailed shot context",
+        "per-match outfield position"
+      ]
+    }
+  },
+  {
+    "schemaVersion": "match-benchmarks/1",
+    "id": "SE:swe-w-1:2025-26:regular",
+    "version": "empirical-sweden/1",
+    "kind": "REAL_WORLD_REFERENCE",
+    "sport": "handball",
+    "country": "SE",
+    "competition": "swe-w-1",
+    "category": "women-senior",
+    "season": "2025-26",
+    "dateRange": {
+      "start": "2025-09-24",
+      "end": "2026-03-24"
+    },
+    "metrics": [
+      {
+        "metric": "goals",
+        "scope": "MATCH",
+        "unit": "count",
+        "definition": "both teams per completed match",
+        "distribution": {
+          "n": 132,
+          "mean": 54.29545454545455,
+          "median": 54,
+          "sd": 6.481610671048351,
+          "min": 37,
+          "max": 72,
+          "p05": 45,
+          "p10": 46,
+          "p25": 49.75,
+          "p75": 59,
+          "p90": 62.900000000000006,
+          "p95": 65
+        },
+        "evidence": {
+          "tier": "D",
+          "seasonStatus": "COMPLETE_SEASON",
+          "expectedMatches": 132,
+          "foundMatches": 132,
+          "parsedMatches": 132,
+          "coverage": 1,
+          "playerObservations": 3202,
+          "keeperObservations": 0,
+          "missingMetrics": [
+            "possessions",
+            "possession duration",
+            "whistles/free throws",
+            "transition",
+            "detailed shot context",
+            "per-match outfield position"
+          ]
+        },
+        "provenance": {
+          "name": "Svenska Handbollförbundet / Profixio",
+          "location": "https://www.profixio.com/app/lx/competition/leagueid17958?t=schedule&f=played",
+          "collectionMethod": "Public rendered results and protocols; official published player-statistics PDF tables",
+          "extractionVersion": "sweden-public/1.1.0",
+          "timestamp": "2026-10-11T04:18:59.637457+00:00",
+          "confidence": "HIGH",
+          "matches": 132,
+          "events": 132,
+          "coverage": 1,
+          "sourceManifestHash": "c62f18df1c963d7a3aa457224917f24c908c2bf73bc857f93b9bf741a5777274",
+          "normalizedHash": "a558ddbc9c5e57fd6335167908f29170a8ca9785d2663c06633c4d2329ab608c",
+          "notes": [
+            "Regular season only; no playoff or cross-season blending",
+            "Individual public source URLs, timestamps and body hashes are retained in normalized dataset.sources; sourceManifestHash hashes that ordered manifest",
+            "Scope MATCH; values are descriptive match/keeper-match observations"
+          ]
+        },
+        "transformations": [
+          "deduplicate using official source match ID",
+          "sample SD; linearly interpolated quantiles"
+        ]
+      },
+      {
+        "metric": "margin",
+        "scope": "MATCH",
+        "unit": "count",
+        "definition": "absolute difference between home and away full-time goals",
+        "distribution": {
+          "n": 132,
+          "mean": 5.371212121212121,
+          "median": 5,
+          "sd": 4.370975231426631,
+          "min": 0,
+          "max": 30,
+          "p05": 1,
+          "p10": 1,
+          "p25": 2,
+          "p75": 8,
+          "p90": 10.900000000000006,
+          "p95": 11.449999999999989
+        },
+        "evidence": {
+          "tier": "D",
+          "seasonStatus": "COMPLETE_SEASON",
+          "expectedMatches": 132,
+          "foundMatches": 132,
+          "parsedMatches": 132,
+          "coverage": 1,
+          "playerObservations": 3202,
+          "keeperObservations": 0,
+          "missingMetrics": [
+            "possessions",
+            "possession duration",
+            "whistles/free throws",
+            "transition",
+            "detailed shot context",
+            "per-match outfield position"
+          ]
+        },
+        "provenance": {
+          "name": "Svenska Handbollförbundet / Profixio",
+          "location": "https://www.profixio.com/app/lx/competition/leagueid17958?t=schedule&f=played",
+          "collectionMethod": "Public rendered results and protocols; official published player-statistics PDF tables",
+          "extractionVersion": "sweden-public/1.1.0",
+          "timestamp": "2026-10-11T04:18:59.637457+00:00",
+          "confidence": "HIGH",
+          "matches": 132,
+          "events": 132,
+          "coverage": 1,
+          "sourceManifestHash": "c62f18df1c963d7a3aa457224917f24c908c2bf73bc857f93b9bf741a5777274",
+          "normalizedHash": "a558ddbc9c5e57fd6335167908f29170a8ca9785d2663c06633c4d2329ab608c",
+          "notes": [
+            "Regular season only; no playoff or cross-season blending",
+            "Individual public source URLs, timestamps and body hashes are retained in normalized dataset.sources; sourceManifestHash hashes that ordered manifest",
+            "Scope MATCH; values are descriptive match/keeper-match observations"
+          ]
+        },
+        "transformations": [
+          "deduplicate using official source match ID",
+          "sample SD; linearly interpolated quantiles"
+        ]
+      },
+      {
+        "metric": "homeGoals",
+        "scope": "MATCH",
+        "unit": "count",
+        "definition": "home team full-time goals per match",
+        "distribution": {
+          "n": 132,
+          "mean": 27.666666666666668,
+          "median": 27,
+          "sd": 5.056424628672446,
+          "min": 17,
+          "max": 46,
+          "p05": 19,
+          "p10": 22,
+          "p25": 25,
+          "p75": 31,
+          "p90": 34,
+          "p95": 36
+        },
+        "evidence": {
+          "tier": "D",
+          "seasonStatus": "COMPLETE_SEASON",
+          "expectedMatches": 132,
+          "foundMatches": 132,
+          "parsedMatches": 132,
+          "coverage": 1,
+          "playerObservations": 3202,
+          "keeperObservations": 0,
+          "missingMetrics": [
+            "possessions",
+            "possession duration",
+            "whistles/free throws",
+            "transition",
+            "detailed shot context",
+            "per-match outfield position"
+          ]
+        },
+        "provenance": {
+          "name": "Svenska Handbollförbundet / Profixio",
+          "location": "https://www.profixio.com/app/lx/competition/leagueid17958?t=schedule&f=played",
+          "collectionMethod": "Public rendered results and protocols; official published player-statistics PDF tables",
+          "extractionVersion": "sweden-public/1.1.0",
+          "timestamp": "2026-10-11T04:18:59.637457+00:00",
+          "confidence": "HIGH",
+          "matches": 132,
+          "events": 132,
+          "coverage": 1,
+          "sourceManifestHash": "c62f18df1c963d7a3aa457224917f24c908c2bf73bc857f93b9bf741a5777274",
+          "normalizedHash": "a558ddbc9c5e57fd6335167908f29170a8ca9785d2663c06633c4d2329ab608c",
+          "notes": [
+            "Regular season only; no playoff or cross-season blending",
+            "Individual public source URLs, timestamps and body hashes are retained in normalized dataset.sources; sourceManifestHash hashes that ordered manifest",
+            "Scope MATCH; values are descriptive match/keeper-match observations"
+          ]
+        },
+        "transformations": [
+          "deduplicate using official source match ID",
+          "sample SD; linearly interpolated quantiles"
+        ]
+      },
+      {
+        "metric": "awayGoals",
+        "scope": "MATCH",
+        "unit": "count",
+        "definition": "away team full-time goals per match",
+        "distribution": {
+          "n": 132,
+          "mean": 26.62878787878788,
+          "median": 26,
+          "sd": 4.3569814171241275,
+          "min": 16,
+          "max": 40,
+          "p05": 21,
+          "p10": 22,
+          "p25": 24,
+          "p75": 29,
+          "p90": 33,
+          "p95": 34.44999999999999
+        },
+        "evidence": {
+          "tier": "D",
+          "seasonStatus": "COMPLETE_SEASON",
+          "expectedMatches": 132,
+          "foundMatches": 132,
+          "parsedMatches": 132,
+          "coverage": 1,
+          "playerObservations": 3202,
+          "keeperObservations": 0,
+          "missingMetrics": [
+            "possessions",
+            "possession duration",
+            "whistles/free throws",
+            "transition",
+            "detailed shot context",
+            "per-match outfield position"
+          ]
+        },
+        "provenance": {
+          "name": "Svenska Handbollförbundet / Profixio",
+          "location": "https://www.profixio.com/app/lx/competition/leagueid17958?t=schedule&f=played",
+          "collectionMethod": "Public rendered results and protocols; official published player-statistics PDF tables",
+          "extractionVersion": "sweden-public/1.1.0",
+          "timestamp": "2026-10-11T04:18:59.637457+00:00",
+          "confidence": "HIGH",
+          "matches": 132,
+          "events": 132,
+          "coverage": 1,
+          "sourceManifestHash": "c62f18df1c963d7a3aa457224917f24c908c2bf73bc857f93b9bf741a5777274",
+          "normalizedHash": "a558ddbc9c5e57fd6335167908f29170a8ca9785d2663c06633c4d2329ab608c",
+          "notes": [
+            "Regular season only; no playoff or cross-season blending",
+            "Individual public source URLs, timestamps and body hashes are retained in normalized dataset.sources; sourceManifestHash hashes that ordered manifest",
+            "Scope MATCH; values are descriptive match/keeper-match observations"
+          ]
+        },
+        "transformations": [
+          "deduplicate using official source match ID",
+          "sample SD; linearly interpolated quantiles"
+        ]
+      },
+      {
+        "metric": "goalsPerTeam",
+        "scope": "TEAM",
+        "unit": "count",
+        "definition": "one team per completed match",
+        "distribution": {
+          "n": 264,
+          "mean": 27.147727272727273,
+          "median": 26,
+          "sd": 4.73930199588787,
+          "min": 16,
+          "max": 46,
+          "p05": 20,
+          "p10": 22,
+          "p25": 24,
+          "p75": 30,
+          "p90": 34,
+          "p95": 36
+        },
+        "evidence": {
+          "tier": "D",
+          "seasonStatus": "COMPLETE_SEASON",
+          "expectedMatches": 132,
+          "foundMatches": 132,
+          "parsedMatches": 132,
+          "coverage": 1,
+          "playerObservations": 3202,
+          "keeperObservations": 0,
+          "missingMetrics": [
+            "possessions",
+            "possession duration",
+            "whistles/free throws",
+            "transition",
+            "detailed shot context",
+            "per-match outfield position"
+          ]
+        },
+        "provenance": {
+          "name": "Svenska Handbollförbundet / Profixio",
+          "location": "https://www.profixio.com/app/lx/competition/leagueid17958?t=schedule&f=played",
+          "collectionMethod": "Public rendered results and protocols; official published player-statistics PDF tables",
+          "extractionVersion": "sweden-public/1.1.0",
+          "timestamp": "2026-10-11T04:18:59.637457+00:00",
+          "confidence": "HIGH",
+          "matches": 132,
+          "events": 264,
+          "coverage": 1,
+          "sourceManifestHash": "c62f18df1c963d7a3aa457224917f24c908c2bf73bc857f93b9bf741a5777274",
+          "normalizedHash": "a558ddbc9c5e57fd6335167908f29170a8ca9785d2663c06633c4d2329ab608c",
+          "notes": [
+            "Regular season only; no playoff or cross-season blending",
+            "Individual public source URLs, timestamps and body hashes are retained in normalized dataset.sources; sourceManifestHash hashes that ordered manifest",
+            "Scope TEAM; values are descriptive match/keeper-match observations"
+          ]
+        },
+        "transformations": [
+          "deduplicate using official source match ID",
+          "sample SD; linearly interpolated quantiles"
+        ]
+      },
+      {
+        "metric": "scorerConcentration",
+        "scope": "TEAM",
+        "unit": "ratio",
+        "definition": "largest player goal count / team goals",
+        "distribution": {
+          "n": 264,
+          "mean": 0.2619166162483837,
+          "median": 0.25,
+          "sd": 0.06687600373895494,
+          "min": 0.14705882352941177,
+          "max": 0.48,
+          "p05": 0.16666666666666666,
+          "p10": 0.18181818181818182,
+          "p25": 0.2117224880382775,
+          "p75": 0.30335968379446643,
+          "p90": 0.35294117647058826,
+          "p95": 0.3886200716845878
+        },
+        "evidence": {
+          "tier": "D",
+          "seasonStatus": "COMPLETE_SEASON",
+          "expectedMatches": 132,
+          "foundMatches": 132,
+          "parsedMatches": 132,
+          "coverage": 1,
+          "playerObservations": 3202,
+          "keeperObservations": 0,
+          "missingMetrics": [
+            "possessions",
+            "possession duration",
+            "whistles/free throws",
+            "transition",
+            "detailed shot context",
+            "per-match outfield position"
+          ]
+        },
+        "provenance": {
+          "name": "Svenska Handbollförbundet / Profixio",
+          "location": "https://www.profixio.com/app/lx/competition/leagueid17958?t=schedule&f=played",
+          "collectionMethod": "Public rendered results and protocols; official published player-statistics PDF tables",
+          "extractionVersion": "sweden-public/1.1.0",
+          "timestamp": "2026-10-11T04:18:59.637457+00:00",
+          "confidence": "HIGH",
+          "matches": 132,
+          "events": 7167,
+          "coverage": 1,
+          "sourceManifestHash": "c62f18df1c963d7a3aa457224917f24c908c2bf73bc857f93b9bf741a5777274",
+          "normalizedHash": "a558ddbc9c5e57fd6335167908f29170a8ca9785d2663c06633c4d2329ab608c",
+          "notes": [
+            "Regular season only; no playoff or cross-season blending",
+            "Individual public source URLs, timestamps and body hashes are retained in normalized dataset.sources; sourceManifestHash hashes that ordered manifest",
+            "Scope TEAM; values are descriptive match/keeper-match observations"
+          ]
+        },
+        "transformations": [
+          "deduplicate using official source match ID",
+          "sample SD; linearly interpolated quantiles"
+        ]
+      },
+      {
+        "metric": "scorerHHI",
+        "scope": "TEAM",
+        "unit": "ratio",
+        "definition": "sum of squared player shares of team goals",
+        "distribution": {
+          "n": 264,
+          "mean": 0.1644299778332525,
+          "median": 0.16015625,
+          "sd": 0.037249611948068244,
+          "min": 0.09924385633270322,
+          "max": 0.3016528925619834,
+          "p05": 0.11137067759835866,
+          "p10": 0.12115008650519032,
+          "p25": 0.13775510204081634,
+          "p75": 0.1837551020408163,
+          "p90": 0.2110995770857363,
+          "p95": 0.23412500000000003
+        },
+        "evidence": {
+          "tier": "D",
+          "seasonStatus": "COMPLETE_SEASON",
+          "expectedMatches": 132,
+          "foundMatches": 132,
+          "parsedMatches": 132,
+          "coverage": 1,
+          "playerObservations": 3202,
+          "keeperObservations": 0,
+          "missingMetrics": [
+            "possessions",
+            "possession duration",
+            "whistles/free throws",
+            "transition",
+            "detailed shot context",
+            "per-match outfield position"
+          ]
+        },
+        "provenance": {
+          "name": "Svenska Handbollförbundet / Profixio",
+          "location": "https://www.profixio.com/app/lx/competition/leagueid17958?t=schedule&f=played",
+          "collectionMethod": "Public rendered results and protocols; official published player-statistics PDF tables",
+          "extractionVersion": "sweden-public/1.1.0",
+          "timestamp": "2026-10-11T04:18:59.637457+00:00",
+          "confidence": "HIGH",
+          "matches": 132,
+          "events": 7167,
+          "coverage": 1,
+          "sourceManifestHash": "c62f18df1c963d7a3aa457224917f24c908c2bf73bc857f93b9bf741a5777274",
+          "normalizedHash": "a558ddbc9c5e57fd6335167908f29170a8ca9785d2663c06633c4d2329ab608c",
+          "notes": [
+            "Regular season only; no playoff or cross-season blending",
+            "Individual public source URLs, timestamps and body hashes are retained in normalized dataset.sources; sourceManifestHash hashes that ordered manifest",
+            "Scope TEAM; values are descriptive match/keeper-match observations"
+          ]
+        },
+        "transformations": [
+          "deduplicate using official source match ID",
+          "sample SD; linearly interpolated quantiles"
+        ]
+      },
+      {
+        "metric": "sevenMetres",
+        "scope": "MATCH",
+        "unit": "count",
+        "definition": "career result 7m attempts",
+        "distribution": {
+          "n": 132,
+          "mean": 7.393939393939394,
+          "median": 7,
+          "sd": 2.614573296546958,
+          "min": 1,
+          "max": 13,
+          "p05": 3.5500000000000007,
+          "p10": 4,
+          "p25": 5,
+          "p75": 9,
+          "p90": 11,
+          "p95": 12
+        },
+        "evidence": {
+          "tier": "D",
+          "seasonStatus": "COMPLETE_SEASON",
+          "expectedMatches": 132,
+          "foundMatches": 132,
+          "parsedMatches": 132,
+          "coverage": 1,
+          "playerObservations": 3202,
+          "keeperObservations": 0,
+          "missingMetrics": [
+            "possessions",
+            "possession duration",
+            "whistles/free throws",
+            "transition",
+            "detailed shot context",
+            "per-match outfield position"
+          ]
+        },
+        "provenance": {
+          "name": "Svenska Handbollförbundet / Profixio",
+          "location": "https://www.profixio.com/app/lx/competition/leagueid17958?t=schedule&f=played",
+          "collectionMethod": "Public rendered results and protocols; official published player-statistics PDF tables",
+          "extractionVersion": "sweden-public/1.1.0",
+          "timestamp": "2026-10-11T04:18:59.637457+00:00",
+          "confidence": "HIGH",
+          "matches": 132,
+          "events": 132,
+          "coverage": 1,
+          "sourceManifestHash": "c62f18df1c963d7a3aa457224917f24c908c2bf73bc857f93b9bf741a5777274",
+          "normalizedHash": "a558ddbc9c5e57fd6335167908f29170a8ca9785d2663c06633c4d2329ab608c",
+          "notes": [
+            "Regular season only; no playoff or cross-season blending",
+            "Individual public source URLs, timestamps and body hashes are retained in normalized dataset.sources; sourceManifestHash hashes that ordered manifest",
+            "Scope MATCH; values are descriptive match/keeper-match observations"
+          ]
+        },
+        "transformations": [
+          "deduplicate using official source match ID",
+          "sample SD; linearly interpolated quantiles"
+        ]
+      },
+      {
+        "metric": "sevenMetreConversion",
+        "scope": "MATCH",
+        "unit": "ratio",
+        "definition": "7m goals / 7m attempts",
+        "distribution": {
+          "n": 132,
+          "mean": 0.7699816807771352,
+          "median": 0.7777777777777778,
+          "sd": 0.1865345851369274,
+          "min": 0,
+          "max": 1,
+          "p05": 0.5,
+          "p10": 0.5,
+          "p25": 0.6666666666666666,
+          "p75": 0.8888888888888888,
+          "p90": 1,
+          "p95": 1
+        },
+        "evidence": {
+          "tier": "D",
+          "seasonStatus": "COMPLETE_SEASON",
+          "expectedMatches": 132,
+          "foundMatches": 132,
+          "parsedMatches": 132,
+          "coverage": 1,
+          "playerObservations": 3202,
+          "keeperObservations": 0,
+          "missingMetrics": [
+            "possessions",
+            "possession duration",
+            "whistles/free throws",
+            "transition",
+            "detailed shot context",
+            "per-match outfield position"
+          ]
+        },
+        "provenance": {
+          "name": "Svenska Handbollförbundet / Profixio",
+          "location": "https://www.profixio.com/app/lx/competition/leagueid17958?t=schedule&f=played",
+          "collectionMethod": "Public rendered results and protocols; official published player-statistics PDF tables",
+          "extractionVersion": "sweden-public/1.1.0",
+          "timestamp": "2026-10-11T04:18:59.637457+00:00",
+          "confidence": "HIGH",
+          "matches": 132,
+          "events": 976,
+          "coverage": 1,
+          "sourceManifestHash": "c62f18df1c963d7a3aa457224917f24c908c2bf73bc857f93b9bf741a5777274",
+          "normalizedHash": "a558ddbc9c5e57fd6335167908f29170a8ca9785d2663c06633c4d2329ab608c",
+          "notes": [
+            "Regular season only; no playoff or cross-season blending",
+            "Individual public source URLs, timestamps and body hashes are retained in normalized dataset.sources; sourceManifestHash hashes that ordered manifest",
+            "Scope MATCH; values are descriptive match/keeper-match observations"
+          ]
+        },
+        "transformations": [
+          "deduplicate using official source match ID",
+          "sample SD; linearly interpolated quantiles"
+        ]
+      },
+      {
+        "metric": "suspensions",
+        "scope": "MATCH",
+        "unit": "count",
+        "definition": "career result two-minute suspensions",
+        "distribution": {
+          "n": 132,
+          "mean": 4.371212121212121,
+          "median": 4,
+          "sd": 1.9746689858090345,
+          "min": 0,
+          "max": 10,
+          "p05": 1,
+          "p10": 2,
+          "p25": 3,
+          "p75": 5.25,
+          "p90": 7,
+          "p95": 8
+        },
+        "evidence": {
+          "tier": "D",
+          "seasonStatus": "COMPLETE_SEASON",
+          "expectedMatches": 132,
+          "foundMatches": 132,
+          "parsedMatches": 132,
+          "coverage": 1,
+          "playerObservations": 3202,
+          "keeperObservations": 0,
+          "missingMetrics": [
+            "possessions",
+            "possession duration",
+            "whistles/free throws",
+            "transition",
+            "detailed shot context",
+            "per-match outfield position"
+          ]
+        },
+        "provenance": {
+          "name": "Svenska Handbollförbundet / Profixio",
+          "location": "https://www.profixio.com/app/lx/competition/leagueid17958?t=schedule&f=played",
+          "collectionMethod": "Public rendered results and protocols; official published player-statistics PDF tables",
+          "extractionVersion": "sweden-public/1.1.0",
+          "timestamp": "2026-10-11T04:18:59.637457+00:00",
+          "confidence": "HIGH",
+          "matches": 132,
+          "events": 132,
+          "coverage": 1,
+          "sourceManifestHash": "c62f18df1c963d7a3aa457224917f24c908c2bf73bc857f93b9bf741a5777274",
+          "normalizedHash": "a558ddbc9c5e57fd6335167908f29170a8ca9785d2663c06633c4d2329ab608c",
+          "notes": [
+            "Regular season only; no playoff or cross-season blending",
+            "Individual public source URLs, timestamps and body hashes are retained in normalized dataset.sources; sourceManifestHash hashes that ordered manifest",
+            "Scope MATCH; values are descriptive match/keeper-match observations"
+          ]
+        },
+        "transformations": [
+          "deduplicate using official source match ID",
+          "sample SD; linearly interpolated quantiles"
+        ]
+      },
+      {
+        "metric": "playerGoalsPerAppearance",
+        "scope": "PLAYER_SEASON",
+        "unit": "count",
+        "definition": "official player season goals / recorded appearances",
+        "distribution": {
+          "n": 159,
+          "mean": 2.1230350392144306,
+          "median": 1.8636363636363635,
+          "sd": 1.5415529086364768,
+          "min": 0,
+          "max": 6.454545454545454,
+          "p05": 0.14833333333333334,
+          "p10": 0.3116883116883117,
+          "p25": 0.950956937799043,
+          "p75": 3.018939393939394,
+          "p90": 4.2727272727272725,
+          "p95": 5.090909090909091
+        },
+        "provenance": {
+          "name": "Handbollsligan official player-season statistics",
+          "location": "https://handballstats.se/statistics/dam/overview.aspx?y=2025&l=2500201&p=Alla&t=0&o=0&ha=Alla ; https://handballstats.se/statistics/dam/overview.aspx?y=2025&l=2500201&p=MV&t=0&o=0&ha=Alla",
+          "collectionMethod": "Public rendered results and protocols; official published player-statistics PDF tables",
+          "extractionVersion": "handballstats-html/1",
+          "timestamp": "2026-10-11T04:10:13.089153+00:00",
+          "confidence": "MEDIUM",
+          "matches": 132,
+          "events": 3151,
+          "coverage": 1,
+          "sourceManifestHash": "c62f18df1c963d7a3aa457224917f24c908c2bf73bc857f93b9bf741a5777274",
+          "normalizedHash": "be0b897c48bbebda62714c6433dee792d56a6294fb698da34ac4c9d970310e38",
+          "notes": [
+            "player-season observations; minimum 10 appearances; not player-match variance"
+          ],
+          "sourceHashes": [
+            "3de146a9bbf802bcd83313871acff41e663b89a681aa7caabb22cae1056b3e9d",
+            "f979b91796a8483fd628d624f32f948d04daf89b1dfc5f9d036ec56b6e1671d5"
+          ]
+        },
+        "transformations": [
+          "player-season observations; minimum 10 appearances; not player-match variance"
+        ]
+      },
+      {
+        "metric": "savePct",
+        "scope": "KEEPER_SEASON",
+        "unit": "ratio",
+        "definition": "saves / (saves + goals); goalkeeper-attributed shots only",
+        "distribution": {
+          "n": 22,
+          "mean": 0.3108383899513897,
+          "median": 0.31608391608391606,
+          "sd": 0.04522913147581131,
+          "min": 0.22748815165876776,
+          "max": 0.3995726495726496,
+          "p05": 0.24809840775284764,
+          "p10": 0.2586149599193078,
+          "p25": 0.27252687024677946,
+          "p75": 0.34308381782945735,
+          "p90": 0.3505781902232035,
+          "p95": 0.37999534273984886
+        },
+        "provenance": {
+          "name": "Handbollsligan official player-season statistics",
+          "location": "https://handballstats.se/statistics/dam/overview.aspx?y=2025&l=2500201&p=Alla&t=0&o=0&ha=Alla ; https://handballstats.se/statistics/dam/overview.aspx?y=2025&l=2500201&p=MV&t=0&o=0&ha=Alla",
+          "collectionMethod": "Public rendered results and protocols; official published player-statistics PDF tables",
+          "extractionVersion": "handballstats-html/1",
+          "timestamp": "2026-10-11T04:10:13.089153+00:00",
+          "confidence": "MEDIUM",
+          "matches": 132,
+          "events": 10223,
+          "coverage": 1,
+          "sourceManifestHash": "c62f18df1c963d7a3aa457224917f24c908c2bf73bc857f93b9bf741a5777274",
+          "normalizedHash": "be0b897c48bbebda62714c6433dee792d56a6294fb698da34ac4c9d970310e38",
+          "notes": [
+            "ordinary + 7m saves and shots faced; minimum 10 appearances and 100 shots faced",
+            "variance across keeper-seasons, never substituted for keeper-match variance"
+          ],
+          "sourceHashes": [
+            "3de146a9bbf802bcd83313871acff41e663b89a681aa7caabb22cae1056b3e9d",
+            "f979b91796a8483fd628d624f32f948d04daf89b1dfc5f9d036ec56b6e1671d5"
+          ]
+        },
+        "transformations": [
+          "ordinary + 7m saves and shots faced; minimum 10 appearances and 100 shots faced",
+          "variance across keeper-seasons, never substituted for keeper-match variance"
+        ]
+      },
+      {
+        "metric": "goalShare",
+        "scope": "POSITION_SEASON:V6",
+        "unit": "ratio",
+        "definition": "group goals / team or match goals as identified by scope",
+        "distribution": {
+          "n": 1,
+          "mean": 0.14007291082445317,
+          "median": 0.14007291082445317,
+          "sd": null,
+          "min": 0.14007291082445317,
+          "max": 0.14007291082445317,
+          "p05": 0.14007291082445317,
+          "p10": 0.14007291082445317,
+          "p25": 0.14007291082445317,
+          "p75": 0.14007291082445317,
+          "p90": 0.14007291082445317,
+          "p95": 0.14007291082445317
+        },
+        "provenance": {
+          "name": "Handbollsligan official player-season statistics",
+          "location": "https://handballstats.se/statistics/dam/overview.aspx?y=2025&l=2500201&p=Alla&t=0&o=0&ha=Alla ; https://handballstats.se/statistics/dam/overview.aspx?y=2025&l=2500201&p=MV&t=0&o=0&ha=Alla",
+          "collectionMethod": "Public rendered results and protocols; official published player-statistics PDF tables",
+          "extractionVersion": "handballstats-html/1",
+          "timestamp": "2026-10-11T04:10:13.089153+00:00",
+          "confidence": "MEDIUM",
+          "matches": 132,
+          "events": 7132,
+          "coverage": 1,
+          "sourceManifestHash": "c62f18df1c963d7a3aa457224917f24c908c2bf73bc857f93b9bf741a5777274",
+          "normalizedHash": "be0b897c48bbebda62714c6433dee792d56a6294fb698da34ac4c9d970310e38",
+          "notes": [
+            "single pooled season share, N=1 aggregate; no match-level z-score",
+            "denominator is all goals recorded in this official player-season table, including unresolved positions"
+          ],
+          "sourceHashes": [
+            "3de146a9bbf802bcd83313871acff41e663b89a681aa7caabb22cae1056b3e9d",
+            "f979b91796a8483fd628d624f32f948d04daf89b1dfc5f9d036ec56b6e1671d5"
+          ]
+        },
+        "transformations": [
+          "single pooled season share, N=1 aggregate; no match-level z-score",
+          "denominator is all goals recorded in this official player-season table, including unresolved positions"
+        ]
+      },
+      {
+        "metric": "goalShare",
+        "scope": "POSITION_SEASON:M9",
+        "unit": "ratio",
+        "definition": "group goals / team or match goals as identified by scope",
+        "distribution": {
+          "n": 1,
+          "mean": 0.24747616376892878,
+          "median": 0.24747616376892878,
+          "sd": null,
+          "min": 0.24747616376892878,
+          "max": 0.24747616376892878,
+          "p05": 0.24747616376892878,
+          "p10": 0.24747616376892878,
+          "p25": 0.24747616376892878,
+          "p75": 0.24747616376892878,
+          "p90": 0.24747616376892878,
+          "p95": 0.24747616376892878
+        },
+        "provenance": {
+          "name": "Handbollsligan official player-season statistics",
+          "location": "https://handballstats.se/statistics/dam/overview.aspx?y=2025&l=2500201&p=Alla&t=0&o=0&ha=Alla ; https://handballstats.se/statistics/dam/overview.aspx?y=2025&l=2500201&p=MV&t=0&o=0&ha=Alla",
+          "collectionMethod": "Public rendered results and protocols; official published player-statistics PDF tables",
+          "extractionVersion": "handballstats-html/1",
+          "timestamp": "2026-10-11T04:10:13.089153+00:00",
+          "confidence": "MEDIUM",
+          "matches": 132,
+          "events": 7132,
+          "coverage": 1,
+          "sourceManifestHash": "c62f18df1c963d7a3aa457224917f24c908c2bf73bc857f93b9bf741a5777274",
+          "normalizedHash": "be0b897c48bbebda62714c6433dee792d56a6294fb698da34ac4c9d970310e38",
+          "notes": [
+            "single pooled season share, N=1 aggregate; no match-level z-score",
+            "denominator is all goals recorded in this official player-season table, including unresolved positions"
+          ],
+          "sourceHashes": [
+            "3de146a9bbf802bcd83313871acff41e663b89a681aa7caabb22cae1056b3e9d",
+            "f979b91796a8483fd628d624f32f948d04daf89b1dfc5f9d036ec56b6e1671d5"
+          ]
+        },
+        "transformations": [
+          "single pooled season share, N=1 aggregate; no match-level z-score",
+          "denominator is all goals recorded in this official player-season table, including unresolved positions"
+        ]
+      },
+      {
+        "metric": "goalShare",
+        "scope": "POSITION_SEASON:H9",
+        "unit": "ratio",
+        "definition": "group goals / team or match goals as identified by scope",
+        "distribution": {
+          "n": 1,
+          "mean": 0.13292204150308468,
+          "median": 0.13292204150308468,
+          "sd": null,
+          "min": 0.13292204150308468,
+          "max": 0.13292204150308468,
+          "p05": 0.13292204150308468,
+          "p10": 0.13292204150308468,
+          "p25": 0.13292204150308468,
+          "p75": 0.13292204150308468,
+          "p90": 0.13292204150308468,
+          "p95": 0.13292204150308468
+        },
+        "provenance": {
+          "name": "Handbollsligan official player-season statistics",
+          "location": "https://handballstats.se/statistics/dam/overview.aspx?y=2025&l=2500201&p=Alla&t=0&o=0&ha=Alla ; https://handballstats.se/statistics/dam/overview.aspx?y=2025&l=2500201&p=MV&t=0&o=0&ha=Alla",
+          "collectionMethod": "Public rendered results and protocols; official published player-statistics PDF tables",
+          "extractionVersion": "handballstats-html/1",
+          "timestamp": "2026-10-11T04:10:13.089153+00:00",
+          "confidence": "MEDIUM",
+          "matches": 132,
+          "events": 7132,
+          "coverage": 1,
+          "sourceManifestHash": "c62f18df1c963d7a3aa457224917f24c908c2bf73bc857f93b9bf741a5777274",
+          "normalizedHash": "be0b897c48bbebda62714c6433dee792d56a6294fb698da34ac4c9d970310e38",
+          "notes": [
+            "single pooled season share, N=1 aggregate; no match-level z-score",
+            "denominator is all goals recorded in this official player-season table, including unresolved positions"
+          ],
+          "sourceHashes": [
+            "3de146a9bbf802bcd83313871acff41e663b89a681aa7caabb22cae1056b3e9d",
+            "f979b91796a8483fd628d624f32f948d04daf89b1dfc5f9d036ec56b6e1671d5"
+          ]
+        },
+        "transformations": [
+          "single pooled season share, N=1 aggregate; no match-level z-score",
+          "denominator is all goals recorded in this official player-season table, including unresolved positions"
+        ]
+      },
+      {
+        "metric": "goalShare",
+        "scope": "POSITION_SEASON:V9",
+        "unit": "ratio",
+        "definition": "group goals / team or match goals as identified by scope",
+        "distribution": {
+          "n": 1,
+          "mean": 0.21704991587212563,
+          "median": 0.21704991587212563,
+          "sd": null,
+          "min": 0.21704991587212563,
+          "max": 0.21704991587212563,
+          "p05": 0.21704991587212563,
+          "p10": 0.21704991587212563,
+          "p25": 0.21704991587212563,
+          "p75": 0.21704991587212563,
+          "p90": 0.21704991587212563,
+          "p95": 0.21704991587212563
+        },
+        "provenance": {
+          "name": "Handbollsligan official player-season statistics",
+          "location": "https://handballstats.se/statistics/dam/overview.aspx?y=2025&l=2500201&p=Alla&t=0&o=0&ha=Alla ; https://handballstats.se/statistics/dam/overview.aspx?y=2025&l=2500201&p=MV&t=0&o=0&ha=Alla",
+          "collectionMethod": "Public rendered results and protocols; official published player-statistics PDF tables",
+          "extractionVersion": "handballstats-html/1",
+          "timestamp": "2026-10-11T04:10:13.089153+00:00",
+          "confidence": "MEDIUM",
+          "matches": 132,
+          "events": 7132,
+          "coverage": 1,
+          "sourceManifestHash": "c62f18df1c963d7a3aa457224917f24c908c2bf73bc857f93b9bf741a5777274",
+          "normalizedHash": "be0b897c48bbebda62714c6433dee792d56a6294fb698da34ac4c9d970310e38",
+          "notes": [
+            "single pooled season share, N=1 aggregate; no match-level z-score",
+            "denominator is all goals recorded in this official player-season table, including unresolved positions"
+          ],
+          "sourceHashes": [
+            "3de146a9bbf802bcd83313871acff41e663b89a681aa7caabb22cae1056b3e9d",
+            "f979b91796a8483fd628d624f32f948d04daf89b1dfc5f9d036ec56b6e1671d5"
+          ]
+        },
+        "transformations": [
+          "single pooled season share, N=1 aggregate; no match-level z-score",
+          "denominator is all goals recorded in this official player-season table, including unresolved positions"
+        ]
+      },
+      {
+        "metric": "goalShare",
+        "scope": "POSITION_SEASON:M6",
+        "unit": "ratio",
+        "definition": "group goals / team or match goals as identified by scope",
+        "distribution": {
+          "n": 1,
+          "mean": 0.12913628715647785,
+          "median": 0.12913628715647785,
+          "sd": null,
+          "min": 0.12913628715647785,
+          "max": 0.12913628715647785,
+          "p05": 0.12913628715647785,
+          "p10": 0.12913628715647785,
+          "p25": 0.12913628715647785,
+          "p75": 0.12913628715647785,
+          "p90": 0.12913628715647785,
+          "p95": 0.12913628715647785
+        },
+        "provenance": {
+          "name": "Handbollsligan official player-season statistics",
+          "location": "https://handballstats.se/statistics/dam/overview.aspx?y=2025&l=2500201&p=Alla&t=0&o=0&ha=Alla ; https://handballstats.se/statistics/dam/overview.aspx?y=2025&l=2500201&p=MV&t=0&o=0&ha=Alla",
+          "collectionMethod": "Public rendered results and protocols; official published player-statistics PDF tables",
+          "extractionVersion": "handballstats-html/1",
+          "timestamp": "2026-10-11T04:10:13.089153+00:00",
+          "confidence": "MEDIUM",
+          "matches": 132,
+          "events": 7132,
+          "coverage": 1,
+          "sourceManifestHash": "c62f18df1c963d7a3aa457224917f24c908c2bf73bc857f93b9bf741a5777274",
+          "normalizedHash": "be0b897c48bbebda62714c6433dee792d56a6294fb698da34ac4c9d970310e38",
+          "notes": [
+            "single pooled season share, N=1 aggregate; no match-level z-score",
+            "denominator is all goals recorded in this official player-season table, including unresolved positions"
+          ],
+          "sourceHashes": [
+            "3de146a9bbf802bcd83313871acff41e663b89a681aa7caabb22cae1056b3e9d",
+            "f979b91796a8483fd628d624f32f948d04daf89b1dfc5f9d036ec56b6e1671d5"
+          ]
+        },
+        "transformations": [
+          "single pooled season share, N=1 aggregate; no match-level z-score",
+          "denominator is all goals recorded in this official player-season table, including unresolved positions"
+        ]
+      },
+      {
+        "metric": "goalShare",
+        "scope": "POSITION_SEASON:H6",
+        "unit": "ratio",
+        "definition": "group goals / team or match goals as identified by scope",
+        "distribution": {
+          "n": 1,
+          "mean": 0.12899607403252944,
+          "median": 0.12899607403252944,
+          "sd": null,
+          "min": 0.12899607403252944,
+          "max": 0.12899607403252944,
+          "p05": 0.12899607403252944,
+          "p10": 0.12899607403252944,
+          "p25": 0.12899607403252944,
+          "p75": 0.12899607403252944,
+          "p90": 0.12899607403252944,
+          "p95": 0.12899607403252944
+        },
+        "provenance": {
+          "name": "Handbollsligan official player-season statistics",
+          "location": "https://handballstats.se/statistics/dam/overview.aspx?y=2025&l=2500201&p=Alla&t=0&o=0&ha=Alla ; https://handballstats.se/statistics/dam/overview.aspx?y=2025&l=2500201&p=MV&t=0&o=0&ha=Alla",
+          "collectionMethod": "Public rendered results and protocols; official published player-statistics PDF tables",
+          "extractionVersion": "handballstats-html/1",
+          "timestamp": "2026-10-11T04:10:13.089153+00:00",
+          "confidence": "MEDIUM",
+          "matches": 132,
+          "events": 7132,
+          "coverage": 1,
+          "sourceManifestHash": "c62f18df1c963d7a3aa457224917f24c908c2bf73bc857f93b9bf741a5777274",
+          "normalizedHash": "be0b897c48bbebda62714c6433dee792d56a6294fb698da34ac4c9d970310e38",
+          "notes": [
+            "single pooled season share, N=1 aggregate; no match-level z-score",
+            "denominator is all goals recorded in this official player-season table, including unresolved positions"
+          ],
+          "sourceHashes": [
+            "3de146a9bbf802bcd83313871acff41e663b89a681aa7caabb22cae1056b3e9d",
+            "f979b91796a8483fd628d624f32f948d04daf89b1dfc5f9d036ec56b6e1671d5"
+          ]
+        },
+        "transformations": [
+          "single pooled season share, N=1 aggregate; no match-level z-score",
+          "denominator is all goals recorded in this official player-season table, including unresolved positions"
+        ]
+      }
+    ],
+    "notes": [
+      "Handbollsligan Dam",
+      "Regular-season environment; season status and metric-specific coverage remain explicit"
+    ],
+    "evidence": {
+      "tier": "D",
+      "seasonStatus": "COMPLETE_SEASON",
+      "expectedMatches": 132,
+      "foundMatches": 132,
+      "parsedMatches": 132,
+      "coverage": 1,
+      "playerObservations": 3202,
+      "keeperObservations": 0,
+      "missingMetrics": [
+        "possessions",
+        "possession duration",
+        "whistles/free throws",
+        "transition",
+        "detailed shot context",
+        "per-match outfield position"
+      ]
+    }
+  },
+  {
+    "schemaVersion": "match-benchmarks/1",
+    "id": "SE:swe-w-2:2025-26:regular",
+    "version": "empirical-sweden/1",
+    "kind": "REAL_WORLD_REFERENCE",
+    "sport": "handball",
+    "country": "SE",
+    "competition": "swe-w-2",
+    "category": "women-senior",
+    "season": "2025-26",
+    "dateRange": {
+      "start": "2025-09-24",
+      "end": "2026-03-25"
+    },
+    "metrics": [
+      {
+        "metric": "goals",
+        "scope": "MATCH",
+        "unit": "count",
+        "definition": "both teams per completed match",
+        "distribution": {
+          "n": 132,
+          "mean": 53.916666666666664,
+          "median": 53,
+          "sd": 6.855144239513075,
+          "min": 38,
+          "max": 84,
+          "p05": 43.55,
+          "p10": 46,
+          "p25": 50,
+          "p75": 58,
+          "p90": 62,
+          "p95": 63.44999999999999
+        },
+        "evidence": {
+          "tier": "D",
+          "seasonStatus": "COMPLETE_SEASON",
+          "expectedMatches": 132,
+          "foundMatches": 132,
+          "parsedMatches": 132,
+          "coverage": 1,
+          "playerObservations": 3568,
+          "keeperObservations": 0,
+          "missingMetrics": [
+            "possessions",
+            "possession duration",
+            "whistles/free throws",
+            "transition",
+            "detailed shot context",
+            "per-match outfield position"
+          ]
+        },
+        "provenance": {
+          "name": "Svenska Handbollförbundet / Profixio",
+          "location": "https://www.profixio.com/app/lx/competition/leagueid17959?t=schedule&f=played",
+          "collectionMethod": "Public rendered results and protocols; official published player-statistics PDF tables",
+          "extractionVersion": "sweden-public/1.1.0",
+          "timestamp": "2026-10-11T04:48:16.558739+00:00",
+          "confidence": "HIGH",
+          "matches": 132,
+          "events": 132,
+          "coverage": 1,
+          "sourceManifestHash": "5a02dace43122a41e2fd2711e812be483ffd48b096eb0c5040b587cae493b83b",
+          "normalizedHash": "e35e1ca0fe970ce568468612c98fffc6f740352639758a6cadd338aac890123e",
+          "notes": [
+            "Regular season only; no playoff or cross-season blending",
+            "Individual public source URLs, timestamps and body hashes are retained in normalized dataset.sources; sourceManifestHash hashes that ordered manifest",
+            "Scope MATCH; values are descriptive match/keeper-match observations"
+          ]
+        },
+        "transformations": [
+          "deduplicate using official source match ID",
+          "sample SD; linearly interpolated quantiles"
+        ]
+      },
+      {
+        "metric": "margin",
+        "scope": "MATCH",
+        "unit": "count",
+        "definition": "absolute difference between home and away full-time goals",
+        "distribution": {
+          "n": 132,
+          "mean": 5.598484848484849,
+          "median": 4,
+          "sd": 4.569831120010622,
+          "min": 0,
+          "max": 23,
+          "p05": 0,
+          "p10": 1,
+          "p25": 2,
+          "p75": 9,
+          "p90": 11,
+          "p95": 14
+        },
+        "evidence": {
+          "tier": "D",
+          "seasonStatus": "COMPLETE_SEASON",
+          "expectedMatches": 132,
+          "foundMatches": 132,
+          "parsedMatches": 132,
+          "coverage": 1,
+          "playerObservations": 3568,
+          "keeperObservations": 0,
+          "missingMetrics": [
+            "possessions",
+            "possession duration",
+            "whistles/free throws",
+            "transition",
+            "detailed shot context",
+            "per-match outfield position"
+          ]
+        },
+        "provenance": {
+          "name": "Svenska Handbollförbundet / Profixio",
+          "location": "https://www.profixio.com/app/lx/competition/leagueid17959?t=schedule&f=played",
+          "collectionMethod": "Public rendered results and protocols; official published player-statistics PDF tables",
+          "extractionVersion": "sweden-public/1.1.0",
+          "timestamp": "2026-10-11T04:48:16.558739+00:00",
+          "confidence": "HIGH",
+          "matches": 132,
+          "events": 132,
+          "coverage": 1,
+          "sourceManifestHash": "5a02dace43122a41e2fd2711e812be483ffd48b096eb0c5040b587cae493b83b",
+          "normalizedHash": "e35e1ca0fe970ce568468612c98fffc6f740352639758a6cadd338aac890123e",
+          "notes": [
+            "Regular season only; no playoff or cross-season blending",
+            "Individual public source URLs, timestamps and body hashes are retained in normalized dataset.sources; sourceManifestHash hashes that ordered manifest",
+            "Scope MATCH; values are descriptive match/keeper-match observations"
+          ]
+        },
+        "transformations": [
+          "deduplicate using official source match ID",
+          "sample SD; linearly interpolated quantiles"
+        ]
+      },
+      {
+        "metric": "homeGoals",
+        "scope": "MATCH",
+        "unit": "count",
+        "definition": "home team full-time goals per match",
+        "distribution": {
+          "n": 132,
+          "mean": 27.515151515151516,
+          "median": 27,
+          "sd": 4.929247265335968,
+          "min": 18,
+          "max": 43,
+          "p05": 20.55,
+          "p10": 22,
+          "p25": 24,
+          "p75": 31,
+          "p90": 33,
+          "p95": 36
+        },
+        "evidence": {
+          "tier": "D",
+          "seasonStatus": "COMPLETE_SEASON",
+          "expectedMatches": 132,
+          "foundMatches": 132,
+          "parsedMatches": 132,
+          "coverage": 1,
+          "playerObservations": 3568,
+          "keeperObservations": 0,
+          "missingMetrics": [
+            "possessions",
+            "possession duration",
+            "whistles/free throws",
+            "transition",
+            "detailed shot context",
+            "per-match outfield position"
+          ]
+        },
+        "provenance": {
+          "name": "Svenska Handbollförbundet / Profixio",
+          "location": "https://www.profixio.com/app/lx/competition/leagueid17959?t=schedule&f=played",
+          "collectionMethod": "Public rendered results and protocols; official published player-statistics PDF tables",
+          "extractionVersion": "sweden-public/1.1.0",
+          "timestamp": "2026-10-11T04:48:16.558739+00:00",
+          "confidence": "HIGH",
+          "matches": 132,
+          "events": 132,
+          "coverage": 1,
+          "sourceManifestHash": "5a02dace43122a41e2fd2711e812be483ffd48b096eb0c5040b587cae493b83b",
+          "normalizedHash": "e35e1ca0fe970ce568468612c98fffc6f740352639758a6cadd338aac890123e",
+          "notes": [
+            "Regular season only; no playoff or cross-season blending",
+            "Individual public source URLs, timestamps and body hashes are retained in normalized dataset.sources; sourceManifestHash hashes that ordered manifest",
+            "Scope MATCH; values are descriptive match/keeper-match observations"
+          ]
+        },
+        "transformations": [
+          "deduplicate using official source match ID",
+          "sample SD; linearly interpolated quantiles"
+        ]
+      },
+      {
+        "metric": "awayGoals",
+        "scope": "MATCH",
+        "unit": "count",
+        "definition": "away team full-time goals per match",
+        "distribution": {
+          "n": 132,
+          "mean": 26.401515151515152,
+          "median": 26,
+          "sd": 4.980664673269517,
+          "min": 17,
+          "max": 42,
+          "p05": 19,
+          "p10": 21,
+          "p25": 23,
+          "p75": 29,
+          "p90": 33,
+          "p95": 35.44999999999999
+        },
+        "evidence": {
+          "tier": "D",
+          "seasonStatus": "COMPLETE_SEASON",
+          "expectedMatches": 132,
+          "foundMatches": 132,
+          "parsedMatches": 132,
+          "coverage": 1,
+          "playerObservations": 3568,
+          "keeperObservations": 0,
+          "missingMetrics": [
+            "possessions",
+            "possession duration",
+            "whistles/free throws",
+            "transition",
+            "detailed shot context",
+            "per-match outfield position"
+          ]
+        },
+        "provenance": {
+          "name": "Svenska Handbollförbundet / Profixio",
+          "location": "https://www.profixio.com/app/lx/competition/leagueid17959?t=schedule&f=played",
+          "collectionMethod": "Public rendered results and protocols; official published player-statistics PDF tables",
+          "extractionVersion": "sweden-public/1.1.0",
+          "timestamp": "2026-10-11T04:48:16.558739+00:00",
+          "confidence": "HIGH",
+          "matches": 132,
+          "events": 132,
+          "coverage": 1,
+          "sourceManifestHash": "5a02dace43122a41e2fd2711e812be483ffd48b096eb0c5040b587cae493b83b",
+          "normalizedHash": "e35e1ca0fe970ce568468612c98fffc6f740352639758a6cadd338aac890123e",
+          "notes": [
+            "Regular season only; no playoff or cross-season blending",
+            "Individual public source URLs, timestamps and body hashes are retained in normalized dataset.sources; sourceManifestHash hashes that ordered manifest",
+            "Scope MATCH; values are descriptive match/keeper-match observations"
+          ]
+        },
+        "transformations": [
+          "deduplicate using official source match ID",
+          "sample SD; linearly interpolated quantiles"
+        ]
+      },
+      {
+        "metric": "goalsPerTeam",
+        "scope": "TEAM",
+        "unit": "count",
+        "definition": "one team per completed match",
+        "distribution": {
+          "n": 264,
+          "mean": 26.958333333333332,
+          "median": 27,
+          "sd": 4.976958951566379,
+          "min": 17,
+          "max": 43,
+          "p05": 19.15,
+          "p10": 21,
+          "p25": 23,
+          "p75": 30,
+          "p90": 33,
+          "p95": 36
+        },
+        "evidence": {
+          "tier": "D",
+          "seasonStatus": "COMPLETE_SEASON",
+          "expectedMatches": 132,
+          "foundMatches": 132,
+          "parsedMatches": 132,
+          "coverage": 1,
+          "playerObservations": 3568,
+          "keeperObservations": 0,
+          "missingMetrics": [
+            "possessions",
+            "possession duration",
+            "whistles/free throws",
+            "transition",
+            "detailed shot context",
+            "per-match outfield position"
+          ]
+        },
+        "provenance": {
+          "name": "Svenska Handbollförbundet / Profixio",
+          "location": "https://www.profixio.com/app/lx/competition/leagueid17959?t=schedule&f=played",
+          "collectionMethod": "Public rendered results and protocols; official published player-statistics PDF tables",
+          "extractionVersion": "sweden-public/1.1.0",
+          "timestamp": "2026-10-11T04:48:16.558739+00:00",
+          "confidence": "HIGH",
+          "matches": 132,
+          "events": 264,
+          "coverage": 1,
+          "sourceManifestHash": "5a02dace43122a41e2fd2711e812be483ffd48b096eb0c5040b587cae493b83b",
+          "normalizedHash": "e35e1ca0fe970ce568468612c98fffc6f740352639758a6cadd338aac890123e",
+          "notes": [
+            "Regular season only; no playoff or cross-season blending",
+            "Individual public source URLs, timestamps and body hashes are retained in normalized dataset.sources; sourceManifestHash hashes that ordered manifest",
+            "Scope TEAM; values are descriptive match/keeper-match observations"
+          ]
+        },
+        "transformations": [
+          "deduplicate using official source match ID",
+          "sample SD; linearly interpolated quantiles"
+        ]
+      },
+      {
+        "metric": "scorerConcentration",
+        "scope": "TEAM",
+        "unit": "ratio",
+        "definition": "largest player goal count / team goals",
+        "distribution": {
+          "n": 262,
+          "mean": 0.25560044388261993,
+          "median": 0.24621212121212122,
+          "sd": 0.06649689287222668,
+          "min": 0.13333333333333333,
+          "max": 0.5384615384615384,
+          "p05": 0.16006451612903227,
+          "p10": 0.17866300366300367,
+          "p25": 0.20833333333333334,
+          "p75": 0.2957516339869281,
+          "p90": 0.3333333333333333,
+          "p95": 0.37909482758620683
+        },
+        "evidence": {
+          "tier": "D",
+          "seasonStatus": "COMPLETE_SEASON",
+          "expectedMatches": 132,
+          "foundMatches": 132,
+          "parsedMatches": 131,
+          "coverage": 0.9924242424242424,
+          "playerObservations": 3568,
+          "keeperObservations": 0,
+          "missingMetrics": [
+            "possessions",
+            "possession duration",
+            "whistles/free throws",
+            "transition",
+            "detailed shot context",
+            "per-match outfield position"
+          ]
+        },
+        "provenance": {
+          "name": "Svenska Handbollförbundet / Profixio",
+          "location": "https://www.profixio.com/app/lx/competition/leagueid17959?t=schedule&f=played",
+          "collectionMethod": "Public rendered results and protocols; official published player-statistics PDF tables",
+          "extractionVersion": "sweden-public/1.1.0",
+          "timestamp": "2026-10-11T04:48:16.558739+00:00",
+          "confidence": "HIGH",
+          "matches": 131,
+          "events": 7066,
+          "coverage": 0.9924242424242424,
+          "sourceManifestHash": "5a02dace43122a41e2fd2711e812be483ffd48b096eb0c5040b587cae493b83b",
+          "normalizedHash": "e35e1ca0fe970ce568468612c98fffc6f740352639758a6cadd338aac890123e",
+          "notes": [
+            "Regular season only; no playoff or cross-season blending",
+            "Individual public source URLs, timestamps and body hashes are retained in normalized dataset.sources; sourceManifestHash hashes that ordered manifest",
+            "Scope TEAM; values are descriptive match/keeper-match observations"
+          ]
+        },
+        "transformations": [
+          "deduplicate using official source match ID",
+          "sample SD; linearly interpolated quantiles"
+        ]
+      },
+      {
+        "metric": "scorerHHI",
+        "scope": "TEAM",
+        "unit": "ratio",
+        "definition": "sum of squared player shares of team goals",
+        "distribution": {
+          "n": 262,
+          "mean": 0.16170613852113697,
+          "median": 0.15566124983485274,
+          "sd": 0.03723346205160781,
+          "min": 0.0900277008310249,
+          "max": 0.34911242603550297,
+          "p05": 0.11479778962296447,
+          "p10": 0.1221214411690602,
+          "p25": 0.13575117130057113,
+          "p75": 0.17958412098298676,
+          "p90": 0.2102161983471074,
+          "p95": 0.23424494649227112
+        },
+        "evidence": {
+          "tier": "D",
+          "seasonStatus": "COMPLETE_SEASON",
+          "expectedMatches": 132,
+          "foundMatches": 132,
+          "parsedMatches": 131,
+          "coverage": 0.9924242424242424,
+          "playerObservations": 3568,
+          "keeperObservations": 0,
+          "missingMetrics": [
+            "possessions",
+            "possession duration",
+            "whistles/free throws",
+            "transition",
+            "detailed shot context",
+            "per-match outfield position"
+          ]
+        },
+        "provenance": {
+          "name": "Svenska Handbollförbundet / Profixio",
+          "location": "https://www.profixio.com/app/lx/competition/leagueid17959?t=schedule&f=played",
+          "collectionMethod": "Public rendered results and protocols; official published player-statistics PDF tables",
+          "extractionVersion": "sweden-public/1.1.0",
+          "timestamp": "2026-10-11T04:48:16.558739+00:00",
+          "confidence": "HIGH",
+          "matches": 131,
+          "events": 7066,
+          "coverage": 0.9924242424242424,
+          "sourceManifestHash": "5a02dace43122a41e2fd2711e812be483ffd48b096eb0c5040b587cae493b83b",
+          "normalizedHash": "e35e1ca0fe970ce568468612c98fffc6f740352639758a6cadd338aac890123e",
+          "notes": [
+            "Regular season only; no playoff or cross-season blending",
+            "Individual public source URLs, timestamps and body hashes are retained in normalized dataset.sources; sourceManifestHash hashes that ordered manifest",
+            "Scope TEAM; values are descriptive match/keeper-match observations"
+          ]
+        },
+        "transformations": [
+          "deduplicate using official source match ID",
+          "sample SD; linearly interpolated quantiles"
+        ]
+      },
+      {
+        "metric": "sevenMetres",
+        "scope": "MATCH",
+        "unit": "count",
+        "definition": "career result 7m attempts",
+        "distribution": {
+          "n": 131,
+          "mean": 6.320610687022901,
+          "median": 6,
+          "sd": 2.6926314711778163,
+          "min": 0,
+          "max": 14,
+          "p05": 3,
+          "p10": 3,
+          "p25": 4,
+          "p75": 8,
+          "p90": 10,
+          "p95": 10
+        },
+        "evidence": {
+          "tier": "D",
+          "seasonStatus": "COMPLETE_SEASON",
+          "expectedMatches": 132,
+          "foundMatches": 132,
+          "parsedMatches": 131,
+          "coverage": 0.9924242424242424,
+          "playerObservations": 3568,
+          "keeperObservations": 0,
+          "missingMetrics": [
+            "possessions",
+            "possession duration",
+            "whistles/free throws",
+            "transition",
+            "detailed shot context",
+            "per-match outfield position"
+          ]
+        },
+        "provenance": {
+          "name": "Svenska Handbollförbundet / Profixio",
+          "location": "https://www.profixio.com/app/lx/competition/leagueid17959?t=schedule&f=played",
+          "collectionMethod": "Public rendered results and protocols; official published player-statistics PDF tables",
+          "extractionVersion": "sweden-public/1.1.0",
+          "timestamp": "2026-10-11T04:48:16.558739+00:00",
+          "confidence": "HIGH",
+          "matches": 131,
+          "events": 131,
+          "coverage": 0.9924242424242424,
+          "sourceManifestHash": "5a02dace43122a41e2fd2711e812be483ffd48b096eb0c5040b587cae493b83b",
+          "normalizedHash": "e35e1ca0fe970ce568468612c98fffc6f740352639758a6cadd338aac890123e",
+          "notes": [
+            "Regular season only; no playoff or cross-season blending",
+            "Individual public source URLs, timestamps and body hashes are retained in normalized dataset.sources; sourceManifestHash hashes that ordered manifest",
+            "Scope MATCH; values are descriptive match/keeper-match observations"
+          ]
+        },
+        "transformations": [
+          "deduplicate using official source match ID",
+          "sample SD; linearly interpolated quantiles"
+        ]
+      },
+      {
+        "metric": "sevenMetreConversion",
+        "scope": "MATCH",
+        "unit": "ratio",
+        "definition": "7m goals / 7m attempts",
+        "distribution": {
+          "n": 130,
+          "mean": 0.745025188486727,
+          "median": 0.7386363636363636,
+          "sd": 0.199964528085528,
+          "min": 0.16666666666666666,
+          "max": 1,
+          "p05": 0.3333333333333333,
+          "p10": 0.5,
+          "p25": 0.6666666666666666,
+          "p75": 0.8888888888888888,
+          "p90": 1,
+          "p95": 1
+        },
+        "evidence": {
+          "tier": "D",
+          "seasonStatus": "COMPLETE_SEASON",
+          "expectedMatches": 132,
+          "foundMatches": 132,
+          "parsedMatches": 130,
+          "coverage": 0.9848484848484849,
+          "playerObservations": 3568,
+          "keeperObservations": 0,
+          "missingMetrics": [
+            "possessions",
+            "possession duration",
+            "whistles/free throws",
+            "transition",
+            "detailed shot context",
+            "per-match outfield position"
+          ]
+        },
+        "provenance": {
+          "name": "Svenska Handbollförbundet / Profixio",
+          "location": "https://www.profixio.com/app/lx/competition/leagueid17959?t=schedule&f=played",
+          "collectionMethod": "Public rendered results and protocols; official published player-statistics PDF tables",
+          "extractionVersion": "sweden-public/1.1.0",
+          "timestamp": "2026-10-11T04:48:16.558739+00:00",
+          "confidence": "HIGH",
+          "matches": 130,
+          "events": 828,
+          "coverage": 0.9848484848484849,
+          "sourceManifestHash": "5a02dace43122a41e2fd2711e812be483ffd48b096eb0c5040b587cae493b83b",
+          "normalizedHash": "e35e1ca0fe970ce568468612c98fffc6f740352639758a6cadd338aac890123e",
+          "notes": [
+            "Regular season only; no playoff or cross-season blending",
+            "Individual public source URLs, timestamps and body hashes are retained in normalized dataset.sources; sourceManifestHash hashes that ordered manifest",
+            "Scope MATCH; values are descriptive match/keeper-match observations"
+          ]
+        },
+        "transformations": [
+          "deduplicate using official source match ID",
+          "sample SD; linearly interpolated quantiles"
+        ]
+      },
+      {
+        "metric": "suspensions",
+        "scope": "MATCH",
+        "unit": "count",
+        "definition": "career result two-minute suspensions",
+        "distribution": {
+          "n": 131,
+          "mean": 4.511450381679389,
+          "median": 4,
+          "sd": 2.091618483426504,
+          "min": 1,
+          "max": 12,
+          "p05": 2,
+          "p10": 2,
+          "p25": 3,
+          "p75": 6,
+          "p90": 7,
+          "p95": 8
+        },
+        "evidence": {
+          "tier": "D",
+          "seasonStatus": "COMPLETE_SEASON",
+          "expectedMatches": 132,
+          "foundMatches": 132,
+          "parsedMatches": 131,
+          "coverage": 0.9924242424242424,
+          "playerObservations": 3568,
+          "keeperObservations": 0,
+          "missingMetrics": [
+            "possessions",
+            "possession duration",
+            "whistles/free throws",
+            "transition",
+            "detailed shot context",
+            "per-match outfield position"
+          ]
+        },
+        "provenance": {
+          "name": "Svenska Handbollförbundet / Profixio",
+          "location": "https://www.profixio.com/app/lx/competition/leagueid17959?t=schedule&f=played",
+          "collectionMethod": "Public rendered results and protocols; official published player-statistics PDF tables",
+          "extractionVersion": "sweden-public/1.1.0",
+          "timestamp": "2026-10-11T04:48:16.558739+00:00",
+          "confidence": "HIGH",
+          "matches": 131,
+          "events": 131,
+          "coverage": 0.9924242424242424,
+          "sourceManifestHash": "5a02dace43122a41e2fd2711e812be483ffd48b096eb0c5040b587cae493b83b",
+          "normalizedHash": "e35e1ca0fe970ce568468612c98fffc6f740352639758a6cadd338aac890123e",
+          "notes": [
+            "Regular season only; no playoff or cross-season blending",
+            "Individual public source URLs, timestamps and body hashes are retained in normalized dataset.sources; sourceManifestHash hashes that ordered manifest",
+            "Scope MATCH; values are descriptive match/keeper-match observations"
+          ]
+        },
+        "transformations": [
+          "deduplicate using official source match ID",
+          "sample SD; linearly interpolated quantiles"
+        ]
+      }
+    ],
+    "notes": [
+      "Damallsvenskan",
+      "Regular-season environment; season status and metric-specific coverage remain explicit"
+    ],
+    "evidence": {
+      "tier": "D",
+      "seasonStatus": "COMPLETE_SEASON",
+      "expectedMatches": 132,
+      "foundMatches": 132,
+      "parsedMatches": 132,
+      "coverage": 1,
+      "playerObservations": 3568,
+      "keeperObservations": 0,
+      "missingMetrics": [
+        "possessions",
+        "possession duration",
+        "whistles/free throws",
+        "transition",
+        "detailed shot context",
+        "per-match outfield position"
+      ]
+    }
+  },
+  {
+    "schemaVersion": "match-benchmarks/1",
+    "id": "SE:HBL_HERR:2025-26:KEEPER_PROXY",
+    "version": "empirical-sweden/1",
+    "kind": "REAL_WORLD_REFERENCE",
+    "sport": "handball",
+    "category": "men-senior",
+    "dateRange": {
+      "start": "2025-09-17",
+      "end": "2026-03-25"
+    },
+    "metrics": [
+      {
+        "metric": "savePct",
+        "scope": "CATEGORY:SEVEN_METRE",
+        "unit": "ratio",
+        "definition": "saves / (saves + goals); goalkeeper-attributed shots only",
+        "distribution": {
+          "n": 182,
+          "mean": 0.19748991850640177,
+          "median": 0.2,
+          "sd": 0.1670662648819657,
+          "min": 0,
+          "max": 0.75,
+          "p05": 0,
+          "p10": 0,
+          "p25": 0,
+          "p75": 0.2857142857142857,
+          "p90": 0.4,
+          "p95": 0.5
+        },
+        "evidence": {
+          "tier": "C",
+          "seasonStatus": "COMPLETE_SEASON",
+          "expectedMatches": 182,
+          "foundMatches": 182,
+          "parsedMatches": 182,
+          "coverage": 1,
+          "playerObservations": 5615,
+          "keeperObservations": 480,
+          "missingMetrics": [
+            "possessions",
+            "possession duration",
+            "whistles/free throws",
+            "transition",
+            "detailed shot context",
+            "per-match outfield position"
+          ]
+        },
+        "provenance": {
+          "name": "Svenska Handbollförbundet / Profixio + Handbollsligan / Jilsén System player-statistics PDFs",
+          "location": "https://www.profixio.com/app/lx/competition/leagueid17951?t=schedule&f=played",
+          "collectionMethod": "Public rendered results and protocols; official published player-statistics PDF tables",
+          "extractionVersion": "sweden-public/1.1.0",
+          "timestamp": "2026-10-11T04:20:12.754558+00:00",
+          "confidence": "MEDIUM",
+          "matches": 182,
+          "events": 1129,
+          "coverage": 1,
+          "sourceManifestHash": "6a54f0c6ef8402e0e1605687721610c568de8eb9eca113bfd33decb9e93e75ef",
+          "normalizedHash": "2ad78bc166c3f71cd742c66f8d8a1f5d406d84d2bdd92fbec1e2598d96eca773",
+          "notes": [
+            "Regular season only; no playoff or cross-season blending",
+            "Individual public source URLs, timestamps and body hashes are retained in normalized dataset.sources; sourceManifestHash hashes that ordered manifest",
+            "Scope CATEGORY:SEVEN_METRE; values are descriptive match/keeper-match observations",
+            "Cross-competition Handbollsligan Herr proxy; not Herrallsvenskan truth"
+          ]
+        },
+        "transformations": [
+          "deduplicate using official source match ID",
+          "sample SD; linearly interpolated quantiles",
+          "7m saves / (7m saves + 7m goals); wide/post attempts excluded; match-level conditional rate"
+        ]
+      },
+      {
+        "metric": "saves",
+        "scope": "KEEPER",
+        "unit": "count",
+        "definition": "non-goal SAVE_CAUGHT/PARRY shot actions",
+        "distribution": {
+          "n": 480,
+          "mean": 8.9,
+          "median": 9,
+          "sd": 4.667929046872804,
+          "min": 0,
+          "max": 21,
+          "p05": 2,
+          "p10": 3,
+          "p25": 5,
+          "p75": 12,
+          "p90": 16,
+          "p95": 17
+        },
+        "evidence": {
+          "tier": "C",
+          "seasonStatus": "COMPLETE_SEASON",
+          "expectedMatches": 182,
+          "foundMatches": 182,
+          "parsedMatches": 182,
+          "coverage": 1,
+          "playerObservations": 5615,
+          "keeperObservations": 480,
+          "missingMetrics": [
+            "possessions",
+            "possession duration",
+            "whistles/free throws",
+            "transition",
+            "detailed shot context",
+            "per-match outfield position"
+          ]
+        },
+        "provenance": {
+          "name": "Svenska Handbollförbundet / Profixio + Handbollsligan / Jilsén System player-statistics PDFs",
+          "location": "https://www.profixio.com/app/lx/competition/leagueid17951?t=schedule&f=played",
+          "collectionMethod": "Public rendered results and protocols; official published player-statistics PDF tables",
+          "extractionVersion": "sweden-public/1.1.0",
+          "timestamp": "2026-10-11T04:20:12.754558+00:00",
+          "confidence": "MEDIUM",
+          "matches": 182,
+          "events": 480,
+          "coverage": 1,
+          "sourceManifestHash": "6a54f0c6ef8402e0e1605687721610c568de8eb9eca113bfd33decb9e93e75ef",
+          "normalizedHash": "2ad78bc166c3f71cd742c66f8d8a1f5d406d84d2bdd92fbec1e2598d96eca773",
+          "notes": [
+            "Regular season only; no playoff or cross-season blending",
+            "Individual public source URLs, timestamps and body hashes are retained in normalized dataset.sources; sourceManifestHash hashes that ordered manifest",
+            "Scope KEEPER; values are descriptive match/keeper-match observations",
+            "Cross-competition Handbollsligan Herr proxy; not Herrallsvenskan truth"
+          ]
+        },
+        "transformations": [
+          "deduplicate using official source match ID",
+          "sample SD; linearly interpolated quantiles",
+          "ordinary saves + 7m saves; ordinary shots faced + 7m shots faced",
+          "require recorded goalsConceded = shotsFaced - saves; minimum 10 on-target shots per keeper-match"
+        ]
+      },
+      {
+        "metric": "shotsFaced",
+        "scope": "KEEPER",
+        "unit": "count",
+        "definition": "saves + goals; misses and blocks excluded",
+        "distribution": {
+          "n": 480,
+          "mean": 29.814583333333335,
+          "median": 31,
+          "sd": 10.625185536060686,
+          "min": 10,
+          "max": 50,
+          "p05": 12,
+          "p10": 14,
+          "p25": 21,
+          "p75": 38,
+          "p90": 43.10000000000002,
+          "p95": 46
+        },
+        "evidence": {
+          "tier": "C",
+          "seasonStatus": "COMPLETE_SEASON",
+          "expectedMatches": 182,
+          "foundMatches": 182,
+          "parsedMatches": 182,
+          "coverage": 1,
+          "playerObservations": 5615,
+          "keeperObservations": 480,
+          "missingMetrics": [
+            "possessions",
+            "possession duration",
+            "whistles/free throws",
+            "transition",
+            "detailed shot context",
+            "per-match outfield position"
+          ]
+        },
+        "provenance": {
+          "name": "Svenska Handbollförbundet / Profixio + Handbollsligan / Jilsén System player-statistics PDFs",
+          "location": "https://www.profixio.com/app/lx/competition/leagueid17951?t=schedule&f=played",
+          "collectionMethod": "Public rendered results and protocols; official published player-statistics PDF tables",
+          "extractionVersion": "sweden-public/1.1.0",
+          "timestamp": "2026-10-11T04:20:12.754558+00:00",
+          "confidence": "MEDIUM",
+          "matches": 182,
+          "events": 480,
+          "coverage": 1,
+          "sourceManifestHash": "6a54f0c6ef8402e0e1605687721610c568de8eb9eca113bfd33decb9e93e75ef",
+          "normalizedHash": "2ad78bc166c3f71cd742c66f8d8a1f5d406d84d2bdd92fbec1e2598d96eca773",
+          "notes": [
+            "Regular season only; no playoff or cross-season blending",
+            "Individual public source URLs, timestamps and body hashes are retained in normalized dataset.sources; sourceManifestHash hashes that ordered manifest",
+            "Scope KEEPER; values are descriptive match/keeper-match observations",
+            "Cross-competition Handbollsligan Herr proxy; not Herrallsvenskan truth"
+          ]
+        },
+        "transformations": [
+          "deduplicate using official source match ID",
+          "sample SD; linearly interpolated quantiles",
+          "ordinary saves + 7m saves; ordinary shots faced + 7m shots faced",
+          "require recorded goalsConceded = shotsFaced - saves; minimum 10 on-target shots per keeper-match"
+        ]
+      },
+      {
+        "metric": "savePct",
+        "scope": "KEEPER",
+        "unit": "ratio",
+        "definition": "saves / (saves + goals); goalkeeper-attributed shots only",
+        "distribution": {
+          "n": 480,
+          "mean": 0.28565487560078895,
+          "median": 0.2857142857142857,
+          "sd": 0.09905324146480127,
+          "min": 0,
+          "max": 0.6363636363636364,
+          "p05": 0.11753393665158371,
+          "p10": 0.16666666666666666,
+          "p25": 0.22857142857142856,
+          "p75": 0.34515915119363394,
+          "p90": 0.40920745920745927,
+          "p95": 0.45011904761904753
+        },
+        "evidence": {
+          "tier": "C",
+          "seasonStatus": "COMPLETE_SEASON",
+          "expectedMatches": 182,
+          "foundMatches": 182,
+          "parsedMatches": 182,
+          "coverage": 1,
+          "playerObservations": 5615,
+          "keeperObservations": 480,
+          "missingMetrics": [
+            "possessions",
+            "possession duration",
+            "whistles/free throws",
+            "transition",
+            "detailed shot context",
+            "per-match outfield position"
+          ]
+        },
+        "provenance": {
+          "name": "Svenska Handbollförbundet / Profixio + Handbollsligan / Jilsén System player-statistics PDFs",
+          "location": "https://www.profixio.com/app/lx/competition/leagueid17951?t=schedule&f=played",
+          "collectionMethod": "Public rendered results and protocols; official published player-statistics PDF tables",
+          "extractionVersion": "sweden-public/1.1.0",
+          "timestamp": "2026-10-11T04:20:12.754558+00:00",
+          "confidence": "MEDIUM",
+          "matches": 182,
+          "events": 14311,
+          "coverage": 1,
+          "sourceManifestHash": "6a54f0c6ef8402e0e1605687721610c568de8eb9eca113bfd33decb9e93e75ef",
+          "normalizedHash": "2ad78bc166c3f71cd742c66f8d8a1f5d406d84d2bdd92fbec1e2598d96eca773",
+          "notes": [
+            "Regular season only; no playoff or cross-season blending",
+            "Individual public source URLs, timestamps and body hashes are retained in normalized dataset.sources; sourceManifestHash hashes that ordered manifest",
+            "Scope KEEPER; values are descriptive match/keeper-match observations",
+            "Cross-competition Handbollsligan Herr proxy; not Herrallsvenskan truth"
+          ]
+        },
+        "transformations": [
+          "deduplicate using official source match ID",
+          "sample SD; linearly interpolated quantiles",
+          "ordinary saves + 7m saves; ordinary shots faced + 7m shots faced",
+          "require recorded goalsConceded = shotsFaced - saves; minimum 10 on-target shots per keeper-match"
+        ]
+      }
+    ],
+    "notes": [
+      "GLOBAL lookup fallback carrying only Handbollsligan Herr 2025-26 keeper-match and 7m context data",
+      "No claim that elite and second-tier keeper environments are equivalent; transfer confidence capped at MEDIUM"
+    ],
+    "evidence": {
+      "tier": "C",
+      "seasonStatus": "COMPLETE_SEASON",
+      "expectedMatches": 182,
+      "foundMatches": 182,
+      "parsedMatches": 182,
+      "coverage": 1,
+      "playerObservations": 5615,
+      "keeperObservations": 480,
+      "missingMetrics": [
+        "possessions",
+        "possession duration",
+        "whistles/free throws",
+        "transition",
+        "detailed shot context",
+        "per-match outfield position"
+      ]
+    }
+  }
+]

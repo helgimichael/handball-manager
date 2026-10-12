@@ -1,0 +1,956 @@
+{
+  "schema": "handball-intelligence-closeout/1",
+  "recordedAt": "2026-10-12T10:59:42.923Z",
+  "startingCheckpoint": "939efd38d442a41224d8dc8d08d3bcb4a948b33a",
+  "receiptHead": "1f5f557517c0842560212509ed03ea2447db8fb3",
+  "localCommits": [
+    "d83ec18 feat(engine): preserve handball advantage through perception and committed intent",
+    "01d0834 test(engine): prove free-carrier continuation and bind-before-pass intelligence",
+    "2b98b08 fix(engine): bind real containment before releasing committed threats",
+    "aa2f029 feat(engine): carry threat through receipt reading and transition dribble",
+    "e631173 fix(engine): reuse the tactical read after gathering a known threat",
+    "c0bbb45 fix(engine): recognize beaten leverage after physical containment is lost",
+    "c25e606 fix(engine): honor closed lanes and actual committed help",
+    "cef2938 fix(engine): perceive current court bodies before planned exits",
+    "d4db28c fix(engine): keep tactical manpower aligned with canonical court population",
+    "1f5f557 test(engine): close intelligence transition regressions and evidence tooling"
+  ],
+  "engineeringChecks": "COMPLETE",
+  "empiricalAcceptance": "NOT CERTIFIED: goal/shot volume drift, disciplinary and keeper discrepancies remain",
+  "humanQA": "PENDING",
+  "nothingPushed": true,
+  "recovery": {
+    "completedExpensiveOutputsReused": true,
+    "gameSuiteSeconds": 2820.2794453,
+    "coreSuiteSeconds": 1130.6443315,
+    "explanation": "The full serial game runner and synchronous core runner were expensive, not live hung processes at recovery. Original command outputs had completed. Only the failed attack-realism file, final-source canonical cases, final build and updated report/tool types were run in closeout. No completed cohort or season was repeated."
+  },
+  "tests": {
+    "focused": 61,
+    "core": {
+      "fullRun": {
+        "total": 304,
+        "pass": 302,
+        "fail": 2
+      },
+      "scopedCorrectedFile": {
+        "total": 26,
+        "pass": 26,
+        "fail": 0
+      },
+      "uniqueCasesCoveredAfterCorrection": 304
+    },
+    "engine": 180,
+    "v2Protocol": 9,
+    "otherWorkspaces": 112,
+    "fullGame": {
+      "total": 2306,
+      "pass": 2306,
+      "sourceNote": "Started during implementation; final-source canonical supplement below"
+    },
+    "finalCanonical": {
+      "total": 90,
+      "pass": 90
+    },
+    "typechecks": "9 workspace checks + final engine/report/query checks passed"
+  },
+  "cohorts": [
+    {
+      "competition": "hbl",
+      "completed": 40,
+      "benchmarkHead": "d4db28c824430eb25796e95256809abdd15bbc62",
+      "inputHash": "8773162275c76de70511889789a7a7bbc4e1b9cbb4c8b2c5030eb8cafee530a7",
+      "referenceHash": "28a89cbdb4b4646da550d6875cea2a86bc26717fe983ab375e8291f12911ad7a",
+      "sourceStable": true,
+      "currentSourceMatches": true,
+      "sourceCheck": [
+        {
+          "path": "/packages/handball-engine/src/v2/core/actions.ts",
+          "expected": "36877af6bfe9e2e0eec8f6de6910331e3bb6537782f5780226a288b0a47ee42b",
+          "actual": "36877af6bfe9e2e0eec8f6de6910331e3bb6537782f5780226a288b0a47ee42b"
+        },
+        {
+          "path": "/packages/handball-engine/src/v2/core/backcourt.ts",
+          "expected": "00ab4e44f0520b83f771cf5dd8a0e1212b34272410e5027b856eabddebddc120",
+          "actual": "00ab4e44f0520b83f771cf5dd8a0e1212b34272410e5027b856eabddebddc120"
+        },
+        {
+          "path": "/packages/handball-engine/src/v2/core/backcourtScenarios.ts",
+          "expected": "6137722469db2dc0a9567b9ff3bccd9c8d3f070e9db58bb93fe225cbccd655be",
+          "actual": "6137722469db2dc0a9567b9ff3bccd9c8d3f070e9db58bb93fe225cbccd655be"
+        },
+        {
+          "path": "/packages/handball-engine/src/v2/core/coaching.ts",
+          "expected": "b943276328e1df36f43173af08fe008d8376f419e5afae4aeae5e1466a28a599",
+          "actual": "b943276328e1df36f43173af08fe008d8376f419e5afae4aeae5e1466a28a599"
+        },
+        {
+          "path": "/packages/handball-engine/src/v2/core/condition.ts",
+          "expected": "f27c2d555258dbb0a56f562ed25e0416aa31a2e90640143ea7f7b874f92cad91",
+          "actual": "f27c2d555258dbb0a56f562ed25e0416aa31a2e90640143ea7f7b874f92cad91"
+        },
+        {
+          "path": "/packages/handball-engine/src/v2/core/contact.ts",
+          "expected": "51c5c45017537c88bb92b43e46022ff2ba64210aab1895762ec57e30e10babd1",
+          "actual": "51c5c45017537c88bb92b43e46022ff2ba64210aab1895762ec57e30e10babd1"
+        },
+        {
+          "path": "/packages/handball-engine/src/v2/core/contactScenarios.ts",
+          "expected": "79e6fc938ed175948f2a2e3a0bdf4fff318e0eda44077d615be68011156e6901",
+          "actual": "79e6fc938ed175948f2a2e3a0bdf4fff318e0eda44077d615be68011156e6901"
+        },
+        {
+          "path": "/packages/handball-engine/src/v2/core/continuous.ts",
+          "expected": "3bc0e25ee0474aab3162df83b5e228bcd5953ddc5b29622592e5fd5bfdda55c5",
+          "actual": "3bc0e25ee0474aab3162df83b5e228bcd5953ddc5b29622592e5fd5bfdda55c5"
+        },
+        {
+          "path": "/packages/handball-engine/src/v2/core/defence.ts",
+          "expected": "6dc360bd8f858a64153b215f8fddd2a1acc2722e6be4098ad04cec87f9640ca1",
+          "actual": "6dc360bd8f858a64153b215f8fddd2a1acc2722e6be4098ad04cec87f9640ca1"
+        },
+        {
+          "path": "/packages/handball-engine/src/v2/core/engage.ts",
+          "expected": "b597ce488188b882f553f0553316960039d19ec92bca275ee89c7a4db4595d07",
+          "actual": "b597ce488188b882f553f0553316960039d19ec92bca275ee89c7a4db4595d07"
+        },
+        {
+          "path": "/packages/handball-engine/src/v2/core/engine.ts",
+          "expected": "dc4fe838174ea80b5af622e052492b59ef2d9907f767846f4294803f45dd4d7c",
+          "actual": "dc4fe838174ea80b5af622e052492b59ef2d9907f767846f4294803f45dd4d7c"
+        },
+        {
+          "path": "/packages/handball-engine/src/v2/core/execution.ts",
+          "expected": "007e762da12b99b50cf90541895512657edafb4804a663eece2bd6726e844527",
+          "actual": "007e762da12b99b50cf90541895512657edafb4804a663eece2bd6726e844527"
+        },
+        {
+          "path": "/packages/handball-engine/src/v2/core/intelligence.ts",
+          "expected": "8cfc745e29c0217c23bf8ed060f6715e48341d4af2894981d2a27c7e524ccac2",
+          "actual": "8cfc745e29c0217c23bf8ed060f6715e48341d4af2894981d2a27c7e524ccac2"
+        },
+        {
+          "path": "/packages/handball-engine/src/v2/core/intelligenceScenarios.ts",
+          "expected": "8214cb9c24bad1570559d71d2381e3ac6bdf7c670bd0e9b925bbc72857bbd310",
+          "actual": "8214cb9c24bad1570559d71d2381e3ac6bdf7c670bd0e9b925bbc72857bbd310"
+        },
+        {
+          "path": "/packages/handball-engine/src/v2/core/interactions.ts",
+          "expected": "b9af164943ca45642dac30f8255330892955328f181d91520868efa34a95b33f",
+          "actual": "b9af164943ca45642dac30f8255330892955328f181d91520868efa34a95b33f"
+        },
+        {
+          "path": "/packages/handball-engine/src/v2/core/ledger.ts",
+          "expected": "dd801ce6401a106d772eac46c5800eb46f218d34495f41ec1ff536aec24116c9",
+          "actual": "dd801ce6401a106d772eac46c5800eb46f218d34495f41ec1ff536aec24116c9"
+        },
+        {
+          "path": "/packages/handball-engine/src/v2/core/locomotion.ts",
+          "expected": "c222d4240a0b0935e552fa37a7c1dcf7a999d48ca4e4e200ce5befabbc860b13",
+          "actual": "c222d4240a0b0935e552fa37a7c1dcf7a999d48ca4e4e200ce5befabbc860b13"
+        },
+        {
+          "path": "/packages/handball-engine/src/v2/core/match.ts",
+          "expected": "4ced473266ede54a0d9689c6e06a28e2a5b009464fdd994fce6c61e8186c08dd",
+          "actual": "4ced473266ede54a0d9689c6e06a28e2a5b009464fdd994fce6c61e8186c08dd"
+        },
+        {
+          "path": "/packages/handball-engine/src/v2/core/matchReplay.ts",
+          "expected": "6796c275154da7145cd06558835524075013528ecb2354a1f3439e5b537ea499",
+          "actual": "6796c275154da7145cd06558835524075013528ecb2354a1f3439e5b537ea499"
+        },
+        {
+          "path": "/packages/handball-engine/src/v2/core/movement.ts",
+          "expected": "a5c531ad8d2cefa5623a7325b22f7f6d78c2e8bd20ca9aef87369112e5ae2037",
+          "actual": "a5c531ad8d2cefa5623a7325b22f7f6d78c2e8bd20ca9aef87369112e5ae2037"
+        },
+        {
+          "path": "/packages/handball-engine/src/v2/core/offence.ts",
+          "expected": "8e4a37b6a87cc000094bf402d8d0a26471689ec782af8aa7a3ecb555cc95740b",
+          "actual": "8e4a37b6a87cc000094bf402d8d0a26471689ec782af8aa7a3ecb555cc95740b"
+        },
+        {
+          "path": "/packages/handball-engine/src/v2/core/passive.ts",
+          "expected": "0c405269406b4a8b124ea432ce036a0008118aa59c186954cded0957a0c2381f",
+          "actual": "0c405269406b4a8b124ea432ce036a0008118aa59c186954cded0957a0c2381f"
+        },
+        {
+          "path": "/packages/handball-engine/src/v2/core/pivot.ts",
+          "expected": "3021f9ab217e9e4eb8f5adf996365e86338ac0fa9e738fc7491a25228c6bf783",
+          "actual": "3021f9ab217e9e4eb8f5adf996365e86338ac0fa9e738fc7491a25228c6bf783"
+        },
+        {
+          "path": "/packages/handball-engine/src/v2/core/population.ts",
+          "expected": "49ce36826bec8344be94e5fc8cd763abeb9fb2525728df0d1526d799bc24bd7f",
+          "actual": "49ce36826bec8344be94e5fc8cd763abeb9fb2525728df0d1526d799bc24bd7f"
+        },
+        {
+          "path": "/packages/handball-engine/src/v2/core/profile.ts",
+          "expected": "2470fad59a2bb1570ee67561b8ca9e79edead74bc7082c7fe0007f2e252f38b0",
+          "actual": "2470fad59a2bb1570ee67561b8ca9e79edead74bc7082c7fe0007f2e252f38b0"
+        },
+        {
+          "path": "/packages/handball-engine/src/v2/core/realism.ts",
+          "expected": "615271e0bc0217a08b296fa0777754f28b02fa136e5c0e55f07a8af616780897",
+          "actual": "615271e0bc0217a08b296fa0777754f28b02fa136e5c0e55f07a8af616780897"
+        },
+        {
+          "path": "/packages/handball-engine/src/v2/core/referee.ts",
+          "expected": "35feaf4d17b6b5bd011702384be061081b52b220e5d897e37aa24bc297d04387",
+          "actual": "35feaf4d17b6b5bd011702384be061081b52b220e5d897e37aa24bc297d04387"
+        },
+        {
+          "path": "/packages/handball-engine/src/v2/core/replay.ts",
+          "expected": "7a636b1b374a10d7f8aa02ade08957ac67920aacd33b37db2f412f2fefa42e6b",
+          "actual": "7a636b1b374a10d7f8aa02ade08957ac67920aacd33b37db2f412f2fefa42e6b"
+        },
+        {
+          "path": "/packages/handball-engine/src/v2/core/restarts.ts",
+          "expected": "20a9bfbb0ebbffe9daf74da6557dc735595b5af2ec99b4bc586a4219fbb37f24",
+          "actual": "20a9bfbb0ebbffe9daf74da6557dc735595b5af2ec99b4bc586a4219fbb37f24"
+        },
+        {
+          "path": "/packages/handball-engine/src/v2/core/rules.ts",
+          "expected": "46325a43317b15edfc4773265989ffa2ab0500c9fdefb32a7fc3363dd39147d4",
+          "actual": "46325a43317b15edfc4773265989ffa2ab0500c9fdefb32a7fc3363dd39147d4"
+        },
+        {
+          "path": "/packages/handball-engine/src/v2/core/sanction.ts",
+          "expected": "9e73fa8151c2f4d86c46883c1939aca437d341a34aa2767ae827cb525dd67dd2",
+          "actual": "9e73fa8151c2f4d86c46883c1939aca437d341a34aa2767ae827cb525dd67dd2"
+        },
+        {
+          "path": "/packages/handball-engine/src/v2/core/scenarios.ts",
+          "expected": "c48ddb2c75ce34fd03c439261e40e77f676b1ffb2fc8abeb1a3f9b1a5d286dbe",
+          "actual": "c48ddb2c75ce34fd03c439261e40e77f676b1ffb2fc8abeb1a3f9b1a5d286dbe"
+        },
+        {
+          "path": "/packages/handball-engine/src/v2/core/space.ts",
+          "expected": "e9c1d8c3bb9e0a813ef82abd38cb8229a245dcee5b21b215ff9acee7bb701c7f",
+          "actual": "e9c1d8c3bb9e0a813ef82abd38cb8229a245dcee5b21b215ff9acee7bb701c7f"
+        },
+        {
+          "path": "/packages/handball-engine/src/v2/core/squads.ts",
+          "expected": "fc2aeaa594f3ef8a119656d1056178bf5f6414f6ee4c2082641b97fc216749a4",
+          "actual": "fc2aeaa594f3ef8a119656d1056178bf5f6414f6ee4c2082641b97fc216749a4"
+        },
+        {
+          "path": "/packages/handball-engine/src/v2/core/state.ts",
+          "expected": "e5fe9d2b4f2fbd893618042cd9d1da71e28b70737797d4d4fc0dd9a6ecb0a355",
+          "actual": "e5fe9d2b4f2fbd893618042cd9d1da71e28b70737797d4d4fc0dd9a6ecb0a355"
+        },
+        {
+          "path": "/packages/handball-engine/src/v2/core/structure.ts",
+          "expected": "b6de15ad35bec853825d0f1227684eb19ec855474c831f1688682c32f311962e",
+          "actual": "b6de15ad35bec853825d0f1227684eb19ec855474c831f1688682c32f311962e"
+        },
+        {
+          "path": "/packages/handball-engine/src/v2/core/testProfile.ts",
+          "expected": "35a3ac5a0a0fbb6614de81c449fde37b880af96bc10a1cd2dcf4b4e3e9077d6d",
+          "actual": "35a3ac5a0a0fbb6614de81c449fde37b880af96bc10a1cd2dcf4b4e3e9077d6d"
+        },
+        {
+          "path": "/packages/handball-engine/src/v2/core/threatRelation.ts",
+          "expected": "87719eaf6552583f12560eaa41aad8da32cd9ca9dc23959384305bf4a2d9b768",
+          "actual": "87719eaf6552583f12560eaa41aad8da32cd9ca9dc23959384305bf4a2d9b768"
+        },
+        {
+          "path": "/packages/handball-engine/src/v2/core/timing.ts",
+          "expected": "0356bb3de1dc1aa32359d6e198cce8155bbd7010c9f76592f6f33c24c131b169",
+          "actual": "0356bb3de1dc1aa32359d6e198cce8155bbd7010c9f76592f6f33c24c131b169"
+        },
+        {
+          "path": "/packages/handball-engine/src/v2/core/transitions.ts",
+          "expected": "ee453a4af139da47de2249d4ebf8f73f44e94372c2c231f654f65651cef77ec3",
+          "actual": "ee453a4af139da47de2249d4ebf8f73f44e94372c2c231f654f65651cef77ec3"
+        },
+        {
+          "path": "/packages/handball-engine/src/v2/core/wing.ts",
+          "expected": "31d7f39cf38918717d3723fadcce80948a13650a45a2f680e1bbc5c66fd3a556",
+          "actual": "31d7f39cf38918717d3723fadcce80948a13650a45a2f680e1bbc5c66fd3a556"
+        },
+        {
+          "path": "/packages/handball-engine/src/v2/core/wingScenarios.ts",
+          "expected": "8d553b1c254f0953cf5508ca1a37463891f631cdfd0df81b436be487541ee031",
+          "actual": "8d553b1c254f0953cf5508ca1a37463891f631cdfd0df81b436be487541ee031"
+        },
+        {
+          "path": "/apps/game/lib/career/productionMatch.ts",
+          "expected": "9389525f358ef533bb638f623b634d054443371570e82ec952f254dd971a3032",
+          "actual": "9389525f358ef533bb638f623b634d054443371570e82ec952f254dd971a3032"
+        },
+        {
+          "path": "/apps/game/scripts/lib/calibrationDiagnostics.ts",
+          "expected": "75b4d75ab6951abd13939eb69661ef9a926654ce95d33d36434709c9a038223e",
+          "actual": "75b4d75ab6951abd13939eb69661ef9a926654ce95d33d36434709c9a038223e"
+        },
+        {
+          "path": "/apps/game/lib/matchBenchmarks/empirical.ts",
+          "expected": "1b05cfb0cfdb7e96870875b1042860b13221c852078eff953d31016123464d6c",
+          "actual": "1b05cfb0cfdb7e96870875b1042860b13221c852078eff953d31016123464d6c"
+        },
+        {
+          "path": "/apps/game/lib/matchBenchmarks/empiricalComparison.ts",
+          "expected": "e49e86aca79b3e30cbe57ea0e6ce1da16a778417e936be4f3a1405a312e1a975",
+          "actual": "e49e86aca79b3e30cbe57ea0e6ce1da16a778417e936be4f3a1405a312e1a975"
+        },
+        {
+          "path": "/apps/game/lib/matchBenchmarks/evaluate.ts",
+          "expected": "2f4d5bc893fbd482dfcd10baeaa1f3aa72c943dbcfa0e8dca0ba050fd3c9f3f0",
+          "actual": "2f4d5bc893fbd482dfcd10baeaa1f3aa72c943dbcfa0e8dca0ba050fd3c9f3f0"
+        },
+        {
+          "path": "/apps/game/lib/matchBenchmarks/extract.ts",
+          "expected": "4ac1e4094d2b76ba34dd157df4b32ba6309c1853aab18c7329890231681bb873",
+          "actual": "4ac1e4094d2b76ba34dd157df4b32ba6309c1853aab18c7329890231681bb873"
+        },
+        {
+          "path": "/apps/game/lib/matchBenchmarks/reference.ts",
+          "expected": "25cb435b7824faa1fc58429264d3e91a4833e678170bb5bfa75d5b5c98009e8a",
+          "actual": "25cb435b7824faa1fc58429264d3e91a4833e678170bb5bfa75d5b5c98009e8a"
+        },
+        {
+          "path": "/apps/game/lib/matchBenchmarks/report.ts",
+          "expected": "c7c77e53ba8b07212362ec36f4a31f2d8b263ea0f17ce8f0fd730292035b7444",
+          "actual": "c7c77e53ba8b07212362ec36f4a31f2d8b263ea0f17ce8f0fd730292035b7444"
+        },
+        {
+          "path": "/apps/game/lib/matchBenchmarks/statistics.ts",
+          "expected": "9b3c1f8e5dc5590302b8b6115f5e7c86d9a5693e14af80f0880b334f7752e2d0",
+          "actual": "9b3c1f8e5dc5590302b8b6115f5e7c86d9a5693e14af80f0880b334f7752e2d0"
+        },
+        {
+          "path": "/apps/game/scripts/match-benchmarks.ts",
+          "expected": "1850d6b049d8324859f483fe2cbebfce441a01d35e16fd29ea89eba0d6ac0c76",
+          "actual": "1850d6b049d8324859f483fe2cbebfce441a01d35e16fd29ea89eba0d6ac0c76"
+        },
+        {
+          "path": "/apps/game/scripts/lib/motionQualityDiagnostics.ts",
+          "expected": "f16f2266bfc50abe83be46ab4844d478afd945a817b16750ecdd9e3ba9928549",
+          "actual": "f16f2266bfc50abe83be46ab4844d478afd945a817b16750ecdd9e3ba9928549"
+        }
+      ],
+      "proofs": [
+        {
+          "index": 0,
+          "fullMatch": true,
+          "exactSessionEqual": true,
+          "sessionHash": "d94298d8c879350598b15c65f9551e2c0a4e9186846691d40eb25a5365f5bb2b",
+          "resultHash": "b3e26cca419d8c32aafb1e314f4b8a3b2271055bd8db29c70d9d0e74338782f7",
+          "observedMs": 53958.926999999996,
+          "unobservedMs": 37120.7791,
+          "observerMs": 7569.793399999886,
+          "analysisMs": 6044.201200000003,
+          "includes": [
+            "result",
+            "events",
+            "rng",
+            "archive frames",
+            "core statistics"
+          ],
+          "postAnalysisSessionUnchanged": true
+        },
+        {
+          "index": 0,
+          "saveReloadFullMatch": true,
+          "exactSessionEqual": true,
+          "checkpoint": "JSON persisted career after two 10000-tick chunks",
+          "includes": [
+            "result",
+            "events",
+            "rng",
+            "trajectories",
+            "archive frames",
+            "statistics"
+          ]
+        }
+      ],
+      "runtimeMs": 1221578.2301
+    },
+    {
+      "competition": "allsv",
+      "completed": 40,
+      "benchmarkHead": "d4db28c824430eb25796e95256809abdd15bbc62",
+      "inputHash": "37b2f9ee4648ede1a422549fb680bad5c172ebdf70c77f65334d2e6487ab0347",
+      "referenceHash": "28a89cbdb4b4646da550d6875cea2a86bc26717fe983ab375e8291f12911ad7a",
+      "sourceStable": true,
+      "currentSourceMatches": true,
+      "sourceCheck": [
+        {
+          "path": "/packages/handball-engine/src/v2/core/actions.ts",
+          "expected": "36877af6bfe9e2e0eec8f6de6910331e3bb6537782f5780226a288b0a47ee42b",
+          "actual": "36877af6bfe9e2e0eec8f6de6910331e3bb6537782f5780226a288b0a47ee42b"
+        },
+        {
+          "path": "/packages/handball-engine/src/v2/core/backcourt.ts",
+          "expected": "00ab4e44f0520b83f771cf5dd8a0e1212b34272410e5027b856eabddebddc120",
+          "actual": "00ab4e44f0520b83f771cf5dd8a0e1212b34272410e5027b856eabddebddc120"
+        },
+        {
+          "path": "/packages/handball-engine/src/v2/core/backcourtScenarios.ts",
+          "expected": "6137722469db2dc0a9567b9ff3bccd9c8d3f070e9db58bb93fe225cbccd655be",
+          "actual": "6137722469db2dc0a9567b9ff3bccd9c8d3f070e9db58bb93fe225cbccd655be"
+        },
+        {
+          "path": "/packages/handball-engine/src/v2/core/coaching.ts",
+          "expected": "b943276328e1df36f43173af08fe008d8376f419e5afae4aeae5e1466a28a599",
+          "actual": "b943276328e1df36f43173af08fe008d8376f419e5afae4aeae5e1466a28a599"
+        },
+        {
+          "path": "/packages/handball-engine/src/v2/core/condition.ts",
+          "expected": "f27c2d555258dbb0a56f562ed25e0416aa31a2e90640143ea7f7b874f92cad91",
+          "actual": "f27c2d555258dbb0a56f562ed25e0416aa31a2e90640143ea7f7b874f92cad91"
+        },
+        {
+          "path": "/packages/handball-engine/src/v2/core/contact.ts",
+          "expected": "51c5c45017537c88bb92b43e46022ff2ba64210aab1895762ec57e30e10babd1",
+          "actual": "51c5c45017537c88bb92b43e46022ff2ba64210aab1895762ec57e30e10babd1"
+        },
+        {
+          "path": "/packages/handball-engine/src/v2/core/contactScenarios.ts",
+          "expected": "79e6fc938ed175948f2a2e3a0bdf4fff318e0eda44077d615be68011156e6901",
+          "actual": "79e6fc938ed175948f2a2e3a0bdf4fff318e0eda44077d615be68011156e6901"
+        },
+        {
+          "path": "/packages/handball-engine/src/v2/core/continuous.ts",
+          "expected": "3bc0e25ee0474aab3162df83b5e228bcd5953ddc5b29622592e5fd5bfdda55c5",
+          "actual": "3bc0e25ee0474aab3162df83b5e228bcd5953ddc5b29622592e5fd5bfdda55c5"
+        },
+        {
+          "path": "/packages/handball-engine/src/v2/core/defence.ts",
+          "expected": "6dc360bd8f858a64153b215f8fddd2a1acc2722e6be4098ad04cec87f9640ca1",
+          "actual": "6dc360bd8f858a64153b215f8fddd2a1acc2722e6be4098ad04cec87f9640ca1"
+        },
+        {
+          "path": "/packages/handball-engine/src/v2/core/engage.ts",
+          "expected": "b597ce488188b882f553f0553316960039d19ec92bca275ee89c7a4db4595d07",
+          "actual": "b597ce488188b882f553f0553316960039d19ec92bca275ee89c7a4db4595d07"
+        },
+        {
+          "path": "/packages/handball-engine/src/v2/core/engine.ts",
+          "expected": "dc4fe838174ea80b5af622e052492b59ef2d9907f767846f4294803f45dd4d7c",
+          "actual": "dc4fe838174ea80b5af622e052492b59ef2d9907f767846f4294803f45dd4d7c"
+        },
+        {
+          "path": "/packages/handball-engine/src/v2/core/execution.ts",
+          "expected": "007e762da12b99b50cf90541895512657edafb4804a663eece2bd6726e844527",
+          "actual": "007e762da12b99b50cf90541895512657edafb4804a663eece2bd6726e844527"
+        },
+        {
+          "path": "/packages/handball-engine/src/v2/core/intelligence.ts",
+          "expected": "8cfc745e29c0217c23bf8ed060f6715e48341d4af2894981d2a27c7e524ccac2",
+          "actual": "8cfc745e29c0217c23bf8ed060f6715e48341d4af2894981d2a27c7e524ccac2"
+        },
+        {
+          "path": "/packages/handball-engine/src/v2/core/intelligenceScenarios.ts",
+          "expected": "8214cb9c24bad1570559d71d2381e3ac6bdf7c670bd0e9b925bbc72857bbd310",
+          "actual": "8214cb9c24bad1570559d71d2381e3ac6bdf7c670bd0e9b925bbc72857bbd310"
+        },
+        {
+          "path": "/packages/handball-engine/src/v2/core/interactions.ts",
+          "expected": "b9af164943ca45642dac30f8255330892955328f181d91520868efa34a95b33f",
+          "actual": "b9af164943ca45642dac30f8255330892955328f181d91520868efa34a95b33f"
+        },
+        {
+          "path": "/packages/handball-engine/src/v2/core/ledger.ts",
+          "expected": "dd801ce6401a106d772eac46c5800eb46f218d34495f41ec1ff536aec24116c9",
+          "actual": "dd801ce6401a106d772eac46c5800eb46f218d34495f41ec1ff536aec24116c9"
+        },
+        {
+          "path": "/packages/handball-engine/src/v2/core/locomotion.ts",
+          "expected": "c222d4240a0b0935e552fa37a7c1dcf7a999d48ca4e4e200ce5befabbc860b13",
+          "actual": "c222d4240a0b0935e552fa37a7c1dcf7a999d48ca4e4e200ce5befabbc860b13"
+        },
+        {
+          "path": "/packages/handball-engine/src/v2/core/match.ts",
+          "expected": "4ced473266ede54a0d9689c6e06a28e2a5b009464fdd994fce6c61e8186c08dd",
+          "actual": "4ced473266ede54a0d9689c6e06a28e2a5b009464fdd994fce6c61e8186c08dd"
+        },
+        {
+          "path": "/packages/handball-engine/src/v2/core/matchReplay.ts",
+          "expected": "6796c275154da7145cd06558835524075013528ecb2354a1f3439e5b537ea499",
+          "actual": "6796c275154da7145cd06558835524075013528ecb2354a1f3439e5b537ea499"
+        },
+        {
+          "path": "/packages/handball-engine/src/v2/core/movement.ts",
+          "expected": "a5c531ad8d2cefa5623a7325b22f7f6d78c2e8bd20ca9aef87369112e5ae2037",
+          "actual": "a5c531ad8d2cefa5623a7325b22f7f6d78c2e8bd20ca9aef87369112e5ae2037"
+        },
+        {
+          "path": "/packages/handball-engine/src/v2/core/offence.ts",
+          "expected": "8e4a37b6a87cc000094bf402d8d0a26471689ec782af8aa7a3ecb555cc95740b",
+          "actual": "8e4a37b6a87cc000094bf402d8d0a26471689ec782af8aa7a3ecb555cc95740b"
+        },
+        {
+          "path": "/packages/handball-engine/src/v2/core/passive.ts",
+          "expected": "0c405269406b4a8b124ea432ce036a0008118aa59c186954cded0957a0c2381f",
+          "actual": "0c405269406b4a8b124ea432ce036a0008118aa59c186954cded0957a0c2381f"
+        },
+        {
+          "path": "/packages/handball-engine/src/v2/core/pivot.ts",
+          "expected": "3021f9ab217e9e4eb8f5adf996365e86338ac0fa9e738fc7491a25228c6bf783",
+          "actual": "3021f9ab217e9e4eb8f5adf996365e86338ac0fa9e738fc7491a25228c6bf783"
+        },
+        {
+          "path": "/packages/handball-engine/src/v2/core/population.ts",
+          "expected": "49ce36826bec8344be94e5fc8cd763abeb9fb2525728df0d1526d799bc24bd7f",
+          "actual": "49ce36826bec8344be94e5fc8cd763abeb9fb2525728df0d1526d799bc24bd7f"
+        },
+        {
+          "path": "/packages/handball-engine/src/v2/core/profile.ts",
+          "expected": "2470fad59a2bb1570ee67561b8ca9e79edead74bc7082c7fe0007f2e252f38b0",
+          "actual": "2470fad59a2bb1570ee67561b8ca9e79edead74bc7082c7fe0007f2e252f38b0"
+        },
+        {
+          "path": "/packages/handball-engine/src/v2/core/realism.ts",
+          "expected": "615271e0bc0217a08b296fa0777754f28b02fa136e5c0e55f07a8af616780897",
+          "actual": "615271e0bc0217a08b296fa0777754f28b02fa136e5c0e55f07a8af616780897"
+        },
+        {
+          "path": "/packages/handball-engine/src/v2/core/referee.ts",
+          "expected": "35feaf4d17b6b5bd011702384be061081b52b220e5d897e37aa24bc297d04387",
+          "actual": "35feaf4d17b6b5bd011702384be061081b52b220e5d897e37aa24bc297d04387"
+        },
+        {
+          "path": "/packages/handball-engine/src/v2/core/replay.ts",
+          "expected": "7a636b1b374a10d7f8aa02ade08957ac67920aacd33b37db2f412f2fefa42e6b",
+          "actual": "7a636b1b374a10d7f8aa02ade08957ac67920aacd33b37db2f412f2fefa42e6b"
+        },
+        {
+          "path": "/packages/handball-engine/src/v2/core/restarts.ts",
+          "expected": "20a9bfbb0ebbffe9daf74da6557dc735595b5af2ec99b4bc586a4219fbb37f24",
+          "actual": "20a9bfbb0ebbffe9daf74da6557dc735595b5af2ec99b4bc586a4219fbb37f24"
+        },
+        {
+          "path": "/packages/handball-engine/src/v2/core/rules.ts",
+          "expected": "46325a43317b15edfc4773265989ffa2ab0500c9fdefb32a7fc3363dd39147d4",
+          "actual": "46325a43317b15edfc4773265989ffa2ab0500c9fdefb32a7fc3363dd39147d4"
+        },
+        {
+          "path": "/packages/handball-engine/src/v2/core/sanction.ts",
+          "expected": "9e73fa8151c2f4d86c46883c1939aca437d341a34aa2767ae827cb525dd67dd2",
+          "actual": "9e73fa8151c2f4d86c46883c1939aca437d341a34aa2767ae827cb525dd67dd2"
+        },
+        {
+          "path": "/packages/handball-engine/src/v2/core/scenarios.ts",
+          "expected": "c48ddb2c75ce34fd03c439261e40e77f676b1ffb2fc8abeb1a3f9b1a5d286dbe",
+          "actual": "c48ddb2c75ce34fd03c439261e40e77f676b1ffb2fc8abeb1a3f9b1a5d286dbe"
+        },
+        {
+          "path": "/packages/handball-engine/src/v2/core/space.ts",
+          "expected": "e9c1d8c3bb9e0a813ef82abd38cb8229a245dcee5b21b215ff9acee7bb701c7f",
+          "actual": "e9c1d8c3bb9e0a813ef82abd38cb8229a245dcee5b21b215ff9acee7bb701c7f"
+        },
+        {
+          "path": "/packages/handball-engine/src/v2/core/squads.ts",
+          "expected": "fc2aeaa594f3ef8a119656d1056178bf5f6414f6ee4c2082641b97fc216749a4",
+          "actual": "fc2aeaa594f3ef8a119656d1056178bf5f6414f6ee4c2082641b97fc216749a4"
+        },
+        {
+          "path": "/packages/handball-engine/src/v2/core/state.ts",
+          "expected": "e5fe9d2b4f2fbd893618042cd9d1da71e28b70737797d4d4fc0dd9a6ecb0a355",
+          "actual": "e5fe9d2b4f2fbd893618042cd9d1da71e28b70737797d4d4fc0dd9a6ecb0a355"
+        },
+        {
+          "path": "/packages/handball-engine/src/v2/core/structure.ts",
+          "expected": "b6de15ad35bec853825d0f1227684eb19ec855474c831f1688682c32f311962e",
+          "actual": "b6de15ad35bec853825d0f1227684eb19ec855474c831f1688682c32f311962e"
+        },
+        {
+          "path": "/packages/handball-engine/src/v2/core/testProfile.ts",
+          "expected": "35a3ac5a0a0fbb6614de81c449fde37b880af96bc10a1cd2dcf4b4e3e9077d6d",
+          "actual": "35a3ac5a0a0fbb6614de81c449fde37b880af96bc10a1cd2dcf4b4e3e9077d6d"
+        },
+        {
+          "path": "/packages/handball-engine/src/v2/core/threatRelation.ts",
+          "expected": "87719eaf6552583f12560eaa41aad8da32cd9ca9dc23959384305bf4a2d9b768",
+          "actual": "87719eaf6552583f12560eaa41aad8da32cd9ca9dc23959384305bf4a2d9b768"
+        },
+        {
+          "path": "/packages/handball-engine/src/v2/core/timing.ts",
+          "expected": "0356bb3de1dc1aa32359d6e198cce8155bbd7010c9f76592f6f33c24c131b169",
+          "actual": "0356bb3de1dc1aa32359d6e198cce8155bbd7010c9f76592f6f33c24c131b169"
+        },
+        {
+          "path": "/packages/handball-engine/src/v2/core/transitions.ts",
+          "expected": "ee453a4af139da47de2249d4ebf8f73f44e94372c2c231f654f65651cef77ec3",
+          "actual": "ee453a4af139da47de2249d4ebf8f73f44e94372c2c231f654f65651cef77ec3"
+        },
+        {
+          "path": "/packages/handball-engine/src/v2/core/wing.ts",
+          "expected": "31d7f39cf38918717d3723fadcce80948a13650a45a2f680e1bbc5c66fd3a556",
+          "actual": "31d7f39cf38918717d3723fadcce80948a13650a45a2f680e1bbc5c66fd3a556"
+        },
+        {
+          "path": "/packages/handball-engine/src/v2/core/wingScenarios.ts",
+          "expected": "8d553b1c254f0953cf5508ca1a37463891f631cdfd0df81b436be487541ee031",
+          "actual": "8d553b1c254f0953cf5508ca1a37463891f631cdfd0df81b436be487541ee031"
+        },
+        {
+          "path": "/apps/game/lib/career/productionMatch.ts",
+          "expected": "9389525f358ef533bb638f623b634d054443371570e82ec952f254dd971a3032",
+          "actual": "9389525f358ef533bb638f623b634d054443371570e82ec952f254dd971a3032"
+        },
+        {
+          "path": "/apps/game/scripts/lib/calibrationDiagnostics.ts",
+          "expected": "75b4d75ab6951abd13939eb69661ef9a926654ce95d33d36434709c9a038223e",
+          "actual": "75b4d75ab6951abd13939eb69661ef9a926654ce95d33d36434709c9a038223e"
+        },
+        {
+          "path": "/apps/game/lib/matchBenchmarks/empirical.ts",
+          "expected": "1b05cfb0cfdb7e96870875b1042860b13221c852078eff953d31016123464d6c",
+          "actual": "1b05cfb0cfdb7e96870875b1042860b13221c852078eff953d31016123464d6c"
+        },
+        {
+          "path": "/apps/game/lib/matchBenchmarks/empiricalComparison.ts",
+          "expected": "e49e86aca79b3e30cbe57ea0e6ce1da16a778417e936be4f3a1405a312e1a975",
+          "actual": "e49e86aca79b3e30cbe57ea0e6ce1da16a778417e936be4f3a1405a312e1a975"
+        },
+        {
+          "path": "/apps/game/lib/matchBenchmarks/evaluate.ts",
+          "expected": "2f4d5bc893fbd482dfcd10baeaa1f3aa72c943dbcfa0e8dca0ba050fd3c9f3f0",
+          "actual": "2f4d5bc893fbd482dfcd10baeaa1f3aa72c943dbcfa0e8dca0ba050fd3c9f3f0"
+        },
+        {
+          "path": "/apps/game/lib/matchBenchmarks/extract.ts",
+          "expected": "4ac1e4094d2b76ba34dd157df4b32ba6309c1853aab18c7329890231681bb873",
+          "actual": "4ac1e4094d2b76ba34dd157df4b32ba6309c1853aab18c7329890231681bb873"
+        },
+        {
+          "path": "/apps/game/lib/matchBenchmarks/reference.ts",
+          "expected": "25cb435b7824faa1fc58429264d3e91a4833e678170bb5bfa75d5b5c98009e8a",
+          "actual": "25cb435b7824faa1fc58429264d3e91a4833e678170bb5bfa75d5b5c98009e8a"
+        },
+        {
+          "path": "/apps/game/lib/matchBenchmarks/report.ts",
+          "expected": "c7c77e53ba8b07212362ec36f4a31f2d8b263ea0f17ce8f0fd730292035b7444",
+          "actual": "c7c77e53ba8b07212362ec36f4a31f2d8b263ea0f17ce8f0fd730292035b7444"
+        },
+        {
+          "path": "/apps/game/lib/matchBenchmarks/statistics.ts",
+          "expected": "9b3c1f8e5dc5590302b8b6115f5e7c86d9a5693e14af80f0880b334f7752e2d0",
+          "actual": "9b3c1f8e5dc5590302b8b6115f5e7c86d9a5693e14af80f0880b334f7752e2d0"
+        },
+        {
+          "path": "/apps/game/scripts/match-benchmarks.ts",
+          "expected": "1850d6b049d8324859f483fe2cbebfce441a01d35e16fd29ea89eba0d6ac0c76",
+          "actual": "1850d6b049d8324859f483fe2cbebfce441a01d35e16fd29ea89eba0d6ac0c76"
+        },
+        {
+          "path": "/apps/game/scripts/lib/motionQualityDiagnostics.ts",
+          "expected": "f16f2266bfc50abe83be46ab4844d478afd945a817b16750ecdd9e3ba9928549",
+          "actual": "f16f2266bfc50abe83be46ab4844d478afd945a817b16750ecdd9e3ba9928549"
+        }
+      ],
+      "proofs": [
+        {
+          "index": 0,
+          "fullMatch": true,
+          "exactSessionEqual": true,
+          "sessionHash": "218d8d69b5585dd3d2d98978b957da3818a452367897aa63bfa30d6959e63175",
+          "resultHash": "9f6a0517c7d6697d0ef3cfe231d31837c3043057ddf0df6c019c38d822b448b0",
+          "observedMs": 49157.8563,
+          "unobservedMs": 36118.965,
+          "observerMs": 6752.233200000578,
+          "analysisMs": 5614.2077999999965,
+          "includes": [
+            "result",
+            "events",
+            "rng",
+            "archive frames",
+            "core statistics"
+          ],
+          "postAnalysisSessionUnchanged": true
+        },
+        {
+          "index": 0,
+          "saveReloadFullMatch": true,
+          "exactSessionEqual": true,
+          "checkpoint": "JSON persisted career after two 10000-tick chunks",
+          "includes": [
+            "result",
+            "events",
+            "rng",
+            "trajectories",
+            "archive frames",
+            "statistics"
+          ]
+        }
+      ],
+      "runtimeMs": 1198369.0690000001
+    }
+  ],
+  "season": {
+    "complete": true,
+    "managerMatches": 26,
+    "archives": 27,
+    "season": "2027/28",
+    "seasonTwoMatch": {
+      "fixtureId": "2027-swe-2-f5",
+      "engine": "V2",
+      "score": [
+        33,
+        44
+      ]
+    },
+    "nextCalendar": {
+      "fixtures": 182,
+      "firstDate": "2027-09-23"
+    }
+  },
+  "productionBuild": {
+    "passed": true,
+    "dist": "apps/game/.next-game-intelligence-v1",
+    "buildId": "s5-nNNCWTl2_T9odTJDlV",
+    "staticPages": 48,
+    "url": "http://127.0.0.1:3013",
+    "httpSmoke": {
+      "/": 200,
+      "/new-game": 200
+    }
+  },
+  "preservation": {
+    "files": [
+      {
+        "hash": "A245EC398A29F3C8B7AB7317682433DBFE81E4A46E249A60C8F5A5A024FECE8F",
+        "path": "apps/game/app/match-qa/page.tsx",
+        "currentHash": "A245EC398A29F3C8B7AB7317682433DBFE81E4A46E249A60C8F5A5A024FECE8F"
+      },
+      {
+        "hash": "F100717310EA08F43C33B49DBABE7ACEE338B40884E9182030F59DB7C62FECE9",
+        "path": "apps/game/lib/matchQa/qaHarness.ts",
+        "currentHash": "F100717310EA08F43C33B49DBABE7ACEE338B40884E9182030F59DB7C62FECE9"
+      },
+      {
+        "hash": "7BA6F05B9F1E9CFA491961C1A6C644D7CE5FB2123FED5BAC0D1FB3A869B07266",
+        "path": "apps/game/scripts/season-audit.ts",
+        "currentHash": "7BA6F05B9F1E9CFA491961C1A6C644D7CE5FB2123FED5BAC0D1FB3A869B07266"
+      },
+      {
+        "hash": "BA9D04161DFD8FBA50732356598D92323BC71F93CFB5F827170EA804846A5B76",
+        "path": "apps/game/.tmp-final-benchmark.ts",
+        "currentHash": "BA9D04161DFD8FBA50732356598D92323BC71F93CFB5F827170EA804846A5B76"
+      }
+    ],
+    "stashes": [
+      "ddba79055949b76898b12fc1b947e8f8645589cb On motion-lab: WIP Pack #5 M6 breakthrough screen paused before Human QA",
+      "b068a9586209b9405b8d5f0dc6fae6384dd09001 On motion-lab: WIP Pack #5 M6 line game paused before Human QA"
+    ],
+    "motion": {
+      "path": "C:/Users/helgi/Documents/STARKVIS-HELA/handball-motion-lab",
+      "head": "197d2a80ecea3b70efdcf8ef347cfc68e0e86b2b",
+      "status": "?? .claude/"
+    },
+    "worktrees": [
+      "worktree C:/Users/helgi/Documents/STARKVIS-HELA/handball-manager",
+      "HEAD 1f5f557517c0842560212509ed03ea2447db8fb3",
+      "branch refs/heads/main",
+      "",
+      "worktree C:/Users/helgi/Documents/STARKVIS-HELA/handball-motion-lab",
+      "HEAD 197d2a80ecea3b70efdcf8ef347cfc68e0e86b2b",
+      "branch refs/heads/motion-lab"
+    ],
+    "expectedFinalStatus": [
+      " M apps/game/app/match-qa/page.tsx",
+      " M apps/game/lib/matchQa/qaHarness.ts",
+      " M apps/game/scripts/season-audit.ts",
+      "?? .claude/",
+      "?? apps/game/.tmp-final-benchmark.ts",
+      "?? docs/audit/"
+    ]
+  },
+  "logs": [
+    {
+      "name": "intelligence-final.log",
+      "sha256": "c569cf2db8a98d111a154e915901e29336ac3dec0c2073c3296d1c5fe85a5076",
+      "bytes": 10398,
+      "counts": [
+        {
+          "tests": 61,
+          "pass": 61,
+          "fail": 0
+        }
+      ]
+    },
+    {
+      "name": "delivery-core.log",
+      "sha256": "09cf98f888b2d8775167b5c942ba87187be0f0d469d426f5b88169f0aeb5820f",
+      "bytes": 61360,
+      "counts": [
+        {
+          "tests": 304,
+          "pass": 302,
+          "fail": 2
+        }
+      ]
+    },
+    {
+      "name": "delivery-core-targeted.log",
+      "sha256": "2fb9cbe143775db89495f419e91bf6d0e0981a668987a676ddbd4bf060a60eaf",
+      "bytes": 5606,
+      "counts": [
+        {
+          "tests": 26,
+          "pass": 26,
+          "fail": 0
+        }
+      ]
+    },
+    {
+      "name": "engine.log",
+      "sha256": "a0b536243edca78321525e28093a3f5319ced679d31c23e474582ea67de08ad0",
+      "bytes": 27662,
+      "counts": [
+        {
+          "tests": 180,
+          "pass": 180,
+          "fail": 0
+        }
+      ]
+    },
+    {
+      "name": "v2.log",
+      "sha256": "4703b3ade8821fb39699533ed61adaf15572d7990b28c20f2ef0d660cae00cb4",
+      "bytes": 2756,
+      "counts": [
+        {
+          "tests": 9,
+          "pass": 9,
+          "fail": 0
+        }
+      ]
+    },
+    {
+      "name": "workspaces-verified.log",
+      "sha256": "98c8ba74348ab8e038ec284c2d94b4ef1795887ac002b41f574d930beaf1b6e6",
+      "bytes": 22918,
+      "counts": [
+        {
+          "tests": 46,
+          "pass": 46,
+          "fail": 0
+        },
+        {
+          "tests": 12,
+          "pass": 12,
+          "fail": 0
+        },
+        {
+          "tests": 29,
+          "pass": 29,
+          "fail": 0
+        },
+        {
+          "tests": 25,
+          "pass": 25,
+          "fail": 0
+        }
+      ]
+    },
+    {
+      "name": "game-final-v1.log",
+      "sha256": "681b0dbfecf3297293aa386ce5855a74a5fcc2c0ba8d4cbda5eeb0b1ffb39b41",
+      "bytes": 627066,
+      "counts": [
+        {
+          "tests": 2306,
+          "pass": 2306,
+          "fail": 0
+        }
+      ]
+    },
+    {
+      "name": "delivery-canonical.log",
+      "sha256": "f2502595b6ee4c738279f7972cf47d10b4b22b259a596ee0f1a306609e702ad8",
+      "bytes": 25604,
+      "counts": [
+        {
+          "tests": 90,
+          "pass": 90,
+          "fail": 0
+        }
+      ]
+    },
+    {
+      "name": "delivery-types.log",
+      "sha256": "59ae3ffb2ca344d2d663191a369ecd75348cc53d34b5954e717c0467c0a5ca26",
+      "bytes": 2116,
+      "counts": []
+    },
+    {
+      "name": "delivery-benchmark-types.log",
+      "sha256": "e80339b70a3d62e39a66ca071d66b6e6f257f5b11781e787500f92af8c16db42",
+      "bytes": 902,
+      "counts": []
+    },
+    {
+      "name": "delivery-benchmark-types-closeout.log",
+      "sha256": "e80339b70a3d62e39a66ca071d66b6e6f257f5b11781e787500f92af8c16db42",
+      "bytes": 902,
+      "counts": []
+    },
+    {
+      "name": "delivery-engine-types-closeout.log",
+      "sha256": "1e0bf6ca4bdcfe85401c10e709591f3954dbda445a3e26f530426f002250d79e",
+      "bytes": 872,
+      "counts": []
+    },
+    {
+      "name": "delivery-build.log",
+      "sha256": "a1afbf8f9a0065e5d998233b55c601a467c504010819f04a17f2a5bf9d3e8868",
+      "bytes": 6372,
+      "counts": []
+    },
+    {
+      "name": "delivery-season.log",
+      "sha256": "035022e874bbd3fd32e869d4971a378088f32d79a5904c3fe6d17d49ff672c42",
+      "bytes": 6848,
+      "counts": []
+    },
+    {
+      "name": "delivery-hbl.log",
+      "sha256": "0cb8f96304c01d1b997039eb3a793dfc8a52cf06786b25cab532e796cfd1c662",
+      "bytes": 8768,
+      "counts": []
+    },
+    {
+      "name": "delivery-allsv.log",
+      "sha256": "fe844008ef5a613863bf109c1da2c8c7acde71517c91ccd6bdbfc1e2b4fe3ed0",
+      "bytes": 8772,
+      "counts": []
+    },
+    {
+      "name": "delivery-report.log",
+      "sha256": "a8053ebf308515b20239050f0e2b2d92209edb7119410a436d4f3fe370391d35",
+      "bytes": 3586,
+      "counts": []
+    }
+  ],
+  "artifacts": [
+    {
+      "name": "REPORT.md",
+      "sha256": "b1567b52165826f81aa6ac89cac243f1fbcf316e2b0db2267f6a6e24d3d4be7b"
+    },
+    {
+      "name": "WHY-DID-HE-PASS.txt",
+      "sha256": "ddeb25c81557c32774e3ac1a75331f3e55132613dd56093a74f31ed86b9eba87"
+    },
+    {
+      "name": "comparison.json",
+      "sha256": "8769a3991ca5ac2163175eaeb91879cdc17bad0980f59606a1a27d584e15ab22"
+    },
+    {
+      "name": "controlled-scenarios.json",
+      "sha256": "0f8281430f78d19459ade235a037e827704c20652039b1d911d41c6bf2a707f7"
+    },
+    {
+      "name": "preservation.json",
+      "sha256": "4bfdb0900674a49f07d91850888d7def1f08a7b305516e14c0b01a7ab0e2c479"
+    },
+    {
+      "name": "delivery-season/playable-season-result.json",
+      "sha256": "ff2a5ebeb881d7670cf248832fbd9cf6837487e8e6043db1b8df1ef886cccd67"
+    }
+  ],
+  "receiptNote": "Final documentation commit follows receiptHead; its own SHA is intentionally not embedded to avoid a self-referential receipt. Final git status is checked after that commit. Ignored logs and large details are retained locally and hashed here."
+}

@@ -1,0 +1,13 @@
+Simulation 58:28.500 / tick 70170
+player_fabian_gudmundsson_b1aadfba (RB); possession-201563; action-202769
+Situation: HELP_ARRIVING, PASSING_LANE_CREATED, DEFENCE_UNBALANCED
+Primary beaten: false; goal lane: false; help distance: 0.9675114021968697; help committed: true
+Advantage: {"level":"NONE","value":0.15495509949367298,"beatenMargin":0,"lane":0,"helpTime":0.29318486064680754,"momentum":0.6320625788909897,"numbers":0,"shotPotential":0.3184740833836859,"freeCarrier":false}
+Previous intent: ATTACK_GAP; commitment: 0.731024233418851
+Actual: PASS to player_adam_tysk_601c55ac
+Why/change: HELP_COMMITTED; break: HELP_COMMITTED
+Candidate values (existing V2 fallback uses its recorded reason):
+BIND_AND_PASS player_adam_tysk_601c55ac: 0.976 {"immediate":0.8903393538030421,"continuation":0.05086173773301054,"capability":0.04631578947368421,"tactics":0,"risk":0.011842105263157899,"commitment":0}
+SWITCH_SIDE player_elliot_lundstad_ff8f992c: 0.256 {"immediate":0.17454482440993635,"continuation":0.047104308034532416,"capability":0.04631578947368421,"tactics":0,"risk":0.011842105263157899,"commitment":0}
+SHOOT : 0.141 {"immediate":0.1395404262565231,"continuation":0,"capability":0.06421052631578947,"tactics":0,"risk":0.06287778449639556,"commitment":0}
+PASS_TO_WING player_adrian_kallhage_22c6ff9c: -0.025 {"immediate":0.11812500000000001,"continuation":0.02282104283844648,"capability":0.04631578947368421,"tactics":0,"risk":0.21184210526315791,"commitment":0}
