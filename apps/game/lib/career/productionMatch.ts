@@ -126,7 +126,7 @@ export function startProductionMatch(state: CareerState, fixtureId?: string): Ca
   return { ...state, activeMatchSession: null, productionMatch: createProductionSession(state, fixture) };
 }
 
-export function advanceProductionMatch(state: CareerState, ticks: number, stopAtHalf = true, observer?:ProductionMatchObserver): CareerState {
+export function advanceProductionMatch(state: CareerState, ticks: number, stopAtHalf = true, observer?:ProductionMatchObserver, stopWhen?:(core:Readonly<CoreState>,events:readonly CoreEvent[])=>boolean): CareerState {
   if (!state.productionMatch || state.productionMatch.pausedAtHalf || state.productionMatch.core.status !== 'RUNNING') return state;
   const previous = state.productionMatch;
   const { events, contests, ...body } = previous.core;
@@ -147,6 +147,7 @@ export function advanceProductionMatch(state: CareerState, ticks: number, stopAt
     if (wasLive || session.core.ball.live || session.core.tick % 5 === 0 || session.core.ball.flight || facts.some(e => ['GOAL', 'SUBSTITUTE_ADMITTED', 'EXCHANGE_COMPLETED', 'PERIOD_ENDED', 'TWO_MINUTE_SUSPENSION'].includes(e.type)) || session.core.status !== 'RUNNING') session.frames.push(observedFrame(session));
     observer?.(session.core,facts);
     if (stopAtHalf && session.core.match?.phase === 'HALFTIME') { session.pausedAtHalf = true; break; }
+    if(stopWhen?.(session.core,facts))break; // presentation pause only; canonical tick already completed
   }
   if (session.core.status !== 'RUNNING' && session.core.match?.phase !== 'FULLTIME') session.error = 'Matchen kunde inte fortsätta. Ditt matchtillstånd är sparat. ' + session.core.reason;
   return { ...state, productionMatch: session };
@@ -168,8 +169,14 @@ export function resultFromSession(session: ProductionMatchSession): FastMatchRes
   const c = session.core;
   const possessionLedger = ledger(c);
   const goalActions=new Set(c.events.filter(e=>e.type==='GOAL').map(e=>e.actionId));
+  const savedActions=new Set(c.events.filter(e=>e.type.startsWith('SAVE_')).map(e=>e.actionId));
   const releasedShots=new Map(c.events.filter(e=>e.type==='SHOT_RELEASED').map(e=>[e.actionId,e]));
-  const person = (id: string | null) => session.people.find(p => p.id === id);
+  // One index for the canonical result reader, also used by live presentation.
+  // This changes read cost only; event order, definitions and rating stay identical.
+  const byActor=new Map<string,CoreEvent[]>(),lastByPossession=new Map<string,CoreEvent>(),peopleById=new Map(session.people.map(p=>[p.id,p]));
+  const byTeam:Record<TeamId,CoreEvent[]>={HOME:[],AWAY:[]},keeperGoals=new Map<string,number>();
+  for(const event of c.events){if(event.actorId){const own=byActor.get(event.actorId)??[];own.push(event);byActor.set(event.actorId,own);const team=peopleById.get(event.actorId)?.team;if(team)byTeam[team].push(event);}lastByPossession.set(event.possessionId,event);if(event.type==='GOAL'){const keeper=releasedShots.get(event.actionId)?.details.goalkeeperId;if(typeof keeper==='string')keeperGoals.set(keeper,(keeperGoals.get(keeper)??0)+1);}}
+  const person = (id: string | null) => id?peopleById.get(id):undefined;
   const events: MatchEvent[] = [];
   let home = 0, away = 0;
   for (const e of c.events) {
@@ -177,8 +184,8 @@ export function resultFromSession(session: ProductionMatchSession): FastMatchRes
     const side = p.team === 'HOME' ? 'home' : 'away';
     const minute = Math.max(1, Math.min(60, Math.ceil(e.officialMs / 60000)));
     if (e.type === 'SHOT_RELEASED') {
-      const goal = c.events.some(g => g.type === 'GOAL' && g.actionId === e.actionId);
-      const saved = c.events.some(g => g.type.startsWith('SAVE_') && g.actionId === e.actionId);
+      const goal = goalActions.has(e.actionId);
+      const saved = savedActions.has(e.actionId);
       if (e.details.shotKind === 'SEVEN_METRE') events.push({ minute, side, type: 'SEVEN_M', playerId: p.id, sevenMetreOutcome: goal ? 'GOAL' : 'MISS' });
       if (!goal && !saved) events.push({ minute, side, type: 'MISS', playerId: p.id });
     }
@@ -186,24 +193,26 @@ export function resultFromSession(session: ProductionMatchSession): FastMatchRes
     else if (e.type.startsWith('SAVE_')&&!goalActions.has(e.actionId)) events.push({ minute, side, type: 'SAVE', playerId: p.id });
     else if (e.type === 'TWO_MINUTE_SUSPENSION' || e.type === 'DISQUALIFICATION') events.push({ minute, side, type: 'TWO_MIN', playerId: p.id });
   }
-  const contributions = (team: TeamId): PlayerMatchContribution[] => session.people.filter(p => p.team === team && (p.started || c.players.find(x => x.id === p.id)!.condition.courtMs > 0 || c.events.some(e => e.actorId === p.id && ['GOAL', 'SHOT_RELEASED', 'SAVE_CAUGHT', 'SAVE_PARRY'].includes(e.type)))).map(p => {
-    const goals = c.events.filter(e => e.type === 'GOAL' && e.actorId === p.id).length;
-    const shots = c.events.filter(e => e.type === 'SHOT_RELEASED' && e.actorId === p.id).length;
-    const saves = c.events.filter(e => e.type.startsWith('SAVE_') && e.actorId === p.id&&!goalActions.has(e.actionId)).length;
-    const conceded=c.events.filter(e=>e.type==='GOAL'&&releasedShots.get(e.actionId)?.details.goalkeeperId===p.id).length;
+  const contributionCache:Partial<Record<TeamId,PlayerMatchContribution[]>>={};
+  const contributions = (team: TeamId): PlayerMatchContribution[] => contributionCache[team]??=session.people.filter(p => p.team === team && (p.started || c.players.find(x => x.id === p.id)!.condition.courtMs > 0 || (byActor.get(p.id)??[]).some(e => ['GOAL', 'SHOT_RELEASED', 'SAVE_CAUGHT', 'SAVE_PARRY'].includes(e.type)))).map(p => {
+    const own=byActor.get(p.id)??[];
+    const goals = own.filter(e => e.type === 'GOAL').length;
+    const shots = own.filter(e => e.type === 'SHOT_RELEASED').length;
+    const saves = own.filter(e => e.type.startsWith('SAVE_')&&!goalActions.has(e.actionId)).length;
+    const conceded=keeperGoals.get(p.id)??0;
     return { playerId: p.id, goals, shots, ...(p.role === 'GK' ? { saves, shotsFaced: saves+conceded } : {}), rating: Math.max(1, Math.min(10, 6 + goals * .15 + saves * .07 - Math.max(0, shots - goals) * .08)), started: p.started };
   });
   for (const attack of possessionLedger.records) if (lossClassOf(attack.ending)) {
-    const last = c.events.findLast(e => e.tick <= attack.lastTick && e.possessionId === attack.possessionId);
+    const last = lastByPossession.get(attack.possessionId);
     events.push({ minute: Math.max(1, Math.min(60, Math.ceil((last?.officialMs ?? 0) / 60000))), side: attack.team === 'HOME' ? 'home' : 'away', type: 'TURNOVER' });
   }
   events.sort((a, b) => a.minute - b.minute);
   const stats = (team: TeamId): TeamMatchStats => {
-    const own = c.events.filter(e => person(e.actorId)?.team === team);
+    const own = byTeam[team];
     const shots = own.filter(e => e.type === 'SHOT_RELEASED');
     const goals = c.score[team];
     const seven = shots.filter(e => e.details.shotKind === 'SEVEN_METRE');
-    return { goals, shots: shots.length, shootingPct: shots.length ? Math.round(goals / shots.length * 1000) / 10 : 0, saves: own.filter(e => e.type.startsWith('SAVE_')&&!goalActions.has(e.actionId)).length, shotsFaced: contributions(team).filter(p=>p.shotsFaced!==undefined).reduce((n,p)=>n+(p.shotsFaced??0),0), turnovers: possessionLedger.records.filter(r => r.team === team && lossClassOf(r.ending)).length, twoMinuteSuspensions: own.filter(e => e.type === 'TWO_MINUTE_SUSPENSION').length, sevenMetreAttempts: seven.length, sevenMetreGoals: seven.filter(e => c.events.some(g => g.type === 'GOAL' && g.actionId === e.actionId)).length };
+    return { goals, shots: shots.length, shootingPct: shots.length ? Math.round(goals / shots.length * 1000) / 10 : 0, saves: own.filter(e => e.type.startsWith('SAVE_')&&!goalActions.has(e.actionId)).length, shotsFaced: contributions(team).filter(p=>p.shotsFaced!==undefined).reduce((n,p)=>n+(p.shotsFaced??0),0), turnovers: possessionLedger.records.filter(r => r.team === team && lossClassOf(r.ending)).length, twoMinuteSuspensions: own.filter(e => e.type === 'TWO_MINUTE_SUSPENSION').length, sevenMetreAttempts: seven.length, sevenMetreGoals: seven.filter(e => goalActions.has(e.actionId)).length };
   };
   return { fixtureId: session.fixture.id, engine: 'V2', seed: c.seed, homeClubId: session.fixture.homeClubId, awayClubId: session.fixture.awayClubId, homeGoals: c.score.HOME, awayGoals: c.score.AWAY, homeStats: stats('HOME'), awayStats: stats('AWAY'), events, homePlayerContributions: contributions('HOME'), awayPlayerContributions: contributions('AWAY') };
 }
@@ -216,7 +225,7 @@ export function finalizeProductionMatch(state: CareerState): CareerState {
   const clubForm = { ...state.clubForm }, playerSeasonStats = { ...state.playerSeasonStats };
   applyMatchResultBookkeeping(result, clubForm, playerSeasonStats, state.playerClubId, session.fixture.type !== 'FRIENDLY');
   const load = Object.fromEntries(session.core.players.map(p => [p.id, { minutes: p.condition.courtMs / 60000, energy: p.condition.energy * 100, distance: p.condition.distanceMetres }]));
-  const archiveEventTypes = new Set(['GOAL', 'SHOT_RELEASED', 'SHOT_AIM_COMMITTED', 'KEEPER_ANTICIPATED', 'KEEPER_FLIGHT_READ', 'SAVE_CAUGHT', 'SAVE_PARRY', 'KEEPER_COLLECTED_OFF_TARGET', 'OFF_TARGET_KEEPER_TOUCH', 'SHOT_BLOCKED', 'PASS_RELEASED', 'PASS_RECEIVED', 'RECEPTION_FAILED', 'PASS_DEFLECTED', 'REBOUND_CONTROLLED', 'ATTACK_SETTLED', 'DRIVE_RELEASED', 'ADVANTAGE_OPENED', 'FOUL', 'FOUL_ASSESSED', 'WHISTLE_RESTART', 'ADVANTAGE_PENDING', 'ADVANTAGE_REALIZED', 'ADVANTAGE_RECALLED', 'TECHNICAL_VIOLATION', 'PASSIVE_PLAY', 'INTERCEPTION', 'OFFENSIVE_FOUL', 'TWO_MINUTE_SUSPENSION', 'DISQUALIFICATION', 'SUBSTITUTE_ADMITTED', 'EXCHANGE_REQUESTED', 'EXCHANGE_COMPLETED', 'TACTICS_CHANGED', 'TEAM_TIMEOUT_STARTED', 'PERIOD_STARTED', 'PERIOD_ENDED', 'MATCH_FINISHED']);
+  const archiveEventTypes = new Set(['GOAL', 'SHOT_RELEASED', 'SHOT_AIM_COMMITTED', 'KEEPER_ANTICIPATED', 'KEEPER_FLIGHT_READ', 'SAVE_CAUGHT', 'SAVE_PARRY', 'KEEPER_COLLECTED_OFF_TARGET', 'OFF_TARGET_KEEPER_TOUCH', 'SHOT_BLOCKED', 'PASS_RELEASED', 'PASS_RECEIVED', 'RECEPTION_FAILED', 'PASS_DEFLECTED', 'REBOUND_CONTROLLED', 'ATTACK_SETTLED', 'DRIVE_RELEASED', 'DEFENDER_BEATEN', 'ADVANTAGE_OPENED', 'FOUL', 'FOUL_ASSESSED', 'WHISTLE_RESTART', 'ADVANTAGE_PENDING', 'ADVANTAGE_REALIZED', 'ADVANTAGE_RECALLED', 'TECHNICAL_VIOLATION', 'PASSIVE_PLAY', 'INTERCEPTION', 'OFFENSIVE_FOUL', 'TWO_MINUTE_SUSPENSION', 'DISQUALIFICATION', 'SUBSTITUTE_ADMITTED', 'EXCHANGE_REQUESTED', 'EXCHANGE_COMPLETED', 'TACTICS_CHANGED', 'TEAM_TIMEOUT_STARTED', 'PERIOD_STARTED', 'PERIOD_ENDED', 'MATCH_FINISHED']);
   const archive: PlayedMatchArchive = { format: 2, fixture: session.fixture, version: session.core.version, behaviorRevision:session.behaviorRevision??MATCH_BEHAVIOR_REVISION, seed: session.core.seed, people: session.people, frameData: encodeFrames(session.frames), events: session.core.events.filter(e => archiveEventTypes.has(e.type)), result, load };
   const readyId = `MATCHDAY_READY:${session.fixture.id}`;
   let next: CareerState = { ...state, productionMatch: null, results: { ...state.results, [session.fixture.id]: result }, matchArchives: { ...state.matchArchives, [session.fixture.id]: archive }, clubForm, playerSeasonStats, careerEvents: state.careerEvents.map(e => e.id === readyId ? { ...e, read: true, resolved: true } : e), inbox: state.inbox.map(m => m.id === `msg:${readyId}` ? { ...m, read: true, resolved: true, actionRequired: false } : m), playerPhysicalState: { ...state.playerPhysicalState } };

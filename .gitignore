@@ -91,3 +91,7 @@ docs/match-intelligence-v1/season-final/season-end-state.json
 docs/match-intelligence-v1/season/season-end-state.json
 docs/match-intelligence-v1/verification/
 *.bak
+
+# Match Center keeps large replay/season detail local; commit closeout receipts.
+docs/match-center-v2/verification/
+docs/match-center-v2/season/season-end-state.json
