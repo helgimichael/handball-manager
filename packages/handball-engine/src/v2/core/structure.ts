@@ -223,6 +223,15 @@ function executeIntelligence(s:CoreState,p:CorePlayer,d:Decision):boolean {
 function chooseCarrier(s:CoreState,p:CorePlayer) {
   // Committed airborne release and pivot turning retain their existing authority.
   const d=decideHandball(s,p);
+  if(!p.airborne&&!p.nextAction&&intelligenceRelevant(d,p)&&s.tick-p.handling.heldSinceTick<controlReadTicks(s,p)){
+    // Perception and purpose can form while the hands secure the catch. Keep
+    // the existing capability-dependent read budget rather than granting
+    // instantaneous pass/shot execution to a newly recognized advantage.
+    if(secureRead(s,p,'Read the defensive relationship while retaining carried threat')){
+      if(d.chosen&&['DRIVE','DRIBBLE'].includes(d.chosen.motor)&&d.perception.momentum>.2){p.action!.target=d.chosen.target&&{...d.chosen.target};commitHandball(s,p,d);}
+      d.reason='CONTROL_READ_IN_MOTION';traceDecision(s,p,d);return;
+    }
+  }
   if(!p.airborne&&!p.nextAction&&intelligenceRelevant(d,p)&&executeIntelligence(s,p,d)){traceDecision(s,p,d);return;}
   chooseCarrierLegacy(s,p);
   // Trace the actual fallback, rather than claiming the hypothetical top score won.
@@ -388,6 +397,21 @@ export function applyContinuation(s:CoreState,p:CorePlayer,next:NonNullable<Cont
  * A read that says keep working -- attack the interval, feint -- is not a
  * release, and he carries on.
  */
+export function continueDribbleThreat(s:CoreState,carrier:CorePlayer|null) {
+  if(!carrier||s.ball.controllerId!==carrier.id||s.ball.mode!=='DRIBBLE'||carrier.airborne)return;
+  const a=carrier.action,kind=carrier.handballIntent?.kind;
+  if(!a||a.kind!=='DRIBBLE'||a.phase!=='EXECUTING'||!kind||!['EXPLOIT_ADVANTAGE','ATTACK_NEXT_DEFENDER','BIND_HELP'].includes(kind))return;
+  const d=decideHandball(s,carrier),elapsed=s.tick-a.phaseTick;
+  const stalled=elapsed>=8&&Math.hypot(carrier.velocity.x,carrier.velocity.y)<.1&&!!a.target&&distance(carrier.position,a.target)>.8;
+  if(d.chosen?.motor==='DRIVE'&&!d.breakCondition&&!stalled&&s.tick-a.startedTick<400){
+    a.target=d.chosen.target&&{...d.chosen.target};a.executeTicks=Math.max(a.executeTicks,elapsed+1);commitHandball(s,carrier,d);
+    if(s.tick%10===0)traceDecision(s,carrier,d);return;
+  }
+  // The bounce must actually come back to the hand before release. The normal
+  // executor performs gather, resets steps/held clock and records that event.
+  if((s.tick-carrier.handling.bounceTick)%8===0){a.executeTicks=elapsed;}
+  else a.executeTicks=Math.max(a.executeTicks,elapsed+1);
+}
 export function releaseFromDrive(s:CoreState,carrier:CorePlayer|null):boolean {
   if(!carrier||carrier.kind!=='FIELD_PLAYER'||carrier.team!==s.possession.team)return false;
   if(s.ball.controllerId!==carrier.id||carrier.airborne)return false;
@@ -618,6 +642,7 @@ export function selectActions(s:CoreState) {
     resolveAction(s,carrierNow,'Actual takeoff completed; carry the finish into normal throwing preparation');
   }
   releaseFromDrive(s,carrierNow);
+  continueDribbleThreat(s,carrierNow);
   preparePivotRoll(s);
   prepareVisibleShot(s,visibleShotPreparation(s,otherTeam(s.possession.team)));
   for(const p of courtPlayers(s)) {

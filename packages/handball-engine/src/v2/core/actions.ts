@@ -210,12 +210,13 @@ export function execute(s: CoreState): ExecutionEffect[] {
     if(s.ball.live&&!p.airborne&&a?.kind!=='SAVE'){
       const active=a&&!['COMPLETED','FAILED','INTERRUPTED'].includes(a.phase);
       const releasedSupport=active&&a.kind==='PASS'&&a.resolved;
-      const moving=active&&(movementActions.includes(a.kind)||a.kind==='PASS')&&a.target!==null;
+      const threat=p.handballIntent&&['EXPLOIT_ADVANTAGE','ATTACK_GAP','ATTACK_NEXT_DEFENDER','BIND_HELP'].includes(p.handballIntent.kind);
+      const readingThreat=!!(active&&a.kind==='HOLD'&&threat&&a.target);
+      const moving=active&&(movementActions.includes(a.kind)||a.kind==='PASS'||readingThreat)&&a.target!==null;
       // Preparation/recovery retains decision timing. Compatible off-ball
       // phases carry existing pace; they cannot create new forward acceleration.
-      const ready=a?.phase==='EXECUTING'||releasedSupport;
-      const threat=p.handballIntent&&['EXPLOIT_ADVANTAGE','ATTACK_GAP','ATTACK_NEXT_DEFENDER','BIND_HELP'].includes(p.handballIntent.kind);
-      const compatibleThreat=!!(threat&&a&&['DRIVE','DRIBBLE'].includes(a.kind)&&a.target&&
+      const ready=a?.phase==='EXECUTING'&&!readingThreat||releasedSupport;
+      const compatibleThreat=!!(threat&&a&&['DRIVE','DRIBBLE','HOLD'].includes(a.kind)&&a.target&&
         (a.target.x-p.position.x)*p.velocity.x+(a.target.y-p.position.y)*p.velocity.y>0);
       // A continuing tactical threat can carry existing momentum through hand
       // preparation. It cannot accelerate before readiness or evade step/bounce legality.
