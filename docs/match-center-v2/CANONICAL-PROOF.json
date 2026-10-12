@@ -1,0 +1,96 @@
+{
+  "complete": true,
+  "checkpoint": "2be9c94",
+  "fixtureId": "swe-2-f5",
+  "score": [
+    32,
+    33
+  ],
+  "checkpoints": [
+    {
+      "label": "opening",
+      "tick": 100,
+      "exactLegacyResultEqual": true,
+      "canonicalStateUnchanged": true,
+      "legacyMs": 3.7934000000004744,
+      "currentMs": 1.923399999999674
+    },
+    {
+      "label": "halftime",
+      "tick": 36191,
+      "exactLegacyResultEqual": true,
+      "canonicalStateUnchanged": true,
+      "legacyMs": 597.8827999999994,
+      "currentMs": 79.93769999999859
+    },
+    {
+      "label": "fulltime",
+      "tick": 72392,
+      "exactLegacyResultEqual": true,
+      "canonicalStateUnchanged": true,
+      "legacyMs": 2180.0625,
+      "currentMs": 223.66279999999824
+    }
+  ],
+  "jsonFullMatchSessionEqual": true,
+  "jsonFullArchiveEqual": true,
+  "archiveFrameEquality": true,
+  "archiveImmutableUnderPresentation": true,
+  "archiveHash": "ea1cf5413da5086b9e9bb1ebd153d256d88269616a4afc6f8798fe18ebba7d09",
+  "framesHash": "480f01e3287269bb4a3c4921a2e98f3d7e8bab08186752188e799dc0e1463593",
+  "rng": {
+    "algorithm": "mulberry32",
+    "state": 1961924748,
+    "draws": 3611
+  },
+  "engineUnchanged": true,
+  "retainedBehaviorRevision": "career-handball-intelligence-v1",
+  "presentation": {
+    "events": 280,
+    "keyMoments": 96,
+    "shots": 111,
+    "frameCount": 62744,
+    "onlySelectedSnapshotsRendered": true,
+    "coldCostMs": [
+      319.7444000000032,
+      273.03029999999853,
+      267.2800999999963,
+      237.14080000000104,
+      238.56670000000304
+    ],
+    "coldMeanCostMs": 267.1524600000004,
+    "warmPausedCostMs": [
+      0.7382999999972526,
+      0.3252000000065891,
+      0.29069999999774154,
+      0.41279999999824213,
+      0.3362000000051921,
+      0.30249999999796273,
+      0.3162000000011176,
+      0.27410000000236323,
+      0.29479999999603024,
+      0.3458000000027823,
+      0.4099999999962165,
+      0.2749000000039814,
+      0.2508000000016182,
+      0.24510000000009313,
+      0.24600000000646105,
+      0.24600000000646105,
+      0.24620000000140863,
+      0.24510000000009313,
+      0.2445000000006985,
+      0.41920000000391155
+    ],
+    "warmPausedMeanMs": 0.32322000000131085,
+    "warmFullProjectionEquality": true,
+    "cadenceMs": 200,
+    "costNote": "Cold means rebuild all canonical history; warm measurements are repeated paused reads. New statistical facts still invoke the indexed canonical result reader. These are Node costs, not browser FPS."
+  },
+  "unsupported": [
+    "assists",
+    "player-attributed ledger turnovers",
+    "empirical live comparisons",
+    "body-facing annotations"
+  ],
+  "humanQA": "PENDING"
+}

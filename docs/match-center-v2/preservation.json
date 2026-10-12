@@ -1,0 +1,383 @@
+﻿{
+    "motionHead":  "197d2a80ecea3b70efdcf8ef347cfc68e0e86b2b",
+    "motionStatus":  [
+                         "?? .claude/"
+                     ],
+    "files":  [
+                  {
+                      "hash":  "A245EC398A29F3C8B7AB7317682433DBFE81E4A46E249A60C8F5A5A024FECE8F",
+                      "path":  "apps/game/app/match-qa/page.tsx"
+                  },
+                  {
+                      "hash":  "F100717310EA08F43C33B49DBABE7ACEE338B40884E9182030F59DB7C62FECE9",
+                      "path":  "apps/game/lib/matchQa/qaHarness.ts"
+                  },
+                  {
+                      "hash":  "7BA6F05B9F1E9CFA491961C1A6C644D7CE5FB2123FED5BAC0D1FB3A869B07266",
+                      "path":  "apps/game/scripts/season-audit.ts"
+                  },
+                  {
+                      "hash":  "BA9D04161DFD8FBA50732356598D92323BC71F93CFB5F827170EA804846A5B76",
+                      "path":  "apps/game/.tmp-final-benchmark.ts"
+                  }
+              ],
+    "head":  "2be9c94756bdde02bfd37041d96c68f844258473",
+    "stashes":  [
+                    "ddba79055949b76898b12fc1b947e8f8645589cb On motion-lab: WIP Pack #5 M6 breakthrough screen paused before Human QA",
+                    "b068a9586209b9405b8d5f0dc6fae6384dd09001 On motion-lab: WIP Pack #5 M6 line game paused before Human QA"
+                ],
+    "status":  [
+                   " M apps/game/app/match-qa/page.tsx",
+                   " M apps/game/lib/matchQa/qaHarness.ts",
+                   " M apps/game/scripts/season-audit.ts",
+                   "?? .claude/",
+                   "?? apps/game/.tmp-final-benchmark.ts",
+                   "?? docs/audit/"
+               ],
+    "engineFiles":  [
+                        {
+                            "hash":  "36877AF6BFE9E2E0EEC8F6DE6910331E3BB6537782F5780226A288B0A47EE42B",
+                            "path":  "packages/handball-engine/src/v2/core\\actions.ts"
+                        },
+                        {
+                            "hash":  "8C9D7FA9B8B6FD0A19B27EC7A305E88259418EDFF776C7A1ADA15782A96B7D7C",
+                            "path":  "packages/handball-engine/src/v2/core\\defence.test.ts"
+                        },
+                        {
+                            "hash":  "CEB6F374AAE01E5BF9BC3998325B0E8BE255C854C898CCC4007DE5B7D487A21E",
+                            "path":  "packages/handball-engine/src/v2/core\\core.test.ts"
+                        },
+                        {
+                            "hash":  "3BC0E25EE0474AAB3162DF83B5E228BCD5953DDC5B29622592E5FD5BFDDA55C5",
+                            "path":  "packages/handball-engine/src/v2/core\\continuous.ts"
+                        },
+                        {
+                            "hash":  "F57EC91BD6FDECEB2EAE52F898A8D2CFD8540A5042CB86AD3677C78A4C3594F2",
+                            "path":  "packages/handball-engine/src/v2/core\\continuous.test.ts"
+                        },
+                        {
+                            "hash":  "212EC58F3A6F75F68218D694D03E701608B7A45F3164431A8E4217CF43AFB0ED",
+                            "path":  "packages/handball-engine/src/v2/core\\CONTINUATION.md"
+                        },
+                        {
+                            "hash":  "B943276328E1DF36F43173AF08FE008D8376F419E5AFAE4AEAE5E1466A28A599",
+                            "path":  "packages/handball-engine/src/v2/core\\coaching.ts"
+                        },
+                        {
+                            "hash":  "79E6FC938ED175948F2A2E3A0BDF4FFF318E0EDA44077D615BE68011156E6901",
+                            "path":  "packages/handball-engine/src/v2/core\\contactScenarios.ts"
+                        },
+                        {
+                            "hash":  "51C5C45017537C88BB92B43E46022FF2BA64210AAB1895762EC57E30E10BABD1",
+                            "path":  "packages/handball-engine/src/v2/core\\contact.ts"
+                        },
+                        {
+                            "hash":  "4CEA0C24BE00E9AB08C856C10E4333731DAF4A970A2343170B4A952504F953CD",
+                            "path":  "packages/handball-engine/src/v2/core\\CHECKPOINT.md"
+                        },
+                        {
+                            "hash":  "C36A4D3F3E1F7FA51506DCA73FF61CEA9687377109AAC9E0789AA6FB35366F53",
+                            "path":  "packages/handball-engine/src/v2/core\\contact.test.ts"
+                        },
+                        {
+                            "hash":  "2C851908733F52B9F5F5FDD878A280368E8886240A4FF23F79869E8E09198D0F",
+                            "path":  "packages/handball-engine/src/v2/core\\checkpoint-proof.json"
+                        },
+                        {
+                            "hash":  "06DC8E7893258D6F5C9652A121F1FD65F9F915611E33C8B7D1A202961D6C60FB",
+                            "path":  "packages/handball-engine/src/v2/core\\contact-proof.json"
+                        },
+                        {
+                            "hash":  "6137722469DB2DC0A9567B9FF3BCCD9C8D3F070E9DB58BB93FE225CBCCD655BE",
+                            "path":  "packages/handball-engine/src/v2/core\\backcourtScenarios.ts"
+                        },
+                        {
+                            "hash":  "00AB4E44F0520B83F771CF5DD8A0E1212B34272410E5027B856EABDDEBDDC120",
+                            "path":  "packages/handball-engine/src/v2/core\\backcourt.ts"
+                        },
+                        {
+                            "hash":  "731E5E5B1E3ABD9006BF08A1DE7BE01345E80D438DAAC0221ED10E8C3BE9F376",
+                            "path":  "packages/handball-engine/src/v2/core\\contact-direction-realism.test.ts"
+                        },
+                        {
+                            "hash":  "6E18D9A78D44ECF84DB2992BF572274A87F16A6C59D065743F03D515314B5AED",
+                            "path":  "packages/handball-engine/src/v2/core\\backcourt.test.ts"
+                        },
+                        {
+                            "hash":  "28E8BB909C4F95EBE9EB1C496EC06495D22BC8CA20C170AA51762AEA7A4FB961",
+                            "path":  "packages/handball-engine/src/v2/core\\BACKCOURT.md"
+                        },
+                        {
+                            "hash":  "F27C2D555258DBB0A56F562ED25E0416AA31A2E90640143EA7F7B874F92CAD91",
+                            "path":  "packages/handball-engine/src/v2/core\\condition.ts"
+                        },
+                        {
+                            "hash":  "01B67AFFE79D21E3D2732F7B9C36557BD68C1A1F8BBC4E12ACADD6AE8CAEBA6D",
+                            "path":  "packages/handball-engine/src/v2/core\\backcourt-proof.json"
+                        },
+                        {
+                            "hash":  "74276663C391C735ECFF3042E5096FE74D15E1727533C5C67435CD717B082C34",
+                            "path":  "packages/handball-engine/src/v2/core\\attack-realism.test.ts"
+                        },
+                        {
+                            "hash":  "B597CE488188B882F553F0553316960039D19EC92BCA275EE89C7A4DB4595D07",
+                            "path":  "packages/handball-engine/src/v2/core\\engage.ts"
+                        },
+                        {
+                            "hash":  "15FC289D5A0489AB6544A3B97D24A583E82CFD3D4F8112255C89A5CD8B3593E3",
+                            "path":  "packages/handball-engine/src/v2/core\\empirical-calibration.test.ts"
+                        },
+                        {
+                            "hash":  "8CFC745E29C0217C23BF8ED060F6715E48341D4AF2894981D2A27C7E524CCAC2",
+                            "path":  "packages/handball-engine/src/v2/core\\intelligence.ts"
+                        },
+                        {
+                            "hash":  "0B41601EBE1E10ADDECF0838CCECEB9CF9D9748A9BA611CAC80DA733A66FA01D",
+                            "path":  "packages/handball-engine/src/v2/core\\ecosystem.test.ts"
+                        },
+                        {
+                            "hash":  "FC22E22E28B38C0566599DE44434094406A4C5EF6D0B6C1062ADAF51309D263C",
+                            "path":  "packages/handball-engine/src/v2/core\\intelligence.test.ts"
+                        },
+                        {
+                            "hash":  "9F64B42BB3E9356BA6E54A68F64CB51F7F4C8FEEFDDCCA5B4E5B24674A2AC54B",
+                            "path":  "packages/handball-engine/src/v2/core\\ECOSYSTEM.md"
+                        },
+                        {
+                            "hash":  "1605DF9598A7CC7689B93F8D2FC550DD5DFB81309604B8567A28F1B7C08AFB7A",
+                            "path":  "packages/handball-engine/src/v2/core\\identity.test.ts"
+                        },
+                        {
+                            "hash":  "68407929E8D32C7BEBEB60C2552AA9B069C9C3E6D450771CD386307E083E92E3",
+                            "path":  "packages/handball-engine/src/v2/core\\ecosystem-proof.json"
+                        },
+                        {
+                            "hash":  "22038C52E47D0C88F68C71BB1219359A959D8290166AE77AC211C4B9A82B1ADA",
+                            "path":  "packages/handball-engine/src/v2/core\\foul-semantics.test.ts"
+                        },
+                        {
+                            "hash":  "6F00A493A264E69DDD96ADF1113C485FAD1DB3BD5E8EBE0E688B75F3121D3AAC",
+                            "path":  "packages/handball-engine/src/v2/core\\ecology.test.ts"
+                        },
+                        {
+                            "hash":  "007E762DA12B99B50CF90541895512657EDAFB4804A663EECE2BD6726E844527",
+                            "path":  "packages/handball-engine/src/v2/core\\execution.ts"
+                        },
+                        {
+                            "hash":  "E14D63785B1B4ADE96B28F5F5F7CDF61A3A89808A5490465F238C4C26F89F444",
+                            "path":  "packages/handball-engine/src/v2/core\\execution-realism.test.ts"
+                        },
+                        {
+                            "hash":  "DC4FE838174EA80B5AF622E052492B59EF2D9907F767846F4294803F45DD4D7C",
+                            "path":  "packages/handball-engine/src/v2/core\\engine.ts"
+                        },
+                        {
+                            "hash":  "DD801CE6401A106D772EAC46C5800EB46F218D34495F41EC1FF536AEC24116C9",
+                            "path":  "packages/handball-engine/src/v2/core\\ledger.ts"
+                        },
+                        {
+                            "hash":  "C28194EE81B79F86633D1A4E305F67D08A842DA4F293771AA48E93E2CBAD0BEE",
+                            "path":  "packages/handball-engine/src/v2/core\\keeper-integration-calibration.test.ts"
+                        },
+                        {
+                            "hash":  "8B8E7F65562E41DAC321CBE233CEB5AA743F08BD3B7C9F4518FF143EE92A9E3E",
+                            "path":  "packages/handball-engine/src/v2/core\\keeper-calibration.test.ts"
+                        },
+                        {
+                            "hash":  "B9AF164943CA45642DAC30F8255330892955328F181D91520868EFA34A95B33F",
+                            "path":  "packages/handball-engine/src/v2/core\\interactions.ts"
+                        },
+                        {
+                            "hash":  "8214CB9C24BAD1570559D71D2381E3AC6BDF7C670BD0E9B925BBC72857BBD310",
+                            "path":  "packages/handball-engine/src/v2/core\\intelligenceScenarios.ts"
+                        },
+                        {
+                            "hash":  "FA975BA3729D8814B40F077E906291F3470DAD8CF80CF8E1E6EA8705709AE93D",
+                            "path":  "packages/handball-engine/src/v2/core\\loose-ball-realism.test.ts"
+                        },
+                        {
+                            "hash":  "C222D4240A0B0935E552FA37A7C1DCF7A999D48CA4E4E200CE5BEFABBC860B13",
+                            "path":  "packages/handball-engine/src/v2/core\\locomotion.ts"
+                        },
+                        {
+                            "hash":  "4DEEC881235E165F28777D930E602247F888AA728C20B14647A7A70EF520E53E",
+                            "path":  "packages/handball-engine/src/v2/core\\match-proof.json"
+                        },
+                        {
+                            "hash":  "4CED473266EDE54A0D9689C6E06A28E2A5B009464FDD994FCE6C61E8186C08DD",
+                            "path":  "packages/handball-engine/src/v2/core\\match.ts"
+                        },
+                        {
+                            "hash":  "6DC360BD8F858A64153B215F8FDDD2A1ACC2722E6BE4098AD04CEC87F9640CA1",
+                            "path":  "packages/handball-engine/src/v2/core\\defence.ts"
+                        },
+                        {
+                            "hash":  "6796C275154DA7145CD06558835524075013528ECB2354A1F3439E5B537EA499",
+                            "path":  "packages/handball-engine/src/v2/core\\matchReplay.ts"
+                        },
+                        {
+                            "hash":  "8D553B1C254F0953CF5508CA1A37463891F631CDFD0DF81B436BE487541EE031",
+                            "path":  "packages/handball-engine/src/v2/core\\wingScenarios.ts"
+                        },
+                        {
+                            "hash":  "C83205E8A507F889BA033FD10B14DC27DBAEC8F1A319DCD5BF2B8B7554373F7D",
+                            "path":  "packages/handball-engine/src/v2/core\\WINGS.md"
+                        },
+                        {
+                            "hash":  "31D7F39CF38918717D3723FADCCE80948A13650A45A2F680E1BBC5C66FD3A556",
+                            "path":  "packages/handball-engine/src/v2/core\\wing.ts"
+                        },
+                        {
+                            "hash":  "80AF9DB1F84E0155852D755726C55E5E008C8DB58CB3CFA41714A49519176DE8",
+                            "path":  "packages/handball-engine/src/v2/core\\wing.test.ts"
+                        },
+                        {
+                            "hash":  "FFA1905E86D048ED0E00B3B244F0909DEECF078338D064EDB0869A82CC09D61C",
+                            "path":  "packages/handball-engine/src/v2/core\\wing-proof.json"
+                        },
+                        {
+                            "hash":  "D9D61C43EDADA0102B40A3F7688CE3DDE169066DBBA83124B5B30E8E8DCB69D8",
+                            "path":  "packages/handball-engine/src/v2/core\\VARIATION.md"
+                        },
+                        {
+                            "hash":  "FE07875434D926C4C359EEC04DD21480EBE962E288876AA731A0FC1C48DE474C",
+                            "path":  "packages/handball-engine/src/v2/core\\variation-proof.json"
+                        },
+                        {
+                            "hash":  "AC0321B6978758FADE389F8FCAE40908430CD8A6A2A4E2E63B76B712452631E7",
+                            "path":  "packages/handball-engine/src/v2/core\\variation-baseline.json"
+                        },
+                        {
+                            "hash":  "C4097E619DC21A72227EFA54C5113FAC460BBB3821EC31FFCE4B3F8FDF4AA4E4",
+                            "path":  "packages/handball-engine/src/v2/core\\variation-audit.json"
+                        },
+                        {
+                            "hash":  "EE453A4AF139DA47DE2249D4EBF8F73F44E94372C2C231F654F65651CEF77EC3",
+                            "path":  "packages/handball-engine/src/v2/core\\transitions.ts"
+                        },
+                        {
+                            "hash":  "4DFAC459E80C981E313FA99AEF87B1DF7EF9EFEE4753529B42C76536DB00D959",
+                            "path":  "packages/handball-engine/src/v2/core\\transition-calibration.test.ts"
+                        },
+                        {
+                            "hash":  "0356BB3DE1DC1AA32359D6E198CCE8155BBD7010C9F76592F6F33C24C131B169",
+                            "path":  "packages/handball-engine/src/v2/core\\timing.ts"
+                        },
+                        {
+                            "hash":  "87719EAF6552583F12560EAA41AAD8DA32CD9CA9DC23959384305BF4A2D9B768",
+                            "path":  "packages/handball-engine/src/v2/core\\threatRelation.ts"
+                        },
+                        {
+                            "hash":  "35A3AC5A0A0FBB6614DE81C449FDE37B880AF96BC10A1CD2DCF4B4E3E9077D6D",
+                            "path":  "packages/handball-engine/src/v2/core\\testProfile.ts"
+                        },
+                        {
+                            "hash":  "3551321BC61257E150B28A5E82355EE94301DFB6E2A0870769C1BC6FADE644F7",
+                            "path":  "packages/handball-engine/src/v2/core\\takeoff-calibration.test.ts"
+                        },
+                        {
+                            "hash":  "B6DE15AD35BEC853825D0F1227684EB19EC855474C831F1688682C32F311962E",
+                            "path":  "packages/handball-engine/src/v2/core\\structure.ts"
+                        },
+                        {
+                            "hash":  "E5FE9D2B4F2FBD893618042CD9D1DA71E28B70737797D4D4FC0DD9A6ECB0A355",
+                            "path":  "packages/handball-engine/src/v2/core\\state.ts"
+                        },
+                        {
+                            "hash":  "FC2AEAA594F3EF8A119656D1056178BF5F6414F6EE4C2082641B97FC216749A4",
+                            "path":  "packages/handball-engine/src/v2/core\\squads.ts"
+                        },
+                        {
+                            "hash":  "E9C1D8C3BB9E0A813EF82ABD38CB8229A245DCEE5B21B215FF9ACEE7BB701C7F",
+                            "path":  "packages/handball-engine/src/v2/core\\space.ts"
+                        },
+                        {
+                            "hash":  "C48DDB2C75CE34FD03C439261E40E77F676B1FFB2FC8ABEB1A3F9B1A5D286DBE",
+                            "path":  "packages/handball-engine/src/v2/core\\scenarios.ts"
+                        },
+                        {
+                            "hash":  "9E73FA8151C2F4D86C46883C1939ACA437D341A34AA2767AE827CB525DD67DD2",
+                            "path":  "packages/handball-engine/src/v2/core\\sanction.ts"
+                        },
+                        {
+                            "hash":  "46325A43317B15EDFC4773265989FFA2AB0500C9FDEFB32A7FC3363DD39147D4",
+                            "path":  "packages/handball-engine/src/v2/core\\rules.ts"
+                        },
+                        {
+                            "hash":  "20A9BFBB0EBBFFE9DAF74DA6557DC735595B5AF2EC99B4BC586A4219FBB37F24",
+                            "path":  "packages/handball-engine/src/v2/core\\restarts.ts"
+                        },
+                        {
+                            "hash":  "2802C396B54F4C1634380E6BF2C262C8E6A51BE1430751D604393F98D63320E6",
+                            "path":  "packages/handball-engine/src/v2/core\\restart-realism.test.ts"
+                        },
+                        {
+                            "hash":  "7A636B1B374A10D7F8AA02ADE08957AC67920AACD33B37DB2F412F2FEFA42E6B",
+                            "path":  "packages/handball-engine/src/v2/core\\replay.ts"
+                        },
+                        {
+                            "hash":  "35FEAF4D17B6B5BD011702384BE061081B52B220E5D897E37AA24BC297D04387",
+                            "path":  "packages/handball-engine/src/v2/core\\referee.ts"
+                        },
+                        {
+                            "hash":  "D21FA1DB74580BC2AA51A9AD740AE7F610529D57DCA87ED98F13F4764D64C6D0",
+                            "path":  "packages/handball-engine/src/v2/core\\referee.test.ts"
+                        },
+                        {
+                            "hash":  "615271E0BC0217A08B296FA0777754F28B02FA136E5C0E55F07A8AF616780897",
+                            "path":  "packages/handball-engine/src/v2/core\\realism.ts"
+                        },
+                        {
+                            "hash":  "03EC10B8973909053410934AE1489FD9CE1CAC6FFB9F0C7CF280FD69FFBF2B0A",
+                            "path":  "packages/handball-engine/src/v2/core\\REALISM.md"
+                        },
+                        {
+                            "hash":  "3E085E65F8B0F63BED293B447EF0E4284DD3127608226EC3E0A522D3974CC415",
+                            "path":  "packages/handball-engine/src/v2/core\\realism-defence.test.ts"
+                        },
+                        {
+                            "hash":  "2470FAD59A2BB1570EE67561B8CA9E79EDEAD74BC7082C7FE0007F2E252F38B0",
+                            "path":  "packages/handball-engine/src/v2/core\\profile.ts"
+                        },
+                        {
+                            "hash":  "49CE36826BEC8344BE94E5FC8CD763ABEB9FB2525728DF0D1526D799BC24BD7F",
+                            "path":  "packages/handball-engine/src/v2/core\\population.ts"
+                        },
+                        {
+                            "hash":  "3021F9AB217E9E4EB8F5ADF996365E86338AC0FA9E738FC7491A25228C6BF783",
+                            "path":  "packages/handball-engine/src/v2/core\\pivot.ts"
+                        },
+                        {
+                            "hash":  "EC1DA585A24BACABEF28AAE973AF82A62D2AAE328A573AE640F233840E295BF5",
+                            "path":  "packages/handball-engine/src/v2/core\\pivot-dispatch-calibration.test.ts"
+                        },
+                        {
+                            "hash":  "0C405269406B4A8B124EA432CE036A0008118AA59C186954CDED0957A0C2381F",
+                            "path":  "packages/handball-engine/src/v2/core\\passive.ts"
+                        },
+                        {
+                            "hash":  "4ED3D9AF14C484E6E28C718DF05AEB474A7113BADF2E3E98DA78C6EB22654F3F",
+                            "path":  "packages/handball-engine/src/v2/core\\passive.test.ts"
+                        },
+                        {
+                            "hash":  "8E4A37B6A87CC000094BF402D8D0A26471689EC782AF8AA7A3ECB555CC95740B",
+                            "path":  "packages/handball-engine/src/v2/core\\offence.ts"
+                        },
+                        {
+                            "hash":  "B501840D17ECB3507A74D2E0867430923E9DD1B9591C243359DCE7C2F3BEFF52",
+                            "path":  "packages/handball-engine/src/v2/core\\offence.test.ts"
+                        },
+                        {
+                            "hash":  "A5C531AD8D2CEFA5623A7325B22F7F6D78C2E8BD20CA9AEF87369112E5AE2037",
+                            "path":  "packages/handball-engine/src/v2/core\\movement.ts"
+                        },
+                        {
+                            "hash":  "A5F7F86AB2B1AA1F9D39E948D0F010846AE864E0E13382BBAF2E773D4396CF3E",
+                            "path":  "packages/handball-engine/src/v2/core\\motion-quality.test.ts"
+                        },
+                        {
+                            "hash":  "C1948115A3B0BCEC75DE301E1E2AA347544B93E17E73E8B1145953D3D88FC987",
+                            "path":  "packages/handball-engine/src/v2/core\\motion-continuity.test.ts"
+                        }
+                    ]
+}

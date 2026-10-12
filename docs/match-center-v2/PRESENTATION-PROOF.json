@@ -1,0 +1,760 @@
+{
+  "source": "Completed isolated season archive, read offline without resimulation",
+  "fixtureId": "swe-2-f5",
+  "seed": 4129743579,
+  "archiveHash": "dccae65b0e39e39c7e245af3c3fb38e06395c7b4dd4020f920b0b372503f2f94",
+  "exactResultReference": true,
+  "goalEventEquality": true,
+  "eventIdentityTimestampEquality": true,
+  "keeperCategoryDenominatorEquality": true,
+  "allSelectedSnapshotsMatchRecordedFrames": true,
+  "archiveUnchanged": true,
+  "clock": 3600000,
+  "period": 2,
+  "score": [
+    29,
+    34
+  ],
+  "events": 338,
+  "keyMoments": 140,
+  "createdPassMoments": 35,
+  "shots": 112,
+  "frameCount": 63241,
+  "snapshotsChecked": 419,
+  "archivedProjectionCostMs": 7.013599999999997,
+  "sample": {
+    "event": {
+      "canonicalEventId": "event-898",
+      "actionId": "action-886",
+      "tick": 331,
+      "timestamp": 16250,
+      "period": 1,
+      "team": "HOME",
+      "playerId": "se_player_marcus_astrom_db9da7ed",
+      "type": "PASS_RELEASED",
+      "importance": "KEY",
+      "headline": "Öppning · Filip Agerborn",
+      "detail": "Marcus Åström drar till sig hjälp och spelar Filip Agerborn.",
+      "score": [
+        0,
+        0
+      ],
+      "tacticalContext": "Marcus Åström drar till sig hjälp och spelar Filip Agerborn.",
+      "replayReference": "event-898"
+    },
+    "snapshots": [
+      {
+        "label": "Före",
+        "possessionId": null,
+        "tick": 307,
+        "timestamp": 15050,
+        "period": 1,
+        "score": [
+          0,
+          0
+        ],
+        "players": [
+          {
+            "person": {
+              "id": "se_player_alexander_holmberg_3b1f68d9",
+              "name": "Alexander Holmberg",
+              "number": 16,
+              "team": "HOME",
+              "role": "GK",
+              "started": true,
+              "startEnergy": 100
+            },
+            "position": {
+              "x": 9.71,
+              "y": 38.6
+            }
+          },
+          {
+            "person": {
+              "id": "se_player_oscar_lilja_7b931abd",
+              "name": "Oscar Lilja",
+              "number": 6,
+              "team": "HOME",
+              "role": "CB",
+              "started": true,
+              "startEnergy": 100
+            },
+            "position": {
+              "x": 6.2,
+              "y": 9.71
+            }
+          },
+          {
+            "person": {
+              "id": "se_player_marcus_astrom_db9da7ed",
+              "name": "Marcus Åström",
+              "number": 2,
+              "team": "HOME",
+              "role": "LB",
+              "started": true,
+              "startEnergy": 100
+            },
+            "position": {
+              "x": 6.45,
+              "y": 9.21
+            }
+          },
+          {
+            "person": {
+              "id": "se_player_olof_hall_19d20e27",
+              "name": "Olof Häll",
+              "number": 20,
+              "team": "HOME",
+              "role": "RB",
+              "started": true,
+              "startEnergy": 100
+            },
+            "position": {
+              "x": 15,
+              "y": 10.17
+            }
+          },
+          {
+            "person": {
+              "id": "se_player_cem_kalkan_80f86d54",
+              "name": "Cem Kalkan",
+              "number": 11,
+              "team": "HOME",
+              "role": "P",
+              "started": true,
+              "startEnergy": 100
+            },
+            "position": {
+              "x": 7.48,
+              "y": 9.02
+            }
+          },
+          {
+            "person": {
+              "id": "se_player_filip_agerborn_9faf186d",
+              "name": "Filip Agerborn",
+              "number": 14,
+              "team": "HOME",
+              "role": "LW",
+              "started": true,
+              "startEnergy": 100
+            },
+            "position": {
+              "x": 0.68,
+              "y": 1.48
+            }
+          },
+          {
+            "person": {
+              "id": "se_player_tobias_leile_2d7a55da",
+              "name": "Tobias Leile",
+              "number": 8,
+              "team": "HOME",
+              "role": "RW",
+              "started": true,
+              "startEnergy": 100
+            },
+            "position": {
+              "x": 19.32,
+              "y": 1.5
+            }
+          },
+          {
+            "person": {
+              "id": "se_player_olle_soderqvist_467b211d",
+              "name": "Olle Söderqvist",
+              "number": 22,
+              "team": "AWAY",
+              "role": "GK",
+              "started": true,
+              "startEnergy": 96.91040000000001
+            },
+            "position": {
+              "x": 9.51,
+              "y": 1.4
+            }
+          },
+          {
+            "person": {
+              "id": "se_player_joakim_lindahl_d3d6223d",
+              "name": "Joakim Lindahl",
+              "number": 34,
+              "team": "AWAY",
+              "role": "CB",
+              "started": true,
+              "startEnergy": 98.7942694736842
+            },
+            "position": {
+              "x": 7.44,
+              "y": 9.6
+            }
+          },
+          {
+            "person": {
+              "id": "se_player_mattias_windahl_32a9e5c0",
+              "name": "Mattias Windahl",
+              "number": 46,
+              "team": "AWAY",
+              "role": "LB",
+              "started": true,
+              "startEnergy": 99.87076631578947
+            },
+            "position": {
+              "x": 6.93,
+              "y": 8.91
+            }
+          },
+          {
+            "person": {
+              "id": "se_player_david_blazevic_ca6d5fb0",
+              "name": "David Blazevic",
+              "number": 6,
+              "team": "AWAY",
+              "role": "RB",
+              "started": true,
+              "startEnergy": 98.7942694736842
+            },
+            "position": {
+              "x": 13.47,
+              "y": 6.75
+            }
+          },
+          {
+            "person": {
+              "id": "se_player_jakob_magnusson_99e346ca",
+              "name": "Jakob Magnusson",
+              "number": 6,
+              "team": "AWAY",
+              "role": "P",
+              "started": true,
+              "startEnergy": 98.7942694736842
+            },
+            "position": {
+              "x": 9.81,
+              "y": 6.75
+            }
+          },
+          {
+            "person": {
+              "id": "se_player_edward_berglund_a720a212",
+              "name": "Edward Berglund",
+              "number": 24,
+              "team": "AWAY",
+              "role": "LW",
+              "started": true,
+              "startEnergy": 98.7942694736842
+            },
+            "position": {
+              "x": 3.28,
+              "y": 8.18
+            }
+          },
+          {
+            "person": {
+              "id": "se_player_simon_axelsson_eb1ec6dd",
+              "name": "Simon Axelsson",
+              "number": 23,
+              "team": "AWAY",
+              "role": "RW",
+              "started": true,
+              "startEnergy": 100
+            },
+            "position": {
+              "x": 17.76,
+              "y": 1.31
+            }
+          }
+        ],
+        "ball": {
+          "x": 6.46,
+          "y": 9.2
+        },
+        "involvedIds": [
+          "se_player_marcus_astrom_db9da7ed",
+          "se_player_filip_agerborn_9faf186d"
+        ],
+        "arrows": []
+      },
+      {
+        "label": "Uppbyggnad",
+        "possessionId": null,
+        "tick": 321,
+        "timestamp": 15750,
+        "period": 1,
+        "score": [
+          0,
+          0
+        ],
+        "players": [
+          {
+            "person": {
+              "id": "se_player_alexander_holmberg_3b1f68d9",
+              "name": "Alexander Holmberg",
+              "number": 16,
+              "team": "HOME",
+              "role": "GK",
+              "started": true,
+              "startEnergy": 100
+            },
+            "position": {
+              "x": 9.71,
+              "y": 38.6
+            }
+          },
+          {
+            "person": {
+              "id": "se_player_oscar_lilja_7b931abd",
+              "name": "Oscar Lilja",
+              "number": 6,
+              "team": "HOME",
+              "role": "CB",
+              "started": true,
+              "startEnergy": 100
+            },
+            "position": {
+              "x": 6.56,
+              "y": 9.82
+            }
+          },
+          {
+            "person": {
+              "id": "se_player_marcus_astrom_db9da7ed",
+              "name": "Marcus Åström",
+              "number": 2,
+              "team": "HOME",
+              "role": "LB",
+              "started": true,
+              "startEnergy": 100
+            },
+            "position": {
+              "x": 6.34,
+              "y": 9.1
+            }
+          },
+          {
+            "person": {
+              "id": "se_player_olof_hall_19d20e27",
+              "name": "Olof Häll",
+              "number": 20,
+              "team": "HOME",
+              "role": "RB",
+              "started": true,
+              "startEnergy": 100
+            },
+            "position": {
+              "x": 15,
+              "y": 10.17
+            }
+          },
+          {
+            "person": {
+              "id": "se_player_cem_kalkan_80f86d54",
+              "name": "Cem Kalkan",
+              "number": 11,
+              "team": "HOME",
+              "role": "P",
+              "started": true,
+              "startEnergy": 100
+            },
+            "position": {
+              "x": 7.48,
+              "y": 9.02
+            }
+          },
+          {
+            "person": {
+              "id": "se_player_filip_agerborn_9faf186d",
+              "name": "Filip Agerborn",
+              "number": 14,
+              "team": "HOME",
+              "role": "LW",
+              "started": true,
+              "startEnergy": 100
+            },
+            "position": {
+              "x": 0.68,
+              "y": 1.48
+            }
+          },
+          {
+            "person": {
+              "id": "se_player_tobias_leile_2d7a55da",
+              "name": "Tobias Leile",
+              "number": 8,
+              "team": "HOME",
+              "role": "RW",
+              "started": true,
+              "startEnergy": 100
+            },
+            "position": {
+              "x": 19.32,
+              "y": 1.5
+            }
+          },
+          {
+            "person": {
+              "id": "se_player_olle_soderqvist_467b211d",
+              "name": "Olle Söderqvist",
+              "number": 22,
+              "team": "AWAY",
+              "role": "GK",
+              "started": true,
+              "startEnergy": 96.91040000000001
+            },
+            "position": {
+              "x": 9.51,
+              "y": 1.4
+            }
+          },
+          {
+            "person": {
+              "id": "se_player_joakim_lindahl_d3d6223d",
+              "name": "Joakim Lindahl",
+              "number": 34,
+              "team": "AWAY",
+              "role": "CB",
+              "started": true,
+              "startEnergy": 98.7942694736842
+            },
+            "position": {
+              "x": 7.04,
+              "y": 9.52
+            }
+          },
+          {
+            "person": {
+              "id": "se_player_mattias_windahl_32a9e5c0",
+              "name": "Mattias Windahl",
+              "number": 46,
+              "team": "AWAY",
+              "role": "LB",
+              "started": true,
+              "startEnergy": 99.87076631578947
+            },
+            "position": {
+              "x": 6.93,
+              "y": 8.91
+            }
+          },
+          {
+            "person": {
+              "id": "se_player_david_blazevic_ca6d5fb0",
+              "name": "David Blazevic",
+              "number": 6,
+              "team": "AWAY",
+              "role": "RB",
+              "started": true,
+              "startEnergy": 98.7942694736842
+            },
+            "position": {
+              "x": 13.47,
+              "y": 6.75
+            }
+          },
+          {
+            "person": {
+              "id": "se_player_jakob_magnusson_99e346ca",
+              "name": "Jakob Magnusson",
+              "number": 6,
+              "team": "AWAY",
+              "role": "P",
+              "started": true,
+              "startEnergy": 98.7942694736842
+            },
+            "position": {
+              "x": 9.81,
+              "y": 6.75
+            }
+          },
+          {
+            "person": {
+              "id": "se_player_edward_berglund_a720a212",
+              "name": "Edward Berglund",
+              "number": 24,
+              "team": "AWAY",
+              "role": "LW",
+              "started": true,
+              "startEnergy": 98.7942694736842
+            },
+            "position": {
+              "x": 3.56,
+              "y": 8.32
+            }
+          },
+          {
+            "person": {
+              "id": "se_player_simon_axelsson_eb1ec6dd",
+              "name": "Simon Axelsson",
+              "number": 23,
+              "team": "AWAY",
+              "role": "RW",
+              "started": true,
+              "startEnergy": 100
+            },
+            "position": {
+              "x": 17.76,
+              "y": 1.31
+            }
+          }
+        ],
+        "ball": {
+          "x": 6.35,
+          "y": 9.09
+        },
+        "involvedIds": [
+          "se_player_marcus_astrom_db9da7ed",
+          "se_player_filip_agerborn_9faf186d"
+        ],
+        "arrows": []
+      },
+      {
+        "label": "Händelsen",
+        "possessionId": "possession-0",
+        "tick": 331,
+        "timestamp": 16250,
+        "period": 1,
+        "score": [
+          0,
+          0
+        ],
+        "players": [
+          {
+            "person": {
+              "id": "se_player_alexander_holmberg_3b1f68d9",
+              "name": "Alexander Holmberg",
+              "number": 16,
+              "team": "HOME",
+              "role": "GK",
+              "started": true,
+              "startEnergy": 100
+            },
+            "position": {
+              "x": 9.71,
+              "y": 38.6
+            }
+          },
+          {
+            "person": {
+              "id": "se_player_oscar_lilja_7b931abd",
+              "name": "Oscar Lilja",
+              "number": 6,
+              "team": "HOME",
+              "role": "CB",
+              "started": true,
+              "startEnergy": 100
+            },
+            "position": {
+              "x": 7.05,
+              "y": 10.09
+            }
+          },
+          {
+            "person": {
+              "id": "se_player_marcus_astrom_db9da7ed",
+              "name": "Marcus Åström",
+              "number": 2,
+              "team": "HOME",
+              "role": "LB",
+              "started": true,
+              "startEnergy": 100
+            },
+            "position": {
+              "x": 6.34,
+              "y": 9.1
+            }
+          },
+          {
+            "person": {
+              "id": "se_player_olof_hall_19d20e27",
+              "name": "Olof Häll",
+              "number": 20,
+              "team": "HOME",
+              "role": "RB",
+              "started": true,
+              "startEnergy": 100
+            },
+            "position": {
+              "x": 15,
+              "y": 10.17
+            }
+          },
+          {
+            "person": {
+              "id": "se_player_cem_kalkan_80f86d54",
+              "name": "Cem Kalkan",
+              "number": 11,
+              "team": "HOME",
+              "role": "P",
+              "started": true,
+              "startEnergy": 100
+            },
+            "position": {
+              "x": 7.48,
+              "y": 9.02
+            }
+          },
+          {
+            "person": {
+              "id": "se_player_filip_agerborn_9faf186d",
+              "name": "Filip Agerborn",
+              "number": 14,
+              "team": "HOME",
+              "role": "LW",
+              "started": true,
+              "startEnergy": 100
+            },
+            "position": {
+              "x": 0.68,
+              "y": 1.48
+            }
+          },
+          {
+            "person": {
+              "id": "se_player_tobias_leile_2d7a55da",
+              "name": "Tobias Leile",
+              "number": 8,
+              "team": "HOME",
+              "role": "RW",
+              "started": true,
+              "startEnergy": 100
+            },
+            "position": {
+              "x": 19.32,
+              "y": 1.5
+            }
+          },
+          {
+            "person": {
+              "id": "se_player_olle_soderqvist_467b211d",
+              "name": "Olle Söderqvist",
+              "number": 22,
+              "team": "AWAY",
+              "role": "GK",
+              "started": true,
+              "startEnergy": 96.91040000000001
+            },
+            "position": {
+              "x": 9.51,
+              "y": 1.4
+            }
+          },
+          {
+            "person": {
+              "id": "se_player_joakim_lindahl_d3d6223d",
+              "name": "Joakim Lindahl",
+              "number": 34,
+              "team": "AWAY",
+              "role": "CB",
+              "started": true,
+              "startEnergy": 98.7942694736842
+            },
+            "position": {
+              "x": 7.04,
+              "y": 9.52
+            }
+          },
+          {
+            "person": {
+              "id": "se_player_mattias_windahl_32a9e5c0",
+              "name": "Mattias Windahl",
+              "number": 46,
+              "team": "AWAY",
+              "role": "LB",
+              "started": true,
+              "startEnergy": 99.87076631578947
+            },
+            "position": {
+              "x": 6.93,
+              "y": 8.91
+            }
+          },
+          {
+            "person": {
+              "id": "se_player_david_blazevic_ca6d5fb0",
+              "name": "David Blazevic",
+              "number": 6,
+              "team": "AWAY",
+              "role": "RB",
+              "started": true,
+              "startEnergy": 98.7942694736842
+            },
+            "position": {
+              "x": 13.47,
+              "y": 6.75
+            }
+          },
+          {
+            "person": {
+              "id": "se_player_jakob_magnusson_99e346ca",
+              "name": "Jakob Magnusson",
+              "number": 6,
+              "team": "AWAY",
+              "role": "P",
+              "started": true,
+              "startEnergy": 98.7942694736842
+            },
+            "position": {
+              "x": 9.81,
+              "y": 6.75
+            }
+          },
+          {
+            "person": {
+              "id": "se_player_edward_berglund_a720a212",
+              "name": "Edward Berglund",
+              "number": 24,
+              "team": "AWAY",
+              "role": "LW",
+              "started": true,
+              "startEnergy": 98.7942694736842
+            },
+            "position": {
+              "x": 3.56,
+              "y": 8.32
+            }
+          },
+          {
+            "person": {
+              "id": "se_player_simon_axelsson_eb1ec6dd",
+              "name": "Simon Axelsson",
+              "number": 23,
+              "team": "AWAY",
+              "role": "RW",
+              "started": true,
+              "startEnergy": 100
+            },
+            "position": {
+              "x": 17.76,
+              "y": 1.31
+            }
+          }
+        ],
+        "ball": {
+          "x": 6.35,
+          "y": 9.09
+        },
+        "involvedIds": [
+          "se_player_marcus_astrom_db9da7ed",
+          "se_player_filip_agerborn_9faf186d"
+        ],
+        "arrows": [
+          {
+            "kind": "PASS",
+            "fromId": "se_player_marcus_astrom_db9da7ed",
+            "toId": "se_player_filip_agerborn_9faf186d",
+            "from": {
+              "x": 6.34,
+              "y": 9.1
+            },
+            "to": {
+              "x": 0.68,
+              "y": 1.48
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "humanQA": "PENDING",
+  "screenshots": "Unavailable: browser inventory empty and IAB unavailable"
+}
