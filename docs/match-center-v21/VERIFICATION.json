@@ -1,9 +1,11 @@
 {
   "schema": "match-center-v21-closeout/1",
-  "recordedAt": "2026-10-13T07:17:50.607Z",
+  "recordedAt": "2026-10-13T07:24:01.797Z",
   "startingCheckpoint": "038f15ec560e880e13139b25d7d878e3cf1eda13",
-  "sourceHead": "1269b3a6055e6ec9970028ad26ecadfe2f2c5dee",
+  "sourceHead": "7652d79788fa7d7949769162d301dd30c2b367ec",
   "localImplementationCommits": [
+    "7652d79 fix(game): keep player dossiers compact and keeper captions readable",
+    "bc833a9 docs(game): close Match Center v2.1 with canonical proofs and desktop QA",
     "1269b3a fix(game): compact shot analysis and clarify filtered outcome labels",
     "9828830 feat(game): refine Match Center into a compact tactical match workspace"
   ],
@@ -777,22 +779,22 @@
       {
         "view": "Översikt",
         "selected": "Översikt",
-        "clickToNextFrameMs": 12
+        "clickToNextFrameMs": 5
       },
       {
         "view": "Nyckelögonblick",
         "selected": "Nyckelögonblick",
-        "clickToNextFrameMs": 12.5
+        "clickToNextFrameMs": 12.200000017881393
       },
       {
         "view": "Spelare",
         "selected": "Spelare",
-        "clickToNextFrameMs": 19.700000017881393
+        "clickToNextFrameMs": 13.299999982118607
       },
       {
         "view": "Statistik",
         "selected": "Statistik",
-        "clickToNextFrameMs": 13.799999982118607
+        "clickToNextFrameMs": 15.900000005960464
       }
     ],
     "pageErrors": [],
@@ -828,7 +830,7 @@
     },
     {
       "path": "apps/game/components/matchCenter/match-center.css",
-      "sha256": "88d18c4e87357127195804a47ea3c6627e552cad2c13adbde3031692e4402fae"
+      "sha256": "671d5997962aff2a457e898b93a98aa7b81fe915caebb92cd374996180cd87c6"
     },
     {
       "path": "apps/game/lib/matchCenter/control.ts",
@@ -878,7 +880,7 @@
     },
     {
       "path": "docs/match-center-v21/BROWSER-QA.json",
-      "sha256": "c55bbdbb325c68b61305d0717b74eb55432600ab777f3cb1319df0b45a13d84c"
+      "sha256": "fae18cd43f9fc39363deee340c03001f0958d80540bd718c3a2c201d300d7d0a"
     },
     {
       "path": "docs/match-center-v21/preservation.json",
@@ -886,7 +888,7 @@
     },
     {
       "path": "docs/match-center-v21/REPORT.md",
-      "sha256": "86e958956669fd491d9590854291ec584578c211d2bf79899d3a7c6c370ac8d8"
+      "sha256": "599e491eaccea1fc70452ed80e093c0ff8b966fc6632f9e58fb95b879d196d01"
     },
     {
       "path": "docs/match-center-v21/screenshots/fulltime-overview-1366.png",
@@ -910,7 +912,7 @@
     },
     {
       "path": "docs/match-center-v21/screenshots/keeper-detail-1920.png",
-      "sha256": "9a64d2a84bf2c13514d6ba43e26a1a1247896cf96293b651dcad73fb5c413251"
+      "sha256": "e262871555b83b36e4c599f54a524db16423884db0fb7e845785b48040f4fe8a"
     },
     {
       "path": "docs/match-center-v21/screenshots/key-moment-1920.png",
@@ -922,7 +924,7 @@
     },
     {
       "path": "docs/match-center-v21/screenshots/players-1920.png",
-      "sha256": "c715ee27d2e3e0f29a092d0cda9947598742b63b7d6b86a831f3a1d348aa55a1"
+      "sha256": "ab8b1b8c6a8bc06d8a6702c2645405bd368775149a8484d30eefa496a9c3e1a6"
     },
     {
       "path": "docs/match-center-v21/screenshots/statistics-shots-1920.png",
@@ -942,7 +944,7 @@
     },
     {
       "path": "docs/match-center-v21/verification/build.log",
-      "sha256": "4bb4488906db3dcf469bd3a3ceb516e12ace4fc7bf67406e3236b2dce18e4a78"
+      "sha256": "0c09b200d5b08de04cc6d2f559cd957ab3cfdbca2057c976691615cd4da2e552"
     },
     {
       "path": "docs/match-center-v21/verification/lint.log",
@@ -958,7 +960,7 @@
     },
     {
       "path": "docs/match-center-v21/verification/browser-review.log",
-      "sha256": "c05058eeee39b2292861b394940828cc14473b5256831ca7de114d9135762ab9"
+      "sha256": "4023cbfe9407fb3999a10e6e4c7b5df1a1b6611447ce13e2b182edf310cbdfd4"
     },
     {
       "path": "docs/match-center-v21/verification/browser-exit.txt",

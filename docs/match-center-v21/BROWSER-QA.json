@@ -34,22 +34,22 @@
     {
       "view": "Översikt",
       "selected": "Översikt",
-      "clickToNextFrameMs": 12
+      "clickToNextFrameMs": 5
     },
     {
       "view": "Nyckelögonblick",
       "selected": "Nyckelögonblick",
-      "clickToNextFrameMs": 12.5
+      "clickToNextFrameMs": 12.200000017881393
     },
     {
       "view": "Spelare",
       "selected": "Spelare",
-      "clickToNextFrameMs": 19.700000017881393
+      "clickToNextFrameMs": 13.299999982118607
     },
     {
       "view": "Statistik",
       "selected": "Statistik",
-      "clickToNextFrameMs": 13.799999982118607
+      "clickToNextFrameMs": 15.900000005960464
     }
   ],
   "pageErrors": [],
