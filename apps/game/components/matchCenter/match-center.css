@@ -195,11 +195,11 @@
 .mc-workspace .mc-performance td,.mc-workspace .mc-performance th { padding:8px 6px; }
 .mc-performance header label { font-size:10px; display:flex; gap:8px; align-items:center; }
 .mc-performance [data-selected="true"] { outline:2px solid var(--game-signal); outline-offset:-2px; }
-.mc-dossier { border-top:4px solid var(--game-signal); background:#e6e5d9; padding:18px; font-size:11px; line-height:1.6; }
+.mc-dossier { border-top:4px solid var(--game-signal); background:#e6e5d9; padding:18px; font-size:11px; line-height:1.6; align-self:start; }
 .mc-dossier h2 { font-size:22px; margin-top:6px; }.mc-dossier h3 { font-size:13px; margin:20px 0 8px; }
 .mc-dossier ul { list-style:none; padding:0; margin:0; }.mc-dossier li { border-bottom:1px solid #c9cfc5; padding:7px 0; }
 .mc-dossier li strong { float:right; }.mc-dossier-number { font-family:var(--game-font-display); font-size:32px; display:block; line-height:1.2; }
-.mc-dossier-number small { display:block; font-family:inherit; font-size:10px; }
+.mc-dossier-number small { display:block; font-family:"Segoe UI",sans-serif; font-size:11px; font-weight:400; line-height:1.6; margin-top:4px; }
 .mc-player-moments { max-height:260px; overflow:auto; }
 .mc-player-moments button { border:0; background:transparent; text-align:left; font-size:11px; padding:0; color:var(--game-ink); }
 .mc-stat-workspace { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:28px; }
