@@ -95,3 +95,4 @@ docs/match-intelligence-v1/verification/
 # Match Center keeps large replay/season detail local; commit closeout receipts.
 docs/match-center-v2/verification/
 docs/match-center-v2/season/season-end-state.json
+docs/match-center-v21/verification/
