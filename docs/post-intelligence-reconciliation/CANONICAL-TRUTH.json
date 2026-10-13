@@ -1,0 +1,714 @@
+{
+  "source": "Completed reconciled canonical season, read offline without resimulation",
+  "archives": 26,
+  "snapshotsChecked": 311,
+  "storiesChecked": 104,
+  "resultIdentity": true,
+  "keeperDenominators": true,
+  "serializedArchiveSameFacts": true,
+  "inputUnchanged": true,
+  "receipts": [
+    {
+      "fixtureId": "swe-2-f5",
+      "archiveHash": "a0bad47e2f95c22f7edea2f3d524df561381970239ebb6b39e3ed68661696a4e",
+      "score": [
+        23,
+        33
+      ],
+      "facts": [
+        {
+          "id": "scorer",
+          "text": "Mattias Windahl leder målskyttet med 10 mål på 12 avslut."
+        },
+        {
+          "id": "keeper",
+          "text": "Alexander Holmberg: 11 räddningar på 44 avslut på mål (25%)."
+        },
+        {
+          "id": "run",
+          "text": "Bortalaget gjorde 4 mål i följd, 38:43–40:54."
+        },
+        {
+          "id": "half",
+          "text": "Halvtid 11–16. Slutresultat 23–33."
+        }
+      ],
+      "derivedWorkspaceMeanMs": 0.07796000000000049
+    },
+    {
+      "fixtureId": "swe-2-f13",
+      "archiveHash": "c76da2ef8c631e02a8a8ba662847f780568338db58424f07a1b57295c0a0ee2d",
+      "score": [
+        20,
+        33
+      ],
+      "facts": [
+        {
+          "id": "scorer",
+          "text": "Joakim Lindahl leder målskyttet med 12 mål på 14 avslut."
+        },
+        {
+          "id": "keeper",
+          "text": "Arwid Krontorp: 3 räddningar på 36 avslut på mål (8%)."
+        },
+        {
+          "id": "run",
+          "text": "Bortalaget gjorde 5 mål i följd, 7:58–11:37."
+        },
+        {
+          "id": "half",
+          "text": "Halvtid 9–17. Slutresultat 20–33."
+        }
+      ],
+      "derivedWorkspaceMeanMs": 0.059499000000000704
+    },
+    {
+      "fixtureId": "swe-2-f21",
+      "archiveHash": "145cda8b2244ff3fa3edff5f395f0365a3fadd65630b4bf97696ff9e16b29499",
+      "score": [
+        24,
+        28
+      ],
+      "facts": [
+        {
+          "id": "scorer",
+          "text": "Jakob Magnusson leder målskyttet med 7 mål på 9 avslut."
+        },
+        {
+          "id": "keeper",
+          "text": "Simon Larsson: 6 räddningar på 34 avslut på mål (18%)."
+        },
+        {
+          "id": "run",
+          "text": "Bortalaget gjorde 5 mål i följd, 39:57–44:41."
+        },
+        {
+          "id": "half",
+          "text": "Halvtid 12–13. Slutresultat 24–28."
+        }
+      ],
+      "derivedWorkspaceMeanMs": 0.05457100000000082
+    },
+    {
+      "fixtureId": "swe-2-f28",
+      "archiveHash": "9468f15df1d9ea2b2f2224da5b6cb1ca80b8d6186ac40b4f9479cff944f1e39e",
+      "score": [
+        27,
+        30
+      ],
+      "facts": [
+        {
+          "id": "scorer",
+          "text": "Mattias Windahl leder målskyttet med 9 mål på 10 avslut."
+        },
+        {
+          "id": "keeper",
+          "text": "Martin Börjes: 9 räddningar på 39 avslut på mål (23%)."
+        },
+        {
+          "id": "run",
+          "text": "Bortalaget gjorde 8 mål i följd, 49:55–57:14."
+        },
+        {
+          "id": "half",
+          "text": "Halvtid 17–16. Slutresultat 27–30."
+        }
+      ],
+      "derivedWorkspaceMeanMs": 0.15034599999999954
+    },
+    {
+      "fixtureId": "swe-2-f34",
+      "archiveHash": "f6301da6c14e836c1c65149d0cfbc0741e7c8ff8b2ad52f2f349ec318bca9cf0",
+      "score": [
+        34,
+        29
+      ],
+      "facts": [
+        {
+          "id": "scorer",
+          "text": "Oskar Ståhl leder målskyttet med 14 mål på 17 avslut."
+        },
+        {
+          "id": "keeper",
+          "text": "Olle Söderqvist: 9 räddningar på 43 avslut på mål (21%)."
+        },
+        {
+          "id": "run",
+          "text": "Hemmalaget gjorde 4 mål i följd, 46:46–50:46."
+        },
+        {
+          "id": "half",
+          "text": "Halvtid 14–15. Slutresultat 34–29."
+        }
+      ],
+      "derivedWorkspaceMeanMs": 0.14262900000000173
+    },
+    {
+      "fixtureId": "swe-2-f40",
+      "archiveHash": "35ffe6dd21cf52bb1958dc3e071822b3edacabe2196c21efeb3db53d93d5bd70",
+      "score": [
+        30,
+        34
+      ],
+      "facts": [
+        {
+          "id": "scorer",
+          "text": "Joakim Lindahl leder målskyttet med 10 mål på 12 avslut."
+        },
+        {
+          "id": "keeper",
+          "text": "Malte Johansson: 7 räddningar på 41 avslut på mål (17%)."
+        },
+        {
+          "id": "run",
+          "text": "Bortalaget gjorde 3 mål i följd, 37:19–40:05."
+        },
+        {
+          "id": "half",
+          "text": "Halvtid 16–15. Slutresultat 30–34."
+        }
+      ],
+      "derivedWorkspaceMeanMs": 0.14890000000000328
+    },
+    {
+      "fixtureId": "swe-2-f46",
+      "archiveHash": "e173aa596dff4ff8f1613842cbdf1a54a8b4c2f40587fab7d758c03fff32a652",
+      "score": [
+        24,
+        28
+      ],
+      "facts": [
+        {
+          "id": "scorer",
+          "text": "Jonas Strömberg leder målskyttet med 10 mål på 14 avslut."
+        },
+        {
+          "id": "keeper",
+          "text": "Alfred Åsvärd: 14 räddningar på 42 avslut på mål (33%)."
+        },
+        {
+          "id": "run",
+          "text": "Bortalaget gjorde 5 mål i följd, 9:51–16:28."
+        },
+        {
+          "id": "half",
+          "text": "Halvtid 10–17. Slutresultat 24–28."
+        }
+      ],
+      "derivedWorkspaceMeanMs": 0.12504399999999805
+    },
+    {
+      "fixtureId": "swe-2-f52",
+      "archiveHash": "05cd28e60af4dc3c6ac7d432498c4c882e82beeed90ac5c0ee344766d80d5822",
+      "score": [
+        21,
+        23
+      ],
+      "facts": [
+        {
+          "id": "scorer",
+          "text": "Joakim Lindahl leder målskyttet med 11 mål på 13 avslut."
+        },
+        {
+          "id": "keeper",
+          "text": "Olle Söderqvist: 10 räddningar på 31 avslut på mål (32%)."
+        },
+        {
+          "id": "run",
+          "text": "Hemmalaget gjorde 3 mål i följd, 4:44–6:58."
+        },
+        {
+          "id": "half",
+          "text": "Halvtid 9–10. Slutresultat 21–23."
+        }
+      ],
+      "derivedWorkspaceMeanMs": 0.25440400000000407
+    },
+    {
+      "fixtureId": "swe-2-f58",
+      "archiveHash": "3991e3e3fa6392ce96e2e3e6be1fbf341ce3d68f80a4ea870edf618702aba24e",
+      "score": [
+        22,
+        35
+      ],
+      "facts": [
+        {
+          "id": "scorer",
+          "text": "Joakim Lindahl leder målskyttet med 10 mål på 12 avslut."
+        },
+        {
+          "id": "keeper",
+          "text": "Pontus Axelsson: 12 räddningar på 47 avslut på mål (26%)."
+        },
+        {
+          "id": "run",
+          "text": "Bortalaget gjorde 6 mål i följd, 28:31–33:15."
+        },
+        {
+          "id": "half",
+          "text": "Halvtid 11–16. Slutresultat 22–35."
+        }
+      ],
+      "derivedWorkspaceMeanMs": 0.23562799999999698
+    },
+    {
+      "fixtureId": "swe-2-f64",
+      "archiveHash": "07b256ce9654a63096ec6fd2e2471368076e305c2ea4de1ef43bd10767fd63cf",
+      "score": [
+        34,
+        21
+      ],
+      "facts": [
+        {
+          "id": "scorer",
+          "text": "Joakim Lindahl leder målskyttet med 10 mål på 14 avslut."
+        },
+        {
+          "id": "keeper",
+          "text": "Kenan Salkicevic: 10 räddningar på 44 avslut på mål (23%)."
+        },
+        {
+          "id": "run",
+          "text": "Hemmalaget gjorde 6 mål i följd, 43:34–47:44."
+        },
+        {
+          "id": "half",
+          "text": "Halvtid 13–8. Slutresultat 34–21."
+        }
+      ],
+      "derivedWorkspaceMeanMs": 0.33168799999999465
+    },
+    {
+      "fixtureId": "swe-2-f72",
+      "archiveHash": "b032e6b81ca023b599fb8588a0eb41ea44cf25269bf31b30b6c688308db47e3d",
+      "score": [
+        20,
+        20
+      ],
+      "facts": [
+        {
+          "id": "scorer",
+          "text": "Holger Mårtensson leder målskyttet med 6 mål på 11 avslut."
+        },
+        {
+          "id": "keeper",
+          "text": "Carl Deliaune Aronius: 15 räddningar på 35 avslut på mål (43%)."
+        },
+        {
+          "id": "run",
+          "text": "Bortalaget gjorde 5 mål i följd, 9:21–16:00."
+        },
+        {
+          "id": "half",
+          "text": "Halvtid 8–12. Slutresultat 20–20."
+        }
+      ],
+      "derivedWorkspaceMeanMs": 0.10569799999999305
+    },
+    {
+      "fixtureId": "swe-2-f80",
+      "archiveHash": "f4d71a93ac486402e0e97fc9f3a14aef716a713a3c56e8399ec557f439831fb2",
+      "score": [
+        28,
+        18
+      ],
+      "facts": [
+        {
+          "id": "scorer",
+          "text": "Mattias Windahl leder målskyttet med 7 mål på 10 avslut."
+        },
+        {
+          "id": "keeper",
+          "text": "Måns Landgren: 11 räddningar på 39 avslut på mål (28%)."
+        },
+        {
+          "id": "run",
+          "text": "Hemmalaget gjorde 8 mål i följd, 15:00–23:18."
+        },
+        {
+          "id": "half",
+          "text": "Halvtid 14–9. Slutresultat 28–18."
+        }
+      ],
+      "derivedWorkspaceMeanMs": 0.12565500000000612
+    },
+    {
+      "fixtureId": "swe-2-f88",
+      "archiveHash": "5ebf62aef60b4edcb67366a8cb5f4581518f73ea352d5e263cede14e28e233e4",
+      "score": [
+        33,
+        26
+      ],
+      "facts": [
+        {
+          "id": "scorer",
+          "text": "Marcus Ekman leder målskyttet med 12 mål på 20 avslut."
+        },
+        {
+          "id": "keeper",
+          "text": "Sebastian Westerlund: 10 räddningar på 43 avslut på mål (23%)."
+        },
+        {
+          "id": "run",
+          "text": "Hemmalaget gjorde 8 mål i följd, 30:52–37:00."
+        },
+        {
+          "id": "half",
+          "text": "Halvtid 14–12. Slutresultat 33–26."
+        }
+      ],
+      "derivedWorkspaceMeanMs": 0.12806800000000293
+    },
+    {
+      "fixtureId": "swe-2-f96",
+      "archiveHash": "8dc6c7a756441c3812fc3f3886e8a421a336fd6e46de5140d02b3835da86f2dc",
+      "score": [
+        27,
+        25
+      ],
+      "facts": [
+        {
+          "id": "scorer",
+          "text": "Mattias Windahl leder målskyttet med 9 mål på 10 avslut."
+        },
+        {
+          "id": "keeper",
+          "text": "Olle Söderqvist: 10 räddningar på 35 avslut på mål (29%)."
+        },
+        {
+          "id": "run",
+          "text": "Hemmalaget gjorde 4 mål i följd, 1:11–7:27."
+        },
+        {
+          "id": "half",
+          "text": "Halvtid 12–10. Slutresultat 27–25."
+        }
+      ],
+      "derivedWorkspaceMeanMs": 0.1337249999999949
+    },
+    {
+      "fixtureId": "swe-2-f104",
+      "archiveHash": "a7c2dabfc6e34d13f28aba795f958ec4b58b796cd58248a4939ff7832b9a8428",
+      "score": [
+        32,
+        19
+      ],
+      "facts": [
+        {
+          "id": "scorer",
+          "text": "Mattias Windahl leder målskyttet med 8 mål på 11 avslut."
+        },
+        {
+          "id": "keeper",
+          "text": "Arwid Krontorp: 5 räddningar på 37 avslut på mål (14%)."
+        },
+        {
+          "id": "run",
+          "text": "Hemmalaget gjorde 7 mål i följd, 16:12–25:14."
+        },
+        {
+          "id": "half",
+          "text": "Halvtid 16–9. Slutresultat 32–19."
+        }
+      ],
+      "derivedWorkspaceMeanMs": 0.12103100000000268
+    },
+    {
+      "fixtureId": "swe-2-f112",
+      "archiveHash": "b7577c819543eb5502e7ece4859326bfe9cb5bb62e168094cdf7dc5d3ffe3ca6",
+      "score": [
+        33,
+        20
+      ],
+      "facts": [
+        {
+          "id": "scorer",
+          "text": "Jakob Magnusson leder målskyttet med 8 mål på 12 avslut."
+        },
+        {
+          "id": "keeper",
+          "text": "Simon Larsson: 10 räddningar på 43 avslut på mål (23%)."
+        },
+        {
+          "id": "run",
+          "text": "Hemmalaget gjorde 6 mål i följd, 9:46–20:30."
+        },
+        {
+          "id": "half",
+          "text": "Halvtid 14–8. Slutresultat 33–20."
+        }
+      ],
+      "derivedWorkspaceMeanMs": 0.14747300000000904
+    },
+    {
+      "fixtureId": "swe-2-f119",
+      "archiveHash": "cd557fa86c77c487660c54637dfd118a77eeb3eabd047c35c35a2d50c85133d6",
+      "score": [
+        30,
+        19
+      ],
+      "facts": [
+        {
+          "id": "scorer",
+          "text": "Anton Thomsen leder målskyttet med 10 mål på 10 avslut."
+        },
+        {
+          "id": "keeper",
+          "text": "Martin Börjes: 7 räddningar på 37 avslut på mål (19%)."
+        },
+        {
+          "id": "run",
+          "text": "Hemmalaget gjorde 5 mål i följd, 2:22–5:48."
+        },
+        {
+          "id": "half",
+          "text": "Halvtid 17–10. Slutresultat 30–19."
+        }
+      ],
+      "derivedWorkspaceMeanMs": 0.29061499999999796
+    },
+    {
+      "fixtureId": "swe-2-f125",
+      "archiveHash": "de5b1baed10127421e7597f56d840ad0c0e05e3944058e1c184bbbf180ffc63a",
+      "score": [
+        35,
+        18
+      ],
+      "facts": [
+        {
+          "id": "scorer",
+          "text": "Anton Thomsen leder målskyttet med 10 mål på 12 avslut."
+        },
+        {
+          "id": "keeper",
+          "text": "Viktor Johansson: 8 räddningar på 43 avslut på mål (19%)."
+        },
+        {
+          "id": "run",
+          "text": "Hemmalaget gjorde 7 mål i följd, 0:11–7:31."
+        },
+        {
+          "id": "half",
+          "text": "Halvtid 23–9. Slutresultat 35–18."
+        }
+      ],
+      "derivedWorkspaceMeanMs": 0.12326399999999921
+    },
+    {
+      "fixtureId": "swe-2-f131",
+      "archiveHash": "5df0a8e4864f03afa315412f51a169e0210e5545dafbe56b087879009d586af4",
+      "score": [
+        29,
+        13
+      ],
+      "facts": [
+        {
+          "id": "scorer",
+          "text": "Anton Thomsen leder målskyttet med 7 mål på 8 avslut."
+        },
+        {
+          "id": "keeper",
+          "text": "Malte Johansson: 8 räddningar på 37 avslut på mål (22%)."
+        },
+        {
+          "id": "run",
+          "text": "Hemmalaget gjorde 8 mål i följd, 11:19–19:29."
+        },
+        {
+          "id": "half",
+          "text": "Halvtid 16–9. Slutresultat 29–13."
+        }
+      ],
+      "derivedWorkspaceMeanMs": 0.11864400000000387
+    },
+    {
+      "fixtureId": "swe-2-f137",
+      "archiveHash": "c46d1af1545f5349b14b7a0f72892b2dd0a2d449fe088e4f0b600eabf26d75b7",
+      "score": [
+        29,
+        29
+      ],
+      "facts": [
+        {
+          "id": "scorer",
+          "text": "Mattias Windahl leder målskyttet med 9 mål på 10 avslut."
+        },
+        {
+          "id": "keeper",
+          "text": "Alfred Åsvärd: 5 räddningar på 34 avslut på mål (15%)."
+        },
+        {
+          "id": "run",
+          "text": "Hemmalaget gjorde 4 mål i följd, 11:11–18:58."
+        },
+        {
+          "id": "half",
+          "text": "Halvtid 12–12. Slutresultat 29–29."
+        }
+      ],
+      "derivedWorkspaceMeanMs": 0.22248599999998986
+    },
+    {
+      "fixtureId": "swe-2-f143",
+      "archiveHash": "2baed29cf1942586e8c2efda4cd7928178c7d610a3a6f23c133c068d6878be7f",
+      "score": [
+        22,
+        18
+      ],
+      "facts": [
+        {
+          "id": "scorer",
+          "text": "Anton Thomsen leder målskyttet med 9 mål på 13 avslut."
+        },
+        {
+          "id": "keeper",
+          "text": "Jonas Åberg: 10 räddningar på 32 avslut på mål (31%)."
+        },
+        {
+          "id": "run",
+          "text": "Hemmalaget gjorde 6 mål i följd, 20:45–31:44."
+        },
+        {
+          "id": "half",
+          "text": "Halvtid 10–7. Slutresultat 22–18."
+        }
+      ],
+      "derivedWorkspaceMeanMs": 0.11718600000000151
+    },
+    {
+      "fixtureId": "swe-2-f149",
+      "archiveHash": "a2824a9096a92578ddba49e39aa246e36ae799d0016e5ff9615c8f86e90fc22c",
+      "score": [
+        25,
+        20
+      ],
+      "facts": [
+        {
+          "id": "scorer",
+          "text": "Anton Thomsen leder målskyttet med 12 mål på 15 avslut."
+        },
+        {
+          "id": "keeper",
+          "text": "Pontus Axelsson: 11 räddningar på 36 avslut på mål (31%)."
+        },
+        {
+          "id": "run",
+          "text": "Hemmalaget gjorde 3 mål i följd, 20:14–24:12."
+        },
+        {
+          "id": "half",
+          "text": "Halvtid 10–11. Slutresultat 25–20."
+        }
+      ],
+      "derivedWorkspaceMeanMs": 0.11897799999998825
+    },
+    {
+      "fixtureId": "swe-2-f155",
+      "archiveHash": "437b0f13486faca629cb77932cb750da91204f6cba7c12f4c690742db1da442a",
+      "score": [
+        15,
+        24
+      ],
+      "facts": [
+        {
+          "id": "scorer",
+          "text": "Joakim Lindahl leder målskyttet med 9 mål på 10 avslut."
+        },
+        {
+          "id": "keeper",
+          "text": "Kenan Salkicevic: 11 räddningar på 35 avslut på mål (31%)."
+        },
+        {
+          "id": "run",
+          "text": "Bortalaget gjorde 5 mål i följd, 21:10–25:15."
+        },
+        {
+          "id": "half",
+          "text": "Halvtid 6–13. Slutresultat 15–24."
+        }
+      ],
+      "derivedWorkspaceMeanMs": 0.12343000000000756
+    },
+    {
+      "fixtureId": "swe-2-f163",
+      "archiveHash": "2edcb472b16868ee8c5e7f8eb46346838767f34f2f577bbe3ec3829ad9bcd16b",
+      "score": [
+        32,
+        25
+      ],
+      "facts": [
+        {
+          "id": "scorer",
+          "text": "Mattias Windahl leder målskyttet med 8 mål på 11 avslut."
+        },
+        {
+          "id": "keeper",
+          "text": "Olle Söderqvist: 5 räddningar på 37 avslut på mål (14%)."
+        },
+        {
+          "id": "run",
+          "text": "Hemmalaget gjorde 6 mål i följd, 28:05–36:21."
+        },
+        {
+          "id": "half",
+          "text": "Halvtid 15–14. Slutresultat 32–25."
+        }
+      ],
+      "derivedWorkspaceMeanMs": 0.16922200000000884
+    },
+    {
+      "fixtureId": "swe-2-f171",
+      "archiveHash": "59c9bc3fa88f2e6927868b7df661cd2e377ca769f4aadfcfe5bf70fdba90bcfd",
+      "score": [
+        24,
+        21
+      ],
+      "facts": [
+        {
+          "id": "scorer",
+          "text": "Jim Gottfridsson leder målskyttet med 9 mål på 10 avslut."
+        },
+        {
+          "id": "keeper",
+          "text": "Måns Landgren: 11 räddningar på 32 avslut på mål (34%)."
+        },
+        {
+          "id": "run",
+          "text": "Hemmalaget gjorde 4 mål i följd, 37:48–41:14."
+        },
+        {
+          "id": "half",
+          "text": "Halvtid 9–12. Slutresultat 24–21."
+        }
+      ],
+      "derivedWorkspaceMeanMs": 0.124445999999989
+    },
+    {
+      "fixtureId": "swe-2-f179",
+      "archiveHash": "d8f9ccaefbd773287e8074b60074ff39f02fb623b74be64f8af0321be35181bc",
+      "score": [
+        25,
+        34
+      ],
+      "facts": [
+        {
+          "id": "scorer",
+          "text": "Jakob Magnusson leder målskyttet med 9 mål på 11 avslut."
+        },
+        {
+          "id": "keeper",
+          "text": "Sebastian Westerlund: 9 räddningar på 43 avslut på mål (21%)."
+        },
+        {
+          "id": "run",
+          "text": "Bortalaget gjorde 4 mål i följd, 31:13–36:07."
+        },
+        {
+          "id": "half",
+          "text": "Halvtid 14–17. Slutresultat 25–34."
+        }
+      ],
+      "derivedWorkspaceMeanMs": 0.11613900000000285
+    }
+  ]
+}

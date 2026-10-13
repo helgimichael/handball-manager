@@ -1,0 +1,352 @@
+{
+  "schema": "post-intelligence-reconciliation-closeout/1",
+  "recoveredHead": "3fc64a8b810784e2e8a5c3a41c88105d85d76862",
+  "commitsAfterCheckpointAtRecovery": [],
+  "empiricalAcceptance": "PARTIAL: correctness and Intelligence accepted; goals/attempts and suspension distributions remain below historical reference. No result forcing or reference rewriting used.",
+  "cohorts": {
+    "hbl": {
+      "matches": 80,
+      "sourceStable": true,
+      "sources": {
+        "packages/handball-engine/src/v2/core/actions.ts": "36877af6bfe9e2e0eec8f6de6910331e3bb6537782f5780226a288b0a47ee42b",
+        "packages/handball-engine/src/v2/core/backcourt.ts": "00ab4e44f0520b83f771cf5dd8a0e1212b34272410e5027b856eabddebddc120",
+        "packages/handball-engine/src/v2/core/backcourtScenarios.ts": "6137722469db2dc0a9567b9ff3bccd9c8d3f070e9db58bb93fe225cbccd655be",
+        "packages/handball-engine/src/v2/core/coaching.ts": "b943276328e1df36f43173af08fe008d8376f419e5afae4aeae5e1466a28a599",
+        "packages/handball-engine/src/v2/core/condition.ts": "f27c2d555258dbb0a56f562ed25e0416aa31a2e90640143ea7f7b874f92cad91",
+        "packages/handball-engine/src/v2/core/contact.ts": "9b7257603bdd09eec665f7c50ffa0d4ae7d9f45e2158f22098fbcf0f1a588362",
+        "packages/handball-engine/src/v2/core/contactScenarios.ts": "624c77567281a49677ae55289c3e0d71d5e81f00e2f56f151e1bf7ea59ebd1ce",
+        "packages/handball-engine/src/v2/core/continuous.ts": "3bc0e25ee0474aab3162df83b5e228bcd5953ddc5b29622592e5fd5bfdda55c5",
+        "packages/handball-engine/src/v2/core/defence.ts": "353763d139e7d170aff02f6b757973103a3b25fbdc53c4c363a1ed06de102b56",
+        "packages/handball-engine/src/v2/core/engage.ts": "b597ce488188b882f553f0553316960039d19ec92bca275ee89c7a4db4595d07",
+        "packages/handball-engine/src/v2/core/engine.ts": "144c900313369d675c23bfd675474ff9e43cf1011d53f9ef0fc4995e658646bb",
+        "packages/handball-engine/src/v2/core/execution.ts": "1c452665f4ab82177c725e84ba01df8c58cc54dfa98fbd0bdd31299a8d1c563d",
+        "packages/handball-engine/src/v2/core/intelligence.ts": "90b139f8fff727f9fcfc55fdd8caed4e0eaedfe9376e27b224f405a53cedd667",
+        "packages/handball-engine/src/v2/core/intelligenceScenarios.ts": "8214cb9c24bad1570559d71d2381e3ac6bdf7c670bd0e9b925bbc72857bbd310",
+        "packages/handball-engine/src/v2/core/interactions.ts": "dee972c7cbd04c7355234b761dbb30276f0e4e4cd1f2495d68decb56058297e8",
+        "packages/handball-engine/src/v2/core/ledger.ts": "dd801ce6401a106d772eac46c5800eb46f218d34495f41ec1ff536aec24116c9",
+        "packages/handball-engine/src/v2/core/locomotion.ts": "c222d4240a0b0935e552fa37a7c1dcf7a999d48ca4e4e200ce5befabbc860b13",
+        "packages/handball-engine/src/v2/core/match.ts": "4ced473266ede54a0d9689c6e06a28e2a5b009464fdd994fce6c61e8186c08dd",
+        "packages/handball-engine/src/v2/core/matchReplay.ts": "6796c275154da7145cd06558835524075013528ecb2354a1f3439e5b537ea499",
+        "packages/handball-engine/src/v2/core/movement.ts": "a5c531ad8d2cefa5623a7325b22f7f6d78c2e8bd20ca9aef87369112e5ae2037",
+        "packages/handball-engine/src/v2/core/offence.ts": "8e4a37b6a87cc000094bf402d8d0a26471689ec782af8aa7a3ecb555cc95740b",
+        "packages/handball-engine/src/v2/core/passive.ts": "0c405269406b4a8b124ea432ce036a0008118aa59c186954cded0957a0c2381f",
+        "packages/handball-engine/src/v2/core/pivot.ts": "3021f9ab217e9e4eb8f5adf996365e86338ac0fa9e738fc7491a25228c6bf783",
+        "packages/handball-engine/src/v2/core/population.ts": "49ce36826bec8344be94e5fc8cd763abeb9fb2525728df0d1526d799bc24bd7f",
+        "packages/handball-engine/src/v2/core/profile.ts": "2470fad59a2bb1570ee67561b8ca9e79edead74bc7082c7fe0007f2e252f38b0",
+        "packages/handball-engine/src/v2/core/realism.ts": "615271e0bc0217a08b296fa0777754f28b02fa136e5c0e55f07a8af616780897",
+        "packages/handball-engine/src/v2/core/referee.ts": "35feaf4d17b6b5bd011702384be061081b52b220e5d897e37aa24bc297d04387",
+        "packages/handball-engine/src/v2/core/replay.ts": "7a636b1b374a10d7f8aa02ade08957ac67920aacd33b37db2f412f2fefa42e6b",
+        "packages/handball-engine/src/v2/core/restarts.ts": "20a9bfbb0ebbffe9daf74da6557dc735595b5af2ec99b4bc586a4219fbb37f24",
+        "packages/handball-engine/src/v2/core/rules.ts": "46325a43317b15edfc4773265989ffa2ab0500c9fdefb32a7fc3363dd39147d4",
+        "packages/handball-engine/src/v2/core/sanction.ts": "f0bb1a8fc2e2a3c94e609ce1b62824c11d787b1587150f8338c65dd19615d106",
+        "packages/handball-engine/src/v2/core/scenarios.ts": "c48ddb2c75ce34fd03c439261e40e77f676b1ffb2fc8abeb1a3f9b1a5d286dbe",
+        "packages/handball-engine/src/v2/core/space.ts": "fa4755d1ba95d8e683cd19955418944d004a34963b708030ef72eb521ca25eb3",
+        "packages/handball-engine/src/v2/core/squads.ts": "fc2aeaa594f3ef8a119656d1056178bf5f6414f6ee4c2082641b97fc216749a4",
+        "packages/handball-engine/src/v2/core/state.ts": "e5fe9d2b4f2fbd893618042cd9d1da71e28b70737797d4d4fc0dd9a6ecb0a355",
+        "packages/handball-engine/src/v2/core/structure.ts": "28835fc261ff52a588ec37503cecc888fe7d08510631b8a5617a6f91948009a8",
+        "packages/handball-engine/src/v2/core/testProfile.ts": "35a3ac5a0a0fbb6614de81c449fde37b880af96bc10a1cd2dcf4b4e3e9077d6d",
+        "packages/handball-engine/src/v2/core/threatRelation.ts": "a81361b880c13aee634ae0b771726d237edecdacc623d7b56aec95586b912777",
+        "packages/handball-engine/src/v2/core/timing.ts": "0356bb3de1dc1aa32359d6e198cce8155bbd7010c9f76592f6f33c24c131b169",
+        "packages/handball-engine/src/v2/core/transitions.ts": "ee453a4af139da47de2249d4ebf8f73f44e94372c2c231f654f65651cef77ec3",
+        "packages/handball-engine/src/v2/core/wing.ts": "31d7f39cf38918717d3723fadcce80948a13650a45a2f680e1bbc5c66fd3a556",
+        "packages/handball-engine/src/v2/core/wingScenarios.ts": "8d553b1c254f0953cf5508ca1a37463891f631cdfd0df81b436be487541ee031",
+        "apps/game/lib/career/productionMatch.ts": "aaeb8d556b940f1f3518135056fa356a3b0c95eefce4cdf4c8db47eedf8cefd1",
+        "apps/game/scripts/match-benchmarks.ts": "319e3c9802d702553a2e39aef0cd8c38b555ba3a07cd32733f6ebfa4a843affe",
+        "apps/game/scripts/lib/calibrationDiagnostics.ts": "75b4d75ab6951abd13939eb69661ef9a926654ce95d33d36434709c9a038223e",
+        "apps/game/scripts/lib/reconciliationDiagnostics.ts": "150a9d196dc92862f75a3fbdc2bd6abddc6b0b91e854e777f5df3d257e4b99b8",
+        "apps/game/lib/matchBenchmarks/empirical.ts": "1b05cfb0cfdb7e96870875b1042860b13221c852078eff953d31016123464d6c",
+        "apps/game/lib/matchBenchmarks/empiricalComparison.ts": "e49e86aca79b3e30cbe57ea0e6ce1da16a778417e936be4f3a1405a312e1a975",
+        "apps/game/lib/matchBenchmarks/evaluate.ts": "2f4d5bc893fbd482dfcd10baeaa1f3aa72c943dbcfa0e8dca0ba050fd3c9f3f0",
+        "apps/game/lib/matchBenchmarks/extract.ts": "4ac1e4094d2b76ba34dd157df4b32ba6309c1853aab18c7329890231681bb873",
+        "apps/game/lib/matchBenchmarks/reference.ts": "25cb435b7824faa1fc58429264d3e91a4833e678170bb5bfa75d5b5c98009e8a",
+        "apps/game/lib/matchBenchmarks/report.ts": "c7c77e53ba8b07212362ec36f4a31f2d8b263ea0f17ce8f0fd730292035b7444",
+        "apps/game/lib/matchBenchmarks/statistics.ts": "9b3c1f8e5dc5590302b8b6115f5e7c86d9a5693e14af80f0880b334f7752e2d0"
+      },
+      "proofs": [
+        {
+          "archiveExact": true,
+          "archiveHash": "3711efc72b4bd0d5c0778fab5c9173585c1137198c5f9fdb2cb0c0900e6c3e35",
+          "index": 0,
+          "fullMatch": true,
+          "exactSessionEqual": true,
+          "sessionHash": "d5c3cdf59d6b7b5a2331a43ac8634271fad81659824265f9ca09d9a35171a789",
+          "resultHash": "708073e7b65d1b54b2c2b93f517e248dfe08939e44d8705dfec8006a0f756b98",
+          "observedMs": 18644.6919,
+          "unobservedMs": 16436.930999999997,
+          "observerMs": 1346.917300000215,
+          "analysisMs": 262.88210000000254,
+          "includes": [
+            "result",
+            "events",
+            "rng",
+            "archive frames",
+            "core statistics"
+          ],
+          "postAnalysisSessionUnchanged": true
+        },
+        {
+          "archiveExact": true,
+          "archiveHash": "3711efc72b4bd0d5c0778fab5c9173585c1137198c5f9fdb2cb0c0900e6c3e35",
+          "index": 0,
+          "saveReloadFullMatch": true,
+          "exactSessionEqual": true,
+          "checkpoint": "JSON persisted career after two 10000-tick chunks",
+          "includes": [
+            "result",
+            "events",
+            "rng",
+            "trajectories",
+            "archive frames",
+            "statistics"
+          ]
+        }
+      ],
+      "pairedIntelligence": 40,
+      "pairedEmpiricalCalibration": 20
+    },
+    "allsv": {
+      "matches": 80,
+      "sourceStable": true,
+      "sources": {
+        "packages/handball-engine/src/v2/core/actions.ts": "36877af6bfe9e2e0eec8f6de6910331e3bb6537782f5780226a288b0a47ee42b",
+        "packages/handball-engine/src/v2/core/backcourt.ts": "00ab4e44f0520b83f771cf5dd8a0e1212b34272410e5027b856eabddebddc120",
+        "packages/handball-engine/src/v2/core/backcourtScenarios.ts": "6137722469db2dc0a9567b9ff3bccd9c8d3f070e9db58bb93fe225cbccd655be",
+        "packages/handball-engine/src/v2/core/coaching.ts": "b943276328e1df36f43173af08fe008d8376f419e5afae4aeae5e1466a28a599",
+        "packages/handball-engine/src/v2/core/condition.ts": "f27c2d555258dbb0a56f562ed25e0416aa31a2e90640143ea7f7b874f92cad91",
+        "packages/handball-engine/src/v2/core/contact.ts": "9b7257603bdd09eec665f7c50ffa0d4ae7d9f45e2158f22098fbcf0f1a588362",
+        "packages/handball-engine/src/v2/core/contactScenarios.ts": "624c77567281a49677ae55289c3e0d71d5e81f00e2f56f151e1bf7ea59ebd1ce",
+        "packages/handball-engine/src/v2/core/continuous.ts": "3bc0e25ee0474aab3162df83b5e228bcd5953ddc5b29622592e5fd5bfdda55c5",
+        "packages/handball-engine/src/v2/core/defence.ts": "353763d139e7d170aff02f6b757973103a3b25fbdc53c4c363a1ed06de102b56",
+        "packages/handball-engine/src/v2/core/engage.ts": "b597ce488188b882f553f0553316960039d19ec92bca275ee89c7a4db4595d07",
+        "packages/handball-engine/src/v2/core/engine.ts": "144c900313369d675c23bfd675474ff9e43cf1011d53f9ef0fc4995e658646bb",
+        "packages/handball-engine/src/v2/core/execution.ts": "1c452665f4ab82177c725e84ba01df8c58cc54dfa98fbd0bdd31299a8d1c563d",
+        "packages/handball-engine/src/v2/core/intelligence.ts": "90b139f8fff727f9fcfc55fdd8caed4e0eaedfe9376e27b224f405a53cedd667",
+        "packages/handball-engine/src/v2/core/intelligenceScenarios.ts": "8214cb9c24bad1570559d71d2381e3ac6bdf7c670bd0e9b925bbc72857bbd310",
+        "packages/handball-engine/src/v2/core/interactions.ts": "dee972c7cbd04c7355234b761dbb30276f0e4e4cd1f2495d68decb56058297e8",
+        "packages/handball-engine/src/v2/core/ledger.ts": "dd801ce6401a106d772eac46c5800eb46f218d34495f41ec1ff536aec24116c9",
+        "packages/handball-engine/src/v2/core/locomotion.ts": "c222d4240a0b0935e552fa37a7c1dcf7a999d48ca4e4e200ce5befabbc860b13",
+        "packages/handball-engine/src/v2/core/match.ts": "4ced473266ede54a0d9689c6e06a28e2a5b009464fdd994fce6c61e8186c08dd",
+        "packages/handball-engine/src/v2/core/matchReplay.ts": "6796c275154da7145cd06558835524075013528ecb2354a1f3439e5b537ea499",
+        "packages/handball-engine/src/v2/core/movement.ts": "a5c531ad8d2cefa5623a7325b22f7f6d78c2e8bd20ca9aef87369112e5ae2037",
+        "packages/handball-engine/src/v2/core/offence.ts": "8e4a37b6a87cc000094bf402d8d0a26471689ec782af8aa7a3ecb555cc95740b",
+        "packages/handball-engine/src/v2/core/passive.ts": "0c405269406b4a8b124ea432ce036a0008118aa59c186954cded0957a0c2381f",
+        "packages/handball-engine/src/v2/core/pivot.ts": "3021f9ab217e9e4eb8f5adf996365e86338ac0fa9e738fc7491a25228c6bf783",
+        "packages/handball-engine/src/v2/core/population.ts": "49ce36826bec8344be94e5fc8cd763abeb9fb2525728df0d1526d799bc24bd7f",
+        "packages/handball-engine/src/v2/core/profile.ts": "2470fad59a2bb1570ee67561b8ca9e79edead74bc7082c7fe0007f2e252f38b0",
+        "packages/handball-engine/src/v2/core/realism.ts": "615271e0bc0217a08b296fa0777754f28b02fa136e5c0e55f07a8af616780897",
+        "packages/handball-engine/src/v2/core/referee.ts": "35feaf4d17b6b5bd011702384be061081b52b220e5d897e37aa24bc297d04387",
+        "packages/handball-engine/src/v2/core/replay.ts": "7a636b1b374a10d7f8aa02ade08957ac67920aacd33b37db2f412f2fefa42e6b",
+        "packages/handball-engine/src/v2/core/restarts.ts": "20a9bfbb0ebbffe9daf74da6557dc735595b5af2ec99b4bc586a4219fbb37f24",
+        "packages/handball-engine/src/v2/core/rules.ts": "46325a43317b15edfc4773265989ffa2ab0500c9fdefb32a7fc3363dd39147d4",
+        "packages/handball-engine/src/v2/core/sanction.ts": "f0bb1a8fc2e2a3c94e609ce1b62824c11d787b1587150f8338c65dd19615d106",
+        "packages/handball-engine/src/v2/core/scenarios.ts": "c48ddb2c75ce34fd03c439261e40e77f676b1ffb2fc8abeb1a3f9b1a5d286dbe",
+        "packages/handball-engine/src/v2/core/space.ts": "fa4755d1ba95d8e683cd19955418944d004a34963b708030ef72eb521ca25eb3",
+        "packages/handball-engine/src/v2/core/squads.ts": "fc2aeaa594f3ef8a119656d1056178bf5f6414f6ee4c2082641b97fc216749a4",
+        "packages/handball-engine/src/v2/core/state.ts": "e5fe9d2b4f2fbd893618042cd9d1da71e28b70737797d4d4fc0dd9a6ecb0a355",
+        "packages/handball-engine/src/v2/core/structure.ts": "28835fc261ff52a588ec37503cecc888fe7d08510631b8a5617a6f91948009a8",
+        "packages/handball-engine/src/v2/core/testProfile.ts": "35a3ac5a0a0fbb6614de81c449fde37b880af96bc10a1cd2dcf4b4e3e9077d6d",
+        "packages/handball-engine/src/v2/core/threatRelation.ts": "a81361b880c13aee634ae0b771726d237edecdacc623d7b56aec95586b912777",
+        "packages/handball-engine/src/v2/core/timing.ts": "0356bb3de1dc1aa32359d6e198cce8155bbd7010c9f76592f6f33c24c131b169",
+        "packages/handball-engine/src/v2/core/transitions.ts": "ee453a4af139da47de2249d4ebf8f73f44e94372c2c231f654f65651cef77ec3",
+        "packages/handball-engine/src/v2/core/wing.ts": "31d7f39cf38918717d3723fadcce80948a13650a45a2f680e1bbc5c66fd3a556",
+        "packages/handball-engine/src/v2/core/wingScenarios.ts": "8d553b1c254f0953cf5508ca1a37463891f631cdfd0df81b436be487541ee031",
+        "apps/game/lib/career/productionMatch.ts": "aaeb8d556b940f1f3518135056fa356a3b0c95eefce4cdf4c8db47eedf8cefd1",
+        "apps/game/scripts/match-benchmarks.ts": "319e3c9802d702553a2e39aef0cd8c38b555ba3a07cd32733f6ebfa4a843affe",
+        "apps/game/scripts/lib/calibrationDiagnostics.ts": "75b4d75ab6951abd13939eb69661ef9a926654ce95d33d36434709c9a038223e",
+        "apps/game/scripts/lib/reconciliationDiagnostics.ts": "150a9d196dc92862f75a3fbdc2bd6abddc6b0b91e854e777f5df3d257e4b99b8",
+        "apps/game/lib/matchBenchmarks/empirical.ts": "1b05cfb0cfdb7e96870875b1042860b13221c852078eff953d31016123464d6c",
+        "apps/game/lib/matchBenchmarks/empiricalComparison.ts": "e49e86aca79b3e30cbe57ea0e6ce1da16a778417e936be4f3a1405a312e1a975",
+        "apps/game/lib/matchBenchmarks/evaluate.ts": "2f4d5bc893fbd482dfcd10baeaa1f3aa72c943dbcfa0e8dca0ba050fd3c9f3f0",
+        "apps/game/lib/matchBenchmarks/extract.ts": "4ac1e4094d2b76ba34dd157df4b32ba6309c1853aab18c7329890231681bb873",
+        "apps/game/lib/matchBenchmarks/reference.ts": "25cb435b7824faa1fc58429264d3e91a4833e678170bb5bfa75d5b5c98009e8a",
+        "apps/game/lib/matchBenchmarks/report.ts": "c7c77e53ba8b07212362ec36f4a31f2d8b263ea0f17ce8f0fd730292035b7444",
+        "apps/game/lib/matchBenchmarks/statistics.ts": "9b3c1f8e5dc5590302b8b6115f5e7c86d9a5693e14af80f0880b334f7752e2d0"
+      },
+      "proofs": [
+        {
+          "archiveExact": true,
+          "archiveHash": "01f5394b4e40ef4c8c42cb79ce415fd42720e37fc4fb01d88162067aa4af11de",
+          "index": 0,
+          "fullMatch": true,
+          "exactSessionEqual": true,
+          "sessionHash": "5719f8e153a7076154b73b308e09ccc45a3c9cdb72181fe1cec4746d2b4e4e49",
+          "resultHash": "b92669181c96be61f9c25cc24b9b1ffda77b3d40c8842e1b9d562afa73fb3089",
+          "observedMs": 18772.5266,
+          "unobservedMs": 16692.661200000002,
+          "observerMs": 1358.643800000231,
+          "analysisMs": 260.79769999999917,
+          "includes": [
+            "result",
+            "events",
+            "rng",
+            "archive frames",
+            "core statistics"
+          ],
+          "postAnalysisSessionUnchanged": true
+        },
+        {
+          "archiveExact": true,
+          "archiveHash": "01f5394b4e40ef4c8c42cb79ce415fd42720e37fc4fb01d88162067aa4af11de",
+          "index": 0,
+          "saveReloadFullMatch": true,
+          "exactSessionEqual": true,
+          "checkpoint": "JSON persisted career after two 10000-tick chunks",
+          "includes": [
+            "result",
+            "events",
+            "rng",
+            "trajectories",
+            "archive frames",
+            "statistics"
+          ]
+        }
+      ],
+      "pairedIntelligence": 40,
+      "pairedEmpiricalCalibration": 20
+    }
+  },
+  "reused": {
+    "focused": [
+      88
+    ],
+    "coreInitial": [
+      332
+    ],
+    "coreScopedCorrection": [
+      33
+    ],
+    "coreCombined": "332 cases covered: initial 331 passed, corrected travelling-hand assertion and all 33 affected cases passed; full expensive suite was not repeated.",
+    "domainWorkspaces": [
+      180,
+      46,
+      12,
+      29,
+      25
+    ],
+    "gameTests": [
+      2211,
+      163
+    ],
+    "gameFiles": 217,
+    "v2": [
+      9
+    ],
+    "season": {
+      "complete": true,
+      "managerMatches": 26,
+      "archivedMatches": 27,
+      "nextSeason": "2027/28",
+      "date": "2027-09-23"
+    },
+    "canonicalTruth": {
+      "archives": 26,
+      "snapshots": 311,
+      "stories": 104
+    },
+    "browser": {
+      "url": "http://127.0.0.1:3016",
+      "normalCareer": true,
+      "liveDecisions": true,
+      "halftime": true,
+      "saveLoad": true,
+      "keyboard": true,
+      "reducedMotion": true,
+      "score": "29–34",
+      "overview": "MATCHBERÄTTELSEN\nIFK Tumba vinner.\nMattias Windahl leder målskyttet med 11 mål på 12 avslut.\nSimon Larsson: 4 räddningar på 38 avslut på mål (11%).\nTorslanda gjorde 7 mål i följd, 0:18–7:09.\nHalvtid 15–16. Slutresultat 29–34.",
+      "widths": [
+        {
+          "width": 1366,
+          "workspaceHeight": 995,
+          "viewportHeight": 768
+        },
+        {
+          "width": 1440,
+          "workspaceHeight": 999.234375,
+          "viewportHeight": 1080
+        },
+        {
+          "width": 1920,
+          "workspaceHeight": 985.75,
+          "viewportHeight": 1080
+        },
+        {
+          "width": 2560,
+          "workspaceHeight": 985.75,
+          "viewportHeight": 1080
+        }
+      ],
+      "switchSamples": [
+        {
+          "view": "Översikt",
+          "selected": "Översikt",
+          "clickToNextFrameMs": 17.600000023841858
+        },
+        {
+          "view": "Nyckelögonblick",
+          "selected": "Nyckelögonblick",
+          "clickToNextFrameMs": 14.599999994039536
+        },
+        {
+          "view": "Spelare",
+          "selected": "Spelare",
+          "clickToNextFrameMs": 14.400000005960464
+        },
+        {
+          "view": "Statistik",
+          "selected": "Statistik",
+          "clickToNextFrameMs": 17.299999982118607
+        }
+      ],
+      "pageErrors": [],
+      "humanQA": "PENDING",
+      "reviewResumedFromOwnNormalCareer": true
+    },
+    "build": {
+      "distDir": "apps/game/.next-game-reconciled-v1",
+      "buildId": "3PQHL0oSSqFhBU5FxXd8a",
+      "exit": 0,
+      "currentRuntimePrecedesBuild": true
+    }
+  },
+  "newVerification": {
+    "exitCodes": {
+      "contested-finish-focused": 0,
+      "core-scoped-rerun": 0,
+      "domain-workspaces": 0,
+      "engine-types-final": 0,
+      "game-types-closeout": 0,
+      "report-types": 0,
+      "full-game": 0,
+      "v2": 0,
+      "season": 0,
+      "canonical-truth": 0,
+      "build": 0,
+      "browser-review": 0,
+      "tactics": 0,
+      "restart-task-lint-fixed": 0,
+      "restart-cohorts": 0,
+      "restart-empirical-tests": 0
+    },
+    "empiricalTests": [
+      15
+    ],
+    "preservedFiles": 65
+  },
+  "knownEarlierFailures": {
+    "core": "Torso-height test unintentionally mixed body coverage into a hand-travel assertion; test moved above torso and scoped rerun passed.",
+    "types": "Nullable assertion corrected; engine and final game typechecks subsequently passed.",
+    "browser": "Initial career load timeout; retry completed normal live play, timeout save/reload and halftime, then test-only IndexedDB export overflowed. Report review resumed from its own saved career and passed, with zero console/request/page errors.",
+    "lint": "Inherited match-benchmarks.ts simulationStart prefer-const error exists at recovered HEAD; new script changed binding fixed, task-owned files now lint clean."
+  },
+  "preservation": {
+    "frozenAndUserHashesEqual": true,
+    "motionHead": "197d2a80ecea3b70efdcf8ef347cfc68e0e86b2b",
+    "motionStatus": "?? .claude/",
+    "stashes": [
+      "ddba79055949b76898b12fc1b947e8f8645589cb On motion-lab: WIP Pack #5 M6 breakthrough screen paused before Human QA",
+      "b068a9586209b9405b8d5f0dc6fae6384dd09001 On motion-lab: WIP Pack #5 M6 line game paused before Human QA"
+    ],
+    "nothingPushed": true
+  },
+  "humanQA": "PENDING user play; automated evidence is not human acceptance"
+}

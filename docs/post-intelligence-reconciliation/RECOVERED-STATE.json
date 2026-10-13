@@ -1,0 +1,178 @@
+{
+  "head": "3fc64a8b810784e2e8a5c3a41c88105d85d76862",
+  "commitsAfterCheckpoint": [],
+  "preservation": {
+    "filesChecked": 65,
+    "changed": []
+  },
+  "cohorts": {
+    "hbl": {
+      "matches": 64,
+      "chunks": [
+        {
+          "name": "chunk-000",
+          "matches": 8,
+          "proofs": [
+            {
+              "archiveExact": true,
+              "archiveHash": "3711efc72b4bd0d5c0778fab5c9173585c1137198c5f9fdb2cb0c0900e6c3e35",
+              "index": 0,
+              "fullMatch": true,
+              "exactSessionEqual": true,
+              "sessionHash": "d5c3cdf59d6b7b5a2331a43ac8634271fad81659824265f9ca09d9a35171a789",
+              "resultHash": "708073e7b65d1b54b2c2b93f517e248dfe08939e44d8705dfec8006a0f756b98",
+              "observedMs": 18644.6919,
+              "unobservedMs": 16436.930999999997,
+              "observerMs": 1346.917300000215,
+              "analysisMs": 262.88210000000254,
+              "includes": [
+                "result",
+                "events",
+                "rng",
+                "archive frames",
+                "core statistics"
+              ],
+              "postAnalysisSessionUnchanged": true
+            },
+            {
+              "archiveExact": true,
+              "archiveHash": "3711efc72b4bd0d5c0778fab5c9173585c1137198c5f9fdb2cb0c0900e6c3e35",
+              "index": 0,
+              "saveReloadFullMatch": true,
+              "exactSessionEqual": true,
+              "checkpoint": "JSON persisted career after two 10000-tick chunks",
+              "includes": [
+                "result",
+                "events",
+                "rng",
+                "trajectories",
+                "archive frames",
+                "statistics"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "chunk-008",
+          "matches": 8,
+          "proofs": []
+        },
+        {
+          "name": "chunk-016",
+          "matches": 8,
+          "proofs": []
+        },
+        {
+          "name": "chunk-024",
+          "matches": 8,
+          "proofs": []
+        },
+        {
+          "name": "chunk-032",
+          "matches": 8,
+          "proofs": []
+        },
+        {
+          "name": "chunk-040",
+          "matches": 8,
+          "proofs": []
+        },
+        {
+          "name": "chunk-048",
+          "matches": 8,
+          "proofs": []
+        },
+        {
+          "name": "chunk-056",
+          "matches": 8,
+          "proofs": []
+        }
+      ]
+    },
+    "allsv": {
+      "matches": 64,
+      "chunks": [
+        {
+          "name": "chunk-000",
+          "matches": 8,
+          "proofs": [
+            {
+              "archiveExact": true,
+              "archiveHash": "01f5394b4e40ef4c8c42cb79ce415fd42720e37fc4fb01d88162067aa4af11de",
+              "index": 0,
+              "fullMatch": true,
+              "exactSessionEqual": true,
+              "sessionHash": "5719f8e153a7076154b73b308e09ccc45a3c9cdb72181fe1cec4746d2b4e4e49",
+              "resultHash": "b92669181c96be61f9c25cc24b9b1ffda77b3d40c8842e1b9d562afa73fb3089",
+              "observedMs": 18772.5266,
+              "unobservedMs": 16692.661200000002,
+              "observerMs": 1358.643800000231,
+              "analysisMs": 260.79769999999917,
+              "includes": [
+                "result",
+                "events",
+                "rng",
+                "archive frames",
+                "core statistics"
+              ],
+              "postAnalysisSessionUnchanged": true
+            },
+            {
+              "archiveExact": true,
+              "archiveHash": "01f5394b4e40ef4c8c42cb79ce415fd42720e37fc4fb01d88162067aa4af11de",
+              "index": 0,
+              "saveReloadFullMatch": true,
+              "exactSessionEqual": true,
+              "checkpoint": "JSON persisted career after two 10000-tick chunks",
+              "includes": [
+                "result",
+                "events",
+                "rng",
+                "trajectories",
+                "archive frames",
+                "statistics"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "chunk-008",
+          "matches": 8,
+          "proofs": []
+        },
+        {
+          "name": "chunk-016",
+          "matches": 8,
+          "proofs": []
+        },
+        {
+          "name": "chunk-024",
+          "matches": 8,
+          "proofs": []
+        },
+        {
+          "name": "chunk-032",
+          "matches": 8,
+          "proofs": []
+        },
+        {
+          "name": "chunk-040",
+          "matches": 8,
+          "proofs": []
+        },
+        {
+          "name": "chunk-048",
+          "matches": 8,
+          "proofs": []
+        },
+        {
+          "name": "chunk-056",
+          "matches": 8,
+          "proofs": []
+        }
+      ]
+    }
+  },
+  "interrupted": "Cohort orchestrator stopped without final aggregate/exit receipt after chunk-056 completed in both leagues. All 128 recovered match files and chunk receipts parse and match current source fingerprints.",
+  "buildId": "3PQHL0oSSqFhBU5FxXd8a"
+}
