@@ -511,6 +511,11 @@ function defensiveMovement(s:CoreState,p:CorePlayer,read:DefenceRead|null,direct
 /** A current relationship steers an executing movement, without restarting its acceleration. */
 function refreshActiveMovement(s:CoreState,p:CorePlayer,read:DefenceRead|null,direction:CoreState['directions']['HOME'],receiverId:string|null|undefined) {
   const a=p.action;
+  if(a?.kind==='CONTACT'&&!actionAvailable(p)&&a.targetId!==s.ball.controllerId&&(s.ball.controllerId!==null||s.ball.flight!==null)){
+    // The old ball-holder relationship has ended. A contact recovery timer
+    // must not freeze the helper after a real pass reveals the next threat.
+    resolveAction(s,p,'Ball left the committed contact target; recover the assigned line responsibility');
+  }
   // An unclaimed offering position is not a two-second frozen appointment.
   // When the ball changes the relationship, the hands can remain available
   // while the legs leave the old post. Named feeds retain their prepared window.
@@ -642,6 +647,11 @@ export function selectActions(s:CoreState) {
     // landing continue independently; do not wait through a second recovery
     // before starting the already committed throwing preparation.
     resolveAction(s,carrierNow,'Actual takeoff completed; carry the finish into normal throwing preparation');
+  }
+  // Preparation starts when a moving assigned defender reaches the carrier,
+  // rather than waiting for a tracking action's unrelated completion timer.
+  if(carrierNow&&!carrierNow.airborne)for(const d of defenders){
+    if(d.action?.phase==='EXECUTING'&&['PRESS','HELP','CONTAIN','RECOVER'].includes(d.action.kind))planContact(s,d,carrierNow);
   }
   releaseFromDrive(s,carrierNow);
   continueDribbleThreat(s,carrierNow);

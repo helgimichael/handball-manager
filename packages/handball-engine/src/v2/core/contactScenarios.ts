@@ -3,7 +3,7 @@ import { getPlayer,type Direction } from './state';
 import { world } from './space';
 import { ZONE_ANCHORS } from './defence';
 import { startAction } from './actions';
-import { planContact } from './contact';
+import { contactApproach,planContact } from './contact';
 
 export const CONTACT_SCENARIOS=['FRONTAL_CONTACT','LATE_HOLD','EVADED_CONTACT','SHOULDER_BREAKTHROUGH'] as const;
 export type ContactScenario=typeof CONTACT_SCENARIOS[number];
@@ -44,7 +44,12 @@ export function createContactScenario(kind:ContactScenario,seed=2025,direction:D
   // The hold is the subject of the LATE_HOLD fixture, so the commitment is live
   // rather than still preparing: four ticks of preparation were enough for the
   // zonal line to reposition the defender and the contact then missed.
-  planContact(s,d,a);
+  if(kind==='LATE_HOLD'){
+    // This fixture stages a deliberately committed hold. Technique-selection
+    // policy is tested separately; the referee must judge the actual hold.
+    startAction(s,d,'CONTACT','Committed deliberate hold against the near-line carrier',null,a.id);
+    d.action!.contact={technique:'HOLD',approach:contactApproach(s,a,d)};
+  }else planContact(s,d,a);
   if(kind==='LATE_HOLD'&&d.action){d.action.phase='EXECUTING';d.action.phaseTick=0;}
   if(kind==='LATE_HOLD')a.action!.phase='COMMITTED';
   return s;

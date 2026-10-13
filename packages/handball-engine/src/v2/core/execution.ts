@@ -1,12 +1,13 @@
 // Execution uncertainty follows the actual throw/catch problem. These are
 // engineering coefficients, not event-rate targets or a turnover lottery.
 import { courtPlayers, otherTeam, random, record, type CorePlayer, type CoreState, type Point } from './state';
-import { clamp, distance, laneClearance, local, shotContext, shootingAngle, world } from './space';
+import { clamp, distance, goal, laneClearance, local, shotContext, shootingAngle, world } from './space';
 import { executionCapacity } from './condition';
+import {defenderResistance} from './threatRelation';
 
 export function releasePressure(s:CoreState,p:CorePlayer):number {
-  return clamp(courtPlayers(s,otherTeam(p.team)).filter(d=>d.kind==='FIELD_PLAYER'&&d.beatenUntilTick<=s.tick&&d.screenedUntilTick<=s.tick)
-    .reduce((n,d)=>n+Math.max(0,1-distance(p.position,d.position)/2)*(d.action?.kind==='CONTACT'?1.2:.7),0),0,2);
+  return clamp(courtPlayers(s,otherTeam(p.team)).filter(d=>d.kind==='FIELD_PLAYER')
+    .reduce((n,d)=>n+Math.max(0,1-distance(p.position,d.position)/2)*(d.action?.kind==='CONTACT'?1.2:.7)*defenderResistance(s,p,d,goal(s.directions[p.team])),0),0,2);
 }
 
 /** A deterministic intended window, based on the visible world at commitment. */

@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { createCoreScenario } from './scenarios';
 import { advanceCoreMutable, assertCore } from './engine';
 import { getPlayer, type CoreState } from './state';
-import { distance } from './space';
+import { distance,world } from './space';
 import { startAction } from './actions';
 
 function loose(x:number,y:number):CoreState{
@@ -68,4 +68,17 @@ test('unavailable players cannot claim a rebound and no field claimant is assign
   advanceCoreMutable(area);
   assert.equal(area.ball.controllerId,null);
   assert.equal(area.players.filter(p=>p.kind==='FIELD_PLAYER'&&p.duty.kind==='COLLECT').length,0);
+});
+
+test('a near-end-line ball outside the curved area has a reachable lateral collection approach at either goal',()=>{
+  for(const direction of ['TOP','BOTTOM'] as const){
+    const ball=world({x:17.547497783312416,y:.12959887858902863},direction),s=loose(ball.x,ball.y),runner=getPlayer(s,'H06');
+    for(const p of s.players)if(p!==runner&&p.kind==='FIELD_PLAYER'){p.population='BENCH';p.zone=null;}
+    runner.position=world({x:17.83,y:2.77},direction);
+    const before={...s.ball.position};advanceCoreMutable(s);
+    assert.equal(runner.duty.kind,'COLLECT');assert.ok(runner.action?.target);
+    assert.ok(distance(runner.action!.target!,before)<=.65,'a legal body centre remains within physical grasp');
+    assert.equal(s.ball.controllerId,null);assert.deepEqual(s.ball.position,before,'designation never snaps the ball or awards a catch');
+    recover(s,120);assert.equal(s.events.find(e=>e.type==='BALL_CONTROLLED')?.actorId,runner.id);
+  }
 });

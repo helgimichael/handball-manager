@@ -6,12 +6,13 @@ import {execFileSync} from 'node:child_process';
 import {performance} from 'node:perf_hooks';
 import {createNewCareerState} from '../lib/career/newCareer';
 import {buildMatchdayReadyEvent} from '../lib/career/careerEvents';
-import {startProductionMatch,advanceProductionMatch,resultFromSession,commandProductionMatch} from '../lib/career/productionMatch';
+import {startProductionMatch,advanceProductionMatch,resultFromSession,commandProductionMatch,finalizeProductionMatch} from '../lib/career/productionMatch';
 import {snapshotWorldSquads,snapshotGameplayRatings} from '../lib/gameWorld/serverSnapshot';
 import {getClubsByCompetition} from '../lib/game-data';
 import type {PlayerMock} from '../lib/game-data';
 import type {GameplayPlayerRating} from '../lib/gameWorld/gameplayRatingSnapshot';
 import {CalibrationDiagnostics} from './lib/calibrationDiagnostics';
+import {ReconciliationDiagnostics} from './lib/reconciliationDiagnostics';
 import {MotionQualityDiagnostics} from './lib/motionQualityDiagnostics';
 import {encodeFrames} from '../lib/career/matchFrames';
 import {extract} from '../lib/matchBenchmarks/extract';
@@ -44,6 +45,7 @@ const season=option('--season','2026-27')!,knownSwedishMen=['swe-1','swe-2'].inc
 const tacticsPath=option('--tactics'),tactics=tacticsPath?JSON.parse(readFileSync(resolve(tacticsPath),'utf8')):null;
 const root=resolve('../..'),sourceDir=join(root,'packages/handball-engine/src/v2/core');
 const paths=[...readdirSync(sourceDir).filter(f=>f.endsWith('.ts')&&!f.endsWith('.test.ts')).map(f=>join(sourceDir,f)),resolve('lib/career/productionMatch.ts'),resolve('scripts/lib/calibrationDiagnostics.ts'),...readdirSync(resolve('lib/matchBenchmarks')).filter(f=>f.endsWith('.ts')&&!f.endsWith('.test.ts')).map(f=>resolve('lib/matchBenchmarks',f)),resolve('scripts/match-benchmarks.ts')];
+if(args.includes('--reconciliation'))paths.push(resolve('scripts/lib/reconciliationDiagnostics.ts'));
 if(args.includes('--motion-quality'))paths.push(resolve('scripts/lib/motionQualityDiagnostics.ts'));
 const fingerprints=()=>paths.map(path=>({path:path.replace(root,'').replaceAll('\\','/'),sha256:hash(readFileSync(path,'utf8'))}));
 const sources=fingerprints();let head='UNKNOWN';try{head=execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim();}catch{}
@@ -62,17 +64,20 @@ for(const recipe of recipes){
   const initial=structuredClone(career),initialProfiles=career.productionMatch!.core.players.map(p=>({id:p.id,team:p.team,role:p.role,profile:p.profile,energy:p.condition.energy})),initialTactics=structuredClone(career.productionMatch!.core.coaching);
   const motion=args.includes('--motion-quality')&&reports.length<2?new MotionQualityDiagnostics():null;
   const intelligence=args.includes('--intelligence')?enableDecisionTrace(career.productionMatch!.core,reports.length<2?256:0):null;
+  const reconciliation=args.includes('--reconciliation')?new ReconciliationDiagnostics():null;
   const observer=new CalibrationDiagnostics();let observerMs=0,calls=0,simulationStart=performance.now(),savedMidMatch:typeof career|null=null;
-  while(career.productionMatch!.core.status==='RUNNING'&&calls++<40){career=advanceProductionMatch(career,10000,false,(core,events)=>{const t=performance.now();observer.observe(core,events);motion?.observe(core);observerMs+=performance.now()-t;});if(args.includes('--prove')&&reports.length===0&&calls===2)savedMidMatch=JSON.parse(JSON.stringify(career));}
+  while(career.productionMatch!.core.status==='RUNNING'&&calls++<40){career=advanceProductionMatch(career,10000,false,(core,events)=>{const t=performance.now();observer.observe(core,events);motion?.observe(core);reconciliation?.observe(core,events);observerMs+=performance.now()-t;});if(args.includes('--prove')&&reports.length===0&&calls===2)savedMidMatch=JSON.parse(JSON.stringify(career));}
   const simulationMs=performance.now()-simulationStart,session=career.productionMatch!;
   if(session.core.match?.phase!=='FULLTIME')throw new Error(`Incomplete ${recipe.index}: ${session.core.reason}`);
   const before=hash(session),analysisStart=performance.now(),diagnostics=observer.report(session.core),result=resultFromSession(session),actual=extract(session,diagnostics,result),report=matchReport(actual,profiles,identity),analysisMs=performance.now()-analysisStart;
   if(before!==hash(session))throw new Error('Post-match analysis mutated canonical session');
   // Full-match pair for exact events, RNG, frames, result and all core statistics.
-  if(args.includes('--prove')&&reports.length===0){let without=initial;const t=performance.now();let n=0;while(without.productionMatch!.core.status==='RUNNING'&&n++<40)without=advanceProductionMatch(without,10000,false);const plainMs=performance.now()-t;const equal=hash(without.productionMatch)===before&&hash(resultFromSession(without.productionMatch!))===hash(result);if(!equal)throw new Error('Non-mutation proof failed');proofs.push({index:recipe.index,fullMatch:true,exactSessionEqual:equal,sessionHash:before,resultHash:hash(result),observedMs:simulationMs,unobservedMs:plainMs,observerMs,analysisMs,includes:['result','events','rng','archive frames','core statistics'],postAnalysisSessionUnchanged:true});}
-  if(savedMidMatch){let resumed=savedMidMatch,n=0;while(resumed.productionMatch!.core.status==='RUNNING'&&n++<40)resumed=advanceProductionMatch(resumed,10000,false);const equal=hash(resumed.productionMatch)===before&&hash(resultFromSession(resumed.productionMatch!))===hash(result);if(!equal)throw new Error('Mid-match save/reload changed final truth');proofs.push({index:recipe.index,saveReloadFullMatch:true,exactSessionEqual:equal,checkpoint:'JSON persisted career after two 10000-tick chunks',includes:['result','events','rng','trajectories','archive frames','statistics']});}
+  if(args.includes('--prove')&&reports.length===0){let without=initial;const t=performance.now();let n=0;while(without.productionMatch!.core.status==='RUNNING'&&n++<40)without=advanceProductionMatch(without,10000,false);const plainMs=performance.now()-t;const equal=hash(without.productionMatch)===before&&hash(resultFromSession(without.productionMatch!))===hash(result);if(!equal)throw new Error('Non-mutation proof failed');const archive=finalizeProductionMatch(career).matchArchives![fixture.id],plainArchive=finalizeProductionMatch(without).matchArchives![fixture.id];if(hash(archive)!==hash(plainArchive))throw new Error('Observed archive differs');proofs.push({archiveExact:true,archiveHash:hash(archive),index:recipe.index,fullMatch:true,exactSessionEqual:equal,sessionHash:before,resultHash:hash(result),observedMs:simulationMs,unobservedMs:plainMs,observerMs,analysisMs,includes:['result','events','rng','archive frames','core statistics'],postAnalysisSessionUnchanged:true});}
+  if(savedMidMatch){let resumed=savedMidMatch,n=0;while(resumed.productionMatch!.core.status==='RUNNING'&&n++<40)resumed=advanceProductionMatch(resumed,10000,false);const equal=hash(resumed.productionMatch)===before&&hash(resultFromSession(resumed.productionMatch!))===hash(result);if(!equal)throw new Error('Mid-match save/reload changed final truth');const archive=finalizeProductionMatch(career).matchArchives![fixture.id],resumedArchive=finalizeProductionMatch(resumed).matchArchives![fixture.id];if(hash(archive)!==hash(resumedArchive))throw new Error('Resumed archive differs');proofs.push({archiveExact:true,archiveHash:hash(archive),index:recipe.index,saveReloadFullMatch:true,exactSessionEqual:equal,checkpoint:'JSON persisted career after two 10000-tick chunks',includes:['result','events','rng','trajectories','archive frames','statistics']});}
   const compact={...report,actual:{...report.actual,keepers:report.actual.keepers.map(k=>({...k,shots:undefined}))}};
+  if(args.includes('--prove')&&reports.length===0)write(`proofs-${String(recipe.index).padStart(3,'0')}.json`,proofs);
   if(motion)write(`motion-${String(recipe.index).padStart(3,'0')}.json`,motion.report());
+  if(reconciliation)write(`reconciliation-${String(recipe.index).padStart(3,'0')}.json`,reconciliation.report());
   if(intelligence)write(`intelligence-${String(recipe.index).padStart(3,'0')}.json`,{metrics:intelligenceMetrics(intelligence),traces:intelligence.traces,defensiveTraces:intelligence.defensiveTraces});
   if(args.includes('--causal'))write(`causal-${String(recipe.index).padStart(3,'0')}.json`,{shots:diagnostics.shots,halves:diagnostics.halves,ruleFacts:session.core.events.filter(e=>['CONTACT_EXECUTED','FOUL_ASSESSED','WHISTLE_RESTART','TWO_MINUTE_SUSPENSION','WARNING','DISQUALIFICATION','ADVANTAGE_PENDING','ADVANTAGE_REALIZED','ADVANTAGE_RECALLED'].includes(e.type))});
   write(`match-${String(recipe.index).padStart(3,'0')}.json`,{metadata:{recipe,fixture,head,engineVersion:session.core.version,behaviorRevision:session.behaviorRevision,initialSessionHash:hash(initial.productionMatch),truthHash:before,resultHash:hash(result),initialProfiles,initialTactics,...(motion?{archiveFrameCount:session.frames.length,archiveEncodedBytes:encodeFrames(session.frames).length*3/4}: {})},...compact});

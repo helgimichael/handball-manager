@@ -1,9 +1,10 @@
-import { courtPlayers,getPlayer,otherTeam,record,type CorePlayer,type CoreState } from './state';
+import { actionAvailable,courtPlayers,getPlayer,otherTeam,record,type CorePlayer,type CoreState } from './state';
 import { distance,goal,local,shootingAngle } from './space';
-import { startAction } from './actions';
+import { resolveAction,startAction } from './actions';
 import { contest } from './interactions';
 import { foul,interrupt } from './transitions';
 import { readContact } from './sanction';
+import {defenderRelation} from './threatRelation';
 
 export function contactApproach(s:CoreState,a:CorePlayer,d:CorePlayer):'FRONT'|'SIDE'|'BEHIND' {
   const g=goal(s.directions[a.team]),length=Math.max(.001,distance(a.position,g)*distance(a.position,d.position));
@@ -13,7 +14,8 @@ export function contactApproach(s:CoreState,a:CorePlayer,d:CorePlayer):'FRONT'|'
 /** A defender commits a technique against one assigned carrier, before knowing its outcome. */
 export function planContact(s:CoreState,d:CorePlayer,a:CorePlayer):boolean {
   if(distance(a.position,d.position)>1.05||a.airborne||d.screenedUntilTick>s.tick)return false;
-  if(d.id!==s.defence.pressureId&&d.id!==s.defence.helperId)return false;
+  const recoveringOriginal=d.duty.kind==='RECOVER'&&d.beatenBy===a.id&&d.beatenUntilTick>s.tick&&distance(a.position,d.position)<=.95;
+  if(d.id!==s.defence.pressureId&&d.id!==s.defence.helperId&&!recoveringOriginal)return false;
   const approach=contactApproach(s,a,d);
   const penetration=['DRIVE','DRIBBLE'].includes(a.action?.kind??'')&&a.action?.phase==='EXECUTING';
   const beaten=d.beatenUntilTick>s.tick;
@@ -24,8 +26,20 @@ export function planContact(s:CoreState,d:CorePlayer,a:CorePlayer):boolean {
   if(approach==='BEHIND'&&!penetration)return false;
   // A disciplined defender prefers to contain rather than grab, and only
   // reaches when he has genuinely been beaten to the space.
-  const desperate=(approach!=='FRONT'||beaten)&&penetration;
+  // Meeting from the side is still ordinary containment. A hold is a late
+  // recovery technique after the carrier has genuinely passed the shoulder,
+  // not the default answer whenever a moving helper is slightly oblique.
+  const desperate=defenderRelation(a,d,goal(s.directions[a.team])).beaten&&penetration;
   const technique=desperate&&d.profile.discipline<.55+.4*(beaten||approach==='BEHIND'?1:0)?'HOLD':'BENT_ARMS';
+  // Responsibility has handed over, but the passed man's actual arm may still
+  // reach the carrier. This is one original recovery episode, not an extra
+  // pressure owner. A disciplined recovery does not create rear contact.
+  if(recoveringOriginal&&technique!=='HOLD')return false;
+  if(!actionAvailable(d)){
+    const action=d.action;
+    if(!action||action.phase!=='EXECUTING'||!(recoveringOriginal&&action.kind==='RECOVER'||['PRESS','HELP','CONTAIN'].includes(action.kind)&&action.targetId===a.id))return false;
+    resolveAction(s,d,'Approach physically reached the carrier; prepare the actual contact');
+  }
   if(!startAction(s,d,'CONTACT',technique==='HOLD'?'Late to penetration; commit holding attempt':'Establish bent-arm contact while retaining goal-side position',null,a.id))return false;
   d.action!.contact={technique,approach};return true;
 }

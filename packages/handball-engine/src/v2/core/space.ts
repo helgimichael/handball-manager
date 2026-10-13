@@ -1,6 +1,7 @@
 import { goalAreaClearance } from '../../domain/geometry/goalArea';
 import { distanceBetween } from '../../domain/geometry/coordinates';
 import { courtPlayers, type CoreState, type CorePlayer, type Direction, type Point, type TeamId } from './state';
+import {defenderResistance} from './threatRelation';
 export const distance = distanceBetween;
 export const clamp = (n: number, min: number, max: number) => Math.max(min,Math.min(max,n));
 export const local = (p: Point, direction: Direction): Point => ({x:p.x,y:direction==='TOP'?p.y:40-p.y});
@@ -79,7 +80,7 @@ export function structurePoint(role: CorePlayer['role'],direction: Direction,bal
  * ball. A shooting back and a wing arrive at very different answers from the
  * same spot, which is the point.
  */
-function geometricShotQuality(s: CoreState, p: CorePlayer, pressure: number,referenceAbility=false): number {
+function geometricShotQuality(s: CoreState, p: CorePlayer, pressure: number,advantage:number,referenceAbility=false): number {
   const direction=s.directions[p.team];
   const q=local(p.position,direction),angle=shootingAngle(p.position,direction);
   const wide=Math.abs(q.x-10)>6.5;
@@ -104,11 +105,8 @@ function geometricShotQuality(s: CoreState, p: CorePlayer, pressure: number,refe
   // geometry and ability alone, so the backcourt never took the chance it had
   // just manufactured. Over ten matches the line player and the two wings
   // scored 552 goals and the entire backcourt scored 82.
-  const opponent=courtPlayers(s,p.team==='HOME'?'AWAY':'HOME');
-  const owner=opponent.find(d=>s.defence.marks[d.id]===p.id)??opponent.find(d=>d.id===s.defence.pressureId);
-  const committed=owner!==undefined&&(owner.beatenUntilTick>s.tick||owner.screenedUntilTick>s.tick||owner.wrongFootedUntilTick>s.tick);
-  const separated=owner===undefined?1:clamp((distance(owner.position,p.position)-.9)/2.4,0,1);
-  const advantage=committed?1:separated;
+  // Current goal-side clearance is shared with the pressure read below. It is
+  // not a bonus retained from the first defender's historical duel timer.
   // WHAT A SHOT IS MADE OF depends on where it is taken from.
   //
   // For a back, distance and sight of the goal carry it. For a WING they barely
@@ -143,38 +141,46 @@ export type ShotContext = {
   blockThreat: number; keeperPresent: boolean; emptyGoal: boolean; quality: number;
   /** Reference-capability opportunity, independent of shooter ability/energy; not an xG probability. */
   opportunityQuality:number;
+  /** Reachable body in the immediate goalward finishing corridor, not a historical duel flag. */
+  containment:number;
 };
 export function shotContext(s:CoreState,p:CorePlayer):ShotContext {
   const direction=s.directions[p.team],mouth=goal(direction),q=local(p.position,direction);
   const opponents=courtPlayers(s,p.team==='HOME'?'AWAY':'HOME');
   const keeperPresent=opponents.some(d=>d.kind==='GOALKEEPER');
-  let pressure=0,pressureCount=0,blockThreat=0;
+  const range=distance(p.position,mouth),ux=(mouth.x-p.position.x)/Math.max(.001,range),uy=(mouth.y-p.position.y)/Math.max(.001,range);
+  let pressure=0,pressureCount=0,blockThreat=0,nearestGuard=8,containment=0;
   for(const d of opponents) {
     if(d.kind==='GOALKEEPER')continue;
     const separation=distance(d.position,p.position),depth=local(d.position,direction).y;
-    const impaired=d.beatenUntilTick>s.tick||d.screenedUntilTick>s.tick||d.wrongFootedUntilTick>s.tick;
+    const resistance=defenderResistance(s,p,d,mouth);
+    const forward=(d.position.x-p.position.x)*ux+(d.position.y-p.position.y)*uy;
+    const lateral=Math.abs((d.position.x-p.position.x)*(-uy)+(d.position.y-p.position.y)*ux);
+    const pivotMarker=(p.role==='P'||p.role==='P2')&&d.duty.targetId===p.id&&['PIVOT','PRESSURE','MARK','COVER'].includes(d.duty.kind);
+    if(forward>0||pivotMarker)nearestGuard=Math.min(nearestGuard,separation/resistance);
+    if(forward>.15)containment=Math.max(containment,clamp((1.65-separation)/.7,0,1)*clamp((1.1-lateral)/.55,0,1)*resistance);
     // A defender behind the release still supplies contact pressure, but does
     // not cover the goal as effectively as a goal-side defender.
-    if(separation<2.2&&!impaired) {
+    if(separation<2.2) {
       pressureCount++;
-      pressure+=clamp((2.2-separation)/1.5,0,1)*(depth<=q.y+.3?1:.45);
+      pressure+=clamp((2.2-separation)/1.5,0,1)*(depth<=q.y+.3||pivotMarker?1:.45)*resistance;
     }
     const crossing=segmentPoint(p.position,mouth,d.position);
-    if(!impaired&&crossing.t>.02&&crossing.t<.75) {
+    if(crossing.t>.02&&crossing.t<.75) {
       const lateral=distance(d.position,crossing.point)-d.radius;
       const reach=clamp((.95-lateral)/.95,0,1);
-      blockThreat=Math.max(blockThreat,reach*(.35+.65*d.profile.blocking));
+      blockThreat=Math.max(blockThreat,reach*(.35+.65*d.profile.blocking)*resistance);
     }
   }
-  const range=distance(p.position,mouth),angle=shootingAngle(p.position,direction);
-  const geometric=geometricShotQuality(s,p,pressure);
+  const angle=shootingAngle(p.position,direction),advantage=clamp((nearestGuard-.9)/2.4,0,1);
+  const geometric=geometricShotQuality(s,p,pressure,advantage);
   // At range the body between hand and goal matters. A legal jump can see over
   // it; it never makes a set blocking line disappear from the decision.
   const blockCost=blockThreat*(range>8?.14:.07);
   const fatigue=.84+.16*p.condition.energy;
   const quality=clamp((geometric-blockCost)*fatigue,0,1);
-  const opportunityQuality=clamp(geometricShotQuality(s,p,pressure,true)-blockCost,0,1);
-  return {distance:range,angle,pressure,pressureCount,blockThreat,keeperPresent,emptyGoal:!keeperPresent,quality,opportunityQuality};
+  const opportunityQuality=clamp(geometricShotQuality(s,p,pressure,advantage,true)-blockCost,0,1);
+  return {distance:range,angle,pressure,pressureCount,blockThreat,keeperPresent,emptyGoal:!keeperPresent,quality,opportunityQuality,containment};
 }
 
 /** One geometry contract for normal, emergency and relationship shot choices. */

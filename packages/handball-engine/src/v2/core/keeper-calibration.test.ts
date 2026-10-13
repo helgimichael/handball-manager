@@ -13,7 +13,11 @@ import {advanceCoreMutable} from './engine';
 test('prepared penalty hands cannot receive a full-dive radius before the ball gives them time',()=>{
  const s=createCoreScenario(),p=getPlayer(s,'H03'),k=getPlayer(s,'A07');
  startAction(s,p,'SHOOT','Actual seven-metre preparation',null,null,'SEVEN_METRE');
- const f:CoreFlight={kind:'SHOT',origin:{x:10,y:7},velocity:{x:0,y:-24},fromId:p.id,receiverId:null,actionId:p.action!.id,possessionId:s.possession.id,releasedTick:0,height:1.5,goalSide:'TOP',touchedIds:[],purpose:'PLAY'};
+ // This assertion isolates travelling hands. A torso-height trajectory also
+ // intersects the already present body, which requires no preparatory dive.
+ // Keep this ball above the torso throughout its flight; torso coverage has
+ // its own physical-intersection regression in reconciliation.test.ts.
+ const f:CoreFlight={kind:'SHOT',origin:{x:10,y:7},velocity:{x:0,y:-24},fromId:p.id,receiverId:null,actionId:p.action!.id,possessionId:s.possession.id,releasedTick:0,height:1.9,goalHeight:1.9,goalSide:'TOP',touchedIds:[],purpose:'PLAY'};
  const early=keeperReachForShot(s,k,f,{x:10,y:6.76}),later=keeperReachForShot(s,k,f,{x:10,y:1.4});
  assert.ok(early<.25&&later>early,'a real flight buys hand travel; preparation is not spatial coverage');
  assert.ok(later<.75,'torso movement is already integrated and is not awarded a second full dive');

@@ -244,6 +244,12 @@ function deflect(s:CoreState,p:CorePlayer,point:Point,type:string,detail:CoreSta
   record(s,type,p,{...detail,speed:Number(kept.toFixed(2))},[f.fromId],null,f.actionId);
 }
 /** Actual hand travel budget, including a prepared penalty stance but never a full dive before flight time. */
+export function keeperTorsoReachForShot(p:CorePlayer,f:CoreFlight,point:Point):number {
+  const depth=goal(f.goalSide).y-f.origin.y;
+  const fraction=clamp((point.y-f.origin.y)/(Math.abs(depth)>.001?depth:.001),0,1);
+  const height=f.height+((f.goalHeight??1.1)-f.height)*fraction;
+  return height>.7&&height<1.75?p.radius:0;
+}
 export function keeperReachForShot(s:CoreState,p:CorePlayer,f:CoreFlight,point:Point):number {
   const capacity=executionCapacity(p),span=(.36+.44*(p.profile.keeper?.explosiveness??.5))*capacity;
   const pace=Math.hypot(f.velocity.x,f.velocity.y)||1,flightSeconds=distance(f.origin,point)/pace;
@@ -258,7 +264,9 @@ export function keeperReachForShot(s:CoreState,p:CorePlayer,f:CoreFlight,point:P
   const height=f.height+((f.goalHeight??1.1)-f.height)*fraction;
   const family=height<1?p.profile.keeper?.low??.5:p.profile.keeper?.high??.5;
   const vertical=Math.abs(height-1.05)/(1.05+.3*family);
-  return hands*Math.sqrt(Math.max(0,1-vertical*vertical));
+  // Reaction limits moving hands. It cannot make the existing torso vanish
+  // when the swept trajectory actually intersects its standing body.
+  return Math.max(keeperTorsoReachForShot(p,f,point),hands*Math.sqrt(Math.max(0,1-vertical*vertical)));
 }
 /** Conventional save attribution requires a goal-bound released trajectory. */
 export function goalBoundShot(f:CoreFlight):boolean {
@@ -305,7 +313,7 @@ export function advanceBall(s:CoreState) {
     // goalkeeper duel: range, pace and explosiveness against reaction.
     const keeperReach=isKeeper&&f.kind==='SHOT'?keeperReachForShot(s,p,f,hit.point):0;
     const reach=f.kind==='SHOT'
-      ?(isKeeper?(ready&&p.action?.kind==='SAVE'?keeperReach:.2)
+      ?(isKeeper?(ready&&p.action?.kind==='SAVE'?keeperReach:Math.max(.2,keeperTorsoReachForShot(p,f,hit.point)))
         :ready&&p.action?.kind==='BLOCK'&&!beaten?.16+.34*p.profile.blocking:0)
       :own?((ready&&p.action?.kind==='RECEIVE'||runningReceive)?.65:0)
       // A defending interceptor needs a defensive action, his reaction spent,

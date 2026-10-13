@@ -1,6 +1,7 @@
 import { goalAreaClearance } from '../../domain/geometry/goalArea';
+import {GOAL_AREA_RADIUS_METERS,GOAL_POST_LEFT_X,GOAL_POST_RIGHT_X} from '../../domain/geometry/court';
 import { CORE_VERSION, CORE_RULES, DT_MS, actionAvailable, courtPlayers, getPlayer, record, type CoreState, type CorePlayer, type Point } from './state';
-import { clamp, clearGoalArea, distance, fieldLegal, segmentPoint } from './space';
+import { clamp, clearGoalArea, distance, fieldLegal, goal, segmentPoint } from './space';
 import { execute, handlingRules, resolveAction, startAction } from './actions';
 import { coordinate, selectActions,resolveHandovers } from './structure';
 import { advanceBall, resolveEffects, resolveScreens } from './interactions';
@@ -17,12 +18,29 @@ import { coachingBefore } from './coaching';
 import { offenceBefore,offenceAfter } from './offence';
 import { secondsTo } from './timing';
 import {transferDecisionTrace} from './intelligence';
+import {regainedContainment} from './threatRelation';
 
 function collectionPoint(s:CoreState,p:CorePlayer):Point|null {
   let target={x:clamp(s.ball.position.x,p.radius+.01,20-p.radius-.01),y:clamp(s.ball.position.y,p.radius+.01,40-p.radius-.01)};
   if(p.kind==='FIELD_PLAYER'){
     target=clearGoalArea(clearGoalArea(target,'TOP',p.radius+.01),'BOTTOM',p.radius+.01);
-    if(!fieldLegal(target,p.radius)||distance(target,s.ball.position)>.65)return null;
+    if(!fieldLegal(target,p.radius)||distance(target,s.ball.position)>.65){
+      // A vertical-only clearance can put a corner approach over a metre from
+      // a ball which is reachable by stepping laterally around the curved D.
+      // Project outward from the actual goal-line segment, then retain only a
+      // legal body centre within the existing physical hand-contact distance.
+      const candidates:Point[]=[];
+      for(const side of ['TOP','BOTTOM'] as const){
+        const point={x:clamp(s.ball.position.x,p.radius+.01,20-p.radius-.01),y:clamp(s.ball.position.y,p.radius+.01,40-p.radius-.01)};
+        const anchor={x:clamp(point.x,GOAL_POST_LEFT_X,GOAL_POST_RIGHT_X),y:goal(side).y};
+        const length=distance(point,anchor),radius=GOAL_AREA_RADIUS_METERS+p.radius+.01;
+        if(length<radius&&length>1e-9){point.x=anchor.x+(point.x-anchor.x)*radius/length;point.y=anchor.y+(point.y-anchor.y)*radius/length;}
+        point.x=clamp(point.x,p.radius+.01,20-p.radius-.01);point.y=clamp(point.y,p.radius+.01,40-p.radius-.01);
+        if(fieldLegal(point,p.radius)&&distance(point,s.ball.position)<=.65)candidates.push(point);
+      }
+      target=candidates.sort((a,b)=>distance(a,s.ball.position)-distance(b,s.ball.position))[0];
+      if(!target)return null;
+    }
   }
   return target;
 }
@@ -115,7 +133,16 @@ function advanceOneTick(s:CoreState):CoreState {
     // A real loose-ball encounter may change the team or award a keeper restart.
     // Allocate responsibilities and select only after that transition is known.
     collectLoose(s);if(s.status!=='RUNNING')return s;
-    if(s.ball.live){offenceBefore(s);coordinate(s);selectActions(s);}else restartStep(s);
+    if(s.ball.live){
+      const current=s.players.find(p=>p.id===s.ball.controllerId);
+      if(current&&current.kind==='FIELD_PLAYER')for(const d of courtPlayers(s,current.team==='HOME'?'AWAY':'HOME')){
+        if(d.kind==='FIELD_PLAYER'&&d.beatenUntilTick>s.tick&&d.screenedUntilTick<=s.tick&&d.wrongFootedUntilTick<=s.tick&&regainedContainment(current,d,goal(s.directions[current.team]))){
+          d.beatenUntilTick=s.tick;d.beatenBy=null;
+          record(s,'DEFENDER_RECOVERED',d,{reason:'Regained goal-side containment of the current ball carrier'},[current.id]);
+        }
+      }
+      offenceBefore(s);coordinate(s);selectActions(s);
+    }else restartStep(s);
   }else restartStep(s);
   if(s.status!=='RUNNING')return s;
   const effects=execute(s);

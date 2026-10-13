@@ -82,7 +82,12 @@ export function clearChanceDestroyed(s: CoreState, a: CorePlayer, d: CorePlayer)
     // Between him and the goal, and able to be there before he could shoot.
     const g = goal(direction);
     const oq = local(o.position, direction);
-    return oq.y < local(point,direction).y + 0.1 && secondsTo(s, o, point) <= releaseSeconds + 0.1 && distance(o.position, g) < distance(a.position, g) + 1.5;
+    // Legal prevention requires reachable hands/body in front of the current
+    // carrier, not occupying the carrier's exact future body centre. Asking
+    // for overlap discarded an already arrived helper at the area line.
+    const range=distance(o.position,point),travel=Math.max(0,range-.95),fraction=range>.001?travel/range:0;
+    const reachable={x:o.position.x+(point.x-o.position.x)*fraction,y:o.position.y+(point.y-o.position.y)*fraction};
+    return oq.y < q.y + 0.1 && o.screenedUntilTick<=s.tick && o.wrongFootedUntilTick<=s.tick && secondsTo(s, o, reachable) <= releaseSeconds + 0.1 && distance(o.position, g) < distance(a.position, g) + 1.5;
   });
   const keeper=courtPlayers(s,d.team).some(p=>p.kind==='GOALKEEPER');
   // IHF clarification 6: a controlled finish at the area line, an unopposed

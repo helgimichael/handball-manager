@@ -70,6 +70,12 @@ const SHIFT_NEAR = 0.78, SHIFT_FAR = 0.30;
  * before it can do anything else.
  */
 const BASE_SPREAD = 1, BEATEN_SPREAD = 0.82;
+/** The line reacts to current loss of containment, even before a duel event stamps it. */
+function lostContainment(carrier:CorePlayer,d:CorePlayer,direction:Direction):boolean {
+  const advancing=Math.hypot(carrier.velocity.x,carrier.velocity.y)>.5;
+  const backToGoal=carrier.role==='P'||carrier.role==='P2';
+  return distance(d.position,carrier.position)<4&&(advancing||!backToGoal)&&defenderRelation(carrier,d,goal(direction)).beaten;
+}
 
 export type DefenceRead = {
   /** Zone index of the defender who owns ball pressure, or null. */
@@ -160,7 +166,7 @@ export function readDefence(s: CoreState, defenders: readonly CorePlayer[], carr
   // line at both ends because there is only one lateral frame.
   const ballX = carrier ? carrier.position.x : s.ball.position.x;
   const engagedZone = carrier ? zoneOf(ballX) : null;
-  const beaten = defenders.some(d => d.beatenUntilTick > s.tick);
+  const beaten = defenders.some(d => d.beatenUntilTick > s.tick || !!carrier&&lostContainment(carrier,d,direction));
   // The line follows the ball but never abandons the far post. Two thirds of
   // the ball's offset from centre is the working compromise: enough that the
   // ball-side interval is genuinely closed, little enough that a reversal has
@@ -218,8 +224,7 @@ export function allocate(s: CoreState, defenders: readonly CorePlayer[], attacke
   const duties = new Map<string, ZoneDuty>();
   const byZone = new Map<number, CorePlayer>();
   // A physically passed primary cannot retain containment just because its duel timer expired.
-  const containmentLost=(d:CorePlayer)=>!!carrier&&distance(d.position,carrier.position)<4&&
-    Math.hypot(carrier.velocity.x,carrier.velocity.y)>.5&&defenderRelation(carrier,d,goal(direction)).beaten;
+  const containmentLost=(d:CorePlayer)=>!!carrier&&lostContainment(carrier,d,direction);
   for (const d of defenders) if (d.zone !== null) byZone.set(d.zone, d);
   if(retreating&&!lineFormed(s,defenders,direction)){
     // A retreat is not a six-man duel. One useful goal-side player delays the
