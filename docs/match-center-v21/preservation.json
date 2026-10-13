@@ -1,0 +1,2291 @@
+﻿{
+    "startingCheckpoint":  "038f15ec560e880e13139b25d7d878e3cf1eda13",
+    "status":  [
+                   " M apps/game/app/match-qa/page.tsx",
+                   " M apps/game/lib/matchQa/qaHarness.ts",
+                   " M apps/game/scripts/season-audit.ts",
+                   "?? .claude/",
+                   "?? apps/game/.tmp-final-benchmark.ts",
+                   "?? docs/audit/"
+               ],
+    "worktrees":  [
+                      "worktree C:/Users/helgi/Documents/STARKVIS-HELA/handball-manager",
+                      "HEAD 038f15ec560e880e13139b25d7d878e3cf1eda13",
+                      "branch refs/heads/main",
+                      "",
+                      "worktree C:/Users/helgi/Documents/STARKVIS-HELA/handball-motion-lab",
+                      "HEAD 197d2a80ecea3b70efdcf8ef347cfc68e0e86b2b",
+                      "branch refs/heads/motion-lab",
+                      ""
+                  ],
+    "stashes":  [
+                    "ddba79055949b76898b12fc1b947e8f8645589cb On motion-lab: WIP Pack #5 M6 breakthrough screen paused before Human QA",
+                    "b068a9586209b9405b8d5f0dc6fae6384dd09001 On motion-lab: WIP Pack #5 M6 line game paused before Human QA"
+                ],
+    "files":  [
+                  {
+                      "hash":  "5479537912EBE024D9340205E0A1D178B0FA2330A3F8B5AF62723A6FE7A82185",
+                      "path":  ".claude\\launch.json"
+                  },
+                  {
+                      "hash":  "BA9D04161DFD8FBA50732356598D92323BC71F93CFB5F827170EA804846A5B76",
+                      "path":  "apps/game/.tmp-final-benchmark.ts"
+                  },
+                  {
+                      "hash":  "A245EC398A29F3C8B7AB7317682433DBFE81E4A46E249A60C8F5A5A024FECE8F",
+                      "path":  "apps/game/app/match-qa/page.tsx"
+                  },
+                  {
+                      "hash":  "531610B3A712E70DC79573F8D4C4583FDF32ECAE0AD8388A39D554AE34DFFD59",
+                      "path":  "apps/game/components/ProductionMatchView.tsx"
+                  },
+                  {
+                      "hash":  "B5E589849FB2D3728CF6083A09C4700B76A1F50E28586D11694BA6A01DCB2BF9",
+                      "path":  "apps/game/lib/career/academyCohortYear.test.ts"
+                  },
+                  {
+                      "hash":  "E35EEE70E2CD241FA57C70342DB9D7D0A92268374FCE7E01B85262406B18AB8B",
+                      "path":  "apps/game/lib/career/academyCohortYear.ts"
+                  },
+                  {
+                      "hash":  "71C0DFD13627A27242EF37979D71C8C21C61A0F75E7C09F93CDD9F443B5651DF",
+                      "path":  "apps/game/lib/career/academyQuality.test.ts"
+                  },
+                  {
+                      "hash":  "624D549E3A639FA6748763E47C2AEF8EE4C3524A6117D80E9DF5925FC80D5BC6",
+                      "path":  "apps/game/lib/career/academyQuality.ts"
+                  },
+                  {
+                      "hash":  "5CE30A4657971C1AB77FDC2B0B83F44151A571CD6A2F84CA22762B4DF0AC017C",
+                      "path":  "apps/game/lib/career/aiTacticalPreferences.test.ts"
+                  },
+                  {
+                      "hash":  "A35CE2237CD5419FE90A0D60D3CC30E0D4482CC7884FC3FDBE3D519C4A0DBD29",
+                      "path":  "apps/game/lib/career/aiTacticalPreferences.ts"
+                  },
+                  {
+                      "hash":  "E9EFCB7E68121AF39C02A48C65947FEBF0EE7D7D0C29CDAB12C893ABC216F8AF",
+                      "path":  "apps/game/lib/career/allsvenskanTransferIntegration.test.ts"
+                  },
+                  {
+                      "hash":  "D7089748A8946F9FD9CF464ED92575BE8A9B669E7B8E21F3CEAC8F125F2963B7",
+                      "path":  "apps/game/lib/career/calendar.test.ts"
+                  },
+                  {
+                      "hash":  "9A552520E005D298D0AB7419118D2F7DDDD40715BCBC776835339DB2177343D0",
+                      "path":  "apps/game/lib/career/calendar.ts"
+                  },
+                  {
+                      "hash":  "835436D9D887C852EC2EC54242622711896ECDF3B71E912B4B2B590C8AF77BA9",
+                      "path":  "apps/game/lib/career/CareerContext.tsx"
+                  },
+                  {
+                      "hash":  "3EE6DBDDB7C4D331A3D88CBC819ACFA49F66303E3AAC862A13985696BB79CA6F",
+                      "path":  "apps/game/lib/career/careerEvents.test.ts"
+                  },
+                  {
+                      "hash":  "CB233EB807F22D7FFAF5F221409E6DB491A2F8F7E159374E10250B826EA21394",
+                      "path":  "apps/game/lib/career/careerEvents.ts"
+                  },
+                  {
+                      "hash":  "3ACBA245DD45032DB90535D9F213C2818E5C614A8776345BBA9D79476989CFC6",
+                      "path":  "apps/game/lib/career/careerRatingNormalization.test.ts"
+                  },
+                  {
+                      "hash":  "AF2E912520134B04CC4BAB341BC25C5BFD0FCF575BA6B1CFE5F990A33AF669FE",
+                      "path":  "apps/game/lib/career/careerRatingNormalization.ts"
+                  },
+                  {
+                      "hash":  "2E57F63237761AAC117CC6353DF3F9240CE8A7CF314B4AA811A481876873D8E0",
+                      "path":  "apps/game/lib/career/careerRhythmConfig.ts"
+                  },
+                  {
+                      "hash":  "9C405BC4C7EE5ABA8F05C18E6AC0FC35B09F495B19F5AE154721E0F0EA2E8D12",
+                      "path":  "apps/game/lib/career/careerTasks.test.ts"
+                  },
+                  {
+                      "hash":  "AF4802E23A8DDB9C60533360CB40816C107EDFB9067A94DE001C27F7A580CC88",
+                      "path":  "apps/game/lib/career/careerTasks.ts"
+                  },
+                  {
+                      "hash":  "4AF9C6B7819942D1571289619D271E6CEE7764EECB815773682C6C347071AF0F",
+                      "path":  "apps/game/lib/career/careerWorld.ts"
+                  },
+                  {
+                      "hash":  "0B2975273300E8828D5B2501A06ABED5ED1974D9CD218AB6232C644C3D21003A",
+                      "path":  "apps/game/lib/career/clubEconomyCareerIntegration.test.ts"
+                  },
+                  {
+                      "hash":  "5D3FCAB646A1E68ED2809B764301E4F37DFF52EDF3BF5658AA4BC39934AAD5CF",
+                      "path":  "apps/game/lib/career/clubHistoryCareerIntegration.test.ts"
+                  },
+                  {
+                      "hash":  "AE0E82FB46BF6C638C99A2E42E9783E6AEF291AF3AD0416678E38804DBE9B6F0",
+                      "path":  "apps/game/lib/career/clubPartnerships.test.ts"
+                  },
+                  {
+                      "hash":  "D0020B6ADD81533ECFAAA9D0682FF15F20C1F4EAB4B21AC710C39E58813D0452",
+                      "path":  "apps/game/lib/career/clubPartnerships.ts"
+                  },
+                  {
+                      "hash":  "A385F27763BE739572710C15C523AD51543D728050EE9161780951D65CCA60C2",
+                      "path":  "apps/game/lib/career/continueController.test.ts"
+                  },
+                  {
+                      "hash":  "0D6D1097C0B2AD84FDCE0795B259DBCCA262BDEAB1BFE32CEB39B238459809B8",
+                      "path":  "apps/game/lib/career/continueController.ts"
+                  },
+                  {
+                      "hash":  "3A9CA4CDF1296E8C0A08BC5337021A5808BD7A0BB0F8AA0282900A80B1EE3F60",
+                      "path":  "apps/game/lib/career/contractCareerIntegration.test.ts"
+                  },
+                  {
+                      "hash":  "7BCDF1CA85E66D60B9DD22C922C3675C5FAAEBE60E9A7ACD1C16DCD732517A52",
+                      "path":  "apps/game/lib/career/contractExpiry.ts"
+                  },
+                  {
+                      "hash":  "49EBBCF2FBE2E0A7B7AF438AC8246940AECEBD7B2BDD5EE10BBD06B8F1F2603B",
+                      "path":  "apps/game/lib/career/contractExpiryLifecycle.test.ts"
+                  },
+                  {
+                      "hash":  "A7273AC8DD583A6245CE26D49D6485F2968CEB2EF597264B767B3BFAAB98577B",
+                      "path":  "apps/game/lib/career/contractRenewal.ts"
+                  },
+                  {
+                      "hash":  "5FC3F4278AB1026D2EB5EEC4B5AF0C332A0BF8679B6CB55AEB40E211F40C14B5",
+                      "path":  "apps/game/lib/career/cpuCandidateEvaluation.ts"
+                  },
+                  {
+                      "hash":  "AD4E99932C85948589BBF5ECF5DCEC4601812C1150D068709DCF3B23105D91BF",
+                      "path":  "apps/game/lib/career/cpuContractDecisions.test.ts"
+                  },
+                  {
+                      "hash":  "B1AD708B2B115C0D5AED5BB1F2A6BF6F4360D6F1CE6202BFF63F17B47A1C9EF0",
+                      "path":  "apps/game/lib/career/cpuContractDecisions.ts"
+                  },
+                  {
+                      "hash":  "76D73FD3408865108474E8915B2149F04D96334F7B1A3B0BA40D4834AA6D3724",
+                      "path":  "apps/game/lib/career/cpuMarketCalibration.test.ts"
+                  },
+                  {
+                      "hash":  "DFFCF1E55DCDDD0277F7857822ED1B3BC1F498C9C7137CFA645F8F5B1DF59622",
+                      "path":  "apps/game/lib/career/cpuMarketStabilization.test.ts"
+                  },
+                  {
+                      "hash":  "0BF49D9BDFC1667B85C1AF744A263D4C0C16317BFFC0071337BEED41469A7AB0",
+                      "path":  "apps/game/lib/career/cpuQualityUpgrade.test.ts"
+                  },
+                  {
+                      "hash":  "AD2AFBF3A6DA691285B453407019B225E1E1120D788190BE1CBA6E820B41D4B8",
+                      "path":  "apps/game/lib/career/cpuRecruitment.ts"
+                  },
+                  {
+                      "hash":  "8D9136A2B6C0316AF19AB1D1D9E56538972818DDD8E002B4CC2FE61F9C06CBDA",
+                      "path":  "apps/game/lib/career/cpuSquadBuilding.test.ts"
+                  },
+                  {
+                      "hash":  "BDD7028D92606721E55EC8CD0505EDA55F15EE6C607A40E625453439D017C081",
+                      "path":  "apps/game/lib/career/cpuSquadNeeds.ts"
+                  },
+                  {
+                      "hash":  "2F630600652C5ECF1FDABA30C18DF1CC0BE8719E5C13AE0BEDA0E327A529C92F",
+                      "path":  "apps/game/lib/career/cpuSquadResilience.test.ts"
+                  },
+                  {
+                      "hash":  "3DCFF98F8ABEBB6F69AB26C2E85268981C88B257CCCA0F7472A6212BDE2C3EAE",
+                      "path":  "apps/game/lib/career/currentUnit.test.ts"
+                  },
+                  {
+                      "hash":  "1431F8EF451FEDADB70D0FB482B353C82F79DC173E50304DB839BA2D3D30D941",
+                      "path":  "apps/game/lib/career/currentUnit.ts"
+                  },
+                  {
+                      "hash":  "D87C1E56D007D36DD3D8924B10E79F1D4016A1757E131F4956A7CC11E9BD26F7",
+                      "path":  "apps/game/lib/career/dailyTick.test.ts"
+                  },
+                  {
+                      "hash":  "7EC0F85014327BFEA8988578081C170E663BF741DEA33C75523C8272B47F14D5",
+                      "path":  "apps/game/lib/career/dailyTick.ts"
+                  },
+                  {
+                      "hash":  "375ED33CAF73F11C06D8102AE9C8E39B42CE78624BF228DB1AA8DE0073DD0260",
+                      "path":  "apps/game/lib/career/dateUtils.test.ts"
+                  },
+                  {
+                      "hash":  "67B16766728E7FCFE00D12C29196CCB6EB073507D54983BE1D0B54B04FF7E766",
+                      "path":  "apps/game/lib/career/dateUtils.ts"
+                  },
+                  {
+                      "hash":  "E9AD1435DD580210DAB2553B2A784E89AB096A8684A263DE7B509187A9E6C9E0",
+                      "path":  "apps/game/lib/career/destinations.ts"
+                  },
+                  {
+                      "hash":  "15CDBDD27A33DF4AC86B456FF19EF353A6E99A34EAA183C152F7C4CBCAC421B0",
+                      "path":  "apps/game/lib/career/developmentCareerIntegration.test.ts"
+                  },
+                  {
+                      "hash":  "E3BE37CA67391F79F0BE364898050BFBD6F5437215D281714FA492932FEC42FF",
+                      "path":  "apps/game/lib/career/division1Integration.ts"
+                  },
+                  {
+                      "hash":  "F4A9E346A7B43A4CE83767A7C03BA9D9DE438B95E06509B98FCA15828F710B29",
+                      "path":  "apps/game/lib/career/halftimeMatchPlanChange.test.ts"
+                  },
+                  {
+                      "hash":  "96CB695367C164612DC1EC32D49DFC497D174B601190DCEA0BEFEC5CF1F7F242",
+                      "path":  "apps/game/lib/career/inboxActions.test.ts"
+                  },
+                  {
+                      "hash":  "491F8658D27BD6AA0A9064A64424BE96A92916CE9E87D732E8BAF2DE92D94E89",
+                      "path":  "apps/game/lib/career/inboxActions.ts"
+                  },
+                  {
+                      "hash":  "5E24BFBABCE1FA8AE70B52794BFD14FF3D21CD30051024CC7BB5FE7B9DC3A5E2",
+                      "path":  "apps/game/lib/career/inboxBridge.test.ts"
+                  },
+                  {
+                      "hash":  "5DDBC472F1BF8964D11D52C66CB3BE3C04D70FF7CCBB34E4909E28D9465607ED",
+                      "path":  "apps/game/lib/career/inboxBridge.ts"
+                  },
+                  {
+                      "hash":  "B951BF19A799AF4CF6764370DC1FCCD6F1EB2CC0A0DE686DC80140B70AECCAA2",
+                      "path":  "apps/game/lib/career/inboxEvents.ts"
+                  },
+                  {
+                      "hash":  "6B5E0AB0DFB9265CE7455F20E3A3A71225387CF7EF525985581E86B2D49772E7",
+                      "path":  "apps/game/lib/career/inboxFilters.test.ts"
+                  },
+                  {
+                      "hash":  "43D93D486B606AADA6F6D49282EF95D21C9FAE8CB4F6BD4C8FFFAC227D0D28A2",
+                      "path":  "apps/game/lib/career/inboxFilters.ts"
+                  },
+                  {
+                      "hash":  "350994AFA5A8BDC371083431C3B3641585CD466B271E1F0C21DC5831D7791BAB",
+                      "path":  "apps/game/lib/career/inboxIntegration.test.ts"
+                  },
+                  {
+                      "hash":  "F756AC90BAC8BD585CF12159E2DAD773A085A956A11B6640AAB00F99C570B1A0",
+                      "path":  "apps/game/lib/career/index.ts"
+                  },
+                  {
+                      "hash":  "BCDC9FE17576DEB1F824C459D02FC3C1DD02B8388400A2FC58AB1171F1B2C9D3",
+                      "path":  "apps/game/lib/career/injuryCareerIntegration.test.ts"
+                  },
+                  {
+                      "hash":  "943769A62BAD7B3F9BF805EC01D60405C08699294BB40F23AE697D456CF41CCF",
+                      "path":  "apps/game/lib/career/legacy/matchday.ts"
+                  },
+                  {
+                      "hash":  "CB038BCB64053AE6293F32B30B1F975A9A868D20D49B5A7BCB7C508F970D9B0B",
+                      "path":  "apps/game/lib/career/liveMatchSessionActions.test.ts"
+                  },
+                  {
+                      "hash":  "CC2A6673490EF3220DAC385D74F09AB01CB15DC5FD87E181F0ADF8D0E960DBA4",
+                      "path":  "apps/game/lib/career/liveMatchSessionActions.ts"
+                  },
+                  {
+                      "hash":  "A12F04EB5F0193905B79EF321741FE9D398FC31D92EB820B9EDDEBDF70446F25",
+                      "path":  "apps/game/lib/career/management.test.ts"
+                  },
+                  {
+                      "hash":  "212CD71DFF44D00213820873EFA590A164C33426E2BA5CA35ACEF30B07AEF820",
+                      "path":  "apps/game/lib/career/management.ts"
+                  },
+                  {
+                      "hash":  "09DB511A190A4BC757E8FA10AA44CACCF76B425F844BBFCBD9B0501F0B61630B",
+                      "path":  "apps/game/lib/career/matchdayAction.test.ts"
+                  },
+                  {
+                      "hash":  "635A844B4D9F0AD03E5F3465B7EE320EF8F1E475E248494EB4D62B0BE9F03F14",
+                      "path":  "apps/game/lib/career/matchdayAction.ts"
+                  },
+                  {
+                      "hash":  "EFE538846D92932A1B87B49FA30C6F479FFB04D2942F704B19C79FDD7571D1FA",
+                      "path":  "apps/game/lib/career/matchdaySessionIntegration.test.ts"
+                  },
+                  {
+                      "hash":  "B44A40CCD551B7ECEB95A40F57F0C337CDC2320D85FFBBDFA7EF2D2C55103AFB",
+                      "path":  "apps/game/lib/career/matchFrames.ts"
+                  },
+                  {
+                      "hash":  "DDB6D75EFC0FF7DBD0EA25EBCDAE2BCBC9FC70E1449ECDA7227B1DF22F94DEEA",
+                      "path":  "apps/game/lib/career/matchPhysicalReport.test.ts"
+                  },
+                  {
+                      "hash":  "94E888E4A80F0DBE553EE8B41093878B087D597A8DEEBB88CBCBA124BF78914B",
+                      "path":  "apps/game/lib/career/matchPlanActions.test.ts"
+                  },
+                  {
+                      "hash":  "6D34A761E0213A580493E428BA1ADF4D9828F2270264ECAFE65BDF69D200002E",
+                      "path":  "apps/game/lib/career/matchPlanActions.ts"
+                  },
+                  {
+                      "hash":  "1103FDB44C83BA6D0800F1C362856B7502824BDF1A555474FA9E626BEBFC2CE4",
+                      "path":  "apps/game/lib/career/matchPlanMidMatchChange.test.ts"
+                  },
+                  {
+                      "hash":  "3825CCD08A496C8DADFFAA0139AAAE82E7E8BA74830852E3574B9EEFA1C24B06",
+                      "path":  "apps/game/lib/career/matchPlanMidMatchChange.ts"
+                  },
+                  {
+                      "hash":  "502DBA383F58F8D025DC41A4B81E1A99545A71A47DC4E99EF022EE905753AD27",
+                      "path":  "apps/game/lib/career/matchPlayback.test.ts"
+                  },
+                  {
+                      "hash":  "842218B1B51FA89480E1898B6BE44BCEC52C7B0B26DB5074E86D1E7FD310205E",
+                      "path":  "apps/game/lib/career/matchPlayback.ts"
+                  },
+                  {
+                      "hash":  "1A6BA5443CFA51C9E033912148115574F35F61499B5EEEEB34EB3CA7F971FE67",
+                      "path":  "apps/game/lib/career/matchResultApplication.ts"
+                  },
+                  {
+                      "hash":  "A4ED9F68377D2227377507AA2417B4BAD6A092F52D4858464D54E4D2AB95F607",
+                      "path":  "apps/game/lib/career/matchUsageEngine.test.ts"
+                  },
+                  {
+                      "hash":  "071F086FF66521C3C0F54DECF6CCFF03B2ED8D87A06230F0BFDD0D5269982557",
+                      "path":  "apps/game/lib/career/matchUsageEngine.ts"
+                  },
+                  {
+                      "hash":  "9814ADBA86640D2B780385B6C15B3604A33F2C659352287D7F630CDF6A6CE77F",
+                      "path":  "apps/game/lib/career/matchUsageFatigueRotation.test.ts"
+                  },
+                  {
+                      "hash":  "3C1A7EA19333142F24E54BAF4DFA1C0C845609145D50027137C3B18898CDA2C0",
+                      "path":  "apps/game/lib/career/matchUsagePlan.test.ts"
+                  },
+                  {
+                      "hash":  "26E4DE627A2DBF48C5A0A12C33294E0987E204AEADD9462368775DC76420F41F",
+                      "path":  "apps/game/lib/career/matchUsagePlan.ts"
+                  },
+                  {
+                      "hash":  "547F88319B38B9291B761E6DB057EFB5FF50B96C5F094F2F35888C26ED72AA71",
+                      "path":  "apps/game/lib/career/matchUsageSpecialistGoalkeeperCalibration.test.ts"
+                  },
+                  {
+                      "hash":  "61A88C8D2178EA7D9C66CADE6FAD20BDECB50419CC51E3E5981F5B2517007833",
+                      "path":  "apps/game/lib/career/navigation.test.ts"
+                  },
+                  {
+                      "hash":  "FAA20DB20C09F73627985121CDF162465D22CB0A6EC4B91995F2070654E389FA",
+                      "path":  "apps/game/lib/career/navigation.ts"
+                  },
+                  {
+                      "hash":  "3626602C474EB67051782CF9F8C6EA716D2F906837E367FFD9509DEB833CA2DD",
+                      "path":  "apps/game/lib/career/newCareer.test.ts"
+                  },
+                  {
+                      "hash":  "325B7EBC99FD7E7A000223E733729C6C67DC636E2BED6909763A9A506C4B6704",
+                      "path":  "apps/game/lib/career/newCareer.ts"
+                  },
+                  {
+                      "hash":  "BDCB329473EA75158AC9A13862486366B04E0C2E42F112EB61E136096904D609",
+                      "path":  "apps/game/lib/career/opponentAdaptation.test.ts"
+                  },
+                  {
+                      "hash":  "C13C9D67A6DB4B7D57A4C935C366819BAD88C1C3AFC816034AEF64E91D7C61F8",
+                      "path":  "apps/game/lib/career/opponentAdaptation.ts"
+                  },
+                  {
+                      "hash":  "72CEFCCF1DEA8D82DE3A117ED8B9EB9A53CCFAE5BD593A6363947DA45486055A",
+                      "path":  "apps/game/lib/career/playerLifecycle.test.ts"
+                  },
+                  {
+                      "hash":  "A13D527776FFD41462A6CEAB1E5F73C957272204DBDCA7E10E4400A8BDB93930",
+                      "path":  "apps/game/lib/career/playerLifecycle.ts"
+                  },
+                  {
+                      "hash":  "23860ABC31792601A419E2487F868BB32E2EE49BAFB78A048DF2BC7789A32141",
+                      "path":  "apps/game/lib/career/playerMatchStrength.test.ts"
+                  },
+                  {
+                      "hash":  "637274C5D35EBA7EEEC64BF7519DD27A6A2B4BF4428F9FC6D7B67BDB60BABD46",
+                      "path":  "apps/game/lib/career/playerMatchStrength.ts"
+                  },
+                  {
+                      "hash":  "E20C198F114CC7C071E6CF35A6FDE77493E87ECA5D116A027841A8839384A186",
+                      "path":  "apps/game/lib/career/playerPlacements.test.ts"
+                  },
+                  {
+                      "hash":  "CB36B38916742151847F77C7F17936DCE57CCCBAD056CA81DD4E8BC044D34AE0",
+                      "path":  "apps/game/lib/career/playerPlacements.ts"
+                  },
+                  {
+                      "hash":  "2C370ADB833CA738AFE5BE9DCAB741D2314BBE5E2061D54D7C826518D7D6E240",
+                      "path":  "apps/game/lib/career/playerStatus.test.ts"
+                  },
+                  {
+                      "hash":  "6DC849681D21ADB38E5F555DF0A3351EB5A5AED0CC912992FC59ED9890EC745D",
+                      "path":  "apps/game/lib/career/playerStatus.ts"
+                  },
+                  {
+                      "hash":  "C5BCC059F5344AF5C43238FCE28C7148A8A3542B43102F222823EE3F75F0DE1D",
+                      "path":  "apps/game/lib/career/playerWindowActivity.test.ts"
+                  },
+                  {
+                      "hash":  "72A7B7B624F007410AB424C337E9522F297AA64E1B978647961D67C02E7EC535",
+                      "path":  "apps/game/lib/career/preseason.test.ts"
+                  },
+                  {
+                      "hash":  "2FF4789F25449FF9E089C49C375F3A05A3D18146095F698EF875D4882A8F4030",
+                      "path":  "apps/game/lib/career/preseason.ts"
+                  },
+                  {
+                      "hash":  "E151AEA45FEDA272E3F5F352DDDF6668FD068B0DF1D3AC2DB2C68A7A17E548D4",
+                      "path":  "apps/game/lib/career/preseasonCareerIntegration.test.ts"
+                  },
+                  {
+                      "hash":  "B9879DE7A598A7C42F9AC555DDEAB3F5B4CA37FBF27E8CDFB0E535309BBA45A5",
+                      "path":  "apps/game/lib/career/productionMatch.test.ts"
+                  },
+                  {
+                      "hash":  "47D1E88D87550FB9762091E4A2599A85BF74F8A6ED6E7ECF9BA5937BBA28ABF7",
+                      "path":  "apps/game/lib/career/productionMatch.ts"
+                  },
+                  {
+                      "hash":  "229A978A3DE18A945DAD422ABE33192593F7B066307A71981934921EBFE5DD8E",
+                      "path":  "apps/game/lib/career/professionalCareerExit.test.ts"
+                  },
+                  {
+                      "hash":  "512F23C339AC3B4076E25C5FF9A1D86AC1B5B92398A8595D6E2DEF04C33303CF",
+                      "path":  "apps/game/lib/career/professionalCareerExit.ts"
+                  },
+                  {
+                      "hash":  "CC4C864CC0907394127C608158F7CAE8DF77ABF9C5F610ECD3C5EAE5ED3514D9",
+                      "path":  "apps/game/lib/career/recruitment.test.ts"
+                  },
+                  {
+                      "hash":  "E6E6B753F00FE61917498E50B23B78E4BF246FD458AC12FF516D7DE170620DAB",
+                      "path":  "apps/game/lib/career/recruitment.ts"
+                  },
+                  {
+                      "hash":  "49B04D25FAE0082CC08A8CE05704EDB4FACC4169F684DE092F4DDE3719EE11F4",
+                      "path":  "apps/game/lib/career/retirementAgeTail.test.ts"
+                  },
+                  {
+                      "hash":  "977E03FE9F68676E31618AA4DA6EA59ED1FB9E2D9803A9D02D2A2BF30075144E",
+                      "path":  "apps/game/lib/career/retirementTerminal.test.ts"
+                  },
+                  {
+                      "hash":  "27CF8702C0C8F28CD5F1B03EA61E6B5E4851DCE8CCDBCA2C1C6B53E9AFAF3448",
+                      "path":  "apps/game/lib/career/rosterIntegrity.test.ts"
+                  },
+                  {
+                      "hash":  "64EC1CD46FA9B797148AFE774E56E688156454D86AE59E574E928DA26BD6A8DF",
+                      "path":  "apps/game/lib/career/saveMigration.test.ts"
+                  },
+                  {
+                      "hash":  "E35ABD662F1A5446DB14949BC1EA9ED70365749988700931013C27BFE19F9105",
+                      "path":  "apps/game/lib/career/saveMigration.ts"
+                  },
+                  {
+                      "hash":  "10BE21BFB7D649051D9094061D1580F82018BA4A33016355898F9B901281E536",
+                      "path":  "apps/game/lib/career/scoutDiscovery.test.ts"
+                  },
+                  {
+                      "hash":  "FDE6A4565108798A527F8281D76B2CD97494B84AEA08CA0A2164F10082B97E09",
+                      "path":  "apps/game/lib/career/scoutDiscovery.ts"
+                  },
+                  {
+                      "hash":  "2E06F99E6CB1C2BDF4EB641C3E4CE1D9147DD27F047F05A2B8C61A63FA51C8E6",
+                      "path":  "apps/game/lib/career/scouting.test.ts"
+                  },
+                  {
+                      "hash":  "F719098DDA088AB9728C65D4A188038072E70DECB0FB1C04A3F4CA03A9688C8F",
+                      "path":  "apps/game/lib/career/scouting.ts"
+                  },
+                  {
+                      "hash":  "76A8621175ADA38FB1694519C6F4A893FD58DA1804825166050C2FE0CC1DF377",
+                      "path":  "apps/game/lib/career/scoutSuitability.ts"
+                  },
+                  {
+                      "hash":  "F62BAB72B27D8377D691E1E974AD896C81A7B857078297C9563633E6961494FE",
+                      "path":  "apps/game/lib/career/seasonRollover.ts"
+                  },
+                  {
+                      "hash":  "A4D55F1B1136E825EFF6C3DBB7DA84B92F90BBAB6BC4302E37060E619BA17771",
+                      "path":  "apps/game/lib/career/simulationHarness.sim.test.ts"
+                  },
+                  {
+                      "hash":  "4BE942C0D89FA7281D7B2CC299BD233B2F604D82CA2C8E006986BF1B60A44BAE",
+                      "path":  "apps/game/lib/career/simulationHarness.test.ts"
+                  },
+                  {
+                      "hash":  "002DE49E17F6EF32777A997EF27FA81A37D0FF4F8B46CFA25F7A9B0824BB6E93",
+                      "path":  "apps/game/lib/career/spatialMatch/careerInstructions.ts"
+                  },
+                  {
+                      "hash":  "34BDE7670C60CD47C2198D36856D061C48C6CA880392615954A2DD14CFAE2C9F",
+                      "path":  "apps/game/lib/career/spatialMatch/careerLineup.ts"
+                  },
+                  {
+                      "hash":  "3B098261E91D8AF4A8401076E75DFF8A6B1107C3C00D15CDD08419D23FA75E31",
+                      "path":  "apps/game/lib/career/spatialMatch/careerRatings.ts"
+                  },
+                  {
+                      "hash":  "68A91A880B83F78D211B9353AD5DB3914775DE53C6D67420D2E553AA0C9CA918",
+                      "path":  "apps/game/lib/career/spatialMatch/spatialCareerMatch.test.ts"
+                  },
+                  {
+                      "hash":  "9F42EC3ECDB7DED430C8A1BE38497D3080A33CDC1C29193B9FC15F9949FDC085",
+                      "path":  "apps/game/lib/career/spatialMatch/spatialCareerMatch.ts"
+                  },
+                  {
+                      "hash":  "E4BF918F870B96303F502E91CDBE144F12390E0812109541CE786DDA75132D85",
+                      "path":  "apps/game/lib/career/spatialMatch/spatialMatchResult.ts"
+                  },
+                  {
+                      "hash":  "07EBDFB9252FD0D331E1864884F6B7028C018EEF1F94FFE5A1779D2726E7FEA8",
+                      "path":  "apps/game/lib/career/specialPlayActions.ts"
+                  },
+                  {
+                      "hash":  "D4063F39F4EEF6855375F0D6F365502E795BFA7F013BF6EDFE0AE766D33922CE",
+                      "path":  "apps/game/lib/career/squadDerivedClubStrength.test.ts"
+                  },
+                  {
+                      "hash":  "545954DA8DD0E1B7A28E48FFC028F7D9611D15986BE64E1C6C2EE3712B97985E",
+                      "path":  "apps/game/lib/career/squadDerivedClubStrength.ts"
+                  },
+                  {
+                      "hash":  "5533B234A30A72BCD0B09C88DC8129A7AD25176EA2CFB1E2404C05FCBF862FA6",
+                      "path":  "apps/game/lib/career/squadStatus.test.ts"
+                  },
+                  {
+                      "hash":  "1D7DA90D8BF4CA721CE44FFB5D8AF79DF174F5F905F244DB211DBB519B059727",
+                      "path":  "apps/game/lib/career/squadStatus.ts"
+                  },
+                  {
+                      "hash":  "7607BE01D67A7C5601043B96CB50E1F31FB88BE9F803DD2AB0322F7D1DCF88C8",
+                      "path":  "apps/game/lib/career/staffTrainingIntegration.test.ts"
+                  },
+                  {
+                      "hash":  "873E1448C98B2AE9B205B39630BC579339D45C9B7B81833CBA5ACBB1C58130B4",
+                      "path":  "apps/game/lib/career/standings.test.ts"
+                  },
+                  {
+                      "hash":  "484503672DA0D3A8D354155B60DE62E9DA7216D37D06A8BCAB22E04173404BF0",
+                      "path":  "apps/game/lib/career/standings.ts"
+                  },
+                  {
+                      "hash":  "D45BAAEDFE0765CFC029D3DC2DAFADEC00828822164F59BF7CC486D79E58A345",
+                      "path":  "apps/game/lib/career/tacticalMatchAdjustment.test.ts"
+                  },
+                  {
+                      "hash":  "7B1C3916A55F1695BC32A6ABEA7B38D8C05EBCA8EE323E5E86F2817863064B24",
+                      "path":  "apps/game/lib/career/tacticalMatchAdjustment.ts"
+                  },
+                  {
+                      "hash":  "4261C62CCBC900046FD4CCBBFFF4FBD12188494D488F06A56945855D607C8F31",
+                      "path":  "apps/game/lib/career/tacticalMidMatchChange.test.ts"
+                  },
+                  {
+                      "hash":  "75D3F2731176BD744138A6C5F854CBA22ADD1C995330FB38523D0DD714D83E73",
+                      "path":  "apps/game/lib/career/tacticalMidMatchChange.ts"
+                  },
+                  {
+                      "hash":  "9A1620A35C9F67BFA368B5BB8BCB05DC50A75CAF7FC368CDCAF7043B85A12D04",
+                      "path":  "apps/game/lib/career/tacticalPlanEffects.test.ts"
+                  },
+                  {
+                      "hash":  "14EFF2DD54A7E5EF045611C1327AA94784E83019B84639F35B3BD869817F5712",
+                      "path":  "apps/game/lib/career/tacticalPlanEffects.ts"
+                  },
+                  {
+                      "hash":  "3DCC3E66E909BBE63A8BCBAE75334B52C470A3BBEF3AE29FB02AF4EFA7C6BC36",
+                      "path":  "apps/game/lib/career/tacticalProfileActions.test.ts"
+                  },
+                  {
+                      "hash":  "1EE3DE2B60B7F99D12B7E7A42D60B087DB0F70DDD5446DA7B4AC5CBE5A37F282",
+                      "path":  "apps/game/lib/career/tacticalProfileActions.ts"
+                  },
+                  {
+                      "hash":  "4F97AAB5E08D4190B929127EE5810451E09AD955CF09BD567089C79691DA9769",
+                      "path":  "apps/game/lib/career/teamTacticalProfile.test.ts"
+                  },
+                  {
+                      "hash":  "59E528C9D0FFA4B203A1F512281ED609D2082E2772FD4D84DF54F4A61A0FD5CB",
+                      "path":  "apps/game/lib/career/teamTacticalProfile.ts"
+                  },
+                  {
+                      "hash":  "681C7CB6252B2409FE8895F8823C18E07946434B154F0C9D154A334D51972FB6",
+                      "path":  "apps/game/lib/career/trainingCareerIntegration.test.ts"
+                  },
+                  {
+                      "hash":  "9180EBC4289DBD3B3870301A130FAAE9A764836D8A9E8117D0742D73DB4B2F2F",
+                      "path":  "apps/game/lib/career/trainingScheduleActions.ts"
+                  },
+                  {
+                      "hash":  "04FDA673AB032599E803FDB11D8F65998315077506869ED03AA6E3BF06CCFF48",
+                      "path":  "apps/game/lib/career/transferCareerIntegration.test.ts"
+                  },
+                  {
+                      "hash":  "15700173A62ABC017D50B83A4DB77B35AA80B9133854D10300FA41419AC7BC50",
+                      "path":  "apps/game/lib/career/tumbaRoster.test.ts"
+                  },
+                  {
+                      "hash":  "C2A09535A50AB323F731B5AB80A1F744346CD2A1F54E31C67A862D3A28E38240",
+                      "path":  "apps/game/lib/career/tumbaRoster.ts"
+                  },
+                  {
+                      "hash":  "C5E52CA133D1E08DF25C8612F64906E4145AD8803E8CD158004E5B19AC3614E8",
+                      "path":  "apps/game/lib/career/types.ts"
+                  },
+                  {
+                      "hash":  "AD75D605F2D6B621B2700C48C3F82B9C8FE2285A1EB3800AA0BBC96840C46012",
+                      "path":  "apps/game/lib/career/universalRatingCareerIntegration.test.ts"
+                  },
+                  {
+                      "hash":  "268BA685C02B1CEAB6D4B570906AB2B192E6AAD7BF991E2192D93AB4ACA152F7",
+                      "path":  "apps/game/lib/career/worldCompetitions.test.ts"
+                  },
+                  {
+                      "hash":  "407C86411DE92801350CADED501389A88901DA81B0C7184094F9A4DD36663EF2",
+                      "path":  "apps/game/lib/career/worldCompetitions.ts"
+                  },
+                  {
+                      "hash":  "92BE4188177397D15B1C8C352110083C6E741862F43F525370E600ECC3600218",
+                      "path":  "apps/game/lib/career/worldDevelopment.test.ts"
+                  },
+                  {
+                      "hash":  "8360EA9FFAEE9656E6B87E74B6923859DA522299D1AC5BB104339BE2EC343B0F",
+                      "path":  "apps/game/lib/career/worldDevelopment.ts"
+                  },
+                  {
+                      "hash":  "CCDE74AA8FBE06B904CD0EE22427507AC6C1AA6E262BE710263C276FFB64645D",
+                      "path":  "apps/game/lib/career/worldPoolIntegration.test.ts"
+                  },
+                  {
+                      "hash":  "D643BCF3C12CC90055641945C6CE9B1B9E1ED2B0047F1B9672EBFF454266FEAA",
+                      "path":  "apps/game/lib/career/worldPoolIntegration.ts"
+                  },
+                  {
+                      "hash":  "DD16755693679456C8C8981024EC5BEFF9A7310527ADDABEF86BB16B65F7D818",
+                      "path":  "apps/game/lib/career/youthIntake.test.ts"
+                  },
+                  {
+                      "hash":  "F3B66ADB3CEE9A24B62FB3436CE319471BBDE6171BF841C668E5C7CCD367419C",
+                      "path":  "apps/game/lib/career/youthIntake.ts"
+                  },
+                  {
+                      "hash":  "47D20F61F1196A8806DAFBD46931BD73C24333D703FA6C5BA125745AE07139AA",
+                      "path":  "apps/game/lib/career/youthIntakeWorldScope.sim.test.ts"
+                  },
+                  {
+                      "hash":  "3BBCB43DC2072FF0317544469F721D21D35D8B16ED31E389AEA22A67F01D76FD",
+                      "path":  "apps/game/lib/career/youthIntakeWorldScope.test.ts"
+                  },
+                  {
+                      "hash":  "90AD652DF6154AB3BDC5ECC0BEEA16B0E02875015BF2B5463515217333C5D09D",
+                      "path":  "apps/game/lib/career/youthNames.ts"
+                  },
+                  {
+                      "hash":  "411877499C832DED7875AC306574FA52B80D3910EE69838EC909E0D7FE196407",
+                      "path":  "apps/game/lib/career/youthPotential.test.ts"
+                  },
+                  {
+                      "hash":  "FC610955F7B1AB62D7547AF60D8032A1B7B0877ABDF7C14186ABD82841B5AC3E",
+                      "path":  "apps/game/lib/career/youthReadiness.test.ts"
+                  },
+                  {
+                      "hash":  "C1577B45ED867EAD1484DE2B7DFDE11DAC1C194A60C20675BF756BCCF2A570B5",
+                      "path":  "apps/game/lib/matchCenter/control.ts"
+                  },
+                  {
+                      "hash":  "E726DA046168C142C5EE77243C620F2B6FC47E9579F69B485E04AA6DAC4DDE3E",
+                      "path":  "apps/game/lib/matchCenter/model.ts"
+                  },
+                  {
+                      "hash":  "F100717310EA08F43C33B49DBABE7ACEE338B40884E9182030F59DB7C62FECE9",
+                      "path":  "apps/game/lib/matchQa/qaHarness.ts"
+                  },
+                  {
+                      "hash":  "75F620857343549FF9F0F308BA079BE54A101E9367D973C01BCB864193061F0C",
+                      "path":  "apps/game/lib/save/matchArchiveStorage.ts"
+                  },
+                  {
+                      "hash":  "290A459B32CE16CAA4485A212A0A4B96A16BE16D83A840A57BF29F1C15D05B02",
+                      "path":  "apps/game/lib/save/saveRepository.test.ts"
+                  },
+                  {
+                      "hash":  "9FB5D22760EF8243C78BFC9AA233DAC37D7834F836EA4CCA13F7F0F9A1F6DF16",
+                      "path":  "apps/game/lib/save/saveRepository.ts"
+                  },
+                  {
+                      "hash":  "A54C274BE08EBDAE9090EEBFD67EF358E6046582B273093B43936CB5A0B9DA33",
+                      "path":  "apps/game/lib/save/saveStorage.ts"
+                  },
+                  {
+                      "hash":  "7BA6F05B9F1E9CFA491961C1A6C644D7CE5FB2123FED5BAC0D1FB3A869B07266",
+                      "path":  "apps/game/scripts/season-audit.ts"
+                  },
+                  {
+                      "hash":  "55CEC35A72A07FD9A83260AEEA2C50D494D12E30F779E01FF428D313A7CD0883",
+                      "path":  "docs\\audit\\browser-product-test.txt"
+                  },
+                  {
+                      "hash":  "2FD132C42C004E7361E70694D07D0A6102F28FDEDC8067B9387A3BA17A216C66",
+                      "path":  "docs\\audit\\build-turbopack.txt"
+                  },
+                  {
+                      "hash":  "5C2D02AF267569779C65731F10DF3278891B13DC31128623944945E58513F0C6",
+                      "path":  "docs\\audit\\build-webpack.txt"
+                  },
+                  {
+                      "hash":  "7377B7C69495B0E588E6F139CD6EADAEF6C079779707D5A17393EA61004FB9F3",
+                      "path":  "docs\\audit\\final-browser-product.txt"
+                  },
+                  {
+                      "hash":  "10FE5FD65982CA6B71AE329A8731176307EDDC2346C756729ADB904B141991A0",
+                      "path":  "docs\\audit\\final-changed-lint.txt"
+                  },
+                  {
+                      "hash":  "3E086A657ED1EC890895F8BA058B992AEEAEAEB407C547F713BBBB9DD3F9B930",
+                      "path":  "docs\\audit\\final-production-build.txt"
+                  },
+                  {
+                      "hash":  "D051AE0DC6F38D8D8AE596A96B099A9AFBD551A40EE8FB798A6A1419CE05D06A",
+                      "path":  "docs\\audit\\final-production-server.txt"
+                  },
+                  {
+                      "hash":  "EBCC50A912655B26E24B44D0435982216AFDED32012C2C8A3DB0BC947AAD5CC7",
+                      "path":  "docs\\audit\\final-seam-tests.txt"
+                  },
+                  {
+                      "hash":  "F85A22592459AE068E83DA87AE3ABA7285A83BE904522A9371AF5C31ACA551B0",
+                      "path":  "docs\\audit\\final-tactics-lint.txt"
+                  },
+                  {
+                      "hash":  "2B2C7EC28FE32540D3B10018B601D0086422F93ADCBB8EFEFF621D42EC0C5ABB",
+                      "path":  "docs\\audit\\HANDBALL_MANAGER_AUDIT_2026-10-07.md"
+                  },
+                  {
+                      "hash":  "F3B2774D27874C5CF70A348B259F0DDADB51563E9AD76BF8B8A491DD336B5EF8",
+                      "path":  "docs\\audit\\implementation-typecheck.txt"
+                  },
+                  {
+                      "hash":  "1EC929B802136BCBE0E4C02EE80213FD75E8B386368F7F2B28EE61C60D8BB46C",
+                      "path":  "docs\\audit\\lint-output.txt"
+                  },
+                  {
+                      "hash":  "C233B35CF42F44FA52D68BF60316C2333B3A74933EBFF30C5BE983EBACEED0E6",
+                      "path":  "docs\\audit\\live-match-ui.png"
+                  },
+                  {
+                      "hash":  "61EFAD8267317D4E4991FBEEBF59E8A7372E0FA8F75029E4570935221FC133F8",
+                      "path":  "docs\\audit\\match-audit-2026-10-07.json"
+                  },
+                  {
+                      "hash":  "D09A491F6A0BBE22C7C9C8EAEE111C5F2C5895F5824DB8981F7AFC45D1E51971",
+                      "path":  "docs\\audit\\match-audit-run.txt"
+                  },
+                  {
+                      "hash":  "F3D80ADD59A98C0D25AFC659B0B2BFE6FF187C76DBC12DEC849388B3B24EC34A",
+                      "path":  "docs\\audit\\new-career-ui.png"
+                  },
+                  {
+                      "hash":  "4C9248DECF2AC5327C2E8FE43CA3E35D734EFABAAEC877BF43CD46026F183B10",
+                      "path":  "docs\\audit\\playable-changed-lint.txt"
+                  },
+                  {
+                      "hash":  "F7D15AA576A0CE148D221BFE2156CAFC6CFDA7A3A9089DE423C22F9D7AB4660F",
+                      "path":  "docs\\audit\\playable-dev-server.txt"
+                  },
+                  {
+                      "hash":  "2B884FADB3A3AB392782CC9C282CD7536D9401E5E1DA33EBC3234636EF50D099",
+                      "path":  "docs\\audit\\playable-production-build.txt"
+                  },
+                  {
+                      "hash":  "ABC669873C0500AF2BFD9225A810BA7FA120E9D2DB9A683F632EE63963459210",
+                      "path":  "docs\\audit\\playable-regression-tests.txt"
+                  },
+                  {
+                      "hash":  "D59F2A4D57540AB8A9CABF387AC74219EF2DC992A0111073173557A5A234E641",
+                      "path":  "docs\\audit\\playable-season-result.json"
+                  },
+                  {
+                      "hash":  "2DD9F3FF09FA22A9339904CA73D969BD2C16AB83FA5655B145DA85B5B23B5069",
+                      "path":  "docs\\audit\\playable-season-run.txt"
+                  },
+                  {
+                      "hash":  "0A620E650841E459AD7AD0731843E88C9AC33659453405D353111D19F79355A5",
+                      "path":  "docs\\audit\\playable-typecheck.txt"
+                  },
+                  {
+                      "hash":  "AE2F1CEC95B19D534D62DB477BBAC92952FE3ED4029090DB3787BE47EF2744B6",
+                      "path":  "docs\\audit\\playwright-browser-install.txt"
+                  },
+                  {
+                      "hash":  "93AC21B04B8D7AC66A05CA700048CDCABD49E96689CE68DE332A8CFAA5E100DB",
+                      "path":  "docs\\audit\\playwright-install.txt"
+                  },
+                  {
+                      "hash":  "D993F94A0CFFE2D9BC06D2D05F419C7A0AEAD9CB7F499035445298C33E0BE513",
+                      "path":  "docs\\audit\\product-seam-tests.txt"
+                  },
+                  {
+                      "hash":  "8E9C8F2F9A70B9F49E561908F97F63F896B4B0DAF4AD3BE3A25FAB3D604FA1ED",
+                      "path":  "docs\\audit\\replay-ui.png"
+                  },
+                  {
+                      "hash":  "6CDD1AA4B89830B0ABF0E9FC264C6571DC52D6FA4E15699E0A585C519D1BFD5B",
+                      "path":  "docs\\audit\\run-match-audit.cjs"
+                  },
+                  {
+                      "hash":  "D29C4D145921F5E5226BC7B45B6C13A2C8D18E8CB9C40DE4C25E679F6D31FA4D",
+                      "path":  "docs\\audit\\season-end-state.json"
+                  },
+                  {
+                      "hash":  "18A0BB9A090471AA27CCD670CE9191F24275C49CDCC0F49B70E202753F5E5EB7",
+                      "path":  "docs\\audit\\season-size-check.txt"
+                  },
+                  {
+                      "hash":  "9661C526299567788DE1AC068ABD51605274D0BDB8564530E50FA552B015AC6B",
+                      "path":  "docs\\audit\\season-two-run.txt"
+                  },
+                  {
+                      "hash":  "019E443D76EE2C51A9C1FBED59057CBB0DE113763A31156B9644F9B1A1A488FE",
+                      "path":  "docs\\audit\\test-sandbox.txt"
+                  },
+                  {
+                      "hash":  "98EC487E81550DA5754E1E617FBABE2C02C56E961F3D3852112E9C5FD630BAAE",
+                      "path":  "docs\\audit\\test-v2-core.txt"
+                  },
+                  {
+                      "hash":  "C3E5F0A9A88294014A30397016A07FE9BDF954921D5E76F5A34B139C5941B199",
+                      "path":  "docs\\audit\\test-workspaces.txt"
+                  },
+                  {
+                      "hash":  "A46777F25857B1084E540FC920C72AA7F7DB34B61883BD8797FA714168C37AF9",
+                      "path":  "packages/game-simulation/eslint.config.mjs"
+                  },
+                  {
+                      "hash":  "A589F4DF7D41E8AE933D78B7EA603FFBAD9716C9980C7698893AAE358AC7B2F0",
+                      "path":  "packages/game-simulation/package.json"
+                  },
+                  {
+                      "hash":  "B62003542D7C047A29316BCC3A639849B8E100D4C16B4020D4A849E0E9B82C53",
+                      "path":  "packages/game-simulation/src/fixtures.test.ts"
+                  },
+                  {
+                      "hash":  "5457BF7A9C9D557F099FA8B402A4A7922CE84E30C26A7B4A4F8A7E3106BFD500",
+                      "path":  "packages/game-simulation/src/fixtures.ts"
+                  },
+                  {
+                      "hash":  "AFE1C955E1807AFFCAD80F1AD98F305EDCF196ACC68BC0019F7DB4E2EFDFF048",
+                      "path":  "packages/game-simulation/src/index.ts"
+                  },
+                  {
+                      "hash":  "4376D5FD97B8615C772287692DD7A2BF9F60A9CC377BADDFE8A25BD5D2B6F30C",
+                      "path":  "packages/game-simulation/src/matchEngine.test.ts"
+                  },
+                  {
+                      "hash":  "A6BDA16B7891F95ED3609B229B998F3BC80FDC0D481373B4D176C7277F58FD9E",
+                      "path":  "packages/game-simulation/src/matchEngine.ts"
+                  },
+                  {
+                      "hash":  "A33233BC1EC89B6AFC16E4238EF9087BF96B4EA24DF0C99C04E1DF9EC41AF0EB",
+                      "path":  "packages/game-simulation/src/rng.test.ts"
+                  },
+                  {
+                      "hash":  "2A896F29F17854B886B00447628AAB3C55C4CD74C0F2BE9BD4F37D5F237642B5",
+                      "path":  "packages/game-simulation/src/rng.ts"
+                  },
+                  {
+                      "hash":  "303F19658230A253DC00EE8EE96ABECB0CFF30E80939E9339B2A86C68F986AA0",
+                      "path":  "packages/game-simulation/src/season.test.ts"
+                  },
+                  {
+                      "hash":  "A8B0F58B1365A326EDEB723C174E401F14821C8565C2329CC63BC18EDC30FFEA",
+                      "path":  "packages/game-simulation/src/season.ts"
+                  },
+                  {
+                      "hash":  "550C6F6919CBE9E5D8D8DA90568126A362A0FE3F81FF38B94CCB6F543DCF821C",
+                      "path":  "packages/game-simulation/src/table.test.ts"
+                  },
+                  {
+                      "hash":  "471E2835A6CA3DF0C4D2927B1942A4F218400F46B2046E3DF6931F0DC3849EFD",
+                      "path":  "packages/game-simulation/src/table.ts"
+                  },
+                  {
+                      "hash":  "2ECD796DE39C7C386B3884930D49E819E62D850957D53F977598E9753195397E",
+                      "path":  "packages/game-simulation/src/types.ts"
+                  },
+                  {
+                      "hash":  "80930205E74D6C799127CA0A8438E960D7571255907F3DBBC42B1435604DD8ED",
+                      "path":  "packages/game-simulation/tsconfig.json"
+                  },
+                  {
+                      "hash":  "06EE96C60D80326F7BB64E951EBB6B069125609BDFE7CF0E7C44B28D15D8A6F9",
+                      "path":  "packages/game-simulation/tsconfig.test.json"
+                  },
+                  {
+                      "hash":  "A46777F25857B1084E540FC920C72AA7F7DB34B61883BD8797FA714168C37AF9",
+                      "path":  "packages/handball-engine/eslint.config.mjs"
+                  },
+                  {
+                      "hash":  "9DEC686E1D3BDB0999E0FF795F9B9CD06EB60C43650E70DF06AB05ECA5DCCAA0",
+                      "path":  "packages/handball-engine/MIGRATION_NOTES.md"
+                  },
+                  {
+                      "hash":  "03712D0FEDE80568FB659AFE4C8883A7946096E928EB31D69CCF997F85247DEB",
+                      "path":  "packages/handball-engine/package.json"
+                  },
+                  {
+                      "hash":  "05334F5AA3F2C19311FE9E5390AF22E2A1CF0B3906F210501C83033281560CFA",
+                      "path":  "packages/handball-engine/scripts/audit-v2-variation.cjs"
+                  },
+                  {
+                      "hash":  "E8EE314FCF7CCC1364C24AC2DEC1649582A900C50E9A833D665AD7BBCCB1C706",
+                      "path":  "packages/handball-engine/scripts/matchBench.ts"
+                  },
+                  {
+                      "hash":  "800A74EAE1D79811982C810BB6C125F6F372D91CBAD5D1517CF9D48808693735",
+                      "path":  "packages/handball-engine/scripts/prove-v2-backcourt.cjs"
+                  },
+                  {
+                      "hash":  "6033D23D3F3598D10367B29C432FB5F639D5C67CC199B4488FB5DFEF0AA8E8B2",
+                      "path":  "packages/handball-engine/scripts/prove-v2-contact.cjs"
+                  },
+                  {
+                      "hash":  "66DDA4152226D086C67502EC8A7310F292D13238F9AA621FAA005488D6B5E5A7",
+                      "path":  "packages/handball-engine/scripts/prove-v2-ecosystem.cjs"
+                  },
+                  {
+                      "hash":  "3AE8C100B68EB854CE5F30453157003ECFFE5B7400D3BAABB4DDDAE451517041",
+                      "path":  "packages/handball-engine/scripts/prove-v2-match.cjs"
+                  },
+                  {
+                      "hash":  "189A6E3012A84DE394C66E94869A0BF6722B9E9844E0CF7DCF1036C470CB8CD5",
+                      "path":  "packages/handball-engine/scripts/prove-v2-variation.cjs"
+                  },
+                  {
+                      "hash":  "B8D598914237813AC02CBBA8B60364E4E68030041D6861F54C3E140C7DCE0CB8",
+                      "path":  "packages/handball-engine/scripts/prove-v2-wing.cjs"
+                  },
+                  {
+                      "hash":  "D08DA854F7AEC28A3940ACE0E9C5753DA9A63D2C1DB731DAA96CE9D7DF590057",
+                      "path":  "packages/handball-engine/scripts/shot-capability-benchmark.ts"
+                  },
+                  {
+                      "hash":  "ECA793E6B786451150DED9E04C36879A29AB10235832DE76050E5942B4FE15D0",
+                      "path":  "packages/handball-engine/scripts/test-core.cjs"
+                  },
+                  {
+                      "hash":  "7E7935F046C2CD1219610117F8CEE0B32E744946F88FC1398F2DA5E6A32FA3FF",
+                      "path":  "packages/handball-engine/scripts/test-intelligence.cjs"
+                  },
+                  {
+                      "hash":  "01F087064BE29C44C8070292F6DDB81EC1128A676188CC8EBABB191206A86771",
+                      "path":  "packages/handball-engine/scripts/test-v2.cjs"
+                  },
+                  {
+                      "hash":  "B7F54506B3F0785D5BEF7CF3864DE5507FE22029D519E00CD8440FDF86C629A7",
+                      "path":  "packages/handball-engine/src/bench/matchBench.test.ts"
+                  },
+                  {
+                      "hash":  "57674A9861E7DE8CC4398E4858DABF0C8CDFF130A9D45ED1CFDE1770C11511F8",
+                      "path":  "packages/handball-engine/src/bench/matchBench.ts"
+                  },
+                  {
+                      "hash":  "038A01CEEF7B7B7E1273944B7A5E454DA2180DFD73630AAB2F9742CFF5399D1E",
+                      "path":  "packages/handball-engine/src/canonicals/fieldHandball/boardObjectVisuals.ts"
+                  },
+                  {
+                      "hash":  "592684A10B2A64FC00FF0F7C5B25F49E7812ED540FE96D161B7C2E41060953ED",
+                      "path":  "packages/handball-engine/src/canonicals/fieldHandball/defensiveZones.ts"
+                  },
+                  {
+                      "hash":  "BDE2A28213C2F934D5F5C2C7A80EF9CFA8F36516BA79BEE68BC35948E022D9B9",
+                      "path":  "packages/handball-engine/src/canonicals/fieldHandball/formations.ts"
+                  },
+                  {
+                      "hash":  "C008940C246534DCEC14EA2B8FB049A163E0DA8F42603BFDCE3E97368A26C4D1",
+                      "path":  "packages/handball-engine/src/domain/geometry/attackGapCalibration.test.ts"
+                  },
+                  {
+                      "hash":  "C4849F3065ACB035D2EDE9C327B63D6FAA8E4DB3D5F971B4966C05DCC0232AEB",
+                      "path":  "packages/handball-engine/src/domain/geometry/attackGapCalibration.ts"
+                  },
+                  {
+                      "hash":  "F1E9E681E69EED3564ACA08373A61595F5F679EC22146AC33204AB7CCE5035DB",
+                      "path":  "packages/handball-engine/src/domain/geometry/attackGaps.ts"
+                  },
+                  {
+                      "hash":  "9EFCAD20251BB703321EBECE1641FA6F287C2793BD0AD9B55114B7EEC261DE43",
+                      "path":  "packages/handball-engine/src/domain/geometry/coordinates.ts"
+                  },
+                  {
+                      "hash":  "1DE6B7C08D8C3023D1771D895A03208D650D552CAA73B2A842DE9CE7E6B8342F",
+                      "path":  "packages/handball-engine/src/domain/geometry/court.test.ts"
+                  },
+                  {
+                      "hash":  "183B605B186C5C0CEE53F31923BCA483E0702444FF4AD325410C2C7FD81A78AD",
+                      "path":  "packages/handball-engine/src/domain/geometry/court.ts"
+                  },
+                  {
+                      "hash":  "53411E7BC5991859299210DDBADB32178B1418F1444F1A3221062FCC4A29180E",
+                      "path":  "packages/handball-engine/src/domain/geometry/goalArea.ts"
+                  },
+                  {
+                      "hash":  "08C00393E4A4C55B8706C82E247C459F8656F928586085F4719F5E285E06AAF2",
+                      "path":  "packages/handball-engine/src/domain/geometry/zones.test.ts"
+                  },
+                  {
+                      "hash":  "F4D3711FD601B53B342BCF32B2DC7D18F7BCD79940930A6B3A74585CFED319B8",
+                      "path":  "packages/handball-engine/src/domain/geometry/zones.ts"
+                  },
+                  {
+                      "hash":  "1E72F41AB934843A5C8EBAD145F49F8ADBD22E1F117DA95507F6475D855F38DC",
+                      "path":  "packages/handball-engine/src/domain/handball/actions.ts"
+                  },
+                  {
+                      "hash":  "D1072D1A02F4FEA74AF5A8518041FEE0F05B69EEC3F311B3ABC26CC2FFE6F819",
+                      "path":  "packages/handball-engine/src/domain/handball/ball.ts"
+                  },
+                  {
+                      "hash":  "20CC02E3CFE6CA0A91710E2BB47DA6884C8ECADB4E37696F25337618DAD96E6D",
+                      "path":  "packages/handball-engine/src/domain/handball/movement.ts"
+                  },
+                  {
+                      "hash":  "90A75B425BD7CEB052D28520C3E7066D1A16B5AFD3D5A2B2AD96E787DEF79B0E",
+                      "path":  "packages/handball-engine/src/domain/handball/player.ts"
+                  },
+                  {
+                      "hash":  "4BAC156576BA70FB95DF77EAD5B389EB6EE1D4D66D0AEF67F2D2AC344FAB874B",
+                      "path":  "packages/handball-engine/src/domain/handball/state.ts"
+                  },
+                  {
+                      "hash":  "AA0FE3B01B5C4676A11D4618FB56562843121394F6860D3011B7BF3CF63B07AA",
+                      "path":  "packages/handball-engine/src/domain/handball/validation.ts"
+                  },
+                  {
+                      "hash":  "5C200A4804A77829822CB96FB747BDD0001A0CF1FD145AC7A5969776D4AEF2EF",
+                      "path":  "packages/handball-engine/src/domain/match/possession.ts"
+                  },
+                  {
+                      "hash":  "AFA0659E77FF976587CB55518B8B9F59930CF2203DF05E9555FB7A8E39F2EDB4",
+                      "path":  "packages/handball-engine/src/policies/defense/collectiveDefense.test.ts"
+                  },
+                  {
+                      "hash":  "B75F72A5FB7A90765D683A967F70D8AC82F7D329C4966D55AEA6B6F4890876EF",
+                      "path":  "packages/handball-engine/src/policies/defense/collectiveDefense.ts"
+                  },
+                  {
+                      "hash":  "6159F6D4B8494F643E88C5A9A2E04849293FD527CB43E9875E088F0CA1087228",
+                      "path":  "packages/handball-engine/src/policies/defense/defensiveSystem.ts"
+                  },
+                  {
+                      "hash":  "02B4CBFF1787905F3E3D2001DEFBAD131FDE279CC731003B2130EFC1BBD25B76",
+                      "path":  "packages/handball-engine/src/policies/defense/dynamicThreeTwoOne.test.ts"
+                  },
+                  {
+                      "hash":  "6528FB32A3D2A4C78E436377B67AD268EE27970452659316286677955F6BEC86",
+                      "path":  "packages/handball-engine/src/policies/defense/fiveOneDefense.test.ts"
+                  },
+                  {
+                      "hash":  "351A05946E0AC59ED871DEADA885A3BD30D6C4815B7A24A335AF63D1097E8404",
+                      "path":  "packages/handball-engine/src/policies/defense/responsibility.test.ts"
+                  },
+                  {
+                      "hash":  "C0ED92AF25171B707C3780896193667C585B88A314CE4B7C975F6B284919A5C1",
+                      "path":  "packages/handball-engine/src/policies/defense/responsibility.ts"
+                  },
+                  {
+                      "hash":  "8DB8252CE1C73EFD56F74B8210B2EFFD802E83B8EAE5844D37DE150DB14A4471",
+                      "path":  "packages/handball-engine/src/policies/defense/sixZeroDefensePolicy.test.ts"
+                  },
+                  {
+                      "hash":  "636DBBC6E14040883D5D597404DB2CF571CBFBDE71BA832842E592AC937D49F1",
+                      "path":  "packages/handball-engine/src/policies/defense/sixZeroDefensePolicy.ts"
+                  },
+                  {
+                      "hash":  "ED52078E436BD330C399E97D97083040E696D601D5BBD259E71904A57B0D771E",
+                      "path":  "packages/handball-engine/src/policies/defense/sixZeroDefensePolicyGoalkeeperExclusion.test.ts"
+                  },
+                  {
+                      "hash":  "3933FAAA97349AB014BA983C878394B5B31FCEA2EBC7785E662DDCDC5236B383",
+                      "path":  "packages/handball-engine/src/policies/defense/threat.test.ts"
+                  },
+                  {
+                      "hash":  "C8F43B629F970B4EFCBD61012710E1F56BF94A367B0A7F025119D0FCC678D463",
+                      "path":  "packages/handball-engine/src/policies/defense/threat.ts"
+                  },
+                  {
+                      "hash":  "8C68667705EDE71708E9444B9BC0980D33D531677F8C600DA2471947CF6007E0",
+                      "path":  "packages/handball-engine/src/policies/defense/threeTwoOneDefense.test.ts"
+                  },
+                  {
+                      "hash":  "399C2E91E66718A6B20A5F694C9439DE3442301BCFA424CC8CCB411F5CD25F7C",
+                      "path":  "packages/handball-engine/src/policies/defense/types.ts"
+                  },
+                  {
+                      "hash":  "09B317D214EE462B41B4CDDE0CD954DD6EC34C57CBEBDBDAFDBDDA96CB308494",
+                      "path":  "packages/handball-engine/src/policies/goalkeeper/goalkeeperPolicy.ts"
+                  },
+                  {
+                      "hash":  "919E4F40B9814ED3CFCDC9A51BCCAA2BB2384F3EEAC2B9E717989246301E43F2",
+                      "path":  "packages/handball-engine/src/scenarios/fieldFormationAdapter.test.ts"
+                  },
+                  {
+                      "hash":  "3DF209E82756CD7E969836B2645290A97E5B1F444E24772EC81DAF69DEAE2FC0",
+                      "path":  "packages/handball-engine/src/scenarios/fieldFormationAdapter.ts"
+                  },
+                  {
+                      "hash":  "42CE4D7927266FF1DD8228A0320AF068D70FD743904012AD3A28CCA695B63F29",
+                      "path":  "packages/handball-engine/src/scenarios/fullCourt6v6.ts"
+                  },
+                  {
+                      "hash":  "B0B700FAEAB47F612FD0F6224641E082793ACF6570E30E4F87A73B27428968F8",
+                      "path":  "packages/handball-engine/src/scenarios/halfCourt6v6.test.ts"
+                  },
+                  {
+                      "hash":  "E63BA0FE4087CA21622A4DCBA2BB5CDEE8AEF6D4BE9245DFB366B2CA0ACEB045",
+                      "path":  "packages/handball-engine/src/scenarios/halfCourt6v6.ts"
+                  },
+                  {
+                      "hash":  "3DACFCE00945ECFCA0B336BA0E7730ECD84FEC4771438E6B5C34CD339BB13261",
+                      "path":  "packages/handball-engine/src/scenarios/halfCourt6v6WithGoalkeeper.test.ts"
+                  },
+                  {
+                      "hash":  "0D98B6BAC5C271BC3D704E0997F47B5464AD1FFFD645EFA2519CC3637591E465",
+                      "path":  "packages/handball-engine/src/scenarios/matchScenario.test.ts"
+                  },
+                  {
+                      "hash":  "D7205582FC61B8285EDD945BA825F67C3FF662F985288A209DAF0E65CCDDAFAB",
+                      "path":  "packages/handball-engine/src/scenarios/matchScenario.ts"
+                  },
+                  {
+                      "hash":  "C0E7136BAC8B556829B620720B0C65A26083EE5DECAAC890BA3AC8544A749974",
+                      "path":  "packages/handball-engine/src/scenarios/matchSquad.ts"
+                  },
+                  {
+                      "hash":  "4E185FF81243D3EF4549AA594682BB5879FEC019D05E4AFCF28C996F725E7CD9",
+                      "path":  "packages/handball-engine/src/simulation/attackAggression.test.ts"
+                  },
+                  {
+                      "hash":  "CD2FB6D3E906400468E45265D5E768D0F56610C2116373D147D373A95B4E3F63",
+                      "path":  "packages/handball-engine/src/simulation/attackDecision.ts"
+                  },
+                  {
+                      "hash":  "73CBB1F1D2D84434851CF05C13D56BDE1DB42820F01EEEDAB173D21DEAA8DF44",
+                      "path":  "packages/handball-engine/src/simulation/attackEstablishment.test.ts"
+                  },
+                  {
+                      "hash":  "EE674D113EAD21ADA28892001611862479B83A6C962D093F30EECB9DED9B44CB",
+                      "path":  "packages/handball-engine/src/simulation/attackEstablishment.ts"
+                  },
+                  {
+                      "hash":  "381B358124B621AE6AA65C5E5AEC72073821A851B7774237614F6FB7B89CBE02",
+                      "path":  "packages/handball-engine/src/simulation/attackRoleResponsibility.test.ts"
+                  },
+                  {
+                      "hash":  "241C982D066C1C6982F79736845ED8F3294B43D6DC569AB8F6481B29204D9E26",
+                      "path":  "packages/handball-engine/src/simulation/attackRoleResponsibility.ts"
+                  },
+                  {
+                      "hash":  "C4B28E6E180DC34D81EDF5F19569E07F2D3CACEB7E031E6BB094FC5B3745AC46",
+                      "path":  "packages/handball-engine/src/simulation/canonicalEvents.test.ts"
+                  },
+                  {
+                      "hash":  "3369BD5C6803BD9188D49194D7478FD0588FD56298A8048A68F973BC87B3C6E5",
+                      "path":  "packages/handball-engine/src/simulation/canonicalEvents.ts"
+                  },
+                  {
+                      "hash":  "07B68540B7ED5A7954268F7481FA9A8A24E8F5696428B2C506250799E8B76674",
+                      "path":  "packages/handball-engine/src/simulation/coach.test.ts"
+                  },
+                  {
+                      "hash":  "BE8A52744B936D45BC00A82D91AE3664C20C573F75AF937D16310E8AABC5E1B8",
+                      "path":  "packages/handball-engine/src/simulation/coach.ts"
+                  },
+                  {
+                      "hash":  "02EAD4C5AB220F156358A3BE95600FA136ADCF5BEA292E1534920F148BC89446",
+                      "path":  "packages/handball-engine/src/simulation/coaching.ts"
+                  },
+                  {
+                      "hash":  "AD76D36F526D5AA4B1DFD502E3A21F0706CFBE6505D1A378C86D212FD8B2E4D2",
+                      "path":  "packages/handball-engine/src/simulation/condition.test.ts"
+                  },
+                  {
+                      "hash":  "DD5DC08E9D2B3551D278D20EE69D7E58AAD2D5087924CA29182B71B314ABD94E",
+                      "path":  "packages/handball-engine/src/simulation/condition.ts"
+                  },
+                  {
+                      "hash":  "5E81CE23AC3FDAFA26709FB784C5E4780BD260211C69DBEF3F4288C61F7FDA5B",
+                      "path":  "packages/handball-engine/src/simulation/constraints.ts"
+                  },
+                  {
+                      "hash":  "A822A16656548BA86EC00C40F1812E9C08DF035E7A9E4C026DAC9F9D18F7C8DA",
+                      "path":  "packages/handball-engine/src/simulation/contactConsequence.test.ts"
+                  },
+                  {
+                      "hash":  "4CE5BFE71BE3798356941ED45A7C2F1C47E15A3CCDAAE273606D23AEF983869E",
+                      "path":  "packages/handball-engine/src/simulation/contactEpisode.test.ts"
+                  },
+                  {
+                      "hash":  "8C727D11C667D7EEF996BDB836BE4E38E4EB5B1A1DDB51A4AF12D69E2C80FD36",
+                      "path":  "packages/handball-engine/src/simulation/contactEpisode.ts"
+                  },
+                  {
+                      "hash":  "222E94D3FE3673C1D3A5F5070BFC1D837F646E7A5F986B4DCB88BF3A77B94E71",
+                      "path":  "packages/handball-engine/src/simulation/defensiveReach.test.ts"
+                  },
+                  {
+                      "hash":  "F338830D335FB4E094CEEADEA2858E8D4F2C4BB17CD385C9C6BBAF812C05E851",
+                      "path":  "packages/handball-engine/src/simulation/defensiveReach.ts"
+                  },
+                  {
+                      "hash":  "89B876E57F18174A2D3E9E2911603737BE0B5927F201FD3B67B5D3B0A42C2FA5",
+                      "path":  "packages/handball-engine/src/simulation/engine.test.ts"
+                  },
+                  {
+                      "hash":  "3C1B84030243782FF2EEA1FB0DDF21CEF3A6C9090A33B2A3108B2586CA6C74D2",
+                      "path":  "packages/handball-engine/src/simulation/engine.ts"
+                  },
+                  {
+                      "hash":  "45FCE57EFFBB3E71CA4E0CA2E738F90B38F69374D7CC2A0E2676A31ED35B787F",
+                      "path":  "packages/handball-engine/src/simulation/fixedStep.test.ts"
+                  },
+                  {
+                      "hash":  "E65CB40AF9B919502B8BF4455CE4C5751FF15ADB3916E4ED91057DCFE3B29C71",
+                      "path":  "packages/handball-engine/src/simulation/fixedStep.ts"
+                  },
+                  {
+                      "hash":  "E24826AEDC03B2818816ECDA9A58CAA54B38C92705FBECC5DFC8220B17A4BEE5",
+                      "path":  "packages/handball-engine/src/simulation/foulDecision.test.ts"
+                  },
+                  {
+                      "hash":  "9AD8539A66B3890F5707903FAFC791F3D855BA95E33DE24D55126307A7F93946",
+                      "path":  "packages/handball-engine/src/simulation/foulDecision.ts"
+                  },
+                  {
+                      "hash":  "5C452D5D59F6C387928FB1CF43208626648F03EC5B9826B146AF72341C10461C",
+                      "path":  "packages/handball-engine/src/simulation/gameFlow.test.ts"
+                  },
+                  {
+                      "hash":  "07DF4E4DA29CD6F826B1208474BED83D7B099E3F6C7991BA6072E09D7A120730",
+                      "path":  "packages/handball-engine/src/simulation/gameFlow.ts"
+                  },
+                  {
+                      "hash":  "B34B6338D12425322B4B11DB0D0F601A97DB78750B9209322C2F9E7668124F2A",
+                      "path":  "packages/handball-engine/src/simulation/matchClock.ts"
+                  },
+                  {
+                      "hash":  "50F817D0AEA79880FC02270A85A92DB533D922E1D770C38B69D7713ED582D816",
+                      "path":  "packages/handball-engine/src/simulation/matchRunner.test.ts"
+                  },
+                  {
+                      "hash":  "C09FD9931B1B9EA36BE2BF1C2CE41882F4D2D4E3ABBCA761F183ECB96C7DB234",
+                      "path":  "packages/handball-engine/src/simulation/matchRunner.ts"
+                  },
+                  {
+                      "hash":  "1733F11EB1189B19D51F7CEAC5DCEAD6FB341BB075EB6AF49196DF2434BF2F71",
+                      "path":  "packages/handball-engine/src/simulation/movement.ts"
+                  },
+                  {
+                      "hash":  "92F9C1B552738F211DFA603B79C501A9C0528F1FE1DC4E437BE8668578626116",
+                      "path":  "packages/handball-engine/src/simulation/organizedAttack.test.ts"
+                  },
+                  {
+                      "hash":  "DE51E9C02B904BA89E5147E0318DFDA6F73C81C178405F385D65F750F2977F20",
+                      "path":  "packages/handball-engine/src/simulation/organizedAttack.ts"
+                  },
+                  {
+                      "hash":  "FF5DE4582CDE16E5AAFB9581F5BA2CC3D0CE96D78C72938AA37132E42ECEFEC9",
+                      "path":  "packages/handball-engine/src/simulation/possessionEngine.test.ts"
+                  },
+                  {
+                      "hash":  "28FA2BB3CFEC280897757895B23D665C58F69CE1933D7BB8B397C2C1CCAA7C09",
+                      "path":  "packages/handball-engine/src/simulation/possessionEngine.ts"
+                  },
+                  {
+                      "hash":  "7F6B6163920764B96D0A72E2D030EF8D9CAFA6AC9276D0582ACD6A8E7E63F768",
+                      "path":  "packages/handball-engine/src/simulation/possessionRng.ts"
+                  },
+                  {
+                      "hash":  "E2AC2C42F36F4F46DA1FDFBF71ECDBDDC016A5F55A397CA72C75A6C475FB9E90",
+                      "path":  "packages/handball-engine/src/simulation/qaGate1.test.ts"
+                  },
+                  {
+                      "hash":  "B0716CFC55B9DD3FCA3606B792B7582BC30053E554034F90549041EE6AD78301",
+                      "path":  "packages/handball-engine/src/simulation/sequenceEngine.test.ts"
+                  },
+                  {
+                      "hash":  "A8019566BA1543C0CB4BC4F048AF84ACF3295222EB6AAA8EBA7CF48C6868FD1E",
+                      "path":  "packages/handball-engine/src/simulation/sequenceEngine.ts"
+                  },
+                  {
+                      "hash":  "95B4483C771A8296F4893EAA6730ED198D4B794A3E830A40CF8182E085517C17",
+                      "path":  "packages/handball-engine/src/simulation/sevenVsSix.test.ts"
+                  },
+                  {
+                      "hash":  "F7735C3CF257A6960C53EF235D54AFD6BD26BA4D7E02DF955E3FFA4D678848AC",
+                      "path":  "packages/handball-engine/src/simulation/sevenVsSix.ts"
+                  },
+                  {
+                      "hash":  "A15BEAAC9CA78B1429B89F310A55C26B7BF9B06476961CF91975DFD5A88DAF13",
+                      "path":  "packages/handball-engine/src/simulation/sevenVsSixMatch.test.ts"
+                  },
+                  {
+                      "hash":  "B3C9372EE08EBC03B3A71CA48F821DD35C24288FB782BF5CB465BB0B64DCAC92",
+                      "path":  "packages/handball-engine/src/simulation/shotDecision.test.ts"
+                  },
+                  {
+                      "hash":  "F6778403A2AC6BC6F753DC77B47C70697013E86820D83431598C407F7996F239",
+                      "path":  "packages/handball-engine/src/simulation/shotDecision.ts"
+                  },
+                  {
+                      "hash":  "F65207106185B56B2499689A1AEBA6A4E0E093E47565F32DEF4A575B87ACFA4B",
+                      "path":  "packages/handball-engine/src/simulation/shotRelease.test.ts"
+                  },
+                  {
+                      "hash":  "92441194DA0938FB9B8E51221D1D5FAC60C3D3ADDF395369579CE80D7B2FBC9C",
+                      "path":  "packages/handball-engine/src/simulation/shotRelease.ts"
+                  },
+                  {
+                      "hash":  "38596AA849C8E4E354CAAF59406C4909D73403913CF29E05D64AF7618E26F1D0",
+                      "path":  "packages/handball-engine/src/simulation/spatialControl.test.ts"
+                  },
+                  {
+                      "hash":  "D25E513E58B37464D9A8AC07E930460C08996BD168CA3D898ED09381F6667532",
+                      "path":  "packages/handball-engine/src/simulation/spatialControl.ts"
+                  },
+                  {
+                      "hash":  "09AAE59C841DF07EF2C4F0A9BD662CD165304A68B2CDBA4215584DCCE0F12A74",
+                      "path":  "packages/handball-engine/src/simulation/substitutionDecision.test.ts"
+                  },
+                  {
+                      "hash":  "01F8FEA9161D73BB1191FDED0FE49047AEA664E9745BF670B6C9AA3F20AC179F",
+                      "path":  "packages/handball-engine/src/simulation/substitutionDecision.ts"
+                  },
+                  {
+                      "hash":  "8C5ED6FF2574A274C54421867F0D599D01877532B133B190519700587E30A04B",
+                      "path":  "packages/handball-engine/src/simulation/substitutionExit.ts"
+                  },
+                  {
+                      "hash":  "3C91B8E448D4283F56768F3514162B8D5BAA502003735FD33C7CE9DE6F8B7A46",
+                      "path":  "packages/handball-engine/src/simulation/timeout.ts"
+                  },
+                  {
+                      "hash":  "E6A072BF8FBE401C412764CF0E9A473B1371A740C385169924CB6392E5554063",
+                      "path":  "packages/handball-engine/src/simulation/transition.ts"
+                  },
+                  {
+                      "hash":  "46A87828C10DD329B24D1BD91C506722AB6275C9E4F64A84ECA45A53B523D95A",
+                      "path":  "packages/handball-engine/src/simulation/transitionDecision.test.ts"
+                  },
+                  {
+                      "hash":  "0E18C82A62C32E7164F1D34DC80B6EB0A57002C881E2E8A1D4B4D9F7B397113C",
+                      "path":  "packages/handball-engine/src/simulation/transitionDecision.ts"
+                  },
+                  {
+                      "hash":  "4C57636CB87684CFFACB25DD802356DD00727D23514EBD7AD12D059483A8299E",
+                      "path":  "packages/handball-engine/src/ui/actionFlow.test.ts"
+                  },
+                  {
+                      "hash":  "F54FCBB9FA20C16A3A6212C90FDA203C46DF22526FAD1167C633CF4F918DED32",
+                      "path":  "packages/handball-engine/src/ui/actionFlow.ts"
+                  },
+                  {
+                      "hash":  "D843F9EAB32E0E2A9F0B85149710000D6E1C7A205A12C7CA9AFCDB1C445BE04F",
+                      "path":  "packages/handball-engine/src/ui/plannedSequence.test.ts"
+                  },
+                  {
+                      "hash":  "2956FBEAFA695EEA7EDC996A000D0567C0EC67BD7469992F4D096EFE5FD2D621",
+                      "path":  "packages/handball-engine/src/ui/plannedSequence.ts"
+                  },
+                  {
+                      "hash":  "F018362DAC64BA448DDA64C3647A54E7DEB4AB03263ADF8EB34B61BCF483A1B1",
+                      "path":  "packages/handball-engine/src/ui/simulationRuntime.test.ts"
+                  },
+                  {
+                      "hash":  "20D388B47D765B9EFC69B53DD37437437E2FE3EDDF5158E06894629C8C731140",
+                      "path":  "packages/handball-engine/src/ui/simulationRuntime.ts"
+                  },
+                  {
+                      "hash":  "643C1AF7695F903612EFA65EC7A25AB7FAB09FBD75491F7B6BBA01AE6B5EB7D3",
+                      "path":  "packages/handball-engine/src/v2/actions.ts"
+                  },
+                  {
+                      "hash":  "36877AF6BFE9E2E0EEC8F6DE6910331E3BB6537782F5780226A288B0A47EE42B",
+                      "path":  "packages/handball-engine/src/v2/core/actions.ts"
+                  },
+                  {
+                      "hash":  "74276663C391C735ECFF3042E5096FE74D15E1727533C5C67435CD717B082C34",
+                      "path":  "packages/handball-engine/src/v2/core/attack-realism.test.ts"
+                  },
+                  {
+                      "hash":  "28E8BB909C4F95EBE9EB1C496EC06495D22BC8CA20C170AA51762AEA7A4FB961",
+                      "path":  "packages/handball-engine/src/v2/core/BACKCOURT.md"
+                  },
+                  {
+                      "hash":  "6E18D9A78D44ECF84DB2992BF572274A87F16A6C59D065743F03D515314B5AED",
+                      "path":  "packages/handball-engine/src/v2/core/backcourt.test.ts"
+                  },
+                  {
+                      "hash":  "00AB4E44F0520B83F771CF5DD8A0E1212B34272410E5027B856EABDDEBDDC120",
+                      "path":  "packages/handball-engine/src/v2/core/backcourt.ts"
+                  },
+                  {
+                      "hash":  "01B67AFFE79D21E3D2732F7B9C36557BD68C1A1F8BBC4E12ACADD6AE8CAEBA6D",
+                      "path":  "packages/handball-engine/src/v2/core/backcourt-proof.json"
+                  },
+                  {
+                      "hash":  "6137722469DB2DC0A9567B9FF3BCCD9C8D3F070E9DB58BB93FE225CBCCD655BE",
+                      "path":  "packages/handball-engine/src/v2/core/backcourtScenarios.ts"
+                  },
+                  {
+                      "hash":  "4CEA0C24BE00E9AB08C856C10E4333731DAF4A970A2343170B4A952504F953CD",
+                      "path":  "packages/handball-engine/src/v2/core/CHECKPOINT.md"
+                  },
+                  {
+                      "hash":  "2C851908733F52B9F5F5FDD878A280368E8886240A4FF23F79869E8E09198D0F",
+                      "path":  "packages/handball-engine/src/v2/core/checkpoint-proof.json"
+                  },
+                  {
+                      "hash":  "B943276328E1DF36F43173AF08FE008D8376F419E5AFAE4AEAE5E1466A28A599",
+                      "path":  "packages/handball-engine/src/v2/core/coaching.ts"
+                  },
+                  {
+                      "hash":  "F27C2D555258DBB0A56F562ED25E0416AA31A2E90640143EA7F7B874F92CAD91",
+                      "path":  "packages/handball-engine/src/v2/core/condition.ts"
+                  },
+                  {
+                      "hash":  "C36A4D3F3E1F7FA51506DCA73FF61CEA9687377109AAC9E0789AA6FB35366F53",
+                      "path":  "packages/handball-engine/src/v2/core/contact.test.ts"
+                  },
+                  {
+                      "hash":  "51C5C45017537C88BB92B43E46022FF2BA64210AAB1895762EC57E30E10BABD1",
+                      "path":  "packages/handball-engine/src/v2/core/contact.ts"
+                  },
+                  {
+                      "hash":  "731E5E5B1E3ABD9006BF08A1DE7BE01345E80D438DAAC0221ED10E8C3BE9F376",
+                      "path":  "packages/handball-engine/src/v2/core/contact-direction-realism.test.ts"
+                  },
+                  {
+                      "hash":  "06DC8E7893258D6F5C9652A121F1FD65F9F915611E33C8B7D1A202961D6C60FB",
+                      "path":  "packages/handball-engine/src/v2/core/contact-proof.json"
+                  },
+                  {
+                      "hash":  "79E6FC938ED175948F2A2E3A0BDF4FFF318E0EDA44077D615BE68011156E6901",
+                      "path":  "packages/handball-engine/src/v2/core/contactScenarios.ts"
+                  },
+                  {
+                      "hash":  "212EC58F3A6F75F68218D694D03E701608B7A45F3164431A8E4217CF43AFB0ED",
+                      "path":  "packages/handball-engine/src/v2/core/CONTINUATION.md"
+                  },
+                  {
+                      "hash":  "F57EC91BD6FDECEB2EAE52F898A8D2CFD8540A5042CB86AD3677C78A4C3594F2",
+                      "path":  "packages/handball-engine/src/v2/core/continuous.test.ts"
+                  },
+                  {
+                      "hash":  "3BC0E25EE0474AAB3162DF83B5E228BCD5953DDC5B29622592E5FD5BFDDA55C5",
+                      "path":  "packages/handball-engine/src/v2/core/continuous.ts"
+                  },
+                  {
+                      "hash":  "CEB6F374AAE01E5BF9BC3998325B0E8BE255C854C898CCC4007DE5B7D487A21E",
+                      "path":  "packages/handball-engine/src/v2/core/core.test.ts"
+                  },
+                  {
+                      "hash":  "8C9D7FA9B8B6FD0A19B27EC7A305E88259418EDFF776C7A1ADA15782A96B7D7C",
+                      "path":  "packages/handball-engine/src/v2/core/defence.test.ts"
+                  },
+                  {
+                      "hash":  "6DC360BD8F858A64153B215F8FDDD2A1ACC2722E6BE4098AD04CEC87F9640CA1",
+                      "path":  "packages/handball-engine/src/v2/core/defence.ts"
+                  },
+                  {
+                      "hash":  "6F00A493A264E69DDD96ADF1113C485FAD1DB3BD5E8EBE0E688B75F3121D3AAC",
+                      "path":  "packages/handball-engine/src/v2/core/ecology.test.ts"
+                  },
+                  {
+                      "hash":  "9F64B42BB3E9356BA6E54A68F64CB51F7F4C8FEEFDDCCA5B4E5B24674A2AC54B",
+                      "path":  "packages/handball-engine/src/v2/core/ECOSYSTEM.md"
+                  },
+                  {
+                      "hash":  "0B41601EBE1E10ADDECF0838CCECEB9CF9D9748A9BA611CAC80DA733A66FA01D",
+                      "path":  "packages/handball-engine/src/v2/core/ecosystem.test.ts"
+                  },
+                  {
+                      "hash":  "68407929E8D32C7BEBEB60C2552AA9B069C9C3E6D450771CD386307E083E92E3",
+                      "path":  "packages/handball-engine/src/v2/core/ecosystem-proof.json"
+                  },
+                  {
+                      "hash":  "15FC289D5A0489AB6544A3B97D24A583E82CFD3D4F8112255C89A5CD8B3593E3",
+                      "path":  "packages/handball-engine/src/v2/core/empirical-calibration.test.ts"
+                  },
+                  {
+                      "hash":  "B597CE488188B882F553F0553316960039D19EC92BCA275EE89C7A4DB4595D07",
+                      "path":  "packages/handball-engine/src/v2/core/engage.ts"
+                  },
+                  {
+                      "hash":  "DC4FE838174EA80B5AF622E052492B59EF2D9907F767846F4294803F45DD4D7C",
+                      "path":  "packages/handball-engine/src/v2/core/engine.ts"
+                  },
+                  {
+                      "hash":  "007E762DA12B99B50CF90541895512657EDAFB4804A663EECE2BD6726E844527",
+                      "path":  "packages/handball-engine/src/v2/core/execution.ts"
+                  },
+                  {
+                      "hash":  "E14D63785B1B4ADE96B28F5F5F7CDF61A3A89808A5490465F238C4C26F89F444",
+                      "path":  "packages/handball-engine/src/v2/core/execution-realism.test.ts"
+                  },
+                  {
+                      "hash":  "22038C52E47D0C88F68C71BB1219359A959D8290166AE77AC211C4B9A82B1ADA",
+                      "path":  "packages/handball-engine/src/v2/core/foul-semantics.test.ts"
+                  },
+                  {
+                      "hash":  "1605DF9598A7CC7689B93F8D2FC550DD5DFB81309604B8567A28F1B7C08AFB7A",
+                      "path":  "packages/handball-engine/src/v2/core/identity.test.ts"
+                  },
+                  {
+                      "hash":  "FC22E22E28B38C0566599DE44434094406A4C5EF6D0B6C1062ADAF51309D263C",
+                      "path":  "packages/handball-engine/src/v2/core/intelligence.test.ts"
+                  },
+                  {
+                      "hash":  "8CFC745E29C0217C23BF8ED060F6715E48341D4AF2894981D2A27C7E524CCAC2",
+                      "path":  "packages/handball-engine/src/v2/core/intelligence.ts"
+                  },
+                  {
+                      "hash":  "8214CB9C24BAD1570559D71D2381E3AC6BDF7C670BD0E9B925BBC72857BBD310",
+                      "path":  "packages/handball-engine/src/v2/core/intelligenceScenarios.ts"
+                  },
+                  {
+                      "hash":  "B9AF164943CA45642DAC30F8255330892955328F181D91520868EFA34A95B33F",
+                      "path":  "packages/handball-engine/src/v2/core/interactions.ts"
+                  },
+                  {
+                      "hash":  "8B8E7F65562E41DAC321CBE233CEB5AA743F08BD3B7C9F4518FF143EE92A9E3E",
+                      "path":  "packages/handball-engine/src/v2/core/keeper-calibration.test.ts"
+                  },
+                  {
+                      "hash":  "C28194EE81B79F86633D1A4E305F67D08A842DA4F293771AA48E93E2CBAD0BEE",
+                      "path":  "packages/handball-engine/src/v2/core/keeper-integration-calibration.test.ts"
+                  },
+                  {
+                      "hash":  "DD801CE6401A106D772EAC46C5800EB46F218D34495F41EC1FF536AEC24116C9",
+                      "path":  "packages/handball-engine/src/v2/core/ledger.ts"
+                  },
+                  {
+                      "hash":  "C222D4240A0B0935E552FA37A7C1DCF7A999D48CA4E4E200CE5BEFABBC860B13",
+                      "path":  "packages/handball-engine/src/v2/core/locomotion.ts"
+                  },
+                  {
+                      "hash":  "FA975BA3729D8814B40F077E906291F3470DAD8CF80CF8E1E6EA8705709AE93D",
+                      "path":  "packages/handball-engine/src/v2/core/loose-ball-realism.test.ts"
+                  },
+                  {
+                      "hash":  "4CED473266EDE54A0D9689C6E06A28E2A5B009464FDD994FCE6C61E8186C08DD",
+                      "path":  "packages/handball-engine/src/v2/core/match.ts"
+                  },
+                  {
+                      "hash":  "4DEEC881235E165F28777D930E602247F888AA728C20B14647A7A70EF520E53E",
+                      "path":  "packages/handball-engine/src/v2/core/match-proof.json"
+                  },
+                  {
+                      "hash":  "6796C275154DA7145CD06558835524075013528ECB2354A1F3439E5B537EA499",
+                      "path":  "packages/handball-engine/src/v2/core/matchReplay.ts"
+                  },
+                  {
+                      "hash":  "C1948115A3B0BCEC75DE301E1E2AA347544B93E17E73E8B1145953D3D88FC987",
+                      "path":  "packages/handball-engine/src/v2/core/motion-continuity.test.ts"
+                  },
+                  {
+                      "hash":  "A5F7F86AB2B1AA1F9D39E948D0F010846AE864E0E13382BBAF2E773D4396CF3E",
+                      "path":  "packages/handball-engine/src/v2/core/motion-quality.test.ts"
+                  },
+                  {
+                      "hash":  "A5C531AD8D2CEFA5623A7325B22F7F6D78C2E8BD20CA9AEF87369112E5AE2037",
+                      "path":  "packages/handball-engine/src/v2/core/movement.ts"
+                  },
+                  {
+                      "hash":  "B501840D17ECB3507A74D2E0867430923E9DD1B9591C243359DCE7C2F3BEFF52",
+                      "path":  "packages/handball-engine/src/v2/core/offence.test.ts"
+                  },
+                  {
+                      "hash":  "8E4A37B6A87CC000094BF402D8D0A26471689EC782AF8AA7A3ECB555CC95740B",
+                      "path":  "packages/handball-engine/src/v2/core/offence.ts"
+                  },
+                  {
+                      "hash":  "4ED3D9AF14C484E6E28C718DF05AEB474A7113BADF2E3E98DA78C6EB22654F3F",
+                      "path":  "packages/handball-engine/src/v2/core/passive.test.ts"
+                  },
+                  {
+                      "hash":  "0C405269406B4A8B124EA432CE036A0008118AA59C186954CDED0957A0C2381F",
+                      "path":  "packages/handball-engine/src/v2/core/passive.ts"
+                  },
+                  {
+                      "hash":  "3021F9AB217E9E4EB8F5ADF996365E86338AC0FA9E738FC7491A25228C6BF783",
+                      "path":  "packages/handball-engine/src/v2/core/pivot.ts"
+                  },
+                  {
+                      "hash":  "EC1DA585A24BACABEF28AAE973AF82A62D2AAE328A573AE640F233840E295BF5",
+                      "path":  "packages/handball-engine/src/v2/core/pivot-dispatch-calibration.test.ts"
+                  },
+                  {
+                      "hash":  "49CE36826BEC8344BE94E5FC8CD763ABEB9FB2525728DF0D1526D799BC24BD7F",
+                      "path":  "packages/handball-engine/src/v2/core/population.ts"
+                  },
+                  {
+                      "hash":  "2470FAD59A2BB1570EE67561B8CA9E79EDEAD74BC7082C7FE0007F2E252F38B0",
+                      "path":  "packages/handball-engine/src/v2/core/profile.ts"
+                  },
+                  {
+                      "hash":  "03EC10B8973909053410934AE1489FD9CE1CAC6FFB9F0C7CF280FD69FFBF2B0A",
+                      "path":  "packages/handball-engine/src/v2/core/REALISM.md"
+                  },
+                  {
+                      "hash":  "615271E0BC0217A08B296FA0777754F28B02FA136E5C0E55F07A8AF616780897",
+                      "path":  "packages/handball-engine/src/v2/core/realism.ts"
+                  },
+                  {
+                      "hash":  "3E085E65F8B0F63BED293B447EF0E4284DD3127608226EC3E0A522D3974CC415",
+                      "path":  "packages/handball-engine/src/v2/core/realism-defence.test.ts"
+                  },
+                  {
+                      "hash":  "D21FA1DB74580BC2AA51A9AD740AE7F610529D57DCA87ED98F13F4764D64C6D0",
+                      "path":  "packages/handball-engine/src/v2/core/referee.test.ts"
+                  },
+                  {
+                      "hash":  "35FEAF4D17B6B5BD011702384BE061081B52B220E5D897E37AA24BC297D04387",
+                      "path":  "packages/handball-engine/src/v2/core/referee.ts"
+                  },
+                  {
+                      "hash":  "7A636B1B374A10D7F8AA02ADE08957AC67920AACD33B37DB2F412F2FEFA42E6B",
+                      "path":  "packages/handball-engine/src/v2/core/replay.ts"
+                  },
+                  {
+                      "hash":  "2802C396B54F4C1634380E6BF2C262C8E6A51BE1430751D604393F98D63320E6",
+                      "path":  "packages/handball-engine/src/v2/core/restart-realism.test.ts"
+                  },
+                  {
+                      "hash":  "20A9BFBB0EBBFFE9DAF74DA6557DC735595B5AF2EC99B4BC586A4219FBB37F24",
+                      "path":  "packages/handball-engine/src/v2/core/restarts.ts"
+                  },
+                  {
+                      "hash":  "46325A43317B15EDFC4773265989FFA2AB0500C9FDEFB32A7FC3363DD39147D4",
+                      "path":  "packages/handball-engine/src/v2/core/rules.ts"
+                  },
+                  {
+                      "hash":  "9E73FA8151C2F4D86C46883C1939ACA437D341A34AA2767AE827CB525DD67DD2",
+                      "path":  "packages/handball-engine/src/v2/core/sanction.ts"
+                  },
+                  {
+                      "hash":  "C48DDB2C75CE34FD03C439261E40E77F676B1FFB2FC8ABEB1A3F9B1A5D286DBE",
+                      "path":  "packages/handball-engine/src/v2/core/scenarios.ts"
+                  },
+                  {
+                      "hash":  "E9C1D8C3BB9E0A813EF82ABD38CB8229A245DCEE5B21B215FF9ACEE7BB701C7F",
+                      "path":  "packages/handball-engine/src/v2/core/space.ts"
+                  },
+                  {
+                      "hash":  "FC2AEAA594F3EF8A119656D1056178BF5F6414F6EE4C2082641B97FC216749A4",
+                      "path":  "packages/handball-engine/src/v2/core/squads.ts"
+                  },
+                  {
+                      "hash":  "E5FE9D2B4F2FBD893618042CD9D1DA71E28B70737797D4D4FC0DD9A6ECB0A355",
+                      "path":  "packages/handball-engine/src/v2/core/state.ts"
+                  },
+                  {
+                      "hash":  "B6DE15AD35BEC853825D0F1227684EB19EC855474C831F1688682C32F311962E",
+                      "path":  "packages/handball-engine/src/v2/core/structure.ts"
+                  },
+                  {
+                      "hash":  "3551321BC61257E150B28A5E82355EE94301DFB6E2A0870769C1BC6FADE644F7",
+                      "path":  "packages/handball-engine/src/v2/core/takeoff-calibration.test.ts"
+                  },
+                  {
+                      "hash":  "35A3AC5A0A0FBB6614DE81C449FDE37B880AF96BC10A1CD2DCF4B4E3E9077D6D",
+                      "path":  "packages/handball-engine/src/v2/core/testProfile.ts"
+                  },
+                  {
+                      "hash":  "87719EAF6552583F12560EAA41AAD8DA32CD9CA9DC23959384305BF4A2D9B768",
+                      "path":  "packages/handball-engine/src/v2/core/threatRelation.ts"
+                  },
+                  {
+                      "hash":  "0356BB3DE1DC1AA32359D6E198CCE8155BBD7010C9F76592F6F33C24C131B169",
+                      "path":  "packages/handball-engine/src/v2/core/timing.ts"
+                  },
+                  {
+                      "hash":  "4DFAC459E80C981E313FA99AEF87B1DF7EF9EFEE4753529B42C76536DB00D959",
+                      "path":  "packages/handball-engine/src/v2/core/transition-calibration.test.ts"
+                  },
+                  {
+                      "hash":  "EE453A4AF139DA47DE2249D4EBF8F73F44E94372C2C231F654F65651CEF77EC3",
+                      "path":  "packages/handball-engine/src/v2/core/transitions.ts"
+                  },
+                  {
+                      "hash":  "D9D61C43EDADA0102B40A3F7688CE3DDE169066DBBA83124B5B30E8E8DCB69D8",
+                      "path":  "packages/handball-engine/src/v2/core/VARIATION.md"
+                  },
+                  {
+                      "hash":  "C4097E619DC21A72227EFA54C5113FAC460BBB3821EC31FFCE4B3F8FDF4AA4E4",
+                      "path":  "packages/handball-engine/src/v2/core/variation-audit.json"
+                  },
+                  {
+                      "hash":  "AC0321B6978758FADE389F8FCAE40908430CD8A6A2A4E2E63B76B712452631E7",
+                      "path":  "packages/handball-engine/src/v2/core/variation-baseline.json"
+                  },
+                  {
+                      "hash":  "FE07875434D926C4C359EEC04DD21480EBE962E288876AA731A0FC1C48DE474C",
+                      "path":  "packages/handball-engine/src/v2/core/variation-proof.json"
+                  },
+                  {
+                      "hash":  "80AF9DB1F84E0155852D755726C55E5E008C8DB58CB3CFA41714A49519176DE8",
+                      "path":  "packages/handball-engine/src/v2/core/wing.test.ts"
+                  },
+                  {
+                      "hash":  "31D7F39CF38918717D3723FADCCE80948A13650A45A2F680E1BBC5C66FD3A556",
+                      "path":  "packages/handball-engine/src/v2/core/wing.ts"
+                  },
+                  {
+                      "hash":  "FFA1905E86D048ED0E00B3B244F0909DEECF078338D064EDB0869A82CC09D61C",
+                      "path":  "packages/handball-engine/src/v2/core/wing-proof.json"
+                  },
+                  {
+                      "hash":  "C83205E8A507F889BA033FD10B14DC27DBAEC8F1A319DCD5BF2B8B7554373F7D",
+                      "path":  "packages/handball-engine/src/v2/core/WINGS.md"
+                  },
+                  {
+                      "hash":  "8D553B1C254F0953CF5508CA1A37463891F631CDFD0DF81B436BE487541EE031",
+                      "path":  "packages/handball-engine/src/v2/core/wingScenarios.ts"
+                  },
+                  {
+                      "hash":  "5BEDA5B6DCECB118A9A43EBA24028A4036B588BACEAFA1CD2DD98F582F3703EE",
+                      "path":  "packages/handball-engine/src/v2/executor.ts"
+                  },
+                  {
+                      "hash":  "06208EA1E3223C14B3EA002D69485665DBCDE11F48FC33CE20C8BD9CBD4F18D4",
+                      "path":  "packages/handball-engine/src/v2/model.ts"
+                  },
+                  {
+                      "hash":  "3C1535A29E14C09AF9B9064FEFCF644DBA1F1A9ABBA20A990294F62543E0FBFC",
+                      "path":  "packages/handball-engine/src/v2/primitives.ts"
+                  },
+                  {
+                      "hash":  "420591640831B56AE01411649361A489B8B0A55A09EDEAE36E824231F83D6023",
+                      "path":  "packages/handball-engine/src/v2/README.md"
+                  },
+                  {
+                      "hash":  "F5F4A86E5B4245BE5815434BF093302AF3EF9C22B7508F5E3AF48DA7C77E9A06",
+                      "path":  "packages/handball-engine/src/v2/replay.ts"
+                  },
+                  {
+                      "hash":  "C2C302B67ADA4AD3C6B134472ECCFCE4EDBF686E9C98EC5551C2369465BCD49A",
+                      "path":  "packages/handball-engine/src/v2/rules.ts"
+                  },
+                  {
+                      "hash":  "CA27F81388316C091C2385463D30AECEB62895D55F04995577EDE457F0272733",
+                      "path":  "packages/handball-engine/src/v2/scenario.test.ts"
+                  },
+                  {
+                      "hash":  "2D0FC9980291D59FDD05A5AA48D6DD9B5C710F56AB7EF73F8A043B18198D6222",
+                      "path":  "packages/handball-engine/src/v2/scenario.ts"
+                  },
+                  {
+                      "hash":  "80930205E74D6C799127CA0A8438E960D7571255907F3DBBC42B1435604DD8ED",
+                      "path":  "packages/handball-engine/tsconfig.json"
+                  },
+                  {
+                      "hash":  "E3AE77FCC117A57990A337C13AA1B7C6BC187A708B584C4319C426B5DFC75A5B",
+                      "path":  "packages/handball-engine/tsconfig.test.json"
+                  },
+                  {
+                      "hash":  "F5884FB459607806ED19BE7D6EBBDC3ADD4BD0B83361644DD7D5663CE365DD27",
+                      "path":  "packages/match-contract/ADAPTER_BOUNDARY.md"
+                  },
+                  {
+                      "hash":  "A46777F25857B1084E540FC920C72AA7F7DB34B61883BD8797FA714168C37AF9",
+                      "path":  "packages/match-contract/eslint.config.mjs"
+                  },
+                  {
+                      "hash":  "73FADAB953D5503FD0097B26385687FA4D510BF35173B9FCFDF958A647CD5059",
+                      "path":  "packages/match-contract/package.json"
+                  },
+                  {
+                      "hash":  "7B3250630958317DE16F42EB651F9BFCE4F12F31B09DFD0B48EEAEA750B38FB6",
+                      "path":  "packages/match-contract/src/ball.ts"
+                  },
+                  {
+                      "hash":  "3DDD2E5059B6211F0469388CD0CFE5EA298209F5153D10EA1D8A51368C99A042",
+                      "path":  "packages/match-contract/src/court.test.ts"
+                  },
+                  {
+                      "hash":  "5B99B0FD816ED91A6A237461241906D77DB0B6852F8997D7E15A4638E8B1A8BA",
+                      "path":  "packages/match-contract/src/court.ts"
+                  },
+                  {
+                      "hash":  "C0ABE945E395B5EB1F853D5055A3D398302E7DECDE0D2DF681342FF989546CDC",
+                      "path":  "packages/match-contract/src/index.ts"
+                  },
+                  {
+                      "hash":  "407812A8FCAB5CE761AE15FC52B65506B8F9CC586077A2060013AC3410FEA56D",
+                      "path":  "packages/match-contract/src/player.ts"
+                  },
+                  {
+                      "hash":  "E8A15B61B6CF1D6DE66166F547B8B919F3C9CDB4EA269FB9C8AD6D0775826A25",
+                      "path":  "packages/match-contract/src/snapshot.test.ts"
+                  },
+                  {
+                      "hash":  "491670D8B1034BBD21DB0082716DB225B2ACABCA91173BCD77EBE1150C7713F0",
+                      "path":  "packages/match-contract/src/snapshot.ts"
+                  },
+                  {
+                      "hash":  "80930205E74D6C799127CA0A8438E960D7571255907F3DBBC42B1435604DD8ED",
+                      "path":  "packages/match-contract/tsconfig.json"
+                  },
+                  {
+                      "hash":  "06EE96C60D80326F7BB64E951EBB6B069125609BDFE7CF0E7C44B28D15D8A6F9",
+                      "path":  "packages/match-contract/tsconfig.test.json"
+                  },
+                  {
+                      "hash":  "A46777F25857B1084E540FC920C72AA7F7DB34B61883BD8797FA714168C37AF9",
+                      "path":  "packages/match-integration/eslint.config.mjs"
+                  },
+                  {
+                      "hash":  "8166E401DDA745F9A5CF32252F5DEF93889C6DC6706E1C3E0988A101E2BE7237",
+                      "path":  "packages/match-integration/package.json"
+                  },
+                  {
+                      "hash":  "B6EBD1E2118F842BB8C45EF4AC82BD7BC64661278F78A082C96BAFA451768664",
+                      "path":  "packages/match-integration/src/courtGeometryAgreement.test.ts"
+                  },
+                  {
+                      "hash":  "CE695FDB707AC1B8F7ABC97343C3BDA3FCB5A28682E2DBA6877B0A62A3477F04",
+                      "path":  "packages/match-integration/src/fieldAdapter.test.ts"
+                  },
+                  {
+                      "hash":  "10D17728BBCB7B7EB833FDF4FBF011F2581B30A78DE6146DA48D8D610875999F",
+                      "path":  "packages/match-integration/src/fieldAdapter.ts"
+                  },
+                  {
+                      "hash":  "11690943D79BD71D63CD0DF36826FF363803CBF7B39E9520E24625024FE7E26A",
+                      "path":  "packages/match-integration/src/goalkeeperBridge.test.ts"
+                  },
+                  {
+                      "hash":  "CE97A2AADB4D6D888C94D3250699C05D83C81E5DEEF505DCE2EDA546B43C5285",
+                      "path":  "packages/match-integration/src/index.ts"
+                  },
+                  {
+                      "hash":  "0CB6061718CB7075BAF39A429BD4C59D6CC5DB1D24FEE402173C7CD881AC983D",
+                      "path":  "packages/match-integration/src/matchPlayback.test.ts"
+                  },
+                  {
+                      "hash":  "C58AF6E130E9D374B39C218DE858BC64A8656A9F0B0137D51C5089FFCF7D79CD",
+                      "path":  "packages/match-integration/src/matchPlayback.ts"
+                  },
+                  {
+                      "hash":  "2AC306EAAEA37C87FA4D70785E0474FCE2892D61F6145387ADC3193797823D96",
+                      "path":  "packages/match-integration/src/sequenceController.test.ts"
+                  },
+                  {
+                      "hash":  "738F7E064FFF79A4B0752510F7F3B875B590F347670233E376C311126B40B278",
+                      "path":  "packages/match-integration/src/sequenceController.ts"
+                  },
+                  {
+                      "hash":  "2D3B6E13D49C11C758CA26312EC29913C69C8917E8F63805A73CB76EAB6B56C9",
+                      "path":  "packages/match-integration/src/simAdapter.test.ts"
+                  },
+                  {
+                      "hash":  "FA1EAD994448C689C97FE22C370412BB7CB472711AAA41BDD4C4A372D12C884B",
+                      "path":  "packages/match-integration/src/simAdapter.ts"
+                  },
+                  {
+                      "hash":  "575C9026BD479E3318ACB5C8ABE4164B8D83320A43DAB0E669CC8CF0AABC518A",
+                      "path":  "packages/match-integration/src/v2CoreSnapshot.ts"
+                  },
+                  {
+                      "hash":  "40303760B6CAC316E894B48D1857DD44FEE8E3A5C8F8AECF396DD7D584507F3D",
+                      "path":  "packages/match-integration/src/v2Snapshot.ts"
+                  },
+                  {
+                      "hash":  "B1E71676FE01B9C64A650E95ED992EBA2C2AFBED0B991F87A4DCC11910AD4E7D",
+                      "path":  "packages/match-integration/tsconfig.json"
+                  },
+                  {
+                      "hash":  "D00CC3560C33B4C7BD5225945206392DF10D4D9735E8FC4AFDD0CDC773E6B4CC",
+                      "path":  "packages/match-renderer/eslint.config.mjs"
+                  },
+                  {
+                      "hash":  "8F9C1D37CA5B5AF2494761C4079ADD8970601DEE40125C26D8EEF60BEB08755A",
+                      "path":  "packages/match-renderer/MIGRATION_NOTES.md"
+                  },
+                  {
+                      "hash":  "659ABBD10577FE5C482188A3D25E735F405A29CD9A3E1AFCC4661A24556873DA",
+                      "path":  "packages/match-renderer/package.json"
+                  },
+                  {
+                      "hash":  "1AC86F7D4FBEE7C9337DF380AA87E02C8FEDA96A0A52DAE7366159C58593DFFA",
+                      "path":  "packages/match-renderer/src/css-modules.d.ts"
+                  },
+                  {
+                      "hash":  "664D7B6EB3440CD088ADF9A9184D4170C2323524A6FB08FFA5B60E49BCB4D329",
+                      "path":  "packages/match-renderer/src/ui/camera/Camera2D.ts"
+                  },
+                  {
+                      "hash":  "AE61D3991C4DBF3470D8BDAE7A1941136626AE81AB037B1A1B9E9D49CC10BB70",
+                      "path":  "packages/match-renderer/src/ui/design-system/components.tsx"
+                  },
+                  {
+                      "hash":  "2129FB87FD5139FE16194FF891AAFEB0908FE954F066D5C23D6AEB0DEAFAF520",
+                      "path":  "packages/match-renderer/src/ui/design-system/DesignSystem.module.css"
+                  },
+                  {
+                      "hash":  "0804F5C9953A3B8F4C4306E76D7DB0FF21E34C7C69C41A973963383BC29B7F2E",
+                      "path":  "packages/match-renderer/src/ui/design-system/index.ts"
+                  },
+                  {
+                      "hash":  "A447069BA4591C0D148256258349686FA149773151894929BDB15E5FDDF0E503",
+                      "path":  "packages/match-renderer/src/ui/design-system/theme.ts"
+                  },
+                  {
+                      "hash":  "9AC418ACAD0A783385176159244E16538E7615BE139BCEC349C5F71376A3EC59",
+                      "path":  "packages/match-renderer/src/ui/theme/colors.ts"
+                  },
+                  {
+                      "hash":  "B94BCA54F2A51FBF5D7395AB648E57C7B175F526F4FAB5D406CE629765B4E5FD",
+                      "path":  "packages/match-renderer/src/ui/theme/layoutConfig.ts"
+                  },
+                  {
+                      "hash":  "952246860CEDC0709D6671243C594CB4E9981A5E26DF7D137A4A203F656D42EE",
+                      "path":  "packages/match-renderer/src/ui/theme/radii.ts"
+                  },
+                  {
+                      "hash":  "9CD925A1216C2F2D0FF516DA82A72D8A2877B3052583E1AA4CFE6F2D3769FE87",
+                      "path":  "packages/match-renderer/src/ui/theme/shadows.ts"
+                  },
+                  {
+                      "hash":  "B0C154D288B941E06CAAADAFC856A0B3498FF356AD5E0A463B445DF00A2EEF3C",
+                      "path":  "packages/match-renderer/src/ui/theme/spacing.ts"
+                  },
+                  {
+                      "hash":  "3CE7760E365AD24CB0D7F18347FF1DF8757708E16C99C89D97CB6FAAD0F2D452",
+                      "path":  "packages/match-renderer/src/ui/theme/typography.ts"
+                  },
+                  {
+                      "hash":  "BEE144B49F48FDEC65B494E13F9F9A78A687813A8F2CACE5A26BF17D452BFBED",
+                      "path":  "packages/match-renderer/src/ui/workspaces/tactics-board/actions/PlayerAction.ts"
+                  },
+                  {
+                      "hash":  "8AFE80C71EA3E83C9C5EFD5C663EC9A472B4D7DC2E901014608562FABEBE5BE5",
+                      "path":  "packages/match-renderer/src/ui/workspaces/tactics-board/actions/PlayerActionContextMenu.module.css"
+                  },
+                  {
+                      "hash":  "6D7517B4837FBDD742882C07EB3EFF571162594C28F811FE5ECDDC98D28BEB69",
+                      "path":  "packages/match-renderer/src/ui/workspaces/tactics-board/actions/PlayerActionContextMenu.tsx"
+                  },
+                  {
+                      "hash":  "65B46378E7ECFC2C34A59836B8DF483C5784104003F459FAF5FD802306289494",
+                      "path":  "packages/match-renderer/src/ui/workspaces/tactics-board/actions/PlayerActionRegistry.ts"
+                  },
+                  {
+                      "hash":  "54B83FB105CB363E34543A96D5566E09019E952A2C882F7918E400D7DC5BEA89",
+                      "path":  "packages/match-renderer/src/ui/workspaces/tactics-board/actions/PlayerActionRenderer.tsx"
+                  },
+                  {
+                      "hash":  "8EF86A9AD2164A5D1FE34578D58CC6AC7AF026BFF9E93F3300E61D27CC6CCDE0",
+                      "path":  "packages/match-renderer/src/ui/workspaces/tactics-board/actions/PlayerActionTypes.ts"
+                  },
+                  {
+                      "hash":  "CAFA908DF1DF8A49D764F43D9DC458D0286EC0BD5D1BBAD2A15785BB81732755",
+                      "path":  "packages/match-renderer/src/ui/workspaces/tactics-board/area/AreaObject.ts"
+                  },
+                  {
+                      "hash":  "A2BA471E2C2F44DC02637380B37E2B0B4DB4694DFFF2A3767476925FBACA7D7E",
+                      "path":  "packages/match-renderer/src/ui/workspaces/tactics-board/AreaRenderer.module.css"
+                  },
+                  {
+                      "hash":  "3AA75877946710B5531D03A9389ADC4A4D353D544FE94DAEA182AB72754B54A1",
+                      "path":  "packages/match-renderer/src/ui/workspaces/tactics-board/AreaRenderer.tsx"
+                  },
+                  {
+                      "hash":  "985CA02C9D305B0E7612BBD7C29F0182D470F7504F3A5E054816740395B8BC24",
+                      "path":  "packages/match-renderer/src/ui/workspaces/tactics-board/boardObjectDefinitions.ts"
+                  },
+                  {
+                      "hash":  "300AD0B1ABC616F62CF6B9652BF7B665C5E186B116FE9EC9C3864C2CBA8B0957",
+                      "path":  "packages/match-renderer/src/ui/workspaces/tactics-board/BoardObjectRenderer.module.css"
+                  },
+                  {
+                      "hash":  "897FFF53E2C39BACD90A937FC722F9FF639CD5CC0194DAD41D05B4E209557EBB",
+                      "path":  "packages/match-renderer/src/ui/workspaces/tactics-board/BoardObjectRenderer.tsx"
+                  },
+                  {
+                      "hash":  "4F7E581A8A4BC0B551441751DC416FF62EECB6FBC9833B30EFC86EC2DD1E1940",
+                      "path":  "packages/match-renderer/src/ui/workspaces/tactics-board/CalibrationHandle.module.css"
+                  },
+                  {
+                      "hash":  "03233DFEE282CA056CFFE931045DDA8EA17E953207A3494D486F11B5012C5B91",
+                      "path":  "packages/match-renderer/src/ui/workspaces/tactics-board/CalibrationHandle.tsx"
+                  },
+                  {
+                      "hash":  "5E138E3D0F475D3C55AE674E4B160AE59CBD6FA39A6EFB77234CB4BE30C63DB6",
+                      "path":  "packages/match-renderer/src/ui/workspaces/tactics-board/DividerLineEditor.module.css"
+                  },
+                  {
+                      "hash":  "E7245CAAF926F0569A0A1F10E6D1B60C04A2F334ED7BE03ADCF99A12D968C9D9",
+                      "path":  "packages/match-renderer/src/ui/workspaces/tactics-board/DividerLineEditor.tsx"
+                  },
+                  {
+                      "hash":  "C2890AA3E92B7B3D489066F3205F8E8987736494AA7A072BB228F34BC6881943",
+                      "path":  "packages/match-renderer/src/ui/workspaces/tactics-board/drawing/curveInterpolation.ts"
+                  },
+                  {
+                      "hash":  "A75F412E300AD66ADF1DF858FBA3D447FCD2694DEBAF71754EFF1D0A8F57207C",
+                      "path":  "packages/match-renderer/src/ui/workspaces/tactics-board/drawing/DrawingObject.ts"
+                  },
+                  {
+                      "hash":  "7AEA68C3349179538E5C5F3F4B18BC2C2846D0374EA7B02FAB2CA22BA72FBB96",
+                      "path":  "packages/match-renderer/src/ui/workspaces/tactics-board/drawing/drawingPresets.ts"
+                  },
+                  {
+                      "hash":  "60E9E9CC4AA3FF6392C14ED712B97BDAC7CA68EA68BA27EFC7093DA3B265672D",
+                      "path":  "packages/match-renderer/src/ui/workspaces/tactics-board/DrawingEndpointHandle.module.css"
+                  },
+                  {
+                      "hash":  "FF07B7BD91D83A27B6AF7868D85E6E28DA77498F92F66CE7DD55EAAB7DD76925",
+                      "path":  "packages/match-renderer/src/ui/workspaces/tactics-board/DrawingEndpointHandle.tsx"
+                  },
+                  {
+                      "hash":  "99E6F6644A1FF6A12FE0721A91CA75BD80CBAB504AA17F97B8048D9D662C18AE",
+                      "path":  "packages/match-renderer/src/ui/workspaces/tactics-board/DrawingRenderer.module.css"
+                  },
+                  {
+                      "hash":  "61F30AD18463D2730738E162DE446376FF2645623F4B4F4C13EA46D4AF4EE52F",
+                      "path":  "packages/match-renderer/src/ui/workspaces/tactics-board/DrawingRenderer.tsx"
+                  },
+                  {
+                      "hash":  "91420FEDB301A1D0A00CEEAC9835C9DCB3C96E970504A4195AD55EE4273464CA",
+                      "path":  "packages/match-renderer/src/ui/workspaces/tactics-board/geometry/CourtTransform.ts"
+                  },
+                  {
+                      "hash":  "64C9D00FFFDF821D07F41F4D37C17D8ED0A4E7896B3058C4E5FCC4988834E7FD",
+                      "path":  "packages/match-renderer/src/ui/workspaces/tactics-board/geometry/HandballCourtGeometry.ts"
+                  },
+                  {
+                      "hash":  "4D34C18A3A3982DDFFB8768F8CEF4074521A30E5D854273F031215ABA00DF75A",
+                      "path":  "packages/match-renderer/src/ui/workspaces/tactics-board/history/BoardCommand.ts"
+                  },
+                  {
+                      "hash":  "24F75336AD6289DF2A20EEBF18D79E59162E86A9343B6139C5EFBBBC839EED80",
+                      "path":  "packages/match-renderer/src/ui/workspaces/tactics-board/history/BoardCommands.ts"
+                  },
+                  {
+                      "hash":  "EC8EB603A3FE63F938BA9880B23B3B357275CDC333D95B97C9D092DE26B56490",
+                      "path":  "packages/match-renderer/src/ui/workspaces/tactics-board/history/CompositeCommand.ts"
+                  },
+                  {
+                      "hash":  "0ECA0155032DB053194159759079F3493DB1A190C96083CB6601B0DDDEE77BF5",
+                      "path":  "packages/match-renderer/src/ui/workspaces/tactics-board/history/HistoryManager.ts"
+                  },
+                  {
+                      "hash":  "897C82641C2A8DFCEC8064F2E41B54C75891EA90FCF353FFF958E6960AED1647",
+                      "path":  "packages/match-renderer/src/ui/workspaces/tactics-board/library/FormationLibrary.ts"
+                  },
+                  {
+                      "hash":  "8F2D82F1A0E95528BCE84D7913BA156FA0CB33B727AF545B8477B77523EC2AF5",
+                      "path":  "packages/match-renderer/src/ui/workspaces/tactics-board/library/FormationLibraryPanel.module.css"
+                  },
+                  {
+                      "hash":  "F14381E119A7D91697B94E2137F2F5954D8C80978D588F0A46CC10E0DF41EC38",
+                      "path":  "packages/match-renderer/src/ui/workspaces/tactics-board/library/FormationLibraryPanel.tsx"
+                  },
+                  {
+                      "hash":  "5572FBD6898B6691E7243AFD5B1B781AB4BE3996CC4A4EDCD4DCD0832EA06EB1",
+                      "path":  "packages/match-renderer/src/ui/workspaces/tactics-board/MasterCourt.module.css"
+                  },
+                  {
+                      "hash":  "C6F9B3698322888070E28ED540BAA0E14E020F71AF5F2097D5CFE539126E6C5F",
+                      "path":  "packages/match-renderer/src/ui/workspaces/tactics-board/MasterCourt.tsx"
+                  },
+                  {
+                      "hash":  "4DB81BADE0375C158CBD0D0C72C41D05938661A8121D176D3794623B81E8AA11",
+                      "path":  "packages/match-renderer/src/ui/workspaces/tactics-board/ObjectTypePreview.module.css"
+                  },
+                  {
+                      "hash":  "6DA31AAFA8B3C22C8B9EB7208F9505729AF547BD03EDA99B467DE69F883C6761",
+                      "path":  "packages/match-renderer/src/ui/workspaces/tactics-board/ObjectTypePreview.tsx"
+                  },
+                  {
+                      "hash":  "93C7C54EB4DBF63A95E71ECC2A171CABA13B4050EF78D318890133AB5778AFD7",
+                      "path":  "packages/match-renderer/src/ui/workspaces/tactics-board/pointerInteraction.ts"
+                  },
+                  {
+                      "hash":  "570CEAFD482908189C12E6E2F838D2484DBAA53355D36E7E2989CC358069D17E",
+                      "path":  "packages/match-renderer/src/ui/workspaces/tactics-board/RotationHandle.module.css"
+                  },
+                  {
+                      "hash":  "C0AABAD26AE28F7816E4DCD96D82987CD4022254E9609F7ABC067407B118B859",
+                      "path":  "packages/match-renderer/src/ui/workspaces/tactics-board/RotationHandle.tsx"
+                  },
+                  {
+                      "hash":  "57AA9630C30335389DAD98A93920DF0CD48395AF5ABB77C0D5FFCEB7C9A7111F",
+                      "path":  "packages/match-renderer/src/ui/workspaces/tactics-board/scene/BoardObject.ts"
+                  },
+                  {
+                      "hash":  "3C3F3842330BEEA43F2C678CBB02B335F704235575EDAF01183038DD5CF8B078",
+                      "path":  "packages/match-renderer/src/ui/workspaces/tactics-board/scene/ObjectReference.ts"
+                  },
+                  {
+                      "hash":  "C9593B6D8449693CD6174A511163058202667A2F320095863A869335F793D9E4",
+                      "path":  "packages/match-renderer/src/ui/workspaces/tactics-board/scene/SceneSerialization.ts"
+                  },
+                  {
+                      "hash":  "69871959BE1BE0FAF3D94DFB71EB9092259B9E046966B0B9321362D39630627D",
+                      "path":  "packages/match-renderer/src/ui/workspaces/tactics-board/scene/TacticsBoardScene.ts"
+                  },
+                  {
+                      "hash":  "7E793FEDCA9C39576E814785D4B2AFCEB151485F5686AFED51714134580AF6F2",
+                      "path":  "packages/match-renderer/src/ui/workspaces/tactics-board/SelectionLayer.module.css"
+                  },
+                  {
+                      "hash":  "F8786FC8F33F738C979FEBEB02CBB80DEE17B9196EF6F2D0121468849765886B",
+                      "path":  "packages/match-renderer/src/ui/workspaces/tactics-board/SelectionLayer.tsx"
+                  },
+                  {
+                      "hash":  "B8E7A7FA44CE734083B230B28C279EA95C1EEE1288D5A9969799B30B68CE833C",
+                      "path":  "packages/match-renderer/src/ui/workspaces/tactics-board/smart/SmartBall.ts"
+                  },
+                  {
+                      "hash":  "B8CEFEDBBC4EF8868F924C0DC83FF8AF835A977293FB17B7CE70C3D98C4051D5",
+                      "path":  "packages/match-renderer/src/ui/workspaces/tactics-board/spatial/AnchorPoint.ts"
+                  },
+                  {
+                      "hash":  "B1B2EBC2FB331AA88172E2C4A527CB440EB2FECBC466F05D79DE4E2820D7CE86",
+                      "path":  "packages/match-renderer/src/ui/workspaces/tactics-board/spatial/AnchorProvider.ts"
+                  },
+                  {
+                      "hash":  "15BDDD16D588E4B4E6094B8E990E38BBB68417CBD5F5475E9AB47D8BFDD22846",
+                      "path":  "packages/match-renderer/src/ui/workspaces/tactics-board/spatial/BoardObjectAnchorProvider.ts"
+                  },
+                  {
+                      "hash":  "B17968586DCCB80DABD8FD0CE3E88B2A72B6B463767094DE53DF852FAF689DD3",
+                      "path":  "packages/match-renderer/src/ui/workspaces/tactics-board/spatial/ConstraintResolver.ts"
+                  },
+                  {
+                      "hash":  "4802C82F59CB740901DAE6A685E95FC646FA4D82C5934D3486DC9998EF2DAFBC",
+                      "path":  "packages/match-renderer/src/ui/workspaces/tactics-board/spatial/DependencyGraph.ts"
+                  },
+                  {
+                      "hash":  "1C31E678BE719E3D94199A56A59619A1D2C245EA7F3603D7A84E8BA81561ECB4",
+                      "path":  "packages/match-renderer/src/ui/workspaces/tactics-board/spatial/index.ts"
+                  },
+                  {
+                      "hash":  "34C95A7130BF118C83993B5287878ABC87A75F503E36B6DBB63B1AA1962C9ED8",
+                      "path":  "packages/match-renderer/src/ui/workspaces/tactics-board/spatial/SnapEngine.ts"
+                  },
+                  {
+                      "hash":  "0F3369F66614F963FF0E3CFFE010C6765D431738CF2CCB0D6948FDFC1ED98944",
+                      "path":  "packages/match-renderer/src/ui/workspaces/tactics-board/spatial/SpatialEngine.ts"
+                  },
+                  {
+                      "hash":  "D520EDA107E6E0ACD413C4530433AFCB4E87113328B2EC47CEF5031517A9A97B",
+                      "path":  "packages/match-renderer/src/ui/workspaces/tactics-board/states/PlayerState.ts"
+                  },
+                  {
+                      "hash":  "9AD73B97E62157375E42A71C57A2FBCE66B18A8D7C4817009BD5D4A76E74346E",
+                      "path":  "packages/match-renderer/src/ui/workspaces/tactics-board/states/PlayerStateRegistry.ts"
+                  },
+                  {
+                      "hash":  "C1C826B8AF8B9D7DDA8EE379FA46A79D575C3F1A066CA1FFA9E552616235FCDF",
+                      "path":  "packages/match-renderer/src/ui/workspaces/tactics-board/states/PlayerStateRenderer.tsx"
+                  },
+                  {
+                      "hash":  "71BBA59BDF817BA3FCB19DF73A39B7054E1958BF58E383C125F658D85D814593",
+                      "path":  "packages/match-renderer/src/ui/workspaces/tactics-board/states/PlayerStateTypes.ts"
+                  },
+                  {
+                      "hash":  "59E327D90263AC2AB78F1188C6345401C92486F98C4D0A910908148F6032E019",
+                      "path":  "packages/match-renderer/src/ui/workspaces/tactics-board/ToolPanel.module.css"
+                  },
+                  {
+                      "hash":  "963262488B5E3678CE7591319348AE2E6FD8DFF4E8137FBE1EAA264954A2608D",
+                      "path":  "packages/match-renderer/src/ui/workspaces/tactics-board/ToolPanel.tsx"
+                  },
+                  {
+                      "hash":  "3228820F0FD431CDD874227DAA7E75249067EF636BB8A7FF3B89ADD41FA0E761",
+                      "path":  "packages/match-renderer/src/ui/workspaces/tactics-board/ToolPanelSection.module.css"
+                  },
+                  {
+                      "hash":  "50565A0D6CB782C6BB4A53E0038E33AC8A0109192E682A45B952D4B4B3B3BD2B",
+                      "path":  "packages/match-renderer/src/ui/workspaces/tactics-board/ToolPanelSection.tsx"
+                  },
+                  {
+                      "hash":  "39A5B414B8160FE75CFB9909682F2C4F93161BCB93F302F53EB94DA614232DCC",
+                      "path":  "packages/match-renderer/src/ui/workspaces/tactics-board/ZonePopover.module.css"
+                  },
+                  {
+                      "hash":  "902035A6568AA46BFFDFF8B4B3779AE11FE960C9E13233AF683A92F49F3C93B5",
+                      "path":  "packages/match-renderer/src/ui/workspaces/tactics-board/ZonePopover.tsx"
+                  },
+                  {
+                      "hash":  "A853348186586F726E5FBD1041AC0DA633828EA9149224E30F75D9E350A57F90",
+                      "path":  "packages/match-renderer/tsconfig.json"
+                  },
+                  {
+                      "hash":  "A46777F25857B1084E540FC920C72AA7F7DB34B61883BD8797FA714168C37AF9",
+                      "path":  "packages/tactical-domain/eslint.config.mjs"
+                  },
+                  {
+                      "hash":  "1D7349CBE6ACF5AF7692806B104905A804B9DC4E8271EBDC11924BE79674E924",
+                      "path":  "packages/tactical-domain/package.json"
+                  },
+                  {
+                      "hash":  "A3F9131D8C515B8E63C36C36C79DD6D0567F7EDCC27A83F510BBBE0F348A353C",
+                      "path":  "packages/tactical-domain/src/ati001.test.ts"
+                  },
+                  {
+                      "hash":  "B8C8814DE20F7B50CB9259E68CE6FBCE0C8A2A6DB8EA122C84404CAAB9230399",
+                      "path":  "packages/tactical-domain/src/ati001.ts"
+                  },
+                  {
+                      "hash":  "FB4B95EE6A598A11403F8E038BE4F036AAAB067A8CC136ECC74A62A528F20BFC",
+                      "path":  "packages/tactical-domain/src/ati001Probabilistic.test.ts"
+                  },
+                  {
+                      "hash":  "893AF58D6CC30EBBED31651977BC62AF931F35398FEC185E1491A8BB9AF0B85A",
+                      "path":  "packages/tactical-domain/src/ati001Probabilistic.ts"
+                  },
+                  {
+                      "hash":  "A0016028398612D4716CBB0A3A761F95C7006097EAF532B37E436EB3E4B9DEAF",
+                      "path":  "packages/tactical-domain/src/calibrationTypes.ts"
+                  },
+                  {
+                      "hash":  "71DF751FA62037C6603328041961287151395D712D1936A025AE07CC33CD1356",
+                      "path":  "packages/tactical-domain/src/index.ts"
+                  },
+                  {
+                      "hash":  "8A3BD69CB9CDE30F93ED95B0A316A16BD55C45FDD7698FC9BAA5C16595D4C24B",
+                      "path":  "packages/tactical-domain/src/monteCarlo.ts"
+                  },
+                  {
+                      "hash":  "1F481D4CF94E2BB7A942E7C650B5805A918BE51059698F30183E6E23AC18FDA0",
+                      "path":  "packages/tactical-domain/src/provisionalCalibration.ts"
+                  },
+                  {
+                      "hash":  "0F8E57A0549A4CFE4AD610CDC5ADFF01341608B4D59161CE43373FA3F17277DF",
+                      "path":  "packages/tactical-domain/src/resolverTypes.ts"
+                  },
+                  {
+                      "hash":  "F160AD92ECB62B1C2CBE9FEB13F686B6C5E26A3179830D7B92DB1FAC6364285A",
+                      "path":  "packages/tactical-domain/src/rng.ts"
+                  },
+                  {
+                      "hash":  "22F2D55540E0B5AF7C78221C995F0E5D1C111AC84B291B4E04D4523C4C4C65E7",
+                      "path":  "packages/tactical-domain/src/sampling.ts"
+                  },
+                  {
+                      "hash":  "85F90E915B4338CFE81AB815AE53E9E5843FE075ED03E43A3E6580616A029008",
+                      "path":  "packages/tactical-domain/src/types.ts"
+                  },
+                  {
+                      "hash":  "80930205E74D6C799127CA0A8438E960D7571255907F3DBBC42B1435604DD8ED",
+                      "path":  "packages/tactical-domain/tsconfig.json"
+                  },
+                  {
+                      "hash":  "06EE96C60D80326F7BB64E951EBB6B069125609BDFE7CF0E7C44B28D15D8A6F9",
+                      "path":  "packages/tactical-domain/tsconfig.test.json"
+                  }
+              ]
+}

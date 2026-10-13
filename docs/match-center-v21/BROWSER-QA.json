@@ -1,0 +1,58 @@
+{
+  "url": "http://127.0.0.1:3015",
+  "normalCareer": true,
+  "liveDecisions": true,
+  "halftime": true,
+  "saveLoad": true,
+  "keyboard": true,
+  "reducedMotion": true,
+  "score": "23–42",
+  "overview": "MATCHBERÄTTELSEN\nIFK Tumba vinner.\nJoakim Lindahl leder målskyttet med 14 mål på 15 avslut.\nSimon Larsson: 4 räddningar på 46 avslut på mål (9%).\nIFK Tumba gjorde 12 mål i följd, 1:44–13:18.\nHalvtid 9–23. Slutresultat 23–42.",
+  "widths": [
+    {
+      "width": 1366,
+      "workspaceHeight": 995,
+      "viewportHeight": 768
+    },
+    {
+      "width": 1440,
+      "workspaceHeight": 984.234375,
+      "viewportHeight": 1080
+    },
+    {
+      "width": 1920,
+      "workspaceHeight": 985.75,
+      "viewportHeight": 1080
+    },
+    {
+      "width": 2560,
+      "workspaceHeight": 985.75,
+      "viewportHeight": 1080
+    }
+  ],
+  "switchSamples": [
+    {
+      "view": "Översikt",
+      "selected": "Översikt",
+      "clickToNextFrameMs": 12
+    },
+    {
+      "view": "Nyckelögonblick",
+      "selected": "Nyckelögonblick",
+      "clickToNextFrameMs": 12.5
+    },
+    {
+      "view": "Spelare",
+      "selected": "Spelare",
+      "clickToNextFrameMs": 19.700000017881393
+    },
+    {
+      "view": "Statistik",
+      "selected": "Statistik",
+      "clickToNextFrameMs": 13.799999982118607
+    }
+  ],
+  "pageErrors": [],
+  "humanQA": "PENDING",
+  "reviewResumedFromOwnNormalCareer": true
+}

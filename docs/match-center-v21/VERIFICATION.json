@@ -1,0 +1,986 @@
+{
+  "schema": "match-center-v21-closeout/1",
+  "recordedAt": "2026-10-13T07:17:50.607Z",
+  "startingCheckpoint": "038f15ec560e880e13139b25d7d878e3cf1eda13",
+  "sourceHead": "1269b3a6055e6ec9970028ad26ecadfe2f2c5dee",
+  "localImplementationCommits": [
+    "1269b3a fix(game): compact shot analysis and clarify filtered outcome labels",
+    "9828830 feat(game): refine Match Center into a compact tactical match workspace"
+  ],
+  "technicalChecks": "COMPLETE",
+  "humanQA": "PENDING",
+  "v2ProductDirection": "APPROVED by user",
+  "nothingPushed": true,
+  "server": "http://127.0.0.1:3015",
+  "comparisonServer": "http://127.0.0.1:3014",
+  "engineFreeze": {
+    "allBaselineFiles": 566,
+    "coreFiles": 86,
+    "allUnchanged": true,
+    "scope": "All tracked packages, career/save code, production controller, original model/control, and preserved user files"
+  },
+  "tests": {
+    "focused": 68,
+    "fullGame": 2374,
+    "canonicalFiles": 217,
+    "readerCases": 2211,
+    "writerCases": 163,
+    "fullGameRuns": 1
+  },
+  "canonicalProof": {
+    "source": "Completed Match Center v2 canonical season, read offline without resimulation",
+    "archives": 26,
+    "snapshotsChecked": 312,
+    "storiesChecked": 104,
+    "resultIdentity": true,
+    "keeperDenominators": true,
+    "serializedArchiveSameFacts": true,
+    "inputUnchanged": true,
+    "receipts": [
+      {
+        "fixtureId": "swe-2-f5",
+        "archiveHash": "dccae65b0e39e39c7e245af3c3fb38e06395c7b4dd4020f920b0b372503f2f94",
+        "score": [
+          29,
+          34
+        ],
+        "facts": [
+          {
+            "id": "scorer",
+            "text": "Joakim Lindahl leder målskyttet med 9 mål på 13 avslut."
+          },
+          {
+            "id": "keeper",
+            "text": "Olle Söderqvist: 16 räddningar på 45 avslut på mål (36%)."
+          },
+          {
+            "id": "run",
+            "text": "Bortalaget gjorde 5 mål i följd, 30:25–34:41."
+          },
+          {
+            "id": "half",
+            "text": "Halvtid 12–14. Slutresultat 29–34."
+          }
+        ],
+        "derivedWorkspaceMeanMs": 0.09977100000000064
+      },
+      {
+        "fixtureId": "swe-2-f13",
+        "archiveHash": "ea981d841c93f1eca8320247f61dd323d9f12b4b3d3398788a8c22825317d031",
+        "score": [
+          33,
+          43
+        ],
+        "facts": [
+          {
+            "id": "scorer",
+            "text": "Mattias Windahl leder målskyttet med 11 mål på 12 avslut."
+          },
+          {
+            "id": "keeper",
+            "text": "Arwid Krontorp: 4 räddningar på 47 avslut på mål (9%)."
+          },
+          {
+            "id": "run",
+            "text": "Bortalaget gjorde 3 mål i följd, 0:33–1:37."
+          },
+          {
+            "id": "half",
+            "text": "Halvtid 19–24. Slutresultat 33–43."
+          }
+        ],
+        "derivedWorkspaceMeanMs": 0.08265799999999672
+      },
+      {
+        "fixtureId": "swe-2-f21",
+        "archiveHash": "78bc81d98166fc40c4437ccd2ae24d034649e93d1f69d7b24476ef1bfa4d937d",
+        "score": [
+          28,
+          36
+        ],
+        "facts": [
+          {
+            "id": "scorer",
+            "text": "Edward Berglund leder målskyttet med 10 mål på 17 avslut."
+          },
+          {
+            "id": "keeper",
+            "text": "Simon Larsson: 10 räddningar på 46 avslut på mål (22%)."
+          },
+          {
+            "id": "run",
+            "text": "Bortalaget gjorde 4 mål i följd, 21:09–23:47."
+          },
+          {
+            "id": "half",
+            "text": "Halvtid 16–18. Slutresultat 28–36."
+          }
+        ],
+        "derivedWorkspaceMeanMs": 0.06658500000000003
+      },
+      {
+        "fixtureId": "swe-2-f28",
+        "archiveHash": "2b17e04927daadec7b7fdc3e3e641566069fbcafdfda79421be79529ba828abd",
+        "score": [
+          30,
+          42
+        ],
+        "facts": [
+          {
+            "id": "scorer",
+            "text": "Mattias Windahl leder målskyttet med 15 mål på 16 avslut."
+          },
+          {
+            "id": "keeper",
+            "text": "Martin Börjes: 11 räddningar på 53 avslut på mål (21%)."
+          },
+          {
+            "id": "run",
+            "text": "Bortalaget gjorde 4 mål i följd, 0:33–6:01."
+          },
+          {
+            "id": "half",
+            "text": "Halvtid 13–19. Slutresultat 30–42."
+          }
+        ],
+        "derivedWorkspaceMeanMs": 0.18439400000000206
+      },
+      {
+        "fixtureId": "swe-2-f34",
+        "archiveHash": "74f6a365bb44d8efb1aaef180113e55e96f4c26d7828b0e02be63837689a59aa",
+        "score": [
+          28,
+          34
+        ],
+        "facts": [
+          {
+            "id": "scorer",
+            "text": "Joakim Lindahl leder målskyttet med 8 mål på 9 avslut."
+          },
+          {
+            "id": "keeper",
+            "text": "Viktor Johansson: 7 räddningar på 41 avslut på mål (17%)."
+          },
+          {
+            "id": "run",
+            "text": "Bortalaget gjorde 4 mål i följd, 12:10–14:30."
+          },
+          {
+            "id": "half",
+            "text": "Halvtid 14–21. Slutresultat 28–34."
+          }
+        ],
+        "derivedWorkspaceMeanMs": 0.31664600000000065
+      },
+      {
+        "fixtureId": "swe-2-f40",
+        "archiveHash": "e4b9e39d36f794b360ad349017771f1812f2da281db336eea21b2529d17f655f",
+        "score": [
+          21,
+          42
+        ],
+        "facts": [
+          {
+            "id": "scorer",
+            "text": "Mattias Windahl leder målskyttet med 10 mål på 12 avslut."
+          },
+          {
+            "id": "keeper",
+            "text": "Malte Johansson: 4 räddningar på 46 avslut på mål (9%)."
+          },
+          {
+            "id": "run",
+            "text": "Bortalaget gjorde 10 mål i följd, 9:56–20:04."
+          },
+          {
+            "id": "half",
+            "text": "Halvtid 9–23. Slutresultat 21–42."
+          }
+        ],
+        "derivedWorkspaceMeanMs": 0.1398999999999978
+      },
+      {
+        "fixtureId": "swe-2-f46",
+        "archiveHash": "b8f1107a97da97b5032aaf39f584e7572474a0059fd42c0fa8bd2addb7c31ab4",
+        "score": [
+          23,
+          32
+        ],
+        "facts": [
+          {
+            "id": "scorer",
+            "text": "Joakim Lindahl leder målskyttet med 9 mål på 13 avslut."
+          },
+          {
+            "id": "keeper",
+            "text": "Alfred Åsvärd: 14 räddningar på 46 avslut på mål (30%)."
+          },
+          {
+            "id": "run",
+            "text": "Bortalaget gjorde 4 mål i följd, 29:17–32:51."
+          },
+          {
+            "id": "half",
+            "text": "Halvtid 14–16. Slutresultat 23–32."
+          }
+        ],
+        "derivedWorkspaceMeanMs": 0.28747699999999893
+      },
+      {
+        "fixtureId": "swe-2-f52",
+        "archiveHash": "1a6509b436b08e71f8da9b412a90d5a88b072de4dca2249998b2c4457d6144df",
+        "score": [
+          33,
+          35
+        ],
+        "facts": [
+          {
+            "id": "scorer",
+            "text": "Hugo Johansson leder målskyttet med 8 mål på 10 avslut."
+          },
+          {
+            "id": "keeper",
+            "text": "Jonas Åberg: 11 räddningar på 46 avslut på mål (24%)."
+          },
+          {
+            "id": "run",
+            "text": "Bortalaget gjorde 4 mål i följd, 11:05–14:23."
+          },
+          {
+            "id": "half",
+            "text": "Halvtid 15–21. Slutresultat 33–35."
+          }
+        ],
+        "derivedWorkspaceMeanMs": 0.13379299999999603
+      },
+      {
+        "fixtureId": "swe-2-f58",
+        "archiveHash": "8030dd26f4f617cdf485a1d11ffbb5bd34ad8d559b537c9cc815432c9024c199",
+        "score": [
+          34,
+          36
+        ],
+        "facts": [
+          {
+            "id": "scorer",
+            "text": "Joakim Lindahl leder målskyttet med 9 mål på 12 avslut."
+          },
+          {
+            "id": "keeper",
+            "text": "Pontus Axelsson: 18 räddningar på 54 avslut på mål (33%)."
+          },
+          {
+            "id": "run",
+            "text": "Hemmalaget gjorde 4 mål i följd, 10:50–14:12."
+          },
+          {
+            "id": "half",
+            "text": "Halvtid 14–15. Slutresultat 34–36."
+          }
+        ],
+        "derivedWorkspaceMeanMs": 0.14975400000001174
+      },
+      {
+        "fixtureId": "swe-2-f64",
+        "archiveHash": "2e6e13b1e69b7539be6cbbc7d9599757d50b3b218c89aa00e80083d5e257826c",
+        "score": [
+          40,
+          28
+        ],
+        "facts": [
+          {
+            "id": "scorer",
+            "text": "Joakim Lindahl leder målskyttet med 13 mål på 13 avslut."
+          },
+          {
+            "id": "keeper",
+            "text": "Kenan Salkicevic: 3 räddningar på 43 avslut på mål (7%)."
+          },
+          {
+            "id": "run",
+            "text": "Hemmalaget gjorde 4 mål i följd, 4:21–7:23."
+          },
+          {
+            "id": "half",
+            "text": "Halvtid 21–13. Slutresultat 40–28."
+          }
+        ],
+        "derivedWorkspaceMeanMs": 0.20841099999999643
+      },
+      {
+        "fixtureId": "swe-2-f72",
+        "archiveHash": "fed6d694862fd6d676ca85d06fc1d3aed308b73eb0827b683f3af923f45bb459",
+        "score": [
+          32,
+          38
+        ],
+        "facts": [
+          {
+            "id": "scorer",
+            "text": "Pontus Zetterman leder målskyttet med 14 mål på 15 avslut."
+          },
+          {
+            "id": "keeper",
+            "text": "Carl Deliaune Aronius: 10 räddningar på 42 avslut på mål (24%)."
+          },
+          {
+            "id": "run",
+            "text": "Bortalaget gjorde 6 mål i följd, 28:01–31:42."
+          },
+          {
+            "id": "half",
+            "text": "Halvtid 19–24. Slutresultat 32–38."
+          }
+        ],
+        "derivedWorkspaceMeanMs": 0.126184000000012
+      },
+      {
+        "fixtureId": "swe-2-f80",
+        "archiveHash": "fb0fd0764819ef30a66614198d90d0813b07a0227d7f4006a486756ebeaa2c22",
+        "score": [
+          20,
+          20
+        ],
+        "facts": [
+          {
+            "id": "scorer",
+            "text": "Mattias Windahl leder målskyttet med 6 mål på 6 avslut."
+          },
+          {
+            "id": "keeper",
+            "text": "Måns Landgren: 6 räddningar på 26 avslut på mål (23%)."
+          },
+          {
+            "id": "run",
+            "text": "Bortalaget gjorde 3 mål i följd, 0:48–1:58."
+          },
+          {
+            "id": "half",
+            "text": "Halvtid 20–20. Slutresultat 20–20."
+          }
+        ],
+        "derivedWorkspaceMeanMs": 0.27125699999998687
+      },
+      {
+        "fixtureId": "swe-2-f88",
+        "archiveHash": "79e91c4db29e11c8ffb96137c9b93712af2241f711fe62bdc927b4e8e439d971",
+        "score": [
+          32,
+          32
+        ],
+        "facts": [
+          {
+            "id": "scorer",
+            "text": "Andreas Flodman leder målskyttet med 9 mål på 13 avslut."
+          },
+          {
+            "id": "keeper",
+            "text": "Sebastian Westerlund: 4 räddningar på 36 avslut på mål (11%)."
+          },
+          {
+            "id": "run",
+            "text": "Bortalaget gjorde 3 mål i följd, 23:16–25:45."
+          },
+          {
+            "id": "half",
+            "text": "Halvtid 18–20. Slutresultat 32–32."
+          }
+        ],
+        "derivedWorkspaceMeanMs": 0.2775690000000031
+      },
+      {
+        "fixtureId": "swe-2-f96",
+        "archiveHash": "09d997a48c852d41833c0888abfa22351be1ed14dbb14435c95031eb03da7b80",
+        "score": [
+          33,
+          21
+        ],
+        "facts": [
+          {
+            "id": "scorer",
+            "text": "Mattias Windahl leder målskyttet med 10 mål på 13 avslut."
+          },
+          {
+            "id": "keeper",
+            "text": "Alexander Holmberg: 14 räddningar på 47 avslut på mål (30%)."
+          },
+          {
+            "id": "run",
+            "text": "Hemmalaget gjorde 6 mål i följd, 12:59–20:54."
+          },
+          {
+            "id": "half",
+            "text": "Halvtid 20–13. Slutresultat 33–21."
+          }
+        ],
+        "derivedWorkspaceMeanMs": 0.27797099999999775
+      },
+      {
+        "fixtureId": "swe-2-f104",
+        "archiveHash": "1edccefa67910cd62d9eca032c9ecc5aa9202b447c727550aad6886dd60ce33f",
+        "score": [
+          41,
+          26
+        ],
+        "facts": [
+          {
+            "id": "scorer",
+            "text": "Mattias Windahl leder målskyttet med 11 mål på 13 avslut."
+          },
+          {
+            "id": "keeper",
+            "text": "Arwid Krontorp: 9 räddningar på 50 avslut på mål (18%)."
+          },
+          {
+            "id": "run",
+            "text": "Hemmalaget gjorde 6 mål i följd, 29:31–36:43."
+          },
+          {
+            "id": "half",
+            "text": "Halvtid 19–15. Slutresultat 41–26."
+          }
+        ],
+        "derivedWorkspaceMeanMs": 0.32333599999999935
+      },
+      {
+        "fixtureId": "swe-2-f112",
+        "archiveHash": "3b5ca9f277d8267b7ebfb5b2f4892f391da1945b582b489ee26cfea5ca3292a2",
+        "score": [
+          42,
+          24
+        ],
+        "facts": [
+          {
+            "id": "scorer",
+            "text": "Simon Axelsson leder målskyttet med 9 mål på 13 avslut."
+          },
+          {
+            "id": "keeper",
+            "text": "Simon Larsson: 4 räddningar på 46 avslut på mål (9%)."
+          },
+          {
+            "id": "run",
+            "text": "Hemmalaget gjorde 4 mål i följd, 56:36–58:53."
+          },
+          {
+            "id": "half",
+            "text": "Halvtid 18–11. Slutresultat 42–24."
+          }
+        ],
+        "derivedWorkspaceMeanMs": 0.1646260000000075
+      },
+      {
+        "fixtureId": "swe-2-f119",
+        "archiveHash": "d013646dc34ab978f345fc81c72460203cb1ee27788ac1f2c077d77df7695b7b",
+        "score": [
+          40,
+          32
+        ],
+        "facts": [
+          {
+            "id": "scorer",
+            "text": "David Blazevic leder målskyttet med 9 mål på 12 avslut."
+          },
+          {
+            "id": "keeper",
+            "text": "Martin Börjes: 8 räddningar på 48 avslut på mål (17%)."
+          },
+          {
+            "id": "run",
+            "text": "Hemmalaget gjorde 4 mål i följd, 20:08–22:44."
+          },
+          {
+            "id": "half",
+            "text": "Halvtid 19–17. Slutresultat 40–32."
+          }
+        ],
+        "derivedWorkspaceMeanMs": 0.18764600000000428
+      },
+      {
+        "fixtureId": "swe-2-f125",
+        "archiveHash": "9023d0e0feb3dcdfcab9cc0473194fd7f0681f40a279ed9f35311d86dff3c3b7",
+        "score": [
+          39,
+          31
+        ],
+        "facts": [
+          {
+            "id": "scorer",
+            "text": "Mattias Windahl leder målskyttet med 9 mål på 13 avslut."
+          },
+          {
+            "id": "keeper",
+            "text": "Viktor Johansson: 11 räddningar på 50 avslut på mål (22%)."
+          },
+          {
+            "id": "run",
+            "text": "Hemmalaget gjorde 4 mål i följd, 6:17–9:56."
+          },
+          {
+            "id": "half",
+            "text": "Halvtid 16–14. Slutresultat 39–31."
+          }
+        ],
+        "derivedWorkspaceMeanMs": 0.16782599999998637
+      },
+      {
+        "fixtureId": "swe-2-f131",
+        "archiveHash": "0c63e6ee5b6d024ee4945dfb098cde27376895fa46c65f3d434ca44db0de48f1",
+        "score": [
+          31,
+          23
+        ],
+        "facts": [
+          {
+            "id": "scorer",
+            "text": "Anton Thomsen leder målskyttet med 9 mål på 11 avslut."
+          },
+          {
+            "id": "keeper",
+            "text": "Malte Johansson: 13 räddningar på 44 avslut på mål (30%)."
+          },
+          {
+            "id": "run",
+            "text": "Hemmalaget gjorde 6 mål i följd, 53:15–58:22."
+          },
+          {
+            "id": "half",
+            "text": "Halvtid 12–14. Slutresultat 31–23."
+          }
+        ],
+        "derivedWorkspaceMeanMs": 0.12621599999998578
+      },
+      {
+        "fixtureId": "swe-2-f137",
+        "archiveHash": "1d73650245950168a7b9fa37e54ee64d8274aa1f2259f5011334b65f87ab3d7e",
+        "score": [
+          21,
+          14
+        ],
+        "facts": [
+          {
+            "id": "scorer",
+            "text": "David Blazevic leder målskyttet med 6 mål på 8 avslut."
+          },
+          {
+            "id": "keeper",
+            "text": "Alfred Åsvärd: 8 räddningar på 29 avslut på mål (28%)."
+          },
+          {
+            "id": "run",
+            "text": "Hemmalaget gjorde 4 mål i följd, 45:46–47:57."
+          },
+          {
+            "id": "half",
+            "text": "Halvtid 2–1. Slutresultat 21–14."
+          }
+        ],
+        "derivedWorkspaceMeanMs": 0.11626399999997375
+      },
+      {
+        "fixtureId": "swe-2-f143",
+        "archiveHash": "bfbf412c6ddf50ee860ea4562625bfbec549ef9b7a8b51e8a7b78fa2b35d9364",
+        "score": [
+          31,
+          32
+        ],
+        "facts": [
+          {
+            "id": "scorer",
+            "text": "Hugo Johansson leder målskyttet med 8 mål på 9 avslut."
+          },
+          {
+            "id": "keeper",
+            "text": "Jonas Åberg: 12 räddningar på 43 avslut på mål (28%)."
+          },
+          {
+            "id": "run",
+            "text": "Bortalaget gjorde 6 mål i följd, 12:08–16:08."
+          },
+          {
+            "id": "half",
+            "text": "Halvtid 19–19. Slutresultat 31–32."
+          }
+        ],
+        "derivedWorkspaceMeanMs": 0.1390780000000086
+      },
+      {
+        "fixtureId": "swe-2-f149",
+        "archiveHash": "62296dffe65036606ae4ca4070f93192d15651590e5b7e6f56c90a645ce34f81",
+        "score": [
+          39,
+          23
+        ],
+        "facts": [
+          {
+            "id": "scorer",
+            "text": "Mattias Windahl leder målskyttet med 12 mål på 17 avslut."
+          },
+          {
+            "id": "keeper",
+            "text": "Pontus Axelsson: 10 räddningar på 49 avslut på mål (20%)."
+          },
+          {
+            "id": "run",
+            "text": "Hemmalaget gjorde 5 mål i följd, 22:47–27:49."
+          },
+          {
+            "id": "half",
+            "text": "Halvtid 21–12. Slutresultat 39–23."
+          }
+        ],
+        "derivedWorkspaceMeanMs": 0.2467829999999958
+      },
+      {
+        "fixtureId": "swe-2-f155",
+        "archiveHash": "5b8d38fef85586846a04af5c9daa94cca09fb9a2e0919cce36ead87e83bbe9ae",
+        "score": [
+          32,
+          39
+        ],
+        "facts": [
+          {
+            "id": "scorer",
+            "text": "Edward Berglund leder målskyttet med 10 mål på 14 avslut."
+          },
+          {
+            "id": "keeper",
+            "text": "Kenan Salkicevic: 12 räddningar på 51 avslut på mål (24%)."
+          },
+          {
+            "id": "run",
+            "text": "Bortalaget gjorde 3 mål i följd, 12:28–14:53."
+          },
+          {
+            "id": "half",
+            "text": "Halvtid 15–21. Slutresultat 32–39."
+          }
+        ],
+        "derivedWorkspaceMeanMs": 0.24687399999998888
+      },
+      {
+        "fixtureId": "swe-2-f163",
+        "archiveHash": "1c1914d010463e9a9ddacf0a937cfcaef8b19f27c2824bbd4e96edba4a673afc",
+        "score": [
+          25,
+          36
+        ],
+        "facts": [
+          {
+            "id": "scorer",
+            "text": "Mattias Windahl leder målskyttet med 10 mål på 14 avslut."
+          },
+          {
+            "id": "keeper",
+            "text": "Carl Deliaune Aronius: 15 räddningar på 51 avslut på mål (29%)."
+          },
+          {
+            "id": "run",
+            "text": "Bortalaget gjorde 5 mål i följd, 9:51–13:34."
+          },
+          {
+            "id": "half",
+            "text": "Halvtid 15–21. Slutresultat 25–36."
+          }
+        ],
+        "derivedWorkspaceMeanMs": 0.19450899999999818
+      },
+      {
+        "fixtureId": "swe-2-f171",
+        "archiveHash": "9e56e5cd710a5717fd24d8164d0a43e5892319255886c87789ca87c3b838cfbf",
+        "score": [
+          29,
+          35
+        ],
+        "facts": [
+          {
+            "id": "scorer",
+            "text": "Jim Gottfridsson leder målskyttet med 11 mål på 13 avslut."
+          },
+          {
+            "id": "keeper",
+            "text": "Måns Landgren: 14 räddningar på 49 avslut på mål (29%)."
+          },
+          {
+            "id": "run",
+            "text": "Hemmalaget gjorde 4 mål i följd, 52:23–55:20."
+          },
+          {
+            "id": "half",
+            "text": "Halvtid 15–19. Slutresultat 29–35."
+          }
+        ],
+        "derivedWorkspaceMeanMs": 0.11948599999999715
+      },
+      {
+        "fixtureId": "swe-2-f179",
+        "archiveHash": "04257664c22cfcb3e9d1e8e62d9945f2ce5efcbbf562d75d43f35a4e5c2d478b",
+        "score": [
+          34,
+          41
+        ],
+        "facts": [
+          {
+            "id": "scorer",
+            "text": "Marcus Ekman leder målskyttet med 14 mål på 15 avslut."
+          },
+          {
+            "id": "keeper",
+            "text": "Sebastian Westerlund: 8 räddningar på 49 avslut på mål (16%)."
+          },
+          {
+            "id": "run",
+            "text": "Bortalaget gjorde 4 mål i följd, 54:23–57:34."
+          },
+          {
+            "id": "half",
+            "text": "Halvtid 21–21. Slutresultat 34–41."
+          }
+        ],
+        "derivedWorkspaceMeanMs": 0.11759099999999308
+      }
+    ]
+  },
+  "browserQA": {
+    "url": "http://127.0.0.1:3015",
+    "normalCareer": true,
+    "liveDecisions": true,
+    "halftime": true,
+    "saveLoad": true,
+    "keyboard": true,
+    "reducedMotion": true,
+    "score": "23–42",
+    "overview": "MATCHBERÄTTELSEN\nIFK Tumba vinner.\nJoakim Lindahl leder målskyttet med 14 mål på 15 avslut.\nSimon Larsson: 4 räddningar på 46 avslut på mål (9%).\nIFK Tumba gjorde 12 mål i följd, 1:44–13:18.\nHalvtid 9–23. Slutresultat 23–42.",
+    "widths": [
+      {
+        "width": 1366,
+        "workspaceHeight": 995,
+        "viewportHeight": 768
+      },
+      {
+        "width": 1440,
+        "workspaceHeight": 984.234375,
+        "viewportHeight": 1080
+      },
+      {
+        "width": 1920,
+        "workspaceHeight": 985.75,
+        "viewportHeight": 1080
+      },
+      {
+        "width": 2560,
+        "workspaceHeight": 985.75,
+        "viewportHeight": 1080
+      }
+    ],
+    "switchSamples": [
+      {
+        "view": "Översikt",
+        "selected": "Översikt",
+        "clickToNextFrameMs": 12
+      },
+      {
+        "view": "Nyckelögonblick",
+        "selected": "Nyckelögonblick",
+        "clickToNextFrameMs": 12.5
+      },
+      {
+        "view": "Spelare",
+        "selected": "Spelare",
+        "clickToNextFrameMs": 19.700000017881393
+      },
+      {
+        "view": "Statistik",
+        "selected": "Statistik",
+        "clickToNextFrameMs": 13.799999982118607
+      }
+    ],
+    "pageErrors": [],
+    "humanQA": "PENDING",
+    "reviewResumedFromOwnNormalCareer": true
+  },
+  "regressionReuse": {
+    "core": "Completed Intelligence v1 receipts retained; source unchanged",
+    "determinism": "Completed Match Center v2 full-match/JSON-fork proof retained; source unchanged",
+    "season": "Completed canonical v2 season reused without resimulation"
+  },
+  "verification": {
+    "types": "PASS",
+    "lint": "PASS",
+    "productionBuild": "PASS: 48 static pages, .next-game-match-center-v21"
+  },
+  "sourceFiles": [
+    {
+      "path": ".gitignore",
+      "sha256": "c08fbc6d1db2b461ab41b0b5353ddb53384aeaf2a14e8a0b0a92d6257c51593e"
+    },
+    {
+      "path": "apps/game/components/matchCenter/MatchCenter.tsx",
+      "sha256": "cf477b3119c358ba6297c01cee316c5a3b91db55faafcf88b929ddc8cf1e8bcb"
+    },
+    {
+      "path": "apps/game/components/matchCenter/TacticalCourt.tsx",
+      "sha256": "83de3e6b68085e9e93dc3aa536298d888493a625b0c795bd05f7f5ed485d1cbb"
+    },
+    {
+      "path": "apps/game/components/matchCenter/WorkspaceViews.tsx",
+      "sha256": "2da779b9b091640f22f6aef137c8a9cfe80812f4833f05ba7a8bab4611adc358"
+    },
+    {
+      "path": "apps/game/components/matchCenter/match-center.css",
+      "sha256": "88d18c4e87357127195804a47ea3c6627e552cad2c13adbde3031692e4402fae"
+    },
+    {
+      "path": "apps/game/lib/matchCenter/control.ts",
+      "sha256": "c1577b45ed867ead1484de2b7dfde11dac1c194a60c20675bf756bccf2a570b5"
+    },
+    {
+      "path": "apps/game/lib/matchCenter/model.test.ts",
+      "sha256": "c5f178ea0d5835ab2bffb4f9ccade647c0ee54983901dd21b40f5e9842303a17"
+    },
+    {
+      "path": "apps/game/lib/matchCenter/model.ts",
+      "sha256": "e726da046168c142c5ee77243c620f2b6fc47e9579f69b485e04aa6dac4dde3e"
+    },
+    {
+      "path": "apps/game/lib/matchCenter/presentation.test.ts",
+      "sha256": "c2c10884e0f710ac68207218a9dc1846d041967e98ec405fae50838e3d714bd4"
+    },
+    {
+      "path": "apps/game/lib/matchCenter/workspace.test.ts",
+      "sha256": "26edde8fc142de2fcb292b4475e38a405d9e374707540e490f203fb0acb9408f"
+    },
+    {
+      "path": "apps/game/lib/matchCenter/workspace.ts",
+      "sha256": "87d82b1a82771e525a2e4d8962f67a2499e07e89c06216d356686ee19c0d9bb1"
+    },
+    {
+      "path": "apps/game/package.json",
+      "sha256": "e12ed11f349130ed29c6ec3d6470a3e0529b7c5c2b6b1b2a28e73a9eae62994c"
+    },
+    {
+      "path": "apps/game/tsconfig.json",
+      "sha256": "47e8e868cc75e684c6e24ef019276a1491c6641f9eed4ce038f83647dbf7a169"
+    },
+    {
+      "path": "apps/game/e2e/match-center-v21.spec.ts",
+      "sha256": "8942ec2a8d4e75dadff20000d1f0766d2c682a68d4de1bafa97ba719cac53fe4"
+    },
+    {
+      "path": "apps/game/scripts/prove-match-center-v21.ts",
+      "sha256": "edfe3ca3061d94e6cb43c65508bd8ac95c2434aa1d4aff0203ab2517f3a8418f"
+    }
+  ],
+  "evidence": [
+    {
+      "path": "docs/match-center-v21/CANONICAL-PROOF.json",
+      "sha256": "bf492ffd64b36b4bec46d01e4aea31a8a6e68c42731774a096e140ec07cd6696"
+    },
+    {
+      "path": "docs/match-center-v21/BROWSER-QA.json",
+      "sha256": "c55bbdbb325c68b61305d0717b74eb55432600ab777f3cb1319df0b45a13d84c"
+    },
+    {
+      "path": "docs/match-center-v21/preservation.json",
+      "sha256": "0f72efeab20784699daee324b70730d8af62645c5632836a09c8467faf0bf835"
+    },
+    {
+      "path": "docs/match-center-v21/REPORT.md",
+      "sha256": "86e958956669fd491d9590854291ec584578c211d2bf79899d3a7c6c370ac8d8"
+    },
+    {
+      "path": "docs/match-center-v21/screenshots/fulltime-overview-1366.png",
+      "sha256": "771d08d71e7511e6198260810f6a2581384fb187511ca8014081af056d1de4ad"
+    },
+    {
+      "path": "docs/match-center-v21/screenshots/fulltime-overview-1440.png",
+      "sha256": "8be0cbb8aa7864da8ef4f2d207c3a0eeea69370cc70193e147982258557e2e3f"
+    },
+    {
+      "path": "docs/match-center-v21/screenshots/fulltime-overview-1920.png",
+      "sha256": "3a17f9249056b5aaf3fa011145d1cd63562fc76db17ac915f541b90bf294851b"
+    },
+    {
+      "path": "docs/match-center-v21/screenshots/fulltime-overview-2560.png",
+      "sha256": "ca290ef804ee9d6166b3d9cdb43653dcefb108681e24fd56002ea8f4e8f5aa66"
+    },
+    {
+      "path": "docs/match-center-v21/screenshots/halftime-1920.png",
+      "sha256": "792e4d6a71114f7545d2b930aee18b476799092df63cd512590d011ba6332d70"
+    },
+    {
+      "path": "docs/match-center-v21/screenshots/keeper-detail-1920.png",
+      "sha256": "9a64d2a84bf2c13514d6ba43e26a1a1247896cf96293b651dcad73fb5c413251"
+    },
+    {
+      "path": "docs/match-center-v21/screenshots/key-moment-1920.png",
+      "sha256": "fd90eb80008712b29945cfc58ec1056b23b98a9e8c2dd7128a3377df2004a4f2"
+    },
+    {
+      "path": "docs/match-center-v21/screenshots/live-timeout-1920.png",
+      "sha256": "b0cce45da10920f4b8ac968c01c60a83026b4a03058854597b9998205ebd040d"
+    },
+    {
+      "path": "docs/match-center-v21/screenshots/players-1920.png",
+      "sha256": "c715ee27d2e3e0f29a092d0cda9947598742b63b7d6b86a831f3a1d348aa55a1"
+    },
+    {
+      "path": "docs/match-center-v21/screenshots/statistics-shots-1920.png",
+      "sha256": "4eea7f692d4d4ef1f498a4ef6eb4cd47bbdf96554a673d3a60d830d32c0385af"
+    },
+    {
+      "path": "docs/match-center-v21/verification/focused.log",
+      "sha256": "c33a03b99e318c24bfdc6730cb232f3cea5793f2d83a1719b50d49ef5a19c916"
+    },
+    {
+      "path": "docs/match-center-v21/verification/full-game.log",
+      "sha256": "ad1ec525703d503768449c8c6a4b61454e3baf9df57fb59d2b88cd219e052f36"
+    },
+    {
+      "path": "docs/match-center-v21/verification/archive-proof.log",
+      "sha256": "997ccb2af5a293e7be7434ea516f902fccdbd47d7bd8641a1631c6aedaccf4f5"
+    },
+    {
+      "path": "docs/match-center-v21/verification/build.log",
+      "sha256": "4bb4488906db3dcf469bd3a3ceb516e12ace4fc7bf67406e3236b2dce18e4a78"
+    },
+    {
+      "path": "docs/match-center-v21/verification/lint.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/match-center-v21/verification/typecheck.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/match-center-v21/verification/browser.log",
+      "sha256": "36c7e0f3a35ff250221039843fea5d69ad74df03c7838e94e2a01f0966976c0b"
+    },
+    {
+      "path": "docs/match-center-v21/verification/browser-review.log",
+      "sha256": "c05058eeee39b2292861b394940828cc14473b5256831ca7de114d9135762ab9"
+    },
+    {
+      "path": "docs/match-center-v21/verification/browser-exit.txt",
+      "sha256": "13bf7b3039c63bf5a50491fa3cfd8eb4e699d1ba1436315aef9cbe5711530354"
+    },
+    {
+      "path": "docs/match-center-v21/verification/review-resume.json",
+      "sha256": "215ad8c7cc0f0a35e09c0ef830f36fba3ed4d6a653ea3e36ad8ca3488fe8785e"
+    }
+  ],
+  "preservedUserState": [
+    " M apps/game/app/match-qa/page.tsx",
+    " M apps/game/lib/matchQa/qaHarness.ts",
+    " M apps/game/scripts/season-audit.ts",
+    "?? .claude/",
+    "?? apps/game/.tmp-final-benchmark.ts",
+    "?? docs/audit/"
+  ],
+  "motionWorktree": "197d2a80ecea3b70efdcf8ef347cfc68e0e86b2b",
+  "motionStatus": "?? .claude/",
+  "stashes": [
+    "ddba79055949b76898b12fc1b947e8f8645589cb On motion-lab: WIP Pack #5 M6 breakthrough screen paused before Human QA",
+    "b068a9586209b9405b8d5f0dc6fae6384dd09001 On motion-lab: WIP Pack #5 M6 line game paused before Human QA"
+  ]
+}
