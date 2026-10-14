@@ -1,4 +1,4 @@
-import { getPlayer,otherTeam, record, uid, type CorePlayer, type CoreState, type Restart, type Point } from './state';
+import { getPlayer,otherTeam, record, uid, REENTRY_RECEIVE_REASON, type CorePlayer, type CoreState, type Restart, type Point } from './state';
 import { distance, local, world } from './space';
 import { judgeFoul } from './referee';
 import type { Severity } from './sanction';
@@ -65,10 +65,18 @@ export function changePossession(s: CoreState,player: CorePlayer,reason: string)
 /** Called only by swept physical interaction resolution, never by the selector. */
 export function acquire(s: CoreState,p: CorePlayer,point: Point,reason: string,sourceActionId: string|null=null) {
   if(distance(point,p.position)>.85)throw new Error('Nonphysical acquisition');
+  const prepared=p.action?.kind==='RECEIVE'&&p.action.reason===REENTRY_RECEIVE_REASON&&
+    p.action.phase==='EXECUTING'&&sourceActionId!==null&&p.reception?.passActionId===sourceActionId&&p.reception.readyTick<=s.tick;
+  if(prepared){p.reentryReadTicks=Math.min(200,Math.max(0,s.tick-p.action!.startedTick));record(s,'REENTRY_RECEIVED',p,{preparedTicks:p.reentryReadTicks},[],null,sourceActionId);}
+  else delete p.reentryReadTicks;
   const turnover=s.ball.live&&s.possession.team!==p.team;
   if(s.ball.live)changePossession(s,p,reason);
   s.ball={...s.ball,position:{...point},mode:p.kind==='GOALKEEPER'?'GOALKEEPER_CONTROL':'RECEPTION',height:1.2,controllerId:p.id,flight:null,lastTouchId:p.id};
   p.handling={heldSinceTick:s.tick,steps:0,stepDistance:0,dribbleUsed:false,bounceTick:s.tick};
+  // A new physical receipt is a new carrier relationship within the same
+  // attack. The old beaten marker/intent must not survive a completed recycle.
+  // Momentum, team advantage and the actual shifted defence remain intact.
+  delete p.carrierRead;delete p.handballIntent;
   p.reception=null;p.support=null;
   const momentum={...p.velocity};
   interrupt(s,p,'Ball controlled through contact');

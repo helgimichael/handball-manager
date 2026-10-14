@@ -12,6 +12,7 @@ export type { Point, TeamId, Direction } from '../model';
 
 export const CORE_VERSION = '2.9.0-possession-ecology.2';
 export const DT_MS = 50;
+export const REENTRY_RECEIVE_REASON='Read the next entry while preparing the actual recycle catch';
 /** Scoped execution profile; not a claim that all IHF rules are implemented. */
 export const CORE_RULES = {id:'IHF_INDOOR_2025' as const,maxHoldMs:3000,maxSteps:3,suspensionMs:120000,restartDistance:3,goalAreaRadius:6};
 export type Role = 'LW' | 'LB' | 'CB' | 'RB' | 'RW' | 'P' | 'P2' | 'GK';
@@ -40,6 +41,8 @@ export type CorePlayer = {
   handballIntent?:HandballIntent;
   /** Observed threat ownership on receipt, before the defence reallocates help. */
   carrierRead?:{possessionId:string;primaryId:string|null;receiverCovers:Record<string,string>};
+  /** Actual off-ball preparation credit on a named return receipt; optional in old saves. */
+  reentryReadTicks?:number;
   handling: { heldSinceTick: number; steps: number; stepDistance: number; dribbleUsed: boolean; bounceTick: number };
   airborne: { takeoff: Point; untilTick: number } | null;
   beatenUntilTick: number; wrongFootedUntilTick:number; screenedUntilTick: number;

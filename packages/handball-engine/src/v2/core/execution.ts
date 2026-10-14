@@ -15,10 +15,10 @@ export function planShotTarget(s:CoreState,p:CorePlayer,tieSide?:-1|1) {
   const direction=s.directions[p.team],context=shotContext(s,p);
   const keeper=courtPlayers(s,otherTeam(p.team)).find(d=>d.kind==='GOALKEEPER');
   const keeperX=keeper?.position.x??10,wide=Math.abs(p.position.x-10)>6.5;
-  const placement=(wide?p.profile.wingFinishing*.7+p.profile.shotPlacement*.3:p.profile.shotPlacement)*executionCapacity(p);
   const penalty=p.action?.shotKind==='SEVEN_METRE';
+  const placement=(penalty?p.profile.shotPlacement*.6+p.profile.finishing*.25+p.profile.composure*.15:wide?p.profile.wingFinishing*.7+p.profile.shotPlacement*.3:p.profile.shotPlacement)*executionCapacity(p);
   const spread=((1.25-placement)*(1+context.pressure*(.45-.25*p.profile.composure))+
-    Math.max(0,.3-shootingAngle(p.position,direction))*1.8)*(penalty?.42:1);
+    Math.max(0,.3-shootingAngle(p.position,direction))*1.8)*(penalty?.55+.45*(1-p.profile.composure):1);
   const leftGap=keeperX-8.5,rightGap=11.5-keeperX;
   const side=wide?Math.sign(p.position.x-10)||1:Math.abs(rightGap-leftGap)<.6&&tieSide?tieSide:rightGap>=leftGap?1:-1;
   // The posts define the intended window. A fraction of the keeper-to-post gap
@@ -44,7 +44,10 @@ export function prepareKeeperAnticipation(s:CoreState,keeper:CorePlayer,thrower:
   const read=penalty?k.reading*.35+k.reaction*.20+k.positioning*.15+k.sevenMetre*.30:k.reading*.45+k.reaction*.35+k.positioning*.20;
   const side=random(s)<read?expected:random(s)<.5?-1:1;
   const ownGoal=s.directions[otherTeam(keeper.team)],depth=local(keeper.position,ownGoal).y;
-  action.target=world({x:clamp(keeper.position.x+side*.5,.3,19.7),y:depth},ownGoal);
+  // A penalty loading step is a small visible commitment, not a complete
+  // pre-flight dive. Ordinary close-shot anticipation retains its exact step.
+  const loadingStep=penalty?.35+.1*k.sevenMetre:.5;
+  action.target=world({x:clamp(keeper.position.x+side*loadingStep,.3,19.7),y:depth},ownGoal);
   action.anticipationForId=throwing.id;action.anticipationStartedTick=s.tick;
   record(s,'KEEPER_ANTICIPATED',keeper,{throwActionId:throwing.id,side,read,penalty,basis:'Visible committed wind-up and available goal space'},[thrower.id]);
   return true;

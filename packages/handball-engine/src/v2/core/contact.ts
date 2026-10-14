@@ -4,7 +4,7 @@ import { resolveAction,startAction } from './actions';
 import { contest } from './interactions';
 import { foul,interrupt } from './transitions';
 import { readContact } from './sanction';
-import {defenderRelation} from './threatRelation';
+import {defenderRelation,lostContactShoulder} from './threatRelation';
 
 export function contactApproach(s:CoreState,a:CorePlayer,d:CorePlayer):'FRONT'|'SIDE'|'BEHIND' {
   const g=goal(s.directions[a.team]),length=Math.max(.001,distance(a.position,g)*distance(a.position,d.position));
@@ -29,8 +29,18 @@ export function planContact(s:CoreState,d:CorePlayer,a:CorePlayer):boolean {
   // Meeting from the side is still ordinary containment. A hold is a late
   // recovery technique after the carrier has genuinely passed the shoulder,
   // not the default answer whenever a moving helper is slightly oblique.
-  const desperate=defenderRelation(a,d,goal(s.directions[a.team])).beaten&&penetration;
-  const technique=desperate&&d.profile.discipline<.55+.4*(beaten||approach==='BEHIND'?1:0)?'HOLD':'BENT_ARMS';
+  const desperate=lostContactShoulder(a,d,goal(s.directions[a.team]))&&penetration;
+  // A partial shoulder loss still permits disciplined recovery. The full
+  // stamped duel loss is a separate desperation context; merely being on
+  // the rear quarter must not give every defender its .95 hold threshold.
+  const forward=defenderRelation(a,d,goal(s.directions[a.team])).forward;
+  const shoulderLoss=Math.min(1,Math.max(0,(-forward-a.radius)/(a.radius+d.radius)));
+  // Losing just the edge of the shoulder is not full desperation. The reach
+  // grows with actual lost position; the original stamped-beaten case keeps
+  // its established .95 threshold. This avoids a discontinuous jump that
+  // made ordinary low-discipline lateral defenders grab at the first overlap.
+  const holdThreshold=beaten?.95:.4+.55*shoulderLoss;
+  const technique=desperate&&d.profile.discipline<holdThreshold?'HOLD':'BENT_ARMS';
   // Responsibility has handed over, but the passed man's actual arm may still
   // reach the carrier. This is one original recovery episode, not an extra
   // pressure owner. A disciplined recovery does not create rear contact.

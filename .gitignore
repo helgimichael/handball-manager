@@ -99,3 +99,8 @@ docs/match-center-v21/verification/
 docs/post-intelligence-reconciliation/development/
 docs/post-intelligence-reconciliation/final/
 docs/post-intelligence-reconciliation/verification/
+docs/reconciliation-v11/development/
+docs/reconciliation-v11/final/
+docs/reconciliation-v11/verification/
+docs/reconciliation-v11/*.log
+docs/reconciliation-v11/*.exit.txt

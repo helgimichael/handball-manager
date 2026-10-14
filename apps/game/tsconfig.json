@@ -68,7 +68,9 @@
     ".next-game-match-center-v21/types/**/*.ts",
     ".next-game-match-center-v21/dev/types/**/*.ts",
     ".next-game-reconciled-v1/types/**/*.ts",
-    ".next-game-reconciled-v1/dev/types/**/*.ts"
+    ".next-game-reconciled-v1/dev/types/**/*.ts",
+    ".next-game-reconciliation-v11/types/**/*.ts",
+    ".next-game-reconciliation-v11/dev/types/**/*.ts"
   ],
   "exclude": [
     "node_modules"

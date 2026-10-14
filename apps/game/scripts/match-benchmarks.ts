@@ -13,6 +13,7 @@ import type {PlayerMock} from '../lib/game-data';
 import type {GameplayPlayerRating} from '../lib/gameWorld/gameplayRatingSnapshot';
 import {CalibrationDiagnostics} from './lib/calibrationDiagnostics';
 import {ReconciliationDiagnostics} from './lib/reconciliationDiagnostics';
+import {AttackCycleDiagnostics} from './lib/attackCycleDiagnostics';
 import {MotionQualityDiagnostics} from './lib/motionQualityDiagnostics';
 import {encodeFrames} from '../lib/career/matchFrames';
 import {extract} from '../lib/matchBenchmarks/extract';
@@ -46,6 +47,7 @@ const tacticsPath=option('--tactics'),tactics=tacticsPath?JSON.parse(readFileSyn
 const root=resolve('../..'),sourceDir=join(root,'packages/handball-engine/src/v2/core');
 const paths=[...readdirSync(sourceDir).filter(f=>f.endsWith('.ts')&&!f.endsWith('.test.ts')).map(f=>join(sourceDir,f)),resolve('lib/career/productionMatch.ts'),resolve('scripts/lib/calibrationDiagnostics.ts'),...readdirSync(resolve('lib/matchBenchmarks')).filter(f=>f.endsWith('.ts')&&!f.endsWith('.test.ts')).map(f=>resolve('lib/matchBenchmarks',f)),resolve('scripts/match-benchmarks.ts')];
 if(args.includes('--reconciliation'))paths.push(resolve('scripts/lib/reconciliationDiagnostics.ts'));
+if(args.includes('--v11'))paths.push(resolve('scripts/lib/attackCycleDiagnostics.ts'));
 if(args.includes('--motion-quality'))paths.push(resolve('scripts/lib/motionQualityDiagnostics.ts'));
 const fingerprints=()=>paths.map(path=>({path:path.replace(root,'').replaceAll('\\','/'),sha256:hash(readFileSync(path,'utf8'))}));
 const sources=fingerprints();let head='UNKNOWN';try{head=execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim();}catch{}
@@ -65,8 +67,9 @@ for(const recipe of recipes){
   const motion=args.includes('--motion-quality')&&reports.length<2?new MotionQualityDiagnostics():null;
   const intelligence=args.includes('--intelligence')?enableDecisionTrace(career.productionMatch!.core,reports.length<2?256:0):null;
   const reconciliation=args.includes('--reconciliation')?new ReconciliationDiagnostics():null;
+  const cycles=args.includes('--v11')?new AttackCycleDiagnostics():null;
   const observer=new CalibrationDiagnostics();let observerMs=0,calls=0,simulationStart=performance.now(),savedMidMatch:typeof career|null=null;
-  while(career.productionMatch!.core.status==='RUNNING'&&calls++<40){career=advanceProductionMatch(career,10000,false,(core,events)=>{const t=performance.now();observer.observe(core,events);motion?.observe(core);reconciliation?.observe(core,events);observerMs+=performance.now()-t;});if(args.includes('--prove')&&reports.length===0&&calls===2)savedMidMatch=JSON.parse(JSON.stringify(career));}
+  while(career.productionMatch!.core.status==='RUNNING'&&calls++<40){career=advanceProductionMatch(career,10000,false,(core,events)=>{const t=performance.now();observer.observe(core,events);motion?.observe(core);reconciliation?.observe(core,events);cycles?.observe(core,events);observerMs+=performance.now()-t;});if(args.includes('--prove')&&reports.length===0&&calls===2)savedMidMatch=JSON.parse(JSON.stringify(career));}
   const simulationMs=performance.now()-simulationStart,session=career.productionMatch!;
   if(session.core.match?.phase!=='FULLTIME')throw new Error(`Incomplete ${recipe.index}: ${session.core.reason}`);
   const before=hash(session),analysisStart=performance.now(),diagnostics=observer.report(session.core),result=resultFromSession(session),actual=extract(session,diagnostics,result),report=matchReport(actual,profiles,identity),analysisMs=performance.now()-analysisStart;
@@ -78,6 +81,7 @@ for(const recipe of recipes){
   if(args.includes('--prove')&&reports.length===0)write(`proofs-${String(recipe.index).padStart(3,'0')}.json`,proofs);
   if(motion)write(`motion-${String(recipe.index).padStart(3,'0')}.json`,motion.report());
   if(reconciliation)write(`reconciliation-${String(recipe.index).padStart(3,'0')}.json`,reconciliation.report());
+  if(cycles)write(`cycles-${String(recipe.index).padStart(3,'0')}.json`,cycles.report(session.core));
   if(intelligence)write(`intelligence-${String(recipe.index).padStart(3,'0')}.json`,{metrics:intelligenceMetrics(intelligence),traces:intelligence.traces,defensiveTraces:intelligence.defensiveTraces});
   if(args.includes('--causal'))write(`causal-${String(recipe.index).padStart(3,'0')}.json`,{shots:diagnostics.shots,halves:diagnostics.halves,ruleFacts:session.core.events.filter(e=>['CONTACT_EXECUTED','FOUL_ASSESSED','WHISTLE_RESTART','TWO_MINUTE_SUSPENSION','WARNING','DISQUALIFICATION','ADVANTAGE_PENDING','ADVANTAGE_REALIZED','ADVANTAGE_RECALLED'].includes(e.type))});
   write(`match-${String(recipe.index).padStart(3,'0')}.json`,{metadata:{recipe,fixture,head,engineVersion:session.core.version,behaviorRevision:session.behaviorRevision,initialSessionHash:hash(initial.productionMatch),truthHash:before,resultHash:hash(result),initialProfiles,initialTactics,...(motion?{archiveFrameCount:session.frames.length,archiveEncodedBytes:encodeFrames(session.frames).length*3/4}: {})},...compact});

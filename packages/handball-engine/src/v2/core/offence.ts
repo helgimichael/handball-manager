@@ -36,6 +36,11 @@ export function offenceAfter(s:CoreState) {
     if(event.type==='SHOT_RELEASED'&&event.possessionId===o.possessionId){
       const shooter=getPlayer(s,event.actorId!);const q=local(shooter.position,s.directions[shooter.team]);
       finishEntry(s,'Shot released from the resulting situation',clamp((13-q.y)/5,0,1)-nearDefenders(s,shooter,1.5).length*.2);
+    }else if(e.established&&event.type==='ACTION_STARTED'&&event.possessionId===o.possessionId&&event.details.kind==='PASS'&&
+      (/INTELLIGENCE RECYCLE|keep the ball and rebuild/.test(String(event.details.reason)))){
+      // A good return retains the attack, but retires the entry which was
+      // contained. Its old crossing/screen destinations are not the next entry.
+      finishEntry(s,'Defence contained the first entry; recycle and re-enter');
     }else if(event.type==='RESTART_AWARDED'||event.type==='POSSESSION_CHANGED'||event.type==='PERIOD_ENDED')finishEntry(s,event.type);
   }
   o.eventsSeen=s.events.length;
@@ -105,7 +110,8 @@ export function offenceBefore(s:CoreState) {
   const carrier=s.ball.controllerId?getPlayer(s,s.ball.controllerId):null;if(!carrier||carrier.team!==s.possession.team)return;
   const direction=s.directions[carrier.team],q=local(carrier.position,direction),defenders=courtPlayers(s,otherTeam(carrier.team)).filter(d=>d.kind==='FIELD_PLAYER');
   const recovered=defenders.filter(d=>local(d.position,direction).y<11).length;
-  const finish=q.y<9&&shootingAngle(carrier.position,direction)>.2||carrier.airborne!==null||!!carrier.action&&['JUMP','SHOOT'].includes(carrier.action.kind)&&!['COMPLETED','INTERRUPTED','FAILED'].includes(carrier.action.phase);
+  const chance=shotOpportunity(s,carrier);
+  const finish=q.y<9&&shootingAngle(carrier.position,direction)>.2&&!!chance&&chance.containment<.5||carrier.airborne!==null||!!carrier.action&&['JUMP','SHOOT'].includes(carrier.action.kind)&&!['COMPLETED','INTERRUPTED','FAILED'].includes(carrier.action.phase);
   const next:OffensivePhase=finish?'AVSLUTNING':s.possession.phase==='TRANSITION'?(q.y>20?'UPPSPEL':recovered<Math.min(5,defenders.length)?'UPPFOLJNING':'UPPBYGGNAD'):'UPPBYGGNAD';
   if(changed||next!==o.phase){o.phase=next;o.sinceTick=s.tick;record(s,'OFFENSIVE_SUBPHASE',carrier,{phase:next,reason:finish?'Actual finishing window':recovered>=5?'Defence recovered':'Ball progress and supporting waves',gamePhase:s.possession.phase});}
   const e=o.entry;

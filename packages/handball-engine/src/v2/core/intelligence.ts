@@ -70,7 +70,7 @@ export function perceiveHandball(s:CoreState,p:CorePlayer):Perception {
   return{id:a.id,role:a.role,position:{...a.position},velocity:{...a.velocity},goalDistance:distance(a.position,g),spacing:distance(p.position,a.position),readiness,laneSeconds:offer&&!offer.available?Math.min(lane,0):lane,separation,created,creatorId:created?marker!.id:null,advantage,quality:shot?.quality??0,angle};
  });
  const shot=shotOpportunity(s,p),open=clearance>.25&&distance(p.position,target)>.4;
- return{tick:s.tick,playerId:p.id,possessionId:s.possession.id,ball:{holderId:s.ball.controllerId,position:{...s.ball.position},velocity:s.ball.flight?{...s.ball.flight.velocity}:{...p.velocity},incomingId:s.ball.flight?.receiverId??null},self:{position:{...p.position},velocity:{...p.velocity},role:p.role,energy:p.condition.energy,control:s.ball.controllerId===p.id,dribbling:s.ball.mode==='DRIBBLE'&&s.ball.controllerId===p.id,steps:p.handling.steps,heldMs:s.ball.mode==='DRIBBLE'&&s.ball.controllerId===p.id?0:(s.tick-p.handling.heldSinceTick)*50,dribbleUsed:p.handling.dribbleUsed,intent:p.handballIntent?.kind??null},primary:primary&&relation?{id:primary.id,distance:distance(primary.position,p.position),forwardMargin:-relation.forward,goalSide:relation.forward>0,beaten:relation.beaten}:null,help,space:{target,clearance,gapWidth:clamp(clearance*2+p.radius*2,0,8),open,closureSeconds:help?.arrivalSeconds??10,goalDistance:len,angle:shootingAngle(p.position,dir),attackers:attackingBodies.length,defenders:defenders.length,localAttackers:attackingBodies.filter(a=>distance(a.position,p.position)<9&&local(a.position,dir).y<=q.y+2).length,localDefenders:defenders.filter(d=>distance(d.position,p.position)<9&&local(d.position,dir).y<=q.y+1).length},receivers,shot:shot?{quality:shot.quality,distance:shot.distance,pressure:shot.pressure,blockThreat:shot.blockThreat,emptyGoal:shot.emptyGoal,containment:shot.containment,built:s.possession.completedPasses>=2||s.possession.phase==='TRANSITION'||shot.distance<=7.5||q.y<=5}:null,capability:{decision:p.profile.decision,anticipation:p.profile.anticipation,composure:p.profile.composure,handling:p.profile.handling,passing:p.profile.passing,shooting:(p.profile.shotPlacement+p.profile.finishing)/2,breakthrough:p.profile.breakthrough},preference:{shoot:p.profile.tendency.shoot,drive:p.profile.tendency.drive,feed:p.profile.tendency.feed},tactics:{identity:s.coaching[p.team].attackIdentity,tempo:s.coaching[p.team].tempo},momentum:Math.max(0,p.velocity.x*ux+p.velocity.y*uy),legalTravel:s.ball.mode==='DRIBBLE'&&s.ball.controllerId===p.id?4:Math.max(0,(s.ruleProfile.maxSteps-p.handling.steps)*.8-p.handling.stepDistance-.15)};
+ return{tick:s.tick,playerId:p.id,possessionId:s.possession.id,ball:{holderId:s.ball.controllerId,position:{...s.ball.position},velocity:s.ball.flight?{...s.ball.flight.velocity}:{...p.velocity},incomingId:s.ball.flight?.receiverId??null},self:{position:{...p.position},velocity:{...p.velocity},role:p.role,energy:p.condition.energy,control:s.ball.controllerId===p.id,dribbling:s.ball.mode==='DRIBBLE'&&s.ball.controllerId===p.id,steps:p.handling.steps,heldMs:s.ball.mode==='DRIBBLE'&&s.ball.controllerId===p.id?0:(s.tick-p.handling.heldSinceTick)*50,dribbleUsed:p.handling.dribbleUsed,intent:p.handballIntent?.kind??(p.reentryReadTicks!==undefined?'RECYCLE_ATTACK':null)},primary:primary&&relation?{id:primary.id,distance:distance(primary.position,p.position),forwardMargin:-relation.forward,goalSide:relation.forward>0,beaten:relation.beaten}:null,help,space:{target,clearance,gapWidth:clamp(clearance*2+p.radius*2,0,8),open,closureSeconds:help?.arrivalSeconds??10,goalDistance:len,angle:shootingAngle(p.position,dir),attackers:attackingBodies.length,defenders:defenders.length,localAttackers:attackingBodies.filter(a=>distance(a.position,p.position)<9&&local(a.position,dir).y<=q.y+2).length,localDefenders:defenders.filter(d=>distance(d.position,p.position)<9&&local(d.position,dir).y<=q.y+1).length},receivers,shot:shot?{quality:shot.quality,distance:shot.distance,pressure:shot.pressure,blockThreat:shot.blockThreat,emptyGoal:shot.emptyGoal,containment:shot.containment,built:s.possession.completedPasses>=2||s.possession.phase==='TRANSITION'||shot.distance<=7.5||q.y<=5}:null,capability:{decision:p.profile.decision,anticipation:p.profile.anticipation,composure:p.profile.composure,handling:p.profile.handling,passing:p.profile.passing,shooting:(p.profile.shotPlacement+p.profile.finishing)/2,breakthrough:p.profile.breakthrough},preference:{shoot:p.profile.tendency.shoot,drive:p.profile.tendency.drive,feed:p.profile.tendency.feed},tactics:{identity:s.coaching[p.team].attackIdentity,tempo:s.coaching[p.team].tempo},momentum:Math.max(0,p.velocity.x*ux+p.velocity.y*uy),legalTravel:s.ball.mode==='DRIBBLE'&&s.ball.controllerId===p.id?4:Math.max(0,(s.ruleProfile.maxSteps-p.handling.steps)*.8-p.handling.stepDistance-.15)};
 }
 export function assessAdvantage(r:Perception):Advantage {
  const contained=!!r.help?.committed&&!r.space.open;
@@ -101,11 +101,20 @@ export function affordancesFor(r:Perception,a:Advantage,situations:Situation[],p
   const components={immediate,continuation,capability,tactics,risk,commitment};out.push({name,motor,intent,target,targetId,components,value:immediate+continuation+capability+tactics+commitment-risk,reason});
  };
  const canCarry=r.legalTravel>.25||!r.self.dribbleUsed;
+ const rebuilding=!a.freeCarrier&&!!previous&&attackingIntent(previous)&&
+   (situations.includes('ADVANTAGE_LOST')||previous.originalAdvantage>.5&&!!r.help?.committed);
+ const forwardLength=Math.max(.001,Math.hypot(r.space.target.x-r.self.position.x,r.space.target.y-r.self.position.y));
+ const forwardX=(r.space.target.x-r.self.position.x)/forwardLength,forwardY=(r.space.target.y-r.self.position.y)/forwardLength;
+ // On a physically prepared second entry, account for cover that can
+ // contain another approach before it develops. This does not penalise a
+ // free carrier or a beaten-primary bind, and never improves shot execution.
+ const followupClosingRisk=r.self.intent==='RECYCLE_ATTACK'&&!a.freeCarrier&&!r.primary?.beaten&&r.primary?.goalSide&&r.help
+   ?Math.max(0,.8-r.help.arrivalSeconds)*.25:0;
  const overload=(situations.includes('TWO_V_ONE')||situations.includes('THREE_V_TWO'))&&r.receivers.some(x=>x.goalDistance<r.space.goalDistance+.5&&x.quality>.3);
  if(canCarry&&r.self.heldMs<2200&&r.space.goalDistance>7.1&&(r.space.open||overload&&!r.help?.committed)){
   const binding=!!r.help&&r.help.arrivalSeconds<1.5&&!r.help.committed;
   const intent:TacticalIntent=binding&&r.primary?.beaten?'ATTACK_NEXT_DEFENDER':a.freeCarrier?'EXPLOIT_ADVANTAGE':overload?'BIND_HELP':'ATTACK_GAP';
-  add(transition?'ATTACK_OPEN_LANE':binding||overload?'ATTACK_NEXT_DEFENDER':a.freeCarrier?'DRIVE':'EXPLOIT_GAP',r.legalTravel<.6&&!r.self.dribbleUsed?'DRIBBLE':'DRIVE',intent,r.space.target,binding?r.help!.id:r.primary?.id??null,((a.freeCarrier?.8:overload?.8:.35)+a.lane*.16)*r.preference.drive,a.helpTime*.1+a.momentum*.08,r.capability.breakthrough*.06,(r.help?.committed?.4:0)+(1-r.self.energy)*.06,overload?'Attack the outnumbered defender before giving away the threat':'Retain the goalward threat until the next defensive relationship changes');
+  add(transition?'ATTACK_OPEN_LANE':binding||overload?'ATTACK_NEXT_DEFENDER':a.freeCarrier?'DRIVE':'EXPLOIT_GAP',r.legalTravel<.6&&!r.self.dribbleUsed?'DRIBBLE':'DRIVE',intent,r.space.target,binding?r.help!.id:r.primary?.id??null,((a.freeCarrier?.8:overload?.8:.35)+a.lane*.16)*r.preference.drive,a.helpTime*.1+a.momentum*.08,r.capability.breakthrough*.06,(r.help?.committed?.4:0)+(1-r.self.energy)*.06+followupClosingRisk,overload?'Attack the outnumbered defender before giving away the threat':'Retain the goalward threat until the next defensive relationship changes');
  }
  // A containing body raises execution risk; it does not ban every contested
  // close finish. Strong finishing can still make the shot better than a reset.
@@ -117,7 +126,15 @@ export function affordancesFor(r:Perception,a:Advantage,situations:Situation[],p
   const superior=x.quality>(r.shot?.quality??0)+.22&&x.advantage>.7;
   const bound=x.created&&(r.help?.committed||x.creatorId===r.primary?.id&&r.primary.goalSide&&!r.primary.beaten&&r.primary.distance<1.65);
   const name:AffordanceName=bound?'BIND_AND_PASS':pivot?'PASS_TO_M6':wing?'PASS_TO_WING':transition&&x.position.y!==r.self.position.y?'PASS_RUNNER':(x.position.x-10)*(r.self.position.x-10)<0?'SWITCH_SIDE':'RECYCLE';
-  add(name,'PASS',bound?'BIND_HELP':'RECYCLE_ATTACK',null,x.id,(x.advantage*.45+(bound?.55:0)+(superior?.2:0))*r.preference.feed,Math.min(.15,x.laneSeconds*.1),r.capability.passing*.06,(a.freeCarrier&&!bound&&!superior?.65:0)+(!x.created&&(pivot||wing)?.2:0)+(1-r.capability.decision)*.05,'created='+x.created+'; coverCommitted='+bound+'; receiverAdvantage='+x.advantage.toFixed(3));
+  // A stopped first threat values the next *launching* position, not only
+  // the receiver's immediate shot. A safe trailing back can restore shape
+  // while the defence is still displaced. The existing 8-tick pass lifecycle
+  // also matters: a .1s instantaneous lane margin is not a safe .4s return.
+  const trailing=(x.position.x-r.self.position.x)*forwardX+(x.position.y-r.self.position.y)*forwardY<-.8;
+  const reentry=rebuilding&&!x.created&&!pivot&&!wing&&trailing&&x.separation>1.65&&x.laneSeconds>.4
+    ?.14+Math.min(.14,(x.laneSeconds-.4)*.1):0;
+  const preparationRisk=rebuilding&&!bound&&!x.created?Math.max(0,.4-x.laneSeconds)*.5:0;
+  add(name,'PASS',bound?'BIND_HELP':'RECYCLE_ATTACK',null,x.id,(x.advantage*.45+(bound?.55:0)+(superior?.2:0)+reentry)*r.preference.feed,Math.min(.15,x.laneSeconds*.1),r.capability.passing*.06,(a.freeCarrier&&!bound&&!superior?.65:0)+(!x.created&&(pivot||wing)?.2:0)+(1-r.capability.decision)*.05+preparationRisk,'created='+x.created+'; coverCommitted='+bound+'; receiverAdvantage='+x.advantage.toFixed(3)+'; reentry='+reentry.toFixed(3));
  }
  return out.sort((x,y)=>y.value-x.value||x.name.localeCompare(y.name)||(x.targetId??'').localeCompare(y.targetId??''));
 }
@@ -154,7 +171,7 @@ export function intelligenceRelevant(d:Decision,p:CorePlayer):boolean {
  const movingAdvantage=r.momentum>.5&&(d.advantage.freeCarrier||!!r.primary?.beaten||usefulOverload);
  const beyondPrimary=!!r.primary?.beaten&&r.primary.forwardMargin>.4;
  const createdRelease=d.affordances.some(c=>c.name==='BIND_AND_PASS')||r.receivers.some(x=>x.created&&x.advantage>.85&&x.quality>(r.shot?.quality??0)+.22);
- return p.kind==='FIELD_PLAYER'&&!['P','P2'].includes(p.role)&&(sustained||movingAdvantage||beyondPrimary||createdRelease);
+ return p.kind==='FIELD_PLAYER'&&!['P','P2'].includes(p.role)&&(sustained||movingAdvantage||beyondPrimary||createdRelease||p.reentryReadTicks!==undefined&&r.self.control);
 }
 export type DecisionTrace={id:string;tick:number;timeMs:number;playerId:string;possessionId:string;actionId:string|null;decision:Decision;actualMotor:string;actualTargetId:string|null};
 export type DefensiveSituation='PRIMARY_THREAT'|'TEAMMATE_BEATEN'|'HELP_REQUIRED'|'HELP_ALREADY_PROVIDED'|'HANDOFF_AVAILABLE'|'RECOVERY_REQUIRED'|'CLEAR_CHANCE_DANGER'|'M6_RELEASED'|'WING_RELEASED'|'NUMERICAL_DISADVANTAGE'|'TRANSITION_DANGER';

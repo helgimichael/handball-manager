@@ -1,4 +1,4 @@
-import { actionAvailable, courtPlayers, getPlayer, otherTeam, random, record, type CorePlayer, type CoreState, type Duty } from './state';
+import { actionAvailable, courtPlayers, getPlayer, otherTeam, random, record, REENTRY_RECEIVE_REASON, type CorePlayer, type CoreState, type Duty } from './state';
 import { clamp, clearGoalArea, distance, goal, goalSide, keeperPost, laneClearance, local, segmentPoint, shootingAngle, shotOpportunity, structurePoint, world } from './space';
 import { driveTarget, resolveAction, startAction, visibleShotPreparation } from './actions';
 import { exchangeActive } from './population';
@@ -181,7 +181,11 @@ export function resolveHandovers(s:CoreState) {
 }
 /** Secure/court-read time comes from the player and tempo, never padding a possession. */
 export function controlReadTicks(s:CoreState,p:CorePlayer):number {
-  return Math.round((s.coaching[p.team].tempo==='QUICK'?5:8)+(1-p.profile.decision)*4+(1-p.condition.energy)*3);
+  const budget=Math.round((s.coaching[p.team].tempo==='QUICK'?5:8)+(1-p.profile.decision)*4+(1-p.condition.energy)*3);
+  // A back who has physically prepared this named return has already read
+  // the next court picture. Catch security still costs time; ordinary fresh
+  // receipts retain the full capability/tempo-dependent budget.
+  return p.reentryReadTicks===undefined?budget:Math.max(4,budget-p.reentryReadTicks);
 }
 function secureRead(s:CoreState,p:CorePlayer,reason:string):boolean {
   if(!startAction(s,p,'HOLD',reason))return false;
@@ -217,6 +221,8 @@ function executeIntelligence(s:CoreState,p:CorePlayer,d:Decision):boolean {
     const q=local(p.position,s.directions[p.team]);
     const kind=d.perception.shot?.emptyGoal?'EMPTY_GOAL':q.y<8?(q.x<4||q.x>16?'WING':'BREAKTHROUGH'):'BACKCOURT_JUMP';
     ok=startAction(s,p,p.handling.steps>=s.ruleProfile.maxSteps?'SHOOT':'JUMP',`INTELLIGENCE: ${d.reason}; ${c.reason}`,null,null,kind);
+  }else if(c.motor==='PASS'&&c.intent==='RECYCLE_ATTACK'&&c.targetId&&!d.advantage.freeCarrier){
+    ok=applyContinuation(s,p,{kind:'RECYCLE',receiverId:c.targetId,reason:`INTELLIGENCE RECYCLE: ${d.reason}; ${c.reason}`});
   }else ok=startAction(s,p,c.motor,`INTELLIGENCE: ${d.reason}; ${c.reason}`,c.target,c.targetId);
   if(ok)commitHandball(s,p,d);return ok;
 }
@@ -662,6 +668,16 @@ export function selectActions(s:CoreState) {
       commitReleasedKeeper(s,p);continue;
     }
     if(p.id===receiverId&&p.kind==='FIELD_PLAYER'&&!p.airborne&&!exchangeActive(s,p.id)&&
+      isBack(p)&&s.possession.phase==='ESTABLISHED'&&prospective?.action?.reason.startsWith('INTELLIGENCE RECYCLE:')&&
+      p.action&&!actionAvailable(p)&&(['RUN','REPOSITION'].includes(p.action.kind)||
+        p.action.kind==='RECEIVE'&&p.action.reason!==REENTRY_RECEIVE_REASON)){
+      // The first entry has been contained. A named back checks for its actual
+      // return rather than retaining an old run or an unrelated receiving read.
+      // Completing the intention preserves velocity; RECEIVE brakes through
+      // the existing executor and acquisition still requires swept contact.
+      resolveAction(s,p,'Check the actual recycle before launching the second attack');
+    }
+    if(p.id===receiverId&&p.kind==='FIELD_PLAYER'&&!p.airborne&&!exchangeActive(s,p.id)&&
       p.action&&!actionAvailable(p)&&(p.action.kind==='SCREEN'||isPivot(p)&&['RUN','REPOSITION'].includes(p.action.kind))) {
       interrupt(s,p,'Named feed: leave the screen or line run and prepare the actual catch');
     }
@@ -688,7 +704,9 @@ export function selectActions(s:CoreState) {
         if(!sustain(s,p,'REPOSITION',spot,null,.6)&&distance(p.position,spot)>.22&&startAction(s,p,'REPOSITION','Position between ball and defended goal',spot))p.action!.executeTicks=4;
       continue;
     }
-    if(p.id===receiverId){const passer=prospective??s.players.find(q=>q.id===s.ball.flight?.fromId)??null;startAction(s,p,'RECEIVE','Open a legal receiving window for the named pass; ownership requires contact',receivingApproach(s,p,passer),passer?.id??null);continue;}
+    if(p.id===receiverId){const passer=prospective??s.players.find(q=>q.id===s.ball.flight?.fromId)??null;
+      const returnRead=isBack(p)&&s.possession.phase==='ESTABLISHED'&&prospective?.action?.reason.startsWith('INTELLIGENCE RECYCLE:');
+      startAction(s,p,'RECEIVE',returnRead?REENTRY_RECEIVE_REASON:'Open a legal receiving window for the named pass; ownership requires contact',receivingApproach(s,p,passer),passer?.id??null);continue;}
     if(s.ball.mode==='LOOSE') {if(p.duty.kind==='COLLECT')startAction(s,p,'RECEIVE','Contest the loose ball',s.ball.position);continue;}
     if(p.team!==s.possession.team) {
       const current=defensiveMovement(s,p,defenceRead,direction);

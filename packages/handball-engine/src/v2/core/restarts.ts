@@ -131,7 +131,12 @@ export function restartStep(s:CoreState) {
         continue;
       }
       const ownGoal=s.directions[otherTeam(p.team)];
-      const stance=world({x:10,y:.8},ownGoal);
+      // The 4m restraining line permits narrowing the angle before release.
+      // A keeper chooses that real depth from penalty positioning/reading;
+      // moving there costs the ordinary restart preparation, never a teleport.
+      const k=p.profile.keeper;
+      const quality=(k?.sevenMetre??.5)*.6+(k?.positioning??.5)*.4;
+      const stance=world({x:10,y:1.2+1.2*(.25+.5*quality)},ownGoal);
       if(distance(p.position,stance)>.35){moveToward(s,p,stance,'Take the line for the seven-metre throw');continue;}
       if(actionAvailable(p))startAction(s,p,'SAVE','Set on the line and read the thrower',stance);
       continue;

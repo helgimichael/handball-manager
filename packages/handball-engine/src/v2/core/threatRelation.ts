@@ -2,6 +2,12 @@ import type {CorePlayer,CoreState,Point} from './state';
 const distance=(a:Point,b:Point)=>Math.hypot(a.x-b.x,a.y-b.y);
 /** Existing V2 duel leverage; intelligence must not pre-empt physical containment. */
 export const BEATEN_LEVERAGE_METRES=.65;
+/** Losing the near shoulder is earlier than a completed, stamped duel loss.
+ * This contact read never reallocates defensive ownership or grants advantage. */
+export function lostContactShoulder(p:CorePlayer,d:CorePlayer,g:Point):boolean {
+ const r=defenderRelation(p,d,g);
+ return r.forward < -p.radius && r.lateral < p.radius+d.radius+.55;
+}
 /** Goalward leverage is relational; a defender can recover into this corridor. */
 export function defenderRelation(p:CorePlayer,d:CorePlayer,g:Point) {
  const len=Math.max(.001,distance(p.position,g)),ux=(g.x-p.position.x)/len,uy=(g.y-p.position.y)/len;

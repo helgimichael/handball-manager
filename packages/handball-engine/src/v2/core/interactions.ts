@@ -254,7 +254,10 @@ export function keeperReachForShot(s:CoreState,p:CorePlayer,f:CoreFlight,point:P
   const capacity=executionCapacity(p),span=(.36+.44*(p.profile.keeper?.explosiveness??.5))*capacity;
   const pace=Math.hypot(f.velocity.x,f.velocity.y)||1,flightSeconds=distance(f.origin,point)/pace;
   const loaded=getPlayer(s,f.fromId).action?.shotKind==='SEVEN_METRE';
-  const spare=Math.max(0,flightSeconds-(loaded?0:p.profile.reaction));
+  // Penalty anticipation loads the stance before release, but cannot pre-read
+  // all of the ball's eventual height/direction. Keep most of that genuine
+  // preparation credit without granting completely reaction-free hands.
+  const spare=Math.max(0,flightSeconds-(loaded?p.profile.reaction*.15:p.profile.reaction));
   const hands=Math.min(span,.19+2.4*capacity*spare);
   // The same hand cannot simultaneously cover its full lateral and vertical
   // extent. A low/high ball spends part of the finite save envelope. Body

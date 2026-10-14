@@ -26,6 +26,7 @@ import { clearGoalArea, distance, goal, local, shootingAngle } from './space';
 import type { CorePlayer } from './state';
 import { secondsTo } from './timing';
 import { goalAreaClearance } from '../../domain/geometry/goalArea';
+import {lostContactShoulder} from './threatRelation';
 
 /**
  * What the referee has to decide, in the order the rules decide it.
@@ -128,12 +129,19 @@ export function readContact(
   // Sliding across the line or giving ground is not charging the attacker.
   const controlledClosingLimit=3.4-1.6*(1-Math.max(0,Math.min(1,d.profile.balance)));
   const chance = clearChanceDestroyed(s, a, d);
+  const g=goal(s.directions[a.team]),goalDistance=Math.max(.001,distance(a.position,g));
+  const progression=(a.velocity.x*(g.x-a.position.x)+a.velocity.y*(g.y-a.position.y))/goalDistance;
+  const shoulderLost=lostContactShoulder(a,d,g);
+  // A reaching hand at .9m is not automatically an intense body restraint.
+  // This branch requires actual near-trunk contact while forward progression
+  // is being restrained, in addition to the lost rear shoulder.
+  const restrainingProgression=shoulderLost&&separation<=a.radius+d.radius+.05&&progression>.7&&a.action?.phase==='EXECUTING'&&['DRIVE','DRIBBLE'].includes(a.action.kind);
   const airborne = a.airborne !== null;
   const contactClass=airborne?'AIRBORNE_CONTACT':technique==='HOLD'?'HOLDING':approach==='BEHIND'?'CONTACT_FROM_BEHIND':
     approach==='FRONT'?(radialClosingSpeed>controlledClosingLimit?'FRONTAL_CHARGE':'FRONTAL_CONTAINMENT'):'LATERAL_CONTACT';
   const detail = { technique, approach,contactClass,separation:Number(separation.toFixed(2)),closingSpeed:Number(speed.toFixed(2)),
     radialClosingSpeed:Number(radialClosingSpeed.toFixed(3)),lateralSpeed:Number(lateralSpeed.toFixed(3)),
-    relativeClosingSpeed:Number(relativeClosingSpeed.toFixed(3)),controlledClosingLimit:Number(controlledClosingLimit.toFixed(3)),...chance.detail };
+    relativeClosingSpeed:Number(relativeClosingSpeed.toFixed(3)),controlledClosingLimit:Number(controlledClosingLimit.toFixed(3)),shoulderLost,restrainingProgression,progression:Number(progression.toFixed(3)),...chance.detail };
 
   // Contact on a man in the air is the one case handball never tolerates.
   if (airborne && (technique === 'HOLD' || relativeClosingSpeed > 2.2 || approach === 'BEHIND' && radialClosingSpeed > 1.4)) {
@@ -149,8 +157,8 @@ export function readContact(
   if (approach === 'BEHIND') {
     // Coming through the back is directed at the body by definition.
     return {
-      severity: technique==='HOLD'?(chance.clear?'CLEAR_CHANCE':'PUNISHABLE'):radialClosingSpeed > 2.4 ? 'PUNISHABLE' : 'ORDINARY',
-      reason: 'Contact from behind the attacker', clearChance: chance.clear, detail,
+      severity: technique==='HOLD'?(chance.clear?'CLEAR_CHANCE':'PUNISHABLE'):restrainingProgression||radialClosingSpeed > 2.4 ? 'PUNISHABLE' : 'ORDINARY',
+      reason: restrainingProgression?'Body-directed rear restraint after loss of the defended shoulder':'Contact from behind the attacker', clearChance: chance.clear, detail,
     };
   }
   if (technique === 'HOLD') {
