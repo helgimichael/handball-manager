@@ -1,0 +1,27 @@
+{
+  "schema": "rotation-fatigue-delivery/1",
+  "sourceCommit": "038e78fdf35c2b3aecc039856fd0e87f709e35c0",
+  "buildId": "usx4M7Bosxj0W5ABGzmpe",
+  "httpStatus": 200,
+  "newGameHttpStatus": 200,
+  "url": "http://127.0.0.1:3018",
+  "oldBuildIds": {
+    ".next-game-reconciled-v1": "3PQHL0oSSqFhBU5FxXd8a",
+    ".next-game-reconciliation-v11": "7lH--sWAbP_HfvPnTXIdw"
+  },
+  "preservation": {
+    "files": 65,
+    "hashesMatch": true,
+    "motionHead": "197d2a80ecea3b70efdcf8ef347cfc68e0e86b2b",
+    "motionBranch": "motion-lab",
+    "motionStatus": "?? .claude/",
+    "stashes": [
+      "ddba79055949b76898b12fc1b947e8f8645589cb",
+      "b068a9586209b9405b8d5f0dc6fae6384dd09001"
+    ]
+  },
+  "gitStatusBeforeDocumentation": "M apps/game/app/match-qa/page.tsx\n M apps/game/lib/matchQa/qaHarness.ts\n M apps/game/scripts/season-audit.ts\n M apps/game/tsconfig.json\n?? .claude/\n?? apps/game/.tmp-final-benchmark.ts\n?? docs/audit/\n?? docs/rotation-fatigue-v1/",
+  "nothingPushed": true,
+  "heavyChecks": "sequential; game concurrency1",
+  "createdAt": "2026-10-14T21:07:23.680Z"
+}

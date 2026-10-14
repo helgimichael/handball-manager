@@ -1,0 +1,18 @@
+{
+  "recoveredHead": "b0a3627a66632518291bc9dcc02b5673d28e6ffc",
+  "commitsAfterCheckpoint": [],
+  "stagedChanges": [],
+  "implementedUncommitted": ["fatigue and acute exertion", "physical acceleration and arrival", "difficulty-sensitive execution", "bench/timeout recovery", "simulated and compressed halftime recovery", "substitution perception cleanup", "boxed loose-ball collection routing compatibility repair", "diagnostics, runners, tests and reports"],
+  "validFocusedReceipt": {"name": "focused-r5", "exit": 0, "tests": 205, "pass": 205, "fail": 0, "reused": true},
+  "earlierEvidence": {"preRepair": "development/pre-stall-fix", "beforeCompressedHalftime": "development/r4-before-compressed-half", "classification": "Preserved valid development evidence for prior runtime sources; cannot certify final r5 source."},
+  "interruptedAction": {"command": "node --import tsx scripts/run-rotation-comparison.ts --count 10", "expectedLog": "rotation-development-r5.log", "executed": false, "reason": "Automatic approval review could not complete because Codex usage limit was reached; this was not an unsafe-action determination."},
+  "activeHeavyJobs": [],
+  "existingIdleServicesPreserved": ["CUA REPL", "v1.1 local server on 3017"],
+  "buildExists": false,
+  "preservedFiles": 65,
+  "motionHead": "197d2a80ecea3b70efdcf8ef347cfc68e0e86b2b",
+  "stashes": ["ddba79055949b76898b12fc1b947e8f8645589cb", "b068a9586209b9405b8d5f0dc6fae6384dd09001"],
+  "remaining": ["final-source 30 paired rotation matches", "HBL40", "Allsvenskan40", "analyses", "canonical proofs", "full regressions", "types", "isolated build/server", "closeout docs", "local commits"],
+  "runtimeFrozen": "r5",
+  "nothingPushed": true
+}

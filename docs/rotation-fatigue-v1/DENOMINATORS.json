@@ -1,0 +1,39 @@
+{
+  "source": "data/empirical-handball/normalized/swe-1-2025-26.json",
+  "sha256": "480dcabe3aa4b7c67fdf7070861358cf0ce9ceaa95666c392bc45fa4437a2ebe",
+  "n": 182,
+  "definitions": {
+    "fieldAttempts": "ordinary/non-7m field-player attempts",
+    "sevenAttempts": "all recorded field-player 7m attempts including misses",
+    "totalFieldPlayerAttempts": "fieldAttempts + sevenAttempts; this is the source of the prior 97.89 reference",
+    "totalAttempts": "all engine shot releases including goalkeeper attempts, separately identifiable; historical goalkeeper attempts unavailable",
+    "conversion": "numerator and denominator use the same actor and shot-kind scope"
+  },
+  "means": {
+    "fieldAttempts": 91.3076923076923,
+    "fieldGoals": 55.714285714285715,
+    "sevenAttempts": 6.582417582417582,
+    "sevenGoals": 4.950549450549451,
+    "totalFieldPlayerAttempts": 97.89010989010988,
+    "totalFieldPlayerGoals": 60.66483516483517
+  },
+  "pooled": {
+    "field": {
+      "goals": 10140,
+      "attempts": 16618,
+      "conversion": 0.6101817306535082
+    },
+    "seven": {
+      "goals": 901,
+      "attempts": 1198,
+      "conversion": 0.7520868113522537
+    },
+    "totalFieldPlayer": {
+      "goals": 11041,
+      "attempts": 17816,
+      "conversion": 0.6197238437359677
+    }
+  },
+  "assertedAllRows": true,
+  "conclusion": "The stored extraction includes 7m in the 97.89 field-player reference. It must not be relabeled as 97.89 ordinary-only field attempts. Gameplay remains untouched."
+}

@@ -1,0 +1,55 @@
+{
+  "recipe": 38,
+  "league": "allsv",
+  "before": {
+    "score": {
+      "HOME": 12,
+      "AWAY": 15
+    },
+    "shots": 50,
+    "lastShotOfficialMs": 1936900,
+    "completed": true
+  },
+  "after": {
+    "score": {
+      "HOME": 30,
+      "AWAY": 26
+    },
+    "shots": 92,
+    "lastShotOfficialMs": 3591550,
+    "completed": true
+  },
+  "cause": "Two stationary bodies boxed a named loose-ball claimant; destination-offset steering did not create an executable first leg around the blockers.",
+  "repair": "Actual tangent waypoint for loose-ball collectors with real corridor-clearance choice; legal court, acceleration and collision checks retained; no position snap or possession grant.",
+  "focusedTests": 204,
+  "sourceChangeRequiresNewCohorts": true,
+  "secondCompatibilityRepair": {
+    "fixture": "HBL32",
+    "source": "r6",
+    "before": {
+      "score": [
+        19,
+        16
+      ],
+      "shots": 56,
+      "zeroShotQuarter": "15-30"
+    },
+    "cause": "Touching allied carrier bodies at midfield; carrier forward motion blocked while legal passes recycled indefinitely",
+    "repair": "Physical tangent around touching allied body for DRIBBLE only; DRIVE and defending contests preserved",
+    "focused": {
+      "log": "focused-r6b",
+      "pass": 206,
+      "fail": 0
+    },
+    "replay": {
+      "score": [
+        35,
+        23
+      ],
+      "shots": 98,
+      "lastShotOfficialMs": 3560650
+    },
+    "evidence": "verification/hbl-32-r5 and hbl-32-r6",
+    "superseded": "development/r5-before-teammate-escape"
+  }
+}

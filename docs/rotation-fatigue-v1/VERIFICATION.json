@@ -1,0 +1,4297 @@
+{
+  "schema": "rotation-fatigue-v1-closeout/1",
+  "startingCheckpoint": "b0a3627a66632518291bc9dcc02b5673d28e6ffc",
+  "receipts": {
+    "focused-final": {
+      "exit": 0,
+      "tests": 206,
+      "pass": 206,
+      "fail": 0,
+      "log": "docs/rotation-fatigue-v1/focused-r6b.log"
+    },
+    "rotation-final": {
+      "exit": 0,
+      "tests": null,
+      "pass": null,
+      "fail": null,
+      "log": "docs/rotation-fatigue-v1/rotation-final-r6-resume.log"
+    },
+    "rotation-analysis-02": {
+      "exit": 0,
+      "tests": null,
+      "pass": null,
+      "fail": null,
+      "log": "docs/rotation-fatigue-v1/rotation-analysis-r6.log"
+    },
+    "hbl-final": {
+      "exit": 0,
+      "tests": null,
+      "pass": null,
+      "fail": null,
+      "log": "docs/rotation-fatigue-v1/hbl-final-r6.log"
+    },
+    "allsv-final": {
+      "exit": 0,
+      "tests": null,
+      "pass": null,
+      "fail": null,
+      "log": "docs/rotation-fatigue-v1/allsv-final-r6.log"
+    },
+    "distributions-final": {
+      "exit": 0,
+      "tests": null,
+      "pass": null,
+      "fail": null,
+      "log": "docs/rotation-fatigue-v1/distributions-final-r6.log"
+    },
+    "proof-hbl": {
+      "exit": 0,
+      "tests": null,
+      "pass": null,
+      "fail": null,
+      "log": "docs/rotation-fatigue-v1/proof-hbl-r6.log"
+    },
+    "proof-allsv": {
+      "exit": 0,
+      "tests": null,
+      "pass": null,
+      "fail": null,
+      "log": "docs/rotation-fatigue-v1/proof-allsv-r6.log"
+    },
+    "core-final": {
+      "exit": 0,
+      "tests": 381,
+      "pass": 381,
+      "fail": 0,
+      "log": "docs/rotation-fatigue-v1/core-final.log"
+    },
+    "v2-final": {
+      "exit": 0,
+      "tests": 9,
+      "pass": 9,
+      "fail": 0,
+      "log": "docs/rotation-fatigue-v1/v2-final.log"
+    },
+    "domain-final": {
+      "exit": 0,
+      "tests": 180,
+      "pass": 180,
+      "fail": 0,
+      "log": "docs/rotation-fatigue-v1/domain-final.log"
+    },
+    "game-final": {
+      "exit": 0,
+      "tests": 2374,
+      "pass": 2374,
+      "fail": 0,
+      "log": "docs/rotation-fatigue-v1/game-final.log"
+    },
+    "empirical-final": {
+      "exit": 0,
+      "tests": 15,
+      "pass": 15,
+      "fail": 0,
+      "log": "docs/rotation-fatigue-v1/empirical-final.log"
+    },
+    "types-final": {
+      "exit": 0,
+      "tests": null,
+      "pass": null,
+      "fail": null,
+      "log": "docs/rotation-fatigue-v1/types-final.log"
+    },
+    "build-final": {
+      "exit": 0,
+      "tests": null,
+      "pass": null,
+      "fail": null,
+      "log": "docs/rotation-fatigue-v1/build-final.log"
+    }
+  },
+  "cohorts": {
+    "hbl": {
+      "n": 40,
+      "paired": {
+        "recipes": true,
+        "initialProfiles": true,
+        "initialTactics": true,
+        "change": {
+          "goals": {
+            "n": 40,
+            "mean": 0.7,
+            "median": 1,
+            "sd": 8.485885717487387,
+            "min": -25,
+            "max": 19,
+            "p05": -12.149999999999999,
+            "p10": -9.1,
+            "p25": -3.25,
+            "p75": 6,
+            "p90": 8.200000000000003,
+            "p95": 16.049999999999997
+          },
+          "shots": {
+            "n": 40,
+            "mean": 1.375,
+            "median": 2,
+            "sd": 8.517515889217755,
+            "min": -19,
+            "max": 16,
+            "p05": -13.25,
+            "p10": -9,
+            "p25": -4,
+            "p75": 7.25,
+            "p90": 12.100000000000001,
+            "p95": 14.049999999999997
+          },
+          "outfieldShots": {
+            "n": 40,
+            "mean": 1.375,
+            "median": 2,
+            "sd": 8.517515889217755,
+            "min": -19,
+            "max": 16,
+            "p05": -13.25,
+            "p10": -9,
+            "p25": -4,
+            "p75": 7.25,
+            "p90": 12.100000000000001,
+            "p95": 14.049999999999997
+          },
+          "outfieldConversion": {
+            "n": 40,
+            "mean": -0.0014485973607818504,
+            "median": 0.005042770446902378,
+            "sd": 0.07272297476851403,
+            "min": -0.1718266253869969,
+            "max": 0.14716471647164708,
+            "p05": -0.12947062000516263,
+            "p10": -0.10713998261528274,
+            "p25": -0.04640070921985817,
+            "p75": 0.04780147149611788,
+            "p90": 0.08550399211273879,
+            "p95": 0.09954628763165417
+          },
+          "sevenMetres": {
+            "n": 40,
+            "mean": 0.55,
+            "median": 0,
+            "sd": 3.9088984611380195,
+            "min": -7,
+            "max": 9,
+            "p05": -5.05,
+            "p10": -4,
+            "p25": -2,
+            "p75": 3.25,
+            "p90": 5.200000000000003,
+            "p95": 8.049999999999997
+          },
+          "sevenMetreConversion": {
+            "n": 40,
+            "mean": 0.02298971861471862,
+            "median": 0.03290043290043293,
+            "sd": 0.23240749941750927,
+            "min": -0.4571428571428571,
+            "max": 0.5,
+            "p05": -0.3016666666666667,
+            "p10": -0.24675324675324675,
+            "p25": -0.16666666666666663,
+            "p75": 0.17589285714285718,
+            "p90": 0.3033333333333334,
+            "p95": 0.3637301587301583
+          },
+          "suspensions": {
+            "n": 40,
+            "mean": 1,
+            "median": 1.5,
+            "sd": 3.3892741829452935,
+            "min": -8,
+            "max": 7,
+            "p05": -4,
+            "p10": -3,
+            "p25": -2,
+            "p75": 4,
+            "p90": 5.100000000000001,
+            "p95": 6
+          }
+        }
+      },
+      "manifest": {
+        "sources": {
+          "packages/handball-engine/src/v2/core/actions.ts": "ca1ea04b61a3e92bcf3c3d8f81a30d5dcf008af790f690b9302f2b204bf31a67",
+          "packages/handball-engine/src/v2/core/backcourt.ts": "00ab4e44f0520b83f771cf5dd8a0e1212b34272410e5027b856eabddebddc120",
+          "packages/handball-engine/src/v2/core/backcourtScenarios.ts": "6137722469db2dc0a9567b9ff3bccd9c8d3f070e9db58bb93fe225cbccd655be",
+          "packages/handball-engine/src/v2/core/coaching.ts": "b943276328e1df36f43173af08fe008d8376f419e5afae4aeae5e1466a28a599",
+          "packages/handball-engine/src/v2/core/condition.ts": "d0329cda9b01bb0a6d24f939863080a0a0dff6f2b8912adbab1595e19e297b11",
+          "packages/handball-engine/src/v2/core/contact.ts": "c3084ebc21cee0ff9da3c74edeee2a88f1b0ebadd43648289533f146535c2640",
+          "packages/handball-engine/src/v2/core/contactScenarios.ts": "624c77567281a49677ae55289c3e0d71d5e81f00e2f56f151e1bf7ea59ebd1ce",
+          "packages/handball-engine/src/v2/core/continuous.ts": "3bc0e25ee0474aab3162df83b5e228bcd5953ddc5b29622592e5fd5bfdda55c5",
+          "packages/handball-engine/src/v2/core/defence.ts": "353763d139e7d170aff02f6b757973103a3b25fbdc53c4c363a1ed06de102b56",
+          "packages/handball-engine/src/v2/core/engage.ts": "b597ce488188b882f553f0553316960039d19ec92bca275ee89c7a4db4595d07",
+          "packages/handball-engine/src/v2/core/engine.ts": "f4f08af1cd70202cde65f2aa0049c4c0fbf2c972c769a9019d17609ea460508c",
+          "packages/handball-engine/src/v2/core/execution.ts": "b6a3ca9fac7fe95602ebc45eddbedc3763150c1845063f14773ef4e06c8e2f71",
+          "packages/handball-engine/src/v2/core/intelligence.ts": "8b7814ce46cf50bbb8a2e19648991e880304a5c0f2fdf5b5540a45e57ed4c80b",
+          "packages/handball-engine/src/v2/core/intelligenceScenarios.ts": "8214cb9c24bad1570559d71d2381e3ac6bdf7c670bd0e9b925bbc72857bbd310",
+          "packages/handball-engine/src/v2/core/interactions.ts": "cc8edb68c0aa81c914c8bf10f42de3e40c925a76315e0b5b76cdc08bd7e1b9bc",
+          "packages/handball-engine/src/v2/core/ledger.ts": "dd801ce6401a106d772eac46c5800eb46f218d34495f41ec1ff536aec24116c9",
+          "packages/handball-engine/src/v2/core/locomotion.ts": "c222d4240a0b0935e552fa37a7c1dcf7a999d48ca4e4e200ce5befabbc860b13",
+          "packages/handball-engine/src/v2/core/match.ts": "a853a0a922f76759c51aa21e29017aaf1bd0d07d60e5bf611e49e9e4b8dd3e9e",
+          "packages/handball-engine/src/v2/core/matchReplay.ts": "6796c275154da7145cd06558835524075013528ecb2354a1f3439e5b537ea499",
+          "packages/handball-engine/src/v2/core/movement.ts": "e2b310cca3c7c5c82b4540a78f2e91551a8f33a424ea01a2c8c0fc69de67f0ae",
+          "packages/handball-engine/src/v2/core/offence.ts": "086fe17fc980c3b233b59c95c8ebe89feca8a11609d2de2686ad545312c60e25",
+          "packages/handball-engine/src/v2/core/passive.ts": "0c405269406b4a8b124ea432ce036a0008118aa59c186954cded0957a0c2381f",
+          "packages/handball-engine/src/v2/core/pivot.ts": "3021f9ab217e9e4eb8f5adf996365e86338ac0fa9e738fc7491a25228c6bf783",
+          "packages/handball-engine/src/v2/core/population.ts": "9097fd5e0396001ff48bb30529994fefb820aa9b75b272f79bdf55239eead655",
+          "packages/handball-engine/src/v2/core/profile.ts": "2470fad59a2bb1570ee67561b8ca9e79edead74bc7082c7fe0007f2e252f38b0",
+          "packages/handball-engine/src/v2/core/realism.ts": "615271e0bc0217a08b296fa0777754f28b02fa136e5c0e55f07a8af616780897",
+          "packages/handball-engine/src/v2/core/referee.ts": "35feaf4d17b6b5bd011702384be061081b52b220e5d897e37aa24bc297d04387",
+          "packages/handball-engine/src/v2/core/replay.ts": "7a636b1b374a10d7f8aa02ade08957ac67920aacd33b37db2f412f2fefa42e6b",
+          "packages/handball-engine/src/v2/core/restarts.ts": "048e5ead24b976453a0abe2cf314fe9e79c33a0619c7d71cdfdb47b575230520",
+          "packages/handball-engine/src/v2/core/rules.ts": "46325a43317b15edfc4773265989ffa2ab0500c9fdefb32a7fc3363dd39147d4",
+          "packages/handball-engine/src/v2/core/sanction.ts": "8d569712c4c2ce1223d246e3a5d5e6dd0913b5f8232e6456ff892bbcd424d910",
+          "packages/handball-engine/src/v2/core/scenarios.ts": "c48ddb2c75ce34fd03c439261e40e77f676b1ffb2fc8abeb1a3f9b1a5d286dbe",
+          "packages/handball-engine/src/v2/core/space.ts": "fa4755d1ba95d8e683cd19955418944d004a34963b708030ef72eb521ca25eb3",
+          "packages/handball-engine/src/v2/core/squads.ts": "fc2aeaa594f3ef8a119656d1056178bf5f6414f6ee4c2082641b97fc216749a4",
+          "packages/handball-engine/src/v2/core/state.ts": "fc33c3ac8ee2fbe78c7998c756850eda8981949f393a03ac77af9f5c9179284e",
+          "packages/handball-engine/src/v2/core/structure.ts": "fd5cea56c1e2e311b490e452701fa2b1b8f91282e3f6cd7e06a4621d8065f3c3",
+          "packages/handball-engine/src/v2/core/testProfile.ts": "35a3ac5a0a0fbb6614de81c449fde37b880af96bc10a1cd2dcf4b4e3e9077d6d",
+          "packages/handball-engine/src/v2/core/threatRelation.ts": "c68668bfbd439adfa42a751b12266d664e1d2e6d80358cbc30149b807fb9bcf1",
+          "packages/handball-engine/src/v2/core/timing.ts": "dfcd2f87a9aff8f275eca516307ba3e6943dd59b64cca89911f6ad4e36ad76ef",
+          "packages/handball-engine/src/v2/core/transitions.ts": "6498a4ea7a0d0efb0a19048dfcc9e6c2cd19fa8844f86f3d91995f65f80b270a",
+          "packages/handball-engine/src/v2/core/wing.ts": "31d7f39cf38918717d3723fadcce80948a13650a45a2f680e1bbc5c66fd3a556",
+          "packages/handball-engine/src/v2/core/wingScenarios.ts": "8d553b1c254f0953cf5508ca1a37463891f631cdfd0df81b436be487541ee031",
+          "apps/game/lib/career/productionMatch.ts": "6b81c65496b286a1df4052b40c0fc2cf632cacdfeece0384069f5e448115dcfc",
+          "apps/game/scripts/match-benchmarks.ts": "d51ecb4edbee2c1c99df5f61830068ba77f4d5abbad5ea306493f53b064f156a",
+          "apps/game/scripts/lib/calibrationDiagnostics.ts": "75b4d75ab6951abd13939eb69661ef9a926654ce95d33d36434709c9a038223e",
+          "apps/game/scripts/lib/reconciliationDiagnostics.ts": "150a9d196dc92862f75a3fbdc2bd6abddc6b0b91e854e777f5df3d257e4b99b8",
+          "apps/game/scripts/lib/attackCycleDiagnostics.ts": "b70edf097328dddf1812caba8f5eb9f4e1ed4eb4fd8a286d4d8c3eb948d145e0",
+          "apps/game/scripts/lib/rotationFatigueDiagnostics.ts": "21a274d11abe8b2ac430f7dadfc6dd66aff1ab1e4a69895c6ea1c2c4c0d6b94e",
+          "apps/game/lib/matchBenchmarks/empirical.ts": "1b05cfb0cfdb7e96870875b1042860b13221c852078eff953d31016123464d6c",
+          "apps/game/lib/matchBenchmarks/empiricalComparison.ts": "e49e86aca79b3e30cbe57ea0e6ce1da16a778417e936be4f3a1405a312e1a975",
+          "apps/game/lib/matchBenchmarks/evaluate.ts": "2f4d5bc893fbd482dfcd10baeaa1f3aa72c943dbcfa0e8dca0ba050fd3c9f3f0",
+          "apps/game/lib/matchBenchmarks/extract.ts": "4ac1e4094d2b76ba34dd157df4b32ba6309c1853aab18c7329890231681bb873",
+          "apps/game/lib/matchBenchmarks/reference.ts": "25cb435b7824faa1fc58429264d3e91a4833e678170bb5bfa75d5b5c98009e8a",
+          "apps/game/lib/matchBenchmarks/report.ts": "c7c77e53ba8b07212362ec36f4a31f2d8b263ea0f17ce8f0fd730292035b7444",
+          "apps/game/lib/matchBenchmarks/statistics.ts": "9b3c1f8e5dc5590302b8b6115f5e7c86d9a5693e14af80f0880b334f7752e2d0"
+        },
+        "inputHash": "8773162275c76de70511889789a7a7bbc4e1b9cbb4c8b2c5030eb8cafee530a7",
+        "referenceHash": "28a89cbdb4b4646da550d6875cea2a86bc26717fe983ab375e8291f12911ad7a",
+        "baseline": "C:\\Users\\helgi\\Documents\\STARKVIS-HELA\\handball-manager\\docs\\post-intelligence-reconciliation\\final\\hbl"
+      },
+      "summary": {
+        "sources": {
+          "packages/handball-engine/src/v2/core/actions.ts": "ca1ea04b61a3e92bcf3c3d8f81a30d5dcf008af790f690b9302f2b204bf31a67",
+          "packages/handball-engine/src/v2/core/backcourt.ts": "00ab4e44f0520b83f771cf5dd8a0e1212b34272410e5027b856eabddebddc120",
+          "packages/handball-engine/src/v2/core/backcourtScenarios.ts": "6137722469db2dc0a9567b9ff3bccd9c8d3f070e9db58bb93fe225cbccd655be",
+          "packages/handball-engine/src/v2/core/coaching.ts": "b943276328e1df36f43173af08fe008d8376f419e5afae4aeae5e1466a28a599",
+          "packages/handball-engine/src/v2/core/condition.ts": "d0329cda9b01bb0a6d24f939863080a0a0dff6f2b8912adbab1595e19e297b11",
+          "packages/handball-engine/src/v2/core/contact.ts": "c3084ebc21cee0ff9da3c74edeee2a88f1b0ebadd43648289533f146535c2640",
+          "packages/handball-engine/src/v2/core/contactScenarios.ts": "624c77567281a49677ae55289c3e0d71d5e81f00e2f56f151e1bf7ea59ebd1ce",
+          "packages/handball-engine/src/v2/core/continuous.ts": "3bc0e25ee0474aab3162df83b5e228bcd5953ddc5b29622592e5fd5bfdda55c5",
+          "packages/handball-engine/src/v2/core/defence.ts": "353763d139e7d170aff02f6b757973103a3b25fbdc53c4c363a1ed06de102b56",
+          "packages/handball-engine/src/v2/core/engage.ts": "b597ce488188b882f553f0553316960039d19ec92bca275ee89c7a4db4595d07",
+          "packages/handball-engine/src/v2/core/engine.ts": "f4f08af1cd70202cde65f2aa0049c4c0fbf2c972c769a9019d17609ea460508c",
+          "packages/handball-engine/src/v2/core/execution.ts": "b6a3ca9fac7fe95602ebc45eddbedc3763150c1845063f14773ef4e06c8e2f71",
+          "packages/handball-engine/src/v2/core/intelligence.ts": "8b7814ce46cf50bbb8a2e19648991e880304a5c0f2fdf5b5540a45e57ed4c80b",
+          "packages/handball-engine/src/v2/core/intelligenceScenarios.ts": "8214cb9c24bad1570559d71d2381e3ac6bdf7c670bd0e9b925bbc72857bbd310",
+          "packages/handball-engine/src/v2/core/interactions.ts": "cc8edb68c0aa81c914c8bf10f42de3e40c925a76315e0b5b76cdc08bd7e1b9bc",
+          "packages/handball-engine/src/v2/core/ledger.ts": "dd801ce6401a106d772eac46c5800eb46f218d34495f41ec1ff536aec24116c9",
+          "packages/handball-engine/src/v2/core/locomotion.ts": "c222d4240a0b0935e552fa37a7c1dcf7a999d48ca4e4e200ce5befabbc860b13",
+          "packages/handball-engine/src/v2/core/match.ts": "a853a0a922f76759c51aa21e29017aaf1bd0d07d60e5bf611e49e9e4b8dd3e9e",
+          "packages/handball-engine/src/v2/core/matchReplay.ts": "6796c275154da7145cd06558835524075013528ecb2354a1f3439e5b537ea499",
+          "packages/handball-engine/src/v2/core/movement.ts": "e2b310cca3c7c5c82b4540a78f2e91551a8f33a424ea01a2c8c0fc69de67f0ae",
+          "packages/handball-engine/src/v2/core/offence.ts": "086fe17fc980c3b233b59c95c8ebe89feca8a11609d2de2686ad545312c60e25",
+          "packages/handball-engine/src/v2/core/passive.ts": "0c405269406b4a8b124ea432ce036a0008118aa59c186954cded0957a0c2381f",
+          "packages/handball-engine/src/v2/core/pivot.ts": "3021f9ab217e9e4eb8f5adf996365e86338ac0fa9e738fc7491a25228c6bf783",
+          "packages/handball-engine/src/v2/core/population.ts": "9097fd5e0396001ff48bb30529994fefb820aa9b75b272f79bdf55239eead655",
+          "packages/handball-engine/src/v2/core/profile.ts": "2470fad59a2bb1570ee67561b8ca9e79edead74bc7082c7fe0007f2e252f38b0",
+          "packages/handball-engine/src/v2/core/realism.ts": "615271e0bc0217a08b296fa0777754f28b02fa136e5c0e55f07a8af616780897",
+          "packages/handball-engine/src/v2/core/referee.ts": "35feaf4d17b6b5bd011702384be061081b52b220e5d897e37aa24bc297d04387",
+          "packages/handball-engine/src/v2/core/replay.ts": "7a636b1b374a10d7f8aa02ade08957ac67920aacd33b37db2f412f2fefa42e6b",
+          "packages/handball-engine/src/v2/core/restarts.ts": "048e5ead24b976453a0abe2cf314fe9e79c33a0619c7d71cdfdb47b575230520",
+          "packages/handball-engine/src/v2/core/rules.ts": "46325a43317b15edfc4773265989ffa2ab0500c9fdefb32a7fc3363dd39147d4",
+          "packages/handball-engine/src/v2/core/sanction.ts": "8d569712c4c2ce1223d246e3a5d5e6dd0913b5f8232e6456ff892bbcd424d910",
+          "packages/handball-engine/src/v2/core/scenarios.ts": "c48ddb2c75ce34fd03c439261e40e77f676b1ffb2fc8abeb1a3f9b1a5d286dbe",
+          "packages/handball-engine/src/v2/core/space.ts": "fa4755d1ba95d8e683cd19955418944d004a34963b708030ef72eb521ca25eb3",
+          "packages/handball-engine/src/v2/core/squads.ts": "fc2aeaa594f3ef8a119656d1056178bf5f6414f6ee4c2082641b97fc216749a4",
+          "packages/handball-engine/src/v2/core/state.ts": "fc33c3ac8ee2fbe78c7998c756850eda8981949f393a03ac77af9f5c9179284e",
+          "packages/handball-engine/src/v2/core/structure.ts": "fd5cea56c1e2e311b490e452701fa2b1b8f91282e3f6cd7e06a4621d8065f3c3",
+          "packages/handball-engine/src/v2/core/testProfile.ts": "35a3ac5a0a0fbb6614de81c449fde37b880af96bc10a1cd2dcf4b4e3e9077d6d",
+          "packages/handball-engine/src/v2/core/threatRelation.ts": "c68668bfbd439adfa42a751b12266d664e1d2e6d80358cbc30149b807fb9bcf1",
+          "packages/handball-engine/src/v2/core/timing.ts": "dfcd2f87a9aff8f275eca516307ba3e6943dd59b64cca89911f6ad4e36ad76ef",
+          "packages/handball-engine/src/v2/core/transitions.ts": "6498a4ea7a0d0efb0a19048dfcc9e6c2cd19fa8844f86f3d91995f65f80b270a",
+          "packages/handball-engine/src/v2/core/wing.ts": "31d7f39cf38918717d3723fadcce80948a13650a45a2f680e1bbc5c66fd3a556",
+          "packages/handball-engine/src/v2/core/wingScenarios.ts": "8d553b1c254f0953cf5508ca1a37463891f631cdfd0df81b436be487541ee031",
+          "apps/game/lib/career/productionMatch.ts": "6b81c65496b286a1df4052b40c0fc2cf632cacdfeece0384069f5e448115dcfc",
+          "apps/game/scripts/match-benchmarks.ts": "d51ecb4edbee2c1c99df5f61830068ba77f4d5abbad5ea306493f53b064f156a",
+          "apps/game/scripts/lib/calibrationDiagnostics.ts": "75b4d75ab6951abd13939eb69661ef9a926654ce95d33d36434709c9a038223e",
+          "apps/game/scripts/lib/reconciliationDiagnostics.ts": "150a9d196dc92862f75a3fbdc2bd6abddc6b0b91e854e777f5df3d257e4b99b8",
+          "apps/game/scripts/lib/attackCycleDiagnostics.ts": "b70edf097328dddf1812caba8f5eb9f4e1ed4eb4fd8a286d4d8c3eb948d145e0",
+          "apps/game/scripts/lib/rotationFatigueDiagnostics.ts": "21a274d11abe8b2ac430f7dadfc6dd66aff1ab1e4a69895c6ea1c2c4c0d6b94e",
+          "apps/game/lib/matchBenchmarks/empirical.ts": "1b05cfb0cfdb7e96870875b1042860b13221c852078eff953d31016123464d6c",
+          "apps/game/lib/matchBenchmarks/empiricalComparison.ts": "e49e86aca79b3e30cbe57ea0e6ce1da16a778417e936be4f3a1405a312e1a975",
+          "apps/game/lib/matchBenchmarks/evaluate.ts": "2f4d5bc893fbd482dfcd10baeaa1f3aa72c943dbcfa0e8dca0ba050fd3c9f3f0",
+          "apps/game/lib/matchBenchmarks/extract.ts": "4ac1e4094d2b76ba34dd157df4b32ba6309c1853aab18c7329890231681bb873",
+          "apps/game/lib/matchBenchmarks/reference.ts": "25cb435b7824faa1fc58429264d3e91a4833e678170bb5bfa75d5b5c98009e8a",
+          "apps/game/lib/matchBenchmarks/report.ts": "c7c77e53ba8b07212362ec36f4a31f2d8b263ea0f17ce8f0fd730292035b7444",
+          "apps/game/lib/matchBenchmarks/statistics.ts": "9b3c1f8e5dc5590302b8b6115f5e7c86d9a5693e14af80f0880b334f7752e2d0"
+        },
+        "inputHash": "8773162275c76de70511889789a7a7bbc4e1b9cbb4c8b2c5030eb8cafee530a7",
+        "referenceHash": "28a89cbdb4b4646da550d6875cea2a86bc26717fe983ab375e8291f12911ad7a",
+        "baseline": "C:\\Users\\helgi\\Documents\\STARKVIS-HELA\\handball-manager\\docs\\post-intelligence-reconciliation\\final\\hbl",
+        "sourceStable": true,
+        "count": 40,
+        "proofs": [],
+        "timings": [
+          {
+            "simulationMs": 17650.618700000003,
+            "analysisMs": 456.6186000000016,
+            "observerMs": 1612.0730999998934
+          },
+          {
+            "simulationMs": 35412.7769,
+            "analysisMs": 167.2595999999976,
+            "observerMs": 3311.6693999995987
+          },
+          {
+            "simulationMs": 11030.4055,
+            "analysisMs": 132.14890000000014,
+            "observerMs": 1000.2594000002791
+          },
+          {
+            "simulationMs": 11164.702000000005,
+            "analysisMs": 133.2997999999934,
+            "observerMs": 985.3401000017329
+          },
+          {
+            "simulationMs": 11242.645399999994,
+            "analysisMs": 150.34550000001036,
+            "observerMs": 1033.5501000004879
+          },
+          {
+            "simulationMs": 10824.356500000009,
+            "analysisMs": 167.54240000000573,
+            "observerMs": 980.2076999994606
+          },
+          {
+            "simulationMs": 10695.466100000005,
+            "analysisMs": 156.5008999999991,
+            "observerMs": 969.8168999976187
+          },
+          {
+            "simulationMs": 10526.805699999997,
+            "analysisMs": 135.5414000000019,
+            "observerMs": 969.2859999998909
+          },
+          {
+            "simulationMs": 12540.023000000001,
+            "analysisMs": 191.6900999999998,
+            "observerMs": 1124.8417999996436
+          },
+          {
+            "simulationMs": 12004.608400000001,
+            "analysisMs": 188.0577000000012,
+            "observerMs": 1064.884200000446
+          },
+          {
+            "simulationMs": 11897.6957,
+            "analysisMs": 183.5760999999984,
+            "observerMs": 1043.3950000001641
+          },
+          {
+            "simulationMs": 11638.854500000001,
+            "analysisMs": 215.55799999999726,
+            "observerMs": 1032.0035000014323
+          },
+          {
+            "simulationMs": 11326.9366,
+            "analysisMs": 160.5673999999999,
+            "observerMs": 979.5312999986563
+          },
+          {
+            "simulationMs": 11548.5893,
+            "analysisMs": 167.49220000000787,
+            "observerMs": 1011.6500000013621
+          },
+          {
+            "simulationMs": 11686.082999999999,
+            "analysisMs": 156.67209999999614,
+            "observerMs": 1021.5342000012461
+          },
+          {
+            "simulationMs": 12140.594599999997,
+            "analysisMs": 155.4487999999983,
+            "observerMs": 1050.5274999996764
+          },
+          {
+            "simulationMs": 13606.7785,
+            "analysisMs": 220,
+            "observerMs": 1174.0871000001716
+          },
+          {
+            "simulationMs": 10401.032299999999,
+            "analysisMs": 123.5157999999974,
+            "observerMs": 852.9841999994787
+          },
+          {
+            "simulationMs": 8339.719199999996,
+            "analysisMs": 121.67349999999715,
+            "observerMs": 725.0470999989229
+          },
+          {
+            "simulationMs": 7529.220000000001,
+            "analysisMs": 132.69460000000254,
+            "observerMs": 636.6202999990346
+          },
+          {
+            "simulationMs": 7675.554799999998,
+            "analysisMs": 107.01880000000529,
+            "observerMs": 652.6977999992378
+          },
+          {
+            "simulationMs": 8154.114600000001,
+            "analysisMs": 141.04339999999502,
+            "observerMs": 685.7384000010934
+          },
+          {
+            "simulationMs": 9186.59900000001,
+            "analysisMs": 133.84420000000682,
+            "observerMs": 819.2756999996272
+          },
+          {
+            "simulationMs": 10237.099499999997,
+            "analysisMs": 119.80400000000373,
+            "observerMs": 898.1612000008608
+          },
+          {
+            "simulationMs": 12559.6131,
+            "analysisMs": 164.82890000000043,
+            "observerMs": 1057.6729000001956
+          },
+          {
+            "simulationMs": 10751.709699999998,
+            "analysisMs": 162.98980000000302,
+            "observerMs": 925.6955000005528
+          },
+          {
+            "simulationMs": 9726.175399999996,
+            "analysisMs": 180.05979999999545,
+            "observerMs": 795.9446000005191
+          },
+          {
+            "simulationMs": 11537.960299999999,
+            "analysisMs": 145.12900000000081,
+            "observerMs": 1045.0251999985558
+          },
+          {
+            "simulationMs": 13933.237500000003,
+            "analysisMs": 150.67609999999695,
+            "observerMs": 1283.2108000014778
+          },
+          {
+            "simulationMs": 17148.102899999998,
+            "analysisMs": 126.08239999999932,
+            "observerMs": 1603.985199999668
+          },
+          {
+            "simulationMs": 10684.565000000002,
+            "analysisMs": 139.66790000000037,
+            "observerMs": 991.4210999998904
+          },
+          {
+            "simulationMs": 10395.455499999996,
+            "analysisMs": 132.41160000000673,
+            "observerMs": 945.0065000006143
+          },
+          {
+            "simulationMs": 12428.3962,
+            "analysisMs": 230.73660000000018,
+            "observerMs": 1120.376999999869
+          },
+          {
+            "simulationMs": 11411.25,
+            "analysisMs": 174.83710000000065,
+            "observerMs": 1023.893599999612
+          },
+          {
+            "simulationMs": 10377.2435,
+            "analysisMs": 114.39240000000427,
+            "observerMs": 944.9719999991539
+          },
+          {
+            "simulationMs": 10795.894700000004,
+            "analysisMs": 121.4971000000005,
+            "observerMs": 970.0586999990992
+          },
+          {
+            "simulationMs": 10978.637899999994,
+            "analysisMs": 131.58349999999336,
+            "observerMs": 987.0967999992426
+          },
+          {
+            "simulationMs": 10703.133299999994,
+            "analysisMs": 160.87159999999858,
+            "observerMs": 952.4583000011771
+          },
+          {
+            "simulationMs": 10112.951700000005,
+            "analysisMs": 203.71110000000044,
+            "observerMs": 887.8193000016763
+          },
+          {
+            "simulationMs": 23168.253800000006,
+            "analysisMs": 452.3307000000059,
+            "observerMs": 2296.648799999224
+          }
+        ],
+        "execution": "SEQUENTIAL: one child at a time"
+      }
+    },
+    "allsv": {
+      "n": 40,
+      "paired": {
+        "recipes": true,
+        "initialProfiles": true,
+        "initialTactics": true,
+        "change": {
+          "goals": {
+            "n": 40,
+            "mean": 0.9,
+            "median": 2,
+            "sd": 8.107609594284453,
+            "min": -19,
+            "max": 18,
+            "p05": -12.299999999999999,
+            "p10": -8.299999999999999,
+            "p25": -5,
+            "p75": 8,
+            "p90": 9.100000000000001,
+            "p95": 13
+          },
+          "shots": {
+            "n": 40,
+            "mean": 0.55,
+            "median": 2,
+            "sd": 7.993426786733696,
+            "min": -17,
+            "max": 18,
+            "p05": -12.1,
+            "p10": -9.1,
+            "p25": -6,
+            "p75": 6,
+            "p90": 9.100000000000001,
+            "p95": 10.249999999999986
+          },
+          "outfieldShots": {
+            "n": 40,
+            "mean": 0.55,
+            "median": 2,
+            "sd": 7.993426786733696,
+            "min": -17,
+            "max": 18,
+            "p05": -12.1,
+            "p10": -9.1,
+            "p25": -6,
+            "p75": 6,
+            "p90": 9.100000000000001,
+            "p95": 10.249999999999986
+          },
+          "outfieldConversion": {
+            "n": 40,
+            "mean": 0.00601695388666775,
+            "median": 0.018338441293092977,
+            "sd": 0.07320581329961841,
+            "min": -0.16302809783707295,
+            "max": 0.15742041198501877,
+            "p05": -0.10918042860202572,
+            "p10": -0.0907559410204554,
+            "p25": -0.028756161477506675,
+            "p75": 0.04926101831782059,
+            "p90": 0.08852608663001675,
+            "p95": 0.1319349426062663
+          },
+          "sevenMetres": {
+            "n": 40,
+            "mean": 1.375,
+            "median": 2,
+            "sd": 4.099327649686858,
+            "min": -7,
+            "max": 9,
+            "p05": -6.05,
+            "p10": -4.1,
+            "p25": -1.25,
+            "p75": 4.25,
+            "p90": 6,
+            "p95": 8
+          },
+          "sevenMetreConversion": {
+            "n": 40,
+            "mean": -0.022895523594052995,
+            "median": -0.030157342657342656,
+            "sd": 0.22673299350704784,
+            "min": -0.4285714285714286,
+            "max": 0.5833333333333334,
+            "p05": -0.33452380952380956,
+            "p10": -0.2865546218487395,
+            "p25": -0.21458333333333338,
+            "p75": 0.11666666666666672,
+            "p90": 0.2700000000000001,
+            "p95": 0.3345238095238095
+          },
+          "suspensions": {
+            "n": 40,
+            "mean": -0.475,
+            "median": -1,
+            "sd": 3.7209559014469415,
+            "min": -9,
+            "max": 7,
+            "p05": -6.05,
+            "p10": -5,
+            "p25": -3,
+            "p75": 2.25,
+            "p90": 4.100000000000001,
+            "p95": 5.049999999999997
+          }
+        }
+      },
+      "manifest": {
+        "sources": {
+          "packages/handball-engine/src/v2/core/actions.ts": "ca1ea04b61a3e92bcf3c3d8f81a30d5dcf008af790f690b9302f2b204bf31a67",
+          "packages/handball-engine/src/v2/core/backcourt.ts": "00ab4e44f0520b83f771cf5dd8a0e1212b34272410e5027b856eabddebddc120",
+          "packages/handball-engine/src/v2/core/backcourtScenarios.ts": "6137722469db2dc0a9567b9ff3bccd9c8d3f070e9db58bb93fe225cbccd655be",
+          "packages/handball-engine/src/v2/core/coaching.ts": "b943276328e1df36f43173af08fe008d8376f419e5afae4aeae5e1466a28a599",
+          "packages/handball-engine/src/v2/core/condition.ts": "d0329cda9b01bb0a6d24f939863080a0a0dff6f2b8912adbab1595e19e297b11",
+          "packages/handball-engine/src/v2/core/contact.ts": "c3084ebc21cee0ff9da3c74edeee2a88f1b0ebadd43648289533f146535c2640",
+          "packages/handball-engine/src/v2/core/contactScenarios.ts": "624c77567281a49677ae55289c3e0d71d5e81f00e2f56f151e1bf7ea59ebd1ce",
+          "packages/handball-engine/src/v2/core/continuous.ts": "3bc0e25ee0474aab3162df83b5e228bcd5953ddc5b29622592e5fd5bfdda55c5",
+          "packages/handball-engine/src/v2/core/defence.ts": "353763d139e7d170aff02f6b757973103a3b25fbdc53c4c363a1ed06de102b56",
+          "packages/handball-engine/src/v2/core/engage.ts": "b597ce488188b882f553f0553316960039d19ec92bca275ee89c7a4db4595d07",
+          "packages/handball-engine/src/v2/core/engine.ts": "f4f08af1cd70202cde65f2aa0049c4c0fbf2c972c769a9019d17609ea460508c",
+          "packages/handball-engine/src/v2/core/execution.ts": "b6a3ca9fac7fe95602ebc45eddbedc3763150c1845063f14773ef4e06c8e2f71",
+          "packages/handball-engine/src/v2/core/intelligence.ts": "8b7814ce46cf50bbb8a2e19648991e880304a5c0f2fdf5b5540a45e57ed4c80b",
+          "packages/handball-engine/src/v2/core/intelligenceScenarios.ts": "8214cb9c24bad1570559d71d2381e3ac6bdf7c670bd0e9b925bbc72857bbd310",
+          "packages/handball-engine/src/v2/core/interactions.ts": "cc8edb68c0aa81c914c8bf10f42de3e40c925a76315e0b5b76cdc08bd7e1b9bc",
+          "packages/handball-engine/src/v2/core/ledger.ts": "dd801ce6401a106d772eac46c5800eb46f218d34495f41ec1ff536aec24116c9",
+          "packages/handball-engine/src/v2/core/locomotion.ts": "c222d4240a0b0935e552fa37a7c1dcf7a999d48ca4e4e200ce5befabbc860b13",
+          "packages/handball-engine/src/v2/core/match.ts": "a853a0a922f76759c51aa21e29017aaf1bd0d07d60e5bf611e49e9e4b8dd3e9e",
+          "packages/handball-engine/src/v2/core/matchReplay.ts": "6796c275154da7145cd06558835524075013528ecb2354a1f3439e5b537ea499",
+          "packages/handball-engine/src/v2/core/movement.ts": "e2b310cca3c7c5c82b4540a78f2e91551a8f33a424ea01a2c8c0fc69de67f0ae",
+          "packages/handball-engine/src/v2/core/offence.ts": "086fe17fc980c3b233b59c95c8ebe89feca8a11609d2de2686ad545312c60e25",
+          "packages/handball-engine/src/v2/core/passive.ts": "0c405269406b4a8b124ea432ce036a0008118aa59c186954cded0957a0c2381f",
+          "packages/handball-engine/src/v2/core/pivot.ts": "3021f9ab217e9e4eb8f5adf996365e86338ac0fa9e738fc7491a25228c6bf783",
+          "packages/handball-engine/src/v2/core/population.ts": "9097fd5e0396001ff48bb30529994fefb820aa9b75b272f79bdf55239eead655",
+          "packages/handball-engine/src/v2/core/profile.ts": "2470fad59a2bb1570ee67561b8ca9e79edead74bc7082c7fe0007f2e252f38b0",
+          "packages/handball-engine/src/v2/core/realism.ts": "615271e0bc0217a08b296fa0777754f28b02fa136e5c0e55f07a8af616780897",
+          "packages/handball-engine/src/v2/core/referee.ts": "35feaf4d17b6b5bd011702384be061081b52b220e5d897e37aa24bc297d04387",
+          "packages/handball-engine/src/v2/core/replay.ts": "7a636b1b374a10d7f8aa02ade08957ac67920aacd33b37db2f412f2fefa42e6b",
+          "packages/handball-engine/src/v2/core/restarts.ts": "048e5ead24b976453a0abe2cf314fe9e79c33a0619c7d71cdfdb47b575230520",
+          "packages/handball-engine/src/v2/core/rules.ts": "46325a43317b15edfc4773265989ffa2ab0500c9fdefb32a7fc3363dd39147d4",
+          "packages/handball-engine/src/v2/core/sanction.ts": "8d569712c4c2ce1223d246e3a5d5e6dd0913b5f8232e6456ff892bbcd424d910",
+          "packages/handball-engine/src/v2/core/scenarios.ts": "c48ddb2c75ce34fd03c439261e40e77f676b1ffb2fc8abeb1a3f9b1a5d286dbe",
+          "packages/handball-engine/src/v2/core/space.ts": "fa4755d1ba95d8e683cd19955418944d004a34963b708030ef72eb521ca25eb3",
+          "packages/handball-engine/src/v2/core/squads.ts": "fc2aeaa594f3ef8a119656d1056178bf5f6414f6ee4c2082641b97fc216749a4",
+          "packages/handball-engine/src/v2/core/state.ts": "fc33c3ac8ee2fbe78c7998c756850eda8981949f393a03ac77af9f5c9179284e",
+          "packages/handball-engine/src/v2/core/structure.ts": "fd5cea56c1e2e311b490e452701fa2b1b8f91282e3f6cd7e06a4621d8065f3c3",
+          "packages/handball-engine/src/v2/core/testProfile.ts": "35a3ac5a0a0fbb6614de81c449fde37b880af96bc10a1cd2dcf4b4e3e9077d6d",
+          "packages/handball-engine/src/v2/core/threatRelation.ts": "c68668bfbd439adfa42a751b12266d664e1d2e6d80358cbc30149b807fb9bcf1",
+          "packages/handball-engine/src/v2/core/timing.ts": "dfcd2f87a9aff8f275eca516307ba3e6943dd59b64cca89911f6ad4e36ad76ef",
+          "packages/handball-engine/src/v2/core/transitions.ts": "6498a4ea7a0d0efb0a19048dfcc9e6c2cd19fa8844f86f3d91995f65f80b270a",
+          "packages/handball-engine/src/v2/core/wing.ts": "31d7f39cf38918717d3723fadcce80948a13650a45a2f680e1bbc5c66fd3a556",
+          "packages/handball-engine/src/v2/core/wingScenarios.ts": "8d553b1c254f0953cf5508ca1a37463891f631cdfd0df81b436be487541ee031",
+          "apps/game/lib/career/productionMatch.ts": "6b81c65496b286a1df4052b40c0fc2cf632cacdfeece0384069f5e448115dcfc",
+          "apps/game/scripts/match-benchmarks.ts": "d51ecb4edbee2c1c99df5f61830068ba77f4d5abbad5ea306493f53b064f156a",
+          "apps/game/scripts/lib/calibrationDiagnostics.ts": "75b4d75ab6951abd13939eb69661ef9a926654ce95d33d36434709c9a038223e",
+          "apps/game/scripts/lib/reconciliationDiagnostics.ts": "150a9d196dc92862f75a3fbdc2bd6abddc6b0b91e854e777f5df3d257e4b99b8",
+          "apps/game/scripts/lib/attackCycleDiagnostics.ts": "b70edf097328dddf1812caba8f5eb9f4e1ed4eb4fd8a286d4d8c3eb948d145e0",
+          "apps/game/scripts/lib/rotationFatigueDiagnostics.ts": "21a274d11abe8b2ac430f7dadfc6dd66aff1ab1e4a69895c6ea1c2c4c0d6b94e",
+          "apps/game/lib/matchBenchmarks/empirical.ts": "1b05cfb0cfdb7e96870875b1042860b13221c852078eff953d31016123464d6c",
+          "apps/game/lib/matchBenchmarks/empiricalComparison.ts": "e49e86aca79b3e30cbe57ea0e6ce1da16a778417e936be4f3a1405a312e1a975",
+          "apps/game/lib/matchBenchmarks/evaluate.ts": "2f4d5bc893fbd482dfcd10baeaa1f3aa72c943dbcfa0e8dca0ba050fd3c9f3f0",
+          "apps/game/lib/matchBenchmarks/extract.ts": "4ac1e4094d2b76ba34dd157df4b32ba6309c1853aab18c7329890231681bb873",
+          "apps/game/lib/matchBenchmarks/reference.ts": "25cb435b7824faa1fc58429264d3e91a4833e678170bb5bfa75d5b5c98009e8a",
+          "apps/game/lib/matchBenchmarks/report.ts": "c7c77e53ba8b07212362ec36f4a31f2d8b263ea0f17ce8f0fd730292035b7444",
+          "apps/game/lib/matchBenchmarks/statistics.ts": "9b3c1f8e5dc5590302b8b6115f5e7c86d9a5693e14af80f0880b334f7752e2d0"
+        },
+        "inputHash": "37b2f9ee4648ede1a422549fb680bad5c172ebdf70c77f65334d2e6487ab0347",
+        "referenceHash": "28a89cbdb4b4646da550d6875cea2a86bc26717fe983ab375e8291f12911ad7a",
+        "baseline": "C:\\Users\\helgi\\Documents\\STARKVIS-HELA\\handball-manager\\docs\\post-intelligence-reconciliation\\final\\allsv"
+      },
+      "summary": {
+        "sources": {
+          "packages/handball-engine/src/v2/core/actions.ts": "ca1ea04b61a3e92bcf3c3d8f81a30d5dcf008af790f690b9302f2b204bf31a67",
+          "packages/handball-engine/src/v2/core/backcourt.ts": "00ab4e44f0520b83f771cf5dd8a0e1212b34272410e5027b856eabddebddc120",
+          "packages/handball-engine/src/v2/core/backcourtScenarios.ts": "6137722469db2dc0a9567b9ff3bccd9c8d3f070e9db58bb93fe225cbccd655be",
+          "packages/handball-engine/src/v2/core/coaching.ts": "b943276328e1df36f43173af08fe008d8376f419e5afae4aeae5e1466a28a599",
+          "packages/handball-engine/src/v2/core/condition.ts": "d0329cda9b01bb0a6d24f939863080a0a0dff6f2b8912adbab1595e19e297b11",
+          "packages/handball-engine/src/v2/core/contact.ts": "c3084ebc21cee0ff9da3c74edeee2a88f1b0ebadd43648289533f146535c2640",
+          "packages/handball-engine/src/v2/core/contactScenarios.ts": "624c77567281a49677ae55289c3e0d71d5e81f00e2f56f151e1bf7ea59ebd1ce",
+          "packages/handball-engine/src/v2/core/continuous.ts": "3bc0e25ee0474aab3162df83b5e228bcd5953ddc5b29622592e5fd5bfdda55c5",
+          "packages/handball-engine/src/v2/core/defence.ts": "353763d139e7d170aff02f6b757973103a3b25fbdc53c4c363a1ed06de102b56",
+          "packages/handball-engine/src/v2/core/engage.ts": "b597ce488188b882f553f0553316960039d19ec92bca275ee89c7a4db4595d07",
+          "packages/handball-engine/src/v2/core/engine.ts": "f4f08af1cd70202cde65f2aa0049c4c0fbf2c972c769a9019d17609ea460508c",
+          "packages/handball-engine/src/v2/core/execution.ts": "b6a3ca9fac7fe95602ebc45eddbedc3763150c1845063f14773ef4e06c8e2f71",
+          "packages/handball-engine/src/v2/core/intelligence.ts": "8b7814ce46cf50bbb8a2e19648991e880304a5c0f2fdf5b5540a45e57ed4c80b",
+          "packages/handball-engine/src/v2/core/intelligenceScenarios.ts": "8214cb9c24bad1570559d71d2381e3ac6bdf7c670bd0e9b925bbc72857bbd310",
+          "packages/handball-engine/src/v2/core/interactions.ts": "cc8edb68c0aa81c914c8bf10f42de3e40c925a76315e0b5b76cdc08bd7e1b9bc",
+          "packages/handball-engine/src/v2/core/ledger.ts": "dd801ce6401a106d772eac46c5800eb46f218d34495f41ec1ff536aec24116c9",
+          "packages/handball-engine/src/v2/core/locomotion.ts": "c222d4240a0b0935e552fa37a7c1dcf7a999d48ca4e4e200ce5befabbc860b13",
+          "packages/handball-engine/src/v2/core/match.ts": "a853a0a922f76759c51aa21e29017aaf1bd0d07d60e5bf611e49e9e4b8dd3e9e",
+          "packages/handball-engine/src/v2/core/matchReplay.ts": "6796c275154da7145cd06558835524075013528ecb2354a1f3439e5b537ea499",
+          "packages/handball-engine/src/v2/core/movement.ts": "e2b310cca3c7c5c82b4540a78f2e91551a8f33a424ea01a2c8c0fc69de67f0ae",
+          "packages/handball-engine/src/v2/core/offence.ts": "086fe17fc980c3b233b59c95c8ebe89feca8a11609d2de2686ad545312c60e25",
+          "packages/handball-engine/src/v2/core/passive.ts": "0c405269406b4a8b124ea432ce036a0008118aa59c186954cded0957a0c2381f",
+          "packages/handball-engine/src/v2/core/pivot.ts": "3021f9ab217e9e4eb8f5adf996365e86338ac0fa9e738fc7491a25228c6bf783",
+          "packages/handball-engine/src/v2/core/population.ts": "9097fd5e0396001ff48bb30529994fefb820aa9b75b272f79bdf55239eead655",
+          "packages/handball-engine/src/v2/core/profile.ts": "2470fad59a2bb1570ee67561b8ca9e79edead74bc7082c7fe0007f2e252f38b0",
+          "packages/handball-engine/src/v2/core/realism.ts": "615271e0bc0217a08b296fa0777754f28b02fa136e5c0e55f07a8af616780897",
+          "packages/handball-engine/src/v2/core/referee.ts": "35feaf4d17b6b5bd011702384be061081b52b220e5d897e37aa24bc297d04387",
+          "packages/handball-engine/src/v2/core/replay.ts": "7a636b1b374a10d7f8aa02ade08957ac67920aacd33b37db2f412f2fefa42e6b",
+          "packages/handball-engine/src/v2/core/restarts.ts": "048e5ead24b976453a0abe2cf314fe9e79c33a0619c7d71cdfdb47b575230520",
+          "packages/handball-engine/src/v2/core/rules.ts": "46325a43317b15edfc4773265989ffa2ab0500c9fdefb32a7fc3363dd39147d4",
+          "packages/handball-engine/src/v2/core/sanction.ts": "8d569712c4c2ce1223d246e3a5d5e6dd0913b5f8232e6456ff892bbcd424d910",
+          "packages/handball-engine/src/v2/core/scenarios.ts": "c48ddb2c75ce34fd03c439261e40e77f676b1ffb2fc8abeb1a3f9b1a5d286dbe",
+          "packages/handball-engine/src/v2/core/space.ts": "fa4755d1ba95d8e683cd19955418944d004a34963b708030ef72eb521ca25eb3",
+          "packages/handball-engine/src/v2/core/squads.ts": "fc2aeaa594f3ef8a119656d1056178bf5f6414f6ee4c2082641b97fc216749a4",
+          "packages/handball-engine/src/v2/core/state.ts": "fc33c3ac8ee2fbe78c7998c756850eda8981949f393a03ac77af9f5c9179284e",
+          "packages/handball-engine/src/v2/core/structure.ts": "fd5cea56c1e2e311b490e452701fa2b1b8f91282e3f6cd7e06a4621d8065f3c3",
+          "packages/handball-engine/src/v2/core/testProfile.ts": "35a3ac5a0a0fbb6614de81c449fde37b880af96bc10a1cd2dcf4b4e3e9077d6d",
+          "packages/handball-engine/src/v2/core/threatRelation.ts": "c68668bfbd439adfa42a751b12266d664e1d2e6d80358cbc30149b807fb9bcf1",
+          "packages/handball-engine/src/v2/core/timing.ts": "dfcd2f87a9aff8f275eca516307ba3e6943dd59b64cca89911f6ad4e36ad76ef",
+          "packages/handball-engine/src/v2/core/transitions.ts": "6498a4ea7a0d0efb0a19048dfcc9e6c2cd19fa8844f86f3d91995f65f80b270a",
+          "packages/handball-engine/src/v2/core/wing.ts": "31d7f39cf38918717d3723fadcce80948a13650a45a2f680e1bbc5c66fd3a556",
+          "packages/handball-engine/src/v2/core/wingScenarios.ts": "8d553b1c254f0953cf5508ca1a37463891f631cdfd0df81b436be487541ee031",
+          "apps/game/lib/career/productionMatch.ts": "6b81c65496b286a1df4052b40c0fc2cf632cacdfeece0384069f5e448115dcfc",
+          "apps/game/scripts/match-benchmarks.ts": "d51ecb4edbee2c1c99df5f61830068ba77f4d5abbad5ea306493f53b064f156a",
+          "apps/game/scripts/lib/calibrationDiagnostics.ts": "75b4d75ab6951abd13939eb69661ef9a926654ce95d33d36434709c9a038223e",
+          "apps/game/scripts/lib/reconciliationDiagnostics.ts": "150a9d196dc92862f75a3fbdc2bd6abddc6b0b91e854e777f5df3d257e4b99b8",
+          "apps/game/scripts/lib/attackCycleDiagnostics.ts": "b70edf097328dddf1812caba8f5eb9f4e1ed4eb4fd8a286d4d8c3eb948d145e0",
+          "apps/game/scripts/lib/rotationFatigueDiagnostics.ts": "21a274d11abe8b2ac430f7dadfc6dd66aff1ab1e4a69895c6ea1c2c4c0d6b94e",
+          "apps/game/lib/matchBenchmarks/empirical.ts": "1b05cfb0cfdb7e96870875b1042860b13221c852078eff953d31016123464d6c",
+          "apps/game/lib/matchBenchmarks/empiricalComparison.ts": "e49e86aca79b3e30cbe57ea0e6ce1da16a778417e936be4f3a1405a312e1a975",
+          "apps/game/lib/matchBenchmarks/evaluate.ts": "2f4d5bc893fbd482dfcd10baeaa1f3aa72c943dbcfa0e8dca0ba050fd3c9f3f0",
+          "apps/game/lib/matchBenchmarks/extract.ts": "4ac1e4094d2b76ba34dd157df4b32ba6309c1853aab18c7329890231681bb873",
+          "apps/game/lib/matchBenchmarks/reference.ts": "25cb435b7824faa1fc58429264d3e91a4833e678170bb5bfa75d5b5c98009e8a",
+          "apps/game/lib/matchBenchmarks/report.ts": "c7c77e53ba8b07212362ec36f4a31f2d8b263ea0f17ce8f0fd730292035b7444",
+          "apps/game/lib/matchBenchmarks/statistics.ts": "9b3c1f8e5dc5590302b8b6115f5e7c86d9a5693e14af80f0880b334f7752e2d0"
+        },
+        "inputHash": "37b2f9ee4648ede1a422549fb680bad5c172ebdf70c77f65334d2e6487ab0347",
+        "referenceHash": "28a89cbdb4b4646da550d6875cea2a86bc26717fe983ab375e8291f12911ad7a",
+        "baseline": "C:\\Users\\helgi\\Documents\\STARKVIS-HELA\\handball-manager\\docs\\post-intelligence-reconciliation\\final\\allsv",
+        "sourceStable": true,
+        "count": 40,
+        "proofs": [],
+        "timings": [
+          {
+            "simulationMs": 12373.1261,
+            "analysisMs": 170.0681999999997,
+            "observerMs": 1051.2645000000489
+          },
+          {
+            "simulationMs": 14793.0835,
+            "analysisMs": 308.1739000000016,
+            "observerMs": 1361.7591999997512
+          },
+          {
+            "simulationMs": 9573.9915,
+            "analysisMs": 167.93669999999838,
+            "observerMs": 897.6503999988818
+          },
+          {
+            "simulationMs": 9916.330600000001,
+            "analysisMs": 129.225400000003,
+            "observerMs": 884.0292000004629
+          },
+          {
+            "simulationMs": 10321.141600000003,
+            "analysisMs": 200.54629999999452,
+            "observerMs": 947.1367999996728
+          },
+          {
+            "simulationMs": 22454.755200000007,
+            "analysisMs": 274.7283999999927,
+            "observerMs": 2103.737399997968
+          },
+          {
+            "simulationMs": 27111.184500000003,
+            "analysisMs": 307.54610000000685,
+            "observerMs": 2496.6739000002417
+          },
+          {
+            "simulationMs": 26882.975699999995,
+            "analysisMs": 369.2655000000086,
+            "observerMs": 2470.2914000013698
+          },
+          {
+            "simulationMs": 25702.8583,
+            "analysisMs": 433.05509999999776,
+            "observerMs": 2351.9431999998183
+          },
+          {
+            "simulationMs": 28854.494400000003,
+            "analysisMs": 360.52300000000105,
+            "observerMs": 2679.0650000002825
+          },
+          {
+            "simulationMs": 24653.652199999997,
+            "analysisMs": 213.90469999999914,
+            "observerMs": 2280.9103000014
+          },
+          {
+            "simulationMs": 20275.29280000001,
+            "analysisMs": 185.06690000000526,
+            "observerMs": 1882.99769999813
+          },
+          {
+            "simulationMs": 10822.592100000009,
+            "analysisMs": 137.5685999999987,
+            "observerMs": 961.4178000014363
+          },
+          {
+            "simulationMs": 10149.103199999998,
+            "analysisMs": 116.73339999999735,
+            "observerMs": 889.5069000000076
+          },
+          {
+            "simulationMs": 9638.145000000004,
+            "analysisMs": 97.23660000000382,
+            "observerMs": 841.8447999994678
+          },
+          {
+            "simulationMs": 10326.10519999999,
+            "analysisMs": 111.68339999997988,
+            "observerMs": 889.113000004174
+          },
+          {
+            "simulationMs": 12753.7961,
+            "analysisMs": 135.1841999999997,
+            "observerMs": 1099.8588000001903
+          },
+          {
+            "simulationMs": 11156.469,
+            "analysisMs": 173.4877000000015,
+            "observerMs": 931.6943999996311
+          },
+          {
+            "simulationMs": 12094.830099999996,
+            "analysisMs": 382.70820000000094,
+            "observerMs": 1112.4023999998572
+          },
+          {
+            "simulationMs": 11833.036099999998,
+            "analysisMs": 134.78420000000187,
+            "observerMs": 1081.0137999995204
+          },
+          {
+            "simulationMs": 10385.235,
+            "analysisMs": 665.6362000000008,
+            "observerMs": 993.4937000011705
+          },
+          {
+            "simulationMs": 21404.663800000002,
+            "analysisMs": 139.02880000000005,
+            "observerMs": 2079.3101000017996
+          },
+          {
+            "simulationMs": 10516.585200000001,
+            "analysisMs": 144.36740000000282,
+            "observerMs": 971.0252000001346
+          },
+          {
+            "simulationMs": 21706.505600000004,
+            "analysisMs": 256.61429999998654,
+            "observerMs": 2124.767199998081
+          },
+          {
+            "simulationMs": 30648.334499999997,
+            "analysisMs": 402.3601000000017,
+            "observerMs": 2770.9603000001816
+          },
+          {
+            "simulationMs": 33612.86550000001,
+            "analysisMs": 392.02880000000005,
+            "observerMs": 3050.8348000001206
+          },
+          {
+            "simulationMs": 28556.613400000002,
+            "analysisMs": 319.27610000000277,
+            "observerMs": 2507.6066999983886
+          },
+          {
+            "simulationMs": 29578.69780000001,
+            "analysisMs": 274.1073000000033,
+            "observerMs": 2871.205799999778
+          },
+          {
+            "simulationMs": 32782.36749999999,
+            "analysisMs": 369.0167000000074,
+            "observerMs": 3041.1858999999968
+          },
+          {
+            "simulationMs": 29390.40239999999,
+            "analysisMs": 203.16319999998086,
+            "observerMs": 2617.6578999913763
+          },
+          {
+            "simulationMs": 29839.962299999985,
+            "analysisMs": 530.0603999999876,
+            "observerMs": 2824.473500000924
+          },
+          {
+            "simulationMs": 45626.875899999985,
+            "analysisMs": 570.458799999964,
+            "observerMs": 4418.97179999933
+          },
+          {
+            "simulationMs": 16185.9002,
+            "analysisMs": 153.16719999999987,
+            "observerMs": 1454.3242999999993
+          },
+          {
+            "simulationMs": 11512.801500000001,
+            "analysisMs": 166.73219999999856,
+            "observerMs": 995.7017999998388
+          },
+          {
+            "simulationMs": 11674.360700000001,
+            "analysisMs": 125.09739999999874,
+            "observerMs": 1008.0547999998089
+          },
+          {
+            "simulationMs": 12853.9873,
+            "analysisMs": 119.08069999999861,
+            "observerMs": 1238.143200000537
+          },
+          {
+            "simulationMs": 10383.892800000001,
+            "analysisMs": 218.87489999999525,
+            "observerMs": 949.3741000000009
+          },
+          {
+            "simulationMs": 10334.648000000001,
+            "analysisMs": 157.738400000002,
+            "observerMs": 930.169200000586
+          },
+          {
+            "simulationMs": 11423.265899999999,
+            "analysisMs": 148.07110000000102,
+            "observerMs": 1050.1613999969704
+          },
+          {
+            "simulationMs": 10595.09670000001,
+            "analysisMs": 154.17280000000028,
+            "observerMs": 971.2840000007709
+          }
+        ],
+        "execution": "SEQUENTIAL: one child at a time"
+      }
+    }
+  },
+  "controlled": {
+    "n": 30,
+    "manifest": {
+      "sources": {
+        "packages/handball-engine/src/v2/core/actions.ts": "ca1ea04b61a3e92bcf3c3d8f81a30d5dcf008af790f690b9302f2b204bf31a67",
+        "packages/handball-engine/src/v2/core/backcourt.ts": "00ab4e44f0520b83f771cf5dd8a0e1212b34272410e5027b856eabddebddc120",
+        "packages/handball-engine/src/v2/core/backcourtScenarios.ts": "6137722469db2dc0a9567b9ff3bccd9c8d3f070e9db58bb93fe225cbccd655be",
+        "packages/handball-engine/src/v2/core/coaching.ts": "b943276328e1df36f43173af08fe008d8376f419e5afae4aeae5e1466a28a599",
+        "packages/handball-engine/src/v2/core/condition.ts": "d0329cda9b01bb0a6d24f939863080a0a0dff6f2b8912adbab1595e19e297b11",
+        "packages/handball-engine/src/v2/core/contact.ts": "c3084ebc21cee0ff9da3c74edeee2a88f1b0ebadd43648289533f146535c2640",
+        "packages/handball-engine/src/v2/core/contactScenarios.ts": "624c77567281a49677ae55289c3e0d71d5e81f00e2f56f151e1bf7ea59ebd1ce",
+        "packages/handball-engine/src/v2/core/continuous.ts": "3bc0e25ee0474aab3162df83b5e228bcd5953ddc5b29622592e5fd5bfdda55c5",
+        "packages/handball-engine/src/v2/core/defence.ts": "353763d139e7d170aff02f6b757973103a3b25fbdc53c4c363a1ed06de102b56",
+        "packages/handball-engine/src/v2/core/engage.ts": "b597ce488188b882f553f0553316960039d19ec92bca275ee89c7a4db4595d07",
+        "packages/handball-engine/src/v2/core/engine.ts": "f4f08af1cd70202cde65f2aa0049c4c0fbf2c972c769a9019d17609ea460508c",
+        "packages/handball-engine/src/v2/core/execution.ts": "b6a3ca9fac7fe95602ebc45eddbedc3763150c1845063f14773ef4e06c8e2f71",
+        "packages/handball-engine/src/v2/core/intelligence.ts": "8b7814ce46cf50bbb8a2e19648991e880304a5c0f2fdf5b5540a45e57ed4c80b",
+        "packages/handball-engine/src/v2/core/intelligenceScenarios.ts": "8214cb9c24bad1570559d71d2381e3ac6bdf7c670bd0e9b925bbc72857bbd310",
+        "packages/handball-engine/src/v2/core/interactions.ts": "cc8edb68c0aa81c914c8bf10f42de3e40c925a76315e0b5b76cdc08bd7e1b9bc",
+        "packages/handball-engine/src/v2/core/ledger.ts": "dd801ce6401a106d772eac46c5800eb46f218d34495f41ec1ff536aec24116c9",
+        "packages/handball-engine/src/v2/core/locomotion.ts": "c222d4240a0b0935e552fa37a7c1dcf7a999d48ca4e4e200ce5befabbc860b13",
+        "packages/handball-engine/src/v2/core/match.ts": "a853a0a922f76759c51aa21e29017aaf1bd0d07d60e5bf611e49e9e4b8dd3e9e",
+        "packages/handball-engine/src/v2/core/matchReplay.ts": "6796c275154da7145cd06558835524075013528ecb2354a1f3439e5b537ea499",
+        "packages/handball-engine/src/v2/core/movement.ts": "e2b310cca3c7c5c82b4540a78f2e91551a8f33a424ea01a2c8c0fc69de67f0ae",
+        "packages/handball-engine/src/v2/core/offence.ts": "086fe17fc980c3b233b59c95c8ebe89feca8a11609d2de2686ad545312c60e25",
+        "packages/handball-engine/src/v2/core/passive.ts": "0c405269406b4a8b124ea432ce036a0008118aa59c186954cded0957a0c2381f",
+        "packages/handball-engine/src/v2/core/pivot.ts": "3021f9ab217e9e4eb8f5adf996365e86338ac0fa9e738fc7491a25228c6bf783",
+        "packages/handball-engine/src/v2/core/population.ts": "9097fd5e0396001ff48bb30529994fefb820aa9b75b272f79bdf55239eead655",
+        "packages/handball-engine/src/v2/core/profile.ts": "2470fad59a2bb1570ee67561b8ca9e79edead74bc7082c7fe0007f2e252f38b0",
+        "packages/handball-engine/src/v2/core/realism.ts": "615271e0bc0217a08b296fa0777754f28b02fa136e5c0e55f07a8af616780897",
+        "packages/handball-engine/src/v2/core/referee.ts": "35feaf4d17b6b5bd011702384be061081b52b220e5d897e37aa24bc297d04387",
+        "packages/handball-engine/src/v2/core/replay.ts": "7a636b1b374a10d7f8aa02ade08957ac67920aacd33b37db2f412f2fefa42e6b",
+        "packages/handball-engine/src/v2/core/restarts.ts": "048e5ead24b976453a0abe2cf314fe9e79c33a0619c7d71cdfdb47b575230520",
+        "packages/handball-engine/src/v2/core/rules.ts": "46325a43317b15edfc4773265989ffa2ab0500c9fdefb32a7fc3363dd39147d4",
+        "packages/handball-engine/src/v2/core/sanction.ts": "8d569712c4c2ce1223d246e3a5d5e6dd0913b5f8232e6456ff892bbcd424d910",
+        "packages/handball-engine/src/v2/core/scenarios.ts": "c48ddb2c75ce34fd03c439261e40e77f676b1ffb2fc8abeb1a3f9b1a5d286dbe",
+        "packages/handball-engine/src/v2/core/space.ts": "fa4755d1ba95d8e683cd19955418944d004a34963b708030ef72eb521ca25eb3",
+        "packages/handball-engine/src/v2/core/squads.ts": "fc2aeaa594f3ef8a119656d1056178bf5f6414f6ee4c2082641b97fc216749a4",
+        "packages/handball-engine/src/v2/core/state.ts": "fc33c3ac8ee2fbe78c7998c756850eda8981949f393a03ac77af9f5c9179284e",
+        "packages/handball-engine/src/v2/core/structure.ts": "fd5cea56c1e2e311b490e452701fa2b1b8f91282e3f6cd7e06a4621d8065f3c3",
+        "packages/handball-engine/src/v2/core/testProfile.ts": "35a3ac5a0a0fbb6614de81c449fde37b880af96bc10a1cd2dcf4b4e3e9077d6d",
+        "packages/handball-engine/src/v2/core/threatRelation.ts": "c68668bfbd439adfa42a751b12266d664e1d2e6d80358cbc30149b807fb9bcf1",
+        "packages/handball-engine/src/v2/core/timing.ts": "dfcd2f87a9aff8f275eca516307ba3e6943dd59b64cca89911f6ad4e36ad76ef",
+        "packages/handball-engine/src/v2/core/transitions.ts": "6498a4ea7a0d0efb0a19048dfcc9e6c2cd19fa8844f86f3d91995f65f80b270a",
+        "packages/handball-engine/src/v2/core/wing.ts": "31d7f39cf38918717d3723fadcce80948a13650a45a2f680e1bbc5c66fd3a556",
+        "packages/handball-engine/src/v2/core/wingScenarios.ts": "8d553b1c254f0953cf5508ca1a37463891f631cdfd0df81b436be487541ee031",
+        "apps/game/lib/career/productionMatch.ts": "6b81c65496b286a1df4052b40c0fc2cf632cacdfeece0384069f5e448115dcfc",
+        "apps/game/scripts/lib/rotationFatigueDiagnostics.ts": "21a274d11abe8b2ac430f7dadfc6dd66aff1ab1e4a69895c6ea1c2c4c0d6b94e",
+        "apps/game/scripts/run-rotation-comparison.ts": "124d4e319874f0ca752d3d8941858627dc9972eb28eade574cae69ccaaee22e9"
+      },
+      "inputHash": "37b2f9ee4648ede1a422549fb680bad5c172ebdf70c77f65334d2e6487ab0347",
+      "recipes": [
+        {
+          "index": 0,
+          "saveSeed": "match-realism-v2-canonical-2026:0",
+          "managerClubId": "swe2-aranas",
+          "fixtureId": "swe-2-f1"
+        },
+        {
+          "index": 1,
+          "saveSeed": "match-realism-v2-canonical-2026:1",
+          "managerClubId": "swe2-drott",
+          "fixtureId": "swe-2-f2"
+        },
+        {
+          "index": 2,
+          "saveSeed": "match-realism-v2-canonical-2026:2",
+          "managerClubId": "swe2-guif",
+          "fixtureId": "swe-2-f3"
+        },
+        {
+          "index": 3,
+          "saveSeed": "match-realism-v2-canonical-2026:3",
+          "managerClubId": "swe2-h43lund",
+          "fixtureId": "swe-2-f4"
+        },
+        {
+          "index": 4,
+          "saveSeed": "match-realism-v2-canonical-2026:4",
+          "managerClubId": "swe2-huddinge",
+          "fixtureId": "swe-2-f5"
+        },
+        {
+          "index": 5,
+          "saveSeed": "match-realism-v2-canonical-2026:5",
+          "managerClubId": "swe2-kroppskultur",
+          "fixtureId": "swe-2-f6"
+        },
+        {
+          "index": 6,
+          "saveSeed": "match-realism-v2-canonical-2026:6",
+          "managerClubId": "swe2-kungalv",
+          "fixtureId": "swe-2-f7"
+        },
+        {
+          "index": 7,
+          "saveSeed": "match-realism-v2-canonical-2026:7",
+          "managerClubId": "swe2-redbergslid",
+          "fixtureId": "swe-2-f7"
+        },
+        {
+          "index": 8,
+          "saveSeed": "match-realism-v2-canonical-2026:8",
+          "managerClubId": "swe2-torslanda",
+          "fixtureId": "swe-2-f6"
+        },
+        {
+          "index": 9,
+          "saveSeed": "match-realism-v2-canonical-2026:9",
+          "managerClubId": "swe2-tumba",
+          "fixtureId": "swe-2-f5"
+        },
+        {
+          "index": 10,
+          "saveSeed": "match-realism-v2-canonical-2026:10",
+          "managerClubId": "swe2-tyreso",
+          "fixtureId": "swe-2-f4"
+        },
+        {
+          "index": 11,
+          "saveSeed": "match-realism-v2-canonical-2026:11",
+          "managerClubId": "swe2-varberg",
+          "fixtureId": "swe-2-f3"
+        },
+        {
+          "index": 12,
+          "saveSeed": "match-realism-v2-canonical-2026:12",
+          "managerClubId": "swe2-vasterasirsta",
+          "fixtureId": "swe-2-f2"
+        },
+        {
+          "index": 13,
+          "saveSeed": "match-realism-v2-canonical-2026:13",
+          "managerClubId": "swe2-ystad2",
+          "fixtureId": "swe-2-f1"
+        },
+        {
+          "index": 14,
+          "saveSeed": "match-realism-v2-canonical-2026:14",
+          "managerClubId": "swe2-aranas",
+          "fixtureId": "swe-2-f1"
+        },
+        {
+          "index": 15,
+          "saveSeed": "match-realism-v2-canonical-2026:15",
+          "managerClubId": "swe2-drott",
+          "fixtureId": "swe-2-f2"
+        },
+        {
+          "index": 16,
+          "saveSeed": "match-realism-v2-canonical-2026:16",
+          "managerClubId": "swe2-guif",
+          "fixtureId": "swe-2-f3"
+        },
+        {
+          "index": 17,
+          "saveSeed": "match-realism-v2-canonical-2026:17",
+          "managerClubId": "swe2-h43lund",
+          "fixtureId": "swe-2-f4"
+        },
+        {
+          "index": 18,
+          "saveSeed": "match-realism-v2-canonical-2026:18",
+          "managerClubId": "swe2-huddinge",
+          "fixtureId": "swe-2-f5"
+        },
+        {
+          "index": 19,
+          "saveSeed": "match-realism-v2-canonical-2026:19",
+          "managerClubId": "swe2-kroppskultur",
+          "fixtureId": "swe-2-f6"
+        },
+        {
+          "index": 20,
+          "saveSeed": "match-realism-v2-canonical-2026:20",
+          "managerClubId": "swe2-kungalv",
+          "fixtureId": "swe-2-f7"
+        },
+        {
+          "index": 21,
+          "saveSeed": "match-realism-v2-canonical-2026:21",
+          "managerClubId": "swe2-redbergslid",
+          "fixtureId": "swe-2-f7"
+        },
+        {
+          "index": 22,
+          "saveSeed": "match-realism-v2-canonical-2026:22",
+          "managerClubId": "swe2-torslanda",
+          "fixtureId": "swe-2-f6"
+        },
+        {
+          "index": 23,
+          "saveSeed": "match-realism-v2-canonical-2026:23",
+          "managerClubId": "swe2-tumba",
+          "fixtureId": "swe-2-f5"
+        },
+        {
+          "index": 24,
+          "saveSeed": "match-realism-v2-canonical-2026:24",
+          "managerClubId": "swe2-tyreso",
+          "fixtureId": "swe-2-f4"
+        },
+        {
+          "index": 25,
+          "saveSeed": "match-realism-v2-canonical-2026:25",
+          "managerClubId": "swe2-varberg",
+          "fixtureId": "swe-2-f3"
+        },
+        {
+          "index": 26,
+          "saveSeed": "match-realism-v2-canonical-2026:26",
+          "managerClubId": "swe2-vasterasirsta",
+          "fixtureId": "swe-2-f2"
+        },
+        {
+          "index": 27,
+          "saveSeed": "match-realism-v2-canonical-2026:27",
+          "managerClubId": "swe2-ystad2",
+          "fixtureId": "swe-2-f1"
+        },
+        {
+          "index": 28,
+          "saveSeed": "match-realism-v2-canonical-2026:28",
+          "managerClubId": "swe2-aranas",
+          "fixtureId": "swe-2-f1"
+        },
+        {
+          "index": 29,
+          "saveSeed": "match-realism-v2-canonical-2026:29",
+          "managerClubId": "swe2-drott",
+          "fixtureId": "swe-2-f2"
+        }
+      ],
+      "design": "same career/seed/opponent; both automatic rotation and automatic timeouts disabled; only manager performs three rolling rests and returns using ordinary commands"
+    },
+    "firstHalfExact": {
+      "energy": {
+        "n": 30,
+        "mean": 0,
+        "median": 0,
+        "sd": 0,
+        "min": 0,
+        "max": 0,
+        "p05": 0,
+        "p10": 0,
+        "p25": 0,
+        "p75": 0,
+        "p90": 0,
+        "p95": 0,
+        "meanCI95Approx": [
+          0,
+          0
+        ],
+        "positive": 0,
+        "negative": 0
+      },
+      "acute": {
+        "n": 30,
+        "mean": 0,
+        "median": 0,
+        "sd": 0,
+        "min": 0,
+        "max": 0,
+        "p05": 0,
+        "p10": 0,
+        "p25": 0,
+        "p75": 0,
+        "p90": 0,
+        "p95": 0,
+        "meanCI95Approx": [
+          0,
+          0
+        ],
+        "positive": 0,
+        "negative": 0
+      },
+      "accelerationCapacity": {
+        "n": 30,
+        "mean": 0,
+        "median": 0,
+        "sd": 0,
+        "min": 0,
+        "max": 0,
+        "p05": 0,
+        "p10": 0,
+        "p25": 0,
+        "p75": 0,
+        "p90": 0,
+        "p95": 0,
+        "meanCI95Approx": [
+          0,
+          0
+        ],
+        "positive": 0,
+        "negative": 0
+      },
+      "severeShare": {
+        "n": 30,
+        "mean": 0,
+        "median": 0,
+        "sd": 0,
+        "min": 0,
+        "max": 0,
+        "p05": 0,
+        "p10": 0,
+        "p25": 0,
+        "p75": 0,
+        "p90": 0,
+        "p95": 0,
+        "meanCI95Approx": [
+          0,
+          0
+        ],
+        "positive": 0,
+        "negative": 0
+      },
+      "recoveryAcceleration": {
+        "n": 30,
+        "mean": 0,
+        "median": 0,
+        "sd": 0,
+        "min": 0,
+        "max": 0,
+        "p05": 0,
+        "p10": 0,
+        "p25": 0,
+        "p75": 0,
+        "p90": 0,
+        "p95": 0,
+        "meanCI95Approx": [
+          0,
+          0
+        ],
+        "positive": 0,
+        "negative": 0
+      },
+      "recoverySpeed": {
+        "n": 30,
+        "mean": 0,
+        "median": 0,
+        "sd": 0,
+        "min": 0,
+        "max": 0,
+        "p05": 0,
+        "p10": 0,
+        "p25": 0,
+        "p75": 0,
+        "p90": 0,
+        "p95": 0,
+        "meanCI95Approx": [
+          0,
+          0
+        ],
+        "positive": 0,
+        "negative": 0
+      },
+      "fieldAttempts": {
+        "n": 30,
+        "mean": 0,
+        "median": 0,
+        "sd": 0,
+        "min": 0,
+        "max": 0,
+        "p05": 0,
+        "p10": 0,
+        "p25": 0,
+        "p75": 0,
+        "p90": 0,
+        "p95": 0,
+        "meanCI95Approx": [
+          0,
+          0
+        ],
+        "positive": 0,
+        "negative": 0
+      },
+      "sevenAttempts": {
+        "n": 30,
+        "mean": 0,
+        "median": 0,
+        "sd": 0,
+        "min": 0,
+        "max": 0,
+        "p05": 0,
+        "p10": 0,
+        "p25": 0,
+        "p75": 0,
+        "p90": 0,
+        "p95": 0,
+        "meanCI95Approx": [
+          0,
+          0
+        ],
+        "positive": 0,
+        "negative": 0
+      },
+      "totalAttempts": {
+        "n": 30,
+        "mean": 0,
+        "median": 0,
+        "sd": 0,
+        "min": 0,
+        "max": 0,
+        "p05": 0,
+        "p10": 0,
+        "p25": 0,
+        "p75": 0,
+        "p90": 0,
+        "p95": 0,
+        "meanCI95Approx": [
+          0,
+          0
+        ],
+        "positive": 0,
+        "negative": 0
+      },
+      "goals": {
+        "n": 30,
+        "mean": 0,
+        "median": 0,
+        "sd": 0,
+        "min": 0,
+        "max": 0,
+        "p05": 0,
+        "p10": 0,
+        "p25": 0,
+        "p75": 0,
+        "p90": 0,
+        "p95": 0,
+        "meanCI95Approx": [
+          0,
+          0
+        ],
+        "positive": 0,
+        "negative": 0
+      },
+      "receptionFailures": {
+        "n": 30,
+        "mean": 0,
+        "median": 0,
+        "sd": 0,
+        "min": 0,
+        "max": 0,
+        "p05": 0,
+        "p10": 0,
+        "p25": 0,
+        "p75": 0,
+        "p90": 0,
+        "p95": 0,
+        "meanCI95Approx": [
+          0,
+          0
+        ],
+        "positive": 0,
+        "negative": 0
+      },
+      "assessedFouls": {
+        "n": 30,
+        "mean": 0,
+        "median": 0,
+        "sd": 0,
+        "min": 0,
+        "max": 0,
+        "p05": 0,
+        "p10": 0,
+        "p25": 0,
+        "p75": 0,
+        "p90": 0,
+        "p95": 0,
+        "meanCI95Approx": [
+          0,
+          0
+        ],
+        "positive": 0,
+        "negative": 0
+      },
+      "suspensions": {
+        "n": 30,
+        "mean": 0,
+        "median": 0,
+        "sd": 0,
+        "min": 0,
+        "max": 0,
+        "p05": 0,
+        "p10": 0,
+        "p25": 0,
+        "p75": 0,
+        "p90": 0,
+        "p95": 0,
+        "meanCI95Approx": [
+          0,
+          0
+        ],
+        "positive": 0,
+        "negative": 0
+      },
+      "transitionShots": {
+        "n": 30,
+        "mean": 0,
+        "median": 0,
+        "sd": 0,
+        "min": 0,
+        "max": 0,
+        "p05": 0,
+        "p10": 0,
+        "p25": 0,
+        "p75": 0,
+        "p90": 0,
+        "p95": 0,
+        "meanCI95Approx": [
+          0,
+          0
+        ],
+        "positive": 0,
+        "negative": 0
+      },
+      "highIntensityActions": {
+        "n": 30,
+        "mean": 0,
+        "median": 0,
+        "sd": 0,
+        "min": 0,
+        "max": 0,
+        "p05": 0,
+        "p10": 0,
+        "p25": 0,
+        "p75": 0,
+        "p90": 0,
+        "p95": 0,
+        "meanCI95Approx": [
+          0,
+          0
+        ],
+        "positive": 0,
+        "negative": 0
+      },
+      "recoveryCompletions": {
+        "n": 30,
+        "mean": 0,
+        "median": 0,
+        "sd": 0,
+        "min": 0,
+        "max": 0,
+        "p05": 0,
+        "p10": 0,
+        "p25": 0,
+        "p75": 0,
+        "p90": 0,
+        "p95": 0,
+        "meanCI95Approx": [
+          0,
+          0
+        ],
+        "positive": 0,
+        "negative": 0
+      },
+      "opportunityQuality": {
+        "n": 30,
+        "mean": 0,
+        "median": 0,
+        "sd": 0,
+        "min": 0,
+        "max": 0,
+        "p05": 0,
+        "p10": 0,
+        "p25": 0,
+        "p75": 0,
+        "p90": 0,
+        "p95": 0,
+        "meanCI95Approx": [
+          0,
+          0
+        ],
+        "positive": 0,
+        "negative": 0
+      },
+      "shotPressure": {
+        "n": 30,
+        "mean": 0,
+        "median": 0,
+        "sd": 0,
+        "min": 0,
+        "max": 0,
+        "p05": 0,
+        "p10": 0,
+        "p25": 0,
+        "p75": 0,
+        "p90": 0,
+        "p95": 0,
+        "meanCI95Approx": [
+          0,
+          0
+        ],
+        "positive": 0,
+        "negative": 0
+      }
+    },
+    "margins": {
+      "n": 30,
+      "mean": -0.2,
+      "median": 0,
+      "sd": 5.897983290630088,
+      "min": -12,
+      "max": 9,
+      "p05": -10.1,
+      "p10": -7.199999999999999,
+      "p25": -5,
+      "p75": 4,
+      "p90": 7.100000000000001,
+      "p95": 8.549999999999997
+    },
+    "late": {
+      "noRotation": {
+        "energy": {
+          "n": 30,
+          "mean": 0.6856912273582764,
+          "median": 0.6793523637519618,
+          "sd": 0.031423380098770985,
+          "min": 0.6453049108158069,
+          "max": 0.7888253942016358,
+          "p05": 0.649527088424691,
+          "p10": 0.6571234257577464,
+          "p25": 0.6626721103758935,
+          "p75": 0.7022679838692993,
+          "p90": 0.7176211194599266,
+          "p95": 0.735086386244872
+        },
+        "acute": {
+          "n": 30,
+          "mean": 0.1577795443645263,
+          "median": 0.15822141452705313,
+          "sd": 0.009211883938720463,
+          "min": 0.13233476471184086,
+          "max": 0.17541340999394622,
+          "p05": 0.14633630983300094,
+          "p10": 0.14767709886258878,
+          "p25": 0.15052624423897795,
+          "p75": 0.1639809277897427,
+          "p90": 0.16812415690365334,
+          "p95": 0.1716895585389965
+        },
+        "accelerationCapacity": {
+          "n": 30,
+          "mean": 0.8783962386527694,
+          "median": 0.8758921827139228,
+          "sd": 0.015170100085577473,
+          "min": 0.858602645914367,
+          "max": 0.9252173354337117,
+          "p05": 0.860537607076651,
+          "p10": 0.8633786069580042,
+          "p25": 0.8673760574687923,
+          "p75": 0.8856036165309413,
+          "p90": 0.8949484255752003,
+          "p95": 0.9017795578170493
+        },
+        "severeShare": {
+          "n": 30,
+          "mean": 0,
+          "median": 0,
+          "sd": 0,
+          "min": 0,
+          "max": 0,
+          "p05": 0,
+          "p10": 0,
+          "p25": 0,
+          "p75": 0,
+          "p90": 0,
+          "p95": 0
+        },
+        "recoveryAcceleration": {
+          "n": 30,
+          "mean": 5.546037843678667,
+          "median": 5.5686690970976365,
+          "sd": 0.17065117933110954,
+          "min": 5.227448868690412,
+          "max": 5.8158079974470756,
+          "p05": 5.240205817634678,
+          "p10": 5.283909471788022,
+          "p25": 5.4546368099444145,
+          "p75": 5.671516579423043,
+          "p90": 5.752918665147915,
+          "p95": 5.7894016394673224
+        },
+        "recoverySpeed": {
+          "n": 30,
+          "mean": 2.2938487562631895,
+          "median": 2.290368399718062,
+          "sd": 0.1916800139256653,
+          "min": 1.9653093142570963,
+          "max": 2.702950764085447,
+          "p05": 2.0131104929948904,
+          "p10": 2.0419519010164056,
+          "p25": 2.1690132638411654,
+          "p75": 2.440674964401975,
+          "p90": 2.538691592603,
+          "p95": 2.5794007825287535
+        },
+        "fieldAttempts": {
+          "n": 30,
+          "mean": 11.366666666666667,
+          "median": 12,
+          "sd": 2.2203344472108837,
+          "min": 7,
+          "max": 15,
+          "p05": 7.45,
+          "p10": 8.9,
+          "p25": 10,
+          "p75": 13,
+          "p90": 14.100000000000001,
+          "p95": 15
+        },
+        "sevenAttempts": {
+          "n": 30,
+          "mean": 0.9666666666666667,
+          "median": 1,
+          "sd": 0.8087168778415269,
+          "min": 0,
+          "max": 3,
+          "p05": 0,
+          "p10": 0,
+          "p25": 0,
+          "p75": 1,
+          "p90": 2,
+          "p95": 2
+        },
+        "totalAttempts": {
+          "n": 30,
+          "mean": 12.333333333333334,
+          "median": 13,
+          "sd": 2.0398332138265336,
+          "min": 8,
+          "max": 16,
+          "p05": 8.45,
+          "p10": 9.9,
+          "p25": 11,
+          "p75": 13,
+          "p90": 15,
+          "p95": 15.549999999999997
+        },
+        "goals": {
+          "n": 30,
+          "mean": 7.466666666666667,
+          "median": 8,
+          "sd": 1.9605300714142437,
+          "min": 3,
+          "max": 11,
+          "p05": 4.45,
+          "p10": 5,
+          "p25": 6.25,
+          "p75": 9,
+          "p90": 10,
+          "p95": 10
+        },
+        "receptionFailures": {
+          "n": 30,
+          "mean": 1.0666666666666667,
+          "median": 1,
+          "sd": 0.9444331755018488,
+          "min": 0,
+          "max": 3,
+          "p05": 0,
+          "p10": 0,
+          "p25": 0,
+          "p75": 2,
+          "p90": 2,
+          "p95": 2.549999999999997
+        },
+        "assessedFouls": {
+          "n": 30,
+          "mean": 7,
+          "median": 7,
+          "sd": 2.8039381172767066,
+          "min": 3,
+          "max": 13,
+          "p05": 3,
+          "p10": 3,
+          "p25": 5,
+          "p75": 9,
+          "p90": 10.100000000000001,
+          "p95": 11.549999999999997
+        },
+        "suspensions": {
+          "n": 30,
+          "mean": 1.2333333333333334,
+          "median": 1,
+          "sd": 1.0400044208570935,
+          "min": 0,
+          "max": 4,
+          "p05": 0,
+          "p10": 0,
+          "p25": 0.25,
+          "p75": 2,
+          "p90": 2.1000000000000014,
+          "p95": 3
+        },
+        "transitionShots": {
+          "n": 30,
+          "mean": 1.1,
+          "median": 1,
+          "sd": 1.422722014672748,
+          "min": 0,
+          "max": 5,
+          "p05": 0,
+          "p10": 0,
+          "p25": 0,
+          "p75": 1.75,
+          "p90": 3.1000000000000014,
+          "p95": 4
+        },
+        "highIntensityActions": {
+          "n": 30,
+          "mean": 353.6666666666667,
+          "median": 355,
+          "sd": 26.81781874610332,
+          "min": 288,
+          "max": 417,
+          "p05": 310.15,
+          "p10": 329.5,
+          "p25": 340.5,
+          "p75": 366.75,
+          "p90": 386.6,
+          "p95": 398.59999999999997
+        },
+        "recoveryCompletions": {
+          "n": 30,
+          "mean": 317.1,
+          "median": 314,
+          "sd": 32.51880092797247,
+          "min": 239,
+          "max": 378,
+          "p05": 257.5,
+          "p10": 283.9,
+          "p25": 304.25,
+          "p75": 340.5,
+          "p90": 354.6,
+          "p95": 367.69999999999993
+        },
+        "opportunityQuality": {
+          "n": 30,
+          "mean": 0.5214723528903744,
+          "median": 0.5237450012316924,
+          "sd": 0.049826284833397724,
+          "min": 0.395788440776161,
+          "max": 0.6137911276990775,
+          "p05": 0.44011284502274906,
+          "p10": 0.46348927615370883,
+          "p25": 0.49231160259421675,
+          "p75": 0.5504769467523057,
+          "p90": 0.5820258618447464,
+          "p95": 0.6030161979552917
+        },
+        "shotPressure": {
+          "n": 30,
+          "mean": 0.6548863014993186,
+          "median": 0.6476625542975557,
+          "sd": 0.1612610149985979,
+          "min": 0.36748392582675654,
+          "max": 0.9576949592449527,
+          "p05": 0.43765118808715925,
+          "p10": 0.46705451558877553,
+          "p25": 0.5196870805589253,
+          "p75": 0.7510655561638518,
+          "p90": 0.9153128742043944,
+          "p95": 0.9457637601849986
+        }
+      },
+      "rotation": {
+        "energy": {
+          "n": 30,
+          "mean": 0.7771656056889553,
+          "median": 0.7739351847731233,
+          "sd": 0.02813616437552152,
+          "min": 0.7352902861101811,
+          "max": 0.8507076978738036,
+          "p05": 0.7421918107255441,
+          "p10": 0.7452743495645652,
+          "p25": 0.7568107736197357,
+          "p75": 0.7899311355600357,
+          "p90": 0.8192941040176223,
+          "p95": 0.828143539394352
+        },
+        "acute": {
+          "n": 30,
+          "mean": 0.16417158431815163,
+          "median": 0.16280729915777625,
+          "sd": 0.014351137250146414,
+          "min": 0.12550645583970987,
+          "max": 0.19597872097266747,
+          "p05": 0.1409105994820601,
+          "p10": 0.1466846532179546,
+          "p25": 0.15882434976568177,
+          "p75": 0.17278940489804112,
+          "p90": 0.17926867870413318,
+          "p95": 0.18524246390503032
+        },
+        "accelerationCapacity": {
+          "n": 30,
+          "mean": 0.9148538272638013,
+          "median": 0.9132769744395512,
+          "sd": 0.013034323475151207,
+          "min": 0.8941971086546626,
+          "max": 0.9471690024624015,
+          "p05": 0.8983950444443091,
+          "p10": 0.9008953272546962,
+          "p25": 0.9053588511068009,
+          "p75": 0.9210305747569911,
+          "p90": 0.9345436351450055,
+          "p95": 0.9400577310516915
+        },
+        "severeShare": {
+          "n": 30,
+          "mean": 0,
+          "median": 0,
+          "sd": 0,
+          "min": 0,
+          "max": 0,
+          "p05": 0,
+          "p10": 0,
+          "p25": 0,
+          "p75": 0,
+          "p90": 0,
+          "p95": 0
+        },
+        "recoveryAcceleration": {
+          "n": 30,
+          "mean": 5.7427434749508075,
+          "median": 5.77021856741516,
+          "sd": 0.18636574165369219,
+          "min": 5.276101551269217,
+          "max": 6.1490716027791,
+          "p05": 5.363897666318995,
+          "p10": 5.419565671709561,
+          "p25": 5.716683578539681,
+          "p75": 5.85028901629288,
+          "p90": 5.903245497506687,
+          "p95": 5.93516796088189
+        },
+        "recoverySpeed": {
+          "n": 30,
+          "mean": 2.3305835132472277,
+          "median": 2.360229543506656,
+          "sd": 0.2586503916544601,
+          "min": 1.4392761232652962,
+          "max": 2.7169725702222935,
+          "p05": 1.881428270098951,
+          "p10": 2.1589410460566674,
+          "p25": 2.2297150004416144,
+          "p75": 2.474536682604633,
+          "p90": 2.532716992677334,
+          "p95": 2.6289016826801213
+        },
+        "fieldAttempts": {
+          "n": 30,
+          "mean": 11.366666666666667,
+          "median": 11,
+          "sd": 2.606137759787173,
+          "min": 7,
+          "max": 16,
+          "p05": 8,
+          "p10": 8,
+          "p25": 9.25,
+          "p75": 14,
+          "p90": 15,
+          "p95": 15
+        },
+        "sevenAttempts": {
+          "n": 30,
+          "mean": 1.3333333333333333,
+          "median": 1,
+          "sd": 1.2129568697262454,
+          "min": 0,
+          "max": 5,
+          "p05": 0,
+          "p10": 0,
+          "p25": 0.25,
+          "p75": 2,
+          "p90": 2.1000000000000014,
+          "p95": 3.549999999999997
+        },
+        "totalAttempts": {
+          "n": 30,
+          "mean": 12.7,
+          "median": 12,
+          "sd": 2.561653560791787,
+          "min": 8,
+          "max": 18,
+          "p05": 9,
+          "p10": 9,
+          "p25": 11.25,
+          "p75": 15,
+          "p90": 16,
+          "p95": 16.549999999999997
+        },
+        "goals": {
+          "n": 30,
+          "mean": 7.7,
+          "median": 8,
+          "sd": 2.1359000364055523,
+          "min": 4,
+          "max": 12,
+          "p05": 5,
+          "p10": 5,
+          "p25": 6,
+          "p75": 9,
+          "p90": 10.100000000000001,
+          "p95": 11
+        },
+        "receptionFailures": {
+          "n": 30,
+          "mean": 1.4,
+          "median": 1,
+          "sd": 1.1626367179523596,
+          "min": 0,
+          "max": 5,
+          "p05": 0,
+          "p10": 0,
+          "p25": 1,
+          "p75": 2,
+          "p90": 3,
+          "p95": 3
+        },
+        "assessedFouls": {
+          "n": 30,
+          "mean": 5.933333333333334,
+          "median": 6,
+          "sd": 3.5226687897528564,
+          "min": 0,
+          "max": 13,
+          "p05": 2,
+          "p10": 2,
+          "p25": 3,
+          "p75": 8,
+          "p90": 11.200000000000003,
+          "p95": 13
+        },
+        "suspensions": {
+          "n": 30,
+          "mean": 1.1333333333333333,
+          "median": 1,
+          "sd": 1.4558640835892125,
+          "min": 0,
+          "max": 5,
+          "p05": 0,
+          "p10": 0,
+          "p25": 0,
+          "p75": 1.75,
+          "p90": 3.1000000000000014,
+          "p95": 4.549999999999997
+        },
+        "transitionShots": {
+          "n": 30,
+          "mean": 1.4666666666666666,
+          "median": 1.5,
+          "sd": 0.9732042112432567,
+          "min": 0,
+          "max": 4,
+          "p05": 0,
+          "p10": 0,
+          "p25": 1,
+          "p75": 2,
+          "p90": 2.1000000000000014,
+          "p95": 3
+        },
+        "highIntensityActions": {
+          "n": 30,
+          "mean": 348.06666666666666,
+          "median": 347.5,
+          "sd": 21.700045023524456,
+          "min": 291,
+          "max": 388,
+          "p05": 317.7,
+          "p10": 321.9,
+          "p25": 337.75,
+          "p75": 366.75,
+          "p90": 375,
+          "p95": 375.55
+        },
+        "recoveryCompletions": {
+          "n": 30,
+          "mean": 336.9,
+          "median": 322,
+          "sd": 60.5921071450388,
+          "min": 279,
+          "max": 603,
+          "p05": 280,
+          "p10": 284.5,
+          "p25": 302.75,
+          "p75": 354.5,
+          "p90": 382.90000000000003,
+          "p95": 392.65
+        },
+        "opportunityQuality": {
+          "n": 30,
+          "mean": 0.5301757116005189,
+          "median": 0.5284261139139498,
+          "sd": 0.059637868062123185,
+          "min": 0.38138959457481203,
+          "max": 0.6491949267901832,
+          "p05": 0.4404105814974619,
+          "p10": 0.46315592351731355,
+          "p25": 0.49927707783405534,
+          "p75": 0.5656761490194933,
+          "p90": 0.5969782458642743,
+          "p95": 0.6394340587143493
+        },
+        "shotPressure": {
+          "n": 30,
+          "mean": 0.6416599097696369,
+          "median": 0.6619832984065439,
+          "sd": 0.1726830348848982,
+          "min": 0.31718359082875563,
+          "max": 0.8943072626728636,
+          "p05": 0.3694327877346053,
+          "p10": 0.40740699835132116,
+          "p25": 0.4769333833349237,
+          "p75": 0.7927439000974117,
+          "p90": 0.8316478748448308,
+          "p95": 0.843798100257695
+        }
+      },
+      "paired": {
+        "energy": {
+          "n": 30,
+          "mean": 0.09147437833067885,
+          "median": 0.09006328838061034,
+          "sd": 0.029542600593400407,
+          "min": 0.034167810736985715,
+          "max": 0.14228125287810955,
+          "p05": 0.045227778367484525,
+          "p10": 0.053779701150847674,
+          "p25": 0.07795648931206386,
+          "p75": 0.11135208061202384,
+          "p90": 0.13689503541520176,
+          "p95": 0.13860618786343923,
+          "meanCI95Approx": [
+            0.08090269447912986,
+            0.10204606218222785
+          ],
+          "positive": 30,
+          "negative": 0
+        },
+        "acute": {
+          "n": 30,
+          "mean": 0.006392039953625347,
+          "median": 0.00674215653842429,
+          "sd": 0.01308120827686256,
+          "min": -0.030194400151480394,
+          "max": 0.03703705854177966,
+          "p05": -0.01132483836106045,
+          "p10": -0.008182388609832232,
+          "p25": 0.00041653610241321193,
+          "p75": 0.013040304717537629,
+          "p90": 0.020383712599406134,
+          "p95": 0.024661318512394243,
+          "meanCI95Approx": [
+            0.0017109896898868868,
+            0.011073090217363806
+          ],
+          "positive": 23,
+          "negative": 7
+        },
+        "accelerationCapacity": {
+          "n": 30,
+          "mean": 0.03645758861103163,
+          "median": 0.03629932825270188,
+          "sd": 0.012880525994842473,
+          "min": 0.012965606841118249,
+          "max": 0.05960234066583703,
+          "p05": 0.017763445334797772,
+          "p10": 0.01813094646304573,
+          "p25": 0.029809919946065966,
+          "p75": 0.04466224551877315,
+          "p90": 0.053790361255806524,
+          "p95": 0.058188075769751754,
+          "meanCI95Approx": [
+            0.03184835157962579,
+            0.041066825642437466
+          ],
+          "positive": 30,
+          "negative": 0
+        },
+        "severeShare": {
+          "n": 30,
+          "mean": 0,
+          "median": 0,
+          "sd": 0,
+          "min": 0,
+          "max": 0,
+          "p05": 0,
+          "p10": 0,
+          "p25": 0,
+          "p75": 0,
+          "p90": 0,
+          "p95": 0,
+          "meanCI95Approx": [
+            0,
+            0
+          ],
+          "positive": 0,
+          "negative": 0
+        },
+        "recoveryAcceleration": {
+          "n": 30,
+          "mean": 0.1967056312721408,
+          "median": 0.17103700145366219,
+          "sd": 0.1277632267390143,
+          "min": 0.04047582510025993,
+          "max": 0.5616885458141381,
+          "p05": 0.054334032574924064,
+          "p10": 0.0639784408428258,
+          "p25": 0.09604167326669644,
+          "p75": 0.27747868760396077,
+          "p90": 0.3510826496188079,
+          "p95": 0.3991972726817793,
+          "meanCI95Approx": [
+            0.150986147753132,
+            0.24242511479114962
+          ],
+          "positive": 30,
+          "negative": 0
+        },
+        "recoverySpeed": {
+          "n": 30,
+          "mean": 0.03673475698403809,
+          "median": 0.07202098502430987,
+          "sd": 0.30734615642107094,
+          "min": -1.0373492103727582,
+          "max": 0.5203802378440114,
+          "p05": -0.38189106314246146,
+          "p10": -0.2467996391396886,
+          "p25": -0.07787456083967459,
+          "p75": 0.24325791085003579,
+          "p90": 0.3698830084887138,
+          "p95": 0.400928491450635,
+          "meanCI95Approx": [
+            -0.0732476526010587,
+            0.14671716656913486
+          ],
+          "positive": 19,
+          "negative": 11
+        },
+        "fieldAttempts": {
+          "n": 30,
+          "mean": 0,
+          "median": 0,
+          "sd": 3.0738047859402142,
+          "min": -5,
+          "max": 5,
+          "p05": -5,
+          "p10": -4.1,
+          "p25": -2.75,
+          "p75": 2,
+          "p90": 4,
+          "p95": 4.549999999999997,
+          "meanCI95Approx": [
+            -1.0999469161695052,
+            1.0999469161695052
+          ],
+          "positive": 12,
+          "negative": 11
+        },
+        "sevenAttempts": {
+          "n": 30,
+          "mean": 0.36666666666666664,
+          "median": 0,
+          "sd": 1.376736103561817,
+          "min": -2,
+          "max": 4,
+          "p05": -1.5499999999999998,
+          "p10": -1,
+          "p25": -0.75,
+          "p75": 1,
+          "p90": 2,
+          "p95": 2.549999999999997,
+          "meanCI95Approx": [
+            -0.1259920208396828,
+            0.8593253541730161
+          ],
+          "positive": 13,
+          "negative": 8
+        },
+        "totalAttempts": {
+          "n": 30,
+          "mean": 0.36666666666666664,
+          "median": 1,
+          "sd": 3.0340974154494083,
+          "min": -6,
+          "max": 5,
+          "p05": -4,
+          "p10": -4,
+          "p25": -2,
+          "p75": 2.75,
+          "p90": 5,
+          "p95": 5,
+          "meanCI95Approx": [
+            -0.7190711494583792,
+            1.4524044827917126
+          ],
+          "positive": 16,
+          "negative": 11
+        },
+        "goals": {
+          "n": 30,
+          "mean": 0.23333333333333334,
+          "median": 0,
+          "sd": 2.7251489466833174,
+          "min": -5,
+          "max": 7,
+          "p05": -3.55,
+          "p10": -3,
+          "p25": -2,
+          "p75": 2,
+          "p90": 3.1000000000000014,
+          "p95": 4.549999999999997,
+          "meanCI95Approx": [
+            -0.7418486930977988,
+            1.2085153597644656
+          ],
+          "positive": 14,
+          "negative": 14
+        },
+        "receptionFailures": {
+          "n": 30,
+          "mean": 0.3333333333333333,
+          "median": 0,
+          "sd": 1.3978637231524922,
+          "min": -1,
+          "max": 5,
+          "p05": -1,
+          "p10": -1,
+          "p25": -1,
+          "p75": 1,
+          "p90": 2,
+          "p95": 2.549999999999997,
+          "meanCI95Approx": [
+            -0.16688577574600066,
+            0.8335524424126672
+          ],
+          "positive": 10,
+          "negative": 9
+        },
+        "assessedFouls": {
+          "n": 30,
+          "mean": -1.0666666666666667,
+          "median": -1,
+          "sd": 4.432896875931548,
+          "min": -9,
+          "max": 7,
+          "p05": -7.55,
+          "p10": -7,
+          "p25": -4.75,
+          "p75": 2,
+          "p90": 4.100000000000001,
+          "p95": 5.549999999999997,
+          "meanCI95Approx": [
+            -2.6529584411740337,
+            0.5196251078407004
+          ],
+          "positive": 11,
+          "negative": 18
+        },
+        "suspensions": {
+          "n": 30,
+          "mean": -0.1,
+          "median": 0,
+          "sd": 1.9000907419347655,
+          "min": -4,
+          "max": 4,
+          "p05": -2.55,
+          "p10": -2,
+          "p25": -1.75,
+          "p75": 1,
+          "p90": 2.1000000000000014,
+          "p95": 3.549999999999997,
+          "meanCI95Approx": [
+            -0.7799387396340736,
+            0.5799387396340736
+          ],
+          "positive": 11,
+          "negative": 12
+        },
+        "transitionShots": {
+          "n": 30,
+          "mean": 0.36666666666666664,
+          "median": 1,
+          "sd": 1.9384197853839122,
+          "min": -5,
+          "max": 4,
+          "p05": -2.55,
+          "p10": -2,
+          "p25": 0,
+          "p75": 1.75,
+          "p90": 2.1000000000000014,
+          "p95": 3,
+          "meanCI95Approx": [
+            -0.3269879450144732,
+            1.0603212783478064
+          ],
+          "positive": 16,
+          "negative": 7
+        },
+        "highIntensityActions": {
+          "n": 30,
+          "mean": -5.6,
+          "median": 6.5,
+          "sd": 36.31908399270232,
+          "min": -102,
+          "max": 54,
+          "p05": -67.44999999999999,
+          "p10": -49.8,
+          "p25": -25.25,
+          "p75": 14.75,
+          "p90": 29.300000000000004,
+          "p95": 38.04999999999997,
+          "meanCI95Approx": [
+            -18.59661729287553,
+            7.396617292875529
+          ],
+          "positive": 18,
+          "negative": 12
+        },
+        "recoveryCompletions": {
+          "n": 30,
+          "mean": 19.8,
+          "median": 8.5,
+          "sd": 67.52184831593401,
+          "min": -68,
+          "max": 283,
+          "p05": -59.85,
+          "p10": -53.3,
+          "p25": -21.75,
+          "p75": 52,
+          "p90": 72.10000000000002,
+          "p95": 94.29999999999998,
+          "meanCI95Approx": [
+            -4.3623831054251205,
+            43.96238310542512
+          ],
+          "positive": 17,
+          "negative": 13
+        },
+        "opportunityQuality": {
+          "n": 30,
+          "mean": 0.008703358710144308,
+          "median": 0.0019893411714632103,
+          "sd": 0.07806394813288658,
+          "min": -0.11729867285092771,
+          "max": 0.1506670788645011,
+          "p05": -0.10402784814550695,
+          "p10": -0.08715546222889159,
+          "p25": -0.04892737334875416,
+          "p75": 0.056761112921429324,
+          "p90": 0.12163178625767752,
+          "p95": 0.1398695339644944,
+          "meanCI95Approx": [
+            -0.019231466365781942,
+            0.036638183786070554
+          ],
+          "positive": 15,
+          "negative": 15
+        },
+        "shotPressure": {
+          "n": 30,
+          "mean": -0.013226391729681623,
+          "median": 0.023300835574087575,
+          "sd": 0.2279631744723344,
+          "min": -0.44632072054808514,
+          "max": 0.33865057791591346,
+          "p05": -0.36697116020337484,
+          "p10": -0.3214447653217122,
+          "p25": -0.19898921491832489,
+          "p75": 0.17236556917874535,
+          "p90": 0.263916770997452,
+          "p95": 0.3096446195786579,
+          "meanCI95Approx": [
+            -0.09480196604981744,
+            0.0683491825904542
+          ],
+          "positive": 16,
+          "negative": 14
+        }
+      }
+    }
+  },
+  "proofs": {
+    "hbl": {
+      "complete": true,
+      "league": "hbl",
+      "recipe": {
+        "index": 0,
+        "saveSeed": "match-realism-v2-canonical-2026:0",
+        "managerClubId": "se_club_alingsas_hk",
+        "fixtureId": "se_handbollsligan_herr-f1"
+      },
+      "inputHash": "8773162275c76de70511889789a7a7bbc4e1b9cbb4c8b2c5030eb8cafee530a7",
+      "sourceFingerprints": {
+        "packages/handball-engine/src/v2/core/actions.ts": "ca1ea04b61a3e92bcf3c3d8f81a30d5dcf008af790f690b9302f2b204bf31a67",
+        "packages/handball-engine/src/v2/core/backcourt.ts": "00ab4e44f0520b83f771cf5dd8a0e1212b34272410e5027b856eabddebddc120",
+        "packages/handball-engine/src/v2/core/backcourtScenarios.ts": "6137722469db2dc0a9567b9ff3bccd9c8d3f070e9db58bb93fe225cbccd655be",
+        "packages/handball-engine/src/v2/core/coaching.ts": "b943276328e1df36f43173af08fe008d8376f419e5afae4aeae5e1466a28a599",
+        "packages/handball-engine/src/v2/core/condition.ts": "d0329cda9b01bb0a6d24f939863080a0a0dff6f2b8912adbab1595e19e297b11",
+        "packages/handball-engine/src/v2/core/contact.ts": "c3084ebc21cee0ff9da3c74edeee2a88f1b0ebadd43648289533f146535c2640",
+        "packages/handball-engine/src/v2/core/contactScenarios.ts": "624c77567281a49677ae55289c3e0d71d5e81f00e2f56f151e1bf7ea59ebd1ce",
+        "packages/handball-engine/src/v2/core/continuous.ts": "3bc0e25ee0474aab3162df83b5e228bcd5953ddc5b29622592e5fd5bfdda55c5",
+        "packages/handball-engine/src/v2/core/defence.ts": "353763d139e7d170aff02f6b757973103a3b25fbdc53c4c363a1ed06de102b56",
+        "packages/handball-engine/src/v2/core/engage.ts": "b597ce488188b882f553f0553316960039d19ec92bca275ee89c7a4db4595d07",
+        "packages/handball-engine/src/v2/core/engine.ts": "f4f08af1cd70202cde65f2aa0049c4c0fbf2c972c769a9019d17609ea460508c",
+        "packages/handball-engine/src/v2/core/execution.ts": "b6a3ca9fac7fe95602ebc45eddbedc3763150c1845063f14773ef4e06c8e2f71",
+        "packages/handball-engine/src/v2/core/intelligence.ts": "8b7814ce46cf50bbb8a2e19648991e880304a5c0f2fdf5b5540a45e57ed4c80b",
+        "packages/handball-engine/src/v2/core/intelligenceScenarios.ts": "8214cb9c24bad1570559d71d2381e3ac6bdf7c670bd0e9b925bbc72857bbd310",
+        "packages/handball-engine/src/v2/core/interactions.ts": "cc8edb68c0aa81c914c8bf10f42de3e40c925a76315e0b5b76cdc08bd7e1b9bc",
+        "packages/handball-engine/src/v2/core/ledger.ts": "dd801ce6401a106d772eac46c5800eb46f218d34495f41ec1ff536aec24116c9",
+        "packages/handball-engine/src/v2/core/locomotion.ts": "c222d4240a0b0935e552fa37a7c1dcf7a999d48ca4e4e200ce5befabbc860b13",
+        "packages/handball-engine/src/v2/core/match.ts": "a853a0a922f76759c51aa21e29017aaf1bd0d07d60e5bf611e49e9e4b8dd3e9e",
+        "packages/handball-engine/src/v2/core/matchReplay.ts": "6796c275154da7145cd06558835524075013528ecb2354a1f3439e5b537ea499",
+        "packages/handball-engine/src/v2/core/movement.ts": "e2b310cca3c7c5c82b4540a78f2e91551a8f33a424ea01a2c8c0fc69de67f0ae",
+        "packages/handball-engine/src/v2/core/offence.ts": "086fe17fc980c3b233b59c95c8ebe89feca8a11609d2de2686ad545312c60e25",
+        "packages/handball-engine/src/v2/core/passive.ts": "0c405269406b4a8b124ea432ce036a0008118aa59c186954cded0957a0c2381f",
+        "packages/handball-engine/src/v2/core/pivot.ts": "3021f9ab217e9e4eb8f5adf996365e86338ac0fa9e738fc7491a25228c6bf783",
+        "packages/handball-engine/src/v2/core/population.ts": "9097fd5e0396001ff48bb30529994fefb820aa9b75b272f79bdf55239eead655",
+        "packages/handball-engine/src/v2/core/profile.ts": "2470fad59a2bb1570ee67561b8ca9e79edead74bc7082c7fe0007f2e252f38b0",
+        "packages/handball-engine/src/v2/core/realism.ts": "615271e0bc0217a08b296fa0777754f28b02fa136e5c0e55f07a8af616780897",
+        "packages/handball-engine/src/v2/core/referee.ts": "35feaf4d17b6b5bd011702384be061081b52b220e5d897e37aa24bc297d04387",
+        "packages/handball-engine/src/v2/core/replay.ts": "7a636b1b374a10d7f8aa02ade08957ac67920aacd33b37db2f412f2fefa42e6b",
+        "packages/handball-engine/src/v2/core/restarts.ts": "048e5ead24b976453a0abe2cf314fe9e79c33a0619c7d71cdfdb47b575230520",
+        "packages/handball-engine/src/v2/core/rules.ts": "46325a43317b15edfc4773265989ffa2ab0500c9fdefb32a7fc3363dd39147d4",
+        "packages/handball-engine/src/v2/core/sanction.ts": "8d569712c4c2ce1223d246e3a5d5e6dd0913b5f8232e6456ff892bbcd424d910",
+        "packages/handball-engine/src/v2/core/scenarios.ts": "c48ddb2c75ce34fd03c439261e40e77f676b1ffb2fc8abeb1a3f9b1a5d286dbe",
+        "packages/handball-engine/src/v2/core/space.ts": "fa4755d1ba95d8e683cd19955418944d004a34963b708030ef72eb521ca25eb3",
+        "packages/handball-engine/src/v2/core/squads.ts": "fc2aeaa594f3ef8a119656d1056178bf5f6414f6ee4c2082641b97fc216749a4",
+        "packages/handball-engine/src/v2/core/state.ts": "fc33c3ac8ee2fbe78c7998c756850eda8981949f393a03ac77af9f5c9179284e",
+        "packages/handball-engine/src/v2/core/structure.ts": "fd5cea56c1e2e311b490e452701fa2b1b8f91282e3f6cd7e06a4621d8065f3c3",
+        "packages/handball-engine/src/v2/core/testProfile.ts": "35a3ac5a0a0fbb6614de81c449fde37b880af96bc10a1cd2dcf4b4e3e9077d6d",
+        "packages/handball-engine/src/v2/core/threatRelation.ts": "c68668bfbd439adfa42a751b12266d664e1d2e6d80358cbc30149b807fb9bcf1",
+        "packages/handball-engine/src/v2/core/timing.ts": "dfcd2f87a9aff8f275eca516307ba3e6943dd59b64cca89911f6ad4e36ad76ef",
+        "packages/handball-engine/src/v2/core/transitions.ts": "6498a4ea7a0d0efb0a19048dfcc9e6c2cd19fa8844f86f3d91995f65f80b270a",
+        "packages/handball-engine/src/v2/core/wing.ts": "31d7f39cf38918717d3723fadcce80948a13650a45a2f680e1bbc5c66fd3a556",
+        "packages/handball-engine/src/v2/core/wingScenarios.ts": "8d553b1c254f0953cf5508ca1a37463891f631cdfd0df81b436be487541ee031",
+        "apps/game/lib/career/productionMatch.ts": "6b81c65496b286a1df4052b40c0fc2cf632cacdfeece0384069f5e448115dcfc",
+        "apps/game/scripts/match-benchmarks.ts": "d51ecb4edbee2c1c99df5f61830068ba77f4d5abbad5ea306493f53b064f156a",
+        "apps/game/scripts/lib/calibrationDiagnostics.ts": "75b4d75ab6951abd13939eb69661ef9a926654ce95d33d36434709c9a038223e",
+        "apps/game/scripts/lib/reconciliationDiagnostics.ts": "150a9d196dc92862f75a3fbdc2bd6abddc6b0b91e854e777f5df3d257e4b99b8",
+        "apps/game/scripts/lib/attackCycleDiagnostics.ts": "b70edf097328dddf1812caba8f5eb9f4e1ed4eb4fd8a286d4d8c3eb948d145e0",
+        "apps/game/scripts/lib/rotationFatigueDiagnostics.ts": "21a274d11abe8b2ac430f7dadfc6dd66aff1ab1e4a69895c6ea1c2c4c0d6b94e",
+        "apps/game/lib/matchBenchmarks/empirical.ts": "1b05cfb0cfdb7e96870875b1042860b13221c852078eff953d31016123464d6c",
+        "apps/game/lib/matchBenchmarks/empiricalComparison.ts": "e49e86aca79b3e30cbe57ea0e6ce1da16a778417e936be4f3a1405a312e1a975",
+        "apps/game/lib/matchBenchmarks/evaluate.ts": "2f4d5bc893fbd482dfcd10baeaa1f3aa72c943dbcfa0e8dca0ba050fd3c9f3f0",
+        "apps/game/lib/matchBenchmarks/extract.ts": "4ac1e4094d2b76ba34dd157df4b32ba6309c1853aab18c7329890231681bb873",
+        "apps/game/lib/matchBenchmarks/reference.ts": "25cb435b7824faa1fc58429264d3e91a4833e678170bb5bfa75d5b5c98009e8a",
+        "apps/game/lib/matchBenchmarks/report.ts": "c7c77e53ba8b07212362ec36f4a31f2d8b263ea0f17ce8f0fd730292035b7444",
+        "apps/game/lib/matchBenchmarks/statistics.ts": "9b3c1f8e5dc5590302b8b6115f5e7c86d9a5693e14af80f0880b334f7752e2d0"
+      },
+      "sessionHash": "485a4ff33ded567eeb7dd6c3e763f9dc5bfe991d7b83c49cc6df1d652ead34a2",
+      "resultHash": "157a0545d6735fda8ea208f3eeab645cadc4958fede3779e3ea66da40792f52a",
+      "archiveHash": "0d3a6a25235c95df340d5decd7590146940c2a2b22ac6dc5801882dc1a918d69",
+      "exactObserverNonMutation": true,
+      "postAnalysisNonMutation": true,
+      "deterministic": true,
+      "midMatchJSONResume": true,
+      "checkpoint": {
+        "tick": 20000,
+        "score": {
+          "HOME": 8,
+          "AWAY": 11
+        },
+        "intents": 12,
+        "reentryReaders": 0,
+        "conditions": [
+          {
+            "id": "se_player_anton_hagvall_34e5df98",
+            "population": "COURT",
+            "condition": {
+              "energy": 0.9302804757768429,
+              "distanceMetres": 270.2104489484258,
+              "courtMs": 999750,
+              "unavailable": false,
+              "attacksRemaining": 0,
+              "treatmentPossession": null,
+              "exitRequired": false
+            },
+            "intent": null
+          },
+          {
+            "id": "se_player_august_wiger_94e4bcd0",
+            "population": "COURT",
+            "condition": {
+              "energy": 0.8650727740429869,
+              "distanceMetres": 1650.0881679049626,
+              "courtMs": 999750,
+              "unavailable": false,
+              "attacksRemaining": 0,
+              "treatmentPossession": null,
+              "exitRequired": false,
+              "acuteExertion": 0.16312371782881893
+            },
+            "intent": {
+              "id": "possession-57712:se_player_august_wiger_94e4bcd0:19977:SUPPORT_BALL",
+              "possessionId": "possession-57712",
+              "kind": "SUPPORT_BALL",
+              "sinceTick": 19977,
+              "primaryId": null,
+              "targetId": "se_player_petter_donaldson_80cffba4",
+              "target": null,
+              "commitment": 0.6052631578947368,
+              "originalAdvantage": 0,
+              "reason": "Balance the two backcourt lanes and retain a trailing central outlet",
+              "lastMotor": "RUN"
+            }
+          },
+          {
+            "id": "se_player_petter_donaldson_80cffba4",
+            "population": "COURT",
+            "condition": {
+              "energy": 0.8646183146873103,
+              "distanceMetres": 1657.45334072729,
+              "courtMs": 999750,
+              "unavailable": false,
+              "attacksRemaining": 0,
+              "treatmentPossession": null,
+              "exitRequired": false,
+              "acuteExertion": 0.16782158425806684
+            },
+            "intent": {
+              "id": "possession-57712:se_player_petter_donaldson_80cffba4:19997:SUPPORT_BALL",
+              "possessionId": "possession-57712",
+              "kind": "SUPPORT_BALL",
+              "sinceTick": 19997,
+              "primaryId": null,
+              "targetId": "se_player_benjamin_helander_b5cece84",
+              "target": null,
+              "commitment": 0.5894736842105264,
+              "originalAdvantage": 0,
+              "reason": "Stay behind the wing as its adjacent return-pass connection",
+              "lastMotor": "RECEIVE"
+            }
+          },
+          {
+            "id": "se_player_noel_hurtig_1aad97d9",
+            "population": "COURT",
+            "condition": {
+              "energy": 0.8533195564090522,
+              "distanceMetres": 1559.2571670695565,
+              "courtMs": 999750,
+              "unavailable": false,
+              "attacksRemaining": 0,
+              "treatmentPossession": null,
+              "exitRequired": false,
+              "acuteExertion": 0.16851868062271305
+            },
+            "intent": {
+              "id": "possession-57712:se_player_noel_hurtig_1aad97d9:19916:SUPPORT_BALL",
+              "possessionId": "possession-57712",
+              "kind": "SUPPORT_BALL",
+              "sinceTick": 19916,
+              "primaryId": null,
+              "targetId": "se_player_august_wiger_94e4bcd0",
+              "target": null,
+              "commitment": 0.5736842105263158,
+              "originalAdvantage": 0,
+              "reason": "Stretch outside the half defender to open the adjacent interval",
+              "lastMotor": "PASS"
+            }
+          },
+          {
+            "id": "se_player_alexander_regen_705fa7a6",
+            "population": "COURT",
+            "condition": {
+              "energy": 0.851893253965168,
+              "distanceMetres": 1789.7460922116118,
+              "courtMs": 999750,
+              "unavailable": false,
+              "attacksRemaining": 0,
+              "treatmentPossession": null,
+              "exitRequired": false,
+              "acuteExertion": 0.1810528726195009
+            },
+            "intent": {
+              "id": "possession-57712:se_player_alexander_regen_705fa7a6:19781:SUPPORT_BALL",
+              "possessionId": "possession-57712",
+              "kind": "SUPPORT_BALL",
+              "sinceTick": 19781,
+              "primaryId": null,
+              "targetId": null,
+              "target": null,
+              "commitment": 0.6052631578947368,
+              "originalAdvantage": 0,
+              "reason": "Follow the first wave and attack before the defensive line settles",
+              "lastMotor": "REPOSITION"
+            }
+          },
+          {
+            "id": "se_player_benjamin_helander_b5cece84",
+            "population": "COURT",
+            "condition": {
+              "energy": 0.8139583818778521,
+              "distanceMetres": 2209.443333087832,
+              "courtMs": 999750,
+              "unavailable": false,
+              "attacksRemaining": 0,
+              "treatmentPossession": null,
+              "exitRequired": false,
+              "acuteExertion": 0.20120614036076068
+            },
+            "intent": {
+              "id": "possession-57712:se_player_benjamin_helander_b5cece84:19986:ATTACK_GAP",
+              "possessionId": "possession-57712",
+              "kind": "ATTACK_GAP",
+              "sinceTick": 19986,
+              "primaryId": "player_max_blomberg_romero_992b2a4a",
+              "targetId": "player_max_blomberg_romero_992b2a4a",
+              "target": {
+                "x": 4.633731683257795,
+                "y": 5.150298760639632
+              },
+              "commitment": 0.620019460737734,
+              "originalAdvantage": 0.3649771498275341,
+              "reason": "Approach the legal wing takeoff to improve the angle",
+              "lastMotor": "DRIVE"
+            }
+          },
+          {
+            "id": "se_player_samuel_lindberg_1a6e8618",
+            "population": "COURT",
+            "condition": {
+              "energy": 0.837134804097978,
+              "distanceMetres": 2083.9617910512447,
+              "courtMs": 999750,
+              "unavailable": false,
+              "attacksRemaining": 0,
+              "treatmentPossession": null,
+              "exitRequired": false,
+              "acuteExertion": 0.21777928485896064
+            },
+            "intent": {
+              "id": "possession-57712:se_player_samuel_lindberg_1a6e8618:19898:SUPPORT_BALL",
+              "possessionId": "possession-57712",
+              "kind": "SUPPORT_BALL",
+              "sinceTick": 19898,
+              "primaryId": null,
+              "targetId": "se_player_noel_hurtig_1aad97d9",
+              "target": null,
+              "commitment": 0.6052631578947368,
+              "originalAdvantage": 0,
+              "reason": "Offer the adjacent back an outside receiving lane while retaining width",
+              "lastMotor": "RUN"
+            }
+          },
+          {
+            "id": "se_player_niklas_kraft_e8842f13",
+            "population": "BENCH",
+            "condition": {
+              "energy": 1,
+              "distanceMetres": 0,
+              "courtMs": 0,
+              "unavailable": false,
+              "attacksRemaining": 0,
+              "treatmentPossession": null,
+              "exitRequired": false
+            },
+            "intent": null
+          },
+          {
+            "id": "se_player_edwin_tengros_eec4c59b",
+            "population": "BENCH",
+            "condition": {
+              "energy": 1,
+              "distanceMetres": 0,
+              "courtMs": 0,
+              "unavailable": false,
+              "attacksRemaining": 0,
+              "treatmentPossession": null,
+              "exitRequired": false,
+              "acuteExertion": 0
+            },
+            "intent": null
+          },
+          {
+            "id": "se_player_arvid_andreasson_54da0f43",
+            "population": "BENCH",
+            "condition": {
+              "energy": 1,
+              "distanceMetres": 0,
+              "courtMs": 0,
+              "unavailable": false,
+              "attacksRemaining": 0,
+              "treatmentPossession": null,
+              "exitRequired": false,
+              "acuteExertion": 0
+            },
+            "intent": null
+          },
+          {
+            "id": "se_player_hugo_lignell_af49387a",
+            "population": "BENCH",
+            "condition": {
+              "energy": 1,
+              "distanceMetres": 0,
+              "courtMs": 0,
+              "unavailable": false,
+              "attacksRemaining": 0,
+              "treatmentPossession": null,
+              "exitRequired": false,
+              "acuteExertion": 0
+            },
+            "intent": null
+          },
+          {
+            "id": "se_player_arvid_boquist_39bb770d",
+            "population": "BENCH",
+            "condition": {
+              "energy": 1,
+              "distanceMetres": 0,
+              "courtMs": 0,
+              "unavailable": false,
+              "attacksRemaining": 0,
+              "treatmentPossession": null,
+              "exitRequired": false,
+              "acuteExertion": 0
+            },
+            "intent": null
+          },
+          {
+            "id": "se_player_max_sellstedt_314fc84c",
+            "population": "BENCH",
+            "condition": {
+              "energy": 1,
+              "distanceMetres": 0,
+              "courtMs": 0,
+              "unavailable": false,
+              "attacksRemaining": 0,
+              "treatmentPossession": null,
+              "exitRequired": false,
+              "acuteExertion": 0
+            },
+            "intent": null
+          },
+          {
+            "id": "se_player_hjalmar_jansson_8997bd4b",
+            "population": "BENCH",
+            "condition": {
+              "energy": 1,
+              "distanceMetres": 0,
+              "courtMs": 0,
+              "unavailable": false,
+              "attacksRemaining": 0,
+              "treatmentPossession": null,
+              "exitRequired": false,
+              "acuteExertion": 0
+            },
+            "intent": null
+          },
+          {
+            "id": "se_player_max_hurtig_77d80608",
+            "population": "BENCH",
+            "condition": {
+              "energy": 1,
+              "distanceMetres": 0,
+              "courtMs": 0,
+              "unavailable": false,
+              "attacksRemaining": 0,
+              "treatmentPossession": null,
+              "exitRequired": false,
+              "acuteExertion": 0
+            },
+            "intent": null
+          },
+          {
+            "id": "se_player_carl_ryden_d5428e1f",
+            "population": "BENCH",
+            "condition": {
+              "energy": 1,
+              "distanceMetres": 0,
+              "courtMs": 0,
+              "unavailable": false,
+              "attacksRemaining": 0,
+              "treatmentPossession": null,
+              "exitRequired": false,
+              "acuteExertion": 0
+            },
+            "intent": null
+          },
+          {
+            "id": "player_oliver_andersson_ef8ef0a2",
+            "population": "COURT",
+            "condition": {
+              "energy": 0.9334353102373008,
+              "distanceMetres": 185.23145547865988,
+              "courtMs": 999750,
+              "unavailable": false,
+              "attacksRemaining": 0,
+              "treatmentPossession": null,
+              "exitRequired": false
+            },
+            "intent": null
+          },
+          {
+            "id": "player_rasmus_nyman_1323b911",
+            "population": "COURT",
+            "condition": {
+              "energy": 0.8534397644795273,
+              "distanceMetres": 1802.4150884034393,
+              "courtMs": 999750,
+              "unavailable": false,
+              "attacksRemaining": 0,
+              "treatmentPossession": null,
+              "exitRequired": false,
+              "acuteExertion": 0.18063691313542943
+            },
+            "intent": {
+              "id": "possession-57712:player_rasmus_nyman_1323b911:19987:DEFENSIVE_CONTAIN",
+              "possessionId": "possession-57712",
+              "kind": "DEFENSIVE_CONTAIN",
+              "sinceTick": 19987,
+              "primaryId": null,
+              "targetId": "se_player_august_wiger_94e4bcd0",
+              "target": null,
+              "commitment": 0.5894736842105264,
+              "originalAdvantage": 0,
+              "reason": "Hold the space and take the attacker occupying it",
+              "lastMotor": "CONTAIN"
+            }
+          },
+          {
+            "id": "player_emil_hansson_02c1a5c6",
+            "population": "COURT",
+            "condition": {
+              "energy": 0.859901642616902,
+              "distanceMetres": 1711.685573984253,
+              "courtMs": 999750,
+              "unavailable": false,
+              "attacksRemaining": 0,
+              "treatmentPossession": null,
+              "exitRequired": false,
+              "acuteExertion": 0.1734657588893582
+            },
+            "intent": {
+              "id": "possession-57712:player_emil_hansson_02c1a5c6:19894:DEFENSIVE_CONTAIN",
+              "possessionId": "possession-57712",
+              "kind": "DEFENSIVE_CONTAIN",
+              "sinceTick": 19894,
+              "primaryId": null,
+              "targetId": "se_player_alexander_regen_705fa7a6",
+              "target": null,
+              "commitment": 0.6052631578947368,
+              "originalAdvantage": 0,
+              "reason": "The line player is standing in this space and belongs to it",
+              "lastMotor": "RECOVER"
+            }
+          },
+          {
+            "id": "player_mans_fredriksson_74083b68",
+            "population": "COURT",
+            "condition": {
+              "energy": 0.8699795074802952,
+              "distanceMetres": 1686.9776213835933,
+              "courtMs": 999750,
+              "unavailable": false,
+              "attacksRemaining": 0,
+              "treatmentPossession": null,
+              "exitRequired": false,
+              "acuteExertion": 0.16919790095659612
+            },
+            "intent": {
+              "id": "possession-57712:player_mans_fredriksson_74083b68:19990:DEFENSIVE_CONTAIN",
+              "possessionId": "possession-57712",
+              "kind": "DEFENSIVE_CONTAIN",
+              "sinceTick": 19990,
+              "primaryId": null,
+              "targetId": "se_player_noel_hurtig_1aad97d9",
+              "target": null,
+              "commitment": 0.6210526315789474,
+              "originalAdvantage": 0,
+              "reason": "Hold the space and take the attacker occupying it",
+              "lastMotor": "CONTAIN"
+            }
+          },
+          {
+            "id": "player_andreas_nilsson_e7db3e42",
+            "population": "COURT",
+            "condition": {
+              "energy": 0.8606099478984122,
+              "distanceMetres": 1863.4917754983085,
+              "courtMs": 999750,
+              "unavailable": false,
+              "attacksRemaining": 0,
+              "treatmentPossession": null,
+              "exitRequired": false,
+              "acuteExertion": 0.17366652442349573
+            },
+            "intent": {
+              "id": "possession-57712:player_andreas_nilsson_e7db3e42:19990:DEFENSIVE_CONTAIN",
+              "possessionId": "possession-57712",
+              "kind": "DEFENSIVE_CONTAIN",
+              "sinceTick": 19990,
+              "primaryId": null,
+              "targetId": null,
+              "target": null,
+              "commitment": 0.6368421052631579,
+              "originalAdvantage": 0,
+              "reason": "Hold the space; nobody is in it yet",
+              "lastMotor": "CONTAIN"
+            }
+          },
+          {
+            "id": "player_max_blomberg_romero_992b2a4a",
+            "population": "COURT",
+            "condition": {
+              "energy": 0.7999163853285706,
+              "distanceMetres": 2171.1593026041633,
+              "courtMs": 999750,
+              "unavailable": false,
+              "attacksRemaining": 0,
+              "treatmentPossession": null,
+              "exitRequired": false,
+              "acuteExertion": 0.2972406241893465
+            },
+            "intent": {
+              "id": "possession-57712:player_max_blomberg_romero_992b2a4a:19973:DEFENSIVE_CONTAIN",
+              "possessionId": "possession-57712",
+              "kind": "DEFENSIVE_CONTAIN",
+              "sinceTick": 19973,
+              "primaryId": null,
+              "targetId": "se_player_benjamin_helander_b5cece84",
+              "target": null,
+              "commitment": 0.5421052631578948,
+              "originalAdvantage": 0,
+              "reason": "Own the space the ball is in and meet the carrier in it",
+              "lastMotor": "CONTACT"
+            }
+          },
+          {
+            "id": "player_felix_lilja_e91d1945",
+            "population": "COURT",
+            "condition": {
+              "energy": 0.8170833191176979,
+              "distanceMetres": 2083.5580618714566,
+              "courtMs": 999750,
+              "unavailable": false,
+              "attacksRemaining": 0,
+              "treatmentPossession": null,
+              "exitRequired": false,
+              "acuteExertion": 0.2840430788377681
+            },
+            "intent": {
+              "id": "possession-57712:player_felix_lilja_e91d1945:19916:DEFENSIVE_CONTAIN",
+              "possessionId": "possession-57712",
+              "kind": "DEFENSIVE_CONTAIN",
+              "sinceTick": 19916,
+              "primaryId": null,
+              "targetId": "se_player_samuel_lindberg_1a6e8618",
+              "target": null,
+              "commitment": 0.5578947368421052,
+              "originalAdvantage": 0,
+              "reason": "Hold the space and take the attacker occupying it",
+              "lastMotor": "HELP"
+            }
+          },
+          {
+            "id": "player_max_dahlen_36c0e887",
+            "population": "BENCH",
+            "condition": {
+              "energy": 1,
+              "distanceMetres": 0,
+              "courtMs": 0,
+              "unavailable": false,
+              "attacksRemaining": 0,
+              "treatmentPossession": null,
+              "exitRequired": false
+            },
+            "intent": null
+          },
+          {
+            "id": "player_dominic_brigerstrand_4ac3c690",
+            "population": "BENCH",
+            "condition": {
+              "energy": 1,
+              "distanceMetres": 0,
+              "courtMs": 0,
+              "unavailable": false,
+              "attacksRemaining": 0,
+              "treatmentPossession": null,
+              "exitRequired": false
+            },
+            "intent": null
+          },
+          {
+            "id": "player_sebastian_kallemyr_ef0da952",
+            "population": "BENCH",
+            "condition": {
+              "energy": 1,
+              "distanceMetres": 0,
+              "courtMs": 0,
+              "unavailable": false,
+              "attacksRemaining": 0,
+              "treatmentPossession": null,
+              "exitRequired": false,
+              "acuteExertion": 0
+            },
+            "intent": null
+          },
+          {
+            "id": "player_adrian_kallhage_22c6ff9c",
+            "population": "BENCH",
+            "condition": {
+              "energy": 1,
+              "distanceMetres": 0,
+              "courtMs": 0,
+              "unavailable": false,
+              "attacksRemaining": 0,
+              "treatmentPossession": null,
+              "exitRequired": false,
+              "acuteExertion": 0
+            },
+            "intent": null
+          },
+          {
+            "id": "player_hannes_malm_lindblom_14a6be17",
+            "population": "BENCH",
+            "condition": {
+              "energy": 1,
+              "distanceMetres": 0,
+              "courtMs": 0,
+              "unavailable": false,
+              "attacksRemaining": 0,
+              "treatmentPossession": null,
+              "exitRequired": false,
+              "acuteExertion": 0
+            },
+            "intent": null
+          },
+          {
+            "id": "player_axel_hallberg_3d6931c7",
+            "population": "BENCH",
+            "condition": {
+              "energy": 1,
+              "distanceMetres": 0,
+              "courtMs": 0,
+              "unavailable": false,
+              "attacksRemaining": 0,
+              "treatmentPossession": null,
+              "exitRequired": false,
+              "acuteExertion": 0
+            },
+            "intent": null
+          },
+          {
+            "id": "player_fabian_gudmundsson_b1aadfba",
+            "population": "BENCH",
+            "condition": {
+              "energy": 1,
+              "distanceMetres": 0,
+              "courtMs": 0,
+              "unavailable": false,
+              "attacksRemaining": 0,
+              "treatmentPossession": null,
+              "exitRequired": false,
+              "acuteExertion": 0
+            },
+            "intent": null
+          },
+          {
+            "id": "player_elliot_lundstad_ff8f992c",
+            "population": "BENCH",
+            "condition": {
+              "energy": 1,
+              "distanceMetres": 0,
+              "courtMs": 0,
+              "unavailable": false,
+              "attacksRemaining": 0,
+              "treatmentPossession": null,
+              "exitRequired": false,
+              "acuteExertion": 0
+            },
+            "intent": null
+          },
+          {
+            "id": "player_adam_tysk_601c55ac",
+            "population": "BENCH",
+            "condition": {
+              "energy": 1,
+              "distanceMetres": 0,
+              "courtMs": 0,
+              "unavailable": false,
+              "attacksRemaining": 0,
+              "treatmentPossession": null,
+              "exitRequired": false,
+              "acuteExertion": 0
+            },
+            "intent": null
+          }
+        ],
+        "exchanges": [],
+        "advantage": null,
+        "sanctions": [],
+        "rng": {
+          "algorithm": "mulberry32",
+          "state": 3708307250,
+          "draws": 970
+        }
+      },
+      "exactArchive": true,
+      "exactlyOnceCommit": true,
+      "matchCenter": {
+        "energy": true,
+        "minutes": true,
+        "score": true,
+        "shots": true,
+        "conversion": true,
+        "penalties": true,
+        "suspensions": true,
+        "timeline": true,
+        "playerStats": true,
+        "keeperDenominators": true,
+        "loadedFacts": true,
+        "playerOrdering": true,
+        "keyMomentCanonicalPositions": 12
+      },
+      "score": [
+        27,
+        30
+      ],
+      "runtimeMs": 39543.0018
+    },
+    "allsv": {
+      "complete": true,
+      "league": "allsv",
+      "recipe": {
+        "index": 0,
+        "saveSeed": "match-realism-v2-canonical-2026:0",
+        "managerClubId": "swe2-aranas",
+        "fixtureId": "swe-2-f1"
+      },
+      "inputHash": "37b2f9ee4648ede1a422549fb680bad5c172ebdf70c77f65334d2e6487ab0347",
+      "sourceFingerprints": {
+        "packages/handball-engine/src/v2/core/actions.ts": "ca1ea04b61a3e92bcf3c3d8f81a30d5dcf008af790f690b9302f2b204bf31a67",
+        "packages/handball-engine/src/v2/core/backcourt.ts": "00ab4e44f0520b83f771cf5dd8a0e1212b34272410e5027b856eabddebddc120",
+        "packages/handball-engine/src/v2/core/backcourtScenarios.ts": "6137722469db2dc0a9567b9ff3bccd9c8d3f070e9db58bb93fe225cbccd655be",
+        "packages/handball-engine/src/v2/core/coaching.ts": "b943276328e1df36f43173af08fe008d8376f419e5afae4aeae5e1466a28a599",
+        "packages/handball-engine/src/v2/core/condition.ts": "d0329cda9b01bb0a6d24f939863080a0a0dff6f2b8912adbab1595e19e297b11",
+        "packages/handball-engine/src/v2/core/contact.ts": "c3084ebc21cee0ff9da3c74edeee2a88f1b0ebadd43648289533f146535c2640",
+        "packages/handball-engine/src/v2/core/contactScenarios.ts": "624c77567281a49677ae55289c3e0d71d5e81f00e2f56f151e1bf7ea59ebd1ce",
+        "packages/handball-engine/src/v2/core/continuous.ts": "3bc0e25ee0474aab3162df83b5e228bcd5953ddc5b29622592e5fd5bfdda55c5",
+        "packages/handball-engine/src/v2/core/defence.ts": "353763d139e7d170aff02f6b757973103a3b25fbdc53c4c363a1ed06de102b56",
+        "packages/handball-engine/src/v2/core/engage.ts": "b597ce488188b882f553f0553316960039d19ec92bca275ee89c7a4db4595d07",
+        "packages/handball-engine/src/v2/core/engine.ts": "f4f08af1cd70202cde65f2aa0049c4c0fbf2c972c769a9019d17609ea460508c",
+        "packages/handball-engine/src/v2/core/execution.ts": "b6a3ca9fac7fe95602ebc45eddbedc3763150c1845063f14773ef4e06c8e2f71",
+        "packages/handball-engine/src/v2/core/intelligence.ts": "8b7814ce46cf50bbb8a2e19648991e880304a5c0f2fdf5b5540a45e57ed4c80b",
+        "packages/handball-engine/src/v2/core/intelligenceScenarios.ts": "8214cb9c24bad1570559d71d2381e3ac6bdf7c670bd0e9b925bbc72857bbd310",
+        "packages/handball-engine/src/v2/core/interactions.ts": "cc8edb68c0aa81c914c8bf10f42de3e40c925a76315e0b5b76cdc08bd7e1b9bc",
+        "packages/handball-engine/src/v2/core/ledger.ts": "dd801ce6401a106d772eac46c5800eb46f218d34495f41ec1ff536aec24116c9",
+        "packages/handball-engine/src/v2/core/locomotion.ts": "c222d4240a0b0935e552fa37a7c1dcf7a999d48ca4e4e200ce5befabbc860b13",
+        "packages/handball-engine/src/v2/core/match.ts": "a853a0a922f76759c51aa21e29017aaf1bd0d07d60e5bf611e49e9e4b8dd3e9e",
+        "packages/handball-engine/src/v2/core/matchReplay.ts": "6796c275154da7145cd06558835524075013528ecb2354a1f3439e5b537ea499",
+        "packages/handball-engine/src/v2/core/movement.ts": "e2b310cca3c7c5c82b4540a78f2e91551a8f33a424ea01a2c8c0fc69de67f0ae",
+        "packages/handball-engine/src/v2/core/offence.ts": "086fe17fc980c3b233b59c95c8ebe89feca8a11609d2de2686ad545312c60e25",
+        "packages/handball-engine/src/v2/core/passive.ts": "0c405269406b4a8b124ea432ce036a0008118aa59c186954cded0957a0c2381f",
+        "packages/handball-engine/src/v2/core/pivot.ts": "3021f9ab217e9e4eb8f5adf996365e86338ac0fa9e738fc7491a25228c6bf783",
+        "packages/handball-engine/src/v2/core/population.ts": "9097fd5e0396001ff48bb30529994fefb820aa9b75b272f79bdf55239eead655",
+        "packages/handball-engine/src/v2/core/profile.ts": "2470fad59a2bb1570ee67561b8ca9e79edead74bc7082c7fe0007f2e252f38b0",
+        "packages/handball-engine/src/v2/core/realism.ts": "615271e0bc0217a08b296fa0777754f28b02fa136e5c0e55f07a8af616780897",
+        "packages/handball-engine/src/v2/core/referee.ts": "35feaf4d17b6b5bd011702384be061081b52b220e5d897e37aa24bc297d04387",
+        "packages/handball-engine/src/v2/core/replay.ts": "7a636b1b374a10d7f8aa02ade08957ac67920aacd33b37db2f412f2fefa42e6b",
+        "packages/handball-engine/src/v2/core/restarts.ts": "048e5ead24b976453a0abe2cf314fe9e79c33a0619c7d71cdfdb47b575230520",
+        "packages/handball-engine/src/v2/core/rules.ts": "46325a43317b15edfc4773265989ffa2ab0500c9fdefb32a7fc3363dd39147d4",
+        "packages/handball-engine/src/v2/core/sanction.ts": "8d569712c4c2ce1223d246e3a5d5e6dd0913b5f8232e6456ff892bbcd424d910",
+        "packages/handball-engine/src/v2/core/scenarios.ts": "c48ddb2c75ce34fd03c439261e40e77f676b1ffb2fc8abeb1a3f9b1a5d286dbe",
+        "packages/handball-engine/src/v2/core/space.ts": "fa4755d1ba95d8e683cd19955418944d004a34963b708030ef72eb521ca25eb3",
+        "packages/handball-engine/src/v2/core/squads.ts": "fc2aeaa594f3ef8a119656d1056178bf5f6414f6ee4c2082641b97fc216749a4",
+        "packages/handball-engine/src/v2/core/state.ts": "fc33c3ac8ee2fbe78c7998c756850eda8981949f393a03ac77af9f5c9179284e",
+        "packages/handball-engine/src/v2/core/structure.ts": "fd5cea56c1e2e311b490e452701fa2b1b8f91282e3f6cd7e06a4621d8065f3c3",
+        "packages/handball-engine/src/v2/core/testProfile.ts": "35a3ac5a0a0fbb6614de81c449fde37b880af96bc10a1cd2dcf4b4e3e9077d6d",
+        "packages/handball-engine/src/v2/core/threatRelation.ts": "c68668bfbd439adfa42a751b12266d664e1d2e6d80358cbc30149b807fb9bcf1",
+        "packages/handball-engine/src/v2/core/timing.ts": "dfcd2f87a9aff8f275eca516307ba3e6943dd59b64cca89911f6ad4e36ad76ef",
+        "packages/handball-engine/src/v2/core/transitions.ts": "6498a4ea7a0d0efb0a19048dfcc9e6c2cd19fa8844f86f3d91995f65f80b270a",
+        "packages/handball-engine/src/v2/core/wing.ts": "31d7f39cf38918717d3723fadcce80948a13650a45a2f680e1bbc5c66fd3a556",
+        "packages/handball-engine/src/v2/core/wingScenarios.ts": "8d553b1c254f0953cf5508ca1a37463891f631cdfd0df81b436be487541ee031",
+        "apps/game/lib/career/productionMatch.ts": "6b81c65496b286a1df4052b40c0fc2cf632cacdfeece0384069f5e448115dcfc",
+        "apps/game/scripts/match-benchmarks.ts": "d51ecb4edbee2c1c99df5f61830068ba77f4d5abbad5ea306493f53b064f156a",
+        "apps/game/scripts/lib/calibrationDiagnostics.ts": "75b4d75ab6951abd13939eb69661ef9a926654ce95d33d36434709c9a038223e",
+        "apps/game/scripts/lib/reconciliationDiagnostics.ts": "150a9d196dc92862f75a3fbdc2bd6abddc6b0b91e854e777f5df3d257e4b99b8",
+        "apps/game/scripts/lib/attackCycleDiagnostics.ts": "b70edf097328dddf1812caba8f5eb9f4e1ed4eb4fd8a286d4d8c3eb948d145e0",
+        "apps/game/scripts/lib/rotationFatigueDiagnostics.ts": "21a274d11abe8b2ac430f7dadfc6dd66aff1ab1e4a69895c6ea1c2c4c0d6b94e",
+        "apps/game/lib/matchBenchmarks/empirical.ts": "1b05cfb0cfdb7e96870875b1042860b13221c852078eff953d31016123464d6c",
+        "apps/game/lib/matchBenchmarks/empiricalComparison.ts": "e49e86aca79b3e30cbe57ea0e6ce1da16a778417e936be4f3a1405a312e1a975",
+        "apps/game/lib/matchBenchmarks/evaluate.ts": "2f4d5bc893fbd482dfcd10baeaa1f3aa72c943dbcfa0e8dca0ba050fd3c9f3f0",
+        "apps/game/lib/matchBenchmarks/extract.ts": "4ac1e4094d2b76ba34dd157df4b32ba6309c1853aab18c7329890231681bb873",
+        "apps/game/lib/matchBenchmarks/reference.ts": "25cb435b7824faa1fc58429264d3e91a4833e678170bb5bfa75d5b5c98009e8a",
+        "apps/game/lib/matchBenchmarks/report.ts": "c7c77e53ba8b07212362ec36f4a31f2d8b263ea0f17ce8f0fd730292035b7444",
+        "apps/game/lib/matchBenchmarks/statistics.ts": "9b3c1f8e5dc5590302b8b6115f5e7c86d9a5693e14af80f0880b334f7752e2d0"
+      },
+      "sessionHash": "040ee4c9856ca287d91e2dbda20a990a7024a77d555d3f00dd33df3b0d789f73",
+      "resultHash": "59ce56b7c08adfda9aaadfe53c91619e7feb199a15ea695872862c46ccb361d0",
+      "archiveHash": "eeb7b28746b5d6e80a0acd5d468d6c4c5ee74bbfb139008f1e72b4335018f03c",
+      "exactObserverNonMutation": true,
+      "postAnalysisNonMutation": true,
+      "deterministic": true,
+      "midMatchJSONResume": true,
+      "checkpoint": {
+        "tick": 20000,
+        "score": {
+          "HOME": 11,
+          "AWAY": 9
+        },
+        "intents": 12,
+        "reentryReaders": 0,
+        "conditions": [
+          {
+            "id": "se_player_kenan_salkicevic_4cb32042",
+            "population": "COURT",
+            "condition": {
+              "energy": 0.9394488419342448,
+              "distanceMetres": 218.1808237452938,
+              "courtMs": 999750,
+              "unavailable": false,
+              "attacksRemaining": 0,
+              "treatmentPossession": null,
+              "exitRequired": false
+            },
+            "intent": null
+          },
+          {
+            "id": "se_player_hannes_rybo_d534a6d2",
+            "population": "COURT",
+            "condition": {
+              "energy": 0.8557596722708845,
+              "distanceMetres": 1576.533408504656,
+              "courtMs": 999750,
+              "unavailable": false,
+              "attacksRemaining": 0,
+              "treatmentPossession": null,
+              "exitRequired": false,
+              "acuteExertion": 0.15677162575962938
+            },
+            "intent": {
+              "id": "possession-58171:se_player_hannes_rybo_d534a6d2:19984:DEFENSIVE_CONTAIN",
+              "possessionId": "possession-58171",
+              "kind": "DEFENSIVE_CONTAIN",
+              "sinceTick": 19984,
+              "primaryId": null,
+              "targetId": null,
+              "target": null,
+              "commitment": 0.6210526315789474,
+              "originalAdvantage": 0,
+              "reason": "Hold the space; nobody is in it yet",
+              "lastMotor": "HELP"
+            }
+          },
+          {
+            "id": "se_player_felix_dahlen_landstrom_cd6686d8",
+            "population": "COURT",
+            "condition": {
+              "energy": 0.8575141302730732,
+              "distanceMetres": 1562.041716565797,
+              "courtMs": 999750,
+              "unavailable": false,
+              "attacksRemaining": 0,
+              "treatmentPossession": null,
+              "exitRequired": false,
+              "acuteExertion": 0.16084665250497926
+            },
+            "intent": {
+              "id": "possession-58171:se_player_felix_dahlen_landstrom_cd6686d8:19977:DEFENSIVE_CONTAIN",
+              "possessionId": "possession-58171",
+              "kind": "DEFENSIVE_CONTAIN",
+              "sinceTick": 19977,
+              "primaryId": null,
+              "targetId": null,
+              "target": null,
+              "commitment": 0.5736842105263158,
+              "originalAdvantage": 0,
+              "reason": "Slide behind the helper and take the space he vacated",
+              "lastMotor": "CONTAIN"
+            }
+          },
+          {
+            "id": "se_player_ivar_perez_heselius_e39ab925",
+            "population": "COURT",
+            "condition": {
+              "energy": 0.8624841669398369,
+              "distanceMetres": 1581.208543724312,
+              "courtMs": 999750,
+              "unavailable": false,
+              "attacksRemaining": 0,
+              "treatmentPossession": null,
+              "exitRequired": false,
+              "acuteExertion": 0.19206868333326682
+            },
+            "intent": {
+              "id": "possession-58171:se_player_ivar_perez_heselius_e39ab925:19984:DEFENSIVE_CONTAIN",
+              "possessionId": "possession-58171",
+              "kind": "DEFENSIVE_CONTAIN",
+              "sinceTick": 19984,
+              "primaryId": null,
+              "targetId": "se_player_lowe_knutsson_edd52e78",
+              "target": null,
+              "commitment": 0.5578947368421052,
+              "originalAdvantage": 0,
+              "reason": "Hold the space and take the attacker occupying it",
+              "lastMotor": "CONTAIN"
+            }
+          },
+          {
+            "id": "se_player_marcus_kl_ve_9d423086",
+            "population": "COURT",
+            "condition": {
+              "energy": 0.8654332386700029,
+              "distanceMetres": 1766.7749755473421,
+              "courtMs": 999750,
+              "unavailable": false,
+              "attacksRemaining": 0,
+              "treatmentPossession": null,
+              "exitRequired": false,
+              "acuteExertion": 0.17574537879282284
+            },
+            "intent": {
+              "id": "possession-58171:se_player_marcus_kl_ve_9d423086:19977:DEFENSIVE_CONTAIN",
+              "possessionId": "possession-58171",
+              "kind": "DEFENSIVE_CONTAIN",
+              "sinceTick": 19977,
+              "primaryId": null,
+              "targetId": "se_player_rasmus_broman_777c2960",
+              "target": null,
+              "commitment": 0.5736842105263158,
+              "originalAdvantage": 0,
+              "reason": "Own the space the ball is in and meet the carrier in it",
+              "lastMotor": "RECOVER"
+            }
+          },
+          {
+            "id": "se_player_ludvig_bratt_f558ab21",
+            "population": "COURT",
+            "condition": {
+              "energy": 0.8133666990618679,
+              "distanceMetres": 2082.4187703623916,
+              "courtMs": 999750,
+              "unavailable": false,
+              "attacksRemaining": 0,
+              "treatmentPossession": null,
+              "exitRequired": false,
+              "acuteExertion": 0.2301660130309311
+            },
+            "intent": {
+              "id": "possession-58171:se_player_ludvig_bratt_f558ab21:19817:DEFENSIVE_CONTAIN",
+              "possessionId": "possession-58171",
+              "kind": "DEFENSIVE_CONTAIN",
+              "sinceTick": 19817,
+              "primaryId": null,
+              "targetId": "se_player_oliver_knudsen_831e83e1",
+              "target": null,
+              "commitment": 0.5736842105263158,
+              "originalAdvantage": 0,
+              "reason": "Hold the space and take the attacker occupying it",
+              "lastMotor": "RECOVER"
+            }
+          },
+          {
+            "id": "se_player_anton_arfvidsson_e382592e",
+            "population": "COURT",
+            "condition": {
+              "energy": 0.8267918415487171,
+              "distanceMetres": 2061.7063365546196,
+              "courtMs": 999750,
+              "unavailable": false,
+              "attacksRemaining": 0,
+              "treatmentPossession": null,
+              "exitRequired": false,
+              "acuteExertion": 0.21467840756495116
+            },
+            "intent": {
+              "id": "possession-58171:se_player_anton_arfvidsson_e382592e:19976:DEFENSIVE_CONTAIN",
+              "possessionId": "possession-58171",
+              "kind": "DEFENSIVE_CONTAIN",
+              "sinceTick": 19976,
+              "primaryId": null,
+              "targetId": "se_player_edvin_persson_a930b582",
+              "target": null,
+              "commitment": 0.5578947368421052,
+              "originalAdvantage": 0,
+              "reason": "Hold the space and take the attacker occupying it",
+              "lastMotor": "CONTAIN"
+            }
+          },
+          {
+            "id": "se_player_isak_brandin_5150ba19",
+            "population": "BENCH",
+            "condition": {
+              "energy": 1,
+              "distanceMetres": 0,
+              "courtMs": 0,
+              "unavailable": false,
+              "attacksRemaining": 0,
+              "treatmentPossession": null,
+              "exitRequired": false,
+              "acuteExertion": 0
+            },
+            "intent": null
+          },
+          {
+            "id": "se_player_arvid_larsson_0fac8bfb",
+            "population": "BENCH",
+            "condition": {
+              "energy": 1,
+              "distanceMetres": 0,
+              "courtMs": 0,
+              "unavailable": false,
+              "attacksRemaining": 0,
+              "treatmentPossession": null,
+              "exitRequired": false,
+              "acuteExertion": 0
+            },
+            "intent": null
+          },
+          {
+            "id": "se_player_william_lund_a1cef7d9",
+            "population": "BENCH",
+            "condition": {
+              "energy": 1,
+              "distanceMetres": 0,
+              "courtMs": 0,
+              "unavailable": false,
+              "attacksRemaining": 0,
+              "treatmentPossession": null,
+              "exitRequired": false,
+              "acuteExertion": 0
+            },
+            "intent": null
+          },
+          {
+            "id": "se_player_tobias_svantesson_fc3c5407",
+            "population": "BENCH",
+            "condition": {
+              "energy": 1,
+              "distanceMetres": 0,
+              "courtMs": 0,
+              "unavailable": false,
+              "attacksRemaining": 0,
+              "treatmentPossession": null,
+              "exitRequired": false,
+              "acuteExertion": 0
+            },
+            "intent": null
+          },
+          {
+            "id": "se_player_axel_levin_eklund_87c76a40",
+            "population": "BENCH",
+            "condition": {
+              "energy": 1,
+              "distanceMetres": 0,
+              "courtMs": 0,
+              "unavailable": false,
+              "attacksRemaining": 0,
+              "treatmentPossession": null,
+              "exitRequired": false,
+              "acuteExertion": 0
+            },
+            "intent": null
+          },
+          {
+            "id": "se_player_jonathan_ekman_d0a35bf6",
+            "population": "BENCH",
+            "condition": {
+              "energy": 1,
+              "distanceMetres": 0,
+              "courtMs": 0,
+              "unavailable": false,
+              "attacksRemaining": 0,
+              "treatmentPossession": null,
+              "exitRequired": false,
+              "acuteExertion": 0
+            },
+            "intent": null
+          },
+          {
+            "id": "se_player_oliver_himlevik_c17cd4d1",
+            "population": "BENCH",
+            "condition": {
+              "energy": 1,
+              "distanceMetres": 0,
+              "courtMs": 0,
+              "unavailable": false,
+              "attacksRemaining": 0,
+              "treatmentPossession": null,
+              "exitRequired": false,
+              "acuteExertion": 0
+            },
+            "intent": null
+          },
+          {
+            "id": "se_player_liam_magnusson_170cd0eb",
+            "population": "BENCH",
+            "condition": {
+              "energy": 1,
+              "distanceMetres": 0,
+              "courtMs": 0,
+              "unavailable": false,
+              "attacksRemaining": 0,
+              "treatmentPossession": null,
+              "exitRequired": false
+            },
+            "intent": null
+          },
+          {
+            "id": "se_player_lukas_ribberstrom_94dac6f1",
+            "population": "BENCH",
+            "condition": {
+              "energy": 1,
+              "distanceMetres": 0,
+              "courtMs": 0,
+              "unavailable": false,
+              "attacksRemaining": 0,
+              "treatmentPossession": null,
+              "exitRequired": false,
+              "acuteExertion": 0
+            },
+            "intent": null
+          },
+          {
+            "id": "se_player_mans_landgren_0afb78ec",
+            "population": "COURT",
+            "condition": {
+              "energy": 0.932234300218239,
+              "distanceMetres": 222.59313228069348,
+              "courtMs": 999750,
+              "unavailable": false,
+              "attacksRemaining": 0,
+              "treatmentPossession": null,
+              "exitRequired": false
+            },
+            "intent": null
+          },
+          {
+            "id": "se_player_jim_gottfridsson_7323fffc",
+            "population": "COURT",
+            "condition": {
+              "energy": 0.8670365305962808,
+              "distanceMetres": 1696.0940290727447,
+              "courtMs": 999750,
+              "unavailable": false,
+              "attacksRemaining": 0,
+              "treatmentPossession": null,
+              "exitRequired": false,
+              "acuteExertion": 0.12499401754718656
+            },
+            "intent": {
+              "id": "possession-58171:se_player_jim_gottfridsson_7323fffc:19950:SUPPORT_BALL",
+              "possessionId": "possession-58171",
+              "kind": "SUPPORT_BALL",
+              "sinceTick": 19950,
+              "primaryId": null,
+              "targetId": "se_player_rasmus_broman_777c2960",
+              "target": null,
+              "commitment": 0.6526315789473685,
+              "originalAdvantage": 0,
+              "reason": "Balance the two backcourt lanes and retain a trailing central outlet",
+              "lastMotor": "RECEIVE"
+            }
+          },
+          {
+            "id": "se_player_nils_kjelgaard_b5faed25",
+            "population": "COURT",
+            "condition": {
+              "energy": 0.8480658452429157,
+              "distanceMetres": 1540.3505404733198,
+              "courtMs": 999750,
+              "unavailable": false,
+              "attacksRemaining": 0,
+              "treatmentPossession": null,
+              "exitRequired": false,
+              "acuteExertion": 0.20494534941299014
+            },
+            "intent": {
+              "id": "possession-58171:se_player_nils_kjelgaard_b5faed25:19951:SUPPORT_BALL",
+              "possessionId": "possession-58171",
+              "kind": "SUPPORT_BALL",
+              "sinceTick": 19951,
+              "primaryId": null,
+              "targetId": "se_player_rasmus_broman_777c2960",
+              "target": null,
+              "commitment": 0.5578947368421052,
+              "originalAdvantage": 0,
+              "reason": "Clear the committed penetration lane while offering a trailing lateral pass",
+              "lastMotor": "RUN"
+            }
+          },
+          {
+            "id": "se_player_lowe_knutsson_edd52e78",
+            "population": "COURT",
+            "condition": {
+              "energy": 0.8674182228231867,
+              "distanceMetres": 1619.2049947565765,
+              "courtMs": 999750,
+              "unavailable": false,
+              "attacksRemaining": 0,
+              "treatmentPossession": null,
+              "exitRequired": false,
+              "acuteExertion": 0.12688791081296932
+            },
+            "intent": {
+              "id": "possession-58171:se_player_lowe_knutsson_edd52e78:19951:SUPPORT_BALL",
+              "possessionId": "possession-58171",
+              "kind": "SUPPORT_BALL",
+              "sinceTick": 19951,
+              "primaryId": null,
+              "targetId": "se_player_rasmus_broman_777c2960",
+              "target": null,
+              "commitment": 0.6052631578947368,
+              "originalAdvantage": 0,
+              "reason": "Clear the committed penetration lane while offering a trailing lateral pass",
+              "lastMotor": "RUN"
+            }
+          },
+          {
+            "id": "se_player_rasmus_broman_777c2960",
+            "population": "COURT",
+            "condition": {
+              "energy": 0.8623045149453864,
+              "distanceMetres": 1726.0749563212657,
+              "courtMs": 999750,
+              "unavailable": false,
+              "attacksRemaining": 0,
+              "treatmentPossession": null,
+              "exitRequired": false,
+              "acuteExertion": 0.15716761810623986
+            },
+            "intent": {
+              "id": "possession-58171:se_player_rasmus_broman_777c2960:19984:SUPPORT_BALL",
+              "possessionId": "possession-58171",
+              "kind": "SUPPORT_BALL",
+              "sinceTick": 19984,
+              "primaryId": null,
+              "targetId": null,
+              "target": null,
+              "commitment": 0.5894736842105264,
+              "originalAdvantage": 0,
+              "reason": "Maintain role relationships and move with the ball-side structure",
+              "lastMotor": "SHOOT"
+            }
+          },
+          {
+            "id": "se_player_oliver_knudsen_831e83e1",
+            "population": "COURT",
+            "condition": {
+              "energy": 0.8287259716818384,
+              "distanceMetres": 1918.6966919842453,
+              "courtMs": 999750,
+              "unavailable": false,
+              "attacksRemaining": 0,
+              "treatmentPossession": null,
+              "exitRequired": false,
+              "acuteExertion": 0.21680572929545663
+            },
+            "intent": {
+              "id": "possession-58171:se_player_oliver_knudsen_831e83e1:19832:SUPPORT_BALL",
+              "possessionId": "possession-58171",
+              "kind": "SUPPORT_BALL",
+              "sinceTick": 19832,
+              "primaryId": null,
+              "targetId": "se_player_nils_kjelgaard_b5faed25",
+              "target": null,
+              "commitment": 0.5421052631578948,
+              "originalAdvantage": 0,
+              "reason": "Pin the outside defender from the corner; preserve the adjacent back lane",
+              "lastMotor": "RECEIVE"
+            }
+          },
+          {
+            "id": "se_player_edvin_persson_a930b582",
+            "population": "COURT",
+            "condition": {
+              "energy": 0.8377586831536643,
+              "distanceMetres": 1945.312398811953,
+              "courtMs": 999750,
+              "unavailable": false,
+              "attacksRemaining": 0,
+              "treatmentPossession": null,
+              "exitRequired": false,
+              "acuteExertion": 0.20345456108474094
+            },
+            "intent": {
+              "id": "possession-58171:se_player_edvin_persson_a930b582:19832:SUPPORT_BALL",
+              "possessionId": "possession-58171",
+              "kind": "SUPPORT_BALL",
+              "sinceTick": 19832,
+              "primaryId": null,
+              "targetId": "se_player_lowe_knutsson_edd52e78",
+              "target": null,
+              "commitment": 0.5736842105263158,
+              "originalAdvantage": 0,
+              "reason": "Pin the outside defender from the corner; preserve the adjacent back lane",
+              "lastMotor": "RECEIVE"
+            }
+          },
+          {
+            "id": "se_player_jacob_hellstrom_1ad97470",
+            "population": "BENCH",
+            "condition": {
+              "energy": 1,
+              "distanceMetres": 0,
+              "courtMs": 0,
+              "unavailable": false,
+              "attacksRemaining": 0,
+              "treatmentPossession": null,
+              "exitRequired": false,
+              "acuteExertion": 0
+            },
+            "intent": null
+          },
+          {
+            "id": "se_player_vilmer_feldt_19df4fce",
+            "population": "BENCH",
+            "condition": {
+              "energy": 1,
+              "distanceMetres": 0,
+              "courtMs": 0,
+              "unavailable": false,
+              "attacksRemaining": 0,
+              "treatmentPossession": null,
+              "exitRequired": false
+            },
+            "intent": null
+          },
+          {
+            "id": "se_player_nils_persson_be443644",
+            "population": "BENCH",
+            "condition": {
+              "energy": 1,
+              "distanceMetres": 0,
+              "courtMs": 0,
+              "unavailable": false,
+              "attacksRemaining": 0,
+              "treatmentPossession": null,
+              "exitRequired": false,
+              "acuteExertion": 0
+            },
+            "intent": null
+          },
+          {
+            "id": "se_player_hampus_nilsson_9b0d9882",
+            "population": "BENCH",
+            "condition": {
+              "energy": 1,
+              "distanceMetres": 0,
+              "courtMs": 0,
+              "unavailable": false,
+              "attacksRemaining": 0,
+              "treatmentPossession": null,
+              "exitRequired": false,
+              "acuteExertion": 0
+            },
+            "intent": null
+          },
+          {
+            "id": "se_player_lukas_larsson_0b13b970",
+            "population": "BENCH",
+            "condition": {
+              "energy": 1,
+              "distanceMetres": 0,
+              "courtMs": 0,
+              "unavailable": false,
+              "attacksRemaining": 0,
+              "treatmentPossession": null,
+              "exitRequired": false,
+              "acuteExertion": 0
+            },
+            "intent": null
+          },
+          {
+            "id": "se_player_melvin_petersen_26d8da3d",
+            "population": "BENCH",
+            "condition": {
+              "energy": 1,
+              "distanceMetres": 0,
+              "courtMs": 0,
+              "unavailable": false,
+              "attacksRemaining": 0,
+              "treatmentPossession": null,
+              "exitRequired": false,
+              "acuteExertion": 0
+            },
+            "intent": null
+          },
+          {
+            "id": "se_player_melker_andersson_d551e135",
+            "population": "BENCH",
+            "condition": {
+              "energy": 1,
+              "distanceMetres": 0,
+              "courtMs": 0,
+              "unavailable": false,
+              "attacksRemaining": 0,
+              "treatmentPossession": null,
+              "exitRequired": false,
+              "acuteExertion": 0
+            },
+            "intent": null
+          },
+          {
+            "id": "se_player_adam_rosberg_cba4f26d",
+            "population": "BENCH",
+            "condition": {
+              "energy": 1,
+              "distanceMetres": 0,
+              "courtMs": 0,
+              "unavailable": false,
+              "attacksRemaining": 0,
+              "treatmentPossession": null,
+              "exitRequired": false
+            },
+            "intent": null
+          },
+          {
+            "id": "se_player_truls_landgren_613cbe9f",
+            "population": "BENCH",
+            "condition": {
+              "energy": 1,
+              "distanceMetres": 0,
+              "courtMs": 0,
+              "unavailable": false,
+              "attacksRemaining": 0,
+              "treatmentPossession": null,
+              "exitRequired": false,
+              "acuteExertion": 0
+            },
+            "intent": null
+          }
+        ],
+        "exchanges": [],
+        "advantage": null,
+        "sanctions": [],
+        "rng": {
+          "algorithm": "mulberry32",
+          "state": 2291619421,
+          "draws": 950
+        }
+      },
+      "exactArchive": true,
+      "exactlyOnceCommit": true,
+      "matchCenter": {
+        "energy": true,
+        "minutes": true,
+        "score": true,
+        "shots": true,
+        "conversion": true,
+        "penalties": true,
+        "suspensions": true,
+        "timeline": true,
+        "playerStats": true,
+        "keeperDenominators": true,
+        "loadedFacts": true,
+        "playerOrdering": true,
+        "keyMomentCanonicalPositions": 12
+      },
+      "score": [
+        32,
+        25
+      ],
+      "runtimeMs": 98163.3906
+    }
+  },
+  "preservation": {
+    "startingCheckpoint": "b0a3627a66632518291bc9dcc02b5673d28e6ffc",
+    "status": [
+      "M apps/game/app/match-qa/page.tsx",
+      " M apps/game/lib/matchQa/qaHarness.ts",
+      " M apps/game/scripts/season-audit.ts",
+      "?? .claude/",
+      "?? apps/game/.tmp-final-benchmark.ts",
+      "?? docs/audit/"
+    ],
+    "worktrees": "worktree C:/Users/helgi/Documents/STARKVIS-HELA/handball-manager\nHEAD b0a3627a66632518291bc9dcc02b5673d28e6ffc\nbranch refs/heads/main\n\nworktree C:/Users/helgi/Documents/STARKVIS-HELA/handball-motion-lab\nHEAD 197d2a80ecea3b70efdcf8ef347cfc68e0e86b2b\nbranch refs/heads/motion-lab",
+    "stashes": [
+      "ddba79055949b76898b12fc1b947e8f8645589cb On motion-lab: WIP Pack #5 M6 breakthrough screen paused before Human QA",
+      "b068a9586209b9405b8d5f0dc6fae6384dd09001 On motion-lab: WIP Pack #5 M6 line game paused before Human QA"
+    ],
+    "frozenPresentationAndReferences": [
+      {
+        "path": "apps/game/app/career/match-2d/page.tsx",
+        "sha256": "4b39dd10e56809bdceef87c96d53666de559bcf29013395d8da176a670165c3e"
+      },
+      {
+        "path": "apps/game/app/career/match-day/[fixtureId]/page.tsx",
+        "sha256": "4358d9838d1fd006c569e28df2f8b2e85eb876e0cf0544b81f4c0cc04b060995"
+      },
+      {
+        "path": "apps/game/app/career/match-report/[fixtureId]/page.tsx",
+        "sha256": "1e320e676d3bf15165b5bad57e83d1a363eb66349b11822295daefcbdddb5768"
+      },
+      {
+        "path": "apps/game/components/ProductionMatchView.tsx",
+        "sha256": "531610b3a712e70dc79573f8d4c4583fdf32ecae0ad8388a39d554ae34dffd59"
+      },
+      {
+        "path": "apps/game/components/game/CoachingChoices.tsx",
+        "sha256": "94573e2bbf77e5e166b337102c79010e0054f51befef0aadf985621e5c6fbbfa"
+      },
+      {
+        "path": "apps/game/components/game/LiveCoachPanel.tsx",
+        "sha256": "b830e44940a2e71fa55335d45d93f71e6a010421df8dcb6641c891ab79db6f6a"
+      },
+      {
+        "path": "apps/game/components/matchCenter/MatchCenter.tsx",
+        "sha256": "cf477b3119c358ba6297c01cee316c5a3b91db55faafcf88b929ddc8cf1e8bcb"
+      },
+      {
+        "path": "apps/game/components/matchCenter/TacticalCourt.tsx",
+        "sha256": "83de3e6b68085e9e93dc3aa536298d888493a625b0c795bd05f7f5ed485d1cbb"
+      },
+      {
+        "path": "apps/game/components/matchCenter/WorkspaceViews.tsx",
+        "sha256": "2da779b9b091640f22f6aef137c8a9cfe80812f4833f05ba7a8bab4611adc358"
+      },
+      {
+        "path": "apps/game/components/matchCenter/match-center.css",
+        "sha256": "671d5997962aff2a457e898b93a98aa7b81fe915caebb92cd374996180cd87c6"
+      },
+      {
+        "path": "apps/game/lib/matchCenter/control.ts",
+        "sha256": "c1577b45ed867ead1484de2b7dfde11dac1c194a60c20675bf756bccf2a570b5"
+      },
+      {
+        "path": "apps/game/lib/matchCenter/model.test.ts",
+        "sha256": "c5f178ea0d5835ab2bffb4f9ccade647c0ee54983901dd21b40f5e9842303a17"
+      },
+      {
+        "path": "apps/game/lib/matchCenter/model.ts",
+        "sha256": "e726da046168c142c5ee77243c620f2b6fc47e9579f69b485e04aa6dac4dde3e"
+      },
+      {
+        "path": "apps/game/lib/matchCenter/presentation.test.ts",
+        "sha256": "c2c10884e0f710ac68207218a9dc1846d041967e98ec405fae50838e3d714bd4"
+      },
+      {
+        "path": "apps/game/lib/matchCenter/workspace.test.ts",
+        "sha256": "26edde8fc142de2fcb292b4475e38a405d9e374707540e490f203fb0acb9408f"
+      },
+      {
+        "path": "apps/game/lib/matchCenter/workspace.ts",
+        "sha256": "87d82b1a82771e525a2e4d8962f67a2499e07e89c06216d356686ee19c0d9bb1"
+      },
+      {
+        "path": "data/empirical-handball/derived/keeper-matches.json",
+        "sha256": "0912f51828414ae71cec23fb24aa7f4914ea89b8a8ff1aaab4a7e8009613cbff"
+      },
+      {
+        "path": "data/empirical-handball/derived/league-outcomes.json",
+        "sha256": "2ef2ddbaf2b09d98d943c27bf57ea88f0f3429d982b11a97e828f61173ad3ed5"
+      },
+      {
+        "path": "data/empirical-handball/derived/manifest.json",
+        "sha256": "fe23c0f49368fee36d5f7fddd856fcf8d69be5467ee87c9b21a28243691ca4f2"
+      },
+      {
+        "path": "data/empirical-handball/derived/player-season-summaries.json",
+        "sha256": "df29b5711f5696db46c54bda88c95e52c5f12d16e0345a834e1ed8bbcd0dd64a"
+      },
+      {
+        "path": "data/empirical-handball/derived/position-shot-profiles.json",
+        "sha256": "1adea87e2912e646a605ff93e1d9bb58f77ccfc8889985c8bd266c04ea384e79"
+      },
+      {
+        "path": "data/empirical-handball/derived/position-shot-summaries.json",
+        "sha256": "2f6eeeb7306fa9f3bfb94282b5b19b3c7e79d7a199b04d5bc1a897a582cc2362"
+      },
+      {
+        "path": "data/empirical-handball/derived/profiles.json",
+        "sha256": "a55e42b65defe94c9e0aa7e78100685c68513e2de035db6c10c872d35b9e22f8"
+      },
+      {
+        "path": "data/empirical-handball/derived/quality.json",
+        "sha256": "4cf67c51e130a0443d9180349d87d70f9633c24d4d5262f0ba471fe9dd9471f9"
+      },
+      {
+        "path": "data/empirical-handball/derived/team-mapping.json",
+        "sha256": "18d66157d54b68c2262aa2b4398222da0cd585c2460ce219e52b100796cbab88"
+      },
+      {
+        "path": "data/empirical-handball/derived/team-profiles.json",
+        "sha256": "814935445d4405628e969571c764e8039a59a6ab8f98df4de155b7c59c10100b"
+      }
+    ],
+    "userFiles": [
+      {
+        "path": "apps/game/app/match-qa/page.tsx",
+        "sha256": "a245ec398a29f3c8b7ab7317682433dbfe81e4a46e249a60c8f5a5a024fece8f"
+      },
+      {
+        "path": "apps/game/lib/matchQa/qaHarness.ts",
+        "sha256": "f100717310ea08f43c33b49dbabe7acee338b40884e9182030f59db7c62fece9"
+      },
+      {
+        "path": "apps/game/scripts/season-audit.ts",
+        "sha256": "7ba6f05b9f1e9cfa491961c1a6c644d7ce5fb2123fed5bac0d1fb3a869b07266"
+      },
+      {
+        "path": "apps/game/.tmp-final-benchmark.ts",
+        "sha256": "ba9d04161dfd8fba50732356598d92323bc71f93cfb5f827170ea804846a5b76"
+      },
+      {
+        "path": ".claude/launch.json",
+        "sha256": "5479537912ebe024d9340205e0a1d178b0fa2330a3f8b5af62723a6fe7a82185"
+      },
+      {
+        "path": "docs/audit/browser-product-test.txt",
+        "sha256": "55cec35a72a07fd9a83260aeea2c50d494d12e30f779e01ff428d313a7cd0883"
+      },
+      {
+        "path": "docs/audit/build-turbopack.txt",
+        "sha256": "2fd132c42c004e7361e70694d07d0a6102f28fdedc8067b9387a3ba17a216c66"
+      },
+      {
+        "path": "docs/audit/build-webpack.txt",
+        "sha256": "5c2d02af267569779c65731f10df3278891b13dc31128623944945e58513f0c6"
+      },
+      {
+        "path": "docs/audit/final-browser-product.txt",
+        "sha256": "7377b7c69495b0e588e6f139cd6eadaef6c079779707d5a17393ea61004fb9f3"
+      },
+      {
+        "path": "docs/audit/final-changed-lint.txt",
+        "sha256": "10fe5fd65982ca6b71ae329a8731176307eddc2346c756729adb904b141991a0"
+      },
+      {
+        "path": "docs/audit/final-production-build.txt",
+        "sha256": "3e086a657ed1ec890895f8ba058b992aeeaeaeb407c547f713bbbb9dd3f9b930"
+      },
+      {
+        "path": "docs/audit/final-production-server.txt",
+        "sha256": "d051ae0dc6f38d8d8ae596a96b099a9afbd551a40ee8fb798a6a1419ce05d06a"
+      },
+      {
+        "path": "docs/audit/final-seam-tests.txt",
+        "sha256": "ebcc50a912655b26e24b44d0435982216afded32012c2c8a3db0bc947aad5cc7"
+      },
+      {
+        "path": "docs/audit/final-tactics-lint.txt",
+        "sha256": "f85a22592459ae068e83da87ae3aba7285a83be904522a9371af5c31aca551b0"
+      },
+      {
+        "path": "docs/audit/HANDBALL_MANAGER_AUDIT_2026-10-07.md",
+        "sha256": "2b2c7ec28fe32540d3b10018b601d0086422f93adcbb8efeff621d42ec0c5abb"
+      },
+      {
+        "path": "docs/audit/implementation-typecheck.txt",
+        "sha256": "f3b2774d27874c5cf70a348b259f0ddadb51563e9ad76bf8b8a491dd336b5ef8"
+      },
+      {
+        "path": "docs/audit/lint-output.txt",
+        "sha256": "1ec929b802136bcbe0e4c02ee80213fd75e8b386368f7f2b28ee61c60d8bb46c"
+      },
+      {
+        "path": "docs/audit/live-match-ui.png",
+        "sha256": "c233b35cf42f44fa52d68bf60316c2333b3a74933ebff30c5be983ebaceed0e6"
+      },
+      {
+        "path": "docs/audit/match-audit-2026-10-07.json",
+        "sha256": "61efad8267317d4e4991fbeebf59e8a7372e0fa8f75029e4570935221fc133f8"
+      },
+      {
+        "path": "docs/audit/match-audit-run.txt",
+        "sha256": "d09a491f6a0bbe22c7c9c8eaee111c5f2c5895f5824db8981f7afc45d1e51971"
+      },
+      {
+        "path": "docs/audit/new-career-ui.png",
+        "sha256": "f3d80add59a98c0d25afc659b0b2bfe6ff187c76dbc12dec849388b3b24ec34a"
+      },
+      {
+        "path": "docs/audit/playable-changed-lint.txt",
+        "sha256": "4c9248decf2ac5327c2e8fe43ca3e35d734efabaaec877bf43cd46026f183b10"
+      },
+      {
+        "path": "docs/audit/playable-dev-server.txt",
+        "sha256": "f7d15aa576a0ce148d221bfe2156cafc6cfda7a3a9089de423c22f9d7ab4660f"
+      },
+      {
+        "path": "docs/audit/playable-production-build.txt",
+        "sha256": "2b884fadb3a3ab392782cc9c282cd7536d9401e5e1da33ebc3234636ef50d099"
+      },
+      {
+        "path": "docs/audit/playable-regression-tests.txt",
+        "sha256": "abc669873c0500af2bfd9225a810ba7fa120e9d2db9a683f632ee63963459210"
+      },
+      {
+        "path": "docs/audit/playable-season-result.json",
+        "sha256": "d59f2a4d57540ab8a9cabf387ac74219ef2dc992a0111073173557a5a234e641"
+      },
+      {
+        "path": "docs/audit/playable-season-run.txt",
+        "sha256": "2dd9f3ff09fa22a9339904ca73d969bd2c16ab83fa5655b145da85b5b23b5069"
+      },
+      {
+        "path": "docs/audit/playable-typecheck.txt",
+        "sha256": "0a620e650841e459ad7ad0731843e88c9ac33659453405d353111d19f79355a5"
+      },
+      {
+        "path": "docs/audit/playwright-browser-install.txt",
+        "sha256": "ae2f1cec95b19d534d62db477bbac92952fe3ed4029090db3787be47ef2744b6"
+      },
+      {
+        "path": "docs/audit/playwright-install.txt",
+        "sha256": "93ac21b04b8d7ac66a05ca700048cdcabd49e96689ce68de332a8cfaa5e100db"
+      },
+      {
+        "path": "docs/audit/product-seam-tests.txt",
+        "sha256": "d993f94a0cffe2d9bc06d2d05f419c7a0aead9cb7f499035445298c33e0be513"
+      },
+      {
+        "path": "docs/audit/replay-ui.png",
+        "sha256": "8e9c8f2f9a70b9f49e561908f97f63f896b4b0daf4ad3be3a25fab3d604fa1ed"
+      },
+      {
+        "path": "docs/audit/run-match-audit.cjs",
+        "sha256": "6cdd1aa4b89830b0abf0e9fc264c6571dc52d6fa4e15699e0a585c519d1bfd5b"
+      },
+      {
+        "path": "docs/audit/season-end-state.json",
+        "sha256": "d29c4d145921f5e5226bc7b45b6c13a2c8d18e8cb9c40de4c25e679f6d31fa4d"
+      },
+      {
+        "path": "docs/audit/season-size-check.txt",
+        "sha256": "18a0bb9a090471aa27ccd670ce9191f24275c49cdcc0f49b70e202753f5e5eb7"
+      },
+      {
+        "path": "docs/audit/season-two-run.txt",
+        "sha256": "9661c526299567788de1ac068abd51605274d0bdb8564530e50fa552b015ac6b"
+      },
+      {
+        "path": "docs/audit/test-sandbox.txt",
+        "sha256": "019e443d76ee2c51a9c1fbed59057cbb0de113763a31156b9644f9b1a1a488fe"
+      },
+      {
+        "path": "docs/audit/test-v2-core.txt",
+        "sha256": "98ec487e81550da5754e1e617fbabe2c02c56e961f3d3852112e9c5fd630baae"
+      },
+      {
+        "path": "docs/audit/test-workspaces.txt",
+        "sha256": "c3e5f0a9a88294014a30397016a07fe9bdf954921d5e76f5a34b139c5941b199"
+      }
+    ],
+    "startingHead": "b0a3627a66632518291bc9dcc02b5673d28e6ffc",
+    "inheritedPreservationManifest": "docs/reconciliation-v11/preservation.json"
+  },
+  "delivery": {
+    "schema": "rotation-fatigue-delivery/1",
+    "sourceCommit": "038e78fdf35c2b3aecc039856fd0e87f709e35c0",
+    "buildId": "usx4M7Bosxj0W5ABGzmpe",
+    "httpStatus": 200,
+    "newGameHttpStatus": 200,
+    "url": "http://127.0.0.1:3018",
+    "oldBuildIds": {
+      ".next-game-reconciled-v1": "3PQHL0oSSqFhBU5FxXd8a",
+      ".next-game-reconciliation-v11": "7lH--sWAbP_HfvPnTXIdw"
+    },
+    "preservation": {
+      "files": 65,
+      "hashesMatch": true,
+      "motionHead": "197d2a80ecea3b70efdcf8ef347cfc68e0e86b2b",
+      "motionBranch": "motion-lab",
+      "motionStatus": "?? .claude/",
+      "stashes": [
+        "ddba79055949b76898b12fc1b947e8f8645589cb",
+        "b068a9586209b9405b8d5f0dc6fae6384dd09001"
+      ]
+    },
+    "gitStatusBeforeDocumentation": "M apps/game/app/match-qa/page.tsx\n M apps/game/lib/matchQa/qaHarness.ts\n M apps/game/scripts/season-audit.ts\n M apps/game/tsconfig.json\n?? .claude/\n?? apps/game/.tmp-final-benchmark.ts\n?? docs/audit/\n?? docs/rotation-fatigue-v1/",
+    "nothingPushed": true,
+    "heavyChecks": "sequential; game concurrency1",
+    "createdAt": "2026-10-14T21:07:23.680Z"
+  },
+  "denominators": {
+    "source": "data/empirical-handball/normalized/swe-1-2025-26.json",
+    "sha256": "480dcabe3aa4b7c67fdf7070861358cf0ce9ceaa95666c392bc45fa4437a2ebe",
+    "n": 182,
+    "definitions": {
+      "fieldAttempts": "ordinary/non-7m field-player attempts",
+      "sevenAttempts": "all recorded field-player 7m attempts including misses",
+      "totalFieldPlayerAttempts": "fieldAttempts + sevenAttempts; this is the source of the prior 97.89 reference",
+      "totalAttempts": "all engine shot releases including goalkeeper attempts, separately identifiable; historical goalkeeper attempts unavailable",
+      "conversion": "numerator and denominator use the same actor and shot-kind scope"
+    },
+    "means": {
+      "fieldAttempts": 91.3076923076923,
+      "fieldGoals": 55.714285714285715,
+      "sevenAttempts": 6.582417582417582,
+      "sevenGoals": 4.950549450549451,
+      "totalFieldPlayerAttempts": 97.89010989010988,
+      "totalFieldPlayerGoals": 60.66483516483517
+    },
+    "pooled": {
+      "field": {
+        "goals": 10140,
+        "attempts": 16618,
+        "conversion": 0.6101817306535082
+      },
+      "seven": {
+        "goals": 901,
+        "attempts": 1198,
+        "conversion": 0.7520868113522537
+      },
+      "totalFieldPlayer": {
+        "goals": 11041,
+        "attempts": 17816,
+        "conversion": 0.6197238437359677
+      }
+    },
+    "assertedAllRows": true,
+    "conclusion": "The stored extraction includes 7m in the 97.89 field-player reference. It must not be relabeled as 97.89 ordinary-only field attempts. Gameplay remains untouched."
+  },
+  "resourceSafety": "All expensive jobs sequential; completed source-identical pairs retained on guarded resume; final normal cohorts 40 each; no N80 reruns; no push"
+}

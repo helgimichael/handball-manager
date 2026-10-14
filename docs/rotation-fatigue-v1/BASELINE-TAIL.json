@@ -1,0 +1,120 @@
+{
+  "fixtureIndex": 26,
+  "competition": "HBL",
+  "includedInAllStatistics": true,
+  "baseline": {
+    "source": "docs/reconciliation-v11/final/hbl/chunk-026/causal-026.json",
+    "sha256": "205dfe2e3162253cf8e911d92ab95b06db0b60c71ac08680bef8036db1668569",
+    "lastShotMs": 2567700,
+    "noShotTailMinutes": 17.205
+  },
+  "final": {
+    "source": "docs/rotation-fatigue-v1/final/hbl/chunk-024/causal-026.json",
+    "sha256": "903bf89d4fdf5652fa75a072c9da3b077a0d0151051709052467ffd9f4154a99",
+    "lastShotMs": 2647950,
+    "noShotTailMinutes": 15.8675,
+    "quarterShots": [
+      21,
+      25,
+      24,
+      0
+    ]
+  },
+  "observedState": {
+    "officialMs": 3570000,
+    "ball": {
+      "mode": "LOOSE",
+      "position": {
+        "x": 17.69572055449461,
+        "y": 39.38874392975016
+      },
+      "height": 0,
+      "controllerId": null,
+      "live": true,
+      "flight": null,
+      "lastTouchId": "player_william_psajd_5c669bcd"
+    },
+    "collectors": [
+      {
+        "id": "se_player_oliver_wigmark_4d3b1757",
+        "position": {
+          "x": 19.257540835734826,
+          "y": 38.91559008540142
+        },
+        "condition": {
+          "energy": 0.6505592930546337,
+          "distanceMetres": 5356.4001593684025,
+          "courtMs": 3570100,
+          "unavailable": false,
+          "attacksRemaining": 0,
+          "treatmentPossession": null,
+          "exitRequired": false,
+          "acuteExertion": 0.0017569755892398462
+        },
+        "action": {
+          "id": "action-228635",
+          "possessionId": "possession-151034",
+          "kind": "RUN",
+          "phase": "EXECUTING",
+          "startedTick": 71586,
+          "phaseTick": 71590,
+          "executeTicks": 12,
+          "recoveryTicks": 2,
+          "target": {
+            "x": 17.69572055449461,
+            "y": 38.915035758916794
+          },
+          "targetId": null,
+          "reason": "Recover physically reachable rebound",
+          "resolved": false,
+          "contestIds": [],
+          "shotKind": null,
+          "purpose": "PLAY",
+          "contact": null,
+          "driveStart": null
+        }
+      },
+      {
+        "id": "player_filip_tapper_32d5cf17",
+        "position": {
+          "x": 17.770986945676846,
+          "y": 38.69190136576537
+        },
+        "condition": {
+          "energy": 0.6027885359331351,
+          "distanceMetres": 5310.537808983659,
+          "courtMs": 3570100,
+          "unavailable": false,
+          "attacksRemaining": 0,
+          "treatmentPossession": null,
+          "exitRequired": false,
+          "acuteExertion": 1.2546534915259137e-20
+        },
+        "action": {
+          "id": "action-228769",
+          "possessionId": "possession-151034",
+          "kind": "RUN",
+          "phase": "PREPARING",
+          "startedTick": 71618,
+          "phaseTick": 71618,
+          "executeTicks": 12,
+          "recoveryTicks": 2,
+          "target": {
+            "x": 17.69572055449461,
+            "y": 38.915035758916794
+          },
+          "targetId": null,
+          "reason": "Recover physically reachable rebound",
+          "resolved": false,
+          "contestIds": [],
+          "shotKind": null,
+          "purpose": "PLAY",
+          "contact": null,
+          "driveStart": null
+        }
+      }
+    ]
+  },
+  "classification": "A long scoreless tail already exists in this retained v1.1 fixture. Final replay exposes a corner-rebound collection loop at moderate energy and near-zero recent exertion; this is not severe-fatigue collapse. The old cohort does not retain identical full state, so a shared exact root cause is not asserted.",
+  "scope": "Explicit remaining collection limitation. No result exclusion, forced shot, fatigue retune or further Intelligence change was made."
+}
