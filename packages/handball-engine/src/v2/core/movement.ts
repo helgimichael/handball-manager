@@ -1,5 +1,5 @@
 import {courtPlayers,otherTeam,type CorePlayer,type CoreState,type Point} from './state';
-import {clearGoalArea,distance,laneClearance,local,world} from './space';
+import {clearGoalArea,distance,laneClearance,local,world,segmentPoint,fieldLegal} from './space';
 export type MovementMode='HOLD'|'ADJUST'|'SUPPORT'|'THREATEN'|'RECEIVE'|'DRIVE'|'SHIFT'|'STEP_OUT'|'HELP'|'RECOVER'|'RETREAT'|'SPRINT_TRANSITION';
 /** Optional persisted perception memory. Old active saves initialize it from their current action. */
 export type MovementRead={mode:MovementMode;relation:string;target:Point;reviewTick:number};
@@ -63,14 +63,28 @@ export function receivingApproach(s:CoreState,p:CorePlayer,passer:CorePlayer|nul
 }
 /** Only an actual body on the projected travel corridor justifies a lateral route. */
 export function bodyRoute(s:CoreState,p:CorePlayer,target:Point):Point {
- if(p.kind==='GOALKEEPER'||!s.ball.live||engagementMovement(s,p)||p.action?.kind==='DRIVE'||p.action?.kind==='DRIBBLE'||p.action?.kind==='SCREEN')return target;
+ if(p.kind==='GOALKEEPER'||!s.ball.live||engagementMovement(s,p)||p.action?.kind==='DRIVE'||p.action?.kind==='SCREEN')return target;
+ const carrying=p.action?.kind==='DRIBBLE';
  const d=distance(p.position,target);if(d<.3)return target;
  const ux=(target.x-p.position.x)/d,uy=(target.y-p.position.y)/d;
- const body=courtPlayers(s).filter(q=>q.id!==p.id).map(q=>{
+ const body=courtPlayers(s).filter(q=>q.id!==p.id&&(!carrying||q.team===p.team&&distance(p.position,q.position)<p.radius+q.radius+.04)).map(q=>{
   const dx=q.position.x-p.position.x,dy=q.position.y-p.position.y;
   return{q,ahead:dx*ux+dy*uy,side:dx*(-uy)+dy*ux};
  }).filter(q=>q.ahead>0&&q.ahead<Math.min(d,1.5)&&Math.abs(q.side)<p.radius+q.q.radius+.16).sort((a,b)=>a.ahead-b.ahead||a.q.id.localeCompare(b.q.id))[0];
  if(!body)return target;
+ if(s.ball.mode==='LOOSE'&&p.duty.kind==='COLLECT'||carrying){
+  // A tangent leg around the actual blocking body gives a boxed claimant a
+  // reachable route. Shifting a distant destination sideways still aimed the
+  // first step into that body. Choose the side with real corridor clearance;
+  // the ordinary integrator retains every collision and acceleration check.
+  const rx=body.q.position.x-p.position.x,ry=body.q.position.y-p.position.y,r=Math.max(.001,Math.hypot(rx,ry));
+  const choices=[-1,1].map(side=>{const at={x:p.position.x-ry/r*.8*side,y:p.position.y+rx/r*.8*side};
+   const clearance=Math.min(...courtPlayers(s).filter(q=>q.id!==p.id).map(q=>distance(segmentPoint(p.position,at,q.position).point,q.position)-p.radius-q.radius));
+   return{at,value:clearance+(d-distance(at,target))*.02};
+  }).filter(c=>fieldLegal(c.at,p.radius)).sort((a,b)=>b.value-a.value);
+  if(choices[0])return choices[0].at;
+ }
+ if(carrying)return target;
  const side=body.side===0?(p.position.x<10?-1:1):-Math.sign(body.side);
  const lateral=Math.max(0,p.radius+body.q.radius+.2-Math.abs(body.side));
  return{x:target.x-uy*side*lateral,y:target.y+ux*side*lateral};

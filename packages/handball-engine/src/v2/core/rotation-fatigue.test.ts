@@ -1,0 +1,64 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {createCoreScenario} from './scenarios';
+import {createMatch,matchBefore} from './match';
+import {getPlayer,type CorePlayer} from './state';
+import {conditionAfter,movementCapacity,accelerationCapacity,difficultExecutionCapacity,executionCapacity} from './condition';
+import {move,startAction} from './actions';
+import {secondsTo} from './timing';
+import {requestExchange,populationAfter} from './population';
+import {decideHandball} from './intelligence';
+import {advanceCoreMutable,assertCore} from './engine';
+import {planShotTarget} from './execution';
+const scene=()=>{const s=createCoreScenario(),p=getPlayer(s,'H03');s.officialClock.running=true;return{s,p};};
+const work=(p:CorePlayer,e=.4,a=.8)=>{p.condition.energy=e;p.condition.acuteExertion=a;};
+test('high speed costs more than quiet activity',()=>{const a=scene(),b=scene();a.p.velocity={x:5,y:0};for(let n=0;n<1000;n++){conditionAfter(a.s);conditionAfter(b.s);}assert.ok(a.p.condition.energy<b.p.condition.energy);assert.ok(a.p.condition.acuteExertion!>b.p.condition.acuteExertion!);});
+test('quiet intervals clear recent exertion without resetting energy',()=>{const{s,p}=scene();work(p);for(let n=0;n<800;n++)conditionAfter(s);assert.ok(p.condition.acuteExertion!<.3);assert.ok(p.condition.energy<.4);});
+test('halftime clears acute work with only partial energy recovery',()=>{const s=createMatch();const p=getPlayer(s,'H03');work(p,.45);s.match!.phase='HALFTIME';s.officialClock.running=false;for(let n=0;n<12000;n++)conditionAfter(s);assert.ok(p.condition.energy>.45&&p.condition.energy<.58);assert.ok(p.condition.acuteExertion!<.001);});
+test('two five and ten bench minutes recover gradually',()=>{for(const minutes of [2,5,10]){const{s,p}=scene();work(p);p.population='BENCH';for(let n=0;n<minutes*1200;n++)conditionAfter(s);assert.ok(p.condition.energy>.4&&p.condition.energy<.53);assert.ok(p.condition.acuteExertion!<.05);}});
+test('recovery never exceeds valid bounds',()=>{const{s,p}=scene();work(p,.999,0);p.population='BENCH';for(let n=0;n<3000;n++)conditionAfter(s);assert.equal(p.condition.energy,1);assert.ok(p.condition.acuteExertion!>=0);});
+test('acute work reduces tired repeat acceleration',()=>{const{s,p}=scene();work(p);const a=accelerationCapacity(p);p.condition.acuteExertion=0;assert.ok(a<accelerationCapacity(p));assert.ok(a<movementCapacity(p));});
+test('tired defender takes longer to reach the same recovery post',()=>{const{s,p}=scene();const target={x:p.position.x+3,y:p.position.y};const fresh=secondsTo(s,p,target);work(p,.25,1);assert.ok(secondsTo(s,p,target)>fresh);});
+test('fresh acceleration retains the existing baseline',()=>{const{p}=scene();p.condition.energy=1;p.condition.acuteExertion=1;assert.equal(accelerationCapacity(p),1);assert.equal(difficultExecutionCapacity(p,1),1);});
+test('fatigued integration remains acceleration bounded and local',()=>{const{s,p}=scene();work(p,.25,1);p.velocity={x:0,y:0};const before={...p.position};move(s,p,{x:before.x+2,y:before.y});assert.ok(Math.hypot(p.velocity.x,p.velocity.y)<=p.profile.acceleration*accelerationCapacity(p)*.05+1e-8);assert.ok(Math.hypot(p.position.x-before.x,p.position.y-before.y)<.1);});
+test('beaten recovery costs physical time with no fatigue beaten flag',()=>{const{s,p}=scene();work(p,.25,1);const flags=[p.beatenUntilTick,p.wrongFootedUntilTick];const normal=secondsTo(s,p,{x:12,y:20});p.beatenUntilTick=s.tick+100;assert.ok(secondsTo(s,p,{x:12,y:20})>normal);p.beatenUntilTick=flags[0];conditionAfter(s);assert.deepEqual([p.beatenUntilTick,p.wrongFootedUntilTick],flags);});
+test('a tired helper physically closes less space in one second',()=>{const a=scene(),b=scene();a.s.players=[a.p];b.s.players=[b.p];work(b.p,.2,1);for(let n=0;n<20;n++){move(a.s,a.p,{x:16,y:20});move(b.s,b.p,{x:16,y:20});}assert.ok(a.p.position.x>b.p.position.x);});
+test('fresh helper has no added recovery delay',()=>{const{s,p}=scene();const normal=secondsTo(s,p,{x:16,y:20});p.condition.acuteExertion=0;assert.equal(secondsTo(s,p,{x:16,y:20}),normal);});
+test('fatigue cannot directly create a lost shoulder',()=>{const{s,p}=scene();work(p,.15,1);const position={...p.position};const flags=[p.beatenUntilTick,p.screenedUntilTick,p.wrongFootedUntilTick];for(let n=0;n<200;n++)conditionAfter(s);assert.deepEqual(p.position,position);assert.deepEqual([p.beatenUntilTick,p.screenedUntilTick,p.wrongFootedUntilTick],flags);});
+test('clear-lane Intelligence still chooses own threat',()=>{const{s,p}=scene();p.position={x:10,y:12};s.ball.controllerId=p.id;s.ball.position={...p.position};s.ball.live=true;s.players=s.players.filter(q=>q.team===p.team);assert.ok(['DRIVE','DRIBBLE','SHOOT','JUMP'].includes(decideHandball(s,p).chosen!.motor));});
+test('a tired carrier still exploits an empty lane',()=>{const{s,p}=scene();work(p,.25,1);p.position={x:10,y:12};s.ball.controllerId=p.id;s.ball.position={...p.position};s.ball.live=true;s.players=s.players.filter(q=>q.team===p.team);assert.ok(['DRIVE','DRIBBLE','SHOOT','JUMP'].includes(decideHandball(s,p).chosen!.motor));});
+test('difficult execution pays more than a trivial action',()=>{const{p}=scene();work(p,.25,1);assert.equal(difficultExecutionCapacity(p,0),executionCapacity(p));assert.ok(difficultExecutionCapacity(p,1)<difficultExecutionCapacity(p,.2));});
+test('fatigue never creates a forced pass or substitution command',()=>{const{s,p}=scene();work(p,.15,1);const actions=s.events.length,exchanges=s.exchanges.length;conditionAfter(s);assert.equal(s.events.length,actions);assert.equal(s.exchanges.length,exchanges);});
+test('substitute takes the vacated role',()=>{const s=createMatch(),out=getPlayer(s,'H03'),incoming=getPlayer(s,'H09');assert.ok(requestExchange(s,'HOME',out.id,incoming.id));out.population='BENCH';const e=s.exchanges.at(-1)!;e.phase='ENTERING';incoming.population='COURT';incoming.position.x=.65;populationAfter(s);assert.equal(incoming.role,out.role);});
+test('entry keeps own energy and acute memory',()=>{const s=createMatch(),out=getPlayer(s,'H03'),incoming=getPlayer(s,'H09');work(out,.2,1);work(incoming,.93,.02);assert.ok(requestExchange(s,'HOME',out.id,incoming.id));assert.equal(incoming.condition.energy,.93);assert.equal(incoming.condition.acuteExertion,.02);});
+test('replaced player recovers on the bench',()=>{const{s,p}=scene();work(p);p.population='BENCH';for(let n=0;n<2400;n++)conditionAfter(s);assert.ok(p.condition.energy>.4);assert.ok(p.condition.acuteExertion!<.05);});
+test('re-entry preserves player identity minutes and permanent quality',()=>{const s=createMatch(),incoming=getPlayer(s,'H09');incoming.condition.courtMs=900000;const profile=structuredClone(incoming.profile);assert.ok(requestExchange(s,'HOME','H03',incoming.id));assert.equal(incoming.id,'H09');assert.equal(incoming.condition.courtMs,900000);assert.deepEqual(incoming.profile,profile);});
+test('rolling exchange staging is deterministic and clears stale perception',()=>{const a=createMatch(),b=JSON.parse(JSON.stringify(a));for(const s of [a,b]){const p=getPlayer(s,'H09');p.reentryReadTicks=8;assert.ok(requestExchange(s,'HOME','H03',p.id));assert.equal(p.reentryReadTicks,undefined);}assert.deepEqual(a,b);});
+test('a tired elite executor can remain better than a weak fresh reserve',()=>{const a=scene().p,b=scene().p;work(a,.25,1);b.condition.energy=.95;assert.ok(.95*difficultExecutionCapacity(a,.1)>.35*difficultExecutionCapacity(b,.1));});
+test('a fresh good reserve can beat a severe tired starter on acceleration',()=>{const a=scene().p,b=scene().p;work(a,.25,1);b.condition.energy=.95;assert.ok(6*accelerationCapacity(b)>8*accelerationCapacity(a));});
+test('functional curves are smooth and have no 50 percent cliff',()=>{const{p}=scene();work(p,.499,1);const a=accelerationCapacity(p);p.condition.energy=.501;assert.ok(Math.abs(accelerationCapacity(p)-a)<.003);});
+test('canonical ticking is deterministic with exertion',()=>{const a=scene().s,b=JSON.parse(JSON.stringify(a));for(let n=0;n<150;n++){advanceCoreMutable(a);advanceCoreMutable(b);}assert.deepEqual(a,b);});
+test('mid-state JSON retains energy exertion intent and RNG exactly',()=>{const{s,p}=scene();work(p);for(let n=0;n<100;n++)advanceCoreMutable(s);const loaded=JSON.parse(JSON.stringify(s));for(let n=0;n<100;n++){advanceCoreMutable(s);advanceCoreMutable(loaded);}assert.deepEqual(loaded,s);});
+test('old saves without exertion are accepted and initialize on activity',()=>{const{s,p}=scene();delete p.condition.acuteExertion;assert.doesNotThrow(()=>assertCore(s));conditionAfter(s);assert.ok(Number.isFinite(p.condition.acuteExertion));});
+test('goalkeeper capacities and workload branch remain unchanged',()=>{const{s}=scene(),p=getPlayer(s,'H07');work(p,.3,1);assert.equal(accelerationCapacity(p),movementCapacity(p));assert.equal(difficultExecutionCapacity(p,1),executionCapacity(p));});
+test('score clock and invented quota fields do not enter fatigue',()=>{const a=scene(),b=scene();work(a.p);work(b.p);b.s.score={HOME:100,AWAY:0};b.s.officialClock.timeMs=3000000;Object.assign(b.s,{noSubstitutions:true,benchmarkMismatch:true});conditionAfter(a.s);conditionAfter(b.s);assert.deepEqual(a.p.condition,b.p.condition);});
+test('a tired loose-ball claimant detours around two stationary bodies without ghost contact',()=>{
+ const{s,p}=scene(),a=getPlayer(s,'H02'),b=getPlayer(s,'A02');s.players=[p,a,b];
+ p.position={x:7.038452633115598,y:28.719123103018795};p.velocity={x:0,y:0};a.position={x:7.5,y:28.4};b.position={x:6.502957282722311,y:28.883490554842552};for(const q of s.players)q.radius=.28;
+ s.ball.live=true;s.ball.mode='LOOSE';s.ball.controllerId=null;s.ball.position={x:8.15447742471083,y:27.099867769313967};p.duty.kind='COLLECT';work(p,.65,.2);startAction(s,p,'RUN','Recover physically reachable rebound',s.ball.position);
+ for(let n=0;n<400&&Math.hypot(p.position.x-s.ball.position.x,p.position.y-s.ball.position.y)>.65;n++){const old={...p.velocity};move(s,p,s.ball.position);assert.ok(Math.hypot(p.velocity.x-old.x,p.velocity.y-old.y)<=2*p.profile.acceleration*accelerationCapacity(p)*.05+1e-8);for(const body of [a,b])assert.ok(Math.hypot(p.position.x-body.position.x,p.position.y-body.position.y)>=p.radius+body.radius-1e-8);}
+ assert.ok(Math.hypot(p.position.x-s.ball.position.x,p.position.y-s.ball.position.y)<=.65,'real hand-contact distance reached');assert.equal(s.ball.controllerId,null,'movement itself never invents possession');
+});
+test('compressed career halftime applies partial rest exactly once and survives JSON',()=>{
+ const s=createMatch(2025,'TOP',1800000,0),p=getPlayer(s,'H03');work(p,.45,.8);s.match!.phase='HALFTIME';s.match!.resumeTick=s.tick;s.officialClock.running=false;
+ const loaded=JSON.parse(JSON.stringify(s));matchBefore(s);matchBefore(loaded);assert.deepEqual(s,loaded);assert.ok(p.condition.energy>.45&&p.condition.energy<.58);assert.ok(p.condition.acuteExertion!<.001);
+ const energy=p.condition.energy;matchBefore(s);assert.equal(p.condition.energy,energy);assert.equal(p.condition.courtMs,0,'compressed rest adds no playing minutes');
+});
+test('a dribbling carrier physically steps around a stationary teammate without a forced pass',()=>{
+ const{s,p}=scene(),body=getPlayer(s,'H02');s.players=[p,body];for(const q of s.players)q.radius=.28;
+ p.position={x:10.031084996542443,y:20.372391893614545};p.velocity={x:0,y:0};body.position={x:10.031084996542443,y:19.811285474239003};
+ s.ball.live=true;s.ball.mode='DRIBBLE';s.ball.controllerId=p.id;s.ball.position={...p.position};work(p,.7,.2);
+ const target={x:p.position.x,y:p.position.y-7};startAction(s,p,'DRIBBLE','Carry through an open transition lane',target);
+ for(let n=0;n<200;n++){const old={...p.velocity};move(s,p,target);assert.ok(Math.hypot(p.velocity.x-old.x,p.velocity.y-old.y)<=2*p.profile.acceleration*accelerationCapacity(p)*.05+1e-8);assert.ok(Math.hypot(p.position.x-body.position.x,p.position.y-body.position.y)>=p.radius+body.radius-1e-8);}
+ assert.ok(p.position.y<18,'carrier progresses around the actual allied body');assert.equal(s.ball.controllerId,p.id);assert.equal(p.action!.kind,'DRIBBLE');
+});

@@ -10,6 +10,7 @@ export function requestExchange(s:CoreState,team:TeamId,outId:string|null,inId:s
   const gate={x:-.35,y:s.directions[team]==='TOP'?24:16};
   // Bench staging is off-court. Admission and court movement are separate transitions.
   incoming.position={...gate};incoming.velocity={x:0,y:0};incoming.action=null;
+  delete incoming.handballIntent;delete incoming.carrierRead;delete incoming.reentryReadTicks;delete incoming.motion;
   s.exchanges.push({id:uid(s,'exchange'),team,outId,inId,phase:outgoing?'WAIT_EXIT':'ENTERING',gate,requestedTick:s.tick});
   record(s,'EXCHANGE_REQUESTED',outgoing,{incomingId:inId},[inId]);return true;
 }

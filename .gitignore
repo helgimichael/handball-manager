@@ -104,3 +104,8 @@ docs/reconciliation-v11/final/
 docs/reconciliation-v11/verification/
 docs/reconciliation-v11/*.log
 docs/reconciliation-v11/*.exit.txt
+docs/rotation-fatigue-v1/development/
+docs/rotation-fatigue-v1/final/
+docs/rotation-fatigue-v1/verification/
+docs/rotation-fatigue-v1/*.log
+docs/rotation-fatigue-v1/*.exit.txt

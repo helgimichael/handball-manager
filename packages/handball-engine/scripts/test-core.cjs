@@ -8,6 +8,7 @@ require('../src/v2/core/core.test.ts');
 require('../src/v2/core/intelligence.test.ts');
 require('../src/v2/core/reconciliation.test.ts');
 require('../src/v2/core/reconciliation-v11.test.ts');
+require('../src/v2/core/rotation-fatigue.test.ts');
 require('../src/v2/core/motion-quality.test.ts');
 require('../src/v2/core/continuous.test.ts');
 require('../src/v2/core/contact.test.ts');

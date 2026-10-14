@@ -2,7 +2,7 @@ import { actionAvailable, getPlayer, random, record, uid, type ActionKind, type 
 import { distance, fieldLegal, goal, local } from './space';
 import { awardRestart } from './transitions';
 import { authorisedRestartMovementLegal } from './rules';
-import { movementCapacity } from './condition';
+import { movementCapacity,accelerationCapacity } from './condition';
 import { planShotTarget } from './execution';
 import { steerVelocity } from './locomotion';
 import {bodyRoute,engagementMovement,movementPace} from './movement';
@@ -109,7 +109,7 @@ export function move(s:CoreState,p:CorePlayer,target:Point|null,committedSave=fa
   const dx=target&&d>1e-8?(target.x-p.position.x)/d:0,dy=target&&d>1e-8?(target.y-p.position.y)/d:0;
   const impaired=s.tick < p.beatenUntilTick ? 0.4 : s.tick < p.screenedUntilTick ? 0.15 : s.tick<p.wrongFootedUntilTick?.65:1;
   const capacity=movementCapacity(p);
-  const acceleration=p.profile.acceleration*capacity;
+  const acceleration=p.profile.acceleration*accelerationCapacity(p);
   // Arrival is a braking problem, not a velocity reset. Close to a relational
   // target, proportional approach removes the alternating overshoot/stop cycle.
   // A committed keeper reach retains v2.1's released-shot timing model. Its
@@ -134,7 +134,11 @@ export function move(s:CoreState,p:CorePlayer,target:Point|null,committedSave=fa
   // may need to step backwards before returning to its restart position.
   const taker=s.restart?.takerId?getPlayer(s,s.restart.takerId):null;
   const pinned=!s.ball.live&&taker&&p.team!==taker.team&&(p.position.x<1||p.position.x>19)&&distance(p.position,taker.position)<1;
-  const angles=s.ball.live&&!engagement&&p.kind!=='GOALKEEPER'?[0,.12,-.12,.25,-.25,.45,-.45,.7,-.7]:!pinned?[0,.7,-.7,1.3,-1.3,Math.PI/2,-Math.PI/2,1.9,-1.9]:[0,.7,-.7,1.3,-1.3,Math.PI/2,-Math.PI/2,1.9,-1.9,2.5,-2.5,Math.PI];
+  // A loose-ball claimant boxed between actual bodies may need to move away
+  // before going around them. Every detour still obeys acceleration, collision
+  // and legal-court checks; no hand contact or ownership is granted here.
+  const collectionDetour=s.ball.mode==='LOOSE'&&p.duty.kind==='COLLECT';
+  const angles=s.ball.live&&!engagement&&p.kind!=='GOALKEEPER'?(collectionDetour?[0,.12,-.12,.25,-.25,.45,-.45,.7,-.7,1.3,-1.3,Math.PI/2,-Math.PI/2,1.9,-1.9,2.5,-2.5,Math.PI]:[0,.12,-.12,.25,-.25,.45,-.45,.7,-.7]):!pinned?[0,.7,-.7,1.3,-1.3,Math.PI/2,-Math.PI/2,1.9,-1.9]:[0,.7,-.7,1.3,-1.3,Math.PI/2,-Math.PI/2,1.9,-1.9,2.5,-2.5,Math.PI];
   for(const angle of angles) {
     const ux=heading.x*Math.cos(angle)-heading.y*Math.sin(angle),uy=heading.x*Math.sin(angle)+heading.y*Math.cos(angle);
     const next={x:p.position.x+ux*travel,y:p.position.y+uy*travel};

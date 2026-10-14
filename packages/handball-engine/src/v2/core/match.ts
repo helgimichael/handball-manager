@@ -5,6 +5,7 @@ import { world } from './space';
 import { awardRestart,interrupt } from './transitions';
 import { requestExchange } from './population';
 import { refereeAfter } from './referee';
+import {recoverAtRest} from './condition';
 
 export function createMatch(seed=2025,direction:Direction='TOP',periodLengthMs=1800000,halfBreakMs=600000,squads?:Record<'HOME'|'AWAY',SquadCharacter>):CoreState {
   if(!Number.isInteger(periodLengthMs)||periodLengthMs<1000||periodLengthMs%50||!Number.isInteger(halfBreakMs)||halfBreakMs<0||halfBreakMs%50)throw new Error('Invalid match timing');
@@ -47,6 +48,10 @@ export function matchBefore(s:CoreState):boolean {
   }
   if(m.phase!=='HALFTIME')return false;
   if(s.tick<m.resumeTick)return true;
+  // Career matches compress the break to zero simulation ticks. Apply its
+  // court-player rest once at this phase transition, including automatic and
+  // manually resumed halves. A real simulated break already recovered by tick.
+  if(m.halfBreakMs===0)for(const p of s.players)recoverAtRest(p,600000);
   s.period=2;s.directions={HOME:s.directions.HOME==='TOP'?'BOTTOM':'TOP',AWAY:s.directions.AWAY==='TOP'?'BOTTOM':'TOP'};
   for(const p of s.players)if(p.condition.attacksRemaining){p.condition.attacksRemaining=0;p.condition.treatmentPossession=null;record(s,'TREATMENT_ELIGIBILITY_RESTORED',p,{reason:'Second half begins'});}
   m.phase='PREMATCH';m.periodStartMs=s.officialClock.timeMs;

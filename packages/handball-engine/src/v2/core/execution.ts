@@ -2,7 +2,7 @@
 // engineering coefficients, not event-rate targets or a turnover lottery.
 import { courtPlayers, otherTeam, random, record, type CorePlayer, type CoreState, type Point } from './state';
 import { clamp, distance, goal, laneClearance, local, shotContext, shootingAngle, world } from './space';
-import { executionCapacity } from './condition';
+import { executionCapacity,difficultExecutionCapacity } from './condition';
 import {defenderResistance} from './threatRelation';
 
 export function releasePressure(s:CoreState,p:CorePlayer):number {
@@ -16,7 +16,8 @@ export function planShotTarget(s:CoreState,p:CorePlayer,tieSide?:-1|1) {
   const keeper=courtPlayers(s,otherTeam(p.team)).find(d=>d.kind==='GOALKEEPER');
   const keeperX=keeper?.position.x??10,wide=Math.abs(p.position.x-10)>6.5;
   const penalty=p.action?.shotKind==='SEVEN_METRE';
-  const placement=(penalty?p.profile.shotPlacement*.6+p.profile.finishing*.25+p.profile.composure*.15:wide?p.profile.wingFinishing*.7+p.profile.shotPlacement*.3:p.profile.shotPlacement)*executionCapacity(p);
+  const difficulty=clamp(context.pressure/2,0,1)*.7+clamp((context.distance-7)/5,0,1)*.15+clamp(Math.hypot(p.velocity.x,p.velocity.y)/Math.max(1,p.profile.topSpeed),0,1)*.15;
+  const placement=(penalty?p.profile.shotPlacement*.6+p.profile.finishing*.25+p.profile.composure*.15:wide?p.profile.wingFinishing*.7+p.profile.shotPlacement*.3:p.profile.shotPlacement)*(penalty?executionCapacity(p):difficultExecutionCapacity(p,difficulty));
   const spread=((1.25-placement)*(1+context.pressure*(.45-.25*p.profile.composure))+
     Math.max(0,.3-shootingAngle(p.position,direction))*1.8)*(penalty?.55+.45*(1-p.profile.composure):1);
   const leftGap=keeperX-8.5,rightGap=11.5-keeperX;
@@ -56,7 +57,7 @@ export function prepareKeeperAnticipation(s:CoreState,keeper:CorePlayer,thrower:
 export type PassExecution = { target:Point; speed:number; difficulty:number; spread:number; pressure:number; error:number; capability:number };
 export function executePass(s:CoreState,p:CorePlayer,receiver:CorePlayer,intended:Point,protectedReturn=false):PassExecution {
   const origin=s.ball.position,range=distance(origin,intended);
-  const capacity=executionCapacity(p),capability=p.profile.passing*capacity;
+  const capacity=executionCapacity(p);
   const speed=(10.5+3*p.profile.passing)*(.9+.1*capacity);
   const pressure=releasePressure(s,p);
   const movement=clamp(Math.hypot(receiver.velocity.x,receiver.velocity.y)/Math.max(1,receiver.profile.topSpeed),0,1);
@@ -65,6 +66,7 @@ export function executePass(s:CoreState,p:CorePlayer,receiver:CorePlayer,intende
   const lane=laneClearance(s,origin,intended,p.team);
   const urgency=clamp((s.tick-p.handling.heldSinceTick)*50/s.ruleProfile.maxHoldMs-.6,0,.4);
   const difficulty=clamp(clamp((range-6)/18,0,1)*.35+pressure*.2+movement*.15+contested*.2+clamp((.8-lane)/.8,0,1)*.25+urgency*.25,0,1);
+  const capability=p.profile.passing*difficultExecutionCapacity(p,difficulty);
   const spread=protectedReturn?0:.025+(1-capability)*(.18+1.65*difficulty);
   if(!spread||range<.1)return {target:{...intended},speed,difficulty,spread,pressure,error:0,capability};
   const ux=(intended.x-origin.x)/range,uy=(intended.y-origin.y)/range;
@@ -79,7 +81,7 @@ export function receptionRisk(s:CoreState,p:CorePlayer,point:Point,pace:number):
   const alignment=clamp(distance(p.position,point)/.65,0,1);
   const moving=clamp(Math.hypot(p.velocity.x,p.velocity.y)/Math.max(1,p.profile.topSpeed),0,1);
   const difficulty=pressure*.45+clamp((pace-9)/9,0,1)*.16+alignment*.25+moving*.1;
-  const control=(p.profile.handling*.8+p.profile.composure*.2)*executionCapacity(p);
+  const control=(p.profile.handling*.8+p.profile.composure*.2)*difficultExecutionCapacity(p,difficulty);
   return clamp(Math.max(0,difficulty-.18)*(1-control)*.55,0,.4);
 }
 

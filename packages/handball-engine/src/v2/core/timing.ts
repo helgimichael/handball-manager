@@ -20,7 +20,7 @@
 // how a defence collapses into six players chasing one ball, which is the
 // failure the paused 3:2:1 work died of. Nothing in this module reads a duty
 // and nothing that allocates a duty may call it before allocating.
-import { movementCapacity } from './condition';
+import { movementCapacity,accelerationCapacity } from './condition';
 import type { CoreFlight, CorePlayer, CoreState, Point } from './state';
 import { distance } from './space';
 
@@ -48,7 +48,7 @@ export function reachOf(s: CoreState, p: CorePlayer): Reach {
     position: p.position,
     velocity: p.velocity,
     topSpeed: Math.max(0.4, p.profile.topSpeed * capacity),
-    acceleration: Math.max(0.4, p.profile.acceleration * capacity),
+    acceleration: Math.max(0.4, p.profile.acceleration * accelerationCapacity(p) * impaired),
     // A player already committed to an action has spent his reaction; one who
     // is not is still reading. Impairment costs reading time as well as pace.
     reaction: p.profile.reaction / Math.max(0.2, impaired),
