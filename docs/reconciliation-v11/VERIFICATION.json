@@ -1,0 +1,1918 @@
+{
+  "schema": "empirical-reconciliation-v11-closeout/1",
+  "startingCheckpoint": "8aaa9585c1411a9c77bb0272ff76c4fd604ef770",
+  "sourceCommit": "5804e3b88fe7c20d338e98200d7ab3eacf62bbc2",
+  "cohorts": {
+    "hbl": {
+      "n": 80,
+      "sourceStable": true,
+      "manifest": {
+        "sources": {
+          "packages/handball-engine/src/v2/core/actions.ts": "36877af6bfe9e2e0eec8f6de6910331e3bb6537782f5780226a288b0a47ee42b",
+          "packages/handball-engine/src/v2/core/backcourt.ts": "00ab4e44f0520b83f771cf5dd8a0e1212b34272410e5027b856eabddebddc120",
+          "packages/handball-engine/src/v2/core/backcourtScenarios.ts": "6137722469db2dc0a9567b9ff3bccd9c8d3f070e9db58bb93fe225cbccd655be",
+          "packages/handball-engine/src/v2/core/coaching.ts": "b943276328e1df36f43173af08fe008d8376f419e5afae4aeae5e1466a28a599",
+          "packages/handball-engine/src/v2/core/condition.ts": "f27c2d555258dbb0a56f562ed25e0416aa31a2e90640143ea7f7b874f92cad91",
+          "packages/handball-engine/src/v2/core/contact.ts": "c3084ebc21cee0ff9da3c74edeee2a88f1b0ebadd43648289533f146535c2640",
+          "packages/handball-engine/src/v2/core/contactScenarios.ts": "624c77567281a49677ae55289c3e0d71d5e81f00e2f56f151e1bf7ea59ebd1ce",
+          "packages/handball-engine/src/v2/core/continuous.ts": "3bc0e25ee0474aab3162df83b5e228bcd5953ddc5b29622592e5fd5bfdda55c5",
+          "packages/handball-engine/src/v2/core/defence.ts": "353763d139e7d170aff02f6b757973103a3b25fbdc53c4c363a1ed06de102b56",
+          "packages/handball-engine/src/v2/core/engage.ts": "b597ce488188b882f553f0553316960039d19ec92bca275ee89c7a4db4595d07",
+          "packages/handball-engine/src/v2/core/engine.ts": "d159962db29626902d84059853507ad4fcca16a1eca10f59a24d397020b7f488",
+          "packages/handball-engine/src/v2/core/execution.ts": "1ba72480a9fede50e897d6b79f28bf6de0e6fc51a946ab62ff9814dda110e974",
+          "packages/handball-engine/src/v2/core/intelligence.ts": "8b7814ce46cf50bbb8a2e19648991e880304a5c0f2fdf5b5540a45e57ed4c80b",
+          "packages/handball-engine/src/v2/core/intelligenceScenarios.ts": "8214cb9c24bad1570559d71d2381e3ac6bdf7c670bd0e9b925bbc72857bbd310",
+          "packages/handball-engine/src/v2/core/interactions.ts": "cc8edb68c0aa81c914c8bf10f42de3e40c925a76315e0b5b76cdc08bd7e1b9bc",
+          "packages/handball-engine/src/v2/core/ledger.ts": "dd801ce6401a106d772eac46c5800eb46f218d34495f41ec1ff536aec24116c9",
+          "packages/handball-engine/src/v2/core/locomotion.ts": "c222d4240a0b0935e552fa37a7c1dcf7a999d48ca4e4e200ce5befabbc860b13",
+          "packages/handball-engine/src/v2/core/match.ts": "4ced473266ede54a0d9689c6e06a28e2a5b009464fdd994fce6c61e8186c08dd",
+          "packages/handball-engine/src/v2/core/matchReplay.ts": "6796c275154da7145cd06558835524075013528ecb2354a1f3439e5b537ea499",
+          "packages/handball-engine/src/v2/core/movement.ts": "a5c531ad8d2cefa5623a7325b22f7f6d78c2e8bd20ca9aef87369112e5ae2037",
+          "packages/handball-engine/src/v2/core/offence.ts": "086fe17fc980c3b233b59c95c8ebe89feca8a11609d2de2686ad545312c60e25",
+          "packages/handball-engine/src/v2/core/passive.ts": "0c405269406b4a8b124ea432ce036a0008118aa59c186954cded0957a0c2381f",
+          "packages/handball-engine/src/v2/core/pivot.ts": "3021f9ab217e9e4eb8f5adf996365e86338ac0fa9e738fc7491a25228c6bf783",
+          "packages/handball-engine/src/v2/core/population.ts": "49ce36826bec8344be94e5fc8cd763abeb9fb2525728df0d1526d799bc24bd7f",
+          "packages/handball-engine/src/v2/core/profile.ts": "2470fad59a2bb1570ee67561b8ca9e79edead74bc7082c7fe0007f2e252f38b0",
+          "packages/handball-engine/src/v2/core/realism.ts": "615271e0bc0217a08b296fa0777754f28b02fa136e5c0e55f07a8af616780897",
+          "packages/handball-engine/src/v2/core/referee.ts": "35feaf4d17b6b5bd011702384be061081b52b220e5d897e37aa24bc297d04387",
+          "packages/handball-engine/src/v2/core/replay.ts": "7a636b1b374a10d7f8aa02ade08957ac67920aacd33b37db2f412f2fefa42e6b",
+          "packages/handball-engine/src/v2/core/restarts.ts": "048e5ead24b976453a0abe2cf314fe9e79c33a0619c7d71cdfdb47b575230520",
+          "packages/handball-engine/src/v2/core/rules.ts": "46325a43317b15edfc4773265989ffa2ab0500c9fdefb32a7fc3363dd39147d4",
+          "packages/handball-engine/src/v2/core/sanction.ts": "8d569712c4c2ce1223d246e3a5d5e6dd0913b5f8232e6456ff892bbcd424d910",
+          "packages/handball-engine/src/v2/core/scenarios.ts": "c48ddb2c75ce34fd03c439261e40e77f676b1ffb2fc8abeb1a3f9b1a5d286dbe",
+          "packages/handball-engine/src/v2/core/space.ts": "fa4755d1ba95d8e683cd19955418944d004a34963b708030ef72eb521ca25eb3",
+          "packages/handball-engine/src/v2/core/squads.ts": "fc2aeaa594f3ef8a119656d1056178bf5f6414f6ee4c2082641b97fc216749a4",
+          "packages/handball-engine/src/v2/core/state.ts": "fc33c3ac8ee2fbe78c7998c756850eda8981949f393a03ac77af9f5c9179284e",
+          "packages/handball-engine/src/v2/core/structure.ts": "fd5cea56c1e2e311b490e452701fa2b1b8f91282e3f6cd7e06a4621d8065f3c3",
+          "packages/handball-engine/src/v2/core/testProfile.ts": "35a3ac5a0a0fbb6614de81c449fde37b880af96bc10a1cd2dcf4b4e3e9077d6d",
+          "packages/handball-engine/src/v2/core/threatRelation.ts": "c68668bfbd439adfa42a751b12266d664e1d2e6d80358cbc30149b807fb9bcf1",
+          "packages/handball-engine/src/v2/core/timing.ts": "0356bb3de1dc1aa32359d6e198cce8155bbd7010c9f76592f6f33c24c131b169",
+          "packages/handball-engine/src/v2/core/transitions.ts": "6498a4ea7a0d0efb0a19048dfcc9e6c2cd19fa8844f86f3d91995f65f80b270a",
+          "packages/handball-engine/src/v2/core/wing.ts": "31d7f39cf38918717d3723fadcce80948a13650a45a2f680e1bbc5c66fd3a556",
+          "packages/handball-engine/src/v2/core/wingScenarios.ts": "8d553b1c254f0953cf5508ca1a37463891f631cdfd0df81b436be487541ee031",
+          "apps/game/lib/career/productionMatch.ts": "84dd1f9f3e983c7f3168d6f18b516379bba9ce75d75b899871d2ab139c0b5751",
+          "apps/game/scripts/match-benchmarks.ts": "5c28b9280fbb37958f2b8222b272c39eed75b63f0b03e37ddf80c32eef0c0986",
+          "apps/game/scripts/lib/calibrationDiagnostics.ts": "75b4d75ab6951abd13939eb69661ef9a926654ce95d33d36434709c9a038223e",
+          "apps/game/scripts/lib/reconciliationDiagnostics.ts": "150a9d196dc92862f75a3fbdc2bd6abddc6b0b91e854e777f5df3d257e4b99b8",
+          "apps/game/scripts/lib/attackCycleDiagnostics.ts": "b70edf097328dddf1812caba8f5eb9f4e1ed4eb4fd8a286d4d8c3eb948d145e0",
+          "apps/game/lib/matchBenchmarks/empirical.ts": "1b05cfb0cfdb7e96870875b1042860b13221c852078eff953d31016123464d6c",
+          "apps/game/lib/matchBenchmarks/empiricalComparison.ts": "e49e86aca79b3e30cbe57ea0e6ce1da16a778417e936be4f3a1405a312e1a975",
+          "apps/game/lib/matchBenchmarks/evaluate.ts": "2f4d5bc893fbd482dfcd10baeaa1f3aa72c943dbcfa0e8dca0ba050fd3c9f3f0",
+          "apps/game/lib/matchBenchmarks/extract.ts": "4ac1e4094d2b76ba34dd157df4b32ba6309c1853aab18c7329890231681bb873",
+          "apps/game/lib/matchBenchmarks/reference.ts": "25cb435b7824faa1fc58429264d3e91a4833e678170bb5bfa75d5b5c98009e8a",
+          "apps/game/lib/matchBenchmarks/report.ts": "c7c77e53ba8b07212362ec36f4a31f2d8b263ea0f17ce8f0fd730292035b7444",
+          "apps/game/lib/matchBenchmarks/statistics.ts": "9b3c1f8e5dc5590302b8b6115f5e7c86d9a5693e14af80f0880b334f7752e2d0"
+        },
+        "inputHash": "8773162275c76de70511889789a7a7bbc4e1b9cbb4c8b2c5030eb8cafee530a7",
+        "referenceHash": "28a89cbdb4b4646da550d6875cea2a86bc26717fe983ab375e8291f12911ad7a",
+        "baseline": "C:\\Users\\helgi\\Documents\\STARKVIS-HELA\\handball-manager\\docs\\post-intelligence-reconciliation\\final\\hbl"
+      },
+      "paired": {
+        "recipes": true,
+        "initialProfiles": true,
+        "initialTactics": true,
+        "change": {
+          "goals": {
+            "n": 80,
+            "mean": 2.325,
+            "median": 1,
+            "sd": 9.36972636483578,
+            "min": -21,
+            "max": 31,
+            "p05": -12.05,
+            "p10": -9,
+            "p25": -4,
+            "p75": 8,
+            "p90": 14.100000000000009,
+            "p95": 19.049999999999997
+          },
+          "outfieldShots": {
+            "n": 80,
+            "mean": 6.2125,
+            "median": 6,
+            "sd": 10.070251652984172,
+            "min": -32,
+            "max": 38,
+            "p05": -7.05,
+            "p10": -4.199999999999999,
+            "p25": 0.75,
+            "p75": 12,
+            "p90": 17.10000000000001,
+            "p95": 20.049999999999997
+          },
+          "outfieldConversion": {
+            "n": 80,
+            "mean": -0.014777630187675635,
+            "median": -0.02428733825866003,
+            "sd": 0.0775012023873389,
+            "min": -0.18840082361015786,
+            "max": 0.17149615612063873,
+            "p05": -0.1212314374846862,
+            "p10": -0.11202462412139823,
+            "p25": -0.07093557172743367,
+            "p75": 0.04439701909684904,
+            "p90": 0.0949812265331665,
+            "p95": 0.10827086095903302
+          },
+          "sevenMetres": {
+            "n": 80,
+            "mean": -0.5875,
+            "median": -0.5,
+            "sd": 3.2866964292008354,
+            "min": -7,
+            "max": 7,
+            "p05": -6,
+            "p10": -5,
+            "p25": -3,
+            "p75": 1,
+            "p90": 3.1000000000000085,
+            "p95": 5.049999999999997
+          },
+          "sevenMetreConversion": {
+            "n": 80,
+            "mean": -0.1059871031746031,
+            "median": -0.125,
+            "sd": 0.21427247809515335,
+            "min": -0.625,
+            "max": 0.33333333333333337,
+            "p05": -0.5,
+            "p10": -0.3775,
+            "p25": -0.25,
+            "p75": 0.03174603174603166,
+            "p90": 0.18363636363636374,
+            "p95": 0.223611111111111
+          },
+          "suspensions": {
+            "n": 80,
+            "mean": 1.85,
+            "median": 2,
+            "sd": 2.4808124434843593,
+            "min": -5,
+            "max": 9,
+            "p05": -1.0499999999999998,
+            "p10": -1,
+            "p25": 0,
+            "p75": 3.25,
+            "p90": 5,
+            "p95": 6
+          }
+        }
+      },
+      "summary": {
+        "sources": {
+          "packages/handball-engine/src/v2/core/actions.ts": "36877af6bfe9e2e0eec8f6de6910331e3bb6537782f5780226a288b0a47ee42b",
+          "packages/handball-engine/src/v2/core/backcourt.ts": "00ab4e44f0520b83f771cf5dd8a0e1212b34272410e5027b856eabddebddc120",
+          "packages/handball-engine/src/v2/core/backcourtScenarios.ts": "6137722469db2dc0a9567b9ff3bccd9c8d3f070e9db58bb93fe225cbccd655be",
+          "packages/handball-engine/src/v2/core/coaching.ts": "b943276328e1df36f43173af08fe008d8376f419e5afae4aeae5e1466a28a599",
+          "packages/handball-engine/src/v2/core/condition.ts": "f27c2d555258dbb0a56f562ed25e0416aa31a2e90640143ea7f7b874f92cad91",
+          "packages/handball-engine/src/v2/core/contact.ts": "c3084ebc21cee0ff9da3c74edeee2a88f1b0ebadd43648289533f146535c2640",
+          "packages/handball-engine/src/v2/core/contactScenarios.ts": "624c77567281a49677ae55289c3e0d71d5e81f00e2f56f151e1bf7ea59ebd1ce",
+          "packages/handball-engine/src/v2/core/continuous.ts": "3bc0e25ee0474aab3162df83b5e228bcd5953ddc5b29622592e5fd5bfdda55c5",
+          "packages/handball-engine/src/v2/core/defence.ts": "353763d139e7d170aff02f6b757973103a3b25fbdc53c4c363a1ed06de102b56",
+          "packages/handball-engine/src/v2/core/engage.ts": "b597ce488188b882f553f0553316960039d19ec92bca275ee89c7a4db4595d07",
+          "packages/handball-engine/src/v2/core/engine.ts": "d159962db29626902d84059853507ad4fcca16a1eca10f59a24d397020b7f488",
+          "packages/handball-engine/src/v2/core/execution.ts": "1ba72480a9fede50e897d6b79f28bf6de0e6fc51a946ab62ff9814dda110e974",
+          "packages/handball-engine/src/v2/core/intelligence.ts": "8b7814ce46cf50bbb8a2e19648991e880304a5c0f2fdf5b5540a45e57ed4c80b",
+          "packages/handball-engine/src/v2/core/intelligenceScenarios.ts": "8214cb9c24bad1570559d71d2381e3ac6bdf7c670bd0e9b925bbc72857bbd310",
+          "packages/handball-engine/src/v2/core/interactions.ts": "cc8edb68c0aa81c914c8bf10f42de3e40c925a76315e0b5b76cdc08bd7e1b9bc",
+          "packages/handball-engine/src/v2/core/ledger.ts": "dd801ce6401a106d772eac46c5800eb46f218d34495f41ec1ff536aec24116c9",
+          "packages/handball-engine/src/v2/core/locomotion.ts": "c222d4240a0b0935e552fa37a7c1dcf7a999d48ca4e4e200ce5befabbc860b13",
+          "packages/handball-engine/src/v2/core/match.ts": "4ced473266ede54a0d9689c6e06a28e2a5b009464fdd994fce6c61e8186c08dd",
+          "packages/handball-engine/src/v2/core/matchReplay.ts": "6796c275154da7145cd06558835524075013528ecb2354a1f3439e5b537ea499",
+          "packages/handball-engine/src/v2/core/movement.ts": "a5c531ad8d2cefa5623a7325b22f7f6d78c2e8bd20ca9aef87369112e5ae2037",
+          "packages/handball-engine/src/v2/core/offence.ts": "086fe17fc980c3b233b59c95c8ebe89feca8a11609d2de2686ad545312c60e25",
+          "packages/handball-engine/src/v2/core/passive.ts": "0c405269406b4a8b124ea432ce036a0008118aa59c186954cded0957a0c2381f",
+          "packages/handball-engine/src/v2/core/pivot.ts": "3021f9ab217e9e4eb8f5adf996365e86338ac0fa9e738fc7491a25228c6bf783",
+          "packages/handball-engine/src/v2/core/population.ts": "49ce36826bec8344be94e5fc8cd763abeb9fb2525728df0d1526d799bc24bd7f",
+          "packages/handball-engine/src/v2/core/profile.ts": "2470fad59a2bb1570ee67561b8ca9e79edead74bc7082c7fe0007f2e252f38b0",
+          "packages/handball-engine/src/v2/core/realism.ts": "615271e0bc0217a08b296fa0777754f28b02fa136e5c0e55f07a8af616780897",
+          "packages/handball-engine/src/v2/core/referee.ts": "35feaf4d17b6b5bd011702384be061081b52b220e5d897e37aa24bc297d04387",
+          "packages/handball-engine/src/v2/core/replay.ts": "7a636b1b374a10d7f8aa02ade08957ac67920aacd33b37db2f412f2fefa42e6b",
+          "packages/handball-engine/src/v2/core/restarts.ts": "048e5ead24b976453a0abe2cf314fe9e79c33a0619c7d71cdfdb47b575230520",
+          "packages/handball-engine/src/v2/core/rules.ts": "46325a43317b15edfc4773265989ffa2ab0500c9fdefb32a7fc3363dd39147d4",
+          "packages/handball-engine/src/v2/core/sanction.ts": "8d569712c4c2ce1223d246e3a5d5e6dd0913b5f8232e6456ff892bbcd424d910",
+          "packages/handball-engine/src/v2/core/scenarios.ts": "c48ddb2c75ce34fd03c439261e40e77f676b1ffb2fc8abeb1a3f9b1a5d286dbe",
+          "packages/handball-engine/src/v2/core/space.ts": "fa4755d1ba95d8e683cd19955418944d004a34963b708030ef72eb521ca25eb3",
+          "packages/handball-engine/src/v2/core/squads.ts": "fc2aeaa594f3ef8a119656d1056178bf5f6414f6ee4c2082641b97fc216749a4",
+          "packages/handball-engine/src/v2/core/state.ts": "fc33c3ac8ee2fbe78c7998c756850eda8981949f393a03ac77af9f5c9179284e",
+          "packages/handball-engine/src/v2/core/structure.ts": "fd5cea56c1e2e311b490e452701fa2b1b8f91282e3f6cd7e06a4621d8065f3c3",
+          "packages/handball-engine/src/v2/core/testProfile.ts": "35a3ac5a0a0fbb6614de81c449fde37b880af96bc10a1cd2dcf4b4e3e9077d6d",
+          "packages/handball-engine/src/v2/core/threatRelation.ts": "c68668bfbd439adfa42a751b12266d664e1d2e6d80358cbc30149b807fb9bcf1",
+          "packages/handball-engine/src/v2/core/timing.ts": "0356bb3de1dc1aa32359d6e198cce8155bbd7010c9f76592f6f33c24c131b169",
+          "packages/handball-engine/src/v2/core/transitions.ts": "6498a4ea7a0d0efb0a19048dfcc9e6c2cd19fa8844f86f3d91995f65f80b270a",
+          "packages/handball-engine/src/v2/core/wing.ts": "31d7f39cf38918717d3723fadcce80948a13650a45a2f680e1bbc5c66fd3a556",
+          "packages/handball-engine/src/v2/core/wingScenarios.ts": "8d553b1c254f0953cf5508ca1a37463891f631cdfd0df81b436be487541ee031",
+          "apps/game/lib/career/productionMatch.ts": "84dd1f9f3e983c7f3168d6f18b516379bba9ce75d75b899871d2ab139c0b5751",
+          "apps/game/scripts/match-benchmarks.ts": "5c28b9280fbb37958f2b8222b272c39eed75b63f0b03e37ddf80c32eef0c0986",
+          "apps/game/scripts/lib/calibrationDiagnostics.ts": "75b4d75ab6951abd13939eb69661ef9a926654ce95d33d36434709c9a038223e",
+          "apps/game/scripts/lib/reconciliationDiagnostics.ts": "150a9d196dc92862f75a3fbdc2bd6abddc6b0b91e854e777f5df3d257e4b99b8",
+          "apps/game/scripts/lib/attackCycleDiagnostics.ts": "b70edf097328dddf1812caba8f5eb9f4e1ed4eb4fd8a286d4d8c3eb948d145e0",
+          "apps/game/lib/matchBenchmarks/empirical.ts": "1b05cfb0cfdb7e96870875b1042860b13221c852078eff953d31016123464d6c",
+          "apps/game/lib/matchBenchmarks/empiricalComparison.ts": "e49e86aca79b3e30cbe57ea0e6ce1da16a778417e936be4f3a1405a312e1a975",
+          "apps/game/lib/matchBenchmarks/evaluate.ts": "2f4d5bc893fbd482dfcd10baeaa1f3aa72c943dbcfa0e8dca0ba050fd3c9f3f0",
+          "apps/game/lib/matchBenchmarks/extract.ts": "4ac1e4094d2b76ba34dd157df4b32ba6309c1853aab18c7329890231681bb873",
+          "apps/game/lib/matchBenchmarks/reference.ts": "25cb435b7824faa1fc58429264d3e91a4833e678170bb5bfa75d5b5c98009e8a",
+          "apps/game/lib/matchBenchmarks/report.ts": "c7c77e53ba8b07212362ec36f4a31f2d8b263ea0f17ce8f0fd730292035b7444",
+          "apps/game/lib/matchBenchmarks/statistics.ts": "9b3c1f8e5dc5590302b8b6115f5e7c86d9a5693e14af80f0880b334f7752e2d0"
+        },
+        "inputHash": "8773162275c76de70511889789a7a7bbc4e1b9cbb4c8b2c5030eb8cafee530a7",
+        "referenceHash": "28a89cbdb4b4646da550d6875cea2a86bc26717fe983ab375e8291f12911ad7a",
+        "baseline": "C:\\Users\\helgi\\Documents\\STARKVIS-HELA\\handball-manager\\docs\\post-intelligence-reconciliation\\final\\hbl",
+        "sourceStable": true,
+        "count": 80,
+        "proofs": [],
+        "timings": [
+          {
+            "simulationMs": 27210.034600000003,
+            "analysisMs": 359.4487999999983,
+            "observerMs": 2072.743499999926
+          },
+          {
+            "simulationMs": 24863.427400000004,
+            "analysisMs": 379.53340000000026,
+            "observerMs": 1945.0689999990718
+          },
+          {
+            "simulationMs": 25607.022600000004,
+            "analysisMs": 313.29920000000857,
+            "observerMs": 2122.6552000026422
+          },
+          {
+            "simulationMs": 23163.130900000004,
+            "analysisMs": 300.35190000000875,
+            "observerMs": 1902.912600000258
+          },
+          {
+            "simulationMs": 26030.345600000015,
+            "analysisMs": 344.48609999998007,
+            "observerMs": 2139.5595000014437
+          },
+          {
+            "simulationMs": 23712.027099999978,
+            "analysisMs": 304.7713999999978,
+            "observerMs": 1895.4862000032153
+          },
+          {
+            "simulationMs": 21966.945999999996,
+            "analysisMs": 324.4346000000078,
+            "observerMs": 1761.641900003131
+          },
+          {
+            "simulationMs": 24994.4522,
+            "analysisMs": 362.2700000000186,
+            "observerMs": 2080.8916999974463
+          },
+          {
+            "simulationMs": 31540.379199999996,
+            "analysisMs": 398.6304999999993,
+            "observerMs": 2485.5415999997745
+          },
+          {
+            "simulationMs": 23822.0418,
+            "analysisMs": 382.9886000000042,
+            "observerMs": 1818.9778000005317
+          },
+          {
+            "simulationMs": 32222.173600000002,
+            "analysisMs": 447.4563000000053,
+            "observerMs": 2599.3871000001227
+          },
+          {
+            "simulationMs": 25500.478000000003,
+            "analysisMs": 367.93009999999776,
+            "observerMs": 1999.0055999990727
+          },
+          {
+            "simulationMs": 22289.81130000001,
+            "analysisMs": 290.95329999999376,
+            "observerMs": 1861.7551999996576
+          },
+          {
+            "simulationMs": 21438.030199999994,
+            "analysisMs": 250.2792000000045,
+            "observerMs": 1735.4784000013751
+          },
+          {
+            "simulationMs": 20976.478099999993,
+            "analysisMs": 308.7853999999934,
+            "observerMs": 1633.2981999985495
+          },
+          {
+            "simulationMs": 21681.90910000002,
+            "analysisMs": 420.2347000000009,
+            "observerMs": 1695.7145999946806
+          },
+          {
+            "simulationMs": 24137.47470000002,
+            "analysisMs": 374.8062000000209,
+            "observerMs": 1960.5391000038653
+          },
+          {
+            "simulationMs": 24386.53230000002,
+            "analysisMs": 278.72299999999814,
+            "observerMs": 1929.3927999950538
+          },
+          {
+            "simulationMs": 31931.328599999997,
+            "analysisMs": 432.13810000000376,
+            "observerMs": 2492.6588999992655
+          },
+          {
+            "simulationMs": 28618.127,
+            "analysisMs": 528.7621999999974,
+            "observerMs": 2326.012500000448
+          },
+          {
+            "simulationMs": 29972.26310000001,
+            "analysisMs": 391.48369999999704,
+            "observerMs": 2482.8194999979314
+          },
+          {
+            "simulationMs": 25268.060599999997,
+            "analysisMs": 392.2091999999975,
+            "observerMs": 2123.86400000054
+          },
+          {
+            "simulationMs": 27527.878599999996,
+            "analysisMs": 401.50900000002,
+            "observerMs": 2356.4615000037593
+          },
+          {
+            "simulationMs": 25836.074200000003,
+            "analysisMs": 289.92700000002515,
+            "observerMs": 2067.5039000039396
+          },
+          {
+            "simulationMs": 20786.140799999994,
+            "analysisMs": 263.20490000001155,
+            "observerMs": 1719.1662000021606
+          },
+          {
+            "simulationMs": 21375.4865,
+            "analysisMs": 357.48809999998775,
+            "observerMs": 1707.2163000016008
+          },
+          {
+            "simulationMs": 27802.0008,
+            "analysisMs": 385.60009999999966,
+            "observerMs": 2055.4062000002014
+          },
+          {
+            "simulationMs": 28699.8979,
+            "analysisMs": 361.6713000000018,
+            "observerMs": 2252.762099999978
+          },
+          {
+            "simulationMs": 23082.1769,
+            "analysisMs": 256.6536999999953,
+            "observerMs": 1851.9748000006148
+          },
+          {
+            "simulationMs": 21215.574900000007,
+            "analysisMs": 292.7115000000049,
+            "observerMs": 1797.629499998904
+          },
+          {
+            "simulationMs": 20499.74070000001,
+            "analysisMs": 281.7954999999929,
+            "observerMs": 1711.490599999379
+          },
+          {
+            "simulationMs": 22900.687800000014,
+            "analysisMs": 505.9452000000165,
+            "observerMs": 1881.7179000025935
+          },
+          {
+            "simulationMs": 22054.09520000001,
+            "analysisMs": 264.4033000000054,
+            "observerMs": 1736.4004999964673
+          },
+          {
+            "simulationMs": 22701.6103,
+            "analysisMs": 235.99259999999776,
+            "observerMs": 1841.821600003197
+          },
+          {
+            "simulationMs": 33007.2621,
+            "analysisMs": 479.0478000000003,
+            "observerMs": 2705.4786999999233
+          },
+          {
+            "simulationMs": 32521.563000000002,
+            "analysisMs": 413.39800000000105,
+            "observerMs": 2655.86299999959
+          },
+          {
+            "simulationMs": 23805.440300000002,
+            "analysisMs": 340.99080000001413,
+            "observerMs": 1930.5862999987003
+          },
+          {
+            "simulationMs": 20767.108999999997,
+            "analysisMs": 276.41419999999925,
+            "observerMs": 1693.4333000005136
+          },
+          {
+            "simulationMs": 21599.567899999995,
+            "analysisMs": 249.88320000001113,
+            "observerMs": 1735.7975999999326
+          },
+          {
+            "simulationMs": 21616.448200000013,
+            "analysisMs": 256.5047000000195,
+            "observerMs": 1730.5989999992598
+          },
+          {
+            "simulationMs": 23963.032799999986,
+            "analysisMs": 334.4411000000255,
+            "observerMs": 1837.3981000040076
+          },
+          {
+            "simulationMs": 22594.915999999997,
+            "analysisMs": 281.0676000000094,
+            "observerMs": 1840.3985000032408
+          },
+          {
+            "simulationMs": 29958.2443,
+            "analysisMs": 384.8580000000002,
+            "observerMs": 2415.059899999852
+          },
+          {
+            "simulationMs": 31554.099899999994,
+            "analysisMs": 405.7005999999965,
+            "observerMs": 2597.9609999987733
+          },
+          {
+            "simulationMs": 26230.629499999995,
+            "analysisMs": 341.5993999999919,
+            "observerMs": 2089.915700000318
+          },
+          {
+            "simulationMs": 20863.870899999994,
+            "analysisMs": 252.84269999999378,
+            "observerMs": 1736.6695999988297
+          },
+          {
+            "simulationMs": 20906.67580000001,
+            "analysisMs": 294.7456999999995,
+            "observerMs": 1741.9713999974192
+          },
+          {
+            "simulationMs": 21565.601399999985,
+            "analysisMs": 265.3481000000029,
+            "observerMs": 1764.2312000029779
+          },
+          {
+            "simulationMs": 25454.6599,
+            "analysisMs": 367.5436000000045,
+            "observerMs": 2138.6546999994025
+          },
+          {
+            "simulationMs": 24061.362900000007,
+            "analysisMs": 279.63690000001225,
+            "observerMs": 1952.212499999965
+          },
+          {
+            "simulationMs": 31985.815499999997,
+            "analysisMs": 381.95350000000326,
+            "observerMs": 2527.2317999996408
+          },
+          {
+            "simulationMs": 29143.0435,
+            "analysisMs": 376.1284999999989,
+            "observerMs": 2318.3418000013626
+          },
+          {
+            "simulationMs": 22147.2935,
+            "analysisMs": 275.65260000000126,
+            "observerMs": 1735.321399999666
+          },
+          {
+            "simulationMs": 25811.876999999993,
+            "analysisMs": 366.19379999999364,
+            "observerMs": 2133.1475999993418
+          },
+          {
+            "simulationMs": 21503.1284,
+            "analysisMs": 306.085699999996,
+            "observerMs": 1701.9502999972901
+          },
+          {
+            "simulationMs": 20828.376099999994,
+            "analysisMs": 317.5026000000071,
+            "observerMs": 1690.8509999984235
+          },
+          {
+            "simulationMs": 21487.6054,
+            "analysisMs": 256.3300000000163,
+            "observerMs": 1600.607600000454
+          },
+          {
+            "simulationMs": 21445.036200000002,
+            "analysisMs": 286.6046999999962,
+            "observerMs": 1705.424399998854
+          },
+          {
+            "simulationMs": 30338.0733,
+            "analysisMs": 358.3819999999978,
+            "observerMs": 2437.6848999999947
+          },
+          {
+            "simulationMs": 30976.214199999995,
+            "analysisMs": 591.8559000000023,
+            "observerMs": 2612.7762000006624
+          },
+          {
+            "simulationMs": 24909.14850000001,
+            "analysisMs": 277.84790000000794,
+            "observerMs": 1988.4969000034034
+          },
+          {
+            "simulationMs": 22852.4274,
+            "analysisMs": 312.1097000000009,
+            "observerMs": 1775.9779000004928
+          },
+          {
+            "simulationMs": 21602.201600000015,
+            "analysisMs": 333.32139999998617,
+            "observerMs": 1706.7812000000122
+          },
+          {
+            "simulationMs": 21733.23059999998,
+            "analysisMs": 253.33640000000014,
+            "observerMs": 1718.9863999983645
+          },
+          {
+            "simulationMs": 22231.632400000002,
+            "analysisMs": 379.34539999999106,
+            "observerMs": 1725.7818000021798
+          },
+          {
+            "simulationMs": 22001.87400000001,
+            "analysisMs": 271.1686000000045,
+            "observerMs": 1664.6343000037887
+          },
+          {
+            "simulationMs": 27031.5461,
+            "analysisMs": 391.58030000000144,
+            "observerMs": 2100.0577999997404
+          },
+          {
+            "simulationMs": 27506.035999999996,
+            "analysisMs": 482.44050000000425,
+            "observerMs": 2265.3094000012643
+          },
+          {
+            "simulationMs": 21280.6386,
+            "analysisMs": 257.7152999999962,
+            "observerMs": 1746.103099999571
+          },
+          {
+            "simulationMs": 22598.3998,
+            "analysisMs": 263.4719000000041,
+            "observerMs": 1830.17729999742
+          },
+          {
+            "simulationMs": 19876.963700000008,
+            "analysisMs": 283.94460000000254,
+            "observerMs": 1544.0910999998596
+          },
+          {
+            "simulationMs": 22951.203100000013,
+            "analysisMs": 289.2121000000043,
+            "observerMs": 1807.5400000016525
+          },
+          {
+            "simulationMs": 23302.10010000001,
+            "analysisMs": 328.92290000000503,
+            "observerMs": 1788.0125999975426
+          },
+          {
+            "simulationMs": 24988.7157,
+            "analysisMs": 283.6732999999949,
+            "observerMs": 1952.334100005799
+          },
+          {
+            "simulationMs": 31557.682899999996,
+            "analysisMs": 410.06210000000283,
+            "observerMs": 2560.1705000003058
+          },
+          {
+            "simulationMs": 27472.584599999995,
+            "analysisMs": 364.8520999999964,
+            "observerMs": 2086.414799999715
+          },
+          {
+            "simulationMs": 26681.4983,
+            "analysisMs": 328.5457999999926,
+            "observerMs": 2163.574299999571
+          },
+          {
+            "simulationMs": 20968.524600000004,
+            "analysisMs": 348.8886000000057,
+            "observerMs": 1702.9768999971275
+          },
+          {
+            "simulationMs": 20484.944900000002,
+            "analysisMs": 286.6386999999813,
+            "observerMs": 1672.0285999966
+          },
+          {
+            "simulationMs": 21061.9773,
+            "analysisMs": 650.3922999999777,
+            "observerMs": 1682.0600999988092
+          }
+        ],
+        "execution": "SEQUENTIAL: one child at a time"
+      }
+    },
+    "allsv": {
+      "n": 80,
+      "sourceStable": true,
+      "manifest": {
+        "sources": {
+          "packages/handball-engine/src/v2/core/actions.ts": "36877af6bfe9e2e0eec8f6de6910331e3bb6537782f5780226a288b0a47ee42b",
+          "packages/handball-engine/src/v2/core/backcourt.ts": "00ab4e44f0520b83f771cf5dd8a0e1212b34272410e5027b856eabddebddc120",
+          "packages/handball-engine/src/v2/core/backcourtScenarios.ts": "6137722469db2dc0a9567b9ff3bccd9c8d3f070e9db58bb93fe225cbccd655be",
+          "packages/handball-engine/src/v2/core/coaching.ts": "b943276328e1df36f43173af08fe008d8376f419e5afae4aeae5e1466a28a599",
+          "packages/handball-engine/src/v2/core/condition.ts": "f27c2d555258dbb0a56f562ed25e0416aa31a2e90640143ea7f7b874f92cad91",
+          "packages/handball-engine/src/v2/core/contact.ts": "c3084ebc21cee0ff9da3c74edeee2a88f1b0ebadd43648289533f146535c2640",
+          "packages/handball-engine/src/v2/core/contactScenarios.ts": "624c77567281a49677ae55289c3e0d71d5e81f00e2f56f151e1bf7ea59ebd1ce",
+          "packages/handball-engine/src/v2/core/continuous.ts": "3bc0e25ee0474aab3162df83b5e228bcd5953ddc5b29622592e5fd5bfdda55c5",
+          "packages/handball-engine/src/v2/core/defence.ts": "353763d139e7d170aff02f6b757973103a3b25fbdc53c4c363a1ed06de102b56",
+          "packages/handball-engine/src/v2/core/engage.ts": "b597ce488188b882f553f0553316960039d19ec92bca275ee89c7a4db4595d07",
+          "packages/handball-engine/src/v2/core/engine.ts": "d159962db29626902d84059853507ad4fcca16a1eca10f59a24d397020b7f488",
+          "packages/handball-engine/src/v2/core/execution.ts": "1ba72480a9fede50e897d6b79f28bf6de0e6fc51a946ab62ff9814dda110e974",
+          "packages/handball-engine/src/v2/core/intelligence.ts": "8b7814ce46cf50bbb8a2e19648991e880304a5c0f2fdf5b5540a45e57ed4c80b",
+          "packages/handball-engine/src/v2/core/intelligenceScenarios.ts": "8214cb9c24bad1570559d71d2381e3ac6bdf7c670bd0e9b925bbc72857bbd310",
+          "packages/handball-engine/src/v2/core/interactions.ts": "cc8edb68c0aa81c914c8bf10f42de3e40c925a76315e0b5b76cdc08bd7e1b9bc",
+          "packages/handball-engine/src/v2/core/ledger.ts": "dd801ce6401a106d772eac46c5800eb46f218d34495f41ec1ff536aec24116c9",
+          "packages/handball-engine/src/v2/core/locomotion.ts": "c222d4240a0b0935e552fa37a7c1dcf7a999d48ca4e4e200ce5befabbc860b13",
+          "packages/handball-engine/src/v2/core/match.ts": "4ced473266ede54a0d9689c6e06a28e2a5b009464fdd994fce6c61e8186c08dd",
+          "packages/handball-engine/src/v2/core/matchReplay.ts": "6796c275154da7145cd06558835524075013528ecb2354a1f3439e5b537ea499",
+          "packages/handball-engine/src/v2/core/movement.ts": "a5c531ad8d2cefa5623a7325b22f7f6d78c2e8bd20ca9aef87369112e5ae2037",
+          "packages/handball-engine/src/v2/core/offence.ts": "086fe17fc980c3b233b59c95c8ebe89feca8a11609d2de2686ad545312c60e25",
+          "packages/handball-engine/src/v2/core/passive.ts": "0c405269406b4a8b124ea432ce036a0008118aa59c186954cded0957a0c2381f",
+          "packages/handball-engine/src/v2/core/pivot.ts": "3021f9ab217e9e4eb8f5adf996365e86338ac0fa9e738fc7491a25228c6bf783",
+          "packages/handball-engine/src/v2/core/population.ts": "49ce36826bec8344be94e5fc8cd763abeb9fb2525728df0d1526d799bc24bd7f",
+          "packages/handball-engine/src/v2/core/profile.ts": "2470fad59a2bb1570ee67561b8ca9e79edead74bc7082c7fe0007f2e252f38b0",
+          "packages/handball-engine/src/v2/core/realism.ts": "615271e0bc0217a08b296fa0777754f28b02fa136e5c0e55f07a8af616780897",
+          "packages/handball-engine/src/v2/core/referee.ts": "35feaf4d17b6b5bd011702384be061081b52b220e5d897e37aa24bc297d04387",
+          "packages/handball-engine/src/v2/core/replay.ts": "7a636b1b374a10d7f8aa02ade08957ac67920aacd33b37db2f412f2fefa42e6b",
+          "packages/handball-engine/src/v2/core/restarts.ts": "048e5ead24b976453a0abe2cf314fe9e79c33a0619c7d71cdfdb47b575230520",
+          "packages/handball-engine/src/v2/core/rules.ts": "46325a43317b15edfc4773265989ffa2ab0500c9fdefb32a7fc3363dd39147d4",
+          "packages/handball-engine/src/v2/core/sanction.ts": "8d569712c4c2ce1223d246e3a5d5e6dd0913b5f8232e6456ff892bbcd424d910",
+          "packages/handball-engine/src/v2/core/scenarios.ts": "c48ddb2c75ce34fd03c439261e40e77f676b1ffb2fc8abeb1a3f9b1a5d286dbe",
+          "packages/handball-engine/src/v2/core/space.ts": "fa4755d1ba95d8e683cd19955418944d004a34963b708030ef72eb521ca25eb3",
+          "packages/handball-engine/src/v2/core/squads.ts": "fc2aeaa594f3ef8a119656d1056178bf5f6414f6ee4c2082641b97fc216749a4",
+          "packages/handball-engine/src/v2/core/state.ts": "fc33c3ac8ee2fbe78c7998c756850eda8981949f393a03ac77af9f5c9179284e",
+          "packages/handball-engine/src/v2/core/structure.ts": "fd5cea56c1e2e311b490e452701fa2b1b8f91282e3f6cd7e06a4621d8065f3c3",
+          "packages/handball-engine/src/v2/core/testProfile.ts": "35a3ac5a0a0fbb6614de81c449fde37b880af96bc10a1cd2dcf4b4e3e9077d6d",
+          "packages/handball-engine/src/v2/core/threatRelation.ts": "c68668bfbd439adfa42a751b12266d664e1d2e6d80358cbc30149b807fb9bcf1",
+          "packages/handball-engine/src/v2/core/timing.ts": "0356bb3de1dc1aa32359d6e198cce8155bbd7010c9f76592f6f33c24c131b169",
+          "packages/handball-engine/src/v2/core/transitions.ts": "6498a4ea7a0d0efb0a19048dfcc9e6c2cd19fa8844f86f3d91995f65f80b270a",
+          "packages/handball-engine/src/v2/core/wing.ts": "31d7f39cf38918717d3723fadcce80948a13650a45a2f680e1bbc5c66fd3a556",
+          "packages/handball-engine/src/v2/core/wingScenarios.ts": "8d553b1c254f0953cf5508ca1a37463891f631cdfd0df81b436be487541ee031",
+          "apps/game/lib/career/productionMatch.ts": "84dd1f9f3e983c7f3168d6f18b516379bba9ce75d75b899871d2ab139c0b5751",
+          "apps/game/scripts/match-benchmarks.ts": "5c28b9280fbb37958f2b8222b272c39eed75b63f0b03e37ddf80c32eef0c0986",
+          "apps/game/scripts/lib/calibrationDiagnostics.ts": "75b4d75ab6951abd13939eb69661ef9a926654ce95d33d36434709c9a038223e",
+          "apps/game/scripts/lib/reconciliationDiagnostics.ts": "150a9d196dc92862f75a3fbdc2bd6abddc6b0b91e854e777f5df3d257e4b99b8",
+          "apps/game/scripts/lib/attackCycleDiagnostics.ts": "b70edf097328dddf1812caba8f5eb9f4e1ed4eb4fd8a286d4d8c3eb948d145e0",
+          "apps/game/lib/matchBenchmarks/empirical.ts": "1b05cfb0cfdb7e96870875b1042860b13221c852078eff953d31016123464d6c",
+          "apps/game/lib/matchBenchmarks/empiricalComparison.ts": "e49e86aca79b3e30cbe57ea0e6ce1da16a778417e936be4f3a1405a312e1a975",
+          "apps/game/lib/matchBenchmarks/evaluate.ts": "2f4d5bc893fbd482dfcd10baeaa1f3aa72c943dbcfa0e8dca0ba050fd3c9f3f0",
+          "apps/game/lib/matchBenchmarks/extract.ts": "4ac1e4094d2b76ba34dd157df4b32ba6309c1853aab18c7329890231681bb873",
+          "apps/game/lib/matchBenchmarks/reference.ts": "25cb435b7824faa1fc58429264d3e91a4833e678170bb5bfa75d5b5c98009e8a",
+          "apps/game/lib/matchBenchmarks/report.ts": "c7c77e53ba8b07212362ec36f4a31f2d8b263ea0f17ce8f0fd730292035b7444",
+          "apps/game/lib/matchBenchmarks/statistics.ts": "9b3c1f8e5dc5590302b8b6115f5e7c86d9a5693e14af80f0880b334f7752e2d0"
+        },
+        "inputHash": "37b2f9ee4648ede1a422549fb680bad5c172ebdf70c77f65334d2e6487ab0347",
+        "referenceHash": "28a89cbdb4b4646da550d6875cea2a86bc26717fe983ab375e8291f12911ad7a",
+        "baseline": "C:\\Users\\helgi\\Documents\\STARKVIS-HELA\\handball-manager\\docs\\post-intelligence-reconciliation\\final\\allsv"
+      },
+      "paired": {
+        "recipes": true,
+        "initialProfiles": true,
+        "initialTactics": true,
+        "change": {
+          "goals": {
+            "n": 80,
+            "mean": 4.0625,
+            "median": 5,
+            "sd": 7.835885884501938,
+            "min": -15,
+            "max": 18,
+            "p05": -9.149999999999999,
+            "p10": -6,
+            "p25": -2,
+            "p75": 9.25,
+            "p90": 14,
+            "p95": 15
+          },
+          "outfieldShots": {
+            "n": 80,
+            "mean": 7.2375,
+            "median": 7,
+            "sd": 7.422585700482861,
+            "min": -11,
+            "max": 31,
+            "p05": -5.05,
+            "p10": -2.0999999999999996,
+            "p25": 2,
+            "p75": 12,
+            "p90": 15.100000000000009,
+            "p95": 17.19999999999999
+          },
+          "outfieldConversion": {
+            "n": 80,
+            "mean": -0.0030243520559084273,
+            "median": 0.004582944288826607,
+            "sd": 0.063553063404538,
+            "min": -0.15049524964625016,
+            "max": 0.14653397391901168,
+            "p05": -0.11254093027497161,
+            "p10": -0.096295872337539,
+            "p25": -0.04780525846702313,
+            "p75": 0.04057645939911356,
+            "p90": 0.08054500962272838,
+            "p95": 0.08991265750286369
+          },
+          "sevenMetres": {
+            "n": 80,
+            "mean": -0.2875,
+            "median": -1,
+            "sd": 3.752446459362178,
+            "min": -11,
+            "max": 9,
+            "p05": -6.05,
+            "p10": -5,
+            "p25": -2.25,
+            "p75": 2,
+            "p90": 4.1000000000000085,
+            "p95": 5.099999999999994
+          },
+          "sevenMetreConversion": {
+            "n": 80,
+            "mean": -0.08685290404040404,
+            "median": -0.071067821067821,
+            "sd": 0.2184662954852168,
+            "min": -0.7083333333333334,
+            "max": 0.5,
+            "p05": -0.45681818181818185,
+            "p10": -0.33636363636363636,
+            "p25": -0.24431818181818182,
+            "p75": 0.07232142857142854,
+            "p90": 0.14523809523809547,
+            "p95": 0.21041666666666659
+          },
+          "suspensions": {
+            "n": 80,
+            "mean": 4.6875,
+            "median": 4,
+            "sd": 3.5599521757561416,
+            "min": -3,
+            "max": 13,
+            "p05": -0.04999999999999982,
+            "p10": 0.9000000000000004,
+            "p25": 2,
+            "p75": 7.25,
+            "p90": 10,
+            "p95": 10.049999999999997
+          }
+        }
+      },
+      "summary": {
+        "sources": {
+          "packages/handball-engine/src/v2/core/actions.ts": "36877af6bfe9e2e0eec8f6de6910331e3bb6537782f5780226a288b0a47ee42b",
+          "packages/handball-engine/src/v2/core/backcourt.ts": "00ab4e44f0520b83f771cf5dd8a0e1212b34272410e5027b856eabddebddc120",
+          "packages/handball-engine/src/v2/core/backcourtScenarios.ts": "6137722469db2dc0a9567b9ff3bccd9c8d3f070e9db58bb93fe225cbccd655be",
+          "packages/handball-engine/src/v2/core/coaching.ts": "b943276328e1df36f43173af08fe008d8376f419e5afae4aeae5e1466a28a599",
+          "packages/handball-engine/src/v2/core/condition.ts": "f27c2d555258dbb0a56f562ed25e0416aa31a2e90640143ea7f7b874f92cad91",
+          "packages/handball-engine/src/v2/core/contact.ts": "c3084ebc21cee0ff9da3c74edeee2a88f1b0ebadd43648289533f146535c2640",
+          "packages/handball-engine/src/v2/core/contactScenarios.ts": "624c77567281a49677ae55289c3e0d71d5e81f00e2f56f151e1bf7ea59ebd1ce",
+          "packages/handball-engine/src/v2/core/continuous.ts": "3bc0e25ee0474aab3162df83b5e228bcd5953ddc5b29622592e5fd5bfdda55c5",
+          "packages/handball-engine/src/v2/core/defence.ts": "353763d139e7d170aff02f6b757973103a3b25fbdc53c4c363a1ed06de102b56",
+          "packages/handball-engine/src/v2/core/engage.ts": "b597ce488188b882f553f0553316960039d19ec92bca275ee89c7a4db4595d07",
+          "packages/handball-engine/src/v2/core/engine.ts": "d159962db29626902d84059853507ad4fcca16a1eca10f59a24d397020b7f488",
+          "packages/handball-engine/src/v2/core/execution.ts": "1ba72480a9fede50e897d6b79f28bf6de0e6fc51a946ab62ff9814dda110e974",
+          "packages/handball-engine/src/v2/core/intelligence.ts": "8b7814ce46cf50bbb8a2e19648991e880304a5c0f2fdf5b5540a45e57ed4c80b",
+          "packages/handball-engine/src/v2/core/intelligenceScenarios.ts": "8214cb9c24bad1570559d71d2381e3ac6bdf7c670bd0e9b925bbc72857bbd310",
+          "packages/handball-engine/src/v2/core/interactions.ts": "cc8edb68c0aa81c914c8bf10f42de3e40c925a76315e0b5b76cdc08bd7e1b9bc",
+          "packages/handball-engine/src/v2/core/ledger.ts": "dd801ce6401a106d772eac46c5800eb46f218d34495f41ec1ff536aec24116c9",
+          "packages/handball-engine/src/v2/core/locomotion.ts": "c222d4240a0b0935e552fa37a7c1dcf7a999d48ca4e4e200ce5befabbc860b13",
+          "packages/handball-engine/src/v2/core/match.ts": "4ced473266ede54a0d9689c6e06a28e2a5b009464fdd994fce6c61e8186c08dd",
+          "packages/handball-engine/src/v2/core/matchReplay.ts": "6796c275154da7145cd06558835524075013528ecb2354a1f3439e5b537ea499",
+          "packages/handball-engine/src/v2/core/movement.ts": "a5c531ad8d2cefa5623a7325b22f7f6d78c2e8bd20ca9aef87369112e5ae2037",
+          "packages/handball-engine/src/v2/core/offence.ts": "086fe17fc980c3b233b59c95c8ebe89feca8a11609d2de2686ad545312c60e25",
+          "packages/handball-engine/src/v2/core/passive.ts": "0c405269406b4a8b124ea432ce036a0008118aa59c186954cded0957a0c2381f",
+          "packages/handball-engine/src/v2/core/pivot.ts": "3021f9ab217e9e4eb8f5adf996365e86338ac0fa9e738fc7491a25228c6bf783",
+          "packages/handball-engine/src/v2/core/population.ts": "49ce36826bec8344be94e5fc8cd763abeb9fb2525728df0d1526d799bc24bd7f",
+          "packages/handball-engine/src/v2/core/profile.ts": "2470fad59a2bb1570ee67561b8ca9e79edead74bc7082c7fe0007f2e252f38b0",
+          "packages/handball-engine/src/v2/core/realism.ts": "615271e0bc0217a08b296fa0777754f28b02fa136e5c0e55f07a8af616780897",
+          "packages/handball-engine/src/v2/core/referee.ts": "35feaf4d17b6b5bd011702384be061081b52b220e5d897e37aa24bc297d04387",
+          "packages/handball-engine/src/v2/core/replay.ts": "7a636b1b374a10d7f8aa02ade08957ac67920aacd33b37db2f412f2fefa42e6b",
+          "packages/handball-engine/src/v2/core/restarts.ts": "048e5ead24b976453a0abe2cf314fe9e79c33a0619c7d71cdfdb47b575230520",
+          "packages/handball-engine/src/v2/core/rules.ts": "46325a43317b15edfc4773265989ffa2ab0500c9fdefb32a7fc3363dd39147d4",
+          "packages/handball-engine/src/v2/core/sanction.ts": "8d569712c4c2ce1223d246e3a5d5e6dd0913b5f8232e6456ff892bbcd424d910",
+          "packages/handball-engine/src/v2/core/scenarios.ts": "c48ddb2c75ce34fd03c439261e40e77f676b1ffb2fc8abeb1a3f9b1a5d286dbe",
+          "packages/handball-engine/src/v2/core/space.ts": "fa4755d1ba95d8e683cd19955418944d004a34963b708030ef72eb521ca25eb3",
+          "packages/handball-engine/src/v2/core/squads.ts": "fc2aeaa594f3ef8a119656d1056178bf5f6414f6ee4c2082641b97fc216749a4",
+          "packages/handball-engine/src/v2/core/state.ts": "fc33c3ac8ee2fbe78c7998c756850eda8981949f393a03ac77af9f5c9179284e",
+          "packages/handball-engine/src/v2/core/structure.ts": "fd5cea56c1e2e311b490e452701fa2b1b8f91282e3f6cd7e06a4621d8065f3c3",
+          "packages/handball-engine/src/v2/core/testProfile.ts": "35a3ac5a0a0fbb6614de81c449fde37b880af96bc10a1cd2dcf4b4e3e9077d6d",
+          "packages/handball-engine/src/v2/core/threatRelation.ts": "c68668bfbd439adfa42a751b12266d664e1d2e6d80358cbc30149b807fb9bcf1",
+          "packages/handball-engine/src/v2/core/timing.ts": "0356bb3de1dc1aa32359d6e198cce8155bbd7010c9f76592f6f33c24c131b169",
+          "packages/handball-engine/src/v2/core/transitions.ts": "6498a4ea7a0d0efb0a19048dfcc9e6c2cd19fa8844f86f3d91995f65f80b270a",
+          "packages/handball-engine/src/v2/core/wing.ts": "31d7f39cf38918717d3723fadcce80948a13650a45a2f680e1bbc5c66fd3a556",
+          "packages/handball-engine/src/v2/core/wingScenarios.ts": "8d553b1c254f0953cf5508ca1a37463891f631cdfd0df81b436be487541ee031",
+          "apps/game/lib/career/productionMatch.ts": "84dd1f9f3e983c7f3168d6f18b516379bba9ce75d75b899871d2ab139c0b5751",
+          "apps/game/scripts/match-benchmarks.ts": "5c28b9280fbb37958f2b8222b272c39eed75b63f0b03e37ddf80c32eef0c0986",
+          "apps/game/scripts/lib/calibrationDiagnostics.ts": "75b4d75ab6951abd13939eb69661ef9a926654ce95d33d36434709c9a038223e",
+          "apps/game/scripts/lib/reconciliationDiagnostics.ts": "150a9d196dc92862f75a3fbdc2bd6abddc6b0b91e854e777f5df3d257e4b99b8",
+          "apps/game/scripts/lib/attackCycleDiagnostics.ts": "b70edf097328dddf1812caba8f5eb9f4e1ed4eb4fd8a286d4d8c3eb948d145e0",
+          "apps/game/lib/matchBenchmarks/empirical.ts": "1b05cfb0cfdb7e96870875b1042860b13221c852078eff953d31016123464d6c",
+          "apps/game/lib/matchBenchmarks/empiricalComparison.ts": "e49e86aca79b3e30cbe57ea0e6ce1da16a778417e936be4f3a1405a312e1a975",
+          "apps/game/lib/matchBenchmarks/evaluate.ts": "2f4d5bc893fbd482dfcd10baeaa1f3aa72c943dbcfa0e8dca0ba050fd3c9f3f0",
+          "apps/game/lib/matchBenchmarks/extract.ts": "4ac1e4094d2b76ba34dd157df4b32ba6309c1853aab18c7329890231681bb873",
+          "apps/game/lib/matchBenchmarks/reference.ts": "25cb435b7824faa1fc58429264d3e91a4833e678170bb5bfa75d5b5c98009e8a",
+          "apps/game/lib/matchBenchmarks/report.ts": "c7c77e53ba8b07212362ec36f4a31f2d8b263ea0f17ce8f0fd730292035b7444",
+          "apps/game/lib/matchBenchmarks/statistics.ts": "9b3c1f8e5dc5590302b8b6115f5e7c86d9a5693e14af80f0880b334f7752e2d0"
+        },
+        "inputHash": "37b2f9ee4648ede1a422549fb680bad5c172ebdf70c77f65334d2e6487ab0347",
+        "referenceHash": "28a89cbdb4b4646da550d6875cea2a86bc26717fe983ab375e8291f12911ad7a",
+        "baseline": "C:\\Users\\helgi\\Documents\\STARKVIS-HELA\\handball-manager\\docs\\post-intelligence-reconciliation\\final\\allsv",
+        "sourceStable": true,
+        "count": 80,
+        "proofs": [],
+        "timings": [
+          {
+            "simulationMs": 26653.511700000003,
+            "analysisMs": 355.58569999999963,
+            "observerMs": 2046.9276999997878
+          },
+          {
+            "simulationMs": 23191.524899999997,
+            "analysisMs": 355.45180000000255,
+            "observerMs": 1790.7978000008625
+          },
+          {
+            "simulationMs": 23878.067800000004,
+            "analysisMs": 270.2078000000038,
+            "observerMs": 1913.884200000335
+          },
+          {
+            "simulationMs": 26757.1072,
+            "analysisMs": 465.1408999999985,
+            "observerMs": 2123.9925999999978
+          },
+          {
+            "simulationMs": 25110.367500000008,
+            "analysisMs": 289.26329999999143,
+            "observerMs": 1935.229700002761
+          },
+          {
+            "simulationMs": 25375.950299999997,
+            "analysisMs": 303.24379999999655,
+            "observerMs": 2013.197700002318
+          },
+          {
+            "simulationMs": 22197.642799999972,
+            "analysisMs": 304.8923000000068,
+            "observerMs": 1709.6822999996366
+          },
+          {
+            "simulationMs": 23171.493199999997,
+            "analysisMs": 264.17070000001695,
+            "observerMs": 1777.4796999996179
+          },
+          {
+            "simulationMs": 28953.919700000002,
+            "analysisMs": 393.95240000000194,
+            "observerMs": 2285.0781999994715
+          },
+          {
+            "simulationMs": 24029.311199999996,
+            "analysisMs": 324.7381999999998,
+            "observerMs": 1829.4572000008484
+          },
+          {
+            "simulationMs": 25745.632100000003,
+            "analysisMs": 318.4817000000003,
+            "observerMs": 1999.2748000002703
+          },
+          {
+            "simulationMs": 22894.4064,
+            "analysisMs": 320.6183999999994,
+            "observerMs": 1826.159100000299
+          },
+          {
+            "simulationMs": 22974.310199999993,
+            "analysisMs": 354.95500000000175,
+            "observerMs": 1854.314199997927
+          },
+          {
+            "simulationMs": 20175.87860000001,
+            "analysisMs": 296.77060000000347,
+            "observerMs": 1588.7294000006368
+          },
+          {
+            "simulationMs": 17842.7316,
+            "analysisMs": 207.42029999999795,
+            "observerMs": 1394.4430999979813
+          },
+          {
+            "simulationMs": 18768.511000000013,
+            "analysisMs": 205.82020000001648,
+            "observerMs": 1377.5098999978072
+          },
+          {
+            "simulationMs": 18038.912899999996,
+            "analysisMs": 220.2551000000094,
+            "observerMs": 1398.5015000023122
+          },
+          {
+            "simulationMs": 18635.77530000001,
+            "analysisMs": 197.81669999999576,
+            "observerMs": 1375.0291000000143
+          },
+          {
+            "simulationMs": 20152.0677,
+            "analysisMs": 245.65880000000107,
+            "observerMs": 1488.2989000000957
+          },
+          {
+            "simulationMs": 19741.982099999997,
+            "analysisMs": 293.0552000000025,
+            "observerMs": 1454.7406000008086
+          },
+          {
+            "simulationMs": 17218.6299,
+            "analysisMs": 207.64949999999953,
+            "observerMs": 1279.2518999983295
+          },
+          {
+            "simulationMs": 17645.497799999997,
+            "analysisMs": 229.2494000000006,
+            "observerMs": 1321.1336999994237
+          },
+          {
+            "simulationMs": 17498.9029,
+            "analysisMs": 204.40370000000985,
+            "observerMs": 1327.4958999999217
+          },
+          {
+            "simulationMs": 16500.165899999993,
+            "analysisMs": 189.82690000000002,
+            "observerMs": 1248.3586000014475
+          },
+          {
+            "simulationMs": 17750.8021,
+            "analysisMs": 218.92190000001574,
+            "observerMs": 1308.1917000027315
+          },
+          {
+            "simulationMs": 17460.801000000007,
+            "analysisMs": 247.29899999999907,
+            "observerMs": 1307.602700001822
+          },
+          {
+            "simulationMs": 19927.2132,
+            "analysisMs": 315.7672999999995,
+            "observerMs": 1465.6703999996325
+          },
+          {
+            "simulationMs": 19490.3926,
+            "analysisMs": 250.1221000000005,
+            "observerMs": 1421.075399998972
+          },
+          {
+            "simulationMs": 19227.911200000002,
+            "analysisMs": 298.6947999999975,
+            "observerMs": 1455.496699999705
+          },
+          {
+            "simulationMs": 17758.660099999994,
+            "analysisMs": 318.5025999999925,
+            "observerMs": 1336.7789999979432
+          },
+          {
+            "simulationMs": 16684.18830000001,
+            "analysisMs": 252.84489999999641,
+            "observerMs": 1213.2233000028646
+          },
+          {
+            "simulationMs": 17565.2678,
+            "analysisMs": 196.86359999999695,
+            "observerMs": 1288.648000000525
+          },
+          {
+            "simulationMs": 17733.897499999992,
+            "analysisMs": 210.4373000000196,
+            "observerMs": 1291.9298000015842
+          },
+          {
+            "simulationMs": 16847.415399999998,
+            "analysisMs": 249.09329999997863,
+            "observerMs": 1282.126000001619
+          },
+          {
+            "simulationMs": 19657.200100000002,
+            "analysisMs": 256.45770000000266,
+            "observerMs": 1506.097299999959
+          },
+          {
+            "simulationMs": 19103.291799999995,
+            "analysisMs": 217.49750000000495,
+            "observerMs": 1413.6556000004966
+          },
+          {
+            "simulationMs": 17747.515600000006,
+            "analysisMs": 202.46240000000398,
+            "observerMs": 1339.1735000001354
+          },
+          {
+            "simulationMs": 17563.342300000004,
+            "analysisMs": 194.66240000000107,
+            "observerMs": 1331.8484999989014
+          },
+          {
+            "simulationMs": 19617.36510000001,
+            "analysisMs": 234.42319999999017,
+            "observerMs": 1425.9231999991462
+          },
+          {
+            "simulationMs": 22611.271300000008,
+            "analysisMs": 232.33610000000044,
+            "observerMs": 1614.1682000004366
+          },
+          {
+            "simulationMs": 19280.5833,
+            "analysisMs": 245.05040000000736,
+            "observerMs": 1341.8281000029674
+          },
+          {
+            "simulationMs": 18916.059500000003,
+            "analysisMs": 196.19430000000284,
+            "observerMs": 1328.8504999938013
+          },
+          {
+            "simulationMs": 19360.4636,
+            "analysisMs": 304.7603999999992,
+            "observerMs": 1391.5438000000759
+          },
+          {
+            "simulationMs": 20660.2906,
+            "analysisMs": 238.9956999999995,
+            "observerMs": 1536.0516000001553
+          },
+          {
+            "simulationMs": 17975.517699999997,
+            "analysisMs": 268.72490000000107,
+            "observerMs": 1370.820000000509
+          },
+          {
+            "simulationMs": 18367.679899999996,
+            "analysisMs": 218.13709999999264,
+            "observerMs": 1381.2386000007682
+          },
+          {
+            "simulationMs": 18877.098500000007,
+            "analysisMs": 205.55369999998948,
+            "observerMs": 1382.036700002689
+          },
+          {
+            "simulationMs": 16604.752399999998,
+            "analysisMs": 180.62310000001162,
+            "observerMs": 1177.5862000000197
+          },
+          {
+            "simulationMs": 16748.771899999992,
+            "analysisMs": 185.22299999999814,
+            "observerMs": 1200.7396000021254
+          },
+          {
+            "simulationMs": 17609.503399999987,
+            "analysisMs": 166.15499999999884,
+            "observerMs": 1216.7820000009087
+          },
+          {
+            "simulationMs": 18020.795000000002,
+            "analysisMs": 228.05299999999988,
+            "observerMs": 1300.6925000000122
+          },
+          {
+            "simulationMs": 19035.9133,
+            "analysisMs": 210.28139999999985,
+            "observerMs": 1324.5437000008278
+          },
+          {
+            "simulationMs": 17583.894800000002,
+            "analysisMs": 199.14590000000317,
+            "observerMs": 1273.3628000003519
+          },
+          {
+            "simulationMs": 17285.264799999997,
+            "analysisMs": 199.5836999999883,
+            "observerMs": 1251.8222999998761
+          },
+          {
+            "simulationMs": 17068.017900000006,
+            "analysisMs": 222.7942000000039,
+            "observerMs": 1202.4826000007306
+          },
+          {
+            "simulationMs": 15916.5101,
+            "analysisMs": 181.96050000000105,
+            "observerMs": 1115.9286000016145
+          },
+          {
+            "simulationMs": 16634.5907,
+            "analysisMs": 229.3411000000051,
+            "observerMs": 1180.9121000016603
+          },
+          {
+            "simulationMs": 16777.888399999996,
+            "analysisMs": 174.8689000000013,
+            "observerMs": 1209.8761000024388
+          },
+          {
+            "simulationMs": 17917.388700000003,
+            "analysisMs": 264.5007000000005,
+            "observerMs": 1255.8832000001594
+          },
+          {
+            "simulationMs": 19065.131,
+            "analysisMs": 256.28059999999823,
+            "observerMs": 1358.3398000004854
+          },
+          {
+            "simulationMs": 17440.960900000005,
+            "analysisMs": 223.08640000000014,
+            "observerMs": 1287.15789999962
+          },
+          {
+            "simulationMs": 17432.409900000006,
+            "analysisMs": 185.35599999999977,
+            "observerMs": 1268.8166000022538
+          },
+          {
+            "simulationMs": 17594.260200000004,
+            "analysisMs": 216.55939999999828,
+            "observerMs": 1280.9403999992355
+          },
+          {
+            "simulationMs": 17560.63560000001,
+            "analysisMs": 187.24199999999837,
+            "observerMs": 1263.195799999783
+          },
+          {
+            "simulationMs": 16411.625100000005,
+            "analysisMs": 218.78990000001795,
+            "observerMs": 1186.5336000031966
+          },
+          {
+            "simulationMs": 16893.751500000013,
+            "analysisMs": 218.00190000000293,
+            "observerMs": 1194.212300000101
+          },
+          {
+            "simulationMs": 17482.4798,
+            "analysisMs": 269.66209999999774,
+            "observerMs": 1289.3183999998714
+          },
+          {
+            "simulationMs": 17897.8725,
+            "analysisMs": 228.89420000000246,
+            "observerMs": 1269.568800000463
+          },
+          {
+            "simulationMs": 16149.221900000004,
+            "analysisMs": 196.36499999999796,
+            "observerMs": 1188.5528000009654
+          },
+          {
+            "simulationMs": 15927.2212,
+            "analysisMs": 190.04200000000128,
+            "observerMs": 1137.730799999983
+          },
+          {
+            "simulationMs": 16062.263900000005,
+            "analysisMs": 209.85039999999572,
+            "observerMs": 1155.4305999991193
+          },
+          {
+            "simulationMs": 16500.8162,
+            "analysisMs": 218.68709999999555,
+            "observerMs": 1168.96159999902
+          },
+          {
+            "simulationMs": 15383.994600000005,
+            "analysisMs": 192.71300000000338,
+            "observerMs": 1117.715200000821
+          },
+          {
+            "simulationMs": 16273.85059999999,
+            "analysisMs": 183.11130000001867,
+            "observerMs": 1185.6476999995648
+          },
+          {
+            "simulationMs": 17950.1385,
+            "analysisMs": 283.1134999999995,
+            "observerMs": 1298.7393000003508
+          },
+          {
+            "simulationMs": 18960.6823,
+            "analysisMs": 290.65959999999905,
+            "observerMs": 1335.0024999993184
+          },
+          {
+            "simulationMs": 16801.067499999997,
+            "analysisMs": 226.38010000000213,
+            "observerMs": 1199.8499999994383
+          },
+          {
+            "simulationMs": 17638.5363,
+            "analysisMs": 223.45650000000023,
+            "observerMs": 1316.9173000016817
+          },
+          {
+            "simulationMs": 16431.022599999997,
+            "analysisMs": 215.79929999999877,
+            "observerMs": 1220.1097999989724
+          },
+          {
+            "simulationMs": 16689.517699999997,
+            "analysisMs": 238.4838000000018,
+            "observerMs": 1192.7683000019024
+          }
+        ],
+        "execution": "SEQUENTIAL: one child at a time"
+      }
+    }
+  },
+  "receipts": {
+    "focused-development-17": {
+      "exitCode": 0,
+      "tests": 123,
+      "pass": 123,
+      "fail": 0,
+      "log": "docs/reconciliation-v11/focused-development-17.log"
+    },
+    "entries-development-9": {
+      "exitCode": 0,
+      "tests": 43,
+      "pass": 43,
+      "fail": 0,
+      "log": "docs/reconciliation-v11/entries-development-9.log"
+    },
+    "hbl-final": {
+      "exitCode": 0,
+      "tests": null,
+      "pass": null,
+      "fail": null,
+      "log": "docs/reconciliation-v11/hbl-final.log"
+    },
+    "allsv-final": {
+      "exitCode": 0,
+      "tests": null,
+      "pass": null,
+      "fail": null,
+      "log": "docs/reconciliation-v11/allsv-final.log"
+    },
+    "proof-hbl": {
+      "exitCode": 0,
+      "tests": null,
+      "pass": null,
+      "fail": null,
+      "log": "docs/reconciliation-v11/proof-hbl.log"
+    },
+    "proof-allsv": {
+      "exitCode": 0,
+      "tests": null,
+      "pass": null,
+      "fail": null,
+      "log": "docs/reconciliation-v11/proof-allsv.log"
+    },
+    "distributions-final": {
+      "exitCode": 0,
+      "tests": null,
+      "pass": null,
+      "fail": null,
+      "log": "docs/reconciliation-v11/distributions-final.log"
+    },
+    "core-final": {
+      "exitCode": 1,
+      "tests": 348,
+      "pass": 346,
+      "fail": 2,
+      "log": "docs/reconciliation-v11/core-final.log"
+    },
+    "core-affected-final": {
+      "exitCode": 0,
+      "tests": 19,
+      "pass": 19,
+      "fail": 0,
+      "log": "docs/reconciliation-v11/core-affected-final.log"
+    },
+    "v2-final": {
+      "exitCode": 0,
+      "tests": 9,
+      "pass": 9,
+      "fail": 0,
+      "log": "docs/reconciliation-v11/v2-final.log"
+    },
+    "domain-final-2": {
+      "exitCode": 0,
+      "tests": 180,
+      "pass": 180,
+      "fail": 0,
+      "log": "docs/reconciliation-v11/domain-final-2.log"
+    },
+    "game-final": {
+      "exitCode": 0,
+      "tests": 2374,
+      "pass": 2374,
+      "fail": 0,
+      "log": "docs/reconciliation-v11/game-final.log"
+    },
+    "empirical-final": {
+      "exitCode": 0,
+      "tests": 15,
+      "pass": 15,
+      "fail": 0,
+      "log": "docs/reconciliation-v11/empirical-final.log"
+    },
+    "types-final": {
+      "exitCode": 0,
+      "tests": null,
+      "pass": null,
+      "fail": null,
+      "log": "docs/reconciliation-v11/types-final.log"
+    },
+    "season-final": {
+      "exitCode": 0,
+      "tests": null,
+      "pass": null,
+      "fail": null,
+      "log": "docs/reconciliation-v11/season-final.log"
+    },
+    "build-final": {
+      "exitCode": 0,
+      "tests": null,
+      "pass": null,
+      "fail": null,
+      "log": "docs/reconciliation-v11/build-final.log"
+    }
+  },
+  "coreCombined": {
+    "total": 348,
+    "initialPass": 346,
+    "initialFail": 2,
+    "affectedPass": 19,
+    "affectedTotal": 19,
+    "covered": 348,
+    "explanation": "Initial 346/348 passed. Two outdated assertions corrected after diagnosis; full affected continuous/defence suites pass. Other passed cases and all source-identical cohorts/proofs reused. Runtime unchanged."
+  },
+  "proofs": {
+    "hbl": {
+      "complete": true,
+      "league": "hbl",
+      "recipe": {
+        "index": 0,
+        "saveSeed": "match-realism-v2-canonical-2026:0",
+        "managerClubId": "se_club_alingsas_hk",
+        "fixtureId": "se_handbollsligan_herr-f1"
+      },
+      "inputHash": "8773162275c76de70511889789a7a7bbc4e1b9cbb4c8b2c5030eb8cafee530a7",
+      "sourceFingerprints": {
+        "packages/handball-engine/src/v2/core/actions.ts": "36877af6bfe9e2e0eec8f6de6910331e3bb6537782f5780226a288b0a47ee42b",
+        "packages/handball-engine/src/v2/core/backcourt.ts": "00ab4e44f0520b83f771cf5dd8a0e1212b34272410e5027b856eabddebddc120",
+        "packages/handball-engine/src/v2/core/backcourtScenarios.ts": "6137722469db2dc0a9567b9ff3bccd9c8d3f070e9db58bb93fe225cbccd655be",
+        "packages/handball-engine/src/v2/core/coaching.ts": "b943276328e1df36f43173af08fe008d8376f419e5afae4aeae5e1466a28a599",
+        "packages/handball-engine/src/v2/core/condition.ts": "f27c2d555258dbb0a56f562ed25e0416aa31a2e90640143ea7f7b874f92cad91",
+        "packages/handball-engine/src/v2/core/contact.ts": "c3084ebc21cee0ff9da3c74edeee2a88f1b0ebadd43648289533f146535c2640",
+        "packages/handball-engine/src/v2/core/contactScenarios.ts": "624c77567281a49677ae55289c3e0d71d5e81f00e2f56f151e1bf7ea59ebd1ce",
+        "packages/handball-engine/src/v2/core/continuous.ts": "3bc0e25ee0474aab3162df83b5e228bcd5953ddc5b29622592e5fd5bfdda55c5",
+        "packages/handball-engine/src/v2/core/defence.ts": "353763d139e7d170aff02f6b757973103a3b25fbdc53c4c363a1ed06de102b56",
+        "packages/handball-engine/src/v2/core/engage.ts": "b597ce488188b882f553f0553316960039d19ec92bca275ee89c7a4db4595d07",
+        "packages/handball-engine/src/v2/core/engine.ts": "d159962db29626902d84059853507ad4fcca16a1eca10f59a24d397020b7f488",
+        "packages/handball-engine/src/v2/core/execution.ts": "1ba72480a9fede50e897d6b79f28bf6de0e6fc51a946ab62ff9814dda110e974",
+        "packages/handball-engine/src/v2/core/intelligence.ts": "8b7814ce46cf50bbb8a2e19648991e880304a5c0f2fdf5b5540a45e57ed4c80b",
+        "packages/handball-engine/src/v2/core/intelligenceScenarios.ts": "8214cb9c24bad1570559d71d2381e3ac6bdf7c670bd0e9b925bbc72857bbd310",
+        "packages/handball-engine/src/v2/core/interactions.ts": "cc8edb68c0aa81c914c8bf10f42de3e40c925a76315e0b5b76cdc08bd7e1b9bc",
+        "packages/handball-engine/src/v2/core/ledger.ts": "dd801ce6401a106d772eac46c5800eb46f218d34495f41ec1ff536aec24116c9",
+        "packages/handball-engine/src/v2/core/locomotion.ts": "c222d4240a0b0935e552fa37a7c1dcf7a999d48ca4e4e200ce5befabbc860b13",
+        "packages/handball-engine/src/v2/core/match.ts": "4ced473266ede54a0d9689c6e06a28e2a5b009464fdd994fce6c61e8186c08dd",
+        "packages/handball-engine/src/v2/core/matchReplay.ts": "6796c275154da7145cd06558835524075013528ecb2354a1f3439e5b537ea499",
+        "packages/handball-engine/src/v2/core/movement.ts": "a5c531ad8d2cefa5623a7325b22f7f6d78c2e8bd20ca9aef87369112e5ae2037",
+        "packages/handball-engine/src/v2/core/offence.ts": "086fe17fc980c3b233b59c95c8ebe89feca8a11609d2de2686ad545312c60e25",
+        "packages/handball-engine/src/v2/core/passive.ts": "0c405269406b4a8b124ea432ce036a0008118aa59c186954cded0957a0c2381f",
+        "packages/handball-engine/src/v2/core/pivot.ts": "3021f9ab217e9e4eb8f5adf996365e86338ac0fa9e738fc7491a25228c6bf783",
+        "packages/handball-engine/src/v2/core/population.ts": "49ce36826bec8344be94e5fc8cd763abeb9fb2525728df0d1526d799bc24bd7f",
+        "packages/handball-engine/src/v2/core/profile.ts": "2470fad59a2bb1570ee67561b8ca9e79edead74bc7082c7fe0007f2e252f38b0",
+        "packages/handball-engine/src/v2/core/realism.ts": "615271e0bc0217a08b296fa0777754f28b02fa136e5c0e55f07a8af616780897",
+        "packages/handball-engine/src/v2/core/referee.ts": "35feaf4d17b6b5bd011702384be061081b52b220e5d897e37aa24bc297d04387",
+        "packages/handball-engine/src/v2/core/replay.ts": "7a636b1b374a10d7f8aa02ade08957ac67920aacd33b37db2f412f2fefa42e6b",
+        "packages/handball-engine/src/v2/core/restarts.ts": "048e5ead24b976453a0abe2cf314fe9e79c33a0619c7d71cdfdb47b575230520",
+        "packages/handball-engine/src/v2/core/rules.ts": "46325a43317b15edfc4773265989ffa2ab0500c9fdefb32a7fc3363dd39147d4",
+        "packages/handball-engine/src/v2/core/sanction.ts": "8d569712c4c2ce1223d246e3a5d5e6dd0913b5f8232e6456ff892bbcd424d910",
+        "packages/handball-engine/src/v2/core/scenarios.ts": "c48ddb2c75ce34fd03c439261e40e77f676b1ffb2fc8abeb1a3f9b1a5d286dbe",
+        "packages/handball-engine/src/v2/core/space.ts": "fa4755d1ba95d8e683cd19955418944d004a34963b708030ef72eb521ca25eb3",
+        "packages/handball-engine/src/v2/core/squads.ts": "fc2aeaa594f3ef8a119656d1056178bf5f6414f6ee4c2082641b97fc216749a4",
+        "packages/handball-engine/src/v2/core/state.ts": "fc33c3ac8ee2fbe78c7998c756850eda8981949f393a03ac77af9f5c9179284e",
+        "packages/handball-engine/src/v2/core/structure.ts": "fd5cea56c1e2e311b490e452701fa2b1b8f91282e3f6cd7e06a4621d8065f3c3",
+        "packages/handball-engine/src/v2/core/testProfile.ts": "35a3ac5a0a0fbb6614de81c449fde37b880af96bc10a1cd2dcf4b4e3e9077d6d",
+        "packages/handball-engine/src/v2/core/threatRelation.ts": "c68668bfbd439adfa42a751b12266d664e1d2e6d80358cbc30149b807fb9bcf1",
+        "packages/handball-engine/src/v2/core/timing.ts": "0356bb3de1dc1aa32359d6e198cce8155bbd7010c9f76592f6f33c24c131b169",
+        "packages/handball-engine/src/v2/core/transitions.ts": "6498a4ea7a0d0efb0a19048dfcc9e6c2cd19fa8844f86f3d91995f65f80b270a",
+        "packages/handball-engine/src/v2/core/wing.ts": "31d7f39cf38918717d3723fadcce80948a13650a45a2f680e1bbc5c66fd3a556",
+        "packages/handball-engine/src/v2/core/wingScenarios.ts": "8d553b1c254f0953cf5508ca1a37463891f631cdfd0df81b436be487541ee031",
+        "apps/game/lib/career/productionMatch.ts": "84dd1f9f3e983c7f3168d6f18b516379bba9ce75d75b899871d2ab139c0b5751",
+        "apps/game/scripts/match-benchmarks.ts": "5c28b9280fbb37958f2b8222b272c39eed75b63f0b03e37ddf80c32eef0c0986",
+        "apps/game/scripts/lib/calibrationDiagnostics.ts": "75b4d75ab6951abd13939eb69661ef9a926654ce95d33d36434709c9a038223e",
+        "apps/game/scripts/lib/reconciliationDiagnostics.ts": "150a9d196dc92862f75a3fbdc2bd6abddc6b0b91e854e777f5df3d257e4b99b8",
+        "apps/game/scripts/lib/attackCycleDiagnostics.ts": "b70edf097328dddf1812caba8f5eb9f4e1ed4eb4fd8a286d4d8c3eb948d145e0",
+        "apps/game/lib/matchBenchmarks/empirical.ts": "1b05cfb0cfdb7e96870875b1042860b13221c852078eff953d31016123464d6c",
+        "apps/game/lib/matchBenchmarks/empiricalComparison.ts": "e49e86aca79b3e30cbe57ea0e6ce1da16a778417e936be4f3a1405a312e1a975",
+        "apps/game/lib/matchBenchmarks/evaluate.ts": "2f4d5bc893fbd482dfcd10baeaa1f3aa72c943dbcfa0e8dca0ba050fd3c9f3f0",
+        "apps/game/lib/matchBenchmarks/extract.ts": "4ac1e4094d2b76ba34dd157df4b32ba6309c1853aab18c7329890231681bb873",
+        "apps/game/lib/matchBenchmarks/reference.ts": "25cb435b7824faa1fc58429264d3e91a4833e678170bb5bfa75d5b5c98009e8a",
+        "apps/game/lib/matchBenchmarks/report.ts": "c7c77e53ba8b07212362ec36f4a31f2d8b263ea0f17ce8f0fd730292035b7444",
+        "apps/game/lib/matchBenchmarks/statistics.ts": "9b3c1f8e5dc5590302b8b6115f5e7c86d9a5693e14af80f0880b334f7752e2d0"
+      },
+      "sessionHash": "784bbd13d1d789a5b455cd26a34f118ab23fddc5396ab5d3faa505bbc1293c46",
+      "resultHash": "3d25d92ec0373bc2692347e8dfd30cd779f8d7372c2d41745566f6f3af6ded66",
+      "archiveHash": "65a3ed17157a82841cf1bb135785fb32664b55455e0c4460afa9814856c2c6bd",
+      "exactObserverNonMutation": true,
+      "postAnalysisNonMutation": true,
+      "deterministic": true,
+      "midMatchJSONResume": true,
+      "checkpoint": {
+        "tick": 20000,
+        "score": {
+          "HOME": 9,
+          "AWAY": 8
+        },
+        "intents": 12,
+        "reentryReaders": 0,
+        "advantage": null,
+        "sanctions": [],
+        "rng": {
+          "algorithm": "mulberry32",
+          "state": 165481718,
+          "draws": 1022
+        }
+      },
+      "exactArchive": true,
+      "exactlyOnceCommit": true,
+      "matchCenter": {
+        "score": true,
+        "shots": true,
+        "conversion": true,
+        "penalties": true,
+        "suspensions": true,
+        "timeline": true,
+        "playerStats": true,
+        "keeperDenominators": true,
+        "loadedFacts": true,
+        "playerOrdering": true,
+        "keyMomentCanonicalPositions": 12
+      },
+      "score": [
+        35,
+        31
+      ],
+      "runtimeMs": 55374.5714
+    },
+    "allsv": {
+      "complete": true,
+      "league": "allsv",
+      "recipe": {
+        "index": 0,
+        "saveSeed": "match-realism-v2-canonical-2026:0",
+        "managerClubId": "swe2-aranas",
+        "fixtureId": "swe-2-f1"
+      },
+      "inputHash": "37b2f9ee4648ede1a422549fb680bad5c172ebdf70c77f65334d2e6487ab0347",
+      "sourceFingerprints": {
+        "packages/handball-engine/src/v2/core/actions.ts": "36877af6bfe9e2e0eec8f6de6910331e3bb6537782f5780226a288b0a47ee42b",
+        "packages/handball-engine/src/v2/core/backcourt.ts": "00ab4e44f0520b83f771cf5dd8a0e1212b34272410e5027b856eabddebddc120",
+        "packages/handball-engine/src/v2/core/backcourtScenarios.ts": "6137722469db2dc0a9567b9ff3bccd9c8d3f070e9db58bb93fe225cbccd655be",
+        "packages/handball-engine/src/v2/core/coaching.ts": "b943276328e1df36f43173af08fe008d8376f419e5afae4aeae5e1466a28a599",
+        "packages/handball-engine/src/v2/core/condition.ts": "f27c2d555258dbb0a56f562ed25e0416aa31a2e90640143ea7f7b874f92cad91",
+        "packages/handball-engine/src/v2/core/contact.ts": "c3084ebc21cee0ff9da3c74edeee2a88f1b0ebadd43648289533f146535c2640",
+        "packages/handball-engine/src/v2/core/contactScenarios.ts": "624c77567281a49677ae55289c3e0d71d5e81f00e2f56f151e1bf7ea59ebd1ce",
+        "packages/handball-engine/src/v2/core/continuous.ts": "3bc0e25ee0474aab3162df83b5e228bcd5953ddc5b29622592e5fd5bfdda55c5",
+        "packages/handball-engine/src/v2/core/defence.ts": "353763d139e7d170aff02f6b757973103a3b25fbdc53c4c363a1ed06de102b56",
+        "packages/handball-engine/src/v2/core/engage.ts": "b597ce488188b882f553f0553316960039d19ec92bca275ee89c7a4db4595d07",
+        "packages/handball-engine/src/v2/core/engine.ts": "d159962db29626902d84059853507ad4fcca16a1eca10f59a24d397020b7f488",
+        "packages/handball-engine/src/v2/core/execution.ts": "1ba72480a9fede50e897d6b79f28bf6de0e6fc51a946ab62ff9814dda110e974",
+        "packages/handball-engine/src/v2/core/intelligence.ts": "8b7814ce46cf50bbb8a2e19648991e880304a5c0f2fdf5b5540a45e57ed4c80b",
+        "packages/handball-engine/src/v2/core/intelligenceScenarios.ts": "8214cb9c24bad1570559d71d2381e3ac6bdf7c670bd0e9b925bbc72857bbd310",
+        "packages/handball-engine/src/v2/core/interactions.ts": "cc8edb68c0aa81c914c8bf10f42de3e40c925a76315e0b5b76cdc08bd7e1b9bc",
+        "packages/handball-engine/src/v2/core/ledger.ts": "dd801ce6401a106d772eac46c5800eb46f218d34495f41ec1ff536aec24116c9",
+        "packages/handball-engine/src/v2/core/locomotion.ts": "c222d4240a0b0935e552fa37a7c1dcf7a999d48ca4e4e200ce5befabbc860b13",
+        "packages/handball-engine/src/v2/core/match.ts": "4ced473266ede54a0d9689c6e06a28e2a5b009464fdd994fce6c61e8186c08dd",
+        "packages/handball-engine/src/v2/core/matchReplay.ts": "6796c275154da7145cd06558835524075013528ecb2354a1f3439e5b537ea499",
+        "packages/handball-engine/src/v2/core/movement.ts": "a5c531ad8d2cefa5623a7325b22f7f6d78c2e8bd20ca9aef87369112e5ae2037",
+        "packages/handball-engine/src/v2/core/offence.ts": "086fe17fc980c3b233b59c95c8ebe89feca8a11609d2de2686ad545312c60e25",
+        "packages/handball-engine/src/v2/core/passive.ts": "0c405269406b4a8b124ea432ce036a0008118aa59c186954cded0957a0c2381f",
+        "packages/handball-engine/src/v2/core/pivot.ts": "3021f9ab217e9e4eb8f5adf996365e86338ac0fa9e738fc7491a25228c6bf783",
+        "packages/handball-engine/src/v2/core/population.ts": "49ce36826bec8344be94e5fc8cd763abeb9fb2525728df0d1526d799bc24bd7f",
+        "packages/handball-engine/src/v2/core/profile.ts": "2470fad59a2bb1570ee67561b8ca9e79edead74bc7082c7fe0007f2e252f38b0",
+        "packages/handball-engine/src/v2/core/realism.ts": "615271e0bc0217a08b296fa0777754f28b02fa136e5c0e55f07a8af616780897",
+        "packages/handball-engine/src/v2/core/referee.ts": "35feaf4d17b6b5bd011702384be061081b52b220e5d897e37aa24bc297d04387",
+        "packages/handball-engine/src/v2/core/replay.ts": "7a636b1b374a10d7f8aa02ade08957ac67920aacd33b37db2f412f2fefa42e6b",
+        "packages/handball-engine/src/v2/core/restarts.ts": "048e5ead24b976453a0abe2cf314fe9e79c33a0619c7d71cdfdb47b575230520",
+        "packages/handball-engine/src/v2/core/rules.ts": "46325a43317b15edfc4773265989ffa2ab0500c9fdefb32a7fc3363dd39147d4",
+        "packages/handball-engine/src/v2/core/sanction.ts": "8d569712c4c2ce1223d246e3a5d5e6dd0913b5f8232e6456ff892bbcd424d910",
+        "packages/handball-engine/src/v2/core/scenarios.ts": "c48ddb2c75ce34fd03c439261e40e77f676b1ffb2fc8abeb1a3f9b1a5d286dbe",
+        "packages/handball-engine/src/v2/core/space.ts": "fa4755d1ba95d8e683cd19955418944d004a34963b708030ef72eb521ca25eb3",
+        "packages/handball-engine/src/v2/core/squads.ts": "fc2aeaa594f3ef8a119656d1056178bf5f6414f6ee4c2082641b97fc216749a4",
+        "packages/handball-engine/src/v2/core/state.ts": "fc33c3ac8ee2fbe78c7998c756850eda8981949f393a03ac77af9f5c9179284e",
+        "packages/handball-engine/src/v2/core/structure.ts": "fd5cea56c1e2e311b490e452701fa2b1b8f91282e3f6cd7e06a4621d8065f3c3",
+        "packages/handball-engine/src/v2/core/testProfile.ts": "35a3ac5a0a0fbb6614de81c449fde37b880af96bc10a1cd2dcf4b4e3e9077d6d",
+        "packages/handball-engine/src/v2/core/threatRelation.ts": "c68668bfbd439adfa42a751b12266d664e1d2e6d80358cbc30149b807fb9bcf1",
+        "packages/handball-engine/src/v2/core/timing.ts": "0356bb3de1dc1aa32359d6e198cce8155bbd7010c9f76592f6f33c24c131b169",
+        "packages/handball-engine/src/v2/core/transitions.ts": "6498a4ea7a0d0efb0a19048dfcc9e6c2cd19fa8844f86f3d91995f65f80b270a",
+        "packages/handball-engine/src/v2/core/wing.ts": "31d7f39cf38918717d3723fadcce80948a13650a45a2f680e1bbc5c66fd3a556",
+        "packages/handball-engine/src/v2/core/wingScenarios.ts": "8d553b1c254f0953cf5508ca1a37463891f631cdfd0df81b436be487541ee031",
+        "apps/game/lib/career/productionMatch.ts": "84dd1f9f3e983c7f3168d6f18b516379bba9ce75d75b899871d2ab139c0b5751",
+        "apps/game/scripts/match-benchmarks.ts": "5c28b9280fbb37958f2b8222b272c39eed75b63f0b03e37ddf80c32eef0c0986",
+        "apps/game/scripts/lib/calibrationDiagnostics.ts": "75b4d75ab6951abd13939eb69661ef9a926654ce95d33d36434709c9a038223e",
+        "apps/game/scripts/lib/reconciliationDiagnostics.ts": "150a9d196dc92862f75a3fbdc2bd6abddc6b0b91e854e777f5df3d257e4b99b8",
+        "apps/game/scripts/lib/attackCycleDiagnostics.ts": "b70edf097328dddf1812caba8f5eb9f4e1ed4eb4fd8a286d4d8c3eb948d145e0",
+        "apps/game/lib/matchBenchmarks/empirical.ts": "1b05cfb0cfdb7e96870875b1042860b13221c852078eff953d31016123464d6c",
+        "apps/game/lib/matchBenchmarks/empiricalComparison.ts": "e49e86aca79b3e30cbe57ea0e6ce1da16a778417e936be4f3a1405a312e1a975",
+        "apps/game/lib/matchBenchmarks/evaluate.ts": "2f4d5bc893fbd482dfcd10baeaa1f3aa72c943dbcfa0e8dca0ba050fd3c9f3f0",
+        "apps/game/lib/matchBenchmarks/extract.ts": "4ac1e4094d2b76ba34dd157df4b32ba6309c1853aab18c7329890231681bb873",
+        "apps/game/lib/matchBenchmarks/reference.ts": "25cb435b7824faa1fc58429264d3e91a4833e678170bb5bfa75d5b5c98009e8a",
+        "apps/game/lib/matchBenchmarks/report.ts": "c7c77e53ba8b07212362ec36f4a31f2d8b263ea0f17ce8f0fd730292035b7444",
+        "apps/game/lib/matchBenchmarks/statistics.ts": "9b3c1f8e5dc5590302b8b6115f5e7c86d9a5693e14af80f0880b334f7752e2d0"
+      },
+      "sessionHash": "48ff68fb7e6e9bfb411b713a648deff288f8282338a37564ba637fdb05024f84",
+      "resultHash": "53e27251e3e874fd9e332c3bc07a939694175e43d8db099c359888f2e213be2d",
+      "archiveHash": "36463b27fcf51f12fe73a250d5bd25d26297e46cdba040fa3b0b8bf9a4d2626a",
+      "exactObserverNonMutation": true,
+      "postAnalysisNonMutation": true,
+      "deterministic": true,
+      "midMatchJSONResume": true,
+      "checkpoint": {
+        "tick": 20000,
+        "score": {
+          "HOME": 8,
+          "AWAY": 9
+        },
+        "intents": 11,
+        "reentryReaders": 0,
+        "advantage": null,
+        "sanctions": [],
+        "rng": {
+          "algorithm": "mulberry32",
+          "state": 1787666145,
+          "draws": 938
+        }
+      },
+      "exactArchive": true,
+      "exactlyOnceCommit": true,
+      "matchCenter": {
+        "score": true,
+        "shots": true,
+        "conversion": true,
+        "penalties": true,
+        "suspensions": true,
+        "timeline": true,
+        "playerStats": true,
+        "keeperDenominators": true,
+        "loadedFacts": true,
+        "playerOrdering": true,
+        "keyMomentCanonicalPositions": 12
+      },
+      "score": [
+        32,
+        36
+      ],
+      "runtimeMs": 52590.6014
+    }
+  },
+  "season": {
+    "complete": true,
+    "managerMatches": 26,
+    "archivedMatches": 27,
+    "season": "2027/28",
+    "date": "2027-09-23",
+    "seasonTwoScore": [
+      26,
+      30
+    ],
+    "nextCalendar": {
+      "fixtures": 182,
+      "firstDate": "2027-09-23"
+    }
+  },
+  "delivery": {
+    "sourceCommit": "5804e3b88fe7c20d338e98200d7ab3eacf62bbc2",
+    "buildId": "7lH--sWAbP_HfvPnTXIdw",
+    "distDir": ".next-game-reconciliation-v11",
+    "previousBuildId": "3PQHL0oSSqFhBU5FxXd8a",
+    "previousBuildPreserved": true,
+    "httpStatus": 200,
+    "newGameHttpStatus": 200,
+    "url": "http://127.0.0.1:3017",
+    "serverExecSession": 43162,
+    "preservedFiles": 65,
+    "matchingRuntimeSources": 54,
+    "sourceMatched": true,
+    "seasonFixtures": 26,
+    "seasonArchivesAfterNextSeasonMatch": 27,
+    "motionHead": "197d2a80ecea3b70efdcf8ef347cfc68e0e86b2b",
+    "stashes": [
+      "ddba79055949b76898b12fc1b947e8f8645589cb",
+      "b068a9586209b9405b8d5f0dc6fae6384dd09001"
+    ],
+    "nothingPushed": true
+  },
+  "preservation": {
+    "startingCheckpoint": "8aaa9585c1411a9c77bb0272ff76c4fd604ef770",
+    "status": [
+      "M apps/game/app/match-qa/page.tsx",
+      " M apps/game/lib/matchQa/qaHarness.ts",
+      " M apps/game/scripts/season-audit.ts",
+      "?? .claude/",
+      "?? apps/game/.tmp-final-benchmark.ts",
+      "?? docs/audit/"
+    ],
+    "worktrees": "worktree C:/Users/helgi/Documents/STARKVIS-HELA/handball-manager\nHEAD 8aaa9585c1411a9c77bb0272ff76c4fd604ef770\nbranch refs/heads/main\n\nworktree C:/Users/helgi/Documents/STARKVIS-HELA/handball-motion-lab\nHEAD 197d2a80ecea3b70efdcf8ef347cfc68e0e86b2b\nbranch refs/heads/motion-lab",
+    "stashes": [
+      "ddba79055949b76898b12fc1b947e8f8645589cb On motion-lab: WIP Pack #5 M6 breakthrough screen paused before Human QA",
+      "b068a9586209b9405b8d5f0dc6fae6384dd09001 On motion-lab: WIP Pack #5 M6 line game paused before Human QA"
+    ],
+    "frozenPresentationAndReferences": [
+      {
+        "path": "apps/game/app/career/match-2d/page.tsx",
+        "sha256": "4b39dd10e56809bdceef87c96d53666de559bcf29013395d8da176a670165c3e"
+      },
+      {
+        "path": "apps/game/app/career/match-day/[fixtureId]/page.tsx",
+        "sha256": "4358d9838d1fd006c569e28df2f8b2e85eb876e0cf0544b81f4c0cc04b060995"
+      },
+      {
+        "path": "apps/game/app/career/match-report/[fixtureId]/page.tsx",
+        "sha256": "1e320e676d3bf15165b5bad57e83d1a363eb66349b11822295daefcbdddb5768"
+      },
+      {
+        "path": "apps/game/components/ProductionMatchView.tsx",
+        "sha256": "531610b3a712e70dc79573f8d4c4583fdf32ecae0ad8388a39d554ae34dffd59"
+      },
+      {
+        "path": "apps/game/components/game/CoachingChoices.tsx",
+        "sha256": "94573e2bbf77e5e166b337102c79010e0054f51befef0aadf985621e5c6fbbfa"
+      },
+      {
+        "path": "apps/game/components/game/LiveCoachPanel.tsx",
+        "sha256": "b830e44940a2e71fa55335d45d93f71e6a010421df8dcb6641c891ab79db6f6a"
+      },
+      {
+        "path": "apps/game/components/matchCenter/MatchCenter.tsx",
+        "sha256": "cf477b3119c358ba6297c01cee316c5a3b91db55faafcf88b929ddc8cf1e8bcb"
+      },
+      {
+        "path": "apps/game/components/matchCenter/TacticalCourt.tsx",
+        "sha256": "83de3e6b68085e9e93dc3aa536298d888493a625b0c795bd05f7f5ed485d1cbb"
+      },
+      {
+        "path": "apps/game/components/matchCenter/WorkspaceViews.tsx",
+        "sha256": "2da779b9b091640f22f6aef137c8a9cfe80812f4833f05ba7a8bab4611adc358"
+      },
+      {
+        "path": "apps/game/components/matchCenter/match-center.css",
+        "sha256": "671d5997962aff2a457e898b93a98aa7b81fe915caebb92cd374996180cd87c6"
+      },
+      {
+        "path": "apps/game/lib/matchCenter/control.ts",
+        "sha256": "c1577b45ed867ead1484de2b7dfde11dac1c194a60c20675bf756bccf2a570b5"
+      },
+      {
+        "path": "apps/game/lib/matchCenter/model.test.ts",
+        "sha256": "c5f178ea0d5835ab2bffb4f9ccade647c0ee54983901dd21b40f5e9842303a17"
+      },
+      {
+        "path": "apps/game/lib/matchCenter/model.ts",
+        "sha256": "e726da046168c142c5ee77243c620f2b6fc47e9579f69b485e04aa6dac4dde3e"
+      },
+      {
+        "path": "apps/game/lib/matchCenter/presentation.test.ts",
+        "sha256": "c2c10884e0f710ac68207218a9dc1846d041967e98ec405fae50838e3d714bd4"
+      },
+      {
+        "path": "apps/game/lib/matchCenter/workspace.test.ts",
+        "sha256": "26edde8fc142de2fcb292b4475e38a405d9e374707540e490f203fb0acb9408f"
+      },
+      {
+        "path": "apps/game/lib/matchCenter/workspace.ts",
+        "sha256": "87d82b1a82771e525a2e4d8962f67a2499e07e89c06216d356686ee19c0d9bb1"
+      },
+      {
+        "path": "data/empirical-handball/derived/keeper-matches.json",
+        "sha256": "0912f51828414ae71cec23fb24aa7f4914ea89b8a8ff1aaab4a7e8009613cbff"
+      },
+      {
+        "path": "data/empirical-handball/derived/league-outcomes.json",
+        "sha256": "2ef2ddbaf2b09d98d943c27bf57ea88f0f3429d982b11a97e828f61173ad3ed5"
+      },
+      {
+        "path": "data/empirical-handball/derived/manifest.json",
+        "sha256": "fe23c0f49368fee36d5f7fddd856fcf8d69be5467ee87c9b21a28243691ca4f2"
+      },
+      {
+        "path": "data/empirical-handball/derived/player-season-summaries.json",
+        "sha256": "df29b5711f5696db46c54bda88c95e52c5f12d16e0345a834e1ed8bbcd0dd64a"
+      },
+      {
+        "path": "data/empirical-handball/derived/position-shot-profiles.json",
+        "sha256": "1adea87e2912e646a605ff93e1d9bb58f77ccfc8889985c8bd266c04ea384e79"
+      },
+      {
+        "path": "data/empirical-handball/derived/position-shot-summaries.json",
+        "sha256": "2f6eeeb7306fa9f3bfb94282b5b19b3c7e79d7a199b04d5bc1a897a582cc2362"
+      },
+      {
+        "path": "data/empirical-handball/derived/profiles.json",
+        "sha256": "a55e42b65defe94c9e0aa7e78100685c68513e2de035db6c10c872d35b9e22f8"
+      },
+      {
+        "path": "data/empirical-handball/derived/quality.json",
+        "sha256": "4cf67c51e130a0443d9180349d87d70f9633c24d4d5262f0ba471fe9dd9471f9"
+      },
+      {
+        "path": "data/empirical-handball/derived/team-mapping.json",
+        "sha256": "18d66157d54b68c2262aa2b4398222da0cd585c2460ce219e52b100796cbab88"
+      },
+      {
+        "path": "data/empirical-handball/derived/team-profiles.json",
+        "sha256": "814935445d4405628e969571c764e8039a59a6ab8f98df4de155b7c59c10100b"
+      }
+    ],
+    "userFiles": [
+      {
+        "path": "apps/game/app/match-qa/page.tsx",
+        "sha256": "a245ec398a29f3c8b7ab7317682433dbfe81e4a46e249a60c8f5a5a024fece8f"
+      },
+      {
+        "path": "apps/game/lib/matchQa/qaHarness.ts",
+        "sha256": "f100717310ea08f43c33b49dbabe7acee338b40884e9182030f59db7c62fece9"
+      },
+      {
+        "path": "apps/game/scripts/season-audit.ts",
+        "sha256": "7ba6f05b9f1e9cfa491961c1a6c644d7ce5fb2123fed5bac0d1fb3a869b07266"
+      },
+      {
+        "path": "apps/game/.tmp-final-benchmark.ts",
+        "sha256": "ba9d04161dfd8fba50732356598d92323bc71f93cfb5f827170ea804846a5b76"
+      },
+      {
+        "path": ".claude/launch.json",
+        "sha256": "5479537912ebe024d9340205e0a1d178b0fa2330a3f8b5af62723a6fe7a82185"
+      },
+      {
+        "path": "docs/audit/browser-product-test.txt",
+        "sha256": "55cec35a72a07fd9a83260aeea2c50d494d12e30f779e01ff428d313a7cd0883"
+      },
+      {
+        "path": "docs/audit/build-turbopack.txt",
+        "sha256": "2fd132c42c004e7361e70694d07d0a6102f28fdedc8067b9387a3ba17a216c66"
+      },
+      {
+        "path": "docs/audit/build-webpack.txt",
+        "sha256": "5c2d02af267569779c65731f10df3278891b13dc31128623944945e58513f0c6"
+      },
+      {
+        "path": "docs/audit/final-browser-product.txt",
+        "sha256": "7377b7c69495b0e588e6f139cd6eadaef6c079779707d5a17393ea61004fb9f3"
+      },
+      {
+        "path": "docs/audit/final-changed-lint.txt",
+        "sha256": "10fe5fd65982ca6b71ae329a8731176307eddc2346c756729adb904b141991a0"
+      },
+      {
+        "path": "docs/audit/final-production-build.txt",
+        "sha256": "3e086a657ed1ec890895f8ba058b992aeeaeaeb407c547f713bbbb9dd3f9b930"
+      },
+      {
+        "path": "docs/audit/final-production-server.txt",
+        "sha256": "d051ae0dc6f38d8d8ae596a96b099a9afbd551a40ee8fb798a6a1419ce05d06a"
+      },
+      {
+        "path": "docs/audit/final-seam-tests.txt",
+        "sha256": "ebcc50a912655b26e24b44d0435982216afded32012c2c8a3db0bc947aad5cc7"
+      },
+      {
+        "path": "docs/audit/final-tactics-lint.txt",
+        "sha256": "f85a22592459ae068e83da87ae3aba7285a83be904522a9371af5c31aca551b0"
+      },
+      {
+        "path": "docs/audit/HANDBALL_MANAGER_AUDIT_2026-10-07.md",
+        "sha256": "2b2c7ec28fe32540d3b10018b601d0086422f93adcbb8efeff621d42ec0c5abb"
+      },
+      {
+        "path": "docs/audit/implementation-typecheck.txt",
+        "sha256": "f3b2774d27874c5cf70a348b259f0ddadb51563e9ad76bf8b8a491dd336b5ef8"
+      },
+      {
+        "path": "docs/audit/lint-output.txt",
+        "sha256": "1ec929b802136bcbe0e4c02ee80213fd75e8b386368f7f2b28ee61c60d8bb46c"
+      },
+      {
+        "path": "docs/audit/live-match-ui.png",
+        "sha256": "c233b35cf42f44fa52d68bf60316c2333b3a74933ebff30c5be983ebaceed0e6"
+      },
+      {
+        "path": "docs/audit/match-audit-2026-10-07.json",
+        "sha256": "61efad8267317d4e4991fbeebf59e8a7372e0fa8f75029e4570935221fc133f8"
+      },
+      {
+        "path": "docs/audit/match-audit-run.txt",
+        "sha256": "d09a491f6a0bbe22c7c9c8eaee111c5f2c5895f5824db8981f7afc45d1e51971"
+      },
+      {
+        "path": "docs/audit/new-career-ui.png",
+        "sha256": "f3d80add59a98c0d25afc659b0b2bfe6ff187c76dbc12dec849388b3b24ec34a"
+      },
+      {
+        "path": "docs/audit/playable-changed-lint.txt",
+        "sha256": "4c9248decf2ac5327c2e8fe43ca3e35d734efabaaec877bf43cd46026f183b10"
+      },
+      {
+        "path": "docs/audit/playable-dev-server.txt",
+        "sha256": "f7d15aa576a0ce148d221bfe2156cafc6cfda7a3a9089de423c22f9d7ab4660f"
+      },
+      {
+        "path": "docs/audit/playable-production-build.txt",
+        "sha256": "2b884fadb3a3ab392782cc9c282cd7536d9401e5e1da33ebc3234636ef50d099"
+      },
+      {
+        "path": "docs/audit/playable-regression-tests.txt",
+        "sha256": "abc669873c0500af2bfd9225a810ba7fa120e9d2db9a683f632ee63963459210"
+      },
+      {
+        "path": "docs/audit/playable-season-result.json",
+        "sha256": "d59f2a4d57540ab8a9cabf387ac74219ef2dc992a0111073173557a5a234e641"
+      },
+      {
+        "path": "docs/audit/playable-season-run.txt",
+        "sha256": "2dd9f3ff09fa22a9339904ca73d969bd2c16ab83fa5655b145da85b5b23b5069"
+      },
+      {
+        "path": "docs/audit/playable-typecheck.txt",
+        "sha256": "0a620e650841e459ad7ad0731843e88c9ac33659453405d353111d19f79355a5"
+      },
+      {
+        "path": "docs/audit/playwright-browser-install.txt",
+        "sha256": "ae2f1cec95b19d534d62db477bbac92952fe3ed4029090db3787be47ef2744b6"
+      },
+      {
+        "path": "docs/audit/playwright-install.txt",
+        "sha256": "93ac21b04b8d7ac66a05ca700048cdcabd49e96689ce68de332a8cfaa5e100db"
+      },
+      {
+        "path": "docs/audit/product-seam-tests.txt",
+        "sha256": "d993f94a0cffe2d9bc06d2d05f419c7a0aead9cb7f499035445298c33e0be513"
+      },
+      {
+        "path": "docs/audit/replay-ui.png",
+        "sha256": "8e9c8f2f9a70b9f49e561908f97f63f896b4b0daf4ad3be3a25fab3d604fa1ed"
+      },
+      {
+        "path": "docs/audit/run-match-audit.cjs",
+        "sha256": "6cdd1aa4b89830b0abf0e9fc264c6571dc52d6fa4e15699e0a585c519d1bfd5b"
+      },
+      {
+        "path": "docs/audit/season-end-state.json",
+        "sha256": "d29c4d145921f5e5226bc7b45b6c13a2c8d18e8cb9c40de4c25e679f6d31fa4d"
+      },
+      {
+        "path": "docs/audit/season-size-check.txt",
+        "sha256": "18a0bb9a090471aa27ccd670ce9191f24275c49cdcc0f49b70e202753f5e5eb7"
+      },
+      {
+        "path": "docs/audit/season-two-run.txt",
+        "sha256": "9661c526299567788de1ac068abd51605274d0bdb8564530e50fa552b015ac6b"
+      },
+      {
+        "path": "docs/audit/test-sandbox.txt",
+        "sha256": "019e443d76ee2c51a9c1fbed59057cbb0de113763a31156b9644f9b1a1a488fe"
+      },
+      {
+        "path": "docs/audit/test-v2-core.txt",
+        "sha256": "98ec487e81550da5754e1e617fbabe2c02c56e961f3d3852112e9c5fd630baae"
+      },
+      {
+        "path": "docs/audit/test-workspaces.txt",
+        "sha256": "c3e5f0a9a88294014a30397016a07fe9bdf954921d5e76f5a34b139c5941b199"
+      }
+    ]
+  },
+  "normalFieldResolution": "Unchanged ordinary placement/spread/loading/reaction branches; scoped tests and full regression",
+  "antiCheat": "No empirical imports or target/count correction in production changes. Injected quota/benchmark scenario and exact observed/unobserved match hashes pass. Legitimate rule warning counts are preserved.",
+  "resourceSafety": "All expensive jobs sequential; one benchmark child at a time; 10 source-identical pilot matches per league reused; final N=80, not 100; no push"
+}

@@ -1,0 +1,932 @@
+{
+  "line": {
+    "checked": 113,
+    "ordered": 216,
+    "required": 226,
+    "worst": 4.666995228146623,
+    "frames": [
+      {
+        "tick": 1,
+        "pairs": 3,
+        "players": [
+          {
+            "id": "A01",
+            "duty": "MARK",
+            "zone": 0,
+            "x": 2.2125200271606444,
+            "y": 1.1948601245880126
+          },
+          {
+            "id": "A02",
+            "duty": "PIVOT",
+            "zone": 1,
+            "x": 5.5,
+            "y": 6.6,
+            "action": "CONTAIN"
+          },
+          {
+            "id": "A03",
+            "duty": "PRESSURE",
+            "zone": 2,
+            "x": 8.5,
+            "y": 6.6,
+            "action": "PRESS"
+          },
+          {
+            "id": "A06",
+            "duty": "HELP",
+            "zone": 3,
+            "x": 11.4,
+            "y": 6.6,
+            "action": "HELP"
+          },
+          {
+            "id": "A04",
+            "duty": "COVER",
+            "zone": 4,
+            "x": 13.8,
+            "y": 6.6
+          },
+          {
+            "id": "A05",
+            "duty": "MARK",
+            "zone": 5,
+            "x": 17.787479972839357,
+            "y": 1.1948601245880126
+          }
+        ]
+      },
+      {
+        "tick": 11,
+        "pairs": 3,
+        "players": [
+          {
+            "id": "A01",
+            "duty": "COVER",
+            "zone": 0,
+            "x": 2.2125200271606444,
+            "y": 1.1948601245880126
+          },
+          {
+            "id": "A02",
+            "duty": "HELP",
+            "zone": 1,
+            "x": 5.785749019281043,
+            "y": 6.7089380157796645,
+            "action": "HELP"
+          },
+          {
+            "id": "A03",
+            "duty": "PRESSURE",
+            "zone": 2,
+            "x": 8.671296183821106,
+            "y": 6.859067562436644,
+            "action": "PRESS"
+          },
+          {
+            "id": "A06",
+            "duty": "PIVOT",
+            "zone": 3,
+            "x": 11.127034912309522,
+            "y": 6.703400709875765,
+            "action": "CONTAIN"
+          },
+          {
+            "id": "A04",
+            "duty": "MARK",
+            "zone": 4,
+            "x": 13.8,
+            "y": 6.6,
+            "action": "CONTAIN"
+          },
+          {
+            "id": "A05",
+            "duty": "MARK",
+            "zone": 5,
+            "x": 17.787479972839357,
+            "y": 1.1948601245880126
+          }
+        ]
+      },
+      {
+        "tick": 21,
+        "pairs": 3,
+        "players": [
+          {
+            "id": "A01",
+            "duty": "MARK",
+            "zone": 0,
+            "x": 2.2125200271606444,
+            "y": 1.1948601245880126,
+            "action": "CONTAIN"
+          },
+          {
+            "id": "A02",
+            "duty": "PRESSURE",
+            "zone": 1,
+            "x": 6.6552088938222145,
+            "y": 7.153410520727397,
+            "action": "PRESS"
+          },
+          {
+            "id": "A03",
+            "duty": "HELP",
+            "zone": 2,
+            "x": 9.463671531589208,
+            "y": 8.055197732060222,
+            "action": "HELP"
+          },
+          {
+            "id": "A06",
+            "duty": "PIVOT",
+            "zone": 3,
+            "x": 10.958946536631034,
+            "y": 7.356359368393764,
+            "action": "CONTAIN"
+          },
+          {
+            "id": "A04",
+            "duty": "MARK",
+            "zone": 4,
+            "x": 14.367976692300033,
+            "y": 6.754149159935704,
+            "action": "CONTAIN"
+          },
+          {
+            "id": "A05",
+            "duty": "MARK",
+            "zone": 5,
+            "x": 17.787479972839357,
+            "y": 1.1948601245880126
+          }
+        ]
+      },
+      {
+        "tick": 31,
+        "pairs": 3,
+        "players": [
+          {
+            "id": "A01",
+            "duty": "COVER",
+            "zone": 0,
+            "x": 2.261543058466155,
+            "y": 1.4219264869045145,
+            "action": "CONTAIN"
+          },
+          {
+            "id": "A02",
+            "duty": "HELP",
+            "zone": 1,
+            "x": 6.2635551079161464,
+            "y": 7.187571913504131,
+            "action": "HELP"
+          },
+          {
+            "id": "A03",
+            "duty": "PRESSURE",
+            "zone": 2,
+            "x": 9.249130405358173,
+            "y": 8.669881810830043,
+            "action": "PRESS"
+          },
+          {
+            "id": "A06",
+            "duty": "PIVOT",
+            "zone": 3,
+            "x": 10.864447568077244,
+            "y": 7.439329129181625,
+            "action": "CONTAIN"
+          },
+          {
+            "id": "A04",
+            "duty": "MARK",
+            "zone": 4,
+            "x": 14.232417553477232,
+            "y": 6.755263033802638,
+            "action": "CONTAIN"
+          },
+          {
+            "id": "A05",
+            "duty": "MARK",
+            "zone": 5,
+            "x": 17.787479972839357,
+            "y": 1.1948601245880126
+          }
+        ]
+      },
+      {
+        "tick": 41,
+        "pairs": 1,
+        "players": [
+          {
+            "id": "A01",
+            "duty": "COVER",
+            "zone": 0,
+            "x": 2.5432228702390582,
+            "y": 2.325937402688768,
+            "action": "CONTAIN"
+          },
+          {
+            "id": "A02",
+            "duty": "HELP",
+            "zone": 1,
+            "x": 5.870171215561406,
+            "y": 7.101556316570109,
+            "action": "HELP"
+          },
+          {
+            "id": "A03",
+            "duty": "PRESSURE",
+            "zone": 2,
+            "x": 8.857722153486138,
+            "y": 9.542753765835096,
+            "action": "CONTACT"
+          },
+          {
+            "id": "A06",
+            "duty": "PIVOT",
+            "zone": 3,
+            "x": 10.537686553348625,
+            "y": 7.610393950553832,
+            "action": "CONTAIN"
+          },
+          {
+            "id": "A04",
+            "duty": "MARK",
+            "zone": 4,
+            "x": 14.095401331789077,
+            "y": 6.75,
+            "action": "CONTAIN"
+          },
+          {
+            "id": "A05",
+            "duty": "MARK",
+            "zone": 5,
+            "x": 17.787479972839357,
+            "y": 1.1948601245880126
+          }
+        ]
+      },
+      {
+        "tick": 51,
+        "pairs": 1,
+        "players": [
+          {
+            "id": "A01",
+            "duty": "COVER",
+            "zone": 0,
+            "x": 2.4327155508468494,
+            "y": 2.0186601615132838,
+            "action": "CONTAIN"
+          },
+          {
+            "id": "A02",
+            "duty": "HELP",
+            "zone": 1,
+            "x": 5.870171215561406,
+            "y": 7.101556316570109,
+            "action": "HELP"
+          },
+          {
+            "id": "A03",
+            "duty": "PRESSURE",
+            "zone": 2,
+            "x": 8.857722153486138,
+            "y": 9.542753765835096,
+            "action": "CONTACT"
+          },
+          {
+            "id": "A06",
+            "duty": "PIVOT",
+            "zone": 3,
+            "x": 10.208518590793672,
+            "y": 7.528639488866294,
+            "action": "CONTAIN"
+          },
+          {
+            "id": "A04",
+            "duty": "MARK",
+            "zone": 4,
+            "x": 14.095401331789077,
+            "y": 6.75,
+            "action": "CONTAIN"
+          },
+          {
+            "id": "A05",
+            "duty": "MARK",
+            "zone": 5,
+            "x": 17.787479972839357,
+            "y": 1.1948601245880126
+          }
+        ]
+      },
+      {
+        "tick": 61,
+        "pairs": 1,
+        "players": [
+          {
+            "id": "A01",
+            "duty": "COVER",
+            "zone": 0,
+            "x": 2.262263761017328,
+            "y": 1.4016689361859456,
+            "action": "CONTAIN"
+          },
+          {
+            "id": "A02",
+            "duty": "HELP",
+            "zone": 1,
+            "x": 6.095453013928178,
+            "y": 7.314580438738243,
+            "action": "HELP"
+          },
+          {
+            "id": "A03",
+            "duty": "PRESSURE",
+            "zone": 2,
+            "x": 8.857722153486138,
+            "y": 9.542753765835096,
+            "action": "CONTACT"
+          },
+          {
+            "id": "A06",
+            "duty": "PIVOT",
+            "zone": 3,
+            "x": 10.208518590793672,
+            "y": 7.528639488866294,
+            "action": "CONTAIN"
+          },
+          {
+            "id": "A04",
+            "duty": "MARK",
+            "zone": 4,
+            "x": 14.095401331789077,
+            "y": 6.75,
+            "action": "CONTAIN"
+          },
+          {
+            "id": "A05",
+            "duty": "MARK",
+            "zone": 5,
+            "x": 17.787479972839357,
+            "y": 1.1948601245880126
+          }
+        ]
+      },
+      {
+        "tick": 71,
+        "pairs": 1,
+        "players": [
+          {
+            "id": "A01",
+            "duty": "MARK",
+            "zone": 0,
+            "x": 2.262263761017328,
+            "y": 1.4016689361859456,
+            "action": "CONTAIN"
+          },
+          {
+            "id": "A02",
+            "duty": "PRESSURE",
+            "zone": 1,
+            "x": 6.290753135462051,
+            "y": 7.87551338077769,
+            "action": "PRESS"
+          },
+          {
+            "id": "A03",
+            "duty": "HELP",
+            "zone": 2,
+            "x": 8.857722153486138,
+            "y": 9.542753765835096,
+            "action": "CONTACT"
+          },
+          {
+            "id": "A06",
+            "duty": "PIVOT",
+            "zone": 3,
+            "x": 10.208518590793672,
+            "y": 7.528639488866294,
+            "action": "CONTAIN"
+          },
+          {
+            "id": "A04",
+            "duty": "MARK",
+            "zone": 4,
+            "x": 13.681316149476329,
+            "y": 6.75,
+            "action": "CONTAIN"
+          },
+          {
+            "id": "A05",
+            "duty": "MARK",
+            "zone": 5,
+            "x": 17.787479972839357,
+            "y": 1.1948601245880126
+          }
+        ]
+      },
+      {
+        "tick": 81,
+        "pairs": 1,
+        "players": [
+          {
+            "id": "A01",
+            "duty": "MARK",
+            "zone": 0,
+            "x": 2.262263761017328,
+            "y": 1.4016689361859456,
+            "action": "CONTAIN"
+          },
+          {
+            "id": "A02",
+            "duty": "MARK",
+            "zone": 1,
+            "x": 6.567048850554312,
+            "y": 7.985249727832762,
+            "action": "CONTAIN"
+          },
+          {
+            "id": "A03",
+            "duty": "MARK",
+            "zone": 2,
+            "x": 8.857722153486138,
+            "y": 9.542753765835096,
+            "action": "CONTAIN"
+          },
+          {
+            "id": "A06",
+            "duty": "PIVOT",
+            "zone": 3,
+            "x": 10.74373091672654,
+            "y": 7.176826965379847,
+            "action": "CONTAIN"
+          },
+          {
+            "id": "A04",
+            "duty": "HELP",
+            "zone": 4,
+            "x": 13.154575174573907,
+            "y": 6.774614185160308,
+            "action": "HELP"
+          },
+          {
+            "id": "A05",
+            "duty": "PRESSURE",
+            "zone": 5,
+            "x": 17.787479972839357,
+            "y": 1.1948601245880126,
+            "action": "PRESS"
+          }
+        ]
+      },
+      {
+        "tick": 91,
+        "pairs": 1,
+        "players": [
+          {
+            "id": "A01",
+            "duty": "MARK",
+            "zone": 0,
+            "x": 2.262263761017328,
+            "y": 1.4016689361859456,
+            "action": "CONTAIN"
+          },
+          {
+            "id": "A02",
+            "duty": "MARK",
+            "zone": 1,
+            "x": 6.654576785180958,
+            "y": 7.096907766574958,
+            "action": "CONTAIN"
+          },
+          {
+            "id": "A03",
+            "duty": "MARK",
+            "zone": 2,
+            "x": 8.822457405323998,
+            "y": 8.735052357222346,
+            "action": "CONTAIN"
+          },
+          {
+            "id": "A06",
+            "duty": "PIVOT",
+            "zone": 3,
+            "x": 11.320941207709234,
+            "y": 6.864814650794045,
+            "action": "CONTAIN"
+          },
+          {
+            "id": "A04",
+            "duty": "MARK",
+            "zone": 4,
+            "x": 13.733112904681295,
+            "y": 6.7524333438534265,
+            "action": "CONTAIN"
+          },
+          {
+            "id": "A05",
+            "duty": "MARK",
+            "zone": 5,
+            "x": 17.787479972839357,
+            "y": 1.1948601245880126,
+            "action": "CONTAIN"
+          }
+        ]
+      },
+      {
+        "tick": 101,
+        "pairs": 3,
+        "players": [
+          {
+            "id": "A01",
+            "duty": "MARK",
+            "zone": 0,
+            "x": 2.262263761017328,
+            "y": 1.4016689361859456,
+            "action": "CONTAIN"
+          },
+          {
+            "id": "A02",
+            "duty": "MARK",
+            "zone": 1,
+            "x": 6.760682076679487,
+            "y": 6.795399636340314,
+            "action": "CONTAIN"
+          },
+          {
+            "id": "A03",
+            "duty": "COLLECT",
+            "zone": 2,
+            "x": 9.051315403183107,
+            "y": 7.997848323540006,
+            "action": "RUN"
+          },
+          {
+            "id": "A06",
+            "duty": "PIVOT",
+            "zone": 3,
+            "x": 11.320941207709234,
+            "y": 6.864814650794045,
+            "action": "CONTAIN"
+          },
+          {
+            "id": "A04",
+            "duty": "MARK",
+            "zone": 4,
+            "x": 13.973234277589427,
+            "y": 6.75,
+            "action": "CONTAIN"
+          },
+          {
+            "id": "A05",
+            "duty": "MARK",
+            "zone": 5,
+            "x": 17.787479972839357,
+            "y": 1.1948601245880126,
+            "action": "CONTAIN"
+          }
+        ]
+      },
+      {
+        "tick": 111,
+        "pairs": 3,
+        "players": [
+          {
+            "id": "A01",
+            "duty": "MARK",
+            "zone": 0,
+            "x": 2.262263761017328,
+            "y": 1.4016689361859456,
+            "action": "CONTAIN"
+          },
+          {
+            "id": "A02",
+            "duty": "MARK",
+            "zone": 1,
+            "x": 6.760682076679487,
+            "y": 6.795399636340314,
+            "action": "CONTAIN"
+          },
+          {
+            "id": "A03",
+            "duty": "COLLECT",
+            "zone": 2,
+            "x": 10.109931014927298,
+            "y": 8.282687781398975,
+            "action": "RECEIVE"
+          },
+          {
+            "id": "A06",
+            "duty": "PIVOT",
+            "zone": 3,
+            "x": 11.320941207709234,
+            "y": 6.864814650794045,
+            "action": "CONTAIN"
+          },
+          {
+            "id": "A04",
+            "duty": "MARK",
+            "zone": 4,
+            "x": 13.973234277589427,
+            "y": 6.75,
+            "action": "CONTAIN"
+          },
+          {
+            "id": "A05",
+            "duty": "MARK",
+            "zone": 5,
+            "x": 17.787479972839357,
+            "y": 1.1948601245880126,
+            "action": "CONTAIN"
+          }
+        ]
+      }
+    ]
+  },
+  "matches": [
+    {
+      "direction": "TOP",
+      "report": {
+        "version": "2.9.0-possession-ecology.2",
+        "seed": 2025,
+        "complete": true,
+        "status": "CHECKPOINT",
+        "reason": "FULLTIME",
+        "score": {
+          "HOME": 31,
+          "AWAY": 36
+        },
+        "officialMs": 3600000,
+        "periods": [
+          {
+            "type": "PERIOD_STARTED",
+            "officialMs": 0,
+            "tick": 6
+          },
+          {
+            "type": "PERIOD_ENDED",
+            "officialMs": 1800000,
+            "tick": 36294
+          },
+          {
+            "type": "PERIOD_STARTED",
+            "officialMs": 1800000,
+            "tick": 48674
+          },
+          {
+            "type": "PERIOD_ENDED",
+            "officialMs": 3600000,
+            "tick": 85331
+          }
+        ],
+        "shots": 111,
+        "goals": 67,
+        "passes": 948,
+        "fouls": 41,
+        "suspensions": 6,
+        "exchanges": 11
+      },
+      "pending": [
+        {
+          "id": "exchange-214264",
+          "team": "HOME",
+          "outId": null,
+          "inId": "H05",
+          "phase": "ENTERING",
+          "gate": {
+            "x": -0.35,
+            "y": 16
+          },
+          "requestedTick": 85329,
+          "request": {
+            "id": "event-214265",
+            "tick": 85329,
+            "timeMs": 4266450,
+            "officialMs": 3599900,
+            "type": "EXCHANGE_REQUESTED",
+            "possessionId": "possession-213507",
+            "actionId": null,
+            "actorId": null,
+            "relatedIds": [
+              "H05"
+            ],
+            "contestId": null,
+            "details": {
+              "incomingId": "H05"
+            }
+          },
+          "outgoing": null,
+          "incoming": {
+            "id": "H05",
+            "team": "HOME",
+            "kind": "FIELD_PLAYER",
+            "role": "RW",
+            "population": "COURT",
+            "position": {
+              "x": -0.35,
+              "y": 16
+            },
+            "velocity": {
+              "x": 0,
+              "y": 0
+            },
+            "radius": 0.28,
+            "condition": {
+              "energy": 0.7152277816998822,
+              "distanceMetres": 7330.612642051016,
+              "courtMs": 3480100,
+              "unavailable": false,
+              "attacksRemaining": 0,
+              "treatmentPossession": null,
+              "exitRequired": false
+            },
+            "profile": {
+              "topSpeed": 6.58421052631579,
+              "acceleration": 6.178947368421053,
+              "reaction": 0.21578947368421053,
+              "passing": 0.5789473684210527,
+              "handling": 0.5789473684210527,
+              "shotPower": 0.47368421052631576,
+              "shotPlacement": 0.631578947368421,
+              "breakthrough": 0.6447368421052632,
+              "finishing": 0.6842105263157895,
+              "wingFinishing": 0.7894736842105263,
+              "pivotPlay": 0.42105263157894735,
+              "screening": 0.4473684210526315,
+              "anticipation": 0.5789473684210527,
+              "decision": 0.5789473684210527,
+              "offBall": 0.5789473684210527,
+              "contact": 0.5263157894736842,
+              "defPositioning": 0.5789473684210527,
+              "defTiming": 0.5789473684210527,
+              "lateral": 0.6447368421052632,
+              "covering": 0.5789473684210527,
+              "handover": 0.5789473684210527,
+              "ballWinning": 0.5789473684210527,
+              "blocking": 0.5789473684210527,
+              "strength": 0.47368421052631576,
+              "balance": 0.5789473684210527,
+              "endurance": 0.5789473684210527,
+              "composure": 0.5789473684210527,
+              "discipline": 0.5789473684210527,
+              "keeper": null,
+              "tendency": {
+                "shoot": 1.1,
+                "drive": 1,
+                "feed": 1,
+                "run": 1.25,
+                "hold": 1
+              },
+              "source": {
+                "complete": true,
+                "missing": [],
+                "supplied": 31,
+                "expected": 31
+              }
+            },
+            "zone": 5,
+            "duty": {
+              "kind": "MARK",
+              "targetId": "A05",
+              "sinceTick": 85329,
+              "reason": "Hold the space and take the attacker occupying it"
+            },
+            "intent": {
+              "id": "action-214267-intent",
+              "effect": "EXCHANGE",
+              "reason": "Enter through own substitution line after outgoing player has left",
+              "targetId": null
+            },
+            "action": {
+              "id": "action-214267",
+              "possessionId": "possession-213507",
+              "kind": "EXCHANGE",
+              "phase": "INTERRUPTED",
+              "startedTick": 85329,
+              "phaseTick": 85331,
+              "executeTicks": 20,
+              "recoveryTicks": 2,
+              "target": {
+                "x": 0.65,
+                "y": 16
+              },
+              "targetId": null,
+              "reason": "Enter through own substitution line after outgoing player has left",
+              "resolved": false,
+              "contestIds": [],
+              "shotKind": null,
+              "purpose": "PLAY",
+              "contact": null,
+              "driveStart": null
+            },
+            "support": null,
+            "handling": {
+              "heldSinceTick": 82351,
+              "steps": 2,
+              "stepDistance": 0.412491375854424,
+              "dribbleUsed": false,
+              "bounceTick": 80522
+            },
+            "airborne": null,
+            "beatenUntilTick": 0,
+            "wrongFootedUntilTick": 0,
+            "screenedUntilTick": 82634,
+            "screenedBy": null,
+            "beatenBy": null,
+            "screenedSinceTick": 82560,
+            "screenCooldownTick": 82671,
+            "suspensionUntilMs": null,
+            "sanctions": 1,
+            "warnings": 0,
+            "nextAction": null,
+            "reception": null,
+            "motion": {
+              "mode": "RECOVER",
+              "relation": "possession-205959:RECOVER::RECOVER",
+              "target": {
+                "x": 18.8,
+                "y": 7.25
+              },
+              "reviewTick": 82715
+            },
+            "handballIntent": {
+              "id": "possession-213507:H05:85329:DEFENSIVE_CONTAIN",
+              "possessionId": "possession-213507",
+              "kind": "DEFENSIVE_CONTAIN",
+              "sinceTick": 85329,
+              "primaryId": null,
+              "targetId": "A05",
+              "target": null,
+              "commitment": 0.5736842105263158,
+              "originalAdvantage": 0,
+              "reason": "Hold the space and take the attacker occupying it",
+              "lastMotor": "EXCHANGE"
+            }
+          },
+          "events": [
+            {
+              "id": "event-214266",
+              "tick": 85329,
+              "timeMs": 4266450,
+              "officialMs": 3599900,
+              "type": "SUBSTITUTE_ADMITTED",
+              "possessionId": "possession-213507",
+              "actionId": null,
+              "actorId": "H05",
+              "relatedIds": [],
+              "contestId": null,
+              "details": {
+                "exchangeId": "exchange-214264"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "direction": "BOTTOM",
+      "report": {
+        "version": "2.9.0-possession-ecology.2",
+        "seed": 2025,
+        "complete": true,
+        "status": "CHECKPOINT",
+        "reason": "FULLTIME",
+        "score": {
+          "HOME": 29,
+          "AWAY": 33
+        },
+        "officialMs": 3600000,
+        "periods": [
+          {
+            "type": "PERIOD_STARTED",
+            "officialMs": 0,
+            "tick": 6
+          },
+          {
+            "type": "PERIOD_ENDED",
+            "officialMs": 1800000,
+            "tick": 36509
+          },
+          {
+            "type": "PERIOD_STARTED",
+            "officialMs": 1800000,
+            "tick": 48762
+          },
+          {
+            "type": "PERIOD_ENDED",
+            "officialMs": 3600000,
+            "tick": 85697
+          }
+        ],
+        "shots": 99,
+        "goals": 62,
+        "passes": 1042,
+        "fouls": 44,
+        "suspensions": 11,
+        "exchanges": 16
+      },
+      "pending": []
+    }
+  ]
+}

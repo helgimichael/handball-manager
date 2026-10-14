@@ -1,0 +1,14 @@
+{
+  "recoveredHead": "8aaa9585c1411a9c77bb0272ff76c4fd604ef770",
+  "commitsAfter8aaa958": [],
+  "stagedChanges": [],
+  "implementation": "Complete, uncommitted; runtime frozen and source fingerprints match both final cohorts",
+  "focusedTestsReused": {"focused": 123, "attackEntry": 43, "exitCodes": [0, 0]},
+  "cohortsReused": {"hbl": {"n": 80, "sourceStable": true}, "allsv": {"n": 80, "sourceStable": true}},
+  "interruptedSessionCommand": "node --import tsx scripts/run-reconciliation-v11.ts --league allsv --count 80 --out ../../docs/reconciliation-v11/final/allsv",
+  "commandRecoveredState": "Completed N=80 with exit code 0 while the session was paused; no benchmark restart required",
+  "preservation": {"exactFiles": 65, "exactRuntimeObserverFingerprints": 54, "motionHead": "197d2a80ecea3b70efdcf8ef347cfc68e0e86b2b", "stashesRetained": true},
+  "completedDocsAtRecovery": ["CAUSAL-NOTES.md", "STARTING-ENDINGS.json", "preservation.json", "working STATE.md"],
+  "missingAtRecovery": ["final distribution report", "full-session determinism/save-load/archive and Match Center proofs", "full core/V2/domain/game regressions", "typechecks", "fresh season proof", "isolated production build and server", "final documentation", "local task-owned commits"],
+  "notPushed": true
+}

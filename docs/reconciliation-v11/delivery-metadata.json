@@ -1,0 +1,19 @@
+{
+  "sourceCommit": "5804e3b88fe7c20d338e98200d7ab3eacf62bbc2",
+  "buildId": "7lH--sWAbP_HfvPnTXIdw",
+  "distDir": ".next-game-reconciliation-v11",
+  "previousBuildId": "3PQHL0oSSqFhBU5FxXd8a",
+  "previousBuildPreserved": true,
+  "httpStatus": 200,
+  "newGameHttpStatus": 200,
+  "url": "http://127.0.0.1:3017",
+  "serverExecSession": 43162,
+  "preservedFiles": 65,
+  "matchingRuntimeSources": 54,
+  "sourceMatched": true,
+  "seasonFixtures": 26,
+  "seasonArchivesAfterNextSeasonMatch": 27,
+  "motionHead": "197d2a80ecea3b70efdcf8ef347cfc68e0e86b2b",
+  "stashes": ["ddba79055949b76898b12fc1b947e8f8645589cb", "b068a9586209b9405b8d5f0dc6fae6384dd09001"],
+  "nothingPushed": true
+}
