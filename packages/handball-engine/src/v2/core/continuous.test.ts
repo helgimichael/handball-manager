@@ -77,13 +77,20 @@ test('full 2 x 30 minute matches include changed ends, official halftime and rea
     // conditional on play/eligibility, not a sixth mandatory event quota.
     assert.ok(report.exchanges>=4,'both teams make their planned field exchanges');
     for(const e of s.exchanges.filter(e=>e.phase!=='COMPLETED'&&e.phase!=='CANCELLED')){
-      // A suspension may expire immediately before the horn. Admission grants
-      // permission to enter; fulltime must not teleport that body across the
-      // substitution line merely to satisfy a completion-count assumption.
-      const expired=s.events.find(ev=>ev.type==='SUSPENSION_EXPIRED'&&ev.actorId===e.inId&&ev.tick===e.requestedTick);
+      // A legal replacement may be admitted immediately before the horn, after
+      // either an outgoing body exits or a suspension expires. Admission grants
+      // permission to enter; fulltime must not teleport the incoming body.
       const admitted=s.events.find(ev=>ev.type==='SUBSTITUTE_ADMITTED'&&ev.details.exchangeId===e.id);
-      assert.ok(expired&&expired.officialMs>=report.officialMs-1000,'only a final-second suspension re-entry may remain unfinished');
-      assert.equal(e.outId,null);assert.equal(e.phase,'ENTERING');assert.ok(admitted);
+      assert.ok(admitted&&admitted.officialMs>=report.officialMs-1000,'only a physically admitted final-second entry may remain unfinished');
+      assert.equal(e.phase,'ENTERING');
+      if(e.outId){
+        const left=s.events.find(ev=>ev.type==='PLAYER_LEFT_COURT'&&ev.details.exchangeId===e.id);
+        assert.ok(left&&left.tick<=admitted.tick,'outgoing body leaves before replacement admission');
+        assert.equal(getPlayer(s,e.outId).population,'BENCH');
+      }else{
+        const expired=s.events.find(ev=>ev.type==='SUSPENSION_EXPIRED'&&ev.tick===e.requestedTick&&getPlayer(s,ev.actorId!).team===e.team);
+        assert.ok(expired,'a vacancy entry follows an actual same-team suspension expiry');
+      }
       assert.equal(getPlayer(s,e.inId).population,'COURT');assert.ok(getPlayer(s,e.inId).position.x<.6,'the body has not reached the physical completion boundary');
       assert.ok(!s.events.some(ev=>ev.type==='EXCHANGE_COMPLETED'&&ev.details.exchangeId===e.id));
     }

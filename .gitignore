@@ -112,3 +112,8 @@ docs/rotation-fatigue-v1/*.exit.txt
 
 # Loading-screen QA retains full disposable saves/snapshots and logs locally.
 docs/career-loading-screen-v1/verification/
+
+# Full physical-load cohorts and raw verification remain local; compact receipts are committed.
+docs/physical-load-fatigue-v11/development/
+docs/physical-load-fatigue-v11/final/
+docs/physical-load-fatigue-v11/verification/

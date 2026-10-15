@@ -15,6 +15,7 @@ import {CalibrationDiagnostics} from './lib/calibrationDiagnostics';
 import {ReconciliationDiagnostics} from './lib/reconciliationDiagnostics';
 import {AttackCycleDiagnostics} from './lib/attackCycleDiagnostics';
 import {RotationFatigueDiagnostics} from './lib/rotationFatigueDiagnostics';
+import {PhysicalLoadDiagnostics} from './lib/physicalLoadDiagnostics';
 import {MotionQualityDiagnostics} from './lib/motionQualityDiagnostics';
 import {encodeFrames} from '../lib/career/matchFrames';
 import {extract} from '../lib/matchBenchmarks/extract';
@@ -50,6 +51,7 @@ const paths=[...readdirSync(sourceDir).filter(f=>f.endsWith('.ts')&&!f.endsWith(
 if(args.includes('--reconciliation'))paths.push(resolve('scripts/lib/reconciliationDiagnostics.ts'));
 if(args.includes('--v11'))paths.push(resolve('scripts/lib/attackCycleDiagnostics.ts'));
 if(args.includes('--rotation-fatigue'))paths.push(resolve('scripts/lib/rotationFatigueDiagnostics.ts'));
+if(args.includes('--physical-load'))paths.push(resolve('scripts/lib/physicalLoadDiagnostics.ts'),resolve('scripts/lib/rotationFatigueDiagnostics.ts'));
 if(args.includes('--motion-quality'))paths.push(resolve('scripts/lib/motionQualityDiagnostics.ts'));
 const fingerprints=()=>paths.map(path=>({path:path.replace(root,'').replaceAll('\\','/'),sha256:hash(readFileSync(path,'utf8'))}));
 const sources=fingerprints();let head='UNKNOWN';try{head=execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim();}catch{}
@@ -70,7 +72,7 @@ for(const recipe of recipes){
   const intelligence=args.includes('--intelligence')?enableDecisionTrace(career.productionMatch!.core,reports.length<2?256:0):null;
   const reconciliation=args.includes('--reconciliation')?new ReconciliationDiagnostics():null;
   const cycles=args.includes('--v11')?new AttackCycleDiagnostics():null;
-  const fatigue=args.includes('--rotation-fatigue')?new RotationFatigueDiagnostics():null;
+  const fatigue=args.includes('--physical-load')?new PhysicalLoadDiagnostics():args.includes('--rotation-fatigue')?new RotationFatigueDiagnostics():null;
   const observer=new CalibrationDiagnostics();let observerMs=0,calls=0,simulationStart=performance.now(),savedMidMatch:typeof career|null=null;
   while(career.productionMatch!.core.status==='RUNNING'&&calls++<40){career=advanceProductionMatch(career,10000,false,(core,events)=>{const t=performance.now();observer.observe(core,events);motion?.observe(core);reconciliation?.observe(core,events);cycles?.observe(core,events);fatigue?.observe(core,events);observerMs+=performance.now()-t;});if(args.includes('--prove')&&reports.length===0&&calls===2)savedMidMatch=JSON.parse(JSON.stringify(career));}
   const simulationMs=performance.now()-simulationStart,session=career.productionMatch!;
