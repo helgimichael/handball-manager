@@ -1,0 +1,346 @@
+{
+  "ticks": 3000,
+  "seed": 8123,
+  "repeats": 3,
+  "warmupExcluded": true,
+  "beforeMs": [
+    333.31320000000005,
+    333.8600999999999,
+    331.2763
+  ],
+  "afterMs": [
+    390.1017999999999,
+    320.84169999999995,
+    333.2228
+  ],
+  "beforeMedianMs": 333.31320000000005,
+  "afterMedianMs": 333.2228,
+  "ratio": 0.9997287836185305,
+  "scope": "Unobserved canonical core, same seed/tick count; includes any change in physical trajectory/action mix. One process, no concurrent heavy task.",
+  "curves": [
+    {
+      "attribute": 11,
+      "energy": 0.25,
+      "acute": 0,
+      "speed": 0.8336295230263158,
+      "acceleration": 0.7275120063102253,
+      "simple": 0.8,
+      "difficult": 0.7593213263157895
+    },
+    {
+      "attribute": 11,
+      "energy": 0.25,
+      "acute": 0.8,
+      "speed": 0.7870219572368421,
+      "acceleration": 0.44353200130881865,
+      "simple": 0.8,
+      "difficult": 0.6291495705263158
+    },
+    {
+      "attribute": 11,
+      "energy": 0.25,
+      "acute": 1,
+      "speed": 0.7753700657894737,
+      "acceleration": 0.3770396824705394,
+      "simple": 0.8,
+      "difficult": 0.5966066315789474
+    },
+    {
+      "attribute": 11,
+      "energy": 0.45,
+      "acute": 0,
+      "speed": 0.8834275361842105,
+      "acceleration": 0.822950879275374,
+      "simple": 0.842857142857143,
+      "difficult": 0.8198091229022557
+    },
+    {
+      "attribute": 11,
+      "energy": 0.45,
+      "acute": 0.8,
+      "speed": 0.8573198756578948,
+      "acceleration": 0.6560990448461151,
+      "simple": 0.842857142857143,
+      "difficult": 0.7460554590466166
+    },
+    {
+      "attribute": 11,
+      "energy": 0.45,
+      "acute": 1,
+      "speed": 0.8507929605263158,
+      "acceleration": 0.6157424797510838,
+      "simple": 0.842857142857143,
+      "difficult": 0.7276170430827068
+    },
+    {
+      "attribute": 11,
+      "energy": 0.7,
+      "acute": 0,
+      "speed": 0.9405107105263157,
+      "acceleration": 0.9213550240657655,
+      "simple": 0.9142857142857144,
+      "difficult": 0.9068473282406015
+    },
+    {
+      "attribute": 11,
+      "energy": 0.7,
+      "acute": 0.8,
+      "speed": 0.932355194736842,
+      "acceleration": 0.8672480618433599,
+      "simple": 0.9142857142857144,
+      "difficult": 0.8830444928962407
+    },
+    {
+      "attribute": 11,
+      "energy": 0.7,
+      "acute": 1,
+      "speed": 0.9303163157894737,
+      "acceleration": 0.8538473839023051,
+      "simple": 0.9142857142857144,
+      "difficult": 0.8770937840601505
+    },
+    {
+      "attribute": 11,
+      "energy": 1,
+      "acute": 0,
+      "speed": 1,
+      "acceleration": 1,
+      "simple": 1,
+      "difficult": 1
+    },
+    {
+      "attribute": 11,
+      "energy": 1,
+      "acute": 0.8,
+      "speed": 1,
+      "acceleration": 1,
+      "simple": 1,
+      "difficult": 1
+    },
+    {
+      "attribute": 11,
+      "energy": 1,
+      "acute": 1,
+      "speed": 1,
+      "acceleration": 1,
+      "simple": 1,
+      "difficult": 1
+    },
+    {
+      "attribute": 13,
+      "energy": 0.25,
+      "acute": 0,
+      "speed": 0.835870271381579,
+      "acceleration": 0.7412357483089906,
+      "simple": 0.8,
+      "difficult": 0.7619078315789474
+    },
+    {
+      "attribute": 13,
+      "energy": 0.25,
+      "acute": 0.8,
+      "speed": 0.7925918174342105,
+      "acceleration": 0.48493006846729647,
+      "simple": 0.8,
+      "difficult": 0.6400128926315789
+    },
+    {
+      "attribute": 13,
+      "energy": 0.25,
+      "acute": 1,
+      "speed": 0.7817722039473685,
+      "acceleration": 0.4245722818523963,
+      "simple": 0.8,
+      "difficult": 0.6095391578947369
+    },
+    {
+      "attribute": 13,
+      "energy": 0.45,
+      "acute": 0,
+      "speed": 0.8846827121710527,
+      "acceleration": 0.8308184008841538,
+      "simple": 0.842857142857143,
+      "difficult": 0.8212746039398496
+    },
+    {
+      "attribute": 13,
+      "energy": 0.45,
+      "acute": 0.8,
+      "speed": 0.8604398845394737,
+      "acceleration": 0.6808229394673593,
+      "simple": 0.842857142857143,
+      "difficult": 0.7522104794045114
+    },
+    {
+      "attribute": 13,
+      "energy": 0.45,
+      "acute": 1,
+      "speed": 0.8543791776315789,
+      "acceleration": 0.6444442797334603,
+      "simple": 0.842857142857143,
+      "difficult": 0.7349444482706767
+    },
+    {
+      "attribute": 13,
+      "energy": 0.7,
+      "acute": 0,
+      "speed": 0.940902802631579,
+      "acceleration": 0.9238586480954877,
+      "simple": 0.9142857142857144,
+      "difficult": 0.9073202892030076
+    },
+    {
+      "attribute": 13,
+      "energy": 0.7,
+      "acute": 0.8,
+      "speed": 0.9333298236842105,
+      "acceleration": 0.8753630610502522,
+      "simple": 0.9142857142857144,
+      "difficult": 0.8850309289383459
+    },
+    {
+      "attribute": 13,
+      "energy": 0.7,
+      "acute": 1,
+      "speed": 0.9314365789473684,
+      "acceleration": 0.8633432757050226,
+      "simple": 0.9142857142857144,
+      "difficult": 0.8794585888721805
+    },
+    {
+      "attribute": 13,
+      "energy": 1,
+      "acute": 0,
+      "speed": 1,
+      "acceleration": 1,
+      "simple": 1,
+      "difficult": 1
+    },
+    {
+      "attribute": 13,
+      "energy": 1,
+      "acute": 0.8,
+      "speed": 1,
+      "acceleration": 1,
+      "simple": 1,
+      "difficult": 1
+    },
+    {
+      "attribute": 13,
+      "energy": 1,
+      "acute": 1,
+      "speed": 1,
+      "acceleration": 1,
+      "simple": 1,
+      "difficult": 1
+    },
+    {
+      "attribute": 16,
+      "energy": 0.25,
+      "acute": 0,
+      "speed": 0.8392313939144737,
+      "acceleration": 0.7608686855743679,
+      "simple": 0.8,
+      "difficult": 0.7657875894736842
+    },
+    {
+      "attribute": 16,
+      "energy": 0.25,
+      "acute": 0.8,
+      "speed": 0.8009466077302632,
+      "acceleration": 0.544530983872444,
+      "simple": 0.8,
+      "difficult": 0.6563078757894737
+    },
+    {
+      "attribute": 16,
+      "energy": 0.25,
+      "acute": 1,
+      "speed": 0.7913754111842105,
+      "acceleration": 0.4931595900014324,
+      "simple": 0.8,
+      "difficult": 0.6289379473684211
+    },
+    {
+      "attribute": 16,
+      "energy": 0.45,
+      "acute": 0,
+      "speed": 0.8865654761513158,
+      "acceleration": 0.8420468879254428,
+      "simple": 0.842857142857143,
+      "difficult": 0.8234728254962407
+    },
+    {
+      "attribute": 16,
+      "energy": 0.45,
+      "acute": 0.8,
+      "speed": 0.8651198978618422,
+      "acceleration": 0.7161769068897377,
+      "simple": 0.842857142857143,
+      "difficult": 0.7614430099413535
+    },
+    {
+      "attribute": 16,
+      "energy": 0.45,
+      "acute": 1,
+      "speed": 0.8597585032894737,
+      "acceleration": 0.685526688547619,
+      "simple": 0.842857142857143,
+      "difficult": 0.7459355560526316
+    },
+    {
+      "attribute": 16,
+      "energy": 0.7,
+      "acute": 0,
+      "speed": 0.9414909407894737,
+      "acceleration": 0.9274251600223722,
+      "simple": 0.9142857142857144,
+      "difficult": 0.9080297306466166
+    },
+    {
+      "attribute": 16,
+      "energy": 0.7,
+      "acute": 0.8,
+      "speed": 0.934791767105263,
+      "acceleration": 0.8869093815727338,
+      "simple": 0.9142857142857144,
+      "difficult": 0.8880105830015038
+    },
+    {
+      "attribute": 16,
+      "energy": 0.7,
+      "acute": 1,
+      "speed": 0.9331169736842105,
+      "acceleration": 0.8768563943163631,
+      "simple": 0.9142857142857144,
+      "difficult": 0.8830057960902257
+    },
+    {
+      "attribute": 16,
+      "energy": 1,
+      "acute": 0,
+      "speed": 1,
+      "acceleration": 1,
+      "simple": 1,
+      "difficult": 1
+    },
+    {
+      "attribute": 16,
+      "energy": 1,
+      "acute": 0.8,
+      "speed": 1,
+      "acceleration": 1,
+      "simple": 1,
+      "difficult": 1
+    },
+    {
+      "attribute": 16,
+      "energy": 1,
+      "acute": 1,
+      "speed": 1,
+      "acceleration": 1,
+      "simple": 1,
+      "difficult": 1
+    }
+  ]
+}

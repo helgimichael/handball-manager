@@ -1,0 +1,98 @@
+{
+  "inspectionAt": "2026-10-15T13:38:56.883Z",
+  "startingCheckpoint": "21a89b5dd95892c07e3b597087caf54b42eb83b7",
+  "recoveredHead": "bd4bf42b483fea067b593307082b1e2ac30dd415",
+  "commitsAfterCheckpoint": [
+    "bd4bf42b483fea067b593307082b1e2ac30dd415 Model player-specific physical load and repeat-action fatigue"
+  ],
+  "stagedAtRecovery": [],
+  "recoveredUncommittedTaskWork": [
+    ".gitignore",
+    "apps/game/scripts/match-benchmarks.ts",
+    "packages/handball-engine/src/v2/core/continuous.test.ts",
+    "apps/game/scripts/lib/physicalLoadDiagnostics.ts",
+    "apps/game/scripts/run-physical-profiles.ts",
+    "apps/game/scripts/run-physical-comparisons.ts",
+    "apps/game/scripts/run-physical-regression.ts",
+    "apps/game/scripts/report-physical-comparisons.ts",
+    "apps/game/scripts/report-physical-regression.ts",
+    "apps/game/scripts/prove-physical-load.ts",
+    "apps/game/scripts/prove-physical-execution.ts",
+    "docs/physical-load-fatigue-v11/ mapping, cohort summaries and draft evidence"
+  ],
+  "interruptedState": {
+    "command": "node node_modules/typescript/bin/tsc -p .tmp/tsconfig-physical-scripts.json --noEmit",
+    "stage": "script-types-final",
+    "exit": 2,
+    "error": "TS7022 prove-physical-load.ts:41: core needs an explicit type annotation",
+    "checkSequenceState": "Exited after typecheck failure; later build not started",
+    "completedWhileSessionWasUnavailable": [
+      "full game 2376/2376",
+      "empirical 15/15",
+      "all workspace typechecks"
+    ],
+    "buildAtRecovery": null,
+    "reportAtRecovery": null,
+    "verificationJsonAtRecovery": null,
+    "controlledMarkdownAtRecovery": null
+  },
+  "classification": {
+    "A": "Implementation committed as bd4bf42.",
+    "B": "Diagnostics, benchmark integration, final-second exchange assertion and evidence uncommitted.",
+    "C": "Exact eleven-attribute mapping completed.",
+    "D": "Action-load architecture completed and frozen.",
+    "E": "Existing tactical and role actions feed actual load; no label multipliers.",
+    "F": "Difficulty-sensitive shooting fatigue completed.",
+    "G": "Pressure/difficulty/technique-sensitive passing and reception completed.",
+    "H": "Physical 30, style 20, rotation 30 and isolated illustrations completed.",
+    "I": "HBL N40 completed.",
+    "J": "Allsvenskan N40 completed.",
+    "K": "Both full canonical determinism, mid-JSON, archive and Match Center proofs completed.",
+    "L": "Focused/core/V2/domain/game/empirical/workspace types completed. Changed-script typecheck failed; production build missing.",
+    "M": "Mapping and JSON evidence completed; final report, controlled Markdown and verification closeout missing.",
+    "N": "Only annotation fix, changed-script typecheck, isolated build/server, final documentation and local commits remained."
+  },
+  "cohortGuards": [
+    {
+      "name": "profiles",
+      "count": 30,
+      "guardedSourceFiles": 44,
+      "sourceMatch": true,
+      "complete": true
+    },
+    {
+      "name": "style-20",
+      "count": 20,
+      "guardedSourceFiles": 47,
+      "sourceMatch": true,
+      "complete": true
+    },
+    {
+      "name": "rotation-30",
+      "count": 30,
+      "guardedSourceFiles": 47,
+      "sourceMatch": true,
+      "complete": true
+    },
+    {
+      "name": "hbl",
+      "count": 40,
+      "guardedSourceFiles": 57,
+      "sourceMatch": true,
+      "complete": true
+    },
+    {
+      "name": "allsv",
+      "count": 40,
+      "guardedSourceFiles": 57,
+      "sourceMatch": true,
+      "complete": true
+    }
+  ],
+  "continuedWithoutRestart": true,
+  "completedCohortsReused": true,
+  "runtimeUnchangedOnContinuation": true,
+  "typeFixCompatibility": "TYPE-COMPATIBILITY.json",
+  "noReset": true,
+  "noPush": true
+}

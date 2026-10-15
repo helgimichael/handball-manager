@@ -1,0 +1,93 @@
+{
+  "source": "retained Allsvenskan production cohort inputs",
+  "attributes": {
+    "ACCELERATION": {
+      "n": 228,
+      "min": 9,
+      "p10": 11,
+      "median": 14,
+      "p90": 16,
+      "max": 19
+    },
+    "TOP_SPEED": {
+      "n": 228,
+      "min": 8,
+      "p10": 11,
+      "median": 14,
+      "p90": 16,
+      "max": 19
+    },
+    "LATERAL_QUICKNESS": {
+      "n": 228,
+      "min": 8,
+      "p10": 11,
+      "median": 14,
+      "p90": 16,
+      "max": 17
+    },
+    "AGILITY": {
+      "n": 228,
+      "min": 8,
+      "p10": 11,
+      "median": 14,
+      "p90": 16,
+      "max": 17
+    },
+    "EXPLOSIVENESS": {
+      "n": 228,
+      "min": 8,
+      "p10": 11,
+      "median": 14,
+      "p90": 16,
+      "max": 17
+    },
+    "STRENGTH": {
+      "n": 228,
+      "min": 8,
+      "p10": 11,
+      "median": 14,
+      "p90": 16,
+      "max": 19
+    },
+    "CONTACT_BALANCE": {
+      "n": 228,
+      "min": 8,
+      "p10": 11,
+      "median": 14,
+      "p90": 16,
+      "max": 19
+    },
+    "JUMP_ABILITY": {
+      "n": 228,
+      "min": 8,
+      "p10": 11,
+      "median": 13,
+      "p90": 16,
+      "max": 17
+    },
+    "ENDURANCE": {
+      "n": 228,
+      "min": 8,
+      "p10": 11,
+      "median": 13,
+      "p90": 16,
+      "max": 17
+    },
+    "REPEAT_SPRINT_ABILITY": {
+      "n": 228,
+      "min": 8,
+      "p10": 11,
+      "median": 14,
+      "p90": 15,
+      "max": 17
+    },
+    "MOBILITY": {
+      "n": 228,
+      "min": 8,
+      "p10": 11,
+      "median": 13,
+      "p90": 15,
+      "max": 17
+    }
+  }
+}

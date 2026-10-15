@@ -1,0 +1,6 @@
+{
+  "change": "Explicit CorePlayer type annotation and type-only import",
+  "emittedJavaScriptIdentical": true,
+  "emittedSha256": "d61676a216f15c13fc4c8fd2bd98742a0867c37d4f81743d103528326a69cab4",
+  "reuse": "Both canonical proofs remain valid; no runtime source or emitted proof logic changed"
+}

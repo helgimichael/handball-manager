@@ -1,0 +1,82 @@
+{
+  "url": "http://127.0.0.1:3020",
+  "httpStatus": 200,
+  "routes": {
+    "/": 200,
+    "/new-game": 200
+  },
+  "distDir": ".next-game-physical-load-v11",
+  "buildId": "mrlA0kCIE2BdeBLwu1EJs",
+  "startCommand": "Set-Location C:\\Users\\helgi\\Documents\\STARKVIS-HELA\\handball-manager\\apps\\game\n$env:HM_NEXT_DIST_DIR = '.next-game-physical-load-v11'\nnpm.cmd run start -- --hostname 127.0.0.1 --port 3020",
+  "verifiedAt": "2026-10-15T13:44:28.515Z",
+  "previousBuilds": [
+    {
+      "directory": ".next-game-empirical-cal-v1",
+      "buildId": "DU6jMBZtsmZtnQWvlrs8c"
+    },
+    {
+      "directory": ".next-game-final",
+      "buildId": "cNJggCauoeM2tFyL4VSLb"
+    },
+    {
+      "directory": ".next-game-intelligence-v1",
+      "buildId": "s5-nNNCWTl2_T9odTJDlV"
+    },
+    {
+      "directory": ".next-game-loading-screen-v1",
+      "buildId": "-RNSpJe4apx4OLEONUxcE"
+    },
+    {
+      "directory": ".next-game-match-center-v2",
+      "buildId": "OPdl1waYJNI_SpnsaJ-sr"
+    },
+    {
+      "directory": ".next-game-match-center-v21",
+      "buildId": "pLsf1fASvBMrL5OMJuUP8"
+    },
+    {
+      "directory": ".next-game-motion-quality-v2",
+      "buildId": "OfxtCP_cN-7kRf7v5VmwA"
+    },
+    {
+      "directory": ".next-game-motion-v1",
+      "buildId": "JQxdclWu8m3DDjchhC8wU"
+    },
+    {
+      "directory": ".next-game-physical-load-v11",
+      "buildId": "mrlA0kCIE2BdeBLwu1EJs"
+    },
+    {
+      "directory": ".next-game-production",
+      "buildId": "johFb57nGyMaBoyGUmMSn"
+    },
+    {
+      "directory": ".next-game-realism-v2",
+      "buildId": "XkNsqFziP2f_j3IFTn3Vy"
+    },
+    {
+      "directory": ".next-game-realism-v21",
+      "buildId": "MMFsqS1-zfrSWl0fQDdK1"
+    },
+    {
+      "directory": ".next-game-reconciled-v1",
+      "buildId": "3PQHL0oSSqFhBU5FxXd8a"
+    },
+    {
+      "directory": ".next-game-reconciliation-v11",
+      "buildId": "7lH--sWAbP_HfvPnTXIdw"
+    },
+    {
+      "directory": ".next-game-rotation-fatigue-v1",
+      "buildId": "usx4M7Bosxj0W5ABGzmpe"
+    },
+    {
+      "directory": ".next-game-v11",
+      "buildId": "5Jp-210HFinXeJePZ9iro"
+    }
+  ],
+  "sourceImplementationCommit": "bd4bf42b483fea067b593307082b1e2ac30dd415",
+  "productionSourceUnchangedAfterImplementationCommit": true,
+  "server": "Existing foreground exec session; no other server stopped",
+  "nothingPushed": true
+}

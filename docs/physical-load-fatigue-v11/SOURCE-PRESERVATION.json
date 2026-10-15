@@ -1,0 +1,43 @@
+{
+  "startingCheckpoint": "21a89b5dd95892c07e3b597087caf54b42eb83b7",
+  "preservedFiles": 71,
+  "frozenIntelligenceAndTacticalModules": [
+    "intelligence.ts",
+    "engage.ts",
+    "threatRelation.ts",
+    "offence.ts",
+    "defence.ts",
+    "structure.ts",
+    "backcourt.ts",
+    "coaching.ts",
+    "restarts.ts",
+    "referee.ts",
+    "sanction.ts",
+    "transitions.ts",
+    "space.ts",
+    "movement.ts",
+    "locomotion.ts"
+  ],
+  "unchangedSaveAndCareerModules": [
+    "apps/game/lib/save/saveRepository.ts",
+    "apps/game/lib/save/saveStorage.ts",
+    "apps/game/lib/career/newCareer.ts"
+  ],
+  "productionAdapterChange": "behavior-revision marker only; archive/result/load paths unchanged",
+  "physicalModelSha256": "e1e334552f35a2f1dbc7d4b88da4ac5bbc501ae86f63ebf884bb6791da619606",
+  "antiCheat": {
+    "positionTaxAbsent": true,
+    "tacticMultiplierAbsent": true,
+    "noSubPenaltyAbsent": true,
+    "clockScoreTargetsAbsent": true,
+    "caPaAbsent": true,
+    "extraRngAbsent": true,
+    "goalkeeperBranchIsolated": true
+  },
+  "motionHead": "197d2a80ecea3b70efdcf8ef347cfc68e0e86b2b",
+  "motionStatus": "?? .claude/",
+  "stashes": [
+    "ddba79055949b76898b12fc1b947e8f8645589cb",
+    "b068a9586209b9405b8d5f0dc6fae6384dd09001"
+  ]
+}
