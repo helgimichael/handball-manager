@@ -73,6 +73,7 @@ import { ensureWorldPoolPlayerEconomicIdentity } from "./worldPoolIntegration";
 import { WORLD_POOL_COMPETITION_IDS } from "./careerWorld";
 import { ensureCareerAllClubEconomies } from "../economy/clubEconomyIntegration";
 import { syncManagementInbox } from './management';
+import { afterNextPaint } from '../ui/afterNextPaint';
 
 type CareerContextValue = {
   save: CareerSave;
@@ -510,7 +511,7 @@ async function getOrCreateCareerState(save: CareerSave): Promise<CareerState> {
   return fresh;
 }
 
-export function CareerProvider({ children }: { children: ReactNode }) {
+export function CareerProvider({ children, loadingFallback, initializationErrorFallback }: { children: ReactNode; loadingFallback?: ReactNode; initializationErrorFallback?: ReactNode }) {
   const lastMatchAutoSave = useRef(0);
   type ProviderValue = { save: CareerSave; career: CareerState } | null;
   const [value, setRawValue] = useState<ProviderValue>(null);
@@ -535,8 +536,10 @@ export function CareerProvider({ children }: { children: ReactNode }) {
     // persistence fault (not "no career") and is surfaced, never
     // swallowed into a permanent loading state.
     getActiveSave()
-      .then((save) => {
+      .then(async (save) => {
         if (cancelled || !save) return null;
+        await afterNextPaint();
+        if (cancelled) return null;
         return getOrCreateCareerState(save).then((career) => {
           if (cancelled) return null;
           setValue({ save, career });
@@ -545,6 +548,7 @@ export function CareerProvider({ children }: { children: ReactNode }) {
       })
       .catch((cause: unknown) => {
         if (cancelled) return;
+        console.error('[career] Career initialization failed', cause);
         setPersistError(cause instanceof Error ? cause.message : "Karriären kunde inte läsas eller sparas.");
       });
     return () => {
@@ -606,7 +610,7 @@ export function CareerProvider({ children }: { children: ReactNode }) {
 
   if (!value) {
     // A persistence fault must not present as an endless blank load.
-    return persistError ? <CareerPersistenceError message={persistError} /> : null;
+    return persistError ? initializationErrorFallback ?? <CareerPersistenceError message={persistError} /> : loadingFallback ?? null;
   }
 
   function continueCareer() {

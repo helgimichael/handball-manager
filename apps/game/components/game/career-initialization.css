@@ -1,0 +1,30 @@
+/* A pre-career surface: never exposes career navigation before initialization. */
+.career-initialization { box-sizing:border-box; min-height:100dvh; padding:32px clamp(24px,5vw,96px); display:flex; flex-direction:column; background:var(--game-navy-deep); color:var(--game-paper); }
+.career-initialization * { box-sizing:border-box; }
+.career-initialization-brand { display:flex; align-items:center; gap:14px; width:100%; padding-bottom:28px; border-bottom:1px solid #35445c; }
+.career-initialization-brand > span { display:grid; place-items:center; width:46px; height:46px; background:var(--game-signal); color:var(--game-paper); font:400 25px/1 var(--game-font-display); }
+.career-initialization-brand strong { font:400 19px/1.05 var(--game-font-display); letter-spacing:.07em; }
+.career-initialization-scene { flex:1; display:grid; grid-template-columns:minmax(0,1.5fr) minmax(240px,1fr); align-content:center; align-items:center; gap:clamp(40px,6vw,110px); width:min(1120px,100%); margin:56px auto; }
+.career-initialization-overline { color:#e9b38a; font-size:11px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; }
+.career-initialization h1 { font:400 clamp(40px,4.4vw,68px)/1.04 var(--game-font-display); margin:24px 0 32px; text-wrap:balance; overflow-wrap:anywhere; }
+.career-initialization h1:focus-visible { outline:2px solid #e9b38a; outline-offset:8px; }
+.career-initialization-copy p { font-size:15px; line-height:1.7; color:#d0d9e3; max-width:48ch; }
+.career-initialization-status { display:flex; align-items:center; gap:14px; border-top:1px solid #35445c; padding-top:20px; }
+.career-initialization-status p { margin:0; }
+.career-initialization-activity { display:block; flex-shrink:0; width:18px; height:18px; border:2px solid #687a91; border-top-color:#edb283; border-radius:50%; }
+.career-initialization-copy .career-initialization-note { font-size:12px; color:#aebed0; margin:12px 0 0 32px; }
+.career-initialization-club { padding:40px 0 40px 48px; border-left:1px solid #43516a; }
+.career-initialization-club h2 { font:400 clamp(28px,2.5vw,40px)/1.1 var(--game-font-display); text-transform:uppercase; margin:24px 0 12px; }
+.career-initialization-club p { color:#c2cddd; font-size:14px; line-height:1.5; }
+.career-initialization-club > span { display:inline-block; margin-top:10px; color:#edb283; font:400 28px/1 var(--game-font-display); }
+.career-initialization footer { border-top:1px solid #35445c; padding-top:20px; color:#aebed0; font-size:11px; letter-spacing:.04em; }
+.career-initialization .hm-btn { margin-top:20px; }
+@media (prefers-reduced-motion:no-preference) {
+  .career-initialization-activity { animation:career-initialization-turn 1s linear infinite; }
+  @keyframes career-initialization-turn { to { transform:rotate(360deg); } }
+}
+@media (max-width:700px) {
+  .career-initialization { padding:24px; }
+  .career-initialization-scene { grid-template-columns:1fr; margin:40px auto; gap:32px; }
+  .career-initialization-club { padding:24px 0 0; border-left:0; border-top:1px solid #43516a; }
+}

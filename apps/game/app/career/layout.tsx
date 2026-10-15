@@ -4,13 +4,16 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import GameShell from "@/components/GameShell";
 import { getActiveSave } from "@/lib/save/saveRepository";
+import { COMPETITIONS, getClub } from '@/lib/game-data';
+import CareerInitialization from '@/components/game/CareerInitialization';
 import { CareerProvider } from "@/lib/career/CareerContext";
 import '@/components/game/game-feedback.css';
 import { WorkspaceMemory } from '@/components/game/WorkspaceMemory';
 
 export default function CareerLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter();
-  const [ready, setReady] = useState(false);
+  // Keep only display metadata; the provider owns the large career snapshot.
+  const [save, setSave] = useState<{ clubId: string; gameDate: string; seasonId?: string; existing: boolean } | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -35,10 +38,11 @@ export default function CareerLayout({ children }: { children: React.ReactNode }
           router.replace("/");
           return;
         }
-        setReady(true);
+        setSave({ clubId: save.clubId, gameDate: save.gameDate, seasonId: save.careerState?.seasonId, existing: !!save.careerState });
       })
       .catch((cause: unknown) => {
         if (cancelled) return;
+        console.error('[career] Failed to read active save', cause);
         setError(cause instanceof Error ? cause.message : "Kunde inte läsa sparade karriärer.");
       });
     return () => {
@@ -46,20 +50,17 @@ export default function CareerLayout({ children }: { children: React.ReactNode }
     };
   }, [router]);
 
-  if (error) {
-    return (
-      <main className="game-career-gate"><section role="alert"><span className="game-overline">Handball Manager</span><h1>Karriären kunde inte laddas</h1><p>{error}</p><div className="hm-actions"><button className="hm-btn hm-btn-primary" onClick={() => window.location.reload()}>Försök igen</button><button className="hm-btn" onClick={() => router.replace('/')}>← Till huvudmenyn</button></div></section></main>
-    );
-  }
-
-  if (!ready) {
-    return (
-      <main className="game-career-gate"><section role="status"><span className="game-overline">Handball Manager</span><h1>Laddar karriär…</h1><p>Ditt lag, din säsong och dina sparade beslut.</p></section></main>
-    );
-  }
+  const club = save ? getClub(save.clubId) : undefined;
+  const identity = { club, competition: COMPETITIONS.find(c => c.id === club?.competitionId)?.name,
+    season: save?.seasonId ?? (save ? `${Number(save.gameDate.slice(0, 4))}/${String(Number(save.gameDate.slice(0, 4)) + 1).slice(-2)}` : undefined), existing: !!save?.existing };
+  // Clear any failed in-memory write promise before the player opens a saved career.
+  const failure = <CareerInitialization {...identity} failed onBack={() => window.location.replace('/')} />;
+  if (error) return failure;
+  const loading = <CareerInitialization {...identity} existing={!save || identity.existing} />;
+  if (!save) return loading;
 
   return (
-    <CareerProvider>
+    <CareerProvider loadingFallback={loading} initializationErrorFallback={failure}>
       <WorkspaceMemory><GameShell>{children}</GameShell></WorkspaceMemory>
     </CareerProvider>
   );

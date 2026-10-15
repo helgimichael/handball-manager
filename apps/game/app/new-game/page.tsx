@@ -2,6 +2,9 @@
 
 import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { useRouter } from "next/navigation";
+import { flushSync } from 'react-dom';
+import CareerInitialization from '@/components/game/CareerInitialization';
+import { afterNextPaint } from '@/lib/ui/afterNextPaint';
 import { NATIONS, COMPETITIONS, CLUBS, TUMBA_CLUB_ID, GAME_CURRENT_DATE, type NationCode } from "@/lib/game-data";
 import { createSave, setActiveSaveId } from "@/lib/save/saveRepository";
 import ClubCrest from "@/components/ClubCrest";
@@ -33,6 +36,7 @@ export default function NewGamePage() {
   const [managerDob, setManagerDob] = useState("1988-01-01");
   const [preseasonStart, setPreseasonStart] = useState<PreseasonStartOption>("4_WEEKS");
   const [starting, setStarting] = useState(false);
+  const startSubmitted = useRef(false);
   const [startError, setStartError] = useState<string | null>(null);
   const [pointerTransition, setPointerTransition] = useState(false);
   const headingRef = useRef<HTMLHeadingElement>(null);
@@ -83,19 +87,24 @@ export default function NewGamePage() {
   const nextHint = !canProceed() ? step === 0 ? "Välj minst en nation." : step === 1 ? "Välj minst en liga." : step === 3 ? "Välj en spelbar klubb från dina ligaval." : step === 4 ? "Skriv ett namn med minst två tecken." : "Kontrollera klubb och manager innan du börjar." : step === 5 ? "Din första säsong väntar." : `Nästa: ${STEPS[step + 1]}`;
 
   async function handleStartCareer() {
-    if (starting || !validSetup) return;
-    setStarting(true);
+    if (startSubmitted.current || !validSetup) return;
+    startSubmitted.current = true;
+    flushSync(() => setStarting(true));
     setStartError(null);
     try {
+      await afterNextPaint();
       const save = await createSave({ selectedNations: nations, selectedCompetitionIds: competitionIds, clubId,
         manager: { name: managerName.trim(), nationality: managerNationality, dateOfBirth: managerDob }, gameDate: GAME_CURRENT_DATE, preseasonStart });
       setActiveSaveId(save.saveId);
       router.push("/career");
     } catch (cause: unknown) {
-      setStartError(cause instanceof Error ? cause.message : "Karriären kunde inte sparas.");
-      setStarting(false);
+      console.error('[new-game] Career initialization failed', cause);
+      setStartError('failed');
     }
   }
+
+  // A full menu navigation also clears failed persistence promises; never resubmit here.
+  if (starting) return <CareerInitialization club={selectedClub} competition={selectedCompetition?.name} season={`${Number(GAME_CURRENT_DATE.slice(0, 4))}/${String(Number(GAME_CURRENT_DATE.slice(0, 4)) + 1).slice(-2)}`} failed={!!startError} onBack={() => window.location.replace('/')} />;
 
   const rail = <>
     <span className="career-entry-overline">Nytt spel · 2026/27</span><h2>Ditt nästa<br />uppdrag.</h2>
@@ -120,10 +129,8 @@ export default function NewGamePage() {
         {step === 3 && <><div className="career-club-toolbar"><span><strong>{playableClubs.length}</strong> {playableClubs.length === 1 ? 'spelbar klubb' : 'spelbara klubbar'} i dina ligaval</span><button className="hm-btn hm-btn-sm" onClick={() => goToStep(1)}>Ändra ligaval →</button></div>{playableClubs.length ? <fieldset className="career-club-fieldset"><legend className="career-entry-sr-only">Välj klubb</legend><div className="career-club-grid">{playableClubs.map(club => <label className="career-choice career-club-choice" key={club.id} data-selected={clubId === club.id}><input className="career-choice-input" type="radio" name="careerClub" aria-label={club.name} checked={clubId === club.id} onChange={() => setClubId(club.id)} /><ClubCrest shortName={club.shortName} primaryColor={club.primaryColor} size={45} /><span><strong className="career-choice-name">{club.name}</strong><small>{COMPETITIONS.find(c => c.id === club.competitionId)?.name}</small>{club.city && <small>{club.city}</small>}</span><span className="career-choice-state" aria-hidden="true">{clubId === club.id ? '✓ Din klubb' : 'Välj →'}</span></label>)}</div></fieldset> : <div className="career-entry-empty"><strong>Hitta en klubb att leda.</strong><p>Ingen av klubbarna i dina ligaval är spelbar. Välj en svensk liga för att fortsätta.</p><button className="hm-btn hm-btn-primary" onClick={() => goToStep(1)}>Välj spelbar liga →</button></div>}{worldClubs.length > 0 && <details className="career-world-clubs"><summary>{worldClubs.length} {worldClubs.length === 1 ? 'annan klubb' : 'andra klubbar'} i dina ligaval</summary><p>Dessa klubbar finns i urvalet, men kan inte väljas för din managerkarriär.</p><ul>{worldClubs.map(club => <li key={club.id}><ClubCrest shortName={club.shortName} primaryColor={club.primaryColor} size={23} /><strong>{club.name}</strong><span>{COMPETITIONS.find(c => c.id === club.competitionId)?.name}</span></li>)}</ul></details>}</>}
         {step === 4 && <div className="career-manager-layout"><div className="career-manager-fields"><Field label="Namn"><input className="hm-input" autoComplete="name" value={managerName} onChange={event => setManagerName(event.target.value)} placeholder="För- och efternamn" /></Field><Field label="Nationalitet"><select className="hm-select" value={managerNationality} onChange={event => setManagerNationality(event.target.value as NationCode)}>{NATIONS.map(nation => <option value={nation.code} key={nation.code}>{nation.name}</option>)}</select></Field><Field label="Födelsedatum"><input className="hm-input" type="date" value={managerDob} onChange={event => setManagerDob(event.target.value)} /></Field><p>Ditt namn följer klubben genom karriären.</p></div><section className="career-manager-pass"><span className="career-entry-overline">Tränarbänken · 2026/27</span><div className="career-manager-initials" aria-hidden="true">{managerName.trim().split(/\s+/).filter(Boolean).map(name => name[0]).slice(0, 2).join('').toUpperCase() || 'HM'}</div><h2>{managerName.trim() || 'Ditt namn'}</h2><p>Manager · {selectedClub?.name ?? 'Din nästa klubb'}</p><span>{NATIONS.find(nation => nation.code === managerNationality)?.name}</span></section></div>}
         {step === 5 && <><section className="career-start-mandate"><div><span className="career-entry-overline">Ditt uppdrag · 2026/27</span><h2>{managerName.trim()}</h2><p>tar plats hos <strong>{selectedClub?.name ?? 'Välj din klubb'}</strong></p></div>{selectedClub && <ClubCrest shortName={selectedClub.shortName} primaryColor={selectedClub.primaryColor} size={84} />}</section><fieldset className="career-preseason-fieldset"><legend>Försäsong · när börjar ditt uppdrag?</legend><div className="career-preseason-grid">{PRESEASON_START_OPTIONS.map(option => <label className="career-choice career-preseason-choice" key={option} data-selected={preseasonStart === option}><input className="career-choice-input" type="radio" name="preseasonStart" aria-label={PRESEASON_OPTION_LABEL[option]} checked={preseasonStart === option} onChange={() => setPreseasonStart(option)} /><strong>{option === 'FIRST_MATCH' ? 'Avkast' : option.split('_')[0]}</strong><span>{PRESEASON_OPTION_LABEL[option]}</span><small>{option === 'FIRST_MATCH' ? 'Börja vid den första tävlingsmatchen, även om det är cup.' : `${formatGameDate(computeCareerStartDate(leagueKickoffDate, option)!)}`}</small></label>)}</div></fieldset><dl className="career-start-summary"><Fact label="Klubb" value={selectedClub?.name ?? 'Välj en spelbar klubb'} /><Fact label="Liga" value={selectedCompetition?.name ?? '—'} /><Fact label="Din första dag" value={selectedClub ? careerStartLabel : 'Välj klubb först'} /><Fact label="Seriestart" value={selectedClub ? formatGameDate(leagueKickoffDate) : '—'} /><Fact label="Manager" value={managerName.trim() || '—'} /><Fact label="Nationalitet" value={NATIONS.find(n => n.code === managerNationality)?.name ?? '—'} /></dl></>}
-        {startError && <section className="career-entry-error" role="alert"><strong>Karriären kunde inte startas</strong><p>{startError}</p></section>}
       </div>
     </div>
-    {starting && <div className="career-entry-entering" role="status" aria-live="polite"><span className="career-entry-overline">Ditt uppdrag börjar</span>{selectedClub && <ClubCrest shortName={selectedClub.shortName} primaryColor={selectedClub.primaryColor} size={105} />}<h2>{selectedClub?.name}</h2><p>{managerName.trim()} · {selectedCompetition?.name} · 2026/27</p><span>Sparar karriären och öppnar klubben…</span></div>}
   </CareerEntryFrame>;
 }
 

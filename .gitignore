@@ -109,3 +109,6 @@ docs/rotation-fatigue-v1/final/
 docs/rotation-fatigue-v1/verification/
 docs/rotation-fatigue-v1/*.log
 docs/rotation-fatigue-v1/*.exit.txt
+
+# Loading-screen QA retains full disposable saves/snapshots and logs locally.
+docs/career-loading-screen-v1/verification/
