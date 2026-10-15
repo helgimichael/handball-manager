@@ -11,6 +11,7 @@ import { goalAreaClearance } from '../../domain/geometry/goalArea';
 import { breakDefence } from './engage';
 import {BEATEN_LEVERAGE_METRES} from './threatRelation';
 import { executionCapacity } from './condition';
+import {physicalImpulse} from './physicalLoad';
 import { executePass, planShotTarget, receptionRisk, releasePressure, shotHeight, type PassExecution } from './execution';
 
 export function contest(s:CoreState,kind:CoreContest['kind'],a:CorePlayer,d:CorePlayer,outcome:string,margin:number,duration:number,sourceActionId=a.action?.id??s.ball.flight?.actionId??'contact') {
@@ -198,6 +199,7 @@ export function resolveScreens(s:CoreState) {
     // Blocked while the block is actually there, rather than for a fixed
     // window measured from the frame the contact was first noticed.
     d.screenedUntilTick=s.tick+4;
+    if(s.ball.live&&distance(by.position,d.position)<=.95){physicalImpulse(by,'contact',.05);physicalImpulse(d,'contact',.05);}
   }
   for(const a of courtPlayers(s,s.possession.team).filter(p=>p.action?.kind==='SCREEN'&&p.action.phase==='EXECUTING'&&p.screenCooldownTick<=s.tick)) {
     for(const d of courtPlayers(s,otherTeam(a.team)).filter(d=>d.kind!=='GOALKEEPER'&&distance(d.position,a.position)<.85&&d.screenedBy===null&&d.screenCooldownTick<=s.tick&&Math.hypot(d.velocity.x,d.velocity.y)>.1)) {

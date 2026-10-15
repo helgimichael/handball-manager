@@ -23,6 +23,7 @@
 import { movementCapacity,accelerationCapacity } from './condition';
 import type { CoreFlight, CorePlayer, CoreState, Point } from './state';
 import { distance } from './space';
+import {turningDemand} from './physicalLoad';
 
 /** Everything arrival time depends on, read off a player once. */
 export type Reach = {
@@ -41,14 +42,14 @@ export type Reach = {
  * would cheerfully promise that a man who has just been gone past can still
  * cover the space behind him.
  */
-export function reachOf(s: CoreState, p: CorePlayer): Reach {
+export function reachOf(s: CoreState, p: CorePlayer, target:Point|null=p.action?.target??null): Reach {
   const impaired = s.tick < p.beatenUntilTick ? 0.4 : s.tick < p.screenedUntilTick ? 0.15 : s.tick < p.wrongFootedUntilTick ? 0.65 : 1;
   const capacity = movementCapacity(p) * impaired;
   return {
     position: p.position,
     velocity: p.velocity,
     topSpeed: Math.max(0.4, p.profile.topSpeed * capacity),
-    acceleration: Math.max(0.4, p.profile.acceleration * accelerationCapacity(p) * impaired),
+    acceleration: Math.max(0.4, p.profile.acceleration * accelerationCapacity(p,turningDemand(p,target)) * impaired),
     // A player already committed to an action has spent his reaction; one who
     // is not is still reading. Impairment costs reading time as well as pace.
     reaction: p.profile.reaction / Math.max(0.2, impaired),
@@ -77,7 +78,7 @@ export function timeToReach(reach: Reach, point: Point): number {
 }
 
 /** Convenience for the common case. */
-export const secondsTo = (s: CoreState, p: CorePlayer, point: Point) => timeToReach(reachOf(s, p), point);
+export const secondsTo = (s: CoreState, p: CorePlayer, point: Point) => timeToReach(reachOf(s, p, point), point);
 
 /**
  * Can he be on that point within the time available, with a margin.

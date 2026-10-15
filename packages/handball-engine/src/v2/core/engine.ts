@@ -177,6 +177,7 @@ export function assertCore(s:CoreState) {
     check(p.reentryReadTicks===undefined||Number.isInteger(p.reentryReadTicks)&&p.reentryReadTicks>=0&&p.reentryReadTicks<=200,'actual receiving read credit');
     check(p.condition&&Number.isFinite(p.condition.energy)&&p.condition.energy>=.15&&p.condition.energy<=1&&Number.isFinite(p.condition.distanceMetres)&&p.condition.distanceMetres>=0&&Number.isInteger(p.condition.attacksRemaining)&&p.condition.attacksRemaining>=0&&p.condition.attacksRemaining<=3,'player condition');
     check(p.condition.acuteExertion===undefined||Number.isFinite(p.condition.acuteExertion)&&p.condition.acuteExertion>=0&&p.condition.acuteExertion<=1,'acute exertion');
+    check(p.condition.physicalLoad===undefined||Object.entries(p.condition.physicalLoad).every(([key,value])=>Number.isFinite(value)&&(key==='vx'||key==='vy'||value>=0)),'physical load memory');
     check(Number.isFinite(p.position.x)&&Number.isFinite(p.position.y)&&Number.isFinite(p.velocity.x)&&Number.isFinite(p.velocity.y),'finite physical state');
     if(p.population==='COURT'&&p.kind==='FIELD_PLAYER'&&!p.airborne)check(fieldLegal(p.position,p.radius)||(exchangeActive(s,p.id)&&p.position.x>=-.4&&p.position.x<.65&&p.position.y>=15&&p.position.y<=25),'legal grounded position');
     if(p.action)check(p.action.startedTick<=p.action.phaseTick&&p.action.phaseTick<=s.tick,'action chronology');

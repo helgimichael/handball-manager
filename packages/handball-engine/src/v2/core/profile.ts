@@ -25,7 +25,7 @@ export const OUTCOURT_KEYS = [
   'PASSING','BALL_HANDLING','SHOOTING_POWER','SHOOTING_PLACEMENT','BREAKTHROUGH','FINISHING','WING_FINISHING','PIVOT_PLAY','SCREENING',
   'GAME_READING','DECISION_MAKING','ANTICIPATION','OFF_BALL_MOVEMENT','TIMING',
   'CONTACT_ABILITY','DEFENSIVE_POSITIONING','DEFENSIVE_TIMING','LATERAL_DEFENCE','COVERING','SWITCHING_HANDOVER','BALL_WINNING','SHOT_BLOCKING',
-  'ACCELERATION','TOP_SPEED','AGILITY','EXPLOSIVENESS','STRENGTH','CONTACT_BALANCE','ENDURANCE',
+  'ACCELERATION','TOP_SPEED','LATERAL_QUICKNESS','AGILITY','EXPLOSIVENESS','STRENGTH','CONTACT_BALANCE','JUMP_ABILITY','ENDURANCE','REPEAT_SPRINT_ABILITY','MOBILITY',
   'COMPOSURE','DISCIPLINE',
 ] as const;
 export type OutcourtKey = typeof OUTCOURT_KEYS[number];
@@ -104,6 +104,8 @@ export type Profile = {
   readonly strength: number;
   readonly balance: number;
   readonly endurance: number;
+  /** Existing HM physical attributes; optional for pre-v1.1 active sessions. */
+  readonly physical?:{readonly acceleration:number;readonly lateralQuickness:number;readonly agility:number;readonly explosiveness:number;readonly jumping:number;readonly repeatSprint:number;readonly mobility:number};
   readonly composure: number;
   readonly discipline: number;
   /** Null for every outfield player. A goalkeeper is never a generic number. */
@@ -184,6 +186,7 @@ export function buildProfile(sheet: AttributeSheet, role: Role, tendency: Partia
     strength: unit(sheet, 'STRENGTH'),
     balance: unit(sheet, 'CONTACT_BALANCE'),
     endurance: unit(sheet, 'ENDURANCE'),
+    ...(keeper?{}:{physical:{acceleration:unit(sheet,'ACCELERATION'),lateralQuickness:unit(sheet,'LATERAL_QUICKNESS'),agility:unit(sheet,'AGILITY'),explosiveness:unit(sheet,'EXPLOSIVENESS'),jumping:unit(sheet,'JUMP_ABILITY'),repeatSprint:unit(sheet,'REPEAT_SPRINT_ABILITY'),mobility:unit(sheet,'MOBILITY')}}),
     composure: unit(sheet, 'COMPOSURE'),
     discipline: unit(sheet, 'DISCIPLINE'),
     keeper: keeper ? {

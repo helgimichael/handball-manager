@@ -29,7 +29,7 @@ export function archiveFrames(archive: PlayedMatchArchive): MatchFrame[] { retur
 export type ProductionMatchSession = { format: 1; behaviorRevision?:string; fixture: CareerFixture; core: CoreState; people: MatchPerson[]; frames: MatchFrame[]; pausedAtHalf: boolean; error: string | null };
 /** Developer measurement hook. Readers must not mutate state or consume RNG. */
 export type ProductionMatchObserver=(core:Readonly<CoreState>,newEvents:readonly CoreEvent[])=>void;
-export const MATCH_BEHAVIOR_REVISION = 'career-rotation-fatigue-v1';
+export const MATCH_BEHAVIOR_REVISION = 'career-physical-load-v11';
 export type MatchCommand = { kind: 'TACTICS'; team: TeamId; patch: Partial<Pick<TeamTactics, 'defence' | 'tempo' | 'attackIdentity' | 'rotation'>> } | { kind: 'SUBSTITUTION'; team: TeamId; outId: string; inId: string } | { kind: 'TIMEOUT'; team: TeamId } | { kind: 'SECOND_HALF' };
 
 const roleByPosition: Record<string, Role> = { V6: 'LW', V9: 'LB', M9: 'CB', H9: 'RB', H6: 'RW', M6: 'P', MV: 'GK' };

@@ -5,6 +5,7 @@ import { contest } from './interactions';
 import { foul,interrupt } from './transitions';
 import { readContact } from './sanction';
 import {defenderRelation,lostContactShoulder} from './threatRelation';
+import {physicalImpulse} from './physicalLoad';
 
 export function contactApproach(s:CoreState,a:CorePlayer,d:CorePlayer):'FRONT'|'SIDE'|'BEHIND' {
   const g=goal(s.directions[a.team]),length=Math.max(.001,distance(a.position,g)*distance(a.position,d.position));
@@ -70,6 +71,7 @@ export function resolveContacts(s:CoreState) {
     // happened -- technique, angle, closing speed, and what the attacker was
     // about to do -- instead of treating every hold as the same offence.
     const read=readContact(s,a,d,action.contact.technique,approach,separation);
+    physicalImpulse(a,'contact',.8);physicalImpulse(d,'contact',.8);
     const id=contest(s,'CONTACT',a,d,read.severity==='LEGAL'?(approach==='FRONT'?'FRONTAL_CONTACT':'MONITORED'):read.severity,separation,read.severity==='LEGAL'?10:0,action.id);
     action.contestIds.push(id);
     record(s,'CONTACT_EXECUTED',d,{physicalContactId:id,technique:action.contact.technique,committedApproach:action.contact.approach,approach,separation,carrierAction:a.action?.kind??'NONE',severity:read.severity,reason:read.reason,clearChance:read.clearChance,...read.detail},[a.id],id,action.id);
