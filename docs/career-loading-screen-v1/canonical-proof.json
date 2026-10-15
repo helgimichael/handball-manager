@@ -1,0 +1,53 @@
+{
+  "baseline": "2f9fceb / isolated production server 3018",
+  "setup": {
+    "club": "se_club_alingsas_hk",
+    "manager": {
+      "name": "Loading QA",
+      "nationality": "SWE",
+      "dateOfBirth": "1988-01-01"
+    },
+    "preseason": "4_WEEKS"
+  },
+  "seed": "save-c2190000-0000-4000-8000-000000000001",
+  "fixedClock": "2026-10-15T10:00:00.000Z",
+  "snapshotRequests": 42,
+  "fullSaveSha256Before": "cbaae75e3584b9f0322894ba0d1abe315ceb41604dfd6f0425da80e651f33126",
+  "fullSaveSha256After": "cbaae75e3584b9f0322894ba0d1abe315ceb41604dfd6f0425da80e651f33126",
+  "byteIdentical": true,
+  "schemaVersion": 8,
+  "fields": {
+    "playerClubId": {
+      "before": "283cced5e1c62b89a64b9063e25419b3cffb0f64d6ff37991915798a6dc3fb3c",
+      "after": "283cced5e1c62b89a64b9063e25419b3cffb0f64d6ff37991915798a6dc3fb3c"
+    },
+    "seasonId": {
+      "before": "80bed993eb5869860bcdda49ac8037a9057ba37d0f93f18c2189d6cfde10fecb",
+      "after": "80bed993eb5869860bcdda49ac8037a9057ba37d0f93f18c2189d6cfde10fecb"
+    },
+    "worldSquads": {
+      "before": "913223c6a1587b768bb777f3c4f2b0fca3617dd57471afaa48dea75d13accc42",
+      "after": "913223c6a1587b768bb777f3c4f2b0fca3617dd57471afaa48dea75d13accc42"
+    },
+    "gameplayRatings": {
+      "before": "d5e4d23477f1a349e87df6537a9da2c20f84211b21907e93987c5fc1d0998bdd",
+      "after": "d5e4d23477f1a349e87df6537a9da2c20f84211b21907e93987c5fc1d0998bdd"
+    },
+    "fixtures": {
+      "before": "e8ffcd3cb1957422ae53d80eb488dd0567b8ff7e7ade0a78ffe23f90d6a4f38d",
+      "after": "e8ffcd3cb1957422ae53d80eb488dd0567b8ff7e7ade0a78ffe23f90d6a4f38d"
+    },
+    "inbox": {
+      "before": "2a9b896b7946007f1adfb5db71c71753a4400cdef723406cca205c4d705f142c",
+      "after": "2a9b896b7946007f1adfb5db71c71753a4400cdef723406cca205c4d705f142c"
+    },
+    "playerContracts": {
+      "before": "d6c67207d26130bc4c72d63a5eddf8b66994c3f6d31709f5f236e08736c6407f",
+      "after": "d6c67207d26130bc4c72d63a5eddf8b66994c3f6d31709f5f236e08736c6407f"
+    },
+    "staffRoster": {
+      "before": "e6de53278a46185e5f0ce0c8b51c6d128aaf40bf3bb2acbf3b261e437c00b930",
+      "after": "e6de53278a46185e5f0ce0c8b51c6d128aaf40bf3bb2acbf3b261e437c00b930"
+    }
+  }
+}

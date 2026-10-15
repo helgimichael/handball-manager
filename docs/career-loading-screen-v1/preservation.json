@@ -1,0 +1,272 @@
+{
+  "startingCheckpoint": "2f9fcebfa609cebb443fa0e3721d4dd4b49ec8de",
+  "userFiles": [
+    {
+      "path": "apps/game/app/match-qa/page.tsx",
+      "sha256": "a245ec398a29f3c8b7ab7317682433dbfe81e4a46e249a60c8f5a5a024fece8f"
+    },
+    {
+      "path": "apps/game/lib/matchQa/qaHarness.ts",
+      "sha256": "f100717310ea08f43c33b49dbabe7acee338b40884e9182030f59db7c62fece9"
+    },
+    {
+      "path": "apps/game/scripts/season-audit.ts",
+      "sha256": "7ba6f05b9f1e9cfa491961c1a6c644d7ce5fb2123fed5bac0d1fb3a869b07266"
+    },
+    {
+      "path": "apps/game/.tmp-final-benchmark.ts",
+      "sha256": "ba9d04161dfd8fba50732356598d92323bc71f93cfb5f827170ea804846a5b76"
+    },
+    {
+      "path": ".claude/launch.json",
+      "sha256": "5479537912ebe024d9340205e0a1d178b0fa2330a3f8b5af62723a6fe7a82185"
+    },
+    {
+      "path": "docs/audit/browser-product-test.txt",
+      "sha256": "55cec35a72a07fd9a83260aeea2c50d494d12e30f779e01ff428d313a7cd0883"
+    },
+    {
+      "path": "docs/audit/build-turbopack.txt",
+      "sha256": "2fd132c42c004e7361e70694d07d0a6102f28fdedc8067b9387a3ba17a216c66"
+    },
+    {
+      "path": "docs/audit/build-webpack.txt",
+      "sha256": "5c2d02af267569779c65731f10df3278891b13dc31128623944945e58513f0c6"
+    },
+    {
+      "path": "docs/audit/final-browser-product.txt",
+      "sha256": "7377b7c69495b0e588e6f139cd6eadaef6c079779707d5a17393ea61004fb9f3"
+    },
+    {
+      "path": "docs/audit/final-changed-lint.txt",
+      "sha256": "10fe5fd65982ca6b71ae329a8731176307eddc2346c756729adb904b141991a0"
+    },
+    {
+      "path": "docs/audit/final-production-build.txt",
+      "sha256": "3e086a657ed1ec890895f8ba058b992aeeaeaeb407c547f713bbbb9dd3f9b930"
+    },
+    {
+      "path": "docs/audit/final-production-server.txt",
+      "sha256": "d051ae0dc6f38d8d8ae596a96b099a9afbd551a40ee8fb798a6a1419ce05d06a"
+    },
+    {
+      "path": "docs/audit/final-seam-tests.txt",
+      "sha256": "ebcc50a912655b26e24b44d0435982216afded32012c2c8a3db0bc947aad5cc7"
+    },
+    {
+      "path": "docs/audit/final-tactics-lint.txt",
+      "sha256": "f85a22592459ae068e83da87ae3aba7285a83be904522a9371af5c31aca551b0"
+    },
+    {
+      "path": "docs/audit/HANDBALL_MANAGER_AUDIT_2026-10-07.md",
+      "sha256": "2b2c7ec28fe32540d3b10018b601d0086422f93adcbb8efeff621d42ec0c5abb"
+    },
+    {
+      "path": "docs/audit/implementation-typecheck.txt",
+      "sha256": "f3b2774d27874c5cf70a348b259f0ddadb51563e9ad76bf8b8a491dd336b5ef8"
+    },
+    {
+      "path": "docs/audit/lint-output.txt",
+      "sha256": "1ec929b802136bcbe0e4c02ee80213fd75e8b386368f7f2b28ee61c60d8bb46c"
+    },
+    {
+      "path": "docs/audit/live-match-ui.png",
+      "sha256": "c233b35cf42f44fa52d68bf60316c2333b3a74933ebff30c5be983ebaceed0e6"
+    },
+    {
+      "path": "docs/audit/match-audit-2026-10-07.json",
+      "sha256": "61efad8267317d4e4991fbeebf59e8a7372e0fa8f75029e4570935221fc133f8"
+    },
+    {
+      "path": "docs/audit/match-audit-run.txt",
+      "sha256": "d09a491f6a0bbe22c7c9c8eaee111c5f2c5895f5824db8981f7afc45d1e51971"
+    },
+    {
+      "path": "docs/audit/new-career-ui.png",
+      "sha256": "f3d80add59a98c0d25afc659b0b2bfe6ff187c76dbc12dec849388b3b24ec34a"
+    },
+    {
+      "path": "docs/audit/playable-changed-lint.txt",
+      "sha256": "4c9248decf2ac5327c2e8fe43ca3e35d734efabaaec877bf43cd46026f183b10"
+    },
+    {
+      "path": "docs/audit/playable-dev-server.txt",
+      "sha256": "f7d15aa576a0ce148d221bfe2156cafc6cfda7a3a9089de423c22f9d7ab4660f"
+    },
+    {
+      "path": "docs/audit/playable-production-build.txt",
+      "sha256": "2b884fadb3a3ab392782cc9c282cd7536d9401e5e1da33ebc3234636ef50d099"
+    },
+    {
+      "path": "docs/audit/playable-regression-tests.txt",
+      "sha256": "abc669873c0500af2bfd9225a810ba7fa120e9d2db9a683f632ee63963459210"
+    },
+    {
+      "path": "docs/audit/playable-season-result.json",
+      "sha256": "d59f2a4d57540ab8a9cabf387ac74219ef2dc992a0111073173557a5a234e641"
+    },
+    {
+      "path": "docs/audit/playable-season-run.txt",
+      "sha256": "2dd9f3ff09fa22a9339904ca73d969bd2c16ab83fa5655b145da85b5b23b5069"
+    },
+    {
+      "path": "docs/audit/playable-typecheck.txt",
+      "sha256": "0a620e650841e459ad7ad0731843e88c9ac33659453405d353111d19f79355a5"
+    },
+    {
+      "path": "docs/audit/playwright-browser-install.txt",
+      "sha256": "ae2f1cec95b19d534d62db477bbac92952fe3ed4029090db3787be47ef2744b6"
+    },
+    {
+      "path": "docs/audit/playwright-install.txt",
+      "sha256": "93ac21b04b8d7ac66a05ca700048cdcabd49e96689ce68de332a8cfaa5e100db"
+    },
+    {
+      "path": "docs/audit/product-seam-tests.txt",
+      "sha256": "d993f94a0cffe2d9bc06d2d05f419c7a0aead9cb7f499035445298c33e0be513"
+    },
+    {
+      "path": "docs/audit/replay-ui.png",
+      "sha256": "8e9c8f2f9a70b9f49e561908f97f63f896b4b0daf4ad3be3a25fab3d604fa1ed"
+    },
+    {
+      "path": "docs/audit/run-match-audit.cjs",
+      "sha256": "6cdd1aa4b89830b0abf0e9fc264c6571dc52d6fa4e15699e0a585c519d1bfd5b"
+    },
+    {
+      "path": "docs/audit/season-end-state.json",
+      "sha256": "d29c4d145921f5e5226bc7b45b6c13a2c8d18e8cb9c40de4c25e679f6d31fa4d"
+    },
+    {
+      "path": "docs/audit/season-size-check.txt",
+      "sha256": "18a0bb9a090471aa27ccd670ce9191f24275c49cdcc0f49b70e202753f5e5eb7"
+    },
+    {
+      "path": "docs/audit/season-two-run.txt",
+      "sha256": "9661c526299567788de1ac068abd51605274d0bdb8564530e50fa552b015ac6b"
+    },
+    {
+      "path": "docs/audit/test-sandbox.txt",
+      "sha256": "019e443d76ee2c51a9c1fbed59057cbb0de113763a31156b9644f9b1a1a488fe"
+    },
+    {
+      "path": "docs/audit/test-v2-core.txt",
+      "sha256": "98ec487e81550da5754e1e617fbabe2c02c56e961f3d3852112e9c5fd630baae"
+    },
+    {
+      "path": "docs/audit/test-workspaces.txt",
+      "sha256": "c3e5f0a9a88294014a30397016a07fe9bdf954921d5e76f5a34b139c5941b199"
+    }
+  ],
+  "frozenPresentationAndReferences": [
+    {
+      "path": "apps/game/app/career/match-2d/page.tsx",
+      "sha256": "4b39dd10e56809bdceef87c96d53666de559bcf29013395d8da176a670165c3e"
+    },
+    {
+      "path": "apps/game/app/career/match-day/[fixtureId]/page.tsx",
+      "sha256": "4358d9838d1fd006c569e28df2f8b2e85eb876e0cf0544b81f4c0cc04b060995"
+    },
+    {
+      "path": "apps/game/app/career/match-report/[fixtureId]/page.tsx",
+      "sha256": "1e320e676d3bf15165b5bad57e83d1a363eb66349b11822295daefcbdddb5768"
+    },
+    {
+      "path": "apps/game/components/ProductionMatchView.tsx",
+      "sha256": "531610b3a712e70dc79573f8d4c4583fdf32ecae0ad8388a39d554ae34dffd59"
+    },
+    {
+      "path": "apps/game/components/game/CoachingChoices.tsx",
+      "sha256": "94573e2bbf77e5e166b337102c79010e0054f51befef0aadf985621e5c6fbbfa"
+    },
+    {
+      "path": "apps/game/components/game/LiveCoachPanel.tsx",
+      "sha256": "b830e44940a2e71fa55335d45d93f71e6a010421df8dcb6641c891ab79db6f6a"
+    },
+    {
+      "path": "apps/game/components/matchCenter/MatchCenter.tsx",
+      "sha256": "cf477b3119c358ba6297c01cee316c5a3b91db55faafcf88b929ddc8cf1e8bcb"
+    },
+    {
+      "path": "apps/game/components/matchCenter/TacticalCourt.tsx",
+      "sha256": "83de3e6b68085e9e93dc3aa536298d888493a625b0c795bd05f7f5ed485d1cbb"
+    },
+    {
+      "path": "apps/game/components/matchCenter/WorkspaceViews.tsx",
+      "sha256": "2da779b9b091640f22f6aef137c8a9cfe80812f4833f05ba7a8bab4611adc358"
+    },
+    {
+      "path": "apps/game/components/matchCenter/match-center.css",
+      "sha256": "671d5997962aff2a457e898b93a98aa7b81fe915caebb92cd374996180cd87c6"
+    },
+    {
+      "path": "apps/game/lib/matchCenter/control.ts",
+      "sha256": "c1577b45ed867ead1484de2b7dfde11dac1c194a60c20675bf756bccf2a570b5"
+    },
+    {
+      "path": "apps/game/lib/matchCenter/model.test.ts",
+      "sha256": "c5f178ea0d5835ab2bffb4f9ccade647c0ee54983901dd21b40f5e9842303a17"
+    },
+    {
+      "path": "apps/game/lib/matchCenter/model.ts",
+      "sha256": "e726da046168c142c5ee77243c620f2b6fc47e9579f69b485e04aa6dac4dde3e"
+    },
+    {
+      "path": "apps/game/lib/matchCenter/presentation.test.ts",
+      "sha256": "c2c10884e0f710ac68207218a9dc1846d041967e98ec405fae50838e3d714bd4"
+    },
+    {
+      "path": "apps/game/lib/matchCenter/workspace.test.ts",
+      "sha256": "26edde8fc142de2fcb292b4475e38a405d9e374707540e490f203fb0acb9408f"
+    },
+    {
+      "path": "apps/game/lib/matchCenter/workspace.ts",
+      "sha256": "87d82b1a82771e525a2e4d8962f67a2499e07e89c06216d356686ee19c0d9bb1"
+    },
+    {
+      "path": "data/empirical-handball/derived/keeper-matches.json",
+      "sha256": "0912f51828414ae71cec23fb24aa7f4914ea89b8a8ff1aaab4a7e8009613cbff"
+    },
+    {
+      "path": "data/empirical-handball/derived/league-outcomes.json",
+      "sha256": "2ef2ddbaf2b09d98d943c27bf57ea88f0f3429d982b11a97e828f61173ad3ed5"
+    },
+    {
+      "path": "data/empirical-handball/derived/manifest.json",
+      "sha256": "fe23c0f49368fee36d5f7fddd856fcf8d69be5467ee87c9b21a28243691ca4f2"
+    },
+    {
+      "path": "data/empirical-handball/derived/player-season-summaries.json",
+      "sha256": "df29b5711f5696db46c54bda88c95e52c5f12d16e0345a834e1ed8bbcd0dd64a"
+    },
+    {
+      "path": "data/empirical-handball/derived/position-shot-profiles.json",
+      "sha256": "1adea87e2912e646a605ff93e1d9bb58f77ccfc8889985c8bd266c04ea384e79"
+    },
+    {
+      "path": "data/empirical-handball/derived/position-shot-summaries.json",
+      "sha256": "2f6eeeb7306fa9f3bfb94282b5b19b3c7e79d7a199b04d5bc1a897a582cc2362"
+    },
+    {
+      "path": "data/empirical-handball/derived/profiles.json",
+      "sha256": "a55e42b65defe94c9e0aa7e78100685c68513e2de035db6c10c872d35b9e22f8"
+    },
+    {
+      "path": "data/empirical-handball/derived/quality.json",
+      "sha256": "4cf67c51e130a0443d9180349d87d70f9633c24d4d5262f0ba471fe9dd9471f9"
+    },
+    {
+      "path": "data/empirical-handball/derived/team-mapping.json",
+      "sha256": "18d66157d54b68c2262aa2b4398222da0cd585c2460ce219e52b100796cbab88"
+    },
+    {
+      "path": "data/empirical-handball/derived/team-profiles.json",
+      "sha256": "814935445d4405628e969571c764e8039a59a6ab8f98df4de155b7c59c10100b"
+    }
+  ],
+  "stashes": [
+    "ddba79055949b76898b12fc1b947e8f8645589cb On motion-lab: WIP Pack #5 M6 breakthrough screen paused before Human QA",
+    "b068a9586209b9405b8d5f0dc6fae6384dd09001 On motion-lab: WIP Pack #5 M6 line game paused before Human QA"
+  ],
+  "motionHead": "197d2a80ecea3b70efdcf8ef347cfc68e0e86b2b"
+}

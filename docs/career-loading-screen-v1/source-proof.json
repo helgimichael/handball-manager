@@ -1,0 +1,27 @@
+{
+  "startingCheckpoint": "2f9fceb",
+  "preservedFiles": 65,
+  "unchangedCreationRoutineSha256": "ca3a32b25a66bfa5c5a3348273cbeeea84c9e3a862cdb3c5743219cd66281ad8",
+  "unchangedModules": [
+    {
+      "path": "apps/game/lib/save/saveRepository.ts",
+      "sha256": "9fb5d22760ef8243c78bfc9aa233dac37d7834f836ea4cca13f7f0f9a1f6df16"
+    },
+    {
+      "path": "apps/game/lib/save/saveStorage.ts",
+      "sha256": "dbd0621eeaa5c60193a84a099546accc3244357bbfebc37272afc74ffdcea095"
+    },
+    {
+      "path": "apps/game/lib/career/newCareer.ts",
+      "sha256": "325b7ebc99fd7e7a000223e733729c6c67dc636e2bed6909763a9a506c4b6704"
+    }
+  ],
+  "frozenEngineAndMatchCenterChanges": [],
+  "schemaVersion": 8,
+  "stashes": [
+    "ddba79055949b76898b12fc1b947e8f8645589cb",
+    "b068a9586209b9405b8d5f0dc6fae6384dd09001"
+  ],
+  "motionHead": "197d2a80ecea3b70efdcf8ef347cfc68e0e86b2b",
+  "motionStatus": "?? .claude/"
+}

@@ -1,0 +1,219 @@
+{
+  "milestone": "CAREER INITIALIZATION / LOADING SCREEN v1",
+  "status": "complete",
+  "verifiedAt": "2026-10-15T08:58:05.101Z",
+  "startingCheckpoint": "2f9fcebfa609cebb443fa0e3721d4dd4b49ec8de",
+  "implementationCommit": "1a2fc9f275b728c24497d33c2eababb896f5cf75",
+  "documentationCommit": "The local closeout commit containing this receipt; see git log -2 --oneline.",
+  "rootCause": "CareerProvider returned null while existing async snapshots, synchronous world creation and initial persistence ran after navigation.",
+  "oldFlow": "New Game -> short saving overlay -> /career gate -> null provider/cream body -> manager home",
+  "newFlow": "New Game -> immediate HM initialization -> same branded career gate/provider fallback -> existing manager home",
+  "architecture": "Local flushSync pending state, synchronous submission ref, frame/task yield, lightweight saved identity and provider presentation fallbacks. No creation pipeline or schema changes.",
+  "copy": {
+    "newCareer": [
+      "BYGGER DIN HANDBOLLSVÄRLD…",
+      "Förbereder din nya karriär."
+    ],
+    "existingCareer": [
+      "ÖPPNAR DIN KARRIÄR…",
+      "Laddar ditt lag och dina sparade beslut."
+    ],
+    "supporting": [
+      "Din klubb. Din säsong.",
+      "Det här kan ta en liten stund.",
+      "Sju positioner. Ett lag. Din karriär."
+    ],
+    "failure": [
+      "Ditt nästa steg",
+      "KUNDE INTE ÖPPNA KARRIÄREN",
+      "Något gick fel när karriären skulle öppnas.",
+      "Gå till huvudmenyn för att öppna en sparad karriär eller se över dina val.",
+      "Till huvudmenyn →"
+    ]
+  },
+  "identity": "Actual selected setup club, existing crest, competition, game setup season; then saved club/season on career route. Branding during initial save lookup. No hardcoded club.",
+  "progress": {
+    "kind": "indeterminate",
+    "measuredStages": false,
+    "percentages": false,
+    "checkmarks": false,
+    "minimumDuration": false,
+    "hardTimeout": false,
+    "animation": "CSS transform rotation, 1s linear loop",
+    "reducedMotion": "Static marker with unchanged textual status",
+    "additionalRealStageScreenshot": "Not applicable: no additional exposed stage"
+  },
+  "duplicateSubmission": "Synchronous ref before React update/await; setup controls replaced; guard remains locked on failure. Pointer, Enter/Space and save count checked.",
+  "success": {
+    "saveCount": 1,
+    "careerNavigations": 1,
+    "destination": "/career",
+    "automatic": true
+  },
+  "recovery": {
+    "inlineRetry": false,
+    "reason": "Creation is not idempotent across a fresh submission and failure can occur after envelope commit.",
+    "action": "Full document replacement to existing main menu clears rejected in-memory persistence promises. Continue reopens the same saved ID; no duplicate save.",
+    "rawErrorsInInitializationUI": false,
+    "developerDiagnostics": "console.error with original cause",
+    "failureHeadingFocused": true
+  },
+  "canonical": {
+    "byteIdentical": true,
+    "beforeSha256": "cbaae75e3584b9f0322894ba0d1abe315ceb41604dfd6f0425da80e651f33126",
+    "afterSha256": "cbaae75e3584b9f0322894ba0d1abe315ceb41604dfd6f0425da80e651f33126",
+    "schemaVersion": 8,
+    "receipt": "canonical-proof.json",
+    "method": "Fixed save UUID, clock, setup and 42 captured real snapshot responses; compare full persisted browser save, including world/player/fixture/inbox/contract data."
+  },
+  "saveFormat": {
+    "schemaVersion": 8,
+    "changed": false,
+    "receipt": "source-proof.json"
+  },
+  "browser": {
+    "passed": 4,
+    "workers": 1,
+    "command": "$env:HM_QA_URL='http://127.0.0.1:3019'; npx.cmd playwright test e2e/career-loading-screen.spec.ts --workers=1 --reporter=line",
+    "widths": [
+      1366,
+      1440,
+      1920,
+      2560
+    ],
+    "sampledBlankFrames": 0,
+    "loadingFrames": 37,
+    "normalLiveFlow": "browser-live-flow.json",
+    "canonicalFlow": "browser-flow.json",
+    "errors": [],
+    "screenshots": [
+      {
+        "path": "screenshots/career-live-success.png",
+        "sha256": "c1561568842d275d201e5995b4d0744d55d6b82d42d372c584cd58c9b3bcec5c"
+      },
+      {
+        "path": "screenshots/career-success.png",
+        "sha256": "7929adbfd680774166837fcda2242c159d7550cd11275447f6781b3bd768970e"
+      },
+      {
+        "path": "screenshots/creation-failure.png",
+        "sha256": "3e1dc815c228f364253c41370ee58f12e8304cb2d55d4867dc813ffcedfb2182"
+      },
+      {
+        "path": "screenshots/initialization-1366.png",
+        "sha256": "1d9ad586a78ece3f6cb7564da3def3ceea9a1151188a15cc56f2fd06865c6ecc"
+      },
+      {
+        "path": "screenshots/initialization-1440.png",
+        "sha256": "7abac86147f747c8018d3486e4d71d938d7d13483c8a1142f0a285503966f41f"
+      },
+      {
+        "path": "screenshots/initialization-1920.png",
+        "sha256": "19a3af2dcdf0f2c6e8f6209d983bb984c815fed432d96672b88c99a8a477427c"
+      },
+      {
+        "path": "screenshots/initialization-2560.png",
+        "sha256": "7193acda65109385eb790d1e0e15692f0ad59536100178e7ab1ac94d98a3e8c3"
+      },
+      {
+        "path": "screenshots/provider-failure.png",
+        "sha256": "3e1dc815c228f364253c41370ee58f12e8304cb2d55d4867dc813ffcedfb2182"
+      },
+      {
+        "path": "screenshots/reduced-motion.png",
+        "sha256": "abe93393093c7a1cdf6613672ce1cfad8cfe2dbbecad9776fdbbfc310146642e"
+      }
+    ],
+    "harnessCorrections": [
+      "Scoped alert assertions to the game main element; Next has a separate route announcer.",
+      "Raised the provider-failure test deadline beyond the default 30s to allow real world-data requests."
+    ],
+    "productionDelayOrTimeoutAdded": false
+  },
+  "accessibility": {
+    "statusRole": true,
+    "politeAtomicLiveRegion": true,
+    "visibleText": true,
+    "nativeKeyboardControls": true,
+    "errorFocus": true,
+    "reducedMotionComputedAnimation": "none",
+    "contrastRatios": {
+      "body": 12.91,
+      "supporting": 9.72,
+      "accent": 9.9,
+      "button": 4.85
+    }
+  },
+  "focusedTests": {
+    "passed": 59,
+    "failed": 0,
+    "command": "node --import tsx --test --test-concurrency=1 lib/ui/afterNextPaint.test.ts lib/career/newCareer.test.ts lib/career/preseason.test.ts lib/career/preseasonCareerIntegration.test.ts lib/career/saveMigration.test.ts lib/save/saveRepository.test.ts components/game/progressionPresentation.test.ts",
+    "coverage": [
+      "immediate visible pending state",
+      "meaningful text",
+      "actual selected club",
+      "no fake percentage",
+      "duplicate submission",
+      "one career",
+      "existing destination",
+      "canonical data unchanged",
+      "understandable failure",
+      "safe recovery to existing save",
+      "raw diagnostics hidden",
+      "reduced motion",
+      "semantic status",
+      "six-step setup",
+      "save/load contracts",
+      "frozen engine and Match Center"
+    ]
+  },
+  "regression": {
+    "relevantCareerSaveUI": "59 tests passed",
+    "browser": "4 passed",
+    "fullGame": "Not rerun for this isolated presentation change; prior checkpoint passed 2374 tests (~41 minutes).",
+    "cohortsRun": false,
+    "sequential": true
+  },
+  "typecheck": {
+    "command": "npm.cmd run typecheck",
+    "exitCode": 0
+  },
+  "build": {
+    "command": "$env:HM_NEXT_DIST_DIR='.next-game-loading-screen-v1'; npm.cmd run build",
+    "distDir": "apps/game/.next-game-loading-screen-v1",
+    "buildId": "-RNSpJe4apx4OLEONUxcE",
+    "exitCode": 0,
+    "previousBuildIds": {
+      "reconciled": "3PQHL0oSSqFhBU5FxXd8a",
+      "reconciliationV11": "7lH--sWAbP_HfvPnTXIdw",
+      "rotationFatigue": "usx4M7Bosxj0W5ABGzmpe"
+    }
+  },
+  "preservation": {
+    "files": 65,
+    "engineAndMatchCenterChanges": [],
+    "sourceReceipt": "source-proof.json",
+    "manifest": "preservation.json",
+    "motionHead": "197d2a80ecea3b70efdcf8ef347cfc68e0e86b2b",
+    "motionStatus": "?? .claude/",
+    "stashes": [
+      "ddba79055949b76898b12fc1b947e8f8645589cb",
+      "b068a9586209b9405b8d5f0dc6fae6384dd09001"
+    ],
+    "expectedFinalGitStatus": [
+      " M apps/game/app/match-qa/page.tsx",
+      " M apps/game/lib/matchQa/qaHarness.ts",
+      " M apps/game/scripts/season-audit.ts",
+      "?? .claude/",
+      "?? apps/game/.tmp-final-benchmark.ts",
+      "?? docs/audit/"
+    ]
+  },
+  "nothingPushed": true,
+  "server": {
+    "url": "http://127.0.0.1:3019",
+    "startPowerShell": "Set-Location C:\\Users\\helgi\\Documents\\STARKVIS-HELA\\handball-manager\\apps\\game\n$env:HM_NEXT_DIST_DIR = '.next-game-loading-screen-v1'\nnpm.cmd run start -- --hostname 127.0.0.1 --port 3019"
+  },
+  "reportPath": "C:/Users/helgi/Documents/STARKVIS-HELA/handball-manager/docs/career-loading-screen-v1/REPORT.md",
+  "humanQA": "Open port 3019, start a normal New Game, finish setup and press STARTA KARRIÄR. Confirm immediate HM/club/status, no blank screen and automatic career entry; save and refresh. No DevTools or special data."
+}
