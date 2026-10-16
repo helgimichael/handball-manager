@@ -1,0 +1,38 @@
+{
+  "complete": true,
+  "verifiedAt": "2026-10-16T07:19:22.597Z",
+  "reason": "Explicit static annotations required by strict audit-script typechecking; completed runtime evidence is unchanged.",
+  "typescriptVersion": "5.9.3",
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "jsx": "ReactJSX",
+    "removeComments": true
+  },
+  "files": [
+    {
+      "path": "apps/game/scripts/lib/possessionEconomy.ts",
+      "beforeSourceSha256": "1dd1852e5ac5af0533e3a1fd0c197d5f781d08e2a41d302bcbcfe2f4fee36caa",
+      "beforeEmittedSha256": "0774761b190ad074bd5434ff6ce0b22a48b8432ef8e6a2eba2680e47cffc9261",
+      "afterSourceSha256": "49b952c27d234fcf3dde6ba5603b465ed951c7259230c08af7d3ddde45fb2b93",
+      "afterEmittedSha256": "0774761b190ad074bd5434ff6ce0b22a48b8432ef8e6a2eba2680e47cffc9261",
+      "emittedJavaScriptByteIdentical": true
+    },
+    {
+      "path": "apps/game/scripts/prove-attribute-sensitivity.ts",
+      "beforeSourceSha256": "ce99bc8bb4508d9032b4e2aec13753612bbb5a11c26fb1171fb8b3228f8d1615",
+      "beforeEmittedSha256": "d9f8e5855fa81423f857fc7cd6e087c4a321a2a5edf3e4c91ffbaae5ac550f1b",
+      "afterSourceSha256": "6eb5c413d7e480cacf109a0f88e75d228f44dfacc00c2320a7ca6b23c82777fa",
+      "afterEmittedSha256": "d9f8e5855fa81423f857fc7cd6e087c4a321a2a5edf3e4c91ffbaae5ac550f1b",
+      "emittedJavaScriptByteIdentical": true
+    },
+    {
+      "path": "apps/game/scripts/reconcile-economy-cohort.ts",
+      "beforeSourceSha256": "f38966e92a1d5deb5acb805b07a06a1f0959c39857c642bf615c92995005be1f",
+      "beforeEmittedSha256": "5fd013629242822b5083cae8c6baa4face6329915e67c8b8d29b60ccc2960468",
+      "afterSourceSha256": "f10655718037b3acba547129998b86a59bad4d73ee26ca4668cee6f81bcbe748",
+      "afterEmittedSha256": "5fd013629242822b5083cae8c6baa4face6329915e67c8b8d29b60ccc2960468",
+      "emittedJavaScriptByteIdentical": true
+    }
+  ]
+}

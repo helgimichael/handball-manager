@@ -1,0 +1,120 @@
+{
+  "complete": true,
+  "verifiedAt": "2026-10-16T07:24:24.761Z",
+  "checks": [
+    {
+      "label": "HBL original simulation manifest (preserved before subsequent pure-reader corrections)",
+      "sourceFiles": 48,
+      "exactCurrentMatches": 44,
+      "effectiveRuntimeMatches": 44,
+      "typeOnlyEquivalentFiles": 0,
+      "differences": [
+        {
+          "path": "packages/handball-engine/src/v2/core/ledger.ts",
+          "expected": "dea221013f939b82356028ca354a7c6391dadbdeeae611c2e813c53a1b24e09a",
+          "current": "7f45117a1486431df70f0b8697dcc7fdd281be93309e148d48baacad7f01391b",
+          "typeOnlyEmittedEquivalent": false
+        },
+        {
+          "path": "apps/game/lib/career/productionMatch.ts",
+          "expected": "5ff55ef5e40bfaf3f15d7f4d54171fa362b0b0a19acce313c4ea3658daeed0ff",
+          "current": "6e143a80b9dd124d1605dcc437c6557c96ae7d061d805b84144d4f50af9846f5",
+          "typeOnlyEmittedEquivalent": false
+        },
+        {
+          "path": "apps/game/scripts/lib/possessionEconomy.ts",
+          "expected": "48c18167d60cc19d0c660651f1150c6652f16705dfbd6275e6262b403de09d73",
+          "current": "49b952c27d234fcf3dde6ba5603b465ed951c7259230c08af7d3ddde45fb2b93",
+          "typeOnlyEmittedEquivalent": false
+        },
+        {
+          "path": "apps/game/scripts/run-economy-cohort.ts",
+          "expected": "f4074737f699546a75e4c0af0449834b37fc3ed4ffaca653bf2b8b862d5d2726",
+          "current": "19eeb4ca1b62f39e5bc06d2e40356f5001e0f9b27779491921631fd178f24f80",
+          "typeOnlyEmittedEquivalent": false
+        }
+      ]
+    },
+    {
+      "label": "HBL corrected offline reconstruction",
+      "sourceFiles": 46,
+      "exactCurrentMatches": 44,
+      "effectiveRuntimeMatches": 46,
+      "typeOnlyEquivalentFiles": 2,
+      "differences": [
+        {
+          "path": "apps/game/scripts/lib/possessionEconomy.ts",
+          "expected": "1dd1852e5ac5af0533e3a1fd0c197d5f781d08e2a41d302bcbcfe2f4fee36caa",
+          "current": "49b952c27d234fcf3dde6ba5603b465ed951c7259230c08af7d3ddde45fb2b93",
+          "typeOnlyEmittedEquivalent": true
+        },
+        {
+          "path": "apps/game/scripts/reconcile-economy-cohort.ts",
+          "expected": "f38966e92a1d5deb5acb805b07a06a1f0959c39857c642bf615c92995005be1f",
+          "current": "f10655718037b3acba547129998b86a59bad4d73ee26ca4668cee6f81bcbe748",
+          "typeOnlyEmittedEquivalent": true
+        }
+      ]
+    },
+    {
+      "label": "Allsvenskan final N40",
+      "sourceFiles": 48,
+      "exactCurrentMatches": 47,
+      "effectiveRuntimeMatches": 48,
+      "typeOnlyEquivalentFiles": 1,
+      "differences": [
+        {
+          "path": "apps/game/scripts/lib/possessionEconomy.ts",
+          "expected": "1dd1852e5ac5af0533e3a1fd0c197d5f781d08e2a41d302bcbcfe2f4fee36caa",
+          "current": "49b952c27d234fcf3dde6ba5603b465ed951c7259230c08af7d3ddde45fb2b93",
+          "typeOnlyEmittedEquivalent": true
+        }
+      ]
+    },
+    {
+      "label": "Completed controlled sensitivity",
+      "sourceFiles": 13,
+      "exactCurrentMatches": 13,
+      "effectiveRuntimeMatches": 13,
+      "typeOnlyEquivalentFiles": 0,
+      "differences": []
+    },
+    {
+      "label": "hbl canonical off/on/JSON/archive proof",
+      "sourceFiles": 51,
+      "exactCurrentMatches": 50,
+      "effectiveRuntimeMatches": 51,
+      "typeOnlyEquivalentFiles": 1,
+      "differences": [
+        {
+          "path": "apps/game/scripts/lib/possessionEconomy.ts",
+          "expected": "1dd1852e5ac5af0533e3a1fd0c197d5f781d08e2a41d302bcbcfe2f4fee36caa",
+          "current": "49b952c27d234fcf3dde6ba5603b465ed951c7259230c08af7d3ddde45fb2b93",
+          "typeOnlyEmittedEquivalent": true
+        }
+      ]
+    },
+    {
+      "label": "allsv canonical off/on/JSON/archive proof",
+      "sourceFiles": 51,
+      "exactCurrentMatches": 50,
+      "effectiveRuntimeMatches": 51,
+      "typeOnlyEquivalentFiles": 1,
+      "differences": [
+        {
+          "path": "apps/game/scripts/lib/possessionEconomy.ts",
+          "expected": "1dd1852e5ac5af0533e3a1fd0c197d5f781d08e2a41d302bcbcfe2f4fee36caa",
+          "current": "49b952c27d234fcf3dde6ba5603b465ed951c7259230c08af7d3ddde45fb2b93",
+          "typeOnlyEmittedEquivalent": true
+        }
+      ]
+    }
+  ],
+  "retainedHblExplanation": "HBL simulation finished before reader corrections. Original manifest and reports remain intact; reanalysis verified every saved core hash, changed only reporting, and the original canonical session hashes still exactly match retained Physical Load v1.1 trajectories. Runner metadata additionally gained canonicalLedger records. No HBL re-simulation was performed.",
+  "canonicalTrajectories": {
+    "hbl": 40,
+    "allsv": 40,
+    "allExactlyMatchPhysicalV11": true
+  },
+  "zeroReconstructionAnomalies": true
+}

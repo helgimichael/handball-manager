@@ -1,0 +1,89 @@
+{
+  "recoveredAt": "2026-10-16T06:40:21.541Z",
+  "continuation": "2026-10-16 user attachment 508601b3-1759-4731-a3a5-eb1aaa622c13",
+  "recoveredHead": "20173857cf2d449ad716ecc19d58ded8ed210d93",
+  "commitsAfter2017385": [],
+  "stagedChanges": [],
+  "completedReused": [
+    "77-attribute inventory and coverage",
+    "4928 resolved canonical shot trials plus passing/catch/duel/physical/decision encounters",
+    "HBL40 original simulations and40 corrected offline analyses",
+    "Allsvenskan40",
+    "Final economy aggregate: zero integrity anomalies",
+    "Both exact OFF/ON/natural-free-throw JSON/archive proofs",
+    "Performance measurement",
+    "Focused reader54 and presentation11",
+    "Core467/467 including14 attribute and27 ledger cases",
+    "V2 9/9",
+    "Domain180/180",
+    "Source and39-user-file preservation"
+  ],
+  "interruptedRunner": {
+    "session": 44902,
+    "exit": 1,
+    "lastCompletedStage": "domain-final",
+    "nextStage": "game-final",
+    "nextStageStarted": false,
+    "failedOperation": "Set-Content .tmp/economy-current.txt",
+    "reason": "Temporary progress-pointer file was in use. The required full game command was never launched; no game log/exit/build existed at recovery."
+  },
+  "recoveryInspection": {
+    "statusHeadLogAndIndex": true,
+    "taskDiffsAndUntrackedFiles": true,
+    "docsAndGeneratedEvidence": true,
+    "runScriptTypeConfigPreservationHelper": true,
+    "noHeavyJobActive": true,
+    "preservedUserFiles": 39,
+    "proofSourceFingerprintsMatch": {
+      "hbl": {
+        "complete": true,
+        "sourceFiles": 51,
+        "checkpointTick": 3755,
+        "sessionHash": "92dd9dabc4fabedf9547459c772757fe5ff3bf44ab0461c335257326568647be",
+        "archiveHash": "5184f3e280aaed127fbf7b25e92f8704b0ebb4062ffb198190331822dc4b8674"
+      },
+      "allsv": {
+        "complete": true,
+        "sourceFiles": 51,
+        "checkpointTick": 661,
+        "sessionHash": "853bee70fdd3ded81aa52e11245c6b5806d6ee9c8b994696762fb1943afcc2a7",
+        "archiveHash": "32adb1393fd11e0bf6c95bf156a870b9241d4242402c38ea3e5ab8e7b9f5605b"
+      }
+    }
+  },
+  "classification": {
+    "A_inventory": "COMPLETE_REUSED",
+    "B_coverage": "COMPLETE_REUSED",
+    "C_sensitivity": "COMPLETE_REUSED",
+    "D_possessionReconstruction": "COMPLETE_REUSED",
+    "E_freeThrows": "COMPLETE_REUSED",
+    "F_taxonomy": "COMPLETE_REUSED",
+    "G_humanMatch": "UNAVAILABLE; availability audit complete, exact27/20 forensics cannot be fabricated",
+    "H_hbl40": "COMPLETE_REUSED_NO_RESIMULATION",
+    "I_allsv40": "COMPLETE_REUSED",
+    "J_preservationNonMutation": "COMPLETE_REUSED",
+    "K_determinism": "COMPLETE_REUSED",
+    "L_saveLoad": "COMPLETE_REUSED",
+    "M_matchCenterTruth": "COMPLETE_FOR_EXISTING_PROOF_CONTRACTS; explicit transition-goal postprocessing receipt to add",
+    "N_focusedTests": "COMPLETE_REUSED",
+    "O_coreV2": "COMPLETE_REUSED_467_9_DOMAIN180",
+    "P_fullRegression": "NOT_STARTED_AT_RECOVERY; resumed as sole heavy job",
+    "Q_typechecks": "NOT_STARTED",
+    "R_productionBuild": "NOT_STARTED",
+    "S_documentation": "SUBSTANTIAL_EXISTING_DRAFT;14 final-process placeholders and VERIFICATION/delivery remain",
+    "T_remaining": [
+      "Full game regression",
+      "Empirical checks",
+      "Workspace/script types",
+      "Local code commits",
+      "Isolated build and server3021",
+      "Explicit transition-goal presentation postprocessing proof",
+      "Final evidence/report/status checks"
+    ]
+  },
+  "resumedCommand": "& .tmp/run-economy-checks.ps1 -ResumeFrom game-final",
+  "resumedSession": 50083,
+  "orchestrationRepair": "Only noncritical progress writing gains a bounded retry and warning fallback; completed successful stages are skipped after receipt validation. No gameplay/diagnostic semantics changed.",
+  "nothingResetOrDiscarded": true,
+  "nothingPushed": true
+}

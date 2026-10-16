@@ -1,0 +1,51 @@
+{
+  "specificMatch": "Torslanda 20–33 IFK Tumba",
+  "available": false,
+  "inspection": {
+    "browserSurfaceInventory": {
+      "apps": 0,
+      "browsers": 0
+    },
+    "workspaceSaveOrArchiveExportFound": false,
+    "persistence": "Production careers are held in the user's browser IndexedDB; no enabled browser surface or exported save was available to this session.",
+    "retainedCohortMatchFound": false,
+    "browserSurfaceRecheckedAt": "2026-10-16T06:42:54.668Z",
+    "browserSurfaceRecheck": {
+      "apps": 0,
+      "browsers": 0
+    }
+  },
+  "userProvidedFacts": {
+    "HOME": {
+      "name": "Torslanda",
+      "goals": 20,
+      "shots": 43,
+      "broadBallLosses": 27,
+      "sevenMetreGoals": 3,
+      "sevenMetreAttempts": 6,
+      "suspensions": 2
+    },
+    "AWAY": {
+      "name": "IFK Tumba",
+      "goals": 33,
+      "shots": 49,
+      "broadBallLosses": 20,
+      "sevenMetreGoals": 4,
+      "sevenMetreAttempts": 4,
+      "suspensions": 5
+    }
+  },
+  "exactPossessions": null,
+  "exactFreeThrows": null,
+  "exactLossBreakdown": null,
+  "reason": "Shots plus broad losses is not a possession denominator. Exact 27/20 origins cannot be recovered from these totals. Production archives also omit possession-transfer, boundary, restart and ball-control events, so an archive alone may still be insufficient for a full historical reconstruction.",
+  "evidencePolicy": "Do not fabricate the missing human match. Use same-engine N40 full-event replays to explain the aggregate mechanism, with a clear limit on applying cohort findings to this exact example.",
+  "arithmeticFromProvidedTotals": {
+    "nonSevenMetreAttemptsAllActors": {
+      "HOME": 37,
+      "AWAY": 45
+    },
+    "formula": "UI total shots include 7m; subtract6 from43 and4 from49. This is not ordinary field attempts excluding possible goalkeeper shots.",
+    "exactOrdinaryFieldAttemptsExcludingGoalkeepers": null
+  }
+}

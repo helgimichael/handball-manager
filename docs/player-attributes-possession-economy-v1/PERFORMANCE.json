@@ -1,0 +1,63 @@
+{
+  "complete": true,
+  "measuredAt": "2026-10-15T19:02:11.333Z",
+  "sourceFingerprints": {
+    "historicalLedger": "c98dfb0f9558cf729b258f383ca6a28bcbbb6ab11bb80e1f40a9faea4d8eb7f5",
+    "currentLedger": "7f45117a1486431df70f0b8697dcc7fdd281be93309e148d48baacad7f01391b"
+  },
+  "resourceSafety": "One foreground process; no concurrent heavy job.",
+  "unobserved": {
+    "ticks": 3000,
+    "seed": 8123,
+    "warmupExcluded": true,
+    "repeats": 3,
+    "milliseconds": [
+      344.51340000000005,
+      335.26,
+      304.4750999999999
+    ],
+    "medianMs": 335.26,
+    "priorPhysicalMedianMs": 333.2228,
+    "currentOverPrior": 1.0061136272788056,
+    "exactRepeatedFinalHash": "533f56a078534423227fd726ef6e9589fb06898bd3305634e3ef82a9d74a5761",
+    "interpretation": "Descriptive wall clock across separate runs. All canonical tick modules are byte-preserved; the changed ledger is a post-match/result reader. Machine load and runtime warmup prevent attributing a timing difference to gameplay."
+  },
+  "readers": [
+    {
+      "league": "hbl",
+      "events": 177105,
+      "previousMs": [
+        35.802400000000034,
+        65.35429999999997,
+        36.75009999999975
+      ],
+      "currentMs": [
+        30.437000000000353,
+        46.48790000000008,
+        45.098399999999856
+      ],
+      "previousMedianMs": 36.75009999999975,
+      "currentMedianMs": 45.098399999999856,
+      "coreSha256": "1881e80e87eae3f62ee1e1031f4995f1d96260aa26cc34fd2af598ef29e55f6e"
+    },
+    {
+      "league": "allsv",
+      "events": 179100,
+      "previousMs": [
+        50.78280000000086,
+        46.115200000000186,
+        34.05609999999979
+      ],
+      "currentMs": [
+        85.07160000000022,
+        52.575699999999415,
+        54.85809999999947
+      ],
+      "previousMedianMs": 46.115200000000186,
+      "currentMedianMs": 54.85809999999947,
+      "coreSha256": "b82863fbb1a3bd90811c396f8d77a09c684beb04ec7eaa509054dd1106b538ab"
+    }
+  ],
+  "readerScope": "Same retained canonical core, alternating historical2017385 and corrected pure ledger; three measured repeats after warmup. No frame/event reconstruction added to per-tick execution. Rare aliased turnover timestamp fallback occurs only inside the result reader.",
+  "limitations": "These short timings are not a device-wide responsiveness benchmark. Diagnostics OFF/ON full-match timings include three developer observers and checkpoint capture; see canonical proof receipts."
+}

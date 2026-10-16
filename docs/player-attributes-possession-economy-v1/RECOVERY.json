@@ -1,0 +1,68 @@
+{
+  "inspectionAt": "2026-10-15T18:47:04.478Z",
+  "recoveredHead": "20173857cf2d449ad716ecc19d58ded8ed210d93",
+  "commitsAfter2017385": [],
+  "stagedChanges": [],
+  "recoveredTrackedTaskWork": [
+    ".gitignore",
+    "apps/game/components/matchCenter/WorkspaceViews.tsx",
+    "apps/game/lib/matchCenter/model.ts",
+    "apps/game/lib/matchCenter/presentation.test.ts",
+    "apps/game/package.json",
+    "packages/handball-engine/scripts/test-core.cjs",
+    "packages/handball-engine/src/v2/core/ledger.ts"
+  ],
+  "recoveredUntrackedTaskWork": [
+    "apps/game/lib/matchCenter/freeThrows.ts",
+    "apps/game/lib/matchCenter/freeThrows.test.ts",
+    "apps/game/scripts/lib/possessionEconomy.ts",
+    "apps/game/scripts/lib/possessionEconomy.test.ts",
+    "apps/game/scripts/prove-attribute-sensitivity.ts",
+    "apps/game/scripts/prove-economy-truth.ts",
+    "apps/game/scripts/run-economy-cohort.ts",
+    "packages/handball-engine/src/v2/core/attribute-economy.test.ts",
+    "packages/handball-engine/src/v2/core/ledger-economy.test.ts",
+    "docs/player-attributes-possession-economy-v1/ attribute, taxonomy, Human-QA, preservation and raw evidence files"
+  ],
+  "recoveredIgnoredHelpers": [
+    ".tmp/create-economy-proof.cjs",
+    ".tmp/economy-preflight.cjs",
+    ".tmp/economy-progress.cjs",
+    ".tmp/refine-economy-diagnostics.cjs",
+    ".tmp/register-economy-game-test.cjs",
+    ".tmp/rename-economy-reader-labels.cjs"
+  ],
+  "interrupted": {
+    "command": "node --import tsx scripts/run-economy-cohort.ts --league hbl --count 40",
+    "session": 28011,
+    "exit": 0,
+    "completedWhileSessionUnavailable": "HBL 40/40; retained canonical cores and session hashes valid. Not rerun."
+  },
+  "classification": {
+    "A_attributeInventory": "COMPLETE_REUSED",
+    "B_coverageMap": "COMPLETE_REUSED",
+    "C_sensitivity": "COMPLETE_REUSED_4928_RESOLVED_SHOTS_13_SOURCE_HASHES_MATCH",
+    "D_possessionReconstruction": "PARTIAL_RECALLED_ADVANTAGE_AND_LATEST_SHOT_READER_CORRECTIONS_NEEDED",
+    "E_freeThrowCounting": "COMPLETE_REUSED_CANONICAL_WHISTLES",
+    "F_ballLossDecomposition": "PARTIAL_PASSIVE_RECONCILIATION_NEEDED",
+    "G_humanQAArchive": "UNAVAILABLE_PRECISE_LIMITS_RETAINED",
+    "H_hbl40": "COMPLETE_SIMULATION_REUSED_OFFLINE_REANALYSIS_ONLY",
+    "I_allsv40": "NOT_STARTED",
+    "J_focusedTests": "VALID_12_ATTRIBUTE_133_ECONOMY_43_FINAL_READER_TESTS_REUSED",
+    "K_observerNonMutation": "NOT_RUN",
+    "L_determinismSaveLoadArchive": "NOT_RUN",
+    "M_frikast": "IMPLEMENTED_PROVENANCE_GATED_STATISTICS_ROW",
+    "N_documentation": "PARTIAL",
+    "O_remaining": [
+      "Correct passive recalled-advantage grouping and latest-shot detail",
+      "Re-read retained HBL cores without simulation",
+      "Allsvenskan40",
+      "Canonical observer/determinism/natural-free-throw JSON/archive proofs",
+      "Core/V2/domain/full-game/empirical/typechecks",
+      "Isolated production build/server3021",
+      "Complete evidence reports and local commits"
+    ]
+  },
+  "preservedUserFileCount": 39,
+  "sourceState": "No reset, restore, stash change, deletion or push. Recovery inspected status, HEAD/log, staged/unstaged changes, task-owned code/tests/docs and receipts before new modifications."
+}

@@ -76,7 +76,9 @@
     ".next-game-loading-screen-v1/types/**/*.ts",
     ".next-game-loading-screen-v1/dev/types/**/*.ts",
     ".next-game-physical-load-v11/types/**/*.ts",
-    ".next-game-physical-load-v11/dev/types/**/*.ts"
+    ".next-game-physical-load-v11/dev/types/**/*.ts",
+    ".next-game-attribute-economy-v1/types/**/*.ts",
+    ".next-game-attribute-economy-v1/dev/types/**/*.ts"
   ],
   "exclude": [
     "node_modules"

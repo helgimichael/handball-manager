@@ -1,0 +1,22 @@
+{
+  "checkedAt": "2026-10-16T06:48:49.444Z",
+  "scope": "Read-only HTTP health before new build; no existing service restarted or stopped.",
+  "services": [
+    {
+      "port": 3017,
+      "status": 200
+    },
+    {
+      "port": 3018,
+      "status": 200
+    },
+    {
+      "port": 3019,
+      "status": 200
+    },
+    {
+      "port": 3020,
+      "status": 200
+    }
+  ]
+}

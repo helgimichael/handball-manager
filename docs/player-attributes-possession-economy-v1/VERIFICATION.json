@@ -1,0 +1,4345 @@
+{
+  "schema": "player-attributes-possession-economy-v1/1",
+  "complete": true,
+  "verifiedAt": "2026-10-16T07:24:42.021Z",
+  "recovery": {
+    "inspectionAt": "2026-10-15T18:47:04.478Z",
+    "recoveredHead": "20173857cf2d449ad716ecc19d58ded8ed210d93",
+    "commitsAfter2017385": [],
+    "stagedChanges": [],
+    "recoveredTrackedTaskWork": [
+      ".gitignore",
+      "apps/game/components/matchCenter/WorkspaceViews.tsx",
+      "apps/game/lib/matchCenter/model.ts",
+      "apps/game/lib/matchCenter/presentation.test.ts",
+      "apps/game/package.json",
+      "packages/handball-engine/scripts/test-core.cjs",
+      "packages/handball-engine/src/v2/core/ledger.ts"
+    ],
+    "recoveredUntrackedTaskWork": [
+      "apps/game/lib/matchCenter/freeThrows.ts",
+      "apps/game/lib/matchCenter/freeThrows.test.ts",
+      "apps/game/scripts/lib/possessionEconomy.ts",
+      "apps/game/scripts/lib/possessionEconomy.test.ts",
+      "apps/game/scripts/prove-attribute-sensitivity.ts",
+      "apps/game/scripts/prove-economy-truth.ts",
+      "apps/game/scripts/run-economy-cohort.ts",
+      "packages/handball-engine/src/v2/core/attribute-economy.test.ts",
+      "packages/handball-engine/src/v2/core/ledger-economy.test.ts",
+      "docs/player-attributes-possession-economy-v1/ attribute, taxonomy, Human-QA, preservation and raw evidence files"
+    ],
+    "recoveredIgnoredHelpers": [
+      ".tmp/create-economy-proof.cjs",
+      ".tmp/economy-preflight.cjs",
+      ".tmp/economy-progress.cjs",
+      ".tmp/refine-economy-diagnostics.cjs",
+      ".tmp/register-economy-game-test.cjs",
+      ".tmp/rename-economy-reader-labels.cjs"
+    ],
+    "interrupted": {
+      "command": "node --import tsx scripts/run-economy-cohort.ts --league hbl --count 40",
+      "session": 28011,
+      "exit": 0,
+      "completedWhileSessionUnavailable": "HBL 40/40; retained canonical cores and session hashes valid. Not rerun."
+    },
+    "classification": {
+      "A_attributeInventory": "COMPLETE_REUSED",
+      "B_coverageMap": "COMPLETE_REUSED",
+      "C_sensitivity": "COMPLETE_REUSED_4928_RESOLVED_SHOTS_13_SOURCE_HASHES_MATCH",
+      "D_possessionReconstruction": "PARTIAL_RECALLED_ADVANTAGE_AND_LATEST_SHOT_READER_CORRECTIONS_NEEDED",
+      "E_freeThrowCounting": "COMPLETE_REUSED_CANONICAL_WHISTLES",
+      "F_ballLossDecomposition": "PARTIAL_PASSIVE_RECONCILIATION_NEEDED",
+      "G_humanQAArchive": "UNAVAILABLE_PRECISE_LIMITS_RETAINED",
+      "H_hbl40": "COMPLETE_SIMULATION_REUSED_OFFLINE_REANALYSIS_ONLY",
+      "I_allsv40": "NOT_STARTED",
+      "J_focusedTests": "VALID_12_ATTRIBUTE_133_ECONOMY_43_FINAL_READER_TESTS_REUSED",
+      "K_observerNonMutation": "NOT_RUN",
+      "L_determinismSaveLoadArchive": "NOT_RUN",
+      "M_frikast": "IMPLEMENTED_PROVENANCE_GATED_STATISTICS_ROW",
+      "N_documentation": "PARTIAL",
+      "O_remaining": [
+        "Correct passive recalled-advantage grouping and latest-shot detail",
+        "Re-read retained HBL cores without simulation",
+        "Allsvenskan40",
+        "Canonical observer/determinism/natural-free-throw JSON/archive proofs",
+        "Core/V2/domain/full-game/empirical/typechecks",
+        "Isolated production build/server3021",
+        "Complete evidence reports and local commits"
+      ]
+    },
+    "preservedUserFileCount": 39,
+    "sourceState": "No reset, restore, stash change, deletion or push. Recovery inspected status, HEAD/log, staged/unstaged changes, task-owned code/tests/docs and receipts before new modifications."
+  },
+  "continuationRecovery": {
+    "recoveredAt": "2026-10-16T06:40:21.541Z",
+    "continuation": "2026-10-16 user attachment 508601b3-1759-4731-a3a5-eb1aaa622c13",
+    "recoveredHead": "20173857cf2d449ad716ecc19d58ded8ed210d93",
+    "commitsAfter2017385": [],
+    "stagedChanges": [],
+    "completedReused": [
+      "77-attribute inventory and coverage",
+      "4928 resolved canonical shot trials plus passing/catch/duel/physical/decision encounters",
+      "HBL40 original simulations and40 corrected offline analyses",
+      "Allsvenskan40",
+      "Final economy aggregate: zero integrity anomalies",
+      "Both exact OFF/ON/natural-free-throw JSON/archive proofs",
+      "Performance measurement",
+      "Focused reader54 and presentation11",
+      "Core467/467 including14 attribute and27 ledger cases",
+      "V2 9/9",
+      "Domain180/180",
+      "Source and39-user-file preservation"
+    ],
+    "interruptedRunner": {
+      "session": 44902,
+      "exit": 1,
+      "lastCompletedStage": "domain-final",
+      "nextStage": "game-final",
+      "nextStageStarted": false,
+      "failedOperation": "Set-Content .tmp/economy-current.txt",
+      "reason": "Temporary progress-pointer file was in use. The required full game command was never launched; no game log/exit/build existed at recovery."
+    },
+    "recoveryInspection": {
+      "statusHeadLogAndIndex": true,
+      "taskDiffsAndUntrackedFiles": true,
+      "docsAndGeneratedEvidence": true,
+      "runScriptTypeConfigPreservationHelper": true,
+      "noHeavyJobActive": true,
+      "preservedUserFiles": 39,
+      "proofSourceFingerprintsMatch": {
+        "hbl": {
+          "complete": true,
+          "sourceFiles": 51,
+          "checkpointTick": 3755,
+          "sessionHash": "92dd9dabc4fabedf9547459c772757fe5ff3bf44ab0461c335257326568647be",
+          "archiveHash": "5184f3e280aaed127fbf7b25e92f8704b0ebb4062ffb198190331822dc4b8674"
+        },
+        "allsv": {
+          "complete": true,
+          "sourceFiles": 51,
+          "checkpointTick": 661,
+          "sessionHash": "853bee70fdd3ded81aa52e11245c6b5806d6ee9c8b994696762fb1943afcc2a7",
+          "archiveHash": "32adb1393fd11e0bf6c95bf156a870b9241d4242402c38ea3e5ab8e7b9f5605b"
+        }
+      }
+    },
+    "classification": {
+      "A_inventory": "COMPLETE_REUSED",
+      "B_coverage": "COMPLETE_REUSED",
+      "C_sensitivity": "COMPLETE_REUSED",
+      "D_possessionReconstruction": "COMPLETE_REUSED",
+      "E_freeThrows": "COMPLETE_REUSED",
+      "F_taxonomy": "COMPLETE_REUSED",
+      "G_humanMatch": "UNAVAILABLE; availability audit complete, exact27/20 forensics cannot be fabricated",
+      "H_hbl40": "COMPLETE_REUSED_NO_RESIMULATION",
+      "I_allsv40": "COMPLETE_REUSED",
+      "J_preservationNonMutation": "COMPLETE_REUSED",
+      "K_determinism": "COMPLETE_REUSED",
+      "L_saveLoad": "COMPLETE_REUSED",
+      "M_matchCenterTruth": "COMPLETE_FOR_EXISTING_PROOF_CONTRACTS; explicit transition-goal postprocessing receipt to add",
+      "N_focusedTests": "COMPLETE_REUSED",
+      "O_coreV2": "COMPLETE_REUSED_467_9_DOMAIN180",
+      "P_fullRegression": "NOT_STARTED_AT_RECOVERY; resumed as sole heavy job",
+      "Q_typechecks": "NOT_STARTED",
+      "R_productionBuild": "NOT_STARTED",
+      "S_documentation": "SUBSTANTIAL_EXISTING_DRAFT;14 final-process placeholders and VERIFICATION/delivery remain",
+      "T_remaining": [
+        "Full game regression",
+        "Empirical checks",
+        "Workspace/script types",
+        "Local code commits",
+        "Isolated build and server3021",
+        "Explicit transition-goal presentation postprocessing proof",
+        "Final evidence/report/status checks"
+      ]
+    },
+    "resumedCommand": "& .tmp/run-economy-checks.ps1 -ResumeFrom game-final",
+    "resumedSession": 50083,
+    "orchestrationRepair": "Only noncritical progress writing gains a bounded retry and warning fallback; completed successful stages are skipped after receipt validation. No gameplay/diagnostic semantics changed.",
+    "nothingResetOrDiscarded": true,
+    "nothingPushed": true
+  },
+  "presentationTruth": {
+    "complete": true,
+    "sourceFingerprints": {
+      "apps/game/scripts/prove-economy-presentation.ts": "92ef18db9a22e8c125b6bf49bf500ae000cde519fe9b05f00c7306ad44512979",
+      "apps/game/lib/career/productionMatch.ts": "6e143a80b9dd124d1605dcc437c6557c96ae7d061d805b84144d4f50af9846f5",
+      "apps/game/lib/matchCenter/model.ts": "cb3a0b6f1b505b9287b908bf5a29e97214032382b80218855a47fc8c436c4942",
+      "apps/game/lib/matchCenter/freeThrows.ts": "72baf4e83dbf2f747d0515e1a1a2389c8ebbdbeb11163ef38b182979d97bf521",
+      "apps/game/components/matchCenter/WorkspaceViews.tsx": "1c7db411b6cd5f727e6e433811f4037fdc37e7b9f584c35ced15045053dd818d",
+      "packages/handball-engine/src/v2/core/ledger.ts": "7f45117a1486431df70f0b8697dcc7fdd281be93309e148d48baacad7f01391b"
+    },
+    "receipts": [
+      {
+        "league": "hbl",
+        "complete": true,
+        "recipe": {
+          "index": 0,
+          "saveSeed": "match-realism-v2-canonical-2026:0",
+          "managerClubId": "se_club_alingsas_hk",
+          "fixtureId": "se_handbollsligan_herr-f1"
+        },
+        "retainedCoreHash": "1881e80e87eae3f62ee1e1031f4995f1d96260aa26cc34fd2af598ef29e55f6e",
+        "initialWrapperHash": "8e67d459b1783d6b98a24c35242d5e469bb714a0fe045689db04c28f8b81da52",
+        "genuinePeopleHash": "47c7ae06e366fd5b3f82dccc3eca66352598d0260c106412d27bc8e4cef7cdfa",
+        "resultHash": "4d0aa708b8a3483ac7eac82c92f713af25dde4e989a5489f8c0c53043eead7f5",
+        "archiveHash": "f3007fe526d850408a39cb187efc6bf8c264f49d0b1e856c2aa1866cea71a008",
+        "teams": {
+          "HOME": {
+            "goals": 36,
+            "shots": 44,
+            "shootingPct": 81.8,
+            "saves": 11,
+            "shotsFaced": 41,
+            "broadBallLosses": 20,
+            "sevenMetreAttempts": 5,
+            "sevenMetreGoals": 4,
+            "twoMinuteSuspensions": 2,
+            "freeThrows": 7,
+            "transitionGoals": 3
+          },
+          "AWAY": {
+            "goals": 30,
+            "shots": 48,
+            "shootingPct": 62.5,
+            "saves": 4,
+            "shotsFaced": 40,
+            "broadBallLosses": 19,
+            "sevenMetreAttempts": 4,
+            "sevenMetreGoals": 2,
+            "twoMinuteSuspensions": 7,
+            "freeThrows": 2,
+            "transitionGoals": 0
+          }
+        },
+        "models": {
+          "directLive": true,
+          "cachedLive": true,
+          "repeatedCachedLive": true,
+          "actualFinalizedArchive": true,
+          "jsonLoadedArchive": true
+        },
+        "assertions": {
+          "goals": true,
+          "shots": true,
+          "conversion": true,
+          "saves": true,
+          "keeperDenominators": true,
+          "broadBallLosses": true,
+          "sevenMetres": true,
+          "twoMinuteSuspensions": true,
+          "playerRows": true,
+          "ordinaryFreeThrows": true,
+          "transitionGoalsFromOriginalShotPhaseAndGoalAction": true,
+          "renderedTransitionGoals": true,
+          "renderedFreeThrows": true,
+          "retainedCoreAndRngUnchanged": true
+        },
+        "scope": "Passive final-core presentation/finalization evidence only. Genuine initial wrapper/people from retained recipe; verified saved full-time core attached in memory. No simulation ticks, reconstructed or retained frames, database writes, imported QA save, or replacement for full replay/archive-frame proofs."
+      },
+      {
+        "league": "allsv",
+        "complete": true,
+        "recipe": {
+          "index": 0,
+          "saveSeed": "match-realism-v2-canonical-2026:0",
+          "managerClubId": "swe2-aranas",
+          "fixtureId": "swe-2-f1"
+        },
+        "retainedCoreHash": "b82863fbb1a3bd90811c396f8d77a09c684beb04ec7eaa509054dd1106b538ab",
+        "initialWrapperHash": "ccaaa81f32ab342f8bc62970aee01a8684782ef8587522e1d70cf6be6512095f",
+        "genuinePeopleHash": "f197faf5af8f36cc3348f3cfdc63cbfb605029c9273dfba690cfd3abb076a456",
+        "resultHash": "20dcac427f7dbabb2275602ef02ec0b9dcd054368498a3978f118845e4d7ae23",
+        "archiveHash": "84088ce223f4b2903c4e99ed6f7bda5e918a974da5613bb270832bbe42870170",
+        "teams": {
+          "HOME": {
+            "goals": 26,
+            "shots": 48,
+            "shootingPct": 54.2,
+            "saves": 8,
+            "shotsFaced": 43,
+            "broadBallLosses": 19,
+            "sevenMetreAttempts": 4,
+            "sevenMetreGoals": 2,
+            "twoMinuteSuspensions": 2,
+            "freeThrows": 1,
+            "transitionGoals": 3
+          },
+          "AWAY": {
+            "goals": 35,
+            "shots": 52,
+            "shootingPct": 67.3,
+            "saves": 10,
+            "shotsFaced": 36,
+            "broadBallLosses": 18,
+            "sevenMetreAttempts": 3,
+            "sevenMetreGoals": 3,
+            "twoMinuteSuspensions": 3,
+            "freeThrows": 7,
+            "transitionGoals": 7
+          }
+        },
+        "models": {
+          "directLive": true,
+          "cachedLive": true,
+          "repeatedCachedLive": true,
+          "actualFinalizedArchive": true,
+          "jsonLoadedArchive": true
+        },
+        "assertions": {
+          "goals": true,
+          "shots": true,
+          "conversion": true,
+          "saves": true,
+          "keeperDenominators": true,
+          "broadBallLosses": true,
+          "sevenMetres": true,
+          "twoMinuteSuspensions": true,
+          "playerRows": true,
+          "ordinaryFreeThrows": true,
+          "transitionGoalsFromOriginalShotPhaseAndGoalAction": true,
+          "renderedTransitionGoals": true,
+          "renderedFreeThrows": true,
+          "retainedCoreAndRngUnchanged": true
+        },
+        "scope": "Passive final-core presentation/finalization evidence only. Genuine initial wrapper/people from retained recipe; verified saved full-time core attached in memory. No simulation ticks, reconstructed or retained frames, database writes, imported QA save, or replacement for full replay/archive-frame proofs."
+      }
+    ],
+    "runtimeMs": 6069.4886
+  },
+  "runtimeScope": {
+    "classificationOnly": true,
+    "gameplayCalibration": false,
+    "unchangedCoreRuntimeModules": 42,
+    "coreRuntimeFiles": 43,
+    "resultTimelineReaderException": {
+      "path": "apps/game/lib/career/productionMatch.ts",
+      "before": "5ff55ef5e40bfaf3f15d7f4d54171fa362b0b0a19acce313c4ea3658daeed0ff",
+      "after": "6e143a80b9dd124d1605dcc437c6557c96ae7d061d805b84144d4f50af9846f5",
+      "scope": "Only TURNOVER MatchEvent minute fallback uses the merged attack lastTick when the original canonical ID ended earlier. Exact normalized source comparison permits only that inspected replacement. Production tick, session, frame, finalization and archive/save schema paths remain unchanged."
+    },
+    "physicalLoadNormalizedSha256": "e1e334552f35a2f1dbc7d4b88da4ac5bbc501ae86f63ebf884bb6791da619606",
+    "saveArchiveSchemaChanged": false,
+    "continuous2DChanged": false,
+    "careerLoadingChanged": false
+  },
+  "attributeEvidence": {
+    "inventoryCount": 77,
+    "outcourt": 56,
+    "goalkeeper": 21,
+    "mappedOutcourt": 35,
+    "mappedGoalkeeper": 13,
+    "unmappedOutcourt": 21,
+    "unmappedGoalkeeper": 8,
+    "mappedButUnconsumed": [
+      "SWITCHING_HANDOVER"
+    ],
+    "controlledSourceFingerprints": {
+      "profile.ts": "970e526f78486d073725854a1b0a5d4686996d51771d4429b50cd23ae1a9d2b1",
+      "execution.ts": "cb235bc3547646bbd6890e72011991248284f645f2517c7d0380285e769f53ab",
+      "interactions.ts": "5eb59b369de142f5ebb1de10c69a06d33d77fd83cb36208c81d0e0524a02f7b3",
+      "actions.ts": "f81433b938ed7f227902b6ec28839ed9ed61fd10930b4cf5020d424bd004dfbc",
+      "condition.ts": "7067672564be5a7beea16223a04b765e21716d638406ccea86e5d6f688899517",
+      "physicalLoad.ts": "e1e334552f35a2f1dbc7d4b88da4ac5bbc501ae86f63ebf884bb6791da619606",
+      "timing.ts": "b551d8b79cc0562fbbc58c7ddf6b7eaafdd743a3e19e09174e0924ad00410fd1",
+      "intelligence.ts": "8b7814ce46cf50bbb8a2e19648991e880304a5c0f2fdf5b5540a45e57ed4c80b",
+      "contact.ts": "477b3c2d7a8bbac293370044c779cd2889baea8cabb18c9bd26f967860a27ce9",
+      "movement.ts": "e2b310cca3c7c5c82b4540a78f2e91551a8f33a424ea01a2c8c0fc69de67f0ae",
+      "defence.ts": "353763d139e7d170aff02f6b757973103a3b25fbdc53c4c363a1ed06de102b56",
+      "structure.ts": "fd5cea56c1e2e311b490e452701fa2b1b8f91282e3f6cd7e06a4621d8065f3c3",
+      "engine.ts": "bddb85af2e0ac4d0bdb7c97e5e7b195c8d15af8dd7076e1ea8bd76957874c228"
+    },
+    "controlledSourceMatches": true,
+    "input": {
+      "path": "docs/physical-load-fatigue-v11/final/allsv/inputs.json",
+      "sha256": "10f88b47bad84526802f4c1decf6b0842c0ec92e887f6dd42e1eacb3a4140a50",
+      "players": 261,
+      "attributeValues": "Retained production gameplay rating branches, including generated-prior provenance. No use of CA/PA."
+    },
+    "scope": "Realistic retained p10/p50/p90 production rating inputs; generated/derived provenance retained. Action-level causal comparisons, not measured athlete ability or full-season win effects.",
+    "resolvedShotTrials": 4928,
+    "shotCells": 77,
+    "sameSeedDeterminism": {
+      "sameShotSeedContext": true,
+      "sameReceptionSeedContext": true
+    },
+    "noProductionSourceModifiedByExperiments": true,
+    "scorecard": "DIFFERENTIATION-SCORECARD.md",
+    "specificity": "Direct unrelated-shooting/pass and physical-work/no-loss-count cases are included in the final core receipt."
+  },
+  "cohorts": {
+    "hbl": {
+      "n": 40,
+      "teamMatches": 80,
+      "pooled": {
+        "counts": {
+          "possessions": 5502,
+          "canonicalLedgerPossessions": 5489,
+          "goals": 2316,
+          "fieldAttempts": 3503,
+          "sevenMetres": 281,
+          "totalAttempts": 3784,
+          "freeThrows": 463,
+          "allFreeThrowAwards": 616,
+          "broadBallLosses": 1782,
+          "canonicalUiBallLosses": 1782,
+          "nonShotLosses": 1762,
+          "sevenMetrePossessions": 281,
+          "technicalExecutionCandidate": 170,
+          "technicalRuleViolations": 69,
+          "offensiveFouls": 0,
+          "passes": 42054,
+          "successfulPasses": 39385,
+          "interceptedPasses": 989,
+          "passesOut": 117,
+          "fumbledPasses": 433,
+          "ownRecoveredFumbles": 356,
+          "unresolvedPasses": 4,
+          "fieldGoals": 2092,
+          "sevenMetreGoals": 224,
+          "keeperGoals": 0,
+          "keeperAttempts": 0,
+          "outfieldAttempts": 3784,
+          "outfieldGoals": 2316,
+          "historical2017385RawIdAttacks": 5490,
+          "historical2017385UiBroadLosses": 1968,
+          "historical2017385NoShotLosses": 1763,
+          "currentCanonicalRawIdAttacks": 5489,
+          "currentCanonicalUiBroadLosses": 1782,
+          "independentVsUiLossDifference": 0,
+          "playedVsCanonicalRawIdAttacks": 13
+        },
+        "rates": {
+          "goalsPerPossession": 0.42093784078516905,
+          "fieldAttemptsPerPossession": 0.6366775717920756,
+          "totalAttemptsPerPossession": 0.687749909123955,
+          "freeThrowsPerPossession": 0.084151217739004,
+          "passesPerPossession": 7.64340239912759,
+          "broadLossesPerPossession": 0.3238822246455834,
+          "nonShotLossesPerPossession": 0.3202471828426027,
+          "fieldConversion": 0.5972023979446189,
+          "sevenMetreConversion": 0.797153024911032,
+          "outfieldIncludingSevenMetreConversion": 0.6120507399577167,
+          "allActorConversion": 0.6120507399577167
+        },
+        "rateDenominators": {
+          "possessions": 5502,
+          "ordinaryFieldAttempts": 3503,
+          "sevenMetreAttempts": 281,
+          "outfieldIncludingSevenMetreAttempts": 3784,
+          "allActorAttempts": 3784
+        }
+      },
+      "matchDistributions": {
+        "counts": {
+          "possessions": {
+            "n": 40,
+            "mean": 137.55,
+            "median": 137,
+            "sd": 6.667756321205384,
+            "min": 116,
+            "max": 155,
+            "p05": 128.9,
+            "p10": 130,
+            "p25": 134,
+            "p75": 142,
+            "p90": 145,
+            "p95": 145.14999999999998
+          },
+          "canonicalLedgerPossessions": {
+            "n": 40,
+            "mean": 137.225,
+            "median": 137,
+            "sd": 6.708156153098925,
+            "min": 116,
+            "max": 155,
+            "p05": 127.95,
+            "p10": 129,
+            "p25": 134,
+            "p75": 141,
+            "p90": 144.1,
+            "p95": 145.14999999999998
+          },
+          "goals": {
+            "n": 40,
+            "mean": 57.9,
+            "median": 58.5,
+            "sd": 6.360132235361309,
+            "min": 42,
+            "max": 67,
+            "p05": 45.95,
+            "p10": 47.8,
+            "p25": 56,
+            "p75": 63,
+            "p90": 65.1,
+            "p95": 66
+          },
+          "fieldAttempts": {
+            "n": 40,
+            "mean": 87.575,
+            "median": 87.5,
+            "sd": 6.500049309477663,
+            "min": 75,
+            "max": 100,
+            "p05": 78.95,
+            "p10": 79.9,
+            "p25": 82,
+            "p75": 93,
+            "p90": 95.30000000000001,
+            "p95": 99.05
+          },
+          "sevenMetres": {
+            "n": 40,
+            "mean": 7.025,
+            "median": 7,
+            "sd": 2.5266527974722526,
+            "min": 2,
+            "max": 11,
+            "p05": 2.95,
+            "p10": 4,
+            "p25": 6,
+            "p75": 9,
+            "p90": 11,
+            "p95": 11
+          },
+          "totalAttempts": {
+            "n": 40,
+            "mean": 94.6,
+            "median": 95.5,
+            "sd": 5.947634737806195,
+            "min": 82,
+            "max": 106,
+            "p05": 85.95,
+            "p10": 87.9,
+            "p25": 90,
+            "p75": 97.25,
+            "p90": 103,
+            "p95": 104.1
+          },
+          "freeThrows": {
+            "n": 40,
+            "mean": 11.575,
+            "median": 11,
+            "sd": 3.335031618656096,
+            "min": 6,
+            "max": 20,
+            "p05": 6.95,
+            "p10": 8,
+            "p25": 9,
+            "p75": 13.25,
+            "p90": 15.200000000000003,
+            "p95": 19
+          },
+          "allFreeThrowAwards": {
+            "n": 40,
+            "mean": 15.4,
+            "median": 15,
+            "sd": 3.5358965062009524,
+            "min": 10,
+            "max": 23,
+            "p05": 10.95,
+            "p10": 11,
+            "p25": 13,
+            "p75": 18,
+            "p90": 20.200000000000003,
+            "p95": 22
+          },
+          "broadBallLosses": {
+            "n": 40,
+            "mean": 44.55,
+            "median": 46,
+            "sd": 6.531776371256334,
+            "min": 32,
+            "max": 59,
+            "p05": 32,
+            "p10": 34,
+            "p25": 40,
+            "p75": 48.25,
+            "p90": 51.300000000000004,
+            "p95": 54.05
+          },
+          "canonicalUiBallLosses": {
+            "n": 40,
+            "mean": 44.55,
+            "median": 46,
+            "sd": 6.531776371256334,
+            "min": 32,
+            "max": 59,
+            "p05": 32,
+            "p10": 34,
+            "p25": 40,
+            "p75": 48.25,
+            "p90": 51.300000000000004,
+            "p95": 54.05
+          },
+          "nonShotLosses": {
+            "n": 40,
+            "mean": 44.05,
+            "median": 45,
+            "sd": 6.567011574958661,
+            "min": 31,
+            "max": 58,
+            "p05": 32,
+            "p10": 33.8,
+            "p25": 40,
+            "p75": 48,
+            "p90": 51.300000000000004,
+            "p95": 54.05
+          },
+          "sevenMetrePossessions": {
+            "n": 40,
+            "mean": 7.025,
+            "median": 7,
+            "sd": 2.5266527974722526,
+            "min": 2,
+            "max": 11,
+            "p05": 2.95,
+            "p10": 4,
+            "p25": 6,
+            "p75": 9,
+            "p90": 11,
+            "p95": 11
+          },
+          "technicalExecutionCandidate": {
+            "n": 40,
+            "mean": 4.25,
+            "median": 4,
+            "sd": 1.822227433805347,
+            "min": 1,
+            "max": 10,
+            "p05": 1.9500000000000002,
+            "p10": 2,
+            "p25": 3,
+            "p75": 6,
+            "p90": 6,
+            "p95": 6.049999999999997
+          },
+          "technicalRuleViolations": {
+            "n": 40,
+            "mean": 1.725,
+            "median": 2,
+            "sd": 1.377241762289712,
+            "min": 0,
+            "max": 6,
+            "p05": 0,
+            "p10": 0,
+            "p25": 1,
+            "p75": 2.25,
+            "p90": 3.1000000000000014,
+            "p95": 4
+          },
+          "offensiveFouls": {
+            "n": 40,
+            "mean": 0,
+            "median": 0,
+            "sd": 0,
+            "min": 0,
+            "max": 0,
+            "p05": 0,
+            "p10": 0,
+            "p25": 0,
+            "p75": 0,
+            "p90": 0,
+            "p95": 0
+          },
+          "passes": {
+            "n": 40,
+            "mean": 1051.35,
+            "median": 1033.5,
+            "sd": 71.68790979137563,
+            "min": 989,
+            "max": 1422,
+            "p05": 1000.65,
+            "p10": 1004,
+            "p25": 1016.75,
+            "p75": 1061.25,
+            "p90": 1101.8,
+            "p95": 1113.5499999999997
+          },
+          "successfulPasses": {
+            "n": 40,
+            "mean": 984.625,
+            "median": 966.5,
+            "sd": 73.01973301961881,
+            "min": 912,
+            "max": 1365,
+            "p05": 929.95,
+            "p10": 937.8,
+            "p25": 946.75,
+            "p75": 995.5,
+            "p90": 1034.6,
+            "p95": 1048.3999999999999
+          },
+          "interceptedPasses": {
+            "n": 40,
+            "mean": 24.725,
+            "median": 25,
+            "sd": 5.0331592770040885,
+            "min": 13,
+            "max": 35,
+            "p05": 15.95,
+            "p10": 18.9,
+            "p25": 20.75,
+            "p75": 28,
+            "p90": 31,
+            "p95": 31.049999999999997
+          },
+          "passesOut": {
+            "n": 40,
+            "mean": 2.925,
+            "median": 3,
+            "sd": 1.623347285782192,
+            "min": 0,
+            "max": 8,
+            "p05": 0.9500000000000002,
+            "p10": 1,
+            "p25": 2,
+            "p75": 4,
+            "p90": 5,
+            "p95": 5.049999999999997
+          },
+          "fumbledPasses": {
+            "n": 40,
+            "mean": 10.825,
+            "median": 11,
+            "sd": 2.6974584429203077,
+            "min": 5,
+            "max": 17,
+            "p05": 6,
+            "p10": 6.9,
+            "p25": 9,
+            "p75": 12,
+            "p90": 13.200000000000003,
+            "p95": 15
+          },
+          "ownRecoveredFumbles": {
+            "n": 40,
+            "mean": 8.9,
+            "median": 9,
+            "sd": 2.790092361305515,
+            "min": 3,
+            "max": 16,
+            "p05": 4,
+            "p10": 5,
+            "p25": 8,
+            "p75": 11,
+            "p90": 12,
+            "p95": 12.099999999999994
+          },
+          "unresolvedPasses": {
+            "n": 40,
+            "mean": 0.1,
+            "median": 0,
+            "sd": 0.3038218101251,
+            "min": 0,
+            "max": 1,
+            "p05": 0,
+            "p10": 0,
+            "p25": 0,
+            "p75": 0,
+            "p90": 0.10000000000000142,
+            "p95": 1
+          },
+          "fieldGoals": {
+            "n": 40,
+            "mean": 52.3,
+            "median": 53,
+            "sd": 6.148587496744939,
+            "min": 32,
+            "max": 61,
+            "p05": 41.95,
+            "p10": 43,
+            "p25": 51.25,
+            "p75": 56,
+            "p90": 58.2,
+            "p95": 61
+          },
+          "sevenMetreGoals": {
+            "n": 40,
+            "mean": 5.6,
+            "median": 5,
+            "sd": 2.262288380810174,
+            "min": 2,
+            "max": 11,
+            "p05": 2,
+            "p10": 3,
+            "p25": 4,
+            "p75": 7,
+            "p90": 9,
+            "p95": 9.049999999999997
+          },
+          "keeperGoals": {
+            "n": 40,
+            "mean": 0,
+            "median": 0,
+            "sd": 0,
+            "min": 0,
+            "max": 0,
+            "p05": 0,
+            "p10": 0,
+            "p25": 0,
+            "p75": 0,
+            "p90": 0,
+            "p95": 0
+          },
+          "keeperAttempts": {
+            "n": 40,
+            "mean": 0,
+            "median": 0,
+            "sd": 0,
+            "min": 0,
+            "max": 0,
+            "p05": 0,
+            "p10": 0,
+            "p25": 0,
+            "p75": 0,
+            "p90": 0,
+            "p95": 0
+          },
+          "outfieldAttempts": {
+            "n": 40,
+            "mean": 94.6,
+            "median": 95.5,
+            "sd": 5.947634737806195,
+            "min": 82,
+            "max": 106,
+            "p05": 85.95,
+            "p10": 87.9,
+            "p25": 90,
+            "p75": 97.25,
+            "p90": 103,
+            "p95": 104.1
+          },
+          "outfieldGoals": {
+            "n": 40,
+            "mean": 57.9,
+            "median": 58.5,
+            "sd": 6.360132235361309,
+            "min": 42,
+            "max": 67,
+            "p05": 45.95,
+            "p10": 47.8,
+            "p25": 56,
+            "p75": 63,
+            "p90": 65.1,
+            "p95": 66
+          },
+          "historical2017385RawIdAttacks": {
+            "n": 40,
+            "mean": 137.25,
+            "median": 137,
+            "sd": 6.697684253454649,
+            "min": 116,
+            "max": 155,
+            "p05": 127.95,
+            "p10": 129,
+            "p25": 134,
+            "p75": 141,
+            "p90": 144.1,
+            "p95": 145.14999999999998
+          },
+          "historical2017385UiBroadLosses": {
+            "n": 40,
+            "mean": 49.2,
+            "median": 49.5,
+            "sd": 6.798189804307071,
+            "min": 34,
+            "max": 65,
+            "p05": 37.95,
+            "p10": 40.9,
+            "p25": 45,
+            "p75": 54,
+            "p90": 57.1,
+            "p95": 58.14999999999999
+          },
+          "historical2017385NoShotLosses": {
+            "n": 40,
+            "mean": 44.075,
+            "median": 45,
+            "sd": 6.549172975778443,
+            "min": 31,
+            "max": 58,
+            "p05": 32,
+            "p10": 33.8,
+            "p25": 40,
+            "p75": 48,
+            "p90": 51.300000000000004,
+            "p95": 54.05
+          },
+          "currentCanonicalRawIdAttacks": {
+            "n": 40,
+            "mean": 137.225,
+            "median": 137,
+            "sd": 6.708156153098925,
+            "min": 116,
+            "max": 155,
+            "p05": 127.95,
+            "p10": 129,
+            "p25": 134,
+            "p75": 141,
+            "p90": 144.1,
+            "p95": 145.14999999999998
+          },
+          "currentCanonicalUiBroadLosses": {
+            "n": 40,
+            "mean": 44.55,
+            "median": 46,
+            "sd": 6.531776371256334,
+            "min": 32,
+            "max": 59,
+            "p05": 32,
+            "p10": 34,
+            "p25": 40,
+            "p75": 48.25,
+            "p90": 51.300000000000004,
+            "p95": 54.05
+          },
+          "independentVsUiLossDifference": {
+            "n": 40,
+            "mean": 0,
+            "median": 0,
+            "sd": 0,
+            "min": 0,
+            "max": 0,
+            "p05": 0,
+            "p10": 0,
+            "p25": 0,
+            "p75": 0,
+            "p90": 0,
+            "p95": 0
+          },
+          "playedVsCanonicalRawIdAttacks": {
+            "n": 40,
+            "mean": 0.325,
+            "median": 0,
+            "sd": 0.47434164902525694,
+            "min": 0,
+            "max": 1,
+            "p05": 0,
+            "p10": 0,
+            "p25": 0,
+            "p75": 1,
+            "p90": 1,
+            "p95": 1
+          }
+        },
+        "rates": {
+          "goalsPerPossession": {
+            "n": 40,
+            "mean": 0.4215398169118826,
+            "median": 0.4254525246109876,
+            "sd": 0.04789367049168115,
+            "min": 0.31343283582089554,
+            "max": 0.5076923076923077,
+            "p05": 0.32429515846782037,
+            "p10": 0.3604912942220251,
+            "p25": 0.3957958633093525,
+            "p75": 0.4585648148148148,
+            "p90": 0.4820381807973049,
+            "p95": 0.4852734502669136
+          },
+          "fieldAttemptsPerPossession": {
+            "n": 40,
+            "mean": 0.6374125709982834,
+            "median": 0.6315750591016549,
+            "sd": 0.04743887483242604,
+            "min": 0.528169014084507,
+            "max": 0.7615384615384615,
+            "p05": 0.5763313457386655,
+            "p10": 0.5832089552238806,
+            "p25": 0.6059314954051795,
+            "p75": 0.6654413695321115,
+            "p90": 0.6989028213166144,
+            "p95": 0.7247020933977456
+          },
+          "totalAttemptsPerPossession": {
+            "n": 40,
+            "mean": 0.6885295072976902,
+            "median": 0.6803709856035438,
+            "sd": 0.042897268138279813,
+            "min": 0.5774647887323944,
+            "max": 0.7851851851851852,
+            "p05": 0.6243838028169014,
+            "p10": 0.6533978222827144,
+            "p25": 0.6642199586011548,
+            "p75": 0.7118630983015954,
+            "p90": 0.7415441559795641,
+            "p95": 0.76855629877369
+          },
+          "freeThrowsPerPossession": {
+            "n": 40,
+            "mean": 0.08448726416845997,
+            "median": 0.08271144278606965,
+            "sd": 0.025292288904252346,
+            "min": 0.04316546762589928,
+            "max": 0.14814814814814814,
+            "p05": 0.050015639662183295,
+            "p10": 0.05831014020900068,
+            "p25": 0.06539910525076525,
+            "p75": 0.09795615800063538,
+            "p90": 0.11161706906232458,
+            "p95": 0.13799407114624504
+          },
+          "passesPerPossession": {
+            "n": 40,
+            "mean": 7.676925896742345,
+            "median": 7.5,
+            "sd": 0.8772250415248576,
+            "min": 6.380645161290323,
+            "max": 12.258620689655173,
+            "p05": 6.963448275862069,
+            "p10": 7.07522030651341,
+            "p25": 7.299371451743715,
+            "p75": 7.847223828802776,
+            "p90": 8.351429710640236,
+            "p95": 8.505047300742083
+          },
+          "broadLossesPerPossession": {
+            "n": 40,
+            "mean": 0.3233115000112373,
+            "median": 0.3274062816616008,
+            "sd": 0.040463692108314124,
+            "min": 0.2318840579710145,
+            "max": 0.4154929577464789,
+            "p05": 0.2456980056980057,
+            "p10": 0.28363048691481596,
+            "p25": 0.29568965517241375,
+            "p75": 0.35046028979191635,
+            "p90": 0.37195945945945946,
+            "p95": 0.3761569416498994
+          },
+          "nonShotLossesPerPossession": {
+            "n": 40,
+            "mean": 0.3195573246686102,
+            "median": 0.32485966319166,
+            "sd": 0.03999684557492018,
+            "min": 0.22962962962962963,
+            "max": 0.4084507042253521,
+            "p05": 0.24544035674470457,
+            "p10": 0.2729135432283858,
+            "p25": 0.29540649383337525,
+            "p75": 0.34363020532479127,
+            "p90": 0.3687411095305832,
+            "p95": 0.37526408450704224
+          },
+          "fieldConversion": {
+            "n": 40,
+            "mean": 0.5981333875685908,
+            "median": 0.598780487804878,
+            "sd": 0.06750807359048668,
+            "min": 0.41025641025641024,
+            "max": 0.7341772151898734,
+            "p05": 0.4877677638453501,
+            "p10": 0.5286129032258065,
+            "p25": 0.5679505813953488,
+            "p75": 0.6361360718870347,
+            "p90": 0.6834509803921569,
+            "p95": 0.713019578313253
+          },
+          "sevenMetreConversion": {
+            "n": 40,
+            "mean": 0.8068885281385281,
+            "median": 0.8181818181818182,
+            "sd": 0.1577620482619899,
+            "min": 0.5,
+            "max": 1,
+            "p05": 0.5678571428571428,
+            "p10": 0.5971428571428571,
+            "p25": 0.6666666666666666,
+            "p75": 1,
+            "p90": 1,
+            "p95": 1
+          },
+          "outfieldIncludingSevenMetreConversion": {
+            "n": 40,
+            "mean": 0.6127066914718512,
+            "median": 0.6151035932339105,
+            "sd": 0.06452767881998511,
+            "min": 0.47191011235955055,
+            "max": 0.7444444444444445,
+            "p05": 0.5047252747252747,
+            "p10": 0.5342255375164545,
+            "p25": 0.5706168831168831,
+            "p75": 0.6521303815774836,
+            "p90": 0.7066012725344645,
+            "p95": 0.717885375494071
+          },
+          "allActorConversion": {
+            "n": 40,
+            "mean": 0.6127066914718512,
+            "median": 0.6151035932339105,
+            "sd": 0.06452767881998511,
+            "min": 0.47191011235955055,
+            "max": 0.7444444444444445,
+            "p05": 0.5047252747252747,
+            "p10": 0.5342255375164545,
+            "p25": 0.5706168831168831,
+            "p75": 0.6521303815774836,
+            "p90": 0.7066012725344645,
+            "p95": 0.717885375494071
+          }
+        }
+      },
+      "exclusiveEndings": {
+        "GOAL": {
+          "count": 2316,
+          "share": 0.42093784078516905,
+          "duration": {
+            "n": 2316,
+            "mean": 27.86539291882557,
+            "median": 25,
+            "sd": 13.067828015642533,
+            "min": 2.35,
+            "max": 162.55,
+            "p05": 12.6375,
+            "p10": 14.75,
+            "p25": 19.3875,
+            "p75": 33.3125,
+            "p90": 44.525,
+            "p95": 52.8125
+          }
+        },
+        "SHOT_OUTCOME": {
+          "count": 1329,
+          "share": 0.2415485278080698,
+          "duration": {
+            "n": 1329,
+            "mean": 27.793152746425882,
+            "median": 24.85,
+            "sd": 12.699170257082455,
+            "min": 0.75,
+            "max": 132.45,
+            "p05": 12.7,
+            "p10": 15.1,
+            "p25": 19.45,
+            "p75": 33.25,
+            "p90": 45.31,
+            "p95": 52.98999999999998
+          }
+        },
+        "TURNOVER": {
+          "count": 1782,
+          "share": 0.3238822246455834,
+          "duration": {
+            "n": 1782,
+            "mean": 22.788580246913586,
+            "median": 20.7,
+            "sd": 13.191074626731012,
+            "min": 1.15,
+            "max": 102.95,
+            "p05": 4.85,
+            "p10": 6.855,
+            "p25": 14.3125,
+            "p75": 29.25,
+            "p90": 39.19000000000001,
+            "p95": 46.55
+          }
+        },
+        "OFFENSIVE_FOUL": {
+          "count": 0,
+          "share": 0,
+          "duration": {
+            "n": 0,
+            "mean": null,
+            "median": null,
+            "sd": null,
+            "min": null,
+            "max": null,
+            "p05": null,
+            "p10": null,
+            "p25": null,
+            "p75": null,
+            "p90": null,
+            "p95": null
+          }
+        },
+        "HALF_END": {
+          "count": 75,
+          "share": 0.013631406761177753,
+          "duration": {
+            "n": 75,
+            "mean": 25.512,
+            "median": 16.8,
+            "sd": 55.51013046087879,
+            "min": 0,
+            "max": 484.15,
+            "p05": 2.855,
+            "p10": 4.47,
+            "p25": 9.2,
+            "p75": 25.525,
+            "p90": 38.43000000000002,
+            "p95": 52.02999999999999
+          }
+        },
+        "OTHER": {
+          "count": 0,
+          "share": 0,
+          "duration": {
+            "n": 0,
+            "mean": null,
+            "median": null,
+            "sd": null,
+            "min": null,
+            "max": null,
+            "p05": null,
+            "p10": null,
+            "p25": null,
+            "p75": null,
+            "p90": null,
+            "p95": null
+          }
+        },
+        "UNRESOLVED": {
+          "count": 0,
+          "share": 0,
+          "duration": {
+            "n": 0,
+            "mean": null,
+            "median": null,
+            "sd": null,
+            "min": null,
+            "max": null,
+            "p05": null,
+            "p10": null,
+            "p25": null,
+            "p75": null,
+            "p90": null,
+            "p95": null
+          }
+        }
+      },
+      "exclusiveLossCauses": {
+        "BAD_PASS_OUT": {
+          "count": 93,
+          "perPossession": 0.016902944383860415,
+          "shareOfLosses": 0.05218855218855219,
+          "matchCounts": {
+            "n": 40,
+            "mean": 2.325,
+            "median": 2,
+            "sd": 1.421221937232815,
+            "min": 0,
+            "max": 5,
+            "p05": 0,
+            "p10": 1,
+            "p25": 1,
+            "p75": 3,
+            "p90": 4.100000000000001,
+            "p95": 5
+          },
+          "teamMatchCounts": {
+            "n": 80,
+            "mean": 1.1625,
+            "median": 1,
+            "sd": 1.0726018289860892,
+            "min": 0,
+            "max": 5,
+            "p05": 0,
+            "p10": 0,
+            "p25": 0,
+            "p75": 2,
+            "p90": 2,
+            "p95": 3
+          }
+        },
+        "BALL_CONTROL_LOSS_UNSPECIFIED": {
+          "count": 0,
+          "perPossession": 0,
+          "shareOfLosses": 0,
+          "matchCounts": {
+            "n": 40,
+            "mean": 0,
+            "median": 0,
+            "sd": 0,
+            "min": 0,
+            "max": 0,
+            "p05": 0,
+            "p10": 0,
+            "p25": 0,
+            "p75": 0,
+            "p90": 0,
+            "p95": 0
+          },
+          "teamMatchCounts": {
+            "n": 80,
+            "mean": 0,
+            "median": 0,
+            "sd": 0,
+            "min": 0,
+            "max": 0,
+            "p05": 0,
+            "p10": 0,
+            "p25": 0,
+            "p75": 0,
+            "p90": 0,
+            "p95": 0
+          }
+        },
+        "DEFLECTED_PASS_RECOVERED": {
+          "count": 529,
+          "perPossession": 0.09614685568884042,
+          "shareOfLosses": 0.29685746352413017,
+          "matchCounts": {
+            "n": 40,
+            "mean": 13.225,
+            "median": 13,
+            "sd": 3.0924846868596676,
+            "min": 8,
+            "max": 21,
+            "p05": 8.95,
+            "p10": 9.9,
+            "p25": 11,
+            "p75": 15.25,
+            "p90": 17,
+            "p95": 18.099999999999994
+          },
+          "teamMatchCounts": {
+            "n": 80,
+            "mean": 6.6125,
+            "median": 6,
+            "sd": 2.2864141955073927,
+            "min": 3,
+            "max": 13,
+            "p05": 3,
+            "p10": 4,
+            "p25": 5,
+            "p75": 8,
+            "p90": 9.100000000000009,
+            "p95": 11
+          }
+        },
+        "DROPPED_RECEPTION": {
+          "count": 77,
+          "perPossession": 0.013994910941475827,
+          "shareOfLosses": 0.043209876543209874,
+          "matchCounts": {
+            "n": 40,
+            "mean": 1.925,
+            "median": 2,
+            "sd": 1.4916433890176297,
+            "min": 0,
+            "max": 6,
+            "p05": 0,
+            "p10": 0,
+            "p25": 1,
+            "p75": 2.25,
+            "p90": 4,
+            "p95": 5.049999999999997
+          },
+          "teamMatchCounts": {
+            "n": 80,
+            "mean": 0.9625,
+            "median": 1,
+            "sd": 0.999287721012866,
+            "min": 0,
+            "max": 3,
+            "p05": 0,
+            "p10": 0,
+            "p25": 0,
+            "p75": 1.25,
+            "p90": 3,
+            "p95": 3
+          }
+        },
+        "FAILED_RECEIVE_UNSPECIFIED": {
+          "count": 0,
+          "perPossession": 0,
+          "shareOfLosses": 0,
+          "matchCounts": {
+            "n": 40,
+            "mean": 0,
+            "median": 0,
+            "sd": 0,
+            "min": 0,
+            "max": 0,
+            "p05": 0,
+            "p10": 0,
+            "p25": 0,
+            "p75": 0,
+            "p90": 0,
+            "p95": 0
+          },
+          "teamMatchCounts": {
+            "n": 80,
+            "mean": 0,
+            "median": 0,
+            "sd": 0,
+            "min": 0,
+            "max": 0,
+            "p05": 0,
+            "p10": 0,
+            "p25": 0,
+            "p75": 0,
+            "p90": 0,
+            "p95": 0
+          }
+        },
+        "INTERCEPTION": {
+          "count": 989,
+          "perPossession": 0.1797528171573973,
+          "shareOfLosses": 0.5549943883277216,
+          "matchCounts": {
+            "n": 40,
+            "mean": 24.725,
+            "median": 25,
+            "sd": 5.0331592770040885,
+            "min": 13,
+            "max": 35,
+            "p05": 15.95,
+            "p10": 18.9,
+            "p25": 20.75,
+            "p75": 28,
+            "p90": 31,
+            "p95": 31.049999999999997
+          },
+          "teamMatchCounts": {
+            "n": 80,
+            "mean": 12.3625,
+            "median": 12,
+            "sd": 3.5408779216030872,
+            "min": 5,
+            "max": 21,
+            "p05": 7,
+            "p10": 8,
+            "p25": 10,
+            "p75": 15,
+            "p90": 16.10000000000001,
+            "p95": 18.049999999999997
+          }
+        },
+        "OFFENSIVE_FOUL": {
+          "count": 0,
+          "perPossession": 0,
+          "shareOfLosses": 0,
+          "matchCounts": {
+            "n": 40,
+            "mean": 0,
+            "median": 0,
+            "sd": 0,
+            "min": 0,
+            "max": 0,
+            "p05": 0,
+            "p10": 0,
+            "p25": 0,
+            "p75": 0,
+            "p90": 0,
+            "p95": 0
+          },
+          "teamMatchCounts": {
+            "n": 80,
+            "mean": 0,
+            "median": 0,
+            "sd": 0,
+            "min": 0,
+            "max": 0,
+            "p05": 0,
+            "p10": 0,
+            "p25": 0,
+            "p75": 0,
+            "p90": 0,
+            "p95": 0
+          }
+        },
+        "OTHER": {
+          "count": 0,
+          "perPossession": 0,
+          "shareOfLosses": 0,
+          "matchCounts": {
+            "n": 40,
+            "mean": 0,
+            "median": 0,
+            "sd": 0,
+            "min": 0,
+            "max": 0,
+            "p05": 0,
+            "p10": 0,
+            "p25": 0,
+            "p75": 0,
+            "p90": 0,
+            "p95": 0
+          },
+          "teamMatchCounts": {
+            "n": 80,
+            "mean": 0,
+            "median": 0,
+            "sd": 0,
+            "min": 0,
+            "max": 0,
+            "p05": 0,
+            "p10": 0,
+            "p25": 0,
+            "p75": 0,
+            "p90": 0,
+            "p95": 0
+          }
+        },
+        "PASSIVE_PLAY": {
+          "count": 25,
+          "perPossession": 0.0045438022537259174,
+          "shareOfLosses": 0.014029180695847363,
+          "matchCounts": {
+            "n": 40,
+            "mean": 0.625,
+            "median": 0.5,
+            "sd": 0.7048367696104338,
+            "min": 0,
+            "max": 2,
+            "p05": 0,
+            "p10": 0,
+            "p25": 0,
+            "p75": 1,
+            "p90": 2,
+            "p95": 2
+          },
+          "teamMatchCounts": {
+            "n": 80,
+            "mean": 0.3125,
+            "median": 0,
+            "sd": 0.4928283137518004,
+            "min": 0,
+            "max": 2,
+            "p05": 0,
+            "p10": 0,
+            "p25": 0,
+            "p75": 1,
+            "p90": 1,
+            "p95": 1
+          }
+        },
+        "TECHNICAL_RULE_VIOLATION": {
+          "count": 69,
+          "perPossession": 0.012540894220283533,
+          "shareOfLosses": 0.03872053872053872,
+          "matchCounts": {
+            "n": 40,
+            "mean": 1.725,
+            "median": 2,
+            "sd": 1.377241762289712,
+            "min": 0,
+            "max": 6,
+            "p05": 0,
+            "p10": 0,
+            "p25": 1,
+            "p75": 2.25,
+            "p90": 3.1000000000000014,
+            "p95": 4
+          },
+          "teamMatchCounts": {
+            "n": 80,
+            "mean": 0.8625,
+            "median": 1,
+            "sd": 0.9644799215055446,
+            "min": 0,
+            "max": 5,
+            "p05": 0,
+            "p10": 0,
+            "p25": 0,
+            "p75": 1,
+            "p90": 2,
+            "p95": 2
+          }
+        }
+      },
+      "freeThrows": {
+        "definition": "Distinct WHISTLE_RESTART kind FREE_THROW/foulId, attacking owner. Excludes 7m, assessments, realized advantage, timeout/admin/technical FREE_THROW awards and horn retakes.",
+        "chains": {
+          "ZERO": {
+            "episodes": 5071,
+            "duration": {
+              "n": 5071,
+              "mean": 24.958952869256528,
+              "median": 22.85,
+              "sd": 13.82683123638226,
+              "min": 0,
+              "max": 484.15,
+              "p05": 7.925000000000001,
+              "p10": 12.35,
+              "p25": 17.075000000000003,
+              "p75": 30.5,
+              "p90": 40.65,
+              "p95": 48.05
+            }
+          },
+          "ONE": {
+            "episodes": 401,
+            "duration": {
+              "n": 401,
+              "mean": 39.61783042394015,
+              "median": 36,
+              "sd": 16.059868851618063,
+              "min": 9.9,
+              "max": 117.55,
+              "p05": 20.4,
+              "p10": 23.55,
+              "p25": 28.3,
+              "p75": 48.15,
+              "p90": 60.15,
+              "p95": 69.05
+            }
+          },
+          "TWO": {
+            "episodes": 29,
+            "duration": {
+              "n": 29,
+              "mean": 50.78275862068965,
+              "median": 46.9,
+              "sd": 14.769673779295127,
+              "min": 27.7,
+              "max": 88.6,
+              "p05": 30.490000000000002,
+              "p10": 33.309999999999995,
+              "p25": 42.15,
+              "p75": 61.25,
+              "p90": 67.77,
+              "p95": 73.06999999999998
+            }
+          },
+          "THREE_PLUS": {
+            "episodes": 1,
+            "duration": {
+              "n": 1,
+              "mean": 69.7,
+              "median": 69.7,
+              "sd": null,
+              "min": 69.7,
+              "max": 69.7,
+              "p05": 69.7,
+              "p10": 69.7,
+              "p25": 69.7,
+              "p75": 69.7,
+              "p90": 69.7,
+              "p95": 69.7
+            }
+          }
+        },
+        "byFifteenMinuteSegment": [
+          {
+            "segment": "0-15",
+            "count": 110
+          },
+          {
+            "segment": "15-30",
+            "count": 124
+          },
+          {
+            "segment": "30-45",
+            "count": 112
+          },
+          {
+            "segment": "45-60",
+            "count": 117
+          }
+        ],
+        "inShotBearingEpisodes": 343,
+        "inEventuallyLostEpisodes": 120,
+        "beforeLaterShot": 337,
+        "beforeTerminalLoss": 120,
+        "orderingStatus": "ORDERED_WHISTLE_TO_LATER_SHOT",
+        "nonexclusive": true
+      },
+      "independentFlags": {
+        "shotBearingEpisodes": 3666,
+        "ordinaryFieldShotBearingEpisodes": 3396,
+        "sevenMetreEpisodes": 281,
+        "sevenMetreOnlyEpisodes": 270,
+        "shotBearingLossEpisodes": 20,
+        "jointFlags": {
+          "TURNOVER:NO_SHOT:NO_7M": 1762,
+          "GOAL:ANY_SHOT:NO_7M": 2089,
+          "SHOT_OUTCOME:ANY_SHOT:NO_7M": 1278,
+          "SHOT_OUTCOME:ANY_SHOT:WITH_7M": 51,
+          "GOAL:ANY_SHOT:WITH_7M": 227,
+          "HALF_END:NO_SHOT:NO_7M": 74,
+          "TURNOVER:ANY_SHOT:NO_7M": 17,
+          "TURNOVER:ANY_SHOT:WITH_7M": 3,
+          "HALF_END:ANY_SHOT:NO_7M": 1
+        }
+      },
+      "comparison": {
+        "historical2017385": {
+          "rawIdAttacks": 5490,
+          "uiBroadLosses": 1968,
+          "noShotLosses": 1763,
+          "storedHistoricalNoShotSubtotal": 1763
+        },
+        "currentCanonical": {
+          "reportsWithLedger": 40,
+          "rawIdAttacks": 5489,
+          "uiBroadLosses": 1782
+        },
+        "independentPlayedEpisodes": {
+          "episodes": 5502,
+          "broadLosses": 1782,
+          "noShotLosses": 1762
+        },
+        "differences": {
+          "uiLossesCurrentMinusHistorical": -186,
+          "independentLossesMinusCurrentUi": 0,
+          "playedEpisodesMinusCurrentRawIdAttacks": 13
+        }
+      },
+      "reconciledReports": 40,
+      "integrity": {
+        "anomalyCount": 0,
+        "allSelectedTrajectoriesMatchRetained": true
+      }
+    },
+    "allsv": {
+      "n": 40,
+      "teamMatches": 80,
+      "pooled": {
+        "counts": {
+          "possessions": 5473,
+          "canonicalLedgerPossessions": 5458,
+          "goals": 2311,
+          "fieldAttempts": 3533,
+          "sevenMetres": 309,
+          "totalAttempts": 3842,
+          "freeThrows": 480,
+          "allFreeThrowAwards": 660,
+          "broadBallLosses": 1670,
+          "canonicalUiBallLosses": 1670,
+          "nonShotLosses": 1643,
+          "sevenMetrePossessions": 309,
+          "technicalExecutionCandidate": 215,
+          "technicalRuleViolations": 66,
+          "offensiveFouls": 0,
+          "passes": 40712,
+          "successfulPasses": 38262,
+          "interceptedPasses": 816,
+          "passesOut": 143,
+          "fumbledPasses": 473,
+          "ownRecoveredFumbles": 373,
+          "unresolvedPasses": 9,
+          "fieldGoals": 2085,
+          "sevenMetreGoals": 226,
+          "keeperGoals": 0,
+          "keeperAttempts": 0,
+          "outfieldAttempts": 3842,
+          "outfieldGoals": 2311,
+          "historical2017385RawIdAttacks": 5459,
+          "historical2017385UiBroadLosses": 1831,
+          "historical2017385NoShotLosses": 1643,
+          "currentCanonicalRawIdAttacks": 5458,
+          "currentCanonicalUiBroadLosses": 1670,
+          "independentVsUiLossDifference": 0,
+          "playedVsCanonicalRawIdAttacks": 15
+        },
+        "rates": {
+          "goalsPerPossession": 0.42225470491503747,
+          "fieldAttemptsPerPossession": 0.6455326146537548,
+          "totalAttemptsPerPossession": 0.7019915951032341,
+          "freeThrowsPerPossession": 0.08770327060113284,
+          "passesPerPossession": 7.43869906815275,
+          "broadLossesPerPossession": 0.305134295633108,
+          "nonShotLossesPerPossession": 0.3002009866617943,
+          "fieldConversion": 0.5901500141522785,
+          "sevenMetreConversion": 0.7313915857605178,
+          "outfieldIncludingSevenMetreConversion": 0.6015096304008329,
+          "allActorConversion": 0.6015096304008329
+        },
+        "rateDenominators": {
+          "possessions": 5473,
+          "ordinaryFieldAttempts": 3533,
+          "sevenMetreAttempts": 309,
+          "outfieldIncludingSevenMetreAttempts": 3842,
+          "allActorAttempts": 3842
+        }
+      },
+      "matchDistributions": {
+        "counts": {
+          "possessions": {
+            "n": 40,
+            "mean": 136.825,
+            "median": 136,
+            "sd": 5.781879297004409,
+            "min": 127,
+            "max": 150,
+            "p05": 128.95,
+            "p10": 130.9,
+            "p25": 132,
+            "p75": 140.5,
+            "p90": 146,
+            "p95": 147
+          },
+          "canonicalLedgerPossessions": {
+            "n": 40,
+            "mean": 136.45,
+            "median": 135.5,
+            "sd": 5.8658070465786984,
+            "min": 127,
+            "max": 150,
+            "p05": 128,
+            "p10": 130,
+            "p25": 132,
+            "p75": 139.5,
+            "p90": 146,
+            "p95": 146.05
+          },
+          "goals": {
+            "n": 40,
+            "mean": 57.775,
+            "median": 57.5,
+            "sd": 5.997809429176451,
+            "min": 45,
+            "max": 76,
+            "p05": 47.9,
+            "p10": 49.9,
+            "p25": 55,
+            "p75": 61,
+            "p90": 63.2,
+            "p95": 66.05
+          },
+          "fieldAttempts": {
+            "n": 40,
+            "mean": 88.325,
+            "median": 88.5,
+            "sd": 6.502021381945928,
+            "min": 76,
+            "max": 104,
+            "p05": 77.95,
+            "p10": 79.9,
+            "p25": 84,
+            "p75": 93,
+            "p90": 95.30000000000001,
+            "p95": 99.05
+          },
+          "sevenMetres": {
+            "n": 40,
+            "mean": 7.725,
+            "median": 8,
+            "sd": 2.669749820219884,
+            "min": 3,
+            "max": 14,
+            "p05": 4,
+            "p10": 4,
+            "p25": 6,
+            "p75": 9.25,
+            "p90": 11.100000000000001,
+            "p95": 12
+          },
+          "totalAttempts": {
+            "n": 40,
+            "mean": 96.05,
+            "median": 96.5,
+            "sd": 5.661158710786862,
+            "min": 85,
+            "max": 109,
+            "p05": 86,
+            "p10": 88.8,
+            "p25": 92,
+            "p75": 100,
+            "p90": 103.1,
+            "p95": 104
+          },
+          "freeThrows": {
+            "n": 40,
+            "mean": 12,
+            "median": 11,
+            "sd": 3.7072347839851933,
+            "min": 4,
+            "max": 18,
+            "p05": 6.95,
+            "p10": 7.9,
+            "p25": 9.75,
+            "p75": 15,
+            "p90": 17.1,
+            "p95": 18
+          },
+          "allFreeThrowAwards": {
+            "n": 40,
+            "mean": 16.5,
+            "median": 16.5,
+            "sd": 3.993584598918364,
+            "min": 9,
+            "max": 24,
+            "p05": 10,
+            "p10": 10.9,
+            "p25": 14,
+            "p75": 19.25,
+            "p90": 22,
+            "p95": 22.099999999999994
+          },
+          "broadBallLosses": {
+            "n": 40,
+            "mean": 41.75,
+            "median": 41,
+            "sd": 5.986094998689324,
+            "min": 29,
+            "max": 55,
+            "p05": 33.95,
+            "p10": 35,
+            "p25": 37,
+            "p75": 45,
+            "p90": 49.300000000000004,
+            "p95": 52.099999999999994
+          },
+          "canonicalUiBallLosses": {
+            "n": 40,
+            "mean": 41.75,
+            "median": 41,
+            "sd": 5.986094998689324,
+            "min": 29,
+            "max": 55,
+            "p05": 33.95,
+            "p10": 35,
+            "p25": 37,
+            "p75": 45,
+            "p90": 49.300000000000004,
+            "p95": 52.099999999999994
+          },
+          "nonShotLosses": {
+            "n": 40,
+            "mean": 41.075,
+            "median": 40.5,
+            "sd": 6.12848540288164,
+            "min": 29,
+            "max": 54,
+            "p05": 31.95,
+            "p10": 35,
+            "p25": 36,
+            "p75": 45,
+            "p90": 48.300000000000004,
+            "p95": 51.099999999999994
+          },
+          "sevenMetrePossessions": {
+            "n": 40,
+            "mean": 7.725,
+            "median": 8,
+            "sd": 2.669749820219884,
+            "min": 3,
+            "max": 14,
+            "p05": 4,
+            "p10": 4,
+            "p25": 6,
+            "p75": 9.25,
+            "p90": 11.100000000000001,
+            "p95": 12
+          },
+          "technicalExecutionCandidate": {
+            "n": 40,
+            "mean": 5.375,
+            "median": 5,
+            "sd": 2.191914044730582,
+            "min": 2,
+            "max": 12,
+            "p05": 2,
+            "p10": 2.9000000000000004,
+            "p25": 4,
+            "p75": 7,
+            "p90": 8,
+            "p95": 8.049999999999997
+          },
+          "technicalRuleViolations": {
+            "n": 40,
+            "mean": 1.65,
+            "median": 2,
+            "sd": 1.1886212655091244,
+            "min": 0,
+            "max": 5,
+            "p05": 0,
+            "p10": 0,
+            "p25": 1,
+            "p75": 2,
+            "p90": 3,
+            "p95": 3.049999999999997
+          },
+          "offensiveFouls": {
+            "n": 40,
+            "mean": 0,
+            "median": 0,
+            "sd": 0,
+            "min": 0,
+            "max": 0,
+            "p05": 0,
+            "p10": 0,
+            "p25": 0,
+            "p75": 0,
+            "p90": 0,
+            "p95": 0
+          },
+          "passes": {
+            "n": 40,
+            "mean": 1017.8,
+            "median": 1018.5,
+            "sd": 29.40974895053226,
+            "min": 943,
+            "max": 1082,
+            "p05": 971,
+            "p10": 983.6,
+            "p25": 999.75,
+            "p75": 1034.25,
+            "p90": 1058.1,
+            "p95": 1061.55
+          },
+          "successfulPasses": {
+            "n": 40,
+            "mean": 956.55,
+            "median": 954.5,
+            "sd": 27.704438226318494,
+            "min": 893,
+            "max": 1006,
+            "p05": 910.45,
+            "p10": 926.6,
+            "p25": 942.75,
+            "p75": 978.25,
+            "p90": 994.2,
+            "p95": 1000.2
+          },
+          "interceptedPasses": {
+            "n": 40,
+            "mean": 20.4,
+            "median": 20.5,
+            "sd": 3.43287275974735,
+            "min": 11,
+            "max": 27,
+            "p05": 14.9,
+            "p10": 16,
+            "p25": 18.75,
+            "p75": 22.25,
+            "p90": 24.1,
+            "p95": 26
+          },
+          "passesOut": {
+            "n": 40,
+            "mean": 3.575,
+            "median": 3.5,
+            "sd": 1.9727307638567073,
+            "min": 1,
+            "max": 9,
+            "p05": 1,
+            "p10": 1,
+            "p25": 2,
+            "p75": 5,
+            "p90": 6,
+            "p95": 7.049999999999997
+          },
+          "fumbledPasses": {
+            "n": 40,
+            "mean": 11.825,
+            "median": 12,
+            "sd": 3.1369387331257546,
+            "min": 5,
+            "max": 19,
+            "p05": 7,
+            "p10": 7.9,
+            "p25": 9,
+            "p75": 14.25,
+            "p90": 15,
+            "p95": 16.049999999999997
+          },
+          "ownRecoveredFumbles": {
+            "n": 40,
+            "mean": 9.325,
+            "median": 9,
+            "sd": 2.8589714844184697,
+            "min": 4,
+            "max": 15,
+            "p05": 4.95,
+            "p10": 6,
+            "p25": 7,
+            "p75": 11,
+            "p90": 13.100000000000001,
+            "p95": 14
+          },
+          "unresolvedPasses": {
+            "n": 40,
+            "mean": 0.225,
+            "median": 0,
+            "sd": 0.42290206176626033,
+            "min": 0,
+            "max": 1,
+            "p05": 0,
+            "p10": 0,
+            "p25": 0,
+            "p75": 0,
+            "p90": 1,
+            "p95": 1
+          },
+          "fieldGoals": {
+            "n": 40,
+            "mean": 52.125,
+            "median": 52,
+            "sd": 6.106690320187087,
+            "min": 39,
+            "max": 72,
+            "p05": 40.95,
+            "p10": 43.9,
+            "p25": 49,
+            "p75": 55.25,
+            "p90": 58,
+            "p95": 58.14999999999999
+          },
+          "sevenMetreGoals": {
+            "n": 40,
+            "mean": 5.65,
+            "median": 6,
+            "sd": 2.0822817859015705,
+            "min": 2,
+            "max": 10,
+            "p05": 2.95,
+            "p10": 3,
+            "p25": 4,
+            "p75": 8,
+            "p90": 8,
+            "p95": 8.049999999999997
+          },
+          "keeperGoals": {
+            "n": 40,
+            "mean": 0,
+            "median": 0,
+            "sd": 0,
+            "min": 0,
+            "max": 0,
+            "p05": 0,
+            "p10": 0,
+            "p25": 0,
+            "p75": 0,
+            "p90": 0,
+            "p95": 0
+          },
+          "keeperAttempts": {
+            "n": 40,
+            "mean": 0,
+            "median": 0,
+            "sd": 0,
+            "min": 0,
+            "max": 0,
+            "p05": 0,
+            "p10": 0,
+            "p25": 0,
+            "p75": 0,
+            "p90": 0,
+            "p95": 0
+          },
+          "outfieldAttempts": {
+            "n": 40,
+            "mean": 96.05,
+            "median": 96.5,
+            "sd": 5.661158710786862,
+            "min": 85,
+            "max": 109,
+            "p05": 86,
+            "p10": 88.8,
+            "p25": 92,
+            "p75": 100,
+            "p90": 103.1,
+            "p95": 104
+          },
+          "outfieldGoals": {
+            "n": 40,
+            "mean": 57.775,
+            "median": 57.5,
+            "sd": 5.997809429176451,
+            "min": 45,
+            "max": 76,
+            "p05": 47.9,
+            "p10": 49.9,
+            "p25": 55,
+            "p75": 61,
+            "p90": 63.2,
+            "p95": 66.05
+          },
+          "historical2017385RawIdAttacks": {
+            "n": 40,
+            "mean": 136.475,
+            "median": 135.5,
+            "sd": 5.870340487220263,
+            "min": 127,
+            "max": 150,
+            "p05": 128,
+            "p10": 130,
+            "p25": 132,
+            "p75": 139.5,
+            "p90": 146,
+            "p95": 146.05
+          },
+          "historical2017385UiBroadLosses": {
+            "n": 40,
+            "mean": 45.775,
+            "median": 44.5,
+            "sd": 6.116340031801321,
+            "min": 32,
+            "max": 58,
+            "p05": 36.95,
+            "p10": 38.9,
+            "p25": 42,
+            "p75": 51,
+            "p90": 52.400000000000006,
+            "p95": 57
+          },
+          "historical2017385NoShotLosses": {
+            "n": 40,
+            "mean": 41.075,
+            "median": 40.5,
+            "sd": 6.12848540288164,
+            "min": 29,
+            "max": 54,
+            "p05": 31.95,
+            "p10": 35,
+            "p25": 36,
+            "p75": 45,
+            "p90": 48.300000000000004,
+            "p95": 51.099999999999994
+          },
+          "currentCanonicalRawIdAttacks": {
+            "n": 40,
+            "mean": 136.45,
+            "median": 135.5,
+            "sd": 5.8658070465786984,
+            "min": 127,
+            "max": 150,
+            "p05": 128,
+            "p10": 130,
+            "p25": 132,
+            "p75": 139.5,
+            "p90": 146,
+            "p95": 146.05
+          },
+          "currentCanonicalUiBroadLosses": {
+            "n": 40,
+            "mean": 41.75,
+            "median": 41,
+            "sd": 5.986094998689324,
+            "min": 29,
+            "max": 55,
+            "p05": 33.95,
+            "p10": 35,
+            "p25": 37,
+            "p75": 45,
+            "p90": 49.300000000000004,
+            "p95": 52.099999999999994
+          },
+          "independentVsUiLossDifference": {
+            "n": 40,
+            "mean": 0,
+            "median": 0,
+            "sd": 0,
+            "min": 0,
+            "max": 0,
+            "p05": 0,
+            "p10": 0,
+            "p25": 0,
+            "p75": 0,
+            "p90": 0,
+            "p95": 0
+          },
+          "playedVsCanonicalRawIdAttacks": {
+            "n": 40,
+            "mean": 0.375,
+            "median": 0,
+            "sd": 0.4902903378454601,
+            "min": 0,
+            "max": 1,
+            "p05": 0,
+            "p10": 0,
+            "p25": 0,
+            "p75": 1,
+            "p90": 1,
+            "p95": 1
+          }
+        },
+        "rates": {
+          "goalsPerPossession": {
+            "n": 40,
+            "mean": 0.4227233719082245,
+            "median": 0.4233888177550149,
+            "sd": 0.044463552056733927,
+            "min": 0.3150684931506849,
+            "max": 0.5314685314685315,
+            "p05": 0.34895887694395156,
+            "p10": 0.37224194025436264,
+            "p25": 0.4037698412698413,
+            "p75": 0.44731432898793744,
+            "p90": 0.46311188811188814,
+            "p95": 0.48257339925532555
+          },
+          "fieldAttemptsPerPossession": {
+            "n": 40,
+            "mean": 0.6459533212827584,
+            "median": 0.6533119658119658,
+            "sd": 0.045389489220457976,
+            "min": 0.5693430656934306,
+            "max": 0.7272727272727273,
+            "p05": 0.575093860984272,
+            "p10": 0.5779839208410636,
+            "p25": 0.6112145588162272,
+            "p75": 0.6739953886693018,
+            "p90": 0.7057444953128406,
+            "p95": 0.7148995535714285
+          },
+          "totalAttemptsPerPossession": {
+            "n": 40,
+            "mean": 0.7026791737857208,
+            "median": 0.6993798449612403,
+            "sd": 0.042879998821698136,
+            "min": 0.6232876712328768,
+            "max": 0.8046875,
+            "p05": 0.634244593359732,
+            "p10": 0.6368369829683699,
+            "p25": 0.6723682278666863,
+            "p75": 0.7380342118459909,
+            "p90": 0.752054048163888,
+            "p95": 0.7562221243323605
+          },
+          "freeThrowsPerPossession": {
+            "n": 40,
+            "mean": 0.08806543659170825,
+            "median": 0.07893842406389848,
+            "sd": 0.02856383477691777,
+            "min": 0.02962962962962963,
+            "max": 0.140625,
+            "p05": 0.0500973657164494,
+            "p10": 0.05760026963262555,
+            "p25": 0.06793770139634801,
+            "p75": 0.10950681375730045,
+            "p90": 0.13032772771623716,
+            "p95": 0.13538961038961037
+          },
+          "passesPerPossession": {
+            "n": 40,
+            "mean": 7.452081099300996,
+            "median": 7.46449900464499,
+            "sd": 0.3884410970580408,
+            "min": 6.594405594405594,
+            "max": 8.074626865671641,
+            "p05": 6.782949771689498,
+            "p10": 6.9346938775510205,
+            "p25": 7.174823943661972,
+            "p75": 7.775699359622514,
+            "p90": 7.865641025641025,
+            "p95": 8.015538977561878
+          },
+          "broadLossesPerPossession": {
+            "n": 40,
+            "mean": 0.3046486205414947,
+            "median": 0.30401826484018263,
+            "sd": 0.03794705846623788,
+            "min": 0.2265625,
+            "max": 0.3880597014925373,
+            "p05": 0.2534420289855073,
+            "p10": 0.2585814185814186,
+            "p25": 0.2771651350598719,
+            "p75": 0.32447948560930806,
+            "p90": 0.3567346938775511,
+            "p95": 0.37685481451854813
+          },
+          "nonShotLossesPerPossession": {
+            "n": 40,
+            "mean": 0.29964539338449914,
+            "median": 0.29841220423412207,
+            "sd": 0.038812792963180576,
+            "min": 0.2265625,
+            "max": 0.3805970149253731,
+            "p05": 0.2440109759007397,
+            "p10": 0.25679089026915114,
+            "p25": 0.26465311004784686,
+            "p75": 0.32439714041826717,
+            "p90": 0.3560544217687075,
+            "p95": 0.36998300169983
+          },
+          "fieldConversion": {
+            "n": 40,
+            "mean": 0.5909656455318604,
+            "median": 0.5948314108251996,
+            "sd": 0.06137578493944105,
+            "min": 0.43010752688172044,
+            "max": 0.7105263157894737,
+            "p05": 0.49434646565211204,
+            "p10": 0.5107142857142857,
+            "p25": 0.5433908045977012,
+            "p75": 0.6388392857142857,
+            "p90": 0.6594155844155843,
+            "p95": 0.6716742081447963
+          },
+          "sevenMetreConversion": {
+            "n": 40,
+            "mean": 0.7472763347763348,
+            "median": 0.788888888888889,
+            "sd": 0.17946862242011324,
+            "min": 0.3333333333333333,
+            "max": 1,
+            "p05": 0.42589285714285713,
+            "p10": 0.49444444444444446,
+            "p25": 0.6666666666666666,
+            "p75": 0.8571428571428571,
+            "p90": 1,
+            "p95": 1
+          },
+          "outfieldIncludingSevenMetreConversion": {
+            "n": 40,
+            "mean": 0.6020071914169776,
+            "median": 0.5989690721649484,
+            "sd": 0.05651524682139275,
+            "min": 0.46601941747572817,
+            "max": 0.7,
+            "p05": 0.5252747252747253,
+            "p10": 0.5285931174089069,
+            "p25": 0.562442584464632,
+            "p75": 0.6514155712841254,
+            "p90": 0.674873441165576,
+            "p95": 0.6879873853211009
+          },
+          "allActorConversion": {
+            "n": 40,
+            "mean": 0.6020071914169776,
+            "median": 0.5989690721649484,
+            "sd": 0.05651524682139275,
+            "min": 0.46601941747572817,
+            "max": 0.7,
+            "p05": 0.5252747252747253,
+            "p10": 0.5285931174089069,
+            "p25": 0.562442584464632,
+            "p75": 0.6514155712841254,
+            "p90": 0.674873441165576,
+            "p95": 0.6879873853211009
+          }
+        }
+      },
+      "exclusiveEndings": {
+        "GOAL": {
+          "count": 2311,
+          "share": 0.42225470491503747,
+          "duration": {
+            "n": 2311,
+            "mean": 27.693422760709627,
+            "median": 24.7,
+            "sd": 12.557884503956208,
+            "min": 1.75,
+            "max": 108.9,
+            "p05": 12.3,
+            "p10": 14.95,
+            "p25": 19.15,
+            "p75": 33.975,
+            "p90": 44.85,
+            "p95": 51.625
+          }
+        },
+        "SHOT_OUTCOME": {
+          "count": 1417,
+          "share": 0.2589073634204275,
+          "duration": {
+            "n": 1417,
+            "mean": 28.26880733944949,
+            "median": 25.6,
+            "sd": 12.489565879187621,
+            "min": 1.75,
+            "max": 126.35,
+            "p05": 13.15,
+            "p10": 15.479999999999999,
+            "p25": 20,
+            "p75": 33.7,
+            "p90": 45.49000000000001,
+            "p95": 51.510000000000005
+          }
+        },
+        "TURNOVER": {
+          "count": 1670,
+          "share": 0.305134295633108,
+          "duration": {
+            "n": 1670,
+            "mean": 23.117664670658655,
+            "median": 20.05,
+            "sd": 14.700751660924512,
+            "min": 1.15,
+            "max": 121,
+            "p05": 4.8,
+            "p10": 6.195,
+            "p25": 13.65,
+            "p75": 29.8,
+            "p90": 42.47000000000003,
+            "p95": 50.00999999999999
+          }
+        },
+        "OFFENSIVE_FOUL": {
+          "count": 0,
+          "share": 0,
+          "duration": {
+            "n": 0,
+            "mean": null,
+            "median": null,
+            "sd": null,
+            "min": null,
+            "max": null,
+            "p05": null,
+            "p10": null,
+            "p25": null,
+            "p75": null,
+            "p90": null,
+            "p95": null
+          }
+        },
+        "HALF_END": {
+          "count": 75,
+          "share": 0.013703636031427005,
+          "duration": {
+            "n": 75,
+            "mean": 17.769999999999996,
+            "median": 16.9,
+            "sd": 12.502294384026674,
+            "min": 0,
+            "max": 53.35,
+            "p05": 1.6099999999999999,
+            "p10": 2.96,
+            "p25": 6.550000000000001,
+            "p75": 24.975,
+            "p90": 31.57000000000001,
+            "p95": 41.184999999999995
+          }
+        },
+        "OTHER": {
+          "count": 0,
+          "share": 0,
+          "duration": {
+            "n": 0,
+            "mean": null,
+            "median": null,
+            "sd": null,
+            "min": null,
+            "max": null,
+            "p05": null,
+            "p10": null,
+            "p25": null,
+            "p75": null,
+            "p90": null,
+            "p95": null
+          }
+        },
+        "UNRESOLVED": {
+          "count": 0,
+          "share": 0,
+          "duration": {
+            "n": 0,
+            "mean": null,
+            "median": null,
+            "sd": null,
+            "min": null,
+            "max": null,
+            "p05": null,
+            "p10": null,
+            "p25": null,
+            "p75": null,
+            "p90": null,
+            "p95": null
+          }
+        }
+      },
+      "exclusiveLossCauses": {
+        "BAD_PASS_OUT": {
+          "count": 115,
+          "perPossession": 0.02101224191485474,
+          "shareOfLosses": 0.0688622754491018,
+          "matchCounts": {
+            "n": 40,
+            "mean": 2.875,
+            "median": 3,
+            "sd": 1.8836339673824432,
+            "min": 0,
+            "max": 7,
+            "p05": 0,
+            "p10": 0.9000000000000004,
+            "p25": 1.75,
+            "p75": 4,
+            "p90": 5.100000000000001,
+            "p95": 6.049999999999997
+          },
+          "teamMatchCounts": {
+            "n": 80,
+            "mean": 1.4375,
+            "median": 1,
+            "sd": 1.2411076106711387,
+            "min": 0,
+            "max": 5,
+            "p05": 0,
+            "p10": 0,
+            "p25": 0,
+            "p75": 2,
+            "p90": 3,
+            "p95": 3
+          }
+        },
+        "BALL_CONTROL_LOSS_UNSPECIFIED": {
+          "count": 0,
+          "perPossession": 0,
+          "shareOfLosses": 0,
+          "matchCounts": {
+            "n": 40,
+            "mean": 0,
+            "median": 0,
+            "sd": 0,
+            "min": 0,
+            "max": 0,
+            "p05": 0,
+            "p10": 0,
+            "p25": 0,
+            "p75": 0,
+            "p90": 0,
+            "p95": 0
+          },
+          "teamMatchCounts": {
+            "n": 80,
+            "mean": 0,
+            "median": 0,
+            "sd": 0,
+            "min": 0,
+            "max": 0,
+            "p05": 0,
+            "p10": 0,
+            "p25": 0,
+            "p75": 0,
+            "p90": 0,
+            "p95": 0
+          }
+        },
+        "DEFLECTED_PASS_RECOVERED": {
+          "count": 525,
+          "perPossession": 0.09592545221998904,
+          "shareOfLosses": 0.3143712574850299,
+          "matchCounts": {
+            "n": 40,
+            "mean": 13.125,
+            "median": 12.5,
+            "sd": 3.8907352149459506,
+            "min": 5,
+            "max": 23,
+            "p05": 8.95,
+            "p10": 9,
+            "p25": 11,
+            "p75": 15.25,
+            "p90": 18.1,
+            "p95": 20.049999999999997
+          },
+          "teamMatchCounts": {
+            "n": 80,
+            "mean": 6.5625,
+            "median": 6,
+            "sd": 2.4383214292633903,
+            "min": 2,
+            "max": 14,
+            "p05": 3,
+            "p10": 4,
+            "p25": 5,
+            "p75": 8,
+            "p90": 9.100000000000009,
+            "p95": 11.049999999999997
+          }
+        },
+        "DROPPED_RECEPTION": {
+          "count": 100,
+          "perPossession": 0.01827151470856934,
+          "shareOfLosses": 0.059880239520958084,
+          "matchCounts": {
+            "n": 40,
+            "mean": 2.5,
+            "median": 2,
+            "sd": 1.5021352323976216,
+            "min": 0,
+            "max": 6,
+            "p05": 1,
+            "p10": 1,
+            "p25": 1,
+            "p75": 3,
+            "p90": 5,
+            "p95": 5
+          },
+          "teamMatchCounts": {
+            "n": 80,
+            "mean": 1.25,
+            "median": 1,
+            "sd": 1.1194483270620512,
+            "min": 0,
+            "max": 5,
+            "p05": 0,
+            "p10": 0,
+            "p25": 1,
+            "p75": 2,
+            "p90": 3,
+            "p95": 3.049999999999997
+          }
+        },
+        "FAILED_RECEIVE_UNSPECIFIED": {
+          "count": 0,
+          "perPossession": 0,
+          "shareOfLosses": 0,
+          "matchCounts": {
+            "n": 40,
+            "mean": 0,
+            "median": 0,
+            "sd": 0,
+            "min": 0,
+            "max": 0,
+            "p05": 0,
+            "p10": 0,
+            "p25": 0,
+            "p75": 0,
+            "p90": 0,
+            "p95": 0
+          },
+          "teamMatchCounts": {
+            "n": 80,
+            "mean": 0,
+            "median": 0,
+            "sd": 0,
+            "min": 0,
+            "max": 0,
+            "p05": 0,
+            "p10": 0,
+            "p25": 0,
+            "p75": 0,
+            "p90": 0,
+            "p95": 0
+          }
+        },
+        "INTERCEPTION": {
+          "count": 816,
+          "perPossession": 0.1490955600219258,
+          "shareOfLosses": 0.48862275449101794,
+          "matchCounts": {
+            "n": 40,
+            "mean": 20.4,
+            "median": 20.5,
+            "sd": 3.43287275974735,
+            "min": 11,
+            "max": 27,
+            "p05": 14.9,
+            "p10": 16,
+            "p25": 18.75,
+            "p75": 22.25,
+            "p90": 24.1,
+            "p95": 26
+          },
+          "teamMatchCounts": {
+            "n": 80,
+            "mean": 10.2,
+            "median": 10.5,
+            "sd": 3.03315017762062,
+            "min": 2,
+            "max": 18,
+            "p05": 4.95,
+            "p10": 7,
+            "p25": 8,
+            "p75": 12,
+            "p90": 13.100000000000009,
+            "p95": 15
+          }
+        },
+        "OFFENSIVE_FOUL": {
+          "count": 0,
+          "perPossession": 0,
+          "shareOfLosses": 0,
+          "matchCounts": {
+            "n": 40,
+            "mean": 0,
+            "median": 0,
+            "sd": 0,
+            "min": 0,
+            "max": 0,
+            "p05": 0,
+            "p10": 0,
+            "p25": 0,
+            "p75": 0,
+            "p90": 0,
+            "p95": 0
+          },
+          "teamMatchCounts": {
+            "n": 80,
+            "mean": 0,
+            "median": 0,
+            "sd": 0,
+            "min": 0,
+            "max": 0,
+            "p05": 0,
+            "p10": 0,
+            "p25": 0,
+            "p75": 0,
+            "p90": 0,
+            "p95": 0
+          }
+        },
+        "OTHER": {
+          "count": 0,
+          "perPossession": 0,
+          "shareOfLosses": 0,
+          "matchCounts": {
+            "n": 40,
+            "mean": 0,
+            "median": 0,
+            "sd": 0,
+            "min": 0,
+            "max": 0,
+            "p05": 0,
+            "p10": 0,
+            "p25": 0,
+            "p75": 0,
+            "p90": 0,
+            "p95": 0
+          },
+          "teamMatchCounts": {
+            "n": 80,
+            "mean": 0,
+            "median": 0,
+            "sd": 0,
+            "min": 0,
+            "max": 0,
+            "p05": 0,
+            "p10": 0,
+            "p25": 0,
+            "p75": 0,
+            "p90": 0,
+            "p95": 0
+          }
+        },
+        "PASSIVE_PLAY": {
+          "count": 48,
+          "perPossession": 0.008770327060113284,
+          "shareOfLosses": 0.02874251497005988,
+          "matchCounts": {
+            "n": 40,
+            "mean": 1.2,
+            "median": 1,
+            "sd": 1.181046906296187,
+            "min": 0,
+            "max": 4,
+            "p05": 0,
+            "p10": 0,
+            "p25": 0,
+            "p75": 2,
+            "p90": 2,
+            "p95": 4
+          },
+          "teamMatchCounts": {
+            "n": 80,
+            "mean": 0.6,
+            "median": 0,
+            "sd": 0.9359216671755215,
+            "min": 0,
+            "max": 4,
+            "p05": 0,
+            "p10": 0,
+            "p25": 0,
+            "p75": 1,
+            "p90": 2,
+            "p95": 2
+          }
+        },
+        "TECHNICAL_RULE_VIOLATION": {
+          "count": 66,
+          "perPossession": 0.012059199707655765,
+          "shareOfLosses": 0.03952095808383234,
+          "matchCounts": {
+            "n": 40,
+            "mean": 1.65,
+            "median": 2,
+            "sd": 1.1886212655091244,
+            "min": 0,
+            "max": 5,
+            "p05": 0,
+            "p10": 0,
+            "p25": 1,
+            "p75": 2,
+            "p90": 3,
+            "p95": 3.049999999999997
+          },
+          "teamMatchCounts": {
+            "n": 80,
+            "mean": 0.825,
+            "median": 1,
+            "sd": 0.9246963237405244,
+            "min": 0,
+            "max": 5,
+            "p05": 0,
+            "p10": 0,
+            "p25": 0,
+            "p75": 1,
+            "p90": 2,
+            "p95": 2
+          }
+        }
+      },
+      "freeThrows": {
+        "definition": "Distinct WHISTLE_RESTART kind FREE_THROW/foulId, attacking owner. Excludes 7m, assessments, realized advantage, timeout/admin/technical FREE_THROW awards and horn retakes.",
+        "chains": {
+          "ZERO": {
+            "episodes": 5036,
+            "duration": {
+              "n": 5036,
+              "mean": 25.016243050039773,
+              "median": 22.8,
+              "sd": 12.353215682558238,
+              "min": 0,
+              "max": 126.35,
+              "p05": 7.4375,
+              "p10": 12.05,
+              "p25": 17.2,
+              "p75": 30.7,
+              "p90": 41.975,
+              "p95": 48.212500000000006
+            }
+          },
+          "ONE": {
+            "episodes": 396,
+            "duration": {
+              "n": 396,
+              "mean": 40.16919191919193,
+              "median": 37.8,
+              "sd": 15.65861061633375,
+              "min": 13.2,
+              "max": 113.4,
+              "p05": 20.2375,
+              "p10": 23.075,
+              "p25": 28.825000000000003,
+              "p75": 48.45,
+              "p90": 57.55,
+              "p95": 68.45
+            }
+          },
+          "TWO": {
+            "episodes": 39,
+            "duration": {
+              "n": 39,
+              "mean": 50.60128205128205,
+              "median": 47.2,
+              "sd": 18.837272288217818,
+              "min": 24.65,
+              "max": 110.45,
+              "p05": 27.88,
+              "p10": 30.79,
+              "p25": 37.900000000000006,
+              "p75": 58.125,
+              "p90": 69.71000000000002,
+              "p95": 78.62000000000003
+            }
+          },
+          "THREE_PLUS": {
+            "episodes": 2,
+            "duration": {
+              "n": 2,
+              "mean": 66.7,
+              "median": 66.7,
+              "sd": 17.96051224213831,
+              "min": 54,
+              "max": 79.4,
+              "p05": 55.27,
+              "p10": 56.54,
+              "p25": 60.35,
+              "p75": 73.05000000000001,
+              "p90": 76.86000000000001,
+              "p95": 78.13
+            }
+          }
+        },
+        "byFifteenMinuteSegment": [
+          {
+            "segment": "0-15",
+            "count": 116
+          },
+          {
+            "segment": "15-30",
+            "count": 122
+          },
+          {
+            "segment": "30-45",
+            "count": 120
+          },
+          {
+            "segment": "45-60",
+            "count": 122
+          }
+        ],
+        "inShotBearingEpisodes": 374,
+        "inEventuallyLostEpisodes": 109,
+        "beforeLaterShot": 370,
+        "beforeTerminalLoss": 109,
+        "orderingStatus": "ORDERED_WHISTLE_TO_LATER_SHOT",
+        "nonexclusive": true
+      },
+      "independentFlags": {
+        "shotBearingEpisodes": 3756,
+        "ordinaryFieldShotBearingEpisodes": 3459,
+        "sevenMetreEpisodes": 309,
+        "sevenMetreOnlyEpisodes": 297,
+        "shotBearingLossEpisodes": 27,
+        "jointFlags": {
+          "SHOT_OUTCOME:ANY_SHOT:NO_7M": 1340,
+          "SHOT_OUTCOME:ANY_SHOT:WITH_7M": 77,
+          "GOAL:ANY_SHOT:NO_7M": 2083,
+          "TURNOVER:NO_SHOT:NO_7M": 1643,
+          "GOAL:ANY_SHOT:WITH_7M": 228,
+          "TURNOVER:ANY_SHOT:NO_7M": 23,
+          "HALF_END:NO_SHOT:NO_7M": 74,
+          "TURNOVER:ANY_SHOT:WITH_7M": 4,
+          "HALF_END:ANY_SHOT:NO_7M": 1
+        }
+      },
+      "comparison": {
+        "historical2017385": {
+          "rawIdAttacks": 5459,
+          "uiBroadLosses": 1831,
+          "noShotLosses": 1643,
+          "storedHistoricalNoShotSubtotal": 1643
+        },
+        "currentCanonical": {
+          "reportsWithLedger": 40,
+          "rawIdAttacks": 5458,
+          "uiBroadLosses": 1670
+        },
+        "independentPlayedEpisodes": {
+          "episodes": 5473,
+          "broadLosses": 1670,
+          "noShotLosses": 1643
+        },
+        "differences": {
+          "uiLossesCurrentMinusHistorical": -161,
+          "independentLossesMinusCurrentUi": 0,
+          "playedEpisodesMinusCurrentRawIdAttacks": 15
+        }
+      },
+      "reconciledReports": 0,
+      "integrity": {
+        "anomalyCount": 0,
+        "allSelectedTrajectoriesMatchRetained": true
+      }
+    }
+  },
+  "empiricalComparison": {
+    "officialTechnicalErrors": "NO_DIRECT_COMPARISON",
+    "possession": "NO_REFERENCE",
+    "ordinaryFreeThrows": "NO_REFERENCE",
+    "duration": "NO_REFERENCE",
+    "executionCandidate": "BAD_PASS_OUT + lost named reception is a diagnostic candidate, not a validated official technical-error subset."
+  },
+  "humanQA": {
+    "specificMatch": "Torslanda 20–33 IFK Tumba",
+    "available": false,
+    "inspection": {
+      "browserSurfaceInventory": {
+        "apps": 0,
+        "browsers": 0
+      },
+      "workspaceSaveOrArchiveExportFound": false,
+      "persistence": "Production careers are held in the user's browser IndexedDB; no enabled browser surface or exported save was available to this session.",
+      "retainedCohortMatchFound": false,
+      "browserSurfaceRecheckedAt": "2026-10-16T06:42:54.668Z",
+      "browserSurfaceRecheck": {
+        "apps": 0,
+        "browsers": 0
+      }
+    },
+    "userProvidedFacts": {
+      "HOME": {
+        "name": "Torslanda",
+        "goals": 20,
+        "shots": 43,
+        "broadBallLosses": 27,
+        "sevenMetreGoals": 3,
+        "sevenMetreAttempts": 6,
+        "suspensions": 2
+      },
+      "AWAY": {
+        "name": "IFK Tumba",
+        "goals": 33,
+        "shots": 49,
+        "broadBallLosses": 20,
+        "sevenMetreGoals": 4,
+        "sevenMetreAttempts": 4,
+        "suspensions": 5
+      }
+    },
+    "exactPossessions": null,
+    "exactFreeThrows": null,
+    "exactLossBreakdown": null,
+    "reason": "Shots plus broad losses is not a possession denominator. Exact 27/20 origins cannot be recovered from these totals. Production archives also omit possession-transfer, boundary, restart and ball-control events, so an archive alone may still be insufficient for a full historical reconstruction.",
+    "evidencePolicy": "Do not fabricate the missing human match. Use same-engine N40 full-event replays to explain the aggregate mechanism, with a clear limit on applying cohort findings to this exact example.",
+    "arithmeticFromProvidedTotals": {
+      "nonSevenMetreAttemptsAllActors": {
+        "HOME": 37,
+        "AWAY": 45
+      },
+      "formula": "UI total shots include 7m; subtract6 from43 and4 from49. This is not ordinary field attempts excluding possible goalkeeper shots.",
+      "exactOrdinaryFieldAttemptsExcludingGoalkeepers": null
+    }
+  },
+  "canonicalProofs": {
+    "hbl": {
+      "path": "docs/player-attributes-possession-economy-v1/verification/hbl-canonical-proof.json",
+      "sha256": "75433b45c6621bc1eff5aa9579ad35d8921a51400fc77e28c09fb8846e1f068b",
+      "sessionHash": "92dd9dabc4fabedf9547459c772757fe5ff3bf44ab0461c335257326568647be",
+      "resultHash": "4d0aa708b8a3483ac7eac82c92f713af25dde4e989a5489f8c0c53043eead7f5",
+      "archiveHash": "5184f3e280aaed127fbf7b25e92f8704b0ebb4062ffb198190331822dc4b8674",
+      "exactObserverNonMutation": true,
+      "postAnalysisNonMutation": true,
+      "deterministic": true,
+      "midMatchJSONResume": true,
+      "checkpointSelection": {
+        "basis": "First naturally observed ordinary WHISTLE_RESTART/FREE_THROW in retained canonical fixture; exact tick boundary after whistle/restart award",
+        "eventId": "event-10942",
+        "tick": 3755
+      },
+      "checkpointSessionHash": "421ea688228017165e7809a70dc325c3ab0efd3a554649b5e1602651b357e131",
+      "checkpointOwner": "HOME",
+      "checkpointPossession": {
+        "id": "possession-9493",
+        "team": "HOME",
+        "sinceTick": 3283,
+        "phase": "RESTART",
+        "completedPasses": 9,
+        "lastPasserId": "se_player_samuel_lindberg_1a6e8618"
+      },
+      "checkpointRestart": {
+        "id": "restart-10954",
+        "kind": "FREE_THROW",
+        "owner": "HOME",
+        "location": {
+          "x": 14.30730058291651,
+          "y": 9.5
+        },
+        "awardedTick": 3755,
+        "pausedTicks": 0,
+        "phase": "AWARDED",
+        "takerId": null,
+        "authorisedTick": null,
+        "collectorId": null,
+        "receiverId": null,
+        "context": null,
+        "plantedFoot": null
+      },
+      "checkpointRng": {
+        "algorithm": "mulberry32",
+        "state": 1647951052,
+        "draws": 188
+      },
+      "checkpointFreeThrows": {
+        "counts": {
+          "HOME": 1,
+          "AWAY": 0
+        },
+        "provenance": "CANONICAL_WHISTLES",
+        "issues": [],
+        "eventIds": [
+          "event-10942"
+        ],
+        "duplicateEvents": 0,
+        "duplicateFouls": 0
+      },
+      "exactOwnerAttackRngRestartAndCounterResume": true,
+      "continuation": {
+        "rngAtEnd": {
+          "algorithm": "mulberry32",
+          "state": 84558509,
+          "draws": 3449
+        },
+        "eventSuffixHash": "159c02d90d0e1dbb8c7f7274d4b2b304b06f7dc1ed45cd27d6fb2201b956f044",
+        "restartCompleted": {
+          "id": "event-11176",
+          "tick": 3833,
+          "timeMs": 191650,
+          "officialMs": 191350,
+          "type": "RESTART_COMPLETED",
+          "possessionId": "possession-9493",
+          "actionId": "action-11163",
+          "actorId": "se_player_noel_hurtig_1aad97d9",
+          "relatedIds": [],
+          "contestId": null,
+          "details": {
+            "kind": "FREE_THROW",
+            "evidence": "BALL_RELEASE"
+          }
+        },
+        "freeThrows": {
+          "counts": {
+            "HOME": 7,
+            "AWAY": 2
+          },
+          "provenance": "CANONICAL_WHISTLES",
+          "issues": [],
+          "eventIds": [
+            "event-10942",
+            "event-30452",
+            "event-31625",
+            "event-56861",
+            "event-84634",
+            "event-102158",
+            "event-138570",
+            "event-150391",
+            "event-202844"
+          ],
+          "duplicateEvents": 0,
+          "duplicateFouls": 0
+        },
+        "finishedAttack": {
+          "key": "1:possession-9493",
+          "canonicalId": "possession-9493",
+          "period": 1,
+          "team": "HOME",
+          "firstTick": 3283,
+          "lastTick": 4022,
+          "startMs": 163850,
+          "endMs": 200800,
+          "durationSeconds": 36.95,
+          "ending": "TURNOVER",
+          "ledgerEnding": "INTERCEPTION",
+          "reconstructedTerminal": "INTERCEPTION",
+          "evidence": "confirmed opponent control: Intercepted",
+          "loss": "INTERCEPTION",
+          "hasShot": false,
+          "hasSevenMetre": false,
+          "shots": 0,
+          "fieldShots": 0,
+          "sevenMetres": 0,
+          "passesReleased": 14,
+          "passesReceived": 13,
+          "freeThrows": 1,
+          "freeThrowsBeforeShot": 0,
+          "freeThrowsBeforeLoss": 1,
+          "freeThrowSegments": [
+            0
+          ],
+          "transferEvents": 1,
+          "receptionFumbles": 0,
+          "retainedFumbles": false,
+          "retainedRebounds": 0
+        }
+      },
+      "exactArchive": true,
+      "exactlyOnceCommit": true,
+      "matchCenter": {
+        "freeThrows": true,
+        "broadBallLosses": true,
+        "energy": true,
+        "minutes": true,
+        "score": true,
+        "shots": true,
+        "conversion": true,
+        "penalties": true,
+        "suspensions": true,
+        "timeline": true,
+        "playerStats": true,
+        "keeperDenominators": true,
+        "loadedFacts": true,
+        "playerOrdering": true,
+        "keyMomentCanonicalPositions": 12
+      },
+      "performanceComparison": {
+        "design": "One observed and one plain full replay of the identical fixture with matching natural-checkpoint chunk boundaries, plus one partial JSON continuation. Descriptive single-run timings, not a statistical performance benchmark.",
+        "observers": "CalibrationDiagnostics + AttackCycleDiagnostics + EconomyObserver + enabled zero-capacity decision trace",
+        "observed": {
+          "observersEnabled": true,
+          "startTick": 0,
+          "endTick": 74560,
+          "simulationMs": 9704.074,
+          "analysisMs": 770.0173000000013,
+          "calls": 9
+        },
+        "plain": {
+          "observersEnabled": false,
+          "startTick": 0,
+          "endTick": 74560,
+          "simulationMs": 7573.346200000002,
+          "analysisMs": 0.009200000000419095,
+          "calls": 9
+        },
+        "resumed": {
+          "observersEnabled": false,
+          "startTick": 3755,
+          "endTick": 74560,
+          "simulationMs": 7055.184800000003,
+          "analysisMs": 0.009599999997590203,
+          "calls": 8
+        },
+        "checkpointCaptureMs": 109.39260000000013,
+        "observedSimulationExcludingCheckpointCaptureMs": 9594.681400000001,
+        "observedOverPlain": 1.2813456223617505
+      },
+      "sourceFingerprints": {
+        "packages/handball-engine/src/v2/core/actions.ts": "f81433b938ed7f227902b6ec28839ed9ed61fd10930b4cf5020d424bd004dfbc",
+        "packages/handball-engine/src/v2/core/backcourt.ts": "00ab4e44f0520b83f771cf5dd8a0e1212b34272410e5027b856eabddebddc120",
+        "packages/handball-engine/src/v2/core/backcourtScenarios.ts": "6137722469db2dc0a9567b9ff3bccd9c8d3f070e9db58bb93fe225cbccd655be",
+        "packages/handball-engine/src/v2/core/coaching.ts": "b943276328e1df36f43173af08fe008d8376f419e5afae4aeae5e1466a28a599",
+        "packages/handball-engine/src/v2/core/condition.ts": "7067672564be5a7beea16223a04b765e21716d638406ccea86e5d6f688899517",
+        "packages/handball-engine/src/v2/core/contact.ts": "477b3c2d7a8bbac293370044c779cd2889baea8cabb18c9bd26f967860a27ce9",
+        "packages/handball-engine/src/v2/core/contactScenarios.ts": "624c77567281a49677ae55289c3e0d71d5e81f00e2f56f151e1bf7ea59ebd1ce",
+        "packages/handball-engine/src/v2/core/continuous.ts": "3bc0e25ee0474aab3162df83b5e228bcd5953ddc5b29622592e5fd5bfdda55c5",
+        "packages/handball-engine/src/v2/core/defence.ts": "353763d139e7d170aff02f6b757973103a3b25fbdc53c4c363a1ed06de102b56",
+        "packages/handball-engine/src/v2/core/engage.ts": "b597ce488188b882f553f0553316960039d19ec92bca275ee89c7a4db4595d07",
+        "packages/handball-engine/src/v2/core/engine.ts": "bddb85af2e0ac4d0bdb7c97e5e7b195c8d15af8dd7076e1ea8bd76957874c228",
+        "packages/handball-engine/src/v2/core/execution.ts": "cb235bc3547646bbd6890e72011991248284f645f2517c7d0380285e769f53ab",
+        "packages/handball-engine/src/v2/core/intelligence.ts": "8b7814ce46cf50bbb8a2e19648991e880304a5c0f2fdf5b5540a45e57ed4c80b",
+        "packages/handball-engine/src/v2/core/intelligenceScenarios.ts": "8214cb9c24bad1570559d71d2381e3ac6bdf7c670bd0e9b925bbc72857bbd310",
+        "packages/handball-engine/src/v2/core/interactions.ts": "5eb59b369de142f5ebb1de10c69a06d33d77fd83cb36208c81d0e0524a02f7b3",
+        "packages/handball-engine/src/v2/core/ledger.ts": "7f45117a1486431df70f0b8697dcc7fdd281be93309e148d48baacad7f01391b",
+        "packages/handball-engine/src/v2/core/locomotion.ts": "c222d4240a0b0935e552fa37a7c1dcf7a999d48ca4e4e200ce5befabbc860b13",
+        "packages/handball-engine/src/v2/core/match.ts": "a853a0a922f76759c51aa21e29017aaf1bd0d07d60e5bf611e49e9e4b8dd3e9e",
+        "packages/handball-engine/src/v2/core/matchReplay.ts": "6796c275154da7145cd06558835524075013528ecb2354a1f3439e5b537ea499",
+        "packages/handball-engine/src/v2/core/movement.ts": "e2b310cca3c7c5c82b4540a78f2e91551a8f33a424ea01a2c8c0fc69de67f0ae",
+        "packages/handball-engine/src/v2/core/offence.ts": "086fe17fc980c3b233b59c95c8ebe89feca8a11609d2de2686ad545312c60e25",
+        "packages/handball-engine/src/v2/core/passive.ts": "0c405269406b4a8b124ea432ce036a0008118aa59c186954cded0957a0c2381f",
+        "packages/handball-engine/src/v2/core/physicalLoad.ts": "e1e334552f35a2f1dbc7d4b88da4ac5bbc501ae86f63ebf884bb6791da619606",
+        "packages/handball-engine/src/v2/core/pivot.ts": "3021f9ab217e9e4eb8f5adf996365e86338ac0fa9e738fc7491a25228c6bf783",
+        "packages/handball-engine/src/v2/core/population.ts": "9097fd5e0396001ff48bb30529994fefb820aa9b75b272f79bdf55239eead655",
+        "packages/handball-engine/src/v2/core/profile.ts": "970e526f78486d073725854a1b0a5d4686996d51771d4429b50cd23ae1a9d2b1",
+        "packages/handball-engine/src/v2/core/realism.ts": "615271e0bc0217a08b296fa0777754f28b02fa136e5c0e55f07a8af616780897",
+        "packages/handball-engine/src/v2/core/referee.ts": "35feaf4d17b6b5bd011702384be061081b52b220e5d897e37aa24bc297d04387",
+        "packages/handball-engine/src/v2/core/replay.ts": "7a636b1b374a10d7f8aa02ade08957ac67920aacd33b37db2f412f2fefa42e6b",
+        "packages/handball-engine/src/v2/core/restarts.ts": "048e5ead24b976453a0abe2cf314fe9e79c33a0619c7d71cdfdb47b575230520",
+        "packages/handball-engine/src/v2/core/rules.ts": "46325a43317b15edfc4773265989ffa2ab0500c9fdefb32a7fc3363dd39147d4",
+        "packages/handball-engine/src/v2/core/sanction.ts": "8d569712c4c2ce1223d246e3a5d5e6dd0913b5f8232e6456ff892bbcd424d910",
+        "packages/handball-engine/src/v2/core/scenarios.ts": "c48ddb2c75ce34fd03c439261e40e77f676b1ffb2fc8abeb1a3f9b1a5d286dbe",
+        "packages/handball-engine/src/v2/core/space.ts": "fa4755d1ba95d8e683cd19955418944d004a34963b708030ef72eb521ca25eb3",
+        "packages/handball-engine/src/v2/core/squads.ts": "fc2aeaa594f3ef8a119656d1056178bf5f6414f6ee4c2082641b97fc216749a4",
+        "packages/handball-engine/src/v2/core/state.ts": "fc33c3ac8ee2fbe78c7998c756850eda8981949f393a03ac77af9f5c9179284e",
+        "packages/handball-engine/src/v2/core/structure.ts": "fd5cea56c1e2e311b490e452701fa2b1b8f91282e3f6cd7e06a4621d8065f3c3",
+        "packages/handball-engine/src/v2/core/testProfile.ts": "35a3ac5a0a0fbb6614de81c449fde37b880af96bc10a1cd2dcf4b4e3e9077d6d",
+        "packages/handball-engine/src/v2/core/threatRelation.ts": "c68668bfbd439adfa42a751b12266d664e1d2e6d80358cbc30149b807fb9bcf1",
+        "packages/handball-engine/src/v2/core/timing.ts": "b551d8b79cc0562fbbc58c7ddf6b7eaafdd743a3e19e09174e0924ad00410fd1",
+        "packages/handball-engine/src/v2/core/transitions.ts": "6498a4ea7a0d0efb0a19048dfcc9e6c2cd19fa8844f86f3d91995f65f80b270a",
+        "packages/handball-engine/src/v2/core/wing.ts": "31d7f39cf38918717d3723fadcce80948a13650a45a2f680e1bbc5c66fd3a556",
+        "packages/handball-engine/src/v2/core/wingScenarios.ts": "8d553b1c254f0953cf5508ca1a37463891f631cdfd0df81b436be487541ee031",
+        "apps/game/lib/career/productionMatch.ts": "6e143a80b9dd124d1605dcc437c6557c96ae7d061d805b84144d4f50af9846f5",
+        "apps/game/scripts/lib/possessionEconomy.ts": "1dd1852e5ac5af0533e3a1fd0c197d5f781d08e2a41d302bcbcfe2f4fee36caa",
+        "apps/game/scripts/lib/attackCycleDiagnostics.ts": "b70edf097328dddf1812caba8f5eb9f4e1ed4eb4fd8a286d4d8c3eb948d145e0",
+        "apps/game/scripts/run-economy-cohort.ts": "19eeb4ca1b62f39e5bc06d2e40356f5001e0f9b27779491921631fd178f24f80",
+        "apps/game/lib/matchCenter/freeThrows.ts": "72baf4e83dbf2f747d0515e1a1a2389c8ebbdbeb11163ef38b182979d97bf521",
+        "apps/game/scripts/prove-economy-truth.ts": "f2e3ba3eabd96a83181bfea0c245959038b0cdc5d09eef40bc4603012f2200b1",
+        "apps/game/lib/matchCenter/model.ts": "cb3a0b6f1b505b9287b908bf5a29e97214032382b80218855a47fc8c436c4942",
+        "apps/game/lib/matchCenter/workspace.ts": "87d82b1a82771e525a2e4d8962f67a2499e07e89c06216d356686ee19c0d9bb1"
+      }
+    },
+    "allsv": {
+      "path": "docs/player-attributes-possession-economy-v1/verification/allsv-canonical-proof.json",
+      "sha256": "53ecaa040fd0b2b683a1a41bb91914cba53356d5e7bd51d70994884f61a6718c",
+      "sessionHash": "853bee70fdd3ded81aa52e11245c6b5806d6ee9c8b994696762fb1943afcc2a7",
+      "resultHash": "20dcac427f7dbabb2275602ef02ec0b9dcd054368498a3978f118845e4d7ae23",
+      "archiveHash": "32adb1393fd11e0bf6c95bf156a870b9241d4242402c38ea3e5ab8e7b9f5605b",
+      "exactObserverNonMutation": true,
+      "postAnalysisNonMutation": true,
+      "deterministic": true,
+      "midMatchJSONResume": true,
+      "checkpointSelection": {
+        "basis": "First naturally observed ordinary WHISTLE_RESTART/FREE_THROW in retained canonical fixture; exact tick boundary after whistle/restart award",
+        "eventId": "event-1911",
+        "tick": 661
+      },
+      "checkpointSessionHash": "96cf2823cc8bad0a8d121fb4dfdc00dca152377688e39f0d37c49d39844b551a",
+      "checkpointOwner": "AWAY",
+      "checkpointPossession": {
+        "id": "possession-974",
+        "team": "AWAY",
+        "sinceTick": 331,
+        "phase": "RESTART",
+        "completedPasses": 4,
+        "lastPasserId": "se_player_jim_gottfridsson_7323fffc"
+      },
+      "checkpointRestart": {
+        "id": "restart-1923",
+        "kind": "FREE_THROW",
+        "owner": "AWAY",
+        "location": {
+          "x": 9.353079793789288,
+          "y": 29.968830145388097
+        },
+        "awardedTick": 661,
+        "pausedTicks": 0,
+        "phase": "AWARDED",
+        "takerId": null,
+        "authorisedTick": null,
+        "collectorId": null,
+        "receiverId": null,
+        "context": null,
+        "plantedFoot": null
+      },
+      "checkpointRng": {
+        "algorithm": "mulberry32",
+        "state": 2709817306,
+        "draws": 31
+      },
+      "checkpointFreeThrows": {
+        "counts": {
+          "HOME": 0,
+          "AWAY": 1
+        },
+        "provenance": "CANONICAL_WHISTLES",
+        "issues": [],
+        "eventIds": [
+          "event-1911"
+        ],
+        "duplicateEvents": 0,
+        "duplicateFouls": 0
+      },
+      "exactOwnerAttackRngRestartAndCounterResume": true,
+      "continuation": {
+        "rngAtEnd": {
+          "algorithm": "mulberry32",
+          "state": 2090390118,
+          "draws": 3323
+        },
+        "eventSuffixHash": "8dba7e13dd44899b3f38d9d3c5f1afbbd00dc20e026669fdce76eceae15b6142",
+        "restartCompleted": {
+          "id": "event-2143",
+          "tick": 757,
+          "timeMs": 37850,
+          "officialMs": 37550,
+          "type": "RESTART_COMPLETED",
+          "possessionId": "possession-974",
+          "actionId": "action-2136",
+          "actorId": "se_player_rasmus_broman_777c2960",
+          "relatedIds": [],
+          "contestId": null,
+          "details": {
+            "kind": "FREE_THROW",
+            "evidence": "BALL_RELEASE"
+          }
+        },
+        "freeThrows": {
+          "counts": {
+            "HOME": 1,
+            "AWAY": 7
+          },
+          "provenance": "CANONICAL_WHISTLES",
+          "issues": [],
+          "eventIds": [
+            "event-1911",
+            "event-85109",
+            "event-100949",
+            "event-114946",
+            "event-148867",
+            "event-164713",
+            "event-203977",
+            "event-204593"
+          ],
+          "duplicateEvents": 0,
+          "duplicateFouls": 0
+        },
+        "finishedAttack": {
+          "key": "1:possession-974",
+          "canonicalId": "possession-974",
+          "period": 1,
+          "team": "AWAY",
+          "firstTick": 331,
+          "lastTick": 1161,
+          "startMs": 16250,
+          "endMs": 57750,
+          "durationSeconds": 41.5,
+          "ending": "FIELD_SHOT_MISS_SAVE",
+          "ledgerEnding": "SHOT_BLOCKED_REBOUND_LOST",
+          "reconstructedTerminal": "SHOT_BLOCKED_REBOUND_LOST",
+          "evidence": "last actual shot action outcome: Goalkeeper rebound control",
+          "loss": null,
+          "hasShot": true,
+          "hasSevenMetre": false,
+          "shots": 1,
+          "fieldShots": 1,
+          "sevenMetres": 0,
+          "passesReleased": 14,
+          "passesReceived": 14,
+          "freeThrows": 1,
+          "freeThrowsBeforeShot": 1,
+          "freeThrowsBeforeLoss": 0,
+          "freeThrowSegments": [
+            0
+          ],
+          "transferEvents": 1,
+          "receptionFumbles": 0,
+          "retainedFumbles": false,
+          "retainedRebounds": 0
+        }
+      },
+      "exactArchive": true,
+      "exactlyOnceCommit": true,
+      "matchCenter": {
+        "freeThrows": true,
+        "broadBallLosses": true,
+        "energy": true,
+        "minutes": true,
+        "score": true,
+        "shots": true,
+        "conversion": true,
+        "penalties": true,
+        "suspensions": true,
+        "timeline": true,
+        "playerStats": true,
+        "keeperDenominators": true,
+        "loadedFacts": true,
+        "playerOrdering": true,
+        "keyMomentCanonicalPositions": 12
+      },
+      "performanceComparison": {
+        "design": "One observed and one plain full replay of the identical fixture with matching natural-checkpoint chunk boundaries, plus one partial JSON continuation. Descriptive single-run timings, not a statistical performance benchmark.",
+        "observers": "CalibrationDiagnostics + AttackCycleDiagnostics + EconomyObserver + enabled zero-capacity decision trace",
+        "observed": {
+          "observersEnabled": true,
+          "startTick": 0,
+          "endTick": 74010,
+          "simulationMs": 9672.510699999999,
+          "analysisMs": 760.1885000000002,
+          "calls": 9
+        },
+        "plain": {
+          "observersEnabled": false,
+          "startTick": 0,
+          "endTick": 74010,
+          "simulationMs": 8622.351799999999,
+          "analysisMs": 0.011200000000826549,
+          "calls": 9
+        },
+        "resumed": {
+          "observersEnabled": false,
+          "startTick": 661,
+          "endTick": 74010,
+          "simulationMs": 11757.7405,
+          "analysisMs": 0.010799999996379483,
+          "calls": 8
+        },
+        "checkpointCaptureMs": 48.800700000000006,
+        "observedSimulationExcludingCheckpointCaptureMs": 9623.71,
+        "observedOverPlain": 1.1217949492619868
+      },
+      "sourceFingerprints": {
+        "packages/handball-engine/src/v2/core/actions.ts": "f81433b938ed7f227902b6ec28839ed9ed61fd10930b4cf5020d424bd004dfbc",
+        "packages/handball-engine/src/v2/core/backcourt.ts": "00ab4e44f0520b83f771cf5dd8a0e1212b34272410e5027b856eabddebddc120",
+        "packages/handball-engine/src/v2/core/backcourtScenarios.ts": "6137722469db2dc0a9567b9ff3bccd9c8d3f070e9db58bb93fe225cbccd655be",
+        "packages/handball-engine/src/v2/core/coaching.ts": "b943276328e1df36f43173af08fe008d8376f419e5afae4aeae5e1466a28a599",
+        "packages/handball-engine/src/v2/core/condition.ts": "7067672564be5a7beea16223a04b765e21716d638406ccea86e5d6f688899517",
+        "packages/handball-engine/src/v2/core/contact.ts": "477b3c2d7a8bbac293370044c779cd2889baea8cabb18c9bd26f967860a27ce9",
+        "packages/handball-engine/src/v2/core/contactScenarios.ts": "624c77567281a49677ae55289c3e0d71d5e81f00e2f56f151e1bf7ea59ebd1ce",
+        "packages/handball-engine/src/v2/core/continuous.ts": "3bc0e25ee0474aab3162df83b5e228bcd5953ddc5b29622592e5fd5bfdda55c5",
+        "packages/handball-engine/src/v2/core/defence.ts": "353763d139e7d170aff02f6b757973103a3b25fbdc53c4c363a1ed06de102b56",
+        "packages/handball-engine/src/v2/core/engage.ts": "b597ce488188b882f553f0553316960039d19ec92bca275ee89c7a4db4595d07",
+        "packages/handball-engine/src/v2/core/engine.ts": "bddb85af2e0ac4d0bdb7c97e5e7b195c8d15af8dd7076e1ea8bd76957874c228",
+        "packages/handball-engine/src/v2/core/execution.ts": "cb235bc3547646bbd6890e72011991248284f645f2517c7d0380285e769f53ab",
+        "packages/handball-engine/src/v2/core/intelligence.ts": "8b7814ce46cf50bbb8a2e19648991e880304a5c0f2fdf5b5540a45e57ed4c80b",
+        "packages/handball-engine/src/v2/core/intelligenceScenarios.ts": "8214cb9c24bad1570559d71d2381e3ac6bdf7c670bd0e9b925bbc72857bbd310",
+        "packages/handball-engine/src/v2/core/interactions.ts": "5eb59b369de142f5ebb1de10c69a06d33d77fd83cb36208c81d0e0524a02f7b3",
+        "packages/handball-engine/src/v2/core/ledger.ts": "7f45117a1486431df70f0b8697dcc7fdd281be93309e148d48baacad7f01391b",
+        "packages/handball-engine/src/v2/core/locomotion.ts": "c222d4240a0b0935e552fa37a7c1dcf7a999d48ca4e4e200ce5befabbc860b13",
+        "packages/handball-engine/src/v2/core/match.ts": "a853a0a922f76759c51aa21e29017aaf1bd0d07d60e5bf611e49e9e4b8dd3e9e",
+        "packages/handball-engine/src/v2/core/matchReplay.ts": "6796c275154da7145cd06558835524075013528ecb2354a1f3439e5b537ea499",
+        "packages/handball-engine/src/v2/core/movement.ts": "e2b310cca3c7c5c82b4540a78f2e91551a8f33a424ea01a2c8c0fc69de67f0ae",
+        "packages/handball-engine/src/v2/core/offence.ts": "086fe17fc980c3b233b59c95c8ebe89feca8a11609d2de2686ad545312c60e25",
+        "packages/handball-engine/src/v2/core/passive.ts": "0c405269406b4a8b124ea432ce036a0008118aa59c186954cded0957a0c2381f",
+        "packages/handball-engine/src/v2/core/physicalLoad.ts": "e1e334552f35a2f1dbc7d4b88da4ac5bbc501ae86f63ebf884bb6791da619606",
+        "packages/handball-engine/src/v2/core/pivot.ts": "3021f9ab217e9e4eb8f5adf996365e86338ac0fa9e738fc7491a25228c6bf783",
+        "packages/handball-engine/src/v2/core/population.ts": "9097fd5e0396001ff48bb30529994fefb820aa9b75b272f79bdf55239eead655",
+        "packages/handball-engine/src/v2/core/profile.ts": "970e526f78486d073725854a1b0a5d4686996d51771d4429b50cd23ae1a9d2b1",
+        "packages/handball-engine/src/v2/core/realism.ts": "615271e0bc0217a08b296fa0777754f28b02fa136e5c0e55f07a8af616780897",
+        "packages/handball-engine/src/v2/core/referee.ts": "35feaf4d17b6b5bd011702384be061081b52b220e5d897e37aa24bc297d04387",
+        "packages/handball-engine/src/v2/core/replay.ts": "7a636b1b374a10d7f8aa02ade08957ac67920aacd33b37db2f412f2fefa42e6b",
+        "packages/handball-engine/src/v2/core/restarts.ts": "048e5ead24b976453a0abe2cf314fe9e79c33a0619c7d71cdfdb47b575230520",
+        "packages/handball-engine/src/v2/core/rules.ts": "46325a43317b15edfc4773265989ffa2ab0500c9fdefb32a7fc3363dd39147d4",
+        "packages/handball-engine/src/v2/core/sanction.ts": "8d569712c4c2ce1223d246e3a5d5e6dd0913b5f8232e6456ff892bbcd424d910",
+        "packages/handball-engine/src/v2/core/scenarios.ts": "c48ddb2c75ce34fd03c439261e40e77f676b1ffb2fc8abeb1a3f9b1a5d286dbe",
+        "packages/handball-engine/src/v2/core/space.ts": "fa4755d1ba95d8e683cd19955418944d004a34963b708030ef72eb521ca25eb3",
+        "packages/handball-engine/src/v2/core/squads.ts": "fc2aeaa594f3ef8a119656d1056178bf5f6414f6ee4c2082641b97fc216749a4",
+        "packages/handball-engine/src/v2/core/state.ts": "fc33c3ac8ee2fbe78c7998c756850eda8981949f393a03ac77af9f5c9179284e",
+        "packages/handball-engine/src/v2/core/structure.ts": "fd5cea56c1e2e311b490e452701fa2b1b8f91282e3f6cd7e06a4621d8065f3c3",
+        "packages/handball-engine/src/v2/core/testProfile.ts": "35a3ac5a0a0fbb6614de81c449fde37b880af96bc10a1cd2dcf4b4e3e9077d6d",
+        "packages/handball-engine/src/v2/core/threatRelation.ts": "c68668bfbd439adfa42a751b12266d664e1d2e6d80358cbc30149b807fb9bcf1",
+        "packages/handball-engine/src/v2/core/timing.ts": "b551d8b79cc0562fbbc58c7ddf6b7eaafdd743a3e19e09174e0924ad00410fd1",
+        "packages/handball-engine/src/v2/core/transitions.ts": "6498a4ea7a0d0efb0a19048dfcc9e6c2cd19fa8844f86f3d91995f65f80b270a",
+        "packages/handball-engine/src/v2/core/wing.ts": "31d7f39cf38918717d3723fadcce80948a13650a45a2f680e1bbc5c66fd3a556",
+        "packages/handball-engine/src/v2/core/wingScenarios.ts": "8d553b1c254f0953cf5508ca1a37463891f631cdfd0df81b436be487541ee031",
+        "apps/game/lib/career/productionMatch.ts": "6e143a80b9dd124d1605dcc437c6557c96ae7d061d805b84144d4f50af9846f5",
+        "apps/game/scripts/lib/possessionEconomy.ts": "1dd1852e5ac5af0533e3a1fd0c197d5f781d08e2a41d302bcbcfe2f4fee36caa",
+        "apps/game/scripts/lib/attackCycleDiagnostics.ts": "b70edf097328dddf1812caba8f5eb9f4e1ed4eb4fd8a286d4d8c3eb948d145e0",
+        "apps/game/scripts/run-economy-cohort.ts": "19eeb4ca1b62f39e5bc06d2e40356f5001e0f9b27779491921631fd178f24f80",
+        "apps/game/lib/matchCenter/freeThrows.ts": "72baf4e83dbf2f747d0515e1a1a2389c8ebbdbeb11163ef38b182979d97bf521",
+        "apps/game/scripts/prove-economy-truth.ts": "f2e3ba3eabd96a83181bfea0c245959038b0cdc5d09eef40bc4603012f2200b1",
+        "apps/game/lib/matchCenter/model.ts": "cb3a0b6f1b505b9287b908bf5a29e97214032382b80218855a47fc8c436c4942",
+        "apps/game/lib/matchCenter/workspace.ts": "87d82b1a82771e525a2e4d8962f67a2499e07e89c06216d356686ee19c0d9bb1"
+      }
+    }
+  },
+  "receipts": {
+    "focused-attributes": {
+      "exit": 0,
+      "testCount": 12,
+      "failures": 0,
+      "durationMs": 1454.7847,
+      "log": "docs/player-attributes-possession-economy-v1/verification/focused-attributes.log",
+      "logSha256": "f4de67fdca0004df8d843450cec8a52c4cfa362fc8d22484d2c88a459cdffeb5"
+    },
+    "focused-economy": {
+      "exit": 0,
+      "testCount": 133,
+      "failures": 0,
+      "durationMs": 16460.0892,
+      "log": "docs/player-attributes-possession-economy-v1/verification/focused-economy.log",
+      "logSha256": "f8b706bd2932b8cdbfe6c630137820d5b5853a4192977d5240d385d49462f3a5"
+    },
+    "focused-reader-final": {
+      "exit": 0,
+      "testCount": 43,
+      "failures": 0,
+      "durationMs": 855.2661,
+      "log": "docs/player-attributes-possession-economy-v1/verification/focused-reader-final.log",
+      "logSha256": "6b8ea45a191cecdc08d6c3b78a2d34ee20af938766df4c2a0582f7103992a135"
+    },
+    "focused-reader-recovery": {
+      "exit": 0,
+      "testCount": 54,
+      "failures": 0,
+      "durationMs": 1354.0473,
+      "log": "docs/player-attributes-possession-economy-v1/verification/focused-reader-recovery.log",
+      "logSha256": "52882bbe64911fd0614f1a74a4b30f91d5ce3aa86bc04f5e6eb48d307f9e7fa7"
+    },
+    "focused-presentation-recovery": {
+      "exit": 0,
+      "testCount": 11,
+      "failures": 0,
+      "durationMs": 1397.0784,
+      "log": "docs/player-attributes-possession-economy-v1/verification/focused-presentation-recovery.log",
+      "logSha256": "94f63b02c9599db5cead408e116cc57b56f3017ac14fa3430c8b58e3f143dcc5"
+    },
+    "attribute-sensitivity": {
+      "exit": 0,
+      "testCount": null,
+      "failures": null,
+      "durationMs": null,
+      "log": "docs/player-attributes-possession-economy-v1/verification/attribute-sensitivity.log",
+      "logSha256": "3d608868ad6403c98ff68f2bc0e68e57ebfd4d6d507baa1b94fbf597f1e81cb6"
+    },
+    "hbl-final": {
+      "exit": 0,
+      "testCount": null,
+      "failures": null,
+      "durationMs": null,
+      "log": "docs/player-attributes-possession-economy-v1/verification/hbl-final.log",
+      "logSha256": "a51040399f0664ad47beb9fabbb825ec8ea1aeb19570df3306e3e97dfd49c404",
+      "command": "node --import tsx scripts/run-economy-cohort.ts --league hbl --count 40",
+      "workdir": "C:/Users/helgi/Documents/STARKVIS-HELA/handball-manager/apps/game"
+    },
+    "hbl-reconcile": {
+      "exit": 0,
+      "testCount": null,
+      "failures": null,
+      "durationMs": null,
+      "log": "docs/player-attributes-possession-economy-v1/verification/hbl-reconcile.log",
+      "logSha256": "b49bd96ec0f411a743014991d7c90f9634a52a5785ec38cc9630a9658e84dfa4",
+      "command": "node --import tsx scripts/reconcile-economy-cohort.ts --league hbl",
+      "workdir": "C:/Users/helgi/Documents/STARKVIS-HELA/handball-manager/apps/game"
+    },
+    "allsv-final": {
+      "exit": 0,
+      "testCount": null,
+      "failures": null,
+      "durationMs": null,
+      "log": "docs/player-attributes-possession-economy-v1/verification/allsv-final.log",
+      "logSha256": "d0ca9f6ac2d501c39ab130250a369714668245bf5312aa9fcf50868ad51ffc9b",
+      "command": "node --import tsx scripts/run-economy-cohort.ts --league allsv --count 40",
+      "workdir": "C:/Users/helgi/Documents/STARKVIS-HELA/handball-manager/apps/game"
+    },
+    "economy-report": {
+      "exit": 0,
+      "testCount": null,
+      "failures": null,
+      "durationMs": null,
+      "log": "docs/player-attributes-possession-economy-v1/verification/economy-report.log",
+      "logSha256": "d6962231a2827a6a31715698427f0897b9ee68d84c9608aa62bda9947cefe4ba",
+      "command": "node --import tsx scripts/report-possession-economy.ts",
+      "workdir": "C:/Users/helgi/Documents/STARKVIS-HELA/handball-manager/apps/game"
+    },
+    "hbl-proof": {
+      "exit": 0,
+      "testCount": null,
+      "failures": null,
+      "durationMs": null,
+      "log": "docs/player-attributes-possession-economy-v1/verification/hbl-proof.log",
+      "logSha256": "3476c2aca29fde882de51e72d449dabfbfbb0769aae5445bc27bfbe237d3e77b",
+      "command": "node --import tsx scripts/prove-economy-truth.ts --league hbl",
+      "workdir": "C:/Users/helgi/Documents/STARKVIS-HELA/handball-manager/apps/game"
+    },
+    "allsv-proof": {
+      "exit": 0,
+      "testCount": null,
+      "failures": null,
+      "durationMs": null,
+      "log": "docs/player-attributes-possession-economy-v1/verification/allsv-proof.log",
+      "logSha256": "ff38719364f98bd3955a2c67505c8f868e6cc9bd83b31680e4311839ac92dc60",
+      "command": "node --import tsx scripts/prove-economy-truth.ts --league allsv",
+      "workdir": "C:/Users/helgi/Documents/STARKVIS-HELA/handball-manager/apps/game"
+    },
+    "performance": {
+      "exit": 0,
+      "testCount": null,
+      "failures": null,
+      "durationMs": null,
+      "log": "docs/player-attributes-possession-economy-v1/verification/performance.log",
+      "logSha256": "118f4000320cfd5024778b124bece2beade9e8521cf6e1a39d00c09df85b4e83",
+      "command": "node --import tsx scripts/prove-economy-performance.ts",
+      "workdir": "C:/Users/helgi/Documents/STARKVIS-HELA/handball-manager/apps/game"
+    },
+    "presentation-truth": {
+      "exit": 0,
+      "testCount": null,
+      "failures": null,
+      "durationMs": null,
+      "log": "docs/player-attributes-possession-economy-v1/verification/presentation-truth.log",
+      "logSha256": "c5ca091c0fbcb5fd6ec0b19827c8a2d4f560f40b02b8a30aded4853ce523cc2b",
+      "command": "node --import tsx scripts/prove-economy-presentation.ts",
+      "workdir": "C:/Users/helgi/Documents/STARKVIS-HELA/handball-manager/apps/game"
+    },
+    "core-final": {
+      "exit": 0,
+      "testCount": 467,
+      "failures": 0,
+      "durationMs": 847993.6336,
+      "log": "docs/player-attributes-possession-economy-v1/verification/core-final.log",
+      "logSha256": "e187e672888b4988af8bd558c8867a73b1630c43b1a6029635ee48f25ad335c6",
+      "command": "node packages/handball-engine/scripts/test-core.cjs",
+      "workdir": "C:/Users/helgi/Documents/STARKVIS-HELA/handball-manager",
+      "reusedAtOctober16Recovery": true
+    },
+    "v2-final": {
+      "exit": 0,
+      "testCount": 9,
+      "failures": 0,
+      "durationMs": 1116.9588,
+      "log": "docs/player-attributes-possession-economy-v1/verification/v2-final.log",
+      "logSha256": "ee88fa58495e71606a980a5b6abe59f2e9a38644d1570a09c3d4a14a128abc12",
+      "command": "node packages/handball-engine/scripts/test-v2.cjs",
+      "workdir": "C:/Users/helgi/Documents/STARKVIS-HELA/handball-manager",
+      "reusedAtOctober16Recovery": true
+    },
+    "domain-final": {
+      "exit": 0,
+      "testCount": 180,
+      "failures": 0,
+      "durationMs": 413.4442,
+      "log": "docs/player-attributes-possession-economy-v1/verification/domain-final.log",
+      "logSha256": "6cc4121dca148bce61375c119f568fe064d4484e5014c0892267c6dfaa917b1f",
+      "command": "npm.cmd run test --workspace @handball-manager/handball-engine",
+      "workdir": "C:/Users/helgi/Documents/STARKVIS-HELA/handball-manager",
+      "reusedAtOctober16Recovery": true
+    },
+    "game-final": {
+      "exit": 0,
+      "testCount": 2402,
+      "failures": 0,
+      "durationMs": 2102326.7924,
+      "log": "docs/player-attributes-possession-economy-v1/verification/game-final.log",
+      "logSha256": "1a1cb5c88b83a6139039b010391bc659b4ee3d30bf6c23e4677db3f2a69758fb",
+      "command": "npm.cmd run test:all:portable",
+      "workdir": "C:/Users/helgi/Documents/STARKVIS-HELA/handball-manager/apps/game",
+      "environment": {
+        "HM_GAME_TEST_CONCURRENCY": "1"
+      }
+    },
+    "empirical-final": {
+      "exit": 0,
+      "testCount": 15,
+      "failures": 0,
+      "durationMs": 9187.3207,
+      "log": "docs/player-attributes-possession-economy-v1/verification/empirical-final.log",
+      "logSha256": "81064ba17dfb7a39c8cf4895464df6d9eff0b7a46f25472674f8eb86f2adc645",
+      "command": "npm.cmd run test:empirical",
+      "workdir": "C:/Users/helgi/Documents/STARKVIS-HELA/handball-manager/apps/game"
+    },
+    "types-final": {
+      "exit": 0,
+      "testCount": null,
+      "failures": null,
+      "durationMs": null,
+      "log": "docs/player-attributes-possession-economy-v1/verification/types-final.log",
+      "logSha256": "b73a65da53a0bff3d4f6e68f69473689555a2bf66d3a017089e09ab39963898f",
+      "command": "npm.cmd run typecheck",
+      "workdir": "C:/Users/helgi/Documents/STARKVIS-HELA/handball-manager"
+    },
+    "script-types-final": {
+      "exit": 0,
+      "testCount": null,
+      "failures": null,
+      "durationMs": null,
+      "log": "docs/player-attributes-possession-economy-v1/verification/script-types-final.log",
+      "logSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "command": "node node_modules/typescript/bin/tsc -p .tmp/tsconfig-economy-scripts.json --noEmit",
+      "workdir": "C:/Users/helgi/Documents/STARKVIS-HELA/handball-manager"
+    },
+    "build-final": {
+      "exit": 0,
+      "testCount": null,
+      "failures": null,
+      "durationMs": null,
+      "log": "docs/player-attributes-possession-economy-v1/verification/build-final.log",
+      "logSha256": "9b92bc8737c94502543665e03eed62f823d37c817e2d6e6d2d1aaa1618f944f2",
+      "command": "npm.cmd run build",
+      "workdir": "C:/Users/helgi/Documents/STARKVIS-HELA/handball-manager/apps/game",
+      "environment": {
+        "HM_NEXT_DIST_DIR": ".next-game-attribute-economy-v1"
+      }
+    }
+  },
+  "sourceValidation": {
+    "complete": true,
+    "verifiedAt": "2026-10-16T07:24:24.761Z",
+    "checks": [
+      {
+        "label": "HBL original simulation manifest (preserved before subsequent pure-reader corrections)",
+        "sourceFiles": 48,
+        "exactCurrentMatches": 44,
+        "effectiveRuntimeMatches": 44,
+        "typeOnlyEquivalentFiles": 0,
+        "differences": [
+          {
+            "path": "packages/handball-engine/src/v2/core/ledger.ts",
+            "expected": "dea221013f939b82356028ca354a7c6391dadbdeeae611c2e813c53a1b24e09a",
+            "current": "7f45117a1486431df70f0b8697dcc7fdd281be93309e148d48baacad7f01391b",
+            "typeOnlyEmittedEquivalent": false
+          },
+          {
+            "path": "apps/game/lib/career/productionMatch.ts",
+            "expected": "5ff55ef5e40bfaf3f15d7f4d54171fa362b0b0a19acce313c4ea3658daeed0ff",
+            "current": "6e143a80b9dd124d1605dcc437c6557c96ae7d061d805b84144d4f50af9846f5",
+            "typeOnlyEmittedEquivalent": false
+          },
+          {
+            "path": "apps/game/scripts/lib/possessionEconomy.ts",
+            "expected": "48c18167d60cc19d0c660651f1150c6652f16705dfbd6275e6262b403de09d73",
+            "current": "49b952c27d234fcf3dde6ba5603b465ed951c7259230c08af7d3ddde45fb2b93",
+            "typeOnlyEmittedEquivalent": false
+          },
+          {
+            "path": "apps/game/scripts/run-economy-cohort.ts",
+            "expected": "f4074737f699546a75e4c0af0449834b37fc3ed4ffaca653bf2b8b862d5d2726",
+            "current": "19eeb4ca1b62f39e5bc06d2e40356f5001e0f9b27779491921631fd178f24f80",
+            "typeOnlyEmittedEquivalent": false
+          }
+        ]
+      },
+      {
+        "label": "HBL corrected offline reconstruction",
+        "sourceFiles": 46,
+        "exactCurrentMatches": 44,
+        "effectiveRuntimeMatches": 46,
+        "typeOnlyEquivalentFiles": 2,
+        "differences": [
+          {
+            "path": "apps/game/scripts/lib/possessionEconomy.ts",
+            "expected": "1dd1852e5ac5af0533e3a1fd0c197d5f781d08e2a41d302bcbcfe2f4fee36caa",
+            "current": "49b952c27d234fcf3dde6ba5603b465ed951c7259230c08af7d3ddde45fb2b93",
+            "typeOnlyEmittedEquivalent": true
+          },
+          {
+            "path": "apps/game/scripts/reconcile-economy-cohort.ts",
+            "expected": "f38966e92a1d5deb5acb805b07a06a1f0959c39857c642bf615c92995005be1f",
+            "current": "f10655718037b3acba547129998b86a59bad4d73ee26ca4668cee6f81bcbe748",
+            "typeOnlyEmittedEquivalent": true
+          }
+        ]
+      },
+      {
+        "label": "Allsvenskan final N40",
+        "sourceFiles": 48,
+        "exactCurrentMatches": 47,
+        "effectiveRuntimeMatches": 48,
+        "typeOnlyEquivalentFiles": 1,
+        "differences": [
+          {
+            "path": "apps/game/scripts/lib/possessionEconomy.ts",
+            "expected": "1dd1852e5ac5af0533e3a1fd0c197d5f781d08e2a41d302bcbcfe2f4fee36caa",
+            "current": "49b952c27d234fcf3dde6ba5603b465ed951c7259230c08af7d3ddde45fb2b93",
+            "typeOnlyEmittedEquivalent": true
+          }
+        ]
+      },
+      {
+        "label": "Completed controlled sensitivity",
+        "sourceFiles": 13,
+        "exactCurrentMatches": 13,
+        "effectiveRuntimeMatches": 13,
+        "typeOnlyEquivalentFiles": 0,
+        "differences": []
+      },
+      {
+        "label": "hbl canonical off/on/JSON/archive proof",
+        "sourceFiles": 51,
+        "exactCurrentMatches": 50,
+        "effectiveRuntimeMatches": 51,
+        "typeOnlyEquivalentFiles": 1,
+        "differences": [
+          {
+            "path": "apps/game/scripts/lib/possessionEconomy.ts",
+            "expected": "1dd1852e5ac5af0533e3a1fd0c197d5f781d08e2a41d302bcbcfe2f4fee36caa",
+            "current": "49b952c27d234fcf3dde6ba5603b465ed951c7259230c08af7d3ddde45fb2b93",
+            "typeOnlyEmittedEquivalent": true
+          }
+        ]
+      },
+      {
+        "label": "allsv canonical off/on/JSON/archive proof",
+        "sourceFiles": 51,
+        "exactCurrentMatches": 50,
+        "effectiveRuntimeMatches": 51,
+        "typeOnlyEquivalentFiles": 1,
+        "differences": [
+          {
+            "path": "apps/game/scripts/lib/possessionEconomy.ts",
+            "expected": "1dd1852e5ac5af0533e3a1fd0c197d5f781d08e2a41d302bcbcfe2f4fee36caa",
+            "current": "49b952c27d234fcf3dde6ba5603b465ed951c7259230c08af7d3ddde45fb2b93",
+            "typeOnlyEmittedEquivalent": true
+          }
+        ]
+      }
+    ],
+    "retainedHblExplanation": "HBL simulation finished before reader corrections. Original manifest and reports remain intact; reanalysis verified every saved core hash, changed only reporting, and the original canonical session hashes still exactly match retained Physical Load v1.1 trajectories. Runner metadata additionally gained canonicalLedger records. No HBL re-simulation was performed.",
+    "canonicalTrajectories": {
+      "hbl": 40,
+      "allsv": 40,
+      "allExactlyMatchPhysicalV11": true
+    },
+    "zeroReconstructionAnomalies": true,
+    "typeOnlyEquivalence": "TYPE-ONLY-EQUIVALENCE.json"
+  },
+  "typeOnlyEquivalence": {
+    "complete": true,
+    "verifiedAt": "2026-10-16T07:19:22.597Z",
+    "reason": "Explicit static annotations required by strict audit-script typechecking; completed runtime evidence is unchanged.",
+    "typescriptVersion": "5.9.3",
+    "compilerOptions": {
+      "target": "ES2022",
+      "module": "ESNext",
+      "jsx": "ReactJSX",
+      "removeComments": true
+    },
+    "files": [
+      {
+        "path": "apps/game/scripts/lib/possessionEconomy.ts",
+        "beforeSourceSha256": "1dd1852e5ac5af0533e3a1fd0c197d5f781d08e2a41d302bcbcfe2f4fee36caa",
+        "beforeEmittedSha256": "0774761b190ad074bd5434ff6ce0b22a48b8432ef8e6a2eba2680e47cffc9261",
+        "afterSourceSha256": "49b952c27d234fcf3dde6ba5603b465ed951c7259230c08af7d3ddde45fb2b93",
+        "afterEmittedSha256": "0774761b190ad074bd5434ff6ce0b22a48b8432ef8e6a2eba2680e47cffc9261",
+        "emittedJavaScriptByteIdentical": true
+      },
+      {
+        "path": "apps/game/scripts/prove-attribute-sensitivity.ts",
+        "beforeSourceSha256": "ce99bc8bb4508d9032b4e2aec13753612bbb5a11c26fb1171fb8b3228f8d1615",
+        "beforeEmittedSha256": "d9f8e5855fa81423f857fc7cd6e087c4a321a2a5edf3e4c91ffbaae5ac550f1b",
+        "afterSourceSha256": "6eb5c413d7e480cacf109a0f88e75d228f44dfacc00c2320a7ca6b23c82777fa",
+        "afterEmittedSha256": "d9f8e5855fa81423f857fc7cd6e087c4a321a2a5edf3e4c91ffbaae5ac550f1b",
+        "emittedJavaScriptByteIdentical": true
+      },
+      {
+        "path": "apps/game/scripts/reconcile-economy-cohort.ts",
+        "beforeSourceSha256": "f38966e92a1d5deb5acb805b07a06a1f0959c39857c642bf615c92995005be1f",
+        "beforeEmittedSha256": "5fd013629242822b5083cae8c6baa4face6329915e67c8b8d29b60ccc2960468",
+        "afterSourceSha256": "f10655718037b3acba547129998b86a59bad4d73ee26ca4668cee6f81bcbe748",
+        "afterEmittedSha256": "5fd013629242822b5083cae8c6baa4face6329915e67c8b8d29b60ccc2960468",
+        "emittedJavaScriptByteIdentical": true
+      }
+    ]
+  },
+  "preservation": {
+    "complete": true,
+    "verifiedAt": "2026-10-16T07:24:25.227Z",
+    "startingCheckpoint": "20173857cf2d449ad716ecc19d58ded8ed210d93",
+    "currentHead": "a4cf7e9c888a561fb012bcdbf1d36043f3584013",
+    "preservedUserFiles": 39,
+    "frozenPresentationAndReferences": 32,
+    "allowedPresentationChanges": [
+      {
+        "path": "apps/game/lib/matchCenter/model.ts",
+        "scope": "Presentation-only Frikast read/cache"
+      },
+      {
+        "path": "apps/game/components/matchCenter/WorkspaceViews.tsx",
+        "scope": "One conditional Statistics Frikast row and precise broad-loss copy"
+      },
+      {
+        "path": "apps/game/lib/matchCenter/presentation.test.ts",
+        "scope": "Focused read-only render/truth regression tests"
+      }
+    ],
+    "coreRuntimeFiles": 43,
+    "unchangedCoreRuntimeFiles": 42,
+    "coreChanges": [
+      {
+        "path": "packages/handball-engine/src/v2/core/ledger.ts",
+        "before": "dd801ce6401a106d772eac46c5800eb46f218d34495f41ec1ff536aec24116c9",
+        "after": "7f45117a1486431df70f0b8697dcc7fdd281be93309e148d48baacad7f01391b",
+        "scope": "Pure event reader only: confirmed transfers, retained-shot context, blocked goalkeeper recovery and proven recalled-advantage continuation. No tick physics, probabilities, RNG or production event changes."
+      }
+    ],
+    "unchangedProductionAndSaveFiles": [
+      {
+        "path": "apps/game/lib/save/saveRepository.ts",
+        "sha256": "9fb5d22760ef8243c78bfc9aa233dac37d7834f836ea4cca13f7f0f9a1f6df16"
+      },
+      {
+        "path": "apps/game/lib/save/saveStorage.ts",
+        "sha256": "a54c274be08ebdae9090eebfd67ef358e6046582b273093b43936cb5a0b9da33"
+      },
+      {
+        "path": "apps/game/lib/career/newCareer.ts",
+        "sha256": "325b7ebc99fd7e7a000223e733729c6c67dc636e2bed6909763a9a506c4b6704"
+      }
+    ],
+    "boundedResultReaderException": {
+      "path": "apps/game/lib/career/productionMatch.ts",
+      "before": "5ff55ef5e40bfaf3f15d7f4d54171fa362b0b0a19acce313c4ea3658daeed0ff",
+      "after": "6e143a80b9dd124d1605dcc437c6557c96ae7d061d805b84144d4f50af9846f5",
+      "scope": "Only TURNOVER MatchEvent minute fallback uses the merged attack lastTick when the original canonical ID ended earlier. Exact normalized source comparison permits only that inspected replacement. Production tick, session, frame, finalization and archive/save schema paths remain unchanged."
+    },
+    "physicalNormalizedHash": "e1e334552f35a2f1dbc7d4b88da4ac5bbc501ae86f63ebf884bb6791da619606",
+    "antiCheat": {
+      "frozenActionProbabilities": true,
+      "frozenIntelligence": true,
+      "frozenPhysicalLoad": true,
+      "noLeagueGameplayLogicAdded": true,
+      "noCalibrationOrQuotas": true,
+      "noObserverImportsInCanonicalTickPath": true,
+      "canonicalTrajectoryEvidence": "Both N40 cohorts compare entire final production-session hashes against retained Physical Load v1.1 sessions; proof receipts additionally compare diagnostics OFF/ON, JSON continuation and archives."
+    },
+    "motionHead": "197d2a80ecea3b70efdcf8ef347cfc68e0e86b2b",
+    "motionStatus": "?? .claude/",
+    "stashes": [
+      "ddba79055949b76898b12fc1b947e8f8645589cb",
+      "b068a9586209b9405b8d5f0dc6fae6384dd09001"
+    ],
+    "previousBuilds": [
+      {
+        "directory": ".next-game-empirical-cal-v1",
+        "buildId": "DU6jMBZtsmZtnQWvlrs8c"
+      },
+      {
+        "directory": ".next-game-final",
+        "buildId": "cNJggCauoeM2tFyL4VSLb"
+      },
+      {
+        "directory": ".next-game-intelligence-v1",
+        "buildId": "s5-nNNCWTl2_T9odTJDlV"
+      },
+      {
+        "directory": ".next-game-loading-screen-v1",
+        "buildId": "-RNSpJe4apx4OLEONUxcE"
+      },
+      {
+        "directory": ".next-game-match-center-v2",
+        "buildId": "OPdl1waYJNI_SpnsaJ-sr"
+      },
+      {
+        "directory": ".next-game-match-center-v21",
+        "buildId": "pLsf1fASvBMrL5OMJuUP8"
+      },
+      {
+        "directory": ".next-game-motion-quality-v2",
+        "buildId": "OfxtCP_cN-7kRf7v5VmwA"
+      },
+      {
+        "directory": ".next-game-motion-v1",
+        "buildId": "JQxdclWu8m3DDjchhC8wU"
+      },
+      {
+        "directory": ".next-game-physical-load-v11",
+        "buildId": "mrlA0kCIE2BdeBLwu1EJs"
+      },
+      {
+        "directory": ".next-game-production",
+        "buildId": "johFb57nGyMaBoyGUmMSn"
+      },
+      {
+        "directory": ".next-game-realism-v2",
+        "buildId": "XkNsqFziP2f_j3IFTn3Vy"
+      },
+      {
+        "directory": ".next-game-realism-v21",
+        "buildId": "MMFsqS1-zfrSWl0fQDdK1"
+      },
+      {
+        "directory": ".next-game-reconciled-v1",
+        "buildId": "3PQHL0oSSqFhBU5FxXd8a"
+      },
+      {
+        "directory": ".next-game-reconciliation-v11",
+        "buildId": "7lH--sWAbP_HfvPnTXIdw"
+      },
+      {
+        "directory": ".next-game-rotation-fatigue-v1",
+        "buildId": "usx4M7Bosxj0W5ABGzmpe"
+      },
+      {
+        "directory": ".next-game-v11",
+        "buildId": "5Jp-210HFinXeJePZ9iro"
+      },
+      {
+        "directory": ".next-game-physical-load-v11",
+        "buildId": "mrlA0kCIE2BdeBLwu1EJs"
+      }
+    ],
+    "nothingPushed": true
+  },
+  "performance": {
+    "complete": true,
+    "measuredAt": "2026-10-15T19:02:11.333Z",
+    "sourceFingerprints": {
+      "historicalLedger": "c98dfb0f9558cf729b258f383ca6a28bcbbb6ab11bb80e1f40a9faea4d8eb7f5",
+      "currentLedger": "7f45117a1486431df70f0b8697dcc7fdd281be93309e148d48baacad7f01391b"
+    },
+    "resourceSafety": "One foreground process; no concurrent heavy job.",
+    "unobserved": {
+      "ticks": 3000,
+      "seed": 8123,
+      "warmupExcluded": true,
+      "repeats": 3,
+      "milliseconds": [
+        344.51340000000005,
+        335.26,
+        304.4750999999999
+      ],
+      "medianMs": 335.26,
+      "priorPhysicalMedianMs": 333.2228,
+      "currentOverPrior": 1.0061136272788056,
+      "exactRepeatedFinalHash": "533f56a078534423227fd726ef6e9589fb06898bd3305634e3ef82a9d74a5761",
+      "interpretation": "Descriptive wall clock across separate runs. All canonical tick modules are byte-preserved; the changed ledger is a post-match/result reader. Machine load and runtime warmup prevent attributing a timing difference to gameplay."
+    },
+    "readers": [
+      {
+        "league": "hbl",
+        "events": 177105,
+        "previousMs": [
+          35.802400000000034,
+          65.35429999999997,
+          36.75009999999975
+        ],
+        "currentMs": [
+          30.437000000000353,
+          46.48790000000008,
+          45.098399999999856
+        ],
+        "previousMedianMs": 36.75009999999975,
+        "currentMedianMs": 45.098399999999856,
+        "coreSha256": "1881e80e87eae3f62ee1e1031f4995f1d96260aa26cc34fd2af598ef29e55f6e"
+      },
+      {
+        "league": "allsv",
+        "events": 179100,
+        "previousMs": [
+          50.78280000000086,
+          46.115200000000186,
+          34.05609999999979
+        ],
+        "currentMs": [
+          85.07160000000022,
+          52.575699999999415,
+          54.85809999999947
+        ],
+        "previousMedianMs": 46.115200000000186,
+        "currentMedianMs": 54.85809999999947,
+        "coreSha256": "b82863fbb1a3bd90811c396f8d77a09c684beb04ec7eaa509054dd1106b538ab"
+      }
+    ],
+    "readerScope": "Same retained canonical core, alternating historical2017385 and corrected pure ledger; three measured repeats after warmup. No frame/event reconstruction added to per-tick execution. Rare aliased turnover timestamp fallback occurs only inside the result reader.",
+    "limitations": "These short timings are not a device-wide responsiveness benchmark. Diagnostics OFF/ON full-match timings include three developer observers and checkpoint capture; see canonical proof receipts."
+  },
+  "delivery": {
+    "complete": true,
+    "verifiedAt": "2026-10-16T07:24:24.180Z",
+    "url": "http://127.0.0.1:3021",
+    "httpStatus": 200,
+    "routes": {
+      "/": 200,
+      "/new-game": 200
+    },
+    "distDir": ".next-game-attribute-economy-v1",
+    "buildId": "IGWUR3-QLEFpc9JTP0vOZ",
+    "buildSourceHead": "a4cf7e9c888a561fb012bcdbf1d36043f3584013",
+    "startCommand": "Set-Location 'C:\\Users\\helgi\\Documents\\STARKVIS-HELA\\handball-manager\\apps\\game'\n$env:HM_NEXT_DIST_DIR = '.next-game-attribute-economy-v1'\nnpm.cmd run start -- --hostname 127.0.0.1 --port 3021",
+    "previousServices": [
+      {
+        "port": 3017,
+        "status": 200
+      },
+      {
+        "port": 3018,
+        "status": 200
+      },
+      {
+        "port": 3019,
+        "status": 200
+      },
+      {
+        "port": 3020,
+        "status": 200
+      }
+    ],
+    "previousBuilds": [
+      {
+        "directory": ".next-game-empirical-cal-v1",
+        "buildId": "DU6jMBZtsmZtnQWvlrs8c"
+      },
+      {
+        "directory": ".next-game-final",
+        "buildId": "cNJggCauoeM2tFyL4VSLb"
+      },
+      {
+        "directory": ".next-game-intelligence-v1",
+        "buildId": "s5-nNNCWTl2_T9odTJDlV"
+      },
+      {
+        "directory": ".next-game-loading-screen-v1",
+        "buildId": "-RNSpJe4apx4OLEONUxcE"
+      },
+      {
+        "directory": ".next-game-match-center-v2",
+        "buildId": "OPdl1waYJNI_SpnsaJ-sr"
+      },
+      {
+        "directory": ".next-game-match-center-v21",
+        "buildId": "pLsf1fASvBMrL5OMJuUP8"
+      },
+      {
+        "directory": ".next-game-motion-quality-v2",
+        "buildId": "OfxtCP_cN-7kRf7v5VmwA"
+      },
+      {
+        "directory": ".next-game-motion-v1",
+        "buildId": "JQxdclWu8m3DDjchhC8wU"
+      },
+      {
+        "directory": ".next-game-physical-load-v11",
+        "buildId": "mrlA0kCIE2BdeBLwu1EJs"
+      },
+      {
+        "directory": ".next-game-production",
+        "buildId": "johFb57nGyMaBoyGUmMSn"
+      },
+      {
+        "directory": ".next-game-realism-v2",
+        "buildId": "XkNsqFziP2f_j3IFTn3Vy"
+      },
+      {
+        "directory": ".next-game-realism-v21",
+        "buildId": "MMFsqS1-zfrSWl0fQDdK1"
+      },
+      {
+        "directory": ".next-game-reconciled-v1",
+        "buildId": "3PQHL0oSSqFhBU5FxXd8a"
+      },
+      {
+        "directory": ".next-game-reconciliation-v11",
+        "buildId": "7lH--sWAbP_HfvPnTXIdw"
+      },
+      {
+        "directory": ".next-game-rotation-fatigue-v1",
+        "buildId": "usx4M7Bosxj0W5ABGzmpe"
+      },
+      {
+        "directory": ".next-game-v11",
+        "buildId": "5Jp-210HFinXeJePZ9iro"
+      },
+      {
+        "directory": ".next-game-physical-load-v11",
+        "buildId": "mrlA0kCIE2BdeBLwu1EJs"
+      }
+    ],
+    "browserQA": {
+      "status": "UNAVAILABLE",
+      "verifiedAt": "2026-10-16T07:24:23.913Z",
+      "inventory": {
+        "apps": 0,
+        "browsers": 0
+      },
+      "attempt": {
+        "api": "cua.createBrowserTab",
+        "browser": "iab",
+        "url": "http://127.0.0.1:3021",
+        "result": "Browser is not available: iab"
+      },
+      "scope": "No enabled UI surface. No visual page or normal-career interaction is claimed. Actual SSR render regressions and saved/full-match canonical presentation proofs passed; HTTP delivery verified separately."
+    },
+    "sourceScope": "Fresh isolated build after local code commits, with all original unrelated user working files preserved. Subsequent evidence/type-include metadata commit does not change compiled runtime source.",
+    "humanQA": "Fresh career: Match Center → Statistik → Matchstatistik. Check Frikast, separate7m counts, continuing free throws, retained rebound/fumble and mid-match save/load; compare live/final/archive. Legacy incomplete foul protocols withhold Frikast.",
+    "nothingPushed": true
+  },
+  "auditScriptTypeProject": {
+    "path": ".tmp/tsconfig-economy-scripts.json",
+    "configuration": {
+      "extends": "../apps/game/tsconfig.json",
+      "compilerOptions": {
+        "incremental": false
+      },
+      "include": [
+        "../apps/game/scripts/prove-attribute-sensitivity.ts",
+        "../apps/game/scripts/run-economy-cohort.ts",
+        "../apps/game/scripts/reconcile-economy-cohort.ts",
+        "../apps/game/scripts/report-possession-economy.ts",
+        "../apps/game/scripts/prove-economy-truth.ts",
+        "../apps/game/scripts/prove-economy-presentation.ts",
+        "../apps/game/scripts/prove-economy-performance.ts",
+        "../apps/game/scripts/lib/possessionEconomy.ts"
+      ]
+    },
+    "scope": "Retained local strict audit project; its exact configuration is embedded here for reproducibility."
+  },
+  "testCoverage": "TEST-COVERAGE.md; overlapping focused receipts are not summed as unique test cases. Authentic offensive-foul producer and dedicated dribble-mistouch outcomes are N/A.",
+  "resourceSafety": {
+    "heavyJobs": "Strict foreground sequence; no concurrent cohorts/tests/typechecks/build",
+    "gameTestConcurrency": 1,
+    "completedExpensiveWorkReused": true,
+    "completedHblCohortResimulatedDuringRecovery": false,
+    "hblOfflineReanalysis": true,
+    "sequence": [
+      "Recovered valid focused tests and attribute experiments",
+      "Recovered completed HBL40",
+      "Focused reader54/presentation11 after recovered data-truth fixes",
+      "Offline retained HBL40 reconstruction",
+      "Allsvenskan40",
+      "Offline aggregate",
+      "HBL canonical proof",
+      "Allsvenskan canonical proof",
+      "Short performance harness",
+      "Core",
+      "V2",
+      "Domain",
+      "Full game",
+      "Empirical",
+      "Workspace types",
+      "Script types",
+      "Passive saved-core presentation proof",
+      "Local code commits",
+      "Isolated production build"
+    ]
+  },
+  "developmentFailures": {
+    "staticAnnotationCheck": {
+      "originalExit": 2,
+      "originalLog": "verification/script-types-before-annotations.log",
+      "resolution": "Three explicit static annotations; emitted JavaScript byte-identical for all three files; final script typecheck exit0. No completed runtime evidence rerun."
+    },
+    "excluded": [
+      "Earlier development shot harness omitted canonical keeper-flight reading; superseded corrected4928-shot receipt reused",
+      "Earlier HBL pilot with3 falsely classified blocked-GK recoveries is preserved but excluded",
+      "Wrong-working-directory focused attempt is preserved but excluded",
+      "Sandbox compiler spawn denial retried with approved compiler execution",
+      "Performance harness historical variable reference corrected before successful receipt"
+    ],
+    "rawEvidencePolicy": "Large raw cores/reports/logs remain local under ignored final/development/verification directories. Compact source identities, counts, checks and limitations are committed."
+  },
+  "remainingLimitations": [
+    "Exact Torslanda20–33 archive unavailable; no invented27/20 decomposition or possessions/free throws",
+    "No official technical-error mapping and no matched possession/free-throw/duration reference",
+    "Unused and narrowly integrated attributes remain unchanged; finite/saturated/non-monotonic encounters are reported",
+    "No authentic offensive-foul producer or dedicated dribble-loss lottery",
+    "Older archives retain stored result totals and omit transfer/restart/control events needed for full reconstruction",
+    "Broad-result turnover events have no attributed player, so player Fel and team broad losses use different definitions",
+    "Browser visual availability and QA scope are recorded in DELIVERY.json",
+    "Retained HBL trajectory includes previously documented long unsettled attack; no gameplay tuning in this audit"
+  ],
+  "nextTask": {
+    "choice": "B",
+    "name": "Dedicated Player Attribute Integration phase",
+    "basis": "Uneven measured integration and30 schema keys without an effective canonical path; preserve strong passing/duel/physical behavior, investigate scoped reception/wing/keeper/cognition gaps before empirical calibration. Current broad loss counts alone cannot establish excessive official-equivalent error probability."
+  },
+  "localCodeCommits": [
+    "a4cf7e9c888a561fb012bcdbf1d36043f3584013 Add passive attribute and possession economy audit tools",
+    "a6041404c7d0e2004293dc76bcb2a35e96645b72 Correct canonical ball-loss accounting and show ordinary free throws"
+  ],
+  "evidenceCommit": "This report and verification are committed in the final local evidence commit; its own hash is intentionally not self-embedded.",
+  "finalExpectedUserStatus": [
+    " M apps/game/app/match-qa/page.tsx",
+    " M apps/game/lib/matchQa/qaHarness.ts",
+    " M apps/game/scripts/season-audit.ts",
+    "?? .claude/",
+    "?? apps/game/.tmp-final-benchmark.ts",
+    "?? docs/audit/"
+  ],
+  "finalStatusPolicy": "After committing task-owned evidence, verify git status exactly matches the preserved six user entries. No unrelated file is staged.",
+  "nothingPushed": true
+}

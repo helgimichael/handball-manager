@@ -1,0 +1,139 @@
+{
+  "complete": true,
+  "verifiedAt": "2026-10-16T07:24:25.227Z",
+  "startingCheckpoint": "20173857cf2d449ad716ecc19d58ded8ed210d93",
+  "currentHead": "a4cf7e9c888a561fb012bcdbf1d36043f3584013",
+  "preservedUserFiles": 39,
+  "frozenPresentationAndReferences": 32,
+  "allowedPresentationChanges": [
+    {
+      "path": "apps/game/lib/matchCenter/model.ts",
+      "scope": "Presentation-only Frikast read/cache"
+    },
+    {
+      "path": "apps/game/components/matchCenter/WorkspaceViews.tsx",
+      "scope": "One conditional Statistics Frikast row and precise broad-loss copy"
+    },
+    {
+      "path": "apps/game/lib/matchCenter/presentation.test.ts",
+      "scope": "Focused read-only render/truth regression tests"
+    }
+  ],
+  "coreRuntimeFiles": 43,
+  "unchangedCoreRuntimeFiles": 42,
+  "coreChanges": [
+    {
+      "path": "packages/handball-engine/src/v2/core/ledger.ts",
+      "before": "dd801ce6401a106d772eac46c5800eb46f218d34495f41ec1ff536aec24116c9",
+      "after": "7f45117a1486431df70f0b8697dcc7fdd281be93309e148d48baacad7f01391b",
+      "scope": "Pure event reader only: confirmed transfers, retained-shot context, blocked goalkeeper recovery and proven recalled-advantage continuation. No tick physics, probabilities, RNG or production event changes."
+    }
+  ],
+  "unchangedProductionAndSaveFiles": [
+    {
+      "path": "apps/game/lib/save/saveRepository.ts",
+      "sha256": "9fb5d22760ef8243c78bfc9aa233dac37d7834f836ea4cca13f7f0f9a1f6df16"
+    },
+    {
+      "path": "apps/game/lib/save/saveStorage.ts",
+      "sha256": "a54c274be08ebdae9090eebfd67ef358e6046582b273093b43936cb5a0b9da33"
+    },
+    {
+      "path": "apps/game/lib/career/newCareer.ts",
+      "sha256": "325b7ebc99fd7e7a000223e733729c6c67dc636e2bed6909763a9a506c4b6704"
+    }
+  ],
+  "boundedResultReaderException": {
+    "path": "apps/game/lib/career/productionMatch.ts",
+    "before": "5ff55ef5e40bfaf3f15d7f4d54171fa362b0b0a19acce313c4ea3658daeed0ff",
+    "after": "6e143a80b9dd124d1605dcc437c6557c96ae7d061d805b84144d4f50af9846f5",
+    "scope": "Only TURNOVER MatchEvent minute fallback uses the merged attack lastTick when the original canonical ID ended earlier. Exact normalized source comparison permits only that inspected replacement. Production tick, session, frame, finalization and archive/save schema paths remain unchanged."
+  },
+  "physicalNormalizedHash": "e1e334552f35a2f1dbc7d4b88da4ac5bbc501ae86f63ebf884bb6791da619606",
+  "antiCheat": {
+    "frozenActionProbabilities": true,
+    "frozenIntelligence": true,
+    "frozenPhysicalLoad": true,
+    "noLeagueGameplayLogicAdded": true,
+    "noCalibrationOrQuotas": true,
+    "noObserverImportsInCanonicalTickPath": true,
+    "canonicalTrajectoryEvidence": "Both N40 cohorts compare entire final production-session hashes against retained Physical Load v1.1 sessions; proof receipts additionally compare diagnostics OFF/ON, JSON continuation and archives."
+  },
+  "motionHead": "197d2a80ecea3b70efdcf8ef347cfc68e0e86b2b",
+  "motionStatus": "?? .claude/",
+  "stashes": [
+    "ddba79055949b76898b12fc1b947e8f8645589cb",
+    "b068a9586209b9405b8d5f0dc6fae6384dd09001"
+  ],
+  "previousBuilds": [
+    {
+      "directory": ".next-game-empirical-cal-v1",
+      "buildId": "DU6jMBZtsmZtnQWvlrs8c"
+    },
+    {
+      "directory": ".next-game-final",
+      "buildId": "cNJggCauoeM2tFyL4VSLb"
+    },
+    {
+      "directory": ".next-game-intelligence-v1",
+      "buildId": "s5-nNNCWTl2_T9odTJDlV"
+    },
+    {
+      "directory": ".next-game-loading-screen-v1",
+      "buildId": "-RNSpJe4apx4OLEONUxcE"
+    },
+    {
+      "directory": ".next-game-match-center-v2",
+      "buildId": "OPdl1waYJNI_SpnsaJ-sr"
+    },
+    {
+      "directory": ".next-game-match-center-v21",
+      "buildId": "pLsf1fASvBMrL5OMJuUP8"
+    },
+    {
+      "directory": ".next-game-motion-quality-v2",
+      "buildId": "OfxtCP_cN-7kRf7v5VmwA"
+    },
+    {
+      "directory": ".next-game-motion-v1",
+      "buildId": "JQxdclWu8m3DDjchhC8wU"
+    },
+    {
+      "directory": ".next-game-physical-load-v11",
+      "buildId": "mrlA0kCIE2BdeBLwu1EJs"
+    },
+    {
+      "directory": ".next-game-production",
+      "buildId": "johFb57nGyMaBoyGUmMSn"
+    },
+    {
+      "directory": ".next-game-realism-v2",
+      "buildId": "XkNsqFziP2f_j3IFTn3Vy"
+    },
+    {
+      "directory": ".next-game-realism-v21",
+      "buildId": "MMFsqS1-zfrSWl0fQDdK1"
+    },
+    {
+      "directory": ".next-game-reconciled-v1",
+      "buildId": "3PQHL0oSSqFhBU5FxXd8a"
+    },
+    {
+      "directory": ".next-game-reconciliation-v11",
+      "buildId": "7lH--sWAbP_HfvPnTXIdw"
+    },
+    {
+      "directory": ".next-game-rotation-fatigue-v1",
+      "buildId": "usx4M7Bosxj0W5ABGzmpe"
+    },
+    {
+      "directory": ".next-game-v11",
+      "buildId": "5Jp-210HFinXeJePZ9iro"
+    },
+    {
+      "directory": ".next-game-physical-load-v11",
+      "buildId": "mrlA0kCIE2BdeBLwu1EJs"
+    }
+  ],
+  "nothingPushed": true
+}
