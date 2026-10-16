@@ -124,7 +124,9 @@ test('decision making changes option evaluation through a pure current-state rea
  const low=read(11),high=read(16);assert.ok(high.perception.capability.decision>low.perception.capability.decision);
  assert.deepEqual(low.perception.space,high.perception.space);assert.ok(high.affordances.some(a=>a.motor==='PASS'));
  const passLow=low.affordances.find(a=>a.motor==='PASS')!,passHigh=high.affordances.find(a=>a.name===passLow.name&&a.targetId===passLow.targetId)!;
- assert.ok(passHigh.components.risk<passLow.components.risk);assert.ok(passHigh.components.capability>passLow.components.capability);
+ assert.ok(passHigh.components.risk<passLow.components.risk);
+ // Choosing the pass is improved; its mechanical passing capacity is independent.
+ assert.equal(passHigh.components.capability,passLow.components.capability);
 });
 
 test('equal physical attributes preserve identical workload and recovery timing despite different technique',()=>{

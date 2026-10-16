@@ -192,6 +192,8 @@ test('taking carrier pressure responsibility does not erase the same physical ba
 });
 test('a contested close finish remains an option for a sufficiently strong finisher instead of a categorical ban',()=>{
     const {s,p,d,h}=scene();d.position={x:10,y:9};p.position={x:10,y:7.2};p.velocity={x:0,y:-1};s.ball.position={...p.position};h.position={x:10.35,y:6.5};h.velocity={x:0,y:0};
-    p.profile={...p.profile,shotPower:.95,shotPlacement:.95,finishing:.95,tendency:{...p.profile.tendency,shoot:1.3,feed:.5}};
+    // Make the newly explicit reader competent as well as the finisher. At
+    // neutral cognition this real close tradeoff can correctly favour the feed.
+    p.profile={...p.profile,shotPower:.95,shotPlacement:.95,finishing:.95,cognition:{awareness:.75,playmaking:.75,advantage:.75,twoOnTwo:.75},tendency:{...p.profile.tendency,shoot:1.3,feed:.5}};
     const read=decideHandball(s,p);assert.ok(read.affordances.some(a=>a.motor==='SHOOT'));assert.equal(read.chosen?.motor,'SHOOT');
 });

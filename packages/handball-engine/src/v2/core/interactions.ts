@@ -260,7 +260,10 @@ export function keeperReachForShot(s:CoreState,p:CorePlayer,f:CoreFlight,point:P
   // all of the ball's eventual height/direction. Keep most of that genuine
   // preparation credit without granting completely reaction-free hands.
   const spare=Math.max(0,flightSeconds-(loaded?p.profile.reaction*.15:p.profile.reaction));
-  const hands=Math.min(span,.19+2.4*capacity*spare);
+  const k=p.profile.keeper,range=distance(f.origin,goal(f.goalSide));
+  const category=k?(loaded?k.sevenMetre:Math.abs(f.origin.x-10)>6.5?k.wing:range<9?k.close:k.long):.5;
+  // Category training changes use of finite hand-travel time, never anatomy.
+  const hands=Math.min(span,.19+2.4*capacity*spare*(.7+.6*category));
   // The same hand cannot simultaneously cover its full lateral and vertical
   // extent. A low/high ball spends part of the finite save envelope. Body
   // travel is already integrated and is not added again here.
@@ -337,6 +340,7 @@ export function advanceBall(s:CoreState) {
   }).filter(c=>c.hit).sort((a,b)=>a.t-b.t||a.p.id.localeCompare(b.p.id));
   for(const hit of candidates) {
     const p=hit.p,shooter=getPlayer(s,f.fromId);
+    let catchRisk:number|null=null;
     if(f.kind==='SHOT') {
       if(p.team===shooter.team)continue;
       if(p.kind==='GOALKEEPER') {
@@ -381,6 +385,7 @@ export function advanceBall(s:CoreState) {
     }
     if(p.team===shooter.team&&f.kind==='PASS'&&f.purpose!=='DEAD_BALL_RETURN') {
       const pace=Math.hypot(f.velocity.x,f.velocity.y),risk=receptionRisk(s,p,hit.point,pace);
+      catchRisk=risk;
       // Roll once, only after a real reachable catch. A fumble creates a
       // physical contested rebound; it does not hand possession to anyone.
       if(risk>0&&random(s)<risk){deflect(s,p,hit.point,'RECEPTION_FAILED',{risk,pace,handling:p.profile.handling,pressure:releasePressure(s,p)});return;}
@@ -398,7 +403,7 @@ export function advanceBall(s:CoreState) {
     acquire(s,p,hit.point,f.purpose==='DEAD_BALL_RETURN'?'Dead-ball return received':p.team===shooter.team?'Pass received':'Intercepted',f.actionId);
     if(f.purpose==='DEAD_BALL_RETURN')record(s,'BALL_RETURN_RECEIVED',p,{},[shooter.id],null,f.actionId);
     else if(f.kind==='DEFLECTION')record(s,'REBOUND_CONTROLLED',p,{},[shooter.id],null,f.actionId);
-    else if(p.team===shooter.team){s.possession.completedPasses++;s.possession.lastPasserId=shooter.id;record(s,'PASS_RECEIVED',p,{passerId:shooter.id},[shooter.id],null,f.actionId);}
+    else if(p.team===shooter.team){s.possession.completedPasses++;s.possession.lastPasserId=shooter.id;record(s,'PASS_RECEIVED',p,{passerId:shooter.id,...(catchRisk!==null?{risk:catchRisk}:{} )},[shooter.id],null,f.actionId);}
     else record(s,'INTERCEPTION',p,{},[shooter.id],null,f.actionId);
     return;
   }

@@ -3,9 +3,9 @@ import { distance, fieldLegal, goal, local } from './space';
 import { awardRestart } from './transitions';
 import { authorisedRestartMovementLegal } from './rules';
 import { movementCapacity,accelerationCapacity } from './condition';
-import { planShotTarget } from './execution';
+import { carryControl, planShotTarget } from './execution';
 import { steerVelocity } from './locomotion';
-import {bodyRoute,engagementMovement,movementPace} from './movement';
+import {bodyRoute,defensiveFootwork,engagementMovement,movementPace} from './movement';
 import {physicalImpulse,turningDemand} from './physicalLoad';
 
 const durations: Record<ActionKind,number>={RUN:12,REPOSITION:12,RECEIVE:36,HOLD:6,DRIBBLE:16,PASS:4,FEINT:7,DRIVE:14,JUMP:3,SHOOT:4,LAND:4,SCREEN:20,PRESS:10,CONTAIN:10,HELP:12,HANDOVER:4,RECOVER:12,BLOCK:12,CONTACT:8,SAVE:18,EXCHANGE:20};
@@ -110,7 +110,7 @@ export function move(s:CoreState,p:CorePlayer,target:Point|null,committedSave=fa
   const dx=target&&d>1e-8?(target.x-p.position.x)/d:0,dy=target&&d>1e-8?(target.y-p.position.y)/d:0;
   const impaired=s.tick < p.beatenUntilTick ? 0.4 : s.tick < p.screenedUntilTick ? 0.15 : s.tick<p.wrongFootedUntilTick?.65:1;
   const capacity=movementCapacity(p);
-  const acceleration=p.profile.acceleration*accelerationCapacity(p,turningDemand(p,target));
+  const acceleration=p.profile.acceleration*accelerationCapacity(p,turningDemand(p,target))*defensiveFootwork(s,p);
   // Arrival is a braking problem, not a velocity reset. Close to a relational
   // target, proportional approach removes the alternating overshoot/stop cycle.
   // A committed keeper reach retains v2.1's released-shot timing model. Its
@@ -266,7 +266,20 @@ export function execute(s: CoreState): ExecutionEffect[] {
     if(!s.ball.live){if(movementActions.includes(a.kind)&&a.target)move(s,p,a.target,true);else p.velocity={x:0,y:0};}
     if(a.kind==='DRIBBLE'&&s.ball.controllerId===p.id){
       const bounceAge=(s.tick-p.handling.bounceTick)%8;s.ball.height=Math.abs(4-bounceAge)/4;
-      if(bounceAge===4)record(s,'DRIBBLE_BOUNCE',p);
+      if(bounceAge===4){
+        const touch=carryControl(s,p);
+        record(s,'DRIBBLE_BOUNCE',p,{...touch});
+        if(touch.risk>0&&random(s)<touch.risk){
+          // The missed floor touch releases a reachable physical ball. Neither
+          // possession nor its loss counter changes until someone controls it.
+          const speed=Math.max(.1,Math.hypot(p.velocity.x,p.velocity.y));
+          const ux=p.velocity.x/speed,uy=p.velocity.y/speed,side=random(s)<.5?-1:1;
+          s.ball={...s.ball,mode:'LOOSE',controllerId:null,flight:null,height:0,lastTouchId:p.id,
+            position:{x:Math.max(.3,Math.min(19.7,p.position.x+ux*.55-uy*.35*side)),y:Math.max(.3,Math.min(39.7,p.position.y+uy*.55+ux*.35*side))}};
+          record(s,'CONTROL_MISTOUCH',p,{...touch,cause:'BALL_CONTROL',x:s.ball.position.x,y:s.ball.position.y});
+          a.phase='FAILED';p.nextAction=null;record(s,'ACTION_FAILED',p,{reason:'Challenged dribble touch escaped control'});continue;
+        }
+      }
     }
     if(a.kind==='DRIVE'&&!a.resolved)effects.push({playerId:p.id,kind:'DRIVE'});
     if(a.kind==='EXCHANGE'&&a.target&&distance(p.position,a.target)>.03)continue;

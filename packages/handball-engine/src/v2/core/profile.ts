@@ -27,6 +27,7 @@ export const OUTCOURT_KEYS = [
   'CONTACT_ABILITY','DEFENSIVE_POSITIONING','DEFENSIVE_TIMING','LATERAL_DEFENCE','COVERING','SWITCHING_HANDOVER','BALL_WINNING','SHOT_BLOCKING',
   'ACCELERATION','TOP_SPEED','LATERAL_QUICKNESS','AGILITY','EXPLOSIVENESS','STRENGTH','CONTACT_BALANCE','JUMP_ABILITY','ENDURANCE','REPEAT_SPRINT_ABILITY','MOBILITY',
   'COMPOSURE','DISCIPLINE',
+  'AWARENESS','PLAYMAKING','ADVANTAGE_RECOGNITION','TWO_V_TWO_READING','CONCENTRATION','PRESSURE_HANDLING',
 ] as const;
 export type OutcourtKey = typeof OUTCOURT_KEYS[number];
 
@@ -35,6 +36,7 @@ export const KEEPER_KEYS = [
   'GK_POSITIONING','SET_POSITION','REACTION','GK_EXPLOSIVENESS',
   'LOW_SAVES','HIGH_SAVES','CLOSE_RANGE_SAVES','LONG_RANGE_SAVES','WING_SAVES','SEVEN_M_SAVES',
   'SHOOTER_READING','SHOT_ANTICIPATION','OUTLET_PASSING',
+  'PATIENCE','DECISION_TIMING','GK_COMPOSURE','GK_CONCENTRATION','GK_PRESSURE_HANDLING',
 ] as const;
 export type KeeperKey = typeof KEEPER_KEYS[number];
 
@@ -97,6 +99,7 @@ export type Profile = {
   readonly defPositioning: number;
   readonly defTiming: number;
   readonly lateral: number;
+  readonly defFootwork?: number;
   readonly covering: number;
   readonly handover: number;
   readonly ballWinning: number;
@@ -108,6 +111,9 @@ export type Profile = {
   readonly physical?:{readonly acceleration:number;readonly lateralQuickness:number;readonly agility:number;readonly explosiveness:number;readonly jumping:number;readonly repeatSprint:number;readonly mobility:number};
   readonly composure: number;
   readonly discipline: number;
+  /** Immutable action-specific reads. Optional for existing active sessions. */
+  readonly cognition?: {readonly awareness:number;readonly playmaking:number;readonly advantage:number;readonly twoOnTwo:number};
+  readonly control?: {readonly concentration:number;readonly pressure:number};
   /** Null for every outfield player. A goalkeeper is never a generic number. */
   readonly keeper: KeeperProfile | null;
   readonly tendency: Tendency;
@@ -138,6 +144,10 @@ export type KeeperProfile = {
   readonly sevenMetre: number;
   readonly reading: number;
   readonly outlet: number;
+  readonly patience?: number;
+  readonly timing?: number;
+  readonly concentration?: number;
+  readonly pressure?: number;
 };
 
 /**
@@ -163,8 +173,9 @@ export function buildProfile(sheet: AttributeSheet, role: Role, tendency: Partia
     topSpeed: keeper ? 3.2 + 1.6 * mean(sheet, 'GK_EXPLOSIVENESS', 'REACTION') : SPEED_FLOOR + SPEED_RANGE * mean(sheet, 'TOP_SPEED', 'TOP_SPEED', 'AGILITY'),
     acceleration: keeper ? 5 + 4 * unit(sheet, 'GK_EXPLOSIVENESS') : ACCEL_FLOOR + ACCEL_RANGE * mean(sheet, 'ACCELERATION', 'EXPLOSIVENESS'),
     reaction: REACTION_SLOW - REACTION_RANGE * (keeper ? mean(sheet,'REACTION','REACTION','SHOOTER_READING') : read),
-    passing: keeper ? unit(sheet,'OUTLET_PASSING') : mean(sheet, 'PASSING', 'PASSING', 'DECISION_MAKING'),
-    handling: mean(sheet, 'BALL_HANDLING', 'COMPOSURE'),
+    // Choosing a pass and mechanically delivering it are separate responsibilities.
+    passing: keeper ? unit(sheet,'OUTLET_PASSING') : unit(sheet,'PASSING'),
+    handling: keeper ? mean(sheet,'LOW_SAVES','HIGH_SAVES') : unit(sheet,'BALL_HANDLING'),
     shotPower: unit(sheet, 'SHOOTING_POWER'),
     shotPlacement: mean(sheet, 'SHOOTING_PLACEMENT', 'FINISHING'),
     breakthrough: mean(sheet, 'BREAKTHROUGH', 'AGILITY'),
@@ -173,12 +184,13 @@ export function buildProfile(sheet: AttributeSheet, role: Role, tendency: Partia
     pivotPlay: unit(sheet, 'PIVOT_PLAY'),
     screening: mean(sheet, 'SCREENING', 'STRENGTH'),
     anticipation: read,
-    decision: mean(sheet, 'DECISION_MAKING', 'GAME_READING'),
+    decision: keeper ? unit(sheet,'DECISION_TIMING') : unit(sheet,'DECISION_MAKING'),
     offBall: mean(sheet, 'OFF_BALL_MOVEMENT', 'TIMING'),
     contact: mean(sheet, 'CONTACT_ABILITY', 'STRENGTH'),
     defPositioning: unit(sheet, 'DEFENSIVE_POSITIONING'),
     defTiming: mean(sheet, 'DEFENSIVE_TIMING', 'TIMING'),
     lateral: mean(sheet, 'LATERAL_DEFENCE', 'AGILITY'),
+    defFootwork: unit(sheet,'LATERAL_DEFENCE'),
     covering: unit(sheet, 'COVERING'),
     handover: unit(sheet, 'SWITCHING_HANDOVER'),
     ballWinning: mean(sheet, 'BALL_WINNING', 'ANTICIPATION'),
@@ -187,8 +199,9 @@ export function buildProfile(sheet: AttributeSheet, role: Role, tendency: Partia
     balance: unit(sheet, 'CONTACT_BALANCE'),
     endurance: unit(sheet, 'ENDURANCE'),
     ...(keeper?{}:{physical:{acceleration:unit(sheet,'ACCELERATION'),lateralQuickness:unit(sheet,'LATERAL_QUICKNESS'),agility:unit(sheet,'AGILITY'),explosiveness:unit(sheet,'EXPLOSIVENESS'),jumping:unit(sheet,'JUMP_ABILITY'),repeatSprint:unit(sheet,'REPEAT_SPRINT_ABILITY'),mobility:unit(sheet,'MOBILITY')}}),
-    composure: unit(sheet, 'COMPOSURE'),
+    composure: unit(sheet, keeper ? 'GK_COMPOSURE' : 'COMPOSURE'),
     discipline: unit(sheet, 'DISCIPLINE'),
+    ...(!keeper?{cognition:{awareness:unit(sheet,'AWARENESS'),playmaking:unit(sheet,'PLAYMAKING'),advantage:unit(sheet,'ADVANTAGE_RECOGNITION'),twoOnTwo:unit(sheet,'TWO_V_TWO_READING')},control:{concentration:unit(sheet,'CONCENTRATION'),pressure:unit(sheet,'PRESSURE_HANDLING')}}:{}),
     keeper: keeper ? {
       positioning: mean(sheet, 'GK_POSITIONING', 'SET_POSITION'),
       setPosition: unit(sheet, 'SET_POSITION'),
@@ -202,6 +215,10 @@ export function buildProfile(sheet: AttributeSheet, role: Role, tendency: Partia
       sevenMetre: unit(sheet, 'SEVEN_M_SAVES'),
       reading: read,
       outlet: unit(sheet, 'OUTLET_PASSING'),
+      patience: unit(sheet,'PATIENCE'),
+      timing: unit(sheet,'DECISION_TIMING'),
+      concentration: unit(sheet,'GK_CONCENTRATION'),
+      pressure: unit(sheet,'GK_PRESSURE_HANDLING'),
     } : null,
     tendency: { ...NEUTRAL, ...tendency },
     source: { complete: missing.length === 0, missing, supplied: expected.length - missing.length, expected: expected.length },

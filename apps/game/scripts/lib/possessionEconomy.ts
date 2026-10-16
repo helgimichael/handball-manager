@@ -13,7 +13,7 @@ export class EconomyObserver {
  readonly technical:TechnicalObservation[]=[];private seen=new Set<string>();
  observe=(s:Readonly<CoreState>,events:readonly CoreEvent[])=>{
   for(const e of events){if(this.seen.has(e.id))continue;this.seen.add(e.id);
-   if(!['PASS_RELEASED','PASS_RECEIVED','RECEPTION_FAILED','INTERCEPTION'].includes(e.type))continue;
+   if(!['PASS_RELEASED','PASS_RECEIVED','RECEPTION_FAILED','INTERCEPTION','CONTROL_MISTOUCH'].includes(e.type))continue;
    const p=s.players.find(p=>p.id===e.actorId);if(!p)continue;
    this.technical.push({eventId:e.id,actionId:e.actionId,type:e.type,team:p.team,playerId:p.id,energy:p.condition.energy,acute:p.condition.acuteExertion??0,
     pressure:typeof e.details.pressure==='number'?e.details.pressure:releasePressure(s as CoreState,p),difficulty:typeof e.details.difficulty==='number'?e.details.difficulty:null,
@@ -21,7 +21,7 @@ export class EconomyObserver {
   }
  };
 }
-type Loss='BAD_PASS_OUT'|'INTERCEPTION'|'DROPPED_RECEPTION'|'DEFLECTED_PASS_RECOVERED'|'BALL_CONTROL_LOSS_UNSPECIFIED'|'FAILED_RECEIVE_UNSPECIFIED'|'TECHNICAL_RULE_VIOLATION'|'PASSIVE_PLAY'|'OFFENSIVE_FOUL'|'OTHER';
+type Loss='BAD_PASS_OUT'|'INTERCEPTION'|'DROPPED_RECEPTION'|'DEFLECTED_PASS_RECOVERED'|'DRIBBLE_CONTROL_LOSS'|'BALL_CONTROL_LOSS_UNSPECIFIED'|'FAILED_RECEIVE_UNSPECIFIED'|'TECHNICAL_RULE_VIOLATION'|'PASSIVE_PLAY'|'OFFENSIVE_FOUL'|'OTHER';
 type EconomyEnding='OFFENSIVE_FOUL'|'TURNOVER'|'GOAL'|'HALF_END'|'FIELD_SHOT_MISS_SAVE'|'UNRESOLVED'|'OTHER';
 export type EconomyRecord={
  key:string;canonicalId:string;period:number;team:TeamId;
@@ -31,7 +31,7 @@ export type EconomyRecord={
  passesReleased:number;passesReceived:number;freeThrows:number;freeThrowsBeforeShot:number;freeThrowsBeforeLoss:number;
  freeThrowSegments:number[];transferEvents:number;receptionFumbles:number;retainedFumbles:boolean;retainedRebounds:number;
 };
-const lossKeys:Loss[]=['BAD_PASS_OUT','INTERCEPTION','DROPPED_RECEPTION','DEFLECTED_PASS_RECOVERED','BALL_CONTROL_LOSS_UNSPECIFIED','FAILED_RECEIVE_UNSPECIFIED','TECHNICAL_RULE_VIOLATION','PASSIVE_PLAY','OFFENSIVE_FOUL','OTHER'];
+const lossKeys:Loss[]=['BAD_PASS_OUT','INTERCEPTION','DROPPED_RECEPTION','DEFLECTED_PASS_RECOVERED','DRIBBLE_CONTROL_LOSS','BALL_CONTROL_LOSS_UNSPECIFIED','FAILED_RECEIVE_UNSPECIFIED','TECHNICAL_RULE_VIOLATION','PASSIVE_PLAY','OFFENSIVE_FOUL','OTHER'];
 const counts=(keys:readonly string[])=>Object.fromEntries(keys.map(k=>[k,0]));
 /** Independent terminal ownership reading; a winner's opening INTERCEPTION is not its loss. */
 function terminalEnding(events:readonly CoreEvent[],team:TeamId,s:Readonly<CoreState>){
@@ -65,6 +65,7 @@ function cause(ending:string,events:readonly CoreEvent[],s:Readonly<CoreState>,t
  const lastControl=through.findLastIndex(e=>['BALL_CONTROLLED','PASS_RECEIVED','REBOUND_CONTROLLED'].includes(e.type)&&own(s,e)===team);
  // Earlier fumbles followed by own control are retained incidents, not the terminal cause.
  const relevant=through.slice(lastControl+1);
+ if(relevant.some(e=>e.type==='CONTROL_MISTOUCH'))return 'DRIBBLE_CONTROL_LOSS';
  if(relevant.some(e=>e.type==='RECEPTION_FAILED'))return 'DROPPED_RECEPTION';
  if(relevant.some(e=>e.type==='PASS_DEFLECTED'))return 'DEFLECTED_PASS_RECOVERED';
  if(ending==='BAD_PASS_OUT'||ending==='OUT_OF_COURT')return 'BAD_PASS_OUT';

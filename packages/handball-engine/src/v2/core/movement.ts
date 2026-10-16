@@ -3,6 +3,13 @@ import {clearGoalArea,distance,laneClearance,local,world,segmentPoint,fieldLegal
 export type MovementMode='HOLD'|'ADJUST'|'SUPPORT'|'THREATEN'|'RECEIVE'|'DRIVE'|'SHIFT'|'STEP_OUT'|'HELP'|'RECOVER'|'RETREAT'|'SPRINT_TRANSITION';
 /** Optional persisted perception memory. Old active saves initialize it from their current action. */
 export type MovementRead={mode:MovementMode;relation:string;target:Point;reviewTick:number};
+/** Technical defensive footwork uses physical acceleration; it cannot exceed it. */
+export function defensiveFootwork(s:CoreState,p:CorePlayer):number {
+ const job=['PRESS','CONTAIN','HELP','RECOVER'].includes(p.action?.kind??'')||
+  ['PRESSURE','HELP','RECOVER','MARK','COVER','PIVOT','RETREAT'].includes(p.duty.kind);
+ return s.ball.live&&job&&p.population==='COURT'&&p.action?.kind!=='EXCHANGE'&&p.kind==='FIELD_PLAYER'&&p.team!==s.possession.team
+  ?.6+.4*(p.profile.defFootwork??p.profile.lateral):1;
+}
 /** A goal-side engagement owns its approach; traffic steering cannot replace it. */
 export function engagementMovement(s:CoreState,p:CorePlayer):boolean {
  return p.kind==='FIELD_PLAYER'&&p.team!==s.possession.team&&['PRESSURE','PIVOT'].includes(p.duty.kind);
@@ -31,7 +38,7 @@ export function movementPace(s:CoreState,p:CorePlayer,target:Point|null):number 
 export function movementReadTicks(s:CoreState,p:CorePlayer):number {
  const ballDistance=distance(p.position,s.ball.position),mode=movementMode(s,p);
  if(mode==='STEP_OUT'||mode==='DRIVE'||p.id===s.ball.flight?.receiverId)return 1;
- const responsibility=mode==='HELP'?.35:mode==='RECOVER'?.45:Math.min(1,ballDistance/8);
+ const responsibility=mode==='HELP'?.3+1.6*(1-p.profile.covering):mode==='RECOVER'?.3+1.6*(1-p.profile.defPositioning):Math.min(1,ballDistance/8);
  return Math.max(1,Math.round(p.profile.reaction*20*responsibility*(1.2-.4*p.profile.anticipation)));
 }
 /** Re-read evolving relational destinations without restarting action or resetting velocity. */
@@ -43,7 +50,10 @@ export function readMovementTarget(s:CoreState,p:CorePlayer,target:Point):Point 
  const read=p.motion!;
  // A new owner or tactical phase invalidates the previous perception once;
  // arrival timing differs by responsibility, never random player-ID offsets.
- if(read.relation!==relation){read.relation=relation;read.mode=mode;read.reviewTick=Math.min(read.reviewTick,s.tick+movementReadTicks(s,p));}
+ if(read.relation!==relation){
+  const handoff=p.team!==s.possession.team?Math.max(1,Math.round(p.profile.reaction*20*(1.7-1.5*p.profile.handover))):movementReadTicks(s,p);
+  read.relation=relation;read.mode=mode;read.reviewTick=p.team!==s.possession.team?s.tick+handoff:Math.min(read.reviewTick,s.tick+handoff);
+ }
  if(s.tick>=read.reviewTick){read.target={...target};read.reviewTick=s.tick+movementReadTicks(s,p);}
  return {...read.target};
 }

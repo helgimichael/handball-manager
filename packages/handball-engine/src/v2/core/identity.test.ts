@@ -47,10 +47,10 @@ test('the engine consumes Handball Manager attribute keys, and an absent key is 
 });
 
 test('every capacity the engine reads comes from a named attribute, including the goalkeeper', () => {
-  const weak = buildProfile({ GK_POSITIONING: 2, SET_POSITION: 2, REACTION: 2, GK_EXPLOSIVENESS: 2, LOW_SAVES: 2, HIGH_SAVES: 2, CLOSE_RANGE_SAVES: 2, LONG_RANGE_SAVES: 2, WING_SAVES: 2, SEVEN_M_SAVES: 2, SHOOTER_READING: 2, SHOT_ANTICIPATION: 2, OUTLET_PASSING: 2 }, 'GK').keeper!;
-  const strong = buildProfile({ GK_POSITIONING: 19, SET_POSITION: 19, REACTION: 19, GK_EXPLOSIVENESS: 19, LOW_SAVES: 19, HIGH_SAVES: 19, CLOSE_RANGE_SAVES: 19, LONG_RANGE_SAVES: 19, WING_SAVES: 19, SEVEN_M_SAVES: 19, SHOOTER_READING: 19, SHOT_ANTICIPATION: 19, OUTLET_PASSING: 19 }, 'GK').keeper!;
+  const weak = buildProfile(Object.fromEntries(KEEPER_KEYS.map(key=>[key,2])), 'GK').keeper!;
+  const strong = buildProfile(Object.fromEntries(KEEPER_KEYS.map(key=>[key,19])), 'GK').keeper!;
   for (const key of Object.keys(strong) as (keyof typeof strong)[]) {
-    assert.ok(strong[key] > weak[key], `${key} must separate two goalkeepers`);
+    assert.ok(strong[key]! > weak[key]!, `${key} must separate two goalkeepers`);
   }
 });
 

@@ -20,7 +20,7 @@ function penalty(direction:'TOP'|'BOTTOM'='TOP') {
   keeper.position=world({x:10,y:.8},direction);s.ball.position={...thrower.position};
   assert.ok(startAction(s,thrower,'SHOOT','Committed penalty',null,null,'SEVEN_METRE'));thrower.action!.phase='COMMITTED';thrower.action!.target=world({x:11,y:0},direction);
   assert.ok(startAction(s,keeper,'SAVE','Actual prepared penalty stance',keeper.position));keeper.action!.phase='EXECUTING';
-  setProfile(keeper,{reaction:.2});s.tick=4;s.timeMs=200;
+  setProfile(keeper,{reaction:.2,keeper:{...keeper.profile.keeper!,timing:.75}});s.tick=4;s.timeMs=200;
   return {s,thrower,keeper};
 }
 
@@ -41,17 +41,19 @@ test('a loaded penalty stance moves physically and is not reset to the centre wh
 });
 
 test('ready saves observe released direction only after reaction without premature RNG, then preserve phase and read once',()=>{
-  for(const direction of ['TOP','BOTTOM'] as const) {
+  for(const direction of ['TOP','BOTTOM'] as const)for(const [timing,readAt]of [[.25,5],[.75,4]]as const) {
     const {s,thrower,keeper}=penalty(direction);restartStep(s);const id=keeper.action!.id,started=keeper.action!.startedTick,loaded={...keeper.action!.target!},draws=s.rng.draws;
+    keeper.profile={...keeper.profile,keeper:{...keeper.profile.keeper!,timing}};
     s.ball.live=true;s.restart!.phase='COMPLETED';s.ball.controllerId=null;s.ball.mode='SHOT_FLIGHT';
     const released=s.tick;s.ball.flight={kind:'SHOT',origin:{...thrower.position},velocity:{x:1,y:direction==='TOP'?-22:22},fromId:thrower.id,receiverId:null,
       actionId:thrower.action!.id,possessionId:s.possession.id,releasedTick:released,height:1.5,goalSide:direction,touchedIds:[thrower.id],purpose:'PLAY'};
-    for(let age=0;age<4;age++){
+    for(let age=0;age<readAt;age++){
       s.tick=released+age;s.timeMs=s.tick*50;selectActions(s);
       assert.equal(keeper.action!.targetId,null);assert.deepEqual(keeper.action!.target,loaded);assert.equal(s.rng.draws,draws);
       assert.ok(!s.events.some(e=>e.type==='KEEPER_FLIGHT_READ'));
     }
-    s.tick=released+4;s.timeMs=s.tick*50;selectActions(s);
+    s.tick=released+readAt;s.timeMs=s.tick*50;selectActions(s);
+    assert.ok(readAt*.05>=keeper.profile.reaction,'decision timing never bypasses motor reaction');
     assert.equal(keeper.action!.id,id);assert.equal(keeper.action!.startedTick,started);assert.equal(keeper.action!.phase,'EXECUTING');assert.equal(keeper.action!.targetId,thrower.action!.id);
     assert.equal(s.rng.draws,draws+1);assert.ok(Math.abs(local(keeper.action!.target!,direction).y-.8)<1e-12,'reaction stays on the actual prepared depth');
     const target={...keeper.action!.target!};selectActions(s);assert.equal(s.rng.draws,draws+1);assert.deepEqual(keeper.action!.target,target);

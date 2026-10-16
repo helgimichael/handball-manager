@@ -24,6 +24,7 @@ import { movementCapacity,accelerationCapacity } from './condition';
 import type { CoreFlight, CorePlayer, CoreState, Point } from './state';
 import { distance } from './space';
 import {turningDemand} from './physicalLoad';
+import {defensiveFootwork} from './movement';
 
 /** Everything arrival time depends on, read off a player once. */
 export type Reach = {
@@ -49,7 +50,7 @@ export function reachOf(s: CoreState, p: CorePlayer, target:Point|null=p.action?
     position: p.position,
     velocity: p.velocity,
     topSpeed: Math.max(0.4, p.profile.topSpeed * capacity),
-    acceleration: Math.max(0.4, p.profile.acceleration * accelerationCapacity(p,turningDemand(p,target)) * impaired),
+    acceleration: Math.max(0.4, p.profile.acceleration * accelerationCapacity(p,turningDemand(p,target)) * impaired * defensiveFootwork(s,p)),
     // A player already committed to an action has spent his reaction; one who
     // is not is still reading. Impairment costs reading time as well as pace.
     reaction: p.profile.reaction / Math.max(0.2, impaired),

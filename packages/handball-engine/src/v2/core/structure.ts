@@ -12,7 +12,7 @@ import { breakDefence,driveEngagement,readContinuation,rebuildValue,type Continu
 import { ZONE_COUNT,allocate,assignZones,dutyFeasible,dutyTarget,lineFormed,readDefence,zoneOf,type DefenceRead,type ZoneDuty } from './defence';
 import { sustain } from './actions';
 import { laneMargin } from './timing';
-import { prepareKeeperAnticipation } from './execution';
+import { keeperReadQuality, prepareKeeperAnticipation } from './execution';
 import {readMovementTarget,receivingApproach,recoveryRoute} from './movement';
 import {commitHandball,decideHandball,intelligenceRelevant,observeCarrierRelationships,traceDecision,traceDefensiveIntent,type Decision,type TacticalIntent} from './intelligence';
 const PIVOT_ROLL_REASON='Roll into the line space created by the backcourt threat';
@@ -600,17 +600,16 @@ function commitReleasedKeeper(s:CoreState,p:CorePlayer) {
   const flown=(s.tick-f.releasedTick)*.05;
   // The stance may load from a visible committed wind-up. Reading the ball's
   // released direction is a different observation and costs actual reaction.
-  if(flown+1e-9<p.profile.reaction) {
+  const observationSeconds=Math.max(p.profile.reaction,p.profile.reaction*(1.3-.4*(p.profile.keeper?.timing??.75)));
+  if(flown+1e-9<observationSeconds) {
     if(actionAvailable(p))startAction(s,p,'SAVE','Hold the current stance until the released direction can be perceived',{...p.position});
     return;
   }
-  const ownGoal=s.directions[otherTeam(p.team)],k=p.profile.keeper;
+  const ownGoal=s.directions[otherTeam(p.team)];
   const penalty=getPlayer(s,f.fromId).action?.shotKind==='SEVEN_METRE';
   const depth=penalty?local(p.position,ownGoal).y:1.4;
   const t=Math.max(0,(world({x:10,y:depth},ownGoal).y-s.ball.position.y)/f.velocity.y);
-  const read=penalty
-    ?(k?.reading??.5)*.35+(k?.reaction??.5)*.20+(k?.positioning??.5)*.15+(k?.sevenMetre??.5)*.30
-    :(k?.reading??.5)*.45+(k?.reaction??.5)*.35+(k?.positioning??.5)*.2;
+  const read=keeperReadQuality(p,penalty);
   const pace=Math.hypot(f.velocity.x,f.velocity.y);
   const blind=(1.5-read)*Math.max(.4,1-flown*1.6)*(.82+pace/56);
   const guess=s.ball.position.x+f.velocity.x*t+(random(s)-.5)*2*blind;
