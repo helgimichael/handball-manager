@@ -2,6 +2,7 @@
 import type { CoreEvent, TeamId, Role } from '@handball-manager/handball-engine/src/v2/core/state';
 import type { FastMatchResult, PlayerMatchContribution } from '@handball-manager/game-simulation';
 import { resultFromSession, type ProductionMatchSession, type PlayedMatchArchive, type MatchPerson, type MatchFrame } from '../career/productionMatch';
+import { isFreeThrowFact, readOrdinaryFreeThrows, type FreeThrowRead } from './freeThrows';
 export const ROLE_LABEL: Record<Role, string> = { LW: 'V6', LB: 'V9', CB: 'M9', RB: 'H9', RW: 'H6', P: 'M6', P2: 'M6', GK: 'MV' };
 export const SHOT_LABEL: Record<string, string> = { WING: 'Kant', PIVOT: 'Linje', BREAKTHROUGH: 'Genombrott', BACKCOURT_JUMP: 'Distans', STANDING: 'Stående', SEVEN_METRE: '7m', EMPTY_GOAL: 'Tomt mål' };
 export const MATCH_SPEEDS = [1, 2, 4, 8, 16, 64] as const;
@@ -56,6 +57,7 @@ export type PlayerRow = MatchPerson & {
     technicalViolations: number;
 };
 export type MatchCenterModel = {
+    freeThrows?: FreeThrowRead;
     events: MatchPresentationEvent[];
     shots: ShotFact[];
     players: PlayerRow[];
@@ -322,6 +324,7 @@ function descriptions(events: MatchPresentationEvent[], shots: ShotFact[], playe
     return { trends, alerts };
 }
 type PresentationRead = {
+    freeThrows: FreeThrowRead;
     result: FastMatchResult;
     events: MatchPresentationEvent[];
     shots: ShotFact[];
@@ -336,22 +339,25 @@ export function liveMatchModel(session: ProductionMatchSession, playing = false,
     const status = c.match?.phase === 'FULLTIME' ? 'FULLTIME' : session.pausedAtHalf || c.match?.phase === 'HALFTIME' ? 'HALFTIME' : c.referee.timeout?.reason === 'TEAM_TIMEOUT' ? 'TIMEOUT' : c.match?.phase === 'PREMATCH' ? 'PREMATCH' : playing ? 'LIVE' : 'PAUSED';
     const manpower = { HOME: c.players.filter(p => p.team === 'HOME' && p.population === 'COURT' && p.kind === 'FIELD_PLAYER').length, AWAY: c.players.filter(p => p.team === 'AWAY' && p.population === 'COURT' && p.kind === 'FIELD_PLAYER').length };
     const timeouts = { HOME: c.referee.teamTimeouts.HOME.includes(c.period) ? 0 : 1, AWAY: c.referee.teamTimeouts.AWAY.includes(c.period) ? 0 : 1 };
-    return { result, events, shots, players, clock: c.officialClock.timeMs, period: c.period, status, remaining: Math.max(0, (c.match?.periodLengthMs ?? 1800000) - (c.officialClock.timeMs - (c.match?.periodStartMs ?? 0))), manpower, timeouts, keyMoments: events.filter(e => e.replayReference && (e.importance === 'KEY' || e.type === 'SHOT_BLOCKED' || e.type === 'DEFENDER_BEATEN')), ...descriptions(events, shots, players, c.officialClock.timeMs) };
+    return { freeThrows: read?.freeThrows ?? readOrdinaryFreeThrows(c.events, { source: 'LIVE', behaviorRevision: session.behaviorRevision, complete: c.match?.phase === 'FULLTIME' }), result, events, shots, players, clock: c.officialClock.timeMs, period: c.period, status, remaining: Math.max(0, (c.match?.periodLengthMs ?? 1800000) - (c.officialClock.timeMs - (c.match?.periodStartMs ?? 0))), manpower, timeouts, keyMoments: events.filter(e => e.replayReference && (e.importance === 'KEY' || e.type === 'SHOT_BLOCKED' || e.type === 'DEFENDER_BEATEN')), ...descriptions(events, shots, players, c.officialClock.timeMs) };
 }
 /** Per-view cache of immutable append-only facts. Never attached to a save or core. */
 export function createLiveMatchReader() {
-    let fixture = '', cursor = 0, tail: CoreEvent | undefined, facts: CoreEvent[] = [], read: PresentationRead | undefined, statKey = '', flight: string | null = null;
+    let fixture = '', cursor = 0, tail: CoreEvent | undefined, facts: CoreEvent[] = [], freeThrowFacts: CoreEvent[] = [], read: PresentationRead | undefined, statKey = '', flight: string | null = null;
     return (session: ProductionMatchSession, playing = false) => {
         const c = session.core, reset = fixture !== session.fixture.id || cursor > c.events.length || cursor > 0 && c.events[cursor - 1] !== tail;
         if (reset) {
             fixture = session.fixture.id;
             cursor = 0;
             facts = [];
+            freeThrowFacts = [];
             read = undefined;
             statKey = '';
         }
         const fresh = c.events.slice(cursor), meaningful = fresh.filter(e => presentationTypes.has(e.type) || e.type === 'PASS_RELEASED');
         facts.push(...meaningful);
+        const newFreeThrowFacts = fresh.filter(isFreeThrowFact);
+        freeThrowFacts.push(...newFreeThrowFacts);
         cursor = c.events.length;
         tail = c.events.at(-1);
         const key = `${c.score.HOME}:${c.score.AWAY}:${Math.ceil(c.officialClock.timeMs / 60000)}:${c.players.filter(p => p.condition.courtMs > 0).map(p => p.id).join(',')}`;
@@ -361,7 +367,8 @@ export function createLiveMatchReader() {
         statKey = key;
         const historyChanged = !read || meaningful.length > 0;
         const flying = c.ball.flight?.actionId ?? null;
-        read = { result, events: historyChanged || fresh.some(e => ['BALL_OUT', 'POSSESSION_AWARDED'].includes(e.type)) ? presentationEvents(facts, session.people) : read!.events, shots: historyChanged || flight !== flying ? shotFacts(facts, session.people, flying, false) : read!.shots, facts };
+        const freeThrows = !read || newFreeThrowFacts.length || fresh.some(e => e.type === 'MATCH_FINISHED') ? readOrdinaryFreeThrows(freeThrowFacts, { source: 'LIVE', behaviorRevision: session.behaviorRevision, complete: c.match?.phase === 'FULLTIME' }) : read.freeThrows;
+        read = { freeThrows, result, events: historyChanged || fresh.some(e => ['BALL_OUT', 'POSSESSION_AWARDED'].includes(e.type)) ? presentationEvents(facts, session.people) : read!.events, shots: historyChanged || flight !== flying ? shotFacts(facts, session.people, flying, false) : read!.shots, facts };
         flight = flying;
         return liveMatchModel(session, playing, read);
     };
@@ -369,7 +376,7 @@ export function createLiveMatchReader() {
 export function archivedMatchModel(archive: PlayedMatchArchive, frames?: readonly MatchFrame[]): MatchCenterModel {
     const shots = shotFacts(archive.events, archive.people), events = shotCommentary(presentationEvents(archive.events, archive.people), shots, archive.people), players = playerRows(archive.people, archive.result, archive.events, undefined, archive), clock = frames?.at(-1)?.[1] ?? archive.events.at(-1)?.officialMs ?? null;
     const lastPeriod = archive.events.findLast(e => e.type === 'PERIOD_STARTED')?.details.period, period = frames?.at(-1)?.[2] ?? (typeof lastPeriod === 'number' ? lastPeriod : null);
-    return { result: archive.result, events, shots, players, clock, period, status: 'FULLTIME', remaining: 0, manpower: null, timeouts: null, keyMoments: events.filter(e => e.replayReference && (e.importance === 'KEY' || e.type === 'SHOT_BLOCKED' || e.type === 'DEFENDER_BEATEN')), ...descriptions(events, shots, players, clock) };
+    return { freeThrows: readOrdinaryFreeThrows(archive.events, { source: 'ARCHIVE', behaviorRevision: archive.behaviorRevision, complete: true }), result: archive.result, events, shots, players, clock, period, status: 'FULLTIME', remaining: 0, manpower: null, timeouts: null, keyMoments: events.filter(e => e.replayReference && (e.importance === 'KEY' || e.type === 'SHOT_BLOCKED' || e.type === 'DEFENDER_BEATEN')), ...descriptions(events, shots, players, clock) };
 }
 /** Floor search: exact observed rows only, never interpolation/extrapolation. */
 export function recordedFrame(frames: readonly MatchFrame[], tick: number): MatchFrame | null {

@@ -203,7 +203,10 @@ export function resultFromSession(session: ProductionMatchSession): FastMatchRes
     return { playerId: p.id, goals, shots, ...(p.role === 'GK' ? { saves, shotsFaced: saves+conceded } : {}), rating: Math.max(1, Math.min(10, 6 + goals * .15 + saves * .07 - Math.max(0, shots - goals) * .08)), started: p.started };
   });
   for (const attack of possessionLedger.records) if (lossClassOf(attack.ending)) {
-    const last = lastByPossession.get(attack.possessionId);
+    let last = lastByPossession.get(attack.possessionId);
+    // A recalled-advantage continuation can span canonical IDs. Its final tick,
+    // not the old ID's earlier provisional award, owns the turnover timestamp.
+    if(last?.tick!==attack.lastTick)last=c.events.findLast(e=>e.tick===attack.lastTick)??last;
     events.push({ minute: Math.max(1, Math.min(60, Math.ceil((last?.officialMs ?? 0) / 60000))), side: attack.team === 'HOME' ? 'home' : 'away', type: 'TURNOVER' });
   }
   events.sort((a, b) => a.minute - b.minute);

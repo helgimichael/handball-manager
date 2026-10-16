@@ -10,6 +10,8 @@ require('../src/v2/core/reconciliation.test.ts');
 require('../src/v2/core/reconciliation-v11.test.ts');
 require('../src/v2/core/rotation-fatigue.test.ts');
 require('../src/v2/core/physical-load.test.ts');
+require('../src/v2/core/attribute-economy.test.ts');
+require('../src/v2/core/ledger-economy.test.ts');
 require('../src/v2/core/motion-quality.test.ts');
 require('../src/v2/core/continuous.test.ts');
 require('../src/v2/core/contact.test.ts');
