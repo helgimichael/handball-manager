@@ -1,0 +1,52 @@
+/** Same retained recipes and ratings, new canonical gameplay; strictly sequential workers. */
+import assert from 'node:assert/strict';
+import {createHash} from 'node:crypto';
+import {spawn} from 'node:child_process';
+import {existsSync,mkdirSync,readFileSync,readdirSync,writeFileSync} from 'node:fs';
+import {join,resolve} from 'node:path';
+import {gzipSync} from 'node:zlib';
+import {createNewCareerState} from '../lib/career/newCareer';
+import {buildMatchdayReadyEvent} from '../lib/career/careerEvents';
+import {advanceProductionMatch,resultFromSession,startProductionMatch,type ProductionMatchSession} from '../lib/career/productionMatch';
+import {readOrdinaryFreeThrows} from '../lib/matchCenter/freeThrows';
+import {EconomyObserver,possessionEconomy} from './lib/possessionEconomy';
+import {ledger} from '@handball-manager/handball-engine/src/v2/core/ledger';
+
+const args=process.argv.slice(2),arg=(k:string,d:string)=>args.includes(k)?args[args.indexOf(k)+1]:d;
+const league=arg('--league','hbl'),count=Number(arg('--count','40')),root=resolve('../..'),out=resolve(arg('--out',`../../docs/player-attribute-integration-v1/final/${league}`));
+assert.ok(['hbl','allsv'].includes(league));assert.ok(Number.isInteger(count)&&count>=1&&count<=40);
+const read=(p:string)=>JSON.parse(readFileSync(p,'utf8')),hash=(x:unknown)=>createHash('sha256').update(typeof x==='string'?x:JSON.stringify(x)).digest('hex');
+const prior=join(root,'docs/player-attributes-possession-economy-v1/final',league),inputs=read(join(prior,'inputs.json')),recipes=read(join(prior,'recipes.json')).slice(0,count);
+const core=join(root,'packages/handball-engine/src/v2/core'),paths=[...readdirSync(core).filter(f=>f.endsWith('.ts')&&!f.endsWith('.test.ts')).map(f=>join(core,f)),resolve('lib/career/productionMatch.ts'),resolve('lib/career/newCareer.ts'),resolve('scripts/lib/possessionEconomy.ts'),resolve('scripts/run-player-attribute-cohort.ts'),resolve('lib/matchCenter/freeThrows.ts')];
+const fingerprint=()=>Object.fromEntries(paths.map(p=>[p.slice(root.length+1).replaceAll('\\','/'),hash(readFileSync(p,'utf8'))]));
+const sources=fingerprint(),manifest={sources,inputHash:hash(inputs),recipes,league,startingCheckpoint:'7aa6acd16b70a276e39b92bd72dcfef8ec2ca44f',design:'Exact retained audit inputs/recipes; unchanged database attribute values. New canonical outcomes are measured, never calibrated or required to match prior trajectories.'};
+mkdirSync(out,{recursive:true});if(existsSync(join(out,'manifest.json')))assert.deepEqual(read(join(out,'manifest.json')),manifest,'Source drift: retain existing outputs and choose a new directory');writeFileSync(join(out,'manifest.json'),JSON.stringify(manifest,null,2)+'\n');
+function playerDistribution(session:ProductionMatchSession){
+ const events=session.core.events,shots=events.filter(e=>e.type==='SHOT_RELEASED'),goals=events.filter(e=>e.type==='GOAL'),goalsByAction=new Set(goals.map(e=>e.actionId));
+ const roles:Record<string,{attempts:number;goals:number;sevenMetreAttempts:number;sevenMetreGoals:number}>={};
+ const roleMap:Record<string,string>={LW:'V6',LB:'V9',CB:'M9',P:'M6',P2:'M6',RB:'H9',RW:'H6',GK:'GK'};
+ const players=session.people.map(p=>{const ownShots=shots.filter(e=>e.actorId===p.id),ownGoals=goals.filter(e=>e.actorId===p.id),role=roleMap[p.role]??p.role;const r=roles[role]??={attempts:0,goals:0,sevenMetreAttempts:0,sevenMetreGoals:0};r.attempts+=ownShots.length;r.goals+=ownGoals.length;r.sevenMetreAttempts+=ownShots.filter(e=>e.details.shotKind==='SEVEN_METRE').length;r.sevenMetreGoals+=ownShots.filter(e=>e.details.shotKind==='SEVEN_METRE'&&goalsByAction.has(e.actionId)).length;
+  const corePlayer=session.core.players.find(x=>x.id===p.id)!;return{id:p.id,name:p.name,team:p.team,role,goals:ownGoals.length,attempts:ownShots.length,sevenMetreAttempts:ownShots.filter(e=>e.details.shotKind==='SEVEN_METRE').length,minutes:corePlayer.condition.courtMs/60000,passReleases:events.filter(e=>e.type==='PASS_RELEASED'&&e.actorId===p.id).length,failedCatches:events.filter(e=>e.type==='RECEPTION_FAILED'&&e.actorId===p.id).length,mistouches:events.filter(e=>e.type==='CONTROL_MISTOUCH'&&e.actorId===p.id).length,interceptions:events.filter(e=>e.type==='INTERCEPTION'&&e.actorId===p.id).length};
+ });
+ const concentration=Object.fromEntries((['HOME','AWAY']as const).map(team=>{const own=players.filter(p=>p.team===team).sort((a,b)=>b.goals-a.goals||a.id.localeCompare(b.id)),total=own.reduce((n,p)=>n+p.goals,0);return[team,{goals:total,topScorer:own[0],topShare:total?own[0].goals/total:null,topThreeShare:total?own.slice(0,3).reduce((n,p)=>n+p.goals,0)/total:null,scorers:own.filter(p=>p.goals>0).length}];}));
+ return{players,roles,concentration};
+}
+async function main(){
+ if(!args.includes('--worker')){
+  writeFileSync(join(out,'inputs.json'),JSON.stringify(inputs));writeFileSync(join(out,'recipes.json'),JSON.stringify(recipes,null,2));
+  for(let offset=0;offset<count;offset+=8){const size=Math.min(8,count-offset);await new Promise<void>((done,fail)=>{const child=spawn(process.execPath,['--import','tsx','scripts/run-player-attribute-cohort.ts','--worker','--league',league,'--count',String(count),'--offset',String(offset),'--size',String(size),'--out',out],{cwd:process.cwd(),stdio:'inherit'});child.on('error',fail);child.on('exit',code=>code===0?done():fail(Error('Sequential worker exit '+code)));});assert.deepEqual(fingerprint(),sources);}
+  const reports=recipes.map((_:unknown,i:number)=>read(join(out,`match-${String(i).padStart(3,'0')}.json`)));assert.ok(reports.every((r:{complete:boolean})=>r.complete));writeFileSync(join(out,'summary.json'),JSON.stringify({complete:true,league,n:reports.length,manifest,matches:reports.map((r:{index:number;sessionHash:string;coreHash:string;resultHash:string;teams:unknown;statistics:unknown;integrity:unknown})=>({index:r.index,sessionHash:r.sessionHash,coreHash:r.coreHash,resultHash:r.resultHash,teams:r.teams,statistics:r.statistics,integrity:r.integrity}))},null,2)+'\n');console.log(`${league}: COMPLETE ${count}`);return;
+ }
+ const offset=Number(arg('--offset','0')),size=Number(arg('--size',String(count)));for(let index=offset;index<Math.min(count,offset+size);index++){
+  const file=join(out,`match-${String(index).padStart(3,'0')}.json`);if(existsSync(file)){assert.equal(read(file).complete,true);continue;}
+  const recipe=recipes[index],started=performance.now();let career=createNewCareerState(recipe.saveSeed,recipe.managerClubId,structuredClone(inputs.worldSquads),undefined,structuredClone(inputs.gameplayRatings));const fixture=career.fixtures.find(f=>f.id===recipe.fixtureId)!;assert.ok(fixture);career={...career,gameDate:fixture.date,careerEvents:[buildMatchdayReadyEvent(fixture.id,fixture.date)]};career=startProductionMatch(career,fixture.id);
+  assert.ok(career.productionMatch);assert.ok(career.productionMatch.core.players.every(p=>p.profile.source.complete),'All new required action attributes must have source values');const initialHash=hash(career.productionMatch),observer=new EconomyObserver();let calls=0;
+  while(career.productionMatch!.core.status==='RUNNING'&&calls++<40)career=advanceProductionMatch(career,10000,false,observer.observe);
+  const session=career.productionMatch!;assert.equal(session.core.match?.phase,'FULLTIME');const sessionHash=hash(session),result=resultFromSession(session),economy=possessionEconomy(session.core,observer.technical),book=ledger(session.core),freeThrows=readOrdinaryFreeThrows(session.core.events,{source:'LIVE',behaviorRevision:session.behaviorRevision,complete:true});
+  assert.equal(hash(session),sessionHash,'Passive economy/result reading cannot alter canonical truth');
+  for(const team of ['HOME','AWAY']as const){assert.equal(economy.teams[team].canonicalUiBallLosses,(team==='HOME'?result.homeStats:result.awayStats).turnovers);assert.equal(economy.teams[team].broadBallLosses,economy.teams[team].canonicalUiBallLosses,'Independent loss reconstruction');assert.equal(freeThrows.counts?.[team],economy.teams[team].freeThrows);}
+  const coreHash=hash(session.core);writeFileSync(join(out,`core-${String(index).padStart(3,'0')}.json.gz`),gzipSync(JSON.stringify(session.core),{level:3}));const oldFile=existsSync(join(prior,'reconciled',`match-${String(index).padStart(3,'0')}.json`))?join(prior,'reconciled',`match-${String(index).padStart(3,'0')}.json`):join(prior,`match-${String(index).padStart(3,'0')}.json`),before=read(oldFile);
+  writeFileSync(file,JSON.stringify({...economy,complete:true,index,recipe,fixture,initialHash,sessionHash,coreHash,resultHash:hash(result),score:session.core.score,statistics:{HOME:result.homeStats,AWAY:result.awayStats},freeThrowPresentation:freeThrows,canonicalLedger:{records:book.records,endings:book.endings,nonShotLoss:book.nonShotLoss},technical:observer.technical,distribution:playerDistribution(session),beforeIntegration:{reference:oldFile.slice(root.length+1),sourceHash:hash(readFileSync(oldFile,'utf8')),teams:before.teams,score:before.score},runtimeMs:performance.now()-started},null,2)+'\n');assert.deepEqual(fingerprint(),sources);console.log(JSON.stringify({league,index,complete:true,score:session.core.score,possessions:Object.values(economy.teams).map(t=>t.possessions),losses:Object.values(economy.teams).map(t=>t.broadBallLosses),frikast:freeThrows.counts,runtimeMs:Math.round(performance.now()-started)}));
+ }
+}
+main().catch(error=>{console.error(error);process.exitCode=1;});

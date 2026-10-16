@@ -1,0 +1,15 @@
+{
+  "complete": true,
+  "scope": "Defensive technical acceleration now applies only while the ball is live. Approved dead-ball preparation uses the same physical movement regardless of defensive technique.",
+  "stoppedOnlyOwnedWorkerPid": 17044,
+  "preservedPartialCohort": "development/live-boundary/hbl-partial",
+  "preservedCompletedMatches": 18,
+  "reasonForNewCohort": "Production source changed; the18 earlier fixtures cannot be treated as final-source regression.",
+  "focused": {
+    "tests": 19,
+    "exit": 0,
+    "log": "verification/live-boundary-focused.log"
+  },
+  "noOtherProcessesStopped": true,
+  "noEmpiricalCalibration": true
+}

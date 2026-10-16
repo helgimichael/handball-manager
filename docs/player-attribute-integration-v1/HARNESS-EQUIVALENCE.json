@@ -1,0 +1,30 @@
+{
+  "complete": true,
+  "beforeSha256": "4a163b871b677a59220e4f9203be5badbd2d33b0bfd9b21066adecd4bd9e21c6",
+  "afterSha256": "10d12e8c920ed0294de647f9c7c37e3394b49a38548372298189e2d554a0a349",
+  "changedFunctions": [
+    "defenceEncounter"
+  ],
+  "unchangedFunctions": [
+    "stagedScenario",
+    "begin",
+    "passEncounter",
+    "catchEncounter",
+    "carryEncounter",
+    "decisionEncounter",
+    "shotEncounter",
+    "physicalEncounter",
+    "interceptionEncounter"
+  ],
+  "retainedBeforeDomains": [
+    "decision",
+    "handling",
+    "shooting",
+    "keeper"
+  ],
+  "refreshedBeforeDomains": [
+    "defence",
+    "realPlayers"
+  ],
+  "reason": "Only the defence encounter now executes its read/handoff latency before moving. Other controlled encounter functions are text-identical; baseline engine snapshot remains byte-identical."
+}

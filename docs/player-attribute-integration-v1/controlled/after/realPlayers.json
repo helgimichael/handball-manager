@@ -1,0 +1,4382 @@
+{
+  "complete": true,
+  "variant": "after",
+  "domain": "realPlayers",
+  "input": {
+    "path": "docs\\player-attributes-possession-economy-v1\\final\\allsv\\inputs.json",
+    "sha256": "37b2f9ee4648ede1a422549fb680bad5c172ebdf70c77f65334d2e6487ab0347",
+    "players": 261,
+    "provenance": "Actual retained roster identities and gameplay rating branches; generated-prior/derived origins retained, not measured athlete ability."
+  },
+  "ranges": {
+    "PASSING": {
+      "n": 228,
+      "min": 9,
+      "p10": 11,
+      "q1": 13,
+      "median": 13,
+      "q3": 15,
+      "p90": 16,
+      "max": 18
+    },
+    "BALL_HANDLING": {
+      "n": 228,
+      "min": 9,
+      "p10": 11,
+      "q1": 12,
+      "median": 13,
+      "q3": 15,
+      "p90": 15,
+      "max": 17
+    },
+    "SHOOTING_POWER": {
+      "n": 228,
+      "min": 9,
+      "p10": 11,
+      "q1": 12,
+      "median": 14,
+      "q3": 15,
+      "p90": 16,
+      "max": 20
+    },
+    "SHOOTING_PLACEMENT": {
+      "n": 228,
+      "min": 9,
+      "p10": 12,
+      "q1": 12,
+      "median": 14,
+      "q3": 15,
+      "p90": 16,
+      "max": 20
+    },
+    "SHOOTING_VARIETY": {
+      "n": 228,
+      "min": 9,
+      "p10": 11,
+      "q1": 12,
+      "median": 13,
+      "q3": 15,
+      "p90": 16,
+      "max": 17
+    },
+    "BREAKTHROUGH": {
+      "n": 228,
+      "min": 9,
+      "p10": 11,
+      "q1": 12,
+      "median": 14,
+      "q3": 15,
+      "p90": 17,
+      "max": 19
+    },
+    "FINISHING": {
+      "n": 228,
+      "min": 9,
+      "p10": 11,
+      "q1": 12,
+      "median": 14,
+      "q3": 14,
+      "p90": 15,
+      "max": 17
+    },
+    "WING_FINISHING": {
+      "n": 228,
+      "min": 9,
+      "p10": 12,
+      "q1": 13,
+      "median": 14,
+      "q3": 15,
+      "p90": 16,
+      "max": 18
+    },
+    "PIVOT_PLAY": {
+      "n": 228,
+      "min": 9,
+      "p10": 11,
+      "q1": 12,
+      "median": 14,
+      "q3": 15,
+      "p90": 16,
+      "max": 18
+    },
+    "SCREENING": {
+      "n": 228,
+      "min": 9,
+      "p10": 11,
+      "q1": 12,
+      "median": 14,
+      "q3": 15,
+      "p90": 16,
+      "max": 19
+    },
+    "GAME_READING": {
+      "n": 228,
+      "min": 8,
+      "p10": 10,
+      "q1": 11,
+      "median": 12,
+      "q3": 14,
+      "p90": 16,
+      "max": 20
+    },
+    "DECISION_MAKING": {
+      "n": 228,
+      "min": 8,
+      "p10": 10,
+      "q1": 11,
+      "median": 12,
+      "q3": 13,
+      "p90": 15,
+      "max": 20
+    },
+    "AWARENESS": {
+      "n": 228,
+      "min": 8,
+      "p10": 10,
+      "q1": 11,
+      "median": 12,
+      "q3": 13,
+      "p90": 15,
+      "max": 18
+    },
+    "ANTICIPATION": {
+      "n": 228,
+      "min": 8,
+      "p10": 10,
+      "q1": 11,
+      "median": 12,
+      "q3": 13,
+      "p90": 15,
+      "max": 20
+    },
+    "PLAYMAKING": {
+      "n": 228,
+      "min": 8,
+      "p10": 10,
+      "q1": 11,
+      "median": 12,
+      "q3": 14,
+      "p90": 16,
+      "max": 20
+    },
+    "TEMPO_CONTROL": {
+      "n": 228,
+      "min": 8,
+      "p10": 10,
+      "q1": 11,
+      "median": 12,
+      "q3": 14,
+      "p90": 16,
+      "max": 20
+    },
+    "TWO_V_TWO_READING": {
+      "n": 228,
+      "min": 8,
+      "p10": 10,
+      "q1": 11,
+      "median": 12,
+      "q3": 13,
+      "p90": 14,
+      "max": 18
+    },
+    "ADVANTAGE_RECOGNITION": {
+      "n": 228,
+      "min": 8,
+      "p10": 10,
+      "q1": 11,
+      "median": 12,
+      "q3": 13,
+      "p90": 15,
+      "max": 19
+    },
+    "TACTICAL_UNDERSTANDING": {
+      "n": 228,
+      "min": 9,
+      "p10": 11,
+      "q1": 12,
+      "median": 13,
+      "q3": 14,
+      "p90": 15,
+      "max": 17
+    },
+    "ROLE_DISCIPLINE": {
+      "n": 228,
+      "min": 9,
+      "p10": 11,
+      "q1": 11,
+      "median": 13,
+      "q3": 13,
+      "p90": 14,
+      "max": 18
+    },
+    "OFF_BALL_MOVEMENT": {
+      "n": 228,
+      "min": 9,
+      "p10": 10,
+      "q1": 11,
+      "median": 12,
+      "q3": 13,
+      "p90": 14,
+      "max": 19
+    },
+    "SPACING": {
+      "n": 228,
+      "min": 9,
+      "p10": 10,
+      "q1": 11,
+      "median": 12,
+      "q3": 13,
+      "p90": 14,
+      "max": 17
+    },
+    "TIMING": {
+      "n": 228,
+      "min": 9,
+      "p10": 11,
+      "q1": 11,
+      "median": 12,
+      "q3": 13,
+      "p90": 14,
+      "max": 19
+    },
+    "TRANSITION_UNDERSTANDING": {
+      "n": 228,
+      "min": 9,
+      "p10": 11,
+      "q1": 11,
+      "median": 13,
+      "q3": 14,
+      "p90": 15,
+      "max": 19
+    },
+    "SYSTEM_ADAPTABILITY": {
+      "n": 228,
+      "min": 9,
+      "p10": 10,
+      "q1": 11,
+      "median": 12,
+      "q3": 13,
+      "p90": 14,
+      "max": 17
+    },
+    "SEVEN_V_SIX_UNDERSTANDING": {
+      "n": 228,
+      "min": 9,
+      "p10": 11,
+      "q1": 12,
+      "median": 13,
+      "q3": 13,
+      "p90": 14,
+      "max": 17
+    },
+    "CONTACT_ABILITY": {
+      "n": 228,
+      "min": 8,
+      "p10": 10,
+      "q1": 11,
+      "median": 12,
+      "q3": 13,
+      "p90": 14,
+      "max": 17
+    },
+    "DEFENSIVE_POSITIONING": {
+      "n": 228,
+      "min": 8,
+      "p10": 10,
+      "q1": 11,
+      "median": 12,
+      "q3": 13,
+      "p90": 14,
+      "max": 18
+    },
+    "DEFENSIVE_TIMING": {
+      "n": 228,
+      "min": 8,
+      "p10": 10,
+      "q1": 11,
+      "median": 12,
+      "q3": 13,
+      "p90": 14,
+      "max": 17
+    },
+    "LATERAL_DEFENCE": {
+      "n": 228,
+      "min": 8,
+      "p10": 10,
+      "q1": 11,
+      "median": 12,
+      "q3": 13,
+      "p90": 13,
+      "max": 16
+    },
+    "DEPTH_DEFENCE": {
+      "n": 228,
+      "min": 9,
+      "p10": 10,
+      "q1": 11,
+      "median": 12,
+      "q3": 13,
+      "p90": 13,
+      "max": 16
+    },
+    "CENTRAL_DEFENCE": {
+      "n": 228,
+      "min": 8,
+      "p10": 10,
+      "q1": 11,
+      "median": 12,
+      "q3": 13,
+      "p90": 14,
+      "max": 16
+    },
+    "COVERING": {
+      "n": 228,
+      "min": 8,
+      "p10": 10,
+      "q1": 11,
+      "median": 12,
+      "q3": 13,
+      "p90": 13,
+      "max": 18
+    },
+    "SWITCHING_HANDOVER": {
+      "n": 228,
+      "min": 8,
+      "p10": 10,
+      "q1": 11,
+      "median": 11,
+      "q3": 13,
+      "p90": 13,
+      "max": 18
+    },
+    "BALL_WINNING": {
+      "n": 228,
+      "min": 8,
+      "p10": 10,
+      "q1": 11,
+      "median": 12,
+      "q3": 13,
+      "p90": 13,
+      "max": 18
+    },
+    "SHOT_BLOCKING": {
+      "n": 228,
+      "min": 9,
+      "p10": 10,
+      "q1": 10,
+      "median": 12,
+      "q3": 12,
+      "p90": 14,
+      "max": 16
+    },
+    "ACCELERATION": {
+      "n": 228,
+      "min": 9,
+      "p10": 11,
+      "q1": 12,
+      "median": 14,
+      "q3": 15,
+      "p90": 16,
+      "max": 19
+    },
+    "TOP_SPEED": {
+      "n": 228,
+      "min": 8,
+      "p10": 11,
+      "q1": 12,
+      "median": 14,
+      "q3": 15,
+      "p90": 16,
+      "max": 19
+    },
+    "LATERAL_QUICKNESS": {
+      "n": 228,
+      "min": 8,
+      "p10": 11,
+      "q1": 12,
+      "median": 13,
+      "q3": 15,
+      "p90": 16,
+      "max": 17
+    },
+    "AGILITY": {
+      "n": 228,
+      "min": 8,
+      "p10": 11,
+      "q1": 12,
+      "median": 14,
+      "q3": 15,
+      "p90": 16,
+      "max": 17
+    },
+    "EXPLOSIVENESS": {
+      "n": 228,
+      "min": 8,
+      "p10": 11,
+      "q1": 12,
+      "median": 14,
+      "q3": 15,
+      "p90": 16,
+      "max": 17
+    },
+    "STRENGTH": {
+      "n": 228,
+      "min": 8,
+      "p10": 11,
+      "q1": 12,
+      "median": 14,
+      "q3": 15,
+      "p90": 16,
+      "max": 19
+    },
+    "CONTACT_BALANCE": {
+      "n": 228,
+      "min": 8,
+      "p10": 11,
+      "q1": 12,
+      "median": 14,
+      "q3": 15,
+      "p90": 16,
+      "max": 19
+    },
+    "JUMP_ABILITY": {
+      "n": 228,
+      "min": 8,
+      "p10": 11,
+      "q1": 12,
+      "median": 13,
+      "q3": 15,
+      "p90": 15,
+      "max": 17
+    },
+    "ENDURANCE": {
+      "n": 228,
+      "min": 8,
+      "p10": 11,
+      "q1": 12,
+      "median": 13,
+      "q3": 14,
+      "p90": 16,
+      "max": 17
+    },
+    "REPEAT_SPRINT_ABILITY": {
+      "n": 228,
+      "min": 8,
+      "p10": 11,
+      "q1": 12,
+      "median": 14,
+      "q3": 15,
+      "p90": 15,
+      "max": 17
+    },
+    "MOBILITY": {
+      "n": 228,
+      "min": 8,
+      "p10": 11,
+      "q1": 12,
+      "median": 13,
+      "q3": 15,
+      "p90": 15,
+      "max": 17
+    },
+    "CONSISTENCY": {
+      "n": 228,
+      "min": 9,
+      "p10": 11,
+      "q1": 11,
+      "median": 12,
+      "q3": 13,
+      "p90": 14,
+      "max": 17
+    },
+    "COMPOSURE": {
+      "n": 228,
+      "min": 9,
+      "p10": 10,
+      "q1": 11,
+      "median": 12,
+      "q3": 13,
+      "p90": 14,
+      "max": 17
+    },
+    "CONCENTRATION": {
+      "n": 228,
+      "min": 9,
+      "p10": 11,
+      "q1": 11,
+      "median": 12,
+      "q3": 13,
+      "p90": 14,
+      "max": 18
+    },
+    "COMPETITIVE_MENTALITY": {
+      "n": 228,
+      "min": 9,
+      "p10": 11,
+      "q1": 11,
+      "median": 12,
+      "q3": 13,
+      "p90": 14,
+      "max": 17
+    },
+    "RESILIENCE": {
+      "n": 228,
+      "min": 9,
+      "p10": 10,
+      "q1": 11,
+      "median": 12,
+      "q3": 13,
+      "p90": 14,
+      "max": 18
+    },
+    "DISCIPLINE": {
+      "n": 228,
+      "min": 9,
+      "p10": 10,
+      "q1": 11,
+      "median": 12,
+      "q3": 13,
+      "p90": 14,
+      "max": 18
+    },
+    "COACHABILITY": {
+      "n": 228,
+      "min": 9,
+      "p10": 11,
+      "q1": 11,
+      "median": 12,
+      "q3": 13,
+      "p90": 14,
+      "max": 18
+    },
+    "LEADERSHIP": {
+      "n": 228,
+      "min": 9,
+      "p10": 10,
+      "q1": 11,
+      "median": 12,
+      "q3": 13,
+      "p90": 14,
+      "max": 18
+    },
+    "PRESSURE_HANDLING": {
+      "n": 228,
+      "min": 9,
+      "p10": 11,
+      "q1": 11,
+      "median": 12,
+      "q3": 13,
+      "p90": 14,
+      "max": 18
+    },
+    "GK_POSITIONING": {
+      "n": 33,
+      "min": 9,
+      "p10": 11,
+      "q1": 12,
+      "median": 13,
+      "q3": 14,
+      "p90": 15,
+      "max": 18
+    },
+    "SET_POSITION": {
+      "n": 33,
+      "min": 9,
+      "p10": 11,
+      "q1": 12,
+      "median": 12,
+      "q3": 13,
+      "p90": 13,
+      "max": 16
+    },
+    "REACTION": {
+      "n": 33,
+      "min": 9,
+      "p10": 11,
+      "q1": 12,
+      "median": 13,
+      "q3": 15,
+      "p90": 16,
+      "max": 17
+    },
+    "GK_EXPLOSIVENESS": {
+      "n": 33,
+      "min": 8,
+      "p10": 10,
+      "q1": 11,
+      "median": 12,
+      "q3": 13,
+      "p90": 14,
+      "max": 16
+    },
+    "LOW_SAVES": {
+      "n": 33,
+      "min": 9,
+      "p10": 11,
+      "q1": 12,
+      "median": 12,
+      "q3": 13,
+      "p90": 14,
+      "max": 15
+    },
+    "HIGH_SAVES": {
+      "n": 33,
+      "min": 9,
+      "p10": 10,
+      "q1": 11,
+      "median": 12,
+      "q3": 13,
+      "p90": 13,
+      "max": 15
+    },
+    "CLOSE_RANGE_SAVES": {
+      "n": 33,
+      "min": 8,
+      "p10": 10,
+      "q1": 11,
+      "median": 12,
+      "q3": 14,
+      "p90": 15,
+      "max": 16
+    },
+    "LONG_RANGE_SAVES": {
+      "n": 33,
+      "min": 8,
+      "p10": 10,
+      "q1": 11,
+      "median": 12,
+      "q3": 13,
+      "p90": 14,
+      "max": 14
+    },
+    "WING_SAVES": {
+      "n": 33,
+      "min": 9,
+      "p10": 10,
+      "q1": 11,
+      "median": 12,
+      "q3": 13,
+      "p90": 14,
+      "max": 15
+    },
+    "SEVEN_M_SAVES": {
+      "n": 33,
+      "min": 9,
+      "p10": 11,
+      "q1": 11,
+      "median": 12,
+      "q3": 13,
+      "p90": 14,
+      "max": 15
+    },
+    "SHOOTER_READING": {
+      "n": 33,
+      "min": 10,
+      "p10": 10,
+      "q1": 11,
+      "median": 13,
+      "q3": 14,
+      "p90": 14,
+      "max": 16
+    },
+    "SHOT_ANTICIPATION": {
+      "n": 33,
+      "min": 9,
+      "p10": 10,
+      "q1": 11,
+      "median": 13,
+      "q3": 14,
+      "p90": 14,
+      "max": 17
+    },
+    "PATIENCE": {
+      "n": 33,
+      "min": 9,
+      "p10": 10,
+      "q1": 11,
+      "median": 12,
+      "q3": 13,
+      "p90": 13,
+      "max": 15
+    },
+    "DECISION_TIMING": {
+      "n": 33,
+      "min": 9,
+      "p10": 10,
+      "q1": 11,
+      "median": 12,
+      "q3": 13,
+      "p90": 13,
+      "max": 15
+    },
+    "OUTLET_PASSING": {
+      "n": 33,
+      "min": 9,
+      "p10": 10,
+      "q1": 11,
+      "median": 12,
+      "q3": 14,
+      "p90": 16,
+      "max": 18
+    },
+    "RESTART_SPEED": {
+      "n": 33,
+      "min": 9,
+      "p10": 11,
+      "q1": 11,
+      "median": 13,
+      "q3": 14,
+      "p90": 15,
+      "max": 17
+    },
+    "TRANSITION_DECISION": {
+      "n": 33,
+      "min": 10,
+      "p10": 10,
+      "q1": 12,
+      "median": 13,
+      "q3": 14,
+      "p90": 15,
+      "max": 17
+    },
+    "GK_CONSISTENCY": {
+      "n": 33,
+      "min": 9,
+      "p10": 10,
+      "q1": 11,
+      "median": 12,
+      "q3": 13,
+      "p90": 13,
+      "max": 15
+    },
+    "GK_COMPOSURE": {
+      "n": 33,
+      "min": 10,
+      "p10": 10,
+      "q1": 11,
+      "median": 12,
+      "q3": 13,
+      "p90": 13,
+      "max": 15
+    },
+    "GK_CONCENTRATION": {
+      "n": 33,
+      "min": 9,
+      "p10": 10,
+      "q1": 11,
+      "median": 12,
+      "q3": 13,
+      "p90": 14,
+      "max": 15
+    },
+    "GK_PRESSURE_HANDLING": {
+      "n": 33,
+      "min": 9,
+      "p10": 10,
+      "q1": 11,
+      "median": 12,
+      "q3": 13,
+      "p90": 13,
+      "max": 15
+    }
+  },
+  "cells": [
+    {
+      "label": "Actual roster branches",
+      "profiles": [
+        {
+          "label": "creator",
+          "playerId": "se_player_jim_gottfridsson_7323fffc",
+          "name": "Jim Gottfridsson",
+          "position": "M9",
+          "selectionKeys": [
+            "PASSING",
+            "DECISION_MAKING",
+            "PLAYMAKING"
+          ],
+          "selectionScore": 19,
+          "raw": {
+            "PASSING": 17,
+            "BALL_HANDLING": 16,
+            "SHOOTING_POWER": 16,
+            "SHOOTING_PLACEMENT": 16,
+            "SHOOTING_VARIETY": 17,
+            "BREAKTHROUGH": 17,
+            "FINISHING": 17,
+            "WING_FINISHING": 17,
+            "PIVOT_PLAY": 17,
+            "SCREENING": 17,
+            "GAME_READING": 20,
+            "DECISION_MAKING": 20,
+            "AWARENESS": 18,
+            "ANTICIPATION": 20,
+            "PLAYMAKING": 20,
+            "TEMPO_CONTROL": 20,
+            "TWO_V_TWO_READING": 18,
+            "ADVANTAGE_RECOGNITION": 18,
+            "TACTICAL_UNDERSTANDING": 17,
+            "ROLE_DISCIPLINE": 18,
+            "OFF_BALL_MOVEMENT": 19,
+            "SPACING": 17,
+            "TIMING": 19,
+            "TRANSITION_UNDERSTANDING": 19,
+            "SYSTEM_ADAPTABILITY": 17,
+            "SEVEN_V_SIX_UNDERSTANDING": 17,
+            "CONTACT_ABILITY": 17,
+            "DEFENSIVE_POSITIONING": 18,
+            "DEFENSIVE_TIMING": 17,
+            "LATERAL_DEFENCE": 16,
+            "DEPTH_DEFENCE": 16,
+            "CENTRAL_DEFENCE": 16,
+            "COVERING": 18,
+            "SWITCHING_HANDOVER": 18,
+            "BALL_WINNING": 18,
+            "SHOT_BLOCKING": 16,
+            "ACCELERATION": 15,
+            "TOP_SPEED": 17,
+            "LATERAL_QUICKNESS": 17,
+            "AGILITY": 15,
+            "EXPLOSIVENESS": 16,
+            "STRENGTH": 17,
+            "CONTACT_BALANCE": 16,
+            "JUMP_ABILITY": 17,
+            "ENDURANCE": 16,
+            "REPEAT_SPRINT_ABILITY": 17,
+            "MOBILITY": 15,
+            "CONSISTENCY": 17,
+            "COMPOSURE": 17,
+            "CONCENTRATION": 18,
+            "COMPETITIVE_MENTALITY": 17,
+            "RESILIENCE": 18,
+            "DISCIPLINE": 18,
+            "COACHABILITY": 18,
+            "LEADERSHIP": 18,
+            "PRESSURE_HANDLING": 18
+          },
+          "provenance": {
+            "PASSING": {
+              "value": 17,
+              "origin": "GENERATED_PRIOR"
+            },
+            "BALL_HANDLING": {
+              "value": 16,
+              "origin": "GENERATED_PRIOR"
+            },
+            "SHOOTING_POWER": {
+              "value": 16,
+              "origin": "GENERATED_PRIOR"
+            },
+            "SHOOTING_PLACEMENT": {
+              "value": 16,
+              "origin": "GENERATED_PRIOR"
+            },
+            "SHOOTING_VARIETY": {
+              "value": 17,
+              "origin": "GENERATED_PRIOR"
+            },
+            "BREAKTHROUGH": {
+              "value": 17,
+              "origin": "GENERATED_PRIOR"
+            },
+            "FINISHING": {
+              "value": 17,
+              "origin": "GENERATED_PRIOR"
+            },
+            "WING_FINISHING": {
+              "value": 17,
+              "origin": "GENERATED_PRIOR"
+            },
+            "PIVOT_PLAY": {
+              "value": 17,
+              "origin": "GENERATED_PRIOR"
+            },
+            "SCREENING": {
+              "value": 17,
+              "origin": "GENERATED_PRIOR"
+            },
+            "GAME_READING": {
+              "value": 20,
+              "origin": "DERIVED"
+            },
+            "DECISION_MAKING": {
+              "value": 20,
+              "origin": "GENERATED_PRIOR"
+            },
+            "AWARENESS": {
+              "value": 18,
+              "origin": "GENERATED_PRIOR"
+            },
+            "ANTICIPATION": {
+              "value": 20,
+              "origin": "GENERATED_PRIOR"
+            },
+            "PLAYMAKING": {
+              "value": 20,
+              "origin": "GENERATED_PRIOR"
+            },
+            "TEMPO_CONTROL": {
+              "value": 20,
+              "origin": "DERIVED"
+            },
+            "TWO_V_TWO_READING": {
+              "value": 18,
+              "origin": "GENERATED_PRIOR"
+            },
+            "ADVANTAGE_RECOGNITION": {
+              "value": 18,
+              "origin": "GENERATED_PRIOR"
+            },
+            "TACTICAL_UNDERSTANDING": {
+              "value": 17,
+              "origin": "GENERATED_PRIOR"
+            },
+            "ROLE_DISCIPLINE": {
+              "value": 18,
+              "origin": "GENERATED_PRIOR"
+            },
+            "OFF_BALL_MOVEMENT": {
+              "value": 19,
+              "origin": "GENERATED_PRIOR"
+            },
+            "SPACING": {
+              "value": 17,
+              "origin": "GENERATED_PRIOR"
+            },
+            "TIMING": {
+              "value": 19,
+              "origin": "GENERATED_PRIOR"
+            },
+            "TRANSITION_UNDERSTANDING": {
+              "value": 19,
+              "origin": "GENERATED_PRIOR"
+            },
+            "SYSTEM_ADAPTABILITY": {
+              "value": 17,
+              "origin": "GENERATED_PRIOR"
+            },
+            "SEVEN_V_SIX_UNDERSTANDING": {
+              "value": 17,
+              "origin": "GENERATED_PRIOR"
+            },
+            "CONTACT_ABILITY": {
+              "value": 17,
+              "origin": "GENERATED_PRIOR"
+            },
+            "DEFENSIVE_POSITIONING": {
+              "value": 18,
+              "origin": "GENERATED_PRIOR"
+            },
+            "DEFENSIVE_TIMING": {
+              "value": 17,
+              "origin": "GENERATED_PRIOR"
+            },
+            "LATERAL_DEFENCE": {
+              "value": 16,
+              "origin": "GENERATED_PRIOR"
+            },
+            "DEPTH_DEFENCE": {
+              "value": 16,
+              "origin": "GENERATED_PRIOR"
+            },
+            "CENTRAL_DEFENCE": {
+              "value": 16,
+              "origin": "GENERATED_PRIOR"
+            },
+            "COVERING": {
+              "value": 18,
+              "origin": "GENERATED_PRIOR"
+            },
+            "SWITCHING_HANDOVER": {
+              "value": 18,
+              "origin": "GENERATED_PRIOR"
+            },
+            "BALL_WINNING": {
+              "value": 18,
+              "origin": "GENERATED_PRIOR"
+            },
+            "SHOT_BLOCKING": {
+              "value": 16,
+              "origin": "GENERATED_PRIOR"
+            },
+            "ACCELERATION": {
+              "value": 15,
+              "origin": "GENERATED_PRIOR"
+            },
+            "TOP_SPEED": {
+              "value": 17,
+              "origin": "GENERATED_PRIOR"
+            },
+            "LATERAL_QUICKNESS": {
+              "value": 17,
+              "origin": "GENERATED_PRIOR"
+            },
+            "AGILITY": {
+              "value": 15,
+              "origin": "GENERATED_PRIOR"
+            },
+            "EXPLOSIVENESS": {
+              "value": 16,
+              "origin": "GENERATED_PRIOR"
+            },
+            "STRENGTH": {
+              "value": 17,
+              "origin": "GENERATED_PRIOR"
+            },
+            "CONTACT_BALANCE": {
+              "value": 16,
+              "origin": "GENERATED_PRIOR"
+            },
+            "JUMP_ABILITY": {
+              "value": 17,
+              "origin": "GENERATED_PRIOR"
+            },
+            "ENDURANCE": {
+              "value": 16,
+              "origin": "GENERATED_PRIOR"
+            },
+            "REPEAT_SPRINT_ABILITY": {
+              "value": 17,
+              "origin": "GENERATED_PRIOR"
+            },
+            "MOBILITY": {
+              "value": 15,
+              "origin": "GENERATED_PRIOR"
+            },
+            "CONSISTENCY": {
+              "value": 17,
+              "origin": "GENERATED_PRIOR"
+            },
+            "COMPOSURE": {
+              "value": 17,
+              "origin": "GENERATED_PRIOR"
+            },
+            "CONCENTRATION": {
+              "value": 18,
+              "origin": "GENERATED_PRIOR"
+            },
+            "COMPETITIVE_MENTALITY": {
+              "value": 17,
+              "origin": "GENERATED_PRIOR"
+            },
+            "RESILIENCE": {
+              "value": 18,
+              "origin": "GENERATED_PRIOR"
+            },
+            "DISCIPLINE": {
+              "value": 18,
+              "origin": "GENERATED_PRIOR"
+            },
+            "COACHABILITY": {
+              "value": 18,
+              "origin": "GENERATED_PRIOR"
+            },
+            "LEADERSHIP": {
+              "value": 18,
+              "origin": "GENERATED_PRIOR"
+            },
+            "PRESSURE_HANDLING": {
+              "value": 18,
+              "origin": "GENERATED_PRIOR"
+            }
+          },
+          "shoot": {
+            "n": 128,
+            "metrics": {
+              "goal": {
+                "count": 126,
+                "n": 128,
+                "rate": 0.984375
+              },
+              "caught": {
+                "count": 0,
+                "n": 128,
+                "rate": 0
+              },
+              "parry": {
+                "count": 3,
+                "n": 128,
+                "rate": 0.0234375
+              },
+              "parryThenGoal": {
+                "count": 1,
+                "n": 128,
+                "rate": 0.0078125
+              },
+              "resolved": {
+                "count": 128,
+                "n": 128,
+                "rate": 1
+              },
+              "spread": {
+                "n": 128,
+                "mean": 0.4733635214705601,
+                "min": 0.47336352147056027,
+                "max": 0.47336352147056027
+              },
+              "placement": {
+                "n": 128,
+                "mean": 0.8413373053865871,
+                "min": 0.8413373053865847,
+                "max": 0.8413373053865847
+              },
+              "reach": {
+                "n": 128,
+                "mean": 0.35989336322039706,
+                "min": 0.3304538032951034,
+                "max": 0.38076332922679396
+              },
+              "keeperReads": {
+                "n": 128,
+                "mean": 1,
+                "min": 1,
+                "max": 1
+              }
+            },
+            "trialDigest": "4a9d122d8c4018b65cd4ff6ac3a7702f2b4289a0dbca4e160cddc705d26a926c"
+          },
+          "pass": {
+            "n": 384,
+            "metrics": {
+              "speed": {
+                "n": 384,
+                "mean": 13.026315789473657,
+                "min": 13.026315789473685,
+                "max": 13.026315789473685
+              },
+              "difficulty": {
+                "n": 384,
+                "mean": 0.5613583644447647,
+                "min": 0.5613583644447622,
+                "max": 0.5613583644447622
+              },
+              "spread": {
+                "n": 384,
+                "mean": 0.1796087338717736,
+                "min": 0.17960873387177267,
+                "max": 0.17960873387177267
+              },
+              "pressure": {
+                "n": 384,
+                "mean": 0.2727705534493197,
+                "min": 0.27277055344932055,
+                "max": 0.27277055344932055
+              },
+              "error": {
+                "n": 384,
+                "mean": 0.09758617845806296,
+                "min": 0.006414669705587642,
+                "max": 0.18463798974180734
+              },
+              "capability": {
+                "n": 384,
+                "mean": 0.8602395935811229,
+                "min": 0.8602395935811181,
+                "max": 0.8602395935811181
+              }
+            },
+            "trialDigest": "a8013719a907e7fbc7fa4bc85862702baad8dc6f90a0648c62f7a4dcdea79651"
+          },
+          "receive": {
+            "n": 384,
+            "metrics": {
+              "caught": {
+                "count": 372,
+                "n": 384,
+                "rate": 0.96875
+              },
+              "failed": {
+                "count": 12,
+                "n": 384,
+                "rate": 0.03125
+              },
+              "reached": {
+                "count": 384,
+                "n": 384,
+                "rate": 1
+              },
+              "risk": {
+                "n": 384,
+                "mean": 0.028015376324193878,
+                "min": 0.02732359320383061,
+                "max": 0.029464654681676944
+              },
+              "deliveryError": {
+                "n": 384,
+                "mean": 0.09898095175694477,
+                "min": 0.006506352873920178,
+                "max": 0.18727697143081523
+              },
+              "passingCapability": {
+                "n": 384,
+                "mean": 0.6315789473684167,
+                "min": 0.631578947368421,
+                "max": 0.631578947368421
+              }
+            },
+            "trialDigest": "be1ad1d45eb9bffd4e7d0bd53d3294f3b5309cb9e25e6265a2f7a6da915381b0"
+          },
+          "carry": {
+            "n": 384,
+            "metrics": {
+              "mistouch": {
+                "count": 5,
+                "n": 384,
+                "rate": 0.013020833333333334
+              },
+              "risk": {
+                "n": 384,
+                "mean": 0.017993037146897015,
+                "min": 0.017993037146897074,
+                "max": 0.017993037146897074
+              },
+              "pressure": {
+                "n": 384,
+                "mean": 1,
+                "min": 1,
+                "max": 1
+              },
+              "difficulty": {
+                "n": 384,
+                "mean": 0.650000000000004,
+                "min": 0.65,
+                "max": 0.65
+              },
+              "retainedCanonicalPossession": {
+                "count": 384,
+                "n": 384,
+                "rate": 1
+              },
+              "controller": {
+                "H03": 379,
+                "null": 5
+              }
+            },
+            "trialDigest": "bd525699a198c4d90d796e4d3adcf70fd0388a4927645a862f2f4d1009af17bd"
+          },
+          "defend": {
+            "n": 384,
+            "metrics": {
+              "arrivalTicks": {
+                "n": 384,
+                "mean": 21,
+                "min": 21,
+                "max": 21
+              },
+              "readTicks": {
+                "n": 384,
+                "mean": 1,
+                "min": 1,
+                "max": 1
+              },
+              "adaptTicks": {
+                "n": 384,
+                "mean": 1,
+                "min": 1,
+                "max": 1
+              },
+              "predictedSeconds": {
+                "n": 384,
+                "mean": 1.0307371771104463,
+                "min": 1.0155908444842345,
+                "max": 1.0459212397301485
+              },
+              "physicalTopSpeed": {
+                "n": 384,
+                "mean": 6.821052631578957,
+                "min": 6.821052631578947,
+                "max": 6.821052631578947
+              },
+              "physicalAcceleration": {
+                "n": 384,
+                "mean": 6.6526315789474095,
+                "min": 6.652631578947368,
+                "max": 6.652631578947368
+              }
+            },
+            "trialDigest": "194a16861f5da8978f4134e98b744cfd92442632313472decd7dc77b475cdc45"
+          },
+          "decision": {
+            "n": 384,
+            "metrics": {
+              "choice": {
+                "PASS": 192,
+                "SHOOT": 192
+              },
+              "name": {
+                "RECYCLE": 192,
+                "SHOOT": 192
+              },
+              "target": {
+                "H04": 192,
+                "null": 192
+              },
+              "recognition": {
+                "n": 384,
+                "mean": -0.009246299342105262,
+                "min": -0.07142105263157894,
+                "max": 0.08143421052631578
+              },
+              "scope": {
+                "Canonical affordance resolver with staged visible option facts": 384
+              }
+            },
+            "trialDigest": "c9dc030f87bb6e739b9a29fa1ce205a00b5bea4bb450a22abc95cec927409726"
+          },
+          "physical": {
+            "energy": 0.9492055532773447,
+            "acute": 0.324363593240407,
+            "restEnergy": 0.951079237487871,
+            "restAcute": 0.19355481231371977,
+            "physical": {
+              "locomotor": 1919.9999999999252,
+              "acceleration": 0,
+              "deceleration": 0,
+              "turning": 1691.3994205982306,
+              "contact": 0,
+              "jump": 0,
+              "highIntensitySeconds": 14.950000000000077,
+              "repeatSeconds": 0,
+              "transitionMetres": 0,
+              "energyDemand": 0.0507944467226536,
+              "energySpent": 0.05079444672265532,
+              "energyRecovered": 0.0018736842105263607,
+              "vx": 0,
+              "vy": 0
+            }
+          }
+        },
+        {
+          "label": "shooter",
+          "playerId": "se_player_gustaf_wedberg_32de08b9",
+          "name": "Gustaf Wedberg",
+          "position": "H9",
+          "selectionKeys": [
+            "SHOOTING_PLACEMENT",
+            "SHOOTING_POWER",
+            "FINISHING"
+          ],
+          "selectionScore": 18.666666666666668,
+          "raw": {
+            "PASSING": 16,
+            "BALL_HANDLING": 17,
+            "SHOOTING_POWER": 20,
+            "SHOOTING_PLACEMENT": 20,
+            "SHOOTING_VARIETY": 16,
+            "BREAKTHROUGH": 17,
+            "FINISHING": 16,
+            "WING_FINISHING": 18,
+            "PIVOT_PLAY": 18,
+            "SCREENING": 17,
+            "GAME_READING": 16,
+            "DECISION_MAKING": 15,
+            "AWARENESS": 15,
+            "ANTICIPATION": 14,
+            "PLAYMAKING": 15,
+            "TEMPO_CONTROL": 15,
+            "TWO_V_TWO_READING": 14,
+            "ADVANTAGE_RECOGNITION": 16,
+            "TACTICAL_UNDERSTANDING": 16,
+            "ROLE_DISCIPLINE": 14,
+            "OFF_BALL_MOVEMENT": 15,
+            "SPACING": 16,
+            "TIMING": 16,
+            "TRANSITION_UNDERSTANDING": 16,
+            "SYSTEM_ADAPTABILITY": 15,
+            "SEVEN_V_SIX_UNDERSTANDING": 15,
+            "CONTACT_ABILITY": 14,
+            "DEFENSIVE_POSITIONING": 13,
+            "DEFENSIVE_TIMING": 14,
+            "LATERAL_DEFENCE": 13,
+            "DEPTH_DEFENCE": 13,
+            "CENTRAL_DEFENCE": 14,
+            "COVERING": 15,
+            "SWITCHING_HANDOVER": 15,
+            "BALL_WINNING": 14,
+            "SHOT_BLOCKING": 15,
+            "ACCELERATION": 17,
+            "TOP_SPEED": 15,
+            "LATERAL_QUICKNESS": 16,
+            "AGILITY": 17,
+            "EXPLOSIVENESS": 17,
+            "STRENGTH": 15,
+            "CONTACT_BALANCE": 16,
+            "JUMP_ABILITY": 15,
+            "ENDURANCE": 17,
+            "REPEAT_SPRINT_ABILITY": 15,
+            "MOBILITY": 15,
+            "CONSISTENCY": 14,
+            "COMPOSURE": 16,
+            "CONCENTRATION": 15,
+            "COMPETITIVE_MENTALITY": 15,
+            "RESILIENCE": 14,
+            "DISCIPLINE": 15,
+            "COACHABILITY": 16,
+            "LEADERSHIP": 15,
+            "PRESSURE_HANDLING": 15
+          },
+          "provenance": {
+            "PASSING": {
+              "value": 16,
+              "origin": "GENERATED_PRIOR"
+            },
+            "BALL_HANDLING": {
+              "value": 17,
+              "origin": "GENERATED_PRIOR"
+            },
+            "SHOOTING_POWER": {
+              "value": 20,
+              "origin": "DERIVED"
+            },
+            "SHOOTING_PLACEMENT": {
+              "value": 20,
+              "origin": "DERIVED"
+            },
+            "SHOOTING_VARIETY": {
+              "value": 16,
+              "origin": "GENERATED_PRIOR"
+            },
+            "BREAKTHROUGH": {
+              "value": 17,
+              "origin": "GENERATED_PRIOR"
+            },
+            "FINISHING": {
+              "value": 16,
+              "origin": "GENERATED_PRIOR"
+            },
+            "WING_FINISHING": {
+              "value": 18,
+              "origin": "GENERATED_PRIOR"
+            },
+            "PIVOT_PLAY": {
+              "value": 18,
+              "origin": "GENERATED_PRIOR"
+            },
+            "SCREENING": {
+              "value": 17,
+              "origin": "GENERATED_PRIOR"
+            },
+            "GAME_READING": {
+              "value": 16,
+              "origin": "GENERATED_PRIOR"
+            },
+            "DECISION_MAKING": {
+              "value": 15,
+              "origin": "GENERATED_PRIOR"
+            },
+            "AWARENESS": {
+              "value": 15,
+              "origin": "GENERATED_PRIOR"
+            },
+            "ANTICIPATION": {
+              "value": 14,
+              "origin": "GENERATED_PRIOR"
+            },
+            "PLAYMAKING": {
+              "value": 15,
+              "origin": "GENERATED_PRIOR"
+            },
+            "TEMPO_CONTROL": {
+              "value": 15,
+              "origin": "GENERATED_PRIOR"
+            },
+            "TWO_V_TWO_READING": {
+              "value": 14,
+              "origin": "GENERATED_PRIOR"
+            },
+            "ADVANTAGE_RECOGNITION": {
+              "value": 16,
+              "origin": "GENERATED_PRIOR"
+            },
+            "TACTICAL_UNDERSTANDING": {
+              "value": 16,
+              "origin": "GENERATED_PRIOR"
+            },
+            "ROLE_DISCIPLINE": {
+              "value": 14,
+              "origin": "GENERATED_PRIOR"
+            },
+            "OFF_BALL_MOVEMENT": {
+              "value": 15,
+              "origin": "GENERATED_PRIOR"
+            },
+            "SPACING": {
+              "value": 16,
+              "origin": "GENERATED_PRIOR"
+            },
+            "TIMING": {
+              "value": 16,
+              "origin": "GENERATED_PRIOR"
+            },
+            "TRANSITION_UNDERSTANDING": {
+              "value": 16,
+              "origin": "GENERATED_PRIOR"
+            },
+            "SYSTEM_ADAPTABILITY": {
+              "value": 15,
+              "origin": "GENERATED_PRIOR"
+            },
+            "SEVEN_V_SIX_UNDERSTANDING": {
+              "value": 15,
+              "origin": "GENERATED_PRIOR"
+            },
+            "CONTACT_ABILITY": {
+              "value": 14,
+              "origin": "GENERATED_PRIOR"
+            },
+            "DEFENSIVE_POSITIONING": {
+              "value": 13,
+              "origin": "GENERATED_PRIOR"
+            },
+            "DEFENSIVE_TIMING": {
+              "value": 14,
+              "origin": "GENERATED_PRIOR"
+            },
+            "LATERAL_DEFENCE": {
+              "value": 13,
+              "origin": "GENERATED_PRIOR"
+            },
+            "DEPTH_DEFENCE": {
+              "value": 13,
+              "origin": "GENERATED_PRIOR"
+            },
+            "CENTRAL_DEFENCE": {
+              "value": 14,
+              "origin": "GENERATED_PRIOR"
+            },
+            "COVERING": {
+              "value": 15,
+              "origin": "GENERATED_PRIOR"
+            },
+            "SWITCHING_HANDOVER": {
+              "value": 15,
+              "origin": "GENERATED_PRIOR"
+            },
+            "BALL_WINNING": {
+              "value": 14,
+              "origin": "GENERATED_PRIOR"
+            },
+            "SHOT_BLOCKING": {
+              "value": 15,
+              "origin": "GENERATED_PRIOR"
+            },
+            "ACCELERATION": {
+              "value": 17,
+              "origin": "GENERATED_PRIOR"
+            },
+            "TOP_SPEED": {
+              "value": 15,
+              "origin": "GENERATED_PRIOR"
+            },
+            "LATERAL_QUICKNESS": {
+              "value": 16,
+              "origin": "GENERATED_PRIOR"
+            },
+            "AGILITY": {
+              "value": 17,
+              "origin": "GENERATED_PRIOR"
+            },
+            "EXPLOSIVENESS": {
+              "value": 17,
+              "origin": "GENERATED_PRIOR"
+            },
+            "STRENGTH": {
+              "value": 15,
+              "origin": "GENERATED_PRIOR"
+            },
+            "CONTACT_BALANCE": {
+              "value": 16,
+              "origin": "GENERATED_PRIOR"
+            },
+            "JUMP_ABILITY": {
+              "value": 15,
+              "origin": "GENERATED_PRIOR"
+            },
+            "ENDURANCE": {
+              "value": 17,
+              "origin": "GENERATED_PRIOR"
+            },
+            "REPEAT_SPRINT_ABILITY": {
+              "value": 15,
+              "origin": "GENERATED_PRIOR"
+            },
+            "MOBILITY": {
+              "value": 15,
+              "origin": "GENERATED_PRIOR"
+            },
+            "CONSISTENCY": {
+              "value": 14,
+              "origin": "GENERATED_PRIOR"
+            },
+            "COMPOSURE": {
+              "value": 16,
+              "origin": "GENERATED_PRIOR"
+            },
+            "CONCENTRATION": {
+              "value": 15,
+              "origin": "GENERATED_PRIOR"
+            },
+            "COMPETITIVE_MENTALITY": {
+              "value": 15,
+              "origin": "GENERATED_PRIOR"
+            },
+            "RESILIENCE": {
+              "value": 14,
+              "origin": "GENERATED_PRIOR"
+            },
+            "DISCIPLINE": {
+              "value": 15,
+              "origin": "GENERATED_PRIOR"
+            },
+            "COACHABILITY": {
+              "value": 16,
+              "origin": "GENERATED_PRIOR"
+            },
+            "LEADERSHIP": {
+              "value": 15,
+              "origin": "GENERATED_PRIOR"
+            },
+            "PRESSURE_HANDLING": {
+              "value": 15,
+              "origin": "GENERATED_PRIOR"
+            }
+          },
+          "shoot": {
+            "n": 128,
+            "metrics": {
+              "goal": {
+                "count": 128,
+                "n": 128,
+                "rate": 1
+              },
+              "caught": {
+                "count": 0,
+                "n": 128,
+                "rate": 0
+              },
+              "parry": {
+                "count": 0,
+                "n": 128,
+                "rate": 0
+              },
+              "parryThenGoal": {
+                "count": 0,
+                "n": 128,
+                "rate": 0
+              },
+              "resolved": {
+                "count": 128,
+                "n": 128,
+                "rate": 1
+              },
+              "spread": {
+                "n": 128,
+                "mean": 0.394979935217563,
+                "min": 0.39497993521756264,
+                "max": 0.39497993521756264
+              },
+              "placement": {
+                "n": 128,
+                "mean": 0.9115489636126314,
+                "min": 0.9115489636126319,
+                "max": 0.9115489636126319
+              },
+              "reach": {
+                "n": 128,
+                "mean": 0.3020780337694287,
+                "min": 0.28223884510622277,
+                "max": 0.3174457405646942
+              },
+              "keeperReads": {
+                "n": 128,
+                "mean": 1,
+                "min": 1,
+                "max": 1
+              }
+            },
+            "trialDigest": "a76a945622393103937f19d37be67cc47c042e4ea877797691e3f020ec14aa21"
+          },
+          "pass": {
+            "n": 384,
+            "metrics": {
+              "speed": {
+                "n": 384,
+                "mean": 12.868421052631652,
+                "min": 12.868421052631579,
+                "max": 12.868421052631579
+              },
+              "difficulty": {
+                "n": 384,
+                "mean": 0.5613583644447647,
+                "min": 0.5613583644447622,
+                "max": 0.5613583644447622
+              },
+              "spread": {
+                "n": 384,
+                "mean": 0.2466086238204784,
+                "min": 0.2466086238204797,
+                "max": 0.2466086238204797
+              },
+              "pressure": {
+                "n": 384,
+                "mean": 0.2727705534493197,
+                "min": 0.27277055344932055,
+                "max": 0.27277055344932055
+              },
+              "error": {
+                "n": 384,
+                "mean": 0.13398899181942744,
+                "min": 0.008807549801488264,
+                "max": 0.2535139554389063
+              },
+              "capability": {
+                "n": 384,
+                "mean": 0.7996742450735942,
+                "min": 0.7996742450735895,
+                "max": 0.7996742450735895
+              }
+            },
+            "trialDigest": "1a61c826350532c7400164078fad2dcba076291bedf575e55fceaeeb8799f112"
+          },
+          "receive": {
+            "n": 384,
+            "metrics": {
+              "caught": {
+                "count": 372,
+                "n": 384,
+                "rate": 0.96875
+              },
+              "failed": {
+                "count": 12,
+                "n": 384,
+                "rate": 0.03125
+              },
+              "reached": {
+                "count": 384,
+                "n": 384,
+                "rate": 1
+              },
+              "risk": {
+                "n": 384,
+                "mean": 0.02790330654574429,
+                "min": 0.027208821159834237,
+                "max": 0.02935871020059686
+              },
+              "deliveryError": {
+                "n": 384,
+                "mean": 0.09898095175694477,
+                "min": 0.006506352873920178,
+                "max": 0.18727697143081523
+              },
+              "passingCapability": {
+                "n": 384,
+                "mean": 0.6315789473684167,
+                "min": 0.631578947368421,
+                "max": 0.631578947368421
+              }
+            },
+            "trialDigest": "1578c93e844c6497e3e36b111330ba0d49a0de6af6a6b4b2822eda8d3653b8c1"
+          },
+          "carry": {
+            "n": 384,
+            "metrics": {
+              "mistouch": {
+                "count": 5,
+                "n": 384,
+                "rate": 0.013020833333333334
+              },
+              "risk": {
+                "n": 384,
+                "mean": 0.016469124262739224,
+                "min": 0.016469124262739103,
+                "max": 0.016469124262739103
+              },
+              "pressure": {
+                "n": 384,
+                "mean": 1,
+                "min": 1,
+                "max": 1
+              },
+              "difficulty": {
+                "n": 384,
+                "mean": 0.650000000000004,
+                "min": 0.65,
+                "max": 0.65
+              },
+              "retainedCanonicalPossession": {
+                "count": 384,
+                "n": 384,
+                "rate": 1
+              },
+              "controller": {
+                "H03": 379,
+                "null": 5
+              }
+            },
+            "trialDigest": "4b29b638d5d338dc15902de6c443c092a67fffca4d4af373935f1cfac34a7be3"
+          },
+          "defend": {
+            "n": 384,
+            "metrics": {
+              "arrivalTicks": {
+                "n": 384,
+                "mean": 22.25,
+                "min": 22,
+                "max": 23
+              },
+              "readTicks": {
+                "n": 384,
+                "mean": 3,
+                "min": 3,
+                "max": 3
+              },
+              "adaptTicks": {
+                "n": 384,
+                "mean": 2,
+                "min": 2,
+                "max": 2
+              },
+              "predictedSeconds": {
+                "n": 384,
+                "mean": 1.089347034710967,
+                "min": 1.074009549698253,
+                "max": 1.1047227258838097
+              },
+              "physicalTopSpeed": {
+                "n": 384,
+                "mean": 6.715789473684243,
+                "min": 6.715789473684211,
+                "max": 6.715789473684211
+              },
+              "physicalAcceleration": {
+                "n": 384,
+                "mean": 6.968421052631583,
+                "min": 6.968421052631578,
+                "max": 6.968421052631578
+              }
+            },
+            "trialDigest": "2147c88b1df59bf934daed1bcbf928560936b1183782d4d936e04c2e18172939"
+          },
+          "decision": {
+            "n": 384,
+            "metrics": {
+              "choice": {
+                "PASS": 192,
+                "SHOOT": 192
+              },
+              "name": {
+                "RECYCLE": 192,
+                "SHOOT": 192
+              },
+              "target": {
+                "H04": 192,
+                "null": 192
+              },
+              "recognition": {
+                "n": 384,
+                "mean": 0.00542491776315791,
+                "min": -0.03419999999999999,
+                "max": 0.053486842105263145
+              },
+              "scope": {
+                "Canonical affordance resolver with staged visible option facts": 384
+              }
+            },
+            "trialDigest": "60d77f6de0595c1302b17168e8077eb6af3a55662c62a7821de6b35d488c6f33"
+          },
+          "physical": {
+            "energy": 0.9521156987764319,
+            "acute": 0.33679245850261796,
+            "restEnergy": 0.9540209619343266,
+            "restAcute": 0.20153304782275536,
+            "physical": {
+              "locomotor": 1919.9999999999252,
+              "acceleration": 0,
+              "deceleration": 0,
+              "turning": 1691.3994205982306,
+              "contact": 0,
+              "jump": 0,
+              "highIntensitySeconds": 14.950000000000077,
+              "repeatSeconds": 0,
+              "transitionMetres": 0,
+              "energyDemand": 0.047884301223570055,
+              "energySpent": 0.047884301223568126,
+              "energyRecovered": 0.0019052631578947432,
+              "vx": 0,
+              "vy": 0
+            }
+          }
+        },
+        {
+          "label": "defender",
+          "playerId": "se_player_marcus_ekman_40a65f53",
+          "name": "Marcus Ekman",
+          "position": "M9",
+          "selectionKeys": [
+            "LATERAL_DEFENCE",
+            "DEFENSIVE_POSITIONING",
+            "COVERING"
+          ],
+          "selectionScore": 15.333333333333334,
+          "raw": {
+            "PASSING": 14,
+            "BALL_HANDLING": 16,
+            "SHOOTING_POWER": 18,
+            "SHOOTING_PLACEMENT": 16,
+            "SHOOTING_VARIETY": 14,
+            "BREAKTHROUGH": 14,
+            "FINISHING": 17,
+            "WING_FINISHING": 16,
+            "PIVOT_PLAY": 16,
+            "SCREENING": 15,
+            "GAME_READING": 17,
+            "DECISION_MAKING": 16,
+            "AWARENESS": 18,
+            "ANTICIPATION": 18,
+            "PLAYMAKING": 17,
+            "TEMPO_CONTROL": 17,
+            "TWO_V_TWO_READING": 18,
+            "ADVANTAGE_RECOGNITION": 17,
+            "TACTICAL_UNDERSTANDING": 16,
+            "ROLE_DISCIPLINE": 17,
+            "OFF_BALL_MOVEMENT": 17,
+            "SPACING": 16,
+            "TIMING": 16,
+            "TRANSITION_UNDERSTANDING": 15,
+            "SYSTEM_ADAPTABILITY": 17,
+            "SEVEN_V_SIX_UNDERSTANDING": 17,
+            "CONTACT_ABILITY": 16,
+            "DEFENSIVE_POSITIONING": 16,
+            "DEFENSIVE_TIMING": 14,
+            "LATERAL_DEFENCE": 14,
+            "DEPTH_DEFENCE": 16,
+            "CENTRAL_DEFENCE": 14,
+            "COVERING": 16,
+            "SWITCHING_HANDOVER": 16,
+            "BALL_WINNING": 16,
+            "SHOT_BLOCKING": 16,
+            "ACCELERATION": 13,
+            "TOP_SPEED": 14,
+            "LATERAL_QUICKNESS": 14,
+            "AGILITY": 14,
+            "EXPLOSIVENESS": 14,
+            "STRENGTH": 13,
+            "CONTACT_BALANCE": 14,
+            "JUMP_ABILITY": 13,
+            "ENDURANCE": 13,
+            "REPEAT_SPRINT_ABILITY": 15,
+            "MOBILITY": 14,
+            "CONSISTENCY": 15,
+            "COMPOSURE": 14,
+            "CONCENTRATION": 14,
+            "COMPETITIVE_MENTALITY": 14,
+            "RESILIENCE": 14,
+            "DISCIPLINE": 16,
+            "COACHABILITY": 16,
+            "LEADERSHIP": 14,
+            "PRESSURE_HANDLING": 16
+          },
+          "provenance": {
+            "PASSING": {
+              "value": 14,
+              "origin": "GENERATED_PRIOR"
+            },
+            "BALL_HANDLING": {
+              "value": 16,
+              "origin": "GENERATED_PRIOR"
+            },
+            "SHOOTING_POWER": {
+              "value": 18,
+              "origin": "DERIVED"
+            },
+            "SHOOTING_PLACEMENT": {
+              "value": 16,
+              "origin": "DERIVED"
+            },
+            "SHOOTING_VARIETY": {
+              "value": 14,
+              "origin": "GENERATED_PRIOR"
+            },
+            "BREAKTHROUGH": {
+              "value": 14,
+              "origin": "GENERATED_PRIOR"
+            },
+            "FINISHING": {
+              "value": 17,
+              "origin": "DERIVED"
+            },
+            "WING_FINISHING": {
+              "value": 16,
+              "origin": "GENERATED_PRIOR"
+            },
+            "PIVOT_PLAY": {
+              "value": 16,
+              "origin": "GENERATED_PRIOR"
+            },
+            "SCREENING": {
+              "value": 15,
+              "origin": "GENERATED_PRIOR"
+            },
+            "GAME_READING": {
+              "value": 17,
+              "origin": "GENERATED_PRIOR"
+            },
+            "DECISION_MAKING": {
+              "value": 16,
+              "origin": "GENERATED_PRIOR"
+            },
+            "AWARENESS": {
+              "value": 18,
+              "origin": "GENERATED_PRIOR"
+            },
+            "ANTICIPATION": {
+              "value": 18,
+              "origin": "GENERATED_PRIOR"
+            },
+            "PLAYMAKING": {
+              "value": 17,
+              "origin": "GENERATED_PRIOR"
+            },
+            "TEMPO_CONTROL": {
+              "value": 17,
+              "origin": "GENERATED_PRIOR"
+            },
+            "TWO_V_TWO_READING": {
+              "value": 18,
+              "origin": "GENERATED_PRIOR"
+            },
+            "ADVANTAGE_RECOGNITION": {
+              "value": 17,
+              "origin": "GENERATED_PRIOR"
+            },
+            "TACTICAL_UNDERSTANDING": {
+              "value": 16,
+              "origin": "GENERATED_PRIOR"
+            },
+            "ROLE_DISCIPLINE": {
+              "value": 17,
+              "origin": "GENERATED_PRIOR"
+            },
+            "OFF_BALL_MOVEMENT": {
+              "value": 17,
+              "origin": "GENERATED_PRIOR"
+            },
+            "SPACING": {
+              "value": 16,
+              "origin": "GENERATED_PRIOR"
+            },
+            "TIMING": {
+              "value": 16,
+              "origin": "GENERATED_PRIOR"
+            },
+            "TRANSITION_UNDERSTANDING": {
+              "value": 15,
+              "origin": "GENERATED_PRIOR"
+            },
+            "SYSTEM_ADAPTABILITY": {
+              "value": 17,
+              "origin": "GENERATED_PRIOR"
+            },
+            "SEVEN_V_SIX_UNDERSTANDING": {
+              "value": 17,
+              "origin": "GENERATED_PRIOR"
+            },
+            "CONTACT_ABILITY": {
+              "value": 16,
+              "origin": "GENERATED_PRIOR"
+            },
+            "DEFENSIVE_POSITIONING": {
+              "value": 16,
+              "origin": "GENERATED_PRIOR"
+            },
+            "DEFENSIVE_TIMING": {
+              "value": 14,
+              "origin": "GENERATED_PRIOR"
+            },
+            "LATERAL_DEFENCE": {
+              "value": 14,
+              "origin": "GENERATED_PRIOR"
+            },
+            "DEPTH_DEFENCE": {
+              "value": 16,
+              "origin": "GENERATED_PRIOR"
+            },
+            "CENTRAL_DEFENCE": {
+              "value": 14,
+              "origin": "GENERATED_PRIOR"
+            },
+            "COVERING": {
+              "value": 16,
+              "origin": "GENERATED_PRIOR"
+            },
+            "SWITCHING_HANDOVER": {
+              "value": 16,
+              "origin": "GENERATED_PRIOR"
+            },
+            "BALL_WINNING": {
+              "value": 16,
+              "origin": "GENERATED_PRIOR"
+            },
+            "SHOT_BLOCKING": {
+              "value": 16,
+              "origin": "GENERATED_PRIOR"
+            },
+            "ACCELERATION": {
+              "value": 13,
+              "origin": "GENERATED_PRIOR"
+            },
+            "TOP_SPEED": {
+              "value": 14,
+              "origin": "GENERATED_PRIOR"
+            },
+            "LATERAL_QUICKNESS": {
+              "value": 14,
+              "origin": "GENERATED_PRIOR"
+            },
+            "AGILITY": {
+              "value": 14,
+              "origin": "GENERATED_PRIOR"
+            },
+            "EXPLOSIVENESS": {
+              "value": 14,
+              "origin": "GENERATED_PRIOR"
+            },
+            "STRENGTH": {
+              "value": 13,
+              "origin": "GENERATED_PRIOR"
+            },
+            "CONTACT_BALANCE": {
+              "value": 14,
+              "origin": "GENERATED_PRIOR"
+            },
+            "JUMP_ABILITY": {
+              "value": 13,
+              "origin": "GENERATED_PRIOR"
+            },
+            "ENDURANCE": {
+              "value": 13,
+              "origin": "GENERATED_PRIOR"
+            },
+            "REPEAT_SPRINT_ABILITY": {
+              "value": 15,
+              "origin": "GENERATED_PRIOR"
+            },
+            "MOBILITY": {
+              "value": 14,
+              "origin": "GENERATED_PRIOR"
+            },
+            "CONSISTENCY": {
+              "value": 15,
+              "origin": "GENERATED_PRIOR"
+            },
+            "COMPOSURE": {
+              "value": 14,
+              "origin": "GENERATED_PRIOR"
+            },
+            "CONCENTRATION": {
+              "value": 14,
+              "origin": "GENERATED_PRIOR"
+            },
+            "COMPETITIVE_MENTALITY": {
+              "value": 14,
+              "origin": "GENERATED_PRIOR"
+            },
+            "RESILIENCE": {
+              "value": 14,
+              "origin": "GENERATED_PRIOR"
+            },
+            "DISCIPLINE": {
+              "value": 16,
+              "origin": "GENERATED_PRIOR"
+            },
+            "COACHABILITY": {
+              "value": 16,
+              "origin": "GENERATED_PRIOR"
+            },
+            "LEADERSHIP": {
+              "value": 14,
+              "origin": "GENERATED_PRIOR"
+            },
+            "PRESSURE_HANDLING": {
+              "value": 16,
+              "origin": "GENERATED_PRIOR"
+            }
+          },
+          "shoot": {
+            "n": 128,
+            "metrics": {
+              "goal": {
+                "count": 126,
+                "n": 128,
+                "rate": 0.984375
+              },
+              "caught": {
+                "count": 0,
+                "n": 128,
+                "rate": 0
+              },
+              "parry": {
+                "count": 3,
+                "n": 128,
+                "rate": 0.0234375
+              },
+              "parryThenGoal": {
+                "count": 1,
+                "n": 128,
+                "rate": 0.0078125
+              },
+              "resolved": {
+                "count": 128,
+                "n": 128,
+                "rate": 1
+              },
+              "spread": {
+                "n": 128,
+                "mean": 0.49209766008772254,
+                "min": 0.4920976600877229,
+                "max": 0.4920976600877229
+              },
+              "placement": {
+                "n": 128,
+                "mean": 0.8345245502659528,
+                "min": 0.8345245502659515,
+                "max": 0.8345245502659515
+              },
+              "reach": {
+                "n": 128,
+                "mean": 0.33192545213950225,
+                "min": 0.3043028790551443,
+                "max": 0.3513920043821217
+              },
+              "keeperReads": {
+                "n": 128,
+                "mean": 1,
+                "min": 1,
+                "max": 1
+              }
+            },
+            "trialDigest": "f4eb1feacc1d8d1ed8f41f09533f9a60fced0f6197c98f62a51eec5637cb6eca"
+          },
+          "pass": {
+            "n": 384,
+            "metrics": {
+              "speed": {
+                "n": 384,
+                "mean": 12.552631578947434,
+                "min": 12.552631578947368,
+                "max": 12.552631578947368
+              },
+              "difficulty": {
+                "n": 384,
+                "mean": 0.5613583644447647,
+                "min": 0.5613583644447622,
+                "max": 0.5613583644447622
+              },
+              "spread": {
+                "n": 384,
+                "mean": 0.36238637841626004,
+                "min": 0.3623863784162578,
+                "max": 0.3623863784162578
+              },
+              "pressure": {
+                "n": 384,
+                "mean": 0.2727705534493197,
+                "min": 0.27277055344932055,
+                "max": 0.27277055344932055
+              },
+              "error": {
+                "n": 384,
+                "mean": 0.1968941099498387,
+                "min": 0.01294251606385674,
+                "max": 0.3725336233835973
+              },
+              "capability": {
+                "n": 384,
+                "mean": 0.6950155648596282,
+                "min": 0.6950155648596269,
+                "max": 0.6950155648596269
+              }
+            },
+            "trialDigest": "094cecda6ee93a3376acd891a984133fa7735d81edccaf51cb4ecc5f7e9c4e74"
+          },
+          "receive": {
+            "n": 384,
+            "metrics": {
+              "caught": {
+                "count": 369,
+                "n": 384,
+                "rate": 0.9609375
+              },
+              "failed": {
+                "count": 15,
+                "n": 384,
+                "rate": 0.0390625
+              },
+              "reached": {
+                "count": 384,
+                "n": 384,
+                "rate": 1
+              },
+              "risk": {
+                "n": 384,
+                "mean": 0.034072231886500895,
+                "min": 0.0332335647005389,
+                "max": 0.03582900437569017
+              },
+              "deliveryError": {
+                "n": 384,
+                "mean": 0.09898095175694477,
+                "min": 0.006506352873920178,
+                "max": 0.18727697143081523
+              },
+              "passingCapability": {
+                "n": 384,
+                "mean": 0.6315789473684167,
+                "min": 0.631578947368421,
+                "max": 0.631578947368421
+              }
+            },
+            "trialDigest": "c6c65ac62f5e7826e2c43bb3d1e4637dc38ebb9d6cdf48e4e270945df0df12b1"
+          },
+          "carry": {
+            "n": 384,
+            "metrics": {
+              "mistouch": {
+                "count": 6,
+                "n": 384,
+                "rate": 0.015625
+              },
+              "risk": {
+                "n": 384,
+                "mean": 0.022112204022368884,
+                "min": 0.022112204022369044,
+                "max": 0.022112204022369044
+              },
+              "pressure": {
+                "n": 384,
+                "mean": 1,
+                "min": 1,
+                "max": 1
+              },
+              "difficulty": {
+                "n": 384,
+                "mean": 0.650000000000004,
+                "min": 0.65,
+                "max": 0.65
+              },
+              "retainedCanonicalPossession": {
+                "count": 384,
+                "n": 384,
+                "rate": 1
+              },
+              "controller": {
+                "H03": 378,
+                "null": 6
+              }
+            },
+            "trialDigest": "8139721109acebc0c1ae1de9d825ed5f172f5fdb755463e81ea9c8cdb748382f"
+          },
+          "defend": {
+            "n": 384,
+            "metrics": {
+              "arrivalTicks": {
+                "n": 384,
+                "mean": 23.25,
+                "min": 23,
+                "max": 24
+              },
+              "readTicks": {
+                "n": 384,
+                "mean": 2,
+                "min": 2,
+                "max": 2
+              },
+              "adaptTicks": {
+                "n": 384,
+                "mean": 2,
+                "min": 2,
+                "max": 2
+              },
+              "predictedSeconds": {
+                "n": 384,
+                "mean": 1.1059378963192497,
+                "min": 1.0899155632337545,
+                "max": 1.1220001415430698
+              },
+              "physicalTopSpeed": {
+                "n": 384,
+                "mean": 6.452631578947336,
+                "min": 6.4526315789473685,
+                "max": 6.4526315789473685
+              },
+              "physicalAcceleration": {
+                "n": 384,
+                "mean": 6.231578947368419,
+                "min": 6.231578947368421,
+                "max": 6.231578947368421
+              }
+            },
+            "trialDigest": "2e4fa09e6f388ccd1451b2a6f14ce44706dbc07d886fa1bda335c5fea32054b0"
+          },
+          "decision": {
+            "n": 384,
+            "metrics": {
+              "choice": {
+                "PASS": 192,
+                "SHOOT": 192
+              },
+              "name": {
+                "RECYCLE": 192,
+                "SHOOT": 192
+              },
+              "target": {
+                "H04": 192,
+                "null": 192
+              },
+              "recognition": {
+                "n": 384,
+                "mean": 0.0064638980263157725,
+                "min": -0.041757894736842105,
+                "max": 0.0661973684210526
+              },
+              "scope": {
+                "Canonical affordance resolver with staged visible option facts": 384
+              }
+            },
+            "trialDigest": "507c6c1ac62624bdd6c8207d706218af66de55f17d4e5e558704c4bb5930fee3"
+          },
+          "physical": {
+            "energy": 0.9429209209011388,
+            "acute": 0.3684727559472161,
+            "restEnergy": 0.9446998682695599,
+            "restAcute": 0.23972741887634147,
+            "physical": {
+              "locomotor": 1919.9999999999252,
+              "acceleration": 0,
+              "deceleration": 0,
+              "turning": 1691.3994205982306,
+              "contact": 0,
+              "jump": 0,
+              "highIntensitySeconds": 14.950000000000077,
+              "repeatSeconds": 6.299999999999986,
+              "transitionMetres": 0,
+              "energyDemand": 0.05707907909886308,
+              "energySpent": 0.05707907909886123,
+              "energyRecovered": 0.0017789473684211021,
+              "vx": 0,
+              "vy": 0
+            }
+          }
+        },
+        {
+          "label": "physical",
+          "playerId": "se_player_melker_norrman_8e940787",
+          "name": "Melker Norrman",
+          "position": "M6",
+          "selectionKeys": [
+            "ENDURANCE",
+            "REPEAT_SPRINT_ABILITY",
+            "STRENGTH"
+          ],
+          "selectionScore": 17.333333333333332,
+          "raw": {
+            "PASSING": 14,
+            "BALL_HANDLING": 15,
+            "SHOOTING_POWER": 16,
+            "SHOOTING_PLACEMENT": 14,
+            "SHOOTING_VARIETY": 15,
+            "BREAKTHROUGH": 14,
+            "FINISHING": 16,
+            "WING_FINISHING": 14,
+            "PIVOT_PLAY": 14,
+            "SCREENING": 15,
+            "GAME_READING": 12,
+            "DECISION_MAKING": 13,
+            "AWARENESS": 13,
+            "ANTICIPATION": 12,
+            "PLAYMAKING": 14,
+            "TEMPO_CONTROL": 14,
+            "TWO_V_TWO_READING": 13,
+            "ADVANTAGE_RECOGNITION": 13,
+            "TACTICAL_UNDERSTANDING": 15,
+            "ROLE_DISCIPLINE": 15,
+            "OFF_BALL_MOVEMENT": 15,
+            "SPACING": 15,
+            "TIMING": 15,
+            "TRANSITION_UNDERSTANDING": 14,
+            "SYSTEM_ADAPTABILITY": 15,
+            "SEVEN_V_SIX_UNDERSTANDING": 13,
+            "CONTACT_ABILITY": 14,
+            "DEFENSIVE_POSITIONING": 13,
+            "DEFENSIVE_TIMING": 14,
+            "LATERAL_DEFENCE": 15,
+            "DEPTH_DEFENCE": 14,
+            "CENTRAL_DEFENCE": 15,
+            "COVERING": 13,
+            "SWITCHING_HANDOVER": 13,
+            "BALL_WINNING": 15,
+            "SHOT_BLOCKING": 15,
+            "ACCELERATION": 17,
+            "TOP_SPEED": 17,
+            "LATERAL_QUICKNESS": 17,
+            "AGILITY": 17,
+            "EXPLOSIVENESS": 16,
+            "STRENGTH": 19,
+            "CONTACT_BALANCE": 19,
+            "JUMP_ABILITY": 17,
+            "ENDURANCE": 17,
+            "REPEAT_SPRINT_ABILITY": 16,
+            "MOBILITY": 16,
+            "CONSISTENCY": 13,
+            "COMPOSURE": 15,
+            "CONCENTRATION": 14,
+            "COMPETITIVE_MENTALITY": 15,
+            "RESILIENCE": 13,
+            "DISCIPLINE": 15,
+            "COACHABILITY": 14,
+            "LEADERSHIP": 13,
+            "PRESSURE_HANDLING": 14
+          },
+          "provenance": {
+            "PASSING": {
+              "value": 14,
+              "origin": "GENERATED_PRIOR"
+            },
+            "BALL_HANDLING": {
+              "value": 15,
+              "origin": "GENERATED_PRIOR"
+            },
+            "SHOOTING_POWER": {
+              "value": 16,
+              "origin": "GENERATED_PRIOR"
+            },
+            "SHOOTING_PLACEMENT": {
+              "value": 14,
+              "origin": "GENERATED_PRIOR"
+            },
+            "SHOOTING_VARIETY": {
+              "value": 15,
+              "origin": "GENERATED_PRIOR"
+            },
+            "BREAKTHROUGH": {
+              "value": 14,
+              "origin": "GENERATED_PRIOR"
+            },
+            "FINISHING": {
+              "value": 16,
+              "origin": "GENERATED_PRIOR"
+            },
+            "WING_FINISHING": {
+              "value": 14,
+              "origin": "GENERATED_PRIOR"
+            },
+            "PIVOT_PLAY": {
+              "value": 14,
+              "origin": "GENERATED_PRIOR"
+            },
+            "SCREENING": {
+              "value": 15,
+              "origin": "DERIVED"
+            },
+            "GAME_READING": {
+              "value": 12,
+              "origin": "GENERATED_PRIOR"
+            },
+            "DECISION_MAKING": {
+              "value": 13,
+              "origin": "GENERATED_PRIOR"
+            },
+            "AWARENESS": {
+              "value": 13,
+              "origin": "GENERATED_PRIOR"
+            },
+            "ANTICIPATION": {
+              "value": 12,
+              "origin": "GENERATED_PRIOR"
+            },
+            "PLAYMAKING": {
+              "value": 14,
+              "origin": "GENERATED_PRIOR"
+            },
+            "TEMPO_CONTROL": {
+              "value": 14,
+              "origin": "GENERATED_PRIOR"
+            },
+            "TWO_V_TWO_READING": {
+              "value": 13,
+              "origin": "GENERATED_PRIOR"
+            },
+            "ADVANTAGE_RECOGNITION": {
+              "value": 13,
+              "origin": "GENERATED_PRIOR"
+            },
+            "TACTICAL_UNDERSTANDING": {
+              "value": 15,
+              "origin": "GENERATED_PRIOR"
+            },
+            "ROLE_DISCIPLINE": {
+              "value": 15,
+              "origin": "GENERATED_PRIOR"
+            },
+            "OFF_BALL_MOVEMENT": {
+              "value": 15,
+              "origin": "GENERATED_PRIOR"
+            },
+            "SPACING": {
+              "value": 15,
+              "origin": "GENERATED_PRIOR"
+            },
+            "TIMING": {
+              "value": 15,
+              "origin": "GENERATED_PRIOR"
+            },
+            "TRANSITION_UNDERSTANDING": {
+              "value": 14,
+              "origin": "GENERATED_PRIOR"
+            },
+            "SYSTEM_ADAPTABILITY": {
+              "value": 15,
+              "origin": "GENERATED_PRIOR"
+            },
+            "SEVEN_V_SIX_UNDERSTANDING": {
+              "value": 13,
+              "origin": "GENERATED_PRIOR"
+            },
+            "CONTACT_ABILITY": {
+              "value": 14,
+              "origin": "GENERATED_PRIOR"
+            },
+            "DEFENSIVE_POSITIONING": {
+              "value": 13,
+              "origin": "GENERATED_PRIOR"
+            },
+            "DEFENSIVE_TIMING": {
+              "value": 14,
+              "origin": "GENERATED_PRIOR"
+            },
+            "LATERAL_DEFENCE": {
+              "value": 15,
+              "origin": "GENERATED_PRIOR"
+            },
+            "DEPTH_DEFENCE": {
+              "value": 14,
+              "origin": "GENERATED_PRIOR"
+            },
+            "CENTRAL_DEFENCE": {
+              "value": 15,
+              "origin": "GENERATED_PRIOR"
+            },
+            "COVERING": {
+              "value": 13,
+              "origin": "GENERATED_PRIOR"
+            },
+            "SWITCHING_HANDOVER": {
+              "value": 13,
+              "origin": "GENERATED_PRIOR"
+            },
+            "BALL_WINNING": {
+              "value": 15,
+              "origin": "GENERATED_PRIOR"
+            },
+            "SHOT_BLOCKING": {
+              "value": 15,
+              "origin": "GENERATED_PRIOR"
+            },
+            "ACCELERATION": {
+              "value": 17,
+              "origin": "GENERATED_PRIOR"
+            },
+            "TOP_SPEED": {
+              "value": 17,
+              "origin": "GENERATED_PRIOR"
+            },
+            "LATERAL_QUICKNESS": {
+              "value": 17,
+              "origin": "GENERATED_PRIOR"
+            },
+            "AGILITY": {
+              "value": 17,
+              "origin": "GENERATED_PRIOR"
+            },
+            "EXPLOSIVENESS": {
+              "value": 16,
+              "origin": "GENERATED_PRIOR"
+            },
+            "STRENGTH": {
+              "value": 19,
+              "origin": "DERIVED"
+            },
+            "CONTACT_BALANCE": {
+              "value": 19,
+              "origin": "DERIVED"
+            },
+            "JUMP_ABILITY": {
+              "value": 17,
+              "origin": "GENERATED_PRIOR"
+            },
+            "ENDURANCE": {
+              "value": 17,
+              "origin": "GENERATED_PRIOR"
+            },
+            "REPEAT_SPRINT_ABILITY": {
+              "value": 16,
+              "origin": "GENERATED_PRIOR"
+            },
+            "MOBILITY": {
+              "value": 16,
+              "origin": "GENERATED_PRIOR"
+            },
+            "CONSISTENCY": {
+              "value": 13,
+              "origin": "GENERATED_PRIOR"
+            },
+            "COMPOSURE": {
+              "value": 15,
+              "origin": "GENERATED_PRIOR"
+            },
+            "CONCENTRATION": {
+              "value": 14,
+              "origin": "GENERATED_PRIOR"
+            },
+            "COMPETITIVE_MENTALITY": {
+              "value": 15,
+              "origin": "GENERATED_PRIOR"
+            },
+            "RESILIENCE": {
+              "value": 13,
+              "origin": "GENERATED_PRIOR"
+            },
+            "DISCIPLINE": {
+              "value": 15,
+              "origin": "GENERATED_PRIOR"
+            },
+            "COACHABILITY": {
+              "value": 14,
+              "origin": "GENERATED_PRIOR"
+            },
+            "LEADERSHIP": {
+              "value": 13,
+              "origin": "GENERATED_PRIOR"
+            },
+            "PRESSURE_HANDLING": {
+              "value": 14,
+              "origin": "GENERATED_PRIOR"
+            }
+          },
+          "shoot": {
+            "n": 128,
+            "metrics": {
+              "goal": {
+                "count": 116,
+                "n": 128,
+                "rate": 0.90625
+              },
+              "caught": {
+                "count": 0,
+                "n": 128,
+                "rate": 0
+              },
+              "parry": {
+                "count": 8,
+                "n": 128,
+                "rate": 0.0625
+              },
+              "parryThenGoal": {
+                "count": 1,
+                "n": 128,
+                "rate": 0.0078125
+              },
+              "resolved": {
+                "count": 128,
+                "n": 128,
+                "rate": 1
+              },
+              "spread": {
+                "n": 128,
+                "mean": 0.5906699387997077,
+                "min": 0.5906699387997085,
+                "max": 0.5906699387997085
+              },
+              "placement": {
+                "n": 128,
+                "mean": 0.7476106536796434,
+                "min": 0.7476106536796425,
+                "max": 0.7476106536796425
+              },
+              "reach": {
+                "n": 128,
+                "mean": 0.36474854762437414,
+                "min": 0.3278876435462018,
+                "max": 0.3882580089660229
+              },
+              "keeperReads": {
+                "n": 128,
+                "mean": 1,
+                "min": 1,
+                "max": 1
+              }
+            },
+            "trialDigest": "e233dfdd83a566ae69d5bf171fc2e07846ed4f6c359326238f5454aab087c36e"
+          },
+          "pass": {
+            "n": 384,
+            "metrics": {
+              "speed": {
+                "n": 384,
+                "mean": 12.552631578947434,
+                "min": 12.552631578947368,
+                "max": 12.552631578947368
+              },
+              "difficulty": {
+                "n": 384,
+                "mean": 0.5613583644447647,
+                "min": 0.5613583644447622,
+                "max": 0.5613583644447622
+              },
+              "spread": {
+                "n": 384,
+                "mean": 0.3667329165616024,
+                "min": 0.3667329165616022,
+                "max": 0.3667329165616022
+              },
+              "pressure": {
+                "n": 384,
+                "mean": 0.2727705534493197,
+                "min": 0.27277055344932055,
+                "max": 0.27277055344932055
+              },
+              "error": {
+                "n": 384,
+                "mean": 0.19925569915534527,
+                "min": 0.013097751313079237,
+                "max": 0.37700186971100264
+              },
+              "capability": {
+                "n": 384,
+                "mean": 0.6910864599345882,
+                "min": 0.6910864599345952,
+                "max": 0.6910864599345952
+              }
+            },
+            "trialDigest": "14f8c224085c151bd3b121a9cb2804bde173c9a0d07141a34a468034bd5893c5"
+          },
+          "receive": {
+            "n": 384,
+            "metrics": {
+              "caught": {
+                "count": 367,
+                "n": 384,
+                "rate": 0.9557291666666666
+              },
+              "failed": {
+                "count": 17,
+                "n": 384,
+                "rate": 0.044270833333333336
+              },
+              "reached": {
+                "count": 384,
+                "n": 384,
+                "rate": 1
+              },
+              "risk": {
+                "n": 384,
+                "mean": 0.03970154334633857,
+                "min": 0.038736829098948,
+                "max": 0.04172129246161072
+              },
+              "deliveryError": {
+                "n": 384,
+                "mean": 0.09898095175694477,
+                "min": 0.006506352873920178,
+                "max": 0.18727697143081523
+              },
+              "passingCapability": {
+                "n": 384,
+                "mean": 0.6315789473684167,
+                "min": 0.631578947368421,
+                "max": 0.631578947368421
+              }
+            },
+            "trialDigest": "1ed99ebe75e45f8966defde48dbcbec06c6ce5a596805208b54eac652b47fc26"
+          },
+          "carry": {
+            "n": 384,
+            "metrics": {
+              "mistouch": {
+                "count": 6,
+                "n": 384,
+                "rate": 0.015625
+              },
+              "risk": {
+                "n": 384,
+                "mean": 0.02230946439154045,
+                "min": 0.022309464391540645,
+                "max": 0.022309464391540645
+              },
+              "pressure": {
+                "n": 384,
+                "mean": 1,
+                "min": 1,
+                "max": 1
+              },
+              "difficulty": {
+                "n": 384,
+                "mean": 0.650000000000004,
+                "min": 0.65,
+                "max": 0.65
+              },
+              "retainedCanonicalPossession": {
+                "count": 384,
+                "n": 384,
+                "rate": 1
+              },
+              "controller": {
+                "H03": 378,
+                "null": 6
+              }
+            },
+            "trialDigest": "dbe157fb0788a1b6ff4444bda9c2e3bc2653ad6a9d6fe94d26f059ec8d681628"
+          },
+          "defend": {
+            "n": 384,
+            "metrics": {
+              "arrivalTicks": {
+                "n": 384,
+                "mean": 23.625,
+                "min": 23,
+                "max": 24
+              },
+              "readTicks": {
+                "n": 384,
+                "mean": 4,
+                "min": 4,
+                "max": 4
+              },
+              "adaptTicks": {
+                "n": 384,
+                "mean": 3,
+                "min": 3,
+                "max": 3
+              },
+              "predictedSeconds": {
+                "n": 384,
+                "mean": 1.1030159303192113,
+                "min": 1.0879292949206953,
+                "max": 1.1181401470035368
+              },
+              "physicalTopSpeed": {
+                "n": 384,
+                "mean": 6.926315789473705,
+                "min": 6.926315789473684,
+                "max": 6.926315789473684
+              },
+              "physicalAcceleration": {
+                "n": 384,
+                "mean": 6.863157894736848,
+                "min": 6.863157894736842,
+                "max": 6.863157894736842
+              }
+            },
+            "trialDigest": "27911e8bd74c556fde1e905aab0c7ca06134a8105dd4ed74418c73698230645b"
+          },
+          "decision": {
+            "n": 384,
+            "metrics": {
+              "choice": {
+                "PASS": 171,
+                "SHOOT": 213
+              },
+              "name": {
+                "RECYCLE": 171,
+                "SHOOT": 213
+              },
+              "target": {
+                "H04": 171,
+                "null": 213
+              },
+              "recognition": {
+                "n": 384,
+                "mean": -0.001353824013157893,
+                "min": -0.019309210526315783,
+                "max": 0.02798684210526315
+              },
+              "scope": {
+                "Canonical affordance resolver with staged visible option facts": 384
+              }
+            },
+            "trialDigest": "528f01c59d7a5b40fe77481177166e0f6c60b6a2360f7dd5457615fb217b6746"
+          },
+          "physical": {
+            "energy": 0.9523271497450169,
+            "acute": 0.31687209302375885,
+            "restEnergy": 0.9542324129029116,
+            "restAcute": 0.18692742176927382,
+            "physical": {
+              "locomotor": 1919.9999999999252,
+              "acceleration": 0,
+              "deceleration": 0,
+              "turning": 1691.3994205982306,
+              "contact": 0,
+              "jump": 0,
+              "highIntensitySeconds": 14.950000000000077,
+              "repeatSeconds": 0,
+              "transitionMetres": 0,
+              "energyDemand": 0.04767285025498093,
+              "energySpent": 0.047672850254983135,
+              "energyRecovered": 0.0019052631578947432,
+              "vx": 0,
+              "vy": 0
+            }
+          }
+        },
+        {
+          "label": "weakerTechnical",
+          "playerId": "se_player_albin_brauer_2847909f",
+          "name": "Albin Brauer",
+          "position": "M9",
+          "selectionKeys": [
+            "PASSING",
+            "BALL_HANDLING",
+            "FINISHING"
+          ],
+          "selectionScore": 9,
+          "raw": {
+            "PASSING": 9,
+            "BALL_HANDLING": 9,
+            "SHOOTING_POWER": 10,
+            "SHOOTING_PLACEMENT": 11,
+            "SHOOTING_VARIETY": 10,
+            "BREAKTHROUGH": 11,
+            "FINISHING": 9,
+            "WING_FINISHING": 9,
+            "PIVOT_PLAY": 9,
+            "SCREENING": 9,
+            "GAME_READING": 13,
+            "DECISION_MAKING": 14,
+            "AWARENESS": 11,
+            "ANTICIPATION": 11,
+            "PLAYMAKING": 14,
+            "TEMPO_CONTROL": 13,
+            "TWO_V_TWO_READING": 11,
+            "ADVANTAGE_RECOGNITION": 11,
+            "TACTICAL_UNDERSTANDING": 13,
+            "ROLE_DISCIPLINE": 12,
+            "OFF_BALL_MOVEMENT": 12,
+            "SPACING": 10,
+            "TIMING": 12,
+            "TRANSITION_UNDERSTANDING": 12,
+            "SYSTEM_ADAPTABILITY": 10,
+            "SEVEN_V_SIX_UNDERSTANDING": 10,
+            "CONTACT_ABILITY": 10,
+            "DEFENSIVE_POSITIONING": 11,
+            "DEFENSIVE_TIMING": 9,
+            "LATERAL_DEFENCE": 9,
+            "DEPTH_DEFENCE": 9,
+            "CENTRAL_DEFENCE": 10,
+            "COVERING": 10,
+            "SWITCHING_HANDOVER": 11,
+            "BALL_WINNING": 11,
+            "SHOT_BLOCKING": 9,
+            "ACCELERATION": 10,
+            "TOP_SPEED": 9,
+            "LATERAL_QUICKNESS": 10,
+            "AGILITY": 9,
+            "EXPLOSIVENESS": 9,
+            "STRENGTH": 10,
+            "CONTACT_BALANCE": 9,
+            "JUMP_ABILITY": 10,
+            "ENDURANCE": 8,
+            "REPEAT_SPRINT_ABILITY": 10,
+            "MOBILITY": 8,
+            "CONSISTENCY": 10,
+            "COMPOSURE": 11,
+            "CONCENTRATION": 9,
+            "COMPETITIVE_MENTALITY": 10,
+            "RESILIENCE": 11,
+            "DISCIPLINE": 10,
+            "COACHABILITY": 9,
+            "LEADERSHIP": 11,
+            "PRESSURE_HANDLING": 11
+          },
+          "provenance": {
+            "PASSING": {
+              "value": 9,
+              "origin": "GENERATED_PRIOR"
+            },
+            "BALL_HANDLING": {
+              "value": 9,
+              "origin": "GENERATED_PRIOR"
+            },
+            "SHOOTING_POWER": {
+              "value": 10,
+              "origin": "GENERATED_PRIOR"
+            },
+            "SHOOTING_PLACEMENT": {
+              "value": 11,
+              "origin": "GENERATED_PRIOR"
+            },
+            "SHOOTING_VARIETY": {
+              "value": 10,
+              "origin": "GENERATED_PRIOR"
+            },
+            "BREAKTHROUGH": {
+              "value": 11,
+              "origin": "GENERATED_PRIOR"
+            },
+            "FINISHING": {
+              "value": 9,
+              "origin": "GENERATED_PRIOR"
+            },
+            "WING_FINISHING": {
+              "value": 9,
+              "origin": "GENERATED_PRIOR"
+            },
+            "PIVOT_PLAY": {
+              "value": 9,
+              "origin": "GENERATED_PRIOR"
+            },
+            "SCREENING": {
+              "value": 9,
+              "origin": "GENERATED_PRIOR"
+            },
+            "GAME_READING": {
+              "value": 13,
+              "origin": "DERIVED"
+            },
+            "DECISION_MAKING": {
+              "value": 14,
+              "origin": "DERIVED"
+            },
+            "AWARENESS": {
+              "value": 11,
+              "origin": "GENERATED_PRIOR"
+            },
+            "ANTICIPATION": {
+              "value": 11,
+              "origin": "GENERATED_PRIOR"
+            },
+            "PLAYMAKING": {
+              "value": 14,
+              "origin": "DERIVED"
+            },
+            "TEMPO_CONTROL": {
+              "value": 13,
+              "origin": "DERIVED"
+            },
+            "TWO_V_TWO_READING": {
+              "value": 11,
+              "origin": "GENERATED_PRIOR"
+            },
+            "ADVANTAGE_RECOGNITION": {
+              "value": 11,
+              "origin": "GENERATED_PRIOR"
+            },
+            "TACTICAL_UNDERSTANDING": {
+              "value": 13,
+              "origin": "DERIVED"
+            },
+            "ROLE_DISCIPLINE": {
+              "value": 12,
+              "origin": "GENERATED_PRIOR"
+            },
+            "OFF_BALL_MOVEMENT": {
+              "value": 12,
+              "origin": "GENERATED_PRIOR"
+            },
+            "SPACING": {
+              "value": 10,
+              "origin": "GENERATED_PRIOR"
+            },
+            "TIMING": {
+              "value": 12,
+              "origin": "GENERATED_PRIOR"
+            },
+            "TRANSITION_UNDERSTANDING": {
+              "value": 12,
+              "origin": "GENERATED_PRIOR"
+            },
+            "SYSTEM_ADAPTABILITY": {
+              "value": 10,
+              "origin": "GENERATED_PRIOR"
+            },
+            "SEVEN_V_SIX_UNDERSTANDING": {
+              "value": 10,
+              "origin": "GENERATED_PRIOR"
+            },
+            "CONTACT_ABILITY": {
+              "value": 10,
+              "origin": "GENERATED_PRIOR"
+            },
+            "DEFENSIVE_POSITIONING": {
+              "value": 11,
+              "origin": "GENERATED_PRIOR"
+            },
+            "DEFENSIVE_TIMING": {
+              "value": 9,
+              "origin": "GENERATED_PRIOR"
+            },
+            "LATERAL_DEFENCE": {
+              "value": 9,
+              "origin": "GENERATED_PRIOR"
+            },
+            "DEPTH_DEFENCE": {
+              "value": 9,
+              "origin": "GENERATED_PRIOR"
+            },
+            "CENTRAL_DEFENCE": {
+              "value": 10,
+              "origin": "GENERATED_PRIOR"
+            },
+            "COVERING": {
+              "value": 10,
+              "origin": "GENERATED_PRIOR"
+            },
+            "SWITCHING_HANDOVER": {
+              "value": 11,
+              "origin": "GENERATED_PRIOR"
+            },
+            "BALL_WINNING": {
+              "value": 11,
+              "origin": "GENERATED_PRIOR"
+            },
+            "SHOT_BLOCKING": {
+              "value": 9,
+              "origin": "GENERATED_PRIOR"
+            },
+            "ACCELERATION": {
+              "value": 10,
+              "origin": "GENERATED_PRIOR"
+            },
+            "TOP_SPEED": {
+              "value": 9,
+              "origin": "GENERATED_PRIOR"
+            },
+            "LATERAL_QUICKNESS": {
+              "value": 10,
+              "origin": "GENERATED_PRIOR"
+            },
+            "AGILITY": {
+              "value": 9,
+              "origin": "GENERATED_PRIOR"
+            },
+            "EXPLOSIVENESS": {
+              "value": 9,
+              "origin": "GENERATED_PRIOR"
+            },
+            "STRENGTH": {
+              "value": 10,
+              "origin": "GENERATED_PRIOR"
+            },
+            "CONTACT_BALANCE": {
+              "value": 9,
+              "origin": "GENERATED_PRIOR"
+            },
+            "JUMP_ABILITY": {
+              "value": 10,
+              "origin": "GENERATED_PRIOR"
+            },
+            "ENDURANCE": {
+              "value": 8,
+              "origin": "GENERATED_PRIOR"
+            },
+            "REPEAT_SPRINT_ABILITY": {
+              "value": 10,
+              "origin": "GENERATED_PRIOR"
+            },
+            "MOBILITY": {
+              "value": 8,
+              "origin": "GENERATED_PRIOR"
+            },
+            "CONSISTENCY": {
+              "value": 10,
+              "origin": "GENERATED_PRIOR"
+            },
+            "COMPOSURE": {
+              "value": 11,
+              "origin": "GENERATED_PRIOR"
+            },
+            "CONCENTRATION": {
+              "value": 9,
+              "origin": "GENERATED_PRIOR"
+            },
+            "COMPETITIVE_MENTALITY": {
+              "value": 10,
+              "origin": "GENERATED_PRIOR"
+            },
+            "RESILIENCE": {
+              "value": 11,
+              "origin": "GENERATED_PRIOR"
+            },
+            "DISCIPLINE": {
+              "value": 10,
+              "origin": "GENERATED_PRIOR"
+            },
+            "COACHABILITY": {
+              "value": 9,
+              "origin": "GENERATED_PRIOR"
+            },
+            "LEADERSHIP": {
+              "value": 11,
+              "origin": "GENERATED_PRIOR"
+            },
+            "PRESSURE_HANDLING": {
+              "value": 11,
+              "origin": "GENERATED_PRIOR"
+            }
+          },
+          "shoot": {
+            "n": 128,
+            "metrics": {
+              "goal": {
+                "count": 90,
+                "n": 128,
+                "rate": 0.703125
+              },
+              "caught": {
+                "count": 25,
+                "n": 128,
+                "rate": 0.1953125
+              },
+              "parry": {
+                "count": 4,
+                "n": 128,
+                "rate": 0.03125
+              },
+              "parryThenGoal": {
+                "count": 4,
+                "n": 128,
+                "rate": 0.03125
+              },
+              "resolved": {
+                "count": 128,
+                "n": 128,
+                "rate": 1
+              },
+              "spread": {
+                "n": 128,
+                "mean": 0.9385469389275302,
+                "min": 0.9385469389275306,
+                "max": 0.9385469389275306
+              },
+              "placement": {
+                "n": 128,
+                "mean": 0.47467315885027933,
+                "min": 0.4746731588502786,
+                "max": 0.4746731588502786
+              },
+              "reach": {
+                "n": 128,
+                "mean": 0.4816936367736844,
+                "min": 0.41128077794482326,
+                "max": 0.5129438413554404
+              },
+              "keeperReads": {
+                "n": 128,
+                "mean": 1,
+                "min": 1,
+                "max": 1
+              }
+            },
+            "trialDigest": "bc1bd2227e2fcb588b08ae86d80be6da12732061daa4026e760dfacb01fc7ca6"
+          },
+          "pass": {
+            "n": 384,
+            "metrics": {
+              "speed": {
+                "n": 384,
+                "mean": 11.76315789473675,
+                "min": 11.763157894736842,
+                "max": 11.763157894736842
+              },
+              "difficulty": {
+                "n": 384,
+                "mean": 0.5613583644447647,
+                "min": 0.5613583644447622,
+                "max": 0.5613583644447622
+              },
+              "spread": {
+                "n": 384,
+                "mean": 0.664786792069714,
+                "min": 0.6647867920697107,
+                "max": 0.6647867920697107
+              },
+              "pressure": {
+                "n": 384,
+                "mean": 0.2727705534493197,
+                "min": 0.27277055344932055,
+                "max": 0.27277055344932055
+              },
+              "error": {
+                "n": 384,
+                "mean": 0.3611962577153584,
+                "min": 0.023742652174191154,
+                "max": 0.6834016044135527
+              },
+              "capability": {
+                "n": 384,
+                "mean": 0.42165710925972105,
+                "min": 0.42165710925972144,
+                "max": 0.42165710925972144
+              }
+            },
+            "trialDigest": "cc2a728c197fdfaa48d2aeacb73f0ac7bf95d5579ed4f9a8045d28f1defd09bd"
+          },
+          "receive": {
+            "n": 384,
+            "metrics": {
+              "caught": {
+                "count": 352,
+                "n": 384,
+                "rate": 0.9166666666666666
+              },
+              "failed": {
+                "count": 32,
+                "n": 384,
+                "rate": 0.08333333333333333
+              },
+              "reached": {
+                "count": 384,
+                "n": 384,
+                "rate": 1
+              },
+              "risk": {
+                "n": 384,
+                "mean": 0.09390071620083516,
+                "min": 0.09169473356634952,
+                "max": 0.09851282620947016
+              },
+              "deliveryError": {
+                "n": 384,
+                "mean": 0.09898095175694477,
+                "min": 0.006506352873920178,
+                "max": 0.18727697143081523
+              },
+              "passingCapability": {
+                "n": 384,
+                "mean": 0.6315789473684167,
+                "min": 0.631578947368421,
+                "max": 0.631578947368421
+              }
+            },
+            "trialDigest": "5dc20338c714d2454311765b3005c393df15d6a6858253bf5b9ef813d4967bff"
+          },
+          "carry": {
+            "n": 384,
+            "metrics": {
+              "mistouch": {
+                "count": 26,
+                "n": 384,
+                "rate": 0.06770833333333333
+              },
+              "risk": {
+                "n": 384,
+                "mean": 0.0819876935005411,
+                "min": 0.08198769350054166,
+                "max": 0.08198769350054166
+              },
+              "pressure": {
+                "n": 384,
+                "mean": 1,
+                "min": 1,
+                "max": 1
+              },
+              "difficulty": {
+                "n": 384,
+                "mean": 0.650000000000004,
+                "min": 0.65,
+                "max": 0.65
+              },
+              "retainedCanonicalPossession": {
+                "count": 384,
+                "n": 384,
+                "rate": 1
+              },
+              "controller": {
+                "H03": 358,
+                "null": 26
+              }
+            },
+            "trialDigest": "a5d5c5930b0ae26582e3a5d77a5668a9295534c9f6f495e19c0159ac38f73039"
+          },
+          "defend": {
+            "n": 384,
+            "metrics": {
+              "arrivalTicks": {
+                "n": 384,
+                "mean": 29.625,
+                "min": 29,
+                "max": 30
+              },
+              "readTicks": {
+                "n": 384,
+                "mean": 4,
+                "min": 4,
+                "max": 4
+              },
+              "adaptTicks": {
+                "n": 384,
+                "mean": 4,
+                "min": 4,
+                "max": 4
+              },
+              "predictedSeconds": {
+                "n": 384,
+                "mean": 1.2961565329640043,
+                "min": 1.277785683224318,
+                "max": 1.3145731450712808
+              },
+              "physicalTopSpeed": {
+                "n": 384,
+                "mean": 5.663157894736795,
+                "min": 5.663157894736843,
+                "max": 5.663157894736843
+              },
+              "physicalAcceleration": {
+                "n": 384,
+                "mean": 5.389473684210537,
+                "min": 5.389473684210526,
+                "max": 5.389473684210526
+              }
+            },
+            "trialDigest": "94ad6e07b17d2bc9eed73966d81cbcc42b8930b5ac7452ddab58c64f55bf366a"
+          },
+          "decision": {
+            "n": 384,
+            "metrics": {
+              "choice": {
+                "PASS": 171,
+                "SHOOT": 213
+              },
+              "name": {
+                "RECYCLE": 171,
+                "SHOOT": 213
+              },
+              "target": {
+                "H04": 171,
+                "null": 213
+              },
+              "recognition": {
+                "n": 384,
+                "mean": -0.016901521381578955,
+                "min": -0.02835526315789474,
+                "max": 0.012671052631578944
+              },
+              "scope": {
+                "Canonical affordance resolver with staged visible option facts": 384
+              }
+            },
+            "trialDigest": "18fb9de664ad7c6b06ea7308a3e25827bfe606fa1969848162d9d294b99a111f"
+          },
+          "physical": {
+            "energy": 0.928263549559444,
+            "acute": 0.489288575884827,
+            "restEnergy": 0.929884602191023,
+            "restAcute": 0.35300844107740736,
+            "physical": {
+              "locomotor": 1919.9999999999252,
+              "acceleration": 0,
+              "deceleration": 0,
+              "turning": 1691.3994205982306,
+              "contact": 0,
+              "jump": 0,
+              "highIntensitySeconds": 119.99999999999532,
+              "repeatSeconds": 91.54999999999694,
+              "transitionMetres": 0,
+              "energyDemand": 0.07173645044055453,
+              "energySpent": 0.07173645044055599,
+              "energyRecovered": 0.0016210526315789675,
+              "vx": 0,
+              "vy": 0
+            }
+          }
+        },
+        {
+          "label": "balanced",
+          "playerId": "se_player_oskar_orwallius_51b7db3c",
+          "name": "Oskar Orwallius",
+          "position": "M6",
+          "selectionKeys": [
+            "PASSING",
+            "BALL_HANDLING",
+            "DEFENSIVE_POSITIONING"
+          ],
+          "selectionScore": 13,
+          "raw": {
+            "PASSING": 13,
+            "BALL_HANDLING": 12,
+            "SHOOTING_POWER": 11,
+            "SHOOTING_PLACEMENT": 12,
+            "SHOOTING_VARIETY": 13,
+            "BREAKTHROUGH": 13,
+            "FINISHING": 13,
+            "WING_FINISHING": 12,
+            "PIVOT_PLAY": 14,
+            "SCREENING": 13,
+            "GAME_READING": 10,
+            "DECISION_MAKING": 9,
+            "AWARENESS": 11,
+            "ANTICIPATION": 10,
+            "PLAYMAKING": 9,
+            "TEMPO_CONTROL": 9,
+            "TWO_V_TWO_READING": 10,
+            "ADVANTAGE_RECOGNITION": 11,
+            "TACTICAL_UNDERSTANDING": 10,
+            "ROLE_DISCIPLINE": 11,
+            "OFF_BALL_MOVEMENT": 11,
+            "SPACING": 11,
+            "TIMING": 12,
+            "TRANSITION_UNDERSTANDING": 12,
+            "SYSTEM_ADAPTABILITY": 10,
+            "SEVEN_V_SIX_UNDERSTANDING": 10,
+            "CONTACT_ABILITY": 10,
+            "DEFENSIVE_POSITIONING": 14,
+            "DEFENSIVE_TIMING": 12,
+            "LATERAL_DEFENCE": 12,
+            "DEPTH_DEFENCE": 10,
+            "CENTRAL_DEFENCE": 11,
+            "COVERING": 11,
+            "SWITCHING_HANDOVER": 11,
+            "BALL_WINNING": 11,
+            "SHOT_BLOCKING": 11,
+            "ACCELERATION": 13,
+            "TOP_SPEED": 14,
+            "LATERAL_QUICKNESS": 13,
+            "AGILITY": 13,
+            "EXPLOSIVENESS": 12,
+            "STRENGTH": 13,
+            "CONTACT_BALANCE": 14,
+            "JUMP_ABILITY": 12,
+            "ENDURANCE": 14,
+            "REPEAT_SPRINT_ABILITY": 12,
+            "MOBILITY": 12,
+            "CONSISTENCY": 10,
+            "COMPOSURE": 10,
+            "CONCENTRATION": 10,
+            "COMPETITIVE_MENTALITY": 11,
+            "RESILIENCE": 10,
+            "DISCIPLINE": 11,
+            "COACHABILITY": 11,
+            "LEADERSHIP": 11,
+            "PRESSURE_HANDLING": 11
+          },
+          "provenance": {
+            "PASSING": {
+              "value": 13,
+              "origin": "GENERATED_PRIOR"
+            },
+            "BALL_HANDLING": {
+              "value": 12,
+              "origin": "GENERATED_PRIOR"
+            },
+            "SHOOTING_POWER": {
+              "value": 11,
+              "origin": "GENERATED_PRIOR"
+            },
+            "SHOOTING_PLACEMENT": {
+              "value": 12,
+              "origin": "GENERATED_PRIOR"
+            },
+            "SHOOTING_VARIETY": {
+              "value": 13,
+              "origin": "GENERATED_PRIOR"
+            },
+            "BREAKTHROUGH": {
+              "value": 13,
+              "origin": "GENERATED_PRIOR"
+            },
+            "FINISHING": {
+              "value": 13,
+              "origin": "GENERATED_PRIOR"
+            },
+            "WING_FINISHING": {
+              "value": 12,
+              "origin": "GENERATED_PRIOR"
+            },
+            "PIVOT_PLAY": {
+              "value": 14,
+              "origin": "DERIVED"
+            },
+            "SCREENING": {
+              "value": 13,
+              "origin": "GENERATED_PRIOR"
+            },
+            "GAME_READING": {
+              "value": 10,
+              "origin": "GENERATED_PRIOR"
+            },
+            "DECISION_MAKING": {
+              "value": 9,
+              "origin": "GENERATED_PRIOR"
+            },
+            "AWARENESS": {
+              "value": 11,
+              "origin": "GENERATED_PRIOR"
+            },
+            "ANTICIPATION": {
+              "value": 10,
+              "origin": "GENERATED_PRIOR"
+            },
+            "PLAYMAKING": {
+              "value": 9,
+              "origin": "GENERATED_PRIOR"
+            },
+            "TEMPO_CONTROL": {
+              "value": 9,
+              "origin": "GENERATED_PRIOR"
+            },
+            "TWO_V_TWO_READING": {
+              "value": 10,
+              "origin": "GENERATED_PRIOR"
+            },
+            "ADVANTAGE_RECOGNITION": {
+              "value": 11,
+              "origin": "GENERATED_PRIOR"
+            },
+            "TACTICAL_UNDERSTANDING": {
+              "value": 10,
+              "origin": "GENERATED_PRIOR"
+            },
+            "ROLE_DISCIPLINE": {
+              "value": 11,
+              "origin": "GENERATED_PRIOR"
+            },
+            "OFF_BALL_MOVEMENT": {
+              "value": 11,
+              "origin": "GENERATED_PRIOR"
+            },
+            "SPACING": {
+              "value": 11,
+              "origin": "GENERATED_PRIOR"
+            },
+            "TIMING": {
+              "value": 12,
+              "origin": "GENERATED_PRIOR"
+            },
+            "TRANSITION_UNDERSTANDING": {
+              "value": 12,
+              "origin": "GENERATED_PRIOR"
+            },
+            "SYSTEM_ADAPTABILITY": {
+              "value": 10,
+              "origin": "GENERATED_PRIOR"
+            },
+            "SEVEN_V_SIX_UNDERSTANDING": {
+              "value": 10,
+              "origin": "GENERATED_PRIOR"
+            },
+            "CONTACT_ABILITY": {
+              "value": 10,
+              "origin": "GENERATED_PRIOR"
+            },
+            "DEFENSIVE_POSITIONING": {
+              "value": 14,
+              "origin": "DERIVED"
+            },
+            "DEFENSIVE_TIMING": {
+              "value": 12,
+              "origin": "GENERATED_PRIOR"
+            },
+            "LATERAL_DEFENCE": {
+              "value": 12,
+              "origin": "GENERATED_PRIOR"
+            },
+            "DEPTH_DEFENCE": {
+              "value": 10,
+              "origin": "GENERATED_PRIOR"
+            },
+            "CENTRAL_DEFENCE": {
+              "value": 11,
+              "origin": "GENERATED_PRIOR"
+            },
+            "COVERING": {
+              "value": 11,
+              "origin": "GENERATED_PRIOR"
+            },
+            "SWITCHING_HANDOVER": {
+              "value": 11,
+              "origin": "GENERATED_PRIOR"
+            },
+            "BALL_WINNING": {
+              "value": 11,
+              "origin": "GENERATED_PRIOR"
+            },
+            "SHOT_BLOCKING": {
+              "value": 11,
+              "origin": "GENERATED_PRIOR"
+            },
+            "ACCELERATION": {
+              "value": 13,
+              "origin": "GENERATED_PRIOR"
+            },
+            "TOP_SPEED": {
+              "value": 14,
+              "origin": "GENERATED_PRIOR"
+            },
+            "LATERAL_QUICKNESS": {
+              "value": 13,
+              "origin": "GENERATED_PRIOR"
+            },
+            "AGILITY": {
+              "value": 13,
+              "origin": "GENERATED_PRIOR"
+            },
+            "EXPLOSIVENESS": {
+              "value": 12,
+              "origin": "GENERATED_PRIOR"
+            },
+            "STRENGTH": {
+              "value": 13,
+              "origin": "GENERATED_PRIOR"
+            },
+            "CONTACT_BALANCE": {
+              "value": 14,
+              "origin": "GENERATED_PRIOR"
+            },
+            "JUMP_ABILITY": {
+              "value": 12,
+              "origin": "GENERATED_PRIOR"
+            },
+            "ENDURANCE": {
+              "value": 14,
+              "origin": "GENERATED_PRIOR"
+            },
+            "REPEAT_SPRINT_ABILITY": {
+              "value": 12,
+              "origin": "GENERATED_PRIOR"
+            },
+            "MOBILITY": {
+              "value": 12,
+              "origin": "GENERATED_PRIOR"
+            },
+            "CONSISTENCY": {
+              "value": 10,
+              "origin": "GENERATED_PRIOR"
+            },
+            "COMPOSURE": {
+              "value": 10,
+              "origin": "GENERATED_PRIOR"
+            },
+            "CONCENTRATION": {
+              "value": 10,
+              "origin": "GENERATED_PRIOR"
+            },
+            "COMPETITIVE_MENTALITY": {
+              "value": 11,
+              "origin": "GENERATED_PRIOR"
+            },
+            "RESILIENCE": {
+              "value": 10,
+              "origin": "GENERATED_PRIOR"
+            },
+            "DISCIPLINE": {
+              "value": 11,
+              "origin": "GENERATED_PRIOR"
+            },
+            "COACHABILITY": {
+              "value": 11,
+              "origin": "GENERATED_PRIOR"
+            },
+            "LEADERSHIP": {
+              "value": 11,
+              "origin": "GENERATED_PRIOR"
+            },
+            "PRESSURE_HANDLING": {
+              "value": 11,
+              "origin": "GENERATED_PRIOR"
+            }
+          },
+          "shoot": {
+            "n": 128,
+            "metrics": {
+              "goal": {
+                "count": 99,
+                "n": 128,
+                "rate": 0.7734375
+              },
+              "caught": {
+                "count": 0,
+                "n": 128,
+                "rate": 0
+              },
+              "parry": {
+                "count": 23,
+                "n": 128,
+                "rate": 0.1796875
+              },
+              "parryThenGoal": {
+                "count": 3,
+                "n": 128,
+                "rate": 0.0234375
+              },
+              "resolved": {
+                "count": 128,
+                "n": 128,
+                "rate": 1
+              },
+              "spread": {
+                "n": 128,
+                "mean": 0.7845333691140722,
+                "min": 0.7845333691140718,
+                "max": 0.7845333691140718
+              },
+              "placement": {
+                "n": 128,
+                "mean": 0.6065268140864658,
+                "min": 0.6065268140864671,
+                "max": 0.6065268140864671
+              },
+              "reach": {
+                "n": 128,
+                "mean": 0.4565481180532731,
+                "min": 0.3988924067308301,
+                "max": 0.4875068136903628
+              },
+              "keeperReads": {
+                "n": 128,
+                "mean": 1,
+                "min": 1,
+                "max": 1
+              }
+            },
+            "trialDigest": "4ae9f2b7561d20644e9b3b4226403e5b234f6fb9f5c963a0c025d53f58575c98"
+          },
+          "pass": {
+            "n": 384,
+            "metrics": {
+              "speed": {
+                "n": 384,
+                "mean": 12.394736842105289,
+                "min": 12.394736842105264,
+                "max": 12.394736842105264
+              },
+              "difficulty": {
+                "n": 384,
+                "mean": 0.5613583644447647,
+                "min": 0.5613583644447622,
+                "max": 0.5613583644447622
+              },
+              "spread": {
+                "n": 384,
+                "mean": 0.431559537437636,
+                "min": 0.4315595374376373,
+                "max": 0.4315595374376373
+              },
+              "pressure": {
+                "n": 384,
+                "mean": 0.2727705534493197,
+                "min": 0.27277055344932055,
+                "max": 0.27277055344932055
+              },
+              "error": {
+                "n": 384,
+                "mean": 0.23447771791395655,
+                "min": 0.015413013784368624,
+                "max": 0.44364371224439925
+              },
+              "capability": {
+                "n": 384,
+                "mean": 0.6324856638895823,
+                "min": 0.6324856638895822,
+                "max": 0.6324856638895822
+              }
+            },
+            "trialDigest": "f8667deaf835bcae062ed850fa0635e241cd9436776e09a567b085363690a2c4"
+          },
+          "receive": {
+            "n": 384,
+            "metrics": {
+              "caught": {
+                "count": 355,
+                "n": 384,
+                "rate": 0.9244791666666666
+              },
+              "failed": {
+                "count": 29,
+                "n": 384,
+                "rate": 0.07552083333333333
+              },
+              "reached": {
+                "count": 384,
+                "n": 384,
+                "rate": 1
+              },
+              "risk": {
+                "n": 384,
+                "mean": 0.06782948317270833,
+                "min": 0.06621098007653801,
+                "max": 0.07121550380420455
+              },
+              "deliveryError": {
+                "n": 384,
+                "mean": 0.09898095175694477,
+                "min": 0.006506352873920178,
+                "max": 0.18727697143081523
+              },
+              "passingCapability": {
+                "n": 384,
+                "mean": 0.6315789473684167,
+                "min": 0.631578947368421,
+                "max": 0.631578947368421
+              }
+            },
+            "trialDigest": "62cd9e6abf081a38a51cc3f7c0bc375d5d613aa533efde87fb27ee42dd67a4d8"
+          },
+          "carry": {
+            "n": 384,
+            "metrics": {
+              "mistouch": {
+                "count": 13,
+                "n": 384,
+                "rate": 0.033854166666666664
+              },
+              "risk": {
+                "n": 384,
+                "mean": 0.049988943901046724,
+                "min": 0.04998894390104701,
+                "max": 0.04998894390104701
+              },
+              "pressure": {
+                "n": 384,
+                "mean": 1,
+                "min": 1,
+                "max": 1
+              },
+              "difficulty": {
+                "n": 384,
+                "mean": 0.650000000000004,
+                "min": 0.65,
+                "max": 0.65
+              },
+              "retainedCanonicalPossession": {
+                "count": 384,
+                "n": 384,
+                "rate": 1
+              },
+              "controller": {
+                "H03": 371,
+                "null": 13
+              }
+            },
+            "trialDigest": "e938e5ae912de55ba3f43634b236b019cba3cf5448568323d604a2a9beaacc7b"
+          },
+          "defend": {
+            "n": 384,
+            "metrics": {
+              "arrivalTicks": {
+                "n": 384,
+                "mean": 27.125,
+                "min": 27,
+                "max": 28
+              },
+              "readTicks": {
+                "n": 384,
+                "mean": 4,
+                "min": 4,
+                "max": 4
+              },
+              "adaptTicks": {
+                "n": 384,
+                "mean": 4,
+                "min": 4,
+                "max": 4
+              },
+              "predictedSeconds": {
+                "n": 384,
+                "mean": 1.217290291073972,
+                "min": 1.2005826900626506,
+                "max": 1.2340395112476965
+              },
+              "physicalTopSpeed": {
+                "n": 384,
+                "mean": 6.400000000000046,
+                "min": 6.4,
+                "max": 6.4
+              },
+              "physicalAcceleration": {
+                "n": 384,
+                "mean": 6.021052631578935,
+                "min": 6.021052631578947,
+                "max": 6.021052631578947
+              }
+            },
+            "trialDigest": "2e09f6bff7c693959304e20f3059ce5ade70bb86ace5aa71eec0f112d74526fb"
+          },
+          "decision": {
+            "n": 384,
+            "metrics": {
+              "choice": {
+                "PASS": 132,
+                "SHOOT": 252
+              },
+              "name": {
+                "RECYCLE": 132,
+                "SHOOT": 252
+              },
+              "target": {
+                "H04": 132,
+                "null": 252
+              },
+              "recognition": {
+                "n": 384,
+                "mean": 0.011474568256578948,
+                "min": 0.003828947368421047,
+                "max": 0.02072368421052631
+              },
+              "scope": {
+                "Canonical affordance resolver with staged visible option facts": 384
+              }
+            },
+            "trialDigest": "bc235e5ed60d3e496e5f933cca700fe3fa034bce06f72d6b39bfc67420133bcc"
+          },
+          "physical": {
+            "energy": 0.9430399225668495,
+            "acute": 0.38231265367490136,
+            "restEnergy": 0.944850448882639,
+            "restAcute": 0.2515738378523798,
+            "physical": {
+              "locomotor": 1919.9999999999252,
+              "acceleration": 0,
+              "deceleration": 0,
+              "turning": 1691.3994205982306,
+              "contact": 0,
+              "jump": 0,
+              "highIntensitySeconds": 14.950000000000077,
+              "repeatSeconds": 7.94999999999998,
+              "transitionMetres": 0,
+              "energyDemand": 0.05696007743315028,
+              "energySpent": 0.05696007743315046,
+              "energyRecovered": 0.0018105263157894846,
+              "vx": 0,
+              "vy": 0
+            }
+          }
+        },
+        {
+          "label": "keeper",
+          "playerId": "se_player_adam_krantz_990c5b45",
+          "name": "Adam Krantz",
+          "position": "GK",
+          "selectionKeys": [
+            "REACTION",
+            "SHOOTER_READING",
+            "GK_POSITIONING"
+          ],
+          "selectionScore": 16.333333333333332,
+          "raw": {
+            "GK_POSITIONING": 18,
+            "SET_POSITION": 16,
+            "REACTION": 15,
+            "GK_EXPLOSIVENESS": 14,
+            "LOW_SAVES": 14,
+            "HIGH_SAVES": 15,
+            "CLOSE_RANGE_SAVES": 14,
+            "LONG_RANGE_SAVES": 13,
+            "WING_SAVES": 13,
+            "SEVEN_M_SAVES": 15,
+            "SHOOTER_READING": 16,
+            "SHOT_ANTICIPATION": 17,
+            "PATIENCE": 13,
+            "DECISION_TIMING": 13,
+            "OUTLET_PASSING": 13,
+            "RESTART_SPEED": 13,
+            "TRANSITION_DECISION": 14,
+            "GK_CONSISTENCY": 13,
+            "GK_COMPOSURE": 15,
+            "GK_CONCENTRATION": 15,
+            "GK_PRESSURE_HANDLING": 14
+          },
+          "provenance": {
+            "GK_POSITIONING": {
+              "value": 18,
+              "origin": "DERIVED"
+            },
+            "SET_POSITION": {
+              "value": 16,
+              "origin": "DERIVED"
+            },
+            "REACTION": {
+              "value": 15,
+              "origin": "GENERATED_PRIOR"
+            },
+            "GK_EXPLOSIVENESS": {
+              "value": 14,
+              "origin": "GENERATED_PRIOR"
+            },
+            "LOW_SAVES": {
+              "value": 14,
+              "origin": "GENERATED_PRIOR"
+            },
+            "HIGH_SAVES": {
+              "value": 15,
+              "origin": "GENERATED_PRIOR"
+            },
+            "CLOSE_RANGE_SAVES": {
+              "value": 14,
+              "origin": "GENERATED_PRIOR"
+            },
+            "LONG_RANGE_SAVES": {
+              "value": 13,
+              "origin": "GENERATED_PRIOR"
+            },
+            "WING_SAVES": {
+              "value": 13,
+              "origin": "GENERATED_PRIOR"
+            },
+            "SEVEN_M_SAVES": {
+              "value": 15,
+              "origin": "GENERATED_PRIOR"
+            },
+            "SHOOTER_READING": {
+              "value": 16,
+              "origin": "DERIVED"
+            },
+            "SHOT_ANTICIPATION": {
+              "value": 17,
+              "origin": "DERIVED"
+            },
+            "PATIENCE": {
+              "value": 13,
+              "origin": "GENERATED_PRIOR"
+            },
+            "DECISION_TIMING": {
+              "value": 13,
+              "origin": "GENERATED_PRIOR"
+            },
+            "OUTLET_PASSING": {
+              "value": 13,
+              "origin": "GENERATED_PRIOR"
+            },
+            "RESTART_SPEED": {
+              "value": 13,
+              "origin": "GENERATED_PRIOR"
+            },
+            "TRANSITION_DECISION": {
+              "value": 14,
+              "origin": "GENERATED_PRIOR"
+            },
+            "GK_CONSISTENCY": {
+              "value": 13,
+              "origin": "GENERATED_PRIOR"
+            },
+            "GK_COMPOSURE": {
+              "value": 15,
+              "origin": "GENERATED_PRIOR"
+            },
+            "GK_CONCENTRATION": {
+              "value": 15,
+              "origin": "GENERATED_PRIOR"
+            },
+            "GK_PRESSURE_HANDLING": {
+              "value": 14,
+              "origin": "GENERATED_PRIOR"
+            }
+          },
+          "shoot": {
+            "n": 128,
+            "metrics": {
+              "goal": {
+                "count": 87,
+                "n": 128,
+                "rate": 0.6796875
+              },
+              "caught": {
+                "count": 0,
+                "n": 128,
+                "rate": 0
+              },
+              "parry": {
+                "count": 44,
+                "n": 128,
+                "rate": 0.34375
+              },
+              "parryThenGoal": {
+                "count": 9,
+                "n": 128,
+                "rate": 0.0703125
+              },
+              "resolved": {
+                "count": 128,
+                "n": 128,
+                "rate": 1
+              },
+              "spread": {
+                "n": 128,
+                "mean": 0.6748260521089687,
+                "min": 0.674826052108968,
+                "max": 0.674826052108968
+              },
+              "placement": {
+                "n": 128,
+                "mean": 0.6884959690529642,
+                "min": 0.688495969052962,
+                "max": 0.688495969052962
+              },
+              "reach": {
+                "n": 128,
+                "mean": 0.4677410246152912,
+                "min": 0.42207387898897847,
+                "max": 0.498577665099867
+              },
+              "keeperReads": {
+                "n": 128,
+                "mean": 1,
+                "min": 1,
+                "max": 1
+              }
+            },
+            "trialDigest": "dd6723e1f41c8992ab3606aa98625eb5d78c4316ca8e7d2cc3d057bff28222cc"
+          }
+        }
+      ]
+    }
+  ],
+  "sources": {
+    "actions.ts": "da162e171bbd747be0a393b44046685c53bd4e519ae2ea1dd3f07f56ae8f93aa",
+    "attributeIntegrationScenarios.ts": "10d12e8c920ed0294de647f9c7c37e3394b49a38548372298189e2d554a0a349",
+    "backcourt.ts": "00ab4e44f0520b83f771cf5dd8a0e1212b34272410e5027b856eabddebddc120",
+    "backcourtScenarios.ts": "6137722469db2dc0a9567b9ff3bccd9c8d3f070e9db58bb93fe225cbccd655be",
+    "coaching.ts": "b943276328e1df36f43173af08fe008d8376f419e5afae4aeae5e1466a28a599",
+    "condition.ts": "7067672564be5a7beea16223a04b765e21716d638406ccea86e5d6f688899517",
+    "contact.ts": "477b3c2d7a8bbac293370044c779cd2889baea8cabb18c9bd26f967860a27ce9",
+    "contactScenarios.ts": "624c77567281a49677ae55289c3e0d71d5e81f00e2f56f151e1bf7ea59ebd1ce",
+    "continuous.ts": "3bc0e25ee0474aab3162df83b5e228bcd5953ddc5b29622592e5fd5bfdda55c5",
+    "defence.ts": "353763d139e7d170aff02f6b757973103a3b25fbdc53c4c363a1ed06de102b56",
+    "engage.ts": "b597ce488188b882f553f0553316960039d19ec92bca275ee89c7a4db4595d07",
+    "engine.ts": "bddb85af2e0ac4d0bdb7c97e5e7b195c8d15af8dd7076e1ea8bd76957874c228",
+    "execution.ts": "a352bd4001e36e2c896f3be43a4518490b79902004a086bdfb36055d385d3e98",
+    "intelligence.ts": "2fda3c309a2f77fe908960e271f493bf087d957cc14189d604598901735f8173",
+    "intelligenceScenarios.ts": "8214cb9c24bad1570559d71d2381e3ac6bdf7c670bd0e9b925bbc72857bbd310",
+    "interactions.ts": "2aa33ade16e625d1e386e47a5cca52cbe0a29639e13d524bd035d08081d5f872",
+    "ledger.ts": "7f45117a1486431df70f0b8697dcc7fdd281be93309e148d48baacad7f01391b",
+    "locomotion.ts": "c222d4240a0b0935e552fa37a7c1dcf7a999d48ca4e4e200ce5befabbc860b13",
+    "match.ts": "a853a0a922f76759c51aa21e29017aaf1bd0d07d60e5bf611e49e9e4b8dd3e9e",
+    "matchReplay.ts": "6796c275154da7145cd06558835524075013528ecb2354a1f3439e5b537ea499",
+    "movement.ts": "ac382909cae073f35314bba89c4ebd1f6cfab97e23f5f1579c6d7b96e9cd37bb",
+    "offence.ts": "086fe17fc980c3b233b59c95c8ebe89feca8a11609d2de2686ad545312c60e25",
+    "passive.ts": "0c405269406b4a8b124ea432ce036a0008118aa59c186954cded0957a0c2381f",
+    "physicalLoad.ts": "e1e334552f35a2f1dbc7d4b88da4ac5bbc501ae86f63ebf884bb6791da619606",
+    "pivot.ts": "3021f9ab217e9e4eb8f5adf996365e86338ac0fa9e738fc7491a25228c6bf783",
+    "population.ts": "9097fd5e0396001ff48bb30529994fefb820aa9b75b272f79bdf55239eead655",
+    "profile.ts": "9425db8e7080ae11a5cd9930ba73089fafb172babd2ec03322c65daa1699581f",
+    "realism.ts": "615271e0bc0217a08b296fa0777754f28b02fa136e5c0e55f07a8af616780897",
+    "referee.ts": "35feaf4d17b6b5bd011702384be061081b52b220e5d897e37aa24bc297d04387",
+    "replay.ts": "7a636b1b374a10d7f8aa02ade08957ac67920aacd33b37db2f412f2fefa42e6b",
+    "restarts.ts": "048e5ead24b976453a0abe2cf314fe9e79c33a0619c7d71cdfdb47b575230520",
+    "rules.ts": "46325a43317b15edfc4773265989ffa2ab0500c9fdefb32a7fc3363dd39147d4",
+    "sanction.ts": "8d569712c4c2ce1223d246e3a5d5e6dd0913b5f8232e6456ff892bbcd424d910",
+    "scenarios.ts": "c48ddb2c75ce34fd03c439261e40e77f676b1ffb2fc8abeb1a3f9b1a5d286dbe",
+    "space.ts": "fa4755d1ba95d8e683cd19955418944d004a34963b708030ef72eb521ca25eb3",
+    "squads.ts": "fc2aeaa594f3ef8a119656d1056178bf5f6414f6ee4c2082641b97fc216749a4",
+    "state.ts": "fc33c3ac8ee2fbe78c7998c756850eda8981949f393a03ac77af9f5c9179284e",
+    "structure.ts": "6edabc5df31702eb90581f19fd1a427f34ed8d7c46bcfe196e772e90ad70c544",
+    "testProfile.ts": "35a3ac5a0a0fbb6614de81c449fde37b880af96bc10a1cd2dcf4b4e3e9077d6d",
+    "threatRelation.ts": "c68668bfbd439adfa42a751b12266d664e1d2e6d80358cbc30149b807fb9bcf1",
+    "timing.ts": "8d118a422a83a5944936d53815f6559b566b12caca750514cb9e708536aa4a93",
+    "transitions.ts": "6498a4ea7a0d0efb0a19048dfcc9e6c2cd19fa8844f86f3d91995f65f80b270a",
+    "wing.ts": "31d7f39cf38918717d3723fadcce80948a13650a45a2f680e1bbc5c66fd3a556",
+    "wingScenarios.ts": "8d553b1c254f0953cf5508ca1a37463891f631cdfd0df81b436be487541ee031"
+  },
+  "harnessSha256": "10d12e8c920ed0294de647f9c7c37e3394b49a38548372298189e2d554a0a349",
+  "runtimeMs": 2254.779,
+  "seedPolicy": "Paired trial seeds and identical declared visible contexts. Source-specific scenario initialization is normalized to the same action RNG before resolution.",
+  "scope": "No empirical targets, rating rewrites, CA/PA, quotas or production observers. Staged decision inputs are labelled; shots run full canonical keeper reading and ticks. Catch bodies move only in moving contexts."
+}

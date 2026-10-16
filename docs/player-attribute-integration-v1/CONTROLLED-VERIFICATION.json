@@ -1,0 +1,136 @@
+{
+  "complete": true,
+  "receipts": [
+    {
+      "variant": "before",
+      "domain": "decision",
+      "file": "controlled/before/decision.json",
+      "sha256": "2d88049d2be496bc280f6ec8e56f96198e9c79ba84ad42cd15f2e932ab5c261f",
+      "sourceFiles": 44,
+      "sourceDifferences": [
+        {
+          "name": "attributeIntegrationScenarios.ts",
+          "reason": "Archived original harness; relevant encounter functions unchanged by defence-only revision"
+        }
+      ]
+    },
+    {
+      "variant": "before",
+      "domain": "handling",
+      "file": "controlled/before/handling.json",
+      "sha256": "cb4fe8b2f43bb036509258128f31303db10232f2788e091736eebd21224ecb63",
+      "sourceFiles": 44,
+      "sourceDifferences": [
+        {
+          "name": "attributeIntegrationScenarios.ts",
+          "reason": "Archived original harness; relevant encounter functions unchanged by defence-only revision"
+        }
+      ]
+    },
+    {
+      "variant": "before",
+      "domain": "shooting",
+      "file": "controlled/before/shooting.json",
+      "sha256": "9a3df64ac5470a66e7d115c43e9c3ae12a991e9d3ed45a9868e2ec4efdee35bc",
+      "sourceFiles": 44,
+      "sourceDifferences": [
+        {
+          "name": "attributeIntegrationScenarios.ts",
+          "reason": "Archived original harness; relevant encounter functions unchanged by defence-only revision"
+        }
+      ]
+    },
+    {
+      "variant": "before",
+      "domain": "defence",
+      "file": "controlled/before/defence.json",
+      "sha256": "5f55e7f83d7cfdd626f1cf6492132c0aeff84803af9300f0b7b626529d1e6a69",
+      "sourceFiles": 44,
+      "sourceDifferences": []
+    },
+    {
+      "variant": "before",
+      "domain": "keeper",
+      "file": "controlled/before/keeper.json",
+      "sha256": "e6540a0d29b0d2049b024639f1abe8f434a3f9456e34f5ead73431f0718a8bfb",
+      "sourceFiles": 44,
+      "sourceDifferences": [
+        {
+          "name": "attributeIntegrationScenarios.ts",
+          "reason": "Archived original harness; relevant encounter functions unchanged by defence-only revision"
+        }
+      ]
+    },
+    {
+      "variant": "before",
+      "domain": "realPlayers",
+      "file": "controlled/before/realPlayers.json",
+      "sha256": "0b6ee18bd0b145f7e7fbf76716601bfa337d81ce47d0b9d1804b5183950e3d6a",
+      "sourceFiles": 44,
+      "sourceDifferences": []
+    },
+    {
+      "variant": "after",
+      "domain": "decision",
+      "file": "controlled/after/decision.json",
+      "sha256": "4871ee7357a6c60d139ff71ec1eb31d7ce7d9743affc87489703d022599acaad",
+      "sourceFiles": 44,
+      "sourceDifferences": []
+    },
+    {
+      "variant": "after",
+      "domain": "handling",
+      "file": "controlled/after/handling.json",
+      "sha256": "1bc830c3b406a65a279658867dcab5e43ac00f17a4877960e6af041f132836a2",
+      "sourceFiles": 44,
+      "sourceDifferences": []
+    },
+    {
+      "variant": "after",
+      "domain": "shooting",
+      "file": "controlled/after/shooting.json",
+      "sha256": "755210632f2833f1463d3c46927e2af77874d44fcfa753de78c74a8a8d3ade46",
+      "sourceFiles": 44,
+      "sourceDifferences": []
+    },
+    {
+      "variant": "after",
+      "domain": "defence",
+      "file": "controlled/after/defence.json",
+      "sha256": "84632c3bf5956551c00e3b92aea049391e69aacc482c9ffaab8c237afed3dafc",
+      "sourceFiles": 44,
+      "sourceDifferences": []
+    },
+    {
+      "variant": "after",
+      "domain": "keeper",
+      "file": "controlled/after/keeper.json",
+      "sha256": "86c82b3f20d44eabbd5c2480795412b8bb24a963d8d38b82d98304319c1973c8",
+      "sourceFiles": 44,
+      "sourceDifferences": []
+    },
+    {
+      "variant": "after",
+      "domain": "realPlayers",
+      "file": "controlled/after/realPlayers.json",
+      "sha256": "77362bcd7f9a4a92a131fc6ac0a52fc6c7ed47938567dd95e8fcab7b60d94601",
+      "sourceFiles": 44,
+      "sourceDifferences": []
+    }
+  ],
+  "sourceChecks": true,
+  "defensiveContinuations": {
+    "file": "DEFENSIVE-CONSEQUENCES.json",
+    "sha256": "f4be8b8b534dec5d43744ea99509d906c45f955b194811785034aa7f56cfccca",
+    "cells": 12,
+    "nPerCell": 384,
+    "sourceChecks": true
+  },
+  "shotsPerVariant": 6656,
+  "allAfterShotsResolved": true,
+  "unchangedBeforeDomainsReused": 4,
+  "physicalRosterTasksExactBeforeAfter": 6,
+  "actualRosterProfiles": 7,
+  "contextsAndDenominators": "See controlled before/after JSON cells; overlapping tests are not summed as trials.",
+  "canonicalOutcomeCalibration": false
+}

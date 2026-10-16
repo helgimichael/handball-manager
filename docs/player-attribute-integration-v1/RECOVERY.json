@@ -1,0 +1,54 @@
+{
+  "complete": true,
+  "recoveredAt": "2026-10-16T13:20:24.119Z",
+  "head": "7aa6acd16b70a276e39b92bd72dcfef8ec2ca44f",
+  "commitsAfterCheckpoint": [],
+  "stagedPaths": [],
+  "userFilesExact": 39,
+  "protectedFilesExact": 38,
+  "motionHead": "197d2a80ecea3b70efdcf8ef347cfc68e0e86b2b",
+  "stashes": [
+    "ddba79055949b76898b12fc1b947e8f8645589cb",
+    "b068a9586209b9405b8d5f0dc6fae6384dd09001"
+  ],
+  "activeHeavyCommand": null,
+  "interruptedStep": "Matched before/after measurements; defence read/footwork quantization refinement was already on disk after the retained cohorts.",
+  "implementation": "Decision, pass, reception, challenged touch, shooting, defensive movement, keeper and passive loss subtype changes present in place; no reset or recreation.",
+  "focused": {
+    "path": "verification/focused-final-2.log",
+    "passed": 127,
+    "exit": 0,
+    "scope": "Valid intermediate pass; execution/interactions/profile/movement changed afterward, so final full core validation must cover the current source."
+  },
+  "controlled": {
+    "retainedBefore": [
+      "decision",
+      "handling",
+      "shooting",
+      "keeper"
+    ],
+    "refreshBefore": [
+      "defence",
+      "realPlayers"
+    ],
+    "refreshAfter": [
+      "decision",
+      "handling",
+      "shooting",
+      "defence",
+      "keeper",
+      "realPlayers"
+    ],
+    "reason": "All after-source hashes differ in movement/profile; only defenceEncounter changed in the harness, with equivalence proof for the four reusable before domains."
+  },
+  "unfinished": [
+    "Refresh invalid controlled results and finish responsibilities/77-path classifications",
+    "HBL40",
+    "Allsvenskan40",
+    "Economy/observer/determinism/save-load/archive/Match Center proofs",
+    "Core/V2/full game/types/build",
+    "Complete docs, local commits and delivery3022"
+  ],
+  "noExistingLeagueOutputs": true,
+  "noExistingTargetBuild": true
+}

@@ -1,0 +1,19 @@
+{
+  "complete": true,
+  "league": "allsv",
+  "n": 40,
+  "currentSourcesExact": true,
+  "currentGameplaySourcesExact": true,
+  "sourceDifferences": [],
+  "means": {
+    "goals": 67.3,
+    "fieldAttempts": 104.425,
+    "sevenMetres": 7.825,
+    "totalAttempts": 112.25,
+    "broadBallLosses": 37.775,
+    "possessions": 148.675,
+    "freeThrows": 12.2,
+    "passes": 979.75
+  },
+  "meanSaves": 23.05
+}

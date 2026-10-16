@@ -1,0 +1,206 @@
+{
+  "complete": true,
+  "verifiedAt": "2026-10-16T18:37:08.809Z",
+  "startingCheckpoint": "7aa6acd16b70a276e39b92bd72dcfef8ec2ca44f",
+  "currentHead": "7c11c6acf26e7b95182855f43824dfd00626cd0b",
+  "preservedUserFiles": 39,
+  "protectedFiles": 38,
+  "originalCoreFiles": 43,
+  "unchangedOriginalCoreFiles": 35,
+  "changed": [
+    {
+      "path": "packages/handball-engine/src/v2/core/actions.ts",
+      "before": "f81433b938ed7f227902b6ec28839ed9ed61fd10930b4cf5020d424bd004dfbc",
+      "after": "da162e171bbd747be0a393b44046685c53bd4e519ae2ea1dd3f07f56ae8f93aa",
+      "scope": "Actual challenged bounce may release a loose ball; shared defensive footwork factor."
+    },
+    {
+      "path": "packages/handball-engine/src/v2/core/execution.ts",
+      "before": "cb235bc3547646bbd6890e72011991248284f645f2517c7d0380285e769f53ab",
+      "after": "a352bd4001e36e2c896f3be43a4518490b79902004a086bdfb36055d385d3e98",
+      "scope": "Specific pass, catch, challenged carry, wing aim and keeper reading execution."
+    },
+    {
+      "path": "packages/handball-engine/src/v2/core/intelligence.ts",
+      "before": "8b7814ce46cf50bbb8a2e19648991e880304a5c0f2fdf5b5540a45e57ed4c80b",
+      "after": "2fda3c309a2f77fe908960e271f493bf087d957cc14189d604598901735f8173",
+      "scope": "Bounded perception and marginal valuation; added eligibility restricted to option gap <=0.08."
+    },
+    {
+      "path": "packages/handball-engine/src/v2/core/interactions.ts",
+      "before": "5eb59b369de142f5ebb1de10c69a06d33d77fd83cb36208c81d0e0524a02f7b3",
+      "after": "2aa33ade16e625d1e386e47a5cca52cbe0a29639e13d524bd035d08081d5f872",
+      "scope": "Keeper category uses finite hand travel; successful catches retain risk facts."
+    },
+    {
+      "path": "packages/handball-engine/src/v2/core/movement.ts",
+      "before": "e2b310cca3c7c5c82b4540a78f2e91551a8f33a424ea01a2c8c0fc69de67f0ae",
+      "after": "ac382909cae073f35314bba89c4ebd1f6cfab97e23f5f1579c6d7b96e9cd37bb",
+      "scope": "Live court defending footwork and help/recovery/handover latency; excludes dead ball and exchanges."
+    },
+    {
+      "path": "packages/handball-engine/src/v2/core/profile.ts",
+      "before": "970e526f78486d073725854a1b0a5d4686996d51771d4429b50cd23ae1a9d2b1",
+      "after": "9425db8e7080ae11a5cd9930ba73089fafb172babd2ec03322c65daa1699581f",
+      "scope": "Normalize specific existing schema attributes once; preserve optional legacy profile fallbacks."
+    },
+    {
+      "path": "packages/handball-engine/src/v2/core/structure.ts",
+      "before": "fd5cea56c1e2e311b490e452701fa2b1b8f91282e3f6cd7e06a4621d8065f3c3",
+      "after": "6edabc5df31702eb90581f19fd1a427f34ed8d7c46bcfe196e772e90ad70c544",
+      "scope": "Keeper-specific read quality and timing without bypassing motor reaction."
+    },
+    {
+      "path": "packages/handball-engine/src/v2/core/timing.ts",
+      "before": "b551d8b79cc0562fbbc58c7ddf6b7eaafdd743a3e19e09174e0924ad00410fd1",
+      "after": "8d118a422a83a5944936d53815f6559b566b12caca750514cb9e708536aa4a93",
+      "scope": "Reach estimate uses the same defensive footwork factor as actual movement."
+    }
+  ],
+  "sourceFingerprints": {
+    "packages/handball-engine/src/v2/core/actions.ts": "da162e171bbd747be0a393b44046685c53bd4e519ae2ea1dd3f07f56ae8f93aa",
+    "packages/handball-engine/src/v2/core/attributeIntegrationScenarios.ts": "10d12e8c920ed0294de647f9c7c37e3394b49a38548372298189e2d554a0a349",
+    "packages/handball-engine/src/v2/core/backcourt.ts": "00ab4e44f0520b83f771cf5dd8a0e1212b34272410e5027b856eabddebddc120",
+    "packages/handball-engine/src/v2/core/backcourtScenarios.ts": "6137722469db2dc0a9567b9ff3bccd9c8d3f070e9db58bb93fe225cbccd655be",
+    "packages/handball-engine/src/v2/core/coaching.ts": "b943276328e1df36f43173af08fe008d8376f419e5afae4aeae5e1466a28a599",
+    "packages/handball-engine/src/v2/core/condition.ts": "7067672564be5a7beea16223a04b765e21716d638406ccea86e5d6f688899517",
+    "packages/handball-engine/src/v2/core/contact.ts": "477b3c2d7a8bbac293370044c779cd2889baea8cabb18c9bd26f967860a27ce9",
+    "packages/handball-engine/src/v2/core/contactScenarios.ts": "624c77567281a49677ae55289c3e0d71d5e81f00e2f56f151e1bf7ea59ebd1ce",
+    "packages/handball-engine/src/v2/core/continuous.ts": "3bc0e25ee0474aab3162df83b5e228bcd5953ddc5b29622592e5fd5bfdda55c5",
+    "packages/handball-engine/src/v2/core/defence.ts": "353763d139e7d170aff02f6b757973103a3b25fbdc53c4c363a1ed06de102b56",
+    "packages/handball-engine/src/v2/core/engage.ts": "b597ce488188b882f553f0553316960039d19ec92bca275ee89c7a4db4595d07",
+    "packages/handball-engine/src/v2/core/engine.ts": "bddb85af2e0ac4d0bdb7c97e5e7b195c8d15af8dd7076e1ea8bd76957874c228",
+    "packages/handball-engine/src/v2/core/execution.ts": "a352bd4001e36e2c896f3be43a4518490b79902004a086bdfb36055d385d3e98",
+    "packages/handball-engine/src/v2/core/intelligence.ts": "2fda3c309a2f77fe908960e271f493bf087d957cc14189d604598901735f8173",
+    "packages/handball-engine/src/v2/core/intelligenceScenarios.ts": "8214cb9c24bad1570559d71d2381e3ac6bdf7c670bd0e9b925bbc72857bbd310",
+    "packages/handball-engine/src/v2/core/interactions.ts": "2aa33ade16e625d1e386e47a5cca52cbe0a29639e13d524bd035d08081d5f872",
+    "packages/handball-engine/src/v2/core/ledger.ts": "7f45117a1486431df70f0b8697dcc7fdd281be93309e148d48baacad7f01391b",
+    "packages/handball-engine/src/v2/core/locomotion.ts": "c222d4240a0b0935e552fa37a7c1dcf7a999d48ca4e4e200ce5befabbc860b13",
+    "packages/handball-engine/src/v2/core/match.ts": "a853a0a922f76759c51aa21e29017aaf1bd0d07d60e5bf611e49e9e4b8dd3e9e",
+    "packages/handball-engine/src/v2/core/matchReplay.ts": "6796c275154da7145cd06558835524075013528ecb2354a1f3439e5b537ea499",
+    "packages/handball-engine/src/v2/core/movement.ts": "ac382909cae073f35314bba89c4ebd1f6cfab97e23f5f1579c6d7b96e9cd37bb",
+    "packages/handball-engine/src/v2/core/offence.ts": "086fe17fc980c3b233b59c95c8ebe89feca8a11609d2de2686ad545312c60e25",
+    "packages/handball-engine/src/v2/core/passive.ts": "0c405269406b4a8b124ea432ce036a0008118aa59c186954cded0957a0c2381f",
+    "packages/handball-engine/src/v2/core/physicalLoad.ts": "e1e334552f35a2f1dbc7d4b88da4ac5bbc501ae86f63ebf884bb6791da619606",
+    "packages/handball-engine/src/v2/core/pivot.ts": "3021f9ab217e9e4eb8f5adf996365e86338ac0fa9e738fc7491a25228c6bf783",
+    "packages/handball-engine/src/v2/core/population.ts": "9097fd5e0396001ff48bb30529994fefb820aa9b75b272f79bdf55239eead655",
+    "packages/handball-engine/src/v2/core/profile.ts": "9425db8e7080ae11a5cd9930ba73089fafb172babd2ec03322c65daa1699581f",
+    "packages/handball-engine/src/v2/core/realism.ts": "615271e0bc0217a08b296fa0777754f28b02fa136e5c0e55f07a8af616780897",
+    "packages/handball-engine/src/v2/core/referee.ts": "35feaf4d17b6b5bd011702384be061081b52b220e5d897e37aa24bc297d04387",
+    "packages/handball-engine/src/v2/core/replay.ts": "7a636b1b374a10d7f8aa02ade08957ac67920aacd33b37db2f412f2fefa42e6b",
+    "packages/handball-engine/src/v2/core/restarts.ts": "048e5ead24b976453a0abe2cf314fe9e79c33a0619c7d71cdfdb47b575230520",
+    "packages/handball-engine/src/v2/core/rules.ts": "46325a43317b15edfc4773265989ffa2ab0500c9fdefb32a7fc3363dd39147d4",
+    "packages/handball-engine/src/v2/core/sanction.ts": "8d569712c4c2ce1223d246e3a5d5e6dd0913b5f8232e6456ff892bbcd424d910",
+    "packages/handball-engine/src/v2/core/scenarios.ts": "c48ddb2c75ce34fd03c439261e40e77f676b1ffb2fc8abeb1a3f9b1a5d286dbe",
+    "packages/handball-engine/src/v2/core/space.ts": "fa4755d1ba95d8e683cd19955418944d004a34963b708030ef72eb521ca25eb3",
+    "packages/handball-engine/src/v2/core/squads.ts": "fc2aeaa594f3ef8a119656d1056178bf5f6414f6ee4c2082641b97fc216749a4",
+    "packages/handball-engine/src/v2/core/state.ts": "fc33c3ac8ee2fbe78c7998c756850eda8981949f393a03ac77af9f5c9179284e",
+    "packages/handball-engine/src/v2/core/structure.ts": "6edabc5df31702eb90581f19fd1a427f34ed8d7c46bcfe196e772e90ad70c544",
+    "packages/handball-engine/src/v2/core/testProfile.ts": "35a3ac5a0a0fbb6614de81c449fde37b880af96bc10a1cd2dcf4b4e3e9077d6d",
+    "packages/handball-engine/src/v2/core/threatRelation.ts": "c68668bfbd439adfa42a751b12266d664e1d2e6d80358cbc30149b807fb9bcf1",
+    "packages/handball-engine/src/v2/core/timing.ts": "8d118a422a83a5944936d53815f6559b566b12caca750514cb9e708536aa4a93",
+    "packages/handball-engine/src/v2/core/transitions.ts": "6498a4ea7a0d0efb0a19048dfcc9e6c2cd19fa8844f86f3d91995f65f80b270a",
+    "packages/handball-engine/src/v2/core/wing.ts": "31d7f39cf38918717d3723fadcce80948a13650a45a2f680e1bbc5c66fd3a556",
+    "packages/handball-engine/src/v2/core/wingScenarios.ts": "8d553b1c254f0953cf5508ca1a37463891f631cdfd0df81b436be487541ee031"
+  },
+  "physicalNormalizedHash": "e1e334552f35a2f1dbc7d4b88da4ac5bbc501ae86f63ebf884bb6791da619606",
+  "motionHead": "197d2a80ecea3b70efdcf8ef347cfc68e0e86b2b",
+  "motionStatus": "?? .claude/",
+  "stashes": [
+    "ddba79055949b76898b12fc1b947e8f8645589cb",
+    "b068a9586209b9405b8d5f0dc6fae6384dd09001"
+  ],
+  "previousBuilds": [
+    {
+      "directory": ".next-game-empirical-cal-v1",
+      "buildId": "DU6jMBZtsmZtnQWvlrs8c"
+    },
+    {
+      "directory": ".next-game-final",
+      "buildId": "cNJggCauoeM2tFyL4VSLb"
+    },
+    {
+      "directory": ".next-game-intelligence-v1",
+      "buildId": "s5-nNNCWTl2_T9odTJDlV"
+    },
+    {
+      "directory": ".next-game-loading-screen-v1",
+      "buildId": "-RNSpJe4apx4OLEONUxcE"
+    },
+    {
+      "directory": ".next-game-match-center-v2",
+      "buildId": "OPdl1waYJNI_SpnsaJ-sr"
+    },
+    {
+      "directory": ".next-game-match-center-v21",
+      "buildId": "pLsf1fASvBMrL5OMJuUP8"
+    },
+    {
+      "directory": ".next-game-motion-quality-v2",
+      "buildId": "OfxtCP_cN-7kRf7v5VmwA"
+    },
+    {
+      "directory": ".next-game-motion-v1",
+      "buildId": "JQxdclWu8m3DDjchhC8wU"
+    },
+    {
+      "directory": ".next-game-physical-load-v11",
+      "buildId": "mrlA0kCIE2BdeBLwu1EJs"
+    },
+    {
+      "directory": ".next-game-production",
+      "buildId": "johFb57nGyMaBoyGUmMSn"
+    },
+    {
+      "directory": ".next-game-realism-v2",
+      "buildId": "XkNsqFziP2f_j3IFTn3Vy"
+    },
+    {
+      "directory": ".next-game-realism-v21",
+      "buildId": "MMFsqS1-zfrSWl0fQDdK1"
+    },
+    {
+      "directory": ".next-game-reconciled-v1",
+      "buildId": "3PQHL0oSSqFhBU5FxXd8a"
+    },
+    {
+      "directory": ".next-game-reconciliation-v11",
+      "buildId": "7lH--sWAbP_HfvPnTXIdw"
+    },
+    {
+      "directory": ".next-game-rotation-fatigue-v1",
+      "buildId": "usx4M7Bosxj0W5ABGzmpe"
+    },
+    {
+      "directory": ".next-game-v11",
+      "buildId": "5Jp-210HFinXeJePZ9iro"
+    },
+    {
+      "directory": ".next-game-physical-load-v11",
+      "buildId": "mrlA0kCIE2BdeBLwu1EJs"
+    },
+    {
+      "directory": ".next-game-attribute-economy-v1",
+      "buildId": "IGWUR3-QLEFpc9JTP0vOZ"
+    }
+  ],
+  "priorEvidence": {
+    "REPORT.md": "835825b49fcc3529d4e33a76e7859482cb1992892b627b2a0169e0ef49f1b025",
+    "ATTRIBUTE-COVERAGE.md": "4db2af4474bcdc51463ae6a1704d51ba56632041f3d62e8a2e173aae5197eb60",
+    "ATTRIBUTE-SENSITIVITY.md": "94dbb6963f5325603dc604f0ea2017367c5e6cf859655d2d9494d585537317d1",
+    "POSSESSION-ECONOMY.md": "a9b8672d6eba1c0741e972b9734a83b0e88415605ca1c8f9b6133a5ae5bcf5b0",
+    "BALL-LOSS-TAXONOMY.md": "6de8d97b8cb4cff9ba3f371b56cf883a1e0f573f3aec470103520d855814b996",
+    "VERIFICATION.json": "ad6ec3e0fdc65689976f702694e70ebe71478ca543bd895891da10af670fe364"
+  },
+  "freezes": {
+    "physicalLoad": true,
+    "condition": true,
+    "ledger": true,
+    "refereeAndRestarts": true,
+    "careerProductionAndSave": true,
+    "careerLoading": true,
+    "matchCenterPresentation": true,
+    "actualDatabaseRatings": true
+  },
+  "nothingPushed": true
+}

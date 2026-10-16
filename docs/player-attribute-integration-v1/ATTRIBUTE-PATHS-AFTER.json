@@ -1,0 +1,1449 @@
+{
+  "complete": true,
+  "startingCheckpoint": "7aa6acd",
+  "beforeWithoutEffectivePath": 30,
+  "newlyIntegrated": 12,
+  "remainingOutsideMatch": 18,
+  "counts": {
+    "USED EFFECTIVELY": 31,
+    "USED WEAKLY": 28,
+    "MANAGEMENT ONLY": 2,
+    "FUTURE": 16,
+    "UNUSED / NO JUSTIFIED PATH": 0,
+    "UNKNOWN": 0
+  },
+  "rows": [
+    {
+      "attribute": "PASSING",
+      "branch": "OUTCOURT",
+      "domain": "TECHNICAL",
+      "startingClassification": [
+        "DIRECT",
+        "INDIRECT"
+      ],
+      "originallyWithoutEffectivePath": false,
+      "original30Disposition": null,
+      "integratedThisPhase": false,
+      "revisedExistingPath": true,
+      "category": "USED EFFECTIVELY",
+      "layer": "EXECUTION",
+      "mapping": "passing = u(PASSING); OUTLET_PASSING for keeper",
+      "boundary": "execution.ts: executePass",
+      "responsibility": "Own mechanical precision and pace. DECISION_MAKING no longer changes these directly.",
+      "evidenceScope": "Current controlled action/group evidence or unchanged previously demonstrated execution path. Group evidence does not isolate every constituent."
+    },
+    {
+      "attribute": "BALL_HANDLING",
+      "branch": "OUTCOURT",
+      "domain": "TECHNICAL",
+      "startingClassification": [
+        "DIRECT",
+        "INDIRECT"
+      ],
+      "originallyWithoutEffectivePath": false,
+      "original30Disposition": null,
+      "integratedThisPhase": false,
+      "revisedExistingPath": true,
+      "category": "USED EFFECTIVELY",
+      "layer": "EXECUTION",
+      "mapping": "handling = u(BALL_HANDLING)",
+      "boundary": "execution.ts: receptionRisk/carryControl; actions.ts: execute",
+      "responsibility": "Control a reachable catch and an actual challenged floor touch; no random open-carry turnover.",
+      "evidenceScope": "Current controlled action/group evidence or unchanged previously demonstrated execution path. Group evidence does not isolate every constituent."
+    },
+    {
+      "attribute": "SHOOTING_POWER",
+      "branch": "OUTCOURT",
+      "domain": "TECHNICAL",
+      "startingClassification": [
+        "DIRECT",
+        "INDIRECT"
+      ],
+      "originallyWithoutEffectivePath": false,
+      "original30Disposition": null,
+      "integratedThisPhase": false,
+      "revisedExistingPath": false,
+      "category": "USED EFFECTIVELY",
+      "layer": "EXISTING ACTION-SPECIFIC PATH",
+      "mapping": "shotPower=u(SHOOTING_POWER)",
+      "boundary": "SHOT_PACE; SHOT_ASSESS; PRESS_DEPTH",
+      "responsibility": "Preserved action-specific consumers documented in the completed audit; no new unrelated responsibility.",
+      "evidenceScope": "Current controlled action/group evidence or unchanged previously demonstrated execution path. Group evidence does not isolate every constituent."
+    },
+    {
+      "attribute": "SHOOTING_PLACEMENT",
+      "branch": "OUTCOURT",
+      "domain": "TECHNICAL",
+      "startingClassification": [
+        "DIRECT",
+        "INDIRECT"
+      ],
+      "originallyWithoutEffectivePath": false,
+      "original30Disposition": null,
+      "integratedThisPhase": false,
+      "revisedExistingPath": false,
+      "category": "USED EFFECTIVELY",
+      "layer": "EXISTING ACTION-SPECIFIC PATH",
+      "mapping": "shotPlacement=m(SHOOTING_PLACEMENT,FINISHING)",
+      "boundary": "SHOT_AIM; SHOT_ASSESS; INTEL_SHOOT; PRESS_DEPTH",
+      "responsibility": "Preserved action-specific consumers documented in the completed audit; no new unrelated responsibility.",
+      "evidenceScope": "Current controlled action/group evidence or unchanged previously demonstrated execution path. Group evidence does not isolate every constituent."
+    },
+    {
+      "attribute": "SHOOTING_VARIETY",
+      "branch": "OUTCOURT",
+      "domain": "TECHNICAL",
+      "startingClassification": [
+        "UNMAPPED"
+      ],
+      "originallyWithoutEffectivePath": true,
+      "original30Disposition": "C — FUTURE SYSTEM",
+      "integratedThisPhase": false,
+      "revisedExistingPath": false,
+      "category": "FUTURE",
+      "layer": "EXISTING ACTION-SPECIFIC PATH",
+      "mapping": null,
+      "boundary": "",
+      "responsibility": "Distinct deception/release repertoires need explicit supported motor alternatives.",
+      "evidenceScope": "Intentionally outside current canonical action execution."
+    },
+    {
+      "attribute": "BREAKTHROUGH",
+      "branch": "OUTCOURT",
+      "domain": "TECHNICAL",
+      "startingClassification": [
+        "DIRECT",
+        "INDIRECT"
+      ],
+      "originallyWithoutEffectivePath": false,
+      "original30Disposition": null,
+      "integratedThisPhase": false,
+      "revisedExistingPath": false,
+      "category": "USED EFFECTIVELY",
+      "layer": "EXISTING ACTION-SPECIFIC PATH",
+      "mapping": "breakthrough=m(BREAKTHROUGH,AGILITY)",
+      "boundary": "DUEL; DRIVE_APPEAL; PRESS_DEPTH",
+      "responsibility": "Preserved action-specific consumers documented in the completed audit; no new unrelated responsibility.",
+      "evidenceScope": "Current controlled action/group evidence or unchanged previously demonstrated execution path. Group evidence does not isolate every constituent."
+    },
+    {
+      "attribute": "FINISHING",
+      "branch": "OUTCOURT",
+      "domain": "TECHNICAL",
+      "startingClassification": [
+        "DIRECT",
+        "INDIRECT"
+      ],
+      "originallyWithoutEffectivePath": false,
+      "original30Disposition": null,
+      "integratedThisPhase": false,
+      "revisedExistingPath": false,
+      "category": "USED EFFECTIVELY",
+      "layer": "EXISTING ACTION-SPECIFIC PATH",
+      "mapping": "finishing=u(FINISHING); also half of shotPlacement",
+      "boundary": "SHOT_AIM; SHOT_ASSESS; INTEL_SHOOT; PIVOT_CRAFT; PRESS_DEPTH",
+      "responsibility": "Preserved action-specific consumers documented in the completed audit; no new unrelated responsibility.",
+      "evidenceScope": "Current controlled action/group evidence or unchanged previously demonstrated execution path. Group evidence does not isolate every constituent."
+    },
+    {
+      "attribute": "WING_FINISHING",
+      "branch": "OUTCOURT",
+      "domain": "TECHNICAL",
+      "startingClassification": [
+        "DIRECT",
+        "INDIRECT"
+      ],
+      "originallyWithoutEffectivePath": false,
+      "original30Disposition": null,
+      "integratedThisPhase": false,
+      "revisedExistingPath": true,
+      "category": "USED EFFECTIVELY",
+      "layer": "EXECUTION",
+      "mapping": "wingFinishing = u(WING_FINISHING)",
+      "boundary": "execution.ts: planShotTarget",
+      "responsibility": "Narrow wing execution spread while aiming at visible available post space; removed skill-dependent systematic near-post aim.",
+      "evidenceScope": "Current controlled action/group evidence or unchanged previously demonstrated execution path. Group evidence does not isolate every constituent."
+    },
+    {
+      "attribute": "PIVOT_PLAY",
+      "branch": "OUTCOURT",
+      "domain": "TECHNICAL",
+      "startingClassification": [
+        "INDIRECT",
+        "PARTIAL"
+      ],
+      "originallyWithoutEffectivePath": false,
+      "original30Disposition": null,
+      "integratedThisPhase": false,
+      "revisedExistingPath": false,
+      "category": "USED WEAKLY",
+      "layer": "EXISTING ACTION-SPECIFIC PATH",
+      "mapping": "pivotPlay=u(PIVOT_PLAY)",
+      "boundary": "PIVOT_CRAFT",
+      "responsibility": "Preserved action-specific consumers documented in the completed audit; no new unrelated responsibility.",
+      "evidenceScope": "Live but gated, small, partial or not independently isolated. A read is not sufficient proof of material outcome effect."
+    },
+    {
+      "attribute": "SCREENING",
+      "branch": "OUTCOURT",
+      "domain": "TECHNICAL",
+      "startingClassification": [
+        "INDIRECT",
+        "PARTIAL"
+      ],
+      "originallyWithoutEffectivePath": false,
+      "original30Disposition": null,
+      "integratedThisPhase": false,
+      "revisedExistingPath": false,
+      "category": "USED WEAKLY",
+      "layer": "EXISTING ACTION-SPECIFIC PATH",
+      "mapping": "screening=m(SCREENING,STRENGTH)",
+      "boundary": "SCREEN_APPEAL",
+      "responsibility": "Preserved action-specific consumers documented in the completed audit; no new unrelated responsibility.",
+      "evidenceScope": "Live but gated, small, partial or not independently isolated. A read is not sufficient proof of material outcome effect."
+    },
+    {
+      "attribute": "GAME_READING",
+      "branch": "OUTCOURT",
+      "domain": "PERCEPTION_DECISION",
+      "startingClassification": [
+        "DIRECT",
+        "INDIRECT"
+      ],
+      "originallyWithoutEffectivePath": false,
+      "original30Disposition": null,
+      "integratedThisPhase": false,
+      "revisedExistingPath": false,
+      "category": "USED WEAKLY",
+      "layer": "EXISTING ACTION-SPECIFIC PATH",
+      "mapping": "anticipation=m(GAME_READING,ANTICIPATION); reaction=.32-.18*anticipation; decision=m(DECISION_MAKING,GAME_READING)",
+      "boundary": "MOVE_READ; LEARNED_DEFENCE; CONTROL_READ; PARTNER_APPEAL; INTEL_PASS_RISK; SHOT_HEIGHT; REACH_PREDICT; INTERCEPT",
+      "responsibility": "Preserved action-specific consumers documented in the completed audit; no new unrelated responsibility.",
+      "evidenceScope": "Live but gated, small, partial or not independently isolated. A read is not sufficient proof of material outcome effect."
+    },
+    {
+      "attribute": "DECISION_MAKING",
+      "branch": "OUTCOURT",
+      "domain": "PERCEPTION_DECISION",
+      "startingClassification": [
+        "DIRECT",
+        "INDIRECT"
+      ],
+      "originallyWithoutEffectivePath": false,
+      "original30Disposition": null,
+      "integratedThisPhase": false,
+      "revisedExistingPath": true,
+      "category": "USED WEAKLY",
+      "layer": "DECISION",
+      "mapping": "decision = u(DECISION_MAKING)",
+      "boundary": "intelligence.ts: affordancesFor; execution.ts: shotHeight",
+      "responsibility": "Marginal risk/option valuation and existing target-height choice; distinct from passing execution and perception.",
+      "evidenceScope": "Live but gated, small, partial or not independently isolated. A read is not sufficient proof of material outcome effect."
+    },
+    {
+      "attribute": "AWARENESS",
+      "branch": "OUTCOURT",
+      "domain": "PERCEPTION_DECISION",
+      "startingClassification": [
+        "UNMAPPED"
+      ],
+      "originallyWithoutEffectivePath": true,
+      "original30Disposition": "A — SHOULD INFLUENCE MATCH NOW",
+      "integratedThisPhase": true,
+      "revisedExistingPath": false,
+      "category": "USED WEAKLY",
+      "layer": "PERCEPTION",
+      "mapping": "cognition.awareness = u(AWARENESS)",
+      "boundary": "intelligence.ts: perceiveHandball",
+      "responsibility": "Resolve marginal receiver advantage from visible separation; obvious created space stays salient.",
+      "evidenceScope": "Live but gated, small, partial or not independently isolated. A read is not sufficient proof of material outcome effect."
+    },
+    {
+      "attribute": "ANTICIPATION",
+      "branch": "OUTCOURT",
+      "domain": "PERCEPTION_DECISION",
+      "startingClassification": [
+        "DIRECT",
+        "INDIRECT"
+      ],
+      "originallyWithoutEffectivePath": false,
+      "original30Disposition": null,
+      "integratedThisPhase": false,
+      "revisedExistingPath": false,
+      "category": "USED WEAKLY",
+      "layer": "EXISTING ACTION-SPECIFIC PATH",
+      "mapping": "anticipation=m(GAME_READING,ANTICIPATION); reaction=.32-.18*anticipation; ballWinning=m(BALL_WINNING,ANTICIPATION)",
+      "boundary": "MOVE_READ; LEARNED_DEFENCE; REACH_PREDICT; INTERCEPT",
+      "responsibility": "Preserved action-specific consumers documented in the completed audit; no new unrelated responsibility.",
+      "evidenceScope": "Live but gated, small, partial or not independently isolated. A read is not sufficient proof of material outcome effect."
+    },
+    {
+      "attribute": "PLAYMAKING",
+      "branch": "OUTCOURT",
+      "domain": "PERCEPTION_DECISION",
+      "startingClassification": [
+        "UNMAPPED"
+      ],
+      "originallyWithoutEffectivePath": true,
+      "original30Disposition": "A — SHOULD INFLUENCE MATCH NOW",
+      "integratedThisPhase": true,
+      "revisedExistingPath": false,
+      "category": "USED WEAKLY",
+      "layer": "DECISION",
+      "mapping": "cognition.playmaking = u(PLAYMAKING)",
+      "boundary": "intelligence.ts: affordancesFor",
+      "responsibility": "Value an available pass lane in marginal choices; does not improve mechanical pass precision.",
+      "evidenceScope": "Live but gated, small, partial or not independently isolated. A read is not sufficient proof of material outcome effect."
+    },
+    {
+      "attribute": "TEMPO_CONTROL",
+      "branch": "OUTCOURT",
+      "domain": "PERCEPTION_DECISION",
+      "startingClassification": [
+        "UNMAPPED"
+      ],
+      "originallyWithoutEffectivePath": true,
+      "original30Disposition": "C — FUTURE SYSTEM",
+      "integratedThisPhase": false,
+      "revisedExistingPath": false,
+      "category": "FUTURE",
+      "layer": "EXISTING ACTION-SPECIFIC PATH",
+      "mapping": null,
+      "boundary": "",
+      "responsibility": "Collective tempo organization needs its own decision boundary; do not equate this with faster mechanics.",
+      "evidenceScope": "Intentionally outside current canonical action execution."
+    },
+    {
+      "attribute": "TWO_V_TWO_READING",
+      "branch": "OUTCOURT",
+      "domain": "PERCEPTION_DECISION",
+      "startingClassification": [
+        "UNMAPPED"
+      ],
+      "originallyWithoutEffectivePath": true,
+      "original30Disposition": "A — SHOULD INFLUENCE MATCH NOW",
+      "integratedThisPhase": true,
+      "revisedExistingPath": false,
+      "category": "USED WEAKLY",
+      "layer": "DECISION",
+      "mapping": "cognition.twoOnTwo = u(TWO_V_TWO_READING)",
+      "boundary": "intelligence.ts: affordancesFor",
+      "responsibility": "Bounded valuation of a marginal created receiver; obvious BIND_AND_PASS remains protected.",
+      "evidenceScope": "Live but gated, small, partial or not independently isolated. A read is not sufficient proof of material outcome effect."
+    },
+    {
+      "attribute": "ADVANTAGE_RECOGNITION",
+      "branch": "OUTCOURT",
+      "domain": "PERCEPTION_DECISION",
+      "startingClassification": [
+        "UNMAPPED"
+      ],
+      "originallyWithoutEffectivePath": true,
+      "original30Disposition": "A — SHOULD INFLUENCE MATCH NOW",
+      "integratedThisPhase": true,
+      "revisedExistingPath": false,
+      "category": "USED WEAKLY",
+      "layer": "DECISION",
+      "mapping": "cognition.advantage = u(ADVANTAGE_RECOGNITION)",
+      "boundary": "intelligence.ts: affordancesFor",
+      "responsibility": "Distinguish the value of the current shot from the receiver advantage, within existing affordances.",
+      "evidenceScope": "Live but gated, small, partial or not independently isolated. A read is not sufficient proof of material outcome effect."
+    },
+    {
+      "attribute": "TACTICAL_UNDERSTANDING",
+      "branch": "OUTCOURT",
+      "domain": "TACTICAL",
+      "startingClassification": [
+        "UNMAPPED"
+      ],
+      "originallyWithoutEffectivePath": true,
+      "original30Disposition": "C — FUTURE SYSTEM",
+      "integratedThisPhase": false,
+      "revisedExistingPath": false,
+      "category": "FUTURE",
+      "layer": "EXISTING ACTION-SPECIFIC PATH",
+      "mapping": null,
+      "boundary": "",
+      "responsibility": "Future tactical adaptation quality; shared basic handball logic remains universal.",
+      "evidenceScope": "Intentionally outside current canonical action execution."
+    },
+    {
+      "attribute": "ROLE_DISCIPLINE",
+      "branch": "OUTCOURT",
+      "domain": "TACTICAL",
+      "startingClassification": [
+        "UNMAPPED"
+      ],
+      "originallyWithoutEffectivePath": true,
+      "original30Disposition": "C — FUTURE SYSTEM",
+      "integratedThisPhase": false,
+      "revisedExistingPath": false,
+      "category": "FUTURE",
+      "layer": "EXISTING ACTION-SPECIFIC PATH",
+      "mapping": null,
+      "boundary": "",
+      "responsibility": "Future compliance/role-state model; no arbitrary failure to obey basic structure.",
+      "evidenceScope": "Intentionally outside current canonical action execution."
+    },
+    {
+      "attribute": "OFF_BALL_MOVEMENT",
+      "branch": "OUTCOURT",
+      "domain": "TACTICAL",
+      "startingClassification": [
+        "INDIRECT",
+        "GATED",
+        "PARTIAL"
+      ],
+      "originallyWithoutEffectivePath": false,
+      "original30Disposition": null,
+      "integratedThisPhase": false,
+      "revisedExistingPath": false,
+      "category": "USED WEAKLY",
+      "layer": "EXISTING ACTION-SPECIFIC PATH",
+      "mapping": "offBall=m(OFF_BALL_MOVEMENT,TIMING)",
+      "boundary": "RECEIVER_READY",
+      "responsibility": "Preserved action-specific consumers documented in the completed audit; no new unrelated responsibility.",
+      "evidenceScope": "Live but gated, small, partial or not independently isolated. A read is not sufficient proof of material outcome effect."
+    },
+    {
+      "attribute": "SPACING",
+      "branch": "OUTCOURT",
+      "domain": "TACTICAL",
+      "startingClassification": [
+        "UNMAPPED"
+      ],
+      "originallyWithoutEffectivePath": true,
+      "original30Disposition": "C — FUTURE SYSTEM",
+      "integratedThisPhase": false,
+      "revisedExistingPath": false,
+      "category": "FUTURE",
+      "layer": "EXISTING ACTION-SPECIFIC PATH",
+      "mapping": null,
+      "boundary": "",
+      "responsibility": "Future off-ball spacing differentiation beyond current stable team structure.",
+      "evidenceScope": "Intentionally outside current canonical action execution."
+    },
+    {
+      "attribute": "TIMING",
+      "branch": "OUTCOURT",
+      "domain": "TACTICAL",
+      "startingClassification": [
+        "DIRECT",
+        "INDIRECT",
+        "PARTIAL"
+      ],
+      "originallyWithoutEffectivePath": false,
+      "original30Disposition": null,
+      "integratedThisPhase": false,
+      "revisedExistingPath": false,
+      "category": "USED WEAKLY",
+      "layer": "EXISTING ACTION-SPECIFIC PATH",
+      "mapping": "offBall=m(OFF_BALL_MOVEMENT,TIMING); defTiming=m(DEFENSIVE_TIMING,TIMING)",
+      "boundary": "RECEIVER_READY; DUEL; PRESS_DEPTH; DUTY_FEASIBLE",
+      "responsibility": "Preserved action-specific consumers documented in the completed audit; no new unrelated responsibility.",
+      "evidenceScope": "Live but gated, small, partial or not independently isolated. A read is not sufficient proof of material outcome effect."
+    },
+    {
+      "attribute": "TRANSITION_UNDERSTANDING",
+      "branch": "OUTCOURT",
+      "domain": "TACTICAL",
+      "startingClassification": [
+        "UNMAPPED"
+      ],
+      "originallyWithoutEffectivePath": true,
+      "original30Disposition": "C — FUTURE SYSTEM",
+      "integratedThisPhase": false,
+      "revisedExistingPath": false,
+      "category": "FUTURE",
+      "layer": "EXISTING ACTION-SPECIFIC PATH",
+      "mapping": null,
+      "boundary": "",
+      "responsibility": "Future differentiated transition organization.",
+      "evidenceScope": "Intentionally outside current canonical action execution."
+    },
+    {
+      "attribute": "SYSTEM_ADAPTABILITY",
+      "branch": "OUTCOURT",
+      "domain": "TACTICAL",
+      "startingClassification": [
+        "UNMAPPED"
+      ],
+      "originallyWithoutEffectivePath": true,
+      "original30Disposition": "C — FUTURE SYSTEM",
+      "integratedThisPhase": false,
+      "revisedExistingPath": false,
+      "category": "FUTURE",
+      "layer": "EXISTING ACTION-SPECIFIC PATH",
+      "mapping": null,
+      "boundary": "",
+      "responsibility": "Future familiarity/adaptation model, not a global penalty.",
+      "evidenceScope": "Intentionally outside current canonical action execution."
+    },
+    {
+      "attribute": "SEVEN_V_SIX_UNDERSTANDING",
+      "branch": "OUTCOURT",
+      "domain": "TACTICAL",
+      "startingClassification": [
+        "UNMAPPED"
+      ],
+      "originallyWithoutEffectivePath": true,
+      "original30Disposition": "C — FUTURE SYSTEM",
+      "integratedThisPhase": false,
+      "revisedExistingPath": false,
+      "category": "FUTURE",
+      "layer": "EXISTING ACTION-SPECIFIC PATH",
+      "mapping": null,
+      "boundary": "",
+      "responsibility": "Future7v6 organization quality; no generic numerical-advantage bonus.",
+      "evidenceScope": "Intentionally outside current canonical action execution."
+    },
+    {
+      "attribute": "CONTACT_ABILITY",
+      "branch": "OUTCOURT",
+      "domain": "DEFENSIVE",
+      "startingClassification": [
+        "DIRECT",
+        "PARTIAL"
+      ],
+      "originallyWithoutEffectivePath": false,
+      "original30Disposition": null,
+      "integratedThisPhase": false,
+      "revisedExistingPath": false,
+      "category": "USED WEAKLY",
+      "layer": "EXISTING ACTION-SPECIFIC PATH",
+      "mapping": "contact=m(CONTACT_ABILITY,STRENGTH)",
+      "boundary": "HOLD_SEVERITY",
+      "responsibility": "Preserved action-specific consumers documented in the completed audit; no new unrelated responsibility.",
+      "evidenceScope": "Live but gated, small, partial or not independently isolated. A read is not sufficient proof of material outcome effect."
+    },
+    {
+      "attribute": "DEFENSIVE_POSITIONING",
+      "branch": "OUTCOURT",
+      "domain": "DEFENSIVE",
+      "startingClassification": [
+        "INDIRECT"
+      ],
+      "originallyWithoutEffectivePath": false,
+      "original30Disposition": null,
+      "integratedThisPhase": false,
+      "revisedExistingPath": true,
+      "category": "USED EFFECTIVELY",
+      "layer": "OPPOSITION",
+      "mapping": "defPositioning = u(DEFENSIVE_POSITIONING)",
+      "boundary": "movement.ts: movementReadTicks; defence.ts: dutyTarget",
+      "responsibility": "Recovery read timing and existing inside-shoulder positioning, not a contact-win lottery.",
+      "evidenceScope": "Current controlled action/group evidence or unchanged previously demonstrated execution path. Group evidence does not isolate every constituent."
+    },
+    {
+      "attribute": "DEFENSIVE_TIMING",
+      "branch": "OUTCOURT",
+      "domain": "DEFENSIVE",
+      "startingClassification": [
+        "DIRECT",
+        "INDIRECT"
+      ],
+      "originallyWithoutEffectivePath": false,
+      "original30Disposition": null,
+      "integratedThisPhase": false,
+      "revisedExistingPath": false,
+      "category": "USED EFFECTIVELY",
+      "layer": "EXISTING ACTION-SPECIFIC PATH",
+      "mapping": "defTiming=m(DEFENSIVE_TIMING,TIMING)",
+      "boundary": "DUEL; PRESS_DEPTH; DUTY_FEASIBLE",
+      "responsibility": "Preserved action-specific consumers documented in the completed audit; no new unrelated responsibility.",
+      "evidenceScope": "Current controlled action/group evidence or unchanged previously demonstrated execution path. Group evidence does not isolate every constituent."
+    },
+    {
+      "attribute": "LATERAL_DEFENCE",
+      "branch": "OUTCOURT",
+      "domain": "DEFENSIVE",
+      "startingClassification": [
+        "DIRECT",
+        "PARTIAL"
+      ],
+      "originallyWithoutEffectivePath": false,
+      "original30Disposition": null,
+      "integratedThisPhase": false,
+      "revisedExistingPath": true,
+      "category": "USED EFFECTIVELY",
+      "layer": "OPPOSITION",
+      "mapping": "defFootwork = u(LATERAL_DEFENCE); existing lateral duel composite retained",
+      "boundary": "movement.ts: defensiveFootwork; actions.ts: move; timing.ts: reachOf",
+      "responsibility": "Use a bounded fraction of physical acceleration while defending; identical factor in actual movement and arrival estimates.",
+      "evidenceScope": "Current controlled action/group evidence or unchanged previously demonstrated execution path. Group evidence does not isolate every constituent."
+    },
+    {
+      "attribute": "DEPTH_DEFENCE",
+      "branch": "OUTCOURT",
+      "domain": "DEFENSIVE",
+      "startingClassification": [
+        "UNMAPPED"
+      ],
+      "originallyWithoutEffectivePath": true,
+      "original30Disposition": "C — FUTURE SYSTEM",
+      "integratedThisPhase": false,
+      "revisedExistingPath": false,
+      "category": "FUTURE",
+      "layer": "EXISTING ACTION-SPECIFIC PATH",
+      "mapping": null,
+      "boundary": "",
+      "responsibility": "Future depth-specialist defensive duties with actual specific opportunities.",
+      "evidenceScope": "Intentionally outside current canonical action execution."
+    },
+    {
+      "attribute": "CENTRAL_DEFENCE",
+      "branch": "OUTCOURT",
+      "domain": "DEFENSIVE",
+      "startingClassification": [
+        "UNMAPPED"
+      ],
+      "originallyWithoutEffectivePath": true,
+      "original30Disposition": "C — FUTURE SYSTEM",
+      "integratedThisPhase": false,
+      "revisedExistingPath": false,
+      "category": "FUTURE",
+      "layer": "EXISTING ACTION-SPECIFIC PATH",
+      "mapping": null,
+      "boundary": "",
+      "responsibility": "Future central-specialist duties without a generic defence overall.",
+      "evidenceScope": "Intentionally outside current canonical action execution."
+    },
+    {
+      "attribute": "COVERING",
+      "branch": "OUTCOURT",
+      "domain": "DEFENSIVE",
+      "startingClassification": [
+        "INDIRECT"
+      ],
+      "originallyWithoutEffectivePath": false,
+      "original30Disposition": null,
+      "integratedThisPhase": false,
+      "revisedExistingPath": true,
+      "category": "USED EFFECTIVELY",
+      "layer": "OPPOSITION",
+      "mapping": "covering = u(COVERING)",
+      "boundary": "movement.ts: movementReadTicks; defence.ts: dutyTarget",
+      "responsibility": "Help recognition timing plus existing useful-space target.",
+      "evidenceScope": "Current controlled action/group evidence or unchanged previously demonstrated execution path. Group evidence does not isolate every constituent."
+    },
+    {
+      "attribute": "SWITCHING_HANDOVER",
+      "branch": "OUTCOURT",
+      "domain": "DEFENSIVE",
+      "startingClassification": [
+        "DEAD"
+      ],
+      "originallyWithoutEffectivePath": true,
+      "original30Disposition": "A — SHOULD INFLUENCE MATCH NOW",
+      "integratedThisPhase": true,
+      "revisedExistingPath": false,
+      "category": "USED EFFECTIVELY",
+      "layer": "OPPOSITION",
+      "mapping": "handover = u(SWITCHING_HANDOVER)",
+      "boundary": "movement.ts: readMovementTarget",
+      "responsibility": "Read a newly assigned defensive responsibility after a quality-dependent delay. Ownership remains allocated by the shared zonal architecture.",
+      "evidenceScope": "Current controlled action/group evidence or unchanged previously demonstrated execution path. Group evidence does not isolate every constituent."
+    },
+    {
+      "attribute": "BALL_WINNING",
+      "branch": "OUTCOURT",
+      "domain": "DEFENSIVE",
+      "startingClassification": [
+        "DIRECT"
+      ],
+      "originallyWithoutEffectivePath": false,
+      "original30Disposition": null,
+      "integratedThisPhase": false,
+      "revisedExistingPath": false,
+      "category": "USED EFFECTIVELY",
+      "layer": "EXISTING ACTION-SPECIFIC PATH",
+      "mapping": "ballWinning=m(BALL_WINNING,ANTICIPATION)",
+      "boundary": "INTERCEPT",
+      "responsibility": "Preserved action-specific consumers documented in the completed audit; no new unrelated responsibility.",
+      "evidenceScope": "Current controlled action/group evidence or unchanged previously demonstrated execution path. Group evidence does not isolate every constituent."
+    },
+    {
+      "attribute": "SHOT_BLOCKING",
+      "branch": "OUTCOURT",
+      "domain": "DEFENSIVE",
+      "startingClassification": [
+        "DIRECT",
+        "INDIRECT"
+      ],
+      "originallyWithoutEffectivePath": false,
+      "original30Disposition": null,
+      "integratedThisPhase": false,
+      "revisedExistingPath": false,
+      "category": "USED WEAKLY",
+      "layer": "EXISTING ACTION-SPECIFIC PATH",
+      "mapping": "blocking=u(SHOT_BLOCKING)",
+      "boundary": "BLOCK_EXEC; BLOCK_ASSESS",
+      "responsibility": "Preserved action-specific consumers documented in the completed audit; no new unrelated responsibility.",
+      "evidenceScope": "Live but gated, small, partial or not independently isolated. A read is not sufficient proof of material outcome effect."
+    },
+    {
+      "attribute": "ACCELERATION",
+      "branch": "OUTCOURT",
+      "domain": "PHYSICAL",
+      "startingClassification": [
+        "DIRECT",
+        "INDIRECT"
+      ],
+      "originallyWithoutEffectivePath": false,
+      "original30Disposition": null,
+      "integratedThisPhase": false,
+      "revisedExistingPath": false,
+      "category": "USED EFFECTIVELY",
+      "layer": "PHYSICAL",
+      "mapping": "acceleration=3.6+4*m(ACCELERATION,EXPLOSIVENESS); physical.acceleration=u(ACCELERATION)",
+      "boundary": "MOVE_EXEC; REACH_PREDICT; LOAD_RELATIVE; FATIGUE_ACCEL; LOAD_RUN",
+      "responsibility": "Preserved action-specific consumers documented in the completed audit; no new unrelated responsibility.",
+      "evidenceScope": "Current controlled action/group evidence or unchanged previously demonstrated execution path. Group evidence does not isolate every constituent."
+    },
+    {
+      "attribute": "TOP_SPEED",
+      "branch": "OUTCOURT",
+      "domain": "PHYSICAL",
+      "startingClassification": [
+        "DIRECT",
+        "INDIRECT"
+      ],
+      "originallyWithoutEffectivePath": false,
+      "original30Disposition": null,
+      "integratedThisPhase": false,
+      "revisedExistingPath": false,
+      "category": "USED EFFECTIVELY",
+      "layer": "PHYSICAL",
+      "mapping": "topSpeed=4.4+3*m(TOP_SPEED,TOP_SPEED,AGILITY)",
+      "boundary": "MOVE_EXEC; REACH_PREDICT; TRAVEL_ESTIMATE; MOVING_DIFFICULTY; LOAD_RELATIVE",
+      "responsibility": "Preserved action-specific consumers documented in the completed audit; no new unrelated responsibility.",
+      "evidenceScope": "Current controlled action/group evidence or unchanged previously demonstrated execution path. Group evidence does not isolate every constituent."
+    },
+    {
+      "attribute": "LATERAL_QUICKNESS",
+      "branch": "OUTCOURT",
+      "domain": "PHYSICAL",
+      "startingClassification": [
+        "DIRECT",
+        "PARTIAL",
+        "GATED"
+      ],
+      "originallyWithoutEffectivePath": false,
+      "original30Disposition": null,
+      "integratedThisPhase": false,
+      "revisedExistingPath": false,
+      "category": "USED WEAKLY",
+      "layer": "PHYSICAL",
+      "mapping": "physical.lateralQuickness=u(LATERAL_QUICKNESS)",
+      "boundary": "FATIGUE_ACCEL",
+      "responsibility": "Preserved action-specific consumers documented in the completed audit; no new unrelated responsibility.",
+      "evidenceScope": "Live but gated, small, partial or not independently isolated. A read is not sufficient proof of material outcome effect."
+    },
+    {
+      "attribute": "AGILITY",
+      "branch": "OUTCOURT",
+      "domain": "PHYSICAL",
+      "startingClassification": [
+        "DIRECT",
+        "INDIRECT"
+      ],
+      "originallyWithoutEffectivePath": false,
+      "original30Disposition": null,
+      "integratedThisPhase": false,
+      "revisedExistingPath": false,
+      "category": "USED EFFECTIVELY",
+      "layer": "PHYSICAL",
+      "mapping": "topSpeed=4.4+3*m(TOP_SPEED,TOP_SPEED,AGILITY); breakthrough=m(BREAKTHROUGH,AGILITY); lateral=m(LATERAL_DEFENCE,AGILITY); physical.agility=u(AGILITY)",
+      "boundary": "MOVE_EXEC; REACH_PREDICT; MOVING_DIFFICULTY; LOAD_RELATIVE; DUEL; DRIVE_APPEAL; PRESS_DEPTH; FATIGUE_ACCEL; LOAD_RUN",
+      "responsibility": "Preserved action-specific consumers documented in the completed audit; no new unrelated responsibility.",
+      "evidenceScope": "Current controlled action/group evidence or unchanged previously demonstrated execution path. Group evidence does not isolate every constituent."
+    },
+    {
+      "attribute": "EXPLOSIVENESS",
+      "branch": "OUTCOURT",
+      "domain": "PHYSICAL",
+      "startingClassification": [
+        "DIRECT",
+        "INDIRECT"
+      ],
+      "originallyWithoutEffectivePath": false,
+      "original30Disposition": null,
+      "integratedThisPhase": false,
+      "revisedExistingPath": false,
+      "category": "USED EFFECTIVELY",
+      "layer": "PHYSICAL",
+      "mapping": "acceleration=3.6+4*m(ACCELERATION,EXPLOSIVENESS); physical.explosiveness=u(EXPLOSIVENESS)",
+      "boundary": "MOVE_EXEC; REACH_PREDICT; LOAD_RELATIVE; LOAD_IMPULSE",
+      "responsibility": "Preserved action-specific consumers documented in the completed audit; no new unrelated responsibility.",
+      "evidenceScope": "Current controlled action/group evidence or unchanged previously demonstrated execution path. Group evidence does not isolate every constituent."
+    },
+    {
+      "attribute": "STRENGTH",
+      "branch": "OUTCOURT",
+      "domain": "PHYSICAL",
+      "startingClassification": [
+        "DIRECT",
+        "INDIRECT"
+      ],
+      "originallyWithoutEffectivePath": false,
+      "original30Disposition": null,
+      "integratedThisPhase": false,
+      "revisedExistingPath": false,
+      "category": "USED EFFECTIVELY",
+      "layer": "PHYSICAL",
+      "mapping": "strength=u(STRENGTH); screening=m(SCREENING,STRENGTH); contact=m(CONTACT_ABILITY,STRENGTH)",
+      "boundary": "PIVOT_CRAFT; SCREEN_APPEAL; HOLD_SEVERITY; LOAD_IMPULSE",
+      "responsibility": "Preserved action-specific consumers documented in the completed audit; no new unrelated responsibility.",
+      "evidenceScope": "Current controlled action/group evidence or unchanged previously demonstrated execution path. Group evidence does not isolate every constituent."
+    },
+    {
+      "attribute": "CONTACT_BALANCE",
+      "branch": "OUTCOURT",
+      "domain": "PHYSICAL",
+      "startingClassification": [
+        "DIRECT"
+      ],
+      "originallyWithoutEffectivePath": false,
+      "original30Disposition": null,
+      "integratedThisPhase": false,
+      "revisedExistingPath": false,
+      "category": "USED EFFECTIVELY",
+      "layer": "PHYSICAL",
+      "mapping": "balance=u(CONTACT_BALANCE)",
+      "boundary": "CONTACT_BALANCE; LOAD_IMPULSE; FATIGUE_EXEC",
+      "responsibility": "Preserved action-specific consumers documented in the completed audit; no new unrelated responsibility.",
+      "evidenceScope": "Current controlled action/group evidence or unchanged previously demonstrated execution path. Group evidence does not isolate every constituent."
+    },
+    {
+      "attribute": "JUMP_ABILITY",
+      "branch": "OUTCOURT",
+      "domain": "PHYSICAL",
+      "startingClassification": [
+        "DIRECT",
+        "PARTIAL"
+      ],
+      "originallyWithoutEffectivePath": false,
+      "original30Disposition": null,
+      "integratedThisPhase": false,
+      "revisedExistingPath": false,
+      "category": "USED WEAKLY",
+      "layer": "PHYSICAL",
+      "mapping": "physical.jumping=u(JUMP_ABILITY)",
+      "boundary": "LOAD_IMPULSE",
+      "responsibility": "Preserved action-specific consumers documented in the completed audit; no new unrelated responsibility.",
+      "evidenceScope": "Live but gated, small, partial or not independently isolated. A read is not sufficient proof of material outcome effect."
+    },
+    {
+      "attribute": "ENDURANCE",
+      "branch": "OUTCOURT",
+      "domain": "PHYSICAL",
+      "startingClassification": [
+        "DIRECT"
+      ],
+      "originallyWithoutEffectivePath": false,
+      "original30Disposition": null,
+      "integratedThisPhase": false,
+      "revisedExistingPath": false,
+      "category": "USED EFFECTIVELY",
+      "layer": "PHYSICAL",
+      "mapping": "endurance=u(ENDURANCE)",
+      "boundary": "FATIGUE_SPEED; FATIGUE_ACCEL; LOAD_RUN; RECOVERY",
+      "responsibility": "Preserved action-specific consumers documented in the completed audit; no new unrelated responsibility.",
+      "evidenceScope": "Current controlled action/group evidence or unchanged previously demonstrated execution path. Group evidence does not isolate every constituent."
+    },
+    {
+      "attribute": "REPEAT_SPRINT_ABILITY",
+      "branch": "OUTCOURT",
+      "domain": "PHYSICAL",
+      "startingClassification": [
+        "DIRECT"
+      ],
+      "originallyWithoutEffectivePath": false,
+      "original30Disposition": null,
+      "integratedThisPhase": false,
+      "revisedExistingPath": false,
+      "category": "USED EFFECTIVELY",
+      "layer": "PHYSICAL",
+      "mapping": "physical.repeatSprint=u(REPEAT_SPRINT_ABILITY)",
+      "boundary": "FATIGUE_ACCEL; FATIGUE_EXEC; LOAD_RUN; LOAD_IMPULSE; RECOVERY",
+      "responsibility": "Preserved action-specific consumers documented in the completed audit; no new unrelated responsibility.",
+      "evidenceScope": "Current controlled action/group evidence or unchanged previously demonstrated execution path. Group evidence does not isolate every constituent."
+    },
+    {
+      "attribute": "MOBILITY",
+      "branch": "OUTCOURT",
+      "domain": "PHYSICAL",
+      "startingClassification": [
+        "DIRECT",
+        "PARTIAL"
+      ],
+      "originallyWithoutEffectivePath": false,
+      "original30Disposition": null,
+      "integratedThisPhase": false,
+      "revisedExistingPath": false,
+      "category": "USED WEAKLY",
+      "layer": "PHYSICAL",
+      "mapping": "physical.mobility=u(MOBILITY)",
+      "boundary": "FATIGUE_ACCEL; LOAD_RUN",
+      "responsibility": "Preserved action-specific consumers documented in the completed audit; no new unrelated responsibility.",
+      "evidenceScope": "Live but gated, small, partial or not independently isolated. A read is not sufficient proof of material outcome effect."
+    },
+    {
+      "attribute": "CONSISTENCY",
+      "branch": "OUTCOURT",
+      "domain": "MENTAL",
+      "startingClassification": [
+        "UNMAPPED"
+      ],
+      "originallyWithoutEffectivePath": true,
+      "original30Disposition": "C — FUTURE SYSTEM",
+      "integratedThisPhase": false,
+      "revisedExistingPath": false,
+      "category": "FUTURE",
+      "layer": "EXISTING ACTION-SPECIFIC PATH",
+      "mapping": null,
+      "boundary": "",
+      "responsibility": "Future persisted form/variation model; no independent per-action failure lottery.",
+      "evidenceScope": "Intentionally outside current canonical action execution."
+    },
+    {
+      "attribute": "COMPOSURE",
+      "branch": "OUTCOURT",
+      "domain": "MENTAL",
+      "startingClassification": [
+        "DIRECT",
+        "INDIRECT"
+      ],
+      "originallyWithoutEffectivePath": false,
+      "original30Disposition": null,
+      "integratedThisPhase": false,
+      "revisedExistingPath": true,
+      "category": "USED WEAKLY",
+      "layer": "EXECUTION",
+      "mapping": "composure = u(COMPOSURE)",
+      "boundary": "execution.ts: planShotTarget/shotHeight; intelligence.ts: commitHandball",
+      "responsibility": "Existing release calmness and intent persistence; no longer half of outcourt handling.",
+      "evidenceScope": "Live but gated, small, partial or not independently isolated. A read is not sufficient proof of material outcome effect."
+    },
+    {
+      "attribute": "CONCENTRATION",
+      "branch": "OUTCOURT",
+      "domain": "MENTAL",
+      "startingClassification": [
+        "UNMAPPED"
+      ],
+      "originallyWithoutEffectivePath": true,
+      "original30Disposition": "A — SHOULD INFLUENCE MATCH NOW",
+      "integratedThisPhase": true,
+      "revisedExistingPath": false,
+      "category": "USED EFFECTIVELY",
+      "layer": "EXECUTION",
+      "mapping": "control.concentration = u(CONCENTRATION)",
+      "boundary": "execution.ts: receptionRisk; interactions.ts: advanceBall",
+      "responsibility": "Catch preparation contributes20% of action-specific handling technique at an actual reachable impact.",
+      "evidenceScope": "Current controlled action/group evidence or unchanged previously demonstrated execution path. Group evidence does not isolate every constituent."
+    },
+    {
+      "attribute": "COMPETITIVE_MENTALITY",
+      "branch": "OUTCOURT",
+      "domain": "MENTAL",
+      "startingClassification": [
+        "UNMAPPED"
+      ],
+      "originallyWithoutEffectivePath": true,
+      "original30Disposition": "C — FUTURE SYSTEM",
+      "integratedThisPhase": false,
+      "revisedExistingPath": false,
+      "category": "FUTURE",
+      "layer": "EXISTING ACTION-SPECIFIC PATH",
+      "mapping": null,
+      "boundary": "",
+      "responsibility": "Future explicit competitive-state model; no unexplained clutch multiplier.",
+      "evidenceScope": "Intentionally outside current canonical action execution."
+    },
+    {
+      "attribute": "RESILIENCE",
+      "branch": "OUTCOURT",
+      "domain": "MENTAL",
+      "startingClassification": [
+        "UNMAPPED"
+      ],
+      "originallyWithoutEffectivePath": true,
+      "original30Disposition": "C — FUTURE SYSTEM",
+      "integratedThisPhase": false,
+      "revisedExistingPath": false,
+      "category": "FUTURE",
+      "layer": "EXISTING ACTION-SPECIFIC PATH",
+      "mapping": null,
+      "boundary": "",
+      "responsibility": "Future response-to-setback state; current match rating cannot feed execution.",
+      "evidenceScope": "Intentionally outside current canonical action execution."
+    },
+    {
+      "attribute": "DISCIPLINE",
+      "branch": "OUTCOURT",
+      "domain": "MENTAL",
+      "startingClassification": [
+        "DIRECT",
+        "INDIRECT"
+      ],
+      "originallyWithoutEffectivePath": false,
+      "original30Disposition": null,
+      "integratedThisPhase": false,
+      "revisedExistingPath": false,
+      "category": "USED WEAKLY",
+      "layer": "EXISTING ACTION-SPECIFIC PATH",
+      "mapping": "discipline=u(DISCIPLINE)",
+      "boundary": "CONTACT_TECHNIQUE; HOLD_SEVERITY",
+      "responsibility": "Preserved action-specific consumers documented in the completed audit; no new unrelated responsibility.",
+      "evidenceScope": "Live but gated, small, partial or not independently isolated. A read is not sufficient proof of material outcome effect."
+    },
+    {
+      "attribute": "COACHABILITY",
+      "branch": "OUTCOURT",
+      "domain": "MENTAL",
+      "startingClassification": [
+        "UNMAPPED"
+      ],
+      "originallyWithoutEffectivePath": true,
+      "original30Disposition": "B — MANAGEMENT/SCOUTING ONLY",
+      "integratedThisPhase": false,
+      "revisedExistingPath": false,
+      "category": "MANAGEMENT ONLY",
+      "layer": "EXISTING ACTION-SPECIFIC PATH",
+      "mapping": null,
+      "boundary": "",
+      "responsibility": "Training/development responsibility; no justified immediate action-resolution effect.",
+      "evidenceScope": "Intentionally outside current canonical action execution."
+    },
+    {
+      "attribute": "LEADERSHIP",
+      "branch": "OUTCOURT",
+      "domain": "MENTAL",
+      "startingClassification": [
+        "UNMAPPED"
+      ],
+      "originallyWithoutEffectivePath": true,
+      "original30Disposition": "B — MANAGEMENT/SCOUTING ONLY",
+      "integratedThisPhase": false,
+      "revisedExistingPath": false,
+      "category": "MANAGEMENT ONLY",
+      "layer": "EXISTING ACTION-SPECIFIC PATH",
+      "mapping": null,
+      "boundary": "",
+      "responsibility": "Management/scouting and future team leadership responsibility; no unexplained team-wide execution bonus.",
+      "evidenceScope": "Intentionally outside current canonical action execution."
+    },
+    {
+      "attribute": "PRESSURE_HANDLING",
+      "branch": "OUTCOURT",
+      "domain": "MENTAL",
+      "startingClassification": [
+        "UNMAPPED"
+      ],
+      "originallyWithoutEffectivePath": true,
+      "original30Disposition": "A — SHOULD INFLUENCE MATCH NOW",
+      "integratedThisPhase": true,
+      "revisedExistingPath": false,
+      "category": "USED EFFECTIVELY",
+      "layer": "EXECUTION",
+      "mapping": "control.pressure = u(PRESSURE_HANDLING)",
+      "boundary": "execution.ts: executePass/receptionRisk/carryControl/planShotTarget",
+      "responsibility": "Mitigate the actual pressure component separately in each technical action; zero pressure gives no bonus.",
+      "evidenceScope": "Current controlled action/group evidence or unchanged previously demonstrated execution path. Group evidence does not isolate every constituent."
+    },
+    {
+      "attribute": "GK_POSITIONING",
+      "branch": "GOALKEEPER",
+      "domain": "SHOT_STOPPING",
+      "startingClassification": [
+        "DIRECT",
+        "INDIRECT"
+      ],
+      "originallyWithoutEffectivePath": false,
+      "original30Disposition": null,
+      "integratedThisPhase": false,
+      "revisedExistingPath": false,
+      "category": "USED WEAKLY",
+      "layer": "EXISTING ACTION-SPECIFIC PATH",
+      "mapping": "keeper.positioning=m(GK_POSITIONING,SET_POSITION)",
+      "boundary": "GK_READ; GK_STANCE",
+      "responsibility": "Preserved action-specific consumers documented in the completed audit; no new unrelated responsibility.",
+      "evidenceScope": "Live but gated, small, partial or not independently isolated. A read is not sufficient proof of material outcome effect."
+    },
+    {
+      "attribute": "SET_POSITION",
+      "branch": "GOALKEEPER",
+      "domain": "SHOT_STOPPING",
+      "startingClassification": [
+        "DIRECT",
+        "INDIRECT"
+      ],
+      "originallyWithoutEffectivePath": false,
+      "original30Disposition": null,
+      "integratedThisPhase": false,
+      "revisedExistingPath": false,
+      "category": "USED WEAKLY",
+      "layer": "EXISTING ACTION-SPECIFIC PATH",
+      "mapping": "keeper.setPosition=u(SET_POSITION); keeper.positioning=m(GK_POSITIONING,SET_POSITION)",
+      "boundary": "GK_STANCE; GK_READ",
+      "responsibility": "Preserved action-specific consumers documented in the completed audit; no new unrelated responsibility.",
+      "evidenceScope": "Live but gated, small, partial or not independently isolated. A read is not sufficient proof of material outcome effect."
+    },
+    {
+      "attribute": "REACTION",
+      "branch": "GOALKEEPER",
+      "domain": "SHOT_STOPPING",
+      "startingClassification": [
+        "DIRECT",
+        "INDIRECT"
+      ],
+      "originallyWithoutEffectivePath": false,
+      "original30Disposition": null,
+      "integratedThisPhase": false,
+      "revisedExistingPath": false,
+      "category": "USED EFFECTIVELY",
+      "layer": "EXISTING ACTION-SPECIFIC PATH",
+      "mapping": "keeper.reaction=u(REACTION); reaction=.32-.18*m(REACTION,REACTION,SHOOTER_READING); topSpeed=3.2+1.6*m(GK_EXPLOSIVENESS,REACTION)",
+      "boundary": "GK_READ; GK_REACH; GK_HOLD; MOVE_EXEC; REACH_PREDICT",
+      "responsibility": "Preserved action-specific consumers documented in the completed audit; no new unrelated responsibility.",
+      "evidenceScope": "Current controlled action/group evidence or unchanged previously demonstrated execution path. Group evidence does not isolate every constituent."
+    },
+    {
+      "attribute": "GK_EXPLOSIVENESS",
+      "branch": "GOALKEEPER",
+      "domain": "SHOT_STOPPING",
+      "startingClassification": [
+        "DIRECT",
+        "INDIRECT"
+      ],
+      "originallyWithoutEffectivePath": false,
+      "original30Disposition": null,
+      "integratedThisPhase": false,
+      "revisedExistingPath": false,
+      "category": "USED EFFECTIVELY",
+      "layer": "EXISTING ACTION-SPECIFIC PATH",
+      "mapping": "keeper.explosiveness=u(GK_EXPLOSIVENESS); acceleration=5+4*u(GK_EXPLOSIVENESS); topSpeed=3.2+1.6*m(GK_EXPLOSIVENESS,REACTION)",
+      "boundary": "MOVE_EXEC; REACH_PREDICT; GK_REACH",
+      "responsibility": "Preserved action-specific consumers documented in the completed audit; no new unrelated responsibility.",
+      "evidenceScope": "Current controlled action/group evidence or unchanged previously demonstrated execution path. Group evidence does not isolate every constituent."
+    },
+    {
+      "attribute": "LOW_SAVES",
+      "branch": "GOALKEEPER",
+      "domain": "SHOT_STOPPING",
+      "startingClassification": [
+        "DIRECT",
+        "INDIRECT"
+      ],
+      "originallyWithoutEffectivePath": false,
+      "original30Disposition": null,
+      "integratedThisPhase": false,
+      "revisedExistingPath": false,
+      "category": "USED EFFECTIVELY",
+      "layer": "EXISTING ACTION-SPECIFIC PATH",
+      "mapping": "keeper.low=u(LOW_SAVES)",
+      "boundary": "GK_REACH; GK_HOLD; SHOOTER_GK_READ",
+      "responsibility": "Preserved action-specific consumers documented in the completed audit; no new unrelated responsibility.",
+      "evidenceScope": "Current controlled action/group evidence or unchanged previously demonstrated execution path. Group evidence does not isolate every constituent."
+    },
+    {
+      "attribute": "HIGH_SAVES",
+      "branch": "GOALKEEPER",
+      "domain": "SHOT_STOPPING",
+      "startingClassification": [
+        "DIRECT",
+        "INDIRECT"
+      ],
+      "originallyWithoutEffectivePath": false,
+      "original30Disposition": null,
+      "integratedThisPhase": false,
+      "revisedExistingPath": false,
+      "category": "USED EFFECTIVELY",
+      "layer": "EXISTING ACTION-SPECIFIC PATH",
+      "mapping": "keeper.high=u(HIGH_SAVES)",
+      "boundary": "GK_REACH; GK_HOLD; SHOOTER_GK_READ",
+      "responsibility": "Preserved action-specific consumers documented in the completed audit; no new unrelated responsibility.",
+      "evidenceScope": "Current controlled action/group evidence or unchanged previously demonstrated execution path. Group evidence does not isolate every constituent."
+    },
+    {
+      "attribute": "CLOSE_RANGE_SAVES",
+      "branch": "GOALKEEPER",
+      "domain": "SHOT_STOPPING",
+      "startingClassification": [
+        "DIRECT",
+        "PARTIAL"
+      ],
+      "originallyWithoutEffectivePath": false,
+      "original30Disposition": null,
+      "integratedThisPhase": false,
+      "revisedExistingPath": true,
+      "category": "USED EFFECTIVELY",
+      "layer": "OPPOSITION",
+      "mapping": "keeper.close = u(CLOSE_RANGE_SAVES)",
+      "boundary": "interactions.ts: keeperReachForShot/advanceBall",
+      "responsibility": "Close-shot hand-travel efficiency and existing hold/parry control; anatomical span unchanged.",
+      "evidenceScope": "Current controlled action/group evidence or unchanged previously demonstrated execution path. Group evidence does not isolate every constituent."
+    },
+    {
+      "attribute": "LONG_RANGE_SAVES",
+      "branch": "GOALKEEPER",
+      "domain": "SHOT_STOPPING",
+      "startingClassification": [
+        "DIRECT",
+        "PARTIAL"
+      ],
+      "originallyWithoutEffectivePath": false,
+      "original30Disposition": null,
+      "integratedThisPhase": false,
+      "revisedExistingPath": true,
+      "category": "USED EFFECTIVELY",
+      "layer": "OPPOSITION",
+      "mapping": "keeper.long = u(LONG_RANGE_SAVES)",
+      "boundary": "interactions.ts: keeperReachForShot/advanceBall",
+      "responsibility": "Long-shot hand-travel efficiency and hold/parry control; flight time still dominates.",
+      "evidenceScope": "Current controlled action/group evidence or unchanged previously demonstrated execution path. Group evidence does not isolate every constituent."
+    },
+    {
+      "attribute": "WING_SAVES",
+      "branch": "GOALKEEPER",
+      "domain": "SHOT_STOPPING",
+      "startingClassification": [
+        "DIRECT",
+        "PARTIAL"
+      ],
+      "originallyWithoutEffectivePath": false,
+      "original30Disposition": null,
+      "integratedThisPhase": false,
+      "revisedExistingPath": true,
+      "category": "USED EFFECTIVELY",
+      "layer": "OPPOSITION",
+      "mapping": "keeper.wing = u(WING_SAVES)",
+      "boundary": "interactions.ts: keeperReachForShot/advanceBall",
+      "responsibility": "Wide-origin hand-travel efficiency and hold/parry control.",
+      "evidenceScope": "Current controlled action/group evidence or unchanged previously demonstrated execution path. Group evidence does not isolate every constituent."
+    },
+    {
+      "attribute": "SEVEN_M_SAVES",
+      "branch": "GOALKEEPER",
+      "domain": "SHOT_STOPPING",
+      "startingClassification": [
+        "DIRECT",
+        "INDIRECT"
+      ],
+      "originallyWithoutEffectivePath": false,
+      "original30Disposition": null,
+      "integratedThisPhase": false,
+      "revisedExistingPath": true,
+      "category": "USED EFFECTIVELY",
+      "layer": "OPPOSITION",
+      "mapping": "keeper.sevenMetre = u(SEVEN_M_SAVES)",
+      "boundary": "interactions.ts: keeperReachForShot; execution.ts: keeperReadQuality",
+      "responsibility": "Penalty-specific finite hand use plus existing read/loading stance. Award frequency and restart architecture unchanged.",
+      "evidenceScope": "Current controlled action/group evidence or unchanged previously demonstrated execution path. Group evidence does not isolate every constituent."
+    },
+    {
+      "attribute": "SHOOTER_READING",
+      "branch": "GOALKEEPER",
+      "domain": "PERCEPTION_DECISION",
+      "startingClassification": [
+        "DIRECT",
+        "INDIRECT"
+      ],
+      "originallyWithoutEffectivePath": false,
+      "original30Disposition": null,
+      "integratedThisPhase": false,
+      "revisedExistingPath": false,
+      "category": "USED WEAKLY",
+      "layer": "EXISTING ACTION-SPECIFIC PATH",
+      "mapping": "keeper.reading=m(SHOOTER_READING,SHOT_ANTICIPATION); anticipation=same mean; reaction=.32-.18*m(REACTION,REACTION,SHOOTER_READING)",
+      "boundary": "GK_READ; GK_REACH; REACH_PREDICT",
+      "responsibility": "Preserved action-specific consumers documented in the completed audit; no new unrelated responsibility.",
+      "evidenceScope": "Live but gated, small, partial or not independently isolated. A read is not sufficient proof of material outcome effect."
+    },
+    {
+      "attribute": "SHOT_ANTICIPATION",
+      "branch": "GOALKEEPER",
+      "domain": "PERCEPTION_DECISION",
+      "startingClassification": [
+        "DIRECT",
+        "INDIRECT"
+      ],
+      "originallyWithoutEffectivePath": false,
+      "original30Disposition": null,
+      "integratedThisPhase": false,
+      "revisedExistingPath": false,
+      "category": "USED WEAKLY",
+      "layer": "EXISTING ACTION-SPECIFIC PATH",
+      "mapping": "keeper.reading=m(SHOOTER_READING,SHOT_ANTICIPATION); anticipation=same mean",
+      "boundary": "GK_READ",
+      "responsibility": "Preserved action-specific consumers documented in the completed audit; no new unrelated responsibility.",
+      "evidenceScope": "Live but gated, small, partial or not independently isolated. A read is not sufficient proof of material outcome effect."
+    },
+    {
+      "attribute": "PATIENCE",
+      "branch": "GOALKEEPER",
+      "domain": "PERCEPTION_DECISION",
+      "startingClassification": [
+        "UNMAPPED"
+      ],
+      "originallyWithoutEffectivePath": true,
+      "original30Disposition": "A — SHOULD INFLUENCE MATCH NOW",
+      "integratedThisPhase": true,
+      "revisedExistingPath": false,
+      "category": "USED WEAKLY",
+      "layer": "PERCEPTION",
+      "mapping": "keeper.patience = u(PATIENCE)",
+      "boundary": "execution.ts: keeperReadQuality",
+      "responsibility": "Use a visible wind-up and released flight more accurately; does not know future aim.",
+      "evidenceScope": "Live but gated, small, partial or not independently isolated. A read is not sufficient proof of material outcome effect."
+    },
+    {
+      "attribute": "DECISION_TIMING",
+      "branch": "GOALKEEPER",
+      "domain": "PERCEPTION_DECISION",
+      "startingClassification": [
+        "UNMAPPED"
+      ],
+      "originallyWithoutEffectivePath": true,
+      "original30Disposition": "A — SHOULD INFLUENCE MATCH NOW",
+      "integratedThisPhase": true,
+      "revisedExistingPath": false,
+      "category": "USED WEAKLY",
+      "layer": "PERCEPTION",
+      "mapping": "keeper.timing = u(DECISION_TIMING)",
+      "boundary": "structure.ts: commitReleasedKeeper",
+      "responsibility": "Spend observation time before committing to the released direction; never react before motor reaction.",
+      "evidenceScope": "Live but gated, small, partial or not independently isolated. A read is not sufficient proof of material outcome effect."
+    },
+    {
+      "attribute": "OUTLET_PASSING",
+      "branch": "GOALKEEPER",
+      "domain": "TRANSITION",
+      "startingClassification": [
+        "DIRECT",
+        "INDIRECT",
+        "PARTIAL"
+      ],
+      "originallyWithoutEffectivePath": false,
+      "original30Disposition": null,
+      "integratedThisPhase": false,
+      "revisedExistingPath": false,
+      "category": "USED WEAKLY",
+      "layer": "EXISTING ACTION-SPECIFIC PATH",
+      "mapping": "passing=u(OUTLET_PASSING); keeper.outlet=u(OUTLET_PASSING)",
+      "boundary": "PASS_EXEC; PASS_PLAN",
+      "responsibility": "Preserved action-specific consumers documented in the completed audit; no new unrelated responsibility.",
+      "evidenceScope": "Live but gated, small, partial or not independently isolated. A read is not sufficient proof of material outcome effect."
+    },
+    {
+      "attribute": "RESTART_SPEED",
+      "branch": "GOALKEEPER",
+      "domain": "TRANSITION",
+      "startingClassification": [
+        "UNMAPPED"
+      ],
+      "originallyWithoutEffectivePath": true,
+      "original30Disposition": "C — FUTURE SYSTEM",
+      "integratedThisPhase": false,
+      "revisedExistingPath": false,
+      "category": "FUTURE",
+      "layer": "EXISTING ACTION-SPECIFIC PATH",
+      "mapping": null,
+      "boundary": "",
+      "responsibility": "Deferred: approved free-throw/restart mechanics remain frozen.",
+      "evidenceScope": "Intentionally outside current canonical action execution."
+    },
+    {
+      "attribute": "TRANSITION_DECISION",
+      "branch": "GOALKEEPER",
+      "domain": "TRANSITION",
+      "startingClassification": [
+        "UNMAPPED"
+      ],
+      "originallyWithoutEffectivePath": true,
+      "original30Disposition": "C — FUTURE SYSTEM",
+      "integratedThisPhase": false,
+      "revisedExistingPath": false,
+      "category": "FUTURE",
+      "layer": "EXISTING ACTION-SPECIFIC PATH",
+      "mapping": null,
+      "boundary": "",
+      "responsibility": "Future keeper outlet selection; current OUTLET_PASSING already owns delivery.",
+      "evidenceScope": "Intentionally outside current canonical action execution."
+    },
+    {
+      "attribute": "GK_CONSISTENCY",
+      "branch": "GOALKEEPER",
+      "domain": "MENTAL",
+      "startingClassification": [
+        "UNMAPPED"
+      ],
+      "originallyWithoutEffectivePath": true,
+      "original30Disposition": "C — FUTURE SYSTEM",
+      "integratedThisPhase": false,
+      "revisedExistingPath": false,
+      "category": "FUTURE",
+      "layer": "EXISTING ACTION-SPECIFIC PATH",
+      "mapping": null,
+      "boundary": "",
+      "responsibility": "Future keeper form/variation model; no hidden per-match overall.",
+      "evidenceScope": "Intentionally outside current canonical action execution."
+    },
+    {
+      "attribute": "GK_COMPOSURE",
+      "branch": "GOALKEEPER",
+      "domain": "MENTAL",
+      "startingClassification": [
+        "UNMAPPED"
+      ],
+      "originallyWithoutEffectivePath": true,
+      "original30Disposition": "A — SHOULD INFLUENCE MATCH NOW",
+      "integratedThisPhase": true,
+      "revisedExistingPath": false,
+      "category": "USED WEAKLY",
+      "layer": "EXECUTION",
+      "mapping": "composure = u(GK_COMPOSURE)",
+      "boundary": "profile.ts: buildProfile; execution.ts: keeperReadQuality",
+      "responsibility": "Keeper-specific calmness in penalty reading, replacing a missing outcourt COMPOSURE fallback.",
+      "evidenceScope": "Live but gated, small, partial or not independently isolated. A read is not sufficient proof of material outcome effect."
+    },
+    {
+      "attribute": "GK_CONCENTRATION",
+      "branch": "GOALKEEPER",
+      "domain": "MENTAL",
+      "startingClassification": [
+        "UNMAPPED"
+      ],
+      "originallyWithoutEffectivePath": true,
+      "original30Disposition": "A — SHOULD INFLUENCE MATCH NOW",
+      "integratedThisPhase": true,
+      "revisedExistingPath": false,
+      "category": "USED WEAKLY",
+      "layer": "PERCEPTION",
+      "mapping": "keeper.concentration = u(GK_CONCENTRATION)",
+      "boundary": "execution.ts: keeperReadQuality",
+      "responsibility": "Reduce error in the keeper read; physical reach remains bounded by body/flight time.",
+      "evidenceScope": "Live but gated, small, partial or not independently isolated. A read is not sufficient proof of material outcome effect."
+    },
+    {
+      "attribute": "GK_PRESSURE_HANDLING",
+      "branch": "GOALKEEPER",
+      "domain": "MENTAL",
+      "startingClassification": [
+        "UNMAPPED"
+      ],
+      "originallyWithoutEffectivePath": true,
+      "original30Disposition": "A — SHOULD INFLUENCE MATCH NOW",
+      "integratedThisPhase": true,
+      "revisedExistingPath": false,
+      "category": "USED WEAKLY",
+      "layer": "PERCEPTION",
+      "mapping": "keeper.pressure = u(GK_PRESSURE_HANDLING)",
+      "boundary": "execution.ts: keeperReadQuality",
+      "responsibility": "Penalty read under pressure; no generic court-player bonus.",
+      "evidenceScope": "Live but gated, small, partial or not independently isolated. A read is not sufficient proof of material outcome effect."
+    }
+  ],
+  "scope": "Path categories describe justified responsibility and current evidence, not athlete validity or a coverage target. Management-only describes intended responsibility; management-system effectiveness was not re-audited."
+}

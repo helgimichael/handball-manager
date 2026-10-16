@@ -1,0 +1,25 @@
+{
+  "complete": true,
+  "league": "hbl",
+  "n": 40,
+  "currentSourcesExact": false,
+  "currentGameplaySourcesExact": true,
+  "sourceDifferences": [
+    {
+      "path": "apps/game/scripts/run-player-attribute-cohort.ts",
+      "scope": "Documented passive runner assertion/metadata only",
+      "receipt": "COHORT-RUNNER-EQUIVALENCE.json"
+    }
+  ],
+  "means": {
+    "goals": 66.925,
+    "fieldAttempts": 103.825,
+    "sevenMetres": 7.25,
+    "totalAttempts": 111.075,
+    "broadBallLosses": 40.175,
+    "possessions": 149.575,
+    "freeThrows": 11.95,
+    "passes": 993.25
+  },
+  "meanSaves": 23.075
+}

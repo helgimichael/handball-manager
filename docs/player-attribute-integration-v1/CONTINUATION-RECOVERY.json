@@ -1,0 +1,33 @@
+{
+  "complete": true,
+  "recordedAt": "2026-10-16T18:42:08.703Z",
+  "requestAttachment": "c8afd462-835c-4624-8113-6d6b4a457516/Pasted text.txt",
+  "initialRecoveredHead": "7aa6acd16b70a276e39b92bd72dcfef8ec2ca44f",
+  "latestHandoffRecoveredHead": "15878b17deb09271168614a0c2b82856d8f58574",
+  "stagedPathsAtRecovery": [],
+  "activeCommand": "./.tmp/run-player-attribute-checks.ps1 -ResumeFrom core-final -ReuseStages v2-final",
+  "activeSession": 56690,
+  "observedCompletion": {
+    "gameTests": 2402,
+    "empiricalTests": 15,
+    "workspaceTypes": 0,
+    "scriptTypes": 0,
+    "commandExit": 0
+  },
+  "reused": [
+    "Completed final-source controlled comparisons and seven real-player profiles",
+    "Final HBL40 and Allsvenskan40 with exact source identities",
+    "Passive diagnostics, determinism, natural-free-throw JSON continuation, archive and presentation proofs",
+    "Full core488, V2 9 and engine/domain180 receipts",
+    "Active full game/empirical/type pipeline without restart"
+  ],
+  "remainingAtRecovery": [
+    "Task tools local commit",
+    "Isolated production build and server3022",
+    "Complete final report, verification and evidence local commit",
+    "Postcommit exact preservation and delivery check"
+  ],
+  "discardedOrReset": false,
+  "heavyJobsSequential": true,
+  "nothingPushed": true
+}

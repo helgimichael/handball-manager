@@ -1,0 +1,4738 @@
+{
+  "complete": true,
+  "variant": "after",
+  "domain": "handling",
+  "input": {
+    "path": "docs\\player-attributes-possession-economy-v1\\final\\allsv\\inputs.json",
+    "sha256": "37b2f9ee4648ede1a422549fb680bad5c172ebdf70c77f65334d2e6487ab0347",
+    "players": 261,
+    "provenance": "Actual retained roster identities and gameplay rating branches; generated-prior/derived origins retained, not measured athlete ability."
+  },
+  "ranges": {
+    "PASSING": {
+      "n": 228,
+      "min": 9,
+      "p10": 11,
+      "q1": 13,
+      "median": 13,
+      "q3": 15,
+      "p90": 16,
+      "max": 18
+    },
+    "BALL_HANDLING": {
+      "n": 228,
+      "min": 9,
+      "p10": 11,
+      "q1": 12,
+      "median": 13,
+      "q3": 15,
+      "p90": 15,
+      "max": 17
+    },
+    "SHOOTING_POWER": {
+      "n": 228,
+      "min": 9,
+      "p10": 11,
+      "q1": 12,
+      "median": 14,
+      "q3": 15,
+      "p90": 16,
+      "max": 20
+    },
+    "SHOOTING_PLACEMENT": {
+      "n": 228,
+      "min": 9,
+      "p10": 12,
+      "q1": 12,
+      "median": 14,
+      "q3": 15,
+      "p90": 16,
+      "max": 20
+    },
+    "SHOOTING_VARIETY": {
+      "n": 228,
+      "min": 9,
+      "p10": 11,
+      "q1": 12,
+      "median": 13,
+      "q3": 15,
+      "p90": 16,
+      "max": 17
+    },
+    "BREAKTHROUGH": {
+      "n": 228,
+      "min": 9,
+      "p10": 11,
+      "q1": 12,
+      "median": 14,
+      "q3": 15,
+      "p90": 17,
+      "max": 19
+    },
+    "FINISHING": {
+      "n": 228,
+      "min": 9,
+      "p10": 11,
+      "q1": 12,
+      "median": 14,
+      "q3": 14,
+      "p90": 15,
+      "max": 17
+    },
+    "WING_FINISHING": {
+      "n": 228,
+      "min": 9,
+      "p10": 12,
+      "q1": 13,
+      "median": 14,
+      "q3": 15,
+      "p90": 16,
+      "max": 18
+    },
+    "PIVOT_PLAY": {
+      "n": 228,
+      "min": 9,
+      "p10": 11,
+      "q1": 12,
+      "median": 14,
+      "q3": 15,
+      "p90": 16,
+      "max": 18
+    },
+    "SCREENING": {
+      "n": 228,
+      "min": 9,
+      "p10": 11,
+      "q1": 12,
+      "median": 14,
+      "q3": 15,
+      "p90": 16,
+      "max": 19
+    },
+    "GAME_READING": {
+      "n": 228,
+      "min": 8,
+      "p10": 10,
+      "q1": 11,
+      "median": 12,
+      "q3": 14,
+      "p90": 16,
+      "max": 20
+    },
+    "DECISION_MAKING": {
+      "n": 228,
+      "min": 8,
+      "p10": 10,
+      "q1": 11,
+      "median": 12,
+      "q3": 13,
+      "p90": 15,
+      "max": 20
+    },
+    "AWARENESS": {
+      "n": 228,
+      "min": 8,
+      "p10": 10,
+      "q1": 11,
+      "median": 12,
+      "q3": 13,
+      "p90": 15,
+      "max": 18
+    },
+    "ANTICIPATION": {
+      "n": 228,
+      "min": 8,
+      "p10": 10,
+      "q1": 11,
+      "median": 12,
+      "q3": 13,
+      "p90": 15,
+      "max": 20
+    },
+    "PLAYMAKING": {
+      "n": 228,
+      "min": 8,
+      "p10": 10,
+      "q1": 11,
+      "median": 12,
+      "q3": 14,
+      "p90": 16,
+      "max": 20
+    },
+    "TEMPO_CONTROL": {
+      "n": 228,
+      "min": 8,
+      "p10": 10,
+      "q1": 11,
+      "median": 12,
+      "q3": 14,
+      "p90": 16,
+      "max": 20
+    },
+    "TWO_V_TWO_READING": {
+      "n": 228,
+      "min": 8,
+      "p10": 10,
+      "q1": 11,
+      "median": 12,
+      "q3": 13,
+      "p90": 14,
+      "max": 18
+    },
+    "ADVANTAGE_RECOGNITION": {
+      "n": 228,
+      "min": 8,
+      "p10": 10,
+      "q1": 11,
+      "median": 12,
+      "q3": 13,
+      "p90": 15,
+      "max": 19
+    },
+    "TACTICAL_UNDERSTANDING": {
+      "n": 228,
+      "min": 9,
+      "p10": 11,
+      "q1": 12,
+      "median": 13,
+      "q3": 14,
+      "p90": 15,
+      "max": 17
+    },
+    "ROLE_DISCIPLINE": {
+      "n": 228,
+      "min": 9,
+      "p10": 11,
+      "q1": 11,
+      "median": 13,
+      "q3": 13,
+      "p90": 14,
+      "max": 18
+    },
+    "OFF_BALL_MOVEMENT": {
+      "n": 228,
+      "min": 9,
+      "p10": 10,
+      "q1": 11,
+      "median": 12,
+      "q3": 13,
+      "p90": 14,
+      "max": 19
+    },
+    "SPACING": {
+      "n": 228,
+      "min": 9,
+      "p10": 10,
+      "q1": 11,
+      "median": 12,
+      "q3": 13,
+      "p90": 14,
+      "max": 17
+    },
+    "TIMING": {
+      "n": 228,
+      "min": 9,
+      "p10": 11,
+      "q1": 11,
+      "median": 12,
+      "q3": 13,
+      "p90": 14,
+      "max": 19
+    },
+    "TRANSITION_UNDERSTANDING": {
+      "n": 228,
+      "min": 9,
+      "p10": 11,
+      "q1": 11,
+      "median": 13,
+      "q3": 14,
+      "p90": 15,
+      "max": 19
+    },
+    "SYSTEM_ADAPTABILITY": {
+      "n": 228,
+      "min": 9,
+      "p10": 10,
+      "q1": 11,
+      "median": 12,
+      "q3": 13,
+      "p90": 14,
+      "max": 17
+    },
+    "SEVEN_V_SIX_UNDERSTANDING": {
+      "n": 228,
+      "min": 9,
+      "p10": 11,
+      "q1": 12,
+      "median": 13,
+      "q3": 13,
+      "p90": 14,
+      "max": 17
+    },
+    "CONTACT_ABILITY": {
+      "n": 228,
+      "min": 8,
+      "p10": 10,
+      "q1": 11,
+      "median": 12,
+      "q3": 13,
+      "p90": 14,
+      "max": 17
+    },
+    "DEFENSIVE_POSITIONING": {
+      "n": 228,
+      "min": 8,
+      "p10": 10,
+      "q1": 11,
+      "median": 12,
+      "q3": 13,
+      "p90": 14,
+      "max": 18
+    },
+    "DEFENSIVE_TIMING": {
+      "n": 228,
+      "min": 8,
+      "p10": 10,
+      "q1": 11,
+      "median": 12,
+      "q3": 13,
+      "p90": 14,
+      "max": 17
+    },
+    "LATERAL_DEFENCE": {
+      "n": 228,
+      "min": 8,
+      "p10": 10,
+      "q1": 11,
+      "median": 12,
+      "q3": 13,
+      "p90": 13,
+      "max": 16
+    },
+    "DEPTH_DEFENCE": {
+      "n": 228,
+      "min": 9,
+      "p10": 10,
+      "q1": 11,
+      "median": 12,
+      "q3": 13,
+      "p90": 13,
+      "max": 16
+    },
+    "CENTRAL_DEFENCE": {
+      "n": 228,
+      "min": 8,
+      "p10": 10,
+      "q1": 11,
+      "median": 12,
+      "q3": 13,
+      "p90": 14,
+      "max": 16
+    },
+    "COVERING": {
+      "n": 228,
+      "min": 8,
+      "p10": 10,
+      "q1": 11,
+      "median": 12,
+      "q3": 13,
+      "p90": 13,
+      "max": 18
+    },
+    "SWITCHING_HANDOVER": {
+      "n": 228,
+      "min": 8,
+      "p10": 10,
+      "q1": 11,
+      "median": 11,
+      "q3": 13,
+      "p90": 13,
+      "max": 18
+    },
+    "BALL_WINNING": {
+      "n": 228,
+      "min": 8,
+      "p10": 10,
+      "q1": 11,
+      "median": 12,
+      "q3": 13,
+      "p90": 13,
+      "max": 18
+    },
+    "SHOT_BLOCKING": {
+      "n": 228,
+      "min": 9,
+      "p10": 10,
+      "q1": 10,
+      "median": 12,
+      "q3": 12,
+      "p90": 14,
+      "max": 16
+    },
+    "ACCELERATION": {
+      "n": 228,
+      "min": 9,
+      "p10": 11,
+      "q1": 12,
+      "median": 14,
+      "q3": 15,
+      "p90": 16,
+      "max": 19
+    },
+    "TOP_SPEED": {
+      "n": 228,
+      "min": 8,
+      "p10": 11,
+      "q1": 12,
+      "median": 14,
+      "q3": 15,
+      "p90": 16,
+      "max": 19
+    },
+    "LATERAL_QUICKNESS": {
+      "n": 228,
+      "min": 8,
+      "p10": 11,
+      "q1": 12,
+      "median": 13,
+      "q3": 15,
+      "p90": 16,
+      "max": 17
+    },
+    "AGILITY": {
+      "n": 228,
+      "min": 8,
+      "p10": 11,
+      "q1": 12,
+      "median": 14,
+      "q3": 15,
+      "p90": 16,
+      "max": 17
+    },
+    "EXPLOSIVENESS": {
+      "n": 228,
+      "min": 8,
+      "p10": 11,
+      "q1": 12,
+      "median": 14,
+      "q3": 15,
+      "p90": 16,
+      "max": 17
+    },
+    "STRENGTH": {
+      "n": 228,
+      "min": 8,
+      "p10": 11,
+      "q1": 12,
+      "median": 14,
+      "q3": 15,
+      "p90": 16,
+      "max": 19
+    },
+    "CONTACT_BALANCE": {
+      "n": 228,
+      "min": 8,
+      "p10": 11,
+      "q1": 12,
+      "median": 14,
+      "q3": 15,
+      "p90": 16,
+      "max": 19
+    },
+    "JUMP_ABILITY": {
+      "n": 228,
+      "min": 8,
+      "p10": 11,
+      "q1": 12,
+      "median": 13,
+      "q3": 15,
+      "p90": 15,
+      "max": 17
+    },
+    "ENDURANCE": {
+      "n": 228,
+      "min": 8,
+      "p10": 11,
+      "q1": 12,
+      "median": 13,
+      "q3": 14,
+      "p90": 16,
+      "max": 17
+    },
+    "REPEAT_SPRINT_ABILITY": {
+      "n": 228,
+      "min": 8,
+      "p10": 11,
+      "q1": 12,
+      "median": 14,
+      "q3": 15,
+      "p90": 15,
+      "max": 17
+    },
+    "MOBILITY": {
+      "n": 228,
+      "min": 8,
+      "p10": 11,
+      "q1": 12,
+      "median": 13,
+      "q3": 15,
+      "p90": 15,
+      "max": 17
+    },
+    "CONSISTENCY": {
+      "n": 228,
+      "min": 9,
+      "p10": 11,
+      "q1": 11,
+      "median": 12,
+      "q3": 13,
+      "p90": 14,
+      "max": 17
+    },
+    "COMPOSURE": {
+      "n": 228,
+      "min": 9,
+      "p10": 10,
+      "q1": 11,
+      "median": 12,
+      "q3": 13,
+      "p90": 14,
+      "max": 17
+    },
+    "CONCENTRATION": {
+      "n": 228,
+      "min": 9,
+      "p10": 11,
+      "q1": 11,
+      "median": 12,
+      "q3": 13,
+      "p90": 14,
+      "max": 18
+    },
+    "COMPETITIVE_MENTALITY": {
+      "n": 228,
+      "min": 9,
+      "p10": 11,
+      "q1": 11,
+      "median": 12,
+      "q3": 13,
+      "p90": 14,
+      "max": 17
+    },
+    "RESILIENCE": {
+      "n": 228,
+      "min": 9,
+      "p10": 10,
+      "q1": 11,
+      "median": 12,
+      "q3": 13,
+      "p90": 14,
+      "max": 18
+    },
+    "DISCIPLINE": {
+      "n": 228,
+      "min": 9,
+      "p10": 10,
+      "q1": 11,
+      "median": 12,
+      "q3": 13,
+      "p90": 14,
+      "max": 18
+    },
+    "COACHABILITY": {
+      "n": 228,
+      "min": 9,
+      "p10": 11,
+      "q1": 11,
+      "median": 12,
+      "q3": 13,
+      "p90": 14,
+      "max": 18
+    },
+    "LEADERSHIP": {
+      "n": 228,
+      "min": 9,
+      "p10": 10,
+      "q1": 11,
+      "median": 12,
+      "q3": 13,
+      "p90": 14,
+      "max": 18
+    },
+    "PRESSURE_HANDLING": {
+      "n": 228,
+      "min": 9,
+      "p10": 11,
+      "q1": 11,
+      "median": 12,
+      "q3": 13,
+      "p90": 14,
+      "max": 18
+    },
+    "GK_POSITIONING": {
+      "n": 33,
+      "min": 9,
+      "p10": 11,
+      "q1": 12,
+      "median": 13,
+      "q3": 14,
+      "p90": 15,
+      "max": 18
+    },
+    "SET_POSITION": {
+      "n": 33,
+      "min": 9,
+      "p10": 11,
+      "q1": 12,
+      "median": 12,
+      "q3": 13,
+      "p90": 13,
+      "max": 16
+    },
+    "REACTION": {
+      "n": 33,
+      "min": 9,
+      "p10": 11,
+      "q1": 12,
+      "median": 13,
+      "q3": 15,
+      "p90": 16,
+      "max": 17
+    },
+    "GK_EXPLOSIVENESS": {
+      "n": 33,
+      "min": 8,
+      "p10": 10,
+      "q1": 11,
+      "median": 12,
+      "q3": 13,
+      "p90": 14,
+      "max": 16
+    },
+    "LOW_SAVES": {
+      "n": 33,
+      "min": 9,
+      "p10": 11,
+      "q1": 12,
+      "median": 12,
+      "q3": 13,
+      "p90": 14,
+      "max": 15
+    },
+    "HIGH_SAVES": {
+      "n": 33,
+      "min": 9,
+      "p10": 10,
+      "q1": 11,
+      "median": 12,
+      "q3": 13,
+      "p90": 13,
+      "max": 15
+    },
+    "CLOSE_RANGE_SAVES": {
+      "n": 33,
+      "min": 8,
+      "p10": 10,
+      "q1": 11,
+      "median": 12,
+      "q3": 14,
+      "p90": 15,
+      "max": 16
+    },
+    "LONG_RANGE_SAVES": {
+      "n": 33,
+      "min": 8,
+      "p10": 10,
+      "q1": 11,
+      "median": 12,
+      "q3": 13,
+      "p90": 14,
+      "max": 14
+    },
+    "WING_SAVES": {
+      "n": 33,
+      "min": 9,
+      "p10": 10,
+      "q1": 11,
+      "median": 12,
+      "q3": 13,
+      "p90": 14,
+      "max": 15
+    },
+    "SEVEN_M_SAVES": {
+      "n": 33,
+      "min": 9,
+      "p10": 11,
+      "q1": 11,
+      "median": 12,
+      "q3": 13,
+      "p90": 14,
+      "max": 15
+    },
+    "SHOOTER_READING": {
+      "n": 33,
+      "min": 10,
+      "p10": 10,
+      "q1": 11,
+      "median": 13,
+      "q3": 14,
+      "p90": 14,
+      "max": 16
+    },
+    "SHOT_ANTICIPATION": {
+      "n": 33,
+      "min": 9,
+      "p10": 10,
+      "q1": 11,
+      "median": 13,
+      "q3": 14,
+      "p90": 14,
+      "max": 17
+    },
+    "PATIENCE": {
+      "n": 33,
+      "min": 9,
+      "p10": 10,
+      "q1": 11,
+      "median": 12,
+      "q3": 13,
+      "p90": 13,
+      "max": 15
+    },
+    "DECISION_TIMING": {
+      "n": 33,
+      "min": 9,
+      "p10": 10,
+      "q1": 11,
+      "median": 12,
+      "q3": 13,
+      "p90": 13,
+      "max": 15
+    },
+    "OUTLET_PASSING": {
+      "n": 33,
+      "min": 9,
+      "p10": 10,
+      "q1": 11,
+      "median": 12,
+      "q3": 14,
+      "p90": 16,
+      "max": 18
+    },
+    "RESTART_SPEED": {
+      "n": 33,
+      "min": 9,
+      "p10": 11,
+      "q1": 11,
+      "median": 13,
+      "q3": 14,
+      "p90": 15,
+      "max": 17
+    },
+    "TRANSITION_DECISION": {
+      "n": 33,
+      "min": 10,
+      "p10": 10,
+      "q1": 12,
+      "median": 13,
+      "q3": 14,
+      "p90": 15,
+      "max": 17
+    },
+    "GK_CONSISTENCY": {
+      "n": 33,
+      "min": 9,
+      "p10": 10,
+      "q1": 11,
+      "median": 12,
+      "q3": 13,
+      "p90": 13,
+      "max": 15
+    },
+    "GK_COMPOSURE": {
+      "n": 33,
+      "min": 10,
+      "p10": 10,
+      "q1": 11,
+      "median": 12,
+      "q3": 13,
+      "p90": 13,
+      "max": 15
+    },
+    "GK_CONCENTRATION": {
+      "n": 33,
+      "min": 9,
+      "p10": 10,
+      "q1": 11,
+      "median": 12,
+      "q3": 13,
+      "p90": 14,
+      "max": 15
+    },
+    "GK_PRESSURE_HANDLING": {
+      "n": 33,
+      "min": 9,
+      "p10": 10,
+      "q1": 11,
+      "median": 12,
+      "q3": 13,
+      "p90": 13,
+      "max": 15
+    }
+  },
+  "cells": [
+    {
+      "label": "pass",
+      "keys": [
+        "PASSING",
+        "PRESSURE_HANDLING"
+      ],
+      "tier": "low",
+      "context": "simple",
+      "tired": false,
+      "raw": {
+        "PASSING": 11,
+        "PRESSURE_HANDLING": 11
+      },
+      "n": 384,
+      "metrics": {
+        "speed": {
+          "n": 384,
+          "mean": 12.078947368421117,
+          "min": 12.078947368421053,
+          "max": 12.078947368421053
+        },
+        "difficulty": {
+          "n": 384,
+          "mean": 0,
+          "min": 0,
+          "max": 0
+        },
+        "spread": {
+          "n": 384,
+          "mean": 0.11026315789473595,
+          "min": 0.11026315789473684,
+          "max": 0.11026315789473684
+        },
+        "pressure": {
+          "n": 384,
+          "mean": 0,
+          "min": 0,
+          "max": 0
+        },
+        "error": {
+          "n": 384,
+          "mean": 0.059908891798921775,
+          "min": 0.003938014167477826,
+          "max": 0.1133506560477307
+        },
+        "capability": {
+          "n": 384,
+          "mean": 0.5263157894736797,
+          "min": 0.5263157894736842,
+          "max": 0.5263157894736842
+        }
+      },
+      "trialDigest": "2e394733d6cdcd42968ffd9dac61e14eaa32424e726fcaad40ae1dbcff4116de"
+    },
+    {
+      "label": "pass",
+      "keys": [
+        "PASSING",
+        "PRESSURE_HANDLING"
+      ],
+      "tier": "mid",
+      "context": "simple",
+      "tired": false,
+      "raw": {
+        "PASSING": 13,
+        "PRESSURE_HANDLING": 12
+      },
+      "n": 384,
+      "metrics": {
+        "speed": {
+          "n": 384,
+          "mean": 12.394736842105289,
+          "min": 12.394736842105264,
+          "max": 12.394736842105264
+        },
+        "difficulty": {
+          "n": 384,
+          "mean": 0,
+          "min": 0,
+          "max": 0
+        },
+        "spread": {
+          "n": 384,
+          "mean": 0.09131578947368346,
+          "min": 0.09131578947368421,
+          "max": 0.09131578947368421
+        },
+        "pressure": {
+          "n": 384,
+          "mean": 0,
+          "min": 0,
+          "max": 0
+        },
+        "error": {
+          "n": 384,
+          "mean": 0.04961428509361782,
+          "min": 0.0032613148355961946,
+          "max": 0.09387273901804905
+        },
+        "capability": {
+          "n": 384,
+          "mean": 0.6315789473684167,
+          "min": 0.631578947368421,
+          "max": 0.631578947368421
+        }
+      },
+      "trialDigest": "8dfd504f3e88b532407a76f578abb485d56d9964eca2fdef34f2355c1d22a26d"
+    },
+    {
+      "label": "pass",
+      "keys": [
+        "PASSING",
+        "PRESSURE_HANDLING"
+      ],
+      "tier": "high",
+      "context": "simple",
+      "tired": false,
+      "raw": {
+        "PASSING": 16,
+        "PRESSURE_HANDLING": 14
+      },
+      "n": 384,
+      "metrics": {
+        "speed": {
+          "n": 384,
+          "mean": 12.868421052631652,
+          "min": 12.868421052631579,
+          "max": 12.868421052631579
+        },
+        "difficulty": {
+          "n": 384,
+          "mean": 0,
+          "min": 0,
+          "max": 0
+        },
+        "spread": {
+          "n": 384,
+          "mean": 0.0628947368421049,
+          "min": 0.06289473684210525,
+          "max": 0.06289473684210525
+        },
+        "pressure": {
+          "n": 384,
+          "mean": 0,
+          "min": 0,
+          "max": 0
+        },
+        "error": {
+          "n": 384,
+          "mean": 0.03417237503566183,
+          "min": 0.0022462658377737474,
+          "max": 0.06465586347352659
+        },
+        "capability": {
+          "n": 384,
+          "mean": 0.7894736842105218,
+          "min": 0.7894736842105263,
+          "max": 0.7894736842105263
+        }
+      },
+      "trialDigest": "8337da0abf1c0043fa4e6a813da10671068ecf5f9fc174d65fbfb9d83e5c96d5"
+    },
+    {
+      "label": "pass",
+      "keys": [
+        "PASSING",
+        "PRESSURE_HANDLING"
+      ],
+      "tier": "low",
+      "context": "simple",
+      "tired": true,
+      "raw": {
+        "PASSING": 11,
+        "PRESSURE_HANDLING": 11
+      },
+      "n": 384,
+      "metrics": {
+        "speed": {
+          "n": 384,
+          "mean": 11.837368421052718,
+          "min": 11.837368421052632,
+          "max": 11.837368421052632
+        },
+        "difficulty": {
+          "n": 384,
+          "mean": 0,
+          "min": 0,
+          "max": 0
+        },
+        "spread": {
+          "n": 384,
+          "mean": 0.12921052631578847,
+          "min": 0.12921052631578947,
+          "max": 0.12921052631578947
+        },
+        "pressure": {
+          "n": 384,
+          "mean": 0,
+          "min": 0,
+          "max": 0
+        },
+        "error": {
+          "n": 384,
+          "mean": 0.07020349850422579,
+          "min": 0.004614713499359457,
+          "max": 0.13282857307741233
+        },
+        "capability": {
+          "n": 384,
+          "mean": 0.4210526315789486,
+          "min": 0.42105263157894735,
+          "max": 0.42105263157894735
+        }
+      },
+      "trialDigest": "4eafb3c2d5e25f7518a14ac2399ab27748cb5a2d2b29ec549688016036ccdb9d"
+    },
+    {
+      "label": "pass",
+      "keys": [
+        "PASSING",
+        "PRESSURE_HANDLING"
+      ],
+      "tier": "mid",
+      "context": "simple",
+      "tired": true,
+      "raw": {
+        "PASSING": 13,
+        "PRESSURE_HANDLING": 12
+      },
+      "n": 384,
+      "metrics": {
+        "speed": {
+          "n": 384,
+          "mean": 12.146842105263197,
+          "min": 12.146842105263158,
+          "max": 12.146842105263158
+        },
+        "difficulty": {
+          "n": 384,
+          "mean": 0,
+          "min": 0,
+          "max": 0
+        },
+        "spread": {
+          "n": 384,
+          "mean": 0.11405263157894764,
+          "min": 0.11405263157894735,
+          "max": 0.11405263157894735
+        },
+        "pressure": {
+          "n": 384,
+          "mean": 0,
+          "min": 0,
+          "max": 0
+        },
+        "error": {
+          "n": 384,
+          "mean": 0.06196781313998256,
+          "min": 0.004073354033854152,
+          "max": 0.11724623945366702
+        },
+        "capability": {
+          "n": 384,
+          "mean": 0.5052631578947383,
+          "min": 0.5052631578947369,
+          "max": 0.5052631578947369
+        }
+      },
+      "trialDigest": "583ef4a8902a3df958ca52b62741c12614185e846d0fad9da5f7e123aee460f3"
+    },
+    {
+      "label": "pass",
+      "keys": [
+        "PASSING",
+        "PRESSURE_HANDLING"
+      ],
+      "tier": "high",
+      "context": "simple",
+      "tired": true,
+      "raw": {
+        "PASSING": 16,
+        "PRESSURE_HANDLING": 14
+      },
+      "n": 384,
+      "metrics": {
+        "speed": {
+          "n": 384,
+          "mean": 12.611052631578865,
+          "min": 12.611052631578946,
+          "max": 12.611052631578946
+        },
+        "difficulty": {
+          "n": 384,
+          "mean": 0,
+          "min": 0,
+          "max": 0
+        },
+        "spread": {
+          "n": 384,
+          "mean": 0.09131578947368346,
+          "min": 0.09131578947368418,
+          "max": 0.09131578947368418
+        },
+        "pressure": {
+          "n": 384,
+          "mean": 0,
+          "min": 0,
+          "max": 0
+        },
+        "error": {
+          "n": 384,
+          "mean": 0.049614285093617816,
+          "min": 0.0032613148355961938,
+          "max": 0.09387273901804903
+        },
+        "capability": {
+          "n": 384,
+          "mean": 0.6315789473684167,
+          "min": 0.6315789473684211,
+          "max": 0.6315789473684211
+        }
+      },
+      "trialDigest": "ff7e6663aba38e960b767db95245dca6692787b6c8a8a7d9ad60f8aa3a0727b1"
+    },
+    {
+      "label": "pass",
+      "keys": [
+        "PASSING",
+        "PRESSURE_HANDLING"
+      ],
+      "tier": "low",
+      "context": "moving",
+      "tired": false,
+      "raw": {
+        "PASSING": 11,
+        "PRESSURE_HANDLING": 11
+      },
+      "n": 384,
+      "metrics": {
+        "speed": {
+          "n": 384,
+          "mean": 12.078947368421117,
+          "min": 12.078947368421053,
+          "max": 12.078947368421053
+        },
+        "difficulty": {
+          "n": 384,
+          "mean": 0.25680425375489707,
+          "min": 0.2568042537548981,
+          "max": 0.2568042537548981
+        },
+        "spread": {
+          "n": 384,
+          "mean": 0.3109759562242251,
+          "min": 0.310975956224223,
+          "max": 0.310975956224223
+        },
+        "pressure": {
+          "n": 384,
+          "mean": 0,
+          "min": 0,
+          "max": 0
+        },
+        "error": {
+          "n": 384,
+          "mean": 0.1689614669959719,
+          "min": 0.01110640892876522,
+          "max": 0.31968364888240347
+        },
+        "capability": {
+          "n": 384,
+          "mean": 0.5263157894736797,
+          "min": 0.5263157894736842,
+          "max": 0.5263157894736842
+        }
+      },
+      "trialDigest": "f6b8dda3f32b83bcafe72b3b17e481257431e5c2a91c70a93073515afd893ed0"
+    },
+    {
+      "label": "pass",
+      "keys": [
+        "PASSING",
+        "PRESSURE_HANDLING"
+      ],
+      "tier": "mid",
+      "context": "moving",
+      "tired": false,
+      "raw": {
+        "PASSING": 13,
+        "PRESSURE_HANDLING": 12
+      },
+      "n": 384,
+      "metrics": {
+        "speed": {
+          "n": 384,
+          "mean": 12.394736842105289,
+          "min": 12.394736842105264,
+          "max": 12.394736842105264
+        },
+        "difficulty": {
+          "n": 384,
+          "mean": 0.25680425375489707,
+          "min": 0.2568042537548981,
+          "max": 0.2568042537548981
+        },
+        "spread": {
+          "n": 384,
+          "mean": 0.24742574372994966,
+          "min": 0.24742574372995124,
+          "max": 0.24742574372995124
+        },
+        "pressure": {
+          "n": 384,
+          "mean": 0,
+          "min": 0,
+          "max": 0
+        },
+        "error": {
+          "n": 384,
+          "mean": 0.13443295469132352,
+          "min": 0.008836732983264166,
+          "max": 0.254353955667239
+        },
+        "capability": {
+          "n": 384,
+          "mean": 0.6315789473684167,
+          "min": 0.631578947368421,
+          "max": 0.631578947368421
+        }
+      },
+      "trialDigest": "b999c356bef3c1805bf179b8d4a7495c6f1c2f30e2a447cf5d13cd22cb7aad00"
+    },
+    {
+      "label": "pass",
+      "keys": [
+        "PASSING",
+        "PRESSURE_HANDLING"
+      ],
+      "tier": "high",
+      "context": "moving",
+      "tired": false,
+      "raw": {
+        "PASSING": 16,
+        "PRESSURE_HANDLING": 14
+      },
+      "n": 384,
+      "metrics": {
+        "speed": {
+          "n": 384,
+          "mean": 12.868421052631652,
+          "min": 12.868421052631579,
+          "max": 12.868421052631579
+        },
+        "difficulty": {
+          "n": 384,
+          "mean": 0.25680425375489707,
+          "min": 0.2568042537548981,
+          "max": 0.2568042537548981
+        },
+        "spread": {
+          "n": 384,
+          "mean": 0.15210042498854462,
+          "min": 0.15210042498854354,
+          "max": 0.15210042498854354
+        },
+        "pressure": {
+          "n": 384,
+          "mean": 0,
+          "min": 0,
+          "max": 0
+        },
+        "error": {
+          "n": 384,
+          "mean": 0.08264018623435072,
+          "min": 0.0054322190650125885,
+          "max": 0.15635941584449223
+        },
+        "capability": {
+          "n": 384,
+          "mean": 0.7894736842105218,
+          "min": 0.7894736842105263,
+          "max": 0.7894736842105263
+        }
+      },
+      "trialDigest": "2908ff6f9d0c173b0932e46fd89dfb1161b721e14594a31043fdce8acc1fb383"
+    },
+    {
+      "label": "pass",
+      "keys": [
+        "PASSING",
+        "PRESSURE_HANDLING"
+      ],
+      "tier": "low",
+      "context": "moving",
+      "tired": true,
+      "raw": {
+        "PASSING": 11,
+        "PRESSURE_HANDLING": 11
+      },
+      "n": 384,
+      "metrics": {
+        "speed": {
+          "n": 384,
+          "mean": 11.837368421052718,
+          "min": 11.837368421052632,
+          "max": 11.837368421052632
+        },
+        "difficulty": {
+          "n": 384,
+          "mean": 0.25680425375489707,
+          "min": 0.2568042537548981,
+          "max": 0.2568042537548981
+        },
+        "spread": {
+          "n": 384,
+          "mean": 0.3917050436468545,
+          "min": 0.39170504364685793,
+          "max": 0.39170504364685793
+        },
+        "pressure": {
+          "n": 384,
+          "mean": 0,
+          "min": 0,
+          "max": 0
+        },
+        "error": {
+          "n": 384,
+          "mean": 0.21282371668816222,
+          "min": 0.013989623014664958,
+          "max": 0.40267324573601454
+        },
+        "capability": {
+          "n": 384,
+          "mean": 0.39259792540150634,
+          "min": 0.39259792540150984,
+          "max": 0.39259792540150984
+        }
+      },
+      "trialDigest": "a54756d5919c1722421736715e2019e4cccf517df224195214a1403c7d278556"
+    },
+    {
+      "label": "pass",
+      "keys": [
+        "PASSING",
+        "PRESSURE_HANDLING"
+      ],
+      "tier": "mid",
+      "context": "moving",
+      "tired": true,
+      "raw": {
+        "PASSING": 13,
+        "PRESSURE_HANDLING": 12
+      },
+      "n": 384,
+      "metrics": {
+        "speed": {
+          "n": 384,
+          "mean": 12.146842105263197,
+          "min": 12.146842105263158,
+          "max": 12.146842105263158
+        },
+        "difficulty": {
+          "n": 384,
+          "mean": 0.25680425375489707,
+          "min": 0.2568042537548981,
+          "max": 0.2568042537548981
+        },
+        "spread": {
+          "n": 384,
+          "mean": 0.34274708081750327,
+          "min": 0.34274708081750466,
+          "max": 0.34274708081750466
+        },
+        "pressure": {
+          "n": 384,
+          "mean": 0,
+          "min": 0,
+          "max": 0
+        },
+        "error": {
+          "n": 384,
+          "mean": 0.18622355981038255,
+          "min": 0.012241104697994755,
+          "max": 0.3523444023451388
+        },
+        "capability": {
+          "n": 384,
+          "mean": 0.47369080564916244,
+          "min": 0.4736908056491626,
+          "max": 0.4736908056491626
+        }
+      },
+      "trialDigest": "bccf9ecccec81c4a2c097ea5126e259ad898a693931ded1718fbc36981e46b78"
+    },
+    {
+      "label": "pass",
+      "keys": [
+        "PASSING",
+        "PRESSURE_HANDLING"
+      ],
+      "tier": "high",
+      "context": "moving",
+      "tired": true,
+      "raw": {
+        "PASSING": 16,
+        "PRESSURE_HANDLING": 14
+      },
+      "n": 384,
+      "metrics": {
+        "speed": {
+          "n": 384,
+          "mean": 12.611052631578865,
+          "min": 12.611052631578946,
+          "max": 12.611052631578946
+        },
+        "difficulty": {
+          "n": 384,
+          "mean": 0.25680425375489707,
+          "min": 0.2568042537548981,
+          "max": 0.2568042537548981
+        },
+        "spread": {
+          "n": 384,
+          "mean": 0.2683391566862206,
+          "min": 0.2683391566862193,
+          "max": 0.2683391566862193
+        },
+        "pressure": {
+          "n": 384,
+          "mean": 0,
+          "min": 0,
+          "max": 0
+        },
+        "error": {
+          "n": 384,
+          "mean": 0.1457957654239829,
+          "min": 0.009583648980271262,
+          "max": 0.2758529687923043
+        },
+        "capability": {
+          "n": 384,
+          "mean": 0.5969384355002412,
+          "min": 0.5969384355002363,
+          "max": 0.5969384355002363
+        }
+      },
+      "trialDigest": "1cbe64c2004c9995b2de6fc9af3a41f683718cb8e506f9d13e7fa31153360a34"
+    },
+    {
+      "label": "pass",
+      "keys": [
+        "PASSING",
+        "PRESSURE_HANDLING"
+      ],
+      "tier": "low",
+      "context": "long",
+      "tired": false,
+      "raw": {
+        "PASSING": 11,
+        "PRESSURE_HANDLING": 11
+      },
+      "n": 384,
+      "metrics": {
+        "speed": {
+          "n": 384,
+          "mean": 12.078947368421117,
+          "min": 12.078947368421053,
+          "max": 12.078947368421053
+        },
+        "difficulty": {
+          "n": 384,
+          "mean": 0.25481892283832974,
+          "min": 0.2548189228383322,
+          "max": 0.2548189228383322
+        },
+        "spread": {
+          "n": 384,
+          "mean": 0.3094242633762747,
+          "min": 0.3094242633762755,
+          "max": 0.3094242633762755
+        },
+        "pressure": {
+          "n": 384,
+          "mean": 0,
+          "min": 0,
+          "max": 0
+        },
+        "error": {
+          "n": 384,
+          "mean": 0.16811839120612745,
+          "min": 0.011050990704442052,
+          "max": 0.3180885068090435
+        },
+        "capability": {
+          "n": 384,
+          "mean": 0.5263157894736797,
+          "min": 0.5263157894736842,
+          "max": 0.5263157894736842
+        }
+      },
+      "trialDigest": "a06910cc85be0742d83ca1c723c0aee95a59c716436f34f968ac0ecc7e3fb599"
+    },
+    {
+      "label": "pass",
+      "keys": [
+        "PASSING",
+        "PRESSURE_HANDLING"
+      ],
+      "tier": "mid",
+      "context": "long",
+      "tired": false,
+      "raw": {
+        "PASSING": 13,
+        "PRESSURE_HANDLING": 12
+      },
+      "n": 384,
+      "metrics": {
+        "speed": {
+          "n": 384,
+          "mean": 12.394736842105289,
+          "min": 12.394736842105264,
+          "max": 12.394736842105264
+        },
+        "difficulty": {
+          "n": 384,
+          "mean": 0.25481892283832974,
+          "min": 0.2548189228383322,
+          "max": 0.2548189228383322
+        },
+        "spread": {
+          "n": 384,
+          "mean": 0.2462188715148829,
+          "min": 0.2462188715148809,
+          "max": 0.2462188715148809
+        },
+        "pressure": {
+          "n": 384,
+          "mean": 0,
+          "min": 0,
+          "max": 0
+        },
+        "error": {
+          "n": 384,
+          "mean": 0.13377722907699996,
+          "min": 0.008793629919901702,
+          "max": 0.2531132896101812
+        },
+        "capability": {
+          "n": 384,
+          "mean": 0.6315789473684167,
+          "min": 0.631578947368421,
+          "max": 0.631578947368421
+        }
+      },
+      "trialDigest": "e134ada1ba235a62875c13cbfa865c01fd050ef001190d5229bac7147f29ade8"
+    },
+    {
+      "label": "pass",
+      "keys": [
+        "PASSING",
+        "PRESSURE_HANDLING"
+      ],
+      "tier": "high",
+      "context": "long",
+      "tired": false,
+      "raw": {
+        "PASSING": 16,
+        "PRESSURE_HANDLING": 14
+      },
+      "n": 384,
+      "metrics": {
+        "speed": {
+          "n": 384,
+          "mean": 12.868421052631652,
+          "min": 12.868421052631579,
+          "max": 12.868421052631579
+        },
+        "difficulty": {
+          "n": 384,
+          "mean": 0.25481892283832974,
+          "min": 0.2548189228383322,
+          "max": 0.2548189228383322
+        },
+        "spread": {
+          "n": 384,
+          "mean": 0.1514107837227884,
+          "min": 0.15141078372278907,
+          "max": 0.15141078372278907
+        },
+        "pressure": {
+          "n": 384,
+          "mean": 0,
+          "min": 0,
+          "max": 0
+        },
+        "error": {
+          "n": 384,
+          "mean": 0.08226548588330874,
+          "min": 0.00540758874309118,
+          "max": 0.1556504638118878
+        },
+        "capability": {
+          "n": 384,
+          "mean": 0.7894736842105218,
+          "min": 0.7894736842105263,
+          "max": 0.7894736842105263
+        }
+      },
+      "trialDigest": "e04bc10692875dcc084d0b7fa95ad2bd473973560111e523bf58a4dfdb635a72"
+    },
+    {
+      "label": "pass",
+      "keys": [
+        "PASSING",
+        "PRESSURE_HANDLING"
+      ],
+      "tier": "low",
+      "context": "long",
+      "tired": true,
+      "raw": {
+        "PASSING": 11,
+        "PRESSURE_HANDLING": 11
+      },
+      "n": 384,
+      "metrics": {
+        "speed": {
+          "n": 384,
+          "mean": 11.837368421052718,
+          "min": 11.837368421052632,
+          "max": 11.837368421052632
+        },
+        "difficulty": {
+          "n": 384,
+          "mean": 0.25481892283832974,
+          "min": 0.2548189228383322,
+          "max": 0.2548189228383322
+        },
+        "spread": {
+          "n": 384,
+          "mean": 0.3895832306063384,
+          "min": 0.3895832306063382,
+          "max": 0.3895832306063382
+        },
+        "pressure": {
+          "n": 384,
+          "mean": 0,
+          "min": 0,
+          "max": 0
+        },
+        "error": {
+          "n": 384,
+          "mean": 0.21167087950946084,
+          "min": 0.01391384312613426,
+          "max": 0.400492019433906
+        },
+        "capability": {
+          "n": 384,
+          "mean": 0.39281790621206875,
+          "min": 0.39281790621206836,
+          "max": 0.39281790621206836
+        }
+      },
+      "trialDigest": "a6e8674ece1a918fba34468a138f8395ce5f1860e5fadd43fa3c46dc6f75b4a6"
+    },
+    {
+      "label": "pass",
+      "keys": [
+        "PASSING",
+        "PRESSURE_HANDLING"
+      ],
+      "tier": "mid",
+      "context": "long",
+      "tired": true,
+      "raw": {
+        "PASSING": 13,
+        "PRESSURE_HANDLING": 12
+      },
+      "n": 384,
+      "metrics": {
+        "speed": {
+          "n": 384,
+          "mean": 12.146842105263197,
+          "min": 12.146842105263158,
+          "max": 12.146842105263158
+        },
+        "difficulty": {
+          "n": 384,
+          "mean": 0.25481892283832974,
+          "min": 0.2548189228383322,
+          "max": 0.2548189228383322
+        },
+        "spread": {
+          "n": 384,
+          "mean": 0.3408764392880521,
+          "min": 0.34087643928805067,
+          "max": 0.34087643928805067
+        },
+        "pressure": {
+          "n": 384,
+          "mean": 0,
+          "min": 0,
+          "max": 0
+        },
+        "error": {
+          "n": 384,
+          "mean": 0.18520719076089823,
+          "min": 0.012174295321355147,
+          "max": 0.3504213806519259
+        },
+        "capability": {
+          "n": 384,
+          "mean": 0.47393488870505207,
+          "min": 0.47393488870505185,
+          "max": 0.47393488870505185
+        }
+      },
+      "trialDigest": "4fc4a31a5c284c19f6bbb8200a284ec917dd4956f19c88a6edf5008ba97abc68"
+    },
+    {
+      "label": "pass",
+      "keys": [
+        "PASSING",
+        "PRESSURE_HANDLING"
+      ],
+      "tier": "high",
+      "context": "long",
+      "tired": true,
+      "raw": {
+        "PASSING": 16,
+        "PRESSURE_HANDLING": 14
+      },
+      "n": 384,
+      "metrics": {
+        "speed": {
+          "n": 384,
+          "mean": 12.611052631578865,
+          "min": 12.611052631578946,
+          "max": 12.611052631578946
+        },
+        "difficulty": {
+          "n": 384,
+          "mean": 0.25481892283832974,
+          "min": 0.2548189228383322,
+          "max": 0.2548189228383322
+        },
+        "spread": {
+          "n": 384,
+          "mean": 0.26685800674630394,
+          "min": 0.2668580067463031,
+          "max": 0.2668580067463031
+        },
+        "pressure": {
+          "n": 384,
+          "mean": 0,
+          "min": 0,
+          "max": 0
+        },
+        "error": {
+          "n": 384,
+          "mean": 0.14499101746298998,
+          "min": 0.00953075017382571,
+          "max": 0.27433034491139896
+        },
+        "capability": {
+          "n": 384,
+          "mean": 0.5972062382261352,
+          "min": 0.5972062382261335,
+          "max": 0.5972062382261335
+        }
+      },
+      "trialDigest": "98b6da1c44c0c8df32cd629c20cee702d131945ae5d943d745364243ae7c9d7b"
+    },
+    {
+      "label": "pass",
+      "keys": [
+        "PASSING",
+        "PRESSURE_HANDLING"
+      ],
+      "tier": "low",
+      "context": "pressured",
+      "tired": false,
+      "raw": {
+        "PASSING": 11,
+        "PRESSURE_HANDLING": 11
+      },
+      "n": 384,
+      "metrics": {
+        "speed": {
+          "n": 384,
+          "mean": 12.078947368421117,
+          "min": 12.078947368421053,
+          "max": 12.078947368421053
+        },
+        "difficulty": {
+          "n": 384,
+          "mean": 0.5613583644447647,
+          "min": 0.5613583644447622,
+          "max": 0.5613583644447622
+        },
+        "spread": {
+          "n": 384,
+          "mean": 0.5481731647536771,
+          "min": 0.5481731647536741,
+          "max": 0.5481731647536741
+        },
+        "pressure": {
+          "n": 384,
+          "mean": 0.2727705534493197,
+          "min": 0.27277055344932055,
+          "max": 0.27277055344932055
+        },
+        "error": {
+          "n": 384,
+          "mean": 0.29783698781465734,
+          "min": 0.01957783297927989,
+          "max": 0.5635226583289761
+        },
+        "capability": {
+          "n": 384,
+          "mean": 0.5270713865746491,
+          "min": 0.5270713865746518,
+          "max": 0.5270713865746518
+        }
+      },
+      "trialDigest": "6f288bb4cd6f1e500d844f0e3f20573113ae0707836a6218669bf9c037ea6dd0"
+    },
+    {
+      "label": "pass",
+      "keys": [
+        "PASSING",
+        "PRESSURE_HANDLING"
+      ],
+      "tier": "mid",
+      "context": "pressured",
+      "tired": false,
+      "raw": {
+        "PASSING": 13,
+        "PRESSURE_HANDLING": 12
+      },
+      "n": 384,
+      "metrics": {
+        "speed": {
+          "n": 384,
+          "mean": 12.394736842105289,
+          "min": 12.394736842105264,
+          "max": 12.394736842105264
+        },
+        "difficulty": {
+          "n": 384,
+          "mean": 0.5613583644447647,
+          "min": 0.5613583644447622,
+          "max": 0.5613583644447622
+        },
+        "spread": {
+          "n": 384,
+          "mean": 0.42955344290901687,
+          "min": 0.42955344290901676,
+          "max": 0.42955344290901676
+        },
+        "pressure": {
+          "n": 384,
+          "mean": 0.2727705534493197,
+          "min": 0.27277055344932055,
+          "max": 0.27277055344932055
+        },
+        "error": {
+          "n": 384,
+          "mean": 0.2333877536652609,
+          "min": 0.01534136674626593,
+          "max": 0.44158144470867366
+        },
+        "capability": {
+          "n": 384,
+          "mean": 0.6342990969318995,
+          "min": 0.6342990969319046,
+          "max": 0.6342990969319046
+        }
+      },
+      "trialDigest": "0972e853f56ab03da08d6a89294735178473e8374f9a90dea7facd65c9aeed6d"
+    },
+    {
+      "label": "pass",
+      "keys": [
+        "PASSING",
+        "PRESSURE_HANDLING"
+      ],
+      "tier": "high",
+      "context": "pressured",
+      "tired": false,
+      "raw": {
+        "PASSING": 16,
+        "PRESSURE_HANDLING": 14
+      },
+      "n": 384,
+      "metrics": {
+        "speed": {
+          "n": 384,
+          "mean": 12.868421052631652,
+          "min": 12.868421052631579,
+          "max": 12.868421052631579
+        },
+        "difficulty": {
+          "n": 384,
+          "mean": 0.5613583644447647,
+          "min": 0.5613583644447622,
+          "max": 0.5613583644447622
+        },
+        "spread": {
+          "n": 384,
+          "mean": 0.24911624198125534,
+          "min": 0.24911624198125526,
+          "max": 0.24911624198125526
+        },
+        "pressure": {
+          "n": 384,
+          "mean": 0.2727705534493197,
+          "min": 0.27277055344932055,
+          "max": 0.27277055344932055
+        },
+        "error": {
+          "n": 384,
+          "mean": 0.13535144713029665,
+          "min": 0.008897108599116627,
+          "max": 0.2560917898585632
+        },
+        "capability": {
+          "n": 384,
+          "mean": 0.7974074537706882,
+          "min": 0.7974074537706867,
+          "max": 0.7974074537706867
+        }
+      },
+      "trialDigest": "d2d9da5f96e623d3050199defe5e76aa237309b1ccadba275b434d647b5d8173"
+    },
+    {
+      "label": "pass",
+      "keys": [
+        "PASSING",
+        "PRESSURE_HANDLING"
+      ],
+      "tier": "low",
+      "context": "pressured",
+      "tired": true,
+      "raw": {
+        "PASSING": 11,
+        "PRESSURE_HANDLING": 11
+      },
+      "n": 384,
+      "metrics": {
+        "speed": {
+          "n": 384,
+          "mean": 11.837368421052718,
+          "min": 11.837368421052632,
+          "max": 11.837368421052632
+        },
+        "difficulty": {
+          "n": 384,
+          "mean": 0.5613583644447647,
+          "min": 0.5613583644447622,
+          "max": 0.5613583644447622
+        },
+        "spread": {
+          "n": 384,
+          "mean": 0.7324080217262215,
+          "min": 0.7324080217262193,
+          "max": 0.7324080217262193
+        },
+        "pressure": {
+          "n": 384,
+          "mean": 0.2727705534493197,
+          "min": 0.27277055344932055,
+          "max": 0.27277055344932055
+        },
+        "error": {
+          "n": 384,
+          "mean": 0.3979366613837277,
+          "min": 0.02615772322325199,
+          "max": 0.7529163080613192
+        },
+        "capability": {
+          "n": 384,
+          "mean": 0.3605300933229885,
+          "min": 0.36053009332298686,
+          "max": 0.36053009332298686
+        }
+      },
+      "trialDigest": "11e7914f601d9e5b32b5937f8417ede2fb3062964a22b8eb71385423031e9469"
+    },
+    {
+      "label": "pass",
+      "keys": [
+        "PASSING",
+        "PRESSURE_HANDLING"
+      ],
+      "tier": "mid",
+      "context": "pressured",
+      "tired": true,
+      "raw": {
+        "PASSING": 13,
+        "PRESSURE_HANDLING": 12
+      },
+      "n": 384,
+      "metrics": {
+        "speed": {
+          "n": 384,
+          "mean": 12.146842105263197,
+          "min": 12.146842105263158,
+          "max": 12.146842105263158
+        },
+        "difficulty": {
+          "n": 384,
+          "mean": 0.5613583644447647,
+          "min": 0.5613583644447622,
+          "max": 0.5613583644447622
+        },
+        "spread": {
+          "n": 384,
+          "mean": 0.6451363019239958,
+          "min": 0.6451363019239914,
+          "max": 0.6451363019239914
+        },
+        "pressure": {
+          "n": 384,
+          "mean": 0.2727705534493197,
+          "min": 0.27277055344932055,
+          "max": 0.27277055344932055
+        },
+        "error": {
+          "n": 384,
+          "mean": 0.3505196263689248,
+          "min": 0.023040841070017984,
+          "max": 0.6632008774236443
+        },
+        "capability": {
+          "n": 384,
+          "mean": 0.4394204038700598,
+          "min": 0.43942040387006154,
+          "max": 0.43942040387006154
+        }
+      },
+      "trialDigest": "25ab4cff8c7da9b1db51e8663c988f2c02a4d193b1417baa46a8955c484c3bcd"
+    },
+    {
+      "label": "pass",
+      "keys": [
+        "PASSING",
+        "PRESSURE_HANDLING"
+      ],
+      "tier": "high",
+      "context": "pressured",
+      "tired": true,
+      "raw": {
+        "PASSING": 16,
+        "PRESSURE_HANDLING": 14
+      },
+      "n": 384,
+      "metrics": {
+        "speed": {
+          "n": 384,
+          "mean": 12.611052631578865,
+          "min": 12.611052631578946,
+          "max": 12.611052631578946
+        },
+        "difficulty": {
+          "n": 384,
+          "mean": 0.5613583644447647,
+          "min": 0.5613583644447622,
+          "max": 0.5613583644447622
+        },
+        "spread": {
+          "n": 384,
+          "mean": 0.5085708357566142,
+          "min": 0.5085708357566121,
+          "max": 0.5085708357566121
+        },
+        "pressure": {
+          "n": 384,
+          "mean": 0.2727705534493197,
+          "min": 0.27277055344932055,
+          "max": 0.27277055344932055
+        },
+        "error": {
+          "n": 384,
+          "mean": 0.2763199943948313,
+          "min": 0.018163448196246282,
+          "max": 0.5228114175252215
+        },
+        "capability": {
+          "n": 384,
+          "mean": 0.562870383546935,
+          "min": 0.5628703835469319,
+          "max": 0.5628703835469319
+        }
+      },
+      "trialDigest": "adba566d0ef28148126fbc30881d6b4d6166acb720ecda5cfb199158b2796762"
+    },
+    {
+      "label": "receive",
+      "keys": [
+        "BALL_HANDLING",
+        "CONCENTRATION",
+        "PRESSURE_HANDLING"
+      ],
+      "tier": "low",
+      "context": "simple",
+      "tired": false,
+      "raw": {
+        "BALL_HANDLING": 11,
+        "CONCENTRATION": 11,
+        "PRESSURE_HANDLING": 11
+      },
+      "n": 384,
+      "metrics": {
+        "caught": {
+          "count": 384,
+          "n": 384,
+          "rate": 1
+        },
+        "failed": {
+          "count": 0,
+          "n": 384,
+          "rate": 0
+        },
+        "reached": {
+          "count": 384,
+          "n": 384,
+          "rate": 1
+        },
+        "risk": {
+          "n": 384,
+          "mean": 0,
+          "min": 0,
+          "max": 0
+        },
+        "deliveryError": {
+          "n": 384,
+          "mean": 0.04961428509361782,
+          "min": 0.0032613148355961946,
+          "max": 0.09387273901804905
+        },
+        "passingCapability": {
+          "n": 384,
+          "mean": 0.6315789473684167,
+          "min": 0.631578947368421,
+          "max": 0.631578947368421
+        }
+      },
+      "trialDigest": "349b3c06902a5ea7517359f023d3cfd620b09d3e5bc5864088ea51f01d24f6f4"
+    },
+    {
+      "label": "receive",
+      "keys": [
+        "BALL_HANDLING",
+        "CONCENTRATION",
+        "PRESSURE_HANDLING"
+      ],
+      "tier": "mid",
+      "context": "simple",
+      "tired": false,
+      "raw": {
+        "BALL_HANDLING": 13,
+        "CONCENTRATION": 12,
+        "PRESSURE_HANDLING": 12
+      },
+      "n": 384,
+      "metrics": {
+        "caught": {
+          "count": 384,
+          "n": 384,
+          "rate": 1
+        },
+        "failed": {
+          "count": 0,
+          "n": 384,
+          "rate": 0
+        },
+        "reached": {
+          "count": 384,
+          "n": 384,
+          "rate": 1
+        },
+        "risk": {
+          "n": 384,
+          "mean": 0,
+          "min": 0,
+          "max": 0
+        },
+        "deliveryError": {
+          "n": 384,
+          "mean": 0.04961428509361782,
+          "min": 0.0032613148355961946,
+          "max": 0.09387273901804905
+        },
+        "passingCapability": {
+          "n": 384,
+          "mean": 0.6315789473684167,
+          "min": 0.631578947368421,
+          "max": 0.631578947368421
+        }
+      },
+      "trialDigest": "349b3c06902a5ea7517359f023d3cfd620b09d3e5bc5864088ea51f01d24f6f4"
+    },
+    {
+      "label": "receive",
+      "keys": [
+        "BALL_HANDLING",
+        "CONCENTRATION",
+        "PRESSURE_HANDLING"
+      ],
+      "tier": "high",
+      "context": "simple",
+      "tired": false,
+      "raw": {
+        "BALL_HANDLING": 15,
+        "CONCENTRATION": 14,
+        "PRESSURE_HANDLING": 14
+      },
+      "n": 384,
+      "metrics": {
+        "caught": {
+          "count": 384,
+          "n": 384,
+          "rate": 1
+        },
+        "failed": {
+          "count": 0,
+          "n": 384,
+          "rate": 0
+        },
+        "reached": {
+          "count": 384,
+          "n": 384,
+          "rate": 1
+        },
+        "risk": {
+          "n": 384,
+          "mean": 0,
+          "min": 0,
+          "max": 0
+        },
+        "deliveryError": {
+          "n": 384,
+          "mean": 0.04961428509361782,
+          "min": 0.0032613148355961946,
+          "max": 0.09387273901804905
+        },
+        "passingCapability": {
+          "n": 384,
+          "mean": 0.6315789473684167,
+          "min": 0.631578947368421,
+          "max": 0.631578947368421
+        }
+      },
+      "trialDigest": "349b3c06902a5ea7517359f023d3cfd620b09d3e5bc5864088ea51f01d24f6f4"
+    },
+    {
+      "label": "receive",
+      "keys": [
+        "BALL_HANDLING",
+        "CONCENTRATION",
+        "PRESSURE_HANDLING"
+      ],
+      "tier": "low",
+      "context": "simple",
+      "tired": true,
+      "raw": {
+        "BALL_HANDLING": 11,
+        "CONCENTRATION": 11,
+        "PRESSURE_HANDLING": 11
+      },
+      "n": 384,
+      "metrics": {
+        "caught": {
+          "count": 384,
+          "n": 384,
+          "rate": 1
+        },
+        "failed": {
+          "count": 0,
+          "n": 384,
+          "rate": 0
+        },
+        "reached": {
+          "count": 384,
+          "n": 384,
+          "rate": 1
+        },
+        "risk": {
+          "n": 384,
+          "mean": 0,
+          "min": 0,
+          "max": 0
+        },
+        "deliveryError": {
+          "n": 384,
+          "mean": 0.04961428509361782,
+          "min": 0.0032613148355961946,
+          "max": 0.09387273901804905
+        },
+        "passingCapability": {
+          "n": 384,
+          "mean": 0.6315789473684167,
+          "min": 0.631578947368421,
+          "max": 0.631578947368421
+        }
+      },
+      "trialDigest": "349b3c06902a5ea7517359f023d3cfd620b09d3e5bc5864088ea51f01d24f6f4"
+    },
+    {
+      "label": "receive",
+      "keys": [
+        "BALL_HANDLING",
+        "CONCENTRATION",
+        "PRESSURE_HANDLING"
+      ],
+      "tier": "mid",
+      "context": "simple",
+      "tired": true,
+      "raw": {
+        "BALL_HANDLING": 13,
+        "CONCENTRATION": 12,
+        "PRESSURE_HANDLING": 12
+      },
+      "n": 384,
+      "metrics": {
+        "caught": {
+          "count": 384,
+          "n": 384,
+          "rate": 1
+        },
+        "failed": {
+          "count": 0,
+          "n": 384,
+          "rate": 0
+        },
+        "reached": {
+          "count": 384,
+          "n": 384,
+          "rate": 1
+        },
+        "risk": {
+          "n": 384,
+          "mean": 0,
+          "min": 0,
+          "max": 0
+        },
+        "deliveryError": {
+          "n": 384,
+          "mean": 0.04961428509361782,
+          "min": 0.0032613148355961946,
+          "max": 0.09387273901804905
+        },
+        "passingCapability": {
+          "n": 384,
+          "mean": 0.6315789473684167,
+          "min": 0.631578947368421,
+          "max": 0.631578947368421
+        }
+      },
+      "trialDigest": "349b3c06902a5ea7517359f023d3cfd620b09d3e5bc5864088ea51f01d24f6f4"
+    },
+    {
+      "label": "receive",
+      "keys": [
+        "BALL_HANDLING",
+        "CONCENTRATION",
+        "PRESSURE_HANDLING"
+      ],
+      "tier": "high",
+      "context": "simple",
+      "tired": true,
+      "raw": {
+        "BALL_HANDLING": 15,
+        "CONCENTRATION": 14,
+        "PRESSURE_HANDLING": 14
+      },
+      "n": 384,
+      "metrics": {
+        "caught": {
+          "count": 384,
+          "n": 384,
+          "rate": 1
+        },
+        "failed": {
+          "count": 0,
+          "n": 384,
+          "rate": 0
+        },
+        "reached": {
+          "count": 384,
+          "n": 384,
+          "rate": 1
+        },
+        "risk": {
+          "n": 384,
+          "mean": 0,
+          "min": 0,
+          "max": 0
+        },
+        "deliveryError": {
+          "n": 384,
+          "mean": 0.04961428509361782,
+          "min": 0.0032613148355961946,
+          "max": 0.09387273901804905
+        },
+        "passingCapability": {
+          "n": 384,
+          "mean": 0.6315789473684167,
+          "min": 0.631578947368421,
+          "max": 0.631578947368421
+        }
+      },
+      "trialDigest": "349b3c06902a5ea7517359f023d3cfd620b09d3e5bc5864088ea51f01d24f6f4"
+    },
+    {
+      "label": "receive",
+      "keys": [
+        "BALL_HANDLING",
+        "CONCENTRATION",
+        "PRESSURE_HANDLING"
+      ],
+      "tier": "low",
+      "context": "awkward",
+      "tired": false,
+      "raw": {
+        "BALL_HANDLING": 11,
+        "CONCENTRATION": 11,
+        "PRESSURE_HANDLING": 11
+      },
+      "n": 384,
+      "metrics": {
+        "caught": {
+          "count": 381,
+          "n": 384,
+          "rate": 0.9921875
+        },
+        "failed": {
+          "count": 3,
+          "n": 384,
+          "rate": 0.0078125
+        },
+        "reached": {
+          "count": 384,
+          "n": 384,
+          "rate": 1
+        },
+        "risk": {
+          "n": 384,
+          "mean": 0.00519819860162412,
+          "min": 0,
+          "max": 0.015561472114367531
+        },
+        "deliveryError": {
+          "n": 384,
+          "mean": 0.06595242191076114,
+          "min": 0.004335275850799944,
+          "max": 0.12478532096058656
+        },
+        "passingCapability": {
+          "n": 384,
+          "mean": 0.6315789473684167,
+          "min": 0.631578947368421,
+          "max": 0.631578947368421
+        }
+      },
+      "trialDigest": "d360bba00ba84858595fbf0378f2e5e80fe0be56885db47be295542d5bef20b3"
+    },
+    {
+      "label": "receive",
+      "keys": [
+        "BALL_HANDLING",
+        "CONCENTRATION",
+        "PRESSURE_HANDLING"
+      ],
+      "tier": "mid",
+      "context": "awkward",
+      "tired": false,
+      "raw": {
+        "BALL_HANDLING": 13,
+        "CONCENTRATION": 12,
+        "PRESSURE_HANDLING": 12
+      },
+      "n": 384,
+      "metrics": {
+        "caught": {
+          "count": 381,
+          "n": 384,
+          "rate": 0.9921875
+        },
+        "failed": {
+          "count": 3,
+          "n": 384,
+          "rate": 0.0078125
+        },
+        "reached": {
+          "count": 384,
+          "n": 384,
+          "rate": 1
+        },
+        "risk": {
+          "n": 384,
+          "mean": 0.0033268471050394346,
+          "min": 0,
+          "max": 0.009959342153195216
+        },
+        "deliveryError": {
+          "n": 384,
+          "mean": 0.06595242191076114,
+          "min": 0.004335275850799944,
+          "max": 0.12478532096058656
+        },
+        "passingCapability": {
+          "n": 384,
+          "mean": 0.6315789473684167,
+          "min": 0.631578947368421,
+          "max": 0.631578947368421
+        }
+      },
+      "trialDigest": "d3e880fa935adf8c60191c52dfe2e3f94dfc4cdd5b895cd452ce806676fca185"
+    },
+    {
+      "label": "receive",
+      "keys": [
+        "BALL_HANDLING",
+        "CONCENTRATION",
+        "PRESSURE_HANDLING"
+      ],
+      "tier": "high",
+      "context": "awkward",
+      "tired": false,
+      "raw": {
+        "BALL_HANDLING": 15,
+        "CONCENTRATION": 14,
+        "PRESSURE_HANDLING": 14
+      },
+      "n": 384,
+      "metrics": {
+        "caught": {
+          "count": 382,
+          "n": 384,
+          "rate": 0.9947916666666666
+        },
+        "failed": {
+          "count": 2,
+          "n": 384,
+          "rate": 0.005208333333333333
+        },
+        "reached": {
+          "count": 384,
+          "n": 384,
+          "rate": 1
+        },
+        "risk": {
+          "n": 384,
+          "mean": 0.001735299878863164,
+          "min": 0,
+          "max": 0.005194842049043187
+        },
+        "deliveryError": {
+          "n": 384,
+          "mean": 0.06595242191076114,
+          "min": 0.004335275850799944,
+          "max": 0.12478532096058656
+        },
+        "passingCapability": {
+          "n": 384,
+          "mean": 0.6315789473684167,
+          "min": 0.631578947368421,
+          "max": 0.631578947368421
+        }
+      },
+      "trialDigest": "9f90e9b24622139ae4780c0c120d2f34557dfec894c245474d7139e3803c333b"
+    },
+    {
+      "label": "receive",
+      "keys": [
+        "BALL_HANDLING",
+        "CONCENTRATION",
+        "PRESSURE_HANDLING"
+      ],
+      "tier": "low",
+      "context": "awkward",
+      "tired": true,
+      "raw": {
+        "BALL_HANDLING": 11,
+        "CONCENTRATION": 11,
+        "PRESSURE_HANDLING": 11
+      },
+      "n": 384,
+      "metrics": {
+        "caught": {
+          "count": 380,
+          "n": 384,
+          "rate": 0.9895833333333334
+        },
+        "failed": {
+          "count": 4,
+          "n": 384,
+          "rate": 0.010416666666666666
+        },
+        "reached": {
+          "count": 384,
+          "n": 384,
+          "rate": 1
+        },
+        "risk": {
+          "n": 384,
+          "mean": 0.008439432401734283,
+          "min": 0,
+          "max": 0.025459109081923108
+        },
+        "deliveryError": {
+          "n": 384,
+          "mean": 0.06595242191076114,
+          "min": 0.004335275850799944,
+          "max": 0.12478532096058656
+        },
+        "passingCapability": {
+          "n": 384,
+          "mean": 0.6315789473684167,
+          "min": 0.631578947368421,
+          "max": 0.631578947368421
+        }
+      },
+      "trialDigest": "d79a44b8b74f676af661b78ddca11eb27dbd3827f16b75389bb015c544041a0d"
+    },
+    {
+      "label": "receive",
+      "keys": [
+        "BALL_HANDLING",
+        "CONCENTRATION",
+        "PRESSURE_HANDLING"
+      ],
+      "tier": "mid",
+      "context": "awkward",
+      "tired": true,
+      "raw": {
+        "BALL_HANDLING": 13,
+        "CONCENTRATION": 12,
+        "PRESSURE_HANDLING": 12
+      },
+      "n": 384,
+      "metrics": {
+        "caught": {
+          "count": 381,
+          "n": 384,
+          "rate": 0.9921875
+        },
+        "failed": {
+          "count": 3,
+          "n": 384,
+          "rate": 0.0078125
+        },
+        "reached": {
+          "count": 384,
+          "n": 384,
+          "rate": 1
+        },
+        "risk": {
+          "n": 384,
+          "mean": 0.006513326253293223,
+          "min": 0,
+          "max": 0.019686554804020137
+        },
+        "deliveryError": {
+          "n": 384,
+          "mean": 0.06595242191076114,
+          "min": 0.004335275850799944,
+          "max": 0.12478532096058656
+        },
+        "passingCapability": {
+          "n": 384,
+          "mean": 0.6315789473684167,
+          "min": 0.631578947368421,
+          "max": 0.631578947368421
+        }
+      },
+      "trialDigest": "276375993871c6d5e91ec54edb418be031232e4b378be1d7a38a8f413342edf2"
+    },
+    {
+      "label": "receive",
+      "keys": [
+        "BALL_HANDLING",
+        "CONCENTRATION",
+        "PRESSURE_HANDLING"
+      ],
+      "tier": "high",
+      "context": "awkward",
+      "tired": true,
+      "raw": {
+        "BALL_HANDLING": 15,
+        "CONCENTRATION": 14,
+        "PRESSURE_HANDLING": 14
+      },
+      "n": 384,
+      "metrics": {
+        "caught": {
+          "count": 381,
+          "n": 384,
+          "rate": 0.9921875
+        },
+        "failed": {
+          "count": 3,
+          "n": 384,
+          "rate": 0.0078125
+        },
+        "reached": {
+          "count": 384,
+          "n": 384,
+          "rate": 1
+        },
+        "risk": {
+          "n": 384,
+          "mean": 0.004650777699989088,
+          "min": 0,
+          "max": 0.014093590562433787
+        },
+        "deliveryError": {
+          "n": 384,
+          "mean": 0.06595242191076114,
+          "min": 0.004335275850799944,
+          "max": 0.12478532096058656
+        },
+        "passingCapability": {
+          "n": 384,
+          "mean": 0.6315789473684167,
+          "min": 0.631578947368421,
+          "max": 0.631578947368421
+        }
+      },
+      "trialDigest": "6288305b92b3727c1a22b1f9c92b5b61a288e16e1dfcdc1b30d4dd73108a0d19"
+    },
+    {
+      "label": "receive",
+      "keys": [
+        "BALL_HANDLING",
+        "CONCENTRATION",
+        "PRESSURE_HANDLING"
+      ],
+      "tier": "low",
+      "context": "pressured",
+      "tired": false,
+      "raw": {
+        "BALL_HANDLING": 11,
+        "CONCENTRATION": 11,
+        "PRESSURE_HANDLING": 11
+      },
+      "n": 384,
+      "metrics": {
+        "caught": {
+          "count": 366,
+          "n": 384,
+          "rate": 0.953125
+        },
+        "failed": {
+          "count": 18,
+          "n": 384,
+          "rate": 0.046875
+        },
+        "reached": {
+          "count": 384,
+          "n": 384,
+          "rate": 1
+        },
+        "risk": {
+          "n": 384,
+          "mean": 0.04280304468005622,
+          "min": 0.04184795947738511,
+          "max": 0.044795567097766706
+        },
+        "deliveryError": {
+          "n": 384,
+          "mean": 0.09898095175694477,
+          "min": 0.006506352873920178,
+          "max": 0.18727697143081523
+        },
+        "passingCapability": {
+          "n": 384,
+          "mean": 0.6315789473684167,
+          "min": 0.631578947368421,
+          "max": 0.631578947368421
+        }
+      },
+      "trialDigest": "d65ccab5f68dacaea3455985a66fc41d6a93f638f09f2cf20da57f4f560495d8"
+    },
+    {
+      "label": "receive",
+      "keys": [
+        "BALL_HANDLING",
+        "CONCENTRATION",
+        "PRESSURE_HANDLING"
+      ],
+      "tier": "mid",
+      "context": "pressured",
+      "tired": false,
+      "raw": {
+        "BALL_HANDLING": 13,
+        "CONCENTRATION": 12,
+        "PRESSURE_HANDLING": 12
+      },
+      "n": 384,
+      "metrics": {
+        "caught": {
+          "count": 373,
+          "n": 384,
+          "rate": 0.9713541666666666
+        },
+        "failed": {
+          "count": 11,
+          "n": 384,
+          "rate": 0.028645833333333332
+        },
+        "reached": {
+          "count": 384,
+          "n": 384,
+          "rate": 1
+        },
+        "risk": {
+          "n": 384,
+          "mean": 0.02710851448458752,
+          "min": 0.026503628985339638,
+          "max": 0.028370441602742682
+        },
+        "deliveryError": {
+          "n": 384,
+          "mean": 0.09898095175694477,
+          "min": 0.006506352873920178,
+          "max": 0.18727697143081523
+        },
+        "passingCapability": {
+          "n": 384,
+          "mean": 0.6315789473684167,
+          "min": 0.631578947368421,
+          "max": 0.631578947368421
+        }
+      },
+      "trialDigest": "34fd750feb4e071ecb3a4dfcd767bbc7f2a2f2c203fd2712ed63e0f2b693057b"
+    },
+    {
+      "label": "receive",
+      "keys": [
+        "BALL_HANDLING",
+        "CONCENTRATION",
+        "PRESSURE_HANDLING"
+      ],
+      "tier": "high",
+      "context": "pressured",
+      "tired": false,
+      "raw": {
+        "BALL_HANDLING": 15,
+        "CONCENTRATION": 14,
+        "PRESSURE_HANDLING": 14
+      },
+      "n": 384,
+      "metrics": {
+        "caught": {
+          "count": 376,
+          "n": 384,
+          "rate": 0.9791666666666666
+        },
+        "failed": {
+          "count": 8,
+          "n": 384,
+          "rate": 0.020833333333333332
+        },
+        "reached": {
+          "count": 384,
+          "n": 384,
+          "rate": 1
+        },
+        "risk": {
+          "n": 384,
+          "mean": 0.013691830153373075,
+          "min": 0.01338631767231665,
+          "max": 0.014329197862235889
+        },
+        "deliveryError": {
+          "n": 384,
+          "mean": 0.09898095175694477,
+          "min": 0.006506352873920178,
+          "max": 0.18727697143081523
+        },
+        "passingCapability": {
+          "n": 384,
+          "mean": 0.6315789473684167,
+          "min": 0.631578947368421,
+          "max": 0.631578947368421
+        }
+      },
+      "trialDigest": "71af3d0e84834acfb09c55e6e3b09e9081713adb21f9c5840e09a46e6a9df504"
+    },
+    {
+      "label": "receive",
+      "keys": [
+        "BALL_HANDLING",
+        "CONCENTRATION",
+        "PRESSURE_HANDLING"
+      ],
+      "tier": "low",
+      "context": "pressured",
+      "tired": true,
+      "raw": {
+        "BALL_HANDLING": 11,
+        "CONCENTRATION": 11,
+        "PRESSURE_HANDLING": 11
+      },
+      "n": 384,
+      "metrics": {
+        "caught": {
+          "count": 354,
+          "n": 384,
+          "rate": 0.921875
+        },
+        "failed": {
+          "count": 30,
+          "n": 384,
+          "rate": 0.078125
+        },
+        "reached": {
+          "count": 384,
+          "n": 384,
+          "rate": 1
+        },
+        "risk": {
+          "n": 384,
+          "mean": 0.0727300308815577,
+          "min": 0.07100911361009603,
+          "max": 0.07632906556887752
+        },
+        "deliveryError": {
+          "n": 384,
+          "mean": 0.09898095175694477,
+          "min": 0.006506352873920178,
+          "max": 0.18727697143081523
+        },
+        "passingCapability": {
+          "n": 384,
+          "mean": 0.6315789473684167,
+          "min": 0.631578947368421,
+          "max": 0.631578947368421
+        }
+      },
+      "trialDigest": "31bf11a98934c82e0252b0460e980741995e5a8a770b70e4544a8087ae8a0486"
+    },
+    {
+      "label": "receive",
+      "keys": [
+        "BALL_HANDLING",
+        "CONCENTRATION",
+        "PRESSURE_HANDLING"
+      ],
+      "tier": "mid",
+      "context": "pressured",
+      "tired": true,
+      "raw": {
+        "BALL_HANDLING": 13,
+        "CONCENTRATION": 12,
+        "PRESSURE_HANDLING": 12
+      },
+      "n": 384,
+      "metrics": {
+        "caught": {
+          "count": 359,
+          "n": 384,
+          "rate": 0.9348958333333334
+        },
+        "failed": {
+          "count": 25,
+          "n": 384,
+          "rate": 0.06510416666666667
+        },
+        "reached": {
+          "count": 384,
+          "n": 384,
+          "rate": 1
+        },
+        "risk": {
+          "n": 384,
+          "mean": 0.05644331959085516,
+          "min": 0.05508874247445147,
+          "max": 0.05927785635383287
+        },
+        "deliveryError": {
+          "n": 384,
+          "mean": 0.09898095175694477,
+          "min": 0.006506352873920178,
+          "max": 0.18727697143081523
+        },
+        "passingCapability": {
+          "n": 384,
+          "mean": 0.6315789473684167,
+          "min": 0.631578947368421,
+          "max": 0.631578947368421
+        }
+      },
+      "trialDigest": "5cf8bb97f29bd7711446f18b99d68d213c391ca93961e3c20f98b3049fb0d021"
+    },
+    {
+      "label": "receive",
+      "keys": [
+        "BALL_HANDLING",
+        "CONCENTRATION",
+        "PRESSURE_HANDLING"
+      ],
+      "tier": "high",
+      "context": "pressured",
+      "tired": true,
+      "raw": {
+        "BALL_HANDLING": 15,
+        "CONCENTRATION": 14,
+        "PRESSURE_HANDLING": 14
+      },
+      "n": 384,
+      "metrics": {
+        "caught": {
+          "count": 367,
+          "n": 384,
+          "rate": 0.9557291666666666
+        },
+        "failed": {
+          "count": 17,
+          "n": 384,
+          "rate": 0.044270833333333336
+        },
+        "reached": {
+          "count": 384,
+          "n": 384,
+          "rate": 1
+        },
+        "risk": {
+          "n": 384,
+          "mean": 0.040347381830373945,
+          "min": 0.03936054089941028,
+          "max": 0.04241400506911109
+        },
+        "deliveryError": {
+          "n": 384,
+          "mean": 0.09898095175694477,
+          "min": 0.006506352873920178,
+          "max": 0.18727697143081523
+        },
+        "passingCapability": {
+          "n": 384,
+          "mean": 0.6315789473684167,
+          "min": 0.631578947368421,
+          "max": 0.631578947368421
+        }
+      },
+      "trialDigest": "9ee83b7f6456aa355d34e99b9e658e84677c245b47a73abd0ea5fefbca66d8fe"
+    },
+    {
+      "label": "receive",
+      "keys": [
+        "BALL_HANDLING",
+        "CONCENTRATION",
+        "PRESSURE_HANDLING"
+      ],
+      "tier": "low",
+      "context": "moving",
+      "tired": false,
+      "raw": {
+        "BALL_HANDLING": 11,
+        "CONCENTRATION": 11,
+        "PRESSURE_HANDLING": 11
+      },
+      "n": 384,
+      "metrics": {
+        "caught": {
+          "count": 380,
+          "n": 384,
+          "rate": 0.9895833333333334
+        },
+        "failed": {
+          "count": 4,
+          "n": 384,
+          "rate": 0.010416666666666666
+        },
+        "reached": {
+          "count": 384,
+          "n": 384,
+          "rate": 1
+        },
+        "risk": {
+          "n": 384,
+          "mean": 0.004685183780386817,
+          "min": 0.0022119842365447904,
+          "max": 0.009674126538911487
+        },
+        "deliveryError": {
+          "n": 384,
+          "mean": 0.10863761774945961,
+          "min": 0.007141118204194719,
+          "max": 0.20554787233746585
+        },
+        "passingCapability": {
+          "n": 384,
+          "mean": 0.6315789473684167,
+          "min": 0.631578947368421,
+          "max": 0.631578947368421
+        }
+      },
+      "trialDigest": "0d1860ca08371602acbaf907a360842fd4ee321c3402d6e44f1627327a8abb25"
+    },
+    {
+      "label": "receive",
+      "keys": [
+        "BALL_HANDLING",
+        "CONCENTRATION",
+        "PRESSURE_HANDLING"
+      ],
+      "tier": "mid",
+      "context": "moving",
+      "tired": false,
+      "raw": {
+        "BALL_HANDLING": 13,
+        "CONCENTRATION": 12,
+        "PRESSURE_HANDLING": 12
+      },
+      "n": 384,
+      "metrics": {
+        "caught": {
+          "count": 380,
+          "n": 384,
+          "rate": 0.9895833333333334
+        },
+        "failed": {
+          "count": 4,
+          "n": 384,
+          "rate": 0.010416666666666666
+        },
+        "reached": {
+          "count": 384,
+          "n": 384,
+          "rate": 1
+        },
+        "risk": {
+          "n": 384,
+          "mean": 0.0029895907139795455,
+          "min": 0.0014114553116841599,
+          "max": 0.006173008407410873
+        },
+        "deliveryError": {
+          "n": 384,
+          "mean": 0.10863761774945961,
+          "min": 0.007141118204194719,
+          "max": 0.20554787233746585
+        },
+        "passingCapability": {
+          "n": 384,
+          "mean": 0.6315789473684167,
+          "min": 0.631578947368421,
+          "max": 0.631578947368421
+        }
+      },
+      "trialDigest": "9ec6f68d0647a049cbe0436204362aaf645b4546536236a59e9f76376ad63cda"
+    },
+    {
+      "label": "receive",
+      "keys": [
+        "BALL_HANDLING",
+        "CONCENTRATION",
+        "PRESSURE_HANDLING"
+      ],
+      "tier": "high",
+      "context": "moving",
+      "tired": false,
+      "raw": {
+        "BALL_HANDLING": 15,
+        "CONCENTRATION": 14,
+        "PRESSURE_HANDLING": 14
+      },
+      "n": 384,
+      "metrics": {
+        "caught": {
+          "count": 381,
+          "n": 384,
+          "rate": 0.9921875
+        },
+        "failed": {
+          "count": 3,
+          "n": 384,
+          "rate": 0.0078125
+        },
+        "reached": {
+          "count": 384,
+          "n": 384,
+          "rate": 1
+        },
+        "risk": {
+          "n": 384,
+          "mean": 0.0015452636304837824,
+          "min": 0.0007295549016123979,
+          "max": 0.0031907128082910925
+        },
+        "deliveryError": {
+          "n": 384,
+          "mean": 0.10863761774945961,
+          "min": 0.007141118204194719,
+          "max": 0.20554787233746585
+        },
+        "passingCapability": {
+          "n": 384,
+          "mean": 0.6315789473684167,
+          "min": 0.631578947368421,
+          "max": 0.631578947368421
+        }
+      },
+      "trialDigest": "bdd378a08537f21509f70a6f2b946c2a7b97082884bce6c6fa143c7828e94f34"
+    },
+    {
+      "label": "receive",
+      "keys": [
+        "BALL_HANDLING",
+        "CONCENTRATION",
+        "PRESSURE_HANDLING"
+      ],
+      "tier": "low",
+      "context": "moving",
+      "tired": true,
+      "raw": {
+        "BALL_HANDLING": 11,
+        "CONCENTRATION": 11,
+        "PRESSURE_HANDLING": 11
+      },
+      "n": 384,
+      "metrics": {
+        "caught": {
+          "count": 361,
+          "n": 384,
+          "rate": 0.9401041666666666
+        },
+        "failed": {
+          "count": 23,
+          "n": 384,
+          "rate": 0.059895833333333336
+        },
+        "reached": {
+          "count": 384,
+          "n": 384,
+          "rate": 1
+        },
+        "risk": {
+          "n": 384,
+          "mean": 0.051938133073621086,
+          "min": 0.04872601898047483,
+          "max": 0.05922017216740031
+        },
+        "deliveryError": {
+          "n": 384,
+          "mean": 0.12246252674458573,
+          "min": 0.008049876250823764,
+          "max": 0.23170530001376852
+        },
+        "passingCapability": {
+          "n": 384,
+          "mean": 0.6315789473684167,
+          "min": 0.631578947368421,
+          "max": 0.631578947368421
+        }
+      },
+      "trialDigest": "1c34bd303bd97d0d3d6231cb12ad241e419324c20c62d6a0323802068d29ab33"
+    },
+    {
+      "label": "receive",
+      "keys": [
+        "BALL_HANDLING",
+        "CONCENTRATION",
+        "PRESSURE_HANDLING"
+      ],
+      "tier": "mid",
+      "context": "moving",
+      "tired": true,
+      "raw": {
+        "BALL_HANDLING": 13,
+        "CONCENTRATION": 12,
+        "PRESSURE_HANDLING": 12
+      },
+      "n": 384,
+      "metrics": {
+        "caught": {
+          "count": 367,
+          "n": 384,
+          "rate": 0.9557291666666666
+        },
+        "failed": {
+          "count": 17,
+          "n": 384,
+          "rate": 0.044270833333333336
+        },
+        "reached": {
+          "count": 384,
+          "n": 384,
+          "rate": 1
+        },
+        "risk": {
+          "n": 384,
+          "mean": 0.04024212341409724,
+          "min": 0.03772693924509279,
+          "max": 0.04595148947244263
+        },
+        "deliveryError": {
+          "n": 384,
+          "mean": 0.12246252674458573,
+          "min": 0.008049876250823764,
+          "max": 0.23170530001376852
+        },
+        "passingCapability": {
+          "n": 384,
+          "mean": 0.6315789473684167,
+          "min": 0.631578947368421,
+          "max": 0.631578947368421
+        }
+      },
+      "trialDigest": "eb46d08938b3547679f3ba8922c85dad91e459fcc784020c6c3359ad0b4f8a7b"
+    },
+    {
+      "label": "receive",
+      "keys": [
+        "BALL_HANDLING",
+        "CONCENTRATION",
+        "PRESSURE_HANDLING"
+      ],
+      "tier": "high",
+      "context": "moving",
+      "tired": true,
+      "raw": {
+        "BALL_HANDLING": 15,
+        "CONCENTRATION": 14,
+        "PRESSURE_HANDLING": 14
+      },
+      "n": 384,
+      "metrics": {
+        "caught": {
+          "count": 371,
+          "n": 384,
+          "rate": 0.9661458333333334
+        },
+        "failed": {
+          "count": 13,
+          "n": 384,
+          "rate": 0.033854166666666664
+        },
+        "reached": {
+          "count": 384,
+          "n": 384,
+          "rate": 1
+        },
+        "risk": {
+          "n": 384,
+          "mean": 0.02877702277233722,
+          "min": 0.026952782249777353,
+          "max": 0.03292504534015281
+        },
+        "deliveryError": {
+          "n": 384,
+          "mean": 0.12246252674458573,
+          "min": 0.008049876250823764,
+          "max": 0.23170530001376852
+        },
+        "passingCapability": {
+          "n": 384,
+          "mean": 0.6315789473684167,
+          "min": 0.631578947368421,
+          "max": 0.631578947368421
+        }
+      },
+      "trialDigest": "f883bca473e44a429c47b51f6caa30caf2ba37b7351cf7daa2c3fbe34e7c308e"
+    },
+    {
+      "label": "deliveryOwnership",
+      "keys": [
+        "PASSING"
+      ],
+      "tier": "low",
+      "context": "sameReceiver",
+      "tired": false,
+      "raw": {
+        "PASSING": 11
+      },
+      "n": 384,
+      "metrics": {
+        "caught": {
+          "count": 379,
+          "n": 384,
+          "rate": 0.9869791666666666
+        },
+        "failed": {
+          "count": 5,
+          "n": 384,
+          "rate": 0.013020833333333334
+        },
+        "reached": {
+          "count": 384,
+          "n": 384,
+          "rate": 1
+        },
+        "risk": {
+          "n": 384,
+          "mean": 0.005789509258033491,
+          "min": 0,
+          "max": 0.013480616943582768
+        },
+        "deliveryError": {
+          "n": 384,
+          "mean": 0.08091506770667746,
+          "min": 0.005318821187025503,
+          "max": 0.1530954042595646
+        },
+        "passingCapability": {
+          "n": 384,
+          "mean": 0.5263157894736797,
+          "min": 0.5263157894736842,
+          "max": 0.5263157894736842
+        }
+      },
+      "trialDigest": "5e916f2d9104fddd321a23572ff31986ce77869710d36463acca017c75f931ef"
+    },
+    {
+      "label": "deliveryOwnership",
+      "keys": [
+        "PASSING"
+      ],
+      "tier": "mid",
+      "context": "sameReceiver",
+      "tired": false,
+      "raw": {
+        "PASSING": 13
+      },
+      "n": 384,
+      "metrics": {
+        "caught": {
+          "count": 381,
+          "n": 384,
+          "rate": 0.9921875
+        },
+        "failed": {
+          "count": 3,
+          "n": 384,
+          "rate": 0.0078125
+        },
+        "reached": {
+          "count": 384,
+          "n": 384,
+          "rate": 1
+        },
+        "risk": {
+          "n": 384,
+          "mean": 0.0033268471050394346,
+          "min": 0,
+          "max": 0.009959342153195216
+        },
+        "deliveryError": {
+          "n": 384,
+          "mean": 0.06595242191076114,
+          "min": 0.004335275850799944,
+          "max": 0.12478532096058656
+        },
+        "passingCapability": {
+          "n": 384,
+          "mean": 0.6315789473684167,
+          "min": 0.631578947368421,
+          "max": 0.631578947368421
+        }
+      },
+      "trialDigest": "d3e880fa935adf8c60191c52dfe2e3f94dfc4cdd5b895cd452ce806676fca185"
+    },
+    {
+      "label": "deliveryOwnership",
+      "keys": [
+        "PASSING"
+      ],
+      "tier": "high",
+      "context": "sameReceiver",
+      "tired": false,
+      "raw": {
+        "PASSING": 16
+      },
+      "n": 384,
+      "metrics": {
+        "caught": {
+          "count": 378,
+          "n": 384,
+          "rate": 0.984375
+        },
+        "failed": {
+          "count": 6,
+          "n": 384,
+          "rate": 0.015625
+        },
+        "reached": {
+          "count": 384,
+          "n": 384,
+          "rate": 1
+        },
+        "risk": {
+          "n": 384,
+          "mean": 0.009533909913060834,
+          "min": 0.0061439102134801665,
+          "max": 0.013137490449565876
+        },
+        "deliveryError": {
+          "n": 384,
+          "mean": 0.043508453216886615,
+          "min": 0.0028599578464616046,
+          "max": 0.08232019601211943
+        },
+        "passingCapability": {
+          "n": 384,
+          "mean": 0.7894736842105218,
+          "min": 0.7894736842105263,
+          "max": 0.7894736842105263
+        }
+      },
+      "trialDigest": "43c3086212b2f99abfd7079a34f916315662e4e810a48074a9d1291f2c5202bf"
+    },
+    {
+      "label": "carry",
+      "keys": [
+        "BALL_HANDLING",
+        "PRESSURE_HANDLING"
+      ],
+      "tier": "low",
+      "context": "open",
+      "tired": false,
+      "raw": {
+        "BALL_HANDLING": 11,
+        "PRESSURE_HANDLING": 11
+      },
+      "n": 384,
+      "metrics": {
+        "mistouch": {
+          "count": 0,
+          "n": 384,
+          "rate": 0
+        },
+        "risk": {
+          "n": 384,
+          "mean": 0,
+          "min": 0,
+          "max": 0
+        },
+        "pressure": {
+          "n": 384,
+          "mean": 0,
+          "min": 0,
+          "max": 0
+        },
+        "difficulty": {
+          "n": 384,
+          "mean": 0,
+          "min": 0,
+          "max": 0
+        },
+        "retainedCanonicalPossession": {
+          "count": 384,
+          "n": 384,
+          "rate": 1
+        },
+        "controller": {
+          "H03": 384
+        }
+      },
+      "trialDigest": "ad55dbee2204b436f56bfbc745ffbeacc5f4522c9944f9aa7571fb1a63119719"
+    },
+    {
+      "label": "carry",
+      "keys": [
+        "BALL_HANDLING",
+        "PRESSURE_HANDLING"
+      ],
+      "tier": "mid",
+      "context": "open",
+      "tired": false,
+      "raw": {
+        "BALL_HANDLING": 13,
+        "PRESSURE_HANDLING": 12
+      },
+      "n": 384,
+      "metrics": {
+        "mistouch": {
+          "count": 0,
+          "n": 384,
+          "rate": 0
+        },
+        "risk": {
+          "n": 384,
+          "mean": 0,
+          "min": 0,
+          "max": 0
+        },
+        "pressure": {
+          "n": 384,
+          "mean": 0,
+          "min": 0,
+          "max": 0
+        },
+        "difficulty": {
+          "n": 384,
+          "mean": 0,
+          "min": 0,
+          "max": 0
+        },
+        "retainedCanonicalPossession": {
+          "count": 384,
+          "n": 384,
+          "rate": 1
+        },
+        "controller": {
+          "H03": 384
+        }
+      },
+      "trialDigest": "ad55dbee2204b436f56bfbc745ffbeacc5f4522c9944f9aa7571fb1a63119719"
+    },
+    {
+      "label": "carry",
+      "keys": [
+        "BALL_HANDLING",
+        "PRESSURE_HANDLING"
+      ],
+      "tier": "high",
+      "context": "open",
+      "tired": false,
+      "raw": {
+        "BALL_HANDLING": 15,
+        "PRESSURE_HANDLING": 14
+      },
+      "n": 384,
+      "metrics": {
+        "mistouch": {
+          "count": 0,
+          "n": 384,
+          "rate": 0
+        },
+        "risk": {
+          "n": 384,
+          "mean": 0,
+          "min": 0,
+          "max": 0
+        },
+        "pressure": {
+          "n": 384,
+          "mean": 0,
+          "min": 0,
+          "max": 0
+        },
+        "difficulty": {
+          "n": 384,
+          "mean": 0,
+          "min": 0,
+          "max": 0
+        },
+        "retainedCanonicalPossession": {
+          "count": 384,
+          "n": 384,
+          "rate": 1
+        },
+        "controller": {
+          "H03": 384
+        }
+      },
+      "trialDigest": "ad55dbee2204b436f56bfbc745ffbeacc5f4522c9944f9aa7571fb1a63119719"
+    },
+    {
+      "label": "carry",
+      "keys": [
+        "BALL_HANDLING",
+        "PRESSURE_HANDLING"
+      ],
+      "tier": "low",
+      "context": "open",
+      "tired": true,
+      "raw": {
+        "BALL_HANDLING": 11,
+        "PRESSURE_HANDLING": 11
+      },
+      "n": 384,
+      "metrics": {
+        "mistouch": {
+          "count": 0,
+          "n": 384,
+          "rate": 0
+        },
+        "risk": {
+          "n": 384,
+          "mean": 0,
+          "min": 0,
+          "max": 0
+        },
+        "pressure": {
+          "n": 384,
+          "mean": 0,
+          "min": 0,
+          "max": 0
+        },
+        "difficulty": {
+          "n": 384,
+          "mean": 0,
+          "min": 0,
+          "max": 0
+        },
+        "retainedCanonicalPossession": {
+          "count": 384,
+          "n": 384,
+          "rate": 1
+        },
+        "controller": {
+          "H03": 384
+        }
+      },
+      "trialDigest": "ad55dbee2204b436f56bfbc745ffbeacc5f4522c9944f9aa7571fb1a63119719"
+    },
+    {
+      "label": "carry",
+      "keys": [
+        "BALL_HANDLING",
+        "PRESSURE_HANDLING"
+      ],
+      "tier": "mid",
+      "context": "open",
+      "tired": true,
+      "raw": {
+        "BALL_HANDLING": 13,
+        "PRESSURE_HANDLING": 12
+      },
+      "n": 384,
+      "metrics": {
+        "mistouch": {
+          "count": 0,
+          "n": 384,
+          "rate": 0
+        },
+        "risk": {
+          "n": 384,
+          "mean": 0,
+          "min": 0,
+          "max": 0
+        },
+        "pressure": {
+          "n": 384,
+          "mean": 0,
+          "min": 0,
+          "max": 0
+        },
+        "difficulty": {
+          "n": 384,
+          "mean": 0,
+          "min": 0,
+          "max": 0
+        },
+        "retainedCanonicalPossession": {
+          "count": 384,
+          "n": 384,
+          "rate": 1
+        },
+        "controller": {
+          "H03": 384
+        }
+      },
+      "trialDigest": "ad55dbee2204b436f56bfbc745ffbeacc5f4522c9944f9aa7571fb1a63119719"
+    },
+    {
+      "label": "carry",
+      "keys": [
+        "BALL_HANDLING",
+        "PRESSURE_HANDLING"
+      ],
+      "tier": "high",
+      "context": "open",
+      "tired": true,
+      "raw": {
+        "BALL_HANDLING": 15,
+        "PRESSURE_HANDLING": 14
+      },
+      "n": 384,
+      "metrics": {
+        "mistouch": {
+          "count": 0,
+          "n": 384,
+          "rate": 0
+        },
+        "risk": {
+          "n": 384,
+          "mean": 0,
+          "min": 0,
+          "max": 0
+        },
+        "pressure": {
+          "n": 384,
+          "mean": 0,
+          "min": 0,
+          "max": 0
+        },
+        "difficulty": {
+          "n": 384,
+          "mean": 0,
+          "min": 0,
+          "max": 0
+        },
+        "retainedCanonicalPossession": {
+          "count": 384,
+          "n": 384,
+          "rate": 1
+        },
+        "controller": {
+          "H03": 384
+        }
+      },
+      "trialDigest": "ad55dbee2204b436f56bfbc745ffbeacc5f4522c9944f9aa7571fb1a63119719"
+    },
+    {
+      "label": "carry",
+      "keys": [
+        "BALL_HANDLING",
+        "PRESSURE_HANDLING"
+      ],
+      "tier": "low",
+      "context": "fast",
+      "tired": false,
+      "raw": {
+        "BALL_HANDLING": 11,
+        "PRESSURE_HANDLING": 11
+      },
+      "n": 384,
+      "metrics": {
+        "mistouch": {
+          "count": 0,
+          "n": 384,
+          "rate": 0
+        },
+        "risk": {
+          "n": 384,
+          "mean": 0,
+          "min": 0,
+          "max": 0
+        },
+        "pressure": {
+          "n": 384,
+          "mean": 0,
+          "min": 0,
+          "max": 0
+        },
+        "difficulty": {
+          "n": 384,
+          "mean": 0,
+          "min": 0,
+          "max": 0
+        },
+        "retainedCanonicalPossession": {
+          "count": 384,
+          "n": 384,
+          "rate": 1
+        },
+        "controller": {
+          "H03": 384
+        }
+      },
+      "trialDigest": "ad55dbee2204b436f56bfbc745ffbeacc5f4522c9944f9aa7571fb1a63119719"
+    },
+    {
+      "label": "carry",
+      "keys": [
+        "BALL_HANDLING",
+        "PRESSURE_HANDLING"
+      ],
+      "tier": "mid",
+      "context": "fast",
+      "tired": false,
+      "raw": {
+        "BALL_HANDLING": 13,
+        "PRESSURE_HANDLING": 12
+      },
+      "n": 384,
+      "metrics": {
+        "mistouch": {
+          "count": 0,
+          "n": 384,
+          "rate": 0
+        },
+        "risk": {
+          "n": 384,
+          "mean": 0,
+          "min": 0,
+          "max": 0
+        },
+        "pressure": {
+          "n": 384,
+          "mean": 0,
+          "min": 0,
+          "max": 0
+        },
+        "difficulty": {
+          "n": 384,
+          "mean": 0,
+          "min": 0,
+          "max": 0
+        },
+        "retainedCanonicalPossession": {
+          "count": 384,
+          "n": 384,
+          "rate": 1
+        },
+        "controller": {
+          "H03": 384
+        }
+      },
+      "trialDigest": "ad55dbee2204b436f56bfbc745ffbeacc5f4522c9944f9aa7571fb1a63119719"
+    },
+    {
+      "label": "carry",
+      "keys": [
+        "BALL_HANDLING",
+        "PRESSURE_HANDLING"
+      ],
+      "tier": "high",
+      "context": "fast",
+      "tired": false,
+      "raw": {
+        "BALL_HANDLING": 15,
+        "PRESSURE_HANDLING": 14
+      },
+      "n": 384,
+      "metrics": {
+        "mistouch": {
+          "count": 0,
+          "n": 384,
+          "rate": 0
+        },
+        "risk": {
+          "n": 384,
+          "mean": 0,
+          "min": 0,
+          "max": 0
+        },
+        "pressure": {
+          "n": 384,
+          "mean": 0,
+          "min": 0,
+          "max": 0
+        },
+        "difficulty": {
+          "n": 384,
+          "mean": 0,
+          "min": 0,
+          "max": 0
+        },
+        "retainedCanonicalPossession": {
+          "count": 384,
+          "n": 384,
+          "rate": 1
+        },
+        "controller": {
+          "H03": 384
+        }
+      },
+      "trialDigest": "ad55dbee2204b436f56bfbc745ffbeacc5f4522c9944f9aa7571fb1a63119719"
+    },
+    {
+      "label": "carry",
+      "keys": [
+        "BALL_HANDLING",
+        "PRESSURE_HANDLING"
+      ],
+      "tier": "low",
+      "context": "fast",
+      "tired": true,
+      "raw": {
+        "BALL_HANDLING": 11,
+        "PRESSURE_HANDLING": 11
+      },
+      "n": 384,
+      "metrics": {
+        "mistouch": {
+          "count": 0,
+          "n": 384,
+          "rate": 0
+        },
+        "risk": {
+          "n": 384,
+          "mean": 0,
+          "min": 0,
+          "max": 0
+        },
+        "pressure": {
+          "n": 384,
+          "mean": 0,
+          "min": 0,
+          "max": 0
+        },
+        "difficulty": {
+          "n": 384,
+          "mean": 0,
+          "min": 0,
+          "max": 0
+        },
+        "retainedCanonicalPossession": {
+          "count": 384,
+          "n": 384,
+          "rate": 1
+        },
+        "controller": {
+          "H03": 384
+        }
+      },
+      "trialDigest": "ad55dbee2204b436f56bfbc745ffbeacc5f4522c9944f9aa7571fb1a63119719"
+    },
+    {
+      "label": "carry",
+      "keys": [
+        "BALL_HANDLING",
+        "PRESSURE_HANDLING"
+      ],
+      "tier": "mid",
+      "context": "fast",
+      "tired": true,
+      "raw": {
+        "BALL_HANDLING": 13,
+        "PRESSURE_HANDLING": 12
+      },
+      "n": 384,
+      "metrics": {
+        "mistouch": {
+          "count": 0,
+          "n": 384,
+          "rate": 0
+        },
+        "risk": {
+          "n": 384,
+          "mean": 0,
+          "min": 0,
+          "max": 0
+        },
+        "pressure": {
+          "n": 384,
+          "mean": 0,
+          "min": 0,
+          "max": 0
+        },
+        "difficulty": {
+          "n": 384,
+          "mean": 0,
+          "min": 0,
+          "max": 0
+        },
+        "retainedCanonicalPossession": {
+          "count": 384,
+          "n": 384,
+          "rate": 1
+        },
+        "controller": {
+          "H03": 384
+        }
+      },
+      "trialDigest": "ad55dbee2204b436f56bfbc745ffbeacc5f4522c9944f9aa7571fb1a63119719"
+    },
+    {
+      "label": "carry",
+      "keys": [
+        "BALL_HANDLING",
+        "PRESSURE_HANDLING"
+      ],
+      "tier": "high",
+      "context": "fast",
+      "tired": true,
+      "raw": {
+        "BALL_HANDLING": 15,
+        "PRESSURE_HANDLING": 14
+      },
+      "n": 384,
+      "metrics": {
+        "mistouch": {
+          "count": 0,
+          "n": 384,
+          "rate": 0
+        },
+        "risk": {
+          "n": 384,
+          "mean": 0,
+          "min": 0,
+          "max": 0
+        },
+        "pressure": {
+          "n": 384,
+          "mean": 0,
+          "min": 0,
+          "max": 0
+        },
+        "difficulty": {
+          "n": 384,
+          "mean": 0,
+          "min": 0,
+          "max": 0
+        },
+        "retainedCanonicalPossession": {
+          "count": 384,
+          "n": 384,
+          "rate": 1
+        },
+        "controller": {
+          "H03": 384
+        }
+      },
+      "trialDigest": "ad55dbee2204b436f56bfbc745ffbeacc5f4522c9944f9aa7571fb1a63119719"
+    },
+    {
+      "label": "carry",
+      "keys": [
+        "BALL_HANDLING",
+        "PRESSURE_HANDLING"
+      ],
+      "tier": "low",
+      "context": "contact",
+      "tired": false,
+      "raw": {
+        "BALL_HANDLING": 11,
+        "PRESSURE_HANDLING": 11
+      },
+      "n": 384,
+      "metrics": {
+        "mistouch": {
+          "count": 11,
+          "n": 384,
+          "rate": 0.028645833333333332
+        },
+        "risk": {
+          "n": 384,
+          "mean": 0.04009577129501414,
+          "min": 0.04009577129501386,
+          "max": 0.04009577129501386
+        },
+        "pressure": {
+          "n": 384,
+          "mean": 1,
+          "min": 1,
+          "max": 1
+        },
+        "difficulty": {
+          "n": 384,
+          "mean": 0.650000000000004,
+          "min": 0.65,
+          "max": 0.65
+        },
+        "retainedCanonicalPossession": {
+          "count": 384,
+          "n": 384,
+          "rate": 1
+        },
+        "controller": {
+          "H03": 373,
+          "null": 11
+        }
+      },
+      "trialDigest": "cf1a00e33c07769b4785b24200f7a1c5655a321d0d59e23a756ea7170a351813"
+    },
+    {
+      "label": "carry",
+      "keys": [
+        "BALL_HANDLING",
+        "PRESSURE_HANDLING"
+      ],
+      "tier": "mid",
+      "context": "contact",
+      "tired": false,
+      "raw": {
+        "BALL_HANDLING": 13,
+        "PRESSURE_HANDLING": 12
+      },
+      "n": 384,
+      "metrics": {
+        "mistouch": {
+          "count": 7,
+          "n": 384,
+          "rate": 0.018229166666666668
+        },
+        "risk": {
+          "n": 384,
+          "mean": 0.02664719096260393,
+          "min": 0.02664719096260389,
+          "max": 0.02664719096260389
+        },
+        "pressure": {
+          "n": 384,
+          "mean": 1,
+          "min": 1,
+          "max": 1
+        },
+        "difficulty": {
+          "n": 384,
+          "mean": 0.650000000000004,
+          "min": 0.65,
+          "max": 0.65
+        },
+        "retainedCanonicalPossession": {
+          "count": 384,
+          "n": 384,
+          "rate": 1
+        },
+        "controller": {
+          "H03": 377,
+          "null": 7
+        }
+      },
+      "trialDigest": "dabf935390176d4178bc21f0f87c199891f783d85d9cc9dc856f56310aee543e"
+    },
+    {
+      "label": "carry",
+      "keys": [
+        "BALL_HANDLING",
+        "PRESSURE_HANDLING"
+      ],
+      "tier": "high",
+      "context": "contact",
+      "tired": false,
+      "raw": {
+        "BALL_HANDLING": 15,
+        "PRESSURE_HANDLING": 14
+      },
+      "n": 384,
+      "metrics": {
+        "mistouch": {
+          "count": 5,
+          "n": 384,
+          "rate": 0.013020833333333334
+        },
+        "risk": {
+          "n": 384,
+          "mean": 0.015071533067867017,
+          "min": 0.015071533067867042,
+          "max": 0.015071533067867042
+        },
+        "pressure": {
+          "n": 384,
+          "mean": 1,
+          "min": 1,
+          "max": 1
+        },
+        "difficulty": {
+          "n": 384,
+          "mean": 0.650000000000004,
+          "min": 0.65,
+          "max": 0.65
+        },
+        "retainedCanonicalPossession": {
+          "count": 384,
+          "n": 384,
+          "rate": 1
+        },
+        "controller": {
+          "H03": 379,
+          "null": 5
+        }
+      },
+      "trialDigest": "b81dda7f11323cf87dd8fa487508ea557167b25e6fdb3cf000a2ab3ce852ee02"
+    },
+    {
+      "label": "carry",
+      "keys": [
+        "BALL_HANDLING",
+        "PRESSURE_HANDLING"
+      ],
+      "tier": "low",
+      "context": "contact",
+      "tired": true,
+      "raw": {
+        "BALL_HANDLING": 11,
+        "PRESSURE_HANDLING": 11
+      },
+      "n": 384,
+      "metrics": {
+        "mistouch": {
+          "count": 16,
+          "n": 384,
+          "rate": 0.041666666666666664
+        },
+        "risk": {
+          "n": 384,
+          "mean": 0.05629696215410108,
+          "min": 0.056296962154101154,
+          "max": 0.056296962154101154
+        },
+        "pressure": {
+          "n": 384,
+          "mean": 1,
+          "min": 1,
+          "max": 1
+        },
+        "difficulty": {
+          "n": 384,
+          "mean": 0.650000000000004,
+          "min": 0.65,
+          "max": 0.65
+        },
+        "retainedCanonicalPossession": {
+          "count": 384,
+          "n": 384,
+          "rate": 1
+        },
+        "controller": {
+          "H03": 368,
+          "null": 16
+        }
+      },
+      "trialDigest": "829b167c185ee198d00c176196688f8079b69dbf0792ecb85a923446d5e0483c"
+    },
+    {
+      "label": "carry",
+      "keys": [
+        "BALL_HANDLING",
+        "PRESSURE_HANDLING"
+      ],
+      "tier": "mid",
+      "context": "contact",
+      "tired": true,
+      "raw": {
+        "BALL_HANDLING": 13,
+        "PRESSURE_HANDLING": 12
+      },
+      "n": 384,
+      "metrics": {
+        "mistouch": {
+          "count": 12,
+          "n": 384,
+          "rate": 0.03125
+        },
+        "risk": {
+          "n": 384,
+          "mean": 0.042122779580797604,
+          "min": 0.042122779580797895,
+          "max": 0.042122779580797895
+        },
+        "pressure": {
+          "n": 384,
+          "mean": 1,
+          "min": 1,
+          "max": 1
+        },
+        "difficulty": {
+          "n": 384,
+          "mean": 0.650000000000004,
+          "min": 0.65,
+          "max": 0.65
+        },
+        "retainedCanonicalPossession": {
+          "count": 384,
+          "n": 384,
+          "rate": 1
+        },
+        "controller": {
+          "H03": 372,
+          "null": 12
+        }
+      },
+      "trialDigest": "2f9f212b4b1aceef08b2ee328abb6daae5a7fccffa5fd57668029784a2d0d825"
+    },
+    {
+      "label": "carry",
+      "keys": [
+        "BALL_HANDLING",
+        "PRESSURE_HANDLING"
+      ],
+      "tier": "high",
+      "context": "contact",
+      "tired": true,
+      "raw": {
+        "BALL_HANDLING": 15,
+        "PRESSURE_HANDLING": 14
+      },
+      "n": 384,
+      "metrics": {
+        "mistouch": {
+          "count": 8,
+          "n": 384,
+          "rate": 0.020833333333333332
+        },
+        "risk": {
+          "n": 384,
+          "mean": 0.02887371753728019,
+          "min": 0.028873717537280193,
+          "max": 0.028873717537280193
+        },
+        "pressure": {
+          "n": 384,
+          "mean": 1,
+          "min": 1,
+          "max": 1
+        },
+        "difficulty": {
+          "n": 384,
+          "mean": 0.650000000000004,
+          "min": 0.65,
+          "max": 0.65
+        },
+        "retainedCanonicalPossession": {
+          "count": 384,
+          "n": 384,
+          "rate": 1
+        },
+        "controller": {
+          "H03": 376,
+          "null": 8
+        }
+      },
+      "trialDigest": "c021a496393b0309e367c22068775c613fd8bdff56519d9f35c89f3741e86310"
+    },
+    {
+      "label": "carry",
+      "keys": [
+        "BALL_HANDLING",
+        "PRESSURE_HANDLING"
+      ],
+      "tier": "low",
+      "context": "breakthrough",
+      "tired": false,
+      "raw": {
+        "BALL_HANDLING": 11,
+        "PRESSURE_HANDLING": 11
+      },
+      "n": 384,
+      "metrics": {
+        "mistouch": {
+          "count": 11,
+          "n": 384,
+          "rate": 0.028645833333333332
+        },
+        "risk": {
+          "n": 384,
+          "mean": 0.04009577129501414,
+          "min": 0.04009577129501386,
+          "max": 0.04009577129501386
+        },
+        "pressure": {
+          "n": 384,
+          "mean": 1,
+          "min": 1,
+          "max": 1
+        },
+        "difficulty": {
+          "n": 384,
+          "mean": 0.650000000000004,
+          "min": 0.65,
+          "max": 0.65
+        },
+        "retainedCanonicalPossession": {
+          "count": 384,
+          "n": 384,
+          "rate": 1
+        },
+        "controller": {
+          "H03": 373,
+          "null": 11
+        }
+      },
+      "trialDigest": "cf1a00e33c07769b4785b24200f7a1c5655a321d0d59e23a756ea7170a351813"
+    },
+    {
+      "label": "carry",
+      "keys": [
+        "BALL_HANDLING",
+        "PRESSURE_HANDLING"
+      ],
+      "tier": "mid",
+      "context": "breakthrough",
+      "tired": false,
+      "raw": {
+        "BALL_HANDLING": 13,
+        "PRESSURE_HANDLING": 12
+      },
+      "n": 384,
+      "metrics": {
+        "mistouch": {
+          "count": 7,
+          "n": 384,
+          "rate": 0.018229166666666668
+        },
+        "risk": {
+          "n": 384,
+          "mean": 0.02664719096260393,
+          "min": 0.02664719096260389,
+          "max": 0.02664719096260389
+        },
+        "pressure": {
+          "n": 384,
+          "mean": 1,
+          "min": 1,
+          "max": 1
+        },
+        "difficulty": {
+          "n": 384,
+          "mean": 0.650000000000004,
+          "min": 0.65,
+          "max": 0.65
+        },
+        "retainedCanonicalPossession": {
+          "count": 384,
+          "n": 384,
+          "rate": 1
+        },
+        "controller": {
+          "H03": 377,
+          "null": 7
+        }
+      },
+      "trialDigest": "dabf935390176d4178bc21f0f87c199891f783d85d9cc9dc856f56310aee543e"
+    },
+    {
+      "label": "carry",
+      "keys": [
+        "BALL_HANDLING",
+        "PRESSURE_HANDLING"
+      ],
+      "tier": "high",
+      "context": "breakthrough",
+      "tired": false,
+      "raw": {
+        "BALL_HANDLING": 15,
+        "PRESSURE_HANDLING": 14
+      },
+      "n": 384,
+      "metrics": {
+        "mistouch": {
+          "count": 5,
+          "n": 384,
+          "rate": 0.013020833333333334
+        },
+        "risk": {
+          "n": 384,
+          "mean": 0.015071533067867017,
+          "min": 0.015071533067867042,
+          "max": 0.015071533067867042
+        },
+        "pressure": {
+          "n": 384,
+          "mean": 1,
+          "min": 1,
+          "max": 1
+        },
+        "difficulty": {
+          "n": 384,
+          "mean": 0.650000000000004,
+          "min": 0.65,
+          "max": 0.65
+        },
+        "retainedCanonicalPossession": {
+          "count": 384,
+          "n": 384,
+          "rate": 1
+        },
+        "controller": {
+          "H03": 379,
+          "null": 5
+        }
+      },
+      "trialDigest": "b81dda7f11323cf87dd8fa487508ea557167b25e6fdb3cf000a2ab3ce852ee02"
+    },
+    {
+      "label": "carry",
+      "keys": [
+        "BALL_HANDLING",
+        "PRESSURE_HANDLING"
+      ],
+      "tier": "low",
+      "context": "breakthrough",
+      "tired": true,
+      "raw": {
+        "BALL_HANDLING": 11,
+        "PRESSURE_HANDLING": 11
+      },
+      "n": 384,
+      "metrics": {
+        "mistouch": {
+          "count": 16,
+          "n": 384,
+          "rate": 0.041666666666666664
+        },
+        "risk": {
+          "n": 384,
+          "mean": 0.05629696215410108,
+          "min": 0.056296962154101154,
+          "max": 0.056296962154101154
+        },
+        "pressure": {
+          "n": 384,
+          "mean": 1,
+          "min": 1,
+          "max": 1
+        },
+        "difficulty": {
+          "n": 384,
+          "mean": 0.650000000000004,
+          "min": 0.65,
+          "max": 0.65
+        },
+        "retainedCanonicalPossession": {
+          "count": 384,
+          "n": 384,
+          "rate": 1
+        },
+        "controller": {
+          "H03": 368,
+          "null": 16
+        }
+      },
+      "trialDigest": "829b167c185ee198d00c176196688f8079b69dbf0792ecb85a923446d5e0483c"
+    },
+    {
+      "label": "carry",
+      "keys": [
+        "BALL_HANDLING",
+        "PRESSURE_HANDLING"
+      ],
+      "tier": "mid",
+      "context": "breakthrough",
+      "tired": true,
+      "raw": {
+        "BALL_HANDLING": 13,
+        "PRESSURE_HANDLING": 12
+      },
+      "n": 384,
+      "metrics": {
+        "mistouch": {
+          "count": 12,
+          "n": 384,
+          "rate": 0.03125
+        },
+        "risk": {
+          "n": 384,
+          "mean": 0.042122779580797604,
+          "min": 0.042122779580797895,
+          "max": 0.042122779580797895
+        },
+        "pressure": {
+          "n": 384,
+          "mean": 1,
+          "min": 1,
+          "max": 1
+        },
+        "difficulty": {
+          "n": 384,
+          "mean": 0.650000000000004,
+          "min": 0.65,
+          "max": 0.65
+        },
+        "retainedCanonicalPossession": {
+          "count": 384,
+          "n": 384,
+          "rate": 1
+        },
+        "controller": {
+          "H03": 372,
+          "null": 12
+        }
+      },
+      "trialDigest": "2f9f212b4b1aceef08b2ee328abb6daae5a7fccffa5fd57668029784a2d0d825"
+    },
+    {
+      "label": "carry",
+      "keys": [
+        "BALL_HANDLING",
+        "PRESSURE_HANDLING"
+      ],
+      "tier": "high",
+      "context": "breakthrough",
+      "tired": true,
+      "raw": {
+        "BALL_HANDLING": 15,
+        "PRESSURE_HANDLING": 14
+      },
+      "n": 384,
+      "metrics": {
+        "mistouch": {
+          "count": 8,
+          "n": 384,
+          "rate": 0.020833333333333332
+        },
+        "risk": {
+          "n": 384,
+          "mean": 0.02887371753728019,
+          "min": 0.028873717537280193,
+          "max": 0.028873717537280193
+        },
+        "pressure": {
+          "n": 384,
+          "mean": 1,
+          "min": 1,
+          "max": 1
+        },
+        "difficulty": {
+          "n": 384,
+          "mean": 0.650000000000004,
+          "min": 0.65,
+          "max": 0.65
+        },
+        "retainedCanonicalPossession": {
+          "count": 384,
+          "n": 384,
+          "rate": 1
+        },
+        "controller": {
+          "H03": 376,
+          "null": 8
+        }
+      },
+      "trialDigest": "c021a496393b0309e367c22068775c613fd8bdff56519d9f35c89f3741e86310"
+    }
+  ],
+  "sources": {
+    "actions.ts": "da162e171bbd747be0a393b44046685c53bd4e519ae2ea1dd3f07f56ae8f93aa",
+    "attributeIntegrationScenarios.ts": "10d12e8c920ed0294de647f9c7c37e3394b49a38548372298189e2d554a0a349",
+    "backcourt.ts": "00ab4e44f0520b83f771cf5dd8a0e1212b34272410e5027b856eabddebddc120",
+    "backcourtScenarios.ts": "6137722469db2dc0a9567b9ff3bccd9c8d3f070e9db58bb93fe225cbccd655be",
+    "coaching.ts": "b943276328e1df36f43173af08fe008d8376f419e5afae4aeae5e1466a28a599",
+    "condition.ts": "7067672564be5a7beea16223a04b765e21716d638406ccea86e5d6f688899517",
+    "contact.ts": "477b3c2d7a8bbac293370044c779cd2889baea8cabb18c9bd26f967860a27ce9",
+    "contactScenarios.ts": "624c77567281a49677ae55289c3e0d71d5e81f00e2f56f151e1bf7ea59ebd1ce",
+    "continuous.ts": "3bc0e25ee0474aab3162df83b5e228bcd5953ddc5b29622592e5fd5bfdda55c5",
+    "defence.ts": "353763d139e7d170aff02f6b757973103a3b25fbdc53c4c363a1ed06de102b56",
+    "engage.ts": "b597ce488188b882f553f0553316960039d19ec92bca275ee89c7a4db4595d07",
+    "engine.ts": "bddb85af2e0ac4d0bdb7c97e5e7b195c8d15af8dd7076e1ea8bd76957874c228",
+    "execution.ts": "a352bd4001e36e2c896f3be43a4518490b79902004a086bdfb36055d385d3e98",
+    "intelligence.ts": "2fda3c309a2f77fe908960e271f493bf087d957cc14189d604598901735f8173",
+    "intelligenceScenarios.ts": "8214cb9c24bad1570559d71d2381e3ac6bdf7c670bd0e9b925bbc72857bbd310",
+    "interactions.ts": "2aa33ade16e625d1e386e47a5cca52cbe0a29639e13d524bd035d08081d5f872",
+    "ledger.ts": "7f45117a1486431df70f0b8697dcc7fdd281be93309e148d48baacad7f01391b",
+    "locomotion.ts": "c222d4240a0b0935e552fa37a7c1dcf7a999d48ca4e4e200ce5befabbc860b13",
+    "match.ts": "a853a0a922f76759c51aa21e29017aaf1bd0d07d60e5bf611e49e9e4b8dd3e9e",
+    "matchReplay.ts": "6796c275154da7145cd06558835524075013528ecb2354a1f3439e5b537ea499",
+    "movement.ts": "ac382909cae073f35314bba89c4ebd1f6cfab97e23f5f1579c6d7b96e9cd37bb",
+    "offence.ts": "086fe17fc980c3b233b59c95c8ebe89feca8a11609d2de2686ad545312c60e25",
+    "passive.ts": "0c405269406b4a8b124ea432ce036a0008118aa59c186954cded0957a0c2381f",
+    "physicalLoad.ts": "e1e334552f35a2f1dbc7d4b88da4ac5bbc501ae86f63ebf884bb6791da619606",
+    "pivot.ts": "3021f9ab217e9e4eb8f5adf996365e86338ac0fa9e738fc7491a25228c6bf783",
+    "population.ts": "9097fd5e0396001ff48bb30529994fefb820aa9b75b272f79bdf55239eead655",
+    "profile.ts": "9425db8e7080ae11a5cd9930ba73089fafb172babd2ec03322c65daa1699581f",
+    "realism.ts": "615271e0bc0217a08b296fa0777754f28b02fa136e5c0e55f07a8af616780897",
+    "referee.ts": "35feaf4d17b6b5bd011702384be061081b52b220e5d897e37aa24bc297d04387",
+    "replay.ts": "7a636b1b374a10d7f8aa02ade08957ac67920aacd33b37db2f412f2fefa42e6b",
+    "restarts.ts": "048e5ead24b976453a0abe2cf314fe9e79c33a0619c7d71cdfdb47b575230520",
+    "rules.ts": "46325a43317b15edfc4773265989ffa2ab0500c9fdefb32a7fc3363dd39147d4",
+    "sanction.ts": "8d569712c4c2ce1223d246e3a5d5e6dd0913b5f8232e6456ff892bbcd424d910",
+    "scenarios.ts": "c48ddb2c75ce34fd03c439261e40e77f676b1ffb2fc8abeb1a3f9b1a5d286dbe",
+    "space.ts": "fa4755d1ba95d8e683cd19955418944d004a34963b708030ef72eb521ca25eb3",
+    "squads.ts": "fc2aeaa594f3ef8a119656d1056178bf5f6414f6ee4c2082641b97fc216749a4",
+    "state.ts": "fc33c3ac8ee2fbe78c7998c756850eda8981949f393a03ac77af9f5c9179284e",
+    "structure.ts": "6edabc5df31702eb90581f19fd1a427f34ed8d7c46bcfe196e772e90ad70c544",
+    "testProfile.ts": "35a3ac5a0a0fbb6614de81c449fde37b880af96bc10a1cd2dcf4b4e3e9077d6d",
+    "threatRelation.ts": "c68668bfbd439adfa42a751b12266d664e1d2e6d80358cbc30149b807fb9bcf1",
+    "timing.ts": "8d118a422a83a5944936d53815f6559b566b12caca750514cb9e708536aa4a93",
+    "transitions.ts": "6498a4ea7a0d0efb0a19048dfcc9e6c2cd19fa8844f86f3d91995f65f80b270a",
+    "wing.ts": "31d7f39cf38918717d3723fadcce80948a13650a45a2f680e1bbc5c66fd3a556",
+    "wingScenarios.ts": "8d553b1c254f0953cf5508ca1a37463891f631cdfd0df81b436be487541ee031"
+  },
+  "harnessSha256": "10d12e8c920ed0294de647f9c7c37e3394b49a38548372298189e2d554a0a349",
+  "runtimeMs": 3301.5912000000003,
+  "seedPolicy": "Paired trial seeds and identical declared visible contexts. Source-specific scenario initialization is normalized to the same action RNG before resolution.",
+  "scope": "No empirical targets, rating rewrites, CA/PA, quotas or production observers. Staged decision inputs are labelled; shots run full canonical keeper reading and ticks. Catch bodies move only in moving contexts."
+}

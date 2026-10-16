@@ -1,0 +1,143 @@
+{
+  "complete": true,
+  "verifiedAt": "2026-10-16T18:40:38.546Z",
+  "distDir": ".next-game-player-attributes-v1",
+  "url": "http://127.0.0.1:3022",
+  "routes": {
+    "/": 200,
+    "/new-game": 200
+  },
+  "servedBuildIdentity": {
+    "/": true,
+    "/new-game": true
+  },
+  "buildId": "uvcmd1UOB0Q5wuL0tY1bg",
+  "buildSourceHead": "7c11c6acf26e7b95182855f43824dfd00626cd0b",
+  "previousServices": [
+    {
+      "port": 3017,
+      "status": 200
+    },
+    {
+      "port": 3018,
+      "status": 200
+    },
+    {
+      "port": 3019,
+      "status": 200
+    },
+    {
+      "port": 3020,
+      "status": 200
+    },
+    {
+      "port": 3021,
+      "status": 200
+    }
+  ],
+  "previousBuilds": [
+    {
+      "directory": ".next-game-empirical-cal-v1",
+      "buildId": "DU6jMBZtsmZtnQWvlrs8c"
+    },
+    {
+      "directory": ".next-game-final",
+      "buildId": "cNJggCauoeM2tFyL4VSLb"
+    },
+    {
+      "directory": ".next-game-intelligence-v1",
+      "buildId": "s5-nNNCWTl2_T9odTJDlV"
+    },
+    {
+      "directory": ".next-game-loading-screen-v1",
+      "buildId": "-RNSpJe4apx4OLEONUxcE"
+    },
+    {
+      "directory": ".next-game-match-center-v2",
+      "buildId": "OPdl1waYJNI_SpnsaJ-sr"
+    },
+    {
+      "directory": ".next-game-match-center-v21",
+      "buildId": "pLsf1fASvBMrL5OMJuUP8"
+    },
+    {
+      "directory": ".next-game-motion-quality-v2",
+      "buildId": "OfxtCP_cN-7kRf7v5VmwA"
+    },
+    {
+      "directory": ".next-game-motion-v1",
+      "buildId": "JQxdclWu8m3DDjchhC8wU"
+    },
+    {
+      "directory": ".next-game-physical-load-v11",
+      "buildId": "mrlA0kCIE2BdeBLwu1EJs"
+    },
+    {
+      "directory": ".next-game-production",
+      "buildId": "johFb57nGyMaBoyGUmMSn"
+    },
+    {
+      "directory": ".next-game-realism-v2",
+      "buildId": "XkNsqFziP2f_j3IFTn3Vy"
+    },
+    {
+      "directory": ".next-game-realism-v21",
+      "buildId": "MMFsqS1-zfrSWl0fQDdK1"
+    },
+    {
+      "directory": ".next-game-reconciled-v1",
+      "buildId": "3PQHL0oSSqFhBU5FxXd8a"
+    },
+    {
+      "directory": ".next-game-reconciliation-v11",
+      "buildId": "7lH--sWAbP_HfvPnTXIdw"
+    },
+    {
+      "directory": ".next-game-rotation-fatigue-v1",
+      "buildId": "usx4M7Bosxj0W5ABGzmpe"
+    },
+    {
+      "directory": ".next-game-v11",
+      "buildId": "5Jp-210HFinXeJePZ9iro"
+    },
+    {
+      "directory": ".next-game-physical-load-v11",
+      "buildId": "mrlA0kCIE2BdeBLwu1EJs"
+    },
+    {
+      "directory": ".next-game-attribute-economy-v1",
+      "buildId": "IGWUR3-QLEFpc9JTP0vOZ"
+    }
+  ],
+  "browserQA": {
+    "status": "UNAVAILABLE",
+    "checkedAt": "2026-10-16T14:29:34.756Z",
+    "inventory": {
+      "apps": [],
+      "browsers": []
+    },
+    "attempt": {
+      "tool": "cua.createBrowserTab",
+      "browser": "iab",
+      "url": "http://127.0.0.1:3022",
+      "error": "Browser is not available: iab"
+    },
+    "visualClaim": false,
+    "scope": "No enabled browser surface. No browser screenshots or normal-match Human QA claimed. Actual Statistics rendering/projections, canonical archive/frame proofs and production HTTP checks remain separate evidence. User normal-match feel QA remains pending."
+  },
+  "startCommand": "Set-Location 'C:\\Users\\helgi\\Documents\\STARKVIS-HELA\\handball-manager\\apps\\game'\n$env:HM_NEXT_DIST_DIR = '.next-game-player-attributes-v1'\nnpm.cmd run start -- --hostname 127.0.0.1 --port 3022",
+  "sourceScope": "Fresh isolated production build from the recorded local code commit, including the preserved original user working files. Later evidence and generated type-include metadata do not alter runtime source.",
+  "humanQA": {
+    "status": "PENDING_USER",
+    "url": "http://127.0.0.1:3022",
+    "matches": "2–3 normal matches",
+    "focus": [
+      "Compare difficult passing and challenged control across players; simple actions should remain dependable.",
+      "Compare shooters, defenders, keepers and physically strong players in context.",
+      "Change one player and judge how the team functions.",
+      "Check Frikast and broad Bollförluster in live/final/archive Statistics; Match Center otherwise stays familiar."
+    ],
+    "requirements": "No continuous2D QA, DevTools or imported QA saves."
+  },
+  "nothingPushed": true
+}

@@ -1,0 +1,33 @@
+{
+  "complete": true,
+  "rows": [
+    {
+      "variant": "before",
+      "ticks": 3000,
+      "warmupMs": 543.5828,
+      "measuredMs": [
+        323.0856000000001,
+        287.3379,
+        307.86709999999994
+      ],
+      "medianMs": 307.86709999999994,
+      "sameSeedDeterministic": true,
+      "finalHash": "533f56a078534423227fd726ef6e9589fb06898bd3305634e3ef82a9d74a5761"
+    },
+    {
+      "variant": "after",
+      "ticks": 3000,
+      "warmupMs": 700.7705999999998,
+      "measuredMs": [
+        622.4331999999999,
+        492.4649000000004,
+        470.2975000000006
+      ],
+      "medianMs": 492.4649000000004,
+      "sameSeedDeterministic": true,
+      "finalHash": "f6062cbda6f0341948b8af1ba93e006035c876e54459a06de1a2033e3d6035b0"
+    }
+  ],
+  "afterOverBefore": 1.5996022309626474,
+  "scope": "Three measured repeats after one warmup per source, strictly sequential. Workloads and canonical decisions differ after integration; this is descriptive wall time, not isolated instruction overhead or a universal UI performance claim. Profile normalization stays at population boundaries; mutable fatigue is never cached."
+}

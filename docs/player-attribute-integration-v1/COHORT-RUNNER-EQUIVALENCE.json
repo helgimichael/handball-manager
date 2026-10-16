@@ -1,0 +1,9 @@
+{
+  "complete": true,
+  "path": "apps/game/scripts/run-player-attribute-cohort.ts",
+  "beforeSha256": "22be03d20b90157e8cc233d672db08f4ade8ba944181a2ed7cac876970c60343",
+  "afterSha256": "908373726a9d63993e8cc9aeec7d3b10cc3ad529ac0949276b1a9d24abad3311",
+  "scope": "Passive input-provenance assertion only. No gameplay source/input, seed, tick, observer, result or hash function changed. Completed HBL40 used the stricter all-complete assertion and remains valid. New Allsvenskan runner compares every source gap to the exact same player/branch in the retained before core and rejects new gaps.",
+  "failure": "Allsvenskan failed its initial completeness assertion before any simulation. Retained fixture0 already has Kenan Salkicevic (M6 rating) assigned GK and Lukas Ribberstrom (GK rating) assigned outcourt; unchanged raw10 fallback preserved for matched recipes. The failed no-match output and log are retained.",
+  "rerunHbl": false
+}

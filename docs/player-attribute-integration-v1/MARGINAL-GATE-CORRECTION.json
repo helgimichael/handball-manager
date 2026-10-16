@@ -1,0 +1,18 @@
+{
+  "complete": true,
+  "detectedBy": "Completed HBL40 regression",
+  "supersededCohort": "development/non-marginal-gate/hbl40",
+  "observedMeans": {
+    "goals": 75.75,
+    "totalAttempts": 129.35,
+    "fieldAttempts": 125.025,
+    "possessions": 159.9
+  },
+  "defect": "The named marginalChoice eligibility admitted every legal shoot/pass pair, including clearly separated options, replacing shared buildup policy in non-marginal cases.",
+  "correction": "Require the best shot/pass value gap to be at most0.08; retain all existing Intelligence relevance branches. This is an option-eligibility boundary, not an outcome target.",
+  "focusedTests": 21,
+  "focusedExit": 0,
+  "log": "verification/marginal-gate-focused.log",
+  "conversionFoulErrorCoefficientsChanged": false,
+  "sourceChangeRequiresNewFinalCohorts": true
+}

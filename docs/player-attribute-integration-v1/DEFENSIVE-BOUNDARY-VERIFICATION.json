@@ -1,0 +1,12 @@
+{
+  "complete": true,
+  "scope": "Live ball + court population + defensive action/duty; EXCHANGE excluded. Physical acceleration is the ceiling and the same factor is used in movement/arrival prediction.",
+  "focusedTests": 20,
+  "focusedExit": 0,
+  "log": "verification/final-boundaries-focused.log",
+  "preservedEarlierCohortMatches": 7,
+  "preservedEarlierCohort": "development/defensive-job-boundary/hbl-partial",
+  "onlyOwnedWorkerStopped": 48564,
+  "allOtherServersUntouched": true,
+  "gameplaySourceFrozenForFinalEvidence": true
+}

@@ -1,0 +1,2290 @@
+{
+  "complete": true,
+  "variant": "before",
+  "domain": "keeper",
+  "input": {
+    "path": "docs\\player-attributes-possession-economy-v1\\final\\allsv\\inputs.json",
+    "sha256": "37b2f9ee4648ede1a422549fb680bad5c172ebdf70c77f65334d2e6487ab0347",
+    "players": 261,
+    "provenance": "Actual retained roster identities and gameplay rating branches; generated-prior/derived origins retained, not measured athlete ability."
+  },
+  "ranges": {
+    "PASSING": {
+      "n": 228,
+      "min": 9,
+      "p10": 11,
+      "q1": 13,
+      "median": 13,
+      "q3": 15,
+      "p90": 16,
+      "max": 18
+    },
+    "BALL_HANDLING": {
+      "n": 228,
+      "min": 9,
+      "p10": 11,
+      "q1": 12,
+      "median": 13,
+      "q3": 15,
+      "p90": 15,
+      "max": 17
+    },
+    "SHOOTING_POWER": {
+      "n": 228,
+      "min": 9,
+      "p10": 11,
+      "q1": 12,
+      "median": 14,
+      "q3": 15,
+      "p90": 16,
+      "max": 20
+    },
+    "SHOOTING_PLACEMENT": {
+      "n": 228,
+      "min": 9,
+      "p10": 12,
+      "q1": 12,
+      "median": 14,
+      "q3": 15,
+      "p90": 16,
+      "max": 20
+    },
+    "SHOOTING_VARIETY": {
+      "n": 228,
+      "min": 9,
+      "p10": 11,
+      "q1": 12,
+      "median": 13,
+      "q3": 15,
+      "p90": 16,
+      "max": 17
+    },
+    "BREAKTHROUGH": {
+      "n": 228,
+      "min": 9,
+      "p10": 11,
+      "q1": 12,
+      "median": 14,
+      "q3": 15,
+      "p90": 17,
+      "max": 19
+    },
+    "FINISHING": {
+      "n": 228,
+      "min": 9,
+      "p10": 11,
+      "q1": 12,
+      "median": 14,
+      "q3": 14,
+      "p90": 15,
+      "max": 17
+    },
+    "WING_FINISHING": {
+      "n": 228,
+      "min": 9,
+      "p10": 12,
+      "q1": 13,
+      "median": 14,
+      "q3": 15,
+      "p90": 16,
+      "max": 18
+    },
+    "PIVOT_PLAY": {
+      "n": 228,
+      "min": 9,
+      "p10": 11,
+      "q1": 12,
+      "median": 14,
+      "q3": 15,
+      "p90": 16,
+      "max": 18
+    },
+    "SCREENING": {
+      "n": 228,
+      "min": 9,
+      "p10": 11,
+      "q1": 12,
+      "median": 14,
+      "q3": 15,
+      "p90": 16,
+      "max": 19
+    },
+    "GAME_READING": {
+      "n": 228,
+      "min": 8,
+      "p10": 10,
+      "q1": 11,
+      "median": 12,
+      "q3": 14,
+      "p90": 16,
+      "max": 20
+    },
+    "DECISION_MAKING": {
+      "n": 228,
+      "min": 8,
+      "p10": 10,
+      "q1": 11,
+      "median": 12,
+      "q3": 13,
+      "p90": 15,
+      "max": 20
+    },
+    "AWARENESS": {
+      "n": 228,
+      "min": 8,
+      "p10": 10,
+      "q1": 11,
+      "median": 12,
+      "q3": 13,
+      "p90": 15,
+      "max": 18
+    },
+    "ANTICIPATION": {
+      "n": 228,
+      "min": 8,
+      "p10": 10,
+      "q1": 11,
+      "median": 12,
+      "q3": 13,
+      "p90": 15,
+      "max": 20
+    },
+    "PLAYMAKING": {
+      "n": 228,
+      "min": 8,
+      "p10": 10,
+      "q1": 11,
+      "median": 12,
+      "q3": 14,
+      "p90": 16,
+      "max": 20
+    },
+    "TEMPO_CONTROL": {
+      "n": 228,
+      "min": 8,
+      "p10": 10,
+      "q1": 11,
+      "median": 12,
+      "q3": 14,
+      "p90": 16,
+      "max": 20
+    },
+    "TWO_V_TWO_READING": {
+      "n": 228,
+      "min": 8,
+      "p10": 10,
+      "q1": 11,
+      "median": 12,
+      "q3": 13,
+      "p90": 14,
+      "max": 18
+    },
+    "ADVANTAGE_RECOGNITION": {
+      "n": 228,
+      "min": 8,
+      "p10": 10,
+      "q1": 11,
+      "median": 12,
+      "q3": 13,
+      "p90": 15,
+      "max": 19
+    },
+    "TACTICAL_UNDERSTANDING": {
+      "n": 228,
+      "min": 9,
+      "p10": 11,
+      "q1": 12,
+      "median": 13,
+      "q3": 14,
+      "p90": 15,
+      "max": 17
+    },
+    "ROLE_DISCIPLINE": {
+      "n": 228,
+      "min": 9,
+      "p10": 11,
+      "q1": 11,
+      "median": 13,
+      "q3": 13,
+      "p90": 14,
+      "max": 18
+    },
+    "OFF_BALL_MOVEMENT": {
+      "n": 228,
+      "min": 9,
+      "p10": 10,
+      "q1": 11,
+      "median": 12,
+      "q3": 13,
+      "p90": 14,
+      "max": 19
+    },
+    "SPACING": {
+      "n": 228,
+      "min": 9,
+      "p10": 10,
+      "q1": 11,
+      "median": 12,
+      "q3": 13,
+      "p90": 14,
+      "max": 17
+    },
+    "TIMING": {
+      "n": 228,
+      "min": 9,
+      "p10": 11,
+      "q1": 11,
+      "median": 12,
+      "q3": 13,
+      "p90": 14,
+      "max": 19
+    },
+    "TRANSITION_UNDERSTANDING": {
+      "n": 228,
+      "min": 9,
+      "p10": 11,
+      "q1": 11,
+      "median": 13,
+      "q3": 14,
+      "p90": 15,
+      "max": 19
+    },
+    "SYSTEM_ADAPTABILITY": {
+      "n": 228,
+      "min": 9,
+      "p10": 10,
+      "q1": 11,
+      "median": 12,
+      "q3": 13,
+      "p90": 14,
+      "max": 17
+    },
+    "SEVEN_V_SIX_UNDERSTANDING": {
+      "n": 228,
+      "min": 9,
+      "p10": 11,
+      "q1": 12,
+      "median": 13,
+      "q3": 13,
+      "p90": 14,
+      "max": 17
+    },
+    "CONTACT_ABILITY": {
+      "n": 228,
+      "min": 8,
+      "p10": 10,
+      "q1": 11,
+      "median": 12,
+      "q3": 13,
+      "p90": 14,
+      "max": 17
+    },
+    "DEFENSIVE_POSITIONING": {
+      "n": 228,
+      "min": 8,
+      "p10": 10,
+      "q1": 11,
+      "median": 12,
+      "q3": 13,
+      "p90": 14,
+      "max": 18
+    },
+    "DEFENSIVE_TIMING": {
+      "n": 228,
+      "min": 8,
+      "p10": 10,
+      "q1": 11,
+      "median": 12,
+      "q3": 13,
+      "p90": 14,
+      "max": 17
+    },
+    "LATERAL_DEFENCE": {
+      "n": 228,
+      "min": 8,
+      "p10": 10,
+      "q1": 11,
+      "median": 12,
+      "q3": 13,
+      "p90": 13,
+      "max": 16
+    },
+    "DEPTH_DEFENCE": {
+      "n": 228,
+      "min": 9,
+      "p10": 10,
+      "q1": 11,
+      "median": 12,
+      "q3": 13,
+      "p90": 13,
+      "max": 16
+    },
+    "CENTRAL_DEFENCE": {
+      "n": 228,
+      "min": 8,
+      "p10": 10,
+      "q1": 11,
+      "median": 12,
+      "q3": 13,
+      "p90": 14,
+      "max": 16
+    },
+    "COVERING": {
+      "n": 228,
+      "min": 8,
+      "p10": 10,
+      "q1": 11,
+      "median": 12,
+      "q3": 13,
+      "p90": 13,
+      "max": 18
+    },
+    "SWITCHING_HANDOVER": {
+      "n": 228,
+      "min": 8,
+      "p10": 10,
+      "q1": 11,
+      "median": 11,
+      "q3": 13,
+      "p90": 13,
+      "max": 18
+    },
+    "BALL_WINNING": {
+      "n": 228,
+      "min": 8,
+      "p10": 10,
+      "q1": 11,
+      "median": 12,
+      "q3": 13,
+      "p90": 13,
+      "max": 18
+    },
+    "SHOT_BLOCKING": {
+      "n": 228,
+      "min": 9,
+      "p10": 10,
+      "q1": 10,
+      "median": 12,
+      "q3": 12,
+      "p90": 14,
+      "max": 16
+    },
+    "ACCELERATION": {
+      "n": 228,
+      "min": 9,
+      "p10": 11,
+      "q1": 12,
+      "median": 14,
+      "q3": 15,
+      "p90": 16,
+      "max": 19
+    },
+    "TOP_SPEED": {
+      "n": 228,
+      "min": 8,
+      "p10": 11,
+      "q1": 12,
+      "median": 14,
+      "q3": 15,
+      "p90": 16,
+      "max": 19
+    },
+    "LATERAL_QUICKNESS": {
+      "n": 228,
+      "min": 8,
+      "p10": 11,
+      "q1": 12,
+      "median": 13,
+      "q3": 15,
+      "p90": 16,
+      "max": 17
+    },
+    "AGILITY": {
+      "n": 228,
+      "min": 8,
+      "p10": 11,
+      "q1": 12,
+      "median": 14,
+      "q3": 15,
+      "p90": 16,
+      "max": 17
+    },
+    "EXPLOSIVENESS": {
+      "n": 228,
+      "min": 8,
+      "p10": 11,
+      "q1": 12,
+      "median": 14,
+      "q3": 15,
+      "p90": 16,
+      "max": 17
+    },
+    "STRENGTH": {
+      "n": 228,
+      "min": 8,
+      "p10": 11,
+      "q1": 12,
+      "median": 14,
+      "q3": 15,
+      "p90": 16,
+      "max": 19
+    },
+    "CONTACT_BALANCE": {
+      "n": 228,
+      "min": 8,
+      "p10": 11,
+      "q1": 12,
+      "median": 14,
+      "q3": 15,
+      "p90": 16,
+      "max": 19
+    },
+    "JUMP_ABILITY": {
+      "n": 228,
+      "min": 8,
+      "p10": 11,
+      "q1": 12,
+      "median": 13,
+      "q3": 15,
+      "p90": 15,
+      "max": 17
+    },
+    "ENDURANCE": {
+      "n": 228,
+      "min": 8,
+      "p10": 11,
+      "q1": 12,
+      "median": 13,
+      "q3": 14,
+      "p90": 16,
+      "max": 17
+    },
+    "REPEAT_SPRINT_ABILITY": {
+      "n": 228,
+      "min": 8,
+      "p10": 11,
+      "q1": 12,
+      "median": 14,
+      "q3": 15,
+      "p90": 15,
+      "max": 17
+    },
+    "MOBILITY": {
+      "n": 228,
+      "min": 8,
+      "p10": 11,
+      "q1": 12,
+      "median": 13,
+      "q3": 15,
+      "p90": 15,
+      "max": 17
+    },
+    "CONSISTENCY": {
+      "n": 228,
+      "min": 9,
+      "p10": 11,
+      "q1": 11,
+      "median": 12,
+      "q3": 13,
+      "p90": 14,
+      "max": 17
+    },
+    "COMPOSURE": {
+      "n": 228,
+      "min": 9,
+      "p10": 10,
+      "q1": 11,
+      "median": 12,
+      "q3": 13,
+      "p90": 14,
+      "max": 17
+    },
+    "CONCENTRATION": {
+      "n": 228,
+      "min": 9,
+      "p10": 11,
+      "q1": 11,
+      "median": 12,
+      "q3": 13,
+      "p90": 14,
+      "max": 18
+    },
+    "COMPETITIVE_MENTALITY": {
+      "n": 228,
+      "min": 9,
+      "p10": 11,
+      "q1": 11,
+      "median": 12,
+      "q3": 13,
+      "p90": 14,
+      "max": 17
+    },
+    "RESILIENCE": {
+      "n": 228,
+      "min": 9,
+      "p10": 10,
+      "q1": 11,
+      "median": 12,
+      "q3": 13,
+      "p90": 14,
+      "max": 18
+    },
+    "DISCIPLINE": {
+      "n": 228,
+      "min": 9,
+      "p10": 10,
+      "q1": 11,
+      "median": 12,
+      "q3": 13,
+      "p90": 14,
+      "max": 18
+    },
+    "COACHABILITY": {
+      "n": 228,
+      "min": 9,
+      "p10": 11,
+      "q1": 11,
+      "median": 12,
+      "q3": 13,
+      "p90": 14,
+      "max": 18
+    },
+    "LEADERSHIP": {
+      "n": 228,
+      "min": 9,
+      "p10": 10,
+      "q1": 11,
+      "median": 12,
+      "q3": 13,
+      "p90": 14,
+      "max": 18
+    },
+    "PRESSURE_HANDLING": {
+      "n": 228,
+      "min": 9,
+      "p10": 11,
+      "q1": 11,
+      "median": 12,
+      "q3": 13,
+      "p90": 14,
+      "max": 18
+    },
+    "GK_POSITIONING": {
+      "n": 33,
+      "min": 9,
+      "p10": 11,
+      "q1": 12,
+      "median": 13,
+      "q3": 14,
+      "p90": 15,
+      "max": 18
+    },
+    "SET_POSITION": {
+      "n": 33,
+      "min": 9,
+      "p10": 11,
+      "q1": 12,
+      "median": 12,
+      "q3": 13,
+      "p90": 13,
+      "max": 16
+    },
+    "REACTION": {
+      "n": 33,
+      "min": 9,
+      "p10": 11,
+      "q1": 12,
+      "median": 13,
+      "q3": 15,
+      "p90": 16,
+      "max": 17
+    },
+    "GK_EXPLOSIVENESS": {
+      "n": 33,
+      "min": 8,
+      "p10": 10,
+      "q1": 11,
+      "median": 12,
+      "q3": 13,
+      "p90": 14,
+      "max": 16
+    },
+    "LOW_SAVES": {
+      "n": 33,
+      "min": 9,
+      "p10": 11,
+      "q1": 12,
+      "median": 12,
+      "q3": 13,
+      "p90": 14,
+      "max": 15
+    },
+    "HIGH_SAVES": {
+      "n": 33,
+      "min": 9,
+      "p10": 10,
+      "q1": 11,
+      "median": 12,
+      "q3": 13,
+      "p90": 13,
+      "max": 15
+    },
+    "CLOSE_RANGE_SAVES": {
+      "n": 33,
+      "min": 8,
+      "p10": 10,
+      "q1": 11,
+      "median": 12,
+      "q3": 14,
+      "p90": 15,
+      "max": 16
+    },
+    "LONG_RANGE_SAVES": {
+      "n": 33,
+      "min": 8,
+      "p10": 10,
+      "q1": 11,
+      "median": 12,
+      "q3": 13,
+      "p90": 14,
+      "max": 14
+    },
+    "WING_SAVES": {
+      "n": 33,
+      "min": 9,
+      "p10": 10,
+      "q1": 11,
+      "median": 12,
+      "q3": 13,
+      "p90": 14,
+      "max": 15
+    },
+    "SEVEN_M_SAVES": {
+      "n": 33,
+      "min": 9,
+      "p10": 11,
+      "q1": 11,
+      "median": 12,
+      "q3": 13,
+      "p90": 14,
+      "max": 15
+    },
+    "SHOOTER_READING": {
+      "n": 33,
+      "min": 10,
+      "p10": 10,
+      "q1": 11,
+      "median": 13,
+      "q3": 14,
+      "p90": 14,
+      "max": 16
+    },
+    "SHOT_ANTICIPATION": {
+      "n": 33,
+      "min": 9,
+      "p10": 10,
+      "q1": 11,
+      "median": 13,
+      "q3": 14,
+      "p90": 14,
+      "max": 17
+    },
+    "PATIENCE": {
+      "n": 33,
+      "min": 9,
+      "p10": 10,
+      "q1": 11,
+      "median": 12,
+      "q3": 13,
+      "p90": 13,
+      "max": 15
+    },
+    "DECISION_TIMING": {
+      "n": 33,
+      "min": 9,
+      "p10": 10,
+      "q1": 11,
+      "median": 12,
+      "q3": 13,
+      "p90": 13,
+      "max": 15
+    },
+    "OUTLET_PASSING": {
+      "n": 33,
+      "min": 9,
+      "p10": 10,
+      "q1": 11,
+      "median": 12,
+      "q3": 14,
+      "p90": 16,
+      "max": 18
+    },
+    "RESTART_SPEED": {
+      "n": 33,
+      "min": 9,
+      "p10": 11,
+      "q1": 11,
+      "median": 13,
+      "q3": 14,
+      "p90": 15,
+      "max": 17
+    },
+    "TRANSITION_DECISION": {
+      "n": 33,
+      "min": 10,
+      "p10": 10,
+      "q1": 12,
+      "median": 13,
+      "q3": 14,
+      "p90": 15,
+      "max": 17
+    },
+    "GK_CONSISTENCY": {
+      "n": 33,
+      "min": 9,
+      "p10": 10,
+      "q1": 11,
+      "median": 12,
+      "q3": 13,
+      "p90": 13,
+      "max": 15
+    },
+    "GK_COMPOSURE": {
+      "n": 33,
+      "min": 10,
+      "p10": 10,
+      "q1": 11,
+      "median": 12,
+      "q3": 13,
+      "p90": 13,
+      "max": 15
+    },
+    "GK_CONCENTRATION": {
+      "n": 33,
+      "min": 9,
+      "p10": 10,
+      "q1": 11,
+      "median": 12,
+      "q3": 13,
+      "p90": 14,
+      "max": 15
+    },
+    "GK_PRESSURE_HANDLING": {
+      "n": 33,
+      "min": 9,
+      "p10": 10,
+      "q1": 11,
+      "median": 12,
+      "q3": 13,
+      "p90": 13,
+      "max": 15
+    }
+  },
+  "cells": [
+    {
+      "label": "keeper",
+      "keys": [
+        "GK_POSITIONING",
+        "SET_POSITION",
+        "REACTION",
+        "GK_EXPLOSIVENESS",
+        "LOW_SAVES",
+        "HIGH_SAVES",
+        "CLOSE_RANGE_SAVES",
+        "LONG_RANGE_SAVES",
+        "WING_SAVES",
+        "SEVEN_M_SAVES",
+        "SHOOTER_READING",
+        "SHOT_ANTICIPATION",
+        "PATIENCE",
+        "DECISION_TIMING",
+        "GK_COMPOSURE",
+        "GK_CONCENTRATION",
+        "GK_PRESSURE_HANDLING"
+      ],
+      "tier": "low",
+      "context": "clear",
+      "tired": false,
+      "raw": {
+        "GK_POSITIONING": 11,
+        "SET_POSITION": 11,
+        "REACTION": 11,
+        "GK_EXPLOSIVENESS": 10,
+        "LOW_SAVES": 11,
+        "HIGH_SAVES": 10,
+        "CLOSE_RANGE_SAVES": 10,
+        "LONG_RANGE_SAVES": 10,
+        "WING_SAVES": 10,
+        "SEVEN_M_SAVES": 11,
+        "SHOOTER_READING": 10,
+        "SHOT_ANTICIPATION": 10,
+        "PATIENCE": 10,
+        "DECISION_TIMING": 10,
+        "GK_COMPOSURE": 10,
+        "GK_CONCENTRATION": 10,
+        "GK_PRESSURE_HANDLING": 10
+      },
+      "n": 128,
+      "metrics": {
+        "goal": {
+          "count": 124,
+          "n": 128,
+          "rate": 0.96875
+        },
+        "caught": {
+          "count": 0,
+          "n": 128,
+          "rate": 0
+        },
+        "parry": {
+          "count": 0,
+          "n": 128,
+          "rate": 0
+        },
+        "parryThenGoal": {
+          "count": 0,
+          "n": 128,
+          "rate": 0
+        },
+        "resolved": {
+          "count": 128,
+          "n": 128,
+          "rate": 1
+        },
+        "spread": {
+          "n": 128,
+          "mean": 0.5657894736842104,
+          "min": 0.5657894736842105,
+          "max": 0.5657894736842105
+        },
+        "placement": {
+          "n": 128,
+          "mean": 0.6842105263157905,
+          "min": 0.6842105263157895,
+          "max": 0.6842105263157895
+        },
+        "reach": {
+          "n": 128,
+          "mean": 0.2474966431131408,
+          "min": 0.16928187115711954,
+          "max": 0.28
+        },
+        "keeperReads": {
+          "n": 128,
+          "mean": 1,
+          "min": 1,
+          "max": 1
+        }
+      },
+      "trialDigest": "89c83cd3429a53b305b6e5e84276896501df234160c81ec7b9cbd7f677c6cf2b"
+    },
+    {
+      "label": "keeper",
+      "keys": [
+        "GK_POSITIONING",
+        "SET_POSITION",
+        "REACTION",
+        "GK_EXPLOSIVENESS",
+        "LOW_SAVES",
+        "HIGH_SAVES",
+        "CLOSE_RANGE_SAVES",
+        "LONG_RANGE_SAVES",
+        "WING_SAVES",
+        "SEVEN_M_SAVES",
+        "SHOOTER_READING",
+        "SHOT_ANTICIPATION",
+        "PATIENCE",
+        "DECISION_TIMING",
+        "GK_COMPOSURE",
+        "GK_CONCENTRATION",
+        "GK_PRESSURE_HANDLING"
+      ],
+      "tier": "mid",
+      "context": "clear",
+      "tired": false,
+      "raw": {
+        "GK_POSITIONING": 13,
+        "SET_POSITION": 12,
+        "REACTION": 13,
+        "GK_EXPLOSIVENESS": 12,
+        "LOW_SAVES": 12,
+        "HIGH_SAVES": 12,
+        "CLOSE_RANGE_SAVES": 12,
+        "LONG_RANGE_SAVES": 12,
+        "WING_SAVES": 12,
+        "SEVEN_M_SAVES": 12,
+        "SHOOTER_READING": 13,
+        "SHOT_ANTICIPATION": 13,
+        "PATIENCE": 12,
+        "DECISION_TIMING": 12,
+        "GK_COMPOSURE": 12,
+        "GK_CONCENTRATION": 12,
+        "GK_PRESSURE_HANDLING": 12
+      },
+      "n": 128,
+      "metrics": {
+        "goal": {
+          "count": 123,
+          "n": 128,
+          "rate": 0.9609375
+        },
+        "caught": {
+          "count": 0,
+          "n": 128,
+          "rate": 0
+        },
+        "parry": {
+          "count": 2,
+          "n": 128,
+          "rate": 0.015625
+        },
+        "parryThenGoal": {
+          "count": 1,
+          "n": 128,
+          "rate": 0.0078125
+        },
+        "resolved": {
+          "count": 128,
+          "n": 128,
+          "rate": 1
+        },
+        "spread": {
+          "n": 128,
+          "mean": 0.5657894736842104,
+          "min": 0.5657894736842105,
+          "max": 0.5657894736842105
+        },
+        "placement": {
+          "n": 128,
+          "mean": 0.6842105263157905,
+          "min": 0.6842105263157895,
+          "max": 0.6842105263157895
+        },
+        "reach": {
+          "n": 128,
+          "mean": 0.2594191903488954,
+          "min": 0.20004370741387975,
+          "max": 0.28
+        },
+        "keeperReads": {
+          "n": 128,
+          "mean": 1,
+          "min": 1,
+          "max": 1
+        }
+      },
+      "trialDigest": "d27ab6df52a33e91b0ccf7ad14c7e11260740cf861a022d27ae342b94431d105"
+    },
+    {
+      "label": "keeper",
+      "keys": [
+        "GK_POSITIONING",
+        "SET_POSITION",
+        "REACTION",
+        "GK_EXPLOSIVENESS",
+        "LOW_SAVES",
+        "HIGH_SAVES",
+        "CLOSE_RANGE_SAVES",
+        "LONG_RANGE_SAVES",
+        "WING_SAVES",
+        "SEVEN_M_SAVES",
+        "SHOOTER_READING",
+        "SHOT_ANTICIPATION",
+        "PATIENCE",
+        "DECISION_TIMING",
+        "GK_COMPOSURE",
+        "GK_CONCENTRATION",
+        "GK_PRESSURE_HANDLING"
+      ],
+      "tier": "high",
+      "context": "clear",
+      "tired": false,
+      "raw": {
+        "GK_POSITIONING": 15,
+        "SET_POSITION": 13,
+        "REACTION": 16,
+        "GK_EXPLOSIVENESS": 14,
+        "LOW_SAVES": 14,
+        "HIGH_SAVES": 13,
+        "CLOSE_RANGE_SAVES": 15,
+        "LONG_RANGE_SAVES": 14,
+        "WING_SAVES": 14,
+        "SEVEN_M_SAVES": 14,
+        "SHOOTER_READING": 14,
+        "SHOT_ANTICIPATION": 14,
+        "PATIENCE": 13,
+        "DECISION_TIMING": 13,
+        "GK_COMPOSURE": 13,
+        "GK_CONCENTRATION": 14,
+        "GK_PRESSURE_HANDLING": 13
+      },
+      "n": 128,
+      "metrics": {
+        "goal": {
+          "count": 119,
+          "n": 128,
+          "rate": 0.9296875
+        },
+        "caught": {
+          "count": 0,
+          "n": 128,
+          "rate": 0
+        },
+        "parry": {
+          "count": 5,
+          "n": 128,
+          "rate": 0.0390625
+        },
+        "parryThenGoal": {
+          "count": 0,
+          "n": 128,
+          "rate": 0
+        },
+        "resolved": {
+          "count": 128,
+          "n": 128,
+          "rate": 1
+        },
+        "spread": {
+          "n": 128,
+          "mean": 0.5657894736842104,
+          "min": 0.5657894736842105,
+          "max": 0.5657894736842105
+        },
+        "placement": {
+          "n": 128,
+          "mean": 0.6842105263157905,
+          "min": 0.6842105263157895,
+          "max": 0.6842105263157895
+        },
+        "reach": {
+          "n": 128,
+          "mean": 0.27512798936978844,
+          "min": 0.24907783377157114,
+          "max": 0.28
+        },
+        "keeperReads": {
+          "n": 128,
+          "mean": 1,
+          "min": 1,
+          "max": 1
+        }
+      },
+      "trialDigest": "a6ddcd05eeaef16035d992d1536743a14dc63554bbea2a7ba940487e95d38a31"
+    },
+    {
+      "label": "keeper",
+      "keys": [
+        "GK_POSITIONING",
+        "SET_POSITION",
+        "REACTION",
+        "GK_EXPLOSIVENESS",
+        "LOW_SAVES",
+        "HIGH_SAVES",
+        "CLOSE_RANGE_SAVES",
+        "LONG_RANGE_SAVES",
+        "WING_SAVES",
+        "SEVEN_M_SAVES",
+        "SHOOTER_READING",
+        "SHOT_ANTICIPATION",
+        "PATIENCE",
+        "DECISION_TIMING",
+        "GK_COMPOSURE",
+        "GK_CONCENTRATION",
+        "GK_PRESSURE_HANDLING"
+      ],
+      "tier": "low",
+      "context": "medium",
+      "tired": false,
+      "raw": {
+        "GK_POSITIONING": 11,
+        "SET_POSITION": 11,
+        "REACTION": 11,
+        "GK_EXPLOSIVENESS": 10,
+        "LOW_SAVES": 11,
+        "HIGH_SAVES": 10,
+        "CLOSE_RANGE_SAVES": 10,
+        "LONG_RANGE_SAVES": 10,
+        "WING_SAVES": 10,
+        "SEVEN_M_SAVES": 11,
+        "SHOOTER_READING": 10,
+        "SHOT_ANTICIPATION": 10,
+        "PATIENCE": 10,
+        "DECISION_TIMING": 10,
+        "GK_COMPOSURE": 10,
+        "GK_CONCENTRATION": 10,
+        "GK_PRESSURE_HANDLING": 10
+      },
+      "n": 128,
+      "metrics": {
+        "goal": {
+          "count": 114,
+          "n": 128,
+          "rate": 0.890625
+        },
+        "caught": {
+          "count": 0,
+          "n": 128,
+          "rate": 0
+        },
+        "parry": {
+          "count": 8,
+          "n": 128,
+          "rate": 0.0625
+        },
+        "parryThenGoal": {
+          "count": 1,
+          "n": 128,
+          "rate": 0.0078125
+        },
+        "resolved": {
+          "count": 128,
+          "n": 128,
+          "rate": 1
+        },
+        "spread": {
+          "n": 128,
+          "mean": 0.6799763773862203,
+          "min": 0.6799763773862194,
+          "max": 0.6799763773862194
+        },
+        "placement": {
+          "n": 128,
+          "mean": 0.6842105263157905,
+          "min": 0.6842105263157895,
+          "max": 0.6842105263157895
+        },
+        "reach": {
+          "n": 128,
+          "mean": 0.33863532936199814,
+          "min": 0.2976574632559673,
+          "max": 0.3627112962698287
+        },
+        "keeperReads": {
+          "n": 128,
+          "mean": 1,
+          "min": 1,
+          "max": 1
+        }
+      },
+      "trialDigest": "8de321eb941234af9751e56b79c4c80dc181eb67a74c84be272c8f1799aab7fa"
+    },
+    {
+      "label": "keeper",
+      "keys": [
+        "GK_POSITIONING",
+        "SET_POSITION",
+        "REACTION",
+        "GK_EXPLOSIVENESS",
+        "LOW_SAVES",
+        "HIGH_SAVES",
+        "CLOSE_RANGE_SAVES",
+        "LONG_RANGE_SAVES",
+        "WING_SAVES",
+        "SEVEN_M_SAVES",
+        "SHOOTER_READING",
+        "SHOT_ANTICIPATION",
+        "PATIENCE",
+        "DECISION_TIMING",
+        "GK_COMPOSURE",
+        "GK_CONCENTRATION",
+        "GK_PRESSURE_HANDLING"
+      ],
+      "tier": "mid",
+      "context": "medium",
+      "tired": false,
+      "raw": {
+        "GK_POSITIONING": 13,
+        "SET_POSITION": 12,
+        "REACTION": 13,
+        "GK_EXPLOSIVENESS": 12,
+        "LOW_SAVES": 12,
+        "HIGH_SAVES": 12,
+        "CLOSE_RANGE_SAVES": 12,
+        "LONG_RANGE_SAVES": 12,
+        "WING_SAVES": 12,
+        "SEVEN_M_SAVES": 12,
+        "SHOOTER_READING": 13,
+        "SHOT_ANTICIPATION": 13,
+        "PATIENCE": 12,
+        "DECISION_TIMING": 12,
+        "GK_COMPOSURE": 12,
+        "GK_CONCENTRATION": 12,
+        "GK_PRESSURE_HANDLING": 12
+      },
+      "n": 128,
+      "metrics": {
+        "goal": {
+          "count": 110,
+          "n": 128,
+          "rate": 0.859375
+        },
+        "caught": {
+          "count": 0,
+          "n": 128,
+          "rate": 0
+        },
+        "parry": {
+          "count": 13,
+          "n": 128,
+          "rate": 0.1015625
+        },
+        "parryThenGoal": {
+          "count": 2,
+          "n": 128,
+          "rate": 0.015625
+        },
+        "resolved": {
+          "count": 128,
+          "n": 128,
+          "rate": 1
+        },
+        "spread": {
+          "n": 128,
+          "mean": 0.6799763773862203,
+          "min": 0.6799763773862194,
+          "max": 0.6799763773862194
+        },
+        "placement": {
+          "n": 128,
+          "mean": 0.6842105263157905,
+          "min": 0.6842105263157895,
+          "max": 0.6842105263157895
+        },
+        "reach": {
+          "n": 128,
+          "mean": 0.38924402747566567,
+          "min": 0.34517387930508725,
+          "max": 0.41512781262751935
+        },
+        "keeperReads": {
+          "n": 128,
+          "mean": 1,
+          "min": 1,
+          "max": 1
+        }
+      },
+      "trialDigest": "3a701578ad67c80b78cd5db0a1c155142cd0b5ac795fd4509d9f577d56f443d4"
+    },
+    {
+      "label": "keeper",
+      "keys": [
+        "GK_POSITIONING",
+        "SET_POSITION",
+        "REACTION",
+        "GK_EXPLOSIVENESS",
+        "LOW_SAVES",
+        "HIGH_SAVES",
+        "CLOSE_RANGE_SAVES",
+        "LONG_RANGE_SAVES",
+        "WING_SAVES",
+        "SEVEN_M_SAVES",
+        "SHOOTER_READING",
+        "SHOT_ANTICIPATION",
+        "PATIENCE",
+        "DECISION_TIMING",
+        "GK_COMPOSURE",
+        "GK_CONCENTRATION",
+        "GK_PRESSURE_HANDLING"
+      ],
+      "tier": "high",
+      "context": "medium",
+      "tired": false,
+      "raw": {
+        "GK_POSITIONING": 15,
+        "SET_POSITION": 13,
+        "REACTION": 16,
+        "GK_EXPLOSIVENESS": 14,
+        "LOW_SAVES": 14,
+        "HIGH_SAVES": 13,
+        "CLOSE_RANGE_SAVES": 15,
+        "LONG_RANGE_SAVES": 14,
+        "WING_SAVES": 14,
+        "SEVEN_M_SAVES": 14,
+        "SHOOTER_READING": 14,
+        "SHOT_ANTICIPATION": 14,
+        "PATIENCE": 13,
+        "DECISION_TIMING": 13,
+        "GK_COMPOSURE": 13,
+        "GK_CONCENTRATION": 14,
+        "GK_PRESSURE_HANDLING": 13
+      },
+      "n": 128,
+      "metrics": {
+        "goal": {
+          "count": 93,
+          "n": 128,
+          "rate": 0.7265625
+        },
+        "caught": {
+          "count": 0,
+          "n": 128,
+          "rate": 0
+        },
+        "parry": {
+          "count": 36,
+          "n": 128,
+          "rate": 0.28125
+        },
+        "parryThenGoal": {
+          "count": 8,
+          "n": 128,
+          "rate": 0.0625
+        },
+        "resolved": {
+          "count": 128,
+          "n": 128,
+          "rate": 1
+        },
+        "spread": {
+          "n": 128,
+          "mean": 0.6799763773862203,
+          "min": 0.6799763773862194,
+          "max": 0.6799763773862194
+        },
+        "placement": {
+          "n": 128,
+          "mean": 0.6842105263157905,
+          "min": 0.6842105263157895,
+          "max": 0.6842105263157895
+        },
+        "reach": {
+          "n": 128,
+          "mean": 0.4383050708470636,
+          "min": 0.39106268515257253,
+          "max": 0.46779915237339753
+        },
+        "keeperReads": {
+          "n": 128,
+          "mean": 1,
+          "min": 1,
+          "max": 1
+        }
+      },
+      "trialDigest": "0358def6030952f64c331f6cba8ce1e93fd954ef54090fd4739fdc9cb88d1c25"
+    },
+    {
+      "label": "keeper",
+      "keys": [
+        "GK_POSITIONING",
+        "SET_POSITION",
+        "REACTION",
+        "GK_EXPLOSIVENESS",
+        "LOW_SAVES",
+        "HIGH_SAVES",
+        "CLOSE_RANGE_SAVES",
+        "LONG_RANGE_SAVES",
+        "WING_SAVES",
+        "SEVEN_M_SAVES",
+        "SHOOTER_READING",
+        "SHOT_ANTICIPATION",
+        "PATIENCE",
+        "DECISION_TIMING",
+        "GK_COMPOSURE",
+        "GK_CONCENTRATION",
+        "GK_PRESSURE_HANDLING"
+      ],
+      "tier": "low",
+      "context": "difficult",
+      "tired": false,
+      "raw": {
+        "GK_POSITIONING": 11,
+        "SET_POSITION": 11,
+        "REACTION": 11,
+        "GK_EXPLOSIVENESS": 10,
+        "LOW_SAVES": 11,
+        "HIGH_SAVES": 10,
+        "CLOSE_RANGE_SAVES": 10,
+        "LONG_RANGE_SAVES": 10,
+        "WING_SAVES": 10,
+        "SEVEN_M_SAVES": 11,
+        "SHOOTER_READING": 10,
+        "SHOT_ANTICIPATION": 10,
+        "PATIENCE": 10,
+        "DECISION_TIMING": 10,
+        "GK_COMPOSURE": 10,
+        "GK_CONCENTRATION": 10,
+        "GK_PRESSURE_HANDLING": 10
+      },
+      "n": 128,
+      "metrics": {
+        "goal": {
+          "count": 114,
+          "n": 128,
+          "rate": 0.890625
+        },
+        "caught": {
+          "count": 0,
+          "n": 128,
+          "rate": 0
+        },
+        "parry": {
+          "count": 0,
+          "n": 128,
+          "rate": 0
+        },
+        "parryThenGoal": {
+          "count": 0,
+          "n": 128,
+          "rate": 0
+        },
+        "resolved": {
+          "count": 128,
+          "n": 128,
+          "rate": 1
+        },
+        "spread": {
+          "n": 128,
+          "mean": 0.7091469808112277,
+          "min": 0.7091469808112293,
+          "max": 0.7091469808112293
+        },
+        "placement": {
+          "n": 128,
+          "mean": 0.6842105263157905,
+          "min": 0.6842105263157895,
+          "max": 0.6842105263157895
+        },
+        "reach": {
+          "n": 128,
+          "mean": 0.47954273122610186,
+          "min": 0.4272501215591195,
+          "max": 0.5174845862905767
+        },
+        "keeperReads": {
+          "n": 128,
+          "mean": 1,
+          "min": 1,
+          "max": 1
+        }
+      },
+      "trialDigest": "ea8ef4335e9cdfabc89d53b91557aea2fd8f90770179f29534f23eb75fd1e87a"
+    },
+    {
+      "label": "keeper",
+      "keys": [
+        "GK_POSITIONING",
+        "SET_POSITION",
+        "REACTION",
+        "GK_EXPLOSIVENESS",
+        "LOW_SAVES",
+        "HIGH_SAVES",
+        "CLOSE_RANGE_SAVES",
+        "LONG_RANGE_SAVES",
+        "WING_SAVES",
+        "SEVEN_M_SAVES",
+        "SHOOTER_READING",
+        "SHOT_ANTICIPATION",
+        "PATIENCE",
+        "DECISION_TIMING",
+        "GK_COMPOSURE",
+        "GK_CONCENTRATION",
+        "GK_PRESSURE_HANDLING"
+      ],
+      "tier": "mid",
+      "context": "difficult",
+      "tired": false,
+      "raw": {
+        "GK_POSITIONING": 13,
+        "SET_POSITION": 12,
+        "REACTION": 13,
+        "GK_EXPLOSIVENESS": 12,
+        "LOW_SAVES": 12,
+        "HIGH_SAVES": 12,
+        "CLOSE_RANGE_SAVES": 12,
+        "LONG_RANGE_SAVES": 12,
+        "WING_SAVES": 12,
+        "SEVEN_M_SAVES": 12,
+        "SHOOTER_READING": 13,
+        "SHOT_ANTICIPATION": 13,
+        "PATIENCE": 12,
+        "DECISION_TIMING": 12,
+        "GK_COMPOSURE": 12,
+        "GK_CONCENTRATION": 12,
+        "GK_PRESSURE_HANDLING": 12
+      },
+      "n": 128,
+      "metrics": {
+        "goal": {
+          "count": 114,
+          "n": 128,
+          "rate": 0.890625
+        },
+        "caught": {
+          "count": 0,
+          "n": 128,
+          "rate": 0
+        },
+        "parry": {
+          "count": 0,
+          "n": 128,
+          "rate": 0
+        },
+        "parryThenGoal": {
+          "count": 0,
+          "n": 128,
+          "rate": 0
+        },
+        "resolved": {
+          "count": 128,
+          "n": 128,
+          "rate": 1
+        },
+        "spread": {
+          "n": 128,
+          "mean": 0.7091469808112277,
+          "min": 0.7091469808112293,
+          "max": 0.7091469808112293
+        },
+        "placement": {
+          "n": 128,
+          "mean": 0.6842105263157905,
+          "min": 0.6842105263157895,
+          "max": 0.6842105263157895
+        },
+        "reach": {
+          "n": 128,
+          "mean": 0.5295565114316452,
+          "min": 0.4763858949295208,
+          "max": 0.569632543615007
+        },
+        "keeperReads": {
+          "n": 128,
+          "mean": 1,
+          "min": 1,
+          "max": 1
+        }
+      },
+      "trialDigest": "18c169dc3c403e7d7a673b22bb2bba6e84e57fa21c1909600477dffd68b3f0fc"
+    },
+    {
+      "label": "keeper",
+      "keys": [
+        "GK_POSITIONING",
+        "SET_POSITION",
+        "REACTION",
+        "GK_EXPLOSIVENESS",
+        "LOW_SAVES",
+        "HIGH_SAVES",
+        "CLOSE_RANGE_SAVES",
+        "LONG_RANGE_SAVES",
+        "WING_SAVES",
+        "SEVEN_M_SAVES",
+        "SHOOTER_READING",
+        "SHOT_ANTICIPATION",
+        "PATIENCE",
+        "DECISION_TIMING",
+        "GK_COMPOSURE",
+        "GK_CONCENTRATION",
+        "GK_PRESSURE_HANDLING"
+      ],
+      "tier": "high",
+      "context": "difficult",
+      "tired": false,
+      "raw": {
+        "GK_POSITIONING": 15,
+        "SET_POSITION": 13,
+        "REACTION": 16,
+        "GK_EXPLOSIVENESS": 14,
+        "LOW_SAVES": 14,
+        "HIGH_SAVES": 13,
+        "CLOSE_RANGE_SAVES": 15,
+        "LONG_RANGE_SAVES": 14,
+        "WING_SAVES": 14,
+        "SEVEN_M_SAVES": 14,
+        "SHOOTER_READING": 14,
+        "SHOT_ANTICIPATION": 14,
+        "PATIENCE": 13,
+        "DECISION_TIMING": 13,
+        "GK_COMPOSURE": 13,
+        "GK_CONCENTRATION": 14,
+        "GK_PRESSURE_HANDLING": 13
+      },
+      "n": 128,
+      "metrics": {
+        "goal": {
+          "count": 102,
+          "n": 128,
+          "rate": 0.796875
+        },
+        "caught": {
+          "count": 0,
+          "n": 128,
+          "rate": 0
+        },
+        "parry": {
+          "count": 24,
+          "n": 128,
+          "rate": 0.1875
+        },
+        "parryThenGoal": {
+          "count": 12,
+          "n": 128,
+          "rate": 0.09375
+        },
+        "resolved": {
+          "count": 128,
+          "n": 128,
+          "rate": 1
+        },
+        "spread": {
+          "n": 128,
+          "mean": 0.7091469808112277,
+          "min": 0.7091469808112293,
+          "max": 0.7091469808112293
+        },
+        "placement": {
+          "n": 128,
+          "mean": 0.6842105263157905,
+          "min": 0.6842105263157895,
+          "max": 0.6842105263157895
+        },
+        "reach": {
+          "n": 128,
+          "mean": 0.5800945477427543,
+          "min": 0.5228711781388622,
+          "max": 0.621885403531342
+        },
+        "keeperReads": {
+          "n": 128,
+          "mean": 1,
+          "min": 1,
+          "max": 1
+        }
+      },
+      "trialDigest": "4a3121cc4015d0586e86a40b8e570c68a9cdb41a6ee4dff16bed4d8469c770cc"
+    },
+    {
+      "label": "keeper",
+      "keys": [
+        "GK_POSITIONING",
+        "SET_POSITION",
+        "REACTION",
+        "GK_EXPLOSIVENESS",
+        "LOW_SAVES",
+        "HIGH_SAVES",
+        "CLOSE_RANGE_SAVES",
+        "LONG_RANGE_SAVES",
+        "WING_SAVES",
+        "SEVEN_M_SAVES",
+        "SHOOTER_READING",
+        "SHOT_ANTICIPATION",
+        "PATIENCE",
+        "DECISION_TIMING",
+        "GK_COMPOSURE",
+        "GK_CONCENTRATION",
+        "GK_PRESSURE_HANDLING"
+      ],
+      "tier": "low",
+      "context": "wing",
+      "tired": false,
+      "raw": {
+        "GK_POSITIONING": 11,
+        "SET_POSITION": 11,
+        "REACTION": 11,
+        "GK_EXPLOSIVENESS": 10,
+        "LOW_SAVES": 11,
+        "HIGH_SAVES": 10,
+        "CLOSE_RANGE_SAVES": 10,
+        "LONG_RANGE_SAVES": 10,
+        "WING_SAVES": 10,
+        "SEVEN_M_SAVES": 11,
+        "SHOOTER_READING": 10,
+        "SHOT_ANTICIPATION": 10,
+        "PATIENCE": 10,
+        "DECISION_TIMING": 10,
+        "GK_COMPOSURE": 10,
+        "GK_CONCENTRATION": 10,
+        "GK_PRESSURE_HANDLING": 10
+      },
+      "n": 128,
+      "metrics": {
+        "goal": {
+          "count": 125,
+          "n": 128,
+          "rate": 0.9765625
+        },
+        "caught": {
+          "count": 0,
+          "n": 128,
+          "rate": 0
+        },
+        "parry": {
+          "count": 0,
+          "n": 128,
+          "rate": 0
+        },
+        "parryThenGoal": {
+          "count": 0,
+          "n": 128,
+          "rate": 0
+        },
+        "resolved": {
+          "count": 128,
+          "n": 128,
+          "rate": 1
+        },
+        "spread": {
+          "n": 128,
+          "mean": 0.7780036870762678,
+          "min": 0.778003687076268,
+          "max": 0.778003687076268
+        },
+        "placement": {
+          "n": 128,
+          "mean": 0.6842105263157905,
+          "min": 0.6842105263157895,
+          "max": 0.6842105263157895
+        },
+        "reach": {
+          "n": 128,
+          "mean": 0.5223565213650667,
+          "min": 0.4760240567611247,
+          "max": 0.5579477152789736
+        },
+        "keeperReads": {
+          "n": 128,
+          "mean": 1,
+          "min": 1,
+          "max": 1
+        }
+      },
+      "trialDigest": "26f5b7c20f76749dbeb2cb5b15d3180ed8dd0b16cc6b12c3f7790664693ceae1"
+    },
+    {
+      "label": "keeper",
+      "keys": [
+        "GK_POSITIONING",
+        "SET_POSITION",
+        "REACTION",
+        "GK_EXPLOSIVENESS",
+        "LOW_SAVES",
+        "HIGH_SAVES",
+        "CLOSE_RANGE_SAVES",
+        "LONG_RANGE_SAVES",
+        "WING_SAVES",
+        "SEVEN_M_SAVES",
+        "SHOOTER_READING",
+        "SHOT_ANTICIPATION",
+        "PATIENCE",
+        "DECISION_TIMING",
+        "GK_COMPOSURE",
+        "GK_CONCENTRATION",
+        "GK_PRESSURE_HANDLING"
+      ],
+      "tier": "mid",
+      "context": "wing",
+      "tired": false,
+      "raw": {
+        "GK_POSITIONING": 13,
+        "SET_POSITION": 12,
+        "REACTION": 13,
+        "GK_EXPLOSIVENESS": 12,
+        "LOW_SAVES": 12,
+        "HIGH_SAVES": 12,
+        "CLOSE_RANGE_SAVES": 12,
+        "LONG_RANGE_SAVES": 12,
+        "WING_SAVES": 12,
+        "SEVEN_M_SAVES": 12,
+        "SHOOTER_READING": 13,
+        "SHOT_ANTICIPATION": 13,
+        "PATIENCE": 12,
+        "DECISION_TIMING": 12,
+        "GK_COMPOSURE": 12,
+        "GK_CONCENTRATION": 12,
+        "GK_PRESSURE_HANDLING": 12
+      },
+      "n": 128,
+      "metrics": {
+        "goal": {
+          "count": 125,
+          "n": 128,
+          "rate": 0.9765625
+        },
+        "caught": {
+          "count": 0,
+          "n": 128,
+          "rate": 0
+        },
+        "parry": {
+          "count": 0,
+          "n": 128,
+          "rate": 0
+        },
+        "parryThenGoal": {
+          "count": 0,
+          "n": 128,
+          "rate": 0
+        },
+        "resolved": {
+          "count": 128,
+          "n": 128,
+          "rate": 1
+        },
+        "spread": {
+          "n": 128,
+          "mean": 0.7780036870762678,
+          "min": 0.778003687076268,
+          "max": 0.778003687076268
+        },
+        "placement": {
+          "n": 128,
+          "mean": 0.6842105263157905,
+          "min": 0.6842105263157895,
+          "max": 0.6842105263157895
+        },
+        "reach": {
+          "n": 128,
+          "mean": 0.5671836417565412,
+          "min": 0.5203662125701176,
+          "max": 0.6037031929091115
+        },
+        "keeperReads": {
+          "n": 128,
+          "mean": 1,
+          "min": 1,
+          "max": 1
+        }
+      },
+      "trialDigest": "068fadecd7a99629ceadf378016463ce29443776c3c369da93ec9fcb4b263090"
+    },
+    {
+      "label": "keeper",
+      "keys": [
+        "GK_POSITIONING",
+        "SET_POSITION",
+        "REACTION",
+        "GK_EXPLOSIVENESS",
+        "LOW_SAVES",
+        "HIGH_SAVES",
+        "CLOSE_RANGE_SAVES",
+        "LONG_RANGE_SAVES",
+        "WING_SAVES",
+        "SEVEN_M_SAVES",
+        "SHOOTER_READING",
+        "SHOT_ANTICIPATION",
+        "PATIENCE",
+        "DECISION_TIMING",
+        "GK_COMPOSURE",
+        "GK_CONCENTRATION",
+        "GK_PRESSURE_HANDLING"
+      ],
+      "tier": "high",
+      "context": "wing",
+      "tired": false,
+      "raw": {
+        "GK_POSITIONING": 15,
+        "SET_POSITION": 13,
+        "REACTION": 16,
+        "GK_EXPLOSIVENESS": 14,
+        "LOW_SAVES": 14,
+        "HIGH_SAVES": 13,
+        "CLOSE_RANGE_SAVES": 15,
+        "LONG_RANGE_SAVES": 14,
+        "WING_SAVES": 14,
+        "SEVEN_M_SAVES": 14,
+        "SHOOTER_READING": 14,
+        "SHOT_ANTICIPATION": 14,
+        "PATIENCE": 13,
+        "DECISION_TIMING": 13,
+        "GK_COMPOSURE": 13,
+        "GK_CONCENTRATION": 14,
+        "GK_PRESSURE_HANDLING": 13
+      },
+      "n": 128,
+      "metrics": {
+        "goal": {
+          "count": 125,
+          "n": 128,
+          "rate": 0.9765625
+        },
+        "caught": {
+          "count": 0,
+          "n": 128,
+          "rate": 0
+        },
+        "parry": {
+          "count": 0,
+          "n": 128,
+          "rate": 0
+        },
+        "parryThenGoal": {
+          "count": 0,
+          "n": 128,
+          "rate": 0
+        },
+        "resolved": {
+          "count": 128,
+          "n": 128,
+          "rate": 1
+        },
+        "spread": {
+          "n": 128,
+          "mean": 0.7780036870762678,
+          "min": 0.778003687076268,
+          "max": 0.778003687076268
+        },
+        "placement": {
+          "n": 128,
+          "mean": 0.6842105263157905,
+          "min": 0.6842105263157895,
+          "max": 0.6842105263157895
+        },
+        "reach": {
+          "n": 128,
+          "mean": 0.6116950535297826,
+          "min": 0.5623668864649379,
+          "max": 0.6497822640400929
+        },
+        "keeperReads": {
+          "n": 128,
+          "mean": 1,
+          "min": 1,
+          "max": 1
+        }
+      },
+      "trialDigest": "70044306559a1755c66ae6dbe9e659944d55903353f5b802e73bbdfaf1c15989"
+    },
+    {
+      "label": "keeper",
+      "keys": [
+        "GK_POSITIONING",
+        "SET_POSITION",
+        "REACTION",
+        "GK_EXPLOSIVENESS",
+        "LOW_SAVES",
+        "HIGH_SAVES",
+        "CLOSE_RANGE_SAVES",
+        "LONG_RANGE_SAVES",
+        "WING_SAVES",
+        "SEVEN_M_SAVES",
+        "SHOOTER_READING",
+        "SHOT_ANTICIPATION",
+        "PATIENCE",
+        "DECISION_TIMING",
+        "GK_COMPOSURE",
+        "GK_CONCENTRATION",
+        "GK_PRESSURE_HANDLING"
+      ],
+      "tier": "low",
+      "context": "penalty",
+      "tired": false,
+      "raw": {
+        "GK_POSITIONING": 11,
+        "SET_POSITION": 11,
+        "REACTION": 11,
+        "GK_EXPLOSIVENESS": 10,
+        "LOW_SAVES": 11,
+        "HIGH_SAVES": 10,
+        "CLOSE_RANGE_SAVES": 10,
+        "LONG_RANGE_SAVES": 10,
+        "WING_SAVES": 10,
+        "SEVEN_M_SAVES": 11,
+        "SHOOTER_READING": 10,
+        "SHOT_ANTICIPATION": 10,
+        "PATIENCE": 10,
+        "DECISION_TIMING": 10,
+        "GK_COMPOSURE": 10,
+        "GK_CONCENTRATION": 10,
+        "GK_PRESSURE_HANDLING": 10
+      },
+      "n": 128,
+      "metrics": {
+        "goal": {
+          "count": 121,
+          "n": 128,
+          "rate": 0.9453125
+        },
+        "caught": {
+          "count": 0,
+          "n": 128,
+          "rate": 0
+        },
+        "parry": {
+          "count": 9,
+          "n": 128,
+          "rate": 0.0703125
+        },
+        "parryThenGoal": {
+          "count": 2,
+          "n": 128,
+          "rate": 0.015625
+        },
+        "resolved": {
+          "count": 128,
+          "n": 128,
+          "rate": 1
+        },
+        "spread": {
+          "n": 128,
+          "mean": 0.430062326869807,
+          "min": 0.43006232686980606,
+          "max": 0.43006232686980606
+        },
+        "placement": {
+          "n": 128,
+          "mean": 0.6684210526315776,
+          "min": 0.668421052631579,
+          "max": 0.668421052631579
+        },
+        "reach": {
+          "n": 128,
+          "mean": 0.5283157949791406,
+          "min": 0.47319089743490594,
+          "max": 0.5594878864515904
+        },
+        "keeperReads": {
+          "n": 128,
+          "mean": 1,
+          "min": 1,
+          "max": 1
+        }
+      },
+      "trialDigest": "e0b2966b9a339e5fc45c14a1aeede2eb489e5dc0ddd1493bbecc17078024e406"
+    },
+    {
+      "label": "keeper",
+      "keys": [
+        "GK_POSITIONING",
+        "SET_POSITION",
+        "REACTION",
+        "GK_EXPLOSIVENESS",
+        "LOW_SAVES",
+        "HIGH_SAVES",
+        "CLOSE_RANGE_SAVES",
+        "LONG_RANGE_SAVES",
+        "WING_SAVES",
+        "SEVEN_M_SAVES",
+        "SHOOTER_READING",
+        "SHOT_ANTICIPATION",
+        "PATIENCE",
+        "DECISION_TIMING",
+        "GK_COMPOSURE",
+        "GK_CONCENTRATION",
+        "GK_PRESSURE_HANDLING"
+      ],
+      "tier": "mid",
+      "context": "penalty",
+      "tired": false,
+      "raw": {
+        "GK_POSITIONING": 13,
+        "SET_POSITION": 12,
+        "REACTION": 13,
+        "GK_EXPLOSIVENESS": 12,
+        "LOW_SAVES": 12,
+        "HIGH_SAVES": 12,
+        "CLOSE_RANGE_SAVES": 12,
+        "LONG_RANGE_SAVES": 12,
+        "WING_SAVES": 12,
+        "SEVEN_M_SAVES": 12,
+        "SHOOTER_READING": 13,
+        "SHOT_ANTICIPATION": 13,
+        "PATIENCE": 12,
+        "DECISION_TIMING": 12,
+        "GK_COMPOSURE": 12,
+        "GK_CONCENTRATION": 12,
+        "GK_PRESSURE_HANDLING": 12
+      },
+      "n": 128,
+      "metrics": {
+        "goal": {
+          "count": 116,
+          "n": 128,
+          "rate": 0.90625
+        },
+        "caught": {
+          "count": 0,
+          "n": 128,
+          "rate": 0
+        },
+        "parry": {
+          "count": 19,
+          "n": 128,
+          "rate": 0.1484375
+        },
+        "parryThenGoal": {
+          "count": 7,
+          "n": 128,
+          "rate": 0.0546875
+        },
+        "resolved": {
+          "count": 128,
+          "n": 128,
+          "rate": 1
+        },
+        "spread": {
+          "n": 128,
+          "mean": 0.430062326869807,
+          "min": 0.43006232686980606,
+          "max": 0.43006232686980606
+        },
+        "placement": {
+          "n": 128,
+          "mean": 0.6684210526315776,
+          "min": 0.668421052631579,
+          "max": 0.668421052631579
+        },
+        "reach": {
+          "n": 128,
+          "mean": 0.5735274616924804,
+          "min": 0.5174899596655007,
+          "max": 0.605325423377803
+        },
+        "keeperReads": {
+          "n": 128,
+          "mean": 1,
+          "min": 1,
+          "max": 1
+        }
+      },
+      "trialDigest": "edae68eba57667bf043a687bcd655062b929d7d429258686ade73facacdb0367"
+    },
+    {
+      "label": "keeper",
+      "keys": [
+        "GK_POSITIONING",
+        "SET_POSITION",
+        "REACTION",
+        "GK_EXPLOSIVENESS",
+        "LOW_SAVES",
+        "HIGH_SAVES",
+        "CLOSE_RANGE_SAVES",
+        "LONG_RANGE_SAVES",
+        "WING_SAVES",
+        "SEVEN_M_SAVES",
+        "SHOOTER_READING",
+        "SHOT_ANTICIPATION",
+        "PATIENCE",
+        "DECISION_TIMING",
+        "GK_COMPOSURE",
+        "GK_CONCENTRATION",
+        "GK_PRESSURE_HANDLING"
+      ],
+      "tier": "high",
+      "context": "penalty",
+      "tired": false,
+      "raw": {
+        "GK_POSITIONING": 15,
+        "SET_POSITION": 13,
+        "REACTION": 16,
+        "GK_EXPLOSIVENESS": 14,
+        "LOW_SAVES": 14,
+        "HIGH_SAVES": 13,
+        "CLOSE_RANGE_SAVES": 15,
+        "LONG_RANGE_SAVES": 14,
+        "WING_SAVES": 14,
+        "SEVEN_M_SAVES": 14,
+        "SHOOTER_READING": 14,
+        "SHOT_ANTICIPATION": 14,
+        "PATIENCE": 13,
+        "DECISION_TIMING": 13,
+        "GK_COMPOSURE": 13,
+        "GK_CONCENTRATION": 14,
+        "GK_PRESSURE_HANDLING": 13
+      },
+      "n": 128,
+      "metrics": {
+        "goal": {
+          "count": 96,
+          "n": 128,
+          "rate": 0.75
+        },
+        "caught": {
+          "count": 0,
+          "n": 128,
+          "rate": 0
+        },
+        "parry": {
+          "count": 41,
+          "n": 128,
+          "rate": 0.3203125
+        },
+        "parryThenGoal": {
+          "count": 9,
+          "n": 128,
+          "rate": 0.0703125
+        },
+        "resolved": {
+          "count": 128,
+          "n": 128,
+          "rate": 1
+        },
+        "spread": {
+          "n": 128,
+          "mean": 0.430062326869807,
+          "min": 0.43006232686980606,
+          "max": 0.43006232686980606
+        },
+        "placement": {
+          "n": 128,
+          "mean": 0.6684210526315776,
+          "min": 0.668421052631579,
+          "max": 0.668421052631579
+        },
+        "reach": {
+          "n": 128,
+          "mean": 0.6118930543291702,
+          "min": 0.5561734919416216,
+          "max": 0.6475677223372281
+        },
+        "keeperReads": {
+          "n": 128,
+          "mean": 1,
+          "min": 1,
+          "max": 1
+        }
+      },
+      "trialDigest": "544df4da05cd9ac2322f724f2a2cfe5cf78ad6e14cc8fe6dd77d78ad3c9f19ff"
+    }
+  ],
+  "sources": {
+    "actions.ts": "f81433b938ed7f227902b6ec28839ed9ed61fd10930b4cf5020d424bd004dfbc",
+    "attributeIntegrationScenarios.ts": "4a163b871b677a59220e4f9203be5badbd2d33b0bfd9b21066adecd4bd9e21c6",
+    "backcourt.ts": "00ab4e44f0520b83f771cf5dd8a0e1212b34272410e5027b856eabddebddc120",
+    "backcourtScenarios.ts": "6137722469db2dc0a9567b9ff3bccd9c8d3f070e9db58bb93fe225cbccd655be",
+    "coaching.ts": "b943276328e1df36f43173af08fe008d8376f419e5afae4aeae5e1466a28a599",
+    "condition.ts": "7067672564be5a7beea16223a04b765e21716d638406ccea86e5d6f688899517",
+    "contact.ts": "477b3c2d7a8bbac293370044c779cd2889baea8cabb18c9bd26f967860a27ce9",
+    "contactScenarios.ts": "624c77567281a49677ae55289c3e0d71d5e81f00e2f56f151e1bf7ea59ebd1ce",
+    "continuous.ts": "3bc0e25ee0474aab3162df83b5e228bcd5953ddc5b29622592e5fd5bfdda55c5",
+    "defence.ts": "353763d139e7d170aff02f6b757973103a3b25fbdc53c4c363a1ed06de102b56",
+    "engage.ts": "b597ce488188b882f553f0553316960039d19ec92bca275ee89c7a4db4595d07",
+    "engine.ts": "bddb85af2e0ac4d0bdb7c97e5e7b195c8d15af8dd7076e1ea8bd76957874c228",
+    "execution.ts": "cb235bc3547646bbd6890e72011991248284f645f2517c7d0380285e769f53ab",
+    "intelligence.ts": "8b7814ce46cf50bbb8a2e19648991e880304a5c0f2fdf5b5540a45e57ed4c80b",
+    "intelligenceScenarios.ts": "8214cb9c24bad1570559d71d2381e3ac6bdf7c670bd0e9b925bbc72857bbd310",
+    "interactions.ts": "5eb59b369de142f5ebb1de10c69a06d33d77fd83cb36208c81d0e0524a02f7b3",
+    "ledger.ts": "7f45117a1486431df70f0b8697dcc7fdd281be93309e148d48baacad7f01391b",
+    "locomotion.ts": "c222d4240a0b0935e552fa37a7c1dcf7a999d48ca4e4e200ce5befabbc860b13",
+    "match.ts": "a853a0a922f76759c51aa21e29017aaf1bd0d07d60e5bf611e49e9e4b8dd3e9e",
+    "matchReplay.ts": "6796c275154da7145cd06558835524075013528ecb2354a1f3439e5b537ea499",
+    "movement.ts": "e2b310cca3c7c5c82b4540a78f2e91551a8f33a424ea01a2c8c0fc69de67f0ae",
+    "offence.ts": "086fe17fc980c3b233b59c95c8ebe89feca8a11609d2de2686ad545312c60e25",
+    "passive.ts": "0c405269406b4a8b124ea432ce036a0008118aa59c186954cded0957a0c2381f",
+    "physicalLoad.ts": "e1e334552f35a2f1dbc7d4b88da4ac5bbc501ae86f63ebf884bb6791da619606",
+    "pivot.ts": "3021f9ab217e9e4eb8f5adf996365e86338ac0fa9e738fc7491a25228c6bf783",
+    "population.ts": "9097fd5e0396001ff48bb30529994fefb820aa9b75b272f79bdf55239eead655",
+    "profile.ts": "970e526f78486d073725854a1b0a5d4686996d51771d4429b50cd23ae1a9d2b1",
+    "realism.ts": "615271e0bc0217a08b296fa0777754f28b02fa136e5c0e55f07a8af616780897",
+    "referee.ts": "35feaf4d17b6b5bd011702384be061081b52b220e5d897e37aa24bc297d04387",
+    "replay.ts": "7a636b1b374a10d7f8aa02ade08957ac67920aacd33b37db2f412f2fefa42e6b",
+    "restarts.ts": "048e5ead24b976453a0abe2cf314fe9e79c33a0619c7d71cdfdb47b575230520",
+    "rules.ts": "46325a43317b15edfc4773265989ffa2ab0500c9fdefb32a7fc3363dd39147d4",
+    "sanction.ts": "8d569712c4c2ce1223d246e3a5d5e6dd0913b5f8232e6456ff892bbcd424d910",
+    "scenarios.ts": "c48ddb2c75ce34fd03c439261e40e77f676b1ffb2fc8abeb1a3f9b1a5d286dbe",
+    "space.ts": "fa4755d1ba95d8e683cd19955418944d004a34963b708030ef72eb521ca25eb3",
+    "squads.ts": "fc2aeaa594f3ef8a119656d1056178bf5f6414f6ee4c2082641b97fc216749a4",
+    "state.ts": "fc33c3ac8ee2fbe78c7998c756850eda8981949f393a03ac77af9f5c9179284e",
+    "structure.ts": "fd5cea56c1e2e311b490e452701fa2b1b8f91282e3f6cd7e06a4621d8065f3c3",
+    "testProfile.ts": "35a3ac5a0a0fbb6614de81c449fde37b880af96bc10a1cd2dcf4b4e3e9077d6d",
+    "threatRelation.ts": "c68668bfbd439adfa42a751b12266d664e1d2e6d80358cbc30149b807fb9bcf1",
+    "timing.ts": "b551d8b79cc0562fbbc58c7ddf6b7eaafdd743a3e19e09174e0924ad00410fd1",
+    "transitions.ts": "6498a4ea7a0d0efb0a19048dfcc9e6c2cd19fa8844f86f3d91995f65f80b270a",
+    "wing.ts": "31d7f39cf38918717d3723fadcce80948a13650a45a2f680e1bbc5c66fd3a556",
+    "wingScenarios.ts": "8d553b1c254f0953cf5508ca1a37463891f631cdfd0df81b436be487541ee031"
+  },
+  "harnessSha256": "4a163b871b677a59220e4f9203be5badbd2d33b0bfd9b21066adecd4bd9e21c6",
+  "runtimeMs": 599.5404000000001,
+  "seedPolicy": "Paired trial seeds and identical declared visible contexts. Source-specific scenario initialization is normalized to the same action RNG before resolution.",
+  "scope": "No empirical targets, rating rewrites, CA/PA, quotas or production observers. Staged decision inputs are labelled; shots run full canonical keeper reading and ticks. Catch bodies move only in moving contexts."
+}

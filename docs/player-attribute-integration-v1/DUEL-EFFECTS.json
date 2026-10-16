@@ -1,0 +1,198 @@
+{
+  "complete": true,
+  "source": "Canonical resolveEffects/FEINT duel, matched reached geometry and normalized action RNG; no generic attacker-minus-defender replacement added.",
+  "rows": [
+    {
+      "variant": "before",
+      "actor": "attacker",
+      "tier": "low",
+      "keys": [
+        "BREAKTHROUGH"
+      ],
+      "raw": {
+        "BREAKTHROUGH": 11
+      },
+      "n": 384,
+      "wrongFooted": 247,
+      "meanMargin": 0.098384173029307,
+      "digest": "cfe50b1ddeca84f4776a80ddefb6560793953343b8f60db719c761a40808efb1"
+    },
+    {
+      "variant": "before",
+      "actor": "attacker",
+      "tier": "mid",
+      "keys": [
+        "BREAKTHROUGH"
+      ],
+      "raw": {
+        "BREAKTHROUGH": 14
+      },
+      "n": 384,
+      "wrongFooted": 293,
+      "meanMargin": 0.17733154145035987,
+      "digest": "4c027588df22e99d974a241f059874a5c87fee7fbb17429f80ad4284a98372c5"
+    },
+    {
+      "variant": "before",
+      "actor": "attacker",
+      "tier": "high",
+      "keys": [
+        "BREAKTHROUGH"
+      ],
+      "raw": {
+        "BREAKTHROUGH": 17
+      },
+      "n": 384,
+      "wrongFooted": 343,
+      "meanMargin": 0.25627890987141205,
+      "digest": "0ef6bac1d9d2c7fe9eeed049719e6ebda3716fb662e9f069ff35a057b46d398e"
+    },
+    {
+      "variant": "before",
+      "actor": "defender",
+      "tier": "low",
+      "keys": [
+        "LATERAL_DEFENCE",
+        "DEFENSIVE_TIMING"
+      ],
+      "raw": {
+        "LATERAL_DEFENCE": 10,
+        "DEFENSIVE_TIMING": 10
+      },
+      "n": 384,
+      "wrongFooted": 328,
+      "meanMargin": 0.22996312039772873,
+      "digest": "f7f491e6d5a4e14fe41ea5bd089e4f9ba24a616c5f4ac6033258cbad64816d4b"
+    },
+    {
+      "variant": "before",
+      "actor": "defender",
+      "tier": "mid",
+      "keys": [
+        "LATERAL_DEFENCE",
+        "DEFENSIVE_TIMING"
+      ],
+      "raw": {
+        "LATERAL_DEFENCE": 12,
+        "DEFENSIVE_TIMING": 12
+      },
+      "n": 384,
+      "wrongFooted": 293,
+      "meanMargin": 0.17733154145035987,
+      "digest": "4c027588df22e99d974a241f059874a5c87fee7fbb17429f80ad4284a98372c5"
+    },
+    {
+      "variant": "before",
+      "actor": "defender",
+      "tier": "high",
+      "keys": [
+        "LATERAL_DEFENCE",
+        "DEFENSIVE_TIMING"
+      ],
+      "raw": {
+        "LATERAL_DEFENCE": 13,
+        "DEFENSIVE_TIMING": 14
+      },
+      "n": 384,
+      "wrongFooted": 261,
+      "meanMargin": 0.14048943618720175,
+      "digest": "765141999563066a2d046e0f8e3c8623b1dbec6d9e5764414e8e5347686cf070"
+    },
+    {
+      "variant": "after",
+      "actor": "attacker",
+      "tier": "low",
+      "keys": [
+        "BREAKTHROUGH"
+      ],
+      "raw": {
+        "BREAKTHROUGH": 11
+      },
+      "n": 384,
+      "wrongFooted": 247,
+      "meanMargin": 0.098384173029307,
+      "digest": "cfe50b1ddeca84f4776a80ddefb6560793953343b8f60db719c761a40808efb1"
+    },
+    {
+      "variant": "after",
+      "actor": "attacker",
+      "tier": "mid",
+      "keys": [
+        "BREAKTHROUGH"
+      ],
+      "raw": {
+        "BREAKTHROUGH": 14
+      },
+      "n": 384,
+      "wrongFooted": 293,
+      "meanMargin": 0.17733154145035987,
+      "digest": "4c027588df22e99d974a241f059874a5c87fee7fbb17429f80ad4284a98372c5"
+    },
+    {
+      "variant": "after",
+      "actor": "attacker",
+      "tier": "high",
+      "keys": [
+        "BREAKTHROUGH"
+      ],
+      "raw": {
+        "BREAKTHROUGH": 17
+      },
+      "n": 384,
+      "wrongFooted": 343,
+      "meanMargin": 0.25627890987141205,
+      "digest": "0ef6bac1d9d2c7fe9eeed049719e6ebda3716fb662e9f069ff35a057b46d398e"
+    },
+    {
+      "variant": "after",
+      "actor": "defender",
+      "tier": "low",
+      "keys": [
+        "LATERAL_DEFENCE",
+        "DEFENSIVE_TIMING"
+      ],
+      "raw": {
+        "LATERAL_DEFENCE": 10,
+        "DEFENSIVE_TIMING": 10
+      },
+      "n": 384,
+      "wrongFooted": 328,
+      "meanMargin": 0.22996312039772873,
+      "digest": "f7f491e6d5a4e14fe41ea5bd089e4f9ba24a616c5f4ac6033258cbad64816d4b"
+    },
+    {
+      "variant": "after",
+      "actor": "defender",
+      "tier": "mid",
+      "keys": [
+        "LATERAL_DEFENCE",
+        "DEFENSIVE_TIMING"
+      ],
+      "raw": {
+        "LATERAL_DEFENCE": 12,
+        "DEFENSIVE_TIMING": 12
+      },
+      "n": 384,
+      "wrongFooted": 293,
+      "meanMargin": 0.17733154145035987,
+      "digest": "4c027588df22e99d974a241f059874a5c87fee7fbb17429f80ad4284a98372c5"
+    },
+    {
+      "variant": "after",
+      "actor": "defender",
+      "tier": "high",
+      "keys": [
+        "LATERAL_DEFENCE",
+        "DEFENSIVE_TIMING"
+      ],
+      "raw": {
+        "LATERAL_DEFENCE": 13,
+        "DEFENSIVE_TIMING": 14
+      },
+      "n": 384,
+      "wrongFooted": 261,
+      "meanMargin": 0.14048943618720175,
+      "digest": "765141999563066a2d046e0f8e3c8623b1dbec6d9e5764414e8e5347686cf070"
+    }
+  ]
+}
