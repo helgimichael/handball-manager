@@ -1,0 +1,14 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": { "incremental": false },
+  "include": [
+    "scripts/prove-player-attribute-integration.ts",
+    "scripts/prove-player-attribute-duels.ts",
+    "scripts/prove-player-attribute-defensive-consequence.ts",
+    "scripts/run-player-attribute-cohort.ts",
+    "scripts/prove-player-attribute-truth.ts",
+    "scripts/prove-player-attribute-presentation.ts",
+    "scripts/prove-player-attribute-performance.ts",
+    "scripts/lib/possessionEconomy.ts"
+  ]
+}

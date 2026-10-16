@@ -1,0 +1,14 @@
+/** HTTP/build identity checks. Does not launch or stop any service. */
+const fs=require('node:fs'),path=require('node:path'),assert=require('node:assert/strict');
+process.chdir(path.resolve(__dirname,'../../..'));
+const dir='docs/player-attribute-integration-v1',distDir='.next-game-player-attributes-v1',url='http://127.0.0.1:3022';
+async function main(){
+ const source=JSON.parse(fs.readFileSync(dir+'/SOURCE-PRESERVATION.json','utf8')),routes={},servedBuildIdentity={},previousServices=[],buildId=fs.readFileSync('apps/game/'+distDir+'/BUILD_ID','utf8').trim();
+ for(const route of ['/','/new-game']){const r=await fetch(url+route,{signal:AbortSignal.timeout(8000)});routes[route]=r.status;const html=await r.text();assert.equal(r.status,200,route);servedBuildIdentity[route]=html.includes(buildId);assert.equal(servedBuildIdentity[route],true,route+' serves the exact isolated build');}
+ for(const port of [3017,3018,3019,3020,3021]){const r=await fetch('http://127.0.0.1:'+port,{signal:AbortSignal.timeout(5000)});previousServices.push({port,status:r.status});await r.body?.cancel();assert.equal(r.status,200,'Preserved service '+port);}
+ for(const b of source.previousBuilds)assert.equal(fs.readFileSync('apps/game/'+b.directory+'/BUILD_ID','utf8').trim(),b.buildId,b.directory);
+ const browserPath=dir+'/verification/browser-qa.json';assert.ok(fs.existsSync(browserPath),'Record actual browser availability/QA scope first');
+ const receipt={complete:true,verifiedAt:new Date().toISOString(),distDir,url,routes,servedBuildIdentity,buildId,buildSourceHead:fs.readFileSync('.tmp/player-attribute-build-head.txt','utf8').trim(),previousServices,previousBuilds:source.previousBuilds,browserQA:JSON.parse(fs.readFileSync(browserPath,'utf8')),startCommand:"Set-Location 'C:\\Users\\helgi\\Documents\\STARKVIS-HELA\\handball-manager\\apps\\game'\n$env:HM_NEXT_DIST_DIR = '.next-game-player-attributes-v1'\nnpm.cmd run start -- --hostname 127.0.0.1 --port 3022",sourceScope:'Fresh isolated production build from the recorded local code commit, including the preserved original user working files. Later evidence and generated type-include metadata do not alter runtime source.',humanQA:{status:'PENDING_USER',url,matches:'2–3 normal matches',focus:['Compare difficult passing and challenged control across players; simple actions should remain dependable.','Compare shooters, defenders, keepers and physically strong players in context.','Change one player and judge how the team functions.','Check Frikast and broad Bollförluster in live/final/archive Statistics; Match Center otherwise stays familiar.'],requirements:'No continuous2D QA, DevTools or imported QA saves.'},nothingPushed:true};
+ fs.writeFileSync(dir+'/DELIVERY.json',JSON.stringify(receipt,null,2)+'\n');console.log(JSON.stringify({complete:true,url,buildId:receipt.buildId,routes,previousServices,browserQA:receipt.browserQA.status}));
+}
+main().catch(e=>{console.error(e);process.exitCode=1;});

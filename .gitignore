@@ -122,3 +122,8 @@ docs/physical-load-fatigue-v11/verification/
 docs/player-attributes-possession-economy-v1/development/
 docs/player-attributes-possession-economy-v1/final/
 docs/player-attributes-possession-economy-v1/verification/
+
+# Attribute integration retains raw production cores and development runs locally.
+docs/player-attribute-integration-v1/development/
+docs/player-attribute-integration-v1/final/
+docs/player-attribute-integration-v1/verification/
