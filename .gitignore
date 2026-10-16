@@ -117,3 +117,8 @@ docs/career-loading-screen-v1/verification/
 docs/physical-load-fatigue-v11/development/
 docs/physical-load-fatigue-v11/final/
 docs/physical-load-fatigue-v11/verification/
+
+# Attribute/economy raw match evidence stays local; compact audit receipts are committed.
+docs/player-attributes-possession-economy-v1/development/
+docs/player-attributes-possession-economy-v1/final/
+docs/player-attributes-possession-economy-v1/verification/
