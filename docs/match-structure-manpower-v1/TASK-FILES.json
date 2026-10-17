@@ -1,0 +1,28 @@
+{
+  "code": [
+    ".gitignore",
+    "packages/handball-engine/src/v2/core/population.ts",
+    "packages/handball-engine/src/v2/core/referee.ts",
+    "packages/handball-engine/src/v2/core/sanction.ts",
+    "packages/handball-engine/src/v2/core/matchStructureScenarios.ts",
+    "packages/handball-engine/src/v2/core/match-structure.test.ts",
+    "packages/handball-engine/scripts/test-core.cjs",
+    "apps/game/scripts/lib/matchStructureDiagnostics.ts",
+    "apps/game/scripts/lib/matchStructureDiagnostics.test.ts",
+    "apps/game/scripts/prove-match-structure.ts",
+    "apps/game/scripts/prove-match-discipline.ts",
+    "apps/game/scripts/audit-match-structure-retained.ts",
+    "apps/game/scripts/audit-match-suspension-lifecycle.cjs",
+    "apps/game/scripts/run-match-structure-after.ts",
+    "apps/game/scripts/prove-match-structure-truth.ts",
+    "apps/game/scripts/verify-match-structure-preservation.cjs",
+    "apps/game/scripts/report-match-structure.cjs",
+    "apps/game/scripts/report-match-structure-delivery.cjs",
+    "apps/game/tsconfig.match-structure.json",
+    "apps/game/scripts/audit-match-manpower-configurations.cjs"
+  ],
+  "evidence": [
+    "docs/match-structure-manpower-v1",
+    "apps/game/tsconfig.json"
+  ]
+}

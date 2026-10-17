@@ -143,7 +143,16 @@ export function readContact(
     radialClosingSpeed:Number(radialClosingSpeed.toFixed(3)),lateralSpeed:Number(lateralSpeed.toFixed(3)),
     relativeClosingSpeed:Number(relativeClosingSpeed.toFixed(3)),controlledClosingLimit:Number(controlledClosingLimit.toFixed(3)),shoulderLost,restrainingProgression,progression:Number(progression.toFixed(3)),...chance.detail };
 
-  // Contact on a man in the air is the one case handball never tolerates.
+  // The planner committed this stationary frontal containment while the
+  // attacker was grounded (planContact refuses a new airborne contact).
+  // A later takeoff alone cannot turn that existing passive body position
+  // into a body-directed infringement. Moving, rear, holding and lost-shoulder
+  // contacts still take the airborne danger branches below.
+  const establishedFrontal=technique==='BENT_ARMS'&&approach==='FRONT'&&speed===0&&!shoulderLost&&
+    d.beatenUntilTick<=s.tick&&d.screenedUntilTick<=s.tick&&d.action?.kind==='CONTACT'&&
+    d.action.targetId===a.id&&d.action.contact?.approach==='FRONT';
+  if(airborne&&establishedFrontal)return {severity:'LEGAL',reason:'Existing stationary frontal containment before the attacker took off',clearChance:false,detail:{...detail,establishedFrontal:true}};
+  // Actual intervention against an airborne body still requires protection.
   if (airborne && (technique === 'HOLD' || relativeClosingSpeed > 2.2 || approach === 'BEHIND' && radialClosingSpeed > 1.4)) {
     return { severity: 'SERIOUS', reason: 'Contact on an airborne attacker', clearChance: chance.clear, detail };
   }

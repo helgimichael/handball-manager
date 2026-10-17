@@ -1,0 +1,52 @@
+/** Stratify the already captured canonical population boundaries by keeper presence.
+ * No simulation or new possession definition. Run after other heavy jobs exit.
+ */
+const fs=require('node:fs'),path=require('node:path'),zlib=require('node:zlib'),crypto=require('node:crypto'),assert=require('node:assert/strict');
+process.chdir(path.resolve(__dirname,'../../..'));
+const dir='docs/match-structure-manpower-v1',read=p=>JSON.parse(fs.readFileSync(p,'utf8')),selected={hbl:[0,1,12,22,30,34,37,38],allsv:[0,12,19,20,35,36,38,39]},hash=x=>crypto.createHash('sha256').update(JSON.stringify(x)).digest('hex');
+assert.ok(!fs.existsSync(dir+'/MANPOWER-CONFIGURATIONS.json'),'Reuse a completed stratification');
+const distribution=a=>{const x=a.slice().sort((a,b)=>a-b),q=p=>{if(!x.length)return null;const i=(x.length-1)*p;return x[Math.floor(i)]+(x[Math.ceil(i)]-x[Math.floor(i)])*(i-Math.floor(i));};return{n:x.length,mean:x.length?x.reduce((n,v)=>n+v,0)/x.length:null,median:q(.5),p10:q(.1),p90:q(.9)};};
+function configuration(b){const fields=b.state.split('v').map(Number),keepers=[b.court.HOME.length-fields[0],b.court.AWAY.length-fields[1]];assert.ok(keepers.every(k=>k===0||k===1));return{key:b.state+' / GK'+keepers.join('v'),fields,keepers,bodies:[b.court.HOME.length,b.court.AWAY.length]};}
+function populationBoundaries(s,initialPopulation){
+  const pop=new Map(Object.entries(initialPopulation)),people=new Map(s.players.map(p=>[p.id,p]));
+  const snapshot=(tick,officialMs)=>{const court=Object.fromEntries(['HOME','AWAY'].map(t=>[t,[...pop].filter(([id,v])=>v==='COURT'&&people.get(id).team===t).map(([id])=>id)])),state=['HOME','AWAY'].map(t=>court[t].filter(id=>people.get(id).kind==='FIELD_PLAYER').length).join('v');return{tick,officialMs,state,court};};
+  const out=[snapshot(0,0)];
+  for(const e of s.events){const next=e.type==='SUBSTITUTE_ADMITTED'?'COURT':e.type==='PLAYER_LEFT_COURT'||e.type==='SUSPENSION_EXPIRED'?'BENCH':e.type==='TWO_MINUTE_SUSPENSION'?'SUSPENDED':e.type==='DISQUALIFICATION'?'DISQUALIFIED':null;if(next&&e.actorId){const previous=pop.get(e.actorId);pop.set(e.actorId,next);if((previous==='COURT')!==(next==='COURT'))out.push(snapshot(e.tick,e.officialMs));}}
+  assert.ok(s.players.every(p=>pop.get(p.id)===p.population),'Exact final population, including keepers');
+  return out;
+}
+// Keeper-only removal leaves the field label unchanged but must split exposure.
+const keeperFixture={players:[{id:'f',team:'HOME',kind:'FIELD_PLAYER',population:'COURT'},{id:'g',team:'HOME',kind:'GOALKEEPER',population:'SUSPENDED'}],events:[{type:'TWO_MINUTE_SUSPENSION',actorId:'g',tick:10,officialMs:500}]};
+const keeperBoundaries=populationBoundaries(keeperFixture,{f:'COURT',g:'COURT'});assert.equal(keeperBoundaries.length,2);assert.equal(keeperBoundaries[0].state,keeperBoundaries[1].state);assert.equal(configuration(keeperBoundaries[1]).key,'1v0 / GK0v0');
+const matches=[];
+for(const phase of ['before','after'])for(const league of ['hbl','allsv'])for(const index of phase==='before'?Array.from({length:40},(_,i)=>i):selected[league]){
+  const id=String(index).padStart(3,'0'),source=phase==='before'?`docs/player-attribute-integration-v1/final/${league}`:`${dir}/raw/after/${league}`,sourceReport=read(`${source}/match-${id}.json`);
+  const s=JSON.parse(zlib.gunzipSync(fs.readFileSync(`${source}/core-${id}.json.gz`)).toString('utf8'));assert.equal(hash(s),sourceReport.coreHash);
+  const r=phase==='before'?read(`${dir}/raw/${league}-${id}.json`).structure:sourceReport.structure,boundaries=populationBoundaries(s,r.initialPopulation).map(b=>({...b,configuration:configuration(b)})),rows={},player=new Map(s.players.map(p=>[p.id,p]));
+  const row=k=>rows[k]??={officialMs:0,simulationMs:0,passes:0,shots:0,goals:0,fieldAttempts:0,fieldGoals:0,sevenMetreAttempts:0,sevenMetreWhistles:0,freeThrows:0,penalties:0,possessionsStarted:0,startsByTeam:{HOME:0,AWAY:0},losses:0,durations:[],definition:boundaries.find(b=>b.configuration.key===k)?.configuration};
+  const at=t=>{let lo=0,hi=boundaries.length;while(lo+1<hi){const m=(lo+hi)>>1;if(boundaries[m].tick<=t)lo=m;else hi=m;}while(lo+1<boundaries.length&&boundaries[lo+1].tick<=t)lo++;return boundaries[lo].configuration.key;};
+  for(const b of r.boundaries){const last=r.boundaries.findLast(h=>h.tick===b.tick);if(last!==b)continue;const rebuilt=boundaries.findLast(h=>h.tick<=b.tick);for(const team of ['HOME','AWAY'])assert.deepEqual(rebuilt.court[team].slice().sort(),b.court[team].slice().sort(),'Retained boundary agrees with keeper-aware event replay');}
+  for(let i=0;i<boundaries.length;i++){const b=boundaries[i],next=boundaries[i+1],v=row(b.configuration.key);v.officialMs+=Math.max(0,(next?.officialMs??s.officialClock.timeMs)-b.officialMs);v.simulationMs+=Math.max(0,(next?.tick??s.tick)-b.tick)*50;}
+  const releases=new Map(),episodes=new Map(r.episodes.map(e=>[e.key,{...e,firstTick:null,lastTick:null}])),ignored=new Set(r.integrity.voidedProvisionalEventIds),aliases=r.integrity.continuationAliases,unassignedLiveReleaseGroups=new Map();let period=1;
+  const resolve=id=>{const seen=new Set();while(aliases[id]){assert.ok(!seen.has(id));seen.add(id);id=aliases[id];}return id;};
+  for(const e of s.events){const k=at(e.tick),v=row(k);
+    if(e.type==='PASS_RELEASED')v.passes++;
+    if(e.type==='SHOT_RELEASED'){v.shots++;const field=e.details.shotKind!=='SEVEN_METRE'&&player.get(e.actorId)?.kind==='FIELD_PLAYER';if(field)v.fieldAttempts++;if(e.details.shotKind==='SEVEN_METRE')v.sevenMetreAttempts++;releases.set(e.actionId,{key:k,field});}
+    if(e.type==='GOAL'){v.goals++;const shot=releases.get(e.actionId);if(shot?.field)row(shot.key).fieldGoals++;}
+    if(e.type==='WHISTLE_RESTART'){if(e.details.kind==='FREE_THROW')v.freeThrows++;if(e.details.kind==='SEVEN_METRE')v.sevenMetreWhistles++;}
+    if(e.type==='TWO_MINUTE_SUSPENSION'||e.type==='DISQUALIFICATION')v.penalties++;
+    if(!ignored.has(e.id)){const key=period+':'+resolve(e.possessionId),episode=episodes.get(key);if(episode){episode.firstTick??=e.tick;episode.lastTick=e.tick;}else if(e.type==='PASS_RELEASED'||e.type==='SHOT_RELEASED'){const list=unassignedLiveReleaseGroups.get(key)??[];list.push({eventId:e.id,type:e.type,tick:e.tick});unassignedLiveReleaseGroups.set(key,list);}}
+    if(e.type==='PERIOD_ENDED'&&e.details.period===1)period=2;
+  }
+  for(const e of episodes.values()){assert.ok(e.firstTick!==null&&e.lastTick!==null);const first=row(at(e.firstTick));first.possessionsStarted++;first.startsByTeam[e.team]++;first.durations.push(e.durationSeconds);if(e.loss)row(at(e.lastTick)).losses++;}
+  const sum=k=>Object.values(rows).reduce((n,v)=>n+v[k],0);assert.equal(sum('officialMs'),s.officialClock.timeMs);assert.equal(sum('simulationMs'),s.timeMs);assert.equal(sum('possessionsStarted'),r.totals.possessions);
+  assert.equal(sum('freeThrows'),r.episodes.reduce((n,e)=>n+e.freeThrows,0));assert.equal(sum('shots'),s.events.filter(e=>e.type==='SHOT_RELEASED').length);
+  matches.push({phase,league,index,coreHash:sourceReport.coreHash,byConfiguration:rows,unassignedLiveReleaseGroups:Object.fromEntries(unassignedLiveReleaseGroups)});
+  if((index+1)%10===0)console.log(`${phase} ${league}: fixture index ${index}`);
+}
+const pooled={};for(const m of matches){const group=pooled[m.phase+':'+m.league]??={n:0,byConfiguration:{}};group.n++;for(const[k,v]of Object.entries(m.byConfiguration)){const p=group.byConfiguration[k]??={...v,startsByTeam:{HOME:0,AWAY:0},durations:[],officialMs:0,simulationMs:0,passes:0,shots:0,goals:0,fieldAttempts:0,fieldGoals:0,sevenMetreAttempts:0,sevenMetreWhistles:0,freeThrows:0,penalties:0,possessionsStarted:0,losses:0};for(const[field,value]of Object.entries(v))if(typeof value==='number')p[field]+=value;p.startsByTeam.HOME+=v.startsByTeam.HOME;p.startsByTeam.AWAY+=v.startsByTeam.AWAY;p.durations.push(...v.durations);}}
+for(const group of Object.values(pooled))for(const p of Object.values(group.byConfiguration)){p.fieldConversion=p.fieldAttempts?p.fieldGoals/p.fieldAttempts:null;p.attackDurationByStartingConfiguration=distribution(p.durations);delete p.durations;}
+const liveSamples={};for(const league of ['hbl','allsv']){const d=read(`${dir}/raw/${league}-live-diagnostics.json`),lookup=t=>{const b=d.boundaries.findLast(b=>b.tick<=t);return b.state+' / GK'+[b.sides.HOME.keeperIds.length,b.sides.AWAY.keeperIds.length].join('v');};for(const e of d.environments){const k=league+':'+lookup(e.tick),r=liveSamples[k]??={n:0,receivers:0,passingOptions:0,width:0,localAttackers:0,localDefenders:0,assignments:0};r.n++;for(const f of ['receivers','passingOptions','width','localAttackers','localDefenders','assignments'])r[f]+=e[f];}}
+for(const r of Object.values(liveSamples))for(const k of ['receivers','passingOptions','width','localAttackers','localDefenders','assignments'])r[k]/=r.n;
+const receipt={complete:true,matches:matches.length,definitions:{configuration:'HOME field players v AWAY field players / HOME goalkeeper count v AWAY goalkeeper count. Actual total bodies are also explicit. A legal keeper removal may equalize field counts while leaving fewer total bodies and an empty goal.',duration:'Intervals between already recorded actual court-population boundaries; official and simulation time separate.',events:'Post-tick unit configuration. Field goals/attempts both use shot-release configuration. Counts and field conversion pool both teams within the HOME v AWAY configuration; they are not power-play efficiency estimates for just the attacking side.',possessions:'Existing canonical possessionEconomy episode keys and aliases, never a new definition. Starts/mean attack duration stratify by starting configuration; losses by terminal configuration. A changing unit does not create a new possession.',sampling:'Before40+40 and targeted after8+8 are distinct designs. Live option/width/coverage samples are from the two current production proof sessions.'},pooled,liveSamples,unassignedLiveReleaseGroups:matches.filter(m=>Object.keys(m.unassignedLiveReleaseGroups).length).map(m=>({phase:m.phase,league:m.league,index:m.index,groups:m.unassignedLiveReleaseGroups})),identities:matches.map(m=>({phase:m.phase,league:m.league,index:m.index,coreHash:m.coreHash})),nothingPushed:true};
+fs.writeFileSync(dir+'/MANPOWER-CONFIGURATIONS.json',JSON.stringify(receipt,null,2)+'\n');console.log(JSON.stringify({complete:true,matches:matches.length,groups:Object.keys(pooled),configurationCounts:Object.fromEntries(Object.entries(pooled).map(([k,v])=>[k,Object.keys(v.byConfiguration).length]))}));

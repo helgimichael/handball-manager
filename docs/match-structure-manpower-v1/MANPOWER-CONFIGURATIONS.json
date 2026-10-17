@@ -1,0 +1,2208 @@
+{
+  "complete": true,
+  "matches": 96,
+  "definitions": {
+    "configuration": "HOME field players v AWAY field players / HOME goalkeeper count v AWAY goalkeeper count. Actual total bodies are also explicit. A legal keeper removal may equalize field counts while leaving fewer total bodies and an empty goal.",
+    "duration": "Intervals between already recorded actual court-population boundaries; official and simulation time separate.",
+    "events": "Post-tick unit configuration. Field goals/attempts both use shot-release configuration. Counts and field conversion pool both teams within the HOME v AWAY configuration; they are not power-play efficiency estimates for just the attacking side.",
+    "possessions": "Existing canonical possessionEconomy episode keys and aliases, never a new definition. Starts/mean attack duration stratify by starting configuration; losses by terminal configuration. A changing unit does not create a new possession.",
+    "sampling": "Before40+40 and targeted after8+8 are distinct designs. Live option/width/coverage samples are from the two current production proof sessions."
+  },
+  "pooled": {
+    "before:hbl": {
+      "n": 40,
+      "byConfiguration": {
+        "6v6 / GK1v1": {
+          "officialMs": 128814450,
+          "simulationMs": 132427350,
+          "passes": 35645,
+          "shots": 3931,
+          "goals": 2361,
+          "fieldAttempts": 3725,
+          "fieldGoals": 2212,
+          "sevenMetreAttempts": 206,
+          "sevenMetreWhistles": 206,
+          "freeThrows": 391,
+          "penalties": 0,
+          "possessionsStarted": 5306,
+          "startsByTeam": {
+            "HOME": 2649,
+            "AWAY": 2657
+          },
+          "losses": 1456,
+          "definition": {
+            "key": "6v6 / GK1v1",
+            "fields": [
+              6,
+              6
+            ],
+            "keepers": [
+              1,
+              1
+            ],
+            "bodies": [
+              7,
+              7
+            ]
+          },
+          "fieldConversion": 0.5938255033557047,
+          "attackDurationByStartingConfiguration": {
+            "n": 5306,
+            "mean": 24.029918959668265,
+            "median": 22.4,
+            "p10": 12.2,
+            "p90": 38.15
+          }
+        },
+        "5v6 / GK1v1": {
+          "officialMs": 8353850,
+          "simulationMs": 8993400,
+          "passes": 2249,
+          "shots": 280,
+          "goals": 166,
+          "fieldAttempts": 242,
+          "fieldGoals": 135,
+          "sevenMetreAttempts": 38,
+          "sevenMetreWhistles": 38,
+          "freeThrows": 53,
+          "penalties": 70,
+          "possessionsStarted": 367,
+          "startsByTeam": {
+            "HOME": 197,
+            "AWAY": 170
+          },
+          "losses": 81,
+          "definition": {
+            "key": "5v6 / GK1v1",
+            "fields": [
+              5,
+              6
+            ],
+            "keepers": [
+              1,
+              1
+            ],
+            "bodies": [
+              6,
+              7
+            ]
+          },
+          "fieldConversion": 0.5578512396694215,
+          "attackDurationByStartingConfiguration": {
+            "n": 367,
+            "mean": 24.22493188010899,
+            "median": 22.05,
+            "p10": 12.92,
+            "p90": 39.31
+          }
+        },
+        "5v5 / GK1v1": {
+          "officialMs": 788650,
+          "simulationMs": 871800,
+          "passes": 216,
+          "shots": 26,
+          "goals": 13,
+          "fieldAttempts": 19,
+          "fieldGoals": 7,
+          "sevenMetreAttempts": 7,
+          "sevenMetreWhistles": 7,
+          "freeThrows": 4,
+          "penalties": 14,
+          "possessionsStarted": 36,
+          "startsByTeam": {
+            "HOME": 18,
+            "AWAY": 18
+          },
+          "losses": 10,
+          "definition": {
+            "key": "5v5 / GK1v1",
+            "fields": [
+              5,
+              5
+            ],
+            "keepers": [
+              1,
+              1
+            ],
+            "bodies": [
+              6,
+              6
+            ]
+          },
+          "fieldConversion": 0.3684210526315789,
+          "attackDurationByStartingConfiguration": {
+            "n": 36,
+            "mean": 25.39027777777778,
+            "median": 23.4,
+            "p10": 12.1,
+            "p90": 40.7
+          }
+        },
+        "6v5 / GK1v1": {
+          "officialMs": 5345400,
+          "simulationMs": 5694550,
+          "passes": 1425,
+          "shots": 179,
+          "goals": 118,
+          "fieldAttempts": 145,
+          "fieldGoals": 88,
+          "sevenMetreAttempts": 34,
+          "sevenMetreWhistles": 34,
+          "freeThrows": 25,
+          "penalties": 49,
+          "possessionsStarted": 242,
+          "startsByTeam": {
+            "HOME": 110,
+            "AWAY": 132
+          },
+          "losses": 57,
+          "definition": {
+            "key": "6v5 / GK1v1",
+            "fields": [
+              6,
+              5
+            ],
+            "keepers": [
+              1,
+              1
+            ],
+            "bodies": [
+              7,
+              6
+            ]
+          },
+          "fieldConversion": 0.6068965517241379,
+          "attackDurationByStartingConfiguration": {
+            "n": 242,
+            "mean": 24.08388429752066,
+            "median": 22.799999999999997,
+            "p10": 12.8,
+            "p90": 37.095
+          }
+        },
+        "4v6 / GK1v1": {
+          "officialMs": 402200,
+          "simulationMs": 448400,
+          "passes": 105,
+          "shots": 15,
+          "goals": 12,
+          "fieldAttempts": 11,
+          "fieldGoals": 8,
+          "sevenMetreAttempts": 4,
+          "sevenMetreWhistles": 4,
+          "freeThrows": 3,
+          "penalties": 6,
+          "possessionsStarted": 17,
+          "startsByTeam": {
+            "HOME": 11,
+            "AWAY": 6
+          },
+          "losses": 1,
+          "definition": {
+            "key": "4v6 / GK1v1",
+            "fields": [
+              4,
+              6
+            ],
+            "keepers": [
+              1,
+              1
+            ],
+            "bodies": [
+              5,
+              7
+            ]
+          },
+          "fieldConversion": 0.7272727272727273,
+          "attackDurationByStartingConfiguration": {
+            "n": 17,
+            "mean": 28.870588235294115,
+            "median": 25,
+            "p10": 18.18,
+            "p90": 42.15
+          }
+        },
+        "6v4 / GK1v1": {
+          "officialMs": 192100,
+          "simulationMs": 220250,
+          "passes": 58,
+          "shots": 8,
+          "goals": 5,
+          "fieldAttempts": 7,
+          "fieldGoals": 2,
+          "sevenMetreAttempts": 1,
+          "sevenMetreWhistles": 1,
+          "freeThrows": 0,
+          "penalties": 3,
+          "possessionsStarted": 9,
+          "startsByTeam": {
+            "HOME": 3,
+            "AWAY": 6
+          },
+          "losses": 1,
+          "definition": {
+            "key": "6v4 / GK1v1",
+            "fields": [
+              6,
+              4
+            ],
+            "keepers": [
+              1,
+              1
+            ],
+            "bodies": [
+              7,
+              5
+            ]
+          },
+          "fieldConversion": 0.2857142857142857,
+          "attackDurationByStartingConfiguration": {
+            "n": 9,
+            "mean": 28.322222222222226,
+            "median": 29.3,
+            "p10": 12.620000000000001,
+            "p90": 48.31
+          }
+        },
+        "5v4 / GK1v1": {
+          "officialMs": 5100,
+          "simulationMs": 10200,
+          "passes": 2,
+          "shots": 0,
+          "goals": 0,
+          "fieldAttempts": 0,
+          "fieldGoals": 0,
+          "sevenMetreAttempts": 0,
+          "sevenMetreWhistles": 0,
+          "freeThrows": 1,
+          "penalties": 1,
+          "possessionsStarted": 0,
+          "startsByTeam": {
+            "HOME": 0,
+            "AWAY": 0
+          },
+          "losses": 0,
+          "definition": {
+            "key": "5v4 / GK1v1",
+            "fields": [
+              5,
+              4
+            ],
+            "keepers": [
+              1,
+              1
+            ],
+            "bodies": [
+              6,
+              5
+            ]
+          },
+          "fieldConversion": null,
+          "attackDurationByStartingConfiguration": {
+            "n": 0,
+            "mean": null,
+            "median": null,
+            "p10": null,
+            "p90": null
+          }
+        },
+        "3v6 / GK1v1": {
+          "officialMs": 50,
+          "simulationMs": 50,
+          "passes": 0,
+          "shots": 0,
+          "goals": 0,
+          "fieldAttempts": 0,
+          "fieldGoals": 0,
+          "sevenMetreAttempts": 0,
+          "sevenMetreWhistles": 0,
+          "freeThrows": 0,
+          "penalties": 0,
+          "possessionsStarted": 0,
+          "startsByTeam": {
+            "HOME": 0,
+            "AWAY": 0
+          },
+          "losses": 0,
+          "definition": {
+            "key": "3v6 / GK1v1",
+            "fields": [
+              3,
+              6
+            ],
+            "keepers": [
+              1,
+              1
+            ],
+            "bodies": [
+              4,
+              7
+            ]
+          },
+          "fieldConversion": null,
+          "attackDurationByStartingConfiguration": {
+            "n": 0,
+            "mean": null,
+            "median": null,
+            "p10": null,
+            "p90": null
+          }
+        },
+        "4v5 / GK1v1": {
+          "officialMs": 87000,
+          "simulationMs": 102300,
+          "passes": 27,
+          "shots": 4,
+          "goals": 2,
+          "fieldAttempts": 4,
+          "fieldGoals": 1,
+          "sevenMetreAttempts": 0,
+          "sevenMetreWhistles": 0,
+          "freeThrows": 1,
+          "penalties": 2,
+          "possessionsStarted": 5,
+          "startsByTeam": {
+            "HOME": 3,
+            "AWAY": 2
+          },
+          "losses": 1,
+          "definition": {
+            "key": "4v5 / GK1v1",
+            "fields": [
+              4,
+              5
+            ],
+            "keepers": [
+              1,
+              1
+            ],
+            "bodies": [
+              5,
+              6
+            ]
+          },
+          "fieldConversion": 0.25,
+          "attackDurationByStartingConfiguration": {
+            "n": 5,
+            "mean": 21.080000000000002,
+            "median": 20.5,
+            "p10": 17.39,
+            "p90": 25.42
+          }
+        },
+        "3v5 / GK1v1": {
+          "officialMs": 11200,
+          "simulationMs": 14300,
+          "passes": 3,
+          "shots": 0,
+          "goals": 0,
+          "fieldAttempts": 0,
+          "fieldGoals": 0,
+          "sevenMetreAttempts": 0,
+          "sevenMetreWhistles": 0,
+          "freeThrows": 0,
+          "penalties": 1,
+          "possessionsStarted": 1,
+          "startsByTeam": {
+            "HOME": 1,
+            "AWAY": 0
+          },
+          "losses": 0,
+          "definition": {
+            "key": "3v5 / GK1v1",
+            "fields": [
+              3,
+              5
+            ],
+            "keepers": [
+              1,
+              1
+            ],
+            "bodies": [
+              4,
+              6
+            ]
+          },
+          "fieldConversion": null,
+          "attackDurationByStartingConfiguration": {
+            "n": 1,
+            "mean": 12.3,
+            "median": 12.3,
+            "p10": 12.3,
+            "p90": 12.3
+          }
+        }
+      }
+    },
+    "before:allsv": {
+      "n": 40,
+      "byConfiguration": {
+        "6v6 / GK1v1": {
+          "officialMs": 119877300,
+          "simulationMs": 123612700,
+          "passes": 32740,
+          "shots": 3718,
+          "goals": 2181,
+          "fieldAttempts": 3531,
+          "fieldGoals": 2079,
+          "sevenMetreAttempts": 187,
+          "sevenMetreWhistles": 187,
+          "freeThrows": 366,
+          "penalties": 0,
+          "possessionsStarted": 4877,
+          "startsByTeam": {
+            "HOME": 2440,
+            "AWAY": 2437
+          },
+          "losses": 1257,
+          "definition": {
+            "key": "6v6 / GK1v1",
+            "fields": [
+              6,
+              6
+            ],
+            "keepers": [
+              1,
+              1
+            ],
+            "bodies": [
+              7,
+              7
+            ]
+          },
+          "fieldConversion": 0.5887850467289719,
+          "attackDurationByStartingConfiguration": {
+            "n": 4877,
+            "mean": 24.20559770350627,
+            "median": 22.65,
+            "p10": 12.2,
+            "p90": 38.85
+          }
+        },
+        "5v6 / GK1v1": {
+          "officialMs": 11517750,
+          "simulationMs": 12539950,
+          "passes": 3093,
+          "shots": 371,
+          "goals": 255,
+          "fieldAttempts": 319,
+          "fieldGoals": 196,
+          "sevenMetreAttempts": 52,
+          "sevenMetreWhistles": 52,
+          "freeThrows": 51,
+          "penalties": 99,
+          "possessionsStarted": 508,
+          "startsByTeam": {
+            "HOME": 271,
+            "AWAY": 237
+          },
+          "losses": 120,
+          "definition": {
+            "key": "5v6 / GK1v1",
+            "fields": [
+              5,
+              6
+            ],
+            "keepers": [
+              1,
+              1
+            ],
+            "bodies": [
+              6,
+              7
+            ]
+          },
+          "fieldConversion": 0.6144200626959248,
+          "attackDurationByStartingConfiguration": {
+            "n": 508,
+            "mean": 24.13877952755905,
+            "median": 21.975,
+            "p10": 13.085,
+            "p90": 39.315
+          }
+        },
+        "6v5 / GK1v1": {
+          "officialMs": 9609150,
+          "simulationMs": 10447150,
+          "passes": 2566,
+          "shots": 307,
+          "goals": 188,
+          "fieldAttempts": 260,
+          "fieldGoals": 146,
+          "sevenMetreAttempts": 47,
+          "sevenMetreWhistles": 47,
+          "freeThrows": 50,
+          "penalties": 85,
+          "possessionsStarted": 428,
+          "startsByTeam": {
+            "HOME": 194,
+            "AWAY": 234
+          },
+          "losses": 107,
+          "definition": {
+            "key": "6v5 / GK1v1",
+            "fields": [
+              6,
+              5
+            ],
+            "keepers": [
+              1,
+              1
+            ],
+            "bodies": [
+              7,
+              6
+            ]
+          },
+          "fieldConversion": 0.5615384615384615,
+          "attackDurationByStartingConfiguration": {
+            "n": 428,
+            "mean": 24.105724299065425,
+            "median": 22.75,
+            "p10": 10.95,
+            "p90": 39.415
+          }
+        },
+        "6v4 / GK1v1": {
+          "officialMs": 520800,
+          "simulationMs": 586800,
+          "passes": 137,
+          "shots": 15,
+          "goals": 10,
+          "fieldAttempts": 11,
+          "fieldGoals": 5,
+          "sevenMetreAttempts": 4,
+          "sevenMetreWhistles": 4,
+          "freeThrows": 3,
+          "penalties": 10,
+          "possessionsStarted": 22,
+          "startsByTeam": {
+            "HOME": 8,
+            "AWAY": 14
+          },
+          "losses": 4,
+          "definition": {
+            "key": "6v4 / GK1v1",
+            "fields": [
+              6,
+              4
+            ],
+            "keepers": [
+              1,
+              1
+            ],
+            "bodies": [
+              7,
+              5
+            ]
+          },
+          "fieldConversion": 0.45454545454545453,
+          "attackDurationByStartingConfiguration": {
+            "n": 22,
+            "mean": 26.41136363636364,
+            "median": 21.6,
+            "p10": 16.165,
+            "p90": 41.52500000000001
+          }
+        },
+        "5v5 / GK1v1": {
+          "officialMs": 807150,
+          "simulationMs": 912750,
+          "passes": 226,
+          "shots": 25,
+          "goals": 18,
+          "fieldAttempts": 19,
+          "fieldGoals": 10,
+          "sevenMetreAttempts": 6,
+          "sevenMetreWhistles": 6,
+          "freeThrows": 10,
+          "penalties": 17,
+          "possessionsStarted": 35,
+          "startsByTeam": {
+            "HOME": 18,
+            "AWAY": 17
+          },
+          "losses": 7,
+          "definition": {
+            "key": "5v5 / GK1v1",
+            "fields": [
+              5,
+              5
+            ],
+            "keepers": [
+              1,
+              1
+            ],
+            "bodies": [
+              6,
+              6
+            ]
+          },
+          "fieldConversion": 0.5263157894736842,
+          "attackDurationByStartingConfiguration": {
+            "n": 35,
+            "mean": 23.944285714285716,
+            "median": 19.6,
+            "p10": 13.47,
+            "p90": 41.50000000000001
+          }
+        },
+        "6v3 / GK1v1": {
+          "officialMs": 112250,
+          "simulationMs": 147600,
+          "passes": 21,
+          "shots": 6,
+          "goals": 6,
+          "fieldAttempts": 4,
+          "fieldGoals": 3,
+          "sevenMetreAttempts": 2,
+          "sevenMetreWhistles": 2,
+          "freeThrows": 0,
+          "penalties": 4,
+          "possessionsStarted": 7,
+          "startsByTeam": {
+            "HOME": 3,
+            "AWAY": 4
+          },
+          "losses": 0,
+          "definition": {
+            "key": "6v3 / GK1v1",
+            "fields": [
+              6,
+              3
+            ],
+            "keepers": [
+              1,
+              1
+            ],
+            "bodies": [
+              7,
+              4
+            ]
+          },
+          "fieldConversion": 0.75,
+          "attackDurationByStartingConfiguration": {
+            "n": 7,
+            "mean": 24.564285714285713,
+            "median": 20.65,
+            "p10": 16.2,
+            "p90": 39.91
+          }
+        },
+        "4v5 / GK1v1": {
+          "officialMs": 124750,
+          "simulationMs": 147950,
+          "passes": 26,
+          "shots": 5,
+          "goals": 4,
+          "fieldAttempts": 4,
+          "fieldGoals": 3,
+          "sevenMetreAttempts": 1,
+          "sevenMetreWhistles": 1,
+          "freeThrows": 1,
+          "penalties": 2,
+          "possessionsStarted": 6,
+          "startsByTeam": {
+            "HOME": 3,
+            "AWAY": 3
+          },
+          "losses": 0,
+          "definition": {
+            "key": "4v5 / GK1v1",
+            "fields": [
+              4,
+              5
+            ],
+            "keepers": [
+              1,
+              1
+            ],
+            "bodies": [
+              5,
+              6
+            ]
+          },
+          "fieldConversion": 0.75,
+          "attackDurationByStartingConfiguration": {
+            "n": 6,
+            "mean": 22.616666666666664,
+            "median": 22.5,
+            "p10": 12.675,
+            "p90": 32.675
+          }
+        },
+        "4v6 / GK1v1": {
+          "officialMs": 1154550,
+          "simulationMs": 1259450,
+          "passes": 313,
+          "shots": 32,
+          "goals": 25,
+          "fieldAttempts": 22,
+          "fieldGoals": 15,
+          "sevenMetreAttempts": 10,
+          "sevenMetreWhistles": 10,
+          "freeThrows": 4,
+          "penalties": 17,
+          "possessionsStarted": 52,
+          "startsByTeam": {
+            "HOME": 31,
+            "AWAY": 21
+          },
+          "losses": 14,
+          "definition": {
+            "key": "4v6 / GK1v1",
+            "fields": [
+              4,
+              6
+            ],
+            "keepers": [
+              1,
+              1
+            ],
+            "bodies": [
+              5,
+              7
+            ]
+          },
+          "fieldConversion": 0.6818181818181818,
+          "attackDurationByStartingConfiguration": {
+            "n": 52,
+            "mean": 26.014423076923073,
+            "median": 21.85,
+            "p10": 14.27,
+            "p90": 42.315
+          }
+        },
+        "5v4 / GK1v1": {
+          "officialMs": 211950,
+          "simulationMs": 230850,
+          "passes": 54,
+          "shots": 6,
+          "goals": 3,
+          "fieldAttempts": 5,
+          "fieldGoals": 2,
+          "sevenMetreAttempts": 1,
+          "sevenMetreWhistles": 1,
+          "freeThrows": 3,
+          "penalties": 4,
+          "possessionsStarted": 8,
+          "startsByTeam": {
+            "HOME": 4,
+            "AWAY": 4
+          },
+          "losses": 2,
+          "definition": {
+            "key": "5v4 / GK1v1",
+            "fields": [
+              5,
+              4
+            ],
+            "keepers": [
+              1,
+              1
+            ],
+            "bodies": [
+              6,
+              5
+            ]
+          },
+          "fieldConversion": 0.4,
+          "attackDurationByStartingConfiguration": {
+            "n": 8,
+            "mean": 24.225,
+            "median": 23.674999999999997,
+            "p10": 19.48,
+            "p90": 29.319999999999997
+          }
+        },
+        "4v4 / GK1v1": {
+          "officialMs": 20500,
+          "simulationMs": 27800,
+          "passes": 3,
+          "shots": 2,
+          "goals": 0,
+          "fieldAttempts": 1,
+          "fieldGoals": 0,
+          "sevenMetreAttempts": 1,
+          "sevenMetreWhistles": 1,
+          "freeThrows": 0,
+          "penalties": 1,
+          "possessionsStarted": 2,
+          "startsByTeam": {
+            "HOME": 1,
+            "AWAY": 1
+          },
+          "losses": 0,
+          "definition": {
+            "key": "4v4 / GK1v1",
+            "fields": [
+              4,
+              4
+            ],
+            "keepers": [
+              1,
+              1
+            ],
+            "bodies": [
+              5,
+              5
+            ]
+          },
+          "fieldConversion": 0,
+          "attackDurationByStartingConfiguration": {
+            "n": 2,
+            "mean": 16.3,
+            "median": 16.3,
+            "p10": 15.74,
+            "p90": 16.86
+          }
+        },
+        "3v6 / GK1v1": {
+          "officialMs": 43850,
+          "simulationMs": 59000,
+          "passes": 11,
+          "shots": 3,
+          "goals": 2,
+          "fieldAttempts": 1,
+          "fieldGoals": 1,
+          "sevenMetreAttempts": 2,
+          "sevenMetreWhistles": 2,
+          "freeThrows": 0,
+          "penalties": 3,
+          "possessionsStarted": 2,
+          "startsByTeam": {
+            "HOME": 1,
+            "AWAY": 1
+          },
+          "losses": 0,
+          "definition": {
+            "key": "3v6 / GK1v1",
+            "fields": [
+              3,
+              6
+            ],
+            "keepers": [
+              1,
+              1
+            ],
+            "bodies": [
+              4,
+              7
+            ]
+          },
+          "fieldConversion": 1,
+          "attackDurationByStartingConfiguration": {
+            "n": 2,
+            "mean": 27.475,
+            "median": 27.475,
+            "p10": 23.255,
+            "p90": 31.695
+          }
+        }
+      }
+    },
+    "after:hbl": {
+      "n": 8,
+      "byConfiguration": {
+        "6v6 / GK1v1": {
+          "officialMs": 25403450,
+          "simulationMs": 26254750,
+          "passes": 7036,
+          "shots": 795,
+          "goals": 488,
+          "fieldAttempts": 752,
+          "fieldGoals": 460,
+          "sevenMetreAttempts": 43,
+          "sevenMetreWhistles": 43,
+          "freeThrows": 75,
+          "penalties": 0,
+          "possessionsStarted": 1071,
+          "startsByTeam": {
+            "HOME": 534,
+            "AWAY": 537
+          },
+          "losses": 292,
+          "definition": {
+            "key": "6v6 / GK1v1",
+            "fields": [
+              6,
+              6
+            ],
+            "keepers": [
+              1,
+              1
+            ],
+            "bodies": [
+              7,
+              7
+            ]
+          },
+          "fieldConversion": 0.6117021276595744,
+          "attackDurationByStartingConfiguration": {
+            "n": 1071,
+            "mean": 23.42334267040148,
+            "median": 22.2,
+            "p10": 11.55,
+            "p90": 36.85
+          }
+        },
+        "5v6 / GK1v1": {
+          "officialMs": 2205450,
+          "simulationMs": 2339200,
+          "passes": 580,
+          "shots": 84,
+          "goals": 50,
+          "fieldAttempts": 72,
+          "fieldGoals": 38,
+          "sevenMetreAttempts": 12,
+          "sevenMetreWhistles": 12,
+          "freeThrows": 12,
+          "penalties": 18,
+          "possessionsStarted": 106,
+          "startsByTeam": {
+            "HOME": 55,
+            "AWAY": 51
+          },
+          "losses": 21,
+          "definition": {
+            "key": "5v6 / GK1v1",
+            "fields": [
+              5,
+              6
+            ],
+            "keepers": [
+              1,
+              1
+            ],
+            "bodies": [
+              6,
+              7
+            ]
+          },
+          "fieldConversion": 0.5277777777777778,
+          "attackDurationByStartingConfiguration": {
+            "n": 106,
+            "mean": 22.903773584905654,
+            "median": 21.075000000000003,
+            "p10": 11.175,
+            "p90": 35.125
+          }
+        },
+        "5v5 / GK1v1": {
+          "officialMs": 239700,
+          "simulationMs": 269150,
+          "passes": 71,
+          "shots": 7,
+          "goals": 3,
+          "fieldAttempts": 4,
+          "fieldGoals": 1,
+          "sevenMetreAttempts": 3,
+          "sevenMetreWhistles": 3,
+          "freeThrows": 1,
+          "penalties": 5,
+          "possessionsStarted": 12,
+          "startsByTeam": {
+            "HOME": 7,
+            "AWAY": 5
+          },
+          "losses": 5,
+          "definition": {
+            "key": "5v5 / GK1v1",
+            "fields": [
+              5,
+              5
+            ],
+            "keepers": [
+              1,
+              1
+            ],
+            "bodies": [
+              6,
+              6
+            ]
+          },
+          "fieldConversion": 0.25,
+          "attackDurationByStartingConfiguration": {
+            "n": 12,
+            "mean": 24.524999999999995,
+            "median": 23.799999999999997,
+            "p10": 7.7700000000000005,
+            "p90": 39.705
+          }
+        },
+        "6v5 / GK1v1": {
+          "officialMs": 836250,
+          "simulationMs": 888250,
+          "passes": 224,
+          "shots": 31,
+          "goals": 17,
+          "fieldAttempts": 26,
+          "fieldGoals": 12,
+          "sevenMetreAttempts": 5,
+          "sevenMetreWhistles": 5,
+          "freeThrows": 7,
+          "penalties": 8,
+          "possessionsStarted": 36,
+          "startsByTeam": {
+            "HOME": 16,
+            "AWAY": 20
+          },
+          "losses": 8,
+          "definition": {
+            "key": "6v5 / GK1v1",
+            "fields": [
+              6,
+              5
+            ],
+            "keepers": [
+              1,
+              1
+            ],
+            "bodies": [
+              7,
+              6
+            ]
+          },
+          "fieldConversion": 0.46153846153846156,
+          "attackDurationByStartingConfiguration": {
+            "n": 36,
+            "mean": 23.23055555555555,
+            "median": 23.175,
+            "p10": 14.274999999999999,
+            "p90": 32.724999999999994
+          }
+        },
+        "4v6 / GK1v1": {
+          "officialMs": 89300,
+          "simulationMs": 107450,
+          "passes": 17,
+          "shots": 4,
+          "goals": 3,
+          "fieldAttempts": 2,
+          "fieldGoals": 1,
+          "sevenMetreAttempts": 2,
+          "sevenMetreWhistles": 2,
+          "freeThrows": 1,
+          "penalties": 2,
+          "possessionsStarted": 4,
+          "startsByTeam": {
+            "HOME": 3,
+            "AWAY": 1
+          },
+          "losses": 0,
+          "definition": {
+            "key": "4v6 / GK1v1",
+            "fields": [
+              4,
+              6
+            ],
+            "keepers": [
+              1,
+              1
+            ],
+            "bodies": [
+              5,
+              7
+            ]
+          },
+          "fieldConversion": 0.5,
+          "attackDurationByStartingConfiguration": {
+            "n": 4,
+            "mean": 27.5,
+            "median": 30.725,
+            "p10": 10.270000000000001,
+            "p90": 42.15
+          }
+        },
+        "6v4 / GK1v1": {
+          "officialMs": 25850,
+          "simulationMs": 36100,
+          "passes": 10,
+          "shots": 1,
+          "goals": 1,
+          "fieldAttempts": 1,
+          "fieldGoals": 0,
+          "sevenMetreAttempts": 0,
+          "sevenMetreWhistles": 0,
+          "freeThrows": 0,
+          "penalties": 1,
+          "possessionsStarted": 2,
+          "startsByTeam": {
+            "HOME": 1,
+            "AWAY": 1
+          },
+          "losses": 0,
+          "definition": {
+            "key": "6v4 / GK1v1",
+            "fields": [
+              6,
+              4
+            ],
+            "keepers": [
+              1,
+              1
+            ],
+            "bodies": [
+              7,
+              5
+            ]
+          },
+          "fieldConversion": 0,
+          "attackDurationByStartingConfiguration": {
+            "n": 2,
+            "mean": 22.6,
+            "median": 22.6,
+            "p10": 11.8,
+            "p90": 33.4
+          }
+        }
+      }
+    },
+    "after:allsv": {
+      "n": 8,
+      "byConfiguration": {
+        "6v6 / GK1v1": {
+          "officialMs": 21341200,
+          "simulationMs": 22011550,
+          "passes": 5741,
+          "shots": 694,
+          "goals": 406,
+          "fieldAttempts": 660,
+          "fieldGoals": 395,
+          "sevenMetreAttempts": 34,
+          "sevenMetreWhistles": 34,
+          "freeThrows": 71,
+          "penalties": 0,
+          "possessionsStarted": 867,
+          "startsByTeam": {
+            "HOME": 439,
+            "AWAY": 428
+          },
+          "losses": 198,
+          "definition": {
+            "key": "6v6 / GK1v1",
+            "fields": [
+              6,
+              6
+            ],
+            "keepers": [
+              1,
+              1
+            ],
+            "bodies": [
+              7,
+              7
+            ]
+          },
+          "fieldConversion": 0.5984848484848485,
+          "attackDurationByStartingConfiguration": {
+            "n": 867,
+            "mean": 23.995213379469412,
+            "median": 22.25,
+            "p10": 12.35,
+            "p90": 38.44
+          }
+        },
+        "5v6 / GK1v1": {
+          "officialMs": 2421650,
+          "simulationMs": 2576650,
+          "passes": 660,
+          "shots": 79,
+          "goals": 50,
+          "fieldAttempts": 71,
+          "fieldGoals": 40,
+          "sevenMetreAttempts": 8,
+          "sevenMetreWhistles": 8,
+          "freeThrows": 13,
+          "penalties": 21,
+          "possessionsStarted": 109,
+          "startsByTeam": {
+            "HOME": 58,
+            "AWAY": 51
+          },
+          "losses": 24,
+          "definition": {
+            "key": "5v6 / GK1v1",
+            "fields": [
+              5,
+              6
+            ],
+            "keepers": [
+              1,
+              1
+            ],
+            "bodies": [
+              6,
+              7
+            ]
+          },
+          "fieldConversion": 0.5633802816901409,
+          "attackDurationByStartingConfiguration": {
+            "n": 109,
+            "mean": 23.779816513761467,
+            "median": 21.45,
+            "p10": 11.89,
+            "p90": 40.75
+          }
+        },
+        "6v5 / GK1v1": {
+          "officialMs": 3637150,
+          "simulationMs": 3988250,
+          "passes": 978,
+          "shots": 116,
+          "goals": 77,
+          "fieldAttempts": 104,
+          "fieldGoals": 63,
+          "sevenMetreAttempts": 12,
+          "sevenMetreWhistles": 12,
+          "freeThrows": 15,
+          "penalties": 30,
+          "possessionsStarted": 157,
+          "startsByTeam": {
+            "HOME": 73,
+            "AWAY": 84
+          },
+          "losses": 38,
+          "definition": {
+            "key": "6v5 / GK1v1",
+            "fields": [
+              6,
+              5
+            ],
+            "keepers": [
+              1,
+              1
+            ],
+            "bodies": [
+              7,
+              6
+            ]
+          },
+          "fieldConversion": 0.6057692307692307,
+          "attackDurationByStartingConfiguration": {
+            "n": 157,
+            "mean": 24.77770700636942,
+            "median": 23.2,
+            "p10": 11.13,
+            "p90": 40.43000000000001
+          }
+        },
+        "6v4 / GK1v1": {
+          "officialMs": 537500,
+          "simulationMs": 587150,
+          "passes": 141,
+          "shots": 16,
+          "goals": 6,
+          "fieldAttempts": 11,
+          "fieldGoals": 3,
+          "sevenMetreAttempts": 5,
+          "sevenMetreWhistles": 5,
+          "freeThrows": 2,
+          "penalties": 9,
+          "possessionsStarted": 22,
+          "startsByTeam": {
+            "HOME": 9,
+            "AWAY": 13
+          },
+          "losses": 4,
+          "definition": {
+            "key": "6v4 / GK1v1",
+            "fields": [
+              6,
+              4
+            ],
+            "keepers": [
+              1,
+              1
+            ],
+            "bodies": [
+              7,
+              5
+            ]
+          },
+          "fieldConversion": 0.2727272727272727,
+          "attackDurationByStartingConfiguration": {
+            "n": 22,
+            "mean": 25.677272727272726,
+            "median": 21.6,
+            "p10": 16.095000000000002,
+            "p90": 37.665000000000006
+          }
+        },
+        "5v5 / GK1v1": {
+          "officialMs": 404400,
+          "simulationMs": 449150,
+          "passes": 108,
+          "shots": 13,
+          "goals": 9,
+          "fieldAttempts": 10,
+          "fieldGoals": 6,
+          "sevenMetreAttempts": 3,
+          "sevenMetreWhistles": 3,
+          "freeThrows": 5,
+          "penalties": 8,
+          "possessionsStarted": 16,
+          "startsByTeam": {
+            "HOME": 9,
+            "AWAY": 7
+          },
+          "losses": 2,
+          "definition": {
+            "key": "5v5 / GK1v1",
+            "fields": [
+              5,
+              5
+            ],
+            "keepers": [
+              1,
+              1
+            ],
+            "bodies": [
+              6,
+              6
+            ]
+          },
+          "fieldConversion": 0.6,
+          "attackDurationByStartingConfiguration": {
+            "n": 16,
+            "mean": 24.890624999999996,
+            "median": 19.475,
+            "p10": 13.575,
+            "p90": 41.95
+          }
+        },
+        "6v3 / GK1v1": {
+          "officialMs": 112250,
+          "simulationMs": 147600,
+          "passes": 21,
+          "shots": 6,
+          "goals": 6,
+          "fieldAttempts": 4,
+          "fieldGoals": 3,
+          "sevenMetreAttempts": 2,
+          "sevenMetreWhistles": 2,
+          "freeThrows": 0,
+          "penalties": 4,
+          "possessionsStarted": 7,
+          "startsByTeam": {
+            "HOME": 3,
+            "AWAY": 4
+          },
+          "losses": 0,
+          "definition": {
+            "key": "6v3 / GK1v1",
+            "fields": [
+              6,
+              3
+            ],
+            "keepers": [
+              1,
+              1
+            ],
+            "bodies": [
+              7,
+              4
+            ]
+          },
+          "fieldConversion": 0.75,
+          "attackDurationByStartingConfiguration": {
+            "n": 7,
+            "mean": 24.564285714285713,
+            "median": 20.65,
+            "p10": 16.2,
+            "p90": 39.91
+          }
+        },
+        "4v6 / GK1v1": {
+          "officialMs": 203150,
+          "simulationMs": 233100,
+          "passes": 51,
+          "shots": 6,
+          "goals": 7,
+          "fieldAttempts": 6,
+          "fieldGoals": 4,
+          "sevenMetreAttempts": 0,
+          "sevenMetreWhistles": 0,
+          "freeThrows": 0,
+          "penalties": 3,
+          "possessionsStarted": 9,
+          "startsByTeam": {
+            "HOME": 5,
+            "AWAY": 4
+          },
+          "losses": 0,
+          "definition": {
+            "key": "4v6 / GK1v1",
+            "fields": [
+              4,
+              6
+            ],
+            "keepers": [
+              1,
+              1
+            ],
+            "bodies": [
+              5,
+              7
+            ]
+          },
+          "fieldConversion": 0.6666666666666666,
+          "attackDurationByStartingConfiguration": {
+            "n": 9,
+            "mean": 26.29444444444444,
+            "median": 24.2,
+            "p10": 14.040000000000001,
+            "p90": 38.56000000000001
+          }
+        },
+        "4v5 / GK1v1": {
+          "officialMs": 97850,
+          "simulationMs": 114450,
+          "passes": 20,
+          "shots": 4,
+          "goals": 3,
+          "fieldAttempts": 3,
+          "fieldGoals": 2,
+          "sevenMetreAttempts": 1,
+          "sevenMetreWhistles": 1,
+          "freeThrows": 0,
+          "penalties": 1,
+          "possessionsStarted": 5,
+          "startsByTeam": {
+            "HOME": 2,
+            "AWAY": 3
+          },
+          "losses": 0,
+          "definition": {
+            "key": "4v5 / GK1v1",
+            "fields": [
+              4,
+              5
+            ],
+            "keepers": [
+              1,
+              1
+            ],
+            "bodies": [
+              5,
+              6
+            ]
+          },
+          "fieldConversion": 0.6666666666666666,
+          "attackDurationByStartingConfiguration": {
+            "n": 5,
+            "mean": 20.089999999999996,
+            "median": 16.85,
+            "p10": 12.67,
+            "p90": 29.32
+          }
+        },
+        "5v4 / GK1v1": {
+          "officialMs": 44850,
+          "simulationMs": 49950,
+          "passes": 14,
+          "shots": 2,
+          "goals": 0,
+          "fieldAttempts": 2,
+          "fieldGoals": 0,
+          "sevenMetreAttempts": 0,
+          "sevenMetreWhistles": 0,
+          "freeThrows": 1,
+          "penalties": 1,
+          "possessionsStarted": 2,
+          "startsByTeam": {
+            "HOME": 1,
+            "AWAY": 1
+          },
+          "losses": 0,
+          "definition": {
+            "key": "5v4 / GK1v1",
+            "fields": [
+              5,
+              4
+            ],
+            "keepers": [
+              1,
+              1
+            ],
+            "bodies": [
+              6,
+              5
+            ]
+          },
+          "fieldConversion": 0,
+          "attackDurationByStartingConfiguration": {
+            "n": 2,
+            "mean": 20.924999999999997,
+            "median": 20.924999999999997,
+            "p10": 20.345,
+            "p90": 21.505
+          }
+        }
+      }
+    }
+  },
+  "liveSamples": {
+    "hbl:6v6 / GK1v1": {
+      "n": 1729,
+      "receivers": 4.990167727009832,
+      "passingOptions": 2.59572006940428,
+      "width": 17.79720901148174,
+      "localAttackers": 2.946211683053788,
+      "localDefenders": 2.7721226142278774,
+      "assignments": 3.647194910352805
+    },
+    "hbl:5v6 / GK1v1": {
+      "n": 266,
+      "receivers": 4.394736842105263,
+      "passingOptions": 2.1165413533834587,
+      "width": 17.885401959394947,
+      "localAttackers": 2.661654135338346,
+      "localDefenders": 2.5864661654135337,
+      "assignments": 2.9586466165413534
+    },
+    "hbl:6v5 / GK1v1": {
+      "n": 138,
+      "receivers": 4.434782608695652,
+      "passingOptions": 2.4782608695652173,
+      "width": 17.80069861707924,
+      "localAttackers": 2.4782608695652173,
+      "localDefenders": 2.2246376811594204,
+      "assignments": 2.8333333333333335
+    },
+    "allsv:6v6 / GK1v1": {
+      "n": 1613,
+      "receivers": 4.9969001859888404,
+      "passingOptions": 2.588344699318041,
+      "width": 17.92906058987257,
+      "localAttackers": 3.008679479231246,
+      "localDefenders": 2.7662740235585863,
+      "assignments": 3.6453812771233727
+    },
+    "allsv:5v6 / GK1v1": {
+      "n": 213,
+      "receivers": 4.342723004694836,
+      "passingOptions": 2.107981220657277,
+      "width": 18.195544286703186,
+      "localAttackers": 2.5586854460093895,
+      "localDefenders": 2.384976525821596,
+      "assignments": 2.8497652582159625
+    },
+    "allsv:6v5 / GK1v1": {
+      "n": 301,
+      "receivers": 4.511627906976744,
+      "passingOptions": 2.4551495016611296,
+      "width": 17.1836811777672,
+      "localAttackers": 2.6345514950166113,
+      "localDefenders": 2.2823920265780733,
+      "assignments": 2.833887043189369
+    },
+    "allsv:6v4 / GK1v1": {
+      "n": 73,
+      "receivers": 4.438356164383562,
+      "passingOptions": 2.1232876712328768,
+      "width": 17.93166213584741,
+      "localAttackers": 2.3424657534246576,
+      "localDefenders": 2.0684931506849313,
+      "assignments": 2.9315068493150687
+    },
+    "allsv:5v5 / GK1v1": {
+      "n": 21,
+      "receivers": 4,
+      "passingOptions": 2.380952380952381,
+      "width": 18.220184388552962,
+      "localAttackers": 2.8095238095238093,
+      "localDefenders": 2.857142857142857,
+      "assignments": 3.4761904761904763
+    },
+    "allsv:6v3 / GK1v1": {
+      "n": 43,
+      "receivers": 2.697674418604651,
+      "passingOptions": 1.697674418604651,
+      "width": 14.228623342733473,
+      "localAttackers": 2.0697674418604652,
+      "localDefenders": 2.372093023255814,
+      "assignments": 2.813953488372093
+    }
+  },
+  "unassignedLiveReleaseGroups": [],
+  "identities": [
+    {
+      "phase": "before",
+      "league": "hbl",
+      "index": 0,
+      "coreHash": "505baba76f74e6faa4e8cce65d042e51732162990bbb28eee5883b8722c6bbf6"
+    },
+    {
+      "phase": "before",
+      "league": "hbl",
+      "index": 1,
+      "coreHash": "ea7bd7efab0f377f4f6c66d0f3bb14f31d7c43c1d59d0563536c2083b4d638ba"
+    },
+    {
+      "phase": "before",
+      "league": "hbl",
+      "index": 2,
+      "coreHash": "f40e725004bf152ef5fdc8880de6ec9b9e62418b3f5b561b21fa126674126098"
+    },
+    {
+      "phase": "before",
+      "league": "hbl",
+      "index": 3,
+      "coreHash": "0746145307afb8086801349ee7e817bf3e6d4dc5bfe27d61c1b0fa85689da190"
+    },
+    {
+      "phase": "before",
+      "league": "hbl",
+      "index": 4,
+      "coreHash": "c5d95e3a576d1eaaeba54080e41fe035a2872a1689a19346fb8a3026885eb2f7"
+    },
+    {
+      "phase": "before",
+      "league": "hbl",
+      "index": 5,
+      "coreHash": "77a65d988d17df2a353eb24a938b417774142d15d0bd189691a5138dad9ccc0d"
+    },
+    {
+      "phase": "before",
+      "league": "hbl",
+      "index": 6,
+      "coreHash": "f7665c2842490d6d250905c0cfe6568b509418ff608f56a7a666307db1faf817"
+    },
+    {
+      "phase": "before",
+      "league": "hbl",
+      "index": 7,
+      "coreHash": "a6369944068788685633f8166ce6923011f937df541e330dba09a9faeced7cd8"
+    },
+    {
+      "phase": "before",
+      "league": "hbl",
+      "index": 8,
+      "coreHash": "f54a87724587ec3edc2087f1d0cbfdf1a1dea098d6f571e34f6251c5e06b6e84"
+    },
+    {
+      "phase": "before",
+      "league": "hbl",
+      "index": 9,
+      "coreHash": "b85920f399f3c4b0722f5a9e3f537e4db53f9d7826d9b687da77c364c41e3565"
+    },
+    {
+      "phase": "before",
+      "league": "hbl",
+      "index": 10,
+      "coreHash": "e0f3633996637f1863ba065894127f210962fd8628cd73a168cae6c858679742"
+    },
+    {
+      "phase": "before",
+      "league": "hbl",
+      "index": 11,
+      "coreHash": "382584e35a9af4ddba773efc87e11e627167d56cd07dc350f1edea810ea50b7d"
+    },
+    {
+      "phase": "before",
+      "league": "hbl",
+      "index": 12,
+      "coreHash": "ce31d7d02b6a61a29ecbb14523e95de7b5083d8e0dc4d1cea7c7cd570d4822d3"
+    },
+    {
+      "phase": "before",
+      "league": "hbl",
+      "index": 13,
+      "coreHash": "38ab96e5506e80d2e7206b3aedc9439bc6915a4703dc0006078e35fd0d6725c6"
+    },
+    {
+      "phase": "before",
+      "league": "hbl",
+      "index": 14,
+      "coreHash": "6e0f063661478f0a1968831d9bc20477bc76b5d134e45f2c391662aabe49dddc"
+    },
+    {
+      "phase": "before",
+      "league": "hbl",
+      "index": 15,
+      "coreHash": "dd61e57c03e29f4ce6ebd1c8c5065bba1a1b6b0d9b5a0450b5a6ff7f9ed8664c"
+    },
+    {
+      "phase": "before",
+      "league": "hbl",
+      "index": 16,
+      "coreHash": "fe6c565dc05c95fe1860ceb05c4ce48d96b7f5235c4d2b43ac16c4677503e84f"
+    },
+    {
+      "phase": "before",
+      "league": "hbl",
+      "index": 17,
+      "coreHash": "acfe351b6099ea8d8f7d1c610e5d10f8f6a8e06fe1744b41feb17ce0ada4d2b5"
+    },
+    {
+      "phase": "before",
+      "league": "hbl",
+      "index": 18,
+      "coreHash": "2f7f7dd6c980f44add522e2ff821e0dc609a965ef728dbd61f1c027d0751ee55"
+    },
+    {
+      "phase": "before",
+      "league": "hbl",
+      "index": 19,
+      "coreHash": "0c6734688b7e109171d17de1682abbd024074078d26f7076a88a0a6b7b3f3dcc"
+    },
+    {
+      "phase": "before",
+      "league": "hbl",
+      "index": 20,
+      "coreHash": "f139c339bff1a1c1dc39675a065c798cd852c9e9c4f76c940682bdd4fa129e28"
+    },
+    {
+      "phase": "before",
+      "league": "hbl",
+      "index": 21,
+      "coreHash": "0c1e29bf95711ee31422e48719b4c0c2f4b1cfad65758dcaab07e68e2e0baaca"
+    },
+    {
+      "phase": "before",
+      "league": "hbl",
+      "index": 22,
+      "coreHash": "6c4242a64ff28ae26f1a8da99a1b7375a75ff667260d7babfa7bf2543785beb0"
+    },
+    {
+      "phase": "before",
+      "league": "hbl",
+      "index": 23,
+      "coreHash": "849edc54b49a4d6d61ca685262aa1d026c2ee2eef20159eb8464f85da431761c"
+    },
+    {
+      "phase": "before",
+      "league": "hbl",
+      "index": 24,
+      "coreHash": "ccfffb22864bf11f674c4d9701de67031c072f512e16c7b1c4ecd95fdc757257"
+    },
+    {
+      "phase": "before",
+      "league": "hbl",
+      "index": 25,
+      "coreHash": "dff4aaaf2a3cdfc992745be1c114e46c4b400eeb3f87361b5a45a66024531457"
+    },
+    {
+      "phase": "before",
+      "league": "hbl",
+      "index": 26,
+      "coreHash": "1333e581ab760e2a03142875169d8ac666cbb0ef329321d4ee8407aed60869d9"
+    },
+    {
+      "phase": "before",
+      "league": "hbl",
+      "index": 27,
+      "coreHash": "26f3dc150fbcf834ee15c80c260e152d997864fb719fad79fd729e8fec0d8665"
+    },
+    {
+      "phase": "before",
+      "league": "hbl",
+      "index": 28,
+      "coreHash": "41fca570755af21506e1b5dfda139e05eabdb17ad28973f4f78edfb58f5b0ef6"
+    },
+    {
+      "phase": "before",
+      "league": "hbl",
+      "index": 29,
+      "coreHash": "a071f04eb59747e4099d64d0b51da1c292e6f4ecc9e18a40f31cec754093ce80"
+    },
+    {
+      "phase": "before",
+      "league": "hbl",
+      "index": 30,
+      "coreHash": "112c30028bd9032d6b08cd01eec9a573ac4631f420dee60be85d2fbf2a2b8fa2"
+    },
+    {
+      "phase": "before",
+      "league": "hbl",
+      "index": 31,
+      "coreHash": "2ae35b7d5e6538f0947c21cdeb22d091b612ba79abec5938b5afc140560a5c43"
+    },
+    {
+      "phase": "before",
+      "league": "hbl",
+      "index": 32,
+      "coreHash": "affc57d30c65d0b7735c410dec49142b5bad55d59a7376d94e4f5a0c52ad53eb"
+    },
+    {
+      "phase": "before",
+      "league": "hbl",
+      "index": 33,
+      "coreHash": "803fa2113b8dd39bf3467fe9edfbd33229af3a0533eb11feb5c43f14e4c4b79b"
+    },
+    {
+      "phase": "before",
+      "league": "hbl",
+      "index": 34,
+      "coreHash": "377c6f6383ae2a0e65c21bacaa621c287a36e6f07ece050289cbac11042fb389"
+    },
+    {
+      "phase": "before",
+      "league": "hbl",
+      "index": 35,
+      "coreHash": "c1fb5fe9e871adb313217ebe87165376e7a9f73363c85b5923b16933fd4f6f62"
+    },
+    {
+      "phase": "before",
+      "league": "hbl",
+      "index": 36,
+      "coreHash": "c94f7c001fdf5de8ecefefc4a4265014f21d28c7c5ed5fbbc050539b4f261ca5"
+    },
+    {
+      "phase": "before",
+      "league": "hbl",
+      "index": 37,
+      "coreHash": "b01ba84fd849ddfbba01536d8a28bea8895ebabb5a31a65622262b4f8de91564"
+    },
+    {
+      "phase": "before",
+      "league": "hbl",
+      "index": 38,
+      "coreHash": "03f2480892f6d93e8afc9caacdc9470086d53ee165b83b4d8c72e31986dfe56d"
+    },
+    {
+      "phase": "before",
+      "league": "hbl",
+      "index": 39,
+      "coreHash": "33656badba9a6bfc5648bd9203490bfa24f7f3f051aa5f90de2474f0986f534b"
+    },
+    {
+      "phase": "before",
+      "league": "allsv",
+      "index": 0,
+      "coreHash": "ef81c19fc1c0f0607f1f7626a05ad3b1ea9c4ebda09fe82cab28cc42d9900b52"
+    },
+    {
+      "phase": "before",
+      "league": "allsv",
+      "index": 1,
+      "coreHash": "6bd4756e1c4d9f30a7ec044dc4858e07e3d311272a62e38ce318ed22ad3f51ee"
+    },
+    {
+      "phase": "before",
+      "league": "allsv",
+      "index": 2,
+      "coreHash": "b38bb29bd3776d641d4c30deeb1e4db6cca64dd31dc5b6a94cbe1c6eb8b3fe6c"
+    },
+    {
+      "phase": "before",
+      "league": "allsv",
+      "index": 3,
+      "coreHash": "acb30dca25451ec01750f3b0ff7f8fa0621614a5919e075c43ff454b6dd780b5"
+    },
+    {
+      "phase": "before",
+      "league": "allsv",
+      "index": 4,
+      "coreHash": "5d402e3a632f17b7bdd0419debb4c4b26de8e179dba325d218092a5b3915711d"
+    },
+    {
+      "phase": "before",
+      "league": "allsv",
+      "index": 5,
+      "coreHash": "1214814bec59436bd5197320b04b5e049811ad2d5c04c83f4650a12d87defda8"
+    },
+    {
+      "phase": "before",
+      "league": "allsv",
+      "index": 6,
+      "coreHash": "409069e77b710fdf49557e6adcdbc9ded5769f0f080105d18f2f2a23809348d0"
+    },
+    {
+      "phase": "before",
+      "league": "allsv",
+      "index": 7,
+      "coreHash": "6fe2a9606f69cba89c6862f9adc5404cce17004c7227c30b739dea706f59dbd4"
+    },
+    {
+      "phase": "before",
+      "league": "allsv",
+      "index": 8,
+      "coreHash": "570d62be1b0d07f4c7decfabc3bd332250a6622f9ff8a0ca99431676e750cc2b"
+    },
+    {
+      "phase": "before",
+      "league": "allsv",
+      "index": 9,
+      "coreHash": "4e4d84f431b92ea08bde5df0d946188bb22eafcd9c4c6319069acada13145c2f"
+    },
+    {
+      "phase": "before",
+      "league": "allsv",
+      "index": 10,
+      "coreHash": "1252f885da8265bcee3fa9c4c8bdaed473cd75f578ceef3d2973eeab645c79f6"
+    },
+    {
+      "phase": "before",
+      "league": "allsv",
+      "index": 11,
+      "coreHash": "5200b88ed45a8b5b35fe41dc9c294c18165360279e25f42b8630f091c2174717"
+    },
+    {
+      "phase": "before",
+      "league": "allsv",
+      "index": 12,
+      "coreHash": "bb38692b2c55574edb5664c733dce356ed3b6dc4fca93335ad8f1ca0df769563"
+    },
+    {
+      "phase": "before",
+      "league": "allsv",
+      "index": 13,
+      "coreHash": "bdda61dec786a511930573f4b69a99436dda941e57d258575a85d152ded71a42"
+    },
+    {
+      "phase": "before",
+      "league": "allsv",
+      "index": 14,
+      "coreHash": "801f59588b495bcbfdd47824443a9907d3651bcb310e0546fe40021e4d900213"
+    },
+    {
+      "phase": "before",
+      "league": "allsv",
+      "index": 15,
+      "coreHash": "71f709d861ff4c986e7bb8a6dcf25cf72462d8624c3a115ee6c84e963641f437"
+    },
+    {
+      "phase": "before",
+      "league": "allsv",
+      "index": 16,
+      "coreHash": "b994bce617be6ae2a449c1a8f973724c9331c625fe6f5c57c0550f50dfeb528e"
+    },
+    {
+      "phase": "before",
+      "league": "allsv",
+      "index": 17,
+      "coreHash": "232986559912282d1a7da770e710f8d8d966767b70589b0bc0196a1c28618ead"
+    },
+    {
+      "phase": "before",
+      "league": "allsv",
+      "index": 18,
+      "coreHash": "123aa846f4fd3eebfb77421d5e39b1662111aaaf3d8cfbba36ab4693b8ea50bf"
+    },
+    {
+      "phase": "before",
+      "league": "allsv",
+      "index": 19,
+      "coreHash": "9b1777d1f3fc42bdbfba478eb3941cf6e922d3a2d85ac251c8307e06f427036e"
+    },
+    {
+      "phase": "before",
+      "league": "allsv",
+      "index": 20,
+      "coreHash": "d0c47dac810920ce1b2fdcb61203fcac3836ec40f2bd28cca305a3cae419de4a"
+    },
+    {
+      "phase": "before",
+      "league": "allsv",
+      "index": 21,
+      "coreHash": "e59b07699a4ad34ecd89db35d03bfa7fbad9ab8829ee00a62cd6428a538132fc"
+    },
+    {
+      "phase": "before",
+      "league": "allsv",
+      "index": 22,
+      "coreHash": "477d00705052071124a2b30b9631b2f013f8a4522fe71b99466fd8001efb9502"
+    },
+    {
+      "phase": "before",
+      "league": "allsv",
+      "index": 23,
+      "coreHash": "ceb88e3d85fa84ab08edb6ff01cbc6e0b60abffde40fa12e847443137567091f"
+    },
+    {
+      "phase": "before",
+      "league": "allsv",
+      "index": 24,
+      "coreHash": "53464a166ca73ad63e62a31ff84405be44e4ce5fe9e7638c833de52df537fbbc"
+    },
+    {
+      "phase": "before",
+      "league": "allsv",
+      "index": 25,
+      "coreHash": "b99acdfdf5536b822bdf0b27a6c545de40994c8786ac348ba24daf6358ca6938"
+    },
+    {
+      "phase": "before",
+      "league": "allsv",
+      "index": 26,
+      "coreHash": "a8649fb1236dc28773f926193d5e1208f8397a7f1192f8ce9a4793939cca583b"
+    },
+    {
+      "phase": "before",
+      "league": "allsv",
+      "index": 27,
+      "coreHash": "842ec4a77575afc63bc6186dddf1bb9be3060d481beea42f3cbd16ee24d74f95"
+    },
+    {
+      "phase": "before",
+      "league": "allsv",
+      "index": 28,
+      "coreHash": "138abdbb9557466a47be435229cdbf0e6939a40bb2a761e10092d543f50ad471"
+    },
+    {
+      "phase": "before",
+      "league": "allsv",
+      "index": 29,
+      "coreHash": "c7bfe3c2a0482bd155147aa74661e95c328e18612d061fe764a173ea6ff114c8"
+    },
+    {
+      "phase": "before",
+      "league": "allsv",
+      "index": 30,
+      "coreHash": "633b66ab6b00f09bc679c7a4868f7ba9ee57c90f77354b87438cb6e088708203"
+    },
+    {
+      "phase": "before",
+      "league": "allsv",
+      "index": 31,
+      "coreHash": "7b35e0f2913b668271bc94642a0e47be3bcad5d717f909e3f1dbd890287f901e"
+    },
+    {
+      "phase": "before",
+      "league": "allsv",
+      "index": 32,
+      "coreHash": "d9f1306c15286d78d28040137d320c428f6e774d4b38974629ba94dab8a2f537"
+    },
+    {
+      "phase": "before",
+      "league": "allsv",
+      "index": 33,
+      "coreHash": "691b058cc17b4f3d77cf3de93d9b206d7c537837f8047e693cb20ee4ec913a7a"
+    },
+    {
+      "phase": "before",
+      "league": "allsv",
+      "index": 34,
+      "coreHash": "b55d3f3b518c686db9d59985147bdf29fda0c9b12d058fc8691fbef15bf7326b"
+    },
+    {
+      "phase": "before",
+      "league": "allsv",
+      "index": 35,
+      "coreHash": "fc514edfe79e5cf129714c01ccd11457cbaa850cf07a460e372c1757d6fd2a3a"
+    },
+    {
+      "phase": "before",
+      "league": "allsv",
+      "index": 36,
+      "coreHash": "b52c0a01c3203ae83f6ec3cc3a2c18f54da82845de71c394bec5f97ee10e41d6"
+    },
+    {
+      "phase": "before",
+      "league": "allsv",
+      "index": 37,
+      "coreHash": "4b8442939c90c06ad37d82334173f6d402e5b7a463a7f2a624b891260c164055"
+    },
+    {
+      "phase": "before",
+      "league": "allsv",
+      "index": 38,
+      "coreHash": "bb7f4f56f294246b81c32a133d9a73d3daa245abd1d45f02549ee1aebb703dde"
+    },
+    {
+      "phase": "before",
+      "league": "allsv",
+      "index": 39,
+      "coreHash": "cd0cd38032ef1ca3e78cde1c49112b5b78a515a7de1f106d1cacd5d35f515599"
+    },
+    {
+      "phase": "after",
+      "league": "hbl",
+      "index": 0,
+      "coreHash": "505baba76f74e6faa4e8cce65d042e51732162990bbb28eee5883b8722c6bbf6"
+    },
+    {
+      "phase": "after",
+      "league": "hbl",
+      "index": 1,
+      "coreHash": "ea7bd7efab0f377f4f6c66d0f3bb14f31d7c43c1d59d0563536c2083b4d638ba"
+    },
+    {
+      "phase": "after",
+      "league": "hbl",
+      "index": 12,
+      "coreHash": "ce31d7d02b6a61a29ecbb14523e95de7b5083d8e0dc4d1cea7c7cd570d4822d3"
+    },
+    {
+      "phase": "after",
+      "league": "hbl",
+      "index": 22,
+      "coreHash": "a48f09219c80a08a0b6c0a4f866a4e16792edb8640259e2a03eeaaa66fc99c96"
+    },
+    {
+      "phase": "after",
+      "league": "hbl",
+      "index": 30,
+      "coreHash": "112c30028bd9032d6b08cd01eec9a573ac4631f420dee60be85d2fbf2a2b8fa2"
+    },
+    {
+      "phase": "after",
+      "league": "hbl",
+      "index": 34,
+      "coreHash": "04bd6ee866fbb97760794e72da9d0bf5cb97bcf1a4c696754d0860fe51bdd8be"
+    },
+    {
+      "phase": "after",
+      "league": "hbl",
+      "index": 37,
+      "coreHash": "7c6f7061044aa79a15796e8e673d17c63f8e76fab5a83ed4a59ec0593c3360e9"
+    },
+    {
+      "phase": "after",
+      "league": "hbl",
+      "index": 38,
+      "coreHash": "03f2480892f6d93e8afc9caacdc9470086d53ee165b83b4d8c72e31986dfe56d"
+    },
+    {
+      "phase": "after",
+      "league": "allsv",
+      "index": 0,
+      "coreHash": "b8cd614588105ddd64ac443de3de25e2fc31cea18d515c52c7dcccea71d9bccf"
+    },
+    {
+      "phase": "after",
+      "league": "allsv",
+      "index": 12,
+      "coreHash": "5af8173d331529ca5c31d71a811f6b89e8e1f95af565dbfdacb5cf1556484dc4"
+    },
+    {
+      "phase": "after",
+      "league": "allsv",
+      "index": 19,
+      "coreHash": "50d2568214e73fbcef42db1a72b8e0c5a6eded6a65b951c977bd11e3ea1d9bff"
+    },
+    {
+      "phase": "after",
+      "league": "allsv",
+      "index": 20,
+      "coreHash": "5fcba50867fc80aab187b286decae5766cc95f82cfd806b2dd6ac7ca479a0c53"
+    },
+    {
+      "phase": "after",
+      "league": "allsv",
+      "index": 35,
+      "coreHash": "c7e75580fa81e239ba9ed95a1ef15e897e8d8b61c899943b237843a8ed74046a"
+    },
+    {
+      "phase": "after",
+      "league": "allsv",
+      "index": 36,
+      "coreHash": "9fcbd8354b18bdf0f7a7998428b3cf5e42050d0a3c1549dbba912e7f715fae4c"
+    },
+    {
+      "phase": "after",
+      "league": "allsv",
+      "index": 38,
+      "coreHash": "8d8cadeb1edda0b3f944dfcc7ca5c6b8181ed15cbbb06c29d86f97018b6f32b3"
+    },
+    {
+      "phase": "after",
+      "league": "allsv",
+      "index": 39,
+      "coreHash": "2649cf616ed95e4ae29e848f76766978421b543b3b7b6ad9ac469569970203bb"
+    }
+  ],
+  "nothingPushed": true
+}

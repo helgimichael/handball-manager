@@ -4,9 +4,11 @@ import { distance } from './space';
 
 export function exchangeActive(s:CoreState,id:string){return s.exchanges.some(e=>e.phase!=='COMPLETED'&&e.phase!=='CANCELLED'&&(e.outId===id||e.inId===id));}
 export function courtLimit(s:CoreState,team:TeamId){return 7-s.players.filter(p=>p.team===team&&(p.population==='SUSPENDED'||p.population==='DISQUALIFIED'&&p.suspensionUntilMs!==null&&s.officialClock.timeMs<p.suspensionUntilMs)).length;}
+/** A keeper swap removes the old keeper; a field exchange cannot add a second. */
+function keeperConflict(s:CoreState,incoming:CoreState['players'][number],outId:string|null){return incoming.kind==='GOALKEEPER'&&s.players.some(p=>p.team===incoming.team&&p.population==='COURT'&&p.kind==='GOALKEEPER'&&p.id!==incoming.id&&p.id!==outId);}
 export function requestExchange(s:CoreState,team:TeamId,outId:string|null,inId:string):boolean {
   const incoming=getPlayer(s,inId),outgoing=outId?getPlayer(s,outId):null;
-  if(s.status!=='RUNNING'||s.exchanges.some(e=>e.team===team&&e.phase!=='COMPLETED'&&e.phase!=='CANCELLED')||incoming.team!==team||incoming.population!=='BENCH'||incoming.condition.unavailable||incoming.condition.exitRequired||incoming.condition.attacksRemaining>0||(outgoing&&(outgoing.team!==team||outgoing.population!=='COURT'))||(!outgoing&&courtPlayers(s,team).length>=courtLimit(s,team)))return false;
+  if(s.status!=='RUNNING'||s.exchanges.some(e=>e.team===team&&e.phase!=='COMPLETED'&&e.phase!=='CANCELLED')||incoming.team!==team||incoming.population!=='BENCH'||incoming.condition.unavailable||incoming.condition.exitRequired||incoming.condition.attacksRemaining>0||keeperConflict(s,incoming,outId)||(outgoing&&(outgoing.team!==team||outgoing.population!=='COURT'))||(!outgoing&&courtPlayers(s,team).length>=courtLimit(s,team)))return false;
   const gate={x:-.35,y:s.directions[team]==='TOP'?24:16};
   // Bench staging is off-court. Admission and court movement are separate transitions.
   incoming.position={...gate};incoming.velocity={x:0,y:0};incoming.action=null;
@@ -17,7 +19,7 @@ export function requestExchange(s:CoreState,team:TeamId,outId:string|null,inId:s
 export function populationBefore(s:CoreState) {
   for(const e of s.exchanges.filter(e=>e.phase!=='COMPLETED'&&e.phase!=='CANCELLED')) {
     const incoming=getPlayer(s,e.inId),outgoing=e.outId?getPlayer(s,e.outId):null;
-    if(incoming.condition.unavailable||incoming.condition.attacksRemaining>0||['SUSPENDED','DISQUALIFIED'].includes(incoming.population)||e.phase==='WAIT_EXIT'&&outgoing?.population!=='COURT') {
+    if(incoming.condition.unavailable||incoming.condition.attacksRemaining>0||['SUSPENDED','DISQUALIFIED'].includes(incoming.population)||keeperConflict(s,incoming,e.outId)||e.phase==='WAIT_EXIT'&&outgoing?.population!=='COURT') {
       e.phase='CANCELLED';record(s,'EXCHANGE_CANCELLED',outgoing,{exchangeId:e.id,reason:'Eligibility changed before exchange completed'});
     }
   }

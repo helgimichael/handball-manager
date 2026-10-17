@@ -1,0 +1,29 @@
+{
+  "complete": true,
+  "reason": "Strict typecheck annotations only; completed controlled and retained HBL runtime evidence remains valid.",
+  "files": [
+    {
+      "path": "apps/game/scripts/audit-match-structure-retained.ts",
+      "beforeSha256": "e8e2a2d8a5e61a40e4aaf4feb4c6f366e4ffb210427d40d9c63d8ca214572d58",
+      "afterSha256": "5c2cef661a9f1481d659f8754d44c151ef9165c2183fdcf98ae8386bf6713d63",
+      "emittedJavaScriptSha256": "eff7f98be4be534119fbc42f76499686876c89519a0e8487a761343d701c6010",
+      "identical": true,
+      "archivedAfter": "RETAINED-READER-v1.ts.txt"
+    },
+    {
+      "path": "apps/game/scripts/lib/matchStructureDiagnostics.ts",
+      "beforeSha256": "4b4b32a2f8f513881bb7ed70455f50730b8b4f0a367aac5bd52e74af45afdd85",
+      "afterSha256": "deb1fb1521e5be885150034ddbda50158aea486a223354deb6ab98fbc2ade6a0",
+      "emittedJavaScriptSha256": "84301b5940e34accb4ba5874dcfaa66447945afa4ecdfc34ed8e5e61808e7151",
+      "identical": true,
+      "archivedAfter": "DIAGNOSTICS-v1.ts.txt"
+    },
+    {
+      "path": "apps/game/scripts/prove-match-structure.ts",
+      "beforeSha256": "7959796fed5929551bf7d09fc812b881419275049a8c7097b7881e8e2922c5e0",
+      "afterSha256": "d897b31ab9608eea8e027f77b2d4f1bd4464da9c004a741e84d1c4f8291ea235",
+      "emittedJavaScriptSha256": "885196aa8ef6b6b57c4c3c72a0bfa5a20aeb622269e8e588b29b658829d8e814",
+      "identical": true
+    }
+  ]
+}

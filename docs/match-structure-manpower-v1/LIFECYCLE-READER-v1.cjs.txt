@@ -1,0 +1,40 @@
+/** Pure reading of the existing 80 production cores; no simulation. */
+const fs=require('node:fs'),path=require('node:path'),zlib=require('node:zlib'),crypto=require('node:crypto'),assert=require('node:assert/strict');
+process.chdir(path.resolve(__dirname,'../../..'));
+const dir='docs/match-structure-manpower-v1',read=p=>JSON.parse(fs.readFileSync(p,'utf8'));
+assert.ok(!fs.existsSync(dir+'/SUSPENSION-LIFECYCLE.json'),'Retain completed lifecycle receipt');
+const matches=[];
+for(const league of ['hbl','allsv'])for(let index=0;index<40;index++){
+  const id=String(index).padStart(3,'0'),retained=read(`docs/player-attribute-integration-v1/final/${league}/match-${id}.json`);
+  const core=JSON.parse(zlib.gunzipSync(fs.readFileSync(`docs/player-attribute-integration-v1/final/${league}/core-${id}.json.gz`)).toString('utf8'));
+  assert.equal(crypto.createHash('sha256').update(JSON.stringify(core)).digest('hex'),retained.coreHash);
+  const recorded=read(`${dir}/raw/${league}-${id}.json`).structure,people=new Map(core.players.map(p=>[p.id,p])),pop=new Map(Object.entries(recorded.initialPopulation)),until=new Map(),windows=[],violations=[],invalidKeeperRequests=[],samePlayerOverlaps=[];
+  const court=t=>[...pop].filter(([id,v])=>v==='COURT'&&people.get(id).team===t).map(([id])=>people.get(id));
+  let admissions=0;
+  for(const e of core.events){
+    if(e.type==='TWO_MINUTE_SUSPENSION'||e.type==='DISQUALIFICATION'){
+      const prior=windows.findLast(w=>w.playerId===e.actorId&&w.expiredMs===null&&e.officialMs<w.untilMs);
+      if(prior)samePlayerOverlaps.push({earlier:prior.eventId,later:e.id,playerId:e.actorId,officialMs:e.officialMs});
+      const w={eventId:e.id,playerId:e.actorId,team:people.get(e.actorId).team,type:e.type,startTick:e.tick,startMs:e.officialMs,untilMs:e.officialMs+core.ruleProfile.suspensionMs,expiredTick:null,expiredMs:null,latenessMs:null};windows.push(w);until.set(e.actorId,w.untilMs);pop.set(e.actorId,e.type==='DISQUALIFICATION'?'DISQUALIFIED':'SUSPENDED');
+    }
+    if(e.type==='SUSPENSION_EXPIRED'){
+      const w=windows.findLast(w=>w.playerId===e.actorId&&w.expiredMs===null);assert.ok(w,'Every natural expiry has a sanction start');w.expiredTick=e.tick;w.expiredMs=e.officialMs;w.latenessMs=e.officialMs-w.untilMs;
+      if(w.latenessMs<0)violations.push({event:e.id,reason:'Premature official-time expiry'});pop.set(e.actorId,'BENCH');
+    }
+    if(e.type==='PLAYER_LEFT_COURT')pop.set(e.actorId,'BENCH');
+    if(e.type==='SUBSTITUTE_ADMITTED'){
+      admissions++;pop.set(e.actorId,'COURT');const team=people.get(e.actorId).team,active=court(team),reductions=[...pop].filter(([id,v])=>people.get(id).team===team&&(v==='SUSPENDED'||v==='DISQUALIFIED'&&e.officialMs<(until.get(id)??0))).length;
+      if(active.length>7-reductions)violations.push({event:e.id,reason:'Admission exceeds reduced team limit',court:active.length,reductions});
+      if(active.filter(p=>p.kind==='GOALKEEPER').length>1)violations.push({event:e.id,reason:'Two goalkeepers admitted'});
+    }
+    if(e.type==='EXCHANGE_REQUESTED'){
+      const incoming=people.get(e.details.incomingId);if(incoming?.kind==='GOALKEEPER'&&court(incoming.team).some(p=>p.kind==='GOALKEEPER'&&p.id!==e.actorId))invalidKeeperRequests.push({event:e.id,outgoingId:e.actorId,incomingId:incoming.id,tick:e.tick});
+    }
+  }
+  assert.ok(core.players.every(p=>pop.get(p.id)===p.population),'Final event populations exact');
+  matches.push({league,index,coreHash:retained.coreHash,admissions,windows,violations,invalidKeeperRequests,samePlayerOverlaps});
+  if((index+1)%10===0)console.log(`${league} lifecycle ${index+1}/40`);
+}
+const windows=matches.flatMap(m=>m.windows),expired=windows.filter(w=>w.expiredMs!==null),violations=matches.flatMap(m=>m.violations),samePlayerOverlaps=matches.flatMap(m=>m.samePlayerOverlaps),invalidKeeperRequests=matches.flatMap(m=>m.invalidKeeperRequests);
+const result={complete:true,scope:'All 80 retained ed8574d production matches; canonical event chronology and actual per-player official deadlines. New fixed-engine live replays independently verify selected complete sessions.',matches:80,admissions:matches.reduce((n,m)=>n+m.admissions,0),sanctionWindows:windows.length,expiredWindows:expired.length,disqualified:windows.filter(w=>w.type==='DISQUALIFICATION').length,unfinishedAtFulltime:windows.filter(w=>w.type!=='DISQUALIFICATION'&&w.expiredMs===null).length,minimumExpiryLatenessMs:Math.min(...expired.map(w=>w.latenessMs)),maximumExpiryLatenessMs:Math.max(...expired.map(w=>w.latenessMs)),violations,samePlayerOverlaps,invalidKeeperRequests,details:matches};
+fs.writeFileSync(dir+'/SUSPENSION-LIFECYCLE.json',JSON.stringify(result,null,2)+'\n');console.log(JSON.stringify({...result,details:undefined}));

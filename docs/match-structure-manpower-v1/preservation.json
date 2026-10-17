@@ -1,0 +1,886 @@
+{
+  "createdAt": "2026-10-16T19:44:39.673Z",
+  "startingHead": "ed8574dff11b8396fa2323764cabb378ed949c13",
+  "status": " M apps/game/app/match-qa/page.tsx\n M apps/game/lib/matchQa/qaHarness.ts\n M apps/game/scripts/season-audit.ts\n?? .claude/\n?? apps/game/.tmp-final-benchmark.ts\n?? docs/audit/",
+  "userFiles": [
+    {
+      "path": "apps/game/app/match-qa/page.tsx",
+      "sha256": "a245ec398a29f3c8b7ab7317682433dbfe81e4a46e249a60c8f5a5a024fece8f"
+    },
+    {
+      "path": "apps/game/lib/matchQa/qaHarness.ts",
+      "sha256": "f100717310ea08f43c33b49dbabe7acee338b40884e9182030f59db7c62fece9"
+    },
+    {
+      "path": "apps/game/scripts/season-audit.ts",
+      "sha256": "7ba6f05b9f1e9cfa491961c1a6c644d7ce5fb2123fed5bac0d1fb3a869b07266"
+    },
+    {
+      "path": "apps/game/.tmp-final-benchmark.ts",
+      "sha256": "ba9d04161dfd8fba50732356598d92323bc71f93cfb5f827170ea804846a5b76"
+    },
+    {
+      "path": ".claude/launch.json",
+      "sha256": "5479537912ebe024d9340205e0a1d178b0fa2330a3f8b5af62723a6fe7a82185"
+    },
+    {
+      "path": "docs/audit/browser-product-test.txt",
+      "sha256": "55cec35a72a07fd9a83260aeea2c50d494d12e30f779e01ff428d313a7cd0883"
+    },
+    {
+      "path": "docs/audit/build-turbopack.txt",
+      "sha256": "2fd132c42c004e7361e70694d07d0a6102f28fdedc8067b9387a3ba17a216c66"
+    },
+    {
+      "path": "docs/audit/build-webpack.txt",
+      "sha256": "5c2d02af267569779c65731f10df3278891b13dc31128623944945e58513f0c6"
+    },
+    {
+      "path": "docs/audit/final-browser-product.txt",
+      "sha256": "7377b7c69495b0e588e6f139cd6eadaef6c079779707d5a17393ea61004fb9f3"
+    },
+    {
+      "path": "docs/audit/final-changed-lint.txt",
+      "sha256": "10fe5fd65982ca6b71ae329a8731176307eddc2346c756729adb904b141991a0"
+    },
+    {
+      "path": "docs/audit/final-production-build.txt",
+      "sha256": "3e086a657ed1ec890895f8ba058b992aeeaeaeb407c547f713bbbb9dd3f9b930"
+    },
+    {
+      "path": "docs/audit/final-production-server.txt",
+      "sha256": "d051ae0dc6f38d8d8ae596a96b099a9afbd551a40ee8fb798a6a1419ce05d06a"
+    },
+    {
+      "path": "docs/audit/final-seam-tests.txt",
+      "sha256": "ebcc50a912655b26e24b44d0435982216afded32012c2c8a3db0bc947aad5cc7"
+    },
+    {
+      "path": "docs/audit/final-tactics-lint.txt",
+      "sha256": "f85a22592459ae068e83da87ae3aba7285a83be904522a9371af5c31aca551b0"
+    },
+    {
+      "path": "docs/audit/HANDBALL_MANAGER_AUDIT_2026-10-07.md",
+      "sha256": "2b2c7ec28fe32540d3b10018b601d0086422f93adcbb8efeff621d42ec0c5abb"
+    },
+    {
+      "path": "docs/audit/implementation-typecheck.txt",
+      "sha256": "f3b2774d27874c5cf70a348b259f0ddadb51563e9ad76bf8b8a491dd336b5ef8"
+    },
+    {
+      "path": "docs/audit/lint-output.txt",
+      "sha256": "1ec929b802136bcbe0e4c02ee80213fd75e8b386368f7f2b28ee61c60d8bb46c"
+    },
+    {
+      "path": "docs/audit/live-match-ui.png",
+      "sha256": "c233b35cf42f44fa52d68bf60316c2333b3a74933ebff30c5be983ebaceed0e6"
+    },
+    {
+      "path": "docs/audit/match-audit-2026-10-07.json",
+      "sha256": "61efad8267317d4e4991fbeebf59e8a7372e0fa8f75029e4570935221fc133f8"
+    },
+    {
+      "path": "docs/audit/match-audit-run.txt",
+      "sha256": "d09a491f6a0bbe22c7c9c8eaee111c5f2c5895f5824db8981f7afc45d1e51971"
+    },
+    {
+      "path": "docs/audit/new-career-ui.png",
+      "sha256": "f3d80add59a98c0d25afc659b0b2bfe6ff187c76dbc12dec849388b3b24ec34a"
+    },
+    {
+      "path": "docs/audit/playable-changed-lint.txt",
+      "sha256": "4c9248decf2ac5327c2e8fe43ca3e35d734efabaaec877bf43cd46026f183b10"
+    },
+    {
+      "path": "docs/audit/playable-dev-server.txt",
+      "sha256": "f7d15aa576a0ce148d221bfe2156cafc6cfda7a3a9089de423c22f9d7ab4660f"
+    },
+    {
+      "path": "docs/audit/playable-production-build.txt",
+      "sha256": "2b884fadb3a3ab392782cc9c282cd7536d9401e5e1da33ebc3234636ef50d099"
+    },
+    {
+      "path": "docs/audit/playable-regression-tests.txt",
+      "sha256": "abc669873c0500af2bfd9225a810ba7fa120e9d2db9a683f632ee63963459210"
+    },
+    {
+      "path": "docs/audit/playable-season-result.json",
+      "sha256": "d59f2a4d57540ab8a9cabf387ac74219ef2dc992a0111073173557a5a234e641"
+    },
+    {
+      "path": "docs/audit/playable-season-run.txt",
+      "sha256": "2dd9f3ff09fa22a9339904ca73d969bd2c16ab83fa5655b145da85b5b23b5069"
+    },
+    {
+      "path": "docs/audit/playable-typecheck.txt",
+      "sha256": "0a620e650841e459ad7ad0731843e88c9ac33659453405d353111d19f79355a5"
+    },
+    {
+      "path": "docs/audit/playwright-browser-install.txt",
+      "sha256": "ae2f1cec95b19d534d62db477bbac92952fe3ed4029090db3787be47ef2744b6"
+    },
+    {
+      "path": "docs/audit/playwright-install.txt",
+      "sha256": "93ac21b04b8d7ac66a05ca700048cdcabd49e96689ce68de332a8cfaa5e100db"
+    },
+    {
+      "path": "docs/audit/product-seam-tests.txt",
+      "sha256": "d993f94a0cffe2d9bc06d2d05f419c7a0aead9cb7f499035445298c33e0be513"
+    },
+    {
+      "path": "docs/audit/replay-ui.png",
+      "sha256": "8e9c8f2f9a70b9f49e561908f97f63f896b4b0daf4ad3be3a25fab3d604fa1ed"
+    },
+    {
+      "path": "docs/audit/run-match-audit.cjs",
+      "sha256": "6cdd1aa4b89830b0abf0e9fc264c6571dc52d6fa4e15699e0a585c519d1bfd5b"
+    },
+    {
+      "path": "docs/audit/season-end-state.json",
+      "sha256": "d29c4d145921f5e5226bc7b45b6c13a2c8d18e8cb9c40de4c25e679f6d31fa4d"
+    },
+    {
+      "path": "docs/audit/season-size-check.txt",
+      "sha256": "18a0bb9a090471aa27ccd670ce9191f24275c49cdcc0f49b70e202753f5e5eb7"
+    },
+    {
+      "path": "docs/audit/season-two-run.txt",
+      "sha256": "9661c526299567788de1ac068abd51605274d0bdb8564530e50fa552b015ac6b"
+    },
+    {
+      "path": "docs/audit/test-sandbox.txt",
+      "sha256": "019e443d76ee2c51a9c1fbed59057cbb0de113763a31156b9644f9b1a1a488fe"
+    },
+    {
+      "path": "docs/audit/test-v2-core.txt",
+      "sha256": "98ec487e81550da5754e1e617fbabe2c02c56e961f3d3852112e9c5fd630baae"
+    },
+    {
+      "path": "docs/audit/test-workspaces.txt",
+      "sha256": "c3e5f0a9a88294014a30397016a07fe9bdf954921d5e76f5a34b139c5941b199"
+    }
+  ],
+  "protected": [
+    {
+      "path": "apps/game/app/career/match-2d/page.tsx",
+      "sha256": "4b39dd10e56809bdceef87c96d53666de559bcf29013395d8da176a670165c3e"
+    },
+    {
+      "path": "apps/game/app/career/match-day/[fixtureId]/page.tsx",
+      "sha256": "4358d9838d1fd006c569e28df2f8b2e85eb876e0cf0544b81f4c0cc04b060995"
+    },
+    {
+      "path": "apps/game/app/career/match-report/[fixtureId]/page.tsx",
+      "sha256": "1e320e676d3bf15165b5bad57e83d1a363eb66349b11822295daefcbdddb5768"
+    },
+    {
+      "path": "apps/game/components/ProductionMatchView.tsx",
+      "sha256": "531610b3a712e70dc79573f8d4c4583fdf32ecae0ad8388a39d554ae34dffd59"
+    },
+    {
+      "path": "apps/game/components/game/CoachingChoices.tsx",
+      "sha256": "94573e2bbf77e5e166b337102c79010e0054f51befef0aadf985621e5c6fbbfa"
+    },
+    {
+      "path": "apps/game/components/game/LiveCoachPanel.tsx",
+      "sha256": "b830e44940a2e71fa55335d45d93f71e6a010421df8dcb6641c891ab79db6f6a"
+    },
+    {
+      "path": "apps/game/components/matchCenter/MatchCenter.tsx",
+      "sha256": "cf477b3119c358ba6297c01cee316c5a3b91db55faafcf88b929ddc8cf1e8bcb"
+    },
+    {
+      "path": "apps/game/components/matchCenter/TacticalCourt.tsx",
+      "sha256": "83de3e6b68085e9e93dc3aa536298d888493a625b0c795bd05f7f5ed485d1cbb"
+    },
+    {
+      "path": "apps/game/components/matchCenter/WorkspaceViews.tsx",
+      "sha256": "1c7db411b6cd5f727e6e433811f4037fdc37e7b9f584c35ced15045053dd818d"
+    },
+    {
+      "path": "apps/game/components/matchCenter/match-center.css",
+      "sha256": "671d5997962aff2a457e898b93a98aa7b81fe915caebb92cd374996180cd87c6"
+    },
+    {
+      "path": "apps/game/lib/matchCenter/control.ts",
+      "sha256": "c1577b45ed867ead1484de2b7dfde11dac1c194a60c20675bf756bccf2a570b5"
+    },
+    {
+      "path": "apps/game/lib/matchCenter/model.test.ts",
+      "sha256": "c5f178ea0d5835ab2bffb4f9ccade647c0ee54983901dd21b40f5e9842303a17"
+    },
+    {
+      "path": "apps/game/lib/matchCenter/model.ts",
+      "sha256": "cb3a0b6f1b505b9287b908bf5a29e97214032382b80218855a47fc8c436c4942"
+    },
+    {
+      "path": "apps/game/lib/matchCenter/presentation.test.ts",
+      "sha256": "9ee45e5d3cce62bbd921862385c071e0f620a2f053126665daf94306188fd434"
+    },
+    {
+      "path": "apps/game/lib/matchCenter/workspace.test.ts",
+      "sha256": "26edde8fc142de2fcb292b4475e38a405d9e374707540e490f203fb0acb9408f"
+    },
+    {
+      "path": "apps/game/lib/matchCenter/workspace.ts",
+      "sha256": "87d82b1a82771e525a2e4d8962f67a2499e07e89c06216d356686ee19c0d9bb1"
+    },
+    {
+      "path": "data/empirical-handball/derived/keeper-matches.json",
+      "sha256": "0912f51828414ae71cec23fb24aa7f4914ea89b8a8ff1aaab4a7e8009613cbff"
+    },
+    {
+      "path": "data/empirical-handball/derived/league-outcomes.json",
+      "sha256": "2ef2ddbaf2b09d98d943c27bf57ea88f0f3429d982b11a97e828f61173ad3ed5"
+    },
+    {
+      "path": "data/empirical-handball/derived/manifest.json",
+      "sha256": "fe23c0f49368fee36d5f7fddd856fcf8d69be5467ee87c9b21a28243691ca4f2"
+    },
+    {
+      "path": "data/empirical-handball/derived/player-season-summaries.json",
+      "sha256": "df29b5711f5696db46c54bda88c95e52c5f12d16e0345a834e1ed8bbcd0dd64a"
+    },
+    {
+      "path": "data/empirical-handball/derived/position-shot-profiles.json",
+      "sha256": "1adea87e2912e646a605ff93e1d9bb58f77ccfc8889985c8bd266c04ea384e79"
+    },
+    {
+      "path": "data/empirical-handball/derived/position-shot-summaries.json",
+      "sha256": "2f6eeeb7306fa9f3bfb94282b5b19b3c7e79d7a199b04d5bc1a897a582cc2362"
+    },
+    {
+      "path": "data/empirical-handball/derived/profiles.json",
+      "sha256": "a55e42b65defe94c9e0aa7e78100685c68513e2de035db6c10c872d35b9e22f8"
+    },
+    {
+      "path": "data/empirical-handball/derived/quality.json",
+      "sha256": "4cf67c51e130a0443d9180349d87d70f9633c24d4d5262f0ba471fe9dd9471f9"
+    },
+    {
+      "path": "data/empirical-handball/derived/team-mapping.json",
+      "sha256": "18d66157d54b68c2262aa2b4398222da0cd585c2460ce219e52b100796cbab88"
+    },
+    {
+      "path": "data/empirical-handball/derived/team-profiles.json",
+      "sha256": "814935445d4405628e969571c764e8039a59a6ab8f98df4de155b7c59c10100b"
+    },
+    {
+      "path": "apps/game/app/new-game/page.tsx",
+      "sha256": "0048c9ff33e96b809ad2402cdd4221998c34ab51c30f6d66f69abc476f923c7a"
+    },
+    {
+      "path": "apps/game/app/career/layout.tsx",
+      "sha256": "c0ea604641e04a6c91096d6b053e3348136451ebf43bb887cdf5cae57cafc5b3"
+    },
+    {
+      "path": "apps/game/components/game/CareerInitialization.tsx",
+      "sha256": "b182b4ebacb6a83ee6848ce73ebc77bdbcc5b5c4deaab3d5b9116c2966a9fc98"
+    },
+    {
+      "path": "apps/game/components/game/career-initialization.css",
+      "sha256": "62231680b85c93206ce6372380d65f0b6d912ee0bf9f51ba9c235a3ad1aef2c9"
+    },
+    {
+      "path": "apps/game/lib/ui/afterNextPaint.ts",
+      "sha256": "1198e82085c00df56f3a011a755a3008481e95d775d25e844613868fe187e04d"
+    },
+    {
+      "path": "apps/game/lib/career/CareerContext.tsx",
+      "sha256": "274e33d348701a32d0b46fd352919bc6743d75a6ba91bb86df9ce4dbd518474c"
+    },
+    {
+      "path": "apps/game/lib/career/productionMatch.ts",
+      "sha256": "6e143a80b9dd124d1605dcc437c6557c96ae7d061d805b84144d4f50af9846f5"
+    },
+    {
+      "path": "apps/game/lib/save/saveRepository.ts",
+      "sha256": "9fb5d22760ef8243c78bfc9aa233dac37d7834f836ea4cca13f7f0f9a1f6df16"
+    },
+    {
+      "path": "apps/game/lib/save/saveStorage.ts",
+      "sha256": "a54c274be08ebdae9090eebfd67ef358e6046582b273093b43936cb5a0b9da33"
+    },
+    {
+      "path": "apps/game/lib/career/newCareer.ts",
+      "sha256": "325b7ebc99fd7e7a000223e733729c6c67dc636e2bed6909763a9a506c4b6704"
+    },
+    {
+      "path": "apps/game/lib/matchCenter/freeThrows.ts",
+      "sha256": "72baf4e83dbf2f747d0515e1a1a2389c8ebbdbeb11163ef38b182979d97bf521"
+    },
+    {
+      "path": "apps/game/lib/matchCenter/freeThrows.test.ts",
+      "sha256": "450ab0ce66db30f42126477bd4cb9b9ea94cfbc448a85ee3394e616d45b8a10b"
+    }
+  ],
+  "core": [
+    {
+      "path": "packages/handball-engine/src/v2/core/actions.ts",
+      "sha256": "da162e171bbd747be0a393b44046685c53bd4e519ae2ea1dd3f07f56ae8f93aa"
+    },
+    {
+      "path": "packages/handball-engine/src/v2/core/attack-realism.test.ts",
+      "sha256": "9ef4b256600ea5f4f6ec068be5fceff02fd04aca9a5ee2cb2aa68fad99494d97"
+    },
+    {
+      "path": "packages/handball-engine/src/v2/core/attribute-economy.test.ts",
+      "sha256": "fbcc73ebc20d3b929c98fac65bcfea571e88b357b62a024c114ee3b83ea52d68"
+    },
+    {
+      "path": "packages/handball-engine/src/v2/core/attribute-integration.test.ts",
+      "sha256": "59f5686021ff4238a8a923d1d2a82c413149d13dc457d0d3b66d0001785b112f"
+    },
+    {
+      "path": "packages/handball-engine/src/v2/core/attributeIntegrationScenarios.ts",
+      "sha256": "10d12e8c920ed0294de647f9c7c37e3394b49a38548372298189e2d554a0a349"
+    },
+    {
+      "path": "packages/handball-engine/src/v2/core/backcourt.test.ts",
+      "sha256": "6e18d9a78d44ecf84db2992bf572274a87f16a6c59d065743f03d515314b5aed"
+    },
+    {
+      "path": "packages/handball-engine/src/v2/core/backcourt.ts",
+      "sha256": "00ab4e44f0520b83f771cf5dd8a0e1212b34272410e5027b856eabddebddc120"
+    },
+    {
+      "path": "packages/handball-engine/src/v2/core/backcourtScenarios.ts",
+      "sha256": "6137722469db2dc0a9567b9ff3bccd9c8d3f070e9db58bb93fe225cbccd655be"
+    },
+    {
+      "path": "packages/handball-engine/src/v2/core/coaching.ts",
+      "sha256": "b943276328e1df36f43173af08fe008d8376f419e5afae4aeae5e1466a28a599"
+    },
+    {
+      "path": "packages/handball-engine/src/v2/core/condition.ts",
+      "sha256": "7067672564be5a7beea16223a04b765e21716d638406ccea86e5d6f688899517"
+    },
+    {
+      "path": "packages/handball-engine/src/v2/core/contact-direction-realism.test.ts",
+      "sha256": "731e5e5b1e3abd9006bf08a1de7be01345e80d438daac0221ed10e8c3be9f376"
+    },
+    {
+      "path": "packages/handball-engine/src/v2/core/contact.test.ts",
+      "sha256": "c36a4d3f3e1f7fa51506dca73ff61cea9687377109aac9e0789aa6fb35366f53"
+    },
+    {
+      "path": "packages/handball-engine/src/v2/core/contact.ts",
+      "sha256": "477b3c2d7a8bbac293370044c779cd2889baea8cabb18c9bd26f967860a27ce9"
+    },
+    {
+      "path": "packages/handball-engine/src/v2/core/contactScenarios.ts",
+      "sha256": "624c77567281a49677ae55289c3e0d71d5e81f00e2f56f151e1bf7ea59ebd1ce"
+    },
+    {
+      "path": "packages/handball-engine/src/v2/core/continuous.test.ts",
+      "sha256": "b0531276fcc29a6c80923b859faef472b831c1212d08c722983aef3359f2bfd3"
+    },
+    {
+      "path": "packages/handball-engine/src/v2/core/continuous.ts",
+      "sha256": "3bc0e25ee0474aab3162df83b5e228bcd5953ddc5b29622592e5fd5bfdda55c5"
+    },
+    {
+      "path": "packages/handball-engine/src/v2/core/core.test.ts",
+      "sha256": "ceb6f374aae01e5bf9bc3998325b0e8be255c854c898ccc4007de5b7d487a21e"
+    },
+    {
+      "path": "packages/handball-engine/src/v2/core/defence.test.ts",
+      "sha256": "b86431e9c7cdd8ed21b273c7c83211d053b97398b646197c6a6dcc0cf4e00518"
+    },
+    {
+      "path": "packages/handball-engine/src/v2/core/defence.ts",
+      "sha256": "353763d139e7d170aff02f6b757973103a3b25fbdc53c4c363a1ed06de102b56"
+    },
+    {
+      "path": "packages/handball-engine/src/v2/core/ecology.test.ts",
+      "sha256": "6f00a493a264e69ddd96adf1113c485fad1db3bd5e8ebe0e688b75f3121d3aac"
+    },
+    {
+      "path": "packages/handball-engine/src/v2/core/ecosystem.test.ts",
+      "sha256": "0b41601ebe1e10addecf0838cceceb9cf9d9748a9ba611cac80da733a66fa01d"
+    },
+    {
+      "path": "packages/handball-engine/src/v2/core/empirical-calibration.test.ts",
+      "sha256": "15fc289d5a0489ab6544a3b97d24a583e82cfd3d4f8112255c89a5cd8b3593e3"
+    },
+    {
+      "path": "packages/handball-engine/src/v2/core/engage.ts",
+      "sha256": "b597ce488188b882f553f0553316960039d19ec92bca275ee89c7a4db4595d07"
+    },
+    {
+      "path": "packages/handball-engine/src/v2/core/engine.ts",
+      "sha256": "bddb85af2e0ac4d0bdb7c97e5e7b195c8d15af8dd7076e1ea8bd76957874c228"
+    },
+    {
+      "path": "packages/handball-engine/src/v2/core/execution-realism.test.ts",
+      "sha256": "e14d63785b1b4ade96b28f5f5f7cdf61a3a89808a5490465f238c4c26f89f444"
+    },
+    {
+      "path": "packages/handball-engine/src/v2/core/execution.ts",
+      "sha256": "a352bd4001e36e2c896f3be43a4518490b79902004a086bdfb36055d385d3e98"
+    },
+    {
+      "path": "packages/handball-engine/src/v2/core/foul-semantics.test.ts",
+      "sha256": "22038c52e47d0c88f68c71bb1219359a959d8290166ae77ac211c4b9a82b1ada"
+    },
+    {
+      "path": "packages/handball-engine/src/v2/core/identity.test.ts",
+      "sha256": "48e87b67dd22a639412494f6592bf50758433624d4a4e2d960788ac27b12ce55"
+    },
+    {
+      "path": "packages/handball-engine/src/v2/core/intelligence.test.ts",
+      "sha256": "fc22e22e28b38c0566599de44434094406a4c5ef6d0b6c1062adaf51309d263c"
+    },
+    {
+      "path": "packages/handball-engine/src/v2/core/intelligence.ts",
+      "sha256": "2fda3c309a2f77fe908960e271f493bf087d957cc14189d604598901735f8173"
+    },
+    {
+      "path": "packages/handball-engine/src/v2/core/intelligenceScenarios.ts",
+      "sha256": "8214cb9c24bad1570559d71d2381e3ac6bdf7c670bd0e9b925bbc72857bbd310"
+    },
+    {
+      "path": "packages/handball-engine/src/v2/core/interactions.ts",
+      "sha256": "2aa33ade16e625d1e386e47a5cca52cbe0a29639e13d524bd035d08081d5f872"
+    },
+    {
+      "path": "packages/handball-engine/src/v2/core/keeper-calibration.test.ts",
+      "sha256": "5e13c95a3c101085a65d0280176dbd27f0950840dea34638e897d9befc9db2f4"
+    },
+    {
+      "path": "packages/handball-engine/src/v2/core/keeper-integration-calibration.test.ts",
+      "sha256": "9be27ed016d39e7fbdf45327b38d0e4a79058b99180307edd084bbcace817833"
+    },
+    {
+      "path": "packages/handball-engine/src/v2/core/ledger-economy.test.ts",
+      "sha256": "32739a41dc7466fda40810b5c63bf1743299b5a3a1b5537bb7223ec7725caa89"
+    },
+    {
+      "path": "packages/handball-engine/src/v2/core/ledger.ts",
+      "sha256": "7f45117a1486431df70f0b8697dcc7fdd281be93309e148d48baacad7f01391b"
+    },
+    {
+      "path": "packages/handball-engine/src/v2/core/locomotion.ts",
+      "sha256": "c222d4240a0b0935e552fa37a7c1dcf7a999d48ca4e4e200ce5befabbc860b13"
+    },
+    {
+      "path": "packages/handball-engine/src/v2/core/loose-ball-realism.test.ts",
+      "sha256": "3a41fb6152108643f66ac091fd0f96f1a38bb6404ddb41c086502c463fddd1ac"
+    },
+    {
+      "path": "packages/handball-engine/src/v2/core/match.ts",
+      "sha256": "a853a0a922f76759c51aa21e29017aaf1bd0d07d60e5bf611e49e9e4b8dd3e9e"
+    },
+    {
+      "path": "packages/handball-engine/src/v2/core/matchReplay.ts",
+      "sha256": "6796c275154da7145cd06558835524075013528ecb2354a1f3439e5b537ea499"
+    },
+    {
+      "path": "packages/handball-engine/src/v2/core/motion-continuity.test.ts",
+      "sha256": "c1948115a3b0bcec75de301e1e2aa347544b93e17e73e8b1145953d3d88fc987"
+    },
+    {
+      "path": "packages/handball-engine/src/v2/core/motion-quality.test.ts",
+      "sha256": "a5f7f86ab2b1aa1f9d39e948d0f010846ae864e0e13382bbaf2e773d4396cf3e"
+    },
+    {
+      "path": "packages/handball-engine/src/v2/core/movement.ts",
+      "sha256": "ac382909cae073f35314bba89c4ebd1f6cfab97e23f5f1579c6d7b96e9cd37bb"
+    },
+    {
+      "path": "packages/handball-engine/src/v2/core/offence.test.ts",
+      "sha256": "b501840d17ecb3507a74d2e0867430923e9dd1b9591c243359dce7c2f3beff52"
+    },
+    {
+      "path": "packages/handball-engine/src/v2/core/offence.ts",
+      "sha256": "086fe17fc980c3b233b59c95c8ebe89feca8a11609d2de2686ad545312c60e25"
+    },
+    {
+      "path": "packages/handball-engine/src/v2/core/passive.test.ts",
+      "sha256": "4ed3d9af14c484e6e28c718df05aeb474a7113badf2e3e98da78c6eb22654f3f"
+    },
+    {
+      "path": "packages/handball-engine/src/v2/core/passive.ts",
+      "sha256": "0c405269406b4a8b124ea432ce036a0008118aa59c186954cded0957a0c2381f"
+    },
+    {
+      "path": "packages/handball-engine/src/v2/core/physical-load.test.ts",
+      "sha256": "90219ffbcb1b9efa30a60982e8aea0b4e43c6b6e4345b3da349a22a5a6489393"
+    },
+    {
+      "path": "packages/handball-engine/src/v2/core/physicalLoad.ts",
+      "sha256": "e1e334552f35a2f1dbc7d4b88da4ac5bbc501ae86f63ebf884bb6791da619606"
+    },
+    {
+      "path": "packages/handball-engine/src/v2/core/pivot-dispatch-calibration.test.ts",
+      "sha256": "ec1da585a24bacabef28aae973af82a62d2aae328a573ae640f233840e295bf5"
+    },
+    {
+      "path": "packages/handball-engine/src/v2/core/pivot.ts",
+      "sha256": "3021f9ab217e9e4eb8f5adf996365e86338ac0fa9e738fc7491a25228c6bf783"
+    },
+    {
+      "path": "packages/handball-engine/src/v2/core/population.ts",
+      "sha256": "9097fd5e0396001ff48bb30529994fefb820aa9b75b272f79bdf55239eead655"
+    },
+    {
+      "path": "packages/handball-engine/src/v2/core/profile.ts",
+      "sha256": "9425db8e7080ae11a5cd9930ba73089fafb172babd2ec03322c65daa1699581f"
+    },
+    {
+      "path": "packages/handball-engine/src/v2/core/realism-defence.test.ts",
+      "sha256": "3e085e65f8b0f63bed293b447ef0e4284dd3127608226ec3e0a522d3974cc415"
+    },
+    {
+      "path": "packages/handball-engine/src/v2/core/realism.ts",
+      "sha256": "615271e0bc0217a08b296fa0777754f28b02fa136e5c0e55f07a8af616780897"
+    },
+    {
+      "path": "packages/handball-engine/src/v2/core/reconciliation-v11.test.ts",
+      "sha256": "caed580d80da7662cd57b6bdc5f0ee4e4c3a6b0c8e36b2828c622762c1874098"
+    },
+    {
+      "path": "packages/handball-engine/src/v2/core/reconciliation.test.ts",
+      "sha256": "71184e5fdc2bf80a9b8f4e1d3953378a2ad201842b40b54be20fc2476b5c8aa1"
+    },
+    {
+      "path": "packages/handball-engine/src/v2/core/referee.test.ts",
+      "sha256": "d21fa1db74580bc2aa51a9ad740ae7f610529d57dca87ed98f13f4764d64c6d0"
+    },
+    {
+      "path": "packages/handball-engine/src/v2/core/referee.ts",
+      "sha256": "35feaf4d17b6b5bd011702384be061081b52b220e5d897e37aa24bc297d04387"
+    },
+    {
+      "path": "packages/handball-engine/src/v2/core/replay.ts",
+      "sha256": "7a636b1b374a10d7f8aa02ade08957ac67920aacd33b37db2f412f2fefa42e6b"
+    },
+    {
+      "path": "packages/handball-engine/src/v2/core/restart-realism.test.ts",
+      "sha256": "2802c396b54f4c1634380e6bf2c262c8e6a51be1430751d604393f98d63320e6"
+    },
+    {
+      "path": "packages/handball-engine/src/v2/core/restarts.ts",
+      "sha256": "048e5ead24b976453a0abe2cf314fe9e79c33a0619c7d71cdfdb47b575230520"
+    },
+    {
+      "path": "packages/handball-engine/src/v2/core/rotation-fatigue.test.ts",
+      "sha256": "0952cdcaa2396f1778f752711173bb842a6b9e49a8bb9c50bb106bd7deadc0dc"
+    },
+    {
+      "path": "packages/handball-engine/src/v2/core/rules.ts",
+      "sha256": "46325a43317b15edfc4773265989ffa2ab0500c9fdefb32a7fc3363dd39147d4"
+    },
+    {
+      "path": "packages/handball-engine/src/v2/core/sanction.ts",
+      "sha256": "8d569712c4c2ce1223d246e3a5d5e6dd0913b5f8232e6456ff892bbcd424d910"
+    },
+    {
+      "path": "packages/handball-engine/src/v2/core/scenarios.ts",
+      "sha256": "c48ddb2c75ce34fd03c439261e40e77f676b1ffb2fc8abeb1a3f9b1a5d286dbe"
+    },
+    {
+      "path": "packages/handball-engine/src/v2/core/space.ts",
+      "sha256": "fa4755d1ba95d8e683cd19955418944d004a34963b708030ef72eb521ca25eb3"
+    },
+    {
+      "path": "packages/handball-engine/src/v2/core/squads.ts",
+      "sha256": "fc2aeaa594f3ef8a119656d1056178bf5f6414f6ee4c2082641b97fc216749a4"
+    },
+    {
+      "path": "packages/handball-engine/src/v2/core/state.ts",
+      "sha256": "fc33c3ac8ee2fbe78c7998c756850eda8981949f393a03ac77af9f5c9179284e"
+    },
+    {
+      "path": "packages/handball-engine/src/v2/core/structure.ts",
+      "sha256": "6edabc5df31702eb90581f19fd1a427f34ed8d7c46bcfe196e772e90ad70c544"
+    },
+    {
+      "path": "packages/handball-engine/src/v2/core/takeoff-calibration.test.ts",
+      "sha256": "3551321bc61257e150b28a5e82355ee94301dfb6e2a0870769c1bc6fade644f7"
+    },
+    {
+      "path": "packages/handball-engine/src/v2/core/testProfile.ts",
+      "sha256": "35a3ac5a0a0fbb6614de81c449fde37b880af96bc10a1cd2dcf4b4e3e9077d6d"
+    },
+    {
+      "path": "packages/handball-engine/src/v2/core/threatRelation.ts",
+      "sha256": "c68668bfbd439adfa42a751b12266d664e1d2e6d80358cbc30149b807fb9bcf1"
+    },
+    {
+      "path": "packages/handball-engine/src/v2/core/timing.ts",
+      "sha256": "8d118a422a83a5944936d53815f6559b566b12caca750514cb9e708536aa4a93"
+    },
+    {
+      "path": "packages/handball-engine/src/v2/core/transition-calibration.test.ts",
+      "sha256": "4dfac459e80c981e313fa99aef87b1df7ef9efee4753529b42c76536db00d959"
+    },
+    {
+      "path": "packages/handball-engine/src/v2/core/transitions.ts",
+      "sha256": "6498a4ea7a0d0efb0a19048dfcc9e6c2cd19fa8844f86f3d91995f65f80b270a"
+    },
+    {
+      "path": "packages/handball-engine/src/v2/core/wing.test.ts",
+      "sha256": "80af9db1f84e0155852d755726c55e5e008c8db58cb3cfa41714a49519176de8"
+    },
+    {
+      "path": "packages/handball-engine/src/v2/core/wing.ts",
+      "sha256": "31d7f39cf38918717d3723fadcce80948a13650a45a2f680e1bbc5c66fd3a556"
+    },
+    {
+      "path": "packages/handball-engine/src/v2/core/wingScenarios.ts",
+      "sha256": "8d553b1c254f0953cf5508ca1a37463891f631cdfd0df81b436be487541ee031"
+    }
+  ],
+  "priorPhase": [
+    {
+      "path": "docs/player-attribute-integration-v1/ALLSV-INSPECTION.json",
+      "sha256": "af8281ef823de2d9965190f0d8b7a25a0dc58f40519feebf2be43739e4ecc378"
+    },
+    {
+      "path": "docs/player-attribute-integration-v1/ATTRIBUTE-PATHS-AFTER.json",
+      "sha256": "2709ba7588f6d1fbf6c4eb4d3969aee1c19c2dacc1d4ee2cd3fc0e2bbba11470"
+    },
+    {
+      "path": "docs/player-attribute-integration-v1/ATTRIBUTE-PATHS-AFTER.md",
+      "sha256": "e85d91a0bf06e57f9f10a21d415f82a09e4b1823c395ffaa07c8f6fb80c018c8"
+    },
+    {
+      "path": "docs/player-attribute-integration-v1/ATTRIBUTE-RESPONSIBILITY.md",
+      "sha256": "c78a7fae5d276b0b2244404c35cbf6f04173c216d6194118fadf4bc59d27d85d"
+    },
+    {
+      "path": "docs/player-attribute-integration-v1/BASELINE-HARNESS-v1.ts.txt",
+      "sha256": "4a163b871b677a59220e4f9203be5badbd2d33b0bfd9b21066adecd4bd9e21c6"
+    },
+    {
+      "path": "docs/player-attribute-integration-v1/COHORT-RUNNER-EQUIVALENCE.json",
+      "sha256": "a6318dce1ebda1ba8ca48590cf93656cbae7a8b123507d60f3dd03b9601c4f29"
+    },
+    {
+      "path": "docs/player-attribute-integration-v1/COHORT-RUNNER-v1.ts.txt",
+      "sha256": "22be03d20b90157e8cc233d672db08f4ade8ba944181a2ed7cac876970c60343"
+    },
+    {
+      "path": "docs/player-attribute-integration-v1/CONTINUATION-RECOVERY.json",
+      "sha256": "59096598e60192b9d53e63a0044c330d2ebdcce9a0f63ce27a2a8ebb9890d670"
+    },
+    {
+      "path": "docs/player-attribute-integration-v1/CONTROLLED-EFFECTS.md",
+      "sha256": "f31c4eda9c3325313cf5a45b81f3006bb29e222ab142e1e6e0048171fb1035fb"
+    },
+    {
+      "path": "docs/player-attribute-integration-v1/CONTROLLED-VERIFICATION.json",
+      "sha256": "287296ca0f21a6172f2cb3c08bdbb8a3ca258b6ba633e72d90eae1dbd7f0c967"
+    },
+    {
+      "path": "docs/player-attribute-integration-v1/DEFENSIVE-BOUNDARY-VERIFICATION.json",
+      "sha256": "e8f389599ded9efa5502e49f3dcfc770c1d259dafcb8635aaa4ab7204e77bb35"
+    },
+    {
+      "path": "docs/player-attribute-integration-v1/DEFENSIVE-CONSEQUENCES.json",
+      "sha256": "f4be8b8b534dec5d43744ea99509d906c45f955b194811785034aa7f56cfccca"
+    },
+    {
+      "path": "docs/player-attribute-integration-v1/DELIVERY.json",
+      "sha256": "7f1c1e228386eb870f8c3d5eedbaae9acb1760f7e51dc76aa2ab6e458e357f8b"
+    },
+    {
+      "path": "docs/player-attribute-integration-v1/DIFFERENTIATION-SCORECARD-v2.md",
+      "sha256": "cab32e1e39c3969317eade5e0bdbdbc9e3252ad12e542394de7b50e8db244bc9"
+    },
+    {
+      "path": "docs/player-attribute-integration-v1/DUEL-EFFECTS.json",
+      "sha256": "31cb034b580dcf543bd172b0e6c9a3505acc960c73061078a9d275431be9f6c9"
+    },
+    {
+      "path": "docs/player-attribute-integration-v1/GENERIC-NON-FEEDBACK.json",
+      "sha256": "ee5bfb02d677d2edfa1a9816d5aac37e019b3a07666068cc615380ab974216a1"
+    },
+    {
+      "path": "docs/player-attribute-integration-v1/HARNESS-EQUIVALENCE.json",
+      "sha256": "7ef0b3222f5112feabab261dde02192441f8e9c97cf4a7bacc28376c7a0fbe8e"
+    },
+    {
+      "path": "docs/player-attribute-integration-v1/HBL-INSPECTION.json",
+      "sha256": "2b9dfa4f023725e13ffb8f4f41e2448a652e174da7a791cb41ff4442a2020e31"
+    },
+    {
+      "path": "docs/player-attribute-integration-v1/LEAGUE-REGRESSION.json",
+      "sha256": "7beb5c7002f04157bf9f2e5272d7fc8606311c3cbac9816df12d08b9a10ef469"
+    },
+    {
+      "path": "docs/player-attribute-integration-v1/LEAGUE-REGRESSION.md",
+      "sha256": "e9bc951e4400ce2dfc0106d338cef812d0fb631360b3205b1a681004eb2ffd17"
+    },
+    {
+      "path": "docs/player-attribute-integration-v1/LIVE-BOUNDARY-CORRECTION.json",
+      "sha256": "48d237c9835a9c97c6142a029d2d3f4208528397e76ad5e3f12402695f8113ce"
+    },
+    {
+      "path": "docs/player-attribute-integration-v1/MARGINAL-GATE-CORRECTION.json",
+      "sha256": "2dab4cb6418d27e8396244ea2d56cfc0bb0cbe99087ffda5ebae134234b33ce5"
+    },
+    {
+      "path": "docs/player-attribute-integration-v1/PERFORMANCE.json",
+      "sha256": "02dfa80fa11eaa3fce236a9f6cae0431df2c6d96e29a6512716ebe18c675436b"
+    },
+    {
+      "path": "docs/player-attribute-integration-v1/PLAYER-DIFFERENTIATION.md",
+      "sha256": "9d6383dd1b8076085f3778c530fa1082ff1a54ac7497a962170c31db59c7d583"
+    },
+    {
+      "path": "docs/player-attribute-integration-v1/RECOVERY.json",
+      "sha256": "4ed611e284768135d44be514ccbaf0e121dbf6726ce0e412ea2ecf53c6b8c944"
+    },
+    {
+      "path": "docs/player-attribute-integration-v1/REPORT.md",
+      "sha256": "357415b640f5a78bebf0b63b0c27b0dc92bd6add3c302836d29a06a05e95aa4b"
+    },
+    {
+      "path": "docs/player-attribute-integration-v1/SOURCE-PRESERVATION.json",
+      "sha256": "0cdafacba352fdfba61c86a03ee1d38cbac62257080d6aa30231eb4160041fdb"
+    },
+    {
+      "path": "docs/player-attribute-integration-v1/TEST-COVERAGE.md",
+      "sha256": "5f4d66f08c6b60019fcd9599e32b6db8dd0029caea7b03483cc6f1cab2f89e37"
+    },
+    {
+      "path": "docs/player-attribute-integration-v1/VERIFICATION.json",
+      "sha256": "8352d6f7aaea1123401321039a31ded752014afcb4c417126cd1dc4f0543e15a"
+    },
+    {
+      "path": "docs/player-attribute-integration-v1/controlled/after/decision.json",
+      "sha256": "4871ee7357a6c60d139ff71ec1eb31d7ce7d9743affc87489703d022599acaad"
+    },
+    {
+      "path": "docs/player-attribute-integration-v1/controlled/after/defence.json",
+      "sha256": "84632c3bf5956551c00e3b92aea049391e69aacc482c9ffaab8c237afed3dafc"
+    },
+    {
+      "path": "docs/player-attribute-integration-v1/controlled/after/handling.json",
+      "sha256": "1bc830c3b406a65a279658867dcab5e43ac00f17a4877960e6af041f132836a2"
+    },
+    {
+      "path": "docs/player-attribute-integration-v1/controlled/after/keeper.json",
+      "sha256": "86c82b3f20d44eabbd5c2480795412b8bb24a963d8d38b82d98304319c1973c8"
+    },
+    {
+      "path": "docs/player-attribute-integration-v1/controlled/after/realPlayers.json",
+      "sha256": "77362bcd7f9a4a92a131fc6ac0a52fc6c7ed47938567dd95e8fcab7b60d94601"
+    },
+    {
+      "path": "docs/player-attribute-integration-v1/controlled/after/shooting.json",
+      "sha256": "755210632f2833f1463d3c46927e2af77874d44fcfa753de78c74a8a8d3ade46"
+    },
+    {
+      "path": "docs/player-attribute-integration-v1/controlled/before/decision.json",
+      "sha256": "2d88049d2be496bc280f6ec8e56f96198e9c79ba84ad42cd15f2e932ab5c261f"
+    },
+    {
+      "path": "docs/player-attribute-integration-v1/controlled/before/defence.json",
+      "sha256": "5f55e7f83d7cfdd626f1cf6492132c0aeff84803af9300f0b7b626529d1e6a69"
+    },
+    {
+      "path": "docs/player-attribute-integration-v1/controlled/before/handling.json",
+      "sha256": "cb4fe8b2f43bb036509258128f31303db10232f2788e091736eebd21224ecb63"
+    },
+    {
+      "path": "docs/player-attribute-integration-v1/controlled/before/keeper.json",
+      "sha256": "e6540a0d29b0d2049b024639f1abe8f434a3f9456e34f5ead73431f0718a8bfb"
+    },
+    {
+      "path": "docs/player-attribute-integration-v1/controlled/before/realPlayers.json",
+      "sha256": "0b6ee18bd0b145f7e7fbf76716601bfa337d81ce47d0b9d1804b5183950e3d6a"
+    },
+    {
+      "path": "docs/player-attribute-integration-v1/controlled/before/shooting.json",
+      "sha256": "9a3df64ac5470a66e7d115c43e9c3ae12a991e9d3ed45a9868e2ec4efdee35bc"
+    },
+    {
+      "path": "docs/player-attribute-integration-v1/preservation.json",
+      "sha256": "06125c5c1061ab77bb3aacb13e43456198e8e81c8ba009c3a41bc4400a1817ee"
+    }
+  ],
+  "motionHead": "197d2a80ecea3b70efdcf8ef347cfc68e0e86b2b",
+  "motionStatus": "?? .claude/",
+  "stashes": "ddba79055949b76898b12fc1b947e8f8645589cb\nb068a9586209b9405b8d5f0dc6fae6384dd09001",
+  "previousBuilds": [
+    {
+      "directory": ".next-game-empirical-cal-v1",
+      "buildId": "DU6jMBZtsmZtnQWvlrs8c"
+    },
+    {
+      "directory": ".next-game-final",
+      "buildId": "cNJggCauoeM2tFyL4VSLb"
+    },
+    {
+      "directory": ".next-game-intelligence-v1",
+      "buildId": "s5-nNNCWTl2_T9odTJDlV"
+    },
+    {
+      "directory": ".next-game-loading-screen-v1",
+      "buildId": "-RNSpJe4apx4OLEONUxcE"
+    },
+    {
+      "directory": ".next-game-match-center-v2",
+      "buildId": "OPdl1waYJNI_SpnsaJ-sr"
+    },
+    {
+      "directory": ".next-game-match-center-v21",
+      "buildId": "pLsf1fASvBMrL5OMJuUP8"
+    },
+    {
+      "directory": ".next-game-motion-quality-v2",
+      "buildId": "OfxtCP_cN-7kRf7v5VmwA"
+    },
+    {
+      "directory": ".next-game-motion-v1",
+      "buildId": "JQxdclWu8m3DDjchhC8wU"
+    },
+    {
+      "directory": ".next-game-physical-load-v11",
+      "buildId": "mrlA0kCIE2BdeBLwu1EJs"
+    },
+    {
+      "directory": ".next-game-production",
+      "buildId": "johFb57nGyMaBoyGUmMSn"
+    },
+    {
+      "directory": ".next-game-realism-v2",
+      "buildId": "XkNsqFziP2f_j3IFTn3Vy"
+    },
+    {
+      "directory": ".next-game-realism-v21",
+      "buildId": "MMFsqS1-zfrSWl0fQDdK1"
+    },
+    {
+      "directory": ".next-game-reconciled-v1",
+      "buildId": "3PQHL0oSSqFhBU5FxXd8a"
+    },
+    {
+      "directory": ".next-game-reconciliation-v11",
+      "buildId": "7lH--sWAbP_HfvPnTXIdw"
+    },
+    {
+      "directory": ".next-game-rotation-fatigue-v1",
+      "buildId": "usx4M7Bosxj0W5ABGzmpe"
+    },
+    {
+      "directory": ".next-game-v11",
+      "buildId": "5Jp-210HFinXeJePZ9iro"
+    },
+    {
+      "directory": ".next-game-physical-load-v11",
+      "buildId": "mrlA0kCIE2BdeBLwu1EJs"
+    },
+    {
+      "directory": ".next-game-attribute-economy-v1",
+      "buildId": "IGWUR3-QLEFpc9JTP0vOZ"
+    },
+    {
+      "directory": ".next-game-player-attributes-v1",
+      "buildId": "uvcmd1UOB0Q5wuL0tY1bg"
+    }
+  ]
+}

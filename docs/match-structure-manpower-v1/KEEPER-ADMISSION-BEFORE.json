@@ -1,0 +1,36 @@
+{
+  "accepted": true,
+  "tick": 16,
+  "court": [
+    {
+      "id": "H02",
+      "kind": "FIELD_PLAYER"
+    },
+    {
+      "id": "H03",
+      "kind": "FIELD_PLAYER"
+    },
+    {
+      "id": "H04",
+      "kind": "FIELD_PLAYER"
+    },
+    {
+      "id": "H05",
+      "kind": "FIELD_PLAYER"
+    },
+    {
+      "id": "H06",
+      "kind": "FIELD_PLAYER"
+    },
+    {
+      "id": "H07",
+      "kind": "GOALKEEPER"
+    },
+    {
+      "id": "H10",
+      "kind": "GOALKEEPER"
+    }
+  ],
+  "failure": "Core invariant: one goalkeeper per team",
+  "source": "ed8574d; requestExchange -> canonical advanceCoreMutable -> population admission; staged outgoing at own gate"
+}

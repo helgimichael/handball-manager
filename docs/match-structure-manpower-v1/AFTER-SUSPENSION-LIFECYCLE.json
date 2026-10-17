@@ -1,0 +1,1802 @@
+{
+  "complete": true,
+  "phase": "after",
+  "scope": "Purposeful 8+8 structural regression matches, including all retained overlapping-deferred cases and high-sanction tails. Not a representative league sample.",
+  "definitions": {
+    "sanctionWindows": "One record per personal reduction event. Before-fix records may overlap and are not independent time intervals.",
+    "eventsWithoutIndividualExpiry": "Includes pending-at-fulltime and overwritten overlapping records; not a count of players still suspended at fulltime."
+  },
+  "matches": 16,
+  "admissions": 206,
+  "sanctionWindows": 111,
+  "expiredWindows": 97,
+  "disqualified": 5,
+  "eventsWithoutIndividualExpiry": 9,
+  "minimumExpiryLatenessMs": 0,
+  "maximumExpiryLatenessMs": 0,
+  "violations": [],
+  "samePlayerOverlaps": [],
+  "invalidKeeperRequests": [],
+  "duplicateContactActionIds": 0,
+  "multiplePersonalDecisionsAtOneTick": [],
+  "establishedFrontalContacts": 1,
+  "groupedDisciplineEvents": 15,
+  "details": [
+    {
+      "league": "hbl",
+      "index": 0,
+      "coreHash": "505baba76f74e6faa4e8cce65d042e51732162990bbb28eee5883b8722c6bbf6",
+      "admissions": 14,
+      "windows": [
+        {
+          "eventId": "event-81127",
+          "playerId": "se_player_august_wiger_94e4bcd0",
+          "team": "HOME",
+          "type": "TWO_MINUTE_SUSPENSION",
+          "startTick": 29231,
+          "startMs": 1398150,
+          "untilMs": 1518150,
+          "expiredTick": 31718,
+          "expiredMs": 1518150,
+          "latenessMs": 0
+        },
+        {
+          "eventId": "event-92893",
+          "playerId": "se_player_august_wiger_94e4bcd0",
+          "team": "HOME",
+          "type": "TWO_MINUTE_SUSPENSION",
+          "startTick": 33606,
+          "startMs": 1612550,
+          "untilMs": 1732550,
+          "expiredTick": 36155,
+          "expiredMs": 1732550,
+          "latenessMs": 0
+        },
+        {
+          "eventId": "event-146922",
+          "playerId": "se_player_august_wiger_94e4bcd0",
+          "team": "HOME",
+          "type": "DISQUALIFICATION",
+          "startTick": 52542,
+          "startMs": 2542850,
+          "untilMs": 2662850,
+          "expiredTick": null,
+          "expiredMs": null,
+          "latenessMs": null
+        },
+        {
+          "eventId": "event-162219",
+          "playerId": "player_elliot_lundstad_ff8f992c",
+          "team": "AWAY",
+          "type": "TWO_MINUTE_SUSPENSION",
+          "startTick": 58168,
+          "startMs": 2816800,
+          "untilMs": 2936800,
+          "expiredTick": 60714,
+          "expiredMs": 2936800,
+          "latenessMs": 0
+        },
+        {
+          "eventId": "event-169062",
+          "playerId": "se_player_noel_hurtig_1aad97d9",
+          "team": "HOME",
+          "type": "TWO_MINUTE_SUSPENSION",
+          "startTick": 60946,
+          "startMs": 2948400,
+          "untilMs": 3068400,
+          "expiredTick": 63517,
+          "expiredMs": 3068400,
+          "latenessMs": 0
+        },
+        {
+          "eventId": "event-176672",
+          "playerId": "player_elliot_lundstad_ff8f992c",
+          "team": "AWAY",
+          "type": "TWO_MINUTE_SUSPENSION",
+          "startTick": 63791,
+          "startMs": 3082100,
+          "untilMs": 3202100,
+          "expiredTick": 66281,
+          "expiredMs": 3202100,
+          "latenessMs": 0
+        }
+      ],
+      "violations": [],
+      "invalidKeeperRequests": [],
+      "samePlayerOverlaps": [],
+      "multiplePersonalDecisionsAtOneTick": [],
+      "duplicateContactActionIds": 0,
+      "establishedFrontalContacts": 0,
+      "groupedDiscipline": []
+    },
+    {
+      "league": "hbl",
+      "index": 1,
+      "coreHash": "ea7bd7efab0f377f4f6c66d0f3bb14f31d7c43c1d59d0563536c2083b4d638ba",
+      "admissions": 11,
+      "windows": [
+        {
+          "eventId": "event-165472",
+          "playerId": "player_ture_edin_c5221137",
+          "team": "HOME",
+          "type": "TWO_MINUTE_SUSPENSION",
+          "startTick": 56995,
+          "startMs": 2775950,
+          "untilMs": 2895950,
+          "expiredTick": 59677,
+          "expiredMs": 2895950,
+          "latenessMs": 0
+        },
+        {
+          "eventId": "event-167880",
+          "playerId": "se_player_allex_hugosson_03ddf92d",
+          "team": "AWAY",
+          "type": "TWO_MINUTE_SUSPENSION",
+          "startTick": 57961,
+          "startMs": 2817900,
+          "untilMs": 2937900,
+          "expiredTick": 60561,
+          "expiredMs": 2937900,
+          "latenessMs": 0
+        },
+        {
+          "eventId": "event-173628",
+          "playerId": "player_gustav_mundt_9f5616b1",
+          "team": "HOME",
+          "type": "TWO_MINUTE_SUSPENSION",
+          "startTick": 60309,
+          "startMs": 2927550,
+          "untilMs": 3047550,
+          "expiredTick": 62754,
+          "expiredMs": 3047550,
+          "latenessMs": 0
+        },
+        {
+          "eventId": "event-187463",
+          "playerId": "player_vincent_persson_2f7b9e69",
+          "team": "HOME",
+          "type": "TWO_MINUTE_SUSPENSION",
+          "startTick": 65590,
+          "startMs": 3189350,
+          "untilMs": 3309350,
+          "expiredTick": 68363,
+          "expiredMs": 3309350,
+          "latenessMs": 0
+        },
+        {
+          "eventId": "event-189804",
+          "playerId": "player_gustav_mundt_9f5616b1",
+          "team": "HOME",
+          "type": "TWO_MINUTE_SUSPENSION",
+          "startTick": 66559,
+          "startMs": 3227600,
+          "untilMs": 3347600,
+          "expiredTick": 69128,
+          "expiredMs": 3347600,
+          "latenessMs": 0
+        }
+      ],
+      "violations": [],
+      "invalidKeeperRequests": [],
+      "samePlayerOverlaps": [],
+      "multiplePersonalDecisionsAtOneTick": [],
+      "duplicateContactActionIds": 0,
+      "establishedFrontalContacts": 0,
+      "groupedDiscipline": []
+    },
+    {
+      "league": "hbl",
+      "index": 12,
+      "coreHash": "ce31d7d02b6a61a29ecbb14523e95de7b5083d8e0dc4d1cea7c7cd570d4822d3",
+      "admissions": 9,
+      "windows": [
+        {
+          "eventId": "event-185506",
+          "playerId": "player_david_kallemyr_869d28f1",
+          "team": "AWAY",
+          "type": "TWO_MINUTE_SUSPENSION",
+          "startTick": 65614,
+          "startMs": 3138200,
+          "untilMs": 3258200,
+          "expiredTick": 68111,
+          "expiredMs": 3258200,
+          "latenessMs": 0
+        }
+      ],
+      "violations": [],
+      "invalidKeeperRequests": [],
+      "samePlayerOverlaps": [],
+      "multiplePersonalDecisionsAtOneTick": [],
+      "duplicateContactActionIds": 0,
+      "establishedFrontalContacts": 0,
+      "groupedDiscipline": []
+    },
+    {
+      "league": "hbl",
+      "index": 22,
+      "coreHash": "a48f09219c80a08a0b6c0a4f866a4e16792edb8640259e2a03eeaaa66fc99c96",
+      "admissions": 9,
+      "windows": [
+        {
+          "eventId": "event-121490",
+          "playerId": "player_magnus_persson_4822f217",
+          "team": "HOME",
+          "type": "TWO_MINUTE_SUSPENSION",
+          "startTick": 42531,
+          "startMs": 2049500,
+          "untilMs": 2169500,
+          "expiredTick": 45040,
+          "expiredMs": 2169500,
+          "latenessMs": 0
+        },
+        {
+          "eventId": "event-199000",
+          "playerId": "player_sebastian_spante_5f69efd4",
+          "team": "HOME",
+          "type": "TWO_MINUTE_SUSPENSION",
+          "startTick": 69966,
+          "startMs": 3347950,
+          "untilMs": 3467950,
+          "expiredTick": 72540,
+          "expiredMs": 3467950,
+          "latenessMs": 0
+        },
+        {
+          "eventId": "event-207255",
+          "playerId": "player_magnus_persson_4822f217",
+          "team": "HOME",
+          "type": "TWO_MINUTE_SUSPENSION",
+          "startTick": 72995,
+          "startMs": 3490700,
+          "untilMs": 3610700,
+          "expiredTick": null,
+          "expiredMs": null,
+          "latenessMs": null
+        },
+        {
+          "eventId": "event-213599",
+          "playerId": "se_player_linus_walfridsson_3fdf0322",
+          "team": "AWAY",
+          "type": "TWO_MINUTE_SUSPENSION",
+          "startTick": 75364,
+          "startMs": 3599000,
+          "untilMs": 3719000,
+          "expiredTick": null,
+          "expiredMs": null,
+          "latenessMs": null
+        }
+      ],
+      "violations": [],
+      "invalidKeeperRequests": [],
+      "samePlayerOverlaps": [],
+      "multiplePersonalDecisionsAtOneTick": [],
+      "duplicateContactActionIds": 0,
+      "establishedFrontalContacts": 0,
+      "groupedDiscipline": [
+        {
+          "id": "event-213599",
+          "type": "TWO_MINUTE_SUSPENSION",
+          "actorId": "se_player_linus_walfridsson_3fdf0322",
+          "tick": 75364,
+          "details": {
+            "foulId": "foul-213548",
+            "severity": "CLEAR_CHANCE",
+            "reason": "Contact from behind the attacker",
+            "disciplineCases": 3,
+            "disciplineFoulIds": "foul-211940|foul-213548|foul-213593"
+          }
+        }
+      ]
+    },
+    {
+      "league": "hbl",
+      "index": 30,
+      "coreHash": "112c30028bd9032d6b08cd01eec9a573ac4631f420dee60be85d2fbf2a2b8fa2",
+      "admissions": 10,
+      "windows": [
+        {
+          "eventId": "event-135982",
+          "playerId": "se_player_robin_jarling_sanderhem_e7557677",
+          "team": "HOME",
+          "type": "TWO_MINUTE_SUSPENSION",
+          "startTick": 47506,
+          "startMs": 2303900,
+          "untilMs": 2423900,
+          "expiredTick": 50008,
+          "expiredMs": 2423900,
+          "latenessMs": 0
+        },
+        {
+          "eventId": "event-156344",
+          "playerId": "se_player_oliver_wigmark_4d3b1757",
+          "team": "HOME",
+          "type": "TWO_MINUTE_SUSPENSION",
+          "startTick": 54539,
+          "startMs": 2650450,
+          "untilMs": 2770450,
+          "expiredTick": 57066,
+          "expiredMs": 2770450,
+          "latenessMs": 0
+        },
+        {
+          "eventId": "event-173376",
+          "playerId": "se_player_robin_jarling_sanderhem_e7557677",
+          "team": "HOME",
+          "type": "TWO_MINUTE_SUSPENSION",
+          "startTick": 60620,
+          "startMs": 2948150,
+          "untilMs": 3068150,
+          "expiredTick": 63122,
+          "expiredMs": 3068150,
+          "latenessMs": 0
+        }
+      ],
+      "violations": [],
+      "invalidKeeperRequests": [],
+      "samePlayerOverlaps": [],
+      "multiplePersonalDecisionsAtOneTick": [],
+      "duplicateContactActionIds": 0,
+      "establishedFrontalContacts": 0,
+      "groupedDiscipline": []
+    },
+    {
+      "league": "hbl",
+      "index": 34,
+      "coreHash": "04bd6ee866fbb97760794e72da9d0bf5cb97bcf1a4c696754d0860fe51bdd8be",
+      "admissions": 11,
+      "windows": [
+        {
+          "eventId": "event-103246",
+          "playerId": "player_baldur_fritz_bjarnason_565ae0a8",
+          "team": "HOME",
+          "type": "TWO_MINUTE_SUSPENSION",
+          "startTick": 36197,
+          "startMs": 1744550,
+          "untilMs": 1864550,
+          "expiredTick": 38865,
+          "expiredMs": 1864550,
+          "latenessMs": 0
+        },
+        {
+          "eventId": "event-183069",
+          "playerId": "player_ajdin_dzanic_5aaffde2",
+          "team": "AWAY",
+          "type": "TWO_MINUTE_SUSPENSION",
+          "startTick": 64377,
+          "startMs": 3140150,
+          "untilMs": 3260150,
+          "expiredTick": 66994,
+          "expiredMs": 3260150,
+          "latenessMs": 0
+        },
+        {
+          "eventId": "event-186571",
+          "playerId": "player_baldur_fritz_bjarnason_565ae0a8",
+          "team": "HOME",
+          "type": "TWO_MINUTE_SUSPENSION",
+          "startTick": 65696,
+          "startMs": 3201000,
+          "untilMs": 3321000,
+          "expiredTick": 68211,
+          "expiredMs": 3321000,
+          "latenessMs": 0
+        },
+        {
+          "eventId": "event-201883",
+          "playerId": "player_ajdin_dzanic_5aaffde2",
+          "team": "AWAY",
+          "type": "TWO_MINUTE_SUSPENSION",
+          "startTick": 71003,
+          "startMs": 3460600,
+          "untilMs": 3580600,
+          "expiredTick": 73757,
+          "expiredMs": 3580600,
+          "latenessMs": 0
+        },
+        {
+          "eventId": "event-206750",
+          "playerId": "player_albin_rydberg_c6e004c6",
+          "team": "AWAY",
+          "type": "TWO_MINUTE_SUSPENSION",
+          "startTick": 73036,
+          "startMs": 3554800,
+          "untilMs": 3674800,
+          "expiredTick": null,
+          "expiredMs": null,
+          "latenessMs": null
+        }
+      ],
+      "violations": [],
+      "invalidKeeperRequests": [],
+      "samePlayerOverlaps": [],
+      "multiplePersonalDecisionsAtOneTick": [],
+      "duplicateContactActionIds": 0,
+      "establishedFrontalContacts": 0,
+      "groupedDiscipline": [
+        {
+          "id": "event-183069",
+          "type": "TWO_MINUTE_SUSPENSION",
+          "actorId": "player_ajdin_dzanic_5aaffde2",
+          "tick": 64377,
+          "details": {
+            "foulId": "foul-183029",
+            "severity": "PUNISHABLE",
+            "reason": "Contact from behind the attacker",
+            "disciplineCases": 3,
+            "disciplineFoulIds": "foul-182859|foul-183029|foul-183063"
+          }
+        }
+      ]
+    },
+    {
+      "league": "hbl",
+      "index": 37,
+      "coreHash": "7c6f7061044aa79a15796e8e673d17c63f8e76fab5a83ed4a59ec0593c3360e9",
+      "admissions": 9,
+      "windows": [
+        {
+          "eventId": "event-184585",
+          "playerId": "player_leonard_gegaj_925cada7",
+          "team": "AWAY",
+          "type": "TWO_MINUTE_SUSPENSION",
+          "startTick": 66171,
+          "startMs": 3166950,
+          "untilMs": 3286950,
+          "expiredTick": 68654,
+          "expiredMs": 3286950,
+          "latenessMs": 0
+        },
+        {
+          "eventId": "event-198915",
+          "playerId": "player_albert_mansson_23c37eca",
+          "team": "AWAY",
+          "type": "TWO_MINUTE_SUSPENSION",
+          "startTick": 71518,
+          "startMs": 3430150,
+          "untilMs": 3550150,
+          "expiredTick": 74087,
+          "expiredMs": 3550150,
+          "latenessMs": 0
+        }
+      ],
+      "violations": [],
+      "invalidKeeperRequests": [],
+      "samePlayerOverlaps": [],
+      "multiplePersonalDecisionsAtOneTick": [],
+      "duplicateContactActionIds": 0,
+      "establishedFrontalContacts": 0,
+      "groupedDiscipline": []
+    },
+    {
+      "league": "hbl",
+      "index": 38,
+      "coreHash": "03f2480892f6d93e8afc9caacdc9470086d53ee165b83b4d8c72e31986dfe56d",
+      "admissions": 13,
+      "windows": [
+        {
+          "eventId": "event-80012",
+          "playerId": "se_player_benjamin_helander_b5cece84",
+          "team": "HOME",
+          "type": "TWO_MINUTE_SUSPENSION",
+          "startTick": 28773,
+          "startMs": 1372900,
+          "untilMs": 1492900,
+          "expiredTick": 31346,
+          "expiredMs": 1492900,
+          "latenessMs": 0
+        },
+        {
+          "eventId": "event-94224",
+          "playerId": "se_player_noel_hurtig_1aad97d9",
+          "team": "HOME",
+          "type": "TWO_MINUTE_SUSPENSION",
+          "startTick": 34033,
+          "startMs": 1627250,
+          "untilMs": 1747250,
+          "expiredTick": 36578,
+          "expiredMs": 1747250,
+          "latenessMs": 0
+        },
+        {
+          "eventId": "event-140916",
+          "playerId": "player_max_blomberg_romero_992b2a4a",
+          "team": "AWAY",
+          "type": "TWO_MINUTE_SUSPENSION",
+          "startTick": 50569,
+          "startMs": 2438100,
+          "untilMs": 2558100,
+          "expiredTick": 53300,
+          "expiredMs": 2558100,
+          "latenessMs": 0
+        },
+        {
+          "eventId": "event-142866",
+          "playerId": "se_player_carl_ryden_d5428e1f",
+          "team": "HOME",
+          "type": "TWO_MINUTE_SUSPENSION",
+          "startTick": 51357,
+          "startMs": 2467300,
+          "untilMs": 2587300,
+          "expiredTick": 53884,
+          "expiredMs": 2587300,
+          "latenessMs": 0
+        },
+        {
+          "eventId": "event-153897",
+          "playerId": "se_player_carl_ryden_d5428e1f",
+          "team": "HOME",
+          "type": "TWO_MINUTE_SUSPENSION",
+          "startTick": 55783,
+          "startMs": 2682250,
+          "untilMs": 2802250,
+          "expiredTick": 58328,
+          "expiredMs": 2802250,
+          "latenessMs": 0
+        },
+        {
+          "eventId": "event-191005",
+          "playerId": "se_player_arvid_boquist_39bb770d",
+          "team": "HOME",
+          "type": "TWO_MINUTE_SUSPENSION",
+          "startTick": 69172,
+          "startMs": 3344450,
+          "untilMs": 3464450,
+          "expiredTick": 71661,
+          "expiredMs": 3464450,
+          "latenessMs": 0
+        },
+        {
+          "eventId": "event-198575",
+          "playerId": "se_player_alexander_regen_705fa7a6",
+          "team": "HOME",
+          "type": "TWO_MINUTE_SUSPENSION",
+          "startTick": 72257,
+          "startMs": 3494250,
+          "untilMs": 3614250,
+          "expiredTick": null,
+          "expiredMs": null,
+          "latenessMs": null
+        },
+        {
+          "eventId": "event-204137",
+          "playerId": "se_player_edwin_tengros_eec4c59b",
+          "team": "HOME",
+          "type": "TWO_MINUTE_SUSPENSION",
+          "startTick": 74375,
+          "startMs": 3592600,
+          "untilMs": 3712600,
+          "expiredTick": null,
+          "expiredMs": null,
+          "latenessMs": null
+        }
+      ],
+      "violations": [],
+      "invalidKeeperRequests": [],
+      "samePlayerOverlaps": [],
+      "multiplePersonalDecisionsAtOneTick": [],
+      "duplicateContactActionIds": 0,
+      "establishedFrontalContacts": 0,
+      "groupedDiscipline": []
+    },
+    {
+      "league": "allsv",
+      "index": 0,
+      "coreHash": "b8cd614588105ddd64ac443de3de25e2fc31cea18d515c52c7dcccea71d9bccf",
+      "admissions": 16,
+      "windows": [
+        {
+          "eventId": "event-16985",
+          "playerId": "se_player_felix_dahlen_landstrom_cd6686d8",
+          "team": "HOME",
+          "type": "TWO_MINUTE_SUSPENSION",
+          "startTick": 5992,
+          "startMs": 299300,
+          "untilMs": 419300,
+          "expiredTick": 8579,
+          "expiredMs": 419300,
+          "latenessMs": 0
+        },
+        {
+          "eventId": "event-61576",
+          "playerId": "se_player_oliver_knudsen_831e83e1",
+          "team": "AWAY",
+          "type": "TWO_MINUTE_SUSPENSION",
+          "startTick": 21292,
+          "startMs": 1054950,
+          "untilMs": 1174950,
+          "expiredTick": 23877,
+          "expiredMs": 1174950,
+          "latenessMs": 0
+        },
+        {
+          "eventId": "event-111145",
+          "playerId": "se_player_hampus_nilsson_9b0d9882",
+          "team": "AWAY",
+          "type": "TWO_MINUTE_SUSPENSION",
+          "startTick": 40192,
+          "startMs": 1915650,
+          "untilMs": 2035650,
+          "expiredTick": 42847,
+          "expiredMs": 2035650,
+          "latenessMs": 0
+        },
+        {
+          "eventId": "event-113928",
+          "playerId": "se_player_jim_gottfridsson_7323fffc",
+          "team": "AWAY",
+          "type": "TWO_MINUTE_SUSPENSION",
+          "startTick": 41365,
+          "startMs": 1970800,
+          "untilMs": 2090800,
+          "expiredTick": 43950,
+          "expiredMs": 2090800,
+          "latenessMs": 0
+        },
+        {
+          "eventId": "event-138437",
+          "playerId": "se_player_ivar_perez_heselius_e39ab925",
+          "team": "HOME",
+          "type": "TWO_MINUTE_SUSPENSION",
+          "startTick": 50146,
+          "startMs": 2400600,
+          "untilMs": 2520600,
+          "expiredTick": 52589,
+          "expiredMs": 2520600,
+          "latenessMs": 0
+        },
+        {
+          "eventId": "event-147313",
+          "playerId": "se_player_lowe_knutsson_edd52e78",
+          "team": "AWAY",
+          "type": "TWO_MINUTE_SUSPENSION",
+          "startTick": 53252,
+          "startMs": 2553750,
+          "untilMs": 2673750,
+          "expiredTick": 55973,
+          "expiredMs": 2673750,
+          "latenessMs": 0
+        },
+        {
+          "eventId": "event-152168",
+          "playerId": "se_player_marcus_kl_ve_9d423086",
+          "team": "HOME",
+          "type": "TWO_MINUTE_SUSPENSION",
+          "startTick": 55105,
+          "startMs": 2637800,
+          "untilMs": 2757800,
+          "expiredTick": 57654,
+          "expiredMs": 2757800,
+          "latenessMs": 0
+        },
+        {
+          "eventId": "event-175962",
+          "playerId": "se_player_hampus_nilsson_9b0d9882",
+          "team": "AWAY",
+          "type": "TWO_MINUTE_SUSPENSION",
+          "startTick": 63648,
+          "startMs": 3057500,
+          "untilMs": 3177500,
+          "expiredTick": 66379,
+          "expiredMs": 3177500,
+          "latenessMs": 0
+        },
+        {
+          "eventId": "event-179275",
+          "playerId": "se_player_nils_persson_be443644",
+          "team": "AWAY",
+          "type": "TWO_MINUTE_SUSPENSION",
+          "startTick": 64991,
+          "startMs": 3117350,
+          "untilMs": 3237350,
+          "expiredTick": 67751,
+          "expiredMs": 3237350,
+          "latenessMs": 0
+        },
+        {
+          "eventId": "event-179277",
+          "playerId": "se_player_lukas_larsson_0b13b970",
+          "team": "AWAY",
+          "type": "TWO_MINUTE_SUSPENSION",
+          "startTick": 64991,
+          "startMs": 3117350,
+          "untilMs": 3237350,
+          "expiredTick": 67751,
+          "expiredMs": 3237350,
+          "latenessMs": 0
+        },
+        {
+          "eventId": "event-184103",
+          "playerId": "se_player_jacob_hellstrom_1ad97470",
+          "team": "AWAY",
+          "type": "TWO_MINUTE_SUSPENSION",
+          "startTick": 67086,
+          "startMs": 3212850,
+          "untilMs": 3332850,
+          "expiredTick": 69661,
+          "expiredMs": 3332850,
+          "latenessMs": 0
+        }
+      ],
+      "violations": [],
+      "invalidKeeperRequests": [],
+      "samePlayerOverlaps": [],
+      "multiplePersonalDecisionsAtOneTick": [],
+      "duplicateContactActionIds": 0,
+      "establishedFrontalContacts": 0,
+      "groupedDiscipline": [
+        {
+          "id": "event-100258",
+          "type": "WARNING",
+          "actorId": "se_player_ludvig_bratt_f558ab21",
+          "tick": 36415,
+          "details": {
+            "reason": "Contact from behind the attacker",
+            "foulId": "foul-100254",
+            "severity": "PUNISHABLE",
+            "disciplineCases": 2,
+            "disciplineFoulIds": "foul-100113|foul-100254"
+          }
+        },
+        {
+          "id": "event-147313",
+          "type": "TWO_MINUTE_SUSPENSION",
+          "actorId": "se_player_lowe_knutsson_edd52e78",
+          "tick": 53252,
+          "details": {
+            "foulId": "foul-147216",
+            "severity": "CLEAR_CHANCE",
+            "reason": "Contact from behind the attacker",
+            "disciplineCases": 2,
+            "disciplineFoulIds": "foul-147216|foul-147307"
+          }
+        },
+        {
+          "id": "event-179275",
+          "type": "TWO_MINUTE_SUSPENSION",
+          "actorId": "se_player_nils_persson_be443644",
+          "tick": 64991,
+          "details": {
+            "foulId": "foul-178705",
+            "severity": "PUNISHABLE",
+            "reason": "Body-directed rear restraint after loss of the defended shoulder",
+            "disciplineCases": 2,
+            "disciplineFoulIds": "foul-177956|foul-178705"
+          }
+        }
+      ]
+    },
+    {
+      "league": "allsv",
+      "index": 12,
+      "coreHash": "5af8173d331529ca5c31d71a811f6b89e8e1f95af565dbfdacb5cf1556484dc4",
+      "admissions": 17,
+      "windows": [
+        {
+          "eventId": "event-58101",
+          "playerId": "se_player_mans_lagelius_cc4d9bd4",
+          "team": "HOME",
+          "type": "TWO_MINUTE_SUSPENSION",
+          "startTick": 20157,
+          "startMs": 1007550,
+          "untilMs": 1127550,
+          "expiredTick": 22968,
+          "expiredMs": 1127550,
+          "latenessMs": 0
+        },
+        {
+          "eventId": "event-59598",
+          "playerId": "se_player_oskar_stahl_8019f7a1",
+          "team": "HOME",
+          "type": "TWO_MINUTE_SUSPENSION",
+          "startTick": 20780,
+          "startMs": 1028400,
+          "untilMs": 1148400,
+          "expiredTick": 23385,
+          "expiredMs": 1148400,
+          "latenessMs": 0
+        },
+        {
+          "eventId": "event-109266",
+          "playerId": "se_player_jesper_sivertsson_05d20197",
+          "team": "AWAY",
+          "type": "TWO_MINUTE_SUSPENSION",
+          "startTick": 39968,
+          "startMs": 1900350,
+          "untilMs": 2020350,
+          "expiredTick": 42451,
+          "expiredMs": 2020350,
+          "latenessMs": 0
+        },
+        {
+          "eventId": "event-121831",
+          "playerId": "se_player_alvar_persson_5790b98e",
+          "team": "AWAY",
+          "type": "TWO_MINUTE_SUSPENSION",
+          "startTick": 44567,
+          "startMs": 2126150,
+          "untilMs": 2246150,
+          "expiredTick": 47050,
+          "expiredMs": 2246150,
+          "latenessMs": 0
+        },
+        {
+          "eventId": "event-132262",
+          "playerId": "se_player_jesper_sivertsson_05d20197",
+          "team": "AWAY",
+          "type": "TWO_MINUTE_SUSPENSION",
+          "startTick": 48180,
+          "startMs": 2302650,
+          "untilMs": 2422650,
+          "expiredTick": 50771,
+          "expiredMs": 2422650,
+          "latenessMs": 0
+        },
+        {
+          "eventId": "event-133288",
+          "playerId": "se_player_erik_stromstedt_b0f74f26",
+          "team": "HOME",
+          "type": "TWO_MINUTE_SUSPENSION",
+          "startTick": 48599,
+          "startMs": 2319150,
+          "untilMs": 2439150,
+          "expiredTick": 51101,
+          "expiredMs": 2439150,
+          "latenessMs": 0
+        },
+        {
+          "eventId": "event-151358",
+          "playerId": "se_player_alvar_persson_5790b98e",
+          "team": "AWAY",
+          "type": "TWO_MINUTE_SUSPENSION",
+          "startTick": 55148,
+          "startMs": 2641500,
+          "untilMs": 2761500,
+          "expiredTick": 57754,
+          "expiredMs": 2761500,
+          "latenessMs": 0
+        },
+        {
+          "eventId": "event-165313",
+          "playerId": "se_player_adam_bogren_4c60093c",
+          "team": "AWAY",
+          "type": "TWO_MINUTE_SUSPENSION",
+          "startTick": 60511,
+          "startMs": 2899350,
+          "untilMs": 3019350,
+          "expiredTick": 63008,
+          "expiredMs": 3019350,
+          "latenessMs": 0
+        },
+        {
+          "eventId": "event-173342",
+          "playerId": "se_player_axel_hulten_d4d855a0",
+          "team": "AWAY",
+          "type": "TWO_MINUTE_SUSPENSION",
+          "startTick": 63460,
+          "startMs": 3041950,
+          "untilMs": 3161950,
+          "expiredTick": 65962,
+          "expiredMs": 3161950,
+          "latenessMs": 0
+        },
+        {
+          "eventId": "event-194269",
+          "playerId": "se_player_lucas_stjernstrom_a43f8b7c",
+          "team": "AWAY",
+          "type": "TWO_MINUTE_SUSPENSION",
+          "startTick": 71185,
+          "startMs": 3423100,
+          "untilMs": 3543100,
+          "expiredTick": 73760,
+          "expiredMs": 3543100,
+          "latenessMs": 0
+        },
+        {
+          "eventId": "event-197844",
+          "playerId": "se_player_axel_hulten_d4d855a0",
+          "team": "AWAY",
+          "type": "TWO_MINUTE_SUSPENSION",
+          "startTick": 72517,
+          "startMs": 3485400,
+          "untilMs": 3605400,
+          "expiredTick": null,
+          "expiredMs": null,
+          "latenessMs": null
+        },
+        {
+          "eventId": "event-200951",
+          "playerId": "se_player_jesper_sivertsson_05d20197",
+          "team": "AWAY",
+          "type": "DISQUALIFICATION",
+          "startTick": 73944,
+          "startMs": 3552300,
+          "untilMs": 3672300,
+          "expiredTick": null,
+          "expiredMs": null,
+          "latenessMs": null
+        }
+      ],
+      "violations": [],
+      "invalidKeeperRequests": [],
+      "samePlayerOverlaps": [],
+      "multiplePersonalDecisionsAtOneTick": [],
+      "duplicateContactActionIds": 0,
+      "establishedFrontalContacts": 0,
+      "groupedDiscipline": [
+        {
+          "id": "event-109266",
+          "type": "TWO_MINUTE_SUSPENSION",
+          "actorId": "se_player_jesper_sivertsson_05d20197",
+          "tick": 39968,
+          "details": {
+            "foulId": "foul-109154",
+            "severity": "PUNISHABLE",
+            "reason": "Contact from behind the attacker",
+            "disciplineCases": 2,
+            "disciplineFoulIds": "foul-109154|foul-109260"
+          }
+        },
+        {
+          "id": "event-121831",
+          "type": "TWO_MINUTE_SUSPENSION",
+          "actorId": "se_player_alvar_persson_5790b98e",
+          "tick": 44567,
+          "details": {
+            "foulId": "foul-120615",
+            "severity": "CLEAR_CHANCE",
+            "reason": "Contact from behind the attacker",
+            "disciplineCases": 2,
+            "disciplineFoulIds": "foul-120615|foul-121826"
+          }
+        }
+      ]
+    },
+    {
+      "league": "allsv",
+      "index": 19,
+      "coreHash": "50d2568214e73fbcef42db1a72b8e0c5a6eded6a65b951c977bd11e3ea1d9bff",
+      "admissions": 16,
+      "windows": [
+        {
+          "eventId": "event-78263",
+          "playerId": "se_player_hilding_herrmann_75d68675",
+          "team": "AWAY",
+          "type": "TWO_MINUTE_SUSPENSION",
+          "startTick": 28417,
+          "startMs": 1355550,
+          "untilMs": 1475550,
+          "expiredTick": 30933,
+          "expiredMs": 1475550,
+          "latenessMs": 0
+        },
+        {
+          "eventId": "event-94305",
+          "playerId": "se_player_fabian_bjorkman_be3ee917",
+          "team": "AWAY",
+          "type": "TWO_MINUTE_SUSPENSION",
+          "startTick": 34152,
+          "startMs": 1636500,
+          "untilMs": 1756500,
+          "expiredTick": 36709,
+          "expiredMs": 1756500,
+          "latenessMs": 0
+        },
+        {
+          "eventId": "event-131514",
+          "playerId": "se_player_felix_fogelholm_2641a250",
+          "team": "HOME",
+          "type": "TWO_MINUTE_SUSPENSION",
+          "startTick": 47367,
+          "startMs": 2279300,
+          "untilMs": 2399300,
+          "expiredTick": 49916,
+          "expiredMs": 2399300,
+          "latenessMs": 0
+        },
+        {
+          "eventId": "event-141973",
+          "playerId": "se_player_felix_fogelholm_2641a250",
+          "team": "HOME",
+          "type": "TWO_MINUTE_SUSPENSION",
+          "startTick": 51234,
+          "startMs": 2465200,
+          "untilMs": 2585200,
+          "expiredTick": 53795,
+          "expiredMs": 2585200,
+          "latenessMs": 0
+        },
+        {
+          "eventId": "event-154806",
+          "playerId": "se_player_manu_estrada_hammarback_757b5910",
+          "team": "HOME",
+          "type": "TWO_MINUTE_SUSPENSION",
+          "startTick": 56139,
+          "startMs": 2702400,
+          "untilMs": 2822400,
+          "expiredTick": 58641,
+          "expiredMs": 2822400,
+          "latenessMs": 0
+        },
+        {
+          "eventId": "event-164633",
+          "playerId": "se_player_manu_estrada_hammarback_757b5910",
+          "team": "HOME",
+          "type": "TWO_MINUTE_SUSPENSION",
+          "startTick": 59933,
+          "startMs": 2887000,
+          "untilMs": 3007000,
+          "expiredTick": 62641,
+          "expiredMs": 3007000,
+          "latenessMs": 0
+        },
+        {
+          "eventId": "event-166602",
+          "playerId": "se_player_felix_fogelholm_2641a250",
+          "team": "HOME",
+          "type": "DISQUALIFICATION",
+          "startTick": 60693,
+          "startMs": 2919900,
+          "untilMs": 3039900,
+          "expiredTick": null,
+          "expiredMs": null,
+          "latenessMs": null
+        },
+        {
+          "eventId": "event-175231",
+          "playerId": "se_player_fabian_bjorkman_be3ee917",
+          "team": "AWAY",
+          "type": "TWO_MINUTE_SUSPENSION",
+          "startTick": 64238,
+          "startMs": 3086850,
+          "untilMs": 3206850,
+          "expiredTick": 68159,
+          "expiredMs": 3206850,
+          "latenessMs": 0
+        },
+        {
+          "eventId": "event-185909",
+          "playerId": "se_player_fabian_strandwitz_ba76b45a",
+          "team": "HOME",
+          "type": "TWO_MINUTE_SUSPENSION",
+          "startTick": 69428,
+          "startMs": 3270300,
+          "untilMs": 3390300,
+          "expiredTick": 72034,
+          "expiredMs": 3390300,
+          "latenessMs": 0
+        }
+      ],
+      "violations": [],
+      "invalidKeeperRequests": [],
+      "samePlayerOverlaps": [],
+      "multiplePersonalDecisionsAtOneTick": [],
+      "duplicateContactActionIds": 0,
+      "establishedFrontalContacts": 0,
+      "groupedDiscipline": [
+        {
+          "id": "event-8369",
+          "type": "WARNING",
+          "actorId": "se_player_gustav_simonsson_a57211f6",
+          "tick": 2816,
+          "details": {
+            "reason": "Body-directed contact during an airborne release",
+            "foulId": "foul-8364",
+            "severity": "PUNISHABLE",
+            "disciplineCases": 2,
+            "disciplineFoulIds": "foul-8273|foul-8364"
+          }
+        },
+        {
+          "id": "event-78263",
+          "type": "TWO_MINUTE_SUSPENSION",
+          "actorId": "se_player_hilding_herrmann_75d68675",
+          "tick": 28417,
+          "details": {
+            "foulId": "foul-78207",
+            "severity": "PUNISHABLE",
+            "reason": "Contact from behind the attacker",
+            "disciplineCases": 2,
+            "disciplineFoulIds": "foul-78207|foul-78257"
+          }
+        },
+        {
+          "id": "event-164633",
+          "type": "TWO_MINUTE_SUSPENSION",
+          "actorId": "se_player_manu_estrada_hammarback_757b5910",
+          "tick": 59933,
+          "details": {
+            "foulId": "foul-164628",
+            "severity": "PUNISHABLE",
+            "reason": "Body-directed contact during an airborne release",
+            "disciplineCases": 2,
+            "disciplineFoulIds": "foul-164284|foul-164628"
+          }
+        }
+      ]
+    },
+    {
+      "league": "allsv",
+      "index": 20,
+      "coreHash": "5fcba50867fc80aab187b286decae5766cc95f82cfd806b2dd6ac7ca479a0c53",
+      "admissions": 14,
+      "windows": [
+        {
+          "eventId": "event-127443",
+          "playerId": "se_player_oskar_orwallius_51b7db3c",
+          "team": "AWAY",
+          "type": "TWO_MINUTE_SUSPENSION",
+          "startTick": 45845,
+          "startMs": 2213800,
+          "untilMs": 2333800,
+          "expiredTick": 48361,
+          "expiredMs": 2333800,
+          "latenessMs": 0
+        },
+        {
+          "eventId": "event-127446",
+          "playerId": "se_player_alexander_ryd_bf7aeff1",
+          "team": "AWAY",
+          "type": "TWO_MINUTE_SUSPENSION",
+          "startTick": 45845,
+          "startMs": 2213800,
+          "untilMs": 2333800,
+          "expiredTick": 48361,
+          "expiredMs": 2333800,
+          "latenessMs": 0
+        },
+        {
+          "eventId": "event-144905",
+          "playerId": "se_player_oskar_orwallius_51b7db3c",
+          "team": "AWAY",
+          "type": "TWO_MINUTE_SUSPENSION",
+          "startTick": 52466,
+          "startMs": 2539050,
+          "untilMs": 2659050,
+          "expiredTick": 54909,
+          "expiredMs": 2659050,
+          "latenessMs": 0
+        },
+        {
+          "eventId": "event-166794",
+          "playerId": "se_player_hugo_andersson_6443099d",
+          "team": "HOME",
+          "type": "TWO_MINUTE_SUSPENSION",
+          "startTick": 60371,
+          "startMs": 2932150,
+          "untilMs": 3052150,
+          "expiredTick": 62903,
+          "expiredMs": 3052150,
+          "latenessMs": 0
+        },
+        {
+          "eventId": "event-170132",
+          "playerId": "se_player_axel_mundel_97706f6d",
+          "team": "AWAY",
+          "type": "TWO_MINUTE_SUSPENSION",
+          "startTick": 61694,
+          "startMs": 2993850,
+          "untilMs": 3113850,
+          "expiredTick": 64264,
+          "expiredMs": 3113850,
+          "latenessMs": 0
+        },
+        {
+          "eventId": "event-175504",
+          "playerId": "se_player_hugo_andersson_6443099d",
+          "team": "HOME",
+          "type": "TWO_MINUTE_SUSPENSION",
+          "startTick": 63912,
+          "startMs": 3102600,
+          "untilMs": 3222600,
+          "expiredTick": 66524,
+          "expiredMs": 3222600,
+          "latenessMs": 0
+        },
+        {
+          "eventId": "event-179725",
+          "playerId": "se_player_axel_mundel_97706f6d",
+          "team": "AWAY",
+          "type": "TWO_MINUTE_SUSPENSION",
+          "startTick": 65536,
+          "startMs": 3177450,
+          "untilMs": 3297450,
+          "expiredTick": 68021,
+          "expiredMs": 3297450,
+          "latenessMs": 0
+        },
+        {
+          "eventId": "event-189198",
+          "playerId": "se_player_alexander_ryd_bf7aeff1",
+          "team": "AWAY",
+          "type": "TWO_MINUTE_SUSPENSION",
+          "startTick": 69207,
+          "startMs": 3356750,
+          "untilMs": 3476750,
+          "expiredTick": 71793,
+          "expiredMs": 3476750,
+          "latenessMs": 0
+        },
+        {
+          "eventId": "event-197208",
+          "playerId": "se_player_axel_mundel_97706f6d",
+          "team": "AWAY",
+          "type": "DISQUALIFICATION",
+          "startTick": 72299,
+          "startMs": 3502050,
+          "untilMs": 3622050,
+          "expiredTick": null,
+          "expiredMs": null,
+          "latenessMs": null
+        }
+      ],
+      "violations": [],
+      "invalidKeeperRequests": [],
+      "samePlayerOverlaps": [],
+      "multiplePersonalDecisionsAtOneTick": [],
+      "duplicateContactActionIds": 0,
+      "establishedFrontalContacts": 0,
+      "groupedDiscipline": [
+        {
+          "id": "event-179725",
+          "type": "TWO_MINUTE_SUSPENSION",
+          "actorId": "se_player_axel_mundel_97706f6d",
+          "tick": 65536,
+          "details": {
+            "foulId": "foul-178849",
+            "severity": "PUNISHABLE",
+            "reason": "Body-directed rear restraint after loss of the defended shoulder",
+            "disciplineCases": 2,
+            "disciplineFoulIds": "foul-178849|foul-179014"
+          }
+        }
+      ]
+    },
+    {
+      "league": "allsv",
+      "index": 35,
+      "coreHash": "c7e75580fa81e239ba9ed95a1ef15e897e8d8b61c899943b237843a8ed74046a",
+      "admissions": 14,
+      "windows": [
+        {
+          "eventId": "event-24904",
+          "playerId": "se_player_hugo_andersson_6443099d",
+          "team": "HOME",
+          "type": "TWO_MINUTE_SUSPENSION",
+          "startTick": 8626,
+          "startMs": 431000,
+          "untilMs": 551000,
+          "expiredTick": 11134,
+          "expiredMs": 551000,
+          "latenessMs": 0
+        },
+        {
+          "eventId": "event-52484",
+          "playerId": "se_player_hugo_andersson_6443099d",
+          "team": "HOME",
+          "type": "TWO_MINUTE_SUSPENSION",
+          "startTick": 18672,
+          "startMs": 927900,
+          "untilMs": 1047900,
+          "expiredTick": 21224,
+          "expiredMs": 1047900,
+          "latenessMs": 0
+        },
+        {
+          "eventId": "event-118107",
+          "playerId": "se_player_felix_svensson_2d585f02",
+          "team": "HOME",
+          "type": "TWO_MINUTE_SUSPENSION",
+          "startTick": 42692,
+          "startMs": 2044550,
+          "untilMs": 2164550,
+          "expiredTick": 45297,
+          "expiredMs": 2164550,
+          "latenessMs": 0
+        },
+        {
+          "eventId": "event-139478",
+          "playerId": "se_player_elliot_ziba_6a4b51f4",
+          "team": "HOME",
+          "type": "TWO_MINUTE_SUSPENSION",
+          "startTick": 50499,
+          "startMs": 2424650,
+          "untilMs": 2544650,
+          "expiredTick": 53085,
+          "expiredMs": 2544650,
+          "latenessMs": 0
+        },
+        {
+          "eventId": "event-153730",
+          "playerId": "se_player_anton_johansson_e1cb66a6",
+          "team": "HOME",
+          "type": "TWO_MINUTE_SUSPENSION",
+          "startTick": 55859,
+          "startMs": 2683350,
+          "untilMs": 2803350,
+          "expiredTick": 58445,
+          "expiredMs": 2803350,
+          "latenessMs": 0
+        },
+        {
+          "eventId": "event-169883",
+          "playerId": "se_player_theo_andersson_hjert_14176fa3",
+          "team": "HOME",
+          "type": "TWO_MINUTE_SUSPENSION",
+          "startTick": 61704,
+          "startMs": 2966300,
+          "untilMs": 3086300,
+          "expiredTick": 64231,
+          "expiredMs": 3086300,
+          "latenessMs": 0
+        },
+        {
+          "eventId": "event-185687",
+          "playerId": "se_player_david_johansson_2badcc23",
+          "team": "AWAY",
+          "type": "TWO_MINUTE_SUSPENSION",
+          "startTick": 67323,
+          "startMs": 3240900,
+          "untilMs": 3360900,
+          "expiredTick": 69946,
+          "expiredMs": 3360900,
+          "latenessMs": 0
+        },
+        {
+          "eventId": "event-191652",
+          "playerId": "se_player_carl_hamberg_b2db41f2",
+          "team": "AWAY",
+          "type": "TWO_MINUTE_SUSPENSION",
+          "startTick": 69718,
+          "startMs": 3357150,
+          "untilMs": 3477150,
+          "expiredTick": 72271,
+          "expiredMs": 3477150,
+          "latenessMs": 0
+        }
+      ],
+      "violations": [],
+      "invalidKeeperRequests": [],
+      "samePlayerOverlaps": [],
+      "multiplePersonalDecisionsAtOneTick": [],
+      "duplicateContactActionIds": 0,
+      "establishedFrontalContacts": 1,
+      "groupedDiscipline": [
+        {
+          "id": "event-153730",
+          "type": "TWO_MINUTE_SUSPENSION",
+          "actorId": "se_player_anton_johansson_e1cb66a6",
+          "tick": 55859,
+          "details": {
+            "foulId": "foul-151670",
+            "severity": "CLEAR_CHANCE",
+            "reason": "Contact from behind the attacker",
+            "disciplineCases": 2,
+            "disciplineFoulIds": "foul-151670|foul-151992"
+          }
+        },
+        {
+          "id": "event-185687",
+          "type": "TWO_MINUTE_SUSPENSION",
+          "actorId": "se_player_david_johansson_2badcc23",
+          "tick": 67323,
+          "details": {
+            "foulId": "foul-185181",
+            "severity": "PUNISHABLE",
+            "reason": "Contact from behind the attacker",
+            "disciplineCases": 2,
+            "disciplineFoulIds": "foul-185181|foul-185315"
+          }
+        }
+      ]
+    },
+    {
+      "league": "allsv",
+      "index": 36,
+      "coreHash": "9fcbd8354b18bdf0f7a7998428b3cf5e42050d0a3c1549dbba912e7f715fae4c",
+      "admissions": 17,
+      "windows": [
+        {
+          "eventId": "event-36716",
+          "playerId": "se_player_filip_melin_242b5b0a",
+          "team": "HOME",
+          "type": "TWO_MINUTE_SUSPENSION",
+          "startTick": 12964,
+          "startMs": 647900,
+          "untilMs": 767900,
+          "expiredTick": 15570,
+          "expiredMs": 767900,
+          "latenessMs": 0
+        },
+        {
+          "eventId": "event-90609",
+          "playerId": "se_player_adam_jonsson_177d8a41",
+          "team": "AWAY",
+          "type": "TWO_MINUTE_SUSPENSION",
+          "startTick": 32946,
+          "startMs": 1571700,
+          "untilMs": 1691700,
+          "expiredTick": 35432,
+          "expiredMs": 1691700,
+          "latenessMs": 0
+        },
+        {
+          "eventId": "event-97159",
+          "playerId": "se_player_alfred_tilly_6a38efe1",
+          "team": "HOME",
+          "type": "TWO_MINUTE_SUSPENSION",
+          "startTick": 35463,
+          "startMs": 1693250,
+          "untilMs": 1813250,
+          "expiredTick": 38484,
+          "expiredMs": 1813250,
+          "latenessMs": 0
+        },
+        {
+          "eventId": "event-97779",
+          "playerId": "se_player_lukas_runge_c86c8178",
+          "team": "HOME",
+          "type": "TWO_MINUTE_SUSPENSION",
+          "startTick": 35674,
+          "startMs": 1698700,
+          "untilMs": 1818700,
+          "expiredTick": 38593,
+          "expiredMs": 1818700,
+          "latenessMs": 0
+        },
+        {
+          "eventId": "event-98972",
+          "playerId": "se_player_fabian_bjorkman_be3ee917",
+          "team": "AWAY",
+          "type": "TWO_MINUTE_SUSPENSION",
+          "startTick": 36195,
+          "startMs": 1715400,
+          "untilMs": 1835400,
+          "expiredTick": 38927,
+          "expiredMs": 1835400,
+          "latenessMs": 0
+        },
+        {
+          "eventId": "event-127992",
+          "playerId": "se_player_hugo_johansson_6afc640f",
+          "team": "AWAY",
+          "type": "TWO_MINUTE_SUSPENSION",
+          "startTick": 46713,
+          "startMs": 2224700,
+          "untilMs": 2344700,
+          "expiredTick": 49276,
+          "expiredMs": 2344700,
+          "latenessMs": 0
+        },
+        {
+          "eventId": "event-152117",
+          "playerId": "se_player_jakob_baard_49d98f58",
+          "team": "AWAY",
+          "type": "TWO_MINUTE_SUSPENSION",
+          "startTick": 55253,
+          "startMs": 2643550,
+          "untilMs": 2763550,
+          "expiredTick": 58231,
+          "expiredMs": 2763550,
+          "latenessMs": 0
+        },
+        {
+          "eventId": "event-156011",
+          "playerId": "se_player_simon_ortelind_6600f6c3",
+          "team": "AWAY",
+          "type": "TWO_MINUTE_SUSPENSION",
+          "startTick": 56751,
+          "startMs": 2709150,
+          "untilMs": 2829150,
+          "expiredTick": 59543,
+          "expiredMs": 2829150,
+          "latenessMs": 0
+        },
+        {
+          "eventId": "event-157296",
+          "playerId": "se_player_adam_jonsson_177d8a41",
+          "team": "AWAY",
+          "type": "TWO_MINUTE_SUSPENSION",
+          "startTick": 57332,
+          "startMs": 2735950,
+          "untilMs": 2855950,
+          "expiredTick": 60079,
+          "expiredMs": 2855950,
+          "latenessMs": 0
+        },
+        {
+          "eventId": "event-172757",
+          "playerId": "se_player_anton_hedberg_d5c11f06",
+          "team": "AWAY",
+          "type": "TWO_MINUTE_SUSPENSION",
+          "startTick": 63465,
+          "startMs": 3025250,
+          "untilMs": 3145250,
+          "expiredTick": 66085,
+          "expiredMs": 3145250,
+          "latenessMs": 0
+        },
+        {
+          "eventId": "event-174022",
+          "playerId": "se_player_love_ljungqvist_3f94aca6",
+          "team": "AWAY",
+          "type": "TWO_MINUTE_SUSPENSION",
+          "startTick": 64007,
+          "startMs": 3048850,
+          "untilMs": 3168850,
+          "expiredTick": 66557,
+          "expiredMs": 3168850,
+          "latenessMs": 0
+        },
+        {
+          "eventId": "event-194384",
+          "playerId": "se_player_love_ljungqvist_3f94aca6",
+          "team": "AWAY",
+          "type": "TWO_MINUTE_SUSPENSION",
+          "startTick": 71644,
+          "startMs": 3423200,
+          "untilMs": 3543200,
+          "expiredTick": 74459,
+          "expiredMs": 3543200,
+          "latenessMs": 0
+        },
+        {
+          "eventId": "event-195589",
+          "playerId": "se_player_gustav_simonsson_a57211f6",
+          "team": "HOME",
+          "type": "TWO_MINUTE_SUSPENSION",
+          "startTick": 72160,
+          "startMs": 3439700,
+          "untilMs": 3559700,
+          "expiredTick": 74789,
+          "expiredMs": 3559700,
+          "latenessMs": 0
+        },
+        {
+          "eventId": "event-198622",
+          "playerId": "se_player_jakob_baard_49d98f58",
+          "team": "AWAY",
+          "type": "TWO_MINUTE_SUSPENSION",
+          "startTick": 73460,
+          "startMs": 3498350,
+          "untilMs": 3618350,
+          "expiredTick": null,
+          "expiredMs": null,
+          "latenessMs": null
+        }
+      ],
+      "violations": [],
+      "invalidKeeperRequests": [],
+      "samePlayerOverlaps": [],
+      "multiplePersonalDecisionsAtOneTick": [],
+      "duplicateContactActionIds": 0,
+      "establishedFrontalContacts": 0,
+      "groupedDiscipline": [
+        {
+          "id": "event-152117",
+          "type": "TWO_MINUTE_SUSPENSION",
+          "actorId": "se_player_jakob_baard_49d98f58",
+          "tick": 55253,
+          "details": {
+            "foulId": "foul-151435",
+            "severity": "PUNISHABLE",
+            "reason": "Contact from behind the attacker",
+            "disciplineCases": 2,
+            "disciplineFoulIds": "foul-150134|foul-151435"
+          }
+        }
+      ]
+    },
+    {
+      "league": "allsv",
+      "index": 38,
+      "coreHash": "8d8cadeb1edda0b3f944dfcc7ca5c6b8181ed15cbbb06c29d86f97018b6f32b3",
+      "admissions": 12,
+      "windows": [
+        {
+          "eventId": "event-100437",
+          "playerId": "se_player_adam_wennerholm_e65caf67",
+          "team": "AWAY",
+          "type": "TWO_MINUTE_SUSPENSION",
+          "startTick": 35228,
+          "startMs": 1693250,
+          "untilMs": 1813250,
+          "expiredTick": 37952,
+          "expiredMs": 1813250,
+          "latenessMs": 0
+        },
+        {
+          "eventId": "event-108960",
+          "playerId": "se_player_jonathan_johansson_8a96d4a5",
+          "team": "AWAY",
+          "type": "TWO_MINUTE_SUSPENSION",
+          "startTick": 38518,
+          "startMs": 1841550,
+          "untilMs": 1961550,
+          "expiredTick": 41104,
+          "expiredMs": 1961550,
+          "latenessMs": 0
+        },
+        {
+          "eventId": "event-141561",
+          "playerId": "se_player_gustav_molhede_06edf334",
+          "team": "AWAY",
+          "type": "TWO_MINUTE_SUSPENSION",
+          "startTick": 50028,
+          "startMs": 2407750,
+          "untilMs": 2527750,
+          "expiredTick": 52575,
+          "expiredMs": 2527750,
+          "latenessMs": 0
+        },
+        {
+          "eventId": "event-148017",
+          "playerId": "se_player_adam_wennerholm_e65caf67",
+          "team": "AWAY",
+          "type": "TWO_MINUTE_SUSPENSION",
+          "startTick": 52626,
+          "startMs": 2530300,
+          "untilMs": 2650300,
+          "expiredTick": 55180,
+          "expiredMs": 2650300,
+          "latenessMs": 0
+        },
+        {
+          "eventId": "event-196880",
+          "playerId": "se_player_elton_janhall_b507754b",
+          "team": "AWAY",
+          "type": "TWO_MINUTE_SUSPENSION",
+          "startTick": 69889,
+          "startMs": 3385750,
+          "untilMs": 3505750,
+          "expiredTick": 72614,
+          "expiredMs": 3505750,
+          "latenessMs": 0
+        },
+        {
+          "eventId": "event-202196",
+          "playerId": "se_player_gustav_molhede_06edf334",
+          "team": "AWAY",
+          "type": "TWO_MINUTE_SUSPENSION",
+          "startTick": 72083,
+          "startMs": 3487500,
+          "untilMs": 3607500,
+          "expiredTick": null,
+          "expiredMs": null,
+          "latenessMs": null
+        }
+      ],
+      "violations": [],
+      "invalidKeeperRequests": [],
+      "samePlayerOverlaps": [],
+      "multiplePersonalDecisionsAtOneTick": [],
+      "duplicateContactActionIds": 0,
+      "establishedFrontalContacts": 0,
+      "groupedDiscipline": [
+        {
+          "id": "event-108960",
+          "type": "TWO_MINUTE_SUSPENSION",
+          "actorId": "se_player_jonathan_johansson_8a96d4a5",
+          "tick": 38518,
+          "details": {
+            "foulId": "foul-108406",
+            "severity": "PUNISHABLE",
+            "reason": "Contact from behind the attacker",
+            "disciplineCases": 2,
+            "disciplineFoulIds": "foul-108406|foul-108540"
+          }
+        }
+      ]
+    },
+    {
+      "league": "allsv",
+      "index": 39,
+      "coreHash": "2649cf616ed95e4ae29e848f76766978421b543b3b7b6ad9ac469569970203bb",
+      "admissions": 14,
+      "windows": [
+        {
+          "eventId": "event-50569",
+          "playerId": "se_player_holger_martensson_96612b41",
+          "team": "AWAY",
+          "type": "TWO_MINUTE_SUSPENSION",
+          "startTick": 17081,
+          "startMs": 853750,
+          "untilMs": 973750,
+          "expiredTick": 19644,
+          "expiredMs": 973750,
+          "latenessMs": 0
+        },
+        {
+          "eventId": "event-115961",
+          "playerId": "se_player_holger_martensson_96612b41",
+          "team": "AWAY",
+          "type": "TWO_MINUTE_SUSPENSION",
+          "startTick": 41608,
+          "startMs": 1986850,
+          "untilMs": 2106850,
+          "expiredTick": 44351,
+          "expiredMs": 2106850,
+          "latenessMs": 0
+        },
+        {
+          "eventId": "event-121233",
+          "playerId": "se_player_philip_tikas_164d102e",
+          "team": "HOME",
+          "type": "TWO_MINUTE_SUSPENSION",
+          "startTick": 43689,
+          "startMs": 2079800,
+          "untilMs": 2199800,
+          "expiredTick": 46210,
+          "expiredMs": 2199800,
+          "latenessMs": 0
+        },
+        {
+          "eventId": "event-134063",
+          "playerId": "se_player_philip_tikas_164d102e",
+          "team": "HOME",
+          "type": "TWO_MINUTE_SUSPENSION",
+          "startTick": 48360,
+          "startMs": 2307300,
+          "untilMs": 2427300,
+          "expiredTick": 50915,
+          "expiredMs": 2427300,
+          "latenessMs": 0
+        },
+        {
+          "eventId": "event-140432",
+          "playerId": "se_player_max_moberger_e5f74c95",
+          "team": "HOME",
+          "type": "TWO_MINUTE_SUSPENSION",
+          "startTick": 50996,
+          "startMs": 2431350,
+          "untilMs": 2551350,
+          "expiredTick": 53518,
+          "expiredMs": 2551350,
+          "latenessMs": 0
+        },
+        {
+          "eventId": "event-181002",
+          "playerId": "se_player_joakim_jorgensen_f59ea9c5",
+          "team": "HOME",
+          "type": "TWO_MINUTE_SUSPENSION",
+          "startTick": 65263,
+          "startMs": 3138600,
+          "untilMs": 3258600,
+          "expiredTick": 67906,
+          "expiredMs": 3258600,
+          "latenessMs": 0
+        },
+        {
+          "eventId": "event-185363",
+          "playerId": "se_player_holger_martensson_96612b41",
+          "team": "AWAY",
+          "type": "DISQUALIFICATION",
+          "startTick": 66917,
+          "startMs": 3216200,
+          "untilMs": 3336200,
+          "expiredTick": null,
+          "expiredMs": null,
+          "latenessMs": null
+        },
+        {
+          "eventId": "event-200210",
+          "playerId": "se_player_max_moberger_e5f74c95",
+          "team": "HOME",
+          "type": "TWO_MINUTE_SUSPENSION",
+          "startTick": 73883,
+          "startMs": 3489600,
+          "untilMs": 3609600,
+          "expiredTick": null,
+          "expiredMs": null,
+          "latenessMs": null
+        }
+      ],
+      "violations": [],
+      "invalidKeeperRequests": [],
+      "samePlayerOverlaps": [],
+      "multiplePersonalDecisionsAtOneTick": [],
+      "duplicateContactActionIds": 0,
+      "establishedFrontalContacts": 0,
+      "groupedDiscipline": []
+    }
+  ]
+}

@@ -44,29 +44,45 @@ function sanctionTimeout(s:CoreState) {
  * suspended for his next punishable foul, and a team that has spent its
  * warnings loses the benefit for punishable fouls only.
  */
-function punish(s:CoreState,f:FoulCase) {
+function punish(s:CoreState,f:FoulCase,group:readonly FoulCase[]=[f]) {
   if(f.severity==='ORDINARY')return;
   const d=getPlayer(s,f.defenderId);
+  const grouped:Record<string,string|number|boolean>=group.length>1?{disciplineCases:group.length,disciplineFoulIds:group.map(c=>c.id).join('|')}:{};
   let suspend=f.severity==='SERIOUS'||f.severity==='CLEAR_CHANCE'&&f.severe;
   if(!suspend) {
     const teamWarnings=s.players.filter(p=>p.team===d.team).reduce((n,p)=>n+p.warnings,0);
     suspend=d.warnings>0||d.sanctions>0||teamWarnings>=3;
-    if(!suspend){d.warnings++;record(s,'WARNING',d,{reason:f.reason,foulId:f.id,severity:f.severity},[f.attackerId],f.contestId);}
+    if(!suspend){d.warnings++;record(s,'WARNING',d,{reason:f.reason,foulId:f.id,severity:f.severity,...grouped},[f.attackerId],f.contestId);}
   }
   if(suspend) {
     d.sanctions++;d.population=d.sanctions>=3?'DISQUALIFIED':'SUSPENDED';d.suspensionUntilMs=s.officialClock.timeMs+s.ruleProfile.suspensionMs;
     interrupt(s,d,'Personal sanction');d.support=null;d.zone=null;
-    record(s,d.sanctions>=3?'DISQUALIFICATION':'TWO_MINUTE_SUSPENSION',d,{foulId:f.id,severity:f.severity,reason:f.reason},[f.attackerId],f.contestId);sanctionTimeout(s);
+    record(s,d.sanctions>=3?'DISQUALIFICATION':'TWO_MINUTE_SUSPENSION',d,{foulId:f.id,severity:f.severity,reason:f.reason,...grouped},[f.attackerId],f.contestId);sanctionTimeout(s);
   }
 }
-function whistle(s:CoreState,f:FoulCase,reason:string) {
+/** Resolve unannounced personal discipline once per player at this stoppage.
+ * Otherwise the first deferred case manufactures a new warning/suspension
+ * against which the second case is immediately escalated before play resumes.
+ * Physical infringements remain separate facts; no post-sanction misconduct
+ * producer (and thus no additional four-minute exception) exists in this core.
+ */
+function punishBatch(s:CoreState,cases:readonly FoulCase[]) {
+  const groups=new Map<string,FoulCase[]>();
+  for(const f of cases){const group=groups.get(f.defenderId)??[];if(!group.some(c=>c.id===f.id))group.push(f);groups.set(f.defenderId,group);}
+  const rank=(f:FoulCase)=>f.severity==='SERIOUS'||f.severity==='CLEAR_CHANCE'&&f.severe?2:f.severity==='ORDINARY'?0:1;
+  for(const group of groups.values()){
+    const chosen=group.reduce((a,b)=>rank(b)>rank(a)||rank(b)===rank(a)&&b.tick<a.tick?b:a);
+    punish(s,chosen,group);
+  }
+}
+function whistle(s:CoreState,f:FoulCase,reason:string,additional:readonly FoulCase[]=[]) {
   if(f.whistled)return;
   f.whistled=true;
   const kind=f.clearChance?'SEVEN_METRE':'FREE_THROW';
   // Assessment is not a stoppage. This is the actual single transition which
   // stops the protected attack and awards its restart, linked to its evidence.
   record(s,'WHISTLE_RESTART',getPlayer(s,f.defenderId),{foulId:f.id,kind,owner:f.team,reason,assessedTick:f.tick},[f.attackerId],f.contestId);
-  punish(s,f);
+  punishBatch(s,[...s.referee.sanctions.splice(0),f,...additional]);
   awardRestart(s,kind,f.team,f.location,reason,getPlayer(s,f.defenderId));
 }
 /** A physical foul and the decision to stop play are separate transitions (IHF 13:2, 14:2). */
@@ -83,17 +99,17 @@ export function judgeFoul(s:CoreState,a:CorePlayer,d:CorePlayer,severity:Severit
   // a new pending advantage, even when the carrier was still moving.
   record(s,'FOUL',d,{clearChance,severity,reason,advantage:pending,foulId:f.id},[a.id],contestId);
   record(s,'FOUL_ASSESSED',d,{foulId:f.id,clearChance,severity,reason,decision,physicalContactId:contestId},[a.id],contestId);
-  if(s.referee.advantage){recallAdvantage(s,'Further infringement ended the protected opportunity');punish(s,f);return;}
+  if(s.referee.advantage){recallAdvantage(s,'Further infringement ended the protected opportunity',[f]);return;}
   if(continuing&&s.ball.live) {
     s.referee.advantage={...f,expiresTick:s.tick+40};
     record(s,'ADVANTAGE_PENDING',a,{foulId:f.id,clearChance},[d.id],contestId);return;
   }
   whistle(s,f,reason);
 }
-export function recallAdvantage(s:CoreState,reason:string) {
+export function recallAdvantage(s:CoreState,reason:string,additional:readonly FoulCase[]=[]) {
   const f=s.referee.advantage;if(!f)return;s.referee.advantage=null;
   record(s,'ADVANTAGE_RECALLED',getPlayer(s,f.attackerId),{foulId:f.id,reason},[f.defenderId],f.contestId);
-  whistle(s,f,reason);
+  whistle(s,f,reason,additional);
 }
 function realiseAdvantage(s:CoreState,evidence:string) {
   const f=s.referee.advantage;if(!f)return;s.referee.advantage=null;s.referee.sanctions.push(f);
@@ -113,7 +129,7 @@ export function refereeAfter(s:CoreState) {
       (s.match&&s.officialClock.timeMs-s.match.periodStartMs>=s.match.periodLengthMs))recallAdvantage(s,'Original opportunity was not recovered under control');
   }
   if(!s.ball.live&&s.referee.sanctions.length) {
-    const cases=s.referee.sanctions.splice(0);for(const f of cases)punish(s,f);
+    punishBatch(s,s.referee.sanctions.splice(0));
   }
 }
 export function refereeBefore(s:CoreState):boolean {

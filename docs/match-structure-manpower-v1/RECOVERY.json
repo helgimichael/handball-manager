@@ -1,0 +1,73 @@
+{
+  "recoveredAt": "2026-10-17T09:24:02.554Z",
+  "headFound": "ed8574dff11b8396fa2323764cabb378ed949c13",
+  "priorTaskCommitted": false,
+  "stagingWasEmpty": true,
+  "originalUnrelatedEntriesPreserved": true,
+  "oldGameSuite": {
+    "result": "COMPLETED",
+    "tests": 2402,
+    "pass": 2402,
+    "fail": 0,
+    "exit": 0,
+    "rerun": false,
+    "durationMs": 4804539.1178
+  },
+  "runnerExit": {
+    "code": 1,
+    "reason": "Refused to repeat the older successful script-types-final receipt after game, empirical and workspace types had passed. A newer script-types-current receipt from 20:19 UTC covers the latest script source (last changed 20:18 UTC). This was a repetition guard, not a failed verification gate."
+  },
+  "recoveredChecks": {
+    "focused-final": {
+      "exit": 0,
+      "tests": 95,
+      "receipt": "docs/match-structure-manpower-v1/verification/focused-final.exit.txt"
+    },
+    "core-final": {
+      "exit": 0,
+      "tests": 515,
+      "receipt": "docs/match-structure-manpower-v1/verification/core-final.exit.txt"
+    },
+    "v2-final": {
+      "exit": 0,
+      "tests": 9,
+      "receipt": "docs/match-structure-manpower-v1/verification/v2-final.exit.txt"
+    },
+    "domain-final": {
+      "exit": 0,
+      "tests": 180,
+      "receipt": "docs/match-structure-manpower-v1/verification/domain-final.exit.txt"
+    },
+    "game-final": {
+      "exit": 0,
+      "tests": 2402,
+      "receipt": "docs/match-structure-manpower-v1/verification/game-final.exit.txt"
+    },
+    "empirical-final": {
+      "exit": 0,
+      "tests": 15,
+      "receipt": "docs/match-structure-manpower-v1/verification/empirical-final.exit.txt"
+    },
+    "types-final": {
+      "exit": 0,
+      "tests": null,
+      "receipt": "docs/match-structure-manpower-v1/verification/types-final.exit.txt"
+    },
+    "script-types-current": {
+      "exit": 0,
+      "tests": null,
+      "receipt": "docs/match-structure-manpower-v1/verification/script-types-current.exit.txt"
+    }
+  },
+  "newContinuationWork": [
+    "Keeper-aware configuration aggregation from existing 96 cores (no simulation)",
+    "Preservation verification",
+    "Isolated production build and served build-ID checks",
+    "Complete existing report/verification from recovered receipts",
+    "Single task-only local commit and final preservation check"
+  ],
+  "noHeavyGateRerun": true,
+  "commitPlan": "One local commit containing implementation and evidence, after remaining verification; never push.",
+  "reviewInterruption": "An earlier process-inspection approval review could not complete due to a usage limit. It made no process changes; approval service subsequently permitted the preservation check.",
+  "nothingPushed": true
+}

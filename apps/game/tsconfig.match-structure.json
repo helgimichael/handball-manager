@@ -1,0 +1,13 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": { "incremental": false },
+  "include": [
+    "scripts/prove-match-structure.ts",
+    "scripts/prove-match-discipline.ts",
+    "scripts/run-match-structure-after.ts",
+    "scripts/audit-match-structure-retained.ts",
+    "scripts/prove-match-structure-truth.ts",
+    "scripts/lib/matchStructureDiagnostics.ts",
+    "scripts/lib/matchStructureDiagnostics.test.ts"
+  ]
+}

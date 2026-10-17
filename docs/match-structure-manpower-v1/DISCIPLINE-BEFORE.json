@@ -1,0 +1,1621 @@
+{
+  "complete": true,
+  "variant": "before",
+  "sourceFingerprints": {
+    "sanction.ts": "8d569712c4c2ce1223d246e3a5d5e6dd0913b5f8232e6456ff892bbcd424d910",
+    "referee.ts": "35feaf4d17b6b5bd011702384be061081b52b220e5d897e37aa24bc297d04387",
+    "contact.ts": "477b3c2d7a8bbac293370044c779cd2889baea8cabb18c9bd26f967860a27ce9",
+    "population.ts": "9097fd5e0396001ff48bb30529994fefb820aa9b75b272f79bdf55239eead655",
+    "actions.ts": "da162e171bbd747be0a393b44046685c53bd4e519ae2ea1dd3f07f56ae8f93aa",
+    "engine.ts": "bddb85af2e0ac4d0bdb7c97e5e7b195c8d15af8dd7076e1ea8bd76957874c228"
+  },
+  "airborne": [
+    {
+      "direction": "TOP",
+      "moving": false,
+      "warned": false,
+      "tick": 4,
+      "contact": [
+        {
+          "physicalContactId": "contest-52",
+          "technique": "BENT_ARMS",
+          "committedApproach": "FRONT",
+          "approach": "FRONT",
+          "separation": 0.8,
+          "carrierAction": "JUMP",
+          "severity": "PUNISHABLE",
+          "reason": "Body-directed contact during an airborne release",
+          "clearChance": false,
+          "contactClass": "AIRBORNE_CONTACT",
+          "closingSpeed": 0,
+          "radialClosingSpeed": 0,
+          "lateralSpeed": 0,
+          "relativeClosingSpeed": 0,
+          "controlledClosingLimit": 2.726,
+          "shoulderLost": false,
+          "restrainingProgression": false,
+          "progression": 0,
+          "angle": 0.309,
+          "depth": 9.5,
+          "covering": 0,
+          "controlled": true,
+          "goingAtGoal": true,
+          "immediateFinish": false
+        }
+      ],
+      "takeoff": {
+        "id": "event-50",
+        "tick": 4,
+        "timeMs": 200,
+        "officialMs": 200,
+        "type": "TAKEOFF",
+        "possessionId": "possession-0",
+        "actionId": "action-6",
+        "actorId": "H03",
+        "relatedIds": [],
+        "contestId": null,
+        "details": {
+          "x": 8.9,
+          "y": 9.5
+        }
+      },
+      "fouls": [
+        {
+          "id": "event-57",
+          "tick": 4,
+          "timeMs": 200,
+          "officialMs": 200,
+          "type": "FOUL_ASSESSED",
+          "possessionId": "possession-0",
+          "actionId": "action-3",
+          "actorId": "A03",
+          "relatedIds": [
+            "H03"
+          ],
+          "contestId": "contest-52",
+          "details": {
+            "foulId": "foul-55",
+            "clearChance": false,
+            "severity": "PUNISHABLE",
+            "reason": "Body-directed contact during an airborne release",
+            "decision": "WHISTLE_NOW",
+            "physicalContactId": "contest-52"
+          }
+        }
+      ],
+      "sanctions": [
+        {
+          "id": "event-59",
+          "tick": 4,
+          "timeMs": 200,
+          "officialMs": 200,
+          "type": "WARNING",
+          "possessionId": "possession-0",
+          "actionId": "action-3",
+          "actorId": "A03",
+          "relatedIds": [
+            "H03"
+          ],
+          "contestId": "contest-52",
+          "details": {
+            "reason": "Body-directed contact during an airborne release",
+            "foulId": "foul-55",
+            "severity": "PUNISHABLE"
+          }
+        }
+      ],
+      "restart": "FREE_THROW"
+    },
+    {
+      "direction": "TOP",
+      "moving": false,
+      "warned": true,
+      "tick": 4,
+      "contact": [
+        {
+          "physicalContactId": "contest-52",
+          "technique": "BENT_ARMS",
+          "committedApproach": "FRONT",
+          "approach": "FRONT",
+          "separation": 0.8,
+          "carrierAction": "JUMP",
+          "severity": "PUNISHABLE",
+          "reason": "Body-directed contact during an airborne release",
+          "clearChance": false,
+          "contactClass": "AIRBORNE_CONTACT",
+          "closingSpeed": 0,
+          "radialClosingSpeed": 0,
+          "lateralSpeed": 0,
+          "relativeClosingSpeed": 0,
+          "controlledClosingLimit": 2.726,
+          "shoulderLost": false,
+          "restrainingProgression": false,
+          "progression": 0,
+          "angle": 0.309,
+          "depth": 9.5,
+          "covering": 0,
+          "controlled": true,
+          "goingAtGoal": true,
+          "immediateFinish": false
+        }
+      ],
+      "takeoff": {
+        "id": "event-50",
+        "tick": 4,
+        "timeMs": 200,
+        "officialMs": 200,
+        "type": "TAKEOFF",
+        "possessionId": "possession-0",
+        "actionId": "action-6",
+        "actorId": "H03",
+        "relatedIds": [],
+        "contestId": null,
+        "details": {
+          "x": 8.9,
+          "y": 9.5
+        }
+      },
+      "fouls": [
+        {
+          "id": "event-57",
+          "tick": 4,
+          "timeMs": 200,
+          "officialMs": 200,
+          "type": "FOUL_ASSESSED",
+          "possessionId": "possession-0",
+          "actionId": "action-3",
+          "actorId": "A03",
+          "relatedIds": [
+            "H03"
+          ],
+          "contestId": "contest-52",
+          "details": {
+            "foulId": "foul-55",
+            "clearChance": false,
+            "severity": "PUNISHABLE",
+            "reason": "Body-directed contact during an airborne release",
+            "decision": "WHISTLE_NOW",
+            "physicalContactId": "contest-52"
+          }
+        }
+      ],
+      "sanctions": [
+        {
+          "id": "event-60",
+          "tick": 4,
+          "timeMs": 200,
+          "officialMs": 200,
+          "type": "TWO_MINUTE_SUSPENSION",
+          "possessionId": "possession-0",
+          "actionId": "action-3",
+          "actorId": "A03",
+          "relatedIds": [
+            "H03"
+          ],
+          "contestId": "contest-52",
+          "details": {
+            "foulId": "foul-55",
+            "severity": "PUNISHABLE",
+            "reason": "Body-directed contact during an airborne release"
+          }
+        }
+      ],
+      "restart": "FREE_THROW"
+    },
+    {
+      "direction": "TOP",
+      "moving": true,
+      "warned": false,
+      "tick": 4,
+      "contact": [
+        {
+          "physicalContactId": "contest-52",
+          "technique": "BENT_ARMS",
+          "committedApproach": "FRONT",
+          "approach": "FRONT",
+          "separation": 0.8,
+          "carrierAction": "JUMP",
+          "severity": "PUNISHABLE",
+          "reason": "Body-directed contact during an airborne release",
+          "clearChance": false,
+          "contactClass": "AIRBORNE_CONTACT",
+          "closingSpeed": 0,
+          "radialClosingSpeed": 0,
+          "lateralSpeed": 0,
+          "relativeClosingSpeed": 0,
+          "controlledClosingLimit": 2.726,
+          "shoulderLost": false,
+          "restrainingProgression": false,
+          "progression": 0,
+          "angle": 0.309,
+          "depth": 9.5,
+          "covering": 0,
+          "controlled": true,
+          "goingAtGoal": true,
+          "immediateFinish": false
+        }
+      ],
+      "takeoff": {
+        "id": "event-50",
+        "tick": 4,
+        "timeMs": 200,
+        "officialMs": 200,
+        "type": "TAKEOFF",
+        "possessionId": "possession-0",
+        "actionId": "action-6",
+        "actorId": "H03",
+        "relatedIds": [],
+        "contestId": null,
+        "details": {
+          "x": 8.9,
+          "y": 9.5
+        }
+      },
+      "fouls": [
+        {
+          "id": "event-57",
+          "tick": 4,
+          "timeMs": 200,
+          "officialMs": 200,
+          "type": "FOUL_ASSESSED",
+          "possessionId": "possession-0",
+          "actionId": "action-3",
+          "actorId": "A03",
+          "relatedIds": [
+            "H03"
+          ],
+          "contestId": "contest-52",
+          "details": {
+            "foulId": "foul-55",
+            "clearChance": false,
+            "severity": "PUNISHABLE",
+            "reason": "Body-directed contact during an airborne release",
+            "decision": "WHISTLE_NOW",
+            "physicalContactId": "contest-52"
+          }
+        }
+      ],
+      "sanctions": [
+        {
+          "id": "event-59",
+          "tick": 4,
+          "timeMs": 200,
+          "officialMs": 200,
+          "type": "WARNING",
+          "possessionId": "possession-0",
+          "actionId": "action-3",
+          "actorId": "A03",
+          "relatedIds": [
+            "H03"
+          ],
+          "contestId": "contest-52",
+          "details": {
+            "reason": "Body-directed contact during an airborne release",
+            "foulId": "foul-55",
+            "severity": "PUNISHABLE"
+          }
+        }
+      ],
+      "restart": "FREE_THROW"
+    },
+    {
+      "direction": "TOP",
+      "moving": true,
+      "warned": true,
+      "tick": 4,
+      "contact": [
+        {
+          "physicalContactId": "contest-52",
+          "technique": "BENT_ARMS",
+          "committedApproach": "FRONT",
+          "approach": "FRONT",
+          "separation": 0.8,
+          "carrierAction": "JUMP",
+          "severity": "PUNISHABLE",
+          "reason": "Body-directed contact during an airborne release",
+          "clearChance": false,
+          "contactClass": "AIRBORNE_CONTACT",
+          "closingSpeed": 0,
+          "radialClosingSpeed": 0,
+          "lateralSpeed": 0,
+          "relativeClosingSpeed": 0,
+          "controlledClosingLimit": 2.726,
+          "shoulderLost": false,
+          "restrainingProgression": false,
+          "progression": 0,
+          "angle": 0.309,
+          "depth": 9.5,
+          "covering": 0,
+          "controlled": true,
+          "goingAtGoal": true,
+          "immediateFinish": false
+        }
+      ],
+      "takeoff": {
+        "id": "event-50",
+        "tick": 4,
+        "timeMs": 200,
+        "officialMs": 200,
+        "type": "TAKEOFF",
+        "possessionId": "possession-0",
+        "actionId": "action-6",
+        "actorId": "H03",
+        "relatedIds": [],
+        "contestId": null,
+        "details": {
+          "x": 8.9,
+          "y": 9.5
+        }
+      },
+      "fouls": [
+        {
+          "id": "event-57",
+          "tick": 4,
+          "timeMs": 200,
+          "officialMs": 200,
+          "type": "FOUL_ASSESSED",
+          "possessionId": "possession-0",
+          "actionId": "action-3",
+          "actorId": "A03",
+          "relatedIds": [
+            "H03"
+          ],
+          "contestId": "contest-52",
+          "details": {
+            "foulId": "foul-55",
+            "clearChance": false,
+            "severity": "PUNISHABLE",
+            "reason": "Body-directed contact during an airborne release",
+            "decision": "WHISTLE_NOW",
+            "physicalContactId": "contest-52"
+          }
+        }
+      ],
+      "sanctions": [
+        {
+          "id": "event-60",
+          "tick": 4,
+          "timeMs": 200,
+          "officialMs": 200,
+          "type": "TWO_MINUTE_SUSPENSION",
+          "possessionId": "possession-0",
+          "actionId": "action-3",
+          "actorId": "A03",
+          "relatedIds": [
+            "H03"
+          ],
+          "contestId": "contest-52",
+          "details": {
+            "foulId": "foul-55",
+            "severity": "PUNISHABLE",
+            "reason": "Body-directed contact during an airborne release"
+          }
+        }
+      ],
+      "restart": "FREE_THROW"
+    },
+    {
+      "direction": "BOTTOM",
+      "moving": false,
+      "warned": false,
+      "tick": 4,
+      "contact": [
+        {
+          "physicalContactId": "contest-52",
+          "technique": "BENT_ARMS",
+          "committedApproach": "FRONT",
+          "approach": "FRONT",
+          "separation": 0.8,
+          "carrierAction": "JUMP",
+          "severity": "PUNISHABLE",
+          "reason": "Body-directed contact during an airborne release",
+          "clearChance": false,
+          "contactClass": "AIRBORNE_CONTACT",
+          "closingSpeed": 0,
+          "radialClosingSpeed": 0,
+          "lateralSpeed": 0,
+          "relativeClosingSpeed": 0,
+          "controlledClosingLimit": 2.726,
+          "shoulderLost": false,
+          "restrainingProgression": false,
+          "progression": 0,
+          "angle": 0.309,
+          "depth": 9.5,
+          "covering": 0,
+          "controlled": true,
+          "goingAtGoal": true,
+          "immediateFinish": false
+        }
+      ],
+      "takeoff": {
+        "id": "event-50",
+        "tick": 4,
+        "timeMs": 200,
+        "officialMs": 200,
+        "type": "TAKEOFF",
+        "possessionId": "possession-0",
+        "actionId": "action-6",
+        "actorId": "H03",
+        "relatedIds": [],
+        "contestId": null,
+        "details": {
+          "x": 8.9,
+          "y": 30.5
+        }
+      },
+      "fouls": [
+        {
+          "id": "event-57",
+          "tick": 4,
+          "timeMs": 200,
+          "officialMs": 200,
+          "type": "FOUL_ASSESSED",
+          "possessionId": "possession-0",
+          "actionId": "action-3",
+          "actorId": "A03",
+          "relatedIds": [
+            "H03"
+          ],
+          "contestId": "contest-52",
+          "details": {
+            "foulId": "foul-55",
+            "clearChance": false,
+            "severity": "PUNISHABLE",
+            "reason": "Body-directed contact during an airborne release",
+            "decision": "WHISTLE_NOW",
+            "physicalContactId": "contest-52"
+          }
+        }
+      ],
+      "sanctions": [
+        {
+          "id": "event-59",
+          "tick": 4,
+          "timeMs": 200,
+          "officialMs": 200,
+          "type": "WARNING",
+          "possessionId": "possession-0",
+          "actionId": "action-3",
+          "actorId": "A03",
+          "relatedIds": [
+            "H03"
+          ],
+          "contestId": "contest-52",
+          "details": {
+            "reason": "Body-directed contact during an airborne release",
+            "foulId": "foul-55",
+            "severity": "PUNISHABLE"
+          }
+        }
+      ],
+      "restart": "FREE_THROW"
+    },
+    {
+      "direction": "BOTTOM",
+      "moving": false,
+      "warned": true,
+      "tick": 4,
+      "contact": [
+        {
+          "physicalContactId": "contest-52",
+          "technique": "BENT_ARMS",
+          "committedApproach": "FRONT",
+          "approach": "FRONT",
+          "separation": 0.8,
+          "carrierAction": "JUMP",
+          "severity": "PUNISHABLE",
+          "reason": "Body-directed contact during an airborne release",
+          "clearChance": false,
+          "contactClass": "AIRBORNE_CONTACT",
+          "closingSpeed": 0,
+          "radialClosingSpeed": 0,
+          "lateralSpeed": 0,
+          "relativeClosingSpeed": 0,
+          "controlledClosingLimit": 2.726,
+          "shoulderLost": false,
+          "restrainingProgression": false,
+          "progression": 0,
+          "angle": 0.309,
+          "depth": 9.5,
+          "covering": 0,
+          "controlled": true,
+          "goingAtGoal": true,
+          "immediateFinish": false
+        }
+      ],
+      "takeoff": {
+        "id": "event-50",
+        "tick": 4,
+        "timeMs": 200,
+        "officialMs": 200,
+        "type": "TAKEOFF",
+        "possessionId": "possession-0",
+        "actionId": "action-6",
+        "actorId": "H03",
+        "relatedIds": [],
+        "contestId": null,
+        "details": {
+          "x": 8.9,
+          "y": 30.5
+        }
+      },
+      "fouls": [
+        {
+          "id": "event-57",
+          "tick": 4,
+          "timeMs": 200,
+          "officialMs": 200,
+          "type": "FOUL_ASSESSED",
+          "possessionId": "possession-0",
+          "actionId": "action-3",
+          "actorId": "A03",
+          "relatedIds": [
+            "H03"
+          ],
+          "contestId": "contest-52",
+          "details": {
+            "foulId": "foul-55",
+            "clearChance": false,
+            "severity": "PUNISHABLE",
+            "reason": "Body-directed contact during an airborne release",
+            "decision": "WHISTLE_NOW",
+            "physicalContactId": "contest-52"
+          }
+        }
+      ],
+      "sanctions": [
+        {
+          "id": "event-60",
+          "tick": 4,
+          "timeMs": 200,
+          "officialMs": 200,
+          "type": "TWO_MINUTE_SUSPENSION",
+          "possessionId": "possession-0",
+          "actionId": "action-3",
+          "actorId": "A03",
+          "relatedIds": [
+            "H03"
+          ],
+          "contestId": "contest-52",
+          "details": {
+            "foulId": "foul-55",
+            "severity": "PUNISHABLE",
+            "reason": "Body-directed contact during an airborne release"
+          }
+        }
+      ],
+      "restart": "FREE_THROW"
+    },
+    {
+      "direction": "BOTTOM",
+      "moving": true,
+      "warned": false,
+      "tick": 4,
+      "contact": [
+        {
+          "physicalContactId": "contest-52",
+          "technique": "BENT_ARMS",
+          "committedApproach": "FRONT",
+          "approach": "FRONT",
+          "separation": 0.8,
+          "carrierAction": "JUMP",
+          "severity": "PUNISHABLE",
+          "reason": "Body-directed contact during an airborne release",
+          "clearChance": false,
+          "contactClass": "AIRBORNE_CONTACT",
+          "closingSpeed": 0,
+          "radialClosingSpeed": 0,
+          "lateralSpeed": 0,
+          "relativeClosingSpeed": 0,
+          "controlledClosingLimit": 2.726,
+          "shoulderLost": false,
+          "restrainingProgression": false,
+          "progression": 0,
+          "angle": 0.309,
+          "depth": 9.5,
+          "covering": 0,
+          "controlled": true,
+          "goingAtGoal": true,
+          "immediateFinish": false
+        }
+      ],
+      "takeoff": {
+        "id": "event-50",
+        "tick": 4,
+        "timeMs": 200,
+        "officialMs": 200,
+        "type": "TAKEOFF",
+        "possessionId": "possession-0",
+        "actionId": "action-6",
+        "actorId": "H03",
+        "relatedIds": [],
+        "contestId": null,
+        "details": {
+          "x": 8.9,
+          "y": 30.5
+        }
+      },
+      "fouls": [
+        {
+          "id": "event-57",
+          "tick": 4,
+          "timeMs": 200,
+          "officialMs": 200,
+          "type": "FOUL_ASSESSED",
+          "possessionId": "possession-0",
+          "actionId": "action-3",
+          "actorId": "A03",
+          "relatedIds": [
+            "H03"
+          ],
+          "contestId": "contest-52",
+          "details": {
+            "foulId": "foul-55",
+            "clearChance": false,
+            "severity": "PUNISHABLE",
+            "reason": "Body-directed contact during an airborne release",
+            "decision": "WHISTLE_NOW",
+            "physicalContactId": "contest-52"
+          }
+        }
+      ],
+      "sanctions": [
+        {
+          "id": "event-59",
+          "tick": 4,
+          "timeMs": 200,
+          "officialMs": 200,
+          "type": "WARNING",
+          "possessionId": "possession-0",
+          "actionId": "action-3",
+          "actorId": "A03",
+          "relatedIds": [
+            "H03"
+          ],
+          "contestId": "contest-52",
+          "details": {
+            "reason": "Body-directed contact during an airborne release",
+            "foulId": "foul-55",
+            "severity": "PUNISHABLE"
+          }
+        }
+      ],
+      "restart": "FREE_THROW"
+    },
+    {
+      "direction": "BOTTOM",
+      "moving": true,
+      "warned": true,
+      "tick": 4,
+      "contact": [
+        {
+          "physicalContactId": "contest-52",
+          "technique": "BENT_ARMS",
+          "committedApproach": "FRONT",
+          "approach": "FRONT",
+          "separation": 0.8,
+          "carrierAction": "JUMP",
+          "severity": "PUNISHABLE",
+          "reason": "Body-directed contact during an airborne release",
+          "clearChance": false,
+          "contactClass": "AIRBORNE_CONTACT",
+          "closingSpeed": 0,
+          "radialClosingSpeed": 0,
+          "lateralSpeed": 0,
+          "relativeClosingSpeed": 0,
+          "controlledClosingLimit": 2.726,
+          "shoulderLost": false,
+          "restrainingProgression": false,
+          "progression": 0,
+          "angle": 0.309,
+          "depth": 9.5,
+          "covering": 0,
+          "controlled": true,
+          "goingAtGoal": true,
+          "immediateFinish": false
+        }
+      ],
+      "takeoff": {
+        "id": "event-50",
+        "tick": 4,
+        "timeMs": 200,
+        "officialMs": 200,
+        "type": "TAKEOFF",
+        "possessionId": "possession-0",
+        "actionId": "action-6",
+        "actorId": "H03",
+        "relatedIds": [],
+        "contestId": null,
+        "details": {
+          "x": 8.9,
+          "y": 30.5
+        }
+      },
+      "fouls": [
+        {
+          "id": "event-57",
+          "tick": 4,
+          "timeMs": 200,
+          "officialMs": 200,
+          "type": "FOUL_ASSESSED",
+          "possessionId": "possession-0",
+          "actionId": "action-3",
+          "actorId": "A03",
+          "relatedIds": [
+            "H03"
+          ],
+          "contestId": "contest-52",
+          "details": {
+            "foulId": "foul-55",
+            "clearChance": false,
+            "severity": "PUNISHABLE",
+            "reason": "Body-directed contact during an airborne release",
+            "decision": "WHISTLE_NOW",
+            "physicalContactId": "contest-52"
+          }
+        }
+      ],
+      "sanctions": [
+        {
+          "id": "event-60",
+          "tick": 4,
+          "timeMs": 200,
+          "officialMs": 200,
+          "type": "TWO_MINUTE_SUSPENSION",
+          "possessionId": "possession-0",
+          "actionId": "action-3",
+          "actorId": "A03",
+          "relatedIds": [
+            "H03"
+          ],
+          "contestId": "contest-52",
+          "details": {
+            "foulId": "foul-55",
+            "severity": "PUNISHABLE",
+            "reason": "Body-directed contact during an airborne release"
+          }
+        }
+      ],
+      "restart": "FREE_THROW"
+    }
+  ],
+  "deferred": [
+    {
+      "warned": false,
+      "sameDefender": false,
+      "seriousSecond": false,
+      "restart": "SEVEN_METRE",
+      "sanctions": [
+        {
+          "id": "event-12",
+          "tick": 0,
+          "timeMs": 0,
+          "officialMs": 0,
+          "type": "WARNING",
+          "possessionId": "possession-0",
+          "actionId": null,
+          "actorId": "A03",
+          "relatedIds": [
+            "H03"
+          ],
+          "contestId": "first-contact",
+          "details": {
+            "reason": "First protected infringement",
+            "foulId": "foul-3",
+            "severity": "CLEAR_CHANCE"
+          }
+        },
+        {
+          "id": "event-16",
+          "tick": 0,
+          "timeMs": 0,
+          "officialMs": 0,
+          "type": "WARNING",
+          "possessionId": "possession-0",
+          "actionId": null,
+          "actorId": "A04",
+          "relatedIds": [
+            "H03"
+          ],
+          "contestId": "second-contact",
+          "details": {
+            "reason": "Further direct infringement",
+            "foulId": "foul-7",
+            "severity": "PUNISHABLE"
+          }
+        }
+      ],
+      "fouls": [
+        {
+          "id": "event-5",
+          "tick": 0,
+          "timeMs": 0,
+          "officialMs": 0,
+          "type": "FOUL_ASSESSED",
+          "possessionId": "possession-0",
+          "actionId": null,
+          "actorId": "A03",
+          "relatedIds": [
+            "H03"
+          ],
+          "contestId": "first-contact",
+          "details": {
+            "foulId": "foul-3",
+            "clearChance": true,
+            "severity": "CLEAR_CHANCE",
+            "reason": "First protected infringement",
+            "decision": "ADVANTAGE_PENDING",
+            "physicalContactId": "first-contact"
+          }
+        },
+        {
+          "id": "event-9",
+          "tick": 0,
+          "timeMs": 0,
+          "officialMs": 0,
+          "type": "FOUL_ASSESSED",
+          "possessionId": "possession-0",
+          "actionId": null,
+          "actorId": "A04",
+          "relatedIds": [
+            "H03"
+          ],
+          "contestId": "second-contact",
+          "details": {
+            "foulId": "foul-7",
+            "clearChance": false,
+            "severity": "PUNISHABLE",
+            "reason": "Further direct infringement",
+            "decision": "RECALL_PENDING_ADVANTAGE",
+            "physicalContactId": "second-contact"
+          }
+        }
+      ],
+      "players": [
+        {
+          "id": "A03",
+          "warnings": 1,
+          "sanctions": 0,
+          "population": "COURT",
+          "untilMs": null
+        },
+        {
+          "id": "A04",
+          "warnings": 1,
+          "sanctions": 0,
+          "population": "COURT",
+          "untilMs": null
+        }
+      ]
+    },
+    {
+      "warned": false,
+      "sameDefender": false,
+      "seriousSecond": true,
+      "restart": "SEVEN_METRE",
+      "sanctions": [
+        {
+          "id": "event-12",
+          "tick": 0,
+          "timeMs": 0,
+          "officialMs": 0,
+          "type": "WARNING",
+          "possessionId": "possession-0",
+          "actionId": null,
+          "actorId": "A03",
+          "relatedIds": [
+            "H03"
+          ],
+          "contestId": "first-contact",
+          "details": {
+            "reason": "First protected infringement",
+            "foulId": "foul-3",
+            "severity": "CLEAR_CHANCE"
+          }
+        },
+        {
+          "id": "event-16",
+          "tick": 0,
+          "timeMs": 0,
+          "officialMs": 0,
+          "type": "TWO_MINUTE_SUSPENSION",
+          "possessionId": "possession-0",
+          "actionId": null,
+          "actorId": "A04",
+          "relatedIds": [
+            "H03"
+          ],
+          "contestId": "second-contact",
+          "details": {
+            "foulId": "foul-7",
+            "severity": "SERIOUS",
+            "reason": "Further direct infringement"
+          }
+        }
+      ],
+      "fouls": [
+        {
+          "id": "event-5",
+          "tick": 0,
+          "timeMs": 0,
+          "officialMs": 0,
+          "type": "FOUL_ASSESSED",
+          "possessionId": "possession-0",
+          "actionId": null,
+          "actorId": "A03",
+          "relatedIds": [
+            "H03"
+          ],
+          "contestId": "first-contact",
+          "details": {
+            "foulId": "foul-3",
+            "clearChance": true,
+            "severity": "CLEAR_CHANCE",
+            "reason": "First protected infringement",
+            "decision": "ADVANTAGE_PENDING",
+            "physicalContactId": "first-contact"
+          }
+        },
+        {
+          "id": "event-9",
+          "tick": 0,
+          "timeMs": 0,
+          "officialMs": 0,
+          "type": "FOUL_ASSESSED",
+          "possessionId": "possession-0",
+          "actionId": null,
+          "actorId": "A04",
+          "relatedIds": [
+            "H03"
+          ],
+          "contestId": "second-contact",
+          "details": {
+            "foulId": "foul-7",
+            "clearChance": false,
+            "severity": "SERIOUS",
+            "reason": "Further direct infringement",
+            "decision": "RECALL_PENDING_ADVANTAGE",
+            "physicalContactId": "second-contact"
+          }
+        }
+      ],
+      "players": [
+        {
+          "id": "A03",
+          "warnings": 1,
+          "sanctions": 0,
+          "population": "COURT",
+          "untilMs": null
+        },
+        {
+          "id": "A04",
+          "warnings": 0,
+          "sanctions": 1,
+          "population": "SUSPENDED",
+          "untilMs": 120000
+        }
+      ]
+    },
+    {
+      "warned": false,
+      "sameDefender": true,
+      "seriousSecond": false,
+      "restart": "SEVEN_METRE",
+      "sanctions": [
+        {
+          "id": "event-12",
+          "tick": 0,
+          "timeMs": 0,
+          "officialMs": 0,
+          "type": "WARNING",
+          "possessionId": "possession-0",
+          "actionId": null,
+          "actorId": "A03",
+          "relatedIds": [
+            "H03"
+          ],
+          "contestId": "first-contact",
+          "details": {
+            "reason": "First protected infringement",
+            "foulId": "foul-3",
+            "severity": "CLEAR_CHANCE"
+          }
+        },
+        {
+          "id": "event-16",
+          "tick": 0,
+          "timeMs": 0,
+          "officialMs": 0,
+          "type": "TWO_MINUTE_SUSPENSION",
+          "possessionId": "possession-0",
+          "actionId": null,
+          "actorId": "A03",
+          "relatedIds": [
+            "H03"
+          ],
+          "contestId": "second-contact",
+          "details": {
+            "foulId": "foul-7",
+            "severity": "PUNISHABLE",
+            "reason": "Further direct infringement"
+          }
+        }
+      ],
+      "fouls": [
+        {
+          "id": "event-5",
+          "tick": 0,
+          "timeMs": 0,
+          "officialMs": 0,
+          "type": "FOUL_ASSESSED",
+          "possessionId": "possession-0",
+          "actionId": null,
+          "actorId": "A03",
+          "relatedIds": [
+            "H03"
+          ],
+          "contestId": "first-contact",
+          "details": {
+            "foulId": "foul-3",
+            "clearChance": true,
+            "severity": "CLEAR_CHANCE",
+            "reason": "First protected infringement",
+            "decision": "ADVANTAGE_PENDING",
+            "physicalContactId": "first-contact"
+          }
+        },
+        {
+          "id": "event-9",
+          "tick": 0,
+          "timeMs": 0,
+          "officialMs": 0,
+          "type": "FOUL_ASSESSED",
+          "possessionId": "possession-0",
+          "actionId": null,
+          "actorId": "A03",
+          "relatedIds": [
+            "H03"
+          ],
+          "contestId": "second-contact",
+          "details": {
+            "foulId": "foul-7",
+            "clearChance": false,
+            "severity": "PUNISHABLE",
+            "reason": "Further direct infringement",
+            "decision": "RECALL_PENDING_ADVANTAGE",
+            "physicalContactId": "second-contact"
+          }
+        }
+      ],
+      "players": [
+        {
+          "id": "A03",
+          "warnings": 1,
+          "sanctions": 1,
+          "population": "SUSPENDED",
+          "untilMs": 120000
+        }
+      ]
+    },
+    {
+      "warned": false,
+      "sameDefender": true,
+      "seriousSecond": true,
+      "restart": "SEVEN_METRE",
+      "sanctions": [
+        {
+          "id": "event-12",
+          "tick": 0,
+          "timeMs": 0,
+          "officialMs": 0,
+          "type": "WARNING",
+          "possessionId": "possession-0",
+          "actionId": null,
+          "actorId": "A03",
+          "relatedIds": [
+            "H03"
+          ],
+          "contestId": "first-contact",
+          "details": {
+            "reason": "First protected infringement",
+            "foulId": "foul-3",
+            "severity": "CLEAR_CHANCE"
+          }
+        },
+        {
+          "id": "event-16",
+          "tick": 0,
+          "timeMs": 0,
+          "officialMs": 0,
+          "type": "TWO_MINUTE_SUSPENSION",
+          "possessionId": "possession-0",
+          "actionId": null,
+          "actorId": "A03",
+          "relatedIds": [
+            "H03"
+          ],
+          "contestId": "second-contact",
+          "details": {
+            "foulId": "foul-7",
+            "severity": "SERIOUS",
+            "reason": "Further direct infringement"
+          }
+        }
+      ],
+      "fouls": [
+        {
+          "id": "event-5",
+          "tick": 0,
+          "timeMs": 0,
+          "officialMs": 0,
+          "type": "FOUL_ASSESSED",
+          "possessionId": "possession-0",
+          "actionId": null,
+          "actorId": "A03",
+          "relatedIds": [
+            "H03"
+          ],
+          "contestId": "first-contact",
+          "details": {
+            "foulId": "foul-3",
+            "clearChance": true,
+            "severity": "CLEAR_CHANCE",
+            "reason": "First protected infringement",
+            "decision": "ADVANTAGE_PENDING",
+            "physicalContactId": "first-contact"
+          }
+        },
+        {
+          "id": "event-9",
+          "tick": 0,
+          "timeMs": 0,
+          "officialMs": 0,
+          "type": "FOUL_ASSESSED",
+          "possessionId": "possession-0",
+          "actionId": null,
+          "actorId": "A03",
+          "relatedIds": [
+            "H03"
+          ],
+          "contestId": "second-contact",
+          "details": {
+            "foulId": "foul-7",
+            "clearChance": false,
+            "severity": "SERIOUS",
+            "reason": "Further direct infringement",
+            "decision": "RECALL_PENDING_ADVANTAGE",
+            "physicalContactId": "second-contact"
+          }
+        }
+      ],
+      "players": [
+        {
+          "id": "A03",
+          "warnings": 1,
+          "sanctions": 1,
+          "population": "SUSPENDED",
+          "untilMs": 120000
+        }
+      ]
+    },
+    {
+      "warned": true,
+      "sameDefender": false,
+      "seriousSecond": false,
+      "restart": "SEVEN_METRE",
+      "sanctions": [
+        {
+          "id": "event-12",
+          "tick": 0,
+          "timeMs": 0,
+          "officialMs": 0,
+          "type": "TWO_MINUTE_SUSPENSION",
+          "possessionId": "possession-0",
+          "actionId": null,
+          "actorId": "A03",
+          "relatedIds": [
+            "H03"
+          ],
+          "contestId": "first-contact",
+          "details": {
+            "foulId": "foul-3",
+            "severity": "CLEAR_CHANCE",
+            "reason": "First protected infringement"
+          }
+        },
+        {
+          "id": "event-17",
+          "tick": 0,
+          "timeMs": 0,
+          "officialMs": 0,
+          "type": "TWO_MINUTE_SUSPENSION",
+          "possessionId": "possession-0",
+          "actionId": null,
+          "actorId": "A04",
+          "relatedIds": [
+            "H03"
+          ],
+          "contestId": "second-contact",
+          "details": {
+            "foulId": "foul-7",
+            "severity": "PUNISHABLE",
+            "reason": "Further direct infringement"
+          }
+        }
+      ],
+      "fouls": [
+        {
+          "id": "event-5",
+          "tick": 0,
+          "timeMs": 0,
+          "officialMs": 0,
+          "type": "FOUL_ASSESSED",
+          "possessionId": "possession-0",
+          "actionId": null,
+          "actorId": "A03",
+          "relatedIds": [
+            "H03"
+          ],
+          "contestId": "first-contact",
+          "details": {
+            "foulId": "foul-3",
+            "clearChance": true,
+            "severity": "CLEAR_CHANCE",
+            "reason": "First protected infringement",
+            "decision": "ADVANTAGE_PENDING",
+            "physicalContactId": "first-contact"
+          }
+        },
+        {
+          "id": "event-9",
+          "tick": 0,
+          "timeMs": 0,
+          "officialMs": 0,
+          "type": "FOUL_ASSESSED",
+          "possessionId": "possession-0",
+          "actionId": null,
+          "actorId": "A04",
+          "relatedIds": [
+            "H03"
+          ],
+          "contestId": "second-contact",
+          "details": {
+            "foulId": "foul-7",
+            "clearChance": false,
+            "severity": "PUNISHABLE",
+            "reason": "Further direct infringement",
+            "decision": "RECALL_PENDING_ADVANTAGE",
+            "physicalContactId": "second-contact"
+          }
+        }
+      ],
+      "players": [
+        {
+          "id": "A03",
+          "warnings": 1,
+          "sanctions": 1,
+          "population": "SUSPENDED",
+          "untilMs": 120000
+        },
+        {
+          "id": "A04",
+          "warnings": 1,
+          "sanctions": 1,
+          "population": "SUSPENDED",
+          "untilMs": 120000
+        }
+      ]
+    },
+    {
+      "warned": true,
+      "sameDefender": false,
+      "seriousSecond": true,
+      "restart": "SEVEN_METRE",
+      "sanctions": [
+        {
+          "id": "event-12",
+          "tick": 0,
+          "timeMs": 0,
+          "officialMs": 0,
+          "type": "TWO_MINUTE_SUSPENSION",
+          "possessionId": "possession-0",
+          "actionId": null,
+          "actorId": "A03",
+          "relatedIds": [
+            "H03"
+          ],
+          "contestId": "first-contact",
+          "details": {
+            "foulId": "foul-3",
+            "severity": "CLEAR_CHANCE",
+            "reason": "First protected infringement"
+          }
+        },
+        {
+          "id": "event-17",
+          "tick": 0,
+          "timeMs": 0,
+          "officialMs": 0,
+          "type": "TWO_MINUTE_SUSPENSION",
+          "possessionId": "possession-0",
+          "actionId": null,
+          "actorId": "A04",
+          "relatedIds": [
+            "H03"
+          ],
+          "contestId": "second-contact",
+          "details": {
+            "foulId": "foul-7",
+            "severity": "SERIOUS",
+            "reason": "Further direct infringement"
+          }
+        }
+      ],
+      "fouls": [
+        {
+          "id": "event-5",
+          "tick": 0,
+          "timeMs": 0,
+          "officialMs": 0,
+          "type": "FOUL_ASSESSED",
+          "possessionId": "possession-0",
+          "actionId": null,
+          "actorId": "A03",
+          "relatedIds": [
+            "H03"
+          ],
+          "contestId": "first-contact",
+          "details": {
+            "foulId": "foul-3",
+            "clearChance": true,
+            "severity": "CLEAR_CHANCE",
+            "reason": "First protected infringement",
+            "decision": "ADVANTAGE_PENDING",
+            "physicalContactId": "first-contact"
+          }
+        },
+        {
+          "id": "event-9",
+          "tick": 0,
+          "timeMs": 0,
+          "officialMs": 0,
+          "type": "FOUL_ASSESSED",
+          "possessionId": "possession-0",
+          "actionId": null,
+          "actorId": "A04",
+          "relatedIds": [
+            "H03"
+          ],
+          "contestId": "second-contact",
+          "details": {
+            "foulId": "foul-7",
+            "clearChance": false,
+            "severity": "SERIOUS",
+            "reason": "Further direct infringement",
+            "decision": "RECALL_PENDING_ADVANTAGE",
+            "physicalContactId": "second-contact"
+          }
+        }
+      ],
+      "players": [
+        {
+          "id": "A03",
+          "warnings": 1,
+          "sanctions": 1,
+          "population": "SUSPENDED",
+          "untilMs": 120000
+        },
+        {
+          "id": "A04",
+          "warnings": 1,
+          "sanctions": 1,
+          "population": "SUSPENDED",
+          "untilMs": 120000
+        }
+      ]
+    },
+    {
+      "warned": true,
+      "sameDefender": true,
+      "seriousSecond": false,
+      "restart": "SEVEN_METRE",
+      "sanctions": [
+        {
+          "id": "event-12",
+          "tick": 0,
+          "timeMs": 0,
+          "officialMs": 0,
+          "type": "TWO_MINUTE_SUSPENSION",
+          "possessionId": "possession-0",
+          "actionId": null,
+          "actorId": "A03",
+          "relatedIds": [
+            "H03"
+          ],
+          "contestId": "first-contact",
+          "details": {
+            "foulId": "foul-3",
+            "severity": "CLEAR_CHANCE",
+            "reason": "First protected infringement"
+          }
+        },
+        {
+          "id": "event-17",
+          "tick": 0,
+          "timeMs": 0,
+          "officialMs": 0,
+          "type": "TWO_MINUTE_SUSPENSION",
+          "possessionId": "possession-0",
+          "actionId": null,
+          "actorId": "A03",
+          "relatedIds": [
+            "H03"
+          ],
+          "contestId": "second-contact",
+          "details": {
+            "foulId": "foul-7",
+            "severity": "PUNISHABLE",
+            "reason": "Further direct infringement"
+          }
+        }
+      ],
+      "fouls": [
+        {
+          "id": "event-5",
+          "tick": 0,
+          "timeMs": 0,
+          "officialMs": 0,
+          "type": "FOUL_ASSESSED",
+          "possessionId": "possession-0",
+          "actionId": null,
+          "actorId": "A03",
+          "relatedIds": [
+            "H03"
+          ],
+          "contestId": "first-contact",
+          "details": {
+            "foulId": "foul-3",
+            "clearChance": true,
+            "severity": "CLEAR_CHANCE",
+            "reason": "First protected infringement",
+            "decision": "ADVANTAGE_PENDING",
+            "physicalContactId": "first-contact"
+          }
+        },
+        {
+          "id": "event-9",
+          "tick": 0,
+          "timeMs": 0,
+          "officialMs": 0,
+          "type": "FOUL_ASSESSED",
+          "possessionId": "possession-0",
+          "actionId": null,
+          "actorId": "A03",
+          "relatedIds": [
+            "H03"
+          ],
+          "contestId": "second-contact",
+          "details": {
+            "foulId": "foul-7",
+            "clearChance": false,
+            "severity": "PUNISHABLE",
+            "reason": "Further direct infringement",
+            "decision": "RECALL_PENDING_ADVANTAGE",
+            "physicalContactId": "second-contact"
+          }
+        }
+      ],
+      "players": [
+        {
+          "id": "A03",
+          "warnings": 1,
+          "sanctions": 2,
+          "population": "SUSPENDED",
+          "untilMs": 120000
+        }
+      ]
+    },
+    {
+      "warned": true,
+      "sameDefender": true,
+      "seriousSecond": true,
+      "restart": "SEVEN_METRE",
+      "sanctions": [
+        {
+          "id": "event-12",
+          "tick": 0,
+          "timeMs": 0,
+          "officialMs": 0,
+          "type": "TWO_MINUTE_SUSPENSION",
+          "possessionId": "possession-0",
+          "actionId": null,
+          "actorId": "A03",
+          "relatedIds": [
+            "H03"
+          ],
+          "contestId": "first-contact",
+          "details": {
+            "foulId": "foul-3",
+            "severity": "CLEAR_CHANCE",
+            "reason": "First protected infringement"
+          }
+        },
+        {
+          "id": "event-17",
+          "tick": 0,
+          "timeMs": 0,
+          "officialMs": 0,
+          "type": "TWO_MINUTE_SUSPENSION",
+          "possessionId": "possession-0",
+          "actionId": null,
+          "actorId": "A03",
+          "relatedIds": [
+            "H03"
+          ],
+          "contestId": "second-contact",
+          "details": {
+            "foulId": "foul-7",
+            "severity": "SERIOUS",
+            "reason": "Further direct infringement"
+          }
+        }
+      ],
+      "fouls": [
+        {
+          "id": "event-5",
+          "tick": 0,
+          "timeMs": 0,
+          "officialMs": 0,
+          "type": "FOUL_ASSESSED",
+          "possessionId": "possession-0",
+          "actionId": null,
+          "actorId": "A03",
+          "relatedIds": [
+            "H03"
+          ],
+          "contestId": "first-contact",
+          "details": {
+            "foulId": "foul-3",
+            "clearChance": true,
+            "severity": "CLEAR_CHANCE",
+            "reason": "First protected infringement",
+            "decision": "ADVANTAGE_PENDING",
+            "physicalContactId": "first-contact"
+          }
+        },
+        {
+          "id": "event-9",
+          "tick": 0,
+          "timeMs": 0,
+          "officialMs": 0,
+          "type": "FOUL_ASSESSED",
+          "possessionId": "possession-0",
+          "actionId": null,
+          "actorId": "A03",
+          "relatedIds": [
+            "H03"
+          ],
+          "contestId": "second-contact",
+          "details": {
+            "foulId": "foul-7",
+            "clearChance": false,
+            "severity": "SERIOUS",
+            "reason": "Further direct infringement",
+            "decision": "RECALL_PENDING_ADVANTAGE",
+            "physicalContactId": "second-contact"
+          }
+        }
+      ],
+      "players": [
+        {
+          "id": "A03",
+          "warnings": 1,
+          "sanctions": 2,
+          "population": "SUSPENDED",
+          "untilMs": 120000
+        }
+      ]
+    }
+  ],
+  "scope": "Actual takeoff/contact ticks for frontal cases; canonical referee assessment/recall for direct-sequence deferred cases. No probability or score coefficients altered."
+}

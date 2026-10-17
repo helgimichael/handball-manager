@@ -1,0 +1,30 @@
+/** One canonical production match per invocation. The caller serializes jobs. */
+import assert from 'node:assert/strict';
+import {existsSync,readFileSync,writeFileSync,mkdirSync,readdirSync} from 'node:fs';
+import {resolve,join} from 'node:path';
+import {createHash} from 'node:crypto';
+import {gzipSync} from 'node:zlib';
+import {createNewCareerState} from '../lib/career/newCareer';
+import {buildMatchdayReadyEvent} from '../lib/career/careerEvents';
+import {startProductionMatch,advanceProductionMatch,resultFromSession} from '../lib/career/productionMatch';
+import {assertCore} from '@handball-manager/handball-engine/src/v2/core/engine';
+import {foulStructure,recordedStructure} from './lib/matchStructureDiagnostics';
+
+const args=process.argv.slice(2),arg=(k:string,d:string)=>args.includes(k)?args[args.indexOf(k)+1]:d;
+const league=arg('--league','hbl'),index=Number(arg('--index','0'));assert.ok(['hbl','allsv'].includes(league));assert.ok(Number.isInteger(index)&&index>=0&&index<40);
+const root=resolve('../..'),prior=join(root,'docs/player-attribute-integration-v1/final',league),dir=join(root,'docs/match-structure-manpower-v1/raw/after',league);mkdirSync(dir,{recursive:true});
+const id=String(index).padStart(3,'0'),out=join(dir,`match-${id}.json`);assert.ok(!existsSync(out),'Reuse complete after matches rather than overwrite');
+const read=(p:string)=>JSON.parse(readFileSync(p,'utf8')),hash=(v:unknown)=>createHash('sha256').update(JSON.stringify(v)).digest('hex');
+const inputs=read(join(prior,'inputs.json')),recipe=read(join(prior,'recipes.json'))[index],before=read(join(prior,`match-${id}.json`));
+const paths=[...readdirSync(join(root,'packages/handball-engine/src/v2/core')).filter(n=>n.endsWith('.ts')&&!n.endsWith('.test.ts')).map(n=>'packages/handball-engine/src/v2/core/'+n),'apps/game/lib/career/productionMatch.ts','apps/game/scripts/lib/matchStructureDiagnostics.ts','apps/game/scripts/run-match-structure-after.ts'];
+const fingerprint=()=>Object.fromEntries(paths.map(p=>[p,createHash('sha256').update(readFileSync(join(root,p))).digest('hex')]));const sources=fingerprint();
+let career=createNewCareerState(recipe.saveSeed,recipe.managerClubId,structuredClone(inputs.worldSquads),undefined,structuredClone(inputs.gameplayRatings));
+const fixture=career.fixtures.find(f=>f.id===recipe.fixtureId)!;assert.ok(fixture);career={...career,gameDate:fixture.date,careerEvents:[buildMatchdayReadyEvent(fixture.id,fixture.date)]};career=startProductionMatch(career,fixture.id);
+assert.equal(hash(career.productionMatch),before.initialHash,'Exact same teams/ratings/tactics/physical state/seed as retained before');
+const started=performance.now();let calls=0;while(career.productionMatch!.core.status==='RUNNING'&&calls++<40)career=advanceProductionMatch(career,10000,false);
+const session=career.productionMatch!,core=session.core;assert.equal(core.match?.phase,'FULLTIME');assertCore(core);
+const structure=recordedStructure(core),fouls=foulStructure(core);assert.ok(structure.finalPopulationExact);assert.equal(structure.integrity.duplicateEventIds,0);assert.equal(structure.integrity.groupsWithMultipleTransfers.length,0);assert.equal(structure.integrity.unresolvedPossessions.length,0);assert.equal(fouls.integrity.multiplePenaltiesForFoul.length,0);
+assert.deepEqual(fingerprint(),sources);
+const report={complete:true,league,index,recipe,fixture,sourceFingerprints:sources,inputHash:hash(inputs),initialHash:before.initialHash,coreHash:hash(core),sessionHash:hash(session),resultHash:hash(resultFromSession(session)),score:core.score,structure,fouls,runtimeMs:performance.now()-started,design:'Purposeful structural regression sample, including all retained same-player deferred overlaps and high-sanction tails. Not a representative new league-mean cohort.'};
+writeFileSync(join(dir,`core-${id}.json.gz`),gzipSync(JSON.stringify(core)));writeFileSync(out,JSON.stringify(report));
+console.log(JSON.stringify({complete:true,league,index,score:core.score,possessions:structure.totals.possessions,penalties:fouls.personalReductions,runtimeMs:report.runtimeMs}));

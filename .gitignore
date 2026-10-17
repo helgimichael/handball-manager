@@ -127,3 +127,7 @@ docs/player-attributes-possession-economy-v1/verification/
 docs/player-attribute-integration-v1/development/
 docs/player-attribute-integration-v1/final/
 docs/player-attribute-integration-v1/verification/
+
+# Raw match-structure observations and verification logs stay local.
+docs/match-structure-manpower-v1/raw/
+docs/match-structure-manpower-v1/verification/
