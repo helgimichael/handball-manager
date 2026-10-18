@@ -305,8 +305,8 @@ export function readContinuation(s: CoreState, carrier: CorePlayer): Continuatio
     // and refused it for want of build-up: a genuinely open wing could not
     // finish at all. Depth is the honest reading of "close in" and it covers the
     // line player and the wing alike.
-    const built = s.possession.completedPasses >= 2 || s.possession.phase === 'TRANSITION' ||
-      range <= 7.5 || q.y <= 5;
+    const built = s.possession.phase === 'TRANSITION' || range <= 7.5 || q.y <= 5 ||
+      s.possession.completedPasses >= 2 || s.referee.passive.warnedTick !== null || s.referee.passive.idleMs >= 12000 || broken !== null;
     if (context&&inRange && built && angle > 0.11 && (lane > 0.25||context.blockThreat<.65)) {
       offer({ kind: 'SHOOT', quality: value, reason: `Take the chance: quality ${value.toFixed(2)}` },
         (value - SHOT_FLOOR) / 0.44, tendency.shoot);
