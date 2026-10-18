@@ -426,7 +426,7 @@ export function readContinuation(s: CoreState, carrier: CorePlayer): Continuatio
     // second later. Four hundred and seventy of the match's nine hundred passes
     // arrived that way. Deciding to move the ball and being forced to are not
     // supposed to be different passes.
-    .filter(x => x.lane.seconds > 0.1 && distance(carrier.position, x.a.position) <= 16)
+    .filter(x => x.lane.seconds > 0.1 && distance(carrier.position, x.a.position) <= 12)
     .sort((x, y) => (rebuildValue(s, y.a, direction)-(y.a.id===s.possession.lastPasserId?.35:0))
       -(rebuildValue(s, x.a, direction)-(x.a.id===s.possession.lastPasserId?.35:0)))[0];
   if (outlet) {

@@ -335,7 +335,8 @@ export function advanceBall(s:CoreState) {
       // loose ball is then contested, which is what a real deflection looks
       // like and which keeps the attack alive instead of ending it.
       :f.kind==='DEFLECTION'?(ready&&!beaten&&reacted&&(p.action?.kind==='RECEIVE'||runningReceive)?.65:0)
-      :ready&&!beaten&&reacted&&['RECEIVE','PRESS','HELP'].includes(p.action?.kind??'')&&(p.action?.kind==='RECEIVE'||distance(p.position,f.origin)>=1.25)?grasp
+      :ready&&!beaten&&reacted&&['RECEIVE','PRESS'].includes(p.action?.kind??'')&&(p.action?.kind==='RECEIVE'||distance(p.position,f.origin)>=1.25)?grasp
+      :ready&&!beaten&&reacted&&p.action?.kind==='HELP'&&distance(p.position,f.origin)>=1.25?grasp*.80
       :ready&&!beaten&&reacted&&['CONTAIN','RECOVER','BLOCK'].includes(p.action?.kind??'')?grasp*.62:0;
     return {p,...hit,hit:reach>0&&distance(hit.point,p.position)<=reach&&(isKeeper||s.ball.height<2.5)};
   }).filter(c=>c.hit).sort((a,b)=>a.t-b.t||a.p.id.localeCompare(b.p.id));
@@ -392,13 +393,19 @@ export function advanceBall(s:CoreState) {
       if(risk>0&&random(s)<risk){deflect(s,p,hit.point,'RECEPTION_FAILED',{risk,pace,handling:p.profile.handling,pressure:releasePressure(s,p)});return;}
     }
     if(p.team!==shooter.team) {
-      // Holding a lane deflects; attacking the ball takes it.
+      // Holding a lane deflects; attacking the ball cleanly controls it when well-reached and skilled.
       const attacking=p.action?.kind==='RECEIVE'||['PRESS','HELP'].includes(p.action?.kind??'')&&distance(p.position,f.origin)>=1.45;
-      if(!attacking) {
-        contest(s,'INTERCEPTION',shooter,p,'DEFLECTED',distance(hit.point,p.position),12,f.actionId);
+      const pace=Math.hypot(f.velocity.x,f.velocity.y);
+      const skill=p.profile.ballWinning*.7+(p.profile.handling??p.profile.ballWinning)*.3;
+      const dist=distance(hit.point,p.position);
+      const dedicated=p.action?.kind==='RECEIVE'||p.action?.reason==='Ready interception';
+      const catchProb=dedicated?.95:p.action?.kind==='PRESS'?(dist<=p.radius+.12?.38+.42*skill:.20+.30*skill):(dist<=p.radius+.10?.22+.32*skill:.10+.20*skill);
+      const controlled=attacking&&pace<=14+3*skill&&random(s)<catchProb;
+      if(!controlled) {
+        contest(s,'INTERCEPTION',shooter,p,'DEFLECTED',dist,12,f.actionId);
         deflect(s,p,hit.point,'PASS_DEFLECTED');return;
       }
-      contest(s,'INTERCEPTION',shooter,p,'CONTROLLED',distance(hit.point,p.position),12,f.actionId);
+      contest(s,'INTERCEPTION',shooter,p,'CONTROLLED',dist,12,f.actionId);
     }
     if(s.restart?.phase==='RELEASED'&&s.restart.kind==='CENTRE_THROW_OFF')completeRestart(s,'TEAMMATE_TOUCH');
     acquire(s,p,hit.point,f.purpose==='DEAD_BALL_RETURN'?'Dead-ball return received':p.team===shooter.team?'Pass received':'Intercepted',f.actionId);

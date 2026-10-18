@@ -69,8 +69,9 @@ export function executePass(s:CoreState,p:CorePlayer,receiver:CorePlayer,intende
   const urgency=clamp((s.tick-p.handling.heldSinceTick)*50/s.ruleProfile.maxHoldMs-.6,0,.4);
   const difficulty=clamp(clamp((range-6)/18,0,1)*.35+pressure*.2+movement*.15+contested*.2+clamp((.8-lane)/.8,0,1)*.25+urgency*.25,0,1);
   const stress=clamp(1+((p.profile.control?.pressure??.5)-.5)*pressure*.2,.85,1.15);
-  const capability=clamp(p.profile.passing*difficultExecutionCapacity(p,difficulty,p.profile.passing,pressure/2)*stress,0,1);
-  const spread=protectedReturn?0:.025+(1-capability)*(.18+1.65*difficulty);
+  const effectivePassing=0.35+0.65*p.profile.passing;
+  const capability=clamp(effectivePassing*difficultExecutionCapacity(p,difficulty,p.profile.passing,pressure/2)*stress,0,1);
+  const spread=protectedReturn?0:.025+(1-capability)*(.10+0.70*difficulty);
   if(!spread||range<.1)return {target:{...intended},speed,difficulty,spread,pressure,error:0,capability};
   const ux=(intended.x-origin.x)/range,uy=(intended.y-origin.y)/range;
   const cross=(random(s)*2-1)*spread,along=(random(s)*2-1)*spread*.35;
@@ -86,12 +87,13 @@ export function receptionRisk(s:CoreState,p:CorePlayer,point:Point,pace:number):
   const difficulty=pressure*.45+clamp((pace-9)/9,0,1)*.16+alignment*.25+moving*.1;
   // Catch preparation protects a difficult impact; calmness matters under pressure.
   // Delivery alignment/pace remain independent challenge inputs, not receiver errors.
-  const technique=clamp(p.profile.handling*.8+(p.profile.control?.concentration??p.profile.handling)*.2+
+  const rawTechnique=clamp(p.profile.handling*.8+(p.profile.control?.concentration??p.profile.handling)*.2+
     pressure*((p.profile.control?.pressure??p.profile.composure)-.5)*.15,0,1);
-  const control=technique*difficultExecutionCapacity(p,difficulty,technique,pressure);
+  const technique=clamp(0.35+0.65*rawTechnique,0,1);
+  const control=technique*difficultExecutionCapacity(p,difficulty,rawTechnique,pressure);
   // Keep uncertainty in genuinely challenged impacts at every realistic tier.
   // Mastery reduces the control deficit; it does not erase the challenge.
-  return clamp(Math.max(0,difficulty-.18)*(1-control)**2*1.1,0,.4);
+  return clamp(Math.max(0,difficulty-.18)*(1-control)**2*0.75,0,.35);
 }
 
 /** Only a challenged floor touch can escape control. An open carry has zero risk. */
