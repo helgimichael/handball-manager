@@ -263,7 +263,13 @@ export async function getSave(saveId: string, hydrateArchives = true): Promise<C
   await ensureLegacySavesMigrated();
   const save = await resolveBackend().getSave(saveId);
   if (hydrateArchives && save?.careerState?.matchArchiveIds?.length) {
-    const archives = await Promise.all(save.careerState.matchArchiveIds.map(id => readMatchArchive(saveId, id)));
+    const archives = (
+      await Promise.all(
+        save.careerState.matchArchiveIds.map((id) =>
+          readMatchArchive(saveId, id).catch(() => null),
+        ),
+      )
+    ).filter((a): a is NonNullable<typeof a> => a !== null && a !== undefined);
     return { ...save, careerState: { ...save.careerState, matchArchives: Object.fromEntries(archives.map(a => [a.fixture.id, a])) } };
   }
   return save;

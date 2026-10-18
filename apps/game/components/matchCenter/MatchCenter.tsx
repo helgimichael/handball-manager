@@ -27,10 +27,10 @@ export function KeyMoment({ moment, events, frames, people }: {
     return <section className="mc-key-moment" aria-label="Taktiskt nyckelögonblick"><header><div><span className="game-overline">Nyckelögonblick</span><h2>{moment?.headline ?? 'Matchen tar form'}</h2></div>{moment && <time>{clockText(moment.timestamp)}</time>}</header>{moment && <p>{story?.explanation ?? moment.detail}</p>}{snapshot ? <><div className="mc-step-controls" aria-label="Steg i nyckelögonblicket">{snapshots.map((s, i) => <button key={s.tick} type="button" aria-pressed={i === Math.min(step, snapshots.length - 1)} onClick={() => setStep(i)}>{i + 1}. {story?.stages[i] ?? s.label}<small>{clockText(s.timestamp)}</small></button>)}</div><button type="button" className="mc-camera-control" aria-pressed={fullCourt} onClick={() => setFullCourt(!fullCourt)}>{fullCourt ? 'Visa närbild' : 'Visa helplan'}</button><TacticalCourt snapshot={{...snapshot,label:story?.stages[Math.min(step, snapshots.length - 1)] ?? snapshot.label}} fullCourt={fullCourt} focusY={snapshots.at(-1)?.ball.y} actors={story?.actors}/><p className="mc-footnote">Positionerna är sparade vid {clockText(snapshot.timestamp)}. Pilar visar berörda spelare och bollens registrerade läge, inte en animerad bana.</p></> : <p className="mc-empty">{moment ? 'Den här händelsen saknar sparade positionsbilder. Kommentaren och matchstatistiken finns kvar.' : 'Välj en viktig händelse i flödet för att se den steg för steg.'}</p>}</section>;
 }
 function Commentary({ compact = false, stream, names, keyOnly, importantOnly, onOpen, onView, onToggle }: { compact?: boolean; stream: MatchPresentationEvent[]; names: Record<TeamId, string>; keyOnly: boolean; importantOnly: boolean; onOpen: (id: string) => void; onView: () => void; onToggle: () => void; }) { return <section className="mc-commentary" aria-label="Matchkommentarer"><header><h2>Från planen</h2>{compact ? <button type="button" onClick={onView}>Alla händelser →</button> : <button type="button" aria-pressed={keyOnly || importantOnly} disabled={importantOnly} onClick={onToggle}>{keyOnly || importantOnly ? 'Visa alla händelser' : 'Viktiga händelser'}</button>}</header><ol>{stream.slice(0, compact ? 8 : 60).map(e => <li key={e.canonicalEventId} data-team={e.team ?? 'NEUTRAL'} data-importance={e.importance}><time>{clockText(e.timestamp)}</time><div><span>{e.team ? names[e.team] : 'Matchen'} · {e.score.join('–')}</span>{e.replayReference ? <button type="button" onClick={() => onOpen(e.canonicalEventId)}>{e.headline}</button> : <strong>{e.headline}</strong>}{!compact && <p>{e.detail}</p>}</div></li>)}</ol>{!stream.length && <p className="mc-empty">Flödet börjar vid avkast.</p>}</section>; }
-export function MatchCenterSurface({ model, fixture, frames, people, events, team, controls, coach, onPlayer, experimental, importantOnly = false }: {
+export function MatchCenterSurface({ model, fixture, frames, people, events, team, controls, coach, onPlayer, experimental, importantOnly = false, defaultShowExperimental = false }: {
     model: MatchCenterModel; fixture: ProductionMatchSession['fixture']; frames: readonly MatchFrame[];
     people: MatchPerson[]; events: readonly CoreEvent[]; team: TeamId; controls?: ReactNode;
-    coach?: ReactNode; onPlayer?: (id: string) => void; experimental?: ReactNode; importantOnly?: boolean;
+    coach?: ReactNode; onPlayer?: (id: string) => void; experimental?: ReactNode; importantOnly?: boolean; defaultShowExperimental?: boolean;
 }) {
     const [view, setView] = useState<MatchView>('OVERVIEW');
     const [phase, setPhase] = useState(model.status);
@@ -41,7 +41,7 @@ export function MatchCenterSurface({ model, fixture, frames, people, events, tea
     }
     const [playerFocus, setPlayerFocus] = useState<string | null>(null);
     const [selected, setSelected] = useState<string | null>(null), [filter, setFilter] = useState<MomentFilter>('ALL');
-    const [keyOnly, setKeyOnly] = useState(false), [showExperimental, setShowExperimental] = useState(false);
+    const [keyOnly, setKeyOnly] = useState(false), [showExperimental, setShowExperimental] = useState(defaultShowExperimental);
     const uid = useId().replaceAll(':', ''), navigation = useRef<HTMLElement>(null);
     const buttons = useRef<Partial<Record<MatchView, HTMLButtonElement | null>>>({});
     const reviewing = model.status === 'FULLTIME';
@@ -77,7 +77,7 @@ export function MatchCenterSurface({ model, fixture, frames, people, events, tea
             {MATCH_VIEWS.filter(v => v !== view).map(v => <section key={v} id={`${uid}-${v}-panel`} role="tabpanel" aria-labelledby={`${uid}-${v}-tab`} hidden/>)}
             {coach && !reviewing && <aside className="mc-coach" aria-label="Managerbeslut">{coach}</aside>}
         </div>
-        {experimental && <details className="mc-experimental" onToggle={e => setShowExperimental(e.currentTarget.open)}><summary>Experimental 2D</summary><p>Valfri kontinuerlig visning av samma match.</p>{showExperimental && experimental}</details>}
+        {experimental && <details className="mc-experimental" open={showExperimental} onToggle={e => setShowExperimental(e.currentTarget.open)}><summary>Experimental 2D</summary><p>Valfri kontinuerlig visning av samma match.</p>{showExperimental && experimental}</details>}
     </div>;
 }
 export function LiveMatchCenter({ session, playing, coach, ...props }: {

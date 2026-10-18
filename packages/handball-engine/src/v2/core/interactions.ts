@@ -334,8 +334,9 @@ export function advanceBall(s:CoreState) {
       // attacking the ball takes it cleanly; everybody else deflects it and the
       // loose ball is then contested, which is what a real deflection looks
       // like and which keeps the attack alive instead of ending it.
-      :ready&&!beaten&&reacted&&['RECEIVE','PRESS','HELP'].includes(p.action?.kind??'')?grasp
-      :ready&&!beaten&&['CONTAIN','RECOVER','BLOCK'].includes(p.action?.kind??'')?grasp*.8:0;
+      :f.kind==='DEFLECTION'?(ready&&!beaten&&reacted&&(p.action?.kind==='RECEIVE'||runningReceive)?.65:0)
+      :ready&&!beaten&&reacted&&['RECEIVE','PRESS','HELP'].includes(p.action?.kind??'')&&(p.action?.kind==='RECEIVE'||distance(p.position,f.origin)>=1.25)?grasp
+      :ready&&!beaten&&reacted&&['CONTAIN','RECOVER','BLOCK'].includes(p.action?.kind??'')?grasp*.62:0;
     return {p,...hit,hit:reach>0&&distance(hit.point,p.position)<=reach&&(isKeeper||s.ball.height<2.5)};
   }).filter(c=>c.hit).sort((a,b)=>a.t-b.t||a.p.id.localeCompare(b.p.id));
   for(const hit of candidates) {
@@ -392,7 +393,7 @@ export function advanceBall(s:CoreState) {
     }
     if(p.team!==shooter.team) {
       // Holding a lane deflects; attacking the ball takes it.
-      const attacking=['RECEIVE','PRESS','HELP'].includes(p.action?.kind??'');
+      const attacking=p.action?.kind==='RECEIVE'||['PRESS','HELP'].includes(p.action?.kind??'')&&distance(p.position,f.origin)>=1.45;
       if(!attacking) {
         contest(s,'INTERCEPTION',shooter,p,'DEFLECTED',distance(hit.point,p.position),12,f.actionId);
         deflect(s,p,hit.point,'PASS_DEFLECTED');return;

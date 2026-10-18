@@ -63,12 +63,7 @@ export function applyMatchResultBookkeeping(
   clubForm[result.homeClubId] = pushForm(clubForm[result.homeClubId], homeEntry);
   clubForm[result.awayClubId] = pushForm(clubForm[result.awayClubId], awayEntry);
 
-  const isOwnHome = result.homeClubId === ownClubId;
-  const isOwnFixture = isOwnHome || result.awayClubId === ownClubId;
-  if (!isOwnFixture) {
-    return;
-  }
-  const contributions = isOwnHome ? result.homePlayerContributions : result.awayPlayerContributions;
+  const contributions = [...result.homePlayerContributions, ...result.awayPlayerContributions];
   for (const contribution of contributions) {
     applyPlayerContribution(
       playerSeasonStats,

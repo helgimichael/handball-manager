@@ -85,7 +85,9 @@ export function activePendingTransferPlayerIds(state: CareerState): Set<string> 
 /** Roughly: does this club already have >=2 OTHER players at the same position with comparable ability? A simple, honest squad-depth proxy -- not a full tactical-fit judgement. */
 function hasAdequateReplacement(state: CareerState, clubId: string, playerId: string, position: string, ca: number): boolean {
   const squad = state.worldSquads[clubId] ?? [];
-  const peers = squad.filter((p) => p.id !== playerId && p.position === position && p.currentAbility >= ca * 0.85);
+  const ratingsById = new Map((state.gameplayRatings[clubId] ?? []).map((r) => [r.playerId, r.ca]));
+  const targetCa = ratingsById.get(playerId) ?? ca;
+  const peers = squad.filter((p) => p.id !== playerId && p.position === position && (ratingsById.get(p.id) ?? p.currentAbility) >= targetCa * 0.85);
   return peers.length >= 2;
 }
 

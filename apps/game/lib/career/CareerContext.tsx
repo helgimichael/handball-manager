@@ -280,6 +280,7 @@ async function fetchDivision1GameplayRatings(): Promise<Record<string, GameplayP
 // (`club.competitionId === ALLSVENSKAN_COMPETITION_ID`) -- an HBL career
 // got zero real Allsvenskan players/economy/recruitment at all.
 const ALLSVENSKAN_COMPETITION_ID = "swe-2";
+const HANDBOLLSLIGAN_COMPETITION_ID = "se_handbollsligan_herr";
 
 async function fetchAllsvenskanWorldSquads(): Promise<Record<string, PlayerMock[]>> {
   return fetchWorldSquads(ALLSVENSKAN_COMPETITION_ID);
@@ -287,6 +288,14 @@ async function fetchAllsvenskanWorldSquads(): Promise<Record<string, PlayerMock[
 
 async function fetchAllsvenskanGameplayRatings(): Promise<Record<string, GameplayPlayerRating[]>> {
   return fetchGameplayRatings(ALLSVENSKAN_COMPETITION_ID);
+}
+
+async function fetchHandbollsliganWorldSquads(): Promise<Record<string, PlayerMock[]>> {
+  return fetchWorldSquads(HANDBOLLSLIGAN_COMPETITION_ID);
+}
+
+async function fetchHandbollsliganGameplayRatings(): Promise<Record<string, GameplayPlayerRating[]>> {
+  return fetchGameplayRatings(HANDBOLLSLIGAN_COMPETITION_ID);
 }
 
 // HM-WORLD-PLAYER-POOL-1.0: the 100-player international pool's clubs
@@ -459,13 +468,28 @@ async function getOrCreateCareerState(save: CareerSave): Promise<CareerState> {
     // still missing (a Tumba/Allsvenskan career already has every
     // Allsvenskan club from its own original `isRealWorld` fetch).
     if (migrated.worldSquads["swe2-aranas"] === undefined) {
-      const allsvenskanWorldSquads = await fetchAllsvenskanWorldSquads();
+      const [allsvenskanWorldSquads, allsvenskanGameplayRatings] = await Promise.all([
+        fetchAllsvenskanWorldSquads(),
+        fetchAllsvenskanGameplayRatings(),
+      ]);
       if (Object.keys(allsvenskanWorldSquads).length > 0) {
-        const allsvenskanGameplayRatings = await fetchAllsvenskanGameplayRatings();
         migrated = {
           ...migrated,
           worldSquads: { ...migrated.worldSquads, ...allsvenskanWorldSquads },
           gameplayRatings: { ...migrated.gameplayRatings, ...allsvenskanGameplayRatings },
+        };
+      }
+    }
+    if (migrated.worldSquads["se_club_alingsas_hk"] === undefined) {
+      const [hblWorldSquads, hblGameplayRatings] = await Promise.all([
+        fetchHandbollsliganWorldSquads(),
+        fetchHandbollsliganGameplayRatings(),
+      ]);
+      if (Object.keys(hblWorldSquads).length > 0) {
+        migrated = {
+          ...migrated,
+          worldSquads: { ...migrated.worldSquads, ...hblWorldSquads },
+          gameplayRatings: { ...migrated.gameplayRatings, ...hblGameplayRatings },
         };
       }
     }
@@ -484,26 +508,39 @@ async function getOrCreateCareerState(save: CareerSave): Promise<CareerState> {
   }
   const club = getClub(save.clubId);
   const isRealWorld = club?.dataSource === "REAL_WORLD";
-  const worldSquads = isRealWorld ? await fetchWorldSquads(club.competitionId) : {};
-  const div1WorldSquads = await fetchDivision1WorldSquads();
-  const worldPoolWorldSquads = await fetchWorldPoolWorldSquads();
-  // HM-MULTI-COMPETITION-WORLD-FOUNDATION-1.0: Allsvenskan is fetched
-  // unconditionally too, UNLESS the manager's own club already IS
-  // Allsvenskan (in which case `worldSquads` above already has every
-  // Allsvenskan club -- fetching again would be redundant, not wrong).
-  const allsvenskanWorldSquads = club?.competitionId === ALLSVENSKAN_COMPETITION_ID ? {} : await fetchAllsvenskanWorldSquads();
-  const allsvenskanGameplayRatings = club?.competitionId === ALLSVENSKAN_COMPETITION_ID ? {} : await fetchAllsvenskanGameplayRatings();
-  const aiTacticalPreferences = isRealWorld ? await fetchAiTacticalPreferences(club.competitionId, "2026/27", GAME_CURRENT_DATE) : {};
-  const gameplayRatings = isRealWorld ? await fetchGameplayRatings(club.competitionId) : {};
-  const div1GameplayRatings = await fetchDivision1GameplayRatings();
-  const worldPoolGameplayRatings = await fetchWorldPoolGameplayRatings();
-  const staffIdentityByClub = isRealWorld ? await fetchAllClubsStaffIdentity(club.competitionId) : {};
+  const [
+    worldSquads,
+    div1WorldSquads,
+    worldPoolWorldSquads,
+    allsvenskanWorldSquads,
+    allsvenskanGameplayRatings,
+    hblWorldSquads,
+    hblGameplayRatings,
+    aiTacticalPreferences,
+    gameplayRatings,
+    div1GameplayRatings,
+    worldPoolGameplayRatings,
+    staffIdentityByClub,
+  ] = await Promise.all([
+    isRealWorld ? fetchWorldSquads(club.competitionId) : Promise.resolve({}),
+    fetchDivision1WorldSquads(),
+    fetchWorldPoolWorldSquads(),
+    club?.competitionId === ALLSVENSKAN_COMPETITION_ID ? Promise.resolve({}) : fetchAllsvenskanWorldSquads(),
+    club?.competitionId === ALLSVENSKAN_COMPETITION_ID ? Promise.resolve({}) : fetchAllsvenskanGameplayRatings(),
+    club?.competitionId === HANDBOLLSLIGAN_COMPETITION_ID ? Promise.resolve({}) : fetchHandbollsliganWorldSquads(),
+    club?.competitionId === HANDBOLLSLIGAN_COMPETITION_ID ? Promise.resolve({}) : fetchHandbollsliganGameplayRatings(),
+    isRealWorld ? fetchAiTacticalPreferences(club.competitionId, "2026/27", GAME_CURRENT_DATE) : Promise.resolve({}),
+    isRealWorld ? fetchGameplayRatings(club.competitionId) : Promise.resolve({}),
+    fetchDivision1GameplayRatings(),
+    fetchWorldPoolGameplayRatings(),
+    isRealWorld ? fetchAllClubsStaffIdentity(club.competitionId) : Promise.resolve({}),
+  ]);
   const fresh = createNewCareerState(
     save.saveId,
     save.clubId,
-    { ...worldSquads, ...allsvenskanWorldSquads, ...div1WorldSquads, ...worldPoolWorldSquads },
+    { ...worldSquads, ...hblWorldSquads, ...allsvenskanWorldSquads, ...div1WorldSquads, ...worldPoolWorldSquads },
     aiTacticalPreferences,
-    { ...gameplayRatings, ...allsvenskanGameplayRatings, ...div1GameplayRatings, ...worldPoolGameplayRatings },
+    { ...gameplayRatings, ...hblGameplayRatings, ...allsvenskanGameplayRatings, ...div1GameplayRatings, ...worldPoolGameplayRatings },
     staffIdentityByClub,
     save.preseasonStart,
   );

@@ -68,9 +68,9 @@ function ExperimentalArchiveReplay({ archive }: { archive: PlayedMatchArchive })
 }
 
 /** Normal replay is the recorded event/key-moment experience. 2D remains optional. */
-export function ArchiveReplay({archive}:{archive:PlayedMatchArchive}){
+export function ArchiveReplay({archive, defaultShowExperimental = false}:{archive:PlayedMatchArchive; defaultShowExperimental?: boolean}){
   const decoded=useMemo(()=>{try{return{frames:archiveFrames(archive),error:null};}catch{return{frames:[],error:'Positionsbilderna kunde inte läsas. Matchrapporten finns kvar.'};}},[archive]);
-  return <>{decoded.error&&<p role="alert">{decoded.error}</p>}<ArchivedMatchCenter archive={archive} frames={decoded.frames} experimental={<ExperimentalArchiveReplay archive={archive}/>}/></>;
+  return <>{decoded.error&&<p role="alert">{decoded.error}</p>}<ArchivedMatchCenter archive={archive} frames={decoded.frames} defaultShowExperimental={defaultShowExperimental} experimental={<ExperimentalArchiveReplay archive={archive}/>}/></>;
 }
 
 export default function ProductionMatchView({ fixtureId, quickFinish = false }: { fixtureId: string; quickFinish?: boolean }) {
@@ -90,7 +90,7 @@ export default function ProductionMatchView({ fixtureId, quickFinish = false }: 
     }
     if (session.core.status !== 'RUNNING' || (session.pausedAtHalf && !finishing)) return;
     const timer = setTimeout(() => updateCareer(state => {
-      if(finishing)return advanceProductionMatch(state.productionMatch?.pausedAtHalf?commandProductionMatch(state,{kind:'SECOND_HALF'}):state,1000,false);
+      if(finishing)return advanceProductionMatch(state.productionMatch?.pausedAtHalf?commandProductionMatch(state,{kind:'SECOND_HALF'}):state,10000,false);
       const ticks=untilKey?128:Math.max(1,speed)*4,next=advanceMatchCenter(state,ticks,keyMode||untilKey,()=>{stopped.current=true;});
       if(next.productionMatch&&(next.productionMatch.pausedAtHalf||next.productionMatch.core.match?.phase==='FULLTIME'))stopped.current=true;
       return next;
@@ -100,7 +100,7 @@ export default function ProductionMatchView({ fixtureId, quickFinish = false }: 
   useEffect(()=>{if(stopped.current){stopped.current=false;setPlaying(false);setUntilKey(false);}},[session]);
   const archive = career.matchArchives?.[fixtureId];
   if (!session || session.fixture.id !== fixtureId) {
-    if (archive) return <><div style={{ marginBottom: 12 }}><Link className="hm-btn" href={`/career/match-report/${fixtureId}`}>Matchrapport</Link> <Link className="hm-btn hm-btn-primary" href="/career">Fortsätt karriären</Link></div><ArchiveReplay archive={archive} /></>;
+    if (archive) return <><div style={{ marginBottom: 12 }}><Link className="hm-btn" href={`/career/match-report/${fixtureId}`}>Matchrapport</Link> <Link className="hm-btn hm-btn-primary" href="/career">Fortsätt karriären</Link></div><ArchiveReplay archive={archive} defaultShowExperimental /></>;
     return <div className="hm-panel-body"><p>{career.results[fixtureId] ? 'Resultatet finns i matchrapporten. Den här matchen saknar sparade händelser för repris.' : 'Starta matchen från matchförhandsvisningen.'}</p><Link className="hm-btn" href={career.results[fixtureId] ? `/career/match-report/${fixtureId}` : '/career/match-preview'}>Öppna match</Link></div>;
   }
   const c = session.core, team = session.fixture.homeClubId === career.playerClubId ? 'HOME' : 'AWAY';

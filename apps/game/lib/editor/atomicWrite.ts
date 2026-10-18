@@ -19,6 +19,7 @@
 // original completely untouched (Spec S36).
 import fs from "node:fs";
 import path from "node:path";
+import { clearDefaultCatalogCache } from "./catalog";
 
 export function serializeJson(data: unknown): string {
   return JSON.stringify(data, null, 2);
@@ -59,6 +60,7 @@ export function atomicWriteJsonFile(filePath: string, data: unknown): void {
       fs.copyFileSync(filePath, backupPath);
     }
     fs.renameSync(tmpPath, filePath);
+    clearDefaultCatalogCache();
   } catch (error) {
     // Best-effort cleanup of the temp file; the original source file is
     // untouched either way since rename is the only step that replaces it.

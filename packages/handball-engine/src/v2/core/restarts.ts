@@ -33,7 +33,7 @@ export function restartTarget(s:CoreState,p:CorePlayer):Point {
     // checks at its actual position; others run their first wave or retreat.
     if(p.id===r.receiverId)return {...p.position};
     const q=local(p.position,direction),depth=own?local(structurePoint(p.role,direction),direction).y:7.5;
-    const advance=s.coaching[r.owner].tempo==='QUICK'?8:6;
+    const advance=own?(p.role==='LW'||p.role==='RW'?8:5):(s.coaching[r.owner].tempo==='QUICK'?8:6);
     target=clearGoalArea(world({x:clamp(q.x,.7,19.3),y:Math.max(depth,q.y-advance)},direction),direction,p.radius+.1);
   } else {
     const q=local(target,direction);

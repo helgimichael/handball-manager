@@ -75,15 +75,25 @@ function scoreClaim(claim: IdentityClaim): number {
  * baseline for `clubId`. 0 for the ~8 clubs with no season-context
  * data at all -- an explicit "no adjustment" default, never invented.
  */
+const clubContextShiftCache = new Map<string, number>();
+
 export function clubContextShift(clubId: string): number {
+  const cached = clubContextShiftCache.get(clubId);
+  if (cached !== undefined) return cached;
+
   const season = loadSeasonIdentity(clubId, leagueSegmentForClub(clubId));
-  if (!season) return 0;
+  if (!season) {
+    clubContextShiftCache.set(clubId, 0);
+    return 0;
+  }
 
   const claims = [...season.context.organisationalClaims, ...season.context.financialClaims, ...season.context.squadClaims, ...season.context.competitiveClaims, ...season.context.transitionClaims];
 
   let score = 0;
   for (const claim of claims) score += scoreClaim(claim);
-  return Math.max(-MAX_SHIFT, Math.min(MAX_SHIFT, score));
+  const shift = Math.max(-MAX_SHIFT, Math.min(MAX_SHIFT, score));
+  clubContextShiftCache.set(clubId, shift);
+  return shift;
 }
 
 // ---------------------------------------------------------------------------

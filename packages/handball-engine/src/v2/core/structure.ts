@@ -61,8 +61,8 @@ export function transitionReadyToSettle(s:CoreState):boolean {
   if(carrier.airborne||carrier.action&&['JUMP','SHOOT'].includes(carrier.action.kind)&&!actionAvailable(carrier))return false;
   const defenders=courtPlayers(s,otherTeam(carrier.team)).filter(d=>d.kind==='FIELD_PLAYER');
   if(!lineFormed(s,defenders,direction))return false;
-  if(finishingThreat(s,carrier,direction)&&!threatContained(s,carrier,defenders,direction))return false;
-  const outlets=courtPlayers(s,carrier.team).filter(a=>a.id!==carrier.id&&a.kind==='FIELD_PLAYER'&&a.duty.kind==='FIRST_WAVE'&&
+  if((finishingThreat(s,carrier,direction)||s.tick-s.possession.sinceTick<120&&['DRIVE','DRIBBLE'].includes(carrier.action?.kind??'')&&local(carrier.position,direction).y<12)&&!threatContained(s,carrier,defenders,direction))return false;
+  const outlets=s.tick-s.possession.sinceTick>=120?[]:courtPlayers(s,carrier.team).filter(a=>a.id!==carrier.id&&a.kind==='FIELD_PLAYER'&&a.duty.kind==='FIRST_WAVE'&&
     !a.airborne&&!a.condition.unavailable&&!a.condition.exitRequired&&!exchangeActive(s,a.id)&&finishingThreat(s,a,direction));
   return outlets.every(a=>{
     if(laneMargin(s,carrier.position,a.position,carrier.team,10.5+3*carrier.profile.passing).seconds<=.05)return true;
@@ -197,7 +197,7 @@ function secureRead(s:CoreState,p:CorePlayer,reason:string):boolean {
 /** A counter reads actual ahead runners before any settled rebuilding policy. */
 function transitionProgress(s:CoreState,p:CorePlayer):boolean {
   const direction=s.directions[p.team],q=local(p.position,direction);
-  if(s.possession.phase!=='TRANSITION'||q.y<=14)return false;
+  if(s.possession.phase!=='TRANSITION')return false;const chance=shotOpportunity(s,p);if(q.y<=9.2&&q.y>=7.4&&chance&&chance.quality>.38&&chance.containment<.55&&!p.airborne&&applyContinuation(s,p,{kind:'SHOOT',quality:chance.quality,reason:'TRANSITION: finish fast-break opportunity'}))return true;if(q.y<=11.5)return false;
   const defenders=courtPlayers(s,otherTeam(p.team)).filter(d=>d.kind==='FIELD_PLAYER');
   const runners=courtPlayers(s,p.team).filter(a=>a.id!==p.id&&a.kind==='FIELD_PLAYER'&&a.duty.kind==='FIRST_WAVE'&&
     !a.airborne&&!a.condition.unavailable&&!a.condition.exitRequired&&!exchangeActive(s,a.id));
@@ -206,11 +206,11 @@ function transitionProgress(s:CoreState,p:CorePlayer):boolean {
     const lane=laneMargin(s,p.position,a.position,p.team,10.5+3*p.profile.passing).seconds;
     const separation=Math.min(8,...defenders.filter(d=>d.beatenUntilTick<=s.tick&&d.screenedUntilTick<=s.tick).map(d=>distance(d.position,a.position)));
     return {a,progress,lane,separation,score:Math.min(progress,12)/12+Math.min(lane,1)*.3+Math.min(separation,5)*.08};
-  }).filter(c=>c.progress>=2&&c.lane>.1&&c.separation>2.3&&distance(p.position,c.a.position)<=28)
+  }).filter(c=>c.progress>=2&&c.lane>.14&&c.separation>2.2&&distance(p.position,c.a.position)<=22)
     .sort((a,b)=>b.score-a.score||a.a.id.localeCompare(b.a.id));
   if(candidates[0])return startAction(s,p,'PASS','TRANSITION: release the actual ahead first-wave receiver',null,candidates[0].a.id);
   if(!p.handling.dribbleUsed&&laneClearance(s,p.position,world({x:q.x,y:q.y-4},direction),p.team)>.65) {
-    if(startAction(s,p,'DRIBBLE','TRANSITION: carry through the actual open forward lane',world({x:q.x,y:Math.max(9,q.y-7)},direction))){p.action!.executeTicks=40;return true;}
+    if(startAction(s,p,'DRIBBLE','TRANSITION: carry through the actual open forward lane',world({x:q.x,y:Math.max(8.8,q.y-8)},direction))){p.action!.executeTicks=44;return true;}
   }
   return false;
 }
@@ -289,7 +289,7 @@ function chooseCarrierLegacy(s:CoreState,p:CorePlayer) {
     const finish=readContinuation(s,p);
     if(finish?.kind==='SHOOT'&&chance&&chance.distance<=8&&applyContinuation(s,p,finish))return;
     const target=isWing(p)||isPivot(p)?{...p.position}
-      :clearGoalArea(world({x:clamp(q.x,2,18),y:q.y-1.3},direction),direction,p.radius+.1);
+      :clearGoalArea(world({x:clamp(q.x,2,18),y:s.possession.phase==='TRANSITION'&&q.y>11?Math.max(8.2,q.y-6):q.y-1.3},direction),direction,p.radius+.1);
     if(startAction(s,p,'DRIBBLE','Use the bounce to retain a legal continuation after the approach',target))return;
   }
   // Passive play is a real constraint, but it does not grant a half-court shot.
@@ -490,8 +490,8 @@ function attackingMovementTarget(s:CoreState,p:CorePlayer,direction:CoreState['d
     :structurePoint(p.role,direction,s.ball.position.x);
   if(s.possession.phase==='TRANSITION') {
     const q=local(p.position,direction),ballDepth=local(s.ball.position,direction).y;
-    const trailing=p.duty.kind==='SECOND_WAVE'?Math.min(q.y,ballDepth+(s.offence.phase==='UPPSPEL'?2:1)):0;
-    target=world({x:p.role==='LB'?5:p.role==='RB'?15:target.x,y:Math.max(local(target,direction).y,q.y-7,trailing)},direction);
+    const trailing=p.duty.kind==='SECOND_WAVE'?Math.min(q.y,ballDepth+(s.offence.phase==='UPPSPEL'?2:1)):0;target=world({x:p.role==='LB'?5:p.role==='RB'?15:target.x,y:Math.max(local(target,direction).y,q.y-8,trailing)},direction);
+    /* transition wave target set above */
   }
   return {target:offensiveTarget(s,p)??target,screenTarget};
 }

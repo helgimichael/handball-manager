@@ -52,8 +52,17 @@ function listDirs(dir: string): string[] {
     .map((entry) => entry.name);
 }
 
-/** Builds the catalog fresh from disk every call -- the dataset is small (tens of clubs), so a cache is not worth the invalidation risk. */
+let defaultCatalogCache: EditorCatalog | null = null;
+
+export function clearDefaultCatalogCache(): void {
+  defaultCatalogCache = null;
+}
+
+/** Builds the catalog from disk, caching the canonical DEFAULT_DATA_ROOT catalog in memory (invalidated on any editor atomicWriteJsonFile). */
 export function buildCatalog(dataRoot: string = DEFAULT_DATA_ROOT): EditorCatalog {
+  if (dataRoot === DEFAULT_DATA_ROOT && defaultCatalogCache !== null) {
+    return defaultCatalogCache;
+  }
   const clubs: EditorClubEntry[] = [];
 
   for (const nation of listDirs(dataRoot)) {
@@ -140,7 +149,11 @@ export function buildCatalog(dataRoot: string = DEFAULT_DATA_ROOT): EditorCatalo
     }
   }
 
-  return { clubs };
+  const catalog: EditorCatalog = { clubs };
+  if (dataRoot === DEFAULT_DATA_ROOT) {
+    defaultCatalogCache = catalog;
+  }
+  return catalog;
 }
 
 /** Resolves a clubId against the catalog. Returns `undefined` for anything not already discovered -- including any path-traversal attempt, since it can never match a real entry. */

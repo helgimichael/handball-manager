@@ -7,6 +7,7 @@ import { computeTeamUsageTrace } from "./matchUsageEngine";
 import { computePlayerMatchStrengthAdjustment, resolveClubMatchPlanForFixture } from "./playerMatchStrength";
 import { computeAiVsAiTacticalAdjustment } from "./tacticalMatchAdjustment";
 import { computeTacticalMatchPlanAdjustment } from "./tacticalPlanEffects";
+import { buildFallbackAttackExposure, buildMatchRoster } from "./tumbaRoster";
 import { averageRating, type CareerFixture, type CareerState, type ClubFormEntry, type PlayerSeasonStats } from "./types";
 import { computeStandings } from "@handball-manager/game-simulation";
 
@@ -136,16 +137,45 @@ export function simulateAiFixturesForDate(state: CareerState, date: string): { s
       home: (adjustment?.home ?? 0) + playerStrength.home + tacticalPlanAdjustment.home,
       away: (adjustment?.away ?? 0) + playerStrength.away + tacticalPlanAdjustment.away,
     };
+    const getRoster = (clubId: string) => {
+      const isHome = clubId === fixture.homeClubId;
+      const plan = isHome ? homePlan : awayPlan;
+      const usageTrace = isHome ? homeUsageTrace : awayUsageTrace;
+      const squad = getCareerClubSquad(state, clubId);
+      const attackExposureById = usageTrace
+        ? new Map(usageTrace.players.map((p) => [p.playerId, p.attackExposure]))
+        : buildFallbackAttackExposure(squad, fixture.id, clubId);
+      const defenceExposureById = usageTrace
+        ? new Map(usageTrace.players.map((p) => [p.playerId, p.defenceExposure]))
+        : undefined;
+      const ratingsById = new Map((state.gameplayRatings[clubId] ?? []).map((r) => [r.playerId, r]));
+      return buildMatchRoster(squad, undefined, attackExposureById, undefined, defenceExposureById, ratingsById);
+    };
+    const getStrength = (clubId: string) =>
+      computeSquadDerivedClubStrength(clubId, getCareerClubSquad(state, clubId), state.gameplayRatings[clubId] ?? []);
     const result = simulateFixture(
       fixture,
       state.saveSeed,
-      (clubId) => computeSquadDerivedClubStrength(clubId, getCareerClubSquad(state, clubId), state.gameplayRatings[clubId] ?? []),
+      getStrength,
       undefined,
       combinedAdjustment,
     );
+    const rosterResult = fixture.type !== "FRIENDLY"
+      ? simulateFixture(fixture, state.saveSeed, getStrength, getRoster, combinedAdjustment)
+      : result;
     results[fixture.id] = result;
     produced.push(result);
-    applyMatchResultBookkeeping(result, clubForm, playerSeasonStats, state.playerClubId, fixture.type !== "FRIENDLY");
+    applyMatchResultBookkeeping(
+      {
+        ...result,
+        homePlayerContributions: rosterResult.homePlayerContributions,
+        awayPlayerContributions: rosterResult.awayPlayerContributions,
+      },
+      clubForm,
+      playerSeasonStats,
+      state.playerClubId,
+      fixture.type !== "FRIENDLY",
+    );
   }
 
   return { state: { ...state, results, clubForm, playerSeasonStats }, results: produced };

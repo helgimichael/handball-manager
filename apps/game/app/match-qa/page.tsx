@@ -18,7 +18,7 @@
 // engine rather than mutating a running one into a state the engine could never
 // have produced.
 
-import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
+import { Fragment, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import MasterCourt, {
   type InteractionMode,
   type ToolId,
@@ -47,6 +47,8 @@ import {
   buildQaMatch,
   readConditions,
   readTeams,
+  readDefenders,
+  defenceSummaryAt,
   phaseAt,
   type DefenceSystemId,
   type QaSettings,
@@ -166,6 +168,20 @@ export default function MatchQaPage() {
     const id = frame?.snapshot.ball.possessorPlayerId;
     return id ? built.match.finalState.rosters.HOME.includes(id) : true;
   }, [built.match, frame]);
+
+  // The side NOT in possession is the one defending, and the one whose roles
+  // the decision trace is naming.
+  const defenders = useMemo(
+    () =>
+      frame
+        ? readDefenders(
+            built.match,
+            frame.snapshot.players.map((p) => ({ id: p.id, x: p.x, y: p.y })),
+            possessionIsHome ? "AWAY" : "HOME",
+          )
+        : [],
+    [built.match, frame, possessionIsHome],
+  );
 
   const teams = useMemo(
     () =>
@@ -447,6 +463,30 @@ export default function MatchQaPage() {
               </div>
             </div>
           ))}
+
+          {/*
+            QA instrumentation, not a model. The decision trace names defenders
+            by ROLE and roles are reassigned by lane at every change of
+            possession, so "R2 has the ball" is unverifiable on screen unless a
+            human can see which marker is R2 right now. This table is that, and
+            nothing else: ids, roles and the coordinates already in the frame.
+          */}
+          <div style={panel}>
+            <div style={{ fontWeight: 600, marginBottom: 4 }}>WHO IS WHO (defending side)</div>
+            <div style={{ opacity: 0.65, marginBottom: 4 }}>{defenceSummaryAt(built.match, frame.matchSeconds)}</div>
+            <div style={{ display: "grid", gridTemplateColumns: "auto auto 1fr", gap: "2px 8px", fontVariantNumeric: "tabular-nums" }}>
+              {defenders.map((d) => (
+                <Fragment key={d.playerId}>
+                  <div style={{ fontWeight: 600 }}>{d.role}</div>
+                  <div style={{ opacity: 0.7 }}>…{d.shortId}</div>
+                  <div style={{ opacity: 0.7 }}>
+                    ({d.x.toFixed(1)}, {d.y.toFixed(1)})
+                  </div>
+                </Fragment>
+              ))}
+              {defenders.length === 0 ? <div style={{ opacity: 0.6 }}>—</div> : null}
+            </div>
+          </div>
 
           <div style={panel}>
             <div style={{ fontWeight: 600, marginBottom: 4 }}>CANONICAL EVENTS</div>

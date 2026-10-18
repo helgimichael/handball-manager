@@ -89,7 +89,7 @@ test('normal career UI: real squad, calendar, live match, decisions, finalizatio
   await page.getByRole('button', { name: 'Spara', exact: true }).click();
   await expect(page.getByRole('status').filter({ hasText: 'Sparat' })).toBeVisible({ timeout: 30000 });
   await page.reload();
-  await expect(page.getByRole('button', { name: 'Spela', exact: true })).toBeVisible({ timeout: 60000 });
+  await expect(page.getByRole('button', { name: 'Återuppta efter timeout', exact: true })).toBeVisible({ timeout: 60000 });
   await expect(page.getByRole('button',{name:'Anfall Bredd',exact:true})).toHaveAttribute('aria-pressed','true');
   await expect(page.getByRole('button',{name:'Timeout',exact:true})).toBeDisabled();
   await page.getByRole('button', { name: 'Spela till slut', exact: true }).click();

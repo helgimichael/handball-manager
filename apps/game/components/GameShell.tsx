@@ -84,13 +84,24 @@ export default function GameShell({ children }: { children: ReactNode }) {
   const liveMatchFixture = activeSession ? career.fixtures.find((f) => f.id === activeSession.fixtureId) : undefined;
   const liveMatchResult = activeSession ? career.results[activeSession.fixtureId] : undefined;
   const liveMatchBanner =
-    isLiveMatchActive && !isOnLiveMatchRoute && liveMatchFixture && liveMatchResult
-      ? (() => {
-          const view = computeLiveMatchView(liveMatchResult, activeSession!.clock);
-          const home = getClub(liveMatchFixture.homeClubId);
-          const away = getClub(liveMatchFixture.awayClubId);
-          return `MATCH PÅGÅR · ${home?.shortName ?? "?"} ${view.homeScore}–${view.awayScore} ${away?.shortName ?? "?"} · ${formatMatchMinute(view.clockMinute)}`;
-        })()
+    isLiveMatchActive && !isOnLiveMatchRoute
+      ? career.productionMatch
+        ? (() => {
+            const pm = career.productionMatch;
+            const home = getClub(pm.fixture.homeClubId);
+            const away = getClub(pm.fixture.awayClubId);
+            const mins = Math.floor(pm.core.officialClock.timeMs / 60000);
+            const secs = String(Math.floor(pm.core.officialClock.timeMs / 1000) % 60).padStart(2, "0");
+            return `MATCH PÅGÅR · ${home?.shortName ?? "?"} ${pm.core.score.HOME}–${pm.core.score.AWAY} ${away?.shortName ?? "?"} · ${mins}:${secs}`;
+          })()
+        : liveMatchFixture && liveMatchResult
+          ? (() => {
+              const view = computeLiveMatchView(liveMatchResult, activeSession!.clock);
+              const home = getClub(liveMatchFixture.homeClubId);
+              const away = getClub(liveMatchFixture.awayClubId);
+              return `MATCH PÅGÅR · ${home?.shortName ?? "?"} ${view.homeScore}–${view.awayScore} ${away?.shortName ?? "?"} · ${formatMatchMinute(view.clockMinute)}`;
+            })()
+          : null
       : null;
   // HM-CAREER-0.5: while non-null, the processing overlay is showing a
   // day-by-day replay of a CONTINUE press that has ALREADY fully run and

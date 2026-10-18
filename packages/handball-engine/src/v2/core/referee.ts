@@ -91,7 +91,7 @@ export function judgeFoul(s:CoreState,a:CorePlayer,d:CorePlayer,severity:Severit
   const f:FoulCase={id:uid(s,'foul'),attackerId:a.id,defenderId:d.id,team:a.team,location:{...a.position},tick:s.tick,contestId,
     severe:severity==='SERIOUS',clearChance,severity,reason};
   const continuing=s.ball.live&&s.ball.controllerId===a.id&&severity!=='SERIOUS'&&!a.airborne&&
-    a.action?.phase==='EXECUTING'&&['DRIVE','DRIBBLE','SHOOT','PASS'].includes(a.action.kind);
+    a.action?.phase==='EXECUTING'&&['DRIVE','DRIBBLE','SHOOT','PASS'].includes(a.action.kind)&&(clearChance||severity!=='ORDINARY'||a.action.kind==='SHOOT'||a.action.kind==='PASS'||d.beatenUntilTick>s.tick||a.handling.steps===0&&!a.handling.dribbleUsed);
   const pending=continuing&&!s.referee.advantage;
   const decision=pending?'ADVANTAGE_PENDING':s.referee.advantage?'RECALL_PENDING_ADVANTAGE':'WHISTLE_NOW';
   // Retain FOUL for old readers, with its exact assessment meaning. A second

@@ -274,3 +274,67 @@ export function readConditions(match: MatchResult, onCourtIds: readonly string[]
 }
 
 export { conditionOf };
+
+// ---------------------------------------------------------------------------
+// QA instrumentation: who is who on the court
+// ---------------------------------------------------------------------------
+
+export type QaDefenderRow = {
+  readonly playerId: string;
+  /** The last four characters, which is what a human can match to a marker. */
+  readonly shortId: string;
+  readonly role: string;
+  readonly x: number;
+  readonly y: number;
+};
+
+/**
+ * The defending side's outfield players at this instant, with the ROLE the
+ * engine knows them by.
+ *
+ * Purely an identification aid, and it exists because of a specific QA failure:
+ * the decision trace said "R2 has the ball" and a human could not tell which
+ * blue marker R2 was, so there was no way to agree on whether the defence was
+ * doing what the trace claimed. Roles are reassigned by lane at every change of
+ * possession, so a player is not the same role all match and no static legend
+ * would do.
+ *
+ * Reads the state it is given. It computes no positions, no duties and no
+ * reactions -- the harness must never become a second simulation.
+ */
+export function readDefenders(
+  match: MatchResult,
+  players: readonly { readonly id: string; readonly x: number; readonly y: number }[],
+  defendingTeam: MatchTeamId | null,
+): readonly QaDefenderRow[] {
+  if (!defendingTeam) return [];
+  const roster = new Set(match.finalState.rosters[defendingTeam]);
+  const keepers = new Set(match.finalState.goalkeeperIds);
+  const roleOf = new Map<string, string>();
+  for (const player of [
+    ...match.finalState.match.handball.players,
+    ...match.finalState.bench.HOME,
+    ...match.finalState.bench.AWAY,
+  ]) {
+    roleOf.set(player.id, player.role);
+  }
+  return players
+    .filter((p) => roster.has(p.id) && !keepers.has(p.id))
+    .map((p) => ({ playerId: p.id, shortId: p.id.slice(-4), role: roleOf.get(p.id) ?? "?", x: p.x, y: p.y }))
+    .sort((a, b) => a.x - b.x || a.playerId.localeCompare(b.playerId));
+}
+
+/**
+ * The engine's own defensive note for this instant.
+ *
+ * The same string the decision trace shows, pulled out on its own so it can sit
+ * beside the defender table and be read against it.
+ */
+export function defenceSummaryAt(match: MatchResult, matchSeconds: number): string {
+  let summary = "—";
+  for (const entry of match.trace) {
+    if (entry.matchSeconds > matchSeconds) break;
+    if (entry.note.startsWith("defence: ")) summary = entry.note.slice(9);
+  }
+  return summary;
+}

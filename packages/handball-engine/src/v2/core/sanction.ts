@@ -21,7 +21,7 @@
 // man, and what the attacker was about to do. A defender who is goal-side, set,
 // and uses his bent arms is defending. The same defender arriving late across
 // the attacker's back at speed is not, and that difference is the whole model.
-import { courtPlayers, type CoreState } from './state';
+import { courtPlayers, getPlayer, type CoreState } from './state';
 import { clearGoalArea, distance, goal, local, shootingAngle } from './space';
 import type { CorePlayer } from './state';
 import { secondsTo } from './timing';
@@ -159,8 +159,17 @@ export function readContact(
   if(airborne)return {severity:'PUNISHABLE',reason:'Body-directed contact during an airborne release',clearChance:chance.clear,detail};
   if (technique === 'BENT_ARMS' && approach === 'FRONT') {
     // The textbook defensive action. Only punishable when he arrives at a speed
-    // that turns containment into a charge.
+    // that turns containment into a charge, or an ordinary stopping foul (stoppfoul)
+    // when close frontal contact ties up a carrier who has already spent steps,
+    // bounce, or hold time in the free-throw zone, or when two defenders lock him up.
     if (radialClosingSpeed > controlledClosingLimit) return { severity: 'ORDINARY', reason: 'Frontal contact made with too much momentum', clearChance: false, detail };
+    const attackerDepth = local(a.position, s.directions[a.team]).y;
+    const activeCarry = ['DRIVE', 'DRIBBLE', 'FEINT'].includes(a.action?.kind ?? '');
+    const helper = s.defence.helperId ? getPlayer(s, s.defence.helperId) : null;
+    const doubleTeamed = !!helper && helper.id !== d.id && distance(a.position, helper.position) <= 1.3;
+    const tiedUp = s.tick > 6 && attackerDepth <= 9.6 && activeCarry && separation <= 0.78 &&
+      ((a.handling.dribbleUsed && a.handling.steps >= 2) || (doubleTeamed && a.handling.steps >= 2 && s.tick - a.handling.heldSinceTick >= 18));
+    if (tiedUp) return { severity: 'ORDINARY', reason: 'Defensive contact tied up and stopped attacking progression', clearChance: false, detail };
     return { severity: 'LEGAL', reason: 'Frontal bent-arm containment from a set position', clearChance: false, detail };
   }
   if (approach === 'BEHIND') {
@@ -183,9 +192,10 @@ export function readContact(
     };
   }
   // Side contact with bent arms: legal unless he is late enough that the
-  // attacker was already past him.
-  const late = separation < 0.55 && speed > 2.6;
+  // attacker was already past his near shoulder or tied up in progression.
+  const late = (separation < 0.55 && speed > 2.6) ||
+    (shoulderLost && separation <= 0.78 && ['DRIVE', 'DRIBBLE', 'JUMP', 'SHOOT'].includes(a.action?.kind ?? ''));
   return late
-    ? { severity: chance.clear ? 'CLEAR_CHANCE' : 'ORDINARY', reason: 'Late lateral contact', clearChance: chance.clear, detail }
+    ? { severity: chance.clear ? 'CLEAR_CHANCE' : 'ORDINARY', reason: 'Late lateral contact stopping progression', clearChance: chance.clear, detail }
     : { severity: 'LEGAL', reason: 'Lateral body contact within the permitted use of the torso', clearChance: false, detail };
 }

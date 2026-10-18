@@ -1,4 +1,5 @@
 "use client";
+import Link from 'next/link';
 import { MatchHero } from '@/components/game/Identity';
 import { ArchiveReplay } from '@/components/ProductionMatchView';
 import { PageHeading } from '@/components/manager/Workspace';
@@ -50,14 +51,14 @@ export default function MatchReportPage() {
   const isCurrentLastMatch = getLastPlayedPlayerFixture(career)?.fixture.id === fixture.id;
 
   const archive=career.matchArchives?.[fixture.id];
-  if(archive)return <div className="mc-report-page"><PageHeading eyebrow={fixture.date} title="Matchrapport" description="Resultatet, prestationerna och de avgörande ögonblicken."/><ArchiveReplay archive={archive}/><div className="mc-report-actions"><button type="button" className="hm-btn" onClick={()=>router.push('/career/schedule')}>← Schema</button>{isCurrentLastMatch&&<button type="button" className="hm-btn" onClick={()=>router.push('/career/analysis/last-match')}>Öppna matchanalys</button>}<button type="button" className="hm-btn" onClick={()=>router.push(`/career/competitions/${fixture.competitionId}`)}>Ligaläget</button><button type="button" className="hm-btn hm-btn-primary" onClick={()=>router.push('/career')}>Fortsätt →</button></div></div>;
+  if(archive)return <div className="mc-report-page"><PageHeading eyebrow={fixture.date} title="Matchrapport" description="Resultatet, prestationerna och de avgörande ögonblicken."/><ArchiveReplay archive={archive}/><div className="mc-report-actions"><button type="button" className="hm-btn" onClick={()=>router.push('/career/schedule')}>← Schema</button><button type="button" className="hm-btn" onClick={()=>router.push(`/career/match-day/${fixture.id}`)}>Se matchrepris</button>{isCurrentLastMatch&&<button type="button" className="hm-btn" onClick={()=>router.push('/career/analysis/last-match')}>Öppna matchanalys</button>}<Link className="hm-btn" href={`/career/competitions/${fixture.competitionId}`}>Tabell & liga →</Link><button type="button" className="hm-btn hm-btn-primary" onClick={()=>router.push('/career')}>Fortsätt →</button></div><details className="hm-panel" open><summary className="hm-panel-header"><strong>Speltid och belastning</strong></summary><table className="hm-table"><thead><tr><th>Spelare</th><th>Minuter</th><th>Energi efter match</th></tr></thead><tbody>{archive.people.filter(p => (archive.load[p.id]?.minutes ?? 0) > 0).map(p => <tr key={p.id}><td><PlayerLink playerId={p.id}>{p.name}</PlayerLink></td><td>{archive.load[p.id].minutes.toFixed(1)}</td><td>{Math.round(archive.load[p.id].energy)}%</td></tr>)}</tbody></table></details></div>;
 
   return (
     <div className="hm-grid" style={{ gap: 12 }}>
       <PageHeading eyebrow={fixture.date} title="Matchrapport" description="Slutsignalen har gått. Resultatet, spelarna och nästa steg i säsongen." />
       <MatchHero career={career} fixture={fixture} result={result} context="SLUTRESULTAT">
         {career.matchArchives?.[fixture.id] && <button className="hm-btn" onClick={() => router.push(`/career/match-day/${fixture.id}`)}>Se matchrepris</button>}
-        <button className="hm-btn hm-btn-primary" onClick={() => router.push(`/career/competitions/${fixture.competitionId}`)}>Ligaläget →</button>
+        <button className="hm-btn hm-btn-primary" onClick={() => router.push(`/career/competitions/${fixture.competitionId}`)}>Tabell & liga →</button>
       </MatchHero>
       <MatchContext fixture={fixture} postMatch /><MatchTimeline result={result} />
       <div className="hm-grid" style={{ gridTemplateColumns: "1fr 1fr" }}>

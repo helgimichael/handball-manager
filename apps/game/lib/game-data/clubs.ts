@@ -82,24 +82,24 @@ const SWE_1: Club[] = [
 // (data/real-world/sweden/2026-27/allsvenskan/<club>/), so `dataSource`
 // flips to "REAL_WORLD" for all 14 -- exactly the same flag that already
 // gates worldSquads/gameplayRatings/aiTacticalPreferences snapshotting
-// for Handbollsligan. IFK Tumba remains the ONLY *playable* club in this
-// competition (the other 13 are real-world-backed AI opponents/transfer
-// targets, not manager-selectable yet).
+// for Handbollsligan. All 14 Allsvenskan clubs have complete real-world
+// squads, ratings, staff, and club identity profiles on disk and are
+// playable in New Game.
 const SWE_2: Club[] = [
-  club({ id: "swe2-aranas", competitionId: "swe-2", name: "HK Aranäs", shortName: "Aranäs", dataSource: "REAL_WORLD", city: "Kungsbacka", primaryColor: "#1e3a8a", secondaryColor: "#e2b13c" }),
-  club({ id: "swe2-drott", competitionId: "swe-2", name: "HK Drott Halmstad", shortName: "Drott", dataSource: "REAL_WORLD", city: "Halmstad", primaryColor: "#c8102e", secondaryColor: "#111318" }),
-  club({ id: "swe2-guif", competitionId: "swe-2", name: "Eskilstuna Guif IF", shortName: "Guif", dataSource: "REAL_WORLD", city: "Eskilstuna", primaryColor: "#c8102e", secondaryColor: "#111318" }),
-  club({ id: "swe2-h43lund", competitionId: "swe-2", name: "H43 Lund HF", shortName: "H43", dataSource: "REAL_WORLD", city: "Lund", primaryColor: "#1e3a8a", secondaryColor: "#e2b13c" }),
-  club({ id: "swe2-huddinge", competitionId: "swe-2", name: "Huddinge HK", shortName: "Huddinge", dataSource: "REAL_WORLD", city: "Huddinge", primaryColor: "#0b6e4f", secondaryColor: "#ffffff" }),
-  club({ id: "swe2-kroppskultur", competitionId: "swe-2", name: "GF Kroppskultur", shortName: "Kropps", dataSource: "REAL_WORLD", city: "Uddevalla", primaryColor: "#111318", secondaryColor: "#c8102e" }),
-  club({ id: "swe2-kungalv", competitionId: "swe-2", name: "Kungälvs HK", shortName: "Kungälv", dataSource: "REAL_WORLD", city: "Kungälv", primaryColor: "#c8102e", secondaryColor: "#111318" }),
-  club({ id: "swe2-redbergslid", competitionId: "swe-2", name: "Redbergslids IK", shortName: "Redbergslid", dataSource: "REAL_WORLD", city: "Göteborg", primaryColor: "#111318", secondaryColor: "#e2b13c" }),
-  club({ id: "swe2-torslanda", competitionId: "swe-2", name: "HK Torslanda Elit", shortName: "Torslanda", dataSource: "REAL_WORLD", city: "Göteborg", primaryColor: "#0b6e4f", secondaryColor: "#ffffff" }),
+  club({ id: "swe2-aranas", competitionId: "swe-2", name: "HK Aranäs", shortName: "Aranäs", playable: true, dataSource: "REAL_WORLD", city: "Kungsbacka", primaryColor: "#1e3a8a", secondaryColor: "#e2b13c" }),
+  club({ id: "swe2-drott", competitionId: "swe-2", name: "HK Drott Halmstad", shortName: "Drott", playable: true, dataSource: "REAL_WORLD", city: "Halmstad", primaryColor: "#c8102e", secondaryColor: "#111318" }),
+  club({ id: "swe2-guif", competitionId: "swe-2", name: "Eskilstuna Guif IF", shortName: "Guif", playable: true, dataSource: "REAL_WORLD", city: "Eskilstuna", primaryColor: "#c8102e", secondaryColor: "#111318" }),
+  club({ id: "swe2-h43lund", competitionId: "swe-2", name: "H43 Lund HF", shortName: "H43", playable: true, dataSource: "REAL_WORLD", city: "Lund", primaryColor: "#1e3a8a", secondaryColor: "#e2b13c" }),
+  club({ id: "swe2-huddinge", competitionId: "swe-2", name: "Huddinge HK", shortName: "Huddinge", playable: true, dataSource: "REAL_WORLD", city: "Huddinge", primaryColor: "#0b6e4f", secondaryColor: "#ffffff" }),
+  club({ id: "swe2-kroppskultur", competitionId: "swe-2", name: "GF Kroppskultur", shortName: "Kropps", playable: true, dataSource: "REAL_WORLD", city: "Uddevalla", primaryColor: "#111318", secondaryColor: "#c8102e" }),
+  club({ id: "swe2-kungalv", competitionId: "swe-2", name: "Kungälvs HK", shortName: "Kungälv", playable: true, dataSource: "REAL_WORLD", city: "Kungälv", primaryColor: "#c8102e", secondaryColor: "#111318" }),
+  club({ id: "swe2-redbergslid", competitionId: "swe-2", name: "Redbergslids IK", shortName: "Redbergslid", playable: true, dataSource: "REAL_WORLD", city: "Göteborg", primaryColor: "#111318", secondaryColor: "#e2b13c" }),
+  club({ id: "swe2-torslanda", competitionId: "swe-2", name: "HK Torslanda Elit", shortName: "Torslanda", playable: true, dataSource: "REAL_WORLD", city: "Göteborg", primaryColor: "#0b6e4f", secondaryColor: "#ffffff" }),
   club({ id: "swe2-tumba", competitionId: "swe-2", name: "IFK Tumba HK", shortName: "IFK Tumba", playable: true, dataSource: "REAL_WORLD", city: "Tumba", venue: "Tumba Sporthall", founded: 1969, primaryColor: "#1e3a8a", secondaryColor: "#ffffff" }),
-  club({ id: "swe2-tyreso", competitionId: "swe-2", name: "Tyresö Handboll", shortName: "Tyresö", dataSource: "REAL_WORLD", city: "Tyresö", primaryColor: "#1e3a8a", secondaryColor: "#ffffff" }),
-  club({ id: "swe2-varberg", competitionId: "swe-2", name: "HK Varberg", shortName: "Varberg", dataSource: "REAL_WORLD", city: "Varberg", primaryColor: "#111318", secondaryColor: "#c8102e" }),
-  club({ id: "swe2-vasterasirsta", competitionId: "swe-2", name: "VästeråsIrsta HF", shortName: "V.Irsta", dataSource: "REAL_WORLD", city: "Västerås", primaryColor: "#1e3a8a", secondaryColor: "#ffffff" }),
-  club({ id: "swe2-ystad2", competitionId: "swe-2", name: "IFK Ystad HK", shortName: "IFK Ystad", dataSource: "REAL_WORLD", city: "Ystad", primaryColor: "#1e3a8a", secondaryColor: "#ffffff" }),
+  club({ id: "swe2-tyreso", competitionId: "swe-2", name: "Tyresö Handboll", shortName: "Tyresö", playable: true, dataSource: "REAL_WORLD", city: "Tyresö", primaryColor: "#1e3a8a", secondaryColor: "#ffffff" }),
+  club({ id: "swe2-varberg", competitionId: "swe-2", name: "HK Varberg", shortName: "Varberg", playable: true, dataSource: "REAL_WORLD", city: "Varberg", primaryColor: "#111318", secondaryColor: "#c8102e" }),
+  club({ id: "swe2-vasterasirsta", competitionId: "swe-2", name: "VästeråsIrsta HF", shortName: "V.Irsta", playable: true, dataSource: "REAL_WORLD", city: "Västerås", primaryColor: "#1e3a8a", secondaryColor: "#ffffff" }),
+  club({ id: "swe2-ystad2", competitionId: "swe-2", name: "IFK Ystad HK", shortName: "IFK Ystad", playable: true, dataSource: "REAL_WORLD", city: "Ystad", primaryColor: "#1e3a8a", secondaryColor: "#ffffff" }),
 ];
 
 // --- Sweden, Division 1 Norra/Södra (2026/27) --- HM-DATA-DIV1-1.0:
