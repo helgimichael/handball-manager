@@ -1,0 +1,29 @@
+[data-starkvis-shell].sv-website-shell { position:fixed;top:0;left:0;width:100%;height:160px;z-index:2147483000;pointer-events:none;transform:translateY(0);transition:transform 160ms cubic-bezier(.23,1,.32,1); }
+[data-starkvis-shell][data-revealed="false"] { transform:translateY(-100%);pointer-events:none; }
+.sv-reveal-edge { position:fixed;inset:0 0 auto;height:8px;z-index:2147483001;border-top:3px solid #00c2b366; }
+.sv-reveal-edge[data-header-visible="true"] { opacity:0; }
+.sv-reveal-edge[data-header-visible="true"] .sv-reveal-control { pointer-events:none; }
+.sv-reveal-control { all:unset;box-sizing:border-box;position:absolute;left:max(4px,env(safe-area-inset-left,0px));top:env(safe-area-inset-top,0px);width:44px;height:44px;display:flex;align-items:flex-start;justify-content:center;padding-top:2px;color:#00c2b3;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent; }
+.sv-reveal-control span { background:#0a0c0df5;min-width:28px;text-align:center;border-radius:0 0 5px 5px;font:16px/20px system-ui; }
+.sv-reveal-control:focus-visible { outline:2px solid #00c2b3;outline-offset:0; }
+.sv-reveal-edge:has(.sv-reveal-control:focus-visible) { opacity:1; }
+[data-starkvis-app-shell-host] a[aria-label="Back to FIELD landing page"],[data-starkvis-app-shell-host] a[class*="workspaceHomeLink"] { display:none!important; }
+@media(prefers-reduced-motion:reduce) { [data-starkvis-shell] { transition:none!important; } }
+
+/* Atmosphere belongs to the host shell. Reuse existing family image/overlay
+   pseudo-elements; never filter an ancestor of UI, canvas or media. */
+[data-starkvis-app-family="field"] { --sv-atmosphere-opacity:.28;--sv-atmosphere-brightness:.32;--sv-atmosphere-overlay:.85; }
+[data-starkvis-app-family="lens"] { --sv-atmosphere-opacity:.5;--sv-atmosphere-brightness:.45;--sv-atmosphere-overlay:.78; }
+[data-starkvis-app-family="signal"] { --sv-atmosphere-opacity:.45;--sv-atmosphere-brightness:.4;--sv-atmosphere-overlay:.82; }
+[data-starkvis-app-family="field"] .field-landing-background::before,
+[data-starkvis-app-family="lens"] .lens-workspace::before,
+[data-starkvis-app-family="signal"] .signal-landing-background::before {
+  filter:brightness(var(--sv-atmosphere-brightness)) contrast(.72) saturate(.6);
+  opacity:var(--sv-atmosphere-opacity);pointer-events:none;
+}
+[data-starkvis-app-family="field"] .field-landing-background::after,
+[data-starkvis-app-family="lens"] .lens-workspace::after,
+[data-starkvis-app-family="signal"] .signal-landing-background::after {
+  background:radial-gradient(ellipse at center,transparent 25%,#0006 100%),linear-gradient(rgb(6 9 10 / var(--sv-atmosphere-overlay)),#06090aeb);
+  pointer-events:none;
+}

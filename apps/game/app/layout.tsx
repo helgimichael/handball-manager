@@ -1,3 +1,4 @@
+import { HostNavigation } from "./app-shell/HostNavigation";
 import type { Metadata } from "next";
 import "./globals.css";
 import { EditorModeWidget } from "./EditorModeWidget";
@@ -13,7 +14,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         {children}
         <EditorModeWidget />
-      </body>
+      <HostNavigation /></body>
     </html>
   );
 }

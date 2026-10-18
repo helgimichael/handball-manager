@@ -1,0 +1,11 @@
+{
+  "source": "components/Navbar.tsx",
+  "sourceSha256": "c7a24820f44d345a0282adede209e47ab67d19580bedd405835f1ba35071df76",
+  "cssSource": "app/globals.css",
+  "cssSha256": "a9006fb0f225cc7ab33551017d71d467cc329646b5b443bbf6661dfebe9bc89f",
+  "registry": "lib/apps.ts",
+  "registrySha256": "e1c25a023bb5361c556d3f67a86c0fe6a0fdc9f3311360f1487bf1a49285c7f4",
+  "logoSource": "public/starkvis-logo-white.png via the website Next image optimizer",
+  "logoSha256": "9973d6fb10e348d338cafd77ed1ade67a8d8b5a802abd1bbcf49dd440562e45f",
+  "transform": "Next Link/Image adapters; additive appExtras after original children; all original classes and JSX layout retained"
+}
