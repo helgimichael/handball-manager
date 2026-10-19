@@ -27,7 +27,7 @@ export async function storeMatchArchive(saveId: string, archive: PlayedMatchArch
   });
   known.add(key);
 }
-export async function readMatchArchive(saveId: string, fixtureId: string): Promise<PlayedMatchArchive> {
+export async function findMatchArchive(saveId: string, fixtureId: string): Promise<PlayedMatchArchive | null> {
   const key = `${saveId}:${fixtureId}`;
   let result: PlayedMatchArchive | undefined;
   if (typeof indexedDB === 'undefined') result = memory.get(key);
@@ -39,7 +39,28 @@ export async function readMatchArchive(saveId: string, fixtureId: string): Promi
       request.onerror = () => reject(new Error('Matcharkivet kunde inte läsas.'));
     });
   }
-  if (!result) throw new Error('Ett sparat matcharkiv saknas. Karriären har inte ändrats.');
-  known.add(key);
-  return structuredClone(result);
+  return result ? structuredClone(result) : null;
+}
+
+export async function readMatchArchive(saveId: string, fixtureId: string): Promise<PlayedMatchArchive> {
+  const archive = await findMatchArchive(saveId, fixtureId);
+  if (!archive) throw new Error('Ett sparat matcharkiv saknas. Karriären har inte ändrats.');
+  return archive;
+}
+
+export async function deleteMatchArchives(saveId: string, fixtureIds: readonly string[]): Promise<void> {
+  const keys = [...new Set(fixtureIds)].map(id => `${saveId}:${id}`);
+  if (!keys.length) return;
+  if (typeof indexedDB === 'undefined') {
+    for (const key of keys) { memory.delete(key); known.delete(key); }
+    return;
+  }
+  const database = await db();
+  await new Promise<void>((resolve, reject) => {
+    const tx = database.transaction('archives', 'readwrite');
+    for (const key of keys) tx.objectStore('archives').delete(key);
+    tx.oncomplete = () => resolve();
+    tx.onerror = tx.onabort = () => reject(new Error('Matcharkiven kunde inte raderas. Försök igen innan du tar bort karriären.'));
+  });
+  for (const key of keys) known.delete(key);
 }

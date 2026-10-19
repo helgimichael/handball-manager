@@ -31,7 +31,7 @@ export default function CareerLayout({ children }: { children: React.ReactNode }
     // "no save" -- that would bounce the manager back to the title
     // screen as though their career had vanished.
     let cancelled = false;
-    getActiveSave(false)
+    getActiveSave()
       .then((save) => {
         if (cancelled) return;
         if (!save) {

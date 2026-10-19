@@ -73,6 +73,7 @@ export type CareerState = {
   productionMatch?: import('./productionMatch').ProductionMatchSession | null;
   matchArchives?: Record<string, import('./productionMatch').PlayedMatchArchive>;
   matchArchiveIds?: string[];
+  matchArchiveSummaries?: Record<string, import('./matchArchiveSummary').MatchArchiveSummary>;
   seasonHistory?: { seasonId: string; competitionId: string; table: import('@handball-manager/game-simulation').StandingRow[]; stats: Record<string, PlayerSeasonStats> }[];
   seasonId: string; // e.g. "2026/27"
   competitionId: string; // "swe-2" -- the one fully-simulated competition this pass

@@ -3,6 +3,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useCareer } from '@/lib/career/CareerContext';
+import { useMatchArchive } from '@/lib/save/useMatchArchive';
 import { advanceProductionMatch, commandProductionMatch, finalizeProductionMatch, observedFrame, archiveFrames, type MatchCommand, type MatchFrame, type MatchPerson, type PlayedMatchArchive } from '@/lib/career/productionMatch';
 import { frameAt } from '@/lib/career/matchFrames';
 import { playbackTick } from '@/lib/career/matchPlayback';
@@ -82,6 +83,7 @@ export default function ProductionMatchView({ fixtureId, quickFinish = false }: 
   const [outId, setOutId] = useState(''), [inId, setInId] = useState('');
   const [finishing, setFinishing] = useState(quickFinish);
   const session = career.productionMatch;
+  const replay = useMatchArchive(fixtureId, !session || session.fixture.id !== fixtureId);
   useEffect(() => {
     if ((!playing && !finishing) || !session || session.fixture.id !== fixtureId) return;
     if (session.core.match?.phase === 'FULLTIME' && finishing) {
@@ -98,8 +100,10 @@ export default function ProductionMatchView({ fixtureId, quickFinish = false }: 
     return () => clearTimeout(timer);
   }, [playing, finishing, speed, session, fixtureId, updateCareer, router,keyMode,untilKey]);
   useEffect(()=>{if(stopped.current){stopped.current=false;setPlaying(false);setUntilKey(false);}},[session]);
-  const archive = career.matchArchives?.[fixtureId];
+  const archive = replay.archive;
   if (!session || session.fixture.id !== fixtureId) {
+    if (replay.loading) return <p role="status">Laddar matchreprisen…</p>;
+    if (replay.error) return <div role="alert"><p>{replay.error}</p><button className="hm-btn" onClick={replay.retry}>Försök igen</button></div>;
     if (archive) return <><div style={{ marginBottom: 12 }}><Link className="hm-btn" href={`/career/match-report/${fixtureId}`}>Matchrapport</Link> <Link className="hm-btn hm-btn-primary" href="/career">Fortsätt karriären</Link></div><ArchiveReplay archive={archive} defaultShowExperimental /></>;
     return <div className="hm-panel-body"><p>{career.results[fixtureId] ? 'Resultatet finns i matchrapporten. Den här matchen saknar sparade händelser för repris.' : 'Starta matchen från matchförhandsvisningen.'}</p><Link className="hm-btn" href={career.results[fixtureId] ? `/career/match-report/${fixtureId}` : '/career/match-preview'}>Öppna match</Link></div>;
   }

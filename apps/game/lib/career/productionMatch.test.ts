@@ -9,7 +9,7 @@ import { getLiveStandings } from './standings';
 import { simulateFixture } from '@handball-manager/game-simulation';
 import { computeSquadDerivedClubStrength } from './squadDerivedClubStrength';
 import { getCareerClubSquad } from './careerWorld';
-import { createSave, getSave, saveCareerState, __setSaveBackendForTests } from '../save/saveRepository';
+import { createSave, getSave, getMatchArchiveById, saveCareerState, __setSaveBackendForTests } from '../save/saveRepository';
 import { createMemoryBackend } from '../save/saveStorage';
 import { renewPlayerContract } from './contractRenewal';
 import { resolveClubMatchPlanForFixture } from './playerMatchStrength';
@@ -113,7 +113,8 @@ test('real career match: commands, save continuation, exact archive and exactly-
   assert.deepEqual((await getSave(save.saveId))!.careerState!.results, state.results);
   await Promise.all([saveCareerState(save.saveId, running), saveCareerState(save.saveId, done), saveCareerState(save.saveId, done)]);
   const loaded = await getSave(save.saveId);
-  assert.deepEqual(loaded!.careerState!.matchArchives, done.matchArchives);
+  assert.equal(loaded!.careerState!.matchArchives, undefined, 'normal load keeps only replay references');
+  for (const [id, archive] of Object.entries(done.matchArchives!)) assert.deepEqual(await getMatchArchiveById(id, save.saveId), archive);
   assert.deepEqual(loaded!.careerState!.results, done.results);
   assert.equal((await backend.getSave(save.saveId))!.careerState!.matchArchives, undefined, 'career autosave stores archive references, not all historical frames');
   __setSaveBackendForTests(null);

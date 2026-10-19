@@ -219,5 +219,7 @@
     "lib/matchCenter/workspace.test.ts",
     "lib/matchCenter/freeThrows.test.ts",
     "lib/save/portableCareerBackup.test.ts",
-    "lib/career/spatialMatch/careerLineup.test.ts"
+    "lib/career/spatialMatch/careerLineup.test.ts",
+    "lib/save/replayLifecycle.test.ts",
+    "lib/career/careerInitialization.test.ts"
 ]

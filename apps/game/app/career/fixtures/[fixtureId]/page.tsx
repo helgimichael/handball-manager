@@ -1,6 +1,7 @@
 'use client';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
+import { careerArchiveSummaries } from '@/lib/career/matchArchiveSummary';
 import { useCareer } from '@/lib/career/CareerContext';
 import { getNextPlayerFixture } from '@/lib/career/calendar';
 import { getClub } from '@/lib/game-data';
@@ -11,9 +12,9 @@ import { getLiveStandings } from '@/lib/career/standings';
 export default function FixturePage() {
   const { career } = useCareer();
   const { fixtureId } = useParams<{fixtureId:string}>();
-  const fixture = career.fixtures.find(f => f.id === fixtureId) ?? career.matchArchives?.[fixtureId]?.fixture;
+  const fixture = career.fixtures.find(f => f.id === fixtureId) ?? careerArchiveSummaries(career)[fixtureId]?.fixture;
   if (!fixture) return <EmptyState>Matchen finns inte i denna karriär. <Link href="/career/schedule">Öppna schemat →</Link></EmptyState>;
-  const result = career.results[fixtureId] ?? career.matchArchives?.[fixtureId]?.result;
+  const result = career.results[fixtureId] ?? careerArchiveSummaries(career)[fixtureId]?.result;
   const table = getLiveStandings(career);
   const isNext = getNextPlayerFixture(career)?.id === fixture.id;
   return <><PageHeading eyebrow={fixture.date} title={`${getClub(fixture.homeClubId)?.name ?? 'Hemma'} – ${getClub(fixture.awayClubId)?.name ?? 'Borta'}`} description={result ? `Resultat ${result.homeGoals}–${result.awayGoals}` : `Omgång ${fixture.round} · matchen är ännu inte spelad.`} actions={result ? <Link href={`/career/match-report/${fixtureId}`} className="hm-btn hm-btn-primary">Matchrapport →</Link> : isNext && <Link href="/career/match-preview" className="hm-btn hm-btn-primary">Förbered & spela →</Link>} /><CompetitionLink id={fixture.competitionId}>Till tävlingen →</CompetitionLink>

@@ -43,7 +43,9 @@
 // and keeping it synchronous avoids an await in every route guard.
 
 import type { CareerState } from "../career/types";
-import { readMatchArchive, storeMatchArchive } from './matchArchiveStorage';
+import { deleteMatchArchives, findMatchArchive, readMatchArchive, storeMatchArchive } from './matchArchiveStorage';
+import type { PlayedMatchArchive } from '../career/productionMatch';
+import { careerArchiveSummaries, withoutReplayPayloads } from '../career/matchArchiveSummary';
 import type { PreseasonStartOption } from "../career/preseason";
 import { createIndexedDbBackend, createMemoryBackend, SavePersistenceError, type SaveStorageBackend } from "./saveStorage";
 import { backupArchives, validatePortableCareerBackup, type PortableCareerBackup } from './portableCareerBackup';
@@ -260,25 +262,32 @@ export async function getMostRecentSave(): Promise<CareerSave | null> {
   return saves[0] ?? null;
 }
 
-export async function getSave(saveId: string, hydrateArchives = true): Promise<CareerSave | null> {
+export async function getSave(saveId: string): Promise<CareerSave | null> {
   await flushCareerSave(saveId);
   await ensureLegacySavesMigrated();
-  const save = await resolveBackend().getSave(saveId);
-  if (hydrateArchives && save?.careerState?.matchArchiveIds?.length) {
-    const archives = (
-      await Promise.all(
-        save.careerState.matchArchiveIds.map((id) =>
-          readMatchArchive(saveId, id).catch(() => null),
-        ),
-      )
-    ).filter((a): a is NonNullable<typeof a> => a !== null && a !== undefined);
-    return { ...save, careerState: { ...save.careerState, matchArchives: Object.fromEntries(archives.map(a => [a.fixture.id, a])) } };
+  let save = await resolveBackend().getSave(saveId);
+  // One-time normalization for old saves with inline replays. Modern reads do
+  // not touch the archive database, even if some referenced archives are missing.
+  if (save?.careerState && Object.keys(save.careerState.matchArchives ?? {}).length) {
+    await saveCareerState(saveId, save.careerState);
+    save = await resolveBackend().getSave(saveId);
   }
   return save;
 }
 
+export type MatchArchive = PlayedMatchArchive;
+/** Fixture IDs repeat between careers. The one-argument API uses the active
+ * save; callers with a mounted career pass its ID to avoid navigation races. */
+export async function getMatchArchiveById(archiveId: string, saveId = getActiveSaveId()): Promise<MatchArchive | null> {
+  if (!saveId) return null;
+  const save = await getSave(saveId);
+  if (!save?.careerState?.matchArchiveIds?.includes(archiveId)) return null;
+  return findMatchArchive(saveId, archiveId);
+}
+
 export async function createSave(
   input: Omit<CareerSave, "saveId" | "schemaVersion" | "createdAt" | "lastPlayedAt" | "careerState">,
+  initialize?: (draft: CareerSave) => Promise<CareerState>,
 ): Promise<CareerSave> {
   await ensureLegacySavesMigrated();
   const now = new Date().toISOString();
@@ -289,8 +298,10 @@ export async function createSave(
     createdAt: now,
     lastPlayedAt: now,
   };
-  await resolveBackend().putSave(save);
-  return save;
+  const careerState = initialize ? await initialize(save) : undefined;
+  const complete = careerState ? { ...save, careerState, gameDate: careerState.gameDate } : save;
+  await resolveBackend().putSave(complete);
+  return complete;
 }
 
 export async function touchSave(saveId: string): Promise<void> {
@@ -305,8 +316,14 @@ export async function touchSave(saveId: string): Promise<void> {
 }
 
 export async function deleteSave(saveId: string): Promise<void> {
+  await flushCareerSave(saveId);
   await ensureLegacySavesMigrated();
+  const save = await resolveBackend().getSave(saveId);
+  const state = save?.careerState;
+  await deleteMatchArchives(saveId, [...(state?.matchArchiveIds ?? []), ...Object.keys(state?.matchArchives ?? {})]);
   await resolveBackend().deleteSave(saveId);
+  careerWrites.delete(saveId);
+  if (getActiveSaveId() === saveId) window.localStorage.removeItem(ACTIVE_SAVE_KEY);
 }
 
 /** Persists domain state only (never React component state) -- called after every calendar advance. */
@@ -349,7 +366,11 @@ async function saveCareerStateNow(saveId: string, careerState: CareerState): Pro
   }
   const archives = Object.values(careerState.matchArchives ?? {});
   for (const archive of archives) await storeMatchArchive(saveId, archive);
-  const storedCareer = archives.length ? { ...careerState, matchArchives: undefined, matchArchiveIds: archives.map(a => a.fixture.id) } : careerState;
+  const previous = save.careerState;
+  const ids = [...new Set([...(previous?.matchArchiveIds ?? []), ...(careerState.matchArchiveIds ?? []), ...archives.map(a => a.fixture.id)])];
+  const storedCareer = ids.length ? { ...withoutReplayPayloads(careerState), matchArchives: undefined, matchArchiveIds: ids,
+    matchArchiveSummaries: { ...previous?.matchArchiveSummaries, ...careerArchiveSummaries(careerState) },
+  } : careerState;
   await store.putSave({
     ...save,
     careerState: storedCareer,
@@ -375,18 +396,18 @@ export function getActiveSaveId(): string | null {
   return window.localStorage.getItem(ACTIVE_SAVE_KEY);
 }
 
-export async function getActiveSave(hydrateArchives = true): Promise<CareerSave | null> {
+export async function getActiveSave(): Promise<CareerSave | null> {
   const id = getActiveSaveId();
   if (!id) {
     return null;
   }
-  return getSave(id, hydrateArchives);
+  return getSave(id);
 }
 
 /** Export the committed record, with strict archive reads: an incomplete backup
  * must fail visibly instead of silently losing a historical replay. */
 export async function exportSaveAsJson(saveId: string): Promise<void> {
-  const save = await getSave(saveId, false); // flushes pending career writes
+  const save = await getSave(saveId); // flushes pending career writes
   if (!save) throw new Error('Karriären finns inte längre. Öppna en sparad karriär och försök igen.');
   const inline = save.careerState?.matchArchives ?? {};
   const ids = [...new Set([...(save.careerState?.matchArchiveIds ?? []), ...Object.keys(inline)])];

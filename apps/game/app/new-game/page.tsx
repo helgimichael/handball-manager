@@ -6,7 +6,8 @@ import { flushSync } from 'react-dom';
 import CareerInitialization from '@/components/game/CareerInitialization';
 import { afterNextPaint } from '@/lib/ui/afterNextPaint';
 import { NATIONS, COMPETITIONS, CLUBS, TUMBA_CLUB_ID, GAME_CURRENT_DATE, type NationCode } from "@/lib/game-data";
-import { createSave, setActiveSaveId } from "@/lib/save/saveRepository";
+import { setActiveSaveId } from "@/lib/save/saveRepository";
+import { createNewCareerSave } from '@/lib/career/careerInitialization';
 import ClubCrest from "@/components/ClubCrest";
 import CareerEntryFrame from "@/components/game/CareerEntryFrame";
 import { formatGameDate } from "@/lib/career/dateUtils";
@@ -93,18 +94,18 @@ export default function NewGamePage() {
     setStartError(null);
     try {
       await afterNextPaint();
-      const save = await createSave({ selectedNations: nations, selectedCompetitionIds: competitionIds, clubId,
+      const save = await createNewCareerSave({ selectedNations: nations, selectedCompetitionIds: competitionIds, clubId,
         manager: { name: managerName.trim(), nationality: managerNationality, dateOfBirth: managerDob }, gameDate: GAME_CURRENT_DATE, preseasonStart });
       setActiveSaveId(save.saveId);
       router.push("/career");
     } catch (cause: unknown) {
       console.error('[new-game] Career initialization failed', cause);
-      setStartError('failed');
+      setStartError(cause instanceof Error ? cause.message : 'Karriären kunde inte skapas. Försök igen.');
     }
   }
 
-  // A full menu navigation also clears failed persistence promises; never resubmit here.
-  if (starting) return <CareerInitialization club={selectedClub} competition={selectedCompetition?.name} season={`${Number(GAME_CURRENT_DATE.slice(0, 4))}/${String(Number(GAME_CURRENT_DATE.slice(0, 4)) + 1).slice(-2)}`} failed={!!startError} onBack={() => window.location.replace('/')} />;
+  // Failed initialization has not published a save; preserve the setup for retry.
+  if (starting) return <CareerInitialization club={selectedClub} competition={selectedCompetition?.name} season={`${Number(GAME_CURRENT_DATE.slice(0, 4))}/${String(Number(GAME_CURRENT_DATE.slice(0, 4)) + 1).slice(-2)}`} failed={!!startError} errorMessage={startError ?? undefined} onBack={() => { startSubmitted.current = false; setStarting(false); setStartError(null); }} />;
 
   const rail = <>
     <span className="career-entry-overline">Nytt spel · 2026/27</span><h2>Ditt nästa<br />uppdrag.</h2>

@@ -1,3 +1,4 @@
+import { careerArchiveSummaries } from './matchArchiveSummary';
 import { CLUBS, COMPETITIONS, type PlayerMock, type InboxMessage } from '../game-data';
 import { getCareerSquad } from './careerWorld';
 import { isSelectableForMatch } from './playerStatus';
@@ -83,11 +84,12 @@ export function syncManagementInbox(state: CareerState): CareerState {
 }
 
 export function playerMatchHistory(state: CareerState, playerId: string) {
+  const summaries = careerArchiveSummaries(state);
   const fixtures = new Map(state.fixtures.map(f => [f.id, f]));
-  for (const archive of Object.values(state.matchArchives ?? {})) fixtures.set(archive.fixture.id, archive.fixture);
+  for (const archive of Object.values(summaries)) fixtures.set(archive.fixture.id, archive.fixture);
   return [...fixtures.values()].flatMap(fixture => {
-    const result = state.results[fixture.id] ?? state.matchArchives?.[fixture.id]?.result;
+    const result = state.results[fixture.id] ?? summaries[fixture.id]?.result;
     const performance = result && [...result.homePlayerContributions, ...result.awayPlayerContributions].find(p => p.playerId === playerId);
-    return performance ? [{ fixture, result: result!, performance, load: state.matchArchives?.[fixture.id]?.load[playerId] }] : [];
+    return performance ? [{ fixture, result: result!, performance, load: summaries[fixture.id]?.load[playerId] }] : [];
   }).sort((a, b) => b.fixture.date.localeCompare(a.fixture.date));
 }

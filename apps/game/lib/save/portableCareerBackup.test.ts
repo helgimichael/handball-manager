@@ -4,6 +4,7 @@ import { createNewCareerState } from '../career/newCareer';
 import { advanceProductionMatch, createProductionSession, type PlayedMatchArchive } from '../career/productionMatch';
 import { encodeFrames } from '../career/matchFrames';
 import { snapshotWorldSquads } from '../gameWorld/serverSnapshot';
+import { withoutReplayPayloads } from '../career/matchArchiveSummary';
 import { createMemoryBackend, type SaveStorageBackend } from './saveStorage';
 import {
   __setSaveBackendForTests, createSave, exportSaveAsJson, getActiveSaveId,
@@ -102,7 +103,7 @@ test('save -> download JSON -> import -> load preserves state and all replay pay
   assert.notEqual(id, save.saveId);
   assert.equal(getActiveSaveId(), id);
   const loaded = await getSave(id);
-  assert.deepEqual(JSON.parse(JSON.stringify(loaded?.careerState)), { ...JSON.parse(JSON.stringify(career)), matchArchiveIds: Object.keys(backup.archives) });
+  assert.deepEqual(JSON.parse(JSON.stringify(loaded?.careerState)), JSON.parse(JSON.stringify(withoutReplayPayloads(career))));
   assert.deepEqual(loaded?.manager, save.manager);
   assert.equal(loaded?.careerState?.saveSeed, save.saveId, 'new storage identity never reseeds the simulation');
   assert.deepEqual(await backend.getSave(save.saveId), sourceRecord, 'original career is untouched');
