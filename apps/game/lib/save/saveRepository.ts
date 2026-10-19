@@ -46,9 +46,11 @@ import type { CareerState } from "../career/types";
 import { readMatchArchive, storeMatchArchive } from './matchArchiveStorage';
 import type { PreseasonStartOption } from "../career/preseason";
 import { createIndexedDbBackend, createMemoryBackend, SavePersistenceError, type SaveStorageBackend } from "./saveStorage";
+import { backupArchives, validatePortableCareerBackup, type PortableCareerBackup } from './portableCareerBackup';
 
 export { SavePersistenceError };
 export type { SaveStorageBackend };
+export type { PortableCareerBackup } from './portableCareerBackup';
 
 export type ManagerProfile = {
   name: string;
@@ -379,4 +381,55 @@ export async function getActiveSave(hydrateArchives = true): Promise<CareerSave 
     return null;
   }
   return getSave(id, hydrateArchives);
+}
+
+/** Export the committed record, with strict archive reads: an incomplete backup
+ * must fail visibly instead of silently losing a historical replay. */
+export async function exportSaveAsJson(saveId: string): Promise<void> {
+  const save = await getSave(saveId, false); // flushes pending career writes
+  if (!save) throw new Error('Karriären finns inte längre. Öppna en sparad karriär och försök igen.');
+  const inline = save.careerState?.matchArchives ?? {};
+  const ids = [...new Set([...(save.careerState?.matchArchiveIds ?? []), ...Object.keys(inline)])];
+  const archiveEntries: [string, unknown][] = Object.entries(inline);
+  for (const id of save.careerState?.matchArchiveIds ?? []) {
+    try { archiveEntries.push([id, await readMatchArchive(saveId, id)]); }
+    catch { throw new Error(`Matcharkivet "${id}" kunde inte läsas. Ingen ofullständig sparafil har exporterats. Försök igen eller återställ en tidigare backup.`); }
+  }
+  const archives: Record<string, unknown> = Object.fromEntries(archiveEntries);
+  const exportedAt = new Date().toISOString();
+  const portableSave = save.careerState ? { ...save, careerState: { ...save.careerState, matchArchives: undefined, matchArchiveIds: ids } } : save;
+  const backup: PortableCareerBackup = { backupVersion: 1, exportedAt, save: portableSave, archives };
+  validatePortableCareerBackup(backup, CURRENT_SAVE_SCHEMA_VERSION);
+  const url = URL.createObjectURL(new Blob([JSON.stringify(backup)], { type: 'application/json' }));
+  try {
+    const link = document.createElement('a');
+    link.href = url;
+    const safeName = (value: string) => value.replace(/[^a-zA-Z0-9_-]/g, '_');
+    link.download = `${safeName(save.clubId)}_${safeName(save.gameDate)}_${exportedAt.replace(/[:.]/g, '-')}.json`;
+    link.click();
+  } finally {
+    // Let the browser consume the object URL before releasing its backing data.
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  }
+}
+
+/** Restore as a separate career. Publishing the record and changing the active
+ * pointer happen only after all of its immutable archives have committed. */
+export async function importSaveFromJson(file: File): Promise<string> {
+  let contents: string;
+  try { contents = await file.text(); }
+  catch { throw new Error('Sparafilen kunde inte läsas. Välj filen igen från din dator.'); }
+  let parsed: unknown;
+  try { parsed = JSON.parse(contents.replace(/^\uFEFF/, '')); }
+  catch { throw new Error('Sparafilen innehåller ogiltig JSON. Välj en exporterad .json-fil från Handball Manager.'); }
+  const backup = validatePortableCareerBackup(parsed, CURRENT_SAVE_SCHEMA_VERSION);
+  await ensureLegacySavesMigrated();
+  const store = resolveBackend();
+  let saveId: string;
+  do { saveId = `save-${crypto.randomUUID()}`; } while (await store.getSave(saveId));
+  const restored: CareerSave = { ...backup.save, saveId, lastPlayedAt: new Date().toISOString() };
+  for (const archive of backupArchives(backup)) await storeMatchArchive(saveId, archive);
+  await store.putSave(restored);
+  setActiveSaveId(saveId);
+  return saveId;
 }
