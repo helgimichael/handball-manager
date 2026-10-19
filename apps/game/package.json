@@ -4,6 +4,10 @@
   "private": true,
   "description": "Handball Manager — the actual game application. Distinct from apps/field-smoke-test and apps/match-demo, which remain engine verification/debug hosts.",
   "scripts": {
+    "predev": "node scripts/generate-real-world-bundle.mjs",
+    "prebuild": "node scripts/generate-real-world-bundle.mjs",
+    "pretest": "node scripts/generate-real-world-bundle.mjs",
+    "pretypecheck": "node scripts/generate-real-world-bundle.mjs",
     "dev": "next dev --webpack",
     "build": "next build --webpack",
     "start": "next start",

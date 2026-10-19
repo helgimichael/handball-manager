@@ -11,7 +11,7 @@
 // ever invented to fill the gap. `leagueSegment` defaults to
 // "handbollsligan" for existing callers; pass "allsvenskan" for a
 // tier-2 coach.
-import fs from "node:fs";
+import { dataFileExists, readDataFile, readDataDirectory } from "./dataFiles";
 import path from "node:path";
 import { DEFAULT_DATA_ROOT } from "../editor/paths";
 import type { CoachIdentityProfile, EvidenceReference } from "../identity/types";
@@ -42,10 +42,10 @@ function isPlainObject(value: unknown): value is Record<string, unknown> {
  */
 export function loadCoachIdentity(personId: string, leagueSegment = "handbollsligan"): RawCoachIdentity | null {
   const filePath = path.join(coachIdentityDir(leagueSegment), `${personId}.json`);
-  if (!fs.existsSync(filePath)) return null;
+  if (!dataFileExists(filePath)) return null;
   let raw: unknown;
   try {
-    raw = JSON.parse(fs.readFileSync(filePath, "utf8"));
+    raw = JSON.parse(readDataFile(filePath));
   } catch {
     return null;
   }
@@ -56,9 +56,8 @@ export function loadCoachIdentity(personId: string, leagueSegment = "handbollsli
 /** Every coach personId that currently has a portable identity file for `leagueSegment` -- for discovery/testing, never for gameplay lookups (those always go through loadCoachIdentity(personId) with a known id). */
 export function listCoachIdentityPersonIds(leagueSegment = "handbollsligan"): string[] {
   const dir = coachIdentityDir(leagueSegment);
-  if (!fs.existsSync(dir)) return [];
-  return fs
-    .readdirSync(dir)
+  if (!dataFileExists(dir)) return [];
+  return readDataDirectory(dir).map(entry => entry.name)
     .filter((f) => f.endsWith(".json"))
     .map((f) => f.replace(/\.json$/, ""));
 }

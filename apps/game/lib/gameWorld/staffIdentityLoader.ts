@@ -8,7 +8,7 @@
 // never parsed from DOCX at runtime. `leagueSegment` defaults to
 // "handbollsligan" (every existing caller stays byte-identical); pass
 // "allsvenskan" for a tier-2 clubId (see leagueSegment.ts).
-import fs from "node:fs";
+import { dataFileExists, readDataFile } from "./dataFiles";
 import path from "node:path";
 import { DEFAULT_DATA_ROOT } from "../editor/paths";
 import type { StaffAssignment, StaffPerson } from "../identity/types";
@@ -39,10 +39,10 @@ function isPlainObject(value: unknown): value is Record<string, unknown> {
  */
 export function loadClubStaffIdentity(clubId: string, leagueSegment = "handbollsligan"): RawClubStaffIdentity | null {
   const filePath = path.join(identityDir(leagueSegment), `${clubId}.json`);
-  if (!fs.existsSync(filePath)) return null;
+  if (!dataFileExists(filePath)) return null;
   let raw: unknown;
   try {
-    raw = JSON.parse(fs.readFileSync(filePath, "utf8"));
+    raw = JSON.parse(readDataFile(filePath));
   } catch {
     return null;
   }

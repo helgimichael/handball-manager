@@ -7,7 +7,7 @@
 // every API route resolves a client-supplied clubId against this
 // catalog and rejects anything that doesn't match an entry the server
 // itself discovered.
-import fs from "node:fs";
+import { dataFileExists, readDataFile, readDataDirectory } from "../gameWorld/dataFiles";
 import path from "node:path";
 import { DEFAULT_DATA_ROOT } from "./paths";
 
@@ -31,7 +31,7 @@ export interface EditorCatalog {
 }
 
 function readJson(filePath: string): unknown {
-  return JSON.parse(fs.readFileSync(filePath, "utf8"));
+  return JSON.parse(readDataFile(filePath));
 }
 
 function isPlainObject(value: unknown): value is Record<string, unknown> {
@@ -45,9 +45,8 @@ function findManifestFile(manifestFiles: unknown, prefix: string): string | null
 }
 
 function listDirs(dir: string): string[] {
-  if (!fs.existsSync(dir)) return [];
-  return fs
-    .readdirSync(dir, { withFileTypes: true })
+  if (!dataFileExists(dir)) return [];
+  return readDataDirectory(dir)
     .filter((entry) => entry.isDirectory())
     .map((entry) => entry.name);
 }
@@ -74,7 +73,7 @@ export function buildCatalog(dataRoot: string = DEFAULT_DATA_ROOT): EditorCatalo
         for (const clubFolder of listDirs(competitionDir)) {
           const clubDir = path.join(competitionDir, clubFolder);
           const manifestPath = path.join(clubDir, "manifest.json");
-          if (!fs.existsSync(manifestPath)) continue;
+          if (!dataFileExists(manifestPath)) continue;
 
           let manifest: unknown;
           try {

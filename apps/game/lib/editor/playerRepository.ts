@@ -6,7 +6,7 @@
 // merges them for the UI and the only place that writes them back --
 // always by replacing exactly one array element in place (targeted
 // write, Spec S23), never touching any other player's record.
-import fs from "node:fs";
+import { dataFileExists, readDataFile } from "../gameWorld/dataFiles";
 import { atomicWriteJsonFile } from "./atomicWrite";
 import type { EditorCatalog, EditorClubEntry } from "./catalog";
 import { findClubById } from "./catalog";
@@ -43,7 +43,7 @@ const ROSTER_FIELDS: readonly (keyof RosterEditableFields)[] = [
 ];
 
 function readJsonArray(filePath: string): Record<string, unknown>[] {
-  const raw = JSON.parse(fs.readFileSync(filePath, "utf8"));
+  const raw = JSON.parse(readDataFile(filePath));
   if (!Array.isArray(raw)) {
     throw new Error(`expected an array in ${filePath}`);
   }
@@ -175,7 +175,7 @@ export function loadPlayerRecord(catalog: EditorCatalog, clubId: string, playerI
 
   const sourceIds = new Set<string>([...collectSourceIds(playerRaw.sourceRefs), ...collectSourceIds(rosterRaw.sourceRefs)]);
   let sources: ResolvedSource[] = [];
-  if (club.sourcesFile && fs.existsSync(club.sourcesFile) && sourceIds.size > 0) {
+  if (club.sourcesFile && dataFileExists(club.sourcesFile) && sourceIds.size > 0) {
     try {
       const allSources = readJsonArray(club.sourcesFile);
       sources = allSources.filter((s) => sourceIds.has(String(s.sourceId))) as unknown as ResolvedSource[];

@@ -12,7 +12,7 @@
 // Current Team Identity resolver's tests/callers to assemble real
 // inputs; the resolver itself (resolver.ts) never touches the
 // filesystem.
-import fs from "node:fs";
+import { dataFileExists, readDataFile } from "./dataFiles";
 import path from "node:path";
 import { DEFAULT_DATA_ROOT } from "../editor/paths";
 import type { ClubIdentityProfile, EvidenceReference, SeasonClubContext, SquadIdentityContext } from "../identity/types";
@@ -49,9 +49,9 @@ function isPlainObject(value: unknown): value is Record<string, unknown> {
 }
 
 function readJsonFile(filePath: string): unknown | null {
-  if (!fs.existsSync(filePath)) return null;
+  if (!dataFileExists(filePath)) return null;
   try {
-    return JSON.parse(fs.readFileSync(filePath, "utf8"));
+    return JSON.parse(readDataFile(filePath));
   } catch {
     return null;
   }

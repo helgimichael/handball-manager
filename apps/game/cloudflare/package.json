@@ -1,0 +1,12 @@
+{
+  "name": "handball-manager-alpha-deployment",
+  "private": true,
+  "description": "Isolated deployment tooling; does not change the game workspace dependencies.",
+  "engines": {
+    "node": ">=22"
+  },
+  "devDependencies": {
+    "@opennextjs/cloudflare": "1.20.0",
+    "wrangler": "4.151.2"
+  }
+}

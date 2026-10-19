@@ -7,7 +7,7 @@
 // ratingReviewRepository.ts's existing review-status pattern (same
 // atomicWriteJsonFile + catalog-resolved clubDir safety primitives,
 // its own sibling file so it never touches real-world identity data).
-import fs from "node:fs";
+import { dataFileExists, readDataFile } from "../gameWorld/dataFiles";
 import path from "node:path";
 import { atomicWriteJsonFile } from "./atomicWrite";
 import { buildCatalog, findClubById } from "./catalog";
@@ -38,11 +38,11 @@ export function loadRatingOverrideState(clubId: string, dataRoot: string = DEFAU
   if (!club) return {};
 
   const filePath = overrideFilePath(club.clubDir);
-  if (!fs.existsSync(filePath)) return {};
+  if (!dataFileExists(filePath)) return {};
 
   let raw: unknown;
   try {
-    raw = JSON.parse(fs.readFileSync(filePath, "utf8"));
+    raw = JSON.parse(readDataFile(filePath));
   } catch {
     return {};
   }

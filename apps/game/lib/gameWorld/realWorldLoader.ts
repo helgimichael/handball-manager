@@ -9,7 +9,7 @@
 // This module never writes. Only the Development Editor (lib/editor/)
 // is allowed to mutate data/real-world/*.
 
-import fs from "node:fs";
+import { readDataFile } from "./dataFiles";
 import { buildCatalog, findClubById, type EditorCatalog } from "../editor/catalog";
 import { DEFAULT_DATA_ROOT } from "../editor/paths";
 
@@ -73,7 +73,7 @@ export interface RealWorldClubSquad {
 }
 
 function readJsonArray(filePath: string): Record<string, unknown>[] {
-  const raw = JSON.parse(fs.readFileSync(filePath, "utf8"));
+  const raw = JSON.parse(readDataFile(filePath));
   if (!Array.isArray(raw)) throw new Error(`expected an array in ${filePath}`);
   return raw as Record<string, unknown>[];
 }

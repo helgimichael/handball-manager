@@ -1,0 +1,8 @@
+# Local deployment output and tooling; keep the repository-level ignore intact.
+/.open-next/
+/.wrangler/
+/.dev.vars
+/.dev.vars.*
+/cloudflare/node_modules/
+/cloudflare/dry-run/
+/lib/gameWorld/generated/

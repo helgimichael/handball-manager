@@ -1,4 +1,5 @@
 [
+    "lib/gameWorld/dataFiles.test.ts",
     "lib/ui/afterNextPaint.test.ts",
     "lib/career/management.test.ts",
     "lib/career/dateUtils.test.ts",

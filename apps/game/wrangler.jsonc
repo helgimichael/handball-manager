@@ -1,0 +1,21 @@
+{
+  "$schema": "./cloudflare/node_modules/wrangler/config-schema.json",
+  "name": "handball-manager-alpha",
+  "main": ".open-next/worker.js",
+  "compatibility_date": "2026-10-19",
+  "compatibility_flags": ["nodejs_compat"],
+  "workers_dev": true,
+  "preview_urls": false,
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS"
+  },
+  // NEXT_PUBLIC_* values must also be set in the BUILD environment. Runtime
+  // vars cannot change values already compiled into the browser bundle.
+  "vars": {
+    "NEXT_PUBLIC_ALPHA_ACCESS_CODE": "HBL-ALPHA-2026",
+    "NEXT_PUBLIC_ALPHA_FEEDBACK_URL": "",
+    "HM_EDITOR_ENABLED": "false",
+    "HM_REAL_WORLD_DATA": "bundled"
+  }
+}

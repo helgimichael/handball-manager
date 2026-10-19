@@ -16,7 +16,7 @@
 // records WHO reviewed a proposal and WHAT they concluded about its
 // status. No route in this milestone allows editing ca/pa/attribute
 // values themselves.
-import fs from "node:fs";
+import { dataFileExists, readDataFile } from "../gameWorld/dataFiles";
 import path from "node:path";
 import { atomicWriteJsonFile } from "./atomicWrite";
 import { buildCatalog, findClubById } from "./catalog";
@@ -52,11 +52,11 @@ export function loadRatingReviewState(clubId: string, dataRoot: string = DEFAULT
   if (!club) return {};
 
   const filePath = reviewFilePath(club.clubDir);
-  if (!fs.existsSync(filePath)) return {};
+  if (!dataFileExists(filePath)) return {};
 
   let raw: unknown;
   try {
-    raw = JSON.parse(fs.readFileSync(filePath, "utf8"));
+    raw = JSON.parse(readDataFile(filePath));
   } catch {
     return {};
   }
