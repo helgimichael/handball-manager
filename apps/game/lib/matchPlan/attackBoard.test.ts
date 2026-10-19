@@ -101,19 +101,19 @@ test("HM-COURT-GRID-0.3 (15): a bench player dropped onto an occupied cell repla
   assert.ok(!next.attackStartingUnit.slots.some((s) => s.playerId === displaced));
 });
 
-// (16) custom two-M6 shape validates.
-test("HM-COURT-GRID-0.3 (16): a custom two-pivot shape (V9 player moved to M6_RIGHT) validates as a legal MatchPlan", () => {
+// Shape edits remain representable, but unsupported starting roles block kickoff.
+test("alpha: a custom two-pivot shape (V9 player moved to M6_RIGHT) is rejected before kickoff", () => {
   const plan = defaultPlan();
   const v9PlayerId = playerIdAtCell(plan, 51)!;
   const next = assignAttackCellPosition(plan, v9PlayerId, 37);
   const positions = next.attackStartingUnit.slots.filter((s) => s.position !== "GK").map((s) => s.position);
   assert.equal(positions.filter((p) => p === "M6").length, 2);
   const validation = validateMatchPlan(next, next.squad.players.map((p) => p.playerId));
-  assert.equal(validation.ok, true, JSON.stringify(validation.errors));
+  assert.equal(validation.ok, false);
+  assert.ok(validation.errors.some(error => error.includes('exakt en spelare på varje position')));
 });
 
-// (17) custom four-backcourt shape validates.
-test("HM-COURT-GRID-0.3 (17): a custom four-backcourt shape (V6/V9/LEFT_M9/RIGHT_M9/H9/H6, no M6) validates as a legal MatchPlan -- the milestone's own Part I example", () => {
+test("alpha: a custom four-backcourt shape without a pivot is rejected before kickoff", () => {
   let plan = defaultPlan();
   const m9Player = playerIdAtCell(plan, 65)!;
   plan = assignAttackCellPosition(plan, m9Player, 64); // central M9 -> LEFT_M9
@@ -126,7 +126,8 @@ test("HM-COURT-GRID-0.3 (17): a custom four-backcourt shape (V6/V9/LEFT_M9/RIGHT
   assert.equal(attackSlotTacticalPosition(64)!.id, "LEFT_M9");
   assert.equal(attackSlotTacticalPosition(67)!.id, "RIGHT_M9");
   const validation = validateMatchPlan(plan, plan.squad.players.map((p) => p.playerId));
-  assert.equal(validation.ok, true, JSON.stringify(validation.errors));
+  assert.equal(validation.ok, false);
+  assert.ok(validation.errors.some(error => error.includes('exakt en spelare på varje position')));
 });
 
 // (18) normal complete attack contains exactly 7.

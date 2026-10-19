@@ -8,7 +8,7 @@ import { requestExchange } from '@handball-manager/handball-engine/src/v2/core/p
 import { requestTeamTimeout } from '@handball-manager/handball-engine/src/v2/core/referee';
 import type { CoreEvent, CorePlayer, CoreState, Role, TeamId } from '@handball-manager/handball-engine/src/v2/core/state';
 import { ledger, lossClassOf } from '@handball-manager/handball-engine/src/v2/core/ledger';
-import { resolveCareerLineup } from './spatialMatch/careerLineup';
+import { resolveCareerLineup, validateCareerLineup } from './spatialMatch/careerLineup';
 import { buildSpatialMatchInput } from './spatialMatch/spatialCareerMatch';
 import { applyMatchResultBookkeeping } from './matchResultApplication';
 import { checkSeasonComplete, getPlayerFixtureOn } from './calendar';
@@ -52,6 +52,10 @@ export function createProductionSession(state: CareerState, fixture: CareerFixtu
   const managerFormation=(saved??managerInput.plan)?.defencePlan.baseFormation;
   if(managerFormation&&!['6-0','5-1'].includes(managerFormation))throw new Error('Välj 6–0 eller 5–1 i matchplanen innan avkast. Den sparade försvarsformationen stöds ännu inte i spelade matcher.');
   if (saved && (saved.attackStartingUnit.formation !== 'NORMAL' || saved.squad.players.some(p => !managerInput.squad.some(available => available.id === p.playerId)))) throw new Error('Matchplanen behöver uppdateras. Öppna Taktik och välj en tillgänglig matchtrupp och normal startsju.');
+  if (managerInput.plan) {
+    const validation = validateCareerLineup(managerInput.plan, managerInput.squad);
+    if (!validation.ok) throw new Error(validation.errors.join(' '));
+  }
   const seed = seedFromString(`${state.saveSeed}:${fixture.id}:v2`);
   let core = createMatch(seed, 'TOP', 1800000, 0);
   core.checkpoint.maxTicks = 200000; // Room for actual stopped-clock time, without changing the official halves.

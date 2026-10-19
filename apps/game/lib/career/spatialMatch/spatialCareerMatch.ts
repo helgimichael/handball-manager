@@ -191,10 +191,9 @@ export function buildSpatialMatchInput(state: CareerState, fixture: CareerFixtur
     const squad = isManagerClub ? full.filter((p) => isSelectableForMatch(state.playerStatuses, p.id)) : full;
     const saved = isManagerClub ? state.matchPlans[fixture.id] : undefined;
     const plan = resolveClubMatchPlanForFixture(clubId, fixture.id, squad, saved, state.tactics[clubId], state.playerMatchDefaults);
-    // A saved plan can name a player who has since become unavailable. The
-    // squad above is the truth, so such a plan is not half-honoured.
-    const usable = plan && plan.squad.players.every((p) => squad.some((s) => s.id === p.playerId)) ? plan : null;
-    return { clubId, squad, gameplayRatings: state.gameplayRatings[clubId] ?? [], plan: usable };
+    // Keep invalid/stale custom plans visible to the strict lineup validator.
+    // Replacing one with null would silently select a different team.
+    return { clubId, squad, gameplayRatings: state.gameplayRatings[clubId] ?? [], plan };
   };
   return {
     fixtureId: fixture.id,

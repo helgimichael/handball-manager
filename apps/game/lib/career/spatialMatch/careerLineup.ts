@@ -23,6 +23,9 @@ import type { AttackingGoalSide, FullCourtMatchState } from "@handball-manager/h
 import type { PlayerMock, HandballPosition } from "../../game-data/types";
 import type { MatchPlan } from "../../matchPlan/types";
 import type { Position } from "../../rating/types";
+import { MATCH_SQUAD_MAX_PLAYERS } from '../../matchPlan/types';
+import { validateMatchSquad, type MatchPlanValidationResult } from '../../matchPlan/matchSquad';
+import { STARTING_SEVEN_POSITION_ERROR, validateAttackStartingUnit } from '../../matchPlan/startingUnits';
 
 /**
  * The engine role each handball position plays in the organized attack.
@@ -117,6 +120,7 @@ export function selectBestAvailableLineup(clubId: string, squad: readonly Player
   const bench = squad
     .filter((p) => !taken.has(p.id))
     .sort(byAbility)
+    .slice(0, MATCH_SQUAD_MAX_PLAYERS - taken.size)
     .map((p) => ({ playerId: p.id, isGoalkeeper: p.position === "MV" }));
 
   return {
@@ -133,11 +137,27 @@ export function selectBestAvailableLineup(clubId: string, squad: readonly Player
  * The coach's own selection, when he made one.
  *
  * Only a NORMAL attacking formation is read: a 7v6 starting unit has no
- * goalkeeper slot and is explicitly out of this milestone, so such a plan falls
- * through to the best-available selection rather than being half-honoured.
+ * goalkeeper slot and is explicitly out of this milestone. Invalid selections
+ * are rejected; they must never be replaced with a different squad.
  */
+export function validateCareerLineup(plan: MatchPlan, squad: readonly PlayerMock[]): MatchPlanValidationResult {
+  const errors = [
+    ...validateMatchSquad(plan.squad, squad.map(p => p.id)).errors,
+    ...validateAttackStartingUnit(plan.attackStartingUnit, plan.squad).errors,
+  ];
+  if (plan.attackStartingUnit.formation !== 'NORMAL') errors.unshift(STARTING_SEVEN_POSITION_ERROR);
+  const byId = new Map(squad.map(p => [p.id, p]));
+  for (const selected of plan.squad.players) {
+    const player = byId.get(selected.playerId);
+    if (player && (selected.position === 'GK') !== (player.position === 'MV')) {
+      errors.push('Matchtruppens målvakter och utespelare måste stämma med spelarregistret.');
+    }
+  }
+  return { ok: errors.length === 0, errors };
+}
+
 export function selectLineupFromMatchPlan(plan: MatchPlan, squad: readonly PlayerMock[]): CareerLineup | null {
-  if (plan.attackStartingUnit.formation !== "NORMAL") return null;
+  if (!validateCareerLineup(plan, squad).ok) return null;
   const byId = new Map(squad.map((p) => [p.id, p]));
   const startersByRole: Partial<Record<CourtAttackRole, string>> = {};
   for (const slot of plan.attackStartingUnit.slots) {
@@ -148,7 +168,7 @@ export function selectLineupFromMatchPlan(plan: MatchPlan, squad: readonly Playe
   }
   if (ROLE_ORDER.some((role) => !startersByRole[role])) return null;
 
-  const goalkeeperId = plan.defenceStartingUnit.goalkeeperId;
+  const goalkeeperId = plan.attackStartingUnit.slots.find(slot => slot.position === 'GK')!.playerId;
   if (!byId.has(goalkeeperId)) return null;
 
   const taken = new Set<string>([goalkeeperId, ...ROLE_ORDER.map((r) => startersByRole[r]!)]);
@@ -167,10 +187,10 @@ export function selectLineupFromMatchPlan(plan: MatchPlan, squad: readonly Playe
   };
 }
 
-/** The coach's selection when he made a usable one, otherwise the best available side. */
+/** A custom selection is authoritative, including when it is invalid. */
 export function resolveCareerLineup(clubId: string, squad: readonly PlayerMock[], plan: MatchPlan | null): CareerLineup | null {
-  const fromPlan = plan ? selectLineupFromMatchPlan(plan, squad) : null;
-  return fromPlan ?? selectBestAvailableLineup(clubId, squad);
+  if (plan) return plan.clubId === clubId ? selectLineupFromMatchPlan(plan, squad) : null;
+  return selectBestAvailableLineup(clubId, squad);
 }
 
 // ---------------------------------------------------------------------------

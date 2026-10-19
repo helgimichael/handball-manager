@@ -5,12 +5,14 @@ import MatchContext from "@/components/manager/MatchContext";
 
 import { useRouter } from "next/navigation";
 import { useState } from 'react';
+import Link from 'next/link';
 import { useCareer } from "@/lib/career/CareerContext";
 import { getCareerSquad } from "@/lib/career/careerWorld";
 import { getNextPlayerFixture } from "@/lib/career/calendar";
 import { isSelectableForMatch, resolveStatusLabel } from "@/lib/career/playerStatus";
 import { PlayerLink } from "@/components/entityLinks";
 import { startProductionMatch } from '@/lib/career/productionMatch';
+import { validateCareerLineup } from '@/lib/career/spatialMatch/careerLineup';
 
 export default function MatchPreviewPage() {
   const router = useRouter();
@@ -46,6 +48,9 @@ export default function MatchPreviewPage() {
   // Match) -- an already-active session for THIS fixture means "resume",
   // never "restart".
   const hasActiveSessionForFixture = career.productionMatch?.fixture.id === fixture.id;
+  const savedPlan = career.matchPlans[fixture.id];
+  const lineupErrors = !hasActiveSessionForFixture && savedPlan
+    ? validateCareerLineup(savedPlan, squad.filter(p => isSelectableForMatch(career.playerStatuses, p.id))).errors : [];
 
   // HM-MATCH-1.3A Part C: the ONE explicit action that may create a live
   // session and transition into FIRST_HALF. `playManagerFixture()` is
@@ -72,9 +77,10 @@ export default function MatchPreviewPage() {
   return (
     <div className="hm-grid" style={{ gap: 12 }}>
       {error && <div role="alert" className="hm-panel-body">{error}</div>}
+      {lineupErrors.length > 0 && <div role="alert" className="hm-panel-body">{lineupErrors.join(' ')} <Link href="/career/tactics">Öppna Taktik och uppdatera startsjuan.</Link></div>}
       <PageHeading eyebrow={fixture.date} title="Matchförhandsvisning" description="Laget, motståndaren och planen inför avkast." />
       <MatchHero career={career} fixture={fixture} context={isMatchdayReady ? 'MATCHDAG' : 'INFÖR AVKAST'}>
-        {isMatchdayReady ? <><button type="button" className="hm-btn hm-btn-primary" onClick={handlePlayMatch}>{hasActiveSessionForFixture ? "FORTSÄTT MATCH →" : "STARTA MATCH →"}</button><button type="button" className="hm-btn" onClick={handleQuickResult}>SNABBRESULTAT</button></> : <span>Fortsätt säsongen till matchdagen för att spela.</span>}
+        {isMatchdayReady ? <><button type="button" className="hm-btn hm-btn-primary" disabled={lineupErrors.length > 0} onClick={handlePlayMatch}>{hasActiveSessionForFixture ? "FORTSÄTT MATCH →" : "STARTA MATCH →"}</button><button type="button" className="hm-btn" disabled={lineupErrors.length > 0} onClick={handleQuickResult}>SNABBRESULTAT</button></> : <span>Fortsätt säsongen till matchdagen för att spela.</span>}
       </MatchHero>
       <MatchContext fixture={fixture} />
       <div className="hm-grid" style={{ gridTemplateColumns: "1fr 1fr" }}>

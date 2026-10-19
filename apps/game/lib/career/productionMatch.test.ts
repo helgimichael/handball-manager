@@ -13,6 +13,7 @@ import { createSave, getSave, saveCareerState, __setSaveBackendForTests } from '
 import { createMemoryBackend } from '../save/saveStorage';
 import { renewPlayerContract } from './contractRenewal';
 import { resolveClubMatchPlanForFixture } from './playerMatchStrength';
+import { STARTING_SEVEN_POSITION_ERROR } from '../matchPlan/startingUnits';
 
 function ready() {
   let state = createNewCareerState('playable-product-2026', 'swe2-tumba', snapshotWorldSquads('swe-2'), undefined, snapshotGameplayRatings('swe-2'));
@@ -179,6 +180,21 @@ test('a legacy unsupported own formation requires a real plan correction rather 
   const started=startProductionMatch({...state,matchPlans:{[fixture.id]:plan}});
   const team=fixture.homeClubId===state.playerClubId?'HOME':'AWAY';
   assert.equal(started.productionMatch!.core.coaching[team].defence,'5:1');
+});
+
+test('alpha kickoff rejects two pivots and preserves the exact selected 16 on a valid plan', () => {
+  const state = ready();
+  const fixture = state.fixtures.find(f => f.date === state.gameDate && (f.homeClubId === state.playerClubId || f.awayClubId === state.playerClubId))!;
+  const squad = getCareerClubSquad(state, state.playerClubId);
+  const plan = resolveClubMatchPlanForFixture(state.playerClubId, fixture.id, squad, undefined)!;
+  const invalid = structuredClone(plan);
+  invalid.attackStartingUnit = { ...invalid.attackStartingUnit, slots: invalid.attackStartingUnit.slots.map(slot => slot.position === 'M9' ? { ...slot, position: 'M6' as const } : slot) };
+  assert.throws(() => startProductionMatch({ ...state, matchPlans: { [fixture.id]: invalid } }), error => error instanceof Error && error.message === STARTING_SEVEN_POSITION_ERROR);
+  const started = startProductionMatch({ ...state, matchPlans: { [fixture.id]: plan } });
+  const team = fixture.homeClubId === state.playerClubId ? 'HOME' : 'AWAY';
+  const people = started.productionMatch!.people.filter(p => p.team === team);
+  assert.equal(people.length, 16);
+  assert.deepEqual(people.map(p => p.id).sort(), plan.squad.players.map(p => p.playerId).sort());
 });
 
 test('next season archives table and statistics, gives unique fixtures and preserves contracts/calendar', () => {

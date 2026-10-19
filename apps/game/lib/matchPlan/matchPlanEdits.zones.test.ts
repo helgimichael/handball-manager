@@ -33,7 +33,7 @@ test("HM-MATCH-1.3B2 Part 3: moving a backcourt player into a pivot zone changes
   assert.equal(naturalAfter, naturalBefore, "natural squad position must be completely unchanged");
 });
 
-test("HM-MATCH-1.3B2 Part 5: the resulting two-pivot structure (M9's old slot now empty of a backcourt player) is a legal MatchPlan", () => {
+test("alpha: a board edit producing two pivots without a center back cannot pass pre-match validation", () => {
   const plan = defaultPlan();
   const m9Slot = plan.attackStartingUnit.slots.find((s) => s.position === "M9")!;
   const next = assignAttackZonePosition(plan, m9Slot.playerId, "M6", null);
@@ -43,7 +43,8 @@ test("HM-MATCH-1.3B2 Part 5: the resulting two-pivot structure (M9's old slot no
   assert.equal(positions.filter((p) => p === "M9").length, 0, "must have zero M9 (centre-back) slots");
 
   const validation = validateMatchPlan(next, next.squad.players.map((p) => p.playerId));
-  assert.equal(validation.ok, true, JSON.stringify(validation.errors));
+  assert.equal(validation.ok, false);
+  assert.ok(validation.errors.some(error => error.includes('exakt en spelare på varje position')));
 });
 
 test("HM-MATCH-1.3B2 Part 2/6: board player -> occupied zone is a SWAP (both players preserved, positions trade)", () => {

@@ -3,7 +3,7 @@
 // attack-only/defence-only specialist pairing.
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { validateAttackStartingUnit, validateDefenceStartingUnit } from "./startingUnits";
+import { STARTING_SEVEN_POSITION_ERROR, validateAttackStartingUnit, validateDefenceStartingUnit } from "./startingUnits";
 import type { AttackStartingUnit, DefenceStartingUnit, MatchSquad } from "./types";
 
 const squad: MatchSquad = {
@@ -91,13 +91,7 @@ test("HM-TACTICS-1.0: a normal attack formation with two goalkeepers is rejected
   assert.ok(result.errors.some((e) => e.includes("exactly 1 goalkeeper")));
 });
 
-// HM-MATCH-1.3B2 Part 1/5: a NORMAL attack formation no longer requires
-// one-of-each-position -- the manager can run e.g. two pivots + two
-// backcourt players by moving a snap-zone marker on the board (see
-// matchPlanEdits.ts's assignAttackZonePosition). This replaces the old
-// "missing position is rejected" test, which asserted exactly the
-// one-of-each rule this milestone deliberately relaxes.
-test("HM-MATCH-1.3B2: a normal attack formation with a repeated pivot position (two M6, no M9 -- a legitimate 'two pivots' tactical shape) is now legal", () => {
+test("alpha: two pivots without a center back are rejected with the kickoff feedback", () => {
   const unit: AttackStartingUnit = {
     formation: "NORMAL",
     slots: [
@@ -111,7 +105,8 @@ test("HM-MATCH-1.3B2: a normal attack formation with a repeated pivot position (
     ],
   };
   const result = validateAttackStartingUnit(unit, squad);
-  assert.equal(result.ok, true, JSON.stringify(result.errors));
+  assert.equal(result.ok, false);
+  assert.ok(result.errors.includes(STARTING_SEVEN_POSITION_ERROR));
 });
 
 test("HM-MATCH-1.3B2: a normal attack formation with an unrecognized outcourt position string is still rejected", () => {

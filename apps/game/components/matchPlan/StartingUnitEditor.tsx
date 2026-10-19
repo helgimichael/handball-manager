@@ -36,6 +36,7 @@ import { assignDefenceCellPosition, defenceSlotTacticalPosition, resolveDefenceS
 import { cellToFullCourtPct, DEFENCE_GK_ANCHOR_PCT } from "@/lib/court/boardGeometry";
 import { getAttackPositionCalibration, getDefenceFormationCalibration, type DefenceFormationId } from "@/lib/court/tacticalPositionCalibration";
 import type { MatchPlan } from "@/lib/matchPlan/types";
+import { linkDefenceStarters } from '@/lib/matchPlan/startingUnits';
 import type { SelectablePlayer } from "@/lib/matchPlan/careerSquadBridge";
 import { DEFENCE_FORMATION_OPTIONS, FULL_COURT_SCENE, inferDefenceFormation } from "./courtScene";
 import CourtBoard, { type CourtChip, type CourtGhostCell } from "./CourtBoard";
@@ -59,7 +60,7 @@ interface SelectedPlayer {
 }
 
 export default function StartingUnitEditor({
-  plan,
+  plan: sourcePlan,
   selectablePlayers,
   onChange,
   onOpenPlayerPanel,
@@ -70,6 +71,7 @@ export default function StartingUnitEditor({
   onOpenPlayerPanel: (playerId: string) => void;
 }) {
   const [selectedKey, setSelectedKey] = useState<string | null>(null);
+  const plan = linkDefenceStarters(sourcePlan);
 
   const byId = new Map(selectablePlayers.map((p) => [p.playerId, p]));
   const nameOf = (playerId: string) => byId.get(playerId)?.fullName ?? playerId;
@@ -128,21 +130,24 @@ export default function StartingUnitEditor({
   }
 
   const selected = describeSelectedPlayer({ selectedKey, plan, defenceFormation, nameOf });
+  const defenceReadOnly = selected?.activeSlotKey.startsWith('D-') && !selected.activeIsGoalkeeper;
+  const defenceAlphaHint = 'Alpha: Samma utespelare startar i anfall och försvar. Ändra spelare i anfallsuppställningen; separata försvarsbyten tillämpas inte.';
 
   function applyDrop(targetKey: string, playerId: string) {
     const [prefix, rest] = [targetKey.slice(0, 1), targetKey.slice(2)];
     const isGoalkeeperSlot = rest === "GK";
+    if (prefix === 'D' && !isGoalkeeperSlot) return;
     const draggedIsGoalkeeper = byId.get(playerId)?.position === "GK";
     // Part F/W#8 (carried forward): a goalkeeper only ever goes in a
     // goalkeeper slot and vice versa -- guarded here, never
     // allowed-then-rejected after the drop.
     if (isGoalkeeperSlot !== draggedIsGoalkeeper) return;
     if (isGoalkeeperSlot) {
-      onChange((prev) => (prefix === "A" ? assignAttackGoalkeeper(prev, playerId) : assignDefenceGoalkeeper(prev, playerId)));
+      onChange((prev) => linkDefenceStarters(assignDefenceGoalkeeper(assignAttackGoalkeeper(prev, playerId), playerId)));
       return;
     }
     const targetCell = Number(rest);
-    onChange((prev) => (prefix === "A" ? assignAttackCellPosition(prev, playerId, targetCell) : assignDefenceCellPosition(prev, playerId, targetCell)));
+    onChange((prev) => linkDefenceStarters(prefix === "A" ? assignAttackCellPosition(prev, playerId, targetCell) : assignDefenceCellPosition(prev, playerId, targetCell)));
   }
 
   return (
@@ -160,6 +165,7 @@ export default function StartingUnitEditor({
       </div>
 
       <div className="hm-panel-body" style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+        <p className="hm-text-muted" title={defenceAlphaHint}>{defenceAlphaHint}</p>
         <div style={{ display: "flex", gap: 12, fontSize: "var(--hm-text-2xs)", justifyContent: "center" }}>
           <span style={{ display: "flex", alignItems: "center", gap: 4 }}>
             <span style={{ width: 10, height: 10, borderRadius: "50%", border: "2px solid rgba(255, 196, 0, 0.9)", display: "inline-block" }} />
@@ -207,6 +213,8 @@ export default function StartingUnitEditor({
                 className="hm-select"
                 style={{ ...selectStyle, flex: "0 1 160px" }}
                 value={selected.playerId}
+                disabled={defenceReadOnly}
+                title={defenceReadOnly ? defenceAlphaHint : undefined}
                 onChange={(e) => applyDrop(selected.activeSlotKey, e.target.value)}
               >
                 {(selected.activeIsGoalkeeper ? goalkeepers : outcourt).map((o) => (
