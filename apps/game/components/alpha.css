@@ -1,0 +1,37 @@
+.alpha-gate {
+  min-height: 100dvh; display: grid; place-items: center; padding: 24px;
+  background: var(--hm-bg-app); color: var(--hm-text-primary); font-family: var(--hm-font-sans);
+}
+.alpha-card {
+  box-sizing: border-box; width: min(100%, 480px); padding: clamp(24px, 5vw, 40px);
+  border: 1px solid var(--hm-border); border-radius: 12px; background: var(--hm-surface-1);
+  color: var(--hm-text-primary); font-family: var(--hm-font-sans); box-shadow: 0 20px 60px #0005;
+}
+.alpha-card :is(h1, h2) { margin: 0 0 16px; font-size: clamp(24px, 4vw, 30px); line-height: 1.2; }
+.alpha-card p { margin: 0 0 20px; color: var(--hm-text-secondary); line-height: 1.6; }
+.alpha-card .alpha-eyebrow { color: var(--hm-accent); font-size: 12px; letter-spacing: .12em; text-transform: uppercase; }
+.alpha-card form { display: grid; gap: 12px; }
+.alpha-card label { font-size: 14px; font-weight: 600; }
+.alpha-card input {
+  width: 100%; box-sizing: border-box; min-height: 48px; padding: 12px;
+  border: 1px solid var(--hm-border-strong); border-radius: 6px;
+  background: var(--hm-bg-app); color: var(--hm-text-primary); font: inherit; font-size: 16px;
+}
+.alpha-primary, .alpha-secondary {
+  min-height: 44px; padding: 10px 16px; border: 1px solid var(--hm-border-strong);
+  border-radius: 6px; font: 600 14px/1.4 var(--hm-font-sans); cursor: pointer;
+  background: var(--hm-surface-2); color: var(--hm-text-primary);
+}
+.alpha-primary { background: var(--hm-accent); color: var(--hm-accent-text); border-color: transparent; }
+.alpha-primary:disabled { opacity: .6; cursor: wait; }
+.alpha-card .alpha-error { color: #ff9fa3; margin: 0; }
+.alpha-card a { color: var(--hm-accent-strong); text-decoration: underline; text-underline-offset: 3px; }
+.alpha-feedback-trigger {
+  position: fixed; bottom: max(12px, env(safe-area-inset-bottom)); left: max(12px, env(safe-area-inset-left));
+  max-width: calc(100vw - 24px); z-index: 200; box-shadow: 0 4px 16px #0004; font-size: 12px;
+}
+.alpha-feedback-dialog { margin: auto; max-width: calc(100vw - 32px); max-height: calc(100dvh - 32px); overflow: auto; }
+.alpha-feedback-dialog::backdrop { background: #050b0de0; }
+.alpha-feedback-dialog > * + * { margin-top: 20px; }
+.alpha-gate :is(input, button):focus-visible, .alpha-feedback-dialog :is(button, a):focus-visible,
+.alpha-feedback-trigger:focus-visible { outline: 2px solid var(--hm-accent-strong); outline-offset: 4px; }
