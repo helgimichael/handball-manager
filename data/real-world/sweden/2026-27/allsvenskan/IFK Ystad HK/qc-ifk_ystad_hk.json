@@ -24,7 +24,8 @@
   "knownConflicts": [],
   "staleSourceWarnings": [
     "HM-DATA-ALLSVENSKAN-1.1: the canonical source spreadsheet carries no position, nationality, height, handedness, or contract-date column at all -- see openFieldsSummary and each roster entry's own rosterConfidence/dataNotes for exactly which fields are real evidence vs. a disclosed structural placeholder.",
-    "HM-DATA-1.3: roster corrected against Profixio leagueid28141 (2026-10-31)."
+    "HM-DATA-1.3: roster corrected against Profixio leagueid28141 (2026-10-31).",
+    "HM-DATA-1.7: roster corrected against Profixio leagueid28141 (2026-10-31)."
   ],
   "openFieldsSummary": {
     "exactDateOfBirthMissing": 0,

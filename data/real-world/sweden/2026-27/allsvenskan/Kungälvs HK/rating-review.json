@@ -88,5 +88,10 @@
     "status": "LOCKED",
     "updatedAt": "2026-08-30T17:59:00.555Z",
     "note": "DIV1N_rating_import_candidates_v0.6 / DIV1S_rating_import_candidates_v0.5 Division 1 import (DIV1_ONLY_CANONICAL set only)"
+  },
+  "se_player_casper_klavsater_doll_636b6f18": {
+    "status": "LOCKED",
+    "updatedAt": "2026-10-31T10:56:07.649Z",
+    "note": "HM-DATA-1.7 (2026-10-31): owner-approved researched CA 103 (was 132, game prior); PA 147 kept. Source: HM-DATA-1.6 six-player rating research (C:/DEV/QA/reports/HM-DATA-1.6/six-player-rating-research-2026-10-31.md), anchored to v0.13 researched analogues; evidence: Sverigecupen 2023; Herr Väst 2 2025/26 70 goals in 20; no senior sheets 2026/27; analogues Kjellner 105, Hampus Nilsson 102. Approved by owner in HM-DATA-1.7."
   }
 }

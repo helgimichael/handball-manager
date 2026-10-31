@@ -78,5 +78,10 @@
     "status": "LOCKED",
     "updatedAt": "2026-10-31T06:14:33.900Z",
     "note": "HM-DATA-1.3 (2026-10-31) GK/OUTCOURT branch correction to V6; researched CA/PA preserved, generated attributes regenerated (HM-RATINGS-0.4-v1)"
+  },
+  "se_player_anton_jansson_396049ed": {
+    "status": "LOCKED",
+    "updatedAt": "2026-10-31T10:56:07.357Z",
+    "note": "HM-DATA-1.7 (2026-10-31): owner-approved researched CA 98 (was 138, game prior); PA 139 kept. Source: HM-DATA-1.6 six-player rating research (C:/DEV/QA/reports/HM-DATA-1.6/six-player-rating-research-2026-10-31.md), anchored to v0.13 researched analogues; evidence: no camp/regional/national selection; 1 Herrallsvenskan sheet, mostly Herr 2 Mitt; third goalkeeper; analogues O. Andersson 103, Westberg 101, Mårtensson 90. Approved by owner in HM-DATA-1.7."
   }
 }

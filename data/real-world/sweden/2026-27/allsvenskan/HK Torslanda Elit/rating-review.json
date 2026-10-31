@@ -68,5 +68,15 @@
     "status": "LOCKED",
     "updatedAt": "2026-08-30T15:46:15.165Z",
     "note": "ALLSV_rating_import_candidates_v0.13 Allsvenskan final import (261/261, individually researched, 0 REVIEW)"
+  },
+  "se_player_alvar_emriksson_fd70b354": {
+    "status": "LOCKED",
+    "updatedAt": "2026-10-31T10:56:07.250Z",
+    "note": "HM-DATA-1.7 (2026-10-31): owner-approved researched CA 107 (was 142, game prior); PA 153 kept. Source: HM-DATA-1.6 six-player rating research (C:/DEV/QA/reports/HM-DATA-1.6/six-player-rating-research-2026-10-31.md), anchored to v0.13 researched analogues; evidence: Riksläger RL2 (2024) + RL3 (2025); 2026/27 Herrallsvenskan 5 sheets/3 goals; analogues Runge 108, Bohlin 109, Estrada Hammarbäck 103. Approved by owner in HM-DATA-1.7."
+  },
+  "se_player_ludvig_hedin_488c5a68": {
+    "status": "LOCKED",
+    "updatedAt": "2026-10-31T10:56:07.551Z",
+    "note": "HM-DATA-1.7 (2026-10-31): owner-approved researched CA 104 (was 135, game prior); PA 135 kept. Source: HM-DATA-1.6 six-player rating research (C:/DEV/QA/reports/HM-DATA-1.6/six-player-rating-research-2026-10-31.md), anchored to v0.13 researched analogues; evidence: Riksläger RL1+RL2 goalkeeper (2023); 4 Herrallsvenskan sheets + Herr 2 Väst; analogues Westberg 101, Knudsen 104, Ankarbjörk Olli 106. Approved by owner in HM-DATA-1.7."
   }
 }

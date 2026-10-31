@@ -78,5 +78,10 @@
     "status": "LOCKED",
     "updatedAt": "2026-10-31T06:14:32.667Z",
     "note": "HM-DATA-1.3 (2026-10-31) GK/OUTCOURT branch correction to H6; researched CA/PA preserved, generated attributes regenerated (HM-RATINGS-0.4-v1)"
+  },
+  "se_player_oliver_hagberg_0b320b66": {
+    "status": "LOCKED",
+    "updatedAt": "2026-10-31T10:56:07.744Z",
+    "note": "HM-DATA-1.7 (2026-10-31): owner-approved researched CA 95 (was 132, game prior); PA 143 kept. Source: HM-DATA-1.6 six-player rating research (C:/DEV/QA/reports/HM-DATA-1.6/six-player-rating-research-2026-10-31.md), anchored to v0.13 researched analogues; evidence: no Herrallsvenskan sheets; Fjärås HK lower tiers; third goalkeeper; analogues Mårtensson 90, Elis Andersson 96, O. Andersson 103. Approved by owner in HM-DATA-1.7."
   }
 }

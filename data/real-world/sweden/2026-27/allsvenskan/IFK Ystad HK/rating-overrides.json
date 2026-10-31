@@ -75,13 +75,18 @@
     "pa": 152
   },
   "se_player_vilmer_feldt_19df4fce": {
+    "updatedAt": "2026-10-31T06:14:33.206Z",
     "ca": 121,
-    "pa": 155,
-    "updatedAt": "2026-10-31T06:14:33.206Z"
+    "pa": 155
   },
   "player_liam_thulin_c1345228": {
     "updatedAt": "2026-08-30T17:59:20.849Z",
     "ca": 110,
     "pa": 114
+  },
+  "se_player_hugo_lundberg_eef2c0f4": {
+    "ca": 109,
+    "pa": 140,
+    "updatedAt": "2026-10-31T10:56:07.389Z"
   }
 }

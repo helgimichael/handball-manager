@@ -25,9 +25,9 @@
     "pa": 150
   },
   "se_player_william_eriksson_22a1ec06": {
+    "updatedAt": "2026-08-30T15:45:57.371Z",
     "ca": 121,
-    "pa": 136,
-    "updatedAt": "2026-08-30T15:45:57.371Z"
+    "pa": 136
   },
   "se_player_alexander_norrbrink_c0b9bb84": {
     "updatedAt": "2026-08-30T15:45:51.501Z",
@@ -88,5 +88,10 @@
     "updatedAt": "2026-08-30T17:59:00.238Z",
     "ca": 98,
     "pa": 114
+  },
+  "se_player_casper_klavsater_doll_636b6f18": {
+    "ca": 103,
+    "pa": 147,
+    "updatedAt": "2026-10-31T10:56:07.580Z"
   }
 }

@@ -65,8 +65,18 @@
     "pa": 141
   },
   "se_player_simon_ohlsson_8abb2cb1": {
+    "updatedAt": "2026-08-30T15:46:14.865Z",
     "ca": 112,
-    "pa": 134,
-    "updatedAt": "2026-08-30T15:46:14.865Z"
+    "pa": 134
+  },
+  "se_player_alvar_emriksson_fd70b354": {
+    "updatedAt": "2026-10-31T10:56:07.186Z",
+    "ca": 107,
+    "pa": 153
+  },
+  "se_player_ludvig_hedin_488c5a68": {
+    "ca": 104,
+    "pa": 135,
+    "updatedAt": "2026-10-31T10:56:07.484Z"
   }
 }

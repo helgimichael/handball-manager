@@ -75,8 +75,13 @@
     "pa": 139
   },
   "se_player_viktor_johansson_fa47a56b": {
+    "updatedAt": "2026-10-31T06:14:33.840Z",
     "ca": 114,
-    "pa": 137,
-    "updatedAt": "2026-10-31T06:14:33.840Z"
+    "pa": 137
+  },
+  "se_player_anton_jansson_396049ed": {
+    "ca": 98,
+    "pa": 139,
+    "updatedAt": "2026-10-31T10:56:07.283Z"
   }
 }

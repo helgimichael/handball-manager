@@ -149,10 +149,11 @@ test("harness: the season-0 checkpoint reproduces the audited database baseline"
   const result = runSimulation("baseline-check", HUMAN_CLUB, 0, [0]);
   const c0 = result.checkpoints[0];
   // Herrallsvenskan re-audited after HM-DATA-1.3 (roster corrected against Profixio; no CA/PA value changed): 118.8 -> 119.6.
+  // Herrallsvenskan re-audited after HM-DATA-1.7 (six owner-approved researched CA values, -200 CA in total): 119.6 -> 118.8.
   // Division 1 Norra and Södra re-audited after HM-DATA-1.6 (rosters corrected against Profixio; no CA/PA value
   // changed): Norra 101.0 -> 100.1, Södra 104.1 -> 102.6.
   const means: Record<string, number> = {
-    Handbollsligan: 127.1, Herrallsvenskan: 119.6, "Division 1 Norra": 100.1, "Division 1 Sodra": 102.6,
+    Handbollsligan: 127.1, Herrallsvenskan: 118.8, "Division 1 Norra": 100.1, "Division 1 Sodra": 102.6,
   };
   for (const [label, expected] of Object.entries(means)) {
     const actual = c0.caByCompetition[label].mean;

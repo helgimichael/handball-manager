@@ -27,6 +27,7 @@ import { atomicWriteJsonFile } from "../lib/editor/atomicWrite";
 import { buildCatalog, type EditorClubEntry } from "../lib/editor/catalog";
 import { DEFAULT_DATA_ROOT } from "../lib/editor/paths";
 import { calibratePlayerRating, toRatingPosition } from "../lib/editor/ratingCalibration";
+import { buildRatingWorkbenchRowForPlayer } from "../lib/editor/ratingWorkbench";
 import type { CanonicalPosition } from "../lib/editor/schema";
 import { loadRealWorldClubSquad, validateClubSquad } from "../lib/gameWorld/realWorldLoader";
 import { assignOutcourtArchetype } from "../lib/rating/gamePrior/archetypeAssignment";
@@ -158,10 +159,11 @@ function positionSources(r: Record<string, string>): { refs: string[]; basis: st
 }
 
 // ---------------------------------------------------------------- operations
-type OpKind = "ADD_PLAYER" | "SET_POSITION" | "REGENERATE_BRANCH" | "REMOVE_MEMBERSHIP" | "MOVE_MEMBERSHIP" | "RENAME" | "ADD_ALIAS" | "MERGE_IDENTITY";
+type OpKind = "ADD_PLAYER" | "SET_POSITION" | "REGENERATE_BRANCH" | "REMOVE_MEMBERSHIP" | "MOVE_MEMBERSHIP" | "RENAME" | "ADD_ALIAS" | "MERGE_IDENTITY" | "CALIBRATE_RATING";
 interface Op { id: string; kind: OpKind; player: string; playerId: string; club: string; detail: string; needed: boolean }
 interface Merge { retiredId: string; canonicalId: string; caPaBefore: string; caPaAfter: string }
-interface Context { files: FileSet; ops: Op[]; touchedClubs: Set<string>; otherLeagueClubs: Set<string>; regenerations: { op: Op; clubId: string; position: string }[]; attributeReport: unknown[]; merges: Merge[] }
+interface Calibration { op: Op; clubId: string; position: string; ca: number; pa: number; note: string }
+interface Context { files: FileSet; ops: Op[]; touchedClubs: Set<string>; otherLeagueClubs: Set<string>; regenerations: { op: Op; clubId: string; position: string }[]; attributeReport: unknown[]; merges: Merge[]; calibrations: Calibration[]; calibrationReport: unknown[] }
 
 function addSourceIfMissing(ctx: Context, club: EditorClubEntry, key: keyof typeof SRC, url: string | null): void {
   if (!club.sourcesFile) return;
@@ -213,6 +215,26 @@ function plan(ctx: Context): void {
   const { files } = ctx;
   for (const r of rows) {
     const op = (kind: OpKind, detail: string, needed: boolean): Op => { const o = { id: r.id, kind, player: r.player_name, playerId: r.player_id, club: r.club, detail, needed }; ctx.ops.push(o); return o; };
+
+    // ---- owner-approved researched CA: lock it with the player's existing PA through the existing calibration path ----
+    if (r.roster_action === "CALIBRATE_RATING") {
+      const club = clubByName(r.club);
+      const row = files.get<RosterRow[]>(club.rosterFile).find((x) => x.playerId === r.player_id);
+      if (!row) throw new Error(`${r.player_name}: ${r.player_id} is not on the ${club.clubName} roster`);
+      const ca = Number(r.rating_ca);
+      const lock = files.get<Record<string, LockRecord>>(ratingsFile(club), {})[r.player_id];
+      const workbench = buildRatingWorkbenchRowForPlayer(club.clubId, r.player_id, dataRoot);
+      const pa = lock?.pa?.value ?? workbench?.profile.pa.value;
+      const caBefore = lock?.ca.value ?? workbench?.profile.ca.value;
+      if (!Number.isInteger(ca) || pa == null) throw new Error(`${r.player_name}: approved CA or existing PA not resolvable`);
+      if (ca > pa) throw new Error(`${r.player_name}: approved CA ${ca} exceeds PA ${pa}; hold this correction`);
+      const needed = !lock || lock.ca.value !== ca;
+      const o = op("CALIBRATE_RATING", `CA ${caBefore} -> ${ca}; PA ${pa} kept; ${row.primaryPosition}${lock ? "" : " (was game prior, unlocked)"}`, needed);
+      if (!needed || !applyMode) continue;
+      ctx.calibrations.push({ op: o, clubId: club.clubId, position: row.primaryPosition, ca, pa, note: `${MILESTONE} (${SNAPSHOT}): owner-approved researched CA ${ca} (was ${caBefore}, game prior); PA ${pa} kept. ${r.basis}` });
+      ctx.touchedClubs.add(club.clubId);
+      continue;
+    }
 
     // ---- duplicate identity of one real person (owner-confirmed loan): one identity, one playable registration ----
     if (r.roster_action === "MERGE_IDENTITY") {
@@ -484,7 +506,7 @@ function snapshotRoot(): Snapshot {
 }
 
 interface Check { name: string; ok: boolean; detail: string; preExisting?: string[]; intended?: string[] }
-interface Expected { regenerated: Set<string>; moved: Set<string>; positionSynced: Set<string>; removedMemberships: Set<string>; added: Set<string>; touched: Set<string>; merges: Merge[] }
+interface Expected { regenerated: Set<string>; moved: Set<string>; positionSynced: Set<string>; removedMemberships: Set<string>; added: Set<string>; touched: Set<string>; merges: Merge[]; calibrated: Map<string, { ca: number; pa: number }> }
 function validate(before: Snapshot | null, expected: Expected | null): Check[] {
   const checks: Check[] = [];
   const after = snapshotRoot();
@@ -572,6 +594,18 @@ function validate(before: Snapshot | null, expected: Expected | null): Check[] {
     push("generated attributes changed only for the approved GK/OUTCOURT regenerations", attr, `${expected.regenerated.size} regenerated, all other attribute sets identical`);
     push("other locked-rating changes limited to approved position/role syncs and moves", other, "no unapproved lock changes");
 
+    // 7b. a new lock may only be an approved calibration, at exactly the approved CA and the preserved PA
+    const newLocks: string[] = [];
+    for (const [pid, a] of after.locks) {
+      if (before.locks.has(pid) || mergedCanonical.has(pid)) continue;
+      const want = expected.calibrated.get(pid);
+      if (!want) newLocks.push(`${pid}: unapproved new locked rating`);
+      else if (a.lock.ca.value !== want.ca || a.lock.pa?.value !== want.pa) newLocks.push(`${pid}: locked ${a.lock.ca.value}/${a.lock.pa?.value}, approved ${want.ca}/${want.pa}`);
+    }
+    const missingCalibrations = [...expected.calibrated.keys()].filter((pid) => !after.locks.has(pid));
+    push("new locked ratings only for approved CA calibrations (approved CA, PA preserved)", [...newLocks, ...missingCalibrations.map((pid) => `${pid}: approved calibration not locked`)],
+      `${expected.calibrated.size} approved calibrations locked as approved; no other new locks`);
+
     // 8. no identity lost
     push("every pre-existing identity still exists (a merged duplicate survives as its canonical identity)",
       [...before.identities.keys()].filter((k) => !after.identities.has(retiredTo.get(k) ?? k)), `${before.identities.size} identities preserved${retiredTo.size ? ` (${retiredTo.size} merged into canonical)` : ""}`);
@@ -599,7 +633,7 @@ function main(): void {
   }
 
   const before = snapshotRoot();
-  const ctx: Context = { files: new FileSet(), ops: [], touchedClubs: new Set(), otherLeagueClubs: new Set(), regenerations: [], attributeReport: [], merges: [] };
+  const ctx: Context = { files: new FileSet(), ops: [], touchedClubs: new Set(), otherLeagueClubs: new Set(), regenerations: [], attributeReport: [], merges: [], calibrations: [], calibrationReport: [] };
 
   // One pass: each operation records whether it is still needed; in --apply mode it also stages its edits in memory.
   const savedApply = applyMode;
@@ -660,6 +694,20 @@ function main(): void {
     written.push(locksPath);
   }
 
+  // Phase 2b: owner-approved CA calibrations (existing calibration path: CA override + PA kept, generated attributes for the roster position).
+  for (const c of ctx.calibrations) {
+    const res = calibratePlayerRating(c.clubId, c.op.playerId, toRatingPosition(c.position as CanonicalPosition), c.ca, c.pa, c.note, dataRoot);
+    if (!res.ok || !res.record) throw new Error(`${c.op.player}: calibration failed: ${res.errors.join("; ")}`);
+    const rec = res.record as unknown as LockRecord;
+    if (rec.ca.value !== c.ca || rec.pa?.value !== c.pa) throw new Error(`${c.op.player}: locked CA/PA ${rec.ca.value}/${rec.pa?.value} differs from approved ${c.ca}/${c.pa}`);
+    if ((rec.branch.branch === "GOALKEEPER") !== (c.position === "MV")) throw new Error(`${c.op.player}: ${rec.branch.branch} branch for ${c.position}`);
+    const attrs = Object.values(rec.branch.attributes);
+    ctx.calibrationReport.push({ id: c.op.id, player: c.op.player, playerId: c.op.playerId, clubId: c.clubId, position: rec.position, branch: rec.branch.branch, ca: rec.ca.value, caSource: (rec.ca as { source?: string }).source, pa: rec.pa?.value,
+      roleLabels: rec.attackRoleProficiencies.map((x) => x.role), attributeCount: attrs.length, attributeRange: [Math.min(...attrs.map((a) => a.value)), Math.max(...attrs.map((a) => a.value))], attributeOrigins: [...new Set(attrs.map((a) => a.origin))], generator: rec.attributeGenerationModelVersion });
+    c.op.detail += `; locked ${rec.ca.value}/${rec.pa?.value} ${rec.branch.branch}`;
+    written.push(ratingsFile(catalogNow().clubs.find((x) => x.clubId === c.clubId)!));
+  }
+
   // Phase 3: QC + manifest recount for every touched club.
   refreshQc(ctx, spec.held);
 
@@ -671,7 +719,9 @@ function main(): void {
     added: new Set(ctx.ops.filter((o) => o.kind === "ADD_PLAYER").map((o) => o.playerId)),
     touched: new Set(ctx.ops.filter((o) => o.needed).flatMap((o) => [o.playerId])),
     merges: ctx.merges,
+    calibrated: new Map(ctx.calibrations.map((c) => [c.op.playerId, { ca: c.ca, pa: c.pa }])),
   };
+  fs.writeFileSync(path.join(reportDir, "rating-calibration-report.json"), JSON.stringify(ctx.calibrationReport, null, 2));
   fs.writeFileSync(path.join(reportDir, "identity-merges.json"), JSON.stringify(ctx.merges, null, 2));
   fs.writeFileSync(path.join(reportDir, "apply-operations.json"), JSON.stringify({ dataRoot, summary, ops: ctx.ops }, null, 2));
   fs.writeFileSync(path.join(reportDir, "gk-outcourt-attribute-report.json"), JSON.stringify(ctx.attributeReport, null, 2));

@@ -75,8 +75,13 @@
     "pa": 148
   },
   "se_player_liam_magnusson_170cd0eb": {
+    "updatedAt": "2026-10-31T06:14:32.603Z",
     "ca": 96,
-    "pa": 146,
-    "updatedAt": "2026-10-31T06:14:32.603Z"
+    "pa": 146
+  },
+  "se_player_oliver_hagberg_0b320b66": {
+    "ca": 95,
+    "pa": 143,
+    "updatedAt": "2026-10-31T10:56:07.681Z"
   }
 }
