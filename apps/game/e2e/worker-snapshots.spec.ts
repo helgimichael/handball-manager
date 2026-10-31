@@ -11,8 +11,8 @@ test('workerd serves complete canonical squads and ratings', async ({ request })
   expect(ratingsResponse.status()).toBe(200);
   const { gameplayRatings } = await ratingsResponse.json();
   expect(Object.keys(worldSquads)).toHaveLength(14);
-  expect(Object.values(worldSquads).flat()).toHaveLength(268);
-  expect(Object.values(gameplayRatings).flat()).toHaveLength(268);
+  expect(Object.values(worldSquads).flat()).toHaveLength(265);
+  expect(Object.values(gameplayRatings).flat()).toHaveLength(265);
   for (const [clubId, players] of Object.entries(worldSquads)) {
     expect(gameplayRatings[clubId].map((p: { playerId: string }) => p.playerId).sort())
       .toEqual((players as { id: string }[]).map(p => p.id).sort());

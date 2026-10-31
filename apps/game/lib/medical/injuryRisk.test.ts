@@ -88,7 +88,7 @@ test("(9) injuryRisk.ts source contains no Math.random() call outside of comment
   const fs = await import("node:fs");
   const source = fs.readFileSync(new URL("./injuryRisk.ts", import.meta.url), "utf8");
   const codeOnly = source
-    .split("\n")
+    .split(/\r?\n/)
     .map((line) => line.replace(/\/\/.*$/, ""))
     .join("\n");
   assert.ok(!codeOnly.includes("Math.random("), "injuryRisk.ts must never call Math.random() in executable code");
