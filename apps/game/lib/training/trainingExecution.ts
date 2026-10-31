@@ -19,7 +19,7 @@ import { applyIndividualRecovery, recoveryProfileFor } from "./individualRecover
 /** rating/types.ts's own documented 1-20 attribute-scale midpoint -- the neutral stamina assumption for a player with no snapshotted ENDURANCE (same fallback playerMatchStrength.ts/matchUsageEngine.ts already use). */
 const NEUTRAL_STAMINA = 10.5;
 
-function isPlayerTargeted(target: TrainingSessionTarget, selectedPlayerIds: readonly string[] | undefined, playerId: string, isGoalkeeper: boolean): boolean {
+export function isPlayerTargeted(target: TrainingSessionTarget, selectedPlayerIds: readonly string[] | undefined, playerId: string, isGoalkeeper: boolean): boolean {
   switch (target) {
     case "ALL":
       return true;
@@ -43,7 +43,8 @@ function writeEnergy(physicalState: Record<string, PlayerPhysicalState>, playerI
   return { ...physicalState, [playerId]: { playerId, currentEnergy: clampTrainingEnergy(energy), lastUpdatedDate: date, recentLoad: prior?.recentLoad ?? 0 } };
 }
 
-function applyDayLevelRecovery(day: TrainingDay, energy: number): number {
+/** Overnight recovery plus the day type's own bonus (REST / empty RECOVERY day). Shared with CPU clubs (HM-ALPHA2-02C.1). */
+export function applyDayLevelRecovery(day: Pick<TrainingDay, "dayType" | "sessions">, energy: number): number {
   let next = applyOvernightRecovery(energy);
   if (day.dayType === "REST") {
     next = applyRestDayBonus(next);

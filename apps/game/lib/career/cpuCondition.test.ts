@@ -12,7 +12,7 @@ import { addDays } from "./dateUtils";
 import { rolloverSeason } from "./seasonRollover";
 import { migrateCareerState } from "./saveMigration";
 import { computePlayerMatchStrengthAdjustment, resolveClubMatchPlanForFixture } from "./playerMatchStrength";
-import { applyCpuDailyRecovery, cpuStartingEnergies, estimateQuickSimPlayerMatch, quickSimParticipation, QUICKSIM_WP_PER_MINUTE } from "./cpuCondition";
+import { applyCpuDailyCondition as applyCpuDailyRecovery, cpuStartingEnergies, cpuTrainingDay, estimateQuickSimPlayerMatch, quickSimParticipation, QUICKSIM_WP_PER_MINUTE } from "./cpuCondition";
 import { emptyWorkloadLedger, recordWorkload, type WorkloadEntry } from "../training/workloadLedger";
 import type { CareerFixture, CareerState } from "./types";
 
@@ -40,9 +40,17 @@ test("(1) consecutive CPU matches: quick-sim participants get estimated workload
   const next = aiFixtures(s).find((f) => f.date > first.date && (f.homeClubId === club || f.awayClubId === club))!;
   const start = cpuStartingEnergies(s, [club]);
   assert.ok([...start.values()].some((e) => e < 100));
-  for (let d = addDays(first.date, 1); d <= next.date; d = addDays(d, 1)) s = applyCpuDailyRecovery(s, d);
+  let lowestBetween = 100;
+  for (let d = addDays(first.date, 1); d <= next.date; d = addDays(d, 1)) {
+    s = applyCpuDailyRecovery(s, d);
+    if (d < next.date) lowestBetween = Math.min(lowestBetween, ...[...cpuStartingEnergies(s, [club]).values()]);
+  }
   const atKickoff = cpuStartingEnergies(s, [club]);
-  for (const [id, e] of start) assert.ok(atKickoff.get(id)! >= e, "recovered between fixtures, never lowered");
+  const lowest = [...start.entries()].sort((a, b) => a[1] - b[1])[0];
+  assert.ok(atKickoff.get(lowest[0])! > lowest[1], "the most tired player recovered between fixtures");
+  const squad = getCareerClubSquad(s, club).map((p) => p.id);
+  assert.ok(squad.some((id) => (s.workloadLedger!.entries[id] ?? []).some((e) => e.source === "TRAINING" && e.date > first.date && e.date < next.date)), "the club trained between its fixtures");
+  assert.ok(lowestBetween < 100, "training days lower readiness between fixtures");
 });
 
 function cpuSetup(energy: number, loads: { date: string; load: number }[]) {
@@ -66,17 +74,20 @@ test("(2) three matches within seven days: slower, capped recovery than one matc
   for (let i = 0; i < 4; i++) { const d = addDays(busy.day0, i); b = applyCpuDailyRecovery(b, d); c = applyCpuDailyRecovery(c, d); trace.push([b.playerPhysicalState[busy.ids[0]].currentEnergy, c.playerPhysicalState[calm.ids[0]].currentEnergy]); }
   assert.ok(trace.every(([x, y]) => x <= y), JSON.stringify(trace));
   assert.ok(trace[0][0] < trace[0][1]);
-  assert.ok(trace[3][0] > trace[0][0], "no trap");
+  assert.ok(Math.max(...trace.map(([x]) => x)) > 50, `no trap: ${JSON.stringify(trace)}`);
 });
 
-test("(3) several rest days: steady recovery, not an instant reset to 100", () => {
-  const { state, ids, day0 } = cpuSetup(40, [...weekly("2026-11-10", 3), { date: "2026-11-09", load: 72 }]);
+test("(3) rest days recover more than training days, and never reset to 100 at once", () => {
+  const { state, club, ids, day0 } = cpuSetup(40, [...weekly("2026-11-10", 3), { date: "2026-11-09", load: 72 }]);
+  const days = Array.from({ length: 21 }, (_, i) => addDays(day0, i));
+  const rest = days.find((d) => cpuTrainingDay(state, club, d).dayType === "REST")!;
+  const training = days.find((d) => cpuTrainingDay(state, club, d).dayType === "TRAINING" && cpuTrainingDay(state, club, d).sessions.length > 0)!;
+  const gain = (date: string) => applyCpuDailyRecovery({ ...state, playerPhysicalState: { ...state.playerPhysicalState, [ids[0]]: { ...state.playerPhysicalState[ids[0]], lastRecoveryDate: addDays(date, -1) } } }, date).playerPhysicalState[ids[0]].currentEnergy - 40;
+  assert.ok(gain(rest) > gain(training), `rest ${gain(rest)} > training ${gain(training)}`);
+  assert.ok(40 + gain(rest) < 100, "one rest day is not a full reset");
   let s = state;
-  const curve: number[] = [];
-  for (let i = 0; i < 6; i++) { s = applyCpuDailyRecovery(s, addDays(day0, i)); curve.push(s.playerPhysicalState[ids[0]].currentEnergy); }
-  assert.ok(curve.every((e, i) => i === 0 || e > curve[i - 1]), `${curve}`);
-  assert.ok(curve[0] < 60, `first night ${curve[0]}`);
-  assert.ok(curve[5] > 80, `six nights ${curve[5]}`);
+  for (const d of days.slice(0, 10)) s = applyCpuDailyRecovery(s, d);
+  assert.ok(s.playerPhysicalState[ids[0]].currentEnergy > 70, `ten days later ${s.playerPhysicalState[ids[0]].currentEnergy}`);
 });
 
 test("(4) different physical capacity: CPU players with better endurance recover more from the same state", () => {
@@ -122,7 +133,7 @@ test("(7) season transition keeps CPU readiness and workload; recovery continues
   assert.deepEqual(rolled.playerPhysicalState, s.playerPhysicalState);
   assert.deepEqual(rolled.workloadLedger, s.workloadLedger);
   const after = applyCpuDailyRecovery(rolled, addDays(f.date, 1));
-  assert.ok(Object.keys(after.playerPhysicalState).some((id) => after.playerPhysicalState[id].currentEnergy > rolled.playerPhysicalState[id].currentEnergy));
+  assert.ok(Object.keys(rolled.playerPhysicalState).some((id) => after.playerPhysicalState[id].lastRecoveryDate === addDays(f.date, 1) && after.playerPhysicalState[id].currentEnergy !== rolled.playerPhysicalState[id].currentEnergy));
 });
 
 test("(8) save/reload gives identical CPU results, readiness and workload", () => {
@@ -159,8 +170,49 @@ test("(10) old save without CPU state: identical first quick-sim inputs, nothing
   const before = computePlayerMatchStrengthAdjustment(home, old.gameplayRatings[f.homeClubId] ?? [], away, old.gameplayRatings[f.awayClubId] ?? [], `${old.saveSeed}:${f.id}`);
   const now = computePlayerMatchStrengthAdjustment(home, old.gameplayRatings[f.homeClubId] ?? [], away, old.gameplayRatings[f.awayClubId] ?? [], `${old.saveSeed}:${f.id}`, new Map());
   assert.deepEqual(now, before, "no tracked CPU state -> exactly the pre-02C quick-sim inputs");
-  assert.ok(applyCpuDailyRecovery(old, f.date) === old, "no CPU state, nothing to recover");
+  // 02C.1: the first processed day starts CPU state from full readiness -- only that day's training, no invented history.
+  const day = addDays(f.date, -1);
+  const started = applyCpuDailyRecovery(old, day);
+  const cpuIds = getCareerClubSquad(old, f.homeClubId).map((p) => p.id);
+  assert.ok(cpuIds.every((id) => started.playerPhysicalState[id].currentEnergy <= 100 && started.playerPhysicalState[id].lastRecoveryDate === day));
+  assert.ok(cpuIds.every((id) => (started.workloadLedger!.entries[id] ?? []).every((e) => e.date === day && e.source === "TRAINING")));
 });
+
+// --- HM-ALPHA2-02C.1: CPU training parity ------------------------------------
+
+test("(P1) CPU clubs follow the same fixture-aware default week as the manager's club", () => {
+  const s = career();
+  const club = aiFixtures(s)[0].homeClubId;
+  const own = (f: CareerFixture) => f.homeClubId === club || f.awayClubId === club;
+  const matchDay = s.fixtures.filter(own)[1].date;
+  assert.equal(cpuTrainingDay(s, club, matchDay).dayType, "MATCH");
+  assert.deepEqual(cpuTrainingDay(s, club, matchDay).sessions, []);
+  const eve = cpuTrainingDay(s, club, addDays(matchDay, -1));
+  if (!s.fixtures.some((f) => own(f) && f.date === addDays(matchDay, -1))) {
+    assert.deepEqual(eve.sessions.map((x) => [x.type, x.intensity]), [["MATCH_PREPARATION", "LOW"]], "light preparation the day before");
+  }
+  // identical rules: the manager's own club gets the very same generator output
+  const managerDay = s.fixtures.find((f) => f.homeClubId === s.playerClubId || f.awayClubId === s.playerClubId)!.date;
+  assert.deepEqual(cpuTrainingDay(s, s.playerClubId, managerDay), (s.trainingWeeks[managerDay] ?? cpuTrainingDay(s, s.playerClubId, managerDay)));
+});
+
+test("(P2) CPU training load uses the manager's session cost, is MODELLED, and respects rest and match days", () => {
+  const s = career();
+  const club = aiFixtures(s)[0].homeClubId;
+  const days = Array.from({ length: 14 }, (_, i) => addDays(s.gameDate, i + 1));
+  let st = s;
+  for (const d of days) st = applyCpuDailyRecovery(st, d);
+  const squad = getCareerClubSquad(st, club);
+  for (const d of days) {
+    const day = cpuTrainingDay(st, club, d);
+    const entries = squad.flatMap((p) => (st.workloadLedger!.entries[p.id] ?? []).filter((e) => e.date === d && e.source === "TRAINING"));
+    if (day.dayType === "REST" || day.dayType === "MATCH") assert.equal(entries.length, 0, `${d} ${day.dayType} has no training`);
+    assert.ok(entries.every((e) => e.quality === "MODELLED" && e.basis === "TRAINING_SESSION_COST" && e.id.startsWith(`training:${d}:`)));
+  }
+  const trainingDay = days.find((d) => cpuTrainingDay(st, club, d).dayType === "TRAINING" && cpuTrainingDay(st, club, d).sessions.length)!;
+  assert.ok(squad.some((p) => (st.workloadLedger!.entries[p.id] ?? []).some((e) => e.date === trainingDay && e.source === "TRAINING")), "training days are charged");
+});
+
 
 test("(D) CPU readiness reaches both match paths at kickoff", () => {
   const s = career();

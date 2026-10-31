@@ -4,22 +4,29 @@
 // CPU-only fatigue formula. What differs is only the source of match
 // workload: full-engine (v2) matches are MEASURED by productionMatch.ts,
 // quick-simulated AI-vs-AI fixtures are ESTIMATED here from the quick
-// simulation's own court minutes. CPU training is not simulated, so CPU
-// workload is match workload only (documented, not invented).
+// simulation's own court minutes.
 //
-// State is lazy: a CPU player gets a `playerPhysicalState` entry the first
-// time they take part in a match; until then they are untouched (100),
-// which keeps older saves byte-identical until a CPU match is played.
+// HM-ALPHA2-02C.1: CPU clubs also train, on the SAME default weekly
+// template the manager's club starts from (trainingSchedule.ts's
+// fixture-aware buildTrainingWeek: MATCH day, light MATCH_PREPARATION the
+// day before, the template's REST/RECOVERY days), with the SAME per-session
+// energy cost, targeting and day-level recovery -- no CPU-specific numbers.
+//
+// State starts on the first processed day for every CPU squad player
+// (older saves: from the first day processed after this change -- no
+// history is invented).
 import { computePlayerWindowActivity } from "./matchUsageEngine";
 import { buildStaminaByPlayerId } from "./playerMatchStrength";
 import { getCareerClubSquad } from "./careerWorld";
-import { applyOvernightRecovery } from "../training/trainingLoad";
+import { clampTrainingEnergy, computePlayerSessionEnergyDelta } from "../training/trainingLoad";
+import { applyDayLevelRecovery, isPlayerTargeted } from "../training/trainingExecution";
+import { buildTrainingWeek, DEFAULT_WEEKLY_TEMPLATE, mondayOf } from "../training/trainingSchedule";
 import { applyIndividualRecovery, recoveryProfileFor } from "../training/individualRecovery";
-import { decayedRecentWorkload, type WorkloadEntry, type WorkloadLedger } from "../training/workloadLedger";
+import { decayedRecentWorkload, recordWorkload, startWorkloadLedger, trainingWorkload, type WorkloadEntry, type WorkloadLedger } from "../training/workloadLedger";
 import { MATCH_KICKOFF_ENERGY_FLOOR } from "./productionMatch";
 import type { MatchPlan } from "../matchPlan/types";
 import type { GameplayPlayerRating } from "../gameWorld/gameplayRatingSnapshot";
-import type { PlayerPhysicalState } from "../training/types";
+import type { PlayerPhysicalState, TrainingDay } from "../training/types";
 import type { CareerFixture, CareerState } from "./types";
 
 /**
@@ -105,23 +112,50 @@ export function cpuClubIds(state: CareerState): string[] {
   return [...new Set(state.fixtures.flatMap((f) => [f.homeClubId, f.awayClubId]))].filter((c) => c !== state.playerClubId).sort();
 }
 
+/** A CPU club's training day: that date of its own fixture-aware default week (never persisted -- regenerated deterministically). */
+export function cpuTrainingDay(state: CareerState, clubId: string, date: string): TrainingDay {
+  return buildTrainingWeek(mondayOf(date), state.fixtures, clubId, DEFAULT_WEEKLY_TEMPLATE).days.find((d) => d.date === date)!;
+}
+
 /**
- * Daily CPU recovery, once per calendar date: the manager squad's own
- * baseline overnight recovery, scaled/capped by the SAME individual profile
- * (attributes, age, ledger workload, last match). No CPU training is
- * simulated, so there is no rest-day bonus and no training cost.
+ * The CPU daily condition step, once per CPU player per calendar date
+ * (`lastRecoveryDate` guard): exactly what executeTrainingDay does for the
+ * manager's squad -- day-level recovery (overnight + REST/RECOVERY bonus)
+ * scaled/capped by the player's individual profile, then each targeted
+ * session's own energy cost at FULL load (CPU clubs have no injury model
+ * or per-player load settings) -- with the session costs recorded in the
+ * workload ledger as MODELLED training load (idempotent ids).
  */
-export function applyCpuDailyRecovery(state: CareerState, date: string): CareerState {
+export function applyCpuDailyCondition(state: CareerState, date: string): CareerState {
   let physical: Record<string, PlayerPhysicalState> | null = null;
+  const records: (WorkloadEntry & { playerId: string })[] = [];
+  const touched: string[] = [];
   for (const clubId of cpuClubIds(state)) {
-    for (const player of getCareerClubSquad(state, clubId)) {
+    const squad = getCareerClubSquad(state, clubId);
+    if (squad.length === 0) continue;
+    const day = cpuTrainingDay(state, clubId, date);
+    const stamina = buildStaminaByPlayerId(state.gameplayRatings[clubId] ?? []);
+    for (const player of squad) {
       const current = state.playerPhysicalState[player.id];
-      if (!current || (current.lastRecoveryDate !== undefined && current.lastRecoveryDate >= date)) continue;
-      const e = current.currentEnergy;
-      const recovered = applyIndividualRecovery(e, applyOvernightRecovery(e), recoveryProfileFor(state, player.id, date, clubId));
+      if (current?.lastRecoveryDate !== undefined && current.lastRecoveryDate >= date) continue;
+      const before = current?.currentEnergy ?? 100;
+      let energy = applyIndividualRecovery(before, applyDayLevelRecovery(day, before), recoveryProfileFor(state, player.id, date, clubId));
+      if (day.dayType === "TRAINING" || day.dayType === "RECOVERY") {
+        for (const session of day.sessions) {
+          if (!isPlayerTargeted(session.target, session.selectedPlayerIds, player.id, player.position === "MV")) continue;
+          const delta = computePlayerSessionEnergyDelta(session, "FULL", stamina.get(player.id) ?? 10.5);
+          energy = clampTrainingEnergy(energy + delta);
+          const w = trainingWorkload(delta);
+          if (w) records.push({ playerId: player.id, id: `training:${date}:${session.id}`, date, source: "TRAINING", ref: session.id, ...w });
+        }
+      }
       physical ??= { ...state.playerPhysicalState };
-      physical[player.id] = { ...current, currentEnergy: recovered, lastRecoveryDate: date };
+      physical[player.id] = { ...(current ?? { playerId: player.id, recentLoad: 0 }), currentEnergy: energy, lastUpdatedDate: date, lastRecoveryDate: date };
+      touched.push(player.id);
     }
   }
-  return physical ? { ...state, playerPhysicalState: physical } : state;
+  if (!physical) return state;
+  const ledger = recordWorkload(state.workloadLedger ?? startWorkloadLedger(state, date), records, date);
+  for (const id of touched) physical[id] = { ...physical[id], recentLoad: decayedRecentWorkload(ledger, id, date) };
+  return { ...state, playerPhysicalState: physical, workloadLedger: ledger };
 }
