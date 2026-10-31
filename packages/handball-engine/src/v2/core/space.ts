@@ -4,7 +4,10 @@ import { courtPlayers, type CoreState, type CorePlayer, type Direction, type Poi
 import {defenderResistance} from './threatRelation';
 export const distance = distanceBetween;
 export const clamp = (n: number, min: number, max: number) => Math.max(min,Math.min(max,n));
-export const local = (p: Point, direction: Direction): Point => ({x:p.x,y:direction==='TOP'?p.y:40-p.y});
+/** World: x 0..20, y 0..40. Local: facing the attacked goal at (10,0),
+ * attack-left x<10. TOP is identity; BOTTOM is a 180-degree rotation.
+ * The transform is its own inverse. Never pass an absolute x with local y. */
+export const local = (p: Point, direction: Direction): Point => direction==='TOP'?{...p}:{x:20-p.x,y:40-p.y};
 export const world = local;
 export const goal = (direction: Direction): Point => ({x:10,y:direction==='TOP'?0:40});
 export function fieldLegal(p: Point, radius=.28): boolean {
@@ -50,7 +53,7 @@ export function wingCorner(role:'LW'|'RW',direction:Direction,radius=.28):Point 
 }
 export function structurePoint(role: CorePlayer['role'],direction: Direction,ballX=10): Point {
   if(role==='LW'||role==='RW')return wingCorner(role,direction);
-  const shift=clamp((ballX-10)*.15,-.9,.9);
+  const shift=clamp((local({x:ballX,y:0},direction).x-10)*.15,-.9,.9);
     // Backs work at nine to ten metres, which is where a backcourt shot is
   // actually taken. They used to stand at eleven and a half, a metre and a half
   // further out than any real attack sets up, and against a defence that

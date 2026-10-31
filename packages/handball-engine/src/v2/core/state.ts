@@ -10,7 +10,7 @@ import type {MovementRead} from './movement';
 import type {HandballIntent} from './intelligence';
 export type { Point, TeamId, Direction } from '../model';
 
-export const CORE_VERSION = '2.9.0-possession-ecology.2';
+export const CORE_VERSION = '2.9.1-court-rotation.1';
 export const DT_MS = 50;
 export const REENTRY_RECEIVE_REASON='Read the next entry while preparing the actual recycle catch';
 /** Scoped execution profile; not a claim that all IHF rules are implemented. */

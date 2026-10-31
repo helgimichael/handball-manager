@@ -57,8 +57,8 @@ export function entryCandidates(s:CoreState) {
   for(const side of [-1,1] as const) {
     const back=players.find(p=>p.role===(side<0?'LB':'RB')),wing=players.find(p=>p.role===(side<0?'LW':'RW'));
     const partner=carrier.id===back?.id?centre:back;
-    const defendersOnSide=defenders.filter(d=>(d.position.x-10)*side>0),depth=defendersOnSide.length?defendersOnSide.reduce((n,d)=>n+local(d.position,direction).y,0)/defendersOnSide.length:7;
-    const gap=defendersOnSide.length?Math.min(...defendersOnSide.map(d=>Math.abs(d.position.x-(10+side*4)))):4;
+    const defendersOnSide=defenders.filter(d=>(local(d.position,direction).x-10)*side>0),depth=defendersOnSide.length?defendersOnSide.reduce((n,d)=>n+local(d.position,direction).y,0)/defendersOnSide.length:7;
+    const gap=defendersOnSide.length?Math.min(...defendersOnSide.map(d=>Math.abs(local(d.position,direction).x-(10+side*4)))):4;
     const skill=partner?partner.profile.decision*partner.condition.energy:0;
     const spatial=(c.x-10)*side>0?.3:0;
     const add=(family:EntryFamily,who:CorePlayer|undefined,score:number,reason:string)=>{
@@ -85,11 +85,11 @@ function selectEntry(s:CoreState) {
     startedTick:s.tick,origin:{...c},origins:{},moved:[],recognized:[],established:false,engagedSide:false,targets:{},response:'UNREAD',lastReadTick:s.tick-12,actions:0,receipts:0};
   const target=(p:CorePlayer,x:number,y:number)=>{const point=clearGoalArea(world({x:clamp(x,.8,19.2),y:clamp(y,6.8,18)},direction),direction,p.radius+.55);if(fieldLegal(point,p.radius))e.targets[p.id]=point;};
   if(e.family==='CROSS') {
-    const towards=Math.sign(choice.partner.position.x-c.x)||side;
+    const towards=Math.sign(local(choice.partner.position,direction).x-c.x)||side;
     target(choice.partner,clamp(c.x-towards*2.2,3,17),clamp(c.y+1.2,10,15));
     target(carrier,clamp(c.x+towards*2.4,3,17),clamp(c.y,10,14));
   }else if(e.family==='PIVOT_SCREEN'&&choice.pivot) {
-    const dx=defender?.position.x??10;
+    const dx=defender?local(defender.position,direction).x:10;
     target(choice.pivot,dx+side*.85,7.1);target(choice.partner,dx+side*2.2,10.2);
   }else if(e.family==='WING_TRANSITION'&&choice.pivot) {
     target(choice.partner,10+side*2.5,7.3);target(choice.pivot,10-side*2.2,7.1);
@@ -126,8 +126,8 @@ export function offenceBefore(s:CoreState) {
   const crossed=active.family==='CROSS'&&(initiator.position.x-partnerPlayer.position.x)*(active.origins[initiator.id].x-active.origins[partnerPlayer.id].x)<0;
   const screen=pivot&&pivot.action?.kind==='SCREEN'&&pivot.action.phase==='EXECUTING'&&active.targets[pivot.id]&&distance(pivot.position,active.targets[pivot.id])<.8;
   const entered=active.family==='WING_TRANSITION'&&active.targets[partnerPlayer.id]&&distance(partnerPlayer.position,active.targets[partnerPlayer.id])<.8;
-  if((carrier.position.x-10)*active.side>2)active.engagedSide=true;
-  const reversed=active.family==='STRETCH_SHIFT'&&active.engagedSide&&active.receipts>0&&(carrier.position.x-10)*active.side<-2;
+  if((local(carrier.position,direction).x-10)*active.side>2)active.engagedSide=true;
+  const reversed=active.family==='STRETCH_SHIFT'&&active.engagedSide&&active.receipts>0&&(local(carrier.position,direction).x-10)*active.side<-2;
   if(!active.established&&(crossed||active.family==='PIVOT_SCREEN'&&screen||entered||reversed)){active.established=true;record(s,'ATTACK_RELATIONSHIP_ESTABLISHED',initiator,{entryId:active.id,family:active.family,evidence:crossed?'RELATIVE_CROSSING':entered?'WING_REACHED_LINE':reversed?'BALL_REVERSED_TO_WEAK_SIDE':'STATIONARY_SCREEN'},[partnerPlayer.id]);}
   active.lastReadTick=s.tick;
   const defender=active.defenderId?getPlayer(s,active.defenderId):null,partner=getPlayer(s,active.partnerId);
@@ -210,7 +210,7 @@ export function chooseOffensiveAction(s:CoreState,p:CorePlayer):boolean {
       distance(marker.position,a.position)>3.6)&&distance(p.position,a.position)<9;
     const wide=freeWide?0:-clamp((Math.abs(a.position.x-10)-4.5)/4,0,1)*1.1;
     const relationship=a.id===e.partnerId?e.response==='DENIED'?0:1.2:a.id===e.pivotId&&e.response==='STEP_OUT'?1.8:0;
-    const weakSide=e.response==='COLLAPSE'&&(a.position.x-10)*e.side<0?1.7:0;
+    const weakSide=e.response==='COLLAPSE'&&(point.x-10)*e.side<0?1.7:0;
     const wave=s.offence.phase==='UPPFOLJNING'?(q.y-point.y)*.12+Math.hypot(a.velocity.x,a.velocity.y)*.1:0;
     return {a,clear,timed,score:Math.min(clear,2)*.65+finish+relationship+weakSide+wave+depth+wide-crowded*.45-(a.id===s.possession.lastPasserId?.9:0)-(distance(a.position,p.position)>15?1.5:0)};
   }).filter(c=>c.clear>.5&&c.timed>.1&&c.score>-5).sort((a,b)=>b.score-a.score||a.a.id.localeCompare(b.a.id));

@@ -15,8 +15,8 @@ test('compact defence produces width while a real pivot interval permits asymmet
     const wide=createBackcourtScenario('COMPACT_DEFENCE_WIDTH',2025,direction),combo=createBackcourtScenario('PIVOT_INTERVAL_SUPPORT',2025,direction);
     const wl=planBackcourtSupport(wide,getPlayer(wide,'H02')),wr=planBackcourtSupport(wide,getPlayer(wide,'H04'));
     const cl=planBackcourtSupport(combo,getPlayer(combo,'H02')),cr=planBackcourtSupport(combo,getPlayer(combo,'H04'));
-    assert.equal(wl.mode,'STRETCH');assert.equal(wr.mode,'STRETCH');assert.ok(wr.target.x-wl.target.x>7);
-    assert.equal(cl.mode,'COMBINE');assert.equal(cl.partnerId,'H06');assert.ok(cl.target.x>wl.target.x+.5);
+    assert.equal(wl.mode,'STRETCH');assert.equal(wr.mode,'STRETCH');assert.ok(local(wr.target,direction).x-local(wl.target,direction).x>7);
+    assert.equal(cl.mode,'COMBINE');assert.equal(cl.partnerId,'H06');assert.ok(local(cl.target,direction).x>local(wl.target,direction).x+.5);
     assert.equal(cr.mode,'STRETCH','The other side need not contract with the combination');
     for(const r of [wl,wr,cl,cr])assert.ok(fieldLegal(r.target));
     getPlayer(combo,'H06').action=null;
@@ -80,28 +80,19 @@ test('backcourt scenarios physically evolve, complete in both directions and ret
       // width the two backs started with and against the width their own
       // support plans asked for. A metre that a pinned constant happened to
       // sit above was never the point.
-      const start=getPlayer(wide[0],'H04').position.x-getPlayer(wide[0],'H02').position.x;
-      const widest=Math.max(...wide.map(f=>getPlayer(f,'H04').position.x-getPlayer(f,'H02').position.x));
+      const start=local(getPlayer(wide[0],'H04').position,direction).x-local(getPlayer(wide[0],'H02').position,direction).x;
+      const widest=Math.max(...wide.map(f=>local(getPlayer(f,'H04').position,direction).x-local(getPlayer(f,'H02').position,direction).x));
       const planned=Math.max(...wide.map(f=>{
         const l=getPlayer(f,'H02').support?.target,r=getPlayer(f,'H04').support?.target;
         return l&&r?Math.abs(r.x-l.x):0;
       }));
       assert.ok(planned>7,`the support plans retain distinct backcourt lanes (${planned.toFixed(2)})`);
-      // KNOWN GAP, recorded rather than hidden: the mirrored end currently
-      // occupies less of the same plan than the TOP end does (about 10.5 m of
-      // 13 against about 12 of 13). The claim asserted is that the width is
-      // genuinely occupied and not merely planned, which both ends satisfy; the
-      // asymmetry between them is an open item.
-      // The claim is that width is OCCUPIED rather than merely planned, and it
-      // is asserted against the width the backs started with. How MUCH of the
-      // plan they take up differs between the two ends -- about a metre at the
-      // TOP end and rather less at the mirrored one -- which is a known open
-      // item recorded here rather than hidden. The lateral coordinate model
-      // itself is now symmetric: see the defence symmetry test.
+      // Width is measured in the attacking frame at both ends. The former
+      // y-only reflection made a signed absolute-x assertion appear valid.
       assert.ok(widest>=start,`the backs never contract below where they started (${widest.toFixed(2)} from ${start.toFixed(2)}, plan ${planned.toFixed(2)})`);
       assert.ok(widest>=planned*.8,`the executor occupies the connected support width (${widest.toFixed(2)} of ${planned.toFixed(2)})`);
     }
-    if(name==='PIVOT_INTERVAL_SUPPORT')assert.ok(frames.some(f=>getPlayer(f,'H02').position.x>6&&getPlayer(f,'H04').position.x>15),'The pivot-side contraction must coexist physically with opposite-side width');
+    if(name==='PIVOT_INTERVAL_SUPPORT')assert.ok(frames.some(f=>local(getPlayer(f,'H02').position,direction).x>6&&local(getPlayer(f,'H04').position,direction).x>15),'The pivot-side contraction must coexist physically with opposite-side width');
     const mid=frames[Math.floor(frames.length/2)];let resumed=loadCore(saveCore(mid));
     while(resumed.status==='RUNNING')resumed=tickCore(resumed);
     assert.equal(coreHash(resumed),coreHash(s));assert.equal(coreEventHash(resumed),coreEventHash(s));

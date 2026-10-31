@@ -13,7 +13,7 @@ import assert from 'node:assert/strict';
 import { createCoreScenario } from './scenarios';
 import { tickCore } from './engine';
 import { courtPlayers, getPlayer, type CoreState } from './state';
-import { distance, goal, local, shotQuality, structurePoint } from './space';
+import { distance, goal, local, world, shotQuality, structurePoint } from './space';
 import { readDefence, zonePost, ZONE_COUNT } from './defence';
 import { bestInterval, committed, readContinuation } from './engage';
 import { PIVOT_FINISH_METERS, isPivot, pivotInterval, pivotPost, pivotShotQuality } from './pivot';
@@ -218,17 +218,14 @@ test('a pivot finish is judged on angle and craft, not on distance alone', () =>
 // ---------------------------------------------------------------------------
 
 test('the same tactical state produces the same line at either end', () => {
-  // THE COORDINATE DEFECT. Lateral position is absolute and only depth mirrors,
-  // but the defence mirrored the ball's x on the way in and emitted posts
-  // through a transform that does not mirror it back: with the ball on the left
-  // the line at the BOTTOM end slid RIGHT, away from it.
+  // Compare equivalent attack-local positions after a full 180-degree turn.
   for (const ballX of [3, 7, 10, 13, 17]) {
     const posts: Record<string, string> = {};
     for (const direction of ['TOP', 'BOTTOM'] as const) {
       const s = createCoreScenario('ESTABLISHED_6V6', 1, direction);
       const line = courtPlayers(s, s.defence.team).filter(p => p.kind === 'FIELD_PLAYER');
-      const read = readDefence({ ...s, ball: { ...s.ball, position: { x: ballX, y: 10 } } } as CoreState, line, null, direction);
-      posts[direction] = Array.from({ length: ZONE_COUNT }, (_, i) => zonePost(s, i, read, direction).x.toFixed(3)).join(',');
+      const read = readDefence({ ...s, ball: { ...s.ball, position: world({ x: ballX, y: 10 },direction) } } as CoreState, line, null, direction);
+      posts[direction] = Array.from({ length: ZONE_COUNT }, (_, i) => local(zonePost(s, i, read, direction),direction).x.toFixed(3)).join(',');
       assert.ok(Math.sign(read.shift) === Math.sign(ballX - 10) || ballX === 10, `the line shifts toward the ball at the ${direction} end`);
     }
     assert.equal(posts.TOP, posts.BOTTOM, `ball at x=${ballX}: both ends produce the same line`);
@@ -241,7 +238,7 @@ test('an interval and a line-player post are read identically at either end', ()
     for (const direction of ['TOP', 'BOTTOM'] as const) {
       const s = createCoreScenario('ESTABLISHED_6V6', 1, direction);
       const pivot = courtPlayers(s, s.possession.team).find(isPivot)!;
-      read[direction] = pivotInterval({ ...s, ball: { ...s.ball, position: { x: ballX, y: 10 } } } as CoreState, pivot);
+      read[direction] = pivotInterval({ ...s, ball: { ...s.ball, position: world({ x: ballX, y: 10 },direction) } } as CoreState, pivot);
     }
     assert.equal(read.TOP.toFixed(3), read.BOTTOM.toFixed(3), `ball at x=${ballX}: the line player wants the same interval`);
   }

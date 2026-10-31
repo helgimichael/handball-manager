@@ -7,9 +7,9 @@ export function wingRelationship(s:CoreState,p:CorePlayer) {
   const back=courtPlayers(s,p.team).find(q=>q.role===(left?'LB':'RB'))??null;
   const outer=courtPlayers(s,otherTeam(p.team)).find(q=>s.defence.marks[q.id]===p.id)??null;
   const carrier=s.ball.controllerId?s.players.find(q=>q.id===s.ball.controllerId):null;
-  const ballSide=left?s.ball.position.x<9:s.ball.position.x>11;
+  const ballSide=left?local(s.ball.position,direction).x<9:local(s.ball.position,direction).x>11;
   const connected=!!back&&ballSide&&(carrier?.id===back.id||distance(s.ball.position,back.position)<3);
-  const pulledInside=!!outer&&(left?outer.position.x>3.5:outer.position.x<16.5);
+  const pulledInside=!!outer&&(left?local(outer.position,direction).x>3.5:local(outer.position,direction).x<16.5);
   // The far wing pins width. The near wing offers outside the back's lane; it
   // does not follow the back inwards and consume the same attacking space.
   const corner=wingCorner(left?'LW':'RW',direction,p.radius);

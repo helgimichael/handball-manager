@@ -51,23 +51,44 @@ function threatContained(s:CoreState,p:CorePlayer,defenders:CorePlayer[],directi
     return path.t>0&&path.t<1&&distance(d.position,path.point)<1.1;
   });
 }
-/** A recovered central line must also account for the actual finishing threats. */
-export function transitionReadyToSettle(s:CoreState):boolean {
-  if(s.possession.phase!=='TRANSITION'||!s.ball.controllerId||s.ball.flight)return false;
+/** Derived readiness, not a new serialized phase. Reorganization keeps the
+ * transition's live actions; only an organized unit hands over to positional play. */
+export function transitionOrganization(s:CoreState):'TRANSITION'|'REORGANIZING'|'ESTABLISHED' {
+  if(s.possession.phase==='ESTABLISHED')return 'ESTABLISHED';
+  if(s.possession.phase!=='TRANSITION'||!s.ball.live||!s.ball.controllerId||s.ball.flight)return 'TRANSITION';
   const carrier=getPlayer(s,s.ball.controllerId),direction=s.directions[s.possession.team];
-  if(carrier.team!==s.possession.team||carrier.kind!=='FIELD_PLAYER'||local(carrier.position,direction).y>=15)return false;
+  if(carrier.team!==s.possession.team||carrier.kind!=='FIELD_PLAYER'||local(carrier.position,direction).y>=15)return 'TRANSITION';
   // The finish already selected from this transition owns its physical
   // takeoff/release. A recovering line does not turn that action into buildup.
-  if(carrier.airborne||carrier.action&&['JUMP','SHOOT'].includes(carrier.action.kind)&&!actionAvailable(carrier))return false;
+  if(carrier.airborne||carrier.action&&['JUMP','SHOOT'].includes(carrier.action.kind)&&!actionAvailable(carrier))return 'TRANSITION';
   const defenders=courtPlayers(s,otherTeam(carrier.team)).filter(d=>d.kind==='FIELD_PLAYER');
-  if(!lineFormed(s,defenders,direction))return false;
-  if((finishingThreat(s,carrier,direction)||s.tick-s.possession.sinceTick<120&&['DRIVE','DRIBBLE'].includes(carrier.action?.kind??'')&&local(carrier.position,direction).y<12)&&!threatContained(s,carrier,defenders,direction))return false;
+  if(!lineFormed(s,defenders,direction))return 'TRANSITION';
+  if((finishingThreat(s,carrier,direction)||s.tick-s.possession.sinceTick<120&&['DRIVE','DRIBBLE'].includes(carrier.action?.kind??'')&&local(carrier.position,direction).y<12)&&!threatContained(s,carrier,defenders,direction))return 'TRANSITION';
   const outlets=s.tick-s.possession.sinceTick>=120?[]:courtPlayers(s,carrier.team).filter(a=>a.id!==carrier.id&&a.kind==='FIELD_PLAYER'&&a.duty.kind==='FIRST_WAVE'&&
     !a.airborne&&!a.condition.unavailable&&!a.condition.exitRequired&&!exchangeActive(s,a.id)&&finishingThreat(s,a,direction));
-  return outlets.every(a=>{
+  if(!outlets.every(a=>{
     if(laneMargin(s,carrier.position,a.position,carrier.team,10.5+3*carrier.profile.passing).seconds<=.05)return true;
     return threatContained(s,a,defenders,direction);
+  }))return 'TRANSITION';
+  const available=courtPlayers(s,carrier.team).filter(p=>p.kind==='FIELD_PLAYER'&&!p.airborne&&
+    !p.condition.unavailable&&!p.condition.exitRequired&&!exchangeActive(s,p.id));
+  // Relative depth behind the actual lower line permits shifted and advanced
+  // defences. Role bands describe useful relationships, not formation points.
+  const depths=defenders.map(d=>local(d.position,direction).y).sort((a,b)=>a-b);
+  const lineDepth=depths[Math.floor((depths.length-1)/2)];
+  const organized=available.filter(p=>{
+    const depth=local(p.position,direction).y;
+    return depth<=lineDepth+(isWing(p)?1.5:isPivot(p)?2.6:6);
   });
+  const supports=organized.filter(p=>p.id!==carrier.id&&distance(p.position,carrier.position)<=12+3*carrier.profile.passing);
+  // One late player is allowed, including a trailing M6. Conversely, a lone
+  // forward runner or a nominal pivot label cannot organize the whole attack.
+  return organized.some(p=>p.id===carrier.id)&&organized.length>=Math.max(2,available.length-1)&&
+    supports.length>=Math.min(2,available.length-1)?'ESTABLISHED':'REORGANIZING';
+}
+/** A recovered line and contained threats are necessary, not sufficient. */
+export function transitionReadyToSettle(s:CoreState):boolean {
+  return s.possession.phase==='TRANSITION'&&transitionOrganization(s)==='ESTABLISHED';
 }
 /** One coordinator allocates pressure/help/cover; reachability never creates a second primary. */
 export function coordinate(s: CoreState) {
@@ -138,7 +159,7 @@ export function coordinate(s: CoreState) {
     // reported one.
     if(before&&duty.targetId&&before!==duty.targetId&&d.zone!==null&&s.tick-s.defence.lastHandoverTick>50) {
       const released=s.players.find(p=>p.id===before),taken=s.players.find(p=>p.id===duty.targetId);
-      const lane=(p:CorePlayer)=>zoneOf(p.position.x);
+      const lane=(p:CorePlayer)=>zoneOf(local(p.position,direction).x);
       const neighbour=defenders.find(o=>o.id!==d.id&&o.zone!==null&&Math.abs((o.zone??0)-(d.zone??0))===1);
       // Crossing attackers pass close to each other and are both moving. Two
       // men drifting across the court on opposite flanks are not a crossing.
@@ -372,7 +393,7 @@ export function applyContinuation(s:CoreState,p:CorePlayer,next:NonNullable<Cont
     // to launch the next attack from the state the defence actually left.
     if(close&&q.y<10.5&&!isPivot(p)&&!p.handling.dribbleUsed&&held<28) {
       const receiver=getPlayer(s,next.receiverId);
-      const target=world({x:clamp(q.x+(receiver.position.x-q.x)*.18,2,18),y:q.y+1.5},s.directions[p.team]);
+      const target=world({x:clamp(q.x+(local(receiver.position,s.directions[p.team]).x-q.x)*.18,2,18),y:q.y+1.5},s.directions[p.team]);
       if(startAction(s,p,'DRIBBLE','RECYCLE: withdraw from the stopped interval and reconnect',target))return true;
     }
     // A chosen return owns the decision while he secures it. It must not fall
@@ -490,7 +511,7 @@ function attackingMovementTarget(s:CoreState,p:CorePlayer,direction:CoreState['d
     :structurePoint(p.role,direction,s.ball.position.x);
   if(s.possession.phase==='TRANSITION') {
     const q=local(p.position,direction),ballDepth=local(s.ball.position,direction).y;
-    const trailing=p.duty.kind==='SECOND_WAVE'?Math.min(q.y,ballDepth+(s.offence.phase==='UPPSPEL'?2:1)):0;target=world({x:p.role==='LB'?5:p.role==='RB'?15:target.x,y:Math.max(local(target,direction).y,q.y-8,trailing)},direction);
+    const trailing=p.duty.kind==='SECOND_WAVE'?Math.min(q.y,ballDepth+(s.offence.phase==='UPPSPEL'?2:1)):0;target=world({x:p.role==='LB'?5:p.role==='RB'?15:local(target,direction).x,y:Math.max(local(target,direction).y,q.y-8,trailing)},direction);
     /* transition wave target set above */
   }
   return {target:offensiveTarget(s,p)??target,screenTarget};
@@ -612,8 +633,8 @@ function commitReleasedKeeper(s:CoreState,p:CorePlayer) {
   const read=keeperReadQuality(p,penalty);
   const pace=Math.hypot(f.velocity.x,f.velocity.y);
   const blind=(1.5-read)*Math.max(.4,1-flown*1.6)*(.82+pace/56);
-  const guess=s.ball.position.x+f.velocity.x*t+(random(s)-.5)*2*blind;
-  const commitTo=world({x:clamp(guess,5.5,14.5),y:depth},ownGoal);
+  const guess=s.ball.position.x+f.velocity.x*t+(ownGoal==='TOP'?1:-1)*(random(s)-.5)*2*blind;
+  const commitTo=world({x:clamp(local({x:guess,y:0},ownGoal).x,5.5,14.5),y:depth},ownGoal);
   if(set) {
     // There is now a real flight to react to. Re-aim the existing stance even
     // across a large angle change; position and movement still obey execution.

@@ -27,7 +27,7 @@ export function observeCarrierRelationships(s:CoreState,p:CorePlayer){
  const primary=opponents.find(d=>d.id===p.action?.targetId&&p.action.kind==='DRIVE')??opponents.find(d=>s.defence.marks[d.id]===p.id&&d.id!==s.defence.helperId)??opponents.slice().sort((a,b)=>distance(a.position,p.position)-distance(b.position,p.position)||a.id.localeCompare(b.id))[0];
  const receiverCovers:Record<string,string>={};
  for(const mate of courtPlayers(s,p.team).filter(a=>usable(s,a)&&a.id!==p.id)){
-  const cover=opponents.find(d=>s.defence.marks[d.id]===mate.id)??opponents.find(d=>d.zone===zoneOf(mate.position.x));
+  const cover=opponents.find(d=>s.defence.marks[d.id]===mate.id)??opponents.find(d=>d.zone===zoneOf(local(mate.position,s.directions[p.team]).x));
   if(cover)receiverCovers[mate.id]=cover.id;
  }
  p.carrierRead={possessionId:s.possession.id,primaryId:primary?.id??null,receiverCovers};
@@ -55,12 +55,12 @@ export function perceiveHandball(s:CoreState,p:CorePlayer):Perception {
  const receivers=mates.filter(a=>a.id!==p.id&&!a.airborne).map(a=>{
   const observed=p.carrierRead?.possessionId===s.possession.id?p.carrierRead.receiverCovers[a.id]:null;
   const numericalCover=defenders.length<=2&&mates.length>defenders.length&&primary&&distance(primary.position,p.position)<2.2&&defenderRelation(p,primary,g).forward>0?primary:undefined;
-  const marker=defenders.find(d=>d.id===observed)??defenders.find(d=>s.defence.marks[d.id]===a.id)??defenders.find(d=>d.zone===zoneOf(a.position.x))??numericalCover;
+  const marker=defenders.find(d=>d.id===observed)??defenders.find(d=>s.defence.marks[d.id]===a.id)??defenders.find(d=>d.zone===zoneOf(local(a.position,dir).x))??numericalCover;
   const separation=Math.min(8,...defenders.map(d=>distance(d.position,a.position)));
   // Creation needs observed displacement/commitment of the receiver's own cover, not width alone.
   const engaged=marker&&distance(marker.position,p.position)<2.5&&distance(marker.position,a.position)>2&&
    ((marker.velocity.x*(p.position.x-marker.position.x)+marker.velocity.y*(p.position.y-marker.position.y))>0||help?.id===marker.id&&help.committed);
-  const displaced=marker&&(observed||s.defence.marks[marker.id]===a.id||marker.zone===zoneOf(a.position.x))&&distance(marker.position,a.position)>2.5&&Math.abs(marker.position.x-a.position.x)>2&&distance(marker.position,p.position)<3;
+  const displaced=marker&&(observed||s.defence.marks[marker.id]===a.id||marker.zone===zoneOf(local(a.position,dir).x))&&distance(marker.position,a.position)>2.5&&Math.abs(marker.position.x-a.position.x)>2&&distance(marker.position,p.position)<3;
   const created=!!(engaged||displaced)&&separation>1.4;
   const lane=laneMargin(s,p.position,a.position,p.team,10.5+3*p.profile.passing).seconds;
   const shot=shotOpportunity(s,a),angle=shootingAngle(a.position,dir),pivot=a.role==='P'||a.role==='P2';

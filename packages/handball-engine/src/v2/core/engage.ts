@@ -59,11 +59,10 @@ const CLOSED_METERS = 1.5;
  */
 export function bestInterval(s: CoreState, carrier: CorePlayer): Interval | null {
   const direction = s.directions[carrier.team];
-  // Lateral position is absolute; only depth depends on the goal. See readDefence.
-  const mirror = (x: number) => x;
+  const mirror = (x: number) => local({x,y:0},direction).x;
   const line = courtPlayers(s, otherTeam(carrier.team))
     .filter(d => d.kind === 'FIELD_PLAYER' && local(d.position, direction).y < 11)
-    .sort((a, b) => a.position.x - b.position.x);
+    .sort((a, b) => mirror(a.position.x) - mirror(b.position.x));
   if (line.length === 0) return null;
   const q = local(carrier.position, direction);
 
@@ -129,7 +128,7 @@ export function breakDefence(s:CoreState,defender:CorePlayer,cause:string,byId:s
   if(freed===s.ball.controllerId&&defender.zone!==null) {
     const direction=s.directions[s.possession.team];
     const threats=courtPlayers(s,s.possession.team).filter(a=>a.kind==='FIELD_PLAYER'&&a.id!==s.ball.controllerId&&a.id!==byId&&
-      zoneOf(a.position.x)===defender.zone&&!a.airborne&&!a.condition.exitRequired&&!exchangeActive(s,a.id));
+      zoneOf(local(a.position,direction).x)===defender.zone&&!a.airborne&&!a.condition.exitRequired&&!exchangeActive(s,a.id));
     const uncovered=threats.filter(a=>!courtPlayers(s,otherTeam(a.team)).some(d=>d.kind==='FIELD_PLAYER'&&d.id!==defender.id&&
       d.beatenUntilTick<=s.tick&&d.screenedUntilTick<=s.tick&&distance(d.position,a.position)<1.15));
     freed=uncovered.sort((a,b)=>local(a.position,direction).y-local(b.position,direction).y||a.id.localeCompare(b.id))[0]?.id??null;

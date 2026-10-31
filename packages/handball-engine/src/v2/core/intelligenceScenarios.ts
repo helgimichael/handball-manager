@@ -12,7 +12,7 @@ export function createIntelligenceScenario(name:typeof INTELLIGENCE_SCENARIOS[nu
  s.tick=20;s.timeMs=1000;s.ball.live=true;s.ball.mode='CONTROLLED';s.ball.controllerId=p.id;s.ball.position={...p.position};s.possession.phase='ESTABLISHED';s.possession.completedPasses=2;
  p.handling={heldSinceTick:5,steps:0,stepDistance:0,dribbleUsed:false,bounceTick:0};s.defence.marks={[d.id]:p.id};s.defence.pressureId=d.id;s.defence.helperId=null;
  if(['B_HELP_M6','C_HELP_STAYS','F_WING_CREATED','I_DEFENSIVE_HELP','J_RECOVERY'].includes(name)){
-  h.population='COURT';h.zone=3;put(h,9,9.7);h.velocity={x:1,y:direction==='TOP'?.8:-.8};s.defence.helperId=h.id;mate.role='P';put(mate,13,7.4);s.defence.marks[h.id]=mate.id;
+  h.population='COURT';h.zone=3;put(h,9,9.7);h.velocity={x:direction==='TOP'?1:-1,y:direction==='TOP'?.8:-.8};s.defence.helperId=h.id;mate.role='P';put(mate,13,7.4);s.defence.marks[h.id]=mate.id;
  }
  if(name==='C_HELP_STAYS'){put(h,16,9);h.velocity={x:0,y:0};}
  if(name==='D_TWO_V_ONE'){put(d,10,8);put(mate,15,9);}

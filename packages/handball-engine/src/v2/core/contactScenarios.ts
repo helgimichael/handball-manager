@@ -17,7 +17,7 @@ export function createContactScenario(kind:ContactScenario,seed=2025,direction:D
   // sends this defender back to his own post and the contact never happens.
   const lane=ZONE_ANCHORS[2];
   a.position=world({x:lane,y:9.5},direction);d.position=world(kind==='FRONTAL_CONTACT'?{x:lane,y:8.7}:{x:lane+.8,y:9.5},direction);
-  d.zone=direction==='TOP'?2:ZONE_ANCHORS.length-1-2;
+  d.zone=2;
   s.ball.position={...a.position};s.defence.pressureId=d.id;
   if(kind==='SHOULDER_BREAKTHROUGH') {
     d.position=world({x:lane-.8,y:9.2},direction);
@@ -27,7 +27,7 @@ export function createContactScenario(kind:ContactScenario,seed=2025,direction:D
   }
   startAction(s,a,kind==='EVADED_CONTACT'?'DRIBBLE':'DRIVE','Attack the available space against an already close defender',world({x:kind==='EVADED_CONTACT'?lane-3:lane,y:8},direction));
   if(kind==='EVADED_CONTACT') {
-    a.action!.phase='EXECUTING';a.action!.phaseTick=0;a.velocity={x:-3,y:0};
+    a.action!.phase='EXECUTING';a.action!.phaseTick=0;a.velocity={x:direction==='TOP'?-3:3,y:0};
     a.handling.dribbleUsed=true;s.ball.mode='DRIBBLE';
   }
   // A disciplined defender contains rather than grabs, which is correct and

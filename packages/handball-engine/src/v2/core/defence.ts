@@ -141,8 +141,8 @@ export function assignZones(s: CoreState, defenders: readonly CorePlayer[], dire
     taken.add(want);
     d.zone = want;
   }
-  // No mirroring: a team's left wing stands at low x whichever goal it is
-  // defending, and the spaces are absolute court positions.
+  // Stable tactical zone ownership; indices run left-to-right in the
+  // attacking team's local reference, not absolute world x.
   void direction;
 }
 
@@ -153,18 +153,9 @@ export function assignZones(s: CoreState, defenders: readonly CorePlayer[], dire
  * reads of the same court would drift apart and produce the converging
  * behaviour this module exists to remove.
  */
-// The direction argument remains part of the public API; this read uses absolute lateral coordinates.
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
+/** One attack-relative read is shared by all zone posts and duties. */
 export function readDefence(s: CoreState, defenders: readonly CorePlayer[], carrier: CorePlayer | null, direction: Direction): DefenceRead {
-  // COORDINATE MODEL: lateral position is ABSOLUTE and is never mirrored.
-  //
-  // Only depth changes with the goal being attacked; `local` and `world` mirror
-  // y and leave x alone. Mirroring the ball's x into a local frame here and
-  // emitting posts through `world`, which does not mirror it back, gave the
-  // shift the wrong sign at one end: with the ball on the left the BOTTOM line
-  // slid right, away from it. The same tactical state now produces the same
-  // line at both ends because there is only one lateral frame.
-  const ballX = carrier ? carrier.position.x : s.ball.position.x;
+  const ballX = local(carrier ? carrier.position : s.ball.position,direction).x;
   const engagedZone = carrier ? zoneOf(ballX) : null;
   const beaten = defenders.some(d => d.beatenUntilTick > s.tick || !!carrier&&lostContainment(carrier,d,direction));
   // The line follows the ball but never abandons the far post. Two thirds of
@@ -246,7 +237,7 @@ export function allocate(s: CoreState, defenders: readonly CorePlayer[], attacke
       .sort((x, y) => distance(x.position, d.position) - distance(y.position, d.position))[0];
     duties.set(d.id, { kind: 'MARK', targetId: near?.id ?? null, reason: 'No space of his own; pick up the man in front of him' });
   }
-  const localX = (p: CorePlayer) => p.position.x;
+  const localX = (p: CorePlayer) => local(p.position,direction).x;
 
   const line = attackers.filter(a => a.role === 'P' || a.role === 'P2');
   const pivotOwner = new Map<string, string>();
@@ -259,8 +250,8 @@ export function allocate(s: CoreState, defenders: readonly CorePlayer[], attacke
       !(s.defence.system==='5:1'&&d.zone===POINT_ZONE));
     const natural=byZone.get(want);
     const owner=natural&&available.includes(natural)?natural:available.sort((a,b)=>
-      Math.abs((s.defence.system==='5:1'?FIVE_ONE_ANCHORS[a.zone!]:ZONE_ANCHORS[a.zone!])-pivot.position.x)-
-      Math.abs((s.defence.system==='5:1'?FIVE_ONE_ANCHORS[b.zone!]:ZONE_ANCHORS[b.zone!])-pivot.position.x)||a.id.localeCompare(b.id))[0];
+      Math.abs((s.defence.system==='5:1'?FIVE_ONE_ANCHORS[a.zone!]:ZONE_ANCHORS[a.zone!])-localX(pivot))-
+      Math.abs((s.defence.system==='5:1'?FIVE_ONE_ANCHORS[b.zone!]:ZONE_ANCHORS[b.zone!])-localX(pivot))||a.id.localeCompare(b.id))[0];
     if (owner) pivotOwner.set(owner.id, pivot.id);
   }
 
@@ -297,7 +288,7 @@ export function allocate(s: CoreState, defenders: readonly CorePlayer[], attacke
     // Help comes from the neighbour on the side the carrier is attacking,
     // because that is the interval the step-out opens. It is a zone
     // relationship, not a proximity search.
-    const toward = carrier!.position.x - presser.position.x;
+    const toward = localX(carrier!) - localX(presser);
     const side = toward >= 0 ? 1 : -1;
     const lowerZones=s.defence.system==='5:1'?[0,1,3,4,5]:[0,1,2,3,4,5];
     const neighbours=s.defence.system==='5:1'&&presser.zone===POINT_ZONE
@@ -329,7 +320,7 @@ export function allocate(s: CoreState, defenders: readonly CorePlayer[], attacke
     // "marking" a pivot standing at 10 leaves a real man unaccounted for
     // somewhere else, which is exactly how a crossing stopped being handed over.
     const pivotPlayer = attackers.find(a => a.id === pivotId);
-    const pivotX = pivotPlayer ? pivotPlayer.position.x : 10;
+    const pivotX = pivotPlayer ? localX(pivotPlayer) : 10;
     let relay = defenders
       .filter(d => d.zone !== null && !duties.has(d.id) && !pivotOwner.has(d.id) && d.beatenUntilTick<=s.tick && !containmentLost(d)&&d.id !== ownerId&&
         !(s.defence.system==='5:1'&&d.zone===POINT_ZONE))

@@ -56,7 +56,7 @@ export function createCoreScenario(scenario: CoreScenario='ESTABLISHED_6V6',seed
   // given that zone outright.
   if(scenario==='PIVOT_2V2'){
     place('H03',8.9,8.8);place('A03',8.9,7.6);place('H06',11.4,6.6);place('A06',12,6.6);
-    getPlayer(state,'A03').zone=direction==='TOP'?2:3;
+    getPlayer(state,'A03').zone=2;
     state.defence.pressureId='A03';
     // The duel is the subject of this fixture, so it is staged rather than
     // hoped for: the carrier commits to a feint against the man in front of
@@ -71,7 +71,7 @@ export function createCoreScenario(scenario: CoreScenario='ESTABLISHED_6V6',seed
   }
   if(scenario==='DEFENSIVE_HELP'){
     place('H03',8.9,8);place('A03',8.9,9.5);getPlayer(state,'A03').beatenUntilTick=40;
-    getPlayer(state,'A03').zone=direction==='TOP'?2:3;
+    getPlayer(state,'A03').zone=2;
   }
   state.ball.position={...getPlayer(state,state.ball.controllerId!).position};
   if(scenario==='FREE_THROW') {

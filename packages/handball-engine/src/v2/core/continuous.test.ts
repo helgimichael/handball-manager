@@ -81,6 +81,17 @@ test('full 2 x 30 minute matches include changed ends, official halftime and rea
       // either an outgoing body exits or a suspension expires. Admission grants
       // permission to enter; fulltime must not teleport the incoming body.
       const admitted=s.events.find(ev=>ev.type==='SUBSTITUTE_ADMITTED'&&ev.details.exchangeId===e.id);
+      // Corrected geometry changes actual travel times. The final horn may
+      // interrupt the outgoing body before it has completely crossed the line.
+      // This is not permission to admit its replacement or teleport either body.
+      if(e.phase==='WAIT_EXIT'){
+        assert.ok(e.outId);const outgoing=getPlayer(s,e.outId!);
+        assert.equal(outgoing.population,'COURT');assert.ok(outgoing.position.x>-outgoing.radius);
+        assert.equal(outgoing.action?.kind,'EXCHANGE');assert.equal(outgoing.action?.phase,'INTERRUPTED');assert.equal(outgoing.action?.phaseTick,s.tick);
+        assert.equal(getPlayer(s,e.inId).population,'BENCH');assert.equal(admitted,undefined);
+        assert.ok(!s.events.some(ev=>['PLAYER_LEFT_COURT','EXCHANGE_COMPLETED'].includes(ev.type)&&ev.details.exchangeId===e.id));
+        continue;
+      }
       assert.ok(admitted&&admitted.officialMs>=report.officialMs-1000,'only a physically admitted final-second entry may remain unfinished');
       assert.equal(e.phase,'ENTERING');
       if(e.outId){

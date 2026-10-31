@@ -14,7 +14,7 @@ export function releasePressure(s:CoreState,p:CorePlayer):number {
 export function planShotTarget(s:CoreState,p:CorePlayer,tieSide?:-1|1) {
   const direction=s.directions[p.team],context=shotContext(s,p);
   const keeper=courtPlayers(s,otherTeam(p.team)).find(d=>d.kind==='GOALKEEPER');
-  const keeperX=keeper?.position.x??10,wide=Math.abs(p.position.x-10)>6.5;
+  const keeperX=keeper?local(keeper.position,direction).x:10,wide=Math.abs(p.position.x-10)>6.5;
   const penalty=p.action?.shotKind==='SEVEN_METRE';
   const difficulty=clamp(context.pressure/2,0,1)*.7+clamp((context.distance-7)/5,0,1)*.15+clamp(Math.hypot(p.velocity.x,p.velocity.y)/Math.max(1,p.profile.topSpeed),0,1)*.15;
   const shooting=penalty?p.profile.shotPlacement*.6+p.profile.finishing*.25+p.profile.composure*.15:wide?p.profile.wingFinishing*.7+p.profile.shotPlacement*.3:p.profile.shotPlacement;
@@ -28,7 +28,7 @@ export function planShotTarget(s:CoreState,p:CorePlayer,tieSide?:-1|1) {
   // aimed too many competent central throws back within his standing reach.
   // Precision buys a smaller safety margin, not an automatic goal.
   const safe=.14+spread*(wide?.12:.22);
-  const aimX=clamp(10+side*(1.5-safe),8.5+safe,11.5-safe);
+  const aimX=world({x:clamp(10+side*(1.5-safe),8.5+safe,11.5-safe),y:0},direction).x;
   return {aimX,placement,spread,direction,context};
 }
 
@@ -43,14 +43,15 @@ export function prepareKeeperAnticipation(s:CoreState,keeper:CorePlayer,thrower:
   // A blocked backcourt wind-up supplies no readable direction. Short clear
   // encounters require prediction because the ball leaves little reaction time.
   if(!penalty&&(distance(thrower.position,keeper.position)>8||context.blockThreat>.2))return false;
-  const expected=Math.abs(thrower.position.x-10)>6.5?Math.sign(thrower.position.x-10)||1:keeper.position.x<=10?1:-1;
+  const ownGoal=s.directions[otherTeam(keeper.team)],q=local(keeper.position,ownGoal),throwX=local(thrower.position,ownGoal).x;
+  const expected=Math.abs(throwX-10)>6.5?Math.sign(throwX-10)||1:q.x<=10?1:-1;
   const read=keeperReadQuality(keeper,penalty);
   const side=random(s)<read?expected:random(s)<.5?-1:1;
-  const ownGoal=s.directions[otherTeam(keeper.team)],depth=local(keeper.position,ownGoal).y;
+  const depth=q.y;
   // A penalty loading step is a small visible commitment, not a complete
   // pre-flight dive. Ordinary close-shot anticipation retains its exact step.
   const loadingStep=penalty?.35+.1*k.sevenMetre:.5;
-  action.target=world({x:clamp(keeper.position.x+side*loadingStep,.3,19.7),y:depth},ownGoal);
+  action.target=world({x:clamp(q.x+side*loadingStep,.3,19.7),y:depth},ownGoal);
   action.anticipationForId=throwing.id;action.anticipationStartedTick=s.tick;
   record(s,'KEEPER_ANTICIPATED',keeper,{throwActionId:throwing.id,side,read,penalty,basis:'Visible committed wind-up and available goal space'},[thrower.id]);
   return true;

@@ -46,8 +46,7 @@ export const PIVOT_FINISH_METERS = 8.2;
  */
 export function pivotInterval(s: CoreState, p: CorePlayer): number {
   void p; // Both pivots read the ball interval; pivotPost separates their sides.
-  // Lateral position is absolute; only depth depends on the goal. See readDefence.
-  const ballLane = s.ball.position.x;
+  const ballLane = local(s.ball.position,s.directions[p.team]).x;
   const engaged = zoneOf(ballLane);
   // Away from the ball by one space: the interval the engaged defender leaves.
   const side = ballLane >= 10 ? -1 : 1;
@@ -243,8 +242,8 @@ export function pivotRollTarget(s:CoreState,p:CorePlayer,defender:CorePlayer):Po
   if(!carrier||carrier.team!==p.team||isPivot(carrier)||distance(carrier.position,p.position)>5.5)return null;
   const a=carrier.action;
   if(!a||!['DRIVE','JUMP','SHOOT'].includes(a.kind)||!['EXECUTING','RECOVERING'].includes(a.phase))return null;
-  const direction=s.directions[p.team],side=Math.sign(defender.position.x-carrier.position.x)||1;
-  const candidates=[side,-side].flatMap(sign=>[1.7,2.2].map(offset=>clearGoalArea(world({x:clamp(defender.position.x+sign*offset,1.6,18.4),y:6+LINE_STANDOFF},direction),direction,p.radius+.1)));
+  const direction=s.directions[p.team],defenderX=local(defender.position,direction).x,side=Math.sign(defenderX-local(carrier.position,direction).x)||1;
+  const candidates=[side,-side].flatMap(sign=>[1.7,2.2].map(offset=>clearGoalArea(world({x:clamp(defenderX+sign*offset,1.6,18.4),y:6+LINE_STANDOFF},direction),direction,p.radius+.1)));
   return candidates.filter(target=>fieldPointFree(s,p,target))
     .sort((a,b)=>distance(p.position,a)-distance(p.position,b))[0]??null;
 }

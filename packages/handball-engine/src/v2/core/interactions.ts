@@ -117,7 +117,7 @@ function release(s:CoreState,p:CorePlayer,kind:'PASS'|'SHOOT') {
     // post from the keeper's latest position at the release tick. Old active
     // actions without a committed point retain the compatible visible-world read.
     intendedAimX=p.action.target?.y===goal(direction).y?p.action.target.x:plan.aimX;
-    target={x:intendedAimX+(random(s)-.5)*plan.spread,y:goal(direction).y};
+    target={x:intendedAimX+(direction==='TOP'?1:-1)*(random(s)-.5)*plan.spread,y:goal(direction).y};
     goalHeight=shotHeight(s,p,plan.placement,pressure);
   }
   const origin={...s.ball.position},d=distance(origin,target);if(d<.1){p.action.phase='FAILED';return;}

@@ -41,7 +41,7 @@ export function restartTarget(s:CoreState,p:CorePlayer):Point {
     else {const x:Record<CorePlayer['role'],number>={LW:2.5,LB:5.5,CB:8,RB:14.5,RW:17.5,P:11,P2:16,GK:10};target=world({x:x[p.role],y:r.kind==='SEVEN_METRE'?10.8:7.5},direction);}
     const takerCentre={x:clamp(r.location.x,.35,19.65),y:clamp(r.location.y,.35,39.65)};
     if(distance(target,takerCentre)<3.6){const q2=local(target,direction);target=world({x:q2.x,y:Math.max(6.6,local(r.location,direction).y+(own?3.8:-3.8))},direction);
-      if(!own&&distance(target,takerCentre)<3.6)target=world({x:clamp(r.location.x+(r.location.x<10?3.8:-3.8),.5,19.5),y:Math.max(6.6,local(r.location,direction).y+3.8)},direction);
+      if(!own&&distance(target,takerCentre)<3.6)target=world({x:clamp(local(r.location,direction).x+(local(r.location,direction).x<10?3.8:-3.8),.5,19.5),y:Math.max(6.6,local(r.location,direction).y+3.8)},direction);
     }
   }
   return fieldLegal(target,p.radius)?target:{...p.position};
