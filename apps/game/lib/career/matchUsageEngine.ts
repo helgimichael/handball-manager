@@ -427,9 +427,9 @@ export interface PlayerWindowActivity {
   goalkeeperActive: readonly boolean[];
 }
 
-export function computePlayerWindowActivity(plan: MatchPlan, seed = "matchUsageEngine", staminaByPlayerId?: ReadonlyMap<string, number>): readonly PlayerWindowActivity[] {
+export function computePlayerWindowActivity(plan: MatchPlan, seed = "matchUsageEngine", staminaByPlayerId?: ReadonlyMap<string, number>, startingEnergyByPlayerId?: ReadonlyMap<string, number>): readonly PlayerWindowActivity[] {
   const usagePlan = buildMatchUsagePlan(plan);
-  const timeline = resolveMatchUsageTimeline(plan, seed, staminaByPlayerId);
+  const timeline = resolveMatchUsageTimeline(plan, seed, staminaByPlayerId, startingEnergyByPlayerId);
   const attackSets = timeline.attackUnitByWindow.map((unit) => new Set(unit));
   const defenceSets = timeline.defenceUnitByWindow.map((unit) => new Set(unit));
 
@@ -490,9 +490,9 @@ function symmetricDifferenceSize(a: ReadonlySet<string>, b: ReadonlySet<string>)
  * and mechanically under-count starters). `staminaByPlayerId` is
  * OPTIONAL, same fallback as resolveMatchUsageTimeline.
  */
-export function computeTeamUsageTrace(plan: MatchPlan, seed: string, staminaByPlayerId?: ReadonlyMap<string, number>): TeamUsageTrace {
+export function computeTeamUsageTrace(plan: MatchPlan, seed: string, staminaByPlayerId?: ReadonlyMap<string, number>, startingEnergyByPlayerId?: ReadonlyMap<string, number>): TeamUsageTrace {
   const usagePlan = buildMatchUsagePlan(plan);
-  const timeline = resolveMatchUsageTimeline(plan, seed, staminaByPlayerId);
+  const timeline = resolveMatchUsageTimeline(plan, seed, staminaByPlayerId, startingEnergyByPlayerId);
 
   let phaseSubstitutionCount = 0;
   for (let window = 1; window < MATCH_USAGE_WINDOW_COUNT; window += 1) {

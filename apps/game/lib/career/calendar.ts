@@ -10,6 +10,8 @@ import { computeTacticalMatchPlanAdjustment } from "./tacticalPlanEffects";
 import { buildFallbackAttackExposure, buildMatchRoster } from "./tumbaRoster";
 import { averageRating, type CareerFixture, type CareerState, type ClubFormEntry, type PlayerSeasonStats } from "./types";
 import { computeStandings } from "@handball-manager/game-simulation";
+import { cpuStartingEnergies, quickSimParticipation, quickSimWorkloadRecords, writeCpuMatchCondition } from "./cpuCondition";
+import { recordWorkload, startWorkloadLedger } from "../training/workloadLedger";
 
 export function getUnplayedFixtures(state: CareerState): readonly CareerFixture[] {
   return state.fixtures.filter((f) => !state.results[f.id]);
@@ -90,6 +92,8 @@ export function simulateAiFixturesForDate(state: CareerState, date: string): { s
   const clubForm: Record<string, ClubFormEntry[]> = { ...state.clubForm };
   const playerSeasonStats: Record<string, PlayerSeasonStats> = { ...state.playerSeasonStats };
   const produced: FastMatchResult[] = [];
+  let physical = state.playerPhysicalState;
+  let ledger = state.workloadLedger;
 
   for (const fixture of dueFixtures) {
     // HM-TACTICS-0.10: both clubs' own AI-derived tactical identity
@@ -110,12 +114,17 @@ export function simulateAiFixturesForDate(state: CareerState, date: string): { s
     // zero-effect side, exactly as before this milestone.
     const homePlan = resolveClubMatchPlanForFixture(fixture.homeClubId, fixture.id, getCareerClubSquad(state, fixture.homeClubId), undefined);
     const awayPlan = resolveClubMatchPlanForFixture(fixture.awayClubId, fixture.id, getCareerClubSquad(state, fixture.awayClubId), undefined);
+    // HM-ALPHA2-02C: each CPU player's tracked readiness is their kickoff
+    // energy in the quick simulation (untracked players: 100, as before).
+    const startingEnergy = cpuStartingEnergies({ ...state, playerPhysicalState: physical }, [fixture.homeClubId, fixture.awayClubId]);
+    const strengthSeed = `${state.saveSeed}:${fixture.id}`;
     const playerStrength = computePlayerMatchStrengthAdjustment(
       homePlan,
       state.gameplayRatings[fixture.homeClubId] ?? [],
       awayPlan,
       state.gameplayRatings[fixture.awayClubId] ?? [],
-      `${state.saveSeed}:${fixture.id}`,
+      strengthSeed,
+      startingEnergy,
     );
 
     // HM-TACTICS-1.3 Part AI: AI-vs-AI fixtures use the exact same
@@ -176,9 +185,21 @@ export function simulateAiFixturesForDate(state: CareerState, date: string): { s
       state.playerClubId,
       fixture.type !== "FRIENDLY",
     );
+
+    // HM-ALPHA2-02C: estimated workload + post-match readiness for every
+    // CPU player the quick simulation actually used, from the same usage
+    // timeline (seed, stamina, starting energy) that shaped the result.
+    const participants = [
+      ...quickSimParticipation(state, fixture.homeClubId, homePlan, `${strengthSeed}:home`, startingEnergy),
+      ...quickSimParticipation(state, fixture.awayClubId, awayPlan, `${strengthSeed}:away`, startingEnergy),
+    ];
+    if (participants.length > 0) {
+      ledger = recordWorkload(ledger ?? startWorkloadLedger(state, fixture.date), quickSimWorkloadRecords(fixture, participants), fixture.date);
+      physical = writeCpuMatchCondition(physical, ledger, fixture.date, new Map(participants.map((p) => [p.playerId, p.endEnergy])));
+    }
   }
 
-  return { state: { ...state, results, clubForm, playerSeasonStats }, results: produced };
+  return { state: { ...state, results, clubForm, playerSeasonStats, playerPhysicalState: physical, ...(ledger ? { workloadLedger: ledger } : {}) }, results: produced };
 }
 
 /**

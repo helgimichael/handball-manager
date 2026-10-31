@@ -71,6 +71,7 @@ import { addDays, daysBetween, isSameOrBefore } from "./dateUtils";
 import { careerEventToInboxMessage } from "./inboxBridge";
 import type { CareerState } from "./types";
 import { executeTrainingDay } from "../training/trainingExecution";
+import { applyCpuDailyRecovery } from "./cpuCondition";
 import { applyPlacementDevelopmentStimulus, applyTrainingDayDevelopmentStimulus, resolveWeeklyDevelopmentIfDue } from "../development/developmentIntegration";
 import { progressDailyTransfers } from "../transfers/transferIntegration";
 
@@ -124,6 +125,9 @@ export function processDay(state: CareerState, date: string): DailyTickResult {
   // lib/training/trainingSchedule.ts's own fixture-aware builder), so no
   // separate "is this a matchday" branch is needed here.
   next = executeTrainingDay(next, date);
+  // HM-ALPHA2-02C: tracked CPU players recover overnight through the same
+  // individual-recovery model (once per date, before today's fixtures).
+  next = applyCpuDailyRecovery(next, date);
   // HM-INJURIES-1.0 Part 19/34: advance every already-active injury's
   // rehab by one day BEFORE rolling any new injury risk from today's
   // training -- a player who becomes injured today starts accumulating

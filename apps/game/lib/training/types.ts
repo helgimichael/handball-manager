@@ -129,6 +129,8 @@ export interface PlayerPhysicalState {
   lastUpdatedDate: string;
   /** A simple decaying magnitude of recent load (not a history log) -- foundation for a future workload/injury-risk system, unused for any effect in HM-TRAINING-1.0 itself. */
   recentLoad: number;
+  /** HM-ALPHA2-02C: CPU players only -- the last calendar date their daily recovery ran (once-per-day guard; the manager's squad uses the training day's own `executed` flag). */
+  lastRecoveryDate?: string;
 }
 
 /** Part 13: a minimal, future-proof individual-training record. */

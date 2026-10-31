@@ -19,6 +19,7 @@ import { applyMatchDevelopmentStimulus } from '../development/developmentIntegra
 import { applyMatchInjuryResolution } from '../medical/injuryIntegration';
 import type { CareerFixture, CareerState } from './types';
 import { decayedRecentWorkload, matchWorkload, recordWorkload, startWorkloadLedger, type WorkloadQuality } from '../training/workloadLedger';
+import { writeCpuMatchCondition } from './cpuCondition';
 import { getClub } from '../game-data';
 import { encodeFrames, decodeFrames, type MatchFrame } from './matchFrames';
 export type { MatchFrame } from './matchFrames';
@@ -270,6 +271,12 @@ export function finalizeProductionMatch(state: CareerState): CareerState {
     const fraction = Math.min(1, p.condition.courtMs / 3600000);
     exposure.set(p.id, { attackExposure: p.kind === 'FIELD_PLAYER' ? fraction : 0, defenceExposure: p.kind === 'FIELD_PLAYER' ? fraction : 0, goalkeeperExposure: p.kind === 'GOALKEEPER' ? fraction : 0 });
   }
+  // HM-ALPHA2-02C: the opponent's real end-of-match readiness from the same
+  // engine run, for every CPU player who took the court or is already
+  // tracked (an untracked, unused substitute stays untouched at 100).
+  next.playerPhysicalState = writeCpuMatchCondition(next.playerPhysicalState, workloadLedger, session.fixture.date, new Map(session.core.players
+    .filter(p => !managerIds.has(p.id) && (p.condition.courtMs > 0 || state.playerPhysicalState[p.id]))
+    .map(p => [p.id, p.condition.energy * 100] as const)));
   next = applyMatchDevelopmentStimulus(next, session.fixture.date, exposure);
   const injuries = applyMatchInjuryResolution(next, session.fixture.date, session.fixture.id, exposure);
   next = injuries.state;

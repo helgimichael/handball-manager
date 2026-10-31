@@ -24,11 +24,11 @@ export type WorkloadSource = "MATCH" | "TRAINING";
 /**
  * MEASURED: simulated physical work integrated by the match engine.
  * MODELLED: the training model's own deterministic session cost.
- * ESTIMATED: a lower-bound reconstruction where the source data is
- * incomplete (e.g. goalkeepers, whose engine branch keeps no work log).
+ * ESTIMATED: a reconstruction where no physical log exists (goalkeepers'
+ * net energy drop; quick-simulated CPU matches, HM-ALPHA2-02C).
  */
 export type WorkloadQuality = "MEASURED" | "MODELLED" | "ESTIMATED";
-export type WorkloadBasis = "ENGINE_ENERGY_DEMAND" | "ENGINE_NET_ENERGY_DROP" | "TRAINING_SESSION_COST";
+export type WorkloadBasis = "ENGINE_ENERGY_DEMAND" | "ENGINE_NET_ENERGY_DROP" | "TRAINING_SESSION_COST" | "QUICKSIM_MINUTES_ESTIMATE";
 
 export type WorkloadEntry = {
   /** Idempotency key: `match:<fixtureId>` or `training:<date>:<sessionId>`. */

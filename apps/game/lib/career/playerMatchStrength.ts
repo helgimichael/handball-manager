@@ -99,9 +99,9 @@ export function buildStaminaByPlayerId(ratings: readonly GameplayPlayerRating[])
  * trajectory) so a player's schedule and their stamina-driven energy
  * loss come from the exact same resolved timeline.
  */
-export function computeTeamPhysicalTrace(plan: MatchPlan, ratingsById: Map<string, GameplayPlayerRating>, seed = "matchUsageEngine"): ReadonlyMap<string, PlayerEnergyTrajectory> {
+export function computeTeamPhysicalTrace(plan: MatchPlan, ratingsById: Map<string, GameplayPlayerRating>, seed = "matchUsageEngine", startingEnergyByPlayerId?: ReadonlyMap<string, number>): ReadonlyMap<string, PlayerEnergyTrajectory> {
   const staminaByPlayerId = buildStaminaByPlayerId([...ratingsById.values()]);
-  return resolveMatchUsageTimeline(plan, seed, staminaByPlayerId).trajectories;
+  return resolveMatchUsageTimeline(plan, seed, staminaByPlayerId, startingEnergyByPlayerId).trajectories;
 }
 
 // ---------------------------------------------------------------------------
@@ -315,14 +315,18 @@ const NEUTRAL_TRACE: TeamStrengthTrace = {
  * existing seeding scheme; any fixed string is fine for tests that
  * don't care about tiebreak ordering (the default here).
  */
-export function computeTeamStrengthTrace(plan: MatchPlan | null, ratings: readonly GameplayPlayerRating[], usageSeed = "playerMatchStrength"): TeamStrengthTrace {
+// HM-ALPHA2-02C: `startingEnergyByPlayerId` (optional; omitted = every player
+// starts at 100, identical to before) feeds the SAME usage timeline to
+// exposure, window activity and the energy trajectory, so a tired CPU squad
+// carries its kickoff readiness into the quick simulation consistently.
+export function computeTeamStrengthTrace(plan: MatchPlan | null, ratings: readonly GameplayPlayerRating[], usageSeed = "playerMatchStrength", startingEnergyByPlayerId?: ReadonlyMap<string, number>): TeamStrengthTrace {
   if (!plan) return NEUTRAL_TRACE;
 
   const ratingsById = new Map(ratings.map((r) => [r.playerId, r]));
   const staminaByPlayerId = buildStaminaByPlayerId(ratings);
-  const usageTrace = computeTeamUsageTrace(plan, usageSeed, staminaByPlayerId);
-  const physicalTrace = computeTeamPhysicalTrace(plan, ratingsById, usageSeed);
-  const activityById = new Map(computePlayerWindowActivity(plan, usageSeed, staminaByPlayerId).map((a) => [a.playerId, a]));
+  const usageTrace = computeTeamUsageTrace(plan, usageSeed, staminaByPlayerId, startingEnergyByPlayerId);
+  const physicalTrace = computeTeamPhysicalTrace(plan, ratingsById, usageSeed, startingEnergyByPlayerId);
+  const activityById = new Map(computePlayerWindowActivity(plan, usageSeed, staminaByPlayerId, startingEnergyByPlayerId).map((a) => [a.playerId, a]));
 
   const attack = computePhaseValue(plan, ratingsById, usageTrace, "attack", playerAttackValue, physicalTrace, activityById);
   const defenceOutfield = computePhaseValue(plan, ratingsById, usageTrace, "defence", playerDefenceValue, physicalTrace, activityById);
@@ -391,9 +395,10 @@ export function computePlayerMatchStrengthAdjustment(
   awayPlan: MatchPlan | null,
   awayRatings: readonly GameplayPlayerRating[],
   seedPrefix = "playerMatchStrength",
+  startingEnergyByPlayerId?: ReadonlyMap<string, number>,
 ): PlayerMatchStrengthAdjustment {
-  const home = computeTeamStrengthTrace(homePlan, homeRatings, `${seedPrefix}:home`);
-  const away = computeTeamStrengthTrace(awayPlan, awayRatings, `${seedPrefix}:away`);
+  const home = computeTeamStrengthTrace(homePlan, homeRatings, `${seedPrefix}:home`, startingEnergyByPlayerId);
+  const away = computeTeamStrengthTrace(awayPlan, awayRatings, `${seedPrefix}:away`, startingEnergyByPlayerId);
 
   const homeAdjustment = attackAdjustmentFor(home.attackValue) - defenceAdjustmentFor(away.defenceValue);
   const awayAdjustment = attackAdjustmentFor(away.attackValue) - defenceAdjustmentFor(home.defenceValue);

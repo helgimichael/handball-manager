@@ -125,6 +125,7 @@
     "lib/training/workloadLedger.test.ts",
     "lib/training/individualRecovery.test.ts",
     "lib/career/matchWorkloadLedger.test.ts",
+    "lib/career/cpuCondition.test.ts",
     "lib/career/trainingCareerIntegration.test.ts",
     "lib/development/developmentStimulus.test.ts",
     "lib/development/developmentResolution.test.ts",

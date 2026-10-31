@@ -11,7 +11,7 @@
 // validated medical risk score, and nothing here touches injury odds.
 import { addDays, daysBetween } from "../career/dateUtils";
 import { playerAgeAtDate } from "../development/developmentIntegration";
-import { getCareerSquad } from "../career/careerWorld";
+import { getCareerClubSquad, getCareerSquad } from "../career/careerWorld";
 import type { CareerState } from "../career/types";
 import type { GameplayPlayerRating } from "../gameWorld/gameplayRatingSnapshot";
 import { workloadWindow, type WorkloadWindow } from "./workloadLedger";
@@ -115,11 +115,15 @@ function attributeOf(rating: GameplayPlayerRating | undefined, key: "ENDURANCE" 
   return rating.branch.attributes[key]?.value;
 }
 
-/** Inputs for one manager-squad player on the night before `date`'s activities. */
-export function recoveryInputsFor(state: CareerState, playerId: string, date: string): RecoveryInputs {
+/**
+ * Inputs for one player on the night before `date`'s activities. `clubId`
+ * defaults to the manager's own club; CPU clubs (HM-ALPHA2-02C) pass their
+ * own id so the same attributes/age/ledger rules apply to every player.
+ */
+export function recoveryInputsFor(state: CareerState, playerId: string, date: string, clubId = state.playerClubId): RecoveryInputs {
   const asOf = addDays(date, -1);
-  const rating = (state.gameplayRatings[state.playerClubId] ?? []).find((r) => r.playerId === playerId);
-  const player = getCareerSquad(state).find((p) => p.id === playerId);
+  const rating = (state.gameplayRatings[clubId] ?? []).find((r) => r.playerId === playerId);
+  const player = (clubId === state.playerClubId ? getCareerSquad(state) : getCareerClubSquad(state, clubId)).find((p) => p.id === playerId);
   const lastMatch = [...(state.workloadLedger?.entries[playerId] ?? [])].reverse().find((e) => e.source === "MATCH" && e.date < date);
   return {
     endurance: attributeOf(rating, "ENDURANCE"),
@@ -132,6 +136,6 @@ export function recoveryInputsFor(state: CareerState, playerId: string, date: st
   };
 }
 
-export function recoveryProfileFor(state: CareerState, playerId: string, date: string): RecoveryProfile {
-  return recoveryProfile(recoveryInputsFor(state, playerId, date));
+export function recoveryProfileFor(state: CareerState, playerId: string, date: string, clubId = state.playerClubId): RecoveryProfile {
+  return recoveryProfile(recoveryInputsFor(state, playerId, date, clubId));
 }
