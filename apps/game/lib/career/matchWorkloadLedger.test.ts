@@ -4,7 +4,7 @@ import assert from "node:assert/strict";
 import { createNewCareerState } from "./newCareer";
 import { snapshotWorldSquads, snapshotGameplayRatings } from "../gameWorld/serverSnapshot";
 import { buildMatchdayReadyEvent } from "./careerEvents";
-import { finishProductionMatch, startProductionMatch } from "./productionMatch";
+import { createProductionSession, finishProductionMatch, startProductionMatch } from "./productionMatch";
 import { decayedRecentWorkload, recordWorkload, workloadWindow } from "../training/workloadLedger";
 import type { CareerState } from "./types";
 
@@ -59,4 +59,20 @@ test("recording workload does not change the match: same seed, same result and s
   assert.deepEqual(b.results[id], a.results[id]);
   assert.deepEqual(b.matchArchives![id].load, a.matchArchives![id].load);
   assert.deepEqual(b.workloadLedger, a.workloadLedger);
+});
+
+test("HM-ALPHA2-02B: kickoff hands the engine clamp(readiness, 15, 100) and archives that exact value", () => {
+  const state = matchday();
+  const fixture = state.fixtures.find((f) => f.date === state.gameDate && (f.homeClubId === state.playerClubId || f.awayClubId === state.playerClubId))!;
+  const ids = Object.keys(state.worldSquads[state.playerClubId] ? Object.fromEntries(state.worldSquads[state.playerClubId].map((p) => [p.id, 1])) : {});
+  const physical = Object.fromEntries(ids.map((id, i) => [id, { playerId: id, currentEnergy: i % 2 ? 5 : 72.5, lastUpdatedDate: fixture.date, recentLoad: 0 }]));
+  const session = createProductionSession({ ...state, playerPhysicalState: physical }, fixture);
+  const team = fixture.homeClubId === state.playerClubId ? "HOME" : "AWAY";
+  const own = session.people.filter((p) => p.team === team);
+  assert.ok(own.length >= 7);
+  for (const person of own) {
+    const expected = physical[person.id].currentEnergy === 5 ? 15 : 72.5;
+    assert.equal(person.startEnergy, expected);
+    assert.equal(session.core.players.find((p) => p.id === person.id)!.condition.energy, expected / 100);
+  }
 });

@@ -14,6 +14,7 @@ import { PlayerLink } from "@/components/entityLinks";
 import { startProductionMatch } from '@/lib/career/productionMatch';
 import { validateCareerLineup } from '@/lib/career/spatialMatch/careerLineup';
 import { isManualLineupCareer, manualLineupIssues } from '@/lib/career/manualLineup';
+import { readinessSummary } from '@/lib/training/readinessSummary';
 
 export default function MatchPreviewPage() {
   const router = useRouter();
@@ -51,6 +52,12 @@ export default function MatchPreviewPage() {
   const hasActiveSessionForFixture = career.productionMatch?.fixture.id === fixture.id;
   const savedPlan = career.matchPlans[fixture.id];
   const availableSquad = squad.filter(p => isSelectableForMatch(career.playerStatuses, p.id));
+  // HM-ALPHA2-02B: players in the chosen match squad (or, before selection,
+  // the available squad) whose readiness or recovery deserves a look.
+  const considered = savedPlan ? availableSquad.filter(p => savedPlan.squad.players.some(s => s.playerId === p.id)) : availableSquad;
+  const lowReadiness = considered.map(player => ({ player, summary: readinessSummary(career, player.id) }))
+    .filter(({ summary }) => summary.readiness < 70 || summary.outlook === "REDUCED")
+    .sort((a, b) => a.summary.readiness - b.summary.readiness).slice(0, 6);
   // HM-ALPHA2-01: a MANUAL career must have an explicit, complete selection
   // (no plan at all is itself incomplete); legacy careers only validate a
   // saved plan, falling back to their generated default otherwise.
@@ -122,6 +129,7 @@ export default function MatchPreviewPage() {
           </div>
           <div className="hm-panel-body" style={{ fontSize: "var(--hm-text-xs)", color: "var(--hm-text-secondary)", lineHeight: 1.6 }}>
             {career.matchPlans[fixture.id] ? <p>Matchtruppen innehåller {career.matchPlans[fixture.id].squad.players.length} spelare. Försvar: {career.matchPlans[fixture.id].defencePlan.baseFormation}. Öppna Taktik för att granska startsjuan och dina instruktioner.</p> : <p>Granska truppens tillgänglighet och välj startsju och instruktioner i Taktik innan avkast.</p>}
+            {lowReadiness.length > 0 && <div aria-label="Lägre beredskap"><strong>Lägre beredskap inför matchen</strong><ul style={{ margin: "4px 0 0", paddingLeft: 16 }}>{lowReadiness.map(({ player, summary }) => <li key={player.id}><PlayerLink playerId={player.id}>{player.firstName} {player.lastName}</PlayerLink> · {Math.round(summary.readiness)}% energi{summary.week.complete ? ` · ${Math.round(summary.week.total)} i belastning senaste 7 d` : ""}{summary.outlook === "REDUCED" ? " · nedsatt återhämtning" : ""}</li>)}</ul></div>}
           </div>
         </div>
       </div>

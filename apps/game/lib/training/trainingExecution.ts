@@ -14,6 +14,7 @@ import type { PlayerPhysicalState, TrainingDay, TrainingSession, TrainingSession
 import { computeStaffTrainingQuality, findHeadCoach, resolveResponsibleCoach } from "../staff/roleSuitability";
 import { effectiveTrainingLoadSetting } from "../medical/availability";
 import { decayedRecentWorkload, recordWorkload, startWorkloadLedger, trainingWorkload } from "./workloadLedger";
+import { applyIndividualRecovery, recoveryProfileFor } from "./individualRecovery";
 
 /** rating/types.ts's own documented 1-20 attribute-scale midpoint -- the neutral stamina assumption for a player with no snapshotted ENDURANCE (same fallback playerMatchStrength.ts/matchUsageEngine.ts already use). */
 const NEUTRAL_STAMINA = 10.5;
@@ -129,9 +130,13 @@ export function executeTrainingDay(state: CareerState, date: string): CareerStat
   const squad = getCareerSquad(state);
   let physicalState = state.playerPhysicalState;
 
+  // HM-ALPHA2-02B: the existing day-level recovery is each player's
+  // baseline; their own recovery profile (attributes, age, recent workload
+  // from the ledger, last match, medical status) scales and caps it. This
+  // runs once per date -- the `executed` gate above prevents a replay.
   for (const player of squad) {
     const pre = readEnergy(physicalState, player.id);
-    const post = applyDayLevelRecovery(day, pre);
+    const post = applyIndividualRecovery(pre, applyDayLevelRecovery(day, pre), recoveryProfileFor(state, player.id, date));
     physicalState = writeEnergy(physicalState, player.id, date, post);
   }
 

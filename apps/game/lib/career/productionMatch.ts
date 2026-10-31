@@ -47,6 +47,20 @@ export function observedFrame(s: ProductionMatchSession): MatchFrame {
   return row;
 }
 
+/**
+ * HM-ALPHA2-02B career->match energy contract. Career readiness is a
+ * 0-100 scale; the v2 engine's own invariant is energy in [0.15, 1]
+ * (engine.ts assertCore; field-player spend floors at 0.15). The career
+ * side therefore hands the engine `clamp(readiness, 15, 100)` -- the same
+ * value the engine would have floored to on its first working tick --
+ * and records that exact value as the archive's startEnergy. No engine
+ * physics change; career readiness itself keeps its 0-100 range.
+ */
+export const MATCH_KICKOFF_ENERGY_FLOOR = 15;
+export function kickoffEnergy(careerEnergy: number | undefined): number {
+  return Math.max(MATCH_KICKOFF_ENERGY_FLOOR, Math.min(100, careerEnergy ?? 100));
+}
+
 export function createProductionSession(state: CareerState, fixture: CareerFixture): ProductionMatchSession {
   const input = buildSpatialMatchInput(state, fixture);
   const saved = state.matchPlans[fixture.id];
@@ -102,7 +116,7 @@ export function createProductionSession(state: CareerState, fixture: CareerFixtu
       // carry their existing complete tendencies. Neither changes execution.
       const tendency=preferred?style:Object.fromEntries(Object.entries(style).map(([k,v])=>[k,1+(v-1)*.5]));
       p.profile = buildProfile(sheet, role, tendency);
-      const energy = state.playerPhysicalState[id]?.currentEnergy ?? 100;
+      const energy = kickoffEnergy(state.playerPhysicalState[id]?.currentEnergy);
       p.condition.energy = energy / 100;
       players.push(p);
       people.push({ id, name: `${player.firstName} ${player.lastName}`, number: player.shirtNumber ?? people.filter(x => x.team === team).length + 1, team, role, started: Boolean(startingRole), startEnergy: energy });
