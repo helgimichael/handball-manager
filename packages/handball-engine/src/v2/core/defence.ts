@@ -51,7 +51,12 @@ const POINT_ZONE = 2;
 const POINT_DEPTH_METERS = 10.6;
 
 /** Which zone a defensive role owns by default, left to right. */
-const ZONE_BY_ROLE: Record<string, number> = { LW: 0, LB: 1, CB: 2, P: 3, RB: 4, RW: 5, P2: 3 };
+// Zones run left-to-right in the ATTACKING team's local frame, and defenders
+// face the attackers: a defender's own left side is the attacker's right. So a
+// team's left wing defends against the opposing right wing on the same
+// physical side it attacked from, and nobody crosses the court on a turnover.
+// The centre pair keeps CB on the 5:1 point zone.
+const ZONE_BY_ROLE: Record<string, number> = { RW: 0, RB: 1, CB: 2, P: 3, LB: 4, LW: 5, P2: 3 };
 
 /**
  * Ball-side shift, the single most visible property of a working zone defence.

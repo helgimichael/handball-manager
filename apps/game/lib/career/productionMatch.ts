@@ -20,6 +20,7 @@ import { applyMatchInjuryResolution } from '../medical/injuryIntegration';
 import type { CareerFixture, CareerState } from './types';
 import { decayedRecentWorkload, matchWorkload, recordWorkload, startWorkloadLedger, type WorkloadQuality } from '../training/workloadLedger';
 import { writeCpuMatchCondition } from './cpuCondition';
+import { engineDefenceSystem, isPlayableBaseFormation } from '../matchPlan/defenceFormation';
 import { getClub } from '../game-data';
 import { encodeFrames, decodeFrames, type MatchFrame } from './matchFrames';
 export type { MatchFrame } from './matchFrames';
@@ -71,7 +72,7 @@ export function createProductionSession(state: CareerState, fixture: CareerFixtu
     if (issues.length) throw new Error(issues.join(' '));
   }
   const managerFormation=(saved??managerInput.plan)?.defencePlan.baseFormation;
-  if(managerFormation&&!['6-0','5-1'].includes(managerFormation))throw new Error('Välj 6–0 eller 5–1 i matchplanen innan avkast. Den sparade försvarsformationen stöds ännu inte i spelade matcher.');
+  if(managerFormation&&!isPlayableBaseFormation(managerFormation))throw new Error('Välj 6–0 eller 5–1 i matchplanen innan avkast. Den sparade försvarsformationen stöds ännu inte i spelade matcher.');
   if (saved && (saved.attackStartingUnit.formation !== 'NORMAL' || saved.squad.players.some(p => !managerInput.squad.some(available => available.id === p.playerId)))) throw new Error('Matchplanen behöver uppdateras. Öppna Taktik och välj en tillgänglig matchtrupp och normal startsju.');
   if (managerInput.plan) {
     const validation = validateCareerLineup(managerInput.plan, managerInput.squad);
@@ -125,7 +126,7 @@ export function createProductionSession(state: CareerState, fixture: CareerFixtu
     core.coaching[team].rotation = team !== (fixture.homeClubId === state.playerClubId ? 'HOME' : 'AWAY');
     core.coaching[team].timeouts = core.coaching[team].rotation;
     core.coaching[team].tempo = side.plan?.attackPlan.tempo === 'FAST' ? 'QUICK' : 'BALANCED';
-    core.coaching[team].defence = side.plan?.defencePlan.baseFormation.replace('-', ':') === '5:1' ? '5:1' : '6:0';
+    core.coaching[team].defence = engineDefenceSystem(side.plan?.defencePlan.baseFormation);
     core.coaching[team].attackIdentity = side.plan?.attackPlan.ballCirculation === 'DIRECT' ? 'DIRECT' : side.plan?.attackPlan.wingUsage === 'HIGH' ? 'WIDTH' : side.plan?.attackPlan.structureFreedom === 'STRUCTURED' ? 'COMBINATION' : 'BALANCED';
   }
   // Replace all template references, including receiver/mark/throw-off identities.

@@ -80,7 +80,9 @@ export function bodyRoute(s:CoreState,p:CorePlayer,target:Point):Point {
  const body=courtPlayers(s).filter(q=>q.id!==p.id&&(!carrying||q.team===p.team&&distance(p.position,q.position)<p.radius+q.radius+.04)).map(q=>{
   const dx=q.position.x-p.position.x,dy=q.position.y-p.position.y;
   return{q,ahead:dx*ux+dy*uy,side:dx*(-uy)+dy*ux};
- }).filter(q=>q.ahead>0&&q.ahead<Math.min(d,1.5)&&Math.abs(q.side)<p.radius+q.q.radius+.16).sort((a,b)=>a.ahead-b.ahead||a.q.id.localeCompare(b.q.id))[0];
+ // A body exactly at the destination is not on the corridor; the margin keeps
+ // that knife edge from being decided by rounding differently per direction.
+ }).filter(q=>q.ahead>1e-9&&q.ahead<Math.min(d,1.5)-1e-9&&Math.abs(q.side)<p.radius+q.q.radius+.16).sort((a,b)=>a.ahead-b.ahead||a.q.id.localeCompare(b.q.id))[0];
  if(!body)return target;
  if(s.ball.mode==='LOOSE'&&p.duty.kind==='COLLECT'||carrying){
   // A tangent leg around the actual blocking body gives a boxed claimant a
@@ -95,7 +97,9 @@ export function bodyRoute(s:CoreState,p:CorePlayer,target:Point):Point {
   if(choices[0])return choices[0].at;
  }
  if(carrying)return target;
- const side=body.side===0?(p.position.x<10?-1:1):-Math.sign(body.side);
+ // A body dead ahead is a tie: rounding noise must not pick the side, and the
+ // tie-break reads the team's own frame so both attack directions mirror.
+ const side=Math.abs(body.side)<1e-9?(local(p.position,s.directions[p.team]).x<10?-1:1):-Math.sign(body.side);
  const lateral=Math.max(0,p.radius+body.q.radius+.2-Math.abs(body.side));
  return{x:target.x-uy*side*lateral,y:target.y+ux*side*lateral};
 }

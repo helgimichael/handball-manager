@@ -15,7 +15,7 @@ function recovered(direction:'TOP'|'BOTTOM'='TOP') {
   const defenders=courtPlayers(s,'AWAY').filter(p=>p.kind==='FIELD_PLAYER');assignZones(s,defenders,direction);
   const read=readDefence(s,defenders,carrier,direction);
   for(const d of defenders)d.position=zonePost(s,d.zone!,read,direction,d.radius);
-  for(const [defenderId,wingId] of [['A01','H01'],['A05','H05']]) {
+  for(const [defenderId,wingId] of [['A05','H01'],['A01','H05']]) {
     const d=getPlayer(s,defenderId),wing=getPlayer(s,wingId);d.position=defendWing(s,d,wing)!;
     wing.duty={kind:'FIRST_WAVE',targetId:null,sinceTick:0,reason:'Actual first-wave runner'};
   }
@@ -43,7 +43,7 @@ test('a named receiving player cannot settle the attack while the actual ball is
 
 test('a recovered central line does not erase the actual free finisher behind its outside defender',()=>{
   for(const direction of ['TOP','BOTTOM'] as const) {
-    const {s,defenders}=recovered(direction),wing=getPlayer(s,'H05'),outer=getPlayer(s,'A05');
+    const {s,defenders}=recovered(direction),wing=getPlayer(s,'H05'),outer=getPlayer(s,'A01');
     wing.position=world({x:17.8,y:3.2},direction);s.ball.controllerId=wing.id;s.ball.position={...wing.position};
     outer.position=zonePost(s,outer.zone!,readDefence(s,defenders,wing,direction),direction,outer.radius);
     assert.equal(lineFormed(s,defenders,direction),true);assert.equal(transitionReadyToSettle(s),false);
@@ -52,7 +52,7 @@ test('a recovered central line does not erase the actual free finisher behind it
 });
 
 test('a playable uncontained first-wave finish prevents handoff; an actually blocked feed does not',()=>{
-  const {s,carrier,defenders}=recovered(),wing=getPlayer(s,'H05'),outer=getPlayer(s,'A05');
+  const {s,carrier,defenders}=recovered(),wing=getPlayer(s,'H05'),outer=getPlayer(s,'A01');
   carrier.position={x:15,y:12};s.ball.position={...carrier.position};wing.position={x:17.8,y:3.2};outer.position={x:2,y:10};
   assert.equal(lineFormed(s,defenders,'TOP'),true);
   assert.ok(laneMargin(s,carrier.position,wing.position,'HOME',10.5+3*carrier.profile.passing).seconds>.05);

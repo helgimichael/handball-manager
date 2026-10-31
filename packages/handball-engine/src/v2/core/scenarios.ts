@@ -21,8 +21,13 @@ export function createCoreScenario(scenario: CoreScenario='ESTABLISHED_6V6',seed
   const squadRng={algorithm:'mulberry32' as const,state:seed,draws:0};
   const draw=()=>nextRandom(squadRng);
   const players: CorePlayer[]=[];
+  // Defenders face the attack, so each stands opposite the mirrored attacking
+  // role: the defending left wing takes the attacking right wing's space. This
+  // is the zone it owns (defence.ts ZONE_BY_ROLE), so the line starts in order.
+  const opposite=(role:Role)=>roles.indexOf(({LW:'RW',RW:'LW',LB:'RB',RB:'LB'} as Partial<Record<Role,Role>>)[role]??role);
   for(const team of ['HOME','AWAY'] as const) roles.forEach((role,i)=>{
-    const position=team==='HOME'?structurePoint(role,direction):world(role==='GK'?{x:10,y:1.5}:{x:[2.2,5.5,8.5,13.8,17.8,11.4][i],y:[5.9,6.6,6.6,6.6,5.9,6.6][i]},direction);
+    const j=opposite(role);
+    const position=team==='HOME'?structurePoint(role,direction):world(role==='GK'?{x:10,y:1.5}:{x:[2.2,5.5,8.5,13.8,17.8,11.4][j],y:[5.9,6.6,6.6,6.6,5.9,6.6][j]},direction);
     players.push({id:`${team==='HOME'?'H':'A'}${String(i+1).padStart(2,'0')}`,team,kind:role==='GK'?'GOALKEEPER':'FIELD_PLAYER',role,population:'COURT',position,velocity:{x:0,y:0},radius:.28,
       condition:initialCondition(),profile:profileFor(role,characters[team],draw),zone:null,
       duty:{kind:'WAIT',targetId:null,sinceTick:0,reason:'Scenario setup'},intent:{id:'initial',effect:'WAIT',reason:'Scenario setup',targetId:null},action:null,support:null,
@@ -36,7 +41,7 @@ export function createCoreScenario(scenario: CoreScenario='ESTABLISHED_6V6',seed
   state.coaching.AWAY.defence=state.defence.system;
   const place=(id:string,x:number,y:number)=>{getPlayer(state,id).position=world({x,y},direction);};
   for(const d of players.filter(p=>p.team==='AWAY'&&(p.role==='LW'||p.role==='RW'))) {
-    const attacker=players.find(p=>p.team==='HOME'&&p.role===d.role)!;
+    const attacker=players.find(p=>p.team==='HOME'&&p.role===roles[opposite(d.role)])!;
     d.position=defendWing(state,d,attacker)??d.position;
   }
   if(scenario==='TRANSITION_3V2'||scenario==='EMPTY_GOAL') {
@@ -81,7 +86,7 @@ export function createCoreScenario(scenario: CoreScenario='ESTABLISHED_6V6',seed
   }
   // Marking allocation belongs to team structure, never nearest-player ball chasing.
   for(const p of players.filter(p=>p.team===otherTeam(state.possession.team)&&p.kind==='FIELD_PLAYER')) {
-    state.defence.marks[p.id]=players.find(a=>a.team===state.possession.team&&a.role===p.role)!.id;
+    state.defence.marks[p.id]=players.find(a=>a.team===state.possession.team&&a.role===roles[opposite(p.role)])!.id;
   }
   return state;
 }

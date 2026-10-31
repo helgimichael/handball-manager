@@ -188,6 +188,22 @@ test('deferred discipline cannot use a newly manufactured warning or suspension 
   assert.equal(s.events.filter(e=>e.type==='TWO_MINUTE_SUSPENSION').length,1);assert.equal(s.referee.sanctions.length,0);
 });
 
+test('a deferred suspension for a player substituted off still reduces the team on court',()=>{
+  const s=createContinuous(),a=getPlayer(s,'H03'),d=getPlayer(s,'A03');d.warnings=1;
+  startAction(s,a,'SHOOT','Pending attack',null,null,'STANDING');a.action!.phase='EXECUTING';
+  judgeFoul(s,a,d,'PUNISHABLE','Deferred under advantage',false,'deferred');s.tick=40;s.timeMs=2000;refereeAfter(s);
+  assert.equal(s.referee.sanctions.length,1);
+  // The offender is exchanged off before the next stoppage.
+  const sub=s.players.find(p=>p.team==='AWAY'&&p.population==='BENCH'&&p.kind==='FIELD_PLAYER')!;
+  d.population='BENCH';sub.population='COURT';sub.role=d.role;sub.position={...d.position};
+  a.action=null;judgeFoul(s,a,getPlayer(s,'A04'),'ORDINARY','Whistled stoppage',false,'stoppage');refereeAfter(s);
+  assert.equal(d.population,'SUSPENDED');assert.equal(courtLimit(s,'AWAY'),6);
+  assert.equal(courtPlayers(s,'AWAY').length,6,'the team plays short although the offender was on the bench');
+  assert.equal(courtPlayers(s,'AWAY').filter(p=>p.kind==='GOALKEEPER').length,1);
+  assert.ok(s.events.some(e=>e.type==='PLAYER_LEFT_COURT'&&e.details.reason==='Team reduced for a personal sanction'));
+  assertCore(s);
+});
+
 test('different offenders retain independent discipline and progression still applies after separate whistles',()=>{
   const s=createContinuous(),a=getPlayer(s,'H03'),one=getPlayer(s,'A03'),two=getPlayer(s,'A04');
   startAction(s,a,'SHOOT','Pending attack',null,null,'STANDING');a.action!.phase='EXECUTING';

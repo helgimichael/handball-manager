@@ -1,4 +1,5 @@
-import { getPlayer,record,uid,type CorePlayer,type CoreState,type Point,type TeamId } from './state';
+import { courtPlayers,getPlayer,record,uid,type CorePlayer,type CoreState,type Point,type TeamId } from './state';
+import { courtLimit } from './population';
 import { distance } from './space';
 import { awardRestart,interrupt } from './transitions';
 import { initialPassive,type PassiveState } from './passive';
@@ -58,6 +59,23 @@ function punish(s:CoreState,f:FoulCase,group:readonly FoulCase[]=[f]) {
     d.sanctions++;d.population=d.sanctions>=3?'DISQUALIFIED':'SUSPENDED';d.suspensionUntilMs=s.officialClock.timeMs+s.ruleProfile.suspensionMs;
     interrupt(s,d,'Personal sanction');d.support=null;d.zone=null;
     record(s,d.sanctions>=3?'DISQUALIFICATION':'TWO_MINUTE_SUSPENSION',d,{foulId:f.id,severity:f.severity,reason:f.reason,...grouped},[f.attackerId],f.contestId);sanctionTimeout(s);
+    reduceCourt(s,d.team);
+  }
+}
+/** A deferred (advantage) sanction can land on a player who has since been
+ * substituted off. The team is still reduced for the suspension, so a court
+ * field player leaves during the sanction timeout: never the ball carrier or a
+ * player in the air, preferring the suspended player's role, then the most tired. */
+function reduceCourt(s:CoreState,team:TeamId) {
+  while(courtPlayers(s,team).length>courtLimit(s,team)) {
+    const suspended=s.players.filter(p=>p.team===team&&p.population!=='COURT'&&p.population!=='BENCH').map(p=>p.role);
+    const out=courtPlayers(s,team).filter(p=>p.kind==='FIELD_PLAYER'&&s.ball.controllerId!==p.id&&!p.airborne)
+      .sort((a,b)=>Number(suspended.includes(b.role))-Number(suspended.includes(a.role))||a.condition.energy-b.condition.energy||a.id.localeCompare(b.id))[0];
+    if(!out)return;
+    interrupt(s,out,'Team reduced for a personal sanction');
+    for(const e of s.exchanges)if(e.phase==='WAIT_EXIT'&&e.outId===out.id){e.phase='CANCELLED';record(s,'EXCHANGE_CANCELLED',out,{exchangeId:e.id,reason:'Outgoing player removed for a personal sanction'});}
+    out.population='BENCH';out.support=null;out.zone=null;out.velocity={x:0,y:0};out.position={x:-.35,y:s.directions[team]==='TOP'?24:16};
+    delete s.defence.marks[out.id];record(s,'PLAYER_LEFT_COURT',out,{reason:'Team reduced for a personal sanction'});
   }
 }
 /** Resolve unannounced personal discipline once per player at this stoppage.
