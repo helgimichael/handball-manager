@@ -141,6 +141,7 @@
     "lib/medical/injuryLongitudinal.test.ts",
     "lib/career/preseason.test.ts",
     "lib/career/preseasonCareerIntegration.test.ts",
+    "lib/career/realScheduleManualLineup.test.ts",
     "lib/economy/marketValue.test.ts",
     "lib/economy/contractLifecycle.test.ts",
     "lib/economy/contractGeneration.test.ts",

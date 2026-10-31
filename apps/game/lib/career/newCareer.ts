@@ -1,5 +1,6 @@
 import { generateDoubleRoundRobin } from "@handball-manager/game-simulation";
 import { GAME_CURRENT_DATE, TUMBA_SQUAD, getClub, getClubsByCompetition } from "../game-data";
+import { getRealLeagueSchedule } from "../game-data/realLeagueSchedules";
 import type { PlayerMock } from "../game-data";
 import { addDays } from "./dateUtils";
 import { seedCareerTasks } from "./careerTasks";
@@ -75,21 +76,38 @@ export function createNewCareerState(
 
   const leagueKickoffDate = preseasonStart !== undefined ? resolveLeagueKickoffDate(competitionId, GAME_CURRENT_DATE) : GAME_CURRENT_DATE;
 
-  const generated = generateDoubleRoundRobin({
-    competitionId,
-    clubIds,
-    seasonStartDate: leagueKickoffDate,
-    daysBetweenRounds: 7,
-  });
-  const leagueFixtures: CareerFixture[] = generated.map((f) => ({
-    id: f.id,
-    competitionId: f.competitionId,
-    round: f.round,
-    date: f.date,
-    homeClubId: f.homeClubId,
-    awayClubId: f.awayClubId,
-    type: "LEAGUE",
-  }));
+  // HM-ALPHA2-01: a New Game career (the same `preseasonStart` gate as the
+  // real kickoff calendar above) plays the real 2026/27 Profixio schedule
+  // where one exists -- original match ids, rounds, dates and kickoff
+  // times. Other competitions, and the legacy no-preseason path, keep the
+  // provisional generated round-robin.
+  const realSchedule = preseasonStart !== undefined ? getRealLeagueSchedule(competitionId) : undefined;
+  const leagueFixtures: CareerFixture[] = realSchedule
+    ? realSchedule.fixtures.map((f) => ({
+        id: f.id,
+        competitionId,
+        round: f.round,
+        date: f.date,
+        homeClubId: f.homeClubId,
+        awayClubId: f.awayClubId,
+        type: "LEAGUE",
+        kickoffTime: f.kickoffTime,
+        sourceMatchId: f.profixioMatchId,
+      }))
+    : generateDoubleRoundRobin({
+        competitionId,
+        clubIds,
+        seasonStartDate: leagueKickoffDate,
+        daysBetweenRounds: 7,
+      }).map((f) => ({
+        id: f.id,
+        competitionId: f.competitionId,
+        round: f.round,
+        date: f.date,
+        homeClubId: f.homeClubId,
+        awayClubId: f.awayClubId,
+        type: "LEAGUE",
+      }));
 
   // Part: "eventuella cupmatcher" -- only generated when the manager
   // actually chose a preseason length (see the `preseasonStart` doc
@@ -160,6 +178,9 @@ export function createNewCareerState(
     matchPlanChangeHistory: {},
     tactics: {},
     playerMatchDefaults: {},
+    // HM-ALPHA2-01: a New Game career starts with an empty starting seven
+    // and bench; the legacy no-preseason path keeps automatic defaults.
+    ...(preseasonStart !== undefined ? { lineupSelection: "MANUAL" as const } : {}),
     specialPlay: {},
     activeMatchSession: null,
     trainingWeeks: {},

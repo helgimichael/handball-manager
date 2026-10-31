@@ -39,6 +39,10 @@ export type CareerFixture = {
   homeClubId: string;
   awayClubId: string;
   type: CareerFixtureType;
+  /** HM-ALPHA2-01: local (Europe/Stockholm) kickoff "HH:MM" -- only real Profixio schedule fixtures carry one. */
+  kickoffTime?: string;
+  /** HM-ALPHA2-01: the original Profixio match id of a real schedule fixture. */
+  sourceMatchId?: string;
 };
 
 export type ClubFormEntry = "W" | "D" | "L";
@@ -186,6 +190,17 @@ export type CareerState = {
    * entry here once the manager actually edits something.
    */
   matchPlans: Record<string, MatchPlan>;
+
+  /**
+   * HM-ALPHA2-01: "MANUAL" for careers created through New Game from this
+   * milestone on -- the manager's own starting seven and bench start
+   * empty for every fixture and are never filled in automatically (see
+   * lib/career/manualLineup.ts). Absent on every older save, which keeps
+   * the legacy behaviour of a generated default plan when no plan was
+   * saved, so existing careers keep the selections they already had.
+   * CPU clubs always use automatic selection either way.
+   */
+  lineupSelection?: "MANUAL";
 
   // --- HM-MATCH-RATINGS-0.1 addition (career-state schema v9, see saveMigration.ts) ---
 

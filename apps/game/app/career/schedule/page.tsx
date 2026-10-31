@@ -87,7 +87,7 @@ export default function SchedulePage() {
                   onClick={clickable ? () => router.push(played ? `/career/match-report/${f.id}` : "/career/match-preview") : undefined}
                 >
                   <td>{f.type === "LEAGUE" ? f.round : "—"}</td>
-                  <td>{new Date(f.date).toLocaleDateString("sv-SE", { weekday: "short", day: "2-digit", month: "2-digit" })}</td>
+                  <td>{new Date(f.date).toLocaleDateString("sv-SE", { weekday: "short", day: "2-digit", month: "2-digit" })}{f.kickoffTime ? ` ${f.kickoffTime}` : ""}</td>
                   <td>
                     <span className={`hm-badge hm-badge-${FIXTURE_TYPE_TONE[f.type]}`}>{FIXTURE_TYPE_LABEL[f.type]}</span>
                   </td>
@@ -121,7 +121,7 @@ export default function SchedulePage() {
 
         </div>
         <aside className="game-secondary-rail">
-          <Panel title="Nästa match">{next && nextOpponent ? <div className="hm-panel-body"><div className="game-staff-cell"><ClubCrest shortName={nextOpponent.shortName} primaryColor={nextOpponent.primaryColor} size={58} /><div><ClubLink clubId={nextOpponent.id}>{nextOpponent.name}</ClubLink><small>{next.date} · {next.homeClubId===club.id ? "Hemma" : "Borta"} · {FIXTURE_TYPE_LABEL[next.type]}</small></div></div><div className="hm-actions" style={{marginTop:20}}><Link className="hm-btn hm-btn-sm hm-btn-primary" href="/career/match-preview">Förbered matchen →</Link><Link className="hm-btn hm-btn-sm" href="/career/tactics">Uttagning →</Link></div></div> : <div className="hm-panel-body hm-text-muted">Ingen ospelad match registrerad för ditt lag.</div>}</Panel>
+          <Panel title="Nästa match">{next && nextOpponent ? <div className="hm-panel-body"><div className="game-staff-cell"><ClubCrest shortName={nextOpponent.shortName} primaryColor={nextOpponent.primaryColor} size={58} /><div><ClubLink clubId={nextOpponent.id}>{nextOpponent.name}</ClubLink><small>{next.date}{next.kickoffTime ? ` ${next.kickoffTime}` : ""} · {next.homeClubId===club.id ? "Hemma" : "Borta"} · {FIXTURE_TYPE_LABEL[next.type]}</small></div></div><div className="hm-actions" style={{marginTop:20}}><Link className="hm-btn hm-btn-sm hm-btn-primary" href="/career/match-preview">Förbered matchen →</Link><Link className="hm-btn hm-btn-sm" href="/career/tactics">Uttagning →</Link></div></div> : <div className="hm-panel-body hm-text-muted">Ingen ospelad match registrerad för ditt lag.</div>}</Panel>
           {seasonPhase==="PRESEASON" && <FriendlyBooking clubId={club.id} onBook={bookFriendly} />}
           <section className="game-secondary-note"><h2>Den sportsliga veckan</h2><p>Matchprogrammet visar avkasten. Kalendern knyter ihop träning, återhämtning och datum som kräver din uppmärksamhet.</p><div className="hm-actions"><Link className="hm-btn hm-btn-sm" href="/career/training">Träning →</Link><Link className="hm-btn hm-btn-sm" href="/career/calendar">Kalender →</Link></div></section>
         </aside>

@@ -32,6 +32,7 @@ import { buildCanonicalMatchEvents, type CanonicalMatchEvent } from "@handball-m
 import { getCareerClubSquad } from "../careerWorld";
 import { isSelectableForMatch } from "../playerStatus";
 import { resolveClubMatchPlanForFixture } from "../playerMatchStrength";
+import { buildEmptyMatchPlan, isManualLineupCareer } from "../manualLineup";
 import type { CareerFixture, CareerState } from "../types";
 
 /** Everything one club brings to the match. */
@@ -190,7 +191,12 @@ export function buildSpatialMatchInput(state: CareerState, fixture: CareerFixtur
     const full = getCareerClubSquad(state, clubId);
     const squad = isManagerClub ? full.filter((p) => isSelectableForMatch(state.playerStatuses, p.id)) : full;
     const saved = isManagerClub ? state.matchPlans[fixture.id] : undefined;
-    const plan = resolveClubMatchPlanForFixture(clubId, fixture.id, squad, saved, state.tactics[clubId], state.playerMatchDefaults);
+    // HM-ALPHA2-01: a MANUAL career's own side never falls back to a
+    // generated default -- with nothing selected it stays empty and the
+    // strict lineup validation below refuses it.
+    const plan = isManagerClub && isManualLineupCareer(state)
+      ? (saved ?? buildEmptyMatchPlan(fixture.id, clubId, state.tactics[clubId]))
+      : resolveClubMatchPlanForFixture(clubId, fixture.id, squad, saved, state.tactics[clubId], state.playerMatchDefaults);
     // Keep invalid/stale custom plans visible to the strict lineup validator.
     // Replacing one with null would silently select a different team.
     return { clubId, squad, gameplayRatings: state.gameplayRatings[clubId] ?? [], plan };
