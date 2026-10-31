@@ -3,7 +3,7 @@
   "clubName": "Eslövs HK",
   "competitionId": "se_division1_sodra",
   "season": "2026/27",
-  "snapshotDate": "2026-08-27",
+  "snapshotDate": "2026-10-31",
   "datasetStatus": "PRESEASON",
   "qcStatus": "VERIFIED_WITH_OPEN_FIELDS",
   "expectedRosterCount": 24,
@@ -22,16 +22,20 @@
     "guessedContractDates": 24
   },
   "knownConflicts": [],
-  "staleSourceWarnings": [],
+  "staleSourceWarnings": [
+    "HM-DATA-1.5: roster corrected against Profixio leagueid28142 (2026-10-31)."
+  ],
   "openFieldsSummary": {
-    "exactDateOfBirthMissing": 24,
+    "exactDateOfBirthMissing": 1,
     "birthYearMissing": 0,
-    "nationalityMissing": 24,
+    "nationalityMissing": 23,
     "heightMissing": 24,
     "handednessMissing": 24,
     "shirtNumberMissing": 24,
     "contractEndMissing": 24,
-    "positionGenerated": 24,
-    "positionSourced": 0
+    "positionGenerated": 22,
+    "positionSourced": 0,
+    "positionPartial": 0,
+    "positionVerified": 2
   }
 }

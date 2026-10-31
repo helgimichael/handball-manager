@@ -151,31 +151,6 @@
     "dataNotes": []
   },
   {
-    "playerId": "se_player_olle_soderqvist_467b211d",
-    "firstName": "Olle",
-    "lastName": "Söderqvist",
-    "fullName": "Olle Söderqvist",
-    "aliases": [],
-    "dateOfBirth": "2006-11-01",
-    "birthYear": 2006,
-    "nationalities": null,
-    "heightCm": null,
-    "handedness": null,
-    "recordConfidence": "VERIFIED",
-    "fieldConfidence": {
-      "dateOfBirth": "VERIFIED"
-    },
-    "sourceRefs": {
-      "identity": [
-        "src_as_v5_qa_spreadsheet"
-      ],
-      "dateOfBirth": [
-        "src_as_v5_qa_spreadsheet"
-      ]
-    },
-    "dataNotes": []
-  },
-  {
     "playerId": "se_player_simon_axelsson_eb1ec6dd",
     "firstName": "Simon",
     "lastName": "Axelsson",
@@ -497,6 +472,37 @@
     },
     "dataNotes": [
       "HM-DATA-1.3 (2026-10-31): added from the Profixio Herrallsvenskan squad registration; Profixio person 668209 (https://www.profixio.com/app/lx/clubs/26074/player/668209)."
+    ]
+  },
+  {
+    "playerId": "se_player_olle_soderqvist_d1155006",
+    "firstName": "Olle",
+    "lastName": "Söderqvist",
+    "fullName": "Olle Söderqvist",
+    "aliases": [],
+    "dateOfBirth": "2006-11-01",
+    "birthYear": 2006,
+    "nationalities": [
+      "SE"
+    ],
+    "heightCm": 194,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "sourceRefs": {
+      "identity": [
+        "src_hammarby_roster_20260819"
+      ],
+      "heightCm": [
+        "src_hammarby_roster_20260819"
+      ],
+      "nationalities": [
+        "src_ehf_olle"
+      ]
+    },
+    "dataNotes": [
+      "Height conflict: current Hammarby profile lists 194 cm; current EHF profile lists 195 cm. Club value retained.",
+      "HM-DATA-1.5 (2026-10-31): merged duplicate identity se_player_olle_soderqvist_467b211d (Herrallsvenskan import; same person -- name and DOB 2006-11-01 match, owner-confirmed). Rating kept: CA 123/PA 162 (ALLSV_rating_import_candidates_v0.13 Allsvenskan final import (261/261, individually researched, 0 REVIEW)); superseded: CA 114/PA 160 (HM_Player_Rating_Research_v2.13 HBL final import (268/268, individually researched, 0 REVIEW)).",
+      "HM-DATA-1.5 (2026-10-31): on loan for 2026/27 from contract club Hammarby IF HF (se_club_hammarby_if_hf) to IFK Tumba HK (swe2-tumba), owner-confirmed. The contract club is not the youth/origin club (moderklubb). Playable registration at IFK Tumba HK only; no roster row at the contract club."
     ]
   }
 ]

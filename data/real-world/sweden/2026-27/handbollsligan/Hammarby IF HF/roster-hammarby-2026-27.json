@@ -34,38 +34,6 @@
     ]
   },
   {
-    "rosterEntryId": "se_2026_27_handbollsligan_hammarby_d1155006",
-    "playerId": "se_player_olle_soderqvist_d1155006",
-    "clubId": "se_club_hammarby_if_hf",
-    "competitionId": "se_handbollsligan_herr",
-    "season": "2026/27",
-    "snapshotDate": "2026-08-19",
-    "shirtNumber": 16,
-    "sourcePosition": "Goalkeeper",
-    "primaryPosition": "MV",
-    "secondaryPositions": [],
-    "rosterStatus": "CONFIRMED",
-    "contract": {
-      "untilDate": null,
-      "untilSeason": null,
-      "optionUntilSeason": null
-    },
-    "rosterConfidence": "VERIFIED",
-    "sourceRefs": {
-      "roster": [
-        "src_hammarby_roster_20260819"
-      ],
-      "shirtNumber": [
-        "src_hammarby_roster_20260819"
-      ],
-      "position": [
-        "src_hammarby_roster_20260819"
-      ]
-    },
-    "defaultSquadStatus": "TALENT",
-    "specialTags": []
-  },
-  {
     "rosterEntryId": "se_2026_27_handbollsligan_hammarby_44c05749",
     "playerId": "se_player_arvid_skoog_44c05749",
     "clubId": "se_club_hammarby_if_hf",

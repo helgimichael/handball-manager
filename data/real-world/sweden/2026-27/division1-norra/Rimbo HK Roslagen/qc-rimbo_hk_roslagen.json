@@ -3,7 +3,7 @@
   "clubName": "Rimbo HK Roslagen",
   "competitionId": "se_division1_norra",
   "season": "2026/27",
-  "snapshotDate": "2026-08-27",
+  "snapshotDate": "2026-10-31",
   "datasetStatus": "PRESEASON",
   "qcStatus": "VERIFIED_WITH_OPEN_FIELDS",
   "expectedRosterCount": 16,
@@ -22,16 +22,20 @@
     "guessedContractDates": 16
   },
   "knownConflicts": [],
-  "staleSourceWarnings": [],
+  "staleSourceWarnings": [
+    "HM-DATA-1.5: roster corrected against Profixio leagueid28142 (2026-10-31)."
+  ],
   "openFieldsSummary": {
-    "exactDateOfBirthMissing": 16,
+    "exactDateOfBirthMissing": 1,
     "birthYearMissing": 16,
-    "nationalityMissing": 16,
+    "nationalityMissing": 15,
     "heightMissing": 16,
     "handednessMissing": 16,
     "shirtNumberMissing": 3,
     "contractEndMissing": 16,
-    "positionGenerated": 11,
-    "positionSourced": 5
+    "positionGenerated": 10,
+    "positionSourced": 5,
+    "positionPartial": 0,
+    "positionVerified": 6
   }
 }

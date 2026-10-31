@@ -30,7 +30,7 @@
     "pa": 102
   },
   "player_fabian_nilsson_10cb81e7": {
-    "updatedAt": "2026-08-30T17:58:11.130Z",
+    "updatedAt": "2026-10-31T09:56:17.404Z",
     "ca": 102,
     "pa": 122
   },
@@ -50,9 +50,9 @@
     "pa": 122
   },
   "player_henrik_westberg_9110a6f8": {
-    "updatedAt": "2026-08-30T17:58:12.700Z",
     "ca": 104,
-    "pa": 104
+    "pa": 104,
+    "updatedAt": "2026-10-31T09:56:17.491Z"
   },
   "player_isac_jungman_65ae1b1d": {
     "updatedAt": "2026-08-30T17:58:13.124Z",
@@ -115,8 +115,8 @@
     "pa": 154
   },
   "player_victor_dahlqvist_11e994f0": {
+    "updatedAt": "2026-08-30T17:58:18.308Z",
     "ca": 98,
-    "pa": 125,
-    "updatedAt": "2026-08-30T17:58:18.308Z"
+    "pa": 125
   }
 }

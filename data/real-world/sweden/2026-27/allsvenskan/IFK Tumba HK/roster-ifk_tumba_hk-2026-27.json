@@ -190,12 +190,12 @@
     "specialTags": []
   },
   {
-    "rosterEntryId": "se_2026_27_allsvenskan_ifk_tumba_hk__467b211d",
-    "playerId": "se_player_olle_soderqvist_467b211d",
+    "rosterEntryId": "se_2026_27_allsvenskan_ifk_tumba_hk__d1155006",
+    "playerId": "se_player_olle_soderqvist_d1155006",
     "clubId": "swe2-tumba",
     "competitionId": "swe-2",
     "season": "2026/27",
-    "snapshotDate": "2026-08-27",
+    "snapshotDate": "2026-10-31",
     "shirtNumber": 22,
     "sourcePosition": "MV",
     "primaryPosition": "MV",
@@ -213,9 +213,14 @@
       ],
       "position": [
         "src_as_position_evidence"
+      ],
+      "contractClub": [
+        "src_hm15_owner_confirmed_loan"
       ]
     },
-    "dataNotes": [],
+    "dataNotes": [
+      "HM-DATA-1.5 (2026-10-31): on loan for 2026/27 from contract club Hammarby IF HF (se_club_hammarby_if_hf) to IFK Tumba HK (swe2-tumba), owner-confirmed. The contract club is not the youth/origin club (moderklubb). Playable registration at IFK Tumba HK only; no roster row at the contract club."
+    ],
     "defaultSquadStatus": "KEY_PLAYER",
     "specialTags": [
       "FIRST_GOALKEEPER"

@@ -3,7 +3,7 @@
   "clubName": "Örebro SK HK herr",
   "competitionId": "se_division1_norra",
   "season": "2026/27",
-  "snapshotDate": "2026-08-27",
+  "snapshotDate": "2026-10-31",
   "datasetStatus": "PRESEASON",
   "qcStatus": "VERIFIED_WITH_OPEN_FIELDS",
   "expectedRosterCount": 22,
@@ -22,16 +22,20 @@
     "guessedContractDates": 22
   },
   "knownConflicts": [],
-  "staleSourceWarnings": [],
+  "staleSourceWarnings": [
+    "HM-DATA-1.5: roster corrected against Profixio leagueid28142 (2026-10-31)."
+  ],
   "openFieldsSummary": {
-    "exactDateOfBirthMissing": 22,
+    "exactDateOfBirthMissing": 1,
     "birthYearMissing": 22,
-    "nationalityMissing": 22,
+    "nationalityMissing": 20,
     "heightMissing": 22,
     "handednessMissing": 22,
     "shirtNumberMissing": 11,
     "contractEndMissing": 22,
-    "positionGenerated": 10,
-    "positionSourced": 12
+    "positionGenerated": 9,
+    "positionSourced": 12,
+    "positionPartial": 12,
+    "positionVerified": 1
   }
 }

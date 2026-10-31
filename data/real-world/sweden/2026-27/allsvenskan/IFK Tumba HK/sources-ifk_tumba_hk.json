@@ -38,5 +38,15 @@
     "publishedAt": null,
     "accessedAt": "2026-10-31",
     "seasonContext": "2026/27 (HM-DATA-1.3)"
+  },
+  {
+    "sourceId": "src_hm15_owner_confirmed_loan",
+    "sourceType": "OWNER_CONFIRMED",
+    "publisher": "Handball Manager owner",
+    "title": "Loan 2026/27: contract club and playable (loan) club confirmed by the owner (HM-DATA-1.5)",
+    "url": null,
+    "publishedAt": null,
+    "accessedAt": "2026-10-31",
+    "seasonContext": "2026/27 (HM-DATA-1.5)"
   }
 ]

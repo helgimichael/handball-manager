@@ -3,7 +3,7 @@
   "clubName": "IK Bolton",
   "competitionId": "se_division1_norra",
   "season": "2026/27",
-  "snapshotDate": "2026-08-27",
+  "snapshotDate": "2026-10-31",
   "datasetStatus": "PRESEASON",
   "qcStatus": "VERIFIED_WITH_OPEN_FIELDS",
   "expectedRosterCount": 33,
@@ -23,17 +23,20 @@
   },
   "knownConflicts": [],
   "staleSourceWarnings": [
-    "Public roster is current-looking but surrounding season copy is not fully synchronized."
+    "Public roster is current-looking but surrounding season copy is not fully synchronized.",
+    "HM-DATA-1.5: roster corrected against Profixio leagueid28142 (2026-10-31)."
   ],
   "openFieldsSummary": {
-    "exactDateOfBirthMissing": 33,
+    "exactDateOfBirthMissing": 0,
     "birthYearMissing": 33,
-    "nationalityMissing": 33,
+    "nationalityMissing": 32,
     "heightMissing": 33,
     "handednessMissing": 33,
     "shirtNumberMissing": 18,
     "contractEndMissing": 33,
-    "positionGenerated": 22,
-    "positionSourced": 11
+    "positionGenerated": 20,
+    "positionSourced": 11,
+    "positionPartial": 11,
+    "positionVerified": 2
   }
 }

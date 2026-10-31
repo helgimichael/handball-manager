@@ -369,9 +369,9 @@
     "clubId": "se_club_hk_s_hof",
     "competitionId": "se_division1_sodra",
     "season": "2026/27",
-    "snapshotDate": "2026-08-27",
+    "snapshotDate": "2026-10-31",
     "shirtNumber": 39,
-    "sourcePosition": "",
+    "sourcePosition": "M6",
     "primaryPosition": "M6",
     "secondaryPositions": [],
     "rosterStatus": "CONFIRMED",
@@ -380,15 +380,17 @@
       "untilSeason": null,
       "optionUntilSeason": null
     },
-    "rosterConfidence": "UNKNOWN",
+    "rosterConfidence": "VERIFIED",
     "sourceRefs": {
       "roster": [
         "src_div1_sodra_2026_27"
       ],
-      "position": []
+      "position": [
+        "src_hm15_rating_research"
+      ]
     },
     "dataNotes": [
-      "HM-DATA-DIV1-1.0: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+      "HM-DATA-1.5 (2026-10-31): primaryPosition M6 confirmed (rating research role label \"2009 Sverigecup M6 / major position correction\")."
     ]
   },
   {
@@ -677,9 +679,9 @@
     "clubId": "se_club_hk_s_hof",
     "competitionId": "se_division1_sodra",
     "season": "2026/27",
-    "snapshotDate": "2026-08-27",
+    "snapshotDate": "2026-10-31",
     "shirtNumber": null,
-    "sourcePosition": "",
+    "sourcePosition": "MV",
     "primaryPosition": "MV",
     "secondaryPositions": [],
     "rosterStatus": "CONFIRMED",
@@ -688,15 +690,17 @@
       "untilSeason": null,
       "optionUntilSeason": null
     },
-    "rosterConfidence": "UNKNOWN",
+    "rosterConfidence": "VERIFIED",
     "sourceRefs": {
       "roster": [
         "src_div1_sodra_2026_27"
       ],
-      "position": []
+      "position": [
+        "src_hm15_rating_research"
+      ]
     },
     "dataNotes": [
-      "HM-DATA-DIV1-1.0: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+      "HM-DATA-1.5 (2026-10-31): primaryPosition MV confirmed (rating research role label \"2009 U17-regional goalkeeper / major position correction\")."
     ]
   },
   {
@@ -705,10 +709,10 @@
     "clubId": "se_club_hk_s_hof",
     "competitionId": "se_division1_sodra",
     "season": "2026/27",
-    "snapshotDate": "2026-08-27",
+    "snapshotDate": "2026-10-31",
     "shirtNumber": null,
-    "sourcePosition": "",
-    "primaryPosition": "MV",
+    "sourcePosition": "H9",
+    "primaryPosition": "H9",
     "secondaryPositions": [],
     "rosterStatus": "CONFIRMED",
     "contract": {
@@ -716,15 +720,17 @@
       "untilSeason": null,
       "optionUntilSeason": null
     },
-    "rosterConfidence": "UNKNOWN",
+    "rosterConfidence": "VERIFIED",
     "sourceRefs": {
       "roster": [
         "src_div1_sodra_2026_27"
       ],
-      "position": []
+      "position": [
+        "src_hm15_rating_research"
+      ]
     },
     "dataNotes": [
-      "HM-DATA-DIV1-1.0: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+      "HM-DATA-1.5 (2026-10-31): primaryPosition MV -> H9 (rating research role label \"Sävehof P18 H9 prospect\")."
     ]
   },
   {

@@ -46,8 +46,8 @@
   },
   "player_karl_zetterlund_ab53b228": {
     "status": "LOCKED",
-    "updatedAt": "2026-08-30T17:56:44.193Z",
-    "note": "DIV1N_rating_import_candidates_v0.6 / DIV1S_rating_import_candidates_v0.5 Division 1 import (DIV1_ONLY_CANONICAL set only)"
+    "updatedAt": "2026-10-31T09:56:16.035Z",
+    "note": "HM-DATA-1.5 (2026-10-31) GK/OUTCOURT branch correction to M9; researched CA/PA preserved, generated attributes regenerated (HM-RATINGS-0.4-v1)"
   },
   "player_ludwig_ahlgren_dcfddc91": {
     "status": "LOCKED",

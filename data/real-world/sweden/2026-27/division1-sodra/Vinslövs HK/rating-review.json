@@ -6,8 +6,8 @@
   },
   "player_alexander_andersson_1718521d": {
     "status": "LOCKED",
-    "updatedAt": "2026-08-30T17:59:32.368Z",
-    "note": "DIV1N_rating_import_candidates_v0.6 / DIV1S_rating_import_candidates_v0.5 Division 1 import (DIV1_ONLY_CANONICAL set only)"
+    "updatedAt": "2026-10-31T09:56:16.494Z",
+    "note": "HM-DATA-1.5 (2026-10-31) GK/OUTCOURT branch correction to M9; researched CA/PA preserved, generated attributes regenerated (HM-RATINGS-0.4-v1)"
   },
   "player_anders_teige_boe_b477bc82": {
     "status": "LOCKED",
@@ -51,8 +51,8 @@
   },
   "player_hugo_svensson_744cb836": {
     "status": "LOCKED",
-    "updatedAt": "2026-08-30T17:59:35.954Z",
-    "note": "DIV1N_rating_import_candidates_v0.6 / DIV1S_rating_import_candidates_v0.5 Division 1 import (DIV1_ONLY_CANONICAL set only)"
+    "updatedAt": "2026-10-31T09:56:16.583Z",
+    "note": "HM-DATA-1.5 (2026-10-31) GK/OUTCOURT branch correction to V9; researched CA/PA preserved, generated attributes regenerated (HM-RATINGS-0.4-v1)"
   },
   "player_inge_eriksen_e4d65400": {
     "status": "LOCKED",
@@ -81,7 +81,7 @@
   },
   "player_simon_ongeri_271557b0": {
     "status": "LOCKED",
-    "updatedAt": "2026-08-30T17:59:39.431Z",
-    "note": "DIV1N_rating_import_candidates_v0.6 / DIV1S_rating_import_candidates_v0.5 Division 1 import (DIV1_ONLY_CANONICAL set only)"
+    "updatedAt": "2026-10-31T09:56:16.675Z",
+    "note": "HM-DATA-1.5 (2026-10-31) GK/OUTCOURT branch correction to MV; researched CA/PA preserved, generated attributes regenerated (HM-RATINGS-0.4-v1)"
   }
 }

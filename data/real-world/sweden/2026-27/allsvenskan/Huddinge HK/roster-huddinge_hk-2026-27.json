@@ -312,36 +312,6 @@
     "specialTags": []
   },
   {
-    "rosterEntryId": "se_2026_27_allsvenskan_huddinge_hk__ecbbbb4c",
-    "playerId": "se_player_nicklas_andreasson_ecbbbb4c",
-    "clubId": "swe2-huddinge",
-    "competitionId": "swe-2",
-    "season": "2026/27",
-    "snapshotDate": "2026-08-27",
-    "shirtNumber": 18,
-    "sourcePosition": "",
-    "primaryPosition": "H9",
-    "secondaryPositions": [],
-    "rosterStatus": "CONFIRMED",
-    "contract": {
-      "untilDate": null,
-      "untilSeason": null,
-      "optionUntilSeason": null
-    },
-    "rosterConfidence": "UNKNOWN",
-    "sourceRefs": {
-      "roster": [
-        "src_as_v5_qa_spreadsheet"
-      ],
-      "position": []
-    },
-    "dataNotes": [
-      "HM-DATA-ALLSVENSKAN-1.1: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
-    ],
-    "defaultSquadStatus": "ROTATION",
-    "specialTags": []
-  },
-  {
     "rosterEntryId": "se_2026_27_allsvenskan_huddinge_hk__fe7da30a",
     "playerId": "se_player_adam_berg_fe7da30a",
     "clubId": "swe2-huddinge",

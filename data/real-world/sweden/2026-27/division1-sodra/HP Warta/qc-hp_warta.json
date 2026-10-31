@@ -3,11 +3,11 @@
   "clubName": "HP Warta",
   "competitionId": "se_division1_sodra",
   "season": "2026/27",
-  "snapshotDate": "2026-08-27",
+  "snapshotDate": "2026-10-31",
   "datasetStatus": "PRESEASON",
   "qcStatus": "VERIFIED_WITH_OPEN_FIELDS",
-  "expectedRosterCount": 22,
-  "exportedRosterCount": 22,
+  "expectedRosterCount": 21,
+  "exportedRosterCount": 21,
   "checks": {
     "currentLeagueRosterLocated": true,
     "allLeagueRosterNamesCaptured": true,
@@ -22,16 +22,20 @@
     "guessedContractDates": 22
   },
   "knownConflicts": [],
-  "staleSourceWarnings": [],
+  "staleSourceWarnings": [
+    "HM-DATA-1.5: roster corrected against Profixio leagueid28142 (2026-10-31)."
+  ],
   "openFieldsSummary": {
-    "exactDateOfBirthMissing": 22,
+    "exactDateOfBirthMissing": 0,
     "birthYearMissing": 22,
-    "nationalityMissing": 22,
+    "nationalityMissing": 21,
     "heightMissing": 22,
     "handednessMissing": 22,
     "shirtNumberMissing": 0,
     "contractEndMissing": 22,
-    "positionGenerated": 22,
-    "positionSourced": 0
+    "positionGenerated": 18,
+    "positionSourced": 0,
+    "positionPartial": 0,
+    "positionVerified": 3
   }
 }

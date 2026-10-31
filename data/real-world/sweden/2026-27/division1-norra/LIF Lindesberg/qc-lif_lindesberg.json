@@ -3,7 +3,7 @@
   "clubName": "LIF Lindesberg",
   "competitionId": "se_division1_norra",
   "season": "2026/27",
-  "snapshotDate": "2026-08-27",
+  "snapshotDate": "2026-10-31",
   "datasetStatus": "PRESEASON",
   "qcStatus": "VERIFIED_WITH_OPEN_FIELDS",
   "expectedRosterCount": 20,
@@ -22,16 +22,20 @@
     "guessedContractDates": 20
   },
   "knownConflicts": [],
-  "staleSourceWarnings": [],
+  "staleSourceWarnings": [
+    "HM-DATA-1.5: roster corrected against Profixio leagueid28142 (2026-10-31)."
+  ],
   "openFieldsSummary": {
-    "exactDateOfBirthMissing": 20,
+    "exactDateOfBirthMissing": 0,
     "birthYearMissing": 20,
-    "nationalityMissing": 20,
+    "nationalityMissing": 15,
     "heightMissing": 20,
     "handednessMissing": 20,
     "shirtNumberMissing": 1,
     "contractEndMissing": 20,
-    "positionGenerated": 15,
-    "positionSourced": 5
+    "positionGenerated": 14,
+    "positionSourced": 5,
+    "positionPartial": 0,
+    "positionVerified": 6
   }
 }

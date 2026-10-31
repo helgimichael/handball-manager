@@ -3,7 +3,7 @@
   "clubName": "Anderstorps SK",
   "competitionId": "se_division1_sodra",
   "season": "2026/27",
-  "snapshotDate": "2026-08-27",
+  "snapshotDate": "2026-10-31",
   "datasetStatus": "PRESEASON",
   "qcStatus": "VERIFIED_WITH_OPEN_FIELDS",
   "expectedRosterCount": 17,
@@ -23,17 +23,20 @@
   },
   "knownConflicts": [],
   "staleSourceWarnings": [
-    "17-player squad explicitly published for 2026/27."
+    "17-player squad explicitly published for 2026/27.",
+    "HM-DATA-1.5: roster corrected against Profixio leagueid28142 (2026-10-31)."
   ],
   "openFieldsSummary": {
-    "exactDateOfBirthMissing": 17,
+    "exactDateOfBirthMissing": 0,
     "birthYearMissing": 17,
-    "nationalityMissing": 17,
+    "nationalityMissing": 16,
     "heightMissing": 17,
     "handednessMissing": 17,
     "shirtNumberMissing": 0,
     "contractEndMissing": 17,
-    "positionGenerated": 11,
-    "positionSourced": 6
+    "positionGenerated": 8,
+    "positionSourced": 6,
+    "positionPartial": 0,
+    "positionVerified": 9
   }
 }

@@ -257,9 +257,9 @@
     "clubId": "se_club_rp_if_linkoping",
     "competitionId": "se_division1_norra",
     "season": "2026/27",
-    "snapshotDate": "2026-08-27",
+    "snapshotDate": "2026-10-31",
     "shirtNumber": 6,
-    "sourcePosition": "",
+    "sourcePosition": "M9",
     "primaryPosition": "M9",
     "secondaryPositions": [],
     "rosterStatus": "CONFIRMED",
@@ -268,15 +268,18 @@
       "untilSeason": null,
       "optionUntilSeason": null
     },
-    "rosterConfidence": "UNKNOWN",
+    "rosterConfidence": "VERIFIED",
     "sourceRefs": {
       "roster": [
         "src_div1_norra_2026_27"
       ],
-      "position": []
+      "position": [
+        "src_hm15_profixio_registration",
+        "src_hm15_profixio_match_sheets"
+      ]
     },
     "dataNotes": [
-      "HM-DATA-DIV1-1.0: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+      "HM-DATA-1.5 (2026-10-31): primaryPosition M9 confirmed (Profixio player profile position, corroborated by match-sheet goalkeeper flags)."
     ]
   },
   {
@@ -425,9 +428,9 @@
     "clubId": "se_club_rp_if_linkoping",
     "competitionId": "se_division1_norra",
     "season": "2026/27",
-    "snapshotDate": "2026-08-27",
+    "snapshotDate": "2026-10-31",
     "shirtNumber": 15,
-    "sourcePosition": "",
+    "sourcePosition": "M9",
     "primaryPosition": "M9",
     "secondaryPositions": [],
     "rosterStatus": "CONFIRMED",
@@ -436,15 +439,18 @@
       "untilSeason": null,
       "optionUntilSeason": null
     },
-    "rosterConfidence": "UNKNOWN",
+    "rosterConfidence": "VERIFIED",
     "sourceRefs": {
       "roster": [
         "src_div1_norra_2026_27"
       ],
-      "position": []
+      "position": [
+        "src_hm15_profixio_registration",
+        "src_hm15_profixio_match_sheets"
+      ]
     },
     "dataNotes": [
-      "HM-DATA-DIV1-1.0: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+      "HM-DATA-1.5 (2026-10-31): primaryPosition M9 confirmed (Profixio player profile position, corroborated by match-sheet goalkeeper flags)."
     ]
   },
   {
@@ -481,9 +487,9 @@
     "clubId": "se_club_rp_if_linkoping",
     "competitionId": "se_division1_norra",
     "season": "2026/27",
-    "snapshotDate": "2026-08-27",
+    "snapshotDate": "2026-10-31",
     "shirtNumber": 73,
-    "sourcePosition": "",
+    "sourcePosition": "V9",
     "primaryPosition": "V9",
     "secondaryPositions": [],
     "rosterStatus": "CONFIRMED",
@@ -492,15 +498,17 @@
       "untilSeason": null,
       "optionUntilSeason": null
     },
-    "rosterConfidence": "UNKNOWN",
+    "rosterConfidence": "VERIFIED",
     "sourceRefs": {
       "roster": [
         "src_div1_norra_2026_27"
       ],
-      "position": []
+      "position": [
+        "src_hm15_profixio_registration"
+      ]
     },
     "dataNotes": [
-      "HM-DATA-DIV1-1.0: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+      "HM-DATA-1.5 (2026-10-31): primaryPosition V9 confirmed (Profixio player profile position)."
     ]
   },
   {

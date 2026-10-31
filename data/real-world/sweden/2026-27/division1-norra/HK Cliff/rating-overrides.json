@@ -20,9 +20,9 @@
     "pa": 155
   },
   "player_andreas_eklow_e6410dbb": {
-    "updatedAt": "2026-08-30T17:56:10.259Z",
     "ca": 95,
-    "pa": 145
+    "pa": 145,
+    "updatedAt": "2026-10-31T09:56:18.393Z"
   },
   "player_anton_grevin_862db388": {
     "updatedAt": "2026-08-30T17:56:10.691Z",
@@ -90,7 +90,7 @@
     "pa": 148
   },
   "player_pontus_ketels_c2146de7": {
-    "updatedAt": "2026-08-30T17:56:16.374Z",
+    "updatedAt": "2026-10-31T09:56:16.344Z",
     "ca": 90,
     "pa": 118
   },
@@ -130,8 +130,8 @@
     "pa": 124
   },
   "player_yassin_mohamed_2986b2de": {
+    "updatedAt": "2026-08-30T17:56:20.001Z",
     "ca": 101,
-    "pa": 120,
-    "updatedAt": "2026-08-30T17:56:20.001Z"
+    "pa": 120
   }
 }

@@ -60,7 +60,7 @@
     "pa": 145
   },
   "player_hugo_hermansson_3979d84c": {
-    "updatedAt": "2026-08-30T17:58:50.721Z",
+    "updatedAt": "2026-10-31T09:56:18.868Z",
     "ca": 98,
     "pa": 148
   },
@@ -105,9 +105,9 @@
     "pa": 148
   },
   "player_razmus_djerf_fc343738": {
-    "updatedAt": "2026-08-30T17:58:54.304Z",
     "ca": 102,
-    "pa": 156
+    "pa": 156,
+    "updatedAt": "2026-10-31T09:56:19.157Z"
   },
   "player_silas_norberg_b7b06c4c": {
     "updatedAt": "2026-08-30T17:58:54.694Z",
@@ -135,8 +135,8 @@
     "pa": 150
   },
   "player_wilmer_frederiksen_4160d1bd": {
+    "updatedAt": "2026-08-30T17:58:56.661Z",
     "ca": 104,
-    "pa": 158,
-    "updatedAt": "2026-08-30T17:58:56.661Z"
+    "pa": 158
   }
 }

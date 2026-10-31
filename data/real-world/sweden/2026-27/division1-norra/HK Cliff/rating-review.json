@@ -21,8 +21,8 @@
   },
   "player_andreas_eklow_e6410dbb": {
     "status": "LOCKED",
-    "updatedAt": "2026-08-30T17:56:10.607Z",
-    "note": "DIV1N_rating_import_candidates_v0.6 / DIV1S_rating_import_candidates_v0.5 Division 1 import (DIV1_ONLY_CANONICAL set only)"
+    "updatedAt": "2026-10-31T09:56:18.550Z",
+    "note": "HM-DATA-1.5 (2026-10-31) GK/OUTCOURT branch correction to MV; researched CA/PA preserved, generated attributes regenerated (HM-RATINGS-0.4-v1)"
   },
   "player_anton_grevin_862db388": {
     "status": "LOCKED",
@@ -91,8 +91,8 @@
   },
   "player_pontus_ketels_c2146de7": {
     "status": "LOCKED",
-    "updatedAt": "2026-08-30T17:56:16.703Z",
-    "note": "DIV1N_rating_import_candidates_v0.6 / DIV1S_rating_import_candidates_v0.5 Division 1 import (DIV1_ONLY_CANONICAL set only)"
+    "updatedAt": "2026-10-31T09:56:16.407Z",
+    "note": "HM-DATA-1.5 (2026-10-31) GK/OUTCOURT branch correction to H9; researched CA/PA preserved, generated attributes regenerated (HM-RATINGS-0.4-v1)"
   },
   "player_rasmus_berge_fhinn_e5a42060": {
     "status": "LOCKED",

@@ -3,11 +3,11 @@
   "clubName": "IF Kristianstad",
   "competitionId": "se_division1_sodra",
   "season": "2026/27",
-  "snapshotDate": "2026-08-27",
+  "snapshotDate": "2026-10-31",
   "datasetStatus": "PRESEASON",
   "qcStatus": "VERIFIED_WITH_OPEN_FIELDS",
-  "expectedRosterCount": 19,
-  "exportedRosterCount": 19,
+  "expectedRosterCount": 18,
+  "exportedRosterCount": 18,
   "checks": {
     "currentLeagueRosterLocated": true,
     "allLeagueRosterNamesCaptured": true,
@@ -23,17 +23,20 @@
   },
   "knownConflicts": [],
   "staleSourceWarnings": [
-    "Division 1 development side; distinct from IFK Kristianstad's Handbollsligan team."
+    "Division 1 development side; distinct from IFK Kristianstad's Handbollsligan team.",
+    "HM-DATA-1.5: roster corrected against Profixio leagueid28142 (2026-10-31)."
   ],
   "openFieldsSummary": {
-    "exactDateOfBirthMissing": 19,
+    "exactDateOfBirthMissing": 2,
     "birthYearMissing": 19,
-    "nationalityMissing": 19,
+    "nationalityMissing": 11,
     "heightMissing": 19,
     "handednessMissing": 19,
-    "shirtNumberMissing": 19,
+    "shirtNumberMissing": 18,
     "contractEndMissing": 19,
-    "positionGenerated": 19,
-    "positionSourced": 0
+    "positionGenerated": 15,
+    "positionSourced": 0,
+    "positionPartial": 0,
+    "positionVerified": 3
   }
 }

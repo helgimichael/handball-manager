@@ -80,13 +80,13 @@
     "pa": 126
   },
   "player_victor_tasevski_14ec6a52": {
-    "updatedAt": "2026-08-30T17:59:30.837Z",
     "ca": 104,
-    "pa": 152
+    "pa": 152,
+    "updatedAt": "2026-10-31T09:56:17.317Z"
   },
   "player_william_nyman_0f67635d": {
+    "updatedAt": "2026-08-30T17:59:31.251Z",
     "ca": 114,
-    "pa": 122,
-    "updatedAt": "2026-08-30T17:59:31.251Z"
+    "pa": 122
   }
 }

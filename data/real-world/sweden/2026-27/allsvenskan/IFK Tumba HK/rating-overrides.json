@@ -29,11 +29,6 @@
     "ca": 118,
     "pa": 123
   },
-  "se_player_olle_soderqvist_467b211d": {
-    "updatedAt": "2026-08-30T15:46:21.110Z",
-    "ca": 123,
-    "pa": 162
-  },
   "se_player_simon_axelsson_eb1ec6dd": {
     "updatedAt": "2026-08-30T15:46:21.487Z",
     "ca": 136,
@@ -78,5 +73,10 @@
     "updatedAt": "2026-08-30T15:46:18.754Z",
     "ca": 101,
     "pa": 152
+  },
+  "se_player_olle_soderqvist_d1155006": {
+    "updatedAt": "2026-08-30T15:46:21.110Z",
+    "ca": 123,
+    "pa": 162
   }
 }

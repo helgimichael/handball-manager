@@ -261,7 +261,9 @@
         "src_as_v5_qa_spreadsheet"
       ]
     },
-    "dataNotes": []
+    "dataNotes": [
+      "HM-DATA-1.5 (2026-10-31): 2026/27 Herrallsvenskan roster membership at Huddinge HK removed -- not among the 288 Herrallsvenskan registrations on Profixio (re-checked 2026-10-31) and not on the official Huddinge HK squad page (https://www.svenskalag.se/huddingehk-herrallsvenskan/truppen, 2026-10-31). Identity and locked rating retained."
+    ]
   },
   {
     "playerId": "se_player_adam_berg_fe7da30a",

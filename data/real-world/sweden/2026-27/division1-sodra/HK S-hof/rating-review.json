@@ -61,8 +61,8 @@
   },
   "player_hugo_hermansson_3979d84c": {
     "status": "LOCKED",
-    "updatedAt": "2026-08-30T17:58:51.057Z",
-    "note": "DIV1N_rating_import_candidates_v0.6 / DIV1S_rating_import_candidates_v0.5 Division 1 import (DIV1_ONLY_CANONICAL set only)"
+    "updatedAt": "2026-10-31T09:56:19.074Z",
+    "note": "HM-DATA-1.5 (2026-10-31) GK/OUTCOURT branch correction to M6; researched CA/PA preserved, generated attributes regenerated (HM-RATINGS-0.4-v1)"
   },
   "player_julius_bjorklund_8c85692d": {
     "status": "LOCKED",
@@ -106,8 +106,8 @@
   },
   "player_razmus_djerf_fc343738": {
     "status": "LOCKED",
-    "updatedAt": "2026-08-30T17:58:54.611Z",
-    "note": "DIV1N_rating_import_candidates_v0.6 / DIV1S_rating_import_candidates_v0.5 Division 1 import (DIV1_ONLY_CANONICAL set only)"
+    "updatedAt": "2026-10-31T09:56:19.305Z",
+    "note": "HM-DATA-1.5 (2026-10-31) GK/OUTCOURT branch correction to MV; researched CA/PA preserved, generated attributes regenerated (HM-RATINGS-0.4-v1)"
   },
   "player_silas_norberg_b7b06c4c": {
     "status": "LOCKED",

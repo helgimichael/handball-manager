@@ -545,10 +545,10 @@
     "clubId": "se_club_orebro_sk_hk_herr",
     "competitionId": "se_division1_norra",
     "season": "2026/27",
-    "snapshotDate": "2026-08-27",
+    "snapshotDate": "2026-10-31",
     "shirtNumber": null,
-    "sourcePosition": "",
-    "primaryPosition": "MV",
+    "sourcePosition": "H6",
+    "primaryPosition": "H6",
     "secondaryPositions": [],
     "rosterStatus": "PROVISIONAL",
     "contract": {
@@ -556,15 +556,17 @@
       "untilSeason": null,
       "optionUntilSeason": null
     },
-    "rosterConfidence": "UNKNOWN",
+    "rosterConfidence": "VERIFIED",
     "sourceRefs": {
       "roster": [
         "src_div1_norra_2026_27"
       ],
-      "position": []
+      "position": [
+        "src_hm15_rating_research"
+      ]
     },
     "dataNotes": [
-      "HM-DATA-DIV1-1.0: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+      "HM-DATA-1.5 (2026-10-31): primaryPosition MV -> H6 (rating research role label \"Örebro H6 senior\")."
     ]
   },
   {

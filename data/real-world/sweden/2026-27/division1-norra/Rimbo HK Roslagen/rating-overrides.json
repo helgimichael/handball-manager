@@ -35,9 +35,9 @@
     "pa": 104
   },
   "player_leo_elvermark_06413d35": {
-    "updatedAt": "2026-08-30T17:56:59.018Z",
     "ca": 96,
-    "pa": 120
+    "pa": 120,
+    "updatedAt": "2026-10-31T09:56:16.066Z"
   },
   "player_lukas_eriksson_3c4d72b9": {
     "updatedAt": "2026-08-30T17:56:59.398Z",
@@ -75,8 +75,8 @@
     "pa": 126
   },
   "player_william_nystrom_b836eada": {
+    "updatedAt": "2026-08-30T17:57:02.107Z",
     "ca": 94,
-    "pa": 118,
-    "updatedAt": "2026-08-30T17:57:02.107Z"
+    "pa": 118
   }
 }

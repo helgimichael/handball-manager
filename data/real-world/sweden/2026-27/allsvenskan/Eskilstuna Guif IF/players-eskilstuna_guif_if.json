@@ -188,7 +188,9 @@
         "src_as_v5_qa_spreadsheet"
       ]
     },
-    "dataNotes": []
+    "dataNotes": [
+      "HM-DATA-1.5 (2026-10-31): 2026/27 Herrallsvenskan roster membership at Eskilstuna Guif IF removed -- not among the 288 Herrallsvenskan registrations on Profixio (re-checked 2026-10-31) and not on the official Eskilstuna Guif squad page (https://www.guif.nu/vara-lag/herrar/spelare-ledare, 2026-10-31). Identity and locked rating retained."
+    ]
   },
   {
     "playerId": "se_player_fredrik_gustavsson_98b279d6",

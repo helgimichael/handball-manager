@@ -3,11 +3,11 @@
   "clubName": "HK Önnerediterna",
   "competitionId": "se_division1_sodra",
   "season": "2026/27",
-  "snapshotDate": "2026-08-27",
+  "snapshotDate": "2026-10-31",
   "datasetStatus": "PRESEASON",
   "qcStatus": "VERIFIED_WITH_OPEN_FIELDS",
-  "expectedRosterCount": 37,
-  "exportedRosterCount": 37,
+  "expectedRosterCount": 28,
+  "exportedRosterCount": 28,
   "checks": {
     "currentLeagueRosterLocated": true,
     "allLeagueRosterNamesCaptured": true,
@@ -22,16 +22,20 @@
     "guessedContractDates": 37
   },
   "knownConflicts": [],
-  "staleSourceWarnings": [],
+  "staleSourceWarnings": [
+    "HM-DATA-1.5: roster corrected against Profixio leagueid28142 (2026-10-31). Held pending verification: Sixten Thronborg (HOLD: Division 1 GK/outfield conflict without an exact sourced position -- no exact position in any source (outfield role without side, or no evidence))."
+  ],
   "openFieldsSummary": {
-    "exactDateOfBirthMissing": 37,
+    "exactDateOfBirthMissing": 7,
     "birthYearMissing": 37,
-    "nationalityMissing": 37,
+    "nationalityMissing": 28,
     "heightMissing": 37,
     "handednessMissing": 37,
-    "shirtNumberMissing": 5,
+    "shirtNumberMissing": 1,
     "contractEndMissing": 37,
-    "positionGenerated": 25,
-    "positionSourced": 12
+    "positionGenerated": 16,
+    "positionSourced": 12,
+    "positionPartial": 0,
+    "positionVerified": 12
   }
 }

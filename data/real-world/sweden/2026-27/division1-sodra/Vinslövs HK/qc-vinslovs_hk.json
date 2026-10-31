@@ -3,7 +3,7 @@
   "clubName": "Vinslövs HK",
   "competitionId": "se_division1_sodra",
   "season": "2026/27",
-  "snapshotDate": "2026-08-27",
+  "snapshotDate": "2026-10-31",
   "datasetStatus": "PRESEASON",
   "qcStatus": "VERIFIED_WITH_OPEN_FIELDS",
   "expectedRosterCount": 18,
@@ -23,17 +23,20 @@
   },
   "knownConflicts": [],
   "staleSourceWarnings": [
-    "Public A-team page is live but parts of season copy still reference 2025/26."
+    "Public A-team page is live but parts of season copy still reference 2025/26.",
+    "HM-DATA-1.5: roster corrected against Profixio leagueid28142 (2026-10-31)."
   ],
   "openFieldsSummary": {
-    "exactDateOfBirthMissing": 18,
+    "exactDateOfBirthMissing": 1,
     "birthYearMissing": 18,
-    "nationalityMissing": 18,
+    "nationalityMissing": 14,
     "heightMissing": 18,
     "handednessMissing": 18,
     "shirtNumberMissing": 17,
     "contractEndMissing": 18,
-    "positionGenerated": 17,
-    "positionSourced": 1
+    "positionGenerated": 14,
+    "positionSourced": 1,
+    "positionPartial": 1,
+    "positionVerified": 3
   }
 }

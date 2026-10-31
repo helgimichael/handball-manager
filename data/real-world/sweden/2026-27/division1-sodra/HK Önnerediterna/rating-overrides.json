@@ -25,7 +25,7 @@
     "pa": 154
   },
   "player_frank_arvidsson_92864d2b": {
-    "updatedAt": "2026-08-30T17:58:35.706Z",
+    "updatedAt": "2026-10-31T09:56:17.922Z",
     "ca": 104,
     "pa": 156
   },
@@ -115,9 +115,9 @@
     "pa": 150
   },
   "player_vincent_lundquist_795a10e3": {
-    "updatedAt": "2026-08-30T17:58:43.515Z",
     "ca": 102,
-    "pa": 148
+    "pa": 148,
+    "updatedAt": "2026-10-31T09:56:18.142Z"
   },
   "player_william_pusa_e9e9ca10": {
     "updatedAt": "2026-08-30T17:58:43.922Z",
@@ -135,8 +135,8 @@
     "pa": 158
   },
   "player_yosef_mousa_d57ff21e": {
+    "updatedAt": "2026-08-30T17:58:45.120Z",
     "ca": 96,
-    "pa": 132,
-    "updatedAt": "2026-08-30T17:58:45.120Z"
+    "pa": 132
   }
 }

@@ -3,7 +3,7 @@
   "clubName": "Sannadals SK",
   "competitionId": "se_division1_norra",
   "season": "2026/27",
-  "snapshotDate": "2026-08-27",
+  "snapshotDate": "2026-10-31",
   "datasetStatus": "PRESEASON",
   "qcStatus": "VERIFIED_WITH_OPEN_FIELDS",
   "expectedRosterCount": 58,
@@ -23,17 +23,20 @@
   },
   "knownConflicts": [],
   "staleSourceWarnings": [
-    "Large public registration pool; may include development players."
+    "Large public registration pool; may include development players.",
+    "HM-DATA-1.5: roster corrected against Profixio leagueid28142 (2026-10-31). Held pending verification: Isho Nissan (HOLD: Division 1 GK/outfield conflict without an exact sourced position -- no exact position in any source (outfield role without side, or no evidence)); Marcus Nylund (HOLD: Division 1 GK/outfield conflict without an exact sourced position -- no exact position in any source (outfield role without side, or no evidence))."
   ],
   "openFieldsSummary": {
-    "exactDateOfBirthMissing": 58,
+    "exactDateOfBirthMissing": 19,
     "birthYearMissing": 57,
     "nationalityMissing": 58,
     "heightMissing": 58,
     "handednessMissing": 58,
     "shirtNumberMissing": 58,
     "contractEndMissing": 58,
-    "positionGenerated": 40,
-    "positionSourced": 18
+    "positionGenerated": 37,
+    "positionSourced": 18,
+    "positionPartial": 18,
+    "positionVerified": 3
   }
 }

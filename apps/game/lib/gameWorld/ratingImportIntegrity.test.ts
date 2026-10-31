@@ -13,7 +13,7 @@ import { snapshotWorldSquads, snapshotGameplayRatings } from "./serverSnapshot";
 import { WORLD_POOL_COMPETITION_IDS } from "../career/careerWorld";
 import { loadRatingDatabase } from "../editor/ratingDatabaseRepository";
 import { buildCatalog, findClubById } from "../editor/catalog";
-import { HM_DATA_1_3_RELOCATED_TO_ALLSVENSKAN, HM_DATA_1_3_REMOVED_MEMBERSHIPS, HM_DATA_1_3_RENAMED } from "./hmData13RosterCorrections";
+import { MERGED_IDENTITIES, RELOCATED_TO_ALLSVENSKAN, REMOVED_MEMBERSHIPS, RENAMED, SUPERSEDED_RATINGS } from "./realWorldRosterCorrections";
 
 const EXPORTS_DIR = path.join(__dirname, "..", "..", "..", "..", "exports", "player-rating-research");
 const HBL_CSV_PATH = path.join(EXPORTS_DIR, "HBL_rating_import_candidates_v2.13.csv");
@@ -83,21 +83,24 @@ function collectRatings(competitionIds: readonly string[]): Map<string, { ca: nu
 }
 
 /**
- * collectRatings, following HM-DATA-1.3's identity-level roster changes: a
- * relocated player's (unchanged) rating is read at his new Herrallsvenskan
- * club, and a removed membership's from its retained locked record. Only for
+ * collectRatings, following the documented identity-level roster changes
+ * (realWorldRosterCorrections.ts): a relocated player's rating is read at his
+ * new Herrallsvenskan club, a removed membership's from its retained locked
+ * record, and a merged duplicate's from its canonical identity. Only for
  * checks of an import's own values -- the cross-pool duplicate checks keep
  * using the live pools.
  */
 function collectImportedRatings(competitionIds: readonly string[]): Map<string, { ca: number; pa: number }> {
   const out = collectRatings(competitionIds);
-  const relocated = HM_DATA_1_3_RELOCATED_TO_ALLSVENSKAN.filter((r) => competitionIds.includes(r.fromCompetitionId) && !out.has(r.playerId));
-  if (relocated.length > 0) {
+  const relocated = RELOCATED_TO_ALLSVENSKAN.filter((r) => competitionIds.includes(r.fromCompetitionId) && !out.has(r.playerId));
+  const merged = competitionIds.includes(ALLSVENSKAN_COMPETITION_ID) ? MERGED_IDENTITIES : [];
+  if (relocated.length > 0 || merged.length > 0) {
     const allsvenskan = collectRatings([ALLSVENSKAN_COMPETITION_ID]);
     for (const r of relocated) { const rating = allsvenskan.get(r.playerId); if (rating) out.set(r.playerId, rating); }
+    for (const m of merged) { const rating = allsvenskan.get(m.canonicalPlayerId); if (rating) out.set(m.retiredPlayerId, rating); }
   }
   if (competitionIds.includes(ALLSVENSKAN_COMPETITION_ID)) {
-    for (const r of HM_DATA_1_3_REMOVED_MEMBERSHIPS) {
+    for (const r of REMOVED_MEMBERSHIPS) {
       const lock = loadRatingDatabase(r.clubId)[r.playerId];
       if (lock) out.set(r.playerId, { ca: lock.ca.value, pa: lock.pa?.value ?? lock.ca.value });
     }
@@ -105,18 +108,19 @@ function collectImportedRatings(competitionIds: readonly string[]): Map<string, 
   return out;
 }
 
-/** An import's playerIds as they exist now: live squads, plus HM-DATA-1.3 relocations (found at their new club) and removed memberships (still locked). */
+/** An import's playerIds as they exist now: live squads, plus relocations (found at their new club), removed memberships (still locked) and merged duplicates (whose canonical identity is live). */
 function importedIdentityIds(competitionId: string): Set<string> {
   const ids = new Set<string>();
   const squads = snapshotWorldSquads(competitionId);
   for (const clubId of Object.keys(squads)) for (const p of squads[clubId]) ids.add(p.id);
-  const relocated = HM_DATA_1_3_RELOCATED_TO_ALLSVENSKAN.filter((r) => r.fromCompetitionId === competitionId);
+  const relocated = RELOCATED_TO_ALLSVENSKAN.filter((r) => r.fromCompetitionId === competitionId);
   if (relocated.length > 0) {
     const allsvenskan = snapshotWorldSquads(ALLSVENSKAN_COMPETITION_ID);
     for (const r of relocated) if (allsvenskan[r.toClubId]?.some((p) => p.id === r.playerId)) ids.add(r.playerId);
   }
   if (competitionId === ALLSVENSKAN_COMPETITION_ID) {
-    for (const r of HM_DATA_1_3_REMOVED_MEMBERSHIPS) if (loadRatingDatabase(r.clubId)[r.playerId]) ids.add(r.playerId);
+    for (const r of REMOVED_MEMBERSHIPS) if (loadRatingDatabase(r.clubId)[r.playerId]) ids.add(r.playerId);
+    for (const m of MERGED_IDENTITIES) if (squads[m.clubId]?.some((p) => p.id === m.canonicalPlayerId)) ids.add(m.retiredPlayerId);
   }
   return ids;
 }
@@ -180,8 +184,13 @@ function loadProvenance(competitionIds: readonly string[]): Map<string, RatingPr
   const perClub = new Map<string, { review: Record<string, Record<string, unknown>>; override: Record<string, Record<string, unknown>> }>();
 
   const clubIds = playerClubIds(competitionIds);
-  for (const r of HM_DATA_1_3_RELOCATED_TO_ALLSVENSKAN) if (competitionIds.includes(r.fromCompetitionId) && !clubIds.has(r.playerId)) clubIds.set(r.playerId, r.toClubId);
-  if (competitionIds.includes(ALLSVENSKAN_COMPETITION_ID)) for (const r of HM_DATA_1_3_REMOVED_MEMBERSHIPS) clubIds.set(r.playerId, r.clubId);
+  for (const r of RELOCATED_TO_ALLSVENSKAN) if (competitionIds.includes(r.fromCompetitionId) && !clubIds.has(r.playerId)) clubIds.set(r.playerId, r.toClubId);
+  // A merged duplicate's provenance now lives under its canonical id.
+  const canonicalOf = new Map<string, string>();
+  if (competitionIds.includes(ALLSVENSKAN_COMPETITION_ID)) {
+    for (const r of REMOVED_MEMBERSHIPS) clubIds.set(r.playerId, r.clubId);
+    for (const m of MERGED_IDENTITIES) { clubIds.set(m.retiredPlayerId, m.clubId); canonicalOf.set(m.retiredPlayerId, m.canonicalPlayerId); }
+  }
   for (const [playerId, clubId] of clubIds) {
     if (!perClub.has(clubId)) {
       const club = findClubById(catalog, clubId);
@@ -193,8 +202,8 @@ function loadProvenance(competitionIds: readonly string[]): Map<string, RatingPr
         : { review: {}, override: {} });
     }
     const files = perClub.get(clubId)!;
-    const review = files.review[playerId];
-    const override = files.override[playerId];
+    const review = files.review[canonicalOf.get(playerId) ?? playerId];
+    const override = files.override[canonicalOf.get(playerId) ?? playerId];
     out.set(playerId, {
       reviewNote: typeof review?.note === "string" ? review.note : "",
       override: override
@@ -373,8 +382,10 @@ test("Allsvenskan v0.13 import did not change any HBL or World Pool rating", () 
   const hblRatings = collectImportedRatings([HBL_COMPETITION_ID]);
   for (const r of hblRows) {
     const playerId = r[hblIdx("playerId")];
-    const expectedCA = Number(r[hblIdx("New CA")]);
-    const expectedPA = Number(r[hblIdx("New PA")]);
+    // A documented superseded rating must hold its superseding value instead of the import's.
+    const superseded = SUPERSEDED_RATINGS.get(playerId);
+    const expectedCA = superseded?.ca ?? Number(r[hblIdx("New CA")]);
+    const expectedPA = superseded?.pa ?? Number(r[hblIdx("New PA")]);
     const actual = hblRatings.get(playerId);
     assert.equal(actual?.ca, expectedCA, `HBL CA drifted for ${playerId} after the Allsvenskan import`);
     assert.equal(actual?.pa, expectedPA, `HBL PA drifted for ${playerId} after the Allsvenskan import`);
@@ -445,15 +456,16 @@ test("HBL + World Pool + Allsvenskan: non-rating player fields are untouched by 
   const allsvById = new Map<string, { firstName: string; lastName: string }>();
   for (const clubId of Object.keys(allsvSquads)) for (const p of allsvSquads[clubId]) allsvById.set(p.id, { firstName: p.firstName, lastName: p.lastName });
   // HM-DATA-1.3 removed some 2026/27 memberships but kept the identity record: read those from the club's players file.
-  for (const { playerId, clubId } of HM_DATA_1_3_REMOVED_MEMBERSHIPS) {
+  for (const { playerId, clubId } of REMOVED_MEMBERSHIPS) {
     const club = findClubById(buildCatalog(), clubId);
     const identity = club && (JSON.parse(fs.readFileSync(club.playersFile, "utf8")) as { playerId: string; firstName: string; lastName: string }[]).find((p) => p.playerId === playerId);
     if (identity) allsvById.set(playerId, { firstName: identity.firstName, lastName: identity.lastName });
   }
+  for (const m of MERGED_IDENTITIES) { const canonical = allsvById.get(m.canonicalPlayerId); if (canonical) allsvById.set(m.retiredPlayerId, canonical); }
 
   for (const r of allsvRows.slice(0, 20)) {
     const playerId = r[allsvIdx("playerId")];
-    const csvPlayerName = HM_DATA_1_3_RENAMED.get(r[allsvIdx("playerId")]) ?? r[allsvIdx("Player")];
+    const csvPlayerName = RENAMED.get(r[allsvIdx("playerId")]) ?? r[allsvIdx("Player")];
     const dbPlayer = allsvById.get(playerId);
     assert.ok(dbPlayer, `player ${playerId} missing from DB`);
     const dbFullName = `${dbPlayer!.firstName} ${dbPlayer!.lastName}`;

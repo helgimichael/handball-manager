@@ -30,9 +30,9 @@
     "pa": 108
   },
   "player_casper_sandberg_fe3d90c0": {
-    "updatedAt": "2026-08-30T17:56:28.463Z",
     "ca": 94,
-    "pa": 140
+    "pa": 140,
+    "updatedAt": "2026-10-31T09:56:18.623Z"
   },
   "player_colin_blom_4b0cd16b": {
     "updatedAt": "2026-08-30T17:56:28.872Z",
@@ -160,8 +160,8 @@
     "pa": 116
   },
   "player_vigge_juthe_lundin_53892ce6": {
+    "updatedAt": "2026-08-30T17:56:39.904Z",
     "ca": 90,
-    "pa": 116,
-    "updatedAt": "2026-08-30T17:56:39.904Z"
+    "pa": 116
   }
 }

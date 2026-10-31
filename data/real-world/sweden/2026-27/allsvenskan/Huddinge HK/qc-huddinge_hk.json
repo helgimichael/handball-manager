@@ -6,8 +6,8 @@
   "snapshotDate": "2026-10-31",
   "datasetStatus": "PRESEASON",
   "qcStatus": "VERIFIED_WITH_OPEN_FIELDS",
-  "expectedRosterCount": 25,
-  "exportedRosterCount": 25,
+  "expectedRosterCount": 24,
+  "exportedRosterCount": 24,
   "checks": {
     "currentLeagueRosterLocated": true,
     "allLeagueRosterNamesCaptured": true,
@@ -24,16 +24,17 @@
   "knownConflicts": [],
   "staleSourceWarnings": [
     "HM-DATA-ALLSVENSKAN-1.1: the canonical source spreadsheet carries no position, nationality, height, handedness, or contract-date column at all -- see openFieldsSummary and each roster entry's own rosterConfidence/dataNotes for exactly which fields are real evidence vs. a disclosed structural placeholder.",
-    "HM-DATA-1.3: roster corrected against Profixio leagueid28141 (2026-10-31). Held pending verification: Tobias Leile (HOLD: flagged extra with conflicting evidence (verified/key status on club page)); Nicklas Andreasson (HOLD: flagged extra with conflicting evidence (verified/key status on club page))."
+    "HM-DATA-1.3: roster corrected against Profixio leagueid28141 (2026-10-31). Held pending verification: Tobias Leile (HOLD: flagged extra with conflicting evidence (verified/key status on club page)); Nicklas Andreasson (HOLD: flagged extra with conflicting evidence (verified/key status on club page)).",
+    "HM-DATA-1.5: roster corrected against Profixio leagueid28141 (2026-10-31)."
   ],
   "openFieldsSummary": {
     "exactDateOfBirthMissing": 2,
-    "nationalityMissing": 21,
+    "nationalityMissing": 20,
     "heightMissing": 26,
     "handednessMissing": 26,
     "shirtNumberMissing": 0,
     "contractEndMissing": 26,
-    "positionGenerated": 3,
+    "positionGenerated": 2,
     "positionPartial": 7,
     "positionVerified": 15
   }

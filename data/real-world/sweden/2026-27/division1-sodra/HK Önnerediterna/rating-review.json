@@ -26,8 +26,8 @@
   },
   "player_frank_arvidsson_92864d2b": {
     "status": "LOCKED",
-    "updatedAt": "2026-08-30T17:58:36.040Z",
-    "note": "DIV1N_rating_import_candidates_v0.6 / DIV1S_rating_import_candidates_v0.5 Division 1 import (DIV1_ONLY_CANONICAL set only)"
+    "updatedAt": "2026-10-31T09:56:18.069Z",
+    "note": "HM-DATA-1.5 (2026-10-31) GK/OUTCOURT branch correction to V6; researched CA/PA preserved, generated attributes regenerated (HM-RATINGS-0.4-v1)"
   },
   "player_fredrik_fredriksson_20eeb3dc": {
     "status": "LOCKED",
@@ -116,8 +116,8 @@
   },
   "player_vincent_lundquist_795a10e3": {
     "status": "LOCKED",
-    "updatedAt": "2026-08-30T17:58:43.844Z",
-    "note": "DIV1N_rating_import_candidates_v0.6 / DIV1S_rating_import_candidates_v0.5 Division 1 import (DIV1_ONLY_CANONICAL set only)"
+    "updatedAt": "2026-10-31T09:56:18.309Z",
+    "note": "HM-DATA-1.5 (2026-10-31) GK/OUTCOURT branch correction to H6; researched CA/PA preserved, generated attributes regenerated (HM-RATINGS-0.4-v1)"
   },
   "player_william_pusa_e9e9ca10": {
     "status": "LOCKED",

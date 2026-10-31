@@ -141,8 +141,8 @@
   },
   "player_jesper_falt_52fb489d": {
     "status": "LOCKED",
-    "updatedAt": "2026-08-30T17:57:20.169Z",
-    "note": "DIV1N_rating_import_candidates_v0.6 / DIV1S_rating_import_candidates_v0.5 Division 1 import (DIV1_ONLY_CANONICAL set only)"
+    "updatedAt": "2026-10-31T09:56:16.221Z",
+    "note": "HM-DATA-1.5 (2026-10-31) GK/OUTCOURT branch correction to H6; researched CA/PA preserved, generated attributes regenerated (HM-RATINGS-0.4-v1)"
   },
   "player_jesper_persson_2c945304": {
     "status": "LOCKED",
@@ -206,8 +206,8 @@
   },
   "player_matteus_karlqvist_493cbeb0": {
     "status": "LOCKED",
-    "updatedAt": "2026-08-30T17:57:25.843Z",
-    "note": "DIV1N_rating_import_candidates_v0.6 / DIV1S_rating_import_candidates_v0.5 Division 1 import (DIV1_ONLY_CANONICAL set only)"
+    "updatedAt": "2026-10-31T09:56:16.313Z",
+    "note": "HM-DATA-1.5 (2026-10-31) GK/OUTCOURT branch correction to V6; researched CA/PA preserved, generated attributes regenerated (HM-RATINGS-0.4-v1)"
   },
   "player_maximilian_pancini_27c61c53": {
     "status": "LOCKED",

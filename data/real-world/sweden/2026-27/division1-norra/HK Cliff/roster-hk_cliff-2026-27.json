@@ -33,9 +33,9 @@
     "clubId": "se_club_hk_cliff",
     "competitionId": "se_division1_norra",
     "season": "2026/27",
-    "snapshotDate": "2026-08-27",
+    "snapshotDate": "2026-10-31",
     "shirtNumber": 2,
-    "sourcePosition": "",
+    "sourcePosition": "H9",
     "primaryPosition": "H9",
     "secondaryPositions": [],
     "rosterStatus": "CONFIRMED",
@@ -44,15 +44,18 @@
       "untilSeason": null,
       "optionUntilSeason": null
     },
-    "rosterConfidence": "UNKNOWN",
+    "rosterConfidence": "VERIFIED",
     "sourceRefs": {
       "roster": [
         "src_div1_norra_2026_27"
       ],
-      "position": []
+      "position": [
+        "src_hm15_profixio_registration",
+        "src_hm15_profixio_match_sheets"
+      ]
     },
     "dataNotes": [
-      "HM-DATA-DIV1-1.0: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+      "HM-DATA-1.5 (2026-10-31): primaryPosition H9 confirmed (Profixio player profile position, corroborated by match-sheet goalkeeper flags; research label \"D1 goalkeeper development player\" disagrees and is outweighed)."
     ]
   },
   {
@@ -259,9 +262,9 @@
     "clubId": "se_club_hk_cliff",
     "competitionId": "se_division1_norra",
     "season": "2026/27",
-    "snapshotDate": "2026-08-27",
+    "snapshotDate": "2026-10-31",
     "shirtNumber": 18,
-    "sourcePosition": "",
+    "sourcePosition": "MV",
     "primaryPosition": "MV",
     "secondaryPositions": [],
     "rosterStatus": "CONFIRMED",
@@ -270,15 +273,17 @@
       "untilSeason": null,
       "optionUntilSeason": null
     },
-    "rosterConfidence": "UNKNOWN",
+    "rosterConfidence": "VERIFIED",
     "sourceRefs": {
       "roster": [
         "src_div1_norra_2026_27"
       ],
-      "position": []
+      "position": [
+        "src_hm15_rating_research"
+      ]
     },
     "dataNotes": [
-      "HM-DATA-DIV1-1.0: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+      "HM-DATA-1.5 (2026-10-31): primaryPosition MV confirmed (rating research role label \"2007 goalkeeper prospect\")."
     ]
   },
   {
@@ -655,26 +660,32 @@
     "clubId": "se_club_hk_cliff",
     "competitionId": "se_division1_norra",
     "season": "2026/27",
-    "snapshotDate": "2026-08-27",
+    "snapshotDate": "2026-10-31",
     "shirtNumber": 38,
-    "sourcePosition": "",
-    "primaryPosition": "MV",
-    "secondaryPositions": [],
+    "sourcePosition": "M9",
+    "primaryPosition": "M9",
+    "secondaryPositions": [
+      "V6"
+    ],
     "rosterStatus": "CONFIRMED",
     "contract": {
       "untilDate": null,
       "untilSeason": null,
       "optionUntilSeason": null
     },
-    "rosterConfidence": "UNKNOWN",
+    "rosterConfidence": "VERIFIED",
     "sourceRefs": {
       "roster": [
         "src_div1_norra_2026_27"
       ],
-      "position": []
+      "position": [
+        "src_hm15_profixio_registration",
+        "src_hm15_profixio_match_sheets",
+        "src_hm15_rating_research"
+      ]
     },
     "dataNotes": [
-      "HM-DATA-DIV1-1.0: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+      "HM-DATA-1.5 (2026-10-31): primaryPosition MV -> M9 (Profixio player profile position, corroborated by match-sheet goalkeeper flags; secondary V6 from research label \"Established D1 V6\")."
     ]
   },
   {

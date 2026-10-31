@@ -29,11 +29,6 @@
     "updatedAt": "2026-08-30T15:46:15.980Z",
     "note": "ALLSV_rating_import_candidates_v0.13 Allsvenskan final import (261/261, individually researched, 0 REVIEW)"
   },
-  "se_player_olle_soderqvist_467b211d": {
-    "status": "LOCKED",
-    "updatedAt": "2026-08-30T15:46:21.410Z",
-    "note": "ALLSV_rating_import_candidates_v0.13 Allsvenskan final import (261/261, individually researched, 0 REVIEW)"
-  },
   "se_player_simon_axelsson_eb1ec6dd": {
     "status": "LOCKED",
     "updatedAt": "2026-08-30T15:46:21.791Z",
@@ -77,6 +72,11 @@
   "se_player_filip_westberg_f8c00e47": {
     "status": "LOCKED",
     "updatedAt": "2026-08-30T15:46:19.073Z",
+    "note": "ALLSV_rating_import_candidates_v0.13 Allsvenskan final import (261/261, individually researched, 0 REVIEW)"
+  },
+  "se_player_olle_soderqvist_d1155006": {
+    "status": "LOCKED",
+    "updatedAt": "2026-08-30T15:46:21.410Z",
     "note": "ALLSV_rating_import_candidates_v0.13 Allsvenskan final import (261/261, individually researched, 0 REVIEW)"
   }
 }

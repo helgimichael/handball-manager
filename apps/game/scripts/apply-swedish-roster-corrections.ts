@@ -1,11 +1,12 @@
-// HM-DATA-1.3: controlled apply of the approved Herrallsvenskan 2026/27
-// roster corrections (snapshot 2026-10-31).
+// Controlled apply of approved Swedish real-world roster corrections
+// (HM-DATA-1.3 Herrallsvenskan; HM-DATA-1.5 Division 1 + identity merge).
 //
-// Inputs (all read-only): the HM-DATA-1.2 decision CSV, the HM-DATA-1.3
-// approval spec (explicit approved/held row ids) and the parsed Profixio
-// squad registrations. Never runs the original ID-generating import:
-// existing playerIds are preserved, and the only new ids are the ones
-// already proposed (and collision-checked) in HM-DATA-1.1/1.2.
+// Inputs (all read-only): a decision CSV, an approval spec for one milestone
+// (explicit approved/held row ids, milestone, snapshot date, competitions to
+// validate) and the parsed Profixio squad registrations (comma-separated
+// list). Never runs an original ID-generating import: existing playerIds are
+// preserved, and the only new ids are ones already proposed and
+// collision-checked in the decision CSV.
 //
 // Modes:
 //   (default)            plan only -- prints the operations, writes nothing
@@ -16,8 +17,8 @@
 // Every operation re-checks current state first, so a repeat run is a no-op.
 //
 // Usage (from apps/game):
-//   node --import tsx scripts/apply-hm-data-1-3-allsvenskan.ts \
-//     --proposal <csv> --spec <json> --squads <json> --report-dir <dir> \
+//   node --import tsx scripts/apply-swedish-roster-corrections.ts \
+//     --proposal <csv> --spec <json> --squads <json[,json]> --report-dir <dir> \
 //     [--data-root <dir>] [--apply --backup-dir <dir>] [--validate-only]
 import crypto from "node:crypto";
 import fs from "node:fs";
@@ -32,20 +33,17 @@ import { assignOutcourtArchetype } from "../lib/rating/gamePrior/archetypeAssign
 import { GAME_PRIOR_MODEL_VERSION } from "../lib/rating/gamePrior/types";
 import type { OutcourtPositionId } from "../lib/rating/types";
 
-const MILESTONE = "HM-DATA-1.3";
-const SNAPSHOT = "2026-10-31";
 const ALLSVENSKAN = "swe-2";
 const SEASON = "2026/27";
 const ARCHETYPE_SET: Record<string, string> = { V9: "SIDE_BACK", H9: "SIDE_BACK", M9: "CENTRE_BACK", V6: "WING", H6: "WING", M6: "PIVOT", MV: "GK" };
 const CANONICAL = new Set(["MV", "V6", "V9", "M9", "H9", "H6", "M6"]);
-
-const SRC = {
-  profixio: "src_hm13_profixio_registration",
-  matchSheets: "src_hm13_profixio_match_sheets",
-  research: "src_hm13_rating_research_v0_13",
-  clubPage: "src_hm13_club_squad_page",
-  carriedOver: "src_hm13_previous_league_record",
-} as const;
+const COMPETITIONS: Record<string, { label: string; profixio: string; research: string }> = {
+  "swe-2": { label: "Herrallsvenskan", profixio: "leagueid28141", research: "ALLSV_rating_import_candidates_v0.13.csv" },
+  se_division1_norra: { label: "Division 1 Norra", profixio: "leagueid28142", research: "DIV1N_rating_import_candidates_v0.6.csv" },
+  se_division1_sodra: { label: "Division 1 Södra", profixio: "leagueid28142", research: "DIV1S_rating_import_candidates_v0.5.csv" },
+  se_handbollsligan_herr: { label: "Handbollsligan", profixio: "", research: "HBL_rating_import_candidates_v2.13.csv" },
+};
+const label = (competitionId: string) => COMPETITIONS[competitionId]?.label ?? competitionId;
 
 // ---------------------------------------------------------------- args
 const argv = process.argv.slice(2);
@@ -107,9 +105,11 @@ const fromLock = (p: string): string => (p === "GK" ? "MV" : p);
 
 function catalogNow() { return buildCatalog(dataRoot); }
 function clubByName(name: string): EditorClubEntry {
-  const club = catalogNow().clubs.find((c) => c.competitionId === ALLSVENSKAN && c.clubName === name) ?? catalogNow().clubs.find((c) => c.competitionId === ALLSVENSKAN && path.basename(c.clubDir) === name);
-  if (!club) throw new Error(`unknown Herrallsvenskan club "${name}"`);
-  return club;
+  const swedish = catalogNow().clubs.filter((c) => c.competitionId in COMPETITIONS);
+  const byName = swedish.filter((c) => c.clubName === name);
+  const matches = byName.length ? byName : swedish.filter((c) => path.basename(c.clubDir) === name);
+  if (matches.length !== 1) throw new Error(`club "${name}" matches ${matches.length} Swedish clubs`);
+  return matches[0];
 }
 function clubHolding(files: FileSet, playerId: string): EditorClubEntry | null {
   for (const c of catalogNow().clubs) if (files.get<RosterRow[]>(c.rosterFile).some((r) => r.playerId === playerId)) return c;
@@ -122,18 +122,32 @@ function clubHoldingIdentity(files: FileSet, playerId: string): EditorClubEntry 
 
 // ---------------------------------------------------------------- inputs
 const proposal = readCsv(path.resolve(arg("--proposal") ?? ""));
-const spec = readJson<{ approvedIds: string[]; held: { id: string; player: string; club: string; reason: string }[] }>(path.resolve(arg("--spec") ?? ""));
-const squads = readJson<{ club: string; fullName: string; firstName: string; lastName: string; dateOfBirth: string | null; shirtNumber: number | null; nationalityFlag: string | null; profixioPlayerId: string; profixioClubId: string; sourceUrl: string }[]>(path.resolve(arg("--squads") ?? ""));
+const spec = readJson<{ milestone: string; snapshotDate: string; validateCompetitions?: string[]; approvedIds: string[]; held: { id: string; player: string; club: string; reason: string }[] }>(path.resolve(arg("--spec") ?? ""));
+const MILESTONE = spec.milestone;
+const SNAPSHOT = spec.snapshotDate;
+const VALIDATE_COMPETITIONS = spec.validateCompetitions ?? [ALLSVENSKAN];
+// Source ids are milestone-scoped (HM-DATA-1.3 -> src_hm13_*), so each milestone's provenance stays distinguishable.
+const tag = `hm${MILESTONE.replace(/\D/g, "")}`;
+const SRC = {
+  profixio: `src_${tag}_profixio_registration`,
+  matchSheets: `src_${tag}_profixio_match_sheets`,
+  research: `src_${tag}_rating_research`,
+  clubPage: `src_${tag}_club_squad_page`,
+  carriedOver: `src_${tag}_previous_league_record`,
+  loan: `src_${tag}_owner_confirmed_loan`,
+} as const;
+type SquadEntry = { club: string; fullName: string; firstName: string; lastName: string; dateOfBirth: string | null; shirtNumber: number | null; nationalityFlag: string | null; profixioPlayerId: string; profixioClubId: string; sourceUrl: string; profilePosition?: string | null };
+const squads = (arg("--squads") ?? "").split(",").filter(Boolean).flatMap((f) => readJson<SquadEntry[]>(path.resolve(f)));
 const approved = new Set(spec.approvedIds);
 const rows = proposal.filter((r) => approved.has(r.id));
 if (rows.length !== spec.approvedIds.length) throw new Error(`spec lists ${spec.approvedIds.length} approved ids but ${rows.length} match the proposal`);
-const heldIds = new Set(spec.held.map((h) => h.id));
-const heldPlayerIds = new Set(proposal.filter((r) => heldIds.has(r.id)).map((r) => r.player_id));
 const squadEntry = (club: string, name: string) => squads.find((s) => s.club === club && s.fullName === name);
 const profileUrl = (e: { profixioClubId: string; profixioPlayerId: string }) => `https://www.profixio.com/app/lx/clubs/${e.profixioClubId}/player/${e.profixioPlayerId}`;
 
-// Where each applied position comes from (all of it already quoted in the HM-DATA-1.2 evidence column).
+// Where each applied position comes from. A decision row may state it explicitly (`source_keys`
+// ";"-separated keys of SRC, plus `basis`); otherwise the HM-DATA-1.2 evidence rules apply.
 function positionSources(r: Record<string, string>): { refs: string[]; basis: string } {
+  if (r.source_keys) return { refs: r.source_keys.split(";").map((k) => SRC[k as keyof typeof SRC]), basis: r.basis };
   const name = r.player_name;
   if (r.category === "ROSTER_LOCK_DRIFT") return { refs: [SRC.research], basis: "rating research v0.13 role label" };
   if (name === "Oskar Waltin") return { refs: [SRC.clubPage], basis: "club squad page 'Linjespelare'" };
@@ -144,21 +158,24 @@ function positionSources(r: Record<string, string>): { refs: string[]; basis: st
 }
 
 // ---------------------------------------------------------------- operations
-type OpKind = "ADD_PLAYER" | "SET_POSITION" | "REGENERATE_BRANCH" | "REMOVE_MEMBERSHIP" | "MOVE_MEMBERSHIP" | "RENAME" | "ADD_ALIAS";
+type OpKind = "ADD_PLAYER" | "SET_POSITION" | "REGENERATE_BRANCH" | "REMOVE_MEMBERSHIP" | "MOVE_MEMBERSHIP" | "RENAME" | "ADD_ALIAS" | "MERGE_IDENTITY";
 interface Op { id: string; kind: OpKind; player: string; playerId: string; club: string; detail: string; needed: boolean }
-interface Context { files: FileSet; ops: Op[]; touchedClubs: Set<string>; otherLeagueClubs: Set<string>; regenerations: { op: Op; clubId: string; position: string }[]; attributeReport: unknown[] }
+interface Merge { retiredId: string; canonicalId: string; caPaBefore: string; caPaAfter: string }
+interface Context { files: FileSet; ops: Op[]; touchedClubs: Set<string>; otherLeagueClubs: Set<string>; regenerations: { op: Op; clubId: string; position: string }[]; attributeReport: unknown[]; merges: Merge[] }
 
 function addSourceIfMissing(ctx: Context, club: EditorClubEntry, key: keyof typeof SRC, url: string | null): void {
   if (!club.sourcesFile) return;
   const sources = ctx.files.get<JsonObject[]>(club.sourcesFile);
   const id = SRC[key];
   if (sources.some((s) => s.sourceId === id)) return;
+  const comp = COMPETITIONS[club.competitionId];
   const meta: Record<keyof typeof SRC, [string, string, string]> = {
-    profixio: ["FEDERATION_OFFICIAL", "Svenska Handbollförbundet (Profixio)", "Herrallsvenskan 2026/27 squad registration and player profiles (leagueid28141)"],
-    matchSheets: ["FEDERATION_OFFICIAL", "Svenska Handbollförbundet (Profixio)", "Herrallsvenskan 2026/27 match sheets (laguppställningar, RMV goalkeeper flags), rounds 4-6"],
-    research: ["RESEARCH_COMPILED", "Handball Manager rating research", "ALLSV_rating_import_candidates_v0.13.csv (exports/player-rating-research) role labels"],
+    profixio: ["FEDERATION_OFFICIAL", "Svenska Handbollförbundet (Profixio)", `${comp.label} ${SEASON} squad registration and player profiles (${comp.profixio})`],
+    matchSheets: ["FEDERATION_OFFICIAL", "Svenska Handbollförbundet (Profixio)", `${comp.label} ${SEASON} match sheets (laguppställningar, RMV goalkeeper flags)`],
+    research: ["RESEARCH_COMPILED", "Handball Manager rating research", `${comp.research} (exports/player-rating-research) role labels`],
     clubPage: ["CLUB_OFFICIAL", club.clubName, "Official club squad page"],
     carriedOver: ["GAME_DATA", "Handball Manager real-world data", "Position carried over from the player's previous (other-league) verified roster record"],
+    loan: ["OWNER_CONFIRMED", "Handball Manager owner", `Loan ${SEASON}: contract club and playable (loan) club confirmed by the owner (${MILESTONE})`],
   };
   const [sourceType, publisher, title] = meta[key];
   sources.push({ sourceId: id, sourceType, publisher, title, url, publishedAt: null, accessedAt: SNAPSHOT, seasonContext: `${SEASON} (${MILESTONE})` });
@@ -185,7 +202,7 @@ function newRosterRow(club: EditorClubEntry, files: FileSet, playerId: string, s
   const existing = files.get<RosterRow[]>(club.rosterFile);
   const prefix = existing[0].rosterEntryId.split("__")[0];
   return {
-    rosterEntryId: `${prefix}__${playerId.slice(-8)}`, playerId, clubId: club.clubId, competitionId: ALLSVENSKAN, season: SEASON, snapshotDate: SNAPSHOT,
+    rosterEntryId: `${prefix}__${playerId.slice(-8)}`, playerId, clubId: club.clubId, competitionId: club.competitionId, season: SEASON, snapshotDate: SNAPSHOT,
     shirtNumber: shirt, sourcePosition: pos, primaryPosition: pos, secondaryPositions: secondary, rosterStatus: "CONFIRMED",
     contract: { untilDate: null, untilSeason: null, optionUntilSeason: null }, rosterConfidence: "VERIFIED",
     sourceRefs: { roster: [SRC.profixio], position: refs }, dataNotes: notes, defaultSquadStatus: null, specialTags: [],
@@ -196,6 +213,54 @@ function plan(ctx: Context): void {
   const { files } = ctx;
   for (const r of rows) {
     const op = (kind: OpKind, detail: string, needed: boolean): Op => { const o = { id: r.id, kind, player: r.player_name, playerId: r.player_id, club: r.club, detail, needed }; ctx.ops.push(o); return o; };
+
+    // ---- duplicate identity of one real person (owner-confirmed loan): one identity, one playable registration ----
+    if (r.roster_action === "MERGE_IDENTITY") {
+      const target = clubByName(r.club); // playable (loan) club
+      const contract = clubByName(r.contract_club);
+      const retiredId = r.roster_from; const canonicalId = r.player_id;
+      const needed = !!clubHoldingIdentity(files, retiredId) || !!clubHolding(files, retiredId) || clubHolding(files, canonicalId)?.clubId !== target.clubId;
+      const o = op("MERGE_IDENTITY", `${retiredId} retired into ${canonicalId}; playable at ${target.clubName}, contract club ${contract.clubName}`, needed);
+      if (!needed || !applyMode) continue;
+      const tRoster = files.get<RosterRow[]>(target.rosterFile); const tPlayers = files.get<PlayerRecord[]>(target.playersFile);
+      const cRoster = files.get<RosterRow[]>(contract.rosterFile); const cPlayers = files.get<PlayerRecord[]>(contract.playersFile);
+      const retiredRow = tRoster.find((x) => x.playerId === retiredId); const retiredRec = tPlayers.find((x) => x.playerId === retiredId);
+      const canonicalRow = cRoster.find((x) => x.playerId === canonicalId); const canonicalRec = cPlayers.find((x) => x.playerId === canonicalId);
+      if (!retiredRow || !retiredRec || !canonicalRow || !canonicalRec) throw new Error(`${r.player_name}: merge inputs not found as expected`);
+      const sameName = (a: string, b: string) => a.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase() === b.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
+      if (!retiredRec.dateOfBirth || retiredRec.dateOfBirth !== canonicalRec.dateOfBirth || !sameName(retiredRec.fullName, canonicalRec.fullName)) throw new Error(`${r.player_name}: identities differ in name/DOB; refusing to merge`);
+      const loanNote = `${MILESTONE} (${SNAPSHOT}): on loan for ${SEASON} from contract club ${contract.clubName} (${contract.clubId}) to ${target.clubName} (${target.clubId}), owner-confirmed. The contract club is not the youth/origin club (moderklubb). Playable registration at ${target.clubName} only; no roster row at the contract club.`;
+      // Roster: the playable club's registration (shirt, position, squad role) continues under the canonical id.
+      const prefix = retiredRow.rosterEntryId.split("__")[0];
+      tRoster.splice(tRoster.indexOf(retiredRow), 1, { ...retiredRow, rosterEntryId: `${prefix}__${canonicalId.slice(-8)}`, playerId: canonicalId, snapshotDate: SNAPSHOT,
+        sourceRefs: { ...(retiredRow.sourceRefs ?? {}), contractClub: [SRC.loan] }, dataNotes: [...(retiredRow.dataNotes ?? []), loanNote] });
+      cRoster.splice(cRoster.indexOf(canonicalRow), 1);
+      // Ratings: the playable registration's researched lock and its provenance carry over to the canonical id;
+      // the contract-club lock is superseded and recorded on the identity.
+      const superseded: Record<string, JsonObject | undefined> = {};
+      for (const [kind, tf, cf] of [["lock", ratingsFile(target), ratingsFile(contract)], ["override", overridesFile(target), overridesFile(contract)], ["review", reviewFile(target), reviewFile(contract)]] as const) {
+        const t = files.get<Record<string, JsonObject>>(tf); const c = files.get<Record<string, JsonObject>>(cf);
+        if (retiredId in t) { t[canonicalId] = kind === "lock" ? { ...t[retiredId], playerId: canonicalId } : t[retiredId]; delete t[retiredId]; }
+        superseded[kind] = c[canonicalId]; delete c[canonicalId];
+        files.touch(tf); files.touch(cf);
+      }
+      const kept = files.get<Record<string, LockRecord>>(ratingsFile(target))[canonicalId];
+      const old = superseded.lock as unknown as LockRecord | undefined;
+      const fmt = (l?: LockRecord) => (l ? `CA ${l.ca.value}/PA ${l.pa?.value ?? "-"} (${String(l.lockedNote ?? "")})` : "none");
+      // Identity: the canonical record moves to the playable club; the duplicate record is retired (its id kept in the notes).
+      tPlayers.splice(tPlayers.indexOf(retiredRec), 1);
+      cPlayers.splice(cPlayers.indexOf(canonicalRec), 1);
+      canonicalRec.dataNotes = [...(canonicalRec.dataNotes ?? []),
+        `${MILESTONE} (${SNAPSHOT}): merged duplicate identity ${retiredId} (${label(target.competitionId)} import; same person -- name and DOB ${canonicalRec.dateOfBirth} match, owner-confirmed). Rating kept: ${fmt(kept)}; superseded: ${fmt(old)}.`, loanNote];
+      tPlayers.push(canonicalRec);
+      files.touch(target.rosterFile); files.touch(target.playersFile); files.touch(contract.rosterFile); files.touch(contract.playersFile);
+      addSourceIfMissing(ctx, target, "loan", null);
+      adjustOtherLeagueCounts(ctx, contract, -1);
+      ctx.merges.push({ retiredId, canonicalId, caPaBefore: old ? `${old.ca.value}/${old.pa?.value}` : "none", caPaAfter: kept ? `${kept.ca.value}/${kept.pa?.value}` : "none" });
+      o.detail += `; kept ${fmt(kept)}; superseded ${fmt(old)}`;
+      ctx.touchedClubs.add(target.clubId); ctx.touchedClubs.add(contract.clubId);
+      continue;
+    }
 
     // ---- moves (cross-league + dual registration) ----
     if (r.roster_action === "MOVE_MEMBERSHIP_CROSS_LEAGUE" || r.roster_action === "MOVE_MEMBERSHIP_IN_LEAGUE") {
@@ -264,12 +329,12 @@ function plan(ctx: Context): void {
         dateOfBirth: e.dateOfBirth, birthYear: Number(e.dateOfBirth.slice(0, 4)), nationalities: nat, heightCm: null, handedness: null,
         recordConfidence: "VERIFIED", fieldConfidence: { dateOfBirth: "VERIFIED", ...(nat ? { nationalities: "VERIFIED" } : {}) },
         sourceRefs: { identity: [SRC.profixio], dateOfBirth: [SRC.profixio], ...(nat ? { nationalities: [SRC.profixio] } : {}) },
-        dataNotes: [`${MILESTONE} (${SNAPSHOT}): added from the Profixio Herrallsvenskan squad registration; Profixio person ${e.profixioPlayerId} (${profileUrl(e)}).`],
+        dataNotes: [`${MILESTONE} (${SNAPSHOT}): added from the Profixio ${label(club.competitionId)} squad registration; Profixio person ${e.profixioPlayerId} (${profileUrl(e)}).`],
       });
       roster.push(newRosterRow(club, files, r.player_id, e.shirtNumber, r.roster_to, refs, [`${MILESTONE} (${SNAPSHOT}): position ${r.roster_to} from ${basis}.`]));
       files.touch(club.playersFile); files.touch(club.rosterFile);
       addSourceIfMissing(ctx, club, "profixio", e.sourceUrl);
-      if (refs.includes(SRC.matchSheets)) addSourceIfMissing(ctx, club, "matchSheets", "https://www.profixio.com/app/lx/competition/leagueid28141");
+      if (refs.includes(SRC.matchSheets)) addSourceIfMissing(ctx, club, "matchSheets", `https://www.profixio.com/app/lx/competition/${COMPETITIONS[club.competitionId].profixio}`);
       if (refs.includes(SRC.clubPage)) addSourceIfMissing(ctx, club, "clubPage", "https://www.svenskalag.se/tumbahandboll-herr/truppen");
       ctx.touchedClubs.add(club.clubId);
       continue;
@@ -283,7 +348,7 @@ function plan(ctx: Context): void {
       roster.splice(idx, 1); files.touch(club.rosterFile);
       const rec = players.find((p) => p.playerId === r.player_id);
       if (!rec) throw new Error(`${r.player_id}: identity record missing`);
-      rec.dataNotes = [...(rec.dataNotes ?? []), `${MILESTONE} (${SNAPSHOT}): 2026/27 Herrallsvenskan roster membership at ${club.clubName} removed -- not in any of the 288 Profixio registrations nor on any of the 21 published match sheets. Identity and locked rating retained.`];
+      rec.dataNotes = [...(rec.dataNotes ?? []), r.basis ? `${MILESTONE} (${SNAPSHOT}): ${SEASON} ${label(club.competitionId)} roster membership at ${club.clubName} removed -- ${r.basis}. Identity and locked rating retained.` : `${MILESTONE} (${SNAPSHOT}): 2026/27 Herrallsvenskan roster membership at ${club.clubName} removed -- not in any of the 288 Profixio registrations nor on any of the 21 published match sheets. Identity and locked rating retained.`];
       files.touch(club.playersFile);
       ctx.touchedClubs.add(club.clubId);
       continue;
@@ -335,10 +400,10 @@ function plan(ctx: Context): void {
         row.primaryPosition = r.roster_to; row.sourcePosition = r.roster_to; row.secondaryPositions = secondary;
         row.rosterConfidence = "VERIFIED"; row.snapshotDate = SNAPSHOT;
         row.sourceRefs = { ...(row.sourceRefs ?? {}), position: secondary.length && r.secondary_to ? [...refs, ...(row.sourceRefs?.position ?? [])] : refs };
-        row.dataNotes = [...(row.dataNotes ?? []).filter((n) => !/^HM-DATA-ALLSVENSKAN-1\.1: .*(position|broad role)/i.test(n)),
-          `${MILESTONE} (${SNAPSHOT}): primaryPosition ${from === r.roster_to ? `${from} confirmed` : `${from} -> ${r.roster_to}`} (${basis})${r.secondary_to ? `; secondary ${r.secondary_to} from the club roster page` : ""}.`];
+        row.dataNotes = [...(row.dataNotes ?? []).filter((n) => !/^HM-DATA-(ALLSVENSKAN-1.1|DIV1-1.0): .*(position|broad role)/i.test(n)),
+          `${MILESTONE} (${SNAPSHOT}): primaryPosition ${from === r.roster_to ? `${from} confirmed` : `${from} -> ${r.roster_to}`} (${basis})${r.secondary_to && !r.basis ? `; secondary ${r.secondary_to} from the club roster page` : ""}.`];
         files.touch(club.rosterFile);
-        for (const ref of refs) if (ref === SRC.research) addSourceIfMissing(ctx, club, "research", null); else if (ref === SRC.matchSheets) addSourceIfMissing(ctx, club, "matchSheets", "https://www.profixio.com/app/lx/competition/leagueid28141"); else addSourceIfMissing(ctx, club, "profixio", squads.find((s) => s.club === club.clubName)?.sourceUrl ?? null);
+        for (const ref of refs) if (ref === SRC.research) addSourceIfMissing(ctx, club, "research", null); else if (ref === SRC.matchSheets) addSourceIfMissing(ctx, club, "matchSheets", `https://www.profixio.com/app/lx/competition/${COMPETITIONS[club.competitionId].profixio}`); else addSourceIfMissing(ctx, club, "profixio", squads.find((s) => s.club === club.clubName)?.sourceUrl ?? null);
       }
       if (branchWrong) ctx.regenerations.push({ op: o, clubId: club.clubId, position: r.roster_to });
       else if (lockNeeded) o.detail += `; ${syncLockPosition(ctx, lock, r.roster_to, ratingsFile(club))}`;
@@ -357,8 +422,7 @@ function evidencePosition(r: Record<string, string>): string | null {
   return p && CANONICAL.has(p) ? p : null;
 }
 const profilePositions: Record<string, string> = Object.fromEntries(
-  readJson<{ profixioClubId: string; profixioPlayerId: string; profilePosition: string | null }[]>(path.resolve(arg("--squads") ?? ""))
-    .filter((s) => s.profilePosition).map((s) => [`${s.profixioClubId}/${s.profixioPlayerId}`, s.profilePosition as string]),
+  squads.filter((s) => s.profilePosition).map((s) => [`${s.profixioClubId}/${s.profixioPlayerId}`, s.profilePosition as string]),
 );
 
 function adjustOtherLeagueCounts(ctx: Context, club: EditorClubEntry, delta: number): void {
@@ -366,10 +430,11 @@ function adjustOtherLeagueCounts(ctx: Context, club: EditorClubEntry, delta: num
   if (fs.existsSync(m)) { const man = ctx.files.get<JsonObject>(m); if (typeof man.playerCount === "number") { man.playerCount += delta; ctx.files.touch(m); } }
 }
 
-function refreshAllsvenskanQc(ctx: Context, held: { player: string; club: string; reason: string }[]): void {
+// QC + manifest recount for every touched club in a validated competition (same QC schema in Herrallsvenskan and Division 1).
+function refreshQc(ctx: Context, held: { player: string; club: string; reason: string }[]): void {
   for (const clubId of ctx.touchedClubs) {
     const club = catalogNow().clubs.find((c) => c.clubId === clubId)!;
-    if (club.competitionId !== ALLSVENSKAN) continue;
+    if (!VALIDATE_COMPETITIONS.includes(club.competitionId)) continue;
     const roster = readJson<RosterRow[]>(club.rosterFile);
     const players = new Map(readJson<PlayerRecord[]>(club.playersFile).map((p) => [p.playerId, p]));
     const onRoster = roster.map((r) => players.get(r.playerId)).filter((p): p is PlayerRecord => !!p);
@@ -387,7 +452,7 @@ function refreshAllsvenskanQc(ctx: Context, held: { player: string; club: string
         positionPartial: roster.filter((r) => r.rosterConfidence === "PARTIAL").length,
         positionVerified: roster.filter((r) => r.rosterConfidence === "VERIFIED").length,
       });
-      const warning = `${MILESTONE}: roster corrected against Profixio leagueid28141 (${SNAPSHOT}).${heldHere.length ? ` Held pending verification: ${heldHere.join("; ")}.` : ""}`;
+      const warning = `${MILESTONE}: roster corrected against Profixio ${COMPETITIONS[club.competitionId].profixio} (${SNAPSHOT}).${heldHere.length ? ` Held pending verification: ${heldHere.join("; ")}.` : ""}`;
       qc.staleSourceWarnings = [...(qc.staleSourceWarnings ?? []).filter((w) => !w.startsWith(`${MILESTONE}:`)), warning];
       atomicWriteJsonFile(qcPath, qc);
     }
@@ -415,11 +480,14 @@ function snapshotRoot(): Snapshot {
   return snap;
 }
 
-interface Check { name: string; ok: boolean; detail: string }
-function validate(before: Snapshot | null, expected: { regenerated: Set<string>; moved: Set<string>; positionSynced: Set<string>; removedMemberships: Set<string>; added: Set<string> } | null): Check[] {
+interface Check { name: string; ok: boolean; detail: string; preExisting?: string[]; intended?: string[] }
+interface Expected { regenerated: Set<string>; moved: Set<string>; positionSynced: Set<string>; removedMemberships: Set<string>; added: Set<string>; touched: Set<string>; merges: Merge[] }
+function validate(before: Snapshot | null, expected: Expected | null): Check[] {
   const checks: Check[] = [];
   const after = snapshotRoot();
-  const push = (name: string, problems: string[], okDetail: string) => checks.push({ name, ok: problems.length === 0, detail: problems.length ? problems.slice(0, 25).join("; ") + (problems.length > 25 ? ` (+${problems.length - 25} more)` : "") : okDetail });
+  const push = (name: string, problems: string[], okDetail: string, extra: Partial<Check> = {}) => checks.push({ name, ok: problems.length === 0, detail: problems.length ? problems.slice(0, 25).join("; ") + (problems.length > 25 ? ` (+${problems.length - 25} more)` : "") : okDetail, ...extra });
+  const retiredTo = new Map((expected?.merges ?? []).map((m) => [m.retiredId, m.canonicalId]));
+  const mergedCanonical = new Set((expected?.merges ?? []).map((m) => m.canonicalId));
 
   // 1. every club in every competition loads, validates and is non-empty
   const clubProblems: string[] = []; let clubs = 0;
@@ -447,45 +515,52 @@ function validate(before: Snapshot | null, expected: { regenerated: Set<string>;
   const afterCollisions = collisions(after); const beforeCollisions = before ? collisions(before) : new Map();
   push("no new name+DOB identity collisions across leagues", [...afterCollisions].filter(([k]) => !beforeCollisions.has(k)).map(([k, v]) => `${k}: ${v.join(", ")}`), `${afterCollisions.size} pre-existing, 0 new`);
 
-  // 5. Herrallsvenskan roster <-> locked rating consistency (position, GK/OUTCOURT branch, clubId)
-  const consistency: string[] = []; const heldDrift: string[] = []; let locked = 0; let unlocked = 0;
-  for (const r of after.rosterRows.filter((x) => x.competitionId === ALLSVENSKAN)) {
-    const l = after.locks.get(r.row.playerId);
-    if (!l) { unlocked++; if (expected && !expected.added.has(r.row.playerId)) consistency.push(`${r.row.playerId}: no locked rating`); continue; }
-    locked++;
-    if (fromLock(l.lock.position) !== r.row.primaryPosition) {
-      // A held player's drift is pre-existing and deliberately untouched (HM-DATA-1.3 HOLD); anything else is a failure.
-      const pre = before?.locks.get(r.row.playerId);
-      const preRow = before?.rosterRows.find((x) => x.row.playerId === r.row.playerId);
-      const message = `${r.row.playerId}: roster ${r.row.primaryPosition} vs lock ${l.lock.position}`;
-      if (heldPlayerIds.has(r.row.playerId) && pre && preRow && pre.lock.position === l.lock.position && preRow.row.primaryPosition === r.row.primaryPosition) heldDrift.push(message);
-      else consistency.push(message);
+  // 5. roster <-> locked rating consistency (position, GK/OUTCOURT branch, clubId) in every validated competition.
+  //    A mismatch fails unless it existed identically before this run on a player the run did not touch:
+  //    such pre-existing drift is reported (never hidden) and left for its own decision.
+  for (const comp of VALIDATE_COMPETITIONS) {
+    const failures: string[] = []; const preExisting: string[] = []; let locked = 0; let unlocked = 0;
+    for (const r of after.rosterRows.filter((x) => x.competitionId === comp)) {
+      const pid = r.row.playerId;
+      const l = after.locks.get(pid);
+      if (!l) { unlocked++; if (before?.locks.has(pid)) failures.push(`${pid}: locked rating lost`); continue; }
+      locked++;
+      const problems: string[] = [];
+      if (fromLock(l.lock.position) !== r.row.primaryPosition) problems.push(`roster ${r.row.primaryPosition} vs lock ${l.lock.position}`);
+      if ((l.lock.branch.branch === "GOALKEEPER") !== (r.row.primaryPosition === "MV")) problems.push(`branch ${l.lock.branch.branch} vs ${r.row.primaryPosition}`);
+      if (l.lock.clubId !== r.clubId) problems.push(`lock clubId ${l.lock.clubId} vs roster ${r.clubId}`);
+      if (!problems.length) continue;
+      const pre = before?.locks.get(pid); const preRow = before?.rosterRows.find((x) => x.row.playerId === pid);
+      const unchanged = !before || (!!pre && !!preRow && pre.lock.position === l.lock.position && pre.lock.branch.branch === l.lock.branch.branch && pre.lock.clubId === l.lock.clubId
+        && preRow.row.primaryPosition === r.row.primaryPosition && preRow.clubId === r.clubId);
+      (unchanged && !expected?.touched.has(pid) ? preExisting : failures).push(`${pid}: ${problems.join(", ")}`);
     }
-    if ((l.lock.branch.branch === "GOALKEEPER") !== (r.row.primaryPosition === "MV")) consistency.push(`${r.row.playerId}: branch ${l.lock.branch.branch} vs ${r.row.primaryPosition}`);
-    if (l.lock.clubId !== r.clubId) consistency.push(`${r.row.playerId}: lock clubId ${l.lock.clubId} vs roster ${r.clubId}`);
+    push(`${label(comp)}: roster position == locked position, MV <=> GOALKEEPER branch, lock clubId == roster club (players touched by this run, or changed since the baseline)`, failures,
+      `${locked} locked + ${unlocked} unlocked players; 0 new or touched inconsistencies; ${preExisting.length} pre-existing untouched inconsistencies reported separately`, { preExisting });
   }
-  push("Herrallsvenskan roster position == locked position, MV <=> GOALKEEPER branch, lock clubId == roster club", consistency,
-    `${locked} locked players consistent; ${unlocked} new players use the game-prior rating${heldDrift.length ? `; held with pre-existing position drift (untouched by design): ${heldDrift.join("; ")}` : ""}`);
 
   if (before && expected) {
     // 6. CA/PA unchanged for every pre-existing lock (all leagues)
-    const caPa: string[] = []; let compared = 0;
+    // A retired duplicate's lock lives on under its canonical id; the canonical id's own previous lock is superseded (intended, reported).
+    const caPa: string[] = []; const intended: string[] = []; let compared = 0;
     for (const [pid, b] of before.locks) {
-      const a = after.locks.get(pid);
+      if (mergedCanonical.has(pid)) { const a = after.locks.get(pid); intended.push(`${pid}: superseded ${b.lock.ca.value}/${b.lock.pa?.value} -> kept ${a?.lock.ca.value}/${a?.lock.pa?.value} (identity merge)`); continue; }
+      const a = after.locks.get(retiredTo.get(pid) ?? pid);
       if (!a) { caPa.push(`${pid}: lock disappeared`); continue; }
       compared++;
       if (a.lock.ca.value !== b.lock.ca.value || (a.lock.pa?.value ?? null) !== (b.lock.pa?.value ?? null)) caPa.push(`${pid}: CA/PA ${b.lock.ca.value}/${b.lock.pa?.value} -> ${a.lock.ca.value}/${a.lock.pa?.value}`);
     }
-    push("CA/PA unchanged for every pre-existing locked rating (all leagues)", caPa, `${compared} locks compared, 0 CA/PA changes`);
+    push("CA/PA unchanged for every pre-existing locked rating (all leagues)", caPa, `${compared} locks compared, 0 unintended CA/PA changes${intended.length ? `; intended: ${intended.join("; ")}` : ""}`, { intended });
 
     // 7. attributes changed only for the approved branch regenerations; other lock fields only where approved
     const attr: string[] = []; const other: string[] = [];
     for (const [pid, b] of before.locks) {
-      const a = after.locks.get(pid); if (!a) continue;
+      if (mergedCanonical.has(pid)) continue;
+      const a = after.locks.get(retiredTo.get(pid) ?? pid); if (!a) continue;
       const sameAttrs = JSON.stringify(a.lock.branch) === JSON.stringify(b.lock.branch);
       if (!sameAttrs && !expected.regenerated.has(pid)) attr.push(pid);
       if (expected.regenerated.has(pid)) continue;
-      const strip = (l: LockRecord) => JSON.stringify({ ...l, position: undefined, attackRoleProficiencies: undefined, clubId: undefined });
+      const strip = (l: LockRecord) => JSON.stringify({ ...l, playerId: undefined, position: undefined, attackRoleProficiencies: undefined, clubId: undefined });
       if (strip(a.lock) !== strip(b.lock)) other.push(`${pid}: unexpected lock field change`);
       const posChanged = a.lock.position !== b.lock.position || JSON.stringify(a.lock.attackRoleProficiencies) !== JSON.stringify(b.lock.attackRoleProficiencies);
       if (posChanged && !expected.positionSynced.has(pid)) other.push(`${pid}: unapproved position/role change`);
@@ -495,14 +570,15 @@ function validate(before: Snapshot | null, expected: { regenerated: Set<string>;
     push("other locked-rating changes limited to approved position/role syncs and moves", other, "no unapproved lock changes");
 
     // 8. no identity lost
-    push("every pre-existing identity still exists", [...before.identities.keys()].filter((k) => !after.identities.has(k)), `${before.identities.size} identities preserved`);
+    push("every pre-existing identity still exists (a merged duplicate survives as its canonical identity)",
+      [...before.identities.keys()].filter((k) => !after.identities.has(retiredTo.get(k) ?? k)), `${before.identities.size} identities preserved${retiredTo.size ? ` (${retiredTo.size} merged into canonical)` : ""}`);
 
     // 9. membership changes limited to approved adds/removals/moves; other leagues only for the moved players
     const mem = (s: Snapshot) => new Map(s.rosterRows.map((r) => [r.row.playerId, r.clubId]));
     const mb = mem(before); const ma = mem(after); const changes: string[] = [];
     for (const [pid, c] of mb) if (ma.get(pid) !== c && !expected.moved.has(pid) && !expected.removedMemberships.has(pid)) changes.push(`${pid}: ${c} -> ${ma.get(pid) ?? "none"}`);
     for (const [pid, c] of ma) if (!mb.has(pid) && !expected.added.has(pid)) changes.push(`${pid}: unexpected new membership at ${c}`);
-    const otherLeague = before.rosterRows.filter((r) => r.competitionId !== ALLSVENSKAN && !ma.has(r.row.playerId) && !expected.moved.has(r.row.playerId));
+    const otherLeague = before.rosterRows.filter((r) => !VALIDATE_COMPETITIONS.includes(r.competitionId) && !ma.has(r.row.playerId) && !expected.moved.has(r.row.playerId));
     push("membership changes limited to approved adds, removals and moves", [...changes, ...otherLeague.map((r) => `${r.row.playerId}: other-league membership lost`)], "only approved membership changes");
   }
   return checks;
@@ -520,7 +596,7 @@ function main(): void {
   }
 
   const before = snapshotRoot();
-  const ctx: Context = { files: new FileSet(), ops: [], touchedClubs: new Set(), otherLeagueClubs: new Set(), regenerations: [], attributeReport: [] };
+  const ctx: Context = { files: new FileSet(), ops: [], touchedClubs: new Set(), otherLeagueClubs: new Set(), regenerations: [], attributeReport: [], merges: [] };
 
   // One pass: each operation records whether it is still needed; in --apply mode it also stages its edits in memory.
   const savedApply = applyMode;
@@ -581,16 +657,19 @@ function main(): void {
     written.push(locksPath);
   }
 
-  // Phase 3: QC + manifest recount for every touched Herrallsvenskan club.
-  refreshAllsvenskanQc(ctx, spec.held);
+  // Phase 3: QC + manifest recount for every touched club.
+  refreshQc(ctx, spec.held);
 
-  const expected = {
+  const expected: Expected = {
     regenerated: new Set(ctx.regenerations.map((g) => g.op.playerId)),
-    moved: new Set(ctx.ops.filter((o) => o.kind === "MOVE_MEMBERSHIP").map((o) => o.playerId)),
+    moved: new Set([...ctx.ops.filter((o) => o.kind === "MOVE_MEMBERSHIP").map((o) => o.playerId), ...ctx.merges.map((m) => m.canonicalId)]),
     positionSynced: new Set(ctx.ops.filter((o) => (o.kind === "SET_POSITION" || o.kind === "MOVE_MEMBERSHIP") && /lock position/.test(o.detail)).map((o) => o.playerId)),
-    removedMemberships: new Set(ctx.ops.filter((o) => o.kind === "REMOVE_MEMBERSHIP").map((o) => o.playerId)),
+    removedMemberships: new Set([...ctx.ops.filter((o) => o.kind === "REMOVE_MEMBERSHIP").map((o) => o.playerId), ...ctx.merges.map((m) => m.retiredId)]),
     added: new Set(ctx.ops.filter((o) => o.kind === "ADD_PLAYER").map((o) => o.playerId)),
+    touched: new Set(ctx.ops.filter((o) => o.needed).flatMap((o) => [o.playerId])),
+    merges: ctx.merges,
   };
+  fs.writeFileSync(path.join(reportDir, "identity-merges.json"), JSON.stringify(ctx.merges, null, 2));
   fs.writeFileSync(path.join(reportDir, "apply-operations.json"), JSON.stringify({ dataRoot, summary, ops: ctx.ops }, null, 2));
   fs.writeFileSync(path.join(reportDir, "gk-outcourt-attribute-report.json"), JSON.stringify(ctx.attributeReport, null, 2));
   writeValidation(before, expected);

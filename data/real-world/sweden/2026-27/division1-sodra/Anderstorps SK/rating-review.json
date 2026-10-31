@@ -6,8 +6,8 @@
   },
   "player_alexander_bergqvist_22e53103": {
     "status": "LOCKED",
-    "updatedAt": "2026-08-30T17:58:02.745Z",
-    "note": "DIV1N_rating_import_candidates_v0.6 / DIV1S_rating_import_candidates_v0.5 Division 1 import (DIV1_ONLY_CANONICAL set only)"
+    "updatedAt": "2026-10-31T09:56:16.760Z",
+    "note": "HM-DATA-1.5 (2026-10-31) GK/OUTCOURT branch correction to V6; researched CA/PA preserved, generated attributes regenerated (HM-RATINGS-0.4-v1)"
   },
   "player_alexander_fagervold_0980ceb6": {
     "status": "LOCKED",
@@ -16,8 +16,8 @@
   },
   "player_anton_krig_3fc230a7": {
     "status": "LOCKED",
-    "updatedAt": "2026-08-30T17:58:03.576Z",
-    "note": "DIV1N_rating_import_candidates_v0.6 / DIV1S_rating_import_candidates_v0.5 Division 1 import (DIV1_ONLY_CANONICAL set only)"
+    "updatedAt": "2026-10-31T09:56:16.847Z",
+    "note": "HM-DATA-1.5 (2026-10-31) GK/OUTCOURT branch correction to V9; researched CA/PA preserved, generated attributes regenerated (HM-RATINGS-0.4-v1)"
   },
   "player_antonio_thyborn_72b9f145": {
     "status": "LOCKED",
@@ -71,8 +71,8 @@
   },
   "player_sebastian_wald_a965e099": {
     "status": "LOCKED",
-    "updatedAt": "2026-08-30T17:58:07.892Z",
-    "note": "DIV1N_rating_import_candidates_v0.6 / DIV1S_rating_import_candidates_v0.5 Division 1 import (DIV1_ONLY_CANONICAL set only)"
+    "updatedAt": "2026-10-31T09:56:16.931Z",
+    "note": "HM-DATA-1.5 (2026-10-31) GK/OUTCOURT branch correction to V9; researched CA/PA preserved, generated attributes regenerated (HM-RATINGS-0.4-v1)"
   },
   "player_theo_arrhenius_b78f3c97": {
     "status": "LOCKED",

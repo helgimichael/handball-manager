@@ -1,8 +1,8 @@
 {
   "player_albin_sandell_0e14ff1a": {
     "status": "LOCKED",
-    "updatedAt": "2026-08-30T17:59:16.346Z",
-    "note": "DIV1N_rating_import_candidates_v0.6 / DIV1S_rating_import_candidates_v0.5 Division 1 import (DIV1_ONLY_CANONICAL set only)"
+    "updatedAt": "2026-10-31T09:56:17.288Z",
+    "note": "HM-DATA-1.5 (2026-10-31) GK/OUTCOURT branch correction to M6; researched CA/PA preserved, generated attributes regenerated (HM-RATINGS-0.4-v1)"
   },
   "player_axel_hegedus_a78e9c1b": {
     "status": "LOCKED",

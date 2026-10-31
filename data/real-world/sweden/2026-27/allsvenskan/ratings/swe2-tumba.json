@@ -1571,124 +1571,6 @@
     "lockedAt": "2026-08-30T15:46:15.815Z",
     "lockedNote": "ALLSV_rating_import_candidates_v0.13 Allsvenskan final import (261/261, individually researched, 0 REVIEW)"
   },
-  "se_player_olle_soderqvist_467b211d": {
-    "playerId": "se_player_olle_soderqvist_467b211d",
-    "clubId": "swe2-tumba",
-    "position": "GK",
-    "ca": {
-      "value": 123,
-      "confidence": "HIGH",
-      "plausibleRange": {
-        "min": 123,
-        "max": 123
-      },
-      "source": "EDITOR_OVERRIDE"
-    },
-    "pa": {
-      "value": 162,
-      "confidence": "HIGH",
-      "plausibleRange": {
-        "min": 162,
-        "max": 162
-      },
-      "source": "EDITOR_OVERRIDE"
-    },
-    "branch": {
-      "branch": "GOALKEEPER",
-      "attributes": {
-        "GK_POSITIONING": {
-          "value": 14,
-          "origin": "GENERATED_PRIOR"
-        },
-        "SET_POSITION": {
-          "value": 12,
-          "origin": "GENERATED_PRIOR"
-        },
-        "REACTION": {
-          "value": 17,
-          "origin": "DERIVED"
-        },
-        "GK_EXPLOSIVENESS": {
-          "value": 16,
-          "origin": "DERIVED"
-        },
-        "LOW_SAVES": {
-          "value": 15,
-          "origin": "DERIVED"
-        },
-        "HIGH_SAVES": {
-          "value": 12,
-          "origin": "GENERATED_PRIOR"
-        },
-        "CLOSE_RANGE_SAVES": {
-          "value": 16,
-          "origin": "DERIVED"
-        },
-        "LONG_RANGE_SAVES": {
-          "value": 14,
-          "origin": "GENERATED_PRIOR"
-        },
-        "WING_SAVES": {
-          "value": 12,
-          "origin": "GENERATED_PRIOR"
-        },
-        "SEVEN_M_SAVES": {
-          "value": 14,
-          "origin": "GENERATED_PRIOR"
-        },
-        "SHOOTER_READING": {
-          "value": 14,
-          "origin": "GENERATED_PRIOR"
-        },
-        "SHOT_ANTICIPATION": {
-          "value": 13,
-          "origin": "GENERATED_PRIOR"
-        },
-        "PATIENCE": {
-          "value": 12,
-          "origin": "GENERATED_PRIOR"
-        },
-        "DECISION_TIMING": {
-          "value": 13,
-          "origin": "GENERATED_PRIOR"
-        },
-        "OUTLET_PASSING": {
-          "value": 14,
-          "origin": "GENERATED_PRIOR"
-        },
-        "RESTART_SPEED": {
-          "value": 14,
-          "origin": "GENERATED_PRIOR"
-        },
-        "TRANSITION_DECISION": {
-          "value": 13,
-          "origin": "GENERATED_PRIOR"
-        },
-        "GK_CONSISTENCY": {
-          "value": 14,
-          "origin": "GENERATED_PRIOR"
-        },
-        "GK_COMPOSURE": {
-          "value": 13,
-          "origin": "GENERATED_PRIOR"
-        },
-        "GK_CONCENTRATION": {
-          "value": 13,
-          "origin": "GENERATED_PRIOR"
-        },
-        "GK_PRESSURE_HANDLING": {
-          "value": 13,
-          "origin": "GENERATED_PRIOR"
-        }
-      }
-    },
-    "attackRoleProficiencies": [],
-    "defenceRoleProficiencies": [],
-    "caEstimationModelVersion": "HM-RATINGS-0.5-v1",
-    "attributeGenerationModelVersion": "HM-RATINGS-0.4-v1",
-    "lockedAt": "2026-08-30T15:46:21.255Z",
-    "lockedNote": "ALLSV_rating_import_candidates_v0.13 Allsvenskan final import (261/261, individually researched, 0 REVIEW)"
-  },
   "se_player_simon_axelsson_eb1ec6dd": {
     "playerId": "se_player_simon_axelsson_eb1ec6dd",
     "clubId": "swe2-tumba",
@@ -3901,6 +3783,124 @@
     "caEstimationModelVersion": "HM-RATINGS-0.5-v1",
     "attributeGenerationModelVersion": "HM-RATINGS-0.4-v1",
     "lockedAt": "2026-08-30T15:46:18.913Z",
+    "lockedNote": "ALLSV_rating_import_candidates_v0.13 Allsvenskan final import (261/261, individually researched, 0 REVIEW)"
+  },
+  "se_player_olle_soderqvist_d1155006": {
+    "playerId": "se_player_olle_soderqvist_d1155006",
+    "clubId": "swe2-tumba",
+    "position": "GK",
+    "ca": {
+      "value": 123,
+      "confidence": "HIGH",
+      "plausibleRange": {
+        "min": 123,
+        "max": 123
+      },
+      "source": "EDITOR_OVERRIDE"
+    },
+    "pa": {
+      "value": 162,
+      "confidence": "HIGH",
+      "plausibleRange": {
+        "min": 162,
+        "max": 162
+      },
+      "source": "EDITOR_OVERRIDE"
+    },
+    "branch": {
+      "branch": "GOALKEEPER",
+      "attributes": {
+        "GK_POSITIONING": {
+          "value": 14,
+          "origin": "GENERATED_PRIOR"
+        },
+        "SET_POSITION": {
+          "value": 12,
+          "origin": "GENERATED_PRIOR"
+        },
+        "REACTION": {
+          "value": 17,
+          "origin": "DERIVED"
+        },
+        "GK_EXPLOSIVENESS": {
+          "value": 16,
+          "origin": "DERIVED"
+        },
+        "LOW_SAVES": {
+          "value": 15,
+          "origin": "DERIVED"
+        },
+        "HIGH_SAVES": {
+          "value": 12,
+          "origin": "GENERATED_PRIOR"
+        },
+        "CLOSE_RANGE_SAVES": {
+          "value": 16,
+          "origin": "DERIVED"
+        },
+        "LONG_RANGE_SAVES": {
+          "value": 14,
+          "origin": "GENERATED_PRIOR"
+        },
+        "WING_SAVES": {
+          "value": 12,
+          "origin": "GENERATED_PRIOR"
+        },
+        "SEVEN_M_SAVES": {
+          "value": 14,
+          "origin": "GENERATED_PRIOR"
+        },
+        "SHOOTER_READING": {
+          "value": 14,
+          "origin": "GENERATED_PRIOR"
+        },
+        "SHOT_ANTICIPATION": {
+          "value": 13,
+          "origin": "GENERATED_PRIOR"
+        },
+        "PATIENCE": {
+          "value": 12,
+          "origin": "GENERATED_PRIOR"
+        },
+        "DECISION_TIMING": {
+          "value": 13,
+          "origin": "GENERATED_PRIOR"
+        },
+        "OUTLET_PASSING": {
+          "value": 14,
+          "origin": "GENERATED_PRIOR"
+        },
+        "RESTART_SPEED": {
+          "value": 14,
+          "origin": "GENERATED_PRIOR"
+        },
+        "TRANSITION_DECISION": {
+          "value": 13,
+          "origin": "GENERATED_PRIOR"
+        },
+        "GK_CONSISTENCY": {
+          "value": 14,
+          "origin": "GENERATED_PRIOR"
+        },
+        "GK_COMPOSURE": {
+          "value": 13,
+          "origin": "GENERATED_PRIOR"
+        },
+        "GK_CONCENTRATION": {
+          "value": 13,
+          "origin": "GENERATED_PRIOR"
+        },
+        "GK_PRESSURE_HANDLING": {
+          "value": 13,
+          "origin": "GENERATED_PRIOR"
+        }
+      }
+    },
+    "attackRoleProficiencies": [],
+    "defenceRoleProficiencies": [],
+    "caEstimationModelVersion": "HM-RATINGS-0.5-v1",
+    "attributeGenerationModelVersion": "HM-RATINGS-0.4-v1",
+    "lockedAt": "2026-08-30T15:46:21.255Z",
     "lockedNote": "ALLSV_rating_import_candidates_v0.13 Allsvenskan final import (261/261, individually researched, 0 REVIEW)"
   }
 }

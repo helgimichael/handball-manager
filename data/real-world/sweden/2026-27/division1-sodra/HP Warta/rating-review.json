@@ -16,8 +16,8 @@
   },
   "player_axel_engesvik_d2d5fe21": {
     "status": "LOCKED",
-    "updatedAt": "2026-08-30T17:59:01.753Z",
-    "note": "DIV1N_rating_import_candidates_v0.6 / DIV1S_rating_import_candidates_v0.5 Division 1 import (DIV1_ONLY_CANONICAL set only)"
+    "updatedAt": "2026-10-31T09:56:17.020Z",
+    "note": "HM-DATA-1.5 (2026-10-31) GK/OUTCOURT branch correction to MV; researched CA/PA preserved, generated attributes regenerated (HM-RATINGS-0.4-v1)"
   },
   "player_dino_bahtijarevic_4e0d8cce": {
     "status": "LOCKED",
@@ -36,8 +36,8 @@
   },
   "player_felix_johansson_6326df01": {
     "status": "LOCKED",
-    "updatedAt": "2026-08-30T17:59:03.271Z",
-    "note": "DIV1N_rating_import_candidates_v0.6 / DIV1S_rating_import_candidates_v0.5 Division 1 import (DIV1_ONLY_CANONICAL set only)"
+    "updatedAt": "2026-10-31T09:56:17.111Z",
+    "note": "HM-DATA-1.5 (2026-10-31) GK/OUTCOURT branch correction to MV; researched CA/PA preserved, generated attributes regenerated (HM-RATINGS-0.4-v1)"
   },
   "player_hannes_jobs_aa0dd948": {
     "status": "LOCKED",
@@ -101,7 +101,7 @@
   },
   "player_viktor_lundstrom_b028fb92": {
     "status": "LOCKED",
-    "updatedAt": "2026-08-30T17:59:08.285Z",
-    "note": "DIV1N_rating_import_candidates_v0.6 / DIV1S_rating_import_candidates_v0.5 Division 1 import (DIV1_ONLY_CANONICAL set only)"
+    "updatedAt": "2026-10-31T09:56:17.200Z",
+    "note": "HM-DATA-1.5 (2026-10-31) GK/OUTCOURT branch correction to M6; researched CA/PA preserved, generated attributes regenerated (HM-RATINGS-0.4-v1)"
   }
 }

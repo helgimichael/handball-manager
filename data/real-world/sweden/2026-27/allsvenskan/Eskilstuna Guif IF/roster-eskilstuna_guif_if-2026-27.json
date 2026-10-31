@@ -207,36 +207,6 @@
     "defaultSquadStatus": "ROTATION"
   },
   {
-    "rosterEntryId": "se_2026_27_allsvenskan_eskilstuna_guif_if__1fb70c61",
-    "playerId": "se_player_andreas_flodman_1fb70c61",
-    "clubId": "swe2-guif",
-    "competitionId": "swe-2",
-    "season": "2026/27",
-    "snapshotDate": "2026-08-27",
-    "shirtNumber": 9,
-    "sourcePosition": "H9",
-    "primaryPosition": "H6",
-    "secondaryPositions": [],
-    "rosterStatus": "CONFIRMED",
-    "contract": {
-      "untilDate": null,
-      "untilSeason": null,
-      "optionUntilSeason": null
-    },
-    "rosterConfidence": "VERIFIED",
-    "sourceRefs": {
-      "roster": [
-        "src_as_v5_qa_spreadsheet"
-      ],
-      "position": [
-        "src_as_position_evidence"
-      ]
-    },
-    "dataNotes": [],
-    "defaultSquadStatus": "KEY_PLAYER",
-    "specialTags": []
-  },
-  {
     "rosterEntryId": "se_2026_27_allsvenskan_eskilstuna_guif_if__98b279d6",
     "playerId": "se_player_fredrik_gustavsson_98b279d6",
     "clubId": "swe2-guif",

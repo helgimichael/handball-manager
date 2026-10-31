@@ -45,9 +45,9 @@
     "pa": 118
   },
   "player_karl_zetterlund_ab53b228": {
-    "updatedAt": "2026-08-30T17:56:43.884Z",
     "ca": 92,
-    "pa": 125
+    "pa": 125,
+    "updatedAt": "2026-10-31T09:56:15.971Z"
   },
   "player_ludwig_ahlgren_dcfddc91": {
     "updatedAt": "2026-08-30T17:56:44.270Z",
@@ -90,8 +90,8 @@
     "pa": 124
   },
   "player_zeke_hedblad_2ab9d287": {
+    "updatedAt": "2026-08-30T17:56:47.424Z",
     "ca": 104,
-    "pa": 120,
-    "updatedAt": "2026-08-30T17:56:47.424Z"
+    "pa": 120
   }
 }

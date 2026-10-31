@@ -5,7 +5,7 @@
     "pa": 118
   },
   "player_alexander_bergqvist_22e53103": {
-    "updatedAt": "2026-08-30T17:58:02.431Z",
+    "updatedAt": "2026-10-31T09:56:16.703Z",
     "ca": 104,
     "pa": 152
   },
@@ -15,7 +15,7 @@
     "pa": 130
   },
   "player_anton_krig_3fc230a7": {
-    "updatedAt": "2026-08-30T17:58:03.234Z",
+    "updatedAt": "2026-10-31T09:56:16.787Z",
     "ca": 100,
     "pa": 120
   },
@@ -70,9 +70,9 @@
     "pa": 130
   },
   "player_sebastian_wald_a965e099": {
-    "updatedAt": "2026-08-30T17:58:07.598Z",
     "ca": 112,
-    "pa": 128
+    "pa": 128,
+    "updatedAt": "2026-10-31T09:56:16.875Z"
   },
   "player_theo_arrhenius_b78f3c97": {
     "updatedAt": "2026-08-30T17:58:07.970Z",
@@ -80,8 +80,8 @@
     "pa": 150
   },
   "player_wilmer_gustafsson_33d2e4f5": {
+    "updatedAt": "2026-08-30T17:58:08.433Z",
     "ca": 112,
-    "pa": 138,
-    "updatedAt": "2026-08-30T17:58:08.433Z"
+    "pa": 138
   }
 }

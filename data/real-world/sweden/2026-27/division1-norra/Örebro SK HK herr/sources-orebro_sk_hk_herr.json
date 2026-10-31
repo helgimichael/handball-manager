@@ -18,5 +18,15 @@
     "publishedAt": null,
     "accessedAt": "2026-08-27",
     "seasonContext": "2026/27"
+  },
+  {
+    "sourceId": "src_hm15_rating_research",
+    "sourceType": "RESEARCH_COMPILED",
+    "publisher": "Handball Manager rating research",
+    "title": "DIV1N_rating_import_candidates_v0.6.csv (exports/player-rating-research) role labels",
+    "url": null,
+    "publishedAt": null,
+    "accessedAt": "2026-10-31",
+    "seasonContext": "2026/27 (HM-DATA-1.5)"
   }
 ]

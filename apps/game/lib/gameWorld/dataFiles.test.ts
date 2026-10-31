@@ -35,9 +35,9 @@ test('bundled Handbollsligan squads, ratings, staff and dated identity snapshots
   const bundled = withSource('bundled', read);
   assert.deepEqual(bundled, native);
   assert.equal(Object.keys(bundled.squads).length, 14);
-  // 268 HBL players, less the 2 HM-DATA-1.3 moved to their 2026/27 Herrallsvenskan clubs.
-  assert.equal(Object.values(bundled.squads).flat().length, 266);
-  assert.equal(Object.values(bundled.ratings).flat().length, 266);
+  // 268 HBL players, less the 2 (HM-DATA-1.3) + 1 (HM-DATA-1.5 loan) moved to their 2026/27 Herrallsvenskan clubs.
+  assert.equal(Object.values(bundled.squads).flat().length, 265);
+  assert.equal(Object.values(bundled.ratings).flat().length, 265);
   for (const [clubId, players] of Object.entries(bundled.squads)) {
     assert.deepEqual(new Set(bundled.ratings[clubId].map(player => player.playerId)), new Set(players.map(player => player.id)));
     assert.ok(bundled.ratings[clubId].every(player => Number.isFinite(player.ca) && Number.isFinite(player.pa)));

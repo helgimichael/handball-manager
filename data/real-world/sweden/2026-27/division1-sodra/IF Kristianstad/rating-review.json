@@ -6,8 +6,8 @@
   },
   "player_benjamin_frank_fc206a8e": {
     "status": "LOCKED",
-    "updatedAt": "2026-08-30T17:59:09.080Z",
-    "note": "DIV1N_rating_import_candidates_v0.6 / DIV1S_rating_import_candidates_v0.5 Division 1 import (DIV1_ONLY_CANONICAL set only)"
+    "updatedAt": "2026-10-31T09:56:17.636Z",
+    "note": "HM-DATA-1.5 (2026-10-31) GK/OUTCOURT branch correction to V6; researched CA/PA preserved, generated attributes regenerated (HM-RATINGS-0.4-v1)"
   },
   "player_eddie_jorgensen_30b4ca9e": {
     "status": "LOCKED",
@@ -76,12 +76,12 @@
   },
   "player_ossian_oredsson_c46a06f7": {
     "status": "LOCKED",
-    "updatedAt": "2026-08-30T17:59:15.552Z",
-    "note": "DIV1N_rating_import_candidates_v0.6 / DIV1S_rating_import_candidates_v0.5 Division 1 import (DIV1_ONLY_CANONICAL set only)"
+    "updatedAt": "2026-10-31T09:56:17.724Z",
+    "note": "HM-DATA-1.5 (2026-10-31) GK/OUTCOURT branch correction to MV; researched CA/PA preserved, generated attributes regenerated (HM-RATINGS-0.4-v1)"
   },
   "player_svante_bjurman_359755a5": {
     "status": "LOCKED",
-    "updatedAt": "2026-08-30T17:59:15.938Z",
-    "note": "DIV1N_rating_import_candidates_v0.6 / DIV1S_rating_import_candidates_v0.5 Division 1 import (DIV1_ONLY_CANONICAL set only)"
+    "updatedAt": "2026-10-31T09:56:17.842Z",
+    "note": "HM-DATA-1.5 (2026-10-31) GK/OUTCOURT branch correction to MV; researched CA/PA preserved, generated attributes regenerated (HM-RATINGS-0.4-v1)"
   }
 }

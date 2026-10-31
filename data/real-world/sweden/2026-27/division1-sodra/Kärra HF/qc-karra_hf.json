@@ -3,7 +3,7 @@
   "clubName": "Kärra HF",
   "competitionId": "se_division1_sodra",
   "season": "2026/27",
-  "snapshotDate": "2026-08-27",
+  "snapshotDate": "2026-10-31",
   "datasetStatus": "PRESEASON",
   "qcStatus": "VERIFIED_WITH_OPEN_FIELDS",
   "expectedRosterCount": 19,
@@ -23,17 +23,20 @@
   },
   "knownConflicts": [],
   "staleSourceWarnings": [
-    "Roster combined with 2026 off-season news: retired goalkeeper Victor Olsson removed; Axel Winström added."
+    "Roster combined with 2026 off-season news: retired goalkeeper Victor Olsson removed; Axel Winström added.",
+    "HM-DATA-1.5: roster corrected against Profixio leagueid28142 (2026-10-31). Held pending verification: Fabio Carlos Pereira (HOLD: Division 1 GK/outfield conflict without an exact sourced position -- no exact position in any source (outfield role without side, or no evidence)); Simon Källström (HOLD: Division 1 GK/outfield conflict without an exact sourced position -- no exact position in any source (outfield role without side, or no evidence))."
   ],
   "openFieldsSummary": {
-    "exactDateOfBirthMissing": 19,
+    "exactDateOfBirthMissing": 2,
     "birthYearMissing": 19,
-    "nationalityMissing": 19,
+    "nationalityMissing": 17,
     "heightMissing": 19,
     "handednessMissing": 19,
     "shirtNumberMissing": 1,
     "contractEndMissing": 19,
-    "positionGenerated": 9,
-    "positionSourced": 10
+    "positionGenerated": 8,
+    "positionSourced": 10,
+    "positionPartial": 10,
+    "positionVerified": 1
   }
 }

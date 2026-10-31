@@ -10,7 +10,7 @@
     "pa": 132
   },
   "player_alvin_lindskog_e934fd54": {
-    "updatedAt": "2026-08-30T17:57:02.907Z",
+    "updatedAt": "2026-10-31T09:56:15.673Z",
     "ca": 108,
     "pa": 118
   },
@@ -25,7 +25,7 @@
     "pa": 124
   },
   "player_filip_nygren_6ba88308": {
-    "updatedAt": "2026-08-30T17:57:04.086Z",
+    "updatedAt": "2026-10-31T09:56:15.774Z",
     "ca": 112,
     "pa": 124
   },
@@ -40,9 +40,9 @@
     "pa": 118
   },
   "player_karl_engberg_389321b6": {
-    "updatedAt": "2026-08-30T17:57:05.257Z",
     "ca": 108,
-    "pa": 120
+    "pa": 120,
+    "updatedAt": "2026-10-31T09:56:15.881Z"
   },
   "player_karl_lindsten_51273d54": {
     "updatedAt": "2026-08-30T17:57:05.639Z",
@@ -85,8 +85,8 @@
     "pa": 144
   },
   "player_vilgot_callheim_6bcc2065": {
+    "updatedAt": "2026-08-30T17:57:09.048Z",
     "ca": 118,
-    "pa": 132,
-    "updatedAt": "2026-08-30T17:57:09.048Z"
+    "pa": 132
   }
 }

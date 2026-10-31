@@ -1,8 +1,8 @@
 {
   "player_albin_sandell_0e14ff1a": {
-    "updatedAt": "2026-08-30T17:59:16.017Z",
     "ca": 100,
-    "pa": 102
+    "pa": 102,
+    "updatedAt": "2026-10-31T09:56:17.228Z"
   },
   "player_axel_hegedus_a78e9c1b": {
     "updatedAt": "2026-08-30T17:59:16.439Z",
@@ -90,8 +90,8 @@
     "pa": 112
   },
   "player_ville_sjoberg_c1d67770": {
+    "updatedAt": "2026-08-30T17:59:24.165Z",
     "ca": 112,
-    "pa": 120,
-    "updatedAt": "2026-08-30T17:59:24.165Z"
+    "pa": 120
   }
 }

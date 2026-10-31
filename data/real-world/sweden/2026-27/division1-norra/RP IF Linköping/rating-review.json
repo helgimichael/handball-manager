@@ -11,8 +11,8 @@
   },
   "player_alvin_lindskog_e934fd54": {
     "status": "LOCKED",
-    "updatedAt": "2026-08-30T17:57:03.208Z",
-    "note": "DIV1N_rating_import_candidates_v0.6 / DIV1S_rating_import_candidates_v0.5 Division 1 import (DIV1_ONLY_CANONICAL set only)"
+    "updatedAt": "2026-10-31T09:56:15.742Z",
+    "note": "HM-DATA-1.5 (2026-10-31) GK/OUTCOURT branch correction to V9; researched CA/PA preserved, generated attributes regenerated (HM-RATINGS-0.4-v1)"
   },
   "player_christoffer_johansson_8c6573e1": {
     "status": "LOCKED",
@@ -26,8 +26,8 @@
   },
   "player_filip_nygren_6ba88308": {
     "status": "LOCKED",
-    "updatedAt": "2026-08-30T17:57:04.398Z",
-    "note": "DIV1N_rating_import_candidates_v0.6 / DIV1S_rating_import_candidates_v0.5 Division 1 import (DIV1_ONLY_CANONICAL set only)"
+    "updatedAt": "2026-10-31T09:56:15.848Z",
+    "note": "HM-DATA-1.5 (2026-10-31) GK/OUTCOURT branch correction to M9; researched CA/PA preserved, generated attributes regenerated (HM-RATINGS-0.4-v1)"
   },
   "player_gustav_roos_c89f83aa": {
     "status": "LOCKED",
@@ -41,8 +41,8 @@
   },
   "player_karl_engberg_389321b6": {
     "status": "LOCKED",
-    "updatedAt": "2026-08-30T17:57:05.567Z",
-    "note": "DIV1N_rating_import_candidates_v0.6 / DIV1S_rating_import_candidates_v0.5 Division 1 import (DIV1_ONLY_CANONICAL set only)"
+    "updatedAt": "2026-10-31T09:56:15.941Z",
+    "note": "HM-DATA-1.5 (2026-10-31) GK/OUTCOURT branch correction to M9; researched CA/PA preserved, generated attributes regenerated (HM-RATINGS-0.4-v1)"
   },
   "player_karl_lindsten_51273d54": {
     "status": "LOCKED",

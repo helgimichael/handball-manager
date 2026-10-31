@@ -3,7 +3,7 @@
   "clubName": "HK Cliff",
   "competitionId": "se_division1_norra",
   "season": "2026/27",
-  "snapshotDate": "2026-08-27",
+  "snapshotDate": "2026-10-31",
   "datasetStatus": "PRESEASON",
   "qcStatus": "VERIFIED_WITH_OPEN_FIELDS",
   "expectedRosterCount": 27,
@@ -23,17 +23,20 @@
   },
   "knownConflicts": [],
   "staleSourceWarnings": [
-    "Hammarby HU/HJ plays Division 1 in cooperation partner HK Cliff's colours in 2026/27."
+    "Hammarby HU/HJ plays Division 1 in cooperation partner HK Cliff's colours in 2026/27.",
+    "HM-DATA-1.5: roster corrected against Profixio leagueid28142 (2026-10-31). Held pending verification: Emmet Broman (HOLD: Division 1 GK/outfield conflict without an exact sourced position -- no exact position in any source (outfield role without side, or no evidence)); Simon Hedlund (HOLD: Division 1 GK/outfield conflict without an exact sourced position -- no exact position in any source (outfield role without side, or no evidence))."
   ],
   "openFieldsSummary": {
-    "exactDateOfBirthMissing": 27,
+    "exactDateOfBirthMissing": 1,
     "birthYearMissing": 27,
-    "nationalityMissing": 27,
+    "nationalityMissing": 16,
     "heightMissing": 27,
     "handednessMissing": 27,
     "shirtNumberMissing": 2,
     "contractEndMissing": 27,
-    "positionGenerated": 27,
-    "positionSourced": 0
+    "positionGenerated": 24,
+    "positionSourced": 0,
+    "positionPartial": 0,
+    "positionVerified": 3
   }
 }

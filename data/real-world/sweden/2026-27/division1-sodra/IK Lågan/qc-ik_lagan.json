@@ -3,11 +3,11 @@
   "clubName": "IK Lågan",
   "competitionId": "se_division1_sodra",
   "season": "2026/27",
-  "snapshotDate": "2026-08-27",
+  "snapshotDate": "2026-10-31",
   "datasetStatus": "PRESEASON",
   "qcStatus": "VERIFIED_WITH_OPEN_FIELDS",
-  "expectedRosterCount": 20,
-  "exportedRosterCount": 20,
+  "expectedRosterCount": 19,
+  "exportedRosterCount": 19,
   "checks": {
     "currentLeagueRosterLocated": true,
     "allLeagueRosterNamesCaptured": true,
@@ -23,17 +23,20 @@
   },
   "knownConflicts": [],
   "staleSourceWarnings": [
-    "2026/27 team page exists but roster is not yet populated; latest senior roster used after removing known departures."
+    "2026/27 team page exists but roster is not yet populated; latest senior roster used after removing known departures.",
+    "HM-DATA-1.5: roster corrected against Profixio leagueid28142 (2026-10-31)."
   ],
   "openFieldsSummary": {
-    "exactDateOfBirthMissing": 20,
+    "exactDateOfBirthMissing": 2,
     "birthYearMissing": 0,
-    "nationalityMissing": 20,
+    "nationalityMissing": 18,
     "heightMissing": 20,
     "handednessMissing": 20,
     "shirtNumberMissing": 2,
     "contractEndMissing": 20,
-    "positionGenerated": 18,
-    "positionSourced": 2
+    "positionGenerated": 16,
+    "positionSourced": 2,
+    "positionPartial": 2,
+    "positionVerified": 1
   }
 }

@@ -28,35 +28,6 @@
     "dataNotes": []
   },
   {
-    "playerId": "se_player_olle_soderqvist_d1155006",
-    "firstName": "Olle",
-    "lastName": "Söderqvist",
-    "fullName": "Olle Söderqvist",
-    "aliases": [],
-    "dateOfBirth": "2006-11-01",
-    "birthYear": 2006,
-    "nationalities": [
-      "SE"
-    ],
-    "heightCm": 194,
-    "handedness": null,
-    "recordConfidence": "PARTIAL",
-    "sourceRefs": {
-      "identity": [
-        "src_hammarby_roster_20260819"
-      ],
-      "heightCm": [
-        "src_hammarby_roster_20260819"
-      ],
-      "nationalities": [
-        "src_ehf_olle"
-      ]
-    },
-    "dataNotes": [
-      "Height conflict: current Hammarby profile lists 194 cm; current EHF profile lists 195 cm. Club value retained."
-    ]
-  },
-  {
     "playerId": "se_player_arvid_skoog_44c05749",
     "firstName": "Arvid",
     "lastName": "Skoog",
