@@ -13,9 +13,9 @@ import { createNewCareerState } from "./newCareer";
 import { TUMBA_CLUB_ID } from "../game-data";
 import type { CareerState } from "./types";
 
-// (1) real 2026/27 kickoff dates the user provided.
+// (1) real 2026/27 league kickoff = each competition's first imported Profixio fixture (HM-ALPHA2-01).
 test("(1) the real 2026/27 Swedish league kickoff dates are exactly as specified", () => {
-  assert.equal(REAL_LEAGUE_KICKOFF_DATES["swe-2"], "2026-09-20"); // IFK Tumba / Allsvenskan
+  assert.equal(REAL_LEAGUE_KICKOFF_DATES["swe-2"], "2026-09-17"); // Herrallsvenskan opener (IFK Tumba's own premiere is 2026-09-20)
   assert.equal(REAL_LEAGUE_KICKOFF_DATES["se_handbollsligan_herr"], "2026-09-23");
 });
 

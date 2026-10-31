@@ -5,6 +5,7 @@
 // and the Schedule UI (booking) -- never a parallel fixture/match engine
 // (Part: "Skapa inte parallella preseason-, match- eller calendar-motorer").
 import { addDays, isSameOrBefore } from "./dateUtils";
+import { REAL_LEAGUE_SCHEDULES } from "../game-data/realLeagueSchedules";
 import type { CareerFixture, CareerState } from "./types";
 
 // ---------------------------------------------------------------------------
@@ -22,9 +23,11 @@ const WEEKS_BEFORE_KICKOFF: Record<Exclude<PreseasonStartOption, "FIRST_MATCH">,
 };
 
 /**
- * The real Swedish 2026/27 season calendar the user provided: IFK Tumba's
- * own Allsvenskan premiere is 2026-09-20; Handbollsligan's own league
- * premiere is 2026-09-23. Keyed by the SAME literal competitionId
+ * The real Swedish 2026/27 league-kickoff calendar: each competition's
+ * FIRST regular-season match (not any single club's own premiere), read
+ * from the imported Profixio schedule (HM-ALPHA2-01) -- Herrallsvenskan
+ * 2026-09-17 (IFK Tumba's own premiere is 2026-09-20), Handbollsligan
+ * 2026-09-23. Keyed by the SAME literal competitionId
  * `lib/game-data/competitions.ts` already uses for these two divisions --
  * no new competition vocabulary invented. Any competitionId not listed
  * here (a career created without an explicit `preseasonStart`, or a
@@ -33,10 +36,9 @@ const WEEKS_BEFORE_KICKOFF: Record<Exclude<PreseasonStartOption, "FIRST_MATCH">,
  * this codebase's pre-existing single-date assumption -- never a crash,
  * never an invented date.
  */
-export const REAL_LEAGUE_KICKOFF_DATES: Record<string, string> = {
-  "se_handbollsligan_herr": "2026-09-23",
-  "swe-2": "2026-09-20", // Allsvenskan (IFK Tumba's own division)
-};
+export const REAL_LEAGUE_KICKOFF_DATES: Record<string, string> = Object.fromEntries(
+  Object.entries(REAL_LEAGUE_SCHEDULES).map(([competitionId, schedule]) => [competitionId, schedule.fixtures.reduce((first, f) => (f.date < first ? f.date : first), schedule.fixtures[0].date)]),
+);
 
 export function resolveLeagueKickoffDate(competitionId: string, fallback: string): string {
   return REAL_LEAGUE_KICKOFF_DATES[competitionId] ?? fallback;

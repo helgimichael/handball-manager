@@ -26,10 +26,10 @@ function advanceToDate(state: CareerState, targetDate: string): CareerState {
 test("(1) all five preseason start options produce the correct, deterministic career start date for IFK Tumba", () => {
   const kickoff = REAL_LEAGUE_KICKOFF_DATES["swe-2"];
   const expected: Record<(typeof PRESEASON_START_OPTIONS)[number], string | null> = {
-    "8_WEEKS": "2026-07-26",
-    "6_WEEKS": "2026-08-09",
-    "4_WEEKS": "2026-08-23",
-    "2_WEEKS": "2026-09-06",
+    "8_WEEKS": "2026-07-23",
+    "6_WEEKS": "2026-08-06",
+    "4_WEEKS": "2026-08-20",
+    "2_WEEKS": "2026-09-03",
     FIRST_MATCH: null, // resolved from the actual fixture list -- checked separately below
   };
   for (const opt of PRESEASON_START_OPTIONS) {
@@ -216,7 +216,7 @@ test("(12) a fresh 4-week-preseason IFK Tumba career can Continue all the way fr
   // leagueKickoffDate (generateDoubleRoundRobin's deterministic
   // spreadDays -- see packages/game-simulation/src/fixtures.ts), so IFK
   // Tumba's own first league fixture lands ON or within a few days AFTER
-  // the real 2026-09-20 kickoff date, never before it and never far after.
+  // the real 2026-09-17 league kickoff, never before it and never far after.
   assert.ok(firstLeague.date >= state.leagueKickoffDate, `firstLeague.date=${firstLeague.date} kickoff=${state.leagueKickoffDate}`);
   assert.ok(firstLeague.date <= addDays(state.leagueKickoffDate, 6), `firstLeague.date=${firstLeague.date} kickoff=${state.leagueKickoffDate}`);
 });

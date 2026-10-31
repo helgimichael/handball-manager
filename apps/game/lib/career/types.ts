@@ -419,7 +419,7 @@ export type CareerState = {
 
   /**
    * The REAL date `competitionId`'s own league fixtures begin (Part:
-   * Sweden 2026/27 -- IFK Tumba/Allsvenskan 2026-09-20, Handbollsligan
+   * Sweden 2026/27 -- Herrallsvenskan 2026-09-17, Handbollsligan
    * 2026-09-23; see lib/career/preseason.ts's REAL_LEAGUE_KICKOFF_DATES).
    * Immutable once set. `getSeasonPhase(state)` (preseason.ts) is a pure
    * comparison of `gameDate` against this field -- never a separately
