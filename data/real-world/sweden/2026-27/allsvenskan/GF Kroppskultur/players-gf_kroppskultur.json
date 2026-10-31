@@ -411,5 +411,94 @@
       ]
     },
     "dataNotes": []
+  },
+  {
+    "playerId": "se_player_andreas_berg_e6ca7719",
+    "firstName": "Andreas",
+    "lastName": "Berg",
+    "fullName": "Andreas Berg",
+    "aliases": [],
+    "dateOfBirth": "1992-05-09",
+    "birthYear": 1992,
+    "nationalities": [
+      "SE"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED",
+      "nationalities": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_hm13_profixio_registration"
+      ],
+      "dateOfBirth": [
+        "src_hm13_profixio_registration"
+      ],
+      "nationalities": [
+        "src_hm13_profixio_registration"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-1.3 (2026-10-31): added from the Profixio Herrallsvenskan squad registration; Profixio person 657249 (https://www.profixio.com/app/lx/clubs/26111/player/657249)."
+    ]
+  },
+  {
+    "playerId": "player_malte_mansson_1d49a03b",
+    "firstName": "Malte",
+    "lastName": "Månsson",
+    "fullName": "Malte Månsson",
+    "aliases": [],
+    "dateOfBirth": "2006-05-05",
+    "birthYear": 2006,
+    "nationalities": [
+      "SE"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "sourceRefs": {
+      "identity": [
+        "src_hbl_hkmalmo_20260622"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-1.3 (2026-10-31): 2026/27 membership moved from HK Malmö (se_handbollsligan_herr) to GF Kroppskultur; Profixio shows 2026/27 appearances only for GF Kroppskultur (https://www.profixio.com/app/lx/clubs/26111/player/648609). Same playerId; previous roster row removed. Position H9 carried over from the previous verified roster record (no Profixio position)."
+    ]
+  },
+  {
+    "playerId": "se_player_patrik_sandberg_f36c0ffe",
+    "firstName": "Patrik",
+    "lastName": "Sandberg",
+    "fullName": "Patrik Sandberg",
+    "aliases": [],
+    "dateOfBirth": "1999-08-13",
+    "birthYear": 1999,
+    "nationalities": [
+      "SE"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED",
+      "nationalities": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_hm13_profixio_registration"
+      ],
+      "dateOfBirth": [
+        "src_hm13_profixio_registration"
+      ],
+      "nationalities": [
+        "src_hm13_profixio_registration"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-1.3 (2026-10-31): added from the Profixio Herrallsvenskan squad registration; Profixio person 652199 (https://www.profixio.com/app/lx/clubs/26111/player/652199)."
+    ]
   }
 ]

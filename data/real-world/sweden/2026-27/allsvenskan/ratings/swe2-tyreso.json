@@ -500,7 +500,7 @@
   "se_player_axel_marqvardsen_31d5a281": {
     "playerId": "se_player_axel_marqvardsen_31d5a281",
     "clubId": "swe2-tyreso",
-    "position": "V9",
+    "position": "M9",
     "ca": {
       "value": 120,
       "confidence": "HIGH",
@@ -750,7 +750,7 @@
     },
     "attackRoleProficiencies": [
       {
-        "role": "COMPLETE_BACK"
+        "role": "TEMPO_CONTROLLER"
       }
     ],
     "defenceRoleProficiencies": [],
@@ -1024,7 +1024,7 @@
   "se_player_marvin_barrett_8d02e65e": {
     "playerId": "se_player_marvin_barrett_8d02e65e",
     "clubId": "swe2-tyreso",
-    "position": "V9",
+    "position": "M9",
     "ca": {
       "value": 125,
       "confidence": "HIGH",
@@ -1274,7 +1274,7 @@
     },
     "attackRoleProficiencies": [
       {
-        "role": "BREAKTHROUGH_BACK"
+        "role": "BREAKTHROUGH_CREATOR"
       }
     ],
     "defenceRoleProficiencies": [],
@@ -1548,7 +1548,7 @@
   "se_player_simon_hjortenbo_246e9de6": {
     "playerId": "se_player_simon_hjortenbo_246e9de6",
     "clubId": "swe2-tyreso",
-    "position": "M9",
+    "position": "H9",
     "ca": {
       "value": 130,
       "confidence": "HIGH",
@@ -1798,7 +1798,7 @@
     },
     "attackRoleProficiencies": [
       {
-        "role": "TEMPO_CONTROLLER"
+        "role": "COMPLETE_BACK"
       }
     ],
     "defenceRoleProficiencies": [],

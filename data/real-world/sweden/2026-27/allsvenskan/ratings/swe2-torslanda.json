@@ -788,7 +788,7 @@
   "se_player_felix_fogelholm_2641a250": {
     "playerId": "se_player_felix_fogelholm_2641a250",
     "clubId": "swe2-torslanda",
-    "position": "H6",
+    "position": "V6",
     "ca": {
       "value": 119,
       "confidence": "HIGH",
@@ -2216,7 +2216,7 @@
   "se_player_simon_larsson_f9fb9f9b": {
     "playerId": "se_player_simon_larsson_f9fb9f9b",
     "clubId": "swe2-torslanda",
-    "position": "H6",
+    "position": "H9",
     "ca": {
       "value": 132,
       "confidence": "HIGH",
@@ -2466,7 +2466,7 @@
     },
     "attackRoleProficiencies": [
       {
-        "role": "TWO_WAY_WING"
+        "role": "COMPLETE_BACK"
       }
     ],
     "defenceRoleProficiencies": [],

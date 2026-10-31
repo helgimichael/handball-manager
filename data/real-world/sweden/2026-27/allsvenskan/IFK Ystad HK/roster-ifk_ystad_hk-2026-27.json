@@ -5,10 +5,10 @@
     "clubId": "swe2-ystad2",
     "competitionId": "swe-2",
     "season": "2026/27",
-    "snapshotDate": "2026-08-27",
+    "snapshotDate": "2026-10-31",
     "shirtNumber": 5,
-    "sourcePosition": "",
-    "primaryPosition": "V9",
+    "sourcePosition": "M9",
+    "primaryPosition": "M9",
     "secondaryPositions": [],
     "rosterStatus": "CONFIRMED",
     "contract": {
@@ -16,15 +16,17 @@
       "untilSeason": null,
       "optionUntilSeason": null
     },
-    "rosterConfidence": "UNKNOWN",
+    "rosterConfidence": "VERIFIED",
     "sourceRefs": {
       "roster": [
         "src_as_v5_qa_spreadsheet"
       ],
-      "position": []
+      "position": [
+        "src_hm13_profixio_registration"
+      ]
     },
     "dataNotes": [
-      "HM-DATA-ALLSVENSKAN-1.1: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+      "HM-DATA-1.3 (2026-10-31): primaryPosition V9 -> M9 (Profixio player profile position)."
     ]
   },
   {
@@ -65,10 +67,10 @@
     "clubId": "swe2-ystad2",
     "competitionId": "swe-2",
     "season": "2026/27",
-    "snapshotDate": "2026-08-27",
+    "snapshotDate": "2026-10-31",
     "shirtNumber": 9,
-    "sourcePosition": "",
-    "primaryPosition": "H6",
+    "sourcePosition": "M9",
+    "primaryPosition": "M9",
     "secondaryPositions": [],
     "rosterStatus": "CONFIRMED",
     "contract": {
@@ -76,15 +78,17 @@
       "untilSeason": null,
       "optionUntilSeason": null
     },
-    "rosterConfidence": "UNKNOWN",
+    "rosterConfidence": "VERIFIED",
     "sourceRefs": {
       "roster": [
         "src_as_v5_qa_spreadsheet"
       ],
-      "position": []
+      "position": [
+        "src_hm13_profixio_registration"
+      ]
     },
     "dataNotes": [
-      "HM-DATA-ALLSVENSKAN-1.1: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+      "HM-DATA-1.3 (2026-10-31): primaryPosition H6 -> M9 (Profixio player profile position)."
     ]
   },
   {
@@ -93,10 +97,10 @@
     "clubId": "swe2-ystad2",
     "competitionId": "swe-2",
     "season": "2026/27",
-    "snapshotDate": "2026-08-27",
+    "snapshotDate": "2026-10-31",
     "shirtNumber": 10,
-    "sourcePosition": "",
-    "primaryPosition": "H9",
+    "sourcePosition": "V6",
+    "primaryPosition": "V6",
     "secondaryPositions": [],
     "rosterStatus": "CONFIRMED",
     "contract": {
@@ -104,15 +108,17 @@
       "untilSeason": null,
       "optionUntilSeason": null
     },
-    "rosterConfidence": "UNKNOWN",
+    "rosterConfidence": "VERIFIED",
     "sourceRefs": {
       "roster": [
         "src_as_v5_qa_spreadsheet"
       ],
-      "position": []
+      "position": [
+        "src_hm13_profixio_registration"
+      ]
     },
     "dataNotes": [
-      "HM-DATA-ALLSVENSKAN-1.1: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+      "HM-DATA-1.3 (2026-10-31): primaryPosition H9 -> V6 (Profixio player profile position)."
     ]
   },
   {
@@ -153,10 +159,10 @@
     "clubId": "swe2-ystad2",
     "competitionId": "swe-2",
     "season": "2026/27",
-    "snapshotDate": "2026-08-27",
+    "snapshotDate": "2026-10-31",
     "shirtNumber": 20,
-    "sourcePosition": "",
-    "primaryPosition": "V6",
+    "sourcePosition": "MV",
+    "primaryPosition": "MV",
     "secondaryPositions": [],
     "rosterStatus": "CONFIRMED",
     "contract": {
@@ -164,15 +170,18 @@
       "untilSeason": null,
       "optionUntilSeason": null
     },
-    "rosterConfidence": "UNKNOWN",
+    "rosterConfidence": "VERIFIED",
     "sourceRefs": {
       "roster": [
         "src_as_v5_qa_spreadsheet"
       ],
-      "position": []
+      "position": [
+        "src_hm13_profixio_registration",
+        "src_hm13_profixio_match_sheets"
+      ]
     },
     "dataNotes": [
-      "HM-DATA-ALLSVENSKAN-1.1: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+      "HM-DATA-1.3 (2026-10-31): primaryPosition V6 -> MV (Profixio profile position, corroborated by match-sheet goalkeeper flags)."
     ]
   },
   {
@@ -241,65 +250,9 @@
     "clubId": "swe2-ystad2",
     "competitionId": "swe-2",
     "season": "2026/27",
-    "snapshotDate": "2026-08-27",
+    "snapshotDate": "2026-10-31",
     "shirtNumber": 27,
-    "sourcePosition": "",
-    "primaryPosition": "MV",
-    "secondaryPositions": [],
-    "rosterStatus": "CONFIRMED",
-    "contract": {
-      "untilDate": null,
-      "untilSeason": null,
-      "optionUntilSeason": null
-    },
-    "rosterConfidence": "UNKNOWN",
-    "sourceRefs": {
-      "roster": [
-        "src_as_v5_qa_spreadsheet"
-      ],
-      "position": []
-    },
-    "dataNotes": [
-      "HM-DATA-ALLSVENSKAN-1.1: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
-    ]
-  },
-  {
-    "rosterEntryId": "se_2026_27_allsvenskan_ifk_ystad_hk__be443644",
-    "playerId": "se_player_nils_persson_be443644",
-    "clubId": "swe2-ystad2",
-    "competitionId": "swe-2",
-    "season": "2026/27",
-    "snapshotDate": "2026-08-27",
-    "shirtNumber": 30,
-    "sourcePosition": "",
-    "primaryPosition": "H9",
-    "secondaryPositions": [],
-    "rosterStatus": "CONFIRMED",
-    "contract": {
-      "untilDate": null,
-      "untilSeason": null,
-      "optionUntilSeason": null
-    },
-    "rosterConfidence": "UNKNOWN",
-    "sourceRefs": {
-      "roster": [
-        "src_as_v5_qa_spreadsheet"
-      ],
-      "position": []
-    },
-    "dataNotes": [
-      "HM-DATA-ALLSVENSKAN-1.1: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
-    ]
-  },
-  {
-    "rosterEntryId": "se_2026_27_allsvenskan_ifk_ystad_hk__9b0d9882",
-    "playerId": "se_player_hampus_nilsson_9b0d9882",
-    "clubId": "swe2-ystad2",
-    "competitionId": "swe-2",
-    "season": "2026/27",
-    "snapshotDate": "2026-08-27",
-    "shirtNumber": 55,
-    "sourcePosition": "",
+    "sourcePosition": "H6",
     "primaryPosition": "H6",
     "secondaryPositions": [],
     "rosterStatus": "CONFIRMED",
@@ -308,26 +261,59 @@
       "untilSeason": null,
       "optionUntilSeason": null
     },
-    "rosterConfidence": "UNKNOWN",
+    "rosterConfidence": "VERIFIED",
     "sourceRefs": {
       "roster": [
         "src_as_v5_qa_spreadsheet"
       ],
-      "position": []
+      "position": [
+        "src_hm13_profixio_registration",
+        "src_hm13_profixio_match_sheets"
+      ]
     },
     "dataNotes": [
-      "HM-DATA-ALLSVENSKAN-1.1: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+      "HM-DATA-1.3 (2026-10-31): primaryPosition MV -> H6 (Profixio profile position, corroborated by match-sheet goalkeeper flags)."
     ]
   },
   {
-    "rosterEntryId": "se_2026_27_allsvenskan_ifk_ystad_hk__0b13b970",
-    "playerId": "se_player_lukas_larsson_0b13b970",
+    "rosterEntryId": "se_2026_27_allsvenskan_ifk_ystad_hk__be443644",
+    "playerId": "se_player_nils_persson_be443644",
     "clubId": "swe2-ystad2",
     "competitionId": "swe-2",
     "season": "2026/27",
-    "snapshotDate": "2026-08-27",
-    "shirtNumber": 68,
-    "sourcePosition": "",
+    "snapshotDate": "2026-10-31",
+    "shirtNumber": 30,
+    "sourcePosition": "V6",
+    "primaryPosition": "V6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": [
+        "src_hm13_profixio_registration"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-1.3 (2026-10-31): primaryPosition H9 -> V6 (Profixio player profile position)."
+    ]
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_ifk_ystad_hk__9b0d9882",
+    "playerId": "se_player_hampus_nilsson_9b0d9882",
+    "clubId": "swe2-ystad2",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-10-31",
+    "shirtNumber": 55,
+    "sourcePosition": "V9",
     "primaryPosition": "V9",
     "secondaryPositions": [],
     "rosterStatus": "CONFIRMED",
@@ -336,15 +322,47 @@
       "untilSeason": null,
       "optionUntilSeason": null
     },
-    "rosterConfidence": "UNKNOWN",
+    "rosterConfidence": "VERIFIED",
     "sourceRefs": {
       "roster": [
         "src_as_v5_qa_spreadsheet"
       ],
-      "position": []
+      "position": [
+        "src_hm13_profixio_registration"
+      ]
     },
     "dataNotes": [
-      "HM-DATA-ALLSVENSKAN-1.1: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+      "HM-DATA-1.3 (2026-10-31): primaryPosition H6 -> V9 (Profixio player profile position)."
+    ]
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_ifk_ystad_hk__0b13b970",
+    "playerId": "se_player_lukas_larsson_0b13b970",
+    "clubId": "swe2-ystad2",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-10-31",
+    "shirtNumber": 68,
+    "sourcePosition": "H6",
+    "primaryPosition": "H6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "position": [
+        "src_hm13_profixio_registration"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-1.3 (2026-10-31): primaryPosition V9 -> H6 (Profixio player profile position)."
     ]
   },
   {
@@ -353,10 +371,10 @@
     "clubId": "swe2-ystad2",
     "competitionId": "swe-2",
     "season": "2026/27",
-    "snapshotDate": "2026-08-27",
+    "snapshotDate": "2026-10-31",
     "shirtNumber": 72,
-    "sourcePosition": "",
-    "primaryPosition": "M9",
+    "sourcePosition": "V9",
+    "primaryPosition": "V9",
     "secondaryPositions": [],
     "rosterStatus": "CONFIRMED",
     "contract": {
@@ -364,15 +382,17 @@
       "untilSeason": null,
       "optionUntilSeason": null
     },
-    "rosterConfidence": "UNKNOWN",
+    "rosterConfidence": "VERIFIED",
     "sourceRefs": {
       "roster": [
         "src_as_v5_qa_spreadsheet"
       ],
-      "position": []
+      "position": [
+        "src_hm13_profixio_registration"
+      ]
     },
     "dataNotes": [
-      "HM-DATA-ALLSVENSKAN-1.1: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+      "HM-DATA-1.3 (2026-10-31): primaryPosition M9 -> V9 (Profixio player profile position)."
     ],
     "defaultSquadStatus": null,
     "specialTags": []
@@ -383,10 +403,10 @@
     "clubId": "swe2-ystad2",
     "competitionId": "swe-2",
     "season": "2026/27",
-    "snapshotDate": "2026-08-27",
+    "snapshotDate": "2026-10-31",
     "shirtNumber": 73,
-    "sourcePosition": "",
-    "primaryPosition": "V6",
+    "sourcePosition": "M6",
+    "primaryPosition": "M6",
     "secondaryPositions": [],
     "rosterStatus": "CONFIRMED",
     "contract": {
@@ -394,15 +414,17 @@
       "untilSeason": null,
       "optionUntilSeason": null
     },
-    "rosterConfidence": "UNKNOWN",
+    "rosterConfidence": "VERIFIED",
     "sourceRefs": {
       "roster": [
         "src_as_v5_qa_spreadsheet"
       ],
-      "position": []
+      "position": [
+        "src_hm13_profixio_registration"
+      ]
     },
     "dataNotes": [
-      "HM-DATA-ALLSVENSKAN-1.1: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+      "HM-DATA-1.3 (2026-10-31): primaryPosition V6 -> M6 (Profixio player profile position)."
     ]
   },
   {
@@ -411,10 +433,10 @@
     "clubId": "swe2-ystad2",
     "competitionId": "swe-2",
     "season": "2026/27",
-    "snapshotDate": "2026-08-27",
+    "snapshotDate": "2026-10-31",
     "shirtNumber": 97,
-    "sourcePosition": "",
-    "primaryPosition": "MV",
+    "sourcePosition": "M6",
+    "primaryPosition": "M6",
     "secondaryPositions": [],
     "rosterStatus": "CONFIRMED",
     "contract": {
@@ -422,15 +444,18 @@
       "untilSeason": null,
       "optionUntilSeason": null
     },
-    "rosterConfidence": "UNKNOWN",
+    "rosterConfidence": "VERIFIED",
     "sourceRefs": {
       "roster": [
         "src_as_v5_qa_spreadsheet"
       ],
-      "position": []
+      "position": [
+        "src_hm13_profixio_registration",
+        "src_hm13_profixio_match_sheets"
+      ]
     },
     "dataNotes": [
-      "HM-DATA-ALLSVENSKAN-1.1: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+      "HM-DATA-1.3 (2026-10-31): primaryPosition MV -> M6 (Profixio profile position, corroborated by match-sheet goalkeeper flags)."
     ]
   },
   {
@@ -439,9 +464,9 @@
     "clubId": "swe2-ystad2",
     "competitionId": "swe-2",
     "season": "2026/27",
-    "snapshotDate": "2026-08-27",
+    "snapshotDate": "2026-10-31",
     "shirtNumber": 99,
-    "sourcePosition": "",
+    "sourcePosition": "M9",
     "primaryPosition": "M9",
     "secondaryPositions": [],
     "rosterStatus": "CONFIRMED",
@@ -450,15 +475,175 @@
       "untilSeason": null,
       "optionUntilSeason": null
     },
-    "rosterConfidence": "UNKNOWN",
+    "rosterConfidence": "VERIFIED",
     "sourceRefs": {
       "roster": [
         "src_as_v5_qa_spreadsheet"
       ],
-      "position": []
+      "position": [
+        "src_hm13_rating_research_v0_13"
+      ]
     },
     "dataNotes": [
-      "HM-DATA-ALLSVENSKAN-1.1: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+      "HM-DATA-1.3 (2026-10-31): primaryPosition M9 confirmed (rating research v0.13 role label)."
     ]
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_ifk_ystad_hk__e9a954f4",
+    "playerId": "se_player_axel_stjernberg_e9a954f4",
+    "clubId": "swe2-ystad2",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-10-31",
+    "shirtNumber": 3,
+    "sourcePosition": "V9",
+    "primaryPosition": "V9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hm13_profixio_registration"
+      ],
+      "position": [
+        "src_hm13_profixio_registration"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-1.3 (2026-10-31): position V9 from Profixio player profile position."
+    ],
+    "defaultSquadStatus": null,
+    "specialTags": []
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_ifk_ystad_hk__eef2c0f4",
+    "playerId": "se_player_hugo_lundberg_eef2c0f4",
+    "clubId": "swe2-ystad2",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-10-31",
+    "shirtNumber": 25,
+    "sourcePosition": "V9",
+    "primaryPosition": "V9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hm13_profixio_registration"
+      ],
+      "position": [
+        "src_hm13_profixio_registration"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-1.3 (2026-10-31): position V9 from Profixio player profile position."
+    ],
+    "defaultSquadStatus": null,
+    "specialTags": []
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_ifk_ystad_hk__c1345228",
+    "playerId": "player_liam_thulin_c1345228",
+    "clubId": "swe2-ystad2",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-10-31",
+    "shirtNumber": 52,
+    "sourcePosition": "H9",
+    "primaryPosition": "H9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hm13_profixio_registration"
+      ],
+      "position": [
+        "src_hm13_profixio_registration"
+      ]
+    },
+    "dataNotes": [],
+    "defaultSquadStatus": null,
+    "specialTags": []
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_ifk_ystad_hk__8112dd0b",
+    "playerId": "se_player_ludvig_lagnert_8112dd0b",
+    "clubId": "swe2-ystad2",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-10-31",
+    "shirtNumber": 35,
+    "sourcePosition": "MV",
+    "primaryPosition": "MV",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hm13_profixio_registration"
+      ],
+      "position": [
+        "src_hm13_profixio_registration"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-1.3 (2026-10-31): position MV from Profixio player profile position."
+    ],
+    "defaultSquadStatus": null,
+    "specialTags": []
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_ifk_ystad_hk__88e18841",
+    "playerId": "se_player_wiggo_wahloo_88e18841",
+    "clubId": "swe2-ystad2",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-10-31",
+    "shirtNumber": 87,
+    "sourcePosition": "MV",
+    "primaryPosition": "MV",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hm13_profixio_registration"
+      ],
+      "position": [
+        "src_hm13_profixio_registration"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-1.3 (2026-10-31): position MV from Profixio player profile position."
+    ],
+    "defaultSquadStatus": null,
+    "specialTags": []
   }
 ]

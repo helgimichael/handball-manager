@@ -3,11 +3,11 @@
   "clubName": "Eskilstuna Guif IF",
   "competitionId": "swe-2",
   "season": "2026/27",
-  "snapshotDate": "2026-08-27",
+  "snapshotDate": "2026-10-31",
   "datasetStatus": "PRESEASON",
   "qcStatus": "VERIFIED_WITH_OPEN_FIELDS",
-  "expectedRosterCount": 19,
-  "exportedRosterCount": 19,
+  "expectedRosterCount": 21,
+  "exportedRosterCount": 21,
   "checks": {
     "currentLeagueRosterLocated": true,
     "allLeagueRosterNamesCaptured": true,
@@ -23,17 +23,18 @@
   },
   "knownConflicts": [],
   "staleSourceWarnings": [
-    "HM-DATA-ALLSVENSKAN-1.1: the canonical source spreadsheet carries no position, nationality, height, handedness, or contract-date column at all -- see openFieldsSummary and each roster entry's own rosterConfidence/dataNotes for exactly which fields are real evidence vs. a disclosed structural placeholder."
+    "HM-DATA-ALLSVENSKAN-1.1: the canonical source spreadsheet carries no position, nationality, height, handedness, or contract-date column at all -- see openFieldsSummary and each roster entry's own rosterConfidence/dataNotes for exactly which fields are real evidence vs. a disclosed structural placeholder.",
+    "HM-DATA-1.3: roster corrected against Profixio leagueid28141 (2026-10-31). Held pending verification: Andreas Flodman (HOLD: flagged extra with conflicting evidence (verified/key status on club page))."
   ],
   "openFieldsSummary": {
-    "exactDateOfBirthMissing": 4,
-    "nationalityMissing": 19,
+    "exactDateOfBirthMissing": 0,
+    "nationalityMissing": 13,
     "heightMissing": 19,
     "handednessMissing": 19,
     "shirtNumberMissing": 0,
     "contractEndMissing": 19,
-    "positionGenerated": 5,
+    "positionGenerated": 2,
     "positionPartial": 0,
-    "positionVerified": 14
+    "positionVerified": 19
   }
 }

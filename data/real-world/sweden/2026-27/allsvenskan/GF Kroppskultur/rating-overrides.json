@@ -45,7 +45,7 @@
     "pa": 160
   },
   "se_player_simon_holmqvist_0f746700": {
-    "updatedAt": "2026-08-30T15:45:49.986Z",
+    "updatedAt": "2026-10-31T06:14:33.392Z",
     "ca": 123,
     "pa": 145
   },
@@ -60,7 +60,7 @@
     "pa": 126
   },
   "se_player_alvin_sundstrom_733a7887": {
-    "updatedAt": "2026-08-30T15:45:44.427Z",
+    "updatedAt": "2026-10-31T06:14:33.301Z",
     "ca": 91,
     "pa": 158
   },
@@ -82,6 +82,11 @@
   "se_player_william_noord_933c8602": {
     "ca": 124,
     "pa": 125,
-    "updatedAt": "2026-08-30T15:45:50.732Z"
+    "updatedAt": "2026-10-31T06:14:33.483Z"
+  },
+  "player_malte_mansson_1d49a03b": {
+    "updatedAt": "2026-08-30T11:15:22.275Z",
+    "ca": 112,
+    "pa": 160
   }
 }

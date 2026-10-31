@@ -356,5 +356,71 @@
       ]
     },
     "dataNotes": []
+  },
+  {
+    "playerId": "se_player_alvar_emriksson_fd70b354",
+    "firstName": "Alvar",
+    "lastName": "Emriksson",
+    "fullName": "Alvar Emriksson",
+    "aliases": [],
+    "dateOfBirth": "2008-01-09",
+    "birthYear": 2008,
+    "nationalities": [
+      "SE"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED",
+      "nationalities": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_hm13_profixio_registration"
+      ],
+      "dateOfBirth": [
+        "src_hm13_profixio_registration"
+      ],
+      "nationalities": [
+        "src_hm13_profixio_registration"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-1.3 (2026-10-31): added from the Profixio Herrallsvenskan squad registration; Profixio person 655343 (https://www.profixio.com/app/lx/clubs/26041/player/655343)."
+    ]
+  },
+  {
+    "playerId": "se_player_ludvig_hedin_488c5a68",
+    "firstName": "Ludvig",
+    "lastName": "Hedin",
+    "fullName": "Ludvig Hedin",
+    "aliases": [],
+    "dateOfBirth": "2007-07-08",
+    "birthYear": 2007,
+    "nationalities": [
+      "SE"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED",
+      "nationalities": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_hm13_profixio_registration"
+      ],
+      "dateOfBirth": [
+        "src_hm13_profixio_registration"
+      ],
+      "nationalities": [
+        "src_hm13_profixio_registration"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-1.3 (2026-10-31): added from the Profixio Herrallsvenskan squad registration; Profixio person 654956 (https://www.profixio.com/app/lx/clubs/26042/player/654956)."
+    ]
   }
 ]

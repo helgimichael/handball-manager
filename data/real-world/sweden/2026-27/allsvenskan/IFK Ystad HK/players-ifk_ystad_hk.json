@@ -414,5 +414,165 @@
       ]
     },
     "dataNotes": []
+  },
+  {
+    "playerId": "se_player_axel_stjernberg_e9a954f4",
+    "firstName": "Axel",
+    "lastName": "Stjernberg",
+    "fullName": "Axel Stjernberg",
+    "aliases": [],
+    "dateOfBirth": "2003-04-21",
+    "birthYear": 2003,
+    "nationalities": [
+      "SE"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED",
+      "nationalities": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_hm13_profixio_registration"
+      ],
+      "dateOfBirth": [
+        "src_hm13_profixio_registration"
+      ],
+      "nationalities": [
+        "src_hm13_profixio_registration"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-1.3 (2026-10-31): added from the Profixio Herrallsvenskan squad registration; Profixio person 696284 (https://www.profixio.com/app/lx/clubs/26300/player/696284)."
+    ]
+  },
+  {
+    "playerId": "se_player_hugo_lundberg_eef2c0f4",
+    "firstName": "Hugo",
+    "lastName": "Lundberg",
+    "fullName": "Hugo Lundberg",
+    "aliases": [],
+    "dateOfBirth": "2007-07-25",
+    "birthYear": 2007,
+    "nationalities": [
+      "SE"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED",
+      "nationalities": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_hm13_profixio_registration"
+      ],
+      "dateOfBirth": [
+        "src_hm13_profixio_registration"
+      ],
+      "nationalities": [
+        "src_hm13_profixio_registration"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-1.3 (2026-10-31): added from the Profixio Herrallsvenskan squad registration; Profixio person 102885 (https://www.profixio.com/app/lx/clubs/26300/player/102885)."
+    ]
+  },
+  {
+    "playerId": "player_liam_thulin_c1345228",
+    "firstName": "Liam",
+    "lastName": "Thulin",
+    "fullName": "Liam Thulin",
+    "aliases": [],
+    "dateOfBirth": "2002-12-24",
+    "birthYear": 2002,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "fieldConfidence": {
+      "birthYear": "PARTIAL"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_div1_sodra_2026_27"
+      ],
+      "birthYear": [
+        "src_div1_sodra_2026_27"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-DIV1-1.0: provisional roster entry -- club's 2026/27 squad page was not yet fully published at snapshot time; see this milestone's report.",
+      "HM-DATA-1.3 (2026-10-31): 2026/27 membership moved from IK Lågan (se_division1_sodra) to IFK Ystad HK; Profixio shows 2026/27 appearances only for IFK Ystad HK (https://www.profixio.com/app/lx/clubs/26300/player/657103). Same playerId; previous roster row removed."
+    ]
+  },
+  {
+    "playerId": "se_player_ludvig_lagnert_8112dd0b",
+    "firstName": "Ludvig",
+    "lastName": "Lägnert",
+    "fullName": "Ludvig Lägnert",
+    "aliases": [],
+    "dateOfBirth": "2006-02-23",
+    "birthYear": 2006,
+    "nationalities": [
+      "SE"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED",
+      "nationalities": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_hm13_profixio_registration"
+      ],
+      "dateOfBirth": [
+        "src_hm13_profixio_registration"
+      ],
+      "nationalities": [
+        "src_hm13_profixio_registration"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-1.3 (2026-10-31): added from the Profixio Herrallsvenskan squad registration; Profixio person 657892 (https://www.profixio.com/app/lx/clubs/26300/player/657892)."
+    ]
+  },
+  {
+    "playerId": "se_player_wiggo_wahloo_88e18841",
+    "firstName": "Wiggo",
+    "lastName": "Wahlöö",
+    "fullName": "Wiggo Wahlöö",
+    "aliases": [],
+    "dateOfBirth": "2007-08-25",
+    "birthYear": 2007,
+    "nationalities": [
+      "SE"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED",
+      "nationalities": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_hm13_profixio_registration"
+      ],
+      "dateOfBirth": [
+        "src_hm13_profixio_registration"
+      ],
+      "nationalities": [
+        "src_hm13_profixio_registration"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-1.3 (2026-10-31): added from the Profixio Herrallsvenskan squad registration; Profixio person 683009 (https://www.profixio.com/app/lx/clubs/26300/player/683009)."
+    ]
   }
 ]

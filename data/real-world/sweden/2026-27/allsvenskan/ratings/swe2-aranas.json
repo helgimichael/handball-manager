@@ -2,7 +2,7 @@
   "se_player_ivar_perez_heselius_e39ab925": {
     "playerId": "se_player_ivar_perez_heselius_e39ab925",
     "clubId": "swe2-aranas",
-    "position": "H9",
+    "position": "M9",
     "ca": {
       "value": 110,
       "confidence": "HIGH",
@@ -252,7 +252,7 @@
     },
     "attackRoleProficiencies": [
       {
-        "role": "SHOOTING_BACK"
+        "role": "PRIMARY_PLAYMAKER"
       }
     ],
     "defenceRoleProficiencies": [],
@@ -906,7 +906,7 @@
   "se_player_felix_dahlen_landstrom_cd6686d8": {
     "playerId": "se_player_felix_dahlen_landstrom_cd6686d8",
     "clubId": "swe2-aranas",
-    "position": "V9",
+    "position": "M6",
     "ca": {
       "value": 103,
       "confidence": "HIGH",
@@ -1156,7 +1156,7 @@
     },
     "attackRoleProficiencies": [
       {
-        "role": "SHOOTING_BACK"
+        "role": "OFFENSIVE_PIVOT"
       }
     ],
     "defenceRoleProficiencies": [],
@@ -3002,7 +3002,7 @@
   "se_player_axel_levin_eklund_87c76a40": {
     "playerId": "se_player_axel_levin_eklund_87c76a40",
     "clubId": "swe2-aranas",
-    "position": "M6",
+    "position": "H6",
     "ca": {
       "value": 96,
       "confidence": "HIGH",
@@ -3252,7 +3252,7 @@
     },
     "attackRoleProficiencies": [
       {
-        "role": "TWO_WAY_M6"
+        "role": "TRANSITION_WING"
       }
     ],
     "defenceRoleProficiencies": [],
@@ -3264,7 +3264,7 @@
   "se_player_oliver_himlevik_c17cd4d1": {
     "playerId": "se_player_oliver_himlevik_c17cd4d1",
     "clubId": "swe2-aranas",
-    "position": "M6",
+    "position": "V9",
     "ca": {
       "value": 97,
       "confidence": "HIGH",
@@ -3514,7 +3514,7 @@
     },
     "attackRoleProficiencies": [
       {
-        "role": "TWO_WAY_M6"
+        "role": "SHOOTING_BACK"
       }
     ],
     "defenceRoleProficiencies": [],
@@ -3526,7 +3526,7 @@
   "se_player_anton_arfvidsson_e382592e": {
     "playerId": "se_player_anton_arfvidsson_e382592e",
     "clubId": "swe2-aranas",
-    "position": "H6",
+    "position": "GK",
     "ca": {
       "value": 110,
       "confidence": "HIGH",
@@ -3546,249 +3546,105 @@
       "source": "EDITOR_OVERRIDE"
     },
     "branch": {
-      "branch": "OUTCOURT",
+      "branch": "GOALKEEPER",
       "attributes": {
-        "PASSING": {
+        "GK_POSITIONING": {
+          "value": 10,
+          "origin": "GENERATED_PRIOR"
+        },
+        "SET_POSITION": {
           "value": 12,
           "origin": "GENERATED_PRIOR"
         },
-        "BALL_HANDLING": {
-          "value": 13,
-          "origin": "GENERATED_PRIOR"
-        },
-        "SHOOTING_POWER": {
-          "value": 12,
-          "origin": "GENERATED_PRIOR"
-        },
-        "SHOOTING_PLACEMENT": {
-          "value": 12,
-          "origin": "GENERATED_PRIOR"
-        },
-        "SHOOTING_VARIETY": {
-          "value": 12,
-          "origin": "GENERATED_PRIOR"
-        },
-        "BREAKTHROUGH": {
-          "value": 13,
-          "origin": "GENERATED_PRIOR"
-        },
-        "FINISHING": {
-          "value": 12,
-          "origin": "GENERATED_PRIOR"
-        },
-        "WING_FINISHING": {
-          "value": 16,
+        "REACTION": {
+          "value": 14,
           "origin": "DERIVED"
         },
-        "PIVOT_PLAY": {
-          "value": 13,
-          "origin": "GENERATED_PRIOR"
-        },
-        "SCREENING": {
-          "value": 11,
-          "origin": "GENERATED_PRIOR"
-        },
-        "GAME_READING": {
-          "value": 10,
-          "origin": "GENERATED_PRIOR"
-        },
-        "DECISION_MAKING": {
-          "value": 9,
-          "origin": "GENERATED_PRIOR"
-        },
-        "AWARENESS": {
-          "value": 10,
-          "origin": "GENERATED_PRIOR"
-        },
-        "ANTICIPATION": {
-          "value": 10,
-          "origin": "GENERATED_PRIOR"
-        },
-        "PLAYMAKING": {
-          "value": 10,
-          "origin": "GENERATED_PRIOR"
-        },
-        "TEMPO_CONTROL": {
-          "value": 9,
-          "origin": "GENERATED_PRIOR"
-        },
-        "TWO_V_TWO_READING": {
-          "value": 10,
-          "origin": "GENERATED_PRIOR"
-        },
-        "ADVANTAGE_RECOGNITION": {
-          "value": 9,
-          "origin": "GENERATED_PRIOR"
-        },
-        "TACTICAL_UNDERSTANDING": {
-          "value": 11,
-          "origin": "GENERATED_PRIOR"
-        },
-        "ROLE_DISCIPLINE": {
-          "value": 11,
-          "origin": "GENERATED_PRIOR"
-        },
-        "OFF_BALL_MOVEMENT": {
-          "value": 12,
-          "origin": "GENERATED_PRIOR"
-        },
-        "SPACING": {
-          "value": 10,
-          "origin": "GENERATED_PRIOR"
-        },
-        "TIMING": {
-          "value": 12,
-          "origin": "GENERATED_PRIOR"
-        },
-        "TRANSITION_UNDERSTANDING": {
-          "value": 12,
-          "origin": "GENERATED_PRIOR"
-        },
-        "SYSTEM_ADAPTABILITY": {
-          "value": 10,
-          "origin": "GENERATED_PRIOR"
-        },
-        "SEVEN_V_SIX_UNDERSTANDING": {
-          "value": 10,
-          "origin": "GENERATED_PRIOR"
-        },
-        "CONTACT_ABILITY": {
-          "value": 9,
-          "origin": "GENERATED_PRIOR"
-        },
-        "DEFENSIVE_POSITIONING": {
-          "value": 10,
-          "origin": "GENERATED_PRIOR"
-        },
-        "DEFENSIVE_TIMING": {
-          "value": 9,
-          "origin": "GENERATED_PRIOR"
-        },
-        "LATERAL_DEFENCE": {
-          "value": 9,
-          "origin": "GENERATED_PRIOR"
-        },
-        "DEPTH_DEFENCE": {
-          "value": 11,
-          "origin": "GENERATED_PRIOR"
-        },
-        "CENTRAL_DEFENCE": {
-          "value": 9,
-          "origin": "GENERATED_PRIOR"
-        },
-        "COVERING": {
-          "value": 11,
-          "origin": "GENERATED_PRIOR"
-        },
-        "SWITCHING_HANDOVER": {
-          "value": 9,
-          "origin": "GENERATED_PRIOR"
-        },
-        "BALL_WINNING": {
-          "value": 10,
-          "origin": "GENERATED_PRIOR"
-        },
-        "SHOT_BLOCKING": {
-          "value": 10,
-          "origin": "GENERATED_PRIOR"
-        },
-        "ACCELERATION": {
-          "value": 12,
-          "origin": "GENERATED_PRIOR"
-        },
-        "TOP_SPEED": {
+        "GK_EXPLOSIVENESS": {
           "value": 13,
           "origin": "DERIVED"
         },
-        "LATERAL_QUICKNESS": {
+        "LOW_SAVES": {
           "value": 13,
+          "origin": "DERIVED"
+        },
+        "HIGH_SAVES": {
+          "value": 10,
           "origin": "GENERATED_PRIOR"
         },
-        "AGILITY": {
+        "CLOSE_RANGE_SAVES": {
           "value": 13,
+          "origin": "DERIVED"
+        },
+        "LONG_RANGE_SAVES": {
+          "value": 10,
           "origin": "GENERATED_PRIOR"
         },
-        "EXPLOSIVENESS": {
-          "value": 13,
+        "WING_SAVES": {
+          "value": 10,
           "origin": "GENERATED_PRIOR"
         },
-        "STRENGTH": {
-          "value": 13,
+        "SEVEN_M_SAVES": {
+          "value": 10,
           "origin": "GENERATED_PRIOR"
         },
-        "CONTACT_BALANCE": {
-          "value": 14,
-          "origin": "GENERATED_PRIOR"
-        },
-        "JUMP_ABILITY": {
-          "value": 14,
-          "origin": "GENERATED_PRIOR"
-        },
-        "ENDURANCE": {
-          "value": 14,
-          "origin": "GENERATED_PRIOR"
-        },
-        "REPEAT_SPRINT_ABILITY": {
+        "SHOOTER_READING": {
           "value": 12,
           "origin": "GENERATED_PRIOR"
         },
-        "MOBILITY": {
-          "value": 14,
-          "origin": "GENERATED_PRIOR"
-        },
-        "CONSISTENCY": {
-          "value": 12,
-          "origin": "GENERATED_PRIOR"
-        },
-        "COMPOSURE": {
+        "SHOT_ANTICIPATION": {
           "value": 11,
           "origin": "GENERATED_PRIOR"
         },
-        "CONCENTRATION": {
+        "PATIENCE": {
           "value": 10,
           "origin": "GENERATED_PRIOR"
         },
-        "COMPETITIVE_MENTALITY": {
+        "DECISION_TIMING": {
           "value": 12,
           "origin": "GENERATED_PRIOR"
         },
-        "RESILIENCE": {
+        "OUTLET_PASSING": {
+          "value": 12,
+          "origin": "GENERATED_PRIOR"
+        },
+        "RESTART_SPEED": {
+          "value": 10,
+          "origin": "GENERATED_PRIOR"
+        },
+        "TRANSITION_DECISION": {
+          "value": 10,
+          "origin": "GENERATED_PRIOR"
+        },
+        "GK_CONSISTENCY": {
+          "value": 10,
+          "origin": "GENERATED_PRIOR"
+        },
+        "GK_COMPOSURE": {
+          "value": 12,
+          "origin": "GENERATED_PRIOR"
+        },
+        "GK_CONCENTRATION": {
           "value": 11,
           "origin": "GENERATED_PRIOR"
         },
-        "DISCIPLINE": {
-          "value": 10,
-          "origin": "GENERATED_PRIOR"
-        },
-        "COACHABILITY": {
+        "GK_PRESSURE_HANDLING": {
           "value": 12,
-          "origin": "GENERATED_PRIOR"
-        },
-        "LEADERSHIP": {
-          "value": 10,
-          "origin": "GENERATED_PRIOR"
-        },
-        "PRESSURE_HANDLING": {
-          "value": 10,
           "origin": "GENERATED_PRIOR"
         }
       }
     },
-    "attackRoleProficiencies": [
-      {
-        "role": "ELITE_FINISHER"
-      }
-    ],
+    "attackRoleProficiencies": [],
     "defenceRoleProficiencies": [],
     "caEstimationModelVersion": "HM-RATINGS-0.5-v1",
     "attributeGenerationModelVersion": "HM-RATINGS-0.4-v1",
-    "lockedAt": "2026-08-30T15:45:00.798Z",
-    "lockedNote": "ALLSV_rating_import_candidates_v0.13 Allsvenskan final import (261/261, individually researched, 0 REVIEW)"
+    "lockedAt": "2026-10-31T06:14:32.536Z",
+    "lockedNote": "HM-DATA-1.3 (2026-10-31) GK/OUTCOURT branch correction to MV; researched CA/PA preserved, generated attributes regenerated (HM-RATINGS-0.4-v1)"
   },
   "se_player_liam_magnusson_170cd0eb": {
     "playerId": "se_player_liam_magnusson_170cd0eb",
     "clubId": "swe2-aranas",
-    "position": "GK",
+    "position": "H6",
     "ca": {
       "value": 96,
       "confidence": "HIGH",
@@ -3808,99 +3664,243 @@
       "source": "EDITOR_OVERRIDE"
     },
     "branch": {
-      "branch": "GOALKEEPER",
+      "branch": "OUTCOURT",
       "attributes": {
-        "GK_POSITIONING": {
-          "value": 9,
+        "PASSING": {
+          "value": 10,
           "origin": "GENERATED_PRIOR"
         },
-        "SET_POSITION": {
-          "value": 9,
+        "BALL_HANDLING": {
+          "value": 12,
           "origin": "GENERATED_PRIOR"
         },
-        "REACTION": {
-          "value": 12,
-          "origin": "DERIVED"
-        },
-        "GK_EXPLOSIVENESS": {
-          "value": 11,
-          "origin": "DERIVED"
-        },
-        "LOW_SAVES": {
-          "value": 12,
-          "origin": "DERIVED"
-        },
-        "HIGH_SAVES": {
+        "SHOOTING_POWER": {
           "value": 11,
           "origin": "GENERATED_PRIOR"
         },
-        "CLOSE_RANGE_SAVES": {
+        "SHOOTING_PLACEMENT": {
+          "value": 10,
+          "origin": "GENERATED_PRIOR"
+        },
+        "SHOOTING_VARIETY": {
+          "value": 12,
+          "origin": "GENERATED_PRIOR"
+        },
+        "BREAKTHROUGH": {
+          "value": 11,
+          "origin": "GENERATED_PRIOR"
+        },
+        "FINISHING": {
+          "value": 11,
+          "origin": "GENERATED_PRIOR"
+        },
+        "WING_FINISHING": {
           "value": 13,
           "origin": "DERIVED"
         },
-        "LONG_RANGE_SAVES": {
-          "value": 10,
-          "origin": "GENERATED_PRIOR"
-        },
-        "WING_SAVES": {
-          "value": 9,
-          "origin": "GENERATED_PRIOR"
-        },
-        "SEVEN_M_SAVES": {
+        "PIVOT_PLAY": {
           "value": 11,
           "origin": "GENERATED_PRIOR"
         },
-        "SHOOTER_READING": {
+        "SCREENING": {
+          "value": 10,
+          "origin": "GENERATED_PRIOR"
+        },
+        "GAME_READING": {
+          "value": 10,
+          "origin": "GENERATED_PRIOR"
+        },
+        "DECISION_MAKING": {
+          "value": 10,
+          "origin": "GENERATED_PRIOR"
+        },
+        "AWARENESS": {
+          "value": 9,
+          "origin": "GENERATED_PRIOR"
+        },
+        "ANTICIPATION": {
+          "value": 9,
+          "origin": "GENERATED_PRIOR"
+        },
+        "PLAYMAKING": {
+          "value": 9,
+          "origin": "GENERATED_PRIOR"
+        },
+        "TEMPO_CONTROL": {
+          "value": 9,
+          "origin": "GENERATED_PRIOR"
+        },
+        "TWO_V_TWO_READING": {
+          "value": 10,
+          "origin": "GENERATED_PRIOR"
+        },
+        "ADVANTAGE_RECOGNITION": {
+          "value": 10,
+          "origin": "GENERATED_PRIOR"
+        },
+        "TACTICAL_UNDERSTANDING": {
           "value": 11,
           "origin": "GENERATED_PRIOR"
         },
-        "SHOT_ANTICIPATION": {
-          "value": 9,
-          "origin": "GENERATED_PRIOR"
-        },
-        "PATIENCE": {
+        "ROLE_DISCIPLINE": {
           "value": 10,
           "origin": "GENERATED_PRIOR"
         },
-        "DECISION_TIMING": {
-          "value": 9,
-          "origin": "GENERATED_PRIOR"
-        },
-        "OUTLET_PASSING": {
-          "value": 10,
-          "origin": "GENERATED_PRIOR"
-        },
-        "RESTART_SPEED": {
+        "OFF_BALL_MOVEMENT": {
           "value": 11,
           "origin": "GENERATED_PRIOR"
         },
-        "TRANSITION_DECISION": {
+        "SPACING": {
           "value": 10,
           "origin": "GENERATED_PRIOR"
         },
-        "GK_CONSISTENCY": {
+        "TIMING": {
+          "value": 10,
+          "origin": "GENERATED_PRIOR"
+        },
+        "TRANSITION_UNDERSTANDING": {
           "value": 9,
           "origin": "GENERATED_PRIOR"
         },
-        "GK_COMPOSURE": {
+        "SYSTEM_ADAPTABILITY": {
           "value": 11,
           "origin": "GENERATED_PRIOR"
         },
-        "GK_CONCENTRATION": {
+        "SEVEN_V_SIX_UNDERSTANDING": {
           "value": 10,
           "origin": "GENERATED_PRIOR"
         },
-        "GK_PRESSURE_HANDLING": {
+        "CONTACT_ABILITY": {
+          "value": 8,
+          "origin": "GENERATED_PRIOR"
+        },
+        "DEFENSIVE_POSITIONING": {
+          "value": 8,
+          "origin": "GENERATED_PRIOR"
+        },
+        "DEFENSIVE_TIMING": {
+          "value": 10,
+          "origin": "GENERATED_PRIOR"
+        },
+        "LATERAL_DEFENCE": {
           "value": 9,
+          "origin": "GENERATED_PRIOR"
+        },
+        "DEPTH_DEFENCE": {
+          "value": 10,
+          "origin": "GENERATED_PRIOR"
+        },
+        "CENTRAL_DEFENCE": {
+          "value": 10,
+          "origin": "GENERATED_PRIOR"
+        },
+        "COVERING": {
+          "value": 9,
+          "origin": "GENERATED_PRIOR"
+        },
+        "SWITCHING_HANDOVER": {
+          "value": 10,
+          "origin": "GENERATED_PRIOR"
+        },
+        "BALL_WINNING": {
+          "value": 9,
+          "origin": "GENERATED_PRIOR"
+        },
+        "SHOT_BLOCKING": {
+          "value": 10,
+          "origin": "GENERATED_PRIOR"
+        },
+        "ACCELERATION": {
+          "value": 11,
+          "origin": "GENERATED_PRIOR"
+        },
+        "TOP_SPEED": {
+          "value": 14,
+          "origin": "DERIVED"
+        },
+        "LATERAL_QUICKNESS": {
+          "value": 12,
+          "origin": "GENERATED_PRIOR"
+        },
+        "AGILITY": {
+          "value": 13,
+          "origin": "GENERATED_PRIOR"
+        },
+        "EXPLOSIVENESS": {
+          "value": 12,
+          "origin": "GENERATED_PRIOR"
+        },
+        "STRENGTH": {
+          "value": 13,
+          "origin": "GENERATED_PRIOR"
+        },
+        "CONTACT_BALANCE": {
+          "value": 13,
+          "origin": "GENERATED_PRIOR"
+        },
+        "JUMP_ABILITY": {
+          "value": 13,
+          "origin": "GENERATED_PRIOR"
+        },
+        "ENDURANCE": {
+          "value": 12,
+          "origin": "GENERATED_PRIOR"
+        },
+        "REPEAT_SPRINT_ABILITY": {
+          "value": 12,
+          "origin": "GENERATED_PRIOR"
+        },
+        "MOBILITY": {
+          "value": 12,
+          "origin": "GENERATED_PRIOR"
+        },
+        "CONSISTENCY": {
+          "value": 9,
+          "origin": "GENERATED_PRIOR"
+        },
+        "COMPOSURE": {
+          "value": 9,
+          "origin": "GENERATED_PRIOR"
+        },
+        "CONCENTRATION": {
+          "value": 10,
+          "origin": "GENERATED_PRIOR"
+        },
+        "COMPETITIVE_MENTALITY": {
+          "value": 11,
+          "origin": "GENERATED_PRIOR"
+        },
+        "RESILIENCE": {
+          "value": 11,
+          "origin": "GENERATED_PRIOR"
+        },
+        "DISCIPLINE": {
+          "value": 10,
+          "origin": "GENERATED_PRIOR"
+        },
+        "COACHABILITY": {
+          "value": 10,
+          "origin": "GENERATED_PRIOR"
+        },
+        "LEADERSHIP": {
+          "value": 10,
+          "origin": "GENERATED_PRIOR"
+        },
+        "PRESSURE_HANDLING": {
+          "value": 11,
           "origin": "GENERATED_PRIOR"
         }
       }
     },
-    "attackRoleProficiencies": [],
+    "attackRoleProficiencies": [
+      {
+        "role": "ELITE_FINISHER"
+      }
+    ],
     "defenceRoleProficiencies": [],
     "caEstimationModelVersion": "HM-RATINGS-0.5-v1",
     "attributeGenerationModelVersion": "HM-RATINGS-0.4-v1",
-    "lockedAt": "2026-08-30T15:45:05.403Z",
-    "lockedNote": "ALLSV_rating_import_candidates_v0.13 Allsvenskan final import (261/261, individually researched, 0 REVIEW)"
+    "lockedAt": "2026-10-31T06:14:32.635Z",
+    "lockedNote": "HM-DATA-1.3 (2026-10-31) GK/OUTCOURT branch correction to H6; researched CA/PA preserved, generated attributes regenerated (HM-RATINGS-0.4-v1)"
   }
 }

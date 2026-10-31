@@ -420,34 +420,6 @@
     ]
   },
   {
-    "rosterEntryId": "se_2026_27_division1_sodra_ik_lagan__c1345228",
-    "playerId": "player_liam_thulin_c1345228",
-    "clubId": "se_club_ik_lagan",
-    "competitionId": "se_division1_sodra",
-    "season": "2026/27",
-    "snapshotDate": "2026-08-27",
-    "shirtNumber": 25,
-    "sourcePosition": "",
-    "primaryPosition": "H9",
-    "secondaryPositions": [],
-    "rosterStatus": "PROVISIONAL",
-    "contract": {
-      "untilDate": null,
-      "untilSeason": null,
-      "optionUntilSeason": null
-    },
-    "rosterConfidence": "UNKNOWN",
-    "sourceRefs": {
-      "roster": [
-        "src_div1_sodra_2026_27"
-      ],
-      "position": []
-    },
-    "dataNotes": [
-      "HM-DATA-DIV1-1.0: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
-    ]
-  },
-  {
     "rosterEntryId": "se_2026_27_division1_sodra_ik_lagan__e13f0949",
     "playerId": "player_jakob_sandstrom_e13f0949",
     "clubId": "se_club_ik_lagan",

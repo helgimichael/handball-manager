@@ -6,8 +6,8 @@
   },
   "se_player_oliver_knudsen_831e83e1": {
     "status": "LOCKED",
-    "updatedAt": "2026-08-30T15:46:51.954Z",
-    "note": "ALLSV_rating_import_candidates_v0.13 Allsvenskan final import (261/261, individually researched, 0 REVIEW)"
+    "updatedAt": "2026-10-31T06:14:33.175Z",
+    "note": "HM-DATA-1.3 (2026-10-31) GK/OUTCOURT branch correction to MV; researched CA/PA preserved, generated attributes regenerated (HM-RATINGS-0.4-v1)"
   },
   "se_player_melker_andersson_d551e135": {
     "status": "LOCKED",
@@ -66,8 +66,8 @@
   },
   "se_player_adam_rosberg_cba4f26d": {
     "status": "LOCKED",
-    "updatedAt": "2026-08-30T15:46:46.958Z",
-    "note": "ALLSV_rating_import_candidates_v0.13 Allsvenskan final import (261/261, individually researched, 0 REVIEW)"
+    "updatedAt": "2026-10-31T06:14:33.083Z",
+    "note": "HM-DATA-1.3 (2026-10-31) GK/OUTCOURT branch correction to M6; researched CA/PA preserved, generated attributes regenerated (HM-RATINGS-0.4-v1)"
   },
   "se_player_nils_kjelgaard_b5faed25": {
     "status": "LOCKED",
@@ -76,7 +76,12 @@
   },
   "se_player_vilmer_feldt_19df4fce": {
     "status": "LOCKED",
-    "updatedAt": "2026-08-30T15:46:53.261Z",
-    "note": "ALLSV_rating_import_candidates_v0.13 Allsvenskan final import (261/261, individually researched, 0 REVIEW)"
+    "updatedAt": "2026-10-31T06:14:33.270Z",
+    "note": "HM-DATA-1.3 (2026-10-31) GK/OUTCOURT branch correction to H6; researched CA/PA preserved, generated attributes regenerated (HM-RATINGS-0.4-v1)"
+  },
+  "player_liam_thulin_c1345228": {
+    "status": "LOCKED",
+    "updatedAt": "2026-08-30T17:59:21.173Z",
+    "note": "DIV1N_rating_import_candidates_v0.6 / DIV1S_rating_import_candidates_v0.5 Division 1 import (DIV1_ONLY_CANONICAL set only)"
   }
 }

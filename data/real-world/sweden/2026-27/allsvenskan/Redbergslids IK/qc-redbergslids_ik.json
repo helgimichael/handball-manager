@@ -3,11 +3,11 @@
   "clubName": "Redbergslids IK",
   "competitionId": "swe-2",
   "season": "2026/27",
-  "snapshotDate": "2026-08-27",
+  "snapshotDate": "2026-10-31",
   "datasetStatus": "PRESEASON",
   "qcStatus": "VERIFIED_WITH_OPEN_FIELDS",
-  "expectedRosterCount": 24,
-  "exportedRosterCount": 24,
+  "expectedRosterCount": 25,
+  "exportedRosterCount": 25,
   "checks": {
     "currentLeagueRosterLocated": true,
     "allLeagueRosterNamesCaptured": true,
@@ -23,17 +23,18 @@
   },
   "knownConflicts": [],
   "staleSourceWarnings": [
-    "HM-DATA-ALLSVENSKAN-1.1: the canonical source spreadsheet carries no position, nationality, height, handedness, or contract-date column at all -- see openFieldsSummary and each roster entry's own rosterConfidence/dataNotes for exactly which fields are real evidence vs. a disclosed structural placeholder."
+    "HM-DATA-ALLSVENSKAN-1.1: the canonical source spreadsheet carries no position, nationality, height, handedness, or contract-date column at all -- see openFieldsSummary and each roster entry's own rosterConfidence/dataNotes for exactly which fields are real evidence vs. a disclosed structural placeholder.",
+    "HM-DATA-1.3: roster corrected against Profixio leagueid28141 (2026-10-31). Held pending verification: Noah Larsson (HOLD: flagged extra with conflicting evidence (verified/key status on club page)); Axel Winström (HOLD: flagged extra with conflicting evidence (verified/key status on club page)); Oliver Andersson (HOLD: flagged extra with conflicting evidence (verified/key status on club page)); Theodor Kapnias Olsson (HOLD: flagged extra with conflicting evidence (verified/key status on club page)); Colin Lundström (HOLD: flagged extra with conflicting evidence (verified/key status on club page))."
   ],
   "openFieldsSummary": {
-    "exactDateOfBirthMissing": 9,
-    "nationalityMissing": 24,
+    "exactDateOfBirthMissing": 1,
+    "nationalityMissing": 19,
     "heightMissing": 24,
     "handednessMissing": 24,
     "shirtNumberMissing": 0,
     "contractEndMissing": 24,
-    "positionGenerated": 6,
+    "positionGenerated": 2,
     "positionPartial": 0,
-    "positionVerified": 18
+    "positionVerified": 23
   }
 }

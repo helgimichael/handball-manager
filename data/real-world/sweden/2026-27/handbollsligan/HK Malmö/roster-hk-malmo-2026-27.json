@@ -493,33 +493,6 @@
     }
   },
   {
-    "rosterEntryId": "se_2026_27_handbollsligan_hkmalmo_1d49a03b",
-    "playerId": "player_malte_mansson_1d49a03b",
-    "clubId": "se_club_hk_malmo",
-    "competitionId": "se_handbollsligan_herr",
-    "season": "2026/27",
-    "snapshotDate": "2026-08-19",
-    "shirtNumber": null,
-    "sourcePosition": "Right Back",
-    "primaryPosition": "H9",
-    "secondaryPositions": [],
-    "rosterStatus": "CONFIRMED",
-    "contract": {
-      "untilDate": null,
-      "untilSeason": null,
-      "optionUntilSeason": null
-    },
-    "rosterConfidence": "VERIFIED",
-    "sourceRefs": {
-      "roster": [
-        "src_hbl_hkmalmo_20260622"
-      ],
-      "position": [
-        "src_hbl_hkmalmo_20260622"
-      ]
-    }
-  },
-  {
     "rosterEntryId": "se_2026_27_handbollsligan_hkmalmo_394ae2b9",
     "playerId": "player_colin_tonnesen_394ae2b9",
     "clubId": "se_club_hk_malmo",

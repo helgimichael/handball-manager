@@ -13,6 +13,7 @@ import { snapshotWorldSquads, snapshotGameplayRatings } from "./serverSnapshot";
 import { WORLD_POOL_COMPETITION_IDS } from "../career/careerWorld";
 import { loadRatingDatabase } from "../editor/ratingDatabaseRepository";
 import { buildCatalog, findClubById } from "../editor/catalog";
+import { HM_DATA_1_3_RELOCATED_TO_ALLSVENSKAN, HM_DATA_1_3_REMOVED_MEMBERSHIPS, HM_DATA_1_3_RENAMED } from "./hmData13RosterCorrections";
 
 const EXPORTS_DIR = path.join(__dirname, "..", "..", "..", "..", "exports", "player-rating-research");
 const HBL_CSV_PATH = path.join(EXPORTS_DIR, "HBL_rating_import_candidates_v2.13.csv");
@@ -82,6 +83,45 @@ function collectRatings(competitionIds: readonly string[]): Map<string, { ca: nu
 }
 
 /**
+ * collectRatings, following HM-DATA-1.3's identity-level roster changes: a
+ * relocated player's (unchanged) rating is read at his new Herrallsvenskan
+ * club, and a removed membership's from its retained locked record. Only for
+ * checks of an import's own values -- the cross-pool duplicate checks keep
+ * using the live pools.
+ */
+function collectImportedRatings(competitionIds: readonly string[]): Map<string, { ca: number; pa: number }> {
+  const out = collectRatings(competitionIds);
+  const relocated = HM_DATA_1_3_RELOCATED_TO_ALLSVENSKAN.filter((r) => competitionIds.includes(r.fromCompetitionId) && !out.has(r.playerId));
+  if (relocated.length > 0) {
+    const allsvenskan = collectRatings([ALLSVENSKAN_COMPETITION_ID]);
+    for (const r of relocated) { const rating = allsvenskan.get(r.playerId); if (rating) out.set(r.playerId, rating); }
+  }
+  if (competitionIds.includes(ALLSVENSKAN_COMPETITION_ID)) {
+    for (const r of HM_DATA_1_3_REMOVED_MEMBERSHIPS) {
+      const lock = loadRatingDatabase(r.clubId)[r.playerId];
+      if (lock) out.set(r.playerId, { ca: lock.ca.value, pa: lock.pa?.value ?? lock.ca.value });
+    }
+  }
+  return out;
+}
+
+/** An import's playerIds as they exist now: live squads, plus HM-DATA-1.3 relocations (found at their new club) and removed memberships (still locked). */
+function importedIdentityIds(competitionId: string): Set<string> {
+  const ids = new Set<string>();
+  const squads = snapshotWorldSquads(competitionId);
+  for (const clubId of Object.keys(squads)) for (const p of squads[clubId]) ids.add(p.id);
+  const relocated = HM_DATA_1_3_RELOCATED_TO_ALLSVENSKAN.filter((r) => r.fromCompetitionId === competitionId);
+  if (relocated.length > 0) {
+    const allsvenskan = snapshotWorldSquads(ALLSVENSKAN_COMPETITION_ID);
+    for (const r of relocated) if (allsvenskan[r.toClubId]?.some((p) => p.id === r.playerId)) ids.add(r.playerId);
+  }
+  if (competitionId === ALLSVENSKAN_COMPETITION_ID) {
+    for (const r of HM_DATA_1_3_REMOVED_MEMBERSHIPS) if (loadRatingDatabase(r.clubId)[r.playerId]) ids.add(r.playerId);
+  }
+  return ids;
+}
+
+/**
  * A canonical rating import is the source of truth for a player only for
  * as long as nobody has deliberately re-calibrated that player since.
  * The Player Data Editor (Spelare -> Kalibrering) is an intentional,
@@ -139,7 +179,10 @@ function loadProvenance(competitionIds: readonly string[]): Map<string, RatingPr
   const out = new Map<string, RatingProvenance>();
   const perClub = new Map<string, { review: Record<string, Record<string, unknown>>; override: Record<string, Record<string, unknown>> }>();
 
-  for (const [playerId, clubId] of playerClubIds(competitionIds)) {
+  const clubIds = playerClubIds(competitionIds);
+  for (const r of HM_DATA_1_3_RELOCATED_TO_ALLSVENSKAN) if (competitionIds.includes(r.fromCompetitionId) && !clubIds.has(r.playerId)) clubIds.set(r.playerId, r.toClubId);
+  if (competitionIds.includes(ALLSVENSKAN_COMPETITION_ID)) for (const r of HM_DATA_1_3_REMOVED_MEMBERSHIPS) clubIds.set(r.playerId, r.clubId);
+  for (const [playerId, clubId] of clubIds) {
     if (!perClub.has(clubId)) {
       const club = findClubById(catalog, clubId);
       perClub.set(clubId, club
@@ -179,7 +222,7 @@ function assertImportFidelity(opts: {
   competitionIds: readonly string[];
   importTag: string;
 }): void {
-  const ratings = collectRatings(opts.competitionIds);
+  const ratings = collectImportedRatings(opts.competitionIds);
   const provenance = loadProvenance(opts.competitionIds);
   let pristine = 0;
 
@@ -228,9 +271,7 @@ test("HBL v2.13: all 268 playerIds exist exactly once in the canonical DB", () =
   const ids = rows.map((r) => r[idx("playerId")]);
   assert.equal(new Set(ids).size, 268, "no duplicate playerIds in the HBL CSV");
 
-  const squads = snapshotWorldSquads(HBL_COMPETITION_ID);
-  const dbIds = new Set<string>();
-  for (const clubId of Object.keys(squads)) for (const p of squads[clubId]) dbIds.add(p.id);
+  const dbIds = importedIdentityIds(HBL_COMPETITION_ID);
   for (const id of ids) assert.ok(dbIds.has(id), `playerId ${id} missing from canonical HBL DB`);
 });
 
@@ -287,9 +328,7 @@ test("Allsvenskan v0.13: all 261 playerIds exist exactly once in the canonical D
   const ids = rows.map((r) => r[idx("playerId")]);
   assert.equal(new Set(ids).size, 261, "no duplicate playerIds in the Allsvenskan CSV");
 
-  const squads = snapshotWorldSquads(ALLSVENSKAN_COMPETITION_ID);
-  const dbIds = new Set<string>();
-  for (const clubId of Object.keys(squads)) for (const p of squads[clubId]) dbIds.add(p.id);
+  const dbIds = importedIdentityIds(ALLSVENSKAN_COMPETITION_ID);
   for (const id of ids) assert.ok(dbIds.has(id), `playerId ${id} missing from canonical Allsvenskan DB`);
 });
 
@@ -331,7 +370,7 @@ test("HBL + World Pool + Allsvenskan combined: no playerId duplicated across the
 test("Allsvenskan v0.13 import did not change any HBL or World Pool rating", () => {
   const { header: hblHeader, rows: hblRows } = loadCsv(HBL_CSV_PATH);
   const hblIdx = (name: string) => hblHeader.indexOf(name);
-  const hblRatings = collectRatings([HBL_COMPETITION_ID]);
+  const hblRatings = collectImportedRatings([HBL_COMPETITION_ID]);
   for (const r of hblRows) {
     const playerId = r[hblIdx("playerId")];
     const expectedCA = Number(r[hblIdx("New CA")]);
@@ -405,10 +444,16 @@ test("HBL + World Pool + Allsvenskan: non-rating player fields are untouched by 
   const allsvSquads = snapshotWorldSquads(ALLSVENSKAN_COMPETITION_ID);
   const allsvById = new Map<string, { firstName: string; lastName: string }>();
   for (const clubId of Object.keys(allsvSquads)) for (const p of allsvSquads[clubId]) allsvById.set(p.id, { firstName: p.firstName, lastName: p.lastName });
+  // HM-DATA-1.3 removed some 2026/27 memberships but kept the identity record: read those from the club's players file.
+  for (const { playerId, clubId } of HM_DATA_1_3_REMOVED_MEMBERSHIPS) {
+    const club = findClubById(buildCatalog(), clubId);
+    const identity = club && (JSON.parse(fs.readFileSync(club.playersFile, "utf8")) as { playerId: string; firstName: string; lastName: string }[]).find((p) => p.playerId === playerId);
+    if (identity) allsvById.set(playerId, { firstName: identity.firstName, lastName: identity.lastName });
+  }
 
   for (const r of allsvRows.slice(0, 20)) {
     const playerId = r[allsvIdx("playerId")];
-    const csvPlayerName = r[allsvIdx("Player")];
+    const csvPlayerName = HM_DATA_1_3_RENAMED.get(r[allsvIdx("playerId")]) ?? r[allsvIdx("Player")];
     const dbPlayer = allsvById.get(playerId);
     assert.ok(dbPlayer, `player ${playerId} missing from DB`);
     const dbFullName = `${dbPlayer!.firstName} ${dbPlayer!.lastName}`;
@@ -436,7 +481,7 @@ test("Division 1 v1: the identity audit classifies all 581 source rows and the D
   assert.equal(statusCounts.get("DIV1_DUPLICATE_CONFIRMED") ?? 0, 0);
   assert.equal(statusCounts.get("UNRESOLVED_IDENTITY"), 7);
 
-  const ratings = collectRatings(D1_COMPETITION_IDS);
+  const ratings = collectImportedRatings(D1_COMPETITION_IDS);
   let checkedOnlyCanonical = 0;
   for (const [rows, idx] of [[nRows, nIdx] as const, [sRows, sIdx] as const]) {
     for (const r of rows) {

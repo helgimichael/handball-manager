@@ -1,7 +1,7 @@
 {
-  "milestone": "HM-DATA-ALLSVENSKAN-1.1",
+  "milestone": "HM-DATA-1.3",
   "club": "IFK Ystad HK",
-  "snapshotDate": "2026-08-27",
+  "snapshotDate": "2026-10-31",
   "files": [
     "players-ifk_ystad_hk.json",
     "roster-ifk_ystad_hk-2026-27.json",

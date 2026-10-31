@@ -30,9 +30,9 @@
     "pa": 140
   },
   "se_player_william_lund_a1cef7d9": {
+    "updatedAt": "2026-08-30T15:45:07.617Z",
     "ca": 128,
-    "pa": 134,
-    "updatedAt": "2026-08-30T15:45:07.617Z"
+    "pa": 134
   },
   "se_player_arvid_larsson_0fac8bfb": {
     "updatedAt": "2026-08-30T15:45:01.031Z",
@@ -70,13 +70,13 @@
     "pa": 143
   },
   "se_player_anton_arfvidsson_e382592e": {
-    "updatedAt": "2026-08-30T15:45:00.636Z",
+    "updatedAt": "2026-10-31T06:14:32.488Z",
     "ca": 110,
     "pa": 148
   },
   "se_player_liam_magnusson_170cd0eb": {
-    "updatedAt": "2026-08-30T15:45:05.237Z",
     "ca": 96,
-    "pa": 146
+    "pa": 146,
+    "updatedAt": "2026-10-31T06:14:32.603Z"
   }
 }

@@ -404,5 +404,104 @@
       ]
     },
     "dataNotes": []
+  },
+  {
+    "playerId": "se_player_anton_jansson_396049ed",
+    "firstName": "Anton",
+    "lastName": "Jansson",
+    "fullName": "Anton Jansson",
+    "aliases": [],
+    "dateOfBirth": "2007-03-02",
+    "birthYear": 2007,
+    "nationalities": [
+      "SE"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED",
+      "nationalities": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_hm13_profixio_registration"
+      ],
+      "dateOfBirth": [
+        "src_hm13_profixio_registration"
+      ],
+      "nationalities": [
+        "src_hm13_profixio_registration"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-1.3 (2026-10-31): added from the Profixio Herrallsvenskan squad registration; Profixio person 613039 (https://www.profixio.com/app/lx/clubs/25957/player/613039)."
+    ]
+  },
+  {
+    "playerId": "se_player_axel_snovall_55dad9a1",
+    "firstName": "Axel",
+    "lastName": "Snövall",
+    "fullName": "Axel Snövall",
+    "aliases": [],
+    "dateOfBirth": "2009-02-19",
+    "birthYear": 2009,
+    "nationalities": [
+      "SE"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED",
+      "nationalities": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_hm13_profixio_registration"
+      ],
+      "dateOfBirth": [
+        "src_hm13_profixio_registration"
+      ],
+      "nationalities": [
+        "src_hm13_profixio_registration"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-1.3 (2026-10-31): added from the Profixio Herrallsvenskan squad registration; Profixio person 615266 (https://www.profixio.com/app/lx/clubs/25957/player/615266)."
+    ]
+  },
+  {
+    "playerId": "se_player_kalle_kankaanpa_ee63d9b9",
+    "firstName": "Kalle",
+    "lastName": "Kankaanpä",
+    "fullName": "Kalle Kankaanpä",
+    "aliases": [],
+    "dateOfBirth": "2000-11-14",
+    "birthYear": 2000,
+    "nationalities": [
+      "FI"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED",
+      "nationalities": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_hm13_profixio_registration"
+      ],
+      "dateOfBirth": [
+        "src_hm13_profixio_registration"
+      ],
+      "nationalities": [
+        "src_hm13_profixio_registration"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-1.3 (2026-10-31): added from the Profixio Herrallsvenskan squad registration; Profixio person 1054741 (https://www.profixio.com/app/lx/clubs/25957/player/1054741)."
+    ]
   }
 ]

@@ -5,7 +5,7 @@
     "pa": 132
   },
   "se_player_oliver_knudsen_831e83e1": {
-    "updatedAt": "2026-08-30T15:46:51.620Z",
+    "updatedAt": "2026-10-31T06:14:33.111Z",
     "ca": 104,
     "pa": 151
   },
@@ -65,7 +65,7 @@
     "pa": 150
   },
   "se_player_adam_rosberg_cba4f26d": {
-    "updatedAt": "2026-08-30T15:46:46.615Z",
+    "updatedAt": "2026-10-31T06:14:33.019Z",
     "ca": 109,
     "pa": 158
   },
@@ -77,6 +77,11 @@
   "se_player_vilmer_feldt_19df4fce": {
     "ca": 121,
     "pa": 155,
-    "updatedAt": "2026-08-30T15:46:52.924Z"
+    "updatedAt": "2026-10-31T06:14:33.206Z"
+  },
+  "player_liam_thulin_c1345228": {
+    "updatedAt": "2026-08-30T17:59:20.849Z",
+    "ca": 110,
+    "pa": 114
   }
 }

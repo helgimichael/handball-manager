@@ -46,7 +46,9 @@
         "src_as_v5_qa_spreadsheet"
       ]
     },
-    "dataNotes": []
+    "dataNotes": [
+      "HM-DATA-1.3 (2026-10-31): 2026/27 Herrallsvenskan roster membership at H43 Lund HF removed -- not in any of the 288 Profixio registrations nor on any of the 21 published match sheets. Identity and locked rating retained."
+    ]
   },
   {
     "playerId": "se_player_erik_ekstrand_b8cbf67a",
@@ -66,7 +68,9 @@
         "src_as_v5_qa_spreadsheet"
       ]
     },
-    "dataNotes": []
+    "dataNotes": [
+      "HM-DATA-1.3 (2026-10-31): 2026/27 Herrallsvenskan roster membership at H43 Lund HF removed -- not in any of the 288 Profixio registrations nor on any of the 21 published match sheets. Identity and locked rating retained."
+    ]
   },
   {
     "playerId": "se_player_isak_sassersson_2a2e10d5",
@@ -160,7 +164,9 @@
         "src_as_v5_qa_spreadsheet"
       ]
     },
-    "dataNotes": []
+    "dataNotes": [
+      "HM-DATA-1.3 (2026-10-31): 2026/27 Herrallsvenskan roster membership at H43 Lund HF removed -- not in any of the 288 Profixio registrations nor on any of the 21 published match sheets. Identity and locked rating retained."
+    ]
   },
   {
     "playerId": "se_player_olle_lundin_2da8dc75",
@@ -329,14 +335,18 @@
         "src_as_v5_qa_spreadsheet"
       ]
     },
-    "dataNotes": []
+    "dataNotes": [
+      "HM-DATA-1.3 (2026-10-31): 2026/27 Herrallsvenskan roster membership at H43 Lund HF removed -- not in any of the 288 Profixio registrations nor on any of the 21 published match sheets. Identity and locked rating retained."
+    ]
   },
   {
     "playerId": "se_player_gustav_molhede_06edf334",
     "firstName": "Gustav",
-    "lastName": "Mölhede",
-    "fullName": "Gustav Mölhede",
-    "aliases": [],
+    "lastName": "Andreasson Mölhede",
+    "fullName": "Gustav Andreasson Mölhede",
+    "aliases": [
+      "Gustav Mölhede"
+    ],
     "dateOfBirth": "1997-07-12",
     "birthYear": 1997,
     "nationalities": null,
@@ -349,7 +359,9 @@
         "src_as_v5_qa_spreadsheet"
       ]
     },
-    "dataNotes": []
+    "dataNotes": [
+      "HM-DATA-1.3 (2026-10-31): name corrected from \"Gustav Mölhede\" to the Profixio-registered \"Gustav Andreasson Mölhede\" (same DOB, club and Profixio history; https://www.profixio.com/app/lx/clubs/26088/player/665188). playerId unchanged."
+    ]
   },
   {
     "playerId": "se_player_albin_hallengren_d68aa371",
@@ -464,7 +476,9 @@
         "src_as_v5_qa_spreadsheet"
       ]
     },
-    "dataNotes": []
+    "dataNotes": [
+      "HM-DATA-1.3 (2026-10-31): 2026/27 Herrallsvenskan roster membership at H43 Lund HF removed -- not in any of the 288 Profixio registrations nor on any of the 21 published match sheets. Identity and locked rating retained."
+    ]
   },
   {
     "playerId": "se_player_rasmus_nilsson_cd0d2ddc",
@@ -484,7 +498,9 @@
         "src_as_v5_qa_spreadsheet"
       ]
     },
-    "dataNotes": []
+    "dataNotes": [
+      "HM-DATA-1.3 (2026-10-31): 2026/27 Herrallsvenskan roster membership at H43 Lund HF removed -- not in any of the 288 Profixio registrations nor on any of the 21 published match sheets. Identity and locked rating retained."
+    ]
   },
   {
     "playerId": "se_player_erik_altimiras_4e73199c",
@@ -504,7 +520,9 @@
         "src_as_v5_qa_spreadsheet"
       ]
     },
-    "dataNotes": []
+    "dataNotes": [
+      "HM-DATA-1.3 (2026-10-31): 2026/27 Herrallsvenskan roster membership at H43 Lund HF removed -- not in any of the 288 Profixio registrations nor on any of the 21 published match sheets. Identity and locked rating retained."
+    ]
   },
   {
     "playerId": "se_player_felix_tyberg_1827281e",
@@ -529,9 +547,11 @@
   {
     "playerId": "se_player_olof_lundh_nilsson_7766931d",
     "firstName": "Olof",
-    "lastName": "Lundh-Nilsson",
-    "fullName": "Olof Lundh-Nilsson",
-    "aliases": [],
+    "lastName": "Lundahl Olsson",
+    "fullName": "Olof Lundahl Olsson",
+    "aliases": [
+      "Olof Lundh-Nilsson"
+    ],
     "dateOfBirth": "2001-01-05",
     "birthYear": 2001,
     "nationalities": null,
@@ -544,7 +564,9 @@
         "src_as_v5_qa_spreadsheet"
       ]
     },
-    "dataNotes": []
+    "dataNotes": [
+      "HM-DATA-1.3 (2026-10-31): name corrected from \"Olof Lundh-Nilsson\" to the Profixio-registered \"Olof Lundahl Olsson\" (same DOB, club and Profixio history; https://www.profixio.com/app/lx/clubs/26088/player/673754). playerId unchanged."
+    ]
   },
   {
     "playerId": "se_player_adam_wennerholm_e65caf67",
@@ -622,5 +644,71 @@
       ]
     },
     "dataNotes": []
+  },
+  {
+    "playerId": "se_player_axel_andersson_729eaed8",
+    "firstName": "Axel",
+    "lastName": "Andersson",
+    "fullName": "Axel Andersson",
+    "aliases": [],
+    "dateOfBirth": "2001-01-30",
+    "birthYear": 2001,
+    "nationalities": [
+      "SE"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED",
+      "nationalities": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_hm13_profixio_registration"
+      ],
+      "dateOfBirth": [
+        "src_hm13_profixio_registration"
+      ],
+      "nationalities": [
+        "src_hm13_profixio_registration"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-1.3 (2026-10-31): added from the Profixio Herrallsvenskan squad registration; Profixio person 673673 (https://www.profixio.com/app/lx/clubs/26088/player/673673)."
+    ]
+  },
+  {
+    "playerId": "se_player_otto_fischier_35014c26",
+    "firstName": "Otto",
+    "lastName": "Fischier",
+    "fullName": "Otto Fischier",
+    "aliases": [],
+    "dateOfBirth": "2006-01-19",
+    "birthYear": 2006,
+    "nationalities": [
+      "SE"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED",
+      "nationalities": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_hm13_profixio_registration"
+      ],
+      "dateOfBirth": [
+        "src_hm13_profixio_registration"
+      ],
+      "nationalities": [
+        "src_hm13_profixio_registration"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-1.3 (2026-10-31): added from the Profixio Herrallsvenskan squad registration; Profixio person 249758 (https://www.profixio.com/app/lx/clubs/26088/player/249758)."
+    ]
   }
 ]

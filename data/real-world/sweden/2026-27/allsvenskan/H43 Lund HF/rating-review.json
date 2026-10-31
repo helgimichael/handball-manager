@@ -76,8 +76,8 @@
   },
   "se_player_emil_arthursson_e99d2749": {
     "status": "LOCKED",
-    "updatedAt": "2026-08-30T15:45:25.987Z",
-    "note": "ALLSV_rating_import_candidates_v0.13 Allsvenskan final import (261/261, individually researched, 0 REVIEW)"
+    "updatedAt": "2026-10-31T06:14:32.779Z",
+    "note": "HM-DATA-1.3 (2026-10-31) GK/OUTCOURT branch correction to MV; researched CA/PA preserved, generated attributes regenerated (HM-RATINGS-0.4-v1)"
   },
   "se_player_oliver_strid_d373f2cc": {
     "status": "LOCKED",

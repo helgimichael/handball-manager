@@ -480,33 +480,6 @@
     "specialTags": []
   },
   {
-    "rosterEntryId": "se_2026_27_handbollsligan_hallby_3236286b",
-    "playerId": "se_player_alexander_hambalek_3236286b",
-    "clubId": "se_club_if_hallby_hk",
-    "competitionId": "se_handbollsligan_herr",
-    "season": "2026/27",
-    "snapshotDate": "2026-08-19",
-    "shirtNumber": null,
-    "sourcePosition": "Centre Back",
-    "primaryPosition": "M9",
-    "secondaryPositions": [],
-    "rosterStatus": "CONFIRMED",
-    "contract": {
-      "untilDate": null,
-      "untilSeason": null,
-      "optionUntilSeason": null
-    },
-    "rosterConfidence": "VERIFIED",
-    "sourceRefs": {
-      "roster": [
-        "src_hbl_hallby_20260817"
-      ],
-      "position": [
-        "src_hbl_hallby_20260817"
-      ]
-    }
-  },
-  {
     "rosterEntryId": "se_2026_27_handbollsligan_hallby_2ab138cf",
     "playerId": "se_player_jonatan_suomela_2ab138cf",
     "clubId": "se_club_if_hallby_hk",

@@ -409,5 +409,100 @@
       ]
     },
     "dataNotes": []
+  },
+  {
+    "playerId": "se_player_elliot_hovre_bjorck_40a6f29e",
+    "firstName": "Elliot",
+    "lastName": "Hövre Björck",
+    "fullName": "Elliot Hövre Björck",
+    "aliases": [],
+    "dateOfBirth": "2005-05-23",
+    "birthYear": 2005,
+    "nationalities": [
+      "SE"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "dateOfBirth": [
+        "src_as_v5_qa_spreadsheet"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-1.3 (2026-10-31): playable starting club HK Drott Halmstad (Profixio #12; goalkeeper on Drott match sheets rounds 5-6, the latest published). Also registered for IFK Tumba HK in Herrallsvenskan 2026/27 (#22; 1 league + 2 cup appearances per Profixio profile https://www.profixio.com/app/lx/clubs/25970/player/115180); that registration is kept as evidence only, not as a second roster row."
+    ]
+  },
+  {
+    "playerId": "se_player_johan_gustafsson_a028b3c1",
+    "firstName": "Johan",
+    "lastName": "Gustafsson",
+    "fullName": "Johan Gustafsson",
+    "aliases": [],
+    "dateOfBirth": "1995-06-14",
+    "birthYear": 1995,
+    "nationalities": [
+      "SE"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED",
+      "nationalities": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_hm13_profixio_registration"
+      ],
+      "dateOfBirth": [
+        "src_hm13_profixio_registration"
+      ],
+      "nationalities": [
+        "src_hm13_profixio_registration"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-1.3 (2026-10-31): added from the Profixio Herrallsvenskan squad registration; Profixio person 622073 (https://www.profixio.com/app/lx/clubs/25970/player/622073)."
+    ]
+  },
+  {
+    "playerId": "se_player_neo_andersson_f54b38c3",
+    "firstName": "Neo",
+    "lastName": "Andersson",
+    "fullName": "Neo Andersson",
+    "aliases": [],
+    "dateOfBirth": "2004-01-11",
+    "birthYear": 2004,
+    "nationalities": [
+      "SE"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED",
+      "nationalities": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_hm13_profixio_registration"
+      ],
+      "dateOfBirth": [
+        "src_hm13_profixio_registration"
+      ],
+      "nationalities": [
+        "src_hm13_profixio_registration"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-1.3 (2026-10-31): added from the Profixio Herrallsvenskan squad registration; Profixio person 703484 (https://www.profixio.com/app/lx/clubs/25970/player/703484)."
+    ]
   }
 ]

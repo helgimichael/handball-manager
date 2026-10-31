@@ -389,5 +389,203 @@
       ]
     },
     "dataNotes": []
+  },
+  {
+    "playerId": "se_player_adam_lagergren_ee3b8386",
+    "firstName": "Adam",
+    "lastName": "Lagergren",
+    "fullName": "Adam Lagergren",
+    "aliases": [],
+    "dateOfBirth": "1998-08-07",
+    "birthYear": 1998,
+    "nationalities": [
+      "SE"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED",
+      "nationalities": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_hm13_profixio_registration"
+      ],
+      "dateOfBirth": [
+        "src_hm13_profixio_registration"
+      ],
+      "nationalities": [
+        "src_hm13_profixio_registration"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-1.3 (2026-10-31): added from the Profixio Herrallsvenskan squad registration; Profixio person 670002 (https://www.profixio.com/app/lx/clubs/26077/player/670002)."
+    ]
+  },
+  {
+    "playerId": "se_player_august_gudmundsson_394fb04e",
+    "firstName": "August",
+    "lastName": "Gudmundsson",
+    "fullName": "August Gudmundsson",
+    "aliases": [],
+    "dateOfBirth": "2000-12-20",
+    "birthYear": 2000,
+    "nationalities": [
+      "SE"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED",
+      "nationalities": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_hm13_profixio_registration"
+      ],
+      "dateOfBirth": [
+        "src_hm13_profixio_registration"
+      ],
+      "nationalities": [
+        "src_hm13_profixio_registration"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-1.3 (2026-10-31): added from the Profixio Herrallsvenskan squad registration; Profixio person 670179 (https://www.profixio.com/app/lx/clubs/26077/player/670179)."
+    ]
+  },
+  {
+    "playerId": "se_player_elliot_sjolin_ac513213",
+    "firstName": "Elliot",
+    "lastName": "Sjölin",
+    "fullName": "Elliot Sjölin",
+    "aliases": [],
+    "dateOfBirth": "2004-03-31",
+    "birthYear": 2004,
+    "nationalities": [
+      "SE"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED",
+      "nationalities": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_hm13_profixio_registration"
+      ],
+      "dateOfBirth": [
+        "src_hm13_profixio_registration"
+      ],
+      "nationalities": [
+        "src_hm13_profixio_registration"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-1.3 (2026-10-31): added from the Profixio Herrallsvenskan squad registration; Profixio person 670074 (https://www.profixio.com/app/lx/clubs/26077/player/670074)."
+    ]
+  },
+  {
+    "playerId": "se_player_emil_danielsson_db748c1d",
+    "firstName": "Emil",
+    "lastName": "Danielsson",
+    "fullName": "Emil Danielsson",
+    "aliases": [],
+    "dateOfBirth": "2003-12-23",
+    "birthYear": 2003,
+    "nationalities": [
+      "SE"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED",
+      "nationalities": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_hm13_profixio_registration"
+      ],
+      "dateOfBirth": [
+        "src_hm13_profixio_registration"
+      ],
+      "nationalities": [
+        "src_hm13_profixio_registration"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-1.3 (2026-10-31): added from the Profixio Herrallsvenskan squad registration; Profixio person 657295 (https://www.profixio.com/app/lx/clubs/26077/player/657295)."
+    ]
+  },
+  {
+    "playerId": "se_player_eric_westergren_malmberg_d6dbc9fa",
+    "firstName": "Eric",
+    "lastName": "Westergren Malmberg",
+    "fullName": "Eric Westergren Malmberg",
+    "aliases": [],
+    "dateOfBirth": "1999-10-06",
+    "birthYear": 1999,
+    "nationalities": [
+      "SE"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED",
+      "nationalities": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_hm13_profixio_registration"
+      ],
+      "dateOfBirth": [
+        "src_hm13_profixio_registration"
+      ],
+      "nationalities": [
+        "src_hm13_profixio_registration"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-1.3 (2026-10-31): added from the Profixio Herrallsvenskan squad registration; Profixio person 720939 (https://www.profixio.com/app/lx/clubs/26077/player/720939)."
+    ]
+  },
+  {
+    "playerId": "se_player_kevin_idriz_0c14a14f",
+    "firstName": "Kevin",
+    "lastName": "Idriz",
+    "fullName": "Kevin Idriz",
+    "aliases": [],
+    "dateOfBirth": "1996-04-07",
+    "birthYear": 1996,
+    "nationalities": [
+      "SE"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED",
+      "nationalities": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_hm13_profixio_registration"
+      ],
+      "dateOfBirth": [
+        "src_hm13_profixio_registration"
+      ],
+      "nationalities": [
+        "src_hm13_profixio_registration"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-1.3 (2026-10-31): added from the Profixio Herrallsvenskan squad registration; Profixio person 670085 (https://www.profixio.com/app/lx/clubs/26077/player/670085)."
+    ]
   }
 ]

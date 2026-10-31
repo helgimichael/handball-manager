@@ -224,34 +224,6 @@
     ]
   },
   {
-    "rosterEntryId": "se_2026_27_division1_sodra_hp_warta__051a1d9b",
-    "playerId": "player_albin_henriksson_051a1d9b",
-    "clubId": "se_club_hp_warta",
-    "competitionId": "se_division1_sodra",
-    "season": "2026/27",
-    "snapshotDate": "2026-08-27",
-    "shirtNumber": 18,
-    "sourcePosition": "",
-    "primaryPosition": "V9",
-    "secondaryPositions": [],
-    "rosterStatus": "CONFIRMED",
-    "contract": {
-      "untilDate": null,
-      "untilSeason": null,
-      "optionUntilSeason": null
-    },
-    "rosterConfidence": "UNKNOWN",
-    "sourceRefs": {
-      "roster": [
-        "src_div1_sodra_2026_27"
-      ],
-      "position": []
-    },
-    "dataNotes": [
-      "HM-DATA-DIV1-1.0: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
-    ]
-  },
-  {
     "rosterEntryId": "se_2026_27_division1_sodra_hp_warta__4974667f",
     "playerId": "player_anton_kakko_4974667f",
     "clubId": "se_club_hp_warta",

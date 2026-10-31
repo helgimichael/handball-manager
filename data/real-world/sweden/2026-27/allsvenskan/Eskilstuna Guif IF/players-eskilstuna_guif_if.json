@@ -465,5 +465,61 @@
       ]
     },
     "dataNotes": []
+  },
+  {
+    "playerId": "se_player_alexander_hambalek_3236286b",
+    "firstName": "Alexander",
+    "lastName": "Hambalek",
+    "fullName": "Alexander Hambalek",
+    "aliases": [],
+    "dateOfBirth": "2004-05-07",
+    "birthYear": 2004,
+    "nationalities": [
+      "SE"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "sourceRefs": {
+      "identity": [
+        "src_hbl_hallby_20260817"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-1.3 (2026-10-31): 2026/27 membership moved from IF Hallby HK (se_handbollsligan_herr) to Eskilstuna Guif IF; Profixio shows 2026/27 appearances only for Eskilstuna Guif IF (https://www.profixio.com/app/lx/clubs/26170/player/718525). Same playerId; previous roster row removed. Position M9 carried over from the previous verified roster record (no Profixio position)."
+    ]
+  },
+  {
+    "playerId": "se_player_oscar_sand_7baf3894",
+    "firstName": "Oscar",
+    "lastName": "Sand",
+    "fullName": "Oscar Sand",
+    "aliases": [],
+    "dateOfBirth": "2009-11-04",
+    "birthYear": 2009,
+    "nationalities": [
+      "SE"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED",
+      "nationalities": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_hm13_profixio_registration"
+      ],
+      "dateOfBirth": [
+        "src_hm13_profixio_registration"
+      ],
+      "nationalities": [
+        "src_hm13_profixio_registration"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-1.3 (2026-10-31): added from the Profixio Herrallsvenskan squad registration; Profixio person 704777 (https://www.profixio.com/app/lx/clubs/26170/player/704777)."
+    ]
   }
 ]

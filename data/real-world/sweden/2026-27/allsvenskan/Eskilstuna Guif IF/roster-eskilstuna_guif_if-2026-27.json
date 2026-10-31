@@ -35,10 +35,10 @@
     "clubId": "swe2-guif",
     "competitionId": "swe-2",
     "season": "2026/27",
-    "snapshotDate": "2026-08-27",
+    "snapshotDate": "2026-10-31",
     "shirtNumber": 2,
-    "sourcePosition": "",
-    "primaryPosition": "M6",
+    "sourcePosition": "H9",
+    "primaryPosition": "H9",
     "secondaryPositions": [],
     "rosterStatus": "CONFIRMED",
     "contract": {
@@ -46,15 +46,17 @@
       "untilSeason": null,
       "optionUntilSeason": null
     },
-    "rosterConfidence": "UNKNOWN",
+    "rosterConfidence": "VERIFIED",
     "sourceRefs": {
       "roster": [
         "src_as_v5_qa_spreadsheet"
       ],
-      "position": []
+      "position": [
+        "src_hm13_profixio_registration"
+      ]
     },
     "dataNotes": [
-      "HM-DATA-ALLSVENSKAN-1.1: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+      "HM-DATA-1.3 (2026-10-31): primaryPosition M6 -> H9 (Profixio player profile position)."
     ]
   },
   {
@@ -442,10 +444,10 @@
     "clubId": "swe2-guif",
     "competitionId": "swe-2",
     "season": "2026/27",
-    "snapshotDate": "2026-08-27",
+    "snapshotDate": "2026-10-31",
     "shirtNumber": 19,
-    "sourcePosition": "",
-    "primaryPosition": "V6",
+    "sourcePosition": "M9",
+    "primaryPosition": "M9",
     "secondaryPositions": [],
     "rosterStatus": "CONFIRMED",
     "contract": {
@@ -453,15 +455,17 @@
       "untilSeason": null,
       "optionUntilSeason": null
     },
-    "rosterConfidence": "UNKNOWN",
+    "rosterConfidence": "VERIFIED",
     "sourceRefs": {
       "roster": [
         "src_as_v5_qa_spreadsheet"
       ],
-      "position": []
+      "position": [
+        "src_hm13_profixio_registration"
+      ]
     },
     "dataNotes": [
-      "HM-DATA-ALLSVENSKAN-1.1: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+      "HM-DATA-1.3 (2026-10-31): primaryPosition V6 -> M9 (Profixio player profile position)."
     ]
   },
   {
@@ -498,10 +502,10 @@
     "clubId": "swe2-guif",
     "competitionId": "swe-2",
     "season": "2026/27",
-    "snapshotDate": "2026-08-27",
+    "snapshotDate": "2026-10-31",
     "shirtNumber": 22,
-    "sourcePosition": "",
-    "primaryPosition": "MV",
+    "sourcePosition": "H6",
+    "primaryPosition": "H6",
     "secondaryPositions": [],
     "rosterStatus": "CONFIRMED",
     "contract": {
@@ -509,15 +513,18 @@
       "untilSeason": null,
       "optionUntilSeason": null
     },
-    "rosterConfidence": "UNKNOWN",
+    "rosterConfidence": "VERIFIED",
     "sourceRefs": {
       "roster": [
         "src_as_v5_qa_spreadsheet"
       ],
-      "position": []
+      "position": [
+        "src_hm13_profixio_registration",
+        "src_hm13_profixio_match_sheets"
+      ]
     },
     "dataNotes": [
-      "HM-DATA-ALLSVENSKAN-1.1: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+      "HM-DATA-1.3 (2026-10-31): primaryPosition MV -> H6 (Profixio profile position, corroborated by match-sheet goalkeeper flags)."
     ]
   },
   {
@@ -547,5 +554,67 @@
       ]
     },
     "dataNotes": []
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_eskilstuna_guif_if__3236286b",
+    "playerId": "se_player_alexander_hambalek_3236286b",
+    "clubId": "swe2-guif",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-10-31",
+    "shirtNumber": 3,
+    "sourcePosition": "M9",
+    "primaryPosition": "M9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hm13_profixio_registration"
+      ],
+      "position": [
+        "src_hm13_previous_league_record"
+      ]
+    },
+    "dataNotes": [],
+    "defaultSquadStatus": null,
+    "specialTags": []
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_eskilstuna_guif_if__7baf3894",
+    "playerId": "se_player_oscar_sand_7baf3894",
+    "clubId": "swe2-guif",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-10-31",
+    "shirtNumber": 12,
+    "sourcePosition": "MV",
+    "primaryPosition": "MV",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hm13_profixio_registration"
+      ],
+      "position": [
+        "src_hm13_profixio_registration"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-1.3 (2026-10-31): position MV from Profixio player profile position."
+    ],
+    "defaultSquadStatus": null,
+    "specialTags": []
   }
 ]

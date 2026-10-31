@@ -163,42 +163,10 @@
     "clubId": "swe2-tumba",
     "competitionId": "swe-2",
     "season": "2026/27",
-    "snapshotDate": "2026-08-27",
+    "snapshotDate": "2026-10-31",
     "shirtNumber": 20,
-    "sourcePosition": "M9",
-    "primaryPosition": "M9",
-    "secondaryPositions": [],
-    "rosterStatus": "CONFIRMED",
-    "contract": {
-      "untilDate": null,
-      "untilSeason": null,
-      "optionUntilSeason": null
-    },
-    "rosterConfidence": "PARTIAL",
-    "sourceRefs": {
-      "roster": [
-        "src_as_v5_qa_spreadsheet"
-      ],
-      "position": [
-        "src_as_position_evidence"
-      ]
-    },
-    "dataNotes": [
-      "HM-DATA-ALLSVENSKAN-1.1: broad role (goalkeeper/wing/back-court/pivot) is real, sourced evidence from the club's own current roster page; the specific left/centre/right side was not published there and was deterministically assigned."
-    ],
-    "defaultSquadStatus": "ROTATION",
-    "specialTags": []
-  },
-  {
-    "rosterEntryId": "se_2026_27_allsvenskan_ifk_tumba_hk__40a6f29e",
-    "playerId": "se_player_elliot_hovre_bjorck_40a6f29e",
-    "clubId": "swe2-tumba",
-    "competitionId": "swe-2",
-    "season": "2026/27",
-    "snapshotDate": "2026-08-27",
-    "shirtNumber": 22,
-    "sourcePosition": "MV",
-    "primaryPosition": "MV",
+    "sourcePosition": "V9",
+    "primaryPosition": "V9",
     "secondaryPositions": [],
     "rosterStatus": "CONFIRMED",
     "contract": {
@@ -212,14 +180,14 @@
         "src_as_v5_qa_spreadsheet"
       ],
       "position": [
-        "src_as_position_evidence"
+        "src_hm13_profixio_registration"
       ]
     },
-    "dataNotes": [],
-    "defaultSquadStatus": "SQUAD_PLAYER",
-    "specialTags": [
-      "BACKUP_GOALKEEPER"
-    ]
+    "dataNotes": [
+      "HM-DATA-1.3 (2026-10-31): primaryPosition M9 -> V9 (Profixio player profile position)."
+    ],
+    "defaultSquadStatus": "ROTATION",
+    "specialTags": []
   },
   {
     "rosterEntryId": "se_2026_27_allsvenskan_ifk_tumba_hk__467b211d",
@@ -419,10 +387,10 @@
     "clubId": "swe2-tumba",
     "competitionId": "swe-2",
     "season": "2026/27",
-    "snapshotDate": "2026-08-27",
+    "snapshotDate": "2026-10-31",
     "shirtNumber": 71,
-    "sourcePosition": "V9",
-    "primaryPosition": "V9",
+    "sourcePosition": "M9",
+    "primaryPosition": "M9",
     "secondaryPositions": [],
     "rosterStatus": "CONFIRMED",
     "contract": {
@@ -430,17 +398,17 @@
       "untilSeason": null,
       "optionUntilSeason": null
     },
-    "rosterConfidence": "PARTIAL",
+    "rosterConfidence": "VERIFIED",
     "sourceRefs": {
       "roster": [
         "src_as_v5_qa_spreadsheet"
       ],
       "position": [
-        "src_as_position_evidence"
+        "src_hm13_profixio_registration"
       ]
     },
     "dataNotes": [
-      "HM-DATA-ALLSVENSKAN-1.1: broad role (goalkeeper/wing/back-court/pivot) is real, sourced evidence from the club's own current roster page; the specific left/centre/right side was not published there and was deterministically assigned."
+      "HM-DATA-1.3 (2026-10-31): primaryPosition V9 -> M9 (Profixio player profile position)."
     ],
     "defaultSquadStatus": "TALENT",
     "specialTags": []
@@ -542,5 +510,101 @@
     "specialTags": [
       "BACKUP_GOALKEEPER"
     ]
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_ifk_tumba_hk__4d8c31ad",
+    "playerId": "se_player_adam_fabricius_hansen_4d8c31ad",
+    "clubId": "swe2-tumba",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-10-31",
+    "shirtNumber": null,
+    "sourcePosition": "M9",
+    "primaryPosition": "M9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hm13_profixio_registration"
+      ],
+      "position": [
+        "src_hm13_profixio_registration"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-1.3 (2026-10-31): position M9 from Profixio player profile position."
+    ],
+    "defaultSquadStatus": null,
+    "specialTags": []
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_ifk_tumba_hk__53391dff",
+    "playerId": "se_player_oskar_waltin_53391dff",
+    "clubId": "swe2-tumba",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-10-31",
+    "shirtNumber": 17,
+    "sourcePosition": "M6",
+    "primaryPosition": "M6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hm13_profixio_registration"
+      ],
+      "position": [
+        "src_hm13_club_squad_page"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-1.3 (2026-10-31): position M6 from club squad page 'Linjespelare'."
+    ],
+    "defaultSquadStatus": null,
+    "specialTags": []
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_ifk_tumba_hk__4d241620",
+    "playerId": "se_player_robin_dahlin_4d241620",
+    "clubId": "swe2-tumba",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-10-31",
+    "shirtNumber": 95,
+    "sourcePosition": "H6",
+    "primaryPosition": "H6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hm13_profixio_registration"
+      ],
+      "position": [
+        "src_hm13_profixio_registration"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-1.3 (2026-10-31): position H6 from Profixio player profile position."
+    ],
+    "defaultSquadStatus": null,
+    "specialTags": []
   }
 ]

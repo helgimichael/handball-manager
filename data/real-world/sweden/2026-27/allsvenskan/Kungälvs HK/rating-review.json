@@ -83,5 +83,10 @@
     "status": "LOCKED",
     "updatedAt": "2026-08-30T15:45:56.022Z",
     "note": "ALLSV_rating_import_candidates_v0.13 Allsvenskan final import (261/261, individually researched, 0 REVIEW)"
+  },
+  "player_albin_henriksson_051a1d9b": {
+    "status": "LOCKED",
+    "updatedAt": "2026-08-30T17:59:00.555Z",
+    "note": "DIV1N_rating_import_candidates_v0.6 / DIV1S_rating_import_candidates_v0.5 Division 1 import (DIV1_ONLY_CANONICAL set only)"
   }
 }

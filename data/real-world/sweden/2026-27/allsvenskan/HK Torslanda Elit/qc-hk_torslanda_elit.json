@@ -3,11 +3,11 @@
   "clubName": "HK Torslanda Elit",
   "competitionId": "swe-2",
   "season": "2026/27",
-  "snapshotDate": "2026-08-27",
+  "snapshotDate": "2026-10-31",
   "datasetStatus": "PRESEASON",
   "qcStatus": "VERIFIED_WITH_OPEN_FIELDS",
-  "expectedRosterCount": 14,
-  "exportedRosterCount": 14,
+  "expectedRosterCount": 16,
+  "exportedRosterCount": 16,
   "checks": {
     "currentLeagueRosterLocated": true,
     "allLeagueRosterNamesCaptured": true,
@@ -23,17 +23,18 @@
   },
   "knownConflicts": [],
   "staleSourceWarnings": [
-    "HM-DATA-ALLSVENSKAN-1.1: the canonical source spreadsheet carries no position, nationality, height, handedness, or contract-date column at all -- see openFieldsSummary and each roster entry's own rosterConfidence/dataNotes for exactly which fields are real evidence vs. a disclosed structural placeholder."
+    "HM-DATA-ALLSVENSKAN-1.1: the canonical source spreadsheet carries no position, nationality, height, handedness, or contract-date column at all -- see openFieldsSummary and each roster entry's own rosterConfidence/dataNotes for exactly which fields are real evidence vs. a disclosed structural placeholder.",
+    "HM-DATA-1.3: roster corrected against Profixio leagueid28141 (2026-10-31). Held pending verification: Adam Svantesson (HOLD: medium-confidence position (handballprospects only)); Markus Thorbjörn (HOLD: medium-confidence position (handballprospects only)); Pelle Arnewid (HOLD: medium-confidence position (handballprospects only))."
   ],
   "openFieldsSummary": {
     "exactDateOfBirthMissing": 0,
-    "nationalityMissing": 14,
+    "nationalityMissing": 10,
     "heightMissing": 14,
     "handednessMissing": 14,
     "shirtNumberMissing": 0,
     "contractEndMissing": 14,
-    "positionGenerated": 14,
+    "positionGenerated": 11,
     "positionPartial": 0,
-    "positionVerified": 0
+    "positionVerified": 5
   }
 }

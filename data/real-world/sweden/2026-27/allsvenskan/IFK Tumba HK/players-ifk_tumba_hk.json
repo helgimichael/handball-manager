@@ -151,33 +151,6 @@
     "dataNotes": []
   },
   {
-    "playerId": "se_player_elliot_hovre_bjorck_40a6f29e",
-    "firstName": "Elliot",
-    "lastName": "Hövre Björck",
-    "fullName": "Elliot Hövre Björck",
-    "aliases": [],
-    "dateOfBirth": "2005-05-23",
-    "birthYear": 2005,
-    "nationalities": [
-      "SE"
-    ],
-    "heightCm": null,
-    "handedness": null,
-    "recordConfidence": "VERIFIED",
-    "fieldConfidence": {
-      "dateOfBirth": "VERIFIED"
-    },
-    "sourceRefs": {
-      "identity": [
-        "src_as_v5_qa_spreadsheet"
-      ],
-      "dateOfBirth": [
-        "src_as_v5_qa_spreadsheet"
-      ]
-    },
-    "dataNotes": []
-  },
-  {
     "playerId": "se_player_olle_soderqvist_467b211d",
     "firstName": "Olle",
     "lastName": "Söderqvist",
@@ -426,5 +399,104 @@
       ]
     },
     "dataNotes": []
+  },
+  {
+    "playerId": "se_player_adam_fabricius_hansen_4d8c31ad",
+    "firstName": "Adam",
+    "lastName": "Fabricius-Hansen",
+    "fullName": "Adam Fabricius-Hansen",
+    "aliases": [],
+    "dateOfBirth": "2003-09-25",
+    "birthYear": 2003,
+    "nationalities": [
+      "SE"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED",
+      "nationalities": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_hm13_profixio_registration"
+      ],
+      "dateOfBirth": [
+        "src_hm13_profixio_registration"
+      ],
+      "nationalities": [
+        "src_hm13_profixio_registration"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-1.3 (2026-10-31): added from the Profixio Herrallsvenskan squad registration; Profixio person 612040 (https://www.profixio.com/app/lx/clubs/26074/player/612040)."
+    ]
+  },
+  {
+    "playerId": "se_player_oskar_waltin_53391dff",
+    "firstName": "Oskar",
+    "lastName": "Waltin",
+    "fullName": "Oskar Waltin",
+    "aliases": [],
+    "dateOfBirth": "1999-09-03",
+    "birthYear": 1999,
+    "nationalities": [
+      "SE"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED",
+      "nationalities": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_hm13_profixio_registration"
+      ],
+      "dateOfBirth": [
+        "src_hm13_profixio_registration"
+      ],
+      "nationalities": [
+        "src_hm13_profixio_registration"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-1.3 (2026-10-31): added from the Profixio Herrallsvenskan squad registration; Profixio person 652152 (https://www.profixio.com/app/lx/clubs/26074/player/652152)."
+    ]
+  },
+  {
+    "playerId": "se_player_robin_dahlin_4d241620",
+    "firstName": "Robin",
+    "lastName": "Dahlin",
+    "fullName": "Robin Dahlin",
+    "aliases": [],
+    "dateOfBirth": "2006-05-18",
+    "birthYear": 2006,
+    "nationalities": [
+      "SE"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED",
+      "nationalities": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_hm13_profixio_registration"
+      ],
+      "dateOfBirth": [
+        "src_hm13_profixio_registration"
+      ],
+      "nationalities": [
+        "src_hm13_profixio_registration"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-1.3 (2026-10-31): added from the Profixio Herrallsvenskan squad registration; Profixio person 668209 (https://www.profixio.com/app/lx/clubs/26074/player/668209)."
+    ]
   }
 ]

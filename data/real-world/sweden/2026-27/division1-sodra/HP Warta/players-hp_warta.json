@@ -160,26 +160,6 @@
     "dataNotes": []
   },
   {
-    "playerId": "player_albin_henriksson_051a1d9b",
-    "firstName": "Albin",
-    "lastName": "Henriksson",
-    "fullName": "Albin Henriksson",
-    "aliases": [],
-    "dateOfBirth": "2004-08-02",
-    "birthYear": 2004,
-    "nationalities": null,
-    "heightCm": null,
-    "handedness": null,
-    "recordConfidence": "VERIFIED",
-    "fieldConfidence": {},
-    "sourceRefs": {
-      "identity": [
-        "src_div1_sodra_2026_27"
-      ]
-    },
-    "dataNotes": []
-  },
-  {
     "playerId": "player_anton_kakko_4974667f",
     "firstName": "Anton",
     "lastName": "Kakko",

@@ -165,6 +165,7 @@
     "lib/economy/clubEconomySignals.test.ts",
     "lib/gameWorld/allsvenskanIdentity.test.ts",
     "lib/gameWorld/allsvenskanPlayers.test.ts",
+    "lib/gameWorld/allsvenskanRosterConsistency.test.ts",
     "lib/career/allsvenskanTransferIntegration.test.ts",
     "lib/identity/presentation.test.ts",
     "lib/staff/allsvenskanStaffResolution.test.ts",

@@ -762,7 +762,7 @@
   "se_player_alexander_raberg_fagerdahl_a53048b4": {
     "playerId": "se_player_alexander_raberg_fagerdahl_a53048b4",
     "clubId": "swe2-huddinge",
-    "position": "V9",
+    "position": "M9",
     "ca": {
       "value": 119,
       "confidence": "HIGH",
@@ -1012,7 +1012,7 @@
     },
     "attackRoleProficiencies": [
       {
-        "role": "BREAKTHROUGH_BACK"
+        "role": "BREAKTHROUGH_CREATOR"
       }
     ],
     "defenceRoleProficiencies": [],
@@ -1286,7 +1286,7 @@
   "se_player_oscar_lilja_7b931abd": {
     "playerId": "se_player_oscar_lilja_7b931abd",
     "clubId": "swe2-huddinge",
-    "position": "M9",
+    "position": "V9",
     "ca": {
       "value": 91,
       "confidence": "HIGH",
@@ -1536,7 +1536,7 @@
     },
     "attackRoleProficiencies": [
       {
-        "role": "TEMPO_CONTROLLER"
+        "role": "COMPLETE_BACK"
       }
     ],
     "defenceRoleProficiencies": [],
@@ -1810,7 +1810,7 @@
   "se_player_andreas_hakansson_0c0aa209": {
     "playerId": "se_player_andreas_hakansson_0c0aa209",
     "clubId": "swe2-huddinge",
-    "position": "M9",
+    "position": "H9",
     "ca": {
       "value": 116,
       "confidence": "HIGH",
@@ -2060,7 +2060,7 @@
     },
     "attackRoleProficiencies": [
       {
-        "role": "PRIMARY_PLAYMAKER"
+        "role": "SHOOTING_BACK"
       }
     ],
     "defenceRoleProficiencies": [],
@@ -5478,7 +5478,7 @@
   "se_player_oliver_edlund_3ae89600": {
     "playerId": "se_player_oliver_edlund_3ae89600",
     "clubId": "swe2-huddinge",
-    "position": "H6",
+    "position": "V6",
     "ca": {
       "value": 99,
       "confidence": "HIGH",
@@ -6120,7 +6120,7 @@
   "se_player_fredrik_andreasson_9faa4dd4": {
     "playerId": "se_player_fredrik_andreasson_9faa4dd4",
     "clubId": "swe2-huddinge",
-    "position": "V9",
+    "position": "M9",
     "ca": {
       "value": 119,
       "confidence": "HIGH",
@@ -6370,7 +6370,7 @@
     },
     "attackRoleProficiencies": [
       {
-        "role": "COMPLETE_BACK"
+        "role": "TEMPO_CONTROLLER"
       }
     ],
     "defenceRoleProficiencies": [],

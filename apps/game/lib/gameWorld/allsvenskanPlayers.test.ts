@@ -25,10 +25,12 @@ test("(1) Allsvenskan has exactly 14 real-world-backed clubs, all loadable and v
   }
 });
 
-test("(2) total real Allsvenskan player count matches the canonical source spreadsheet (261 players)", () => {
+// HM-DATA-1.3 corrected the 261-player spreadsheet roster against the Profixio registrations
+// (2026-10-31): 261 + 38 new + 4 relocated from other leagues - 17 removed memberships = 286.
+test("(2) total real Allsvenskan player count matches the HM-DATA-1.3 corrected roster (286 players)", () => {
   let total = 0;
   for (const clubId of ALLSVENSKAN_CLUB_IDS) total += loadRealWorldClubSquad(clubId)!.players.length;
-  assert.equal(total, 261);
+  assert.equal(total, 286);
 });
 
 test("(3) no playerId is duplicated across two different Allsvenskan clubs (or with any Handbollsligan player)", () => {

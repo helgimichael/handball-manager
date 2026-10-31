@@ -83,5 +83,10 @@
     "status": "LOCKED",
     "updatedAt": "2026-08-30T15:45:14.454Z",
     "note": "ALLSV_rating_import_candidates_v0.13 Allsvenskan final import (261/261, individually researched, 0 REVIEW)"
+  },
+  "se_player_elliot_hovre_bjorck_40a6f29e": {
+    "status": "LOCKED",
+    "updatedAt": "2026-08-30T15:46:18.244Z",
+    "note": "ALLSV_rating_import_candidates_v0.13 Allsvenskan final import (261/261, individually researched, 0 REVIEW)"
   }
 }

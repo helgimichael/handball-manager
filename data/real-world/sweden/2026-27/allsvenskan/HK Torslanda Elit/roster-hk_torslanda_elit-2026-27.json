@@ -5,10 +5,10 @@
     "clubId": "swe2-torslanda",
     "competitionId": "swe-2",
     "season": "2026/27",
-    "snapshotDate": "2026-08-27",
+    "snapshotDate": "2026-10-31",
     "shirtNumber": 1,
-    "sourcePosition": "",
-    "primaryPosition": "M6",
+    "sourcePosition": "MV",
+    "primaryPosition": "MV",
     "secondaryPositions": [],
     "rosterStatus": "CONFIRMED",
     "contract": {
@@ -16,15 +16,17 @@
       "untilSeason": null,
       "optionUntilSeason": null
     },
-    "rosterConfidence": "UNKNOWN",
+    "rosterConfidence": "VERIFIED",
     "sourceRefs": {
       "roster": [
         "src_as_v5_qa_spreadsheet"
       ],
-      "position": []
+      "position": [
+        "src_hm13_profixio_match_sheets"
+      ]
     },
     "dataNotes": [
-      "HM-DATA-ALLSVENSKAN-1.1: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+      "HM-DATA-1.3 (2026-10-31): primaryPosition M6 -> MV (Profixio match-sheet goalkeeper (RMV) flag)."
     ]
   },
   {
@@ -175,10 +177,10 @@
     "clubId": "swe2-torslanda",
     "competitionId": "swe-2",
     "season": "2026/27",
-    "snapshotDate": "2026-08-27",
+    "snapshotDate": "2026-10-31",
     "shirtNumber": 14,
-    "sourcePosition": "",
-    "primaryPosition": "M9",
+    "sourcePosition": "V6",
+    "primaryPosition": "V6",
     "secondaryPositions": [],
     "rosterStatus": "CONFIRMED",
     "contract": {
@@ -186,15 +188,17 @@
       "untilSeason": null,
       "optionUntilSeason": null
     },
-    "rosterConfidence": "UNKNOWN",
+    "rosterConfidence": "VERIFIED",
     "sourceRefs": {
       "roster": [
         "src_as_v5_qa_spreadsheet"
       ],
-      "position": []
+      "position": [
+        "src_hm13_rating_research_v0_13"
+      ]
     },
     "dataNotes": [
-      "HM-DATA-ALLSVENSKAN-1.1: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+      "HM-DATA-1.3 (2026-10-31): primaryPosition M9 -> V6 (rating research v0.13 role label)."
     ]
   },
   {
@@ -233,10 +237,10 @@
     "clubId": "swe2-torslanda",
     "competitionId": "swe-2",
     "season": "2026/27",
-    "snapshotDate": "2026-08-27",
+    "snapshotDate": "2026-10-31",
     "shirtNumber": 23,
-    "sourcePosition": "",
-    "primaryPosition": "MV",
+    "sourcePosition": "H9",
+    "primaryPosition": "H9",
     "secondaryPositions": [],
     "rosterStatus": "CONFIRMED",
     "contract": {
@@ -244,15 +248,18 @@
       "untilSeason": null,
       "optionUntilSeason": null
     },
-    "rosterConfidence": "UNKNOWN",
+    "rosterConfidence": "VERIFIED",
     "sourceRefs": {
       "roster": [
         "src_as_v5_qa_spreadsheet"
       ],
-      "position": []
+      "position": [
+        "src_hm13_rating_research_v0_13",
+        "src_hm13_profixio_match_sheets"
+      ]
     },
     "dataNotes": [
-      "HM-DATA-ALLSVENSKAN-1.1: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+      "HM-DATA-1.3 (2026-10-31): primaryPosition MV -> H9 (rating research 'Allsvenskan H9'; never goalkeeper on match sheets)."
     ],
     "defaultSquadStatus": "KEY_PLAYER"
   },
@@ -399,5 +406,69 @@
     "dataNotes": [
       "HM-DATA-ALLSVENSKAN-1.1: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
     ]
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_hk_torslanda_elit__fd70b354",
+    "playerId": "se_player_alvar_emriksson_fd70b354",
+    "clubId": "swe2-torslanda",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-10-31",
+    "shirtNumber": 84,
+    "sourcePosition": "V6",
+    "primaryPosition": "V6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hm13_profixio_registration"
+      ],
+      "position": [
+        "src_hm13_profixio_registration"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-1.3 (2026-10-31): position V6 from Profixio player profile position."
+    ],
+    "defaultSquadStatus": null,
+    "specialTags": []
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_hk_torslanda_elit__488c5a68",
+    "playerId": "se_player_ludvig_hedin_488c5a68",
+    "clubId": "swe2-torslanda",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-10-31",
+    "shirtNumber": 16,
+    "sourcePosition": "MV",
+    "primaryPosition": "MV",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hm13_profixio_registration"
+      ],
+      "position": [
+        "src_hm13_profixio_match_sheets"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-1.3 (2026-10-31): position MV from Profixio match-sheet goalkeeper (RMV) flag."
+    ],
+    "defaultSquadStatus": null,
+    "specialTags": []
   }
 ]

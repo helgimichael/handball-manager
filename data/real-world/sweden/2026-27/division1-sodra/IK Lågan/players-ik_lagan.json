@@ -407,33 +407,6 @@
     ]
   },
   {
-    "playerId": "player_liam_thulin_c1345228",
-    "firstName": "Liam",
-    "lastName": "Thulin",
-    "fullName": "Liam Thulin",
-    "aliases": [],
-    "dateOfBirth": "2002-12-24",
-    "birthYear": 2002,
-    "nationalities": null,
-    "heightCm": null,
-    "handedness": null,
-    "recordConfidence": "PARTIAL",
-    "fieldConfidence": {
-      "birthYear": "PARTIAL"
-    },
-    "sourceRefs": {
-      "identity": [
-        "src_div1_sodra_2026_27"
-      ],
-      "birthYear": [
-        "src_div1_sodra_2026_27"
-      ]
-    },
-    "dataNotes": [
-      "HM-DATA-DIV1-1.0: provisional roster entry -- club's 2026/27 squad page was not yet fully published at snapshot time; see this milestone's report."
-    ]
-  },
-  {
     "playerId": "player_jakob_sandstrom_e13f0949",
     "firstName": "Jakob",
     "lastName": "Sandström",

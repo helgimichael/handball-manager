@@ -12,6 +12,7 @@ import * as fs from "node:fs";
 import * as path from "node:path";
 import { snapshotWorldSquads, snapshotGameplayRatings } from "./serverSnapshot";
 import { playerAgeAtDate } from "../development/developmentIntegration";
+import { HM_DATA_1_3_RELOCATED_TO_ALLSVENSKAN } from "./hmData13RosterCorrections";
 
 const HBL_ID = "se_handbollsligan_herr";
 const ALLSVENSKAN_ID = "swe-2";
@@ -49,12 +50,13 @@ function loadCsv(csvPath: string): { header: string[]; rows: string[][] } {
   return { header, rows: lines.slice(1).map(parseCsvLine) };
 }
 
-test("HBL bio milestone: exactly 268 unique active HBL playerIds, no duplicates", () => {
+// 268 at the bio milestone; HM-DATA-1.3 moved 2 of them (same playerId) to their 2026/27 Herrallsvenskan clubs.
+test("HBL bio milestone: exactly 266 unique active HBL playerIds, no duplicates", () => {
   const squads = snapshotWorldSquads(HBL_ID);
   const allIds: string[] = [];
   for (const clubId of Object.keys(squads)) for (const p of squads[clubId]) allIds.push(p.id);
-  assert.equal(allIds.length, 268);
-  assert.equal(new Set(allIds).size, 268, "no duplicate playerIds in the active HBL population");
+  assert.equal(allIds.length, 266);
+  assert.equal(new Set(allIds).size, 266, "no duplicate playerIds in the active HBL population");
 });
 
 test("HBL bio milestone: no fabricated DOB among this milestone's own corrections (no invented Jan-1 default), and birthYear is always consistent with any exact DOB league-wide", () => {
@@ -169,6 +171,12 @@ test("HBL bio milestone: CA/PA ratings are completely unaffected by the bio-data
   const ratings = snapshotGameplayRatings(HBL_ID);
   const ratingById = new Map<string, { ca: number; pa: number }>();
   for (const clubId of Object.keys(ratings)) for (const r of ratings[clubId]) ratingById.set(r.playerId, { ca: r.ca, pa: r.pa });
+  // HM-DATA-1.3 relocations carry their unchanged locked rating to the new Herrallsvenskan club.
+  const allsvenskanRatings = snapshotGameplayRatings(ALLSVENSKAN_ID);
+  for (const { playerId, fromCompetitionId, toClubId } of HM_DATA_1_3_RELOCATED_TO_ALLSVENSKAN) {
+    const moved = fromCompetitionId === HBL_ID ? allsvenskanRatings[toClubId]?.find((r) => r.playerId === playerId) : undefined;
+    if (moved) ratingById.set(playerId, { ca: moved.ca, pa: moved.pa });
+  }
 
   for (const r of rows) {
     const playerId = r[idx("playerId")];

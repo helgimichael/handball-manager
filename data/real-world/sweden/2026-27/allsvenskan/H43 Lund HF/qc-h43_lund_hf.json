@@ -3,11 +3,11 @@
   "clubName": "H43 Lund HF",
   "competitionId": "swe-2",
   "season": "2026/27",
-  "snapshotDate": "2026-08-27",
+  "snapshotDate": "2026-10-31",
   "datasetStatus": "PRESEASON",
   "qcStatus": "VERIFIED_WITH_OPEN_FIELDS",
-  "expectedRosterCount": 27,
-  "exportedRosterCount": 27,
+  "expectedRosterCount": 22,
+  "exportedRosterCount": 22,
   "checks": {
     "currentLeagueRosterLocated": true,
     "allLeagueRosterNamesCaptured": true,
@@ -23,17 +23,18 @@
   },
   "knownConflicts": [],
   "staleSourceWarnings": [
-    "HM-DATA-ALLSVENSKAN-1.1: the canonical source spreadsheet carries no position, nationality, height, handedness, or contract-date column at all -- see openFieldsSummary and each roster entry's own rosterConfidence/dataNotes for exactly which fields are real evidence vs. a disclosed structural placeholder."
+    "HM-DATA-ALLSVENSKAN-1.1: the canonical source spreadsheet carries no position, nationality, height, handedness, or contract-date column at all -- see openFieldsSummary and each roster entry's own rosterConfidence/dataNotes for exactly which fields are real evidence vs. a disclosed structural placeholder.",
+    "HM-DATA-1.3: roster corrected against Profixio leagueid28141 (2026-10-31). Held pending verification: Felix Tyberg (HOLD: flagged extra with conflicting evidence (verified/key status on club page))."
   ],
   "openFieldsSummary": {
-    "exactDateOfBirthMissing": 13,
-    "nationalityMissing": 27,
+    "exactDateOfBirthMissing": 0,
+    "nationalityMissing": 15,
     "heightMissing": 27,
     "handednessMissing": 27,
-    "shirtNumberMissing": 0,
+    "shirtNumberMissing": 1,
     "contractEndMissing": 27,
-    "positionGenerated": 15,
+    "positionGenerated": 1,
     "positionPartial": 0,
-    "positionVerified": 12
+    "positionVerified": 21
   }
 }

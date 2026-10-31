@@ -117,9 +117,11 @@
   {
     "playerId": "se_player_sebastian_fagerdahl_33464c91",
     "firstName": "Sebastian",
-    "lastName": "Fagerdahl",
-    "fullName": "Sebastian Fagerdahl",
-    "aliases": [],
+    "lastName": "Råberg Fagerdahl",
+    "fullName": "Sebastian Råberg Fagerdahl",
+    "aliases": [
+      "Sebastian Fagerdahl"
+    ],
     "dateOfBirth": "1999-09-02",
     "birthYear": 1999,
     "nationalities": null,
@@ -132,7 +134,9 @@
         "src_as_v5_qa_spreadsheet"
       ]
     },
-    "dataNotes": []
+    "dataNotes": [
+      "HM-DATA-1.3 (2026-10-31): name corrected from \"Sebastian Fagerdahl\" to the Profixio-registered \"Sebastian Råberg Fagerdahl\" (same DOB, club and Profixio history; https://www.profixio.com/app/lx/clubs/26331/player/652194). playerId unchanged."
+    ]
   },
   {
     "playerId": "se_player_andreas_lagerstrom_32dc9ce4",
@@ -465,7 +469,9 @@
     "firstName": "Ludvig",
     "lastName": "Nyström",
     "fullName": "Ludvig Nyström",
-    "aliases": [],
+    "aliases": [
+      "Ludde Nyström"
+    ],
     "dateOfBirth": "2002-04-20",
     "birthYear": 2002,
     "nationalities": null,

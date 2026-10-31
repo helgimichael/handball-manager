@@ -18,5 +18,15 @@
     "publishedAt": null,
     "accessedAt": "2026-08-27",
     "seasonContext": "2026/27 PRESEASON"
+  },
+  {
+    "sourceId": "src_hm13_profixio_registration",
+    "sourceType": "FEDERATION_OFFICIAL",
+    "publisher": "Svenska Handbollförbundet (Profixio)",
+    "title": "Herrallsvenskan 2026/27 squad registration and player profiles (leagueid28141)",
+    "url": "https://www.profixio.com/app/lx/competition/leagueid28141/teams/1575370?t=players",
+    "publishedAt": null,
+    "accessedAt": "2026-10-31",
+    "seasonContext": "2026/27 (HM-DATA-1.3)"
   }
 ]

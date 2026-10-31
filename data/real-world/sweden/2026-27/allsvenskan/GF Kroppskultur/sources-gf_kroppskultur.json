@@ -8,5 +8,35 @@
     "publishedAt": "2026-08-27",
     "accessedAt": "2026-08-27",
     "seasonContext": "2026/27"
+  },
+  {
+    "sourceId": "src_hm13_profixio_registration",
+    "sourceType": "FEDERATION_OFFICIAL",
+    "publisher": "Svenska Handbollförbundet (Profixio)",
+    "title": "Herrallsvenskan 2026/27 squad registration and player profiles (leagueid28141)",
+    "url": "https://www.profixio.com/app/lx/competition/leagueid28141/teams/1592095?t=players",
+    "publishedAt": null,
+    "accessedAt": "2026-10-31",
+    "seasonContext": "2026/27 (HM-DATA-1.3)"
+  },
+  {
+    "sourceId": "src_hm13_profixio_match_sheets",
+    "sourceType": "FEDERATION_OFFICIAL",
+    "publisher": "Svenska Handbollförbundet (Profixio)",
+    "title": "Herrallsvenskan 2026/27 match sheets (laguppställningar, RMV goalkeeper flags), rounds 4-6",
+    "url": "https://www.profixio.com/app/lx/competition/leagueid28141",
+    "publishedAt": null,
+    "accessedAt": "2026-10-31",
+    "seasonContext": "2026/27 (HM-DATA-1.3)"
+  },
+  {
+    "sourceId": "src_hm13_previous_league_record",
+    "sourceType": "GAME_DATA",
+    "publisher": "Handball Manager real-world data",
+    "title": "Position carried over from the player's previous (other-league) verified roster record",
+    "url": null,
+    "publishedAt": null,
+    "accessedAt": "2026-10-31",
+    "seasonContext": "2026/27 (HM-DATA-1.3)"
   }
 ]

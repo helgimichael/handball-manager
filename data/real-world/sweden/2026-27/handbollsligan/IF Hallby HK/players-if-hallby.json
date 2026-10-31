@@ -341,27 +341,6 @@
     "dataNotes": []
   },
   {
-    "playerId": "se_player_alexander_hambalek_3236286b",
-    "firstName": "Alexander",
-    "lastName": "Hambalek",
-    "fullName": "Alexander Hambalek",
-    "aliases": [],
-    "dateOfBirth": "2004-05-07",
-    "birthYear": 2004,
-    "nationalities": [
-      "SE"
-    ],
-    "heightCm": null,
-    "handedness": null,
-    "recordConfidence": "PARTIAL",
-    "sourceRefs": {
-      "identity": [
-        "src_hbl_hallby_20260817"
-      ]
-    },
-    "dataNotes": []
-  },
-  {
     "playerId": "se_player_jonatan_suomela_2ab138cf",
     "firstName": "Jonatan",
     "lastName": "Suomela",

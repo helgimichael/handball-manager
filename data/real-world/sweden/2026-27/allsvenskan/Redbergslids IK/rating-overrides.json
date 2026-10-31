@@ -100,9 +100,9 @@
     "pa": 160
   },
   "se_player_kevin_nilsson_71763009": {
-    "updatedAt": "2026-08-30T15:46:03.726Z",
     "ca": 103,
-    "pa": 150
+    "pa": 150,
+    "updatedAt": "2026-10-31T06:14:33.571Z"
   },
   "se_player_linus_lovgren_38890f0d": {
     "updatedAt": "2026-08-30T15:46:04.141Z",
@@ -115,8 +115,8 @@
     "pa": 126
   },
   "se_player_vlado_pusic_efc0c6fc": {
+    "updatedAt": "2026-08-30T15:46:08.580Z",
     "ca": 110,
-    "pa": 147,
-    "updatedAt": "2026-08-30T15:46:08.580Z"
+    "pa": 147
   }
 }

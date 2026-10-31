@@ -71,8 +71,8 @@
   },
   "se_player_arwid_krontorp_c6d8c3de": {
     "status": "LOCKED",
-    "updatedAt": "2026-08-30T15:45:17.190Z",
-    "note": "ALLSV_rating_import_candidates_v0.13 Allsvenskan final import (261/261, individually researched, 0 REVIEW)"
+    "updatedAt": "2026-10-31T06:14:32.883Z",
+    "note": "HM-DATA-1.3 (2026-10-31) GK/OUTCOURT branch correction to H6; researched CA/PA preserved, generated attributes regenerated (HM-RATINGS-0.4-v1)"
   },
   "se_player_gustav_boren_d9cd262e": {
     "status": "LOCKED",
@@ -93,5 +93,10 @@
     "status": "LOCKED",
     "updatedAt": "2026-08-30T15:45:22.070Z",
     "note": "ALLSV_rating_import_candidates_v0.13 Allsvenskan final import (261/261, individually researched, 0 REVIEW)"
+  },
+  "se_player_alexander_hambalek_3236286b": {
+    "status": "LOCKED",
+    "updatedAt": "2026-08-30T11:16:14.925Z",
+    "note": "HM_Player_Rating_Research_v2.13 HBL final import (268/268, individually researched, 0 REVIEW)"
   }
 }

@@ -395,27 +395,6 @@
     "dataNotes": []
   },
   {
-    "playerId": "player_malte_mansson_1d49a03b",
-    "firstName": "Malte",
-    "lastName": "Månsson",
-    "fullName": "Malte Månsson",
-    "aliases": [],
-    "dateOfBirth": "2006-05-05",
-    "birthYear": 2006,
-    "nationalities": [
-      "SE"
-    ],
-    "heightCm": null,
-    "handedness": null,
-    "recordConfidence": "PARTIAL",
-    "sourceRefs": {
-      "identity": [
-        "src_hbl_hkmalmo_20260622"
-      ]
-    },
-    "dataNotes": []
-  },
-  {
     "playerId": "player_colin_tonnesen_394ae2b9",
     "firstName": "Colin",
     "lastName": "Tönnesen",
