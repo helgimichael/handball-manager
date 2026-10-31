@@ -84,34 +84,6 @@
     "dataNotes": []
   },
   {
-    "rosterEntryId": "se_2026_27_division1_norra_rimbo_hk_roslagen__b2b55819",
-    "playerId": "player_nicklas_jading_b2b55819",
-    "clubId": "se_club_rimbo_hk_roslagen",
-    "competitionId": "se_division1_norra",
-    "season": "2026/27",
-    "snapshotDate": "2026-08-27",
-    "shirtNumber": 20,
-    "sourcePosition": "Höger 6",
-    "primaryPosition": "H6",
-    "secondaryPositions": [],
-    "rosterStatus": "CONFIRMED",
-    "contract": {
-      "untilDate": null,
-      "untilSeason": null,
-      "optionUntilSeason": null
-    },
-    "rosterConfidence": "VERIFIED",
-    "sourceRefs": {
-      "roster": [
-        "src_div1_norra_2026_27"
-      ],
-      "position": [
-        "src_div1_norra_2026_27"
-      ]
-    },
-    "dataNotes": []
-  },
-  {
     "rosterEntryId": "se_2026_27_division1_norra_rimbo_hk_roslagen__6347e2c4",
     "playerId": "player_benjamin_lund_6347e2c4",
     "clubId": "se_club_rimbo_hk_roslagen",
@@ -145,9 +117,9 @@
     "clubId": "se_club_rimbo_hk_roslagen",
     "competitionId": "se_division1_norra",
     "season": "2026/27",
-    "snapshotDate": "2026-08-27",
+    "snapshotDate": "2026-10-31",
     "shirtNumber": 3,
-    "sourcePosition": "",
+    "sourcePosition": "V9",
     "primaryPosition": "V9",
     "secondaryPositions": [],
     "rosterStatus": "CONFIRMED",
@@ -156,15 +128,18 @@
       "untilSeason": null,
       "optionUntilSeason": null
     },
-    "rosterConfidence": "UNKNOWN",
+    "rosterConfidence": "VERIFIED",
     "sourceRefs": {
       "roster": [
         "src_div1_norra_2026_27"
       ],
-      "position": []
+      "position": [
+        "src_hm16_profixio_registration",
+        "src_hm16_profixio_match_sheets"
+      ]
     },
     "dataNotes": [
-      "HM-DATA-DIV1-1.0: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+      "HM-DATA-1.6 (2026-10-31): primaryPosition V9 confirmed (Profixio player profile position, consistent with match-sheet goalkeeper flags)."
     ]
   },
   {
@@ -173,9 +148,9 @@
     "clubId": "se_club_rimbo_hk_roslagen",
     "competitionId": "se_division1_norra",
     "season": "2026/27",
-    "snapshotDate": "2026-08-27",
+    "snapshotDate": "2026-10-31",
     "shirtNumber": 5,
-    "sourcePosition": "",
+    "sourcePosition": "V9",
     "primaryPosition": "V9",
     "secondaryPositions": [],
     "rosterStatus": "CONFIRMED",
@@ -184,15 +159,17 @@
       "untilSeason": null,
       "optionUntilSeason": null
     },
-    "rosterConfidence": "UNKNOWN",
+    "rosterConfidence": "VERIFIED",
     "sourceRefs": {
       "roster": [
         "src_div1_norra_2026_27"
       ],
-      "position": []
+      "position": [
+        "src_hm16_profixio_registration"
+      ]
     },
     "dataNotes": [
-      "HM-DATA-DIV1-1.0: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+      "HM-DATA-1.6 (2026-10-31): primaryPosition V9 confirmed (Profixio player profile position)."
     ]
   },
   {
@@ -201,9 +178,9 @@
     "clubId": "se_club_rimbo_hk_roslagen",
     "competitionId": "se_division1_norra",
     "season": "2026/27",
-    "snapshotDate": "2026-08-27",
+    "snapshotDate": "2026-10-31",
     "shirtNumber": 10,
-    "sourcePosition": "",
+    "sourcePosition": "M9",
     "primaryPosition": "M9",
     "secondaryPositions": [
       "H9"
@@ -214,15 +191,18 @@
       "untilSeason": null,
       "optionUntilSeason": null
     },
-    "rosterConfidence": "UNKNOWN",
+    "rosterConfidence": "VERIFIED",
     "sourceRefs": {
       "roster": [
         "src_div1_norra_2026_27"
       ],
-      "position": []
+      "position": [
+        "src_hm16_profixio_registration",
+        "src_hm16_profixio_match_sheets"
+      ]
     },
     "dataNotes": [
-      "HM-DATA-DIV1-1.0: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+      "HM-DATA-1.6 (2026-10-31): primaryPosition M9 confirmed (Profixio player profile position, consistent with match-sheet goalkeeper flags)."
     ]
   },
   {
@@ -231,9 +211,9 @@
     "clubId": "se_club_rimbo_hk_roslagen",
     "competitionId": "se_division1_norra",
     "season": "2026/27",
-    "snapshotDate": "2026-08-27",
+    "snapshotDate": "2026-10-31",
     "shirtNumber": 11,
-    "sourcePosition": "",
+    "sourcePosition": "V6",
     "primaryPosition": "V6",
     "secondaryPositions": [],
     "rosterStatus": "CONFIRMED",
@@ -242,15 +222,18 @@
       "untilSeason": null,
       "optionUntilSeason": null
     },
-    "rosterConfidence": "UNKNOWN",
+    "rosterConfidence": "VERIFIED",
     "sourceRefs": {
       "roster": [
         "src_div1_norra_2026_27"
       ],
-      "position": []
+      "position": [
+        "src_hm16_profixio_registration",
+        "src_hm16_profixio_match_sheets"
+      ]
     },
     "dataNotes": [
-      "HM-DATA-DIV1-1.0: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+      "HM-DATA-1.6 (2026-10-31): primaryPosition V6 confirmed (Profixio player profile position, consistent with match-sheet goalkeeper flags)."
     ]
   },
   {
@@ -285,42 +268,14 @@
     ]
   },
   {
-    "rosterEntryId": "se_2026_27_division1_norra_rimbo_hk_roslagen__6a336e1b",
-    "playerId": "player_jeff_tollbring_6a336e1b",
-    "clubId": "se_club_rimbo_hk_roslagen",
-    "competitionId": "se_division1_norra",
-    "season": "2026/27",
-    "snapshotDate": "2026-08-27",
-    "shirtNumber": 18,
-    "sourcePosition": "",
-    "primaryPosition": "H9",
-    "secondaryPositions": [],
-    "rosterStatus": "CONFIRMED",
-    "contract": {
-      "untilDate": null,
-      "untilSeason": null,
-      "optionUntilSeason": null
-    },
-    "rosterConfidence": "UNKNOWN",
-    "sourceRefs": {
-      "roster": [
-        "src_div1_norra_2026_27"
-      ],
-      "position": []
-    },
-    "dataNotes": [
-      "HM-DATA-DIV1-1.0: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
-    ]
-  },
-  {
     "rosterEntryId": "se_2026_27_division1_norra_rimbo_hk_roslagen__e7e81dc5",
     "playerId": "player_ken_tollbring_e7e81dc5",
     "clubId": "se_club_rimbo_hk_roslagen",
     "competitionId": "se_division1_norra",
     "season": "2026/27",
-    "snapshotDate": "2026-08-27",
+    "snapshotDate": "2026-10-31",
     "shirtNumber": 27,
-    "sourcePosition": "",
+    "sourcePosition": "V9",
     "primaryPosition": "V9",
     "secondaryPositions": [
       "M6"
@@ -331,15 +286,18 @@
       "untilSeason": null,
       "optionUntilSeason": null
     },
-    "rosterConfidence": "UNKNOWN",
+    "rosterConfidence": "VERIFIED",
     "sourceRefs": {
       "roster": [
         "src_div1_norra_2026_27"
       ],
-      "position": []
+      "position": [
+        "src_hm16_profixio_registration",
+        "src_hm16_profixio_match_sheets"
+      ]
     },
     "dataNotes": [
-      "HM-DATA-DIV1-1.0: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+      "HM-DATA-1.6 (2026-10-31): primaryPosition V9 confirmed (Profixio player profile position, consistent with match-sheet goalkeeper flags)."
     ]
   },
   {
@@ -348,9 +306,9 @@
     "clubId": "se_club_rimbo_hk_roslagen",
     "competitionId": "se_division1_norra",
     "season": "2026/27",
-    "snapshotDate": "2026-08-27",
+    "snapshotDate": "2026-10-31",
     "shirtNumber": 34,
-    "sourcePosition": "",
+    "sourcePosition": "M9",
     "primaryPosition": "M9",
     "secondaryPositions": [],
     "rosterStatus": "CONFIRMED",
@@ -359,15 +317,18 @@
       "untilSeason": null,
       "optionUntilSeason": null
     },
-    "rosterConfidence": "UNKNOWN",
+    "rosterConfidence": "VERIFIED",
     "sourceRefs": {
       "roster": [
         "src_div1_norra_2026_27"
       ],
-      "position": []
+      "position": [
+        "src_hm16_profixio_registration",
+        "src_hm16_profixio_match_sheets"
+      ]
     },
     "dataNotes": [
-      "HM-DATA-DIV1-1.0: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+      "HM-DATA-1.6 (2026-10-31): primaryPosition M9 confirmed (Profixio player profile position, consistent with match-sheet goalkeeper flags)."
     ]
   },
   {
@@ -453,5 +414,37 @@
     "dataNotes": [
       "HM-DATA-DIV1-1.0: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
     ]
+  },
+  {
+    "rosterEntryId": "se_2026_27_division1_norra_rimbo_hk_roslagen__6107d3fb",
+    "playerId": "player_andreas_mattsson_6107d3fb",
+    "clubId": "se_club_rimbo_hk_roslagen",
+    "competitionId": "se_division1_norra",
+    "season": "2026/27",
+    "snapshotDate": "2026-10-31",
+    "shirtNumber": null,
+    "sourcePosition": "MV",
+    "primaryPosition": "MV",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hm16_profixio_registration"
+      ],
+      "position": [
+        "src_hm16_profixio_registration"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-1.6 (2026-10-31): position MV from Profixio player profile position."
+    ],
+    "defaultSquadStatus": null,
+    "specialTags": []
   }
 ]

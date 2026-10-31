@@ -44,11 +44,6 @@
     "ca": 92,
     "pa": 128
   },
-  "player_isac_svensson_2f5135bb": {
-    "updatedAt": "2026-08-30T17:59:19.690Z",
-    "ca": 100,
-    "pa": 132
-  },
   "player_jakob_sandstrom_e13f0949": {
     "updatedAt": "2026-08-30T17:59:20.071Z",
     "ca": 100,
@@ -93,5 +88,15 @@
     "updatedAt": "2026-08-30T17:59:24.165Z",
     "ca": 112,
     "pa": 120
+  },
+  "player_max_bengtsson_1db2bbee": {
+    "updatedAt": "2026-08-30T17:58:58.250Z",
+    "ca": 104,
+    "pa": 136
+  },
+  "player_nicklas_jading_b2b55819": {
+    "updatedAt": "2026-08-30T17:57:00.933Z",
+    "ca": 119,
+    "pa": 122
   }
 }

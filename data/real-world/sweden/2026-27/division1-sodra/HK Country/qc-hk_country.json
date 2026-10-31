@@ -3,11 +3,11 @@
   "clubName": "HK Country",
   "competitionId": "se_division1_sodra",
   "season": "2026/27",
-  "snapshotDate": "2026-08-27",
+  "snapshotDate": "2026-10-31",
   "datasetStatus": "PRESEASON",
   "qcStatus": "VERIFIED_WITH_OPEN_FIELDS",
-  "expectedRosterCount": 36,
-  "exportedRosterCount": 36,
+  "expectedRosterCount": 34,
+  "exportedRosterCount": 34,
   "checks": {
     "currentLeagueRosterLocated": true,
     "allLeagueRosterNamesCaptured": true,
@@ -22,16 +22,20 @@
     "guessedContractDates": 36
   },
   "knownConflicts": [],
-  "staleSourceWarnings": [],
+  "staleSourceWarnings": [
+    "HM-DATA-1.6: roster corrected against Profixio leagueid28142 (2026-10-31). Held pending verification: Alfred Gustafsson (DIV1_MISSING_PLAYER: no verified position (Profixio profile has none; never on a match sheet as goalkeeper)); Miguel Mbumba (DIV1_MISSING_PLAYER: no verified position (Profixio profile has none; never on a match sheet as goalkeeper))."
+  ],
   "openFieldsSummary": {
-    "exactDateOfBirthMissing": 36,
+    "exactDateOfBirthMissing": 18,
     "birthYearMissing": 36,
-    "nationalityMissing": 36,
+    "nationalityMissing": 34,
     "heightMissing": 36,
     "handednessMissing": 36,
     "shirtNumberMissing": 0,
     "contractEndMissing": 36,
-    "positionGenerated": 32,
-    "positionSourced": 4
+    "positionGenerated": 19,
+    "positionSourced": 4,
+    "positionPartial": 0,
+    "positionVerified": 15
   }
 }

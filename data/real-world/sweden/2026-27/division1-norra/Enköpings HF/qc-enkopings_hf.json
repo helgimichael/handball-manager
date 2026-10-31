@@ -3,11 +3,11 @@
   "clubName": "Enköpings HF",
   "competitionId": "se_division1_norra",
   "season": "2026/27",
-  "snapshotDate": "2026-08-27",
+  "snapshotDate": "2026-10-31",
   "datasetStatus": "PRESEASON",
   "qcStatus": "VERIFIED",
-  "expectedRosterCount": 17,
-  "exportedRosterCount": 17,
+  "expectedRosterCount": 20,
+  "exportedRosterCount": 20,
   "checks": {
     "currentLeagueRosterLocated": true,
     "allLeagueRosterNamesCaptured": true,
@@ -22,9 +22,11 @@
     "guessedContractDates": 17
   },
   "knownConflicts": [],
-  "staleSourceWarnings": [],
+  "staleSourceWarnings": [
+    "HM-DATA-1.6: roster corrected against Profixio leagueid28142 (2026-10-31)."
+  ],
   "openFieldsSummary": {
-    "exactDateOfBirthMissing": 17,
+    "exactDateOfBirthMissing": 0,
     "birthYearMissing": 0,
     "nationalityMissing": 17,
     "heightMissing": 17,
@@ -32,6 +34,8 @@
     "shirtNumberMissing": 0,
     "contractEndMissing": 17,
     "positionGenerated": 0,
-    "positionSourced": 17
+    "positionSourced": 17,
+    "positionPartial": 0,
+    "positionVerified": 20
   }
 }

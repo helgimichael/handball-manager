@@ -2,7 +2,7 @@
   "player_albin_mesanovic_a8e66934": {
     "playerId": "player_albin_mesanovic_a8e66934",
     "clubId": "se_club_vinslovs_hk",
-    "position": "V9",
+    "position": "M6",
     "ca": {
       "value": 112,
       "confidence": "HIGH",
@@ -252,7 +252,7 @@
     },
     "attackRoleProficiencies": [
       {
-        "role": "BREAKTHROUGH_BACK"
+        "role": "OFFENSIVE_PIVOT"
       }
     ],
     "defenceRoleProficiencies": [],
@@ -788,7 +788,7 @@
   "player_anton_persson_2d1c22ec": {
     "playerId": "player_anton_persson_2d1c22ec",
     "clubId": "se_club_vinslovs_hk",
-    "position": "M6",
+    "position": "V6",
     "ca": {
       "value": 108,
       "confidence": "HIGH",
@@ -1038,7 +1038,7 @@
     },
     "attackRoleProficiencies": [
       {
-        "role": "PHYSICAL_PIVOT"
+        "role": "ELITE_FINISHER"
       }
     ],
     "defenceRoleProficiencies": [],
@@ -1836,7 +1836,7 @@
   "player_erik_hansson_06c290ec": {
     "playerId": "player_erik_hansson_06c290ec",
     "clubId": "se_club_vinslovs_hk",
-    "position": "H6",
+    "position": "V6",
     "ca": {
       "value": 104,
       "confidence": "HIGH",
@@ -2098,7 +2098,7 @@
   "player_felix_emsfors_25fa2763": {
     "playerId": "player_felix_emsfors_25fa2763",
     "clubId": "se_club_vinslovs_hk",
-    "position": "M6",
+    "position": "V6",
     "ca": {
       "value": 110,
       "confidence": "HIGH",
@@ -2348,7 +2348,7 @@
     },
     "attackRoleProficiencies": [
       {
-        "role": "MOBILE_PIVOT"
+        "role": "TRANSITION_WING"
       }
     ],
     "defenceRoleProficiencies": [],
@@ -2360,7 +2360,7 @@
   "player_hugo_frank_8b9752b0": {
     "playerId": "player_hugo_frank_8b9752b0",
     "clubId": "se_club_vinslovs_hk",
-    "position": "M6",
+    "position": "H6",
     "ca": {
       "value": 118,
       "confidence": "HIGH",
@@ -2610,7 +2610,7 @@
     },
     "attackRoleProficiencies": [
       {
-        "role": "TWO_WAY_M6"
+        "role": "ELITE_FINISHER"
       }
     ],
     "defenceRoleProficiencies": [],
@@ -2884,7 +2884,7 @@
   "player_inge_eriksen_e4d65400": {
     "playerId": "player_inge_eriksen_e4d65400",
     "clubId": "se_club_vinslovs_hk",
-    "position": "M9",
+    "position": "V9",
     "ca": {
       "value": 114,
       "confidence": "HIGH",
@@ -3134,7 +3134,7 @@
     },
     "attackRoleProficiencies": [
       {
-        "role": "PRIMARY_PLAYMAKER"
+        "role": "SHOOTING_BACK"
       }
     ],
     "defenceRoleProficiencies": [],
@@ -3146,7 +3146,7 @@
   "player_linus_eriksson_lilja_caa5154f": {
     "playerId": "player_linus_eriksson_lilja_caa5154f",
     "clubId": "se_club_vinslovs_hk",
-    "position": "M6",
+    "position": "H6",
     "ca": {
       "value": 108,
       "confidence": "HIGH",
@@ -3396,7 +3396,7 @@
     },
     "attackRoleProficiencies": [
       {
-        "role": "SCREENING_PIVOT"
+        "role": "TRANSITION_WING"
       }
     ],
     "defenceRoleProficiencies": [],
@@ -3670,7 +3670,7 @@
   "player_richard_gersson_d9c19f06": {
     "playerId": "player_richard_gersson_d9c19f06",
     "clubId": "se_club_vinslovs_hk",
-    "position": "H6",
+    "position": "M6",
     "ca": {
       "value": 118,
       "confidence": "HIGH",
@@ -3920,7 +3920,7 @@
     },
     "attackRoleProficiencies": [
       {
-        "role": "CREATIVE_WING"
+        "role": "SCREENING_PIVOT"
       }
     ],
     "defenceRoleProficiencies": [],
@@ -3932,7 +3932,7 @@
   "player_sebastian_engqvist_10fb495b": {
     "playerId": "player_sebastian_engqvist_10fb495b",
     "clubId": "se_club_vinslovs_hk",
-    "position": "H6",
+    "position": "M6",
     "ca": {
       "value": 110,
       "confidence": "HIGH",
@@ -4182,7 +4182,7 @@
     },
     "attackRoleProficiencies": [
       {
-        "role": "CREATIVE_WING"
+        "role": "MOBILE_PIVOT"
       }
     ],
     "defenceRoleProficiencies": [],

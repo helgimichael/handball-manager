@@ -287,10 +287,10 @@
     "clubId": "se_club_hk_eskil",
     "competitionId": "se_division1_norra",
     "season": "2026/27",
-    "snapshotDate": "2026-08-27",
+    "snapshotDate": "2026-10-31",
     "shirtNumber": 4,
-    "sourcePosition": "Vänster 9",
-    "primaryPosition": "M6",
+    "sourcePosition": "V9",
+    "primaryPosition": "V9",
     "secondaryPositions": [
       "V9"
     ],
@@ -306,10 +306,12 @@
         "src_div1_norra_2026_27"
       ],
       "position": [
-        "src_div1_norra_2026_27"
+        "src_hm16_profixio_registration"
       ]
     },
-    "dataNotes": []
+    "dataNotes": [
+      "HM-DATA-1.6 (2026-10-31): primaryPosition M6 -> V9 (Profixio player profile position)."
+    ]
   },
   {
     "rosterEntryId": "se_2026_27_division1_norra_hk_eskil__434ab04e",
@@ -347,10 +349,10 @@
     "clubId": "se_club_hk_eskil",
     "competitionId": "se_division1_norra",
     "season": "2026/27",
-    "snapshotDate": "2026-08-27",
+    "snapshotDate": "2026-10-31",
     "shirtNumber": 10,
-    "sourcePosition": "Vänster 9",
-    "primaryPosition": "M9",
+    "sourcePosition": "V9",
+    "primaryPosition": "V9",
     "secondaryPositions": [
       "V9"
     ],
@@ -366,10 +368,13 @@
         "src_div1_norra_2026_27"
       ],
       "position": [
-        "src_div1_norra_2026_27"
+        "src_hm16_profixio_registration",
+        "src_hm16_profixio_match_sheets"
       ]
     },
-    "dataNotes": []
+    "dataNotes": [
+      "HM-DATA-1.6 (2026-10-31): primaryPosition M9 -> V9 (Profixio player profile position, consistent with match-sheet goalkeeper flags)."
+    ]
   },
   {
     "rosterEntryId": "se_2026_27_division1_norra_hk_eskil__8ed114fb",
@@ -435,10 +440,10 @@
     "clubId": "se_club_hk_eskil",
     "competitionId": "se_division1_norra",
     "season": "2026/27",
-    "snapshotDate": "2026-08-27",
+    "snapshotDate": "2026-10-31",
     "shirtNumber": 21,
-    "sourcePosition": "Höger 9",
-    "primaryPosition": "M9",
+    "sourcePosition": "H9",
+    "primaryPosition": "H9",
     "secondaryPositions": [
       "H9"
     ],
@@ -454,10 +459,13 @@
         "src_div1_norra_2026_27"
       ],
       "position": [
-        "src_div1_norra_2026_27"
+        "src_hm16_profixio_registration",
+        "src_hm16_profixio_match_sheets"
       ]
     },
-    "dataNotes": []
+    "dataNotes": [
+      "HM-DATA-1.6 (2026-10-31): primaryPosition M9 -> H9 (Profixio player profile position, consistent with match-sheet goalkeeper flags)."
+    ]
   },
   {
     "rosterEntryId": "se_2026_27_division1_norra_hk_eskil__f47bb10a",
@@ -486,5 +494,69 @@
       ]
     },
     "dataNotes": []
+  },
+  {
+    "rosterEntryId": "se_2026_27_division1_norra_hk_eskil__f47acd3c",
+    "playerId": "player_eric_lindqvist_f47acd3c",
+    "clubId": "se_club_hk_eskil",
+    "competitionId": "se_division1_norra",
+    "season": "2026/27",
+    "snapshotDate": "2026-10-31",
+    "shirtNumber": null,
+    "sourcePosition": "M6",
+    "primaryPosition": "M6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hm16_profixio_registration"
+      ],
+      "position": [
+        "src_hm16_profixio_registration"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-1.6 (2026-10-31): position M6 from Profixio player profile position."
+    ],
+    "defaultSquadStatus": null,
+    "specialTags": []
+  },
+  {
+    "rosterEntryId": "se_2026_27_division1_norra_hk_eskil__64b1f8c3",
+    "playerId": "player_thim_ahlin_64b1f8c3",
+    "clubId": "se_club_hk_eskil",
+    "competitionId": "se_division1_norra",
+    "season": "2026/27",
+    "snapshotDate": "2026-10-31",
+    "shirtNumber": 13,
+    "sourcePosition": "M6",
+    "primaryPosition": "M6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hm16_profixio_registration"
+      ],
+      "position": [
+        "src_hm16_profixio_registration"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-1.6 (2026-10-31): position M6 from Profixio player profile position."
+    ],
+    "defaultSquadStatus": null,
+    "specialTags": []
   }
 ]

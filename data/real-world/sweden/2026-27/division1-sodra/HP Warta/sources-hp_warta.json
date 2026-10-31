@@ -38,5 +38,35 @@
     "publishedAt": null,
     "accessedAt": "2026-10-31",
     "seasonContext": "2026/27 (HM-DATA-1.5)"
+  },
+  {
+    "sourceId": "src_hm16_profixio_registration",
+    "sourceType": "FEDERATION_OFFICIAL",
+    "publisher": "Svenska Handbollförbundet (Profixio)",
+    "title": "Division 1 Södra 2026/27 squad registration and player profiles (leagueid28142)",
+    "url": "https://www.profixio.com/app/lx/competition/leagueid28142/teams/1579919?t=players",
+    "publishedAt": null,
+    "accessedAt": "2026-10-31",
+    "seasonContext": "2026/27 (HM-DATA-1.6)"
+  },
+  {
+    "sourceId": "src_hm16_profixio_match_sheets",
+    "sourceType": "FEDERATION_OFFICIAL",
+    "publisher": "Svenska Handbollförbundet (Profixio)",
+    "title": "Division 1 Södra 2026/27 match sheets (laguppställningar, RMV goalkeeper flags)",
+    "url": "https://www.profixio.com/app/lx/competition/leagueid28142",
+    "publishedAt": null,
+    "accessedAt": "2026-10-31",
+    "seasonContext": "2026/27 (HM-DATA-1.6)"
+  },
+  {
+    "sourceId": "src_hm16_rating_research",
+    "sourceType": "RESEARCH_COMPILED",
+    "publisher": "Handball Manager rating research",
+    "title": "DIV1S_rating_import_candidates_v0.5.csv (exports/player-rating-research) role labels",
+    "url": null,
+    "publishedAt": null,
+    "accessedAt": "2026-10-31",
+    "seasonContext": "2026/27 (HM-DATA-1.6)"
   }
 ]

@@ -90,8 +90,28 @@ function collectRatings(competitionIds: readonly string[]): Map<string, { ca: nu
  * checks of an import's own values -- the cross-pool duplicate checks keep
  * using the live pools.
  */
+/**
+ * Players whose 2026/27 roster membership was removed by a documented correction: the identity is still in its
+ * club's players file, has no roster row, and its dataNotes record the removal. An undocumented disappearance
+ * is not matched here and still fails the import checks.
+ */
+function documentedRemovedMemberships(competitionIds: readonly string[]): Map<string, { clubId: string; lock: { ca: number; pa: number } | null }> {
+  const out = new Map<string, { clubId: string; lock: { ca: number; pa: number } | null }>();
+  for (const club of buildCatalog().clubs.filter((c) => competitionIds.includes(c.competitionId))) {
+    const rostered = new Set((JSON.parse(fs.readFileSync(club.rosterFile, "utf8")) as { playerId: string }[]).map((r) => r.playerId));
+    const locks = loadRatingDatabase(club.clubId);
+    for (const p of JSON.parse(fs.readFileSync(club.playersFile, "utf8")) as { playerId: string; dataNotes?: string[] }[]) {
+      if (rostered.has(p.playerId) || !(p.dataNotes ?? []).some((n) => /roster membership at .+ removed/.test(n))) continue;
+      const lock = locks[p.playerId];
+      out.set(p.playerId, { clubId: club.clubId, lock: lock ? { ca: lock.ca.value, pa: lock.pa?.value ?? lock.ca.value } : null });
+    }
+  }
+  return out;
+}
+
 function collectImportedRatings(competitionIds: readonly string[]): Map<string, { ca: number; pa: number }> {
   const out = collectRatings(competitionIds);
+  for (const [playerId, { lock }] of documentedRemovedMemberships(competitionIds)) if (lock && !out.has(playerId)) out.set(playerId, lock);
   const relocated = RELOCATED_TO_ALLSVENSKAN.filter((r) => competitionIds.includes(r.fromCompetitionId) && !out.has(r.playerId));
   const merged = competitionIds.includes(ALLSVENSKAN_COMPETITION_ID) ? MERGED_IDENTITIES : [];
   if (relocated.length > 0 || merged.length > 0) {
@@ -560,7 +580,10 @@ test("Division 1 v1: the 7 UNRESOLVED_IDENTITY playerIds received no rating writ
   for (const r of sRows) currentById.set(r[sIdx("playerId")], { ca: Number(r[sIdx("Current CA")]), pa: Number(r[sIdx("Current PA")]) });
 
   const ratings = collectRatings(D1_COMPETITION_IDS);
+  const removed = documentedRemovedMemberships(D1_COMPETITION_IDS);
   for (const id of unresolvedIds) {
+    // An unlocked player whose membership a documented correction removed has no live (roster-derived) rating any more.
+    if (removed.has(id) && !removed.get(id)!.lock) continue;
     const live = ratings.get(id);
     const baseline = currentById.get(id);
     assert.ok(live && baseline, `no rating/baseline found for unresolved playerId ${id}`);

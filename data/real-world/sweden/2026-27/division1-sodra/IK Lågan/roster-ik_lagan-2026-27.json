@@ -5,9 +5,9 @@
     "clubId": "se_club_ik_lagan",
     "competitionId": "se_division1_sodra",
     "season": "2026/27",
-    "snapshotDate": "2026-08-27",
+    "snapshotDate": "2026-10-31",
     "shirtNumber": 12,
-    "sourcePosition": "Målvakt",
+    "sourcePosition": "MV",
     "primaryPosition": "MV",
     "secondaryPositions": [],
     "rosterStatus": "PROVISIONAL",
@@ -16,16 +16,19 @@
       "untilSeason": null,
       "optionUntilSeason": null
     },
-    "rosterConfidence": "PARTIAL",
+    "rosterConfidence": "VERIFIED",
     "sourceRefs": {
       "roster": [
         "src_div1_sodra_2026_27"
       ],
       "position": [
-        "src_div1_sodra_2026_27"
+        "src_hm16_profixio_registration",
+        "src_hm16_profixio_match_sheets"
       ]
     },
-    "dataNotes": []
+    "dataNotes": [
+      "HM-DATA-1.6 (2026-10-31): primaryPosition MV confirmed (Profixio player profile position, consistent with match-sheet goalkeeper flags)."
+    ]
   },
   {
     "rosterEntryId": "se_2026_27_division1_sodra_ik_lagan__960a63e9",
@@ -33,9 +36,9 @@
     "clubId": "se_club_ik_lagan",
     "competitionId": "se_division1_sodra",
     "season": "2026/27",
-    "snapshotDate": "2026-08-27",
+    "snapshotDate": "2026-10-31",
     "shirtNumber": 71,
-    "sourcePosition": "Målvakt",
+    "sourcePosition": "MV",
     "primaryPosition": "MV",
     "secondaryPositions": [],
     "rosterStatus": "PROVISIONAL",
@@ -44,43 +47,18 @@
       "untilSeason": null,
       "optionUntilSeason": null
     },
-    "rosterConfidence": "PARTIAL",
+    "rosterConfidence": "VERIFIED",
     "sourceRefs": {
       "roster": [
         "src_div1_sodra_2026_27"
       ],
       "position": [
-        "src_div1_sodra_2026_27"
+        "src_hm16_profixio_registration",
+        "src_hm16_profixio_match_sheets"
       ]
     },
-    "dataNotes": []
-  },
-  {
-    "rosterEntryId": "se_2026_27_division1_sodra_ik_lagan__46e05515",
-    "playerId": "player_richard_hellstrom_46e05515",
-    "clubId": "se_club_ik_lagan",
-    "competitionId": "se_division1_sodra",
-    "season": "2026/27",
-    "snapshotDate": "2026-08-27",
-    "shirtNumber": 0,
-    "sourcePosition": "",
-    "primaryPosition": "M6",
-    "secondaryPositions": [],
-    "rosterStatus": "PROVISIONAL",
-    "contract": {
-      "untilDate": null,
-      "untilSeason": null,
-      "optionUntilSeason": null
-    },
-    "rosterConfidence": "UNKNOWN",
-    "sourceRefs": {
-      "roster": [
-        "src_div1_sodra_2026_27"
-      ],
-      "position": []
-    },
     "dataNotes": [
-      "HM-DATA-DIV1-1.0: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+      "HM-DATA-1.6 (2026-10-31): primaryPosition MV confirmed (Profixio player profile position, consistent with match-sheet goalkeeper flags)."
     ]
   },
   {
@@ -89,9 +67,9 @@
     "clubId": "se_club_ik_lagan",
     "competitionId": "se_division1_sodra",
     "season": "2026/27",
-    "snapshotDate": "2026-08-27",
+    "snapshotDate": "2026-10-31",
     "shirtNumber": 2,
-    "sourcePosition": "",
+    "sourcePosition": "V9",
     "primaryPosition": "V9",
     "secondaryPositions": [],
     "rosterStatus": "PROVISIONAL",
@@ -100,15 +78,18 @@
       "untilSeason": null,
       "optionUntilSeason": null
     },
-    "rosterConfidence": "UNKNOWN",
+    "rosterConfidence": "VERIFIED",
     "sourceRefs": {
       "roster": [
         "src_div1_sodra_2026_27"
       ],
-      "position": []
+      "position": [
+        "src_hm16_profixio_registration",
+        "src_hm16_profixio_match_sheets"
+      ]
     },
     "dataNotes": [
-      "HM-DATA-DIV1-1.0: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+      "HM-DATA-1.6 (2026-10-31): primaryPosition V9 confirmed (Profixio player profile position, consistent with match-sheet goalkeeper flags)."
     ]
   },
   {
@@ -117,110 +98,32 @@
     "clubId": "se_club_ik_lagan",
     "competitionId": "se_division1_sodra",
     "season": "2026/27",
-    "snapshotDate": "2026-08-27",
+    "snapshotDate": "2026-10-31",
     "shirtNumber": 3,
-    "sourcePosition": "",
-    "primaryPosition": "M6",
-    "secondaryPositions": [],
+    "sourcePosition": "V6",
+    "primaryPosition": "V6",
+    "secondaryPositions": [
+      "M6"
+    ],
     "rosterStatus": "PROVISIONAL",
     "contract": {
       "untilDate": null,
       "untilSeason": null,
       "optionUntilSeason": null
     },
-    "rosterConfidence": "UNKNOWN",
+    "rosterConfidence": "VERIFIED",
     "sourceRefs": {
       "roster": [
         "src_div1_sodra_2026_27"
       ],
-      "position": []
+      "position": [
+        "src_hm16_profixio_registration",
+        "src_hm16_profixio_match_sheets",
+        "src_hm16_rating_research"
+      ]
     },
     "dataNotes": [
-      "HM-DATA-DIV1-1.0: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
-    ]
-  },
-  {
-    "rosterEntryId": "se_2026_27_division1_sodra_ik_lagan__c1d67770",
-    "playerId": "player_ville_sjoberg_c1d67770",
-    "clubId": "se_club_ik_lagan",
-    "competitionId": "se_division1_sodra",
-    "season": "2026/27",
-    "snapshotDate": "2026-08-27",
-    "shirtNumber": 4,
-    "sourcePosition": "",
-    "primaryPosition": "M6",
-    "secondaryPositions": [],
-    "rosterStatus": "PROVISIONAL",
-    "contract": {
-      "untilDate": null,
-      "untilSeason": null,
-      "optionUntilSeason": null
-    },
-    "rosterConfidence": "UNKNOWN",
-    "sourceRefs": {
-      "roster": [
-        "src_div1_sodra_2026_27"
-      ],
-      "position": []
-    },
-    "dataNotes": [
-      "HM-DATA-DIV1-1.0: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
-    ]
-  },
-  {
-    "rosterEntryId": "se_2026_27_division1_sodra_ik_lagan__1889f5ae",
-    "playerId": "player_elias_persson_1889f5ae",
-    "clubId": "se_club_ik_lagan",
-    "competitionId": "se_division1_sodra",
-    "season": "2026/27",
-    "snapshotDate": "2026-08-27",
-    "shirtNumber": 6,
-    "sourcePosition": "",
-    "primaryPosition": "M6",
-    "secondaryPositions": [],
-    "rosterStatus": "PROVISIONAL",
-    "contract": {
-      "untilDate": null,
-      "untilSeason": null,
-      "optionUntilSeason": null
-    },
-    "rosterConfidence": "UNKNOWN",
-    "sourceRefs": {
-      "roster": [
-        "src_div1_sodra_2026_27"
-      ],
-      "position": []
-    },
-    "dataNotes": [
-      "HM-DATA-DIV1-1.0: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
-    ]
-  },
-  {
-    "rosterEntryId": "se_2026_27_division1_sodra_ik_lagan__3bfca348",
-    "playerId": "player_erik_friberg_lindskoug_3bfca348",
-    "clubId": "se_club_ik_lagan",
-    "competitionId": "se_division1_sodra",
-    "season": "2026/27",
-    "snapshotDate": "2026-08-27",
-    "shirtNumber": 7,
-    "sourcePosition": "",
-    "primaryPosition": "V9",
-    "secondaryPositions": [],
-    "rosterStatus": "PROVISIONAL",
-    "contract": {
-      "untilDate": null,
-      "untilSeason": null,
-      "optionUntilSeason": null
-    },
-    "rosterConfidence": "UNKNOWN",
-    "sourceRefs": {
-      "roster": [
-        "src_div1_sodra_2026_27"
-      ],
-      "position": []
-    },
-    "dataNotes": [
-      "HM-DATA-DIV1-1.0: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+      "HM-DATA-1.6 (2026-10-31): primaryPosition M6 -> V6 (Profixio player profile position, consistent with match-sheet goalkeeper flags; secondary M6 from research label \"42-year-old Lågan M6 veteran\")."
     ]
   },
   {
@@ -229,54 +132,32 @@
     "clubId": "se_club_ik_lagan",
     "competitionId": "se_division1_sodra",
     "season": "2026/27",
-    "snapshotDate": "2026-08-27",
+    "snapshotDate": "2026-10-31",
     "shirtNumber": 10,
-    "sourcePosition": "",
-    "primaryPosition": "H9",
-    "secondaryPositions": [],
+    "sourcePosition": "M9",
+    "primaryPosition": "M9",
+    "secondaryPositions": [
+      "V9"
+    ],
     "rosterStatus": "PROVISIONAL",
     "contract": {
       "untilDate": null,
       "untilSeason": null,
       "optionUntilSeason": null
     },
-    "rosterConfidence": "UNKNOWN",
+    "rosterConfidence": "VERIFIED",
     "sourceRefs": {
       "roster": [
         "src_div1_sodra_2026_27"
       ],
-      "position": []
+      "position": [
+        "src_hm16_profixio_registration",
+        "src_hm16_profixio_match_sheets",
+        "src_hm16_rating_research"
+      ]
     },
     "dataNotes": [
-      "HM-DATA-DIV1-1.0: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
-    ]
-  },
-  {
-    "rosterEntryId": "se_2026_27_division1_sodra_ik_lagan__82da0252",
-    "playerId": "player_hampus_schwarz_82da0252",
-    "clubId": "se_club_ik_lagan",
-    "competitionId": "se_division1_sodra",
-    "season": "2026/27",
-    "snapshotDate": "2026-08-27",
-    "shirtNumber": 11,
-    "sourcePosition": "",
-    "primaryPosition": "V9",
-    "secondaryPositions": [],
-    "rosterStatus": "PROVISIONAL",
-    "contract": {
-      "untilDate": null,
-      "untilSeason": null,
-      "optionUntilSeason": null
-    },
-    "rosterConfidence": "UNKNOWN",
-    "sourceRefs": {
-      "roster": [
-        "src_div1_sodra_2026_27"
-      ],
-      "position": []
-    },
-    "dataNotes": [
-      "HM-DATA-DIV1-1.0: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+      "HM-DATA-1.6 (2026-10-31): primaryPosition H9 -> M9 (Profixio player profile position, consistent with match-sheet goalkeeper flags; secondary V9 from research label \"20-year-old Lågan V9 prospect\")."
     ]
   },
   {
@@ -285,26 +166,32 @@
     "clubId": "se_club_ik_lagan",
     "competitionId": "se_division1_sodra",
     "season": "2026/27",
-    "snapshotDate": "2026-08-27",
+    "snapshotDate": "2026-10-31",
     "shirtNumber": 14,
-    "sourcePosition": "",
+    "sourcePosition": "V6",
     "primaryPosition": "V6",
-    "secondaryPositions": [],
+    "secondaryPositions": [
+      "M6"
+    ],
     "rosterStatus": "PROVISIONAL",
     "contract": {
       "untilDate": null,
       "untilSeason": null,
       "optionUntilSeason": null
     },
-    "rosterConfidence": "UNKNOWN",
+    "rosterConfidence": "VERIFIED",
     "sourceRefs": {
       "roster": [
         "src_div1_sodra_2026_27"
       ],
-      "position": []
+      "position": [
+        "src_hm16_profixio_registration",
+        "src_hm16_profixio_match_sheets",
+        "src_hm16_rating_research"
+      ]
     },
     "dataNotes": [
-      "HM-DATA-DIV1-1.0: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+      "HM-DATA-1.6 (2026-10-31): primaryPosition V6 confirmed (Profixio player profile position, consistent with match-sheet goalkeeper flags; secondary M6 from research label \"24-year-old Lågan M6\")."
     ]
   },
   {
@@ -313,10 +200,10 @@
     "clubId": "se_club_ik_lagan",
     "competitionId": "se_division1_sodra",
     "season": "2026/27",
-    "snapshotDate": "2026-08-27",
+    "snapshotDate": "2026-10-31",
     "shirtNumber": 15,
-    "sourcePosition": "",
-    "primaryPosition": "V9",
+    "sourcePosition": "M6",
+    "primaryPosition": "M6",
     "secondaryPositions": [],
     "rosterStatus": "PROVISIONAL",
     "contract": {
@@ -324,99 +211,18 @@
       "untilSeason": null,
       "optionUntilSeason": null
     },
-    "rosterConfidence": "UNKNOWN",
+    "rosterConfidence": "VERIFIED",
     "sourceRefs": {
       "roster": [
         "src_div1_sodra_2026_27"
       ],
-      "position": []
+      "position": [
+        "src_hm16_profixio_registration",
+        "src_hm16_profixio_match_sheets"
+      ]
     },
     "dataNotes": [
-      "HM-DATA-DIV1-1.0: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
-    ]
-  },
-  {
-    "rosterEntryId": "se_2026_27_division1_sodra_ik_lagan__36655a82",
-    "playerId": "player_nakkve_rosenberg_36655a82",
-    "clubId": "se_club_ik_lagan",
-    "competitionId": "se_division1_sodra",
-    "season": "2026/27",
-    "snapshotDate": "2026-08-27",
-    "shirtNumber": 17,
-    "sourcePosition": "",
-    "primaryPosition": "M9",
-    "secondaryPositions": [],
-    "rosterStatus": "PROVISIONAL",
-    "contract": {
-      "untilDate": null,
-      "untilSeason": null,
-      "optionUntilSeason": null
-    },
-    "rosterConfidence": "UNKNOWN",
-    "sourceRefs": {
-      "roster": [
-        "src_div1_sodra_2026_27"
-      ],
-      "position": []
-    },
-    "dataNotes": [
-      "HM-DATA-DIV1-1.0: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
-    ]
-  },
-  {
-    "rosterEntryId": "se_2026_27_division1_sodra_ik_lagan__2f5135bb",
-    "playerId": "player_isac_svensson_2f5135bb",
-    "clubId": "se_club_ik_lagan",
-    "competitionId": "se_division1_sodra",
-    "season": "2026/27",
-    "snapshotDate": "2026-08-27",
-    "shirtNumber": 20,
-    "sourcePosition": "",
-    "primaryPosition": "MV",
-    "secondaryPositions": [],
-    "rosterStatus": "PROVISIONAL",
-    "contract": {
-      "untilDate": null,
-      "untilSeason": null,
-      "optionUntilSeason": null
-    },
-    "rosterConfidence": "UNKNOWN",
-    "sourceRefs": {
-      "roster": [
-        "src_div1_sodra_2026_27"
-      ],
-      "position": []
-    },
-    "dataNotes": [
-      "HM-DATA-DIV1-1.0: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
-    ]
-  },
-  {
-    "rosterEntryId": "se_2026_27_division1_sodra_ik_lagan__5a0b0e47",
-    "playerId": "player_melvin_nilsson_5a0b0e47",
-    "clubId": "se_club_ik_lagan",
-    "competitionId": "se_division1_sodra",
-    "season": "2026/27",
-    "snapshotDate": "2026-08-27",
-    "shirtNumber": 21,
-    "sourcePosition": "",
-    "primaryPosition": "H9",
-    "secondaryPositions": [],
-    "rosterStatus": "PROVISIONAL",
-    "contract": {
-      "untilDate": null,
-      "untilSeason": null,
-      "optionUntilSeason": null
-    },
-    "rosterConfidence": "UNKNOWN",
-    "sourceRefs": {
-      "roster": [
-        "src_div1_sodra_2026_27"
-      ],
-      "position": []
-    },
-    "dataNotes": [
-      "HM-DATA-DIV1-1.0: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+      "HM-DATA-1.6 (2026-10-31): primaryPosition V9 -> M6 (Profixio player profile position, consistent with match-sheet goalkeeper flags)."
     ]
   },
   {
@@ -425,26 +231,32 @@
     "clubId": "se_club_ik_lagan",
     "competitionId": "se_division1_sodra",
     "season": "2026/27",
-    "snapshotDate": "2026-08-27",
+    "snapshotDate": "2026-10-31",
     "shirtNumber": 33,
-    "sourcePosition": "",
-    "primaryPosition": "H9",
-    "secondaryPositions": [],
+    "sourcePosition": "M9",
+    "primaryPosition": "M9",
+    "secondaryPositions": [
+      "H6"
+    ],
     "rosterStatus": "PROVISIONAL",
     "contract": {
       "untilDate": null,
       "untilSeason": null,
       "optionUntilSeason": null
     },
-    "rosterConfidence": "UNKNOWN",
+    "rosterConfidence": "VERIFIED",
     "sourceRefs": {
       "roster": [
         "src_div1_sodra_2026_27"
       ],
-      "position": []
+      "position": [
+        "src_hm16_profixio_registration",
+        "src_hm16_profixio_match_sheets",
+        "src_hm16_rating_research"
+      ]
     },
     "dataNotes": [
-      "HM-DATA-DIV1-1.0: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+      "HM-DATA-1.6 (2026-10-31): primaryPosition H9 -> M9 (Profixio player profile position, consistent with match-sheet goalkeeper flags; secondary H6 from research label \"23-year-old Lågan H6\")."
     ]
   },
   {
@@ -484,54 +296,219 @@
     "clubId": "se_club_ik_lagan",
     "competitionId": "se_division1_sodra",
     "season": "2026/27",
-    "snapshotDate": "2026-08-27",
+    "snapshotDate": "2026-10-31",
     "shirtNumber": null,
-    "sourcePosition": "",
+    "sourcePosition": "V6",
     "primaryPosition": "V6",
-    "secondaryPositions": [],
+    "secondaryPositions": [
+      "H9"
+    ],
     "rosterStatus": "PROVISIONAL",
     "contract": {
       "untilDate": null,
       "untilSeason": null,
       "optionUntilSeason": null
     },
-    "rosterConfidence": "UNKNOWN",
+    "rosterConfidence": "VERIFIED",
     "sourceRefs": {
       "roster": [
         "src_div1_sodra_2026_27"
       ],
-      "position": []
+      "position": [
+        "src_hm16_profixio_registration",
+        "src_hm16_rating_research"
+      ]
     },
     "dataNotes": [
-      "HM-DATA-DIV1-1.0: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+      "HM-DATA-1.6 (2026-10-31): primaryPosition V6 confirmed (Profixio player profile position; secondary H9 from research label \"20-year-old Lågan H9 prospect\")."
     ]
   },
   {
-    "rosterEntryId": "se_2026_27_division1_sodra_ik_lagan__f6f39fc9",
-    "playerId": "player_nicolas_salgado_wallstrom_f6f39fc9",
+    "rosterEntryId": "se_2026_27_division1_sodra_ik_lagan__5f80b611",
+    "playerId": "player_lucas_nilsson_5f80b611",
     "clubId": "se_club_ik_lagan",
     "competitionId": "se_division1_sodra",
     "season": "2026/27",
-    "snapshotDate": "2026-08-27",
-    "shirtNumber": null,
-    "sourcePosition": "",
-    "primaryPosition": "M6",
+    "snapshotDate": "2026-10-31",
+    "shirtNumber": 17,
+    "sourcePosition": "H6",
+    "primaryPosition": "H6",
     "secondaryPositions": [],
-    "rosterStatus": "PROVISIONAL",
+    "rosterStatus": "CONFIRMED",
     "contract": {
       "untilDate": null,
       "untilSeason": null,
       "optionUntilSeason": null
     },
-    "rosterConfidence": "UNKNOWN",
+    "rosterConfidence": "VERIFIED",
     "sourceRefs": {
       "roster": [
-        "src_div1_sodra_2026_27"
+        "src_hm16_profixio_registration"
       ],
-      "position": []
+      "position": [
+        "src_hm16_profixio_registration"
+      ]
     },
     "dataNotes": [
-      "HM-DATA-DIV1-1.0: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
-    ]
+      "HM-DATA-1.6 (2026-10-31): position H6 from Profixio player profile position."
+    ],
+    "defaultSquadStatus": null,
+    "specialTags": []
+  },
+  {
+    "rosterEntryId": "se_2026_27_division1_sodra_ik_lagan__c8c53f97",
+    "playerId": "player_martin_blomqvist_c8c53f97",
+    "clubId": "se_club_ik_lagan",
+    "competitionId": "se_division1_sodra",
+    "season": "2026/27",
+    "snapshotDate": "2026-10-31",
+    "shirtNumber": 21,
+    "sourcePosition": "V9",
+    "primaryPosition": "V9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hm16_profixio_registration"
+      ],
+      "position": [
+        "src_hm16_profixio_registration"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-1.6 (2026-10-31): position V9 from Profixio player profile position."
+    ],
+    "defaultSquadStatus": null,
+    "specialTags": []
+  },
+  {
+    "rosterEntryId": "se_2026_27_division1_sodra_ik_lagan__1db2bbee",
+    "playerId": "player_max_bengtsson_1db2bbee",
+    "clubId": "se_club_ik_lagan",
+    "competitionId": "se_division1_sodra",
+    "season": "2026/27",
+    "snapshotDate": "2026-10-31",
+    "shirtNumber": 6,
+    "sourcePosition": "M6",
+    "primaryPosition": "M6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hm16_profixio_registration"
+      ],
+      "position": [
+        "src_hm16_previous_league_record"
+      ]
+    },
+    "dataNotes": [],
+    "defaultSquadStatus": null,
+    "specialTags": []
+  },
+  {
+    "rosterEntryId": "se_2026_27_division1_sodra_ik_lagan__5d6b1540",
+    "playerId": "player_melvin_seifert_5d6b1540",
+    "clubId": "se_club_ik_lagan",
+    "competitionId": "se_division1_sodra",
+    "season": "2026/27",
+    "snapshotDate": "2026-10-31",
+    "shirtNumber": 25,
+    "sourcePosition": "M9",
+    "primaryPosition": "M9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hm16_profixio_registration"
+      ],
+      "position": [
+        "src_hm16_profixio_registration"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-1.6 (2026-10-31): position M9 from Profixio player profile position."
+    ],
+    "defaultSquadStatus": null,
+    "specialTags": []
+  },
+  {
+    "rosterEntryId": "se_2026_27_division1_sodra_ik_lagan__65a5a659",
+    "playerId": "player_milton_wallengren_65a5a659",
+    "clubId": "se_club_ik_lagan",
+    "competitionId": "se_division1_sodra",
+    "season": "2026/27",
+    "snapshotDate": "2026-10-31",
+    "shirtNumber": 11,
+    "sourcePosition": "H9",
+    "primaryPosition": "H9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hm16_profixio_registration"
+      ],
+      "position": [
+        "src_hm16_profixio_registration"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-1.6 (2026-10-31): position H9 from Profixio player profile position."
+    ],
+    "defaultSquadStatus": null,
+    "specialTags": []
+  },
+  {
+    "rosterEntryId": "se_2026_27_division1_sodra_ik_lagan__b2b55819",
+    "playerId": "player_nicklas_jading_b2b55819",
+    "clubId": "se_club_ik_lagan",
+    "competitionId": "se_division1_sodra",
+    "season": "2026/27",
+    "snapshotDate": "2026-10-31",
+    "shirtNumber": 27,
+    "sourcePosition": "H6",
+    "primaryPosition": "H6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hm16_profixio_registration"
+      ],
+      "position": [
+        "src_hm16_previous_league_record"
+      ]
+    },
+    "dataNotes": [],
+    "defaultSquadStatus": null,
+    "specialTags": []
   }
 ]

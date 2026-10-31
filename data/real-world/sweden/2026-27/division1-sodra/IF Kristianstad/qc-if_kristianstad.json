@@ -6,8 +6,8 @@
   "snapshotDate": "2026-10-31",
   "datasetStatus": "PRESEASON",
   "qcStatus": "VERIFIED_WITH_OPEN_FIELDS",
-  "expectedRosterCount": 18,
-  "exportedRosterCount": 18,
+  "expectedRosterCount": 23,
+  "exportedRosterCount": 23,
   "checks": {
     "currentLeagueRosterLocated": true,
     "allLeagueRosterNamesCaptured": true,
@@ -24,19 +24,20 @@
   "knownConflicts": [],
   "staleSourceWarnings": [
     "Division 1 development side; distinct from IFK Kristianstad's Handbollsligan team.",
-    "HM-DATA-1.5: roster corrected against Profixio leagueid28142 (2026-10-31)."
+    "HM-DATA-1.5: roster corrected against Profixio leagueid28142 (2026-10-31).",
+    "HM-DATA-1.6: roster corrected against Profixio leagueid28142 (2026-10-31). Held pending verification: Love Barnestam (DIV1_DOB_CONFLICT: DOB game 2007-09-07 vs Profixio 2007-09-18); Theo Ivarsson (DIV1_CROSS_LEAGUE_IDENTITY: owner review required for cross-league moves (HM-DATA-1.6 Task F): existing identity player_theo_ivarsson_77eb2224 at IFK Kristianstad (handbollsligan) | profile förening: IFK Kristianstad)."
   ],
   "openFieldsSummary": {
-    "exactDateOfBirthMissing": 2,
+    "exactDateOfBirthMissing": 1,
     "birthYearMissing": 19,
-    "nationalityMissing": 11,
+    "nationalityMissing": 8,
     "heightMissing": 19,
     "handednessMissing": 19,
-    "shirtNumberMissing": 18,
+    "shirtNumberMissing": 23,
     "contractEndMissing": 19,
-    "positionGenerated": 15,
+    "positionGenerated": 0,
     "positionSourced": 0,
     "positionPartial": 0,
-    "positionVerified": 3
+    "positionVerified": 23
   }
 }

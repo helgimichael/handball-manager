@@ -1692,7 +1692,7 @@
   "player_elis_lindblom_68d66617": {
     "playerId": "player_elis_lindblom_68d66617",
     "clubId": "se_club_hk_cliff",
-    "position": "M9",
+    "position": "M6",
     "ca": {
       "value": 82,
       "confidence": "HIGH",
@@ -1942,7 +1942,7 @@
     },
     "attackRoleProficiencies": [
       {
-        "role": "PRIMARY_PLAYMAKER"
+        "role": "MOBILE_PIVOT"
       }
     ],
     "defenceRoleProficiencies": [],
@@ -2858,7 +2858,7 @@
   "player_ivan_ronnogard_0a925ccb": {
     "playerId": "player_ivan_ronnogard_0a925ccb",
     "clubId": "se_club_hk_cliff",
-    "position": "M9",
+    "position": "V6",
     "ca": {
       "value": 94,
       "confidence": "HIGH",
@@ -3108,7 +3108,7 @@
     },
     "attackRoleProficiencies": [
       {
-        "role": "TEMPO_CONTROLLER"
+        "role": "TWO_WAY_WING"
       }
     ],
     "defenceRoleProficiencies": [],
@@ -3382,7 +3382,7 @@
   "player_melker_melander_bc529202": {
     "playerId": "player_melker_melander_bc529202",
     "clubId": "se_club_hk_cliff",
-    "position": "M6",
+    "position": "V9",
     "ca": {
       "value": 100,
       "confidence": "HIGH",
@@ -3632,7 +3632,7 @@
     },
     "attackRoleProficiencies": [
       {
-        "role": "TWO_WAY_M6"
+        "role": "SHOOTING_BACK"
       }
     ],
     "defenceRoleProficiencies": [],
@@ -4024,7 +4024,7 @@
   "player_oscar_westblad_5a0083df": {
     "playerId": "player_oscar_westblad_5a0083df",
     "clubId": "se_club_hk_cliff",
-    "position": "H9",
+    "position": "V9",
     "ca": {
       "value": 98,
       "confidence": "HIGH",
@@ -5832,7 +5832,7 @@
   "player_theo_friberg_478a74ae": {
     "playerId": "player_theo_friberg_478a74ae",
     "clubId": "se_club_hk_cliff",
-    "position": "M6",
+    "position": "H9",
     "ca": {
       "value": 102,
       "confidence": "HIGH",
@@ -6082,7 +6082,7 @@
     },
     "attackRoleProficiencies": [
       {
-        "role": "SCREENING_PIVOT"
+        "role": "CREATIVE_BACK"
       }
     ],
     "defenceRoleProficiencies": [],

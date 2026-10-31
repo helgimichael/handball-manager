@@ -382,7 +382,7 @@
   "player_adam_magnusson_da786cb2": {
     "playerId": "player_adam_magnusson_da786cb2",
     "clubId": "se_club_taby_hbk",
-    "position": "V6",
+    "position": "H9",
     "ca": {
       "value": 98,
       "confidence": "HIGH",
@@ -632,7 +632,7 @@
     },
     "attackRoleProficiencies": [
       {
-        "role": "TRANSITION_WING"
+        "role": "BREAKTHROUGH_BACK"
       }
     ],
     "defenceRoleProficiencies": [],
@@ -1168,7 +1168,7 @@
   "player_carl_svensson_kallviks_ea415ee0": {
     "playerId": "player_carl_svensson_kallviks_ea415ee0",
     "clubId": "se_club_taby_hbk",
-    "position": "H9",
+    "position": "V9",
     "ca": {
       "value": 100,
       "confidence": "HIGH",
@@ -2334,7 +2334,7 @@
   "player_erik_pedersen_b65146ea": {
     "playerId": "player_erik_pedersen_b65146ea",
     "clubId": "se_club_taby_hbk",
-    "position": "M9",
+    "position": "V9",
     "ca": {
       "value": 102,
       "confidence": "HIGH",
@@ -2584,7 +2584,7 @@
     },
     "attackRoleProficiencies": [
       {
-        "role": "TEMPO_CONTROLLER"
+        "role": "COMPLETE_BACK"
       }
     ],
     "defenceRoleProficiencies": [],
@@ -2858,7 +2858,7 @@
   "player_gustaf_berg_146525e6": {
     "playerId": "player_gustaf_berg_146525e6",
     "clubId": "se_club_taby_hbk",
-    "position": "M6",
+    "position": "V6",
     "ca": {
       "value": 108,
       "confidence": "HIGH",
@@ -3108,7 +3108,7 @@
     },
     "attackRoleProficiencies": [
       {
-        "role": "SCREENING_PIVOT"
+        "role": "CREATIVE_WING"
       }
     ],
     "defenceRoleProficiencies": [],
@@ -3382,7 +3382,7 @@
   "player_jonas_umegard_bdd8836c": {
     "playerId": "player_jonas_umegard_bdd8836c",
     "clubId": "se_club_taby_hbk",
-    "position": "M6",
+    "position": "H6",
     "ca": {
       "value": 110,
       "confidence": "HIGH",
@@ -3632,7 +3632,7 @@
     },
     "attackRoleProficiencies": [
       {
-        "role": "SCREENING_PIVOT"
+        "role": "TRANSITION_WING"
       }
     ],
     "defenceRoleProficiencies": [],
@@ -4692,7 +4692,7 @@
   "player_viggo_jahr_0f2bd9ea": {
     "playerId": "player_viggo_jahr_0f2bd9ea",
     "clubId": "se_club_taby_hbk",
-    "position": "M9",
+    "position": "H9",
     "ca": {
       "value": 100,
       "confidence": "HIGH",
@@ -4942,7 +4942,7 @@
     },
     "attackRoleProficiencies": [
       {
-        "role": "BREAKTHROUGH_CREATOR"
+        "role": "BREAKTHROUGH_BACK"
       }
     ],
     "defenceRoleProficiencies": [],

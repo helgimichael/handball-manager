@@ -64,7 +64,8 @@
       ]
     },
     "dataNotes": [
-      "HM-DATA-DIV1-1.0: provisional roster entry -- club's 2026/27 squad page was not yet fully published at snapshot time; see this milestone's report."
+      "HM-DATA-DIV1-1.0: provisional roster entry -- club's 2026/27 squad page was not yet fully published at snapshot time; see this milestone's report.",
+      "HM-DATA-1.6 (2026-10-31): 2026/27 Division 1 Norra roster membership at IK Bolton removed -- not among the 477 Division 1 registrations on Profixio (2026-10-31) and on none of the 38 published match sheets; also absent from the official club squad page. Identity and locked rating retained."
     ]
   },
   {
@@ -152,7 +153,8 @@
       ]
     },
     "dataNotes": [
-      "HM-DATA-DIV1-1.0: provisional roster entry -- club's 2026/27 squad page was not yet fully published at snapshot time; see this milestone's report."
+      "HM-DATA-DIV1-1.0: provisional roster entry -- club's 2026/27 squad page was not yet fully published at snapshot time; see this milestone's report.",
+      "HM-DATA-1.6 (2026-10-31): 2026/27 Division 1 Norra roster membership at IK Bolton removed -- not among the 477 Division 1 registrations on Profixio (2026-10-31) and on none of the 38 published match sheets; also absent from the official club squad page. Identity and locked rating retained."
     ]
   },
   {
@@ -174,7 +176,8 @@
       ]
     },
     "dataNotes": [
-      "HM-DATA-DIV1-1.0: provisional roster entry -- club's 2026/27 squad page was not yet fully published at snapshot time; see this milestone's report."
+      "HM-DATA-DIV1-1.0: provisional roster entry -- club's 2026/27 squad page was not yet fully published at snapshot time; see this milestone's report.",
+      "HM-DATA-1.6 (2026-10-31): 2026/27 Division 1 Norra roster membership at IK Bolton removed -- not among the 477 Division 1 registrations on Profixio (2026-10-31) and on none of the 38 published match sheets; also absent from the official club squad page. Identity and locked rating retained."
     ]
   },
   {
@@ -328,7 +331,8 @@
       ]
     },
     "dataNotes": [
-      "HM-DATA-DIV1-1.0: provisional roster entry -- club's 2026/27 squad page was not yet fully published at snapshot time; see this milestone's report."
+      "HM-DATA-DIV1-1.0: provisional roster entry -- club's 2026/27 squad page was not yet fully published at snapshot time; see this milestone's report.",
+      "HM-DATA-1.6 (2026-10-31): 2026/27 Division 1 Norra roster membership at IK Bolton removed -- not among the 477 Division 1 registrations on Profixio (2026-10-31) and on none of the 38 published match sheets; also absent from the official club squad page. Identity and locked rating retained."
     ]
   },
   {
@@ -680,7 +684,8 @@
       ]
     },
     "dataNotes": [
-      "HM-DATA-DIV1-1.0: provisional roster entry -- club's 2026/27 squad page was not yet fully published at snapshot time; see this milestone's report."
+      "HM-DATA-DIV1-1.0: provisional roster entry -- club's 2026/27 squad page was not yet fully published at snapshot time; see this milestone's report.",
+      "HM-DATA-1.6 (2026-10-31): 2026/27 Division 1 Norra roster membership at IK Bolton removed -- not among the 477 Division 1 registrations on Profixio (2026-10-31) and on none of the 38 published match sheets; also absent from the official club squad page. Identity and locked rating retained."
     ]
   },
   {
@@ -702,7 +707,8 @@
       ]
     },
     "dataNotes": [
-      "HM-DATA-DIV1-1.0: provisional roster entry -- club's 2026/27 squad page was not yet fully published at snapshot time; see this milestone's report."
+      "HM-DATA-DIV1-1.0: provisional roster entry -- club's 2026/27 squad page was not yet fully published at snapshot time; see this milestone's report.",
+      "HM-DATA-1.6 (2026-10-31): 2026/27 Division 1 Norra roster membership at IK Bolton removed -- not among the 477 Division 1 registrations on Profixio (2026-10-31) and on none of the 38 published match sheets; also absent from the official club squad page. Identity and locked rating retained."
     ]
   },
   {
@@ -725,6 +731,105 @@
     },
     "dataNotes": [
       "HM-DATA-DIV1-1.0: provisional roster entry -- club's 2026/27 squad page was not yet fully published at snapshot time; see this milestone's report."
+    ]
+  },
+  {
+    "playerId": "player_filip_kulicki_gornik_736b1650",
+    "firstName": "Filip",
+    "lastName": "Kulicki Górnik",
+    "fullName": "Filip Kulicki Górnik",
+    "aliases": [],
+    "dateOfBirth": "2003-10-07",
+    "birthYear": 2003,
+    "nationalities": [
+      "SE"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED",
+      "nationalities": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_hm16_profixio_registration"
+      ],
+      "dateOfBirth": [
+        "src_hm16_profixio_registration"
+      ],
+      "nationalities": [
+        "src_hm16_profixio_registration"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-1.6 (2026-10-31): added from the Profixio Division 1 Norra squad registration; Profixio person 630836 (https://www.profixio.com/app/lx/clubs/26190/player/630836)."
+    ]
+  },
+  {
+    "playerId": "player_lucaz_rehn_6961dde6",
+    "firstName": "Lucaz",
+    "lastName": "Rehn",
+    "fullName": "Lucaz Rehn",
+    "aliases": [],
+    "dateOfBirth": "2002-10-05",
+    "birthYear": 2002,
+    "nationalities": [
+      "SE"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED",
+      "nationalities": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_hm16_profixio_registration"
+      ],
+      "dateOfBirth": [
+        "src_hm16_profixio_registration"
+      ],
+      "nationalities": [
+        "src_hm16_profixio_registration"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-1.6 (2026-10-31): added from the Profixio Division 1 Norra squad registration; Profixio person 694011 (https://www.profixio.com/app/lx/clubs/26190/player/694011)."
+    ]
+  },
+  {
+    "playerId": "player_otto_ullholm_a9a07acb",
+    "firstName": "Otto",
+    "lastName": "Ullholm",
+    "fullName": "Otto Ullholm",
+    "aliases": [],
+    "dateOfBirth": "2009-02-22",
+    "birthYear": 2009,
+    "nationalities": [
+      "SE"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED",
+      "nationalities": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_hm16_profixio_registration"
+      ],
+      "dateOfBirth": [
+        "src_hm16_profixio_registration"
+      ],
+      "nationalities": [
+        "src_hm16_profixio_registration"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-1.6 (2026-10-31): added from the Profixio Division 1 Norra squad registration; Profixio person 710200 (https://www.profixio.com/app/lx/clubs/26190/player/710200)."
     ]
   }
 ]

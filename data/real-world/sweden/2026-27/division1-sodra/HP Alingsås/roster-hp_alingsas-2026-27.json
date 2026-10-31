@@ -1,69 +1,13 @@
 [
   {
-    "rosterEntryId": "se_2026_27_division1_sodra_hp_alingsas__57c1f534",
-    "playerId": "player_melker_ringqvist_57c1f534",
-    "clubId": "se_club_hp_alingsas",
-    "competitionId": "se_division1_sodra",
-    "season": "2026/27",
-    "snapshotDate": "2026-08-27",
-    "shirtNumber": 14,
-    "sourcePosition": "Höger 6",
-    "primaryPosition": "H6",
-    "secondaryPositions": [],
-    "rosterStatus": "PROVISIONAL",
-    "contract": {
-      "untilDate": null,
-      "untilSeason": null,
-      "optionUntilSeason": null
-    },
-    "rosterConfidence": "PARTIAL",
-    "sourceRefs": {
-      "roster": [
-        "src_div1_sodra_2026_27"
-      ],
-      "position": [
-        "src_div1_sodra_2026_27"
-      ]
-    },
-    "dataNotes": []
-  },
-  {
-    "rosterEntryId": "se_2026_27_division1_sodra_hp_alingsas__1db2bbee",
-    "playerId": "player_max_bengtsson_1db2bbee",
-    "clubId": "se_club_hp_alingsas",
-    "competitionId": "se_division1_sodra",
-    "season": "2026/27",
-    "snapshotDate": "2026-08-27",
-    "shirtNumber": 7,
-    "sourcePosition": "Mitt 6",
-    "primaryPosition": "M6",
-    "secondaryPositions": [],
-    "rosterStatus": "PROVISIONAL",
-    "contract": {
-      "untilDate": null,
-      "untilSeason": null,
-      "optionUntilSeason": null
-    },
-    "rosterConfidence": "PARTIAL",
-    "sourceRefs": {
-      "roster": [
-        "src_div1_sodra_2026_27"
-      ],
-      "position": [
-        "src_div1_sodra_2026_27"
-      ]
-    },
-    "dataNotes": []
-  },
-  {
     "rosterEntryId": "se_2026_27_division1_sodra_hp_alingsas__6dc20d8a",
     "playerId": "player_kasper_langendoen_6dc20d8a",
     "clubId": "se_club_hp_alingsas",
     "competitionId": "se_division1_sodra",
     "season": "2026/27",
-    "snapshotDate": "2026-08-27",
+    "snapshotDate": "2026-10-31",
     "shirtNumber": null,
-    "sourcePosition": "Vänster 9",
+    "sourcePosition": "V9",
     "primaryPosition": "V9",
     "secondaryPositions": [],
     "rosterStatus": "PROVISIONAL",
@@ -72,72 +16,19 @@
       "untilSeason": null,
       "optionUntilSeason": null
     },
-    "rosterConfidence": "PARTIAL",
+    "rosterConfidence": "VERIFIED",
     "sourceRefs": {
       "roster": [
         "src_div1_sodra_2026_27"
       ],
       "position": [
-        "src_div1_sodra_2026_27"
+        "src_hm16_profixio_registration",
+        "src_hm16_profixio_match_sheets"
       ]
     },
-    "dataNotes": []
-  },
-  {
-    "rosterEntryId": "se_2026_27_division1_sodra_hp_alingsas__b885b42f",
-    "playerId": "player_melwin_hagstrom_b885b42f",
-    "clubId": "se_club_hp_alingsas",
-    "competitionId": "se_division1_sodra",
-    "season": "2026/27",
-    "snapshotDate": "2026-08-27",
-    "shirtNumber": 3,
-    "sourcePosition": "Mitt 9",
-    "primaryPosition": "M9",
-    "secondaryPositions": [],
-    "rosterStatus": "PROVISIONAL",
-    "contract": {
-      "untilDate": null,
-      "untilSeason": null,
-      "optionUntilSeason": null
-    },
-    "rosterConfidence": "PARTIAL",
-    "sourceRefs": {
-      "roster": [
-        "src_div1_sodra_2026_27"
-      ],
-      "position": [
-        "src_div1_sodra_2026_27"
-      ]
-    },
-    "dataNotes": []
-  },
-  {
-    "rosterEntryId": "se_2026_27_division1_sodra_hp_alingsas__c8bb4605",
-    "playerId": "player_oscar_ernelind_c8bb4605",
-    "clubId": "se_club_hp_alingsas",
-    "competitionId": "se_division1_sodra",
-    "season": "2026/27",
-    "snapshotDate": "2026-08-27",
-    "shirtNumber": 24,
-    "sourcePosition": "Mitt 9",
-    "primaryPosition": "M9",
-    "secondaryPositions": [],
-    "rosterStatus": "PROVISIONAL",
-    "contract": {
-      "untilDate": null,
-      "untilSeason": null,
-      "optionUntilSeason": null
-    },
-    "rosterConfidence": "PARTIAL",
-    "sourceRefs": {
-      "roster": [
-        "src_div1_sodra_2026_27"
-      ],
-      "position": [
-        "src_div1_sodra_2026_27"
-      ]
-    },
-    "dataNotes": []
+    "dataNotes": [
+      "HM-DATA-1.6 (2026-10-31): primaryPosition V9 confirmed (Profixio player profile position, consistent with match-sheet goalkeeper flags)."
+    ]
   },
   {
     "rosterEntryId": "se_2026_27_division1_sodra_hp_alingsas__677a8d0d",
@@ -145,9 +36,9 @@
     "clubId": "se_club_hp_alingsas",
     "competitionId": "se_division1_sodra",
     "season": "2026/27",
-    "snapshotDate": "2026-08-27",
+    "snapshotDate": "2026-10-31",
     "shirtNumber": 25,
-    "sourcePosition": "Mitt 9",
+    "sourcePosition": "M9",
     "primaryPosition": "M9",
     "secondaryPositions": [],
     "rosterStatus": "PROVISIONAL",
@@ -156,16 +47,19 @@
       "untilSeason": null,
       "optionUntilSeason": null
     },
-    "rosterConfidence": "PARTIAL",
+    "rosterConfidence": "VERIFIED",
     "sourceRefs": {
       "roster": [
         "src_div1_sodra_2026_27"
       ],
       "position": [
-        "src_div1_sodra_2026_27"
+        "src_hm16_profixio_registration",
+        "src_hm16_profixio_match_sheets"
       ]
     },
-    "dataNotes": []
+    "dataNotes": [
+      "HM-DATA-1.6 (2026-10-31): primaryPosition M9 confirmed (Profixio player profile position, consistent with match-sheet goalkeeper flags)."
+    ]
   },
   {
     "rosterEntryId": "se_2026_27_division1_sodra_hp_alingsas__7a702daf",
@@ -173,9 +67,9 @@
     "clubId": "se_club_hp_alingsas",
     "competitionId": "se_division1_sodra",
     "season": "2026/27",
-    "snapshotDate": "2026-08-27",
+    "snapshotDate": "2026-10-31",
     "shirtNumber": null,
-    "sourcePosition": "Mitt 9",
+    "sourcePosition": "M9",
     "primaryPosition": "M9",
     "secondaryPositions": [],
     "rosterStatus": "PROVISIONAL",
@@ -184,15 +78,466 @@
       "untilSeason": null,
       "optionUntilSeason": null
     },
-    "rosterConfidence": "PARTIAL",
+    "rosterConfidence": "VERIFIED",
     "sourceRefs": {
       "roster": [
         "src_div1_sodra_2026_27"
       ],
       "position": [
-        "src_div1_sodra_2026_27"
+        "src_hm16_profixio_registration",
+        "src_hm16_profixio_match_sheets"
       ]
     },
-    "dataNotes": []
+    "dataNotes": [
+      "HM-DATA-1.6 (2026-10-31): primaryPosition M9 confirmed (Profixio player profile position, consistent with match-sheet goalkeeper flags)."
+    ]
+  },
+  {
+    "rosterEntryId": "se_2026_27_division1_sodra_hp_alingsas__f188613e",
+    "playerId": "player_alvin_berg_f188613e",
+    "clubId": "se_club_hp_alingsas",
+    "competitionId": "se_division1_sodra",
+    "season": "2026/27",
+    "snapshotDate": "2026-10-31",
+    "shirtNumber": null,
+    "sourcePosition": "H6",
+    "primaryPosition": "H6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hm16_profixio_registration"
+      ],
+      "position": [
+        "src_hm16_profixio_registration"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-1.6 (2026-10-31): position H6 from Profixio player profile position."
+    ],
+    "defaultSquadStatus": null,
+    "specialTags": []
+  },
+  {
+    "rosterEntryId": "se_2026_27_division1_sodra_hp_alingsas__5b51688d",
+    "playerId": "player_dexter_lindberg_5b51688d",
+    "clubId": "se_club_hp_alingsas",
+    "competitionId": "se_division1_sodra",
+    "season": "2026/27",
+    "snapshotDate": "2026-10-31",
+    "shirtNumber": null,
+    "sourcePosition": "MV",
+    "primaryPosition": "MV",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hm16_profixio_registration"
+      ],
+      "position": [
+        "src_hm16_profixio_registration"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-1.6 (2026-10-31): position MV from Profixio player profile position."
+    ],
+    "defaultSquadStatus": null,
+    "specialTags": []
+  },
+  {
+    "rosterEntryId": "se_2026_27_division1_sodra_hp_alingsas__520893bd",
+    "playerId": "player_eddy_karlsson_520893bd",
+    "clubId": "se_club_hp_alingsas",
+    "competitionId": "se_division1_sodra",
+    "season": "2026/27",
+    "snapshotDate": "2026-10-31",
+    "shirtNumber": 14,
+    "sourcePosition": "V6",
+    "primaryPosition": "V6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hm16_profixio_registration"
+      ],
+      "position": [
+        "src_hm16_profixio_registration"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-1.6 (2026-10-31): position V6 from Profixio player profile position."
+    ],
+    "defaultSquadStatus": null,
+    "specialTags": []
+  },
+  {
+    "rosterEntryId": "se_2026_27_division1_sodra_hp_alingsas__de28663f",
+    "playerId": "player_falkon_sohlstrom_de28663f",
+    "clubId": "se_club_hp_alingsas",
+    "competitionId": "se_division1_sodra",
+    "season": "2026/27",
+    "snapshotDate": "2026-10-31",
+    "shirtNumber": 18,
+    "sourcePosition": "H9",
+    "primaryPosition": "H9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hm16_profixio_registration"
+      ],
+      "position": [
+        "src_hm16_profixio_registration"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-1.6 (2026-10-31): position H9 from Profixio player profile position."
+    ],
+    "defaultSquadStatus": null,
+    "specialTags": []
+  },
+  {
+    "rosterEntryId": "se_2026_27_division1_sodra_hp_alingsas__cfeed613",
+    "playerId": "player_gustav_bjorkehed_cfeed613",
+    "clubId": "se_club_hp_alingsas",
+    "competitionId": "se_division1_sodra",
+    "season": "2026/27",
+    "snapshotDate": "2026-10-31",
+    "shirtNumber": 23,
+    "sourcePosition": "M6",
+    "primaryPosition": "M6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hm16_profixio_registration"
+      ],
+      "position": [
+        "src_hm16_profixio_registration"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-1.6 (2026-10-31): position M6 from Profixio player profile position."
+    ],
+    "defaultSquadStatus": null,
+    "specialTags": []
+  },
+  {
+    "rosterEntryId": "se_2026_27_division1_sodra_hp_alingsas__aff599a6",
+    "playerId": "player_gustav_gawell_aff599a6",
+    "clubId": "se_club_hp_alingsas",
+    "competitionId": "se_division1_sodra",
+    "season": "2026/27",
+    "snapshotDate": "2026-10-31",
+    "shirtNumber": 20,
+    "sourcePosition": "H9",
+    "primaryPosition": "H9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hm16_profixio_registration"
+      ],
+      "position": [
+        "src_hm16_profixio_registration"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-1.6 (2026-10-31): position H9 from Profixio player profile position."
+    ],
+    "defaultSquadStatus": null,
+    "specialTags": []
+  },
+  {
+    "rosterEntryId": "se_2026_27_division1_sodra_hp_alingsas__1d1593fd",
+    "playerId": "player_hampus_spikh_1d1593fd",
+    "clubId": "se_club_hp_alingsas",
+    "competitionId": "se_division1_sodra",
+    "season": "2026/27",
+    "snapshotDate": "2026-10-31",
+    "shirtNumber": 4,
+    "sourcePosition": "M9",
+    "primaryPosition": "M9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hm16_profixio_registration"
+      ],
+      "position": [
+        "src_hm16_profixio_registration"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-1.6 (2026-10-31): position M9 from Profixio player profile position."
+    ],
+    "defaultSquadStatus": null,
+    "specialTags": []
+  },
+  {
+    "rosterEntryId": "se_2026_27_division1_sodra_hp_alingsas__1cf4def0",
+    "playerId": "player_jacob_svedin_1cf4def0",
+    "clubId": "se_club_hp_alingsas",
+    "competitionId": "se_division1_sodra",
+    "season": "2026/27",
+    "snapshotDate": "2026-10-31",
+    "shirtNumber": 3,
+    "sourcePosition": "H6",
+    "primaryPosition": "H6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hm16_profixio_registration"
+      ],
+      "position": [
+        "src_hm16_profixio_registration"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-1.6 (2026-10-31): position H6 from Profixio player profile position."
+    ],
+    "defaultSquadStatus": null,
+    "specialTags": []
+  },
+  {
+    "rosterEntryId": "se_2026_27_division1_sodra_hp_alingsas__e3ec747b",
+    "playerId": "player_jesper_nilsson_e3ec747b",
+    "clubId": "se_club_hp_alingsas",
+    "competitionId": "se_division1_sodra",
+    "season": "2026/27",
+    "snapshotDate": "2026-10-31",
+    "shirtNumber": 13,
+    "sourcePosition": "H6",
+    "primaryPosition": "H6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hm16_profixio_registration"
+      ],
+      "position": [
+        "src_hm16_profixio_registration"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-1.6 (2026-10-31): position H6 from Profixio player profile position."
+    ],
+    "defaultSquadStatus": null,
+    "specialTags": []
+  },
+  {
+    "rosterEntryId": "se_2026_27_division1_sodra_hp_alingsas__a0e5e0d9",
+    "playerId": "player_joel_johansson_a0e5e0d9",
+    "clubId": "se_club_hp_alingsas",
+    "competitionId": "se_division1_sodra",
+    "season": "2026/27",
+    "snapshotDate": "2026-10-31",
+    "shirtNumber": 17,
+    "sourcePosition": "M6",
+    "primaryPosition": "M6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hm16_profixio_registration"
+      ],
+      "position": [
+        "src_hm16_profixio_registration"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-1.6 (2026-10-31): position M6 from Profixio player profile position."
+    ],
+    "defaultSquadStatus": null,
+    "specialTags": []
+  },
+  {
+    "rosterEntryId": "se_2026_27_division1_sodra_hp_alingsas__b28101e5",
+    "playerId": "player_kalle_sjalin_b28101e5",
+    "clubId": "se_club_hp_alingsas",
+    "competitionId": "se_division1_sodra",
+    "season": "2026/27",
+    "snapshotDate": "2026-10-31",
+    "shirtNumber": 2,
+    "sourcePosition": "V6",
+    "primaryPosition": "V6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hm16_profixio_registration"
+      ],
+      "position": [
+        "src_hm16_profixio_registration"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-1.6 (2026-10-31): position V6 from Profixio player profile position."
+    ],
+    "defaultSquadStatus": null,
+    "specialTags": []
+  },
+  {
+    "rosterEntryId": "se_2026_27_division1_sodra_hp_alingsas__b5c81b34",
+    "playerId": "player_melker_samor_b5c81b34",
+    "clubId": "se_club_hp_alingsas",
+    "competitionId": "se_division1_sodra",
+    "season": "2026/27",
+    "snapshotDate": "2026-10-31",
+    "shirtNumber": null,
+    "sourcePosition": "MV",
+    "primaryPosition": "MV",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hm16_profixio_registration"
+      ],
+      "position": [
+        "src_hm16_profixio_registration"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-1.6 (2026-10-31): position MV from Profixio player profile position."
+    ],
+    "defaultSquadStatus": null,
+    "specialTags": []
+  },
+  {
+    "rosterEntryId": "se_2026_27_division1_sodra_hp_alingsas__2ef637eb",
+    "playerId": "player_theo_skarstedt_2ef637eb",
+    "clubId": "se_club_hp_alingsas",
+    "competitionId": "se_division1_sodra",
+    "season": "2026/27",
+    "snapshotDate": "2026-10-31",
+    "shirtNumber": 15,
+    "sourcePosition": "M6",
+    "primaryPosition": "M6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hm16_profixio_registration"
+      ],
+      "position": [
+        "src_hm16_profixio_registration"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-1.6 (2026-10-31): position M6 from Profixio player profile position."
+    ],
+    "defaultSquadStatus": null,
+    "specialTags": []
+  },
+  {
+    "rosterEntryId": "se_2026_27_division1_sodra_hp_alingsas__88384b65",
+    "playerId": "player_wille_hermansson_88384b65",
+    "clubId": "se_club_hp_alingsas",
+    "competitionId": "se_division1_sodra",
+    "season": "2026/27",
+    "snapshotDate": "2026-10-31",
+    "shirtNumber": 1,
+    "sourcePosition": "M6",
+    "primaryPosition": "M6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hm16_profixio_registration"
+      ],
+      "position": [
+        "src_hm16_profixio_registration"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-1.6 (2026-10-31): position M6 from Profixio player profile position."
+    ],
+    "defaultSquadStatus": null,
+    "specialTags": []
   }
 ]

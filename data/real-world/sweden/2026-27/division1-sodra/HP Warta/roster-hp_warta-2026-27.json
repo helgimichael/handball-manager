@@ -36,26 +36,32 @@
     "clubId": "se_club_hp_warta",
     "competitionId": "se_division1_sodra",
     "season": "2026/27",
-    "snapshotDate": "2026-08-27",
+    "snapshotDate": "2026-10-31",
     "shirtNumber": 3,
-    "sourcePosition": "",
+    "sourcePosition": "V9",
     "primaryPosition": "V9",
-    "secondaryPositions": [],
+    "secondaryPositions": [
+      "M6"
+    ],
     "rosterStatus": "CONFIRMED",
     "contract": {
       "untilDate": null,
       "untilSeason": null,
       "optionUntilSeason": null
     },
-    "rosterConfidence": "UNKNOWN",
+    "rosterConfidence": "VERIFIED",
     "sourceRefs": {
       "roster": [
         "src_div1_sodra_2026_27"
       ],
-      "position": []
+      "position": [
+        "src_hm16_profixio_registration",
+        "src_hm16_profixio_match_sheets",
+        "src_hm16_rating_research"
+      ]
     },
     "dataNotes": [
-      "HM-DATA-DIV1-1.0: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+      "HM-DATA-1.6 (2026-10-31): primaryPosition V9 confirmed (Profixio player profile position, consistent with match-sheet goalkeeper flags; secondary M6 from research label \"High-end Warta M6\")."
     ]
   },
   {
@@ -64,9 +70,9 @@
     "clubId": "se_club_hp_warta",
     "competitionId": "se_division1_sodra",
     "season": "2026/27",
-    "snapshotDate": "2026-08-27",
+    "snapshotDate": "2026-10-31",
     "shirtNumber": 4,
-    "sourcePosition": "",
+    "sourcePosition": "M6",
     "primaryPosition": "M6",
     "secondaryPositions": [],
     "rosterStatus": "CONFIRMED",
@@ -75,15 +81,17 @@
       "untilSeason": null,
       "optionUntilSeason": null
     },
-    "rosterConfidence": "UNKNOWN",
+    "rosterConfidence": "VERIFIED",
     "sourceRefs": {
       "roster": [
         "src_div1_sodra_2026_27"
       ],
-      "position": []
+      "position": [
+        "src_hm16_profixio_registration"
+      ]
     },
     "dataNotes": [
-      "HM-DATA-DIV1-1.0: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+      "HM-DATA-1.6 (2026-10-31): primaryPosition M6 confirmed (Profixio player profile position)."
     ]
   },
   {
@@ -92,54 +100,32 @@
     "clubId": "se_club_hp_warta",
     "competitionId": "se_division1_sodra",
     "season": "2026/27",
-    "snapshotDate": "2026-08-27",
+    "snapshotDate": "2026-10-31",
     "shirtNumber": 5,
-    "sourcePosition": "",
+    "sourcePosition": "M9",
     "primaryPosition": "M9",
-    "secondaryPositions": [],
+    "secondaryPositions": [
+      "M6"
+    ],
     "rosterStatus": "CONFIRMED",
     "contract": {
       "untilDate": null,
       "untilSeason": null,
       "optionUntilSeason": null
     },
-    "rosterConfidence": "UNKNOWN",
+    "rosterConfidence": "VERIFIED",
     "sourceRefs": {
       "roster": [
         "src_div1_sodra_2026_27"
       ],
-      "position": []
+      "position": [
+        "src_hm16_profixio_registration",
+        "src_hm16_profixio_match_sheets",
+        "src_hm16_rating_research"
+      ]
     },
     "dataNotes": [
-      "HM-DATA-DIV1-1.0: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
-    ]
-  },
-  {
-    "rosterEntryId": "se_2026_27_division1_sodra_hp_warta__a1fe241f",
-    "playerId": "player_emil_saxin_a1fe241f",
-    "clubId": "se_club_hp_warta",
-    "competitionId": "se_division1_sodra",
-    "season": "2026/27",
-    "snapshotDate": "2026-08-27",
-    "shirtNumber": 6,
-    "sourcePosition": "",
-    "primaryPosition": "M6",
-    "secondaryPositions": [],
-    "rosterStatus": "CONFIRMED",
-    "contract": {
-      "untilDate": null,
-      "untilSeason": null,
-      "optionUntilSeason": null
-    },
-    "rosterConfidence": "UNKNOWN",
-    "sourceRefs": {
-      "roster": [
-        "src_div1_sodra_2026_27"
-      ],
-      "position": []
-    },
-    "dataNotes": [
-      "HM-DATA-DIV1-1.0: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+      "HM-DATA-1.6 (2026-10-31): primaryPosition M9 confirmed (Profixio player profile position, consistent with match-sheet goalkeeper flags; secondary M6 from research label \"Warta M6 senior depth\")."
     ]
   },
   {
@@ -207,9 +193,9 @@
     "clubId": "se_club_hp_warta",
     "competitionId": "se_division1_sodra",
     "season": "2026/27",
-    "snapshotDate": "2026-08-27",
+    "snapshotDate": "2026-10-31",
     "shirtNumber": 17,
-    "sourcePosition": "",
+    "sourcePosition": "V6",
     "primaryPosition": "V6",
     "secondaryPositions": [],
     "rosterStatus": "CONFIRMED",
@@ -218,15 +204,18 @@
       "untilSeason": null,
       "optionUntilSeason": null
     },
-    "rosterConfidence": "UNKNOWN",
+    "rosterConfidence": "VERIFIED",
     "sourceRefs": {
       "roster": [
         "src_div1_sodra_2026_27"
       ],
-      "position": []
+      "position": [
+        "src_hm16_profixio_registration",
+        "src_hm16_profixio_match_sheets"
+      ]
     },
     "dataNotes": [
-      "HM-DATA-DIV1-1.0: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+      "HM-DATA-1.6 (2026-10-31): primaryPosition V6 confirmed (Profixio player profile position, consistent with match-sheet goalkeeper flags)."
     ]
   },
   {
@@ -235,9 +224,9 @@
     "clubId": "se_club_hp_warta",
     "competitionId": "se_division1_sodra",
     "season": "2026/27",
-    "snapshotDate": "2026-08-27",
+    "snapshotDate": "2026-10-31",
     "shirtNumber": 19,
-    "sourcePosition": "",
+    "sourcePosition": "H9",
     "primaryPosition": "H9",
     "secondaryPositions": [],
     "rosterStatus": "CONFIRMED",
@@ -246,71 +235,17 @@
       "untilSeason": null,
       "optionUntilSeason": null
     },
-    "rosterConfidence": "UNKNOWN",
+    "rosterConfidence": "VERIFIED",
     "sourceRefs": {
       "roster": [
         "src_div1_sodra_2026_27"
       ],
-      "position": []
+      "position": [
+        "src_hm16_profixio_registration"
+      ]
     },
     "dataNotes": [
-      "HM-DATA-DIV1-1.0: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
-    ]
-  },
-  {
-    "rosterEntryId": "se_2026_27_division1_sodra_hp_warta__5266b5c9",
-    "playerId": "player_alexander_gereonsson_5266b5c9",
-    "clubId": "se_club_hp_warta",
-    "competitionId": "se_division1_sodra",
-    "season": "2026/27",
-    "snapshotDate": "2026-08-27",
-    "shirtNumber": 21,
-    "sourcePosition": "",
-    "primaryPosition": "H6",
-    "secondaryPositions": [],
-    "rosterStatus": "CONFIRMED",
-    "contract": {
-      "untilDate": null,
-      "untilSeason": null,
-      "optionUntilSeason": null
-    },
-    "rosterConfidence": "UNKNOWN",
-    "sourceRefs": {
-      "roster": [
-        "src_div1_sodra_2026_27"
-      ],
-      "position": []
-    },
-    "dataNotes": [
-      "HM-DATA-DIV1-1.0: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
-    ]
-  },
-  {
-    "rosterEntryId": "se_2026_27_division1_sodra_hp_warta__631ea80d",
-    "playerId": "player_simon_aronsson_631ea80d",
-    "clubId": "se_club_hp_warta",
-    "competitionId": "se_division1_sodra",
-    "season": "2026/27",
-    "snapshotDate": "2026-08-27",
-    "shirtNumber": 22,
-    "sourcePosition": "",
-    "primaryPosition": "M6",
-    "secondaryPositions": [],
-    "rosterStatus": "CONFIRMED",
-    "contract": {
-      "untilDate": null,
-      "untilSeason": null,
-      "optionUntilSeason": null
-    },
-    "rosterConfidence": "UNKNOWN",
-    "sourceRefs": {
-      "roster": [
-        "src_div1_sodra_2026_27"
-      ],
-      "position": []
-    },
-    "dataNotes": [
-      "HM-DATA-DIV1-1.0: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+      "HM-DATA-1.6 (2026-10-31): primaryPosition H9 confirmed (Profixio player profile position)."
     ]
   },
   {
@@ -319,82 +254,32 @@
     "clubId": "se_club_hp_warta",
     "competitionId": "se_division1_sodra",
     "season": "2026/27",
-    "snapshotDate": "2026-08-27",
+    "snapshotDate": "2026-10-31",
     "shirtNumber": 23,
-    "sourcePosition": "",
+    "sourcePosition": "H6",
     "primaryPosition": "H6",
-    "secondaryPositions": [],
+    "secondaryPositions": [
+      "V9"
+    ],
     "rosterStatus": "CONFIRMED",
     "contract": {
       "untilDate": null,
       "untilSeason": null,
       "optionUntilSeason": null
     },
-    "rosterConfidence": "UNKNOWN",
+    "rosterConfidence": "VERIFIED",
     "sourceRefs": {
       "roster": [
         "src_div1_sodra_2026_27"
       ],
-      "position": []
+      "position": [
+        "src_hm16_profixio_registration",
+        "src_hm16_profixio_match_sheets",
+        "src_hm16_rating_research"
+      ]
     },
     "dataNotes": [
-      "HM-DATA-DIV1-1.0: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
-    ]
-  },
-  {
-    "rosterEntryId": "se_2026_27_division1_sodra_hp_warta__0bf397ac",
-    "playerId": "player_simon_wiberg_0bf397ac",
-    "clubId": "se_club_hp_warta",
-    "competitionId": "se_division1_sodra",
-    "season": "2026/27",
-    "snapshotDate": "2026-08-27",
-    "shirtNumber": 24,
-    "sourcePosition": "",
-    "primaryPosition": "V9",
-    "secondaryPositions": [],
-    "rosterStatus": "CONFIRMED",
-    "contract": {
-      "untilDate": null,
-      "untilSeason": null,
-      "optionUntilSeason": null
-    },
-    "rosterConfidence": "UNKNOWN",
-    "sourceRefs": {
-      "roster": [
-        "src_div1_sodra_2026_27"
-      ],
-      "position": []
-    },
-    "dataNotes": [
-      "HM-DATA-DIV1-1.0: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
-    ]
-  },
-  {
-    "rosterEntryId": "se_2026_27_division1_sodra_hp_warta__bf476e39",
-    "playerId": "player_linus_fors_bf476e39",
-    "clubId": "se_club_hp_warta",
-    "competitionId": "se_division1_sodra",
-    "season": "2026/27",
-    "snapshotDate": "2026-08-27",
-    "shirtNumber": 27,
-    "sourcePosition": "",
-    "primaryPosition": "V6",
-    "secondaryPositions": [],
-    "rosterStatus": "CONFIRMED",
-    "contract": {
-      "untilDate": null,
-      "untilSeason": null,
-      "optionUntilSeason": null
-    },
-    "rosterConfidence": "UNKNOWN",
-    "sourceRefs": {
-      "roster": [
-        "src_div1_sodra_2026_27"
-      ],
-      "position": []
-    },
-    "dataNotes": [
-      "HM-DATA-DIV1-1.0: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+      "HM-DATA-1.6 (2026-10-31): primaryPosition H6 confirmed (Profixio player profile position, consistent with match-sheet goalkeeper flags; secondary V9 from research label \"Strong Warta V9\")."
     ]
   },
   {
@@ -462,9 +347,9 @@
     "clubId": "se_club_hp_warta",
     "competitionId": "se_division1_sodra",
     "season": "2026/27",
-    "snapshotDate": "2026-08-27",
+    "snapshotDate": "2026-10-31",
     "shirtNumber": 35,
-    "sourcePosition": "",
+    "sourcePosition": "V9",
     "primaryPosition": "V9",
     "secondaryPositions": [],
     "rosterStatus": "CONFIRMED",
@@ -473,15 +358,18 @@
       "untilSeason": null,
       "optionUntilSeason": null
     },
-    "rosterConfidence": "UNKNOWN",
+    "rosterConfidence": "VERIFIED",
     "sourceRefs": {
       "roster": [
         "src_div1_sodra_2026_27"
       ],
-      "position": []
+      "position": [
+        "src_hm16_profixio_registration",
+        "src_hm16_profixio_match_sheets"
+      ]
     },
     "dataNotes": [
-      "HM-DATA-DIV1-1.0: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+      "HM-DATA-1.6 (2026-10-31): primaryPosition V9 confirmed (Profixio player profile position, consistent with match-sheet goalkeeper flags)."
     ]
   },
   {
@@ -490,38 +378,44 @@
     "clubId": "se_club_hp_warta",
     "competitionId": "se_division1_sodra",
     "season": "2026/27",
-    "snapshotDate": "2026-08-27",
+    "snapshotDate": "2026-10-31",
     "shirtNumber": 44,
-    "sourcePosition": "",
+    "sourcePosition": "H6",
     "primaryPosition": "H6",
-    "secondaryPositions": [],
+    "secondaryPositions": [
+      "M6"
+    ],
     "rosterStatus": "CONFIRMED",
     "contract": {
       "untilDate": null,
       "untilSeason": null,
       "optionUntilSeason": null
     },
-    "rosterConfidence": "UNKNOWN",
+    "rosterConfidence": "VERIFIED",
     "sourceRefs": {
       "roster": [
         "src_div1_sodra_2026_27"
       ],
-      "position": []
+      "position": [
+        "src_hm16_profixio_registration",
+        "src_hm16_profixio_match_sheets",
+        "src_hm16_rating_research"
+      ]
     },
     "dataNotes": [
-      "HM-DATA-DIV1-1.0: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+      "HM-DATA-1.6 (2026-10-31): primaryPosition H6 confirmed (Profixio player profile position, consistent with match-sheet goalkeeper flags; secondary M6 from research label \"Warta M6 development senior\")."
     ]
   },
   {
-    "rosterEntryId": "se_2026_27_division1_sodra_hp_warta__c5dde134",
-    "playerId": "player_johan_samuelsson_c5dde134",
+    "rosterEntryId": "se_2026_27_division1_sodra_hp_warta__1899e055",
+    "playerId": "player_jonatan_blad_1899e055",
     "clubId": "se_club_hp_warta",
     "competitionId": "se_division1_sodra",
     "season": "2026/27",
-    "snapshotDate": "2026-08-27",
-    "shirtNumber": 49,
-    "sourcePosition": "",
-    "primaryPosition": "M9",
+    "snapshotDate": "2026-10-31",
+    "shirtNumber": null,
+    "sourcePosition": "H9",
+    "primaryPosition": "H9",
     "secondaryPositions": [],
     "rosterStatus": "CONFIRMED",
     "contract": {
@@ -529,27 +423,31 @@
       "untilSeason": null,
       "optionUntilSeason": null
     },
-    "rosterConfidence": "UNKNOWN",
+    "rosterConfidence": "VERIFIED",
     "sourceRefs": {
       "roster": [
-        "src_div1_sodra_2026_27"
+        "src_hm16_profixio_registration"
       ],
-      "position": []
+      "position": [
+        "src_hm16_profixio_registration"
+      ]
     },
     "dataNotes": [
-      "HM-DATA-DIV1-1.0: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
-    ]
+      "HM-DATA-1.6 (2026-10-31): position H9 from Profixio player profile position."
+    ],
+    "defaultSquadStatus": null,
+    "specialTags": []
   },
   {
-    "rosterEntryId": "se_2026_27_division1_sodra_hp_warta__4e0d8cce",
-    "playerId": "player_dino_bahtijarevic_4e0d8cce",
+    "rosterEntryId": "se_2026_27_division1_sodra_hp_warta__549a16ee",
+    "playerId": "player_ludvig_helen_549a16ee",
     "clubId": "se_club_hp_warta",
     "competitionId": "se_division1_sodra",
     "season": "2026/27",
-    "snapshotDate": "2026-08-27",
-    "shirtNumber": 51,
-    "sourcePosition": "",
-    "primaryPosition": "M9",
+    "snapshotDate": "2026-10-31",
+    "shirtNumber": null,
+    "sourcePosition": "M6",
+    "primaryPosition": "M6",
     "secondaryPositions": [],
     "rosterStatus": "CONFIRMED",
     "contract": {
@@ -557,43 +455,19 @@
       "untilSeason": null,
       "optionUntilSeason": null
     },
-    "rosterConfidence": "UNKNOWN",
+    "rosterConfidence": "VERIFIED",
     "sourceRefs": {
       "roster": [
-        "src_div1_sodra_2026_27"
+        "src_hm16_profixio_registration"
       ],
-      "position": []
+      "position": [
+        "src_hm16_profixio_registration"
+      ]
     },
     "dataNotes": [
-      "HM-DATA-DIV1-1.0: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
-    ]
-  },
-  {
-    "rosterEntryId": "se_2026_27_division1_sodra_hp_warta__33160580",
-    "playerId": "player_philip_larsson_33160580",
-    "clubId": "se_club_hp_warta",
-    "competitionId": "se_division1_sodra",
-    "season": "2026/27",
-    "snapshotDate": "2026-08-27",
-    "shirtNumber": 72,
-    "sourcePosition": "",
-    "primaryPosition": "V9",
-    "secondaryPositions": [],
-    "rosterStatus": "CONFIRMED",
-    "contract": {
-      "untilDate": null,
-      "untilSeason": null,
-      "optionUntilSeason": null
-    },
-    "rosterConfidence": "UNKNOWN",
-    "sourceRefs": {
-      "roster": [
-        "src_div1_sodra_2026_27"
-      ],
-      "position": []
-    },
-    "dataNotes": [
-      "HM-DATA-DIV1-1.0: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
-    ]
+      "HM-DATA-1.6 (2026-10-31): position M6 from Profixio player profile position."
+    ],
+    "defaultSquadStatus": null,
+    "specialTags": []
   }
 ]

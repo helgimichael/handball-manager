@@ -5,9 +5,9 @@
     "clubId": "se_club_orebro_sk_hk_herr",
     "competitionId": "se_division1_norra",
     "season": "2026/27",
-    "snapshotDate": "2026-08-27",
+    "snapshotDate": "2026-10-31",
     "shirtNumber": 16,
-    "sourcePosition": "Målvakt",
+    "sourcePosition": "MV",
     "primaryPosition": "MV",
     "secondaryPositions": [],
     "rosterStatus": "PROVISIONAL",
@@ -16,16 +16,19 @@
       "untilSeason": null,
       "optionUntilSeason": null
     },
-    "rosterConfidence": "PARTIAL",
+    "rosterConfidence": "VERIFIED",
     "sourceRefs": {
       "roster": [
         "src_div1_norra_2026_27"
       ],
       "position": [
-        "src_div1_norra_2026_27"
+        "src_hm16_profixio_registration",
+        "src_hm16_profixio_match_sheets"
       ]
     },
-    "dataNotes": []
+    "dataNotes": [
+      "HM-DATA-1.6 (2026-10-31): primaryPosition MV confirmed (Profixio player profile position, consistent with match-sheet goalkeeper flags)."
+    ]
   },
   {
     "rosterEntryId": "se_2026_27_division1_norra_orebro_sk_hk_herr__5459bbc6",
@@ -33,9 +36,9 @@
     "clubId": "se_club_orebro_sk_hk_herr",
     "competitionId": "se_division1_norra",
     "season": "2026/27",
-    "snapshotDate": "2026-08-27",
+    "snapshotDate": "2026-10-31",
     "shirtNumber": 30,
-    "sourcePosition": "Målvakt",
+    "sourcePosition": "MV",
     "primaryPosition": "MV",
     "secondaryPositions": [],
     "rosterStatus": "PROVISIONAL",
@@ -44,16 +47,19 @@
       "untilSeason": null,
       "optionUntilSeason": null
     },
-    "rosterConfidence": "PARTIAL",
+    "rosterConfidence": "VERIFIED",
     "sourceRefs": {
       "roster": [
         "src_div1_norra_2026_27"
       ],
       "position": [
-        "src_div1_norra_2026_27"
+        "src_hm16_profixio_registration",
+        "src_hm16_profixio_match_sheets"
       ]
     },
-    "dataNotes": []
+    "dataNotes": [
+      "HM-DATA-1.6 (2026-10-31): primaryPosition MV confirmed (Profixio player profile position, consistent with match-sheet goalkeeper flags)."
+    ]
   },
   {
     "rosterEntryId": "se_2026_27_division1_norra_orebro_sk_hk_herr__cebe9bb0",
@@ -61,9 +67,9 @@
     "clubId": "se_club_orebro_sk_hk_herr",
     "competitionId": "se_division1_norra",
     "season": "2026/27",
-    "snapshotDate": "2026-08-27",
+    "snapshotDate": "2026-10-31",
     "shirtNumber": 7,
-    "sourcePosition": "Vänsterkant",
+    "sourcePosition": "V6",
     "primaryPosition": "V6",
     "secondaryPositions": [],
     "rosterStatus": "PROVISIONAL",
@@ -72,16 +78,19 @@
       "untilSeason": null,
       "optionUntilSeason": null
     },
-    "rosterConfidence": "PARTIAL",
+    "rosterConfidence": "VERIFIED",
     "sourceRefs": {
       "roster": [
         "src_div1_norra_2026_27"
       ],
       "position": [
-        "src_div1_norra_2026_27"
+        "src_hm16_profixio_registration",
+        "src_hm16_profixio_match_sheets"
       ]
     },
-    "dataNotes": []
+    "dataNotes": [
+      "HM-DATA-1.6 (2026-10-31): primaryPosition V6 confirmed (Profixio player profile position, consistent with match-sheet goalkeeper flags)."
+    ]
   },
   {
     "rosterEntryId": "se_2026_27_division1_norra_orebro_sk_hk_herr__1a616edd",
@@ -89,9 +98,9 @@
     "clubId": "se_club_orebro_sk_hk_herr",
     "competitionId": "se_division1_norra",
     "season": "2026/27",
-    "snapshotDate": "2026-08-27",
+    "snapshotDate": "2026-10-31",
     "shirtNumber": null,
-    "sourcePosition": "Vänsterkant",
+    "sourcePosition": "V6",
     "primaryPosition": "V6",
     "secondaryPositions": [],
     "rosterStatus": "PROVISIONAL",
@@ -100,16 +109,19 @@
       "untilSeason": null,
       "optionUntilSeason": null
     },
-    "rosterConfidence": "PARTIAL",
+    "rosterConfidence": "VERIFIED",
     "sourceRefs": {
       "roster": [
         "src_div1_norra_2026_27"
       ],
       "position": [
-        "src_div1_norra_2026_27"
+        "src_hm16_profixio_registration",
+        "src_hm16_profixio_match_sheets"
       ]
     },
-    "dataNotes": []
+    "dataNotes": [
+      "HM-DATA-1.6 (2026-10-31): primaryPosition V6 confirmed (Profixio player profile position, consistent with match-sheet goalkeeper flags)."
+    ]
   },
   {
     "rosterEntryId": "se_2026_27_division1_norra_orebro_sk_hk_herr__1304e46a",
@@ -117,9 +129,9 @@
     "clubId": "se_club_orebro_sk_hk_herr",
     "competitionId": "se_division1_norra",
     "season": "2026/27",
-    "snapshotDate": "2026-08-27",
+    "snapshotDate": "2026-10-31",
     "shirtNumber": null,
-    "sourcePosition": "Vänster 6",
+    "sourcePosition": "V6",
     "primaryPosition": "V6",
     "secondaryPositions": [],
     "rosterStatus": "PROVISIONAL",
@@ -128,16 +140,19 @@
       "untilSeason": null,
       "optionUntilSeason": null
     },
-    "rosterConfidence": "PARTIAL",
+    "rosterConfidence": "VERIFIED",
     "sourceRefs": {
       "roster": [
         "src_div1_norra_2026_27"
       ],
       "position": [
-        "src_div1_norra_2026_27"
+        "src_hm16_profixio_registration",
+        "src_hm16_profixio_match_sheets"
       ]
     },
-    "dataNotes": []
+    "dataNotes": [
+      "HM-DATA-1.6 (2026-10-31): primaryPosition V6 confirmed (Profixio player profile position, consistent with match-sheet goalkeeper flags)."
+    ]
   },
   {
     "rosterEntryId": "se_2026_27_division1_norra_orebro_sk_hk_herr__34c9e153",
@@ -145,183 +160,9 @@
     "clubId": "se_club_orebro_sk_hk_herr",
     "competitionId": "se_division1_norra",
     "season": "2026/27",
-    "snapshotDate": "2026-08-27",
+    "snapshotDate": "2026-10-31",
     "shirtNumber": 20,
-    "sourcePosition": "Höger 6",
-    "primaryPosition": "H6",
-    "secondaryPositions": [
-      "H9"
-    ],
-    "rosterStatus": "PROVISIONAL",
-    "contract": {
-      "untilDate": null,
-      "untilSeason": null,
-      "optionUntilSeason": null
-    },
-    "rosterConfidence": "PARTIAL",
-    "sourceRefs": {
-      "roster": [
-        "src_div1_norra_2026_27"
-      ],
-      "position": [
-        "src_div1_norra_2026_27"
-      ]
-    },
-    "dataNotes": []
-  },
-  {
-    "rosterEntryId": "se_2026_27_division1_norra_orebro_sk_hk_herr__5fa595dc",
-    "playerId": "player_felix_samuelsson_5fa595dc",
-    "clubId": "se_club_orebro_sk_hk_herr",
-    "competitionId": "se_division1_norra",
-    "season": "2026/27",
-    "snapshotDate": "2026-08-27",
-    "shirtNumber": 3,
-    "sourcePosition": "Mitt 6",
-    "primaryPosition": "M6",
-    "secondaryPositions": [],
-    "rosterStatus": "PROVISIONAL",
-    "contract": {
-      "untilDate": null,
-      "untilSeason": null,
-      "optionUntilSeason": null
-    },
-    "rosterConfidence": "PARTIAL",
-    "sourceRefs": {
-      "roster": [
-        "src_div1_norra_2026_27"
-      ],
-      "position": [
-        "src_div1_norra_2026_27"
-      ]
-    },
-    "dataNotes": []
-  },
-  {
-    "rosterEntryId": "se_2026_27_division1_norra_orebro_sk_hk_herr__55e9e662",
-    "playerId": "player_karlo_seric_55e9e662",
-    "clubId": "se_club_orebro_sk_hk_herr",
-    "competitionId": "se_division1_norra",
-    "season": "2026/27",
-    "snapshotDate": "2026-08-27",
-    "shirtNumber": 6,
-    "sourcePosition": "Mitt 6",
-    "primaryPosition": "M6",
-    "secondaryPositions": [],
-    "rosterStatus": "PROVISIONAL",
-    "contract": {
-      "untilDate": null,
-      "untilSeason": null,
-      "optionUntilSeason": null
-    },
-    "rosterConfidence": "PARTIAL",
-    "sourceRefs": {
-      "roster": [
-        "src_div1_norra_2026_27"
-      ],
-      "position": [
-        "src_div1_norra_2026_27"
-      ]
-    },
-    "dataNotes": []
-  },
-  {
-    "rosterEntryId": "se_2026_27_division1_norra_orebro_sk_hk_herr__c522dff1",
-    "playerId": "player_axel_magnusson_c522dff1",
-    "clubId": "se_club_orebro_sk_hk_herr",
-    "competitionId": "se_division1_norra",
-    "season": "2026/27",
-    "snapshotDate": "2026-08-27",
-    "shirtNumber": 15,
-    "sourcePosition": "Vänster 9",
-    "primaryPosition": "V9",
-    "secondaryPositions": [],
-    "rosterStatus": "PROVISIONAL",
-    "contract": {
-      "untilDate": null,
-      "untilSeason": null,
-      "optionUntilSeason": null
-    },
-    "rosterConfidence": "PARTIAL",
-    "sourceRefs": {
-      "roster": [
-        "src_div1_norra_2026_27"
-      ],
-      "position": [
-        "src_div1_norra_2026_27"
-      ]
-    },
-    "dataNotes": []
-  },
-  {
-    "rosterEntryId": "se_2026_27_division1_norra_orebro_sk_hk_herr__42275f82",
-    "playerId": "player_sami_kollgard_42275f82",
-    "clubId": "se_club_orebro_sk_hk_herr",
-    "competitionId": "se_division1_norra",
-    "season": "2026/27",
-    "snapshotDate": "2026-08-27",
-    "shirtNumber": null,
-    "sourcePosition": "Mitt 9",
-    "primaryPosition": "M9",
-    "secondaryPositions": [
-      "V6"
-    ],
-    "rosterStatus": "PROVISIONAL",
-    "contract": {
-      "untilDate": null,
-      "untilSeason": null,
-      "optionUntilSeason": null
-    },
-    "rosterConfidence": "PARTIAL",
-    "sourceRefs": {
-      "roster": [
-        "src_div1_norra_2026_27"
-      ],
-      "position": [
-        "src_div1_norra_2026_27"
-      ]
-    },
-    "dataNotes": []
-  },
-  {
-    "rosterEntryId": "se_2026_27_division1_norra_orebro_sk_hk_herr__75dd0079",
-    "playerId": "player_viktor_forsberg_75dd0079",
-    "clubId": "se_club_orebro_sk_hk_herr",
-    "competitionId": "se_division1_norra",
-    "season": "2026/27",
-    "snapshotDate": "2026-08-27",
-    "shirtNumber": null,
-    "sourcePosition": "Mitt 9",
-    "primaryPosition": "M9",
-    "secondaryPositions": [
-      "V9"
-    ],
-    "rosterStatus": "PROVISIONAL",
-    "contract": {
-      "untilDate": null,
-      "untilSeason": null,
-      "optionUntilSeason": null
-    },
-    "rosterConfidence": "PARTIAL",
-    "sourceRefs": {
-      "roster": [
-        "src_div1_norra_2026_27"
-      ],
-      "position": [
-        "src_div1_norra_2026_27"
-      ]
-    },
-    "dataNotes": []
-  },
-  {
-    "rosterEntryId": "se_2026_27_division1_norra_orebro_sk_hk_herr__f077b4a2",
-    "playerId": "player_oskar_karlsson_f077b4a2",
-    "clubId": "se_club_orebro_sk_hk_herr",
-    "competitionId": "se_division1_norra",
-    "season": "2026/27",
-    "snapshotDate": "2026-08-27",
-    "shirtNumber": null,
-    "sourcePosition": "Höger 9",
+    "sourcePosition": "H9",
     "primaryPosition": "H9",
     "secondaryPositions": [
       "H6"
@@ -332,16 +173,212 @@
       "untilSeason": null,
       "optionUntilSeason": null
     },
-    "rosterConfidence": "PARTIAL",
+    "rosterConfidence": "VERIFIED",
     "sourceRefs": {
       "roster": [
         "src_div1_norra_2026_27"
       ],
       "position": [
+        "src_hm16_profixio_registration",
+        "src_hm16_profixio_match_sheets",
+        "src_hm16_rating_research",
         "src_div1_norra_2026_27"
       ]
     },
-    "dataNotes": []
+    "dataNotes": [
+      "HM-DATA-1.6 (2026-10-31): primaryPosition H6 -> H9 (Profixio player profile position, consistent with match-sheet goalkeeper flags; secondary H6 from research label \"Örebro H6 senior\")."
+    ]
+  },
+  {
+    "rosterEntryId": "se_2026_27_division1_norra_orebro_sk_hk_herr__5fa595dc",
+    "playerId": "player_felix_samuelsson_5fa595dc",
+    "clubId": "se_club_orebro_sk_hk_herr",
+    "competitionId": "se_division1_norra",
+    "season": "2026/27",
+    "snapshotDate": "2026-10-31",
+    "shirtNumber": 3,
+    "sourcePosition": "M6",
+    "primaryPosition": "M6",
+    "secondaryPositions": [],
+    "rosterStatus": "PROVISIONAL",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_div1_norra_2026_27"
+      ],
+      "position": [
+        "src_hm16_profixio_registration",
+        "src_hm16_profixio_match_sheets"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-1.6 (2026-10-31): primaryPosition M6 confirmed (Profixio player profile position, consistent with match-sheet goalkeeper flags)."
+    ]
+  },
+  {
+    "rosterEntryId": "se_2026_27_division1_norra_orebro_sk_hk_herr__55e9e662",
+    "playerId": "player_karlo_seric_55e9e662",
+    "clubId": "se_club_orebro_sk_hk_herr",
+    "competitionId": "se_division1_norra",
+    "season": "2026/27",
+    "snapshotDate": "2026-10-31",
+    "shirtNumber": 6,
+    "sourcePosition": "M6",
+    "primaryPosition": "M6",
+    "secondaryPositions": [],
+    "rosterStatus": "PROVISIONAL",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_div1_norra_2026_27"
+      ],
+      "position": [
+        "src_hm16_profixio_registration",
+        "src_hm16_profixio_match_sheets"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-1.6 (2026-10-31): primaryPosition M6 confirmed (Profixio player profile position, consistent with match-sheet goalkeeper flags)."
+    ]
+  },
+  {
+    "rosterEntryId": "se_2026_27_division1_norra_orebro_sk_hk_herr__c522dff1",
+    "playerId": "player_axel_magnusson_c522dff1",
+    "clubId": "se_club_orebro_sk_hk_herr",
+    "competitionId": "se_division1_norra",
+    "season": "2026/27",
+    "snapshotDate": "2026-10-31",
+    "shirtNumber": 15,
+    "sourcePosition": "V9",
+    "primaryPosition": "V9",
+    "secondaryPositions": [],
+    "rosterStatus": "PROVISIONAL",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_div1_norra_2026_27"
+      ],
+      "position": [
+        "src_hm16_profixio_registration",
+        "src_hm16_profixio_match_sheets"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-1.6 (2026-10-31): primaryPosition V9 confirmed (Profixio player profile position, consistent with match-sheet goalkeeper flags)."
+    ]
+  },
+  {
+    "rosterEntryId": "se_2026_27_division1_norra_orebro_sk_hk_herr__42275f82",
+    "playerId": "player_sami_kollgard_42275f82",
+    "clubId": "se_club_orebro_sk_hk_herr",
+    "competitionId": "se_division1_norra",
+    "season": "2026/27",
+    "snapshotDate": "2026-10-31",
+    "shirtNumber": null,
+    "sourcePosition": "M9",
+    "primaryPosition": "M9",
+    "secondaryPositions": [
+      "V6"
+    ],
+    "rosterStatus": "PROVISIONAL",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_div1_norra_2026_27"
+      ],
+      "position": [
+        "src_hm16_profixio_registration"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-1.6 (2026-10-31): primaryPosition M9 confirmed (Profixio player profile position)."
+    ]
+  },
+  {
+    "rosterEntryId": "se_2026_27_division1_norra_orebro_sk_hk_herr__75dd0079",
+    "playerId": "player_viktor_forsberg_75dd0079",
+    "clubId": "se_club_orebro_sk_hk_herr",
+    "competitionId": "se_division1_norra",
+    "season": "2026/27",
+    "snapshotDate": "2026-10-31",
+    "shirtNumber": null,
+    "sourcePosition": "M9",
+    "primaryPosition": "M9",
+    "secondaryPositions": [
+      "V9"
+    ],
+    "rosterStatus": "PROVISIONAL",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_div1_norra_2026_27"
+      ],
+      "position": [
+        "src_hm16_profixio_registration",
+        "src_hm16_profixio_match_sheets"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-1.6 (2026-10-31): primaryPosition M9 confirmed (Profixio player profile position, consistent with match-sheet goalkeeper flags)."
+    ]
+  },
+  {
+    "rosterEntryId": "se_2026_27_division1_norra_orebro_sk_hk_herr__f077b4a2",
+    "playerId": "player_oskar_karlsson_f077b4a2",
+    "clubId": "se_club_orebro_sk_hk_herr",
+    "competitionId": "se_division1_norra",
+    "season": "2026/27",
+    "snapshotDate": "2026-10-31",
+    "shirtNumber": null,
+    "sourcePosition": "H9",
+    "primaryPosition": "H9",
+    "secondaryPositions": [
+      "H6"
+    ],
+    "rosterStatus": "PROVISIONAL",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_div1_norra_2026_27"
+      ],
+      "position": [
+        "src_hm16_profixio_registration",
+        "src_hm16_profixio_match_sheets"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-1.6 (2026-10-31): primaryPosition H9 confirmed (Profixio player profile position, consistent with match-sheet goalkeeper flags)."
+    ]
   },
   {
     "rosterEntryId": "se_2026_27_division1_norra_orebro_sk_hk_herr__fdb1f329",
@@ -349,9 +386,9 @@
     "clubId": "se_club_orebro_sk_hk_herr",
     "competitionId": "se_division1_norra",
     "season": "2026/27",
-    "snapshotDate": "2026-08-27",
+    "snapshotDate": "2026-10-31",
     "shirtNumber": 5,
-    "sourcePosition": "",
+    "sourcePosition": "H6",
     "primaryPosition": "H6",
     "secondaryPositions": [],
     "rosterStatus": "PROVISIONAL",
@@ -360,15 +397,18 @@
       "untilSeason": null,
       "optionUntilSeason": null
     },
-    "rosterConfidence": "UNKNOWN",
+    "rosterConfidence": "VERIFIED",
     "sourceRefs": {
       "roster": [
         "src_div1_norra_2026_27"
       ],
-      "position": []
+      "position": [
+        "src_hm16_profixio_registration",
+        "src_hm16_profixio_match_sheets"
+      ]
     },
     "dataNotes": [
-      "HM-DATA-DIV1-1.0: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+      "HM-DATA-1.6 (2026-10-31): primaryPosition H6 confirmed (Profixio player profile position, consistent with match-sheet goalkeeper flags)."
     ]
   },
   {
@@ -377,26 +417,32 @@
     "clubId": "se_club_orebro_sk_hk_herr",
     "competitionId": "se_division1_norra",
     "season": "2026/27",
-    "snapshotDate": "2026-08-27",
+    "snapshotDate": "2026-10-31",
     "shirtNumber": 9,
-    "sourcePosition": "",
+    "sourcePosition": "V9",
     "primaryPosition": "V9",
-    "secondaryPositions": [],
+    "secondaryPositions": [
+      "M6"
+    ],
     "rosterStatus": "PROVISIONAL",
     "contract": {
       "untilDate": null,
       "untilSeason": null,
       "optionUntilSeason": null
     },
-    "rosterConfidence": "UNKNOWN",
+    "rosterConfidence": "VERIFIED",
     "sourceRefs": {
       "roster": [
         "src_div1_norra_2026_27"
       ],
-      "position": []
+      "position": [
+        "src_hm16_profixio_registration",
+        "src_hm16_profixio_match_sheets",
+        "src_hm16_rating_research"
+      ]
     },
     "dataNotes": [
-      "HM-DATA-DIV1-1.0: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+      "HM-DATA-1.6 (2026-10-31): primaryPosition V9 confirmed (Profixio player profile position, consistent with match-sheet goalkeeper flags; secondary M6 from research label \"Örebro M6/9M senior\")."
     ]
   },
   {
@@ -405,9 +451,9 @@
     "clubId": "se_club_orebro_sk_hk_herr",
     "competitionId": "se_division1_norra",
     "season": "2026/27",
-    "snapshotDate": "2026-08-27",
+    "snapshotDate": "2026-10-31",
     "shirtNumber": 17,
-    "sourcePosition": "",
+    "sourcePosition": "M9",
     "primaryPosition": "M9",
     "secondaryPositions": [],
     "rosterStatus": "PROVISIONAL",
@@ -416,15 +462,18 @@
       "untilSeason": null,
       "optionUntilSeason": null
     },
-    "rosterConfidence": "UNKNOWN",
+    "rosterConfidence": "VERIFIED",
     "sourceRefs": {
       "roster": [
         "src_div1_norra_2026_27"
       ],
-      "position": []
+      "position": [
+        "src_hm16_profixio_registration",
+        "src_hm16_profixio_match_sheets"
+      ]
     },
     "dataNotes": [
-      "HM-DATA-DIV1-1.0: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+      "HM-DATA-1.6 (2026-10-31): primaryPosition M9 confirmed (Profixio player profile position, consistent with match-sheet goalkeeper flags)."
     ]
   },
   {
@@ -433,26 +482,32 @@
     "clubId": "se_club_orebro_sk_hk_herr",
     "competitionId": "se_division1_norra",
     "season": "2026/27",
-    "snapshotDate": "2026-08-27",
+    "snapshotDate": "2026-10-31",
     "shirtNumber": 22,
-    "sourcePosition": "",
+    "sourcePosition": "V9",
     "primaryPosition": "V9",
-    "secondaryPositions": [],
+    "secondaryPositions": [
+      "M6"
+    ],
     "rosterStatus": "PROVISIONAL",
     "contract": {
       "untilDate": null,
       "untilSeason": null,
       "optionUntilSeason": null
     },
-    "rosterConfidence": "UNKNOWN",
+    "rosterConfidence": "VERIFIED",
     "sourceRefs": {
       "roster": [
         "src_div1_norra_2026_27"
       ],
-      "position": []
+      "position": [
+        "src_hm16_profixio_registration",
+        "src_hm16_profixio_match_sheets",
+        "src_hm16_rating_research"
+      ]
     },
     "dataNotes": [
-      "HM-DATA-DIV1-1.0: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+      "HM-DATA-1.6 (2026-10-31): primaryPosition V9 confirmed (Profixio player profile position, consistent with match-sheet goalkeeper flags; secondary M6 from research label \"Örebro M6 depth\")."
     ]
   },
   {
@@ -489,26 +544,32 @@
     "clubId": "se_club_orebro_sk_hk_herr",
     "competitionId": "se_division1_norra",
     "season": "2026/27",
-    "snapshotDate": "2026-08-27",
+    "snapshotDate": "2026-10-31",
     "shirtNumber": null,
-    "sourcePosition": "",
+    "sourcePosition": "M6",
     "primaryPosition": "M6",
-    "secondaryPositions": [],
+    "secondaryPositions": [
+      "H9"
+    ],
     "rosterStatus": "PROVISIONAL",
     "contract": {
       "untilDate": null,
       "untilSeason": null,
       "optionUntilSeason": null
     },
-    "rosterConfidence": "UNKNOWN",
+    "rosterConfidence": "VERIFIED",
     "sourceRefs": {
       "roster": [
         "src_div1_norra_2026_27"
       ],
-      "position": []
+      "position": [
+        "src_hm16_profixio_registration",
+        "src_hm16_profixio_match_sheets",
+        "src_hm16_rating_research"
+      ]
     },
     "dataNotes": [
-      "HM-DATA-DIV1-1.0: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+      "HM-DATA-1.6 (2026-10-31): primaryPosition M6 confirmed (Profixio player profile position, consistent with match-sheet goalkeeper flags; secondary H9 from research label \"Örebro H9 development player\")."
     ]
   },
   {
@@ -575,26 +636,32 @@
     "clubId": "se_club_orebro_sk_hk_herr",
     "competitionId": "se_division1_norra",
     "season": "2026/27",
-    "snapshotDate": "2026-08-27",
+    "snapshotDate": "2026-10-31",
     "shirtNumber": null,
-    "sourcePosition": "",
+    "sourcePosition": "M6",
     "primaryPosition": "M6",
-    "secondaryPositions": [],
+    "secondaryPositions": [
+      "M9"
+    ],
     "rosterStatus": "PROVISIONAL",
     "contract": {
       "untilDate": null,
       "untilSeason": null,
       "optionUntilSeason": null
     },
-    "rosterConfidence": "UNKNOWN",
+    "rosterConfidence": "VERIFIED",
     "sourceRefs": {
       "roster": [
         "src_div1_norra_2026_27"
       ],
-      "position": []
+      "position": [
+        "src_hm16_profixio_registration",
+        "src_hm16_profixio_match_sheets",
+        "src_hm16_rating_research"
+      ]
     },
     "dataNotes": [
-      "HM-DATA-DIV1-1.0: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+      "HM-DATA-1.6 (2026-10-31): primaryPosition M6 confirmed (Profixio player profile position, consistent with match-sheet goalkeeper flags; secondary M9 from research label \"Örebro M9 senior\")."
     ]
   },
   {
@@ -603,26 +670,64 @@
     "clubId": "se_club_orebro_sk_hk_herr",
     "competitionId": "se_division1_norra",
     "season": "2026/27",
-    "snapshotDate": "2026-08-27",
+    "snapshotDate": "2026-10-31",
     "shirtNumber": null,
-    "sourcePosition": "",
+    "sourcePosition": "M9",
     "primaryPosition": "M9",
-    "secondaryPositions": [],
+    "secondaryPositions": [
+      "H9"
+    ],
     "rosterStatus": "PROVISIONAL",
     "contract": {
       "untilDate": null,
       "untilSeason": null,
       "optionUntilSeason": null
     },
-    "rosterConfidence": "UNKNOWN",
+    "rosterConfidence": "VERIFIED",
     "sourceRefs": {
       "roster": [
         "src_div1_norra_2026_27"
       ],
-      "position": []
+      "position": [
+        "src_hm16_profixio_registration",
+        "src_hm16_profixio_match_sheets",
+        "src_hm16_rating_research"
+      ]
     },
     "dataNotes": [
-      "HM-DATA-DIV1-1.0: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+      "HM-DATA-1.6 (2026-10-31): primaryPosition M9 confirmed (Profixio player profile position, consistent with match-sheet goalkeeper flags; secondary H9 from research label \"High-end Örebro H9\")."
     ]
+  },
+  {
+    "rosterEntryId": "se_2026_27_division1_norra_orebro_sk_hk_herr__e74a97b6",
+    "playerId": "player_jovan_topalovic_e74a97b6",
+    "clubId": "se_club_orebro_sk_hk_herr",
+    "competitionId": "se_division1_norra",
+    "season": "2026/27",
+    "snapshotDate": "2026-10-31",
+    "shirtNumber": 10,
+    "sourcePosition": "V9",
+    "primaryPosition": "V9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hm16_profixio_registration"
+      ],
+      "position": [
+        "src_hm16_profixio_registration"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-1.6 (2026-10-31): position V9 from Profixio player profile position."
+    ],
+    "defaultSquadStatus": null,
+    "specialTags": []
   }
 ]

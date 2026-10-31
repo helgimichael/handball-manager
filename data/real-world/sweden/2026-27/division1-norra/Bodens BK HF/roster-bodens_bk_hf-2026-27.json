@@ -28,34 +28,6 @@
     "dataNotes": []
   },
   {
-    "rosterEntryId": "se_2026_27_division1_norra_bodens_bk_hf__e486a3da",
-    "playerId": "player_erik_vikstrom_e486a3da",
-    "clubId": "se_club_bodens_bk_hf",
-    "competitionId": "se_division1_norra",
-    "season": "2026/27",
-    "snapshotDate": "2026-08-27",
-    "shirtNumber": null,
-    "sourcePosition": "Målvakt",
-    "primaryPosition": "MV",
-    "secondaryPositions": [],
-    "rosterStatus": "CONFIRMED",
-    "contract": {
-      "untilDate": null,
-      "untilSeason": null,
-      "optionUntilSeason": null
-    },
-    "rosterConfidence": "VERIFIED",
-    "sourceRefs": {
-      "roster": [
-        "src_div1_norra_2026_27"
-      ],
-      "position": [
-        "src_div1_norra_2026_27"
-      ]
-    },
-    "dataNotes": []
-  },
-  {
     "rosterEntryId": "se_2026_27_division1_norra_bodens_bk_hf__690ebb35",
     "playerId": "player_jonatan_vidgren_690ebb35",
     "clubId": "se_club_bodens_bk_hf",
@@ -196,34 +168,6 @@
     "dataNotes": []
   },
   {
-    "rosterEntryId": "se_2026_27_division1_norra_bodens_bk_hf__2408c6e7",
-    "playerId": "player_henrik_ledin_2408c6e7",
-    "clubId": "se_club_bodens_bk_hf",
-    "competitionId": "se_division1_norra",
-    "season": "2026/27",
-    "snapshotDate": "2026-08-27",
-    "shirtNumber": null,
-    "sourcePosition": "Vänster 6",
-    "primaryPosition": "V6",
-    "secondaryPositions": [],
-    "rosterStatus": "CONFIRMED",
-    "contract": {
-      "untilDate": null,
-      "untilSeason": null,
-      "optionUntilSeason": null
-    },
-    "rosterConfidence": "VERIFIED",
-    "sourceRefs": {
-      "roster": [
-        "src_div1_norra_2026_27"
-      ],
-      "position": [
-        "src_div1_norra_2026_27"
-      ]
-    },
-    "dataNotes": []
-  },
-  {
     "rosterEntryId": "se_2026_27_division1_norra_bodens_bk_hf__c3651541",
     "playerId": "player_ludvig_lifbom_c3651541",
     "clubId": "se_club_bodens_bk_hf",
@@ -289,90 +233,6 @@
     "shirtNumber": 15,
     "sourcePosition": "Mitt 6",
     "primaryPosition": "M6",
-    "secondaryPositions": [],
-    "rosterStatus": "CONFIRMED",
-    "contract": {
-      "untilDate": null,
-      "untilSeason": null,
-      "optionUntilSeason": null
-    },
-    "rosterConfidence": "VERIFIED",
-    "sourceRefs": {
-      "roster": [
-        "src_div1_norra_2026_27"
-      ],
-      "position": [
-        "src_div1_norra_2026_27"
-      ]
-    },
-    "dataNotes": []
-  },
-  {
-    "rosterEntryId": "se_2026_27_division1_norra_bodens_bk_hf__bcc9107a",
-    "playerId": "player_joel_lindstrom_bcc9107a",
-    "clubId": "se_club_bodens_bk_hf",
-    "competitionId": "se_division1_norra",
-    "season": "2026/27",
-    "snapshotDate": "2026-08-27",
-    "shirtNumber": null,
-    "sourcePosition": "Mitt 6",
-    "primaryPosition": "M6",
-    "secondaryPositions": [],
-    "rosterStatus": "CONFIRMED",
-    "contract": {
-      "untilDate": null,
-      "untilSeason": null,
-      "optionUntilSeason": null
-    },
-    "rosterConfidence": "VERIFIED",
-    "sourceRefs": {
-      "roster": [
-        "src_div1_norra_2026_27"
-      ],
-      "position": [
-        "src_div1_norra_2026_27"
-      ]
-    },
-    "dataNotes": []
-  },
-  {
-    "rosterEntryId": "se_2026_27_division1_norra_bodens_bk_hf__e0019d4a",
-    "playerId": "player_leo_hansson_e0019d4a",
-    "clubId": "se_club_bodens_bk_hf",
-    "competitionId": "se_division1_norra",
-    "season": "2026/27",
-    "snapshotDate": "2026-08-27",
-    "shirtNumber": null,
-    "sourcePosition": "Mitt 6",
-    "primaryPosition": "M6",
-    "secondaryPositions": [],
-    "rosterStatus": "CONFIRMED",
-    "contract": {
-      "untilDate": null,
-      "untilSeason": null,
-      "optionUntilSeason": null
-    },
-    "rosterConfidence": "VERIFIED",
-    "sourceRefs": {
-      "roster": [
-        "src_div1_norra_2026_27"
-      ],
-      "position": [
-        "src_div1_norra_2026_27"
-      ]
-    },
-    "dataNotes": []
-  },
-  {
-    "rosterEntryId": "se_2026_27_division1_norra_bodens_bk_hf__9ef4bf8d",
-    "playerId": "player_noah_kaspersen_9ef4bf8d",
-    "clubId": "se_club_bodens_bk_hf",
-    "competitionId": "se_division1_norra",
-    "season": "2026/27",
-    "snapshotDate": "2026-08-27",
-    "shirtNumber": null,
-    "sourcePosition": "Höger 9",
-    "primaryPosition": "H9",
     "secondaryPositions": [],
     "rosterStatus": "CONFIRMED",
     "contract": {
@@ -532,34 +392,6 @@
     ]
   },
   {
-    "rosterEntryId": "se_2026_27_division1_norra_bodens_bk_hf__746b0f31",
-    "playerId": "player_dennis_sjolund_746b0f31",
-    "clubId": "se_club_bodens_bk_hf",
-    "competitionId": "se_division1_norra",
-    "season": "2026/27",
-    "snapshotDate": "2026-08-27",
-    "shirtNumber": null,
-    "sourcePosition": "",
-    "primaryPosition": "V6",
-    "secondaryPositions": [],
-    "rosterStatus": "CONFIRMED",
-    "contract": {
-      "untilDate": null,
-      "untilSeason": null,
-      "optionUntilSeason": null
-    },
-    "rosterConfidence": "UNKNOWN",
-    "sourceRefs": {
-      "roster": [
-        "src_div1_norra_2026_27"
-      ],
-      "position": []
-    },
-    "dataNotes": [
-      "HM-DATA-DIV1-1.0: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
-    ]
-  },
-  {
     "rosterEntryId": "se_2026_27_division1_norra_bodens_bk_hf__bf7ff2ba",
     "playerId": "player_edward_finndahl_bf7ff2ba",
     "clubId": "se_club_bodens_bk_hf",
@@ -588,126 +420,14 @@
     ]
   },
   {
-    "rosterEntryId": "se_2026_27_division1_norra_bodens_bk_hf__a36c95d6",
-    "playerId": "player_filip_sigfrinius_a36c95d6",
-    "clubId": "se_club_bodens_bk_hf",
-    "competitionId": "se_division1_norra",
-    "season": "2026/27",
-    "snapshotDate": "2026-08-27",
-    "shirtNumber": null,
-    "sourcePosition": "",
-    "primaryPosition": "M6",
-    "secondaryPositions": [],
-    "rosterStatus": "CONFIRMED",
-    "contract": {
-      "untilDate": null,
-      "untilSeason": null,
-      "optionUntilSeason": null
-    },
-    "rosterConfidence": "UNKNOWN",
-    "sourceRefs": {
-      "roster": [
-        "src_div1_norra_2026_27"
-      ],
-      "position": []
-    },
-    "dataNotes": [
-      "HM-DATA-DIV1-1.0: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
-    ]
-  },
-  {
-    "rosterEntryId": "se_2026_27_division1_norra_bodens_bk_hf__4f2106a9",
-    "playerId": "player_hampus_vennberg_4f2106a9",
-    "clubId": "se_club_bodens_bk_hf",
-    "competitionId": "se_division1_norra",
-    "season": "2026/27",
-    "snapshotDate": "2026-08-27",
-    "shirtNumber": null,
-    "sourcePosition": "",
-    "primaryPosition": "V6",
-    "secondaryPositions": [],
-    "rosterStatus": "CONFIRMED",
-    "contract": {
-      "untilDate": null,
-      "untilSeason": null,
-      "optionUntilSeason": null
-    },
-    "rosterConfidence": "UNKNOWN",
-    "sourceRefs": {
-      "roster": [
-        "src_div1_norra_2026_27"
-      ],
-      "position": []
-    },
-    "dataNotes": [
-      "HM-DATA-DIV1-1.0: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
-    ]
-  },
-  {
-    "rosterEntryId": "se_2026_27_division1_norra_bodens_bk_hf__09c11583",
-    "playerId": "player_harry_keith_09c11583",
-    "clubId": "se_club_bodens_bk_hf",
-    "competitionId": "se_division1_norra",
-    "season": "2026/27",
-    "snapshotDate": "2026-08-27",
-    "shirtNumber": null,
-    "sourcePosition": "",
-    "primaryPosition": "M9",
-    "secondaryPositions": [],
-    "rosterStatus": "CONFIRMED",
-    "contract": {
-      "untilDate": null,
-      "untilSeason": null,
-      "optionUntilSeason": null
-    },
-    "rosterConfidence": "UNKNOWN",
-    "sourceRefs": {
-      "roster": [
-        "src_div1_norra_2026_27"
-      ],
-      "position": []
-    },
-    "dataNotes": [
-      "HM-DATA-DIV1-1.0: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
-    ]
-  },
-  {
-    "rosterEntryId": "se_2026_27_division1_norra_bodens_bk_hf__e892d24e",
-    "playerId": "player_isak_larsson_e892d24e",
-    "clubId": "se_club_bodens_bk_hf",
-    "competitionId": "se_division1_norra",
-    "season": "2026/27",
-    "snapshotDate": "2026-08-27",
-    "shirtNumber": null,
-    "sourcePosition": "",
-    "primaryPosition": "M9",
-    "secondaryPositions": [],
-    "rosterStatus": "CONFIRMED",
-    "contract": {
-      "untilDate": null,
-      "untilSeason": null,
-      "optionUntilSeason": null
-    },
-    "rosterConfidence": "UNKNOWN",
-    "sourceRefs": {
-      "roster": [
-        "src_div1_norra_2026_27"
-      ],
-      "position": []
-    },
-    "dataNotes": [
-      "HM-DATA-DIV1-1.0: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
-    ]
-  },
-  {
     "rosterEntryId": "se_2026_27_division1_norra_bodens_bk_hf__4131239d",
     "playerId": "player_kaleb_sami_4131239d",
     "clubId": "se_club_bodens_bk_hf",
     "competitionId": "se_division1_norra",
     "season": "2026/27",
-    "snapshotDate": "2026-08-27",
+    "snapshotDate": "2026-10-31",
     "shirtNumber": null,
-    "sourcePosition": "",
+    "sourcePosition": "H6",
     "primaryPosition": "H6",
     "secondaryPositions": [],
     "rosterStatus": "CONFIRMED",
@@ -716,15 +436,17 @@
       "untilSeason": null,
       "optionUntilSeason": null
     },
-    "rosterConfidence": "UNKNOWN",
+    "rosterConfidence": "VERIFIED",
     "sourceRefs": {
       "roster": [
         "src_div1_norra_2026_27"
       ],
-      "position": []
+      "position": [
+        "src_hm16_profixio_registration"
+      ]
     },
     "dataNotes": [
-      "HM-DATA-DIV1-1.0: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+      "HM-DATA-1.6 (2026-10-31): primaryPosition H6 confirmed (Profixio player profile position)."
     ]
   },
   {
@@ -733,9 +455,9 @@
     "clubId": "se_club_bodens_bk_hf",
     "competitionId": "se_division1_norra",
     "season": "2026/27",
-    "snapshotDate": "2026-08-27",
+    "snapshotDate": "2026-10-31",
     "shirtNumber": null,
-    "sourcePosition": "",
+    "sourcePosition": "H9",
     "primaryPosition": "H9",
     "secondaryPositions": [],
     "rosterStatus": "CONFIRMED",
@@ -744,15 +466,17 @@
       "untilSeason": null,
       "optionUntilSeason": null
     },
-    "rosterConfidence": "UNKNOWN",
+    "rosterConfidence": "VERIFIED",
     "sourceRefs": {
       "roster": [
         "src_div1_norra_2026_27"
       ],
-      "position": []
+      "position": [
+        "src_hm16_profixio_registration"
+      ]
     },
     "dataNotes": [
-      "HM-DATA-DIV1-1.0: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+      "HM-DATA-1.6 (2026-10-31): primaryPosition H9 confirmed (Profixio player profile position)."
     ]
   },
   {
@@ -840,70 +564,14 @@
     ]
   },
   {
-    "rosterEntryId": "se_2026_27_division1_norra_bodens_bk_hf__1db089fe",
-    "playerId": "player_oliver_lind_wallgren_1db089fe",
-    "clubId": "se_club_bodens_bk_hf",
-    "competitionId": "se_division1_norra",
-    "season": "2026/27",
-    "snapshotDate": "2026-08-27",
-    "shirtNumber": null,
-    "sourcePosition": "",
-    "primaryPosition": "V9",
-    "secondaryPositions": [],
-    "rosterStatus": "CONFIRMED",
-    "contract": {
-      "untilDate": null,
-      "untilSeason": null,
-      "optionUntilSeason": null
-    },
-    "rosterConfidence": "UNKNOWN",
-    "sourceRefs": {
-      "roster": [
-        "src_div1_norra_2026_27"
-      ],
-      "position": []
-    },
-    "dataNotes": [
-      "HM-DATA-DIV1-1.0: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
-    ]
-  },
-  {
-    "rosterEntryId": "se_2026_27_division1_norra_bodens_bk_hf__63e30f3f",
-    "playerId": "player_oskar_lundgren_63e30f3f",
-    "clubId": "se_club_bodens_bk_hf",
-    "competitionId": "se_division1_norra",
-    "season": "2026/27",
-    "snapshotDate": "2026-08-27",
-    "shirtNumber": null,
-    "sourcePosition": "",
-    "primaryPosition": "H9",
-    "secondaryPositions": [],
-    "rosterStatus": "CONFIRMED",
-    "contract": {
-      "untilDate": null,
-      "untilSeason": null,
-      "optionUntilSeason": null
-    },
-    "rosterConfidence": "UNKNOWN",
-    "sourceRefs": {
-      "roster": [
-        "src_div1_norra_2026_27"
-      ],
-      "position": []
-    },
-    "dataNotes": [
-      "HM-DATA-DIV1-1.0: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
-    ]
-  },
-  {
     "rosterEntryId": "se_2026_27_division1_norra_bodens_bk_hf__a5de5997",
     "playerId": "player_ture_keith_a5de5997",
     "clubId": "se_club_bodens_bk_hf",
     "competitionId": "se_division1_norra",
     "season": "2026/27",
-    "snapshotDate": "2026-08-27",
+    "snapshotDate": "2026-10-31",
     "shirtNumber": null,
-    "sourcePosition": "",
+    "sourcePosition": "V9",
     "primaryPosition": "V9",
     "secondaryPositions": [],
     "rosterStatus": "CONFIRMED",
@@ -912,15 +580,18 @@
       "untilSeason": null,
       "optionUntilSeason": null
     },
-    "rosterConfidence": "UNKNOWN",
+    "rosterConfidence": "VERIFIED",
     "sourceRefs": {
       "roster": [
         "src_div1_norra_2026_27"
       ],
-      "position": []
+      "position": [
+        "src_hm16_profixio_registration",
+        "src_hm16_profixio_match_sheets"
+      ]
     },
     "dataNotes": [
-      "HM-DATA-DIV1-1.0: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+      "HM-DATA-1.6 (2026-10-31): primaryPosition V9 confirmed (Profixio player profile position, consistent with match-sheet goalkeeper flags)."
     ]
   },
   {

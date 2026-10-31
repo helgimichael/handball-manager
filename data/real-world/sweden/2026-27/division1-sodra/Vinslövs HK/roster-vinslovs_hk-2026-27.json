@@ -5,9 +5,9 @@
     "clubId": "se_club_vinslovs_hk",
     "competitionId": "se_division1_sodra",
     "season": "2026/27",
-    "snapshotDate": "2026-08-27",
+    "snapshotDate": "2026-10-31",
     "shirtNumber": 13,
-    "sourcePosition": "Mitt 6",
+    "sourcePosition": "M6",
     "primaryPosition": "M6",
     "secondaryPositions": [],
     "rosterStatus": "PROVISIONAL",
@@ -16,16 +16,19 @@
       "untilSeason": null,
       "optionUntilSeason": null
     },
-    "rosterConfidence": "PARTIAL",
+    "rosterConfidence": "VERIFIED",
     "sourceRefs": {
       "roster": [
         "src_div1_sodra_2026_27"
       ],
       "position": [
-        "src_div1_sodra_2026_27"
+        "src_hm16_profixio_registration",
+        "src_hm16_profixio_match_sheets"
       ]
     },
-    "dataNotes": []
+    "dataNotes": [
+      "HM-DATA-1.6 (2026-10-31): primaryPosition M6 confirmed (Profixio player profile position, consistent with match-sheet goalkeeper flags)."
+    ]
   },
   {
     "rosterEntryId": "se_2026_27_division1_sodra_vinslovs_hk__a8e66934",
@@ -33,9 +36,9 @@
     "clubId": "se_club_vinslovs_hk",
     "competitionId": "se_division1_sodra",
     "season": "2026/27",
-    "snapshotDate": "2026-08-27",
+    "snapshotDate": "2026-10-31",
     "shirtNumber": null,
-    "sourcePosition": "",
+    "sourcePosition": "M6",
     "primaryPosition": "M6",
     "secondaryPositions": [],
     "rosterStatus": "PROVISIONAL",
@@ -44,15 +47,18 @@
       "untilSeason": null,
       "optionUntilSeason": null
     },
-    "rosterConfidence": "UNKNOWN",
+    "rosterConfidence": "VERIFIED",
     "sourceRefs": {
       "roster": [
         "src_div1_sodra_2026_27"
       ],
-      "position": []
+      "position": [
+        "src_hm16_profixio_registration",
+        "src_hm16_profixio_match_sheets"
+      ]
     },
     "dataNotes": [
-      "HM-DATA-DIV1-1.0: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+      "HM-DATA-1.6 (2026-10-31): primaryPosition M6 confirmed (Profixio player profile position, consistent with match-sheet goalkeeper flags)."
     ]
   },
   {
@@ -120,9 +126,9 @@
     "clubId": "se_club_vinslovs_hk",
     "competitionId": "se_division1_sodra",
     "season": "2026/27",
-    "snapshotDate": "2026-08-27",
+    "snapshotDate": "2026-10-31",
     "shirtNumber": null,
-    "sourcePosition": "",
+    "sourcePosition": "V6",
     "primaryPosition": "V6",
     "secondaryPositions": [],
     "rosterStatus": "PROVISIONAL",
@@ -131,15 +137,18 @@
       "untilSeason": null,
       "optionUntilSeason": null
     },
-    "rosterConfidence": "UNKNOWN",
+    "rosterConfidence": "VERIFIED",
     "sourceRefs": {
       "roster": [
         "src_div1_sodra_2026_27"
       ],
-      "position": []
+      "position": [
+        "src_hm16_profixio_registration",
+        "src_hm16_profixio_match_sheets"
+      ]
     },
     "dataNotes": [
-      "HM-DATA-DIV1-1.0: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+      "HM-DATA-1.6 (2026-10-31): primaryPosition V6 confirmed (Profixio player profile position, consistent with match-sheet goalkeeper flags)."
     ]
   },
   {
@@ -204,9 +213,9 @@
     "clubId": "se_club_vinslovs_hk",
     "competitionId": "se_division1_sodra",
     "season": "2026/27",
-    "snapshotDate": "2026-08-27",
+    "snapshotDate": "2026-10-31",
     "shirtNumber": null,
-    "sourcePosition": "",
+    "sourcePosition": "V6",
     "primaryPosition": "V6",
     "secondaryPositions": [],
     "rosterStatus": "PROVISIONAL",
@@ -215,15 +224,17 @@
       "untilSeason": null,
       "optionUntilSeason": null
     },
-    "rosterConfidence": "UNKNOWN",
+    "rosterConfidence": "VERIFIED",
     "sourceRefs": {
       "roster": [
         "src_div1_sodra_2026_27"
       ],
-      "position": []
+      "position": [
+        "src_hm16_profixio_registration"
+      ]
     },
     "dataNotes": [
-      "HM-DATA-DIV1-1.0: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+      "HM-DATA-1.6 (2026-10-31): primaryPosition V6 confirmed (Profixio player profile position)."
     ]
   },
   {
@@ -232,9 +243,9 @@
     "clubId": "se_club_vinslovs_hk",
     "competitionId": "se_division1_sodra",
     "season": "2026/27",
-    "snapshotDate": "2026-08-27",
+    "snapshotDate": "2026-10-31",
     "shirtNumber": null,
-    "sourcePosition": "",
+    "sourcePosition": "V6",
     "primaryPosition": "V6",
     "secondaryPositions": [],
     "rosterStatus": "PROVISIONAL",
@@ -243,15 +254,18 @@
       "untilSeason": null,
       "optionUntilSeason": null
     },
-    "rosterConfidence": "UNKNOWN",
+    "rosterConfidence": "VERIFIED",
     "sourceRefs": {
       "roster": [
         "src_div1_sodra_2026_27"
       ],
-      "position": []
+      "position": [
+        "src_hm16_profixio_registration",
+        "src_hm16_profixio_match_sheets"
+      ]
     },
     "dataNotes": [
-      "HM-DATA-DIV1-1.0: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+      "HM-DATA-1.6 (2026-10-31): primaryPosition V6 confirmed (Profixio player profile position, consistent with match-sheet goalkeeper flags)."
     ]
   },
   {
@@ -260,9 +274,9 @@
     "clubId": "se_club_vinslovs_hk",
     "competitionId": "se_division1_sodra",
     "season": "2026/27",
-    "snapshotDate": "2026-08-27",
+    "snapshotDate": "2026-10-31",
     "shirtNumber": null,
-    "sourcePosition": "",
+    "sourcePosition": "H6",
     "primaryPosition": "H6",
     "secondaryPositions": [],
     "rosterStatus": "PROVISIONAL",
@@ -271,15 +285,18 @@
       "untilSeason": null,
       "optionUntilSeason": null
     },
-    "rosterConfidence": "UNKNOWN",
+    "rosterConfidence": "VERIFIED",
     "sourceRefs": {
       "roster": [
         "src_div1_sodra_2026_27"
       ],
-      "position": []
+      "position": [
+        "src_hm16_profixio_registration",
+        "src_hm16_profixio_match_sheets"
+      ]
     },
     "dataNotes": [
-      "HM-DATA-DIV1-1.0: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+      "HM-DATA-1.6 (2026-10-31): primaryPosition H6 confirmed (Profixio player profile position, consistent with match-sheet goalkeeper flags)."
     ]
   },
   {
@@ -318,9 +335,9 @@
     "clubId": "se_club_vinslovs_hk",
     "competitionId": "se_division1_sodra",
     "season": "2026/27",
-    "snapshotDate": "2026-08-27",
+    "snapshotDate": "2026-10-31",
     "shirtNumber": null,
-    "sourcePosition": "",
+    "sourcePosition": "V9",
     "primaryPosition": "V9",
     "secondaryPositions": [],
     "rosterStatus": "PROVISIONAL",
@@ -329,15 +346,18 @@
       "untilSeason": null,
       "optionUntilSeason": null
     },
-    "rosterConfidence": "UNKNOWN",
+    "rosterConfidence": "VERIFIED",
     "sourceRefs": {
       "roster": [
         "src_div1_sodra_2026_27"
       ],
-      "position": []
+      "position": [
+        "src_hm16_profixio_registration",
+        "src_hm16_profixio_match_sheets"
+      ]
     },
     "dataNotes": [
-      "HM-DATA-DIV1-1.0: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+      "HM-DATA-1.6 (2026-10-31): primaryPosition V9 confirmed (Profixio player profile position, consistent with match-sheet goalkeeper flags)."
     ]
   },
   {
@@ -346,9 +366,9 @@
     "clubId": "se_club_vinslovs_hk",
     "competitionId": "se_division1_sodra",
     "season": "2026/27",
-    "snapshotDate": "2026-08-27",
+    "snapshotDate": "2026-10-31",
     "shirtNumber": null,
-    "sourcePosition": "",
+    "sourcePosition": "H6",
     "primaryPosition": "H6",
     "secondaryPositions": [],
     "rosterStatus": "PROVISIONAL",
@@ -357,15 +377,18 @@
       "untilSeason": null,
       "optionUntilSeason": null
     },
-    "rosterConfidence": "UNKNOWN",
+    "rosterConfidence": "VERIFIED",
     "sourceRefs": {
       "roster": [
         "src_div1_sodra_2026_27"
       ],
-      "position": []
+      "position": [
+        "src_hm16_profixio_registration",
+        "src_hm16_profixio_match_sheets"
+      ]
     },
     "dataNotes": [
-      "HM-DATA-DIV1-1.0: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+      "HM-DATA-1.6 (2026-10-31): primaryPosition H6 confirmed (Profixio player profile position, consistent with match-sheet goalkeeper flags)."
     ]
   },
   {
@@ -402,9 +425,9 @@
     "clubId": "se_club_vinslovs_hk",
     "competitionId": "se_division1_sodra",
     "season": "2026/27",
-    "snapshotDate": "2026-08-27",
+    "snapshotDate": "2026-10-31",
     "shirtNumber": null,
-    "sourcePosition": "",
+    "sourcePosition": "M6",
     "primaryPosition": "M6",
     "secondaryPositions": [],
     "rosterStatus": "PROVISIONAL",
@@ -413,15 +436,18 @@
       "untilSeason": null,
       "optionUntilSeason": null
     },
-    "rosterConfidence": "UNKNOWN",
+    "rosterConfidence": "VERIFIED",
     "sourceRefs": {
       "roster": [
         "src_div1_sodra_2026_27"
       ],
-      "position": []
+      "position": [
+        "src_hm16_profixio_registration",
+        "src_hm16_profixio_match_sheets"
+      ]
     },
     "dataNotes": [
-      "HM-DATA-DIV1-1.0: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+      "HM-DATA-1.6 (2026-10-31): primaryPosition M6 confirmed (Profixio player profile position, consistent with match-sheet goalkeeper flags)."
     ]
   },
   {
@@ -430,10 +456,10 @@
     "clubId": "se_club_vinslovs_hk",
     "competitionId": "se_division1_sodra",
     "season": "2026/27",
-    "snapshotDate": "2026-08-27",
+    "snapshotDate": "2026-10-31",
     "shirtNumber": null,
-    "sourcePosition": "",
-    "primaryPosition": "H6",
+    "sourcePosition": "M6",
+    "primaryPosition": "M6",
     "secondaryPositions": [],
     "rosterStatus": "PROVISIONAL",
     "contract": {
@@ -441,15 +467,18 @@
       "untilSeason": null,
       "optionUntilSeason": null
     },
-    "rosterConfidence": "UNKNOWN",
+    "rosterConfidence": "VERIFIED",
     "sourceRefs": {
       "roster": [
         "src_div1_sodra_2026_27"
       ],
-      "position": []
+      "position": [
+        "src_hm16_profixio_registration",
+        "src_hm16_profixio_match_sheets"
+      ]
     },
     "dataNotes": [
-      "HM-DATA-DIV1-1.0: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+      "HM-DATA-1.6 (2026-10-31): primaryPosition H6 -> M6 (Profixio player profile position, consistent with match-sheet goalkeeper flags)."
     ]
   },
   {
@@ -510,5 +539,37 @@
     "dataNotes": [
       "HM-DATA-DIV1-1.0: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
     ]
+  },
+  {
+    "rosterEntryId": "se_2026_27_division1_sodra_vinslovs_hk__07bcb89c",
+    "playerId": "player_emil_thurnil_07bcb89c",
+    "clubId": "se_club_vinslovs_hk",
+    "competitionId": "se_division1_sodra",
+    "season": "2026/27",
+    "snapshotDate": "2026-10-31",
+    "shirtNumber": 32,
+    "sourcePosition": "M9",
+    "primaryPosition": "M9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hm16_profixio_registration"
+      ],
+      "position": [
+        "src_hm16_profixio_registration"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-1.6 (2026-10-31): position M9 from Profixio player profile position."
+    ],
+    "defaultSquadStatus": null,
+    "specialTags": []
   }
 ]

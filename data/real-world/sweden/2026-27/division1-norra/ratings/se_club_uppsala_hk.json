@@ -4810,7 +4810,7 @@
   "player_ted_bergman_7dc50449": {
     "playerId": "player_ted_bergman_7dc50449",
     "clubId": "se_club_uppsala_hk",
-    "position": "M9",
+    "position": "H6",
     "ca": {
       "value": 100,
       "confidence": "HIGH",
@@ -5060,7 +5060,7 @@
     },
     "attackRoleProficiencies": [
       {
-        "role": "SCORING_CENTRE_BACK"
+        "role": "CREATIVE_WING"
       }
     ],
     "defenceRoleProficiencies": [],

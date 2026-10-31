@@ -23,34 +23,8 @@
       ]
     },
     "dataNotes": [
-      "HM-DATA-DIV1-1.0: provisional roster entry -- club's 2026/27 squad page was not yet fully published at snapshot time; see this milestone's report."
-    ]
-  },
-  {
-    "playerId": "player_max_bengtsson_1db2bbee",
-    "firstName": "Max",
-    "lastName": "Bengtsson",
-    "fullName": "Max Bengtsson",
-    "aliases": [],
-    "dateOfBirth": "2006-05-03",
-    "birthYear": 2006,
-    "nationalities": null,
-    "heightCm": null,
-    "handedness": null,
-    "recordConfidence": "PARTIAL",
-    "fieldConfidence": {
-      "birthYear": "PARTIAL"
-    },
-    "sourceRefs": {
-      "identity": [
-        "src_div1_sodra_2026_27"
-      ],
-      "birthYear": [
-        "src_div1_sodra_2026_27"
-      ]
-    },
-    "dataNotes": [
-      "HM-DATA-DIV1-1.0: provisional roster entry -- club's 2026/27 squad page was not yet fully published at snapshot time; see this milestone's report."
+      "HM-DATA-DIV1-1.0: provisional roster entry -- club's 2026/27 squad page was not yet fully published at snapshot time; see this milestone's report.",
+      "HM-DATA-1.6 (2026-10-31): 2026/27 Division 1 Södra roster membership at HP Alingsås removed -- not among the 477 Division 1 registrations on Profixio (2026-10-31) and on none of the 38 published match sheets; no usable official club squad page. Identity and locked rating retained."
     ]
   },
   {
@@ -104,7 +78,8 @@
       ]
     },
     "dataNotes": [
-      "HM-DATA-DIV1-1.0: provisional roster entry -- club's 2026/27 squad page was not yet fully published at snapshot time; see this milestone's report."
+      "HM-DATA-DIV1-1.0: provisional roster entry -- club's 2026/27 squad page was not yet fully published at snapshot time; see this milestone's report.",
+      "HM-DATA-1.6 (2026-10-31): 2026/27 Division 1 Södra roster membership at HP Alingsås removed -- not among the 477 Division 1 registrations on Profixio (2026-10-31) and on none of the 38 published match sheets; no usable official club squad page. Identity and locked rating retained."
     ]
   },
   {
@@ -131,7 +106,8 @@
       ]
     },
     "dataNotes": [
-      "HM-DATA-DIV1-1.0: provisional roster entry -- club's 2026/27 squad page was not yet fully published at snapshot time; see this milestone's report."
+      "HM-DATA-DIV1-1.0: provisional roster entry -- club's 2026/27 squad page was not yet fully published at snapshot time; see this milestone's report.",
+      "HM-DATA-1.6 (2026-10-31): 2026/27 Division 1 Södra roster membership at HP Alingsås removed -- not among the 477 Division 1 registrations on Profixio (2026-10-31) and on none of the 38 published match sheets; no usable official club squad page. Identity and locked rating retained."
     ]
   },
   {
@@ -186,6 +162,468 @@
     },
     "dataNotes": [
       "HM-DATA-DIV1-1.0: provisional roster entry -- club's 2026/27 squad page was not yet fully published at snapshot time; see this milestone's report."
+    ]
+  },
+  {
+    "playerId": "player_alvin_berg_f188613e",
+    "firstName": "Alvin",
+    "lastName": "Berg",
+    "fullName": "Alvin Berg",
+    "aliases": [],
+    "dateOfBirth": "2008-06-21",
+    "birthYear": 2008,
+    "nationalities": [
+      "SE"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED",
+      "nationalities": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_hm16_profixio_registration"
+      ],
+      "dateOfBirth": [
+        "src_hm16_profixio_registration"
+      ],
+      "nationalities": [
+        "src_hm16_profixio_registration"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-1.6 (2026-10-31): added from the Profixio Division 1 Södra squad registration; Profixio person 255524 (https://www.profixio.com/app/lx/clubs/26144/player/255524)."
+    ]
+  },
+  {
+    "playerId": "player_dexter_lindberg_5b51688d",
+    "firstName": "Dexter",
+    "lastName": "Lindberg",
+    "fullName": "Dexter Lindberg",
+    "aliases": [],
+    "dateOfBirth": "2008-05-10",
+    "birthYear": 2008,
+    "nationalities": [
+      "SE"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED",
+      "nationalities": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_hm16_profixio_registration"
+      ],
+      "dateOfBirth": [
+        "src_hm16_profixio_registration"
+      ],
+      "nationalities": [
+        "src_hm16_profixio_registration"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-1.6 (2026-10-31): added from the Profixio Division 1 Södra squad registration; Profixio person 461446 (https://www.profixio.com/app/lx/clubs/26144/player/461446)."
+    ]
+  },
+  {
+    "playerId": "player_eddy_karlsson_520893bd",
+    "firstName": "Eddy",
+    "lastName": "Karlsson",
+    "fullName": "Eddy Karlsson",
+    "aliases": [],
+    "dateOfBirth": "2008-04-02",
+    "birthYear": 2008,
+    "nationalities": [
+      "SE"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED",
+      "nationalities": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_hm16_profixio_registration"
+      ],
+      "dateOfBirth": [
+        "src_hm16_profixio_registration"
+      ],
+      "nationalities": [
+        "src_hm16_profixio_registration"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-1.6 (2026-10-31): added from the Profixio Division 1 Södra squad registration; Profixio person 724934 (https://www.profixio.com/app/lx/clubs/26144/player/724934)."
+    ]
+  },
+  {
+    "playerId": "player_falkon_sohlstrom_de28663f",
+    "firstName": "Falkon",
+    "lastName": "Sohlström",
+    "fullName": "Falkon Sohlström",
+    "aliases": [],
+    "dateOfBirth": "2008-02-18",
+    "birthYear": 2008,
+    "nationalities": [
+      "SE"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED",
+      "nationalities": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_hm16_profixio_registration"
+      ],
+      "dateOfBirth": [
+        "src_hm16_profixio_registration"
+      ],
+      "nationalities": [
+        "src_hm16_profixio_registration"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-1.6 (2026-10-31): added from the Profixio Division 1 Södra squad registration; Profixio person 681446 (https://www.profixio.com/app/lx/clubs/26144/player/681446)."
+    ]
+  },
+  {
+    "playerId": "player_gustav_bjorkehed_cfeed613",
+    "firstName": "Gustav",
+    "lastName": "Björkehed",
+    "fullName": "Gustav Björkehed",
+    "aliases": [],
+    "dateOfBirth": "2007-09-15",
+    "birthYear": 2007,
+    "nationalities": [
+      "SE"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED",
+      "nationalities": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_hm16_profixio_registration"
+      ],
+      "dateOfBirth": [
+        "src_hm16_profixio_registration"
+      ],
+      "nationalities": [
+        "src_hm16_profixio_registration"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-1.6 (2026-10-31): added from the Profixio Division 1 Södra squad registration; Profixio person 614425 (https://www.profixio.com/app/lx/clubs/26144/player/614425)."
+    ]
+  },
+  {
+    "playerId": "player_gustav_gawell_aff599a6",
+    "firstName": "Gustav",
+    "lastName": "Gawell",
+    "fullName": "Gustav Gawell",
+    "aliases": [],
+    "dateOfBirth": "2009-09-30",
+    "birthYear": 2009,
+    "nationalities": [
+      "SE"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED",
+      "nationalities": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_hm16_profixio_registration"
+      ],
+      "dateOfBirth": [
+        "src_hm16_profixio_registration"
+      ],
+      "nationalities": [
+        "src_hm16_profixio_registration"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-1.6 (2026-10-31): added from the Profixio Division 1 Södra squad registration; Profixio person 758095 (https://www.profixio.com/app/lx/clubs/26144/player/758095)."
+    ]
+  },
+  {
+    "playerId": "player_hampus_spikh_1d1593fd",
+    "firstName": "Hampus",
+    "lastName": "Spikh",
+    "fullName": "Hampus Spikh",
+    "aliases": [],
+    "dateOfBirth": "2008-02-20",
+    "birthYear": 2008,
+    "nationalities": [
+      "SE"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED",
+      "nationalities": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_hm16_profixio_registration"
+      ],
+      "dateOfBirth": [
+        "src_hm16_profixio_registration"
+      ],
+      "nationalities": [
+        "src_hm16_profixio_registration"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-1.6 (2026-10-31): added from the Profixio Division 1 Södra squad registration; Profixio person 631343 (https://www.profixio.com/app/lx/clubs/26144/player/631343)."
+    ]
+  },
+  {
+    "playerId": "player_jacob_svedin_1cf4def0",
+    "firstName": "Jacob",
+    "lastName": "Svedin",
+    "fullName": "Jacob Svedin",
+    "aliases": [],
+    "dateOfBirth": "2009-02-19",
+    "birthYear": 2009,
+    "nationalities": [
+      "SE"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED",
+      "nationalities": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_hm16_profixio_registration"
+      ],
+      "dateOfBirth": [
+        "src_hm16_profixio_registration"
+      ],
+      "nationalities": [
+        "src_hm16_profixio_registration"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-1.6 (2026-10-31): added from the Profixio Division 1 Södra squad registration; Profixio person 697739 (https://www.profixio.com/app/lx/clubs/26144/player/697739)."
+    ]
+  },
+  {
+    "playerId": "player_jesper_nilsson_e3ec747b",
+    "firstName": "Jesper",
+    "lastName": "Nilsson",
+    "fullName": "Jesper Nilsson",
+    "aliases": [],
+    "dateOfBirth": "2008-08-01",
+    "birthYear": 2008,
+    "nationalities": [
+      "SE"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED",
+      "nationalities": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_hm16_profixio_registration"
+      ],
+      "dateOfBirth": [
+        "src_hm16_profixio_registration"
+      ],
+      "nationalities": [
+        "src_hm16_profixio_registration"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-1.6 (2026-10-31): added from the Profixio Division 1 Södra squad registration; Profixio person 758160 (https://www.profixio.com/app/lx/clubs/26144/player/758160)."
+    ]
+  },
+  {
+    "playerId": "player_joel_johansson_a0e5e0d9",
+    "firstName": "Joel",
+    "lastName": "Johansson",
+    "fullName": "Joel Johansson",
+    "aliases": [],
+    "dateOfBirth": "2007-04-18",
+    "birthYear": 2007,
+    "nationalities": [
+      "SE"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED",
+      "nationalities": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_hm16_profixio_registration"
+      ],
+      "dateOfBirth": [
+        "src_hm16_profixio_registration"
+      ],
+      "nationalities": [
+        "src_hm16_profixio_registration"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-1.6 (2026-10-31): added from the Profixio Division 1 Södra squad registration; Profixio person 257861 (https://www.profixio.com/app/lx/clubs/26144/player/257861)."
+    ]
+  },
+  {
+    "playerId": "player_kalle_sjalin_b28101e5",
+    "firstName": "Kalle",
+    "lastName": "Själin",
+    "fullName": "Kalle Själin",
+    "aliases": [],
+    "dateOfBirth": "2008-11-09",
+    "birthYear": 2008,
+    "nationalities": [
+      "SE"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED",
+      "nationalities": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_hm16_profixio_registration"
+      ],
+      "dateOfBirth": [
+        "src_hm16_profixio_registration"
+      ],
+      "nationalities": [
+        "src_hm16_profixio_registration"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-1.6 (2026-10-31): added from the Profixio Division 1 Södra squad registration; Profixio person 631339 (https://www.profixio.com/app/lx/clubs/26144/player/631339)."
+    ]
+  },
+  {
+    "playerId": "player_melker_samor_b5c81b34",
+    "firstName": "Melker",
+    "lastName": "Samor",
+    "fullName": "Melker Samor",
+    "aliases": [],
+    "dateOfBirth": "2009-03-02",
+    "birthYear": 2009,
+    "nationalities": [
+      "SE"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED",
+      "nationalities": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_hm16_profixio_registration"
+      ],
+      "dateOfBirth": [
+        "src_hm16_profixio_registration"
+      ],
+      "nationalities": [
+        "src_hm16_profixio_registration"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-1.6 (2026-10-31): added from the Profixio Division 1 Södra squad registration; Profixio person 689839 (https://www.profixio.com/app/lx/clubs/26144/player/689839)."
+    ]
+  },
+  {
+    "playerId": "player_theo_skarstedt_2ef637eb",
+    "firstName": "Theo",
+    "lastName": "Skarstedt",
+    "fullName": "Theo Skarstedt",
+    "aliases": [],
+    "dateOfBirth": "2008-06-02",
+    "birthYear": 2008,
+    "nationalities": [
+      "SE"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED",
+      "nationalities": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_hm16_profixio_registration"
+      ],
+      "dateOfBirth": [
+        "src_hm16_profixio_registration"
+      ],
+      "nationalities": [
+        "src_hm16_profixio_registration"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-1.6 (2026-10-31): added from the Profixio Division 1 Södra squad registration; Profixio person 631976 (https://www.profixio.com/app/lx/clubs/26144/player/631976)."
+    ]
+  },
+  {
+    "playerId": "player_wille_hermansson_88384b65",
+    "firstName": "Wille",
+    "lastName": "Hermansson",
+    "fullName": "Wille Hermansson",
+    "aliases": [],
+    "dateOfBirth": "2009-07-20",
+    "birthYear": 2009,
+    "nationalities": [
+      "SE"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED",
+      "nationalities": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_hm16_profixio_registration"
+      ],
+      "dateOfBirth": [
+        "src_hm16_profixio_registration"
+      ],
+      "nationalities": [
+        "src_hm16_profixio_registration"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-1.6 (2026-10-31): added from the Profixio Division 1 Södra squad registration; Profixio person 698379 (https://www.profixio.com/app/lx/clubs/26144/player/698379)."
     ]
   }
 ]

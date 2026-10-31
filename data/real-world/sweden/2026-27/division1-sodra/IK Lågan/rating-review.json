@@ -44,11 +44,6 @@
     "updatedAt": "2026-08-30T17:59:19.612Z",
     "note": "DIV1N_rating_import_candidates_v0.6 / DIV1S_rating_import_candidates_v0.5 Division 1 import (DIV1_ONLY_CANONICAL set only)"
   },
-  "player_isac_svensson_2f5135bb": {
-    "status": "LOCKED",
-    "updatedAt": "2026-08-30T17:59:19.996Z",
-    "note": "DIV1N_rating_import_candidates_v0.6 / DIV1S_rating_import_candidates_v0.5 Division 1 import (DIV1_ONLY_CANONICAL set only)"
-  },
   "player_jakob_sandstrom_e13f0949": {
     "status": "LOCKED",
     "updatedAt": "2026-08-30T17:59:20.381Z",
@@ -92,6 +87,16 @@
   "player_ville_sjoberg_c1d67770": {
     "status": "LOCKED",
     "updatedAt": "2026-08-30T17:59:24.472Z",
+    "note": "DIV1N_rating_import_candidates_v0.6 / DIV1S_rating_import_candidates_v0.5 Division 1 import (DIV1_ONLY_CANONICAL set only)"
+  },
+  "player_max_bengtsson_1db2bbee": {
+    "status": "LOCKED",
+    "updatedAt": "2026-08-30T17:58:58.593Z",
+    "note": "DIV1N_rating_import_candidates_v0.6 / DIV1S_rating_import_candidates_v0.5 Division 1 import (DIV1_ONLY_CANONICAL set only)"
+  },
+  "player_nicklas_jading_b2b55819": {
+    "status": "LOCKED",
+    "updatedAt": "2026-08-30T17:57:01.245Z",
     "note": "DIV1N_rating_import_candidates_v0.6 / DIV1S_rating_import_candidates_v0.5 Division 1 import (DIV1_ONLY_CANONICAL set only)"
   }
 }

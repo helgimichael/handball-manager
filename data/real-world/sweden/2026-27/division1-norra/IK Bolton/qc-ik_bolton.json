@@ -6,8 +6,8 @@
   "snapshotDate": "2026-10-31",
   "datasetStatus": "PRESEASON",
   "qcStatus": "VERIFIED_WITH_OPEN_FIELDS",
-  "expectedRosterCount": 33,
-  "exportedRosterCount": 33,
+  "expectedRosterCount": 30,
+  "exportedRosterCount": 30,
   "checks": {
     "currentLeagueRosterLocated": true,
     "allLeagueRosterNamesCaptured": true,
@@ -24,19 +24,20 @@
   "knownConflicts": [],
   "staleSourceWarnings": [
     "Public roster is current-looking but surrounding season copy is not fully synchronized.",
-    "HM-DATA-1.5: roster corrected against Profixio leagueid28142 (2026-10-31)."
+    "HM-DATA-1.5: roster corrected against Profixio leagueid28142 (2026-10-31).",
+    "HM-DATA-1.6: roster corrected against Profixio leagueid28142 (2026-10-31). Held pending verification: Morgan Malingula Johansson (DIV1_MISSING_PLAYER: no verified position (Profixio profile has none; never on a match sheet as goalkeeper)); Olof Broryd (DIV1_MISSING_PLAYER: no verified position (Profixio profile has none; never on a match sheet as goalkeeper)); Philipp Valina Allo (DIV1_EXTRA_PLAYER: still listed on the official club squad page (conflicting evidence)); Olle Windahl (DIV1_EXTRA_PLAYER: still listed on the official club squad page (conflicting evidence)); Nicolai Aasnes (DIV1_EXTRA_PLAYER: still listed on the official club squad page (conflicting evidence)); Isak Lauridsen (DIV1_EXTRA_PLAYER: still listed on the official club squad page (conflicting evidence)); Dennis Nilsson (DIV1_EXTRA_PLAYER: still listed on the official club squad page (conflicting evidence)); Samuel Gustafsson (DIV1_EXTRA_PLAYER: still listed on the official club squad page (conflicting evidence)); Casper Sandberg (DIV1_EXTRA_PLAYER: still listed on the official club squad page (conflicting evidence)); Holger Mårtensson (DIV1_EXTRA_PLAYER: still listed on the official club squad page (conflicting evidence)); Marcus Pramborg (DIV1_EXTRA_PLAYER: still listed on the official club squad page (conflicting evidence)); Martin Sjöberg (DIV1_EXTRA_PLAYER: still listed on the official club squad page (conflicting evidence)); Pontus Landeborn (DIV1_EXTRA_PLAYER: still listed on the official club squad page (conflicting evidence)); Robin Nyström (DIV1_EXTRA_PLAYER: still listed on the official club squad page (conflicting evidence))."
   ],
   "openFieldsSummary": {
     "exactDateOfBirthMissing": 0,
     "birthYearMissing": 33,
-    "nationalityMissing": 32,
+    "nationalityMissing": 26,
     "heightMissing": 33,
     "handednessMissing": 33,
-    "shirtNumberMissing": 18,
+    "shirtNumberMissing": 16,
     "contractEndMissing": 33,
-    "positionGenerated": 20,
+    "positionGenerated": 14,
     "positionSourced": 11,
-    "positionPartial": 11,
-    "positionVerified": 2
+    "positionPartial": 4,
+    "positionVerified": 12
   }
 }

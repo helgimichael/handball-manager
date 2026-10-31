@@ -56,34 +56,6 @@
     "dataNotes": []
   },
   {
-    "rosterEntryId": "se_2026_27_division1_sodra_ahus_handboll__b0954d9c",
-    "playerId": "player_hjalmar_blanking_b0954d9c",
-    "clubId": "se_club_ahus_handboll",
-    "competitionId": "se_division1_sodra",
-    "season": "2026/27",
-    "snapshotDate": "2026-08-27",
-    "shirtNumber": 66,
-    "sourcePosition": "Målvakt",
-    "primaryPosition": "MV",
-    "secondaryPositions": [],
-    "rosterStatus": "CONFIRMED",
-    "contract": {
-      "untilDate": null,
-      "untilSeason": null,
-      "optionUntilSeason": null
-    },
-    "rosterConfidence": "VERIFIED",
-    "sourceRefs": {
-      "roster": [
-        "src_div1_sodra_2026_27"
-      ],
-      "position": [
-        "src_div1_sodra_2026_27"
-      ]
-    },
-    "dataNotes": []
-  },
-  {
     "rosterEntryId": "se_2026_27_division1_sodra_ahus_handboll__315ea1cd",
     "playerId": "player_elias_karlsson_315ea1cd",
     "clubId": "se_club_ahus_handboll",
@@ -140,62 +112,6 @@
     "dataNotes": []
   },
   {
-    "rosterEntryId": "se_2026_27_division1_sodra_ahus_handboll__b61ce7b1",
-    "playerId": "player_emil_wandas_b61ce7b1",
-    "clubId": "se_club_ahus_handboll",
-    "competitionId": "se_division1_sodra",
-    "season": "2026/27",
-    "snapshotDate": "2026-08-27",
-    "shirtNumber": 32,
-    "sourcePosition": "Vänster 6",
-    "primaryPosition": "V6",
-    "secondaryPositions": [],
-    "rosterStatus": "CONFIRMED",
-    "contract": {
-      "untilDate": null,
-      "untilSeason": null,
-      "optionUntilSeason": null
-    },
-    "rosterConfidence": "VERIFIED",
-    "sourceRefs": {
-      "roster": [
-        "src_div1_sodra_2026_27"
-      ],
-      "position": [
-        "src_div1_sodra_2026_27"
-      ]
-    },
-    "dataNotes": []
-  },
-  {
-    "rosterEntryId": "se_2026_27_division1_sodra_ahus_handboll__7ade24d8",
-    "playerId": "player_vilmer_bjorklund_7ade24d8",
-    "clubId": "se_club_ahus_handboll",
-    "competitionId": "se_division1_sodra",
-    "season": "2026/27",
-    "snapshotDate": "2026-08-27",
-    "shirtNumber": null,
-    "sourcePosition": "Vänster 6",
-    "primaryPosition": "V6",
-    "secondaryPositions": [],
-    "rosterStatus": "CONFIRMED",
-    "contract": {
-      "untilDate": null,
-      "untilSeason": null,
-      "optionUntilSeason": null
-    },
-    "rosterConfidence": "VERIFIED",
-    "sourceRefs": {
-      "roster": [
-        "src_div1_sodra_2026_27"
-      ],
-      "position": [
-        "src_div1_sodra_2026_27"
-      ]
-    },
-    "dataNotes": []
-  },
-  {
     "rosterEntryId": "se_2026_27_division1_sodra_ahus_handboll__dc365c1c",
     "playerId": "player_malte_lingstrom_dc365c1c",
     "clubId": "se_club_ahus_handboll",
@@ -205,34 +121,6 @@
     "shirtNumber": 35,
     "sourcePosition": "Höger 6",
     "primaryPosition": "H6",
-    "secondaryPositions": [],
-    "rosterStatus": "CONFIRMED",
-    "contract": {
-      "untilDate": null,
-      "untilSeason": null,
-      "optionUntilSeason": null
-    },
-    "rosterConfidence": "VERIFIED",
-    "sourceRefs": {
-      "roster": [
-        "src_div1_sodra_2026_27"
-      ],
-      "position": [
-        "src_div1_sodra_2026_27"
-      ]
-    },
-    "dataNotes": []
-  },
-  {
-    "rosterEntryId": "se_2026_27_division1_sodra_ahus_handboll__9cdc9186",
-    "playerId": "player_oscar_svanstrom_9cdc9186",
-    "clubId": "se_club_ahus_handboll",
-    "competitionId": "se_division1_sodra",
-    "season": "2026/27",
-    "snapshotDate": "2026-08-27",
-    "shirtNumber": 18,
-    "sourcePosition": "Mitt 6",
-    "primaryPosition": "M6",
     "secondaryPositions": [],
     "rosterStatus": "CONFIRMED",
     "contract": {
@@ -508,64 +396,6 @@
     "dataNotes": []
   },
   {
-    "rosterEntryId": "se_2026_27_division1_sodra_ahus_handboll__2ec4094d",
-    "playerId": "player_tor_svoren_2ec4094d",
-    "clubId": "se_club_ahus_handboll",
-    "competitionId": "se_division1_sodra",
-    "season": "2026/27",
-    "snapshotDate": "2026-08-27",
-    "shirtNumber": 58,
-    "sourcePosition": "Mitt 9 / Vänster 9",
-    "primaryPosition": "M9",
-    "secondaryPositions": [
-      "V9"
-    ],
-    "rosterStatus": "CONFIRMED",
-    "contract": {
-      "untilDate": null,
-      "untilSeason": null,
-      "optionUntilSeason": null
-    },
-    "rosterConfidence": "VERIFIED",
-    "sourceRefs": {
-      "roster": [
-        "src_div1_sodra_2026_27"
-      ],
-      "position": [
-        "src_div1_sodra_2026_27"
-      ]
-    },
-    "dataNotes": []
-  },
-  {
-    "rosterEntryId": "se_2026_27_division1_sodra_ahus_handboll__29efa2d2",
-    "playerId": "player_elliot_nilsson_29efa2d2",
-    "clubId": "se_club_ahus_handboll",
-    "competitionId": "se_division1_sodra",
-    "season": "2026/27",
-    "snapshotDate": "2026-08-27",
-    "shirtNumber": 21,
-    "sourcePosition": "Höger 9 / Höger 6",
-    "primaryPosition": "H9",
-    "secondaryPositions": [],
-    "rosterStatus": "CONFIRMED",
-    "contract": {
-      "untilDate": null,
-      "untilSeason": null,
-      "optionUntilSeason": null
-    },
-    "rosterConfidence": "VERIFIED",
-    "sourceRefs": {
-      "roster": [
-        "src_div1_sodra_2026_27"
-      ],
-      "position": [
-        "src_div1_sodra_2026_27"
-      ]
-    },
-    "dataNotes": []
-  },
-  {
     "rosterEntryId": "se_2026_27_division1_sodra_ahus_handboll__f5c43628",
     "playerId": "player_anders_friden_f5c43628",
     "clubId": "se_club_ahus_handboll",
@@ -599,9 +429,9 @@
     "clubId": "se_club_ahus_handboll",
     "competitionId": "se_division1_sodra",
     "season": "2026/27",
-    "snapshotDate": "2026-08-27",
+    "snapshotDate": "2026-10-31",
     "shirtNumber": null,
-    "sourcePosition": "",
+    "sourcePosition": "V9",
     "primaryPosition": "V9",
     "secondaryPositions": [],
     "rosterStatus": "CONFIRMED",
@@ -610,15 +440,18 @@
       "untilSeason": null,
       "optionUntilSeason": null
     },
-    "rosterConfidence": "UNKNOWN",
+    "rosterConfidence": "VERIFIED",
     "sourceRefs": {
       "roster": [
         "src_div1_sodra_2026_27"
       ],
-      "position": []
+      "position": [
+        "src_hm16_profixio_registration",
+        "src_hm16_profixio_match_sheets"
+      ]
     },
     "dataNotes": [
-      "HM-DATA-DIV1-1.0: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+      "HM-DATA-1.6 (2026-10-31): primaryPosition V9 confirmed (Profixio player profile position, consistent with match-sheet goalkeeper flags)."
     ]
   },
   {
@@ -627,9 +460,9 @@
     "clubId": "se_club_ahus_handboll",
     "competitionId": "se_division1_sodra",
     "season": "2026/27",
-    "snapshotDate": "2026-08-27",
+    "snapshotDate": "2026-10-31",
     "shirtNumber": null,
-    "sourcePosition": "",
+    "sourcePosition": "M6",
     "primaryPosition": "M6",
     "secondaryPositions": [],
     "rosterStatus": "CONFIRMED",
@@ -638,15 +471,18 @@
       "untilSeason": null,
       "optionUntilSeason": null
     },
-    "rosterConfidence": "UNKNOWN",
+    "rosterConfidence": "VERIFIED",
     "sourceRefs": {
       "roster": [
         "src_div1_sodra_2026_27"
       ],
-      "position": []
+      "position": [
+        "src_hm16_profixio_registration",
+        "src_hm16_profixio_match_sheets"
+      ]
     },
     "dataNotes": [
-      "HM-DATA-DIV1-1.0: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+      "HM-DATA-1.6 (2026-10-31): primaryPosition M6 confirmed (Profixio player profile position, consistent with match-sheet goalkeeper flags)."
     ]
   },
   {
@@ -683,9 +519,9 @@
     "clubId": "se_club_ahus_handboll",
     "competitionId": "se_division1_sodra",
     "season": "2026/27",
-    "snapshotDate": "2026-08-27",
+    "snapshotDate": "2026-10-31",
     "shirtNumber": null,
-    "sourcePosition": "",
+    "sourcePosition": "MV",
     "primaryPosition": "MV",
     "secondaryPositions": [],
     "rosterStatus": "CONFIRMED",
@@ -694,15 +530,18 @@
       "untilSeason": null,
       "optionUntilSeason": null
     },
-    "rosterConfidence": "UNKNOWN",
+    "rosterConfidence": "VERIFIED",
     "sourceRefs": {
       "roster": [
         "src_div1_sodra_2026_27"
       ],
-      "position": []
+      "position": [
+        "src_hm16_profixio_registration",
+        "src_hm16_profixio_match_sheets"
+      ]
     },
     "dataNotes": [
-      "HM-DATA-DIV1-1.0: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
+      "HM-DATA-1.6 (2026-10-31): primaryPosition MV confirmed (Profixio player profile position, consistent with match-sheet goalkeeper flags)."
     ]
   },
   {
@@ -734,5 +573,129 @@
     "dataNotes": [
       "HM-DATA-DIV1-1.0: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
     ]
+  },
+  {
+    "rosterEntryId": "se_2026_27_division1_sodra_ahus_handboll__d89a7e00",
+    "playerId": "player_hannes_ohlsson_d89a7e00",
+    "clubId": "se_club_ahus_handboll",
+    "competitionId": "se_division1_sodra",
+    "season": "2026/27",
+    "snapshotDate": "2026-10-31",
+    "shirtNumber": 73,
+    "sourcePosition": "H9",
+    "primaryPosition": "H9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hm16_profixio_registration"
+      ],
+      "position": [
+        "src_hm16_previous_league_record"
+      ]
+    },
+    "dataNotes": [],
+    "defaultSquadStatus": null,
+    "specialTags": []
+  },
+  {
+    "rosterEntryId": "se_2026_27_division1_sodra_ahus_handboll__2f5135bb",
+    "playerId": "player_isac_svensson_2f5135bb",
+    "clubId": "se_club_ahus_handboll",
+    "competitionId": "se_division1_sodra",
+    "season": "2026/27",
+    "snapshotDate": "2026-10-31",
+    "shirtNumber": 3,
+    "sourcePosition": "MV",
+    "primaryPosition": "MV",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hm16_profixio_registration"
+      ],
+      "position": [
+        "src_hm16_previous_league_record"
+      ]
+    },
+    "dataNotes": [],
+    "defaultSquadStatus": null,
+    "specialTags": []
+  },
+  {
+    "rosterEntryId": "se_2026_27_division1_sodra_ahus_handboll__6e2eb0bb",
+    "playerId": "player_oskar_svanstrom_6e2eb0bb",
+    "clubId": "se_club_ahus_handboll",
+    "competitionId": "se_division1_sodra",
+    "season": "2026/27",
+    "snapshotDate": "2026-10-31",
+    "shirtNumber": 18,
+    "sourcePosition": "M6",
+    "primaryPosition": "M6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hm16_profixio_registration"
+      ],
+      "position": [
+        "src_hm16_profixio_registration"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-1.6 (2026-10-31): position M6 from Profixio player profile position."
+    ],
+    "defaultSquadStatus": null,
+    "specialTags": []
+  },
+  {
+    "rosterEntryId": "se_2026_27_division1_sodra_ahus_handboll__dd1bd256",
+    "playerId": "player_sixten_persson_dd1bd256",
+    "clubId": "se_club_ahus_handboll",
+    "competitionId": "se_division1_sodra",
+    "season": "2026/27",
+    "snapshotDate": "2026-10-31",
+    "shirtNumber": null,
+    "sourcePosition": "MV",
+    "primaryPosition": "MV",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_hm16_profixio_registration"
+      ],
+      "position": [
+        "src_hm16_profixio_registration"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-1.6 (2026-10-31): position MV from Profixio player profile position."
+    ],
+    "defaultSquadStatus": null,
+    "specialTags": []
   }
 ]

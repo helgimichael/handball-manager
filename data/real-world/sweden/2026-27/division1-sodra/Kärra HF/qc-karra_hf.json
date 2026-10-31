@@ -6,8 +6,8 @@
   "snapshotDate": "2026-10-31",
   "datasetStatus": "PRESEASON",
   "qcStatus": "VERIFIED_WITH_OPEN_FIELDS",
-  "expectedRosterCount": 19,
-  "exportedRosterCount": 19,
+  "expectedRosterCount": 17,
+  "exportedRosterCount": 17,
   "checks": {
     "currentLeagueRosterLocated": true,
     "allLeagueRosterNamesCaptured": true,
@@ -24,19 +24,20 @@
   "knownConflicts": [],
   "staleSourceWarnings": [
     "Roster combined with 2026 off-season news: retired goalkeeper Victor Olsson removed; Axel Winström added.",
-    "HM-DATA-1.5: roster corrected against Profixio leagueid28142 (2026-10-31). Held pending verification: Fabio Carlos Pereira (HOLD: Division 1 GK/outfield conflict without an exact sourced position -- no exact position in any source (outfield role without side, or no evidence)); Simon Källström (HOLD: Division 1 GK/outfield conflict without an exact sourced position -- no exact position in any source (outfield role without side, or no evidence))."
+    "HM-DATA-1.5: roster corrected against Profixio leagueid28142 (2026-10-31). Held pending verification: Fabio Carlos Pereira (HOLD: Division 1 GK/outfield conflict without an exact sourced position -- no exact position in any source (outfield role without side, or no evidence)); Simon Källström (HOLD: Division 1 GK/outfield conflict without an exact sourced position -- no exact position in any source (outfield role without side, or no evidence)).",
+    "HM-DATA-1.6: roster corrected against Profixio leagueid28142 (2026-10-31). Held pending verification: Anton Hansson Willram (DIV1_MISSING_PLAYER: no verified position (Profixio profile has none; never on a match sheet as goalkeeper)); Fabio Carlos Pereira (DIV1_GK_OUTFIELD_UNRESOLVED: no exact sourced position (HM-DATA-1.5 + club page re-check)); Theodor Kapnias Olsson (DIV1_CROSS_LEAGUE_IDENTITY: owner review required for cross-league moves (HM-DATA-1.6 Task F): existing identity se_player_theodor_kapnias_olsson_60beed3c at Redbergslids IK (allsvenskan)); William Berglin (DIV1_MISSING_PLAYER: no verified position (Profixio profile has none; never on a match sheet as goalkeeper))."
   ],
   "openFieldsSummary": {
-    "exactDateOfBirthMissing": 2,
+    "exactDateOfBirthMissing": 0,
     "birthYearMissing": 19,
-    "nationalityMissing": 17,
+    "nationalityMissing": 14,
     "heightMissing": 19,
     "handednessMissing": 19,
     "shirtNumberMissing": 1,
     "contractEndMissing": 19,
-    "positionGenerated": 8,
+    "positionGenerated": 6,
     "positionSourced": 10,
-    "positionPartial": 10,
-    "positionVerified": 1
+    "positionPartial": 4,
+    "positionVerified": 7
   }
 }

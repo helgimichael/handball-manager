@@ -408,5 +408,38 @@
       ]
     },
     "dataNotes": []
+  },
+  {
+    "playerId": "player_oscar_karlsson_a94f6347",
+    "firstName": "Oscar",
+    "lastName": "Karlsson",
+    "fullName": "Oscar Karlsson",
+    "aliases": [],
+    "dateOfBirth": "2009-09-01",
+    "birthYear": 2009,
+    "nationalities": [
+      "SE"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED",
+      "nationalities": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_hm16_profixio_registration"
+      ],
+      "dateOfBirth": [
+        "src_hm16_profixio_registration"
+      ],
+      "nationalities": [
+        "src_hm16_profixio_registration"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-1.6 (2026-10-31): added from the Profixio Division 1 Norra squad registration; Profixio person 614172 (https://www.profixio.com/app/lx/clubs/26096/player/614172)."
+    ]
   }
 ]

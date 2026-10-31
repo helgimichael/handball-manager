@@ -3,11 +3,11 @@
   "clubName": "HK Eskil",
   "competitionId": "se_division1_norra",
   "season": "2026/27",
-  "snapshotDate": "2026-08-27",
+  "snapshotDate": "2026-10-31",
   "datasetStatus": "PRESEASON",
   "qcStatus": "VERIFIED",
-  "expectedRosterCount": 17,
-  "exportedRosterCount": 17,
+  "expectedRosterCount": 19,
+  "exportedRosterCount": 19,
   "checks": {
     "currentLeagueRosterLocated": true,
     "allLeagueRosterNamesCaptured": true,
@@ -22,16 +22,20 @@
     "guessedContractDates": 17
   },
   "knownConflicts": [],
-  "staleSourceWarnings": [],
+  "staleSourceWarnings": [
+    "HM-DATA-1.6: roster corrected against Profixio leagueid28142 (2026-10-31). Held pending verification: Pontus Wangenborn (DIV1_MISSING_PLAYER: no verified position (Profixio profile has none; never on a match sheet as goalkeeper))."
+  ],
   "openFieldsSummary": {
-    "exactDateOfBirthMissing": 17,
+    "exactDateOfBirthMissing": 0,
     "birthYearMissing": 0,
     "nationalityMissing": 17,
     "heightMissing": 17,
     "handednessMissing": 17,
-    "shirtNumberMissing": 0,
+    "shirtNumberMissing": 1,
     "contractEndMissing": 17,
     "positionGenerated": 0,
-    "positionSourced": 17
+    "positionSourced": 17,
+    "positionPartial": 0,
+    "positionVerified": 19
   }
 }

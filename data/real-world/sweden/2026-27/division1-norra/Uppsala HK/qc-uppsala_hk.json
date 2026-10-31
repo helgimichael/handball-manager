@@ -3,11 +3,11 @@
   "clubName": "Uppsala HK",
   "competitionId": "se_division1_norra",
   "season": "2026/27",
-  "snapshotDate": "2026-08-27",
+  "snapshotDate": "2026-10-31",
   "datasetStatus": "PRESEASON",
   "qcStatus": "VERIFIED_WITH_OPEN_FIELDS",
-  "expectedRosterCount": 22,
-  "exportedRosterCount": 22,
+  "expectedRosterCount": 21,
+  "exportedRosterCount": 21,
   "checks": {
     "currentLeagueRosterLocated": true,
     "allLeagueRosterNamesCaptured": true,
@@ -23,17 +23,20 @@
   },
   "knownConflicts": [],
   "staleSourceWarnings": [
-    "Current roster confirmed by club page; matching players cross-checked against recent Profixio for explicit birth year/number/position."
+    "Current roster confirmed by club page; matching players cross-checked against recent Profixio for explicit birth year/number/position.",
+    "HM-DATA-1.6: roster corrected against Profixio leagueid28142 (2026-10-31). Held pending verification: Erik Daniel Harnäs (DIV1_MISSING_PLAYER: no verified position (Profixio profile has none; never on a match sheet as goalkeeper)); Gabriel Svahn (DIV1_MISSING_PLAYER: no verified position (Profixio profile has none; never on a match sheet as goalkeeper)); Jesper Forslund (DIV1_MISSING_PLAYER: no verified position (Profixio profile has none; never on a match sheet as goalkeeper)); Linus Wärnmark (DIV1_MISSING_PLAYER: no verified position (Profixio profile has none; never on a match sheet as goalkeeper)); Erik Daniel Harnaes (DIV1_EXTRA_PLAYER: still listed on the official club squad page (conflicting evidence))."
   ],
   "openFieldsSummary": {
-    "exactDateOfBirthMissing": 22,
+    "exactDateOfBirthMissing": 2,
     "birthYearMissing": 6,
-    "nationalityMissing": 22,
+    "nationalityMissing": 19,
     "heightMissing": 22,
     "handednessMissing": 22,
     "shirtNumberMissing": 6,
     "contractEndMissing": 22,
-    "positionGenerated": 6,
-    "positionSourced": 16
+    "positionGenerated": 5,
+    "positionSourced": 16,
+    "positionPartial": 0,
+    "positionVerified": 16
   }
 }

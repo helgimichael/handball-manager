@@ -3,11 +3,11 @@
   "clubName": "Täby HBK",
   "competitionId": "se_division1_norra",
   "season": "2026/27",
-  "snapshotDate": "2026-08-27",
+  "snapshotDate": "2026-10-31",
   "datasetStatus": "PRESEASON",
   "qcStatus": "VERIFIED_WITH_OPEN_FIELDS",
-  "expectedRosterCount": 23,
-  "exportedRosterCount": 23,
+  "expectedRosterCount": 22,
+  "exportedRosterCount": 22,
   "checks": {
     "currentLeagueRosterLocated": true,
     "allLeagueRosterNamesCaptured": true,
@@ -22,16 +22,20 @@
     "guessedContractDates": 23
   },
   "knownConflicts": [],
-  "staleSourceWarnings": [],
+  "staleSourceWarnings": [
+    "HM-DATA-1.6: roster corrected against Profixio leagueid28142 (2026-10-31). Held pending verification: Andreas Holtsjö (DIV1_MISSING_PLAYER: no verified position (Profixio profile has none; never on a match sheet as goalkeeper)); Alexander Grünau (DIV1_EXTRA_PLAYER: registered in Herrallsvenskan at Eskilstuna Guif IF (cross-league; owner review)); Erik Olofsson (DIV1_EXTRA_PLAYER: still listed on the official club squad page (conflicting evidence)); Vilgot Torstensson (DIV1_EXTRA_PLAYER: still listed on the official club squad page (conflicting evidence))."
+  ],
   "openFieldsSummary": {
-    "exactDateOfBirthMissing": 23,
+    "exactDateOfBirthMissing": 2,
     "birthYearMissing": 23,
-    "nationalityMissing": 23,
+    "nationalityMissing": 21,
     "heightMissing": 23,
     "handednessMissing": 23,
     "shirtNumberMissing": 9,
     "contractEndMissing": 23,
-    "positionGenerated": 18,
-    "positionSourced": 5
+    "positionGenerated": 7,
+    "positionSourced": 5,
+    "positionPartial": 0,
+    "positionVerified": 15
   }
 }

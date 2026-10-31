@@ -61,8 +61,8 @@
   },
   "player_martin_boija_aec6665c": {
     "status": "LOCKED",
-    "updatedAt": "2026-08-30T17:56:45.354Z",
-    "note": "DIV1N_rating_import_candidates_v0.6 / DIV1S_rating_import_candidates_v0.5 Division 1 import (DIV1_ONLY_CANONICAL set only)"
+    "updatedAt": "2026-10-31T10:22:30.571Z",
+    "note": "HM-DATA-1.6 (2026-10-31) GK/OUTCOURT branch correction to H6; researched CA/PA preserved, generated attributes regenerated (HM-RATINGS-0.4-v1)"
   },
   "player_melwin_kolmskog_3007b61b": {
     "status": "LOCKED",

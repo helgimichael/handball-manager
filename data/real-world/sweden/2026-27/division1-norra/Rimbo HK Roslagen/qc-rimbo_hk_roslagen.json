@@ -6,8 +6,8 @@
   "snapshotDate": "2026-10-31",
   "datasetStatus": "PRESEASON",
   "qcStatus": "VERIFIED_WITH_OPEN_FIELDS",
-  "expectedRosterCount": 16,
-  "exportedRosterCount": 16,
+  "expectedRosterCount": 15,
+  "exportedRosterCount": 15,
   "checks": {
     "currentLeagueRosterLocated": true,
     "allLeagueRosterNamesCaptured": true,
@@ -23,19 +23,20 @@
   },
   "knownConflicts": [],
   "staleSourceWarnings": [
-    "HM-DATA-1.5: roster corrected against Profixio leagueid28142 (2026-10-31)."
+    "HM-DATA-1.5: roster corrected against Profixio leagueid28142 (2026-10-31).",
+    "HM-DATA-1.6: roster corrected against Profixio leagueid28142 (2026-10-31). Held pending verification: Calle Lundberg (DIV1_MISSING_PLAYER: no verified position (Profixio profile has none; never on a match sheet as goalkeeper)); Oliver Skogh (DIV1_MISSING_PLAYER: no verified position (Profixio profile has none; never on a match sheet as goalkeeper)); Jonathan Lindqvist (DIV1_EXTRA_PLAYER: still listed on the official club squad page (conflicting evidence)); Simon Wetter (DIV1_EXTRA_PLAYER: still listed on the official club squad page (conflicting evidence)); Olle Edlind (DIV1_EXTRA_PLAYER: still listed on the official club squad page (conflicting evidence)); William Nyström (DIV1_EXTRA_PLAYER: still listed on the official club squad page (conflicting evidence))."
   ],
   "openFieldsSummary": {
     "exactDateOfBirthMissing": 1,
     "birthYearMissing": 16,
-    "nationalityMissing": 15,
+    "nationalityMissing": 13,
     "heightMissing": 16,
     "handednessMissing": 16,
-    "shirtNumberMissing": 3,
+    "shirtNumberMissing": 4,
     "contractEndMissing": 16,
-    "positionGenerated": 10,
+    "positionGenerated": 3,
     "positionSourced": 5,
     "positionPartial": 0,
-    "positionVerified": 6
+    "positionVerified": 12
   }
 }

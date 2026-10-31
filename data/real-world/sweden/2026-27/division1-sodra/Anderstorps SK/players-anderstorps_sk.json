@@ -340,5 +340,38 @@
       ]
     },
     "dataNotes": []
+  },
+  {
+    "playerId": "player_valter_bengtsson_4f838268",
+    "firstName": "Valter",
+    "lastName": "Bengtsson",
+    "fullName": "Valter Bengtsson",
+    "aliases": [],
+    "dateOfBirth": "2007-03-14",
+    "birthYear": 2007,
+    "nationalities": [
+      "SE"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED",
+      "nationalities": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_hm16_profixio_registration"
+      ],
+      "dateOfBirth": [
+        "src_hm16_profixio_registration"
+      ],
+      "nationalities": [
+        "src_hm16_profixio_registration"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-1.6 (2026-10-31): added from the Profixio Division 1 Södra squad registration; Profixio person 631173 (https://www.profixio.com/app/lx/clubs/26264/player/631173)."
+    ]
   }
 ]

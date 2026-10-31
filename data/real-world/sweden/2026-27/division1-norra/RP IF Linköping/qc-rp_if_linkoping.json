@@ -6,8 +6,8 @@
   "snapshotDate": "2026-10-31",
   "datasetStatus": "PRESEASON",
   "qcStatus": "VERIFIED_WITH_OPEN_FIELDS",
-  "expectedRosterCount": 19,
-  "exportedRosterCount": 19,
+  "expectedRosterCount": 20,
+  "exportedRosterCount": 20,
   "checks": {
     "currentLeagueRosterLocated": true,
     "allLeagueRosterNamesCaptured": true,
@@ -23,19 +23,20 @@
   },
   "knownConflicts": [],
   "staleSourceWarnings": [
-    "HM-DATA-1.5: roster corrected against Profixio leagueid28142 (2026-10-31)."
+    "HM-DATA-1.5: roster corrected against Profixio leagueid28142 (2026-10-31).",
+    "HM-DATA-1.6: roster corrected against Profixio leagueid28142 (2026-10-31). Held pending verification: Lucas Westerlund (DIV1_EXTRA_PLAYER: still listed on the official club squad page (conflicting evidence)); Markus Stegefelt (DIV1_EXTRA_PLAYER: still listed on the official club squad page (conflicting evidence))."
   ],
   "openFieldsSummary": {
     "exactDateOfBirthMissing": 2,
     "birthYearMissing": 19,
-    "nationalityMissing": 18,
+    "nationalityMissing": 13,
     "heightMissing": 19,
     "handednessMissing": 19,
     "shirtNumberMissing": 1,
     "contractEndMissing": 19,
-    "positionGenerated": 10,
+    "positionGenerated": 2,
     "positionSourced": 6,
     "positionPartial": 0,
-    "positionVerified": 9
+    "positionVerified": 18
   }
 }

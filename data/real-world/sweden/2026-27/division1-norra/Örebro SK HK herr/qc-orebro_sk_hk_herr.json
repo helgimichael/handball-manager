@@ -6,8 +6,8 @@
   "snapshotDate": "2026-10-31",
   "datasetStatus": "PRESEASON",
   "qcStatus": "VERIFIED_WITH_OPEN_FIELDS",
-  "expectedRosterCount": 22,
-  "exportedRosterCount": 22,
+  "expectedRosterCount": 23,
+  "exportedRosterCount": 23,
   "checks": {
     "currentLeagueRosterLocated": true,
     "allLeagueRosterNamesCaptured": true,
@@ -23,7 +23,8 @@
   },
   "knownConflicts": [],
   "staleSourceWarnings": [
-    "HM-DATA-1.5: roster corrected against Profixio leagueid28142 (2026-10-31)."
+    "HM-DATA-1.5: roster corrected against Profixio leagueid28142 (2026-10-31).",
+    "HM-DATA-1.6: roster corrected against Profixio leagueid28142 (2026-10-31). Held pending verification: Edvin Hadzimusic (DIV1_EXTRA_PLAYER: still listed on the official club squad page (conflicting evidence)); Liam Persson (DIV1_EXTRA_PLAYER: still listed on the official club squad page (conflicting evidence)); Linus Löfgren (DIV1_EXTRA_PLAYER: still listed on the official club squad page (conflicting evidence))."
   ],
   "openFieldsSummary": {
     "exactDateOfBirthMissing": 1,
@@ -33,9 +34,9 @@
     "handednessMissing": 22,
     "shirtNumberMissing": 11,
     "contractEndMissing": 22,
-    "positionGenerated": 9,
+    "positionGenerated": 2,
     "positionSourced": 12,
-    "positionPartial": 12,
-    "positionVerified": 1
+    "positionPartial": 0,
+    "positionVerified": 21
   }
 }

@@ -46,8 +46,8 @@
   },
   "player_gabriel_nilsson_7876b2c1": {
     "status": "LOCKED",
-    "updatedAt": "2026-08-30T17:58:12.616Z",
-    "note": "DIV1N_rating_import_candidates_v0.6 / DIV1S_rating_import_candidates_v0.5 Division 1 import (DIV1_ONLY_CANONICAL set only)"
+    "updatedAt": "2026-10-31T10:22:30.778Z",
+    "note": "HM-DATA-1.6 (2026-10-31) GK/OUTCOURT branch correction to MV; researched CA/PA preserved, generated attributes regenerated (HM-RATINGS-0.4-v1)"
   },
   "player_henrik_westberg_9110a6f8": {
     "status": "LOCKED",

@@ -281,7 +281,10 @@ function plan(ctx: Context): void {
       const finalPos = pfxPos ?? oldRow.primaryPosition;
       const refs = pfxPos ? [SRC.profixio] : [SRC.carriedOver];
       const dual = r.roster_action === "MOVE_MEMBERSHIP_IN_LEAGUE";
-      const notes = dual
+      // A decision row that states its own evidence (`basis`) uses it; the two fixed texts are the HM-DATA-1.3 cases.
+      const notes = r.basis
+        ? [`${MILESTONE} (${SNAPSHOT}): ${SEASON} membership moved from ${source.clubName} (${source.competitionId}) to ${target.clubName} -- ${r.basis} (${profileUrl(e)}). Same playerId; previous roster row removed.${pfxPos ? "" : ` Position ${finalPos} carried over from the previous roster record (no Profixio position).`}`]
+        : dual
         ? [`${MILESTONE} (${SNAPSHOT}): playable starting club HK Drott Halmstad (Profixio #${e.shirtNumber}; goalkeeper on Drott match sheets rounds 5-6, the latest published). Also registered for IFK Tumba HK in Herrallsvenskan 2026/27 (#22; 1 league + 2 cup appearances per Profixio profile ${profileUrl(e)}); that registration is kept as evidence only, not as a second roster row.`]
         : [`${MILESTONE} (${SNAPSHOT}): 2026/27 membership moved from ${source.clubName} (${source.competitionId}) to ${target.clubName}; Profixio shows 2026/27 appearances only for ${target.clubName} (${profileUrl(e)}). Same playerId; previous roster row removed.${pfxPos ? "" : ` Position ${finalPos} carried over from the previous verified roster record (no Profixio position).`}`];
       srcRoster.splice(srcRoster.indexOf(oldRow), 1); files.touch(source.rosterFile);

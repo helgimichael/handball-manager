@@ -18,7 +18,8 @@
       ]
     },
     "dataNotes": [
-      "HM-DATA-DIV1-1.0: provisional roster entry -- club's 2026/27 squad page was not yet fully published at snapshot time; see this milestone's report."
+      "HM-DATA-DIV1-1.0: provisional roster entry -- club's 2026/27 squad page was not yet fully published at snapshot time; see this milestone's report.",
+      "HM-DATA-1.6 (2026-10-31): 2026/27 Division 1 Södra roster membership at Kärra HF removed -- not among the 477 Division 1 registrations on Profixio (2026-10-31) and on none of the 38 published match sheets; also absent from the official club squad page. Identity and locked rating retained."
     ]
   },
   {
@@ -42,7 +43,8 @@
       ]
     },
     "dataNotes": [
-      "HM-DATA-DIV1-1.0: provisional roster entry -- club's 2026/27 squad page was not yet fully published at snapshot time; see this milestone's report."
+      "HM-DATA-DIV1-1.0: provisional roster entry -- club's 2026/27 squad page was not yet fully published at snapshot time; see this milestone's report.",
+      "HM-DATA-1.6 (2026-10-31): 2026/27 Division 1 Södra roster membership at Kärra HF removed -- not among the 477 Division 1 registrations on Profixio (2026-10-31) and on none of the 38 published match sheets; also absent from the official club squad page. Identity and locked rating retained."
     ]
   },
   {
@@ -152,7 +154,8 @@
       ]
     },
     "dataNotes": [
-      "HM-DATA-DIV1-1.0: provisional roster entry -- club's 2026/27 squad page was not yet fully published at snapshot time; see this milestone's report."
+      "HM-DATA-DIV1-1.0: provisional roster entry -- club's 2026/27 squad page was not yet fully published at snapshot time; see this milestone's report.",
+      "HM-DATA-1.6 (2026-10-31): 2026/27 Division 1 Södra roster membership at Kärra HF removed -- not among the 477 Division 1 registrations on Profixio (2026-10-31) and on none of the 38 published match sheets; also absent from the official club squad page. Identity and locked rating retained."
     ]
   },
   {
@@ -174,7 +177,8 @@
       ]
     },
     "dataNotes": [
-      "HM-DATA-DIV1-1.0: provisional roster entry -- club's 2026/27 squad page was not yet fully published at snapshot time; see this milestone's report."
+      "HM-DATA-DIV1-1.0: provisional roster entry -- club's 2026/27 squad page was not yet fully published at snapshot time; see this milestone's report.",
+      "HM-DATA-1.6 (2026-10-31): 2026/27 Division 1 Södra roster membership at Kärra HF removed -- not among the 477 Division 1 registrations on Profixio (2026-10-31) and on none of the 38 published match sheets; also absent from the official club squad page. Identity and locked rating retained."
     ]
   },
   {
@@ -196,7 +200,8 @@
       ]
     },
     "dataNotes": [
-      "HM-DATA-DIV1-1.0: provisional roster entry -- club's 2026/27 squad page was not yet fully published at snapshot time; see this milestone's report."
+      "HM-DATA-DIV1-1.0: provisional roster entry -- club's 2026/27 squad page was not yet fully published at snapshot time; see this milestone's report.",
+      "HM-DATA-1.6 (2026-10-31): 2026/27 Division 1 Södra roster membership at Kärra HF removed -- not among the 477 Division 1 registrations on Profixio (2026-10-31) and on none of the 38 published match sheets; also absent from the official club squad page. Identity and locked rating retained."
     ]
   },
   {
@@ -240,7 +245,8 @@
       ]
     },
     "dataNotes": [
-      "HM-DATA-DIV1-1.0: provisional roster entry -- club's 2026/27 squad page was not yet fully published at snapshot time; see this milestone's report."
+      "HM-DATA-DIV1-1.0: provisional roster entry -- club's 2026/27 squad page was not yet fully published at snapshot time; see this milestone's report.",
+      "HM-DATA-1.6 (2026-10-31): 2026/27 Division 1 Södra roster membership at Kärra HF removed -- not among the 477 Division 1 registrations on Profixio (2026-10-31) and on none of the 38 published match sheets; also absent from the official club squad page. Identity and locked rating retained."
     ]
   },
   {
@@ -264,7 +270,8 @@
       ]
     },
     "dataNotes": [
-      "HM-DATA-DIV1-1.0: provisional roster entry -- club's 2026/27 squad page was not yet fully published at snapshot time; see this milestone's report."
+      "HM-DATA-DIV1-1.0: provisional roster entry -- club's 2026/27 squad page was not yet fully published at snapshot time; see this milestone's report.",
+      "HM-DATA-1.6 (2026-10-31): 2026/27 Division 1 Södra roster membership at Kärra HF removed -- not among the 477 Division 1 registrations on Profixio (2026-10-31) and on none of the 38 published match sheets; also absent from the official club squad page. Identity and locked rating retained."
     ]
   },
   {
@@ -419,6 +426,149 @@
     },
     "dataNotes": [
       "HM-DATA-DIV1-1.0: provisional roster entry -- club's 2026/27 squad page was not yet fully published at snapshot time; see this milestone's report."
+    ]
+  },
+  {
+    "playerId": "player_emil_popaja_037d10dd",
+    "firstName": "Emil",
+    "lastName": "Popaja",
+    "fullName": "Emil Popaja",
+    "aliases": [],
+    "dateOfBirth": "2006-04-13",
+    "birthYear": 2006,
+    "nationalities": [
+      "SE"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED",
+      "nationalities": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_hm16_profixio_registration"
+      ],
+      "dateOfBirth": [
+        "src_hm16_profixio_registration"
+      ],
+      "nationalities": [
+        "src_hm16_profixio_registration"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-1.6 (2026-10-31): added from the Profixio Division 1 Södra squad registration; Profixio person 622018 (https://www.profixio.com/app/lx/clubs/26337/player/622018)."
+    ]
+  },
+  {
+    "playerId": "player_emil_saxin_a1fe241f",
+    "firstName": "Emil",
+    "lastName": "Saxin",
+    "fullName": "Emil Saxin",
+    "aliases": [],
+    "dateOfBirth": "2002-07-06",
+    "birthYear": 2002,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {},
+    "sourceRefs": {
+      "identity": [
+        "src_div1_sodra_2026_27"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-1.6 (2026-10-31): 2026/27 membership moved from HP Warta (se_division1_sodra) to Kärra HF -- registered on Profixio for Kärra HF, not for HP Warta (same person: name variant, DOB 2002-07-06) (https://www.profixio.com/app/lx/clubs/26337/player/739331). Same playerId; previous roster row removed."
+    ]
+  },
+  {
+    "playerId": "player_oliver_sjoo_4202f683",
+    "firstName": "Oliver",
+    "lastName": "Sjöö",
+    "fullName": "Oliver Sjöö",
+    "aliases": [],
+    "dateOfBirth": "2007-03-22",
+    "birthYear": 2007,
+    "nationalities": [
+      "SE"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED",
+      "nationalities": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_hm16_profixio_registration"
+      ],
+      "dateOfBirth": [
+        "src_hm16_profixio_registration"
+      ],
+      "nationalities": [
+        "src_hm16_profixio_registration"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-1.6 (2026-10-31): added from the Profixio Division 1 Södra squad registration; Profixio person 657792 (https://www.profixio.com/app/lx/clubs/26337/player/657792)."
+    ]
+  },
+  {
+    "playerId": "player_simon_wiberg_0bf397ac",
+    "firstName": "Simon",
+    "lastName": "Wiberg",
+    "fullName": "Simon Wiberg",
+    "aliases": [],
+    "dateOfBirth": "2003-04-12",
+    "birthYear": 2003,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {},
+    "sourceRefs": {
+      "identity": [
+        "src_div1_sodra_2026_27"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-1.6 (2026-10-31): 2026/27 membership moved from HP Warta (se_division1_sodra) to Kärra HF -- registered on Profixio for Kärra HF, not for HP Warta (same person: identical name, DOB 2003-04-12) (https://www.profixio.com/app/lx/clubs/26337/player/739397). Same playerId; previous roster row removed."
+    ]
+  },
+  {
+    "playerId": "player_zlatan_imamovic_1c34fd82",
+    "firstName": "Zlatan",
+    "lastName": "Imamovic",
+    "fullName": "Zlatan Imamovic",
+    "aliases": [],
+    "dateOfBirth": "2009-02-01",
+    "birthYear": 2009,
+    "nationalities": [
+      "SE"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED",
+      "nationalities": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_hm16_profixio_registration"
+      ],
+      "dateOfBirth": [
+        "src_hm16_profixio_registration"
+      ],
+      "nationalities": [
+        "src_hm16_profixio_registration"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-1.6 (2026-10-31): added from the Profixio Division 1 Södra squad registration; Profixio person 578284 (https://www.profixio.com/app/lx/clubs/26337/player/578284)."
     ]
   }
 ]

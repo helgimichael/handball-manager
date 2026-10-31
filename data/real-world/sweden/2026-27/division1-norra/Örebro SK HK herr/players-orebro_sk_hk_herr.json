@@ -486,5 +486,38 @@
     "dataNotes": [
       "HM-DATA-DIV1-1.0: provisional roster entry -- club's 2026/27 squad page was not yet fully published at snapshot time; see this milestone's report."
     ]
+  },
+  {
+    "playerId": "player_jovan_topalovic_e74a97b6",
+    "firstName": "Jovan",
+    "lastName": "Topalovic",
+    "fullName": "Jovan Topalovic",
+    "aliases": [],
+    "dateOfBirth": "2003-01-13",
+    "birthYear": 2003,
+    "nationalities": [
+      "SE"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED",
+      "nationalities": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_hm16_profixio_registration"
+      ],
+      "dateOfBirth": [
+        "src_hm16_profixio_registration"
+      ],
+      "nationalities": [
+        "src_hm16_profixio_registration"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-1.6 (2026-10-31): added from the Profixio Division 1 Norra squad registration; Profixio person 623484 (https://www.profixio.com/app/lx/clubs/25975/player/623484)."
+    ]
   }
 ]

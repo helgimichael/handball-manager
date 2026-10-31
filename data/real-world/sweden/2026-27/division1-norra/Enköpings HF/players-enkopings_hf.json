@@ -423,5 +423,104 @@
       ]
     },
     "dataNotes": []
+  },
+  {
+    "playerId": "player_jaxon_ryderdahl_0ed40f09",
+    "firstName": "Jaxon",
+    "lastName": "Ryderdahl",
+    "fullName": "Jaxon Ryderdahl",
+    "aliases": [],
+    "dateOfBirth": "2009-05-06",
+    "birthYear": 2009,
+    "nationalities": [
+      "SE"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED",
+      "nationalities": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_hm16_profixio_registration"
+      ],
+      "dateOfBirth": [
+        "src_hm16_profixio_registration"
+      ],
+      "nationalities": [
+        "src_hm16_profixio_registration"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-1.6 (2026-10-31): added from the Profixio Division 1 Norra squad registration; Profixio person 656388 (https://www.profixio.com/app/lx/clubs/26043/player/656388)."
+    ]
+  },
+  {
+    "playerId": "player_marley_nave_7db9563e",
+    "firstName": "Marley",
+    "lastName": "Nave",
+    "fullName": "Marley Nave",
+    "aliases": [],
+    "dateOfBirth": "2009-09-08",
+    "birthYear": 2009,
+    "nationalities": [
+      "SE"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED",
+      "nationalities": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_hm16_profixio_registration"
+      ],
+      "dateOfBirth": [
+        "src_hm16_profixio_registration"
+      ],
+      "nationalities": [
+        "src_hm16_profixio_registration"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-1.6 (2026-10-31): added from the Profixio Division 1 Norra squad registration; Profixio person 351812 (https://www.profixio.com/app/lx/clubs/26043/player/351812)."
+    ]
+  },
+  {
+    "playerId": "player_vidar_boquist_80d7d02b",
+    "firstName": "Vidar",
+    "lastName": "Boquist",
+    "fullName": "Vidar Boquist",
+    "aliases": [],
+    "dateOfBirth": "2009-02-18",
+    "birthYear": 2009,
+    "nationalities": [
+      "SE"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED",
+      "nationalities": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_hm16_profixio_registration"
+      ],
+      "dateOfBirth": [
+        "src_hm16_profixio_registration"
+      ],
+      "nationalities": [
+        "src_hm16_profixio_registration"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-1.6 (2026-10-31): added from the Profixio Division 1 Norra squad registration; Profixio person 385177 (https://www.profixio.com/app/lx/clubs/26043/player/385177)."
+    ]
   }
 ]

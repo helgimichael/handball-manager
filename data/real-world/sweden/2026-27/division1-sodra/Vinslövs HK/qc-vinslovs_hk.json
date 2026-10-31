@@ -6,8 +6,8 @@
   "snapshotDate": "2026-10-31",
   "datasetStatus": "PRESEASON",
   "qcStatus": "VERIFIED_WITH_OPEN_FIELDS",
-  "expectedRosterCount": 18,
-  "exportedRosterCount": 18,
+  "expectedRosterCount": 19,
+  "exportedRosterCount": 19,
   "checks": {
     "currentLeagueRosterLocated": true,
     "allLeagueRosterNamesCaptured": true,
@@ -24,7 +24,8 @@
   "knownConflicts": [],
   "staleSourceWarnings": [
     "Public A-team page is live but parts of season copy still reference 2025/26.",
-    "HM-DATA-1.5: roster corrected against Profixio leagueid28142 (2026-10-31)."
+    "HM-DATA-1.5: roster corrected against Profixio leagueid28142 (2026-10-31).",
+    "HM-DATA-1.6: roster corrected against Profixio leagueid28142 (2026-10-31). Held pending verification: Viggo Ström (DIV1_MISSING_PLAYER: no verified position (Profixio profile has none; never on a match sheet as goalkeeper))."
   ],
   "openFieldsSummary": {
     "exactDateOfBirthMissing": 1,
@@ -34,9 +35,9 @@
     "handednessMissing": 18,
     "shirtNumberMissing": 17,
     "contractEndMissing": 18,
-    "positionGenerated": 14,
+    "positionGenerated": 5,
     "positionSourced": 1,
-    "positionPartial": 1,
-    "positionVerified": 3
+    "positionPartial": 0,
+    "positionVerified": 14
   }
 }

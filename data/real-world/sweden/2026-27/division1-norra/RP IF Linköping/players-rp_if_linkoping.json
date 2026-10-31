@@ -17,7 +17,9 @@
         "src_div1_norra_2026_27"
       ]
     },
-    "dataNotes": []
+    "dataNotes": [
+      "HM-DATA-1.6 (2026-10-31): 2026/27 Division 1 Norra roster membership at RP IF Linköping removed -- not among the 477 Division 1 registrations on Profixio (2026-10-31) and on none of the 38 published match sheets; also absent from the official club squad page. Identity and locked rating retained."
+    ]
   },
   {
     "playerId": "player_marcus_gustavsson_f2ddd236",
@@ -137,7 +139,9 @@
         "src_div1_norra_2026_27"
       ]
     },
-    "dataNotes": []
+    "dataNotes": [
+      "HM-DATA-1.6 (2026-10-31): 2026/27 Division 1 Norra roster membership at RP IF Linköping removed -- not among the 477 Division 1 registrations on Profixio (2026-10-31) and on none of the 38 published match sheets; also absent from the official club squad page. Identity and locked rating retained."
+    ]
   },
   {
     "playerId": "player_svante_eriksson_bae5c781",
@@ -217,7 +221,9 @@
         "src_div1_norra_2026_27"
       ]
     },
-    "dataNotes": []
+    "dataNotes": [
+      "HM-DATA-1.6 (2026-10-31): 2026/27 Division 1 Norra roster membership at RP IF Linköping removed -- not among the 477 Division 1 registrations on Profixio (2026-10-31) and on none of the 38 published match sheets; also absent from the official club squad page. Identity and locked rating retained."
+    ]
   },
   {
     "playerId": "player_christoffer_johansson_8c6573e1",
@@ -257,7 +263,9 @@
         "src_div1_norra_2026_27"
       ]
     },
-    "dataNotes": []
+    "dataNotes": [
+      "HM-DATA-1.6 (2026-10-31): 2026/27 Division 1 Norra roster membership at RP IF Linköping removed -- not among the 477 Division 1 registrations on Profixio (2026-10-31) and on none of the 38 published match sheets; also absent from the official club squad page. Identity and locked rating retained."
+    ]
   },
   {
     "playerId": "player_lucas_westerlund_682ff625",
@@ -297,7 +305,9 @@
         "src_div1_norra_2026_27"
       ]
     },
-    "dataNotes": []
+    "dataNotes": [
+      "HM-DATA-1.6 (2026-10-31): 2026/27 Division 1 Norra roster membership at RP IF Linköping removed -- not among the 477 Division 1 registrations on Profixio (2026-10-31) and on none of the 38 published match sheets; also absent from the official club squad page. Identity and locked rating retained."
+    ]
   },
   {
     "playerId": "player_filip_nygren_6ba88308",
@@ -380,5 +390,203 @@
       ]
     },
     "dataNotes": []
+  },
+  {
+    "playerId": "player_karl_falkenteg_bbb945b4",
+    "firstName": "Karl",
+    "lastName": "Falkenteg",
+    "fullName": "Karl Falkenteg",
+    "aliases": [],
+    "dateOfBirth": "2007-02-21",
+    "birthYear": 2007,
+    "nationalities": [
+      "SE"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED",
+      "nationalities": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_hm16_profixio_registration"
+      ],
+      "dateOfBirth": [
+        "src_hm16_profixio_registration"
+      ],
+      "nationalities": [
+        "src_hm16_profixio_registration"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-1.6 (2026-10-31): added from the Profixio Division 1 Norra squad registration; Profixio person 724950 (https://www.profixio.com/app/lx/clubs/26141/player/724950)."
+    ]
+  },
+  {
+    "playerId": "player_ludvig_krantz_48734fa2",
+    "firstName": "Ludvig",
+    "lastName": "Krantz",
+    "fullName": "Ludvig Krantz",
+    "aliases": [],
+    "dateOfBirth": "2006-02-12",
+    "birthYear": 2006,
+    "nationalities": [
+      "SE"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED",
+      "nationalities": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_hm16_profixio_registration"
+      ],
+      "dateOfBirth": [
+        "src_hm16_profixio_registration"
+      ],
+      "nationalities": [
+        "src_hm16_profixio_registration"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-1.6 (2026-10-31): added from the Profixio Division 1 Norra squad registration; Profixio person 689879 (https://www.profixio.com/app/lx/clubs/26141/player/689879)."
+    ]
+  },
+  {
+    "playerId": "player_lukas_vesterlund_7227bdcf",
+    "firstName": "Lukas",
+    "lastName": "Vesterlund",
+    "fullName": "Lukas Vesterlund",
+    "aliases": [],
+    "dateOfBirth": "2001-08-11",
+    "birthYear": 2001,
+    "nationalities": [
+      "SE"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED",
+      "nationalities": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_hm16_profixio_registration"
+      ],
+      "dateOfBirth": [
+        "src_hm16_profixio_registration"
+      ],
+      "nationalities": [
+        "src_hm16_profixio_registration"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-1.6 (2026-10-31): added from the Profixio Division 1 Norra squad registration; Profixio person 610785 (https://www.profixio.com/app/lx/clubs/26121/player/610785)."
+    ]
+  },
+  {
+    "playerId": "player_nils_kaller_9eeb700e",
+    "firstName": "Nils",
+    "lastName": "Kaller",
+    "fullName": "Nils Kaller",
+    "aliases": [],
+    "dateOfBirth": "2006-05-02",
+    "birthYear": 2006,
+    "nationalities": [
+      "SE"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED",
+      "nationalities": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_hm16_profixio_registration"
+      ],
+      "dateOfBirth": [
+        "src_hm16_profixio_registration"
+      ],
+      "nationalities": [
+        "src_hm16_profixio_registration"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-1.6 (2026-10-31): added from the Profixio Division 1 Norra squad registration; Profixio person 689164 (https://www.profixio.com/app/lx/clubs/26141/player/689164)."
+    ]
+  },
+  {
+    "playerId": "player_olle_aronsson_38f67ea8",
+    "firstName": "Olle",
+    "lastName": "Aronsson",
+    "fullName": "Olle Aronsson",
+    "aliases": [],
+    "dateOfBirth": "2006-07-12",
+    "birthYear": 2006,
+    "nationalities": [
+      "SE"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED",
+      "nationalities": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_hm16_profixio_registration"
+      ],
+      "dateOfBirth": [
+        "src_hm16_profixio_registration"
+      ],
+      "nationalities": [
+        "src_hm16_profixio_registration"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-1.6 (2026-10-31): added from the Profixio Division 1 Norra squad registration; Profixio person 688617 (https://www.profixio.com/app/lx/clubs/26141/player/688617)."
+    ]
+  },
+  {
+    "playerId": "player_rasmus_samuelsson_c2c3767e",
+    "firstName": "Rasmus",
+    "lastName": "Samuelsson",
+    "fullName": "Rasmus Samuelsson",
+    "aliases": [],
+    "dateOfBirth": "2000-10-09",
+    "birthYear": 2000,
+    "nationalities": [
+      "SE"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED",
+      "nationalities": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_hm16_profixio_registration"
+      ],
+      "dateOfBirth": [
+        "src_hm16_profixio_registration"
+      ],
+      "nationalities": [
+        "src_hm16_profixio_registration"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-1.6 (2026-10-31): added from the Profixio Division 1 Norra squad registration; Profixio person 688876 (https://www.profixio.com/app/lx/clubs/26121/player/688876)."
+    ]
   }
 ]

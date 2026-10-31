@@ -2,7 +2,7 @@
   "player_axel_bendz_0cc36b49": {
     "playerId": "player_axel_bendz_0cc36b49",
     "clubId": "se_club_if_kristianstad",
-    "position": "M6",
+    "position": "V9",
     "ca": {
       "value": 100,
       "confidence": "HIGH",
@@ -252,7 +252,7 @@
     },
     "attackRoleProficiencies": [
       {
-        "role": "SCREENING_PIVOT"
+        "role": "SHOOTING_BACK"
       }
     ],
     "defenceRoleProficiencies": [],
@@ -788,7 +788,7 @@
   "player_felix_wandas_6808fc40": {
     "playerId": "player_felix_wandas_6808fc40",
     "clubId": "se_club_if_kristianstad",
-    "position": "M6",
+    "position": "M9",
     "ca": {
       "value": 104,
       "confidence": "HIGH",
@@ -1038,7 +1038,7 @@
     },
     "attackRoleProficiencies": [
       {
-        "role": "SCREENING_PIVOT"
+        "role": "PRIMARY_PLAYMAKER"
       }
     ],
     "defenceRoleProficiencies": [],
@@ -1050,7 +1050,7 @@
   "player_fritz_andersson_c57c7cac": {
     "playerId": "player_fritz_andersson_c57c7cac",
     "clubId": "se_club_if_kristianstad",
-    "position": "H6",
+    "position": "H9",
     "ca": {
       "value": 112,
       "confidence": "HIGH",
@@ -1300,7 +1300,7 @@
     },
     "attackRoleProficiencies": [
       {
-        "role": "ELITE_FINISHER"
+        "role": "SHOOTING_BACK"
       }
     ],
     "defenceRoleProficiencies": [],
@@ -1312,7 +1312,7 @@
   "player_gustav_karlsson_91eb472a": {
     "playerId": "player_gustav_karlsson_91eb472a",
     "clubId": "se_club_if_kristianstad",
-    "position": "H6",
+    "position": "M9",
     "ca": {
       "value": 100,
       "confidence": "HIGH",
@@ -1562,7 +1562,7 @@
     },
     "attackRoleProficiencies": [
       {
-        "role": "TWO_WAY_WING"
+        "role": "TEMPO_CONTROLLER"
       }
     ],
     "defenceRoleProficiencies": [],
@@ -1571,272 +1571,10 @@
     "lockedAt": "2026-08-30T17:59:10.775Z",
     "lockedNote": "DIV1N_rating_import_candidates_v0.6 / DIV1S_rating_import_candidates_v0.5 Division 1 import (DIV1_ONLY_CANONICAL set only)"
   },
-  "player_hannes_ohlsson_d89a7e00": {
-    "playerId": "player_hannes_ohlsson_d89a7e00",
-    "clubId": "se_club_if_kristianstad",
-    "position": "V6",
-    "ca": {
-      "value": 120,
-      "confidence": "HIGH",
-      "plausibleRange": {
-        "min": 120,
-        "max": 120
-      },
-      "source": "EDITOR_OVERRIDE"
-    },
-    "pa": {
-      "value": 148,
-      "confidence": "HIGH",
-      "plausibleRange": {
-        "min": 148,
-        "max": 148
-      },
-      "source": "EDITOR_OVERRIDE"
-    },
-    "branch": {
-      "branch": "OUTCOURT",
-      "attributes": {
-        "PASSING": {
-          "value": 14,
-          "origin": "GENERATED_PRIOR"
-        },
-        "BALL_HANDLING": {
-          "value": 14,
-          "origin": "GENERATED_PRIOR"
-        },
-        "SHOOTING_POWER": {
-          "value": 14,
-          "origin": "GENERATED_PRIOR"
-        },
-        "SHOOTING_PLACEMENT": {
-          "value": 13,
-          "origin": "GENERATED_PRIOR"
-        },
-        "SHOOTING_VARIETY": {
-          "value": 12,
-          "origin": "GENERATED_PRIOR"
-        },
-        "BREAKTHROUGH": {
-          "value": 14,
-          "origin": "GENERATED_PRIOR"
-        },
-        "FINISHING": {
-          "value": 12,
-          "origin": "GENERATED_PRIOR"
-        },
-        "WING_FINISHING": {
-          "value": 13,
-          "origin": "GENERATED_PRIOR"
-        },
-        "PIVOT_PLAY": {
-          "value": 14,
-          "origin": "GENERATED_PRIOR"
-        },
-        "SCREENING": {
-          "value": 12,
-          "origin": "GENERATED_PRIOR"
-        },
-        "GAME_READING": {
-          "value": 10,
-          "origin": "GENERATED_PRIOR"
-        },
-        "DECISION_MAKING": {
-          "value": 11,
-          "origin": "GENERATED_PRIOR"
-        },
-        "AWARENESS": {
-          "value": 10,
-          "origin": "GENERATED_PRIOR"
-        },
-        "ANTICIPATION": {
-          "value": 12,
-          "origin": "GENERATED_PRIOR"
-        },
-        "PLAYMAKING": {
-          "value": 10,
-          "origin": "GENERATED_PRIOR"
-        },
-        "TEMPO_CONTROL": {
-          "value": 11,
-          "origin": "GENERATED_PRIOR"
-        },
-        "TWO_V_TWO_READING": {
-          "value": 12,
-          "origin": "GENERATED_PRIOR"
-        },
-        "ADVANTAGE_RECOGNITION": {
-          "value": 10,
-          "origin": "GENERATED_PRIOR"
-        },
-        "TACTICAL_UNDERSTANDING": {
-          "value": 12,
-          "origin": "GENERATED_PRIOR"
-        },
-        "ROLE_DISCIPLINE": {
-          "value": 11,
-          "origin": "GENERATED_PRIOR"
-        },
-        "OFF_BALL_MOVEMENT": {
-          "value": 11,
-          "origin": "GENERATED_PRIOR"
-        },
-        "SPACING": {
-          "value": 13,
-          "origin": "GENERATED_PRIOR"
-        },
-        "TIMING": {
-          "value": 13,
-          "origin": "GENERATED_PRIOR"
-        },
-        "TRANSITION_UNDERSTANDING": {
-          "value": 14,
-          "origin": "DERIVED"
-        },
-        "SYSTEM_ADAPTABILITY": {
-          "value": 13,
-          "origin": "GENERATED_PRIOR"
-        },
-        "SEVEN_V_SIX_UNDERSTANDING": {
-          "value": 12,
-          "origin": "GENERATED_PRIOR"
-        },
-        "CONTACT_ABILITY": {
-          "value": 12,
-          "origin": "GENERATED_PRIOR"
-        },
-        "DEFENSIVE_POSITIONING": {
-          "value": 12,
-          "origin": "GENERATED_PRIOR"
-        },
-        "DEFENSIVE_TIMING": {
-          "value": 10,
-          "origin": "GENERATED_PRIOR"
-        },
-        "LATERAL_DEFENCE": {
-          "value": 12,
-          "origin": "GENERATED_PRIOR"
-        },
-        "DEPTH_DEFENCE": {
-          "value": 11,
-          "origin": "GENERATED_PRIOR"
-        },
-        "CENTRAL_DEFENCE": {
-          "value": 11,
-          "origin": "GENERATED_PRIOR"
-        },
-        "COVERING": {
-          "value": 10,
-          "origin": "GENERATED_PRIOR"
-        },
-        "SWITCHING_HANDOVER": {
-          "value": 12,
-          "origin": "GENERATED_PRIOR"
-        },
-        "BALL_WINNING": {
-          "value": 11,
-          "origin": "GENERATED_PRIOR"
-        },
-        "SHOT_BLOCKING": {
-          "value": 11,
-          "origin": "GENERATED_PRIOR"
-        },
-        "ACCELERATION": {
-          "value": 16,
-          "origin": "DERIVED"
-        },
-        "TOP_SPEED": {
-          "value": 18,
-          "origin": "DERIVED"
-        },
-        "LATERAL_QUICKNESS": {
-          "value": 13,
-          "origin": "GENERATED_PRIOR"
-        },
-        "AGILITY": {
-          "value": 14,
-          "origin": "GENERATED_PRIOR"
-        },
-        "EXPLOSIVENESS": {
-          "value": 15,
-          "origin": "GENERATED_PRIOR"
-        },
-        "STRENGTH": {
-          "value": 14,
-          "origin": "GENERATED_PRIOR"
-        },
-        "CONTACT_BALANCE": {
-          "value": 15,
-          "origin": "GENERATED_PRIOR"
-        },
-        "JUMP_ABILITY": {
-          "value": 13,
-          "origin": "GENERATED_PRIOR"
-        },
-        "ENDURANCE": {
-          "value": 15,
-          "origin": "GENERATED_PRIOR"
-        },
-        "REPEAT_SPRINT_ABILITY": {
-          "value": 14,
-          "origin": "GENERATED_PRIOR"
-        },
-        "MOBILITY": {
-          "value": 15,
-          "origin": "GENERATED_PRIOR"
-        },
-        "CONSISTENCY": {
-          "value": 11,
-          "origin": "GENERATED_PRIOR"
-        },
-        "COMPOSURE": {
-          "value": 11,
-          "origin": "GENERATED_PRIOR"
-        },
-        "CONCENTRATION": {
-          "value": 13,
-          "origin": "GENERATED_PRIOR"
-        },
-        "COMPETITIVE_MENTALITY": {
-          "value": 12,
-          "origin": "GENERATED_PRIOR"
-        },
-        "RESILIENCE": {
-          "value": 13,
-          "origin": "GENERATED_PRIOR"
-        },
-        "DISCIPLINE": {
-          "value": 12,
-          "origin": "GENERATED_PRIOR"
-        },
-        "COACHABILITY": {
-          "value": 11,
-          "origin": "GENERATED_PRIOR"
-        },
-        "LEADERSHIP": {
-          "value": 12,
-          "origin": "GENERATED_PRIOR"
-        },
-        "PRESSURE_HANDLING": {
-          "value": 13,
-          "origin": "GENERATED_PRIOR"
-        }
-      }
-    },
-    "attackRoleProficiencies": [
-      {
-        "role": "TRANSITION_WING"
-      }
-    ],
-    "defenceRoleProficiencies": [],
-    "caEstimationModelVersion": "HM-RATINGS-0.5-v1",
-    "attributeGenerationModelVersion": "HM-RATINGS-0.4-v1",
-    "lockedAt": "2026-08-30T17:59:11.813Z",
-    "lockedNote": "DIV1N_rating_import_candidates_v0.6 / DIV1S_rating_import_candidates_v0.5 Division 1 import (DIV1_ONLY_CANONICAL set only)"
-  },
   "player_love_barnestam_dae279e4": {
     "playerId": "player_love_barnestam_dae279e4",
     "clubId": "se_club_if_kristianstad",
-    "position": "V6",
+    "position": "H6",
     "ca": {
       "value": 112,
       "confidence": "HIGH",
@@ -2098,7 +1836,7 @@
   "player_luc_hansson_b1dea6ff": {
     "playerId": "player_luc_hansson_b1dea6ff",
     "clubId": "se_club_if_kristianstad",
-    "position": "H9",
+    "position": "M6",
     "ca": {
       "value": 114,
       "confidence": "HIGH",
@@ -2348,7 +2086,7 @@
     },
     "attackRoleProficiencies": [
       {
-        "role": "SHOOTING_BACK"
+        "role": "MOBILE_PIVOT"
       }
     ],
     "defenceRoleProficiencies": [],
@@ -2360,7 +2098,7 @@
   "player_lucas_ekelund_a4934648": {
     "playerId": "player_lucas_ekelund_a4934648",
     "clubId": "se_club_if_kristianstad",
-    "position": "H9",
+    "position": "M9",
     "ca": {
       "value": 100,
       "confidence": "HIGH",
@@ -2610,7 +2348,7 @@
     },
     "attackRoleProficiencies": [
       {
-        "role": "SHOOTING_BACK"
+        "role": "PRIMARY_PLAYMAKER"
       }
     ],
     "defenceRoleProficiencies": [],
@@ -3146,7 +2884,7 @@
   "player_melvin_elofsson_a42c1a72": {
     "playerId": "player_melvin_elofsson_a42c1a72",
     "clubId": "se_club_if_kristianstad",
-    "position": "H6",
+    "position": "M6",
     "ca": {
       "value": 112,
       "confidence": "HIGH",
@@ -3396,7 +3134,7 @@
     },
     "attackRoleProficiencies": [
       {
-        "role": "TWO_WAY_WING"
+        "role": "MOBILE_PIVOT"
       }
     ],
     "defenceRoleProficiencies": [],
@@ -3408,7 +3146,7 @@
   "player_noah_kjellman_d46fbb67": {
     "playerId": "player_noah_kjellman_d46fbb67",
     "clubId": "se_club_if_kristianstad",
-    "position": "H6",
+    "position": "V9",
     "ca": {
       "value": 114,
       "confidence": "HIGH",
@@ -3658,7 +3396,7 @@
     },
     "attackRoleProficiencies": [
       {
-        "role": "TRANSITION_WING"
+        "role": "BREAKTHROUGH_BACK"
       }
     ],
     "defenceRoleProficiencies": [],

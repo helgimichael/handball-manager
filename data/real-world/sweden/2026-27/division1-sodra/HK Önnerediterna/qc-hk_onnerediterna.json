@@ -6,8 +6,8 @@
   "snapshotDate": "2026-10-31",
   "datasetStatus": "PRESEASON",
   "qcStatus": "VERIFIED_WITH_OPEN_FIELDS",
-  "expectedRosterCount": 28,
-  "exportedRosterCount": 28,
+  "expectedRosterCount": 13,
+  "exportedRosterCount": 13,
   "checks": {
     "currentLeagueRosterLocated": true,
     "allLeagueRosterNamesCaptured": true,
@@ -23,19 +23,20 @@
   },
   "knownConflicts": [],
   "staleSourceWarnings": [
-    "HM-DATA-1.5: roster corrected against Profixio leagueid28142 (2026-10-31). Held pending verification: Sixten Thronborg (HOLD: Division 1 GK/outfield conflict without an exact sourced position -- no exact position in any source (outfield role without side, or no evidence))."
+    "HM-DATA-1.5: roster corrected against Profixio leagueid28142 (2026-10-31). Held pending verification: Sixten Thronborg (HOLD: Division 1 GK/outfield conflict without an exact sourced position -- no exact position in any source (outfield role without side, or no evidence)).",
+    "HM-DATA-1.6: roster corrected against Profixio leagueid28142 (2026-10-31). Held pending verification: Adam Tysk (DIV1_CROSS_LEAGUE_IDENTITY: owner review required for cross-league moves (HM-DATA-1.6 Task F): existing identity player_adam_tysk_601c55ac at Önnereds HK (handbollsligan) | profile förening: Önnereds HK); Dominic Brigerstrand (DIV1_CROSS_LEAGUE_IDENTITY: owner review required for cross-league moves (HM-DATA-1.6 Task F): existing identity player_dominic_brigerstrand_4ac3c690 at Önnereds HK (handbollsligan) | profile förening: Önnereds HK); Fabian Gudmundsson (DIV1_CROSS_LEAGUE_IDENTITY: owner review required for cross-league moves (HM-DATA-1.6 Task F): existing identity player_fabian_gudmundsson_b1aadfba at Önnereds HK (handbollsligan) | profile förening: Önnereds HK); Felix Lilja (DIV1_CROSS_LEAGUE_IDENTITY: owner review required for cross-league moves (HM-DATA-1.6 Task F): existing identity player_felix_lilja_e91d1945 at Önnereds HK (handbollsligan) | profile förening: Önnereds HK); Hannes Malm Lindblom (DIV1_CROSS_LEAGUE_IDENTITY: owner review required for cross-league moves (HM-DATA-1.6 Task F): existing identity player_hannes_malm_lindblom_14a6be17 at Önnereds HK (handbollsligan) | profile förening: Önnereds HK); Max Blomberg Romero (DIV1_CROSS_LEAGUE_IDENTITY: owner review required for cross-league moves (HM-DATA-1.6 Task F): existing identity player_max_blomberg_romero_992b2a4a at Önnereds HK (handbollsligan) | profile förening: Önnereds HK); Oliver Andersson (DIV1_CROSS_LEAGUE_IDENTITY: owner review required for cross-league moves (HM-DATA-1.6 Task F): existing identity se_player_oliver_andersson_20b69aa2 at Redbergslids IK (allsvenskan) | profile förening: Önnereds HK); Robin Kozjak (DIV1_CROSS_LEAGUE_IDENTITY: owner review required for cross-league moves (HM-DATA-1.6 Task F): existing identity player_robin_kozjak_7fbdbe6d at Önnereds HK (handbollsligan) | profile förening: Önnereds HK); Sebastian Källemyr (DIV1_CROSS_LEAGUE_IDENTITY: owner review required for cross-league moves (HM-DATA-1.6 Task F): existing identity player_sebastian_kallemyr_ef0da952 at Önnereds HK (handbollsligan) | profile förening: Önnereds HK)."
   ],
   "openFieldsSummary": {
-    "exactDateOfBirthMissing": 7,
+    "exactDateOfBirthMissing": 4,
     "birthYearMissing": 37,
-    "nationalityMissing": 28,
+    "nationalityMissing": 13,
     "heightMissing": 37,
     "handednessMissing": 37,
     "shirtNumberMissing": 1,
     "contractEndMissing": 37,
-    "positionGenerated": 16,
+    "positionGenerated": 0,
     "positionSourced": 12,
     "positionPartial": 0,
-    "positionVerified": 12
+    "positionVerified": 13
   }
 }

@@ -6,8 +6,8 @@
   "snapshotDate": "2026-10-31",
   "datasetStatus": "PRESEASON",
   "qcStatus": "VERIFIED_WITH_OPEN_FIELDS",
-  "expectedRosterCount": 20,
-  "exportedRosterCount": 20,
+  "expectedRosterCount": 21,
+  "exportedRosterCount": 21,
   "checks": {
     "currentLeagueRosterLocated": true,
     "allLeagueRosterNamesCaptured": true,
@@ -23,7 +23,8 @@
   },
   "knownConflicts": [],
   "staleSourceWarnings": [
-    "HM-DATA-1.5: roster corrected against Profixio leagueid28142 (2026-10-31)."
+    "HM-DATA-1.5: roster corrected against Profixio leagueid28142 (2026-10-31).",
+    "HM-DATA-1.6: roster corrected against Profixio leagueid28142 (2026-10-31)."
   ],
   "openFieldsSummary": {
     "exactDateOfBirthMissing": 0,
@@ -33,9 +34,9 @@
     "handednessMissing": 20,
     "shirtNumberMissing": 1,
     "contractEndMissing": 20,
-    "positionGenerated": 14,
+    "positionGenerated": 0,
     "positionSourced": 5,
     "positionPartial": 0,
-    "positionVerified": 6
+    "positionVerified": 21
   }
 }

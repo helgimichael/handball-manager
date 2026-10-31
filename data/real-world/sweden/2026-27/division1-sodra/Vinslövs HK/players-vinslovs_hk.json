@@ -402,5 +402,38 @@
     "dataNotes": [
       "HM-DATA-DIV1-1.0: provisional roster entry -- club's 2026/27 squad page was not yet fully published at snapshot time; see this milestone's report."
     ]
+  },
+  {
+    "playerId": "player_emil_thurnil_07bcb89c",
+    "firstName": "Emil",
+    "lastName": "Thurnil",
+    "fullName": "Emil Thurnil",
+    "aliases": [],
+    "dateOfBirth": "1997-05-21",
+    "birthYear": 1997,
+    "nationalities": [
+      "SE"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED",
+      "nationalities": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_hm16_profixio_registration"
+      ],
+      "dateOfBirth": [
+        "src_hm16_profixio_registration"
+      ],
+      "nationalities": [
+        "src_hm16_profixio_registration"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-1.6 (2026-10-31): added from the Profixio Division 1 Södra squad registration; Profixio person 610252 (https://www.profixio.com/app/lx/clubs/26017/player/610252)."
+    ]
   }
 ]

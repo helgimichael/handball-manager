@@ -618,7 +618,7 @@
   "player_erik_andersson_c9fe3883": {
     "playerId": "player_erik_andersson_c9fe3883",
     "clubId": "se_club_hk_country",
-    "position": "M9",
+    "position": "M6",
     "ca": {
       "value": 104,
       "confidence": "HIGH",
@@ -868,7 +868,7 @@
     },
     "attackRoleProficiencies": [
       {
-        "role": "BREAKTHROUGH_CREATOR"
+        "role": "OFFENSIVE_PIVOT"
       }
     ],
     "defenceRoleProficiencies": [],
@@ -880,7 +880,7 @@
   "player_erik_nystrom_bce873a1": {
     "playerId": "player_erik_nystrom_bce873a1",
     "clubId": "se_club_hk_country",
-    "position": "M9",
+    "position": "M6",
     "ca": {
       "value": 94,
       "confidence": "HIGH",
@@ -1130,7 +1130,7 @@
     },
     "attackRoleProficiencies": [
       {
-        "role": "TEMPO_CONTROLLER"
+        "role": "OFFENSIVE_PIVOT"
       }
     ],
     "defenceRoleProficiencies": [],
@@ -1142,7 +1142,7 @@
   "player_filip_winblad_7c6000cc": {
     "playerId": "player_filip_winblad_7c6000cc",
     "clubId": "se_club_hk_country",
-    "position": "M9",
+    "position": "H6",
     "ca": {
       "value": 108,
       "confidence": "HIGH",
@@ -1392,7 +1392,7 @@
     },
     "attackRoleProficiencies": [
       {
-        "role": "BREAKTHROUGH_CREATOR"
+        "role": "TRANSITION_WING"
       }
     ],
     "defenceRoleProficiencies": [],
@@ -1928,7 +1928,7 @@
   "player_hampus_andersson_2440eb18": {
     "playerId": "player_hampus_andersson_2440eb18",
     "clubId": "se_club_hk_country",
-    "position": "V9",
+    "position": "V6",
     "ca": {
       "value": 100,
       "confidence": "HIGH",
@@ -2178,7 +2178,7 @@
     },
     "attackRoleProficiencies": [
       {
-        "role": "SHOOTING_BACK"
+        "role": "ELITE_FINISHER"
       }
     ],
     "defenceRoleProficiencies": [],
@@ -2688,7 +2688,7 @@
   "player_jacob_broborg_93616e45": {
     "playerId": "player_jacob_broborg_93616e45",
     "clubId": "se_club_hk_country",
-    "position": "V9",
+    "position": "M6",
     "ca": {
       "value": 94,
       "confidence": "HIGH",
@@ -2938,7 +2938,7 @@
     },
     "attackRoleProficiencies": [
       {
-        "role": "CREATIVE_BACK"
+        "role": "SCREENING_PIVOT"
       }
     ],
     "defenceRoleProficiencies": [],
@@ -3736,7 +3736,7 @@
   "player_jonathan_otter_ff91de1c": {
     "playerId": "player_jonathan_otter_ff91de1c",
     "clubId": "se_club_hk_country",
-    "position": "M9",
+    "position": "M6",
     "ca": {
       "value": 102,
       "confidence": "HIGH",
@@ -3986,7 +3986,7 @@
     },
     "attackRoleProficiencies": [
       {
-        "role": "PRIMARY_PLAYMAKER"
+        "role": "MOBILE_PIVOT"
       }
     ],
     "defenceRoleProficiencies": [],
@@ -5020,7 +5020,7 @@
   "player_melvin_rohdin_5aecfaf8": {
     "playerId": "player_melvin_rohdin_5aecfaf8",
     "clubId": "se_club_hk_country",
-    "position": "H6",
+    "position": "M9",
     "ca": {
       "value": 114,
       "confidence": "HIGH",
@@ -5270,7 +5270,7 @@
     },
     "attackRoleProficiencies": [
       {
-        "role": "CREATIVE_WING"
+        "role": "SCORING_CENTRE_BACK"
       }
     ],
     "defenceRoleProficiencies": [],
@@ -5544,7 +5544,7 @@
   "player_olle_friberg_4c329fd6": {
     "playerId": "player_olle_friberg_4c329fd6",
     "clubId": "se_club_hk_country",
-    "position": "H6",
+    "position": "M6",
     "ca": {
       "value": 90,
       "confidence": "HIGH",
@@ -5794,7 +5794,7 @@
     },
     "attackRoleProficiencies": [
       {
-        "role": "CREATIVE_WING"
+        "role": "PHYSICAL_PIVOT"
       }
     ],
     "defenceRoleProficiencies": [],
@@ -7090,7 +7090,7 @@
   "player_viggo_fryden_1ef212ce": {
     "playerId": "player_viggo_fryden_1ef212ce",
     "clubId": "se_club_hk_country",
-    "position": "M6",
+    "position": "M9",
     "ca": {
       "value": 92,
       "confidence": "HIGH",
@@ -7340,7 +7340,7 @@
     },
     "attackRoleProficiencies": [
       {
-        "role": "SCREENING_PIVOT"
+        "role": "PRIMARY_PLAYMAKER"
       }
     ],
     "defenceRoleProficiencies": [],
@@ -7352,7 +7352,7 @@
   "player_viggo_holtmann_338e59aa": {
     "playerId": "player_viggo_holtmann_338e59aa",
     "clubId": "se_club_hk_country",
-    "position": "M6",
+    "position": "V6",
     "ca": {
       "value": 94,
       "confidence": "HIGH",
@@ -7602,7 +7602,7 @@
     },
     "attackRoleProficiencies": [
       {
-        "role": "TWO_WAY_M6"
+        "role": "TRANSITION_WING"
       }
     ],
     "defenceRoleProficiencies": [],
@@ -7614,7 +7614,7 @@
   "player_william_fock_eb70ce4a": {
     "playerId": "player_william_fock_eb70ce4a",
     "clubId": "se_club_hk_country",
-    "position": "V9",
+    "position": "M6",
     "ca": {
       "value": 92,
       "confidence": "HIGH",
@@ -7864,7 +7864,7 @@
     },
     "attackRoleProficiencies": [
       {
-        "role": "CREATIVE_BACK"
+        "role": "PHYSICAL_PIVOT"
       }
     ],
     "defenceRoleProficiencies": [],

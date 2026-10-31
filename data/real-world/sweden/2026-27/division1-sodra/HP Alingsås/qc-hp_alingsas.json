@@ -3,11 +3,11 @@
   "clubName": "HP Alingsås",
   "competitionId": "se_division1_sodra",
   "season": "2026/27",
-  "snapshotDate": "2026-08-27",
+  "snapshotDate": "2026-10-31",
   "datasetStatus": "PRESEASON",
   "qcStatus": "VERIFIED",
-  "expectedRosterCount": 7,
-  "exportedRosterCount": 7,
+  "expectedRosterCount": 17,
+  "exportedRosterCount": 17,
   "checks": {
     "currentLeagueRosterLocated": true,
     "allLeagueRosterNamesCaptured": true,
@@ -23,17 +23,20 @@
   },
   "knownConflicts": [],
   "staleSourceWarnings": [
-    "2026/27 team page is live but roster not yet published; latest eligible HP subset used after removing confirmed A-team/other-club moves."
+    "2026/27 team page is live but roster not yet published; latest eligible HP subset used after removing confirmed A-team/other-club moves.",
+    "HM-DATA-1.6: roster corrected against Profixio leagueid28142 (2026-10-31). Held pending verification: Hugo Lignell (DIV1_MISSING_PLAYER: possible existing identity: Hugo Lignell ? se_player_hugo_lignell_af49387a [handbollsligan/Alingsås HK]); Max Hurtig (DIV1_CROSS_LEAGUE_IDENTITY: owner review required for cross-league moves (HM-DATA-1.6 Task F): existing identity se_player_max_hurtig_77d80608 at Alingsås HK (handbollsligan) | profile förening: Alingsås HK); Max Sellstedt (DIV1_MISSING_PLAYER: possible existing identity: Max Sellstedt ? se_player_max_sellstedt_314fc84c [handbollsligan/Alingsås HK]); Noel Hurtig (DIV1_MISSING_PLAYER: possible existing identity: Noel Hurtig ? se_player_noel_hurtig_1aad97d9 [handbollsligan/Alingsås HK]); Oskar Alf Dahlin (DIV1_MISSING_PLAYER: possible existing identity: Oskar Dahlin 2005-12-02 se_player_oskar_dahlin_50f8181d [handbollsligan/Alingsås HK])."
   ],
   "openFieldsSummary": {
-    "exactDateOfBirthMissing": 7,
+    "exactDateOfBirthMissing": 0,
     "birthYearMissing": 0,
-    "nationalityMissing": 7,
+    "nationalityMissing": 3,
     "heightMissing": 7,
     "handednessMissing": 7,
-    "shirtNumberMissing": 2,
+    "shirtNumberMissing": 5,
     "contractEndMissing": 7,
     "positionGenerated": 0,
-    "positionSourced": 7
+    "positionSourced": 7,
+    "positionPartial": 0,
+    "positionVerified": 17
   }
 }

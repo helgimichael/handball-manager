@@ -264,7 +264,7 @@
   "player_albin_larsson_4f968fdb": {
     "playerId": "player_albin_larsson_4f968fdb",
     "clubId": "se_club_eslovs_hk",
-    "position": "H9",
+    "position": "V9",
     "ca": {
       "value": 98,
       "confidence": "HIGH",
@@ -526,7 +526,7 @@
   "player_albin_syren_4777ebcf": {
     "playerId": "player_albin_syren_4777ebcf",
     "clubId": "se_club_eslovs_hk",
-    "position": "H6",
+    "position": "M6",
     "ca": {
       "value": 104,
       "confidence": "HIGH",
@@ -776,7 +776,7 @@
     },
     "attackRoleProficiencies": [
       {
-        "role": "ELITE_FINISHER"
+        "role": "PHYSICAL_PIVOT"
       }
     ],
     "defenceRoleProficiencies": [],
@@ -1050,7 +1050,7 @@
   "player_elias_gyllin_1172ba91": {
     "playerId": "player_elias_gyllin_1172ba91",
     "clubId": "se_club_eslovs_hk",
-    "position": "M9",
+    "position": "M6",
     "ca": {
       "value": 100,
       "confidence": "HIGH",
@@ -1300,7 +1300,7 @@
     },
     "attackRoleProficiencies": [
       {
-        "role": "SCORING_CENTRE_BACK"
+        "role": "TWO_WAY_M6"
       }
     ],
     "defenceRoleProficiencies": [],
@@ -1312,7 +1312,7 @@
   "player_erik_aronsson_1a512473": {
     "playerId": "player_erik_aronsson_1a512473",
     "clubId": "se_club_eslovs_hk",
-    "position": "M9",
+    "position": "V6",
     "ca": {
       "value": 102,
       "confidence": "HIGH",
@@ -1562,7 +1562,7 @@
     },
     "attackRoleProficiencies": [
       {
-        "role": "BREAKTHROUGH_CREATOR"
+        "role": "TRANSITION_WING"
       }
     ],
     "defenceRoleProficiencies": [],
@@ -1692,7 +1692,7 @@
   "player_filip_soderstrom_66753da0": {
     "playerId": "player_filip_soderstrom_66753da0",
     "clubId": "se_club_eslovs_hk",
-    "position": "H9",
+    "position": "M9",
     "ca": {
       "value": 104,
       "confidence": "HIGH",
@@ -1942,7 +1942,7 @@
     },
     "attackRoleProficiencies": [
       {
-        "role": "BREAKTHROUGH_BACK"
+        "role": "BREAKTHROUGH_CREATOR"
       }
     ],
     "defenceRoleProficiencies": [],
@@ -1954,7 +1954,7 @@
   "player_filip_stahl_bcb421aa": {
     "playerId": "player_filip_stahl_bcb421aa",
     "clubId": "se_club_eslovs_hk",
-    "position": "V9",
+    "position": "V6",
     "ca": {
       "value": 108,
       "confidence": "HIGH",
@@ -2204,7 +2204,7 @@
     },
     "attackRoleProficiencies": [
       {
-        "role": "COMPLETE_BACK"
+        "role": "TWO_WAY_WING"
       }
     ],
     "defenceRoleProficiencies": [],
@@ -2216,7 +2216,7 @@
   "player_gabriel_nilsson_7876b2c1": {
     "playerId": "player_gabriel_nilsson_7876b2c1",
     "clubId": "se_club_eslovs_hk",
-    "position": "V6",
+    "position": "GK",
     "ca": {
       "value": 100,
       "confidence": "HIGH",
@@ -2236,244 +2236,100 @@
       "source": "EDITOR_OVERRIDE"
     },
     "branch": {
-      "branch": "OUTCOURT",
+      "branch": "GOALKEEPER",
       "attributes": {
-        "PASSING": {
+        "GK_POSITIONING": {
           "value": 11,
           "origin": "GENERATED_PRIOR"
         },
-        "BALL_HANDLING": {
-          "value": 11,
-          "origin": "GENERATED_PRIOR"
-        },
-        "SHOOTING_POWER": {
-          "value": 11,
-          "origin": "GENERATED_PRIOR"
-        },
-        "SHOOTING_PLACEMENT": {
-          "value": 11,
-          "origin": "GENERATED_PRIOR"
-        },
-        "SHOOTING_VARIETY": {
-          "value": 11,
-          "origin": "GENERATED_PRIOR"
-        },
-        "BREAKTHROUGH": {
+        "SET_POSITION": {
           "value": 10,
           "origin": "GENERATED_PRIOR"
         },
-        "FINISHING": {
-          "value": 10,
-          "origin": "GENERATED_PRIOR"
-        },
-        "WING_FINISHING": {
-          "value": 12,
-          "origin": "DERIVED"
-        },
-        "PIVOT_PLAY": {
-          "value": 11,
-          "origin": "GENERATED_PRIOR"
-        },
-        "SCREENING": {
-          "value": 12,
-          "origin": "GENERATED_PRIOR"
-        },
-        "GAME_READING": {
-          "value": 10,
-          "origin": "GENERATED_PRIOR"
-        },
-        "DECISION_MAKING": {
+        "REACTION": {
           "value": 9,
           "origin": "GENERATED_PRIOR"
         },
-        "AWARENESS": {
-          "value": 10,
-          "origin": "GENERATED_PRIOR"
-        },
-        "ANTICIPATION": {
-          "value": 8,
-          "origin": "GENERATED_PRIOR"
-        },
-        "PLAYMAKING": {
-          "value": 10,
-          "origin": "GENERATED_PRIOR"
-        },
-        "TEMPO_CONTROL": {
-          "value": 10,
-          "origin": "GENERATED_PRIOR"
-        },
-        "TWO_V_TWO_READING": {
-          "value": 8,
-          "origin": "GENERATED_PRIOR"
-        },
-        "ADVANTAGE_RECOGNITION": {
-          "value": 10,
-          "origin": "GENERATED_PRIOR"
-        },
-        "TACTICAL_UNDERSTANDING": {
+        "GK_EXPLOSIVENESS": {
           "value": 9,
           "origin": "GENERATED_PRIOR"
         },
-        "ROLE_DISCIPLINE": {
-          "value": 11,
-          "origin": "GENERATED_PRIOR"
-        },
-        "OFF_BALL_MOVEMENT": {
-          "value": 11,
-          "origin": "GENERATED_PRIOR"
-        },
-        "SPACING": {
-          "value": 11,
-          "origin": "GENERATED_PRIOR"
-        },
-        "TIMING": {
+        "LOW_SAVES": {
           "value": 10,
           "origin": "GENERATED_PRIOR"
         },
-        "TRANSITION_UNDERSTANDING": {
+        "HIGH_SAVES": {
           "value": 11,
           "origin": "GENERATED_PRIOR"
         },
-        "SYSTEM_ADAPTABILITY": {
+        "CLOSE_RANGE_SAVES": {
           "value": 11,
           "origin": "GENERATED_PRIOR"
         },
-        "SEVEN_V_SIX_UNDERSTANDING": {
-          "value": 10,
-          "origin": "GENERATED_PRIOR"
-        },
-        "CONTACT_ABILITY": {
+        "LONG_RANGE_SAVES": {
           "value": 9,
           "origin": "GENERATED_PRIOR"
         },
-        "DEFENSIVE_POSITIONING": {
-          "value": 11,
-          "origin": "DERIVED"
-        },
-        "DEFENSIVE_TIMING": {
-          "value": 10,
-          "origin": "GENERATED_PRIOR"
-        },
-        "LATERAL_DEFENCE": {
-          "value": 10,
-          "origin": "GENERATED_PRIOR"
-        },
-        "DEPTH_DEFENCE": {
-          "value": 10,
-          "origin": "GENERATED_PRIOR"
-        },
-        "CENTRAL_DEFENCE": {
-          "value": 10,
-          "origin": "GENERATED_PRIOR"
-        },
-        "COVERING": {
-          "value": 10,
-          "origin": "GENERATED_PRIOR"
-        },
-        "SWITCHING_HANDOVER": {
+        "WING_SAVES": {
           "value": 9,
           "origin": "GENERATED_PRIOR"
         },
-        "BALL_WINNING": {
-          "value": 8,
-          "origin": "GENERATED_PRIOR"
-        },
-        "SHOT_BLOCKING": {
-          "value": 8,
-          "origin": "GENERATED_PRIOR"
-        },
-        "ACCELERATION": {
-          "value": 13,
-          "origin": "GENERATED_PRIOR"
-        },
-        "TOP_SPEED": {
-          "value": 13,
-          "origin": "GENERATED_PRIOR"
-        },
-        "LATERAL_QUICKNESS": {
-          "value": 13,
-          "origin": "GENERATED_PRIOR"
-        },
-        "AGILITY": {
-          "value": 12,
-          "origin": "GENERATED_PRIOR"
-        },
-        "EXPLOSIVENESS": {
-          "value": 12,
-          "origin": "GENERATED_PRIOR"
-        },
-        "STRENGTH": {
-          "value": 13,
-          "origin": "GENERATED_PRIOR"
-        },
-        "CONTACT_BALANCE": {
-          "value": 12,
-          "origin": "GENERATED_PRIOR"
-        },
-        "JUMP_ABILITY": {
-          "value": 13,
-          "origin": "GENERATED_PRIOR"
-        },
-        "ENDURANCE": {
-          "value": 12,
-          "origin": "GENERATED_PRIOR"
-        },
-        "REPEAT_SPRINT_ABILITY": {
-          "value": 12,
-          "origin": "GENERATED_PRIOR"
-        },
-        "MOBILITY": {
-          "value": 13,
-          "origin": "GENERATED_PRIOR"
-        },
-        "CONSISTENCY": {
-          "value": 10,
-          "origin": "GENERATED_PRIOR"
-        },
-        "COMPOSURE": {
-          "value": 10,
-          "origin": "GENERATED_PRIOR"
-        },
-        "CONCENTRATION": {
-          "value": 11,
-          "origin": "GENERATED_PRIOR"
-        },
-        "COMPETITIVE_MENTALITY": {
-          "value": 11,
-          "origin": "GENERATED_PRIOR"
-        },
-        "RESILIENCE": {
+        "SEVEN_M_SAVES": {
           "value": 9,
           "origin": "GENERATED_PRIOR"
         },
-        "DISCIPLINE": {
-          "value": 10,
-          "origin": "GENERATED_PRIOR"
-        },
-        "COACHABILITY": {
-          "value": 10,
-          "origin": "GENERATED_PRIOR"
-        },
-        "LEADERSHIP": {
+        "SHOOTER_READING": {
           "value": 9,
           "origin": "GENERATED_PRIOR"
         },
-        "PRESSURE_HANDLING": {
+        "SHOT_ANTICIPATION": {
+          "value": 10,
+          "origin": "GENERATED_PRIOR"
+        },
+        "PATIENCE": {
+          "value": 10,
+          "origin": "GENERATED_PRIOR"
+        },
+        "DECISION_TIMING": {
+          "value": 10,
+          "origin": "GENERATED_PRIOR"
+        },
+        "OUTLET_PASSING": {
+          "value": 10,
+          "origin": "GENERATED_PRIOR"
+        },
+        "RESTART_SPEED": {
+          "value": 9,
+          "origin": "GENERATED_PRIOR"
+        },
+        "TRANSITION_DECISION": {
+          "value": 9,
+          "origin": "GENERATED_PRIOR"
+        },
+        "GK_CONSISTENCY": {
+          "value": 9,
+          "origin": "GENERATED_PRIOR"
+        },
+        "GK_COMPOSURE": {
+          "value": 9,
+          "origin": "GENERATED_PRIOR"
+        },
+        "GK_CONCENTRATION": {
+          "value": 11,
+          "origin": "GENERATED_PRIOR"
+        },
+        "GK_PRESSURE_HANDLING": {
           "value": 9,
           "origin": "GENERATED_PRIOR"
         }
       }
     },
-    "attackRoleProficiencies": [
-      {
-        "role": "TWO_WAY_WING"
-      }
-    ],
+    "attackRoleProficiencies": [],
     "defenceRoleProficiencies": [],
     "caEstimationModelVersion": "HM-RATINGS-0.5-v1",
     "attributeGenerationModelVersion": "HM-RATINGS-0.4-v1",
-    "lockedAt": "2026-08-30T17:58:12.440Z",
-    "lockedNote": "DIV1N_rating_import_candidates_v0.6 / DIV1S_rating_import_candidates_v0.5 Division 1 import (DIV1_ONLY_CANONICAL set only)"
+    "lockedAt": "2026-10-31T10:22:30.747Z",
+    "lockedNote": "HM-DATA-1.6 (2026-10-31) GK/OUTCOURT branch correction to MV; researched CA/PA preserved, generated attributes regenerated (HM-RATINGS-0.4-v1)"
   },
   "player_henrik_westberg_9110a6f8": {
     "playerId": "player_henrik_westberg_9110a6f8",
@@ -2858,7 +2714,7 @@
   "player_isak_harsjo_c6f536ab": {
     "playerId": "player_isak_harsjo_c6f536ab",
     "clubId": "se_club_eslovs_hk",
-    "position": "H6",
+    "position": "M6",
     "ca": {
       "value": 92,
       "confidence": "HIGH",
@@ -3108,7 +2964,7 @@
     },
     "attackRoleProficiencies": [
       {
-        "role": "CREATIVE_WING"
+        "role": "SCREENING_PIVOT"
       }
     ],
     "defenceRoleProficiencies": [],
@@ -3120,7 +2976,7 @@
   "player_jakob_berglund_c9ae3986": {
     "playerId": "player_jakob_berglund_c9ae3986",
     "clubId": "se_club_eslovs_hk",
-    "position": "V9",
+    "position": "H6",
     "ca": {
       "value": 104,
       "confidence": "HIGH",
@@ -3370,7 +3226,7 @@
     },
     "attackRoleProficiencies": [
       {
-        "role": "COMPLETE_BACK"
+        "role": "TWO_WAY_WING"
       }
     ],
     "defenceRoleProficiencies": [],
@@ -3644,7 +3500,7 @@
   "player_jonathan_engstrom_597be115": {
     "playerId": "player_jonathan_engstrom_597be115",
     "clubId": "se_club_eslovs_hk",
-    "position": "V6",
+    "position": "V9",
     "ca": {
       "value": 102,
       "confidence": "HIGH",
@@ -3894,7 +3750,7 @@
     },
     "attackRoleProficiencies": [
       {
-        "role": "TRANSITION_WING"
+        "role": "BREAKTHROUGH_BACK"
       }
     ],
     "defenceRoleProficiencies": [],
@@ -4168,7 +4024,7 @@
   "player_martin_larsson_6cc23617": {
     "playerId": "player_martin_larsson_6cc23617",
     "clubId": "se_club_eslovs_hk",
-    "position": "V9",
+    "position": "H9",
     "ca": {
       "value": 100,
       "confidence": "HIGH",
@@ -4430,7 +4286,7 @@
   "player_max_andersson_a030f36f": {
     "playerId": "player_max_andersson_a030f36f",
     "clubId": "se_club_eslovs_hk",
-    "position": "V6",
+    "position": "V9",
     "ca": {
       "value": 104,
       "confidence": "HIGH",
@@ -4680,7 +4536,7 @@
     },
     "attackRoleProficiencies": [
       {
-        "role": "CREATIVE_WING"
+        "role": "CREATIVE_BACK"
       }
     ],
     "defenceRoleProficiencies": [],
@@ -4692,7 +4548,7 @@
   "player_melvin_svensson_d8ffe823": {
     "playerId": "player_melvin_svensson_d8ffe823",
     "clubId": "se_club_eslovs_hk",
-    "position": "V9",
+    "position": "M9",
     "ca": {
       "value": 98,
       "confidence": "HIGH",
@@ -4942,7 +4798,7 @@
     },
     "attackRoleProficiencies": [
       {
-        "role": "COMPLETE_BACK"
+        "role": "TEMPO_CONTROLLER"
       }
     ],
     "defenceRoleProficiencies": [],
@@ -4954,7 +4810,7 @@
   "player_nihad_jabiyev_1e322e1f": {
     "playerId": "player_nihad_jabiyev_1e322e1f",
     "clubId": "se_club_eslovs_hk",
-    "position": "H9",
+    "position": "V9",
     "ca": {
       "value": 106,
       "confidence": "HIGH",
@@ -5478,7 +5334,7 @@
   "player_sander_lundh_9c5fabdf": {
     "playerId": "player_sander_lundh_9c5fabdf",
     "clubId": "se_club_eslovs_hk",
-    "position": "H6",
+    "position": "M9",
     "ca": {
       "value": 100,
       "confidence": "HIGH",
@@ -5728,7 +5584,7 @@
     },
     "attackRoleProficiencies": [
       {
-        "role": "ELITE_FINISHER"
+        "role": "PRIMARY_PLAYMAKER"
       }
     ],
     "defenceRoleProficiencies": [],
@@ -5740,7 +5596,7 @@
   "player_victor_dahlqvist_11e994f0": {
     "playerId": "player_victor_dahlqvist_11e994f0",
     "clubId": "se_club_eslovs_hk",
-    "position": "V6",
+    "position": "V9",
     "ca": {
       "value": 98,
       "confidence": "HIGH",
@@ -5990,7 +5846,7 @@
     },
     "attackRoleProficiencies": [
       {
-        "role": "CREATIVE_WING"
+        "role": "CREATIVE_BACK"
       }
     ],
     "defenceRoleProficiencies": [],

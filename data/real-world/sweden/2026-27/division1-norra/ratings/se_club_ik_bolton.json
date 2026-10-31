@@ -1692,7 +1692,7 @@
   "player_colin_blom_4b0cd16b": {
     "playerId": "player_colin_blom_4b0cd16b",
     "clubId": "se_club_ik_bolton",
-    "position": "H6",
+    "position": "V9",
     "ca": {
       "value": 96,
       "confidence": "HIGH",
@@ -1942,7 +1942,7 @@
     },
     "attackRoleProficiencies": [
       {
-        "role": "ELITE_FINISHER"
+        "role": "SHOOTING_BACK"
       }
     ],
     "defenceRoleProficiencies": [],
@@ -2740,7 +2740,7 @@
   "player_frans_anfalt_a578b89a": {
     "playerId": "player_frans_anfalt_a578b89a",
     "clubId": "se_club_ik_bolton",
-    "position": "V9",
+    "position": "M6",
     "ca": {
       "value": 100,
       "confidence": "HIGH",
@@ -2990,7 +2990,7 @@
     },
     "attackRoleProficiencies": [
       {
-        "role": "BREAKTHROUGH_BACK"
+        "role": "PHYSICAL_PIVOT"
       }
     ],
     "defenceRoleProficiencies": [],
@@ -4836,7 +4836,7 @@
   "player_lukas_andersson_6ad902a0": {
     "playerId": "player_lukas_andersson_6ad902a0",
     "clubId": "se_club_ik_bolton",
-    "position": "M6",
+    "position": "V9",
     "ca": {
       "value": 96,
       "confidence": "HIGH",
@@ -5086,7 +5086,7 @@
     },
     "attackRoleProficiencies": [
       {
-        "role": "MOBILE_PIVOT"
+        "role": "SHOOTING_BACK"
       }
     ],
     "defenceRoleProficiencies": [],

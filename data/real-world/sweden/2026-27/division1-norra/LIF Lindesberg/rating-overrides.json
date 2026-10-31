@@ -45,9 +45,9 @@
     "pa": 118
   },
   "player_karl_zetterlund_ab53b228": {
+    "updatedAt": "2026-10-31T09:56:15.971Z",
     "ca": 92,
-    "pa": 125,
-    "updatedAt": "2026-10-31T09:56:15.971Z"
+    "pa": 125
   },
   "player_ludwig_ahlgren_dcfddc91": {
     "updatedAt": "2026-08-30T17:56:44.270Z",
@@ -60,9 +60,9 @@
     "pa": 108
   },
   "player_martin_boija_aec6665c": {
-    "updatedAt": "2026-08-30T17:56:45.054Z",
     "ca": 102,
-    "pa": 104
+    "pa": 104,
+    "updatedAt": "2026-10-31T10:22:30.497Z"
   },
   "player_melwin_kolmskog_3007b61b": {
     "updatedAt": "2026-08-30T17:56:45.429Z",

@@ -24,7 +24,8 @@
   "knownConflicts": [],
   "staleSourceWarnings": [
     "Hammarby HU/HJ plays Division 1 in cooperation partner HK Cliff's colours in 2026/27.",
-    "HM-DATA-1.5: roster corrected against Profixio leagueid28142 (2026-10-31). Held pending verification: Emmet Broman (HOLD: Division 1 GK/outfield conflict without an exact sourced position -- no exact position in any source (outfield role without side, or no evidence)); Simon Hedlund (HOLD: Division 1 GK/outfield conflict without an exact sourced position -- no exact position in any source (outfield role without side, or no evidence))."
+    "HM-DATA-1.5: roster corrected against Profixio leagueid28142 (2026-10-31). Held pending verification: Emmet Broman (HOLD: Division 1 GK/outfield conflict without an exact sourced position -- no exact position in any source (outfield role without side, or no evidence)); Simon Hedlund (HOLD: Division 1 GK/outfield conflict without an exact sourced position -- no exact position in any source (outfield role without side, or no evidence)).",
+    "HM-DATA-1.6: roster corrected against Profixio leagueid28142 (2026-10-31). Held pending verification: Emmet Broman (DIV1_GK_OUTFIELD_UNRESOLVED: no exact sourced position (HM-DATA-1.5 + club page re-check)); Ivar Mehra (DIV1_EXTRA_PLAYER: still listed on the official club squad page (conflicting evidence)); Alvar Rehnström (DIV1_EXTRA_PLAYER: still listed on the official club squad page (conflicting evidence)); Andreas Eklöw (DIV1_EXTRA_PLAYER: still listed on the official club squad page (conflicting evidence)); Simon Hedlund (DIV1_EXTRA_PLAYER: still listed on the official club squad page (conflicting evidence)); Anton Grevin (DIV1_EXTRA_PLAYER: still listed on the official club squad page (conflicting evidence)); Erik Svartbro (DIV1_EXTRA_PLAYER: still listed on the official club squad page (conflicting evidence)); Alexander Liliequist (DIV1_EXTRA_PLAYER: still listed on the official club squad page (conflicting evidence)); Oliver Glaas (DIV1_EXTRA_PLAYER: still listed on the official club squad page (conflicting evidence)); Olle Sommar (DIV1_EXTRA_PLAYER: still listed on the official club squad page (conflicting evidence))."
   ],
   "openFieldsSummary": {
     "exactDateOfBirthMissing": 1,
@@ -34,9 +35,9 @@
     "handednessMissing": 27,
     "shirtNumberMissing": 2,
     "contractEndMissing": 27,
-    "positionGenerated": 24,
+    "positionGenerated": 15,
     "positionSourced": 0,
     "positionPartial": 0,
-    "positionVerified": 3
+    "positionVerified": 12
   }
 }

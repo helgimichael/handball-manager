@@ -20,7 +20,8 @@
 // HM-DATA-1.3 then corrected Herrallsvenskan against Profixio: +38 new
 // players, -17 removed memberships (the 4 relocated players were already
 // counted in their old league) -- 1221. HM-DATA-1.5: -2 removed memberships, -1
-// duplicate identity merged (Söderqvist) -- 1218.
+// duplicate identity merged (Söderqvist) -- 1218. HM-DATA-1.6 Division 1 roster
+// correction: +59 registered players, -86 unsupported memberships -- 1191.
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { buildCatalog } from "../editor/catalog";
@@ -44,9 +45,9 @@ function loadFullLeague(): LeaguePlayer[] {
   return league;
 }
 
-test("HM-RATINGS-0.6/HM-DATA-ALLSVENSKAN-1.1/HM-DATA-DIV1-1.0/HM-WORLD-PLAYER-POOL-1.0 population audit: 1218/1218 real Handbollsligan+Allsvenskan+Division 1+international pool players receive a complete gameplay CA, PA, and attribute branch", () => {
+test("HM-RATINGS-0.6/HM-DATA-ALLSVENSKAN-1.1/HM-DATA-DIV1-1.0/HM-WORLD-PLAYER-POOL-1.0 population audit: 1191/1191 real Handbollsligan+Allsvenskan+Division 1+international pool players receive a complete gameplay CA, PA, and attribute branch", () => {
   const league = loadFullLeague();
-  assert.equal(league.length, 1218, `expected exactly 1218 real players, found ${league.length}`);
+  assert.equal(league.length, 1191, `expected exactly 1191 real players, found ${league.length}`);
 
   let outcourtCount = 0;
   let gkCount = 0;
@@ -76,7 +77,7 @@ test("HM-RATINGS-0.6/HM-DATA-ALLSVENSKAN-1.1/HM-DATA-DIV1-1.0/HM-WORLD-PLAYER-PO
     bySource[player.caSource] = (bySource[player.caSource] ?? 0) + 1;
   }
 
-  assert.equal(outcourtCount + gkCount, 1218);
+  assert.equal(outcourtCount + gkCount, 1191);
 
   caValues.sort((a, b) => a - b);
   const mean = caValues.reduce((a, b) => a + b, 0) / caValues.length;

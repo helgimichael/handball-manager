@@ -137,7 +137,9 @@
         "src_div1_norra_2026_27"
       ]
     },
-    "dataNotes": []
+    "dataNotes": [
+      "HM-DATA-1.6 (2026-10-31): 2026/27 Division 1 Norra roster membership at Täby HBK removed -- not among the 477 Division 1 registrations on Profixio (2026-10-31) and on none of the 38 published match sheets; also absent from the official club squad page. Identity and locked rating retained."
+    ]
   },
   {
     "playerId": "player_kasper_svalstedt_027ccd7b",
@@ -217,7 +219,9 @@
         "src_div1_norra_2026_27"
       ]
     },
-    "dataNotes": []
+    "dataNotes": [
+      "HM-DATA-1.6 (2026-10-31): 2026/27 Division 1 Norra roster membership at Täby HBK removed -- not among the 477 Division 1 registrations on Profixio (2026-10-31) and on none of the 38 published match sheets; also absent from the official club squad page. Identity and locked rating retained."
+    ]
   },
   {
     "playerId": "player_gustaf_berg_146525e6",
@@ -458,5 +462,38 @@
       ]
     },
     "dataNotes": []
+  },
+  {
+    "playerId": "player_axel_bergstrom_f760f825",
+    "firstName": "Axel",
+    "lastName": "Bergström",
+    "fullName": "Axel Bergström",
+    "aliases": [],
+    "dateOfBirth": "2009-09-10",
+    "birthYear": 2009,
+    "nationalities": [
+      "SE"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED",
+      "nationalities": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_hm16_profixio_registration"
+      ],
+      "dateOfBirth": [
+        "src_hm16_profixio_registration"
+      ],
+      "nationalities": [
+        "src_hm16_profixio_registration"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-1.6 (2026-10-31): added from the Profixio Division 1 Norra squad registration; Profixio person 632026 (https://www.profixio.com/app/lx/clubs/25989/player/632026)."
+    ]
   }
 ]

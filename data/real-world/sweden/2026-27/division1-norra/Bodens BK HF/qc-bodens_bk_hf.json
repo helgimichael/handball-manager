@@ -3,11 +3,11 @@
   "clubName": "Bodens BK HF",
   "competitionId": "se_division1_norra",
   "season": "2026/27",
-  "snapshotDate": "2026-08-27",
+  "snapshotDate": "2026-10-31",
   "datasetStatus": "PRESEASON",
   "qcStatus": "VERIFIED_WITH_OPEN_FIELDS",
-  "expectedRosterCount": 34,
-  "exportedRosterCount": 34,
+  "expectedRosterCount": 22,
+  "exportedRosterCount": 22,
   "checks": {
     "currentLeagueRosterLocated": true,
     "allLeagueRosterNamesCaptured": true,
@@ -23,17 +23,20 @@
   },
   "knownConflicts": [],
   "staleSourceWarnings": [
-    "2026/27 Profixio registration used for names/birth years; number/position only where public roster data supports it."
+    "2026/27 Profixio registration used for names/birth years; number/position only where public roster data supports it.",
+    "HM-DATA-1.6: roster corrected against Profixio leagueid28142 (2026-10-31). Held pending verification: Morgan Lindström (DIV1_LOCK_SYNC_TO_VERIFIED: Profixio MV vs research \"Veteran D1 H9\" on goalkeeper/outfield, match sheets do not decide)."
   ],
   "openFieldsSummary": {
-    "exactDateOfBirthMissing": 34,
+    "exactDateOfBirthMissing": 8,
     "birthYearMissing": 0,
-    "nationalityMissing": 34,
+    "nationalityMissing": 22,
     "heightMissing": 34,
     "handednessMissing": 34,
-    "shirtNumberMissing": 27,
+    "shirtNumberMissing": 15,
     "contractEndMissing": 34,
-    "positionGenerated": 20,
-    "positionSourced": 14
+    "positionGenerated": 10,
+    "positionSourced": 14,
+    "positionPartial": 0,
+    "positionVerified": 12
   }
 }

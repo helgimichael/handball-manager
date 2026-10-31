@@ -88,5 +88,15 @@
     "status": "LOCKED",
     "updatedAt": "2026-08-30T17:59:31.580Z",
     "note": "DIV1N_rating_import_candidates_v0.6 / DIV1S_rating_import_candidates_v0.5 Division 1 import (DIV1_ONLY_CANONICAL set only)"
+  },
+  "player_emil_saxin_a1fe241f": {
+    "status": "LOCKED",
+    "updatedAt": "2026-08-30T17:59:02.901Z",
+    "note": "DIV1N_rating_import_candidates_v0.6 / DIV1S_rating_import_candidates_v0.5 Division 1 import (DIV1_ONLY_CANONICAL set only)"
+  },
+  "player_simon_wiberg_0bf397ac": {
+    "status": "LOCKED",
+    "updatedAt": "2026-08-30T17:59:07.530Z",
+    "note": "DIV1N_rating_import_candidates_v0.6 / DIV1S_rating_import_candidates_v0.5 Division 1 import (DIV1_ONLY_CANONICAL set only)"
   }
 }

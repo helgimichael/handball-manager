@@ -2072,7 +2072,7 @@
   "player_liam_kozjak_29a94431": {
     "playerId": "player_liam_kozjak_29a94431",
     "clubId": "se_club_hk_onnerediterna",
-    "position": "H9",
+    "position": "M9",
     "ca": {
       "value": 110,
       "confidence": "HIGH",
@@ -2322,7 +2322,7 @@
     },
     "attackRoleProficiencies": [
       {
-        "role": "CREATIVE_BACK"
+        "role": "SCORING_CENTRE_BACK"
       }
     ],
     "defenceRoleProficiencies": [],
@@ -2334,7 +2334,7 @@
   "player_lukas_stromstedt_e900436c": {
     "playerId": "player_lukas_stromstedt_e900436c",
     "clubId": "se_club_hk_onnerediterna",
-    "position": "M9",
+    "position": "V9",
     "ca": {
       "value": 102,
       "confidence": "HIGH",
@@ -2584,7 +2584,7 @@
     },
     "attackRoleProficiencies": [
       {
-        "role": "SCORING_CENTRE_BACK"
+        "role": "CREATIVE_BACK"
       }
     ],
     "defenceRoleProficiencies": [],
@@ -2596,7 +2596,7 @@
   "player_nedim_sokol_c518202d": {
     "playerId": "player_nedim_sokol_c518202d",
     "clubId": "se_club_hk_onnerediterna",
-    "position": "V6",
+    "position": "H9",
     "ca": {
       "value": 100,
       "confidence": "HIGH",
@@ -2846,7 +2846,7 @@
     },
     "attackRoleProficiencies": [
       {
-        "role": "ELITE_FINISHER"
+        "role": "SHOOTING_BACK"
       }
     ],
     "defenceRoleProficiencies": [],
@@ -3906,7 +3906,7 @@
   "player_sebastian_nylander_lindstahl_868e0cd9": {
     "playerId": "player_sebastian_nylander_lindstahl_868e0cd9",
     "clubId": "se_club_hk_onnerediterna",
-    "position": "H6",
+    "position": "V9",
     "ca": {
       "value": 104,
       "confidence": "HIGH",
@@ -4156,7 +4156,7 @@
     },
     "attackRoleProficiencies": [
       {
-        "role": "TRANSITION_WING"
+        "role": "BREAKTHROUGH_BACK"
       }
     ],
     "defenceRoleProficiencies": [],
@@ -4548,7 +4548,7 @@
   "player_theodor_wallin_2096ce1e": {
     "playerId": "player_theodor_wallin_2096ce1e",
     "clubId": "se_club_hk_onnerediterna",
-    "position": "V9",
+    "position": "V6",
     "ca": {
       "value": 106,
       "confidence": "HIGH",
@@ -4798,7 +4798,7 @@
     },
     "attackRoleProficiencies": [
       {
-        "role": "SHOOTING_BACK"
+        "role": "ELITE_FINISHER"
       }
     ],
     "defenceRoleProficiencies": [],
@@ -5072,7 +5072,7 @@
   "player_tristan_atterhall_f1a35177": {
     "playerId": "player_tristan_atterhall_f1a35177",
     "clubId": "se_club_hk_onnerediterna",
-    "position": "H9",
+    "position": "M9",
     "ca": {
       "value": 104,
       "confidence": "HIGH",
@@ -5322,7 +5322,7 @@
     },
     "attackRoleProficiencies": [
       {
-        "role": "COMPLETE_BACK"
+        "role": "TEMPO_CONTROLLER"
       }
     ],
     "defenceRoleProficiencies": [],
@@ -6094,7 +6094,7 @@
   "player_wilmer_gottfridsson_0a30d3dd": {
     "playerId": "player_wilmer_gottfridsson_0a30d3dd",
     "clubId": "se_club_hk_onnerediterna",
-    "position": "M6",
+    "position": "H9",
     "ca": {
       "value": 106,
       "confidence": "HIGH",
@@ -6344,7 +6344,7 @@
     },
     "attackRoleProficiencies": [
       {
-        "role": "TWO_WAY_M6"
+        "role": "BREAKTHROUGH_BACK"
       }
     ],
     "defenceRoleProficiencies": [],
@@ -6356,7 +6356,7 @@
   "player_yosef_mousa_d57ff21e": {
     "playerId": "player_yosef_mousa_d57ff21e",
     "clubId": "se_club_hk_onnerediterna",
-    "position": "M9",
+    "position": "H6",
     "ca": {
       "value": 96,
       "confidence": "HIGH",
@@ -6606,7 +6606,7 @@
     },
     "attackRoleProficiencies": [
       {
-        "role": "TEMPO_CONTROLLER"
+        "role": "TWO_WAY_WING"
       }
     ],
     "defenceRoleProficiencies": [],

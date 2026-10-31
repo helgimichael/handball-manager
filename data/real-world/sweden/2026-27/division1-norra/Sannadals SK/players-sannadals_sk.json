@@ -705,7 +705,8 @@
       ]
     },
     "dataNotes": [
-      "HM-DATA-DIV1-1.0: provisional roster entry -- club's 2026/27 squad page was not yet fully published at snapshot time; see this milestone's report."
+      "HM-DATA-DIV1-1.0: provisional roster entry -- club's 2026/27 squad page was not yet fully published at snapshot time; see this milestone's report.",
+      "HM-DATA-1.6 (2026-10-31): 2026/27 Division 1 Norra roster membership at Sannadals SK removed -- not among the 477 Division 1 registrations on Profixio (2026-10-31) and on none of the 38 published match sheets; also absent from the official club squad page. Identity and locked rating retained."
     ]
   },
   {
@@ -1079,7 +1080,8 @@
       ]
     },
     "dataNotes": [
-      "HM-DATA-DIV1-1.0: provisional roster entry -- club's 2026/27 squad page was not yet fully published at snapshot time; see this milestone's report."
+      "HM-DATA-DIV1-1.0: provisional roster entry -- club's 2026/27 squad page was not yet fully published at snapshot time; see this milestone's report.",
+      "HM-DATA-1.6 (2026-10-31): 2026/27 Division 1 Norra roster membership at Sannadals SK removed -- not among the 477 Division 1 registrations on Profixio (2026-10-31) and on none of the 38 published match sheets; also absent from the official club squad page. Identity and locked rating retained."
     ]
   },
   {
@@ -1211,7 +1213,8 @@
       ]
     },
     "dataNotes": [
-      "HM-DATA-DIV1-1.0: provisional roster entry -- club's 2026/27 squad page was not yet fully published at snapshot time; see this milestone's report."
+      "HM-DATA-DIV1-1.0: provisional roster entry -- club's 2026/27 squad page was not yet fully published at snapshot time; see this milestone's report.",
+      "HM-DATA-1.6 (2026-10-31): 2026/27 Division 1 Norra roster membership at Sannadals SK removed -- not among the 477 Division 1 registrations on Profixio (2026-10-31) and on none of the 38 published match sheets; also absent from the official club squad page. Identity and locked rating retained."
     ]
   },
   {
@@ -1233,7 +1236,8 @@
       ]
     },
     "dataNotes": [
-      "HM-DATA-DIV1-1.0: provisional roster entry -- club's 2026/27 squad page was not yet fully published at snapshot time; see this milestone's report."
+      "HM-DATA-DIV1-1.0: provisional roster entry -- club's 2026/27 squad page was not yet fully published at snapshot time; see this milestone's report.",
+      "HM-DATA-1.6 (2026-10-31): 2026/27 Division 1 Norra roster membership at Sannadals SK removed -- not among the 477 Division 1 registrations on Profixio (2026-10-31) and on none of the 38 published match sheets; also absent from the official club squad page. Identity and locked rating retained."
     ]
   },
   {
@@ -1278,6 +1282,39 @@
     },
     "dataNotes": [
       "HM-DATA-DIV1-1.0: provisional roster entry -- club's 2026/27 squad page was not yet fully published at snapshot time; see this milestone's report."
+    ]
+  },
+  {
+    "playerId": "player_adam_kenwood_4f86311b",
+    "firstName": "Adam",
+    "lastName": "Kenwood",
+    "fullName": "Adam Kenwood",
+    "aliases": [],
+    "dateOfBirth": "1991-05-25",
+    "birthYear": 1991,
+    "nationalities": [
+      "SE"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED",
+      "nationalities": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_hm16_profixio_registration"
+      ],
+      "dateOfBirth": [
+        "src_hm16_profixio_registration"
+      ],
+      "nationalities": [
+        "src_hm16_profixio_registration"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-1.6 (2026-10-31): added from the Profixio Division 1 Norra squad registration; Profixio person 652374 (https://www.profixio.com/app/lx/clubs/25992/player/652374)."
     ]
   }
 ]

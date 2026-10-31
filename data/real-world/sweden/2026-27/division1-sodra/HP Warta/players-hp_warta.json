@@ -80,26 +80,6 @@
     "dataNotes": []
   },
   {
-    "playerId": "player_emil_saxin_a1fe241f",
-    "firstName": "Emil",
-    "lastName": "Saxin",
-    "fullName": "Emil Saxin",
-    "aliases": [],
-    "dateOfBirth": "2002-07-06",
-    "birthYear": 2002,
-    "nationalities": null,
-    "heightCm": null,
-    "handedness": null,
-    "recordConfidence": "VERIFIED",
-    "fieldConfidence": {},
-    "sourceRefs": {
-      "identity": [
-        "src_div1_sodra_2026_27"
-      ]
-    },
-    "dataNotes": []
-  },
-  {
     "playerId": "player_viktor_lundstrom_b028fb92",
     "firstName": "Viktor",
     "lastName": "Lundström",
@@ -197,7 +177,9 @@
         "src_div1_sodra_2026_27"
       ]
     },
-    "dataNotes": []
+    "dataNotes": [
+      "HM-DATA-1.6 (2026-10-31): 2026/27 Division 1 Södra roster membership at HP Warta removed -- not among the 477 Division 1 registrations on Profixio (2026-10-31) and on none of the 38 published match sheets; also absent from the official club squad page. Identity and locked rating retained."
+    ]
   },
   {
     "playerId": "player_simon_aronsson_631ea80d",
@@ -217,7 +199,9 @@
         "src_div1_sodra_2026_27"
       ]
     },
-    "dataNotes": []
+    "dataNotes": [
+      "HM-DATA-1.6 (2026-10-31): 2026/27 Division 1 Södra roster membership at HP Warta removed -- not among the 477 Division 1 registrations on Profixio (2026-10-31) and on none of the 38 published match sheets; also absent from the official club squad page. Identity and locked rating retained."
+    ]
   },
   {
     "playerId": "player_isac_andersson_1fbb6517",
@@ -227,26 +211,6 @@
     "aliases": [],
     "dateOfBirth": "2002-04-11",
     "birthYear": 2002,
-    "nationalities": null,
-    "heightCm": null,
-    "handedness": null,
-    "recordConfidence": "VERIFIED",
-    "fieldConfidence": {},
-    "sourceRefs": {
-      "identity": [
-        "src_div1_sodra_2026_27"
-      ]
-    },
-    "dataNotes": []
-  },
-  {
-    "playerId": "player_simon_wiberg_0bf397ac",
-    "firstName": "Simon",
-    "lastName": "Wiberg",
-    "fullName": "Simon Wiberg",
-    "aliases": [],
-    "dateOfBirth": "2003-04-12",
-    "birthYear": 2003,
     "nationalities": null,
     "heightCm": null,
     "handedness": null,
@@ -277,7 +241,9 @@
         "src_div1_sodra_2026_27"
       ]
     },
-    "dataNotes": []
+    "dataNotes": [
+      "HM-DATA-1.6 (2026-10-31): 2026/27 Division 1 Södra roster membership at HP Warta removed -- not among the 477 Division 1 registrations on Profixio (2026-10-31) and on none of the 38 published match sheets; also absent from the official club squad page. Identity and locked rating retained."
+    ]
   },
   {
     "playerId": "player_axel_engesvik_d2d5fe21",
@@ -377,7 +343,9 @@
         "src_div1_sodra_2026_27"
       ]
     },
-    "dataNotes": []
+    "dataNotes": [
+      "HM-DATA-1.6 (2026-10-31): 2026/27 Division 1 Södra roster membership at HP Warta removed -- not among the 477 Division 1 registrations on Profixio (2026-10-31) and on none of the 38 published match sheets; also absent from the official club squad page. Identity and locked rating retained."
+    ]
   },
   {
     "playerId": "player_dino_bahtijarevic_4e0d8cce",
@@ -397,7 +365,9 @@
         "src_div1_sodra_2026_27"
       ]
     },
-    "dataNotes": []
+    "dataNotes": [
+      "HM-DATA-1.6 (2026-10-31): 2026/27 Division 1 Södra roster membership at HP Warta removed -- not among the 477 Division 1 registrations on Profixio (2026-10-31) and on none of the 38 published match sheets; also absent from the official club squad page. Identity and locked rating retained."
+    ]
   },
   {
     "playerId": "player_philip_larsson_33160580",
@@ -417,6 +387,74 @@
         "src_div1_sodra_2026_27"
       ]
     },
-    "dataNotes": []
+    "dataNotes": [
+      "HM-DATA-1.6 (2026-10-31): 2026/27 Division 1 Södra roster membership at HP Warta removed -- not among the 477 Division 1 registrations on Profixio (2026-10-31) and on none of the 38 published match sheets; also absent from the official club squad page. Identity and locked rating retained."
+    ]
+  },
+  {
+    "playerId": "player_jonatan_blad_1899e055",
+    "firstName": "Jonatan",
+    "lastName": "Blad",
+    "fullName": "Jonatan Blad",
+    "aliases": [],
+    "dateOfBirth": "2000-02-07",
+    "birthYear": 2000,
+    "nationalities": [
+      "SE"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED",
+      "nationalities": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_hm16_profixio_registration"
+      ],
+      "dateOfBirth": [
+        "src_hm16_profixio_registration"
+      ],
+      "nationalities": [
+        "src_hm16_profixio_registration"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-1.6 (2026-10-31): added from the Profixio Division 1 Södra squad registration; Profixio person 609782 (https://www.profixio.com/app/lx/clubs/25944/player/609782)."
+    ]
+  },
+  {
+    "playerId": "player_ludvig_helen_549a16ee",
+    "firstName": "Ludvig",
+    "lastName": "Helén",
+    "fullName": "Ludvig Helén",
+    "aliases": [],
+    "dateOfBirth": "1983-10-20",
+    "birthYear": 1983,
+    "nationalities": [
+      "SE"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED",
+      "nationalities": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_hm16_profixio_registration"
+      ],
+      "dateOfBirth": [
+        "src_hm16_profixio_registration"
+      ],
+      "nationalities": [
+        "src_hm16_profixio_registration"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-1.6 (2026-10-31): added from the Profixio Division 1 Södra squad registration; Profixio person 86399 (https://www.profixio.com/app/lx/clubs/25944/player/86399)."
+    ]
   }
 ]

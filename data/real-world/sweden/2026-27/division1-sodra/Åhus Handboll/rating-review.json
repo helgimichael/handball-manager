@@ -128,5 +128,15 @@
     "status": "LOCKED",
     "updatedAt": "2026-08-30T17:58:01.949Z",
     "note": "DIV1N_rating_import_candidates_v0.6 / DIV1S_rating_import_candidates_v0.5 Division 1 import (DIV1_ONLY_CANONICAL set only)"
+  },
+  "player_hannes_ohlsson_d89a7e00": {
+    "status": "LOCKED",
+    "updatedAt": "2026-08-30T17:59:11.984Z",
+    "note": "DIV1N_rating_import_candidates_v0.6 / DIV1S_rating_import_candidates_v0.5 Division 1 import (DIV1_ONLY_CANONICAL set only)"
+  },
+  "player_isac_svensson_2f5135bb": {
+    "status": "LOCKED",
+    "updatedAt": "2026-08-30T17:59:19.996Z",
+    "note": "DIV1N_rating_import_candidates_v0.6 / DIV1S_rating_import_candidates_v0.5 Division 1 import (DIV1_ONLY_CANONICAL set only)"
   }
 }

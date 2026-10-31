@@ -196,8 +196,8 @@
   },
   "player_markus_freberg_551dc804": {
     "status": "LOCKED",
-    "updatedAt": "2026-08-30T17:57:25.039Z",
-    "note": "DIV1N_rating_import_candidates_v0.6 / DIV1S_rating_import_candidates_v0.5 Division 1 import (DIV1_ONLY_CANONICAL set only)"
+    "updatedAt": "2026-10-31T10:22:30.683Z",
+    "note": "HM-DATA-1.6 (2026-10-31) GK/OUTCOURT branch correction to V6; researched CA/PA preserved, generated attributes regenerated (HM-RATINGS-0.4-v1)"
   },
   "player_martin_hultqvist_6ed15c3f": {
     "status": "LOCKED",

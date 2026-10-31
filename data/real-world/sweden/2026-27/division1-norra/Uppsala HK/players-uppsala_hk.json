@@ -77,7 +77,8 @@
       ]
     },
     "dataNotes": [
-      "HM-DATA-DIV1-1.0: provisional roster entry -- club's 2026/27 squad page was not yet fully published at snapshot time; see this milestone's report."
+      "HM-DATA-DIV1-1.0: provisional roster entry -- club's 2026/27 squad page was not yet fully published at snapshot time; see this milestone's report.",
+      "HM-DATA-1.6 (2026-10-31): 2026/27 Division 1 Norra roster membership at Uppsala HK removed -- not among the 477 Division 1 registrations on Profixio (2026-10-31) and on none of the 38 published match sheets; also absent from the official club squad page. Identity and locked rating retained."
     ]
   },
   {
@@ -131,7 +132,8 @@
       ]
     },
     "dataNotes": [
-      "HM-DATA-DIV1-1.0: provisional roster entry -- club's 2026/27 squad page was not yet fully published at snapshot time; see this milestone's report."
+      "HM-DATA-DIV1-1.0: provisional roster entry -- club's 2026/27 squad page was not yet fully published at snapshot time; see this milestone's report.",
+      "HM-DATA-1.6 (2026-10-31): 2026/27 Division 1 Norra roster membership at Uppsala HK removed -- not among the 477 Division 1 registrations on Profixio (2026-10-31) and on none of the 38 published match sheets; also absent from the official club squad page. Identity and locked rating retained."
     ]
   },
   {
@@ -266,7 +268,8 @@
       ]
     },
     "dataNotes": [
-      "HM-DATA-DIV1-1.0: provisional roster entry -- club's 2026/27 squad page was not yet fully published at snapshot time; see this milestone's report."
+      "HM-DATA-DIV1-1.0: provisional roster entry -- club's 2026/27 squad page was not yet fully published at snapshot time; see this milestone's report.",
+      "HM-DATA-1.6 (2026-10-31): 2026/27 Division 1 Norra roster membership at Uppsala HK removed -- not among the 477 Division 1 registrations on Profixio (2026-10-31) and on none of the 38 published match sheets; also absent from the official club squad page. Identity and locked rating retained."
     ]
   },
   {
@@ -561,6 +564,72 @@
     },
     "dataNotes": [
       "HM-DATA-DIV1-1.0: provisional roster entry -- club's 2026/27 squad page was not yet fully published at snapshot time; see this milestone's report."
+    ]
+  },
+  {
+    "playerId": "player_anders_arvidson_85327e62",
+    "firstName": "Anders",
+    "lastName": "Arvidson",
+    "fullName": "Anders Arvidson",
+    "aliases": [],
+    "dateOfBirth": "1995-01-04",
+    "birthYear": 1995,
+    "nationalities": [
+      "SE"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED",
+      "nationalities": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_hm16_profixio_registration"
+      ],
+      "dateOfBirth": [
+        "src_hm16_profixio_registration"
+      ],
+      "nationalities": [
+        "src_hm16_profixio_registration"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-1.6 (2026-10-31): added from the Profixio Division 1 Norra squad registration; Profixio person 628599 (https://www.profixio.com/app/lx/clubs/25984/player/628599)."
+    ]
+  },
+  {
+    "playerId": "player_henrik_smedby_935998bc",
+    "firstName": "Henrik",
+    "lastName": "Smedby",
+    "fullName": "Henrik Smedby",
+    "aliases": [],
+    "dateOfBirth": "2001-03-25",
+    "birthYear": 2001,
+    "nationalities": [
+      "SE"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED",
+      "nationalities": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_hm16_profixio_registration"
+      ],
+      "dateOfBirth": [
+        "src_hm16_profixio_registration"
+      ],
+      "nationalities": [
+        "src_hm16_profixio_registration"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-1.6 (2026-10-31): added from the Profixio Division 1 Norra squad registration; Profixio person 606940 (https://www.profixio.com/app/lx/clubs/25984/player/606940)."
     ]
   }
 ]

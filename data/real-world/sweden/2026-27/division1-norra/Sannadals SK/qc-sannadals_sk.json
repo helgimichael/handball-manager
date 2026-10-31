@@ -6,8 +6,8 @@
   "snapshotDate": "2026-10-31",
   "datasetStatus": "PRESEASON",
   "qcStatus": "VERIFIED_WITH_OPEN_FIELDS",
-  "expectedRosterCount": 58,
-  "exportedRosterCount": 58,
+  "expectedRosterCount": 55,
+  "exportedRosterCount": 55,
   "checks": {
     "currentLeagueRosterLocated": true,
     "allLeagueRosterNamesCaptured": true,
@@ -24,19 +24,20 @@
   "knownConflicts": [],
   "staleSourceWarnings": [
     "Large public registration pool; may include development players.",
-    "HM-DATA-1.5: roster corrected against Profixio leagueid28142 (2026-10-31). Held pending verification: Isho Nissan (HOLD: Division 1 GK/outfield conflict without an exact sourced position -- no exact position in any source (outfield role without side, or no evidence)); Marcus Nylund (HOLD: Division 1 GK/outfield conflict without an exact sourced position -- no exact position in any source (outfield role without side, or no evidence))."
+    "HM-DATA-1.5: roster corrected against Profixio leagueid28142 (2026-10-31). Held pending verification: Isho Nissan (HOLD: Division 1 GK/outfield conflict without an exact sourced position -- no exact position in any source (outfield role without side, or no evidence)); Marcus Nylund (HOLD: Division 1 GK/outfield conflict without an exact sourced position -- no exact position in any source (outfield role without side, or no evidence)).",
+    "HM-DATA-1.6: roster corrected against Profixio leagueid28142 (2026-10-31). Held pending verification: Albin Falk Hansson (DIV1_EXTRA_PLAYER: still listed on the official club squad page (conflicting evidence)); Carl Spångberg (DIV1_EXTRA_PLAYER: still listed on the official club squad page (conflicting evidence)); Jakob Brodin (DIV1_EXTRA_PLAYER: still listed on the official club squad page (conflicting evidence)); Daniel Granholm (DIV1_EXTRA_PLAYER: still listed on the official club squad page (conflicting evidence)); Daniel Nassab (DIV1_EXTRA_PLAYER: still listed on the official club squad page (conflicting evidence)); Hakvin Strömquist (DIV1_EXTRA_PLAYER: still listed on the official club squad page (conflicting evidence)); Joakim Bärleving-Öhman (DIV1_EXTRA_PLAYER: still listed on the official club squad page (conflicting evidence)); Joong-Won Hong (DIV1_EXTRA_PLAYER: still listed on the official club squad page (conflicting evidence)); Martin Hultqvist (DIV1_EXTRA_PLAYER: still listed on the official club squad page (conflicting evidence)); Michael Bostarius (DIV1_EXTRA_PLAYER: still listed on the official club squad page (conflicting evidence)); Oscar Skantz (DIV1_EXTRA_PLAYER: still listed on the official club squad page (conflicting evidence)); Pontus Qvarnström (DIV1_EXTRA_PLAYER: still listed on the official club squad page (conflicting evidence)); Tobias Schreckenbach (DIV1_EXTRA_PLAYER: still listed on the official club squad page (conflicting evidence)); Wilhelm Magnusson (DIV1_EXTRA_PLAYER: still listed on the official club squad page (conflicting evidence)); Albin Franzén Lindfors (DIV1_EXTRA_PLAYER: still listed on the official club squad page (conflicting evidence)); Albin Persson (DIV1_EXTRA_PLAYER: still listed on the official club squad page (conflicting evidence)); Anton Sandström (DIV1_EXTRA_PLAYER: still listed on the official club squad page (conflicting evidence)); Brasse Mowitz (DIV1_EXTRA_PLAYER: still listed on the official club squad page (conflicting evidence)); Daniel Levén (DIV1_EXTRA_PLAYER: still listed on the official club squad page (conflicting evidence)); Franke Björses (DIV1_EXTRA_PLAYER: still listed on the official club squad page (conflicting evidence)); Hugo Brink (DIV1_EXTRA_PLAYER: still listed on the official club squad page (conflicting evidence)); Isho Nissan (DIV1_EXTRA_PLAYER: still listed on the official club squad page (conflicting evidence)); James Hau (DIV1_EXTRA_PLAYER: still listed on the official club squad page (conflicting evidence)); Jesper Persson (DIV1_EXTRA_PLAYER: still listed on the official club squad page (conflicting evidence)); Johan Hammarberg (DIV1_EXTRA_PLAYER: still listed on the official club squad page (conflicting evidence)); Johan Waltin (DIV1_EXTRA_PLAYER: still listed on the official club squad page (conflicting evidence)); Joong-Seop Hong (DIV1_EXTRA_PLAYER: still listed on the official club squad page (conflicting evidence)); Kevin Jakobsson (DIV1_EXTRA_PLAYER: still listed on the official club squad page (conflicting evidence)); Marcus Nylund (DIV1_EXTRA_PLAYER: still listed on the official club squad page (conflicting evidence)); Maximilian Pancini (DIV1_EXTRA_PLAYER: still listed on the official club squad page (conflicting evidence)); Robin Hessling (DIV1_EXTRA_PLAYER: still listed on the official club squad page (conflicting evidence)); Samuel Clements (DIV1_EXTRA_PLAYER: still listed on the official club squad page (conflicting evidence)); Sebastian Welling-Senninger (DIV1_EXTRA_PLAYER: still listed on the official club squad page (conflicting evidence)); Zack Aschberg (DIV1_EXTRA_PLAYER: still listed on the official club squad page (conflicting evidence)); Öysan Kulbay (DIV1_EXTRA_PLAYER: still listed on the official club squad page (conflicting evidence))."
   ],
   "openFieldsSummary": {
     "exactDateOfBirthMissing": 19,
     "birthYearMissing": 57,
-    "nationalityMissing": 58,
+    "nationalityMissing": 54,
     "heightMissing": 58,
     "handednessMissing": 58,
-    "shirtNumberMissing": 58,
+    "shirtNumberMissing": 54,
     "contractEndMissing": 58,
-    "positionGenerated": 37,
+    "positionGenerated": 20,
     "positionSourced": 18,
-    "positionPartial": 18,
-    "positionVerified": 3
+    "positionPartial": 14,
+    "positionVerified": 21
   }
 }

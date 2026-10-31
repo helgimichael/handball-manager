@@ -4430,7 +4430,7 @@
   "player_kaleb_sami_4131239d": {
     "playerId": "player_kaleb_sami_4131239d",
     "clubId": "se_club_bodens_bk_hf",
-    "position": "H9",
+    "position": "H6",
     "ca": {
       "value": 88,
       "confidence": "HIGH",
@@ -4680,7 +4680,7 @@
     },
     "attackRoleProficiencies": [
       {
-        "role": "BREAKTHROUGH_BACK"
+        "role": "TRANSITION_WING"
       }
     ],
     "defenceRoleProficiencies": [],
@@ -4692,7 +4692,7 @@
   "player_kjell_eriksson_aada2661": {
     "playerId": "player_kjell_eriksson_aada2661",
     "clubId": "se_club_bodens_bk_hf",
-    "position": "H6",
+    "position": "H9",
     "ca": {
       "value": 96,
       "confidence": "HIGH",
@@ -4942,7 +4942,7 @@
     },
     "attackRoleProficiencies": [
       {
-        "role": "CREATIVE_WING"
+        "role": "CREATIVE_BACK"
       }
     ],
     "defenceRoleProficiencies": [],

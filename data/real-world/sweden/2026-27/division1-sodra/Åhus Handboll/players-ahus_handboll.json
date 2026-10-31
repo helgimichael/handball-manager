@@ -67,7 +67,9 @@
         "src_div1_sodra_2026_27"
       ]
     },
-    "dataNotes": []
+    "dataNotes": [
+      "HM-DATA-1.6 (2026-10-31): 2026/27 Division 1 Södra roster membership at Åhus Handboll removed -- not among the 477 Division 1 registrations on Profixio (2026-10-31) and on none of the 38 published match sheets; also absent from the official club squad page. Identity and locked rating retained."
+    ]
   },
   {
     "playerId": "player_elias_karlsson_315ea1cd",
@@ -142,7 +144,9 @@
         "src_div1_sodra_2026_27"
       ]
     },
-    "dataNotes": []
+    "dataNotes": [
+      "HM-DATA-1.6 (2026-10-31): 2026/27 Division 1 Södra roster membership at Åhus Handboll removed -- not among the 477 Division 1 registrations on Profixio (2026-10-31) and on none of the 38 published match sheets; also absent from the official club squad page. Identity and locked rating retained."
+    ]
   },
   {
     "playerId": "player_vilmer_bjorklund_7ade24d8",
@@ -167,7 +171,9 @@
         "src_div1_sodra_2026_27"
       ]
     },
-    "dataNotes": []
+    "dataNotes": [
+      "HM-DATA-1.6 (2026-10-31): 2026/27 Division 1 Södra roster membership at Åhus Handboll removed -- not among the 477 Division 1 registrations on Profixio (2026-10-31) and on none of the 38 published match sheets; also absent from the official club squad page. Identity and locked rating retained."
+    ]
   },
   {
     "playerId": "player_malte_lingstrom_dc365c1c",
@@ -217,7 +223,9 @@
         "src_div1_sodra_2026_27"
       ]
     },
-    "dataNotes": []
+    "dataNotes": [
+      "HM-DATA-1.6 (2026-10-31): 2026/27 Division 1 Södra roster membership at Åhus Handboll removed -- not among the 477 Division 1 registrations on Profixio (2026-10-31) and on none of the 38 published match sheets; also absent from the official club squad page. Identity and locked rating retained."
+    ]
   },
   {
     "playerId": "player_oskar_nilsson_1b186989",
@@ -467,7 +475,9 @@
         "src_div1_sodra_2026_27"
       ]
     },
-    "dataNotes": []
+    "dataNotes": [
+      "HM-DATA-1.6 (2026-10-31): 2026/27 Division 1 Södra roster membership at Åhus Handboll removed -- not among the 477 Division 1 registrations on Profixio (2026-10-31) and on none of the 38 published match sheets; also absent from the official club squad page. Identity and locked rating retained."
+    ]
   },
   {
     "playerId": "player_elliot_nilsson_29efa2d2",
@@ -492,7 +502,9 @@
         "src_div1_sodra_2026_27"
       ]
     },
-    "dataNotes": []
+    "dataNotes": [
+      "HM-DATA-1.6 (2026-10-31): 2026/27 Division 1 Södra roster membership at Åhus Handboll removed -- not among the 477 Division 1 registrations on Profixio (2026-10-31) and on none of the 38 published match sheets; also absent from the official club squad page. Identity and locked rating retained."
+    ]
   },
   {
     "playerId": "player_anders_friden_f5c43628",
@@ -613,5 +625,123 @@
       ]
     },
     "dataNotes": []
+  },
+  {
+    "playerId": "player_hannes_ohlsson_d89a7e00",
+    "firstName": "Hannes",
+    "lastName": "Ohlsson",
+    "fullName": "Hannes Ohlsson",
+    "aliases": [],
+    "dateOfBirth": "2007-03-08",
+    "birthYear": 2007,
+    "nationalities": [
+      "SE"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {},
+    "sourceRefs": {
+      "identity": [
+        "src_div1_sodra_2026_27"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-1.6 (2026-10-31): 2026/27 membership moved from IF Kristianstad (se_division1_sodra) to Åhus Handboll -- registered on Profixio for Åhus Handboll, not for IF Kristianstad (same person: name variant, DOB 2007-03-08) (https://www.profixio.com/app/lx/clubs/26027/player/646675). Same playerId; previous roster row removed. Position H9 carried over from the previous roster record (no Profixio position)."
+    ]
+  },
+  {
+    "playerId": "player_isac_svensson_2f5135bb",
+    "firstName": "Isac",
+    "lastName": "Svensson",
+    "fullName": "Isac Svensson",
+    "aliases": [],
+    "dateOfBirth": null,
+    "birthYear": 2006,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "fieldConfidence": {
+      "birthYear": "PARTIAL"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_div1_sodra_2026_27"
+      ],
+      "birthYear": [
+        "src_div1_sodra_2026_27"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-DIV1-1.0: provisional roster entry -- club's 2026/27 squad page was not yet fully published at snapshot time; see this milestone's report.",
+      "HM-DATA-1.6 (2026-10-31): 2026/27 membership moved from IK Lågan (se_division1_sodra) to Åhus Handboll -- registered on Profixio for Åhus Handboll, not for IK Lågan (same person: identical name) (https://www.profixio.com/app/lx/clubs/26027/player/646652). Same playerId; previous roster row removed. Position MV carried over from the previous roster record (no Profixio position)."
+    ]
+  },
+  {
+    "playerId": "player_oskar_svanstrom_6e2eb0bb",
+    "firstName": "Oskar",
+    "lastName": "Svanström",
+    "fullName": "Oskar Svanström",
+    "aliases": [],
+    "dateOfBirth": "2004-01-01",
+    "birthYear": 2004,
+    "nationalities": [
+      "SE"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED",
+      "nationalities": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_hm16_profixio_registration"
+      ],
+      "dateOfBirth": [
+        "src_hm16_profixio_registration"
+      ],
+      "nationalities": [
+        "src_hm16_profixio_registration"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-1.6 (2026-10-31): added from the Profixio Division 1 Södra squad registration; Profixio person 611844 (https://www.profixio.com/app/lx/clubs/26027/player/611844)."
+    ]
+  },
+  {
+    "playerId": "player_sixten_persson_dd1bd256",
+    "firstName": "Sixten",
+    "lastName": "Persson",
+    "fullName": "Sixten Persson",
+    "aliases": [],
+    "dateOfBirth": "2009-07-22",
+    "birthYear": 2009,
+    "nationalities": [
+      "SE"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED",
+      "nationalities": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_hm16_profixio_registration"
+      ],
+      "dateOfBirth": [
+        "src_hm16_profixio_registration"
+      ],
+      "nationalities": [
+        "src_hm16_profixio_registration"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-1.6 (2026-10-31): added from the Profixio Division 1 Södra squad registration; Profixio person 615202 (https://www.profixio.com/app/lx/clubs/26027/player/615202)."
+    ]
   }
 ]

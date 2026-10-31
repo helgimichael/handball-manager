@@ -3,11 +3,11 @@
   "clubName": "Åhus Handboll",
   "competitionId": "se_division1_sodra",
   "season": "2026/27",
-  "snapshotDate": "2026-08-27",
+  "snapshotDate": "2026-10-31",
   "datasetStatus": "PRESEASON",
   "qcStatus": "VERIFIED_WITH_OPEN_FIELDS",
-  "expectedRosterCount": 26,
-  "exportedRosterCount": 26,
+  "expectedRosterCount": 24,
+  "exportedRosterCount": 24,
   "checks": {
     "currentLeagueRosterLocated": true,
     "allLeagueRosterNamesCaptured": true,
@@ -22,16 +22,20 @@
     "guessedContractDates": 26
   },
   "knownConflicts": [],
-  "staleSourceWarnings": [],
+  "staleSourceWarnings": [
+    "HM-DATA-1.6: roster corrected against Profixio leagueid28142 (2026-10-31). Held pending verification: Anton Kropp Olsson (DIV1_MISSING_PLAYER: no verified position (Profixio profile has none; never on a match sheet as goalkeeper)); Anton Bladh (DIV1_EXTRA_PLAYER: still listed on the official club squad page (conflicting evidence)); Elias Karlsson (DIV1_EXTRA_PLAYER: still listed on the official club squad page (conflicting evidence)); Oskar Nilsson (DIV1_EXTRA_PLAYER: still listed on the official club squad page (conflicting evidence)); Felix Pering (DIV1_EXTRA_PLAYER: still listed on the official club squad page (conflicting evidence)); Melvin Hagman (DIV1_EXTRA_PLAYER: still listed on the official club squad page (conflicting evidence)); Albin Appelqvist (DIV1_EXTRA_PLAYER: still listed on the official club squad page (conflicting evidence)); Max Johansson (DIV1_EXTRA_PLAYER: still listed on the official club squad page (conflicting evidence))."
+  ],
   "openFieldsSummary": {
-    "exactDateOfBirthMissing": 26,
+    "exactDateOfBirthMissing": 3,
     "birthYearMissing": 7,
-    "nationalityMissing": 26,
+    "nationalityMissing": 21,
     "heightMissing": 26,
     "handednessMissing": 26,
     "shirtNumberMissing": 7,
     "contractEndMissing": 26,
-    "positionGenerated": 6,
-    "positionSourced": 20
+    "positionGenerated": 3,
+    "positionSourced": 20,
+    "positionPartial": 0,
+    "positionVerified": 21
   }
 }

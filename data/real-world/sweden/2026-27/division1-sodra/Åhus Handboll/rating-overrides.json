@@ -128,5 +128,15 @@
     "ca": 94,
     "pa": 108,
     "updatedAt": "2026-08-30T17:58:01.636Z"
+  },
+  "player_hannes_ohlsson_d89a7e00": {
+    "updatedAt": "2026-08-30T17:59:11.635Z",
+    "ca": 120,
+    "pa": 148
+  },
+  "player_isac_svensson_2f5135bb": {
+    "updatedAt": "2026-08-30T17:59:19.690Z",
+    "ca": 100,
+    "pa": 132
   }
 }

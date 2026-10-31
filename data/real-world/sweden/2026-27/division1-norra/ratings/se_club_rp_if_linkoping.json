@@ -788,7 +788,7 @@
   "player_christoffer_johansson_8c6573e1": {
     "playerId": "player_christoffer_johansson_8c6573e1",
     "clubId": "se_club_rp_if_linkoping",
-    "position": "H9",
+    "position": "V6",
     "ca": {
       "value": 118,
       "confidence": "HIGH",
@@ -1038,7 +1038,7 @@
     },
     "attackRoleProficiencies": [
       {
-        "role": "BREAKTHROUGH_BACK"
+        "role": "TRANSITION_WING"
       }
     ],
     "defenceRoleProficiencies": [],
@@ -3238,7 +3238,7 @@
   "player_robin_johansson_758e9b18": {
     "playerId": "player_robin_johansson_758e9b18",
     "clubId": "se_club_rp_if_linkoping",
-    "position": "V9",
+    "position": "M9",
     "ca": {
       "value": 110,
       "confidence": "HIGH",
@@ -3488,7 +3488,7 @@
     },
     "attackRoleProficiencies": [
       {
-        "role": "SHOOTING_BACK"
+        "role": "PRIMARY_PLAYMAKER"
       }
     ],
     "defenceRoleProficiencies": [],
@@ -3762,7 +3762,7 @@
   "player_svante_eriksson_bae5c781": {
     "playerId": "player_svante_eriksson_bae5c781",
     "clubId": "se_club_rp_if_linkoping",
-    "position": "V6",
+    "position": "H6",
     "ca": {
       "value": 122,
       "confidence": "HIGH",
@@ -4024,7 +4024,7 @@
   "player_vilgot_callheim_6bcc2065": {
     "playerId": "player_vilgot_callheim_6bcc2065",
     "clubId": "se_club_rp_if_linkoping",
-    "position": "M6",
+    "position": "H9",
     "ca": {
       "value": 118,
       "confidence": "HIGH",
@@ -4274,7 +4274,7 @@
     },
     "attackRoleProficiencies": [
       {
-        "role": "OFFENSIVE_PIVOT"
+        "role": "CREATIVE_BACK"
       }
     ],
     "defenceRoleProficiencies": [],

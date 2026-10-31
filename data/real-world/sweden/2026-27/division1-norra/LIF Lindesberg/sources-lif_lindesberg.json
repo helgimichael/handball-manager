@@ -38,5 +38,25 @@
     "publishedAt": null,
     "accessedAt": "2026-10-31",
     "seasonContext": "2026/27 (HM-DATA-1.5)"
+  },
+  {
+    "sourceId": "src_hm16_profixio_registration",
+    "sourceType": "FEDERATION_OFFICIAL",
+    "publisher": "Svenska Handbollförbundet (Profixio)",
+    "title": "Division 1 Norra 2026/27 squad registration and player profiles (leagueid28142)",
+    "url": "https://www.profixio.com/app/lx/competition/leagueid28142/teams/1574229?t=players",
+    "publishedAt": null,
+    "accessedAt": "2026-10-31",
+    "seasonContext": "2026/27 (HM-DATA-1.6)"
+  },
+  {
+    "sourceId": "src_hm16_profixio_match_sheets",
+    "sourceType": "FEDERATION_OFFICIAL",
+    "publisher": "Svenska Handbollförbundet (Profixio)",
+    "title": "Division 1 Norra 2026/27 match sheets (laguppställningar, RMV goalkeeper flags)",
+    "url": "https://www.profixio.com/app/lx/competition/leagueid28142",
+    "publishedAt": null,
+    "accessedAt": "2026-10-31",
+    "seasonContext": "2026/27 (HM-DATA-1.6)"
   }
 ]

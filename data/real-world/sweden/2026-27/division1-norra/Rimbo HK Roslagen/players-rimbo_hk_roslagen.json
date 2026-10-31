@@ -60,26 +60,6 @@
     "dataNotes": []
   },
   {
-    "playerId": "player_nicklas_jading_b2b55819",
-    "firstName": "Nicklas",
-    "lastName": "Jading",
-    "fullName": "Nicklas Jading",
-    "aliases": [],
-    "dateOfBirth": "2001-05-28",
-    "birthYear": 2001,
-    "nationalities": null,
-    "heightCm": null,
-    "handedness": null,
-    "recordConfidence": "VERIFIED",
-    "fieldConfidence": {},
-    "sourceRefs": {
-      "identity": [
-        "src_div1_norra_2026_27"
-      ]
-    },
-    "dataNotes": []
-  },
-  {
     "playerId": "player_benjamin_lund_6347e2c4",
     "firstName": "Benjamin",
     "lastName": "Lund",
@@ -220,7 +200,9 @@
         "src_div1_norra_2026_27"
       ]
     },
-    "dataNotes": []
+    "dataNotes": [
+      "HM-DATA-1.6 (2026-10-31): 2026/27 Division 1 Norra roster membership at Rimbo HK Roslagen removed -- not among the 477 Division 1 registrations on Profixio (2026-10-31) and on none of the 38 published match sheets; also absent from the official club squad page. Identity and locked rating retained."
+    ]
   },
   {
     "playerId": "player_ken_tollbring_e7e81dc5",
@@ -321,5 +303,38 @@
       ]
     },
     "dataNotes": []
+  },
+  {
+    "playerId": "player_andreas_mattsson_6107d3fb",
+    "firstName": "Andreas",
+    "lastName": "Mattsson",
+    "fullName": "Andreas Mattsson",
+    "aliases": [],
+    "dateOfBirth": "1988-07-03",
+    "birthYear": 1988,
+    "nationalities": [
+      "SE"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED",
+      "nationalities": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_hm16_profixio_registration"
+      ],
+      "dateOfBirth": [
+        "src_hm16_profixio_registration"
+      ],
+      "nationalities": [
+        "src_hm16_profixio_registration"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-1.6 (2026-10-31): added from the Profixio Division 1 Norra squad registration; Profixio person 762640 (https://www.profixio.com/app/lx/clubs/26796/player/762640)."
+    ]
   }
 ]

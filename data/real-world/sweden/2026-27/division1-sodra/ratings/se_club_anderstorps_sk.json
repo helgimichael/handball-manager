@@ -526,7 +526,7 @@
   "player_alexander_fagervold_0980ceb6": {
     "playerId": "player_alexander_fagervold_0980ceb6",
     "clubId": "se_club_anderstorps_sk",
-    "position": "V6",
+    "position": "M9",
     "ca": {
       "value": 102,
       "confidence": "HIGH",
@@ -776,7 +776,7 @@
     },
     "attackRoleProficiencies": [
       {
-        "role": "ELITE_FINISHER"
+        "role": "PRIMARY_PLAYMAKER"
       }
     ],
     "defenceRoleProficiencies": [],
@@ -1168,7 +1168,7 @@
   "player_axel_magnusson_ac70503b": {
     "playerId": "player_axel_magnusson_ac70503b",
     "clubId": "se_club_anderstorps_sk",
-    "position": "H6",
+    "position": "M9",
     "ca": {
       "value": 104,
       "confidence": "HIGH",
@@ -1418,7 +1418,7 @@
     },
     "attackRoleProficiencies": [
       {
-        "role": "ELITE_FINISHER"
+        "role": "PRIMARY_PLAYMAKER"
       }
     ],
     "defenceRoleProficiencies": [],
@@ -1430,7 +1430,7 @@
   "player_edis_sarda_c4b1998a": {
     "playerId": "player_edis_sarda_c4b1998a",
     "clubId": "se_club_anderstorps_sk",
-    "position": "M9",
+    "position": "H6",
     "ca": {
       "value": 98,
       "confidence": "HIGH",
@@ -1680,7 +1680,7 @@
     },
     "attackRoleProficiencies": [
       {
-        "role": "PRIMARY_PLAYMAKER"
+        "role": "ELITE_FINISHER"
       }
     ],
     "defenceRoleProficiencies": [],
@@ -1692,7 +1692,7 @@
   "player_elias_mohlin_788e5bef": {
     "playerId": "player_elias_mohlin_788e5bef",
     "clubId": "se_club_anderstorps_sk",
-    "position": "V9",
+    "position": "V6",
     "ca": {
       "value": 116,
       "confidence": "HIGH",
@@ -1942,7 +1942,7 @@
     },
     "attackRoleProficiencies": [
       {
-        "role": "CREATIVE_BACK"
+        "role": "CREATIVE_WING"
       }
     ],
     "defenceRoleProficiencies": [],
@@ -1954,7 +1954,7 @@
   "player_emil_sjodell_8c5f9bec": {
     "playerId": "player_emil_sjodell_8c5f9bec",
     "clubId": "se_club_anderstorps_sk",
-    "position": "H9",
+    "position": "V6",
     "ca": {
       "value": 98,
       "confidence": "HIGH",
@@ -2204,7 +2204,7 @@
     },
     "attackRoleProficiencies": [
       {
-        "role": "CREATIVE_BACK"
+        "role": "CREATIVE_WING"
       }
     ],
     "defenceRoleProficiencies": [],
@@ -2714,7 +2714,7 @@
   "player_oliver_risberg_b4d8f046": {
     "playerId": "player_oliver_risberg_b4d8f046",
     "clubId": "se_club_anderstorps_sk",
-    "position": "M9",
+    "position": "H6",
     "ca": {
       "value": 106,
       "confidence": "HIGH",
@@ -2964,7 +2964,7 @@
     },
     "attackRoleProficiencies": [
       {
-        "role": "PRIMARY_PLAYMAKER"
+        "role": "ELITE_FINISHER"
       }
     ],
     "defenceRoleProficiencies": [],
@@ -2976,7 +2976,7 @@
   "player_robert_ladan_c25f3dda": {
     "playerId": "player_robert_ladan_c25f3dda",
     "clubId": "se_club_anderstorps_sk",
-    "position": "V9",
+    "position": "M9",
     "ca": {
       "value": 130,
       "confidence": "HIGH",
@@ -3226,7 +3226,7 @@
     },
     "attackRoleProficiencies": [
       {
-        "role": "COMPLETE_BACK"
+        "role": "TEMPO_CONTROLLER"
       }
     ],
     "defenceRoleProficiencies": [],
@@ -3762,7 +3762,7 @@
   "player_wilmer_gustafsson_33d2e4f5": {
     "playerId": "player_wilmer_gustafsson_33d2e4f5",
     "clubId": "se_club_anderstorps_sk",
-    "position": "V6",
+    "position": "M9",
     "ca": {
       "value": 112,
       "confidence": "HIGH",
@@ -4012,7 +4012,7 @@
     },
     "attackRoleProficiencies": [
       {
-        "role": "TWO_WAY_WING"
+        "role": "TEMPO_CONTROLLER"
       }
     ],
     "defenceRoleProficiencies": [],

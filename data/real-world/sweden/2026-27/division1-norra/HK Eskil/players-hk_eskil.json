@@ -423,5 +423,71 @@
       ]
     },
     "dataNotes": []
+  },
+  {
+    "playerId": "player_eric_lindqvist_f47acd3c",
+    "firstName": "Eric",
+    "lastName": "Lindqvist",
+    "fullName": "Eric Lindqvist",
+    "aliases": [],
+    "dateOfBirth": "1991-01-08",
+    "birthYear": 1991,
+    "nationalities": [
+      "SE"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED",
+      "nationalities": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_hm16_profixio_registration"
+      ],
+      "dateOfBirth": [
+        "src_hm16_profixio_registration"
+      ],
+      "nationalities": [
+        "src_hm16_profixio_registration"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-1.6 (2026-10-31): added from the Profixio Division 1 Norra squad registration; Profixio person 687800 (https://www.profixio.com/app/lx/clubs/26222/player/687800)."
+    ]
+  },
+  {
+    "playerId": "player_thim_ahlin_64b1f8c3",
+    "firstName": "Thim",
+    "lastName": "Ahlin",
+    "fullName": "Thim Ahlin",
+    "aliases": [],
+    "dateOfBirth": "1998-01-21",
+    "birthYear": 1998,
+    "nationalities": [
+      "SE"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED",
+      "nationalities": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_hm16_profixio_registration"
+      ],
+      "dateOfBirth": [
+        "src_hm16_profixio_registration"
+      ],
+      "nationalities": [
+        "src_hm16_profixio_registration"
+      ]
+    },
+    "dataNotes": [
+      "HM-DATA-1.6 (2026-10-31): added from the Profixio Division 1 Norra squad registration; Profixio person 610817 (https://www.profixio.com/app/lx/clubs/26222/player/610817)."
+    ]
   }
 ]
