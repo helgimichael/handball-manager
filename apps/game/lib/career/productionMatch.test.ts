@@ -94,7 +94,8 @@ test('real career match: commands, save continuation, exact archive and exactly-
     }
     for (const id of ids) if (team === (archive.fixture.homeClubId===done.playerClubId?'HOME':'AWAY')) {
       assert.equal(done.playerPhysicalState[id].currentEnergy,archive.load[id].energy);
-      assert.equal(done.playerPhysicalState[id].recentLoad,(state.playerPhysicalState[id]?.recentLoad??0)+archive.load[id].minutes);
+      // HM-ALPHA2-02A: recentLoad is the ledger's decayed workload (match load in WP), never minutes.
+      assert.equal(done.playerPhysicalState[id].recentLoad,(state.playerPhysicalState[id]?.recentLoad??0)+(archive.load[id].workload??0));
     }
   }
   const altered=structuredClone(done);

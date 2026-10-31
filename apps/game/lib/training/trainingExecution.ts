@@ -13,11 +13,10 @@ import { DEFAULT_WEEKLY_TEMPLATE, mondayOf, resolveTrainingWeek } from "./traini
 import type { PlayerPhysicalState, TrainingDay, TrainingSession, TrainingSessionResult, TrainingSessionTarget, TrainingWeek } from "./types";
 import { computeStaffTrainingQuality, findHeadCoach, resolveResponsibleCoach } from "../staff/roleSuitability";
 import { effectiveTrainingLoadSetting } from "../medical/availability";
+import { decayedRecentWorkload, recordWorkload, startWorkloadLedger, trainingWorkload } from "./workloadLedger";
 
 /** rating/types.ts's own documented 1-20 attribute-scale midpoint -- the neutral stamina assumption for a player with no snapshotted ENDURANCE (same fallback playerMatchStrength.ts/matchUsageEngine.ts already use). */
 const NEUTRAL_STAMINA = 10.5;
-/** How much of a prior day's `recentLoad` magnitude survives into the running figure -- a simple decay, not a history log (Part 10's own "do not store every session history"). */
-const RECENT_LOAD_DECAY = 0.7;
 
 function isPlayerTargeted(target: TrainingSessionTarget, selectedPlayerIds: readonly string[] | undefined, playerId: string, isGoalkeeper: boolean): boolean {
   switch (target) {
@@ -36,10 +35,11 @@ function readEnergy(physicalState: Record<string, PlayerPhysicalState>, playerId
   return physicalState[playerId]?.currentEnergy ?? ENERGY_START_DEFAULT;
 }
 
-function writeEnergy(physicalState: Record<string, PlayerPhysicalState>, playerId: string, date: string, energy: number, loadDelta: number): Record<string, PlayerPhysicalState> {
+// HM-ALPHA2-02A: `recentLoad` is no longer accumulated here per write; it
+// is re-derived once per day from the workload ledger (see executeTrainingDay).
+function writeEnergy(physicalState: Record<string, PlayerPhysicalState>, playerId: string, date: string, energy: number): Record<string, PlayerPhysicalState> {
   const prior = physicalState[playerId];
-  const recentLoad = (prior?.recentLoad ?? 0) * RECENT_LOAD_DECAY + Math.abs(loadDelta);
-  return { ...physicalState, [playerId]: { playerId, currentEnergy: clampTrainingEnergy(energy), lastUpdatedDate: date, recentLoad } };
+  return { ...physicalState, [playerId]: { playerId, currentEnergy: clampTrainingEnergy(energy), lastUpdatedDate: date, recentLoad: prior?.recentLoad ?? 0 } };
 }
 
 function applyDayLevelRecovery(day: TrainingDay, energy: number): number {
@@ -74,7 +74,7 @@ function executeSession(state: CareerState, date: string, session: TrainingSessi
     const delta = computePlayerSessionEnergyDelta(session, loadSetting, stamina);
     const post = clampTrainingEnergy(pre + delta);
 
-    physicalState = writeEnergy(physicalState, player.id, date, post, delta);
+    physicalState = writeEnergy(physicalState, player.id, date, post);
     participants.push(player.id);
     loadByPlayer[player.id] = delta;
     preEnergyByPlayer[player.id] = pre;
@@ -132,7 +132,7 @@ export function executeTrainingDay(state: CareerState, date: string): CareerStat
   for (const player of squad) {
     const pre = readEnergy(physicalState, player.id);
     const post = applyDayLevelRecovery(day, pre);
-    physicalState = writeEnergy(physicalState, player.id, date, post, 0);
+    physicalState = writeEnergy(physicalState, player.id, date, post);
   }
 
   const results: TrainingSessionResult[] = [];
@@ -147,9 +147,22 @@ export function executeTrainingDay(state: CareerState, date: string): CareerStat
   const executedDay: TrainingDay = { ...day, executed: true, results };
   const updatedWeek: TrainingWeek = { ...week, days: week.days.map((d) => (d.date === date ? executedDay : d)) };
 
+  // HM-ALPHA2-02A: the same session costs, recorded once per participant
+  // (idempotent ids), then the injury model's `recentLoad` re-derived from
+  // the ledger for every squad player.
+  const records = results.flatMap((r) => r.participants.flatMap((playerId) => {
+    const w = trainingWorkload(r.loadByPlayer[playerId] ?? 0);
+    return w ? [{ playerId, id: `training:${date}:${r.sessionId}`, date, source: "TRAINING" as const, ref: r.sessionId, ...w }] : [];
+  }));
+  const ledger = recordWorkload(state.workloadLedger ?? startWorkloadLedger(state, date), records, date);
+  for (const player of squad) {
+    physicalState = { ...physicalState, [player.id]: { ...physicalState[player.id], recentLoad: decayedRecentWorkload(ledger, player.id, date) } };
+  }
+
   return {
     ...state,
     playerPhysicalState: physicalState,
     trainingWeeks: { ...state.trainingWeeks, [weekStart]: updatedWeek },
+    workloadLedger: ledger,
   };
 }

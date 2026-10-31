@@ -18,6 +18,7 @@ import { careerEventToInboxMessage } from './inboxBridge';
 import { applyMatchDevelopmentStimulus } from '../development/developmentIntegration';
 import { applyMatchInjuryResolution } from '../medical/injuryIntegration';
 import type { CareerFixture, CareerState } from './types';
+import { decayedRecentWorkload, matchWorkload, recordWorkload, startWorkloadLedger, type WorkloadQuality } from '../training/workloadLedger';
 import { getClub } from '../game-data';
 import { encodeFrames, decodeFrames, type MatchFrame } from './matchFrames';
 export type { MatchFrame } from './matchFrames';
@@ -25,7 +26,7 @@ export type { MatchFrame } from './matchFrames';
 export type MatchPerson = { id: string; name: string; number: number; team: TeamId; role: Role; started: boolean; startEnergy: number };
 // Quantised observed frames, never regenerated from current career data.
 // [tick, officialMs, period, home, away, ballXcm, ballYcm, personIndex, xcm, ycm, ...]
-export type PlayedMatchArchive = { format: 1 | 2; fixture: CareerFixture; version: string; behaviorRevision?:string; seed: number; people: MatchPerson[]; frames?: MatchFrame[]; frameData?: string; events: CoreEvent[]; result: FastMatchResult; load: Record<string, { minutes: number; energy: number; distance: number }> };
+export type PlayedMatchArchive = { format: 1 | 2; fixture: CareerFixture; version: string; behaviorRevision?:string; seed: number; people: MatchPerson[]; frames?: MatchFrame[]; frameData?: string; events: CoreEvent[]; result: FastMatchResult; load: Record<string, { minutes: number; energy: number; distance: number; workload?: number; workloadQuality?: WorkloadQuality }> };
 export function archiveFrames(archive: PlayedMatchArchive): MatchFrame[] { return archive.frameData ? decodeFrames(archive.frameData) : archive.frames ?? []; }
 export type ProductionMatchSession = { format: 1; behaviorRevision?:string; fixture: CareerFixture; core: CoreState; people: MatchPerson[]; frames: MatchFrame[]; pausedAtHalf: boolean; error: string | null };
 /** Developer measurement hook. Readers must not mutate state or consume RNG. */
@@ -236,16 +237,22 @@ export function finalizeProductionMatch(state: CareerState): CareerState {
   const result = resultFromSession(session);
   const clubForm = { ...state.clubForm }, playerSeasonStats = { ...state.playerSeasonStats };
   applyMatchResultBookkeeping(result, clubForm, playerSeasonStats, state.playerClubId, session.fixture.type !== 'FRIENDLY');
-  const load = Object.fromEntries(session.core.players.map(p => [p.id, { minutes: p.condition.courtMs / 60000, energy: p.condition.energy * 100, distance: p.condition.distanceMetres }]));
+  // HM-ALPHA2-02A: measured match workload per participating player (both
+  // teams) -- read from the engine's existing physical log, never derived
+  // from minutes. Minutes stay a separate archive/ledger field.
+  const startEnergy = new Map(session.people.map(p => [p.id, p.startEnergy]));
+  const workload = new Map(session.core.players.flatMap(p => { const w = matchWorkload(p, startEnergy.get(p.id) ?? 100); return w ? [[p.id, w] as const] : []; }));
+  const load = Object.fromEntries(session.core.players.map(p => { const w = workload.get(p.id); return [p.id, { minutes: p.condition.courtMs / 60000, energy: p.condition.energy * 100, distance: p.condition.distanceMetres, ...(w ? { workload: w.load, workloadQuality: w.quality } : {}) }]; }));
+  const workloadLedger = recordWorkload(state.workloadLedger ?? startWorkloadLedger(state, session.fixture.date), [...workload].map(([playerId, w]) => ({ playerId, id: `match:${session.fixture.id}`, date: session.fixture.date, source: 'MATCH' as const, ref: session.fixture.id, ...w })), session.fixture.date);
   const archiveEventTypes = new Set(['GOAL', 'SHOT_RELEASED', 'SHOT_AIM_COMMITTED', 'KEEPER_ANTICIPATED', 'KEEPER_FLIGHT_READ', 'SAVE_CAUGHT', 'SAVE_PARRY', 'KEEPER_COLLECTED_OFF_TARGET', 'OFF_TARGET_KEEPER_TOUCH', 'SHOT_BLOCKED', 'PASS_RELEASED', 'PASS_RECEIVED', 'RECEPTION_FAILED', 'PASS_DEFLECTED', 'REBOUND_CONTROLLED', 'ATTACK_SETTLED', 'DRIVE_RELEASED', 'DEFENDER_BEATEN', 'ADVANTAGE_OPENED', 'FOUL', 'FOUL_ASSESSED', 'WHISTLE_RESTART', 'ADVANTAGE_PENDING', 'ADVANTAGE_REALIZED', 'ADVANTAGE_RECALLED', 'TECHNICAL_VIOLATION', 'PASSIVE_PLAY', 'INTERCEPTION', 'OFFENSIVE_FOUL', 'TWO_MINUTE_SUSPENSION', 'DISQUALIFICATION', 'SUBSTITUTE_ADMITTED', 'EXCHANGE_REQUESTED', 'EXCHANGE_COMPLETED', 'TACTICS_CHANGED', 'TEAM_TIMEOUT_STARTED', 'PERIOD_STARTED', 'PERIOD_ENDED', 'MATCH_FINISHED']);
   const archive: PlayedMatchArchive = { format: 2, fixture: session.fixture, version: session.core.version, behaviorRevision:session.behaviorRevision??MATCH_BEHAVIOR_REVISION, seed: session.core.seed, people: session.people, frameData: encodeFrames(session.frames), events: session.core.events.filter(e => archiveEventTypes.has(e.type)), result, load };
   const readyId = `MATCHDAY_READY:${session.fixture.id}`;
-  let next: CareerState = { ...state, productionMatch: null, results: { ...state.results, [session.fixture.id]: result }, matchArchives: { ...state.matchArchives, [session.fixture.id]: archive }, clubForm, playerSeasonStats, careerEvents: state.careerEvents.map(e => e.id === readyId ? { ...e, read: true, resolved: true } : e), inbox: state.inbox.map(m => m.id === `msg:${readyId}` ? { ...m, read: true, resolved: true, actionRequired: false } : m), playerPhysicalState: { ...state.playerPhysicalState } };
+  let next: CareerState = { ...state, productionMatch: null, results: { ...state.results, [session.fixture.id]: result }, matchArchives: { ...state.matchArchives, [session.fixture.id]: archive }, clubForm, playerSeasonStats, careerEvents: state.careerEvents.map(e => e.id === readyId ? { ...e, read: true, resolved: true } : e), inbox: state.inbox.map(m => m.id === `msg:${readyId}` ? { ...m, read: true, resolved: true, actionRequired: false } : m), playerPhysicalState: { ...state.playerPhysicalState }, workloadLedger };
   const managerTeam = session.fixture.homeClubId === state.playerClubId ? 'HOME' : 'AWAY';
   const managerIds = new Set(session.people.filter(p => p.team === managerTeam).map(p => p.id));
   const exposure = new Map<string, { attackExposure: number; defenceExposure: number; goalkeeperExposure: number }>();
   for (const p of session.core.players) if (managerIds.has(p.id)) {
-    next.playerPhysicalState[p.id] = { ...state.playerPhysicalState[p.id], playerId: p.id, currentEnergy: p.condition.energy * 100, lastUpdatedDate: session.fixture.date, recentLoad: (state.playerPhysicalState[p.id]?.recentLoad ?? 0) + p.condition.courtMs / 60000 };
+    next.playerPhysicalState[p.id] = { ...state.playerPhysicalState[p.id], playerId: p.id, currentEnergy: p.condition.energy * 100, lastUpdatedDate: session.fixture.date, recentLoad: decayedRecentWorkload(workloadLedger, p.id, session.fixture.date) };
     const fraction = Math.min(1, p.condition.courtMs / 3600000);
     exposure.set(p.id, { attackExposure: p.kind === 'FIELD_PLAYER' ? fraction : 0, defenceExposure: p.kind === 'FIELD_PLAYER' ? fraction : 0, goalkeeperExposure: p.kind === 'GOALKEEPER' ? fraction : 0 });
   }

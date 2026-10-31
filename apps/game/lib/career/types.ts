@@ -13,6 +13,7 @@ import type { SpecialPlayPlan } from "../matchPlan/specialPlay";
 import type { LiveMatchSessionState } from "../liveMatch/liveMatchSession";
 import type { MatchPhysicalReport } from "../matchPlan/physicalModel";
 import type { PlayerPhysicalState, PlayerTrainingAssignment, TrainingWeek } from "../training/types";
+import type { WorkloadLedger } from "../training/workloadLedger";
 import type { PlayerDevelopmentState } from "../development/types";
 import type { ResolvedStaffMember, StaffEmployment } from "../staff/types";
 import type { StaffClubHistory } from "../staff/staffHistoryTypes";
@@ -336,6 +337,12 @@ export type CareerState = {
    * empty object here changes nothing observable for an old save.
    */
   playerPhysicalState: Record<string, PlayerPhysicalState>;
+  /**
+   * HM-ALPHA2-02A: bounded per-player match + training workload history in
+   * one unit (lib/training/workloadLedger.ts). Absent on older saves and
+   * created lazily on the first recorded day or match -- no migration.
+   */
+  workloadLedger?: WorkloadLedger;
   /**
    * Part 12/13: a player's own persistent individual training-load
    * setting -- keyed by playerId, same "standing instruction until
