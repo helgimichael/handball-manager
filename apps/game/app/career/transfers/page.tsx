@@ -11,6 +11,8 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { ClubLink, PlayerLink } from "@/components/entityLinks";
 import { PageHeading } from "@/components/manager/Workspace";
+import { CourtBackdrop } from "@/components/transfers/CourtBackdrop";
+import { daysLeftLabel, deadlineUrgency } from "@/components/transfers/transferVisuals";
 import { PlayerCell, PlayerGlyph, PlayerHero } from "@/components/game/Identity";
 import { KnowledgeMeter } from "@/components/game/RecruitmentPresentation";
 import { KnowledgeGatedAbilityPanel } from "@/components/KnowledgeGatedProfilePanels";
@@ -84,7 +86,9 @@ function TransferCentre() {
   const negotiations = getOpenNegotiationSummaries(career);
   const responses = getRecentResponses(career).slice(0, 5);
   const opportunities = useMemo(() => getTransferOpportunities(career), [career]);
-  const yourMove = negotiations.filter((n) => n.nextStep === "YOUR_MOVE").length;
+  const urgent = negotiations.filter((n) => n.nextStep === "YOUR_MOVE");
+  const yourMove = urgent.length;
+  const urgentNeeds = needs.filter((n) => n.level === "HIGH").map((n) => n.position);
   const windowOpen = isTransferWindowOpen(career.gameDate);
 
   const market = useMemo(() => {
@@ -110,16 +114,42 @@ function TransferCentre() {
       <PageHeading eyebrow="Rekrytering / bygg laget" title="Transfer Centre" description="Marknaden, era förhandlingar och ekonomin på ett ställe. Varje affär görs i förhandlingsrummet." actions={<><Link className="hm-btn" href="/career/recruitment">Rekryteringscentrum</Link><Link className="hm-btn" href="/career/players">Spelarsök →</Link></>} />
 
       <section className="tc-stage" aria-label="Transferläge och ekonomi">
-        <div>
-          <div className="tc-eyebrow">{windowOpen ? "Transferfönstret är öppet" : `Fönstret stängt -- nästa öppnar ${nextTransferWindowOpenDate(career.gameDate)}`}</div>
-          <h2>{yourMove > 0 ? `${yourMove} förhandling${yourMove > 1 ? "ar" : ""} väntar på ditt drag` : negotiations.length > 0 ? `${negotiations.length} pågående förhandling${negotiations.length > 1 ? "ar" : ""}` : "Hitta nästa förstärkning"}</h2>
-          <p>{windowOpen ? "Överenskomna övergångar registreras direkt." : "Överenskommelser registreras när fönstret öppnar. Lån startar direkt."} Kassa och budget nedan gäller er klubb just nu.</p>
+        <CourtBackdrop />
+        <div className="tc-stage-lead">
+          <div className="tc-eyebrow"><span className="tc-live-dot" data-open={windowOpen} aria-hidden="true" />{windowOpen ? "Transferfönstret är öppet" : `Fönstret stängt -- öppnar ${nextTransferWindowOpenDate(career.gameDate)}`}</div>
+          <h2>{yourMove > 0 ? `${yourMove} förhandling${yourMove > 1 ? "ar" : ""} väntar på ditt drag` : negotiations.length > 0 ? `${negotiations.length} pågående förhandling${negotiations.length > 1 ? "ar" : ""}` : urgentNeeds.length > 0 ? `Akut behov: ${urgentNeeds.join(", ")}` : "Hitta nästa förstärkning"}</h2>
+          <p>{windowOpen ? "Överenskomna övergångar registreras direkt." : "Överenskommelser registreras när fönstret öppnar. Lån startar direkt."} {opportunities.length > 0 ? `${opportunities.length} realistiska möjligheter på positioner ni behöver.` : ""}</p>
         </div>
         <div className="tc-stat"><small>Kassa</small><strong>{finance ? formatEur(finance.cashEur) : "—"}</strong></div>
-        <div className="tc-stat"><small>Transferbudget</small><strong>{finance ? formatEur(finance.transferBudgetEur) : "—"}</strong></div>
+        <div className="tc-stat">
+          <small>Transferbudget</small><strong>{finance ? formatEur(finance.transferBudgetEur) : "—"}</strong>
+          {finance && finance.committedEur > 0 && <span className="tc-stat-meter" aria-label={`${formatEur(finance.committedEur)} bundet i affärer`}><i style={{ width: `${Math.min(100, Math.round(finance.committedEur / Math.max(1, finance.transferBudgetEur + finance.committedEur) * 100))}%` }} /></span>}
+        </div>
         <div className="tc-stat" data-tone={finance && finance.wageRoomEurPerMonth < 0 ? "warning" : undefined}><small>Löneutrymme / mån</small><strong>{finance ? formatEur(Math.round(finance.wageRoomEurPerMonth)) : "—"}</strong></div>
         <div className="tc-stat"><small>Bundet i affärer</small><strong>{finance ? formatEur(finance.committedEur) : "—"}</strong></div>
       </section>
+
+      {urgent.length > 0 && (
+        <section className="tc-urgent" aria-label="Kräver beslut">
+          <div className="tc-urgent-head"><span className="tc-eyebrow">Kräver beslut</span><span>{urgent.length} förhandling{urgent.length > 1 ? "ar" : ""} väntar på er</span></div>
+          <div className="tc-urgent-list">
+            {urgent.map((s) => {
+              const p = getCareerPlayer(career, s.negotiation.playerId);
+              const clock = deadlineUrgency(career.gameDate, s.date);
+              return (
+                <Link key={s.negotiation.id} className="tc-urgent-card" data-urgency={clock?.urgency} href={`/career/transfers/${encodeURIComponent(s.negotiation.playerId)}`}>
+                  {p ? <PlayerGlyph player={p} size={40} /> : <span />}
+                  <div>
+                    <strong>{p ? `${p.firstName} ${p.lastName}` : ""}</strong>
+                    <span>{s.latest?.response === "COUNTER" ? "Motbud att ta ställning till" : s.latest?.response === "ACCEPT" ? "Klubben är överens -- villkor till spelaren" : "Lägg nästa bud"}</span>
+                  </div>
+                  <b>{clock ? daysLeftLabel(clock.daysLeft) : "Ditt drag"}</b>
+                </Link>
+              );
+            })}
+          </div>
+        </section>
+      )}
 
       <div className="tc-hub">
         <section className="tc-panel" aria-label="Marknaden">
@@ -135,6 +165,19 @@ function TransferCentre() {
             </div>
           )}
           {tab === "OPPORTUNITIES" && <div className="tc-filters"><span className="tc-why">Spelare på positioner ni behöver, med kontrakt som gör en affär realistisk och inom transferbudgeten.</span></div>}
+          {tab === "OPPORTUNITIES" && opportunities.length > 0 && (
+            <div className="tc-featured" aria-label="Utvalda möjligheter">
+              {opportunities.slice(0, 3).map((o) => (
+                <button key={o.player.id} type="button" className="tc-feature" data-selected={selectedId === o.player.id} data-need={o.needLevel} onClick={() => setSelectedId(o.player.id)}>
+                  <span className="tc-feature-top"><PlayerGlyph player={o.player} size={38} /><span className="tc-feature-pos">{o.player.position}</span></span>
+                  <strong>{o.player.firstName} {o.player.lastName}</strong>
+                  <span className="tc-feature-club">{o.clubId ? getClub(o.clubId)?.shortName ?? o.clubId : "Fri agent"} · {playerAgeAtDate(o.player.dateOfBirth, o.player.birthYear, career.gameDate) ?? "–"} år</span>
+                  <span className="tc-feature-why">{o.why}</span>
+                  <span className="tc-feature-value">{valueRangeLabel(career, o.player)}</span>
+                </button>
+              ))}
+            </div>
+          )}
           {rows.length === 0 ? (
             <div className="tc-empty">{tab === "SHORTLIST" ? "Inga bevakade spelare än. Bevaka en spelare från dossiern eller rekryteringscentrumet." : tab === "OPPORTUNITIES" ? "Inga tydliga möjligheter just nu -- truppen är täckt eller marknaden för dyr. Sök på hela marknaden." : "Inga spelare matchar filtret."}</div>
           ) : (
@@ -192,16 +235,17 @@ function TransferCentre() {
           <section className="tc-panel" aria-label="Truppbehov">
             <div className="tc-panel-head"><h3>Truppbehov</h3><span>spelare per position</span></div>
             <div className="tc-panel-body">
-              <div className="tc-needs">{needs.map((n) => <div key={n.position} className="tc-need" data-level={n.level} title={n.reason}><small>{n.position}</small><strong>{n.projectedDepth}</strong><small>{NEED_LABEL[n.level]}</small></div>)}</div>
+              <div className="tc-needs">{needs.map((n) => <div key={n.position} className="tc-need" data-level={n.level} title={n.reason}><small>{n.position}</small><strong>{n.projectedDepth}</strong><span className="tc-need-bar" aria-hidden="true"><i style={{ height: `${Math.min(100, n.projectedDepth * 25)}%` }} /></span><small>{NEED_LABEL[n.level]}</small></div>)}</div>
+              <p className="tc-note" style={{ marginTop: 10 }}>{urgentNeeds.length ? `Akut: ${urgentNeeds.join(", ")}. ` : "Inga akuta luckor. "}Siffran är spelare på positionen inklusive överenskomna ankomster.</p>
             </div>
           </section>
 
           <section className="tc-panel" aria-label="Inkommande svar">
-            <div className="tc-panel-head"><h3>Inkommande svar</h3><span>senaste två veckorna</span></div>
+            <div className="tc-panel-head"><h3><span className="tc-live-dot" data-open="true" aria-hidden="true" />Marknadspuls</h3><span>svar och rörelser, 14 dagar</span></div>
             {responses.length === 0 ? <div className="tc-empty">Inga svar än. Svar på era bud kommer efter några dagar och syns här och i inkorgen.</div> : responses.map(({ negotiation, round }, i) => {
               const p = getCareerPlayer(career, negotiation.playerId);
               return (
-                <Link key={`${negotiation.id}:${round.date}:${i}`} className="tc-response" href={`/career/transfers/${encodeURIComponent(negotiation.playerId)}`} style={{ color: "inherit", textDecoration: "none" }}>
+                <Link key={`${negotiation.id}:${round.date}:${i}`} className="tc-response" data-response={round.response} data-party={round.party} href={`/career/transfers/${encodeURIComponent(negotiation.playerId)}`} style={{ color: "inherit", textDecoration: "none" }}>
                   <header><span>{round.party === "CLUB" ? "Klubben" : round.party === "PLAYER" ? "Spelaren" : "Marknaden"} · {p ? `${p.firstName} ${p.lastName}` : ""}</span><span>{round.date}</span></header>
                   <p>{round.reason}</p>
                 </Link>
