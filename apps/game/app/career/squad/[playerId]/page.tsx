@@ -229,11 +229,12 @@ export default function PlayerProfilePage() {
             {contractStatus ? <span className={`hm-badge hm-badge-${CONTRACT_STATUS_TONE[contractStatus]}`}>{CONTRACT_STATUS_LABEL[contractStatus]}</span> : null}
           </div>
           <div className="hm-panel-body" style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-            <ContractRow label="Klubb" value={club?.name ?? "Okänd"} />
+            {/* HM-ALPHA2-05C/E: the contract belongs to its owning club, which may differ from the club he plays for during a loan. */}
+            <ContractRow label="Avtalsklubb" value={(contract?.clubId ? getClub(contract.clubId)?.name : club?.name) ?? "Okänd"} />
             <ContractRow label="Lön / månad" value={contract ? formatEur(contract.wageEurPerMonth) : "—"} />
             <ContractRow label="Kontrakt t.o.m." value={contract ? contract.contractEndDate : "—"} />
             <ContractRow label="Tröjnummer" value={player.shirtNumber !== null ? String(player.shirtNumber) : "Okänt"} />
-            {player.clubId === career.playerClubId && <ContractRenewal key={player.id} playerId={player.id} />}
+            {contract?.clubId === career.playerClubId && <ContractRenewal key={player.id} playerId={player.id} />}
           </div>
         </div>
 

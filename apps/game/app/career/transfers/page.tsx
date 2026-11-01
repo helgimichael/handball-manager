@@ -11,7 +11,7 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { ClubLink, PlayerLink } from "@/components/entityLinks";
 import { PageHeading } from "@/components/manager/Workspace";
-import { PlayerCell, PlayerHero } from "@/components/game/Identity";
+import { PlayerCell, PlayerGlyph, PlayerHero } from "@/components/game/Identity";
 import { KnowledgeMeter } from "@/components/game/RecruitmentPresentation";
 import { KnowledgeGatedAbilityPanel } from "@/components/KnowledgeGatedProfilePanels";
 import { useCareer } from "@/lib/career/CareerContext";
@@ -174,9 +174,11 @@ function TransferCentre() {
                   const p = getCareerPlayer(career, s.negotiation.playerId);
                   return (
                     <Link key={s.negotiation.id} className="tc-deal" data-step={s.nextStep} href={`/career/transfers/${encodeURIComponent(s.negotiation.playerId)}`}>
-                      {p ? <PlayerCell player={p} /> : <span />}
+                      {/* The glyph only -- PlayerCell carries its own profile link, and links must not nest. */}
+                      {p ? <PlayerGlyph player={p} size={34} /> : <span />}
                       <div>
-                        <strong>{s.negotiation.dealType === "LOAN" ? "Lån" : "Övergång"} · {s.negotiation.stage === "CLUB" ? "med klubben" : "med spelaren"}</strong>
+                        <strong>{p ? `${p.firstName} ${p.lastName}` : ""}</strong>
+                        <span>{s.negotiation.dealType === "LOAN" ? "Lån" : "Övergång"} · {s.negotiation.stage === "CLUB" ? "med klubben" : "med spelaren"}</span>
                         <span>{s.nextStep === "WAITING" ? `Svar väntas ${s.date}` : s.date ? `Ditt bud senast ${s.date}` : "Ditt drag"}{s.activeRivals.length ? ` · ${s.activeRivals.length} konkurrent${s.activeRivals.length > 1 ? "er" : ""}` : ""}</span>
                       </div>
                       <NegotiationPill summary={s} />

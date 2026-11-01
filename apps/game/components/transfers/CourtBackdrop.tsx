@@ -25,8 +25,8 @@ export function CourtBackdrop({ accent = "var(--hm-accent)" }: { accent?: string
         {/* centre-line hint at the far left of the fade */}
         <line x1="640" y1="-20" x2="640" y2="320" strokeOpacity=".5" />
       </g>
-      {/* the goal itself, in the signal colour */}
-      <rect x="1180" y="130" width="14" height="40" fill="none" stroke={accent} strokeOpacity=".55" strokeWidth="3" />
+      {/* the 4 m goalkeeper restraining line, in the signal colour */}
+      <line x1="1112" y1="142" x2="1112" y2="158" stroke={accent} strokeOpacity=".45" strokeWidth="3" />
     </svg>
   );
 }

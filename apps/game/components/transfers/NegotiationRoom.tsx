@@ -96,8 +96,9 @@ export function NegotiationRoom({ playerId, initialDeal }: { playerId: string; i
 
       {negotiation?.stage === "COMPLETED" && offer && <DealCompletion summary={getDealSummary(career, offer)} playerName={`${player.firstName} ${player.lastName}`} />}
 
-      <div className="tc-room">
-        <ClubParty career={career} negotiation={negotiation} fromClubId={fromClubId} isLoan={isLoan} playerId={playerId} />
+      {/* A completed deal shows its record only: the party cards describe the LIVE market position, which no longer applies once he has signed. */}
+      <div className={negotiation?.stage === "COMPLETED" ? "tc-room tc-room-history" : "tc-room"}>
+        {negotiation?.stage !== "COMPLETED" && <ClubParty career={career} negotiation={negotiation} fromClubId={fromClubId} isLoan={isLoan} playerId={playerId} />}
 
         <div className="tc-table-area">
           {negotiation && negotiation.rounds.length + (negotiation.pending ? 1 : 0) > 0 && <Timeline negotiation={negotiation} />}
@@ -116,7 +117,7 @@ export function NegotiationRoom({ playerId, initialDeal }: { playerId: string; i
           )}
         </div>
 
-        <PlayerParty career={career} negotiation={negotiation} playerId={playerId} isLoan={isLoan} />
+        {negotiation?.stage !== "COMPLETED" && <PlayerParty career={career} negotiation={negotiation} playerId={playerId} isLoan={isLoan} />}
       </div>
     </div>
   );

@@ -114,6 +114,7 @@
 
 .tc-room { display: grid; grid-template-columns: minmax(230px, 280px) minmax(0, 1fr) minmax(230px, 280px); gap: 16px; align-items: start; }
 .tc-room > * { min-width: 0; }
+.tc-room-history { grid-template-columns: minmax(0, 860px); justify-content: center; }
 .tc-party { background: var(--hm-surface-1); border: 1px solid var(--hm-border); border-top: 4px solid #142538; }
 .tc-party[data-party="PLAYER"] { border-top-color: var(--hm-accent); }
 .tc-party header { display: flex; align-items: center; gap: 12px; padding: 14px 16px 12px; border-bottom: 1px solid var(--hm-border-subtle); }
