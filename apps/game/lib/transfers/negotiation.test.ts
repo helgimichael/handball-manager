@@ -2,7 +2,7 @@
 // against a derived demand, never a probability.
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { computePlayerWageDemand, evaluateClubFeeRound, evaluatePlayerTermsRound, expectedRoleFromSquadRank, MAX_CLUB_ROUNDS, type PlayerWageDemandInputs } from "./negotiation";
+import { computePlayerWageDemand, evaluateClubFeeRound, evaluatePlayerTermsRound, expectedRoleFromSquadRank, MAX_CLUB_ROUNDS, packageRatio, responseDelayDays, rivalDecisionDelayDays, type PlayerWageDemandInputs } from "./negotiation";
 
 test("club accepts a bid at or above its asking price", () => {
   assert.equal(evaluateClubFeeRound({ askingFeeEur: 10_000, offeredFeeEur: 10_000, round: 1 }).response, "ACCEPT");
@@ -76,4 +76,38 @@ test("expected role follows squad rank", () => {
   assert.equal(expectedRoleFromSquadRank(9, 25), "ROTATION");
   assert.equal(expectedRoleFromSquadRank(15, 19), "TALENT");
   assert.equal(expectedRoleFromSquadRank(15, 28), "SQUAD_PLAYER");
+});
+
+// --- HM-ALPHA2-05B ---
+
+test("a rival's higher fee becomes the club's floor; a lower one changes nothing", () => {
+  const withRival = evaluateClubFeeRound({ askingFeeEur: 10_000, offeredFeeEur: 10_000, round: 1, rival: { clubName: "Rival", feeEur: 13_000 } });
+  assert.equal(withRival.response, "COUNTER");
+  assert.equal(withRival.counterFeeEur, 13_000);
+  assert.equal(evaluateClubFeeRound({ askingFeeEur: 10_000, offeredFeeEur: 13_000, round: 2, rival: { clubName: "Rival", feeEur: 13_000 } }).response, "ACCEPT");
+  assert.equal(evaluateClubFeeRound({ askingFeeEur: 10_000, offeredFeeEur: 10_000, round: 1, rival: { clubName: "Rival", feeEur: 8_000 } }).response, "ACCEPT");
+});
+
+test("a better rival package must be matched; a tie or weaker rival leaves the demand alone", () => {
+  const demand = computePlayerWageDemand(baseDemand);
+  const atDemand = demand.demandEurPerMonth;
+  assert.equal(evaluatePlayerTermsRound({ demand, offeredWageEurPerMonth: atDemand, round: 1, rival: { clubName: "Rival", packageRatio: 1.2 } }).response, "COUNTER");
+  assert.equal(evaluatePlayerTermsRound({ demand, offeredWageEurPerMonth: Math.ceil(atDemand * 1.2) + 10, round: 1, rival: { clubName: "Rival", packageRatio: 1.2 } }).response, "ACCEPT");
+  assert.equal(evaluatePlayerTermsRound({ demand, offeredWageEurPerMonth: atDemand, round: 1, rival: { clubName: "Rival", packageRatio: 1 } }).response, "ACCEPT");
+  assert.equal(packageRatio(atDemand * 2, demand), 2);
+  assert.equal(packageRatio(atDemand, { ...demand, refusesRole: true }), 0);
+});
+
+test("a financially strained buying club pays a risk premium", () => {
+  assert.ok(computePlayerWageDemand({ ...baseDemand, newClubPressure: "CRITICAL" }).demandEurPerMonth > computePlayerWageDemand(baseDemand).demandEurPerMonth);
+});
+
+test("response and rival delays are fixed per seed and bounded", () => {
+  for (const seed of ["a", "b", "c", "d", "e"]) {
+    const d = responseDelayDays(seed);
+    assert.ok(d >= 1 && d <= 3);
+    assert.equal(responseDelayDays(seed), d);
+    const r = rivalDecisionDelayDays(seed);
+    assert.ok(r >= 3 && r <= 9);
+  }
 });

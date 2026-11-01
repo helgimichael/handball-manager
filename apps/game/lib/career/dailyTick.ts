@@ -39,6 +39,7 @@ import {
   buildTrainingReportEvent,
   buildPlacementExpiredEvent,
   buildPlayerContractExpiredEvent,
+  buildClubNewsEvent,
   type CareerEvent,
 } from "./careerEvents";
 import { progressContractExpiry } from "./contractExpiry";
@@ -74,6 +75,7 @@ import { executeTrainingDay } from "../training/trainingExecution";
 import { applyCpuDailyCondition } from "./cpuCondition";
 import { applyPlacementDevelopmentStimulus, applyTrainingDayDevelopmentStimulus, resolveWeeklyDevelopmentIfDue } from "../development/developmentIntegration";
 import { progressDailyTransfers } from "../transfers/transferIntegration";
+import { progressTransferNegotiations } from "../transfers/negotiationIntegration";
 
 export interface DailyTickResult {
   state: CareerState;
@@ -254,6 +256,14 @@ export function processDay(state: CareerState, date: string): DailyTickResult {
   // loan whose endDate has been reached -- same "check a stored date,
   // mutate once" idiom as step 2's player-availability return above.
   next = progressDailyTransfers(next, date);
+
+  // HM-ALPHA2-05B: answers the manager's pending negotiation offers on
+  // their response dates, lets rival CPU clubs make their move, and
+  // expires talks whose deadline passed -- before CPU recruitment below,
+  // so a same-day CPU signing is judged against an up-to-date negotiation.
+  const negotiationProgress = progressTransferNegotiations(next, date);
+  next = negotiationProgress.state;
+  for (const notice of negotiationProgress.notices) emit(buildClubNewsEvent(notice.id, date, notice.subject, notice.summary));
 
   // HM-CLUB-PARTNERSHIPS-1.0: the board's own multi-day partner search,
   // recurring partnership billing, and expiry -- same "check a stored

@@ -16,8 +16,8 @@ import { getPlayerContract, getPlayerContractStatus, getPlayerMarketValueEur } f
 import { getPlayerTrainingCompensation } from "@/lib/economy/trainingCompensationIntegration";
 import { formatEur } from "@/lib/economy/currency";
 import { CONTRACT_STATUS_LABEL, CONTRACT_STATUS_TONE } from "@/lib/economy/labels";
-import type { NegotiationResponse, TransferDealType, TransferNegotiation, TransferOffer, TransferOfferStatus } from "@/lib/transfers/types";
-import { getLatestNegotiation, type NegotiationAction, type NegotiationActionResult } from "@/lib/transfers/negotiationIntegration";
+import type { NegotiationResponse, NegotiationRound, RivalInterest, TransferDealType, TransferNegotiation, TransferOffer, TransferOfferStatus } from "@/lib/transfers/types";
+import { getLatestNegotiation, getTransferNegotiations, isNegotiationOpen, type NegotiationAction, type NegotiationActionResult } from "@/lib/transfers/negotiationIntegration";
 import { SQUAD_STATUS_TIERS, SQUAD_STATUS_TIER_LABEL_SV, type SquadStatusTier } from "@/lib/career/squadStatus";
 import type { CareerState } from "@/lib/career/types";
 import { getPlayerKnowledgePct } from "@/lib/knowledge/knowledgeIntegration";
@@ -63,6 +63,7 @@ function Transfers() {
   const [lastOffer, setLastOffer] = useState<TransferOffer | null>(null);
   const recentOffers = Object.values(career.transferOffers).filter(o => o.toClubId === career.playerClubId || o.fromClubId === career.playerClubId).reverse();
   const economy = getClubEconomySnapshot(career, career.playerClubId);
+  const openNegotiations = getTransferNegotiations(career).filter((n) => n.toClubId === career.playerClubId && isNegotiationOpen(n));
 
   const candidates = useMemo(() => {
     const clubs = getExternalCandidateClubs(career);
@@ -269,7 +270,7 @@ function Transfers() {
 
               {dealType === "PERMANENT" ? (
                 <NegotiationPanel
-                  key={selected.player.id}
+                  key={`${selected.player.id}:${getLatestNegotiation(career, selected.player.id, career.playerClubId)?.rounds.length ?? 0}`}
                   career={career}
                   playerId={selected.player.id}
                   isFreeAgent={isFreeAgent}
@@ -277,7 +278,6 @@ function Transfers() {
                   suggestedWageEurPerMonth={newWageEurPerMonth}
                   trainingCompensationEur={selectedTrainingComp?.totalEur ?? 0}
                   negotiateTransfer={negotiateTransfer}
-                  onOffer={setLastOffer}
                 />
               ) : (
                 <>
@@ -300,6 +300,30 @@ function Transfers() {
                 </>
               )}
 
+            </div>
+          )}
+        </div>
+
+        <div className="hm-panel">
+          <div className="hm-panel-header">
+            <span className="hm-panel-title">Pågående förhandlingar</span>
+          </div>
+          {openNegotiations.length === 0 ? (
+            <div className="hm-panel-body hm-text-muted">Inga pågående förhandlingar.</div>
+          ) : (
+            <div className="hm-panel-body" style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+              {openNegotiations.map((n) => (
+                <button key={n.id} type="button" className="game-transfer-ledger-row" style={{ textAlign: "left" }} onClick={() => selectPlayer(n.playerId)}>
+                  <span>
+                    <strong>{getCareerPlayer(career, n.playerId) ? `${getCareerPlayer(career, n.playerId)!.firstName} ${getCareerPlayer(career, n.playerId)!.lastName}` : n.playerId}</strong>
+                    {" · "}{n.stage === "CLUB" ? "Klubben" : "Spelaren"}
+                    <br />
+                    {n.pending ? `Svar väntas ${n.pending.responseDate}` : n.expiresDate ? `Ditt bud senast ${n.expiresDate}` : "Ditt drag"}
+                    {(n.rivals ?? []).some((r) => r.status === "ACTIVE") ? " · konkurrens" : ""}
+                  </span>
+                  <span className={`hm-badge hm-badge-${n.pending ? "warning" : "neutral"}`}>{n.pending ? "Väntar" : "Ditt drag"}</span>
+                </button>
+              ))}
             </div>
           )}
         </div>
@@ -335,14 +359,18 @@ const STAGE_LABEL: Record<TransferNegotiation["stage"], string> = {
   COMPLETED: "Klart · Båda parter har accepterat",
   COLLAPSED: "Förhandlingen bröt samman",
   WITHDRAWN: "Du drog dig ur förhandlingen",
+  EXPIRED: "Tidsfristen gick ut",
+  LOST: "Spelaren gick till en annan klubb",
 };
+const PARTY_LABEL: Record<NegotiationRound["party"], string> = { CLUB: "Klubben", PLAYER: "Spelaren", MARKET: "Marknaden" };
+const RIVAL_STATUS_LABEL: Record<RivalInterest["status"], string> = { ACTIVE: "intresserad", WITHDRAWN: "drog sig ur", SIGNED: "värvade spelaren" };
 
 /**
  * HM-ALPHA2-05A: the two-stage permanent-transfer negotiation -- fee
  * with the selling club, then wage/length/role with the player. Every
  * round and its reason stays visible so a revised offer is informed.
  */
-function NegotiationPanel({ career, playerId, isFreeAgent, suggestedFeeEur, suggestedWageEurPerMonth, trainingCompensationEur, negotiateTransfer, onOffer }: {
+function NegotiationPanel({ career, playerId, isFreeAgent, suggestedFeeEur, suggestedWageEurPerMonth, trainingCompensationEur, negotiateTransfer }: {
   career: CareerState;
   playerId: string;
   isFreeAgent: boolean;
@@ -350,7 +378,6 @@ function NegotiationPanel({ career, playerId, isFreeAgent, suggestedFeeEur, sugg
   suggestedWageEurPerMonth: number;
   trainingCompensationEur: number;
   negotiateTransfer: (action: NegotiationAction) => NegotiationActionResult;
-  onOffer: (offer: TransferOffer) => void;
 }) {
   const negotiation = getLatestNegotiation(career, playerId, career.playerClubId);
   const lastClubCounter = negotiation?.rounds.filter((r) => r.party === "CLUB").at(-1)?.counterFeeEur;
@@ -365,10 +392,6 @@ function NegotiationPanel({ career, playerId, isFreeAgent, suggestedFeeEur, sugg
     const result = negotiateTransfer(action);
     if (!result.ok) { setError(result.error); return; }
     setError(null);
-    const latestRound = result.negotiation.rounds.at(-1);
-    if (latestRound?.counterFeeEur !== undefined) setFeeEur(latestRound.counterFeeEur);
-    if (latestRound?.counterWageEurPerMonth !== undefined) setWageEurPerMonth(latestRound.counterWageEurPerMonth);
-    if (result.offer) onOffer(result.offer);
   }
 
   const open = negotiation && (negotiation.stage === "CLUB" || negotiation.stage === "PLAYER");
@@ -378,20 +401,38 @@ function NegotiationPanel({ career, playerId, isFreeAgent, suggestedFeeEur, sugg
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 10 }} aria-label="Förhandling">
       {negotiation && <div className="hm-eyebrow">{STAGE_LABEL[negotiation.stage]}</div>}
+      {negotiation?.pending && (
+        <div className="hm-badge hm-badge-warning" role="status" style={{ whiteSpace: "normal" }}>
+          Väntar på svar från {negotiation.pending.party === "CLUB" ? "klubben" : "spelaren"} · svar väntas {negotiation.pending.responseDate}
+        </div>
+      )}
+      {negotiation && isNegotiationOpen(negotiation) && !negotiation.pending && negotiation.expiresDate && (
+        <div className="hm-badge hm-badge-neutral" style={{ whiteSpace: "normal" }}>Ditt nästa bud senast {negotiation.expiresDate}</div>
+      )}
+      {negotiation?.rivals && negotiation.rivals.length > 0 && (
+        <div className="hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)" }}>
+          Konkurrens: {negotiation.rivals.map((r) => `${getClub(r.clubId)?.shortName ?? r.clubId} (${RIVAL_STATUS_LABEL[r.status]})`).join(", ")}
+        </div>
+      )}
       {negotiation && negotiation.rounds.length > 0 && (
         <ol style={{ display: "flex", flexDirection: "column", gap: 6, margin: 0, paddingLeft: 18, fontSize: "var(--hm-text-2xs)" }}>
           {negotiation.rounds.map((r, i) => (
             <li key={i}>
-              <strong>{r.party === "CLUB" ? "Klubben" : "Spelaren"}</strong>{" · "}
-              {r.party === "CLUB" ? `Bud ${formatEur(r.offeredFeeEur ?? 0)}` : `${formatEur(r.offeredWageEurPerMonth ?? 0)}/mån · ${r.contractYears} år · ${r.promisedSquadRole ? SQUAD_STATUS_TIER_LABEL_SV[r.promisedSquadRole] : "—"}`}{" "}
-              <span className={`hm-badge hm-badge-${RESPONSE_TONE[r.response]}`}>{RESPONSE_LABEL[r.response]}</span>
+              <strong>{PARTY_LABEL[r.party]}</strong>{" · "}{r.date}{" · "}
+              {r.party === "CLUB" ? `Bud ${formatEur(r.offeredFeeEur ?? 0)} ` : r.party === "PLAYER" ? `${formatEur(r.offeredWageEurPerMonth ?? 0)}/mån · ${r.contractYears} år · ${r.promisedSquadRole ? SQUAD_STATUS_TIER_LABEL_SV[r.promisedSquadRole] : "—"} ` : null}
+              {r.party !== "MARKET" && <span className={`hm-badge hm-badge-${RESPONSE_TONE[r.response]}`}>{RESPONSE_LABEL[r.response]}</span>}
               <div className="hm-text-muted">{r.reason}</div>
             </li>
           ))}
         </ol>
       )}
 
-      {!open ? (
+      {negotiation?.stage === "COMPLETED" && negotiation.offerId && career.transferOffers[negotiation.offerId] && <TransferEvent offer={career.transferOffers[negotiation.offerId]} career={career} />}
+      {open && negotiation.pending ? (
+        <div className="hm-actions" style={{ display: "flex", gap: 6 }}>
+          <button type="button" className="hm-btn" onClick={() => run({ kind: "WITHDRAW", negotiationId: negotiation.id })}>Dra tillbaka och avsluta</button>
+        </div>
+      ) : !open ? (
         cooldown ? (
           <div className="hm-text-muted" style={{ fontSize: "var(--hm-text-xs)" }}>Ny kontakt tidigast {cooldown}.</div>
         ) : (

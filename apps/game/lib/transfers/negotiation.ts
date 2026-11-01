@@ -19,6 +19,24 @@ export const MAX_CLUB_ROUNDS = 3;
 export const MAX_PLAYER_ROUNDS = 3;
 /** Days a selling club / player refuses a fresh approach after breaking off. */
 export const NEGOTIATION_COOLDOWN_DAYS = 30;
+/** HM-ALPHA2-05B: days the manager has to answer a counter (or to settle terms after a fee is agreed). */
+export const RESPONSE_WINDOW_DAYS = 7;
+/** HM-ALPHA2-05B: at most this many CPU clubs compete for one negotiated player. */
+export const MAX_RIVALS = 2;
+
+/**
+ * HM-ALPHA2-05B: how long a club / player takes to answer -- 1-3 days,
+ * a fixed per-negotiation-round value (seeded, never rerolled). Timing
+ * only; it never changes WHAT the answer is.
+ */
+export function responseDelayDays(seedKey: string): number {
+  return 2 + seededOffset(`${seedKey}:response-delay`, 1);
+}
+
+/** HM-ALPHA2-05B: when a rival club makes its move -- 3-9 days after talks open. */
+export function rivalDecisionDelayDays(seedKey: string): number {
+  return 6 + seededOffset(`${seedKey}:rival-delay`, 3);
+}
 
 /** Below this share of the asking price the bid is treated as an insult and talks end at once. */
 const CLUB_INSULT_RATIO = 0.5;
@@ -50,6 +68,8 @@ export interface ClubFeeRoundInputs {
   round: number;
   /** The manager's previous fee bid in this negotiation, if any. */
   previousOfferEur?: number;
+  /** HM-ALPHA2-05B: the best fee an active rival club has on the table -- the club will not take less from the manager. */
+  rival?: { clubName: string; feeEur: number };
 }
 
 /**
@@ -59,10 +79,15 @@ export interface ClubFeeRoundInputs {
  * rounds ends talks -- the club will not haggle forever.
  */
 export function evaluateClubFeeRound(inputs: ClubFeeRoundInputs): NegotiationRoundResult {
-  const asking = roundAskingFeeEur(inputs.askingFeeEur);
+  const rivalSetsPrice = inputs.rival !== undefined && inputs.rival.feeEur > inputs.askingFeeEur;
+  const floorEur = rivalSetsPrice ? inputs.rival!.feeEur : inputs.askingFeeEur;
+  const asking = roundAskingFeeEur(floorEur);
   const offered = Math.max(0, Math.round(inputs.offeredFeeEur));
-  if (offered >= inputs.askingFeeEur) {
+  if (offered >= floorEur) {
     return { response: "ACCEPT", reason: `Klubben accepterar ${offered} €.` };
+  }
+  if (rivalSetsPrice && offered >= asking * CLUB_INSULT_RATIO && inputs.round < MAX_CLUB_ROUNDS) {
+    return { response: "COUNTER", reason: `${inputs.rival!.clubName} har bjudit mer -- klubben vill ha minst ${asking} €.`, counterFeeEur: asking };
   }
   if (offered < asking * CLUB_INSULT_RATIO) {
     return { response: "BREAK_OFF", reason: `Budet (${offered} €) uppfattas som respektlöst -- klubben avbryter samtalen.` };
@@ -92,6 +117,8 @@ export interface PlayerWageDemandInputs {
   newClubTier: 1 | 2 | undefined;
   currentSquadStatus: SquadStatus;
   currentClubPressure: FinancialPressureLevel;
+  /** HM-ALPHA2-05B: the BUYING club's financial state -- a shaky club must pay a risk premium. */
+  newClubPressure?: FinancialPressureLevel;
   /** The role the player believes their quality earns at the buying club. */
   expectedRole: SquadStatusTier;
   promisedRole: SquadStatusTier;
@@ -152,6 +179,10 @@ export function computePlayerWageDemand(inputs: PlayerWageDemandInputs): PlayerW
     demand *= 0.93;
     factors.push("Nuvarande klubb har ekonomiska problem.");
   }
+  if (inputs.newClubPressure === "SERIOUS" || inputs.newClubPressure === "CRITICAL") {
+    demand *= 1.06;
+    factors.push("Vill ha betalt för risken i en klubb med ansträngd ekonomi.");
+  }
 
   demand *= 1 + seededOffset(`${inputs.playerId}:negotiation:wage-demand`, 5) / 100;
   return { demandEurPerMonth: roundUp(Math.max(0, demand), 10), refusesRole, factors };
@@ -161,10 +192,26 @@ export interface PlayerTermsRoundInputs {
   demand: PlayerWageDemand;
   offeredWageEurPerMonth: number;
   round: number;
+  /**
+   * HM-ALPHA2-05B: the most attractive active rival package, as its wage
+   * over what the player would demand AT THAT CLUB (>1 = better than the
+   * player needs there). To win, the manager must match that same margin
+   * against their own demand; a tie goes to the club already in talks.
+   */
+  rival?: { clubName: string; packageRatio: number };
+}
+
+/** The ratio a package scores: offered wage over the player's demand for exactly those terms. */
+export function packageRatio(offeredWageEurPerMonth: number, demand: PlayerWageDemand): number {
+  if (demand.refusesRole || demand.demandEurPerMonth <= 0) return 0;
+  return offeredWageEurPerMonth / demand.demandEurPerMonth;
 }
 
 export function evaluatePlayerTermsRound(inputs: PlayerTermsRoundInputs): NegotiationRoundResult {
-  const { demand } = inputs;
+  const rivalBeats = inputs.rival !== undefined && inputs.rival.packageRatio > 1;
+  const demand: PlayerWageDemand = rivalBeats
+    ? { ...inputs.demand, demandEurPerMonth: roundUp(inputs.demand.demandEurPerMonth * inputs.rival!.packageRatio, 10), factors: [...inputs.demand.factors, `Har ett bättre erbjudande från ${inputs.rival!.clubName}.`] }
+    : inputs.demand;
   const offered = Math.max(0, Math.round(inputs.offeredWageEurPerMonth));
   if (!demand.refusesRole && offered >= demand.demandEurPerMonth) {
     return { response: "ACCEPT", reason: "Spelaren accepterar villkoren." };
@@ -176,7 +223,7 @@ export function evaluatePlayerTermsRound(inputs: PlayerTermsRoundInputs): Negoti
     return { response: "REJECT", reason: "Spelaren vägrar en så liten roll oavsett lön." };
   }
   if (offered >= demand.demandEurPerMonth * PLAYER_COUNTER_RATIO) {
-    return { response: "COUNTER", reason: `Spelaren vill ha ${demand.demandEurPerMonth} €/mån.`, counterWageEurPerMonth: demand.demandEurPerMonth };
+    return { response: "COUNTER", reason: rivalBeats ? `Spelaren vill ha ${demand.demandEurPerMonth} €/mån för att välja er framför ${inputs.rival!.clubName}.` : `Spelaren vill ha ${demand.demandEurPerMonth} €/mån.`, counterWageEurPerMonth: demand.demandEurPerMonth };
   }
   return { response: "REJECT", reason: "Lönen ligger långt under spelarens förväntningar." };
 }

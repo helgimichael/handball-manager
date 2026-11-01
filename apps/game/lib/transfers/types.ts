@@ -99,15 +99,18 @@ export interface TransferOffer {
  * COMPLETED: player accepted, a TransferOffer was created (`offerId`).
  * COLLAPSED: one side broke off talks -- `closedUntil` blocks a fresh
  * approach for the same player. WITHDRAWN: the manager walked away.
+ * HM-ALPHA2-05B: EXPIRED: the manager let a response deadline pass.
+ * LOST: the player signed for (or agreed with) another club meanwhile.
  */
-export const TRANSFER_NEGOTIATION_STAGES = ["CLUB", "PLAYER", "COMPLETED", "COLLAPSED", "WITHDRAWN"] as const;
+export const TRANSFER_NEGOTIATION_STAGES = ["CLUB", "PLAYER", "COMPLETED", "COLLAPSED", "WITHDRAWN", "EXPIRED", "LOST"] as const;
 export type TransferNegotiationStage = (typeof TRANSFER_NEGOTIATION_STAGES)[number];
 
 export type NegotiationResponse = "ACCEPT" | "COUNTER" | "REJECT" | "BREAK_OFF";
 
 export interface NegotiationRound {
   date: string;
-  party: "CLUB" | "PLAYER";
+  /** HM-ALPHA2-05B: MARKET -- an informational entry about a rival club's move, not an answer to the manager. */
+  party: "CLUB" | "PLAYER" | "MARKET";
   offeredFeeEur?: number;
   offeredWageEurPerMonth?: number;
   contractYears?: number;
@@ -136,6 +139,38 @@ export interface TransferNegotiation {
   closedUntil?: string;
   /** COMPLETED only -- the TransferOffer the agreement produced. */
   offerId?: string;
+  /** HM-ALPHA2-05B: the manager's offer awaiting an answer -- resolved by the daily tick on `responseDate`. */
+  pending?: PendingNegotiationOffer;
+  /** HM-ALPHA2-05B: after an answer, the manager must make the next move by this date or the negotiation EXPIRES (an agreed fee lapses with it). */
+  expiresDate?: string;
+  /** HM-ALPHA2-05B: CPU clubs pursuing the same player, found with the existing recruitment logic when talks opened. */
+  rivals?: RivalInterest[];
+}
+
+export interface PendingNegotiationOffer {
+  party: "CLUB" | "PLAYER";
+  submittedDate: string;
+  responseDate: string;
+  offeredFeeEur?: number;
+  offeredWageEurPerMonth?: number;
+  contractYears?: number;
+  promisedSquadRole?: SquadStatusTier;
+}
+
+/**
+ * HM-ALPHA2-05B: one CPU club's competing pursuit. Its terms are fixed
+ * when it is found (the same fee/wage estimate cpuCandidateEvaluation.ts
+ * uses for its own offers, the role the player would earn there); on
+ * `decisionDate` it either signs the player or drops out.
+ */
+export interface RivalInterest {
+  clubId: string;
+  feeEur: number;
+  wageEurPerMonth: number;
+  contractYears: number;
+  role: SquadStatusTier;
+  decisionDate: string;
+  status: "ACTIVE" | "WITHDRAWN" | "SIGNED";
 }
 
 /**
