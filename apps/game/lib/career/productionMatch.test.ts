@@ -37,7 +37,7 @@ test('real career match: commands, save continuation, exact archive and exactly-
   const prefix = JSON.stringify(core.events);
   const tick = core.tick, seed = core.seed;
   running = commandProductionMatch(running, { kind: 'SUBSTITUTION', team, outId: out.id, inId: incoming.id });
-  running = commandProductionMatch(running, { kind: 'TACTICS', team, patch: { tempo: 'QUICK', attackIdentity: 'WIDTH', defence: '5:1' } });
+  running = commandProductionMatch(running, { kind: 'TACTICS', team, patch: { tempo: 'QUICK', attackIdentity: 'WIDTH', defence: '5:1', aggression: 'HIGH' } });
   assert.equal(running.productionMatch!.core.tick, tick);
   assert.equal(running.productionMatch!.core.seed, seed);
   assert.equal(prefix, '[]');
@@ -69,6 +69,8 @@ test('real career match: commands, save continuation, exact archive and exactly-
   assert.deepEqual(done.matchArchives, restored.matchArchives);
   const archive = Object.values(done.matchArchives!)[0];
   assert.equal(archive.behaviorRevision, MATCH_BEHAVIOR_REVISION);
+  assert.deepEqual(archive.tactics?.kickoff?.[team], { defence: '6:0', aggression: 'BALANCED' }, 'the instructions the side kicked off with are archived');
+  assert.deepEqual(archive.tactics?.final[team], { defence: '5:1', aggression: 'HIGH' }, 'the in-match change is archived');
   const frames = archiveFrames(archive);
   assert.ok(frames.length > 1000);
   assert.equal(archive.result.engine, 'V2');

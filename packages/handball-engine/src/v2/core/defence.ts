@@ -31,6 +31,7 @@ import { clamp, clearGoalArea, distance, goal, local, world } from './space';
 import {defenderRelation} from './threatRelation';
 import { courtPlayers, getPlayer, type CorePlayer, type CoreState, type Direction, type Point } from './state';
 import { secondsTo } from './timing';
+import type { DefensiveAggression } from './coaching';
 
 /**
  * The six spaces of a 6:0, outside-left to outside-right.
@@ -75,6 +76,36 @@ const SHIFT_NEAR = 0.78, SHIFT_FAR = 0.30;
  * before it can do anything else.
  */
 const BASE_SPREAD = 1, BEATEN_SPREAD = 0.82;
+
+/**
+ * Defensive aggression: how far the coach lets the line leave itself.
+ *
+ * It changes only where defenders choose to stand -- how far the pressing man
+ * steps out, how tight he closes, how early and how far the helper leaves his
+ * post. Nothing here touches a probability. A high line wins the ball by being
+ * nearer to it and pays for it in metres run and in the space behind it; a low
+ * line saves the legs and concedes the shot from distance. BALANCED is the
+ * calibrated line and is the identity on every factor.
+ */
+type AggressionProfile = {
+  /** Multiplier on the step-out the attacker's threat draws. */
+  readonly step: number;
+  /** How close in front of the carrier the pressing man is prepared to stand. */
+  readonly reach: number;
+  /** Share of the step-out already taken while a pass is still in the air. */
+  readonly flight: number;
+  /** Multiplier on how far the helper leaves his post toward the ball. */
+  readonly help: number;
+  /** Metres earlier (further out) the helper treats the carrier as threatening. */
+  readonly early: number;
+};
+const AGGRESSION: Record<DefensiveAggression, AggressionProfile> = {
+  LOW: { step: 0.6, reach: 0.8, flight: 0.35, help: 0.75, early: -0.6 },
+  BALANCED: { step: 1, reach: 0.45, flight: 0.5, help: 1, early: 0 },
+  HIGH: { step: 1.35, reach: 0.25, flight: 0.65, help: 1.3, early: 0.9 },
+};
+/** Old active saves carry no aggression instruction and keep the calibrated line. */
+const aggressionOf = (s: CoreState, d: CorePlayer): AggressionProfile => AGGRESSION[s.coaching[d.team]?.aggression ?? 'BALANCED'];
 /** The line reacts to current loss of containment, even before a duel event stamps it. */
 function lostContainment(carrier:CorePlayer,d:CorePlayer,direction:Direction):boolean {
   const advancing=Math.hypot(carrier.velocity.x,carrier.velocity.y)>.5;
@@ -407,7 +438,8 @@ export function dutyTarget(s: CoreState, d: CorePlayer, duty: ZoneDuty, read: De
     // turned the anticipation into seventeen interceptions a match. Until the
     // catch he closes the distance laterally and holds most of his depth.
     const inFlight = s.ball.controllerId === null && s.ball.flight?.kind === 'PASS';
-    const depth = pressDepth(man, d, manQ.y) * (inFlight ? 0.5 : 1);
+    const aggression = aggressionOf(s, d);
+    const depth = pressDepth(man, d, manQ.y) * aggression.step * (inFlight ? aggression.flight : 1);
     // Steer him away from the middle: stand a little to his inside.
     const inside = Math.sign(10 - manQ.x) || 1;
     const lateral = 0.35 + 0.35 * d.profile.defPositioning;
@@ -419,18 +451,20 @@ export function dutyTarget(s: CoreState, d: CorePlayer, duty: ZoneDuty, read: De
     const lane = inFlight ? (q.x + (manQ.x + inside * lateral)) / 2 : manQ.x + inside * lateral;
     const homeDepth=s.defence.system==='5:1'&&d.zone===POINT_ZONE
       ?Math.max(LINE_DEPTH_METERS+1,Math.min(q.y,manQ.y-.65)):q.y;
-    return target(lane, Math.max(homeDepth, Math.min(manQ.y - 0.45, homeDepth + depth)));
+    return target(lane, Math.max(homeDepth, Math.min(manQ.y - aggression.reach, homeDepth + depth)));
   }
   if (duty.kind === 'HELP' && manQ) {
     // Between his own post and the ball, goal-side of the carrier, never past
     // him. Helping is closing a door, not chasing a man.
-    const threatening=['DRIVE','DRIBBLE'].includes(man?.action?.kind??'')||manQ.y<9.2||
+    const aggression=aggressionOf(s,d);
+    const threatening=['DRIVE','DRIBBLE'].includes(man?.action?.kind??'')||manQ.y<9.2+aggression.early||
       !!s.defence.pressureId&&getPlayer(s,s.defence.pressureId).beatenUntilTick>s.tick;
     // Allocation is readiness. Actually leaving the post is a response to a
     // threat reaching the interval, not an automatic collapse on every pass.
-    const pull=threatening?.55:.2;
+    // An aggressive line answers sooner and travels further toward the ball.
+    const pull=(threatening?.55:.2)*aggression.help;
     const covering=.65+.35*d.profile.covering;
-    return target(q.x+(manQ.x-q.x)*pull*covering,Math.max(q.y-.2,Math.min(manQ.y-.35,q.y+(threatening?1.1:.35))));
+    return target(q.x+(manQ.x-q.x)*pull*covering,Math.max(q.y-.2,Math.min(manQ.y-.35,q.y+(threatening?1.1:.35)*aggression.help)));
   }
   if (duty.kind === 'PIVOT' && manQ) {
     // Front him when the ball is on the far side, sit behind him when it is

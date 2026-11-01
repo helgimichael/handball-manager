@@ -3,14 +3,21 @@ import { requestExchange,exchangeActive } from './population';
 import { requestTeamTimeout } from './referee';
 import type { AttackIdentity } from './offence';
 
-export type TeamTactics={defence:'6:0'|'5:1';tempo:'BALANCED'|'QUICK';attackIdentity:AttackIdentity;rotation:boolean;timeouts:boolean;lastTimeoutPossession:string|null};
+/** How far the defence is prepared to leave its line to take the ball. */
+export type DefensiveAggression='LOW'|'BALANCED'|'HIGH';
+export const DEFENSIVE_AGGRESSION_LEVELS:readonly DefensiveAggression[]=['LOW','BALANCED','HIGH'];
+export type TeamTactics={defence:'6:0'|'5:1';tempo:'BALANCED'|'QUICK';attackIdentity:AttackIdentity;rotation:boolean;timeouts:boolean;lastTimeoutPossession:string|null;
+  /** Absent in active saves created before the instruction existed; reads as BALANCED. */
+  aggression?:DefensiveAggression};
 export const initialCoaching=():Record<TeamId,TeamTactics>=>({HOME:{defence:'6:0',tempo:'BALANCED',attackIdentity:'BALANCED',rotation:false,timeouts:false,lastTimeoutPossession:null},AWAY:{defence:'6:0',tempo:'BALANCED',attackIdentity:'BALANCED',rotation:false,timeouts:false,lastTimeoutPossession:null}});
+export const defensiveAggression=(s:CoreState,team:TeamId):DefensiveAggression=>s.coaching[team]?.aggression??'BALANCED';
 /** Commands change future decisions; existing physical commitments finish normally. */
-export function setTactics(s:CoreState,team:TeamId,patch:Partial<Pick<TeamTactics,'defence'|'tempo'|'attackIdentity'|'rotation'|'timeouts'>>) {
+export function setTactics(s:CoreState,team:TeamId,patch:Partial<Pick<TeamTactics,'defence'|'tempo'|'attackIdentity'|'rotation'|'timeouts'|'aggression'>>) {
   if(s.status!=='RUNNING')return false;
   if(patch.attackIdentity!==undefined&&!['BALANCED','COMBINATION','WIDTH','DIRECT'].includes(patch.attackIdentity))throw new Error('Invalid attacking identity');
   if(patch.defence!==undefined&&!['6:0','5:1'].includes(patch.defence)||patch.tempo!==undefined&&!['BALANCED','QUICK'].includes(patch.tempo)||
-    patch.rotation!==undefined&&typeof patch.rotation!=='boolean'||patch.timeouts!==undefined&&typeof patch.timeouts!=='boolean')throw new Error('Invalid team tactics');
+    patch.rotation!==undefined&&typeof patch.rotation!=='boolean'||patch.timeouts!==undefined&&typeof patch.timeouts!=='boolean'||
+    patch.aggression!==undefined&&!DEFENSIVE_AGGRESSION_LEVELS.includes(patch.aggression))throw new Error('Invalid team tactics');
   Object.assign(s.coaching[team],patch);record(s,'TACTICS_CHANGED',null,{team,...patch});return true;
 }
 export function coachingBefore(s:CoreState) {

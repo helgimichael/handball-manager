@@ -211,3 +211,19 @@ test('different offenders retain independent discipline and progression still ap
   assert.equal(one.warnings,1);assert.equal(two.warnings,1);
   a.action=null;judgeFoul(s,a,one,'PUNISHABLE','Separate later decision',false,'third');assert.equal(one.sanctions,1);assert.equal(two.sanctions,0);
 });
+
+test('a throw-off that cannot be organised still opens the half through the referee fallback',()=>{
+  // HM-ALPHA2-04A: bodies jammed on the centre spot at the half-time switch
+  // left the throw-off unorganisable. The fallback free throw dropped the
+  // opening context, so the half never started and the clock never ran again.
+  const s=createMatch(4,'TOP',1800000,0);
+  s.restart!.awardedTick=s.tick-1601;
+  advanceCoreMutable(s);
+  assert.equal(s.events.some(e=>e.type==='RESTART_UNRESOLVED'),true);
+  assert.equal(s.restart?.kind,'FREE_THROW');
+  assert.equal(s.restart?.context,'OPENING_HALF','the replacement throw still opens the period');
+  for(let i=0;i<1200&&s.match!.phase==='PREMATCH';i++)advanceCoreMutable(s);
+  assert.equal(s.match!.phase,'FIRST_HALF');
+  assert.equal(s.officialClock.running,true);
+  assert.ok(s.events.some(e=>e.type==='PERIOD_STARTED'));
+});

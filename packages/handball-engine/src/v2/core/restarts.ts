@@ -62,6 +62,9 @@ export function restartStep(s:CoreState) {
   if(s.tick-r.awardedTick-r.pausedTicks>1600) {
     record(s,'RESTART_UNRESOLVED',null,{kind:r.kind,owner:r.owner,ticks:s.tick-r.awardedTick});
     awardRestart(s,'FREE_THROW',otherTeam(r.owner),r.location,'Restart could not be organised',null,false);
+    // The replacement still opens the half. Dropping the context left the
+    // period in PREMATCH with live play and a stopped clock, so it never ended.
+    if(r.context==='OPENING_HALF'&&s.restart)s.restart.context='OPENING_HALF';
     return;
   }
   if(r.phase==='AUTHORISED'&&r.authorisedTick!==null&&(s.tick-r.authorisedTick)*50>s.ruleProfile.maxHoldMs){s.status='FAILED';s.reason='Restart execution exceeded three seconds';record(s,'RESTART_FAILED',null,{reason:s.reason});return;}
