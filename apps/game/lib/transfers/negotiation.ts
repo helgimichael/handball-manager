@@ -123,6 +123,21 @@ export interface PlayerWageDemandInputs {
   expectedRole: SquadStatusTier;
   promisedRole: SquadStatusTier;
   contractYears: number;
+  /**
+   * HM-ALPHA2-05E: sporting ambition -- the player's own ability against
+   * the buying squad's level (cpuCandidateEvaluation.ts's ownLevelScore:
+   * average ability of its best seven). Optional: absent = neutral.
+   */
+  sportingLevel?: { playerCa: number; buyingSquadLevel: number };
+  /** HM-ALPHA2-05E: potential still to realise (PA - CA) -- a big gap makes playing time matter more. */
+  potentialGap?: number;
+}
+
+/** HM-ALPHA2-05E: one reason the demand moved, and by how much -- shown to the manager as-is. */
+export interface DemandFactor {
+  label: string;
+  /** Multiplicative effect on the wage demand, in percent (e.g. +15, -8). */
+  effectPct: number;
 }
 
 export interface PlayerWageDemand {
@@ -130,7 +145,13 @@ export interface PlayerWageDemand {
   /** True when the promised role is so far below expectation that no wage compensates. */
   refusesRole: boolean;
   factors: string[];
+  /** HM-ALPHA2-05E: the base the factors were applied to, and each factor with its effect. */
+  baseEurPerMonth?: number;
+  breakdown?: DemandFactor[];
 }
+
+/** HM-ALPHA2-05E: a potential gap this large marks an ambitious talent who weighs playing time heavily. */
+export const AMBITIOUS_TALENT_POTENTIAL_GAP = 15;
 
 /**
  * What the player asks for. Under contract they want a raise on their
@@ -141,51 +162,61 @@ export interface PlayerWageDemand {
  */
 export function computePlayerWageDemand(inputs: PlayerWageDemandInputs): PlayerWageDemand {
   const factors: string[] = [];
-  let demand = inputs.isFreeAgent ? inputs.fairWageEurPerMonth * 0.95 : Math.max(inputs.currentWageEurPerMonth * 1.1, inputs.fairWageEurPerMonth);
+  const breakdown: DemandFactor[] = [];
+  const base = inputs.isFreeAgent ? inputs.fairWageEurPerMonth * 0.95 : Math.max(inputs.currentWageEurPerMonth * 1.1, inputs.fairWageEurPerMonth);
+  let demand = base;
+  const apply = (multiplier: number, label: string) => {
+    demand *= multiplier;
+    factors.push(label);
+    breakdown.push({ label, effectPct: Math.round((multiplier - 1) * 100) });
+  };
 
   const currentTier = inputs.currentClubTier ?? 2;
   const newTier = inputs.newClubTier ?? 2;
-  if (newTier > currentTier) {
-    demand *= 1.15;
-    factors.push("Kräver kompensation för att gå till en lägre serie.");
-  } else if (newTier < currentTier) {
-    demand *= 0.92;
-    factors.push("Lockas av en högre serie.");
+  if (newTier > currentTier) apply(1.15, "Kräver kompensation för att gå till en lägre serie.");
+  else if (newTier < currentTier) apply(0.92, "Lockas av en högre serie.");
+
+  // HM-ALPHA2-05E: the squad he would join, not just its league.
+  if (inputs.sportingLevel) {
+    const { playerCa, buyingSquadLevel } = inputs.sportingLevel;
+    if (buyingSquadLevel < playerCa - 10) apply(1.08, "Ser er trupp som ett sportsligt steg ned.");
+    else if (buyingSquadLevel > playerCa + 5) apply(0.96, "Lockas av en starkare trupp att utvecklas i.");
   }
 
+  const ambitious = (inputs.potentialGap ?? 0) >= AMBITIOUS_TALENT_POTENTIAL_GAP;
   const roleGap = TIER_RANK[inputs.promisedRole] - TIER_RANK[inputs.expectedRole];
   const refusesRole = roleGap >= 3;
-  if (roleGap > 0) {
-    demand *= 1 + 0.12 * roleGap;
-    factors.push("Den utlovade rollen är mindre än spelaren anser sig förtjäna.");
-  } else if (roleGap < 0) {
-    demand *= Math.pow(0.97, Math.min(2, -roleGap));
-    factors.push("Uppskattar en större roll än väntat.");
-  }
+  if (roleGap > 0) apply(1 + (ambitious ? 0.18 : 0.12) * roleGap, ambitious ? "Ambitiös talang -- den utlovade rollen ger för lite speltid." : "Den utlovade rollen är mindre än spelaren anser sig förtjäna.");
+  else if (roleGap < 0) apply(Math.pow(ambitious ? 0.95 : 0.97, Math.min(2, -roleGap)), ambitious ? "Ambitiös talang -- en större roll väger tungt." : "Uppskattar en större roll än väntat.");
 
-  if (inputs.age !== null && inputs.age >= 30 && inputs.contractYears < 2) {
-    demand *= 1.1;
-    factors.push("Vill ha trygghet i ett längre avtal.");
-  } else if (inputs.age !== null && inputs.age <= 23 && inputs.contractYears > 4) {
-    demand *= 1.08;
-    factors.push("Vill inte binda sig för länge i början av karriären.");
-  }
+  if (inputs.age !== null && inputs.age >= 30 && inputs.contractYears < 2) apply(1.1, "Vill ha trygghet i ett längre avtal.");
+  else if (inputs.age !== null && inputs.age <= 23 && inputs.contractYears > 4) apply(1.08, "Vill inte binda sig för länge i början av karriären.");
 
-  if (inputs.currentSquadStatus === "Rotation" || inputs.currentSquadStatus === "Ungdom") {
-    demand *= 0.95;
-    factors.push("Vill ha mer speltid än i nuvarande klubb.");
-  }
-  if (inputs.currentClubPressure === "SERIOUS" || inputs.currentClubPressure === "CRITICAL") {
-    demand *= 0.93;
-    factors.push("Nuvarande klubb har ekonomiska problem.");
-  }
-  if (inputs.newClubPressure === "SERIOUS" || inputs.newClubPressure === "CRITICAL") {
-    demand *= 1.06;
-    factors.push("Vill ha betalt för risken i en klubb med ansträngd ekonomi.");
-  }
+  if (inputs.currentSquadStatus === "Rotation" || inputs.currentSquadStatus === "Ungdom") apply(0.95, "Vill ha mer speltid än i nuvarande klubb.");
+  if (inputs.currentClubPressure === "SERIOUS" || inputs.currentClubPressure === "CRITICAL") apply(0.93, "Nuvarande klubb har ekonomiska problem.");
+  if (inputs.newClubPressure === "SERIOUS" || inputs.newClubPressure === "CRITICAL") apply(1.06, "Vill ha betalt för risken i en klubb med ansträngd ekonomi.");
 
-  demand *= 1 + seededOffset(`${inputs.playerId}:negotiation:wage-demand`, 5) / 100;
-  return { demandEurPerMonth: roundUp(Math.max(0, demand), 10), refusesRole, factors };
+  // Fixed per-player personal offset on the DEMAND (never on the decision) -- shown, not hidden.
+  const personal = seededOffset(`${inputs.playerId}:negotiation:wage-demand`, 5);
+  demand *= 1 + personal / 100;
+  if (personal !== 0) breakdown.push({ label: "Spelarens egen värdering", effectPct: personal });
+  return { demandEurPerMonth: roundUp(Math.max(0, demand), 10), refusesRole, factors, baseEurPerMonth: Math.round(base), breakdown };
+}
+
+/**
+ * HM-ALPHA2-05E: the agent's commission -- a fixed number of months of
+ * the player's demanded wage, stated up front and paid by the buying
+ * club on signing. A player with leverage (free, or with little time
+ * left) has an agent who asks more; it is never negotiated away.
+ */
+export function computeAgentFeeEur(demandEurPerMonth: number, situation: "FREE_AGENT" | "EXPIRING" | "EXPIRING_SOON" | "UNDER_CONTRACT"): number {
+  const months = situation === "FREE_AGENT" ? 2 : situation === "EXPIRING" ? 1.5 : situation === "EXPIRING_SOON" ? 1 : 0.5;
+  return roundUp(demandEurPerMonth * months, 100);
+}
+
+/** HM-ALPHA2-05E: a signing bonus spread over the contract counts as wage when the player weighs the package. */
+export function effectiveMonthlyWage(wageEurPerMonth: number, signingBonusEur: number, contractYears: number): number {
+  return wageEurPerMonth + Math.max(0, signingBonusEur) / (12 * Math.max(1, contractYears));
 }
 
 export interface PlayerTermsRoundInputs {

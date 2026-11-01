@@ -39,6 +39,8 @@ export interface PlayerContract {
   wageEurPerMonth: number;
   /** A real agreement must survive legacy formula recalibration on load. */
   wageAgreed?: boolean;
+  /** HM-ALPHA2-05E: the squad role promised when the player signed -- kept with the contract so a broken promise stays visible. */
+  promisedSquadRole?: "KEY_PLAYER" | "FIRST_CHOICE" | "ROTATION" | "SQUAD_PLAYER" | "TALENT";
 }
 
 /** Contract-status day-count thresholds, counting down from contractEndDate. */

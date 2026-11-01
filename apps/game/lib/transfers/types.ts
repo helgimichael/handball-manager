@@ -16,6 +16,7 @@
 // pure function; only the ORCHESTRATION is synchronous.
 
 import type { SquadStatusTier } from "../career/squadStatus";
+import type { DemandFactor } from "./negotiation";
 
 export const TRANSFER_DEAL_TYPES =["PERMANENT", "LOAN"] as const;
 export type TransferDealType = (typeof TRANSFER_DEAL_TYPES)[number];
@@ -87,6 +88,9 @@ export interface TransferOffer {
   promisedSquadRole?: SquadStatusTier;
   /** HM-ALPHA2-05A: the TransferNegotiation this offer concluded, when it came out of the two-stage flow. */
   negotiationId?: string;
+  /** HM-ALPHA2-05E: the agent's commission and any signing bonus -- paid by the buying club when the deal executes, on top of fee and training compensation. */
+  agentFeeEur?: number;
+  signingBonusEur?: number;
 }
 
 // ---------------------------------------------------------------------------
@@ -120,6 +124,10 @@ export interface NegotiationRound {
   counterFeeEur?: number;
   /** PLAYER counter -- the player's stated wage demand. */
   counterWageEurPerMonth?: number;
+  /** HM-ALPHA2-05E: an optional signing bonus offered with the terms, and the player's demand and why (PLAYER rounds). */
+  signingBonusEur?: number;
+  demandEurPerMonth?: number;
+  demandBreakdown?: DemandFactor[];
   /** HM-ALPHA2-05C (LOAN): the borrowing club's offered wage share and loan end date, and the owner's required share. */
   offeredWageSharePct?: number;
   loanEndDate?: string;
@@ -169,6 +177,7 @@ export interface PendingNegotiationOffer {
   offeredWageEurPerMonth?: number;
   contractYears?: number;
   promisedSquadRole?: SquadStatusTier;
+  signingBonusEur?: number;
   /** HM-ALPHA2-05C (LOAN). */
   wageSharePct?: number;
   loanEndDate?: string;

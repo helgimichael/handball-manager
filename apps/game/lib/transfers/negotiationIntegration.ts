@@ -15,7 +15,7 @@
 import type { CareerState } from "../career/types";
 import { getCareerPlayer } from "../career/careerWorld";
 import { getCareerPlayerRating } from "../career/careerRatingNormalization";
-import { rankCandidates } from "../career/cpuCandidateEvaluation";
+import { ownLevelScore, rankCandidates } from "../career/cpuCandidateEvaluation";
 import { cpuRecruiterClubIds } from "../career/cpuRecruitment";
 import { assessPositionNeed } from "../career/cpuSquadNeeds";
 import { addDays, isAfter, isBefore, isSameOrBefore } from "../career/dateUtils";
@@ -35,6 +35,9 @@ import {
   evaluateLoanPlayerRound,
   evaluateLoanShareRound,
   evaluatePlayerTermsRound,
+  computeAgentFeeEur,
+  effectiveMonthlyWage,
+  type PlayerWageDemandInputs,
   expectedRoleFromSquadRank,
   packageRatio,
   responseDelayDays,
@@ -71,7 +74,9 @@ export function getLatestNegotiation(state: CareerState, playerId: string, toClu
 }
 
 function saveNegotiation(state: CareerState, negotiation: TransferNegotiation): CareerState {
-  return { ...state, transferNegotiations: { ...(state.transferNegotiations ?? {}), [negotiation.id]: negotiation } };
+  // HM-ALPHA2-05E: cleared optional fields (pending, expiresDate...) are dropped rather than stored as `undefined`, so a save/reload round-trip is byte-identical.
+  const stored = Object.fromEntries(Object.entries(negotiation).filter(([, value]) => value !== undefined)) as unknown as TransferNegotiation;
+  return { ...state, transferNegotiations: { ...(state.transferNegotiations ?? {}), [negotiation.id]: stored } };
 }
 
 function lastRound(negotiation: TransferNegotiation, party: NegotiationRound["party"]): NegotiationRound | undefined {
@@ -267,6 +272,27 @@ export interface PlayerTermsOffer {
   wageEurPerMonth: number;
   contractYears: number;
   promisedSquadRole: SquadStatusTier;
+  /** HM-ALPHA2-05E: optional one-off bonus, weighed by the player as wage spread over the contract. */
+  signingBonusEur?: number;
+}
+
+/**
+ * HM-ALPHA2-05E: the agent's commission for a permanent deal -- from the
+ * player's demand for a standard package (3 years, the role he expects)
+ * and his contract situation; stable for the whole negotiation, shown
+ * before any terms are offered. Loans carry no agent fee.
+ */
+export function getNegotiationAgentFeeEur(state: CareerState, negotiation: TransferNegotiation): number {
+  if (negotiation.dealType === "LOAN") return 0;
+  const standard = computeWageDemandAt(state, negotiation, negotiation.toClubId, { contractYears: 3, promisedSquadRole: expectedRoleAtClub(state, negotiation.playerId, negotiation.toClubId) });
+  if (!standard) return 0;
+  const status = negotiation.fromClubId === "" ? "FREE_AGENT" : getPlayerContractStatus(state, negotiation.playerId) ?? "UNDER_CONTRACT";
+  return computeAgentFeeEur(standard.demandEurPerMonth, status);
+}
+
+/** HM-ALPHA2-05E: the role the player expects at the manager's club -- shown in the room as his ambition. */
+export function getExpectedRoleAtBuyer(state: CareerState, negotiation: TransferNegotiation): SquadStatusTier {
+  return expectedRoleAtClub(state, negotiation.playerId, negotiation.toClubId);
 }
 
 /** The player's demand for these exact terms at `clubId` -- the buying club's tier, finances and squad decide it. */
@@ -289,7 +315,16 @@ function computeWageDemandAt(state: CareerState, negotiation: TransferNegotiatio
     expectedRole: expectedRoleAtClub(state, player.id, clubId),
     promisedRole: terms.promisedSquadRole,
     contractYears: terms.contractYears,
+    ...sportingContext(state, player.id, player.clubId, clubId),
   });
+}
+
+/** HM-ALPHA2-05E: the player's ability and potential against the buying squad's level (omitted when the squad is not yet materialised). */
+function sportingContext(state: CareerState, playerId: string, playingClubId: string, buyingClubId: string): Pick<PlayerWageDemandInputs, "sportingLevel" | "potentialGap"> {
+  const rating = getCareerPlayerRating(state, playerId, playingClubId);
+  if (!rating) return {};
+  const buyingSquadLevel = ownLevelScore(state, buyingClubId);
+  return { potentialGap: Math.max(0, rating.pa - rating.ca), ...(buyingSquadLevel > 0 ? { sportingLevel: { playerCa: rating.ca, buyingSquadLevel } } : {}) };
 }
 
 /** The player's demand for these exact terms at the manager's club -- what the next round will be judged against. */
@@ -314,15 +349,17 @@ export function submitNegotiationTerms(state: CareerState, negotiationId: string
   }
   if (!Number.isInteger(terms.contractYears) || terms.contractYears < 1 || terms.contractYears > 5) return { ok: false, error: "Välj en kontraktslängd på 1-5 år." };
   const wage = Math.max(0, Math.round(terms.wageEurPerMonth));
+  const bonus = Math.max(0, Math.round(terms.signingBonusEur ?? 0));
 
-  const affordability = assessTransferAffordability(state, negotiation.toClubId, negotiation.agreedFeeEur ?? 0, trainingCompensationEur(state, negotiation.playerId), wage);
+  const signingCosts = trainingCompensationEur(state, negotiation.playerId) + getNegotiationAgentFeeEur(state, negotiation) + bonus;
+  const affordability = assessTransferAffordability(state, negotiation.toClubId, negotiation.agreedFeeEur ?? 0, signingCosts, wage);
   if (!affordability.affordable) return { ok: false, error: affordability.reasons.join(" ") };
 
   const next: TransferNegotiation = {
     ...negotiation,
     updatedDate: state.gameDate,
     expiresDate: undefined,
-    pending: { party: "PLAYER", submittedDate: state.gameDate, responseDate: pendingResponseDate(state, negotiation), offeredWageEurPerMonth: wage, contractYears: terms.contractYears, promisedSquadRole: terms.promisedSquadRole },
+    pending: { party: "PLAYER", submittedDate: state.gameDate, responseDate: pendingResponseDate(state, negotiation), offeredWageEurPerMonth: wage, contractYears: terms.contractYears, promisedSquadRole: terms.promisedSquadRole, ...(bonus > 0 ? { signingBonusEur: bonus } : {}) },
   };
   return { ok: true, state: saveNegotiation(state, next), negotiation: next };
 }
@@ -399,7 +436,7 @@ function managerPackageRatio(state: CareerState, negotiation: TransferNegotiatio
   const source = negotiation.pending?.party === "PLAYER" ? negotiation.pending : lastRound(negotiation, "PLAYER");
   if (!source?.offeredWageEurPerMonth || !source.contractYears || !source.promisedSquadRole) return 0;
   const demand = computeNegotiationWageDemand(state, negotiation, { contractYears: source.contractYears, promisedSquadRole: source.promisedSquadRole });
-  return demand ? packageRatio(source.offeredWageEurPerMonth, demand) : 0;
+  return demand ? packageRatio(effectiveMonthlyWage(source.offeredWageEurPerMonth, source.signingBonusEur ?? 0, source.contractYears), demand) : 0;
 }
 
 function closeNegotiation(negotiation: TransferNegotiation, stage: TransferNegotiation["stage"], date: string, extra: Partial<TransferNegotiation> = {}): TransferNegotiation {
@@ -487,21 +524,25 @@ function resolvePlayerResponse(state: CareerState, negotiation: TransferNegotiat
   const pending = negotiation.pending!;
   const terms = { contractYears: pending.contractYears ?? 3, promisedSquadRole: pending.promisedSquadRole ?? "ROTATION" };
   const wage = pending.offeredWageEurPerMonth ?? 0;
+  const bonus = pending.signingBonusEur ?? 0;
   const fee = negotiation.agreedFeeEur ?? 0;
+  const agentFeeEur = getNegotiationAgentFeeEur(state, negotiation);
   const base = { ...negotiation, updatedDate: date, pending: undefined };
-  const roundOf = (response: NegotiationRound["response"], reason: string, counter?: number): NegotiationRound => ({
+  const roundOf = (response: NegotiationRound["response"], reason: string, counter?: number, demand?: PlayerWageDemand): NegotiationRound => ({
     date,
     party: "PLAYER",
     offeredWageEurPerMonth: wage,
     contractYears: terms.contractYears,
     promisedSquadRole: terms.promisedSquadRole,
+    ...(bonus > 0 ? { signingBonusEur: bonus } : {}),
     response,
     reason,
     ...(counter !== undefined ? { counterWageEurPerMonth: counter } : {}),
+    ...(demand ? { demandEurPerMonth: demand.demandEurPerMonth, demandBreakdown: demand.breakdown ?? [] } : {}),
   });
 
   // The club's finances may have changed since the offer was made -- never let a player accept terms the club can no longer carry.
-  const affordability = assessTransferAffordability(state, negotiation.toClubId, fee, trainingCompensationEur(state, negotiation.playerId), wage);
+  const affordability = assessTransferAffordability(state, negotiation.toClubId, fee, trainingCompensationEur(state, negotiation.playerId) + agentFeeEur + bonus, wage);
   if (!affordability.affordable) {
     const round = roundOf("REJECT", `Erbjudandet drogs tillbaka: ${affordability.reasons.join(" ")}`);
     return { state, negotiation: { ...base, rounds: [...negotiation.rounds, round], expiresDate: addDays(date, RESPONSE_WINDOW_DAYS) } };
@@ -509,8 +550,11 @@ function resolvePlayerResponse(state: CareerState, negotiation: TransferNegotiat
 
   const demand = computeNegotiationWageDemand(state, negotiation, terms);
   if (!demand) return { state, negotiation: closeNegotiation(base, "COLLAPSED", date) };
-  const result = evaluatePlayerTermsRound({ demand, offeredWageEurPerMonth: wage, round: roundCount(negotiation, "PLAYER") + 1, rival: bestRivalPackage(state, negotiation) });
-  const round = roundOf(result.response, [result.reason, ...demand.factors].join(" "), result.counterWageEurPerMonth);
+  // A signing bonus counts as wage spread over the contract; a counter is still stated as the monthly wage he needs on top of the bonus offered.
+  const bonusPerMonth = effectiveMonthlyWage(0, bonus, terms.contractYears);
+  const result = evaluatePlayerTermsRound({ demand, offeredWageEurPerMonth: wage + bonusPerMonth, round: roundCount(negotiation, "PLAYER") + 1, rival: bestRivalPackage(state, negotiation) });
+  const counterWage = result.counterWageEurPerMonth !== undefined ? Math.max(wage, Math.ceil((result.counterWageEurPerMonth - bonusPerMonth) / 10) * 10) : undefined;
+  const round = roundOf(result.response, result.response === "COUNTER" && counterWage !== undefined && bonus > 0 ? `Med bonusen behöver spelaren ${counterWage} €/mån.` : result.reason, counterWage, demand);
   const withRound: TransferNegotiation = { ...base, rounds: [...negotiation.rounds, round] };
 
   if (result.response === "BREAK_OFF") return { state, negotiation: closeNegotiation(withRound, "COLLAPSED", date, { closedUntil: addDays(date, NEGOTIATION_COOLDOWN_DAYS) }) };
@@ -519,7 +563,7 @@ function resolvePlayerResponse(state: CareerState, negotiation: TransferNegotiat
   const clubRound = lastRound(negotiation, "CLUB");
   const resolved = resolveTransferOffer(
     { ...state, gameDate: date },
-    { dealType: "PERMANENT", playerId: negotiation.playerId, toClubId: negotiation.toClubId, transferFeeEur: fee, newWageEurPerMonth: wage, contractYears: terms.contractYears, promisedSquadRole: terms.promisedSquadRole },
+    { dealType: "PERMANENT", playerId: negotiation.playerId, toClubId: negotiation.toClubId, transferFeeEur: fee, newWageEurPerMonth: wage, contractYears: terms.contractYears, promisedSquadRole: terms.promisedSquadRole, agentFeeEur, signingBonusEur: bonus },
     { negotiationId: negotiation.id, clubReason: clubRound?.reason ?? "Kontraktslös spelare -- ingen klubb att förhandla med.", playerReason: result.reason },
   );
   const executed = resolved.offer.status === "COMPLETED" || resolved.offer.status === "AGREED_AWAITING_WINDOW";

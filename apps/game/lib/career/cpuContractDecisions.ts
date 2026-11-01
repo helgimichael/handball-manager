@@ -30,6 +30,7 @@ import { playerAgeAtDate } from "../development/developmentIntegration";
 import { deriveDefaultSquadStatusTier, type SquadStatusTier } from "./squadStatus";
 import { assessPositionNeed, type NeedLevel } from "./cpuSquadNeeds";
 import { getCareerPlayerRating } from "./careerRatingNormalization";
+import { getCareerPlayer } from "./careerWorld";
 import type { FinancialPressureLevel } from "../economy/clubEconomyTypes";
 import type { CareerState } from "./types";
 
@@ -273,7 +274,14 @@ export function progressCpuContractDecisions(state: CareerState, date: string, c
 
   for (const clubId of cpuClubIds) {
     if (clubId === state.playerClubId) continue;
-    const squad = (next.worldSquads[clubId] ?? []).filter((p) => isUsable(next, p) && !loanedPlayerIds.has(p.id));
+    // HM-ALPHA2-05E: the OWNER decides on its loaned-out players exactly as
+    // on its own squad (they come back when the loan ends), so a CPU owner
+    // can renew a loanee whose contract is running out.
+    const ownedOnLoan = Object.values(next.loans ?? {})
+      .filter((loan) => loan.active && loan.parentClubId === clubId && getPlayerContract(next, loan.playerId)?.clubId === clubId)
+      .map((loan) => getCareerPlayer(next, loan.playerId))
+      .filter((p): p is NonNullable<typeof p> => !!p && isUsable(next, p));
+    const squad = [...(next.worldSquads[clubId] ?? []).filter((p) => isUsable(next, p) && !loanedPlayerIds.has(p.id)), ...ownedOnLoan];
     for (const player of squad) {
       const status = getPlayerContractStatus(next, player.id);
       if (status !== "EXPIRING_SOON" && status !== "EXPIRING") continue;
@@ -282,7 +290,7 @@ export function progressCpuContractDecisions(state: CareerState, date: string, c
 
       const tier = deriveDefaultSquadStatusTier(player);
       const age = playerAgeAtDate(player.dateOfBirth, player.birthYear, date);
-      const rating = getCareerPlayerRating(next, player.id, clubId);
+      const rating = getCareerPlayerRating(next, player.id, player.clubId); // a loanee's rating sits with the playing club
       const ca = rating?.ca ?? player.currentAbility;
       const pa = rating?.pa ?? player.potentialAbility;
       const fairWage = getPlayerFairWageEurPerMonth(next, player.id) ?? contract.wageEurPerMonth;

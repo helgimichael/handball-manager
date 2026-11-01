@@ -104,6 +104,9 @@ export interface SubmitTransferOfferParams {
   loanTerms?: Pick<LoanTerms, "endDate" | "wageShareBorrowingPct">;
   /** HM-ALPHA2-05A: negotiated PERMANENT deals only -- stored on the offer and applied to the manager's own squad status on arrival. */
   promisedSquadRole?: SquadStatusTier;
+  /** HM-ALPHA2-05E: agent commission and signing bonus agreed in a negotiation -- charged to the buyer when the deal executes. */
+  agentFeeEur?: number;
+  signingBonusEur?: number;
 }
 
 /**
@@ -143,9 +146,20 @@ export function getRequiredLoanWageSharePct(state: CareerState, playerId: string
 }
 
 /** Applies a negotiated squad-role promise once the player has actually joined the manager's club. */
-function applyPromisedSquadRole(state: CareerState, offer: Pick<TransferOffer, "playerId" | "toClubId" | "promisedSquadRole">): CareerState {
+function applyPromisedSquadRole(state: CareerState, offer: Pick<TransferOffer, "playerId" | "toClubId" | "promisedSquadRole" | "dealType">): CareerState {
   if (!offer.promisedSquadRole || offer.toClubId !== state.playerClubId) return state;
-  return updatePlayerSquadStatus(state, offer.playerId, offer.promisedSquadRole);
+  let next = updatePlayerSquadStatus(state, offer.playerId, offer.promisedSquadRole);
+  // HM-ALPHA2-05E: a permanent signing's promise travels with his new contract (a loanee's contract belongs to the owner).
+  const contract = next.playerContracts[offer.playerId];
+  if (offer.dealType === "PERMANENT" && contract && contract.clubId === offer.toClubId) {
+    next = { ...next, playerContracts: { ...next.playerContracts, [offer.playerId]: { ...contract, promisedSquadRole: offer.promisedSquadRole } } };
+  }
+  return next;
+}
+
+/** HM-ALPHA2-05E: what the buyer pays beyond fee and training compensation (agent commission + signing bonus). */
+function signingCostsEur(source: { agentFeeEur?: number; signingBonusEur?: number }): number {
+  return Math.max(0, source.agentFeeEur ?? 0) + Math.max(0, source.signingBonusEur ?? 0);
 }
 
 function nextOfferId(state: CareerState, playerId: string, toClubId: string): string {
@@ -238,6 +252,8 @@ export function resolveTransferOffer(
       // silently dropping an explicit-undefined key JSON.stringify omits.
       ...(loanTerms ? { loanTerms } : {}),
       ...(params.promisedSquadRole ? { promisedSquadRole: params.promisedSquadRole } : {}),
+      ...(dealType === "PERMANENT" && params.agentFeeEur ? { agentFeeEur: params.agentFeeEur } : {}),
+      ...(dealType === "PERMANENT" && params.signingBonusEur ? { signingBonusEur: params.signingBonusEur } : {}),
       ...(agreement ? { negotiationId: agreement.negotiationId } : {}),
       status,
       offeredDate,
@@ -263,7 +279,8 @@ export function resolveTransferOffer(
     return finalize("REJECTED_BY_CLUB", { clubDecisionReason: `Lånet måste sluta efter dagens datum och senast när spelarens kontrakt löper ut (${resolvedContract.contractEndDate}).` }, state);
   }
 
-  const affordability = assessTransferAffordability(state, toClubId, transferFeeEur, trainingCompensationEur, params.newWageEurPerMonth, wageShareBorrowingPct);
+  const extraSigningCostsEur = dealType === "PERMANENT" ? signingCostsEur(params) : 0;
+  const affordability = assessTransferAffordability(state, toClubId, transferFeeEur, trainingCompensationEur + extraSigningCostsEur, params.newWageEurPerMonth, wageShareBorrowingPct);
   if (!affordability.affordable) {
     return finalize("BLOCKED_UNAFFORDABLE", { clubDecisionReason: affordability.reasons.join(" ") }, state);
   }
@@ -309,7 +326,7 @@ export function resolveTransferOffer(
       active: true,
     };
     next = { ...next, loans: { ...next.loans, [loan.id]: loan } };
-    next = applyPromisedSquadRole(next, { playerId, toClubId, promisedSquadRole: params.promisedSquadRole });
+    next = applyPromisedSquadRole(next, { playerId, toClubId, promisedSquadRole: params.promisedSquadRole, dealType });
     return finalize("COMPLETED", { playerDecisionReason: playerDecision.reason, ...(agreement ? { clubDecisionReason: agreement.clubReason } : {}) }, next);
   }
 
@@ -323,10 +340,10 @@ export function resolveTransferOffer(
 
   if (isTransferWindowOpen(offeredDate)) {
     let next = transferPlayerPermanently(activeLoan ? endActiveLoan(state, activeLoan) : state, playerId, fromClubId, toClubId, params.newWageEurPerMonth, computeNewContractEndDate(playerId, offeredDate, params.contractYears ?? 3));
-    next = adjustClubCash(next, toClubId, -(transferFeeEur + trainingCompensationEur));
+    next = adjustClubCash(next, toClubId, -(transferFeeEur + trainingCompensationEur + extraSigningCostsEur));
     if (!isFreeAgent) next = adjustClubCash(next, fromClubId, transferFeeEur);
     next = creditTrainingCompensationClubs(next, trainingComp);
-    next = applyPromisedSquadRole(next, { playerId, toClubId, promisedSquadRole: params.promisedSquadRole });
+    next = applyPromisedSquadRole(next, { playerId, toClubId, promisedSquadRole: params.promisedSquadRole, dealType });
     return finalize("COMPLETED", { playerDecisionReason: playerDecision.reason, ...(agreement ? { clubDecisionReason: agreement.clubReason } : {}) }, next);
   }
 
@@ -386,7 +403,7 @@ export function progressDailyTransfers(state: CareerState, date: string): Career
     }
 
     let moved = transferPlayerPermanently(next, offer.playerId, offer.fromClubId, offer.toClubId, offer.newWageEurPerMonth, offer.newContractEndDate);
-    moved = adjustClubCash(moved, offer.toClubId, -(offer.transferFeeEur + offer.trainingCompensationEur));
+    moved = adjustClubCash(moved, offer.toClubId, -(offer.transferFeeEur + offer.trainingCompensationEur + signingCostsEur(offer)));
     moved = adjustClubCash(moved, offer.fromClubId, offer.transferFeeEur);
     const player = getCareerPlayer(next, offer.playerId);
     const age = player ? playerAgeAtDate(player.dateOfBirth, player.birthYear, date) : null;
