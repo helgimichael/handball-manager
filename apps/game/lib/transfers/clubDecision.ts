@@ -76,12 +76,10 @@ export interface LoanOutDecisionInputs {
   wageShareBorrowingPct: number;
 }
 
-/**
- * A loan has no fee to weigh -- the parent club instead judges whether
- * the player is surplus to first-team needs (role/depth) and how
- * attractive the wage relief is under financial pressure.
- */
-export function evaluateLoanOutDecision(inputs: LoanOutDecisionInputs): ClubDecisionResult {
+const LOAN_SHARE_WEIGHT = 0.2;
+
+/** The owning club's willingness to loan out BEFORE the wage share offered -- role/depth/finances only. */
+function loanOutBaseWillingness(inputs: Omit<LoanOutDecisionInputs, "wageShareBorrowingPct">): number {
   let willingness = 0;
   if (inputs.role === "DEVELOPMENT" || inputs.role === "EMERGENCY" || inputs.role === "SPECIALIST") willingness += 0.4;
   else if (inputs.role === "ROTATION" || inputs.role === "MAJOR_ROTATION") willingness += 0.15;
@@ -90,8 +88,30 @@ export function evaluateLoanOutDecision(inputs: LoanOutDecisionInputs): ClubDeci
   if (inputs.hasAdequateReplacement) willingness += 0.25;
 
   const pressureBonus: Record<FinancialPressureLevel, number> = { NONE: 0, WATCH: 0.05, PRESSURED: 0.15, SERIOUS: 0.25, CRITICAL: 0.35 };
-  willingness += pressureBonus[inputs.financialPressure];
-  willingness += (inputs.wageShareBorrowingPct / 100) * 0.2; // a higher wage share offered makes the loan more attractive.
+  return willingness + pressureBonus[inputs.financialPressure];
+}
+
+/**
+ * HM-ALPHA2-05C: the smallest wage share (in steps of 5%) the owning club
+ * would accept -- the exact threshold evaluateLoanOutDecision uses, so a
+ * loan negotiation can state it as a counteroffer. `null` when no share
+ * up to 100% is enough (the player is too important to lend).
+ */
+export function computeRequiredLoanWageSharePct(inputs: Omit<LoanOutDecisionInputs, "wageShareBorrowingPct">): number | null {
+  // Scans with the decision's own arithmetic, so the stated price can never disagree with evaluateLoanOutDecision at a floating-point boundary.
+  for (let pct = 0; pct <= 100; pct += 5) {
+    if (evaluateLoanOutDecision({ ...inputs, wageShareBorrowingPct: pct }).accept) return pct;
+  }
+  return null;
+}
+
+/**
+ * A loan has no fee to weigh -- the parent club instead judges whether
+ * the player is surplus to first-team needs (role/depth) and how
+ * attractive the wage relief is under financial pressure.
+ */
+export function evaluateLoanOutDecision(inputs: LoanOutDecisionInputs): ClubDecisionResult {
+  const willingness = loanOutBaseWillingness(inputs) + (inputs.wageShareBorrowingPct / 100) * LOAN_SHARE_WEIGHT; // a higher wage share offered makes the loan more attractive.
 
   if (willingness > 0) {
     return { accept: true, reason: "Klubben bedömer spelaren som umbärlig just nu och accepterar lånet." };

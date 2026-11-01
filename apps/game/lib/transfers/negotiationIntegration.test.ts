@@ -260,7 +260,7 @@ test("a pre-05A save without transferNegotiations still starts a negotiation, an
   assert.equal(ok(submitNegotiationFeeOffer(oldState, old05a.id, 1000)).negotiation.pending?.party, "CLUB");
 });
 
-test("loans: a loaned player cannot be bid for, renewed by the borrower, or loaned past contract end; return keeps the agreed-wage flag", () => {
+test("loans: a loaned player cannot be loaned again or renewed by the borrower, a permanent bid goes to the owner, no loan past contract end; return keeps the agreed-wage flag", () => {
   const state = richBuyerState("nego-loan");
   const { sellerClubId } = pickTarget(state);
   // A depth player the parent club is willing to loan out.
@@ -278,8 +278,10 @@ test("loans: a loaned player cannot be bid for, renewed by the borrower, or loan
   const loan = submitTransferOffer(loanedState, { dealType: "LOAN", playerId: player.id, toClubId: BUYER, transferFeeEur: 0, newWageEurPerMonth: contract.wageEurPerMonth, loanTerms: { endDate, wageShareBorrowingPct: 100 } });
   assert.equal(loan.offer.status, "COMPLETED", loan.offer.clubDecisionReason ?? loan.offer.playerDecisionReason);
 
-  assert.equal(startTransferNegotiation(loan.state, player.id).ok, false);
-  assert.equal(submitTransferOffer(loan.state, { dealType: "PERMANENT", playerId: player.id, toClubId: BUYER, transferFeeEur: 1e6, newWageEurPerMonth: 1 }).offer.status, "BLOCKED_PENDING_TRANSFER");
+  // HM-ALPHA2-05C: a second loan is blocked; a permanent negotiation is allowed and held with the OWNER.
+  assert.equal(startTransferNegotiation(loan.state, player.id, "LOAN").ok, false);
+  assert.equal(ok(startTransferNegotiation(loan.state, player.id)).negotiation.fromClubId, sellerClubId);
+  assert.equal(submitTransferOffer(loan.state, { dealType: "LOAN", playerId: player.id, toClubId: BUYER, transferFeeEur: 0, newWageEurPerMonth: 1, loanTerms: { endDate, wageShareBorrowingPct: 100 } }).offer.status, "BLOCKED_PENDING_TRANSFER");
   assert.throws(() => renewPlayerContract(loan.state, player.id, 3, contract.wageEurPerMonth));
 
   const returned = progressDailyTransfers(loan.state, endDate);

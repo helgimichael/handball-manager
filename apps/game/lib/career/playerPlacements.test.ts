@@ -360,7 +360,9 @@ test("startInternationalPartnershipLoan: zero loan fee, caller-supplied wage sha
 
   const movedPlayer = result.state!.worldSquads["ger1-kiel"]?.find((p) => p.id === "loan1");
   assert.ok(movedPlayer, "loanPlayerOut must have actually moved squad membership");
-  assert.equal(getPlayerContract(result.state!, "loan1")?.clubId, "ger1-kiel");
+  // HM-ALPHA2-05C: the contract stays with the owning (lending) club at the full wage; the LoanRecord carries the share.
+  assert.equal(getPlayerContract(result.state!, "loan1")?.clubId, state.playerClubId);
+  assert.equal(getPlayerContract(result.state!, "loan1")?.wageEurPerMonth, 4000);
 });
 
 test("startInternationalPartnershipLoan rejects when no ACTIVE INTERNATIONAL_LOAN_PARTNERSHIP exists for the given id", () => {

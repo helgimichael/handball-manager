@@ -20,6 +20,7 @@ import type { NegotiationResponse, NegotiationRound, RivalInterest, TransferDeal
 import { getLatestNegotiation, getTransferNegotiations, isNegotiationOpen, type NegotiationAction, type NegotiationActionResult } from "@/lib/transfers/negotiationIntegration";
 import { SQUAD_STATUS_TIERS, SQUAD_STATUS_TIER_LABEL_SV, type SquadStatusTier } from "@/lib/career/squadStatus";
 import type { CareerState } from "@/lib/career/types";
+import { addDays } from "@/lib/career/dateUtils";
 import { getPlayerKnowledgePct } from "@/lib/knowledge/knowledgeIntegration";
 import { resolveMarketValueRange } from "@/lib/knowledge/scoutReportVisibility";
 import { resolvePlayerVisibility, type KnowledgeRatingInput } from "@/lib/knowledge/playerVisibility";
@@ -51,15 +52,13 @@ export default function TransfersPage() { return <Suspense><Transfers /></Suspen
 function Transfers() {
   const params = useSearchParams();
   const target = params.get("target");
-  const { career, submitTransferOffer, negotiateTransfer } = useCareer();
+  const { career, negotiateTransfer } = useCareer();
   const [query, setQuery] = useState("");
   const [positionFilter, setPositionFilter] = useState<HandballPosition | "ALL">("ALL");
   const [selectedPlayerId, setSelectedPlayerId] = useState<string | null>(target);
   const [dealType, setDealType] = useState<TransferDealType>("PERMANENT");
   const [transferFeeEur, setTransferFeeEur] = useState(target ? Math.round((getPlayerMarketValueEur(career, target) ?? 0) * 1.2) : 0);
   const [newWageEurPerMonth, setNewWageEurPerMonth] = useState(target ? getPlayerContract(career, target)?.wageEurPerMonth ?? 500 : 0);
-  const [loanEndDate, setLoanEndDate] = useState("2027-01-15");
-  const [wageShareBorrowingPct, setWageShareBorrowingPct] = useState(70);
   const [lastOffer, setLastOffer] = useState<TransferOffer | null>(null);
   const recentOffers = Object.values(career.transferOffers).filter(o => o.toClubId === career.playerClubId || o.fromClubId === career.playerClubId).reverse();
   const economy = getClubEconomySnapshot(career, career.playerClubId);
@@ -139,21 +138,6 @@ function Transfers() {
     setNewWageEurPerMonth(contract?.wageEurPerMonth ?? 500);
     const value = getPlayerMarketValueEur(career, playerId) ?? 0;
     setTransferFeeEur(Math.round(value * 1.2));
-  }
-
-  function submit() {
-    if (!selectedPlayerId) return;
-    // HM-ALPHA2-05A: only loans are submitted one-shot -- permanent signings go through NegotiationPanel.
-    const offer = submitTransferOffer({
-      dealType: "LOAN",
-      playerId: selectedPlayerId,
-      toClubId: career.playerClubId,
-      transferFeeEur: 0,
-      newWageEurPerMonth,
-      loanTerms: { endDate: loanEndDate, wageShareBorrowingPct },
-    });
-    setLastOffer(offer);
-
   }
 
   return (
@@ -268,37 +252,19 @@ function Transfers() {
                 </button>
               </div>
 
-              {dealType === "PERMANENT" ? (
-                <NegotiationPanel
-                  key={`${selected.player.id}:${getLatestNegotiation(career, selected.player.id, career.playerClubId)?.rounds.length ?? 0}`}
-                  career={career}
-                  playerId={selected.player.id}
-                  isFreeAgent={isFreeAgent}
-                  suggestedFeeEur={transferFeeEur}
-                  suggestedWageEurPerMonth={newWageEurPerMonth}
-                  trainingCompensationEur={selectedTrainingComp?.totalEur ?? 0}
-                  negotiateTransfer={negotiateTransfer}
-                />
-              ) : (
-                <>
-                  <label style={{ display: "flex", flexDirection: "column", gap: 4, fontSize: "var(--hm-text-xs)" }}>
-                    Lön under lånet (100% bas, €/mån)
-                    <input style={inputStyle} type="number" min={0} value={newWageEurPerMonth} onChange={(e) => setNewWageEurPerMonth(Number(e.target.value))} />
-                  </label>
-                  <label style={{ display: "flex", flexDirection: "column", gap: 4, fontSize: "var(--hm-text-xs)" }}>
-                    Låneperiod slutar
-                    <input style={inputStyle} type="date" value={loanEndDate} onChange={(e) => setLoanEndDate(e.target.value)} />
-                  </label>
-                  <label style={{ display: "flex", flexDirection: "column", gap: 4, fontSize: "var(--hm-text-xs)" }}>
-                    Löneandel vi betalar (%)
-                    <input style={inputStyle} type="number" min={0} max={100} value={wageShareBorrowingPct} onChange={(e) => setWageShareBorrowingPct(Number(e.target.value))} />
-                  </label>
-                  <div className="game-offer-impact"><span className="hm-eyebrow">Ditt bud</span><div><span>Låneavgift</span><strong>{formatEur(0)}</strong></div><div><span>Erbjuden lönebas / månad</span><strong>{formatEur(newWageEurPerMonth)}</strong></div><div><span>Löneandel enligt nuvarande avtal / månad</span><strong>{selectedContract ? formatEur(Math.round(selectedContract.wageEurPerMonth * wageShareBorrowingPct / 100)) : '—'}</strong></div><div><span>Vi betalar {wageShareBorrowingPct}% · lån till</span><strong>{loanEndDate || '—'}</strong></div></div>
-                  <button type="button" className="hm-btn hm-btn-primary" onClick={submit}>
-                    Föreslå lån
-                  </button>
-                </>
-              )}
+              {/* HM-ALPHA2-05C: permanent deals AND loans are negotiated -- a loan with the owning club over wage share and length, then a role with the player. */}
+              <NegotiationPanel
+                key={`${selected.player.id}:${getLatestNegotiation(career, selected.player.id, career.playerClubId)?.rounds.length ?? 0}`}
+                career={career}
+                playerId={selected.player.id}
+                dealType={dealType}
+                isFreeAgent={isFreeAgent}
+                suggestedFeeEur={transferFeeEur}
+                suggestedWageEurPerMonth={newWageEurPerMonth}
+                contractWageEurPerMonth={selectedContract?.wageEurPerMonth ?? 0}
+                trainingCompensationEur={selectedTrainingComp?.totalEur ?? 0}
+                negotiateTransfer={negotiateTransfer}
+              />
 
             </div>
           )}
@@ -370,9 +336,11 @@ const RIVAL_STATUS_LABEL: Record<RivalInterest["status"], string> = { ACTIVE: "i
  * with the selling club, then wage/length/role with the player. Every
  * round and its reason stays visible so a revised offer is informed.
  */
-function NegotiationPanel({ career, playerId, isFreeAgent, suggestedFeeEur, suggestedWageEurPerMonth, trainingCompensationEur, negotiateTransfer }: {
+function NegotiationPanel({ career, playerId, dealType, isFreeAgent, suggestedFeeEur, suggestedWageEurPerMonth, contractWageEurPerMonth, trainingCompensationEur, negotiateTransfer }: {
   career: CareerState;
   playerId: string;
+  dealType: TransferDealType;
+  contractWageEurPerMonth: number;
   isFreeAgent: boolean;
   suggestedFeeEur: number;
   suggestedWageEurPerMonth: number;
@@ -386,6 +354,13 @@ function NegotiationPanel({ career, playerId, isFreeAgent, suggestedFeeEur, sugg
   const [wageEurPerMonth, setWageEurPerMonth] = useState(lastPlayerCounter ?? suggestedWageEurPerMonth);
   const [contractYears, setContractYears] = useState(3);
   const [role, setRole] = useState<SquadStatusTier>("ROTATION");
+  const lastLoanCounter = negotiation?.rounds.filter((r) => r.party === "CLUB").at(-1)?.counterWageSharePct;
+  const [wageSharePct, setWageSharePct] = useState(lastLoanCounter ?? 70);
+  const [loanEndDate, setLoanEndDate] = useState(() => {
+    const contractEnd = career.playerContracts[playerId]?.contractEndDate ?? "";
+    const sixMonths = addDays(career.gameDate, 180);
+    return contractEnd && contractEnd < sixMonths ? contractEnd : sixMonths;
+  });
   const [error, setError] = useState<string | null>(null);
 
   function run(action: NegotiationAction) {
@@ -400,7 +375,7 @@ function NegotiationPanel({ career, playerId, isFreeAgent, suggestedFeeEur, sugg
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 10 }} aria-label="Förhandling">
-      {negotiation && <div className="hm-eyebrow">{STAGE_LABEL[negotiation.stage]}</div>}
+      {negotiation && <div className="hm-eyebrow">{negotiation.dealType === "LOAN" ? "Lån · " : ""}{STAGE_LABEL[negotiation.stage]}</div>}
       {negotiation?.pending && (
         <div className="hm-badge hm-badge-warning" role="status" style={{ whiteSpace: "normal" }}>
           Väntar på svar från {negotiation.pending.party === "CLUB" ? "klubben" : "spelaren"} · svar väntas {negotiation.pending.responseDate}
@@ -419,7 +394,7 @@ function NegotiationPanel({ career, playerId, isFreeAgent, suggestedFeeEur, sugg
           {negotiation.rounds.map((r, i) => (
             <li key={i}>
               <strong>{PARTY_LABEL[r.party]}</strong>{" · "}{r.date}{" · "}
-              {r.party === "CLUB" ? `Bud ${formatEur(r.offeredFeeEur ?? 0)} ` : r.party === "PLAYER" ? `${formatEur(r.offeredWageEurPerMonth ?? 0)}/mån · ${r.contractYears} år · ${r.promisedSquadRole ? SQUAD_STATUS_TIER_LABEL_SV[r.promisedSquadRole] : "—"} ` : null}
+              {r.offeredWageSharePct !== undefined ? `Lån ${r.offeredWageSharePct}% av lönen till ${r.loanEndDate ?? "—"} ` : r.party === "CLUB" ? `Bud ${formatEur(r.offeredFeeEur ?? 0)} ` : r.party === "PLAYER" && r.offeredWageEurPerMonth === undefined ? `Roll ${r.promisedSquadRole ? SQUAD_STATUS_TIER_LABEL_SV[r.promisedSquadRole] : "—"} ` : r.party === "PLAYER" ? `${formatEur(r.offeredWageEurPerMonth ?? 0)}/mån · ${r.contractYears} år · ${r.promisedSquadRole ? SQUAD_STATUS_TIER_LABEL_SV[r.promisedSquadRole] : "—"} ` : null}
               {r.party !== "MARKET" && <span className={`hm-badge hm-badge-${RESPONSE_TONE[r.response]}`}>{RESPONSE_LABEL[r.response]}</span>}
               <div className="hm-text-muted">{r.reason}</div>
             </li>
@@ -436,10 +411,40 @@ function NegotiationPanel({ career, playerId, isFreeAgent, suggestedFeeEur, sugg
         cooldown ? (
           <div className="hm-text-muted" style={{ fontSize: "var(--hm-text-xs)" }}>Ny kontakt tidigast {cooldown}.</div>
         ) : (
-          <button type="button" className="hm-btn hm-btn-primary" onClick={() => run({ kind: "START", playerId })}>
-            {isFreeAgent ? "Inled förhandling med spelaren" : "Inled förhandling med klubben"}
+          <button type="button" className="hm-btn hm-btn-primary" onClick={() => run({ kind: "START", playerId, dealType })}>
+            {dealType === "LOAN" ? "Inled låneförhandling med ägarklubben" : isFreeAgent ? "Inled förhandling med spelaren" : "Inled förhandling med klubben"}
           </button>
         )
+      ) : negotiation.dealType === "LOAN" && negotiation.stage === "CLUB" ? (
+        <>
+          <label style={labelStyle}>
+            Lönebidrag vi betalar (%)
+            <input style={inputStyle} type="number" min={0} max={100} value={wageSharePct} onChange={(e) => setWageSharePct(Number(e.target.value))} />
+          </label>
+          <label style={labelStyle}>
+            Lånet slutar
+            <input style={inputStyle} type="date" value={loanEndDate} onChange={(e) => setLoanEndDate(e.target.value)} />
+          </label>
+          <div className="hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)" }}>Avtalet stannar hos ägarklubben. Ni betalar {formatEur(Math.round(contractWageEurPerMonth * wageSharePct / 100))}/mån av spelarens {formatEur(contractWageEurPerMonth)}/mån.</div>
+          <div className="hm-actions" style={{ display: "flex", gap: 6 }}>
+            <button type="button" className="hm-btn hm-btn-primary" onClick={() => run({ kind: "LOAN_TERMS", negotiationId: negotiation.id, wageSharePct, endDate: loanEndDate })}>Föreslå lån</button>
+            <button type="button" className="hm-btn" onClick={() => run({ kind: "WITHDRAW", negotiationId: negotiation.id })}>Dra dig ur</button>
+          </div>
+        </>
+      ) : negotiation.dealType === "LOAN" ? (
+        <>
+          <Row label="Överenskommet lönebidrag" value={`${negotiation.agreedWageSharePct ?? 0}% · till ${negotiation.loanEndDate ?? "—"}`} />
+          <label style={labelStyle}>
+            Utlovad roll i truppen
+            <select style={inputStyle} value={role} onChange={(e) => setRole(e.target.value as SquadStatusTier)}>
+              {SQUAD_STATUS_TIERS.map((t) => <option key={t} value={t}>{SQUAD_STATUS_TIER_LABEL_SV[t]}</option>)}
+            </select>
+          </label>
+          <div className="hm-actions" style={{ display: "flex", gap: 6 }}>
+            <button type="button" className="hm-btn hm-btn-primary" onClick={() => run({ kind: "TERMS", negotiationId: negotiation.id, terms: { wageEurPerMonth: contractWageEurPerMonth, contractYears: 1, promisedSquadRole: role } })}>Erbjud roll</button>
+            <button type="button" className="hm-btn" onClick={() => run({ kind: "WITHDRAW", negotiationId: negotiation.id })}>Dra dig ur</button>
+          </div>
+        </>
       ) : negotiation.stage === "CLUB" ? (
         <>
           <label style={labelStyle}>

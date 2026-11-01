@@ -17,6 +17,7 @@ import { defaultTeamTacticalProfile } from "./teamTacticalProfile";
 import type { CareerState } from "./types";
 import { ensureCareerGameplayRatings } from "./careerRatingNormalization";
 import { ensureCareerPlayerContracts, getPlayerContractStatus, recalibratePlayerContractEndDates, recalibratePlayerContractWages } from "../economy/contractIntegration";
+import { migrateLegacyLoanContracts } from "../transfers/transferExecution";
 import { isFreeAgentClubId, releasePlayerToFreeAgency } from "./contractExpiry";
 import { ensureCareerPlayerClubHistory } from "../economy/clubHistoryIntegration";
 import { ensureCareerAllClubEconomies } from "../economy/clubEconomyIntegration";
@@ -364,6 +365,9 @@ export function migrateCareerState(career: CareerState): CareerState {
   if (next.loans === undefined) {
     next = { ...next, loans: {} };
   }
+  // HM-ALPHA2-05C: a pre-05C active loan rewrote the contract to the
+  // borrowing club + wage share; restore owner and full wage (idempotent).
+  next = migrateLegacyLoanContracts(next);
 
   // HM-DATA-ALLSVENSKAN-1.1B (career-state schema v25): additive -- an
   // existing career simply never had a persistent squad-status tier for

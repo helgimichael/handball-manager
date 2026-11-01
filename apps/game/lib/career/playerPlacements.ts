@@ -261,7 +261,7 @@ export function startInternationalPartnershipLoan(
   if (hasActiveLoan) return { ok: false, errors: ["Spelaren är redan utlånad."] };
   if (getActivePlacementForPlayer(state, playerId)) return { ok: false, errors: ["Spelaren är placerad hos en partnerklubb och kan inte samtidigt lånas ut."] };
 
-  let next = loanPlayerOut(state, playerId, partnership.clubAId, partnership.clubBId, wageShareBorrowingPct);
+  let next = loanPlayerOut(state, playerId, partnership.clubAId, partnership.clubBId);
   const loan: LoanRecord = {
     id: `pship-loan-${playerId}-${date}-${Object.keys(next.loans).length}`,
     playerId,

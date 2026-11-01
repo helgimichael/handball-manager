@@ -97,30 +97,28 @@ test("(6) transferPlayerPermanently out of IFK Tumba never mutates the shared st
   assert.ok(getCareerClubSquad(freshState, TUMBA_CLUB_ID).some((p) => p.id === player.id));
 });
 
-test("(7) loanPlayerOut moves squad/rating to the borrowing club and reduces the contract's own wage to the wage share, without touching club history", () => {
+test("(7) loanPlayerOut moves squad/rating to the borrowing (playing) club and leaves the contract with its owner at the full wage, without touching club history", () => {
   const state = realWorldState("se_club_ifk_skovde_hk");
   const parentClubId = getClubsByCompetition(HANDBOLLSLIGAN_ID).find((c) => c.id !== "se_club_ifk_skovde_hk")!.id;
   const player = state.worldSquads[parentClubId][0];
-  const originalWage = getPlayerContract(state, player.id)!.wageEurPerMonth;
+  const originalContract = getPlayerContract(state, player.id)!;
   const historyBefore = getPlayerClubHistory(state, player.id)?.entries.length ?? 0;
 
-  const next = loanPlayerOut(state, player.id, parentClubId, "se_club_ifk_skovde_hk", 60);
+  const next = loanPlayerOut(state, player.id, parentClubId, "se_club_ifk_skovde_hk");
 
   assert.equal(getCareerPlayer(next, player.id)?.clubId, "se_club_ifk_skovde_hk");
-  const loanContract = getPlayerContract(next, player.id)!;
-  assert.equal(loanContract.clubId, "se_club_ifk_skovde_hk");
-  assert.equal(loanContract.wageEurPerMonth, Math.round((originalWage * 60) / 100));
+  assert.deepEqual(getPlayerContract(next, player.id), originalContract, "HM-ALPHA2-05C: ownership and wage stay on the contract during a loan");
   assert.equal(getPlayerClubHistory(next, player.id)?.entries.length ?? 0, historyBefore, "a loan must never append club history");
 });
 
-test("(8) returnPlayerFromLoan is the exact inverse of loanPlayerOut -- squad/rating/contract restored to the parent club with the original wage", () => {
+test("(8) returnPlayerFromLoan is the exact inverse of loanPlayerOut -- squad/rating back with the owner, contract untouched", () => {
   const state = realWorldState("se_club_ifk_skovde_hk");
   const parentClubId = getClubsByCompetition(HANDBOLLSLIGAN_ID).find((c) => c.id !== "se_club_ifk_skovde_hk")!.id;
   const player = state.worldSquads[parentClubId][0];
   const originalContract = getPlayerContract(state, player.id)!;
 
-  const onLoan = loanPlayerOut(state, player.id, parentClubId, "se_club_ifk_skovde_hk", 50);
-  const returned = returnPlayerFromLoan(onLoan, player.id, parentClubId, "se_club_ifk_skovde_hk", originalContract.wageEurPerMonth, originalContract.contractEndDate);
+  const onLoan = loanPlayerOut(state, player.id, parentClubId, "se_club_ifk_skovde_hk");
+  const returned = returnPlayerFromLoan(onLoan, player.id, parentClubId, "se_club_ifk_skovde_hk", originalContract.wageEurPerMonth);
 
   assert.equal(getCareerPlayer(returned, player.id)?.clubId, parentClubId);
   assert.ok(!getCareerClubSquad(returned, "se_club_ifk_skovde_hk").some((p) => p.id === player.id));

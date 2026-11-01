@@ -9,9 +9,10 @@ import type { CareerState } from './types';
 export function renewPlayerContract(state: CareerState, playerId: string, years = 1, wageEurPerMonth?: number): CareerState {
   const player = getCareerPlayer(state, playerId);
   const current = state.playerContracts[playerId];
-  if (!player || player.clubId !== state.playerClubId || !current || current.clubId !== state.playerClubId) throw new Error('Du kan bara förlänga avtal med spelare i din egen klubb.');
-  // HM-ALPHA2-05A: a loaned-in player's contract carries the borrowing club's id and wage share, but the parent club owns it -- only the owner may extend it.
-  if (Object.values(state.loans ?? {}).some((loan) => loan.active && loan.playerId === playerId)) throw new Error('Spelaren är inlånad. Avtalet ägs av moderklubben och kan inte förlängas av er.');
+  // HM-ALPHA2-05C: ownership is the CONTRACT's club, not where the player plays -- the owner may extend a player it has loaned out; a borrowing club never may.
+  const loanedIn = Object.values(state.loans ?? {}).some((loan) => loan.active && loan.playerId === playerId && loan.borrowingClubId === state.playerClubId);
+  if (loanedIn) throw new Error('Spelaren är inlånad. Avtalet ägs av moderklubben och kan inte förlängas av er.');
+  if (!player || !current || current.clubId !== state.playerClubId) throw new Error('Du kan bara förlänga avtal med spelare som din klubb äger.');
   if (current.contractEndDate < state.gameDate) throw new Error('Avtalet har löpt ut. Rekrytera spelaren som kontraktslös via Transfers.');
   if (![1, 2, 3].includes(years)) throw new Error('Välj ett, två eller tre år.');
   const wage = wageEurPerMonth ?? current.wageEurPerMonth;

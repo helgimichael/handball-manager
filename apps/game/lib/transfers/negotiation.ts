@@ -8,7 +8,7 @@
 // seededOffset precedent as playerDecision.ts), never on the decision.
 // CareerState glue lives in negotiationIntegration.ts.
 import { seededOffset } from "../rating/generation/deterministicVariation";
-import { SQUAD_STATUS_TIERS, type SquadStatusTier } from "../career/squadStatus";
+import { SQUAD_STATUS_TIERS, SQUAD_STATUS_TIER_LABEL_SV, type SquadStatusTier } from "../career/squadStatus";
 import type { FinancialPressureLevel } from "../economy/clubEconomyTypes";
 import type { SquadStatus } from "../game-data";
 import type { NegotiationResponse } from "./types";
@@ -239,4 +239,51 @@ export function expectedRoleFromSquadRank(rank: number, age: number | null): Squ
   if (rank < 7) return "FIRST_CHOICE";
   if (rank < 12) return "ROTATION";
   return age !== null && age <= 21 ? "TALENT" : "SQUAD_PLAYER";
+}
+
+// ---------------------------------------------------------------------------
+// HM-ALPHA2-05C: loan negotiation -- the borrowing club negotiates the wage
+// share and length with the OWNING club, then a playing role with the
+// player. Ownership and the contract itself are never on the table.
+// ---------------------------------------------------------------------------
+
+export interface LoanShareRoundInputs {
+  /** clubDecision.ts's computeRequiredLoanWageSharePct -- null: the owner will not lend at all. */
+  requiredSharePct: number | null;
+  offeredSharePct: number;
+  round: number;
+  previousOfferPct?: number;
+}
+
+export function evaluateLoanShareRound(inputs: LoanShareRoundInputs): NegotiationRoundResult {
+  if (inputs.requiredSharePct === null) {
+    return { response: "BREAK_OFF", reason: "Klubben behöver spelaren själv och lånar inte ut honom." };
+  }
+  const offered = Math.max(0, Math.min(100, Math.round(inputs.offeredSharePct)));
+  if (offered >= inputs.requiredSharePct) {
+    return { response: "ACCEPT", reason: `Klubben accepterar lånet med ${offered}% av lönen betald av er.` };
+  }
+  if (inputs.round >= MAX_CLUB_ROUNDS) {
+    return { response: "BREAK_OFF", reason: "Klubben har tröttnat på förhandlingen och avbryter samtalen." };
+  }
+  if (inputs.previousOfferPct !== undefined && offered <= inputs.previousOfferPct) {
+    return { response: "REJECT", reason: "Lönebidraget är inte högre än förra gången." };
+  }
+  return { response: "COUNTER", reason: `Klubben vill att ni betalar minst ${inputs.requiredSharePct}% av lönen.` };
+}
+
+const LOAN_TIER_RANK: Record<SquadStatusTier, number> = TIER_RANK;
+
+/**
+ * A loaned player wants to PLAY: a promised role at most one step below
+ * what their quality earns at the borrowing club is accepted; two steps
+ * below gets a counter naming the role they want; further below is a no.
+ */
+export function evaluateLoanPlayerRound(inputs: { expectedRole: SquadStatusTier; promisedRole: SquadStatusTier; round: number }): NegotiationRoundResult & { wantedRole?: SquadStatusTier } {
+  const gap = LOAN_TIER_RANK[inputs.promisedRole] - LOAN_TIER_RANK[inputs.expectedRole];
+  if (gap <= 1) return { response: "ACCEPT", reason: "Spelaren ser fram emot speltid hos er." };
+  if (inputs.round >= MAX_PLAYER_ROUNDS) return { response: "BREAK_OFF", reason: "Spelaren tror inte på speltid hos er och avböjer lånet." };
+  const wantedRole = SQUAD_STATUS_TIERS[LOAN_TIER_RANK[inputs.expectedRole] + 1];
+  if (gap === 2) return { response: "COUNTER", reason: `Spelaren vill ha minst rollen ${SQUAD_STATUS_TIER_LABEL_SV[wantedRole].toLowerCase()} för att komma.`, wantedRole };
+  return { response: "REJECT", reason: "Spelaren vill inte lånas ut för att sitta på bänken." };
 }

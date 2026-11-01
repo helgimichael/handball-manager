@@ -32,6 +32,8 @@ import {
   RESPONSE_WINDOW_DAYS,
   computePlayerWageDemand,
   evaluateClubFeeRound,
+  evaluateLoanPlayerRound,
+  evaluateLoanShareRound,
   evaluatePlayerTermsRound,
   expectedRoleFromSquadRank,
   packageRatio,
@@ -40,8 +42,8 @@ import {
   type PlayerWageDemand,
 } from "./negotiation";
 import { competitionTierForClub } from "./transferExecution";
-import { activePendingTransferPlayerIds, getActiveLoanForPlayer, getSellingClubAskingPriceEur, hasActivePendingTransfer, resolveTransferOffer } from "./transferIntegration";
-import type { NegotiationRound, RivalInterest, TransferNegotiation, TransferOffer } from "./types";
+import { activePendingTransferPlayerIds, getActiveLoanForPlayer, getRequiredLoanWageSharePct, getSellingClubAskingPriceEur, hasActivePendingTransfer, resolveTransferOffer } from "./transferIntegration";
+import type { NegotiationRound, RivalInterest, TransferDealType, TransferNegotiation, TransferOffer } from "./types";
 
 export type NegotiationActionResult =
   | { ok: true; state: CareerState; negotiation: TransferNegotiation; offer?: TransferOffer }
@@ -133,14 +135,26 @@ function findRivals(state: CareerState, playerId: string, negotiationId: string)
   return found.sort((a, b) => b.score - a.score || (a.rival.clubId < b.rival.clubId ? -1 : 1)).slice(0, MAX_RIVALS).map((f) => f.rival);
 }
 
-export function startTransferNegotiation(state: CareerState, playerId: string): NegotiationActionResult {
+/**
+ * HM-ALPHA2-05C: `dealType` LOAN opens a loan negotiation with the
+ * OWNING club. A PERMANENT negotiation for a player who is out on loan is
+ * allowed and is held with the owner too (the contract's club) -- the
+ * deal then completes when the loan ends, or at once if the manager's
+ * club is the borrower buying him out.
+ */
+export function startTransferNegotiation(state: CareerState, playerId: string, dealType: TransferDealType = "PERMANENT"): NegotiationActionResult {
   const toClubId = state.playerClubId;
   const player = getCareerPlayer(state, playerId);
   const contract = getPlayerContract(state, playerId);
   if (!player || !contract) return { ok: false, error: "Spelaren kunde inte hittas." };
   if (contract.clubId === toClubId) return { ok: false, error: "Spelaren tillhör redan din klubb." };
-  if (getActiveLoanForPlayer(state, playerId)) return { ok: false, error: "Spelaren är utlånad -- moderklubben förhandlar inte under låneperioden." };
   if (hasActivePendingTransfer(state, playerId)) return { ok: false, error: "Spelaren har redan en överenskommen affär som väntar på transferfönstret." };
+  const isLoan = dealType === "LOAN";
+  if (isLoan) {
+    if (getPlayerContractStatus(state, playerId) === "FREE_AGENT") return { ok: false, error: "En kontraktslös spelare kan inte lånas -- värva honom permanent." };
+    if (getActiveLoanForPlayer(state, playerId)) return { ok: false, error: "Spelaren är redan utlånad." };
+    if (player.clubId !== contract.clubId) return { ok: false, error: "Spelaren spelar inte för klubben som äger kontraktet just nu." };
+  }
 
   const existing = getOpenNegotiation(state, playerId, toClubId);
   if (existing) return { ok: true, state, negotiation: existing };
@@ -148,7 +162,7 @@ export function startTransferNegotiation(state: CareerState, playerId: string): 
   const blocked = getTransferNegotiations(state).find((n) => n.playerId === playerId && n.toClubId === toClubId && n.closedUntil && isBefore(state.gameDate, n.closedUntil));
   if (blocked) return { ok: false, error: `Samtalen bröts nyligen. Ny kontakt tidigast ${blocked.closedUntil}.` };
 
-  const isFreeAgent = getPlayerContractStatus(state, playerId) === "FREE_AGENT";
+  const isFreeAgent = !isLoan && getPlayerContractStatus(state, playerId) === "FREE_AGENT";
   const id = `negotiation-${playerId}-${toClubId}-${state.gameDate}-${getTransferNegotiations(state).length}`;
   const negotiation: TransferNegotiation = {
     id,
@@ -159,8 +173,9 @@ export function startTransferNegotiation(state: CareerState, playerId: string): 
     startedDate: state.gameDate,
     updatedDate: state.gameDate,
     ...(isFreeAgent ? { agreedFeeEur: 0 } : {}),
+    ...(isLoan ? { dealType: "LOAN" as const } : {}),
     rounds: [],
-    rivals: findRivals(state, playerId, id),
+    rivals: isLoan ? [] : findRivals(state, playerId, id),
   };
   return { ok: true, state: saveNegotiation(state, negotiation), negotiation };
 }
@@ -171,6 +186,10 @@ function playerGoneElsewhere(state: CareerState, negotiation: TransferNegotiatio
   if (!contract) return "Spelaren finns inte längre på marknaden.";
   if (contract.clubId === negotiation.toClubId) return null;
   if (contract.clubId !== negotiation.fromClubId) return `Spelaren har skrivit på för ${clubName(contract.clubId)}.`;
+  if (negotiation.dealType === "LOAN") {
+    const loan = getActiveLoanForPlayer(state, negotiation.playerId);
+    if (loan && loan.borrowingClubId !== negotiation.toClubId) return `Spelaren har lånats ut till ${clubName(loan.borrowingClubId)}.`;
+  }
   if (pendingIds.has(negotiation.playerId)) {
     const agreed = Object.values(state.transferOffers).find((o) => o.playerId === negotiation.playerId && o.status === "AGREED_AWAITING_WINDOW");
     if (agreed && agreed.toClubId !== negotiation.toClubId) return `Spelaren har kommit överens med ${clubName(agreed.toClubId)}.`;
@@ -203,6 +222,7 @@ export function submitNegotiationFeeOffer(state: CareerState, negotiationId: str
   const found = getActionableNegotiation(state, negotiationId, "CLUB");
   if (typeof found === "string") return { ok: false, error: found };
   const negotiation = found;
+  if (negotiation.dealType === "LOAN") return { ok: false, error: "Ett lån förhandlas om lönebidrag, inte övergångssumma." };
   const fee = Math.max(0, Math.round(offeredFeeEur));
 
   // Only the transfer budget is checked here -- the wage is not on the table yet.
@@ -217,6 +237,28 @@ export function submitNegotiationFeeOffer(state: CareerState, negotiationId: str
     updatedDate: state.gameDate,
     expiresDate: undefined,
     pending: { party: "CLUB", submittedDate: state.gameDate, responseDate: pendingResponseDate(state, negotiation), offeredFeeEur: fee },
+  };
+  return { ok: true, state: saveNegotiation(state, next), negotiation: next };
+}
+
+/** HM-ALPHA2-05C, loan stage 1: the share of the wage the borrowing club pays, and when the loan ends -- answered by the owning club. */
+export function submitNegotiationLoanOffer(state: CareerState, negotiationId: string, offer: { wageSharePct: number; endDate: string }): NegotiationActionResult {
+  const found = getActionableNegotiation(state, negotiationId, "CLUB");
+  if (typeof found === "string") return { ok: false, error: found };
+  const negotiation = found;
+  if (negotiation.dealType !== "LOAN") return { ok: false, error: "Det här är ingen låneförhandling." };
+  const share = Math.round(offer.wageSharePct);
+  if (!Number.isFinite(share) || share < 0 || share > 100) return { ok: false, error: "Lönebidraget måste vara 0-100 %." };
+  const contract = getPlayerContract(state, negotiation.playerId)!;
+  if (offer.endDate <= state.gameDate || offer.endDate > contract.contractEndDate) return { ok: false, error: `Lånet måste sluta efter dagens datum och senast när kontraktet löper ut (${contract.contractEndDate}).` };
+  const affordability = assessTransferAffordability(state, negotiation.toClubId, 0, 0, contract.wageEurPerMonth, share);
+  if (!affordability.affordable) return { ok: false, error: affordability.reasons.join(" ") };
+
+  const next: TransferNegotiation = {
+    ...negotiation,
+    updatedDate: state.gameDate,
+    expiresDate: undefined,
+    pending: { party: "CLUB", submittedDate: state.gameDate, responseDate: pendingResponseDate(state, negotiation), wageSharePct: share, loanEndDate: offer.endDate },
   };
   return { ok: true, state: saveNegotiation(state, next), negotiation: next };
 }
@@ -260,6 +302,16 @@ export function submitNegotiationTerms(state: CareerState, negotiationId: string
   const found = getActionableNegotiation(state, negotiationId, "PLAYER");
   if (typeof found === "string") return { ok: false, error: found };
   const negotiation = found;
+  if (negotiation.dealType === "LOAN") {
+    // A loaned player keeps his contract and wage -- only the playing role is on the table.
+    const next: TransferNegotiation = {
+      ...negotiation,
+      updatedDate: state.gameDate,
+      expiresDate: undefined,
+      pending: { party: "PLAYER", submittedDate: state.gameDate, responseDate: pendingResponseDate(state, negotiation), promisedSquadRole: terms.promisedSquadRole },
+    };
+    return { ok: true, state: saveNegotiation(state, next), negotiation: next };
+  }
   if (!Number.isInteger(terms.contractYears) || terms.contractYears < 1 || terms.contractYears > 5) return { ok: false, error: "Välj en kontraktslängd på 1-5 år." };
   const wage = Math.max(0, Math.round(terms.wageEurPerMonth));
 
@@ -277,17 +329,20 @@ export function submitNegotiationTerms(state: CareerState, negotiationId: string
 
 /** One dispatch point for the UI's CareerContext action. */
 export type NegotiationAction =
-  | { kind: "START"; playerId: string }
+  | { kind: "START"; playerId: string; dealType?: TransferDealType }
   | { kind: "FEE"; negotiationId: string; feeEur: number }
+  | { kind: "LOAN_TERMS"; negotiationId: string; wageSharePct: number; endDate: string }
   | { kind: "TERMS"; negotiationId: string; terms: PlayerTermsOffer }
   | { kind: "WITHDRAW"; negotiationId: string };
 
 export function runNegotiationAction(state: CareerState, action: NegotiationAction): NegotiationActionResult {
   switch (action.kind) {
     case "START":
-      return startTransferNegotiation(state, action.playerId);
+      return startTransferNegotiation(state, action.playerId, action.dealType);
     case "FEE":
       return submitNegotiationFeeOffer(state, action.negotiationId, action.feeEur);
+    case "LOAN_TERMS":
+      return submitNegotiationLoanOffer(state, action.negotiationId, { wageSharePct: action.wageSharePct, endDate: action.endDate });
     case "TERMS":
       return submitNegotiationTerms(state, action.negotiationId, action.terms);
     case "WITHDRAW":
@@ -356,8 +411,60 @@ function marketRound(date: string, response: NegotiationRound["response"], reaso
   return { date, party: "MARKET", response, reason };
 }
 
+/** HM-ALPHA2-05C: the owning club answers a loan offer against its required wage share today. */
+function resolveLoanClubResponse(state: CareerState, negotiation: TransferNegotiation, date: string): TransferNegotiation {
+  const pending = negotiation.pending!;
+  const required = getRequiredLoanWageSharePct(state, negotiation.playerId) ?? null;
+  const previous = lastRound(negotiation, "CLUB")?.offeredWageSharePct;
+  const result = evaluateLoanShareRound({ requiredSharePct: required, offeredSharePct: pending.wageSharePct ?? 0, round: roundCount(negotiation, "CLUB") + 1, previousOfferPct: previous });
+  const round: NegotiationRound = {
+    date,
+    party: "CLUB",
+    offeredWageSharePct: pending.wageSharePct,
+    loanEndDate: pending.loanEndDate,
+    response: result.response,
+    reason: result.reason,
+    ...(result.response === "COUNTER" && required !== null ? { counterWageSharePct: required } : {}),
+  };
+  const next: TransferNegotiation = { ...negotiation, updatedDate: date, pending: undefined, rounds: [...negotiation.rounds, round], expiresDate: addDays(date, RESPONSE_WINDOW_DAYS) };
+  if (result.response === "ACCEPT") return { ...next, stage: "PLAYER", agreedWageSharePct: pending.wageSharePct ?? 0, loanEndDate: pending.loanEndDate };
+  if (result.response === "BREAK_OFF") return closeNegotiation(next, "COLLAPSED", date, { closedUntil: addDays(date, NEGOTIATION_COOLDOWN_DAYS) });
+  return next;
+}
+
+/** HM-ALPHA2-05C: the player answers the promised role; acceptance starts the loan once, through resolveTransferOffer. */
+function resolveLoanPlayerResponse(state: CareerState, negotiation: TransferNegotiation, date: string): { state: CareerState; negotiation: TransferNegotiation } {
+  const pending = negotiation.pending!;
+  const promisedRole = pending.promisedSquadRole ?? "ROTATION";
+  const result = evaluateLoanPlayerRound({ expectedRole: expectedRoleAtClub(state, negotiation.playerId, negotiation.toClubId), promisedRole, round: roundCount(negotiation, "PLAYER") + 1 });
+  const round: NegotiationRound = { date, party: "PLAYER", promisedSquadRole: promisedRole, response: result.response, reason: result.reason };
+  const withRound: TransferNegotiation = { ...negotiation, updatedDate: date, pending: undefined, rounds: [...negotiation.rounds, round] };
+  if (result.response === "BREAK_OFF") return { state, negotiation: closeNegotiation(withRound, "COLLAPSED", date, { closedUntil: addDays(date, NEGOTIATION_COOLDOWN_DAYS) }) };
+  if (result.response !== "ACCEPT") return { state, negotiation: { ...withRound, expiresDate: addDays(date, RESPONSE_WINDOW_DAYS) } };
+
+  const contract = getPlayerContract(state, negotiation.playerId)!;
+  const resolved = resolveTransferOffer(
+    { ...state, gameDate: date },
+    {
+      dealType: "LOAN",
+      playerId: negotiation.playerId,
+      toClubId: negotiation.toClubId,
+      transferFeeEur: 0,
+      newWageEurPerMonth: contract.wageEurPerMonth,
+      loanTerms: { endDate: negotiation.loanEndDate!, wageShareBorrowingPct: negotiation.agreedWageSharePct ?? 100 },
+      promisedSquadRole: promisedRole,
+    },
+    { negotiationId: negotiation.id, clubReason: lastRound(negotiation, "CLUB")?.reason ?? "", playerReason: result.reason },
+  );
+  const nextState = { ...resolved.state, gameDate: state.gameDate };
+  if (resolved.offer.status === "COMPLETED") return { state: nextState, negotiation: closeNegotiation(withRound, "COMPLETED", date, { offerId: resolved.offer.id }) };
+  const failed = { ...round, reason: `${round.reason} Lånet kunde ändå inte genomföras: ${resolved.offer.clubDecisionReason ?? ""}`.trim() };
+  return { state: nextState, negotiation: closeNegotiation({ ...withRound, rounds: [...negotiation.rounds, failed] }, "COLLAPSED", date, { offerId: resolved.offer.id }) };
+}
+
 /** Answers a pending fee bid against today's asking price and today's rival bids. */
 function resolveClubResponse(state: CareerState, negotiation: TransferNegotiation, date: string): TransferNegotiation {
+  if (negotiation.dealType === "LOAN") return resolveLoanClubResponse(state, negotiation, date);
   const pending = negotiation.pending!;
   const askingFeeEur = getSellingClubAskingPriceEur(state, negotiation.playerId) ?? 0;
   const result = evaluateClubFeeRound({
@@ -376,6 +483,7 @@ function resolveClubResponse(state: CareerState, negotiation: TransferNegotiatio
 
 /** Answers pending personal terms; an acceptance executes the deal once, through resolveTransferOffer. */
 function resolvePlayerResponse(state: CareerState, negotiation: TransferNegotiation, date: string): { state: CareerState; negotiation: TransferNegotiation } {
+  if (negotiation.dealType === "LOAN") return resolveLoanPlayerResponse(state, negotiation, date);
   const pending = negotiation.pending!;
   const terms = { contractYears: pending.contractYears ?? 3, promisedSquadRole: pending.promisedSquadRole ?? "ROTATION" };
   const wage = pending.offeredWageEurPerMonth ?? 0;

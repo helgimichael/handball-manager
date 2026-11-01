@@ -172,6 +172,7 @@
     "lib/transfers/transferExecution.test.ts",
     "lib/transfers/negotiation.test.ts",
     "lib/transfers/negotiationIntegration.test.ts",
+    "lib/transfers/loanOwnership.test.ts",
     "lib/career/transferCareerIntegration.test.ts",
     "lib/transfers/transferCalibrationReport.test.ts",
     "lib/economy/clubEconomySignals.test.ts",

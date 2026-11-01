@@ -266,9 +266,14 @@ export function progressCpuContractDecisions(state: CareerState, date: string, c
   let next = state;
   const log: CpuContractDecisionLogEntry[] = [];
 
+  // HM-ALPHA2-05C: a squad holds the players a club FIELDS; a loaned-in
+  // player's contract belongs to another club, so the borrower must never
+  // renew or release it. Skipped here for the loan's duration.
+  const loanedPlayerIds = new Set(Object.values(state.loans ?? {}).filter((loan) => loan.active).map((loan) => loan.playerId));
+
   for (const clubId of cpuClubIds) {
     if (clubId === state.playerClubId) continue;
-    const squad = (next.worldSquads[clubId] ?? []).filter((p) => isUsable(next, p));
+    const squad = (next.worldSquads[clubId] ?? []).filter((p) => isUsable(next, p) && !loanedPlayerIds.has(p.id));
     for (const player of squad) {
       const status = getPlayerContractStatus(next, player.id);
       if (status !== "EXPIRING_SOON" && status !== "EXPIRING") continue;

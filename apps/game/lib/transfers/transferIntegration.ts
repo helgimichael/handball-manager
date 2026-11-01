@@ -13,7 +13,7 @@ import { getPlayerContract, getPlayerContractStatus, getPlayerMarketValueEur } f
 import { getPlayerTrainingCompensation } from "../economy/trainingCompensationIntegration";
 import { getClubFinancialHealth, adjustClubCash } from "../economy/clubEconomyIntegration";
 import { isTransferWindowOpen, nextTransferWindowOpenDate } from "./transferWindow";
-import { computeSellingClubAskingPriceEur, evaluateSellingClubDecision, evaluateLoanOutDecision, type SellingClubDecisionInputs } from "./clubDecision";
+import { computeRequiredLoanWageSharePct, computeSellingClubAskingPriceEur, evaluateSellingClubDecision, evaluateLoanOutDecision, type SellingClubDecisionInputs } from "./clubDecision";
 import { evaluatePlayerDecision } from "./playerDecision";
 import { assessTransferAffordability } from "./affordability";
 import { computeNewContractEndDate, loanPlayerOut, returnPlayerFromLoan, transferPlayerPermanently, competitionTierForClub } from "./transferExecution";
@@ -136,6 +136,12 @@ export function getSellingClubAskingPriceEur(state: CareerState, playerId: strin
   return context ? computeSellingClubAskingPriceEur(context) : undefined;
 }
 
+/** HM-ALPHA2-05C: the smallest wage share the OWNING club accepts for a loan right now (null: will not lend; undefined: unknown player). Same role/depth/finance inputs as the one-shot loan decision. */
+export function getRequiredLoanWageSharePct(state: CareerState, playerId: string): number | null | undefined {
+  const context = buildSellingClubContext(state, playerId);
+  return context ? computeRequiredLoanWageSharePct({ role: context.role, financialPressure: context.financialPressure, hasAdequateReplacement: context.hasAdequateReplacement }) : undefined;
+}
+
 /** Applies a negotiated squad-role promise once the player has actually joined the manager's club. */
 function applyPromisedSquadRole(state: CareerState, offer: Pick<TransferOffer, "playerId" | "toClubId" | "promisedSquadRole">): CareerState {
   if (!offer.promisedSquadRole || offer.toClubId !== state.playerClubId) return state;
@@ -231,7 +237,7 @@ export function resolveTransferOffer(
       // (localStorage save/reload) round-trips byte-for-byte instead of
       // silently dropping an explicit-undefined key JSON.stringify omits.
       ...(loanTerms ? { loanTerms } : {}),
-      ...(dealType === "PERMANENT" && params.promisedSquadRole ? { promisedSquadRole: params.promisedSquadRole } : {}),
+      ...(params.promisedSquadRole ? { promisedSquadRole: params.promisedSquadRole } : {}),
       ...(agreement ? { negotiationId: agreement.negotiationId } : {}),
       status,
       offeredDate,
@@ -245,12 +251,12 @@ export function resolveTransferOffer(
     return finalize("BLOCKED_PENDING_TRANSFER", { clubDecisionReason: "Spelaren har redan en pågående affär som väntar på att slutföras." }, state);
   }
 
-  // HM-ALPHA2-05A: on loan, `fromClubId` above is the BORROWING club --
-  // a bid would pay the wrong club and strand the LoanRecord. No deal
-  // for a loaned player until the loan has ended.
+  // HM-ALPHA2-05C: `fromClubId` above is the contract OWNER even during a
+  // loan, so a permanent bid is always negotiated with (and paid to) the
+  // owner. A player already on loan cannot be loaned a second time.
   const activeLoan = getActiveLoanForPlayer(state, playerId);
-  if (activeLoan) {
-    return finalize("BLOCKED_PENDING_TRANSFER", { clubDecisionReason: `Spelaren är utlånad till ${activeLoan.endDate} och ägs av moderklubben -- inga bud under låneperioden.` }, state);
+  if (activeLoan && dealType === "LOAN") {
+    return finalize("BLOCKED_PENDING_TRANSFER", { clubDecisionReason: `Spelaren är redan utlånad till ${activeLoan.endDate}.` }, state);
   }
 
   if (dealType === "LOAN" && params.loanTerms && (params.loanTerms.endDate <= offeredDate || params.loanTerms.endDate > resolvedContract.contractEndDate)) {
@@ -289,7 +295,8 @@ export function resolveTransferOffer(
 
   // Agreed -- execute (loans always immediate; permanent deals are window-gated).
   if (dealType === "LOAN" && params.loanTerms) {
-    let next = loanPlayerOut(state, playerId, fromClubId, toClubId, wageShareBorrowingPct);
+    let next = loanPlayerOut(state, playerId, fromClubId, toClubId);
+    if (next === state) return finalize("REJECTED_BY_CLUB", { clubDecisionReason: "Spelaren spelar inte för den klubb som äger kontraktet just nu och kan inte lånas ut." }, state);
     const loan: LoanRecord = {
       id: offerId,
       playerId,
@@ -302,11 +309,20 @@ export function resolveTransferOffer(
       active: true,
     };
     next = { ...next, loans: { ...next.loans, [loan.id]: loan } };
-    return finalize("COMPLETED", { playerDecisionReason: playerDecision.reason }, next);
+    next = applyPromisedSquadRole(next, { playerId, toClubId, promisedSquadRole: params.promisedSquadRole });
+    return finalize("COMPLETED", { playerDecisionReason: playerDecision.reason, ...(agreement ? { clubDecisionReason: agreement.clubReason } : {}) }, next);
+  }
+
+  // HM-ALPHA2-05C: a third club buying a player who is out on loan takes
+  // him when the loan ends (first open window on or after the loan's end
+  // date); the borrowing club buying him out ends the loan right away.
+  if (activeLoan && toClubId !== activeLoan.borrowingClubId) {
+    const completion = isTransferWindowOpen(activeLoan.endDate) ? activeLoan.endDate : nextTransferWindowOpenDate(activeLoan.endDate);
+    return finalize("AGREED_AWAITING_WINDOW", { playerDecisionReason: `${playerDecision.reason} Övergången genomförs när lånet har gått ut.`, ...(agreement ? { clubDecisionReason: agreement.clubReason } : {}), scheduledCompletionDate: completion }, state);
   }
 
   if (isTransferWindowOpen(offeredDate)) {
-    let next = transferPlayerPermanently(state, playerId, fromClubId, toClubId, params.newWageEurPerMonth, computeNewContractEndDate(playerId, offeredDate, params.contractYears ?? 3));
+    let next = transferPlayerPermanently(activeLoan ? endActiveLoan(state, activeLoan) : state, playerId, fromClubId, toClubId, params.newWageEurPerMonth, computeNewContractEndDate(playerId, offeredDate, params.contractYears ?? 3));
     next = adjustClubCash(next, toClubId, -(transferFeeEur + trainingCompensationEur));
     if (!isFreeAgent) next = adjustClubCash(next, fromClubId, transferFeeEur);
     next = creditTrainingCompensationClubs(next, trainingComp);
@@ -315,6 +331,12 @@ export function resolveTransferOffer(
   }
 
   return finalize("AGREED_AWAITING_WINDOW", { playerDecisionReason: playerDecision.reason, ...(agreement ? { clubDecisionReason: agreement.clubReason } : {}), scheduledCompletionDate: nextTransferWindowOpenDate(offeredDate) }, state);
+}
+
+/** HM-ALPHA2-05C: ends a loan now -- the player returns to the owning club (same path as a natural expiry). */
+function endActiveLoan(state: CareerState, loan: LoanRecord): CareerState {
+  const returned = returnPlayerFromLoan(state, loan.playerId, loan.parentClubId, loan.borrowingClubId, loan.originalWageEurPerMonth);
+  return { ...returned, loans: { ...returned.loans, [loan.id]: { ...loan, active: false } } };
 }
 
 /** Credits every trackable training-compensation recipient club's cash -- clubs outside this career's tracked economy are simply not credited (Part: avoid invented precision about untracked clubs' finances). */
@@ -352,6 +374,11 @@ export function progressDailyTransfers(state: CareerState, date: string): Career
     // offers from before the fix. A mismatch here means the player moved
     // via a different deal in the meantime -- never execute a stale
     // move; cancel this offer safely instead.
+    // HM-ALPHA2-05C: the owner sold a player who is (still) out on loan --
+    // the loan ends now and he returns to the owner before moving on.
+    const loanToEnd = getActiveLoanForPlayer(next, offer.playerId);
+    if (loanToEnd && loanToEnd.parentClubId === offer.fromClubId) next = endActiveLoan(next, loanToEnd);
+
     const currentPlayer = getCareerPlayer(next, offer.playerId);
     if (!currentPlayer || currentPlayer.clubId !== offer.fromClubId) {
       next = { ...next, transferOffers: { ...next.transferOffers, [offer.id]: { ...offer, status: "CANCELLED_STALE", resolvedDate: date } } };
@@ -372,8 +399,7 @@ export function progressDailyTransfers(state: CareerState, date: string): Career
   for (const loan of Object.values(next.loans)) {
     if (!loan.active) continue;
     if (!isSameOrBefore(loan.endDate, date)) continue;
-    const returned = returnPlayerFromLoan(next, loan.playerId, loan.parentClubId, loan.borrowingClubId, loan.originalWageEurPerMonth, getPlayerContract(next, loan.playerId)?.contractEndDate ?? date);
-    next = { ...returned, loans: { ...returned.loans, [loan.id]: { ...loan, active: false } } };
+    next = endActiveLoan(next, loan);
   }
 
   return next;

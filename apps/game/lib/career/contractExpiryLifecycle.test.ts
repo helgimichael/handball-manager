@@ -382,7 +382,7 @@ test("loan: parent contract expiry while on loan removes the player from whereve
   const borrowingClub = "se_club_bodens_bk_hf";
   state = withPlayerAndContract(state, "loan1", parentClub, "H6", PAST_DATE, 1000);
 
-  let loaned = loanPlayerOut(state, "loan1", parentClub, borrowingClub, 50);
+  let loaned = loanPlayerOut(state, "loan1", parentClub, borrowingClub);
   assert.equal(getCareerPlayer(loaned, "loan1")?.clubId, borrowingClub, "loanPlayerOut must move the player to the borrowing club");
   assert.equal(getPlayerContract(loaned, "loan1")?.contractEndDate, PAST_DATE, "the original parent contract's real end date is preserved unchanged during a loan");
   loaned = {

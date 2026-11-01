@@ -122,34 +122,38 @@ export function transferPlayerPermanently(state: CareerState, playerId: string, 
 /**
  * Part: "no permanent ownership change... spelaren spelar för
  * låneklubben under perioden men behåller sin career identity, rating,
- * development och history." Squad/rating move to the borrowing club
- * (so match-day squad selection and wage-cost derivation correctly
- * treat them as part of it) and the contract's own wage is reduced to
- * the BORROWING club's own share for the loan's duration -- club
- * history is deliberately NOT touched (a loan spell is not an
- * ownership change, Part: avoid invented precision about "did this
- * count as a real club").
+ * development och history." Squad/rating move to the borrowing club (the
+ * PLAYING club: match-day squad selection, tactics). HM-ALPHA2-05C: the
+ * contract is no longer touched -- `PlayerContract.clubId` stays the
+ * OWNING club and `wageEurPerMonth` the full contract wage for the whole
+ * loan; the LoanRecord carries the borrowing club and its wage share,
+ * and clubEconomyIntegration.ts's wage-cost derivation splits the wage
+ * between the two clubs from it. Club history is deliberately NOT
+ * touched (a loan spell is not an ownership change).
  */
-export function loanPlayerOut(state: CareerState, playerId: string, parentClubId: string, borrowingClubId: string, wageShareBorrowingPct: number): CareerState {
+export function loanPlayerOut(state: CareerState, playerId: string, parentClubId: string, borrowingClubId: string): CareerState {
   const player = getCareerPlayer(state, playerId);
   const contract = state.playerContracts[playerId];
   // Canonical ownership guard -- see transferPlayerPermanently's own doc.
-  if (!player || !contract || player.clubId !== parentClubId) return state;
+  if (!player || !contract || player.clubId !== parentClubId || contract.clubId !== parentClubId) return state;
 
   let next = ensureCareerWorldSquad(state, parentClubId);
   next = ensureCareerWorldSquad(next, borrowingClubId);
   next = moveSquadMembership(next, player, parentClubId, borrowingClubId);
   next = moveGameplayRating(next, playerId, parentClubId, borrowingClubId);
-
-  const shareWage = Math.round((contract.wageEurPerMonth * wageShareBorrowingPct) / 100);
-  const loanContract: PlayerContract = { ...contract, clubId: borrowingClubId, wageEurPerMonth: shareWage };
-  next = { ...next, playerContracts: { ...next.playerContracts, [playerId]: loanContract } };
-
   return next;
 }
 
-/** The exact inverse of loanPlayerOut -- restores squad/rating/contract to the parent club, using the LoanRecord's own preserved originalWageEurPerMonth (never re-derived). */
-export function returnPlayerFromLoan(state: CareerState, playerId: string, parentClubId: string, borrowingClubId: string, originalWageEurPerMonth: number, originalContractEndDate: string): CareerState {
+/**
+ * The inverse of loanPlayerOut -- squad/rating back to the owning club.
+ * The contract already belongs to the owner (and may have been renewed
+ * by it during the loan), so it is left exactly as it is. Only a
+ * pre-05C loan, whose contract was rewritten to the borrowing club and
+ * the wage share, is restored from the LoanRecord's preserved original
+ * wage (see migrateLegacyLoanContracts, which normally fixes such
+ * contracts on load already).
+ */
+export function returnPlayerFromLoan(state: CareerState, playerId: string, parentClubId: string, borrowingClubId: string, originalWageEurPerMonth: number): CareerState {
   const player = getCareerPlayer(state, playerId);
   // Canonical ownership guard -- see transferPlayerPermanently's own doc.
   if (!player || player.clubId !== borrowingClubId) return state;
@@ -159,11 +163,31 @@ export function returnPlayerFromLoan(state: CareerState, playerId: string, paren
   next = moveSquadMembership(next, player, borrowingClubId, parentClubId);
   next = moveGameplayRating(next, playerId, borrowingClubId, parentClubId);
 
-  // HM-ALPHA2-05A: keep the contract's own other facts (e.g. `wageAgreed`) -- dropping them let the next load's wage recalibration silently rewrite a negotiated wage after the loan ended.
-  const restoredContract: PlayerContract = { ...next.playerContracts[playerId], playerId, clubId: parentClubId, contractEndDate: originalContractEndDate, wageEurPerMonth: originalWageEurPerMonth };
-  next = { ...next, playerContracts: { ...next.playerContracts, [playerId]: restoredContract } };
-
+  const contract = next.playerContracts[playerId];
+  if (contract && contract.clubId === borrowingClubId) {
+    // Pre-05C loan contract -- keep its other facts (e.g. `wageAgreed`), restore owner and full wage.
+    next = { ...next, playerContracts: { ...next.playerContracts, [playerId]: { ...contract, clubId: parentClubId, wageEurPerMonth: originalWageEurPerMonth } } };
+  }
   return next;
+}
+
+/**
+ * HM-ALPHA2-05C save compatibility: before 05C an active loan rewrote the
+ * player's contract to `clubId = borrowing club` and the wage share.
+ * Restores such contracts to the owning club and the LoanRecord's
+ * original full wage, so every reader sees one model. Idempotent: a
+ * contract already owned by the parent club is left untouched (same
+ * reference when nothing changes).
+ */
+export function migrateLegacyLoanContracts(state: CareerState): CareerState {
+  let contracts = state.playerContracts;
+  for (const loan of Object.values(state.loans ?? {})) {
+    if (!loan.active) continue;
+    const contract = contracts[loan.playerId];
+    if (!contract || contract.clubId !== loan.borrowingClubId) continue;
+    contracts = { ...contracts, [loan.playerId]: { ...contract, clubId: loan.parentClubId, wageEurPerMonth: loan.originalWageEurPerMonth } };
+  }
+  return contracts === state.playerContracts ? state : { ...state, playerContracts: contracts };
 }
 
 /** Convenience -- Competition.tier for a club, the same lookup contractIntegration.ts's own buildEconomyProfileInputs already relies on. */

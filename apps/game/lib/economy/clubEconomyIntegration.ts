@@ -165,11 +165,28 @@ export function adjustClubCash(state: CareerState, clubId: string, deltaEur: num
   return { ...state, clubEconomies: { ...state.clubEconomies, [clubId]: { ...baseline, cashEur: nextCash } } };
 }
 
-/** Section 6 PlayerCosts, annualized -- every contract whose own `clubId` matches, summed from `wageEurPerMonth`. */
+/**
+ * Section 6 PlayerCosts, annualized -- every contract whose own `clubId`
+ * matches, summed from `wageEurPerMonth`. HM-ALPHA2-05C: during an
+ * active loan the contract stays with the owning club at the full wage;
+ * the borrowing club carries `wageShareBorrowingPct` of it and the owner
+ * the rest (a pre-05C loan contract, still under the borrower with the
+ * share already applied, simply counts for the borrower as before).
+ */
 export function getClubPlayerWageCostsEurAnnual(state: CareerState, clubId: string): number {
-  return Object.values(state.playerContracts)
-    .filter((c) => c.clubId === clubId)
-    .reduce((sum, c) => sum + c.wageEurPerMonth * 12, 0);
+  const activeLoans = new Map(Object.values(state.loans ?? {}).filter((l) => l.active).map((l) => [l.playerId, l]));
+  let total = 0;
+  for (const c of Object.values(state.playerContracts)) {
+    const loan = activeLoans.get(c.playerId);
+    if (loan && c.clubId === loan.parentClubId) {
+      const borrowingShare = loan.wageShareBorrowingPct / 100;
+      if (clubId === loan.parentClubId) total += c.wageEurPerMonth * (1 - borrowingShare) * 12;
+      else if (clubId === loan.borrowingClubId) total += c.wageEurPerMonth * borrowingShare * 12;
+      continue;
+    }
+    if (c.clubId === clubId) total += c.wageEurPerMonth * 12;
+  }
+  return total;
 }
 
 /**

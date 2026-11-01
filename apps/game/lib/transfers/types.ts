@@ -120,6 +120,10 @@ export interface NegotiationRound {
   counterFeeEur?: number;
   /** PLAYER counter -- the player's stated wage demand. */
   counterWageEurPerMonth?: number;
+  /** HM-ALPHA2-05C (LOAN): the borrowing club's offered wage share and loan end date, and the owner's required share. */
+  offeredWageSharePct?: number;
+  loanEndDate?: string;
+  counterWageSharePct?: number;
   reason: string;
 }
 
@@ -145,6 +149,16 @@ export interface TransferNegotiation {
   expiresDate?: string;
   /** HM-ALPHA2-05B: CPU clubs pursuing the same player, found with the existing recruitment logic when talks opened. */
   rivals?: RivalInterest[];
+  /**
+   * HM-ALPHA2-05C: absent = PERMANENT (every pre-05C negotiation). A LOAN
+   * negotiation agrees a wage share and end date with the OWNING club
+   * (`fromClubId`), then a playing role with the player; the contract and
+   * its ownership never change.
+   */
+  dealType?: TransferDealType;
+  /** LOAN only -- set once the owner accepts, locked for the player stage. */
+  agreedWageSharePct?: number;
+  loanEndDate?: string;
 }
 
 export interface PendingNegotiationOffer {
@@ -155,6 +169,9 @@ export interface PendingNegotiationOffer {
   offeredWageEurPerMonth?: number;
   contractYears?: number;
   promisedSquadRole?: SquadStatusTier;
+  /** HM-ALPHA2-05C (LOAN). */
+  wageSharePct?: number;
+  loanEndDate?: string;
 }
 
 /**

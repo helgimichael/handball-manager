@@ -12,7 +12,7 @@ import { snapshotWorldSquads, snapshotGameplayRatings } from "../gameWorld/serve
 import { submitTransferOffer, progressDailyTransfers } from "../transfers/transferIntegration";
 import { getPlayerContract, getPlayerMarketValueEur } from "../economy/contractIntegration";
 import { getPlayerTrainingCompensation } from "../economy/trainingCompensationIntegration";
-import { getClubEconomySnapshot } from "../economy/clubEconomyIntegration";
+import { getClubEconomySnapshot, getClubPlayerWageCostsEurAnnual } from "../economy/clubEconomyIntegration";
 import { getCareerPlayerRating } from "./careerRatingNormalization";
 import { buildInitialMatchSquad } from "../matchPlan/careerSquadBridge";
 import { buildDefaultMatchPlan } from "../matchPlan/defaultMatchPlan";
@@ -147,7 +147,7 @@ test("(10) an offer with a wage CUT and a tier downgrade is rejected by the play
 });
 
 // (11)/(12)/(13) loan works, wage share works, loan return works.
-test("(11)/(12)/(13) a loan moves the player with a reduced wage-share contract, and returns them to the parent club with the original wage restored once the end date passes", () => {
+test("(11)/(12)/(13) a loan moves the player, splits the wage by the share while the owner keeps the contract, and returns them to the parent club once the end date passes", () => {
   const state = richBuyerState("xfer-11");
   const { sellerClubId, player } = pickSellerAndPlayer(state);
   const originalContract = getPlayerContract(state, player.id)!;
@@ -158,8 +158,11 @@ test("(11)/(12)/(13) a loan moves the player with a reduced wage-share contract,
     return;
   }
   assert.equal(getCareerPlayer(result.state, player.id)?.clubId, BUYER);
-  const loanContract = getPlayerContract(result.state, player.id)!;
-  assert.equal(loanContract.wageEurPerMonth, Math.round((originalContract.wageEurPerMonth * 60) / 100));
+  // HM-ALPHA2-05C: the owner keeps the contract at the full wage; the wage COST is split 60/40.
+  assert.deepEqual(getPlayerContract(result.state, player.id), originalContract);
+  const wage = originalContract.wageEurPerMonth * 12;
+  assert.ok(Math.abs(getClubPlayerWageCostsEurAnnual(result.state, BUYER) - getClubPlayerWageCostsEurAnnual(state, BUYER) - wage * 0.6) < 1e-6);
+  assert.ok(Math.abs(getClubPlayerWageCostsEurAnnual(state, sellerClubId) - getClubPlayerWageCostsEurAnnual(result.state, sellerClubId) - wage * 0.6) < 1e-6);
   assert.equal(Object.values(result.state.loans).length, 1);
 
   const afterReturn = progressDailyTransfers(result.state, "2027-01-16");
