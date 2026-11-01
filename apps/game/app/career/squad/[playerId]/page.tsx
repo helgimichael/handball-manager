@@ -3,6 +3,7 @@ import PlayerActions from '@/components/manager/PlayerActions';
 import PlayerPerformance from '@/components/manager/PlayerPerformance';
 import { PlayerHero } from '@/components/game/Identity';
 import ContractRenewal from '@/components/ContractRenewal';
+import { PlayerTransferCard } from '@/components/transfers/PlayerTransferCard';
 
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
@@ -235,6 +236,9 @@ export default function PlayerProfilePage() {
             {player.clubId === career.playerClubId && <ContractRenewal key={player.id} playerId={player.id} />}
           </div>
         </div>
+
+        {/* HM-ALPHA2-05E: ownership vs playing club, loan, promise, interest and the way into the Negotiation Room. */}
+        <PlayerTransferCard playerId={player.id} />
 
         {/* Market value -- HM-SCOUTING-1.0 Part 8/9: an external player's
             true canonical value is never shown exactly, only a knowledge-

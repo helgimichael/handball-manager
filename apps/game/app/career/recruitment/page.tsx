@@ -401,8 +401,8 @@ function CandidateDetailPanel({
             <span style={{ fontWeight: 700 }}>{candidate.transferStatusLabel}</span>
           </div>
           {isOwnPlayer ? <div className="game-offer-impact"><span className="hm-eyebrow">Spelaren tillhör din trupp</span><p>{candidate.contractEndDate ? `Nuvarande avtal gäller till ${candidate.contractEndDate}.` : 'Planera spelarens roll och nästa match med laget.'}</p><div className="hm-actions"><Link className="hm-btn" href="/career/squad">Truppens rollfördelning →</Link><Link className="hm-btn" href="/career/contracts">Kontraktsöversikt →</Link></div></div> : <>
-          {/* HM-ALPHA2-05A: permanent bids are negotiated in two stages on the Transfers page -- no one-shot bypass here. */}
-          <Link className="hm-btn hm-btn-primary hm-btn-sm" href={`/career/transfers?target=${encodeURIComponent(candidate.playerId)}`}>
+          {/* HM-ALPHA2-05E: every deal is conducted in the Negotiation Room -- no second negotiation workflow here. */}
+          <Link className="hm-btn hm-btn-primary hm-btn-sm" href={`/career/transfers/${encodeURIComponent(candidate.playerId)}`}>
             Förhandla om övergång →
           </Link>
           </>}

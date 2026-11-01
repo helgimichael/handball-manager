@@ -25,7 +25,9 @@ export type CareerEventType =
   | "PLAYER_CONTRACT_EXPIRED"
   | "YOUTH_INTAKE_COMPLETE"
   | "PLAYER_RETIRED"
-  | "PLAYER_CAREER_EXIT";
+  | "PLAYER_CAREER_EXIT"
+  // HM-ALPHA2-05E: an answer, deadline or market move in one of the manager's own negotiations.
+  | "TRANSFER_NEGOTIATION";
 
 /** Spec S3: the three-tier priority model. */
 export type EventPriority = "INFORMATION" | "IMPORTANT" | "ACTION_REQUIRED";
@@ -60,6 +62,7 @@ export type EventDestination =
   | { route: "SCOUTING" }
   | { route: "SCOUT_REPORT"; playerId: string }
   | { route: "RECRUITMENT" }
+  | { route: "NEGOTIATION"; playerId: string }
   | { route: "COMPETITION"; competitionId: string }
   | { route: "CLUB" }
   | { route: "ANALYSIS_OVERVIEW" }
@@ -283,6 +286,11 @@ export function buildCompetitionUpdateEvent(date: string, competitionId: string)
     [{ route: "COMPETITION", competitionId }],
     { primaryEntity: { entityType: "competition", entityId: competitionId } },
   );
+}
+
+/** HM-ALPHA2-05E: a negotiation update -- opens the Negotiation Room for that player; filed under the inbox's Transfers filter. */
+export function buildTransferNegotiationEvent(id: string, date: string, subject: string, summary: string, playerId: string): CareerEvent {
+  return baseEvent(`TRANSFER_NEGOTIATION:${id}`, "TRANSFER_NEGOTIATION", date, "IMPORTANT", subject, summary, [{ route: "NEGOTIATION", playerId }, { route: "PLAYER_PROFILE", playerId }]);
 }
 
 export function buildClubNewsEvent(id: string, date: string, subject: string, summary: string): CareerEvent {

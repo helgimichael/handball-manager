@@ -31,7 +31,7 @@ export function matchesInboxFilter(message: InboxMessage, filter: InboxFilterId)
     case "CONTRACTS":
       return !message.archived && message.id.startsWith('management-contract:');
     case "TRANSFERS":
-      return !message.archived && message.id.startsWith('management-transfer:');
+      return !message.archived && (message.id.startsWith('management-transfer:') || message.id.startsWith('msg:TRANSFER_NEGOTIATION:'));
     case "SCOUTING":
       return !message.archived && message.category === "SCOUTING";
     case "STAFF":

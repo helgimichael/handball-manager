@@ -39,7 +39,7 @@ import {
   buildTrainingReportEvent,
   buildPlacementExpiredEvent,
   buildPlayerContractExpiredEvent,
-  buildClubNewsEvent,
+  buildTransferNegotiationEvent,
   type CareerEvent,
 } from "./careerEvents";
 import { progressContractExpiry } from "./contractExpiry";
@@ -263,7 +263,7 @@ export function processDay(state: CareerState, date: string): DailyTickResult {
   // so a same-day CPU signing is judged against an up-to-date negotiation.
   const negotiationProgress = progressTransferNegotiations(next, date);
   next = negotiationProgress.state;
-  for (const notice of negotiationProgress.notices) emit(buildClubNewsEvent(notice.id, date, notice.subject, notice.summary));
+  for (const notice of negotiationProgress.notices) emit(buildTransferNegotiationEvent(notice.id, date, notice.subject, notice.summary, notice.playerId));
 
   // HM-CLUB-PARTNERSHIPS-1.0: the board's own multi-day partner search,
   // recurring partnership billing, and expiry -- same "check a stored

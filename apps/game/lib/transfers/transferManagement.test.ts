@@ -169,3 +169,18 @@ test("a negotiated loan registers once (ticked twice), and a CPU owner renews hi
   }
   assert.ok(renewedSomewhere, "no CPU owner renewed any loaned-out player");
 });
+
+test("Transfer Centre view models: needs cover every tracked position, finance is derived, the Negotiation Room route is owned by Transfers", async () => {
+  const { getManagerRecruitmentNeeds, getTransferFinance, getTransferOpportunities, getOpenNegotiationSummaries } = await import("./transferCentre");
+  const { resolveActiveNavId } = await import("../career/navigation");
+  const { resolveDestinationHref } = await import("../career/destinations");
+  const state = careerState("tm-centre");
+  assert.equal(getManagerRecruitmentNeeds(state).length, 7);
+  const finance = getTransferFinance(state)!;
+  assert.equal(finance.committedEur, 0);
+  assert.ok(finance.transferBudgetEur >= 0);
+  for (const o of getTransferOpportunities(state)) assert.ok(o.needLevel === "HIGH" || o.needLevel === "MEDIUM");
+  assert.deepEqual(getOpenNegotiationSummaries(state), []);
+  assert.equal(resolveActiveNavId("/career/transfers/se_player_x"), "transfers");
+  assert.equal(resolveDestinationHref({ route: "NEGOTIATION", playerId: "se_player_x" }), "/career/transfers/se_player_x");
+});

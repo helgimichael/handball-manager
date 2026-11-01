@@ -41,6 +41,8 @@ export function resolveDestinationHref(destination: EventDestination): string | 
       return `/career/squad/${destination.playerId}`;
     case "RECRUITMENT":
       return "/career/recruitment";
+    case "NEGOTIATION":
+      return `/career/transfers/${encodeURIComponent(destination.playerId)}`;
     case "COMPETITION":
       return `/career/competitions/${encodeURIComponent(destination.competitionId)}`;
     case "CLUB":
@@ -86,6 +88,8 @@ export function destinationLabel(destination: EventDestination): string {
       return "Öppna rapport";
     case "RECRUITMENT":
       return "Öppna rekrytering";
+    case "NEGOTIATION":
+      return "Öppna förhandlingen";
     case "COMPETITION":
       return "Öppna tabell";
     case "CLUB":

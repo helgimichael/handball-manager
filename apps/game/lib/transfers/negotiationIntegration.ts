@@ -399,9 +399,10 @@ export function withdrawTransferNegotiation(state: CareerState, negotiationId: s
 // HM-ALPHA2-05B: daily processing.
 // ---------------------------------------------------------------------------
 
-/** One inbox-worthy change, emitted by dailyTick.ts as a CLUB_NEWS event. */
+/** One inbox-worthy change, emitted by dailyTick.ts as a TRANSFER_NEGOTIATION event (opens the Negotiation Room). */
 export interface NegotiationNotice {
   id: string;
+  playerId: string;
   subject: string;
   summary: string;
 }
@@ -621,7 +622,7 @@ export function progressTransferNegotiations(state: CareerState, date: string): 
   for (const original of open) {
     let negotiation = next.transferNegotiations![original.id];
     const name = playerName(next, negotiation.playerId);
-    const notice = (suffix: string, subject: string, summary: string) => notices.push({ id: `${negotiation.id}:${suffix}`, subject, summary });
+    const notice = (suffix: string, subject: string, summary: string) => notices.push({ id: `${negotiation.id}:${suffix}`, playerId: negotiation.playerId, subject, summary });
 
     const gone = playerGoneElsewhere(next, negotiation, activePendingTransferPlayerIds(next));
     if (gone) {
