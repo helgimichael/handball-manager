@@ -184,3 +184,20 @@ test("Transfer Centre view models: needs cover every tracked position, finance i
   assert.equal(resolveActiveNavId("/career/transfers/se_player_x"), "transfers");
   assert.equal(resolveDestinationHref({ route: "NEGOTIATION", playerId: "se_player_x" }), "/career/transfers/se_player_x");
 });
+
+test("the club stage counts the agent commission: a fee that only fits without it is refused before it can be agreed", async () => {
+  const { getClubBudgets } = await import("../economy/clubEconomyIntegration");
+  let state = careerState("tm-agent-budget");
+  const sellerClubId = getClubsByCompetition(HANDBOLLSLIGAN_ID).find((c) => c.id !== MANAGER && (state.worldSquads[c.id]?.length ?? 0) > 3)!.id;
+  const player = state.worldSquads[sellerClubId][0];
+  const started = ok(startTransferNegotiation(state, player.id));
+  state = started.state;
+  const id = started.negotiation.id;
+  const agentFee = getNegotiationAgentFeeEur(state, state.transferNegotiations![id]);
+  const trainingComp = getPlayerTrainingCompensation(state, player.id)?.totalEur ?? 0;
+  const budget = Math.floor(getClubBudgets(state, MANAGER)!.transferBudgetEur);
+  const maxFee = budget - trainingComp - agentFee;
+  assert.ok(agentFee > 0 && maxFee > 0);
+  assert.equal(submitNegotiationFeeOffer(state, id, maxFee + 1).ok, false);
+  assert.equal(submitNegotiationFeeOffer(state, id, maxFee).ok, true);
+});

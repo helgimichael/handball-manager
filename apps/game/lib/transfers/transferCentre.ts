@@ -10,6 +10,7 @@ import { assessPositionNeed, CPU_TRACKED_POSITIONS, type NeedLevel } from "../ca
 import { getPlayerSquadStatus, SQUAD_STATUS_TIERS, type SquadStatusTier } from "../career/squadStatus";
 import { getClubBudgets, getClubEconomySnapshot } from "../economy/clubEconomyIntegration";
 import { getPlayerContract, getPlayerContractStatus, getPlayerMarketValueEur } from "../economy/contractIntegration";
+import { getPlayerTrainingCompensation } from "../economy/trainingCompensationIntegration";
 import type { ContractStatus } from "../economy/types";
 import type { HandballPosition, PlayerMock } from "../game-data";
 import { getTransferNegotiations, isNegotiationOpen } from "./negotiationIntegration";
@@ -82,7 +83,9 @@ export function getTransferOpportunities(state: CareerState, limit = 8): Opportu
     const contractStatus = getPlayerContractStatus(state, player.id);
     if (contractStatus !== "FREE_AGENT" && contractStatus !== "EXPIRING" && contractStatus !== "EXPIRING_SOON") continue;
     const marketValueEur = getPlayerMarketValueEur(state, player.id) ?? 0;
-    if (contractStatus !== "FREE_AGENT" && marketValueEur > budget) continue;
+    // HM-ALPHA2-05F: "within budget" means the real up-front cost -- market value as the fee estimate plus training compensation (a free agent has no fee).
+    const upFrontEur = (contractStatus === "FREE_AGENT" ? 0 : marketValueEur) + (getPlayerTrainingCompensation(state, player.id)?.totalEur ?? 0);
+    if (upFrontEur > budget) continue;
     const why = contractStatus === "FREE_AGENT" ? "Kontraktslös -- ingen övergångssumma" : contractStatus === "EXPIRING" ? "Kontraktet går ut inom ett halvår" : "Kontraktet går ut inom ett år";
     result.push({ player, clubId, contractStatus, marketValueEur, needLevel, why });
   }

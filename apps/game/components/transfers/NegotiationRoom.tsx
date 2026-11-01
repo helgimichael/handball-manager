@@ -23,6 +23,7 @@ import { formatEur } from "@/lib/economy/currency";
 import { CONTRACT_STATUS_LABEL } from "@/lib/economy/labels";
 import { getPlayerContract, getPlayerContractStatus, getPlayerMarketValueEur } from "@/lib/economy/contractIntegration";
 import { getPlayerTrainingCompensation } from "@/lib/economy/trainingCompensationIntegration";
+import { getClubBudgets } from "@/lib/economy/clubEconomyIntegration";
 import { getClub, positionLabel, type PlayerMock } from "@/lib/game-data";
 import { getPlayerKnowledgePct } from "@/lib/knowledge/knowledgeIntegration";
 import { resolveMarketValueRange } from "@/lib/knowledge/scoutReportVisibility";
@@ -377,10 +378,13 @@ function Decision({ negotiation, run, contractWage, contractEnd }: { negotiation
   const expected = getExpectedRoleAtBuyer(career, negotiation);
   const trainingComp = getPlayerTrainingCompensation(career, negotiation.playerId)?.totalEur ?? 0;
   const agentFee = isLoan ? 0 : getNegotiationAgentFeeEur(career, negotiation);
+  // Default first bid: the middle of the knowledge-gated value range the manager can see -- never the hidden exact value.
   const marketValue = getPlayerMarketValueEur(career, negotiation.playerId) ?? 0;
+  const visibleRange = resolveMarketValueRange(marketValue, getPlayerKnowledgePct(career, negotiation.playerId, negotiation.fromClubId));
   const clock = deadlineUrgency(career.gameDate, negotiation.expiresDate);
+  const budgetEur = getClubBudgets(career, career.playerClubId)?.transferBudgetEur ?? 0;
 
-  const [fee, setFee] = useState(lastClub?.counterFeeEur ?? lastClub?.offeredFeeEur ?? Math.round(marketValue));
+  const [fee, setFee] = useState(lastClub?.counterFeeEur ?? lastClub?.offeredFeeEur ?? Math.round((visibleRange.min + visibleRange.max) / 2 / 100) * 100);
   const [share, setShare] = useState(lastClub?.counterWageSharePct ?? lastClub?.offeredWageSharePct ?? 60);
   const [endDate, setEndDate] = useState(lastClub?.loanEndDate ?? [contractEnd, addDays(career.gameDate, 180)].filter(Boolean).sort()[0]);
   const [wage, setWage] = useState(lastPlayer?.counterWageEurPerMonth ?? lastPlayer?.offeredWageEurPerMonth ?? Math.round(contractWage * 1.1));
@@ -427,7 +431,8 @@ function Decision({ negotiation, run, contractWage, contractEnd }: { negotiation
       )}
       {meet && !editing && <div className="tc-decision-actions"><button type="button" className="hm-btn" onClick={() => setEditing(true)}>Justera budet i stället</button>{withdraw}</div>}
       {editing && (
-        <form className="tc-offer-form" onSubmit={(e) => { e.preventDefault(); run(
+        // noValidate: the input `step`s are arrow-key increments only -- the negotiation rules round every figure themselves, and a browser step mismatch (e.g. a 4 400 € default with step 500) must never silently block the offer.
+        <form className="tc-offer-form" noValidate onSubmit={(e) => { e.preventDefault(); run(
           negotiation.stage === "CLUB"
             ? isLoan ? { kind: "LOAN_TERMS", negotiationId: negotiation.id, wageSharePct: share, endDate } : { kind: "FEE", negotiationId: negotiation.id, feeEur: fee }
             : { kind: "TERMS", negotiationId: negotiation.id, terms: { wageEurPerMonth: isLoan ? contractWage : wage, contractYears: isLoan ? 1 : years, promisedSquadRole: role, signingBonusEur: isLoan ? 0 : bonus } },
@@ -446,7 +451,7 @@ function Decision({ negotiation, run, contractWage, contractEnd }: { negotiation
           </>}
           {negotiation.stage === "PLAYER" && <label>Utlovad roll<select className="tc-input" value={role} onChange={(e) => setRole(e.target.value as SquadStatusTier)}>{SQUAD_STATUS_TIERS.map((t) => <option key={t} value={t}>{SQUAD_STATUS_TIER_LABEL_SV[t]}{t === expected ? " (förväntad)" : ""}</option>)}</select></label>}
           {negotiation.stage === "PLAYER" && !isLoan && <p className="tc-offer-hint">Vid signering betalar ni <b>{formatEur(upfront)}</b>: övergångssumma, utbildningsersättning, agentarvode {formatEur(agentFee)}{bonus ? " och bonus" : ""}. Bonusen räknas av spelaren som lön utslagen över kontraktet. Den utlovade rollen följer med avtalet.</p>}
-          {negotiation.stage === "CLUB" && !isLoan && trainingComp > 0 && <p className="tc-offer-hint">Plus utbildningsersättning {formatEur(trainingComp)} som separat post.</p>}
+          {negotiation.stage === "CLUB" && !isLoan && <p className="tc-offer-hint">Hela affären kostar <b>{formatEur(fee + trainingComp + agentFee)}</b>: övergångssumma{trainingComp > 0 ? `, utbildningsersättning ${formatEur(trainingComp)}` : ""} och agentarvode {formatEur(agentFee)}. Transferbudget {formatEur(Math.round(budgetEur))}.</p>}
           <div className="tc-decision-actions" style={{ gridColumn: "1 / -1" }}>
             <button type="submit" className={meet ? "hm-btn" : "hm-btn hm-btn-primary tc-cta"}>{negotiation.stage === "CLUB" ? "Lägg budet" : "Lägg fram villkoren"}</button>
             {withdraw}

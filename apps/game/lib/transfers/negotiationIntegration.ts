@@ -230,11 +230,14 @@ export function submitNegotiationFeeOffer(state: CareerState, negotiationId: str
   if (negotiation.dealType === "LOAN") return { ok: false, error: "Ett lån förhandlas om lönebidrag, inte övergångssumma." };
   const fee = Math.max(0, Math.round(offeredFeeEur));
 
-  // Only the transfer budget is checked here -- the wage is not on the table yet.
+  // Only the transfer budget is checked here -- the wage is not on the table yet. HM-ALPHA2-05F: the agent's
+  // commission is already known and is part of what the deal will cost, so it counts now -- a fee the club
+  // accepts must never leave the deal unaffordable at the signing step.
   const budgets = getClubBudgets(state, negotiation.toClubId);
-  const totalCost = fee + trainingCompensationEur(state, negotiation.playerId);
+  const agentFeeEur = getNegotiationAgentFeeEur(state, negotiation);
+  const totalCost = fee + trainingCompensationEur(state, negotiation.playerId) + agentFeeEur;
   if (!budgets || totalCost > budgets.transferBudgetEur) {
-    return { ok: false, error: `Total övergångskostnad (${totalCost} €) överstiger transferbudgeten (${Math.round(budgets?.transferBudgetEur ?? 0)} €).` };
+    return { ok: false, error: `Total övergångskostnad (${totalCost} € inkl. utbildningsersättning och agentarvode ${agentFeeEur} €) överstiger transferbudgeten (${Math.round(budgets?.transferBudgetEur ?? 0)} €).` };
   }
 
   const next: TransferNegotiation = {
