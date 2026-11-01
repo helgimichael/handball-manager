@@ -47,6 +47,14 @@ export function resolveDestinationHref(destination: EventDestination): string | 
       return `/career/competitions/${encodeURIComponent(destination.competitionId)}`;
     case "CLUB":
       return "/career/club";
+    case "FINANCE":
+      return destination.tab && destination.tab !== "overview" ? `/career/finance?tab=${destination.tab}` : "/career/finance";
+    case "SEASON":
+      return "/career/season";
+    case "STAFF":
+      return "/career/staff";
+    case "STAFF_MEMBER":
+      return `/career/staff/${encodeURIComponent(destination.staffId)}`;
     case "ANALYSIS_OVERVIEW":
       return "/career/analysis";
     case "ANALYSIS_OPPONENT":
@@ -94,6 +102,14 @@ export function destinationLabel(destination: EventDestination): string {
       return "Öppna tabell";
     case "CLUB":
       return "Öppna klubb";
+    case "FINANCE":
+      return "Öppna ekonomin";
+    case "SEASON":
+      return "Öppna säsongen";
+    case "STAFF":
+      return "Öppna personalen";
+    case "STAFF_MEMBER":
+      return "Öppna profilen";
     case "ANALYSIS_OVERVIEW":
       return "Öppna analys";
     case "ANALYSIS_OPPONENT":

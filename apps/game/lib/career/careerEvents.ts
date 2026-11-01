@@ -27,7 +27,13 @@ export type CareerEventType =
   | "PLAYER_RETIRED"
   | "PLAYER_CAREER_EXIT"
   // HM-ALPHA2-05E: an answer, deadline or market move in one of the manager's own negotiations.
-  | "TRANSFER_NEGOTIATION";
+  | "TRANSFER_NEGOTIATION"
+  // HM-ALPHA3-M02: month-end statements and changes in the club's financial status.
+  | "CLUB_FINANCE"
+  // HM-ALPHA3-M03: playoffs, qualification, promotion/relegation, titles, awards.
+  | "SEASON_MILESTONE"
+  // HM-ALPHA3-M04: staff negotiations, appointments, departures and contract expiries.
+  | "STAFF_UPDATE";
 
 /** Spec S3: the three-tier priority model. */
 export type EventPriority = "INFORMATION" | "IMPORTANT" | "ACTION_REQUIRED";
@@ -65,6 +71,10 @@ export type EventDestination =
   | { route: "NEGOTIATION"; playerId: string }
   | { route: "COMPETITION"; competitionId: string }
   | { route: "CLUB" }
+  | { route: "FINANCE"; tab?: "overview" | "budget" | "ledger" | "wages" | "forecast" }
+  | { route: "SEASON" }
+  | { route: "STAFF" }
+  | { route: "STAFF_MEMBER"; staffId: string }
   | { route: "ANALYSIS_OVERVIEW" }
   | { route: "ANALYSIS_OPPONENT" }
   | { route: "ANALYSIS_OUR_TEAM" }
@@ -291,6 +301,11 @@ export function buildCompetitionUpdateEvent(date: string, competitionId: string)
 /** HM-ALPHA2-05E: a negotiation update -- opens the Negotiation Room for that player; filed under the inbox's Transfers filter. */
 export function buildTransferNegotiationEvent(id: string, date: string, subject: string, summary: string, playerId: string): CareerEvent {
   return baseEvent(`TRANSFER_NEGOTIATION:${id}`, "TRANSFER_NEGOTIATION", date, "IMPORTANT", subject, summary, [{ route: "NEGOTIATION", playerId }, { route: "PLAYER_PROFILE", playerId }]);
+}
+
+/** HM-ALPHA3: finance, season and staff events. `key` must be stable per semantic event (it is the dedup id). */
+export function buildClubEvent(type: "CLUB_FINANCE" | "SEASON_MILESTONE" | "STAFF_UPDATE", key: string, date: string, priority: EventPriority, subject: string, summary: string, destinations: EventDestination[], primaryEntity?: EntityRef): CareerEvent {
+  return baseEvent(`${type}:${key}`, type, date, priority, subject, summary, destinations, primaryEntity ? { primaryEntity } : undefined);
 }
 
 export function buildClubNewsEvent(id: string, date: string, subject: string, summary: string): CareerEvent {

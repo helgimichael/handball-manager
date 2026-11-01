@@ -36,5 +36,5 @@ export const CAREER_EVENT_LABEL: Record<CareerEvent['type'], string> = {
   OPPONENT_REPORT_READY: 'Motståndaren', MATCH_PREPARATION_READY: 'Matchförberedelse', MATCHDAY_READY: 'Matchdag',
   MATCH_COMPLETED: 'Matchresultat', COMPETITION_UPDATE: 'Tävling', STAFF_REPORT: 'Tränarstaben', CLUB_NEWS: 'Klubben',
   PLAYER_PLACEMENT_EXPIRED: 'Spelaravtal', PLAYER_CONTRACT_EXPIRED: 'Kontrakt', YOUTH_INTAKE_COMPLETE: 'Ungdomslaget',
-  PLAYER_RETIRED: 'Spelarkarriär', PLAYER_CAREER_EXIT: 'Spelarkarriär', TRANSFER_NEGOTIATION: 'Förhandling',
+  PLAYER_RETIRED: 'Spelarkarriär', PLAYER_CAREER_EXIT: 'Spelarkarriär', TRANSFER_NEGOTIATION: 'Förhandling', CLUB_FINANCE: 'Ekonomi', SEASON_MILESTONE: 'Säsongen', STAFF_UPDATE: 'Personal',
 };

@@ -130,6 +130,7 @@
 .xp-decision-primary:focus-visible { outline: 3px solid var(--game-ink); outline-offset: 2px; }
 @media (hover: hover) and (pointer: fine) { .xp-decision-primary:hover { filter: brightness(1.07); } }
 .xp-decision-primary:active { transform: scale(.99); }
+.xp-decision-primary:disabled { cursor: default; filter: saturate(.35) brightness(1.05); opacity: .75; transform: none; }
 .xp-decision-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
 
 /* --- Choice group: real choices, not a toggle (radio cards) -------------------------- */

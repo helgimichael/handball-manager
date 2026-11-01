@@ -15,7 +15,8 @@ export type NavIconName =
   | "analysis"
   | "editor"
   | "medical"
-  | "settings";
+  | "settings"
+  | "finance";
 
 const PATHS: Record<NavIconName, string> = {
   home: "M2 7L8 2l6 5v6.5a.5.5 0 0 1-.5.5H10v-4H6v4H2.5a.5.5 0 0 1-.5-.5V7z",
@@ -36,6 +37,8 @@ const PATHS: Record<NavIconName, string> = {
   medical: "M6.5 2h3v4.5H14v3H9.5V14h-3V9.5H2v-3h4.5z",
   // three sliders: the preference controls
   settings: "M2 4h12 M2 8h12 M2 12h12 M5 2.5v3 M10.5 6.5v3 M7 10.5v3",
+  // a ledger: rising bars on a baseline
+  finance: "M2 13.5h12 M4 12V8.5 M7 12V5.5 M10 12V7 M13 12V3",
 };
 
 export default function NavIcon({ name }: { name: NavIconName }) {

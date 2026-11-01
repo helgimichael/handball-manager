@@ -340,9 +340,9 @@ export function resolveTransferOffer(
 
   if (isTransferWindowOpen(offeredDate)) {
     let next = transferPlayerPermanently(activeLoan ? endActiveLoan(state, activeLoan) : state, playerId, fromClubId, toClubId, params.newWageEurPerMonth, computeNewContractEndDate(playerId, offeredDate, params.contractYears ?? 3));
-    next = adjustClubCash(next, toClubId, -(transferFeeEur + trainingCompensationEur + extraSigningCostsEur));
-    if (!isFreeAgent) next = adjustClubCash(next, fromClubId, transferFeeEur);
-    next = creditTrainingCompensationClubs(next, trainingComp);
+    next = payForSigning(next, toClubId, transferFeeEur, trainingCompensationEur, extraSigningCostsEur, playerId, offeredDate);
+    if (!isFreeAgent) next = adjustClubCash(next, fromClubId, transferFeeEur, { category: "TRANSFER_FEES", label: transferLabel(next, playerId, "Försäljning"), date: offeredDate });
+    next = creditTrainingCompensationClubs(next, trainingComp, offeredDate);
     next = applyPromisedSquadRole(next, { playerId, toClubId, promisedSquadRole: params.promisedSquadRole, dealType });
     return finalize("COMPLETED", { playerDecisionReason: playerDecision.reason, ...(agreement ? { clubDecisionReason: agreement.clubReason } : {}) }, next);
   }
@@ -357,13 +357,25 @@ function endActiveLoan(state: CareerState, loan: LoanRecord): CareerState {
 }
 
 /** Credits every trackable training-compensation recipient club's cash -- clubs outside this career's tracked economy are simply not credited (Part: avoid invented precision about untracked clubs' finances). */
-function creditTrainingCompensationClubs(state: CareerState, trainingComp: ReturnType<typeof getPlayerTrainingCompensation>): CareerState {
+function creditTrainingCompensationClubs(state: CareerState, trainingComp: ReturnType<typeof getPlayerTrainingCompensation>, date: string): CareerState {
   if (!trainingComp) return state;
   let next = state;
   for (const share of trainingComp.perClub) {
-    next = adjustClubCash(next, share.clubId, share.amountEur);
+    next = adjustClubCash(next, share.clubId, share.amountEur, { category: "TRAINING_COMPENSATION", label: "Utbildningsersättning", date });
   }
   return next;
+}
+
+function transferLabel(state: CareerState, playerId: string, verb: string): string {
+  const player = getCareerPlayer(state, playerId);
+  return player ? `${verb}: ${player.firstName} ${player.lastName}` : verb;
+}
+
+/** HM-ALPHA3-M02: the buying club's payments, booked as separate ledger lines (fee, training compensation, agent fee and signing bonus). */
+function payForSigning(state: CareerState, toClubId: string, feeEur: number, trainingCompensationEur: number, signingCostsEur: number, playerId: string, date: string): CareerState {
+  let next = adjustClubCash(state, toClubId, -feeEur, { category: "TRANSFER_FEES", label: transferLabel(state, playerId, "Värvning"), date });
+  next = adjustClubCash(next, toClubId, -trainingCompensationEur, { category: "TRAINING_COMPENSATION", label: "Utbildningsersättning", date });
+  return adjustClubCash(next, toClubId, -signingCostsEur, { category: "SIGNING_COSTS", label: "Agentarvode och signeringsbonus", date });
 }
 
 /**
@@ -403,12 +415,12 @@ export function progressDailyTransfers(state: CareerState, date: string): Career
     }
 
     let moved = transferPlayerPermanently(next, offer.playerId, offer.fromClubId, offer.toClubId, offer.newWageEurPerMonth, offer.newContractEndDate);
-    moved = adjustClubCash(moved, offer.toClubId, -(offer.transferFeeEur + offer.trainingCompensationEur + signingCostsEur(offer)));
-    moved = adjustClubCash(moved, offer.fromClubId, offer.transferFeeEur);
+    moved = payForSigning(moved, offer.toClubId, offer.transferFeeEur, offer.trainingCompensationEur, signingCostsEur(offer), offer.playerId, date);
+    moved = adjustClubCash(moved, offer.fromClubId, offer.transferFeeEur, { category: "TRANSFER_FEES", label: transferLabel(moved, offer.playerId, "Försäljning"), date });
     const player = getCareerPlayer(next, offer.playerId);
     const age = player ? playerAgeAtDate(player.dateOfBirth, player.birthYear, date) : null;
     const trainingComp = age !== null ? getPlayerTrainingCompensation(moved, offer.playerId) : undefined;
-    moved = creditTrainingCompensationClubs(moved, trainingComp);
+    moved = creditTrainingCompensationClubs(moved, trainingComp, date);
     moved = applyPromisedSquadRole(moved, offer);
     next = { ...moved, transferOffers: { ...moved.transferOffers, [offer.id]: { ...offer, status: "COMPLETED", resolvedDate: date } } };
   }

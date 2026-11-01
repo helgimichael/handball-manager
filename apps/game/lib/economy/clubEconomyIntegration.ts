@@ -34,6 +34,7 @@ import { ensureCareerPlayerContracts } from "./contractIntegration";
 import { ensureCareerPlayerClubHistory } from "./clubHistoryIntegration";
 import { generateClubEconomyBaseline } from "./clubEconomyGeneration";
 import { estimateStaffMonthlyCostEur } from "./staffCost";
+import { recordClubTransaction, type LedgerCategory } from "./ledgerTypes";
 import {
   FINANCIAL_PRESSURE_BUDGET_FACTOR,
   HM_SPORTING_CAPACITY_MULTIPLIER,
@@ -152,17 +153,21 @@ export function getClubEconomyBaseline(state: CareerState, clubId: string): Club
  * Transfers are the first thing with a real cash EFFECT (a fee paid,
  * training compensation received); this does not retune Economy 1.0's
  * own GENERATION (bands/ratios/revenue), only lets a real transaction
- * move the sticky `cashEur` fact it already persists. Floored at 0 --
- * a simple floor, never real debt/overdraft modeling (Part: "no debt
- * restructuring" is out of scope). A club with no economy baseline is
- * left untouched (never invents one here).
+ * move the sticky `cashEur` fact it already persists. A club with no
+ * economy baseline is left untouched (never invents one here).
+ *
+ * HM-ALPHA3-M02: no longer floored at 0 -- the monthly ledger models an
+ * overdraft and a crisis below it (lib/economy/ledger.ts), and a floor
+ * would silently create money for a club already below zero. `entry`
+ * records the movement as a one-off ledger transaction (fees, training
+ * compensation, partnership costs, prize money) so every month's
+ * statement reconciles exactly.
  */
-export function adjustClubCash(state: CareerState, clubId: string, deltaEur: number): CareerState {
+export function adjustClubCash(state: CareerState, clubId: string, deltaEur: number, entry?: { category: LedgerCategory; label: string; date: string }): CareerState {
   const baseline = state.clubEconomies[clubId];
-  if (!baseline) return state;
-  const nextCash = Math.max(0, baseline.cashEur + deltaEur);
-  if (nextCash === baseline.cashEur) return state;
-  return { ...state, clubEconomies: { ...state.clubEconomies, [clubId]: { ...baseline, cashEur: nextCash } } };
+  if (!baseline || deltaEur === 0) return state;
+  const next = { ...state, clubEconomies: { ...state.clubEconomies, [clubId]: { ...baseline, cashEur: baseline.cashEur + deltaEur } } };
+  return recordClubTransaction(next, clubId, { date: entry?.date ?? state.gameDate, category: entry?.category ?? "OTHER_ONE_OFF", label: entry?.label ?? "Övrig transaktion", amountEur: deltaEur });
 }
 
 /**
@@ -296,11 +301,35 @@ export function getClubBudgets(state: CareerState, clubId: string): ClubBudgets 
 
   const minimumCashReserveEur = (getClubRecurringOperatingCostsEurAnnual(state, clubId, baseline) / 12) * MINIMUM_CASH_RESERVE_MONTHS;
   const liquiditySurplusEur = Math.max(0, baseline.cashEur - minimumCashReserveEur);
-  const transferBudgetEur = Math.round(liquiditySurplusEur * HM_TRANSFER_LIQUIDITY_MULTIPLIER * pressureFactor);
+  let transferBudgetEur = Math.round(liquiditySurplusEur * HM_TRANSFER_LIQUIDITY_MULTIPLIER * pressureFactor);
+  let adjustedWageBudgetEur = wageBudgetEur;
+  const currentWagesEur = getClubPlayerWageCostsEurAnnual(state, clubId);
 
-  const wageOverBudget = getClubPlayerWageCostsEurAnnual(state, clubId) > wageBudgetEur;
+  // HM-ALPHA3-M02: the manager's adjustment to the board's season budget (wage budget <-> transfer budget, 1:1).
+  const plan = state.budgetPlans?.[clubId];
+  if (plan && plan.seasonId === state.seasonId && plan.wageToTransferEur !== 0) {
+    const shift = clampBudgetShift(plan.wageToTransferEur, adjustedWageBudgetEur, transferBudgetEur);
+    adjustedWageBudgetEur -= shift;
+    transferBudgetEur += shift;
+  }
+  // HM-ALPHA3-M02: a club in financial CRISIS (below its overdraft) may not take on new wages or fees.
+  if (state.clubFinances?.[clubId]?.status === "CRISIS") {
+    adjustedWageBudgetEur = Math.min(adjustedWageBudgetEur, Math.round(currentWagesEur));
+    transferBudgetEur = 0;
+  }
 
-  return { wageBudgetEur, transferBudgetEur, staffBudgetEur, academyBudgetEur, wageOverBudget };
+  const wageOverBudget = currentWagesEur > adjustedWageBudgetEur;
+
+  return { wageBudgetEur: adjustedWageBudgetEur, transferBudgetEur, staffBudgetEur, academyBudgetEur, wageOverBudget };
+}
+
+/** HM-ALPHA3-M02: how far the board lets the manager move money between the wage and transfer budgets. */
+export const MAX_BUDGET_SHIFT_SHARE = 0.15;
+
+/** Clamps a wage->transfer shift (negative = transfer->wage) to the board's limits: at most 15 % of the wage budget one way, at most the available transfer budget the other. */
+export function clampBudgetShift(requestedEur: number, wageBudgetEur: number, transferBudgetEur: number): number {
+  if (requestedEur >= 0) return Math.round(Math.min(requestedEur, wageBudgetEur * MAX_BUDGET_SHIFT_SHARE));
+  return -Math.round(Math.min(-requestedEur, transferBudgetEur, wageBudgetEur * MAX_BUDGET_SHIFT_SHARE));
 }
 
 /** The full aggregate a UI/report reads -- one call, every derived number assembled consistently. */

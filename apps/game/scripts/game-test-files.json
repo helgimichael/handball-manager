@@ -240,5 +240,6 @@
     "lib/career/careerInitialization.test.ts",
     "lib/economy/displayCurrency.test.ts",
     "lib/career/seasonRollover.test.ts",
-    "components/crests/crestPalette.test.ts"
+    "components/crests/crestPalette.test.ts",
+    "lib/economy/ledger.test.ts"
 ]

@@ -28,9 +28,20 @@ import type { ClubPartnership, PartnershipSearchAssignment } from "./clubPartner
 import type { PlayerPlacement } from "./playerPlacements";
 import type { CpuDecisionLogEntry, CpuRecruitmentPlan } from "./cpuRecruitment";
 import type { ScoutPoolSourceEntry } from "../staff/scoutPool";
+import type { BudgetPlan, ClubFinanceState } from "../economy/ledgerTypes";
 
-/** HM-PRESEASON-1.0: LEAGUE (the manager's own simulated competition), CUP (the provisional early cup round -- see preseason.ts), or FRIENDLY (manager-booked, never affects standings/season completion). */
-export type CareerFixtureType = "LEAGUE" | "CUP" | "FRIENDLY";
+/** HM-PRESEASON-1.0: LEAGUE (a simulated league), CUP (the provisional early cup round -- see preseason.ts -- and, from HM-ALPHA3-M03, Svenska cupen ties), or FRIENDLY (manager-booked, never affects standings/season completion). HM-ALPHA3-M03: PLAYOFF (SM-slutspel) and QUALIFIER (kval) games. Only LEAGUE fixtures ever feed a table. */
+export type CareerFixtureType = "LEAGUE" | "CUP" | "FRIENDLY" | "PLAYOFF" | "QUALIFIER";
+
+/** HM-ALPHA3-M03: where a knockout or series game belongs. Present only on PLAYOFF / QUALIFIER / tournament CUP fixtures. */
+export interface FixtureStage {
+  /** The tie (series or two-legged tie) this game belongs to -- see lib/competition/postseason.ts. */
+  tieId: string;
+  /** 1-based game number within the tie. */
+  game: number;
+  /** True when this game may not end level (series games; the second leg of a two-legged tie; cup knockout games). */
+  mustDecide: boolean;
+}
 
 export type CareerFixture = {
   id: string;
@@ -44,6 +55,7 @@ export type CareerFixture = {
   kickoffTime?: string;
   /** HM-ALPHA2-01: the original Profixio match id of a real schedule fixture. */
   sourceMatchId?: string;
+  stage?: FixtureStage;
 };
 
 export type ClubFormEntry = "W" | "D" | "L";
@@ -493,6 +505,14 @@ export type CareerState = {
    * computePlayerMarketValueEur established.
    */
   clubEconomies: Record<string, ClubEconomyBaseline>;
+
+  // --- HM-ALPHA3-M02: monthly club ledger (optional; started lazily by the daily tick, never retroactively) ---
+  /** Per-club ledger state: closed monthly statements, pending one-off transactions, financial status. Absent on older saves until the first processed day. */
+  clubFinances?: Record<string, ClubFinanceState>;
+  /** The manager's own adjustments to the board's season budget, keyed by club id. */
+  budgetPlans?: Record<string, BudgetPlan>;
+  /** HM-ALPHA3-M03: competition membership after promotion/relegation, keyed by club id. Absent = the static league in lib/game-data. Read through lib/career/competitionMembership.ts. */
+  competitionMembership?: Record<string, string>;
 
   // --- HM-TRANSFERS-1.0 addition (career-state schema v24, see saveMigration.ts) ---
 

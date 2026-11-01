@@ -54,6 +54,8 @@ export const CAREER_NAV_ITEMS: readonly CareerNavItem[] = [
   { id: "staff", label: "Personal", href: "/career/staff", icon: "staff", ownsPrefixes: ["/career/staff/"] },
   { id: "medical", label: "Medicinskt", href: "/career/medical", icon: "medical", ownsPrefixes: [] },
   { id: "club", label: "Klubb", href: "/career/club", icon: "club", ownsPrefixes: ["/career/club/", "/career/clubs/"] },
+  // HM-ALPHA3-M02: the Financial Centre.
+  { id: "finance", label: "Ekonomi", href: "/career/finance", icon: "finance", ownsPrefixes: [] },
   { id: "competitions", label: "Tävlingar", href: "/career/competitions", icon: "competitions", ownsPrefixes: ["/career/competitions/"] },
   { id: "statistics", label: "Statistik", href: "/career/statistics", icon: "analysis", ownsPrefixes: [] },
   { id: "history", label: "Historik", href: "/career/history", icon: "schedule", ownsPrefixes: [] },

@@ -75,6 +75,7 @@ import { executeTrainingDay } from "../training/trainingExecution";
 import { applyCpuDailyCondition } from "./cpuCondition";
 import { applyPlacementDevelopmentStimulus, applyTrainingDayDevelopmentStimulus, resolveWeeklyDevelopmentIfDue } from "../development/developmentIntegration";
 import { progressDailyTransfers } from "../transfers/transferIntegration";
+import { progressClubFinances } from "../economy/financeTick";
 import { progressTransferNegotiations } from "../transfers/negotiationIntegration";
 
 export interface DailyTickResult {
@@ -104,6 +105,12 @@ export function processDay(state: CareerState, date: string): DailyTickResult {
       next = { ...next, inbox: [...next.inbox, careerEventToInboxMessage(candidate, next)] };
     }
   }
+
+  // --- HM-ALPHA3-M02: club ledgers (start missing ones, close ended months) ---
+  // Collected, then emitted after the assignment: emit() appends to `next`, which the step's returned state would otherwise overwrite.
+  const financeEvents: CareerEvent[] = [];
+  next = progressClubFinances(next, date, (event) => financeEvents.push(event));
+  financeEvents.forEach(emit);
 
   // --- 2. Player availability ---------------------------------------------
   for (const status of Object.values(next.playerStatuses)) {
@@ -273,7 +280,7 @@ export function processDay(state: CareerState, date: string): DailyTickResult {
   for (const search of completedSearches) {
     emit(buildPartnershipCandidatesReadyEvent(search.id, search.clubId, date));
   }
-  next = progressPartnershipBilling(next, date, adjustClubCash);
+  next = progressPartnershipBilling(next, date, (s, clubId, delta) => adjustClubCash(s, clubId, delta, { category: "PARTNERSHIPS", label: "Samarbetsavtal", date }));
   const { state: afterPartnershipExpiry, expired: expiredPartnerships } = progressPartnershipExpiry(next, date);
   next = afterPartnershipExpiry;
   for (const partnership of expiredPartnerships) {

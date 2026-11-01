@@ -14,8 +14,8 @@ import { getSeasonPhase } from "@/lib/career/preseason";
 import { ClubLink } from "@/components/entityLinks";
 import type { CareerFixtureType } from "@/lib/career/types";
 
-const FIXTURE_TYPE_LABEL: Record<CareerFixtureType, string> = { LEAGUE: "Liga", CUP: "Cup", FRIENDLY: "Träningsmatch" };
-const FIXTURE_TYPE_TONE: Record<CareerFixtureType, string> = { LEAGUE: "neutral", CUP: "warning", FRIENDLY: "positive" };
+const FIXTURE_TYPE_LABEL: Record<CareerFixtureType, string> = { LEAGUE: "Liga", CUP: "Cup", FRIENDLY: "Träningsmatch", PLAYOFF: "SM-slutspel", QUALIFIER: "Kval" };
+const FIXTURE_TYPE_TONE: Record<CareerFixtureType, string> = { LEAGUE: "neutral", CUP: "warning", FRIENDLY: "positive", PLAYOFF: "warning", QUALIFIER: "warning" };
 
 export default function SchedulePage() {
   const router = useRouter();
