@@ -29,7 +29,9 @@ export function populationBefore(s:CoreState) {
   for(const team of ['HOME','AWAY'] as const) {
     const medical=courtPlayers(s,team).find(p=>p.condition.exitRequired);
     if(medical){const replacement=s.players.filter(p=>p.team===team&&p.population==='BENCH'&&p.kind===medical.kind&&!p.condition.unavailable&&!p.condition.exitRequired&&!p.condition.attacksRemaining).sort((a,b)=>Number(b.role===medical.role)-Number(a.role===medical.role)||a.id.localeCompare(b.id))[0];if(replacement)requestExchange(s,team,medical.id,replacement.id);}
-    const keeper=s.players.find(p=>p.team===team&&p.kind==='GOALKEEPER'),extra=s.players.find(p=>p.team===team&&p.role==='P2');
+    // The seventh player is the one on court: an earlier extra keeps role P2 on
+    // the bench, and finding him instead left the goal empty while defending.
+    const keeper=s.players.find(p=>p.team===team&&p.kind==='GOALKEEPER'&&p.population==='BENCH'&&!p.condition.unavailable),extra=courtPlayers(s,team).find(p=>p.role==='P2'&&p.kind==='FIELD_PLAYER');
     if(keeper?.population==='BENCH'&&!courtPlayers(s,team).some(p=>p.kind==='GOALKEEPER')&&extra?.population==='COURT'&&(s.possession.team!==team||s.restart?.kind==='GOALKEEPER_THROW'&&s.restart.owner===team))requestExchange(s,team,extra.id,keeper.id);
     // Expired suspensions are permission to re-enter, not instant court teleportation.
     if(s.flow.continuous&&courtPlayers(s,team).length<courtLimit(s,team)) {

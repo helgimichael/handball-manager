@@ -130,6 +130,7 @@
     "lib/career/defensiveAggressionKickoff.test.ts",
     "lib/career/offensiveTempoKickoff.test.ts",
     "lib/career/rotationStrategyKickoff.test.ts",
+    "lib/career/sevenVSixKickoff.test.ts",
     "lib/career/trainingCareerIntegration.test.ts",
     "lib/development/developmentStimulus.test.ts",
     "lib/development/developmentResolution.test.ts",

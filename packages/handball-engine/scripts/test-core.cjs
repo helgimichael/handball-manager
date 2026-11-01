@@ -31,6 +31,7 @@ require('../src/v2/core/realism-defence.test.ts');
 require('../src/v2/core/defensive-aggression.test.ts');
 require('../src/v2/core/offensive-tempo.test.ts');
 require('../src/v2/core/rotation-strategy.test.ts');
+require('../src/v2/core/seven-v-six.test.ts');
 require('../src/v2/core/execution-realism.test.ts');
 require('../src/v2/core/loose-ball-realism.test.ts');
 require('../src/v2/core/restart-realism.test.ts');

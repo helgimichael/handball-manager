@@ -1,5 +1,5 @@
 import { courtPlayers,otherTeam,record,type CorePlayer,type CoreState,type TeamId } from './state';
-import { requestExchange,exchangeActive } from './population';
+import { requestExchange,exchangeActive,courtLimit } from './population';
 import { requestTeamTimeout } from './referee';
 import type { AttackIdentity } from './offence';
 
@@ -65,17 +65,56 @@ export type TeamTactics={defence:'6:0'|'5:1';tempo:OffensiveTempo;attackIdentity
   /** Absent in active saves created before the instruction existed; reads as BALANCED. */
   aggression?:DefensiveAggression;
   /** Absent in active saves created before the instruction existed; reads as BALANCED. */
-  rotationStrategy?:RotationStrategy};
+  rotationStrategy?:RotationStrategy;
+  /** Absent in active saves created before the instruction existed; reads as OFF. */
+  sevenVSix?:SevenVSixMode};
+/**
+ * 7v6: the goalkeeper leaves for a seventh court player during an established
+ * attack, and comes back when the ball is lost (population.ts). SITUATIONAL
+ * goes 7v6 only when there is a reason -- trailing late, or playing a man
+ * short -- ALWAYS on every settled possession. The empty goal is real: the
+ * opponent's existing shot choice reads the missing keeper.
+ */
+export type SevenVSixMode='OFF'|'SITUATIONAL'|'ALWAYS';
+export const SEVEN_V_SIX_MODES:readonly SevenVSixMode[]=['OFF','SITUATIONAL','ALWAYS'];
+export const sevenVSixMode=(s:CoreState,team:TeamId):SevenVSixMode=>s.coaching[team]?.sevenVSix??'OFF';
+/** Whether the instruction wants a seventh court player right now. */
+export function sevenVSixWanted(s:CoreState,team:TeamId):boolean {
+  const mode=sevenVSixMode(s,team);
+  if(mode!=='SITUATIONAL')return mode==='ALWAYS';
+  const late=!!s.match&&s.officialClock.timeMs>s.match.periodLengthMs*2*.83,other=otherTeam(team);
+  return late&&s.score[team]<s.score[other]||courtLimit(s,team)<courtLimit(s,other);
+}
+function sevenVSixBefore(s:CoreState,team:TeamId) {
+  if(s.possession.team!==team||!s.ball.live||s.exchanges.some(e=>e.team===team&&e.phase!=='COMPLETED'&&e.phase!=='CANCELLED'))return;
+  const court=courtPlayers(s,team),keeper=court.find(p=>p.kind==='GOALKEEPER');
+  const ready=(p:CorePlayer)=>p.team===team&&p.population==='BENCH'&&!p.condition.unavailable&&!p.condition.exitRequired&&p.condition.attacksRemaining===0;
+  if(sevenVSixWanted(s,team)) {
+    // Only into a settled attack: the keeper's walk off is real time with the
+    // goal already empty, and nobody leaves a goal during a counter-attack.
+    if(!keeper||s.possession.phase!=='ESTABLISHED'||s.ball.controllerId===keeper.id||keeper.airborne)return;
+    const seventh=s.players.filter(p=>ready(p)&&p.kind==='FIELD_PLAYER')
+      .sort((a,b)=>b.profile.pivotPlay-a.profile.pivotPlay||b.condition.energy-a.condition.energy||a.id.localeCompare(b.id))[0];
+    if(seventh)requestExchange(s,team,keeper.id,seventh.id);
+  } else if(s.flow.sevenVTeam===team&&!keeper) {
+    // Switched off mid-attack: the seventh player makes way at once rather
+    // than waiting for the ball to be lost.
+    const extra=court.find(p=>p.role==='P2'&&p.kind==='FIELD_PLAYER'&&p.id!==s.ball.controllerId);
+    const back=s.players.find(p=>ready(p)&&p.kind==='GOALKEEPER');
+    if(extra&&back)requestExchange(s,team,extra.id,back.id);
+  }
+}
 export const initialCoaching=():Record<TeamId,TeamTactics>=>({HOME:{defence:'6:0',tempo:'BALANCED',attackIdentity:'BALANCED',rotation:false,timeouts:false,lastTimeoutPossession:null},AWAY:{defence:'6:0',tempo:'BALANCED',attackIdentity:'BALANCED',rotation:false,timeouts:false,lastTimeoutPossession:null}});
 export const defensiveAggression=(s:CoreState,team:TeamId):DefensiveAggression=>s.coaching[team]?.aggression??'BALANCED';
 /** Commands change future decisions; existing physical commitments finish normally. */
-export function setTactics(s:CoreState,team:TeamId,patch:Partial<Pick<TeamTactics,'defence'|'tempo'|'attackIdentity'|'rotation'|'timeouts'|'aggression'|'rotationStrategy'>>) {
+export function setTactics(s:CoreState,team:TeamId,patch:Partial<Pick<TeamTactics,'defence'|'tempo'|'attackIdentity'|'rotation'|'timeouts'|'aggression'|'rotationStrategy'|'sevenVSix'>>) {
   if(s.status!=='RUNNING')return false;
   if(patch.attackIdentity!==undefined&&!['BALANCED','COMBINATION','WIDTH','DIRECT'].includes(patch.attackIdentity))throw new Error('Invalid attacking identity');
   if(patch.defence!==undefined&&!['6:0','5:1'].includes(patch.defence)||patch.tempo!==undefined&&!OFFENSIVE_TEMPO_LEVELS.includes(patch.tempo)||
     patch.rotation!==undefined&&typeof patch.rotation!=='boolean'||patch.timeouts!==undefined&&typeof patch.timeouts!=='boolean'||
     patch.aggression!==undefined&&!DEFENSIVE_AGGRESSION_LEVELS.includes(patch.aggression)||
-    patch.rotationStrategy!==undefined&&!ROTATION_STRATEGIES.includes(patch.rotationStrategy))throw new Error('Invalid team tactics');
+    patch.rotationStrategy!==undefined&&!ROTATION_STRATEGIES.includes(patch.rotationStrategy)||
+    patch.sevenVSix!==undefined&&!SEVEN_V_SIX_MODES.includes(patch.sevenVSix))throw new Error('Invalid team tactics');
   Object.assign(s.coaching[team],patch);record(s,'TACTICS_CHANGED',null,{team,...patch});return true;
 }
 export function coachingBefore(s:CoreState) {
@@ -86,6 +125,7 @@ export function coachingBefore(s:CoreState) {
       players.filter(p=>p.condition.energy<.72).length>=3&&tactics.lastTimeoutPossession!==s.possession.id) {
       if(requestTeamTimeout(s,team))tactics.lastTimeoutPossession=s.possession.id;
     }
+    sevenVSixBefore(s,team);
     if(!tactics.rotation)continue;
     const strategy=rotationStrategy(s,team),profile=ROTATION_PROFILES[strategy];
     // The match situation moves the line, never the rule. A short bench keeps

@@ -69,8 +69,8 @@ test('real career match: commands, save continuation, exact archive and exactly-
   assert.deepEqual(done.matchArchives, restored.matchArchives);
   const archive = Object.values(done.matchArchives!)[0];
   assert.equal(archive.behaviorRevision, MATCH_BEHAVIOR_REVISION);
-  assert.deepEqual(archive.tactics?.kickoff?.[team], { defence: '6:0', aggression: 'BALANCED', tempo: 'BALANCED', rotationStrategy: 'BALANCED', assistantRotation: false }, 'the instructions the side kicked off with are archived');
-  assert.deepEqual(archive.tactics?.final[team], { defence: '5:1', aggression: 'HIGH', tempo: 'QUICK', rotationStrategy: 'BALANCED', assistantRotation: false }, 'the in-match change is archived');
+  assert.deepEqual(archive.tactics?.kickoff?.[team], { defence: '6:0', aggression: 'BALANCED', tempo: 'BALANCED', rotationStrategy: 'BALANCED', assistantRotation: false, sevenVSix: 'OFF' }, 'the instructions the side kicked off with are archived');
+  assert.deepEqual(archive.tactics?.final[team], { defence: '5:1', aggression: 'HIGH', tempo: 'QUICK', rotationStrategy: 'BALANCED', assistantRotation: false, sevenVSix: 'OFF' }, 'the in-match change is archived');
   const frames = archiveFrames(archive);
   assert.ok(frames.length > 1000);
   assert.equal(archive.result.engine, 'V2');

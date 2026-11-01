@@ -113,6 +113,7 @@ const personMap = (people: readonly MatchPerson[]) => new Map(people.map(p => [p
 const presentationTypes = new Set(['GOAL', 'SHOT_RELEASED', 'SAVE_CAUGHT', 'SAVE_PARRY', 'SHOT_BLOCKED', 'INTERCEPTION', 'TECHNICAL_VIOLATION', 'OFFENSIVE_FOUL', 'PASSIVE_PLAY', 'TWO_MINUTE_SUSPENSION', 'DISQUALIFICATION', 'WHISTLE_RESTART', 'EXCHANGE_COMPLETED', 'TEAM_TIMEOUT_STARTED', 'TACTICS_CHANGED', 'PERIOD_STARTED', 'PERIOD_ENDED', 'MATCH_FINISHED', 'DEFENDER_BEATEN', 'ADVANTAGE_OPENED', 'PASS_RELEASED']);
 const attackLabels: Record<string, string> = { BALANCED: 'balanserat', DIRECT: 'direkt', WIDTH: 'bredd', COMBINATION: 'kombinationer', QUICK: 'snabbt', SLOW: 'lugnt' };
 const rotationLabels: Record<string, string> = { SHORT: 'kort', BALANCED: 'balanserad', WIDE: 'bred' };
+const sevenVSixLabels: Record<string, string> = { OFF: 'av', SITUATIONAL: 'situationellt', ALWAYS: 'alltid' };
 const aggressionLabels: Record<string, string> = { LOW: 'låg', BALANCED: 'balanserad', HIGH: 'hög' };
 const goalLocation: Record<string, string> = { WING: 'på kanten', PIVOT: 'från linjen', BREAKTHROUGH: 'efter genombrott', BACKCOURT_JUMP: 'från distans', STANDING: 'med ett stående avslut', SEVEN_METRE: 'på sjumeterskast', EMPTY_GOAL: 'i det tomma målet' };
 const saveObject: Record<string, string> = { WING: 'kantskottet', PIVOT: 'linjeavslutet', BREAKTHROUGH: 'genombrottsavslutet', BACKCOURT_JUMP: 'distansskottet', STANDING: 'det stående avslutet', SEVEN_METRE: 'sjumeterskastet', EMPTY_GOAL: 'avslutet' };
@@ -243,7 +244,7 @@ export function presentationEvents(events: readonly CoreEvent[], people: readonl
                 break;
             case 'TACTICS_CHANGED':
                 headline = 'Nya instruktioner';
-                detail = [event.details.attackIdentity && `Anfall: ${attackLabels[String(event.details.attackIdentity)] ?? event.details.attackIdentity}`, event.details.defence && `Försvar: ${event.details.defence}`, event.details.aggression && `Aggressivitet: ${aggressionLabels[String(event.details.aggression)] ?? event.details.aggression}`, event.details.tempo && `Tempo: ${attackLabels[String(event.details.tempo)] ?? event.details.tempo}`, event.details.rotationStrategy && `Rotation: ${rotationLabels[String(event.details.rotationStrategy)] ?? event.details.rotationStrategy}`, typeof event.details.rotation === 'boolean' && `Assistentbyten ${event.details.rotation ? 'på' : 'av'}`].filter(Boolean).join(' · ');
+                detail = [event.details.attackIdentity && `Anfall: ${attackLabels[String(event.details.attackIdentity)] ?? event.details.attackIdentity}`, event.details.defence && `Försvar: ${event.details.defence}`, event.details.aggression && `Aggressivitet: ${aggressionLabels[String(event.details.aggression)] ?? event.details.aggression}`, event.details.tempo && `Tempo: ${attackLabels[String(event.details.tempo)] ?? event.details.tempo}`, event.details.rotationStrategy && `Rotation: ${rotationLabels[String(event.details.rotationStrategy)] ?? event.details.rotationStrategy}`, event.details.sevenVSix && `7 mot 6: ${sevenVSixLabels[String(event.details.sevenVSix)] ?? event.details.sevenVSix}`, typeof event.details.rotation === 'boolean' && `Assistentbyten ${event.details.rotation ? 'på' : 'av'}`].filter(Boolean).join(' · ');
                 importance = 'KEY';
                 break;
             case 'PERIOD_STARTED':
