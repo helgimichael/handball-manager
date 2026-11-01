@@ -1,5 +1,6 @@
 /** Bounded, present-state handball reasoning inside canonical V2. No RNG or outcomes. */
 import {courtPlayers,otherTeam,type CorePlayer,type CoreState,type Point} from './state';
+import { tempoProfile } from './coaching';
 import {clamp,clearGoalArea,distance,goal,local,segmentPoint,shootingAngle,shotOpportunity} from './space';
 import {laneMargin,secondsTo} from './timing';
 import {exchangeActive} from './population';
@@ -99,7 +100,7 @@ export function situationsFor(r:Perception,a:Advantage,previous?:HandballIntent)
 export function affordancesFor(r:Perception,a:Advantage,situations:Situation[],previous:HandballIntent|null,transition=false):Affordance[] {
  const out:Affordance[]=[];
  const add=(name:AffordanceName,motor:Affordance['motor'],intent:TacticalIntent,target:Point|null,targetId:string|null,immediate:number,continuation:number,capability:number,risk:number,reason:string)=>{
-  const tactics=(r.tactics.identity==='DIRECT'&&motor==='DRIVE'?.07:r.tactics.identity==='COMBINATION'&&name==='BIND_AND_PASS'?.07:r.tactics.identity==='WIDTH'&&name==='PASS_TO_WING'?.07:0)+(r.tactics.tempo==='QUICK'&&transition?.04:0);
+  const tactics=(r.tactics.identity==='DIRECT'&&motor==='DRIVE'?.07:r.tactics.identity==='COMBINATION'&&name==='BIND_AND_PASS'?.07:r.tactics.identity==='WIDTH'&&name==='PASS_TO_WING'?.07:0)+(transition?tempoProfile(r.tactics.tempo).transition:0);
   const commitment=previous?.kind===intent?.12*previous.commitment:0;
   const c=r.capability.cognition,receiver=targetId?r.receivers.find(x=>x.id===targetId):null;
   // Obvious open threats and created bind/pass advantages remain shared truths.

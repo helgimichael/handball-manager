@@ -25,6 +25,7 @@
 // ending the possession.
 import { clamp, distance, goal, laneClearance, local, shootingAngle, shotOpportunity, world } from './space';
 import { courtPlayers, otherTeam, record, type CorePlayer, type CoreState, type Point, type TeamId } from './state';
+import { tempoProfile } from './coaching';
 import { PIVOT_FINISH_METERS, isPivot, pivotOffer, pivotShotQuality } from './pivot';
 import { isWing, wingTakeoffWindow } from './wing';
 import { laneMargin, secondsTo } from './timing';
@@ -273,7 +274,7 @@ export function readContinuation(s: CoreState, carrier: CorePlayer): Continuatio
       preference=receiver&&isWing(receiver)&&c.kind==='PLAY_FREED'?1.22:reversal?1.10:1;
     }
     // Tempo changes willingness to spend an existing advantage, not leg speed.
-    if(tactics.tempo==='QUICK')preference*=c.kind==='RECYCLE'?.94:1.06;
+    const tempo=tempoProfile(tactics.tempo);preference*=c.kind==='RECYCLE'?tempo.recycle:tempo.progress;
     if (value > 0) options.push({ c, appeal: clamp(value, 0, 1) * weight*preference });
   };
 

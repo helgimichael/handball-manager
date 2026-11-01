@@ -21,7 +21,7 @@ import '../scenario-lab.css';
 const clock=(ms:number)=>`${Math.floor(ms/60000).toString().padStart(2,'0')}:${Math.floor(ms/1000)%60<10?'0':''}${Math.floor(ms/1000)%60}`;
 export default function MatchLab() {
   const [seed,setSeed]=useState('2025'),[direction,setDirection]=useState<Direction>('TOP');
-  const [team,setTeam]=useState<'HOME'|'AWAY'>('HOME'),[defence,setDefence]=useState<'6:0'|'5:1'>('6:0'),[tempo,setTempo]=useState<'BALANCED'|'QUICK'>('BALANCED');
+  const [team,setTeam]=useState<'HOME'|'AWAY'>('HOME'),[defence,setDefence]=useState<'6:0'|'5:1'>('6:0'),[tempo,setTempo]=useState<'SLOW'|'BALANCED'|'QUICK'>('BALANCED');
   const [attackIdentity,setAttackIdentity]=useState<AttackIdentity>('BALANCED');
   const [outId,setOutId]=useState('H03'),[inId,setInId]=useState('H09');
   const [s,setState]=useState<CoreState>(()=>createMatch());
@@ -94,7 +94,7 @@ export default function MatchLab() {
       <label>Team<select value={team} onChange={e=>{const t=e.target.value as 'HOME'|'AWAY';setTeam(t);setOutId(t==='HOME'?'H03':'A03');setInId(t==='HOME'?'H09':'A09');}}><option>HOME</option><option>AWAY</option></select></label>
       <label>Defence<select value={defence} onChange={e=>setDefence(e.target.value as typeof defence)}><option>6:0</option><option>5:1</option></select></label>
       <label>Attacking identity<select value={attackIdentity} onChange={e=>setAttackIdentity(e.target.value as AttackIdentity)}><option value="BALANCED">Balanced</option><option value="COMBINATION">Combination play</option><option value="WIDTH">Width and reversal</option><option value="DIRECT">Direct / player-led</option></select></label>
-      <label>Tempo<select value={tempo} onChange={e=>setTempo(e.target.value as typeof tempo)}><option>BALANCED</option><option>QUICK</option></select></label>
+      <label>Tempo<select value={tempo} onChange={e=>setTempo(e.target.value as typeof tempo)}><option>SLOW</option><option>BALANCED</option><option>QUICK</option></select></label>
       <button disabled={running||s.status!=='RUNNING'} onClick={()=>branch('TACTICS')}>Apply tactics and continue</button>
       <button disabled={running||s.status!=='RUNNING'} onClick={()=>branch('TIMEOUT')}>Request team time-out and continue</button>
       <label>Court player<select value={outId} onChange={e=>setOutId(e.target.value)}>{s.players.filter(p=>p.team===team).map(p=><option key={p.id} value={p.id}>{p.id} {p.role} {p.population}</option>)}</select></label>

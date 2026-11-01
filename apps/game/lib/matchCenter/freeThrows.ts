@@ -11,7 +11,7 @@ export type FreeThrowRead = {
 };
 type Options = { source: 'LIVE' | 'ARCHIVE'; behaviorRevision?: string; complete?: boolean };
 // These revisions all retain the explicit assessment/advantage/whistle protocol.
-const supportedRevisions = new Set(['career-post-intelligence-reconciled-v1', 'career-empirical-reconciliation-v11', 'career-rotation-fatigue-v1', 'career-physical-load-v11', 'career-court-orientation-v1', 'career-defensive-aggression-v1']);
+const supportedRevisions = new Set(['career-post-intelligence-reconciled-v1', 'career-empirical-reconciliation-v11', 'career-rotation-fatigue-v1', 'career-physical-load-v11', 'career-court-orientation-v1', 'career-defensive-aggression-v1', 'career-offensive-tempo-v1']);
 const protocolTypes = new Set(['FOUL', 'FOUL_ASSESSED', 'WHISTLE_RESTART', 'ADVANTAGE_PENDING', 'ADVANTAGE_REALIZED', 'ADVANTAGE_RECALLED']);
 export const isFreeThrowFact = (event: CoreEvent) => protocolTypes.has(event.type);
 

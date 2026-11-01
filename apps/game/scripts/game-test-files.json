@@ -128,6 +128,7 @@
     "lib/career/cpuCondition.test.ts",
     "lib/career/defenceFormationKickoff.test.ts",
     "lib/career/defensiveAggressionKickoff.test.ts",
+    "lib/career/offensiveTempoKickoff.test.ts",
     "lib/career/trainingCareerIntegration.test.ts",
     "lib/development/developmentStimulus.test.ts",
     "lib/development/developmentResolution.test.ts",

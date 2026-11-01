@@ -22,6 +22,7 @@ import { decayedRecentWorkload, matchWorkload, recordWorkload, startWorkloadLedg
 import { writeCpuMatchCondition } from './cpuCondition';
 import { engineDefenceSystem, isPlayableBaseFormation } from '../matchPlan/defenceFormation';
 import { engineDefensiveAggression } from '../matchPlan/defensiveAggression';
+import { engineOffensiveTempo } from '../matchPlan/offensiveTempo';
 import { getClub } from '../game-data';
 import { encodeFrames, decodeFrames, type MatchFrame } from './matchFrames';
 export type { MatchFrame } from './matchFrames';
@@ -29,18 +30,18 @@ export type { MatchFrame } from './matchFrames';
 export type MatchPerson = { id: string; name: string; number: number; team: TeamId; role: Role; started: boolean; startEnergy: number };
 // Quantised observed frames, never regenerated from current career data.
 // [tick, officialMs, period, home, away, ballXcm, ballYcm, personIndex, xcm, ycm, ...]
-/** The defensive instructions a side played with. In-match changes stay in the archived TACTICS_CHANGED events. */
-export type ArchivedDefenceTactics = { defence: TeamTactics['defence']; aggression: DefensiveAggression };
-export type PlayedMatchArchive = { format: 1 | 2; fixture: CareerFixture; version: string; behaviorRevision?:string; seed: number; people: MatchPerson[]; frames?: MatchFrame[]; frameData?: string; events: CoreEvent[]; result: FastMatchResult; load: Record<string, { minutes: number; energy: number; distance: number; workload?: number; workloadQuality?: WorkloadQuality }>; tactics?: { kickoff?: Record<TeamId, ArchivedDefenceTactics>; final: Record<TeamId, ArchivedDefenceTactics> } };
+/** The tactical instructions a side played with. In-match changes stay in the archived TACTICS_CHANGED events. */
+export type ArchivedTeamTactics = { defence: TeamTactics['defence']; aggression: DefensiveAggression; tempo: TeamTactics['tempo'] };
+export type PlayedMatchArchive = { format: 1 | 2; fixture: CareerFixture; version: string; behaviorRevision?:string; seed: number; people: MatchPerson[]; frames?: MatchFrame[]; frameData?: string; events: CoreEvent[]; result: FastMatchResult; load: Record<string, { minutes: number; energy: number; distance: number; workload?: number; workloadQuality?: WorkloadQuality }>; tactics?: { kickoff?: Record<TeamId, ArchivedTeamTactics>; final: Record<TeamId, ArchivedTeamTactics> } };
 export function archiveFrames(archive: PlayedMatchArchive): MatchFrame[] { return archive.frameData ? decodeFrames(archive.frameData) : archive.frames ?? []; }
-export type ProductionMatchSession = { format: 1; behaviorRevision?:string; fixture: CareerFixture; core: CoreState; people: MatchPerson[]; frames: MatchFrame[]; pausedAtHalf: boolean; error: string | null; kickoffTactics?: Record<TeamId, ArchivedDefenceTactics> };
+export type ProductionMatchSession = { format: 1; behaviorRevision?:string; fixture: CareerFixture; core: CoreState; people: MatchPerson[]; frames: MatchFrame[]; pausedAtHalf: boolean; error: string | null; kickoffTactics?: Record<TeamId, ArchivedTeamTactics> };
 /** Developer measurement hook. Readers must not mutate state or consume RNG. */
 export type ProductionMatchObserver=(core:Readonly<CoreState>,newEvents:readonly CoreEvent[])=>void;
-export const MATCH_BEHAVIOR_REVISION = 'career-defensive-aggression-v1';
+export const MATCH_BEHAVIOR_REVISION = 'career-offensive-tempo-v1';
 export type MatchCommand = { kind: 'TACTICS'; team: TeamId; patch: Partial<Pick<TeamTactics, 'defence' | 'tempo' | 'attackIdentity' | 'rotation' | 'aggression'>> } | { kind: 'SUBSTITUTION'; team: TeamId; outId: string; inId: string } | { kind: 'TIMEOUT'; team: TeamId } | { kind: 'SECOND_HALF' };
-const defenceTactics = (core: CoreState): Record<TeamId, ArchivedDefenceTactics> => ({
-  HOME: { defence: core.coaching.HOME.defence, aggression: defensiveAggression(core, 'HOME') },
-  AWAY: { defence: core.coaching.AWAY.defence, aggression: defensiveAggression(core, 'AWAY') },
+const teamTactics = (core: CoreState): Record<TeamId, ArchivedTeamTactics> => ({
+  HOME: { defence: core.coaching.HOME.defence, aggression: defensiveAggression(core, 'HOME'), tempo: core.coaching.HOME.tempo },
+  AWAY: { defence: core.coaching.AWAY.defence, aggression: defensiveAggression(core, 'AWAY'), tempo: core.coaching.AWAY.tempo },
 });
 
 const roleByPosition: Record<string, Role> = { V6: 'LW', V9: 'LB', M9: 'CB', H9: 'RB', H6: 'RW', M6: 'P', MV: 'GK' };
@@ -132,7 +133,7 @@ export function createProductionSession(state: CareerState, fixture: CareerFixtu
     }
     core.coaching[team].rotation = team !== (fixture.homeClubId === state.playerClubId ? 'HOME' : 'AWAY');
     core.coaching[team].timeouts = core.coaching[team].rotation;
-    core.coaching[team].tempo = side.plan?.attackPlan.tempo === 'FAST' ? 'QUICK' : 'BALANCED';
+    core.coaching[team].tempo = engineOffensiveTempo(side.plan?.attackPlan);
     core.coaching[team].defence = engineDefenceSystem(side.plan?.defencePlan.baseFormation);
     core.coaching[team].aggression = engineDefensiveAggression(side.plan?.defencePlan);
     core.coaching[team].attackIdentity = side.plan?.attackPlan.ballCirculation === 'DIRECT' ? 'DIRECT' : side.plan?.attackPlan.wingUsage === 'HIGH' ? 'WIDTH' : side.plan?.attackPlan.structureFreedom === 'STRUCTURED' ? 'COMBINATION' : 'BALANCED';
@@ -147,7 +148,7 @@ export function createProductionSession(state: CareerState, fixture: CareerFixtu
   core.players = players;
   core = remap(core) as CoreState;
   core.events = [];
-  const session: ProductionMatchSession = { format: 1, behaviorRevision:MATCH_BEHAVIOR_REVISION, fixture: { ...fixture }, core, people, frames: [], pausedAtHalf: false, error: null, kickoffTactics: defenceTactics(core) };
+  const session: ProductionMatchSession = { format: 1, behaviorRevision:MATCH_BEHAVIOR_REVISION, fixture: { ...fixture }, core, people, frames: [], pausedAtHalf: false, error: null, kickoffTactics: teamTactics(core) };
   session.frames.push(observedFrame(session));
   return session;
 }
@@ -269,7 +270,7 @@ export function finalizeProductionMatch(state: CareerState): CareerState {
   const load = Object.fromEntries(session.core.players.map(p => { const w = workload.get(p.id); return [p.id, { minutes: p.condition.courtMs / 60000, energy: p.condition.energy * 100, distance: p.condition.distanceMetres, ...(w ? { workload: w.load, workloadQuality: w.quality } : {}) }]; }));
   const workloadLedger = recordWorkload(state.workloadLedger ?? startWorkloadLedger(state, session.fixture.date), [...workload].map(([playerId, w]) => ({ playerId, id: `match:${session.fixture.id}`, date: session.fixture.date, source: 'MATCH' as const, ref: session.fixture.id, ...w })), session.fixture.date);
   const archiveEventTypes = new Set(['GOAL', 'SHOT_RELEASED', 'SHOT_AIM_COMMITTED', 'KEEPER_ANTICIPATED', 'KEEPER_FLIGHT_READ', 'SAVE_CAUGHT', 'SAVE_PARRY', 'KEEPER_COLLECTED_OFF_TARGET', 'OFF_TARGET_KEEPER_TOUCH', 'SHOT_BLOCKED', 'PASS_RELEASED', 'PASS_RECEIVED', 'RECEPTION_FAILED', 'PASS_DEFLECTED', 'REBOUND_CONTROLLED', 'ATTACK_SETTLED', 'DRIVE_RELEASED', 'DEFENDER_BEATEN', 'ADVANTAGE_OPENED', 'FOUL', 'FOUL_ASSESSED', 'WHISTLE_RESTART', 'ADVANTAGE_PENDING', 'ADVANTAGE_REALIZED', 'ADVANTAGE_RECALLED', 'TECHNICAL_VIOLATION', 'PASSIVE_PLAY', 'INTERCEPTION', 'OFFENSIVE_FOUL', 'TWO_MINUTE_SUSPENSION', 'DISQUALIFICATION', 'SUBSTITUTE_ADMITTED', 'EXCHANGE_REQUESTED', 'EXCHANGE_COMPLETED', 'TACTICS_CHANGED', 'TEAM_TIMEOUT_STARTED', 'PERIOD_STARTED', 'PERIOD_ENDED', 'MATCH_FINISHED']);
-  const archive: PlayedMatchArchive = { format: 2, fixture: session.fixture, version: session.core.version, behaviorRevision:session.behaviorRevision??MATCH_BEHAVIOR_REVISION, seed: session.core.seed, people: session.people, frameData: encodeFrames(session.frames), events: session.core.events.filter(e => archiveEventTypes.has(e.type)), result, load, tactics: { ...(session.kickoffTactics ? { kickoff: session.kickoffTactics } : {}), final: defenceTactics(session.core) } };
+  const archive: PlayedMatchArchive = { format: 2, fixture: session.fixture, version: session.core.version, behaviorRevision:session.behaviorRevision??MATCH_BEHAVIOR_REVISION, seed: session.core.seed, people: session.people, frameData: encodeFrames(session.frames), events: session.core.events.filter(e => archiveEventTypes.has(e.type)), result, load, tactics: { ...(session.kickoffTactics ? { kickoff: session.kickoffTactics } : {}), final: teamTactics(session.core) } };
   const readyId = `MATCHDAY_READY:${session.fixture.id}`;
   let next: CareerState = { ...state, productionMatch: null, results: { ...state.results, [session.fixture.id]: result }, matchArchives: { ...state.matchArchives, [session.fixture.id]: archive }, clubForm, playerSeasonStats, careerEvents: state.careerEvents.map(e => e.id === readyId ? { ...e, read: true, resolved: true } : e), inbox: state.inbox.map(m => m.id === `msg:${readyId}` ? { ...m, read: true, resolved: true, actionRequired: false } : m), playerPhysicalState: { ...state.playerPhysicalState }, workloadLedger };
   const managerTeam = session.fixture.homeClubId === state.playerClubId ? 'HOME' : 'AWAY';

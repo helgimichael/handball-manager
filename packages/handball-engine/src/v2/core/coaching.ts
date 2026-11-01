@@ -6,7 +6,36 @@ import type { AttackIdentity } from './offence';
 /** How far the defence is prepared to leave its line to take the ball. */
 export type DefensiveAggression='LOW'|'BALANCED'|'HIGH';
 export const DEFENSIVE_AGGRESSION_LEVELS:readonly DefensiveAggression[]=['LOW','BALANCED','HIGH'];
-export type TeamTactics={defence:'6:0'|'5:1';tempo:'BALANCED'|'QUICK';attackIdentity:AttackIdentity;rotation:boolean;timeouts:boolean;lastTimeoutPossession:string|null;
+/** Offensive tempo: SLOW (LOW), BALANCED, QUICK (HIGH). */
+export type OffensiveTempo='SLOW'|'BALANCED'|'QUICK';
+export const OFFENSIVE_TEMPO_LEVELS:readonly OffensiveTempo[]=['SLOW','BALANCED','QUICK'];
+/**
+ * What tempo changes in the attack. Only the time a carrier spends reading
+ * before he plays, how readily he spends an advantage instead of recycling,
+ * how eagerly free play moves the ball on, and how strongly a transition
+ * carrier pushes. Speed, accuracy and every outcome stay with the players.
+ * BALANCED and QUICK are the values these sites always had.
+ */
+export type TempoProfile={
+  /** Base ticks a carrier reads the court after securing the ball. */
+  readonly readTicks:number;
+  /** Preference multiplier for recycling the ball. */
+  readonly recycle:number;
+  /** Preference multiplier for every option that progresses the attack. */
+  readonly progress:number;
+  /** Entry score added to free, ball-moving entry families. */
+  readonly freePace:number;
+  /** Value added to actions taken while the attack is still in transition. */
+  readonly transition:number;
+};
+export const TEMPO_PROFILES:Record<OffensiveTempo,TempoProfile>={
+  SLOW:{readTicks:11,recycle:1.06,progress:.94,freePace:-.2,transition:-.04},
+  BALANCED:{readTicks:8,recycle:1,progress:1,freePace:0,transition:0},
+  QUICK:{readTicks:5,recycle:.94,progress:1.06,freePace:.2,transition:.04},
+};
+/** Unknown stored values play BALANCED rather than failing a resumed match. */
+export const tempoProfile=(tempo:string|undefined):TempoProfile=>TEMPO_PROFILES[tempo as OffensiveTempo]??TEMPO_PROFILES.BALANCED;
+export type TeamTactics={defence:'6:0'|'5:1';tempo:OffensiveTempo;attackIdentity:AttackIdentity;rotation:boolean;timeouts:boolean;lastTimeoutPossession:string|null;
   /** Absent in active saves created before the instruction existed; reads as BALANCED. */
   aggression?:DefensiveAggression};
 export const initialCoaching=():Record<TeamId,TeamTactics>=>({HOME:{defence:'6:0',tempo:'BALANCED',attackIdentity:'BALANCED',rotation:false,timeouts:false,lastTimeoutPossession:null},AWAY:{defence:'6:0',tempo:'BALANCED',attackIdentity:'BALANCED',rotation:false,timeouts:false,lastTimeoutPossession:null}});
@@ -15,7 +44,7 @@ export const defensiveAggression=(s:CoreState,team:TeamId):DefensiveAggression=>
 export function setTactics(s:CoreState,team:TeamId,patch:Partial<Pick<TeamTactics,'defence'|'tempo'|'attackIdentity'|'rotation'|'timeouts'|'aggression'>>) {
   if(s.status!=='RUNNING')return false;
   if(patch.attackIdentity!==undefined&&!['BALANCED','COMBINATION','WIDTH','DIRECT'].includes(patch.attackIdentity))throw new Error('Invalid attacking identity');
-  if(patch.defence!==undefined&&!['6:0','5:1'].includes(patch.defence)||patch.tempo!==undefined&&!['BALANCED','QUICK'].includes(patch.tempo)||
+  if(patch.defence!==undefined&&!['6:0','5:1'].includes(patch.defence)||patch.tempo!==undefined&&!OFFENSIVE_TEMPO_LEVELS.includes(patch.tempo)||
     patch.rotation!==undefined&&typeof patch.rotation!=='boolean'||patch.timeouts!==undefined&&typeof patch.timeouts!=='boolean'||
     patch.aggression!==undefined&&!DEFENSIVE_AGGRESSION_LEVELS.includes(patch.aggression))throw new Error('Invalid team tactics');
   Object.assign(s.coaching[team],patch);record(s,'TACTICS_CHANGED',null,{team,...patch});return true;

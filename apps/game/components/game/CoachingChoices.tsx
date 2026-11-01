@@ -1,7 +1,8 @@
 import type { ReactNode } from 'react';
 
 export type CoachDefence = '6:0' | '5:1';
-export type CoachTempo = 'BALANCED' | 'QUICK';
+export type CoachTempo = 'SLOW' | 'BALANCED' | 'QUICK';
+export const COACH_TEMPO_LABEL: Record<CoachTempo, string> = { SLOW: 'Lugnt', BALANCED: 'Balanserat', QUICK: 'Snabbt' };
 export type CoachAttack = 'BALANCED' | 'COMBINATION' | 'WIDTH' | 'DIRECT';
 export const COACH_ATTACK_LABEL: Record<CoachAttack, string> = { BALANCED: 'Balanserat', COMBINATION: 'Kombinationer', WIDTH: 'Bredd', DIRECT: 'Direkt' };
 export type CoachAggression = 'LOW' | 'BALANCED' | 'HIGH';
@@ -17,5 +18,5 @@ function ChoiceGroup<T extends string>({ title, value, options, onChange, disabl
 
 /** These are the four production-supported team instructions, shared by preparation and live coaching. */
 export function CoachingChoices({ defence, aggression, tempo, attack, onDefence, onAggression, onTempo, onAttack, disabled }: { defence: CoachDefence; aggression: CoachAggression; tempo: CoachTempo; attack: CoachAttack; onDefence: (value: CoachDefence) => void; onAggression: (value: CoachAggression) => void; onTempo: (value: CoachTempo) => void; onAttack: (value: CoachAttack) => void; disabled?: boolean }) {
-  return <div className="coach-tactic-choices"><ChoiceGroup title="Försvar" value={defence} onChange={onDefence} disabled={disabled} options={[{ value: '6:0', label: '6:0', graphic: <DefenceShape value="6:0" /> }, { value: '5:1', label: '5:1', graphic: <DefenceShape value="5:1" /> }]} /><ChoiceGroup title="Aggressivitet" value={aggression} onChange={onAggression} disabled={disabled} options={(Object.keys(COACH_AGGRESSION_LABEL) as CoachAggression[]).map(value => ({ value, label: COACH_AGGRESSION_LABEL[value] }))} /><ChoiceGroup title="Tempo" value={tempo} onChange={onTempo} disabled={disabled} options={[{ value: 'BALANCED', label: 'Balanserat' }, { value: 'QUICK', label: 'Snabbt' }]} /><ChoiceGroup title="Anfall" value={attack} onChange={onAttack} disabled={disabled} options={(Object.keys(COACH_ATTACK_LABEL) as CoachAttack[]).map(value => ({ value, label: COACH_ATTACK_LABEL[value] }))} /></div>;
+  return <div className="coach-tactic-choices"><ChoiceGroup title="Försvar" value={defence} onChange={onDefence} disabled={disabled} options={[{ value: '6:0', label: '6:0', graphic: <DefenceShape value="6:0" /> }, { value: '5:1', label: '5:1', graphic: <DefenceShape value="5:1" /> }]} /><ChoiceGroup title="Aggressivitet" value={aggression} onChange={onAggression} disabled={disabled} options={(Object.keys(COACH_AGGRESSION_LABEL) as CoachAggression[]).map(value => ({ value, label: COACH_AGGRESSION_LABEL[value] }))} /><ChoiceGroup title="Tempo" value={tempo} onChange={onTempo} disabled={disabled} options={(Object.keys(COACH_TEMPO_LABEL) as CoachTempo[]).map(value => ({ value, label: COACH_TEMPO_LABEL[value] }))} /><ChoiceGroup title="Anfall" value={attack} onChange={onAttack} disabled={disabled} options={(Object.keys(COACH_ATTACK_LABEL) as CoachAttack[]).map(value => ({ value, label: COACH_ATTACK_LABEL[value] }))} /></div>;
 }

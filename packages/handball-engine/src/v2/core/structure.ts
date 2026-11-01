@@ -1,4 +1,5 @@
 import { actionAvailable, courtPlayers, getPlayer, otherTeam, random, record, REENTRY_RECEIVE_REASON, type CorePlayer, type CoreState, type Duty } from './state';
+import { tempoProfile } from './coaching';
 import { clamp, clearGoalArea, distance, goal, goalSide, keeperPost, laneClearance, local, segmentPoint, shootingAngle, shotOpportunity, structurePoint, world } from './space';
 import { driveTarget, resolveAction, startAction, visibleShotPreparation } from './actions';
 import { exchangeActive } from './population';
@@ -202,7 +203,7 @@ export function resolveHandovers(s:CoreState) {
 }
 /** Secure/court-read time comes from the player and tempo, never padding a possession. */
 export function controlReadTicks(s:CoreState,p:CorePlayer):number {
-  const budget=Math.round((s.coaching[p.team].tempo==='QUICK'?5:8)+(1-p.profile.decision)*4+(1-p.condition.energy)*3);
+  const budget=Math.round(tempoProfile(s.coaching[p.team].tempo).readTicks+(1-p.profile.decision)*4+(1-p.condition.energy)*3);
   // A back who has physically prepared this named return has already read
   // the next court picture. Catch security still costs time; ordinary fresh
   // receipts retain the full capability/tempo-dependent budget.

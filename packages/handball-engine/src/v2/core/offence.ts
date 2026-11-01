@@ -1,4 +1,5 @@
 import { actionAvailable,courtPlayers,getPlayer,otherTeam,record,uid,type CorePlayer,type CoreState,type Point,type TeamId } from './state';
+import { tempoProfile } from './coaching';
 import { clearGoalArea,clamp,distance,fieldLegal,laneClearance,local,shootingAngle,shotOpportunity,world } from './space';
 import { startAction,driveTarget } from './actions';
 import { exchangeActive } from './population';
@@ -66,7 +67,7 @@ export function entryCandidates(s:CoreState) {
       const key=`${family}/${side}`,recent=memory.recent.reduce((n,k,i)=>n+(k===key?(i+1)/memory.recent.length:0),0);
       const exposure=memory.recent.filter(k=>k.startsWith(family+'/')).length;
       const effort=family==='CROSS'||family==='WING_TRANSITION'?(who.condition.energy-.8)*1.5:0;
-      const pace=family==='FREE'||family==='STRETCH_SHIFT'?urgency+(s.coaching[team].tempo==='QUICK'?.2:0):0;
+      const pace=family==='FREE'||family==='STRETCH_SHIFT'?urgency+tempoProfile(s.coaching[team].tempo).freePace:0;
       candidates.push({family,side,partner:who,pivot,score:score+spatial+skill*.6+effort+pace+(memory.value[key]??0)*.4-recent*.8-exposure*.12,reason});
     };
     if(partner&&distance(partner.position,carrier.position)<12)add('CROSS',partner,1.1+(depth>8?.8:0)+(identity==='COMBINATION'?.8:0),'Change the backcourt matchup and test switch versus pursuit');
