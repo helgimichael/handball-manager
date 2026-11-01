@@ -229,7 +229,7 @@ export function checkSeasonComplete(state: CareerState): CareerState {
   return {
     ...state,
     seasonComplete: true,
-    inbox: [...state.inbox, buildSeasonCompleteMessage(finalPosition, state.seasonId, state.competitionId)],
+    inbox: [...state.inbox, buildSeasonCompleteMessage(finalPosition, state.seasonId, state.competitionId, state.gameDate)],
   };
 }
 

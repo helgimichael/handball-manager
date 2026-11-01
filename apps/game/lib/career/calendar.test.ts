@@ -204,16 +204,12 @@ test("HM-TACTICS-0.10: full season simulation remains deterministic end-to-end w
   const a = playFullSeason();
   const b = playFullSeason();
   assert.ok(a.seasonComplete, "sanity: the season must actually complete within the iteration budget");
-  // Compare only the match-simulation-derived fields, not the entire
-  // state -- inboxEvents.ts's buildSeasonCompleteMessage id generator is
-  // a pre-existing, unrelated process-global counter (not seed-derived,
-  // not tactical/identity-derived) that only produces a different
-  // message id when a full season is played twice in the SAME process,
-  // exactly what this test does. That is not a tactical/match
-  // determinism regression, so it is deliberately excluded here rather
-  // than papered over with a broader assertion.
+  // Compare the match-simulation-derived fields. (HM-ALPHA3-M01: the
+  // season-complete message id is now season-derived, so it is identical
+  // across both runs too -- asserted below.)
   assert.deepEqual(a.results, b.results);
   assert.deepEqual(a.clubForm, b.clubForm);
   assert.deepEqual(a.playerSeasonStats, b.playerSeasonStats);
   assert.equal(a.seasonComplete, b.seasonComplete);
+  assert.deepEqual(a.inbox.map((m) => m.id), b.inbox.map((m) => m.id));
 });

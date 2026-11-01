@@ -8,16 +8,15 @@
 import { COMPETITIONS } from "../game-data";
 import type { InboxMessage } from "../game-data";
 
-let messageCounter = 0;
-function nextMessageId(): string {
-  messageCounter += 1;
-  return `career-msg-${messageCounter}`;
+/** HM-ALPHA3-M01: one stable id per season. The former module-level counter restarted on every page load, so a later season's message could reuse an earlier one's id (shared React key; marking one read marked both). Saves that already hold `career-msg-N` ids keep them -- the new form can never collide with them. */
+export function seasonCompleteMessageId(seasonId: string): string {
+  return `season-complete:${seasonId}`;
 }
 
-export function buildSeasonCompleteMessage(finalPosition: number, seasonId: string, competitionId: string): InboxMessage {
+export function buildSeasonCompleteMessage(finalPosition: number, seasonId: string, competitionId: string, date: string): InboxMessage {
   const competitionName = COMPETITIONS.find((c) => c.id === competitionId)?.name ?? "ligan";
   return {
-    id: nextMessageId(),
+    id: seasonCompleteMessageId(seasonId),
     category: "COMPETITION",
     sender: "Klubbstyrelsen",
     subject: `Säsongen ${seasonId} är avslutad`,
@@ -26,7 +25,7 @@ export function buildSeasonCompleteMessage(finalPosition: number, seasonId: stri
       `${competitionName}-säsongen ${seasonId} är nu avslutad. Laget slutade på ${finalPosition}:a plats.`,
       "Tack för en genomförd säsong. Fler funktioner för säsongsavslut kommer i en senare version.",
     ],
-    date: "",
+    date,
     read: false,
     important: true,
     archived: false,
