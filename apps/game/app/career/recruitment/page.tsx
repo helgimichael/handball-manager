@@ -16,7 +16,6 @@ import { KNOWLEDGE_TIER_LABEL_SV, KNOWLEDGE_TIERS, type KnowledgeTier } from "@/
 import { NATION_LABEL_SV } from "@/lib/career/scoutDiscovery";
 import { formatEur } from "@/lib/economy/currency";
 import { CONTRACT_STATUS_LABEL } from "@/lib/economy/labels";
-import type { TransferDealType } from "@/lib/transfers/types";
 import {
   getRecruitmentCandidates,
   RECRUITMENT_STATUSES,
@@ -57,7 +56,7 @@ export default function RecruitmentCentrePage() { return <Suspense><RecruitmentC
 function RecruitmentCentre() {
   const params = useSearchParams();
   const router = useRouter();
-  const { career, createScoutingAssignment, addToShortlist, removeFromShortlist, setRecruitmentPriority, setRecruitmentNote, submitTransferOffer } = useCareer();
+  const { career, createScoutingAssignment, addToShortlist, removeFromShortlist, setRecruitmentPriority, setRecruitmentNote } = useCareer();
 
   const allCandidates = useMemo(() => getRecruitmentCandidates(career), [career]);
   const clubScouts = getClubScouts(career);
@@ -215,7 +214,6 @@ function RecruitmentCentre() {
             onToggleShortlist={() => (selected.shortlisted ? removeFromShortlist(selected.playerId) : addToShortlist(selected.playerId))}
             onSetPriority={(p) => setRecruitmentPriority(selected.playerId, p)}
             onSetNote={(n) => setRecruitmentNote(selected.playerId, n)}
-            onSubmitOffer={(params) => { if (selected.clubId !== career.playerClubId) submitTransferOffer({ ...params, playerId: selected.playerId, toClubId: career.playerClubId }); }}
           />
         ) : (
           <div className="hm-panel">
@@ -237,7 +235,6 @@ function CandidateDetailPanel({
   onToggleShortlist,
   onSetPriority,
   onSetNote,
-  onSubmitOffer,
 }: {
   career: CareerState;
   candidate: RecruitmentCandidate;
@@ -248,13 +245,9 @@ function CandidateDetailPanel({
   onToggleShortlist: () => void;
   onSetPriority: (priority: RecruitmentPriority) => void;
   onSetNote: (note: string) => void;
-  onSubmitOffer: (params: { dealType: TransferDealType; transferFeeEur: number; newWageEurPerMonth: number; contractYears: number }) => void;
 }) {
   const [scoutId, setScoutId] = useState(scouts[0]?.id ?? "");
   const [noteDraft, setNoteDraft] = useState(candidate.note);
-  const [transferFeeEur, setTransferFeeEur] = useState(candidate.scoutReportView?.marketValueRange ? Math.round(candidate.scoutReportView.marketValueRange.max * 1.2) : 0);
-  const [newWageEurPerMonth, setNewWageEurPerMonth] = useState(candidate.wageEurPerMonth ?? 500);
-  const [contractYears, setContractYears] = useState(3);
   const [scoutingFeedback, setScoutingFeedback] = useState('');
   const activeAssignment = Object.values(career.scoutingAssignments).find(a => a.targetPlayerId === candidate.playerId && a.status === 'IN_PROGRESS');
 
@@ -408,25 +401,10 @@ function CandidateDetailPanel({
             <span style={{ fontWeight: 700 }}>{candidate.transferStatusLabel}</span>
           </div>
           {isOwnPlayer ? <div className="game-offer-impact"><span className="hm-eyebrow">Spelaren tillhör din trupp</span><p>{candidate.contractEndDate ? `Nuvarande avtal gäller till ${candidate.contractEndDate}.` : 'Planera spelarens roll och nästa match med laget.'}</p><div className="hm-actions"><Link className="hm-btn" href="/career/squad">Truppens rollfördelning →</Link><Link className="hm-btn" href="/career/contracts">Kontraktsöversikt →</Link></div></div> : <>
-          <label style={{ display: "flex", flexDirection: "column", gap: 4, fontSize: "var(--hm-text-xs)" }}>
-            Övergångssumma (€)
-            <input style={inputStyle} type="number" min={0} value={transferFeeEur} onChange={(e) => setTransferFeeEur(Number(e.target.value))} />
-          </label>
-          <label style={{ display: "flex", flexDirection: "column", gap: 4, fontSize: "var(--hm-text-xs)" }}>
-            Erbjuden lön (€/mån)
-            <input style={inputStyle} type="number" min={0} value={newWageEurPerMonth} onChange={(e) => setNewWageEurPerMonth(Number(e.target.value))} />
-          </label>
-          <label style={{ display: "flex", flexDirection: "column", gap: 4, fontSize: "var(--hm-text-xs)" }}>
-            Kontraktslängd (år)
-            <input style={inputStyle} type="number" min={1} max={6} value={contractYears} onChange={(e) => setContractYears(Number(e.target.value))} />
-          </label>
-          <button
-            type="button"
-            className="hm-btn hm-btn-primary hm-btn-sm"
-            onClick={() => onSubmitOffer({ dealType: "PERMANENT", transferFeeEur, newWageEurPerMonth, contractYears })}
-          >
-            Lägg transferbud
-          </button>
+          {/* HM-ALPHA2-05A: permanent bids are negotiated in two stages on the Transfers page -- no one-shot bypass here. */}
+          <Link className="hm-btn hm-btn-primary hm-btn-sm" href={`/career/transfers?target=${encodeURIComponent(candidate.playerId)}`}>
+            Förhandla om övergång →
+          </Link>
           </>}
         </div>
       </div>

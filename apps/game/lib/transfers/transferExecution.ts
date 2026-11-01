@@ -159,7 +159,8 @@ export function returnPlayerFromLoan(state: CareerState, playerId: string, paren
   next = moveSquadMembership(next, player, borrowingClubId, parentClubId);
   next = moveGameplayRating(next, playerId, borrowingClubId, parentClubId);
 
-  const restoredContract: PlayerContract = { playerId, clubId: parentClubId, contractEndDate: originalContractEndDate, wageEurPerMonth: originalWageEurPerMonth };
+  // HM-ALPHA2-05A: keep the contract's own other facts (e.g. `wageAgreed`) -- dropping them let the next load's wage recalibration silently rewrite a negotiated wage after the loan ended.
+  const restoredContract: PlayerContract = { ...next.playerContracts[playerId], playerId, clubId: parentClubId, contractEndDate: originalContractEndDate, wageEurPerMonth: originalWageEurPerMonth };
   next = { ...next, playerContracts: { ...next.playerContracts, [playerId]: restoredContract } };
 
   return next;

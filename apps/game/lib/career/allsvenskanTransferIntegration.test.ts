@@ -94,7 +94,8 @@ test("(4) IFK Tumba can loan in a real player from another Allsvenskan club with
     toClubId: TUMBA_CLUB_ID,
     transferFeeEur: 0,
     newWageEurPerMonth: currentWage,
-    loanTerms: { endDate: "2027-06-30", wageShareBorrowingPct: 60 },
+    // HM-ALPHA2-05A: a loan may not outlast the parent contract.
+    loanTerms: { endDate: [getPlayerContract(state, player.id)!.contractEndDate, "2027-06-30"].sort()[0], wageShareBorrowingPct: 60 },
   });
 
   assert.equal(result.offer.status, "COMPLETED");

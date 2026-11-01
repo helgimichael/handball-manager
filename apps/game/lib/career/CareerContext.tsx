@@ -24,6 +24,7 @@ import {
 import { setPlayerIndividualFocus, setPlayerTrainingLoad } from "../training/trainingSchedule";
 import { bookFriendly } from "./preseason";
 import { submitTransferOffer, type SubmitTransferOfferParams } from "../transfers/transferIntegration";
+import { runNegotiationAction, type NegotiationAction, type NegotiationActionResult } from "../transfers/negotiationIntegration";
 import type { TransferOffer } from "../transfers/types";
 import {
   createScoutingAssignment,
@@ -175,6 +176,8 @@ type CareerContextValue = {
   bookFriendly: (date: string, opponentClubId: string) => { ok: boolean; error?: string };
   /** HM-TRANSFERS-1.0: resolves a whole transfer/loan negotiation synchronously (affordability -> club decision -> player decision -> completion) and persists. Returns the fully-resolved TransferOffer so the UI can show its terminal status/reason immediately. */
   submitTransferOffer: (params: SubmitTransferOfferParams) => TransferOffer;
+  /** HM-ALPHA2-05A: two-stage permanent-transfer negotiation (club fee -> player terms). Each call persists on success and returns the updated negotiation, or the reason it was refused. */
+  negotiateTransfer: (action: NegotiationAction) => NegotiationActionResult;
   /** HM-SCOUTING-1.0: creates a new scouting assignment (validates the scout is a real, employed SCOUT at the manager's own club) and persists on success. Returns the full result (including validation errors) so the UI can show exactly why an assignment was refused. */
   createScoutingAssignment: (scoutStaffId: string, targetPlayerId: string, targetClubId: string) => CreateScoutingAssignmentResult;
   /** HM-SCOUTING-1.1: creates a new broad (CLUB/COMPETITION/REGION/POSITION/AGE_BAND) discovery assignment and persists on success. Same validated-scout precondition as createScoutingAssignment. */
@@ -632,6 +635,16 @@ export function CareerProvider({ children, loadingFallback, initializationErrorF
     return result.offer;
   }
 
+  function negotiateTransferActionWrapper(action: NegotiationAction): NegotiationActionResult {
+    if (!value) return { ok: false, error: "Ingen aktiv karriär." };
+    const result = runNegotiationAction(value.career, action);
+    if (result.ok) {
+      persistCareerState(value.save.saveId, result.state);
+      setValue({ save: value.save, career: result.state });
+    }
+    return result;
+  }
+
   function createScoutingAssignmentActionWrapper(scoutStaffId: string, targetPlayerId: string, targetClubId: string): CreateScoutingAssignmentResult {
     if (!value) throw new Error("Ingen aktiv karriär.");
     const result = createScoutingAssignment(value.career, scoutStaffId, targetPlayerId, targetClubId, value.career.gameDate);
@@ -803,6 +816,7 @@ export function CareerProvider({ children, loadingFallback, initializationErrorF
         setPlayerIndividualFocus: setPlayerIndividualFocusActionWrapper,
         bookFriendly: bookFriendlyActionWrapper,
         submitTransferOffer: submitTransferOfferActionWrapper,
+        negotiateTransfer: negotiateTransferActionWrapper,
         createScoutingAssignment: createScoutingAssignmentActionWrapper,
         createBroadScoutingAssignment: createBroadScoutingAssignmentActionWrapper,
         cancelScoutingAssignment: cancelScoutingAssignmentActionWrapper,

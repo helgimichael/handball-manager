@@ -3,6 +3,10 @@
 // TrainingCompensationResult/ClubBudgets rather than duplicating any of
 // them (Part: "Skapa inte parallella player/club/economy-system").
 //
+// HM-ALPHA2-05A: the manager's PERMANENT signings now go through a
+// persisted two-stage TransferNegotiation (below) first; the one-shot
+// path remains for CPU recruitment and loans.
+//
 // Deliberately kept SYNCHRONOUS/one-shot for this first version: a
 // single `submitTransferOffer` call resolves affordability -> selling
 // club decision -> player decision -> (window-gated) completion in one
@@ -11,7 +15,9 @@
 // decision, player decision) is still its own independently testable
 // pure function; only the ORCHESTRATION is synchronous.
 
-export const TRANSFER_DEAL_TYPES = ["PERMANENT", "LOAN"] as const;
+import type { SquadStatusTier } from "../career/squadStatus";
+
+export const TRANSFER_DEAL_TYPES =["PERMANENT", "LOAN"] as const;
 export type TransferDealType = (typeof TRANSFER_DEAL_TYPES)[number];
 
 /**
@@ -77,6 +83,59 @@ export interface TransferOffer {
   /** PERMANENT deals only, only when the transfer window was closed at offer time -- the date the daily-tick hook will actually execute the roster move (Part: "deal agreed" vs "transfer completed/registered" vs "future arrival"). */
   scheduledCompletionDate?: string;
   resolvedDate?: string;
+  /** HM-ALPHA2-05A: the squad role promised in a negotiated deal -- applied to the buying manager's own `playerSquadStatus` on arrival. Absent on one-shot/CPU offers and pre-05A saves. */
+  promisedSquadRole?: SquadStatusTier;
+  /** HM-ALPHA2-05A: the TransferNegotiation this offer concluded, when it came out of the two-stage flow. */
+  negotiationId?: string;
+}
+
+// ---------------------------------------------------------------------------
+// HM-ALPHA2-05A: two-stage negotiation (club fee -> player terms).
+// ---------------------------------------------------------------------------
+
+/**
+ * CLUB: haggling over the fee with the selling club. PLAYER: fee agreed
+ * (or free agent), haggling over wage/length/role with the player.
+ * COMPLETED: player accepted, a TransferOffer was created (`offerId`).
+ * COLLAPSED: one side broke off talks -- `closedUntil` blocks a fresh
+ * approach for the same player. WITHDRAWN: the manager walked away.
+ */
+export const TRANSFER_NEGOTIATION_STAGES = ["CLUB", "PLAYER", "COMPLETED", "COLLAPSED", "WITHDRAWN"] as const;
+export type TransferNegotiationStage = (typeof TRANSFER_NEGOTIATION_STAGES)[number];
+
+export type NegotiationResponse = "ACCEPT" | "COUNTER" | "REJECT" | "BREAK_OFF";
+
+export interface NegotiationRound {
+  date: string;
+  party: "CLUB" | "PLAYER";
+  offeredFeeEur?: number;
+  offeredWageEurPerMonth?: number;
+  contractYears?: number;
+  promisedSquadRole?: SquadStatusTier;
+  response: NegotiationResponse;
+  /** CLUB counter -- the club's stated asking fee. */
+  counterFeeEur?: number;
+  /** PLAYER counter -- the player's stated wage demand. */
+  counterWageEurPerMonth?: number;
+  reason: string;
+}
+
+export interface TransferNegotiation {
+  id: string;
+  playerId: string;
+  /** "" for a free agent (no selling club -- negotiation starts at PLAYER). */
+  fromClubId: string;
+  toClubId: string;
+  stage: TransferNegotiationStage;
+  startedDate: string;
+  updatedDate: string;
+  /** Set once the selling club accepts (0 for a free agent); locked for the player stage. */
+  agreedFeeEur?: number;
+  rounds: NegotiationRound[];
+  /** COLLAPSED only -- no new negotiation for this player/buyer before this date. */
+  closedUntil?: string;
+  /** COMPLETED only -- the TransferOffer the agreement produced. */
+  offerId?: string;
 }
 
 /**

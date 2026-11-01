@@ -48,14 +48,25 @@ export interface SellingClubDecisionInputs {
  * further (the club risks losing the player for nothing anyway).
  */
 export function evaluateSellingClubDecision(inputs: SellingClubDecisionInputs): ClubDecisionResult {
-  let threshold = inputs.marketValueEur * ROLE_SALE_RESISTANCE[inputs.role] * PRESSURE_SALE_DISCOUNT[inputs.financialPressure];
-  if (inputs.contractStatus === "EXPIRING" || inputs.contractStatus === "EXPIRING_SOON") threshold *= 0.85;
-  if (inputs.hasAdequateReplacement) threshold *= 0.9;
+  const threshold = computeSellingClubAskingPriceEur(inputs);
 
   if (inputs.offerTransferFeeEur >= threshold) {
     return { accept: true, reason: `Budet (${Math.round(inputs.offerTransferFeeEur)} €) uppfyller klubbens krav (${Math.round(threshold)} €).` };
   }
   return { accept: false, reason: `Budet (${Math.round(inputs.offerTransferFeeEur)} €) är för lågt -- klubben vill ha minst ${Math.round(threshold)} €.` };
+}
+
+/**
+ * HM-ALPHA2-05A: the selling club's own minimum acceptable fee -- the
+ * exact threshold `evaluateSellingClubDecision` has always used, exposed
+ * so the two-stage negotiation (negotiation.ts) can state it as a
+ * counteroffer instead of a bare yes/no.
+ */
+export function computeSellingClubAskingPriceEur(inputs: Omit<SellingClubDecisionInputs, "offerTransferFeeEur">): number {
+  let threshold = inputs.marketValueEur * ROLE_SALE_RESISTANCE[inputs.role] * PRESSURE_SALE_DISCOUNT[inputs.financialPressure];
+  if (inputs.contractStatus === "EXPIRING" || inputs.contractStatus === "EXPIRING_SOON") threshold *= 0.85;
+  if (inputs.hasAdequateReplacement) threshold *= 0.9;
+  return threshold;
 }
 
 export interface LoanOutDecisionInputs {

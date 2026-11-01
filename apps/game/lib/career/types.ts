@@ -20,7 +20,7 @@ import type { StaffClubHistory } from "../staff/staffHistoryTypes";
 import type { PlayerInjuryState } from "../medical/types";
 import type { PlayerClubHistory, PlayerContract } from "../economy/types";
 import type { ClubEconomyBaseline } from "../economy/clubEconomyTypes";
-import type { LoanRecord, TransferOffer } from "../transfers/types";
+import type { LoanRecord, TransferNegotiation, TransferOffer } from "../transfers/types";
 import type { ScoutingAssignment, ScoutReport } from "./scouting";
 import type { ScoutDiscovery } from "./scoutDiscovery";
 import type { RecruitmentTarget } from "./recruitment";
@@ -517,6 +517,13 @@ export type CareerState = {
    * `endDate` is reached.
    */
   loans: Record<string, LoanRecord>;
+  /**
+   * HM-ALPHA2-05A: the manager's two-stage permanent-transfer
+   * negotiations (lib/transfers/negotiationIntegration.ts), keyed by id
+   * and kept as history once closed. Optional -- a pre-05A save simply
+   * has none, and every reader treats `undefined` as empty.
+   */
+  transferNegotiations?: Record<string, TransferNegotiation>;
 
   // --- HM-DATA-ALLSVENSKAN-1.1B addition (career-state schema v25, see saveMigration.ts) ---
 
