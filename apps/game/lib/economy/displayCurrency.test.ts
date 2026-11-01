@@ -140,7 +140,8 @@ test("guard: UI money goes through lib/economy/currency.ts (no ad-hoc euro forma
       else if (name.endsWith(".tsx")) {
         readFileSync(path, "utf8").split(/\r?\n/).forEach((line, i) => {
           const code = line.replace(/\/\/.*$/, "");
-          if (/currency:\s*["']EUR["']|toLocaleString\([^)]*\)\s*\+?\s*[`"'][^`"']*€|\(€\)|€\/m|" €"|' €'|\} €/.test(code)) offenders.push(`${relative(root, path)}:${i + 1}`);
+          // Ad-hoc Intl currency formatters, toLocaleString + "€", and hard-coded euro labels/suffixes.
+          if (/style:\s*["']currency["']|toLocaleString\([^)]*\)\s*\+?\s*[`"'][^`"']*€|\(€\)|€\/m|" €"|' €'|\} €/.test(code)) offenders.push(`${relative(root, path)}:${i + 1}`);
         });
       }
     }

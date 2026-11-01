@@ -10,6 +10,7 @@ import { PlayerGlyph } from "@/components/game/Identity";
 import { DecisionCard, EventCard, Moment, MomentHero } from "@/components/experience/Moment";
 import { MeterBar, ProgressSteps, RouteLine, Stat, ValueFlow } from "@/components/experience/primitives";
 import { DEAL_SIGNED_BACKDROP, NEGOTIATION_ROOM_BACKDROP } from "@/components/transfers/transferVisuals";
+import { COURT_MOMENT_BACKDROP } from "@/components/experience/experienceAssets";
 import { useCareer } from "@/lib/career/CareerContext";
 import { getCareerClub, getCareerSquad } from "@/lib/career/careerWorld";
 import { formatMoney } from "@/lib/economy/currency";
@@ -75,8 +76,12 @@ export default function MomentLibraryPage() {
         aside={<div style={{ display: "grid", gap: 14 }}><Stat label="Lön" value={formatMoney(3_200)} note="per månad" /><Stat label="Avtal" value="2 år" /></div>}
       />
 
+      <MomentHero kind="CHAMPIONSHIP" headingLevel={2} backdrop={{ kind: "photo", style: COURT_MOMENT_BACKDROP }} headline={`${club.shortName} är mästare`} lede="Planen i Blender: regelrätt 40 × 20 m, renderad offline till 13 kB. För titlar, uppflyttningar och säsongens höjdpunkter (M3)." tags={["Säsongen " + career.seasonId]}>
+        <RouteLine items={[crest(club.id, 52)]} caption="Slutsegrare" />
+      </MomentHero>
+
       <div className="hm-settings-layout" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 420px), 1fr))" }}>
-        <MomentHero kind="PROMOTION" headingLevel={2} size="compact" headline={`${club.shortName} är uppflyttade`} lede="Guldton med linjegrafik från planen (M3)." tags={["Säsongen " + career.seasonId]}>
+        <MomentHero kind="PROMOTION" headingLevel={2} size="compact" headline={`${club.shortName} är uppflyttade`} lede="Guldton med linjegrafik från planen." tags={["Säsongen " + career.seasonId]}>
           <RouteLine items={[crest(club.id, 44)]} />
         </MomentHero>
         <MomentHero kind="DISMISSAL" headingLevel={2} size="compact" backdrop={{ kind: "plain" }} headline="Styrelsen har fattat ett beslut" lede="Förlustton för tunga besked (M7)." />

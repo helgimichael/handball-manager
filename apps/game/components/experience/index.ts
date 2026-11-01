@@ -4,3 +4,4 @@ export { ChoiceGroup, type Choice } from "./ChoiceGroup";
 export { DecisionCard, EventCard, Moment, MomentHero, MOMENT_PRESETS, type MomentBackdrop, type MomentKind, type MomentPreset } from "./Moment";
 export { MeterBar, ProgressSteps, Reveal, RouteLine, Stamp, Stat, Tag, ValueFlow, type FlowPart, type Step, type StepState } from "./primitives";
 export { photoBackdrop, type ExperienceTone } from "./visuals";
+export { COURT_MOMENT_BACKDROP } from "./experienceAssets";

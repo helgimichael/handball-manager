@@ -2,7 +2,7 @@
    with court line art, then editorial sections on paper with a quiet rail. */
 .hm-settings { display: grid; gap: 22px; padding-top: 24px; min-width: 0; }
 .hm-settings-band { grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr); }
-.hm-settings-band h1 { font-size: clamp(38px, 3.6vw, 58px); text-transform: uppercase; }
+.hm-settings-band h1 { font-size: clamp(38px, 3.6vw, 58px); text-transform: uppercase; overflow-wrap: break-word; }
 .hm-settings-band-stats { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
 .hm-settings-band-stats .xp-stat strong { font-size: clamp(24px, 2vw, 32px); white-space: nowrap; }
 
@@ -37,4 +37,6 @@
 @media (max-width: 760px) {
   .hm-settings-section-head, .hm-settings-section-body { padding-left: 16px; padding-right: 16px; }
   .hm-settings-band-stats { grid-template-columns: minmax(0, 1fr); }
+  .hm-settings-band h1 { font-size: clamp(24px, 7vw, 38px); }
+  .hm-settings-section-head h2 { font-size: 24px; }
 }
