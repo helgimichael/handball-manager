@@ -36,9 +36,9 @@
 .coach-plan-rail .coach-active-plan { padding: 10px 16px; }
 .coach-tactic-choices { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 18px; }
 .coach-choice-group { min-width: 0; margin: 0; padding: 0; border: 0; }
-/* The defence choice carries formation diagrams and needs the full row; beside
-   another group its 5:1 button overflowed into the neighbour. */
-.coach-choice-group:first-child, .coach-choice-group:last-child { grid-column: 1 / -1; }
+/* Diagram and four-option groups take the full row; beside another group
+   their buttons overflowed into the neighbour (5:1, Kombinationer). */
+.coach-choice-group--wide { grid-column: 1 / -1; }
 .coach-choice-group legend { font-size: 10px; font-weight: 750; text-transform: uppercase; letter-spacing: .08em; margin-bottom: 8px; }
 .coach-choice-options { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; }
 .coach-choice-options button { display: flex; align-items: center; justify-content: center; position: relative; gap: 8px; padding: 10px 9px; min-height: 36px; border: 1px solid #bbc5c0; background: #eeeFE8; color: var(--game-ink); font: inherit; font-size: 11px; font-weight: 600; cursor: pointer; }

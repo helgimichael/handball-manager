@@ -113,7 +113,7 @@ const personMap = (people: readonly MatchPerson[]) => new Map(people.map(p => [p
 const presentationTypes = new Set(['GOAL', 'SHOT_RELEASED', 'SAVE_CAUGHT', 'SAVE_PARRY', 'SHOT_BLOCKED', 'INTERCEPTION', 'TECHNICAL_VIOLATION', 'OFFENSIVE_FOUL', 'PASSIVE_PLAY', 'TWO_MINUTE_SUSPENSION', 'DISQUALIFICATION', 'WHISTLE_RESTART', 'EXCHANGE_COMPLETED', 'TEAM_TIMEOUT_STARTED', 'TACTICS_CHANGED', 'PERIOD_STARTED', 'PERIOD_ENDED', 'MATCH_FINISHED', 'DEFENDER_BEATEN', 'ADVANTAGE_OPENED', 'PASS_RELEASED']);
 const attackLabels: Record<string, string> = { BALANCED: 'balanserat', DIRECT: 'direkt', WIDTH: 'bredd', COMBINATION: 'kombinationer', QUICK: 'snabbt', SLOW: 'lugnt' };
 const rotationLabels: Record<string, string> = { SHORT: 'kort', BALANCED: 'balanserad', WIDE: 'bred' };
-const sevenVSixLabels: Record<string, string> = { OFF: 'av', SITUATIONAL: 'situationellt', ALWAYS: 'alltid' };
+const sevenVSixLabels: Record<string, string> = { OFF: 'av', SITUATIONAL: 'vid behov', ALWAYS: 'alltid' };
 const aggressionLabels: Record<string, string> = { LOW: 'låg', BALANCED: 'balanserad', HIGH: 'hög' };
 const goalLocation: Record<string, string> = { WING: 'på kanten', PIVOT: 'från linjen', BREAKTHROUGH: 'efter genombrott', BACKCOURT_JUMP: 'från distans', STANDING: 'med ett stående avslut', SEVEN_METRE: 'på sjumeterskast', EMPTY_GOAL: 'i det tomma målet' };
 const saveObject: Record<string, string> = { WING: 'kantskottet', PIVOT: 'linjeavslutet', BREAKTHROUGH: 'genombrottsavslutet', BACKCOURT_JUMP: 'distansskottet', STANDING: 'det stående avslutet', SEVEN_METRE: 'sjumeterskastet', EMPTY_GOAL: 'avslutet' };
