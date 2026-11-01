@@ -3,7 +3,7 @@ import { createMatch } from '@handball-manager/handball-engine/src/v2/core/match
 import { advanceCoreMutable } from '@handball-manager/handball-engine/src/v2/core/engine';
 import {transferDecisionTrace} from '@handball-manager/handball-engine/src/v2/core/intelligence';
 import { buildProfile, ROLE_TENDENCIES, defaultAttackRole, type AttributeSheet } from '@handball-manager/handball-engine/src/v2/core/profile';
-import { defensiveAggression, setTactics, type DefensiveAggression, type TeamTactics } from '@handball-manager/handball-engine/src/v2/core/coaching';
+import { defensiveAggression, rotationStrategy, setTactics, type DefensiveAggression, type RotationStrategy, type TeamTactics } from '@handball-manager/handball-engine/src/v2/core/coaching';
 import { requestExchange } from '@handball-manager/handball-engine/src/v2/core/population';
 import { requestTeamTimeout } from '@handball-manager/handball-engine/src/v2/core/referee';
 import type { CoreEvent, CorePlayer, CoreState, Role, TeamId } from '@handball-manager/handball-engine/src/v2/core/state';
@@ -23,6 +23,7 @@ import { writeCpuMatchCondition } from './cpuCondition';
 import { engineDefenceSystem, isPlayableBaseFormation } from '../matchPlan/defenceFormation';
 import { engineDefensiveAggression } from '../matchPlan/defensiveAggression';
 import { engineOffensiveTempo } from '../matchPlan/offensiveTempo';
+import { assistantRotationAtKickoff, engineRotationStrategy } from '../matchPlan/rotationStrategy';
 import { getClub } from '../game-data';
 import { encodeFrames, decodeFrames, type MatchFrame } from './matchFrames';
 export type { MatchFrame } from './matchFrames';
@@ -31,17 +32,17 @@ export type MatchPerson = { id: string; name: string; number: number; team: Team
 // Quantised observed frames, never regenerated from current career data.
 // [tick, officialMs, period, home, away, ballXcm, ballYcm, personIndex, xcm, ycm, ...]
 /** The tactical instructions a side played with. In-match changes stay in the archived TACTICS_CHANGED events. */
-export type ArchivedTeamTactics = { defence: TeamTactics['defence']; aggression: DefensiveAggression; tempo: TeamTactics['tempo'] };
+export type ArchivedTeamTactics = { defence: TeamTactics['defence']; aggression: DefensiveAggression; tempo: TeamTactics['tempo']; rotationStrategy?: RotationStrategy; assistantRotation?: boolean };
 export type PlayedMatchArchive = { format: 1 | 2; fixture: CareerFixture; version: string; behaviorRevision?:string; seed: number; people: MatchPerson[]; frames?: MatchFrame[]; frameData?: string; events: CoreEvent[]; result: FastMatchResult; load: Record<string, { minutes: number; energy: number; distance: number; workload?: number; workloadQuality?: WorkloadQuality }>; tactics?: { kickoff?: Record<TeamId, ArchivedTeamTactics>; final: Record<TeamId, ArchivedTeamTactics> } };
 export function archiveFrames(archive: PlayedMatchArchive): MatchFrame[] { return archive.frameData ? decodeFrames(archive.frameData) : archive.frames ?? []; }
 export type ProductionMatchSession = { format: 1; behaviorRevision?:string; fixture: CareerFixture; core: CoreState; people: MatchPerson[]; frames: MatchFrame[]; pausedAtHalf: boolean; error: string | null; kickoffTactics?: Record<TeamId, ArchivedTeamTactics> };
 /** Developer measurement hook. Readers must not mutate state or consume RNG. */
 export type ProductionMatchObserver=(core:Readonly<CoreState>,newEvents:readonly CoreEvent[])=>void;
-export const MATCH_BEHAVIOR_REVISION = 'career-offensive-tempo-v1';
-export type MatchCommand = { kind: 'TACTICS'; team: TeamId; patch: Partial<Pick<TeamTactics, 'defence' | 'tempo' | 'attackIdentity' | 'rotation' | 'aggression'>> } | { kind: 'SUBSTITUTION'; team: TeamId; outId: string; inId: string } | { kind: 'TIMEOUT'; team: TeamId } | { kind: 'SECOND_HALF' };
+export const MATCH_BEHAVIOR_REVISION = 'career-rotation-strategy-v1';
+export type MatchCommand = { kind: 'TACTICS'; team: TeamId; patch: Partial<Pick<TeamTactics, 'defence' | 'tempo' | 'attackIdentity' | 'rotation' | 'aggression' | 'rotationStrategy'>> } | { kind: 'SUBSTITUTION'; team: TeamId; outId: string; inId: string } | { kind: 'TIMEOUT'; team: TeamId } | { kind: 'SECOND_HALF' };
 const teamTactics = (core: CoreState): Record<TeamId, ArchivedTeamTactics> => ({
-  HOME: { defence: core.coaching.HOME.defence, aggression: defensiveAggression(core, 'HOME'), tempo: core.coaching.HOME.tempo },
-  AWAY: { defence: core.coaching.AWAY.defence, aggression: defensiveAggression(core, 'AWAY'), tempo: core.coaching.AWAY.tempo },
+  HOME: { defence: core.coaching.HOME.defence, aggression: defensiveAggression(core, 'HOME'), tempo: core.coaching.HOME.tempo, rotationStrategy: rotationStrategy(core, 'HOME'), assistantRotation: core.coaching.HOME.rotation },
+  AWAY: { defence: core.coaching.AWAY.defence, aggression: defensiveAggression(core, 'AWAY'), tempo: core.coaching.AWAY.tempo, rotationStrategy: rotationStrategy(core, 'AWAY'), assistantRotation: core.coaching.AWAY.rotation },
 });
 
 const roleByPosition: Record<string, Role> = { V6: 'LW', V9: 'LB', M9: 'CB', H9: 'RB', H6: 'RW', M6: 'P', MV: 'GK' };
@@ -131,8 +132,11 @@ export function createProductionSession(state: CareerState, fixture: CareerFixtu
       players.push(p);
       people.push({ id, name: `${player.firstName} ${player.lastName}`, number: player.shirtNumber ?? people.filter(x => x.team === team).length + 1, team, role, started: Boolean(startingRole), startEnergy: energy });
     }
-    core.coaching[team].rotation = team !== (fixture.homeClubId === state.playerClubId ? 'HOME' : 'AWAY');
-    core.coaching[team].timeouts = core.coaching[team].rotation;
+    const cpu = team !== (fixture.homeClubId === state.playerClubId ? 'HOME' : 'AWAY');
+    // The CPU's assistant always rotates; the manager's only when the plan asks.
+    core.coaching[team].rotation = cpu || assistantRotationAtKickoff(side.plan?.transitionPlan);
+    core.coaching[team].rotationStrategy = engineRotationStrategy(side.plan?.transitionPlan);
+    core.coaching[team].timeouts = cpu;
     core.coaching[team].tempo = engineOffensiveTempo(side.plan?.attackPlan);
     core.coaching[team].defence = engineDefenceSystem(side.plan?.defencePlan.baseFormation);
     core.coaching[team].aggression = engineDefensiveAggression(side.plan?.defencePlan);

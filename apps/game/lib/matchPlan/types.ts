@@ -271,6 +271,10 @@ export interface TransitionPlanConfig {
   firstWaveAggression: IntensityLevel;
   goalkeeperInitiation: IntensityLevel;
   substitutionPriority: "ATTACK_FIRST" | "DEFENCE_FIRST" | "BALANCED";
+  /** HM-ALPHA2-04C: how the assistant rotates in a played match. Absent in older plans; reads as BALANCED. */
+  rotationStrategy?: "SHORT" | "BALANCED" | "WIDE";
+  /** HM-ALPHA2-04C: whether the assistant makes substitutions from kickoff. Absent reads as off, as before. */
+  assistantRotation?: boolean;
 }
 
 // ---------------------------------------------------------------------------

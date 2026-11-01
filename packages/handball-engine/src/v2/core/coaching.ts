@@ -1,4 +1,4 @@
-import { courtPlayers,record,type CoreState,type TeamId } from './state';
+import { courtPlayers,otherTeam,record,type CorePlayer,type CoreState,type TeamId } from './state';
 import { requestExchange,exchangeActive } from './population';
 import { requestTeamTimeout } from './referee';
 import type { AttackIdentity } from './offence';
@@ -35,18 +35,47 @@ export const TEMPO_PROFILES:Record<OffensiveTempo,TempoProfile>={
 };
 /** Unknown stored values play BALANCED rather than failing a resumed match. */
 export const tempoProfile=(tempo:string|undefined):TempoProfile=>TEMPO_PROFILES[tempo as OffensiveTempo]??TEMPO_PROFILES.BALANCED;
+/**
+ * How the assistant rotates when `rotation` is on. It only ever answers a real
+ * reading -- a tired player, a fresher or stronger replacement on the bench,
+ * the score and the clock -- and never substitutes to meet a quota.
+ */
+export type RotationStrategy='SHORT'|'BALANCED'|'WIDE';
+export const ROTATION_STRATEGIES:readonly RotationStrategy[]=['SHORT','BALANCED','WIDE'];
+type RotationProfile={
+  /** A court player below this energy is a candidate to come off. */
+  readonly tiredBelow:number;
+  /** The replacement must be at least this much fresher. */
+  readonly freshMargin:number;
+  /** Tie-break among fresh-enough replacements: the stronger player or the fresher one. */
+  readonly prefer:'ENERGY'|'STRENGTH';
+};
+const ROTATION_PROFILES:Record<RotationStrategy,RotationProfile>={
+  SHORT:{tiredBelow:.5,freshMargin:.22,prefer:'STRENGTH'},
+  BALANCED:{tiredBelow:.62,freshMargin:.18,prefer:'ENERGY'},
+  WIDE:{tiredBelow:.72,freshMargin:.12,prefer:'ENERGY'},
+};
+export const rotationStrategy=(s:CoreState,team:TeamId):RotationStrategy=>s.coaching[team]?.rotationStrategy??'BALANCED';
+/** The player's own all-round execution, for choosing who plays. Never a performance modifier. */
+export function playingStrength(p:CorePlayer):number {
+  const q=p.profile;
+  return (q.passing+q.handling+q.decision+q.finishing+q.breakthrough+q.shotPlacement+q.defPositioning+q.defTiming+q.lateral+q.covering)/10;
+}
 export type TeamTactics={defence:'6:0'|'5:1';tempo:OffensiveTempo;attackIdentity:AttackIdentity;rotation:boolean;timeouts:boolean;lastTimeoutPossession:string|null;
   /** Absent in active saves created before the instruction existed; reads as BALANCED. */
-  aggression?:DefensiveAggression};
+  aggression?:DefensiveAggression;
+  /** Absent in active saves created before the instruction existed; reads as BALANCED. */
+  rotationStrategy?:RotationStrategy};
 export const initialCoaching=():Record<TeamId,TeamTactics>=>({HOME:{defence:'6:0',tempo:'BALANCED',attackIdentity:'BALANCED',rotation:false,timeouts:false,lastTimeoutPossession:null},AWAY:{defence:'6:0',tempo:'BALANCED',attackIdentity:'BALANCED',rotation:false,timeouts:false,lastTimeoutPossession:null}});
 export const defensiveAggression=(s:CoreState,team:TeamId):DefensiveAggression=>s.coaching[team]?.aggression??'BALANCED';
 /** Commands change future decisions; existing physical commitments finish normally. */
-export function setTactics(s:CoreState,team:TeamId,patch:Partial<Pick<TeamTactics,'defence'|'tempo'|'attackIdentity'|'rotation'|'timeouts'|'aggression'>>) {
+export function setTactics(s:CoreState,team:TeamId,patch:Partial<Pick<TeamTactics,'defence'|'tempo'|'attackIdentity'|'rotation'|'timeouts'|'aggression'|'rotationStrategy'>>) {
   if(s.status!=='RUNNING')return false;
   if(patch.attackIdentity!==undefined&&!['BALANCED','COMBINATION','WIDTH','DIRECT'].includes(patch.attackIdentity))throw new Error('Invalid attacking identity');
   if(patch.defence!==undefined&&!['6:0','5:1'].includes(patch.defence)||patch.tempo!==undefined&&!OFFENSIVE_TEMPO_LEVELS.includes(patch.tempo)||
     patch.rotation!==undefined&&typeof patch.rotation!=='boolean'||patch.timeouts!==undefined&&typeof patch.timeouts!=='boolean'||
-    patch.aggression!==undefined&&!DEFENSIVE_AGGRESSION_LEVELS.includes(patch.aggression))throw new Error('Invalid team tactics');
+    patch.aggression!==undefined&&!DEFENSIVE_AGGRESSION_LEVELS.includes(patch.aggression)||
+    patch.rotationStrategy!==undefined&&!ROTATION_STRATEGIES.includes(patch.rotationStrategy))throw new Error('Invalid team tactics');
   Object.assign(s.coaching[team],patch);record(s,'TACTICS_CHANGED',null,{team,...patch});return true;
 }
 export function coachingBefore(s:CoreState) {
@@ -58,11 +87,30 @@ export function coachingBefore(s:CoreState) {
       if(requestTeamTimeout(s,team))tactics.lastTimeoutPossession=s.possession.id;
     }
     if(!tactics.rotation)continue;
-    const tired=players.filter(p=>p.kind==='FIELD_PLAYER'&&p.id!==s.ball.controllerId&&!p.airborne&&!exchangeActive(s,p.id)&&p.condition.energy<.62).sort((a,b)=>a.condition.energy-b.condition.energy||a.id.localeCompare(b.id));
+    const strategy=rotationStrategy(s,team),profile=ROTATION_PROFILES[strategy];
+    // The match situation moves the line, never the rule. A short bench keeps
+    // its best players on in a close finish; a wide one spreads the minutes
+    // once the result is safe. BALANCED keeps the long-standing thresholds.
+    const late=s.officialClock.timeMs>s.match.periodLengthMs*2*.83,margin=s.score[team]-s.score[otherTeam(team)];
+    const tiredBelow=strategy==='SHORT'&&late&&Math.abs(margin)<=3?.42:strategy==='WIDE'&&late&&Math.abs(margin)>=6?.8:profile.tiredBelow;
+    const free=(p:CorePlayer)=>p.kind==='FIELD_PLAYER'&&p.id!==s.ball.controllerId&&!p.airborne&&!exchangeActive(s,p.id);
+    const ready=(p:CorePlayer)=>p.team===team&&p.population==='BENCH'&&!p.condition.unavailable&&p.condition.attacksRemaining===0;
+    const tired=players.filter(p=>free(p)&&p.condition.energy<tiredBelow).sort((a,b)=>a.condition.energy-b.condition.energy||a.id.localeCompare(b.id));
+    let requested=false;
     for(const outgoing of tired) {
-      const incoming=s.players.filter(p=>p.team===team&&p.population==='BENCH'&&p.kind===outgoing.kind&&!p.condition.unavailable&&p.condition.attacksRemaining===0&&p.condition.energy>outgoing.condition.energy+.18)
-        .sort((a,b)=>Number(b.role===outgoing.role)-Number(a.role===outgoing.role)||b.condition.energy-a.condition.energy||a.id.localeCompare(b.id))[0];
-      if(incoming&&requestExchange(s,team,outgoing.id,incoming.id))break;
+      const incoming=s.players.filter(p=>ready(p)&&p.kind===outgoing.kind&&p.condition.energy>outgoing.condition.energy+profile.freshMargin)
+        .sort((a,b)=>Number(b.role===outgoing.role)-Number(a.role===outgoing.role)||
+          (profile.prefer==='STRENGTH'?playingStrength(b)-playingStrength(a):0)||b.condition.energy-a.condition.energy||a.id.localeCompare(b.id))[0];
+      if(incoming&&requestExchange(s,team,outgoing.id,incoming.id)){requested=true;break;}
+    }
+    if(requested||strategy!=='SHORT')continue;
+    // SHORT also restores its strongest lineup: a clearly stronger player in
+    // the same role who has recovered on the bench replaces a weaker one.
+    for(const weaker of players.filter(free).sort((a,b)=>playingStrength(a)-playingStrength(b)||a.id.localeCompare(b.id))) {
+      const stronger=s.players.filter(p=>ready(p)&&p.kind===weaker.kind&&p.role===weaker.role&&p.condition.energy>=.78&&
+        p.condition.energy>=weaker.condition.energy-.05&&playingStrength(p)>playingStrength(weaker)+.04)
+        .sort((a,b)=>playingStrength(b)-playingStrength(a)||a.id.localeCompare(b.id))[0];
+      if(stronger&&requestExchange(s,team,weaker.id,stronger.id))break;
     }
   }
 }
