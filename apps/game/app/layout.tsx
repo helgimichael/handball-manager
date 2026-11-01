@@ -4,6 +4,7 @@ import "./globals.css";
 import { EditorModeWidget } from "./EditorModeWidget";
 import { AlphaAccessGate } from "../components/AlphaAccessGate";
 import { AlphaFeedbackControl } from "../components/FeedbackModal";
+import { PreferencesHydrator } from "../lib/settings/usePreferences";
 
 export const metadata: Metadata = {
   title: "Handball Manager",
@@ -14,6 +15,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="sv">
       <body>
+        <PreferencesHydrator />
         <AlphaAccessGate>
           {children}
           <EditorModeWidget />

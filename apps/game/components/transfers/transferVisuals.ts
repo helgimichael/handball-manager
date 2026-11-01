@@ -11,17 +11,12 @@ import roomNarrow from "./assets/negotiation-room-960.webp";
 import signedWide from "./assets/deal-signed-1600.webp";
 import signedNarrow from "./assets/deal-signed-800.webp";
 import { daysBetween } from "@/lib/career/dateUtils";
+import { photoBackdrop } from "@/components/experience/visuals";
 
 /** CSS custom properties consumed by .tc-photo-hero (image-set picks the variant by pixel density / width via the media rules in transfer-centre.css). */
-export const NEGOTIATION_ROOM_BACKDROP: CSSProperties = {
-  ["--tc-photo-wide" as string]: `url(${roomWide.src})`,
-  ["--tc-photo-narrow" as string]: `url(${roomNarrow.src})`,
-};
+export const NEGOTIATION_ROOM_BACKDROP: CSSProperties = photoBackdrop(roomWide, roomNarrow);
 
-export const DEAL_SIGNED_BACKDROP: CSSProperties = {
-  ["--tc-photo-wide" as string]: `url(${signedWide.src})`,
-  ["--tc-photo-narrow" as string]: `url(${signedNarrow.src})`,
-};
+export const DEAL_SIGNED_BACKDROP: CSSProperties = photoBackdrop(signedWide, signedNarrow);
 
 export type Urgency = "calm" | "soon" | "urgent" | "overdue";
 

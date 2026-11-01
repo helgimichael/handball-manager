@@ -8,7 +8,8 @@ import Link from "next/link";
 import ClubCrest from "@/components/ClubCrest";
 import { useCareer } from "@/lib/career/CareerContext";
 import { SQUAD_STATUS_TIER_LABEL_SV } from "@/lib/career/squadStatus";
-import { formatEur } from "@/lib/economy/currency";
+import { formatMoney } from "@/lib/economy/currency";
+import { useMoney } from "@/lib/settings/usePreferences";
 import { CONTRACT_STATUS_LABEL } from "@/lib/economy/labels";
 import { getClub } from "@/lib/game-data";
 import { getPlayerTransferStatus } from "@/lib/transfers/transferCentre";
@@ -18,13 +19,14 @@ function ClubChip({ clubId, role }: { clubId: string; role: string }) {
   const club = clubId ? getClub(clubId) : undefined;
   return (
     <div className="tc-own-club">
-      {club ? <ClubCrest shortName={club.shortName} primaryColor={club.primaryColor} size={34} /> : <span className="tc-party-mark" aria-hidden="true">FA</span>}
+      {club ? <ClubCrest shortName={club.shortName} primaryColor={club.primaryColor} clubId={club.id} size={34} /> : <span className="tc-party-mark" aria-hidden="true">FA</span>}
       <div><small>{role}</small><strong>{club?.shortName ?? "Fri agent"}</strong></div>
     </div>
   );
 }
 
 export function PlayerTransferCard({ playerId }: { playerId: string }) {
+  useMoney(); // re-render every figure when the display currency changes
   const { career } = useCareer();
   const status = getPlayerTransferStatus(career, playerId);
   if (!status) return null;
@@ -49,13 +51,13 @@ export function PlayerTransferCard({ playerId }: { playerId: string }) {
           <div className="tc-loan-line" aria-label={`Lån ${loan.startDate} till ${loan.endDate}`}>
             <div className="tc-loan-track"><i style={{ width: `${Math.round(periodProgress(loan.startDate, loan.endDate, career.gameDate) * 100)}%` }} /></div>
             <div className="tc-loan-dates"><span>{loan.startDate}</span><b>{daysLeftLabel(deadlineUrgency(career.gameDate, loan.endDate)?.daysLeft ?? 0).replace("kvar", "kvar av lånet")}</b><span>{loan.endDate}</span></div>
-            <p className="tc-note">{getClub(loan.borrowingClubId)?.shortName} betalar {loan.wageShareBorrowingPct}% av lönen{status.wageEurPerMonth ? ` (${formatEur(Math.round(status.wageEurPerMonth * loan.wageShareBorrowingPct / 100))}/mån)` : ""}. Han återvänder automatiskt när lånet slutar.</p>
+            <p className="tc-note">{getClub(loan.borrowingClubId)?.shortName} betalar {loan.wageShareBorrowingPct}% av lönen{status.wageEurPerMonth ? ` (${formatMoney(Math.round(status.wageEurPerMonth * loan.wageShareBorrowingPct / 100))}/mån)` : ""}. Han återvänder automatiskt när lånet slutar.</p>
           </div>
         )}
 
         <dl className="tc-facts">
           <div><dt>Avtal</dt><dd>{status.contractStatus ? CONTRACT_STATUS_LABEL[status.contractStatus] : "—"}{status.contractEndDate ? ` · t.o.m. ${status.contractEndDate}` : ""}</dd></div>
-          {status.wageEurPerMonth !== undefined && <div><dt>Lön enligt avtal</dt><dd>{formatEur(status.wageEurPerMonth)}/mån</dd></div>}
+          {status.wageEurPerMonth !== undefined && <div><dt>Lön enligt avtal</dt><dd>{formatMoney(status.wageEurPerMonth)}/mån</dd></div>}
           {status.interestedClubIds.length > 0 && <div><dt>Konkurrerande intresse</dt><dd>{status.interestedClubIds.map((id) => getClub(id)?.shortName ?? id).join(", ")}</dd></div>}
         </dl>
 

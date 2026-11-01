@@ -15,7 +15,8 @@ import { computeRoleSuitability } from "@/lib/staff/roleSuitability";
 import { roleSuitabilityStars } from "@/lib/staff/presentation";
 import { STAFF_ROLE_LABEL } from "@/lib/staff/labels";
 import { getScoutMarket } from "@/lib/staff/scoutPool";
-import { formatEur } from "@/lib/economy/currency";
+import { formatMoney } from "@/lib/economy/currency";
+import { useMoney } from "@/lib/settings/usePreferences";
 import type { ResolvedStaffMember, StaffRole } from "@/lib/staff/types";
 import StarRating from "@/components/StarRating";
 import { SectionScene, StaffMark } from "@/components/game/Secondary";
@@ -33,6 +34,7 @@ interface Candidate {
 }
 
 export default function StaffRecruitmentPage() {
+  useMoney(); // re-render every figure when the display currency changes
   const { career } = useCareer();
   const [roleFilter, setRoleFilter] = useState<StaffRole | "ALL">("ALL");
   const [sort, setSort] = useState<SortState<SortKey> | null>(null);
@@ -177,7 +179,7 @@ export default function StaffRecruitmentPage() {
                   <td>
                     <StarRating stars={roleSuitabilityStars(suitability)} title="Bedömd lämplighet för rollen" />
                   </td>
-                  <td>{formatEur(wageEurPerMonth)}</td>
+                  <td>{formatMoney(wageEurPerMonth)}</td>
                 </tr>
               ))}
             </tbody>

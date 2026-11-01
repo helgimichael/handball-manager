@@ -14,7 +14,8 @@ import { getClubScouts } from "@/lib/career/scouting";
 import { computeAssignmentProgressPct, type CreateScoutingAssignmentResult } from '@/lib/career/scouting';
 import { KNOWLEDGE_TIER_LABEL_SV, KNOWLEDGE_TIERS, type KnowledgeTier } from "@/lib/knowledge/types";
 import { NATION_LABEL_SV } from "@/lib/career/scoutDiscovery";
-import { formatEur } from "@/lib/economy/currency";
+import { formatMoney } from "@/lib/economy/currency";
+import { useMoney } from "@/lib/settings/usePreferences";
 import { CONTRACT_STATUS_LABEL } from "@/lib/economy/labels";
 import {
   getRecruitmentCandidates,
@@ -54,6 +55,7 @@ function starRangeLabel(range: { min: number; max: number } | null): string {
 
 export default function RecruitmentCentrePage() { return <Suspense><RecruitmentCentre /></Suspense>; }
 function RecruitmentCentre() {
+  useMoney(); // re-render every figure when the display currency changes
   const params = useSearchParams();
   const router = useRouter();
   const { career, createScoutingAssignment, addToShortlist, removeFromShortlist, setRecruitmentPriority, setRecruitmentNote } = useCareer();
@@ -180,8 +182,8 @@ function RecruitmentCentre() {
                     <td className="hm-table-num">
                       {c.scoutReportView?.marketValueRange
                         ? c.scoutReportView.marketValueRange.min === c.scoutReportView.marketValueRange.max
-                          ? formatEur(c.scoutReportView.marketValueRange.min)
-                          : `${formatEur(c.scoutReportView.marketValueRange.min)}–${formatEur(c.scoutReportView.marketValueRange.max)}`
+                          ? formatMoney(c.scoutReportView.marketValueRange.min)
+                          : `${formatMoney(c.scoutReportView.marketValueRange.min)}–${formatMoney(c.scoutReportView.marketValueRange.max)}`
                         : "—"}
                     </td>
                     <td>
@@ -286,7 +288,7 @@ function CandidateDetailPanel({
           {candidate.contractEndDate ? (
             <div className="hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)" }}>
               Kontrakt: {candidate.contractStatus ? CONTRACT_STATUS_LABEL[candidate.contractStatus] : ""} t.o.m. {candidate.contractEndDate}
-              {candidate.wageEurPerMonth !== null ? ` · ${formatEur(candidate.wageEurPerMonth)}/mån` : ""}
+              {candidate.wageEurPerMonth !== null ? ` · ${formatMoney(candidate.wageEurPerMonth)}/mån` : ""}
             </div>
           ) : null}
           <div className="hm-divider" />

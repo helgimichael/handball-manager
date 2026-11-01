@@ -4,7 +4,7 @@ import { useEffect, useRef } from 'react';
 import ClubCrest from '../ClubCrest';
 import './career-initialization.css';
 
-type ClubIdentity = { name: string; shortName: string; primaryColor: string };
+type ClubIdentity = { id?: string; name: string; shortName: string; primaryColor: string };
 
 /** Presentation only: no career data, persistence or progress estimation lives here. */
 export default function CareerInitialization({ club, competition, season, existing = false, failed = false, errorMessage, onBack }: {
@@ -29,7 +29,7 @@ export default function CareerInitialization({ club, competition, season, existi
         {failed ? <button type="button" className="hm-btn hm-btn-primary" onClick={onBack}>{errorMessage ? 'Tillbaka och försök igen →' : 'Till huvudmenyn →'}</button> : <p className="career-initialization-note">Det här kan ta en liten stund.</p>}
       </div>
       {club && <aside className="career-initialization-club" aria-label="Din valda klubb">
-        <ClubCrest shortName={club.shortName} primaryColor={club.primaryColor} size={112} />
+        <ClubCrest shortName={club.shortName} primaryColor={club.primaryColor} clubId={club.id} size={112} />
         <h2>{club.name}</h2><p>{competition}</p>{season && <span>{season}</span>}
       </aside>}
     </section>

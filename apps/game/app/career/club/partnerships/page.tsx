@@ -9,6 +9,9 @@ import { useState, type CSSProperties } from "react";
 import { useRouter } from "next/navigation";
 import { getClub } from "@/lib/game-data";
 import { useCareer } from "@/lib/career/CareerContext";
+import { currencySymbol, formatMoney } from "@/lib/economy/currency";
+import { useMoney } from "@/lib/settings/usePreferences";
+import MoneyInput from "@/components/MoneyInput";
 import { canRequestPartnershipSearch, isPartnershipExposureEligible, type ClubPartnership, type PartnershipStatus, type PartnershipType } from "@/lib/career/clubPartnerships";
 import { getCareerSquad } from "@/lib/career/careerWorld";
 import { getActivePlacementsAtClub, type PlayerPlacement } from "@/lib/career/playerPlacements";
@@ -42,6 +45,7 @@ export default function ClubPartnershipsPage() {
   const [formError, setFormError] = useState<string | null>(null);
   const [selectedCandidateId, setSelectedCandidateId] = useState<string | null>(null);
   const [monthlyCostEur, setMonthlyCostEur] = useState(1000);
+  useMoney(); // re-render every figure when the display currency changes
   const [durationMonths, setDurationMonths] = useState(12);
 
   const clubId = career.playerClubId;
@@ -156,8 +160,8 @@ export default function ClubPartnershipsPage() {
             {selectedCandidateId ? (
               <div style={{ display: "flex", gap: 12, alignItems: "flex-end", flexWrap: "wrap" }}>
                 <label style={{ display: "flex", flexDirection: "column", gap: 4, fontSize: "var(--hm-text-xs)" }}>
-                  Kostnad / månad (€)
-                  <input style={inputStyle} type="number" min={0} step={100} value={monthlyCostEur} onChange={(e) => setMonthlyCostEur(Number(e.target.value))} />
+                  Kostnad / månad ({currencySymbol()})
+                  <MoneyInput style={inputStyle} minEur={0} stepEur={100} valueEur={monthlyCostEur} onChangeEur={setMonthlyCostEur} />
                 </label>
                 <label style={{ display: "flex", flexDirection: "column", gap: 4, fontSize: "var(--hm-text-xs)" }}>
                   Avtalslängd (månader)
@@ -393,7 +397,7 @@ function PartnershipRow({ partnership }: { partnership: ClubPartnership }) {
       <td>
         {partnership.startDate} – {partnership.endDate ?? "tillsvidare"}
       </td>
-      <td>{partnership.monthlyCostEur > 0 ? `${partnership.monthlyCostEur.toLocaleString("sv-SE")} €` : "—"}</td>
+      <td>{partnership.monthlyCostEur > 0 ? formatMoney(partnership.monthlyCostEur) : "—"}</td>
       <td>
         <span className={`hm-badge hm-badge-${STATUS_TONE[partnership.status]}`}>{STATUS_LABEL_SV[partnership.status]}</span>
       </td>

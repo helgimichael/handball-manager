@@ -7,5 +7,7 @@
 @import "../components/game/squad-season.css";
 @import "../components/game/recruitment-news.css";
 @import "../components/transfers/transfer-centre.css";
+@import "../components/experience/experience.css";
+@import "../components/settings/settings.css";
 @import "../components/game/coaching.css";
 @import "../components/matchCenter/match-center.css";

@@ -24,7 +24,8 @@ import type { GameplayPlayerRating } from "@/lib/gameWorld/gameplayRatingSnapsho
 import { INJURY_SEVERITY_LABELS, INJURY_TYPE_LABELS, REHAB_PHASE_LABELS } from "@/lib/medical/labels";
 import { getPlayerContract, getPlayerContractStatus, getPlayerMarketValueEur } from "@/lib/economy/contractIntegration";
 import { CONTRACT_STATUS_LABEL, CONTRACT_STATUS_TONE } from "@/lib/economy/labels";
-import { formatEur } from "@/lib/economy/currency";
+import { formatMoney } from "@/lib/economy/currency";
+import { useMoney } from "@/lib/settings/usePreferences";
 import { getPlayerClubHistory } from "@/lib/economy/clubHistoryIntegration";
 import { getPlayerTrainingCompensation } from "@/lib/economy/trainingCompensationIntegration";
 import { getPlayerKnowledgePct } from "@/lib/knowledge/knowledgeIntegration";
@@ -54,6 +55,7 @@ function toGameplayRatingRow(rating: GameplayPlayerRating): GameplayRatingRow {
 }
 
 export default function PlayerProfilePage() {
+  useMoney(); // re-render every figure when the display currency changes
   const router = useRouter();
   const params = useParams<{ playerId: string }>();
   const { career } = useCareer();
@@ -231,7 +233,7 @@ export default function PlayerProfilePage() {
           <div className="hm-panel-body" style={{ display: "flex", flexDirection: "column", gap: 6 }}>
             {/* HM-ALPHA2-05C/E: the contract belongs to its owning club, which may differ from the club he plays for during a loan. */}
             <ContractRow label="Avtalsklubb" value={(contract?.clubId ? getClub(contract.clubId)?.name : club?.name) ?? "Okänd"} />
-            <ContractRow label="Lön / månad" value={contract ? formatEur(contract.wageEurPerMonth) : "—"} />
+            <ContractRow label="Lön / månad" value={contract ? formatMoney(contract.wageEurPerMonth) : "—"} />
             <ContractRow label="Kontrakt t.o.m." value={contract ? contract.contractEndDate : "—"} />
             <ContractRow label="Tröjnummer" value={player.shirtNumber !== null ? String(player.shirtNumber) : "Okänt"} />
             {contract?.clubId === career.playerClubId && <ContractRenewal key={player.id} playerId={player.id} />}
@@ -253,12 +255,12 @@ export default function PlayerProfilePage() {
           </div>
           <div className="hm-panel-body">
             {isOwnPlayer ? (
-              <div style={{ fontSize: "var(--hm-text-lg)", fontWeight: 800 }}>{marketValue !== undefined ? formatEur(marketValue) : "—"}</div>
+              <div style={{ fontSize: "var(--hm-text-lg)", fontWeight: 800 }}>{marketValue !== undefined ? formatMoney(marketValue) : "—"}</div>
             ) : scoutReportView?.marketValueRange ? (
               <div style={{ fontSize: "var(--hm-text-lg)", fontWeight: 800 }}>
                 {scoutReportView.marketValueRange.min === scoutReportView.marketValueRange.max
-                  ? formatEur(scoutReportView.marketValueRange.min)
-                  : `${formatEur(scoutReportView.marketValueRange.min)} – ${formatEur(scoutReportView.marketValueRange.max)}`}
+                  ? formatMoney(scoutReportView.marketValueRange.min)
+                  : `${formatMoney(scoutReportView.marketValueRange.min)} – ${formatMoney(scoutReportView.marketValueRange.max)}`}
               </div>
             ) : (
               <div style={{ fontSize: "var(--hm-text-lg)", fontWeight: 800 }}>—</div>
@@ -293,13 +295,13 @@ export default function PlayerProfilePage() {
             <div className="hm-eyebrow">Utbildningsersättning</div>
             {trainingCompensation && trainingCompensation.totalEur > 0 ? (
               <>
-                <ContractRow label="Vid framtida övergång" value={formatEur(trainingCompensation.totalEur)} />
+                <ContractRow label="Vid framtida övergång" value={formatMoney(trainingCompensation.totalEur)} />
                 {trainingCompensation.perClub.map((share) => (
                   <div key={share.clubId} style={{ display: "flex", justifyContent: "space-between", fontSize: "var(--hm-text-2xs)" }}>
                     <span className="hm-text-muted">
                       {getClub(share.clubId)?.name ?? share.clubId} ({share.years} år)
                     </span>
-                    <span style={{ fontWeight: 600 }}>{formatEur(share.amountEur)}</span>
+                    <span style={{ fontWeight: 600 }}>{formatMoney(share.amountEur)}</span>
                   </div>
                 ))}
                 <p className="hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)", margin: 0 }}>

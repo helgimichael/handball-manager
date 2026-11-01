@@ -8,7 +8,8 @@ import Link from "next/link";
 import ClubCrest from "@/components/ClubCrest";
 import { PlayerGlyph } from "@/components/game/Identity";
 import { SQUAD_STATUS_TIER_LABEL_SV } from "@/lib/career/squadStatus";
-import { formatEur } from "@/lib/economy/currency";
+import { formatMoney } from "@/lib/economy/currency";
+import { useMoney } from "@/lib/settings/usePreferences";
 import { getClub, positionLabel, type PlayerMock } from "@/lib/game-data";
 import type { DealSummary } from "@/lib/transfers/transferCentre";
 import { DEAL_SIGNED_BACKDROP } from "./transferVisuals";
@@ -16,6 +17,7 @@ import { DEAL_SIGNED_BACKDROP } from "./transferVisuals";
 interface Flow { label: string; to: string; eur: number; tone: string }
 
 export function DealCompletion({ summary, player }: { summary: DealSummary; player: PlayerMock }) {
+  useMoney(); // re-render every figure when the display currency changes
   const { offer, isLoan } = summary;
   const scheduled = summary.arrival === "SCHEDULED";
   const from = offer.fromClubId ? getClub(offer.fromClubId) : undefined;
@@ -47,11 +49,11 @@ export function DealCompletion({ summary, player }: { summary: DealSummary; play
           <h1>{headline}</h1>
           <p>{lede}</p>
           <div className="tc-completion-route">
-            {from ? <ClubCrest shortName={from.shortName} primaryColor={from.primaryColor} size={34} /> : <span className="tc-party-mark" aria-hidden="true">FA</span>}
+            {from ? <ClubCrest shortName={from.shortName} primaryColor={from.primaryColor} clubId={from.id} size={34} /> : <span className="tc-party-mark" aria-hidden="true">FA</span>}
             <span className="tc-route-arrow" aria-hidden="true" />
             <PlayerGlyph player={player} size={46} />
             <span className="tc-route-arrow" aria-hidden="true" />
-            {to && <ClubCrest shortName={to.shortName} primaryColor={to.primaryColor} size={34} />}
+            {to && <ClubCrest shortName={to.shortName} primaryColor={to.primaryColor} clubId={to.id} size={34} />}
             <span className="tc-completion-who">{positionLabel(player.position)} · {from?.shortName ?? "Fri agent"} → {to?.shortName}</span>
           </div>
         </div>
@@ -68,7 +70,7 @@ export function DealCompletion({ summary, player }: { summary: DealSummary; play
               <div><dt>Låneperiod</dt><dd>{offer.loanTerms?.startDate} → {offer.loanTerms?.endDate}</dd></div>
               <div><dt>Återvänder automatiskt</dt><dd>{offer.loanTerms?.endDate}</dd></div>
             </> : <>
-              <div><dt>Lön</dt><dd>{formatEur(offer.newWageEurPerMonth)}/mån</dd></div>
+              <div><dt>Lön</dt><dd>{formatMoney(offer.newWageEurPerMonth)}/mån</dd></div>
               <div><dt>Avtal t.o.m.</dt><dd>{summary.contractEndDate}</dd></div>
               <div><dt>{scheduled ? "Ansluter" : "Anslöt"}</dt><dd>{summary.arrivalDate}</dd></div>
             </>}
@@ -86,23 +88,23 @@ export function DealCompletion({ summary, player }: { summary: DealSummary; play
                 <i data-tone="owner" style={{ flexGrow: 100 - share }} />
               </div>
               <ul className="tc-flow-legend">
-                <li data-tone="fee"><span>Ni betalar · {share}%</span><b>{formatEur(Math.round(fullWage * share / 100))}/mån</b></li>
-                <li data-tone="owner"><span>{from?.shortName ?? "Ägarklubben"} betalar · {100 - share}%</span><b>{formatEur(Math.round(fullWage * (100 - share) / 100))}/mån</b></li>
+                <li data-tone="fee"><span>Ni betalar · {share}%</span><b>{formatMoney(Math.round(fullWage * share / 100))}/mån</b></li>
+                <li data-tone="owner"><span>{from?.shortName ?? "Ägarklubben"} betalar · {100 - share}%</span><b>{formatMoney(Math.round(fullWage * (100 - share) / 100))}/mån</b></li>
               </ul>
-              <div className="tc-flow-total"><span>Låneavgift</span><strong>{formatEur(0)}</strong></div>
+              <div className="tc-flow-total"><span>Låneavgift</span><strong>{formatMoney(0)}</strong></div>
             </>
           ) : (
             <>
-              <div className="tc-flow" role="img" aria-label={`Totalt ${formatEur(total)} fördelat på ${flows.length} mottagare`}>
+              <div className="tc-flow" role="img" aria-label={`Totalt ${formatMoney(total)} fördelat på ${flows.length} mottagare`}>
                 {flows.map((f) => <i key={f.label} data-tone={f.tone} style={{ flexGrow: Math.max(f.eur, total * 0.02) }} />)}
               </div>
               <ul className="tc-flow-legend">
-                {flows.map((f) => <li key={f.label} data-tone={f.tone}><span>{f.label} <em>till {f.to}</em></span><b>{formatEur(f.eur)}</b></li>)}
+                {flows.map((f) => <li key={f.label} data-tone={f.tone}><span>{f.label} <em>till {f.to}</em></span><b>{formatMoney(f.eur)}</b></li>)}
               </ul>
-              <div className="tc-flow-total"><span>Totalt</span><strong>{formatEur(total)}</strong></div>
+              <div className="tc-flow-total"><span>Totalt</span><strong>{formatMoney(total)}</strong></div>
             </>
           )}
-          <div className="tc-flow-wage"><span>Lönekostnad för er</span><b>{formatEur(summary.monthlyWageCostEur)}/mån · {formatEur(summary.monthlyWageCostEur * 12)}/år</b></div>
+          <div className="tc-flow-wage"><span>Lönekostnad för er</span><b>{formatMoney(summary.monthlyWageCostEur)}/mån · {formatMoney(summary.monthlyWageCostEur * 12)}/år</b></div>
         </section>
       </div>
 

@@ -72,7 +72,7 @@ export default function StaffPage() {
 
   return (
     <div className="game-secondary-page">
-      <SectionScene eyebrow={`${club.name} · ${career.seasonId}`} title="Personal" description="Tränare, specialister och ledare runt laget. Följ rollerna och veckans träningsansvar." mark={<ClubCrest shortName={club.shortName} primaryColor={club.primaryColor} size={72} />} actions={<Link href="/career/staff/recruitment" className="hm-btn hm-btn-sm hm-btn-primary">Rekrytera personal</Link>}><div><strong>{roster.length}</strong><small>personer i klubben</small></div><div><strong>{responsibilities.length}</strong><small>pass den här veckan</small></div></SectionScene>
+      <SectionScene eyebrow={`${club.name} · ${career.seasonId}`} title="Personal" description="Tränare, specialister och ledare runt laget. Följ rollerna och veckans träningsansvar." mark={<ClubCrest shortName={club.shortName} primaryColor={club.primaryColor} clubId={club.id} size={72} />} actions={<Link href="/career/staff/recruitment" className="hm-btn hm-btn-sm hm-btn-primary">Rekrytera personal</Link>}><div><strong>{roster.length}</strong><small>personer i klubben</small></div><div><strong>{responsibilities.length}</strong><small>pass den här veckan</small></div></SectionScene>
       <div className="game-secondary-split"><div className="game-secondary-main">
       <Panel title="Rollerna i klubben"><div className="game-staff-roles">{STAFF_ROLES.map(role => <div key={role} className="game-staff-role"><span>{STAFF_ROLE_LABEL[role]}</span><strong>{roster.filter(m => m.roles.includes(role)).length}</strong></div>)}</div></Panel>
       <div className="hm-panel">

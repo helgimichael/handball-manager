@@ -28,6 +28,7 @@ import { useRouter } from "next/navigation";
 import { abilityStarsFromCA, potentialStarsFromPA } from "@/lib/development/types";
 import { SortableTh, applySortDirection, type SortState } from "@/components/SortableTh";
 import StarRating from "@/components/StarRating";
+import { formatEur } from "@/lib/economy/currency";
 import {
   isSourceDirty,
   isRatingDirty,
@@ -158,9 +159,9 @@ function toRowVM(p: ApiPlayer): RowVM {
 // The rules themselves live in lib/editor/bulkEditorState.ts so the save
 // lifecycle is testable without a DOM (HM-PLAYER-DATA-EDITOR-1.0C).
 
-function formatEur(v: number | null): string {
-  if (v === null) return "—";
-  return new Intl.NumberFormat("sv-SE", { maximumFractionDigits: 0 }).format(v) + " €";
+// The data editor edits canonical EUR source values, so it always shows EUR (never the display currency).
+function formatEditorEur(v: number | null): string {
+  return v === null ? "—" : formatEur(v);
 }
 
 const CA_SOURCE_LABEL_SV: Record<string, string> = {
@@ -672,7 +673,7 @@ export default function PlayerCalibrationWorkspace() {
                         {CA_SOURCE_LABEL_SV[row.caSource] ?? row.caSource}
                         {row.locked ? " · LÅST" : ""}
                       </td>
-                      <td className="hm-table-num">{formatEur(row.marketValueEurPreview)}</td>
+                      <td className="hm-table-num">{formatEditorEur(row.marketValueEurPreview)}</td>
                       <td className="hm-text-muted">{row.contractEndDisplay}</td>
                       <td>
                         <span className="hm-badge hm-badge-neutral">{row.rosterConfidence}</span>

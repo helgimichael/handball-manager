@@ -1,0 +1,40 @@
+/* HM-ALPHA3-M01 Settings: the template for system pages -- a navy band
+   with court line art, then editorial sections on paper with a quiet rail. */
+.hm-settings { display: grid; gap: 22px; padding-top: 24px; min-width: 0; }
+.hm-settings-band { grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr); }
+.hm-settings-band h1 { font-size: clamp(38px, 3.6vw, 58px); text-transform: uppercase; }
+.hm-settings-band-stats { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+.hm-settings-band-stats .xp-stat strong { font-size: clamp(24px, 2vw, 32px); white-space: nowrap; }
+
+.hm-settings-layout { display: grid; grid-template-columns: minmax(0, 1fr) minmax(260px, 340px); gap: 22px; align-items: start; }
+.hm-settings-section { background: var(--hm-surface-1); border-top: 2px solid var(--game-ink); }
+.hm-settings-section-head { display: flex; justify-content: space-between; gap: 18px; padding: 20px 24px 6px; }
+.hm-settings-section-head h2 { margin: 6px 0 8px; font-family: var(--game-font-display); font-weight: 400; font-size: 30px; letter-spacing: .02em; text-transform: uppercase; line-height: 1; }
+.hm-settings-section-head p { margin: 0; max-width: 64ch; font-size: 12.5px; line-height: 1.6; color: var(--hm-text-secondary); }
+.hm-settings-section-body { display: grid; gap: 14px; padding: 16px 24px 22px; }
+.hm-settings-status { margin: 0; min-height: 1.5em; font-size: 12px; color: var(--hm-text-secondary); }
+.hm-settings-status[data-tone="saved"] { color: #2f6343; }
+.hm-settings-status[data-tone="session"] { color: #8a5a12; }
+
+.hm-settings-rail { display: grid; gap: 14px; }
+.hm-settings-preview { display: grid; gap: 4px; padding: 18px 20px 16px; background: #122335; color: #f8f3e9; border-left: 5px solid #e0b23c; }
+.hm-settings-preview .xp-eyebrow { color: #f2d28a; }
+.hm-settings-preview h2 { margin: 2px 0 8px; font-size: 15px; font-weight: 650; }
+.hm-settings-preview dl { margin: 0; display: grid; }
+.hm-settings-preview dl > div { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 9px 0; border-top: 1px solid #2c3d52; }
+.hm-settings-preview dt { font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: #aab7c5; }
+.hm-settings-preview dd { margin: 0; display: grid; justify-items: end; gap: 2px; text-align: right; }
+.hm-settings-preview dd strong { font-family: var(--game-font-display); font-weight: 400; font-size: 21px; letter-spacing: .02em; font-variant-numeric: tabular-nums; }
+.hm-settings-preview dd small { font-size: 10.5px; color: #8fa0b3; font-variant-numeric: tabular-nums; }
+@media (prefers-reduced-motion: no-preference) { .hm-settings-preview dd strong { animation: xp-rise 320ms var(--game-ease-out, ease-out) both; } }
+.hm-settings-note { padding: 16px 20px; background: var(--hm-surface-2); }
+.hm-settings-note ul { margin: 8px 0 0; padding-left: 18px; display: grid; gap: 6px; font-size: 12px; line-height: 1.5; color: var(--hm-text-secondary); }
+
+@media (max-width: 1100px) {
+  .hm-settings-layout { grid-template-columns: minmax(0, 1fr); }
+  .hm-settings-band { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 760px) {
+  .hm-settings-section-head, .hm-settings-section-body { padding-left: 16px; padding-right: 16px; }
+  .hm-settings-band-stats { grid-template-columns: minmax(0, 1fr); }
+}

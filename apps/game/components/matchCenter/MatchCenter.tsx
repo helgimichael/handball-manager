@@ -13,7 +13,7 @@ const stateLabels = { PREMATCH: 'INFÖR AVKAST', LIVE: 'LIVE', PAUSED: 'PAUSAD',
 function ClubIdentity({ id, side }: {
     id: string;
     side: string;
-}) { const club = getClub(id); return <div className="mc-club"><ClubCrest shortName={club?.shortName ?? '—'} primaryColor={club?.primaryColor ?? ''} size={66}/><div><small>{side}</small><strong>{club?.shortName ?? (side === 'HEMMA' ? 'Hemmalaget' : 'Bortalaget')}</strong><span>{club?.name}</span></div></div>; }
+}) { const club = getClub(id); return <div className="mc-club"><ClubCrest shortName={club?.shortName ?? '—'} primaryColor={club?.primaryColor ?? ''} clubId={club?.id} size={66}/><div><small>{side}</small><strong>{club?.shortName ?? (side === 'HEMMA' ? 'Hemmalaget' : 'Bortalaget')}</strong><span>{club?.name}</span></div></div>; }
 export function KeyMoment({ moment, events, frames, people }: {
     moment: MatchPresentationEvent | null;
     events: readonly CoreEvent[];

@@ -6,7 +6,8 @@
 // market-value gating itself.
 import type { ScoutReportView } from "@/lib/knowledge/scoutReportVisibility";
 import { KNOWLEDGE_TIER_LABEL_SV } from "@/lib/knowledge/types";
-import { formatEur } from "@/lib/economy/currency";
+import { formatMoney } from "@/lib/economy/currency";
+import { useMoney } from "@/lib/settings/usePreferences";
 
 export interface ScoutReportHistoryEntry {
   reportId: string;
@@ -26,6 +27,7 @@ export function ScoutReportPanel({
   hasOwnScout: boolean;
   onStartAssignment?: () => void;
 }) {
+  useMoney(); // re-render every figure when the display currency changes
   return (
     <div className="hm-panel game-scout-report">
       <div className="hm-panel-header">
@@ -37,7 +39,7 @@ export function ScoutReportPanel({
         <div style={{ display: "flex", justifyContent: "space-between", fontSize: "var(--hm-text-xs)" }}>
           <span className="hm-text-muted">Uppskattat marknadsvärde</span>
           <span style={{ fontWeight: 700 }}>
-            {view.marketValueRange ? (view.marketValueRange.min === view.marketValueRange.max ? formatEur(view.marketValueRange.min) : `${formatEur(view.marketValueRange.min)} – ${formatEur(view.marketValueRange.max)}`) : "—"}
+            {view.marketValueRange ? (view.marketValueRange.min === view.marketValueRange.max ? formatMoney(view.marketValueRange.min) : `${formatMoney(view.marketValueRange.min)} – ${formatMoney(view.marketValueRange.max)}`) : "—"}
           </span>
         </div>
         <div style={{ display: "flex", justifyContent: "space-between", fontSize: "var(--hm-text-xs)" }}>

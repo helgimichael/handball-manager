@@ -18,7 +18,9 @@ import { roleSuitabilityStars } from "@/lib/staff/presentation";
 import { ROLE_ATTRIBUTE_WEIGHTS } from "@/lib/staff/roleAttributeMap";
 import { STAFF_ATTRIBUTE_LABEL, STAFF_EMPLOYMENT_TYPE_LABEL, STAFF_ROLE_LABEL } from "@/lib/staff/labels";
 import { STAFF_ATTRIBUTES } from "@/lib/staff/types";
-import { formatEur } from "@/lib/economy/currency";
+import { currencySymbol, formatMoney, localizeMoneyText } from "@/lib/economy/currency";
+import MoneyInput from "@/components/MoneyInput";
+import { useMoney } from "@/lib/settings/usePreferences";
 import { mondayOf, resolveTrainingWeek } from "@/lib/training/trainingSchedule";
 import { resolveResponsibleCoach } from "@/lib/staff/roleSuitability";
 import StarRating from "@/components/StarRating";
@@ -51,6 +53,7 @@ function ContractRow({ label, value }: { label: ReactNode; value: string }) {
 }
 
 export default function StaffProfilePage() {
+  useMoney(); // re-render every figure when the display currency changes
   const router = useRouter();
   const params = useParams<{ staffId: string }>();
   const searchParams = useSearchParams();
@@ -154,7 +157,7 @@ export default function StaffProfilePage() {
               </p>
             ) : employment?.employmentType === "SALARIED" ? (
               <>
-                <ContractRow label="Lön / månad" value={employment.wageEurPerMonth !== undefined ? formatEur(employment.wageEurPerMonth) : "—"} />
+                <ContractRow label="Lön / månad" value={employment.wageEurPerMonth !== undefined ? formatMoney(employment.wageEurPerMonth) : "—"} />
                 <ContractRow label="Kontrakt t.o.m." value={employment.contractEndDate ?? "—"} />
               </>
             ) : (
@@ -218,11 +221,12 @@ function RecruitmentPanel({
   offerStaffContract: ReturnType<typeof useCareer>["offerStaffContract"];
 }) {
   const { career } = useCareer();
-  const [wage, setWage] = useState(String(candidateWageHint ?? 1000));
+  useMoney();
+  const [wage, setWage] = useState(candidateWageHint ?? 1000);
   const [outcome, setOutcome] = useState<{ accepted: boolean; reason: string } | null>(null);
 
   function submit() {
-    const offeredWageEurPerMonth = Math.max(0, Math.round(Number(wage) || 0));
+    const offeredWageEurPerMonth = Math.max(0, Math.round(wage || 0));
     const result = offerStaffContract({ staffId, toClubId: career.playerClubId, offeredWageEurPerMonth });
     setOutcome({ accepted: result.outcome === "COMPLETED", reason: result.reason });
   }
@@ -234,8 +238,8 @@ function RecruitmentPanel({
       </div>
       <div className="hm-panel-body" style={{ display: "flex", flexDirection: "column", gap: 8 }}>
         <label className="hm-text-secondary" style={{ fontSize: "var(--hm-text-xs)" }}>
-          Erbjuden lön / månad (€)
-          <input type="number" min={0} step={50} value={wage} onChange={(e) => setWage(e.target.value)} style={{ ...inputStyle, display: "block", marginTop: 4, width: "100%" }} />
+          Erbjuden lön / månad ({currencySymbol()})
+          <MoneyInput minEur={0} stepEur={50} valueEur={wage} onChangeEur={setWage} style={{ ...inputStyle, display: "block", marginTop: 4, width: "100%" }} />
         </label>
         <button type="button" className="hm-btn hm-btn-primary" onClick={submit}>
           Erbjud kontrakt
@@ -243,7 +247,7 @@ function RecruitmentPanel({
         {outcome ? (
           <p className={outcome.accepted ? "hm-text-positive" : "hm-text-muted"} style={{ fontSize: "var(--hm-text-2xs)", margin: 0 }}>
             {outcome.accepted ? "Avtalet är klart. " : "Avvisat. "}
-            {outcome.reason}
+            {localizeMoneyText(outcome.reason)}
           </p>
         ) : null}
       </div>
@@ -258,12 +262,13 @@ function SignFreeAgentPanel({
   staffId: string;
   signFreeAgentScout: ReturnType<typeof useCareer>["signFreeAgentScout"];
 }) {
-  const [wage, setWage] = useState("1000");
+  useMoney();
+  const [wage, setWage] = useState(1000);
   const [contractYears, setContractYears] = useState(2);
   const [outcome, setOutcome] = useState<{ accepted: boolean; reason: string } | null>(null);
 
   function submit() {
-    const offeredWageEurPerMonth = Math.max(0, Math.round(Number(wage) || 0));
+    const offeredWageEurPerMonth = Math.max(0, Math.round(wage || 0));
     const result = signFreeAgentScout(staffId, offeredWageEurPerMonth, contractYears);
     setOutcome({ accepted: result.outcome === "COMPLETED", reason: result.reason });
   }
@@ -275,8 +280,8 @@ function SignFreeAgentPanel({
       </div>
       <div className="hm-panel-body" style={{ display: "flex", flexDirection: "column", gap: 8 }}>
         <label className="hm-text-secondary" style={{ fontSize: "var(--hm-text-xs)" }}>
-          Erbjuden lön / månad (€)
-          <input type="number" min={0} step={50} value={wage} onChange={(e) => setWage(e.target.value)} style={{ ...inputStyle, display: "block", marginTop: 4, width: "100%" }} />
+          Erbjuden lön / månad ({currencySymbol()})
+          <MoneyInput minEur={0} stepEur={50} valueEur={wage} onChangeEur={setWage} style={{ ...inputStyle, display: "block", marginTop: 4, width: "100%" }} />
         </label>
         <label className="hm-text-secondary" style={{ fontSize: "var(--hm-text-xs)" }}>
           Kontraktslängd (år)
@@ -288,7 +293,7 @@ function SignFreeAgentPanel({
         {outcome ? (
           <p className={outcome.accepted ? "hm-text-positive" : "hm-text-muted"} style={{ fontSize: "var(--hm-text-2xs)", margin: 0 }}>
             {outcome.accepted ? "Klart! " : "Avvisat. "}
-            {outcome.reason}
+            {localizeMoneyText(outcome.reason)}
           </p>
         ) : null}
       </div>

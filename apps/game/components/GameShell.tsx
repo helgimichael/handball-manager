@@ -19,6 +19,8 @@ import { computeLiveMatchView } from "@/lib/liveMatch/liveMatchView";
 import { formatMatchMinute } from "@/lib/liveMatch/commentary";
 import { progressionNotice, type ProgressionNotice } from './game/progressionPresentation';
 
+const NAV_GROUP_LABELS: Record<string, string> = { home: 'Din säsong', squad: 'Laget', calendar: 'Match & kalender', players: 'Spelarvärlden', staff: 'Klubben', settings: 'Spelet' };
+
 type NavEntry = { id: string; href: string; label: string; icon: NavIconName; badge?: number };
 
 function useNav(unread: number, editorEnabled: boolean): readonly NavEntry[] {
@@ -152,7 +154,7 @@ export default function GameShell({ children }: { children: ReactNode }) {
       <aside className="hm-sidebar">
         <Link href="/career" className="hm-wordmark"><span className="hm-monogram">HM</span><span>HANDBALL<br /><strong>MANAGER</strong></span></Link>
         <div className="hm-club-badge">
-          <ClubCrest shortName={club.shortName} primaryColor={club.primaryColor} size={64} />
+          <ClubCrest shortName={club.shortName} primaryColor={club.primaryColor} clubId={club.id} size={64} />
           <div>
             <div className="hm-club-name">{club.name}</div>
             <div className="hm-club-sub">{competitionName}</div>
@@ -163,7 +165,7 @@ export default function GameShell({ children }: { children: ReactNode }) {
             const active = item.id === activeNavId || (item.id === "editor" && pathname.startsWith("/editor"));
             return (
               <div key={item.href}>
-              {({ home: 'Din säsong', squad: 'Laget', calendar: 'Match & kalender', players: 'Spelarvärlden', staff: 'Klubben' } as Record<string, string>)[item.id] && <div className="hm-nav-group-label">{({ home: 'Din säsong', squad: 'Laget', calendar: 'Match & kalender', players: 'Spelarvärlden', staff: 'Klubben' } as Record<string, string>)[item.id]}</div>}
+              {NAV_GROUP_LABELS[item.id] && <div className="hm-nav-group-label">{NAV_GROUP_LABELS[item.id]}</div>}
               <Link
                 key={item.href}
                 className="hm-nav-item"

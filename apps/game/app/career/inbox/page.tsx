@@ -10,11 +10,14 @@ import { destinationLabel, resolveDestinationHref } from "@/lib/career/destinati
 import { filterInboxMessages, INBOX_FILTERS, type InboxFilterId } from "@/lib/career/inboxFilters";
 import { getClub } from '@/lib/game-data';
 import { getCareerPlayer } from '@/lib/career/careerWorld';
+import { localizeMoneyText } from '@/lib/economy/currency';
+import { useMoney } from '@/lib/settings/usePreferences';
 import { PageHeading } from '@/components/manager/Workspace';
 import { PlayerCell, MatchHero } from '@/components/game/Identity';
 
 export default function InboxPage() { return <Suspense><Inbox /></Suspense>; }
 function Inbox() {
+  useMoney(); // money inside message text follows the display currency
   const params = useSearchParams();
   const router = useRouter();
   const { career, markInboxMessageRead, archiveInboxMessage, unarchiveInboxMessage } = useCareer();
@@ -48,7 +51,7 @@ function Inbox() {
         <div className="game-news-feed-scroll">{messages.length ? messages.map(m => <button type="button" aria-label={m.subject} aria-pressed={m.id === selected?.id} key={m.id} onClick={() => selectMessage(m.id)} data-active={m.id === selected?.id} data-unread={!m.read} data-urgent={m.actionRequired && !m.resolved} className="game-news-item">
           <div className="game-news-item-meta"><span>{categoryLabel(m.category)}{m.careerEventId ? ' · Karriär' : ''}</span><time>{m.date ? m.date.slice(0, 10) : ''}</time></div>
           <strong>{!m.read && <i className="game-unread-dot" aria-label="Oläst" />}{m.subject}</strong>
-          <p>{m.preview}</p>
+          <p>{localizeMoneyText(m.preview)}</p>
           {m.actionRequired && !m.resolved && <span className="game-news-action-label">ÅTGÄRD KRÄVS →</span>}{m.archived && <span className="game-news-action-label">ARKIVERAT</span>}
         </button>) : <div className="hm-empty">Inga meddelanden i denna vy.</div>}</div>
       </section>
@@ -57,7 +60,7 @@ function Inbox() {
           <header className="game-news-article-header"><div className="game-news-kicker"><span>{categoryLabel(selected.category)}</span><time>{selected.date?.slice(0, 10)}</time></div><h2>{selected.subject}</h2><div className="game-news-byline"><span>Från <b>{selected.sender}</b></span>{selected.actionRequired && !selected.resolved ? <span className="hm-badge hm-badge-warning">ÅTGÄRD KRÄVS</span> : selected.important ? <span className="hm-badge hm-badge-warning">VIKTIGT</span> : null}</div></header>
           {fixture && <MatchHero compact career={career} fixture={fixture} result={career.results[fixture.id] ?? careerArchiveSummaries(career)[fixture.id]?.result} context={categoryLabel(selected.category)} />}
           {player && <div className="game-news-player"><PlayerCell player={player} /></div>}
-          <div className="game-news-copy">{selected.body.map((paragraph, i) => <p key={i}>{paragraph}</p>)}</div>
+          <div className="game-news-copy">{selected.body.map((paragraph, i) => <p key={i}>{localizeMoneyText(paragraph)}</p>)}</div>
           {selected.destinations && selected.destinations.length > 0 && <div className="game-news-destinations"><div className="hm-eyebrow">Nästa steg</div><div className="hm-actions">{selected.destinations.map((destination, i) => { const href = resolveDestinationHref(destination); return href ? <button key={i} type="button" className={i === 0 ? 'hm-btn hm-btn-primary' : 'hm-btn'} onClick={() => router.push(href)}>{destinationLabel(destination)}</button> : null; })}</div></div>}
           <footer className="game-news-tools">{!selected.read && <button type="button" className="hm-btn hm-btn-sm" onClick={() => markInboxMessageRead(selected.id)}>Markera som läst</button>}{selected.archived ? <button type="button" className="hm-btn hm-btn-sm hm-btn-ghost" onClick={() => unarchiveInboxMessage(selected.id)}>Återställ från arkiv</button> : <button type="button" className="hm-btn hm-btn-sm hm-btn-ghost" disabled={!canArchive} title={canArchive ? undefined : 'Kan inte arkiveras förrän den obligatoriska åtgärden är genomförd.'} onClick={() => archiveInboxMessage(selected.id)}>Arkivera</button>}{!canArchive && <span className="hm-text-muted">Genomför den obligatoriska åtgärden innan du arkiverar.</span>}</footer>
         </> : <div className="hm-empty">{messages.length ? 'Välj ett meddelande för att läsa beskedet och se nästa steg.' : 'Inga meddelanden i denna vy.'}</div>}

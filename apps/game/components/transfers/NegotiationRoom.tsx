@@ -19,7 +19,10 @@ import { getCareerPlayer } from "@/lib/career/careerWorld";
 import { addDays } from "@/lib/career/dateUtils";
 import { SQUAD_STATUS_TIERS, SQUAD_STATUS_TIER_LABEL_SV, type SquadStatusTier } from "@/lib/career/squadStatus";
 import { playerAgeAtDate } from "@/lib/development/developmentIntegration";
-import { formatEur } from "@/lib/economy/currency";
+import { currencySymbol, formatMoney, localizeMoneyText } from "@/lib/economy/currency";
+import MoneyInput from "@/components/MoneyInput";
+import { ProgressSteps, type StepState } from "@/components/experience/primitives";
+import { useMoney } from "@/lib/settings/usePreferences";
 import { CONTRACT_STATUS_LABEL } from "@/lib/economy/labels";
 import { getPlayerContract, getPlayerContractStatus, getPlayerMarketValueEur } from "@/lib/economy/contractIntegration";
 import { getPlayerTrainingCompensation } from "@/lib/economy/trainingCompensationIntegration";
@@ -53,6 +56,7 @@ function roleLabel(role: SquadStatusTier | undefined): string {
 }
 
 export function NegotiationRoom({ playerId, initialDeal }: { playerId: string; initialDeal: TransferDealType }) {
+  useMoney(); // re-render every figure when the display currency changes
   const { career, negotiateTransfer } = useCareer();
   const [error, setError] = useState<string | null>(null);
   const [startDeal, setStartDeal] = useState<TransferDealType>(initialDeal);
@@ -84,7 +88,7 @@ export function NegotiationRoom({ playerId, initialDeal }: { playerId: string; i
       )}
 
       {negotiation && !completed && <StatusBanner career={career} negotiation={negotiation} />}
-      {error && <div className="tc-error" role="alert">{error}</div>}
+      {error && <div className="tc-error" role="alert">{localizeMoneyText(error)}</div>}
 
       {/* A completed deal shows its record only: the party cards describe the LIVE market position, which no longer applies once he has signed. */}
       <div className={completed ? "tc-room tc-room-history" : "tc-room"}>
@@ -161,26 +165,14 @@ function Stepper({ negotiation, isLoan, isFreeAgent }: { negotiation?: TransferN
     if (index === current) return failed ? "failed" : "current";
     return "todo";
   };
-  const clubDetail = negotiation?.agreedFeeEur !== undefined && !isLoan ? (isFreeAgent ? "Ingen klubb" : formatEur(negotiation.agreedFeeEur)) : negotiation?.agreedWageSharePct !== undefined ? `${negotiation.agreedWageSharePct}% av lönen` : undefined;
+  const clubDetail = negotiation?.agreedFeeEur !== undefined && !isLoan ? (isFreeAgent ? "Ingen klubb" : formatMoney(negotiation.agreedFeeEur)) : negotiation?.agreedWageSharePct !== undefined ? `${negotiation.agreedWageSharePct}% av lönen` : undefined;
   const steps: { label: string; detail?: string }[] = [
     { label: isFreeAgent && !isLoan ? "Fri agent" : isLoan ? "Ägarklubben" : "Klubben", detail: clubDetail },
     { label: isLoan ? "Speltiden" : "Spelaren", detail: stage === "COMPLETED" ? "Överens" : undefined },
     { label: isLoan ? "Lånet" : "Signering", detail: stage === "COMPLETED" ? "Klart" : undefined },
   ];
-  return (
-    <ol className="tc-stepper" aria-label="Förhandlingens steg">
-      {steps.map((step, index) => {
-        const s = state(index);
-        return (
-          <li key={step.label} data-state={s} aria-current={s === "current" ? "step" : undefined}>
-            <i aria-hidden="true">{s === "done" ? "✓" : s === "failed" ? "✕" : index + 1}</i>
-            <span>{step.label}</span>
-            <small>{step.detail ?? (s === "current" ? "Pågår" : s === "failed" ? "Stängd" : "")}</small>
-          </li>
-        );
-      })}
-    </ol>
-  );
+  // Shared ProgressSteps markup in Transfer Management's own tc-stepper skin.
+  return <ProgressSteps className="tc-stepper" label="Förhandlingens steg" steps={steps.map((step, index) => ({ ...step, state: state(index) as StepState }))} />;
 }
 
 function StatusBanner({ career, negotiation }: { career: Career; negotiation: TransferNegotiation }) {
@@ -232,17 +224,17 @@ function ClubParty({ career, negotiation, fromClubId, isLoan, playerId }: { care
   return (
     <aside className="tc-party" data-party="CLUB" data-agreed={agreed} aria-label="Klubben">
       <header>
-        {club ? <ClubCrest shortName={club.shortName} primaryColor={club.primaryColor} size={44} /> : <span className="tc-party-mark" aria-hidden="true">FA</span>}
+        {club ? <ClubCrest shortName={club.shortName} primaryColor={club.primaryColor} clubId={club.id} size={44} /> : <span className="tc-party-mark" aria-hidden="true">FA</span>}
         <div><small>{isLoan ? "Äger kontraktet" : club ? "Säljande klubb" : "Ingen klubb"}</small><h3>{club?.name ?? "Fri agent"}</h3></div>
         {agreed && <span className="tc-pill" data-tone="done">Överens</span>}
       </header>
       <div className="tc-panel-body">
-        <blockquote className="tc-stance" data-response={lastClub?.response}>{lastClub ? lastClub.reason : fromClubId ? "Klubben väntar på ert första besked." : "Spelaren saknar klubb -- ni förhandlar direkt med honom och hans agent."}</blockquote>
+        <blockquote className="tc-stance" data-response={lastClub?.response}>{lastClub ? localizeMoneyText(lastClub.reason) : fromClubId ? "Klubben väntar på ert första besked." : "Spelaren saknar klubb -- ni förhandlar direkt med honom och hans agent."}</blockquote>
         <Facts rows={[
           ["Kontrakt", contractStatus ? CONTRACT_STATUS_LABEL[contractStatus] : "—"],
           ["Avtal t.o.m.", contract?.contractEndDate ?? "—"],
-          ["Marknadsvärde", range ? (range.min === range.max ? formatEur(range.min) : `${formatEur(range.min)} – ${formatEur(range.max)}`) : "—"],
-          ...(negotiation?.agreedFeeEur !== undefined && !isLoan ? [["Överenskommen summa", formatEur(negotiation.agreedFeeEur)] as [string, ReactNode]] : []),
+          ["Marknadsvärde", range ? (range.min === range.max ? formatMoney(range.min) : `${formatMoney(range.min)} – ${formatMoney(range.max)}`) : "—"],
+          ...(negotiation?.agreedFeeEur !== undefined && !isLoan ? [["Överenskommen summa", formatMoney(negotiation.agreedFeeEur)] as [string, ReactNode]] : []),
           ...(negotiation?.agreedWageSharePct !== undefined ? [["Överenskommet lån", `${negotiation.agreedWageSharePct}% · till ${negotiation.loanEndDate}`] as [string, ReactNode]] : []),
         ]} />
         {rivals.length > 0 && (
@@ -271,12 +263,12 @@ function PlayerParty({ career, negotiation, playerId, isLoan }: { career: Career
         <div><small>Spelaren & agenten</small><h3>{player.firstName} {player.lastName}</h3></div>
       </header>
       <div className="tc-panel-body">
-        {lastPlayer ? <blockquote className="tc-stance" data-response={lastPlayer.response}>{lastPlayer.reason}</blockquote> : null}
-        {demand ? <div className="tc-demand"><small>Lönekrav</small><strong>{formatEur(demand)}<em>/mån</em></strong></div> : null}
+        {lastPlayer ? <blockquote className="tc-stance" data-response={lastPlayer.response}>{localizeMoneyText(lastPlayer.reason)}</blockquote> : null}
+        {demand ? <div className="tc-demand"><small>Lönekrav</small><strong>{formatMoney(demand)}<em>/mån</em></strong></div> : null}
         <Facts rows={[
-          ["Nuvarande lön", contract ? `${formatEur(contract.wageEurPerMonth)}/mån` : "—"],
+          ["Nuvarande lön", contract ? `${formatMoney(contract.wageEurPerMonth)}/mån` : "—"],
           ["Förväntad roll hos er", expected ? roleLabel(expected) : "Visas när förhandlingen öppnas"],
-          ...(isLoan ? [["Lön under lånet", "Enligt befintligt avtal"] as [string, ReactNode]] : [["Agentarvode", agentFee ? formatEur(agentFee) : "—"] as [string, ReactNode]]),
+          ...(isLoan ? [["Lön under lånet", "Enligt befintligt avtal"] as [string, ReactNode]] : [["Agentarvode", agentFee ? formatMoney(agentFee) : "—"] as [string, ReactNode]]),
         ]} />
         {breakdown.length > 0 ? (
           <div>
@@ -293,21 +285,21 @@ function PlayerParty({ career, negotiation, playerId, isLoan }: { career: Career
 
 function OfferTerms({ round }: { round: Pick<NegotiationRound, "offeredFeeEur" | "offeredWageEurPerMonth" | "contractYears" | "promisedSquadRole" | "signingBonusEur" | "offeredWageSharePct" | "loanEndDate" | "party"> }) {
   if (round.offeredWageSharePct !== undefined) return <div className="tc-terms"><span><small>Lönebidrag</small><b>{round.offeredWageSharePct}%</b></span><span><small>Till</small><b>{round.loanEndDate}</b></span></div>;
-  if (round.party === "CLUB") return <div className="tc-terms"><span><small>Övergångssumma</small><b>{formatEur(round.offeredFeeEur ?? 0)}</b></span></div>;
+  if (round.party === "CLUB") return <div className="tc-terms"><span><small>Övergångssumma</small><b>{formatMoney(round.offeredFeeEur ?? 0)}</b></span></div>;
   if (round.offeredWageEurPerMonth === undefined) return <div className="tc-terms"><span><small>Utlovad roll</small><b>{roleLabel(round.promisedSquadRole)}</b></span></div>;
   return (
     <div className="tc-terms">
-      <span><small>Lön</small><b>{formatEur(round.offeredWageEurPerMonth)}/mån</b></span>
+      <span><small>Lön</small><b>{formatMoney(round.offeredWageEurPerMonth)}/mån</b></span>
       <span><small>Längd</small><b>{round.contractYears} år</b></span>
       <span><small>Roll</small><b>{roleLabel(round.promisedSquadRole)}</b></span>
-      {round.signingBonusEur ? <span><small>Bonus</small><b>{formatEur(round.signingBonusEur)}</b></span> : null}
+      {round.signingBonusEur ? <span><small>Bonus</small><b>{formatMoney(round.signingBonusEur)}</b></span> : null}
     </div>
   );
 }
 
 function PartyMark({ party, clubId, player }: { party: "CLUB" | "PLAYER"; clubId: string; player: PlayerMock }) {
   const club = clubId ? getClub(clubId) : undefined;
-  if (party === "CLUB" && club) return <ClubCrest shortName={club.shortName} primaryColor={club.primaryColor} size={26} />;
+  if (party === "CLUB" && club) return <ClubCrest shortName={club.shortName} primaryColor={club.primaryColor} clubId={club.id} size={26} />;
   return <PlayerGlyph player={player} size={26} />;
 }
 
@@ -316,7 +308,7 @@ function Timeline({ career, negotiation, player }: { career: Career; negotiation
   const own = getClub(career.playerClubId);
   negotiation.rounds.forEach((round, i) => {
     if (round.party === "MARKET") {
-      items.push(<li key={`m${i}`} className="tc-card" data-side="market"><span className="tc-eyebrow">Marknaden · {round.date}</span><p>{round.reason}</p></li>);
+      items.push(<li key={`m${i}`} className="tc-card" data-side="market"><span className="tc-eyebrow">Marknaden · {round.date}</span><p>{localizeMoneyText(round.reason)}</p></li>);
       return;
     }
     const partyName = round.party === "CLUB" ? clubName(negotiation.fromClubId) : `${player.firstName} ${player.lastName}`;
@@ -330,10 +322,10 @@ function Timeline({ career, negotiation, player }: { career: Career; negotiation
           <span className="tc-card-from"><PartyMark party={round.party} clubId={negotiation.fromClubId} player={player} /><span className="tc-eyebrow">{partyName} · {round.date}</span></span>
           <span className="tc-stamp" data-response={round.response}>{RESPONSE_LABEL[round.response]}</span>
         </header>
-        <p>{round.reason}</p>
-        {round.counterFeeEur !== undefined && round.response === "COUNTER" && <div className="tc-counter"><span>Klubbens pris</span><strong>{formatEur(round.counterFeeEur)}</strong></div>}
+        <p>{localizeMoneyText(round.reason)}</p>
+        {round.counterFeeEur !== undefined && round.response === "COUNTER" && <div className="tc-counter"><span>Klubbens pris</span><strong>{formatMoney(round.counterFeeEur)}</strong></div>}
         {round.counterWageSharePct !== undefined && <div className="tc-counter"><span>Kräver lönebidrag</span><strong>{round.counterWageSharePct}%</strong></div>}
-        {round.counterWageEurPerMonth !== undefined && <div className="tc-counter"><span>Lönekrav</span><strong>{formatEur(round.counterWageEurPerMonth)}/mån</strong></div>}
+        {round.counterWageEurPerMonth !== undefined && <div className="tc-counter"><span>Lönekrav</span><strong>{formatMoney(round.counterWageEurPerMonth)}/mån</strong></div>}
       </li>,
     );
   });
@@ -402,15 +394,15 @@ function Decision({ negotiation, run, contractWage, contractEnd }: { negotiation
   // The one contextual "meet them" decision for the current counter, if any.
   let meet: { label: string; detail: string; action: NegotiationAction } | null = null;
   if (negotiation.stage === "CLUB" && lastClub?.response === "COUNTER") {
-    if (isLoan && lastClub.counterWageSharePct !== undefined) meet = { label: `Acceptera ${lastClub.counterWageSharePct}% lönebidrag`, detail: `Ni betalar ${formatEur(Math.round(contractWage * lastClub.counterWageSharePct / 100))}/mån av hans lön.`, action: { kind: "LOAN_TERMS", negotiationId: negotiation.id, wageSharePct: lastClub.counterWageSharePct, endDate: lastClub.loanEndDate ?? endDate } };
-    else if (lastClub.counterFeeEur !== undefined) meet = { label: `Betala klubbens pris: ${formatEur(lastClub.counterFeeEur)}`, detail: trainingComp > 0 ? `Plus utbildningsersättning ${formatEur(trainingComp)}.` : "Därefter förhandlar ni villkor med spelaren.", action: { kind: "FEE", negotiationId: negotiation.id, feeEur: lastClub.counterFeeEur } };
+    if (isLoan && lastClub.counterWageSharePct !== undefined) meet = { label: `Acceptera ${lastClub.counterWageSharePct}% lönebidrag`, detail: `Ni betalar ${formatMoney(Math.round(contractWage * lastClub.counterWageSharePct / 100))}/mån av hans lön.`, action: { kind: "LOAN_TERMS", negotiationId: negotiation.id, wageSharePct: lastClub.counterWageSharePct, endDate: lastClub.loanEndDate ?? endDate } };
+    else if (lastClub.counterFeeEur !== undefined) meet = { label: `Betala klubbens pris: ${formatMoney(lastClub.counterFeeEur)}`, detail: trainingComp > 0 ? `Plus utbildningsersättning ${formatMoney(trainingComp)}.` : "Därefter förhandlar ni villkor med spelaren.", action: { kind: "FEE", negotiationId: negotiation.id, feeEur: lastClub.counterFeeEur } };
   }
   if (negotiation.stage === "PLAYER" && lastPlayer?.response === "COUNTER") {
     if (isLoan) {
       const wanted = SQUAD_STATUS_TIERS[Math.max(0, SQUAD_STATUS_TIERS.indexOf(expected) + 1)];
       meet = { label: `Lova rollen ${roleLabel(wanted).toLowerCase()}`, detail: "Rollen sätts i truppen när han anländer.", action: { kind: "TERMS", negotiationId: negotiation.id, terms: { wageEurPerMonth: contractWage, contractYears: 1, promisedSquadRole: wanted } } };
     } else if (lastPlayer.counterWageEurPerMonth !== undefined) {
-      meet = { label: `Möt lönekravet: ${formatEur(lastPlayer.counterWageEurPerMonth)}/mån`, detail: `${lastPlayer.contractYears ?? years} år · ${roleLabel(lastPlayer.promisedSquadRole ?? role).toLowerCase()} · vid signering ${formatEur((negotiation.agreedFeeEur ?? 0) + trainingComp + agentFee + (lastPlayer.signingBonusEur ?? 0))}.`, action: { kind: "TERMS", negotiationId: negotiation.id, terms: { wageEurPerMonth: lastPlayer.counterWageEurPerMonth, contractYears: lastPlayer.contractYears ?? years, promisedSquadRole: lastPlayer.promisedSquadRole ?? role, signingBonusEur: lastPlayer.signingBonusEur ?? 0 } } };
+      meet = { label: `Möt lönekravet: ${formatMoney(lastPlayer.counterWageEurPerMonth)}/mån`, detail: `${lastPlayer.contractYears ?? years} år · ${roleLabel(lastPlayer.promisedSquadRole ?? role).toLowerCase()} · vid signering ${formatMoney((negotiation.agreedFeeEur ?? 0) + trainingComp + agentFee + (lastPlayer.signingBonusEur ?? 0))}.`, action: { kind: "TERMS", negotiationId: negotiation.id, terms: { wageEurPerMonth: lastPlayer.counterWageEurPerMonth, contractYears: lastPlayer.contractYears ?? years, promisedSquadRole: lastPlayer.promisedSquadRole ?? role, signingBonusEur: lastPlayer.signingBonusEur ?? 0 } } };
     }
   }
 
@@ -438,20 +430,20 @@ function Decision({ negotiation, run, contractWage, contractEnd }: { negotiation
             : { kind: "TERMS", negotiationId: negotiation.id, terms: { wageEurPerMonth: isLoan ? contractWage : wage, contractYears: isLoan ? 1 : years, promisedSquadRole: role, signingBonusEur: isLoan ? 0 : bonus } },
         ); }}>
           {meet && <div className="tc-eyebrow tc-form-title">{title}</div>}
-          {negotiation.stage === "CLUB" && !isLoan && <label>Övergångssumma (€)<input className="tc-input" type="number" min={0} step={500} value={fee} onChange={(e) => setFee(Number(e.target.value))} /></label>}
+          {negotiation.stage === "CLUB" && !isLoan && <label>Övergångssumma ({currencySymbol()})<MoneyInput className="tc-input" minEur={0} stepEur={500} valueEur={fee} onChangeEur={setFee} /></label>}
           {negotiation.stage === "CLUB" && isLoan && <>
             <label>Lönebidrag ni betalar (%)<input className="tc-input" type="number" min={0} max={100} step={5} value={share} onChange={(e) => setShare(Number(e.target.value))} /></label>
             <label>Lånet slutar<input className="tc-input" type="date" value={endDate} max={contractEnd} onChange={(e) => setEndDate(e.target.value)} /></label>
-            <p className="tc-offer-hint">Ni betalar {formatEur(Math.round(contractWage * share / 100))}/mån av hans {formatEur(contractWage)}/mån. Avtalet och resten av lönen stannar hos ägarklubben.</p>
+            <p className="tc-offer-hint">Ni betalar {formatMoney(Math.round(contractWage * share / 100))}/mån av hans {formatMoney(contractWage)}/mån. Avtalet och resten av lönen stannar hos ägarklubben.</p>
           </>}
           {negotiation.stage === "PLAYER" && !isLoan && <>
-            <label>Lön (€/mån)<input className="tc-input" type="number" min={0} step={10} value={wage} onChange={(e) => setWage(Number(e.target.value))} /></label>
+            <label>Lön ({currencySymbol()}/mån)<MoneyInput className="tc-input" minEur={0} stepEur={10} valueEur={wage} onChangeEur={setWage} /></label>
             <label>Kontraktslängd<select className="tc-input" value={years} onChange={(e) => setYears(Number(e.target.value))}>{[1, 2, 3, 4, 5].map((y) => <option key={y} value={y}>{y} år</option>)}</select></label>
-            <label>Signeringsbonus (€)<input className="tc-input" type="number" min={0} step={500} value={bonus} onChange={(e) => setBonus(Number(e.target.value))} /></label>
+            <label>Signeringsbonus ({currencySymbol()})<MoneyInput className="tc-input" minEur={0} stepEur={500} valueEur={bonus} onChangeEur={setBonus} /></label>
           </>}
           {negotiation.stage === "PLAYER" && <label>Utlovad roll<select className="tc-input" value={role} onChange={(e) => setRole(e.target.value as SquadStatusTier)}>{SQUAD_STATUS_TIERS.map((t) => <option key={t} value={t}>{SQUAD_STATUS_TIER_LABEL_SV[t]}{t === expected ? " (förväntad)" : ""}</option>)}</select></label>}
-          {negotiation.stage === "PLAYER" && !isLoan && <p className="tc-offer-hint">Vid signering betalar ni <b>{formatEur(upfront)}</b>: övergångssumma, utbildningsersättning, agentarvode {formatEur(agentFee)}{bonus ? " och bonus" : ""}. Bonusen räknas av spelaren som lön utslagen över kontraktet. Den utlovade rollen följer med avtalet.</p>}
-          {negotiation.stage === "CLUB" && !isLoan && <p className="tc-offer-hint">Hela affären kostar <b>{formatEur(fee + trainingComp + agentFee)}</b>: övergångssumma{trainingComp > 0 ? `, utbildningsersättning ${formatEur(trainingComp)}` : ""} och agentarvode {formatEur(agentFee)}. Transferbudget {formatEur(Math.round(budgetEur))}.</p>}
+          {negotiation.stage === "PLAYER" && !isLoan && <p className="tc-offer-hint">Vid signering betalar ni <b>{formatMoney(upfront)}</b>: övergångssumma, utbildningsersättning, agentarvode {formatMoney(agentFee)}{bonus ? " och bonus" : ""}. Bonusen räknas av spelaren som lön utslagen över kontraktet. Den utlovade rollen följer med avtalet.</p>}
+          {negotiation.stage === "CLUB" && !isLoan && <p className="tc-offer-hint">Hela affären kostar <b>{formatMoney(fee + trainingComp + agentFee)}</b>: övergångssumma{trainingComp > 0 ? `, utbildningsersättning ${formatMoney(trainingComp)}` : ""} och agentarvode {formatMoney(agentFee)}. Transferbudget {formatMoney(Math.round(budgetEur))}.</p>}
           <div className="tc-decision-actions" style={{ gridColumn: "1 / -1" }}>
             <button type="submit" className={meet ? "hm-btn" : "hm-btn hm-btn-primary tc-cta"}>{negotiation.stage === "CLUB" ? "Lägg budet" : "Lägg fram villkoren"}</button>
             {withdraw}

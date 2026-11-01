@@ -9,11 +9,13 @@ import { useCareer } from "@/lib/career/CareerContext";
 import { getCareerClub, getCareerSquad } from "@/lib/career/careerWorld";
 import { getPlayerClubPosition } from "@/lib/career/standings";
 import { getClubEconomySnapshot } from "@/lib/economy/clubEconomyIntegration";
-import { formatEur } from "@/lib/economy/currency";
+import { formatMoney } from "@/lib/economy/currency";
+import { useMoney } from "@/lib/settings/usePreferences";
 import { ECONOMIC_BAND_LABEL, FINANCIAL_PRESSURE_LABEL, FINANCIAL_PRESSURE_TONE, LIQUIDITY_HEALTH_LABEL, STRUCTURAL_HEALTH_LABEL } from "@/lib/economy/clubEconomyLabels";
 import { getClubPartnerships } from "@/lib/career/clubPartnerships";
 
 export default function ClubPage() {
+  useMoney(); // re-render every figure when the display currency changes
   const { career } = useCareer();
   const club = getCareerClub(career);
   const squad = getCareerSquad(career);
@@ -59,22 +61,22 @@ export default function ClubPage() {
           <>
             <div className="hm-panel-body" style={{ display: "flex", flexDirection: "column", gap: 6 }}>
               <div className="hm-eyebrow">{ECONOMIC_BAND_LABEL[economy.band].split(' · ')[1]}</div>
-              <FinanceRow label="Återkommande intäkter / år" value={formatEur(economy.recurringRevenueEur)} />
-              <FinanceRow label="· Kommersiellt" value={formatEur(economy.revenue.commercialRevenueEur)} />
-              <FinanceRow label="· Media/central" value={formatEur(economy.revenue.mediaRevenueEur)} />
-              <FinanceRow label="· Matchdag" value={formatEur(economy.revenue.matchdayRevenueEur)} />
-              <FinanceRow label="· Sportsligt/cup" value={formatEur(economy.revenue.sportingRevenueEur)} />
-              <FinanceRow label="· Övrigt" value={formatEur(economy.revenue.otherRevenueEur)} />
+              <FinanceRow label="Återkommande intäkter / år" value={formatMoney(economy.recurringRevenueEur)} />
+              <FinanceRow label="· Kommersiellt" value={formatMoney(economy.revenue.commercialRevenueEur)} />
+              <FinanceRow label="· Media/central" value={formatMoney(economy.revenue.mediaRevenueEur)} />
+              <FinanceRow label="· Matchdag" value={formatMoney(economy.revenue.matchdayRevenueEur)} />
+              <FinanceRow label="· Sportsligt/cup" value={formatMoney(economy.revenue.sportingRevenueEur)} />
+              <FinanceRow label="· Övrigt" value={formatMoney(economy.revenue.otherRevenueEur)} />
               <div className="hm-divider" />
-              <FinanceRow label="Kassa / likviditet" value={formatEur(economy.cashEur)} />
-              {economy.ownerFundingEur > 0 ? <FinanceRow label="Ägarstöd (separat från intäkter)" value={formatEur(economy.ownerFundingEur)} /> : null}
+              <FinanceRow label="Kassa / likviditet" value={formatMoney(economy.cashEur)} />
+              {economy.ownerFundingEur > 0 ? <FinanceRow label="Ägarstöd (separat från intäkter)" value={formatMoney(economy.ownerFundingEur)} /> : null}
               <div className="hm-divider" />
-              <FinanceRow label="Spelarlöner / år" value={formatEur(economy.playerWageCostsEurAnnual)} warn={economy.budgets.wageOverBudget} />
-              <FinanceRow label="Lönebudget / år" value={formatEur(economy.budgets.wageBudgetEur)} />
-              <FinanceRow label="Personalkostnader / år" value={formatEur(economy.staffCostsEurAnnual)} />
-              <FinanceRow label="Personalbudget / år" value={formatEur(economy.budgets.staffBudgetEur)} />
-              <FinanceRow label="Transferbudget" value={formatEur(economy.budgets.transferBudgetEur)} />
-              <FinanceRow label="Akademibudget / år" value={formatEur(economy.budgets.academyBudgetEur)} />
+              <FinanceRow label="Spelarlöner / år" value={formatMoney(economy.playerWageCostsEurAnnual)} warn={economy.budgets.wageOverBudget} />
+              <FinanceRow label="Lönebudget / år" value={formatMoney(economy.budgets.wageBudgetEur)} />
+              <FinanceRow label="Personalkostnader / år" value={formatMoney(economy.staffCostsEurAnnual)} />
+              <FinanceRow label="Personalbudget / år" value={formatMoney(economy.budgets.staffBudgetEur)} />
+              <FinanceRow label="Transferbudget" value={formatMoney(economy.budgets.transferBudgetEur)} />
+              <FinanceRow label="Akademibudget / år" value={formatMoney(economy.budgets.academyBudgetEur)} />
               <div className="hm-divider" />
               <FinanceRow label="Likviditet" value={LIQUIDITY_HEALTH_LABEL[economy.health.liquidityHealth]} />
               <FinanceRow label="Struktur" value={STRUCTURAL_HEALTH_LABEL[economy.health.structuralHealth]} />

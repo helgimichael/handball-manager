@@ -12,7 +12,7 @@ test("every primary nav item exists exactly once (no duplicate id or href)", () 
 test("nav order is deterministic and matches the approved information architecture (Spec §21)", () => {
   assert.deepEqual(
     CAREER_NAV_ITEMS.map((i) => i.id),
-    ["home", "inbox", "squad", "contracts", "tactics", "training", "calendar", "schedule", "analysis", "players", "scouting", "recruitment", "transfers", "staff", "medical", "club", "competitions", "statistics", "history"],
+    ["home", "inbox", "squad", "contracts", "tactics", "training", "calendar", "schedule", "analysis", "players", "scouting", "recruitment", "transfers", "staff", "medical", "club", "competitions", "statistics", "history", "settings"],
   );
 });
 

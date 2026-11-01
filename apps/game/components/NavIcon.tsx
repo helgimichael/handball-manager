@@ -14,7 +14,8 @@ export type NavIconName =
   | "competitions"
   | "analysis"
   | "editor"
-  | "medical";
+  | "medical"
+  | "settings";
 
 const PATHS: Record<NavIconName, string> = {
   home: "M2 7L8 2l6 5v6.5a.5.5 0 0 1-.5.5H10v-4H6v4H2.5a.5.5 0 0 1-.5-.5V7z",
@@ -33,6 +34,8 @@ const PATHS: Record<NavIconName, string> = {
   analysis: "M2 13.5V8.5 M6 13.5V5 M10 13.5V9.5 M14 13.5V3",
   editor: "M10.5 2.5l3 3-8 8H2.5v-3zM9 4l3 3",
   medical: "M6.5 2h3v4.5H14v3H9.5V14h-3V9.5H2v-3h4.5z",
+  // three sliders: the preference controls
+  settings: "M2 4h12 M2 8h12 M2 12h12 M5 2.5v3 M10.5 6.5v3 M7 10.5v3",
 };
 
 export default function NavIcon({ name }: { name: NavIconName }) {

@@ -57,6 +57,8 @@ export const CAREER_NAV_ITEMS: readonly CareerNavItem[] = [
   { id: "competitions", label: "Tävlingar", href: "/career/competitions", icon: "competitions", ownsPrefixes: ["/career/competitions/"] },
   { id: "statistics", label: "Statistik", href: "/career/statistics", icon: "analysis", ownsPrefixes: [] },
   { id: "history", label: "Historik", href: "/career/history", icon: "schedule", ownsPrefixes: [] },
+  // HM-ALPHA3-M01: device preferences (display currency). Not career state.
+  { id: "settings", label: "Inställningar", href: "/career/settings", icon: "settings", ownsPrefixes: [] },
 ];
 
 /** The one primary nav item `pathname` belongs to, or `undefined` for a route no primary area owns (e.g. the dev-only /career/match-center demo, or /editor). Never returns more than one id -- exact-href match wins first, then the longest matching owns-prefix, so a route can never highlight two primary sections at once (Spec §23). */

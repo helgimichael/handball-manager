@@ -11,7 +11,8 @@ import { getAttributeLabel } from '@/lib/rating/attributeVocabulary';
 import type { OutcourtAttribute, GoalkeeperAttribute } from '@/lib/rating/types';
 import { playerAgeAtDate } from '@/lib/development/developmentIntegration';
 import { averageRating, emptyPlayerSeasonStats } from '@/lib/career/types';
-import { formatEur } from '@/lib/economy/currency';
+import { formatMoney } from '@/lib/economy/currency';
+import { useMoney } from '@/lib/settings/usePreferences';
 import { PlayerLink, ClubLink } from '@/components/entityLinks';
 import { getClub } from '@/lib/game-data';
 import PlayerActions from '@/components/manager/PlayerActions';
@@ -28,6 +29,7 @@ const RELEVANT: Record<string, string[]> = {
 };
 export default function ComparePage() { return <Suspense fallback={<EmptyState>Läser jämförelse…</EmptyState>}><Comparison /></Suspense>; }
 function Comparison() {
+  useMoney(); // re-render every figure when the display currency changes
   const { career } = useCareer();
   const params = useSearchParams();
   const router = useRouter();
@@ -61,7 +63,7 @@ function Comparison() {
       {row('Snittbetyg', values.map(v => v && v.stats.appearances ? averageRating(v.stats).toFixed(1) : null))}
       {row('Energi', values.map(v => v?.own ? `${Math.round(squadEnergy(career, v.player))}%` : null))}
       {row('Avtal till', values.map(v => v?.contract?.contractEndDate))}
-      {row('Lön / månad', values.map(v => v?.contract ? formatEur(v.contract.wageEurPerMonth) : null))}
+      {row('Lön / månad', values.map(v => v?.contract ? formatMoney(v.contract.wageEurPerMonth) : null))}
     </tbody></table></Panel>
     <Panel title={`Egenskaper för ${left?.position ?? 'rollen'}${right && right.position !== left?.position ? ` / ${right.position}` : ''}`}><div className="hm-panel-body hm-text-muted">Egna spelare visar egenskaper på 1–20. Externa spelare jämförs genom scoutens styrkor och utvecklingsområden ovan.</div><table className="hm-table hm-compare-table"><tbody>{keys.map(key => row(getAttributeLabel(key as OutcourtAttribute | GoalkeeperAttribute), values.map(v => v?.own ? (v.rating?.branch.attributes as Record<string, { value: number }> | undefined)?.[key]?.value : null)))}</tbody></table></Panel>
     <div className="hm-comparison-select">{sides.map((p, i) => <div key={i}>{p && <PlayerActions player={p} />}</div>)}</div>

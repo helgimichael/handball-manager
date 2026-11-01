@@ -22,7 +22,8 @@ import { getFreeAgents } from "@/lib/career/contractExpiry";
 import { getCareerPlayerRating } from "@/lib/career/careerRatingNormalization";
 import { isTransferWindowOpen, nextTransferWindowOpenDate } from "@/lib/transfers/transferWindow";
 import { playerAgeAtDate } from "@/lib/development/developmentIntegration";
-import { formatEur } from "@/lib/economy/currency";
+import { formatMoney, localizeMoneyText } from "@/lib/economy/currency";
+import { useMoney } from "@/lib/settings/usePreferences";
 import { CONTRACT_STATUS_LABEL, CONTRACT_STATUS_TONE } from "@/lib/economy/labels";
 import { getPlayerContract, getPlayerContractStatus, getPlayerMarketValueEur } from "@/lib/economy/contractIntegration";
 import { getClub, positionLabel, type Club, type HandballPosition, type PlayerMock } from "@/lib/game-data";
@@ -63,7 +64,7 @@ function valueRangeLabel(career: CareerState, player: PlayerMock): string {
   const value = getPlayerMarketValueEur(career, player.id);
   if (value === undefined) return "—";
   const range = resolveMarketValueRange(value, getPlayerKnowledgePct(career, player.id, player.clubId));
-  return range.min === range.max ? formatEur(range.min) : `${formatEur(range.min)} – ${formatEur(range.max)}`;
+  return range.min === range.max ? formatMoney(range.min) : `${formatMoney(range.min)} – ${formatMoney(range.max)}`;
 }
 
 function NegotiationPill({ summary }: { summary?: NegotiationSummary }) {
@@ -74,6 +75,7 @@ function NegotiationPill({ summary }: { summary?: NegotiationSummary }) {
 }
 
 function TransferCentre() {
+  useMoney(); // re-render every figure when the display currency changes
   const params = useSearchParams();
   const { career, addToShortlist, removeFromShortlist } = useCareer();
   const [tab, setTab] = useState<Tab>("OPPORTUNITIES");
@@ -120,13 +122,13 @@ function TransferCentre() {
           <h2>{yourMove > 0 ? `${yourMove} förhandling${yourMove > 1 ? "ar" : ""} väntar på ditt drag` : negotiations.length > 0 ? `${negotiations.length} pågående förhandling${negotiations.length > 1 ? "ar" : ""}` : urgentNeeds.length > 0 ? `Akut behov: ${urgentNeeds.join(", ")}` : "Hitta nästa förstärkning"}</h2>
           <p>{windowOpen ? "Överenskomna övergångar registreras direkt." : "Överenskommelser registreras när fönstret öppnar. Lån startar direkt."} {opportunities.length > 0 ? `${opportunities.length} realistiska möjligheter på positioner ni behöver.` : ""}</p>
         </div>
-        <div className="tc-stat"><small>Kassa</small><strong>{finance ? formatEur(finance.cashEur) : "—"}</strong></div>
+        <div className="tc-stat"><small>Kassa</small><strong>{finance ? formatMoney(finance.cashEur) : "—"}</strong></div>
         <div className="tc-stat">
-          <small>Transferbudget</small><strong>{finance ? formatEur(finance.transferBudgetEur) : "—"}</strong>
-          {finance && finance.committedEur > 0 && <span className="tc-stat-meter" aria-label={`${formatEur(finance.committedEur)} bundet i affärer`}><i style={{ width: `${Math.min(100, Math.round(finance.committedEur / Math.max(1, finance.transferBudgetEur + finance.committedEur) * 100))}%` }} /></span>}
+          <small>Transferbudget</small><strong>{finance ? formatMoney(finance.transferBudgetEur) : "—"}</strong>
+          {finance && finance.committedEur > 0 && <span className="tc-stat-meter" aria-label={`${formatMoney(finance.committedEur)} bundet i affärer`}><i style={{ width: `${Math.min(100, Math.round(finance.committedEur / Math.max(1, finance.transferBudgetEur + finance.committedEur) * 100))}%` }} /></span>}
         </div>
-        <div className="tc-stat" data-tone={finance && finance.wageRoomEurPerMonth < 0 ? "warning" : undefined}><small>Löneutrymme / mån</small><strong>{finance ? formatEur(Math.round(finance.wageRoomEurPerMonth)) : "—"}</strong></div>
-        <div className="tc-stat"><small>Bundet i affärer</small><strong>{finance ? formatEur(finance.committedEur) : "—"}</strong></div>
+        <div className="tc-stat" data-tone={finance && finance.wageRoomEurPerMonth < 0 ? "warning" : undefined}><small>Löneutrymme / mån</small><strong>{finance ? formatMoney(Math.round(finance.wageRoomEurPerMonth)) : "—"}</strong></div>
+        <div className="tc-stat"><small>Bundet i affärer</small><strong>{finance ? formatMoney(finance.committedEur) : "—"}</strong></div>
       </section>
 
       {urgent.length > 0 && (
@@ -247,7 +249,7 @@ function TransferCentre() {
               return (
                 <Link key={`${negotiation.id}:${round.date}:${i}`} className="tc-response" data-response={round.response} data-party={round.party} href={`/career/transfers/${encodeURIComponent(negotiation.playerId)}`} style={{ color: "inherit", textDecoration: "none" }}>
                   <header><span>{round.party === "CLUB" ? "Klubben" : round.party === "PLAYER" ? "Spelaren" : "Marknaden"} · {p ? `${p.firstName} ${p.lastName}` : ""}</span><span>{round.date}</span></header>
-                  <p>{round.reason}</p>
+                  <p>{localizeMoneyText(round.reason)}</p>
                 </Link>
               );
             })}
@@ -299,7 +301,7 @@ function Dossier({ career, player, onShortlist, onClose }: { career: CareerState
           <div><dt>Avtalet ägs av</dt><dd>{status?.ownerClubId ? <ClubLink clubId={status.ownerClubId}>{getClub(status.ownerClubId)?.shortName ?? status.ownerClubId}</ClubLink> : "Fri agent"}</dd></div>
           {status?.loan && <div><dt>Spelar för</dt><dd>{getClub(status.loan.borrowingClubId)?.shortName} (lån till {status.loan.endDate})</dd></div>}
           <div><dt>Kontrakt</dt><dd>{status?.contractStatus ? CONTRACT_STATUS_LABEL[status.contractStatus] : "—"}{contract ? ` · t.o.m. ${contract.contractEndDate}` : ""}</dd></div>
-          <div><dt>Lön</dt><dd>{contract ? `${formatEur(contract.wageEurPerMonth)}/mån` : "—"}</dd></div>
+          <div><dt>Lön</dt><dd>{contract ? `${formatMoney(contract.wageEurPerMonth)}/mån` : "—"}</dd></div>
           <div><dt>Marknadsvärde</dt><dd>{valueRangeLabel(career, player)}</dd></div>
           {status && status.interestedClubIds.length > 0 && <div><dt>Konkurrerande intresse</dt><dd>{status.interestedClubIds.map((id) => getClub(id)?.shortName ?? id).join(", ")}</dd></div>}
           {status?.managerNegotiation && <div><dt>Er förhandling</dt><dd><NegotiationPill summary={status.managerNegotiation} /></dd></div>}
@@ -328,7 +330,7 @@ function RecentDeals({ career }: { career: CareerState }) {
       {deals.length === 0 ? <div className="tc-empty">Inga affärer registrerade i karriären.</div> : deals.map((offer) => (
         <div key={offer.id} className="tc-response">
           <header><span>{offer.toClubId === career.playerClubId ? "In" : "Ut"} · {offer.dealType === "LOAN" ? "Lån" : "Övergång"}</span><span>{offer.resolvedDate ?? offer.offeredDate}</span></header>
-          <p><PlayerLink playerId={offer.playerId}>{getCareerPlayer(career, offer.playerId)?.lastName ?? offer.playerId}</PlayerLink> · {offer.fromClubId ? getClub(offer.fromClubId)?.shortName ?? offer.fromClubId : "Fri agent"} → {getClub(offer.toClubId)?.shortName ?? offer.toClubId} · {formatEur(offer.transferFeeEur)} · {OFFER_STATUS_LABEL[offer.status]}</p>
+          <p><PlayerLink playerId={offer.playerId}>{getCareerPlayer(career, offer.playerId)?.lastName ?? offer.playerId}</PlayerLink> · {offer.fromClubId ? getClub(offer.fromClubId)?.shortName ?? offer.fromClubId : "Fri agent"} → {getClub(offer.toClubId)?.shortName ?? offer.toClubId} · {formatMoney(offer.transferFeeEur)} · {OFFER_STATUS_LABEL[offer.status]}</p>
         </div>
       ))}
     </section>
