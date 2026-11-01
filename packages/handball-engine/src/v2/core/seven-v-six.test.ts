@@ -7,6 +7,7 @@ import { createMatch } from './match';
 import { advanceCoreMutable, assertCore } from './engine';
 import { courtPlayers, type CoreState } from './state';
 import { coachingBefore, setTactics, sevenVSixMode, sevenVSixWanted, type SevenVSixMode } from './coaching';
+import { changePossession } from './transitions';
 
 function running(mode?:SevenVSixMode):CoreState {
   const s=createMatch(4,'TOP',1800000,0);
@@ -76,4 +77,21 @@ test('OFF never leaves the goal, and switching off mid-attack brings the keeper 
   assert.ok(keeperOn(s),'the keeper is back');
   assert.equal(s.flow.sevenVTeam,null);
   assert.equal(fieldOn(s),6);
+});
+
+test('losing the ball before the seventh player is on calls the change off and keeps the goal covered',()=>{
+  // HM-ALPHA2-04E: the exchange used to complete regardless, so the seventh
+  // player entered while defending and the goal stayed empty until he left again.
+  const s=running('ALWAYS');
+  for(let i=0;i<14000&&!s.exchanges.some(e=>e.team==='HOME'&&e.phase==='WAIT_EXIT'&&s.players.find(p=>p.id===e.outId)?.kind==='GOALKEEPER');i++)advanceCoreMutable(s);
+  const change=s.exchanges.find(e=>e.team==='HOME'&&e.phase==='WAIT_EXIT')!;
+  assert.ok(change,'a 7v6 change is under way');
+  const keeperId=change.outId!;
+  changePossession(s,courtPlayers(s,'AWAY').find(p=>p.kind==='FIELD_PLAYER')!,'Staged loss of the ball mid-change');
+  s.coaching.HOME.sevenVSix='OFF';
+  let seventhWhileDefending=0;
+  for(let i=0;i<400;i++){advanceCoreMutable(s);assertCore(s);if(s.possession.team==='AWAY'&&s.flow.sevenVTeam==='HOME')seventhWhileDefending++;}
+  assert.equal(change.phase,'CANCELLED');
+  assert.equal(seventhWhileDefending,0,'no seventh court player enters while defending');
+  assert.equal(s.players.find(p=>p.id===keeperId)!.population,'COURT','the keeper stays in his goal');
 });

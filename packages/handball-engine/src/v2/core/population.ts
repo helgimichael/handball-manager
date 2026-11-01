@@ -1,6 +1,7 @@
 import { actionAvailable,courtPlayers,getPlayer,otherTeam,record,uid,type CoreState,type TeamId } from './state';
 import { startAction } from './actions';
 import { distance } from './space';
+import { interrupt } from './transitions';
 
 export function exchangeActive(s:CoreState,id:string){return s.exchanges.some(e=>e.phase!=='COMPLETED'&&e.phase!=='CANCELLED'&&(e.outId===id||e.inId===id));}
 export function courtLimit(s:CoreState,team:TeamId){return 7-s.players.filter(p=>p.team===team&&(p.population==='SUSPENDED'||p.population==='DISQUALIFIED'&&p.suspensionUntilMs!==null&&s.officialClock.timeMs<p.suspensionUntilMs)).length;}
@@ -29,6 +30,18 @@ export function populationBefore(s:CoreState) {
   for(const team of ['HOME','AWAY'] as const) {
     const medical=courtPlayers(s,team).find(p=>p.condition.exitRequired);
     if(medical){const replacement=s.players.filter(p=>p.team===team&&p.population==='BENCH'&&p.kind===medical.kind&&!p.condition.unavailable&&!p.condition.exitRequired&&!p.condition.attacksRemaining).sort((a,b)=>Number(b.role===medical.role)-Number(a.role===medical.role)||a.id.localeCompare(b.id))[0];if(replacement)requestExchange(s,team,medical.id,replacement.id);}
+    // A 7v6 change that has not happened yet is called off when the ball is
+    // lost. Completing it sent the seventh player on while defending, then off
+    // again before the keeper could return, with the goal empty throughout.
+    const defending=s.possession.team!==team||s.restart?.kind==='GOALKEEPER_THROW'&&s.restart.owner===team;
+    const sevenEntry=s.exchanges.find(e=>e.team===team&&e.phase!=='COMPLETED'&&e.phase!=='CANCELLED'&&!!e.outId&&
+      getPlayer(s,e.outId).kind==='GOALKEEPER'&&getPlayer(s,e.inId).kind==='FIELD_PLAYER');
+    if(defending&&sevenEntry&&getPlayer(s,sevenEntry.inId).population==='BENCH') {
+      const goalkeeper=getPlayer(s,sevenEntry.outId!);
+      sevenEntry.phase='CANCELLED';record(s,'EXCHANGE_CANCELLED',goalkeeper,{exchangeId:sevenEntry.id,reason:'Possession lost before the seventh court player entered'});
+      if(goalkeeper.population==='COURT'){if(goalkeeper.action?.kind==='EXCHANGE')interrupt(s,goalkeeper,'Stay in goal: possession lost before the 7v6 change');}
+      else requestExchange(s,team,null,goalkeeper.id);
+    }
     // The seventh player is the one on court: an earlier extra keeps role P2 on
     // the bench, and finding him instead left the goal empty while defending.
     const keeper=s.players.find(p=>p.team===team&&p.kind==='GOALKEEPER'&&p.population==='BENCH'&&!p.condition.unavailable),extra=courtPlayers(s,team).find(p=>p.role==='P2'&&p.kind==='FIELD_PLAYER');
