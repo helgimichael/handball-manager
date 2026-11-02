@@ -30,6 +30,9 @@ import type { CpuDecisionLogEntry, CpuRecruitmentPlan } from "./cpuRecruitment";
 import type { ScoutPoolSourceEntry } from "../staff/scoutPool";
 import type { BudgetPlan, ClubFinanceState } from "../economy/ledgerTypes";
 import type { CompetitionTie, SeasonOutcome } from "../competition/types";
+import type { StaffMarketState } from "../staff/staffMarket";
+import type { StaffNegotiation } from "../staff/staffNegotiation";
+import type { StaffRole } from "../staff/types";
 
 /** HM-PRESEASON-1.0: LEAGUE (a simulated league), CUP (the provisional early cup round -- see preseason.ts -- and, from HM-ALPHA3-M03, Svenska cupen ties), or FRIENDLY (manager-booked, never affects standings/season completion). HM-ALPHA3-M03: PLAYOFF (SM-slutspel) and QUALIFIER (kval) games. Only LEAGUE fixtures ever feed a table. */
 export type CareerFixtureType = "LEAGUE" | "CUP" | "FRIENDLY" | "PLAYOFF" | "QUALIFIER";
@@ -518,6 +521,14 @@ export type CareerState = {
   competitionTies?: Record<string, CompetitionTie>;
   /** HM-ALPHA3-M03: the current season's competitive state -- phase, winners, promotion/relegation, awards. */
   seasonOutcome?: SeasonOutcome;
+  // --- HM-ALPHA3-M04: staff market, knowledge, negotiations (lib/staff) ---
+  staffMarket?: StaffMarketState;
+  /** Researched knowledge (0-100) of people outside the club. */
+  staffKnowledge?: Record<string, number>;
+  staffResearch?: Record<string, { startedOn: string; readyOn: string; byStaffId: string }>;
+  staffNegotiations?: Record<string, StaffNegotiation>;
+  /** Recent appointments and departures for Moments and the organisation timeline. */
+  staffAppointments?: { staffId: string; clubId: string; role: StaffRole; date: string; kind: "APPOINTED" | "RENEWED" | "LEFT" | "DISMISSED" }[];
 
   // --- HM-TRANSFERS-1.0 addition (career-state schema v24, see saveMigration.ts) ---
 

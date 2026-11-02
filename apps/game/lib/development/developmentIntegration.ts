@@ -11,6 +11,7 @@ import { effectiveTrainingLoadSetting } from "../medical/availability";
 import { PLACEMENT_RELATION_QUALITY_MULTIPLIER, computeMatchAttributeStimulus, computePlacementAttributeStimulus, computeSessionAttributeStimulus } from "./developmentStimulus";
 import { applyResolvedAttributeChanges, pushDevelopmentEvent, resolveAttributeForWeek } from "./developmentResolution";
 import type { DevelopableAttribute, IndividualDevelopmentFocus, PlayerDevelopmentState } from "./types";
+import { academyDevelopmentFactor } from "../staff/organisation";
 
 function emptyDevelopmentState(playerId: string): PlayerDevelopmentState {
   return { playerId, attributeStimulus: {}, attributeQualityWeightedSum: {}, attributeProgress: {}, lastDevelopmentDate: null, developmentHistory: [] };
@@ -228,7 +229,8 @@ export function resolveWeeklyDevelopmentIfDue(state: CareerState, date: string):
       // across every session that contributed to THIS attribute this
       // week -- affects conversion efficiency only, never participation.
       const qualitySum = dev.attributeQualityWeightedSum[attr as DevelopableAttribute] ?? raw;
-      const coachingQualityMultiplier = qualitySum / raw;
+      // HM-ALPHA3-M04: a head of academy / development coach speeds up players aged 21 or younger (neutral without them).
+      const coachingQualityMultiplier = (qualitySum / raw) * (age !== null && age <= 21 ? academyDevelopmentFactor(state, state.playerClubId) : 1);
       const result = resolveAttributeForWeek(branch, attrEntry.value, rating.ca, rating.pa, nextProgress[attr as DevelopableAttribute] ?? 0, {
         attribute: attr as DevelopableAttribute,
         rawStimulus: raw,

@@ -8,6 +8,7 @@
 import { writeFileSync } from "node:fs";
 import { createNewCareerState } from "../lib/career/newCareer";
 import { snapshotGameplayRatings, snapshotWorldSquads } from "../lib/gameWorld/serverSnapshot";
+import { snapshotAllClubsStaff } from "../lib/gameWorld/staffIdentitySnapshot";
 import { continueCareerRhythm } from "../lib/career/continueController";
 import { playManagerFixtureLegacy } from "../lib/career/legacy/matchday";
 import { rolloverSeason } from "../lib/career/seasonRollover";
@@ -16,9 +17,12 @@ import type { CareerState } from "../lib/career/types";
 
 const [clubId = "se_club_ifk_skovde_hk", until = "2026-12-05", out = "qa-save.json", seed = "hm-alpha3-qa"] = process.argv.slice(2);
 const competitions = ["se_handbollsligan_herr", "swe-2"];
-const squads = Object.assign({}, ...competitions.map((c) => snapshotWorldSquads(c)));
-const ratings = Object.assign({}, ...competitions.map((c) => snapshotGameplayRatings(c)));
-let state: CareerState = createNewCareerState(seed, clubId, squads, undefined, ratings, undefined, "4_WEEKS");
+const world = [...competitions, "se_division1_norra", "se_division1_sodra"];
+const squads = Object.assign({}, ...world.map((c) => snapshotWorldSquads(c)));
+const ratings = Object.assign({}, ...world.map((c) => snapshotGameplayRatings(c)));
+// HM-ALPHA3-M04: real staff identities for both leagues, as a New Game loads them.
+const staff = Object.assign({}, ...competitions.map((c) => snapshotAllClubsStaff(c)));
+let state: CareerState = createNewCareerState(seed, clubId, squads, undefined, ratings, staff, "4_WEEKS");
 
 function advance(stop: (s: CareerState) => boolean): void {
   for (let i = 0; i < 2000 && !stop(state); i++) {

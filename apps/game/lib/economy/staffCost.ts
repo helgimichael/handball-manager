@@ -26,6 +26,10 @@ const ROLE_BASE_MONTHLY_EUR: Record<StaffRole, number> = {
   // (staffRosterResolution.ts's own ADMINISTRATIVE_STAFF_ROLES note).
   SPORTING_DIRECTOR: 2_400,
   TEAM_MANAGER: 900,
+  // HM-ALPHA3-M04
+  HEAD_OF_RECRUITMENT: 1_800,
+  HEAD_OF_ACADEMY: 1_700,
+  DEVELOPMENT_COACH: 1_300,
 };
 
 const BAND_COST_MULTIPLIER: Record<EconomicBand, number> = {

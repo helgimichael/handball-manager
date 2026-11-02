@@ -19,6 +19,9 @@ export const STAFF_ROLE_LABEL: Record<StaffRole, string> = {
   SCOUT: "Scout",
   SPORTING_DIRECTOR: "Sportchef",
   TEAM_MANAGER: "Lagledare",
+  HEAD_OF_RECRUITMENT: "Rekryteringschef",
+  HEAD_OF_ACADEMY: "Akademichef",
+  DEVELOPMENT_COACH: "Utvecklingstränare",
 };
 
 export const STAFF_ATTRIBUTE_LABEL: Record<StaffAttribute, string> = {

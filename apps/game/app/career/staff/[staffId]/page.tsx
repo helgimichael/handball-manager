@@ -6,7 +6,7 @@
 // an inline recruitment offer form. Reachable for ANY club's staff, not
 // only the manager's own (Part 1: "All staff i alla klubbar ska vara
 // klickbar").
-import { useState, type CSSProperties, type ReactNode } from "react";
+import { type ReactNode } from "react";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { useCareer } from "@/lib/career/CareerContext";
 import { getClub } from "@/lib/game-data";
@@ -18,8 +18,7 @@ import { roleSuitabilityStars } from "@/lib/staff/presentation";
 import { ROLE_ATTRIBUTE_WEIGHTS } from "@/lib/staff/roleAttributeMap";
 import { STAFF_ATTRIBUTE_LABEL, STAFF_EMPLOYMENT_TYPE_LABEL, STAFF_ROLE_LABEL } from "@/lib/staff/labels";
 import { STAFF_ATTRIBUTES } from "@/lib/staff/types";
-import { currencySymbol, formatMoney, localizeMoneyText } from "@/lib/economy/currency";
-import MoneyInput from "@/components/MoneyInput";
+import { formatMoney } from "@/lib/economy/currency";
 import { useMoney } from "@/lib/settings/usePreferences";
 import { mondayOf, resolveTrainingWeek } from "@/lib/training/trainingSchedule";
 import { resolveResponsibleCoach } from "@/lib/staff/roleSuitability";
@@ -27,6 +26,11 @@ import StarRating from "@/components/StarRating";
 import { SectionScene, StaffMark } from "@/components/game/Secondary";
 import Link from "next/link";
 import { ClubLink } from "@/components/entityLinks";
+import { StaffDealPanel } from "@/components/staff/StaffDealPanel";
+import { MomentHero } from "@/components/experience/Moment";
+import { NEGOTIATION_ROOM_BACKDROP } from "@/components/transfers/transferVisuals";
+import { staffKnowledge, visibleAttribute } from "@/lib/staff/staffMarket";
+import { daysBetween } from "@/lib/career/dateUtils";
 
 const SESSION_TYPE_LABEL: Record<string, string> = {
   TEAM_TACTICAL: "Lagtaktik",
@@ -57,9 +61,12 @@ export default function StaffProfilePage() {
   const router = useRouter();
   const params = useParams<{ staffId: string }>();
   const searchParams = useSearchParams();
-  const { career, offerStaffContract, signFreeAgentScout } = useCareer();
-  const isFreeAgent = isFreeAgentScoutAvailable(career, params.staffId);
-  const member = findStaffMember(career, params.staffId) ?? career.scoutMarket[params.staffId];
+  const { career } = useCareer();
+  // HM-ALPHA3-M04: free agents come from the scout pool and the season's staff market.
+  const isFreeAgent = isFreeAgentScoutAvailable(career, params.staffId) || !!career.staffMarket?.freeAgents[params.staffId];
+  const member = findStaffMember(career, params.staffId) ?? career.scoutMarket[params.staffId] ?? career.staffMarket?.freeAgents[params.staffId];
+  const knowledge = member ? staffKnowledge(career, member.id) : 0;
+  const appointed = member ? (career.staffAppointments ?? []).filter((a) => a.staffId === member.id && a.clubId === career.playerClubId && a.kind === "APPOINTED" && daysBetween(a.date, career.gameDate) <= 14).at(-1) : undefined;
 
   if (!member) {
     return (
@@ -88,7 +95,7 @@ export default function StaffProfilePage() {
     : [];
 
   return (
-    <div className="game-secondary-page"><SectionScene eyebrow={member.roles.length > 0 ? member.roles.map(r => STAFF_ROLE_LABEL[r]).join(' · ') : member.officialRoleLabel ?? 'Personal'} title={member.displayName} description={isFreeAgent ? 'Tillgänglig scout · fri agent' : club?.name ?? 'Klubb ej registrerad'} mark={<StaffMark name={member.displayName} size={92} />} actions={<><button type="button" className="hm-btn hm-btn-sm" onClick={() => router.push(backHref)}>← Tillbaka</button>{club && <ClubLink clubId={club.id}>Klubb & personal →</ClubLink>}</>}><div><strong>{member.roles.length}</strong><small>{member.roles.length === 1 ? 'roll' : 'roller'} i spelvärlden</small></div>{isOwnClub && <div><strong>{responsibilities.length}</strong><small>pass den här veckan</small></div>}</SectionScene><div className="game-secondary-split">
+    <div className="game-secondary-page"><SectionScene eyebrow={member.roles.length > 0 ? member.roles.map(r => STAFF_ROLE_LABEL[r]).join(' · ') : member.officialRoleLabel ?? 'Personal'} title={member.displayName} description={isFreeAgent ? 'Tillgänglig scout · fri agent' : club?.name ?? 'Klubb ej registrerad'} mark={<StaffMark name={member.displayName} size={92} />} actions={<><button type="button" className="hm-btn hm-btn-sm" onClick={() => router.push(backHref)}>← Tillbaka</button>{club && <ClubLink clubId={club.id}>Klubb & personal →</ClubLink>}</>}><div><strong>{member.roles.length}</strong><small>{member.roles.length === 1 ? 'roll' : 'roller'} i spelvärlden</small></div>{isOwnClub && <div><strong>{responsibilities.length}</strong><small>pass den här veckan</small></div>}</SectionScene>{appointed && <MomentHero kind="STAFF_APPOINTMENT" size="compact" headingLevel={2} backdrop={{ kind: "photo", style: NEGOTIATION_ROOM_BACKDROP }} tags={[appointed.date]} headline={`${member.displayName} är ${STAFF_ROLE_LABEL[appointed.role].toLowerCase()}`} lede={`Avtalet är klart: ${employment?.wageEurPerMonth ? formatMoney(employment.wageEurPerMonth) + " i månaden, " : ""}till ${employment?.contractEndDate ?? "—"}.`} />}<div className="game-secondary-split">
       <div className="game-secondary-main">
         <div className="hm-panel">
           <div className="hm-panel-header">
@@ -107,7 +114,7 @@ export default function StaffProfilePage() {
               return (
                 <div key={attr} className="hm-stat-row" style={{ opacity: isRelevant ? 1 : 0.5 }}>
                   <span className="hm-stat-label">{STAFF_ATTRIBUTE_LABEL[attr]}</span>
-                  <span style={{ fontWeight: 700 }}>{member.profile.attributes[attr].value}</span>
+                  <span style={{ fontWeight: 700 }}>{(() => { const v = visibleAttribute(member.profile.attributes[attr].value, knowledge); return v.exact ? v.low : `${v.low}–${v.high}`; })()}</span>
                 </div>
               );
             })}
@@ -168,13 +175,10 @@ export default function StaffProfilePage() {
           </div>
         </div>
 
-        {recruitable ? (
-          isFreeAgent ? (
-            <SignFreeAgentPanel key={member.id} staffId={member.id} signFreeAgentScout={signFreeAgentScout} />
-          ) : (
-            <RecruitmentPanel key={member.id} staffId={member.id} candidateWageHint={employment?.wageEurPerMonth} offerStaffContract={offerStaffContract} />
-          )
-        ) : null}
+        {/* HM-ALPHA3-M04: research, approach, multi-round negotiation; renewal and dismissal for our own staff. */}
+        {!isOwnClub && <p className="st-note">{knowledge >= 90 ? "Fullständig bild av personen." : `Kännedom ${knowledge} %. Värdena visas som intervall tills referenser är tagna.`}</p>}
+        {recruitable ? <StaffDealPanel key={member.id} member={member} mode="HIRE" /> : null}
+        {isOwnClub && employment?.employmentType === "SALARIED" ? <StaffDealPanel key={`own-${member.id}`} member={member} mode="OWN" /> : null}
 
         {isOwnClub ? (
           <div className="hm-panel">
@@ -202,101 +206,3 @@ export default function StaffProfilePage() {
   );
 }
 
-const inputStyle: CSSProperties = {
-  background: "var(--hm-surface-2)",
-  border: "1px solid var(--hm-border)",
-  borderRadius: "var(--hm-radius-sm)",
-  color: "var(--hm-text-primary)",
-  padding: "7px 10px",
-  fontSize: "var(--hm-text-xs)",
-};
-
-function RecruitmentPanel({
-  staffId,
-  candidateWageHint,
-  offerStaffContract,
-}: {
-  staffId: string;
-  candidateWageHint: number | undefined;
-  offerStaffContract: ReturnType<typeof useCareer>["offerStaffContract"];
-}) {
-  const { career } = useCareer();
-  useMoney();
-  const [wage, setWage] = useState(candidateWageHint ?? 1000);
-  const [outcome, setOutcome] = useState<{ accepted: boolean; reason: string } | null>(null);
-
-  function submit() {
-    const offeredWageEurPerMonth = Math.max(0, Math.round(wage || 0));
-    const result = offerStaffContract({ staffId, toClubId: career.playerClubId, offeredWageEurPerMonth });
-    setOutcome({ accepted: result.outcome === "COMPLETED", reason: result.reason });
-  }
-
-  return (
-    <div className="hm-panel">
-      <div className="hm-panel-header">
-        <span className="hm-panel-title">Rekrytera</span>
-      </div>
-      <div className="hm-panel-body" style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-        <label className="hm-text-secondary" style={{ fontSize: "var(--hm-text-xs)" }}>
-          Erbjuden lön / månad ({currencySymbol()})
-          <MoneyInput minEur={0} stepEur={50} valueEur={wage} onChangeEur={setWage} style={{ ...inputStyle, display: "block", marginTop: 4, width: "100%" }} />
-        </label>
-        <button type="button" className="hm-btn hm-btn-primary" onClick={submit}>
-          Erbjud kontrakt
-        </button>
-        {outcome ? (
-          <p className={outcome.accepted ? "hm-text-positive" : "hm-text-muted"} style={{ fontSize: "var(--hm-text-2xs)", margin: 0 }}>
-            {outcome.accepted ? "Avtalet är klart. " : "Avvisat. "}
-            {localizeMoneyText(outcome.reason)}
-          </p>
-        ) : null}
-      </div>
-    </div>
-  );
-}
-
-function SignFreeAgentPanel({
-  staffId,
-  signFreeAgentScout,
-}: {
-  staffId: string;
-  signFreeAgentScout: ReturnType<typeof useCareer>["signFreeAgentScout"];
-}) {
-  useMoney();
-  const [wage, setWage] = useState(1000);
-  const [contractYears, setContractYears] = useState(2);
-  const [outcome, setOutcome] = useState<{ accepted: boolean; reason: string } | null>(null);
-
-  function submit() {
-    const offeredWageEurPerMonth = Math.max(0, Math.round(wage || 0));
-    const result = signFreeAgentScout(staffId, offeredWageEurPerMonth, contractYears);
-    setOutcome({ accepted: result.outcome === "COMPLETED", reason: result.reason });
-  }
-
-  return (
-    <div className="hm-panel">
-      <div className="hm-panel-header">
-        <span className="hm-panel-title">Värva fri agent</span>
-      </div>
-      <div className="hm-panel-body" style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-        <label className="hm-text-secondary" style={{ fontSize: "var(--hm-text-xs)" }}>
-          Erbjuden lön / månad ({currencySymbol()})
-          <MoneyInput minEur={0} stepEur={50} valueEur={wage} onChangeEur={setWage} style={{ ...inputStyle, display: "block", marginTop: 4, width: "100%" }} />
-        </label>
-        <label className="hm-text-secondary" style={{ fontSize: "var(--hm-text-xs)" }}>
-          Kontraktslängd (år)
-          <input type="number" min={1} max={6} value={contractYears} onChange={(e) => setContractYears(Number(e.target.value))} style={{ ...inputStyle, display: "block", marginTop: 4, width: "100%" }} />
-        </label>
-        <button type="button" className="hm-btn hm-btn-primary" onClick={submit}>
-          Erbjud kontrakt
-        </button>
-        {outcome ? (
-          <p className={outcome.accepted ? "hm-text-positive" : "hm-text-muted"} style={{ fontSize: "var(--hm-text-2xs)", margin: 0 }}>
-            {outcome.accepted ? "Klart! " : "Avvisat. "}
-            {localizeMoneyText(outcome.reason)}
-          </p>
-        ) : null}
-      </div>
-    </div>
-  );
-}

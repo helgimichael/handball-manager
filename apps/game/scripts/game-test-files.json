@@ -242,5 +242,6 @@
     "lib/career/seasonRollover.test.ts",
     "components/crests/crestPalette.test.ts",
     "lib/economy/ledger.test.ts",
-    "lib/competition/season.test.ts"
+    "lib/competition/season.test.ts",
+    "lib/staff/staffManagement.test.ts"
 ]

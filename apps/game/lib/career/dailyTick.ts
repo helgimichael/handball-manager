@@ -77,6 +77,7 @@ import { applyPlacementDevelopmentStimulus, applyTrainingDayDevelopmentStimulus,
 import { progressDailyTransfers } from "../transfers/transferIntegration";
 import { progressClubFinances } from "../economy/financeTick";
 import { progressCompetitions } from "../competition/season";
+import { progressStaff } from "../staff/staffLifecycle";
 import { ensureSeasonCalendar } from "../competition/seasonCalendar";
 import { progressTransferNegotiations } from "../transfers/negotiationIntegration";
 
@@ -265,6 +266,10 @@ export function processDay(state: CareerState, date: string): DailyTickResult {
   // loan whose endDate has been reached -- same "check a stored date,
   // mutate once" idiom as step 2's player-availability return above.
   next = progressDailyTransfers(next, date);
+  // HM-ALPHA3-M04: staff market, negotiations, contracts, CPU staff moves.
+  const staffEvents: CareerEvent[] = [];
+  next = progressStaff(next, date, (event) => staffEvents.push(event));
+  staffEvents.forEach(emit);
 
   // HM-ALPHA2-05B: answers the manager's pending negotiation offers on
   // their response dates, lets rival CPU clubs make their move, and

@@ -93,6 +93,7 @@ export interface ScoutReport {
 export { NEUTRAL_SUITABILITY, weightedSuitability, computeBroadAssignmentSuitability } from "./scoutSuitability";
 import { NEUTRAL_SUITABILITY, weightedSuitability, computeBroadAssignmentSuitability } from "./scoutSuitability";
 import { runDiscoveryCycle, type ScoutDiscovery } from "./scoutDiscovery";
+import { recruitmentDepartmentFactor } from "../staff/organisation";
 
 /** Points of knowledge one completed assignment adds for a NEUTRAL-suitability scout. A weak scout contributes meaningfully less, an elite one meaningfully more (qualityMultiplier below). setPlayerKnowledgePct's own clamp to [0,100] is the natural diminishing-returns ceiling near full knowledge -- no separate curve needed. */
 const BASE_KNOWLEDGE_GAIN = 40;
@@ -416,7 +417,8 @@ export function progressScoutingAssignments(
         ? computeScoutAssignmentSuitability(scout, resolveAssignmentContext(next, assignment.targetPlayerId, assignment.targetClubId, scout.clubId, date))
         : NEUTRAL_SUITABILITY;
       const currentKnowledge = getPlayerKnowledgePct(next, assignment.targetPlayerId, assignment.targetClubId);
-      const gain = BASE_KNOWLEDGE_GAIN * qualityMultiplier(suitability);
+      // HM-ALPHA3-M04: a head of recruitment sharpens every report (neutral without one).
+      const gain = BASE_KNOWLEDGE_GAIN * qualityMultiplier(suitability) * recruitmentDepartmentFactor(next, scout?.clubId ?? next.playerClubId);
       next = setPlayerKnowledgePct(next, assignment.targetPlayerId, currentKnowledge + gain);
 
       const reportId = `report-${assignment.id}`;

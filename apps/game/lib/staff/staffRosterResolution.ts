@@ -158,6 +158,9 @@ const STAFF_ROLE_TO_HM_ROLE: Record<StaffRole, HMStaffRole> = {
   SCOUT: "SCOUT",
   SPORTING_DIRECTOR: "SPORTING_DIRECTOR",
   TEAM_MANAGER: "TEAM_MANAGER",
+  HEAD_OF_RECRUITMENT: "SCOUT",
+  HEAD_OF_ACADEMY: "ELITE_DIRECTOR",
+  DEVELOPMENT_COACH: "COACH",
 };
 
 function buildGenerated(clubId: string, role: StaffRole, seedSuffix: string): ResolvedStaffMember {

@@ -24,6 +24,12 @@ export const ROLE_ATTRIBUTE_WEIGHTS: Record<StaffRole, Partial<Record<StaffAttri
   // HM-STAFF-CAREER-1.0: lagledare -- organisation, kommunikation,
   // logistik, lagmiljö.
   TEAM_MANAGER: { ORGANISATION: 0.35, COMMUNICATION: 0.25, LOGISTICS: 0.25, TEAM_ENVIRONMENT: 0.15 },
+  // HM-ALPHA3-M04: rekryteringschef -- bedömning, rekrytering, nätverk.
+  HEAD_OF_RECRUITMENT: { PLAYER_JUDGEMENT: 0.3, RECRUITMENT: 0.3, NETWORK: 0.2, POTENTIAL_JUDGEMENT: 0.2 },
+  // akademichef -- ungdomsutveckling, organisation, talangbedömning.
+  HEAD_OF_ACADEMY: { YOUTH_DEVELOPMENT: 0.4, POTENTIAL_JUDGEMENT: 0.2, ORGANISATION: 0.2, LEADERSHIP: 0.2 },
+  // utvecklingstränare -- spelarutveckling och ungdomsutveckling.
+  DEVELOPMENT_COACH: { PLAYER_DEVELOPMENT: 0.45, YOUTH_DEVELOPMENT: 0.35, TECHNICAL_COACHING: 0.2 },
 };
 
 /**

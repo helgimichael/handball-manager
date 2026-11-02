@@ -6,7 +6,7 @@
 // (app/career/staff/[staffId]/page.tsx), where the actual offer/contract
 // form lives (Part 4: "se profil" -> "erbjuda roll/kontrakt/lön" are two
 // separate steps, not squeezed onto one screen).
-import { useMemo, useState } from "react";
+import { Suspense, useMemo, useState } from "react";
 import Link from "next/link";
 import { useCareer } from "@/lib/career/CareerContext";
 import { getClub } from "@/lib/game-data";
@@ -22,6 +22,7 @@ import StarRating from "@/components/StarRating";
 import { SectionScene, StaffMark } from "@/components/game/Secondary";
 import { ClubLink } from "@/components/entityLinks";
 import { SortableTh, applySortDirection, type SortState } from "@/components/SortableTh";
+import { StaffMarketBoard } from "@/components/staff/StaffMarketBoard";
 
 type SortKey = "name" | "club" | "role" | "suitability" | "wage";
 
@@ -96,6 +97,8 @@ export default function StaffRecruitmentPage() {
   return (
     <div className="game-secondary-page">
       <SectionScene eyebrow={`Laget runt laget · ${career.seasonId}`} title="Rekrytera personal" description="Bedöm en person för rätt roll. Öppna profilen för egenskaper, anställning och ett konkret erbjudande." actions={<Link className="hm-btn hm-btn-sm" href="/career/staff">← Personal</Link>}><div><strong>{candidates.length}</strong><small>personer från klubbar</small></div><div><strong>{freeAgentScouts.length}</strong><small>fria scouter</small></div></SectionScene>
+      {/* HM-ALPHA3-M04: discovery across every role -- free agents and staff under contract. */}
+      <Suspense><StaffMarketBoard /></Suspense>
       <div className="game-secondary-split game-staff-recruitment">
         <aside className="game-secondary-rail" aria-label="Tillgängliga scouter">
                 {freeAgentScouts.length > 0 ? (

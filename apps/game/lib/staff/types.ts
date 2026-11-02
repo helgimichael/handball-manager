@@ -39,7 +39,8 @@ import type { HMStaffRole } from "../identity/types";
  * mapping to a StaffRole and being an employed, salaried worker are two
  * separate questions for these two administrative roles specifically).
  */
-export const STAFF_ROLES = ["HEAD_COACH", "ASSISTANT_COACH", "GOALKEEPER_COACH", "PHYSICAL_COACH", "ANALYST", "PHYSIO", "SCOUT", "SPORTING_DIRECTOR", "TEAM_MANAGER"] as const;
+// HM-ALPHA3-M04: HEAD_OF_RECRUITMENT (rekryteringschef), HEAD_OF_ACADEMY (akademichef) and DEVELOPMENT_COACH (utvecklingstränare).
+export const STAFF_ROLES = ["HEAD_COACH", "ASSISTANT_COACH", "GOALKEEPER_COACH", "PHYSICAL_COACH", "ANALYST", "PHYSIO", "SCOUT", "SPORTING_DIRECTOR", "TEAM_MANAGER", "HEAD_OF_RECRUITMENT", "HEAD_OF_ACADEMY", "DEVELOPMENT_COACH"] as const;
 export type StaffRole = (typeof STAFF_ROLES)[number];
 
 /**
