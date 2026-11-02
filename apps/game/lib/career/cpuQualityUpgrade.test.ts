@@ -184,9 +184,12 @@ test("a strong squad stays quiet -- no upgrade when nobody materially better is 
   // A CA-150 squad in a world that still contains CA-170 players SHOULD be
   // able to sign one -- that is the pathway working, not a violation. The
   // invariant is that anything it signs genuinely clears the replacement gap.
-  for (const a of arrivals(state, clubId)) {
-    assert.ok(a.ca >= 150 + CLEARLY_REPLACED_CA_GAP, `arrival at CA ${a.ca} does not clear +${CLEARLY_REPLACED_CA_GAP} over a CA 150 squad`);
-  }
+  // HM-ALPHA3: with consistent board budgets other clubs can now afford to buy
+  // from this squad; a player it LOSES opens a shortage, refilled by the
+  // shortage path at any level. Only those refills may sit below the gap.
+  const departures = POSITIONS.length * 3 - (state.worldSquads[clubId] ?? []).filter((p) => p.id.startsWith(`${clubId}-syn-`)).length;
+  const belowGap = arrivals(state, clubId).filter((a) => a.ca < 150 + CLEARLY_REPLACED_CA_GAP);
+  assert.ok(belowGap.length <= departures, `${belowGap.length} arrivals below +${CLEARLY_REPLACED_CA_GAP} but only ${departures} departures to replace`);
   assert.ok((state.worldSquads[clubId] ?? []).length <= before + 1, "and it may never grow by more than one in-flight replacement");
 });
 

@@ -28,6 +28,7 @@
 // "next layer" this foundation is built to support.
 import { getClub, getClubsByCompetition, getCompetition } from "../game-data";
 import { getCareerWorldCompetitionIds } from "../career/worldCompetitions";
+import { clubCompetitionTier } from "../career/competitionMembership";
 import type { CareerState } from "../career/types";
 import { ensureCareerGameplayRatings } from "../career/careerRatingNormalization";
 import { ensureCareerPlayerContracts } from "./contractIntegration";
@@ -235,15 +236,17 @@ function derivePressure(liquidityHealth: LiquidityHealth, structuralHealth: Stru
 /**
  * Section 7: "A club can therefore report a positive annual result while
  * remaining structurally unhealthy" -- derived fresh from the baseline's
- * generated cash/revenue plus the club's CURRENT real wage/staff costs,
- * never a stored or random label.
+ * generated cash, the ledger's recurring revenue/costs (ledgerRecurringInputs)
+ * and the club's CURRENT real wage/staff costs, never a stored or random label.
  */
 export function getClubFinancialHealth(state: CareerState, clubId: string): ClubFinancialHealth | undefined {
   const baseline = getClubEconomyBaseline(state, clubId);
   if (!baseline) return undefined;
 
-  const recurringRevenueEur = sumRevenue(baseline);
-  const recurringOperatingCostsEurAnnual = getClubRecurringOperatingCostsEurAnnual(state, clubId, baseline);
+  // HM-ALPHA3: the same recurring revenue and costs the monthly ledger books (tier, support, club operations).
+  const ledger = ledgerRecurringInputs(state, clubId, baseline);
+  const recurringRevenueEur = ledger.revenueEur;
+  const recurringOperatingCostsEurAnnual = getClubRecurringOperatingCostsEurAnnual(state, clubId, baseline) + ledger.extraCostsEur;
   const structuralOperatingResultEur = recurringRevenueEur - recurringOperatingCostsEurAnnual;
 
   const monthlyBurn = recurringOperatingCostsEurAnnual / 12;
@@ -266,6 +269,48 @@ function sumRevenue(baseline: ClubEconomyBaseline): number {
   return baseline.revenue.commercialRevenueEur + baseline.revenue.mediaRevenueEur + baseline.revenue.matchdayRevenueEur + baseline.revenue.sportingRevenueEur + baseline.revenue.otherRevenueEur;
 }
 
+// ---------------------------------------------------------------------------
+// HM-ALPHA3: the ledger's recurring inputs, shared with board budgets and
+// financial health so the board reads the same books the monthly close
+// writes (ledger.ts re-exports these for its own callers).
+// ---------------------------------------------------------------------------
+
+/** The calibration bridge keeps a club's starting margin within ±STARTING_MARGIN_BAND of its revenue (see ledger.ts). */
+export const STARTING_MARGIN_BAND = 0.06;
+
+/** The annual bridge that brings a club's starting margin into ±STARTING_MARGIN_BAND of revenue. Positive = extra cost. */
+export function computeCalibrationBridgeEur(state: CareerState, clubId: string, baseline: ClubEconomyBaseline): number {
+  const revenue = sumRevenue(baseline);
+  const costs = getClubPlayerWageCostsEurAnnual(state, clubId) + getClubStaffCostsEurAnnual(state, clubId) + baseline.operatingCostsBaselineEur;
+  const margin = revenue - costs;
+  const band = revenue * STARTING_MARGIN_BAND;
+  const target = Math.max(-band, Math.min(band, margin));
+  return Math.round(margin - target);
+}
+
+/** Revenue scale when a club plays in a different tier than its generated baseline assumes (M03 promotion/relegation). */
+export function tierRevenueFactor(state: CareerState, clubId: string): number {
+  const current = clubCompetitionTier(state, clubId);
+  const original = getClub(clubId)?.competitionId ? clubCompetitionTier({}, clubId) : current;
+  if (!current || !original || current === original) return 1;
+  return current < original ? 1.35 : 0.72;
+}
+
+/**
+ * What the monthly ledger books as recurring for a club: baseline revenue
+ * at its current tier plus association support (a negative bridge), and the
+ * club-operations cost (a positive bridge). The bridge is the one fixed at
+ * ledger activation; before activation it is derived exactly as activation
+ * would, so budgets do not jump on the first processed day.
+ */
+export function ledgerRecurringInputs(state: CareerState, clubId: string, baseline: ClubEconomyBaseline): { revenueEur: number; extraCostsEur: number } {
+  const bridge = state.clubFinances?.[clubId]?.bridgeEurAnnual ?? computeCalibrationBridgeEur(state, clubId, baseline);
+  return { revenueEur: sumRevenue(baseline) * tierRevenueFactor(state, clubId) + Math.max(0, -bridge), extraCostsEur: Math.max(0, bridge) };
+}
+
+/** The lowest structural result the health model still calls BALANCED (-8 % of revenue). */
+const BALANCED_STRUCTURAL_FLOOR = -(STRUCTURAL_HEALTH_THRESHOLDS_RATIO.find(([, label]) => label === "BALANCED")?.[0] ?? 0);
+
 function getClubRecurringOperatingCostsEurAnnual(state: CareerState, clubId: string, baseline: ClubEconomyBaseline): number {
   return getClubPlayerWageCostsEurAnnual(state, clubId) + getClubStaffCostsEurAnnual(state, clubId) + baseline.operatingCostsBaselineEur;
 }
@@ -287,11 +332,17 @@ export function getClubBudgets(state: CareerState, clubId: string): ClubBudgets 
   const health = getClubFinancialHealth(state, clubId);
   if (!baseline || !health) return undefined;
 
-  const recurringRevenueEur = sumRevenue(baseline);
+  const ledger = ledgerRecurringInputs(state, clubId, baseline);
+  const recurringRevenueEur = ledger.revenueEur;
   const pressureFactor = FINANCIAL_PRESSURE_BUDGET_FACTOR[health.pressure];
 
   const sustainableWageCapacityEur = recurringRevenueEur * TARGET_SQUAD_COST_RATIO * HM_SPORTING_CAPACITY_MULTIPLIER;
-  const wageBudgetEur = Math.round(sustainableWageCapacityEur * pressureFactor);
+  // HM-ALPHA3: a club whose books carry a higher wage share than the target
+  // ratio is not frozen by its own contracts -- the board allows the wage
+  // bill at which the books stay structurally BALANCED (same floor as the
+  // health model, after staff, operations and club-operations costs).
+  const balancedWageCeilingEur = recurringRevenueEur * (1 + BALANCED_STRUCTURAL_FLOOR) - getClubStaffCostsEurAnnual(state, clubId) - baseline.operatingCostsBaselineEur - ledger.extraCostsEur;
+  const wageBudgetEur = Math.round(Math.max(sustainableWageCapacityEur * pressureFactor, balancedWageCeilingEur, 0));
 
   const staffBudgetEur = Math.round(recurringRevenueEur * STAFF_BUDGET_RATIO * HM_SPORTING_CAPACITY_MULTIPLIER * pressureFactor);
 
@@ -299,7 +350,7 @@ export function getClubBudgets(state: CareerState, clubId: string): ClubBudgets 
   const academyPressureFactor = health.pressure === "SERIOUS" ? 0.75 : health.pressure === "CRITICAL" ? 0.5 : 1.0;
   const academyBudgetEur = Math.round(baseline.academyBudgetBaselineEur * academyPressureFactor);
 
-  const minimumCashReserveEur = (getClubRecurringOperatingCostsEurAnnual(state, clubId, baseline) / 12) * MINIMUM_CASH_RESERVE_MONTHS;
+  const minimumCashReserveEur = ((getClubRecurringOperatingCostsEurAnnual(state, clubId, baseline) + ledger.extraCostsEur) / 12) * MINIMUM_CASH_RESERVE_MONTHS;
   const liquiditySurplusEur = Math.max(0, baseline.cashEur - minimumCashReserveEur);
   let transferBudgetEur = Math.round(liquiditySurplusEur * HM_TRANSFER_LIQUIDITY_MULTIPLIER * pressureFactor);
   let adjustedWageBudgetEur = wageBudgetEur;

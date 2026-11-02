@@ -31,11 +31,11 @@ import { addDays } from "../career/dateUtils";
 import { clubCompetitionId, clubCompetitionTier } from "../career/competitionMembership";
 import type { CareerFixture, CareerState } from "../career/types";
 import { getClub } from "../game-data";
-import { getClubEconomyBaseline, getClubPlayerWageCostsEurAnnual, getClubStaffCostsEurAnnual } from "./clubEconomyIntegration";
+import { computeCalibrationBridgeEur, getClubEconomyBaseline, getClubPlayerWageCostsEurAnnual, getClubStaffCostsEurAnnual, STARTING_MARGIN_BAND, tierRevenueFactor } from "./clubEconomyIntegration";
 import type { ClubEconomyBaseline, EconomicBand } from "./clubEconomyTypes";
 import { CPU_STATEMENT_HISTORY_MONTHS, type ClubFinanceState, type FinancialStatus, type HomeMatchRevenue, type LedgerLine, type MonthlyStatement } from "./ledgerTypes";
 
-export const STARTING_MARGIN_BAND = 0.06;
+export { computeCalibrationBridgeEur, STARTING_MARGIN_BAND, tierRevenueFactor };
 /** Overdraft facility as a share of annual recurring revenue. */
 export const OVERDRAFT_LIMIT_SHARE = 0.15;
 /** A CPU club this far below its overdraft limit (in multiples of it) receives the once-per-season emergency rescue. */
@@ -80,16 +80,6 @@ export function financialStatusFor(cashEur: number, baseline: ClubEconomyBaselin
 // ---------------------------------------------------------------------------
 // Activation
 // ---------------------------------------------------------------------------
-
-/** The annual bridge that brings a club's starting margin into ±STARTING_MARGIN_BAND of revenue (see header). Positive = extra cost. */
-export function computeCalibrationBridgeEur(state: CareerState, clubId: string, baseline: ClubEconomyBaseline): number {
-  const revenue = recurringRevenueEurAnnual(baseline);
-  const costs = getClubPlayerWageCostsEurAnnual(state, clubId) + getClubStaffCostsEurAnnual(state, clubId) + baseline.operatingCostsBaselineEur;
-  const margin = revenue - costs;
-  const band = revenue * STARTING_MARGIN_BAND;
-  const target = Math.max(-band, Math.min(band, margin));
-  return Math.round(margin - target);
-}
 
 export function activateClubFinances(state: CareerState, clubId: string, date: string): CareerState {
   if (state.clubFinances?.[clubId]) return state;
@@ -187,14 +177,6 @@ export function homeMatchRevenue(state: CareerState, fixture: CareerFixture, bas
 // ---------------------------------------------------------------------------
 // Monthly close
 // ---------------------------------------------------------------------------
-
-/** Revenue scale when a club plays in a different tier than its generated baseline assumes (M03 promotion/relegation). */
-export function tierRevenueFactor(state: CareerState, clubId: string): number {
-  const current = clubCompetitionTier(state, clubId);
-  const original = getClub(clubId)?.competitionId ? clubCompetitionTier({}, clubId) : current;
-  if (!current || !original || current === original) return 1;
-  return current < original ? 1.35 : 0.72;
-}
 
 /** The recurring lines a club books for `month` (signed: income positive, costs negative) and the home matches behind its matchday line. */
 export function recurringLinesForMonth(state: CareerState, clubId: string, month: string): { lines: LedgerLine[]; homeMatches: HomeMatchRevenue[] } {

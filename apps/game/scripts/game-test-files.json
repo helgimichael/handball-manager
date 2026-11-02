@@ -245,5 +245,6 @@
     "lib/competition/season.test.ts",
     "lib/staff/staffManagement.test.ts",
     "lib/career/alpha3SaveCompatibility.test.ts",
-    "lib/career/alpha3ManagementLoop.test.ts"
+    "lib/career/alpha3ManagementLoop.test.ts",
+    "lib/economy/boardBudgetConsistency.test.ts"
 ]
