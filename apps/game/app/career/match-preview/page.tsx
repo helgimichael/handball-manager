@@ -16,11 +16,16 @@ import { startProductionMatch } from '@/lib/career/productionMatch';
 import { validateCareerLineup } from '@/lib/career/spatialMatch/careerLineup';
 import { isManualLineupCareer, manualLineupIssues, resolveManualMatchPlan } from '@/lib/career/manualLineup';
 import { readinessSummary } from '@/lib/training/readinessSummary';
+import { assessMatchdaySquad } from '@/lib/matchPlan/matchdaySquadCheck';
+import { squadEnergy } from '@/lib/career/management';
+import { matchFitnessOf } from '@/lib/players/matchFitness';
+import { ConfirmDialog } from '@/components/game/ConfirmDialog';
 
 export default function MatchPreviewPage() {
   const router = useRouter();
   const { career, updateCareer } = useCareer();
   const [error, setError] = useState<string | null>(null);
+  const [pendingStart, setPendingStart] = useState<'LIVE' | 'QUICK' | null>(null);
   const fixture = getNextPlayerFixture(career);
   const squad = getCareerSquad(career);
   const unavailable = squad.filter((p) => !isSelectableForMatch(career.playerStatuses, p.id));
@@ -73,6 +78,15 @@ export default function MatchPreviewPage() {
   // already starting the match never re-simulates; `startLiveMatchSession`
   // is equally idempotent for the same fixtureId (liveMatchSessionActions.ts),
   // so together this always resumes rather than restarts.
+  // HM-PLAYTEST-01 1.2: illegal selections are blocked; legal but risky ones
+  // need an explicit confirmation before kickoff.
+  const squadCheck = savedPlan && !hasActiveSessionForFixture ? assessMatchdaySquad(savedPlan, availableSquad.map(p => ({ id: p.id, name: `${p.firstName} ${p.lastName}`, isGoalkeeper: p.position === 'MV', energy: squadEnergy(career, p), matchFitness: matchFitnessOf(career, p.id) }))) : null;
+  const blocking = lineupErrors.length ? [] : squadCheck?.blocking ?? [];
+  function requestStart(kind: 'LIVE' | 'QUICK') {
+    if (squadCheck && squadCheck.warnings.length > 0) setPendingStart(kind);
+    else if (kind === 'LIVE') handlePlayMatch(); else handleQuickResult();
+  }
+
   function handlePlayMatch() {
     try {
       updateCareer(state => startProductionMatch(state, fixture!.id));
@@ -91,11 +105,17 @@ export default function MatchPreviewPage() {
   return (
     <div className="hm-grid" style={{ gap: 12 }}>
       {error && <div role="alert" className="hm-panel-body">{error}</div>}
+      {blocking.length > 0 && <div role="alert" className="hm-panel-body hm-squad-check">{blocking.map(b => <span key={b.code} data-kind="blocking">{b.text}</span>)} <Link href="/career/tactics">Rätta matchtruppen i Taktik →</Link></div>}
+      {pendingStart && squadCheck && <ConfirmDialog tone="warning" eyebrow="Kontrollera matchtruppen" title={squadCheck.warnings.some(w => w.code === 'NO_SUBSTITUTES') ? 'Du har inga avbytare uttagna. Vill du verkligen starta matchen?' : 'Vill du starta matchen med den här truppen?'} confirmLabel={pendingStart === 'LIVE' ? 'Starta matchen' : 'Spela snabbresultat'} cancelLabel="Tillbaka till laguttagningen" onCancel={() => { setPendingStart(null); router.push('/career/tactics'); }} onConfirm={() => { const kind = pendingStart; setPendingStart(null); if (kind === 'LIVE') handlePlayMatch(); else handleQuickResult(); }}>
+        <p>Matchtrupp: {squadCheck.registered} spelare · {squadCheck.benchOutfield} utespelare och {squadCheck.benchGoalkeepers} {squadCheck.benchGoalkeepers === 1 ? 'målvakt' : 'målvakter'} på bänken.</p>
+        <ul>{squadCheck.warnings.map(w => <li key={w.code}>{w.text}</li>)}</ul>
+        <p>Endast de uttagna spelarna kan användas under matchen. Inga spelare läggs till automatiskt.</p>
+      </ConfirmDialog>}
       {lineupErrors.length > 0 && <div role="alert" className="hm-panel-body">{lineupErrors.join(' ')} <Link href="/career/tactics">{isManualLineupCareer(career) ? 'Välj startsju i Taktik →' : 'Öppna Taktik och uppdatera startsjuan.'}</Link></div>}
       <PageHeading eyebrow={fixture.kickoffTime ? `${fixture.date} · ${fixture.kickoffTime}` : fixture.date} title="Matchförhandsvisning" description="Laget, motståndaren och planen inför avkast." />
       <MatchdayStage fixture={fixture} matchday={isMatchdayReady} />
       <MatchHero career={career} fixture={fixture} context={isMatchdayReady ? 'MATCHDAG' : 'INFÖR AVKAST'}>
-        {isMatchdayReady ? <><button type="button" className="hm-btn hm-btn-primary" disabled={lineupErrors.length > 0} onClick={handlePlayMatch}>{hasActiveSessionForFixture ? "FORTSÄTT MATCH →" : "STARTA MATCH →"}</button><button type="button" className="hm-btn" disabled={lineupErrors.length > 0} onClick={handleQuickResult}>SNABBRESULTAT</button></> : <span>Fortsätt säsongen till matchdagen för att spela.</span>}
+        {isMatchdayReady ? <><button type="button" className="hm-btn hm-btn-primary" disabled={lineupErrors.length > 0 || blocking.length > 0} onClick={() => hasActiveSessionForFixture ? handlePlayMatch() : requestStart('LIVE')}>{hasActiveSessionForFixture ? "FORTSÄTT MATCH →" : "STARTA MATCH →"}</button><button type="button" className="hm-btn" disabled={lineupErrors.length > 0 || blocking.length > 0} onClick={() => requestStart('QUICK')}>SNABBRESULTAT</button></> : <span>Fortsätt säsongen till matchdagen för att spela.</span>}
       </MatchHero>
       <MatchContext fixture={fixture} />
       <div className="hm-grid" style={{ gridTemplateColumns: "1fr 1fr" }}>

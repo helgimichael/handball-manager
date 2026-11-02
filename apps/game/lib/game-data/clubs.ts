@@ -1,3 +1,4 @@
+import { clubVenue } from "./clubVenues";
 import type { Club } from "./types";
 
 /**
@@ -10,7 +11,10 @@ import type { Club } from "./types";
  */
 
 function club(input: Omit<Club, "playable"> & { playable?: boolean }): Club {
-  return { playable: false, ...input };
+  // HM-PLAYTEST-01 5.4: one verified arena registry (clubVenues.ts) feeds the
+  // club record, so club selection, profiles and matchday all agree.
+  const venue = clubVenue(input.id);
+  return { playable: false, ...input, ...(venue ? { venue: venue.arena, city: venue.city, ...(venue.capacity ? { venueCapacity: venue.capacity } : {}) } : {}) };
 }
 
 // --- Sweden, tier 1: Handbollsligan (2026/27) ---
@@ -95,7 +99,7 @@ const SWE_2: Club[] = [
   club({ id: "swe2-kungalv", competitionId: "swe-2", name: "Kungälvs HK", shortName: "Kungälv", playable: true, dataSource: "REAL_WORLD", city: "Kungälv", primaryColor: "#c8102e", secondaryColor: "#111318" }),
   club({ id: "swe2-redbergslid", competitionId: "swe-2", name: "Redbergslids IK", shortName: "Redbergslid", playable: true, dataSource: "REAL_WORLD", city: "Göteborg", primaryColor: "#111318", secondaryColor: "#e2b13c" }),
   club({ id: "swe2-torslanda", competitionId: "swe-2", name: "HK Torslanda Elit", shortName: "Torslanda", playable: true, dataSource: "REAL_WORLD", city: "Göteborg", primaryColor: "#0b6e4f", secondaryColor: "#ffffff" }),
-  club({ id: "swe2-tumba", competitionId: "swe-2", name: "IFK Tumba HK", shortName: "IFK Tumba", playable: true, dataSource: "REAL_WORLD", city: "Tumba", venue: "Tumba Sporthall", founded: 1969, primaryColor: "#1e3a8a", secondaryColor: "#ffffff" }),
+  club({ id: "swe2-tumba", competitionId: "swe-2", name: "IFK Tumba HK", shortName: "IFK Tumba", playable: true, dataSource: "REAL_WORLD", city: "Tumba", founded: 1969, primaryColor: "#1e3a8a", secondaryColor: "#ffffff" }),
   club({ id: "swe2-tyreso", competitionId: "swe-2", name: "Tyresö Handboll", shortName: "Tyresö", playable: true, dataSource: "REAL_WORLD", city: "Tyresö", primaryColor: "#1e3a8a", secondaryColor: "#ffffff" }),
   club({ id: "swe2-varberg", competitionId: "swe-2", name: "HK Varberg", shortName: "Varberg", playable: true, dataSource: "REAL_WORLD", city: "Varberg", primaryColor: "#111318", secondaryColor: "#c8102e" }),
   club({ id: "swe2-vasterasirsta", competitionId: "swe-2", name: "VästeråsIrsta HF", shortName: "V.Irsta", playable: true, dataSource: "REAL_WORLD", city: "Västerås", primaryColor: "#1e3a8a", secondaryColor: "#ffffff" }),

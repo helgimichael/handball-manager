@@ -10,6 +10,7 @@
 // earlier, otherwise the next CONTINUE would silently reprocess a date
 // the old system already simulated.
 
+import { emptyMatchFitnessLedger, LEGACY_MATCH_FITNESS } from "../players/matchFitness";
 import { TUMBA_SQUAD, type InboxCategory, type InboxMessage } from "../game-data";
 import { seedCareerTasks } from "./careerTasks";
 import { seedPlayerStatuses } from "./playerStatus";
@@ -559,5 +560,8 @@ export function migrateCareerState(career: CareerState): CareerState {
   }
 
   if (next.activeMatchSession && !next.productionMatch) next = { ...next, activeMatchSession: null };
+  // HM-PLAYTEST-01 3.2: additive. An existing career is mid-season, so its
+  // players start reasonably match-fit rather than suddenly rusty.
+  if (next.playerMatchFitness === undefined) next = { ...next, playerMatchFitness: emptyMatchFitnessLedger(LEGACY_MATCH_FITNESS) };
   return next;
 }

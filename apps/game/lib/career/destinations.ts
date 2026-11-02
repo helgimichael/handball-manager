@@ -1,3 +1,4 @@
+import { SVENSKA_CUPEN } from "../competition/rules";
 import type { EventDestination } from "./careerEvents";
 
 /**
@@ -121,7 +122,7 @@ export function destinationLabel(destination: EventDestination): string {
     case "NEGOTIATION":
       return "Öppna förhandlingen";
     case "COMPETITION":
-      return "Öppna tabell";
+      return destination.competitionId === SVENSKA_CUPEN ? "Öppna Svenska Cupen" : "Öppna tabell";
     case "CLUB":
       return "Öppna klubb";
     case "FINANCE":

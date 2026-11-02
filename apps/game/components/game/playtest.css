@@ -1,0 +1,38 @@
+/* HM-PLAYTEST-01: shared dialog, status chips, match-plan workspace, flags.
+   Built only from tokens.css so every screen reads as one product. */
+
+.hm-dialog { max-width: min(560px, calc(100vw - 32px)); width: 100%; padding: 22px 24px; border: 1px solid var(--hm-border-strong); border-radius: var(--hm-radius-lg); background: var(--hm-surface-1); color: var(--hm-text-primary); box-shadow: 0 24px 60px rgb(0 0 0 / .45); }
+.hm-dialog::backdrop { background: rgb(6 10 11 / .72); backdrop-filter: blur(2px); }
+.hm-dialog[open] { animation: hm-dialog-in .16s ease-out; }
+@keyframes hm-dialog-in { from { opacity: 0; transform: translateY(6px) scale(.985); } }
+@media (prefers-reduced-motion: reduce) { .hm-dialog[open] { animation: none; } }
+.hm-dialog h2 { margin: 4px 0 12px; font-size: var(--hm-text-lg); font-weight: 650; line-height: 1.25; }
+.hm-dialog[data-tone="warning"] { border-color: var(--hm-warning); }
+.hm-dialog-body { font-size: var(--hm-text-sm); color: var(--hm-text-secondary); line-height: 1.55; overflow-wrap: anywhere; }
+.hm-dialog-body ul { margin: 8px 0; padding-left: 18px; }
+.hm-dialog-actions { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 8px; margin-top: 18px; }
+
+.hm-status { display: inline-flex; align-items: center; gap: 5px; padding: 2px 8px; border-radius: 999px; font-size: var(--hm-text-2xs); font-weight: 650; letter-spacing: .02em; white-space: nowrap; border: 1px solid transparent; }
+.hm-status[data-tone="ok"] { background: var(--hm-positive-muted); color: var(--hm-positive); }
+.hm-status[data-tone="warn"] { background: var(--hm-warning-muted); color: var(--hm-warning); }
+.hm-status[data-tone="bad"] { background: var(--hm-negative-muted); color: var(--hm-negative); }
+.hm-status[data-tone="neutral"] { background: var(--hm-surface-3); color: var(--hm-text-secondary); }
+
+.hm-flag { display: inline-block; width: 18px; height: 12px; border-radius: 2px; box-shadow: 0 0 0 1px rgb(0 0 0 / .35); vertical-align: -1px; flex: none; overflow: hidden; }
+.hm-flag svg { display: block; width: 100%; height: 100%; }
+
+.hm-meter-pair { display: grid; gap: 3px; min-width: 92px; }
+.hm-meter-pair label { display: flex; justify-content: space-between; gap: 6px; font-size: var(--hm-text-2xs); color: var(--hm-text-muted); }
+.hm-meter-pair meter { width: 100%; height: 6px; }
+
+.hm-squad-check { display: grid; gap: 8px; }
+.hm-squad-check [data-kind="blocking"] { color: var(--hm-negative); }
+.hm-squad-check [data-kind="warning"] { color: var(--hm-warning); }
+
+.hm-condition-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(140px, 220px); gap: 16px; align-items: start; }
+.hm-condition-grid dl { display: grid; gap: 6px; margin: 0; }
+.hm-condition-grid dl div { display: grid; grid-template-columns: 140px minmax(0, 1fr); gap: 8px; font-size: var(--hm-text-sm); }
+.hm-condition-grid dt { color: var(--hm-text-muted); }
+.hm-condition-grid dd { margin: 0; color: var(--hm-text-primary); overflow-wrap: anywhere; }
+.hm-condition-grid > p { grid-column: 1 / -1; margin: 0; font-size: var(--hm-text-xs); }
+@media (max-width: 640px) { .hm-condition-grid { grid-template-columns: 1fr; } .hm-condition-grid dl div { grid-template-columns: 1fr; gap: 0; } }

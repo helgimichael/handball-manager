@@ -1,3 +1,4 @@
+import { applyMatchExposure, matchFitnessAttributeFactor, matchFitnessOf } from '../players/matchFitness';
 import { seedFromString, type FastMatchResult, type MatchEvent, type PlayerMatchContribution, type TeamMatchStats } from '@handball-manager/game-simulation';
 import { createMatch } from '@handball-manager/handball-engine/src/v2/core/match';
 import { advanceCoreMutable } from '@handball-manager/handball-engine/src/v2/core/engine';
@@ -104,6 +105,9 @@ export function createProductionSession(state: CareerState, fixture: CareerFixtu
     const starters: Record<string, string> = { GK: lineup.goalkeeperId };
     for (const [role, id] of Object.entries(lineup.startersByRole)) starters[engineRoles[role]] = id;
     const selected = [...Object.values(starters), ...lineup.bench.map(p => p.playerId)];
+    // HM-PLAYTEST-01 1.1: the engine population IS the registered matchday
+    // squad. Nobody outside the coach's own selection may ever enter it.
+    if (side.plan && selected.some(id => !side.plan!.squad.players.some(p => p.playerId === id))) throw new Error('Matchtruppen och laguppställningen stämmer inte överens. Öppna Taktik och spara matchtruppen igen.');
     for (const id of selected) {
       const player = side.squad.find(p => p.id === id)!;
       const startingRole = Object.keys(starters).find(r => starters[r] === id) as Role | undefined;
@@ -129,6 +133,9 @@ export function createProductionSession(state: CareerState, fixture: CareerFixtu
       // Retain basic positional duties with a neutral blend; recorded roles
       // carry their existing complete tendencies. Neither changes execution.
       const tendency=preferred?style:Object.fromEntries(Object.entries(style).map(([k,v])=>[k,1+(v-1)*.5]));
+      // HM-PLAYTEST-01 3.2: a player short of match fitness is modestly below his own level (at most -6% at 0).
+      const sharpness = matchFitnessAttributeFactor(matchFitnessOf(state, id));
+      for (const key of Object.keys(sheet)) (sheet as Record<string, number>)[key] *= sharpness;
       p.profile = buildProfile(sheet, role, tendency);
       const energy = kickoffEnergy(state.playerPhysicalState[id]?.currentEnergy);
       p.condition.energy = energy / 100;
@@ -273,10 +280,17 @@ export function resultFromSession(session: ProductionMatchSession): FastMatchRes
   return { fixtureId: session.fixture.id, engine: 'V2', seed: c.seed, homeClubId: session.fixture.homeClubId, awayClubId: session.fixture.awayClubId, homeGoals: c.score.HOME, awayGoals: c.score.AWAY, homeStats: stats('HOME'), awayStats: stats('AWAY'), events, homePlayerContributions: contributions('HOME'), awayPlayerContributions: contributions('AWAY') };
 }
 
+/** HM-PLAYTEST-01 1.1: every engine participant is a registered matchday player, on his own side. */
+export function assertMatchdayRosterIntegrity(session: ProductionMatchSession): void {
+  const people = new Map(session.people.map(p => [p.id, p.team]));
+  for (const p of session.core.players) if (people.get(p.id) !== p.team) throw new Error(`Matchintegritet: ${p.id} är inte registrerad i matchtruppen för ${p.team}.`);
+}
+
 export function finalizeProductionMatch(state: CareerState): CareerState {
   const session = state.productionMatch;
   if (!session || session.core.match?.phase !== 'FULLTIME') return state;
   if (state.results[session.fixture.id]) return { ...state, productionMatch: null };
+  assertMatchdayRosterIntegrity(session);
   // HM-ALPHA3-M03: a level knockout game is decided by overtime/shootout after the V2 regulation time (the engine itself is unchanged).
   const result = applyKnockoutDecider(state, session.fixture, resultFromSession(session));
   const clubForm = { ...state.clubForm }, playerSeasonStats = { ...state.playerSeasonStats };
@@ -307,6 +321,8 @@ export function finalizeProductionMatch(state: CareerState): CareerState {
     .filter(p => !managerIds.has(p.id) && (p.condition.courtMs > 0 || state.playerPhysicalState[p.id]))
     .map(p => [p.id, p.condition.energy * 100] as const)));
   next = applyMatchDevelopmentStimulus(next, session.fixture.date, exposure);
+  // HM-PLAYTEST-01 3.2: real minutes on court build match fitness (the manager's own squad).
+  next = applyMatchExposure(next, session.fixture.date, new Map(session.core.players.filter(p => managerIds.has(p.id)).map(p => [p.id, p.condition.courtMs / 60000] as const)), session.fixture.type !== 'FRIENDLY');
   const injuries = applyMatchInjuryResolution(next, session.fixture.date, session.fixture.id, exposure);
   next = injuries.state;
   for (const playerId of injuries.newlyInjuredPlayerIds) {

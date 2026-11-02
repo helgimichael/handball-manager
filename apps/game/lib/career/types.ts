@@ -10,6 +10,7 @@ import type { GameplayPlayerRating } from "../gameWorld/gameplayRatingSnapshot";
 import type { MatchPlanChangeHistoryEntry } from "../liveMatch/matchPlanChange";
 import type { PlayerMatchDefault, TacticsTemplate } from "../matchPlan/persistentDefaults";
 import type { SpecialPlayPlan } from "../matchPlan/specialPlay";
+import type { MatchFitnessLedger } from "../players/matchFitness";
 import type { LiveMatchSessionState } from "../liveMatch/liveMatchSession";
 import type { MatchPhysicalReport } from "../matchPlan/physicalModel";
 import type { PlayerPhysicalState, PlayerTrainingAssignment, TrainingWeek } from "../training/types";
@@ -367,6 +368,8 @@ export type CareerState = {
    * created lazily on the first recorded day or match -- no migration.
    */
   workloadLedger?: WorkloadLedger;
+  /** HM-PLAYTEST-01 3.2: match fitness (matchträning), separate from energy and form. See lib/players/matchFitness.ts. */
+  playerMatchFitness?: MatchFitnessLedger;
   /**
    * Part 12/13: a player's own persistent individual training-load
    * setting -- keyed by playerId, same "standing instruction until

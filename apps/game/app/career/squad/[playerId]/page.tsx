@@ -3,6 +3,7 @@ import PlayerActions from '@/components/manager/PlayerActions';
 import { careerPlayerVisibility } from "@/lib/knowledge/careerVisibility";
 import PlayerPerformance from '@/components/manager/PlayerPerformance';
 import { PlayerHero } from '@/components/game/Identity';
+import { PlayerConditionPanel } from '@/components/game/PlayerCondition';
 import ContractRenewal from '@/components/ContractRenewal';
 import { PlayerTransferCard } from '@/components/transfers/PlayerTransferCard';
 
@@ -346,6 +347,7 @@ export default function PlayerProfilePage() {
         }>← {isOwnPlayer ? "Trupp" : isFreeAgentPlayer ? "Transfers" : isRetiredPlayer ? "Trupp" : "Klubb"}</button>
       </PlayerHero>
       <PlayerActions player={player} />
+      {isOwnPlayer && <PlayerConditionPanel career={career} player={player} />}
       <nav className="hm-tabs hm-profile-tabs" aria-label="Spelarprofil">
         {tabs.map(([id, label]) => <button key={id} aria-pressed={tab === id} onClick={() => setTab(id)}>{label}</button>)}
       </nav>

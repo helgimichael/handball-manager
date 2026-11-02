@@ -308,15 +308,33 @@ export function buildMatchCompletedEvent(fixtureId: string, competitionId: strin
   );
 }
 
-export function buildCompetitionUpdateEvent(date: string, competitionId: string): CareerEvent {
+/**
+ * HM-PLAYTEST-01 1.3: one event per competition that actually produced
+ * results today, named after THAT competition and linking to it. A league
+ * update means a table moved; a cup update never claims a table changed.
+ * The manager's own league keeps the original per-day id (old saves dedupe
+ * against it); any other competition is keyed by its own id.
+ */
+export type CompetitionUpdateKind = "LEAGUE" | "CUP" | "KNOCKOUT";
+export function buildCompetitionUpdateEvent(
+  date: string,
+  competitionId: string,
+  detail: { kind: CompetitionUpdateKind; name: string; matches: number; stage?: string; ownLeague?: boolean } = { kind: "LEAGUE", name: "Serien", matches: 0, ownLeague: true },
+): CareerEvent {
+  const id = detail.ownLeague ? `COMPETITION_UPDATE:${date}` : `COMPETITION_UPDATE:${date}:${competitionId}`;
+  const games = detail.matches === 1 ? "1 match" : `${detail.matches} matcher`;
+  const title = detail.kind === "LEAGUE" ? `Tabellen är uppdaterad · ${detail.name}` : `${detail.name}: nya resultat`;
+  const summary = detail.kind === "LEAGUE"
+    ? `${games} i ${detail.name} har spelats och tabellen har uppdaterats.`
+    : `${games} i ${detail.name}${detail.stage ? ` (${detail.stage})` : ""} har spelats. Se resultat och hur turneringen fortsätter.`;
   return baseEvent(
-    `COMPETITION_UPDATE:${date}`,
+    id,
     "COMPETITION_UPDATE",
     date,
     "INFORMATION",
-    "Tabellen är uppdaterad",
-    "Resultat från andra lag har uppdaterat tabellen.",
-    [{ route: "COMPETITION", competitionId }],
+    title,
+    summary,
+    [detail.kind === "KNOCKOUT" ? { route: "SEASON" } : { route: "COMPETITION", competitionId }],
     { primaryEntity: { entityType: "competition", entityId: competitionId } },
   );
 }

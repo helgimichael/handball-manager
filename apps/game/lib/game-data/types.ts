@@ -68,6 +68,8 @@ export type Club = {
   dataSource?: "REAL_WORLD" | "MOCK";
   founded?: number;
   venue?: string;
+  /** HM-PLAYTEST-01 5.4: published arena capacity, from the verified venue registry. */
+  venueCapacity?: number;
   city?: string;
   /**
    * HM-YOUTH-INTAKE-1.1B: the club's standing ability to produce young talent,

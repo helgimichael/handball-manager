@@ -19,6 +19,9 @@
 // Continue Controller's job (continueController.ts), not this module's --
 // processDay only reports what happened; it never decides to keep going.
 
+import { competitionUpdatesFor } from "./competitionUpdates";
+import { applyDailyMatchFitness } from "../players/matchFitness";
+import { getCareerSquad } from "./careerWorld";
 import {
   getPlayerFixtureOn,
   getNextPlayerFixture,
@@ -155,6 +158,12 @@ export function processDay(state: CareerState, date: string): DailyTickResult {
   next = trainingInjuryResolution.state;
   for (const playerId of trainingInjuryResolution.newlyInjuredPlayerIds) {
     emit(buildPlayerInjuredEvent(playerId, date));
+  }
+  // HM-PLAYTEST-01 3.2: match fitness fades without games (faster while
+  // injured) and is built towards a modest ceiling by ordinary training.
+  {
+    const injuries = next.playerInjuries ?? {};
+    next = applyDailyMatchFitness(next, date, getCareerSquad(next).map((p) => p.id), (id) => !!injuries[id]?.activeInjury);
   }
   // HM-TRAINING-1.1 Part 5/14: accumulates today's session stimulus
   // (reading the TrainingSessionResult(s) executeTrainingDay just wrote),
@@ -374,7 +383,7 @@ export function processDay(state: CareerState, date: string): DailyTickResult {
 
   // --- 7. Table / Statistics ------------------------------------------------
   if (aiResults.length > 0) {
-    emit(buildCompetitionUpdateEvent(date, next.competitionId));
+    for (const update of competitionUpdatesFor(next, aiResults.map((r) => r.fixtureId))) emit(buildCompetitionUpdateEvent(date, update.competitionId, update));
   }
 
   // --- HM-ALPHA3-M03: postseason, series, kval, cup, season outcome ---

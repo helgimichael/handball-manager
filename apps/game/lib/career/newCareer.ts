@@ -1,3 +1,4 @@
+import { emptyMatchFitnessLedger, LEGACY_MATCH_FITNESS, PRESEASON_MATCH_FITNESS } from "../players/matchFitness";
 import { generateDoubleRoundRobin } from "@handball-manager/game-simulation";
 import { GAME_CURRENT_DATE, TUMBA_SQUAD, getClub, getClubsByCompetition } from "../game-data";
 import { getRealLeagueSchedule } from "../game-data/realLeagueSchedules";
@@ -185,6 +186,8 @@ export function createNewCareerState(
     activeMatchSession: null,
     trainingWeeks: {},
     playerPhysicalState: {},
+    // HM-PLAYTEST-01 3.2: a New Game career starts after a summer without games.
+    playerMatchFitness: emptyMatchFitnessLedger(preseasonStart !== undefined && preseasonStart !== "FIRST_MATCH" ? PRESEASON_MATCH_FITNESS : LEGACY_MATCH_FITNESS),
     playerTrainingAssignments: {},
     playerDevelopmentState: {},
     staffRoster,

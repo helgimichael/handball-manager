@@ -108,6 +108,35 @@ export function assignNormalAttackSlot(plan: MatchPlan, targetPosition: Position
 }
 
 /**
+ * HM-PLAYTEST-01 1.1: picking a starter in a MANUAL selection. A player who
+ * was not in the matchday squad REPLACES the displaced starter, who leaves the
+ * squad -- the manager picked seven names and the matchday squad is exactly
+ * those seven. (The old swap kept the displaced starter on the bench without
+ * telling anybody, so a "seven-player" selection silently carried an eighth
+ * man who then came on for a suspended team-mate.) A bench player or another
+ * starter still swaps, keeping the squad size the manager chose.
+ */
+export function assignManualStarter(plan: MatchPlan, targetPosition: Position, playerId: string): { plan: MatchPlan; removedPlayerId: string | null } {
+  if (plan.attackStartingUnit.formation !== "NORMAL") return { plan, removedPlayerId: null };
+  const wasInSquad = plan.squad.players.some((p) => p.playerId === playerId);
+  const displaced = plan.attackStartingUnit.slots.find((s) => s.position === targetPosition)?.playerId || null;
+  const added = wasInSquad ? plan : addPlayerToSquad(plan, playerId, targetPosition);
+  if (!wasInSquad && added === plan) return { plan, removedPlayerId: null };
+  let next = assignNormalAttackSlot(added, targetPosition, playerId);
+  if (wasInSquad || !displaced || displaced === playerId) return { plan: next, removedPlayerId: null };
+  // The displaced man no longer starts anywhere; take him out of every unit and the squad.
+  next = {
+    ...next,
+    defenceStartingUnit: {
+      ...next.defenceStartingUnit,
+      goalkeeperId: next.defenceStartingUnit.goalkeeperId === displaced ? playerId : next.defenceStartingUnit.goalkeeperId,
+      courtSlots: next.defenceStartingUnit.courtSlots.map((s) => (s.playerId === displaced ? { ...s, playerId } : s)),
+    },
+  };
+  return { plan: removePlayerFromSquad(next, displaced), removedPlayerId: displaced };
+}
+
+/**
  * HM-MATCH-1.3B2 Part 1/2/3: the snap-zone board's ONE edit function --
  * moving/swapping a player between board zones changes the tactical
  * SHAPE itself (which zone maps to which slot INDEX is a pure,
